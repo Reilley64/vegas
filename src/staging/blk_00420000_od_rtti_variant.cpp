@@ -5,6 +5,7 @@
 
 // src/staging/blk_00420000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include <cstdint>
 #include <new>
 #include "fnv/decl/BSFaceGenNiNode.h"
 #include "fnv/decl/BSShaderNoLightingProperty.h"
@@ -423,7 +424,7 @@ struct ExtraListHelper
 };
 struct FUN_0042dee0_shell
 {
-    void FUN_0042dee0(int v);
+    void FUN_0042dee0(intptr_t v);
 };
 struct ExtraDataList
 {
@@ -434,7 +435,7 @@ struct ExtraLock
 };
 struct FUN_0042df90_shell
 {
-    ExtraLock* FUN_0042df90(int a);
+    ExtraLock* FUN_0042df90(intptr_t a);
 };
 struct FUN_0042e210_Class : public BE
 {
@@ -845,7 +846,7 @@ struct FUN_00436b20
 };
 struct FUN_0042e060_class
 {
-    void FUN_0042e060(unsigned int a, unsigned int b);
+    void FUN_0042e060(uintptr_t a, uintptr_t b);
 };
 struct B42FA60Entry
 {

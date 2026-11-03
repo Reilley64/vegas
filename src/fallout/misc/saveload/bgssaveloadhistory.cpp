@@ -1,5 +1,6 @@
 // fallout/misc/saveload/bgssaveloadhistory.cpp: SaveLoadChangeHistory (12 functions)
 
+#include <cstdint>
 #include "fnv/decl/ActorStandIn008a.h"
 #include "fnv/decl/BSShaderNoLightingProperty.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -77,7 +78,7 @@
 bool SaveLoadChangeHistory::MatchesHistory(SaveLoadChangeHistory* history)
 {
     if (reinterpret_cast<BGSSaveLoadChangesMap*>(*reinterpret_cast<void**>(this))
-            ->FUN_009a4250(reinterpret_cast<unsigned int>(history)))
+            ->FUN_009a4250(reinterpret_cast<uintptr_t>(history)))
         return true;
     return false;
 }
@@ -229,7 +230,7 @@ void FUN_0084e250_shell::DeleteItemsFrom(unsigned int uiStartIndex)
         return;
     for (unsigned int i = uiStartIndex; i < (unsigned int)size; ++i)
     {
-        void* item = (void*)((unsigned int)(reinterpret_cast<::S3e60 *>(this)->FUN_006a7ad0(i)));
+        void* item = (void*)((uintptr_t)(reinterpret_cast<::S3e60 *>(this)->FUN_006a7ad0(i)));
         ::FUN_00401030(item);
     }
     reinterpret_cast<::fnv_009a4320::FUN_009a4320_arr *>(this)->FUN_009a4320(uiStartIndex, (unsigned int)size - uiStartIndex);

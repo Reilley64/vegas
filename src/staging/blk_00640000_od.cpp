@@ -4718,7 +4718,7 @@ struct Hldr0044
     int m_8;
 };
 
-extern "C" void __cdecl FUN_00401000(int scaled);
+extern "C" void __cdecl FUN_00401000(intptr_t scaled);
 extern "C" int DAT_01140ef8;
 
 class Base_b9895

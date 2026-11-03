@@ -7,6 +7,7 @@
 // accessors, so the needed declarations are authored locally for this TU,
 // following the accepted actionpoints.cpp precedent.
 
+#include <cstdint>
 #include "fnv/decl/FUN_00476b90_shell.h"
 #include "fnv/decl/TypeCheck646.h"
 #include "fnv/symbols_00403000.h"
@@ -136,7 +137,7 @@ struct SettingT_GameSettingCollection__Float_Access : public SettingT_GameSettin
 
 // Returns the sum of the base float setting and aiEndurance multiplied by the per-point float setting.
 // @fnv 0x00648a10
-float __cdecl FUN_00648a10(int aiEndurance)
+float __cdecl FUN_00648a10(intptr_t aiEndurance)
 {
     return ((::SETTING_VALUE *)&(::FUN_00403e20((float *)(((SettingT_GameSettingCollection__Float_Access*)&(*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting861)))))))->f +
            (float)aiEndurance *

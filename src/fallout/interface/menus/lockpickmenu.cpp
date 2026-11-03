@@ -948,8 +948,8 @@ void C::FUN_007908f0()
         RunSeventhVirtualOperation = (float)((double)reinterpret_cast<::Dummy_00a239e0 *>((((DummyA*)((void *)(reinterpret_cast<::FUN_00877720_shell *>((::g_osGlobals))->FUN_00877720())))))->FUN_00a239e0(1) *
                                              (((double)(::InterfaceManager::UpdateInterfaceState())) / ((double)(::FUN_00706e50()))));
     }
-    float kVal = reinterpret_cast<::TileListBoxCalls *>((m_68))->GetFloat((int)(*reinterpret_cast<void * *>(&::fnv_0078eb50::xg_iTileId2_11da1fc))) + RunSeventhVirtualOperation;
-    int remA8 = (int)reinterpret_cast<::TileListBoxCalls *>((m_68))->GetFloat((int)(*reinterpret_cast<void * *>(&::fnv_0078eb50::xg_iTileId2_11da1fc))) % 100;
+    float kVal = reinterpret_cast<::TileListBoxCalls *>((m_68))->GetFloat((intptr_t)(*reinterpret_cast<void * *>(&::fnv_0078eb50::xg_iTileId2_11da1fc))) + RunSeventhVirtualOperation;
+    int remA8 = (int)reinterpret_cast<::TileListBoxCalls *>((m_68))->GetFloat((intptr_t)(*reinterpret_cast<void * *>(&::fnv_0078eb50::xg_iTileId2_11da1fc))) % 100;
     int val3 = (int)kVal % 100;
     kVal = FUN_00404010(kVal, 0.0f);
     kVal = FUN_0040ebd0(kVal, reinterpret_cast<::TileListBoxCalls *>((m_64))->GetFloat(0xfb1));
@@ -964,13 +964,13 @@ void C::FUN_007908f0()
     {
         reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::BSSoundHandleEx &)(::FUN_00453a70()->GetSoundHandleByEditorID(&DAT_0107462c, 0x101)))->FUN_00ad8830(false);
     }
-    reinterpret_cast<::FUN_00a012d0_t *>((m_68))->FUN_00a012d0((int)(*reinterpret_cast<void * *>(&::fnv_0078eb50::xg_iTileId2_11da1fc)), kVal, true);
+    reinterpret_cast<::FUN_00a012d0_t *>((m_68))->FUN_00a012d0((intptr_t)(*reinterpret_cast<void * *>(&::fnv_0078eb50::xg_iTileId2_11da1fc)), kVal, true);
     DAT_011da2c0 = RunSeventhVirtualOperation;
     reinterpret_cast<::LockPickState *>(this)->UpdateLockRotation(kVal);
     float x9 = (float)FUN_00408820(kVal - m_84);
     if (x9 < (float)m_88)
     {
-        unsigned long res4;
+        uintptr_t res4;
         float aV5;
         void* elem9 = ((void *)(::FUN_00559450((int *)&(m_64->m_iWordAt04))));
         aV5 = reinterpret_cast<::TileListBoxCalls *>((m_64))->GetFloat(0xfb1);
@@ -982,7 +982,7 @@ void C::FUN_007908f0()
             if (a3 < aV5 && x9 < a3)
             {
                 aV5 = a3;
-                res4 = (int)bestElem6;
+                res4 = (intptr_t)bestElem6;
             }
         }
         if (res4 != 0)
@@ -1552,7 +1552,7 @@ LKTile* CreateLockpickMenu(LockRef* pkLockRef, int aiLockLevel, bool bDebug)
         reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>(((*reinterpret_cast<::LKMenu * *>(&::DAT_011da204))->m_pkHealthLabel))->FUN_00a01350(0xfc4, (char *)("PICK HEALTH: 100%"), 1);
         reinterpret_cast<::FUN_00a01290_shell *>(((*reinterpret_cast<::LKMenu * *>(&::DAT_011da204))->m_pkHealthBar))->SetTraitAndReset(DAT_011da1f8, 1.0f);
         reinterpret_cast<::Tile *>(((*reinterpret_cast<::LKMenu * *>(&::DAT_011da204))->m_pkHealthBar))->Set(
-            DAT_011da1f8, pkLockRef ? reinterpret_cast<::CombatState *>((((LKPlayer*)(*reinterpret_cast<::PlayerStandIn * *>(&::_g_thePlayer)))))->GetInventoryItemCount((::TESForm *)((*reinterpret_cast<int *>(&::g_pLockpickItem)))) : 0);
+            DAT_011da1f8, pkLockRef ? reinterpret_cast<::CombatState *>((((LKPlayer*)(*reinterpret_cast<::PlayerStandIn * *>(&::_g_thePlayer)))))->GetInventoryItemCount((::TESForm *)((*reinterpret_cast<intptr_t *>(&::g_pLockpickItem)))) : 0);
         if (FUN_00408b20(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::StringSetting *>(&::g_011c3cb4))))->GetMenuTitle())), "ENGLISH"))
         {
             reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((::LKTile *)(reinterpret_cast<::fnv_00a03da0::FUN_00a03da0_shell *>((pkMenuTileNew))->FUN_00a03da0((char *)("LPM_SkillTitle"))))))->FUN_00a01350(0xfc4, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::StringSetting *>(&::g_011d4d2c))))->GetMenuTitle()))), 1);

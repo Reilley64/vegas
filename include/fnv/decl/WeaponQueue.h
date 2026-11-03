@@ -1,7 +1,8 @@
 #pragma once
+#include <cstdint>
 
 struct WeaponQueue {
 public:
     // 0x0084dd70
-    void QueueWeapon(unsigned int);
+    void QueueWeapon(uintptr_t);
 };

@@ -2,6 +2,7 @@
 // src/fallout/misc/saveload/bgsloadgamebuffer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/misc/saveload/bgsloadgamebuffer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/decl/DetectionViewData.h"
 #include "fnv/decl/FUN_004f0180_Class.h"
 #include "fnv/decl/FUN_0081db90_shell.h"
@@ -607,10 +608,10 @@ struct FUN_00864820_wrap
 };
 struct FUN_008648a0_t : public BGSLoadGameBuffer
 {
-    unsigned int FUN_008648a0();
+    uintptr_t FUN_008648a0();
 };
 // @fnv 0x008648a0
-unsigned int FUN_008648a0_t::FUN_008648a0()
+uintptr_t FUN_008648a0_t::FUN_008648a0()
 {
     unsigned int iformID;
     PackedFormID formIDIndex;

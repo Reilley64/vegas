@@ -637,10 +637,10 @@ void FUN_00476c70_Class::FUN_00476c70(int value)
 
 struct FUN_00476c90_Class
 {
-    unsigned int FUN_00476c90();
+    uintptr_t FUN_00476c90();
 };
 // @fnv 0x00476c90
-unsigned int FUN_00476c90_Class::FUN_00476c90()
+uintptr_t FUN_00476c90_Class::FUN_00476c90()
 {
     return *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0xf8);
 }

@@ -1,5 +1,6 @@
 // fallout_shared/bgsexplosion.cpp: BGSExplosion, EffectSetting, ScalarHelper, BGSExplosionCompare and more (22 functions)
 
+#include <cstdint>
 #include <cstring>
 #include "fnv/decl/A5D2C0Object.h"
 #include "fnv/decl/BGSCameraPath.h"
@@ -278,11 +279,11 @@ struct FUN_004fb7a0_obj
 };
 struct FUN_004fb7d0_shell
 {
-    int FUN_004fb7d0(int);
+    intptr_t FUN_004fb7d0(int);
 };
 // If the explosion object returned by FUN_00516bf0 exists, forwards a to its FUN_004fb7a0 and returns the result; otherwise returns 0.
 // @fnv 0x004fb7d0
-int FUN_004fb7d0_shell::FUN_004fb7d0(int a)
+intptr_t FUN_004fb7d0_shell::FUN_004fb7d0(int a)
 {
     std::intptr_t result = 0;
     if (((::BGSImpactDataSet *)(reinterpret_cast<::FUN_00516bf0_shell *>((((BGSExplosion*)this)))->FUN_00516bf0())))

@@ -1,5 +1,6 @@
 // fallout/audio/falloutaudio.cpp: SoundPlaybackManager, PlayerCharacter, std, Interface and more (14 functions)
 
+#include <cstdint>
 #include "fnv/simple_list_node_view.h"
 #include <new>
 #include "fnv/decl/BGSCameraPath.h"
@@ -110,7 +111,7 @@ void SoundPlaybackManager::ProcessPendingSounds()
         source.region = (*reinterpret_cast<::BGSAcousticSpace * *>(&::DAT_011dcfb4))->GetDecalTextureSet();
         source.data = ((::TESRegionData *)(reinterpret_cast<::GList *>((((::RegionDataList *)(reinterpret_cast<::FUN_009611e0_shell *>((source.region))->FUN_009611e0()))))->FUN_004f35b0(7)));
         if (source.data)
-            sounds = ((::BSSimpleList< ::RegionSound *> *)(::GetOffsetC((int)(source.data))));
+            sounds = ((::BSSimpleList< ::RegionSound *> *)(::GetOffsetC((intptr_t)(source.data))));
     }
     if ((*reinterpret_cast<::BGSAcousticSpace * *>(&::DAT_011dcfb4)))
         reinterpret_cast<::FUN_00ad79b0_shell *>((::FUN_00453a70()))->FUN_00ad79b0(reinterpret_cast<::FUN_0068a810_class *>(((*reinterpret_cast<::BGSAcousticSpace * *>(&::DAT_011dcfb4))))->GetField4C());
@@ -305,7 +306,7 @@ void SoundPlaybackManager::ProcessPendingSounds()
                     *loopSoundHandle = ::FUN_00453a70()->GetSoundHandleByFilePath(
                         ::FUN_00511840((char *)(pActiveSound)), 0x11011, pActiveSound);
                     reinterpret_cast<::FUN_004f15a0_shell *>((loopSoundHandle))->FUN_004f15a0(1);
-                    reinterpret_cast<::FUN_00844700_Class *>(&((*reinterpret_cast<::NiTPointerMap<unsigned int, ::SoundPlaybackHandle *> *>(&::g_011dd014))))->FUN_00844700(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pActiveSound))->FUN_0084e3a0())), (unsigned int)(loopSoundHandle));
+                    reinterpret_cast<::FUN_00844700_Class *>(&((*reinterpret_cast<::NiTPointerMap<unsigned int, ::SoundPlaybackHandle *> *>(&::g_011dd014))))->FUN_00844700(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pActiveSound))->FUN_0084e3a0())), (uintptr_t)(loopSoundHandle));
                     reinterpret_cast<::FUN_00ad8d60_shell *>((loopSoundHandle))->FUN_00ad8d60((unsigned int)(((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011dd06c))))))->f * 1000.0));
                 }
                 else if (looping && soundFound)

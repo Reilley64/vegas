@@ -4,6 +4,7 @@
 
 // TESForm (all PC virtuals) comes from the canonical TESForm.h; TESDataHandler, TESObjectCELL and the NiTPointerMap
 // template come from the canonical layout_support.h.
+#include <cstdint>
 #include "fnv/decl/BSShaderNoLightingProperty.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/C6b7f20_Map.h"
@@ -51,8 +52,8 @@ class BGSSaveLoadChangesMap
     bool ContainsChangeFlags(unsigned int, FormChangeMask);
     void AddFormChangeFlags(unsigned int, FormChangeMask);
     bool ClearChangeFlags(unsigned int, FormChangeMask);
-    bool HasFormChanges(unsigned int);
-    FormChangeRecord* FUN_009a4250(unsigned int);
+    bool HasFormChanges(uintptr_t);
+    FormChangeRecord* FUN_009a4250(uintptr_t);
 public:
     void ApplyFormQuantityChange(unsigned int, ::FormChangeMask);
 };

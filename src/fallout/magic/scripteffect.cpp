@@ -1,5 +1,6 @@
 // fallout/magic/scripteffect.cpp: ScriptEffect, ScriptEffectShell (14 functions)
 
+#include <cstdint>
 #include "fnv/active_effect_fields.h"
 #include "fnv/simple_list_node_view.h"
 #include <new>
@@ -61,7 +62,7 @@ struct FUN_00827de0_shell : TESForm
 // @fnv 0x00827de0
 void FUN_00827de0_shell::FUN_00827de0(Actor* apActor)
 {
-    reinterpret_cast<::FUN_004534f0_shell *>(this)->FUN_004534f0((unsigned int)apActor);
+    reinterpret_cast<::FUN_004534f0_shell *>(this)->FUN_004534f0((uintptr_t)apActor);
     if (m_pScriptLocals)
         reinterpret_cast<::FUN_005a9d00_shell *>((m_pScriptLocals))->FUN_005a9d00();
 }

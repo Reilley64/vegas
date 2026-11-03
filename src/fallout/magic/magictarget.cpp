@@ -1,5 +1,6 @@
 // fallout/magic/magictarget.cpp: MagicTarget, TESSpellList, MagicCaster, MagicSystem and more (39 functions)
 
+#include <cstdint>
 #include "fnv/effect_item_fields.h"
 #include "fnv/active_effect_fields.h"
 #include "fnv/simple_list_node_view.h"
@@ -94,7 +95,7 @@ class MagicTarget
     BSSimpleList<void*> m_kActiveEffectList;
     void UpdateActiveEffects(float);
     bool HasEffect(const EffectSetting*);
-    static MagicTarget* GetMagicTargetByID(unsigned int);
+    static MagicTarget* GetMagicTargetByID(uintptr_t);
     Actor* GetOwnerActor() const;
     bool AddActiveEffect(MagicCaster*, MagicItem*, ActiveEffect*);
     void Dispel(MagicItem*, MagicCaster*, ActiveEffect*);
@@ -165,7 +166,7 @@ bool MagicTarget::HasEffect(const EffectSetting* setting)
 
 // Looks up the TESForm for id and, if it is a reference, returns that reference's magic target; otherwise returns null.
 // @fnv 0x00825550
-MagicTarget* MagicTarget::GetMagicTargetByID(unsigned int id)
+MagicTarget* MagicTarget::GetMagicTargetByID(uintptr_t id)
 {
     TESForm* form = ::FUN_004839c0(id);
     if (form && ((MagicTargetFormDispatch*)form)->GetIsReference())
@@ -730,7 +731,7 @@ struct ActiveEffectS : public ActiveEffect
 };
 struct MagicTargetUpd : public MagicTarget
 {
-    void UpdateEffectsByFlags(unsigned int auiFlags);
+    void UpdateEffectsByFlags(uintptr_t auiFlags);
 };
 
 class B824800EffectSetting
@@ -791,7 +792,7 @@ void MagicTargetDispel::FUN_008249d0(bool immediate)
             else
             {
                 EnchantmentItem* enchantment = dynamic_cast<EnchantmentItem*>(spell);
-                if (enchantment && ((unsigned int)(reinterpret_cast<::BGSCameraPath *>((enchantment))->GetPrevPath())) == 0)
+                if (enchantment && ((uintptr_t)(reinterpret_cast<::BGSCameraPath *>((enchantment))->GetPrevPath())) == 0)
                     reinterpret_cast<::fnv_00804210::ActiveEffectUpdateShell *>((effect))->FUN_00804210(immediate);
             }
         }
@@ -870,7 +871,7 @@ class FUN_008251c0_cls
     void FUN_008251c0(ActiveEffect* a, bool b);
 };
 // @fnv 0x00824110
-void MagicTargetUpd::UpdateEffectsByFlags(unsigned int auiFlags)
+void MagicTargetUpd::UpdateEffectsByFlags(uintptr_t auiFlags)
 {
     BSSimpleList<ActiveEffect*>* pIter = GetActiveEffectList();
     if (MagicTargetIsActor())
@@ -1148,7 +1149,7 @@ struct FUN_0095e5f0_cls
     virtual void vfn_370();
     virtual void vfn_374();
     virtual void vfn_378();
-    virtual int vfn_37c();
+    virtual intptr_t vfn_37c();
     virtual void vfn_380();
     virtual void vfn_384();
     virtual void vfn_388();
@@ -1560,7 +1561,7 @@ class MediaLocation825
     virtual void unkv04();
     virtual Node825* GetMediaSets();
 
-    bool HasMediaSetOfType(int iType, bool bAny);
+    bool HasMediaSetOfType(intptr_t iType, bool bAny);
 };
 // Iterates the active effect list, updating each effect and removing finished ones, with wear-off messages for the player.
 // @fnv 0x00823c40
@@ -1605,7 +1606,7 @@ void MagicTarget::UpdateActiveEffects(float delta)
                 {
                     bool show = true;
                     char message[260];
-                    if (reinterpret_cast<::MediaLocation825 *>((target))->HasMediaSetOfType((int)(spell), true))
+                    if (reinterpret_cast<::MediaLocation825 *>((target))->HasMediaSetOfType((intptr_t)(spell), true))
                     {
                         if (!::_g_thePlayer->actorValues.GetActorValue(72))
                             ::FUN_00406d00(message, sizeof(message), (*reinterpret_cast<::StartMenu *>(&::g_011d1fc8)).GetMenuTitle(),
@@ -1677,7 +1678,7 @@ bool FUN_00824e70_shell::ApplyAddiction(StandinAlchemyItem* apItem)
         reinterpret_cast<::EvalShell *>((((MT*)this)))->FUN_008255a0();
         return false;
     }
-    bool bShowMsg = pActor2->v216() && !reinterpret_cast<::MediaLocation825 *>((pActor2))->HasMediaSetOfType((int)(apItem), true);
+    bool bShowMsg = pActor2->v216() && !reinterpret_cast<::MediaLocation825 *>((pActor2))->HasMediaSetOfType((intptr_t)(apItem), true);
     if (pEffectItem)
     {
         DispelMatchingActiveEffects(pEffectItem, apItem, NULL);
@@ -1699,7 +1700,7 @@ bool FUN_00824e70_shell::ApplyAddiction(StandinAlchemyItem* apItem)
 
 // Walks the media set list and returns true if a set holds a form of type 0xa matching iType (unless 0) and is active (unless bAny).
 // @fnv 0x00825610
-bool MediaLocation825::HasMediaSetOfType(int iType, bool bAny)
+bool MediaLocation825::HasMediaSetOfType(intptr_t iType, bool bAny)
 {
     Node825* pkNode = GetMediaSets();
     bool bFound = false;
@@ -1707,7 +1708,7 @@ bool MediaLocation825::HasMediaSetOfType(int iType, bool bAny)
     {
         MediaSet825* pkSet = (*((::MediaSet825 * *)(&reinterpret_cast<::SimpleListNodeView*>(pkNode)->m_item)));
         TESForm825* pkForm = pkSet ? ((::TESForm825 *)(reinterpret_cast<::Twin_0044ddc0 *>((pkSet))->GetName())) : 0;
-        if (pkForm && pkForm->GetFormType() == 0xa && (!iType || ((int)(reinterpret_cast<::LowProcess *>((pkSet))->GetActiveCombatTarget())) == iType) &&
+        if (pkForm && pkForm->GetFormType() == 0xa && (!iType || ((intptr_t)(reinterpret_cast<::LowProcess *>((pkSet))->GetActiveCombatTarget())) == iType) &&
             (bAny || ((bool)(reinterpret_cast<::FUN_00833c20_shell *>((pkSet))->FUN_00833c20()))))
             bFound = true;
         pkNode = ((::Node825 *)(reinterpret_cast<::Callees *>((pkNode))->FUN_00726070()));
@@ -1743,7 +1744,7 @@ void MagicTarget::Dispel(MagicItem* spell, MagicCaster* caster, ActiveEffect* ef
                 if (!EFFECT_ITEM(current)->Compare(EFFECT_ITEM(effect)))
                 {
                     if (m_bSecondFlag)
-                        reinterpret_cast<::FUN_00824290_class *>(this)->AddWeatherEntry((int)(spell), (int)(caster), (int)(current));
+                        reinterpret_cast<::FUN_00824290_class *>(this)->AddWeatherEntry((intptr_t)(spell), (intptr_t)(caster), (intptr_t)(current));
                     else
                         reinterpret_cast<::fnv_00804210::ActiveEffectUpdateShell *>((current))->FUN_00804210(true);
                     break;
@@ -1752,7 +1753,7 @@ void MagicTarget::Dispel(MagicItem* spell, MagicCaster* caster, ActiveEffect* ef
             else
             {
                 if (m_bSecondFlag)
-                    reinterpret_cast<::FUN_00824290_class *>(this)->AddWeatherEntry((int)(spell), (int)(caster), (int)(current));
+                    reinterpret_cast<::FUN_00824290_class *>(this)->AddWeatherEntry((intptr_t)(spell), (intptr_t)(caster), (intptr_t)(current));
                 else
                     reinterpret_cast<::fnv_00804210::ActiveEffectUpdateShell *>((current))->FUN_00804210(true);
             }
@@ -1785,7 +1786,7 @@ void B824800MagicTarget::RemoveEffectsByArchetype(int aiArchetype, int iProcessL
     while (pkEntry && !pkEntry->IsEmpty())
     {
         B824800ActiveEffect* pkEffectA = *((::B824800ActiveEffect **)(&reinterpret_cast<::SimpleListNodeView*>(pkEntry)->m_item));
-        bool bLevelMatch = iProcessLevel ? iProcessLevel == ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((pkEffectA))->FUN_0045cd60())) : true;
+        bool bLevelMatch = iProcessLevel ? iProcessLevel == ((intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((pkEffectA))->FUN_0045cd60())) : true;
         if (pkEffectA && !reinterpret_cast<::ActiveEffect *>((void *)(pkEffectA))->IsDone() && reinterpret_cast<::EffectSetting *>((((::B824800EffectSetting *)(reinterpret_cast<::ActiveEffect *>((pkEffectA))->GetEffectSetting()))))->GetArchetype() == aiArchetype &&
             bLevelMatch)
         {
@@ -1861,7 +1862,7 @@ bool MagicTarget::AddActiveEffect(MagicCaster* caster, MagicItem* spell, ActiveE
     EffectItem* usageMonitor = ((::EffectItem *)(reinterpret_cast<::Node406 *>(&(spell->effectList))->FindEntryByTimeStamp()));
     if (EFFECT_ITEM(effect) == usageMonitor)
     {
-        if (!reinterpret_cast<::MediaLocation825 *>(this)->HasMediaSetOfType((int)(spell), true))
+        if (!reinterpret_cast<::MediaLocation825 *>(this)->HasMediaSetOfType((intptr_t)(spell), true))
         {
             BSSimpleList<ActiveEffect*>* node = GetActiveEffectList();
             bool found = false;
@@ -1980,7 +1981,7 @@ bool MagicTarget::AddActiveEffect(MagicCaster* caster, MagicItem* spell, ActiveE
     ActiveEffect* h = effect->Clone();  // new effect owned by the target list
     if (!h)
         return false;
-    ((TESRecipe*)h)->SetRequiredSkill((::ActorValue::Index)((int)this));
+    ((TESRecipe*)h)->SetRequiredSkill((::ActorValue::Index)((intptr_t)this));
     IngredientItem* f = dynamic_cast<IngredientItem*>(spell);  // ingredient source
     if (!f)
         h->SetEffectiveness(a);

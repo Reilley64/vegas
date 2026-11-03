@@ -160,7 +160,7 @@ struct S_009baf50_Item
     virtual void v2();
     virtual void v3();
     virtual void v4();
-    virtual unsigned int v5();
+    virtual uintptr_t v5();
     int FUN_0048cee0();
 };
 struct S_009baf50_Obj
@@ -1365,13 +1365,13 @@ void ThisCls::UpdateMuzzleFlash(ParamCls* apParam)
             NiTransform B;
             if (target2)
             {
-                B.m_rot = reinterpret_cast<::ThreeByThreeMatrix *>((((::NiTransform *)(::FUN_00461130((int)(target2))))))->Transpose();
-                B.m_vScale = 1.0f / ((::NiTransform *)(::FUN_00461130((int)(target2))))->m_vScale;
-                B.m_trans = (*(::NiPoint3 *)(reinterpret_cast<::P3 *>(&(((::NiTransform *)(::FUN_00461130((int)(target2))))->m_trans))->FUN_004a0bd0({})));
+                B.m_rot = reinterpret_cast<::ThreeByThreeMatrix *>((((::NiTransform *)(::FUN_00461130((intptr_t)(target2))))))->Transpose();
+                B.m_vScale = 1.0f / ((::NiTransform *)(::FUN_00461130((intptr_t)(target2))))->m_vScale;
+                B.m_trans = (*(::NiPoint3 *)(reinterpret_cast<::P3 *>(&(((::NiTransform *)(::FUN_00461130((intptr_t)(target2))))->m_trans))->FUN_004a0bd0({})));
                 B.m_trans = B.FUN_004b4500(&B.m_trans);
                 reinterpret_cast<::MyPoint439180 *>(&(B.m_trans))->FUN_00439180(B.m_vScale);
             }
-            A_2 = reinterpret_cast<::NiTransform *>(&(B))->operator*((*(const ::NiTransform *)(((::NiTransform *)(::FUN_00461130((int)(node2)))))));
+            A_2 = reinterpret_cast<::NiTransform *>(&(B))->operator*((*(const ::NiTransform *)(((::NiTransform *)(::FUN_00461130((intptr_t)(node2)))))));
             _flag = true;
             if (!::FUN_00524d10((bool *)((*reinterpret_cast<::PlayerCls * *>(&::_g_thePlayer)))))
             {
@@ -1384,7 +1384,7 @@ void ThisCls::UpdateMuzzleFlash(ParamCls* apParam)
         }
         else
         {
-            A_2 = *((::NiTransform *)(::FUN_00461130((int)(node2))));
+            A_2 = *((::NiTransform *)(::FUN_00461130((intptr_t)(node2))));
             HolderCls* holder6 = (HolderCls*)((void *)(reinterpret_cast<::LowProcess *>((apParam))->GetTarget()));
             target2 = ((::ObjCls *)(reinterpret_cast<::TESObjectCELL *>((holder6))->GetDynamicNode()));
         }

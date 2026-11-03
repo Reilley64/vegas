@@ -259,7 +259,7 @@ struct FUN_00476c70_Class
 };
 struct FUN_00476c90_Class
 {
-    unsigned int FUN_00476c90();
+    uintptr_t FUN_00476c90();
 };
 struct FUN_004791f0_holder
 {
@@ -1734,11 +1734,11 @@ struct TESFileArray
     char pad[0x218];
     unsigned int mCount;
     TESFile* mFiles[1];
-    int FUN_00461cf0(char*, int*, int*);
+    intptr_t FUN_00461cf0(char*, int*, int*);
 };
 
 // @fnv 0x00461cf0
-int TESFileArray::FUN_00461cf0(char* name, int* out1, int* out2)
+intptr_t TESFileArray::FUN_00461cf0(char* name, int* out1, int* out2)
 {
     AutoMemContext ctx(0x16, true, (char*)DAT_010186b8, 0x1041);
     int result = 0;

@@ -6,7 +6,7 @@ public:
     // 0x007908f0
     void FUN_007908f0();
     // 0x008fe8f0
-    void SetContentCount(int, unsigned char);
+    void SetContentCount(intptr_t, unsigned char);
     // 0x00c85d20
     void FUN_00c85d20(char);
     // 0x00ca9520

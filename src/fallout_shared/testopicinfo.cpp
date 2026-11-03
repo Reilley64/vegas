@@ -1,5 +1,6 @@
 // fallout_shared/testopicinfo.cpp: TESTopicInfo, DelStandIn, TopicLinkLists, TopicInfoCompare and more (52 functions)
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/BSTempEffectDebris.h"
@@ -210,7 +211,7 @@ struct FUN_00508d70_shell : public TESForm
     bool FUN_00508d70();
 };
 // @fnv 0x0061eb60
-Script* TESTopicInfo::GetResultScript(unsigned int onEnd)
+Script* TESTopicInfo::GetResultScript(uintptr_t onEnd)
 {
     unsigned int resultIndex = onEnd;
     if (this == g_cachedResultScriptInfo)

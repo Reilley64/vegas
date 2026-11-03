@@ -2,6 +2,7 @@
 // src/staging/blk_00860000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstdint>
 #include <cstddef>
 #include <windows.h>
 #include <new>
@@ -274,7 +275,7 @@ bool __cdecl HasFlags(int flags)
 
 struct FUN_008693f0_Class
 {
-    void FUN_008693f0(int aiParam);
+    void FUN_008693f0(intptr_t aiParam);
 };
 
 
@@ -1279,11 +1280,11 @@ struct FUN_00878f20_shell
 {
     int pad[4];
     Flt f;
-    unsigned DeallocateSound();
+    uintptr_t DeallocateSound();
 };
 // If the stored float converts to a nonzero pointer, calls TESSound::Deallocate on it and returns the result; otherwise returns 0.
 // @fnv 0x00878f20
-unsigned FUN_00878f20_shell::DeallocateSound()
+uintptr_t FUN_00878f20_shell::DeallocateSound()
 {
     if (f.operator unsigned int())
         return ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<TESSound*>(f.operator unsigned int())))->FUN_0084e3a0()));
@@ -2835,7 +2836,7 @@ class C869680Array
 };
 // Calls FUN_00869680 with the unsigned short at offset 0xa of this object and the given int.
 // @fnv 0x008693f0
-void FUN_008693f0_Class::FUN_008693f0(int aiParam)
+void FUN_008693f0_Class::FUN_008693f0(intptr_t aiParam)
 {
     reinterpret_cast<::C869680Array *>(this)->FUN_00869680(*(unsigned short*)((char*)this + 0xa), (*(::C869680Item *const *)(aiParam)));
 }

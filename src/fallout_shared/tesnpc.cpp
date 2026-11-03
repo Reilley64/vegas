@@ -1937,11 +1937,11 @@ struct GlobalObject_00528cb0
 };
 struct QueueHelper
 {
-    void FUN_00444040(int, int, int, int, bool, bool, bool);
+    void FUN_00444040(intptr_t, int, intptr_t, int, bool, bool, bool);
 };
 // Constructs a GlobalObject_00528cb0 with 0 and forwards it with the remaining arguments to QueueTaskByKey.
 // @fnv 0x00444040
-void QueueHelper::FUN_00444040(int aiArg1, int aiArg2, int aiArg3, int aiArg4, bool abFlag1, bool abFlag2, bool abFlag3)
+void QueueHelper::FUN_00444040(intptr_t aiArg1, int aiArg2, intptr_t aiArg3, int aiArg4, bool abFlag1, bool abFlag2, bool abFlag3)
 {
     GlobalObject_00528cb0 obj(0);
     reinterpret_cast<::FUN_004440d0_shell *>(this)->QueueTaskByKey(aiArg1, (*(::QOut444 *)(&obj)), aiArg2, (::QueuedFile *)(aiArg3), aiArg4, abFlag1, abFlag2, abFlag3);
@@ -3125,7 +3125,7 @@ struct FUN_00603280_Api
 
 
 // @fnv 0x00603280
-void FUN_00603280(int aiFirstValue, int aiSecondValue, int pCollector)
+void FUN_00603280(intptr_t aiFirstValue, int aiSecondValue, intptr_t pCollector)
 {
     if (pCollector == 0)
     {
@@ -3455,12 +3455,12 @@ struct FUN_00605fc0_disp
 struct FUN_00605fc0_cls
 {
     int unk00;
-    void ProcessSlots(int unk08, FUN_00605fc0_owner* a2, FUN_00605fc0_disp* a3);
+    void ProcessSlots(intptr_t unk08, FUN_00605fc0_owner* a2, FUN_00605fc0_disp* a3);
 };
 
 // Iterates 20 slots from a2, and for each non-null slot whose vE4() is true, calls a3->Process and a3->Release if Process returns false.
 // @fnv 0x00605fc0
-void FUN_00605fc0_cls::ProcessSlots(int aiUnused, FUN_00605fc0_owner* pOwner, FUN_00605fc0_disp* pDisp)
+void FUN_00605fc0_cls::ProcessSlots(intptr_t aiUnused, FUN_00605fc0_owner* pOwner, FUN_00605fc0_disp* pDisp)
 {
     for (unsigned int i = 0; i < 20; i++)
     {
@@ -3574,12 +3574,12 @@ class SaveTrackedOwner
     int unk130;
     SaveTrackedList m_aakLists[2][2];
 
-    unsigned short GetSaveSize(int iVersion);
+    unsigned short GetSaveSize(intptr_t iVersion);
 };
 
 // Sums count times element size times 4 over the 2x2 m_aakLists, adds 21 bytes of fixed fields, and returns the total as unsigned short.
 // @fnv 0x00609c70
-unsigned short SaveTrackedOwner::GetSaveSize(int iVersion)
+unsigned short SaveTrackedOwner::GetSaveSize(intptr_t iVersion)
 {
     unsigned short usSize = 0;
     for (unsigned int i = 0; i < 2; i++)
@@ -3917,11 +3917,11 @@ struct VirtHolder
 struct ProcessHost
 {
     void* FUN_0056fac0(OutBuf* out, CopyBlob9* blob);
-    void FUN_0060a890(int a1);
+    void FUN_0060a890(intptr_t a1);
 };
 
 // @fnv 0x0060a890
-void ProcessHost::FUN_0060a890(int pObject)
+void ProcessHost::FUN_0060a890(intptr_t pObject)
 {
     CopyBlob9 blob;
     (*reinterpret_cast<unsigned char *>(&::DAT_011c5cb4)) = 1;
@@ -6516,11 +6516,11 @@ void HeadNPC::FUN_00606820(TESObjectREFR* ref, NiPointer<BipedAnim>* biped)
 
 struct FUN_00609d60_shell : public TESNPC
 {
-    void SerializeFaceGenData(int);
+    void SerializeFaceGenData(intptr_t);
 };
 
 // @fnv 0x00609d60
-void FUN_00609d60_shell::SerializeFaceGenData(int unused)
+void FUN_00609d60_shell::SerializeFaceGenData(intptr_t unused)
 {
     unsigned int i2 = 0;
     for (; i2 < 2; ++i2)

@@ -2,6 +2,7 @@
 // src/staging/blk_007e0000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstdint>
 #include <new>
 #include <cstdlib>
 #include <cstring>
@@ -139,11 +140,11 @@ struct Flt
 
 struct FUN_007fa970_Class
 {
-    unsigned int FUN_007fa970();
+    uintptr_t FUN_007fa970();
 };
 
 // @fnv 0x007fa970
-unsigned int FUN_007fa970_Class::FUN_007fa970()
+uintptr_t FUN_007fa970_Class::FUN_007fa970()
 {
     return ((Flt*)((char*)this + 0xe0))->operator unsigned int();
 }
@@ -172,11 +173,11 @@ struct Flt
 
 struct FUN_007fd640Class
 {
-    unsigned int FUN_007fd640();
+    uintptr_t FUN_007fd640();
 };
 
 // @fnv 0x007fd640
-unsigned int FUN_007fd640Class::FUN_007fd640()
+uintptr_t FUN_007fd640Class::FUN_007fd640()
 {
     return ((Flt*)((char*)this + 0x90))->operator unsigned int();
 }
@@ -1157,10 +1158,10 @@ struct ListOwner
     int unk14;
     const char* templateName;
     unsigned short count;
-    TileX* FUN_007e0e70(int data, const char* text, void* compare, const char* name);
+    TileX* FUN_007e0e70(intptr_t data, const char* text, void* compare, const char* name);
 };
 // @fnv 0x007e0e70
-TileX* ListOwner::FUN_007e0e70(int data, const char* text, void* compare, const char* name)
+TileX* ListOwner::FUN_007e0e70(intptr_t data, const char* text, void* compare, const char* name)
 {
     if (parent && (templateName || name))
     {

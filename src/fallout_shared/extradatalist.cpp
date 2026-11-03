@@ -5857,11 +5857,11 @@ struct TESCreature
 {
     char pad[0x30];
     ABD_005f92d0 abd;
-    int FUN_005f92d0(int a);
+    intptr_t FUN_005f92d0(int a);
 };
 // If flag 0x100 is set, forwards a to the creature sounds object; otherwise recurses into the sound creature; returns 0 if none.
 // @fnv 0x005f92d0
-int TESCreature::FUN_005f92d0(int a)
+intptr_t TESCreature::FUN_005f92d0(int a)
 {
     if (reinterpret_cast<::TESActorBaseData *>((void *)&(abd))->GetFlag(0x100))
     {
@@ -9317,12 +9317,12 @@ unsigned int FUN_0041bce0_class::FUN_0041bce0()
 
 struct FUN_0041bde0_Class : BaseExtraList
 {
-    unsigned int FUN_0041bde0();
+    uintptr_t FUN_0041bde0();
 };
 
 // Looks up extra data of type 7 and returns the unsigned int stored at offset 0xc, or 0 if absent.
 // @fnv 0x0041bde0
-unsigned int FUN_0041bde0_Class::FUN_0041bde0()
+uintptr_t FUN_0041bde0_Class::FUN_0041bde0()
 {
     BSExtraData* extra = reinterpret_cast<::fnv_00410220::FUN_00410220_shell *>(this)->FUN_00410220(7);
     if (!extra)
@@ -9389,11 +9389,11 @@ unsigned int FUN_0041c360_class::FUN_0041c360()
 
 struct FUN_0041cab0
 {
-    void ProcessInteger(int arg);
+    void ProcessInteger(intptr_t arg);
 };
 // Gets the extra data entry with type 0x19 and, if present, writes arg into its field at offset 0x14.
 // @fnv 0x0041cab0
-void FUN_0041cab0::ProcessInteger(int aiValue)
+void FUN_0041cab0::ProcessInteger(intptr_t aiValue)
 {
     BSExtraData* extra = reinterpret_cast<::fnv_00410220::FUN_00410220_shell *>((((BaseExtraList*)this)))->FUN_00410220(0x19);
     if (extra)
@@ -15656,12 +15656,12 @@ struct FUN_00422550_child
 
 struct FUN_00422550_cls
 {
-    bool FUN_00422550(int value);
+    bool FUN_00422550(intptr_t value);
 };
 
 // Looks up the owner for id 0x1d and forwards the value to its child's FUN_005f65d0, returning false if no owner is found.
 // @fnv 0x00422550
-bool FUN_00422550_cls::FUN_00422550(int value)
+bool FUN_00422550_cls::FUN_00422550(intptr_t value)
 {
     FUN_00422550_owner* owner = ((::FUN_00422550_owner *)(reinterpret_cast<::fnv_00410220::FUN_00410220_shell *>(this)->FUN_00410220(0x1d)));
     if (owner == 0)
@@ -15940,11 +15940,11 @@ int FUN_0042ed70_Class::FUN_0042ed70()
 
 struct FUN_0042efe0_cls : BaseExtraList
 {
-    int FUN_0042efe0();
+    intptr_t FUN_0042efe0();
 };
 
 // @fnv 0x0042efe0
-int FUN_0042efe0_cls::FUN_0042efe0()
+intptr_t FUN_0042efe0_cls::FUN_0042efe0()
 {
     std::intptr_t result = ((std::intptr_t)(reinterpret_cast<::fnv_00410220::FUN_00410220_shell *>(this)->FUN_00410220(0x73)));
     return result;

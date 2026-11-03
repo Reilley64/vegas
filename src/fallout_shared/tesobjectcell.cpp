@@ -3133,7 +3133,7 @@ void FUN_00c3e310_shell::FUN_00c3e310()
 struct GO
 {
     char b[4];
-    GO(int);
+    GO(intptr_t);
     ~GO();
 };
 struct SL

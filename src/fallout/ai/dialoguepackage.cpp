@@ -1,5 +1,6 @@
 // fallout/ai/dialoguepackage.cpp: DialoguePackage, DelStandIn, This, DialoguePackageState (18 functions)
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/A90Cls.h"
 #include "fnv/decl/ActorStandIn008a.h"
@@ -127,7 +128,7 @@ BGSTerrainManager* LoadBGSTerrainManager(const NiPointer<NiNode>& apNode)
 }
 
 // @fnv 0x009ee040
-int FUN_009ee040(char* pThis)
+intptr_t FUN_009ee040(char* pThis)
 {
     return *(int*)(pThis + 0xb0);
 }
@@ -477,7 +478,7 @@ struct DialoguePackage : public FUN_00679a90_shell
 // @fnv 0x009f0740
 void DialoguePackage::FUN_009f0740(BGSLoadFormBuffer* apLoadGameBuffer)
 {
-    reinterpret_cast<::A90Cls *>(this)->DispatchToSubobjects((int)(apLoadGameBuffer));
+    reinterpret_cast<::A90Cls *>(this)->DispatchToSubobjects((intptr_t)(apLoadGameBuffer));
 
     m_pkMobileObject =
         m_pkMobileObject
@@ -1250,19 +1251,19 @@ void Dialogue114::FUN_009ee0a0(bool process)
                         Obj114* topic21 = ((::Obj114 *)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::Obj114 *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((response))->FUN_007af430()))))->FUN_0084e3a0()));
                         Handle114 handle23 = speaker23->PlaySoundByFormID(topic21, 0, 0x40000102, 1);
                         Manager114* manager3 = ((::Manager114 *)(::FUN_00ad9060()));
-                        reinterpret_cast<::fnv_00adbfd0::FUN_00adbfd0_cls *>((manager3))->FUN_00adbfd0((int)(((void *)(::FUN_00559450((int *)&(handle23))))), (int)(((void (&)())::fnv_00935cc0::FUN_00935cc0)), (int)(((::Obj114 *)(reinterpret_cast<::FUN_0084e3a0_Class *>((first))->FUN_0084e3a0()))));
+                        reinterpret_cast<::fnv_00adbfd0::FUN_00adbfd0_cls *>((manager3))->FUN_00adbfd0((intptr_t)(((void *)(::FUN_00559450((int *)&(handle23))))), (intptr_t)(((void (&)())::fnv_00935cc0::FUN_00935cc0)), (int)(((::Obj114 *)(reinterpret_cast<::FUN_0084e3a0_Class *>((first))->FUN_0084e3a0()))));
                         ready = false;
                         speak13 = false;
                     }
                     if (speak13 && ready)
                     {
-                        text6.FUN_00438470(((::String114 *)(::FUN_00460140((int)(response)))));
+                        text6.FUN_00438470(((::String114 *)(::FUN_00460140((intptr_t)(response)))));
                         if (!((::Obj114 *)(reinterpret_cast<::BSShaderNoLightingProperty *>((speaker23))->GetBaseTexture()))->v37c() && !((::Obj114 *)(reinterpret_cast<::BSShaderNoLightingProperty *>((speaker23))->GetBaseTexture()))->v36c() &&
                             *(*reinterpret_cast<::Setting114 *>(&::g_011e05ec)).FUN_00408d60() && !((::Obj114 *)(reinterpret_cast<::BSShaderNoLightingProperty *>((speaker23))->GetBaseTexture()))->v378())
                         {
                             valueC4 = ((::Obj114 *)(reinterpret_cast<::Twin_0044ddc0 *>((response))->GetName()));
                             valueC8 = ((::Obj114 *)(reinterpret_cast<::FUN_0084e3a0_Class *>((response))->FUN_0084e3a0()));
-                            reinterpret_cast<::FUN_00705b10_Dummy *>(this)->Set((int)(valueC4));
+                            reinterpret_cast<::FUN_00705b10_Dummy *>(this)->Set((intptr_t)(valueC4));
                             if (item)
                                 reinterpret_cast<::FUN_0083c850 *>((item))->AppendTopicInfo(0);
                             current = speaker23;
@@ -1292,7 +1293,7 @@ void Dialogue114::FUN_009ee0a0(bool process)
                             else
                             {
                                 Manager114* manager228 = ((::Manager114 *)(::FUN_00ad9060()));
-                                reinterpret_cast<::fnv_00adbfd0::FUN_00adbfd0_cls *>((manager228))->FUN_00adbfd0((int)(((void *)(::FUN_00559450((int *)&(sound))))), (int)(((void (&)())::FUN_00936ac0)), (int)(((::Obj114 *)(reinterpret_cast<::FUN_0084e3a0_Class *>((first))->FUN_0084e3a0()))));
+                                reinterpret_cast<::fnv_00adbfd0::FUN_00adbfd0_cls *>((manager228))->FUN_00adbfd0((intptr_t)(((void *)(::FUN_00559450((int *)&(sound))))), (intptr_t)(((void (&)())::FUN_00936ac0)), (int)(((::Obj114 *)(reinterpret_cast<::FUN_0084e3a0_Class *>((first))->FUN_0084e3a0()))));
                                 if (first != second)
                                     delay = 50.0f;
                                 speaker23->flag80 = 0;
@@ -1334,7 +1335,7 @@ void Dialogue114::FUN_009ee0a0(bool process)
                                     }
                                 }
                                 Manager114* manager334 = ((::Manager114 *)(::FUN_00ad9060()));
-                                reinterpret_cast<::fnv_00adbfd0::FUN_00adbfd0_cls *>((manager334))->FUN_00adbfd0((int)(((void *)(::FUN_00559450((int *)&(sound))))), (int)(((void (&)())::FUN_00936ac0)), (int)(((::Obj114 *)(reinterpret_cast<::FUN_0084e3a0_Class *>((first))->FUN_0084e3a0()))));
+                                reinterpret_cast<::fnv_00adbfd0::FUN_00adbfd0_cls *>((manager334))->FUN_00adbfd0((intptr_t)(((void *)(::FUN_00559450((int *)&(sound))))), (intptr_t)(((void (&)())::FUN_00936ac0)), (int)(((::Obj114 *)(reinterpret_cast<::FUN_0084e3a0_Class *>((first))->FUN_0084e3a0()))));
                                 speaker23->flag80 = 0;
                                 reset26 = false;
                                 current = speaker23;
@@ -1361,16 +1362,16 @@ void Dialogue114::FUN_009ee0a0(bool process)
             {
                 char path27[512];
                 String114 text22;
-                String114 copy14(((::String114 *)(::FUN_00460140((int)(response)))));
-                if (((void *)(::FUN_00559450((int *)(((::String114 *)(::FUN_00460140((int)(response)))))))))
+                String114 copy14(((::String114 *)(::FUN_00460140((intptr_t)(response)))));
+                if (((void *)(::FUN_00559450((int *)(((::String114 *)(::FUN_00460140((intptr_t)(response)))))))))
                 {
-                    ::TaskQueueInterface::CopyStringToBuffer(path27, 512, (const char *)(void *)(((void *)(::FUN_00559450((int *)(((::String114 *)(::FUN_00460140((int)(response))))))))));
+                    ::TaskQueueInterface::CopyStringToBuffer(path27, 512, (const char *)(void *)(((void *)(::FUN_00559450((int *)(((::String114 *)(::FUN_00460140((intptr_t)(response))))))))));
                     if (current)
                     {
                         reinterpret_cast<::FUN_00934250_shell *>((current))->FUN_00934250();
                         current = 0;
                     }
-                    text22.FUN_00438470(((::String114 *)(::FUN_00460140((int)(response)))));
+                    text22.FUN_00438470(((::String114 *)(::FUN_00460140((intptr_t)(response)))));
                     if (third)
                     {
                         Obj114* data310 = ((::Obj114 *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((third))->FUN_007af430()));
@@ -1380,7 +1381,7 @@ void Dialogue114::FUN_009ee0a0(bool process)
                                     ((void *)(reinterpret_cast<::FUN_004048e0_cls *>((((::Obj114 *)(((::Vec3 *)(void *)(response))))))->FUN_004048e0())), ((::Obj114 *)(reinterpret_cast<::FUN_009611e0_shell *>((response))->FUN_009611e0())),
                                     ((::Obj114 *)(reinterpret_cast<::BGSTerrainManager *>((response))->GetMinLevel())), second, 0, 0, 0, 1, 1);
                         Manager114* manager45 = ((::Manager114 *)(::FUN_00ad9060()));
-                        reinterpret_cast<::fnv_00adbfd0::FUN_00adbfd0_cls *>((manager45))->FUN_00adbfd0((int)(((void *)(::FUN_00559450((int *)&(sound))))), (int)(((void (&)())::FUN_00936ac0)), (int)(((::Obj114 *)(reinterpret_cast<::FUN_0084e3a0_Class *>((third))->FUN_0084e3a0()))));
+                        reinterpret_cast<::fnv_00adbfd0::FUN_00adbfd0_cls *>((manager45))->FUN_00adbfd0((intptr_t)(((void *)(::FUN_00559450((int *)&(sound))))), (intptr_t)(((void (&)())::FUN_00936ac0)), (int)(((::Obj114 *)(reinterpret_cast<::FUN_0084e3a0_Class *>((third))->FUN_0084e3a0()))));
                         third->flag80 = 0;
                         reset26 = false;
                     }
@@ -1400,7 +1401,7 @@ void Dialogue114::FUN_009ee0a0(bool process)
                     ((::Obj114 *)(reinterpret_cast<::DialogueItem *>((((::Obj114 *)(reinterpret_cast<::DialogueItem *>((list))->GetActiveResponse()))))->GetActiveResponse())) &&
                     ((void *)(::FUN_00559450((int *)(((::Obj114 *)(((::Vec3 *)(void *)(((::Obj114 *)(reinterpret_cast<::DialogueItem *>((((::Obj114 *)(reinterpret_cast<::DialogueItem *>((list))->GetActiveResponse()))))->GetActiveResponse())))))))))))
                 {
-                    if (*(*reinterpret_cast<::Setting114 *>(&::g_011d8928)).FUN_00408d60() || (actor18->v100() && ::FUN_008c1bc0((int)(actor18))))
+                    if (*(*reinterpret_cast<::Setting114 *>(&::g_011d8928)).FUN_00408d60() || (actor18->v100() && ::FUN_008c1bc0((intptr_t)(actor18))))
                         FUN_00705210(((void *)(::FUN_00559450((int *)(((::Obj114 *)(((::Vec3 *)(void *)(((::Obj114 *)(reinterpret_cast<::DialogueItem *>((((::Obj114 *)(reinterpret_cast<::DialogueItem *>((list))->GetActiveResponse()))))->GetActiveResponse())))))))))), sound,
                                      actor18->v1f4(), second, 0);
                 }
@@ -1541,8 +1542,8 @@ struct This
     unsigned char f98;
     int f9c;
     int fa0;
-    int fa4;
-    int fa8;
+    intptr_t fa4;
+    intptr_t fa8;
     int fac;
     int fb0;
     int fb4;
@@ -1598,13 +1599,13 @@ void This::LoadSaveData()
             reinterpret_cast<::fnv_00484d00::FUN_00484d00_shell *>(this)->FUN_00484d00(&w34, 2);
             if (w34 != 0)
             {
-                fa4 = (int)new FUN_0083b830;
+                fa4 = (intptr_t)new FUN_0083b830;
                 reinterpret_cast<::ConversationLoad *>((((SLObj*)fa4)))->LoadFromSave();
                 short w38;
                 reinterpret_cast<::fnv_00484d00::FUN_00484d00_shell *>(this)->FUN_00484d00(&w38, 2);
                 if (w38 != -1)
                 {
-                    fa8 = ((int)(reinterpret_cast<::ConversationLoad *>((((SLObj*)fa4)))->FUN_0083bac0((unsigned short)w38)));
+                    fa8 = ((intptr_t)(reinterpret_cast<::ConversationLoad *>((((SLObj*)fa4)))->FUN_0083bac0((unsigned short)w38)));
                 }
                 else
                 {
@@ -1754,12 +1755,12 @@ void DialoguePackageState::ResolveReferences()
 {
     reinterpret_cast<::FUN_006796c0_shell *>(this)->FUN_006796c0();
     // Serialized actor IDs are resolved in target, speaker, listener order.
-    unsigned int listenerID = (unsigned int)target;
+    uintptr_t listenerID = (uintptr_t)target;
     target = dynamic_cast<Actor*>(::FUN_004839c0(listenerID));
-    unsigned int targetID;
-    unsigned int speakerID = (unsigned int)speaker;
+    uintptr_t targetID;
+    uintptr_t speakerID = (uintptr_t)speaker;
     speaker = dynamic_cast<Actor*>(::FUN_004839c0(speakerID));
-    targetID = (unsigned int)listener;
+    targetID = (uintptr_t)listener;
     listener = dynamic_cast<Actor*>(::FUN_004839c0(targetID));
 
     if (reinterpret_cast<::FUN_008df040_shell *>(((*reinterpret_cast<::fnv_009eff60::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008df040() >= 32 && conversation)
@@ -1768,8 +1769,8 @@ void DialoguePackageState::ResolveReferences()
     {
         // Retain the saved conversation marker and its two serialized indices.
         Conversation* itemIndex = conversation;
-        short oldConversation = (short)(unsigned int)item;
-        short responseIndex = (short)(unsigned int)response;
+        short oldConversation = (short)(uintptr_t)item;
+        short responseIndex = (short)(uintptr_t)response;
         if (itemIndex)
         {
             conversation = new Conversation((Character*)speaker, (PlayerCharacter*)listener, topic);
@@ -1888,19 +1889,19 @@ void DialoguePackage::FUN_009ef6e0()
     unsigned int form7 = 0;  // topicID
     if (topic)
         form7 = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((topic))->FUN_0084e3a0()));
-    reinterpret_cast<::FUN_00484d20_Class *>(this)->ForwardToSaveLoadGame((int)(&form7), 4);
+    reinterpret_cast<::FUN_00484d20_Class *>(this)->ForwardToSaveLoadGame((intptr_t)(&form7), 4);
     unsigned int form2 = 0;
     if (quest)
         form2 = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((quest))->FUN_0084e3a0()));
-    reinterpret_cast<::FUN_00484d20_Class *>(this)->ForwardToSaveLoadGame((int)(&form2), 4);
+    reinterpret_cast<::FUN_00484d20_Class *>(this)->ForwardToSaveLoadGame((intptr_t)(&form2), 4);
     unsigned int formVal = 0;  // infoID
     if (info)
         formVal = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((info))->FUN_0084e3a0()));
-    reinterpret_cast<::FUN_00484d20_Class *>(this)->ForwardToSaveLoadGame((int)(&formVal), 4);
+    reinterpret_cast<::FUN_00484d20_Class *>(this)->ForwardToSaveLoadGame((intptr_t)(&formVal), 4);
     unsigned int form5 = 0;  // speakerID
     if (speaker)
         form5 = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((speaker))->FUN_0084e3a0()));
-    reinterpret_cast<::FUN_00484d20_Class *>(this)->ForwardToSaveLoadGame((int)(&form5), 4);
+    reinterpret_cast<::FUN_00484d20_Class *>(this)->ForwardToSaveLoadGame((intptr_t)(&form5), 4);
     unsigned short countB = 0;  // count
     if (conversation)
         countB = reinterpret_cast<::DialogueItemList *>((conversation))->FUN_0083bb30();
@@ -1934,7 +1935,7 @@ void DialoguePackage::FUN_009ef6e0()
     if (reinterpret_cast<::FUN_00862110_cls *>((((DialogueSaveGameWriter*)(*reinterpret_cast<::fnv_009ef6e0::TESSaveLoadGame * *>(&::g_TESSaveLoadGame)))))->FUN_00862110())
     {
         unsigned int end = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((DialogueSaveGameWriter*)(*reinterpret_cast<::fnv_009ef6e0::TESSaveLoadGame * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00();
-        unsigned int offset2 = (unsigned int)offset;
+        uintptr_t offset2 = (uintptr_t)offset;
         if (end > offset2 + 0xffff)
             ::FUN_005b5e40();
         *offset = (unsigned short)(end - offset2);

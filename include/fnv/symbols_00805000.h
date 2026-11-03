@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 class ActiveEffect;
 class ActiveEffectList_5d40;
@@ -10,7 +11,7 @@ namespace fnv_00805b40 { struct AENode; }
 struct SaveSizeListNode;
 
 // 0x00805880
-void SaveEffectData(::SaveEffectObj *, unsigned int);
+void SaveEffectData(::SaveEffectObj *, uintptr_t);
 // 0x00805920
 ::ActiveEffect *FUN_00805920(::BGSLoadFormBuffer *);
 // 0x00805a00

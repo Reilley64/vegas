@@ -5,6 +5,7 @@
 
 // src/staging/blk_00820000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include <cstdint>
 #include <windows.h>
 #include <objbase.h>
 #include "fnv/decl/B83C270Conversation.h"
@@ -323,7 +324,7 @@ struct TESObjectREFR : TESForm
 };
 struct FUN_0083d0d0_Class
 {
-    void RefreshObjectRef(int a);
+    void RefreshObjectRef(intptr_t a);
 };
 struct WeatherEntry
 {
@@ -338,7 +339,7 @@ struct G2
 };
 struct FUN_00824290_class
 {
-    void AddWeatherEntry(int a, int b, int c);
+    void AddWeatherEntry(intptr_t a, intptr_t b, intptr_t c);
 };
 struct SoundDataDummy
 {

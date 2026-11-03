@@ -986,7 +986,7 @@ unsigned int BGSSaveLoadGameImpl::LoadFormData(SaveLoadFile* apFile, LoadFormBuf
     int eformType = reinterpret_cast<::fnv_008665b0::FUN_008665b0_shell *>((apLoadGameBuffer))->FUN_008665b0();
     ChangeFlagsT ichangeFlags = apLoadGameBuffer->GetChangeFlags();
     ChangeFlagsT ioldChangeFlags = apLoadGameBuffer->GetOldChangeFlags();
-    unsigned int iformID = ((unsigned int)(reinterpret_cast<::MagicCaster_shell *>((apLoadGameBuffer))->FUN_0044edb0()));
+    uintptr_t iformID = ((uintptr_t)(reinterpret_cast<::MagicCaster_shell *>((apLoadGameBuffer))->FUN_0044edb0()));
     TESForm* pform = apLoadGameBuffer->GetForm();
     int einitialDataType = BGSSaveLoadInitialDataPacket::DetermineInitialDataType(iformID, eformType, ichangeFlags);
     if (einitialDataType == 5 || einitialDataType == 6)
@@ -1319,11 +1319,11 @@ struct S00849a70
 {
     int _pad[4];
     S00852950 _m;
-    void ForwardToMember(int, int);
+    void ForwardToMember(int, intptr_t);
 };
 // Calls GetOrCreateEntryAdd on the member _m, forwarding both integer arguments.
 // @fnv 0x00849a70
-void S00849a70::ForwardToMember(int aiFirst, int aiSecond)
+void S00849a70::ForwardToMember(int aiFirst, intptr_t aiSecond)
 {
     reinterpret_cast<::FUN_00852950_shell *>(&(_m))->GetOrCreateEntryAdd(aiFirst, (void *)(aiSecond));
 }
@@ -1434,13 +1434,13 @@ FUN_0084b9c0::~FUN_0084b9c0()
 
 struct FUN_00849a50_shell : BGSSaveLoadChangesMap
 {
-    void SetAtKey(unsigned int key);
+    void SetAtKey(uintptr_t key);
 };
 
 // @fnv 0x00849a50
-void FUN_00849a50_shell::SetAtKey(unsigned int key)
+void FUN_00849a50_shell::SetAtKey(uintptr_t key)
 {
-    reinterpret_cast<::FUN_00844700_Class *>((((NiTPointerMap<unsigned int, FormChangeRecord*>*)this)))->FUN_00844700(key, (unsigned int)((FormChangeRecord*)key));
+    reinterpret_cast<::FUN_00844700_Class *>((((NiTPointerMap<unsigned int, FormChangeRecord*>*)this)))->FUN_00844700(key, (uintptr_t)((FormChangeRecord*)key));
 }
 
 struct FUN_0084a360_shell
@@ -2389,7 +2389,7 @@ void W20Save::FUN_00847850(W20File* file)
     reinterpret_cast<::BGSSaveLoadManager *>(((*reinterpret_cast<::fnv_00847850::W20Manager * *>(&::DAT_011de134))))->GetFNVVersionInfo(ba, 260);
     reinterpret_cast<::SaveLoadChangeHistory *>((history))->AddNote("***Saving game: %s (%s)", k, ba);
     unsigned char j = ((unsigned int)(reinterpret_cast<::FUN_00851110_shell *>(((*reinterpret_cast<::fnv_00847850::W20Manager * *>(&::DAT_011de134))))->GetConstant27()));
-    ::ForwardToShell((::FUN_00846330_shell *)(file), (int)(&j), 1);
+    ::ForwardToShell((::FUN_00846330_shell *)(file), (intptr_t)(&j), 1);
     reinterpret_cast<::FUN_00847590_shell *>(this)->SaveCompiledFileList(file);
     unsigned int e = reinterpret_cast<::SaveLoadFile *>((file))->GetFilePosition();
     W20Header c;
@@ -3364,7 +3364,7 @@ void FUN_0084ab20_shell::FUN_0084ab20()
                     {
                         if (((unsigned int)(::FUN_00559450((int *)&(ev->buffer)))) != 0 && res100 != 0)
                         {
-                            unsigned int bx;
+                            uintptr_t bx;
                             unsigned int bo;
                             std::uintptr_t bb;
                             unsigned int as;
@@ -3544,7 +3544,7 @@ void ReconstructLoadContext::FUN_00848e70(BGSSaveLoadChangesMap* changes, TESFil
             }
             RevertLoadFormBuffer buffer;
             buffer.SetForm(current);
-            reinterpret_cast<::Twin_0086cf00 *>(&(buffer))->SetD3DPixelShader((::GeometryRelatedType *const)(key->unk00));
+            reinterpret_cast<::Twin_0086cf00 *>(&(buffer))->SetD3DPixelShader((::GeometryRelatedType *const)(uintptr_t)(key->unk00));
             reinterpret_cast<::FUN_00849240_class *>(&(buffer))->SetFlag4(1);
             current->Revert((BGSLoadFormBuffer*)&buffer);
             unsigned int name;
@@ -3612,12 +3612,12 @@ struct FUN_0084aa90_shell
     int unk10;
     int unk14;
     FUN_00853130_shell* unk18;
-    unsigned int FUN_0084aa90(unsigned int aiOldFormID);
+    unsigned int FUN_0084aa90(uintptr_t aiOldFormID);
 };
 
 // Calls FUN_00853130 with aiOldFormID and returns its output value on success, or 0 on failure.
 // @fnv 0x0084aa90
-unsigned int FUN_0084aa90_shell::FUN_0084aa90(unsigned int aiOldFormID)
+unsigned int FUN_0084aa90_shell::FUN_0084aa90(uintptr_t aiOldFormID)
 {
     unsigned int value = 0;
     if (reinterpret_cast<::fnv_00853130::NiTMapBase *>((unk18))->FUN_00853130(aiOldFormID, (::fnv_00853130::CombatThreatRecord *&)(value)))
@@ -3708,7 +3708,7 @@ bool ReconstructSession::LoadSaveGame(SaveFile* pSaveFile, bool restoreMode)
                         BGSLoadFormBuffer* current = new BGSLoadFormBuffer;
                         reinterpret_cast<::FUN_008644b0_shell *>((current))->FUN_008644b0((::SaveLoadFile *)(pSaveFile));
                         unsigned int typeX = ((unsigned int)(reinterpret_cast<::fnv_008665b0::FUN_008665b0_shell *>((current))->FUN_008665b0()));
-                        unsigned int index = ((unsigned int)(reinterpret_cast<::MagicCaster_shell *>((current))->FUN_0044edb0()));
+                        uintptr_t index = ((uintptr_t)(reinterpret_cast<::MagicCaster_shell *>((current))->FUN_0044edb0()));
                         UnloadFlags changed = current->FUN_00428110();
                         UnloadFlags currentVal = ((StatePrefix*)this)->changes->GetFirstEntry(index);
                         UnloadFlags previous_ = pendingChanges->GetFirstEntry(index);
@@ -3734,7 +3734,7 @@ bool ReconstructSession::LoadSaveGame(SaveFile* pSaveFile, bool restoreMode)
                             else if (form_->GetIsReference())
                             {
                                 ReferenceExtra* reference = (ReferenceExtra*)form_;
-                                if (((unsigned int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((reference))->FUN_007af430())) == 0)
+                                if (((uintptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((reference))->FUN_007af430())) == 0)
                                     invalid = true;
                             }
                             if (invalid)
@@ -3786,14 +3786,14 @@ bool ReconstructSession::LoadSaveGame(SaveFile* pSaveFile, bool restoreMode)
                         BGSLoadFormBuffer* current = ((::BGSLoadFormBuffer *)(reinterpret_cast<::S3e60 *>(&(((StatePrefix*)this)->buffers))->FUN_006a7ad0(index2)));
                         if (reinterpret_cast<::fnv_00848dd0::FUN_00848dd0_shell *>((current))->FUN_00848dd0())
                         {
-                            reinterpret_cast<::BGSSaveLoadChangesMap *>((((StatePrefix*)this)->changes))->HasFormChanges(((unsigned int)(reinterpret_cast<::MagicCaster_shell *>((current))->FUN_0044edb0())));
+                            reinterpret_cast<::BGSSaveLoadChangesMap *>((((StatePrefix*)this)->changes))->HasFormChanges(((uintptr_t)(reinterpret_cast<::MagicCaster_shell *>((current))->FUN_0044edb0())));
                             reinterpret_cast<::FUN_008644b0_shell *>((current))->FUN_008644b0((::SaveLoadFile *)(pSaveFile));
                             reinterpret_cast<::FUN_00864580_shell *>((current))->FUN_00864580((::SaveLoadFile *)(pSaveFile), 0);
                             delete (FUN_0081db60*)current;
                             ((StatePrefix*)this)->buffers.FUN_0047a110(index2, (BGSLoadFormBuffer*)0);
                             continue;
                         }
-                        unsigned int index = ((unsigned int)(reinterpret_cast<::MagicCaster_shell *>((current))->FUN_0044edb0()));
+                        uintptr_t index = ((uintptr_t)(reinterpret_cast<::MagicCaster_shell *>((current))->FUN_0044edb0()));
                         FormExtra* form_ = current->GetForm();
                         if (form_)
                         {
@@ -3809,12 +3809,12 @@ bool ReconstructSession::LoadSaveGame(SaveFile* pSaveFile, bool restoreMode)
                             else if (form_->GetIsReference())
                             {
                                 ReferenceExtra* reference = (ReferenceExtra*)form_;
-                                if (((unsigned int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((reference))->FUN_007af430())) == 0)
+                                if (((uintptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((reference))->FUN_007af430())) == 0)
                                     invalid = true;
                             }
                             if (invalid)
                             {
-                                reinterpret_cast<::BGSSaveLoadChangesMap *>((((StatePrefix*)this)->changes))->HasFormChanges(((unsigned int)(reinterpret_cast<::MagicCaster_shell *>((current))->FUN_0044edb0())));
+                                reinterpret_cast<::BGSSaveLoadChangesMap *>((((StatePrefix*)this)->changes))->HasFormChanges(((uintptr_t)(reinterpret_cast<::MagicCaster_shell *>((current))->FUN_0044edb0())));
                                 reinterpret_cast<::FUN_00864580_shell *>((current))->FUN_00864580((::SaveLoadFile *)(pSaveFile), 0);
                                 delete (FUN_0081db60*)current;
                                 ((StatePrefix*)this)->buffers.FUN_0047a110(index2, (BGSLoadFormBuffer*)0);

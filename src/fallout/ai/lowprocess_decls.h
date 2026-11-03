@@ -6,6 +6,7 @@
 #ifndef FNV_LOWPROCESS_H
 #define FNV_LOWPROCESS_H
 
+#include <cstdint>
 #include <cstdio>
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/C42CE30.h"
@@ -105,7 +106,7 @@ class LowProcess : public BaseProcess
     void SetCurrentBoundObject(TESBoundObject*);
     void SetCurrentCombatTarget(TESObjectREFR*);
     TESObjectREFR* GetTarget();
-    void SetPackageObjectType(int);
+    void SetPackageObjectType(intptr_t);
     int GetPackageObjectType();
     TESObjectREFR* GetActiveCombatTarget();
     // Canonical additions requested:
@@ -164,9 +165,9 @@ class LowProcess : public BaseProcess
     virtual void SetTarget(TESObjectREFR*);
     void OnPackageChanged(Actor*, TESPackage*);
     float GetCurrentActorValue(TESActorBase*, ActorValue__Index, Actor*);
-    static bool HandlePackageTargetLoaded(TESObjectREFR*, long);
+    static bool HandlePackageTargetLoaded(TESObjectREFR*, intptr_t);
     void ProcessDialogueTopic(Actor*, TESTopic*, bool, bool, bool, bool);
-    static bool HandlePackageLocationLoaded(TESObjectREFR*, long);
+    static bool HandlePackageLocationLoaded(TESObjectREFR*, intptr_t);
     void Revert(BGSLoadFormBuffer*);
     void LoadGame(BGSLoadFormBuffer*);
     void InitLoadGame(BGSLoadFormBuffer*);
@@ -451,7 +452,7 @@ class BGSLoadFormBuffer
     FormChangeMask GetOldChangeFlags(unsigned int);
 };
 
-bool FUN_0090e660(TESObjectREFR*, long);
+bool FUN_0090e660(TESObjectREFR*, intptr_t);
 
 class RegionPoint
 {

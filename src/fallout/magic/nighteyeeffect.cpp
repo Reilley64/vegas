@@ -2,6 +2,7 @@
 // src/fallout/magic/nighteyeeffect.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/nighteyeeffect.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/active_effect_fields.h"
 #include "fnv/decl/ActiveEffect805670.h"
 #include "fnv/decl/ActorMover.h"
@@ -142,7 +143,7 @@ struct FUN_00825950_shell : TESForm
 // @fnv 0x00825950
 void FUN_00825950_shell::FUN_00825950(Actor* apActor)
 {
-    reinterpret_cast<::FUN_004534f0_shell *>(this)->FUN_004534f0(reinterpret_cast<unsigned int>(apActor));
+    reinterpret_cast<::FUN_004534f0_shell *>(this)->FUN_004534f0(reinterpret_cast<uintptr_t>(apActor));
     if (reinterpret_cast<::FUN_0055f5b0_Class *>(((*reinterpret_cast<::fnv_00825950::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_0055f5b0() && apActor == (*reinterpret_cast<::fnv_00825950::Actor * *>(&::_g_thePlayer)))
         ::UpdateImageSpaceEffectFromPlayerState();
 }

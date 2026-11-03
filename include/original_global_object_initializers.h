@@ -1,6 +1,7 @@
 #ifndef FNV_ORIGINAL_GLOBAL_OBJECT_INITIALIZERS_H
 #define FNV_ORIGINAL_GLOBAL_OBJECT_INITIALIZERS_H
 // Owner classes are named after their original constructor address; constructors and destructors stay original.
+#include <cstdint>
 #include "fnv/symbols_01011000.h"
 #include "fnv/symbols_01012000.h"
 #include "fnv/symbols_01013000.h"
@@ -328,7 +329,7 @@ class GlobalObject_00631850
 class GlobalObject_00633c90
 {
   public:
-    GlobalObject_00633c90(int);
+    GlobalObject_00633c90(intptr_t);
     ~GlobalObject_00633c90();
     char storage[4];
 };
@@ -561,7 +562,7 @@ class GlobalObject_0087d420
 class GlobalObject_008c71b0
 {
   public:
-    GlobalObject_008c71b0(int);
+    GlobalObject_008c71b0(intptr_t);
     char storage[4];
 };
 class GlobalObject_008c71d0

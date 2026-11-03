@@ -1545,11 +1545,11 @@ float FUN_004bcf60_shell::GetEffectValue(int effect, unsigned char value)
 
 struct FUN_004bd570_this
 {
-    int FUN_004bd570(unsigned int);
+    intptr_t FUN_004bd570(unsigned int);
 };
 // Returns the int stored at offset 0x350, 0x354 or 0x358 for slot 1, 2 or 4, otherwise 0.
 // @fnv 0x004bd570
-int FUN_004bd570_this::FUN_004bd570(unsigned int slot)
+intptr_t FUN_004bd570_this::FUN_004bd570(unsigned int slot)
 {
     if (slot == 1)
     {
@@ -1790,11 +1790,11 @@ struct IndexedPointerCollection
 void _Deallocate(void*);
 struct FUN_004bfb30_shell
 {
-    unsigned int GetAtIfValid(int);
+    uintptr_t GetAtIfValid(int);
 };
 // Returns the element at idx from the array at offset 0xE3C when idx is between 0 and 8, otherwise 0.
 // @fnv 0x004bfb30
-unsigned int FUN_004bfb30_shell::GetAtIfValid(int aiIndex)
+uintptr_t FUN_004bfb30_shell::GetAtIfValid(int aiIndex)
 {
     return (aiIndex >= 0 && aiIndex <= 8) ? ((unsigned int)(reinterpret_cast<::S3e60 *>((((BSSimpleArray<unsigned int, 400>*)((char*)this + 0xE3C))))->FUN_006a7ad0(aiIndex)))
                                           : 0;
@@ -4307,13 +4307,13 @@ void InventoryItemManager::FUN_004d42f0(InventoryStream* stream)
 struct FUN_004d43c0_cls
 {
     ContNode* m_pFirstNode;
-    int FindItemIndex(int a1, InventoryItemEntry* a2);
+    int FindItemIndex(intptr_t a1, InventoryItemEntry* a2);
 };
 
 
 // Searches the list for an item whose FUN_0044ddc0 value equals a1, then returns the position of a2 in that item's sublist, or -1.
 // @fnv 0x004d43c0
-int FUN_004d43c0_cls::FindItemIndex(int a1, InventoryItemEntry* pTargetItem)
+int FUN_004d43c0_cls::FindItemIndex(intptr_t a1, InventoryItemEntry* pTargetItem)
 {
     if (a1 == 0 || pTargetItem == 0)
     {
@@ -4358,11 +4358,11 @@ struct ItemExtraNode
 struct ItemChangeList
 {
     ItemChangeNode* first;
-    int GetExtraValueAtPosition(int form, int position);
+    intptr_t GetExtraValueAtPosition(intptr_t form, int position);
 };
 // Walks the change list for the entry matching form, then returns the extra value at position, or 0 if not found.
 // @fnv 0x004d4480
-int ItemChangeList::GetExtraValueAtPosition(int form, int position)
+intptr_t ItemChangeList::GetExtraValueAtPosition(intptr_t form, int position)
 {
     if (form == 0 || position == -1)
         return 0;
@@ -4404,7 +4404,7 @@ struct Output_004d4b00
 struct Host_004d4b00
 {
     Entry_004d4b00* GetNextInventoryEntry(Iterator_004d4b00*);
-    void FindEntriesByType(int type, Output_004d4b00* output);
+    void FindEntriesByType(intptr_t type, Output_004d4b00* output);
 };
 // Iterates inventory changes and returns the first entry whose extra list has the given list type, deleting skipped entries.
 // @fnv 0x004bf4b0
@@ -4435,7 +4435,7 @@ InventoryStackRecord* InventoryChangesIter::FindEntryWithExtraListType(int aiTyp
     return 0;
 }
 // @fnv 0x004d4b00
-void Host_004d4b00::FindEntriesByType(int type, Output_004d4b00* output)
+void Host_004d4b00::FindEntriesByType(intptr_t type, Output_004d4b00* output)
 {
     if (type == 0 || output == 0)
         return;
@@ -6045,11 +6045,11 @@ struct ChangesShell : InventoryChanges
 
     BoundShell* FUN_004bffb0(BoundShell*);
 
-    void AddItemExtraData(BoundShell*, int, int, ExtraShell*, ExtraNodeShell**);
+    void AddItemExtraData(BoundShell*, int, intptr_t, ExtraShell*, ExtraNodeShell**);
 };
 
 // @fnv 0x004c1520
-void ChangesShell::AddItemExtraData(BoundShell* item, int number, int unknown, ExtraShell* selection,
+void ChangesShell::AddItemExtraData(BoundShell* item, int number, intptr_t unknown, ExtraShell* selection,
                                     ExtraNodeShell** apResultList)
 
 {
@@ -6655,11 +6655,11 @@ struct Inv4c6a10
 {
     ChangeNode4c6ba0* m_pEntryList;
     Container4c6ba0* FUN_004bffb0();
-    TESBoundObject* FindInventoryItemByType(int aType, int* apCount);
+    TESBoundObject* FindInventoryItemByType(intptr_t aType, int* apCount);
 };
 
 // @fnv 0x004c6a10
-TESBoundObject* Inv4c6a10::FindInventoryItemByType(int aType, int* apCount)
+TESBoundObject* Inv4c6a10::FindInventoryItemByType(intptr_t aType, int* apCount)
 {
     ContNode4c6ba0* pNode = ((::Container4c6ba0 *)(reinterpret_cast<::FUN_004bffb0_shell *>(this)->FUN_004bffb0()))->FUN_00717e50();
     TESBoundObject* pFound5 = 0;
@@ -11116,7 +11116,7 @@ struct Transfer4c37Node84
 };
 unsigned char __cdecl FUN_00702680(int a, int b);
 int FUN_00401170(std::uintptr_t a);
-void* __cdecl FUN_00401000(int a);
+void* __cdecl FUN_00401000(intptr_t a);
 struct Transfer4c37Obj96
 {
     void* item;

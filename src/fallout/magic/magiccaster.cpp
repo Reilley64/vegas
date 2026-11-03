@@ -1,5 +1,6 @@
 // fallout/magic/magiccaster.cpp: MagicCaster, Caster, ScriptLocalsX, CastingCheck and more (34 functions)
 
+#include <cstdint>
 #include "fnv/effect_item_fields.h"
 #include "fnv/simple_list_node_view.h"
 #include <new>
@@ -212,7 +213,7 @@ bool MagicCaster::HasActiveEffect(ActiveEffect* effect)
 
 // Looks up the form by formID, and if it is a reference, returns that reference's magic caster; otherwise returns NULL.
 // @fnv 0x00818c60
-MagicCaster* MagicCaster::GetCasterByHandle(unsigned int formID)
+MagicCaster* MagicCaster::GetCasterByHandle(uintptr_t formID)
 {
     TESForm* form = ::FUN_004839c0(formID);
     if (form && form->GetIsReference())
@@ -277,10 +278,10 @@ struct S819
 {
     char p[0x594];
     BSS819 s;
-    int FUN_00819250();
+    intptr_t FUN_00819250();
 };
 // @fnv 0x00819250
-int S819::FUN_00819250()
+intptr_t S819::FUN_00819250()
 {
     return ((bhkWorldObject*)s) ? ((int)(reinterpret_cast<::fnv_004a3a20::FUN_004a3a20_shell *>((void *)&(const ::bhkFilter &)(((bhkWorldObject*)s)->FUN_0043b4f0()))->FUN_004a3a20())) : 0;
 }
@@ -2188,7 +2189,7 @@ struct P142Caster : MagicCaster
 {
     bool CheckHealthDamageKill(MagicTarget*, P142Spell*);
     void ApplyExplosion(Actor*, NiPoint3, EffectItem*, float);
-    void ApplySpellEffects(P142Spell*, int, NiPoint3, P142Ref*, P142Ref*, int, float, float);
+    void ApplySpellEffects(P142Spell*, intptr_t, NiPoint3, P142Ref*, P142Ref*, int, float, float);
 };
 namespace fnv_00817970 {
 struct HealthRef : TESObjectREFR
@@ -2247,9 +2248,9 @@ bool CasterOps::CheckHealthDamageKill(Recipient* pRecipient, EffectSpec* pEffect
             if (effect && ((void *)(reinterpret_cast<::Twin_0044ddc0 *>((effect))->GetName())) == pEffectSpec)
             {
                 EffectSettingOps* setting = ((::fnv_00817970::EffectSettingOps *)(reinterpret_cast<::ActiveEffect *>((effect))->GetEffectSetting()));
-                int value;
+                intptr_t value;
                 if (reinterpret_cast<::FUN_00403e80_shell *>((setting))->FUN_00403e80())
-                    value = ((int)(reinterpret_cast<::InterfaceManager *>((setting))->FUN_00586150()));
+                    value = ((intptr_t)(reinterpret_cast<::InterfaceManager *>((setting))->FUN_00586150()));
                 else
                     value = reinterpret_cast<::EffectItem *>((((::fnv_00817970::EffectItemOps *)(reinterpret_cast<::FUN_0084e3a0_Class *>((effect))->FUN_0084e3a0()))))->GetAffectedActorValue();
                 if (value == 16 && reinterpret_cast<::S3e60 *>((setting))->FUN_00403e60(4) && !reinterpret_cast<::S3e60 *>((setting))->FUN_00403e60(2))
@@ -2937,7 +2938,7 @@ void ExplosionCaster::ApplyExplosion(ExplosionActor* target, NiPoint3 origin, Ex
             if (node)
             {
                 NiTransform transform;
-                reinterpret_cast<::NiTransform *>((((::fnv_00818310::TransformNode *)(::FUN_00461130((int)(node))))))->CalculateInverse(*(::NiTransform *)nullptr);
+                reinterpret_cast<::NiTransform *>((((::fnv_00818310::TransformNode *)(::FUN_00461130((intptr_t)(node))))))->CalculateInverse(*(::NiTransform *)nullptr);
                 localOrigin = transform.FUN_00524c40(origin);
                 localPosition = transform.FUN_00524c40(s);
             }
@@ -3589,7 +3590,7 @@ struct Master
 };
 // Applies each effect item of the spell to the target, creating active effects, notifying the caster, and handling secondary effects.
 // @fnv 0x00817160
-void P142Caster::ApplySpellEffects(P142Spell* spell, int flags, NiPoint3 position, P142Ref* source, P142Ref* target,
+void P142Caster::ApplySpellEffects(P142Spell* spell, intptr_t flags, NiPoint3 position, P142Ref* source, P142Ref* target,
                                    int unused, float effectiveness, float magnitude)
 {
     P142EffectList* targets = spell;
@@ -4549,7 +4550,7 @@ void Caster::FUN_00815d00(float power, Source* source, bool immediate, float mul
         {
             EnchantmentItem* enchantment = dynamic_cast<EnchantmentItem*>(spellB);
             if (enchantment)
-                noTouch = ((int)(reinterpret_cast<::BGSCameraPath *>((enchantment))->GetPrevPath())) == 2;
+                noTouch = ((intptr_t)(reinterpret_cast<::BGSCameraPath *>((enchantment))->GetPrevPath())) == 2;
         }
         if (!noTouch && (casterActorSlot25 || !GetCurrentMagicTarget()))
             target6 = GetSpellTarget();
@@ -4714,7 +4715,7 @@ void Caster::FUN_00815d00(float power, Source* source, bool immediate, float mul
         Point position;
         PositionProvider* provider3 =
             (casterActorSlot25 && !source) ? casterActorSlot25->caster.GetSourcePosition() : 0;
-        position = provider3 ? *((::CastTargets::Point *)(::FUN_0045bb80((int)(provider3)))) : *areaTarget3->GetPosition();
+        position = provider3 ? *((::CastTargets::Point *)(::FUN_0045bb80((intptr_t)(provider3)))) : *areaTarget3->GetPosition();
         if (areaEffect7)
         {
             reinterpret_cast<::Master *>(this)->FUN_00817b90((*(::Vec3 *)&(const ::CastTargets::Point &)(position)), (::ListHandle *)(void *)(((void *)(reinterpret_cast<::LowProcess *>((areaTarget3))->GetTarget()))), spellB, (::RangeManager *)(areaEffect7), (::TargetInterface *)(::CastTargets::Context *)(&contextSlot12), 1.0f, 1.0f);
@@ -4723,7 +4724,7 @@ void Caster::FUN_00815d00(float power, Source* source, bool immediate, float mul
                 Point direction(-::FUN_005c53d0(-((::CastTargets::Point *)(reinterpret_cast<::TESRecipe *>((areaTarget3))->GetData()))->x),
                                 ::FUN_005b9e80(-((::CastTargets::Point *)(reinterpret_cast<::TESRecipe *>((areaTarget3))->GetData()))->x), 0);
                 ModelInstance* instance2 =
-                    ((::CastTargets::ModelInstance *)(::FUN_006890b0((::World *)(void *)(((void *)(reinterpret_cast<::LowProcess *>((areaTarget3))->GetTarget()))), 1.0f, (int)(artSlot15->model.GetModelFilePath()), (*(::Vec3 *)&(const ::CastTargets::Point &)(direction)),
+                    ((::CastTargets::ModelInstance *)(::FUN_006890b0((::World *)(void *)(((void *)(reinterpret_cast<::LowProcess *>((areaTarget3))->GetTarget()))), 1.0f, (intptr_t)(artSlot15->model.GetModelFilePath()), (*(::Vec3 *)&(const ::CastTargets::Point &)(direction)),
                                  (*(::Vec3 *)&(const ::CastTargets::Point &)(position)), 1.0f, 7, 0)));
                 reinterpret_cast<::FUN_00689920_shell *>((instance2))->FUN_00689920(DAT_0102054c);
                 if (((::CastTargets::Node *)(reinterpret_cast<::fnv_00490e40::FUN_00490e40_shell *>((instance2))->FUN_00490e40())))
@@ -4909,14 +4910,14 @@ void Master::FUN_00817b90(Vec3 center, ListHandle* item, void* filter, RangeMana
             ::fnv_004a3e00::FUN_004a3e00((*(::fnv_004a3e00::bhkCharacterController *)((Vec3*)&space.low)), (*(const ::fnv_004a3e00::NiPoint3 *)(&(*(::Vec3 *)(reinterpret_cast<::Point3Offset *>(&(center))->ProjectileLaunched((::NiPoint3 *)&(const ::Vec3 &)(Vec3(-size, -size, -size)), {}))))));
             ::fnv_004a3e00::FUN_004a3e00((*(::fnv_004a3e00::bhkCharacterController *)((Vec3*)&space.high)), (*(const ::fnv_004a3e00::NiPoint3 *)(&(*(::Vec3 *)(reinterpret_cast<::Point3Offset *>(&(center))->ProjectileLaunched((::NiPoint3 *)&(const ::Vec3 &)(Vec3(size, size, size)), {}))))));
             MediaSelector obj;
-            space.field00 = ::FUN_00559450((int *)(((::FormRef *)(reinterpret_cast<::FUN_00622290_cls *>(&(obj))->FUN_00622290(0x29, (int)(((void *)(::FUN_005dbe10()))), {})))));
+            space.field00 = ::FUN_00559450((int *)(((::FormRef *)(reinterpret_cast<::FUN_00622290_cls *>(&(obj))->FUN_00622290(0x29, (intptr_t)(((void *)(::FUN_005dbe10()))), {})))));
             PhantomShape results(&space);
             void* world = reinterpret_cast<::FUN_004543c0_cls *>((item))->FUN_004543c0();
             reinterpret_cast<::Obj *>(&(results))->FUN_00c85810((::Obj *)(world));
             ListEntries* entries = ((::ListEntries *)(reinterpret_cast<::ScriptLocalsX *>(&(results))->FUN_00818110()));
             for (int i = 0; i < ((int)(reinterpret_cast<::Callees *>((entries))->FUN_00726070())); ++i)
             {
-                int target = ((int)(::FUN_004b59f0((const void *)(*((int *)&(reinterpret_cast<::FUN_00629ab0_shell *>((entries))->FUN_00629ab0(i)))))));
+                intptr_t target = ((intptr_t)(::FUN_004b59f0((const void *)(*((intptr_t *)&(reinterpret_cast<::FUN_00629ab0_shell *>((entries))->FUN_00629ab0(i)))))));
                 if (target)
                 {
                     FUN_00818150((TargetInterface*)target, center, source, attenuation);

@@ -3,6 +3,7 @@
 #define BGSSAVELOADHISTORY_DECLS_H
 
 
+#include <cstdint>
 #include "fnv/decl/FUN_00864740_shell.h"
 #include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
 #include "fnv/decl/fnv_008649a0__FUN_008649a0_shell.h"
@@ -42,7 +43,7 @@ class FormChangeRecord;
 class BGSSaveLoadChangesMap
 {
   public:
-    FormChangeRecord* FUN_009a4250(unsigned int);
+    FormChangeRecord* FUN_009a4250(uintptr_t);
 };
 class ActorCause;
 template <> class BSSimpleList<ActorCause*>

@@ -333,12 +333,12 @@ NiTexture* BGSSaveLoadFileEntry::FUN_007d5280()
 
 struct FUN_0075f6f0_shell : public StartMenu
 {
-    void FUN_0075f6f0(int, bool);
+    void FUN_0075f6f0(intptr_t, bool);
 };
 
 // Sets or clears the bit aeFlag in uiFlags according to abOn.
 // @fnv 0x0075f6f0
-void FUN_0075f6f0_shell::FUN_0075f6f0(int aeFlag, bool abOn)
+void FUN_0075f6f0_shell::FUN_0075f6f0(intptr_t aeFlag, bool abOn)
 {
     abOn ? uiFlags |= aeFlag : uiFlags &= ~aeFlag;
 }
@@ -477,7 +477,7 @@ class DownloadableContentManager;
 class BSSystemUtility
 {
   public:
-    static int s_iUpdateEnabled;
+    static intptr_t s_iUpdateEnabled;
 public:
     ::DownloadableContentManager &QDLCUtility();
 public:
@@ -961,7 +961,7 @@ class InventoryStackRecord
 
 
 // @fnv 0x007d2eb0
-void SyncSliderWithSetting(int pSlider)
+void SyncSliderWithSetting(intptr_t pSlider)
 {
     if ((*reinterpret_cast<::StartMenu * *>(&::fnv_007d0700::DAT_011daac0)) && (*reinterpret_cast<::StartMenu * *>(&::fnv_007d0700::DAT_011daac0))->IsFlagSet(StartMenu::FLAG_SAVE_OPTIONS))
     {
@@ -1055,7 +1055,7 @@ struct S7d8
 };
 struct S007d4950
 {
-    void FUN_007d4950(int a, int b, int c, unsigned char f);
+    void FUN_007d4950(intptr_t a, int b, int c, unsigned char f);
 };
 namespace fnv_007d4b40 {
 struct BSSystemUtility
@@ -1163,7 +1163,7 @@ struct FUN_007d6510_shell
 // @fnv 0x007d6510
 int FUN_007d6510_shell::FUN_007d6510(int aiButton)
 {
-    return (aiButton != 0xF && aiButton != 0x10) ? ((int)(reinterpret_cast<::Class_7d76e0 *>(this)->FUN_007d76e0(aiButton))) : 0;
+    return (aiButton != 0xF && aiButton != 0x10) ? ((intptr_t)(reinterpret_cast<::Class_7d76e0 *>(this)->FUN_007d76e0(aiButton))) : 0;
 }
 
 struct FUN_007d6730_shell : public StartMenu
@@ -1884,7 +1884,7 @@ void S7d8::FUN_007d48a0(void* arg, unsigned char flags)
 }
 // Computes a value from the low bit of f and forwards a, b, c, that value and the second bit of f to PopulateListBoxTiles.
 // @fnv 0x007d4950
-void S007d4950::FUN_007d4950(int aiArg1, int aiArg2, int aiArg3, unsigned char f)
+void S007d4950::FUN_007d4950(intptr_t aiArg1, int aiArg2, int aiArg3, unsigned char f)
 {
     int v = (f & 1) ? 0x53 + 0x55 - 0x53 + 0x53 : 0x55;
     reinterpret_cast<::MenuSI *>(this)->PopulateListBoxTiles((void *)(aiArg1), aiArg2, aiArg3, v, (f & 2) != 0);
@@ -3239,11 +3239,11 @@ struct FUN_007d9000_shell
 
 struct FUN_007d8fe0_shell
 {
-    void FUN_007d8fe0(int a);
+    void FUN_007d8fe0(intptr_t a);
 };
 
 // @fnv 0x007d8fe0
-void FUN_007d8fe0_shell::FUN_007d8fe0(int a)
+void FUN_007d8fe0_shell::FUN_007d8fe0(intptr_t a)
 {
     reinterpret_cast<::SelectionList *>((((FUN_007d9000_shell*)this)))->ApplySelectionAction((::SelectionTile *)(a), 1);
 }
@@ -3298,7 +3298,7 @@ struct FUN_007a62e0
     int a;
     int b;
     int c;
-    FUN_007a62e0(Tile*, int*);
+    FUN_007a62e0(Tile*, intptr_t*);
 };
 struct FUN_00a1ddb0_shell
 {
@@ -3322,12 +3322,12 @@ struct FUN_007d6ff0_shell
     int pad14;
     const char* pcTemplate;
     unsigned short m_usPassCountLocal;
-    Tile* CreateListItem(int aAssociatedData, const char* apcItemString,
+    Tile* CreateListItem(intptr_t aAssociatedData, const char* apcItemString,
                          int(__cdecl* apCompareFn)(DebrisData*, DebrisData*), const char* apcTemplateName);
 };
 
 // @fnv 0x007d6ff0
-Tile* FUN_007d6ff0_shell::CreateListItem(int aAssociatedData, const char* apcItemString,
+Tile* FUN_007d6ff0_shell::CreateListItem(intptr_t aAssociatedData, const char* apcItemString,
                                          int(__cdecl* apCompareFn)(DebrisData*, DebrisData*),
                                          const char* apcTemplateName)
 {
@@ -3431,7 +3431,7 @@ void CloseStartMenu(bool abDeleteOnFade)
             reinterpret_cast<::LBList_7314c0 *>((((ListBoxQ*)&(*reinterpret_cast<::StartMenu * *>(&::fnv_007d0700::DAT_011daac0))->m_kDownloadOptions)))->FUN_007314c0((void (*)(LBTile_7314c0 *, void *))(((void (&)(Tile *, TESObjectREFR *))::FUN_007ce970)), 0, 0x7fffffff);
         if (((bool)(::IsStartMenuFlag1Set())))
             ::fnv_007aaf20::FUN_007aaf20(false);
-        piter = (void*)(unsigned int)*(Flt*)&(*reinterpret_cast<::fnv_007ce7a0::GlobalObject_0048f200 *>(&::g_011dabd8));
+        piter = (void*)(uintptr_t)*(Flt*)&(*reinterpret_cast<::fnv_007ce7a0::GlobalObject_0048f200 *>(&::g_011dabd8));
         while (piter)
             reinterpret_cast<::Tile *>((((Tile_Set_Helper*)((::Tile *)(reinterpret_cast<::ListStandIn *>((((TL*)&(*reinterpret_cast<::fnv_007ce7a0::GlobalObject_0048f200 *>(&::g_011dabd8)))))->FUN_0057cbe0((int **)&(piter)))))))->Set(4003, 1);
         reinterpret_cast<::Tile *>((((Tile_Set_Helper*)(*reinterpret_cast<::StartMenu * *>(&::fnv_007d0700::DAT_011daac0))->pMenu)))->Set(6002, abDeleteOnFade);
@@ -4328,7 +4328,7 @@ void MenuWork::BuildMenuList()
             (mode != 3 && FUN_007d03a0(i)))
         {
             MenuItem* entry = new MenuItem(((const char *)(reinterpret_cast<::StartMenu *>(((*reinterpret_cast<MenuSetting * (*)[]>(&::fnv_00707330::DAT_011d51d0))[i]))->GetMenuTitle())), FUN_007d0cb0, i);
-            MenuTile* item = ((::MenuTile *)(reinterpret_cast<::fnv_007d6ff0::FUN_007d6ff0_shell *>(&(list))->CreateListItem((int)(entry), entry->name, (int (*)(fnv_007d6ff0::DebrisData *, fnv_007d6ff0::DebrisData *))(0), DAT_01076e94)));
+            MenuTile* item = ((::MenuTile *)(reinterpret_cast<::fnv_007d6ff0::FUN_007d6ff0_shell *>(&(list))->CreateListItem((intptr_t)(entry), entry->name, (int (*)(fnv_007d6ff0::DebrisData *, fnv_007d6ff0::DebrisData *))(0), DAT_01076e94)));
             reinterpret_cast<::Tile *>((item))->SetName(((const char *)(reinterpret_cast<::StartMenu *>(((*reinterpret_cast<MenuSetting * (*)[]>(&::fnv_00707330::DAT_011d51d0))[i]))->GetMenuTitle())));
         }
     }
@@ -5393,7 +5393,7 @@ bool __cdecl InitStartMenu(bool abNewGame, bool abFlag)
         ::FUN_0078d280(true);
     if ((*reinterpret_cast<::SMSaveLoadManager * *>(&::DAT_011de134)))
     {
-        reinterpret_cast<::FUN_0061cc40_shell *>(((*reinterpret_cast<::SMSaveLoadManager * *>(&::DAT_011de134))))->FUN_0061cc40((int)(::fnv_007d69d0::FUN_007d69d0));
+        reinterpret_cast<::FUN_0061cc40_shell *>(((*reinterpret_cast<::SMSaveLoadManager * *>(&::DAT_011de134))))->FUN_0061cc40((intptr_t)(::fnv_007d69d0::FUN_007d69d0));
         reinterpret_cast<::Twin_0086cf00 *>(((*reinterpret_cast<::SMSaveLoadManager * *>(&::DAT_011de134))))->SetD3DPixelShader((::GeometryRelatedType *const)(::fnv_007d69d0::FUN_007d69d0));
     }
     if (reinterpret_cast<::FUN_0076b610_Class *>(&((*reinterpret_cast<::SMMenuQueue *>(&::g_011dab88))))->FUN_0076b610())
@@ -5631,7 +5631,7 @@ void TargetSM::FUN_007ce9b0(int reason, TileX* tile)
                 if (hit2 && hit2->m_pActionCallback)
                 {
                     if (hit2->m_pActionCallback != ::fnv_007d0c50::FUN_007d0c50)
-                        reinterpret_cast<::FUN_007d7a80_shell *>((arr5[i]))->FUN_007d7a80((int)(tile));
+                        reinterpret_cast<::FUN_007d7a80_shell *>((arr5[i]))->FUN_007d7a80((intptr_t)(tile));
                     if (arr5[i] != &m_kThirdOptionListBox && hit2->m_pActionCallback != ::HandleBackAction)
                         reinterpret_cast<::fnv_007d74f0::FUN_007d74f0_shell *>((arr5[i]))->FUN_007d74f0(0);
                     hit2->m_pActionCallback();
@@ -5657,7 +5657,7 @@ void TargetSM::FUN_007ce9b0(int reason, TileX* tile)
                 }
                 else
                 {
-                    if (reinterpret_cast<::ListOwner *>(&(m_kOptionIndexList))->ContainsKey((void *)(tile)) && ((int)(reinterpret_cast<::LBList *>(&(m_kOptionIndexList))->FindItemData((::Tile *)(tile)))) == -1)
+                    if (reinterpret_cast<::ListOwner *>(&(m_kOptionIndexList))->ContainsKey((void *)(tile)) && ((intptr_t)(reinterpret_cast<::LBList *>(&(m_kOptionIndexList))->FindItemData((::Tile *)(tile)))) == -1)
                     {
                         void* tmp = ((void *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((SaveUI*)((::BGSSaveLoadUI *)(::FUN_00a25920())))))->GetBaseTexture()));
                         reinterpret_cast<::FUN_00af28f0_cls *>((((::fnv_007ce9b0::ChainB *)&(reinterpret_cast<::BSSystemUtility *>((FUN_00af2640(tmp)))->QDLCUtility()))))->FUN_00af28f0({});
@@ -6570,7 +6570,7 @@ void UpdateSaveListSelection()
             count = ((unsigned int)(::GetRaceCount((char *)(((SaveListOps*)&(*reinterpret_cast<::StartMenu * *>(&::fnv_007d0700::DAT_011daac0))->m_kOptionHelper)))));
             if ((*reinterpret_cast<::StartMenu * *>(&::fnv_007d0700::DAT_011daac0))->IsFlagSet(StartMenu::FLAG_SAVE_MODE))
             {
-                for (unsigned first7 = 0; first7 < ((unsigned int)(::GetRaceCount((char *)(((SaveListOps*)&(*reinterpret_cast<::StartMenu * *>(&::fnv_007d0700::DAT_011daac0))->m_kOptionHelper)))));
+                for (uintptr_t first7 = 0; first7 < ((unsigned int)(::GetRaceCount((char *)(((SaveListOps*)&(*reinterpret_cast<::StartMenu * *>(&::fnv_007d0700::DAT_011daac0))->m_kOptionHelper)))));
                      first7++)
                 {
                     Tile* tile3 = ((SaveListOps*)&(*reinterpret_cast<::StartMenu * *>(&::fnv_007d0700::DAT_011daac0))->m_kOptionHelper)->tileAt(first7, false);
@@ -6599,7 +6599,7 @@ void UpdateSaveListSelection()
             if (count == -1)
             {
                 count = ((unsigned int)(::GetRaceCount((char *)(((SaveListOps*)&(*reinterpret_cast<::StartMenu * *>(&::fnv_007d0700::DAT_011daac0))->m_kOptionHelper)))));
-                for (unsigned second3 = 0; second3 < ((unsigned int)(::GetRaceCount((char *)(((SaveListOps*)&(*reinterpret_cast<::StartMenu * *>(&::fnv_007d0700::DAT_011daac0))->m_kOptionHelper)))));
+                for (uintptr_t second3 = 0; second3 < ((unsigned int)(::GetRaceCount((char *)(((SaveListOps*)&(*reinterpret_cast<::StartMenu * *>(&::fnv_007d0700::DAT_011daac0))->m_kOptionHelper)))));
                      second3++)
                 {
                     Tile* entry2 = ((SaveListOps*)&(*reinterpret_cast<::StartMenu * *>(&::fnv_007d0700::DAT_011daac0))->m_kOptionHelper)->tileAt(second3, false);
@@ -6804,7 +6804,7 @@ void SaveMenu::UpdateSaveList()
         unsigned int count = ((unsigned int)(::GetRaceCount((char *)&(saves))));
         if (count > 0)
             reinterpret_cast<::Tile *>((((::fnv_007d3c70::SaveTile *)(::CallVirtualZero((::fnv_anon_startmenu::Dummy7d6e90 *)&(saves))))))->Set(unk1d0, 1);
-        for (int index = ((unsigned int)(::GetRaceCount((char *)&(saves)))) - 1; index >= 0; index--)
+        for (intptr_t index = ((unsigned int)(::GetRaceCount((char *)&(saves)))) - 1; index >= 0; index--)
         {
             SaveTile* tile = saves.At(index, false);
             SaveRecord* data = ((::fnv_007d3c70::SaveRecord *)(reinterpret_cast<::FUN_007d86c0_shell *>(&(saves))->FUN_007d86c0((int *)(index), false)));
@@ -6984,7 +6984,7 @@ struct ThisT
     char p3c[0x114 - 0x3c];
     LbT lb;
     char p144[0x1cc - 0x144];
-    int m1cc;
+    intptr_t m1cc;
     void FadeTile(int a, int b, unsigned int c, float d);
     void FUN_007d4ce0(OptSI* o, TileX* t);
     void PopulateList(int flags);
@@ -7026,12 +7026,12 @@ void ThisT::PopulateList(int flags)
                             continue;
                         }
                     }
-                    res = ((::TileX *)(reinterpret_cast<::fnv_007d6ff0::FUN_007d6ff0_shell *>(&(lb))->CreateListItem((int)(*(*reinterpret_cast<::ArrT *>(&::g_011dab50)).FUN_00877a30(p)),
+                    res = ((::TileX *)(reinterpret_cast<::fnv_007d6ff0::FUN_007d6ff0_shell *>(&(lb))->CreateListItem((intptr_t)(*(*reinterpret_cast<::ArrT *>(&::g_011dab50)).FUN_00877a30(p)),
                                             (const char *)((std::intptr_t)(*(*reinterpret_cast<::ArrT *>(&::g_011dab50)).FUN_00877a30(p))->GetValueText), (int (*)(fnv_007d6ff0::DebrisData *, fnv_007d6ff0::DebrisData *))(0),
                                             (const char *)((std::intptr_t)(*(*reinterpret_cast<::ArrT *>(&::g_011dab50)).FUN_00877a30(p))->pTemplate))));
                     if ((*(*reinterpret_cast<::ArrT *>(&::g_011dab50)).FUN_00877a30(p))->f2c == (std::intptr_t)FUN_007d30e0)
                     {
-                        m1cc = (int)res;
+                        m1cc = (intptr_t)res;
                         reinterpret_cast<::Tile *>((res))->Set(((SMGlob*)(*reinterpret_cast<::StartMenu * *>(&::fnv_007d0700::DAT_011daac0)))->f1d0, FUN_004b71d0());
                     }
                     if ((*(*reinterpret_cast<::ArrT *>(&::g_011dab50)).FUN_00877a30(p))->f2c == (std::intptr_t)((void (&)())::fnv_007d13a0::FUN_007d13a0))
@@ -7043,8 +7043,8 @@ void ThisT::PopulateList(int flags)
                         val = &res->list;
                         while (flag != 0 && val != 0 && *((int *)(reinterpret_cast<::FUN_0073ac90_shell *>((val))->FUN_0073ac90())) != 0)
                         {
-                            reinterpret_cast<::Tile *>(((*((::TileX **)(reinterpret_cast<::FUN_006317a0_struct *>((val))->AddEight((int)(flag)))))))->Set(((SMGlob*)(*reinterpret_cast<::StartMenu * *>(&::fnv_007d0700::DAT_011daac0)))->f1d0, node);
-                            reinterpret_cast<::Tile *>(((*((::TileX **)(reinterpret_cast<::FUN_006317a0_struct *>((val))->AddEight((int)(flag)))))))->Set(0xfaf, node);
+                            reinterpret_cast<::Tile *>(((*((::TileX **)(reinterpret_cast<::FUN_006317a0_struct *>((val))->AddEight((intptr_t)(flag)))))))->Set(((SMGlob*)(*reinterpret_cast<::StartMenu * *>(&::fnv_007d0700::DAT_011daac0)))->f1d0, node);
+                            reinterpret_cast<::Tile *>(((*((::TileX **)(reinterpret_cast<::FUN_006317a0_struct *>((val))->AddEight((intptr_t)(flag)))))))->Set(0xfaf, node);
                             flag = ((void *)(reinterpret_cast<::FUN_007b52d0_cls *>((val))->DereferenceIfNotNull((int **)(flag))));
                         }
                     }
@@ -7064,7 +7064,7 @@ void ThisT::PopulateList(int flags)
             {
                 if ((*(*reinterpret_cast<::ArrT *>(&::g_011dab88)).FUN_00877a30(kIter))->FUN_007cc5d0(flags))
                 {
-                    j = ((::TileX *)(reinterpret_cast<::fnv_007d6ff0::FUN_007d6ff0_shell *>(&(lb))->CreateListItem((int)(*(*reinterpret_cast<::ArrT *>(&::g_011dab88)).FUN_00877a30(kIter)),
+                    j = ((::TileX *)(reinterpret_cast<::fnv_007d6ff0::FUN_007d6ff0_shell *>(&(lb))->CreateListItem((intptr_t)(*(*reinterpret_cast<::ArrT *>(&::g_011dab88)).FUN_00877a30(kIter)),
                                           (const char *)((std::intptr_t)(*(*reinterpret_cast<::ArrT *>(&::g_011dab88)).FUN_00877a30(kIter))->GetValueText), (int (*)(fnv_007d6ff0::DebrisData *, fnv_007d6ff0::DebrisData *))(0),
                                           (const char *)((std::intptr_t)"lb_meter_template"))));
                     reinterpret_cast<::Tile *>((j))->SetName((*(*reinterpret_cast<::ArrT *>(&::g_011dab88)).FUN_00877a30(kIter))->GetValueText);
@@ -7441,7 +7441,7 @@ extern int DAT_0107704c;
 
 struct FUN_007d64d0_cls
 {
-    int m_vptr;
+    intptr_t m_vptr;
     int unk04;
     int unk08;
     int unk0c;
@@ -7460,8 +7460,8 @@ struct FUN_007d64d0_cls
 // @fnv 0x007d64d0
 void FUN_007d64d0_cls::Initialize()
 {
-    m_vptr = (int)&DAT_0107704c;
-    int value = m_28;
+    m_vptr = (intptr_t)&DAT_0107704c;
+    intptr_t value = m_28;
     ::FUN_00401030((void *)(value));
     ((FUN_007ce690_cls*)this)->InitPointer();
 }
@@ -7796,7 +7796,7 @@ void FUN_007d7b50_shell::ForEachEntry(unsigned char arg)
     for (; it != 0 && ((::fnv_007d7b50::Ctx *)(reinterpret_cast<::SimpleListNodeView*>(it)->m_item))->f0 != 0; it = ((::fnv_007d7b50::Iter *)(reinterpret_cast<::Callees *>((it))->FUN_00726070())))
     {
         if (arg == 0 || ((X*)((::fnv_007d7b50::Ctx *)(reinterpret_cast<::SimpleListNodeView*>(it)->m_item))->f0)->b8 == 0)
-            reinterpret_cast<::FUN_007d8fe0_shell *>((((FUN_007d8fe0_shell*)this)))->FUN_007d8fe0((int)((X*)((::fnv_007d7b50::Ctx *)(reinterpret_cast<::SimpleListNodeView*>(it)->m_item))->f0)->f0);
+            reinterpret_cast<::FUN_007d8fe0_shell *>((((FUN_007d8fe0_shell*)this)))->FUN_007d8fe0((intptr_t)((X*)((::fnv_007d7b50::Ctx *)(reinterpret_cast<::SimpleListNodeView*>(it)->m_item))->f0)->f0);
     }
 }
 }  // namespace fnv_007d7b50
@@ -7818,7 +7818,7 @@ struct GlobalObject2_0045cfe0;
 int FUN_0084ff30_shell::CreateScriptMessageDirectory(char* pcPathBuffer)
 {
     ::TaskQueueInterface::CopyStringToBuffer(pcPathBuffer, 0x104u, ((char *)(::FUN_004dc110())));
-    strcat_s(pcPathBuffer, 0x104u, ((const char *)(::FUN_00464f30((int)(((const char *)(reinterpret_cast<::StartMenu *>((((InventoryMenuSetting*)&::g_011c3f74)))->GetMenuTitle())))))));
+    strcat_s(pcPathBuffer, 0x104u, ((const char *)(::FUN_00464f30((intptr_t)(((const char *)(reinterpret_cast<::StartMenu *>((((InventoryMenuSetting*)&::g_011c3f74)))->GetMenuTitle())))))));
     return CreateDirectoryA(pcPathBuffer, 0);
 }
 
@@ -7987,13 +7987,13 @@ void __cdecl FUN_007d69f0()
     DLC_007d69f0* kPDLC = ((::fnv_007d69f0::DLC_007d69f0 *)&(reinterpret_cast<::BSSystemUtility *>((FUN_00af2640()))->QDLCUtility()));
     if (!((::fnv_007d69f0::List_007d69f0 *)(reinterpret_cast<::NonActorMagicTarget *>((kPDLC))->GetActiveEffectList()))->FUN_008256d0())
     {
-        reinterpret_cast<::FUN_0075f6f0_shell *>(((*reinterpret_cast<::fnv_007d69f0::Menu_007d69f0 * *>(&::fnv_007d0700::DAT_011daac0))))->FUN_0075f6f0((int)&::DAT_01000000, 1);
+        reinterpret_cast<::FUN_0075f6f0_shell *>(((*reinterpret_cast<::fnv_007d69f0::Menu_007d69f0 * *>(&::fnv_007d0700::DAT_011daac0))))->FUN_0075f6f0((intptr_t)&::DAT_01000000, 1);
     }
     (*reinterpret_cast<::fnv_007d69f0::Menu_007d69f0 * *>(&::fnv_007d0700::DAT_011daac0))->m_kOptionIndexList.v07();
     reinterpret_cast<::IntListBox *>(&((*reinterpret_cast<::fnv_007d69f0::Menu_007d69f0 * *>(&::fnv_007d0700::DAT_011daac0))->m_kOptionIndexList))->FUN_00764430(-1, ((char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_007d69f0::InvSetting_007d69f0 *>(&::g_011d3ad4))))->GetMenuTitle())), (int (*)(BoxItem *, BoxItem *))(0), (const char *)(0));
     char* p;
     Item_007d69f0* pItem2 = 0;
-    Node_007d69f0* pNode = ((::fnv_007d69f0::Node_007d69f0 *)(::GetOffsetC((int)(kPDLC))));
+    Node_007d69f0* pNode = ((::fnv_007d69f0::Node_007d69f0 *)(::GetOffsetC((intptr_t)(kPDLC))));
     while (pNode != 0)
     {
         pItem2 = *((::fnv_007d69f0::Item_007d69f0 **)(&reinterpret_cast<::SimpleListNodeView*>(pNode)->m_item));
@@ -8602,7 +8602,7 @@ void StartMenuInit::FUN_007cbaf0(bool inGame, bool forceReload)
     else
     {
         ::TaskQueueInterface::CopyStringToBuffer(s, 260, ((char *)(::FUN_004dc110())));
-        FUN_00406d50(s, 260, ((const char *)(::FUN_00464f30((int)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_007cbaf0::SettingOpsLocal *>(&::g_011c3f74))))->GetMenuTitle())))))));
+        FUN_00406d50(s, 260, ((const char *)(::FUN_00464f30((intptr_t)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_007cbaf0::SettingOpsLocal *>(&::g_011c3f74))))->GetMenuTitle())))))));
     }
     FUN_00406d50(s, 260, "*");
     FUN_00406d50(s, 260, ".fos");
@@ -8622,9 +8622,9 @@ void StartMenuInit::FUN_007cbaf0(bool inGame, bool forceReload)
                          ((::fnv_007cbaf0::TileAccess *)(::FUN_00a09030(::FUN_007cc6d0()))));
         if ((inGame && ((OptionArray*)&(*reinterpret_cast<::fnv_007cbaf0::OptionArray *>(&::g_011dab88)))->FUN_00877a30(i)->FUN_007cc5d0(2)) ||
             (!inGame && ((OptionArray*)&(*reinterpret_cast<::fnv_007cbaf0::OptionArray *>(&::g_011dab88)))->FUN_00877a30(i)->FUN_007cc5d0(1)))
-            tile = ((::Tile *)(reinterpret_cast<::fnv_007d6ff0::FUN_007d6ff0_shell *>((((OptionListAccess*)&m_kFirstOptionListBox)))->CreateListItem((int)(((OptionArray*)&(*reinterpret_cast<::fnv_007cbaf0::OptionArray *>(&::g_011dab88)))->FUN_00877a30(i)), 0, (int (*)(fnv_007d6ff0::DebrisData *, fnv_007d6ff0::DebrisData *))(0), 0)));
+            tile = ((::Tile *)(reinterpret_cast<::fnv_007d6ff0::FUN_007d6ff0_shell *>((((OptionListAccess*)&m_kFirstOptionListBox)))->CreateListItem((intptr_t)(((OptionArray*)&(*reinterpret_cast<::fnv_007cbaf0::OptionArray *>(&::g_011dab88)))->FUN_00877a30(i)), 0, (int (*)(fnv_007d6ff0::DebrisData *, fnv_007d6ff0::DebrisData *))(0), 0)));
         else if (((OptionArray*)&(*reinterpret_cast<::fnv_007cbaf0::OptionArray *>(&::g_011dab88)))->FUN_00877a30(i)->FUN_007cc5d0(4))
-            tile = ((::Tile *)(reinterpret_cast<::fnv_007d6ff0::FUN_007d6ff0_shell *>((((OptionListAccess*)&m_kSecondOptionListBox)))->CreateListItem((int)(((OptionArray*)&(*reinterpret_cast<::fnv_007cbaf0::OptionArray *>(&::g_011dab88)))->FUN_00877a30(i)), 0, (int (*)(fnv_007d6ff0::DebrisData *, fnv_007d6ff0::DebrisData *))(0), 0)));
+            tile = ((::Tile *)(reinterpret_cast<::fnv_007d6ff0::FUN_007d6ff0_shell *>((((OptionListAccess*)&m_kSecondOptionListBox)))->CreateListItem((intptr_t)(((OptionArray*)&(*reinterpret_cast<::fnv_007cbaf0::OptionArray *>(&::g_011dab88)))->FUN_00877a30(i)), 0, (int (*)(fnv_007d6ff0::DebrisData *, fnv_007d6ff0::DebrisData *))(0), 0)));
         if (((OptionArray*)&(*reinterpret_cast<::fnv_007cbaf0::OptionArray *>(&::g_011dab88)))->FUN_00877a30(i)->m_pActionCallback == ::PopulateFileList)
             downloadsTile = tile;
         else if (((OptionArray*)&(*reinterpret_cast<::fnv_007cbaf0::OptionArray *>(&::g_011dab88)))->FUN_00877a30(i)->m_pActionCallback == ::fnv_007d0440::FUN_007d0440)
@@ -9164,7 +9164,7 @@ void FUN_007d0a70()
     reinterpret_cast<::BSAudioManager *>((((MainMenuAudioAccess*)::FUN_00453a70())))->FUN_00ad84e0((void *)(-1), (void *)(false));
     ResetTaskQueueGlobals();
     {
-        int bIsChild = ((int)(reinterpret_cast<::FUN_009698a0_shell *>((((MainMenuPlayerAccess*)(*reinterpret_cast<::PC7d * *>(&::_g_thePlayer)))))->GetMediaLocationController()));
+        intptr_t bIsChild = ((intptr_t)(reinterpret_cast<::FUN_009698a0_shell *>((((MainMenuPlayerAccess*)(*reinterpret_cast<::PC7d * *>(&::_g_thePlayer)))))->GetMediaLocationController()));
         bIsChild = 0;
     }
     if (((::BGSSaveLoadUI *)(::FUN_00a25920())))

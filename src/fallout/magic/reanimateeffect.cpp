@@ -291,7 +291,7 @@ struct FUN_008276e0_shell
 // @fnv 0x008276e0
 void FUN_008276e0_shell::FUN_008276e0(Actor* apActor)
 {
-    reinterpret_cast<::FUN_004534f0_shell *>((((TESForm*)this)))->FUN_004534f0((unsigned int)apActor);
+    reinterpret_cast<::FUN_004534f0_shell *>((((TESForm*)this)))->FUN_004534f0((uintptr_t)apActor);
     if (iState < 0x32 && apActor && ((ActorVirt*)apActor)->a116() && pBody)
     {
         pBody->b57(1);
@@ -1884,7 +1884,7 @@ void Reanimation::StartReanimation()
         reinterpret_cast<::fnv_008acf10::GhostActor *>((actor))->FUN_008acf10(true);
         actor->SetType(((::RSource *)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60()))->GetType());
         if (actor->GetNode())
-            reinterpret_cast<::Reference *>((actor))->FUN_00575830((::Position *)(::RVector *)(((::RVector *)(::FUN_0045bb80((int)(((RNodeAccess*)actor->GetNode())))))));
+            reinterpret_cast<::Reference *>((actor))->FUN_00575830((::Position *)(::RVector *)(((::RVector *)(::FUN_0045bb80((intptr_t)(((RNodeAccess*)actor->GetNode())))))));
         actor->Refresh();
         ((::RProcessAccess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))->Reset(0);
         reinterpret_cast<::fnv_008a6840::FUN_008a6840_shell *>((actor))->FUN_008a6840(0);

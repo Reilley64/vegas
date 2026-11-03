@@ -1,5 +1,6 @@
 // fallout/misc/saveload/bgssaveloadreferencesmap.cpp: BGSSaveLoadReferencesMap, BGSCellNumericIDArrayMap (10 functions)
 
+#include <cstdint>
 #include "fnv/decl/BGSReconstructFormsInAllFilesMap.h"
 #include "fnv/decl/C6b7f20_Map.h"
 #include "fnv/decl/FUN_00438690.h"
@@ -181,7 +182,7 @@ struct SetAtHelper
 };
 struct FUN_00852c00_shell : FUN_00852840_shell
 {
-    void AddReferenceToCell(unsigned int aiCellID, unsigned int aiReferenceID, NiPoint3 const& arPos);
+    void AddReferenceToCell(unsigned int aiCellID, uintptr_t aiReferenceID, NiPoint3 const& arPos);
 };
 struct PSM3
 {
@@ -198,13 +199,13 @@ struct FUN_00852950_shell : DummyPointerMap
 };
 // Looks up or creates the per-cell OL4B map for aiCellID, then inserts aiReferenceID under the key derived from arPos.
 // @fnv 0x00852c00
-void FUN_00852c00_shell::AddReferenceToCell(unsigned int aiCellID, unsigned int aiReferenceID, NiPoint3 const& arPos)
+void FUN_00852c00_shell::AddReferenceToCell(unsigned int aiCellID, uintptr_t aiReferenceID, NiPoint3 const& arPos)
 {
     OL4B* pNumericIDArray = 0;
     if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)(((DummyPointerMap*)((char*)this + 0x20))))->FUN_00853130(aiCellID, (::fnv_00853130::CombatThreatRecord *&)((unsigned int&)pNumericIDArray)))
     {
         pNumericIDArray = new OL4B;
-        reinterpret_cast<::FUN_00844700_Class *>((((SetAtHelper*)((char*)this + 0x20))))->FUN_00844700(aiCellID, (unsigned int)pNumericIDArray);
+        reinterpret_cast<::FUN_00844700_Class *>((((SetAtHelper*)((char*)this + 0x20))))->FUN_00844700(aiCellID, (uintptr_t)pNumericIDArray);
     }
     int key = ::FUN_00587440((const ::NiPoint3 *)&(arPos));
     reinterpret_cast<::FUN_00852950_shell *>((((S00852950*)pNumericIDArray)))->GetOrCreateEntryAdd(key, (void *)(aiReferenceID));
@@ -217,7 +218,7 @@ unsigned int FUN_00852950_shell::GetOrCreateEntryAdd(unsigned int aiKey, void* a
     if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)this)->FUN_00853130(aiKey, (::fnv_00853130::CombatThreatRecord *&)((unsigned int&)pEntry)))
     {
         pEntry = new PSM3;
-        reinterpret_cast<::FUN_00844700_Class *>(this)->FUN_00844700(aiKey, (unsigned int)pEntry);
+        reinterpret_cast<::FUN_00844700_Class *>(this)->FUN_00844700(aiKey, (uintptr_t)pEntry);
     }
     return reinterpret_cast<::FUN_00438690 *>((((BSSimpleArrayActor*)pEntry)))->FUN_007cb2e0((unsigned int *)&(apValue));
 }

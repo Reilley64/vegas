@@ -448,7 +448,7 @@ struct FUN_00706060_shell
 // @fnv 0x00706060
 float FUN_00706060_shell::FUN_00706060()
 {
-    return (unsigned int)(*reinterpret_cast<::Flt *>(&::g_011db63c)) ? GetFieldB4Float((char*)(unsigned int)(*reinterpret_cast<::Flt *>(&::g_011db63c))) : 1.0f;
+    return (unsigned int)(*reinterpret_cast<::Flt *>(&::g_011db63c)) ? GetFieldB4Float((char*)(uintptr_t)(*reinterpret_cast<::Flt *>(&::g_011db63c))) : 1.0f;
 }
 
 struct HOLDER
@@ -476,7 +476,7 @@ struct MenuStub
     char _p61[0x58];
     bool bB9;
     void ResetMenuState();
-    void FUN_007fae70(int);
+    void FUN_007fae70(intptr_t);
 };
 // Clears the bB9, b4d and b60 flags, culls the object at unk1c if set, and calls FUN_007fae70(0).
 // @fnv 0x007fb0b0
@@ -486,7 +486,7 @@ void MenuStub::ResetMenuState()
     b4d = 0;
     b60 = 0;
     if (unk1c)
-        reinterpret_cast<::TaskQueueInterface *>((((NiAVObject*)(unsigned int)unk1c)))->QueueActorDisarm(true);
+        reinterpret_cast<::TaskQueueInterface *>((((NiAVObject*)(uintptr_t)unk1c)))->QueueActorDisarm(true);
     FUN_007fae70(0);
 }
 
@@ -798,7 +798,7 @@ void FUN_007f8010_shell::FUN_007f8010()
 }
 
 // @fnv 0x007fae70
-void MenuStub::FUN_007fae70(int apTexture)
+void MenuStub::FUN_007fae70(intptr_t apTexture)
 {
     NiProperty* pnlp;
 
@@ -2261,7 +2261,7 @@ void Rendered82::FUN_007fba00(void* pRenderArg1, void* pRenderArg2, Target82* pS
         target31.FUN_0066b0d0(pSuppliedTarget);
     if (FUN_004e9510())
     {
-        ::FUN_00b6b8d0((int)(pRenderArg2), (::NiRenderTargetGroup *)(void *)(((void *)(reinterpret_cast<::BSRenderedTexture *>((((::Target82 *)(::FUN_00559450((int *)&(target31))))))->GetGroup()))));
+        ::FUN_00b6b8d0((intptr_t)(pRenderArg2), (::NiRenderTargetGroup *)(void *)(((void *)(reinterpret_cast<::BSRenderedTexture *>((((::Target82 *)(::FUN_00559450((int *)&(target31))))))->GetGroup()))));
         reinterpret_cast<::_Cam_00712e60 *>((camera23))->FUN_00712e60((const ::_Rect16_00712e60 &)((const ::Rect82 &)(Rect82(0.0f, 1.0f, 1.0f, 0.0f))));
     }
     Frustum82 frustum12 = (*(::Frustum82 *)&(reinterpret_cast<::NiCamera *>((camera23))->GetViewFrustum()));

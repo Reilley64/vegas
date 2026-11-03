@@ -5,6 +5,7 @@
 
 // src/staging/blk_008c0000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
+#include <cstdint>
 #include <new>
 #include "fnv/decl/AlignedVector.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -1530,7 +1531,7 @@ struct FUN_00807770_Class
 struct GlobalObject_008c71b0
 {
     int value;
-    GlobalObject_008c71b0(int);
+    GlobalObject_008c71b0(intptr_t);
 };
 struct FUN_0089f4e0_shell
 {

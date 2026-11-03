@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 class Modifier;
 
@@ -15,5 +16,5 @@ public:
     // 0x00937730
     float GetActorValueModifierAmount(char);
     // 0x00937d50
-    void FUN_00937d50(int);
+    void FUN_00937d50(intptr_t);
 };

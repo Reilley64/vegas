@@ -2,6 +2,7 @@
 // src/fallout/ai/lipsyncbackgroundmanager.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/lipsyncbackgroundmanager.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/BSShaderNoLightingProperty.h"
 #include "fnv/decl/FUN_006ebde0_shell.h"
@@ -40,11 +41,11 @@ struct FUN_009060f0_shell
     virtual void v3();
     virtual void v4();
     virtual void v5(int arg);
-    void CallVirtual5(int arg);
+    void CallVirtual5(intptr_t arg);
 };
 
 // @fnv 0x009060f0
-void FUN_009060f0_shell::CallVirtual5(int arg)
+void FUN_009060f0_shell::CallVirtual5(intptr_t arg)
 {
     this->v5(arg);
 }
@@ -352,7 +353,7 @@ void FUN_00905d20_cls::FUN_00905d20()
             ((::UnkObj *)(reinterpret_cast<::BSShaderNoLightingProperty *>((m_30))->GetBaseTexture()))->v221(1);
         }
     }
-    m_38->CallVirtual5(reinterpret_cast<int>(m_30));
+    m_38->CallVirtual5(reinterpret_cast<intptr_t>(m_30));
 }
 
 // LockFreeMapIterator<NiPointer<LipTask> > - a 13 byte polymorphic iterator
@@ -420,7 +421,7 @@ struct S_00905f30_Mem
 };
 struct FUN_00905ba0
 {
-    FUN_00905ba0(int owner, int actor, const char* tag);
+    FUN_00905ba0(intptr_t owner, intptr_t actor, const char* tag);
     int unk00;
     int unk04;
     int unk08;
@@ -737,8 +738,8 @@ void S_00905f30_Owner::StartLipSyncTask(S_00905f30_Actor* actor, const char* tag
 {
     S_00905f30_Mem ctx(0x35, true, "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\Ai\\LipSyncBackgroundManager.cpp",
                        0x61);
-    reinterpret_cast<::FUN_00906050_Class *>(this)->FUN_00906050((int)(actor));
-    FUN_00905ba0* task = new FUN_00905ba0((int)this, (int)actor, tag);
+    reinterpret_cast<::FUN_00906050_Class *>(this)->FUN_00906050((intptr_t)(actor));
+    FUN_00905ba0* task = new FUN_00905ba0((intptr_t)this, (intptr_t)actor, tag);
     bool ok = Enqueue(actor, task, 0);
     ((::fnv_00905f30::S_00905f30_Proc *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))->SetTarget(0);
     (*reinterpret_cast<::fnv_00905f30::S_00905f30_Mgr * *>(&::DAT_01202d98))->Add(task);
@@ -784,7 +785,7 @@ void FUN_00905c50_Class::InitTerrainManager()
     void* file;
     AutoMemContext memoryContext7(0x35, true, str_010885e8, 0x15);
 
-    file = (void*)((int)(reinterpret_cast<::FUN_00c3cff0_shell *>(this)->FUN_00c3cff0(4, 0x10)));
+    file = (void*)((intptr_t)(reinterpret_cast<::FUN_00c3cff0_shell *>(this)->FUN_00c3cff0(4, 0x10)));
     if (file == 0)
     {
         ((::UnkObj *)(reinterpret_cast<::BSShaderNoLightingProperty *>((unk30))->GetBaseTexture()))->v220(0);

@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 class TESObjectREFR;
 namespace fnv_004a3e00 { struct NiPoint3; }
@@ -10,7 +11,7 @@ struct hkVector4;
 // 0x004a3970
 ::NiPoint3_local &FUN_004a3970(::NiPoint3_local &, const ::hkVector4 &);
 // 0x004a3a40
-unsigned int FUN_004a3a40(::TESObjectREFR *);
+uintptr_t FUN_004a3a40(::TESObjectREFR *);
 // 0x004a3d00
 void *FUN_004a3d00(void *);
 // 0x004a3d20

@@ -1,4 +1,5 @@
 // fallout/ai/combat/combatstate_decls.h: declares InventoryChanges, CombatLocations, CombatLOS, CombatPrefix, CombatState
+#include <cstdint>
 #include "fnv/decl/FUN_00450410_Class.h"
 #include "fnv/decl/FUN_004c8f30_shell.h"
 #include "fnv/decl/FUN_008be220_cls.h"
@@ -38,7 +39,7 @@ class CombatPrefix
 class CombatState : public CombatPrefix, public CombatLocations
 {
   public:
-    int GetInventoryItemCount(TESForm*);
+    intptr_t GetInventoryItemCount(TESForm*);
     void ProcessCoverLOSResult();
     char padac[0x3c];
     void* unke8;

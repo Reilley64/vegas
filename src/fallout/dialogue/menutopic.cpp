@@ -1,5 +1,6 @@
 // fallout/dialogue/menutopic.cpp: TopicMenuController, MenuTopic, TESTopicInfo, TopicHolder and more (33 functions)
 
+#include <cstdint>
 #include "fnv/simple_list_node_view.h"
 #include <new>
 #include "fnv/decl/ActorValueOwner.h"
@@ -584,7 +585,7 @@ struct ExtraLock;
 struct FUN_0042df90_shell
 {
 public:
-    ::ExtraLock *FUN_0042df90(int);
+    ::ExtraLock *FUN_0042df90(intptr_t);
 };
 
 struct FUN_0083e0c0_shell
@@ -695,7 +696,7 @@ void FUN_0083ed50_shell::BuildMenuTopics(BSSimpleList<TESTopic*>* apList, bool a
         if (((FUN_00619df0_shell*)pTopic)->FUN_00619df0() && !((ActorProxy*)pActorCur)->HasNoRumors())
         {
             MenuTopic* pExisting = 0;
-            pExisting = ((::MenuTopic *)(((::FUN_0042df90_shell *)(reinterpret_cast<::FUN_005d43c0_ *>((m_pDialogueSpeaker))->FUN_005d43c0()))->FUN_0042df90((int)(m_pDialogueSpeaker))));
+            pExisting = ((::MenuTopic *)(((::FUN_0042df90_shell *)(reinterpret_cast<::FUN_005d43c0_ *>((m_pDialogueSpeaker))->FUN_005d43c0()))->FUN_0042df90((intptr_t)(m_pDialogueSpeaker))));
             if (pExisting && !bStateChanged)
             {
                 if (reinterpret_cast<::TopicS *>((((FUN_0083e0c0_shell*)pExisting)))->HasCur() && !bStateChanged &&
@@ -735,7 +736,7 @@ void FUN_0083ed50_shell::BuildMenuTopics(BSSimpleList<TESTopic*>* apList, bool a
             }
             if (bSave && pMenuTopic && !((FUN_009611e0_shell*)pMenuTopic)->FUN_009611e0()->FUN_00619b20())
             {
-                reinterpret_cast<::FUN_0042dee0_shell *>((((::FUN_0042df90_shell *)(reinterpret_cast<::FUN_005d43c0_ *>((m_pDialogueSpeaker))->FUN_005d43c0()))))->FUN_0042dee0((int)(pMenuTopic));
+                reinterpret_cast<::FUN_0042dee0_shell *>((((::FUN_0042df90_shell *)(reinterpret_cast<::FUN_005d43c0_ *>((m_pDialogueSpeaker))->FUN_005d43c0()))))->FUN_0042dee0((intptr_t)(pMenuTopic));
                 ((FUN_0083ed50_ref*)m_pDialogueSpeaker)->v12(0x80000000);
             }
         }
@@ -1231,7 +1232,7 @@ bool Mgr::CheckTopicInfoChance(MenuTopic* pTopic)
         }
         else
         {
-            m_iTopicIndex = FUN_006705b0(4, ((int)(reinterpret_cast<::LowProcess *>((((InfoShell*)pTopic->GetTopicInfo())))->GetActiveCombatTarget())) - 1);
+            m_iTopicIndex = FUN_006705b0(4, ((intptr_t)(reinterpret_cast<::LowProcess *>((((InfoShell*)pTopic->GetTopicInfo())))->GetActiveCombatTarget())) - 1);
         }
     }
     return m_bControllerFlag;

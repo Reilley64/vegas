@@ -5,6 +5,7 @@
 
 // src/staging/blk_008c0000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include <cstdint>
 #include <new>
 #include "fnv/decl/AlignedVector.h"
 #include "fnv/decl/BSFaceGenNiNode.h"
@@ -165,7 +166,7 @@ int FlaggedData::ContainsAnyFlag(unsigned int)
 }
 struct FUN_008c5000_shell
 {
-    int IsNonZero(int arg);
+    int IsNonZero(intptr_t arg);
 };
 struct ActorPackageContext
 {
@@ -175,7 +176,7 @@ void ActorPackageContext::Clear()
 {}
 struct FUN_008c6c80_Class
 {
-    void FUN_008c6c80(int a);
+    void FUN_008c6c80(intptr_t a);
 };
 extern int DAT_01085864;
 struct FUN_008ca740_class
@@ -274,7 +275,7 @@ struct FUN_008d50e0_shell
 };
 struct FUN_008d5660_class
 {
-    void ForwardToInner(int a);
+    void ForwardToInner(intptr_t a);
 };
 struct ActorValueUtility
 {
@@ -324,7 +325,7 @@ struct FUN_008c1c80_Class
 };
 struct FUN_008c4f90_Class
 {
-    void FUN_008c4f90(int arg);
+    void FUN_008c4f90(intptr_t arg);
 };
 struct ScriptLocalsX
 {
@@ -375,7 +376,7 @@ struct FUN_008c7990_Class
 };
 struct FUN_008ca7c0_shell
 {
-    bool FUN_008ca7c0(int a, int b);
+    bool FUN_008ca7c0(intptr_t a, int b);
 };
 struct FUN_008_Struct
 {
@@ -475,7 +476,7 @@ struct FUN_008d6000_Class
     unsigned int m_iWordAt04;
     unsigned int m_8;
     unsigned int m_iThirdValue;
-    void InitTiming(unsigned int a, unsigned int b);
+    void InitTiming(uintptr_t a, uintptr_t b);
 };
 struct NiNode
 {
@@ -503,7 +504,7 @@ struct ProcessLists
 };
 struct FUN_008d6f50_Class
 {
-    void FUN_008d6f50(int arg);
+    void FUN_008d6f50(intptr_t arg);
 };
 struct FUN_008df980_Class
 {
@@ -933,7 +934,7 @@ struct FUN_008d5680_Class
 };
 struct FUN_008d56a0_Class
 {
-    void FUN_008d56a0(int value);
+    void FUN_008d56a0(intptr_t value);
 };
 class BaseProcess8C4
 {
@@ -1275,7 +1276,7 @@ struct S_8c4f10_Cls
     int unk8c;
     int unk90;
     S_8c4f10_List list;
-    void FUN_008c4f10(int a);
+    void FUN_008c4f10(intptr_t a);
 };
 struct SpawnedElemB
 {

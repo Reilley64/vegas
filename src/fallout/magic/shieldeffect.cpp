@@ -2,6 +2,7 @@
 // src/fallout/magic/shieldeffect.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/shieldeffect.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/effect_item_fields.h"
 #include "fnv/active_effect_fields.h"
 #include "fnv/decl/ActorMover.h"
@@ -39,7 +40,7 @@ struct ShieldEffect : ValueModifierEffect
 {
     unsigned int pad0;
     unsigned int pad1;
-    unsigned int pad2;
+    uintptr_t pad2;
     unsigned int pad3;
     unsigned int pad4;
     unsigned int pad5;
@@ -541,7 +542,7 @@ class ActiveEffect828
 void ShieldEffectUpdate::UpdateShieldEffect(float dt)
 {
     reinterpret_cast<::ValueModifierEffect *>((((ValueModifierEffectUpdate*)this)))->Update(dt);
-    if (!reinterpret_cast<::S3e60 *>((((EffectSetting*)reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((void *)(((GameTimerRecord*)(*(unsigned int*)((char*)this + 0xc)))))->FUN_00825c00())))->FUN_00403e60(2))
+    if (!reinterpret_cast<::S3e60 *>((((EffectSetting*)reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((void *)(((GameTimerRecord*)(*(uintptr_t*)((char*)this + 0xc)))))->FUN_00825c00())))->FUN_00403e60(2))
     {
         Actor* actor =
             reinterpret_cast<::ActiveEffectFields *>(this)->target ? ((MagicTarget*)reinterpret_cast<::ActiveEffectFields *>(this)->target)->GetOwnerActor() : 0;

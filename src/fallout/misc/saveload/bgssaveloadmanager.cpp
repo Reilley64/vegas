@@ -1,5 +1,6 @@
 // fallout/misc/saveload/bgssaveloadmanager.cpp: BGSSaveLoadManager, PathManager, Interface, FakeSaveMgr and more (39 functions)
 
+#include <cstdint>
 #include <cstring>
 #include "runtime/crt.h"
 #include "fnv/decl/BSAudioManager.h"
@@ -329,8 +330,8 @@ bool BGSSaveLoadManager::CanSave(bool skipMenus)
 {
     if (::_g_thePlayer)
     {
-        if ((unsigned int)((::TESFile *)(reinterpret_cast<::FUN_004f8960_shell *>((((GameSettingCollection*)::_g_thePlayer)))->FUN_004f8960())) == 2 ||
-            (unsigned int)((::TESFile *)(reinterpret_cast<::FUN_004f8960_shell *>((((GameSettingCollection*)::_g_thePlayer)))->FUN_004f8960())) == 1)
+        if ((uintptr_t)((::TESFile *)(reinterpret_cast<::FUN_004f8960_shell *>((((GameSettingCollection*)::_g_thePlayer)))->FUN_004f8960())) == 2 ||
+            (uintptr_t)((::TESFile *)(reinterpret_cast<::FUN_004f8960_shell *>((((GameSettingCollection*)::_g_thePlayer)))->FUN_004f8960())) == 1)
             return false;
         if (::FUN_0093a740((::FUN_0093a740_s *)(::_g_thePlayer)))
             return false;

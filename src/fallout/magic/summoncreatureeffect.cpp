@@ -2,6 +2,7 @@
 // src/fallout/magic/summoncreatureeffect.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/summoncreatureeffect.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/active_effect_fields.h"
 #include "fnv/simple_list_node_view.h"
 #include <new>
@@ -92,12 +93,12 @@ struct SummonCreatureEffect
 
 struct FUN_00828da0_shell
 {
-    int GetZero(int a, int b, int c);
+    int GetZero(intptr_t a, intptr_t b, int c);
 };
 
 // Returns 0; the local variables are initialized to 0 and never used.
 // @fnv 0x00828da0
-int FUN_00828da0_shell::GetZero(int a, int b, int c)
+int FUN_00828da0_shell::GetZero(intptr_t a, intptr_t b, int c)
 {
     int v1 = 0;
     int v2 = 0;
@@ -151,7 +152,7 @@ void FUN_00829850_shell::LoadAssociatedItemEffect(Actor* actor)
     unsigned char bforcedToZero;
     FUN_00806e30(actor);
     bforcedToZero = ((unsigned char)(reinterpret_cast<::FUN_00857aa0 *>((g_TESSaveLoadGame))->ValidateFormIDArray(&id, 4)));
-    *(Actor**)((char*)this + 0x4c) = (Actor*)id;
+    *(Actor**)((char*)this + 0x4c) = (Actor*)(uintptr_t)id;
     reinterpret_cast<::FUN_008579e0_shell *>((g_TESSaveLoadGame))->FUN_008579e0((char*)this + 0x50, 1);
     if (!id && !bforcedToZero)
     {
@@ -247,12 +248,12 @@ struct SummonCreatureEffectHelper : SummonCreatureEffect
 bool RecordSelector::SelectRecord(void* context, int flags, SelectedRecord* output)
 {
     SelectedRecord* entries = 0;
-    int count = ((FUN_00828da0_shell*)this)->GetZero((int)&entries, (int)context, flags);
+    int count = ((FUN_00828da0_shell*)this)->GetZero((intptr_t)&entries, (intptr_t)context, flags);
     if (count <= 0 || entries == 0)
         return false;
     int index = 0;
     (*reinterpret_cast<void * *>(&::g_011dcc58)) = context;
-    std::qsort((void *)(entries), count, sizeof(SelectedRecord), (int (*)(const void *, const void *))((int)&((int (&)(const void *, const void *))::FUN_00828b20)));
+    std::qsort((void *)(entries), count, sizeof(SelectedRecord), (int (*)(const void *, const void *))((intptr_t)&((int (&)(const void *, const void *))::FUN_00828b20)));
     index = 0;
     while (index < count && !reinterpret_cast<::SummonCreatureEffectHelper *>((((SelectionPredicate*)this)))->FUN_00828f00(flags, (::NiPoint3 *)(::SelectedRecord *)(&entries[index])))
     {
@@ -738,15 +739,15 @@ struct FUN_00828610_cls
 {
     unsigned int unk00;
     unsigned int unk04;
-    unsigned int m_08;
-    unsigned int m_0c;
+    uintptr_t m_08;
+    uintptr_t m_0c;
     unsigned int unk10;
     unsigned int unk14;
     unsigned int unk18;
     unsigned int unk1c;
     unsigned int unk20;
     unsigned int unk24;
-    unsigned int m_28;
+    uintptr_t m_28;
     unsigned int unk2c;
     unsigned int unk30;
     unsigned int unk34;
@@ -1048,8 +1049,8 @@ void FUN_008289e0_cls::CleanupSummonedCreature()
 // @fnv 0x00828b20
 int __cdecl FUN_00828b20(int aiIdA, int aiIdB)
 {
-    int idA = aiIdA;
-    int idB = aiIdB;
+    intptr_t idA = aiIdA;
+    intptr_t idB = aiIdB;
     float valueA = ::ComputeDirectionalFalloff((::S_00828dc0_Actor *)(g_011dcc58), (::S_00828dc0_Obj *)(idA));
     float valueB = ::ComputeDirectionalFalloff((::S_00828dc0_Actor *)(g_011dcc58), (::S_00828dc0_Obj *)(idB));
     if (valueA == valueB)
@@ -1392,7 +1393,7 @@ struct S_00828dc0_Actor
     virtual void vf1e8();
     virtual void vf1ec();
     virtual void vf1f0();
-    virtual int vf1f4();
+    virtual intptr_t vf1f4();
 };
 
 
@@ -1463,11 +1464,11 @@ struct FUN_008297a0_shell : public SummonCreatureEffect
     int unk68;
     int unk6c;
 
-    void FUN_008297a0(int);
+    void FUN_008297a0(intptr_t);
 };
 
 // @fnv 0x008297a0
-void FUN_008297a0_shell::FUN_008297a0(int value)
+void FUN_008297a0_shell::FUN_008297a0(intptr_t value)
 {
     reinterpret_cast<::fnv_00806de0::AssociatedItemEffect *>(this)->FUN_00806de0((::Actor *)(value));
     int id = 0;
@@ -2204,7 +2205,7 @@ struct Dbeffect : SummonCreatureEffect
     int unk40;
     int unk44;
     int unk48;
-    int formId;
+    intptr_t formId;
     void FUN_00829900(void* arg);
 };
 // Calls the base handler, resolves formId to an Actor via FUN_004839c0, and dispels the effect if the lookup fails.
@@ -2215,7 +2216,7 @@ void Dbeffect::FUN_00829900(void* arg)
     int iFormId = formId;
     if (iFormId)
     {
-        formId = (int)dynamic_cast<Actor*>(::FUN_004839c0((unsigned int)iFormId));
+        formId = (intptr_t)dynamic_cast<Actor*>(::FUN_004839c0((unsigned int)iFormId));
         if (!formId)
             reinterpret_cast<::fnv_00804210::ActiveEffectUpdateShell *>((((ActiveEffect*)this)))->FUN_00804210(true);
     }
@@ -2783,7 +2784,7 @@ bool SummonCreatureEffectHelper::FUN_00828f00(int iUnused, NiPoint3* pkPos)
     LinearCastInput kInput;
     ::fnv_004a3e00::FUN_004a3e00((::fnv_004a3e00::bhkCharacterController &)(kFrom), (const ::fnv_004a3e00::NiPoint3 &)((const ::NiPoint3 &)(*pkPos + NiPoint3(0.0f, 0.0f, fRadius * 0.5 + 10.0))));
     ::fnv_004a3e00::FUN_004a3e00((::fnv_004a3e00::bhkCharacterController &)(kInput.m_vTo), (const ::fnv_004a3e00::NiPoint3 &)((const ::NiPoint3 &)(*pkPos + NiPoint3(0.0f, 0.0f, fRadius * 0.5 + 10.0))));
-    reinterpret_cast<::ScriptX *>(&(kPhantom))->InvokeInterfaceCall((int)&(kFrom), (int)(&kInput), (int)(&kCastCollector), (int)(&kStartCollector));
+    reinterpret_cast<::ScriptX *>(&(kPhantom))->InvokeInterfaceCall((intptr_t)&(kFrom), (intptr_t)(&kInput), (intptr_t)(&kCastCollector), (intptr_t)(&kStartCollector));
     ::hkBool startHit;
     reinterpret_cast<::Hld621210 *>(&(kStartCollector))->FUN_00621210((::Rcv621210 *)&startHit);
     if (reinterpret_cast<::FUN_005609f0_shell *>(&startHit)->FUN_005609f0())
@@ -2808,7 +2809,7 @@ bool SummonCreatureEffectHelper::FUN_00828f00(int iUnused, NiPoint3* pkPos)
     kEnd.z += 64.0;
     reinterpret_cast<::fnv_004a3da0::FUN_004a3da0_shell *>(&(kPick))->FUN_004a3da0((void *)&(kStart));
     reinterpret_cast<::FUN_004a3eb0_shell *>(&(kPick))->FUN_004a3eb0((void *)&(kEnd));
-    reinterpret_cast<::FUN_00458420_cls *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->FUN_00458420((int)&(kPick));
+    reinterpret_cast<::FUN_00458420_cls *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->FUN_00458420((intptr_t)&(kPick));
     ::hkBool pickHit;
     reinterpret_cast<::CalleeObj *>(&(kPick.m_kOutput))->FUN_005c53f0((::CalleeObj *)&pickHit);
     if (reinterpret_cast<::FUN_005609f0_shell *>(&pickHit)->FUN_005609f0())

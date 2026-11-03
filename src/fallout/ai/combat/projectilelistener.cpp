@@ -1,3 +1,4 @@
+#include <cstdint>
 #include <xmmintrin.h>
 #include <new>
 #include "fnv/decl/Callees.h"
@@ -742,10 +743,10 @@ void Listener9C64::FUN_009c6490(void* pvUnused, Event9C64* pkEvent)
             AllRayHits9C64 kHits;
             reinterpret_cast<::FUN_004a3fb0_shell *>(&(kPick))->FUN_004a3fb0((::hkpAllRayHitCollector *)(::AllRayHits9C64 *)(&kHits));
             bool bHitDetected = ::FUN_009c5ba0((::World9C *)(::PickData9C64 *)(&kPick), (::NiAVObject9C *)(pkNode), false, true);
-            if (bHitDetected && ((int)(reinterpret_cast<::Callees *>((((::RayHitArray9C64 *)(::FUN_00460140((int)(((::AllRayHits9C64 *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(kPick))->FUN_008cdd90()))))))))->FUN_00726070())) > 0)
+            if (bHitDetected && ((int)(reinterpret_cast<::Callees *>((((::RayHitArray9C64 *)(::FUN_00460140((intptr_t)(((::AllRayHits9C64 *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(kPick))->FUN_008cdd90()))))))))->FUN_00726070())) > 0)
             {
                 bBlocked = false;
-                RayHit9C64 kHit((*(::RayHit9C64 *)(reinterpret_cast<::FUN_004a46b0_class *>((((::RayHitArray9C64 *)(::FUN_00460140((int)(((::AllRayHits9C64 *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(kPick))->FUN_008cdd90()))))))))->GetEntryAt(0))));
+                RayHit9C64 kHit((*(::RayHit9C64 *)(reinterpret_cast<::FUN_004a46b0_class *>((((::RayHitArray9C64 *)(::FUN_00460140((intptr_t)(((::AllRayHits9C64 *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(kPick))->FUN_008cdd90()))))))))->GetEntryAt(0))));
                 Point9C64 kIntersectionOffset = kRay * kHit.m_fHitFraction;
                 kPoint = kFrom + kIntersectionOffset;
                 ::FUN_004a3970((::NiPoint3_local &)(kNormal), (const ::hkVector4 &)(kHit.m_kPlaneNormal));

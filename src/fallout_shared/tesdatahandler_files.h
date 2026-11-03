@@ -2,6 +2,7 @@
 #ifndef FNV_TESDATAHANDLER_FILES_H
 #define FNV_TESDATAHANDLER_FILES_H
 
+#include <cstdint>
 #include <windows.h>
 #include <cstring>
 #include <malloc.h>
@@ -196,7 +197,7 @@ class TESSaveLoadGame
 class ActorDeletionQueue
 {
   public:
-    void FUN_0096d470(MobileObject*, int);
+    void FUN_0096d470(MobileObject*, intptr_t);
 };
 class GameSettingCollection
 {

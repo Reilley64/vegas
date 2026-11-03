@@ -283,7 +283,7 @@ void FUN_00868210_shell::ClearBitsAndUnlockGC()
     ::fnv_00867f80::FUN_00867f80();
 }
 
-void __cdecl FUN_00868770(int* a, int b);
+void __cdecl FUN_00868770(int* a, intptr_t b);
 
 struct FUN_00868740_shell
 {
@@ -468,7 +468,7 @@ void __cdecl ForEachNavMesh(GlobalObject_004aff00* apArray, Caller008693c0* apOb
         cur = ((GlobalObject_00869f00*)apArray)->GetAt(i);
         if (cur != 0)
         {
-            reinterpret_cast<::FUN_008693c0_shell *>((apObj))->FUN_008693c0((int)(&cur));
+            reinterpret_cast<::FUN_008693c0_shell *>((apObj))->FUN_008693c0((intptr_t)(&cur));
         }
     }
 }
@@ -505,7 +505,7 @@ void FUN_00572160_shell::FUN_00572160()
     unsigned int count = reinterpret_cast<::FUN_00658930_class *>((((GlobalObject_004aff00*)((char*)this + 0x9c))))->GetShortAtOffsetA();
     for (i = 0; i < count; ++i)
     {
-        unsigned int effect = (Flt&)((GlobalObject_00869f00*)((char*)this + 0x9c))->GetAt(i);
+        uintptr_t effect = (Flt&)((GlobalObject_00869f00*)((char*)this + 0x9c))->GetAt(i);
         if (effect)
             ((FUN_0050f5a0_struct*)effect)->FUN_0050f5a0();
     }
@@ -513,7 +513,7 @@ void FUN_00572160_shell::FUN_00572160()
 }
 
 // @fnv 0x00868770
-void __cdecl FUN_00868770(int* a, int b)
+void __cdecl FUN_00868770(int* a, intptr_t b)
 {
     (*reinterpret_cast<void (**)(void *, void *)>(&::DAT_00fdf0e4))(a, (void*)b);
 }
@@ -521,27 +521,27 @@ void __cdecl FUN_00868770(int* a, int b)
 struct GO
 {
     int m_00;
-    GO(int);
+    GO(intptr_t);
     ~GO();
 };
 struct FUN_008693f0_Class
 {
-    void FUN_008693f0(int);
+    void FUN_008693f0(intptr_t);
 };
 // Constructs a GO from ai and passes it to FUN_008693f0 on g_011de828 or g_011de858 depending on DAT_tlsFlag.
 // @fnv 0x00868490
-void __cdecl FUN_00868490(int aiEffect)
+void __cdecl FUN_00868490(intptr_t aiEffect)
 {
     TwoPointerRecord e(0x10, "GarbageCollector::Add(BSTempEffect)");
     if (::g_tlsBlock.flag298)
     {
         GO p(aiEffect);
-        ((FUN_008693f0_Class*)&g_011de828)->FUN_008693f0((int)&p);
+        ((FUN_008693f0_Class*)&g_011de828)->FUN_008693f0((intptr_t)&p);
     }
     else
     {
         GO p(aiEffect);
-        ((FUN_008693f0_Class*)&g_011de858)->FUN_008693f0((int)&p);
+        ((FUN_008693f0_Class*)&g_011de858)->FUN_008693f0((intptr_t)&p);
     }
 }
 
@@ -564,12 +564,12 @@ void __cdecl FUN_00868560(GarbageCollectorDeleteB* apObject)
         }
         else
         {
-            reinterpret_cast<FUN_008693c0_shell*>(&g_011de838)->FUN_008693c0(reinterpret_cast<int>(&apObject));
+            reinterpret_cast<FUN_008693c0_shell*>(&g_011de838)->FUN_008693c0(reinterpret_cast<intptr_t>(&apObject));
         }
     }
     else
     {
-        reinterpret_cast<FUN_008693c0_shell*>(&g_011de910)->FUN_008693c0(reinterpret_cast<int>(&apObject));
+        reinterpret_cast<FUN_008693c0_shell*>(&g_011de910)->FUN_008693c0(reinterpret_cast<intptr_t>(&apObject));
     }
 }
 
@@ -595,13 +595,13 @@ void FUN_00868660(NiAVObject* apObject)
 
     if (::g_tlsBlock.flag298)
     {
-        GO object(reinterpret_cast<int>(apObject));
+        GO object(reinterpret_cast<intptr_t>(apObject));
         reinterpret_cast<NiTArray<NiPointer<NiAVObject>, NiTNewInterface<NiPointer<NiAVObject> > >*>(&g_011de888)
             ->Add(reinterpret_cast<const NiPointer<NiAVObject>&>(object));
     }
     else
     {
-        GO object(reinterpret_cast<int>(apObject));
+        GO object(reinterpret_cast<intptr_t>(apObject));
         reinterpret_cast<NiTArray<NiPointer<NiAVObject>, NiTNewInterface<NiPointer<NiAVObject> > >*>(&g_011de848)
             ->Add(reinterpret_cast<const NiPointer<NiAVObject>&>(object));
     }
@@ -642,14 +642,14 @@ void AddAnimationToGarbageCollector(AnimationObject* object)
         if (controller)
             reinterpret_cast<::ControllerOwner *>((pRoot))->FUN_00a5c480((::NiTimeController *)(controller));
     }
-    reinterpret_cast<::FUN_00445430_cls *>((((AnimationLoader*)g_modelLoader)))->FUN_00445430((unsigned int)(object));
+    reinterpret_cast<::FUN_00445430_cls *>((((AnimationLoader*)g_modelLoader)))->FUN_00445430((uintptr_t)(object));
     if (!::g_tlsBlock.flag298 || (g_BGSSaveLoadGame && reinterpret_cast<::fnv_0042ce10::FUN_0042ce10_shell *>((g_BGSSaveLoadGame))->FUN_0042ce10()))
     {
         delete (GarbageCollectorDeleteA*)object;
     }
     else
     {
-        reinterpret_cast<::FUN_008693c0_shell *>((((AnimationQueue*)&g_011de808)))->FUN_008693c0((int)(&object));
+        reinterpret_cast<::FUN_008693c0_shell *>((((AnimationQueue*)&g_011de808)))->FUN_008693c0((intptr_t)(&object));
     }
 }
 

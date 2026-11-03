@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 class NiTexture;
 class SaveLoadFile;
@@ -9,7 +10,7 @@ void FUN_0084d4b0(::HeaderFile *);
 // 0x0084d8c0
 int ReadSaveHeader(::SaveLoadFile *);
 // 0x0084da90
-int GetCombinedValue(int);
+intptr_t GetCombinedValue(intptr_t);
 // 0x0084dab0
 void ReadSaveFileHeader(void *, void *);
 // 0x0084dda0

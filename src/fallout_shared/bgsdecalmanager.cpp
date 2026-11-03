@@ -440,11 +440,11 @@ struct CFilter
 };
 struct FUN_004a3a20_shell : public CFilter
 {
-    unsigned int FUN_004a3a20();
+    uintptr_t FUN_004a3a20();
 };
 
 // @fnv 0x004a3a20
-unsigned int FUN_004a3a20_shell::FUN_004a3a20()
+uintptr_t FUN_004a3a20_shell::FUN_004a3a20()
 {
     return (iFilter >> 16) & 0xFFFF;
 }
@@ -457,7 +457,7 @@ class TESObjectREFR
 
 // Returns the flags of apRef, or 0 when apRef is null.
 // @fnv 0x004a3a40
-unsigned int __cdecl FUN_004a3a40(TESObjectREFR* apRef)
+uintptr_t __cdecl FUN_004a3a40(TESObjectREFR* apRef)
 {
     return apRef ? ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((apRef))->GetName())) : 0;
 }
@@ -922,7 +922,7 @@ struct bhkRigidBody;
 
 struct GO
 {
-    GO(int);
+    GO(intptr_t);
 };
 struct FUN_00a69400
 {

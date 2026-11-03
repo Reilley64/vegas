@@ -46,11 +46,11 @@ void FUN_00621100_shell::SetVtable()
 
 struct bhkCharacterListener
 {
-    unsigned int FUN_00621270(unsigned int aiFlags);
+    unsigned int FUN_00621270(uintptr_t aiFlags);
 };
 
 // @fnv 0x00621270
-unsigned int bhkCharacterListener::FUN_00621270(unsigned int aiFlags)
+unsigned int bhkCharacterListener::FUN_00621270(uintptr_t aiFlags)
 {
     return *(unsigned int*)((char*)this + 4) & aiFlags;
 }

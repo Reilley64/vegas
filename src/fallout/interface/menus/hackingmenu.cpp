@@ -119,13 +119,13 @@ struct FUN_006ffe80_shell
     int y;
     int a;
     int b;
-    void FUN_006ffe80(int a, int b);
+    void FUN_006ffe80(intptr_t a, intptr_t b);
 public:
     void FUN_006ffe10();
 };
 
 // @fnv 0x006ffe80
-void FUN_006ffe80_shell::FUN_006ffe80(int aiFirst, int aiSecond)
+void FUN_006ffe80_shell::FUN_006ffe80(intptr_t aiFirst, intptr_t aiSecond)
 {
     this->a = aiFirst;
     this->b = aiSecond;
@@ -362,7 +362,7 @@ void FUN_00768920_shell::FUN_00768920(void* n)
     void* pNewBuffer;
     ::FUN_00401030(pOldBuffer);
     q = n;
-    pNewBuffer = ::FUN_00401000((unsigned int)n);
+    pNewBuffer = ::FUN_00401000((uintptr_t)n);
     p = pNewBuffer;
 }
 
@@ -389,17 +389,17 @@ unsigned int FUN_00768a10_shell::CountMatchingChars(const char* pcStringA, const
 struct FUN_007694f0_shell
 {
     void FUN_00726c90();
-    int FUN_007694f0();
+    intptr_t FUN_007694f0();
 };
 
 // Calls FUN_00726c90, then zeroes the int fields at offsets 0x30 and 0x2c and returns this.
 // @fnv 0x007694f0
-int FUN_007694f0_shell::FUN_007694f0()
+intptr_t FUN_007694f0_shell::FUN_007694f0()
 {
     new ((void *)this) ::FUN_00726c90();
     *(int*)((char*)this + 0x30) = 0;
     *(int*)((char*)this + 0x2c) = 0;
-    return (int)this;
+    return (intptr_t)this;
 }
 
 struct Struct0076ae30
@@ -426,12 +426,12 @@ int Struct0076ae30::FindByteIndices(int aiValue, unsigned char* pIndices)
 struct Struct0076b090
 {
     int field0;
-    Struct0076b090* Construct(int);
+    Struct0076b090* Construct(intptr_t);
 };
 struct STR_0076b200
 {
     void* f0;
-    unsigned int f4;
+    uintptr_t f4;
     STR_0076b200* AssignFrom(STR_0076b200*);
 };
 // @fnv 0x0076b200
@@ -606,7 +606,7 @@ SL::SL()
 struct FUN_00768810
 {
     STR_0076b200* pItems;
-    unsigned int uiSize;
+    uintptr_t uiSize;
 
     FUN_00768810(unsigned int aiSize);
 };
@@ -782,7 +782,7 @@ struct FUN_007687d0
 };
 struct Context
 {
-    unsigned int FUN_00769520(FUN_007687d0* input);
+    uintptr_t FUN_00769520(FUN_007687d0* input);
 };
 
 struct GameCc
@@ -974,16 +974,16 @@ void HackingMenuV::FUN_0076a3f0()
     }
 }
 
-extern int DAT_011a0104;
+extern intptr_t DAT_011a0104;
 extern char* DAT_011a0100;
 
 struct FUN_0076a670_cls
 {
-    void FUN_0076a670(int a1, const char* s);
+    void FUN_0076a670(intptr_t a1, const char* s);
 };
 
 // @fnv 0x0076a670
-void FUN_0076a670_cls::FUN_0076a670(int a1, const char* pcSource)
+void FUN_0076a670_cls::FUN_0076a670(intptr_t a1, const char* pcSource)
 {
     int idx = 1;
     int r6 = ((int)(std::uintptr_t)(std::strchr((char *)(DAT_011a0104), pcSource[0])));
@@ -1214,7 +1214,7 @@ struct FUN_0076ae90_cls
 };
 // Scans input entries for the smallest value, recursing into sub-entries when it exceeds 2, and returns the combined result plus one.
 // @fnv 0x00769520
-unsigned int Context::FUN_00769520(FUN_007687d0* input)
+uintptr_t Context::FUN_00769520(FUN_007687d0* input)
 {
     unsigned char minimum = 255;
     for (unsigned int i = 0; i < ((std::uintptr_t)(reinterpret_cast<::Callees *>((input))->FUN_00726070())); ++i)
@@ -1309,7 +1309,7 @@ struct ElemArray
 };
 // Resets field0 to 0, calls CopyFrom with a, and returns this.
 // @fnv 0x0076b090
-Struct0076b090* Struct0076b090::Construct(int aiValue)
+Struct0076b090* Struct0076b090::Construct(intptr_t aiValue)
 {
     field0 = 0;
     reinterpret_cast<::ElemArray *>(this)->CopyFrom((::ElemArray *)(aiValue));
@@ -2035,7 +2035,7 @@ FUN_0076b300::FUN_0076b300(const char* name, char* parent, const char* path, int
         tile = static_cast<ConstructorTile*>(((::FUN_00a1ddb0_res *)(reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>(((*reinterpret_cast<::FUN_00a1ddb0_owner * *>(&::g_pkD766AA0Menu))))->FUN_00a1ddb0((::Tile *)(parent), (char *)(path), (::Tile *)(void *)(0)))));
         if (tile)
         {
-            reinterpret_cast<::FUN_006ffe80_shell *>(this)->FUN_006ffe80(((int)(reinterpret_cast<::FUN_00a00f30_shell *>((tile))->FUN_00a00f30(0xfc4))), ((int)(reinterpret_cast<::FUN_00a00e90_shell *>((tile))->FindTraitValue(0xfa3))));
+            reinterpret_cast<::FUN_006ffe80_shell *>(this)->FUN_006ffe80(((intptr_t)(reinterpret_cast<::FUN_00a00f30_shell *>((tile))->FUN_00a00f30(0xfc4))), ((intptr_t)(reinterpret_cast<::FUN_00a00e90_shell *>((tile))->FindTraitValue(0xfa3))));
             if (kind == 1)
             {
                 label = static_cast<ConstructorTile*>(
@@ -2375,7 +2375,7 @@ void Hack83::BuildHackingPasswordFile()
     reinterpret_cast<::FUN_00a012d0_t *>((tile110))->FUN_00a012d0(4101, reinterpret_cast<::TileListBoxCalls *>((entries[2]->tile))->GetFloat(4001) + ((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>(&(text24x17))->FUN_004048e0())) * 17, {});
     reinterpret_cast<::FUN_00a012d0_t *>((tile110))->FUN_00a012d0(4102, reinterpret_cast<::TileListBoxCalls *>((entries[2]->tile))->GetFloat(4002), {});
     entries[3] = new Entry83;
-    reinterpret_cast<::FUN_006ffe80_shell *>((entries[3]))->FUN_006ffe80(0, ((int)(reinterpret_cast<::FUN_00a00f30_shell *>((tile110))->FUN_00a00f30(4100))));
+    reinterpret_cast<::FUN_006ffe80_shell *>((entries[3]))->FUN_006ffe80(0, ((intptr_t)(reinterpret_cast<::FUN_00a00f30_shell *>((tile110))->FUN_00a00f30(4100))));
     int entryIndex7x39 = 4;
     for (unsigned int i = 0; i < (unsigned int)unk1a4; i++)
         reinterpret_cast<::FUN_0076ad50_cls *>(this)->BuildHackingGuessTemplate();
@@ -4175,7 +4175,7 @@ Tile84* FUN_00765b80(Ref84* reference)
     reinterpret_cast<::SystemColorManager *>((((::fnv_00765b80::Palette84 *)(::FUN_00718b60()))))->GetColor(3, (*(::NiColor *)(&(*reinterpret_cast<::fnv_00765b80::Color84 *>(&::DAT_011d9674)))));
     Base84* terminal14 = ((::fnv_00765b80::Base84 *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((reference))->FUN_007af430()));
     if (((bool)(reinterpret_cast<::FUN_00757e80_shell *>((terminal14))->IsFlagBitSet())))
-        reinterpret_cast<::FUN_007190e0_cls *>((((::fnv_00765b80::Palette84 *)(::FUN_00718b60()))))->ApplyToChild(3, (int)&(const ::fnv_00765b80::Color84 &)(Color84(1.0f, 1.0f, 1.0f, 0.0f)));
+        reinterpret_cast<::FUN_007190e0_cls *>((((::fnv_00765b80::Palette84 *)(::FUN_00718b60()))))->ApplyToChild(3, (intptr_t)&(const ::fnv_00765b80::Color84 &)(Color84(1.0f, 1.0f, 1.0f, 0.0f)));
     (*reinterpret_cast<unsigned int *>(&::DAT_0119f27c)) = *((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_00765b80::Setting84 *>(&::g_011d42d0))))));
     (*reinterpret_cast<unsigned int *>(&::DAT_0119f280)) = *((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_00765b80::Setting84 *>(&::g_011d2934))))));
     Tile84* tile4 = ((::fnv_00765b80::Tile84 *)(reinterpret_cast<::fnv_00a01b00::TileLoader *>((((::fnv_00765b80::Tile84 *)(reinterpret_cast<::InterfaceManager *>(((*reinterpret_cast<::fnv_00765b80::Interface84 * *>(&::g_pGame))))->FUN_00586150()))))->FUN_00a01b00({})));
@@ -4223,8 +4223,8 @@ Tile84* FUN_00765b80(Ref84* reference)
                 count7 = 20;
             reinterpret_cast<::FUN_00768070_shell *>(((*reinterpret_cast<::fnv_00765b80::Menu84 * *>(&::g_pkD766AA0Menu))))->SelectWordSet(count7);
             reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((tile4))->FUN_00a01350(4100, (char *)(">"), 1);
-            reinterpret_cast<::FUN_006ffe80_shell *>(&((*reinterpret_cast<::fnv_00765b80::Menu84 * *>(&::g_pkD766AA0Menu))->text))->FUN_006ffe80(((int)(reinterpret_cast<::FUN_00a00f30_shell *>(((*reinterpret_cast<::fnv_00765b80::Menu84 * *>(&::g_pkD766AA0Menu))->tile120))->FUN_00a00f30(4036))),
-                                            ((int)(reinterpret_cast<::FUN_00a00e90_shell *>(((*reinterpret_cast<::fnv_00765b80::Menu84 * *>(&::g_pkD766AA0Menu))->tile120))->FindTraitValue(4003))));
+            reinterpret_cast<::FUN_006ffe80_shell *>(&((*reinterpret_cast<::fnv_00765b80::Menu84 * *>(&::g_pkD766AA0Menu))->text))->FUN_006ffe80(((intptr_t)(reinterpret_cast<::FUN_00a00f30_shell *>(((*reinterpret_cast<::fnv_00765b80::Menu84 * *>(&::g_pkD766AA0Menu))->tile120))->FUN_00a00f30(4036))),
+                                            ((intptr_t)(reinterpret_cast<::FUN_00a00e90_shell *>(((*reinterpret_cast<::fnv_00765b80::Menu84 * *>(&::g_pkD766AA0Menu))->tile120))->FindTraitValue(4003))));
             if (*((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_00765b80::Setting84 *>(&::g_011d4e4c)))))) > 0)
                 reinterpret_cast<::FUN_00766a10_shell *>(&((*reinterpret_cast<::fnv_00765b80::Menu84 * *>(&::g_pkD766AA0Menu))->text))->SetCapacity((unsigned int)::InventoryStackRecord::RoundToNearestStep(1000.0 / *((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_00765b80::Setting84 *>(&::g_011d4e4c)))))), 1.0f));
             const char* name9 = "hacking_intro_template";
@@ -4764,7 +4764,7 @@ void HackMenu::FUN_00766b80(int aiButtonIndex, HackTile* tile)
                         {
                             HackForm* npc = owner;
                         }
-                        reinterpret_cast<::fnv_008c0ec0::Target *>(((*reinterpret_cast<::fnv_00766b80::HackPlayer * *>(&::_g_thePlayer))))->UpdateTargetUnits((int)(ref), (int)(owner), -1);
+                        reinterpret_cast<::fnv_008c0ec0::Target *>(((*reinterpret_cast<::fnv_00766b80::HackPlayer * *>(&::_g_thePlayer))))->UpdateTargetUnits((intptr_t)(ref), (intptr_t)(owner), -1);
                     }
                 }
                 ::TopicMenuController::IncrementMiscStat(5);
@@ -4858,11 +4858,11 @@ struct TagScope
 
 struct SoundPlayback
 {
-    SoundHandle00ad7550 FUN_00ad7550(unsigned int a, unsigned int b);
+    SoundHandle00ad7550 FUN_00ad7550(uintptr_t a, unsigned int b);
 };
 
 // @fnv 0x00ad7550
-SoundHandle00ad7550 SoundPlayback::FUN_00ad7550(unsigned int a, unsigned int b)
+SoundHandle00ad7550 SoundPlayback::FUN_00ad7550(uintptr_t a, unsigned int b)
 {
     TagScope scope;
     return (*(::SoundHandle00ad7550 *)(reinterpret_cast<::AudioClass_ae5680 *>((((::PlaybackDevice *)(::FUN_00ad9060()))))->ResolveAudioHandle((::Handle_ae5680 *)(a), b, {})));

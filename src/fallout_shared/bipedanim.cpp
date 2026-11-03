@@ -940,12 +940,12 @@ struct Dummy_004f8a90
 
 struct FUN_004f8a30_shell2
 {
-    int FUN_004f8a30(std::intptr_t arg1);
+    intptr_t FUN_004f8a30(std::intptr_t arg1);
 };
 
 // Calls FUN_004f8a90 with arg1 and a local result, then returns that result.
 // @fnv 0x004f8a30
-int FUN_004f8a30_shell2::FUN_004f8a30(std::intptr_t arg1)
+intptr_t FUN_004f8a30_shell2::FUN_004f8a30(std::intptr_t arg1)
 {
     int result = 0;
     reinterpret_cast<::FUN_004f8a90_Class *>((((Dummy_004f8a90*)this)))->FUN_004f8a90(arg1, (*(unsigned int *)(&result)));

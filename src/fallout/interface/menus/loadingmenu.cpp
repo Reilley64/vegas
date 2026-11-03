@@ -145,7 +145,7 @@
 class BSSystemUtility
 {
   public:
-    static int s_iUpdateEnabled;
+    static intptr_t s_iUpdateEnabled;
     static BSSystemUtility* ms_pSystemUtility;
 public:
     static void GetRandomGenerator();
@@ -805,7 +805,7 @@ void LMStandIn::FUN_0078bb40()
 }
 
 // @fnv 0x0078bc60
-int FUN_0078bc60(int apObject)
+int FUN_0078bc60(intptr_t apObject)
 {
     return *(int*)(apObject + 0x34) + 0x18;
 }
@@ -924,7 +924,7 @@ float __cdecl GetLevelProgress();
 // @fnv 0x0078d670
 void FUN_0078d670()
 {
-    *(int*)&g_011da168 = ((int)(reinterpret_cast<::FUN_00952b30_Class *>((::_g_thePlayer))->FindAudioEntry()));
+    *(intptr_t*)&g_011da168 = ((intptr_t)(reinterpret_cast<::FUN_00952b30_Class *>((::_g_thePlayer))->FindAudioEntry()));
     DAT_011da16c = GetLevelProgress();
     DAT_011da170 = reinterpret_cast<::fnv_0087f9f0::FUN_0087f9f0_shell *>((::_g_thePlayer))->FUN_0087f9f0();
 }
@@ -1636,7 +1636,7 @@ void LoadingMenuStandIn::FUN_0078b100(float afTime, int aiState)
 {
     if (aiState == 1)
     {
-        void* pos = (void*)(unsigned int)*(Flt*)((char*)this + 0xd0);
+        void* pos = (void*)(uintptr_t)*(Flt*)((char*)this + 0xd0);
         while (pos)
         {
             Tile* pTile = ((::Tile *)(reinterpret_cast<::ListStandIn *>((((TL*)((char*)this + 0xd0))))->FUN_0057cbe0((int **)&(pos))));
@@ -1673,7 +1673,7 @@ void LoadingMenuStandIn::UpdateTiles(float afTime, int aiState)
 {
     if (aiState == 1)
     {
-        void* pos = (void*)(unsigned int)*(Flt*)((char*)this + 0xdc);
+        void* pos = (void*)(uintptr_t)*(Flt*)((char*)this + 0xdc);
         while (pos)
         {
             Tile* pTile = ((::Tile *)(reinterpret_cast<::ListStandIn *>((((TL*)((char*)this + 0xdc))))->FUN_0057cbe0((int **)&(pos))));
@@ -1715,7 +1715,7 @@ void FUN_0078b220_shell::FadeSlideTiles(float afAlpha, int anSlide)
     void* piter;
     if (anSlide == 1)
     {
-        piter = (void*)(unsigned int)*(Flt*)m_kFourthTileList;
+        piter = (void*)(uintptr_t)*(Flt*)m_kFourthTileList;
         while (piter)
         {
             Tile* pTile = ((::Tile *)(reinterpret_cast<::ListStandIn *>((((TL*)m_kFourthTileList)))->FUN_0057cbe0((int **)&(piter))));
@@ -1730,7 +1730,7 @@ void FUN_0078b220_shell::FadeSlideTiles(float afAlpha, int anSlide)
     }
     if (anSlide == 2)
     {
-        piter = (void*)(unsigned int)*(Flt*)m_kFifthTileList;
+        piter = (void*)(uintptr_t)*(Flt*)m_kFifthTileList;
         while (piter)
         {
             Tile* pTile = ((::Tile *)(reinterpret_cast<::ListStandIn *>((((TL*)m_kFifthTileList)))->FUN_0057cbe0((int **)&(piter))));
@@ -1768,7 +1768,7 @@ void LoadingMenuStandIn::UpdateLoadingTiles(float afTime, int aiState)
 {
     if (aiState == 1)
     {
-        void* pos = (void*)(unsigned int)*(Flt*)((char*)this + 0xe8);
+        void* pos = (void*)(uintptr_t)*(Flt*)((char*)this + 0xe8);
         while (pos)
         {
             Tile* pTile = ((::Tile *)(reinterpret_cast<::ListStandIn *>((((TL*)((char*)this + 0xe8))))->FUN_0057cbe0((int **)&(pos))));
@@ -2030,7 +2030,7 @@ FUN_007887a0::~FUN_007887a0()
     {
         if (*(Flt*)&m_kLoadScreenTextures[i])
         {
-            ::FUN_00a61f30((const void*)(unsigned int)*(Flt*)&m_kLoadScreenTextures[i]);
+            ::FUN_00a61f30((const void*)(uintptr_t)*(Flt*)&m_kLoadScreenTextures[i]);
             m_kLoadScreenTextures[i] = 0;
         }
     }
@@ -2196,7 +2196,7 @@ struct LoadingMenuX
     int unk01c;
     int unk020;
     int unk024;
-    int unk028;
+    intptr_t unk028;
     int unk02c;
     int unk030;
     int unk034;
@@ -2304,7 +2304,7 @@ struct LoadingMenuX
     int unk1d0;
     int unk1d4;
     LMNode* currentCandidate;
-    int unk1dc;
+    intptr_t unk1dc;
     int unk1e0;
     int unk1e4;
     int unk1e8;
@@ -3370,7 +3370,7 @@ void LoadingMenuX::FUN_0078bb60(BGSPerkEntry* entry)
     }
     if (((void *)(reinterpret_cast<::BGSCameraPath *>((((PerkEntryX*)entry)))->GetPrevPath())))
     {
-        int x = ::FUN_0078bc60((int)(((PerkEntryX*)entry)));
+        intptr_t x = ::FUN_0078bc60((intptr_t)(((PerkEntryX*)entry)));
         reinterpret_cast<::FUN_0078b9b0_shell *>(this)->FUN_0078b9b0((void *)(x));
         switch (reinterpret_cast<::FUN_005a7130_shell *>((((PerkEntryX*)entry)))->FUN_005a7130())
         {
@@ -3405,7 +3405,7 @@ struct TileMenu
 
 struct VATSCamera
 {
-    int FUN_0078cdf0();
+    intptr_t FUN_0078cdf0();
 };
 
 
@@ -3895,7 +3895,7 @@ void FUN_0078a5a0_cls::UpdateLoadingScreens()
         reinterpret_cast<::LoadingMenu *>(this)->UpdateLoadingScreenTip();
     }
     reinterpret_cast<::LoadingMenu *>(this)->SetFloatFlag(7, true);
-    unk1dc = (int)*((::ScreenEntry **)(&reinterpret_cast<::SimpleListNodeView*>(((ScreenList*)&unk1d0))->m_item));
+    unk1dc = (intptr_t)*((::ScreenEntry **)(&reinterpret_cast<::SimpleListNodeView*>(((ScreenList*)&unk1d0))->m_item));
     reinterpret_cast<::LMStandIn *>(this)->FUN_0078bb40();
     reinterpret_cast<::LoadVisibilityMenu *>(this)->FUN_0078b3f0((::TESLoadScreen *)(::ScreenEntry *)((ScreenEntry*)unk1dc), true);
 }

@@ -2,6 +2,7 @@
 // src/staging/blk_00520000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstdint>
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/BGSReconstructFormsInAllFilesMap.h"
 #include "fnv/decl/BSShaderNoLightingProperty.h"
@@ -2147,10 +2148,10 @@ struct Thing
 {
     char pad[0x118];
     int m_uiFilterValue;
-    int GetOrFallback(int arg);
+    int GetOrFallback(intptr_t arg);
 };
 // @fnv 0x00525a90
-int Thing::GetOrFallback(int arg)
+int Thing::GetOrFallback(intptr_t arg)
 {
     Obj* result = ((::Obj *)(reinterpret_cast<::AmmoOwner *>(this)->FUN_00525980((::AmmoActor *)(arg))));
     if (result != 0)

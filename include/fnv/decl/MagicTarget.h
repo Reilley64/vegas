@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 class ActiveEffect;
 class Actor;
@@ -18,5 +19,5 @@ public:
     // 0x00824970
     void DispelAllEffects();
     // 0x00825550
-    static ::MagicTarget *GetMagicTargetByID(unsigned int);
+    static ::MagicTarget *GetMagicTargetByID(uintptr_t);
 };

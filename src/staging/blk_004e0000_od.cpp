@@ -1086,7 +1086,7 @@ struct NiTPointerList
 };
 struct FUN_006317a0_struct
 {
-    int AddEight(int);
+    intptr_t AddEight(intptr_t);
 };
 struct FUN_004e8950_class
 {

@@ -1,5 +1,6 @@
 // fallout/ai/patrolpackage.cpp: PatrolActorPackageData, DelStandIn, PatrolData, PatrolData2 (13 functions)
 
+#include <cstdint>
 #include "fnv/simple_array_item.h"
 #include <new>
 #include "fnv/decl/ActorPackageData.h"
@@ -237,7 +238,7 @@ bool FUN_009f2ba0_shell::InitPatrolPackage(Actor* apActor, TESPackage* apPackage
     {
         if ((*(PatrolActorPackageData**)((char*)this + 0x18))->IsPatrolling())
         {
-            SetPatrolPosition((*(const NiPoint3&(**)(Actor*))(*(int*)apActor + 0x1f4))(apActor));
+            SetPatrolPosition((*(const NiPoint3&(**)(Actor*))(*(intptr_t*)apActor + 0x1f4))(apActor));
         }
     }
     return bvalid;
@@ -1061,7 +1062,7 @@ void FUN_009f2c30_Class::RemoveReference(PatrolReference* reference)
         unsigned int index;
         for (index = 0; index < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(references))->GetName())); index++)
         {
-            if (*references.FUN_00877a30(index) == (int)reference)
+            if (*references.FUN_00877a30(index) == (intptr_t)reference)
             {
                 reinterpret_cast<::FUN_006bf8f0_Class *>(&(references))->FUN_006bf8f0(index, true);
                 if (referenceIndex >= index)
@@ -1293,7 +1294,7 @@ void PatrolData9f3610::FUN_009f3610(PatrolLoadBuf* apBuf)
         bool bRemove = false;
         PatrolRef*& rRef = (SimpleArrayItem<::PatrolRef *>(&(kRefs), i));
         rRef =
-            rRef ? reinterpret_cast<PatrolRef*>(dynamic_cast<TESObjectREFR*>(::FUN_004839c0((unsigned int)rRef)))
+            rRef ? reinterpret_cast<PatrolRef*>(dynamic_cast<TESObjectREFR*>(::FUN_004839c0((unsigned int)(uintptr_t)rRef)))
                  : 0;
         if (rRef)
         {

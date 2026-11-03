@@ -1,5 +1,6 @@
 // fallout_shared/pathfinding/navmeshsearch.cpp: NavMeshSearch, NavMeshSearchEdges (25 functions)
 
+#include <cstdint>
 #include <cstddef>
 #include "fnv/decl/CombatTargetTimestamp.h"
 #include "fnv/decl/FUN_00416870_t.h"
@@ -99,10 +100,10 @@ bool FUN_006a79a0_shell::FUN_006a79a0()
 struct S3e60
 {
     bool GetFlag(unsigned int) const;
-    bool FUN_006a7ad0(unsigned int f);
+    bool FUN_006a7ad0(uintptr_t f);
 };
 // @fnv 0x006a7ad0
-bool S3e60::FUN_006a7ad0(unsigned int auiFlag)
+bool S3e60::FUN_006a7ad0(uintptr_t auiFlag)
 {
     return GetFlag(auiFlag);
 }

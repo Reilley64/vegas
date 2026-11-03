@@ -1835,11 +1835,11 @@ struct Flt
 
 struct FUN_00772820
 {
-    unsigned int Get();
+    uintptr_t Get();
 };
 
 // @fnv 0x00772820
-unsigned int FUN_00772820::Get()
+uintptr_t FUN_00772820::Get()
 {
     return *reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 0xcc);
 }
@@ -2545,9 +2545,9 @@ void __cdecl UpdateTileOnFlag(bool abUseFirstTile)
     if (*(unsigned int*)(_pme + 0x1bc) & 8)
     {
         if (abUseFirstTile)
-            reinterpret_cast<::Tile *>((((Tile*)(*(unsigned int*)(_pme + 0x174)))))->Set(0xfa3, 1);
+            reinterpret_cast<::Tile *>((((Tile*)(*(uintptr_t*)(_pme + 0x174)))))->Set(0xfa3, 1);
         else
-            reinterpret_cast<::Tile *>((((Tile*)(*(unsigned int*)(_pme + 0x158)))))->Set(0xfa3, 1);
+            reinterpret_cast<::Tile *>((((Tile*)(*(uintptr_t*)(_pme + 0x158)))))->Set(0xfa3, 1);
     }
 }
 }  // namespace fnv_0077f490
@@ -3606,12 +3606,12 @@ bool UpdateActivatePrompt(RefX* apRef, int aiUnused, bool abForce)
             ExtraNameX* pExtraName = ((::ExtraNameX *)(reinterpret_cast<::TESObjectREFR *>((apRef))->GetExtraData(0x53)));
             StringX kName(s_lit5);
             if (pExtraName)
-                reinterpret_cast<::FUN_00501c10_cls *>((void *)&(const ::StringX &)(kName))->CallAndReturnSelf((int)&(pExtraName->kName));
+                reinterpret_cast<::FUN_00501c10_cls *>((void *)&(const ::StringX &)(kName))->CallAndReturnSelf((intptr_t)&(pExtraName->kName));
             if (((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>(&(kName))->FUN_004048e0())) == 0)
             {
                 TESObjectACTI* pActi = dynamic_cast<TESObjectACTI*>(((::TESBoundObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((apRef))->FUN_007af430())));
                 if (pActi)
-                    reinterpret_cast<::FUN_00501c10_cls *>((void *)&(const ::StringX &)(kName))->CallAndReturnSelf((int)&(const ::StringX &)(pActi->GetActivateText()));
+                    reinterpret_cast<::FUN_00501c10_cls *>((void *)&(const ::StringX &)(kName))->CallAndReturnSelf((intptr_t)&(const ::StringX &)(pActi->GetActivateText()));
             }
             if (((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>(&(kName))->FUN_004048e0())) > 0)
             {
@@ -4139,7 +4139,7 @@ struct FUN_0077f2f0_vt55
     virtual void v52();
     virtual void v53();
     virtual void v54();
-    virtual void v55(int a1, int a2, int a3, int a4, int a5, int a6, int a7, int a8);
+    virtual void v55(intptr_t a1, int a2, int a3, int a4, int a5, int a6, int a7, int a8);
 };
 
 struct FUN_0077f2f0_obj
@@ -4195,7 +4195,7 @@ void FUN_0077f2f0(FUN_0077f2f0_obj* pObject)
                 if (pObject->F48cee0() > 0)
                 {
                     vt = ((::FUN_0077f2f0_vt55 *)(::FUN_00559450((int *)(((FUN_0077f2f0_mgr*)&DAT_011d9770)))));
-                    vt->v55(((int)(reinterpret_cast<::fnv_00447080::FUN_00447080_shell *>((((FUN_0077f2f0_mgr*)(*reinterpret_cast<void * *>(&::g_modelLoader)))))->FUN_00447080({}, {}, {}, {}, {}, {}))), pObject->v5(), 0, 1, 0, 0, 0, 1);
+                    vt->v55(((intptr_t)(reinterpret_cast<::fnv_00447080::FUN_00447080_shell *>((((FUN_0077f2f0_mgr*)(*reinterpret_cast<void * *>(&::g_modelLoader)))))->FUN_00447080({}, {}, {}, {}, {}, {}))), pObject->v5(), 0, 1, 0, 0, 0, 1);
                     reinterpret_cast<::TaskQueueInterface *>((((::FUN_0077f2f0_vt55 *)(::FUN_00559450((int *)(((FUN_0077f2f0_mgr*)&DAT_011d9770)))))))->QueueActorDisarm(1);
                     new ((void *)&(loc)) ::NiUpdateData(0.0f, 0, 0);
                     reinterpret_cast<::FUN_00a59c60_cls *>((((::FUN_0077f2f0_vt55 *)(::FUN_00559450((int *)(((FUN_0077f2f0_mgr*)&DAT_011d9770)))))))->FUN_00a59c60((std::intptr_t)(&loc));
@@ -4828,7 +4828,7 @@ struct HUDMode
 };
 struct HUDDetection
 {
-    int value;
+    intptr_t value;
     bool detected;
     bool ignored;
 };
@@ -6475,7 +6475,7 @@ void QHud::UpdateQuestNotification()
         reinterpret_cast<::Tile *>((aLocation))->Set(4025, aActor);
         {
             PointX aImpact;
-            reinterpret_cast<::fnv_00a1b020::FUN_00a1b020_t *>((((::fnv_0077a650::QFont *)(::FontManager::Instance()))))->FUN_00a1b020((const char *)(::PointX *)(&aImpact), (int)(reinterpret_cast<::FUN_00a011f0_shell *>((aLocation))->FUN_00a011f0(4036)),
+            reinterpret_cast<::fnv_00a1b020::FUN_00a1b020_t *>((((::fnv_0077a650::QFont *)(::FontManager::Instance()))))->FUN_00a1b020((const char *)(::PointX *)(&aImpact), (intptr_t)(reinterpret_cast<::FUN_00a011f0_shell *>((aLocation))->FUN_00a011f0(4036)),
                                                 (int)reinterpret_cast<::TileListBoxCalls *>((aLocation))->GetFloat(4025), reinterpret_cast<::TileListBoxCalls *>((aLocation))->GetFloat(4026));
             aBy = (int)aImpact.x;
             reinterpret_cast<::FUN_00a012d0_t *>((aLocation))->FUN_00a012d0(4002, (float)-(aImpact.y + 15.0), true);
@@ -6536,7 +6536,7 @@ void QHud::UpdateQuestNotification()
                 aActor = 8;
                 if (((::fnv_0077a650::QEntry *)(reinterpret_cast<::FUN_0077b2a0_shell *>((DAT_011d96bc))->GetQuestNamesHead()))->kind == 3 && ((::fnv_0077a650::QEntry *)(reinterpret_cast<::FUN_0077b2a0_shell *>((DAT_011d96bc))->GetQuestNamesHead()))->textFont != -1)
                     aActor = ((::fnv_0077a650::QEntry *)(reinterpret_cast<::FUN_0077b2a0_shell *>((DAT_011d96bc))->GetQuestNamesHead()))->textFont;
-                reinterpret_cast<::fnv_00a1b020::FUN_00a1b020_t *>((((::fnv_0077a650::QFont *)(::FontManager::Instance()))))->FUN_00a1b020((const char *)(::PointX *)(&aData7), (int)(aPoint4), aActor, DAT_01016970);
+                reinterpret_cast<::fnv_00a1b020::FUN_00a1b020_t *>((((::fnv_0077a650::QFont *)(::FontManager::Instance()))))->FUN_00a1b020((const char *)(::PointX *)(&aData7), (intptr_t)(aPoint4), aActor, DAT_01016970);
                 aOverrideFlagA = (int)((_unused - (1.0f + aOverrideFlag3) * aData7.x) * aOverrideFlag3);
                 aInv = ((void *)(::FUN_00559450((int *)&(((QTile*)HUDMainMenu_pme->m_pTiles[14])->children))));
                 {
@@ -6564,7 +6564,7 @@ void QHud::UpdateQuestNotification()
                                 reinterpret_cast<::Tile *>((tile))->Set(4009, 0);
                                 reinterpret_cast<::Tile *>((tile))->Set(4001, aOverrideFlagA);
                                 PointX size;
-                                reinterpret_cast<::fnv_00a1b020::FUN_00a1b020_t *>((((::fnv_0077a650::QFont *)(::FontManager::Instance()))))->FUN_00a1b020((const char *)(::PointX *)(&size), (int)(character), (int)reinterpret_cast<::TileListBoxCalls *>((tile))->GetFloat(4025),
+                                reinterpret_cast<::fnv_00a1b020::FUN_00a1b020_t *>((((::fnv_0077a650::QFont *)(::FontManager::Instance()))))->FUN_00a1b020((const char *)(::PointX *)(&size), (intptr_t)(character), (int)reinterpret_cast<::TileListBoxCalls *>((tile))->GetFloat(4025),
                                                                     reinterpret_cast<::TileListBoxCalls *>((tile))->GetFloat(4026));
                                 if (index <= aGy)
                                     reinterpret_cast<::Tile *>((tile))->Set(4002, 0);
@@ -8213,7 +8213,7 @@ void AmmoHUD::UpdateAmmoHUD()
             case 13:
                 current4 = reinterpret_cast<::FUN_00524b60_shell *>((weapon5))->GetByteAt102();
                 total2 =
-                    reinterpret_cast<::FUN_004c8f30_shell *>((((::AmmoInventory *)(::InventoryChanges::CreateForReference((::TESObjectREFR *)((*reinterpret_cast<::AmmoPlayer * *>(&::_g_thePlayer))))))))->FUN_004c8f30((int)(reinterpret_cast<TESBoundObject*>(weapon5))) - current4;
+                    reinterpret_cast<::FUN_004c8f30_shell *>((((::AmmoInventory *)(::InventoryChanges::CreateForReference((::TESObjectREFR *)((*reinterpret_cast<::AmmoPlayer * *>(&::_g_thePlayer))))))))->FUN_004c8f30((intptr_t)(reinterpret_cast<TESBoundObject*>(weapon5))) - current4;
                 break;
             default: {
                 AmmoData* data3 = ((::AmmoProvider *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::AmmoPlayer * *>(&::_g_thePlayer))))->GetBaseTexture()))->GetAmmo();
@@ -8250,7 +8250,7 @@ void AmmoHUD::UpdateAmmoHUD()
                     current4 = ((std::intptr_t)(reinterpret_cast<::Callees *>((data3))->FUN_00726070()));
                     if (useInventory5)
                         total2 =
-                            reinterpret_cast<::FUN_004c8f30_shell *>((((::AmmoInventory *)(::InventoryChanges::CreateForReference((::TESObjectREFR *)((*reinterpret_cast<::AmmoPlayer * *>(&::_g_thePlayer))))))))->FUN_004c8f30((int)(((::TESBoundObject *)(reinterpret_cast<::AmmoOwner *>((weapon5))->FUN_00525980((::AmmoActor *)((*reinterpret_cast<::AmmoPlayer * *>(&::_g_thePlayer)))))))) - current4;
+                            reinterpret_cast<::FUN_004c8f30_shell *>((((::AmmoInventory *)(::InventoryChanges::CreateForReference((::TESObjectREFR *)((*reinterpret_cast<::AmmoPlayer * *>(&::_g_thePlayer))))))))->FUN_004c8f30((intptr_t)(((::TESBoundObject *)(reinterpret_cast<::AmmoOwner *>((weapon5))->FUN_00525980((::AmmoActor *)((*reinterpret_cast<::AmmoPlayer * *>(&::_g_thePlayer)))))))) - current4;
                 }
                 else if (reinterpret_cast<::FUN_00474a80_Class *>(&(weapon5->flags))->FUN_00474a80())
                 {
@@ -10858,7 +10858,7 @@ bool FUN_007e9200()
             if (qJDuOZ && qJDuOZ->GetMobileType() == 4)
             {
                 VATSCreateRefX* qpia = qJDuOZ;
-                if (::FUN_00472380((int)(qpia)) == 3 || ::FUN_00472380((int)(qpia)) == 4)
+                if (::FUN_00472380((intptr_t)(qpia)) == 3 || ::FUN_00472380((intptr_t)(qpia)) == 4)
                 {
                     qAhbO = true;
                 }
@@ -12976,7 +12976,7 @@ bool SubtitleHUD::FUN_00774fd0(const char* text, BSSoundHandleEx sound, Subtitle
 {
     bool added = false;
     Actor* actor = speaker && speaker->IsActor() ? dynamic_cast<Actor*>(speaker) : 0;
-    if (text && (*(*reinterpret_cast<::SubtitleSettingBool *>(&::g_011d8928)).Bool() || (actor && ::FUN_008c1bc0((int)(actor)))))
+    if (text && (*(*reinterpret_cast<::SubtitleSettingBool *>(&::g_011d8928)).Bool() || (actor && ::FUN_008c1bc0((intptr_t)(actor)))))
     {
         SubtitleRecord* record = new SubtitleRecord;
         ::TaskQueueInterface::CopyStringToBuffer(record->text, 260, text);

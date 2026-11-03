@@ -1,5 +1,6 @@
 // fallout_shared/tesconditionitem.cpp: TESConditionItem, ConditionSerializer (11 functions)
 
+#include <cstdint>
 #include <new>
 #include <cstdio>
 #include "fnv/decl/BGSCameraPath.h"
@@ -249,11 +250,11 @@ void TESConditionItem::InitItem(TESForm* owner)
 
 struct FUN_00600ab0_shell : public TESConditionItem
 {
-    void FUN_00600ab0(int);
+    void FUN_00600ab0(intptr_t);
 };
 
 // @fnv 0x00600ab0
-void FUN_00600ab0_shell::FUN_00600ab0(int aeCheck)
+void FUN_00600ab0_shell::FUN_00600ab0(intptr_t aeCheck)
 {
     m_objectType = aeCheck;
 }

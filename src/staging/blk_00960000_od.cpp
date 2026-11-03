@@ -2,6 +2,7 @@
 // src/staging/blk_00960000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstdint>
 #include <new>
 #include <cstring>
 #include "fnv/decl/A_00885520.h"
@@ -280,11 +281,11 @@ struct FUN_00968630_stub
     int m_6;
     int m_7;
     int m_8;
-    int FUN_00968630(int a);
+    intptr_t FUN_00968630(int a);
 };
 
 // @fnv 0x00968630
-int FUN_00968630_stub::FUN_00968630(int a)
+intptr_t FUN_00968630_stub::FUN_00968630(int a)
 {
     return *((FUN_0096a2b0_stub*)&this->m_cByteAtOffset2)->FUN_0096a2b0(a);
 }
@@ -1765,11 +1766,11 @@ struct FUN_0096a970_Class
     int m_10[4];
     int m_20[4];
     int* FUN_00877a30(int value, int index);
-    void InsertAt(int a1, int index);
+    void InsertAt(intptr_t a1, intptr_t index);
 };
 
 // @fnv 0x0096a970
-void FUN_0096a970_Class::InsertAt(int aiValue, int index)
+void FUN_0096a970_Class::InsertAt(intptr_t aiValue, intptr_t index)
 {
     if (index != -1)
     {

@@ -2,6 +2,7 @@
 // src/fallout/magic/magicprojectile.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/magicprojectile.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/EffectSetting.h"
 #include "fnv/decl/FUN_00404420_shell.h"
@@ -115,11 +116,11 @@ extern int DAT_010795d4;
 extern int DAT_010795e4;
 struct FUN_00806eb0
 {
-    FUN_00806eb0(int a1, int a2);
+    FUN_00806eb0(intptr_t a1, int a2);
 };
 // Calls FUN_00c741e0 with a1, installs three vtable pointers at offsets 0x0, 0x3E0 and 0x410, and stores a2 at offset 0x650.
 // @fnv 0x00806eb0
-FUN_00806eb0::FUN_00806eb0(int aiArg, int aiValue)
+FUN_00806eb0::FUN_00806eb0(intptr_t aiArg, int aiValue)
 {
     new ((void *)(((Call741e0*)this))) ::fnv_00c741e0::FUN_00c741e0((::fnv_00c741e0::T741_Src *)(aiArg));
     *(void**)this = (void*)&DAT_010795e4;
@@ -158,7 +159,7 @@ struct PC7d
 };
 struct FUN_00484d20_Class
 {
-    void ForwardToSaveLoadGame(int, int);
+    void ForwardToSaveLoadGame(intptr_t, int);
 };
 struct FUN_00932070_shell
 {
@@ -180,19 +181,19 @@ void FUN_0081e8c0_shell::FUN_0081e8c0(unsigned int aiFlags)
     reinterpret_cast<::FUN_00932070_MobileObject *>(this)->SaveProcess(aiFlags);
     unsigned int icasterID =
         ((unsigned int)(reinterpret_cast<::FUN_00818be0_cls *>((reinterpret_cast<FUN_00818be0_shell*>(*reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(this) + 0x94))))->FUN_00818be0()));
-    reinterpret_cast<FUN_00484d20_Class*>(this)->ForwardToSaveLoadGame(reinterpret_cast<int>(&icasterID), 4);
+    reinterpret_cast<FUN_00484d20_Class*>(this)->ForwardToSaveLoadGame(reinterpret_cast<intptr_t>(&icasterID), 4);
     unsigned int ispellID =
         reinterpret_cast<FUN_0040a1e0_shell*>(*reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(this) + 0x98))
             ->FUN_0040a1e0();
-    reinterpret_cast<FUN_00484d20_Class*>(this)->ForwardToSaveLoadGame(reinterpret_cast<int>(&ispellID), 4);
+    reinterpret_cast<FUN_00484d20_Class*>(this)->ForwardToSaveLoadGame(reinterpret_cast<intptr_t>(&ispellID), 4);
     reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>((reinterpret_cast<PC7d*>(this)))->FUN_00484ce0(
-        (void *)(reinterpret_cast<unsigned int>(reinterpret_cast<unsigned char*>(this) + 0xa4)), 4);
+        (void *)(reinterpret_cast<uintptr_t>(reinterpret_cast<unsigned char*>(this) + 0xa4)), 4);
     if (reinterpret_cast<::FUN_008df040_shell *>((g_TESSaveLoadGame))->FUN_008df040() >= 0x48)
         reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>((reinterpret_cast<PC7d*>(this)))->FUN_00484ce0(
-            (void *)(reinterpret_cast<unsigned int>(reinterpret_cast<unsigned char*>(this) + 0x90)), 4);
+            (void *)(reinterpret_cast<uintptr_t>(reinterpret_cast<unsigned char*>(this) + 0x90)), 4);
     if (reinterpret_cast<::FUN_008df040_shell *>((g_TESSaveLoadGame))->FUN_008df040() >= 0x64)
         reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>((reinterpret_cast<PC7d*>(this)))->FUN_00484ce0(
-            (void *)(reinterpret_cast<unsigned int>(reinterpret_cast<unsigned char*>(this) + 0x8c)), 4);
+            (void *)(reinterpret_cast<uintptr_t>(reinterpret_cast<unsigned char*>(this) + 0x8c)), 4);
 }
 
 struct STR00
@@ -204,10 +205,10 @@ struct FUN_00484d40_Host
 };
 struct FUN_0081e980_shell
 {
-    void FUN_0081e980(unsigned int, unsigned int);
+    void FUN_0081e980(uintptr_t, uintptr_t);
 };
 // @fnv 0x0081e980
-void FUN_0081e980_shell::FUN_0081e980(unsigned int a, unsigned int b)
+void FUN_0081e980_shell::FUN_0081e980(uintptr_t a, uintptr_t b)
 {
     reinterpret_cast<::fnv_009320e0::FUN_009320e0_class *>(this)->SetProcessLevel((void *)(a), (void *)(b));
     unsigned int icasterID;
@@ -971,13 +972,13 @@ struct MagicProjectile
 // @fnv 0x0081ea40
 void MagicProjectile::ResolveMagicReferences(unsigned int aiFlags, unsigned int aiOldFlags)
 {
-    unsigned int ispellID;
-    unsigned int icasterID;
+    uintptr_t ispellID;
+    uintptr_t icasterID;
 
-    icasterID = reinterpret_cast<unsigned int>(m_magicCaster);
+    icasterID = reinterpret_cast<uintptr_t>(m_magicCaster);
     m_magicCaster = ((::fnv_0081ea40::MagicCaster *)(::MagicCaster::GetCasterByHandle(icasterID)));
 
-    ispellID = reinterpret_cast<unsigned int>(m_magicItem);
+    ispellID = reinterpret_cast<uintptr_t>(m_magicItem);
     m_magicItem = ((::fnv_0081ea40::MagicItem *)(::MagicItem::GetMagicItemByID(ispellID)));
 
     m_effectItem = ((::fnv_0081ea40::EffectItem *)(reinterpret_cast<::fnv_004064d0::EffectItemList *>(&(m_magicItem->m_effectItemList))->FindCostliestEffectItem(2, 0)));
@@ -1037,14 +1038,14 @@ struct Handler
     virtual void SetEvent(Event*);
     virtual void v17();
     virtual void SetValue(int);
-    bool FUN_00815480(Event*, int, bool);
+    bool FUN_00815480(Event*, intptr_t, bool);
 };
 extern char DAT_0107acc8[];
 extern char DAT_0107acac[];
 extern "C" void* __cdecl FUN_00ec43fb(Event*, int, const char*, const char*, int);
 // Checks evt->data, dispatches by evt->GetType() to Handle4/Handle1/Handle10, else logs errors and calls SetEvent/SetValue then HandleYes or HandleNo.
 // @fnv 0x00815480
-bool Handler::FUN_00815480(Event* pEvent, int value, bool flag)
+bool Handler::FUN_00815480(Event* pEvent, intptr_t value, bool flag)
 {
     if (reinterpret_cast<::fnv_004062a0::EffectItemList *>(&(pEvent->data))->HasDetrimentalEffect())
     {
@@ -1565,13 +1566,13 @@ void MagicAreaOwner::CreateMagicAreaDisplay()
     {
         float fRadius3 = reinterpret_cast<::FUN_00404420_shell *>((((::MADCount *)(reinterpret_cast<::InterfaceManager *>(this)->FUN_00586150()))))->FUN_00404420() * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::MADSetting *>(&::originalRuntimeFloatSetting1112)))))) / reinterpret_cast<::FUN_009cdae0_shell *>((pRoot))->GetFloatAt64();
         MADObject* pDisplaySphere = ((::MADObject *)(::FUN_00c56680(fRadius3, 10, 10, (const ::Color4 *)(0))));
-        ::AssignFixedString((char *)(pDisplaySphere), (int)&(const ::MADName &)(MADName("MagicAreaDisplay")), {});
+        ::AssignFixedString((char *)(pDisplaySphere), (intptr_t)&(const ::MADName &)(MADName("MagicAreaDisplay")), {});
         reinterpret_cast<::FUN_00440460_S *>((pDisplaySphere))->FUN_00440460((const ::V3 *)((*reinterpret_cast<const char (*)[]>((void *)&::NiPoint3::ZERO))));
         NiPoint3 kZero_(0.0f, 0.0f, 0.0f);
-        ::GetLayerColor((unsigned int)(FUN_00931ed0().m_pObject), (::NiColor &)(kZero_));
+        ::GetLayerColor((uintptr_t)(FUN_00931ed0().m_pObject), (::NiColor &)(kZero_));
         FUN_00a75650* pMaterial = new FUN_00a75650;
-        reinterpret_cast<::FUN_004534f0_shell *>((pMaterial))->FUN_004534f0((unsigned int)((*reinterpret_cast<const float (*)[]>(&::DAT_011a9b7c))));
-        reinterpret_cast<::FUN_004534f0_shell *>((pMaterial))->FUN_004534f0((unsigned int)((*reinterpret_cast<const float (*)[]>(&::DAT_011a9b7c))));
+        reinterpret_cast<::FUN_004534f0_shell *>((pMaterial))->FUN_004534f0((uintptr_t)((*reinterpret_cast<const float (*)[]>(&::DAT_011a9b7c))));
+        reinterpret_cast<::FUN_004534f0_shell *>((pMaterial))->FUN_004534f0((uintptr_t)((*reinterpret_cast<const float (*)[]>(&::DAT_011a9b7c))));
         reinterpret_cast<::fnv_004bc450::FUN_004bc450_S *>((pMaterial))->FUN_004bc450((const ::fnv_004bc450::C3 *)&(kZero_));
         reinterpret_cast<::FUN_00439410_cls *>((pDisplaySphere))->FUN_00439410((::ArgObject *)(pMaterial));
         pNode2->AttachChildInAvailableSlot(pDisplaySphere, true);
@@ -1885,7 +1886,7 @@ void __cdecl FUN_0081e040(void* a, unsigned int b, unsigned int c, int d, GameTi
     void* result = 0;
     unsigned int currentTime;
 
-    currentTime = projectile ? (unsigned int)projectile : reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((void *)(timer))->FUN_00825c00();
+    currentTime = projectile ? (uintptr_t)projectile : reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((void *)(timer))->FUN_00825c00();
 
     switch (reinterpret_cast<::S86a0 *>((projectile))->FUN_004086a0())
     {
@@ -3038,7 +3039,7 @@ void Actor80F::FUN_0080feb0()
         reinterpret_cast<::fnv_00810610::FUN_00810610_Class *>((pkController))->FUN_00810610(((bool)(::FUN_00525420())));
         reinterpret_cast<::FUN_008105e0_Class *>((pkController))->FUN_008105e0(1);
         m_pkProcess->SetController(pkController);
-        reinterpret_cast<::FUN_00810640_class *>((pkController))->FUN_00810640((int)(this));
+        reinterpret_cast<::FUN_00810640_class *>((pkController))->FUN_00810640((intptr_t)(this));
     }
     if (pkController)
     {
@@ -3053,7 +3054,7 @@ void Actor80F::FUN_0080feb0()
         bool bReset = true;
         if (pkOldNode != pkNode)
         {
-            reinterpret_cast<::S_00c6d7a0_Obj *>((pkController))->FUN_00c6d7a0((int)(pkNode));
+            reinterpret_cast<::S_00c6d7a0_Obj *>((pkController))->FUN_00c6d7a0((intptr_t)(pkNode));
             if (pkWorld && ::FUN_004bae00((const char *)(pkWorld)))
             {
                 pkController->SetState(0);
@@ -4216,7 +4217,7 @@ void Actor80F::FUN_00813f30()
         reinterpret_cast<::FUN_008105e0_Class *>((pkController))->FUN_008105e0(1);
         reinterpret_cast<::fnv_00810610::FUN_00810610_Class *>((pkController))->FUN_00810610(((bool)(::FUN_00525420())));
         m_pkProcess->SetController(pkController);
-        reinterpret_cast<::FUN_00810640_class *>((pkController))->FUN_00810640((int)(this));
+        reinterpret_cast<::FUN_00810640_class *>((pkController))->FUN_00810640((intptr_t)(this));
     }
     if (pkController)
     {
@@ -4231,7 +4232,7 @@ void Actor80F::FUN_00813f30()
         bool bReset = true;
         if (pkOldNode != pkNode)
         {
-            reinterpret_cast<::S_00c6d7a0_Obj *>((pkController))->FUN_00c6d7a0((int)(pkNode));
+            reinterpret_cast<::S_00c6d7a0_Obj *>((pkController))->FUN_00c6d7a0((intptr_t)(pkNode));
             if (pkWorld && ::FUN_004bae00((const char *)(pkWorld)))
             {
                 pkController->SetState(0);
@@ -5392,7 +5393,7 @@ void Actor::FUN_00819ca0()
         reinterpret_cast<::fnv_00810610::FUN_00810610_Class *>((active))->FUN_00810610(((bool)(::FUN_00525420())));
         reinterpret_cast<::FUN_008105e0_Class *>((active))->FUN_008105e0(1);
         scene->add(active);
-        reinterpret_cast<::FUN_00810640_class *>((active))->FUN_00810640((int)(this));
+        reinterpret_cast<::FUN_00810640_class *>((active))->FUN_00810640((intptr_t)(this));
     }
     if (active)
     {
@@ -5407,7 +5408,7 @@ void Actor::FUN_00819ca0()
         bool dirty = true;
         if (actual != expected)
         {
-            reinterpret_cast<::S_00c6d7a0_Obj *>((active))->FUN_00c6d7a0((int)(expected));
+            reinterpret_cast<::S_00c6d7a0_Obj *>((active))->FUN_00c6d7a0((intptr_t)(expected));
             if (target && ::FUN_004bae00((const char *)(target)))
             {
                 active->updateSwitch(0);

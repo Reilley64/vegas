@@ -1,6 +1,7 @@
 
 // Fallout: New Vegas - original source reconstruction.
 // Original: platforms/common/code/fallout/ai/sandboxpackage.cpp
+#include <cstdint>
 #include "fnv/result_slot.h"
 #include <new>
 #include <cstdlib>
@@ -219,7 +220,7 @@ bool SandBoxActorPackageData::IsActorWithinLocationRadius(Actor* actor, bool upd
             if (update)
             {
                 idle.sequence = reinterpret_cast<::fnv_00498cf0::FUN_00498cf0_shell *>((idle.animation))->FUN_00498cf0();
-                if (idle.sequence && (int)((LowProcess*)idle.sequence)->GetActiveCombatTarget() != 3)
+                if (idle.sequence && (intptr_t)((LowProcess*)idle.sequence)->GetActiveCombatTarget() != 3)
                 {
                     idle.process = ((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()));
                     ((SandboxProcessVirtual*)idle.process)->UpdateIdle(actor);
@@ -342,7 +343,7 @@ bool SandBoxActorPackageData::IsObjectWithinLocationRadius(MobileObject* object,
             if (eProcedure > -1 && eProcedure < 6)
             {
                 state.helper = ((void *)(reinterpret_cast<::FUN_0087f990_shell *>((state.actor))->FUN_0087f990()));
-                m_fProcedureTime = ::FUN_006435c0((int)(state.helper), (*(int *)&(eProcedure)));
+                m_fProcedureTime = ::FUN_006435c0((intptr_t)(state.helper), (*(int *)&(eProcedure)));
             }
         }
         return true;
@@ -727,7 +728,7 @@ void SandBoxActorPackageData_ext::SelectSandboxActivity(Actor* apActor, TESPacka
         int irandom;
         int iIndex;
         SandboxProcedureData ritem;
-        int iactorEnergy;
+        intptr_t iactorEnergy;
         irandom = std::rand() % itotalProb;
         for (i = 0; i < inumTargets; i++)
         {
@@ -741,7 +742,7 @@ void SandBoxActorPackageData_ext::SelectSandboxActivity(Actor* apActor, TESPacka
         iIndex = m_pCurrentTarget ? reinterpret_cast<::fnv_005682c0::FUN_005682c0_shell *>((reinterpret_cast<FUN_005682c0_caller*>(m_pCurrentTarget)))->FUN_005682c0(false) : -1;
         m_ucProcedureIndex = iIndex < 0 ? 0 : (unsigned char)iIndex;
         iactorEnergy = reinterpret_cast<::FUN_0087f990_shell *>((static_cast<Actor_ext*>(apActor)))->FUN_0087f990();
-        m_fProcedureTime = ::FUN_006435c0((int)((void*)iactorEnergy), (*(int *)&(eProcedure)));
+        m_fProcedureTime = ::FUN_006435c0((intptr_t)((void*)iactorEnergy), (*(int *)&(eProcedure)));
         for (i = 0; i < 6; i++)
         {
             unsigned char cweight = m_ucProcedureFlags[i];
@@ -837,13 +838,13 @@ struct Host9f6340
     Elem9f6340* f04;
     unsigned int AppendElement(Elem9f6340* p);
 public:
-    void FUN_009f6460(int, int);
+    void FUN_009f6460(intptr_t, int);
 };
 // @fnv 0x009f6340
 unsigned int Host9f6340::AppendElement(Elem9f6340* apElement)
 {
     unsigned int uiIndex = ::FUN_006f31f0((::S5460 *)(((Arr16*)this)));
-    reinterpret_cast<::Host9f6340 *>(this)->FUN_009f6460((int)(f04 + uiIndex), 1);
+    reinterpret_cast<::Host9f6340 *>(this)->FUN_009f6460((intptr_t)(f04 + uiIndex), 1);
     f04[uiIndex] = *apElement;
     return uiIndex;
 }
@@ -1019,7 +1020,7 @@ void SandBoxActorPackageData::SetReferenceTarget(TESObjectREFR* apDeletedRef)
     {
         int iCount;
         {
-            int iIndex;
+            intptr_t iIndex;
             {
                 bool bReset = false;
                 if (pLocation == apDeletedRef)
@@ -1060,20 +1061,20 @@ void SandBoxActorPackageData::SetReferenceTarget(TESObjectREFR* apDeletedRef)
 // @fnv 0x009f5ea0
 void SandBoxActorPackageData::InitLoadGame(BGSLoadFormBuffer* apBuffer)
 {
-    pLocation = pLocation ? dynamic_cast<TESObjectREFR*>(::FUN_004839c0((unsigned int)pLocation)) : NULL;
+    pLocation = pLocation ? dynamic_cast<TESObjectREFR*>(::FUN_004839c0((unsigned int)(uintptr_t)pLocation)) : NULL;
     m_pCurrentTarget =
-        m_pCurrentTarget ? dynamic_cast<TESObjectREFR*>(::FUN_004839c0((unsigned int)m_pCurrentTarget)) : NULL;
+        m_pCurrentTarget ? dynamic_cast<TESObjectREFR*>(::FUN_004839c0((unsigned int)(uintptr_t)m_pCurrentTarget)) : NULL;
     if (m_pCurrentTarget != NULL)
         reinterpret_cast<::fnv_00564db0::FUN_00564db0_cls *>((((TESObjectREFRHelper*)m_pCurrentTarget)))->FUN_00564db0(true);
     m_pCurrentFurniture = m_pCurrentFurniture
-                              ? dynamic_cast<TESObjectREFR*>(::FUN_004839c0((unsigned int)m_pCurrentFurniture))
+                              ? dynamic_cast<TESObjectREFR*>(::FUN_004839c0((unsigned int)(uintptr_t)m_pCurrentFurniture))
                               : NULL;
     if (m_pCurrentFurniture != NULL)
         reinterpret_cast<::fnv_00564db0::FUN_00564db0_cls *>((((TESObjectREFRHelper*)m_pCurrentFurniture)))->FUN_00564db0(true);
     {
         int iCount;
         {
-            int iIndex;
+            intptr_t iIndex;
             {
                 bool bResetState;
                 {
@@ -1085,7 +1086,7 @@ void SandBoxActorPackageData::InitLoadGame(BGSLoadFormBuffer* apBuffer)
                         {
                             {
                                 SandboxProcedureData* pItem = &(*(::SandboxProcedureData *)(reinterpret_cast<::FUN_009f6190_shell *>(&(m_kProcedureList))->FUN_009f6190(uiTargetIndex)));
-                                reinterpret_cast<::Fn9a4f40 *>((pItem))->FUN_009a4f40((int)(apBuffer));
+                                reinterpret_cast<::Fn9a4f40 *>((pItem))->FUN_009a4f40((intptr_t)(apBuffer));
                             }
                         }
                         iCount = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_kProcedureList))->GetName()));
@@ -1149,9 +1150,9 @@ void SandBoxActorPackageData::InitLoadGame(BGSLoadFormBuffer* apBuffer)
 // @fnv 0x009f63a0
 void FUN_009f63a0_shell::FUN_009f63a0(char* apSrcAddr, unsigned int aiCount)
 {
-    unsigned int i = FUN_0042f5a0(f08 - (unsigned int)apSrcAddr - aiCount, aiCount);
-    ((FUN_0072ba80_shell*)this)->FUN_0072ba80(f04 + (unsigned int)apSrcAddr * 16, aiCount);
-    ((FUN_006c8bd0_Class*)this)->FUN_006c8bd0(f04 + (unsigned int)apSrcAddr * 16, f04 + f08 * 16 - i * 16, i);
+    unsigned int i = FUN_0042f5a0(f08 - (uintptr_t)apSrcAddr - aiCount, aiCount);
+    ((FUN_0072ba80_shell*)this)->FUN_0072ba80(f04 + (uintptr_t)apSrcAddr * 16, aiCount);
+    ((FUN_006c8bd0_Class*)this)->FUN_006c8bd0(f04 + (uintptr_t)apSrcAddr * 16, f04 + f08 * 16 - i * 16, i);
     f08 -= aiCount;
 }
 
@@ -1267,8 +1268,8 @@ void __cdecl GetObjectPosition(Object* object, Vec3* result)
     reinterpret_cast<::FUN_00416870_t *>(&(f))->FUN_00416870(FUN_004e4490(a) * b, FUN_004e44d0(a) * b, 0.0f);
     Vec3 c;
     Vec3 e;
-    *result = *((::Vec3 *)(reinterpret_cast<::Point3Offset *>((((::ActionSource *)&(reinterpret_cast<::TaskQueueInterface *>((((::ObjectPart *)(::GetOffsetC((int)(object))))))->QueueActorAnimationTask((*(::NiPoint3 *)(&c)))))))->ProjectileLaunched({}, {})));
-    ElevationProvider* d = static_cast<ElevationProvider*>(((void *)(reinterpret_cast<::PathingLocation *>((((::ObjectPart *)(::GetOffsetC((int)(object))))))->GetContainingCell())));
+    *result = *((::Vec3 *)(reinterpret_cast<::Point3Offset *>((((::ActionSource *)&(reinterpret_cast<::TaskQueueInterface *>((((::ObjectPart *)(::GetOffsetC((intptr_t)(object))))))->QueueActorAnimationTask((*(::NiPoint3 *)(&c)))))))->ProjectileLaunched({}, {})));
+    ElevationProvider* d = static_cast<ElevationProvider*>(((void *)(reinterpret_cast<::PathingLocation *>((((::ObjectPart *)(::GetOffsetC((intptr_t)(object))))))->GetContainingCell())));
     if (!d)
         return;
     if (!reinterpret_cast<::FakeCell *>((d))->FUN_005547c0((*(const ::NiPoint3 *)(result)), (*(float *)(&g))))
@@ -2110,7 +2111,7 @@ void SbActorPackageData::ScanSandboxTargets(SbActor* apActor)
         pCell = ((::SbCell *)(reinterpret_cast<::LowProcess *>((pLocation))->GetTarget()));
     }
     SandboxScanContext kContext(apActor, this);
-    reinterpret_cast<::TESDataHandler *>((((SbDataHandler*)g_dataHandler)))->GetReferencesInArea((::TESObjectCELL *)(pCell), (*(const ::NiPoint3 *)(&kPos7)), fRadius, (*(const ::NiPoint3 *)(&kPos7)), fRadius, (bool (*)(TESObjectREFR *, long))(((bool (&)(SbRef *, void *))::AddActivationChoice)), (long)(&kContext));
+    reinterpret_cast<::TESDataHandler *>((((SbDataHandler*)g_dataHandler)))->GetReferencesInArea((::TESObjectCELL *)(pCell), (*(const ::NiPoint3 *)(&kPos7)), fRadius, (*(const ::NiPoint3 *)(&kPos7)), fRadius, (bool (*)(TESObjectREFR *, intptr_t))(((bool (&)(SbRef *, void *))::AddActivationChoice)), (intptr_t)(&kContext));
     if (reinterpret_cast<::FUN_009f45e0_shell *>((pPackage9))->IsFlagBit0Clear())
     {
         SbRef* pUsed = ((::SbRef *)(reinterpret_cast<::Ref_891d30 *>((apActor))->FUN_00891d30()));
@@ -2431,7 +2432,7 @@ bool __cdecl AddActivationChoice(ChoiceTargetRef* target, ChoiceContext* pContex
             unsigned markerCount2 = reinterpret_cast<::FUN_0092b440_Class *>(&(markerBase->markers))->GetByte5();
             unsigned markerFlags = ((unsigned int)(reinterpret_cast<::BGSIdleCollection *>(&(markerBase->markers))->GetPickType()));
             bool markerUsed = false;
-            if (reinterpret_cast<::B479FB0IdleList *>(&(markerBase->markers))->FUN_00479fb0((::B479FB0Actor *)(actor), (int)(target)))
+            if (reinterpret_cast<::B479FB0IdleList *>(&(markerBase->markers))->FUN_00479fb0((::B479FB0Actor *)(actor), (intptr_t)(target)))
                 reinterpret_cast<::Host9f6340 *>(&(planner->choices))->AppendElement((::Elem9f6340 *)&(const ::FUN_009f3800 &)(FUN_009f3800(reinterpret_cast<TESObjectREFRHelper*>(target), 4, 1)));
         }
         break;

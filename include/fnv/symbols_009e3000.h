@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 // 0x009e32d0
-int GetField38(char *);
+intptr_t GetField38(char *);

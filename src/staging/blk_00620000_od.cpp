@@ -1980,7 +1980,7 @@ void* S_6319b0::FUN_006319b0(unsigned int flags)
 struct GO
 {
     void* m_p;
-    GO(int);
+    GO(intptr_t);
     void operator=(void*);
     ~GO();
 };
@@ -3902,11 +3902,11 @@ struct Col_0043b4f0
 struct GlobalObject_008c71b0
 {
     int m_uiFilterValue;
-    GlobalObject_008c71b0(int value);
+    GlobalObject_008c71b0(intptr_t value);
 };
 struct FUN_00457880_Class
 {
-    unsigned int FUN_00457880(int value);
+    unsigned int FUN_00457880(intptr_t value);
 };
 // @fnv 0x0062b150
 unsigned int __cdecl FUN_0062b150(uintptr_t param_1, uintptr_t uiValue)

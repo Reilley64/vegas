@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 struct SpawnedObject;
 
@@ -15,6 +16,6 @@ const char *FUN_0066ddc0(int);
 // 0x0066dde0
 bool FUN_0066dde0(int);
 // 0x0066de30
-bool FUN_0066de30(int);
+bool FUN_0066de30(intptr_t);
 // 0x0066de80
 bool FUN_0066de80(int);

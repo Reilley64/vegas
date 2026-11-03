@@ -334,12 +334,12 @@ struct FUN_008bc240_h
     char pad[0x150];
     unsigned int f150;
     float f154;
-    void FUN_008bc240(unsigned int v);
+    void FUN_008bc240(uintptr_t v);
 };
 
 // Stores v into f150 and copies the float from originalRuntimeFloatSetting104 into f154.
 // @fnv 0x008bc240
-void FUN_008bc240_h::FUN_008bc240(unsigned int auiValue)
+void FUN_008bc240_h::FUN_008bc240(uintptr_t auiValue)
 {
     f150 = auiValue;
     f154 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting104))))));

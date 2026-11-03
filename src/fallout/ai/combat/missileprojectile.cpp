@@ -284,7 +284,7 @@ struct FUN_009b7a20_holder
 };
 struct FUN_009ba320_shell
 {
-    void FUN_009ba320(unsigned int a, unsigned int b);
+    void FUN_009ba320(uintptr_t a, uintptr_t b);
     void FUN_009ba390(unsigned int);
 };
 struct ScriptLocalsX
@@ -297,7 +297,7 @@ struct FUN_009ba350_shell
 };
 // Calls FUN_009ba350 with a and FUN_009ba390 with b.
 // @fnv 0x009ba320
-void FUN_009ba320_shell::FUN_009ba320(unsigned int auiFirst, unsigned int auiSecond)
+void FUN_009ba320_shell::FUN_009ba320(uintptr_t auiFirst, uintptr_t auiSecond)
 {
     reinterpret_cast<::FUN_009ba350_shell *>(this)->FUN_009ba350((::ScriptLocalsX *)(auiFirst));
     FUN_009ba390(auiSecond);
@@ -331,14 +331,14 @@ struct FUN_009ba3d0_shell
 {
     int m_iWordAt00;
     int m_iWordAt04;
-    void FUN_009ba3d0(int a, int b, int c, int d);
+    void FUN_009ba3d0(intptr_t a, intptr_t b, intptr_t c, intptr_t d);
 };
 
 // If the object stored at this+4 is non-null, forwards the four arguments to its SetLocalTransforms method.
 // @fnv 0x009ba3d0
-void FUN_009ba3d0_shell::FUN_009ba3d0(int a, int b, int c, int d)
+void FUN_009ba3d0_shell::FUN_009ba3d0(intptr_t a, intptr_t b, intptr_t c, intptr_t d)
 {
-    int obj = this->m_iWordAt04;
+    intptr_t obj = this->m_iWordAt04;
     if (obj)
         reinterpret_cast<::fnv_00cbe240::hkpHingeConstraintDataEx *>((((FUN_00cbe240_shell*)obj)))->SetLocalTransforms((*(const ::hkTransform *)(a)), (*(const ::hkTransform *)(b)), (*(const ::hkVector4 *)(c)), (*(const ::hkVector4 *)(d)));
 }
@@ -371,7 +371,7 @@ struct BaseS
 };
 struct FUN_009ba570
 {
-    int v0;
+    intptr_t v0;
     BaseS m;
     FUN_009ba570();
 };
@@ -379,7 +379,7 @@ struct FUN_009ba570
 // @fnv 0x009ba570
 FUN_009ba570::FUN_009ba570()
 {
-    v0 = (int)&DAT_0108ffb4;
+    v0 = (intptr_t)&DAT_0108ffb4;
     m.a = 0;
     m.b = 1;
     m.c = 0;
@@ -744,7 +744,7 @@ struct Rec
     int unk44;
     int unk48;
     int unk4C;
-    int unk50;
+    intptr_t unk50;
     int unk54;
     int unk58;
     int unk5C;
@@ -2130,15 +2130,15 @@ struct Target890
     int unk148;
     int unk14c;
     int kind;
-    bool FUN_009b8900(int, int, int, Collider890*, int, int);
+    bool FUN_009b8900(intptr_t, intptr_t, intptr_t, Collider890*, int, int);
 };
 // Checks the hit list and collider state, then calls ProcessHit and FUN_009b8a20 when the kind and collider conditions pass, returning true on success.
 // @fnv 0x009b8900
-bool Target890::FUN_009b8900(int aiArg1, int aiArg2, int aiArg3, Collider890* collider, int aiArg5, int aiArg6)
+bool Target890::FUN_009b8900(intptr_t aiArg1, intptr_t aiArg2, intptr_t aiArg3, Collider890* collider, int aiArg5, int aiArg6)
 {
     bool p = hits.FUN_008256d0() || (*((::HitItem **)(((::Vec3 *)(void *)&(hits)))))->flag;
     int h = collider ? reinterpret_cast<::FUN_0043b4d0_shell *>((void *)&(const ::CF845 &)(CF845(((int)(::FUN_0043b540((char *)(collider)))))))->FUN_0043b4d0() : 0;
-    if (p && ::fnv_009c2c80::CanProjectileHit((::fnv_009c2c80::RefObj *)(aiArg1), (::fnv_009c2c80::CdBody *)(collider), (int)(this), (::fnv_009c2c80::ProjData *)(void *)(((void *)(reinterpret_cast<::Actor *>(this)->GetActorBase())))) &&
+    if (p && ::fnv_009c2c80::CanProjectileHit((::fnv_009c2c80::RefObj *)(aiArg1), (::fnv_009c2c80::CdBody *)(collider), (intptr_t)(this), (::fnv_009c2c80::ProjData *)(void *)(((void *)(reinterpret_cast<::Actor *>(this)->GetActorBase())))) &&
         (kind != 3 || h == 1 || h == 2 || h == 9 || h == 17 || h == 13 || h == 20) &&
         reinterpret_cast<::ProjectileHit *>(this)->ProcessHit((::Obj *)(aiArg1), (*(const ::Vec *)(aiArg2)), (*(const ::Vec *)(aiArg3)), (::Buffer *)(collider), aiArg5, aiArg6))
     {
@@ -2190,7 +2190,7 @@ class FUN_009ba410 : public BA410Base
 // @fnv 0x009ba410
 FUN_009ba410::FUN_009ba410(BA410Target* pkTarget)
 {
-    reinterpret_cast<::Dispatch_00c89dd0 *>(this)->SpawnAndAttach((int)(pkTarget));
+    reinterpret_cast<::Dispatch_00c89dd0 *>(this)->SpawnAndAttach((intptr_t)(pkTarget));
     ++(*reinterpret_cast<unsigned int *>(&::DAT_01268434));
 }
 
@@ -2493,11 +2493,11 @@ void UpdateProjectile::FUN_009b8030(float afDeltaTime)
         UpdateImpact* impact = *((::UpdateImpact **)(((::Vec3 *)(void *)&(hits))));
         if (impact)
         {
-            UpdateRef* node = impact->reference ? ((::UpdateRef *)(::FUN_004b5820((::FormLike *)(void *)(((void *)(::FUN_00460140((int)(impact->reference)))))))) : 0;
+            UpdateRef* node = impact->reference ? ((::UpdateRef *)(::FUN_004b5820((::FormLike *)(void *)(((void *)(::FUN_00460140((intptr_t)(impact->reference)))))))) : 0;
             UpdateNode* reference = Get3D();
             if (node && reference)
             {
-                UpdateTransform worldTransform = ((::UpdateTransform *)(::FUN_00461130((int)(node))))->FUN_0062c250(transform);
+                UpdateTransform worldTransform = ((::UpdateTransform *)(::FUN_00461130((intptr_t)(node))))->FUN_0062c250(transform);
                 reinterpret_cast<::FUN_0043fa80_s *>((reference))->FUN_0043fa80((*(const ::ThreeByThreeMatrix *)(&worldTransform)));
                 reinterpret_cast<::ST_00931e50 *>(this)->FUN_009c6330((::ST_00a59400 *)(::UpdateTransform *)(&worldTransform));
                 reinterpret_cast<::FUN_00440460_S *>((reference))->FUN_00440460((const ::V3 *)(::UpdateVec *)(&worldTransform.translation));
@@ -2888,7 +2888,7 @@ bool Impact::HandleContactResponse()
             ::FUN_0062b8d0(node7, (const void *)&(linear_), 1);
             Vector kAngular = (*reinterpret_cast<::ImpactResponse::Vector *>((void *)&::NiPoint3::ZERO));
             Matrix rotation;
-            reinterpret_cast<::ThreeByThreeMatrix *>((((::ImpactResponse::Matrix *)(::FUN_00461130((int)(GetNode()))))))->Inverse((::ThreeByThreeMatrix &)(rotation));
+            reinterpret_cast<::ThreeByThreeMatrix *>((((::ImpactResponse::Matrix *)(::FUN_00461130((intptr_t)(GetNode()))))))->Inverse((::ThreeByThreeMatrix &)(rotation));
             Vector local = rotation.FUN_004b4500(contact->normal);
             if (::FUN_00408820(local.y) > ::FUN_00408820(local.z))
                 local.z = ::FUN_00408820(local.y) * ((double)(::SignOfFloat(local.z)));
@@ -2896,7 +2896,7 @@ bool Impact::HandleContactResponse()
             ::FUN_00525340((float *)&(local));
             Vector spin2;
             reinterpret_cast<::FUN_00416870_t *>(&(spin2))->FUN_00416870(-local.z, 0.0f, -local.x);
-            kAngular = ((::ImpactResponse::Matrix *)(::FUN_00461130((int)(node7))))->FUN_004b4500(spin2);
+            kAngular = ((::ImpactResponse::Matrix *)(::FUN_00461130((intptr_t)(node7))))->FUN_004b4500(spin2);
             reinterpret_cast<::MyPoint439180 *>(&(kAngular))->FUN_00439180(*((const float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::ImpactResponse::Setting *>(&::originalRuntimeFloatSetting650)))))));
             ::FUN_0062ba80(node7, (const ::NiPoint3 &)(kAngular), 1);
         }
@@ -3342,7 +3342,7 @@ void MissileActor::HandleMissileImpact()
         if (!hit31 || !hit31->node)
             return;
         MissileNode* node3 = Get3D();
-        MissileNode* parent41 = ((::fnv_009ba660::MissileNode *)(::FUN_004b5820((::FormLike *)(void *)(((void *)(::FUN_00460140((int)(hit31->node))))))));
+        MissileNode* parent41 = ((::fnv_009ba660::MissileNode *)(::FUN_004b5820((::FormLike *)(void *)(((void *)(::FUN_00460140((intptr_t)(hit31->node))))))));
         MissileBody* body20 = ((::fnv_009ba660::MissileBody *)(::FUN_004b5a80(hit31->node)));
         unsigned layer1 = body20 ? ((unsigned int)(reinterpret_cast<::FUN_0043b4d0_shell *>((void *)&(const ::fnv_009ba660::MissileHandle &)(body20->FUN_0043b4f0()))->FUN_0043b4d0())) : 0;
         if (body20 && layer1 != 19 && (!hit31->reference || !hit31->reference->IsActor()))
@@ -3379,8 +3379,8 @@ void MissileActor::HandleMissileImpact()
                 if (!paused && parent41)
                 {
                     MissileTransform inverse;
-                    reinterpret_cast<::NiTransform *>((((::fnv_009ba660::MissileTransform *)(::FUN_00461130((int)(parent41))))))->CalculateInverse((::NiTransform &)(inverse));
-                    impactTransform = inverse.FUN_0062c250(*((::fnv_009ba660::MissileTransform *)(::FUN_00461130((int)(node3)))));
+                    reinterpret_cast<::NiTransform *>((((::fnv_009ba660::MissileTransform *)(::FUN_00461130((intptr_t)(parent41))))))->CalculateInverse((::NiTransform &)(inverse));
+                    impactTransform = inverse.FUN_0062c250(*((::fnv_009ba660::MissileTransform *)(::FUN_00461130((intptr_t)(node3)))));
                 }
             }
             MissileNode* child2 = node3 ? node3->Find(::FUN_009b7cb0()) : 0;
@@ -3453,11 +3453,11 @@ struct FUN_00cbdd60_cls
 {
     int unk00;
     int unk04;
-    SpawnedObject_t* FUN_00cbdd60(unsigned int arg);
+    SpawnedObject_t* FUN_00cbdd60(uintptr_t arg);
 };
 
 // @fnv 0x00cbdd60
-SpawnedObject_t* FUN_00cbdd60_cls::FUN_00cbdd60(unsigned int arg)
+SpawnedObject_t* FUN_00cbdd60_cls::FUN_00cbdd60(uintptr_t arg)
 {
     TlsGuard_t guard;
     SpawnedObject_t* result = 0;
@@ -3531,7 +3531,7 @@ S_cbde40_Base* S_cbde40::FUN_00cbde40(bool* created)
         }
         unk0c = r;
         if (unk08)
-            reinterpret_cast<::FUN_00c89c80_obj *>(this)->CopyFromSource((unsigned int)(unk0c ? (S_cbde40_Obj*)((char*)unk0c - 4) : 0));
+            reinterpret_cast<::FUN_00c89c80_obj *>(this)->CopyFromSource((uintptr_t)(unk0c ? (S_cbde40_Obj*)((char*)unk0c - 4) : 0));
     }
     return unk0c;
 }
@@ -3656,14 +3656,14 @@ void Actor::FUN_009b90b0()
                         reinterpret_cast<::FUN_0043fa80_s *>((p60))->FUN_0043fa80((*(const ::ThreeByThreeMatrix *)(&(*reinterpret_cast<int *>(&::DAT_011a9448)))));
                         if (p88 && ((int)(reinterpret_cast<::S_FUN_0045bc00 *>((p88))->FUN_0045bc00(0))))
                         {
-                            Xform xd4 = *((::fnv_009b90b0::Xform *)(::FUN_00461130((int)(((::fnv_009b90b0::Obj *)(reinterpret_cast<::NiNode *>((p88))->GetAt(0)))))));
+                            Xform xd4 = *((::fnv_009b90b0::Xform *)(::FUN_00461130((intptr_t)(((::fnv_009b90b0::Obj *)(reinterpret_cast<::NiNode *>((p88))->GetAt(0)))))));
                             if (!noMove)
                                 reinterpret_cast<::Reference *>(this)->FUN_00575830((::Position *)(::fnv_009b90b0::V *)(&owner->unk04));
                             reinterpret_cast<::fnv_009bf470::Ref9bf *>(this)->UpdateNodeTransform(0, 0);
                             Vec3 ve0;
                             new ((void *)&(ve0)) ::NiUpdateData(0.0f, 0, 0);
                             p28->vfb8((V*)&ve0);
-                            Xform x114 = *((::fnv_009b90b0::Xform *)(::FUN_00461130((int)(p28))));
+                            Xform x114 = *((::fnv_009b90b0::Xform *)(::FUN_00461130((intptr_t)(p28))));
                             Xform x148;
                             reinterpret_cast<::_dummy_476a80 *>(&(x148))->FUN_00476a80();
                             reinterpret_cast<::FUN_008b42e0_shell *>(&(x114))->InvertTransform((::NiTransform *)(::fnv_009b90b0::Xform *)(&x148));
@@ -3684,7 +3684,7 @@ void Actor::FUN_009b90b0()
                         bool blocked = false;
                         if (p60)
                         {
-                            int p190 = 0;
+                            intptr_t p190 = 0;
                             Obj* p194 = ((::fnv_009b90b0::Obj *)(reinterpret_cast<::FUN_004543c0_cls *>((((::fnv_009b90b0::Obj *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))))->FUN_004543c0()));
                             Big big;
                             new ((void *)&(big)) ::FUN_004a3c20();
@@ -3708,8 +3708,8 @@ void Actor::FUN_009b90b0()
                                 Res res;
                                 reinterpret_cast<::FUN_004a3fb0_shell *>(&(big))->FUN_004a3fb0((::hkpAllRayHitCollector *)(::fnv_009b90b0::Res *)(&res));
                                 bool ok = ::FUN_009c5ba0((::World9C *)(::fnv_009b90b0::Big *)(&big), (::NiAVObject9C *)(p60), 0, 1);
-                                if (ok && ((int)(reinterpret_cast<::Callees *>((((::fnv_009b90b0::List *)(::FUN_00460140((int)(((::fnv_009b90b0::ListH *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(big))->FUN_008cdd90()))))))))->FUN_00726070())) > 0)
-                                    p190 = ((int)(::FUN_004b5820((::FormLike *)(((::fnv_009b90b0::Rec *)(reinterpret_cast<::FUN_004a46b0_class *>((((::fnv_009b90b0::List *)(::FUN_00460140((int)(((::fnv_009b90b0::ListH *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(big))->FUN_008cdd90()))))))))->GetEntryAt(0)))->unk50))));
+                                if (ok && ((int)(reinterpret_cast<::Callees *>((((::fnv_009b90b0::List *)(::FUN_00460140((intptr_t)(((::fnv_009b90b0::ListH *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(big))->FUN_008cdd90()))))))))->FUN_00726070())) > 0)
+                                    p190 = ((int)(::FUN_004b5820((::FormLike *)(((::fnv_009b90b0::Rec *)(reinterpret_cast<::FUN_004a46b0_class *>((((::fnv_009b90b0::List *)(::FUN_00460140((intptr_t)(((::fnv_009b90b0::ListH *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(big))->FUN_008cdd90()))))))))->GetEntryAt(0)))->unk50))));
                             }
                             if (p190)
                             {
@@ -3721,17 +3721,17 @@ void Actor::FUN_009b90b0()
                                 {
                                     Path path;
                                     reinterpret_cast<::fnv_00cbdcb0::CBDCB0Owner *>(&(path))->EnsureChild();
-                                    reinterpret_cast<::FUN_009ba320_shell *>(&(path))->FUN_009ba320((unsigned int)(p63c), (unsigned int)(p630));
+                                    reinterpret_cast<::FUN_009ba320_shell *>(&(path))->FUN_009ba320((uintptr_t)(p63c), (uintptr_t)(p630));
                                     Name n690(::FUN_004b4f00((::TESDataHandler *)(((::fnv_009b90b0::Obj *)(::FUN_004ae750((void *)(p63c)))))));
                                     Name n6d0(::FUN_004b4f00((::TESDataHandler *)(((::fnv_009b90b0::Obj *)(::FUN_004ae750((void *)(p630)))))));
                                     reinterpret_cast<::CB2FC0Object *>((((::fnv_009b90b0::Obj *)(((::Vec3 *)(void *)&(n690))))))->FUN_00cb2fc0();
                                     reinterpret_cast<::CB2FC0Object *>((((::fnv_009b90b0::Obj *)(((::Vec3 *)(void *)&(n6d0))))))->FUN_00cb2fc0();
                                     V v6dc;
-                                    reinterpret_cast<::FUN_00439f50_class *>(&(((::fnv_009b90b0::Xform *)(::FUN_00461130((int)(vf1d0()))))->rot))->FUN_00439f50(1, (::NiPoint3 *)(::fnv_009b90b0::V *)(&v6dc));
+                                    reinterpret_cast<::FUN_00439f50_class *>(&(((::fnv_009b90b0::Xform *)(::FUN_00461130((intptr_t)(vf1d0()))))->rot))->FUN_00439f50(1, (::NiPoint3 *)(::fnv_009b90b0::V *)(&v6dc));
                                     V5 v6f0;
                                     ::CopyCharacterControllerVector((::bhkCharacterController *)(::fnv_009b90b0::V5 *)(&v6f0), (*(const ::NiPoint3 *)(&v6dc)));
                                     reinterpret_cast<::S0062aea0_Vector *>(&(v6f0))->FUN_0062aea0();
-                                    Xform x724 = *((::fnv_009b90b0::Xform *)(::FUN_00461130((int)(vf1d0()))));
+                                    Xform x724 = *((::fnv_009b90b0::Xform *)(::FUN_00461130((intptr_t)(vf1d0()))));
                                     V v730;
                                     V v73c;
                                     V v748;
@@ -3739,7 +3739,7 @@ void Actor::FUN_009b90b0()
                                     x724.FUN_00524c40(&v748, &v730);
                                     V6 v760;
                                     ::fnv_004a3e00::FUN_004a3e00((*(::fnv_004a3e00::bhkCharacterController *)(&v760)), (*(const ::fnv_004a3e00::NiPoint3 *)(&v748)));
-                                    reinterpret_cast<::FUN_009ba3d0_shell *>(&(path))->FUN_009ba3d0((int)(&n690), (int)(&n6d0), (int)(&v760.q), (int)(&v6f0));
+                                    reinterpret_cast<::FUN_009ba3d0_shell *>(&(path))->FUN_009ba3d0((intptr_t)(&n690), (intptr_t)(&n6d0), (intptr_t)(&v760.q), (intptr_t)(&v6f0));
                                     PathRef* ref = new PathRef(&path);
                                     reinterpret_cast<::SceneC8E *>((p63c))->FUN_00c8ef80((::NiObjectC8E *)(ref));
                                     reinterpret_cast<::C8DAC0Owner *>((p63c))->UpdateMatchingNodes(((::fnv_009b90b0::Obj *)(reinterpret_cast<::FUN_004543c0_cls *>((((::fnv_009b90b0::Obj *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))))->FUN_004543c0())));
@@ -3788,16 +3788,16 @@ void Actor::FUN_009b90b0()
                                         Color c;
                                         new ((void *)&(c)) ::ImageSpaceEffectParam(1.0f, 0.5f, 0.5f, 1.0f);
                                         V tc20;
-                                        int c24 = ((int)(::fnv_004b3890::FUN_004b3890((*(const class ::FUN_006815c0 *)(&v83c)), (*(const ::fnv_004b3890::FUN_004a7800 *)(&c)), (*(const class ::FUN_006815c0 *)(((::fnv_009b90b0::V *)(reinterpret_cast<::Point3Offset *>(&(v83c))->ProjectileLaunched((::NiPoint3 *)(::fnv_009b90b0::V *)(&tc20), (::NiPoint3 *)(::fnv_009b90b0::V *)(&v8e0)))))), (*(const ::fnv_004b3890::FUN_004a7800 *)(&c)), 1)));
+                                        intptr_t c24 = ((intptr_t)(::fnv_004b3890::FUN_004b3890((*(const class ::FUN_006815c0 *)(&v83c)), (*(const ::fnv_004b3890::FUN_004a7800 *)(&c)), (*(const class ::FUN_006815c0 *)(((::fnv_009b90b0::V *)(reinterpret_cast<::Point3Offset *>(&(v83c))->ProjectileLaunched((::NiPoint3 *)(::fnv_009b90b0::V *)(&tc20), (::NiPoint3 *)(::fnv_009b90b0::V *)(&v8e0)))))), (*(const ::fnv_004b3890::FUN_004a7800 *)(&c)), 1)));
                                         reinterpret_cast<::FUN_00458e20_shell *>(((*reinterpret_cast<::fnv_009b90b0::Glob * *>(&::g_TES))))->FUN_00458e20((::NiAVObject *)(c24), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009b90b0::Glob *>(&::g_011f210c)))))));
                                     }
-                                    for (int k = 0; !blocked && k < ((int)(reinterpret_cast<::Callees *>((((::fnv_009b90b0::List *)(::FUN_00460140((int)(((::fnv_009b90b0::ListH *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(big2))->FUN_008cdd90()))))))))->FUN_00726070()));
+                                    for (int k = 0; !blocked && k < ((int)(reinterpret_cast<::Callees *>((((::fnv_009b90b0::List *)(::FUN_00460140((intptr_t)(((::fnv_009b90b0::ListH *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(big2))->FUN_008cdd90()))))))))->FUN_00726070()));
                                          k++)
                                     {
                                         Rec rec;
-                                        reinterpret_cast<::S50 *>(&(rec))->FUN_00696c30((::S50 *)(::fnv_009b90b0::Rec *)(((::fnv_009b90b0::Rec *)(reinterpret_cast<::FUN_004a46b0_class *>((((::fnv_009b90b0::List *)(::FUN_00460140((int)(((::fnv_009b90b0::ListH *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(big2))->FUN_008cdd90()))))))))->GetEntryAt(k)))));
-                                        int pc94 = ((int)(::FUN_004b5820((::FormLike *)(rec.unk50))));
-                                        Obj* pc98 = ((::fnv_009b90b0::Obj *)(::FUN_004b5a80((const void *)(((int)(::FUN_004b59f0((const void *)(rec.unk50))))))));
+                                        reinterpret_cast<::S50 *>(&(rec))->FUN_00696c30((::S50 *)(::fnv_009b90b0::Rec *)(((::fnv_009b90b0::Rec *)(reinterpret_cast<::FUN_004a46b0_class *>((((::fnv_009b90b0::List *)(::FUN_00460140((intptr_t)(((::fnv_009b90b0::ListH *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(big2))->FUN_008cdd90()))))))))->GetEntryAt(k)))));
+                                        intptr_t pc94 = ((int)(::FUN_004b5820((::FormLike *)(rec.unk50))));
+                                        Obj* pc98 = ((::fnv_009b90b0::Obj *)(::FUN_004b5a80((const void *)(((intptr_t)(::FUN_004b59f0((const void *)(rec.unk50))))))));
                                         Obj* pc9c = ((::fnv_009b90b0::Obj *)(::FUN_0056f930((::NiAVObject *)(pc94))));
                                         int tca0;
                                         int type = pc98 ? reinterpret_cast<::FUN_0043b4d0_shell *>((pc98->FUN_0043b4f0(&tca0)))->FUN_0043b4d0() : 0;
@@ -3819,7 +3819,7 @@ void Actor::FUN_009b90b0()
                         owner->unk28 = 1;
                         if (blocked)
                         {
-                            if (((int)(reinterpret_cast<::FUN_008d8b80Class *>(this)->FUN_008d8b80())))
+                            if (((intptr_t)(reinterpret_cast<::FUN_008d8b80Class *>(this)->FUN_008d8b80())))
                                 reinterpret_cast<::FUN_008126e0_shell *>(this)->SetWhich(0);
                             ::FUN_00c69f50((::S_00c69f50_Obj *)(p60), 1, 1);
                             ::FUN_00c6a350((::NiAVObject *)(p60), 4, 1, 1, 1);

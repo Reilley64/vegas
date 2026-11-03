@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 class NiAVObject;
 class ShadowSceneNode;
@@ -15,7 +16,7 @@ void FUN_00b5b060(char *, int);
 // 0x00b5b150
 void ProcessNodeChildren(void *, int, void *);
 // 0x00b5b1c0
-void FUN_00b5b1c0(::ShadowSceneNode *, int, ::NiAVObject *);
+void FUN_00b5b1c0(::ShadowSceneNode *, intptr_t, ::NiAVObject *);
 // 0x00b5b1f0
 void FUN_00b5b1f0(::ShadowSceneNode *, int);
 // 0x00b5b260

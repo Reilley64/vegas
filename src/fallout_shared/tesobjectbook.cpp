@@ -1,5 +1,6 @@
 // fallout_shared/tesobjectbook.cpp: TESObjectBOOK, TESObjectMISC, TESObjectBOOK_GetSaveSize, Actor and more (16 functions)
 
+#include <cstdint>
 #include <cstring>
 #include "fnv/decl/BSShaderNoLightingProperty.h"
 #include "fnv/decl/CombatProcedure.h"
@@ -1194,11 +1195,11 @@ class Actor
     unsigned int unk750;
     unsigned int unk754;
     int selectedAction;
-    void FUN_0095e6f0(int action);
+    void FUN_0095e6f0(intptr_t action);
 };
 // Checks the inventory item and weapon type, displays messages on failure, and stores action before formatting the final prompt.
 // @fnv 0x0095e6f0
-void Actor::FUN_0095e6f0(int action)
+void Actor::FUN_0095e6f0(intptr_t action)
 {
     if (!action)
         return;

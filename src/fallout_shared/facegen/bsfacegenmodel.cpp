@@ -710,7 +710,7 @@ struct NP
 };
 struct GO : public NP
 {
-    GO(int pObject = 0);
+    GO(intptr_t pObject = 0);
     ~GO();
     using NP::operator=;
 };

@@ -1,5 +1,6 @@
 // fallout/ai/baseprocess.cpp: BaseProcess, SavedProcess, Target8d (46 functions)
 
+#include <cstdint>
 #include "fnv/decl/ActorPackageLegacySave.h"
 #include "fnv/decl/ActorPackageLoad.h"
 #include "fnv/decl/ActorPackageSaver.h"
@@ -60,7 +61,7 @@ void BaseProcess::InitLoadGame(BGSLoadFormBuffer* buffer)
 {
     reinterpret_cast<::FUN_008c6970_shell *>((reinterpret_cast<ActorPackageCall*>(&m_kProcessData)))->FUN_008c6970(buffer);
     if (m_pCachedValues)
-        ::ClearField44((int)(reinterpret_cast<CachedValuesCall*>(m_pCachedValues)));
+        ::ClearField44((intptr_t)(reinterpret_cast<CachedValuesCall*>(m_pCachedValues)));
 }
 
 // @fnv 0x008d08b0
@@ -85,9 +86,9 @@ void BaseProcess::Revert(BGSLoadFormBuffer* buffer)
 {
     m_fValue1 = -1.0F;
     m_uiStateFlags = 0;
-    reinterpret_cast<::FUN_008c6c80_Class *>((reinterpret_cast<ActorPackageCall*>(&m_kProcessData)))->FUN_008c6c80((int)(buffer));
+    reinterpret_cast<::FUN_008c6c80_Class *>((reinterpret_cast<ActorPackageCall*>(&m_kProcessData)))->FUN_008c6c80((intptr_t)(buffer));
     if (m_pCachedValues)
-        ::ClearField44((int)(reinterpret_cast<CachedValuesCall*>(m_pCachedValues)));
+        ::ClearField44((intptr_t)(reinterpret_cast<CachedValuesCall*>(m_pCachedValues)));
 }
 
 // @fnv 0x008d0f90
@@ -210,7 +211,7 @@ void FUN_008d0640_shell::InitProcess()
 }
 
 // @fnv 0x008d1030
-void ClearField44(int param_1)
+void ClearField44(intptr_t param_1)
 {
     *reinterpret_cast<int*>(param_1 + 0x44) = 0;
 }
@@ -963,10 +964,10 @@ void FUN_008d05c0_s::FUN_008d05c0(int a, Date d)
 
 struct FUN_008d0600_s
 {
-    void FUN_008d0600(int, int);
+    void FUN_008d0600(intptr_t, intptr_t);
 };
 // @fnv 0x008d0600
-void FUN_008d0600_s::FUN_008d0600(int a, int b)
+void FUN_008d0600_s::FUN_008d0600(intptr_t a, intptr_t b)
 {}
 
 struct FUN_008c64d0_target
@@ -1749,7 +1750,7 @@ void SavedProcess::FUN_008d0a10(unsigned int flags, unsigned int unused)
     if (reinterpret_cast<::FUN_00862110_cls *>((((TESSaveLoadGameHelper*)g_TESSaveLoadGame)))->FUN_00862110())
     {
         unsigned int uiTimestamp = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((TimeGlobal*)g_TESSaveLoadGame)))->FUN_00825c00();
-        unsigned int finalPosition = (unsigned int)begin;
+        uintptr_t finalPosition = (uintptr_t)begin;
         if (uiTimestamp > finalPosition + 65535)
             ::FUN_005b5e40();
         *(unsigned short*)begin = (unsigned short)(uiTimestamp - finalPosition);
@@ -1882,7 +1883,7 @@ void Target8d::LoadAndValidate(void* arg1, void* arg2, void* arg3)
         start = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*(Reader8d**)&(*reinterpret_cast<char *>(&::g_TESSaveLoadGame)))))->FUN_00825c00();
         reinterpret_cast<::FUN_008579e0_shell *>(((*(Reader8d**)&(*reinterpret_cast<char *>(&::g_TESSaveLoadGame)))))->FUN_008579e0(&count, 2);
     }
-    reinterpret_cast<::ActorPackageLoad *>(&(base))->FUN_008c6320((int)(arg1), (int)(arg2));
+    reinterpret_cast<::ActorPackageLoad *>(&(base))->FUN_008c6320((intptr_t)(arg1), (intptr_t)(arg2));
     reinterpret_cast<::FUN_008579e0_shell *>(((*(Reader8d**)&(*reinterpret_cast<char *>(&::g_TESSaveLoadGame)))))->FUN_008579e0(&field, 4);
     if (reinterpret_cast<::FUN_00862110_cls *>(((*(Reader8d**)&(*reinterpret_cast<char *>(&::g_TESSaveLoadGame)))))->FUN_00862110())
     {

@@ -2,6 +2,7 @@
 // src/staging/blk_00920000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstdint>
 #include <new>
 #include <cstdlib>
 #include "fnv/decl/A_00885520.h"
@@ -460,11 +461,11 @@ FUN_00937d30_cls* FUN_00937d30_cls::FUN_00937d30()
 struct ActorValueModifierList
 {
     void RemoveAllModifiers();
-    void FUN_00937d50(int a);
+    void FUN_00937d50(intptr_t a);
 };
 
 // @fnv 0x00937d50
-void ActorValueModifierList::FUN_00937d50(int aiUnused)
+void ActorValueModifierList::FUN_00937d50(intptr_t aiUnused)
 {
     RemoveAllModifiers();
 }
@@ -805,11 +806,11 @@ struct FUN_00cbc510
 };
 struct FUN_00933810
 {
-    int Method();
+    intptr_t Method();
 };
 // Calls Call on the object stored at this+0x3ec, passing the value at this+0x3f0, and returns its result.
 // @fnv 0x00933810
-int FUN_00933810::Method()
+intptr_t FUN_00933810::Method()
 {
     int result = ((int)(reinterpret_cast<::hkpCharacterStateView *>((((FUN_00cbc510*)*((int*)((char*)this + 0x3ec)))))->FUN_00cbc510(*(int*)((char*)this + 0x3f0))));
     return result;
@@ -994,15 +995,15 @@ FUN_00937000::FUN_00937000() : SL()
 
 struct FUN_00986500_shell
 {
-    void RemoveByTarget(int);
+    void RemoveByTarget(intptr_t);
 };
 struct FUN_0093a660_class
 {
-    void FUN_0093a660(int apActor);
+    void FUN_0093a660(intptr_t apActor);
 };
 // If the pointer at this+0xd64 is non-null, forwards apActor to its RemoveByTarget method.
 // @fnv 0x0093a660
-void FUN_0093a660_class::FUN_0093a660(int apActor)
+void FUN_0093a660_class::FUN_0093a660(intptr_t apActor)
 {
     if (*(void**)((char*)this + 0xd64) == 0)
         return;
@@ -2042,7 +2043,7 @@ void FUN_00935d90(unsigned int id, bool b)
 
 namespace fnv_00935ef0 {
 // @fnv 0x00935ef0
-int __cdecl FUN_00935ef0()
+intptr_t __cdecl FUN_00935ef0()
 {
     return (*reinterpret_cast<int *>(&::DAT_011c6268));
 }

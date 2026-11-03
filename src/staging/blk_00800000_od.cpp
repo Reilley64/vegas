@@ -2,6 +2,7 @@
 // src/staging/blk_00800000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstdint>
 #include <new>
 #include <cstdlib>
 #include "fnv/decl/A5D2C0Object.h"
@@ -220,10 +221,10 @@ void FUN_00810610_Class::FUN_00810610(bool b)
 
 struct FUN_00810640_class
 {
-    void FUN_00810640(int a);
+    void FUN_00810640(intptr_t a);
 };
 // @fnv 0x00810640
-void FUN_00810640_class::FUN_00810640(int aiValue)
+void FUN_00810640_class::FUN_00810640(intptr_t aiValue)
 {
     reinterpret_cast<::S00c6e050_Obj *>(this)->FUN_00c6e050(1000, aiValue);
 }
@@ -424,10 +425,10 @@ struct FUN_00cac960_class
 };
 struct FUN_0080fb00_Class
 {
-    void FUN_0080fb00(int a);
+    void FUN_0080fb00(intptr_t a);
 };
 // @fnv 0x0080fb00
-void FUN_0080fb00_Class::FUN_0080fb00(int a)
+void FUN_0080fb00_Class::FUN_0080fb00(intptr_t a)
 {
     void* r = ((void *)(::FUN_004ae750((void *)(((ScriptLocalsX*)this)))));
     if (r)
@@ -463,10 +464,10 @@ struct FUN_00810660_Class
 {
     char pad[0x594];
     Flt f;
-    unsigned int FUN_00810660();
+    uintptr_t FUN_00810660();
 };
 // @fnv 0x00810660
-unsigned int FUN_00810660_Class::FUN_00810660()
+uintptr_t FUN_00810660_Class::FUN_00810660()
 {
     return f ? ((unsigned int)(reinterpret_cast<::PropertyOwner *>((reinterpret_cast<FUN_00c85c80_Class*>(f.operator unsigned int())))->FUN_00c85c80((void *)(0)))) : 0;
 }
@@ -513,11 +514,11 @@ struct FUN_00800e50_Class
     int f08;
     int f0c;
     int f10;
-    void FUN_00800d50(int a);
-    void FUN_00800e50(int a);
+    void FUN_00800d50(intptr_t a);
+    void FUN_00800e50(intptr_t a);
 };
 // @fnv 0x00800e50
-void FUN_00800e50_Class::FUN_00800e50(int aiValue)
+void FUN_00800e50_Class::FUN_00800e50(intptr_t aiValue)
 {
     int result = -1;
     for (int i = 0; i < f0c; i++)
@@ -1419,7 +1420,7 @@ extern char DAT_01078e78;
 
 // Clears a flag, returns if a is already in the list, else appends a and its getter result, sets f04 if empty, and calls FUN_00ba91a0.
 // @fnv 0x00800d50
-void FUN_00800e50_Class::FUN_00800d50(int pNode)
+void FUN_00800e50_Class::FUN_00800d50(intptr_t pNode)
 {
     ((char*)this)[0x2b4] = 0;
     for (int i = 0; i < this->f0c; ++i)
@@ -2063,12 +2064,12 @@ struct FUN_0081f1e0_Virtual
 
 struct FUN_0081f1e0_Class
 {
-    void ApplyVirtualCall(int, int);
+    void ApplyVirtualCall(intptr_t, intptr_t);
 };
 
 // Calls FUN_00c9c1d0 on this, then forwards arg1 and arg2 to vf50 on the object returned by FUN_009d9f40.
 // @fnv 0x0081f1e0
-void FUN_0081f1e0_Class::ApplyVirtualCall(int arg1, int arg2)
+void FUN_0081f1e0_Class::ApplyVirtualCall(intptr_t arg1, intptr_t arg2)
 {
     reinterpret_cast<::hkpEntityC9C *>((this))->FUN_00c9c1d0();
     ((::FUN_0081f1e0_Virtual *)(reinterpret_cast<::FUN_009d9f40_Class *>((this))->FUN_009d9f40()))->vf50(arg1, arg2);

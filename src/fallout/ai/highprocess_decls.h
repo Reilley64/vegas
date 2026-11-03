@@ -2,6 +2,7 @@
 #ifndef FNV_HIGHPROCESS_DECLS_H
 #define FNV_HIGHPROCESS_DECLS_H
 
+#include <cstdint>
 #include "fnv/decl/Actor897.h"
 #include "fnv/decl/BGSMessageInitAccess.h"
 #include "fnv/decl/Callees.h"
@@ -1241,9 +1242,9 @@ public:
 public:
     void ProcessAcquire(::Actor *);
 public:
-    static bool HandlePackageLocationLoaded(::TESObjectREFR *, long);
+    static bool HandlePackageLocationLoaded(::TESObjectREFR *, intptr_t);
 public:
-    static bool HandlePackageTargetLoaded(::TESObjectREFR *, long);
+    static bool HandlePackageTargetLoaded(::TESObjectREFR *, intptr_t);
 public:
     void ProcessPatrol(::Actor *);
 };

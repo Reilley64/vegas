@@ -994,11 +994,11 @@ struct BookTarget : Menu
     void* unk28;
     void* unk2c;
     int unk30;
-    void UpdateBookMenu(BookInput*, int);
+    void UpdateBookMenu(BookInput*, intptr_t);
 };
 // Updates the book menu tile: sets tile 0x1004 from input state, sets tile 0x1006 text, stores value in unk30, and sets tile 0x1007 and 0x100a.
 // @fnv 0x0073b2f0
-void BookTarget::UpdateBookMenu(BookInput* input, int value)
+void BookTarget::UpdateBookMenu(BookInput* input, intptr_t value)
 {
     if (reinterpret_cast<::FUN_00409700_Class *>((input))->FUN_00409700())
         reinterpret_cast<::Tile *>((((::BookTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->Set(0x1004, 0);
@@ -1225,7 +1225,7 @@ Tile* __cdecl FUN_0073ad50(TESObjectBOOK* apBook, TESObjectREFR* apRef)
         }
         if (reinterpret_cast<::TileListBoxCalls *>((((TGF*)ptile)))->GetFloat(0xfa7) == 6006.0 || reinterpret_cast<::TileListBoxCalls *>((((TGF*)ptile)))->GetFloat(0xfa7) == 102.0)
             reinterpret_cast<::FUN_00a012d0_t *>((ptile))->FUN_00a012d0(0xfad, ftop_depth, true);
-        reinterpret_cast<::BookTarget *>((((BookMenuData*)g_pHudMainMenuInstance)))->UpdateBookMenu((::BookInput *)(apBook), (int)(apRef));
+        reinterpret_cast<::BookTarget *>((((BookMenuData*)g_pHudMainMenuInstance)))->UpdateBookMenu((::BookInput *)(apBook), (intptr_t)(apRef));
         if (reinterpret_cast<::FUN_00409700_Class *>((((BookMenuData*)g_pHudMainMenuInstance)->m_pObjectToUpdateMenuTile))->FUN_00409700())
             ::s717280::FUN_00717280(0x18);
         else

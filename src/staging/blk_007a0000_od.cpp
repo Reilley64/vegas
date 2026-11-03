@@ -2,6 +2,7 @@
 // src/staging/blk_007a0000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/BSStringTChar.h"
@@ -709,12 +710,12 @@ struct FUN_0049fa80_Result
 
 struct FUN_007b5330_Class
 {
-    void FUN_007b5330(int arg1, int* arg2);
+    void FUN_007b5330(intptr_t arg1, int* arg2);
 };
 
 // Gets a result object, stores the int pointed to by arg2 into its unk08 field, then passes it with arg1 to InsertBefore.
 // @fnv 0x007b5330
-void FUN_007b5330_Class::FUN_007b5330(int arg1, int* arg2)
+void FUN_007b5330_Class::FUN_007b5330(intptr_t arg1, int* arg2)
 {
     FUN_0049fa80_Result* result = ((::FUN_0049fa80_Result *)(reinterpret_cast<::ScriptPool *>((this))->FUN_0049fa80()));
     result->unk08 = *arg2;

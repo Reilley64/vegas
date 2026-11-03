@@ -1,5 +1,6 @@
 // fallout_shared/magic/effectsettingcollection.cpp: EffectSettingCollection (3 functions)
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -47,7 +48,7 @@ class Date;
 class LowProcess
 {
   public:
-    void SetPackageObjectType(int value);
+    void SetPackageObjectType(intptr_t value);
 };
 
 class TargetDoorController;

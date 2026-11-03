@@ -1,7 +1,8 @@
 #pragma once
+#include <cstdint>
 
 struct FUN_00c6cef0_cls {
 public:
     // 0x00c6cef0
-    void CallTargetWithArgs(int, int);
+    void CallTargetWithArgs(intptr_t, intptr_t);
 };

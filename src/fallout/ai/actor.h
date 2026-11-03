@@ -9,6 +9,7 @@
 #ifndef FNV_SRC_FALLOUT_AI_ACTOR_H
 #define FNV_SRC_FALLOUT_AI_ACTOR_H
 
+#include <cstdint>
 #include "fnv/decl/BSShaderNoLightingProperty.h"
 #include "fnv/decl/FUN_00508100_shell.h"
 #include "fnv/decl/FUN_0098adb0_shell.h"
@@ -263,7 +264,7 @@ public:
 public:
     void UpdateActorPresentation();
 public:
-    void FUN_0095e6f0(int);
+    void FUN_0095e6f0(intptr_t);
 };
 #ifdef _MSC_VER
 __forceinline

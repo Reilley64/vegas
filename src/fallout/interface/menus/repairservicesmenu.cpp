@@ -685,12 +685,12 @@ void __cdecl UpdateRepairMenuTile(RSTile* apTile, RSItem* apItem)
     (*reinterpret_cast<::RSRepairMenu * *>(&::fnv_007b82c0::DAT_011da7f0))->iTotalCost += iCost;
     reinterpret_cast<::FUN_00a012d0_t *>((((::RSTile *)(reinterpret_cast<::FUN_006317a0_struct *>(&(apTile->kChildren))->AddEight((int)(reinterpret_cast<::Callees *>(&(apTile->kChildren))->FUN_00726070()))))))->FUN_00a012d0(0xfa9, fAlpha4, true);
     reinterpret_cast<::FUN_00a012d0_t *>((((::RSTile *)(reinterpret_cast<::TileFloatList *>((apTile))->FUN_00a03eb0(0x12)))))->FUN_00a012d0(0xfa9, fAlpha4, true);
-    reinterpret_cast<::FUN_00a012d0_t *>((((::RSTile *)(reinterpret_cast<::FUN_006317a0_struct *>(&(apTile->kChildren))->AddEight((int)(((void *)(::FUN_00559450((int *)&(apTile->kChildren))))))))))->FUN_00a012d0(0xfa9, fAlpha4, true);
+    reinterpret_cast<::FUN_00a012d0_t *>((((::RSTile *)(reinterpret_cast<::FUN_006317a0_struct *>(&(apTile->kChildren))->AddEight((intptr_t)(((void *)(::FUN_00559450((int *)&(apTile->kChildren))))))))))->FUN_00a012d0(0xfa9, fAlpha4, true);
     reinterpret_cast<::Tile *>((apTile))->Set(0xfa3, reinterpret_cast<::TileListBoxCalls *>((apTile))->GetFloat(0xfac) >= 0.0);
     reinterpret_cast<::FUN_00a012d0_t *>((((::RSTile *)(reinterpret_cast<::TileFloatList *>((apTile))->FUN_00a03eb0(0x12)))))->FUN_00a012d0(0xfb1, reinterpret_cast<::FUN_004bcdb0_shell *>((apItem))->FUN_004bcdb0(true) * (double)0.6f, true);
     reinterpret_cast<::Tile *>((apTile))->Set(DAT_011da7dc, fAlpha4 == 255.0);
     if (reinterpret_cast<::FUN_004bddd0_shell *>((apItem))->FUN_004bddd0(false))
-        reinterpret_cast<::Tile *>((((::RSTile *)(reinterpret_cast<::FUN_006317a0_struct *>(&(apTile->kChildren))->AddEight((int)(((void *)(::FUN_00559450((int *)&(apTile->kChildren))))))))))->Set(0xfa3, 1);
+        reinterpret_cast<::Tile *>((((::RSTile *)(reinterpret_cast<::FUN_006317a0_struct *>(&(apTile->kChildren))->AddEight((intptr_t)(((void *)(::FUN_00559450((int *)&(apTile->kChildren))))))))))->Set(0xfa3, 1);
 }
 
 struct RepairMenuView

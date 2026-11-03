@@ -2,6 +2,7 @@
 // src/staging/blk_00c20000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstdint>
 #include <new>
 #include <windows.h>
 #include <cstring>
@@ -1506,7 +1507,7 @@ void __cdecl FUN_00c3c460();
 // Calls FUN_00c3c460, stores four bytes and a function pointer into globals, clears DAT_011f6370, and copies DAT_01202d74 into DAT_011f6388.
 // @fnv 0x00c3bd30
 void __cdecl FUN_00c3bd30(unsigned char ucParam1, unsigned char ucParam2, unsigned char ucParam3,
-                          unsigned char ucParam4, unsigned int e)
+                          unsigned char ucParam4, uintptr_t e)
 {
     unsigned int unk04;
     unsigned int unk08;

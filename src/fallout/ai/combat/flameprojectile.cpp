@@ -2,6 +2,7 @@
 // src/fallout/ai/combat/flameprojectile.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/combat/flameprojectile.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/Actor.h"
 #include "fnv/decl/BaseProcess.h"
@@ -69,11 +70,11 @@ struct Flt
 
 struct FUN_009b3cb0_shell
 {
-    unsigned int FUN_009b3cb0();
+    uintptr_t FUN_009b3cb0();
 };
 
 // @fnv 0x009b3cb0
-unsigned int FUN_009b3cb0_shell::FUN_009b3cb0()
+uintptr_t FUN_009b3cb0_shell::FUN_009b3cb0()
 {
     return ((Flt*)((char*)this + 0x11c))->operator unsigned int();
 }
@@ -291,7 +292,7 @@ struct FloatMatrix3
     float xx, xy, xz;
     float yx, yy, yz;
     float zx, zy, zz;
-    FloatMatrix3* FUN_0043f8d0(int);
+    FloatMatrix3* FUN_0043f8d0(intptr_t);
 };
 struct GameNode
 {
@@ -454,8 +455,8 @@ void ProjectileObject::UpdateProjectileNode()
             FloatMatrix3 firstMatrix;
             FloatMatrix3 second;
             *reinterpret_cast<FloatMatrix3*>(reinterpret_cast<char*>(this) + 0x94) = *(
-                ((::FloatMatrix3 *)(::FUN_00461130((int)(((NodeGetter)(*reinterpret_cast<void***>(this))[0x1d0 / 4])(this)))))->FUN_0043f8d0(
-                    ((int)(reinterpret_cast<::ThreeByThreeMatrix *>((((::FloatMatrix3 *)(::FUN_00461130((int)(secondary))))))->FUN_004b45b0({})))));
+                ((::FloatMatrix3 *)(::FUN_00461130((intptr_t)(((NodeGetter)(*reinterpret_cast<void***>(this))[0x1d0 / 4])(this)))))->FUN_0043f8d0(
+                    ((intptr_t)(reinterpret_cast<::ThreeByThreeMatrix *>((((::FloatMatrix3 *)(::FUN_00461130((intptr_t)(secondary))))))->FUN_004b45b0({})))));
         }
         *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x154) =
             ::GetMaxParticleGlobalValue((::NiNode *)(node)) * ::DAT_0106b9e8;
@@ -632,7 +633,7 @@ struct FUN_00717e50_shell
 
 // Scans the project manager's objects for one whose v137 is set and whose FUN_004181e0 equals b and FUN_00874480 equals a, returning the first match or null.
 // @fnv 0x009bd780
-ProjObj* FindProjectObject(unsigned int a, unsigned int b)
+ProjObj* FindProjectObject(uintptr_t a, uintptr_t b)
 {
     ProjObj* result = 0;
     for (unsigned int i = 0; result == 0 && i < reinterpret_cast<::FUN_005be5c0_shell *>((((::ProjMgr *)(reinterpret_cast<::BaseProcess *>(&((*reinterpret_cast<::FUN_00717e50_shell *>(&::g_011e0e80))))->GetCurrentProcessData()))))->FUN_005be5c0({}); ++i)
@@ -643,7 +644,7 @@ ProjObj* FindProjectObject(unsigned int a, unsigned int b)
             if (pObj->v137() != 0)
             {
                 ProjObj* pCandidate = pObj;
-                if (((unsigned int)(reinterpret_cast<::Actor *>((((FUN_004181e0_shell*)pCandidate)))->GetActorBase())) == b)
+                if (((uintptr_t)(reinterpret_cast<::Actor *>((((FUN_004181e0_shell*)pCandidate)))->GetActorBase())) == b)
                 {
                     if (((unsigned int)(::FUN_00874480((char *)(((FUN_00874480_shell*)pCandidate))))) == a)
                     {
@@ -784,13 +785,13 @@ class Projectile9B3
     int unk84;
     HitNode9B3 m_kHitList;
 
-    bool CanProcessHit(Ref9B3* pkTarget, int iArg1, int iArg2, int iPart, int iArg4, int iArg5);
+    bool CanProcessHit(Ref9B3* pkTarget, intptr_t iArg1, intptr_t iArg2, intptr_t iPart, int iArg4, int iArg5);
 };
 
 // @fnv 0x009b3cd0
-bool Projectile9B3::CanProcessHit(Ref9B3* pkTarget, int iArg1, int iArg2, int iPart, int iArg4, int iArg5)
+bool Projectile9B3::CanProcessHit(Ref9B3* pkTarget, intptr_t iArg1, intptr_t iArg2, intptr_t iPart, int iArg4, int iArg5)
 {
-    if (::fnv_009c2c80::CanProjectileHit((::fnv_009c2c80::RefObj *)(pkTarget), (::fnv_009c2c80::CdBody *)(iPart), (int)(this), (::fnv_009c2c80::ProjData *)(::ProjectileBase9B3 *)(((::ProjectileBase9B3 *)(reinterpret_cast<::Actor *>((void *)this)->GetActorBase())))))
+    if (::fnv_009c2c80::CanProjectileHit((::fnv_009c2c80::RefObj *)(pkTarget), (::fnv_009c2c80::CdBody *)(iPart), (intptr_t)(this), (::fnv_009c2c80::ProjData *)(::ProjectileBase9B3 *)(((::ProjectileBase9B3 *)(reinterpret_cast<::Actor *>((void *)this)->GetActorBase())))))
     {
         HitNode9B3* pkNode = &m_kHitList;
         while (pkNode && !pkNode->IsEmpty())
@@ -1256,11 +1257,11 @@ bool ProjectileEffect::FUN_009b36f0()
         reinterpret_cast<::FUN_004a39f0_shell *>(&(objectHandle))->FUN_004a39f0(6);
         if (((::FireObject *)(::FUN_00874480((char *)this))) && ((::FireObject *)(::FUN_00874480((char *)this)))->IsEnabled())
         {
-            reinterpret_cast<::FUN_0059ce80_shell *>(&(objectHandle))->FUN_0059ce80((unsigned int)&(const ::FilterKey &)(((::FireObject *)(::FUN_00874480((char *)this)))->FUN_00931ed0()->FUN_004a3a20()));
+            reinterpret_cast<::FUN_0059ce80_shell *>(&(objectHandle))->FUN_0059ce80((uintptr_t)&(const ::FilterKey &)(((::FireObject *)(::FUN_00874480((char *)this)))->FUN_00931ed0()->FUN_004a3a20()));
         }
         else
         {
-            reinterpret_cast<::FUN_0059ce80_shell *>(&(objectHandle))->FUN_0059ce80((unsigned int)&(FUN_005dbe10()));
+            reinterpret_cast<::FUN_0059ce80_shell *>(&(objectHandle))->FUN_0059ce80((uintptr_t)&(FUN_005dbe10()));
         }
     }
     if (((::Controller *)(reinterpret_cast<::FUN_009b3cb0_shell *>(this)->FUN_009b3cb0())) && ((void *)(reinterpret_cast<::Twin_0044ddc0 *>((((::Controller *)(reinterpret_cast<::FUN_009b3cb0_shell *>(this)->FUN_009b3cb0()))))->GetName())))

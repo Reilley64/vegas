@@ -2,6 +2,7 @@
 // src/staging/blk_00900000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstdint>
 #include <cstddef>
 #include <new>
 #include <cstring>
@@ -460,12 +461,12 @@ struct SpawnedObject_b9530
 struct FUN_00905b00_cls
 {
     char m00[0x14];
-    void ConstructSpawnedObject(int a);
+    void ConstructSpawnedObject(intptr_t a);
 };
 
 // Calls FUN_00483710, then placement-constructs a SpawnedObject_b9530 at this from a.
 // @fnv 0x00905b00
-void FUN_00905b00_cls::ConstructSpawnedObject(int a)
+void FUN_00905b00_cls::ConstructSpawnedObject(intptr_t a)
 {
     reinterpret_cast<::TESForm *>(this)->ClearData();
     new (this) SpawnedObject_b9530(a);
@@ -799,11 +800,11 @@ struct FUN_00906050_Class
     virtual void v0();
     virtual void v1();
     virtual unsigned char v2(int value, FUN_00528cb0_Guard* guard);
-    void FUN_00906050(int value);
+    void FUN_00906050(intptr_t value);
 };
 // Creates a guard, calls v2 with the value and guard; if it succeeds, calls CallVirtual5 and passes the guard's flag result to DAT_01202d98.
 // @fnv 0x00906050
-void FUN_00906050_Class::FUN_00906050(int value)
+void FUN_00906050_Class::FUN_00906050(intptr_t value)
 {
     FUN_00528cb0_Guard guard(0);
     if (v2(value, &guard))

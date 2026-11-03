@@ -18,6 +18,7 @@
 // bytes are identical. MagicItem::CannotCastReason is only used in an
 // uncalled declaration slot. The local Actor declares the five real canonical
 // bases (members omitted: only the MagicCaster downcast offset is used).
+#include <cstdint>
 #include "fnv/decl/FUN_00445300_shell.h"
 #include "fnv/decl/FUN_00453470_shell.h"
 #include "fnv/decl/FUN_004def90_Class.h"
@@ -134,7 +135,7 @@ class MagicCaster
     bool AddEffectToTarget(MagicTarget* target, NiPoint3 position, MagicItem* spell, ActiveEffect* effect,
                            bool immediate);
     void SetState(MagicCaster__State state, char* reason);
-    static MagicCaster* GetCasterByHandle(unsigned int formID);
+    static MagicCaster* GetCasterByHandle(uintptr_t formID);
     void LaunchMagicProjectile(float fValue, TESBoundObject* pObject, bool bArg1, float fImpulseRadiusSquared, bool bArg2);
 };
 

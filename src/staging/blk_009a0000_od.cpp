@@ -225,7 +225,7 @@ struct FUN_0099a9a0_shell
 
 struct FUN_009a0370_shell
 {
-    void SetFieldE4(int a);
+    void SetFieldE4(intptr_t a);
 };
 
 namespace fnv_009a03a0 {
@@ -235,12 +235,12 @@ struct FUN_0099a9a0_shell
 
 struct FUN_009a03a0_shell
 {
-    void SetFieldE8(int a);
+    void SetFieldE8(intptr_t a);
 };
 
 // Calls ReleaseStageHolder with 0, then stores the int argument at offset 0xe8 of this object.
 // @fnv 0x009a03a0
-void FUN_009a03a0_shell::SetFieldE8(int aiValue)
+void FUN_009a03a0_shell::SetFieldE8(intptr_t aiValue)
 {
     reinterpret_cast<::fnv_009a0470::FUN_009a0470_shell *>((((FUN_0099a9a0_shell*)this)))->ReleaseStageHolder(0);
     *(int*)((char*)this + 0xe8) = aiValue;
@@ -399,11 +399,11 @@ CombatStateArray* CombatStateArray::FUN_009aa490(CombatStateArray* pArg)
 struct FUN_009b2c90_class
 {
     char m_data[6];
-    int FUN_009b2c90();
+    intptr_t FUN_009b2c90();
 };
 
 // @fnv 0x009b2c90
-int FUN_009b2c90_class::FUN_009b2c90()
+intptr_t FUN_009b2c90_class::FUN_009b2c90()
 {
     return reinterpret_cast<int>(this) + static_cast<signed char>(m_data[5]);
 }
@@ -496,10 +496,10 @@ void FUN_009bd760_Class::FUN_009bd760(float value)
 
 struct FUN_009bdf60_class
 {
-    void FUN_009bdf60(int value);
+    void FUN_009bdf60(intptr_t value);
 };
 // @fnv 0x009bdf60
-void FUN_009bdf60_class::FUN_009bdf60(int value)
+void FUN_009bdf60_class::FUN_009bdf60(intptr_t value)
 {
     *(int*)((char*)this + 0xf8) = value;
 }
@@ -791,7 +791,7 @@ struct DummyFontManager
 };
 struct FUN_009aad00Class
 {
-    void FUN_009aad00(int a, int b);
+    void FUN_009aad00(int a, intptr_t b);
 };
 
 struct FUN_009aae10_Class
@@ -930,7 +930,7 @@ void* FUN_009b3130_class::DestroyIfFlagged(unsigned int flags)
 
 // Calls InitFromObjects with a6 when a6 is nonzero, otherwise calls InitHitData with a5, forwarding a1-a4.
 // @fnv 0x009b5120
-void __cdecl FUN_009b5120(int aiArg1, int aiArg2, int aiArg3, int aiArg4, unsigned char a5, int a6, int a7)
+void __cdecl FUN_009b5120(intptr_t aiArg1, intptr_t aiArg2, intptr_t aiArg3, intptr_t aiArg4, unsigned char a5, intptr_t a6, int a7)
 {
     if (a6)
         ::fnv_009b5650::InitFromObjects((::fnv_009b5650::BooleanFloatQuery *)(aiArg1), (void *)(aiArg2), (void *)(aiArg3), (void *)(aiArg4), (void *)(a6));
@@ -1566,7 +1566,7 @@ struct FUN_009b5a30_Class
 };
 
 // @fnv 0x009b5720
-void __cdecl FUN_009b5720(FUN_009b5a30_Class* a, int b, int c, float afValue)
+void __cdecl FUN_009b5720(FUN_009b5a30_Class* a, intptr_t b, intptr_t c, float afValue)
 {
     if (!a)
         return;
@@ -1708,7 +1708,7 @@ public:
 
 struct FUN_00865db0_shell
 {
-    void FUN_00865db0(unsigned int key, unsigned int flags);
+    void FUN_00865db0(uintptr_t key, unsigned int flags);
 };
 
 // @fnv 0x009a59e0
@@ -2025,7 +2025,7 @@ struct FUN_009a03d0_cls
 };
 // Calls FUN_009a03d0 with 0 on this object, then stores a at offset 0xe4.
 // @fnv 0x009a0370
-void FUN_009a0370_shell::SetFieldE4(int aiValue)
+void FUN_009a0370_shell::SetFieldE4(intptr_t aiValue)
 {
     reinterpret_cast<::FUN_009a03d0_cls *>((((FUN_0099a9a0_shell*)this)))->FUN_009a03d0(0);
     *(int*)((char*)this + 0xe4) = aiValue;
@@ -2421,11 +2421,11 @@ struct CombatEntry
 
 struct CombatEntryOwner
 {
-    void RemoveEntry(int key);
+    void RemoveEntry(intptr_t key);
 };
 
 // @fnv 0x009a41e0
-void CombatEntryOwner::RemoveEntry(int key)
+void CombatEntryOwner::RemoveEntry(intptr_t key)
 {
     CombatEntry* entry = 0;
     if (reinterpret_cast<::fnv_00853130::NiTMapBase *>(this)->FUN_00853130(key, (*(::fnv_00853130::CombatThreatRecord * *)(&entry))))
@@ -2872,7 +2872,7 @@ struct S_9a54a0_Actor
 float __cdecl ComputeExplosionDamageFalloff(float a, float b, float c);
 struct S_9a54a0_Class
 {
-    void AddOrUpdateItem(int a, float b, float c, float d, float e);
+    void AddOrUpdateItem(intptr_t a, float b, float c, float d, float e);
     void FUN_009a54a0(int a1, S_9a54a0_Actor* a2, float a3);
 };
 // @fnv 0x009a54a0
@@ -3079,12 +3079,12 @@ struct WorldStateNode
 };
 struct FUN_009aadc0_cls
 {
-    unsigned char FUN_009aadc0(int a, unsigned int b);
+    unsigned char FUN_009aadc0(intptr_t a, unsigned int b);
 };
 
 // Checks DAT_011a55b4 for entry a: if set, tests bit b of FUN_005bd5c0(a); otherwise compares FUN_005bd5c0(a) to b.
 // @fnv 0x009aadc0
-unsigned char FUN_009aadc0_cls::FUN_009aadc0(int aiIndex, unsigned int auiBit)
+unsigned char FUN_009aadc0_cls::FUN_009aadc0(intptr_t aiIndex, unsigned int auiBit)
 {
     if ((*reinterpret_cast<unsigned char (*)[256]>(&::DAT_011a55b4))[aiIndex * 8] != 0)
     {
@@ -5187,7 +5187,7 @@ struct Setting_009a5530
 
 
 // @fnv 0x009a5530
-void S_9a54a0_Class::AddOrUpdateItem(int pForm, float b, float c, float d, float e)
+void S_9a54a0_Class::AddOrUpdateItem(intptr_t pForm, float b, float c, float d, float e)
 {
     ::fnv_00aa6060::AcquireLock((::ReadWriteLock *)&(((Map_009a5530*)this)->m_lock));
     reinterpret_cast<::fnv_00564db0::FUN_00564db0_cls *>((((Form_009a5530*)pForm)))->FUN_00564db0(true);
@@ -7456,7 +7456,7 @@ struct Thing9b58d0 : public FUN_009b5a30_Class
 };
 
 // @fnv 0x009b58d0
-void __cdecl FUN_009b58d0(Thing9b58d0* pThing, int iUnused, Actor9b58d0* pActor, float a4, Struct9b58d0* a5)
+void __cdecl FUN_009b58d0(Thing9b58d0* pThing, intptr_t iUnused, Actor9b58d0* pActor, float a4, Struct9b58d0* a5)
 {
     if (!pThing)
         return;
@@ -7490,7 +7490,7 @@ struct DecompTagByte
 
 // Builds a zero-initialized DecompTagByte and passes its value to FUN_009b2e90 along with a and b.
 // @fnv 0x009b2e00
-void __cdecl FUN_009b2e00(void* a, int aiValue)
+void __cdecl FUN_009b2e00(void* a, intptr_t aiValue)
 {
     DecompTagByte tag = {};
     FUN_009b2e90(a, aiValue, tag.value);
@@ -8040,7 +8040,7 @@ struct FUN_009b4020 : Base_9bd5c0
 };
 
 // @fnv 0x009bd5c0
-Base_9bd5c0* __cdecl FUN_009bd5c0(Tgt_9bd5c0* a1, Tgt_9bd5c0* a2, int a3, int a4)
+Base_9bd5c0* __cdecl FUN_009bd5c0(Tgt_9bd5c0* a1, Tgt_9bd5c0* a2, intptr_t a3, int a4)
 {
     Base_9bd5c0* obj = 0;
     if (a1)

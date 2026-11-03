@@ -521,11 +521,11 @@ void FUN_00c74870_Class::FUN_00c74870(int aiSlotIndex, float afValue)
 
 struct FUN_00c74890_Class
 {
-    void FUN_00c74890(int a, int b);
+    void FUN_00c74890(int a, intptr_t b);
 };
 
 // @fnv 0x00c74890
-void FUN_00c74890_Class::FUN_00c74890(int aiSlot, int aiValue)
+void FUN_00c74890_Class::FUN_00c74890(int aiSlot, intptr_t aiValue)
 {
     int idx = aiSlot * 3 + 0x1b;
     ((int*)this)[idx * 4] = aiValue;
@@ -630,11 +630,11 @@ void FUN_00c75f80::Init()
 
 struct FUN_00c76220_Class
 {
-    int FUN_00c76220(int idx);
+    intptr_t FUN_00c76220(int idx);
 };
 
 // @fnv 0x00c76220
-int FUN_00c76220_Class::FUN_00c76220(int aiIndex)
+intptr_t FUN_00c76220_Class::FUN_00c76220(int aiIndex)
 {
     int* p = *(int**)((char*)this + 0x20);
     int v = p[aiIndex];
@@ -646,12 +646,12 @@ int FUN_00c76220_Class::FUN_00c76220(int aiIndex)
 
 struct FUN_00c76320_class
 {
-    int GetNestedValue();
+    intptr_t GetNestedValue();
 };
 
 // Follows pointers at offsets 0x48, 8, 0, 8 and returns the int at offset 0x350 of the last object, or 0 if any link is null.
 // @fnv 0x00c76320
-int FUN_00c76320_class::GetNestedValue()
+intptr_t FUN_00c76320_class::GetNestedValue()
 {
     void* p = *(void**)((char*)this + 0x48);
     if (p)
@@ -1085,10 +1085,10 @@ struct hkVector4
 };
 struct FUN_00c66be0_class
 {
-    void FUN_00c66be0(unsigned int a);
+    void FUN_00c66be0(uintptr_t a);
 };
 // @fnv 0x00c66be0
-void FUN_00c66be0_class::FUN_00c66be0(unsigned int auiVectorAddress)
+void FUN_00c66be0_class::FUN_00c66be0(uintptr_t auiVectorAddress)
 {
     ::SetNiPoint3FromHkVector4((::NiPoint3 &)(*(const hkVector4*)auiVectorAddress), (*(const ::hkVector4 *)((char*)this + 0x60)));
 }
@@ -1435,7 +1435,7 @@ void bhkNiCollisionObject::FUN_00c6bb70(NiStream& aStream)
 
 // Saves the thread-local value, sets it to b, calls FUN_00c6c110(a, 0), then restores the saved value.
 // @fnv 0x00c6c3d0
-void __cdecl SetTlsValueAndReset(int aiArg, int aiValue)
+void __cdecl SetTlsValueAndReset(intptr_t aiArg, int aiValue)
 {
     struct TLSData
     {
@@ -4154,7 +4154,7 @@ struct DispatchPacket
 extern "C" unsigned int DAT_011afe94;
 
 // @fnv 0x00c6a040
-unsigned char __cdecl FUN_00c6a040(int object, unsigned char selection, unsigned char mode, unsigned char overrideCheck)
+unsigned char __cdecl FUN_00c6a040(intptr_t object, unsigned char selection, unsigned char mode, unsigned char overrideCheck)
 {
     unsigned char result = 0;
     if (object)
@@ -7102,12 +7102,12 @@ struct FUN_00c6cef0_cls
     int unk00;
     int unk04;
     FUN_00c6cef0_target* m_08;
-    void CallTargetWithArgs(int a, int b);
+    void CallTargetWithArgs(intptr_t a, intptr_t b);
 };
 
 // If this and m_08 are non-null, calls FUN_00cac110 before and after forwarding a and b to m_08's FUN_00cafd00.
 // @fnv 0x00c6cef0
-void FUN_00c6cef0_cls::CallTargetWithArgs(int a, int b)
+void FUN_00c6cef0_cls::CallTargetWithArgs(intptr_t a, intptr_t b)
 {
     if (this != 0)
     {
@@ -7843,12 +7843,12 @@ struct S_00c6d7a0_Obj
     int unk580, unk584, unk588, unk58c, unk590;
     S_00c6d7a0_Handler* unk594;
     S_00c6d7a0_Handler* unk598;
-    void FUN_00c6d7a0(int arg);
+    void FUN_00c6d7a0(intptr_t arg);
 };
 
 // Forwards arg to the handler objects at unk594 and unk598, calling each with a default of 0 when present.
 // @fnv 0x00c6d7a0
-void S_00c6d7a0_Obj::FUN_00c6d7a0(int arg)
+void S_00c6d7a0_Obj::FUN_00c6d7a0(intptr_t arg)
 {
     if (unk594)
         reinterpret_cast<::S_00c85c10 *>((unk594))->FUN_00c85c10((int *)(arg), (int *)(0));
@@ -9986,12 +9986,12 @@ struct MapTable
     MapEntry** buckets;
     unsigned int count;
 
-    void InsertOrUpdate(unsigned int key, unsigned int value);
+    void InsertOrUpdate(uintptr_t key, unsigned int value);
 };
 
 // Looks up key in the hash bucket, updates the entry's value if found, otherwise allocates, initializes and prepends a new entry and increments count.
 // @fnv 0x00c74910
-void MapTable::InsertOrUpdate(unsigned int key, unsigned int value)
+void MapTable::InsertOrUpdate(uintptr_t key, unsigned int value)
 {
     unsigned int bucket = Hash(key);
     MapEntry* entry = buckets[bucket];
@@ -10896,12 +10896,12 @@ struct FUN_00c762f0_Owner : public FUN_00c762f0_Prefix00
     FUN_00c762f0_Prefix4C unk4C;
     int unk2B8;
 
-    int FUN_00c762f0();
+    intptr_t FUN_00c762f0();
 };
 
 // Looks up data->unk20[unk2B8]; if non-negative, returns data->unk08 at that index, otherwise 0.
 // @fnv 0x00c762f0
-int FUN_00c762f0_Owner::FUN_00c762f0()
+intptr_t FUN_00c762f0_Owner::FUN_00c762f0()
 {
     FUN_00c762f0_Data* data = unk48;
     if (data != 0)
@@ -14481,7 +14481,7 @@ class ElementC76
 };
 
 // @fnv 0x00c760f0
-void ConstructElementArray(ElementC76* pkArray, unsigned int ItemUpdateArray)
+void ConstructElementArray(ElementC76* pkArray, uintptr_t ItemUpdateArray)
 {
     for (unsigned int i = 0; i < ItemUpdateArray; i++)
         new (&pkArray[i]) ElementC76;
@@ -15369,7 +15369,7 @@ absent:
     return 0;
 }
 // @fnv 0x00c75180
-int FUN_00c75180(Input134* input)
+intptr_t FUN_00c75180(Input134* input)
 {
     Owner134* owner = Resolve134(input);
     int result = 0;
@@ -15433,7 +15433,7 @@ static inline unsigned int C6A120IsEnabled(int object)
 }
 
 // @fnv 0x00c6a120
-bool __cdecl SetSelectionValue(int object, float value, unsigned char mode, unsigned char overrideCheck)
+bool __cdecl SetSelectionValue(intptr_t object, float value, unsigned char mode, unsigned char overrideCheck)
 {
     bool bResult = false;
     if (object)
@@ -16194,7 +16194,7 @@ extern "C" unsigned int DAT_011afea8;
 
 // Unless param_3 is set, requires bit 2 of the extra-data flags; calls the DAT_011afea8 callback and returns whether the context's m_0C ends up nonzero.
 // @fnv 0x00c6a440
-bool __cdecl HasCollisionObject(int param_1, unsigned char param_2, char param_3)
+bool __cdecl HasCollisionObject(intptr_t param_1, unsigned char param_2, char param_3)
 {
     bool result = false;
     if (param_1 != 0)

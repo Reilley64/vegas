@@ -1,5 +1,6 @@
 // fallout/ai/combat/combatprocedureactivateobject.cpp: CombatProcedureActivateObject, CombatProcedure, C_Ranged, ScriptableFormForward and more (14 functions)
 
+#include <cstdint>
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/BSShaderNoLightingProperty.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -320,11 +321,11 @@ class C_Ranged
 
 struct FUN_009caac0_shell
 {
-    void FUN_009caac0(int arg1);
+    void FUN_009caac0(intptr_t arg1);
 };
 
 // @fnv 0x009caac0
-void FUN_009caac0_shell::FUN_009caac0(int arg1)
+void FUN_009caac0_shell::FUN_009caac0(intptr_t arg1)
 {
     ((int*)this)[3] = arg1;
     ((int*)this)[2] = 1;
@@ -343,19 +344,19 @@ void C_Ranged::FUN_009ca760()
 {
     if (this->target == 0)
     {
-        reinterpret_cast<::FUN_009caac0_shell *>((this))->FUN_009caac0((int)("Targeted reference is NULL for some reason"));
+        reinterpret_cast<::FUN_009caac0_shell *>((this))->FUN_009caac0((intptr_t)("Targeted reference is NULL for some reason"));
         return;
     }
     Actor* actor = ((::Actor *)(reinterpret_cast<::FUN_00996de0_Class *>((this))->FUN_00996de0()));
     S_Idle* idle = actor->GetIdle();
-    if (((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((::S_BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))))->FUN_0045cd60())) == 0 && idle != 0)
+    if (((intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((((::S_BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))))->FUN_0045cd60())) == 0 && idle != 0)
     {
         if (this->status == 0)
         {
             if (idle && (!reinterpret_cast<::fnv_004985f0::FUN_004985f0_s *>((idle))->FUN_004985f0() || reinterpret_cast<::FUN_00498d30_t *>((idle))->HasIdleForm((::TESIdleForm *)(void *)(0))))
                 return;
             S_BaseProcess* proc = ((::S_BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()));
-            bool ok = ((bool)(reinterpret_cast<::ProcessProxy *>((proc))->FUN_008ff0b0((::ActorProxy *)(actor), ((unsigned int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((this->target))->FUN_007af430())), (::ActorProxy *)(this->target))));
+            bool ok = ((bool)(reinterpret_cast<::ProcessProxy *>((proc))->FUN_008ff0b0((::ActorProxy *)(actor), ((uintptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((this->target))->FUN_007af430())), (::ActorProxy *)(this->target))));
             if (ok)
             {
                 this->status = 1;
@@ -397,7 +398,7 @@ void C_Ranged::FUN_009ca760()
     if (this->status != 3)
     {
         S_Tile* tile = ((::S_Tile *)(reinterpret_cast<::InterfaceManager *>((this->prov))->FUN_00586150()));
-        if (((unsigned int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((this->target))->FUN_007af430())) != this->refID)
+        if (((uintptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((this->target))->FUN_007af430())) != this->refID)
         {
             unsigned int cnt;
             int arr[5];
@@ -406,13 +407,13 @@ void C_Ranged::FUN_009ca760()
             for (unsigned int i = 0; i < 5; i++)
             {
                 int* item = (int*)((void *)(reinterpret_cast<::fnv_0097cfc0::CombatActionStandIn *>((tile))->GetActionAtIndex(i)));
-                if (item && *item == (int)this->target)
+                if (item && *item == (intptr_t)this->target)
                 {
                     arr[cnt] = item[1];
                     cnt++;
                 }
             }
-            reinterpret_cast<::C99 *>((tile))->FUN_0099a780((int)this->target);
+            reinterpret_cast<::C99 *>((tile))->FUN_0099a780((intptr_t)this->target);
             for (unsigned int j = 0; j < cnt; j++)
             {
                 int c = reinterpret_cast<::CombatState *>((this->target))->GetInventoryItemCount((::TESForm *)(arr[j]));
@@ -426,7 +427,7 @@ void C_Ranged::FUN_009ca760()
         }
         else
         {
-            reinterpret_cast<::C99 *>((tile))->FUN_0099a780((int)this->target);
+            reinterpret_cast<::C99 *>((tile))->FUN_0099a780((intptr_t)this->target);
             this->target->Activate(actor, 1, 0, 1);
         }
         if (!((bool)(reinterpret_cast<::FUN_00493bb0_Class *>((actor))->FUN_00493bb0())))
@@ -471,7 +472,7 @@ void CombatProcedureActivateObject::FUN_009cab00(TESObjectREFR* apRef)
     if (m_pReference == apRef)
     {
         m_pReference = 0;
-        reinterpret_cast<::FUN_009caac0_shell *>((((CombatProcedureAttackRanged*)this)))->FUN_009caac0((int)("Targeted reference pointer was cleared"));
+        reinterpret_cast<::FUN_009caac0_shell *>((((CombatProcedureAttackRanged*)this)))->FUN_009caac0((intptr_t)("Targeted reference pointer was cleared"));
     }
 }
 }  // namespace fnv_009cab00
@@ -699,7 +700,7 @@ struct FUN_009cad70_shell : public CombatProcedure
 void FUN_009cad70_shell::FUN_009cad70(unsigned int arg)
 {
     reinterpret_cast<::FUN_004534f0_shell *>((((CPStandIn004534f0*)this)))->FUN_004534f0(arg);
-    m_pReference = m_pReference ? dynamic_cast<TESObjectREFR*>(::FUN_004839c0((unsigned int)(m_pReference))) : 0;
+    m_pReference = m_pReference ? dynamic_cast<TESObjectREFR*>(::FUN_004839c0((unsigned int)(uintptr_t)(m_pReference))) : 0;
     if (m_pReference)
         reinterpret_cast<::fnv_00564db0::FUN_00564db0_cls *>((((CPStandIn00564db0*)m_pReference)))->FUN_00564db0(1);
 }
@@ -711,11 +712,11 @@ class TESScriptableForm
 
 struct ScriptableFormForward : public TESScriptableForm
 {
-    void FUN_009cc4b0(unsigned int a);
+    void FUN_009cc4b0(uintptr_t a);
 };
 
 // @fnv 0x009cc4b0
-void ScriptableFormForward::FUN_009cc4b0(unsigned int auiInitData)
+void ScriptableFormForward::FUN_009cc4b0(uintptr_t auiInitData)
 {
     reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(auiInitData));
 }

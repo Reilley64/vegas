@@ -2,6 +2,7 @@
 // src/fallout/ai/combat/combatprocedureattacklow.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/combat/combatprocedureattacklow.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/decl/AmmoOwner.h"
 #include "fnv/decl/CombatState.h"
 #include "fnv/decl/CombatWeapon.h"
@@ -90,7 +91,7 @@ struct FUN_009cbb50_shell
 // @fnv 0x009cbb50
 void FUN_009cbb50_shell::FUN_009cbb50()
 {
-    *(int*)this = (int)&DAT_01090aec;
+    *(intptr_t*)this = (intptr_t)&DAT_01090aec;
     reinterpret_cast<::FUN_009ca6c0_class *>((reinterpret_cast<FUN_009ca6c0_shell*>(this)))->FUN_009ca6c0();
 }
 
@@ -371,9 +372,9 @@ void FUN_009cbb70_shell::FUN_009cbb70()
     FUN_009cbb70_actor* kActor = ((::FUN_009cbb70_actor *)(reinterpret_cast<::FUN_00996de0_Class *>(this)->FUN_00996de0()));
     FUN_009cbb70_actor* pTarget = ((::FUN_009cbb70_actor *)(reinterpret_cast<::FUN_00996e00_shell *>(this)->FUN_00996e00()));
     FUN_0099a2d0_state* pState2 = ((::FUN_0099a2d0_state *)(reinterpret_cast<::InterfaceManager *>((pController))->FUN_00586150()));
-    if (!pTarget || ((int)(reinterpret_cast<::s575ca0::Owner *>((pTarget))->FUN_00575ca0())) != ((int)(reinterpret_cast<::s575ca0::Owner *>((kActor))->FUN_00575ca0())))
+    if (!pTarget || ((intptr_t)(reinterpret_cast<::s575ca0::Owner *>((pTarget))->FUN_00575ca0())) != ((intptr_t)(reinterpret_cast<::s575ca0::Owner *>((kActor))->FUN_00575ca0())))
     {
-        reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((int)(DAT_01090b30));
+        reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((intptr_t)(DAT_01090b30));
         return;
     }
 
@@ -408,7 +409,7 @@ void FUN_009cbb70_shell::FUN_009cbb70()
     if (RandomFloat(0.0f, 1.0f) < fChance3)
     {
         FUN_008c1c30 spPackage(new FUN_009b4d90);
-        ::FUN_009b5720((::FUN_009b5a30_Class *)(::AnimIdle *)(spPackage), (int)(kActor), (int)(pTarget), fTime);
+        ::FUN_009b5720((::FUN_009b5a30_Class *)(::AnimIdle *)(spPackage), (intptr_t)(kActor), (intptr_t)(pTarget), fTime);
         reinterpret_cast<::fnv_0089a760::HActor *>((pTarget))->FUN_0089a760((::fnv_0089a760::HHit *)(::AnimIdle *)(spPackage), 0);
     }
 

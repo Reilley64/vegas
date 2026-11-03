@@ -779,8 +779,8 @@ public:
     void *FUN_005fdb60(unsigned int);
     void FUN_00670760();
     void DestroyMenu();
-    int FUN_007315b0();
-    ::Tile *FUN_007b41c0(int);
+    intptr_t FUN_007315b0();
+    ::Tile *FUN_007b41c0(intptr_t);
     void FUN_007db250(int, int *);
     void Reset();
     void FUN_00a5ca80(::StrArray *);
@@ -900,7 +900,7 @@ struct S007a6280
     virtual void v3();
     virtual void v4();
     virtual unsigned int v5(int);
-    unsigned int FUN_007a6280();
+    uintptr_t FUN_007a6280();
 };
 struct FUN_007312e0_shell : Tile
 {
@@ -951,7 +951,7 @@ struct VATSMenu
 };
 // Returns v5 called with the result of FUN_007a7830(0) minus one.
 // @fnv 0x007a6280
-unsigned int S007a6280::FUN_007a6280()
+uintptr_t S007a6280::FUN_007a6280()
 {
     return v5(reinterpret_cast<::VATSMenu *>(this)->FUN_007a7830() - 1);
 }
@@ -1263,19 +1263,19 @@ void FUN_0079b8e0_shell::UpdateQuestObjectiveList()
          pobjectiveList && !pobjectiveList->_ref_008256d0(); pobjectiveList = ((::fnv_0079b8e0::S::BSSimpleList *)(reinterpret_cast<::Callees *>((pobjectiveList))->FUN_00726070())))
     {
         TESQuest* pQuest =
-            (TESQuest*)((S::BSAudio*)*((int *)(&reinterpret_cast<::SimpleListNodeView*>(((S::RegionObjectEntry*)pobjectiveList))->m_item)))->GetAudioBackendData();
-        if (reinterpret_cast<::BGSQuestObjective *>((void *)(((BGSQuestObjective*)*((int *)(&reinterpret_cast<::SimpleListNodeView*>(((S::RegionObjectEntry*)pobjectiveList))->m_item)))))->GetDisplayed())
+            (TESQuest*)((S::BSAudio*)*((intptr_t *)(&reinterpret_cast<::SimpleListNodeView*>(((S::RegionObjectEntry*)pobjectiveList))->m_item)))->GetAudioBackendData();
+        if (reinterpret_cast<::BGSQuestObjective *>((void *)(((BGSQuestObjective*)*((intptr_t *)(&reinterpret_cast<::SimpleListNodeView*>(((S::RegionObjectEntry*)pobjectiveList))->m_item)))))->GetDisplayed())
         {
             Tile* pTile =
                 ((ListBoxS*)((char*)this + 0x1c0))
                     ->FUN_007a44e0(
-                        (BGSQuestObjective*)*((int *)(&reinterpret_cast<::SimpleListNodeView*>(((S::RegionObjectEntry*)pobjectiveList))->m_item)),
-                        reinterpret_cast<::FUN_005ec330_shell *>((((BGSQuestObjective*)*((int *)(&reinterpret_cast<::SimpleListNodeView*>(((S::RegionObjectEntry*)pobjectiveList))->m_item)))))->GetPromptText(),
+                        (BGSQuestObjective*)*((intptr_t *)(&reinterpret_cast<::SimpleListNodeView*>(((S::RegionObjectEntry*)pobjectiveList))->m_item)),
+                        reinterpret_cast<::FUN_005ec330_shell *>((((BGSQuestObjective*)*((intptr_t *)(&reinterpret_cast<::SimpleListNodeView*>(((S::RegionObjectEntry*)pobjectiveList))->m_item)))))->GetPromptText(),
                         0, 0);
             reinterpret_cast<::FUN_00a012d0_t *>(((*(Tile**)reinterpret_cast<::FUN_006317a0_struct *>((((FUN_006317a0_struct*)((char*)pTile + 4))))->AddEight((int)((::fnv_0079b8e0::S::BSSimpleList *)(reinterpret_cast<::Callees *>((((S::BSSimpleList*)((char*)pTile + 4))))->FUN_00726070()))))))->FUN_00a012d0(0xfba, DAT_01074ffc, true);
             pTile->Set(Tile::GetTraitID("_ShowEmptyMarker"), 1);
             pTile->Set(Tile::GetTraitID("_enabled"), 0);
-            if (reinterpret_cast<::BGSQuestObjective *>((void *)(((BGSQuestObjective*)*((int *)(&reinterpret_cast<::SimpleListNodeView*>(((S::RegionObjectEntry*)pobjectiveList))->m_item)))))->GetCompleted())
+            if (reinterpret_cast<::BGSQuestObjective *>((void *)(((BGSQuestObjective*)*((intptr_t *)(&reinterpret_cast<::SimpleListNodeView*>(((S::RegionObjectEntry*)pobjectiveList))->m_item)))))->GetCompleted())
             {
                 reinterpret_cast<::FUN_00a012d0_t *>((pTile))->FUN_00a012d0(DAT_011da344, 128.0f, true);
                 pTile->Set(DAT_011da348, 1);
@@ -1485,7 +1485,7 @@ bool __cdecl FUN_0079b720(TESChallenge* challenge)
 {
     bool result = true;
     {
-        int challengeType;
+        intptr_t challengeType;
 
         if ((*reinterpret_cast<int *>(&::DAT_011da368)) != 0)
         {
@@ -1493,7 +1493,7 @@ bool __cdecl FUN_0079b720(TESChallenge* challenge)
                 result = true;
         }
 
-        challengeType = ((int)(reinterpret_cast<::FUN_006a1b60_Class *>((challenge))->GetField54()));
+        challengeType = ((intptr_t)(reinterpret_cast<::FUN_006a1b60_Class *>((challenge))->GetField54()));
 
         if ((std::intptr_t)challenge->GetProgressValue() <= 0)
         {
@@ -2271,8 +2271,8 @@ struct FUN_007a1ac0_cls
 unsigned int FUN_007a1ac0_cls::FUN_007a1ac0(BSStringT<char>& aString)
 {
     unsigned int uiIndex = reinterpret_cast<::S5460 *>(this)->FUN_00845460();
-    reinterpret_cast<::FUN_007a6310_cls *>(this)->ConstructElements((int)(&m_04[uiIndex]), 1);
-    reinterpret_cast<::FUN_00501c10_cls *>(&(m_04[uiIndex]))->CallAndReturnSelf((int)&(aString));
+    reinterpret_cast<::FUN_007a6310_cls *>(this)->ConstructElements((intptr_t)(&m_04[uiIndex]), 1);
+    reinterpret_cast<::FUN_00501c10_cls *>(&(m_04[uiIndex]))->CallAndReturnSelf((intptr_t)&(aString));
     return uiIndex;
 }
 
@@ -2312,9 +2312,9 @@ struct LBMenu
 struct LBItem
 {
     Tile* tile;
-    int object;
+    intptr_t object;
     char isFilteredOut;
-    LBItem(Tile* t, int* o);
+    LBItem(Tile* t, intptr_t* o);
 };
 
 struct Tile;
@@ -2335,7 +2335,7 @@ struct LBox
     Tile* scrollBar;
     const char* templateName;
     unsigned short itemCount;
-    Tile* AddItem(int item, const char* text, int (*sortFunc)(LBItem*, LBItem*), const char* altTemplate);
+    Tile* AddItem(intptr_t item, const char* text, int (*sortFunc)(LBItem*, LBItem*), const char* altTemplate);
 };
 
 
@@ -2522,7 +2522,7 @@ struct ListScrollHost
     void FUN_007a8580();
 };
 // @fnv 0x007a5230
-Tile* LBox::AddItem(int item, const char* text, int (*sortFunc)(LBItem*, LBItem*), const char* altTemplate)
+Tile* LBox::AddItem(intptr_t item, const char* text, int (*sortFunc)(LBItem*, LBItem*), const char* altTemplate)
 {
     if (parentTile && (templateName || altTemplate))
     {
@@ -2738,7 +2738,7 @@ struct FUN_00a01290_shell
     void SetTraitAndReset(int, float);
 };
 
-int __cdecl FUN_00a01860(const char*);
+intptr_t __cdecl FUN_00a01860(const char*);
 
 struct MapMenu_Shell : public MapMenu
 {
@@ -2927,8 +2927,8 @@ struct Controller
 };
 
 bool __cdecl FUN_00702450(int code);
-int __cdecl FUN_00a01860(const void* key);
-int __cdecl FUN_00a01860(const void* key, float value);
+intptr_t __cdecl FUN_00a01860(const void* key);
+intptr_t __cdecl FUN_00a01860(const void* key, float value);
 int __cdecl FUN_00ec62c0();
 
 extern const double DAT_010745f8;
@@ -3013,7 +3013,7 @@ class NoteSource
 {
   public:
 };
-int __cdecl FUN_00a01860(const char* pcTrait);
+intptr_t __cdecl FUN_00a01860(const char* pcTrait);
 
 class NotesMapMenu
 {
@@ -3277,7 +3277,7 @@ void Target600::RefreshChallengeList()
         item = ((::Challenge600 *)(reinterpret_cast<::SimpleListNodeView*>(node)->m_item));
         if (item && (!reinterpret_cast<::TESChallenge *>((item))->GetStartsLocked() || ((int)(::FUN_005a60d0((const char *)(item))))))
         {
-            Tile600* tile = ((::Tile600 *)(reinterpret_cast<::LBox *>(&(list))->AddItem((int)(item), ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&(item->name))->FUN_00408da0())), (int (*)(LBItem *, LBItem *))(0), (const char *)(0))));
+            Tile600* tile = ((::Tile600 *)(reinterpret_cast<::LBox *>(&(list))->AddItem((intptr_t)(item), ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&(item->name))->FUN_00408da0())), (int (*)(LBItem *, LBItem *))(0), (const char *)(0))));
             reinterpret_cast<::Tile *>((tile))->Set(0xfaa, 0x18);
             reinterpret_cast<::FUN_00a012d0_t *>((tile))->FUN_00a012d0(DAT_011da344, ((int)(::FUN_005a6150((const unsigned char *)(item)))) ? 128.0f : 255.0f, true);
         }
@@ -3302,7 +3302,7 @@ struct UIRecord : BSStringT<char>
 struct RadioList
 {
     void** vtable;
-    void* FUN_007a3820(RadioEntry*, unsigned int, int, int);
+    void* FUN_007a3820(RadioEntry*, uintptr_t, int, int);
     void FUN_007a3d20(bool (*)(RefH*));
 };
 typedef void(* RadioMethod)(RadioList*);
@@ -3315,13 +3315,13 @@ struct FUN_0079bea0_Shell : MapMenu
 void FUN_0079bea0_Shell::RefreshRadioList()
 {
     UIRecord record;
-    ::BGSTalkingActivator::FindRadioStations((::TESObjectREFR *)((*reinterpret_cast<int *>(&::_g_thePlayer))), (::BSSimpleList< ::TESObjectREFR *> *)(void *)(&record), (::BSSimpleList<float> *)(0));
+    ::BGSTalkingActivator::FindRadioStations((::TESObjectREFR *)((*reinterpret_cast<intptr_t *>(&::_g_thePlayer))), (::BSSimpleList< ::TESObjectREFR *> *)(void *)(&record), (::BSSimpleList<float> *)(0));
     ((RadioMethod)((RadioList*)&m_kMapMarkerListBox)->vtable[7])((RadioList*)&m_kMapMarkerListBox);
     for (BSSimpleList<unsigned int>* node = ::FUN_0079c080(); node && ((std::uintptr_t)(reinterpret_cast<::SimpleListNodeView*>(node)->m_item)); node = ((::BSSimpleList<unsigned int> *)(reinterpret_cast<::Callees *>((node))->FUN_00726070())))
     {
         RadioTile* tile =
             (RadioTile*)((RadioList*)&m_kMapMarkerListBox)
-                ->FUN_007a3820((RadioEntry*)((unsigned int)(reinterpret_cast<::SimpleListNodeView*>(node)->m_item)), ((unsigned int)(reinterpret_cast<::FUN_0055d520_shell *>((((RadioEntry*)((unsigned int)(reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))))->FUN_0055d520())), 0, 0);
+                ->FUN_007a3820((RadioEntry*)((uintptr_t)(reinterpret_cast<::SimpleListNodeView*>(node)->m_item)), ((uintptr_t)(reinterpret_cast<::FUN_0055d520_shell *>((((RadioEntry*)((uintptr_t)(reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))))->FUN_0055d520())), 0, 0);
         tile->Set(0xfaa, 0x19);
         reinterpret_cast<::Tile *>((tile))->SetName((const char *)(((std::uintptr_t)(reinterpret_cast<::FUN_0055d520_shell *>((((RadioEntry*)((std::uintptr_t)(reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))))->FUN_0055d520()))));
         tile->Set(::DAT_011da348, ::FUN_0079c070() && ((std::uintptr_t)(reinterpret_cast<::SimpleListNodeView*>(node)->m_item)) == *(unsigned int*)::FUN_0079c070());
@@ -4578,7 +4578,7 @@ bool Controller::HandleInputCommand(int command, int ignored)
                 int cursor = ::FUN_00559450((int *)&(history->list));
                 while (cursor != 0)
                 {
-                    int value = *reinterpret_cast<::ListStandIn *>(&(history->list))->FUN_0057cbe0((int **)(int *)(&cursor));
+                    intptr_t value = *reinterpret_cast<::ListStandIn *>(&(history->list))->FUN_0057cbe0((int **)(int *)(&cursor));
                     if (reinterpret_cast<::FUN_00a01230_shell *>((((WidgetTile*)value)))->IsTraitNonZero(DAT_011da348))
                     {
                         FUN_HandleState(0x1a, value);
@@ -5386,9 +5386,9 @@ struct MyParent
 struct MyItem
 {
     MyTile* tile;
-    int object;
+    intptr_t object;
     char isFilteredOut;
-    MyItem(MyTile* t, int* o);
+    MyItem(MyTile* t, intptr_t* o);
 };
 struct MyList
 {
@@ -5405,7 +5405,7 @@ struct MyBox
     MyTile* scrollBar;
     const char* templateName;
     unsigned short itemCount;
-    MyTile* CreateListItem(int item, const char* text, int (*sortFunc)(MyItem*, MyItem*), const char* altTemplate);
+    MyTile* CreateListItem(intptr_t item, const char* text, int (*sortFunc)(MyItem*, MyItem*), const char* altTemplate);
 };
 
 struct NoteFilterTile : Tile
@@ -5450,7 +5450,7 @@ void MapMenuClick::FUN_00796fd0(int aiID, Tile* apTarget)
     case 23:
         if (m_kQuestListBox.GetSelectedData() && !reinterpret_cast<::FUN_0059e400_shell *>((m_kQuestListBox.GetSelectedData()))->FUN_0059e400())
         {
-            reinterpret_cast<::Obj_009529d0 *>((::_g_thePlayer))->FUN_009529d0((int)(m_kQuestListBox.GetSelectedData()));
+            reinterpret_cast<::Obj_009529d0 *>((::_g_thePlayer))->FUN_009529d0((intptr_t)(m_kQuestListBox.GetSelectedData()));
             ::FUN_00706f30(3);
             reinterpret_cast<::MapMenu *>(this)->FUN_0079af30();
         }
@@ -5775,7 +5775,7 @@ void NotesMapMenu::RefreshNotesList()
         for (int i = 0; i < reinterpret_cast<::FUN_00966a50_Class *>(((*reinterpret_cast<::NoteSource * *>(&::_g_thePlayer))))->FUN_00966a50(); i++)
         {
             NoteData* pkNote = ((::NoteData *)(reinterpret_cast<::FUN_00966bb0_shell *>(((*reinterpret_cast<::NoteSource * *>(&::_g_thePlayer))))->GetItemAt(i)));
-            NoteTile* pkTile2 = ((::NoteTile *)(reinterpret_cast<::MyBox *>(&(m_kNotesList))->CreateListItem((int)(pkNote), ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&(pkNote->m_kName))->FUN_00408da0())), (int (*)(MyItem *, MyItem *))(0), (const char *)(0))));
+            NoteTile* pkTile2 = ((::NoteTile *)(reinterpret_cast<::MyBox *>(&(m_kNotesList))->CreateListItem((intptr_t)(pkNote), ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&(pkNote->m_kName))->FUN_00408da0())), (int (*)(MyItem *, MyItem *))(0), (const char *)(0))));
             reinterpret_cast<::Tile *>((pkTile2))->Set(0xfaa, 0x18);
             reinterpret_cast<::FUN_00a012d0_t *>((pkTile2))->FUN_00a012d0(DAT_011da344, ((bool)(reinterpret_cast<::FUN_00798420_shell *>((pkNote))->GetUnk7d())) ? 128.0f : 255.0f, true);
         }
@@ -5794,7 +5794,7 @@ void MenuItem7A3::FUN_007a30e0(bool bEnabled)
     reinterpret_cast<::Tile *>((m_pkTile))->Set(s_iEnabledTrait, bEnabled);
 }
 
-int FUN_00a01860(const char* apName);
+intptr_t FUN_00a01860(const char* apName);
 
 struct ScrollTile_7a3580
 {
@@ -5874,16 +5874,16 @@ struct InsertBox
     Tile* scrollBar;
     const char* templateName;
     unsigned short itemCount;
-    Tile* FUN_007a3820(int item, const char* text, int (*sortFunc)(LBItem*, LBItem*), const char* altTemplate);
+    Tile* FUN_007a3820(intptr_t item, const char* text, int (*sortFunc)(LBItem*, LBItem*), const char* altTemplate);
 };
 namespace fnv_007a44e0 {
 struct InsertBox : LBox
 {
     void FUN_007a7d80();
-    Tile* FUN_007a44e0(int object, const char* text, int (*sort)(LBItem*, LBItem*), const char* alt);
+    Tile* FUN_007a44e0(intptr_t object, const char* text, int (*sort)(LBItem*, LBItem*), const char* alt);
 };
 // @fnv 0x007a44e0
-Tile* InsertBox::FUN_007a44e0(int object, const char* text, int (*sort)(LBItem*, LBItem*), const char* alt)
+Tile* InsertBox::FUN_007a44e0(intptr_t object, const char* text, int (*sort)(LBItem*, LBItem*), const char* alt)
 {
     if (parentTile && (templateName || alt))
     {
@@ -5973,7 +5973,7 @@ struct FUN_007a5730_tile
 struct FUN_007a5730_item
 {
     FUN_007a5730_tile* tile;
-    int object;
+    intptr_t object;
     unsigned char filtered;
 };
 
@@ -6017,7 +6017,7 @@ struct FUN_007a6b00_shell : FUN_007a1c90
     void AssignTileIndices();
 };
 // @fnv 0x007a2930
-MyTile* MyBox::CreateListItem(int item, const char* text, int (*sortFunc)(MyItem*, MyItem*), const char* altTemplate)
+MyTile* MyBox::CreateListItem(intptr_t item, const char* text, int (*sortFunc)(MyItem*, MyItem*), const char* altTemplate)
 {
     if (parentTile && (templateName || altTemplate))
     {
@@ -6093,7 +6093,7 @@ struct FUN_007a7700_Menu
 };
 // Creates a tile for an item via the parent menu, sets its text and value, adds it to the list (sorted or appended), and updates the filtered-count value.
 // @fnv 0x007a3820
-Tile* InsertBox::FUN_007a3820(int item, const char* text, int (*sortFunc)(LBItem*, LBItem*), const char* altTemplate)
+Tile* InsertBox::FUN_007a3820(intptr_t item, const char* text, int (*sortFunc)(LBItem*, LBItem*), const char* altTemplate)
 {
     if (parentTile && (templateName || altTemplate))
     {

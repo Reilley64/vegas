@@ -566,7 +566,7 @@ int __cdecl FUN_004b4a10(unsigned short a1, int a2, int a3, int a4)
 
 struct FUN_004b4ab0_Class
 {
-    void FUN_004b4ab0(int a, int b);
+    void FUN_004b4ab0(intptr_t a, int b);
     void FUN_004b4ad0(int a, int b);
 };
 

@@ -3480,7 +3480,7 @@ unsigned int B473180Stream::FUN_00473180(void* pvBuffer, unsigned int uiBytes)
 
 struct TESOffsetWorker : public TESFile
 {
-    bool FUN_004723a0(unsigned int);
+    bool FUN_004723a0(uintptr_t);
 };
 // @fnv 0x00482f40
 void FUN_00482f40_t::FUN_00482f40(TESForm* apForm, unsigned int auiChunk)
@@ -3532,7 +3532,7 @@ struct SeekFile
 
 // Sets the record offset, seeks there when valid, reads a size, and resets record state on the invalid-offset and success paths.
 // @fnv 0x004723a0
-bool TESOffsetWorker::FUN_004723a0(unsigned int newoffset)
+bool TESOffsetWorker::FUN_004723a0(uintptr_t newoffset)
 {
     unsigned int currentoffset;
     reinterpret_cast<::FUN_00473960_shell *>((this))->FUN_00473960();

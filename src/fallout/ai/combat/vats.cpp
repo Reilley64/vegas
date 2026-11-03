@@ -1,5 +1,6 @@
 // fallout/ai/combat/vats.cpp: VATS, PlayerCharacter, SoundListView, ListHolder and more (26 functions)
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/AnimSwap.h"
 #include "fnv/decl/B8C4890Actor.h"
@@ -994,7 +995,7 @@ void FUN_009c9280_shell::ExecuteVATSMeleeAttack(VATSCommand* pAttackCmd)
                 else
                 {
                     fDistance =
-                        ::GetActorReach((::A69C0Actor *)(::Actor *)((Actor*)DAT_011f21f0), (::A69C0Weapon *)((int)((FUN_008a1710_shell*)DAT_011f21f0)->FUN_008a1710()));
+                        ::GetActorReach((::A69C0Actor *)(::Actor *)((Actor*)DAT_011f21f0), (::A69C0Weapon *)((intptr_t)((FUN_008a1710_shell*)DAT_011f21f0)->FUN_008a1710()));
                     if (!((FUN_008a1710_shell*)DAT_011f21f0)->FUN_008a1710())
                     {
                         fDistance *= ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting554))))->f;
@@ -2467,9 +2468,9 @@ bool CheckerL8::FUN_009c8f20(PackageL8* pkPackage)
     reinterpret_cast<::FUN_004a39f0_shell *>(&(kFlags))->FUN_004a39f0(0x27);
     RefL8* pkActor = pkTarget->IsActor() ? pkTarget : 0;
     if (pkActor && ((::ProjL8 *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>((pkActor))->FUN_009306d0())))
-        reinterpret_cast<::FUN_0059ce80_shell *>(&(kFlags))->FUN_0059ce80((unsigned int)(((void *)(reinterpret_cast<::S819 *>((((::ProjL8 *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>((pkActor))->FUN_009306d0()))))->FUN_00819250()))));
+        reinterpret_cast<::FUN_0059ce80_shell *>(&(kFlags))->FUN_0059ce80((uintptr_t)(((void *)(reinterpret_cast<::S819 *>((((::ProjL8 *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>((pkActor))->FUN_009306d0()))))->FUN_00819250()))));
     else
-        reinterpret_cast<::FUN_0059ce80_shell *>(&(kFlags))->FUN_0059ce80((unsigned int)(((void *)(::FUN_005dbe10()))));
+        reinterpret_cast<::FUN_0059ce80_shell *>(&(kFlags))->FUN_0059ce80((uintptr_t)(((void *)(::FUN_005dbe10()))));
     kQuery.SetFlags(kFlags);
     reinterpret_cast<::fnv_004a3da0::FUN_004a3da0_shell *>(&(kQuery))->FUN_004a3da0((void *)&(kFrom));
     reinterpret_cast<::FUN_004a3eb0_shell *>(&(kQuery))->FUN_004a3eb0((void *)&(kTo));
@@ -2477,9 +2478,9 @@ bool CheckerL8::FUN_009c8f20(PackageL8* pkPackage)
     reinterpret_cast<::FUN_004a3fb0_shell *>(&(kQuery))->FUN_004a3fb0((::hkpAllRayHitCollector *)(::HitResultsL8 *)(&kResults));
     bool bPickResultFound = false;
     pkWorld->Pick(kQuery);
-    for (int i = 0; !bPickResultFound && i < ((int)(reinterpret_cast<::Callees *>((((::HitListL8 *)(::FUN_00460140((int)(((::HitArrayL8 *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(kQuery))->FUN_008cdd90()))))))))->FUN_00726070())); i++)
+    for (int i = 0; !bPickResultFound && i < ((int)(reinterpret_cast<::Callees *>((((::HitListL8 *)(::FUN_00460140((intptr_t)(((::HitArrayL8 *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(kQuery))->FUN_008cdd90()))))))))->FUN_00726070())); i++)
     {
-        HitL8 kHit(((void *)(reinterpret_cast<::FUN_004a46b0_class *>((((::HitListL8 *)(::FUN_00460140((int)(((::HitArrayL8 *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(kQuery))->FUN_008cdd90()))))))))->GetEntryAt(i))));
+        HitL8 kHit(((void *)(reinterpret_cast<::FUN_004a46b0_class *>((((::HitListL8 *)(::FUN_00460140((intptr_t)(((::HitArrayL8 *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(kQuery))->FUN_008cdd90()))))))))->GetEntryAt(i))));
         void* pvCollidable = ((void *)(::FUN_004b5820((::FormLike *)(kHit.m_pvCollidable))));
         RefL8* pkRef = ((::RefL8 *)(::FUN_0056f930((::NiAVObject *)(pvCollidable))));
         if (pvCollidable)

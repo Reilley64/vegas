@@ -2,6 +2,7 @@
 // src/fallout/ai/bsplayerdistancecheckcontroller.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/bsplayerdistancecheckcontroller.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/BSFaceGenMorphData.h"
 #include "fnv/decl/FUN_00439ef0_class.h"
@@ -236,7 +237,7 @@ void FUN_008d1670_cls::UpdateDoorSpawn(unsigned int unkArg)
         req = ((::DoorSpawnRequest *)(::FUN_00653270((const ::NiRTTI *)(char *)((char*)&(*reinterpret_cast<char *>(&::g_011f4280))), (::NiObject *)(m_2c))));
         if (req != 0)
         {
-            reinterpret_cast<::FUN_00439ef0_class *>(((*reinterpret_cast<::Manager * *>(&::_g_thePlayer))->v1f4(&handle, ((void *)(::FUN_0045bb80((int)(req)))))))->FUN_00439ef0({}, *(const ::NiPoint3 *)nullptr);
+            reinterpret_cast<::FUN_00439ef0_class *>(((*reinterpret_cast<::Manager * *>(&::_g_thePlayer))->v1f4(&handle, ((void *)(::FUN_0045bb80((intptr_t)(req)))))))->FUN_00439ef0({}, *(const ::NiPoint3 *)nullptr);
             if (((double)(reinterpret_cast<::NiPoint3 *>(&(handle))->ComputeMagnitude())) < ((double)(reinterpret_cast<::BSFaceGenMorphData *>(this)->FUN_00508120())))
             {
                 m_38(req);

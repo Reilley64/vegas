@@ -186,11 +186,11 @@ int FlaggedData::FUN_008c2e30()
 struct FUN_008c5000_shell
 {
     int FUN_008c5000(int);
-    int IsNonZero(int arg);
+    int IsNonZero(intptr_t arg);
 };
 
 // @fnv 0x008c4fe0
-int FUN_008c5000_shell::IsNonZero(int arg)
+int FUN_008c5000_shell::IsNonZero(intptr_t arg)
 {
     return FUN_008c5000(arg) != 0;
 }
@@ -205,11 +205,11 @@ void ActorPackageContext::Clear()
 
 struct FUN_008c6c80_Class
 {
-    void FUN_008c6c80(int a);
+    void FUN_008c6c80(intptr_t a);
 };
 
 // @fnv 0x008c6c80
-void FUN_008c6c80_Class::FUN_008c6c80(int a)
+void FUN_008c6c80_Class::FUN_008c6c80(intptr_t a)
 {
     reinterpret_cast<ActorPackageContext*>(this)->Clear();
 }
@@ -451,7 +451,7 @@ void FUN_008d50e0_shell::FUN_008d50e0()
 
 struct FUN_008d5660_class
 {
-    void ForwardToInner(int a);
+    void ForwardToInner(intptr_t a);
 };
 struct ActorValueUtility
 {
@@ -558,10 +558,10 @@ struct FUN_008c1c80_Class
 };
 struct FUN_008c4f90_Class
 {
-    void FUN_008c4f90(int arg);
+    void FUN_008c4f90(intptr_t arg);
 };
 // @fnv 0x008c4f90
-void FUN_008c4f90_Class::FUN_008c4f90(int arg)
+void FUN_008c4f90_Class::FUN_008c4f90(intptr_t arg)
 {
     FUN_008c5000_shell* result = (FUN_008c5000_shell*)((FUN_008c5000_shell*)this)->FUN_008c5000(arg);
     if (result)
@@ -671,7 +671,7 @@ void FUN_008c7990_Class::FUN_008c7990()
 struct FUN_008ca7c0_shell
 {
     void Reinitialize(int b);
-    bool FUN_008ca7c0(int a, int b);
+    bool FUN_008ca7c0(intptr_t a, int b);
 };
 struct FUN_008_Struct
 {
@@ -833,7 +833,7 @@ struct FUN_008d56c0_class
     void SaveToBuffer(int a);
 };
 // @fnv 0x008d5660
-void FUN_008d5660_class::ForwardToInner(int aiValue)
+void FUN_008d5660_class::ForwardToInner(intptr_t aiValue)
 {
     reinterpret_cast<::FUN_008d56c0_class *>((((FUN_008d5660_class*)*(void**)this)))->SaveToBuffer(aiValue);
 }
@@ -866,10 +866,10 @@ struct FUN_008d6000_Class
     unsigned int m_iWordAt04;
     unsigned int m_8;
     unsigned int m_iThirdValue;
-    void InitTiming(unsigned int a, unsigned int b);
+    void InitTiming(uintptr_t a, uintptr_t b);
 };
 // @fnv 0x008d6000
-void FUN_008d6000_Class::InitTiming(unsigned int a, unsigned int b)
+void FUN_008d6000_Class::InitTiming(uintptr_t a, uintptr_t b)
 {
     m_iWordAt04 = b;
     m_iWordAt00 = a;
@@ -906,7 +906,7 @@ struct ProcessLists
 
 struct FUN_008d6f50_Class
 {
-    void FUN_008d6f50(int arg);
+    void FUN_008d6f50(intptr_t arg);
 };
 
 
@@ -1555,10 +1555,10 @@ void FUN_008d5680_Class::FUN_008d5680(BGSLoadFormBuffer* apBuffer)
 
 struct FUN_008d56a0_Class
 {
-    void FUN_008d56a0(int value);
+    void FUN_008d56a0(intptr_t value);
 };
 // @fnv 0x008d56a0
-void FUN_008d56a0_Class::FUN_008d56a0(int value)
+void FUN_008d56a0_Class::FUN_008d56a0(intptr_t value)
 {
     ((FUN_008d5720*)*(void**)this)->Init(value);
 }
@@ -1922,7 +1922,7 @@ struct S_8c4f10_Cls
     int unk8c;
     int unk90;
     S_8c4f10_List list;
-    void FUN_008c4f10(int a);
+    void FUN_008c4f10(intptr_t a);
 };
 
 struct SpawnedElemB
@@ -2080,7 +2080,7 @@ class FUN_008ca940_cls
     bool PopNode(FUN_008ca940_node** out);
 };
 // @fnv 0x008ca7c0
-bool FUN_008ca7c0_shell::FUN_008ca7c0(int a, int b)
+bool FUN_008ca7c0_shell::FUN_008ca7c0(intptr_t a, int b)
 {
     if (reinterpret_cast<::FUN_008ca940_cls *>(this)->PopNode((::FUN_008ca940_node **)(a)))
     {
@@ -4896,7 +4896,7 @@ struct FUN_008d6bb0_owner
     void CreateMultiBoundNode(SceneArg* arg);
 };
 // @fnv 0x008d6f50
-void FUN_008d6f50_Class::FUN_008d6f50(int pCamera)
+void FUN_008d6f50_Class::FUN_008d6f50(intptr_t pCamera)
 {
     if (reinterpret_cast<::_FUN_00822510_Class *>((void *)(((NiPointer<NiNode>*)((char*)this + 0xa0))))->operator====((int)(0)))
     {
@@ -5291,7 +5291,7 @@ void* FUN_008cc6f0_Class::FUN_008cc6f0()
 }
 // If a is nonzero, walks the list nodes while FUN_005ae380 is true and calls v14(a) on the first item of each node.
 // @fnv 0x008c4f10
-void S_8c4f10_Cls::FUN_008c4f10(int a)
+void S_8c4f10_Cls::FUN_008c4f10(intptr_t a)
 {
     S_8c4f10_Node* pNode;
     if (a)
@@ -5538,7 +5538,7 @@ class TopicInfoArray
 };
 // Removes up to maximum ArrowProjectiles matching owner, target and filter: the first pass deletes or calls FUN_008cc6d0(3), the second pass always deletes.
 // @fnv 0x008ce180
-void FUN_008ce180(void* target, int maximum, int owner, bool destroy, bool filter)
+void FUN_008ce180(void* target, int maximum, intptr_t owner, bool destroy, bool filter)
 {
     int list = 0;
     TopicInfoArray* count = (TopicInfoArray*)((::AttachedArrowTimer *)(reinterpret_cast<::BaseProcess *>((((AttachedArrowProcesses*)&(*reinterpret_cast<::ProcessLists *>(&::g_011e0e80)))))->GetCurrentProcessData()));
@@ -5612,12 +5612,12 @@ class FUN_008c2630_Owner
   public:
     char unk00[0x88];
     FUN_008c2630_Obj m_88;
-    void FUN_008c2630(TESBoundObject* a1, int a2);
+    void FUN_008c2630(TESBoundObject* a1, intptr_t a2);
 };
 
 // If a1 is form type 0x18 or 0x1a, dynamic_cast it to TESEnchantableForm, read its FUN_00726070() value, and call m_88.v5 with that value's offset 0x18.
 // @fnv 0x008c2630
-void FUN_008c2630_Owner::FUN_008c2630(TESBoundObject* apForm, int a2)
+void FUN_008c2630_Owner::FUN_008c2630(TESBoundObject* apForm, intptr_t a2)
 {
     if (!(apForm->FUN_00401170() == 0x18 || apForm->FUN_00401170() == 0x1a))
     {

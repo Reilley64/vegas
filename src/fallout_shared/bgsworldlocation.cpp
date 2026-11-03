@@ -2,6 +2,7 @@
 // src/fallout_shared/bgsworldlocation.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/bgsworldlocation.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/decl/FUN_00439ef0_class.h"
 #include "fnv/decl/FUN_00865e50_shell.h"
 #include "fnv/decl/TESCallHelper.h"
@@ -126,23 +127,23 @@ struct FUN_00527990_shell
 {
     char _pad[12];
     TESForm* pForm;
-    bool FUN_00527990(int* apID, int* apType);
+    bool FUN_00527990(intptr_t* apID, intptr_t* apType);
 };
 // @fnv 0x00527990
-bool FUN_00527990_shell::FUN_00527990(int* apID, int* apType)
+bool FUN_00527990_shell::FUN_00527990(intptr_t* apID, intptr_t* apType)
 {
     if (!pForm)
         return false;
     int iType = pForm->FNV_GetFormType();
     if (iType == 0x41)
     {
-        *apType = (int)pForm;
+        *apType = (intptr_t)pForm;
         *apID = 0;
         return true;
     }
     else if (iType == 0x39)
     {
-        *apID = (int)pForm;
+        *apID = (intptr_t)pForm;
         *apType = 0;
         return true;
     }

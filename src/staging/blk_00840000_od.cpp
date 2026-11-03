@@ -420,7 +420,7 @@ void* FUN_0084d240_class::FUN_0084d240(int a)
 }
 
 // @fnv 0x0084da90
-int GetCombinedValue(int this_)
+intptr_t GetCombinedValue(intptr_t this_)
 {
     return *(int*)(this_ + 4) + *(int*)(this_ + 0xc);
 }
@@ -432,11 +432,11 @@ struct TaskQueueInterface
 
 struct WeaponQueue
 {
-    void QueueWeapon(unsigned int);
+    void QueueWeapon(uintptr_t);
 };
 
 // @fnv 0x0084dd70
-void WeaponQueue::QueueWeapon(unsigned int param_2)
+void WeaponQueue::QueueWeapon(uintptr_t param_2)
 {
     TaskQueueInterface::CopyStringToBuffer((char*)this + 0x3c, 0x40, (const char*)param_2);
 }
@@ -444,11 +444,11 @@ void WeaponQueue::QueueWeapon(unsigned int param_2)
 struct FUN_0084e320_Class
 {
     BSSimpleArray<unsigned int, 2> m_Array;
-    unsigned int GetArrayElement(int index);
+    uintptr_t GetArrayElement(int index);
 };
 
 // @fnv 0x0084e320
-unsigned int FUN_0084e320_Class::GetArrayElement(int index)
+uintptr_t FUN_0084e320_Class::GetArrayElement(int index)
 {
     return ((unsigned int)(reinterpret_cast<::S3e60 *>(&(m_Array))->FUN_006a7ad0(index)));
 }
@@ -1641,11 +1641,11 @@ struct FUN_0084e460_t
     Vec3 f;
     Vec3 g;
     unsigned char flag;
-    void FUN_0084e460(unsigned int arg);
+    void FUN_0084e460(uintptr_t arg);
 };
 // Reads a value from arg via FUN_00853500, zeroes b-e, copies two Vec3s from arg+3 and arg+15, and clears flag.
 // @fnv 0x0084e460
-void FUN_0084e460_t::FUN_0084e460(unsigned int auiData)
+void FUN_0084e460_t::FUN_0084e460(uintptr_t auiData)
 {
     a = reinterpret_cast<::FUN_00853500_shell *>(((void*)auiData))->FUN_00853500();
     b = 0;
@@ -2144,11 +2144,11 @@ struct FUN_00854c10_Class
 {
     char pad[0x10];
     AEList list;
-    void FUN_00854c10(int a1, int a2, int a3);
+    void FUN_00854c10(int a1, int a2, intptr_t a3);
 };
 
 // @fnv 0x00854c10
-void FUN_00854c10_Class::FUN_00854c10(int a1, int a2, int a3)
+void FUN_00854c10_Class::FUN_00854c10(int a1, int a2, intptr_t a3)
 {
     char* buf;
     {
@@ -2612,7 +2612,7 @@ struct FUN_0084d310_class
     FUN_0084d310_entry** m_buckets;
     unsigned int m_uiItemCount;
 
-    void FUN_0084d310(int key, unsigned char value);
+    void FUN_0084d310(intptr_t key, unsigned char value);
 };
 
 struct FUN_0084d310_entry
@@ -2623,7 +2623,7 @@ struct FUN_0084d310_entry
 };
 
 // @fnv 0x0084d310
-void FUN_0084d310_class::FUN_0084d310(int key, unsigned char value)
+void FUN_0084d310_class::FUN_0084d310(intptr_t key, unsigned char value)
 {
     int index = FUN_0084d310_lookup(key);
     FUN_0084d310_entry* entry = m_buckets[index];

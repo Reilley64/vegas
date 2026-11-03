@@ -2,6 +2,7 @@
 // src/fallout/magic/bounditemeffect.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/bounditemeffect.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/active_effect_fields.h"
 #include "fnv/simple_list_node_view.h"
 #include <new>
@@ -493,7 +494,7 @@ AEEffect* AEEffect::Clone()
         if (pWeapon && pWeapon->model.GetModelLength() > 0)
         {
             pNewInstance->bWeaponQueued = true;
-            reinterpret_cast<::QueueHelper *>(((*reinterpret_cast<::AEModelLoader * *>(&::g_modelLoader))))->FUN_00444040((int)(pWeapon->model.GetModelPath()), 0, 0, 0, true, true, false);
+            reinterpret_cast<::QueueHelper *>(((*reinterpret_cast<::AEModelLoader * *>(&::g_modelLoader))))->FUN_00444040((intptr_t)(pWeapon->model.GetModelPath()), 0, 0, 0, true, true, false);
         }
     }
 
@@ -514,7 +515,7 @@ AEEffect* AEEffect::Clone()
                 if (pBiped)
                 {
                     pNewInstance->bBipedQueued = true;
-                    reinterpret_cast<::QueueHelper *>(((*reinterpret_cast<::AEModelLoader * *>(&::g_modelLoader))))->FUN_00444040((int)(reinterpret_cast<::FUN_004811e0_shell *>((pBiped))->FUN_004811e0(iSex)), 0, 0, 0, true, true, false);
+                    reinterpret_cast<::QueueHelper *>(((*reinterpret_cast<::AEModelLoader * *>(&::g_modelLoader))))->FUN_00444040((intptr_t)(reinterpret_cast<::FUN_004811e0_shell *>((pBiped))->FUN_004811e0(iSex)), 0, 0, 0, true, true, false);
                 }
             }
         }
@@ -1677,7 +1678,7 @@ void SaveEffect::FUN_00809bd0(void* arg)
     bool present;
     int iSlot;
     unsigned short blockSize = 0;
-    unsigned int blockStart = 0;
+    uintptr_t blockStart = 0;
     {
         unsigned int uiTimestamp = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::fnv_00809bd0::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_00825c00();
         if (*(*reinterpret_cast<::fnv_00809bd0::GlobalObject_0045cf30 *>(&::g_011de4e8)).Bool())
@@ -2958,7 +2959,7 @@ void EffectP::FUN_00808a30()
                 }
             }
             reinterpret_cast<::s88c790::Actor *>((weapon))->FUN_0088c790((int)(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((((::ProcessP *)(reinterpret_cast<::BSShaderNoLightingProperty *>((weapon))->GetBaseTexture()))->Equipped()))->GetName()))), 1,
-                                 (int)(*((::ExtraP **)(&reinterpret_cast<::SimpleListNodeView*>(((::ProcessP *)(reinterpret_cast<::BSShaderNoLightingProperty *>((weapon))->GetBaseTexture()))->Equipped()->list)->m_item))), 0, 0, 1);
+                                 (intptr_t)(*((::ExtraP **)(&reinterpret_cast<::SimpleListNodeView*>(((::ProcessP *)(reinterpret_cast<::BSShaderNoLightingProperty *>((weapon))->GetBaseTexture()))->Equipped()->list)->m_item))), 0, 0, 1);
             unk4c = (EntryS*)new FUN_004bc550(extra, 0);
             if (old)
             {
@@ -3080,7 +3081,7 @@ void BIEffect::StopEffect()
             pkData = ((::BIItemData *)(reinterpret_cast<::fnv_004bfda0::FUN_004bfda0_shell *>((pkChanges))->FUN_004bfda0((::fnv_004bfda0::TESBoundObject *)(pkWeapon), 0)));
             if (pkData)
                 reinterpret_cast<::FUN_0041b040_shell *>((pkData))->FUN_0041b040();
-            reinterpret_cast<::s88c790::Actor *>((pkActor))->FUN_0088c790((int)(pkWeapon), 1, 0, 0, 0, 1);
+            reinterpret_cast<::s88c790::Actor *>((pkActor))->FUN_0088c790((intptr_t)(pkWeapon), 1, 0, 0, 0, 1);
             pkActor->UnequipItem(pkWeapon, 0, 1, 0, 0, 0, 0, 0, 1, 0);
             if (m_pkWeaponEntry)
             {
@@ -3118,7 +3119,7 @@ void BIEffect::StopEffect()
             pkArmorData = ((::BIItemData *)(reinterpret_cast<::fnv_004bfda0::FUN_004bfda0_shell *>((pkArmorChanges))->FUN_004bfda0((::fnv_004bfda0::TESBoundObject *)(pkArmorRes), 0)));
             if (pkArmorData)
                 reinterpret_cast<::FUN_0041b040_shell *>((pkArmorData))->FUN_0041b040();
-            reinterpret_cast<::s88c790::Actor *>((pkActor))->FUN_0088c790((int)(pkArmorRes), 1, 0, 0, 0, 1);
+            reinterpret_cast<::s88c790::Actor *>((pkActor))->FUN_0088c790((intptr_t)(pkArmorRes), 1, 0, 0, 0, 1);
             pkActor->UnequipItem(pkArmorRes, 0, 1, 0, 0, 0, 0, 0, 1, 0);
             for (int i = 0; i < 0x14; i++)
             {
@@ -3425,11 +3426,11 @@ struct BoundLoadEffectView : BaseEffectS
     bool a6;
     bool a7;
     TESForm* FUN_006733e0();
-    void FUN_0080a2d0(int);
+    void FUN_0080a2d0(intptr_t);
 };
 // Loads weapon and armor models when a4 is set, copies their entries below version 0x61, and conditionally equips the bound object.
 // @fnv 0x0080a2d0
-void BoundLoadEffectView::FUN_0080a2d0(int arg)
+void BoundLoadEffectView::FUN_0080a2d0(intptr_t arg)
 {
     int actor;
     reinterpret_cast<::fnv_00806e70::AssociatedItemEffect *>(this)->FUN_00806e70((::fnv_00806e70::Actor *)(arg));
@@ -3443,7 +3444,7 @@ void BoundLoadEffectView::FUN_0080a2d0(int arg)
             if (pWeapon && pWeapon->model.GetModelLength() > 0)
             {
                 a6 = true;
-                reinterpret_cast<::QueueHelper *>((((ModelLoaderA*)(*reinterpret_cast<::BIModelLoader * *>(&::g_modelLoader)))))->FUN_00444040((int)(pWeapon->model.GetModelPath()), 0, 0, 0, 1, 0, 0);
+                reinterpret_cast<::QueueHelper *>((((ModelLoaderA*)(*reinterpret_cast<::BIModelLoader * *>(&::g_modelLoader)))))->FUN_00444040((intptr_t)(pWeapon->model.GetModelPath()), 0, 0, 0, 1, 0, 0);
             }
         }
         int sex = 0;
@@ -3461,7 +3462,7 @@ void BoundLoadEffectView::FUN_0080a2d0(int arg)
                 if (biped)
                 {
                     a7 = true;
-                    reinterpret_cast<::QueueHelper *>((((ModelLoaderA*)(*reinterpret_cast<::BIModelLoader * *>(&::g_modelLoader)))))->FUN_00444040((int)(reinterpret_cast<::FUN_004811e0_shell *>((biped))->FUN_004811e0(sex)), 0, 0, 0, 1, 1, 0);
+                    reinterpret_cast<::QueueHelper *>((((ModelLoaderA*)(*reinterpret_cast<::BIModelLoader * *>(&::g_modelLoader)))))->FUN_00444040((intptr_t)(reinterpret_cast<::FUN_004811e0_shell *>((biped))->FUN_004811e0(sex)), 0, 0, 0, 1, 1, 0);
                 }
             }
         }
@@ -3495,7 +3496,7 @@ void BoundLoadEffectView::FUN_0080a2d0(int arg)
     {
         InventoryA* item = ((::InventoryA *)(reinterpret_cast<::ExtraDataList *>((((::ExtraA *)(reinterpret_cast<::FUN_005d43c0_ *>((j))->FUN_005d43c0()))))->GetContainerChangeData()));
         TESBoundObject* pBoundForm = dynamic_cast<TESBoundObject*>(FUN_006733e0());
-        if (item && !reinterpret_cast<::FUN_004c8f30_shell *>((item))->FUN_004c8f30((int)(pBoundForm)))
+        if (item && !reinterpret_cast<::FUN_004c8f30_shell *>((item))->FUN_004c8f30((intptr_t)(pBoundForm)))
         {
             j->Equip(pBoundForm, 0, 1);
             reinterpret_cast<::FUN_0088c650_shell *>((j))->FUN_0088c650(pBoundForm, 1, (::ExtraDataList *)(0), 1, 0, 1);

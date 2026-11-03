@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 class AcousticSpaceOwner;
 class GlobalObject_0044f440;
@@ -15,7 +16,7 @@ extern ::GlobalObject_00a7b610 g_011dc724;
 // 0x011dc804
 extern ::GlobalObject_00a7b610 g_011dc804;
 // 0x011dcc58
-extern int g_011dcc58;
+extern intptr_t g_011dcc58;
 // 0x011dcfa4
 extern "C" extern unsigned char DAT_011dcfa4;
 // 0x011dcfa5

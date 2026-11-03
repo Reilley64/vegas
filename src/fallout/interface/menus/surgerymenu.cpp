@@ -120,11 +120,11 @@
 #include "surgerymenu_decls.h"
 struct FUN_007e4fc0_shell
 {
-    int FUN_007e4fc0(int arg);
+    intptr_t FUN_007e4fc0(int arg);
 };
 
 // @fnv 0x007e4fc0
-int FUN_007e4fc0_shell::FUN_007e4fc0(int aiIndex)
+intptr_t FUN_007e4fc0_shell::FUN_007e4fc0(int aiIndex)
 {
     return *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x18) + aiIndex * 0x14;
 }
@@ -182,7 +182,7 @@ int FUN_007e5540_shell::GetTierFromPercent(int aiPercent)
 
 struct WoundFake
 {
-    int _00;
+    intptr_t _00;
     int _04;
 };
 struct MenuFake
@@ -470,14 +470,14 @@ void __cdecl UpdateSurgeryScene()
     SurgeryObject* b = ((::SurgeryObject *)(::FUN_0045c670()));
     SurgeryContext* d = ((::SurgeryContext *)(reinterpret_cast<::MiddleLowProcess *>((b))->GetProcessInteger()));
     reinterpret_cast<::FUN_00c4f270_Class *>((d))->FUN_00c4f270(true);
-    NiNode* c = (NiNode*)(unsigned)(*reinterpret_cast<NiPointer<NiNode>*>(&::g_011dadb4));
+    NiNode* c = (NiNode*)(uintptr_t)(*reinterpret_cast<NiPointer<NiNode>*>(&::g_011dadb4));
     ::UpdateCameraFrustum((::NiCamera *)(c), 0.15f);
     NiNode* a = FUN_00450b80(1);
     SurgeryHolder e(((::NiNode *)(reinterpret_cast<::fnv_007fd640::FUN_007fd640Class *>((((::SurgeryInterface *)(::fnv_004b7210::FUN_004b7210()))))->FUN_007fd640())));
     reinterpret_cast<::FUN_004a0fd0_shell *>((d))->FUN_004a0fd0(((::NiNode *)(::FUN_00559450((int *)&(e)))));
     ::FUN_00b6bee0(c, a, (::BSShaderAccumulator *)(d));
     ::BSShaderRenderUtility::SetRenderCamera((::NiCamera *)(c), (::BSShaderAccumulator *)(::NiNode *)(((::NiNode *)(::FUN_00559450((int *)&(e))))), 0);
-    reinterpret_cast<::TaskQueueInterface *>((((SurgeryCull*)(unsigned)(*reinterpret_cast<NiPointer<NiNode>*>(&::g_011dae5c)))))->QueueActorDisarm(false);
+    reinterpret_cast<::TaskQueueInterface *>((((SurgeryCull*)(uintptr_t)(*reinterpret_cast<NiPointer<NiNode>*>(&::g_011dae5c)))))->QueueActorDisarm(false);
     ::FUN_00b6bee0(c, FUN_00450b80(3), (::BSShaderAccumulator *)(d));
     ::BSShaderRenderUtility::SetRenderCamera((::NiCamera *)(c), (::BSShaderAccumulator *)(::NiNode *)(((::NiNode *)(::FUN_00559450((int *)&(e))))), 0);
     reinterpret_cast<::FUN_004a0fd0_shell *>((d))->FUN_004a0fd0(0);
@@ -1761,10 +1761,10 @@ void FaceOwnerS::UpdateFaceGenNode()
     if (!(*reinterpret_cast<NiPointer<NiNode>*>(&::g_011dae5c)))
         return;
     FaceCtrlS* ctrl =
-        ((FaceRootS*)(unsigned int)(*reinterpret_cast<NiPointer<NiNode>*>(&::g_011dae5c)))->GetObjectByName(NiFixedStringS("BSFaceGenNiNodeSkinned"))->GetCtrl();
+        ((FaceRootS*)(uintptr_t)(*reinterpret_cast<NiPointer<NiNode>*>(&::g_011dae5c)))->GetObjectByName(NiFixedStringS("BSFaceGenNiNodeSkinned"))->GetCtrl();
     ctrl->SetValue(13, LinearInterpolate(0.0f, 1.0f, 0.0f, 100.0f, fAC));
     NiUpdateDataS data(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((TimeStubS*)&(*reinterpret_cast<::TimeGlobalS *>(&::g_timeGlobal)))))->FUN_00825c00() / 1000.0, true, false);
-    reinterpret_cast<::FUN_00a59c60_cls *>((((NiNodeS*)(unsigned int)(*reinterpret_cast<NiPointer<NiNode>*>(&::g_011dae5c)))))->FUN_00a59c60((std::intptr_t)&(data));
+    reinterpret_cast<::FUN_00a59c60_cls *>((((NiNodeS*)(uintptr_t)(*reinterpret_cast<NiPointer<NiNode>*>(&::g_011dae5c)))))->FUN_00a59c60((std::intptr_t)&(data));
 }
 
 class NiFixedString
@@ -1944,8 +1944,8 @@ bool FUN_007e4540_shell::FUN_007e4540()
     {
         FUN_006815c0 kIntersectionOffset;
         FUN_006815c0 kTmpEdge;
-        reinterpret_cast<::ScreenCamera *>((((FUN_00a6fc50_cam*)((::NiNode *)(::FUN_00559450((int *)(((SurgeryHolder*)&(*reinterpret_cast<NiPointer<NiNode>*>(&::g_011dadb4))))))))))->ProjectToScreen((*(const ::NiPoint3 *)(((void *)(::FUN_0045bb80((int)(pNewObj)))))), (*(float *)(&kIntersectionOffset.x)), (*(float *)(&kIntersectionOffset.y)), 1e-5f);
-        reinterpret_cast<::ScreenCamera *>((((FUN_00a6fc50_cam*)((::NiNode *)(::FUN_00559450((int *)(((SurgeryHolder*)&(*reinterpret_cast<NiPointer<NiNode>*>(&::g_011dadb4))))))))))->ProjectToScreen((*(const ::NiPoint3 *)(((void *)(::FUN_0045bb80((int)(pEdge8)))))), (*(float *)(&kTmpEdge.x)), (*(float *)(&kTmpEdge.y)), 1e-5f);
+        reinterpret_cast<::ScreenCamera *>((((FUN_00a6fc50_cam*)((::NiNode *)(::FUN_00559450((int *)(((SurgeryHolder*)&(*reinterpret_cast<NiPointer<NiNode>*>(&::g_011dadb4))))))))))->ProjectToScreen((*(const ::NiPoint3 *)(((void *)(::FUN_0045bb80((intptr_t)(pNewObj)))))), (*(float *)(&kIntersectionOffset.x)), (*(float *)(&kIntersectionOffset.y)), 1e-5f);
+        reinterpret_cast<::ScreenCamera *>((((FUN_00a6fc50_cam*)((::NiNode *)(::FUN_00559450((int *)(((SurgeryHolder*)&(*reinterpret_cast<NiPointer<NiNode>*>(&::g_011dadb4))))))))))->ProjectToScreen((*(const ::NiPoint3 *)(((void *)(::FUN_0045bb80((intptr_t)(pEdge8)))))), (*(float *)(&kTmpEdge.x)), (*(float *)(&kTmpEdge.y)), 1e-5f);
         kIntersectionOffset.x *= ::InterfaceManager::UpdateInterfaceState();
         kIntersectionOffset.y = (1.0 - kIntersectionOffset.y) * FUN_00715da0();
         kTmpEdge.x *= ::InterfaceManager::UpdateInterfaceState();
@@ -2043,7 +2043,7 @@ int __cdecl CompareProjectedListsToCursor(ProjOwnerS* a, ProjOwnerS* pOwnerB)
     ProjListS* pNode = a->list;
     while ((*reinterpret_cast<NiPointer<NiNode>*>(&::g_011dadb4)) && pNode && !pNode->IsEmpty())
     {
-        reinterpret_cast<::ScreenCamera *>((((CameraS*)(unsigned int)(*reinterpret_cast<NiPointer<NiNode>*>(&::g_011dadb4)))))->ProjectToScreen((*(const ::NiPoint3 *)(((::NiPoint3S *)(::FUN_0045bb80((int)(((::ProjNodeS *)(reinterpret_cast<::SimpleListNodeView*>(pNode)->m_item))->item)))))), (*(float *)(&screenPos.x)), (*(float *)(&screenPos.y)), 1e-5f);
+        reinterpret_cast<::ScreenCamera *>((((CameraS*)(uintptr_t)(*reinterpret_cast<NiPointer<NiNode>*>(&::g_011dadb4)))))->ProjectToScreen((*(const ::NiPoint3 *)(((::NiPoint3S *)(::FUN_0045bb80((intptr_t)(((::ProjNodeS *)(reinterpret_cast<::SimpleListNodeView*>(pNode)->m_item))->item)))))), (*(float *)(&screenPos.x)), (*(float *)(&screenPos.y)), 1e-5f);
         screenPos.y = 1.0f - screenPos.y;
         if (reinterpret_cast<::FUN_00589850_Class *>((void *)&(const ::NiPoint2S &)((screenPos - cursor)))->FUN_00589850() < fBestDist)
             fBestDist = reinterpret_cast<::FUN_00589850_Class *>((void *)&(const ::NiPoint2S &)((screenPos - cursor)))->FUN_00589850();
@@ -2052,7 +2052,7 @@ int __cdecl CompareProjectedListsToCursor(ProjOwnerS* a, ProjOwnerS* pOwnerB)
     pNode = pOwnerB->list;
     while ((*reinterpret_cast<NiPointer<NiNode>*>(&::g_011dadb4)) && pNode && !pNode->IsEmpty())
     {
-        reinterpret_cast<::ScreenCamera *>((((CameraS*)(unsigned int)(*reinterpret_cast<NiPointer<NiNode>*>(&::g_011dadb4)))))->ProjectToScreen((*(const ::NiPoint3 *)(((::NiPoint3S *)(::FUN_0045bb80((int)(((::ProjNodeS *)(reinterpret_cast<::SimpleListNodeView*>(pNode)->m_item))->item)))))), (*(float *)(&screenPos.x)), (*(float *)(&screenPos.y)), 1e-5f);
+        reinterpret_cast<::ScreenCamera *>((((CameraS*)(uintptr_t)(*reinterpret_cast<NiPointer<NiNode>*>(&::g_011dadb4)))))->ProjectToScreen((*(const ::NiPoint3 *)(((::NiPoint3S *)(::FUN_0045bb80((intptr_t)(((::ProjNodeS *)(reinterpret_cast<::SimpleListNodeView*>(pNode)->m_item))->item)))))), (*(float *)(&screenPos.x)), (*(float *)(&screenPos.y)), 1e-5f);
         screenPos.y = 1.0f - screenPos.y;
         if (reinterpret_cast<::FUN_00589850_Class *>((void *)&(const ::NiPoint2S &)((screenPos - cursor)))->FUN_00589850() < fBestDist)
             return 1;
@@ -3753,7 +3753,7 @@ float SurgeryView::UpdateWoundInteraction()
         {
             ScreenPoint q;
             ScreenPoint ba;
-            reinterpret_cast<::ScreenCamera *>((((Projection*)((ProjectionPtr&)(*reinterpret_cast<NiPointer<NiNode>*>(&::g_011dadb4))))))->ProjectToScreen((*(const ::NiPoint3 *)(((void *)(::FUN_0045bb80((int)(((HitValue*)*((void **)(&reinterpret_cast<::SimpleListNodeView*>((*((::WoundEntry **)(&reinterpret_cast<::SimpleListNodeView*>(i)->m_item)))->bHitDetected)->m_item))))))))),
+            reinterpret_cast<::ScreenCamera *>((((Projection*)((ProjectionPtr&)(*reinterpret_cast<NiPointer<NiNode>*>(&::g_011dadb4))))))->ProjectToScreen((*(const ::NiPoint3 *)(((void *)(::FUN_0045bb80((intptr_t)(((HitValue*)*((void **)(&reinterpret_cast<::SimpleListNodeView*>((*((::WoundEntry **)(&reinterpret_cast<::SimpleListNodeView*>(i)->m_item)))->bHitDetected)->m_item))))))))),
                                   (*(float *)(&q.x)), (*(float *)(&q.y)), 0.00001f);
             reinterpret_cast<::ScreenCamera *>((((Projection*)((ProjectionPtr&)(*reinterpret_cast<NiPointer<NiNode>*>(&::g_011dadb4))))))->ProjectToScreen(
                     (*(const ::NiPoint3 *)(((void *)(::FUN_0045bb80((int)(((HitValue*)*((void **)(&reinterpret_cast<::SimpleListNodeView*>(((::HitRef *)(reinterpret_cast<::Callees *>(((*((::WoundEntry **)(&reinterpret_cast<::SimpleListNodeView*>(i)->m_item)))->bHitDetected))->FUN_00726070())))->m_item))))))))),

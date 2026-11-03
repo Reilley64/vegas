@@ -2,6 +2,7 @@
 // src/staging/blk_00980000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstdint>
 #include <new>
 #include <cstring>
 #include "fnv/decl/Actor.h"
@@ -722,7 +723,7 @@ void FUN_009915e0(float afDelta)
 
 struct CombatThreatMap
 {
-    void FUN_00993800(int);
+    void FUN_00993800(intptr_t);
 };
 
 extern int DAT_0108db2c;
@@ -797,11 +798,11 @@ struct QuantityData
 };
 struct FUN_009959c0Class
 {
-    void FUN_009959c0(int a, int b);
+    void FUN_009959c0(int a, intptr_t b);
 };
 // Stores b into the int array at offset 0x60 indexed by a, then calls SetQuantity(a) on the object pointed to by the second pointer field.
 // @fnv 0x009959c0
-void FUN_009959c0Class::FUN_009959c0(int iIndex, int iValue)
+void FUN_009959c0Class::FUN_009959c0(int iIndex, intptr_t iValue)
 {
     reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x60)[iIndex] = iValue;
     reinterpret_cast<::FUN_00537e90 *>((reinterpret_cast<QuantityData*>(*(reinterpret_cast<int**>(this) + 1))))->SetQuantity(iIndex);
@@ -1008,10 +1009,10 @@ struct FUN_0098c590_shell
 };
 struct FUN_0098c6e0_class
 {
-    void FUN_0098c6e0(int);
+    void FUN_0098c6e0(intptr_t);
 };
 // @fnv 0x0098c6e0
-void FUN_0098c6e0_class::FUN_0098c6e0(int arg)
+void FUN_0098c6e0_class::FUN_0098c6e0(intptr_t arg)
 {
     CombatSearchDoor* result = ((FUN_0098c590_shell*)this)->FindParentSpaceNode(arg);
     if (result)
@@ -1025,10 +1026,10 @@ struct FUN_0098c590_shell
 };
 struct FUN_0098c750_class
 {
-    void FUN_0098c750(int arg);
+    void FUN_0098c750(intptr_t arg);
 };
 // @fnv 0x0098c750
-void FUN_0098c750_class::FUN_0098c750(int arg)
+void FUN_0098c750_class::FUN_0098c750(intptr_t arg)
 {
     CombatSearchDoor* p = ((::fnv_0098c750::CombatSearchDoor *)(reinterpret_cast<::FUN_0098c590_shell *>((((FUN_0098c590_shell*)this)))->FindParentSpaceNode(arg)));
     if (p)
@@ -1181,15 +1182,15 @@ CombatSearchDoor* FUN_0098c590_shell::FindParentSpaceNode(int formID)
 
 struct FUN_009865f0_shell
 {
-    void* FUN_009865f0(int arg);
+    void* FUN_009865f0(intptr_t arg);
 };
 struct FUN_0098de00_class
 {
-    int GetFieldAtOffset16(int arg);
+    intptr_t GetFieldAtOffset16(intptr_t arg);
 };
 // Calls FUN_009865f0 with arg and returns the int at offset 16 of the result, or 0 if the result is null.
 // @fnv 0x0098de00
-int FUN_0098de00_class::GetFieldAtOffset16(int arg)
+intptr_t FUN_0098de00_class::GetFieldAtOffset16(intptr_t arg)
 {
     void* result = reinterpret_cast<FUN_009865f0_shell*>(this)->FUN_009865f0(arg);
     if (result)
@@ -1437,11 +1438,11 @@ CombatStateArray* FUN_00994e60_class::ResetState(CombatStateArray* a)
 
 struct FUN_00994ea0_class
 {
-    void AppendPair(int a, int b);
+    void AppendPair(intptr_t a, intptr_t b);
 };
 // Stores a and b into the two int slots at this+0x5c/0x60 indexed by the counter at this+0xdc, then increments that counter.
 // @fnv 0x00994ea0
-void FUN_00994ea0_class::AppendPair(int aiFirst, int aiSecond)
+void FUN_00994ea0_class::AppendPair(intptr_t aiFirst, intptr_t aiSecond)
 {
     *(int*)((char*)this + 0x5c + *(unsigned int*)((char*)this + 0xdc) * 8) = aiFirst;
     *(int*)((char*)this + 0x60 + *(unsigned int*)((char*)this + 0xdc) * 8) = aiSecond;
@@ -1474,12 +1475,12 @@ struct FUN_00995980_class
 {
     int m_00;
     int m_04;
-    void SetEntry(int index, int value, float amount);
+    void SetEntry(int index, intptr_t value, float amount);
 };
 
 // Stores value and amount into the arrays at offsets 8 and 0xb8 for index, then calls SetQuantity on the object at this+4.
 // @fnv 0x00995980
-void FUN_00995980_class::SetEntry(int index, int value, float amount)
+void FUN_00995980_class::SetEntry(int index, intptr_t value, float amount)
 {
     *(int*)((char*)this + index * 4 + 8) = value;
     *(float*)((char*)this + index * 4 + 0xb8) = amount;
@@ -1815,7 +1816,7 @@ struct ArrSI
 };
 struct FUN_00844160_shell
 {
-    unsigned int FUN_00844160(unsigned int);
+    uintptr_t FUN_00844160(unsigned int);
 };
 class TESSound;
 struct EffectSetting
@@ -3485,11 +3486,11 @@ struct EventRegistry
     unsigned char unk14;
     unsigned char initialized;
     void FUN_00982f10(EventToken* token);
-    bool RegisterEvent(int key, EventData* event);
+    bool RegisterEvent(intptr_t key, EventData* event);
 };
 
 // @fnv 0x00982f40
-bool EventRegistry::RegisterEvent(int key, EventData* event)
+bool EventRegistry::RegisterEvent(intptr_t key, EventData* event)
 {
     for (unsigned int index = 0; index < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(this)->GetName())); ++index)
     {
@@ -3528,11 +3529,11 @@ class FUN_00982ff0_cls
     unsigned int m_010;
 
 
-    bool FUN_00982ff0(unsigned int id, void* arg);
+    bool FUN_00982ff0(uintptr_t id, void* arg);
 };
 
 // @fnv 0x00982ff0
-bool FUN_00982ff0_cls::FUN_00982ff0(unsigned int id, void* arg)
+bool FUN_00982ff0_cls::FUN_00982ff0(uintptr_t id, void* arg)
 {
     unsigned int count = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(this)->GetName()));
     for (unsigned int i = 0; i < count; i++)
@@ -3944,11 +3945,11 @@ struct DoorExtraFields
 
 struct CombatSearchMgr : FUN_0098c590_shell
 {
-    void FUN_0098c710(int arg);
+    void FUN_0098c710(intptr_t arg);
 };
 
 // @fnv 0x0098c710
-void CombatSearchMgr::FUN_0098c710(int arg)
+void CombatSearchMgr::FUN_0098c710(intptr_t arg)
 {
     DoorExtraFields* door = (DoorExtraFields*)FindParentSpaceNode(arg);
     if (door != 0)
@@ -5060,7 +5061,7 @@ struct Target
     unsigned int m_08;
     bool AdvanceActions(Context* context);
 public:
-    int GetIntAt(unsigned int);
+    intptr_t GetIntAt(unsigned int);
 };
 // Iterates the combat group's actors, reads each one's challenge progress and keeps the smallest value in m_00c and m_010.
 // @fnv 0x009905a0
@@ -5216,14 +5217,14 @@ struct Arr994350
 
 struct FUN_00984470_Class
 {
-    CombatGoal* GetCombatGoal(int index);
+    CombatGoal* GetCombatGoal(intptr_t index);
 };
 
 extern bool __cdecl IsValidCode(int value);
 
 struct FUN_009947f0_Class : public FUN_00984470_Class
 {
-    int FUN_009947f0(int a, int b);
+    int FUN_009947f0(int a, intptr_t b);
 };
 // Iterates over the list, calling UpdateItem for each entry and re-checking the same index when UpdateItem returns false.
 // @fnv 0x009942d0
@@ -5369,7 +5370,7 @@ bool Arr994350::InsertSortedEntry(int aiStartIndex, KeyObj* apKey, int aiValue, 
 
 // If a is -1 it falls back to b, then if IsValidCode accepts a it converts a via GetCombatGoal and returns the result.
 // @fnv 0x009947f0
-int FUN_009947f0_Class::FUN_009947f0(int iIndex, int iFallbackIndex)
+int FUN_009947f0_Class::FUN_009947f0(int iIndex, intptr_t iFallbackIndex)
 {
     if (iIndex == -1)
         iIndex = iFallbackIndex;
@@ -7424,7 +7425,7 @@ struct FUN_00991310_shell : ThreatArray991
     void ClearAndDestroy(bool bReset);
 };
 // @fnv 0x00993800
-void CombatThreatMap::FUN_00993800(int)
+void CombatThreatMap::FUN_00993800(intptr_t)
 {
     reinterpret_cast<::FUN_00991310_shell *>(this)->ClearAndDestroy(1);
     reinterpret_cast<::ThreatMapInit *>(this)->InitThreatObjects();
@@ -8158,11 +8159,11 @@ struct BuildOwner
     BuildContext context;
     int FUN_009950a0(BuildInput**);
     void SetThreadTasklet(BuildFirst*, BuildSecond*, int);
-    BuildResult* BuildResultForInput(int, int, BuildInput*, bool);
+    BuildResult* BuildResultForInput(intptr_t, intptr_t, BuildInput*, bool);
 };
 // Validates input, builds entries and objects, creates a BuildResult when objects exist, and optionally a BuildMonitor, then returns the result.
 // @fnv 0x00994f10
-BuildResult* BuildOwner::BuildResultForInput(int first, int second, BuildInput* input, bool monitor)
+BuildResult* BuildOwner::BuildResultForInput(intptr_t first, intptr_t second, BuildInput* input, bool monitor)
 {
     if (!input->valid)
         return 0;

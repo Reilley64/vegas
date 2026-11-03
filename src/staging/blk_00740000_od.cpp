@@ -2,6 +2,7 @@
 // src/staging/blk_00740000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstdint>
 #include <cstdlib>
 #include "fnv/decl/BGSQuestObjective.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -154,11 +155,11 @@ void FUN_00753210Class::FUN_00753210()
 
 struct FUN_00754a00_cls
 {
-    void FUN_00754930(int a1);
+    void FUN_00754930(intptr_t a1);
 };
 
 // @fnv 0x00754930
-void FUN_00754a00_cls::FUN_00754930(int a1)
+void FUN_00754a00_cls::FUN_00754930(intptr_t a1)
 {
     reinterpret_cast<::Proxy_754a00 *>(this)->SetTraitSelected((void *)(a1), 2);
 }

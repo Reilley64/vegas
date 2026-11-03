@@ -1,5 +1,6 @@
 // fallout/ai/alarmpackage.cpp: Crime, TESSpellList, Candidate, Cls and more (27 functions)
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/BSShaderNoLightingProperty.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -213,10 +214,10 @@ struct FUN_009ec850_shell
 {
     char _pad[0x80];
     MyList _list;
-    void FUN_009ec850(unsigned int, Actor*);
+    void FUN_009ec850(uintptr_t, Actor*);
 };
 // @fnv 0x009ec850
-void FUN_009ec850_shell::FUN_009ec850(unsigned int a, Actor* pActor)
+void FUN_009ec850_shell::FUN_009ec850(uintptr_t a, Actor* pActor)
 {
     reinterpret_cast<::ItemChangeListNode *>(&(_list))->FUN_00905330((::InventoryStackRecord *const &)(a));
     if (_list._ref_008256d0())
@@ -1560,7 +1561,7 @@ void Host009::ReadFromStream(Reader009* apReader)
     reinterpret_cast<::CombatTargetTimestamp *>(&(field))->LoadGame((::BGSLoadGameBuffer *)(apReader));
     reinterpret_cast<::fnv_008648e0::FUN_008648e0_shell *>((apReader))->FUN_008648e0((unsigned int *)(void *)(&c));
     reinterpret_cast<::fnv_008648e0::FUN_008648e0_shell *>((apReader))->FUN_008648e0((unsigned int *)(void *)(&d));
-    f = dynamic_cast<TESBoundObject*>(::FUN_004839c0((unsigned int)(((void *)(reinterpret_cast<::fnv_008648a0::FUN_008648a0_t *>((apReader))->FUN_008648a0())))));
+    f = dynamic_cast<TESBoundObject*>(::FUN_004839c0((unsigned int)(uintptr_t)(((void *)(reinterpret_cast<::fnv_008648a0::FUN_008648a0_t *>((apReader))->FUN_008648a0())))));
     reinterpret_cast<::fnv_008648e0::FUN_008648e0_shell *>((apReader))->FUN_008648e0((unsigned int *)(void *)(&h));
     {
         unsigned count = ((unsigned int)(reinterpret_cast<::fnv_00864a60::FUN_00864a60_cls *>((apReader))->FUN_00864a60()));
@@ -1577,7 +1578,7 @@ void Host009::ReadFromStream(Reader009* apReader)
         for (unsigned uiFactionIndex = 0; uiFactionIndex < uiFactionCount; uiFactionIndex++)
         {
             void* pFaction = 0;
-            pFaction = dynamic_cast<TESFaction*>(::FUN_004839c0((unsigned int)(((void *)(reinterpret_cast<::fnv_008648a0::FUN_008648a0_t *>((apReader))->FUN_008648a0())))));
+            pFaction = dynamic_cast<TESFaction*>(::FUN_004839c0((unsigned int)(uintptr_t)(((void *)(reinterpret_cast<::fnv_008648a0::FUN_008648a0_t *>((apReader))->FUN_008648a0())))));
             if (pFaction)
                 strings->FUN_005ae3d0(&pFaction);
         }
@@ -1664,7 +1665,7 @@ void FUN_009ec990_host::FUN_009ec990()
     if (reinterpret_cast<::FUN_00862110_cls *>((g_TESSaveLoadGame))->FUN_00862110())
     {
         unsigned int uiEnd9 = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((TimeGlobal*)g_TESSaveLoadGame)))->FUN_00825c00();
-        unsigned int uiStart2 = (unsigned int)pSizeTmp;
+        uintptr_t uiStart2 = (uintptr_t)pSizeTmp;
         if (uiEnd9 > uiStart2 + 0xffff)
             ::FUN_005b5e40();
         *(unsigned short*)pSizeTmp = (unsigned short)(uiEnd9 - uiStart2);
@@ -1707,9 +1708,9 @@ struct AlarmPackageData
 // @fnv 0x009ec400
 void AlarmPackageData::FUN_009ec400(void* unused)
 {
-    ref = ref ? dynamic_cast<TESObjectREFR*>(::FUN_004839c0((unsigned int)ref)) : 0;
-    actor = actor ? dynamic_cast<Actor*>(::FUN_004839c0((unsigned int)actor)) : 0;
-    other = other ? ::FUN_004839c0((unsigned int)other) : 0;
+    ref = ref ? dynamic_cast<TESObjectREFR*>(::FUN_004839c0((unsigned int)(uintptr_t)ref)) : 0;
+    actor = actor ? dynamic_cast<Actor*>(::FUN_004839c0((unsigned int)(uintptr_t)actor)) : 0;
+    other = other ? ::FUN_004839c0((unsigned int)(uintptr_t)other) : 0;
     AlarmActorList* current = &actors;
     AlarmActorList* previous = 0;
     while (current && !current->FUN_008256d0())
@@ -1718,7 +1719,7 @@ void AlarmPackageData::FUN_009ec400(void* unused)
         bool erase = false;
         if (entry)
         {
-            entry = entry ? dynamic_cast<Actor*>(::FUN_004839c0((unsigned int)entry)) : 0;
+            entry = entry ? dynamic_cast<Actor*>(::FUN_004839c0((unsigned int)(uintptr_t)entry)) : 0;
             if (entry)
             {
                 current->FUN_00726c60(entry);

@@ -1,5 +1,6 @@
 // fallout/magic/magichiteffect.cpp: MagicHitEffect (17 functions)
 
+#include <cstdint>
 #include "fnv/active_effect_fields.h"
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/BGSTerrainManager.h"
@@ -540,12 +541,12 @@ class BF20RefFormCall : public BF20FormCall
   public:
     TESObjectREFR* m_pkTarget;
 
-    void FUN_0081bf20(unsigned int uiFlags);
+    void FUN_0081bf20(uintptr_t uiFlags);
 };
 
 // Reverts the base form call with uiFlags, then re-resolves m_pkTarget through BF20ResolveForm or clears it if null.
 // @fnv 0x0081bf20
-void BF20RefFormCall::FUN_0081bf20(unsigned int uiFlags)
+void BF20RefFormCall::FUN_0081bf20(uintptr_t uiFlags)
 {
     reinterpret_cast<::FUN_004534f0_shell *>(this)->FUN_004534f0(uiFlags);
     m_pkTarget = m_pkTarget ? dynamic_cast<TESObjectREFR*>(::FUN_004839c0((unsigned int)(std::uintptr_t)(m_pkTarget))) : 0;

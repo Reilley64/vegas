@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 class TESTopic;
 namespace ImpactSound { struct ImpactData; }
@@ -16,7 +17,7 @@ void FUN_008373f0(void *);
 // 0x00837410
 void FUN_00837410(::Node_00837410 *);
 // 0x008374b0
-int FUN_008374b0(int);
+intptr_t FUN_008374b0(int);
 // 0x008374e0
 namespace fnv_008374e0 { void SetGlobalPointerAtOffset(int, const char *); }
 // 0x00837520

@@ -2,6 +2,7 @@
 // src/staging/blk_00b40000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstdint>
 #include <new>
 #include <windows.h>
 #include <cstring>
@@ -65,7 +66,7 @@ struct ImageSpaceManager
 
 
 // @fnv 0x00b4f430
-void __cdecl FUN_00b4f430(int arg)
+void __cdecl FUN_00b4f430(intptr_t arg)
 {
     reinterpret_cast<::FUN_00b8cad0_class *>((DAT_011f91ac))->SetValue(arg);
 }
@@ -1142,11 +1143,11 @@ struct PointerMap
     unsigned int hashSize;
     PointerMapNode** buckets;
     unsigned int count;
-    void InsertOrAssign(unsigned int, NiPointer<MapRefObject>);
+    void InsertOrAssign(uintptr_t, NiPointer<MapRefObject>);
 };
 // Looks up key in the hash bucket; if found, replaces its value, otherwise allocates a new node, assigns key/value, links it into the bucket and increments count.
 // @fnv 0x00b582b0
-void PointerMap::InsertOrAssign(unsigned int key, NiPointer<MapRefObject> value)
+void PointerMap::InsertOrAssign(uintptr_t key, NiPointer<MapRefObject> value)
 {
     unsigned int hash = Hash(key);
     PointerMapNode* node = buckets[hash];
@@ -1684,11 +1685,11 @@ struct FnvLookupOwner
     int unk0ac;
     int unk0b0;
     FnvLookupNode* head;
-    void FUN_00b5f080(int lookupKey);
+    void FUN_00b5f080(intptr_t lookupKey);
 };
 // Walks the linked list from head and, for the first node whose record matches lookupKey, calls FUN_00b5d270 on that record and returns.
 // @fnv 0x00b5f080
-void FnvLookupOwner::FUN_00b5f080(int lookupKey)
+void FnvLookupOwner::FUN_00b5f080(intptr_t lookupKey)
 {
     FnvLookupNode* node = head;
     if (node == 0)
@@ -2128,7 +2129,7 @@ struct ISM
 };
 }
 // @fnv 0x00b55ac0
-void __cdecl FUN_00b55ac0(int a, int b, int c)
+void __cdecl FUN_00b55ac0(intptr_t a, intptr_t b, intptr_t c)
 {
     reinterpret_cast<::ImageSpaceManagerB979 *>((((nb::ISM*)DAT_011f91ac)))->RenderEndOfFrameEffects((::RendererB979 *)(a), (::RenderTargetB979 **)(int *)(&b), (::RenderTargetB979 **)(int *)(&c));
     for (int i = 0; i < 8; i++)

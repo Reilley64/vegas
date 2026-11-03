@@ -692,7 +692,7 @@ Tile* DialogMenu::Create(MobileObject* speaker, TESTopic* topic, MobileObject* a
         ms_iDialogMenuValue = ::FUN_00a01860("_ShowingText");
         DAT_011d9504 = ::FUN_00a01860("_current_value");
         bool bSubtitles =
-            (*reinterpret_cast<::SettingT< ::INISettingCollection> *>(&::g_011d8934)).Bool()->b || speaker->IsActor() && ::FUN_008c1bc0((int)(reinterpret_cast<Actor*>(speaker)));
+            (*reinterpret_cast<::SettingT< ::INISettingCollection> *>(&::g_011d8934)).Bool()->b || speaker->IsActor() && ::FUN_008c1bc0((intptr_t)(reinterpret_cast<Actor*>(speaker)));
         reinterpret_cast<Tile*>(((::BSSimpleList< ::TESTopic *> *)(reinterpret_cast<::Callees *>((reinterpret_cast<BSSimpleList<TESTopic*>*>((*reinterpret_cast<::DialogMenu * *>(&::DAT_011d9510)))))->FUN_00726070())))
             ->Set(::FUN_00a01860("_ShowSubtitles"), bSubtitles);
         reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>(((*reinterpret_cast<::DialogMenu * *>(&::DAT_011d9510))->m_pTiles[1]))->FUN_00a01350(0xFC4, (char *)(reinterpret_cast<::FUN_0055d520_shell *>((speaker))->FUN_0055d520()), true);

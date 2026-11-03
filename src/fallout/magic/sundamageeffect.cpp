@@ -2,6 +2,7 @@
 // src/fallout/magic/sundamageeffect.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/sundamageeffect.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/active_effect_fields.h"
 #include "fnv/simple_list_node_view.h"
 #include <new>
@@ -104,7 +105,7 @@ struct S_0082a150
 bool S_0082a150::FUN_0082a150()
 {
     if (reinterpret_cast<::ActorMover *>((reinterpret_cast<BSThread*>(this)))->GetCurrentMoveModeType() ==
-        ((*reinterpret_cast<::PC7d * *>(&::_g_thePlayer)) ? (unsigned int)(reinterpret_cast<char*>((*reinterpret_cast<::PC7d * *>(&::_g_thePlayer))) + 0x94) : 0))
+        ((*reinterpret_cast<::PC7d * *>(&::_g_thePlayer)) ? (uintptr_t)(reinterpret_cast<char*>((*reinterpret_cast<::PC7d * *>(&::_g_thePlayer))) + 0x94) : 0))
     {
         if (this->FUN_0082a1b0() > (double)0.01f)
             return true;

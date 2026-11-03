@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 struct EffectItemList_shell;
 struct EffectSetting;
@@ -7,7 +8,7 @@ struct FUN_00406f90_this;
 // 0x004064b0
 bool IsArchetypeFlagSet(::EffectSetting *);
 // 0x004065e0
-int FUN_004065e0(::EffectItemList_shell *);
+intptr_t FUN_004065e0(::EffectItemList_shell *);
 // 0x00406ce0
 float FUN_00406ce0(float);
 // 0x00406d00

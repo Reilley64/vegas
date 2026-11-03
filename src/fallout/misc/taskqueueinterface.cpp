@@ -553,7 +553,7 @@ struct FUN_00844160_entry
 struct FUN_00844160_shell
 {
 public:
-    unsigned int FUN_00844160(unsigned int);
+    uintptr_t FUN_00844160(unsigned int);
 };
 
 struct MobileObjectDialogueView
@@ -570,7 +570,7 @@ void __cdecl FUN_0087cfb0(void* apData, int aiIndex)
         ::FUN_00552490((bool *)((*reinterpret_cast<RagH**>(reinterpret_cast<char*>(pentry->pActor) + 0xac)))) &&
         !pentry->pNode->FUN_00552470() &&
         !reinterpret_cast<::MobileObject *>((void *)(reinterpret_cast<MobileObjectDialogueView*>(pentry->pActor)))->IsInDialogueWithPlayer())
-        ::SetTlsValueAndReset((int)(pentry->pNode), 2);
+        ::SetTlsValueAndReset((intptr_t)(pentry->pNode), 2);
 }
 
 extern int __cdecl InitScriptRunLock(void*);
@@ -822,10 +822,10 @@ struct FUN_0087adf0_shell
 };
 struct FUN_0087ada0_shell : public TaskQueueInterface
 {
-    void FUN_0087ada0(int, FUN_0087adf0_shell*);
+    void FUN_0087ada0(intptr_t, FUN_0087adf0_shell*);
 };
 // @fnv 0x0087ada0
-void FUN_0087ada0_shell::FUN_0087ada0(int aiTaskArg, FUN_0087adf0_shell* a2)
+void FUN_0087ada0_shell::FUN_0087ada0(intptr_t aiTaskArg, FUN_0087adf0_shell* a2)
 {
     char buf[32];
     if (a2)
@@ -845,10 +845,10 @@ struct FUN_0087adf0_shell
 };
 struct FUN_0087ae10_shell : TaskQueueInterface
 {
-    void FUN_0087ae10(int, FUN_0087adf0_shell*);
+    void FUN_0087ae10(intptr_t, FUN_0087adf0_shell*);
 };
 // @fnv 0x0087ae10
-void FUN_0087ae10_shell::FUN_0087ae10(int a, FUN_0087adf0_shell* b)
+void FUN_0087ae10_shell::FUN_0087ae10(intptr_t a, FUN_0087adf0_shell* b)
 {
     char task[32];
     if (b)
@@ -1227,10 +1227,10 @@ void Holder0087b4f0::FUN_0087b4f0(void* apArg0, void* apArg1, float afArg2)
 
 struct FUN_0087b540_Holder : public TaskQueueInterface
 {
-    void FUN_0087b540(int);
+    void FUN_0087b540(intptr_t);
 };
 // @fnv 0x0087b540
-void FUN_0087b540_Holder::FUN_0087b540(int a1)
+void FUN_0087b540_Holder::FUN_0087b540(intptr_t a1)
 {
     char buf[32];
     *reinterpret_cast<int*>(buf) = 0x1B;
@@ -1246,11 +1246,11 @@ struct TaskBuf87580
 };
 struct Holder87b580
 {
-    void FUN_0087b580(int);
+    void FUN_0087b580(intptr_t);
 };
 // Builds a task buffer with type 0x1c and the given value, then queues it through the task queue interface.
 // @fnv 0x0087b580
-void Holder87b580::FUN_0087b580(int aiValue)
+void Holder87b580::FUN_0087b580(intptr_t aiValue)
 {
     TaskBuf87580 t;
     t.i0 = 0x1c;
@@ -1273,10 +1273,10 @@ void Unnamed_0087b5c0::FUN_0087b5c0(void* apArg)
 
 struct FUN_0087b600_Holder : TaskQueueInterface
 {
-    void FUN_0087b600(int a, bool b, bool c);
+    void FUN_0087b600(intptr_t a, bool b, bool c);
 };
 // @fnv 0x0087b600
-void FUN_0087b600_Holder::FUN_0087b600(int aiValue, bool abFlag1, bool abFlag2)
+void FUN_0087b600_Holder::FUN_0087b600(intptr_t aiValue, bool abFlag1, bool abFlag2)
 {
     char buf[32];
     ((int*)buf)[0] = 30;
@@ -1288,10 +1288,10 @@ void FUN_0087b600_Holder::FUN_0087b600(int aiValue, bool abFlag1, bool abFlag2)
 
 struct FUN_0087b6b0_shell : TaskQueueInterface
 {
-    void FUN_0087b6b0(int a1, bool b1);
+    void FUN_0087b6b0(intptr_t a1, bool b1);
 };
 // @fnv 0x0087b6b0
-void FUN_0087b6b0_shell::FUN_0087b6b0(int aiValue, bool abFlag)
+void FUN_0087b6b0_shell::FUN_0087b6b0(intptr_t aiValue, bool abFlag)
 {
     char task[32];
     ((BSPackedTask*)task)->m_akPackedTaskVariantData[0].iData = 0x23;
@@ -1350,10 +1350,10 @@ void FUN_0087b7c0_Proxy::FUN_0087b7c0(int aiValue, bool abFlag1, bool abFlag2)
 
 struct FUN_0087b810_Host : TaskQueueInterface
 {
-    void QueueTaskWithId(int);
+    void QueueTaskWithId(intptr_t);
 };
 // @fnv 0x0087b810
-void FUN_0087b810_Host::QueueTaskWithId(int aiValue)
+void FUN_0087b810_Host::QueueTaskWithId(intptr_t aiValue)
 {
     union U
     {
@@ -1368,10 +1368,10 @@ void FUN_0087b810_Host::QueueTaskWithId(int aiValue)
 namespace fnv_0087b850 {
 struct Holder
 {
-    void FUN_0087b850(int);
+    void FUN_0087b850(intptr_t);
 };
 // @fnv 0x0087b850
-void Holder::FUN_0087b850(int aiValue)
+void Holder::FUN_0087b850(intptr_t aiValue)
 {
     char task[32];
     *reinterpret_cast<int*>(task) = 0x28;
@@ -1425,7 +1425,7 @@ struct Unk_0097fa10
 // @fnv 0x0097fa10
 bool Unk_0097fa10::FUN_0097fa10(Actor* apActor)
 {
-    return m_pGroup ? reinterpret_cast<::FUN_009865b0_shell *>((m_pGroup))->FUN_009865b0((int)(apActor)) : false;
+    return m_pGroup ? reinterpret_cast<::FUN_009865b0_shell *>((m_pGroup))->FUN_009865b0((intptr_t)(apActor)) : false;
 }
 
 struct FUN_0087a890_shell
@@ -1531,12 +1531,12 @@ struct FunTask090
 
 struct FUN_0087b090_shell
 {
-    void FUN_0087b090(unsigned int a1, float a2, float a3, float a4, float a5);
+    void FUN_0087b090(uintptr_t a1, float a2, float a3, float a4, float a5);
 };
 
 // Fills a FunTask090 with the given pointer and four floats and passes it to Q160 when the pointer is non-null.
 // @fnv 0x0087b090
-void FUN_0087b090_shell::FUN_0087b090(unsigned int a1, float a2, float a3, float a4, float a5)
+void FUN_0087b090_shell::FUN_0087b090(uintptr_t a1, float a2, float a3, float a4, float a5)
 {
     FunTask090 task;
     if (a1 != 0)
@@ -1702,7 +1702,7 @@ void TaskQueueInterface::ProcessQueuedTask(const BSPackedTask& akTask)
         {
             TaskQueueParallelWork kWork;
             reinterpret_cast<::FUN_0087cf10_shell *>(&(kWork))->Construct(((void (&)(unsigned int, void *))::FUN_0087cfb0), &(*reinterpret_cast<::BSSimpleArray< ::ParentSpaceNode, 1024> *>(&::g_011df244)), (void *)(std::uintptr_t)(((&((*reinterpret_cast<::BSSimpleArray< ::ParentSpaceNode, 1024> *>(&::g_011df244))))->iSize)));
-            reinterpret_cast<::TaskQueueShell *>(((*reinterpret_cast<::TaskQueueParallelManager * *>(&::DAT_01202df4))))->FUN_00c44c90((int)(&kWork));
+            reinterpret_cast<::TaskQueueShell *>(((*reinterpret_cast<::TaskQueueParallelManager * *>(&::DAT_01202df4))))->FUN_00c44c90((intptr_t)(&kWork));
             reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((reinterpret_cast<BSSimpleArray_SandBoxChoiceListItem_1024_*>(&(*reinterpret_cast<::BSSimpleArray< ::ParentSpaceNode, 1024> *>(&::g_011df244)))))->Clear(false);
         }
         if (((&((*reinterpret_cast<::BSSimpleArray< ::ParentSpaceNode, 1024> *>(&::g_011df1c4))))->iSize) > 0)
@@ -1712,7 +1712,7 @@ void TaskQueueInterface::ProcessQueuedTask(const BSPackedTask& akTask)
             TaskQueueParallelWork kWork;
             reinterpret_cast<::FUN_0087cf10_shell *>(&(kWork))->Construct(UpdateAnimObjFromTask, &nodeList,
                             (void *)(std::uintptr_t)((((reinterpret_cast<BSSimpleArray<ParentSpaceNode, 1024>*>(&nodeList)))->iSize)));
-            reinterpret_cast<::TaskQueueShell *>(((*reinterpret_cast<::TaskQueueParallelManager * *>(&::DAT_01202df4))))->FUN_00c44c90((int)(&kWork));
+            reinterpret_cast<::TaskQueueShell *>(((*reinterpret_cast<::TaskQueueParallelManager * *>(&::DAT_01202df4))))->FUN_00c44c90((intptr_t)(&kWork));
         }
         if (!(*reinterpret_cast<::SettingT< ::INISettingCollection> *>(&::g_011df1b8)).Bool()->b)
             reinterpret_cast<::FUN_00453900_Class *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->FUN_00453900();
@@ -1772,7 +1772,7 @@ void TaskQueueInterface::ProcessQueuedTask(const BSPackedTask& akTask)
         ShadowSceneNode* pScene =
             ::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(akTask.m_akPackedTaskVariantData[2].iData);
         if (pScene)
-            ::FUN_00b5b1c0((::ShadowSceneNode *)(pScene), (int)(pObject), {});
+            ::FUN_00b5b1c0((::ShadowSceneNode *)(pScene), (intptr_t)(pObject), {});
         reinterpret_cast<::WaitableObject *>((pObject))->FUN_00401970();
         break;
     }
@@ -1824,7 +1824,7 @@ void TaskQueueInterface::ProcessQueuedTask(const BSPackedTask& akTask)
         {
             unsigned int uiKey = 0;
             reinterpret_cast<::C6b7f20_Map *>((state.pMap))->FUN_006b7f20((::C6b7f20_Node **)&(state.point), (unsigned int *)&(uiKey), (void **)&(state.pValue));
-            if (uiKey == reinterpret_cast<unsigned int>(state.ref))
+            if (uiKey == reinterpret_cast<uintptr_t>(state.ref))
                 state.bFound = true;
         }
         if (state.bFound)
@@ -1855,7 +1855,7 @@ void TaskQueueInterface::ProcessQueuedTask(const BSPackedTask& akTask)
             static_cast<DismemberLimbTaskData*>(akTask.m_akPackedTaskVariantData[3].pData);
         if (pLimbData)
         {
-            reinterpret_cast<::FUN_008b51b0_cls *>((pActor))->FUN_008b51b0(pLimbData->iDismembermentOption, pLimbData->uiLimb, (int)(pLimbData->pActor));
+            reinterpret_cast<::FUN_008b51b0_cls *>((pActor))->FUN_008b51b0(pLimbData->iDismembermentOption, pLimbData->uiLimb, (intptr_t)(pLimbData->pActor));
             delete pLimbData;
         }
         delete afDamageAmount;
@@ -1914,7 +1914,7 @@ void TaskQueueInterface::ProcessQueuedTask(const BSPackedTask& akTask)
         NiAVObject* pObject = static_cast<NiAVObject*>(akTask.m_akPackedTaskVariantData[1].pData);
         if (pObject)
         {
-            ::FUN_00c6a270((int)(pObject), true, true, 0);
+            ::FUN_00c6a270((intptr_t)(pObject), true, true, 0);
             ::FUN_00c69ee0(pObject, true, 0);
             reinterpret_cast<::WaitableObject *>((pObject))->FUN_00401970();
         }
@@ -1943,7 +1943,7 @@ void TaskQueueInterface::ProcessQueuedTask(const BSPackedTask& akTask)
     }
     case 24: {
         Actor* m_pAttachedReference = static_cast<Actor*>(akTask.m_akPackedTaskVariantData[1].pData);
-        unsigned int uiAV = akTask.m_akPackedTaskVariantData[2].iData;
+        uintptr_t uiAV = akTask.m_akPackedTaskVariantData[2].iData;
         unsigned int uiLimb = akTask.m_akPackedTaskVariantData[3].iData;
         bool bFlagA = akTask.m_akPackedTaskVariantData[3].bData;
         bool bDismember = akTask.m_akPackedTaskVariantData[4].bData;
@@ -2073,7 +2073,7 @@ void TaskQueueInterface::ProcessQueuedTask(const BSPackedTask& akTask)
     }
     case 49: {
         NiAVObject* pObject = static_cast<NiAVObject*>(akTask.m_akPackedTaskVariantData[1].pData);
-        ::FUN_00c69fc0((int)(pObject), akTask.m_akPackedTaskVariantData[2].bData, akTask.m_akPackedTaskVariantData[3].bData,
+        ::FUN_00c69fc0((intptr_t)(pObject), akTask.m_akPackedTaskVariantData[2].bData, akTask.m_akPackedTaskVariantData[3].bData,
                      akTask.m_akPackedTaskVariantData[4].bData);
         reinterpret_cast<::WaitableObject *>((pObject))->FUN_00401970();
         break;
@@ -2084,7 +2084,7 @@ void TaskQueueInterface::ProcessQueuedTask(const BSPackedTask& akTask)
         if (pController)
         {
             reinterpret_cast<::S005620e0_Object *>((pController))->FUN_005620e0((const ::S005620e0_Source *)(void *)(pActor->SetBipedAnim()));
-            reinterpret_cast<::fnv_0080fb00::FUN_0080fb00_Class *>((pController))->FUN_0080fb00((int)(FUN_00458b20()));
+            reinterpret_cast<::fnv_0080fb00::FUN_0080fb00_Class *>((pController))->FUN_0080fb00((intptr_t)(FUN_00458b20()));
             ::FUN_005d10f0((const char *)(pController));
             reinterpret_cast<::FUN_0087cee0_shell *>((pController))->FUN_0087cee0();
             reinterpret_cast<::C6E030Holder *>((pController))->ResetState();
@@ -2181,7 +2181,7 @@ struct AnimObj
 void UpdateAnimObjFromTask(unsigned int auiTask, void* pvArg)
 {
     TaskShell* pTask = reinterpret_cast<TaskShell*>(auiTask);
-    AnimObj* pObj = ((::AnimObj *)(::FUN_00559450((int *)(((::WrapperShell *)(reinterpret_cast<::S3e60 *>((pTask))->FUN_006a7ad0((unsigned int)(pvArg))))))));
+    AnimObj* pObj = ((::AnimObj *)(::FUN_00559450((int *)(((::WrapperShell *)(reinterpret_cast<::S3e60 *>((pTask))->FUN_006a7ad0((uintptr_t)(pvArg))))))));
     if (pObj != 0)
     {
         NiUpdateData upd(0.0f, false, false);

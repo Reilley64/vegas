@@ -1,5 +1,6 @@
 // fallout/misc/saveload/bgssaveloadheader.cpp: free functions (4 functions)
 
+#include <cstdint>
 #include <windows.h>
 #include <new>
 #include <cstring>
@@ -117,7 +118,7 @@ int __cdecl ReadSaveHeader(SaveLoadFile* apFile)
     reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&iversion), 4);
     if (iversion == 0x30)
     {
-        char* pdata4 = ((char *)(::GetCombinedValue((int)(apLoadGameBuffer))));
+        char* pdata4 = ((char *)(::GetCombinedValue((intptr_t)(apLoadGameBuffer))));
         if (pdata4[4] == '|')
         {
         }

@@ -2,6 +2,7 @@
 // src/staging/blk_00440000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstdint>
 #include <windows.h>
 #include <new>
 #include "fnv/decl/A5D2C0Object.h"
@@ -884,7 +885,7 @@ struct FUN_00458440_cls
 
 struct FUN_00458420_cls : FUN_00458440_cls
 {
-    void FUN_00458420(int a);
+    void FUN_00458420(intptr_t a);
 };
 
 extern float runtimeInitializationFloat654;
@@ -2173,13 +2174,13 @@ NiNode* FUN_00450570_Class::FUN_00450570()
 }
 
 // @fnv 0x004505d0
-void FUN_004505d0(int param_1)
+void FUN_004505d0(intptr_t param_1)
 {
     DAT_01267b68 = param_1;
 }
 
 // @fnv 0x004505e0
-void __cdecl FUN_004505e0(int value)
+void __cdecl FUN_004505e0(intptr_t value)
 {
     (*reinterpret_cast<int *>(&::g_pfnC11F0EmissiveChanged)) = value;
 }
@@ -2227,7 +2228,7 @@ void FUN_00450690(float value)
 
 
 // @fnv 0x004506a0
-void __cdecl FUN_004506a0(int a)
+void __cdecl FUN_004506a0(intptr_t a)
 {
     (*reinterpret_cast<int *>(&::DAT_01202e08)) = a;
 }
@@ -2409,7 +2410,7 @@ struct FUN_00541570_shell
 };
 struct FUN_00457880_Class
 {
-    unsigned int FUN_00457880(int);
+    unsigned int FUN_00457880(intptr_t);
 };
 struct NiPoint3
 {
@@ -2841,7 +2842,7 @@ unsigned long long FUN_0044e0d0_Class::GetValue64()
 
 
 // @fnv 0x0044e360
-void FUN_0044e360(unsigned long param_1)
+void FUN_0044e360(uintptr_t param_1)
 {
     TlsFree(param_1);
 }
@@ -3044,7 +3045,7 @@ struct FUN_00451900_shell
     Vector3* FUN_00457720(const Vector2*);
 };
 // @fnv 0x00457880
-unsigned int FUN_00457880_Class::FUN_00457880(int arg)
+unsigned int FUN_00457880_Class::FUN_00457880(intptr_t arg)
 {
     unsigned int pRes;
     FUN_00541570_shell* pObj;
@@ -4710,7 +4711,7 @@ struct Obj_00458440
     int ApplyOrNotify(int a, bool b);
 };
 // @fnv 0x00458420
-void FUN_00458420_cls::FUN_00458420(int aiValue)
+void FUN_00458420_cls::FUN_00458420(intptr_t aiValue)
 {
     reinterpret_cast<::Obj_00458440 *>(this)->ApplyOrNotify(aiValue, 1);
 }

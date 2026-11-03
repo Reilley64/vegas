@@ -2,6 +2,7 @@
 // src/fallout/ai/combat/beamprojectile.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/combat/beamprojectile.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <cmath>
 #include "fnv/decl/BGSMessageInitAccess.h"
 #include "fnv/decl/BGSProjectile.h"
@@ -1059,10 +1060,10 @@ struct BeamEffect
     float lifetime;
     int unkE8, unkEC, unkF0, unkF4, unkF8;
     Actor* actor;
-    bool FUN_009c43e0(int, bool);
+    bool FUN_009c43e0(intptr_t, bool);
 };
 // @fnv 0x009c43e0
-bool BeamEffect::FUN_009c43e0(int value, bool silent)
+bool BeamEffect::FUN_009c43e0(intptr_t value, bool silent)
 {
     bool result = false;
     if (reinterpret_cast<::BGSProjectile *>((((::Base *)(reinterpret_cast<::Actor *>(this)->GetActorBase()))))->FUN_004fdf20() && !reinterpret_cast<::FUN_00444d00_Class *>(this)->FUN_00444d00(0x200))
@@ -1632,9 +1633,9 @@ unsigned char FUN_00979510_cls::FUN_00979510(void* a1, void* a2, void* a3, void*
     float fOut;
     if (((FUN_00979510_sub88*)((char*)this + 0x88))->FUN_008256d0())
     {
-        if (((unsigned char)(::fnv_009c2c80::CanProjectileHit((::fnv_009c2c80::RefObj *)(a1), (::fnv_009c2c80::CdBody *)(a4), (int)(this), (::fnv_009c2c80::ProjData *)(void *)(((void *)(reinterpret_cast<::Actor *>((this))->GetActorBase())))))))
+        if (((unsigned char)(::fnv_009c2c80::CanProjectileHit((::fnv_009c2c80::RefObj *)(a1), (::fnv_009c2c80::CdBody *)(a4), (intptr_t)(this), (::fnv_009c2c80::ProjData *)(void *)(((void *)(reinterpret_cast<::Actor *>((this))->GetActorBase())))))))
         {
-            if (((unsigned char)(reinterpret_cast<::ProjectileHit *>((this))->ProcessHit((::Obj *)(a1), (*(const ::Vec *)(a2)), (*(const ::Vec *)(a3)), (::Buffer *)(a4), (int)(a5), (int)(a6)))))
+            if (((unsigned char)(reinterpret_cast<::ProjectileHit *>((this))->ProcessHit((::Obj *)(a1), (*(const ::Vec *)(a2)), (*(const ::Vec *)(a3)), (::Buffer *)(a4), (intptr_t)(a5), (intptr_t)(a6)))))
             {
                 ((FUN_009795c0_shell*)this)
                     ->FUN_009795c0(reinterpret_cast<::NiPoint3 *>((((FUN_00979510_res*)((void *)(reinterpret_cast<::FUN_00439ef0_class *>((((FUN_00979510_obj*)a2)))->FUN_00439ef0((::NiPoint3 *)(float *)(&fOut), (*(const ::NiPoint3 *)(this->v125()))))))))->ComputeMagnitude());

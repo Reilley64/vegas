@@ -825,7 +825,7 @@ struct PlayerEnchantStub
     int unk234;
     int unk238;
     EnchantedFormList* pEnchantedForms;
-    void RemoveEnchantment(TESBoundObject* apForm, int aiUnused);
+    void RemoveEnchantment(TESBoundObject* apForm, intptr_t aiUnused);
 };
 
 class TESObjectWEAP : public TESBoundObject
@@ -4260,7 +4260,7 @@ void Obj::ApplyFormPayload(Form* form, int unused)
 
 // For form type 0x18 or 0x1A with an enchantment, removes the spell if present, removes apForm from pEnchantedForms, and deletes the list when it becomes empty.
 // @fnv 0x0095eb10
-void PlayerEnchantStub::RemoveEnchantment(TESBoundObject* apForm, int aiUnused)
+void PlayerEnchantStub::RemoveEnchantment(TESBoundObject* apForm, intptr_t aiUnused)
 {
     if (apForm->FNV_GetFormType() != 0x18 && apForm->FNV_GetFormType() != 0x1A)
     {

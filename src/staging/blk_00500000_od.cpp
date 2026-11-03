@@ -1540,7 +1540,7 @@ struct S_0050de20_Class
 };
 
 // @fnv 0x0050f6e0
-int FUN_0050f6e0()
+intptr_t FUN_0050f6e0()
 {
     return (*reinterpret_cast<int *>(&::g_fileFinder));
 }
@@ -1597,7 +1597,7 @@ struct FUN_005103d0_cls
     unsigned int unk0C;
     unsigned int unk10;
     unsigned int m_14;
-    unsigned int FindSubstring(char* a1, unsigned int start, unsigned int count);
+    unsigned int FindSubstring(char* a1, uintptr_t start, unsigned int count);
 };
 // @fnv 0x005103a0
 void FUN_005103a0_class::FUN_005103a0(const char* a, const char* b)
@@ -1607,7 +1607,7 @@ void FUN_005103a0_class::FUN_005103a0(const char* a, const char* b)
 
 // Searches the buffer from start for a match of a1 of length count, returning its offset from the base or g_010173f0 if not found.
 // @fnv 0x005103d0
-unsigned int FUN_005103d0_cls::FindSubstring(char* pPattern, unsigned int start, unsigned int count)
+unsigned int FUN_005103d0_cls::FindSubstring(char* pPattern, uintptr_t start, unsigned int count)
 {
     unsigned int remaining;
     unsigned int pos;

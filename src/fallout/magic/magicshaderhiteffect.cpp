@@ -298,7 +298,7 @@ extern int DAT_0107b824;
 // @fnv 0x00822560
 void FUN_00822560(Arr3520* pArray)
 {
-    *(int*)pArray = (int)&DAT_0107b824;
+    *(intptr_t*)pArray = (intptr_t)&DAT_0107b824;
     reinterpret_cast<::FUN_006c6200_cls *>((pArray))->FUN_006c6200(true);
 }
 
@@ -466,7 +466,7 @@ void* FUN_008225d0_shell::FUN_008225d0(unsigned int param_1)
 
 struct AX
 {
-    unsigned int vtable;
+    uintptr_t vtable;
     void FUN_006b3eb0(unsigned int, unsigned int);
 };
 
@@ -483,7 +483,7 @@ struct FUN_00822600_shell : AX
 // @fnv 0x00822600
 AX* FUN_00822600_shell::InitVtable()
 {
-    vtable = (unsigned int)&(*reinterpret_cast<unsigned int *>(&::fnv_00822630::DAT_0107b84c));
+    vtable = (uintptr_t)&(*reinterpret_cast<unsigned int *>(&::fnv_00822630::DAT_0107b84c));
     FUN_006b3eb0(0, 0);
     return (AX*)this;
 }
@@ -1158,7 +1158,7 @@ void FUN_008222f0_s::FUN_008222f0(BGSLoadGameBuffer* buffer)
 
 struct FUN_00822650_shell : InventoryItem
 {
-    unsigned int FindFirstItemExceedingRemaining();
+    uintptr_t FindFirstItemExceedingRemaining();
 };
 // @fnv 0x0081FC70
 bool MagicShaderHitEffect::Init()
@@ -1210,10 +1210,10 @@ bool MagicShaderHitEffect::Init()
         }
         if (bParticles && !reinterpret_cast<::FUN_00507040Class *>((m_pEffectShader))->FUN_00507040(8))
         {
-            if (reinterpret_cast<::_FUN_00822510_Class *>((void *)&(const ::NiPointer< ::NiNode> &)(m_pParticleShaderNode))->operator==((int)((NiNode*)0)))
+            if (reinterpret_cast<::_FUN_00822510_Class *>((void *)&(const ::NiPointer< ::NiNode> &)(m_pParticleShaderNode))->operator==((intptr_t)((NiNode*)0)))
             {
                 m_pParticleShaderNode = new NiNode(0);
-                ::AssignFixedString((char *)((m_pParticleShaderNode).operator->()), (int)&(const ::NiFixedString &)(NiFixedString("ParticleShader Geometry")), {});
+                ::AssignFixedString((char *)((m_pParticleShaderNode).operator->()), (intptr_t)&(const ::NiFixedString &)(NiFixedString("ParticleShader Geometry")), {});
                 reinterpret_cast<::FUN_0043fa80_s *>(((m_pParticleShaderNode).operator->()))->FUN_0043fa80((*(const ::ThreeByThreeMatrix *)(&(*reinterpret_cast<unsigned char *>(&::DAT_011a9448)))));
             }
             if (!((reinterpret_cast<::Twin_0044ddc0 *>(&(m_kParticleShaderProperties))->GetName())))
@@ -1280,7 +1280,7 @@ bool MagicShaderHitEffect::Init()
         }
         if (!reinterpret_cast<::FUN_00507040Class *>((m_pEffectShader))->FUN_00507040(1))
         {
-            if (reinterpret_cast<::_FUN_00822510_Class *>((void *)&(const ::NiPointer< ::BSShaderPPLightingProperty::TextureEffectData> &)(spTexEffectData))->operator==((int)((BSShaderPPLightingProperty::TextureEffectData*)0)))
+            if (reinterpret_cast<::_FUN_00822510_Class *>((void *)&(const ::NiPointer< ::BSShaderPPLightingProperty::TextureEffectData> &)(spTexEffectData))->operator==((intptr_t)((BSShaderPPLightingProperty::TextureEffectData*)0)))
             {
                 NiPointer<NiSourceTexture> fillTexture(0);
                 if (((::BGSTESTexture *)(reinterpret_cast<::FUN_00506370Class *>((m_pEffectShader))->GetFieldAt14C()))->GetModelLength() > 0)
@@ -1362,11 +1362,11 @@ bool MagicShaderHitEffect::Init()
 }
 
 // @fnv 0x00822650
-unsigned int FUN_00822650_shell::FindFirstItemExceedingRemaining()
+uintptr_t FUN_00822650_shell::FindFirstItemExceedingRemaining()
 {
     unsigned int result = 0;
     bool found = false;
-    unsigned int remaining = ::FUN_005a00a0((unsigned int)(*(void**)((char*)this + 0x20)));
+    unsigned int remaining = ::FUN_005a00a0((uintptr_t)(*(void**)((char*)this + 0x20)));
     for (unsigned int i = 0; i < (unsigned int)((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>(this)->GetName())) && !found; ++i)
     {
         if (remaining < ((unsigned int)(reinterpret_cast<::S3e60 *>((((BSSimpleArray<unsigned int>*)((char*)this + 0x10))))->FUN_006a7ad0(i))))
@@ -1602,7 +1602,7 @@ void MagicShaderHitEffect::InitHitEffect(ActiveEffect* apEffect, TESObjectREFR* 
     bool btempFinished;
     float ftempAge;
 
-    reinterpret_cast<::FUN_008d05e0_s *>(this)->FUN_008d05e0((int)(apEffect), (int)(apTarget), (int)(0));
+    reinterpret_cast<::FUN_008d05e0_s *>(this)->FUN_008d05e0((intptr_t)(apEffect), (intptr_t)(apTarget), (int)(0));
 
     if (apEffect != 0)
     {
@@ -1858,12 +1858,12 @@ struct FUN_008223d0_cls
     unsigned int unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
     float m_20;
     unsigned char m_24;
-    void FUN_008223d0(unsigned int a1);
+    void FUN_008223d0(uintptr_t a1);
 };
 
 // Calls FUN_009dace0 with a1, saves m_20 and m_24, calls vfn_c4, restores both fields, then calls vfn_94(0.0f).
 // @fnv 0x008223d0
-void FUN_008223d0_cls::FUN_008223d0(unsigned int a1)
+void FUN_008223d0_cls::FUN_008223d0(uintptr_t a1)
 {
     float saved;
     unsigned char savedFlag;
@@ -2309,7 +2309,7 @@ FUN_0081f770::~FUN_0081f770()
     if (m_pForm)
     {
         if (m_pReference && (reinterpret_cast<::FUN_0084e3a0_Class *>((m_pForm))->FUN_0084e3a0() == 0x852fe || reinterpret_cast<::FUN_0084e3a0_Class *>((m_pForm))->FUN_0084e3a0() == 0x84a51))
-            reinterpret_cast<::FUN_00ad8570_S *>((((::xAudio *)(::FUN_00453a70()))))->FUN_00ad8570((int)(m_pReference->Get3D()), 1.0f, 0);
+            reinterpret_cast<::FUN_00ad8570_S *>((((::xAudio *)(::FUN_00453a70()))))->FUN_00ad8570((intptr_t)(m_pReference->Get3D()), 1.0f, 0);
         char acPath[260];
         if (((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((((::xModel *)(reinterpret_cast<::FUN_00506390Class *>((m_pForm))->GetFieldAt158()))))->FUN_00408da0())))
         {
@@ -2884,7 +2884,7 @@ bool Effect::FUN_00820f30(float afDeltaTime)
             reinterpret_cast<::FUN_00821600_shell *>((propertySlot1))->FUN_00821600(amount / ::ParticleShader::GetShaderParticleCount());
             reinterpret_cast<::FUN_00821620_Class *>((propertySlot1))->FUN_00821620(multiplier);
             reinterpret_cast<::ParticleUpdater *>((propertySlot1))->FUN_00ba7b60(timer, false, true);
-            if (((int)(reinterpret_cast<::FUN_004fd380_shell *>((propertySlot1))->FUN_004fd380())) > 0)
+            if (((intptr_t)(reinterpret_cast<::FUN_004fd380_shell *>((propertySlot1))->FUN_004fd380())) > 0)
                 done = false;
         }
         if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(addons))->GetName())) > 0)
@@ -2978,7 +2978,7 @@ void MagicShaderHitEffect_821bd0::ApplyAndCleanup()
 {
     if (pTarget && m_pEffectShader &&
         (((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((m_pEffectShader))->FUN_0084e3a0())) == 0x852fe || ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((m_pEffectShader))->FUN_0084e3a0())) == 0x84a51))
-        reinterpret_cast<::FUN_00ad8570_S *>((((BSAudioX_821bd0*)::FUN_00453a70())))->FUN_00ad8570((int)(pTarget->GetNiNode_v()), 1.0f, false);
+        reinterpret_cast<::FUN_00ad8570_S *>((((BSAudioX_821bd0*)::FUN_00453a70())))->FUN_00ad8570((intptr_t)(pTarget->GetNiNode_v()), 1.0f, false);
 
     if (spTexEffectData)
     {

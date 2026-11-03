@@ -373,7 +373,7 @@ void ConsoleDisplay::DrawConsoleLines()
         node = ((void *)(reinterpret_cast<::FUN_007b52d0_cls *>(&(strings))->DereferenceIfNotNull((int **)(node))));
     while (lineIndex < lastLine)
     {
-        reinterpret_cast<::A0F8Self *>((((::ConsoleTextRenderer *)(::FUN_00a0d9e0(1)))))->FUN_00a0f8b0(((const char *)(::FUN_00559450((int *)(((::ConsoleLine *)(reinterpret_cast<::FUN_006317a0_struct *>(&(strings))->AddEight((int)(node)))))))), (float)m_iConsoleX, (float)lineY, 1, -1,
+        reinterpret_cast<::A0F8Self *>((((::ConsoleTextRenderer *)(::FUN_00a0d9e0(1)))))->FUN_00a0f8b0(((const char *)(::FUN_00559450((int *)(((::ConsoleLine *)(reinterpret_cast<::FUN_006317a0_struct *>(&(strings))->AddEight((intptr_t)(node)))))))), (float)m_iConsoleX, (float)lineY, 1, -1,
                                       ::DAT_01012054, ((::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d8d38))))))->i, (::A0F8Color *)(0));
         node = ((void *)(reinterpret_cast<::FUN_007b52d0_cls *>(&(strings))->DereferenceIfNotNull((int **)(node))));
         ++lineIndex;
@@ -625,7 +625,7 @@ bool ConsoleManager::Idle(int aiKeyCode)
                 }
                 else if (!_mbsicmp((const unsigned char*)text, (const unsigned char*)"tag"))
                 {
-                    TESObjectREFR* reference = ((::TESObjectREFR *)(::FUN_007031c0((int)(manager))));
+                    TESObjectREFR* reference = ((::TESObjectREFR *)(::FUN_007031c0((intptr_t)(manager))));
                     if (reference)
                     {
                         BSStringT<char> label;
@@ -840,7 +840,7 @@ bool ConsoleManager::Idle(int aiKeyCode)
                                             script.NotifySaveLoadGameOfFormChange();
                                             reinterpret_cast<::FUN_005abe50_shell *>(&(script))->FUN_005abe50((char *)(batchLine));
                                             reinterpret_cast<::ScriptCompileAndRun *>(&(script))->FUN_005ac400(m_pScriptCompiler, COMPILER_NAME_CONSOLE,
-                                                                     ((::TESObjectREFR *)(::FUN_007031c0((int)(((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))))));
+                                                                     ((::TESObjectREFR *)(::FUN_007031c0((intptr_t)(((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))))));
                                         }
                                     }
                                 }
@@ -912,7 +912,7 @@ bool ConsoleManager::Idle(int aiKeyCode)
                     Script script;
                     script.NotifySaveLoadGameOfFormChange();
                     reinterpret_cast<::FUN_005abe50_shell *>(&(script))->FUN_005abe50((char *)(text));
-                    reinterpret_cast<::ScriptCompileAndRun *>(&(script))->FUN_005ac400(m_pScriptCompiler, COMPILER_NAME_CONSOLE, ((::TESObjectREFR *)(::FUN_007031c0((int)(((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))))));
+                    reinterpret_cast<::ScriptCompileAndRun *>(&(script))->FUN_005ac400(m_pScriptCompiler, COMPILER_NAME_CONSOLE, ((::TESObjectREFR *)(::FUN_007031c0((intptr_t)(((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))))));
                 }
             }
         }
@@ -1003,7 +1003,7 @@ bool ConsoleManager::Idle(int aiKeyCode)
                                         position = ((void *)(reinterpret_cast<::FUN_007b52d0_cls *>(&(m_kCommandHistory))->DereferenceIfNotNull((int **)(position))));
                                 }
                                 if (position)
-                                    reinterpret_cast<::FUN_00501c10_cls *>((void *)&(const ::BSStringT<char> &)(line))->CallAndReturnSelf((int)&(m_kCommandHistory.AddEight(position)));
+                                    reinterpret_cast<::FUN_00501c10_cls *>((void *)&(const ::BSStringT<char> &)(line))->CallAndReturnSelf((intptr_t)&(m_kCommandHistory.AddEight(position)));
                                 else
                                     line = "";
                                 sprintf(text, "%s", ((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>(&(line))->FUN_004048e0())) ? ((const char *)(::FUN_00559450((int *)&(line)))) : "");

@@ -5,6 +5,7 @@
 
 // src/staging/blk_007e0000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include <cstdint>
 #include <cstdlib>
 #include <cstring>
 #include "../../include/layout_support.h"
@@ -39,7 +40,7 @@ struct Flt
 };
 struct FUN_007fa970_Class
 {
-    unsigned int FUN_007fa970();
+    uintptr_t FUN_007fa970();
 };
 struct GO
 {
@@ -760,7 +761,7 @@ struct ListOwner
     void Select(TileX*);
     void Update();
     int Mode();
-    TileX* FUN_007e0e70(int data, const char* text, void* compare, const char* name);
+    TileX* FUN_007e0e70(intptr_t data, const char* text, void* compare, const char* name);
 };
 struct WXObject;
 template <class T> struct WXPointer
@@ -1178,7 +1179,7 @@ struct RemoveInterface
     void FUN_00715860(RemoveTile*, int, bool);
 };
 RemoveInterface* FUN_004b7210();
-int FUN_00a01860(const char*);
+intptr_t FUN_00a01860(const char*);
 void FUN_00401030(void*);
 struct RemoveBase
 {

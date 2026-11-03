@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 class GlobalObject2_0045cfe0;
 class GlobalObject2_0096a2d0;
@@ -91,11 +92,11 @@ extern unsigned char DAT_011e0780;
 // 0x011e0783
 extern bool DAT_011e0783;
 // 0x011e0784
-extern int DAT_011e0784;
+extern intptr_t DAT_011e0784;
 // 0x011e0788
 extern ::ActivationRef *DAT_011e0788;
 // 0x011e078c
-extern int DAT_011e078c;
+extern intptr_t DAT_011e078c;
 // 0x011e07a8
 extern unsigned char DAT_011e07a8;
 // 0x011e07a9

@@ -1,6 +1,7 @@
 // src/fallout/ai/arrowprojectile.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/arrowprojectile.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/BSShaderNoLightingProperty.h"
 #include "fnv/decl/Callees.h"
@@ -697,12 +698,12 @@ void FUN_008cddd0(MobileObject* owner, bool bFlag)
                 }
                 reinterpret_cast<::FileMatchList *>((process->Unk_1AC()))->RemoveAll();
             }
-            if (((int)(reinterpret_cast<::FUN_0045cd60_shell *>((process))->FUN_0045cd60())) == 0)
+            if (((intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((process))->FUN_0045cd60())) == 0)
             {
                 bHigh = true;
                 bLow = false;
             }
-            else if (((int)(reinterpret_cast<::FUN_0045cd60_shell *>((process))->FUN_0045cd60())) == 1)
+            else if (((intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((process))->FUN_0045cd60())) == 1)
             {
                 bHigh = false;
                 bLow = true;
@@ -972,7 +973,7 @@ void* __cdecl FUN_008cfbc0(void* p1, Vec3 a, Vec3 b, float* p4, bool p5)
                                     CollObj* scaledColl = coll;
                                     if (!reinterpret_cast<::Holder_cffa0 *>((world))->FUN_008cffa0() || reinterpret_cast<::BSMultiBoundSphere *>((scaledColl))->GetRadius() == 1.0)
                                     {
-                                        ::FromHK((*(::hkTransform *)(&oe)), (*(const ::NiTransform *)(((void *)(::FUN_00461130((int)(((P1Obj*)p1))))))));
+                                        ::FromHK((*(::hkTransform *)(&oe)), (*(const ::NiTransform *)(((void *)(::FUN_00461130((intptr_t)(((P1Obj*)p1))))))));
                                         if (::FUN_0043b300((const ::NiRTTI *)(const void *)(&(*reinterpret_cast<char *>(&::g_012683c8))), (::NiAVObject *)(world)))
                                         {
                                             WorldObj* transformedWorld = world;

@@ -293,11 +293,11 @@ struct HashTableBase
     unsigned int tableSize;
     HashNode** buckets;
     unsigned int elementCount;
-    void InsertOrUpdate(unsigned int key, unsigned int value);
+    void InsertOrUpdate(uintptr_t key, uintptr_t value);
 };
 // Looks up key in the bucket chain, updates the value if found, otherwise allocates, initializes and prepends a new node and increments elementCount.
 // @fnv 0x00b57ea0
-void HashTableBase::InsertOrUpdate(unsigned int key, unsigned int value)
+void HashTableBase::InsertOrUpdate(uintptr_t key, uintptr_t value)
 {
     unsigned int bucketIndex = BucketIndex(key);
     HashNode* node = buckets[bucketIndex];

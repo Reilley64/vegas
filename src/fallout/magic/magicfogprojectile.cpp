@@ -922,7 +922,7 @@ void FUN_0081ade0_cls::SaveToStream(int a1)
             {
                 tmp = reinterpret_cast<::FUN_0084e3a0_Class *>((cur->m0))->FUN_0084e3a0();
             }
-            reinterpret_cast<::FUN_00484d20_Class *>(this)->ForwardToSaveLoadGame((int)(&tmp), 4);
+            reinterpret_cast<::FUN_00484d20_Class *>(this)->ForwardToSaveLoadGame((intptr_t)(&tmp), 4);
             unsigned char flag = 0;
             if (reinterpret_cast<::EffectSetting *>(this)->GetArchetype() != 0 && cur->m4 != 0)
             {
@@ -1155,7 +1155,7 @@ void FogProjectileLoad::LoadProjectile(int a1, int a2)
         FogRefNode* pkNode = m_pkRefs;
         while (pkNode)
         {
-            unsigned int uiFormID_2 = (unsigned int)pkNode->m_pkForm;
+            uintptr_t uiFormID_2 = (uintptr_t)pkNode->m_pkForm;
             unsigned char ucIndexZ = (unsigned char)pkNode->m_iValue;
             if (uiFormID_2)
                 pkNode->m_pkForm = dynamic_cast<TESObjectREFR*>(FUN_004839c0(uiFormID_2));
@@ -1637,7 +1637,7 @@ struct xB
 };
 struct xBase : xA, xB
 {
-    xBase(int, int, int, int, xP3, xP3);
+    xBase(intptr_t, int, int, int, xP3, xP3);
     ~xBase();
 };
 struct xActorV
@@ -1690,7 +1690,7 @@ xProj::xProj(int a, int b, int c, int d, xP3 kP1, xP3 kP2, void* apE, xOwner* ap
     reinterpret_cast<::FogProjectileInit *>(this)->InitProjectileEffect();
     reinterpret_cast<::fnv_00819ca0::Actor *>(this)->FUN_00819ca0();
     xVec4 V(-::g_fInfinity_0107ad40, 0.0f, 0.0f, 0.0f);
-    reinterpret_cast<::fnv_0080fb00::FUN_0080fb00_Class *>((((::xCtl *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>(this)->FUN_009306d0()))))->FUN_0080fb00((int)(&V));
+    reinterpret_cast<::fnv_0080fb00::FUN_0080fb00_Class *>((((::xCtl *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>(this)->FUN_009306d0()))))->FUN_0080fb00((intptr_t)(&V));
     reinterpret_cast<::CellView *>((((::xCell *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))))->FUN_00548230((::RefView *)(void *)(this), false);
     if (((::xSndForm *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(((::xEffect *)(reinterpret_cast<::MagicProjectile *>(this)->FUN_004fd400())))))))
     {

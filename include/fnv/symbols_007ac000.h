@@ -1,6 +1,7 @@
 #pragma once
+#include <cstdint>
 
 struct Tile;
 
 // 0x007ac730
-::Tile *GetOrCreateMenuTile(int);
+::Tile *GetOrCreateMenuTile(intptr_t);

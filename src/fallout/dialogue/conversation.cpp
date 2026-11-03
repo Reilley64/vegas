@@ -1,5 +1,6 @@
 // fallout/dialogue/conversation.cpp: ConversationLoad, DialogueItem, ListNode, Conversation and more (11 functions)
 
+#include <cstdint>
 #include "fnv/simple_list_node_view.h"
 #include <new>
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -78,7 +79,7 @@ void Conversation::FUN_0083c420(BGSLoadFormBuffer* pBuffer)
         DialogueItem* pdialogueItem = (*((::DialogueItem * *)(&reinterpret_cast<::SimpleListNodeView*>(pCurrentElementNext)->m_item)));
         if (pdialogueItem)
         {
-            reinterpret_cast<::FUN_0083d0d0_Class *>((reinterpret_cast<DialogueItem_Stub*>(pdialogueItem)))->RefreshObjectRef((int)(pBuffer));
+            reinterpret_cast<::FUN_0083d0d0_Class *>((reinterpret_cast<DialogueItem_Stub*>(pdialogueItem)))->RefreshObjectRef((intptr_t)(pBuffer));
         }
         pCurrentElementNext = ((::BSSimpleList< ::DialogueItem *> *)(reinterpret_cast<::Callees *>((pCurrentElementNext))->FUN_00726070()));
     }
@@ -652,7 +653,7 @@ void CVConv::SaveConversation()
     if (reinterpret_cast<::FUN_00862110_cls *>(((*reinterpret_cast<::CVSaveLoad * *>(&::g_TESSaveLoadGame))))->FUN_00862110())
     {
         unsigned int uiEnd7 = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::CVSaveLoad * *>(&::g_TESSaveLoadGame))))->FUN_00825c00();  // slot -0x34
-        unsigned int uiStart2 = (unsigned int)pSizeTmp;    // slot -0x38
+        uintptr_t uiStart2 = (uintptr_t)pSizeTmp;    // slot -0x38
         if (uiEnd7 > uiStart2 + 0xffff)
             ::FUN_005b5e40();
         *pSizeTmp = (short)(uiEnd7 - uiStart2);

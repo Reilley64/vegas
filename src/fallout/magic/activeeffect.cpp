@@ -1,5 +1,6 @@
 // fallout/magic/activeeffect.cpp: Interface, EffectSetting, Self, EffectSaveShell (47 functions)
 
+#include <cstdint>
 #include "fnv/effect_item_fields.h"
 #include "fnv/active_effect_fields.h"
 #include "fnv/simple_list_node_view.h"
@@ -139,7 +140,7 @@ void ActiveEffect::WriteActiveEffectList(BGSLoadFormBuffer* pBuffer, BSSimpleLis
 class MagicCaster
 {
   public:
-    static MagicCaster* GetCasterByHandle(unsigned int id);
+    static MagicCaster* GetCasterByHandle(uintptr_t id);
 };
 class Actor;
 class MagicTarget
@@ -151,7 +152,7 @@ class MagicTarget
     virtual bool IsActor();
     char data[12];
     static int CompareActiveEffects(ActiveEffect*, ActiveEffect*);
-    static MagicTarget* GetMagicTargetByID(unsigned int id);
+    static MagicTarget* GetMagicTargetByID(uintptr_t id);
 public:
     ::Actor *GetOwnerActor() const;
 };
@@ -240,8 +241,8 @@ class MagicHitEffectLoadDispatch
 void ActiveEffect::InitLoadGame(BGSLoadFormBuffer* pBuffer)
 {
     BSSimpleList<BGSPerkEntry*>* pNode;
-    m_pEffectInstance = m_pEffectInstance ? MagicCaster::GetCasterByHandle(reinterpret_cast<unsigned int>(m_pEffectInstance)) : 0;
-    pTarget = pTarget ? MagicTarget::GetMagicTargetByID(reinterpret_cast<unsigned int>(pTarget)) : 0;
+    m_pEffectInstance = m_pEffectInstance ? MagicCaster::GetCasterByHandle(reinterpret_cast<uintptr_t>(m_pEffectInstance)) : 0;
+    pTarget = pTarget ? MagicTarget::GetMagicTargetByID(reinterpret_cast<uintptr_t>(pTarget)) : 0;
     pMagicItem = pMagicItem ? MagicItem::GetMagicItemByID(reinterpret_cast<unsigned int>(pMagicItem)) : 0;
     pNode = reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(pHitEffectList);
     while (pNode)
@@ -304,12 +305,12 @@ class ActiveEffectLoadGameDispatch
 ActiveEffect* ActiveEffect::ReadActiveEffect(BGSLoadFormBuffer* buffer)
 {
     // These local names preserve the original MSVC9 stack allocation.
-    unsigned int archetype;  // saved spell form ID
+    uintptr_t archetype;  // saved spell form ID
     unsigned char index;
     MagicItem* spell = 0;
     int formID;  // serialized effect archetype
     reinterpret_cast<::fnv_008648e0::FUN_008648e0_shell *>((buffer))->FUN_008648e0((unsigned int *)(void *)(&spell));
-    archetype = reinterpret_cast<unsigned int>(spell);
+    archetype = reinterpret_cast<uintptr_t>(spell);
     spell = spell ? MagicItem::GetMagicItemByID(reinterpret_cast<unsigned int>(spell)) : 0;
     index = 0;
     reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&index), 1);
@@ -818,7 +819,7 @@ class TESObjectREFR;
 struct GO
 {
     void* m_pObject;
-    GO(int);
+    GO(intptr_t);
     ~GO();
     GO& operator=(void*);
 };
@@ -2054,11 +2055,11 @@ void ActiveEffectLoader::FUN_00805330(Actor* actor)
     reinterpret_cast<::FUN_008579e0_shell *>((((EffectSaveReader*)(*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame)))))->FUN_008579e0(&m_fElapsedTime, 4);
     reinterpret_cast<::FUN_008579e0_shell *>((((EffectSaveReader*)(*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame)))))->FUN_008579e0(&fDuration, 4);
     reinterpret_cast<::FUN_00857aa0 *>((((EffectSaveReader*)(*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame)))))->ValidateFormIDArray(&a, 4);
-    m_pEffectInstance = (MagicCaster*)a;
+    m_pEffectInstance = (MagicCaster*)(uintptr_t)a;
     reinterpret_cast<::FUN_00857aa0 *>((((EffectSaveReader*)(*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame)))))->ValidateFormIDArray(&h, 4);
-    pTarget = (MagicTarget*)h;
+    pTarget = (MagicTarget*)(uintptr_t)h;
     reinterpret_cast<::FUN_00857aa0 *>((((EffectSaveReader*)(*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame)))))->ValidateFormIDArray(&f, 4);
-    pSource = (TESBoundObject*)f;
+    pSource = (TESBoundObject*)(uintptr_t)f;
     if (reinterpret_cast<::FUN_008df040_shell *>((((EffectSaveReader*)(*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame)))))->FUN_008df040() >= 42)
     {
         reinterpret_cast<::FUN_008579e0_shell *>((((EffectSaveReader*)(*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame)))))->FUN_008579e0(&g, 1);
@@ -2131,7 +2132,7 @@ class SaveEffectObj
 
 // Writes the effect's save word (version >= 0x2a), owner key, a checked flag byte, then calls SaveData.
 // @fnv 0x00805880
-void SaveEffectData(SaveEffectObj* pEffect, unsigned int arg)
+void SaveEffectData(SaveEffectObj* pEffect, uintptr_t arg)
 {
     if (reinterpret_cast<::FUN_008df040_shell *>((::g_TESSaveLoadGame))->FUN_008df040() >= 0x2a)
     {
@@ -2268,7 +2269,7 @@ void FUN_00805b40(AENode* apList, Actor* apActor)
     reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_00805b40::SaveLoadMgr * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&usCount2, 2);
     while (apList && !apList->IsEmpty())
     {
-        ::SaveEffectData((::SaveEffectObj *)((*((::ActiveEffect * *)(&reinterpret_cast<::SimpleListNodeView*>(apList)->m_item)))), (unsigned int)(apActor));
+        ::SaveEffectData((::SaveEffectObj *)((*((::ActiveEffect * *)(&reinterpret_cast<::SimpleListNodeView*>(apList)->m_item)))), (uintptr_t)(apActor));
         usCount2++;
         apList = ((::fnv_00805b40::AENode *)(reinterpret_cast<::Callees *>((apList))->FUN_00726070()));
     }
@@ -2460,7 +2461,7 @@ class B806840ActiveEffect
 void __cdecl FUN_00806840(B806840SaveBuffer* pkBuffer, B806840ActiveEffect* pkEffect)
 {
     reinterpret_cast<::FUN_00865db0_shell *>((pkBuffer))->FUN_00865db0(pkEffect->m_pkMagicItem ? ((unsigned int)(reinterpret_cast<::FUN_0040a1e0_shell *>((pkEffect->m_pkMagicItem))->FUN_0040a1e0())) : 0, 0);
-    bool bInList2 = ((bool)(reinterpret_cast<::EffectItemListFind *>(&(pkEffect->m_pkMagicItem->m_kEffects))->FindEffectItemIndex((int)(pkEffect->m_pkEffectItem))));
+    bool bInList2 = ((bool)(reinterpret_cast<::EffectItemListFind *>(&(pkEffect->m_pkMagicItem->m_kEffects))->FindEffectItemIndex((intptr_t)(pkEffect->m_pkEffectItem))));
     reinterpret_cast<::FUN_00865e50_shell *>((pkBuffer))->FUN_00865e50(&bInList2, 1, 0);
     int eArchetype2 = reinterpret_cast<::EffectSetting *>((((::B806840EffectSetting *)(reinterpret_cast<::EffectItemFields *>(pkEffect->m_pkEffectItem)->setting))))->GetArchetype();
     reinterpret_cast<::BGSSaveGameBuffer *>((pkBuffer))->FUN_00865f60(eArchetype2);
@@ -2500,10 +2501,10 @@ void ActiveEffect805670::FUN_00805670(Actor* apActor)
     TESBoundObject* source;
     pkCaster = m_pEffectInstance;
     if (pkCaster)
-        m_pEffectInstance = ::MagicCaster::GetCasterByHandle((unsigned int)(pkCaster));
+        m_pEffectInstance = ::MagicCaster::GetCasterByHandle((uintptr_t)(pkCaster));
     pkTarget = pTarget;
     if (pkTarget)
-        pTarget = ::MagicTarget::GetMagicTargetByID((unsigned int)(pkTarget));
+        pTarget = ::MagicTarget::GetMagicTargetByID((uintptr_t)(pkTarget));
     source = pSource;
     if (pkTarget)
         pSource = dynamic_cast<TESBoundObject*>(FUN_004839c0((unsigned int)(std::uintptr_t)source));

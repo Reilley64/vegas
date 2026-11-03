@@ -687,7 +687,7 @@ char FUN_0070ec50(char* thisPtr)
 }
 
 // @fnv 0x0070ec90
-unsigned int FUN_0070ec90(char* this_ptr)
+uintptr_t FUN_0070ec90(char* this_ptr)
 {
     return *(unsigned int*)(this_ptr + 0x64);
 }
@@ -1069,11 +1069,11 @@ void FUN_00713ee0_shell::ClearFlag()
 struct S148c0
 {
     void** vt;
-    void FUN_007148c0(int a, int b);
+    void FUN_007148c0(intptr_t a, int b);
 };
 typedef void(* Fn148c0)(S148c0*, int, int);
 // @fnv 0x007148c0
-void S148c0::FUN_007148c0(int aiArg1, int aiArg2)
+void S148c0::FUN_007148c0(intptr_t aiArg1, int aiArg2)
 {
     if (!reinterpret_cast<::S_004a0e10 *>(this)->FUN_004a0e10((std::intptr_t)("ClearBuffer"), 1))
         return;
@@ -1426,7 +1426,7 @@ struct Node_00716660
 // @fnv 0x00716660
 float __cdecl FUN_00716660(int aiId)
 {
-    Node_00716660* node = *(Node_00716660**)(*(int*)((char*)((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())) + 0x164) + 0x10);
+    Node_00716660* node = *(Node_00716660**)(*(intptr_t*)((char*)((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())) + 0x164) + 0x10);
     while (node != 0)
     {
         if (aiId == node->id)
@@ -1992,7 +1992,7 @@ void FUN_00716010_stub::FUN_00716010(void* p)
         a[3] = 0;
     if (a[4] == p)
         a[4] = 0;
-    ::ClearPmeIfMatches((int)(p));
+    ::ClearPmeIfMatches((intptr_t)(p));
 }
 
 namespace fnv_007181d0 {
@@ -2913,7 +2913,7 @@ void FUN_0070c4a0_shell::UpdateInterface()
                     CursorMenuPos.y = CursorMenuPos.y / ::FUN_00717860() - 195.0;
                 }
                 reinterpret_cast<::FUN_009e3360_Class *>((((IMX*)this)))->SetMode((int)(CursorMenuPos.x - reinterpret_cast<::TileListBoxCalls *>((((IMX*)this)->t4c))->GetFloat(0xfea)));
-                reinterpret_cast<::MiddleHighProcess *>((((IMX*)this)))->AddDeferredHideLimb((::TargetDoorController *)((int)(CursorMenuPos.y - reinterpret_cast<::TileListBoxCalls *>((((IMX*)this)->t4c))->GetFloat(0xfeb))));
+                reinterpret_cast<::MiddleHighProcess *>((((IMX*)this)))->AddDeferredHideLimb((::TargetDoorController *)((intptr_t)(CursorMenuPos.y - reinterpret_cast<::TileListBoxCalls *>((((IMX*)this)->t4c))->GetFloat(0xfeb))));
                 reinterpret_cast<::FUN_00a012d0_t *>((((IMX*)this)
                     ->t4c))->FUN_00a012d0(0xff0,
                                CursorMenuPos.x -
@@ -3343,7 +3343,7 @@ void FUN_0070c4a0_shell::UpdateInterface()
     DAT_011d8a85 = 0;
     if (!bDidFindMatch)
     {
-        void* xelem = (void*)((unsigned int)(::FUN_00559450((int *)&(((IMX*)this)->t9c->lst))));
+        void* xelem = (void*)((uintptr_t)(::FUN_00559450((int *)&(((IMX*)this)->t9c->lst))));
         while (xelem && !DAT_011d8a85)
         {
             TileH* ptile = ((::fnv_0070c4a0::TileH *)(reinterpret_cast<::ListStandIn *>(&(((IMX*)this)->t9c->lst))->FUN_0057cbe0((int **)&(xelem))));
@@ -4605,7 +4605,7 @@ void FUN_0070bc20_shell::UpdateActivatePick()
             CollisionFilter fltr(0);
             reinterpret_cast<::FUN_004a39f0_shell *>(&(fltr))->FUN_004a39f0(0x24);
             reinterpret_cast<::FUN_0059ce80_shell *>(&(fltr))->FUN_0059ce80(reinterpret_cast<::fnv_004a3a20::FUN_004a3a20_shell *>(&(icolFilter))->FUN_004a3a20());
-            if (phud && reinterpret_cast<::FUN_004571c0_cls *>(((*reinterpret_cast<::fnv_0070bc20::TES * *>(&::g_TES))))->ApplyToObject((::FUN_004571c0_obj *)&(activatePick), (int)&(origin), (int)&(dir), fpickLength, 0x1f))
+            if (phud && reinterpret_cast<::FUN_004571c0_cls *>(((*reinterpret_cast<::fnv_0070bc20::TES * *>(&::g_TES))))->ApplyToObject((::FUN_004571c0_obj *)&(activatePick), (intptr_t)&(origin), (intptr_t)&(dir), fpickLength, 0x1f))
             {
                 NiPickRecord* ppickRecord = 0;
                 for (unsigned int a = 0; a < ((std::uintptr_t)(reinterpret_cast<::MagicCaster_shell *>((((::fnv_0070bc20::NiPickResults *)(reinterpret_cast<::BGSCameraPath *>(&(activatePick))->GetConditions()))))->FUN_0044edb0())); a++)
@@ -4670,7 +4670,7 @@ void FUN_0070bc20_shell::UpdateActivatePick()
                 if (bcheckwater)
                 {
                     NiPick waterpick(0, 8);
-                    if (reinterpret_cast<::FUN_004570d0_cls *>(((*reinterpret_cast<::fnv_0070bc20::TES * *>(&::g_TES))))->FUN_004570d0((void *)&(waterpick), (int)&(origin), (int)&(dir), ::FUN_0040ebd0(fpickLength, fdistanceToRef)))
+                    if (reinterpret_cast<::FUN_004570d0_cls *>(((*reinterpret_cast<::fnv_0070bc20::TES * *>(&::g_TES))))->FUN_004570d0((void *)&(waterpick), (intptr_t)&(origin), (intptr_t)&(dir), ::FUN_0040ebd0(fpickLength, fdistanceToRef)))
                     {
                         NiAVObject* phit3D = ((::fnv_0070bc20::NiPickRecord *)(reinterpret_cast<::fnv_00968670::FUN_00968670_shell *>((((::fnv_0070bc20::NiPickResults *)(reinterpret_cast<::BGSCameraPath *>(&(waterpick))->GetConditions()))))->FUN_00968670(0)))->FUN_00458b50();
                         TESObjectREFR* pwaterref = ((::fnv_0070bc20::TESObjectREFR *)(::FUN_0056f930((::NiAVObject *)(phit3D))));
@@ -6009,7 +6009,7 @@ SceneGraph* FUN_00712e90_shell::FUN_00712e90(SceneGraph* apGraph, char* apName, 
         "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\Interface\\InterfaceManager.cpp", 3601);
     SceneGraph* pscene_graph = apGraph;
     if (!pscene_graph)
-        pscene_graph = new SceneGraph(((const char *)(::FUN_00464f30((int)(apName)))), false, 0);
+        pscene_graph = new SceneGraph(((const char *)(::FUN_00464f30((intptr_t)(apName)))), false, 0);
     GraphicsRenderer* pr = static_cast<GraphicsRenderer*>(((::fnv_00712e90::NiRenderer *)(::FUN_0043c4b0())));
     M3_ rot;
     reinterpret_cast<::M3_ *>(&(rot))->SetElement(0, 0.0f, 0.0f, 1.0f);
@@ -6942,10 +6942,10 @@ void FUN_007149f0()
 struct FUN_00714d70
 {
     int m_field_0xf0;
-    void SetField(int value);
+    void SetField(intptr_t value);
 };
 // @fnv 0x00714d70
-void FUN_00714d70::SetField(int value)
+void FUN_00714d70::SetField(intptr_t value)
 {
     *(int*)((char*)this + 0xf0) = value;
 }
@@ -7142,7 +7142,7 @@ struct FUN_007164c0_List
 };
 
 // @fnv 0x007164c0
-void FUN_007164c0(int aiKey, float afValue)
+void FUN_007164c0(intptr_t aiKey, float afValue)
 {
     AutoMemHelper MemContext(13, true,
                              "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\Interface\\InterfaceManager.cpp", 5210);
@@ -7267,7 +7267,7 @@ const char* TextEditString::GetDisplayText()
         if (((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>(&(kText))->FUN_004048e0())) == 0)
             ::FUN_004046f0(acTemp, "");
         else
-            ::FUN_004046f0(acTemp, (const char*)(unsigned int)*(Flt*)&kText);
+            ::FUN_004046f0(acTemp, (const char*)(uintptr_t)*(Flt*)&kText);
         {
             int iIndex;
             int j;
@@ -7288,7 +7288,7 @@ const char* TextEditString::GetDisplayText()
         kDisplayText = acBuffer;
         if (((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((((S7010*)&kDisplayText)))->FUN_004048e0())) == 0)
             kDisplayText = ::DAT_01020770;
-        return (const char*)(unsigned int)*(Flt*)&kDisplayText;
+        return (const char*)(uintptr_t)*(Flt*)&kDisplayText;
     }
 }
 }  // namespace fnv_007170a0
@@ -8116,7 +8116,7 @@ void FUN_007134d0_shell::FUN_007134d0(BSCullingProcess* apCuller, bool abPipboyV
         if (!*((unsigned char*)this + 0x148))
         {
             reinterpret_cast<::FUN_004a0fd0_shell *>((reinterpret_cast<FUN_004a0fd0_shell*>(apCuller)))->FUN_004a0fd0(
-                (::NiNode*)(unsigned int)*reinterpret_cast<Flt_Helper*>((char*)this + 0x8c));
+                (::NiNode*)(uintptr_t)*reinterpret_cast<Flt_Helper*>((char*)this + 0x8c));
             ::FUN_00b6bee0(reinterpret_cast<SceneRoot_007134d0*>(pscene_graph)->GetAnimationData(), pscene_graph,
                          (::BSShaderAccumulator *)(apCuller));
             reinterpret_cast<::ThreadStageSignalDetail::RenderingStageController *>((reinterpret_cast<MTRenderingSystem_Helper*>(MTRender_007134d0::GetSingleton())))->FUN_00ba30f0(0, 0x17);
@@ -8126,7 +8126,7 @@ void FUN_007134d0_shell::FUN_007134d0(BSCullingProcess* apCuller, bool abPipboyV
             reinterpret_cast<::_Cam_00712e60 *>((reinterpret_cast<_Cam_00712e60*>(reinterpret_cast<SceneRoot_007134d0*>(pscene_graph)->GetAnimationData())))->FUN_00712e60((const ::_Rect16_00712e60 &)((*reinterpret_cast<::fnv_007134d0::_Rect16_00712e60 *>(&::DAT_011ad840))));
         ::BSShaderRenderUtility::SetRenderCamera(
             (::NiCamera *)(::fnv_007134d0::Camera_007134d0 *)(reinterpret_cast<SceneRoot_007134d0*>(pscene_graph)->GetAnimationData()),
-            (::BSShaderAccumulator *)(::fnv_007134d0::Accum_007134d0 *)((Accum_007134d0*)(unsigned int)*reinterpret_cast<Flt_Helper*>((char*)this + 0x8c)), false);
+            (::BSShaderAccumulator *)(::fnv_007134d0::Accum_007134d0 *)((Accum_007134d0*)(uintptr_t)*reinterpret_cast<Flt_Helper*>((char*)this + 0x8c)), false);
         reinterpret_cast<::FUN_004a0fd0_shell *>((reinterpret_cast<FUN_004a0fd0_shell*>(apCuller)))->FUN_004a0fd0(0);
         if (pcomputerMenu && ((::fnv_007134d0::AVObject_007134d0 *)(reinterpret_cast<::TileFields *>((pcomputerMenu))->renderedNode)) && reinterpret_cast<::FUN_00456630_helper *>((((::fnv_007134d0::AVObject_007134d0 *)(reinterpret_cast<::TileFields *>((pcomputerMenu))->renderedNode))))->FUN_00456610())
             reinterpret_cast<::TaskQueueInterface *>((((::fnv_007134d0::AVObject_007134d0 *)(reinterpret_cast<::TileFields *>((pcomputerMenu))->renderedNode))))->QueueActorDisarm(false);
@@ -8141,12 +8141,12 @@ void FUN_007134d0_shell::FUN_007134d0(BSCullingProcess* apCuller, bool abPipboyV
             ::fnv_00702c80::FUN_00702c80(true, false);
             ::NiNode* pscene_graph = ((::NiNode *)(reinterpret_cast<::StrOwner *>((reinterpret_cast<Interface*>(this)))->FUN_007fa950()));
             reinterpret_cast<::FUN_004a0fd0_shell *>((reinterpret_cast<FUN_004a0fd0_shell*>(apCuller)))->FUN_004a0fd0(
-                (::NiNode*)(unsigned int)*reinterpret_cast<Flt_Helper*>((char*)this + 0x8c));
+                (::NiNode*)(uintptr_t)*reinterpret_cast<Flt_Helper*>((char*)this + 0x8c));
             ::FUN_00b6bee0(reinterpret_cast<SceneRoot_007134d0*>(pscene_graph)->GetAnimationData(), pscene_graph,
                          (::BSShaderAccumulator *)(apCuller));
             ::BSShaderRenderUtility::SetRenderCamera(
                 (::NiCamera *)(::fnv_007134d0::Camera_007134d0 *)(reinterpret_cast<SceneRoot_007134d0*>(pscene_graph)->GetAnimationData()),
-                (::BSShaderAccumulator *)(::fnv_007134d0::Accum_007134d0 *)((Accum_007134d0*)(unsigned int)*reinterpret_cast<Flt_Helper*>((char*)this + 0x8c)), false);
+                (::BSShaderAccumulator *)(::fnv_007134d0::Accum_007134d0 *)((Accum_007134d0*)(uintptr_t)*reinterpret_cast<Flt_Helper*>((char*)this + 0x8c)), false);
             reinterpret_cast<::FUN_004a0fd0_shell *>((reinterpret_cast<FUN_004a0fd0_shell*>(apCuller)))->FUN_004a0fd0(0);
             ::UpdateMenuTileVisibility();
         }
@@ -8160,13 +8160,13 @@ void FUN_007134d0_shell::FUN_007134d0(BSCullingProcess* apCuller, bool abPipboyV
         if (!*((unsigned char*)this + 0x148))
         {
             reinterpret_cast<::FUN_004a0fd0_shell *>((reinterpret_cast<FUN_004a0fd0_shell*>(apCuller)))->FUN_004a0fd0(
-                (::NiNode*)(unsigned int)*reinterpret_cast<Flt_Helper*>((char*)this + 0x8c));
+                (::NiNode*)(uintptr_t)*reinterpret_cast<Flt_Helper*>((char*)this + 0x8c));
             ::FUN_00b6bee0(reinterpret_cast<SceneRoot_007134d0*>(pscene_graph)->GetAnimationData(), pscene_graph,
                          (::BSShaderAccumulator *)(apCuller));
         }
         ::BSShaderRenderUtility::SetRenderCamera(
             (::NiCamera *)(::fnv_007134d0::Camera_007134d0 *)(reinterpret_cast<SceneRoot_007134d0*>(pscene_graph)->GetAnimationData()),
-            (::BSShaderAccumulator *)(::fnv_007134d0::Accum_007134d0 *)((Accum_007134d0*)(unsigned int)*reinterpret_cast<Flt_Helper*>((char*)this + 0x8c)), false);
+            (::BSShaderAccumulator *)(::fnv_007134d0::Accum_007134d0 *)((Accum_007134d0*)(uintptr_t)*reinterpret_cast<Flt_Helper*>((char*)this + 0x8c)), false);
         reinterpret_cast<::FUN_004a0fd0_shell *>((reinterpret_cast<FUN_004a0fd0_shell*>(apCuller)))->FUN_004a0fd0(0);
     }
     else if (!*g_011d8ba0.GetLifeStateControlFlag())
@@ -8179,24 +8179,24 @@ void FUN_007134d0_shell::FUN_007134d0(BSCullingProcess* apCuller, bool abPipboyV
         if (!*((unsigned char*)this + 0x148))
         {
             reinterpret_cast<::FUN_004a0fd0_shell *>((reinterpret_cast<FUN_004a0fd0_shell*>(apCuller)))->FUN_004a0fd0(
-                (::NiNode*)(unsigned int)*reinterpret_cast<Flt_Helper*>((char*)this + 0x8c));
+                (::NiNode*)(uintptr_t)*reinterpret_cast<Flt_Helper*>((char*)this + 0x8c));
             ::FUN_00b6bee0(reinterpret_cast<SceneRoot_007134d0*>(pscene_graph)->GetAnimationData(), pscene_graph,
                          (::BSShaderAccumulator *)(apCuller));
         }
         ::BSShaderRenderUtility::SetRenderCamera(
             (::NiCamera *)(::fnv_007134d0::Camera_007134d0 *)(reinterpret_cast<SceneRoot_007134d0*>(pscene_graph)->GetAnimationData()),
-            (::BSShaderAccumulator *)(::fnv_007134d0::Accum_007134d0 *)((Accum_007134d0*)(unsigned int)*reinterpret_cast<Flt_Helper*>((char*)this + 0x8c)), false);
+            (::BSShaderAccumulator *)(::fnv_007134d0::Accum_007134d0 *)((Accum_007134d0*)(uintptr_t)*reinterpret_cast<Flt_Helper*>((char*)this + 0x8c)), false);
         reinterpret_cast<::FUN_004a0fd0_shell *>((reinterpret_cast<FUN_004a0fd0_shell*>(apCuller)))->FUN_004a0fd0(0);
         ::UpdateMenuTileVisibility();
         ::fnv_00702c80::FUN_00702c80(false, false);
         pscene_graph = ((::NiNode *)(reinterpret_cast<::StrOwner *>((reinterpret_cast<Interface*>(this)))->FUN_007fa950()));
         reinterpret_cast<::CameraState4E9 *>((pr))->SetFromCamera((*(const ::Camera4E9 *)(reinterpret_cast<SceneRoot_007134d0*>(pscene_graph)->GetAnimationData())));
         reinterpret_cast<::FUN_004a0fd0_shell *>((reinterpret_cast<FUN_004a0fd0_shell*>(apCuller)))->FUN_004a0fd0(
-            (::NiNode*)(unsigned int)*reinterpret_cast<Flt_Helper*>((char*)this + 0x8c));
+            (::NiNode*)(uintptr_t)*reinterpret_cast<Flt_Helper*>((char*)this + 0x8c));
         ::FUN_00b6bee0(reinterpret_cast<SceneRoot_007134d0*>(pscene_graph)->GetAnimationData(), pscene_graph, (::BSShaderAccumulator *)(apCuller));
         ::BSShaderRenderUtility::SetRenderCamera(
             (::NiCamera *)(::fnv_007134d0::Camera_007134d0 *)(reinterpret_cast<SceneRoot_007134d0*>(pscene_graph)->GetAnimationData()),
-            (::BSShaderAccumulator *)(::fnv_007134d0::Accum_007134d0 *)((Accum_007134d0*)(unsigned int)*reinterpret_cast<Flt_Helper*>((char*)this + 0x8c)), false);
+            (::BSShaderAccumulator *)(::fnv_007134d0::Accum_007134d0 *)((Accum_007134d0*)(uintptr_t)*reinterpret_cast<Flt_Helper*>((char*)this + 0x8c)), false);
         reinterpret_cast<::FUN_004a0fd0_shell *>((reinterpret_cast<FUN_004a0fd0_shell*>(apCuller)))->FUN_004a0fd0(0);
         ::UpdateMenuTileVisibility();
     }
@@ -8210,7 +8210,7 @@ void FUN_007134d0_shell::FUN_007134d0(BSCullingProcess* apCuller, bool abPipboyV
         if (!*((unsigned char*)this + 0x148))
         {
             reinterpret_cast<::FUN_004a0fd0_shell *>((reinterpret_cast<FUN_004a0fd0_shell*>(apCuller)))->FUN_004a0fd0(
-                (::NiNode*)(unsigned int)*reinterpret_cast<Flt_Helper*>((char*)this + 0x8c));
+                (::NiNode*)(uintptr_t)*reinterpret_cast<Flt_Helper*>((char*)this + 0x8c));
             ::FUN_00b6bee0(reinterpret_cast<SceneRoot_007134d0*>(pscene_graph)->GetAnimationData(), pscene_graph,
                          (::BSShaderAccumulator *)(apCuller));
         }
@@ -8218,7 +8218,7 @@ void FUN_007134d0_shell::FUN_007134d0(BSCullingProcess* apCuller, bool abPipboyV
             reinterpret_cast<::_Cam_00712e60 *>((reinterpret_cast<_Cam_00712e60*>(reinterpret_cast<SceneRoot_007134d0*>(pscene_graph)->GetAnimationData())))->FUN_00712e60((const ::_Rect16_00712e60 &)((*reinterpret_cast<::fnv_007134d0::_Rect16_00712e60 *>(&::DAT_011ad840))));
         ::BSShaderRenderUtility::SetRenderCamera(
             (::NiCamera *)(::fnv_007134d0::Camera_007134d0 *)(reinterpret_cast<SceneRoot_007134d0*>(pscene_graph)->GetAnimationData()),
-            (::BSShaderAccumulator *)(::fnv_007134d0::Accum_007134d0 *)((Accum_007134d0*)(unsigned int)*reinterpret_cast<Flt_Helper*>((char*)this + 0x8c)), false);
+            (::BSShaderAccumulator *)(::fnv_007134d0::Accum_007134d0 *)((Accum_007134d0*)(uintptr_t)*reinterpret_cast<Flt_Helper*>((char*)this + 0x8c)), false);
         reinterpret_cast<::FUN_004a0fd0_shell *>((reinterpret_cast<FUN_004a0fd0_shell*>(apCuller)))->FUN_004a0fd0(0);
         ::UpdateMenuTileVisibility();
     }
@@ -9101,7 +9101,7 @@ void FUN_00710ad0_shell::DrawDebugInfo()
     static const char kStr26[] = "";
     int found;
     int idx3;
-    int baseY;
+    intptr_t baseY;
     int lineH;
     int y6;
     int savedY;
@@ -9113,7 +9113,7 @@ void FUN_00710ad0_shell::DrawDebugInfo()
     idx3 = 0;
     for (node = &m_kNode; node != 0 && *((void **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)) != 0 && idx3 <= m_f78; node = ((::ListNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070())))
     {
-        baseY = (int)*((void **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item));
+        baseY = (intptr_t)*((void **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item));
         idx3++;
     }
     if (baseY != 0)
@@ -9277,7 +9277,7 @@ void FUN_00710ad0_shell::DrawDebugInfo()
                     FUN_00406d50(buf, 256, kStr24);
                 if (abk & 8)
                     FUN_00406d50(buf, 256, kStr25);
-                ::FUN_00406f60((::FUN_00406f90_this *)(::StrObj *)(&aai), ((const char *)(::FUN_00464f30((int)(buf)))));
+                ::FUN_00406f60((::FUN_00406f90_this *)(::StrObj *)(&aai), ((const char *)(::FUN_00464f30((intptr_t)(buf)))));
                 reinterpret_cast<::A0F8Self *>((((::DebugText *)(::FUN_00a0d9e0(true)))))->FUN_00a0f8b0(((const char *)(::FUN_00559450((int *)&(aai)))), DAT_0103a1c4, (float)lineH, 2, -1, ::DAT_01012054, 0,
                                                  (::A0F8Color *)(0));
                 lineH += savedY;
@@ -9518,11 +9518,11 @@ class FUN_00717230_cls
     int m_14;
     void* m_18;
 
-    unsigned char FUN_00717230(int arg);
+    unsigned char FUN_00717230(intptr_t arg);
 };
 
 // @fnv 0x00717230
-unsigned char FUN_00717230_cls::FUN_00717230(int arg)
+unsigned char FUN_00717230_cls::FUN_00717230(intptr_t arg)
 {
     struct
     {
@@ -9556,7 +9556,7 @@ class FUN_007190e0_cls
   public:
     int unk00;
     FUN_007190e0_Child* Find(int key);
-    bool ApplyToChild(int a1, int a2);
+    bool ApplyToChild(int a1, intptr_t a2);
 };
 
 // Setter on a sub-object: calls a member routine on the object pointed to by
@@ -10915,11 +10915,11 @@ int FUN_00710060_cls::FUN_00710060(bool p1, bool p2, bool* p3)
     int aA4;
     bool kPi;
     int result2;
-    int aSig;
+    intptr_t aSig;
     result2 = 0;
     if (!::FUN_004b71d0() || unk7d)
         return result2;
-    aSig = ((int)(reinterpret_cast<::FUN_00877720_shell *>(((*reinterpret_cast<::fnv_00710060::C877720 * *>(&::g_osGlobals))))->FUN_00877720()));
+    aSig = ((intptr_t)(reinterpret_cast<::FUN_00877720_shell *>(((*reinterpret_cast<::fnv_00710060::C877720 * *>(&::g_osGlobals))))->FUN_00877720()));
     kPi = true;
     if (::fnv_00717a40::FUN_00717a40(9, 1) == 2 || ::fnv_00717a40::FUN_00717a40(9, 1) == 1)
     {
@@ -11746,7 +11746,7 @@ class FUN_00719490_cls
 };
 // Finds the child entry for a1 and, if found, applies a2 to it and returns true; otherwise returns false.
 // @fnv 0x007190e0
-bool FUN_007190e0_cls::ApplyToChild(int aiKey, int a2)
+bool FUN_007190e0_cls::ApplyToChild(int aiKey, intptr_t a2)
 {
     FUN_007190e0_Child* child = Find(aiKey);
     if (child != 0)
@@ -12559,7 +12559,7 @@ void MenuMgr::RenderMenu(int a, int b)
 
             kColord.a = 0.0f;
 
-            reinterpret_cast<::S148c0 *>((((::fnv_00713fb0::Renderer *)(::FUN_0043c4b0()))))->FUN_007148c0((int)(&kColord), 1);
+            reinterpret_cast<::S148c0 *>((((::fnv_00713fb0::Renderer *)(::FUN_0043c4b0()))))->FUN_007148c0((intptr_t)(&kColord), 1);
 
             kColord.r = DAT_010340a4;
 
@@ -12569,7 +12569,7 @@ void MenuMgr::RenderMenu(int a, int b)
 
             kColord.a = 0.0f;
 
-            reinterpret_cast<::S148c0 *>((((::fnv_00713fb0::Renderer *)(::FUN_0043c4b0()))))->FUN_007148c0((int)(&kColord), 1);
+            reinterpret_cast<::S148c0 *>((((::fnv_00713fb0::Renderer *)(::FUN_0043c4b0()))))->FUN_007148c0((intptr_t)(&kColord), 1);
 
             ((::fnv_00713fb0::Renderer *)(::FUN_0043c4b0()))->SetBackgroundColor(&kOldColorf);
         }
@@ -13509,7 +13509,7 @@ void TextInputField::FUN_00716b00(int key)
             abuf[iM] = abuf[iM - 1];
         abuf[iM] = (char)key;
         abuf[len + 1] = 0;
-        if (iMaxWidth == -1 || ((bool)(reinterpret_cast<::FUN_00717230_cls *>(this)->FUN_00717230((int)(abuf)))))
+        if (iMaxWidth == -1 || ((bool)(reinterpret_cast<::FUN_00717230_cls *>(this)->FUN_00717230((intptr_t)(abuf)))))
         {
             len++;
             iCursor++;
@@ -15246,7 +15246,7 @@ void Owner_o2_fpfast::FUN_00b5fd60()
         if (item)
         {
             if (item->flag_fc)
-                ::FUN_00b5d930((::OwnerD *)this, (int)(item), {});
+                ::FUN_00b5d930((::OwnerD *)this, (intptr_t)(item), {});
             else
                 reinterpret_cast<::fnv_00b5d300::OwnerD *>(this)->FUN_00b5d300((::fnv_00b5d300::LightD *)(item));
         }

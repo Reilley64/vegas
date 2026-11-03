@@ -1,5 +1,6 @@
 // fallout_shared/tesconditionfunctions.cpp: BGSQuestObjective, Script, IdleAnimationManager, TESQuest and more (272 functions)
 
+#include <cstdint>
 #include "fnv/tls.h"
 #include <new>
 #include <string.h>
@@ -600,12 +601,12 @@ struct CFilter
 };
 struct FUN_0059ce80_shell : public CFilter
 {
-    void FUN_0059ce80(unsigned int);
+    void FUN_0059ce80(uintptr_t);
 };
 
 // Clears the high 16 bits of iFilter and stores aiGroup shifted into them.
 // @fnv 0x0059ce80
-void FUN_0059ce80_shell::FUN_0059ce80(unsigned int aiGroup)
+void FUN_0059ce80_shell::FUN_0059ce80(uintptr_t aiGroup)
 {
     iFilter &= 0xFFFF;
     iFilter |= (aiGroup << 16);
@@ -2396,7 +2397,7 @@ bool __cdecl FUN_0059fee0(TESObjectREFR* reference, void* arg1, void* arg2, doub
     return true;
 }
 
-unsigned int __cdecl FUN_005a00a0(unsigned int);
+unsigned int __cdecl FUN_005a00a0(uintptr_t);
 void __cdecl DebugLog(char const*, ...);
 // Stores a random percentage from FUN_005a00a0(100) into result, logs it when tlsData.dbg is set, and returns true.
 // @fnv 0x005a0040
@@ -2421,7 +2422,7 @@ class MersenneTwister
 };
 
 // @fnv 0x005a00a0
-unsigned int FUN_005a00a0(unsigned int aiMax)
+unsigned int FUN_005a00a0(uintptr_t aiMax)
 {
     return MersenneTwister::GetRandomGenerator()->GetRandomUInt(aiMax);
 }
@@ -4679,7 +4680,7 @@ unsigned int FUN_005a6150(const unsigned char* self)
 }
 
 // @fnv 0x005a6260
-unsigned int FUN_005a6260(char* thisPtr)
+uintptr_t FUN_005a6260(char* thisPtr)
 {
     return *reinterpret_cast<unsigned int*>(thisPtr + 0x610);
 }
@@ -17453,7 +17454,7 @@ bool __cdecl FUN_005a5e90(TESObjectREFR* reference, void* pSkillArg, void* pUnus
     return true;
 }
 
-unsigned int FUN_005a6260(char*);
+uintptr_t FUN_005a6260(char*);
 struct Record
 {
     unsigned int formId;

@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 class BGSTerrainManager;
 class GlobalObject2_0096a2d0;
@@ -104,9 +105,9 @@ extern ::GlobalObject_00709f80 g_011d8950;
 // 0x011d8954
 extern int DAT_011d8954;
 // 0x011d8958
-extern int DAT_011d8958;
+extern intptr_t DAT_011d8958;
 // 0x011d895c
-extern int DAT_011d895c;
+extern intptr_t DAT_011d895c;
 // 0x011d8960
 extern int DAT_011d8960;
 // 0x011d8964
@@ -194,7 +195,7 @@ extern ::GlobalObject_0045cfe0 g_011d8d38;
 // 0x011d8d44
 extern ::GlobalObject_0045cfe0 g_011d8d44;
 // 0x011d8e90
-extern int DAT_011d8e90;
+extern intptr_t DAT_011d8e90;
 // 0x011d8e94
 namespace fnv_00726df0 { extern int DAT_011d8e94; }
 // 0x011d8ea8
@@ -202,7 +203,7 @@ namespace fnv_00726df0 { extern int DAT_011d8ea8; }
 // 0x011d8f08
 extern ::GlobalObject_0072ce30 g_011d8f08;
 // 0x011d8fa4
-extern int DAT_011d8fa4;
+extern intptr_t DAT_011d8fa4;
 // 0x011d8fa8
 extern "C" extern ::S_0072e370_Item *DAT_011d8fa8;
 // 0x011d8fb0

@@ -2,6 +2,7 @@
 // src/fallout/ai/combat/combatgroupstrategy.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/combat/combatgroupstrategy.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <cctype>
 #include <malloc.h>
 #include "fnv/decl/AlchemyItem.h"
@@ -78,7 +79,7 @@ struct FUN_00844160_shell
 {
     void FUN_00844160(int state);
 public:
-    unsigned int FUN_00844160(unsigned int);
+    uintptr_t FUN_00844160(unsigned int);
 };
 // @fnv 0x00990a80
 void FUN_00990a80_shell::ForwardToHolder(int arg)
@@ -225,7 +226,7 @@ struct TargetClass
 // @fnv 0x00990c10
 bool TargetClass::FUN_00990c10(struct ActorCombatGroup* apGroup)
 {
-    if (!((int)(reinterpret_cast<::FUN_0098a410_shell *>((((HolderFor410*)apGroup)))->FindByValue(2))))
+    if (!((intptr_t)(reinterpret_cast<::FUN_0098a410_shell *>((((HolderFor410*)apGroup)))->FindByValue(2))))
         return false;
     return true;
 }
@@ -289,7 +290,7 @@ struct CombatGroupStrategyAdvance
 // @fnv 0x00990ec0
 bool CombatGroupStrategyAdvance::FUN_00990ec0(ActorCombatGroup* apGroup)
 {
-    if (((int)(reinterpret_cast<::FUN_0098a410_shell *>((((FUN_0098a410_cls*)apGroup)))->FindByValue(4))) == 0)
+    if (((intptr_t)(reinterpret_cast<::FUN_0098a410_shell *>((((FUN_0098a410_cls*)apGroup)))->FindByValue(4))) == 0)
         return false;
     return true;
 }
@@ -733,7 +734,7 @@ bool CombatGroupStrategy::FUN_00990ac0(ActorCombatGroup* group)
         {
             CombatGroupMember* pData = ((::CombatGroupMember *)(reinterpret_cast<::Target *>((((CombatGroupMethods*)group)))->GetIntAt(index)));
             NiPoint4 position;
-            if (((int)(reinterpret_cast<::B989700List *>((((CombatGroupMethods*)group)))->FindRefInRadius((::B9897F0Point *)(((int)(reinterpret_cast<::FUN_00575650_Class *>((pData))->FUN_00575650((::FUN_00575650_Result *)(::NiPoint4 *)(&position))))), {}, {}))))
+            if (((intptr_t)(reinterpret_cast<::B989700List *>((((CombatGroupMethods*)group)))->FindRefInRadius((::B9897F0Point *)(((intptr_t)(reinterpret_cast<::FUN_00575650_Class *>((pData))->FUN_00575650((::FUN_00575650_Result *)(::NiPoint4 *)(&position))))), {}, {}))))
                 reinterpret_cast<::FUN_0098a390_shell *>((group))->SetElementValue(index, 0);
             else
                 bFound = true;
@@ -747,7 +748,7 @@ bool CombatGroupStrategy::FUN_00990ac0(ActorCombatGroup* group)
 
 struct FUN_00990c40_cls
 {
-    bool FUN_00990c40(int a1, int a2);
+    bool FUN_00990c40(intptr_t a1, intptr_t a2);
 };
 
 struct FUN_00990c40_arg2
@@ -759,7 +760,7 @@ struct FUN_00990c40_arg1
 };
 
 // @fnv 0x00990c40
-bool FUN_00990c40_cls::FUN_00990c40(int a1, int a2)
+bool FUN_00990c40_cls::FUN_00990c40(intptr_t a1, intptr_t a2)
 {
     if (((int)(reinterpret_cast<::Callees *>((((FUN_00990c40_arg2*)a2)))->FUN_00726070())) < 2)
     {

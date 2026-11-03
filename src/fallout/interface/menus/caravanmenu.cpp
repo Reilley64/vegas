@@ -456,7 +456,7 @@ void FUN_007492f0_shell::InitType15State(int aiType, int aiPad)
     ((char*)this)[0xe85] = 0;
     if (*(int*)((char*)this + 0x28) == 1 && aiType == 15 && *(int*)((char*)this + 0x2c) == 0)
     {
-        *(int*)((char*)this + 0xaf8) = (int)reinterpret_cast<::TileListBoxCalls *>((((TGF*)*(int*)((char*)this + 0x6c))))->GetFloat(DAT_011d9170);
+        *(int*)((char*)this + 0xaf8) = (int)reinterpret_cast<::TileListBoxCalls *>((((TGF*)*(intptr_t*)((char*)this + 0x6c))))->GetFloat(DAT_011d9170);
         ((char*)this)[0xe85] = 1;
         *(int*)((char*)this + 0xb00) = DAT_011d9180->FUN_00747d00();
     }
@@ -669,7 +669,7 @@ struct GlobalObject_00633c90;
 
 struct S148c0
 {
-    void FUN_007148c0(int a, int b);
+    void FUN_007148c0(intptr_t a, int b);
 };
 
 struct MiddleLowProcess
@@ -699,7 +699,7 @@ struct GO
 {
     unsigned int value;
 
-    GO(int value);
+    GO(intptr_t value);
     operator unsigned int() const;
     void operator=(void* value);
     ~GO();
@@ -724,7 +724,7 @@ public:
     static void SetRenderCamera(::NiCamera *, ::BSShaderAccumulator *, bool);
 };
 
-GO::GO(int value) : value(value)
+GO::GO(intptr_t value) : value(value)
 {}
 
 GO::operator unsigned int() const
@@ -748,7 +748,7 @@ void __cdecl FUN_00740f30()
 {
     void* pBase;
     Accum_00733500* uiGlobal;
-    unsigned int pPackage;
+    uintptr_t pPackage;
     AnimIdle* pSelected;
 
     ((::S148c0 *)(::FUN_0043c4b0()))->FUN_007148c0(0, 4);
@@ -843,7 +843,7 @@ struct FUN_006e2b50_shell
 struct FUN_00729970_shell
 {
 public:
-    void FUN_00729970(int);
+    void FUN_00729970(intptr_t);
 };
 
 
@@ -891,7 +891,7 @@ bool FUN_0073ced0_shell::RebuildCardLists()
         }
     }
 
-    reinterpret_cast<FUN_00729970_shell*>(reinterpret_cast<char*>(this) + 0xa6c)->FUN_00729970((int)(((void (&)())::FUN_0059ae10)));
+    reinterpret_cast<FUN_00729970_shell*>(reinterpret_cast<char*>(this) + 0xa6c)->FUN_00729970((intptr_t)(((void (&)())::FUN_0059ae10)));
 
     *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0xaf4) =
         (*reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0xaf0) / 10 > 10)
@@ -1665,7 +1665,7 @@ void FNV_74A000_This::FUN_0074a000(int slot, float amount)
 
     while (item && list && *((int *)(reinterpret_cast<::FUN_0073ac90_shell *>((list))->FUN_0073ac90())))
     {
-        reinterpret_cast<::FUN_00a012d0_t *>(((*((::FNV_74A000_Action **)(reinterpret_cast<::FUN_006317a0_struct *>((list))->AddEight((int)(item)))))))->FUN_00a012d0({}, {}, {});
+        reinterpret_cast<::FUN_00a012d0_t *>(((*((::FNV_74A000_Action **)(reinterpret_cast<::FUN_006317a0_struct *>((list))->AddEight((intptr_t)(item)))))))->FUN_00a012d0({}, {}, {});
         item = ((::FNV_74A000_Item *)(reinterpret_cast<::FUN_007b52d0_cls *>((list))->DereferenceIfNotNull((int **)(item))));
     }
 }
@@ -1732,7 +1732,7 @@ struct UIWidget
     virtual void v39();
     virtual void v3a();
     virtual void v3b();
-    virtual void SetResource(int, int, unsigned int);
+    virtual void SetResource(int, int, uintptr_t);
 };
 
 struct UIAssetName
@@ -3250,7 +3250,7 @@ void GroupRegistry::RemoveValueFromGroup(void* key, int value)
                 if (((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((entries))->GetName())) == 1)
                 {
                     delete entries;
-                    reinterpret_cast<::NiTMap_S *>(this)->RemoveKey((unsigned int)(key));
+                    reinterpret_cast<::NiTMap_S *>(this)->RemoveKey((uintptr_t)(key));
                 }
                 else
                 {
@@ -5870,7 +5870,7 @@ struct Menu
     int unkae4;
     int unkae8;
     int unkaec;
-    const char* unkaf0;
+    unsigned int unkaf0;
     void UpdateCardSlots(int, int);
     void UpdateControls();
     void InitMenu();
@@ -5989,7 +5989,7 @@ void Menu::InitMenu()
     unk28 = 1;
     unk2c = 1;
     reinterpret_cast<::FUN_00a01290_shell *>((unk54))->SetTraitAndReset(DAT_011d9174, 1.0f);
-    reinterpret_cast<::Tile *>((unk54))->Set(DAT_011d9174, (unsigned int)(unkaf0));
+    reinterpret_cast<::Tile *>((unk54))->Set(DAT_011d9174, unkaf0);
     reinterpret_cast<::FUN_00a01290_shell *>((unk50))->SetTraitAndReset(DAT_011d9174, 1.0f);
     reinterpret_cast<::Tile *>((unk50))->Set(DAT_011d9174, (unsigned int)(((::CaravanSetup::PlayerName *)(reinterpret_cast<::FUN_0073cbc0_shell *>(((*reinterpret_cast<::CaravanSetup::Player * *>(&::_g_thePlayer))))->GetField618()))->FUN_005ae380()));
     char labelText[260];
@@ -8537,7 +8537,7 @@ struct CdeclFns
 
 
 // @fnv 0x00741060
-int __cdecl FUN_00741060(int a0, int a1, int a2, float a3, char a4)
+intptr_t __cdecl FUN_00741060(int a0, int a1, int a2, float a3, char a4)
 {
     IFace* p4 = ((::IFace *)(::FUN_00a09030(0x43b)));
     Mid2* mid5;
@@ -8598,7 +8598,7 @@ int __cdecl FUN_00741060(int a0, int a1, int a2, float a3, char a4)
                 ((Obj917c*)DAT_011d917c)->m_e7c = 0x1e;
             }
         }
-        return (int)mid5;
+        return (intptr_t)mid5;
     }
     else if (DAT_011d917c)
     {
@@ -10815,8 +10815,8 @@ struct MatchMenu
     int unk108;
     int unk10c;
     int unk110;
-    int unk114;
-    int unk118;
+    intptr_t unk114;
+    intptr_t unk118;
     int unk11c;
     int unk120;
     int unk124;
@@ -11857,7 +11857,7 @@ void MenuView::UpdateCaravanMenu()
 
         reinterpret_cast<::FUN_00740e70_shell *>((((CaravanState*)(*reinterpret_cast<::Manager * *>(&::_g_thePlayer)))))->FUN_00740e70(reinterpret_cast<::FUN_00740900_shell *>((((CaravanState*)(*reinterpret_cast<::Manager * *>(&::_g_thePlayer)))))->GetFieldAtOffset61C() + mae8);
 
-        reinterpret_cast<::FUN_00740eb0_shell *>((((CaravanState*)(*reinterpret_cast<::Manager * *>(&::_g_thePlayer)))))->SetField624(((unsigned int)(reinterpret_cast<::FUN_00740940_shell *>((((CaravanState*)(*reinterpret_cast<::Manager * *>(&::_g_thePlayer)))))->GetRegionDataManager())) + 1);
+        reinterpret_cast<::FUN_00740eb0_shell *>((((CaravanState*)(*reinterpret_cast<::Manager * *>(&::_g_thePlayer)))))->SetField624(((uintptr_t)(reinterpret_cast<::FUN_00740940_shell *>((((CaravanState*)(*reinterpret_cast<::Manager * *>(&::_g_thePlayer)))))->GetRegionDataManager())) + 1);
 
         if (mae8 > reinterpret_cast<::FUN_00740e50_class *>((((CaravanState*)(*reinterpret_cast<::Manager * *>(&::_g_thePlayer)))))->GetMember62C())
 
@@ -11959,7 +11959,7 @@ void Menu74::TransferBarterItems(bool abPlayerReceives)
                         Container74 transferA;
                         reinterpret_cast<::fnv_004818e0::FUN_004818e0_t *>(&(transferA))->FUN_004818e0((::TESObject *)(listA), countA, (::ContainerItemExtra *)(0));
                         reinterpret_cast<::ContainerOperation *>(&(transferA))->FUN_004821a0((::TESObjectREFR *)(::Ref74 *)((Ref74*)(*reinterpret_cast<char * *>(&::_g_thePlayer))), 0);
-                        reinterpret_cast<::FUN_0046f640_shell *>(((*reinterpret_cast<::Handler74 * *>(&::g_dataHandler))))->ProcessInventoryRecords((::FNVFile *)(*((::Entry74 **)(&reinterpret_cast<::SimpleListNodeView*>(formA)->m_item))), countA, (int)(((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((partner))->FUN_007af430()))));
+                        reinterpret_cast<::FUN_0046f640_shell *>(((*reinterpret_cast<::Handler74 * *>(&::g_dataHandler))))->ProcessInventoryRecords((::FNVFile *)(*((::Entry74 **)(&reinterpret_cast<::SimpleListNodeView*>(formA)->m_item))), countA, (intptr_t)(((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((partner))->FUN_007af430()))));
                         remaining -= countA * valueA;
                     }
                 }
@@ -11975,10 +11975,10 @@ void Menu74::TransferBarterItems(bool abPlayerReceives)
             reinterpret_cast<::ContainerOperation *>(&(entryA))->FUN_004821a0((::TESObjectREFR *)(::Ref74 *)((Ref74*)(*reinterpret_cast<char * *>(&::_g_thePlayer))), 0);
             TempEntry74 capsA(((::Form74 *)(::FUN_004839c0(15))), 0);
             if (reinterpret_cast<::Inv4cb320 *>((nodeA))->GetCountableItemCount() > remaining)
-                reinterpret_cast<::FUN_0046f640_shell *>(((*reinterpret_cast<::Handler74 * *>(&::g_dataHandler))))->ProcessInventoryRecords((::FNVFile *)(::Entry74 *)((Entry74*)&capsA), remaining, (int)(((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((partner))->FUN_007af430()))));
+                reinterpret_cast<::FUN_0046f640_shell *>(((*reinterpret_cast<::Handler74 * *>(&::g_dataHandler))))->ProcessInventoryRecords((::FNVFile *)(::Entry74 *)((Entry74*)&capsA), remaining, (intptr_t)(((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((partner))->FUN_007af430()))));
             else
             {
-                reinterpret_cast<::FUN_0046f640_shell *>(((*reinterpret_cast<::Handler74 * *>(&::g_dataHandler))))->ProcessInventoryRecords((::FNVFile *)(::Entry74 *)((Entry74*)&capsA), reinterpret_cast<::Inv4cb320 *>((nodeA))->GetCountableItemCount(), (int)(((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((partner))->FUN_007af430()))));
+                reinterpret_cast<::FUN_0046f640_shell *>(((*reinterpret_cast<::Handler74 * *>(&::g_dataHandler))))->ProcessInventoryRecords((::FNVFile *)(::Entry74 *)((Entry74*)&capsA), reinterpret_cast<::Inv4cb320 *>((nodeA))->GetCountableItemCount(), (intptr_t)(((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((partner))->FUN_007af430()))));
                 partner->Remove(((::Form74 *)(::FUN_004839c0(15))), 0, remaining - reinterpret_cast<::Inv4cb320 *>((nodeA))->GetCountableItemCount(), 0, 0, 0, 0, 0, 1, 0);
             }
         }
@@ -17394,11 +17394,11 @@ struct PlacementMenu
     PlacementList opponentHand;
     PlacementList tracks[6][7];
     PlacementRow rows[6];
-    bool CanPlaceCard(int track, int row, int cardIndex, bool opponent);
+    bool CanPlaceCard(int track, int row, intptr_t cardIndex, bool opponent);
 };
 // Checks whether a card from the player's or opponent's hand can be placed at the given track, row and index, returning true if allowed.
 // @fnv 0x0074f6c0
-bool PlacementMenu::CanPlaceCard(int track, int row, int cardIndex, bool opponent)
+bool PlacementMenu::CanPlaceCard(int track, int row, intptr_t cardIndex, bool opponent)
 {
     if (track < 0 || track > 5 || row < 0 || row > 6 || cardIndex < 0)
         return false;
@@ -21508,7 +21508,7 @@ struct CaravanGame
     E_Marker laneMark[6];
     int handIndex;
     int curLane;
-    int curCol;
+    intptr_t curCol;
     int animStep;
     float stateTimer;
     int pickPlayer;
@@ -21897,7 +21897,7 @@ void CaravanGame::FUN_00741500()
             float y = 0.0f;
             int tileWidth = (int)reinterpret_cast<::TileListBoxCalls *>((mainTile))->GetFloat(0xfb1);
             CMAVObject* sel = ((::CMAVObject *)(::FUN_004aae30((::NiAVObject *)(sceneRoot), (::NiFixedString *)("Select1_01:0"))));
-            reinterpret_cast<::ScreenCamera *>((((::CMNode *)(::FUN_00559450((int *)(((CMNodePtr*)&::g_011d91a8)))))))->ProjectToScreen((*(const ::NiPoint3 *)(((::A_Point *)(::FUN_0045bb80((int)(sel)))))), (*(float *)(&x)), (*(float *)(&y)), 1e-05f);
+            reinterpret_cast<::ScreenCamera *>((((::CMNode *)(::FUN_00559450((int *)(((CMNodePtr*)&::g_011d91a8)))))))->ProjectToScreen((*(const ::NiPoint3 *)(((::A_Point *)(::FUN_0045bb80((intptr_t)(sel)))))), (*(float *)(&x)), (*(float *)(&y)), 1e-05f);
             x = tileWidth * x - DAT_010718b8;
             reinterpret_cast<::FUN_00a012d0_t *>((laneTile0))->FUN_00a012d0(0xfa1, x, true);
             reinterpret_cast<::FUN_00a012d0_t *>((laneTile5))->FUN_00a012d0(0xfa1, x, true);
@@ -22854,7 +22854,7 @@ void CaravanGame::FUN_00741500()
             if (pickOpponent != -1)
             {
                 curLane = reinterpret_cast<::FUN_0084e3a0_Class *>(&(move))->FUN_0084e3a0();
-                curCol = ((int)(reinterpret_cast<::MagicCaster_shell *>(&(move))->FUN_0044edb0()));
+                curCol = ((intptr_t)(reinterpret_cast<::MagicCaster_shell *>(&(move))->FUN_0044edb0()));
                 animStep = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(cardList[curLane][curCol]))->GetName()));
                 handIndex = ((int)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&(move))->FUN_00825c00()));
                 playedCard = (C_Card*)((SimpleArrayItem<void *>((void *)(&(oppHand)), handIndex)));
@@ -22903,7 +22903,7 @@ void CaravanGame::FUN_00741500()
                     reinterpret_cast<::FUN_00a59c60_cls *>((deckNode))->FUN_00a59c60((std::intptr_t)&(ud));
                 }
                 curLane = reinterpret_cast<::FUN_0084e3a0_Class *>(&(move))->FUN_0084e3a0();
-                curCol = ((int)(reinterpret_cast<::MagicCaster_shell *>(&(move))->FUN_0044edb0()));
+                curCol = ((intptr_t)(reinterpret_cast<::MagicCaster_shell *>(&(move))->FUN_0044edb0()));
                 animStep = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(cardList[curLane][curCol]))->GetName()));
                 handIndex = ((int)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&(move))->FUN_00825c00()));
                 playedCard = (C_Card*)((SimpleArrayItem<void *>((void *)(&(oppHand)), handIndex)));
@@ -23842,7 +23842,7 @@ void CaravanGame::UpdateCardTexture()
         reinterpret_cast<::TESTexLoader *>(((*reinterpret_cast<::TextureLoader * *>(&::g_TES))))->FUN_004568c0(buf2, (::TexPtr< ::NiSourceTexture> &)((TextureRef&)objTmp), false, false);
         if ((std::uintptr_t)(NiSourceTexture*)objTmp)
         {
-            prop6->SetResource(0, 0, (unsigned int)(NiSourceTexture*)objTmp);
+            prop6->SetResource(0, 0, (uintptr_t)(NiSourceTexture*)objTmp);
         }
     }
 }
@@ -25139,7 +25139,7 @@ void R74Menu::SelectCard(int row, int column)
     R74Point pos3;
     char buf2[260];
     R74Matrix orientation;
-    bool sideTmp = reinterpret_cast<::PlacementMenu *>(this)->CanPlaceCard(row, column, (int)(selection), 0);
+    bool sideTmp = reinterpret_cast<::PlacementMenu *>(this)->CanPlaceCard(row, column, (intptr_t)(selection), 0);
     int modeValue = ((int)(reinterpret_cast<::Twin_0044ddc0 *>(&(slots[row][column]))->GetName()));
     if (modeValue > 3)
         modeValue = 3;
@@ -25196,7 +25196,7 @@ void R74Menu::SelectCard(int row, int column)
             reinterpret_cast<::TESTexLoader *>(((*reinterpret_cast<::UIMenuManager * *>(&::g_TES))))->FUN_004568c0(buf2, (*(::TexPtr< ::NiSourceTexture> *)(&uiReq_)), 0, 0);
             if ((unsigned int)uiReq_ != 0)
             {
-                selectable->OnCardSelection(0, 0, (void*)(unsigned int)uiReq_);
+                selectable->OnCardSelection(0, 0, (void*)(uintptr_t)uiReq_);
             }
         }
     }

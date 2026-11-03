@@ -828,7 +828,7 @@ void* FUN_0050e990::DeleteThis(unsigned int flags)
 
 
 // @fnv 0x0050ea90
-int FUN_0050ea90()
+intptr_t FUN_0050ea90()
 {
     return (*reinterpret_cast<int *>(&::g_pkString_c55));
 }

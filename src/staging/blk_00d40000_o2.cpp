@@ -2,6 +2,7 @@
 // src/staging/blk_00d40000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstdint>
 #include "fnv/symbols_00c85000.h"
 #include "fnv/symbols_00c90000.h"
 #include <xmmintrin.h>
@@ -3793,7 +3794,7 @@ struct hkContainerD539
 class FUN_00c89c80_obj
 {
   public:
-    void CopyFromSource(unsigned int info) throw();
+    void CopyFromSource(uintptr_t info) throw();
 };
 
 class hkShapeD539 : public FUN_00c89c80_obj

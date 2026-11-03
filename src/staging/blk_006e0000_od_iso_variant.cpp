@@ -4,6 +4,7 @@
 
 // src/staging/blk_006e0000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include <cstdint>
 #include <new>
 #include "fnv/decl/BSFaceGenNiNode.h"
 #include "fnv/decl/BSMultiBoundSphere.h"
@@ -565,7 +566,7 @@ struct Holder_6ec340
 };
 struct FUN_006ec390_Class
 {
-    bool FUN_006ec390(int a1);
+    bool FUN_006ec390(intptr_t a1);
 };
 struct FUN_006ec410_Helper
 {
@@ -5178,7 +5179,7 @@ struct FUN_006f9060
 struct GlobalObject_00633c90
 {
     void* object;
-    GlobalObject_00633c90(int value);
+    GlobalObject_00633c90(intptr_t value);
     ~GlobalObject_00633c90();
     GlobalObject_00633c90& operator=(void* value);
     GlobalObject_00633c90& FUN_006e5cc0(const GlobalObject_00633c90& other);

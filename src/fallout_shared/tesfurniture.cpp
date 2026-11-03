@@ -1,5 +1,6 @@
 // fallout_shared/tesfurniture.cpp: TESFurniture, TESObjectACTI (21 functions)
 
+#include <cstdint>
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/CombatProcedure.h"
 #include "fnv/decl/FUN_00401660_Class.h"
@@ -162,7 +163,7 @@ bool TESFurniture::Load(TESFile* file)
 
 // Returns the offset for a marker index (1-40) from the marker table, scaling the z component by afScale - 1.
 // @fnv 0x00509920
-NiPoint3 TESFurniture::GetMarkerOffset(unsigned int auMarkerIndex, float afScale)
+NiPoint3 TESFurniture::GetMarkerOffset(uintptr_t auMarkerIndex, float afScale)
 {
     NiPoint3 offset = NiPoint3::ZERO;
     if (auMarkerIndex > 0 && auMarkerIndex <= 40)
@@ -199,7 +200,7 @@ void TESFurniture::InitializeMarkerFlags()
 
 
 // @fnv 0x00509490
-int FUN_00509490(char* pThis)
+intptr_t FUN_00509490(char* pThis)
 {
     return ((int)(::FUN_009938b0((const unsigned short *)(void *)(pThis + 0xc))));
 }

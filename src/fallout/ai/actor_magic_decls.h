@@ -1,5 +1,6 @@
 // fallout/ai/actor_magic_decls.h: declares ExtraRefractionProperty, ExtraDataList, SettingT_GameSettingCollection_, ActorMagicProcess, ProcessLists and more
 
+#include <cstdint>
 #include "fnv/decl/B8B10Owner.h"
 #include "fnv/decl/BSAnimGroupSequence.h"
 #include "fnv/decl/FUN_00422820_shell.h"
@@ -615,7 +616,7 @@ class MagicCaster
     virtual MagicItem* GetSelectedMagicItem();
     virtual void caster_38();
     virtual void caster_3c();
-    virtual void SetCurrentSpellState(int);
+    virtual void SetCurrentSpellState(intptr_t);
 };
 #endif
 

@@ -2,6 +2,7 @@
 // src/fallout/ai/combat/combatproceduremove.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/combat/combatproceduremove.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/AA10Menu.h"
 #include "fnv/decl/ActorStandIn.h"
@@ -172,7 +173,7 @@ void MoveHolder::ClearTargetRef(TESObjectREFR* apRef)
     if (*(TESObjectREFR**)((char*)this + 0x38) == apRef)
     {
         *(TESObjectREFR**)((char*)this + 0x38) = 0;
-        reinterpret_cast<::FUN_009caac0_shell *>((((CombatProcedureAttackRanged*)this)))->FUN_009caac0((int)("Targeted reference pointer was cleared"));
+        reinterpret_cast<::FUN_009caac0_shell *>((((CombatProcedureAttackRanged*)this)))->FUN_009caac0((intptr_t)("Targeted reference pointer was cleared"));
     }
 }
 
@@ -432,7 +433,7 @@ struct FUN_009d69f0 : FUN_009ca680
     FUN_0097ede0 startTransform;
     FUN_0097ede0 currentTransform;
     float rate;
-    unsigned int target38;
+    uintptr_t target38;
     unsigned int mode;
     FUN_00906f60 pos40;
     FUN_006815c0 pos48;
@@ -455,7 +456,7 @@ FUN_009d69f0::FUN_009d69f0(MoveInput* input, float speed, unsigned int flags)
     {
         startTransform = *((::FUN_0097ede0 *)(((::Vec3 *)(void *)(input))));
         currentTransform = startTransform;
-        target38 = ((unsigned int)(reinterpret_cast<::MagicCaster_shell *>((input))->FUN_0044edb0()));
+        target38 = ((uintptr_t)(reinterpret_cast<::MagicCaster_shell *>((input))->FUN_0044edb0()));
         if (((bool)(reinterpret_cast<::FUN_0097be60_cls *>((input))->FUN_0097be60(2))))
             rate = -rate;
     }
@@ -917,7 +918,7 @@ struct MovePath
     int unk24, unk28, unk2c, unk30, unk34, unk38;
     MoveVec start, end;
     int unk54, unk58, unk5c, unk60, unk64;
-    int handle;
+    intptr_t handle;
 };
 struct MoveTarget : MoveRef
 {
@@ -1522,7 +1523,7 @@ bool Procedure052::UpdateMovementRequest(Output052* output)
         reinterpret_cast<::FUN_008e7c50_cls *>((((Request052*)e)))->SetUseSoft(0);
     if (!a->SetPathingRequestAvoidNodes(e))
     {
-        reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((int)(DAT_01091c80));
+        reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((intptr_t)(DAT_01091c80));
         return false;
     }
     unk60 = -1;
@@ -1779,11 +1780,11 @@ void MoveProcedure::FUN_009d6ca0()
                 {
                     reinterpret_cast<::FUN_009d7c00_Class *>((manager2))->ForwardToSub(reinterpret_cast<::FUN_004f8960_shell *>((node))->FUN_004f8960());
                     MoveVec* point = ((::MoveVec *)(reinterpret_cast<::FUN_0068efb0_shell *>((node))->FUN_0068efb0()));
-                    reinterpret_cast<::fnv_009a03a0::FUN_009a03a0_shell *>((manager2))->SetFieldE8((int)(point));
+                    reinterpret_cast<::fnv_009a03a0::FUN_009a03a0_shell *>((manager2))->SetFieldE8((intptr_t)(point));
                     reinterpret_cast<::HX *>((node))->FUN_006d3100((::CombatCoverPointData *)(0));
                     if (point)
                     {
-                        reinterpret_cast<::StandIn_00989010 *>(&(current))->SetTripleAndValue((::ThreeInts_00989010 *)&(*((::MoveVec *)(::FUN_006377e0((int)(node))))), ((int)(reinterpret_cast<::s575ca0::Owner *>((actorsB))->FUN_00575ca0())));
+                        reinterpret_cast<::StandIn_00989010 *>(&(current))->SetTripleAndValue((::ThreeInts_00989010 *)&(*((::MoveVec *)(::FUN_006377e0((intptr_t)(node))))), ((intptr_t)(reinterpret_cast<::s575ca0::Owner *>((actorsB))->FUN_00575ca0())));
                         if (manager2->Start())
                         {
                             state = 2;
@@ -1852,14 +1853,14 @@ void MoveProcedure::FUN_009d6ca0()
                     break;
                 }
             }
-            reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((int)(reinterpret_cast<::FUN_008b3960_Class *>((actorsB))->FUN_008b3960() ? "Pathing failed while moving to destination"
+            reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((intptr_t)(reinterpret_cast<::FUN_008b3960_Class *>((actorsB))->FUN_008b3960() ? "Pathing failed while moving to destination"
                                            : "Path Building failed to destination"));
             return;
         }
         if (target && (reinterpret_cast<::TESForm *>((target))->GetDisabled() || reinterpret_cast<::FUN_00440d80_shell *>((target))->FUN_00440d80()))
         {
             static const char disabledReason[] = "Target ref is now disabled or deleted";
-            reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((int)(disabledReason));
+            reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((intptr_t)(disabledReason));
             return;
         }
         changed3 = false;
@@ -1938,7 +1939,7 @@ void MoveProcedure::FUN_009d6ca0()
                 MoveVec point35;
                 float lengthVal = 0.0f;
                 bool done7 = false;
-                while (!done7 && ((bool)(reinterpret_cast<::S008b39a0 *>((actorsB))->ForwardToP190(pathIndex9 + 1, (unsigned int)(&point35)))))
+                while (!done7 && ((bool)(reinterpret_cast<::S008b39a0 *>((actorsB))->ForwardToP190(pathIndex9 + 1, (uintptr_t)(&point35)))))
                 {
                     pathIndex9 = pathIndex9 + 1;
                     MoveVec delta8 = point35 - previous6_2;
@@ -1955,7 +1956,7 @@ void MoveProcedure::FUN_009d6ca0()
                         reinterpret_cast<::ProcedureValue *>(this)->UpdateOutput((::OutputValue *)(::MoveRequest *)(&avoid7));
                     initialized16 = true;
                     MoveQuery query_2;
-                    if (reinterpret_cast<::CombatDecompClass *>((manager2))->InitSubObject((::RetObjParam *)(::MoveQuery *)(&query_2), (int)(&point35), mode, radius5, (int)(((void *)(::FUN_00559450((int *)&(avoid7)))))))
+                    if (reinterpret_cast<::CombatDecompClass *>((manager2))->InitSubObject((::RetObjParam *)(::MoveQuery *)(&query_2), (intptr_t)(&point35), mode, radius5, (intptr_t)(((void *)(::FUN_00559450((int *)&(avoid7)))))))
                     {
                         active = true;
                         reinterpret_cast<::FUN_009d7c20_shell *>((manager2))->FUN_009d7c20();
@@ -1963,7 +1964,7 @@ void MoveProcedure::FUN_009d6ca0()
                         ::fnv_009a9370::FUN_009a9370((::fnv_009a9370::CombatController *)(owner), (::fnv_009a9370::CombatCoverPointData *)(::MovePath *)(((::MovePath *)(reinterpret_cast<::FUN_0097fb60_shell *>((manager2))->GetFieldAtE8()))), (::fnv_009a9370::NiPoint3 *)(::MoveVec *)(&pos), (::fnv_009a9370::NiPoint3 *)(::MoveVec *)(&position));
                         position.z += ::FUN_009a8460((::S_009a8460_Actor *)(actorsB), 2, 0);
                         state = 2;
-                        reinterpret_cast<::StandIn_00989010 *>(&(current))->SetTripleAndValue((::ThreeInts_00989010 *)&(pos), ((int)(reinterpret_cast<::s575ca0::Owner *>((actorsB))->FUN_00575ca0())));
+                        reinterpret_cast<::StandIn_00989010 *>(&(current))->SetTripleAndValue((::ThreeInts_00989010 *)&(pos), ((intptr_t)(reinterpret_cast<::s575ca0::Owner *>((actorsB))->FUN_00575ca0())));
                         if (!reinterpret_cast<::FUN_009d7c80_Class *>(this)->FUN_009d7c80())
                             return;
                         reinterpret_cast<::FUN_008d7f40_shell *>(&(check))->FUN_008d7f40(0.5f);
@@ -1999,7 +2000,7 @@ void MoveProcedure::FUN_009d6ca0()
             }
             else
             {
-                reinterpret_cast<::AA10Menu *>((manager2))->HandleMenuEvent((int)&(destination), mode);
+                reinterpret_cast<::AA10Menu *>((manager2))->HandleMenuEvent((intptr_t)&(destination), mode);
                 reinterpret_cast<::CPStandIn009caae0 *>(this)->SetState();
             }
             return;
@@ -2066,7 +2067,7 @@ struct ProcedureController
 
     unsigned int unk00, unk04, unk08, unk0C, unk10, unk14, unk18, unk1C, unk20, unk24, unk28, unk2C, unk30, unk34;
 
-    unsigned int currentForm;
+    uintptr_t currentForm;
 
     unsigned int unk3C, unk40, unk44, unk48, unk4C, unk50, unk54;
 
@@ -2089,7 +2090,7 @@ void ProcedureController::FUN_009d8ad0(unsigned int value)
 
     reinterpret_cast<::FUN_004534f0_shell *>(this)->FUN_004534f0(value);
 
-    currentForm = (unsigned int)(currentForm ? dynamic_cast<TESObjectREFR*>(::FUN_004839c0(currentForm)) : 0);
+    currentForm = (uintptr_t)(currentForm ? dynamic_cast<TESObjectREFR*>(::FUN_004839c0(currentForm)) : 0);
 
     if (refresh)
 

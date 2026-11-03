@@ -2,6 +2,7 @@
 // src/fallout/misc/saveload/bgssaveloadstructs.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/misc/saveload/bgssaveloadstructs.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/simple_list_node_view.h"
 #include <new>
 #include <cstring>
@@ -197,10 +198,10 @@ int FUN_00853640(unsigned char* param_1);
 struct FUN_00849220_shell
 {
     unsigned char* p;
-    int FUN_00849220();
+    intptr_t FUN_00849220();
 };
 // @fnv 0x00849220
-int FUN_00849220_shell::FUN_00849220()
+intptr_t FUN_00849220_shell::FUN_00849220()
 {
     return FUN_00853640(p);
 }
@@ -585,13 +586,13 @@ struct FUN_00854af0
 
 struct FUN_008549b0_shell
 {
-    void FUN_008549b0(unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int,
-                                 unsigned int, unsigned char);
+    void FUN_008549b0(unsigned int, uintptr_t, unsigned int, unsigned int, unsigned int, unsigned int,
+                                 uintptr_t, unsigned char);
 };
 
 // @fnv 0x008549b0
-void FUN_008549b0_shell::FUN_008549b0(unsigned int p0, unsigned int p1, unsigned int uiKey, unsigned int p3,
-                                                 unsigned int p4, unsigned int p5, unsigned int p6, unsigned char p7)
+void FUN_008549b0_shell::FUN_008549b0(unsigned int p0, uintptr_t p1, unsigned int uiKey, unsigned int p3,
+                                                 unsigned int p4, unsigned int p5, uintptr_t p6, unsigned char p7)
 {
     FUN_00854af0* form = new FUN_00854af0();
 
@@ -604,11 +605,11 @@ void FUN_008549b0_shell::FUN_008549b0(unsigned int p0, unsigned int p1, unsigned
     form->m_data[0x18] = p7;
 
     {
-        unsigned int list = 0;
+        uintptr_t list = 0;
 
         if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>((reinterpret_cast<DummyPointerMap*>(this)))->FUN_00853130(uiKey, (::fnv_00853130::CombatThreatRecord *&)(list)))
         {
-            list = reinterpret_cast<unsigned int>(new SL());
+            list = reinterpret_cast<uintptr_t>(new SL());
             reinterpret_cast<::FUN_00844700_Class *>((reinterpret_cast<SetAtHelper*>(this)))->FUN_00844700(uiKey, list);
         }
 
@@ -824,8 +825,8 @@ void SavedStats::LoadStats()
             if (form)
             {
                 reinterpret_cast<::B4B10Dialogue *>(this)->SetupResponse((::B4B10Speaker *)(form), pEntry->topic, (::B4B10Response *)(::SavedBuffer *)(&map));
-                reinterpret_cast<::FUN_008549b0_shell *>(this)->FUN_008549b0(entryId, (unsigned int)(form), form->FNV_GetFormType(), pEntry->topic, reinterpret_cast<::FUN_00853dc0_shell *>(&(map))->GetDifference(),
-                             reinterpret_cast<::FUN_00865b10_shell *>(&(map))->GetValuePlusNine(), ((unsigned int)(reinterpret_cast<::MagicCaster_shell *>(&(map))->FUN_0044edb0())), reinterpret_cast<::BGSLoadFormBuffer *>(&(map))->GetVersion());
+                reinterpret_cast<::FUN_008549b0_shell *>(this)->FUN_008549b0(entryId, (uintptr_t)(form), form->FNV_GetFormType(), pEntry->topic, reinterpret_cast<::FUN_00853dc0_shell *>(&(map))->GetDifference(),
+                             reinterpret_cast<::FUN_00865b10_shell *>(&(map))->GetValuePlusNine(), ((uintptr_t)(reinterpret_cast<::MagicCaster_shell *>(&(map))->FUN_0044edb0())), reinterpret_cast<::BGSLoadFormBuffer *>(&(map))->GetVersion());
             }
         }
     }
@@ -833,13 +834,13 @@ void SavedStats::LoadStats()
     {
         reinterpret_cast<::FUN_00847db0_shell *>(&(map))->FUN_00847db0();
         if (::FUN_0084bcd0(index, (::BGSSaveFormBuffer *)(::SavedBuffer *)(&map)))
-            reinterpret_cast<::FUN_00854c10_Class *>(this)->FUN_00854c10(FUN_00853de0(index), reinterpret_cast<::FUN_00853dc0_shell *>(&(map))->GetDifference(), ((unsigned int)(reinterpret_cast<::MagicCaster_shell *>(&(map))->FUN_0044edb0())));
+            reinterpret_cast<::FUN_00854c10_Class *>(this)->FUN_00854c10(FUN_00853de0(index), reinterpret_cast<::FUN_00853dc0_shell *>(&(map))->GetDifference(), ((uintptr_t)(reinterpret_cast<::MagicCaster_shell *>(&(map))->FUN_0044edb0())));
     }
     for (unsigned int index = 1000; index < 1001; ++index)
     {
         reinterpret_cast<::FUN_00847db0_shell *>(&(map))->FUN_00847db0();
         if (::FUN_0084bcd0(index, (::BGSSaveFormBuffer *)(::SavedBuffer *)(&map)))
-            reinterpret_cast<::FUN_00854c10_Class *>(this)->FUN_00854c10(FUN_00853de0(index), reinterpret_cast<::FUN_00853dc0_shell *>(&(map))->GetDifference(), ((unsigned int)(reinterpret_cast<::MagicCaster_shell *>(&(map))->FUN_0044edb0())));
+            reinterpret_cast<::FUN_00854c10_Class *>(this)->FUN_00854c10(FUN_00853de0(index), reinterpret_cast<::FUN_00853dc0_shell *>(&(map))->GetDifference(), ((uintptr_t)(reinterpret_cast<::MagicCaster_shell *>(&(map))->FUN_0044edb0())));
     }
 }
 
@@ -1155,9 +1156,9 @@ void SaveLoadStatsDump::FUN_00853e10()
                             if (qZWI->HasLevel())
                             {
                                 xForm* qIpA = qZWI;
-                                int qXMUYT = -1;
+                                intptr_t qXMUYT = -1;
                                 if (((::fnv_00853e10::xLevelHolder *)(reinterpret_cast<::BSShaderNoLightingProperty *>((qIpA))->GetBaseTexture())))
-                                    qXMUYT = ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((::fnv_00853e10::xLevelHolder *)(reinterpret_cast<::BSShaderNoLightingProperty *>((qIpA))->GetBaseTexture()))))->FUN_0045cd60()));
+                                    qXMUYT = ((intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((((::fnv_00853e10::xLevelHolder *)(reinterpret_cast<::BSShaderNoLightingProperty *>((qIpA))->GetBaseTexture()))))->FUN_0045cd60()));
                                 switch (qXMUYT)
                                 {
                                 case -1:

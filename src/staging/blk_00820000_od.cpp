@@ -2,6 +2,7 @@
 // src/staging/blk_00820000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstdint>
 #include <windows.h>
 #include <objbase.h>
 #include <new>
@@ -347,7 +348,7 @@ extern int DAT_011a1888[];
 
 // Returns the entry at index from DAT_011dd87c if non-zero, otherwise the entry at index from DAT_011a1888.
 // @fnv 0x008374b0
-int __cdecl FUN_008374b0(int index)
+intptr_t __cdecl FUN_008374b0(int index)
 {
     if (DAT_011dd87c[index])
         return DAT_011dd87c[index];
@@ -654,11 +655,11 @@ struct TESObjectREFR : TESForm
 };
 struct FUN_0083d0d0_Class
 {
-    void RefreshObjectRef(int a);
+    void RefreshObjectRef(intptr_t a);
 };
 // Re-casts the TESForm pointer at offset 0x18 to TESObjectREFR via ref_004839c0, storing the result or null if the pointer was null.
 // @fnv 0x0083d0d0
-void FUN_0083d0d0_Class::RefreshObjectRef(int a)
+void FUN_0083d0d0_Class::RefreshObjectRef(intptr_t a)
 {
     *(TESObjectREFR**)((char*)this + 0x18) =
         *(TESObjectREFR**)((char*)this + 0x18)
@@ -679,11 +680,11 @@ struct G2
 };
 struct FUN_00824290_class
 {
-    void AddWeatherEntry(int a, int b, int c);
+    void AddWeatherEntry(intptr_t a, intptr_t b, intptr_t c);
 };
 // Allocates a WeatherEntry storing the three arguments and adds it to the head of the list at this+8.
 // @fnv 0x00824290
-void FUN_00824290_class::AddWeatherEntry(int aiFirst, int aiSecond, int aiThird)
+void FUN_00824290_class::AddWeatherEntry(intptr_t aiFirst, intptr_t aiSecond, intptr_t aiThird)
 {
     WeatherEntry* pEntry = new WeatherEntry;
     pEntry->a = aiFirst;
@@ -721,7 +722,7 @@ bool FUN_0082d740(TESSound* self, int* outA, int* outB)
 
 struct BSAudio
 {
-    unsigned int GetSynchTime();
+    uintptr_t GetSynchTime();
 };
 struct EffectSetting
 {

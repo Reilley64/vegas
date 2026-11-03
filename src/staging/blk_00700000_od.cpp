@@ -2,6 +2,7 @@
 // src/staging/blk_00700000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstdint>
 #include <new>
 #include "runtime/crt.h"
 #include "fnv/decl/A0F8Self.h"
@@ -545,7 +546,7 @@ struct Modifier
 };
 struct FUN_009bdf60_class
 {
-    void FUN_009bdf60(int);
+    void FUN_009bdf60(intptr_t);
 };
 
 // If FUN_004b7210 returns an object whose GetKey is nonzero, calls FUN_009bdf60 on it with arg.
@@ -1044,11 +1045,11 @@ FUN_0071fb60_Class::~FUN_0071fb60_Class()
 
 struct FUN_007001f0_Class
 {
-    int FUN_007001f0();
+    intptr_t FUN_007001f0();
 };
 // Returns the value at offset 4 of the object stored at this+8 or this+0xc when both agree, or of whichever is non-null; otherwise 0.
 // @fnv 0x007001f0
-int FUN_007001f0_Class::FUN_007001f0()
+intptr_t FUN_007001f0_Class::FUN_007001f0()
 {
     if (*(void**)((char*)this + 8) && *(void**)((char*)this + 0xc) &&
         *(void**)((char*)(*(void**)((char*)this + 8)) + 4) == *(void**)((char*)(*(void**)((char*)this + 0xc)) + 4))

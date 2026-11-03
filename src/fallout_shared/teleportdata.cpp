@@ -1,4 +1,5 @@
 // fallout_shared/teleportdata.cpp: BaseProcess, QuantityData, Thing, RefHandle and more (22 functions)
+#include <cstdint>
 #include <new>
 #include <cmath>
 #include "fnv/decl/BGSCameraPath.h"
@@ -279,7 +280,7 @@ struct Callee_575ca0
 struct Caller_43a3f0
 {
     Callee_575ca0* p;
-    int FUN_0043a3f0();
+    intptr_t FUN_0043a3f0();
 };
 // Calls a->FUN_0043a3c0 with GetCurrentProcessData() and FUN_0043a3f0(), then returns a.
 // @fnv 0x0043a390
@@ -290,7 +291,7 @@ UnkArg* UnkThis::FUN_0043a390(UnkArg* apArg)
 }
 // Returns the result of calling FUN_00575ca0 on p when p is non-null, otherwise returns 0.
 // @fnv 0x0043a3f0
-int Caller_43a3f0::FUN_0043a3f0()
+intptr_t Caller_43a3f0::FUN_0043a3f0()
 {
     return p ? ((std::intptr_t)(reinterpret_cast<::s575ca0::Owner *>((p))->FUN_00575ca0())) : 0;
 }

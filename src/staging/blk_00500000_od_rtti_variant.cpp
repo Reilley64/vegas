@@ -5,6 +5,7 @@
 
 // src/staging/blk_00500000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include <cstdint>
 #include <cstring>
 #include "../../include/layout_support.h"
 struct FUN_00505c20_class
@@ -919,7 +920,7 @@ struct S_0050de20_Class
     bool FUN_0050de20(S_0050de20_A* a, int b);
 };
 extern int DAT_011f81dc;
-int FUN_0050f6e0();
+intptr_t FUN_0050f6e0();
 struct S_5102e0_Node
 {
     virtual void unk00();
@@ -954,7 +955,7 @@ struct FUN_005103d0_cls
     unsigned int unk10;
     unsigned int m_14;
     unsigned int GetBase();
-    unsigned int FindSubstring(char* a1, unsigned int start, unsigned int count);
+    unsigned int FindSubstring(char* a1, uintptr_t start, unsigned int count);
 };
 struct NiTPointerMapBase
 {

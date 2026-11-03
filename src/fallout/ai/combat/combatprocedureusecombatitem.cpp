@@ -2,6 +2,7 @@
 // src/fallout/ai/combat/combatprocedureusecombatitem.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/combat/combatprocedureusecombatitem.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/BSShaderNoLightingProperty.h"
@@ -94,7 +95,7 @@ struct FUN_009daa10 : Base_009daa10
 FUN_009daa10::FUN_009daa10(TESBoundObject* apItem)
 {
     new ((void *)this) ::fnv_009ca680::FUN_009ca680();
-    *reinterpret_cast<unsigned int*>(this) = reinterpret_cast<unsigned int>(&DAT_0109214c);
+    *reinterpret_cast<uintptr_t*>(this) = reinterpret_cast<uintptr_t>(&DAT_0109214c);
     pItem = apItem;
     m_bItemFlag = 0;
 }
@@ -408,7 +409,7 @@ void FUN_009daab0_Proc::UpdateCombatItemUse()
 
     pActor2 = ((::UCIActor *)(reinterpret_cast<::FUN_00996de0_Class *>(this)->FUN_00996de0()));
     pState2 = ((::UCICombatState *)(reinterpret_cast<::InterfaceManager *>((pController))->FUN_00586150()));
-    if (!((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((::UCICombatProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pActor2))->GetBaseTexture()))))->FUN_0045cd60())))
+    if (!((intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((((::UCICombatProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pActor2))->GetBaseTexture()))))->FUN_0045cd60())))
     {
         pAmmo = pActor2->GetAmmo();
         if (pAmmo && (!reinterpret_cast<::fnv_004985f0::FUN_004985f0_s *>((pAmmo))->FUN_004985f0() || reinterpret_cast<::FUN_00498d30_t *>((pAmmo))->HasIdleForm((::TESIdleForm *)(0))))
@@ -416,7 +417,7 @@ void FUN_009daab0_Proc::UpdateCombatItemUse()
         if (!m_bItemFlag)
         {
             UCICombatProcess* pProcess = ((::UCICombatProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pActor2))->GetBaseTexture()));
-            reinterpret_cast<::ProcessProxy *>((pProcess))->FUN_008ff0b0((::ActorProxy *)(pActor2), (int)(pItem), (::ActorProxy *)(0));
+            reinterpret_cast<::ProcessProxy *>((pProcess))->FUN_008ff0b0((::ActorProxy *)(pActor2), (intptr_t)(pItem), (::ActorProxy *)(0));
             m_bItemFlag = true;
             return;
         }

@@ -2,6 +2,7 @@
 // src/staging/blk_009e0000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstdint>
 #include <new>
 #include <cstring>
 #include "fnv/decl/ActorQueryOwner.h"
@@ -272,7 +273,7 @@ struct Host9f6340
     int iDataLength;
     virtual void v0();
     virtual int Write(unsigned int);
-    void FUN_009f6460(int, int);
+    void FUN_009f6460(intptr_t, int);
     void ResetAndWrite(unsigned int requested, unsigned int savedSize);
 };
 // Sets the vtable pointer to DAT_01093614 and calls ResetAndWrite with 0, 0.
@@ -451,7 +452,7 @@ class FUN_009e99a0_cls
     unsigned int m_uiUnk08;
     unsigned int m_uiUnk0C;
 
-    int FUN_009e99a0(unsigned int value);
+    int FUN_009e99a0(uintptr_t value);
 };
 
 class FUN_009eb620_cls
@@ -2226,7 +2227,7 @@ void FUN_009e9b20_Class::InitBuffer(unsigned int requested, unsigned int savedSi
     }
 }
 // @fnv 0x009e99a0
-int FUN_009e99a0_cls::FUN_009e99a0(unsigned int value)
+int FUN_009e99a0_cls::FUN_009e99a0(uintptr_t value)
 {
     int iIndex = ((int)(reinterpret_cast<::S5460 *>(this)->FUN_00845460()));
     reinterpret_cast<::ArrX *>(this)->ConstructElements_009e9a50((struct ::FUN_006e6da0 *)(::FUN_009e99a0_Entry *)(m_pEntries + iIndex), 1);

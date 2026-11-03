@@ -385,7 +385,7 @@ class BSAudio
 public:
     float GetMusicVolume();
 public:
-    unsigned int GetSynchTime();
+    uintptr_t GetSynchTime();
 };
 
 class RadioStationRef : public TESObjectREFR
@@ -974,7 +974,7 @@ void FalloutRadio::InitLoadGame(BGSLoadGameBuffer* buffer)
         RadioReceiver* receiverCopy;
         RadioStationState* stationDeletion;
         RadioStationState* stationCopy;
-        unsigned int id;
+        uintptr_t id;
         unsigned char padID1, padID2, padID3;
         bool removeID;
         BSSimpleList<unsigned int>* idNode;
@@ -1098,7 +1098,7 @@ void FalloutRadio::InitLoadGame(BGSLoadGameBuffer* buffer)
                     pRefr = dynamic_cast<TESObjectREFR*>(::FUN_004839c0(locals.id));
                 else
                     pRefr = 0;
-                locals.id = reinterpret_cast<unsigned int>(pRefr);
+                locals.id = reinterpret_cast<uintptr_t>(pRefr);
                 if (locals.id)
                     locals.idNode->SetItem(locals.id);
                 else
@@ -1522,7 +1522,7 @@ FalloutRadio::RadioReceiver* __cdecl FUN_00832830(unsigned int aiFormID)
 
     while (pNode != 0 && !pNode->IsEmpty())
     {
-        if (aiFormID == ((unsigned int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(((*((::FalloutRadio::RadioReceiver * *)(&reinterpret_cast<::SimpleListNodeView*>(pNode)->m_item)))->form))->FUN_007af430())))
+        if (aiFormID == ((uintptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(((*((::FalloutRadio::RadioReceiver * *)(&reinterpret_cast<::SimpleListNodeView*>(pNode)->m_item)))->form))->FUN_007af430())))
         {
             if (pFound2 == 0 || (reinterpret_cast<::TESForm *>((pFound2->form))->GetDisabled() && !reinterpret_cast<::TESForm *>(((*((::FalloutRadio::RadioReceiver * *)(&reinterpret_cast<::SimpleListNodeView*>(pNode)->m_item)))->form))->GetDisabled()) ||
                 (iFoundState == 0 && ((unsigned int)(reinterpret_cast<::fnv_0056b210::FUN_0056b210_shell *>(((*((::FalloutRadio::RadioReceiver * *)(&reinterpret_cast<::SimpleListNodeView*>(pNode)->m_item)))->form))->FUN_0056b210()))) ||
@@ -2238,7 +2238,7 @@ void FUN_008359e0(RadioSource* source, bool enabled)
 
 // Iterates the radio receiver list, calls FUN_008366c0 on each receiver, removes null entries, then calls FUN_008324e0 and UpdateRadio.
 // @fnv 0x00836e20
-void __cdecl UpdateRadioReceivers(int updateMode)
+void __cdecl UpdateRadioReceivers(intptr_t updateMode)
 {
     BSSimpleList<FalloutRadio::RadioStationState*>* current = &(*reinterpret_cast<::BSSimpleList< ::FalloutRadio::RadioStationState *> *>(&::g_011dd554));
     BSSimpleList<FalloutRadio::RadioStationState*>* previous = 0;
@@ -2808,7 +2808,7 @@ void __cdecl FUN_008366e0(LoadBuffer* buffer)
 
     BSSimpleList<unsigned int>* stationNode;
 
-    unsigned int receiver5;
+    uintptr_t receiver5;
 
     reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&::DAT_011dd428, 4, 0);
 
@@ -3531,7 +3531,7 @@ void __cdecl FUN_00834260(FalloutRadio::RadioStationState* apState)
                 if ((*((::RadioUpdateReceiver **)(&reinterpret_cast<::SimpleListNodeView*>(aNext)->m_item)))->ref && (*((::RadioUpdateReceiver **)(&reinterpret_cast<::SimpleListNodeView*>(aNext)->m_item)))->ref->v100())
                 {
                     aRec = (*((::RadioUpdateReceiver **)(&reinterpret_cast<::SimpleListNodeView*>(aNext)->m_item)))->ref;
-                    if (((::RadioUpdateObj *)(reinterpret_cast<::FUN_0084e3a0_Class *>((aActor))->FUN_0084e3a0())) && ((int)(reinterpret_cast<::Actor *>((aRec))->GetActorBase())) == ((int)(reinterpret_cast<::Twin_00639b40 *>((((::RadioUpdateObj *)(reinterpret_cast<::FUN_0084e3a0_Class *>((aActor))->FUN_0084e3a0()))))->GetEntryPoint())))
+                    if (((::RadioUpdateObj *)(reinterpret_cast<::FUN_0084e3a0_Class *>((aActor))->FUN_0084e3a0())) && ((intptr_t)(reinterpret_cast<::Actor *>((aRec))->GetActorBase())) == ((int)(reinterpret_cast<::Twin_00639b40 *>((((::RadioUpdateObj *)(reinterpret_cast<::FUN_0084e3a0_Class *>((aActor))->FUN_0084e3a0()))))->GetEntryPoint())))
                         bSame = true;
                     if (aRec->v21c())
                         bNpcVal = true;

@@ -1,5 +1,6 @@
 // fallout/ai/combat/combatgoal.cpp: CombatGoal (22 functions)
 
+#include <cstdint>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/CombatAction.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
@@ -404,11 +405,11 @@ struct CombatGoal;
 
 struct FUN_00984470_Class
 {
-    CombatGoal* GetCombatGoal(int index);
+    CombatGoal* GetCombatGoal(intptr_t index);
 };
 
 // @fnv 0x00984470
-CombatGoal* FUN_00984470_Class::GetCombatGoal(int index)
+CombatGoal* FUN_00984470_Class::GetCombatGoal(intptr_t index)
 {
     return *reinterpret_cast<CombatGoal**>(reinterpret_cast<char*>(this) + 0x3fff8 + index * 4);
 }
@@ -545,12 +546,12 @@ bool CombatGoal::FUN_009843b0(CombatStateValues* values)
         type = ((int)(reinterpret_cast<::Callees *>((value))->FUN_00726070()));
         if (state == 21)
         {
-            if (((unsigned int)(reinterpret_cast<::FUN_00984470_Class *>((values))->GetCombatGoal(type))))
+            if (((uintptr_t)(reinterpret_cast<::FUN_00984470_Class *>((values))->GetCombatGoal(type))))
                 return false;
         }
         else if (state == 22)
         {
-            if (!((unsigned int)(reinterpret_cast<::FUN_00984470_Class *>((values))->GetCombatGoal(type))))
+            if (!((uintptr_t)(reinterpret_cast<::FUN_00984470_Class *>((values))->GetCombatGoal(type))))
                 return false;
         }
         else

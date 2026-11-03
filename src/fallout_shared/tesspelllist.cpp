@@ -197,10 +197,10 @@ struct Helper00905330
 };
 struct Host0048d8d0 : BaseProcess
 {
-    void ForwardToHelper(int);
+    void ForwardToHelper(intptr_t);
 };
 // @fnv 0x0048d8d0
-void Host0048d8d0::ForwardToHelper(int a)
+void Host0048d8d0::ForwardToHelper(intptr_t a)
 {
     reinterpret_cast<::ItemChangeListNode *>((((Helper00905330*)GetCurrentProcessData())))->FUN_00905330((::InventoryStackRecord *const &)(a));
 }

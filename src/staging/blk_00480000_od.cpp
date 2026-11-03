@@ -2,6 +2,7 @@
 // src/staging/blk_00480000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstdint>
 #include <new>
 #include <cstring>
 #include <malloc.h>
@@ -124,12 +125,12 @@ struct TESSaveLoadGame
 
 struct FUN_00484d20_Class
 {
-    void ForwardToSaveLoadGame(int a, int b);
+    void ForwardToSaveLoadGame(intptr_t a, int b);
 };
 
 // Calls FUN_00857a10 on g_TESSaveLoadGame, passing both arguments through.
 // @fnv 0x00484d20
-void FUN_00484d20_Class::ForwardToSaveLoadGame(int a, int b)
+void FUN_00484d20_Class::ForwardToSaveLoadGame(intptr_t a, int b)
 {
     reinterpret_cast<::C857A10Buffer *>((g_TESSaveLoadGame))->FUN_00857a10((const unsigned int *)(a), b);
 }
@@ -1090,10 +1091,10 @@ struct H00499080
 };
 struct FUN_0049a920_s
 {
-    void FUN_0049a920(unsigned int a);
+    void FUN_0049a920(uintptr_t a);
 };
 // @fnv 0x0049a920
-void FUN_0049a920_s::FUN_0049a920(unsigned int a)
+void FUN_0049a920_s::FUN_0049a920(uintptr_t a)
 {
     reinterpret_cast<::fnv_00496080::FUN_00496080_shell *>(this)->FUN_00496080(0x14, 0.0f);
     reinterpret_cast<::FUN_00496280_shell *>((((FUN_00496280_shell*)this)))->FUN_00496280();

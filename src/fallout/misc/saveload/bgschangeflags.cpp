@@ -10,7 +10,7 @@
 #include "fnv/symbols_011c3000.h"
 #include "bgschangeflags_decls.h"
 // @fnv 0x008c71b0
-GlobalObject_008c71b0::GlobalObject_008c71b0(int initial)
+GlobalObject_008c71b0::GlobalObject_008c71b0(intptr_t initial)
 {
     value = initial;
 }
@@ -44,11 +44,11 @@ FormChangeMask FormChangeMask::HasFormChanged(FormChangeMask changes, FormChange
 
 struct FUN_00841100_shell : public FormChangeMask
 {
-    void FUN_00841100(int);
+    void FUN_00841100(intptr_t);
 };
 
 // @fnv 0x00841100
-void FUN_00841100_shell::FUN_00841100(int aiFlags)
+void FUN_00841100_shell::FUN_00841100(intptr_t aiFlags)
 {
     *(int*)this |= aiFlags;
 }

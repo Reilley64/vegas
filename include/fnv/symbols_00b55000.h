@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 class B55480AVObject;
 class BSFogProperty;
@@ -23,7 +24,7 @@ void FUN_00b557d0();
 // 0x00b55a10
 void FUN_00b55a10();
 // 0x00b55ac0
-void FUN_00b55ac0(int, int, int);
+void FUN_00b55ac0(intptr_t, intptr_t, intptr_t);
 // 0x00b55b00
 void FUN_00b55b00(::PropHelper *, float);
 // 0x00b55b80

@@ -1,5 +1,6 @@
 // fallout_shared/magic/effectitemlist.cpp: EffectItemList, EILStandIn, EffectListCmp, EffectItemListFind and more (28 functions)
 
+#include <cstdint>
 #include <new>
 #include <string.h>
 #include <cmath>
@@ -141,7 +142,7 @@ struct EffectItemList_shell
 };
 
 // @fnv 0x004065e0
-int FUN_004065e0(EffectItemList_shell* pthis)
+intptr_t FUN_004065e0(EffectItemList_shell* pthis)
 {
     int eresult = -1;
     EffectItem* peffect = pthis->FindCostliestEffectItem(3, 0);
@@ -814,11 +815,11 @@ struct EffectItemListFind
 {
     int header;
     EffectItemNode node;
-    unsigned char FindEffectItemIndex(int aiFormID);
+    unsigned char FindEffectItemIndex(intptr_t aiFormID);
 };
 
 // @fnv 0x00406e70
-unsigned char EffectItemListFind::FindEffectItemIndex(int aiFormID)
+unsigned char EffectItemListFind::FindEffectItemIndex(intptr_t aiFormID)
 {
     unsigned char idx3 = 0;
     EffectItemNode* cur = this ? &node : 0;

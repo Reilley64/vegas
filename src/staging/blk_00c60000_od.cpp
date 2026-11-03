@@ -6827,7 +6827,7 @@ class CharacterProxy : public ProxyBase
   public:
     AlignedOwnerNode m_kPoints;
 
-    void FUN_00c6cf30(unsigned int formID);
+    void FUN_00c6cf30(uintptr_t formID);
 };
 
 struct PointLoader
@@ -6835,7 +6835,7 @@ struct PointLoader
 };
 
 // @fnv 0x00c6cf30
-void CharacterProxy::FUN_00c6cf30(unsigned int formID)
+void CharacterProxy::FUN_00c6cf30(uintptr_t formID)
 {
     volatile unsigned int id = formID;
     reinterpret_cast<::FUN_00cac110_Class *>((this))->FUN_00cac110();

@@ -1,5 +1,6 @@
 // staging/blk_005e0000_od_ctx_variant.cpp: Derived, Holder (4 functions)
 
+#include <cstdint>
 #include <new>
 #include <windows.h>
 #include <string.h>
@@ -2094,7 +2095,7 @@ struct FUN_005e50f0_Obj
     int unk2C;
     int unk30;
     int unk34[16];
-    int GetValueByIndex(int index);
+    int GetValueByIndex(intptr_t index);
 };
 struct FUN_005e5190_Class
 {
@@ -2470,7 +2471,7 @@ struct Body55
     int unk2C;
     int unk30;
     Name55* names[15];
-    void HidePartitionsUnderAncestor(Object55* ancestor, Object55* root, int excluded, Object55* object);
+    void HidePartitionsUnderAncestor(Object55* ancestor, Object55* root, intptr_t excluded, Object55* object);
 };
 namespace s5e5d20 {
 

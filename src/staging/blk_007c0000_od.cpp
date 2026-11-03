@@ -1036,7 +1036,7 @@ struct FUN_007d7c60
 struct GlobalObject_00633c90
 {
     int p;
-    GlobalObject_00633c90(int);
+    GlobalObject_00633c90(intptr_t);
     ~GlobalObject_00633c90();
 };
 struct AudioView
@@ -1232,10 +1232,10 @@ struct FUN_007df120_Class
     int unk14;
     int unk18;
     int unk1c;
-    void FUN_007df120(int a);
+    void FUN_007df120(intptr_t a);
 };
 // @fnv 0x007df120
-void FUN_007df120_Class::FUN_007df120(int aiValue)
+void FUN_007df120_Class::FUN_007df120(intptr_t aiValue)
 {
     reinterpret_cast<::FUN_00501c10_cls *>((((FUN_00501c10_Class*)((char*)this + 0x20))))->CallAndReturnSelf(aiValue);
 }
@@ -2009,7 +2009,7 @@ class FUN_007d6350
     FUN_007d6350(char*, char*, int, ...);
 };
 void __cdecl ClearStartMenuEntries();
-void* __cdecl FUN_00401000(int size);
+void* __cdecl FUN_00401000(intptr_t size);
 
 extern char DAT_007d19c0[];
 extern char DAT_007d1bb0[];

@@ -366,7 +366,7 @@ void UpdateRepairTile(RepairTile* apTile, HealthOwner* apItem)
     reinterpret_cast<::Tile *>((apTile))->Set(0xfa3, reinterpret_cast<::TileListBoxCalls *>((apTile))->GetFloat(0xfac) >= 0.0);
     reinterpret_cast<::FUN_00a012d0_t *>((((::RepairTile *)(reinterpret_cast<::TileFloatList *>((apTile))->FUN_00a03eb0(0xf)))))->FUN_00a012d0(0xfb1, fHealthPercent * 0.6f, true);
     if (apItem->IsEquipped(false))
-        reinterpret_cast<::Tile *>((((::ChildTile *)(reinterpret_cast<::FUN_006317a0_struct *>((void *)&(apTile->children))->AddEight((int)(((void *)(::FUN_00559450((int *)&(apTile->children))))))))))->Set(0xfa3, 1);
+        reinterpret_cast<::Tile *>((((::ChildTile *)(reinterpret_cast<::FUN_006317a0_struct *>((void *)&(apTile->children))->AddEight((intptr_t)(((void *)(::FUN_00559450((int *)&(apTile->children))))))))))->Set(0xfa3, 1);
 
     float fRepairHealth = reinterpret_cast<::FUN_004bcdb0_shell *>(((*reinterpret_cast<::HealthOwner * *>(&::fnv_007b6fb0::DAT_011da760))))->FUN_004bcdb0(true);
     float fResult = 0.0f;
@@ -491,7 +491,7 @@ struct RepairManager
 };
 
 // @fnv 0x007b7020
-void __cdecl FUN_007b7020(int target)
+void __cdecl FUN_007b7020(intptr_t target)
 {
     if (DAT_011da75c != 0)
     {
@@ -658,7 +658,7 @@ struct ItemStub
 struct RepairList
 {
     virtual void vf0();
-    virtual int SelectedIndex();
+    virtual intptr_t SelectedIndex();
     ItemStub* Selected();
 };
 struct AudioPlaybackHandle
@@ -1350,7 +1350,7 @@ void __cdecl PopulateRepairMenu()
                 if (!index)
                 {
                     item = ((::fnv_007b6aa0::Item *)(reinterpret_cast<::SimpleListNodeView*>(node)->m_item));
-                    n = ((::fnv_007b6aa0::UITile *)(reinterpret_cast<::list71a::L71Menu *>(&((*reinterpret_cast<::fnv_007b6aa0::RepairView * *>(&::DAT_011da75c))->box))->FUN_0071a320((int)(item), reinterpret_cast<::FUN_004be2d0_shell *>((item))->GetTargetFullName(), (int (*)(list71a::L71Item *, list71a::L71Item *))(0), (::list71a::L71Tile *)(0))));
+                    n = ((::fnv_007b6aa0::UITile *)(reinterpret_cast<::list71a::L71Menu *>(&((*reinterpret_cast<::fnv_007b6aa0::RepairView * *>(&::DAT_011da75c))->box))->FUN_0071a320((intptr_t)(item), reinterpret_cast<::FUN_004be2d0_shell *>((item))->GetTargetFullName(), (int (*)(list71a::L71Item *, list71a::L71Item *))(0), (::list71a::L71Tile *)(0))));
                     if (n && ((void *)(reinterpret_cast<::Twin_0044ddc0 *>((item))->GetName())) == ((void *)(reinterpret_cast<::Twin_0044ddc0 *>(((*reinterpret_cast<::fnv_007b6aa0::Item * *>(&::fnv_007b6fb0::DAT_011da760))))->GetName())))
                     {
                         Extra* x;
@@ -1383,7 +1383,7 @@ void __cdecl PopulateRepairMenu()
                     for (ExtraNode* extraNode = ((::fnv_007b6aa0::ExtraNode *)(::FUN_00559450((int *)(((::fnv_007b6aa0::Item *)(reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))))); extraNode && ((::fnv_007b6aa0::Extra *)(reinterpret_cast<::SimpleListNodeView*>(extraNode)->m_item));
                          extraNode = ((::fnv_007b6aa0::ExtraNode *)(reinterpret_cast<::Callees *>((extraNode))->FUN_00726070())))
                         ((ExtraList*)((::fnv_007b6aa0::ExtraNode *)(::FUN_00559450((int *)(item)))))->AddHead(*((::fnv_007b6aa0::Extra **)(&reinterpret_cast<::SimpleListNodeView*>(extraNode)->m_item)));
-                    n = ((::fnv_007b6aa0::UITile *)(reinterpret_cast<::list71a::L71Menu *>(&((*reinterpret_cast<::fnv_007b6aa0::RepairView * *>(&::DAT_011da75c))->box))->FUN_0071a320((int)(item), reinterpret_cast<::FUN_004be2d0_shell *>((item))->GetTargetFullName(), (int (*)(list71a::L71Item *, list71a::L71Item *))(0), (::list71a::L71Tile *)(0))));
+                    n = ((::fnv_007b6aa0::UITile *)(reinterpret_cast<::list71a::L71Menu *>(&((*reinterpret_cast<::fnv_007b6aa0::RepairView * *>(&::DAT_011da75c))->box))->FUN_0071a320((intptr_t)(item), reinterpret_cast<::FUN_004be2d0_shell *>((item))->GetTargetFullName(), (int (*)(list71a::L71Item *, list71a::L71Item *))(0), (::list71a::L71Tile *)(0))));
                 }
             }
         }

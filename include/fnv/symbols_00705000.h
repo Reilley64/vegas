@@ -67,7 +67,7 @@ namespace fnv_00705a90 { int GetLODMultTypeIfKeySet(); }
 // 0x00705ad0
 namespace fnv_00705ad0 { void FUN_00705ad0(int); }
 // 0x00705b30
-namespace fnv_00705b30 { void FUN_00705b30(int); }
+namespace fnv_00705b30 { void FUN_00705b30(intptr_t); }
 // 0x00705b70
 namespace fnv_00705b70 { void FUN_00705b70(char, char, char, int); }
 // 0x00705c40

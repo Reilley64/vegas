@@ -1,5 +1,6 @@
 // fallout/ai/character.cpp: Character, Self, XObj, ActorBF and more (36 functions)
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/ActorData.h"
 #include "fnv/decl/ActorLinkDetail__FUN_008d3380_shell.h"
@@ -384,10 +385,10 @@ void FUN_008d3330_shell::FUN_008d3330(unsigned int aiFlags)
 
 struct FUN_008d3380_shell : public Character
 {
-    void FUN_008d3380(unsigned int, unsigned int);
+    void FUN_008d3380(uintptr_t, uintptr_t);
 };
 // @fnv 0x008d3380
-void FUN_008d3380_shell::FUN_008d3380(unsigned int a, unsigned int b)
+void FUN_008d3380_shell::FUN_008d3380(uintptr_t a, uintptr_t b)
 {
     reinterpret_cast<::ActorLinkDetail::FUN_008d3380_shell *>(this)->FUN_008aa4c0(a, b);
 }
@@ -560,7 +561,7 @@ struct FUN_008b1910_shell
 TESObjectREFR* FUN_008b1910_shell::FUN_008b1910(TESObjectREFR* apRefr, TESObjectREFR*& apOutRefr)
 {
     BGSTalkingActivator* m_pLinkedReference = ((::BGSTalkingActivator *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((TESObject*)apRefr)))->FUN_007af430()));
-    reinterpret_cast<::FUN_0042e060_class *>((((ExtraDataList_Accessor*)((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((apRefr))->FUN_005d43c0())))))->FUN_0042e060((unsigned int)(m_pLinkedReference), (unsigned int)(apRefr));
+    reinterpret_cast<::FUN_0042e060_class *>((((ExtraDataList_Accessor*)((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((apRefr))->FUN_005d43c0())))))->FUN_0042e060((uintptr_t)(m_pLinkedReference), (uintptr_t)(apRefr));
     apRefr->MarkAsModified(0x80000000);
     void* extra9 = ((void *)(reinterpret_cast<::fnv_0042e110::FUN_0042e110 *>((((ExtraDataList_Accessor*)((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((apRefr))->FUN_005d43c0())))))->GetExtraData()));
     if (extra9)
@@ -649,12 +650,12 @@ extern int DAT_01086a6c;
 // @fnv 0x008d1f40
 FUN_008d1f40_t::FUN_008d1f40_t(bool abadd) : FUN_0087d4a0(abadd)
 {
-    *reinterpret_cast<int*>(this) = reinterpret_cast<int>(&DAT_01086a6c);
-    *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x18) = reinterpret_cast<int>(&DAT_01086a60);
-    *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x88) = reinterpret_cast<int>(&DAT_01086a0c);
-    *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x94) = reinterpret_cast<int>(&DAT_010869d4);
-    *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0xA4) = reinterpret_cast<int>(&DAT_010869a4);
-    *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0xA8) = reinterpret_cast<int>(&DAT_0108695c);
+    *reinterpret_cast<intptr_t*>(this) = reinterpret_cast<intptr_t>(&DAT_01086a6c);
+    *reinterpret_cast<intptr_t*>(reinterpret_cast<char*>(this) + 0x18) = reinterpret_cast<intptr_t>(&DAT_01086a60);
+    *reinterpret_cast<intptr_t*>(reinterpret_cast<char*>(this) + 0x88) = reinterpret_cast<intptr_t>(&DAT_01086a0c);
+    *reinterpret_cast<intptr_t*>(reinterpret_cast<char*>(this) + 0x94) = reinterpret_cast<intptr_t>(&DAT_010869d4);
+    *reinterpret_cast<intptr_t*>(reinterpret_cast<char*>(this) + 0xA4) = reinterpret_cast<intptr_t>(&DAT_010869a4);
+    *reinterpret_cast<intptr_t*>(reinterpret_cast<char*>(this) + 0xA8) = reinterpret_cast<intptr_t>(&DAT_0108695c);
 
     reinterpret_cast<::FUN_004f15a0_shell *>((reinterpret_cast<SoundPlaybackHandle*>(this)))->FUN_004f15a0(0x3B);
 
@@ -1410,12 +1411,12 @@ struct Self
     bool flag80;
     unsigned int GetID();
     Str MakeStr(Obj*, int, int, int);
-    Str PlaySoundOnObject(Arg* arg, int p2, bool p3, bool p4, int p5, bool p6);
+    Str PlaySoundOnObject(Arg* arg, intptr_t p2, bool p3, bool p4, int p5, bool p6);
 };
 
 // Creates a Proc from arg, registers a callback or builds an audio handle from the sub-object's name, plays it, and optionally spawns it.
 // @fnv 0x008a1bd0
-Str Self::PlaySoundOnObject(Arg* arg, int p2, bool p3, bool abSkipSpawn, int aiUnused, bool abWithCallback)
+Str Self::PlaySoundOnObject(Arg* arg, intptr_t p2, bool p3, bool abSkipSpawn, int aiUnused, bool abWithCallback)
 {
     Str result;
     Proc* proc = ((::Proc *)(reinterpret_cast<::FUN_0061b320_shell *>((arg))->FUN_0061b320((::TESObjectREFR *)(void *)(this), (::TESObjectREFR *)(p2), (::TESTopic *)(0), (void *)(0), 0)));
@@ -1441,16 +1442,16 @@ Str Self::PlaySoundOnObject(Arg* arg, int p2, bool p3, bool abSkipSpawn, int aiU
                 Obj* tmp = ((::Obj *)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::Obj2 *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((obj))->FUN_007af430()))))->FUN_0084e3a0()));
                 Str target = MakeStr(tmp, 0, 0x40000102, 1);
                 Mgr* mgr = ((::Mgr *)(::FUN_00ad9060()));
-                reinterpret_cast<::fnv_00adbfd0::FUN_00adbfd0_cls *>((mgr))->FUN_00adbfd0((int)(((const char *)(::FUN_00559450((int *)&(target))))), (int)(((void (&)())::fnv_00935cc0::FUN_00935cc0)), ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0())));
+                reinterpret_cast<::fnv_00adbfd0::FUN_00adbfd0_cls *>((mgr))->FUN_00adbfd0((intptr_t)(((const char *)(::FUN_00559450((int *)&(target))))), (intptr_t)(((void (&)())::fnv_00935cc0::FUN_00935cc0)), ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0())));
                 flag7f = false;
                 bPending = false;
             }
             if (bPending && flag7f)
             {
-                if (((const char *)(::FUN_00559450((int *)(((::Named *)(::FUN_00460140((int)(obj)))))))))
+                if (((const char *)(::FUN_00559450((int *)(((::Named *)(::FUN_00460140((intptr_t)(obj)))))))))
                 {
                     char buf[0x200];
-                    ::TaskQueueInterface::CopyStringToBuffer(buf, 0x200, ((const char *)(::FUN_00559450((int *)(((::Named *)(::FUN_00460140((int)(obj)))))))));
+                    ::TaskQueueInterface::CopyStringToBuffer(buf, 0x200, ((const char *)(::FUN_00559450((int *)(((::Named *)(::FUN_00460140((intptr_t)(obj)))))))));
                     if (p3)
                     {
                         reinterpret_cast<::SoundPlaybackHandle *>((void *)&(const ::Str &)(result))->operator=((const ::SoundPlaybackHandle &)((const ::Str &)(((::Audio *)(::FUN_00453a70()))->GetHandle(buf, 0x105, 0))));
@@ -1483,7 +1484,7 @@ Str Self::PlaySoundOnObject(Arg* arg, int p2, bool p3, bool abSkipSpawn, int aiU
                     ::HandleMobileObjectResult((void *)(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0()))), 1);
                 }
             }
-            if (*(*reinterpret_cast<::BoolSetting *>(&::g_011d8928)).Get() || ::FUN_008c1bc0((int)this))
+            if (*(*reinterpret_cast<::BoolSetting *>(&::g_011d8928)).Get() || ::FUN_008c1bc0((intptr_t)this))
             {
                 if (!abSkipSpawn)
                 {

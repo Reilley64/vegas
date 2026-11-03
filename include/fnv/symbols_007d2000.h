@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 class Menu;
 class UserOptionView_007d23b0;
@@ -18,6 +19,6 @@ namespace fnv_007d2d30 { void FUN_007d2d30(::fnv_007d2d30::UserOptionStandIn *);
 // 0x007d2e50
 void UpdateMenuSaveOptions(::Menu *);
 // 0x007d2eb0
-namespace fnv_007d2eb0 { void SyncSliderWithSetting(int); }
+namespace fnv_007d2eb0 { void SyncSliderWithSetting(intptr_t); }
 // 0x007d2fc0
 namespace fnv_007d2fc0 { void UpdateSaveOption(::fnv_007d2fc0::SaveOpt *); }

@@ -46,9 +46,9 @@ namespace fnv_00704be0 { void* FUN_00704be0(); }
 // 0x00704c10
 void ShowStatsMenu(bool, bool);
 // 0x00704e10
-void FUN_00704e10(int);
+void FUN_00704e10(intptr_t);
 // 0x00704ed0
-int FUN_00704ed0(::TESObjectREFR *, int);
+intptr_t FUN_00704ed0(::TESObjectREFR *, int);
 // 0x00704f50
 namespace fnv_00704f50 { void FUN_00704f50(); }
 // 0x00704f80

@@ -1,5 +1,6 @@
 // fallout/misc/bgsmovieplayer.cpp: BGSMoviePlayer (16 functions)
 
+#include <cstdint>
 #include "fnv/decl/BSAudio_.h"
 #include "fnv/decl/FUN_004dc020_Class.h"
 #include "fnv/decl/FUN_005bb4d0_shell.h"
@@ -46,10 +47,10 @@ void BGSMoviePlayer::FinishScene()
 }
 
 // @fnv 0x00867410
-unsigned int BGSMoviePlayer::GetUptimeMilliseconds()
+uintptr_t BGSMoviePlayer::GetUptimeMilliseconds()
 {
     if (g_osGlobals)
-        return ((unsigned int)(reinterpret_cast<::MagicCaster_shell *>((g_osGlobals))->FUN_0044edb0()));
+        return ((uintptr_t)(reinterpret_cast<::MagicCaster_shell *>((g_osGlobals))->FUN_0044edb0()));
     return 0;
 }
 

@@ -428,7 +428,7 @@ unsigned short FUN_0081d0b0_t::FUN_0081d0b0(ActiveEffect* apEffect, TESObjectREF
     if (*(Flt*)((char*)this + 0x30))
     {
         NiControllerManager* pmanager = (NiControllerManager*)((::SkyShaderProperty *)(::FUN_00653270(
-            &(*reinterpret_cast<::NiRTTI *>(&::g_011f36ac)), (::NiObject *)(::NiProperty *)((NiProperty*)((::NiTimeController *)(::fnv_0043b230::FUN_0043b230((const char *)(((NiObjectNET*)(unsigned int)*(Flt*)((char*)this + 0x30))))))))));
+            &(*reinterpret_cast<::NiRTTI *>(&::g_011f36ac)), (::NiObject *)(::NiProperty *)((NiProperty*)((::NiTimeController *)(::fnv_0043b230::FUN_0043b230((const char *)(((NiObjectNET*)(uintptr_t)*(Flt*)((char*)this + 0x30))))))))));
         if (pmanager)
         {
             isize += ::FUN_0055fdb0((::AnimationInterpolatorNode *)(pmanager));
@@ -570,7 +570,7 @@ FUN_0081c810::~FUN_0081c810()
 {
     if (*(Flt*)&m_pRenderedNodeEntry)
     {
-        NiNode* pparent = ((::NiNode *)(reinterpret_cast<::FUN_009611e0_shell *>((((NiAVObject*)(unsigned int)*(Flt*)&m_pRenderedNodeEntry)))->FUN_009611e0()));
+        NiNode* pparent = ((::NiNode *)(reinterpret_cast<::FUN_009611e0_shell *>((((NiAVObject*)(uintptr_t)*(Flt*)&m_pRenderedNodeEntry)))->FUN_009611e0()));
         if (pparent)
             ((SNode*)pparent)->InsertChild(*(Flt*)&m_pRenderedNodeEntry);
         m_pRenderedNodeEntry = 0;
@@ -746,7 +746,7 @@ void FUN_0081d800_t::FUN_0081d800(BGSSaveGameBuffer* apSaveGameBuffer)
     pmanager = 0;
     if (*(Flt*)((char*)this + 0x30))
         pmanager = (NiControllerManager*)((::SkyShaderProperty *)(::FUN_00653270(
-            &(*reinterpret_cast<::NiRTTI *>(&::g_011f36ac)), (::NiObject *)(::NiProperty *)((NiProperty*)((::NiTimeController *)(::fnv_0043b230::FUN_0043b230((const char *)(((NiObjectNET*)(unsigned int)*(Flt*)((char*)this + 0x30))))))))));
+            &(*reinterpret_cast<::NiRTTI *>(&::g_011f36ac)), (::NiObject *)(::NiProperty *)((NiProperty*)((::NiTimeController *)(::fnv_0043b230::FUN_0043b230((const char *)(((NiObjectNET*)(uintptr_t)*(Flt*)((char*)this + 0x30))))))))));
     {
         unsigned int uiStartPosition = reinterpret_cast<::FUN_00865f20_shell *>((((BGSSaveFormBuffer*)apSaveGameBuffer)))->FUN_00865f20();
         unsigned int uiFormIdBefore = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((TESForm*)apSaveGameBuffer)))->FUN_0084e3a0()));
@@ -972,7 +972,7 @@ struct FUN_0081d640_cls
     int unk20;
     int unk24;
     int unk28;
-    unsigned int m_2c;
+    uintptr_t m_2c;
 
     void FUN_0081d640();
 };
@@ -1099,7 +1099,7 @@ struct D9D0Effect
 // @fnv 0x0081d9d0
 void D9D0Effect::ApplyEffect(void* pkTarget)
 {
-    reinterpret_cast<::BF20RefFormCall *>(this)->FUN_0081bf20((unsigned int)(pkTarget));
+    reinterpret_cast<::BF20RefFormCall *>(this)->FUN_0081bf20((uintptr_t)(pkTarget));
 }
 
 class FUN_0081cc70_refvt
@@ -1358,7 +1358,7 @@ bool FUN_0081cc70_cls::FUN_0081cc70(float afTime)
             if (seq != 0)
             {
                 if (reinterpret_cast<::BSFaceGenMorphData *>((((FUN_0081cc70_seqm*)seq)))->FUN_00508120() > reinterpret_cast<::FUN_00508100_shell *>((((FUN_0081cc70_seqm*)seq)))->FUN_00508100() &&
-                    ((int)(reinterpret_cast<::LowProcess *>((((FUN_0081cc70_seqm*)seq)))->GetActiveCombatTarget())))
+                    ((intptr_t)(reinterpret_cast<::LowProcess *>((((FUN_0081cc70_seqm*)seq)))->GetActiveCombatTarget())))
                 {
                     if (((int)(reinterpret_cast<::ActorMover *>((((FUN_0081cc70_seqm*)seq)))->GetCurrentMoveModeType())) == 2 || bWasPlaying != 0)
                     {
@@ -1608,7 +1608,7 @@ struct Candidate : MagicModelHitEffect
 // @fnv 0x0081d3b0
 void Candidate::SetFilenameAndInit(EffectLocal* effect, TESObjectREFR* target, const char* pFilenameArg)
 {
-    reinterpret_cast<::FUN_008d05e0_s *>(this)->FUN_008d05e0((int)(effect), (int)(target), 0);
+    reinterpret_cast<::FUN_008d05e0_s *>(this)->FUN_008d05e0((intptr_t)(effect), (intptr_t)(target), 0);
     const char* previous = pFilename;
     if (effect)
     {
@@ -1624,7 +1624,7 @@ void Candidate::SetFilenameAndInit(EffectLocal* effect, TESObjectREFR* target, c
     MagicHitEffect::m_fFirstFloatValue = age;
     bWasPlaying = finished;
     const char* saved = ((const char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::SaveManagerLocal * *>(&::g_TESSaveLoadGame))))->FUN_00825c00()));
-    reinterpret_cast<::FUN_00600ab0_shell *>(((*reinterpret_cast<::SaveManagerLocal * *>(&::g_TESSaveLoadGame))))->FUN_00600ab0((int)(previous));
+    reinterpret_cast<::FUN_00600ab0_shell *>(((*reinterpret_cast<::SaveManagerLocal * *>(&::g_TESSaveLoadGame))))->FUN_00600ab0((intptr_t)(previous));
     unsigned short version3;
     reinterpret_cast<::FUN_008579e0_shell *>(((*reinterpret_cast<::SaveManagerLocal * *>(&::g_TESSaveLoadGame))))->FUN_008579e0(&version3, 2);
     if (((::NiAVObject *)(::FUN_00559450((int *)(reinterpret_cast<ObjectPtrLocal*>(&spRetainedObject))))))
@@ -1643,7 +1643,7 @@ void Candidate::SetFilenameAndInit(EffectLocal* effect, TESObjectREFR* target, c
             ::FUN_0055ffa0((::AnimationInterpolatorNode *)(controller4), (::NiNode *)(::NiAVObject *)(((::NiAVObject *)(::FUN_00559450((int *)(reinterpret_cast<ObjectPtrLocal*>(&spRetainedObject)))))), time_);
         }
     }
-    reinterpret_cast<::FUN_00600ab0_shell *>(((*reinterpret_cast<::SaveManagerLocal * *>(&::g_TESSaveLoadGame))))->FUN_00600ab0((int)(saved));
+    reinterpret_cast<::FUN_00600ab0_shell *>(((*reinterpret_cast<::SaveManagerLocal * *>(&::g_TESSaveLoadGame))))->FUN_00600ab0((intptr_t)(saved));
     FUN_00401030(const_cast<char*>(previous));
     Update(0.0f);
 }
@@ -1922,7 +1922,7 @@ void FUN_0081d150_t::FUN_0081d150(ActiveEffect* apEffect, TESObjectREFR* apTarge
     NiControllerManager* pmanager = 0;
     if ((unsigned int)*(Flt*)((char*)this + 0x30))
         pmanager = (NiControllerManager*)((::SkyShaderProperty *)(::FUN_00653270(
-            &(*reinterpret_cast<::NiRTTI *>(&::g_011f36ac)), (::NiObject *)(::NiProperty *)((NiProperty*)((::NiTimeController *)(::fnv_0043b230::FUN_0043b230((const char *)(((NiObjectNET*)(unsigned int)*(Flt*)((char*)this + 0x30))))))))));
+            &(*reinterpret_cast<::NiRTTI *>(&::g_011f36ac)), (::NiObject *)(::NiProperty *)((NiProperty*)((::NiTimeController *)(::fnv_0043b230::FUN_0043b230((const char *)(((NiObjectNET*)(uintptr_t)*(Flt*)((char*)this + 0x30))))))))));
     unsigned short usState = 0;
     if (pmanager)
         usState = ::FUN_0055fdb0((::AnimationInterpolatorNode *)(pmanager));

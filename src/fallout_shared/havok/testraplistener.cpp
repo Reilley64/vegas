@@ -108,12 +108,12 @@ struct CombatWorldStateListNode
 struct FUN_0062dee0_shell
 {
     CombatWorldStateListNode* m_kNode;
-    bool FUN_0062dee0(int arg);
+    bool FUN_0062dee0(intptr_t arg);
 };
 
 // Walks the linked list at this+0x20 and returns true if any node's _ref_0084e3a0() equals arg.
 // @fnv 0x0062dee0
-bool FUN_0062dee0_shell::FUN_0062dee0(int arg)
+bool FUN_0062dee0_shell::FUN_0062dee0(intptr_t arg)
 {
     CombatWorldStateListNode* p = *(CombatWorldStateListNode**)((char*)this + 0x20);
     while (p)
@@ -1876,7 +1876,7 @@ struct FUN_0043b4d0_shell
 struct GlobalObject_008c71b0 : FUN_0043b4d0_shell
 {
     int unk00;
-    GlobalObject_008c71b0(int);
+    GlobalObject_008c71b0(intptr_t);
 };
 // Resolves the event code from the input body and, for codes 14, 16 or 30, dispatches the referenced object to the trap handler.
 // @fnv 0x0062da00

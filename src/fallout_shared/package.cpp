@@ -399,7 +399,7 @@ struct FUN_00672930_flags
 struct FUN_00672930_cls
 {
     PackageTargetRecord* GetTarget();
-    int FUN_00672930();
+    intptr_t FUN_00672930();
 };
 struct BGSLoadFormBuffer;
 struct BGSSaveFormBuffer;
@@ -550,7 +550,7 @@ struct NiPoint3;
 struct TESDataHandler
 {
 public:
-    void GetReferencesInArea(::TESObjectCELL *, const ::NiPoint3 &, float, const ::NiPoint3 &, float, bool (*)(TESObjectREFR *, long), long);
+    void GetReferencesInArea(::TESObjectCELL *, const ::NiPoint3 &, float, const ::NiPoint3 &, float, bool (*)(TESObjectREFR *, intptr_t), intptr_t);
 };
 
 // @fnv 0x00674d70
@@ -4195,7 +4195,7 @@ bool TESPackage::GetPackageSearchRadius(MobileObject* actor, float& radius)
     return true;
 }
 // @fnv 0x00672930
-int FUN_00672930_cls::FUN_00672930()
+intptr_t FUN_00672930_cls::FUN_00672930()
 {
     PackageTargetRecord* ptarget = ((::PackageTargetRecord *)(reinterpret_cast<::Script *>(this)->GetData()));
     std::intptr_t count;
@@ -6856,7 +6856,7 @@ struct FUN_006757e0_shell : TESPackage
 {
     int FUN_0055b980();
     int FUN_00675c20(MobileObject* actor);
-    int FUN_006757e0(MobileObject* actor);
+    intptr_t FUN_006757e0(MobileObject* actor);
 };
 
 struct PackValue12
@@ -10976,11 +10976,11 @@ struct A90Cls
     A90Virt* m_28;
     A90Sub1* m_2c;
     A90Sub2* m_30;
-    void DispatchToSubobjects(int a);
+    void DispatchToSubobjects(intptr_t a);
 };
 // If the manager check on FUN_0084e3a0() passes, forwards a to m_2c, m_30 and m_28 via their respective methods.
 // @fnv 0x00679a90
-void A90Cls::DispatchToSubobjects(int aiValue)
+void A90Cls::DispatchToSubobjects(intptr_t aiValue)
 {
     if (!reinterpret_cast<::BSShaderRenderUtility *>(((*reinterpret_cast<::A90Mgr * *>(&::g_dataHandler))))->IsRenderTargetId((unsigned int)(std::uintptr_t)(((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0())))))
         return;
@@ -11009,7 +11009,7 @@ unsigned int Proxy758a0::FUN_006758a0(MobileObject* apMobile)
 }
 // Calls FUN_00672f20 and FUN_0055b980; if equal, calls FUN_00675c20(actor), otherwise FUN_006751a0(actor), returning that result.
 // @fnv 0x006757e0
-int FUN_006757e0_shell::FUN_006757e0(MobileObject* actor)
+intptr_t FUN_006757e0_shell::FUN_006757e0(MobileObject* actor)
 {
     std::intptr_t firstResult = ((std::intptr_t)(reinterpret_cast<::FUN_00672f20_cls *>(this)->FUN_00672f20()));
     return firstResult == FUN_0055b980() ? FUN_00675c20(actor) : ((int)(reinterpret_cast<::fnv_006751a0::Pkg *>(this)->FUN_006751a0((::fnv_006751a0::Ref *)(actor))));
@@ -12289,7 +12289,7 @@ V* TESPackageExt::FUN_006780e0(V* targetObj, bool option)
             {
                 reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::fnv_006780e0::Handler * *>(&::g_dataHandler))))->GetReferencesInArea((::TESObjectCELL *)(((reinterpret_cast<::LowProcess *>((((BSOcclusionPlane*)targetObj)))->GetTarget()))), (*(const ::NiPoint3 *)(targetObj->f07d())),
                                             *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_006780e0::Setting *>(&::originalRuntimeFloatSetting1307)))))), (*(const ::NiPoint3 *)(targetObj->f07d())),
-                                            *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_006780e0::Setting *>(&::originalRuntimeFloatSetting1307)))))), (bool (*)(TESObjectREFR *, long))(void (*)())(&((void (&)())::IsValidPickTarget)), (std::intptr_t)(&ctx));
+                                            *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_006780e0::Setting *>(&::originalRuntimeFloatSetting1307)))))), (bool (*)(TESObjectREFR *, intptr_t))(void (*)())(&((void (&)())::IsValidPickTarget)), (std::intptr_t)(&ctx));
                 secondary7 = DAT_011d6580;
                 DAT_011d6580 = 0;
             }
@@ -12302,7 +12302,7 @@ V* TESPackageExt::FUN_006780e0(V* targetObj, bool option)
             targType2 = ((::fnv_006780e0::Data *)(reinterpret_cast<::Script *>((((Script*)this)))->GetData()))->FUN_00680080();
             reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::fnv_006780e0::Handler * *>(&::g_dataHandler))))->GetReferencesInArea((::TESObjectCELL *)(((reinterpret_cast<::LowProcess *>((((BSOcclusionPlane*)targetObj)))->GetTarget()))), (*(const ::NiPoint3 *)(targetObj->f07d())),
                                         *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_006780e0::Setting *>(&::originalRuntimeFloatSetting1307)))))), (*(const ::NiPoint3 *)(targetObj->f07d())),
-                                        *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_006780e0::Setting *>(&::originalRuntimeFloatSetting1307)))))), (bool (*)(TESObjectREFR *, long))(void (*)())(&((void (&)())::IsValidPickTarget)), (std::intptr_t)(&ctx3));
+                                        *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_006780e0::Setting *>(&::originalRuntimeFloatSetting1307)))))), (bool (*)(TESObjectREFR *, intptr_t))(void (*)())(&((void (&)())::IsValidPickTarget)), (std::intptr_t)(&ctx3));
             secondary7 = DAT_011d6580;
             DAT_011d6580 = 0;
             break;

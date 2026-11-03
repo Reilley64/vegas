@@ -8,6 +8,7 @@
 // their real unit once its classes are.
 // src/staging/blk_007e0000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include <cstdint>
 #include <cstdlib>
 #include <cstring>
 #include "fnv/decl/AGOwner.h"
@@ -113,7 +114,7 @@ struct Flt
 };
 struct FUN_007fa970_Class
 {
-    unsigned int FUN_007fa970();
+    uintptr_t FUN_007fa970();
 };
 struct GO
 {
@@ -796,7 +797,7 @@ struct ListOwner
     int unk14;
     const char* templateName;
     unsigned short count;
-    TileX* FUN_007e0e70(int data, const char* text, void* compare, const char* name);
+    TileX* FUN_007e0e70(intptr_t data, const char* text, void* compare, const char* name);
 };
 struct WXObject;
 template <class T> struct WXPointer

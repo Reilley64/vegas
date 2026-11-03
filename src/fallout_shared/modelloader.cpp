@@ -796,7 +796,7 @@ int FUN_0043be10(char* pThis)
 
 struct GO
 {
-    GO(int);
+    GO(intptr_t);
     ~GO();
     int v;
 };
@@ -15909,7 +15909,7 @@ void HeadLoader444::FUN_00444350(void* apKey, int aiArg2, QPtr444* apOut, int ae
 struct S_00444d40_Class
 {
 
-    void FUN_00444d40(std::intptr_t param1, int param2, int param3, std::intptr_t param4);
+    void FUN_00444d40(std::intptr_t param1, int param2, intptr_t param3, std::intptr_t param4);
 };
 // @fnv 0x004457d0
 void ModelLoaderHelper445::FUN_004457d0(TESModel* model, int aiArg1, std::intptr_t aiArg2, void* ref)
@@ -15947,7 +15947,7 @@ void ModelLoaderHelper445::FUN_004457d0(TESModel* model, int aiArg1, std::intptr
 }
 
 // @fnv 0x00444d40
-void S_00444d40_Class::FUN_00444d40(std::intptr_t param1, int param2, int param3, std::intptr_t param4)
+void S_00444d40_Class::FUN_00444d40(std::intptr_t param1, int param2, intptr_t param3, std::intptr_t param4)
 {
     GlobalObject_00528cb0 local(0);
 
@@ -16123,7 +16123,7 @@ struct FUN_00445430_cls
     int unk0c;
     int unk10;
     FUN_00445430_obj* m_14;
-    void FUN_00445430(unsigned int a1);
+    void FUN_00445430(uintptr_t a1);
 };
 
 struct FUN_0044ac40_s
@@ -16136,7 +16136,7 @@ LoadScopeGuard::~LoadScopeGuard()
 }
 
 // @fnv 0x00445430
-void FUN_00445430_cls::FUN_00445430(unsigned int a1)
+void FUN_00445430_cls::FUN_00445430(uintptr_t a1)
 {
     LoadScopeGuard guard(0);
     if (m_14->v2(a1, &guard))

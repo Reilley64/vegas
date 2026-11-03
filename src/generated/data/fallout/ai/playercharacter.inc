@@ -111,9 +111,9 @@ namespace fnv_0094ae40 { float DAT_011e0770; }
 ::AimInterpolator *DAT_011e0774;
 unsigned char DAT_011e0780;
 bool DAT_011e0783;
-int DAT_011e0784;
+intptr_t DAT_011e0784;
 ::ActivationRef *DAT_011e0788;
-int DAT_011e078c;
+intptr_t DAT_011e078c;
 namespace fnv_00953ff0 { TransferReference *DAT_011e07a4; }
 bool DAT_011e07aa;
 char DAT_011e07ab;

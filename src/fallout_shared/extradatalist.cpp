@@ -16627,17 +16627,17 @@ struct FUN_004280b0_Class
     int unk10;
     int unk14;
 
-    int CallWithField14(FUN_004047f0_Class* value);
+    std::intptr_t CallWithField14(FUN_004047f0_Class* value);
 };
 
 // Calls value->AssignFromString with this->unk14 and returns value as an int.
 // @fnv 0x004280b0
-int FUN_004280b0_Class::CallWithField14(FUN_004047f0_Class* value)
+std::intptr_t FUN_004280b0_Class::CallWithField14(FUN_004047f0_Class* value)
 {
     int result = 0;
     value->AssignFromString(this->unk14);
     result |= 1;
-    return (int)value;
+    return (std::intptr_t)value;
 }
 
 struct ModBlockSub
@@ -17440,7 +17440,7 @@ void ExtraList::WriteToSave()
                     ++indexSlot0;
                     cursor = ((::ExtraSave::List< ::ExtraSave::Form> *)(reinterpret_cast<::Callees *>((cursor))->FUN_00726070()));
                 }
-                ::FUN_00485710((void *)('RLCX'), (void *)(idsSlot0), (void *)(countSlot0));
+                ::FUN_00485710((void *)('RLCX'), (void *)(idsSlot0), (void *)(std::uintptr_t)(countSlot0));
                 delete[] idsSlot0;
             }
             break;
@@ -17550,7 +17550,7 @@ void ExtraList::WriteToSave()
                     reinterpret_cast<::S_00462230 *>(&(record))->FUN_00462230();
             }
             if (((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>(&(activationSlot1->activationText))->FUN_004048e0())))
-                ::FUN_004856f0((void *)('OTAX'), (void *)(((char *)(::FUN_00559450((int *)&((*(::ExtraSave::String *)(reinterpret_cast<::FUN_0041ec80_cls *>(this)->FUN_0041ec80({})))))))), (void *)(((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((void *)&(const ::ExtraSave::String &)((*(::ExtraSave::String *)(reinterpret_cast<::FUN_0041ec80_cls *>(this)->FUN_0041ec80({})))))->FUN_004048e0())) + 1));
+                ::FUN_004856f0((void *)('OTAX'), (void *)(((char *)(::FUN_00559450((int *)&((*(::ExtraSave::String *)(reinterpret_cast<::FUN_0041ec80_cls *>(this)->FUN_0041ec80({})))))))), (void *)(std::uintptr_t)(((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((void *)&(const ::ExtraSave::String &)((*(::ExtraSave::String *)(reinterpret_cast<::FUN_0041ec80_cls *>(this)->FUN_0041ec80({})))))->FUN_004048e0())) + 1));
             break;
         }
         case 102: {
@@ -19815,7 +19815,7 @@ void FixupList::FixupReferences(FixupStream* stream, TESForm* base)
                     FixupNode* pAnimationNode = (FixupNode*)pAnimExtra->value0c;
                     while (pAnimationNode)
                     {
-                        FixupItem* item = (FixupItem*)*((unsigned int *)((void *)(pAnimationNode)));
+                        FixupItem* item = (FixupItem*)*((void **)((void *)(pAnimationNode)));
                         if (item)
                             reinterpret_cast<::fnv_009eb9c0::Crime *>((item))->AddActor(actor);
                         pAnimationNode = ((::FixupNode *)(reinterpret_cast<::Callees *>((pAnimationNode))->FUN_00726070()));
@@ -20868,7 +20868,7 @@ extern int DAT_010157b0;
 
 struct ListNode
 {
-    int f0;
+    std::intptr_t f0;
     int f4;
     int f8;
     int FUN_0045cd60();
@@ -20883,7 +20883,7 @@ struct ObjB
 struct PtrObj
 {
     int f0;
-    int f4;
+    std::intptr_t f4;
     char f8;
     char f9;
     char fa;
@@ -20943,7 +20943,7 @@ struct Node
         } bytes0c;
     };
     Sub10* m_10;
-    int m_14;
+    std::intptr_t m_14;
     union
     {
         ObjA* m_18;
@@ -20955,7 +20955,7 @@ struct Node
         } bytes18;
     };
     ObjB* m_1c;
-    int m_20;
+    std::intptr_t m_20;
     Obj8f FUN_00428070(int arg);
     Obj8f CallWithField14(int arg);
 };
@@ -21466,7 +21466,7 @@ void Owner::WriteNodeList(BufObj* apBuffer)
                     reinterpret_cast<::BGSSaveGameBuffer *>((apBuffer))->FUN_00865f60(cnt2);
                     for (unsigned int j = 0; j < cnt2; j++)
                     {
-                        int* sub = ((int *)(reinterpret_cast<::S3e60 *>(((&payload->f0->entries)))->FUN_006a7ad0(j)));
+                        std::intptr_t* sub = ((std::intptr_t *)(reinterpret_cast<::S3e60 *>(((&payload->f0->entries)))->FUN_006a7ad0(j)));
                         reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(*sub), 0);
                     }
                 }
@@ -21745,7 +21745,7 @@ void Target42::FUN_0042dae0(Buf42* pBuffer)
             reinterpret_cast<::FUN_0041eff0 *>(this)->SetExtraData(0.0f);
         Script42* script3 = ((::fnv_0042dae0::Script42 *)(reinterpret_cast<::FUN_00418830_shell *>(this)->FUN_00418830()));
         if (script3)
-            reinterpret_cast<::fnv_005aa090::FUN_005aa090 *>((script3))->Method((int)(pBuffer));
+            reinterpret_cast<::fnv_005aa090::FUN_005aa090 *>((script3))->Method((std::intptr_t)(pBuffer));
     }
     bool validA = p ? reinterpret_cast<::BSShaderRenderUtility *>(((*(Manager42**)&(*reinterpret_cast<char *>(&::g_dataHandler)))))->IsRenderTargetId(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((p))->FUN_0084e3a0()))) : false;
     for (unsigned i3 = 0; i3 < 0x93; ++i3)
@@ -22196,7 +22196,7 @@ class MagicQ
   public:
     virtual void m0();
     virtual void m1();
-    virtual int m2();
+    virtual void* m2();
 };
 class ExtraScriptQ : public ExtQ
 {
@@ -22242,7 +22242,7 @@ class ExtraTeleportQ : public ExtQ
 class ExtraLastFinishedSequenceQ : public ExtQ
 {
   public:
-    int seq;
+    const char* seq;
 };
 class ExtraInfoGeneralTopicQ : public ExtQ
 {
@@ -23912,7 +23912,7 @@ struct ResolveItem
 struct ResolvePayload
 {
     int unk00;
-    int unk04;
+    std::intptr_t unk04;
     int unk08;
     TESObjectREFR* ref;
 };
@@ -24014,7 +24014,7 @@ void ResolveExtraOwner::FUN_00416be0(TESForm* owner)
             {
                 unsigned int id = data->unk04;
                 ::ResolveFormID(&id, sourceFile);
-                data->unk04 = reinterpret_cast<int>(dynamic_cast<TESKey*>(::FUN_004839c0(id)));
+                data->unk04 = reinterpret_cast<std::intptr_t>(dynamic_cast<TESKey*>(::FUN_004839c0(id)));
                 if (!data->unk04)
                 {
                     ::FUN_005b5e40();
@@ -26429,7 +26429,7 @@ class IA
   public:
     virtual void s0();
     virtual G* s1();
-    virtual int s2();
+    virtual void* s2();
     virtual void s3();
     virtual void s4();
     virtual void s5();
@@ -26443,9 +26443,9 @@ class IA
     virtual G* s13();
     virtual void s14();
     virtual void s15();
-    virtual void s16(int);
+    virtual void s16(void*);
     virtual G* s17();
-    virtual void s18(int);
+    virtual void s18(void*);
 };
 class E
 {
@@ -26599,9 +26599,9 @@ void ThisQ::FUN_00426020(unsigned int a1, int a2, O* a3, void* a4)
                     G* v60 = x->ia.s17();
                     G* v58 = x->ia.s11();
                     if (v5c)
-                        x->ia.s16(((int)(::MagicItem::GetMagicItemByID((unsigned int)(std::uintptr_t)(v5c)))));
+                        x->ia.s16(((void*)(::MagicItem::GetMagicItemByID((unsigned int)(std::uintptr_t)(v5c)))));
                     if (v60)
-                        x->ia.s18(((int)(::MagicTarget::GetMagicTargetByID((unsigned int)(std::uintptr_t)(v60)))));
+                        x->ia.s18(((void*)(::MagicTarget::GetMagicTargetByID((unsigned int)(std::uintptr_t)(v60)))));
                     if (v58)
                         reinterpret_cast<::fnv_0050f9c0::FUN_0050f9c0_shell *>((x))->FUN_0050f9c0((::fnv_0050f9c0::TESForm *)(::load_extra_fixup::G *)((G*)dynamic_cast<TESObjectREFR*>(::FUN_004839c0((unsigned int)(std::uintptr_t)(v58)))));
                 }
@@ -26749,7 +26749,7 @@ struct MTQ
 {
     virtual void m0();
     virtual void m1();
-    virtual int GetCaster();
+    virtual void* GetCaster();
 };
 
 class NonActorMagicTarget_rtti : public BSExtraData

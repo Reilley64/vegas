@@ -1163,7 +1163,7 @@ void* FUN_00e91e30_This::FUN_00e91e30()
     int old = DAT_0126fa04;
     ++DAT_0126fa04;
     if (!old)
-        ::FUN_00aa2080((void (*)())(void *)((void*)::fnv_00e91dc0::FUN_00e91dc0), (int)((void*)FUN_00e91c80));
+        ::FUN_00aa2080((void (*)())(void *)((void*)::fnv_00e91dc0::FUN_00e91dc0), (intptr_t)((void*)FUN_00e91c80));
     return this;
 }
 
@@ -11431,7 +11431,7 @@ VBEntry* ThisObj::FUN_00e8c570(C_00e8f010* owner, unsigned short count, const Tw
             }
         }
         if (!bReuse) {
-            if (!::FUN_00e8bfa0((::Outer *)this, (unsigned int)((Outer*)owner)))
+            if (!::FUN_00e8bfa0((::Outer *)this, (uintptr_t)((Outer*)owner)))
                 return 0;
             result = (VBEntry*)((FUN_00e69b40_shell*)owner)->GetEntry(0);
         }
@@ -13966,14 +13966,14 @@ DeviceResource* __cdecl FUN_00e8abf0(TextureInput* input, ResourceConfig* config
                 ResourceManager* manager = ((::ResourceManager *)(::NiImageConverter::GetSharedImageConverter()));
                 surface = manager->GetTexture(resourceId, (unsigned int)directResource, (unsigned int)directResource);
             } else {
-                surface = ((::TextureSurface *)(::DispatchIfHighBitSet((int)(input), 0x80000008, 1)));
+                surface = ((::TextureSurface *)(::DispatchIfHighBitSet((intptr_t)(input), 0x80000008, 1)));
                 result->fallback = true;
             }
         }
     }
     TextureDescription* prepared = 0;
     if (!directResource && !surface) {
-        surface = ((::TextureSurface *)(::DispatchIfHighBitSet((int)(input), 0x80000008, 1)));
+        surface = ((::TextureSurface *)(::DispatchIfHighBitSet((intptr_t)(input), 0x80000008, 1)));
         result->fallback = true;
         ::FUN_00a29680();
     } else if (directResource) {
@@ -13983,17 +13983,17 @@ DeviceResource* __cdecl FUN_00e8abf0(TextureInput* input, ResourceConfig* config
         if (width == height && IsPowerOfTwo(width)) {
             prepared = ((::TextureDescription *)(::FUN_00e8a300((::ShaderRequest093 *)(result), (::ShaderTraits093 *)(description), (::ShaderChoices093 *)(textureDescription))));
             if (!prepared) {
-                surface = ((::TextureSurface *)(::DispatchIfHighBitSet((int)(input), 0x80000007, 1)));
+                surface = ((::TextureSurface *)(::DispatchIfHighBitSet((intptr_t)(input), 0x80000007, 1)));
                 result->fallback = true;
             }
         } else {
-            surface = ((::TextureSurface *)(::DispatchIfHighBitSet((int)(input), 0x80000009, 1)));
+            surface = ((::TextureSurface *)(::DispatchIfHighBitSet((intptr_t)(input), 0x80000009, 1)));
             result->fallback = true;
         }
         if (!result->fallback) {
             int handle = FUN_00e7bd20(description);
             if (!handle) {
-                surface = ((::TextureSurface *)(::DispatchIfHighBitSet((int)(input), 0x80000007, 1)));
+                surface = ((::TextureSurface *)(::DispatchIfHighBitSet((intptr_t)(input), 0x80000007, 1)));
                 result->fallback = true;
             } else {
                 AdapterFormat format = (*reinterpret_cast<::CreationContext * *>(&::NiRenderer::ms_pRenderer))->adapterFormat;
@@ -14002,7 +14002,7 @@ DeviceResource* __cdecl FUN_00e8abf0(TextureInput* input, ResourceConfig* config
                 unsigned int width = (*reinterpret_cast<::CreationContext * *>(&::NiRenderer::ms_pRenderer))->width;
                 long error = dev->CreateResource(width, type, format, 0, 3, handle);
                 if (error < 0) {
-                    surface = ((::TextureSurface *)(::DispatchIfHighBitSet((int)(input), 0x80000007, 1)));
+                    surface = ((::TextureSurface *)(::DispatchIfHighBitSet((intptr_t)(input), 0x80000007, 1)));
                     result->fallback = true;
                 } else directResource->description.unk0c = handle;
             }
@@ -14014,11 +14014,11 @@ DeviceResource* __cdecl FUN_00e8abf0(TextureInput* input, ResourceConfig* config
         if (width == height && IsPowerOfTwo(width)) {
             prepared = ((::TextureDescription *)(::FUN_00e8a300((::ShaderRequest093 *)(result), (::ShaderTraits093 *)(description), (::ShaderChoices093 *)(textureDescription))));
             if (!prepared || (description->unk04 == 2 || description->unk04 == 3)) {
-                surface = ((::TextureSurface *)(::DispatchIfHighBitSet((int)(input), 0x80000007, 1)));
+                surface = ((::TextureSurface *)(::DispatchIfHighBitSet((intptr_t)(input), 0x80000007, 1)));
                 result->fallback = true;
             }
         } else {
-            surface = ((::TextureSurface *)(::DispatchIfHighBitSet((int)(input), 0x80000009, 1)));
+            surface = ((::TextureSurface *)(::DispatchIfHighBitSet((intptr_t)(input), 0x80000009, 1)));
             result->fallback = true;
         }
     }
@@ -14056,7 +14056,7 @@ DeviceResource* __cdecl FUN_00e8abf0(TextureInput* input, ResourceConfig* config
             preparedSurface = manager->PrepareTexture(surface, prepared, surface, result->mipmaps);
         }
         if (!preparedSurface) {
-            preparedSurface = ((::TextureSurface *)(::DispatchIfHighBitSet((int)(input), 0x80000007, 1)));
+            preparedSurface = ((::TextureSurface *)(::DispatchIfHighBitSet((intptr_t)(input), 0x80000007, 1)));
             prepared = renderTargets[config->defaultTarget];
         }
         result->flags = surface->GetFlags();

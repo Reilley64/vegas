@@ -4407,7 +4407,7 @@ void __cdecl ProcessObjectArray(BE04D90Object** ppkObjects, int iArg)
 {
     BE04D90PointerMap kMap;
     BE04D90Allocator* pkHeap = BE04D90GetRouter()->m_pkHeap;
-    reinterpret_cast<::FUN_00cb1fe0_t *>(&(kMap))->EnsureCapacity((int)(pkHeap), 0);
+    reinterpret_cast<::FUN_00cb1fe0_t *>(&(kMap))->EnsureCapacity((intptr_t)(pkHeap), 0);
     for (int i = 0; ppkObjects[i]; i++)
         ::RegisterContextHandlers(ppkObjects[i], &kMap, iArg);
     reinterpret_cast<::CB1A90Owner *>(&(kMap))->ProcessArgument((::CB1A90Argument *)(BE04D90GetRouter()->m_pkHeap));
@@ -6844,13 +6844,13 @@ int Target::ResolveLinkNodes()
     int total = reinterpret_cast<::FUN_00e11960_cls *>(this)->FUN_00e11960();
     int copies = 0;
     Map nodeMap;
-    reinterpret_cast<::FUN_00cb1fe0_t *>(&(nodeMap))->EnsureCapacity((int)(&Router::get().getHeap()), 0);
+    reinterpret_cast<::FUN_00cb1fe0_t *>(&(nodeMap))->EnsureCapacity((intptr_t)(&Router::get().getHeap()), 0);
     for (Link* link = links; link; link = link->next)
     {
         for (int j = 0; j < 3; ++j)
         {
             Node* search = link->nodes[j];
-            Array* a = ((::fnv_00e18b70::Array *)(reinterpret_cast<::FUN_00cb1930_t *>(&(nodeMap))->LookupHashEntry((int)(search), 0)));
+            Array* a = ((::fnv_00e18b70::Array *)(reinterpret_cast<::FUN_00cb1930_t *>(&(nodeMap))->LookupHashEntry((intptr_t)(search), 0)));
             if (!a)
             {
                 void* memory = Router::get().getHeap().alloc(12);
@@ -6871,7 +6871,7 @@ int Target::ResolveLinkNodes()
                 a->size = total;
                 Node* key = link->nodes[j];
                 Alloc* heap = &Router::get().getHeap();
-                reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(nodeMap))->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(heap)), (unsigned int)(key), (unsigned int)(a));
+                reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(nodeMap))->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(heap)), (uintptr_t)(key), (uintptr_t)(a));
             }
             a->data[link->index] = link->nodes[j];
         }
@@ -6898,7 +6898,7 @@ int Target::ResolveLinkNodes()
         for (int j = 0; j < 3; ++j)
         {
             Node* search = link->nodes[j];
-            Array* a = ((::fnv_00e18b70::Array *)(reinterpret_cast<::FUN_00cb1930_t *>(&(nodeMap))->LookupHashEntry((int)(search), 0)));
+            Array* a = ((::fnv_00e18b70::Array *)(reinterpret_cast<::FUN_00cb1930_t *>(&(nodeMap))->LookupHashEntry((intptr_t)(search), 0)));
             link->nodes[j] = a->data[link->index];
         }
     for (int it = nodeMap.first(); it <= nodeMap.mask; it = nodeMap.next(it))
@@ -7680,7 +7680,7 @@ struct PtrMap
         unk00 = 0;
         unk04 = 0;
         unk08 = -1;
-        reinterpret_cast<::FUN_00cb1fe0_t *>(this)->EnsureCapacity((int)&(static_cast<BSAudio*>(::FUN_00c85750())->heap()), 0);
+        reinterpret_cast<::FUN_00cb1fe0_t *>(this)->EnsureCapacity((intptr_t)&(static_cast<BSAudio*>(::FUN_00c85750())->heap()), 0);
     }
     __forceinline void destroy()
     {

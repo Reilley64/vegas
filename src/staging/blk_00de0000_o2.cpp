@@ -7944,7 +7944,7 @@ int __cdecl FinishJobWithPair(KdQueue* queue, KdJob* job)
     ::MixChannels(&pair, (int *)(job->m_24), job->m_28, (void *)(job->m_30), job->m_20, (int *)(job->m_34), &out);
     *job->m_2c = out;
     TimerCommandKdWrite(DAT_010c41f8);
-    return reinterpret_cast<::LunaOwner *>((queue))->ProcessCallback((int)(job), (int)(job), 0);
+    return reinterpret_cast<::LunaOwner *>((queue))->ProcessCallback((intptr_t)(job), (intptr_t)(job), 0);
 }
 
 struct FnvCpu_FUN_00df8920_CpuObject
@@ -8666,7 +8666,7 @@ void __cdecl ProcessWorkQueue(ExecutionContext* context, WorkQueue* queue)
         entry->cycles = ticks;
         trace->next = entry + 1;
     }
-    reinterpret_cast<::LunaOwner *>((context))->ProcessCallback((int)(queue), (int)(queue), 0);
+    reinterpret_cast<::LunaOwner *>((context))->ProcessCallback((intptr_t)(queue), (intptr_t)(queue), 0);
 }
 
 extern unsigned long DAT_0126835c;
@@ -8734,7 +8734,7 @@ void __cdecl FUN_00df6f80(Scheduler* self, Job* job)
     TimerMark("TtCollQueryPairGetClosestPoints");
     ::FUN_00df6e00((const ::QueryJob *)(job), (const ::QueryInput *)(job->m_18), (::PairCommand *)(job->m_28), job->m_2c);
     TimerMark("Et");
-    reinterpret_cast<::LunaOwner *>((self))->ProcessCallback((int)((Key*)job), (int)job, 0);
+    reinterpret_cast<::LunaOwner *>((self))->ProcessCallback((intptr_t)((Key*)job), (intptr_t)job, 0);
 }
 
 struct FUN_00df9840_Class
@@ -9448,7 +9448,7 @@ int __cdecl ExecuteJob(KdQueue2* queue, KdJob2* job)
         ::FUN_00e2a010(job->m_24, (::FNV_Vec4 *)(job->m_2c), (::FNV_Vec4 *)(job->m_30), job->m_34, job->m_38, job->m_3c, (*(char * *)&(const ::KdPair &)(job->m_40)), (::E29Out1 *)(int *)(&job->m_48), (int *)(job->m_4c),
                      (::E29Out2 *)(int *)(&job->m_50), {});
     TimerCommandKdWrite(DAT_010c41f8);
-    return reinterpret_cast<::LunaOwner *>((queue))->ProcessCallback((int)(job), (int)(job), 0);
+    return reinterpret_cast<::LunaOwner *>((queue))->ProcessCallback((intptr_t)(job), (intptr_t)(job), 0);
 }
 
 struct InDF8800
@@ -9535,7 +9535,7 @@ void* FUN_00df8800(WorldDF8800* pkWorld, InDF8800* pkInput)
         kItems.m_iCapacityAndFlags = pkInput->m_iArrayLength | 0x80000000;
         CollDF8800 kCollector(kItems, 0);
         ::FillAabbArray((::S_00d9dab0_Coll *)(::CollDF8800 *)(&kCollector), pkInput->m_i0x58, pkInput->m_iArrayLength, (::S_00d9dab0_Aabb16 *)(pkInput->m_i0x54));
-        pvResult = ((void *)(reinterpret_cast<::LunaOwner *>((pkWorld))->ProcessCallback((int)(pkInput), (int)(pkInput), 0)));
+        pvResult = ((void *)(reinterpret_cast<::LunaOwner *>((pkWorld))->ProcessCallback((intptr_t)(pkInput), (intptr_t)(pkInput), 0)));
     }
 
     {
@@ -11655,7 +11655,7 @@ void __cdecl FUN_00df79d0(void* a1, TaskTarget* a2)
         pBuf->m_pCur = pRec + 1;
     }
 
-    reinterpret_cast<::LunaOwner *>((((FUN_00d04e80_cls*)a1)))->ProcessCallback((int)(a2), (int)(a2), 0);
+    reinterpret_cast<::LunaOwner *>((((FUN_00d04e80_cls*)a1)))->ProcessCallback((intptr_t)(a2), (intptr_t)(a2), 0);
 }
 
 struct PulleyObjectBase
@@ -12003,7 +12003,7 @@ int __cdecl FUN_00df8440(S00df8440_Owner* owner, S00df8440_Job* job)
     int obj = job->m_20;
     int tmp3 = ::FUN_00df56a0((::Node56 *)(::S00df8440_Desc *)(&desc), (::Output56 **)(int *)(&obj), job->m_24, &x, &d);
     *job->m_50 = 2 + tmp3;
-    int result = reinterpret_cast<::LunaOwner *>((owner))->ProcessCallback((int)(job), (int)(job), 0);
+    int result = reinterpret_cast<::LunaOwner *>((owner))->ProcessCallback((intptr_t)(job), (intptr_t)(job), 0);
     ::FUN_00df3160();
     S00df8440_TimerEnd(DAT_010c41f8);
     return result;

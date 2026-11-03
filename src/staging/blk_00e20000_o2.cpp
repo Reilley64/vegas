@@ -205,7 +205,7 @@ struct FUN_00e3f8d0_class
 // @fnv 0x00e3f8d0
 void FUN_00e3f8d0_class::FUN_00e3f8d0(void* a, const void* b)
 {
-    reinterpret_cast<::FUN_00d47770 *>((((D481D0RefVariant*)((char*)this + 4))))->SetObject((::hkReferencedObject *)(a), (int)(b));
+    reinterpret_cast<::FUN_00d47770 *>((((D481D0RefVariant*)((char*)this + 4))))->SetObject((::hkReferencedObject *)(a), (intptr_t)(b));
 }
 
 struct FUN_00e29620_class
@@ -4785,7 +4785,7 @@ void S_Class2b0::FUN_00e3f2b0(S_Out2b0* apOut)
         const char* b = reinterpret_cast<::FUN_00e3f210_cls *>((second))->HasDelimiter() ? (*reinterpret_cast<char (*)[]>(&::fnv_00ac9790::DAT_01021184)) : ::DAT_01011584;
         reinterpret_cast<::hkOstreamD624 *>((apOut))->WriteFormatted(str_010ebaa4, a, first, a, b, second, b);
         if (i < unk0c - 1)
-            reinterpret_cast<::FUN_00d61df0_cls *>((apOut))->FUN_00d61df0((int)(str_010ebaa0));
+            reinterpret_cast<::FUN_00d61df0_cls *>((apOut))->FUN_00d61df0((intptr_t)(str_010ebaa0));
     }
 }
 
@@ -5469,7 +5469,7 @@ void __cdecl FUN_00e2c100(Tree* tree, QuantizedNode* node, void* arg3, Ray* rays
             int index = indices[i];
             if (intersects(bounds, rays + index, limit))
             {
-                ::FUN_00e2baa0((::E2baaDst *)(queries), (::E2baaSrc *)(::fnv_00e2c100::Shape *)(shapes + index), (int)(arg8));
+                ::FUN_00e2baa0((::E2baaDst *)(queries), (::E2baaSrc *)(::fnv_00e2c100::Shape *)(shapes + index), (intptr_t)(arg8));
                 queries->hit(node);
             }
         }
@@ -5518,7 +5518,7 @@ void __cdecl FUN_00e2c100(Tree* tree, QuantizedNode* node, void* arg3, Ray* rays
             index4[i] = indices[4 * bundle + i];
             Shape* shape = shapes + index4[i];
 
-            ::FUN_00e2baa0((::E2baaDst *)(query), (::E2baaSrc *)(shape), (int)(arg8));
+            ::FUN_00e2baa0((::E2baaDst *)(query), (::E2baaSrc *)(shape), (intptr_t)(arg8));
 
             query->maxFraction.SetAllComponents(fractions[index4[i]]);
             oldFraction[i] = fractions[index4[i]];

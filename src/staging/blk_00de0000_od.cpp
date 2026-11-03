@@ -2001,7 +2001,7 @@ struct Output56
 };
 
 // @fnv 0x00df56a0
-int FUN_00df56a0(Node56* p, Output56** p2, int p3, int* p4, int* p5)
+int FUN_00df56a0(Node56* p, Output56** p2, intptr_t p3, int* p4, int* p5)
 {
     int i;
     i = p->m10 - p->m0c;

@@ -4275,7 +4275,7 @@ unsigned char FUN_00e7ce30_cls::FUN_00e7ce30(void* a1)
         *slot = 0;
         return 0;
     }
-    m_0c = (void*)((int)(::CreatePixelFormat((int)(frame.out))));
+    m_0c = (void*)((int)(::CreatePixelFormat((intptr_t)(frame.out))));
     reinterpret_cast<::FUN_00a8f080_Class *>((((FUN_00a8f080_shell*)m_08)))->SetValues(frame.unk18, frame.unk1c);
     return 1;
 }

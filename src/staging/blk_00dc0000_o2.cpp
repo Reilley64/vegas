@@ -287,7 +287,7 @@ FUN_00dc9e70_Class* FUN_00dc9e70_Class::FUN_00dc9e70()
     p->m_04 = 0;
     p->m_08 = 0xffffffff;
     void* router = _D1A0E0GetMemoryRouter();
-    reinterpret_cast<::FUN_00cb1fe0_t *>((p))->EnsureCapacity((int)(*(void**)((char*)router + 0x10)), 0);
+    reinterpret_cast<::FUN_00cb1fe0_t *>((p))->EnsureCapacity((intptr_t)(*(void**)((char*)router + 0x10)), 0);
     m_18 = 0xffffffff;
     return this;
 }

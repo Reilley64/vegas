@@ -933,7 +933,7 @@ void* __cdecl CreateAudioResult()
     void* target2 = *reinterpret_cast<void**>(reinterpret_cast<char*>(audio2) + 0x10);
 
     FUN_00db7960_Data* dataObject = reinterpret_cast<FUN_00db7960_Data*>(reinterpret_cast<char*>(allocated) + 8);
-    reinterpret_cast<::FUN_00cb1fe0_t *>((dataObject))->EnsureCapacity((int)(target2), 0);
+    reinterpret_cast<::FUN_00cb1fe0_t *>((dataObject))->EnsureCapacity((intptr_t)(target2), 0);
 
     return allocated;
 }
@@ -2335,7 +2335,7 @@ __declspec(noinline) int Holder::FindOrAddCallTrace(int* buffer, int count)
 int Holder::FUN_00da2d20(ArgObj* param)
 {
     int buffer[0x40];
-    int count = ::FUN_00da2b20((int)(param), (int)(buffer));
+    int count = ::FUN_00da2b20((intptr_t)(param), (intptr_t)(buffer));
     if (count > 0)
         return reinterpret_cast<::S_00da2bd0_CallTree *>(this)->FindOrAddCallTrace((const unsigned int *)(int *)(buffer + 1), count - 1);
     return 0;

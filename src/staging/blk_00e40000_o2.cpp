@@ -1654,7 +1654,7 @@ struct FUN_00e54ad0_cls
 // @fnv 0x00e54ad0
 void FUN_00e54ad0_cls::FUN_00e54ad0()
 {
-    FUN_00e535a0((int)this, (int)this);
+    FUN_00e535a0((const ::Vec4f *)this, (const ::Vec4f *)this);
 }
 
 // The two callees below are unnamed in the binary's symbol table; they bind by position.

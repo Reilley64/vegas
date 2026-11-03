@@ -537,11 +537,13 @@ struct Helper_PathHandler_70
     virtual void v70();
 };
 
+}  // namespace fnv_009dd1c0
 template <> class NiPointer<NiNode*>
 {
   public:
     NiPointer<NiNode>& operator=(NiNode*);
 };
+namespace fnv_009dd1c0 {
 
 // @fnv 0x009dd1c0
 void FUN_009dd1c0_shell::FUN_009dd1c0(bool abClearHandler)
@@ -724,33 +726,35 @@ class PathManager
     bool BuildPath(NiPointer<PathingRequest>, NiPointer<ActorPathingMessageQueue>, bool);
 };
 
-template <> class NiPointer<PathingRequest>
+}  // namespace fnv_009dfa00
+template <> class NiPointer<fnv_009dfa00::PathingRequest>
 {
   public:
-    PathingRequest* p;
-    NiPointer(const NiPointer<PathingRequest>&);
+    fnv_009dfa00::PathingRequest* p;
+    NiPointer(const NiPointer<fnv_009dfa00::PathingRequest>&);
     ~NiPointer();
-    operator PathingRequest*() const;
-    PathingRequest* operator->() const;
+    operator fnv_009dfa00::PathingRequest*() const;
+    fnv_009dfa00::PathingRequest* operator->() const;
 };
 
-template <> class NiPointer<ActorPathingMessageQueue>
+template <> class NiPointer<fnv_009dfa00::ActorPathingMessageQueue>
 {
   public:
-    ActorPathingMessageQueue* p;
-    NiPointer(const NiPointer<ActorPathingMessageQueue>&);
+    fnv_009dfa00::ActorPathingMessageQueue* p;
+    NiPointer(const NiPointer<fnv_009dfa00::ActorPathingMessageQueue>&);
     ~NiPointer();
-    operator ActorPathingMessageQueue*() const;
-    NiPointer<ActorPathingMessageQueue>& operator=(ActorPathingMessageQueue*);
+    operator fnv_009dfa00::ActorPathingMessageQueue*() const;
+    NiPointer<fnv_009dfa00::ActorPathingMessageQueue>& operator=(fnv_009dfa00::ActorPathingMessageQueue*);
 };
 
-template <> class NiPointer<Actor>
+template <> class NiPointer<fnv_009dfa00::Actor>
 {
   public:
-    Actor* p;
-    operator Actor*() const;
+    fnv_009dfa00::Actor* p;
+    operator fnv_009dfa00::Actor*() const;
 };
 
+namespace fnv_009dfa00 {
 struct PathingRequestLOS
 {
 };

@@ -21,20 +21,67 @@ set(VEGAS19_FALLOUT_SOURCES
   src/fallout/ai/procedure.cpp
   src/fallout/ai/searchpackage.cpp
   src/fallout/dialogue/dialogueitem.cpp
+  src/fallout/interface/animatingtext.cpp
   src/fallout/interface/bgsmenupacker.cpp
   src/fallout/interface/fadermanager.cpp
   src/fallout/interface/fopipboymanager.cpp
+  src/fallout/interface/forenderedmenu.cpp
+  src/fallout/interface/forenderedmenuracesex.cpp
+  src/fallout/interface/forenderedterminal.cpp
+  src/fallout/interface/fovatseffectmanager.cpp
+  src/fallout/interface/hotkeyswheel.cpp
+  src/fallout/interface/interface.cpp
   src/fallout/interface/interface_copies_014.cpp
+  src/fallout/interface/interfacemanager.cpp
   src/fallout/interface/interfacemanager_h_unit.cpp
   src/fallout/interface/inventorylist.cpp
+  src/fallout/interface/listbox.cpp
   src/fallout/interface/listbox_h_unit.cpp
+  src/fallout/interface/menuconsole.cpp
+  src/fallout/interface/menumanager.cpp
+  src/fallout/interface/menus/bartermenu.cpp
   src/fallout/interface/menus/bartermenu_h_unit.cpp
+  src/fallout/interface/menus/blackjackmenu.cpp
+  src/fallout/interface/menus/bookmenu.cpp
+  src/fallout/interface/menus/caravanmenu.cpp
+  src/fallout/interface/menus/chargenmenu.cpp
+  src/fallout/interface/menus/companionwheelmenu.cpp
+  src/fallout/interface/menus/computersmenu.cpp
+  src/fallout/interface/menus/containermenu.cpp
+  src/fallout/interface/menus/creditsmenu.cpp
+  src/fallout/interface/menus/dialogmenu.cpp
   src/fallout/interface/menus/dialogmenu_h_unit.cpp
+  src/fallout/interface/menus/hackingmenu.cpp
+  src/fallout/interface/menus/hudmainmenu.cpp
+  src/fallout/interface/menus/inventorymenu.cpp
+  src/fallout/interface/menus/itemmodmenu.cpp
+  src/fallout/interface/menus/levelupmenu.cpp
+  src/fallout/interface/menus/loadingmenu.cpp
   src/fallout/interface/menus/loadingmenu_h_unit.cpp
+  src/fallout/interface/menus/lockpickmenu.cpp
+  src/fallout/interface/menus/lovetestermenu.cpp
+  src/fallout/interface/menus/mapmenu.cpp
+  src/fallout/interface/menus/messagemenu.cpp
   src/fallout/interface/menus/playernameentrymenu.cpp
+  src/fallout/interface/menus/quantitymenu.cpp
+  src/fallout/interface/menus/racesexmenu.cpp
+  src/fallout/interface/menus/recipemenu.cpp
   src/fallout/interface/menus/recipemenu_h_unit.cpp
+  src/fallout/interface/menus/repairmenu.cpp
   src/fallout/interface/menus/repairmenu_h_unit.cpp
+  src/fallout/interface/menus/repairservicesmenu.cpp
+  src/fallout/interface/menus/roulettemenu.cpp
+  src/fallout/interface/menus/sleepwaitmenu.cpp
+  src/fallout/interface/menus/slotmachinemenu.cpp
+  src/fallout/interface/menus/specialbookmenu.cpp
+  src/fallout/interface/menus/startmenu.cpp
+  src/fallout/interface/menus/statsmenu.cpp
   src/fallout/interface/menus/statsmenu_h_unit.cpp
+  src/fallout/interface/menus/surgerymenu.cpp
+  src/fallout/interface/menus/traitmenu.cpp
+  src/fallout/interface/menus/traitselectmenu.cpp
+  src/fallout/interface/menus/tutorialmenu.cpp
+  src/fallout/interface/menus/vatsmenu.cpp
   src/fallout/magic/associateditemeffect.cpp
   src/fallout/magic/calmeffect.cpp
   src/fallout/magic/commandcreatureeffect.cpp
@@ -159,53 +206,6 @@ set(VEGAS19_FALLOUT_NARROWING_SOURCES
   src/fallout/dialogue/conversation.cpp
   src/fallout/dialogue/dialogueresponse.cpp
   src/fallout/dialogue/menutopic.cpp
-  src/fallout/interface/animatingtext.cpp
-  src/fallout/interface/forenderedmenu.cpp
-  src/fallout/interface/forenderedmenuracesex.cpp
-  src/fallout/interface/forenderedterminal.cpp
-  src/fallout/interface/fovatseffectmanager.cpp
-  src/fallout/interface/hotkeyswheel.cpp
-  src/fallout/interface/interface.cpp
-  src/fallout/interface/interfacemanager.cpp
-  src/fallout/interface/listbox.cpp
-  src/fallout/interface/menuconsole.cpp
-  src/fallout/interface/menumanager.cpp
-  src/fallout/interface/menus/bartermenu.cpp
-  src/fallout/interface/menus/blackjackmenu.cpp
-  src/fallout/interface/menus/bookmenu.cpp
-  src/fallout/interface/menus/caravanmenu.cpp
-  src/fallout/interface/menus/chargenmenu.cpp
-  src/fallout/interface/menus/companionwheelmenu.cpp
-  src/fallout/interface/menus/computersmenu.cpp
-  src/fallout/interface/menus/containermenu.cpp
-  src/fallout/interface/menus/creditsmenu.cpp
-  src/fallout/interface/menus/dialogmenu.cpp
-  src/fallout/interface/menus/hackingmenu.cpp
-  src/fallout/interface/menus/hudmainmenu.cpp
-  src/fallout/interface/menus/inventorymenu.cpp
-  src/fallout/interface/menus/itemmodmenu.cpp
-  src/fallout/interface/menus/levelupmenu.cpp
-  src/fallout/interface/menus/loadingmenu.cpp
-  src/fallout/interface/menus/lockpickmenu.cpp
-  src/fallout/interface/menus/lovetestermenu.cpp
-  src/fallout/interface/menus/mapmenu.cpp
-  src/fallout/interface/menus/messagemenu.cpp
-  src/fallout/interface/menus/quantitymenu.cpp
-  src/fallout/interface/menus/racesexmenu.cpp
-  src/fallout/interface/menus/recipemenu.cpp
-  src/fallout/interface/menus/repairmenu.cpp
-  src/fallout/interface/menus/repairservicesmenu.cpp
-  src/fallout/interface/menus/roulettemenu.cpp
-  src/fallout/interface/menus/sleepwaitmenu.cpp
-  src/fallout/interface/menus/slotmachinemenu.cpp
-  src/fallout/interface/menus/specialbookmenu.cpp
-  src/fallout/interface/menus/startmenu.cpp
-  src/fallout/interface/menus/statsmenu.cpp
-  src/fallout/interface/menus/surgerymenu.cpp
-  src/fallout/interface/menus/traitmenu.cpp
-  src/fallout/interface/menus/traitselectmenu.cpp
-  src/fallout/interface/menus/tutorialmenu.cpp
-  src/fallout/interface/menus/vatsmenu.cpp
   src/fallout/magic/absorbeffect.cpp
   src/fallout/magic/activeeffect.cpp
   src/fallout/magic/bhkcharacterlistenerspell.cpp

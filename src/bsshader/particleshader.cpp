@@ -60,10 +60,12 @@ BSShader* ParticleShader::CreateShader()
 
 struct NiD3DPass
 {
+    char pad00[0x64];
+    int m_iRefCount;
     void DestroyPass();
 };
 
-// Assigns a NiD3DPass pointer, releasing the old pass when its refcount at offset 0x64 drops to zero and incrementing the new pass's refcount.
+// Assigns a NiD3DPass pointer, releasing the old pass when its refcount drops to zero and incrementing the new pass's refcount.
 // @fnv 0x00ba53c0
 void* AssignNiD3DPass(void* pThis, int, void* param)
 {
@@ -74,7 +76,7 @@ void* AssignNiD3DPass(void* pThis, int, void* param)
     {
         if (old)
         {
-            int* piRefCount = (int*)((char*)old + 0x64);
+            int* piRefCount = &old->m_iRefCount;
             *piRefCount -= 1;
             if (*piRefCount == 0)
                 old->DestroyPass();
@@ -82,7 +84,7 @@ void* AssignNiD3DPass(void* pThis, int, void* param)
         NiD3DPass* n = *ppParam;
         *ppThis = n;
         if (n)
-            ++*(int*)((char*)n + 0x64);
+            ++n->m_iRefCount;
     }
     return pThis;
 }
@@ -96,13 +98,15 @@ void* __cdecl FUN_00ba5730()
 
 struct FUN_00ba6ce0_shell
 {
+    char pad00[0x12c];
+    int m_i12c;
     char FUN_00ba6ce0(int value);
 };
 
 // @fnv 0x00ba6ce0
 char FUN_00ba6ce0_shell::FUN_00ba6ce0(int value)
 {
-    *(int*)((char*)this + 0x12c) = value;
+    m_i12c = value;
     return 1;
 }
 
@@ -140,7 +144,7 @@ struct RefSlot
         void* p = value;
         if (p)
         {
-            if (--*(int*)((char*)p + 0x64) == 0)
+            if (--static_cast<NiD3DPass*>(p)->m_iRefCount == 0)
             {
                 ((void(*)(void*))FUN_00e80190)(p);
             }
@@ -151,7 +155,7 @@ struct RefSlot
         void* p = value;
         if (p)
         {
-            if (--*(int*)((char*)p + 0x64) == 0)
+            if (--static_cast<NiD3DPass*>(p)->m_iRefCount == 0)
             {
                 ((void(*)(void*))FUN_00e80190)(p);
             }

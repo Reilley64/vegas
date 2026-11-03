@@ -42,6 +42,12 @@ template <class T> class NiTMallocInterface
 template <class T, class A> class NiTPrimitiveArray
 {
   public:
+    void* m_pVtable;
+    T* m_pBase;
+    unsigned short m_usMaxSize;
+    unsigned short m_usSize;
+    unsigned short m_usESize;
+    unsigned short m_usGrowBy;
     void SetSize(unsigned int);
     void SetAt(unsigned int, char*&);
 };
@@ -57,9 +63,9 @@ void ParticleShaderProperty::FUN_00ba7f20(NiTPrimitiveArray<char*, NiTMallocInte
 {
     reinterpret_cast<::ShaderPropertyRecord *>(this)->WriteToSettingArray((::SettingArray *)(apStrings));
     char* str = ::FUN_00a7d330(*reinterpret_cast<const char * *>(&::g_01200434));
-    unsigned int size = *(unsigned short*)((char*)apStrings + 0xA);
-    if (size >= *(unsigned short*)((char*)apStrings + 8))
-        reinterpret_cast<::ViewerStrings *>((apStrings))->SetSize(size + *(unsigned short*)((char*)apStrings + 0xE));
+    unsigned int size = apStrings->m_usSize;
+    if (size >= apStrings->m_usMaxSize)
+        reinterpret_cast<::ViewerStrings *>((apStrings))->SetSize(size + apStrings->m_usGrowBy);
     reinterpret_cast<::fnv_00b5c7d0::StrArr *>((apStrings))->SetAt(size, str);
 }
 

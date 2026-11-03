@@ -1,3 +1,4 @@
+#include <intrin.h>
 // src/havok/common/base/thread/jobqueue/hkjobqueue_rtm_variant.cpp - RTM variant unit created 2026-11-01 by rtm_route.py: community reworks of src/havok/common/base/thread/jobqueue/hkjobqueue.cpp that match byte for byte only
 // with VC9 RTM (cl 15.00.21022.08, the compiler the game was built with). Declarations copied from that unit's skeleton.
 
@@ -1069,10 +1070,7 @@ static __forceinline void CaptureMarker(void* marker)
     if (entry < s->m_kRayEnd) {
         entry->name = marker;
         unsigned int ticks;
-        __asm {
-            rdtsc
-            mov dword ptr[ticks], eax
-        }
+        ticks = static_cast<unsigned int>(__rdtsc());
         entry->tick = ticks;
         s->m_cur=entry+1;
     }

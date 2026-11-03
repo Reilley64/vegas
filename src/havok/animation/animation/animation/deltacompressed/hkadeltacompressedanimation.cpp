@@ -882,10 +882,7 @@ static __forceinline void TimerBeginList(const char* name, const char* first)
         h->m_name = name;
         h->m_pFirst = first;
         DWORD t;
-        __asm {
-            rdtsc
-            mov dword ptr[t], eax
-        }
+        t = static_cast<unsigned int>(__rdtsc());
         _ReadWriteBarrier();
         h->m_uiCommandId = t;
         s->m_kRayEnd = p + sizeof(TimedNameRecord);
@@ -900,10 +897,7 @@ static __forceinline void TimerSplit(const char* name)
         CommandTimingEntry* h = (CommandTimingEntry*)p;
         h->m_name = name;
         DWORD t;
-        __asm {
-            rdtsc
-            mov dword ptr[t], eax
-        }
+        t = static_cast<unsigned int>(__rdtsc());
         _ReadWriteBarrier();
         h->m_uiCommandId = t;
         s->m_kRayEnd = p + sizeof(CommandTimingEntry);

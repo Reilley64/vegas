@@ -6149,10 +6149,7 @@ struct EnumerationTimer {
     unsigned int clock0,clock1;
     __forceinline void sample() {
         unsigned int ticks;
-        __asm {
-            rdtsc
-            mov dword ptr[ticks], eax
-        }
+        ticks = static_cast<unsigned int>(__rdtsc());
         clock0=ticks;
     }
 };

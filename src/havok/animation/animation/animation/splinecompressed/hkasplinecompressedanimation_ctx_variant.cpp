@@ -1,3 +1,4 @@
+#include <intrin.h>
 
 // hkasplinecompressedanimation_ctx_variant.cpp: context variant of src/havok/animation/animation/animation/splinecompressed/hkasplinecompressedanimation.cpp: its stripped skeleton, as these functions were checked
 // against, for verified matches whose own declarations clash with the unit's current types.
@@ -298,10 +299,7 @@ static __forceinline void S00e340e0_timer(const char* name)
     {
         e->name = name;
         unsigned int ticks;
-        __asm {
-            rdtsc
-            mov dword ptr[ticks], eax
-        }
+        ticks = static_cast<unsigned int>(__rdtsc());
         e->ticks = ticks;
         mon->m_kRayEnd = e + 1;
     }

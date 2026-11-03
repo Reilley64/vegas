@@ -1,3 +1,4 @@
+#include <intrin.h>
 // src/havok/animation/animation/animation/waveletcompressed/hkawaveletcompressedanimation.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/animation/animation/waveletcompressed/hkawaveletcompressedanimation.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
@@ -1226,10 +1227,7 @@ static inline void MonBeginE30(const char* name, const char* sub)
         r->m_name = name;
         r->m_sub = sub;
         unsigned int ticks;
-        __asm {
-            rdtsc
-            mov dword ptr[ticks], eax
-        }
+        ticks = static_cast<unsigned int>(__rdtsc());
         r->m_uiCommandId = ticks;
         s->m_curr = p + 16;
     }
@@ -1242,10 +1240,7 @@ static inline void MonSplitE30(const char* name)
         MonRecE30* r = (MonRecE30*)p;
         r->m_name = name;
         unsigned int ticks;
-        __asm {
-            rdtsc
-            mov dword ptr[ticks], eax
-        }
+        ticks = static_cast<unsigned int>(__rdtsc());
         r->m_uiCommandId = ticks;
         s->m_curr = p + 12;
     }

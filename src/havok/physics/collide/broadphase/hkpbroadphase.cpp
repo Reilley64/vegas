@@ -40,12 +40,14 @@ InitObject* InitObject::FUN_00d97010()
 }
 
 
+// The broad phase's views below share its 32-bit layout: vtable, memory size and reference count, thread check
+// (+0x08) and critical section (+0x10).
 struct FUN_00d97060_cls
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    const void* m_vtable;
+    unsigned short m_memSizeAndFlags;
+    short m_referenceCount;
+    unsigned int m_threadCheck[2];  // +0x08, hkMultiThreadCheck
     CRITICAL_SECTION* m_pSection;
 
     void FUN_00d97060();
@@ -77,8 +79,9 @@ class Spawned
 class Owner
 {
   public:
-    unsigned int unk00;
-    unsigned int unk04;
+    const void* m_vtable;
+    unsigned short m_memSizeAndFlags;
+    short m_referenceCount;
     SubObj m_08;
     Spawned* m_10;
     void FUN_00d97070(int spinCount);
@@ -89,7 +92,7 @@ void Owner::FUN_00d97070(int apArg)
 {
     if (m_10 == 0)
     {
-        Spawned* s = static_cast<Spawned*>(hkMemoryRouter::getInstance().heap().blockAlloc(0x18));
+        Spawned* s = static_cast<Spawned*>(hkMemoryRouter::getInstance().heap().blockAlloc(sizeof(CRITICAL_SECTION)));
         m_10 = (s != 0) ? ((::Spawned *)(reinterpret_cast<::FUN_00cf6da0_cls *>((s))->FUN_00cf6da0((unsigned long)(apArg)))) : s;
         reinterpret_cast<::hkMultiThreadCheckCF6E *>(&(m_08))->ResetThreadCheck();
     }
@@ -98,7 +101,7 @@ void Owner::FUN_00d97070(int apArg)
 namespace fnv_00d97100 {
 struct CpuObject
 {
-    unsigned int unk00;
+    const void* m_vtable;
     unsigned short size;
     void FUN_00d970c0();
     CpuObject* FUN_00d97100(unsigned int flags);
@@ -119,10 +122,10 @@ CpuObject* CpuObject::FUN_00d97100(unsigned int flags)
 
 struct FUN_00d97050_cls
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    const void* m_vtable;
+    unsigned short m_memSizeAndFlags;
+    short m_referenceCount;
+    unsigned int m_threadCheck[2];  // +0x08, hkMultiThreadCheck
     CRITICAL_SECTION* m_pSection;
 
     void FUN_00d97050();
@@ -138,9 +141,9 @@ void FUN_00d97050_cls::FUN_00d97050()
 struct FUN_00d970c0_cls
 {
     const void* m_vptr;
-    int unk04;
-    int unk08;
-    int unk0c;
+    unsigned short m_memSizeAndFlags;
+    short m_referenceCount;
+    unsigned int m_threadCheck[2];  // +0x08, hkMultiThreadCheck
     CRITICAL_SECTION* m_pCs;
 
     void FUN_00d970c0();
@@ -156,7 +159,7 @@ void FUN_00d970c0_cls::FUN_00d970c0()
     if (pCs != 0)
     {
         DeleteCriticalSection(pCs);
-        hkMemoryRouter::getInstance().heap().blockFree(pCs, 0x18);
+        hkMemoryRouter::getInstance().heap().blockFree(pCs, sizeof(CRITICAL_SECTION));
         m_pCs = 0;
     }
     m_vptr = &::DAT_0102e388;

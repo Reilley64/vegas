@@ -5,20 +5,20 @@
 #include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 struct FUN_00d2dbe0;
+// An object of one 4-byte field after its vtable, 8 bytes on 32-bit.
 struct FUN_00d2dbe0
 {
-    int unk00[3];
-    void* result;
     virtual void Virtual0();
+    int unk04;
     FUN_00d2dbe0(unsigned int flags);
 };
-// If bit 0 of flags is set, frees this 8-byte object to the heap allocator.
+// If bit 0 of flags is set, frees this object to the heap allocator.
 // @fnv 0x00d2dbe0
 FUN_00d2dbe0::FUN_00d2dbe0(unsigned int flags)
 {
     if (flags & 1)
     {
-        hkMemoryRouter::getInstance().heap().blockFree(this, 8);
+        hkMemoryRouter::getInstance().heap().blockFree(this, sizeof(FUN_00d2dbe0));
     }
 }
 

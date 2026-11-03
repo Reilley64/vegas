@@ -9669,7 +9669,6 @@ extern "C" unsigned __int64 __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
 
 
-extern "C" void __cdecl FUN_00c908c0(void* inst, void* arr, int num, int elemSize) throw();
 
 struct MyPendingQueue {
 };
@@ -9821,7 +9820,7 @@ struct MyArray {
 
     inline void reserve(hkMemoryRouter* tm, int num) throw() {
         if ((base.m_iCapacityState & 0x3fffffff) < num) {
-            FUN_00c908c0(tm->m_temp, &base, num, sizeof(T));
+            ::FUN_00c908c0((::SpawnedObject *)(tm->m_temp), (::SpawnedArray *)(void *)(&base), num, sizeof(T));
         }
     }
 
@@ -11272,7 +11271,7 @@ typedef TTB<false>TTIC; template<typename T>TB::CompileTimeFalseType operator==(
 ; template<typename T>struct TIPT<T*>:public TTIP{ } ;
 template<typename T,unsigned int N>struct TIPT<T[N]>:public TIPT<T>{ } ; class TAU{
 public:template<typename T>static __forceinline void construct(T*t,int n,TTIP)throw(); template<typename T>static __forceinline void construct(T*t,int n,TTIC)throw(); template<typename T>static __forceinline void constructWithCopy(T*t,int n,const T&tcopy,TTIP)throw(); template<typename T>static __forceinline void constructWithCopy(T*t,int n,const T&tcopy,TTIC)throw();
-template<typename T>static __forceinline void destruct(T*t,int n,TTIP)throw(); template<typename T>static __forceinline void destruct(T*t,int n,TTIC)throw(); static void __cdecl FUN_00c908c0(hkMemoryAllocator&a,void*,int reqElem,int sizeElem)throw(); static void __cdecl ResizeAudioStream(hkMemoryAllocator&a,void*array,int sizeElem)throw();
+template<typename T>static __forceinline void destruct(T*t,int n,TTIP)throw(); template<typename T>static __forceinline void destruct(T*t,int n,TTIC)throw();
 } ; template<typename T>__forceinline void TAU::construct(T*t,int n,TTIP)throw(){ }
 template<typename T>__forceinline void TAU::construct(T*t,int n,TTIC)throw(){ for(int i=0;i<n;++i){ ::new(reinterpret_cast<TPNA*>(t+i))T; }
 } template<typename T>__forceinline void TAU::constructWithCopy(T*t,int n,const T&tcopy,TTIP)throw(){ for(int i=0;i<n;++i){ t[i]=tcopy;
@@ -11303,15 +11302,15 @@ template<typename T>__forceinline T&TAB<T>::operator[](int i)throw(){ ; return v
 template<typename T>__forceinline const T&TAB<T>::operator[](int i)const throw(){ ; return vd1[i]; }
 template<typename T>__forceinline int TAB<T>::GetLogicalSize()const throw(){ return vs4; } template<typename T>__forceinline int TAB<T>::getCapacity()const throw(){
 return(vcAF&static_cast<int>(CAPACITY_MASK)); } template<typename T>__forceinline void TAB<T>::_reserveExactly(hkMemoryAllocator&alloc,int n)throw(){ if(getCapacity()<n){
-TAU::FUN_00c908c0(alloc,this,n,sizeof(T)); } } template<typename T>__forceinline void TAB<T>::FUN_00c908c0(hkMemoryAllocator&alloc,int n)throw(){
+::FUN_00c908c0((::SpawnedObject *)(&alloc),(::SpawnedArray *)(void *)(this),n,sizeof(T)); } } template<typename T>__forceinline void TAB<T>::FUN_00c908c0(hkMemoryAllocator&alloc,int n)throw(){
 const int capacity=getCapacity(); if(capacity<n){ int cap2=2*capacity; int newSize=(n<cap2)?cap2:n;
-TAU::FUN_00c908c0(alloc,this,newSize,sizeof(T)); } } template<typename T>__forceinline void TAB<T>::clear()throw(){
+::FUN_00c908c0((::SpawnedObject *)(&alloc),(::SpawnedArray *)(void *)(this),newSize,sizeof(T)); } } template<typename T>__forceinline void TAB<T>::clear()throw(){
 TAU::destruct(vd1,vs4,typename TIPT<T>::type()); vs4=0; } template<typename T>__forceinline TAB<T>::TAB()throw():vd1(0),vs4(0),vcAF(DONT_DEALLOCATE_FLAG){
 } template<typename T>__forceinline TAB<T>::~TAB()throw(){ ; ;
 } template<typename T>__forceinline void TAB<T>::_clearAndDeallocate(hkMemoryAllocator&alloc)throw(){ clear(); if((vcAF&DONT_DEALLOCATE_FLAG)==0){
 alloc._bufFree<T>(vd1,getCapacity()); } vd1=0; vcAF=DONT_DEALLOCATE_FLAG;
 } template<typename T>__forceinline void TAB<T>::_pushBack(hkMemoryAllocator&alloc,const T&t)throw(){ if(vs4==getCapacity()){ ;
-TAU::ResizeAudioStream(alloc,this,sizeof(T)); } TAU::constructWithCopy(vd1+vs4,1,t,typename TIPT<T>::type()); vs4++;
+::ResizeAudioStream((::AudioAllocator *)(&alloc),(::AudioStream *)(void *)(this),sizeof(T)); } TAU::constructWithCopy(vd1+vs4,1,t,typename TIPT<T>::type()); vs4++;
 } template<typename T>__forceinline void TAB<T>::pushBackUnchecked(const T&t)throw(){ ; TAU::constructWithCopy(vd1+vs4,1,t,typename TIPT<T>::type());
 vs4++; } template<typename T>__forceinline T*TAB<T>::expandByUnchecked(int n)throw(){ ;
 int oldsize=vs4; vs4=oldsize+n; TAU::construct(vd1+oldsize,vs4-oldsize,typename TIPT<T>::type()); return vd1+oldsize;

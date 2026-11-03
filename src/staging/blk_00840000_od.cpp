@@ -472,7 +472,7 @@ struct FUN_0084e320_Class
 // @fnv 0x0084e320
 uintptr_t FUN_0084e320_Class::GetArrayElement(int index)
 {
-    return (SimpleArrayItem<unsigned int>(&(m_Array), index));
+    return SimpleArrayItem<uintptr_t>(&(m_Array), index);
 }
 
 struct FUN_0084e3a0_Class

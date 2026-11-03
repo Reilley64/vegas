@@ -245,6 +245,7 @@ set(VEGAS18_FALLOUT_SHARED_SOURCES
   src/fallout_shared/tesscript.cpp
   src/fallout_shared/tesscriptableform.cpp
   src/fallout_shared/tesscriptcompiler.cpp
+  src/fallout_shared/tesscriptfunctions.cpp
   src/fallout_shared/tesscriptrunmanager.cpp
   src/fallout_shared/tesscriptshared.cpp
   src/fallout_shared/tesscriptvariable.cpp
@@ -358,7 +359,6 @@ set(VEGAS18_FALLOUT_SHARED_NARROWING_SOURCES
   src/fallout_shared/tesrace.cpp
   src/fallout_shared/tesreactionform.cpp
   src/fallout_shared/tessaveloadgame.cpp
-  src/fallout_shared/tesscriptfunctions.cpp
   src/fallout_shared/tesskill.cpp
   src/fallout_shared/tesspelllist.cpp
   src/fallout_shared/testerrainlodmanager.cpp

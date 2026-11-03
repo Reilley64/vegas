@@ -2,6 +2,7 @@
 // src/fallout/magic/shieldeffect.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/shieldeffect.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/effect_item_fields.h"
 #include "fnv/active_effect_fields.h"
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/Cls.h"
@@ -571,7 +572,7 @@ void ActiveEffect828::FUN_008282e0(Actor828* pkTarget, float m_fElapsedTime)
 
     if (m_iCastingType == 4)
         pkTarget->SetActorValue(reinterpret_cast<::FUN_0068a810_class *>(this)->GetField4C(), m_fElapsedTime);
-    else if (reinterpret_cast<::S3e60 *>((((::EffectSetting828 *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((m_pkEffectItem))->FUN_00825c00()))))->FUN_00403e60(2))
+    else if (reinterpret_cast<::S3e60 *>((((::EffectSetting828 *)(reinterpret_cast<::EffectItemFields *>(m_pkEffectItem)->setting))))->FUN_00403e60(2))
         pkTarget->DamageActorValue(reinterpret_cast<::FUN_0068a810_class *>(this)->GetField4C(), m_fElapsedTime, 0);
     else
         pkTarget->ModActorValue(reinterpret_cast<::FUN_0068a810_class *>(this)->GetField4C(), m_fElapsedTime, 0);
@@ -593,7 +594,7 @@ struct FUN_00828260_cls : ValueModifierEffect
 void FUN_00828260_cls::FUN_00828260()
 {
     reinterpret_cast<::Cls *>(this)->ApplyEffect();
-    if (((unsigned char)(reinterpret_cast<::S3e60 *>((((::FUN_00828120_x *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((unk0c))->FUN_00825c00()))))->FUN_00403e60({}))))
+    if (((unsigned char)(reinterpret_cast<::S3e60 *>((((::FUN_00828120_x *)(reinterpret_cast<::EffectItemFields *>(unk0c)->setting))))->FUN_00403e60({}))))
     {
         Actor* actor = ((::FUN_00828120_z *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) ? ((::FUN_00828120_z *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))->FUN_00822b40() : 0;
         reinterpret_cast<::ActiveEffect828 *>(this)->FUN_008282e0((::Actor828 *)(actor), -unk1c);

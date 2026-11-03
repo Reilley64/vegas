@@ -8497,7 +8497,7 @@ class ActorDeletionQueue
 // @fnv 0x008cf7a0
 bool Self::FUN_008cf7a0()
 {
-    if (m68 && !((int)(reinterpret_cast<::FUN_0045cd60_shell *>((m68))->FUN_0045cd60())))
+    if (m68 && !(reinterpret_cast<::FUN_0045cd60_shell *>((m68))->FUN_0045cd60()))
         return true;
     Obj* n;
     int r7 = ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((m68))->FUN_0045cd60()));

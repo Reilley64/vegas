@@ -397,7 +397,7 @@ FUN_0083c520::FUN_0083c520(TESQuest* apQuest, TESTopic* apTopic, TESTopicInfo* a
         {
             DialogueResponse* pResponse = new DialogueResponse(apQuest, apTopic, apInfo, apSpeaker, presponse);
             reinterpret_cast<::Callees *>(&(ResponseList))->FUN_00905820((void *)&(pResponse));
-            presponse = (TESResponse*)((int)(reinterpret_cast<::FUN_0045cd60_shell *>((presponse))->FUN_0045cd60()));
+            presponse = (TESResponse*)(reinterpret_cast<::FUN_0045cd60_shell *>((presponse))->FUN_0045cd60());
         }
     }
 }

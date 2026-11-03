@@ -398,7 +398,7 @@ bool __cdecl UpdateEffectShaderOnActor(Actor80c* pkRef, bool bStopEffect)
     fDistSq *= fDistSq;
     NiPoint3 kPlayerPos9 = *(*reinterpret_cast<::Actor80c * *>(&::_g_thePlayer))->GetPos();
     if (reinterpret_cast<::TESCombatStyle *>((void *)(void *)&(const ::NiPoint3 &)(([&] { ::NiPoint3 difference; reinterpret_cast<::FUN_00439ef0_class *>((void *)&(kPlayerPos9))->FUN_00439ef0((::NiPoint3 *)&difference, *(const ::NiPoint3 *)((::NiPoint3 *)&(*pkRef->GetPos()))); return difference; }())))->UpdateCombatStyle() < fDistSq && !pkRef->IsDead(0) &&
-        !((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((::FUN_0045cd60_cls *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pkRef))->GetBaseTexture()))))->FUN_0045cd60())) && !reinterpret_cast<::FUN_00477ba0_shell *>((pkRef))->FUN_00477ba0())
+        !(reinterpret_cast<::FUN_0045cd60_shell *>((((::FUN_0045cd60_cls *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pkRef))->GetBaseTexture()))))->FUN_0045cd60()) && !reinterpret_cast<::FUN_00477ba0_shell *>((pkRef))->FUN_00477ba0())
     {
         if (!bStopEffect)
         {

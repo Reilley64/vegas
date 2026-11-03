@@ -1,5 +1,6 @@
 // fallout/magic/activeeffect.cpp: Interface, EffectSetting, Self, EffectSaveShell (47 functions)
 
+#include "fnv/effect_item_fields.h"
 #include "fnv/active_effect_fields.h"
 #include "fnv/simple_list_node_view.h"
 #include <new>
@@ -316,7 +317,7 @@ ActiveEffect* ActiveEffect::ReadActiveEffect(BGSLoadFormBuffer* buffer)
     if (spell)
     {
         EffectItem* effect = ((::EffectItem *)(reinterpret_cast<::HX *>(&(spell->effects))->FUN_00406ee0(index)));
-        if (effect && ((::EffectSetting *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((effect))->FUN_00825c00()))->GetArchetype() == formID)
+        if (effect && ((::EffectSetting *)(reinterpret_cast<::EffectItemFields *>(effect)->setting))->GetArchetype() == formID)
         {
             reinterpret_cast<::fnv_00864a60::FUN_00864a60_cls *>((buffer))->FUN_00864a60();
             ActiveEffect* active = MagicEffectSystem::Activate(0, spell, effect, 0);
@@ -1699,7 +1700,7 @@ void ActiveEffectUpdateShell::FUN_00804560(float afSecondsElapsed)
             }
             if (!bpermanent && !IsFlagged())
             {
-                if (reinterpret_cast<::S3e60 *>((((::EffectSetting *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((pEffect))->FUN_00825c00()))))->FUN_00403e60(0x80))
+                if (reinterpret_cast<::S3e60 *>((((::EffectSetting *)(reinterpret_cast<::EffectItemFields *>(pEffect)->setting))))->FUN_00403e60(0x80))
                     bPickResultFound = true;
                 else if (m_fEffectMagnitude >= reinterpret_cast<::ActiveEffect *>(this)->GetDuration())
                     bPickResultFound = true;
@@ -2461,7 +2462,7 @@ void __cdecl FUN_00806840(B806840SaveBuffer* pkBuffer, B806840ActiveEffect* pkEf
     reinterpret_cast<::FUN_00865db0_shell *>((pkBuffer))->FUN_00865db0(pkEffect->m_pkMagicItem ? ((unsigned int)(reinterpret_cast<::FUN_0040a1e0_shell *>((pkEffect->m_pkMagicItem))->FUN_0040a1e0())) : 0, 0);
     bool bInList2 = ((bool)(reinterpret_cast<::EffectItemListFind *>(&(pkEffect->m_pkMagicItem->m_kEffects))->FindEffectItemIndex((int)(pkEffect->m_pkEffectItem))));
     reinterpret_cast<::FUN_00865e50_shell *>((pkBuffer))->FUN_00865e50(&bInList2, 1, 0);
-    int eArchetype2 = reinterpret_cast<::EffectSetting *>((((::B806840EffectSetting *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((pkEffect->m_pkEffectItem))->FUN_00825c00()))))->GetArchetype();
+    int eArchetype2 = reinterpret_cast<::EffectSetting *>((((::B806840EffectSetting *)(reinterpret_cast<::EffectItemFields *>(pkEffect->m_pkEffectItem)->setting))))->GetArchetype();
     reinterpret_cast<::BGSSaveGameBuffer *>((pkBuffer))->FUN_00865f60(eArchetype2);
     unsigned int uiChunk = reinterpret_cast<::FUN_00865f20_shell *>((pkBuffer))->FUN_00865f20();
     int iStart2 = reinterpret_cast<::FUN_0084e3a0_Class *>((pkBuffer))->FUN_0084e3a0();

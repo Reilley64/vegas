@@ -349,7 +349,7 @@ void C::FUN_0082b530()
     int b;
     int a;
     b = ((int)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) ? ((int)(reinterpret_cast<::MagicTarget *>((((O*)((int)(reinterpret_cast<::ActiveEffectFields *>(this)->target)))))->GetOwnerActor())) : 0;
-    a = ((int)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60())) ? ((int)(reinterpret_cast<::MagicCaster *>((((O*)((int)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60())))))->GetCasterActor())) : 0;
+    a = (reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60()) ? ((int)(reinterpret_cast<::MagicCaster *>((((O*)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60()))))->GetCasterActor())) : 0;
     if (b != 0 && a != 0 && (*(int(**)(int))(*(int**)b + 266))(b) != 0)
     {
         reinterpret_cast<::FUN_008d0600_s *>((((O*)(*(int(**)(int, int, int))(*(int**)b + 266))(b, a, 0))))->FUN_008d0600({}, {});

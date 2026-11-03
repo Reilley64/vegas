@@ -2988,7 +2988,7 @@ class Game80F
 // @fnv 0x0080feb0
 void Actor80F::FUN_0080feb0()
 {
-    if (!m_pkProcess || ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((m_pkProcess))->FUN_0045cd60())))
+    if (!m_pkProcess || (reinterpret_cast<::FUN_0045cd60_shell *>((m_pkProcess))->FUN_0045cd60()))
         return;
     Controller80F* pkController = ((::Controller80F *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>(this)->FUN_009306d0()));
     Middle80F* pkMiddle = ((::Middle80F *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()));
@@ -4166,7 +4166,7 @@ class Game80F
 // @fnv 0x00813f30
 void Actor80F::FUN_00813f30()
 {
-    if (!m_pkProcess || ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((m_pkProcess))->FUN_0045cd60())))
+    if (!m_pkProcess || (reinterpret_cast<::FUN_0045cd60_shell *>((m_pkProcess))->FUN_0045cd60()))
         return;
     Controller80F* pkController = ((::fnv_00813f30::Controller80F *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>(this)->FUN_009306d0()));
     Middle80F* pkMiddle = ((::fnv_00813f30::Middle80F *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()));
@@ -5337,7 +5337,7 @@ struct RenderGlobals
 // @fnv 0x00819ca0
 void Actor::FUN_00819ca0()
 {
-    if (!scene || ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((scene))->FUN_0045cd60())))
+    if (!scene || (reinterpret_cast<::FUN_0045cd60_shell *>((scene))->FUN_0045cd60()))
         return;
     Visual* active = ((::fnv_00819ca0::Visual *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>(this)->FUN_009306d0()));
     Scene* parent = ((::fnv_00819ca0::Scene *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()));

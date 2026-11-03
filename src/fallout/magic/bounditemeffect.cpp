@@ -3158,7 +3158,7 @@ void BIEffect::StopEffect()
             }
             m_bLoadArmorModel = false;
         }
-        if (pkActor->IsAlive() && ((::BIProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pkActor))->GetBaseTexture())) && !((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((::BIProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pkActor))->GetBaseTexture()))))->FUN_0045cd60())) &&
+        if (pkActor->IsAlive() && ((::BIProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pkActor))->GetBaseTexture())) && !(reinterpret_cast<::FUN_0045cd60_shell *>((((::BIProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pkActor))->GetBaseTexture()))))->FUN_0045cd60()) &&
             ((::BIEffectItem *)(reinterpret_cast<::Twin_0044ddc0 *>(this)->GetName())) && ((::BINode *)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0())))
         {
             BIModelHolder* pkModelOut = ((::BIEffectItem *)(reinterpret_cast<::Twin_0044ddc0 *>(this)->GetName()))->FUN_0040a300(0);

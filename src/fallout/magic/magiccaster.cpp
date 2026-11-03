@@ -1,5 +1,6 @@
 // fallout/magic/magiccaster.cpp: MagicCaster, Caster, ScriptLocalsX, CastingCheck and more (34 functions)
 
+#include "fnv/effect_item_fields.h"
 #include "fnv/simple_list_node_view.h"
 #include <new>
 #include "fnv/decl/BGSCameraPath.h"
@@ -3462,7 +3463,7 @@ MagicTarget* FUN_00817620_shell::FindClosestMagicTarget()
                 ptargetActor = dynamic_cast<Character*>(*((::Actor **)(&reinterpret_cast<::SimpleListNodeView*>(ptempfollower)->m_item)));
                 ptempfollower = ((::S::BSSimpleList *)(reinterpret_cast<::Callees *>((ptempfollower))->FUN_00726070()));
                 while (ptargetActor && (!((void *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((TES*)ptargetActor)))->GetBaseTexture())) ||
-                                        ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((TESResponse*)((void *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((TES*)ptargetActor)))->GetBaseTexture())))))->FUN_0045cd60()))))
+                                        (reinterpret_cast<::FUN_0045cd60_shell *>((((TESResponse*)((void *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((TES*)ptargetActor)))->GetBaseTexture())))))->FUN_0045cd60())))
                 {
                     ptargetActor = 0;
                     if (ptempfollower)
@@ -3639,7 +3640,7 @@ void P142Caster::ApplySpellEffects(P142Spell* spell, int flags, NiPoint3 positio
     {
         if (secondary)
             reinterpret_cast<::Master *>(this)->FUN_00817b90((*(::Vec3 *)&(const ::NiPoint3 &)(position)), (::ListHandle *)(flags), spell, (::RangeManager *)(secondary), (::TargetInterface *)(::BSSimpleList<const char *> *)(&special), effectiveness, magnitude);
-        else if (target && target->IsActor() && notified && reinterpret_cast<::S3e60 *>((((::P142EffectSetting *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((notified))->FUN_00825c00()))))->FUN_00403e60(0x20000000))
+        else if (target && target->IsActor() && notified && reinterpret_cast<::S3e60 *>((((::P142EffectSetting *)(reinterpret_cast<::EffectItemFields *>(notified)->setting))))->FUN_00403e60(0x20000000))
         {
             Actor* actor = (Actor*)target;
             if (CheckHealthDamageKill(actor, spell))
@@ -3926,7 +3927,7 @@ void AEGatherer::GatherTargetsInArea(MagicItem* apItem, unsigned int auiEffectCo
                 pMobile4 = dynamic_cast<Character*>((*((::Actor * *)(&reinterpret_cast<::SimpleListNodeView*>(pNode)->m_item))));
                 pNode = ((::BSSimpleList< ::Actor *> *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070()));
                 while (pMobile4 && (!((::AEProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((static_cast<AEMobile*>(pMobile4)))->GetBaseTexture())) ||
-                                    ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((::AEProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((static_cast<AEMobile*>(pMobile4)))->GetBaseTexture()))))->FUN_0045cd60()))))
+                                    (reinterpret_cast<::FUN_0045cd60_shell *>((((::AEProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((static_cast<AEMobile*>(pMobile4)))->GetBaseTexture()))))->FUN_0045cd60())))
                 {
                     if (pNode)
                         pMobile4 = dynamic_cast<Character*>((*((::Actor * *)(&reinterpret_cast<::SimpleListNodeView*>(pNode)->m_item))));
@@ -4589,13 +4590,13 @@ void Caster::FUN_00815d00(float power, Source* source, bool immediate, float mul
     while (cursorA)
     {
         Effect* effect = *((::CastTargets::Effect **)(&reinterpret_cast<::SimpleListNodeView*>(cursorA)->m_item));
-        if (effect && spellB->GetSpellType() == 6 && source && !::FUN_00409720((::TESBoundObject *)(source), (::ItemExtraList *)(0), (::EffectSetting *)(::CastTargets::EffectSettings *)(((::CastTargets::EffectSettings *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((effect))->FUN_00825c00())))))
+        if (effect && spellB->GetSpellType() == 6 && source && !::FUN_00409720((::TESBoundObject *)(source), (::ItemExtraList *)(0), (::EffectSetting *)(::CastTargets::EffectSettings *)(((::CastTargets::EffectSettings *)(reinterpret_cast<::EffectItemFields *>(effect)->setting)))))
             effect = 0;
         if (effect)
         {
             Active* active = CreateActiveEffect(spellB, effect, source);
             Effect* activeEffect = ((::CastTargets::Effect *)(reinterpret_cast<::FUN_0084e3a0_Class *>((active))->FUN_0084e3a0()));
-            float _cost = reinterpret_cast<::TESGrass *>((((::CastTargets::EffectSettings *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((activeEffect))->FUN_00825c00()))))->GetLowestAllowedSlope();
+            float _cost = reinterpret_cast<::TESGrass *>((((::CastTargets::EffectSettings *)(reinterpret_cast<::EffectItemFields *>(activeEffect)->setting))))->GetLowestAllowedSlope();
             if (immediate)
             {
                 reinterpret_cast<::ActiveEffect *>((active))->AddFlags(4);
@@ -4736,7 +4737,7 @@ void Caster::FUN_00815d00(float power, Source* source, bool immediate, float mul
                 }
             }
         }
-        else if (areaTarget3->IsActor() && aTouchEffect && reinterpret_cast<::S3e60 *>((((::CastTargets::EffectSettings *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((aTouchEffect))->FUN_00825c00()))))->FUN_00403e60(0x20000000))
+        else if (areaTarget3->IsActor() && aTouchEffect && reinterpret_cast<::S3e60 *>((((::CastTargets::EffectSettings *)(reinterpret_cast<::EffectItemFields *>(aTouchEffect)->setting))))->FUN_00403e60(0x20000000))
         {
             ActorView* actor = reinterpret_cast<ActorView*>(areaTarget3);
             if (reinterpret_cast<::fnv_00817970::CasterOps *>(this)->CheckHealthDamageKill((::fnv_00817970::Recipient *)(::CastTargets::TargetPart *)(static_cast<TargetPart*>(actor)), (::fnv_00817970::EffectSpec *)(spellB)))

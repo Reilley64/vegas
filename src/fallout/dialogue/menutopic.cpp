@@ -1199,7 +1199,7 @@ bool Mgr::CheckTopicInfoChance(MenuTopic* pTopic)
             char _flag;
             TESTopic* pT2 = ((::TESTopic *)(::fnv_0061a2d0::GetTopicSubTypeName(0, 0xb)));
             TESTopicInfo* pInfo = reinterpret_cast<::TESTopic *>((((TopicShell*)pT2)))->FindMatchingTopicInfo((*(bool *)(&_flag)), (::TESObjectREFR *)(m_pDialogueSpeaker), (::TESObjectREFR *)(::_g_thePlayer), 0,
-                                                     (::TESTopic *)(((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((ProcShell*)pTopic)))->FUN_0045cd60()))), (::BSSimpleList< ::DialogueItem *> *)(0));
+                                                     (::TESTopic *)((reinterpret_cast<::FUN_0045cd60_shell *>((((ProcShell*)pTopic)))->FUN_0045cd60())), (::BSSimpleList< ::DialogueItem *> *)(0));
             if (!pInfo)
             {
                 ::FUN_005b5e40();

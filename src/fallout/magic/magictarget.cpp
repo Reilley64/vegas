@@ -1,5 +1,6 @@
 // fallout/magic/magictarget.cpp: MagicTarget, TESSpellList, MagicCaster, MagicSystem and more (39 functions)
 
+#include "fnv/effect_item_fields.h"
 #include "fnv/active_effect_fields.h"
 #include "fnv/simple_list_node_view.h"
 #include <stddef.h>
@@ -114,12 +115,12 @@ int MagicTarget::CompareActiveEffects(ActiveEffect* first, ActiveEffect* second)
     char buffer2[256];
     EffectItem* pEffect = EFFECT_ITEM(first);
     sprintf(buffer1, "%c%.30s%.1f%.1f", 'A', pEffect->GetEffectName().String(),
-            reinterpret_cast<::S3e60 *>((((::EffectSetting *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((pEffect))->FUN_00825c00()))))->FUN_00403e60(0x100) ? 1000.0f : ::GetFloatAtOffset1C((char *)(first)),
-            reinterpret_cast<::S3e60 *>((((::EffectSetting *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((pEffect))->FUN_00825c00()))))->FUN_00403e60(0x80) ? 1000.0f : first->GetDuration());
+            reinterpret_cast<::S3e60 *>((((::EffectSetting *)(reinterpret_cast<::EffectItemFields *>(pEffect)->setting))))->FUN_00403e60(0x100) ? 1000.0f : ::GetFloatAtOffset1C((char *)(first)),
+            reinterpret_cast<::S3e60 *>((((::EffectSetting *)(reinterpret_cast<::EffectItemFields *>(pEffect)->setting))))->FUN_00403e60(0x80) ? 1000.0f : first->GetDuration());
     pEffect = EFFECT_ITEM(second);
     sprintf(buffer2, "%c%.30s%.1f%.1f", 'A', pEffect->GetEffectName().String(),
-            reinterpret_cast<::S3e60 *>((((::EffectSetting *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((pEffect))->FUN_00825c00()))))->FUN_00403e60(0x100) ? 1000.0f : ::GetFloatAtOffset1C((char *)(second)),
-            reinterpret_cast<::S3e60 *>((((::EffectSetting *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((pEffect))->FUN_00825c00()))))->FUN_00403e60(0x80) ? 1000.0f : second->GetDuration());
+            reinterpret_cast<::S3e60 *>((((::EffectSetting *)(reinterpret_cast<::EffectItemFields *>(pEffect)->setting))))->FUN_00403e60(0x100) ? 1000.0f : ::GetFloatAtOffset1C((char *)(second)),
+            reinterpret_cast<::S3e60 *>((((::EffectSetting *)(reinterpret_cast<::EffectItemFields *>(pEffect)->setting))))->FUN_00403e60(0x80) ? 1000.0f : second->GetDuration());
     return _mbsicmp((const unsigned char*)buffer1, (const unsigned char*)buffer2);
 }
 

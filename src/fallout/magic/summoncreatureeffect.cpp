@@ -1020,7 +1020,7 @@ void FUN_008289e0_cls::CleanupSummonedCreature()
     FxnNode* a = (((::FxnNode *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) != 0) ? ((::FxnNode *)(reinterpret_cast<::MagicTarget *>((((::FxnNode *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))))->GetOwnerActor())) : 0;
     if (this->m_4c != 0 && a != 0)
     {
-        if (((::FxnNode *)(reinterpret_cast<::BSShaderNoLightingProperty *>((this->m_4c))->GetBaseTexture())) != 0 && ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((::FxnNode *)(reinterpret_cast<::BSShaderNoLightingProperty *>((this->m_4c))->GetBaseTexture()))))->FUN_0045cd60())) == 0)
+        if (((::FxnNode *)(reinterpret_cast<::BSShaderNoLightingProperty *>((this->m_4c))->GetBaseTexture())) != 0 && (reinterpret_cast<::FUN_0045cd60_shell *>((((::FxnNode *)(reinterpret_cast<::BSShaderNoLightingProperty *>((this->m_4c))->GetBaseTexture()))))->FUN_0045cd60()) == 0)
         {
             if (!this->m_4c->v139(0))
             {

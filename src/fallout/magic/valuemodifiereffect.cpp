@@ -1,5 +1,6 @@
 // fallout/magic/valuemodifiereffect.cpp: ValueModifierEffect, ActorValue, LocalEffect, Cls (16 functions)
 
+#include "fnv/effect_item_fields.h"
 #include "fnv/active_effect_fields.h"
 #include "fnv/decl/B968730Actor.h"
 #include "fnv/decl/BSShaderNoLightingProperty.h"
@@ -61,14 +62,14 @@ void ValueModifierEffect::Finalize()
     Actor* actor = reinterpret_cast<::ActiveEffectFields *>(this)->target
                        ? ((MagicTarget*)reinterpret_cast<::ActiveEffectFields *>(this)->target)->GetOwnerActor()
                        : 0;
-    if (((::EffectSetting *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((EffectItem*)pEffect)))->FUN_00825c00()))->IsDetrimentalToActorValue(GetActorValue()))
+    if (((::EffectSetting *)(reinterpret_cast<::EffectItemFields *>(((EffectItem*)pEffect))->setting))->IsDetrimentalToActorValue(GetActorValue()))
     {
         m_fElapsedTime = -m_fElapsedTime;
         if (actor && GetActorValue() == 16 &&
             ((::MagicItem *)(reinterpret_cast<::FUN_0084e3a0_Class *>((((MagicCaster*)((::MagicItem *)(reinterpret_cast<::FUN_0084e3a0_Class *>((((MagicCaster*)this)))->FUN_0084e3a0())))))->FUN_0084e3a0())))
         {
-            Actor* caster = ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((HighProcess*)this)))->FUN_0045cd60()))
-                                ? ((MagicCaster*)((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((HighProcess*)this)))->FUN_0045cd60())))->GetCasterActor()
+            Actor* caster = (reinterpret_cast<::FUN_0045cd60_shell *>((((HighProcess*)this)))->FUN_0045cd60())
+                                ? ((MagicCaster*)(reinterpret_cast<::FUN_0045cd60_shell *>((((HighProcess*)this)))->FUN_0045cd60()))->GetCasterActor()
                                 : 0;
             m_fElapsedTime = reinterpret_cast<::fnv_008808a0::ActorProxy *>((actor))->FUN_008808a0(m_fElapsedTime, caster);
         }
@@ -99,7 +100,7 @@ float ValueModifierEffect::GetModifiedMagnitude(float magnitude)
 // @fnv 0x0082c660
 void ValueModifierEffect::Update(float delta)
 {
-    if (!reinterpret_cast<::S3e60 *>((((::EffectSetting *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((EffectItem*)pEffect)))->FUN_00825c00()))))->FUN_00403e60(2))
+    if (!reinterpret_cast<::S3e60 *>((((::EffectSetting *)(reinterpret_cast<::EffectItemFields *>(((EffectItem*)pEffect))->setting))))->FUN_00403e60(2))
     {
         Actor* actor = reinterpret_cast<::ActiveEffectFields *>(this)->target
                            ? ((MagicTarget*)reinterpret_cast<::ActiveEffectFields *>(this)->target)->GetOwnerActor()
@@ -118,8 +119,8 @@ void ValueModifierEffect::Update(float delta)
             if (m_eActorValue == 7 && m_fElapsedTime < 0.0 &&
                 actor->avOwner.GetActorValue((ActorValue::Index)16) <= 1.0)
             {
-                Actor* caster = ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((HighProcess*)this)))->FUN_0045cd60()))
-                                    ? ((MagicCaster*)((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((HighProcess*)this)))->FUN_0045cd60())))->GetCasterActor()
+                Actor* caster = (reinterpret_cast<::FUN_0045cd60_shell *>((((HighProcess*)this)))->FUN_0045cd60())
+                                    ? ((MagicCaster*)(reinterpret_cast<::FUN_0045cd60_shell *>((((HighProcess*)this)))->FUN_0045cd60()))->GetCasterActor()
                                     : 0;
                 reinterpret_cast<::KillActor *>((actor))->FUN_0089d900(caster, 0.0f);
             }
@@ -136,9 +137,9 @@ void ValueModifierEffect::RefreshPlayerActorValue()
         ((EffectItem*)pEffect)->IsHostile())
     {
         if (((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((((InventoryStackRecord*)this)))->GetName()))->GetSpellType() != 4 &&
-            reinterpret_cast<::S3e60 *>((((::EffectSetting *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((EffectItem*)pEffect)))->FUN_00825c00()))))->FUN_00403e60(4))
+            reinterpret_cast<::S3e60 *>((((::EffectSetting *)(reinterpret_cast<::EffectItemFields *>(((EffectItem*)pEffect))->setting))))->FUN_00403e60(4))
         {
-            bool continuous = reinterpret_cast<::S3e60 *>((((::EffectSetting *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((EffectItem*)pEffect)))->FUN_00825c00()))))->FUN_00403e60(2) || IsFlagged();
+            bool continuous = reinterpret_cast<::S3e60 *>((((::EffectSetting *)(reinterpret_cast<::EffectItemFields *>(((EffectItem*)pEffect))->setting))))->FUN_00403e60(2) || IsFlagged();
             char buffer[200];
             sprintf(buffer, "%s %s %s", ((const char *)(reinterpret_cast<::StartMenu *>(&(((SettingT_GameSettingCollection_&)g_011d2ce8)))->GetMenuTitle())),
                     ActorValue::GetActorValueName((ActorValue::Index)((EffectItem*)pEffect)->GetAffectedActorValue()),
@@ -162,17 +163,17 @@ void ValueModifierEffect::ApplyActorValueModifier(Actor* actor, float magnitude,
         return;
     }
     bool ability = m_eSpellType == 4 && !reinterpret_cast<::FUN_007df210_shell *>(this)->FUN_007df210();
-    if (actor->IsPlayerRef() && ability && reinterpret_cast<::S3e60 *>((((::EffectSetting *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((EffectItem*)pEffect)))->FUN_00825c00()))))->FUN_00403e60(2))
+    if (actor->IsPlayerRef() && ability && reinterpret_cast<::S3e60 *>((((::EffectSetting *)(reinterpret_cast<::EffectItemFields *>(((EffectItem*)pEffect))->setting))))->FUN_00403e60(2))
         actor->ForceActorValue(value, magnitude, 0);
     else
     {
-        Actor* caster = ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((HighProcess*)this)))->FUN_0045cd60()))
-                            ? ((MagicCaster*)((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((HighProcess*)this)))->FUN_0045cd60())))->GetCasterActor()
+        Actor* caster = (reinterpret_cast<::FUN_0045cd60_shell *>((((HighProcess*)this)))->FUN_0045cd60())
+                            ? ((MagicCaster*)(reinterpret_cast<::FUN_0045cd60_shell *>((((HighProcess*)this)))->FUN_0045cd60()))->GetCasterActor()
                             : 0;
         if (!((::MagicItem *)(reinterpret_cast<::FUN_0084e3a0_Class *>((((MagicCaster*)((::MagicItem *)(reinterpret_cast<::FUN_0084e3a0_Class *>((((MagicCaster*)this)))->FUN_0084e3a0())))))->FUN_0084e3a0())) ||
             !((EffectItem*)((::MagicItem *)(reinterpret_cast<::FUN_0084e3a0_Class *>((((MagicCaster*)this)))->FUN_0084e3a0())))->IsHostile())
             caster = 0;
-        if (reinterpret_cast<::S3e60 *>((((::EffectSetting *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((EffectItem*)pEffect)))->FUN_00825c00()))))->FUN_00403e60(2))
+        if (reinterpret_cast<::S3e60 *>((((::EffectSetting *)(reinterpret_cast<::EffectItemFields *>(((EffectItem*)pEffect))->setting))))->FUN_00403e60(2))
             actor->ModActorValue(value, magnitude, caster);
         else
         {
@@ -240,13 +241,13 @@ FUN_0082ba60::FUN_0082ba60(MagicCaster* apCaster, MagicItem* apSpell, EffectItem
     : FUN_0080bc70_base(apCaster, apSpell, apEffect)
 {
     *(void**)this = &DAT_0107c68c;
-    EffectSetting* psetting = ((::EffectSetting *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((apEffect))->FUN_00825c00()));
+    EffectSetting* psetting = ((::EffectSetting *)(reinterpret_cast<::EffectItemFields *>(apEffect)->setting));
     if (reinterpret_cast<FUN_00403e80_shell*>(psetting)->FUN_00403e80())
         *(int*)((char*)this + 0x48) = ((int)(reinterpret_cast<::InterfaceManager *>((reinterpret_cast<IMH*>(psetting)))->FUN_00586150()));
     else
         *(int*)((char*)this + 0x48) = apEffect->GetAffectedActorValue();
 
-    if (reinterpret_cast<::S3e60 *>((((::EffectSetting *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((apEffect))->FUN_00825c00()))))->FUN_00403e60(0x100))
+    if (reinterpret_cast<::S3e60 *>((((::EffectSetting *)(reinterpret_cast<::EffectItemFields *>(apEffect)->setting))))->FUN_00403e60(0x100))
         *(float*)((char*)this + 0x1c) = 1.0f;
 }
 
@@ -286,7 +287,7 @@ void LoadedValueEffect::FUN_0082cd10(Actor* apActor)
     {
         ActorAVExt* pTarget = ((::ParentCellStub *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) ? ((::ActorAVExt *)(reinterpret_cast<::MagicTarget *>((((::ParentCellStub *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))))->GetOwnerActor())) : 0;
         if (pTarget && pTarget->IsPlayerRef() && IsFlagged() &&
-            reinterpret_cast<::S3e60 *>((((::EffectSetting *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((EffectItemStub*)pEffect)))->FUN_00825c00()))))->FUN_00403e60(2))
+            reinterpret_cast<::S3e60 *>((((::EffectSetting *)(reinterpret_cast<::EffectItemFields *>(((EffectItemStub*)pEffect))->setting))))->FUN_00403e60(2))
         {
             Actor* pCasterActor = ((::CasterStub *)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60())) ? reinterpret_cast<::MagicCaster *>((((::CasterStub *)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60()))))->GetCasterActor() : 0;
             pTarget->SetActorValueF(GetActorValue(), -::GetFloatAtOffset1C((char *)this));
@@ -948,7 +949,7 @@ void Cls::ApplyEffect()
 {
     Actor* pActor =
         reinterpret_cast<::ActiveEffectFields *>(this)->target ? reinterpret_cast<::MagicTarget *>((((Obj822b40*)reinterpret_cast<::ActiveEffectFields *>(this)->target)))->GetOwnerActor() : 0;
-    if (reinterpret_cast<::S3e60 *>((((::EffectSetting *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((pEffect))->FUN_00825c00()))))->FUN_00403e60(2))
+    if (reinterpret_cast<::S3e60 *>((((::EffectSetting *)(reinterpret_cast<::EffectItemFields *>(pEffect)->setting))))->FUN_00403e60(2))
     {
         if (pActor != 0 && m_fElapsedTime > ::_DAT_01012060)
         {
@@ -961,8 +962,8 @@ void Cls::ApplyEffect()
             if (fValue != ::_DAT_01012060)
             {
                 pActor->DamageActorValue((ActorValue::Index)m_eActorValue, fValue,
-                                         ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((HighProcess*)this)))->FUN_0045cd60()))
-                                             ? reinterpret_cast<::MagicCaster *>((((Obj815410*)((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((HighProcess*)this)))->FUN_0045cd60())))))->GetCasterActor()
+                                         (reinterpret_cast<::FUN_0045cd60_shell *>((((HighProcess*)this)))->FUN_0045cd60())
+                                             ? reinterpret_cast<::MagicCaster *>((((Obj815410*)(reinterpret_cast<::FUN_0045cd60_shell *>((((HighProcess*)this)))->FUN_0045cd60()))))->GetCasterActor()
                                              : 0);
             }
         }
@@ -976,7 +977,7 @@ void Cls::ApplyEffect()
     }
     if (m_eActorValue == 0x36)
     {
-        if (reinterpret_cast<::S3e60 *>((((::EffectSetting *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((pEffect))->FUN_00825c00()))))->FUN_00403e60(4))
+        if (reinterpret_cast<::S3e60 *>((((::EffectSetting *)(reinterpret_cast<::EffectItemFields *>(pEffect)->setting))))->FUN_00403e60(4))
         {
             if (pActor != 0 && ((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pActor))->GetBaseTexture())) != 0)
             {
@@ -1678,7 +1679,7 @@ void FUN_0082c000_shell::FUN_0082c000()
                         ? ((MagicTarget*)reinterpret_cast<::ActiveEffectFields *>(this)->target)->GetOwnerActor()
                         : 0;
 
-    if (reinterpret_cast<::S3e60 *>((((::EffectSetting *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*(EffectItem**)&this->pEffect)))->FUN_00825c00()))))->FUN_00403e60(2) ||
+    if (reinterpret_cast<::S3e60 *>((((::EffectSetting *)(reinterpret_cast<::EffectItemFields *>((*(EffectItem**)&this->pEffect))->setting))))->FUN_00403e60(2) ||
         (!(*(FUN_004044d0_shell**)&this->pEffect)->FUN_004044d0() && !((ActiveEffect*)this)->IsFlagged() &&
          ((BGSMessageInitAccess*)this)->GetIconFormID() != 4 && ((BGSMessageInitAccess*)this)->GetIconFormID() != 1))
     {
@@ -1701,8 +1702,8 @@ void FUN_0082c000_shell::FUN_0082c000()
         if (this->m_eActorValue == 7 && this->m_fElapsedTime < ::_DAT_01012060 &&
             ((ActorAV*)pActor)->GetActorValue(16) <= 1.0)
         {
-            Actor* pcasterActor = ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((HighProcess*)this)))->FUN_0045cd60()))
-                                      ? ((MagicCaster*)((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((HighProcess*)this)))->FUN_0045cd60())))->GetCasterActor()
+            Actor* pcasterActor = (reinterpret_cast<::FUN_0045cd60_shell *>((((HighProcess*)this)))->FUN_0045cd60())
+                                      ? ((MagicCaster*)(reinterpret_cast<::FUN_0045cd60_shell *>((((HighProcess*)this)))->FUN_0045cd60()))->GetCasterActor()
                                       : 0;
             reinterpret_cast<::KillActor *>((pActor))->FUN_0089d900(pcasterActor, 0.0f);
         }
@@ -1731,7 +1732,7 @@ void FUN_0082c000_shell::FUN_0082c000()
                                   fPlayerHealthDiff));
     }
 
-    if (this->m_eActorValue == 0x36 && reinterpret_cast<::S3e60 *>((((::EffectSetting *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*(EffectItem**)&this->pEffect)))->FUN_00825c00()))))->FUN_00403e60(4))
+    if (this->m_eActorValue == 0x36 && reinterpret_cast<::S3e60 *>((((::EffectSetting *)(reinterpret_cast<::EffectItemFields *>((*(EffectItem**)&this->pEffect))->setting))))->FUN_00403e60(4))
     {
         if (pActor && ((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pActor))->GetBaseTexture())))
             ((ProcessRads*)((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pActor))->GetBaseTexture())))->SetRadsSec(GetFloatAtOffset1C((char*)this));

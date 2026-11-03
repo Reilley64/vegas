@@ -388,7 +388,7 @@ struct FUN_00de4340_cls
 // @fnv 0x00de4340
 HkDisplayConvexObj* FUN_00de4340_cls::GetOrCreateConvex(HkArrayRaw* a1)
 {
-    int zero = 0;
+    void* zero = 0;
     if (m_pConvex == (HkDisplayConvexObj*)zero)
     {
         HkArrayPairBlock* pPairBlock = (HkArrayPairBlock*)zero;
@@ -498,18 +498,7 @@ struct Target
     virtual void Draw(const Vec67* a, const Vec67* b, int color, void* body, int tag);
 };
 
-static __declspec(noinline) void FUN_00de2aa0(Target* context, Contact67* volatile contact, const Vec67* normal,
-                                              int color, void* body, int tag)
-{
-    __m128 n = _mm_load_ps(&normal->x);
-    __m128 sq = _mm_mul_ps(n, n);
-    float len = _mm_cvtss_f32(_mm_add_ss(_mm_shuffle_ps(sq, sq, 0xaa), _mm_add_ss(_mm_shuffle_ps(sq, sq, 0x55), sq)));
-    if (len < 0.000001f)
-        return;
-    Vec67 endpoint;
-    _mm_store_ps(&endpoint.x, _mm_add_ps(_mm_load_ps(&contact->position.x), n));
-    context->Draw(&contact->position, &endpoint, color, body, tag);
-}
+static void FUN_00de2aa0(Target* self, Contact67* contact, const Vec67* direction, int color, void* id, int tag);
 
 struct Arr
 {
@@ -905,7 +894,6 @@ void Node::FUN_00de2da0(Cont* apCont)
 #include "fnv/symbols_01019000.h"
 #include "fnv/symbols_010c6000.h"
 
-__declspec(noinline) void FUN_00de2aa0(Target* context, Contact67* volatile contact, const Vec67* normal, int color, void* body, int tag);
 #pragma optimize("", on)
 
 

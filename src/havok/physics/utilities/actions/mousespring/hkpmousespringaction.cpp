@@ -54,9 +54,9 @@ void FUN_00cbb1b0_Class::FUN_00cbb1b0(hkReal a)
 
 
 // @fnv 0x00cbb8a0
-int __cdecl FUN_00cbb8a0()
+const void* __cdecl FUN_00cbb8a0()
 {
-    return (int)&(*reinterpret_cast<int *>(&::g_01268a14));
+    return &::g_01268a14;
 }
 
 #include "fnv/symbols_simd.h"
@@ -682,13 +682,13 @@ struct FUN_00cbb4e0
     hkReal m_fTau;
     unsigned int m_uiCollisionShapeKey;
     hkArray<char> m_kAppliedCallbacks;
-    FUN_00cbb4e0(int arg);
+    FUN_00cbb4e0(void* arg);
 };
 // Initializes the hkpMouseSpringAction fields with default spring constants, zeroed vectors, and the action name.
 // @fnv 0x00cbb4e0
-FUN_00cbb4e0::FUN_00cbb4e0(int arg)
+FUN_00cbb4e0::FUN_00cbb4e0(void* arg)
 {
-    new ((void *)(((Ms_B*)this))) ::FUN_00d2b260((::FUN_00c90510_Entity *)(void *)((void*)arg), 0);
+    new ((void *)(((Ms_B*)this))) ::FUN_00d2b260(static_cast<::FUN_00c90510_Entity *>(arg), 0);
     m_fSpringDamping = ::fnv_00c88020::DAT_01016248;
     unk00 = (void*)&DAT_010c8e94;
     m_fSpringElasticity = DAT_01017870;
@@ -714,7 +714,7 @@ FUN_00cbb4e0::FUN_00cbb4e0(int arg)
 #include "fnv/decl/S00cd4cc0_M.h"
 #include "fnv/symbols_00c85000.h"
 #include "fnv/symbols_0106c000.h"
-int __cdecl FUN_00cbb8a0();
+const void* __cdecl FUN_00cbb8a0();
 
 
 
@@ -728,7 +728,7 @@ struct hkStepInfo
 
 struct FUN_00ca86c0_class
 {
-    unsigned int FUN_00ca86c0();
+    void* FUN_00ca86c0();
 };
 
 struct FUN_00cdf250_class
@@ -850,7 +850,7 @@ void MouseSpringActionExt::FUN_00cbb1e0(const hkStepInfo& stepInfo)
 
     *(__m128*)&deltaPos = _mm_sub_ps(*(__m128*)&worldPos, *(__m128*)&m_kGrabPointInBodySpace);
 
-    MotionExt* motion = rb->FUN_00ca86c0() ? (MotionExt*)rb->FUN_00ca86c0() : &rb->m_pMotionState;
+    MotionExt* motion = rb->FUN_00ca86c0() ? static_cast<MotionExt*>(rb->FUN_00ca86c0()) : &rb->m_pMotionState;
 
     __m128 invMassVec =
         _mm_shuffle_ps(*(__m128*)&motion->m_kInertiaAndMassInv, *(__m128*)&motion->m_kInertiaAndMassInv, 0xff);
@@ -869,8 +869,8 @@ void MouseSpringActionExt::FUN_00cbb1e0(const hkStepInfo& stepInfo)
     *(__m128*)&work.K.m_kColumn2 = _mm_setzero_ps();
     work.K.m_kColumn2.z = maxImpulse;
 
-    reinterpret_cast<::MProduct *>(&(matrices.tempMat1))->FUN_00cd55b0((*(const ::MProduct *)((int*)&crossR)), (*(const ::MProduct *)((int)&matrices.inertiaInvWorld)));
-    reinterpret_cast<::MProduct *>(&(matrices.tempMat2))->FUN_00cd55b0((*(const ::MProduct *)((int*)&matrices.tempMat1)), (*(const ::MProduct *)((int)&crossR)));
+    reinterpret_cast<::MProduct *>(&(matrices.tempMat1))->FUN_00cd55b0((*(const ::MProduct *)((int*)&crossR)), (*(const ::MProduct *)(&matrices.inertiaInvWorld)));
+    reinterpret_cast<::MProduct *>(&(matrices.tempMat2))->FUN_00cd55b0((*(const ::MProduct *)((int*)&matrices.tempMat1)), (*(const ::MProduct *)(&crossR)));
 
     work.K.Subtract(&matrices.tempMat2);
 

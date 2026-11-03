@@ -74,14 +74,80 @@ void __cdecl FUN_00cd1ed0()
 struct Owner
 {
 };
-struct FUN_00cd1f60_cls
+// hkpPhysicsContext: hkReferencedObject, its hkProcessContext part at +0x08 (owner at +0x0c), six listener parts
+// at +0x54..+0x68, then its worlds at +0x6c.
+struct PhysicsContext;
+struct PhysicsContextRefObject
+{
+    void* m_vtbl;
+    int m_memSizeAndRefCount;
+};
+struct PhysicsContextProcessPart
+{
+    void* m_vtbl;
+    Owner* m_owner;
+    int unk08[0x11];
+    PhysicsContext* context();
+};
+struct PhysicsContextListener54
+{
+    void* m_vtbl;
+};
+struct PhysicsContextListener58
+{
+    void* m_vtbl;
+};
+struct PhysicsContextListener5c
+{
+    void* m_vtbl;
+    PhysicsContext* context();
+};
+struct PhysicsContextListener60
+{
+    void* m_vtbl;
+};
+struct PhysicsContextListener64
+{
+    void* m_vtbl;
+    PhysicsContext* context();
+};
+struct PhysicsContextListener68
+{
+    void* m_vtbl;
+    PhysicsContext* context();
+};
+struct PhysicsContext : PhysicsContextRefObject, PhysicsContextProcessPart, PhysicsContextListener54,
+                        PhysicsContextListener58, PhysicsContextListener5c, PhysicsContextListener60,
+                        PhysicsContextListener64, PhysicsContextListener68
+{
+    void** m_worlds;
+    int m_worldCount;
+};
+inline PhysicsContext* PhysicsContextProcessPart::context()
+{
+    return static_cast<PhysicsContext*>(this);
+}
+inline PhysicsContext* PhysicsContextListener5c::context()
+{
+    return static_cast<PhysicsContext*>(this);
+}
+inline PhysicsContext* PhysicsContextListener64::context()
+{
+    return static_cast<PhysicsContext*>(this);
+}
+inline PhysicsContext* PhysicsContextListener68::context()
+{
+    return static_cast<PhysicsContext*>(this);
+}
+
+struct FUN_00cd1f60_cls : PhysicsContextListener5c
 {
     void FUN_00cd1f60(void*);
 };
 // @fnv 0x00cd1f60
 void FUN_00cd1f60_cls::FUN_00cd1f60(void* value)
 {
-    Owner* owner = *(Owner**)((char*)this - 0x50);
+    Owner* owner = context()->m_owner;
     if (owner)
         reinterpret_cast<::Debugger836 *>((owner))->UntrackObject(value);
 }
@@ -155,7 +221,7 @@ struct Event
 struct Owner
 {
 };
-struct Sub
+struct Sub : ::PhysicsContextListener64
 {
     void DispatchEventToOwner(Event* e);
 };
@@ -164,12 +230,12 @@ struct Sub
 // @fnv 0x00cd1ff0
 void Sub::DispatchEventToOwner(Event* pEvent)
 {
-    Owner* owner = *(Owner**)((char*)this - 0x58);
+    ::Owner* owner = context()->m_owner;
     if (owner)
     {
         Obj* o = pEvent->obj;
         if (o && o->GetType() != 11)
-            reinterpret_cast<::Debugger836 *>(((*(Owner**)((char*)this - 0x58))))->UntrackObject(pEvent);
+            reinterpret_cast<::Debugger836 *>(context()->m_owner)->UntrackObject(pEvent);
     }
 }
 }  // namespace fnv_00cd1ff0
@@ -230,15 +296,15 @@ void Context::FUN_00cd2020(void* value)
 struct FUN_00cd10a0_Class
 {
 };
-struct FUN_00cd2040_Class
+struct FUN_00cd2040_Class : ::PhysicsContextListener68
 {
     void ForwardToTarget(void* value);
 };
-// Reads a pointer stored at this-0x5c and, if non-null, forwards value to its UntrackObject method.
+// Reads the context's owner and, if non-null, forwards value to its UntrackObject method.
 // @fnv 0x00cd2040
 void FUN_00cd2040_Class::ForwardToTarget(void* value)
 {
-    FUN_00cd10a0_Class* target = *(FUN_00cd10a0_Class**)((char*)this - 0x5c);
+    FUN_00cd10a0_Class* target = reinterpret_cast<FUN_00cd10a0_Class*>(context()->m_owner);
     if (target)
         reinterpret_cast<::Debugger836 *>((target))->UntrackObject(value);
 }
@@ -1113,58 +1179,31 @@ struct SpawnedCallee
 {
 };
 
-struct FUN_00cd24d0_cls
+struct FUN_00cd24d0_cls : PhysicsContextProcessPart
 {
-    int unk00;
-    int m_04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2C;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3C;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4C;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5C;
-    int unk60;
-    void** m_64;
-    int m_68;
-
-    void FUN_00cd24d0(int value);
+    void FUN_00cd24d0(Owner* value);
 };
 
-// If m_04 was set, calls FUN_00cd2080 on each of m_68 entries in m_64, stores value in m_04, then calls RegisterWithRegistry on each entry when value is nonzero.
+// hkProcessContext::setOwner: if an owner was set, calls FUN_00cd2080 on each world, stores the owner, then calls RegisterWithRegistry on each world when the owner is non-null.
 // @fnv 0x00cd24d0
-void FUN_00cd24d0_cls::FUN_00cd24d0(int value)
+void FUN_00cd24d0_cls::FUN_00cd24d0(Owner* value)
 {
-    if (m_04 != 0)
+    PhysicsContext* ctx = context();
+    if (m_owner != 0)
     {
-        for (int i = 0; i < m_68; ++i)
+        for (int i = 0; i < ctx->m_worldCount; ++i)
         {
-            reinterpret_cast<::S_00cd2080_Class *>((((SpawnedCallee*)((char*)this - 8))))->FUN_00cd2080((::S_00cd2080_Param *)(m_64[i]));
+            reinterpret_cast<::S_00cd2080_Class *>(ctx)->FUN_00cd2080((::S_00cd2080_Param *)(ctx->m_worlds[i]));
         }
     }
 
-    m_04 = value;
+    m_owner = value;
 
     if (value != 0)
     {
-        for (int i = 0; i < m_68; ++i)
+        for (int i = 0; i < ctx->m_worldCount; ++i)
         {
-            reinterpret_cast<::CD22Object *>((((SpawnedCallee*)((char*)this - 8))))->RegisterWithRegistry((::CD22Registry *)(m_64[i]));
+            reinterpret_cast<::CD22Object *>(ctx)->RegisterWithRegistry((::CD22Registry *)(ctx->m_worlds[i]));
         }
     }
 }

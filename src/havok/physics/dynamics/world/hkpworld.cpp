@@ -11353,7 +11353,7 @@ void S97_World::FUN_00c97850(const S97_Collidable* collA, const S97_CollisionInp
         if (kdTree) {
             S97_timer(str_010c6970);
             S97_Array<unsigned long, S97_TempAllocator> hits;
-            ::FUN_00d1b850((::QueryObj *)(kdTree), (int)&(aabb), (int)&(hits));
+            ::FUN_00d1b850((::QueryObj *)(kdTree), (intptr_t)&(aabb), (intptr_t)&(hits));
             S97_timer(str_010c6964);
             int typeA = collA->getShape()->getType();
             for (int i = 0; i < hits.GetLogicalSize(); i++) {

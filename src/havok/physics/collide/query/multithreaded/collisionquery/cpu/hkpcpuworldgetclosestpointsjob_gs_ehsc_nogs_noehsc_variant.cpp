@@ -1604,7 +1604,7 @@ if(aabbTreeInt)
 }
 if(kdTree)
 {
-::FUN_00d1b9b0((::QueryObj *)(kdTree),(int)&(aabb),(int)(&broadPhaseCollector));
+::FUN_00d1b9b0((::QueryObj *)(kdTree),(intptr_t)&(aabb),(intptr_t)(&broadPhaseCollector));
 }
 }
 command->m_iResultCapacity=castCollector.m_iPointCount;

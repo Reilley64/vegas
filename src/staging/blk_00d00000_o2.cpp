@@ -1233,7 +1233,7 @@ void __cdecl FUN_00d1b850(QueryObj* obj, intptr_t arg1, intptr_t arg2)
 
 // Builds a frame from the vectors at p->m30 and p->m40 (start and difference) and calls FUN_00d1b4d0 with count m0C, or 128 if that is not positive.
 // @fnv 0x00d1b930
-void __cdecl FUN_00d1b930(S00d1b7f0_Input* p, intptr_t argB, intptr_t argC, intptr_t argD)
+int __cdecl FUN_00d1b930(S00d1b7f0_Input* p, intptr_t argB, intptr_t argC, int argD)
 {
     S00d1b7f0_Frame frame;
     __m128 end = _mm_load_ps(reinterpret_cast<const float*>(&p->m40));
@@ -1249,7 +1249,7 @@ void __cdecl FUN_00d1b930(S00d1b7f0_Input* p, intptr_t argB, intptr_t argC, intp
     int count = p->m0C;
     if (count <= 0)
         count = 128;
-    ::FUN_00d1b4d0((::S00d1b4d0_Node *)(first), (::S00d1b4d0_Entry *)(second), (*(const ::RealVec *)(&frame.diff)), (*(const ::RealVec *)(&frame.v0)), (::S00d1b4d0_Bounds *)(argB), count, (::S00d1b4d0_List *)(0), (::S00d1b4d0_Callback *)(0), (unsigned int **)(argC), argD);
+    return ::FUN_00d1b4d0((::S00d1b4d0_Node *)(first), (::S00d1b4d0_Entry *)(second), (*(const ::RealVec *)(&frame.diff)), (*(const ::RealVec *)(&frame.v0)), (::S00d1b4d0_Bounds *)(argB), count, (::S00d1b4d0_List *)(0), (::S00d1b4d0_Callback *)(0), (unsigned int **)(argC), argD);
 }
 
 struct FUN_00d1ba90

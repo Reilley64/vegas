@@ -173,7 +173,7 @@ struct TransformObj
 
     static void* operator new(std::size_t nbytes)
     {
-        TransformObj* p = (TransformObj*)static_cast<hkMemoryRouterStub*>(::FUN_00c85750())->heap().allocateChunk(nbytes);
+        TransformObj* p = (TransformObj*)static_cast<hkMemoryRouterStub*>(::FUN_00c85750())->heap().allocateChunk((int)nbytes);
         p->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return p;
     }
@@ -463,13 +463,13 @@ class Cc6830Motion
 
     static void* operator new(std::size_t nbytes)
     {
-        Cc6830Motion* p = (Cc6830Motion*)static_cast<Cc6830Router*>(::FUN_00c85750())->heap().allocate(nbytes);
+        Cc6830Motion* p = (Cc6830Motion*)static_cast<Cc6830Router*>(::FUN_00c85750())->heap().allocate((int)nbytes);
         p->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return p;
     }
     static void operator delete(void* p, std::size_t nbytes)
     {
-        FUN_00c8b4f0(p, nbytes);
+        FUN_00c8b4f0(p, (int)nbytes);
     }
 
     Cc6830Motion();
@@ -1086,7 +1086,7 @@ struct FUN_00d4f2a0
     static __forceinline void* operator new(std::size_t size) throw()
     {
         SpawnHolder* h = (SpawnHolder*)static_cast<hkMemoryRouterStub*>(::FUN_00c85750());
-        void* p = h->m_pAllocator->Alloc(size);
+        void* p = h->m_pAllocator->Alloc((unsigned int)size);
         ((FUN_00d4f2a0*)p)->m_iElementCount = (unsigned short)size;
         return p;
     }
@@ -1271,7 +1271,7 @@ struct EntityObj
     char unk5C, unk5D;
     static void* operator new(std::size_t nbytes)
     {
-        EntityObj* p = (EntityObj*)static_cast<hkMemoryRouterStub*>(::FUN_00c85750())->heap().allocateChunk(nbytes);
+        EntityObj* p = (EntityObj*)static_cast<hkMemoryRouterStub*>(::FUN_00c85750())->heap().allocateChunk((int)nbytes);
         p->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return p;
     }
@@ -1747,7 +1747,7 @@ struct ShapeObj
 
     static void* operator new(std::size_t nbytes)
     {
-        ShapeObj* p = (ShapeObj*)static_cast<hkMemoryRouterStub*>(::FUN_00c85750())->heap().allocateChunk(nbytes);
+        ShapeObj* p = (ShapeObj*)static_cast<hkMemoryRouterStub*>(::FUN_00c85750())->heap().allocateChunk((int)nbytes);
         p->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return p;
     }
@@ -1845,7 +1845,7 @@ struct S00cc4610_Out
     void* operator new(std::size_t n)
     {
         hkMemoryAllocator& a = static_cast<hkMemoryRouterStub*>(::FUN_00c85750())->heap();
-        void* p = a.allocateChunk(n);
+        void* p = a.allocateChunk((int)n);
         ((S00cc4610_Out*)p)->m_iElementCount = (unsigned short)n;
         return p;
     }
@@ -3073,7 +3073,7 @@ struct S00cc2530_FUN_00d4ce10
     S00cc2530_FUN_00d4ce10(int, const __m128*, int);
     static void* operator new(std::size_t n)
     {
-        void* p = static_cast<S00cc2530_Router306*>(::FUN_00c85750())->GetAllocator()->Allocate(n);
+        void* p = static_cast<S00cc2530_Router306*>(::FUN_00c85750())->GetAllocator()->Allocate((int)n);
         static_cast<S00cc2530_FUN_00d4ce10*>(p)->memorySize = (unsigned short)n;
         return p;
     }
@@ -3201,7 +3201,7 @@ struct Shape : RefCountedObject
     static void* operator new(std::size_t bytes)
     {
         hkMemoryRouterStub* router = static_cast<hkMemoryRouterStub*>(::FUN_00c85750());
-        Shape* result = static_cast<Shape*>(router->heap().allocateChunk(bytes));
+        Shape* result = static_cast<Shape*>(router->heap().allocateChunk((int)bytes));
         result->size = (unsigned short)bytes;
         return result;
     }
@@ -3229,7 +3229,7 @@ struct FUN_00cc9d00 : RefCountedObject
     static void* operator new(std::size_t bytes)
     {
         hkMemoryRouterStub* router = static_cast<hkMemoryRouterStub*>(::FUN_00c85750());
-        FUN_00cc9d00* result = static_cast<FUN_00cc9d00*>(router->heap().allocateChunk(bytes));
+        FUN_00cc9d00* result = static_cast<FUN_00cc9d00*>(router->heap().allocateChunk((int)bytes));
         result->size = (unsigned short)bytes;
         return result;
     }
@@ -3739,7 +3739,7 @@ struct hkReferencedObject
 
     __forceinline static void* operator new(std::size_t nbytes)
     {
-        hkReferencedObject* p = (hkReferencedObject*)static_cast<hkMemoryRouterStub*>(::FUN_00c85750())->heap().allocateChunk(nbytes);
+        hkReferencedObject* p = (hkReferencedObject*)static_cast<hkMemoryRouterStub*>(::FUN_00c85750())->heap().allocateChunk((int)nbytes);
         p->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return p;
     }
@@ -4577,7 +4577,7 @@ class FUN_00d55240_cls : public ::hkReferencedObject
 
     static void operator delete(void* p, std::size_t nbytes)
     {
-        ::fnv_00cc6830::FUN_00c8b4f0(p, nbytes);
+        ::fnv_00cc6830::FUN_00c8b4f0(p, (int)nbytes);
     }
 
     int unk08;
@@ -4762,7 +4762,7 @@ struct FUN_00d569c0
 
     static void* operator new(std::size_t nbytes)
     {
-        FUN_00d569c0* p = (FUN_00d569c0*)static_cast<hkMemoryRouterStub*>(::FUN_00c85750())->heap().allocateChunk(nbytes);
+        FUN_00d569c0* p = (FUN_00d569c0*)static_cast<hkMemoryRouterStub*>(::FUN_00c85750())->heap().allocateChunk((int)nbytes);
         p->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return p;
     }
@@ -5333,7 +5333,7 @@ struct FUN_00d58510
 
     static void* operator new(std::size_t nbytes)
     {
-        FUN_00d58510* p = (FUN_00d58510*)static_cast<hkMemoryRouterStub*>(::FUN_00c85750())->heap().allocateChunk(nbytes);
+        FUN_00d58510* p = (FUN_00d58510*)static_cast<hkMemoryRouterStub*>(::FUN_00c85750())->heap().allocateChunk((int)nbytes);
         p->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return p;
     }
@@ -5764,7 +5764,7 @@ struct FUN_00d4fe80 : ConstraintReference513 {
         return result;
     }
     static void* operator new(std::size_t size) {
-        return allocate(static_cast<hkMemoryRouterStub*>(::FUN_00c85750())->heap(),size);
+        return allocate(static_cast<hkMemoryRouterStub*>(::FUN_00c85750())->heap(),(unsigned int)size);
     }
     static void operator delete(void* p) { ((BlockAllocator*)static_cast<hkMemoryRouterStub*>(::FUN_00c85750())->m_pThreadAllocator)->release(p,((FUN_00d4fe80*)p)->memorySize); }
 };

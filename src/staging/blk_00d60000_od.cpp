@@ -165,7 +165,7 @@ struct FUN_004b4ab0_Class
     {
         __m128 value;
     };
-    void FUN_004b4ab0(int basis, int vector);
+    void FUN_004b4ab0(intptr_t basis, intptr_t vector);
     void FUN_00c7f700(const Basis* basis, const FUN_004b4ab0_Class* vector);
 };
 

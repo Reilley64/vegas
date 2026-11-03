@@ -1473,7 +1473,7 @@ void T_00605d70::FUN_00605d70(TESObjectREFR* apRef)
         if (apRef == ::_g_thePlayer && iPasses == 1)
         {
             pbiped = ((::BipedAnim *)(::_g_thePlayer->FUN_00950b00(reinterpret_cast<::FUN_004eaf60_shell *>((((PC_00605d70*)::_g_thePlayer)))->FUN_004eaf60())));
-            pobj = ((::NiNode *)(reinterpret_cast<::FUN_00950bb0_shell *>((((PC_00605d70*)::_g_thePlayer)))->FUN_00950bb0(true)));
+            pobj = ((::NiNode *)(std::uintptr_t)(reinterpret_cast<::FUN_00950bb0_shell *>((((PC_00605d70*)::_g_thePlayer)))->FUN_00950bb0(true)));
         }
         RebuildHeadModel(apRef, pbiped, false);
         reinterpret_cast<::BipedLoadAccess *>((((BA_00605d70*)pbiped)))->UpdateBipedObjects(0);
@@ -1751,7 +1751,7 @@ struct GameSettingCollection
 // @fnv 0x00608d80
 bool FUN_00608d80_shell::FUN_00608d80()
 {
-    return (int)(std::intptr_t)((::TESFile *)(reinterpret_cast<::FUN_004f8960_shell *>((((GameSettingCollection*)this)))->FUN_004f8960())) == 4 ? true : false;
+    return (int)(std::intptr_t)((::TESFile *)(std::uintptr_t)(reinterpret_cast<::FUN_004f8960_shell *>((((GameSettingCollection*)this)))->FUN_004f8960())) == 4 ? true : false;
 }
 
 struct FUN_006099f0_shell : public TESNPC
@@ -1770,7 +1770,7 @@ void FUN_006099f0_shell::LoadGamePostProcess(BGSLoadFormBuffer* apLoadGameBuffer
     if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(apLoadGameBuffer->GetOldChangeFlags(0x2000000)))->FUN_004280f0(0x2000000) && !reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(apLoadGameBuffer->GetChangeFlags(0x2000000)))->FUN_004280f0(0x2000000) &&
         m_pAssignedRace)
     {
-        reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(reinterpret_cast<unsigned int>(m_pAssignedRace)));
+        reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(void *)(m_pAssignedRace));
         m_pAssignedRace = 0;
         cresetFlags |= 0x1b;
     }
@@ -1941,7 +1941,7 @@ struct QueueHelper
 void QueueHelper::FUN_00444040(intptr_t aiArg1, int aiArg2, intptr_t aiArg3, int aiArg4, bool abFlag1, bool abFlag2, bool abFlag3)
 {
     GlobalObject_00528cb0 obj(0);
-    reinterpret_cast<::FUN_004440d0_shell *>(this)->QueueTaskByKey(aiArg1, (*(::QOut444 *)(&obj)), aiArg2, (::QueuedFile *)(aiArg3), aiArg4, abFlag1, abFlag2, abFlag3);
+    reinterpret_cast<::FUN_004440d0_shell *>(this)->QueueTaskByKey(aiArg1, (*(::QOut444 *)(&obj)), aiArg2, (::QueuedFile *)(std::uintptr_t)(aiArg3), aiArg4, abFlag1, abFlag2, abFlag3);
 }
 
 struct BSFaceGenManager;
@@ -2626,7 +2626,7 @@ struct FUN_006062e0_shell : public TESNPC
 
 struct SaveField
 {
-    unsigned int FUN_009611e0();
+    std::uintptr_t FUN_009611e0();
 };
 struct FaceValue
 {
@@ -2635,7 +2635,7 @@ struct FaceValue
 };
 struct FaceMatrix
 {
-    unsigned int FUN_009611e0();
+    std::uintptr_t FUN_009611e0();
     FaceValue FUN_0060b370(unsigned int index, unsigned int column);
 };
 struct GameForm
@@ -3121,7 +3121,7 @@ struct FUN_00603280_Api
 
 
 // @fnv 0x00603280
-void FUN_00603280(intptr_t aiFirstValue, int aiSecondValue, intptr_t pCollector)
+void FUN_00603280(std::intptr_t aiFirstValue, int aiSecondValue, std::intptr_t pCollector)
 {
     if (pCollector == 0)
     {
@@ -3913,11 +3913,11 @@ struct VirtHolder
 struct ProcessHost
 {
     void* FUN_0056fac0(OutBuf* out, CopyBlob9* blob);
-    void FUN_0060a890(intptr_t a1);
+    void FUN_0060a890(std::intptr_t a1);
 };
 
 // @fnv 0x0060a890
-void ProcessHost::FUN_0060a890(intptr_t pObject)
+void ProcessHost::FUN_0060a890(std::intptr_t pObject)
 {
     CopyBlob9 blob;
     (*reinterpret_cast<unsigned char *>(&::DAT_011c5cb4)) = 1;
@@ -3929,13 +3929,13 @@ void ProcessHost::FUN_0060a890(intptr_t pObject)
         std::intptr_t x;
         std::intptr_t y;
         std::intptr_t p;
-        x = (std::intptr_t)((void *)(reinterpret_cast<::FUN_00950bb0_shell *>((((ProcessHost*)(*reinterpret_cast<int *>(&::_g_thePlayer)))))->FUN_00950bb0(1)));
+        x = (std::intptr_t)((void *)(std::uintptr_t)(reinterpret_cast<::FUN_00950bb0_shell *>((((*reinterpret_cast<ProcessHost**>(&::_g_thePlayer)))))->FUN_00950bb0(1)));
         y = x != 0 ? x : 0;
         p = y != 0 ? (std::intptr_t)((void *)(reinterpret_cast<::S_FUN_0045bc00 *>((((ProcessHost*)y)))->FUN_0045bc00(0))) : 0;
         blob = *(CopyBlob9*)&(*reinterpret_cast<unsigned char *>(&::DAT_011a9448));
         if (p != 0)
         {
-            reinterpret_cast<::FUN_0043fa80_s *>((((ProcessHost*)p)))->FUN_0043fa80((*(const ::ThreeByThreeMatrix *)(((ProcessHost*)(*reinterpret_cast<int *>(&::_g_thePlayer)))->FUN_0056fac0(&out, &blob))));
+            reinterpret_cast<::FUN_0043fa80_s *>((((ProcessHost*)p)))->FUN_0043fa80((*(const ::ThreeByThreeMatrix *)(((*reinterpret_cast<ProcessHost**>(&::_g_thePlayer)))->FUN_0056fac0(&out, &blob))));
         }
     }
 }
@@ -5024,7 +5024,7 @@ struct CopyData
 
     virtual float GetFactor();
 
-    virtual int GetData();
+    virtual std::intptr_t GetData();
     int unk004;
 
     int unk008;
@@ -5173,7 +5173,7 @@ void CopyData::FUN_00604ba0(CopyPrefix* apSource)
     {
         unsigned short flags;
 
-        if (!((::CopyNpc *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType())) && !apSource)
+        if (!((::CopyNpc *)(std::uintptr_t)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType())) && !apSource)
             return;
 
         {
@@ -5183,7 +5183,7 @@ void CopyData::FUN_00604ba0(CopyPrefix* apSource)
             source9 = 0;
 
             if (!reinterpret_cast<::FUN_0047cdd0_shell *>(this)->FUN_0047cdd0())
-                source9 = ((::CopyNpc *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType()));
+                source9 = ((::CopyNpc *)(std::uintptr_t)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType()));
 
             if (apSource && apSource->FUN_00401170() == 42)
                 source9 = static_cast<CopyNpc*>(apSource);
@@ -5197,7 +5197,7 @@ void CopyData::FUN_00604ba0(CopyPrefix* apSource)
 
                 reinterpret_cast<::FUN_00601c70_shell *>((source9))->FUN_00601c70(*((std::intptr_t *)((void *)(((::DefaultNpcValue *)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::DefaultNpcManager * *>(&::g_dataHandler))))->GetTESClassList()))))));
             }
-            else if (((::CopyNpc *)(reinterpret_cast<::ActorMover *>((source9))->GetCurrentMoveModeType())) && !reinterpret_cast<::TABStub *>((source9))->FUN_0047cca0())
+            else if (((::CopyNpc *)(std::uintptr_t)(reinterpret_cast<::ActorMover *>((source9))->GetCurrentMoveModeType())) && !reinterpret_cast<::TABStub *>((source9))->FUN_0047cca0())
                 source9->Reset(0);
 
             if (reinterpret_cast<::FUN_0047cd40_shell *>(this)->FUN_0047cd40(9))
@@ -6385,7 +6385,7 @@ void HeadNPC::FUN_00606820(TESObjectREFR* ref, NiPointer<BipedAnim>* biped)
                     {
                         node7_2 = ((::FaceObject *)(reinterpret_cast<::NiNode *>((node9))->GetAt(index4)));
                         aNode5 = node7_2 ? node7_2->IsTriBasedGeom() : 0;
-                        if (aNode5 && reinterpret_cast<::_FUN_0052aa80_shell *>((void *)(((FacePointerCompare*)&m_pkPrimaryFaceGenNode)))->operator!=((int)(node9)))
+                        if (aNode5 && reinterpret_cast<::_FUN_0052aa80_shell *>((void *)(((FacePointerCompare*)&m_pkPrimaryFaceGenNode)))->operator!=((std::intptr_t)(node9)))
                         {
                             reinterpret_cast<::NiObjectD510 *>((((::FaceGeometryData *)(::fnv_005495f0::FUN_005495f0((const char *)(aNode5))))))->FUN_00a5d510((::NiPointerD510 &)(copiedData));
                             bipedNode_2 = (NiAVObject*)copiedData;
@@ -6393,7 +6393,7 @@ void HeadNPC::FUN_00606820(TESObjectREFR* ref, NiPointer<BipedAnim>* biped)
                                 aNode5->SetGeometryData((NiAVObject*)bipedNode_2);
                         }
                     }
-                    if (reinterpret_cast<::_FUN_0052aa80_shell *>((void *)(((FacePointerCompare*)&m_pkPrimaryFaceGenNode)))->operator!=((int)(node9)))
+                    if (reinterpret_cast<::_FUN_0052aa80_shell *>((void *)(((FacePointerCompare*)&m_pkPrimaryFaceGenNode)))->operator!=((std::intptr_t)(node9)))
                     {
                         nodeB = ((::FaceObject *)(reinterpret_cast<::FUN_00649680 *>((node9->GetFaceAnimation()))->FUN_0064c5a0()));
                         if (nodeB)
@@ -6416,7 +6416,7 @@ void HeadNPC::FUN_00606820(TESObjectREFR* ref, NiPointer<BipedAnim>* biped)
                         aNode5 = node7_2 ? node7_2->IsTriBasedGeom() : 0;
                         if (aNode5)
                         {
-                            if (reinterpret_cast<::_FUN_0052aa80_shell *>((void *)(((FacePointerCompare*)&m_pkSecondaryFaceGenNode)))->operator!=((int)(bipedNodeVal)))
+                            if (reinterpret_cast<::_FUN_0052aa80_shell *>((void *)(((FacePointerCompare*)&m_pkSecondaryFaceGenNode)))->operator!=((std::intptr_t)(bipedNodeVal)))
                             {
                                 reinterpret_cast<::NiObjectD510 *>((((::FaceGeometryData *)(::fnv_005495f0::FUN_005495f0((const char *)(aNode5))))))->FUN_00a5d510((::NiPointerD510 &)(copiedData));
                                 bipedNode_2 = (NiAVObject*)copiedData;
@@ -6430,7 +6430,7 @@ void HeadNPC::FUN_00606820(TESObjectREFR* ref, NiPointer<BipedAnim>* biped)
                                 {
                                     NiSkinInstance* l = ((::NiSkinInstance *)(reinterpret_cast<::fnv_006072c0::Outer6072 *>((extra->GetModelFilePath()))->FUN_006072c0()));
                                     NiSkinInstance* k = ((::NiSkinInstance *)(::fnv_0043fad0::FUN_0043fad0((const char *)(aNode5))));
-                                    FaceObject** ba = ((::FaceObject **)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((l))->FUN_00825c00()));
+                                    FaceObject** ba = ((::FaceObject **)(std::uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((l))->FUN_00825c00()));
                                     std::uintptr_t b = ((std::uintptr_t)(reinterpret_cast<::LowProcess *>((((::FaceSkinData *)(reinterpret_cast<::TESRegionDataMap *>((l))->GetRegionMapName()))))->GetActiveCombatTarget()));
                                     for (unsigned int j = 0; j < b; j++)
                                         reinterpret_cast<::FUN_004adda0_shell *>((k))->SetBone(j, (::NiAVObject *)(ba[j]));
@@ -6447,7 +6447,7 @@ void HeadNPC::FUN_00606820(TESObjectREFR* ref, NiPointer<BipedAnim>* biped)
                             }
                         }
                     }
-                    if (reinterpret_cast<::_FUN_0052aa80_shell *>((void *)(((FacePointerCompare*)&m_pkSecondaryFaceGenNode)))->operator!=((int)(bipedNodeVal)))
+                    if (reinterpret_cast<::_FUN_0052aa80_shell *>((void *)(((FacePointerCompare*)&m_pkSecondaryFaceGenNode)))->operator!=((std::intptr_t)(bipedNodeVal)))
                     {
                         if (!nodeB)
                         {
@@ -7314,7 +7314,7 @@ void FloatInsertVector::Insert(FloatInsertIterator where, unsigned int count, co
         reinterpret_cast<::FUN_0060bb40_class *>(this)->FUN_0060bb40(where.current, last, where.current + count);
         try
         {
-            reinterpret_cast<::Unk060b8a0 *>(this)->FUN_0060b8a0((std::intptr_t)(last), count - (last - where.current), (int)&(tmp));
+            reinterpret_cast<::Unk060b8a0 *>(this)->FUN_0060b8a0((std::intptr_t)(last), count - (last - where.current), (std::intptr_t)&(tmp));
         }
         catch (...)
         {
@@ -7357,7 +7357,7 @@ struct Matrix75
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
     Matrix75();
     ~Matrix75();
-    unsigned int FUN_009611e0();
+    std::uintptr_t FUN_009611e0();
     Cell75 FUN_0060b370(unsigned int, unsigned int);
 };
 
@@ -7962,7 +7962,7 @@ bool TESNPCActivate::FUN_00607990(TESObjectREFR* apTargetRef, TESObjectREFR* apA
     if (reinterpret_cast<::MiddleHighProcess *>((pTarget))->IsActorInCombat() && apActivatorRef == ::_g_thePlayer)
     {
         if (::FUN_00754d90(pTarget))
-            ::FUN_00709470(8, (int)(apTargetRef), (int)(0), (int)(0), 0);
+            ::FUN_00709470(8, (std::intptr_t)(apTargetRef), (int)(0), (int)(0), 0);
         return false;
     }
 
@@ -7986,7 +7986,7 @@ bool TESNPCActivate::FUN_00607990(TESObjectREFR* apTargetRef, TESObjectREFR* apA
             reinterpret_cast<::MiddleHighProcess *>((pTarget))->IsActorInCombat())
         {
             reinterpret_cast<::VATS *>(&((*reinterpret_cast<::ActivationMenuState *>(&::g_011f2250))))->FUN_009c8950(0, 0);
-            ::FUN_00709470(4, (int)(pTarget), (int)(0), (int)(0), 1);
+            ::FUN_00709470(4, (std::intptr_t)(pTarget), (int)(0), (int)(0), 1);
         }
         else if (pTarget && (!((bool)(reinterpret_cast<::FUN_00493bb0_Class *>((static_cast<ActorQueries*>(pTarget)))->FUN_00493bb0())) || pTarget->GetHasKnockedState()) &&
                  (pActivator != ::_g_thePlayer || !pTarget->GetSitSleepState() || pTarget->GetSitSleepState() == 9 ||
@@ -8040,7 +8040,7 @@ bool TESNPCActivate::FUN_00607990(TESObjectREFR* apTargetRef, TESObjectREFR* apA
                         }
                         else
                         {
-                            ::FUN_00709470(1, (int)(apTargetRef), (int)(0), (int)(0), 2);
+                            ::FUN_00709470(1, (std::intptr_t)(apTargetRef), (int)(0), (int)(0), 2);
                         }
                     }
                     else
@@ -8112,7 +8112,7 @@ bool TESNPCActivate::FUN_00607990(TESObjectREFR* apTargetRef, TESObjectREFR* apA
                                     if (pMenuOwner == ::_g_thePlayer)
                                         pMenuOwner = pTarget;
                                     reinterpret_cast<::VATS *>(&((*reinterpret_cast<::ActivationMenuState *>(&::g_011f2250))))->FUN_009c8950(0, 0);
-                                    ::FUN_00709470(4, (int)(pMenuOwner), (int)(pMenuTopic), (int)(0), 1);
+                                    ::FUN_00709470(4, (std::intptr_t)(pMenuOwner), (std::intptr_t)(pMenuTopic), (int)(0), 1);
                                 }
                                 else
                                 {
@@ -8153,7 +8153,7 @@ bool TESNPCActivate::FUN_00607990(TESObjectREFR* apTargetRef, TESObjectREFR* apA
                                 TESObjectREFR* m_pDialogueSpeaker = pActivator;
                                 if (m_pDialogueSpeaker == ::_g_thePlayer)
                                     m_pDialogueSpeaker = pTarget;
-                                ::FUN_00709470(4, (int)(m_pDialogueSpeaker), (int)(pMenuTopic), (int)(0), 1);
+                                ::FUN_00709470(4, (std::intptr_t)(m_pDialogueSpeaker), (std::intptr_t)(pMenuTopic), (int)(0), 1);
                             }
                         }
                         delete pDialogueItem;
@@ -8167,7 +8167,7 @@ bool TESNPCActivate::FUN_00607990(TESObjectREFR* apTargetRef, TESObjectREFR* apA
                         if (!pNPC)
                         {
                             pTarget->RemoveItem(apObjectToGet, 0, aiCount, true, 0, pActivator, 0, 0, true, false);
-                            reinterpret_cast<::Actor *>((pActivator))->FUN_008c00e0(pTarget, (int)(apObjectToGet), aiCount);
+                            reinterpret_cast<::Actor *>((pActivator))->FUN_008c00e0(pTarget, (std::intptr_t)(apObjectToGet), aiCount);
                             return true;
                         }
                     }
@@ -8215,7 +8215,7 @@ bool TESNPCActivate::FUN_00607990(TESObjectREFR* apTargetRef, TESObjectREFR* apA
             {
                 if (pActivator == ::_g_thePlayer)
                 {
-                    ::FUN_00709470(1, (int)(apTargetRef), (int)(0), (int)(0), 1);
+                    ::FUN_00709470(1, (std::intptr_t)(apTargetRef), (int)(0), (int)(0), 1);
                 }
                 else if (apObjectToGet)
                 {
@@ -8258,7 +8258,7 @@ class FUN_004ac110_shell_ctx
 class FUN_009611e0_shell_ctx
 {
   public:
-    int FUN_009611e0();
+    std::intptr_t FUN_009611e0();
 };
 
 class FUN_006141f0_shell
@@ -8657,7 +8657,7 @@ void TESNPCFace::FUN_00609f60(Actor* apActor)
             }
             reinterpret_cast<::TESNPC *>((((NPCFace*)this)))->ResetFaceGen();
             if (FUN_005d9f90((char*)apActor))
-                reinterpret_cast<::HeadNPC *>((((NPCFace*)this)))->FUN_00606820((::TESObjectREFR *)(apActor), (::NiPointer< ::BipedAnim> *)(FUN_005d9f90((char*)apActor)));
+                reinterpret_cast<::HeadNPC *>((((NPCFace*)this)))->FUN_00606820((::TESObjectREFR *)(apActor), (::NiPointer< ::BipedAnim> *)(std::uintptr_t)(FUN_005d9f90((char*)apActor)));
             if (((ActorFace*)apActor)->GetHeadRootNode(false) && ((ActorFace*)apActor)->GetFaceRootNode(false))
             {
                 FUN_005dd590 kData;
@@ -8979,10 +8979,10 @@ void ThisT::FUN_0060a950(ParamT* param)
                 reinterpret_cast<::FUN_005b8fc0_shell *>((p44))->FUN_005b8fc0((::NiNode *)(void *)(((::ListT *)(::FUN_00559450((int *)&(c))))));
                 p44->FUN_004f3200(3);
                 p44->FUN_0060aeb0(2);
-                if (((int)(reinterpret_cast<::FUN_00a59d30_C *>((((::ListT *)(::FUN_00559450((int *)&(a))))))->FUN_00a59d30(5))))
+                if (((std::intptr_t)(reinterpret_cast<::FUN_00a59d30_C *>((((::ListT *)(::FUN_00559450((int *)&(a))))))->FUN_00a59d30(5))))
                     reinterpret_cast<::ExtraOwnerB *>((((::ListT *)(::FUN_00559450((int *)&(a))))))->FUN_00a5b230(5);
                 reinterpret_cast<::FUN_00439410_cls *>((((::ListT *)(::FUN_00559450((int *)&(a))))))->FUN_00439410((::ArgObject *)(p44));
-                if (((int)(reinterpret_cast<::FUN_00a59d30_C *>((((::ListT *)(::FUN_00559450((int *)&(eye))))))->FUN_00a59d30(5))))
+                if (((std::intptr_t)(reinterpret_cast<::FUN_00a59d30_C *>((((::ListT *)(::FUN_00559450((int *)&(eye))))))->FUN_00a59d30(5))))
                     reinterpret_cast<::ExtraOwnerB *>((((::ListT *)(::FUN_00559450((int *)&(eye))))))->FUN_00a5b230(5);
                 reinterpret_cast<::FUN_00439410_cls *>((((::ListT *)(::FUN_00559450((int *)&(eye))))))->FUN_00439410((::ArgObject *)(p44));
             }

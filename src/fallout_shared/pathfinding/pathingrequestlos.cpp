@@ -60,12 +60,18 @@ struct BSSimpleArray_ParentSpaceNode
 };
 struct PathingRequest
 {
+    char layoutPadding0[0xB0];
     void LoadGame(BGSLoadFormBuffer* buffer);
 public:
     void CopyTo(::PathingRequest *);
 };
 struct PathingRequestLOS_ : public PathingRequest
 {
+    unsigned int uiUnkB0;
+    void* kParentSpaceNodes[4];
+    float fUnkC4;
+    float afTargetPosition[3];
+    float fUnkD4;
     void FUN_006e5c00(BGSLoadFormBuffer* buffer);
 };
 // Calls LoadGame, then reads a count and that many 12-byte nodes into the array at offset 0xb4, followed by fields at 0xc4, 0xc8 and 0xd4.
@@ -74,16 +80,16 @@ void PathingRequestLOS_::FUN_006e5c00(BGSLoadFormBuffer* buffer)
 {
     LoadGame(buffer);
     unsigned int count = reinterpret_cast<::fnv_00864a60::FUN_00864a60_cls *>((buffer))->FUN_00864a60();
-    reinterpret_cast<::fnv_0069cea0::FUN_0069cea0_class *>((((BSSimpleArray_ParentSpaceNode*)((char*)this + 0xb4))))->FUN_0069cea0(count, 1);
+    reinterpret_cast<::fnv_0069cea0::FUN_0069cea0_class *>((((BSSimpleArray_ParentSpaceNode*)((char*)&this->kParentSpaceNodes))))->FUN_0069cea0(count, 1);
     unsigned int i = 0;
     for (; i < count; ++i)
     {
-        ParentSpaceNode& node = ((BSSimpleArray_ParentSpaceNode*)((char*)this + 0xb4))->GetAt(i);
+        ParentSpaceNode& node = ((BSSimpleArray_ParentSpaceNode*)((char*)&this->kParentSpaceNodes))->GetAt(i);
         reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&node), 12);
     }
-    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)this + 0xc4), 4);
-    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)this + 0xc8), 12);
-    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)this + 0xd4), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)&this->fUnkC4), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)&this->afTargetPosition), 12);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)&this->fUnkD4), 4);
 }
 
 struct S_006e5a40
@@ -117,7 +123,7 @@ struct Helper62d0
 struct BSSimpleArray_1024
 {
 };
-struct FUN_006e5a80_shell : public PathingRequest
+struct FUN_006e5a80_shell : public PathingRequestLOS_
 {
     void FUN_006e5a80(PathingRequest* apDest);
 };
@@ -126,10 +132,10 @@ void FUN_006e5a80_shell::FUN_006e5a80(PathingRequest* apDest)
 {
     PathingRequest* pdest = apDest;
     reinterpret_cast<::PathingRequest *>((((PathingRequestCopyHelper*)this)))->CopyTo(pdest);
-    *(Helper62d0*)((char*)pdest + 0xb0) = *(Helper62d0*)((char*)this + 0xb0);
-    reinterpret_cast<::FUN_0069cfe0_cls *>((((BSSimpleArray_1024*)((char*)this + 0xb4))))->CopyElementsTo((::FUN_0069cfe0_Dst *)(::BSSimpleArray_1024 *)((BSSimpleArray_1024*)((char*)pdest + 0xb4)));
-    *(float*)((char*)pdest + 0xc4) = *(float*)((char*)this + 0xc4);
-    ((C_006e5a40*)pdest)->FUN_006e5a40(*(S_006e5a40*)((char*)this + 0xc8), *(float*)((char*)this + 0xd4));
+    *(Helper62d0*)((char*)&((PathingRequestLOS_*)pdest)->uiUnkB0) = *(Helper62d0*)((char*)&this->uiUnkB0);
+    reinterpret_cast<::FUN_0069cfe0_cls *>((((BSSimpleArray_1024*)((char*)&this->kParentSpaceNodes))))->CopyElementsTo((::FUN_0069cfe0_Dst *)(::BSSimpleArray_1024 *)((BSSimpleArray_1024*)((char*)&((PathingRequestLOS_*)pdest)->kParentSpaceNodes)));
+    ((PathingRequestLOS_*)pdest)->fUnkC4 = this->fUnkC4;
+    ((C_006e5a40*)pdest)->FUN_006e5a40(*(S_006e5a40*)((char*)&this->afTargetPosition), this->fUnkD4);
 }
 
 struct BGSSaveGameBuffer
@@ -160,8 +166,8 @@ void FUN_006e5b20_shell::FUN_006e5b20(BGSSaveFormBuffer* apSaveGameBuffer)
     reinterpret_cast<::FUN_006e3230_shell *>((reinterpret_cast<StandIn5740*>(this)))->FUN_006e3230(apSaveGameBuffer);
 
     unsigned int isaveGameCount =
-        (reinterpret_cast<std::uintptr_t>(this) + 0xB4) != 0
-            ? ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<TESObjectREFR_GetFlags_Helper*>(reinterpret_cast<char*>(this) + 0xB4)))->GetName()))
+        (reinterpret_cast<std::uintptr_t>(&this->kParentSpaceNodes)) != 0
+            ? ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<TESObjectREFR_GetFlags_Helper*>((char*)&this->kParentSpaceNodes)))->GetName()))
             : 0;
 
     reinterpret_cast<BGSSaveGameBuffer*>(apSaveGameBuffer)->FUN_00865f60(isaveGameCount);
@@ -171,15 +177,15 @@ void FUN_006e5b20_shell::FUN_006e5b20(BGSSaveFormBuffer* apSaveGameBuffer)
         for (i = 0; i < isaveGameCount; ++i)
         {
             ParentSpaceNode& node =
-                reinterpret_cast<BSSimpleArray_ParentSpaceNode*>(reinterpret_cast<char*>(this) + 0xB4)->GetAt(i);
+                reinterpret_cast<BSSimpleArray_ParentSpaceNode*>((char*)&this->kParentSpaceNodes)->GetAt(i);
 
             reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(&node, 0xC, 0);
         }
     }
 
-    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(reinterpret_cast<char*>(this) + 0xC4, 4, 0);
-    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(reinterpret_cast<char*>(this) + 0xC8, 0xC, 0);
-    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(reinterpret_cast<char*>(this) + 0xD4, 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50((char*)&this->fUnkC4, 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50((char*)&this->afTargetPosition, 0xC, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50((char*)&this->fUnkD4, 4, 0);
 }
 
 

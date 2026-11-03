@@ -198,6 +198,48 @@
 #include "fnv/decl/LandLD.h"
 #include "fnv/decl/Region53.h"
 #include "fnv/decl/S00485110.h"
+
+// Layout of the TESObjectLAND fields the land accessors use: the land flags after TESForm and
+// TESChildCell, the parent cell, and the loaded land data with its cell grid position.
+struct LoadedLandDataView
+{
+    char pad[8];
+    void* unk08;
+    char padc[0x10 - 0xc];
+    unsigned char** ppaucUnk10;
+    char pad14[0x98 - 0x14];
+    int iCellX;
+    int iCellY;
+};
+struct LandFormView
+{
+    char formAndChildCell[0x1c];
+    unsigned int uiLandFlags;
+    void* pParentCell;
+    void* unk24;
+    LoadedLandDataView* pLoadedData;
+};
+// TESObjectLAND as its TESForm part and the TESChildCell base its thunks receive as this.
+struct LandFormPart
+{
+    char form[0x18];
+};
+struct LandChildCellPart
+{
+    const void* pChildCellVtable;
+};
+struct LandChildCellView : LandFormPart, LandChildCellPart
+{
+};
+// An object whose first component follows a TESBoundObject part.
+struct BoundObjectPart
+{
+    char boundObject[0x30];
+};
+struct FirstComponentPart
+{
+    char unk;
+};
 #include "fnv/decl/TESFile.h"
 #include "fnv/decl/Vec3.h"
 #include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
@@ -333,7 +375,7 @@ struct blob12
 // @fnv 0x00537b30
 CellMopp* GetCellMopp(char* pThis)
 {
-    return ((::CellMopp *)(reinterpret_cast<::fnv_0041bb10::FUN_0041bb10_Class *>((pThis + 0x28))->FUN_0041bb10()));
+    return ((::CellMopp *)(std::uintptr_t)(reinterpret_cast<::fnv_0041bb10::FUN_0041bb10_Class *>((pThis + 0x28))->FUN_0041bb10()));
 }
 
 
@@ -345,7 +387,7 @@ struct FUN_00538e30_class
 // @fnv 0x00538e30
 void SetVtable(FUN_00538e30_class* this_ptr)
 {
-    this_ptr->vtable = (int)&(*reinterpret_cast<int *>(&::DAT_0102e388));
+    this_ptr->vtable = (std::intptr_t)&(*reinterpret_cast<int *>(&::DAT_0102e388));
 }
 
 struct NiPoint3
@@ -1282,7 +1324,7 @@ void Mgr_e74120_iso::FUN_00e74120()
                             bool fl2 = arr->unk14;
                             std::uintptr_t prev = arr->unk34;
                             arr->unk34 =
-                                ((unsigned int)(reinterpret_cast<::IndexBufferManager *>((helper8c0))->PackBuffer((const unsigned short *)(data), a, b, (::COMBaseInterface *)(prev), (*(unsigned int *)(&tmp)), DAT_0126f0d0 == 0, fl2 ? 0x10 : 0)));
+                                ((std::uintptr_t)(reinterpret_cast<::IndexBufferManager *>((helper8c0))->PackBuffer((const unsigned short *)(data), a, b, (::COMBaseInterface *)(prev), (*(unsigned int *)(&tmp)), DAT_0126f0d0 == 0, fl2 ? 0x10 : 0)));
                             arr->unk2c = a;
                             arr->unk30 = tmp;
                         }
@@ -1324,7 +1366,7 @@ void Mgr_e74120_iso::FUN_00e74120()
         {
             UploadBatchHeader* h2 = delList->unk00;
             h2->ClearOwnership();
-            ::ApplyPacketUpdate((::PacketObj *)this, (::PacketTarget *)(h), (int)(delList->unk04));
+            ::ApplyPacketUpdate((::PacketObj *)this, (::PacketTarget *)(h), (std::intptr_t)(delList->unk04));
         }
         FUN_00aa1460(delList, sizeof(UploadBatchItem));
         delList = nx;
@@ -1540,32 +1582,32 @@ struct FUN_00533210_class {
 struct CellH {
 };
 
-struct FUN_00533fd0_Class {
+struct FUN_00533fd0_Class : LandFormView {
     int FUN_00533fd0();
 };
 
 // @fnv 0x00533fd0
 int FUN_00533fd0_Class::FUN_00533fd0()
 {
-    if (reinterpret_cast<void**>(this)[0x28 / 4])
-        return reinterpret_cast<int*>(reinterpret_cast<void**>(this)[0x28 / 4])[0x98 / 4];
-    if (reinterpret_cast<void**>(this)[0x20 / 4])
-        return reinterpret_cast<::TESObjectCELL *>((reinterpret_cast<CellH*>(reinterpret_cast<void**>(this)[0x20 / 4])))->GetCellGridX();
+    if (pLoadedData)
+        return pLoadedData->iCellX;
+    if (pParentCell)
+        return reinterpret_cast<::TESObjectCELL *>(pParentCell)->GetCellGridX();
     return 0;
 }
 
 namespace fnv_00534010 {
 struct CellH {  };
-struct FUN_00534010_od {
+struct FUN_00534010_od : ::LandFormView {
     int GetY();
 };
 // @fnv 0x00534010
 int FUN_00534010_od::GetY()
 {
-    if (*reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x28))
-        return *reinterpret_cast<int*>(*reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x28) + 0x9c);
-    if (*reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x20))
-        return reinterpret_cast<::TESObjectCELL *>((reinterpret_cast<CellH*>(*reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x20))))->GetCellGridY();
+    if (pLoadedData)
+        return pLoadedData->iCellY;
+    if (pParentCell)
+        return reinterpret_cast<::TESObjectCELL *>(pParentCell)->GetCellGridY();
     return 0;
 }
 }
@@ -1620,7 +1662,7 @@ struct TESWorldSpace {
 	enum PARENT_USE_FLAG { PARENT_USE_FLAG_0 = 0 };
 	TESWorldSpace* GetParentWorld(PARENT_USE_FLAG);
 };
-struct TESObjectLAND {
+struct TESObjectLAND : ::LandFormView {
 	void FUN_00534160(int);
 	void FUN_005340e0(TESObjectCELL* apCell);
 };
@@ -1628,9 +1670,9 @@ struct TESObjectLAND {
 void TESObjectLAND::FUN_005340e0(TESObjectCELL* apCell)
 {
 	TESWorldSpace* pworld;
-	*(TESObjectCELL**)((char*)this + 0x20) = apCell;
-	if (*(TESObjectCELL**)((char*)this + 0x20) != 0) {
-		pworld = (TESWorldSpace*)((void *)(reinterpret_cast<::TESObjectCELL *>((((DoorH_od*)*(TESObjectCELL**)((char*)this + 0x20))))->GetParentWorldSpace()));
+	pParentCell = apCell;
+	if (pParentCell != 0) {
+		pworld = (TESWorldSpace*)((void *)(reinterpret_cast<::TESObjectCELL *>(pParentCell)->GetParentWorldSpace()));
 		if (pworld != 0 && pworld->GetParentWorld((TESWorldSpace::PARENT_USE_FLAG)0) != 0)
 			FUN_00534160(1);
 		else
@@ -1641,19 +1683,19 @@ void TESObjectLAND::FUN_005340e0(TESObjectCELL* apCell)
 
 // namespace fnv_005340e0
 
-struct FUN_00534140_Class {
+struct FUN_00534140_Class : LandFormView {
     bool FUN_00534140();
 };
 
 // @fnv 0x00534140
 bool FUN_00534140_Class::FUN_00534140()
 {
-    if (((int*)this)[7] & 0x400)
+    if (uiLandFlags & 0x400)
         return true;
     return false;
 }
 
-struct FUN_00534160_Class {
+struct FUN_00534160_Class : LandFormView {
     void FUN_00534160(bool set);
 };
 
@@ -1661,12 +1703,12 @@ struct FUN_00534160_Class {
 void FUN_00534160_Class::FUN_00534160(bool set)
 {
     if (set)
-        *(int*)((char*)this + 0x1c) |= 0x400;
+        uiLandFlags |= 0x400;
     else
-        *(int*)((char*)this + 0x1c) &= ~0x400;
+        uiLandFlags &= ~0x400;
 }
 
-struct FUN_005341a0_Class {
+struct FUN_005341a0_Class : LandFormView {
     void FUN_005341a0(bool set);
 };
 
@@ -1674,19 +1716,19 @@ struct FUN_005341a0_Class {
 void FUN_005341a0_Class::FUN_005341a0(bool set)
 {
     if (set)
-        *(int*)((char*)this + 0x1c) |= 0x800;
+        uiLandFlags |= 0x800;
     else
-        *(int*)((char*)this + 0x1c) &= ~0x800;
+        uiLandFlags &= ~0x800;
 }
 
-struct FUN_005341e0_Class {
+struct FUN_005341e0_Class : LandFormView {
     bool FUN_005341e0();
 };
 
 // @fnv 0x005341e0
 bool FUN_005341e0_Class::FUN_005341e0()
 {
-    if (reinterpret_cast<const unsigned int*>(this)[7] & 0x10)
+    if (uiLandFlags & 0x10)
         return true;
     return false;
 }
@@ -1738,6 +1780,8 @@ void FUN_00534570_shell::FUN_00534570(unsigned int index, NiPoint3_od& vertex)
 template<int> struct EndianSizeTag {};
 
 struct FUN_00535a60_Class {
+    char pad[6];
+    unsigned short usUnk06;
     void FUN_00535a60();
 };
 
@@ -1745,7 +1789,7 @@ struct FUN_00535a60_Class {
 void FUN_00535a60_Class::FUN_00535a60()
 {
     ::FUN_00401080(reinterpret_cast<int*>(this));
-    ::FUN_00407a90((short *)(unsigned short *)(reinterpret_cast<unsigned short*>(reinterpret_cast<char*>(this) + 6)));
+    ::FUN_00407a90((short *)(unsigned short *)(&usUnk06));
 }
 
 // @fnv 0x00535ae0
@@ -1923,7 +1967,8 @@ extern int DAT_0102e378;
 
 struct FUN_00538ef0_class {
     void* m_ppVirtualMethodTable;
-    int m_kPointA;
+    unsigned short usUnk04;
+    unsigned short usUnk06;
     int m_kPointB;
     void FUN_00538f20();
     void* FUN_00538ef0();
@@ -1939,7 +1984,7 @@ void* FUN_00538ef0_class::FUN_00538ef0()
 {
     new ((void *)this) ::FUN_00538f20();
     m_ppVirtualMethodTable = &DAT_0102e378;
-    *(unsigned short*)((char*)this + 6) = 1;
+    usUnk06 = 1;
     return this;
 }
 
@@ -2033,14 +2078,17 @@ struct FUN_00539fd0 : public FUN_0053a000 {
 };
 
 struct FUN_0053a070_Class {
+    char pad[0xc];
+    int iUnk0c;
+    int iUnk10;
     void FUN_0053a070(int a, int b);
 };
 
 // @fnv 0x0053a070
 void FUN_0053a070_Class::FUN_0053a070(int a, int b)
 {
-    *(int*)((char*)this + 0x10) = a;
-    *(int*)((char*)this + 0xc) = b;
+    iUnk10 = a;
+    iUnk0c = b;
 }
 
 struct B006815c0 { B006815c0(); };
@@ -2102,11 +2150,16 @@ struct FUN_0053a760_Class {
     void FUN_0053a760(unsigned char a, unsigned short b, int c);
 };
 
+struct LandLayerView
+{
+    char pad[0x30];
+    int* apiLayers[4];
+};
 // @fnv 0x0053a760
 void FUN_0053a760_Class::FUN_0053a760(unsigned char a, unsigned short b, int c)
 {
     if (a < 4 && b < 6 && m_28)
-        ((int**)((char*)m_28 + 0x30))[a][b] = c;
+        reinterpret_cast<LandLayerView*>(m_28)->apiLayers[a][b] = c;
 }
 
 struct FUN_0053ae30_class {
@@ -2146,14 +2199,14 @@ struct Owner
     bool FUN_0053d2e0(std::intptr_t, std::intptr_t, std::intptr_t);
 };
 
-struct FUN_0053df00_Class {
+struct FUN_0053df00_Class : LandFormView {
     std::intptr_t FUN_0053df00();
 };
 
 // @fnv 0x0053df00
 std::intptr_t FUN_0053df00_Class::FUN_0053df00()
 {
-    return *(int*)((char*)this + 0x28) ? *(int*)((char*)*(int*)((char*)this + 0x28) + 8) : 0;
+    return pLoadedData ? reinterpret_cast<std::intptr_t>(pLoadedData->unk08) : 0;
 }
 
 struct Tmp53e210 {
@@ -2202,7 +2255,7 @@ struct FUN_0053e260_Class {
 // @fnv 0x0053e260
 unsigned char FUN_0053e260_Class::FUN_0053e260(int index, int offset)
 {
-    return ((unsigned char*)((void**)((void**)m_uiZ)[4])[index])[offset];
+    return static_cast<::LoadedLandDataView*>(m_uiZ)->ppaucUnk10[index][offset];
 }
 
 namespace fnv_0053f0e0 {
@@ -2283,32 +2336,36 @@ struct BGSTextureSet {
 };
 
 struct FUN_00541540_Class {
+    char pad[0x18];
+    BGSTextureSet* pTextureSet;
     void FUN_00541540(int a, QueuedFile* b);
 };
 
 // @fnv 0x00541540
 void FUN_00541540_Class::FUN_00541540(int a, QueuedFile* b)
 {
-    if (*(BGSTextureSet**)((char*)this + 0x18))
-        ((BGSTextureSet**)((char*)this + 0x18))[0]->LoadTextures(a, b, true);
+    if (pTextureSet)
+        pTextureSet->LoadTextures(a, b, true);
 }
 
 struct FUN_00541590_Class {
+    char pad[0x1f];
+    char cUnk1f;
     char FUN_00541590();
 };
 
 // @fnv 0x00541590
 char FUN_00541590_Class::FUN_00541590()
 {
-    return ((char*)this)[0x1f];
+    return cUnk1f;
 }
 
-struct S_00592cf0 { void* FUN_00592cf0(); };
+struct S_00592cf0 : ::BoundObjectPart, ::FirstComponentPart { void* FUN_00592cf0(); };
 
 // @fnv 0x00592cf0
 void* S_00592cf0::FUN_00592cf0()
 {
-    return this ? (void*)((char*)this + 0x30) : 0;
+    return this ? static_cast<::FirstComponentPart*>(this) : 0;
 }
 
 struct Param5380d0 {
@@ -2422,8 +2479,8 @@ struct TESObjectLAND : TESForm_od {
 void TESObjectLAND::FUN_00539010(bool altered)
 {
     reinterpret_cast<::fnv_00484730::FUN_00484730_shell *>(this)->FUN_00484730(altered);
-    if (altered && *(TESObjectREFR**)((char*)this + 0x20))
-        (*(TESObjectREFR**)((char*)this + 0x20))->SetTargetingState(1);
+    if (altered && reinterpret_cast<::LandFormView*>(this)->pParentCell)
+        reinterpret_cast<TESObjectREFR*>(reinterpret_cast<::LandFormView*>(this)->pParentCell)->SetTargetingState(1);
 }
 }
 
@@ -2459,11 +2516,11 @@ struct FUN_0053a700_Mid {
 struct FUN_0053a700_Holder {
     unsigned char pad[0x28];
     FUN_0053a700_Mid* p;
-    int FUN_0053a700(unsigned char, unsigned short);
+    std::intptr_t FUN_0053a700(unsigned char, unsigned short);
 };
 
 // @fnv 0x0053a700
-int FUN_0053a700_Holder::FUN_0053a700(unsigned char a1, unsigned short a2)
+std::intptr_t FUN_0053a700_Holder::FUN_0053a700(unsigned char a1, unsigned short a2)
 {
     int result = 0;
     if (a1 < 4 && a2 < 6 && p && p->arr[a1]) {
@@ -2490,7 +2547,7 @@ struct FUN_00537d60 : A51BF0Base {
 };
 
 // @fnv 0x00537d60
-void* FUN_00537d60_Create(unsigned int a, uintptr_t b, unsigned int c, int d, int e)
+void* FUN_00537d60_Create(std::uintptr_t a, uintptr_t b, unsigned int c, int d, int e)
 {
     FUN_00537d60* obj = new FUN_00537d60;
     if (obj) {
@@ -2508,7 +2565,7 @@ struct FUN_005330d8_class
 {
 };
 
-struct FUN_005331f0_class
+struct FUN_005331f0_class : ::LandChildCellPart
 {
     void FUN_005331f0();
 };
@@ -2517,7 +2574,7 @@ struct FUN_005331f0_class
 void FUN_005331f0_class::FUN_005331f0()
 {
     reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((reinterpret_cast<FUN_005330d8_class*>(
-        reinterpret_cast<char*>(this) - 0x18)))->FUN_007af430();
+        static_cast<::LandChildCellView*>(static_cast<::LandChildCellPart*>(this)))))->FUN_007af430();
 }
 
 extern int DAT_0102dcd4;
@@ -2694,7 +2751,7 @@ struct Data538110 {
     int m_14;
     int m_18;
     int m_1c;
-    int m_20arr[4];
+    void* m_20arr[4];
     int* m_30arr[4];
     int m_40arr[4];
 };
@@ -3707,8 +3764,8 @@ void Surface::FUN_005400e0()
    ShaderProperty* q=((::ShaderProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((((::QuadNode *)(reinterpret_cast<::S_FUN_0045bc00 *>((data->nodes[j]))->FUN_0045bc00(0)))))->FUN_00a59d30(3)));
    ShaderProperty* b=(!q ? 0 : (((int)(reinterpret_cast<::BGSTerrainManager *>((q))->GetMinLevel()))>=8 && ((int)(reinterpret_cast<::BGSTerrainManager *>((q))->GetMinLevel()))<=12)) ? q : 0;
    if(b && (!((void *)(reinterpret_cast<::S *>((b))->GetElement(9))) || !((void *)(reinterpret_cast<::fnv_00540570::FUN_00540570_Owner *>((b))->GetFltValue(9))))) {
-    e=((void *)(reinterpret_cast<::FUN_006fce30_shell *>((ba))->FUN_006fce30((int)&(c))));
-    l=((void *)(reinterpret_cast<::FUN_006fce70_shell *>((ba))->FUN_006fce70((int)&(c))));
+    e=((void *)(reinterpret_cast<::FUN_006fce30_shell *>((ba))->FUN_006fce30((std::intptr_t)&(c))));
+    l=((void *)(reinterpret_cast<::FUN_006fce70_shell *>((ba))->FUN_006fce70((std::intptr_t)&(c))));
     b->setFirst(9,e);
     b->setSecond(9,l);
     UVBounds cf=DAT_011a9bd0;
@@ -3718,7 +3775,7 @@ void Surface::FUN_005400e0()
      case 2:k=NiPoint2(0.0f,0.5f);break;
      case 3:k=NiPoint2(0.5f,0.5f);break;
     }
-    TexturePointer* eb=((::TexturePointer *)(reinterpret_cast<::BGSTerrainChunk *>((ba))->FUN_006fceb0((int)&(c))));
+    TexturePointer* eb=((::TexturePointer *)(reinterpret_cast<::BGSTerrainChunk *>((ba))->FUN_006fceb0((std::intptr_t)&(c))));
     if(eb) {
      short i=((short)(reinterpret_cast<::TESActorBaseData *>((((::TextureSample *)(::FUN_00559450((int *)(eb))))))->GetFatigue()));
      short a=((short)(reinterpret_cast<::BSShaderPPLightingProperty *>((((::TextureSample *)(::FUN_00559450((int *)(eb))))))->GetDiffuseTextureIndex()));
@@ -3917,8 +3974,8 @@ void VertOwner::FUN_00534390(unsigned int index, unsigned int vert, VertPt& out)
         found = true;
     } else if (tables->nodes && tables->nodes[index]) {
         VertGeom* geom = ((::VertGeom *)(reinterpret_cast<::NiNode *>((tables->nodes[index]))->GetAt(0)));
-        if (((::VertPt *)(reinterpret_cast<::FUN_004a8030_shell *>((geom))->FUN_004a8030()))) {
-            out = ((::VertPt *)(reinterpret_cast<::FUN_004a8030_shell *>((geom))->FUN_004a8030()))[vert];
+        if (((::VertPt *)(std::uintptr_t)(reinterpret_cast<::FUN_004a8030_shell *>((geom))->FUN_004a8030()))) {
+            out = ((::VertPt *)(std::uintptr_t)(reinterpret_cast<::FUN_004a8030_shell *>((geom))->FUN_004a8030()))[vert];
             found = true;
         } else {
             VertGeomData* data = ((::VertGeomData *)(::fnv_005495f0::FUN_005495f0((const char *)(geom))));
@@ -4021,7 +4078,7 @@ struct RgbaColor {
 };
 
 struct FUN_00534780_Class {
-    int m_00;
+    char* m_00;
     int m_04;
     unsigned char m_08;
     void FUN_00534780(int index, RgbaColor* out);
@@ -4817,7 +4874,7 @@ struct Worker53 {
 void Worker53::FUN_0053a090(bool update, int unused) {
  if (config->enabled) {
  for (int i=0; i<4; ++i) {
- Node53* node=((::Node53 *)(reinterpret_cast<::GuardedSubHolder *>(this)->FUN_00535af0(i)));
+ Node53* node=((::Node53 *)(std::uintptr_t)(reinterpret_cast<::GuardedSubHolder *>(this)->FUN_00535af0(i)));
  if (node) {
  if (update) {
  Mesh53* mesh=((::Mesh53 *)(reinterpret_cast<::S_FUN_0045bc00 *>((node))->FUN_0045bc00(0)));
@@ -4830,7 +4887,7 @@ void Worker53::FUN_0053a090(bool update, int unused) {
  NiTimeController* count=((::NiTimeController *)(reinterpret_cast<::FUN_00a59d30_C *>((object))->FUN_00a59d30(3)));
  NiTimeController* vertices=(count == 0 ? false : (((int)(reinterpret_cast<::BGSTerrainManager *>((count))->GetMinLevel()))>=8 && ((int)(reinterpret_cast<::BGSTerrainManager *>((count))->GetMinLevel()))<=12)) ? count : 0;
  if(vertices) {
- void* dest=((void *)(reinterpret_cast<::ActorMover *>((((::GeoData53 *)(::fnv_005495f0::FUN_005495f0((const char *)(object))))))->GetCurrentMoveModeType()));
+ void* dest=((void *)(std::uintptr_t)(reinterpret_cast<::ActorMover *>((((::GeoData53 *)(::fnv_005495f0::FUN_005495f0((const char *)(object))))))->GetCurrentMoveModeType()));
  ::__memcpy(dest,config->sources[i],0xd8c);
  reinterpret_cast<::fnv_00a66a60::GeometryDataA66A *>((((::GeoData53 *)(::fnv_005495f0::FUN_005495f0((const char *)(object))))))->FUN_00a66a60(0);
  vertices->SetGeometry(object);
@@ -5475,7 +5532,8 @@ NiPoint2 FUN_0053f440_shell::FUN_0053f440()
         {
             for (int i = 0; i < 4; i++)
             {
-                NiPoint2 kQuad = (*(::NiPoint2 *)(reinterpret_cast<::FUN_0053f390_cls *>(this)->FUN_0053f390((::FUN_0053f390_v2 *)(i), {})));
+                ::FUN_0053f390_v2 kQuadResult;
+                NiPoint2 kQuad = (*(::NiPoint2 *)(reinterpret_cast<::FUN_0053f390_cls *>(this)->FUN_0053f390(&kQuadResult, i)));
                 if (kQuad.x < pkData->kHeight.x)
                     pkData->kHeight.x = kQuad.x;
                 if (kQuad.y > pkData->kHeight.y)
@@ -6719,7 +6777,7 @@ if (!data->nodes) {
  Shape* shapesB[4]; FUN_00403d30(shapesB,0,16);
  NiPoint2 total(DAT_01016970,DAT_01015f5c);
  for(int quad=0;quad<4;quad++) {
-  data->nodes[quad]=((::Scene *)(reinterpret_cast<::GuardedSubHolder *>(this)->FUN_00535af0(quad)));
+  data->nodes[quad]=((::Scene *)(std::uintptr_t)(reinterpret_cast<::GuardedSubHolder *>(this)->FUN_00535af0(quad)));
   if(data->nodes[quad]) {
    savedA[quad]=reinterpret_cast<::FUN_00456630_helper *>((data->nodes[quad]))->FUN_00456610();
    reinterpret_cast<::TaskQueueInterface *>((data->nodes[quad]))->QueueActorDisarm(true);
@@ -6798,11 +6856,11 @@ Geometry5371* Land5371_od::FUN_005371b0(unsigned char index)
                                  data->texcoords[index], a, 1, 0,
                                  *f - 2, 1, f, s);
         NiPoint3_od h;
-        reinterpret_cast<::fnv_00535b30::FUN_00535b30_class_od *>(this)->FUN_00535b30((int)(&h));
+        reinterpret_cast<::fnv_00535b30::FUN_00535b30_class_od *>(this)->FUN_00535b30((std::intptr_t)(&h));
         reinterpret_cast<::FUN_00440460_S *>((p))->FUN_00440460((const ::V3 *)&(h));
         char i[260];
         FUN_00406d00(i, 260, "Block (%i, %i)", index % 4, index / 4);
-        ::AssignFixedString((char *)(p), (int)&(const ::NiFixedString &)(NiFixedString(i)), {});
+        ::AssignFixedString((char *)(p), (std::intptr_t)&(const ::NiFixedString &)(NiFixedString(i)), {});
     }
     return p;
 }
@@ -6949,7 +7007,7 @@ void This538110::FUN_00538110()
         int w;
         reinterpret_cast<::LayerOwner53a940 *>((((FUN_0053a940_Class*)this)))->FUN_0053a940();
         for (w = 0; w < 4; w++) {
-            if (m_28->m_20arr[w] != 0 && m_28->m_20arr[w] != FUN_00535ae0()) {
+            if (m_28->m_20arr[w] != 0 && m_28->m_20arr[w] != (void*)FUN_00535ae0()) {
                 X538110 v;
                 v.m_04 = (unsigned char)w;
                 v.m_06 = 0xffff;
@@ -7271,7 +7329,7 @@ struct Data538110_od_ctx {
     int m_14;
     int m_18;
     int m_1c;
-    int m_20arr[4];
+    void* m_20arr[4];
     int* m_30arr[4];
     int m_40arr[4];
 };
@@ -7705,8 +7763,8 @@ bool GeometryOwner_od_ctx::FUN_00539500(GeometryOwner_od_ctx* source)
         return false;
 
     geometry = new FUN_005405a0;
-    geometry->initialValue98 = ((void *)(reinterpret_cast<::TESObjectCELL *>((resource))->GetCellGridX()));
-    geometry->initialValue9c = ((void *)(reinterpret_cast<::TESObjectCELL *>((resource))->GetCellGridY()));
+    geometry->initialValue98 = ((void *)(std::uintptr_t)(reinterpret_cast<::TESObjectCELL *>((resource))->GetCellGridX()));
+    geometry->initialValue9c = ((void *)(std::uintptr_t)(reinterpret_cast<::TESObjectCELL *>((resource))->GetCellGridY()));
 
     geometry->positions = new FUN_006815c0*[4];
     geometry->transforms = new FUN_004a7800*[4];
@@ -7797,7 +7855,7 @@ struct Data538110_od_decl {
     int m_14;
     int m_18;
     int m_1c;
-    int m_20arr[4];
+    void* m_20arr[4];
     int* m_30arr[4];
     int m_40arr[4];
 };
@@ -8552,7 +8610,7 @@ struct Data538110_od_rtti
     int m_14;
     int m_18;
     int m_1c;
-    int m_20arr[4];
+    void* m_20arr[4];
     int* m_30arr[4];
     int m_40arr[4];
 };

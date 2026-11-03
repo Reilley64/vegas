@@ -771,7 +771,7 @@ TESForm* DoorCell::GetOwner()
 // @fnv 0x004610d0
 ExtraDataList* FUN_004610d0_shell::GetExtraDataList()
 {
-    return (ExtraDataList*)((char*)this + 0x28);
+    return &this->extraDataList;
 }
 
 
@@ -871,7 +871,7 @@ void FUN_00544390_shell::SetFlag40(bool abVal)
         this->field24 |= 0x40;
     else
         this->field24 &= ~0x40;
-    (*(void(**)(TESObjectCELL*, int))(*(unsigned int*)this + 0x48))(this, 2);
+    (*(void(**)(TESObjectCELL*, int))(*(char**)this + 0x48))(this, 2);
 }
 
 struct FUN_005445d0_shell : public TESObjectCELL
@@ -1380,16 +1380,16 @@ struct VClass1d0
 // @fnv 0x005452c0
 void FUN_005452c0_shell::RegisterReferenceInCell(TESObjectREFR* apRef)
 {
-    if (*reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0xc4) == 0 || !apRef ||
+    if (this->pRenderData == 0 || !apRef ||
         !reinterpret_cast<VClass1d0*>(apRef)->vfn_1d0())
         return;
 
     reinterpret_cast<::FUN_00844700_Class *>((reinterpret_cast<NiTPointerMap<unsigned int, unsigned int>*>(
-        *reinterpret_cast<char**>(reinterpret_cast<char*>(this) + 0xc4) + 0xc)))->FUN_00844700(reinterpret_cast<unsigned int>(apRef), reinterpret_cast<VClass1d0*>(apRef)->vfn_1d0()->vfn_0c());
+        (char*)this->pRenderData + 0xc)))->FUN_00844700(reinterpret_cast<unsigned int>(apRef), reinterpret_cast<VClass1d0*>(apRef)->vfn_1d0()->vfn_0c());
 
     if (reinterpret_cast<::fnv_0050ebf0::FUN_0050ebf0_shell *>((((::TESBoundObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((apRef))->FUN_007af430()))))->FUN_0050ebf0() > DAT_0102ed48)
     {
-        reinterpret_cast<BSSimpleList<char const*>*>(*reinterpret_cast<char**>(reinterpret_cast<char*>(this) + 0xc4) +
+        reinterpret_cast<BSSimpleList<char const*>*>((char*)this->pRenderData +
                                                      4)
             ->AddHead(*(char const**)&apRef);
     }
@@ -1400,7 +1400,7 @@ void FUN_005452c0_shell::RegisterReferenceInCell(TESObjectREFR* apRef)
 void* FUN_00545710(std::intptr_t param_1)
 {
     if (*(int*)(param_1 + 0xc4) != 0)
-        return (void*)(*(int*)(param_1 + 0xc4) + 0x5c);
+        return (void*)(*(char**)(param_1 + 0xc4) + 0x5c);
     return 0;
 }
 
@@ -1425,10 +1425,10 @@ template <class T> class BSStringT
 NiNode* FUN_00545cb0_shell::FUN_00545cb0()
 {
     NiNode* pNode = 0;
-    if (*reinterpret_cast<BSStringT<char>**>(reinterpret_cast<char*>(this) + 0xc4) != 0)
+    if (((BSStringT<char>*)this->pRenderData) != 0)
     {
         pNode = reinterpret_cast<NiNode*>(const_cast<char*>(
-            static_cast<const char*>(**reinterpret_cast<BSStringT<char>**>(reinterpret_cast<char*>(this) + 0xc4))));
+            static_cast<const char*>(*((BSStringT<char>*)this->pRenderData))));
     }
     return pNode;
 }
@@ -1700,7 +1700,7 @@ template <typename T> class BSStringT
 // @fnv 0x005495d0
 NiNode* FUN_005495d0_shell::FUN_005495d0()
 {
-    return (NiNode*)(const char*)(*(BSStringT<char>*)((char*)this + 0xb4));
+    return (NiNode*)this->pCellNode;
 }
 }  // namespace fnv_005495d0
 
@@ -2432,14 +2432,14 @@ struct FUN_00553820_Obj
 // @fnv 0x00553820
 void FUN_00553820(TESObjectCELL* pThis)
 {
-    if (::FUN_00450ff0(pThis) && *(int*)((char*)pThis + 0xc4) != 0)
+    if (::FUN_00450ff0(pThis) && pThis->pRenderData != 0)
     {
-        void* pos = reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>((((NavMeshVertexMap*)(*(char**)((char*)pThis + 0xc4) + 0xc))))->GetFirstPos();
+        void* pos = reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>((((NavMeshVertexMap*)((char*)pThis->pRenderData + 0xc))))->GetFirstPos();
         while (pos)
         {
             FUN_00553820_Obj* key = 0;
             void* val = 0;
-            reinterpret_cast<::C6b7f20_Map *>((((NiTPointerMap<unsigned int, void*>*)(*(char**)((char*)pThis + 0xc4) + 0xc))))->FUN_006b7f20((::C6b7f20_Node **)&(pos), (unsigned int *)&((unsigned int&)key), (void **)&(val));
+            reinterpret_cast<::C6b7f20_Map *>((((NiTPointerMap<unsigned int, void*>*)((char*)pThis->pRenderData + 0xc))))->FUN_006b7f20((::C6b7f20_Node **)&(pos), (unsigned int *)&((unsigned int&)key), (void **)&(val));
             if (!key->v100() && ((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((key))->FUN_007af430())) && _FNV_GetFormType(((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((key))->FUN_007af430()))) != 0x25)
             {
                 key->v1e0();
@@ -2572,7 +2572,7 @@ struct BGSChangeFlags_s
 {
     char b[4];
 };
-struct FUN_00555be0_stub
+struct FUN_00555be0_stub : public TESObjectCELL
 {
     void FUN_00555be0();
 };
@@ -2584,7 +2584,7 @@ struct TESObjectCELL_s
 void FUN_00555a50_shell::FUN_00555a50(BGSLoadFormBuffer* apLoadGameBuffer)
 {
     reinterpret_cast<::FUN_004534f0_shell *>((((MagicProjectile*)this)))->FUN_004534f0((std::uintptr_t)(apLoadGameBuffer));
-    *((unsigned char*)this + 0x25) = 0;
+    this->ucCellFlags25 = 0;
     if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((((BGSChangeFlags_s*)&ResultSlot(apLoadGameBuffer->GetOldChangeFlags()))))->FUN_004280f0(0x80000000))
         ((FUN_00555be0_stub*)this)->FUN_00555be0();
     if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((((BGSChangeFlags_s*)&ResultSlot(apLoadGameBuffer->GetOldChangeFlags()))))->FUN_004280f0(0x40000000))
@@ -2693,7 +2693,7 @@ struct FUN_00558b40_shell : public TESObjectCELL
 // @fnv 0x00558b40
 BGSLightingTemplate* FUN_00558b40_shell::GetLightingTemplate()
 {
-    return *(BGSLightingTemplate**)((char*)this + 0xd8);
+    return this->pLightingTemplate;
 }
 
 namespace fnv_00558b60 {
@@ -2727,7 +2727,7 @@ struct FUN_00558b60_shell : public TESObjectCELL
 // @fnv 0x00558b60
 void FUN_00558b60_shell::FUN_00558b60(BGSLightingTemplate* apTemplate)
 {
-    *(BGSLightingTemplate**)((char*)this + 0xd8) = apTemplate;
+    this->pLightingTemplate = reinterpret_cast<::BGSLightingTemplate*>(apTemplate);
 }
 }  // namespace fnv_00558b60
 
@@ -3087,7 +3087,7 @@ void FUN_0054b950_shell::FUN_0054b950(bool abAttach)
 // @fnv 0x009604f0
 void* FUN_009604f0_shell::FUN_009604f0()
 {
-    return reinterpret_cast<char*>(this) + 0xAC;
+    return (char*)&this->kObjectList;
 }
 
 // @fnv 0x009938b0
@@ -3112,7 +3112,7 @@ template <typename T> class BSStringT
 // @fnv 0x009d9f20
 BSPortalGraph* FUN_009d9f20_shell::FUN_009d9f20()
 {
-    return (BSPortalGraph*)(const char*)*(BSStringT<char>*)((char*)this + 0xd4);
+    return (BSPortalGraph*)this->pPortalGraph;
 }
 }  // namespace fnv_009d9f20
 
@@ -3640,15 +3640,15 @@ struct NiNodeVtbl
 void FUN_00545a30_shell::AttachOrphanedChildren()
 {
     NiNode* pparent = (NiNode*)((TESObjectCELL*)this)->GetCellChildAt(7);
-    if (pparent && *(MapHolder**)((char*)this + 0xc4))
+    if (pparent && ((MapHolder*)this->pRenderData))
     {
-        void* iter = reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>(&((*(MapHolder**)((char*)this + 0xc4))->map))->GetFirstPos();
+        void* iter = reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>(&((((MapHolder*)this->pRenderData))->map))->GetFirstPos();
         while (iter)
         {
             GO spnode(0);
             unsigned int pref = 0;
-            reinterpret_cast<::Map62d0 *>(&((*(MapHolder**)((char*)this + 0xc4))->map))->FUN_00559120((::MapItem62d0 *&)(iter), (void *&)(pref), (::Helper62d0 &)(spnode));
-            if ((unsigned int)spnode && !((::NiNode *)(reinterpret_cast<::FUN_009611e0_shell *>((((NiAVObject*)(unsigned int)spnode)))->FUN_009611e0())))
+            reinterpret_cast<::Map62d0 *>(&((((MapHolder*)this->pRenderData))->map))->FUN_00559120((::MapItem62d0 *&)(iter), (void *&)(pref), (::Helper62d0 &)(spnode));
+            if ((unsigned int)spnode && !((::NiNode *)(reinterpret_cast<::FUN_009611e0_shell *>((((NiAVObject*)spnode.m_ptr)))->FUN_009611e0())))
             {
                 ((NiNodeVtbl*)pparent)->AttachChildInAvailableSlot((unsigned int)spnode, 1);
             }
@@ -3689,18 +3689,18 @@ struct NP : Flt
 // @fnv 0x00545b30
 BSPortalGraph* FUN_00545b30_shell::GetPortalGraph()
 {
-    if (!(*(NP*)((char*)this + 0xd4)).operator unsigned int())
+    if (!(*(NP*)&this->pPortalGraph).operator unsigned int())
     {
         if (((TESObjectCELL*)this)->IsCellInterior())
         {
-            *(NP*)((char*)this + 0xd4) = new FUN_00c5a9d0();
+            *(NP*)&this->pPortalGraph = new FUN_00c5a9d0();
         }
         else
         {
-            *(NP*)((char*)this + 0xd4) = ((void *)(std::uintptr_t)(reinterpret_cast<::FUN_005831d0_shell *>((((TESObjectCELL*)this)->GetParentWorldSpace()))->GetOrCreateObject()));
+            *(NP*)&this->pPortalGraph = ((void *)(std::uintptr_t)(reinterpret_cast<::FUN_005831d0_shell *>((((TESObjectCELL*)this)->GetParentWorldSpace()))->GetOrCreateObject()));
         }
     }
-    return (BSPortalGraph*)(*(NP*)((char*)this + 0xd4)).operator unsigned int();
+    return (BSPortalGraph*)this->pPortalGraph;
 }
 
 struct G7d1
@@ -4246,7 +4246,7 @@ struct FUN_0054de80Class : public TESObjectCELL
 void FUN_0054de80Class::FUN_0054de80(int value)
 {
     if (IsCellInterior())
-        *(int*)((char*)this + 0xc0) = value;
+        *(int*)((char*)&this->worldSpace) = value;
 }
 
 struct FUN_005524b0_class
@@ -4553,11 +4553,11 @@ void FUN_0054ae30()
         FUN_0054acf0 data;
         reinterpret_cast<::FUN_005593a0_cls *>(&((*reinterpret_cast<::fnv_0054ae30::MapX *>(&::g_011ca0f4))))->FUN_005593a0((::ItemNode **)&(pos), (int *)&(key), (::FUN_00559900_Struct *)&(data));
         if (data.m_pSceneObject &&
-            ((::NiNode *)(reinterpret_cast<::FUN_009611e0_shell *>((((NiAVObject*)(unsigned int)data.m_pSceneObject)))->FUN_009611e0())) != (NiNode*)(unsigned int)data.m_pParent)
+            ((::NiNode *)(reinterpret_cast<::FUN_009611e0_shell *>((((NiAVObject*)data.m_pSceneObject.p)))->FUN_009611e0())) != (NiNode*)data.m_pParent.p)
         {
-            TESObjectREFR* pref = ::FUN_0056f930((NiAVObject*)(unsigned int)data.m_pSceneObject);
+            TESObjectREFR* pref = ::FUN_0056f930((NiAVObject*)data.m_pSceneObject.p);
             if (pref && ((std::uintptr_t)(reinterpret_cast<::LowProcess *>((void *)(((BSOcclusionPlane*)pref)))->GetTarget())))
-                reinterpret_cast<::FUN_005496b0_shell *>((((FUN_005496b0_shell*)((reinterpret_cast<::LowProcess *>((void *)(((BSOcclusionPlane*)pref)))->GetTarget())))))->FUN_005496b0(pref, (NiNode*)(unsigned int)data.m_pParent);
+                reinterpret_cast<::FUN_005496b0_shell *>((((FUN_005496b0_shell*)((reinterpret_cast<::LowProcess *>((void *)(((BSOcclusionPlane*)pref)))->GetTarget())))))->FUN_005496b0(pref, (NiNode*)data.m_pParent.p);
         }
     }
     reinterpret_cast<::FUN_00438af0_Class *>(&((*reinterpret_cast<::fnv_0054ae30::MapX *>(&::g_011ca0f4))))->FUN_00438af0();
@@ -4597,8 +4597,8 @@ bool FUN_0054c740_shell::FUN_0054c740(bool bIgnore3D, bool bIgnoreActors)
     bool bquit = false;
     CellRefLockEnter();
     BSSimpleList<BGSPerkEntry*>* pCurrentElementNext = 0;
-    if (*(void**)((char*)this + 0xc4))
-        pCurrentElementNext = (BSSimpleList<BGSPerkEntry*>*)((char*)*(void**)((char*)this + 0xc4) + 0x4c);
+    if (this->pRenderData)
+        pCurrentElementNext = (BSSimpleList<BGSPerkEntry*>*)((char*)this->pRenderData + 0x4c);
     else if (bIgnore3D)
         pCurrentElementNext = ((::BSSimpleList< ::BGSPerkEntry *> *)(reinterpret_cast<::FUN_009604f0_shell *>(this)->FUN_009604f0()));
     while (pCurrentElementNext)
@@ -4615,10 +4615,10 @@ bool FUN_0054c740_shell::FUN_0054c740(bool bIgnore3D, bool bIgnoreActors)
             }
         }
     }
-    if (*(void**)((char*)this + 0xc4) && !bquit && !::FUN_00702360())
+    if (this->pRenderData && !bquit && !::FUN_00702360())
     {
         BSSimpleList<BGSPerkEntry*>* pCurrentElementNext =
-            (BSSimpleList<BGSPerkEntry*>*)((char*)*(void**)((char*)this + 0xc4) + 0x54);
+            (BSSimpleList<BGSPerkEntry*>*)((char*)this->pRenderData + 0x54);
         BSSimpleList<BGSPerkEntry*>* pPrevNode = 0;
         while (pCurrentElementNext && !((RefListOps*)pCurrentElementNext)->FUN_008256d0())
         {
@@ -5024,15 +5024,15 @@ void FUN_00552570()
     {
         SpObst attachdata(((unsigned int *)((void *)&((*reinterpret_cast<::fnv_00552570::QueuedAttachList *>(&::g_011ca174))))));
         reinterpret_cast<::DecalListManager *>(&((*reinterpret_cast<::fnv_00552570::QueuedAttachList *>(&::g_011ca174))))->PopHead();
-        ::UpdateSceneGraph((NiAVObject*)(unsigned int)attachdata);
-        if ((unsigned int)attachdata && ((QueuedAttachObj*)(unsigned int)attachdata)->v10() &&
-            ((QueuedAttachObj*)(unsigned int)attachdata)->FUN_005526b0())
+        ::UpdateSceneGraph((NiAVObject*)attachdata.p);
+        if ((unsigned int)attachdata && ((QueuedAttachObj*)attachdata.p)->v10() &&
+            ((QueuedAttachObj*)attachdata.p)->FUN_005526b0())
         {
-            TESObjectREFR* pref = ::FUN_0056f930((NiAVObject*)(unsigned int)attachdata);
+            TESObjectREFR* pref = ::FUN_0056f930((NiAVObject*)attachdata.p);
             if (pref && ((::fnv_00552570::DetailedActorPathHandler *)(reinterpret_cast<::LowProcess *>((void *)(((BSOcclusionPlane*)pref)))->GetTarget())))
             {
                 ((::fnv_00552570::DetailedActorPathHandler *)(reinterpret_cast<::LowProcess *>((void *)(((BSOcclusionPlane*)pref)))->GetTarget()))->HandleReferenceUpdate(pref, true, false);
-                reinterpret_cast<::fnv_005526d0::TaskQueueInterface *>((((QueuedAttachObj*)(unsigned int)attachdata)))->SetEnabledFlag(0);
+                reinterpret_cast<::fnv_005526d0::TaskQueueInterface *>((((QueuedAttachObj*)attachdata.p)))->SetEnabledFlag(0);
             }
         }
     }
@@ -5315,7 +5315,7 @@ void FUN_00555740_shell::FUN_00555740(BGSLoadFormBuffer* apLoadGameBuffer)
     {
         char pfullname[260];
         reinterpret_cast<::fnv_008649a0::FUN_008649a0_shell *>((apLoadGameBuffer))->FUN_008649a0(pfullname);
-        reinterpret_cast<::TESFullName *>((((FullNameEx*)((char*)this + 0x18))))->SetFullName(pfullname);
+        reinterpret_cast<::TESFullName *>((((FullNameEx*)this->kFullName)))->SetFullName(pfullname);
     }
     if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::fnv_00555740::FormChangeMask &)(apLoadGameBuffer->GetChangeFlags()))->FUN_004280f0(8))
     {
@@ -5933,8 +5933,8 @@ struct FUN_0049f8f0_class
 };
 struct FUN_0049f210_class
 {
-    int pad0;
-    int pItems;
+    void* pad0;
+    char* pItems;
     unsigned int FUN_00978bc0();
     void ConstructEntries(int, unsigned int);
     unsigned int AddItem(const NiPoint3& kPos);
@@ -5964,7 +5964,7 @@ unsigned int FUN_005441b0_S::FUN_005441b0()
     if (!reinterpret_cast<::TESObjectCELL *>((void *)this)->IsCellInterior())
         iblockkey = GetCellCoordKey(reinterpret_cast<::TESObjectCELL *>(this)->GetCellGridX(), reinterpret_cast<::TESObjectCELL *>(this)->GetCellGridY());
     else
-        iblockkey = (((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0())) & (unsigned int)&DAT_00ffffff) % 10;
+        iblockkey = (((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0())) & 0x00ffffffu) % 10;
     return iblockkey;
 }
 
@@ -5984,7 +5984,7 @@ unsigned int FUN_00544210_shell::FUN_00544210()
         iblockkey = FUN_005442c0(((TESObjectCELL*)this)->GetCellGridX(), ((TESObjectCELL*)this)->GetCellGridY());
     else
     {
-        iblockkey = (((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((ref_0084e3a0*)this)))->FUN_0084e3a0())) & (unsigned int)&DAT_00ffffff) % 100;
+        iblockkey = (((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((ref_0084e3a0*)this)))->FUN_0084e3a0())) & 0x00ffffffu) % 100;
         iblockkey = iblockkey / 10;
     }
     return iblockkey;
@@ -6041,17 +6041,17 @@ struct MapH
 struct RefList
 {
 };
-struct FUN_00545360_StandIn
+struct FUN_00545360_StandIn : public TESObjectCELL
 {
     void FUN_00545360(std::uintptr_t key);
 };
 // @fnv 0x00545360
 void FUN_00545360_StandIn::FUN_00545360(std::uintptr_t key)
 {
-    if (*(MapH**)((char*)this + 0xc4))
+    if (pRenderData)
     {
-        reinterpret_cast<::NiTMap_S *>((((MapH*)((char*)*(MapH**)((char*)this + 0xc4) + 0xc))))->RemoveKey(key);
-        reinterpret_cast<::ItemChangeListNode *>((((RefList*)((char*)*(MapH**)((char*)this + 0xc4) + 4))))->FUN_00905330((::InventoryStackRecord *const &)(key));
+        reinterpret_cast<::NiTMap_S *>((((MapH*)((char*)(MapH*)pRenderData + 0xc))))->RemoveKey(key);
+        reinterpret_cast<::ItemChangeListNode *>((((RefList*)((char*)(MapH*)pRenderData + 4))))->FUN_00905330((::InventoryStackRecord *const &)(key));
     }
 }
 
@@ -6368,7 +6368,7 @@ void* FUN_005590b0_s::InitArray(unsigned int aCount)
     return this;
 }
 
-struct FUN_00544340_Class
+struct FUN_00544340_Class : public TESObjectCELL
 {
     void FUN_00544340(bool set);
 };
@@ -6378,13 +6378,13 @@ struct FUN_00544340_Class
 void FUN_00544340_Class::FUN_00544340(bool set)
 {
     if (set)
-        *(unsigned char*)((char*)this + 0x24) |= 0x20;
+        field24 |= 0x20;
     else
-        *(unsigned char*)((char*)this + 0x24) &= ~0x20;
-    (*(void(**)(void*, int))(*(int*)this + 0x48))(this, 2);
+        field24 &= ~0x20;
+    (*(void(**)(void*, int))(*(char**)this + 0x48))(this, 2);
 }
 
-struct FUN_00544440_Class
+struct FUN_00544440_Class : public TESObjectCELL
 {
     void FUN_00544440(bool set);
 };
@@ -6394,10 +6394,10 @@ struct FUN_00544440_Class
 void FUN_00544440_Class::FUN_00544440(bool set)
 {
     if (set)
-        *(unsigned char*)((char*)this + 0x25) |= 1;
+        ucCellFlags25 |= 1;
     else
-        *(unsigned char*)((char*)this + 0x25) &= ~1;
-    (*(void(**)(void*, int))(*(unsigned int*)this + 0x48))(this, 2);
+        ucCellFlags25 &= ~1;
+    (*(void(**)(void*, int))(*(char**)this + 0x48))(this, 2);
 }
 
 
@@ -7499,7 +7499,7 @@ void FUN_00548740_Cell::FUN_00548740(TESObjectREFR* apRef)
     }
 
     LLD_Cell* pOldParent;
-    pOldParent = reinterpret_cast<LLD_Cell*>(((int)(reinterpret_cast<::LowProcess *>((void *)(reinterpret_cast<BSOcclusionPlane*>(apRef)))->GetTarget())));
+    pOldParent = reinterpret_cast<LLD_Cell*>((reinterpret_cast<::LowProcess *>((void *)(reinterpret_cast<BSOcclusionPlane*>(apRef)))->GetTarget()));
 
     if (pOldParent)
         pOldParent->RemoveReference(apRef);
@@ -7808,8 +7808,8 @@ void FUN_00555630_holder::FUN_00555630(BGSSaveFormBuffer* apSaveGameBuffer)
 
     if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::fnv_00555630::FormChangeMask &)(apSaveGameBuffer->GetChangeFlags()))->FUN_004280f0(2))
     {
-        ctempCellFlags = (unsigned char)(reinterpret_cast<unsigned char*>(this)[0x24] & 0x60);
-        ctempCellFlags |= reinterpret_cast<unsigned char*>(this)[0x25];
+        ctempCellFlags = (unsigned char)(reinterpret_cast<::TESObjectCELL*>(this)->field24 & 0x60);
+        ctempCellFlags |= reinterpret_cast<::TESObjectCELL*>(this)->ucCellFlags25;
         reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(&ctempCellFlags, 1, 0);
     }
 
@@ -7824,7 +7824,7 @@ void FUN_00555630_holder::FUN_00555630(BGSSaveFormBuffer* apSaveGameBuffer)
 
         if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::fnv_00555630::FormChangeMask &)(apSaveGameBuffer->GetChangeFlags()))->FUN_004280f0(4))
         {
-            pfullname = ((char *)(reinterpret_cast<::FUN_00408da0_Class *>((reinterpret_cast<FNStub*>(reinterpret_cast<unsigned char*>(this) + 0x18)))->FUN_00408da0()));
+            pfullname = ((char *)(reinterpret_cast<::FUN_00408da0_Class *>((reinterpret_cast<FNStub*>(reinterpret_cast<::TESObjectCELL*>(this)->kFullName)))->FUN_00408da0()));
             reinterpret_cast<::FUN_00865e70_shell *>((apSaveGameBuffer))->FUN_00865e70(pfullname, 0);
         }
 
@@ -7928,7 +7928,7 @@ struct FUN_005578f0_Class
 // @fnv 0x005578f0
 void FUN_005578f0_Class::FUN_005578f0()
 {
-    NiNode* pmarkerNode = reinterpret_cast<NiNode*>(((unsigned int)(::FUN_00524cf0(reinterpret_cast<TESObjectCELL*>(this)))));
+    NiNode* pmarkerNode = reinterpret_cast<NiNode*>(::FUN_00524cf0(reinterpret_cast<TESObjectCELL*>(this)));
     unsigned int i;
 
     if (!pmarkerNode)
@@ -9853,7 +9853,7 @@ struct SpawnedVecC
 
 
 // @fnv 0x00558330
-bool __cdecl FUN_00558330(int a1, std::intptr_t a2, std::intptr_t a3)
+bool __cdecl FUN_00558330(std::intptr_t a1, std::intptr_t a2, std::intptr_t a3)
 {
     bool ok5 = true;
     int i = 0x2d;
@@ -12630,7 +12630,7 @@ void Cell::UpdateRefPlacement(Ref* ref, bool force, bool skip)
         if (linked30 && !skip)
         {
             reinterpret_cast<::FUN_005594e0_cls *>(&(visited3))->FUN_005594e0((std::uintptr_t)(linked30), true);
-            success4 = reinterpret_cast<::fnv_005497c0::FUN_005497c0_shell *>(this)->FUN_005497c0((::fnv_005497c0::AObj *)(ref), (::fnv_005497c0::P2Obj *)(::Obj *)(object10), (int)(linked30), (unsigned char *)(bool *)(&blocked2), skip);
+            success4 = reinterpret_cast<::fnv_005497c0::FUN_005497c0_shell *>(this)->FUN_005497c0((::fnv_005497c0::AObj *)(ref), (::fnv_005497c0::P2Obj *)(::Obj *)(object10), (std::intptr_t)(linked30), (unsigned char *)(bool *)(&blocked2), skip);
             if (!success4)
             {
                 Link* link = ((::Link *)(reinterpret_cast<::fnv_004207b0::FUN_004207e0Class *>((((::Extra *)(reinterpret_cast<::FUN_005d43c0_ *>((linked30))->FUN_005d43c0()))))->FUN_004207b0()));
@@ -12643,14 +12643,14 @@ void Cell::UpdateRefPlacement(Ref* ref, bool force, bool skip)
                         if (candidate)
                         {
                             reinterpret_cast<::FUN_005594e0_cls *>(&(visited3))->FUN_005594e0((std::uintptr_t)(candidate), true);
-                            success4 = reinterpret_cast<::fnv_005497c0::FUN_005497c0_shell *>(this)->FUN_005497c0((::fnv_005497c0::AObj *)(ref), (::fnv_005497c0::P2Obj *)(::Obj *)(object10), (int)(candidate), (unsigned char *)(bool *)(&blocked2), skip);
+                            success4 = reinterpret_cast<::fnv_005497c0::FUN_005497c0_shell *>(this)->FUN_005497c0((::fnv_005497c0::AObj *)(ref), (::fnv_005497c0::P2Obj *)(::Obj *)(object10), (std::intptr_t)(candidate), (unsigned char *)(bool *)(&blocked2), skip);
                         }
                         if (!success4)
                         {
                             candidate = ((::Ref *)(std::uintptr_t)(reinterpret_cast<::FUN_00420bc0_cls *>((((::Extra *)(reinterpret_cast<::FUN_005d43c0_ *>((owner))->FUN_005d43c0()))))->FUN_00420bc0(true)));
                             if (candidate)
                             {
-                                success4 = reinterpret_cast<::fnv_005497c0::FUN_005497c0_shell *>(this)->FUN_005497c0((::fnv_005497c0::AObj *)(ref), (::fnv_005497c0::P2Obj *)(::Obj *)(object10), (int)(candidate), (unsigned char *)(bool *)(&blocked2), skip);
+                                success4 = reinterpret_cast<::fnv_005497c0::FUN_005497c0_shell *>(this)->FUN_005497c0((::fnv_005497c0::AObj *)(ref), (::fnv_005497c0::P2Obj *)(::Obj *)(object10), (std::intptr_t)(candidate), (unsigned char *)(bool *)(&blocked2), skip);
                                 reinterpret_cast<::FUN_005594e0_cls *>(&(visited3))->FUN_005594e0((std::uintptr_t)(candidate), true);
                             }
                         }
@@ -12686,7 +12686,7 @@ void Cell::UpdateRefPlacement(Ref* ref, bool force, bool skip)
                     {
                         if (((Obj*)nodeTmp)->IsSceneNode())
                         {
-                            if (reinterpret_cast<::fnv_005497c0::FUN_005497c0_shell *>(this)->FUN_005497c0((::fnv_005497c0::AObj *)(ref), (::fnv_005497c0::P2Obj *)(::Obj *)(object10), (int)(key33), (unsigned char *)(bool *)(&blocked2), skip))
+                            if (reinterpret_cast<::fnv_005497c0::FUN_005497c0_shell *>(this)->FUN_005497c0((::fnv_005497c0::AObj *)(ref), (::fnv_005497c0::P2Obj *)(::Obj *)(object10), (std::intptr_t)(key33), (unsigned char *)(bool *)(&blocked2), skip))
                             {
                                 success4 = true;
                                 break;
@@ -13407,7 +13407,7 @@ void RotationCell::ComputeCellRotationCenter(RotationPoint& aRotationCenter)
                 {
                     RotationPoint midpoint3 = (*(::fnv_0054c030::RotationPoint *)(reinterpret_cast<::Point3Offset *>((void *)&(minimum))->ProjectileLaunched((::NiPoint3 *)&(aMaximum), {}))).FUN_0053d280(::DAT_010162c0);
                     RotationPoint delta;
-                    delta = (*(::fnv_0054c030::RotationPoint *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(midpoint3))->FUN_00439ef0((::NiPoint3 *)&(ref->Rotation()), *(const ::NiPoint3 *)nullptr)));
+                    delta = (*(::fnv_0054c030::RotationPoint *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(midpoint3))->FUN_00439ef0(&::ResultSlot<::NiPoint3>(), *(const ::NiPoint3 *)((::NiPoint3 *)&(ref->Rotation())))));
                     different = FUN_00408840(delta.x) > ::FUN_004587d0(DAT_0102efc0) ||
                                 FUN_00408840(delta.y) > ::FUN_004587d0(DAT_0102efc0) ||
                                 FUN_00408840(delta.z) > ::FUN_004587d0(DAT_0102efc0);
@@ -13424,7 +13424,7 @@ void RotationCell::ComputeCellRotationCenter(RotationPoint& aRotationCenter)
                         {
                             RotationPoint midpoint2 = (*(::fnv_0054c030::RotationPoint *)(reinterpret_cast<::Point3Offset *>((void *)&(minimum))->ProjectileLaunched((::NiPoint3 *)&(aMaximum), {}))).FUN_0053d280(::DAT_010162c0);
                             RotationPoint delta2;
-                            delta2 = (*(::fnv_0054c030::RotationPoint *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(midpoint2))->FUN_00439ef0((::NiPoint3 *)&(ref->Rotation()), *(const ::NiPoint3 *)nullptr)));
+                            delta2 = (*(::fnv_0054c030::RotationPoint *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(midpoint2))->FUN_00439ef0(&::ResultSlot<::NiPoint3>(), *(const ::NiPoint3 *)((::NiPoint3 *)&(ref->Rotation())))));
                             different = FUN_00408840(delta2.x) > ::FUN_004587d0(DAT_0102efc0) ||
                                         FUN_00408840(delta2.y) > ::FUN_004587d0(DAT_0102efc0) ||
                                         FUN_00408840(delta2.z) > ::FUN_004587d0(DAT_0102efc0);
@@ -13461,7 +13461,7 @@ void RotationCell::ComputeCellRotationCenter(RotationPoint& aRotationCenter)
     }
     if (count > 0)
     {
-        RotationPoint span = (*(::fnv_0054c030::RotationPoint *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(aMaximum))->FUN_00439ef0((::NiPoint3 *)&(minimum), *(const ::NiPoint3 *)nullptr)));
+        RotationPoint span = (*(::fnv_0054c030::RotationPoint *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(aMaximum))->FUN_00439ef0(&::ResultSlot<::NiPoint3>(), *(const ::NiPoint3 *)((::NiPoint3 *)&(minimum)))));
         if (span.x > ::FUN_004587d0(DAT_0102efc0) || span.y > ::FUN_004587d0(DAT_0102efc0) ||
             span.z > ::FUN_004587d0(DAT_0102efc0))
         {
@@ -15614,7 +15614,7 @@ void FUN_00555be0_stub::FUN_00555be0()
 {
     reinterpret_cast<::extra421::E4List *>((reinterpret_cast<FUN_00421940_Obj*>(reinterpret_cast<::FUN_004610d0_shell *>((reinterpret_cast<FUN_004610d0_Obj*>(this)))->GetExtraDataList())))->FUN_00421940((::extra421::E4Object *)(0));
 
-    reinterpret_cast<unsigned char*>(this)[0x25] &= 0xFFFFFFFEu;
+    ucCellFlags25 &= 0xFFFFFFFEu;
 
     reinterpret_cast<FUN_00555be0_Virtual*>(this)->vf4C(0x80000000u);
 }
@@ -15696,11 +15696,11 @@ void FUN_00557ae0_shell::FUN_00557ae0()
             }
         }
     }
-    *(float*)(padToUnknownDC + 4) = 1.2f;
-    padToUnknownDC[12] = 1;
-    padToUnknownDC[10] = 0;
-    padToUnknownDC[11] = 0;
-    padToUnknownDC[14] = 1;
+    fUnkC8 = 1.2f;
+    aucUnkCC[4] = 1;
+    aucUnkCC[2] = 0;
+    aucUnkCC[3] = 0;
+    aucUnkCC[6] = 1;
     ::FUN_00541ae0((char *)this);
 }
 
@@ -15813,7 +15813,7 @@ void FUN_00557dd0(RenderCell* cell, render_test::FUN_00557da0* options, bool all
                     {
                         RenderVec pos = ((::fnv_00557dd0::RenderMesh *)(::FUN_00559450((int *)&(mesh2))))->FUN_00558220((unsigned short)k);
                         pos.z += 118.0;
-                        if (!FUN_00558330((int)cell, (int)&pos, (int)options))
+                        if (!FUN_00558330((std::intptr_t)cell, (std::intptr_t)&pos, (std::intptr_t)options))
                             testData = false;
                     }
                 }
@@ -15830,14 +15830,14 @@ void FUN_00557dd0(RenderCell* cell, render_test::FUN_00557da0* options, bool all
                 RenderVec ref = pos->v1f4();
                 if (pos->vfn_1d0())
                     ref = (*(::fnv_00557dd0::RenderVec *)((void *)(((::fnv_00557dd0::RenderBound *)(reinterpret_cast<::FUN_0043d450_Owner *>((pos->vfn_1d0()))->FUN_0043d450())))));
-                if (!FUN_00558330((int)cell, (int)&ref, (int)options))
+                if (!FUN_00558330((std::intptr_t)cell, (std::intptr_t)&ref, (std::intptr_t)options))
                     testData = false;
             }
         }
     }
     else
     {
-        if (!FUN_00558330((int)cell, (int)&pPlayer->vfn_1d0()->FUN_0045bb80(), (int)options))
+        if (!FUN_00558330((std::intptr_t)cell, (std::intptr_t)&pPlayer->vfn_1d0()->FUN_0045bb80(), (std::intptr_t)options))
             testData = false;
     }
     reinterpret_cast<::FUN_00440460_S *>((((::fnv_00557dd0::RenderNode *)(::FUN_00558310((::NiNode_00558310 *)(kPosition))))))->FUN_00440460((const ::V3 *)&(bResult));
@@ -17238,10 +17238,10 @@ void FNV_Cell::FUN_00548880(FNV_Ref* reference, int unused)
                     {
                         if (EntryLocVal && EntryLocVal[Diff_2])
                         {
-                            std::intptr_t Diff4 = ((int)(reinterpret_cast<::Ref5699 *>((EntryLocVal[Diff_2]))->FUN_005699b0()));
+                            std::intptr_t Diff4 = ((std::intptr_t)(reinterpret_cast<::Ref5699 *>((EntryLocVal[Diff_2]))->FUN_005699b0()));
                             if (!Diff4)
                             {
-                                Diff4 = ((int)(reinterpret_cast<::Ref5699 *>((((::fnv_00548880::FNV_Ref *)(std::uintptr_t)(reinterpret_cast<::FUN_004208b0_cls *>((((::fnv_00548880::FNV_Sub *)(reinterpret_cast<::FUN_005d43c0_ *>((EntryLocVal[Diff_2]))->FUN_005d43c0()))))->FUN_004208b0()))))->FUN_005699b0()));
+                                Diff4 = ((std::intptr_t)(reinterpret_cast<::Ref5699 *>((((::fnv_00548880::FNV_Ref *)(std::uintptr_t)(reinterpret_cast<::FUN_004208b0_cls *>((((::fnv_00548880::FNV_Sub *)(reinterpret_cast<::FUN_005d43c0_ *>((EntryLocVal[Diff_2]))->FUN_005d43c0()))))->FUN_004208b0()))))->FUN_005699b0()));
                             }
                             if (Diff4)
                             {
@@ -17979,7 +17979,7 @@ void FUN_00552970_Call::UpdateCellScene(NiNode* node)
 {
     AutoMemHelper helper2(0x1a, true, "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\TESObjectCELL.cpp",
                           0x395d);
-    std::intptr_t v = ((int)(reinterpret_cast<::FUN_00545cf0_Cls *>(this)->GetOrCreateWidget()));
+    std::intptr_t v = ((std::intptr_t)(reinterpret_cast<::FUN_00545cf0_Cls *>(this)->GetOrCreateWidget()));
     reinterpret_cast<::FUN_004512a0_shell *>(this)->SetState(5);
     ((ShNiVt*)node)->v55((void*)v, 1);
     void* world = reinterpret_cast<::FUN_004543c0_cls *>(this)->FUN_004543c0();
@@ -20657,7 +20657,7 @@ void* FUN_00553ee0_shell::FUN_00553ee0(TESObjectREFR* refr)
     {
         if (world->FUN_00c8(refr))
         {
-            std::intptr_t value7 = ((int)(::FUN_00c66fd0((::BhkPickData *)(((RefrThing*)refr)))));
+            std::intptr_t value7 = ((std::intptr_t)(::FUN_00c66fd0((::BhkPickData *)(((RefrThing*)refr)))));
             bhkWorldObject* object = (bhkWorldObject*)::FUN_004b5a80((const void *)(value7));
 
             if (object && reinterpret_cast<::FUN_0043b4d0_shell *>((void *)&(const ::bhkFilter &)(object->GetFilter()))->FUN_0043b4d0() == 0x11)
@@ -21553,9 +21553,9 @@ void CellProxy::FUN_00552dc0()
         reinterpret_cast<::FUN_005533f0_cls *>((root))->FUN_005533f0((std::uintptr_t)(new AlphaProperty()));
         if ((*reinterpret_cast<unsigned int *>(&::DAT_011ca088)) == 0)
         {
-            (*reinterpret_cast<unsigned int *>(&::DAT_011ca088)) = (unsigned int)new ActiveRegistry();
+            (*reinterpret_cast<void **>(&::DAT_011ca088)) = new ActiveRegistry();
         }
-        reinterpret_cast<::FUN_006242a0_cls *>((((ActiveRegistry*)(*reinterpret_cast<unsigned int *>(&::DAT_011ca088)))))->NotifyActivation((::ActivationListener *)(void *)(((void *)(reinterpret_cast<::ScriptLocals *>((root))->GetLocalData()))));
+        reinterpret_cast<::FUN_006242a0_cls *>((((ActiveRegistry*)(*reinterpret_cast<void **>(&::DAT_011ca088)))))->NotifyActivation((::ActivationListener *)(void *)(((void *)(reinterpret_cast<::ScriptLocals *>((root))->GetLocalData()))));
         FUN_006815c0_Position pos;
         reinterpret_cast<::fnv_0054c030::RotationCell *>(this)->ComputeCellRotationCenter((*(::fnv_0054c030::RotationPoint *)(&pos)));
         ::FUN_00c68750((const ::SourcePoint *)(root));
@@ -21742,7 +21742,7 @@ unsigned short FUN_00554b90_shell::FUN_00554b90(unsigned int flags)
     if (flags & 4)
     {
         uSize += 1;
-        uSize += ::FUN_0044a670(((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((((FNStub*)((char*)this + 0x18))))->FUN_00408da0())));
+        uSize += ::FUN_0044a670(((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((((FNStub*)this->kFullName)))->FUN_00408da0())));
     }
     if (flags & 8)
         uSize += 4;
@@ -22841,7 +22841,7 @@ void CellSaveShell::FUN_00541ce0()
     ::FUN_00485910(0x574c4358, reinterpret_cast<CellSaveFields*>(this)->waterHeight);
 
     ::FUN_004856f0((void *)(0x4d414e58), ((char *)(reinterpret_cast<::FUN_00408da0_Class *>(&(reinterpret_cast<CellSaveFields*>(this)->texture))->FUN_00408da0())),
-                 (void *)(reinterpret_cast<CellSaveFields*>(this)->texture.FUN_0048cee0() + 1));
+                 (void *)(std::uintptr_t)(reinterpret_cast<CellSaveFields*>(this)->texture.FUN_0048cee0() + 1));
 
     reinterpret_cast<::ExtraSave::ExtraList *>((reinterpret_cast<ExtraDataListSave_standin*>(&this->extraDataList)))->WriteToSave();
     reinterpret_cast<::Holder *>((reinterpret_cast<FUN_00485680*>(this)))->FUN_00485680();
@@ -23996,7 +23996,7 @@ TESForm_ctx3* FUN_005436e0_shell::FUN_005436e0(bool abCreateEditorID, void* apCo
             NavMeshPtr spmesh;
             for (unsigned int i = 0; i < ((int)(reinterpret_cast<::FUN_00620b80_shell *>((*(NavMeshCollection**)&this->unk64))->GetReferenceFlags())); i++)
             {
-                NavMesh* pmesh = (NavMesh*)(unsigned int)(*(NavMeshCollection**)&this->unk64)->GetNavMeshAt(i);
+                NavMesh* pmesh = (*(NavMeshCollection**)&this->unk64)->GetNavMeshAt(i).m_pObject;
                 if (pmesh && !reinterpret_cast<::FUN_00440d80_shell *>((void *)(((RefH*)pmesh)))->FUN_00440d80())
                 {
                     NavMesh* pdupMesh = dynamic_cast<NavMesh*>(((TESForm_ctx3*)pmesh)->DuplicateForm(false, apCopyMap));

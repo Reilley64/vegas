@@ -2,6 +2,7 @@
 // src/fallout_shared/pathfinding/navmeshsearchhide.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/pathfinding/navmeshsearchhide.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv_result_slot.h"
 #include "fnv/decl/AvoidNodeList.h"
 #include "fnv/decl/B690770Object.h"
 #include "fnv/decl/DoorAccessData.h"
@@ -362,7 +363,7 @@ public:
 // @fnv 0x006aa000
 bool HideSearch::ExpandNeighbors(NavSearchNodeInfo* pkInfo, NavSearchNodeList* pkList)
 {
-    NiPoint3 kPosX = ((std::uintptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((pkInfo))->FUN_0045cd60())) ? (*(::NiPoint3 *)(reinterpret_cast<::GetCenterX_006a6eb0 *>(&(pkInfo->m_kRef))->FUN_006a6eb0({}))) : reinterpret_cast<::TaskQueueInterface *>((((::ActorPosSource *)(::GetOffsetC((std::intptr_t)(m_pActor))))))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr);
+    NiPoint3 kPosX = ((std::uintptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((pkInfo))->FUN_0045cd60())) ? (*(::NiPoint3 *)(reinterpret_cast<::GetCenterX_006a6eb0 *>(&(pkInfo->m_kRef))->FUN_006a6eb0({}))) : reinterpret_cast<::TaskQueueInterface *>((((::ActorPosSource *)(::GetOffsetC((std::intptr_t)(m_pActor))))))->QueueActorAnimationTask(::ResultSlot<::NiPoint3>());
     for (int i9 = 0; i9 < 3; i9++)
     {
         NavMeshStandIn* pMesh5;
@@ -398,15 +399,15 @@ bool HideSearch::ExpandNeighbors(NavSearchNodeInfo* pkInfo, NavSearchNodeList* p
                 reinterpret_cast<::FUN_00691140_shell *>((reinterpret_cast<::NavMesh *>((pMesh5))->GetTriangle(usTriZ)))->FUN_00691140(0x10))
                 continue;
             NiPoint3 kCenterTmp = reinterpret_cast<::NavMesh *>((pMesh5))->GetNavMeshData(usTriZ);
-            NiPoint3 kDeltaW = (*(::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(kCenterTmp))->FUN_00439ef0((::NiPoint3 *)&(kPosX), *(const ::NiPoint3 *)nullptr)));
+            NiPoint3 kDeltaW = (*(::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(kCenterTmp))->FUN_00439ef0(&::ResultSlot<::NiPoint3>(), *(const ::NiPoint3 *)((::NiPoint3 *)&(kPosX)))));
             float fCost_ = reinterpret_cast<::FUN_00589850_Class *>((void *)&(kDeltaW))->FUN_00589850() * fMultY + pkInfo->m_fCost;
             float fExtraZ = 0.0f;
             if (((::HideTarget *)(reinterpret_cast<::_Dummy_0069e390 *>((m_pActor))->GetString())))
                 fExtraZ = reinterpret_cast<::fnv_006dc990::Sdc990 *>((((::HideTarget *)(reinterpret_cast<::_Dummy_0069e390 *>((m_pActor))->GetString()))))->SumNodeValues((std::intptr_t)(&kCenterTmp));
-            float fDist6 = reinterpret_cast<::FUN_00589850_Class *>((void *)(void *)&(const ::NiPoint3 &)((*(::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(kCenterTmp))->FUN_00439ef0((::NiPoint3 *)&(m_kTargetPos), *(const ::NiPoint3 *)nullptr)))))->FUN_00589850();
+            float fDist6 = reinterpret_cast<::FUN_00589850_Class *>((void *)(void *)&(const ::NiPoint3 &)((*(::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(kCenterTmp))->FUN_00439ef0(&::ResultSlot<::NiPoint3>(), *(const ::NiPoint3 *)((::NiPoint3 *)&(m_kTargetPos)))))))->FUN_00589850();
             float fNearOut = 1.0f - fDist6 / 512.0;
             fExtraZ += FUN_00404010(fNearOut, 0.0f);
-            NiPoint3 kToTargetWork = (*(::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(m_kTargetPos))->FUN_00439ef0((::NiPoint3 *)&(kPosX), *(const ::NiPoint3 *)nullptr)));
+            NiPoint3 kToTargetWork = (*(::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(m_kTargetPos))->FUN_00439ef0(&::ResultSlot<::NiPoint3>(), *(const ::NiPoint3 *)((::NiPoint3 *)&(kPosX)))));
             float fDot_2 = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(kToTargetWork))->DotProduct((void *)&(kDeltaW));
             float fLenA_2 = reinterpret_cast<::NiPoint3 *>((void *)&(kToTargetWork))->ComputeMagnitude();
             float fLenBY = reinterpret_cast<::NiPoint3 *>((void *)&(kDeltaW))->ComputeMagnitude();
@@ -588,7 +589,7 @@ int HideSearchX::SetupActorTarget(ActorX* pkActor, TriRef20* pkInfo, ParamX* pkO
     m_pActor = pkActor;
     m_kInfo = *pkInfo;
 
-    NiPoint3 kActorPos5 = reinterpret_cast<::TaskQueueInterface *>((((::ActorPosSource *)(::GetOffsetC((std::intptr_t)(pkActor))))))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr);
+    NiPoint3 kActorPos5 = reinterpret_cast<::TaskQueueInterface *>((((::ActorPosSource *)(::GetOffsetC((std::intptr_t)(pkActor))))))->QueueActorAnimationTask(::ResultSlot<::NiPoint3>());
     m_kStartPoint = ::NiPoint3::ZERO;
     m_fFirstLightParameter = 0.0f;
     if (((::HideTgtx *)(reinterpret_cast<::_Dummy_0069e390 *>((m_pActor))->GetString())))
@@ -605,13 +606,13 @@ int HideSearchX::SetupActorTarget(ActorX* pkActor, TriRef20* pkInfo, ParamX* pkO
     kInfo3.m_fScalarPart = kTmp_2.z;
 
     NiPoint3 kTriPt2;
-    NiPoint3 kDiff = (*(::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(((::NiPoint3 *)(reinterpret_cast<::GetCenterX_006a6eb0 *>(&(kInfo3))->FUN_006a6eb0((::P3 *)(::NiPoint3 *)(&kTriPt2))))))->FUN_00439ef0((::NiPoint3 *)&(m_kStartPoint), *(const ::NiPoint3 *)nullptr)));
+    NiPoint3 kDiff = (*(::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(((::NiPoint3 *)(reinterpret_cast<::GetCenterX_006a6eb0 *>(&(kInfo3))->FUN_006a6eb0((::P3 *)(::NiPoint3 *)(&kTriPt2))))))->FUN_00439ef0(&::ResultSlot<::NiPoint3>(), *(const ::NiPoint3 *)((::NiPoint3 *)&(m_kStartPoint)))));
     float fVal6 = m_fFirstLightParameter - reinterpret_cast<::NiPoint3 *>((void *)&(kDiff))->ComputeMagnitude();
     FUN_005330e0(&fVal6, 0.0f, m_fFirstLightParameter);
 
     FUN_006a7c90(((int)(reinterpret_cast<::FUN_006a94f0_shell *>(this)->FUN_006a94f0((::NavMesh *)(kInfo3.m_pMesh), kInfo3.m_usTri))), &kInfo3, fVal6);
 
-    m_kTargetPos = reinterpret_cast<::TaskQueueInterface *>((((::ActorPosSource *)(::FUN_00984230((char *)(m_pActor))))))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr);
+    m_kTargetPos = reinterpret_cast<::TaskQueueInterface *>((((::ActorPosSource *)(::FUN_00984230((char *)(m_pActor))))))->QueueActorAnimationTask(::ResultSlot<::NiPoint3>());
 
     FUN_006a7d60(pkObj, iArg, 1);
     return !reinterpret_cast<::FUN_0076b610_Class *>((pkObj))->FUN_0076b610();
@@ -674,7 +675,7 @@ bool FUN_006aa470_cls::FUN_006aa470(NavData6aa4* pkData)
         return false;
 
     NiPoint3 kPos = (*(::NiPoint3 *)(reinterpret_cast<::GetCenterX_006a6eb0 *>(&(pkData->m_kRef))->FUN_006a6eb0({})));
-    float aFLength = reinterpret_cast<::FUN_00589850_Class *>((void *)(void *)&(const ::NiPoint3 &)((*(::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(m_kTargetPos))->FUN_00439ef0((::NiPoint3 *)&(kPos), *(const ::NiPoint3 *)nullptr)))))->FUN_00589850();
+    float aFLength = reinterpret_cast<::FUN_00589850_Class *>((void *)(void *)&(const ::NiPoint3 &)((*(::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(m_kTargetPos))->FUN_00439ef0(&::ResultSlot<::NiPoint3>(), *(const ::NiPoint3 *)((::NiPoint3 *)&(kPos)))))))->FUN_00589850();
     if (aFLength < reinterpret_cast<::FUN_00885bd0_St *>((m_pkActor))->FUN_00885bd0())
         return false;
 

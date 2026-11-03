@@ -33,25 +33,25 @@ void ScriptVariableInfo::Load(TESFile* file)
     }
 }
 
-struct SL_standin
+struct SL_standin : ScriptLocalVariable
 {
     SL_standin* FUN_005ac150(SL_standin* apCopy);
 };
-// Copies the byte at offset 0x10, the uint at offset 0, and the double at offset 8 from apCopy into this, then returns this.
+// Copies m_bIsString, uiID and fValue from apCopy into this, then returns this.
 // @fnv 0x005ac150
 SL_standin* SL_standin::FUN_005ac150(SL_standin* apCopy)
 {
-    *((char*)this + 0x10) = *((char*)apCopy + 0x10);
-    *(unsigned int*)this = *(unsigned int*)apCopy;
-    *(double*)((char*)this + 8) = *(double*)((char*)apCopy + 8);
+    m_bIsString = apCopy->m_bIsString;
+    uiID = apCopy->uiID;
+    fValue = apCopy->fValue;
     return this;
 }
 
-// Zeroes the object's first field, sets the double at offset 0x8 to 0.0, clears the bool at 0x10, and returns the object.
+// Zeroes uiID and fValue, clears m_bIsString, and returns the object.
 // @fnv 0x005e28e0
 ScriptLocalVariable* FUN_005e28e0(ScriptLocalVariable* apObject)
 {
-    *(unsigned int*)((char*)apObject + 0x0) = 0;
+    apObject->uiID = 0;
     apObject->fValue = 0.0;
     apObject->m_bIsString = false;
     return apObject;
@@ -68,6 +68,7 @@ struct FUN_005e29a0_shell
     double m_iFourthElementInteger;
     unsigned char m_kPointB;
     char m_pAuxiliaryObject[3];
+    char pad14[0x18 - 0x14];
     Dummy00501c30 m_dum;
     bool FUN_005e29a0(FUN_005e29a0_shell* other);
 };
@@ -83,7 +84,7 @@ bool FUN_005e29a0_shell::FUN_005e29a0(FUN_005e29a0_shell* other)
         return true;
     if (m_iFourthElementInteger != other->m_iFourthElementInteger)
         return true;
-    if (((Dummy00501c30*)((char*)this + 0x18))->FUN_00501c30((const char*)other + 0x18))
+    if (m_dum.FUN_00501c30((const char*)&other->m_dum))
         return true;
     return false;
 }
@@ -96,16 +97,20 @@ template <int N> struct EndianSizeTag
 
 struct FUN_00414220_shell
 {
+    unsigned int variableCount;
+    unsigned int m_uiReferenceID;
+    unsigned int dataSize;
+    unsigned int m_uiDataOffset;
     void FUN_00414220();
 };
 
 // @fnv 0x00414220
 void FUN_00414220_shell::FUN_00414220()
 {
-    ::FUN_00401080((int *)(unsigned char *)((unsigned char*)this));
-    ::FUN_00401080((int *)(unsigned char *)((unsigned char*)this + 4));
-    ::FUN_00401080((int *)(unsigned char *)((unsigned char*)this + 8));
-    ::FUN_00401080((int *)(unsigned char *)((unsigned char*)this + 12));
+    ::FUN_00401080((int *)&variableCount);
+    ::FUN_00401080((int *)&m_uiReferenceID);
+    ::FUN_00401080((int *)&dataSize);
+    ::FUN_00401080((int *)&m_uiDataOffset);
 }
 
 namespace fnv_005e2910 {

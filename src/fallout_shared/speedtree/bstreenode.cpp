@@ -151,6 +151,13 @@
 #include "fnv/symbols_01011000.h"
 #include "fnv/symbols_01017000.h"
 #include <math.h>
+
+// The BSTreeNode field after its NiNode part that holds the tree geometry.
+struct TreeNodeGeometryView
+{
+    char niNode[0xf0];
+    void* spGeometry;
+};
 struct FUN_00622430_shell
 {
     unsigned int FUN_00622430();
@@ -281,7 +288,7 @@ struct PropHelper
 {
 };
 
-struct BSTreeNode
+struct BSTreeNode : ::TreeNodeGeometryView
 {
     BSTreeNode();
     ~BSTreeNode();
@@ -291,7 +298,7 @@ struct BSTreeNode
 // @fnv 0x0066be30
 bool BSTreeNode::FUN_0066be30(unsigned char acTest)
 {
-    if (!reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 0xf0)->operator void*())
+    if (!reinterpret_cast<Flt*>(&spGeometry)->operator void*())
     {
         return false;
     }
@@ -299,17 +306,17 @@ bool BSTreeNode::FUN_0066be30(unsigned char acTest)
     {
         reinterpret_cast<::TaskQueueInterface *>((reinterpret_cast<NiAVObject*>(
             reinterpret_cast<char*>(
-                reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 0xf0)->operator void*()))))->QueueActorDisarm(true);
+                reinterpret_cast<Flt*>(&spGeometry)->operator void*()))))->QueueActorDisarm(true);
     }
     else
     {
         reinterpret_cast<::TaskQueueInterface *>((reinterpret_cast<NiAVObject*>(
             reinterpret_cast<char*>(
-                reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 0xf0)->operator void*()))))->QueueActorDisarm(false);
+                reinterpret_cast<Flt*>(&spGeometry)->operator void*()))))->QueueActorDisarm(false);
         NiAlphaProperty* pprop = reinterpret_cast<NiAlphaProperty*>(
             ((void *)(reinterpret_cast<::FUN_00a59d30_C *>((reinterpret_cast<PropHelper*>(
                 reinterpret_cast<char*>(
-                    reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 0xf0)->operator void*()))))->FUN_00a59d30(0))));
+                    reinterpret_cast<Flt*>(&spGeometry)->operator void*()))))->FUN_00a59d30(0))));
         if (pprop)
         {
             pprop->FUN_0094db80(acTest);
@@ -470,7 +477,7 @@ struct Flt {
 
 struct NiTriBasedGeom;
 
-struct FUN_0066b620_shell
+struct FUN_0066b620_shell : ::TreeNodeGeometryView
 {
     NiTriBasedGeom* GetTriBasedGeom();
 };
@@ -478,7 +485,7 @@ struct FUN_0066b620_shell
 // @fnv 0x0066b620
 NiTriBasedGeom* FUN_0066b620_shell::GetTriBasedGeom()
 {
-    return (NiTriBasedGeom*)((Flt*)((char*)this + 0xf0))->operator void*();
+    return (NiTriBasedGeom*)reinterpret_cast<Flt*>(&spGeometry)->operator void*();
 }
 
 
@@ -626,12 +633,12 @@ struct FUN_00c6b950_shell
 struct FUN_0066d3d0_shell
 {
     void* m0;
-    void* FUN_0066d3d0(unsigned int a);
+    void* FUN_0066d3d0(std::uintptr_t a);
 };
 
 // Calls FUN_00c6b950 with a, then sets m0 to point at DAT_01066b94 and returns this.
 // @fnv 0x0066d3d0
-void* FUN_0066d3d0_shell::FUN_0066d3d0(unsigned int a)
+void* FUN_0066d3d0_shell::FUN_0066d3d0(std::uintptr_t a)
 {
     new ((void *)(((FUN_00c6b950_shell*)this))) ::FUN_00c6b950((void *)(a));
     m0 = &(*reinterpret_cast<void * *>(&::DAT_01066b94));
@@ -647,15 +654,19 @@ struct FUN_0056e120_shell
 };
 struct FUN_0066d550_shell
 {
+    const void* pVtable;
+    unsigned int uiUnk04;
+    char pad08[0x10 - 0x08];
+    char kUnk10[4];
     void* Initialize();
 };
 // @fnv 0x0066d550
 void* FUN_0066d550_shell::Initialize()
 {
     ((void(*)(void*))FUN_004b5020)(this);
-    ((unsigned int*)this)[1] = 0;
-    ((void(*)(void*))FUN_0056e270)((char*)this + 0x10);
-    ((FUN_0056e120_shell*)((char*)this + 0x10))->FUN_0056e120();
+    uiUnk04 = 0;
+    ((void(*)(void*))FUN_0056e270)(kUnk10);
+    reinterpret_cast<FUN_0056e120_shell*>(kUnk10)->FUN_0056e120();
     return this;
 }
 
@@ -698,6 +709,8 @@ struct FUN_006299a0_shell
 };
 struct FUN_0066d770_shell
 {
+    const void* pVtable;
+    char kUnk04[4];
     void* FUN_0066d770();
 };
 // Calls StepAndReturnThis on this and FUN_006299a0 on the object at this+4, then returns this.
@@ -705,7 +718,7 @@ struct FUN_0066d770_shell
 void* FUN_0066d770_shell::FUN_0066d770()
 {
     reinterpret_cast<::FUN_0056e900_cls *>((((FUN_0056e900_shell*)this)))->StepAndReturnThis();
-    reinterpret_cast<::FUN_00629a80_Class *>((((FUN_006299a0_shell*)((char*)this + 4))))->FUN_006299a0();
+    reinterpret_cast<::FUN_00629a80_Class *>(reinterpret_cast<FUN_006299a0_shell*>(kUnk04))->FUN_006299a0();
     return this;
 }
 
@@ -812,7 +825,7 @@ struct PropHelper
 struct NiAVObjectProp
 {
 };
-struct FUN_0066bec0_shell
+struct FUN_0066bec0_shell : ::TreeNodeGeometryView
 {
     bool AttachTexturingProperty(NiTexturingProperty* apProp);
 };
@@ -821,16 +834,16 @@ struct FUN_0066bec0_shell
 bool FUN_0066bec0_shell::AttachTexturingProperty(NiTexturingProperty* apProp)
 {
     NiTexturingProperty* pprop = 0;
-    if (!(void*)(void*)(*(Flt*)((char*)this + 0xf0)) || !apProp)
+    if (!(void*)(void*)(*reinterpret_cast<Flt*>(&spGeometry)) || !apProp)
         return false;
-    pprop = (NiTexturingProperty*)((void *)(reinterpret_cast<::FUN_00a59d30_C *>((((PropHelper*)(void*)(*(Flt*)((char*)this + 0xf0)))))->FUN_00a59d30(5)));
+    pprop = (NiTexturingProperty*)((void *)(reinterpret_cast<::FUN_00a59d30_C *>((((PropHelper*)(void*)(*reinterpret_cast<Flt*>(&spGeometry)))))->FUN_00a59d30(5)));
     if (pprop)
     {
         if (pprop == apProp)
             return false;
-        reinterpret_cast<::ExtraOwnerB *>((((NiAVObjectProp*)(void*)(*(Flt*)((char*)this + 0xf0)))))->FUN_00a5b230(5);
+        reinterpret_cast<::ExtraOwnerB *>((((NiAVObjectProp*)(void*)(*reinterpret_cast<Flt*>(&spGeometry)))))->FUN_00a5b230(5);
     }
-    reinterpret_cast<::FUN_00439410_cls *>((((NiAVObjectProp*)(void*)(*(Flt*)((char*)this + 0xf0)))))->FUN_00439410((::ArgObject *)(apProp));
+    reinterpret_cast<::FUN_00439410_cls *>((((NiAVObjectProp*)(void*)(*reinterpret_cast<Flt*>(&spGeometry)))))->FUN_00439410((::ArgObject *)(apProp));
     return true;
 }
 
@@ -981,7 +994,7 @@ void FUN_0066bf80_owner::FUN_0066bf80(FUN_0066bf80_data* data, unsigned int flag
         return;
     if (data->time > ::_DAT_01012060)
     {
-        if (!::FUN_004b5fc0((NiAVObject*)this, (NiCamera*)::FUN_00552380()))
+        if (!::FUN_004b5fc0((NiAVObject*)this, (NiCamera*)(std::uintptr_t)::FUN_00552380()))
             return;
     }
     vtable->process(this, data->time);
@@ -1705,7 +1718,7 @@ void C070TreeNode::FUN_0066c070(FUN_0066bf80_data& kUpdate, unsigned int uiFlags
         return;
     if (kUpdate.time > ::_DAT_01012060)
     {
-        if (!::FUN_004b5fc0((NiAVObject*)this, (NiCamera*)::FUN_00552380()))
+        if (!::FUN_004b5fc0((NiAVObject*)this, (NiCamera*)(std::uintptr_t)::FUN_00552380()))
             return;
     }
     UpdateTime(kUpdate.time);
@@ -1723,12 +1736,12 @@ struct FUN_0066d490_base
 struct FUN_0066d490_cls : FUN_0066d490_base
 {
     void* m_vptr;
-    FUN_0066d490_cls(unsigned int a1);
+    FUN_0066d490_cls(std::uintptr_t a1);
 };
 
 // Sets the vtable pointer, calls FUN_00cb7b80 with a1, and increments DAT_012683dc.
 // @fnv 0x0066d490
-FUN_0066d490_cls::FUN_0066d490_cls(unsigned int a1)
+FUN_0066d490_cls::FUN_0066d490_cls(std::uintptr_t a1)
 {
     *(void* volatile*)&m_vptr = &DAT_01066c5c;
     reinterpret_cast<::fnv_00cb7b80::FUN_00cb7b80_cls *>((this))->FUN_00cb7b80((::fnv_00cb7b80::SpawnArgs *)(a1));
@@ -1745,12 +1758,12 @@ struct FUN_0066d590_base
 struct FUN_0066d590_cls : FUN_0066d590_base
 {
     void* m_vptr;
-    FUN_0066d590_cls(unsigned int a1);
+    FUN_0066d590_cls(std::uintptr_t a1);
 };
 
 // Sets the vtable pointer, calls FUN_00c8c5b0 with the given id, and increments DAT_012681b0.
 // @fnv 0x0066d590
-FUN_0066d590_cls::FUN_0066d590_cls(unsigned int a1)
+FUN_0066d590_cls::FUN_0066d590_cls(std::uintptr_t a1)
 {
     *(void* volatile*)&m_vptr = &DAT_01066d44;
     reinterpret_cast<::fnv_00c8c5b0::TargetHolder *>((this))->FUN_00c8c5b0((::fnv_00c8c5b0::Src *)(a1));
@@ -2098,14 +2111,14 @@ FUN_0066b120::FUN_0066b120(void* initial, void* external) : m_e4(0), m_f0(0)
     m_e4.FUN_0066b0d0(initial);
     reinterpret_cast<::TaskQueueInterface *>(this)->FUN_004902f0(1);
     FUN_00a5ecb0* pkCurrentObject = new FUN_00a5ecb0(0);
-    ::fnv_00a93ea0::SetChildAt((::NiNode *)this, 0, (unsigned int)(pkCurrentObject), {});
+    ::fnv_00a93ea0::SetChildAt((::NiNode *)this, 0, (std::uintptr_t)(pkCurrentObject), {});
     pkCurrentObject = new FUN_00a5ecb0(0);
-    ::fnv_00a93ea0::SetChildAt((::NiNode *)this, 1, (unsigned int)(pkCurrentObject), {});
+    ::fnv_00a93ea0::SetChildAt((::NiNode *)this, 1, (std::uintptr_t)(pkCurrentObject), {});
     FUN_0066b640* pController;
     FUN_0051cf00* controller = new FUN_0051cf00();
     reinterpret_cast<::NiTriGeom2 *>((controller))->FUN_0051d000(1);
     reinterpret_cast<::NiAVObject *>((controller))->SetLocalRotation(DAT_01016b78, 1.0f, 0.0f, 0.0f);
-    ::fnv_00a93ea0::SetChildAt((::NiNode *)this, 2, (unsigned int)(controller), {});
+    ::fnv_00a93ea0::SetChildAt((::NiNode *)this, 2, (std::uintptr_t)(controller), {});
 
     unsigned short count;
     unsigned short i = reinterpret_cast<::fnv_00669990::BSTreeModel *>((((::TreeLists *)(::FUN_00559450((int *)&(m_e4))))))->FUN_00669990();
@@ -2749,7 +2762,7 @@ void SceneObjectC8C::FUN_00c8c860(ParentC8C* pkParent, ArgC8C* iValue)
     ::SetNiPoint3FromHkVector4((*(::NiPoint3 *)(&kLocal.m_kTranslation)), (*(const ::hkVector4 *)(&kXform.m_vTranslation)));
 
     NiNodeC8C* __restrict pkNode = new NiNodeC8C(0);
-    ::AssignFixedString((char *)(pkNode), (int)&(const ::NiFixedStringC8C &)(NiFixedStringC8C("bhkTransformShape")), {});
+    ::AssignFixedString((char *)(pkNode), (std::intptr_t)&(const ::NiFixedStringC8C &)(NiFixedStringC8C("bhkTransformShape")), {});
     pkParent->AttachChildInAvailableSlot(pkNode, true);
     pkNode->m_kLocalTransform.m_kTranslation = kLocal.m_kTranslation;
     pkNode->m_kLocalTransform.m_kOrientation = kLocal.m_kOrientation;
@@ -3120,12 +3133,19 @@ struct Obj
 
 
 
+// The size word operator new stores after the vtable pointer.
+struct AllocatedSizeView
+{
+    const void* pVtable;
+    short sAllocSize;
+};
+
 void* FUN_00d22dc0::operator new(std::size_t n)
 {
     Holder* h = ((Holder *)::FUN_00c85750());
     Alloc* allocator = h->unk10;
     void* p = allocator->Alloc_(n);
-    *(short*)((char*)p + 4) = (short)n;
+    static_cast<AllocatedSizeView*>(p)->sAllocSize = (short)n;
     return p;
 }
 
@@ -3460,7 +3480,7 @@ bhkCapsuleShapeCtor::bhkCapsuleShapeCtor(const NiPoint3& kPoint1, const NiPoint3
     kA.set(kPoint1.x * DAT_01268328, kPoint1.y * DAT_01268328, kPoint1.z * DAT_01268328, 0.0f);
     hkVector4 kB;
     kB.set(kPoint2.x * DAT_01268328, kPoint2.y * DAT_01268328, kPoint2.z * DAT_01268328, 0.0f);
-    reinterpret_cast<::Owner *>(this)->FUN_00cab0e0((int)&(kA), (int)&(kB), fRadius * DAT_01268328);
+    reinterpret_cast<::Owner *>(this)->FUN_00cab0e0((std::intptr_t)&(kA), (std::intptr_t)&(kB), fRadius * DAT_01268328);
 }
 }
 
@@ -3581,7 +3601,7 @@ void RecordCollection::FUN_00cb7d80(NiStrArr* a1)
     reinterpret_cast<::FUN_00ca05b0_cls *>(this)->FUN_00ca05b0((::BCA05B0StringArray *)(a1));
     int n;
     {
-        char* text = ::FUN_00a7d330((const char *)((*reinterpret_cast<unsigned int *>(&::g_012683e0))));
+        char* text = ::FUN_00a7d330((*reinterpret_cast<const char **>(&::g_012683e0)));
         a1->append(text);
 
         if (this != 0 && m_08 != 0)
@@ -4317,7 +4337,7 @@ struct C8CA60AllocTagScope
 inline void* C8CA60AlignedAlloc(unsigned int uiSize)
 {
     char* pcMem = (char*)reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::C8CA60MemoryManager *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize);
-    unsigned char ucOffset = (unsigned char)(16 - ((unsigned char)(unsigned int)pcMem & 0xf));
+    unsigned char ucOffset = (unsigned char)(16 - ((unsigned char)(std::uintptr_t)pcMem & 0xf));
     pcMem += ucOffset;
     pcMem[-1] = ucOffset;
     return pcMem;
@@ -4704,11 +4724,11 @@ struct TlsGuard_t
 
 struct FUN_00c88210_cls
 {
-    BSFadeNode* FUN_00c88210(unsigned int flags);
+    BSFadeNode* FUN_00c88210(std::uintptr_t flags);
 };
 
 // @fnv 0x00c88210
-BSFadeNode* FUN_00c88210_cls::FUN_00c88210(unsigned int flags)
+BSFadeNode* FUN_00c88210_cls::FUN_00c88210(std::uintptr_t flags)
 {
     TlsGuard_t guard;
     BSFadeNode* node = new BSFadeNode;
@@ -5041,12 +5061,12 @@ struct BhkCap_00cab000
     int unk00;
     int unk04;
     int unk08;
-    int unk0c;
-    int FUN_00cab000(bool* out);
+    std::intptr_t unk0c;
+    std::intptr_t FUN_00cab000(bool* out);
 };
 
 // @fnv 0x00cab000
-int BhkCap_00cab000::FUN_00cab000(bool* out)
+std::intptr_t BhkCap_00cab000::FUN_00cab000(bool* out)
 {
     TlsGuard_t guard;
 
@@ -5076,7 +5096,7 @@ int BhkCap_00cab000::FUN_00cab000(bool* out)
         {
             p = 0;
         }
-        unk0c = (int)p;
+        unk0c = (std::intptr_t)p;
         if (unk08 != 0)
         {
             reinterpret_cast<::bhkLimitedHingeConstraint *>(this)->PopulateOutput((::bhkLimitedHingeOutput *)(p));
@@ -5244,7 +5264,7 @@ void S_00cab8c0_Owner::FUN_00cab8c0(S_00cab8c0_Arr* a)
 {
     S_00cab8c0_Ctx guard(0x10);
     reinterpret_cast<::SphereShape *>(this)->FUN_00c9fc50((::ViewerStringArray *)(a));
-    char* s = ::FUN_00a7d330((const char *)((*reinterpret_cast<int *>(&::g_0126832c))));
+    char* s = ::FUN_00a7d330((*reinterpret_cast<const char **>(&::g_0126832c)));
     unsigned idx = a->m_uiItemCount;
     if (idx >= a->m_iElementCount)
         reinterpret_cast<::ViewerStrings *>((a))->SetSize(idx + a->m_grow);
@@ -5509,6 +5529,8 @@ struct Pass
 {
     int unk000;
     char unk004;
+    char pad005[0x1e5 - 0x5];
+    char cUnk1e5;
 };
 
 // @fnv 0x00cb7b20
@@ -5517,7 +5539,7 @@ void Shader::FUN_00cb7b20(Pass* pass)
     Pass* p = pass;
     reinterpret_cast<::FUN_00c84d00_cls *>(this)->FUN_00c84d00((::FUN_00c84d00_obj *)(p));
     int* data = f45(&pass);
-    if (*((char*)p + 0x1e5) != 1)
+    if (p->cUnk1e5 != 1)
     {
         int r = f42();
         ::FUN_00cf0930(data, r, (::Vector3 *)(int *)(data + 1));
@@ -6186,7 +6208,7 @@ struct CObj
     int unk04;
     CLevel1* unk08;
 
-    bool FUN_00c8c3d0(int value);
+    bool FUN_00c8c3d0(std::intptr_t value);
 };
 
 inline bool Walk(CObj* o, int v, bool r)
@@ -6209,7 +6231,7 @@ inline bool Walk(CObj* o, int v, bool r)
 }
 
 // @fnv 0x00c8c3d0
-bool CObj::FUN_00c8c3d0(int value)
+bool CObj::FUN_00c8c3d0(std::intptr_t value)
 {
     bool r = ((bool)(::FUN_00c84ec0((void*)value)));
     if (r)
@@ -7663,7 +7685,7 @@ void Tree66C::FUN_0066cb40(Bounds66C* pkBounds, float fScale)
                     afCenter[2] = FUN_004a3e90(afCenter[2]) * fHavokScale;
                     afSize[0] = FUN_004a3e90(afSize[0]) * fHavokScale;
                     hkVector4_66C kSphere(afCenter[0], afCenter[1], afCenter[2], afSize[0]);
-                    reinterpret_cast<::D9B0Container *>(&(kSpheres.m_kSpheres))->EraseByKey((int)&(kSphere));
+                    reinterpret_cast<::D9B0Container *>(&(kSpheres.m_kSpheres))->EraseByKey((std::intptr_t)&(kSphere));
                 }
                 else
                 {
@@ -7707,15 +7729,15 @@ struct xBound
     float m_10;
     unsigned char m_14;
     unsigned char m_15;
-    int m_18;
-    int m_1c;
+    std::intptr_t m_18;
+    std::intptr_t m_1c;
     int m_20;
 };
 struct xEvent
 {
     xEvent();
     int m_iWordAt00[8];
-    int m_20;
+    std::intptr_t m_20;
     int m_24;
     int m_28[8];
     void* m_48;
@@ -7872,7 +7894,7 @@ void xEffect::FUN_0066c160(float afTime)
                     reinterpret_cast<::Vec4 *>(&(DIR))->FUN_0066c930();
                     xVec4 POS(*((::fnv_0066c160::xVec4 *)(reinterpret_cast<::TESTopicInfo *>((((xHasPos*)((void *)(reinterpret_cast<::Twin_0044ddc0 *>((((::fnv_0066c160::xForm *)(reinterpret_cast<::FUN_0062e150_cls *>((ARR))->FUN_0062e150(I)))->m_8))->GetName())))))->GetAddTopicList())));
                     reinterpret_cast<::FUN_0066c9c0_Class *>(&(EV))->FUN_0066c9c0((::T_ &)(POS), (::T_ &)(DIR), 0.0f);
-                    EV.m_20 = ((int)(reinterpret_cast<::FUN_0043b560_shell *>((PREF))->GetSourceFilesFromObject()));
+                    EV.m_20 = ((std::intptr_t)(reinterpret_cast<::FUN_0043b560_shell *>((PREF))->GetSourceFilesFromObject()));
                     EV.m_48 = ((::fnv_0066c160::xForm *)(reinterpret_cast<::FUN_0062e150_cls *>((ARR))->FUN_0062e150(I)))->m_8;
                     EV.m_24 = EV.m_4c = 0;
                     PD->m_410.FUN_08(0, &EV);
@@ -7883,7 +7905,7 @@ void xEffect::FUN_0066c160(float afTime)
                     BND.m_10 = 1.0f;
                     reinterpret_cast<::HolderFUN *>((PD))->FUN_0066ca00(&PT);
                     BND.m_iThirdValue = reinterpret_cast<::NiPoint3_o2_od_oy_noo2 *>((void *)&(PT))->ComputeMagnitude();
-                    BND.m_18 = (int)PA + (int)PREF;
+                    BND.m_18 = (std::intptr_t)PA + (std::intptr_t)PREF;
                     BND.m_pos = *((::fnv_0066c160::xP3 *)&(::SetNiPoint3FromHkVector4((*(::NiPoint3 *)(&PT)), (*(const ::hkVector4 *)(&POS)))));
                     BND.m_1c = 0;
                     BND.m_20 = 0;
@@ -7895,7 +7917,7 @@ void xEffect::FUN_0066c160(float afTime)
         {
             if (((int)(::GetRandomNumberInRange(0, 100))) <= CHANCE)
             {
-                xVec4 V1(*((::fnv_0066c160::xVec4 *)(::FUN_00560dc0((::TESDataHandler *)(PB)))));
+                xVec4 V1(*((::fnv_0066c160::xVec4 *)(std::uintptr_t)(::FUN_00560dc0((::TESDataHandler *)(PB)))));
                 xVec4 V2(*PB->FUN_00560e50());
                 if (reinterpret_cast<::S004586d0_Obj *>((void *)(void *)&(const ::fnv_0066c160::xVec4 &)((*(::fnv_0066c160::xVec4 *)(reinterpret_cast<::FUN_00630100_shell *>((void *)&(V1))->FUN_00630100({})))))->FUN_004586d0() > 1.0)
                 {
@@ -7924,14 +7946,14 @@ void xEffect::FUN_0066c160(float afTime)
                 }
                 xBound BND2;
                 xP3 PT2;
-                xShapeX* PS = (xShapeX*)((void *)(::FUN_004a3a40((::TESObjectREFR *)(((::FUN_00559450((int *)(((::fnv_0066c160::xForm *)(reinterpret_cast<::FUN_0062e150_cls *>((ARR))->FUN_0062e150(I)))->m_8))))))));
+                xShapeX* PS = (xShapeX*)((void *)(std::uintptr_t)(::FUN_004a3a40((::TESObjectREFR *)(((::FUN_00559450((int *)(((::fnv_0066c160::xForm *)(reinterpret_cast<::FUN_0062e150_cls *>((ARR))->FUN_0062e150(I)))->m_8))))))));
                 BND2.m_14 = 4;
                 BND2.m_15 = (unsigned char)(PS ? reinterpret_cast<::FUN_006205a0_Class *>((PS))->FUN_006205a0() : 0);
                 BND2.m_10 = 1.0f;
                 BND2.m_iThirdValue = ::FUN_004587d0(reinterpret_cast<::S004586d0_Obj *>((void *)(void *)&(const ::fnv_0066c160::xVec4 &)(V1.FUN_00630b40()))->FUN_004586d0());
-                BND2.m_18 = (int)PB + (int)PREF;
-                BND2.m_pos = *((::fnv_0066c160::xP3 *)&(::SetNiPoint3FromHkVector4((*(::NiPoint3 *)(&PT2)), (*(const ::hkVector4 *)(((::fnv_0066c160::xVec4 *)(reinterpret_cast<::TESTopicInfo *>((((xHasPos*)((void *)(::FUN_004b4f00((::TESDataHandler *)(PB)))))))->GetAddTopicList())))))));
-                BND2.m_1c = (int)::FUN_004b5a80(PB);
+                BND2.m_18 = (std::intptr_t)PB + (std::intptr_t)PREF;
+                BND2.m_pos = *((::fnv_0066c160::xP3 *)&(::SetNiPoint3FromHkVector4((*(::NiPoint3 *)(&PT2)), (*(const ::hkVector4 *)(((::fnv_0066c160::xVec4 *)(reinterpret_cast<::TESTopicInfo *>((((xHasPos*)((void *)(std::uintptr_t)(::FUN_004b4f00((::TESDataHandler *)(PB)))))))->GetAddTopicList())))))));
+                BND2.m_1c = (std::intptr_t)::FUN_004b5a80(PB);
                 BND2.m_20 = 0;
                 ::ImpactSound::FUN_00837550((::ImpactSound::ImpactData *)(::fnv_0066c160::xBound *)(&BND2));
             }

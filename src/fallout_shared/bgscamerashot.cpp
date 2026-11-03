@@ -729,7 +729,7 @@ void ShotThis::SetupCamera(void* param1, int iMode)
         m_spPositionNode.FUN_0066b0d0((void*)((std::intptr_t)(reinterpret_cast<::fnv_00447080::FUN_00447080_shell *>((::g_modelLoader))->FUN_00447080((char *)(model.vfn_14()), 0, 1, 1, 0, 0))));
     }
     myFoundPtr = ((::CamNodeX *)(::FUN_00559450((int *)&(m_spPositionNode))))
-                     ? ((void *)(::FUN_00653270((const ::NiRTTI *)(void *)(&(*reinterpret_cast<int *>(&::g_011f4a18))), (::NiObject *)(void *)((void*)((int)(reinterpret_cast<::S_FUN_0045bc00 *>((((::CamNodeX *)(::FUN_00559450((int *)&(m_spPositionNode))))))->FUN_0045bc00(0)))))))
+                     ? ((void *)(::FUN_00653270((const ::NiRTTI *)(void *)(&(*reinterpret_cast<int *>(&::g_011f4a18))), (::NiObject *)(void *)((void*)((reinterpret_cast<::S_FUN_0045bc00 *>((((::CamNodeX *)(::FUN_00559450((int *)&(m_spPositionNode))))))->FUN_0045bc00(0)))))))
                      : 0;
     if (!myFoundPtr)
     {

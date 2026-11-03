@@ -162,6 +162,8 @@ struct FUN_006fd980_shell
 
 struct FUN_006fce00_shell
 {
+    const void* pVtable;
+    FUN_006fd980_shell* pUnk04;
     void FUN_006fce00();
 };
 
@@ -169,8 +171,8 @@ struct FUN_006fce00_shell
 // @fnv 0x006fce00
 void FUN_006fce00_shell::FUN_006fce00()
 {
-    if (*(int*)((char*)this + 4) != 0)
-        (*(FUN_006fd980_shell**)((char*)this + 4))->FUN_006fd980(7);
+    if (pUnk04 != 0)
+        pUnk04->FUN_006fd980(7);
 }
 
 struct BGSTerrainChunk
@@ -211,6 +213,8 @@ struct TESObjectREFR
 };
 struct FUN_006fcf30_shell
 {
+    char pad[0x2c];
+    char kTreeRefs[0x10];
     void FUN_006fcf30(TESObjectREFR* apTreeRef);
 };
 
@@ -218,13 +222,13 @@ struct FUN_006fcf30_shell
 // @fnv 0x006fcf30
 void FUN_006fcf30_shell::FUN_006fcf30(TESObjectREFR* apTreeRef)
 {
-    std::uintptr_t icount = ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 0x2c))))->GetName()));
+    std::uintptr_t icount = ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(reinterpret_cast<ArrSI*>(kTreeRefs))->GetName()));
     unsigned int i = 0;
     while (i < icount)
     {
-        if (((Arr*)((char*)this + 0x2c))->GetAt(i)[0] == (unsigned int)(std::uintptr_t)apTreeRef)
+        if (reinterpret_cast<Arr*>(kTreeRefs)->GetAt(i)[0] == (unsigned int)(std::uintptr_t)apTreeRef)
         {
-            reinterpret_cast<::FUN_006bf8f0_Class *>((((GlobalObject_00869f00*)((char*)this + 0x2c))))->FUN_006bf8f0(i, true);
+            reinterpret_cast<::FUN_006bf8f0_Class *>(reinterpret_cast<GlobalObject_00869f00*>(kTreeRefs))->FUN_006bf8f0(i, true);
             icount--;
         }
         else
@@ -290,13 +294,18 @@ std::intptr_t FUN_006fce70_shell::FUN_006fce70(int a1)
 struct Unk006fec90
 {
 };
-// If the object at offset 4 exists, forwards a1 to its GetActiveMenu and returns the result; otherwise returns 0.
+struct TerrainChunkView
+{
+    const void* pVtable;
+    Unk006fec90* pUnk04;
+};
+// If pUnk04 exists, forwards a1 to its GetActiveMenu and returns the result; otherwise returns 0.
 // @fnv 0x006fceb0
 std::intptr_t BGSTerrainChunk::FUN_006fceb0(int a1)
 {
     int unused = 0;
-    if (*(Unk006fec90**)((char*)this + 4))
-        return reinterpret_cast<::Unk006fec90_Class *>(((*(Unk006fec90**)((char*)this + 4))))->GetActiveMenu(a1);
+    if (reinterpret_cast<TerrainChunkView*>(this)->pUnk04)
+        return reinterpret_cast<::Unk006fec90_Class *>(reinterpret_cast<TerrainChunkView*>(this)->pUnk04)->GetActiveMenu(a1);
     return 0;
 }
 

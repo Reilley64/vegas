@@ -160,7 +160,8 @@ class TESWorldSpace
     {
         USE_LAND = 1
     };
-    char pad0[0x2c];
+    char pad0[0x20];
+    void* kFullName[3];  // +0x24, the TESFullName base
     NiTPointerMap<unsigned int, TESObjectREFR*>* cellMap;
     TESObjectCELL* m_pCell;
     char pad38[0x4];
@@ -171,22 +172,28 @@ class TESWorldSpace
     unsigned char flags4C;
     char pad4D[1];
     unsigned short field4E;
-    char pad50[0x20];
+    NiTPointerMap<unsigned int, TESObjectREFR*> kFixedPersistentRefMap;  // +0x50
+    void* kMobilePersistentRefs[2];                                      // +0x60, a BSSimpleList
+    void* pFileOffsetMap;                                                // +0x68
+    void* pCellPointerMap;                                               // +0x6C
     TESWorldSpace* parent;
     void* unk74;
     void* unk78;
     float unk7c;
-    char pad80[0x10];
+    unsigned char kMapData[0x10];  // +0x80
     float unk90;
     float unk94;
     float unk98;
     void* unk9c;
-    char pada0[0x20];
+    char pada0[0x10];
+    NiTPointerMap<unsigned int, void*> kOffsetMapByFile;  // +0xB0
     BSStringT<char> mapName;
     char padC1[7];
     float fC8;
     float fCC;
     std::uintptr_t fieldD0;
+    unsigned char kUnkD4[0xC];  // +0xD4, an object with a vtable
+    unsigned char kUnkE0[0xC];  // +0xE0, an object with a vtable
     bool SetDateTimeText(const char*);
     BGSTerrainManager* GetWorldTerrainManager();
     TESWorldSpace* GetParentWorld(PARENT_USE_FLAG);

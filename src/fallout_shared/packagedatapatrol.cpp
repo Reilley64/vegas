@@ -12,11 +12,19 @@
 #include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
 #include "fnv/symbols_00401000.h"
 #include "fnv/symbols_00485000.h"
+
+// The two bytes TESPatrolPackageData keeps after its TESPackageData vtable pointer.
+struct PatrolPackageDataView
+{
+    const void* pVtable;
+    unsigned char ucUnk04;
+    unsigned char ucUnk05;
+};
 struct BGSSaveFormBuffer
 {
 };
 
-struct TESPatrolPackageData
+struct TESPatrolPackageData : ::PatrolPackageDataView
 {
     void SaveToBuffer(BGSSaveFormBuffer* apSaveGameBuffer);
 };
@@ -25,15 +33,15 @@ struct TESPatrolPackageData
 // @fnv 0x0067c5e0
 void TESPatrolPackageData::SaveToBuffer(BGSSaveFormBuffer* apSaveGameBuffer)
 {
-    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50((char*)this + 4, 1, 0);
-    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50((char*)this + 5, 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50((char*)&ucUnk04, 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50((char*)&ucUnk05, 1, 0);
 }
 
 struct BGSLoadFormBuffer
 {
 };
 
-struct FUN_0067c620
+struct FUN_0067c620 : ::PatrolPackageDataView
 {
     void LoadGame(BGSLoadFormBuffer* buffer);
 };
@@ -42,8 +50,8 @@ struct FUN_0067c620
 // @fnv 0x0067c620
 void FUN_0067c620::LoadGame(BGSLoadFormBuffer* apLoadGameBuffer)
 {
-    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)this + 4), 1);
-    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)this + 5), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&ucUnk04), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&ucUnk05), 1);
 }
 
 struct FUN_0067da40
@@ -69,7 +77,7 @@ FUN_0067c650_shell::FUN_0067c650_shell()
     sub.Init();
 }
 
-struct FUN_0067c670_shell
+struct FUN_0067c670_shell : ::PatrolPackageDataView
 {
     void CallNestedMethod();
 };
@@ -82,7 +90,7 @@ struct FUN_0067da80_shell
 // @fnv 0x0067c670
 void FUN_0067c670_shell::CallNestedMethod()
 {
-    ((FUN_0067da80_shell*)((char*)this + 4))->FUN_0067da80();
+    reinterpret_cast<FUN_0067da80_shell*>(&ucUnk04)->FUN_0067da80();
 }
 
 void __cdecl FUN_0067c490();
@@ -159,6 +167,7 @@ public:
 struct FUN_0067c720_shell
 {
     float m_fPatrolValue;
+    char kUnk04[4];
     void CallNestedMethod();
     void FUN_0067da80();
     bool FUN_0067c720(const FUN_0067c720_shell* apCompare);
@@ -166,7 +175,7 @@ struct FUN_0067c720_shell
 // @fnv 0x0067c720
 bool FUN_0067c720_shell::FUN_0067c720(const FUN_0067c720_shell* apCompare)
 {
-    if (((FUN_0067dbf0_shell*)((const char*)this + 4))->FUN_0067dbf0((::TESObjectREFR_GetFlags_caller *)((const char*)apCompare + 4)))
+    if (((FUN_0067dbf0_shell*)kUnk04)->FUN_0067dbf0((::TESObjectREFR_GetFlags_caller *)apCompare->kUnk04))
         return true;
     if (m_fPatrolValue != apCompare->m_fPatrolValue)
         return true;
@@ -206,7 +215,7 @@ struct Date
     ~Date();
 };
 
-struct FUN_0067c570_shell
+struct FUN_0067c570_shell : ::PatrolPackageDataView
 {
     void FUN_0067c570();
 };
@@ -216,7 +225,7 @@ void FUN_0067c570_shell::FUN_0067c570()
 {
     unsigned char patrolData[2];
     memset(patrolData, 0, 2);
-    patrolData[0] = *((unsigned char*)this + 4);
+    patrolData[0] = ucUnk04;
     if (((bool)(::FUN_00401500())))
         reinterpret_cast<::TESForm *>((((Date*)patrolData)))->ClearData();
     ::AppendChunk(0x54504b50, patrolData, 2);

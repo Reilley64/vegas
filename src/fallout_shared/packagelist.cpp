@@ -299,6 +299,8 @@ void PackageList::AddPackage(TESPackage* package)
 
 struct FUN_0067efd0_shell : public TESPackage
 {
+    char pad04[0x1c - 4];
+    unsigned int uiPackageFlags;
     bool FUN_0067efd0();
 };
 // Scans packages over the coming days/hours, adds those whose schedule matches and are not current or already missed, then sorts the missed list by schedule.
@@ -410,7 +412,7 @@ void PackageList::CollectEligiblePackages(Actor* actor, BSSimpleList<TESPackage*
 // @fnv 0x0067efd0
 bool FUN_0067efd0_shell::FUN_0067efd0()
 {
-    return (*(unsigned int*)((char*)this + 0x1c) & 4) ? true : false;
+    return (uiPackageFlags & 4) ? true : false;
 }
 
 class FUN_0067e4a0_cls

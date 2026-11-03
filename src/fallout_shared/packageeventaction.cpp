@@ -190,7 +190,7 @@ struct DummyVtable
 void FUN_0067da80_shell::FUN_0067da80()
 {
     *(int*)this = 0;
-    *((int*)this + 2) = 0;
+    pTopic = 0;
     delete *((DummyVtable**)&this->m_pkNext);
 }
 

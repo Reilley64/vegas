@@ -19,6 +19,13 @@
 #include "fnv/symbols_00460000.h"
 #include "fnv/symbols_0062b000.h"
 #include "fnv/symbols_011de000.h"
+
+// The acoustic space listener's map of acoustic space reference counts.
+struct AcousticSpaceListenerView
+{
+    char pad[0x18];
+    char kRefCounts[0x10];
+};
 struct BGSAcousticSpaceListener
 {
     void* Destroy(unsigned int flags);
@@ -63,22 +70,22 @@ struct MyMap
 struct MapX
 {
 };
-struct FUN_0061f8e0_shell
+struct FUN_0061f8e0_shell : ::AcousticSpaceListenerView
 {
     void FUN_0061f8e0(bool abDoRemoval);
 };
 // @fnv 0x0061f8e0
 void FUN_0061f8e0_shell::FUN_0061f8e0(bool abDoRemoval)
 {
-    void* pos2 = reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>((((MapX*)((char*)this + 0x18))))->GetFirstPos();
+    void* pos2 = reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>(reinterpret_cast<MapX*>(kRefCounts))->GetFirstPos();
     while (pos2)
     {
         std::uintptr_t key;
         void* value2;
-        reinterpret_cast<::C6b7f20_Map *>((((NiTMap*)((char*)this + 0x18))))->FUN_006b7f20((::C6b7f20_Node **)&(pos2), (unsigned int *)&(key), (void **)&(value2));
+        reinterpret_cast<::C6b7f20_Map *>(reinterpret_cast<NiTMap*>(kRefCounts))->FUN_006b7f20((::C6b7f20_Node **)&(pos2), (unsigned int *)&(key), (void **)&(value2));
         SoundPlaybackManager::ResetAcousticSpace(((::BGSAcousticSpace *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((TESObjectREFR*)key)))->FUN_007af430())));
     }
-    reinterpret_cast<::FUN_00438af0_Class *>((((MyMap*)((char*)this + 0x18))))->FUN_00438af0();
+    reinterpret_cast<::FUN_00438af0_Class *>(reinterpret_cast<MyMap*>(kRefCounts))->FUN_00438af0();
 }
 
 struct PlayerCharacter
@@ -133,34 +140,34 @@ struct MapH
 struct SetAtHelper
 {
 };
-struct BGSAcousticSpaceListenerX
+struct BGSAcousticSpaceListenerX : ::AcousticSpaceListenerView
 {
     void UpdateAcousticSpaceRefCounts(float afTime);
 };
 // @fnv 0x0061f940
 void BGSAcousticSpaceListenerX::UpdateAcousticSpaceRefCounts(float afTime)
 {
-    void* iter = reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>((((MapX*)((char*)this + 0x18))))->GetFirstPos();
+    void* iter = reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>(reinterpret_cast<MapX*>(kRefCounts))->GetFirstPos();
     while (iter)
     {
         unsigned int icount;
         unsigned int key;
-        reinterpret_cast<::C6b7f20_Map *>((((NiTMap*)((char*)this + 0x18))))->FUN_006b7f20((::C6b7f20_Node **)&(iter), (unsigned int *)&(key), (void **)&((void*&)icount));
-        reinterpret_cast<::FUN_00844700_Class *>((((SetAtHelper*)((char*)this + 0x18))))->FUN_00844700(key, --icount);
+        reinterpret_cast<::C6b7f20_Map *>(reinterpret_cast<NiTMap*>(kRefCounts))->FUN_006b7f20((::C6b7f20_Node **)&(iter), (unsigned int *)&(key), (void **)&((void*&)icount));
+        reinterpret_cast<::FUN_00844700_Class *>(reinterpret_cast<SetAtHelper*>(kRefCounts))->FUN_00844700(key, --icount);
     }
     bool bloop = true;
     while (bloop)
     {
         bloop = false;
-        void* iter2 = reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>((((MapX*)((char*)this + 0x18))))->GetFirstPos();
+        void* iter2 = reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>(reinterpret_cast<MapX*>(kRefCounts))->GetFirstPos();
         while (iter2)
         {
             unsigned int icount;
             std::uintptr_t key;
-            reinterpret_cast<::C6b7f20_Map *>((((NiTMap*)((char*)this + 0x18))))->FUN_006b7f20((::C6b7f20_Node **)&(iter2), (unsigned int *)&(key), (void **)&((void*&)icount));
+            reinterpret_cast<::C6b7f20_Map *>(reinterpret_cast<NiTMap*>(kRefCounts))->FUN_006b7f20((::C6b7f20_Node **)&(iter2), (unsigned int *)&(key), (void **)&((void*&)icount));
             if (icount == 0)
             {
-                reinterpret_cast<::NiTMap_S *>((((MapH*)((char*)this + 0x18))))->RemoveKey(key);
+                reinterpret_cast<::NiTMap_S *>(reinterpret_cast<MapH*>(kRefCounts))->RemoveKey(key);
                 SoundPlaybackManager::ResetAcousticSpace(((::BGSAcousticSpace *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((TESObjectREFR*)key)))->FUN_007af430())));
                 bloop = true;
                 break;

@@ -993,7 +993,7 @@ struct TESObjectREFR_v
 float FUN_00678670_shell::FUN_00678670(MobileObject* apMobileObject, bool abSecondLoc)
 {
     LocationDescriptor* ploc = abSecondLoc ? ((::fnv_00678670::LocationDescriptor *)(reinterpret_cast<::FUN_00672dd0_shell *>((this))->FUN_00672dd0()))
-                                           : (LocationDescriptor*)((BGSMessageInitAccess*)this)->GetIconFormID();
+                                           : (LocationDescriptor*)(std::uintptr_t)((BGSMessageInitAccess*)this)->GetIconFormID();
     int m_iSearchRadius = 0;
     if (ploc)
     {
@@ -2194,7 +2194,7 @@ bool TESPackageX::CheckPackageLocation(MobileObject* apMobileObject, bool bignor
     frame.btriggered = false;
     if (frame.pLoc && (double)reinterpret_cast<::FUN_0067f1c0_shell *>((frame.pLoc))->FUN_0067f1c0() == ::_DAT_01012060)
     {
-        if (reinterpret_cast<::FUN_0067f220_cls *>((frame.pLoc))->LookupAndStore((int)(apMobileObject), (int)(apMobileObject), (unsigned char *)(bool *)(&frame.btriggered)))
+        if (reinterpret_cast<::FUN_0067f220_cls *>((frame.pLoc))->LookupAndStore((std::intptr_t)(apMobileObject), (std::intptr_t)(apMobileObject), (unsigned char *)(bool *)(&frame.btriggered)))
             return frame.btriggered;
     }
     frame.m_iSearchRadius = reinterpret_cast<::HighProcess *>((this))->UpdateHighProcessState((::Actor *)(apMobileObject));
@@ -4679,7 +4679,7 @@ FUN_006708b0::~FUN_006708b0()
         m_uiRefCount++;
         if (reinterpret_cast<::fnv_0042ce10::FUN_0042ce10_shell *>(((*reinterpret_cast<::fnv_006708b0::BGSSaveLoadGame * *>(&::g_BGSSaveLoadGame))))->FUN_0042ce10() || ((TESPackage*)this)->GetPackType() == 0x15 ||
             ((TESPackage*)this)->GetPackType() == 0x17)
-            reinterpret_cast<::fnv_00970810::Menu75x *>(&((*reinterpret_cast<::fnv_006708b0::S_00970810 *>(&::g_011e0e80))))->FUN_00970810((int)(this));
+            reinterpret_cast<::fnv_00970810::Menu75x *>(&((*reinterpret_cast<::fnv_006708b0::S_00970810 *>(&::g_011e0e80))))->FUN_00970810((std::intptr_t)(this));
         m_uiRefCount--;
     }
     reinterpret_cast<::FUN_00674d70_shell *>((((TESPackage*)this)))->SetFlag800(false);
@@ -5312,7 +5312,7 @@ TESWorldSpace* FUN_00675a50_shell::FUN_00675a50(MobileObject* apActor)
 {
     TESWorldSpace* pretworld = 0;
     LocationDescriptor* ploc;
-    ploc = ploc = (LocationDescriptor*)((Script*)this)->GetText();
+    ploc = ploc = (LocationDescriptor*)(std::uintptr_t)((Script*)this)->GetText();
     if (ploc && reinterpret_cast<::DurationData *>((((BoundHolder*)ploc)))->FUN_00678ca0() != 2)
     {
         switch (reinterpret_cast<::DurationData *>((((BoundHolder*)ploc)))->FUN_00678ca0())
@@ -5754,7 +5754,7 @@ struct TES
 TESObjectREFR* FUN_00676140_shell::FUN_00676140(MobileObject* apActor)
 {
     TESObjectREFR* pRef;
-    LocationDescriptor* pLoc = (LocationDescriptor*)((Script*)this)->GetText();
+    LocationDescriptor* pLoc = (LocationDescriptor*)(std::uintptr_t)((Script*)this)->GetText();
     pRef = 0;
     if (pLoc && reinterpret_cast<::DurationData *>((((BoundHolder*)pLoc)))->FUN_00678ca0() != 2)
     {
@@ -7813,7 +7813,7 @@ void PackageCopy::CopyFromPackage(TESForm* form)
     if (!p)
         return;
     reinterpret_cast<::FormCloneOperation *>(this)->FUN_004851b0(p);
-    reinterpret_cast<::fnv_00671d30::FUN_00671d30_shell *>(this)->FUN_00671d30((::fnv_00671d30::LocationDescriptor *)(((PackageAccessor*)p)->FUN_0055b980()));
+    reinterpret_cast<::fnv_00671d30::FUN_00671d30_shell *>(this)->FUN_00671d30((::fnv_00671d30::LocationDescriptor *)(std::uintptr_t)(((PackageAccessor*)p)->FUN_0055b980()));
     reinterpret_cast<::FUN_00672fc0_shell *>(this)->FUN_00672fc0((::PackageTargetRecord *)(((reinterpret_cast<::Script *>((((PackageAccessor*)p)))->GetData()))));
     reinterpret_cast<::TESPackage *>(this)->CopyScheduleFrom((::DurationData *)(((reinterpret_cast<::FUN_0041d8a0_shell *>((((PackageAccessor*)p)))->FUN_0041d8a0()))));
     reinterpret_cast<::BGSDehydrationStage *>(this)->FUN_0050f9a0((::SpellItem *)(((reinterpret_cast<::BGSTerrainManager *>((((PackageAccessor*)p)))->GetMinLevel()))));
@@ -10998,11 +10998,11 @@ struct A90Cls
     A90Virt* m_28;
     A90Sub1* m_2c;
     A90Sub2* m_30;
-    void DispatchToSubobjects(int a);
+    void DispatchToSubobjects(std::intptr_t a);
 };
 // If the manager check on FUN_0084e3a0() passes, forwards a to m_2c, m_30 and m_28 via their respective methods.
 // @fnv 0x00679a90
-void A90Cls::DispatchToSubobjects(int aiValue)
+void A90Cls::DispatchToSubobjects(std::intptr_t aiValue)
 {
     if (!reinterpret_cast<::BSShaderRenderUtility *>(((*reinterpret_cast<::A90Mgr * *>(&::g_dataHandler))))->IsRenderTargetId((unsigned int)(std::uintptr_t)(((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0())))))
         return;
@@ -11034,7 +11034,7 @@ unsigned int Proxy758a0::FUN_006758a0(MobileObject* apMobile)
 int FUN_006757e0_shell::FUN_006757e0(MobileObject* actor)
 {
     std::intptr_t firstResult = ((std::intptr_t)(reinterpret_cast<::FUN_00672f20_cls *>(this)->FUN_00672f20()));
-    return firstResult == FUN_0055b980() ? FUN_00675c20(actor) : ((int)(reinterpret_cast<::fnv_006751a0::Pkg *>(this)->FUN_006751a0((::fnv_006751a0::Ref *)(actor))));
+    return firstResult == FUN_0055b980() ? FUN_00675c20(actor) : ((std::intptr_t)(reinterpret_cast<::fnv_006751a0::Pkg *>(this)->FUN_006751a0((::fnv_006751a0::Ref *)(actor))));
 }
 // @fnv 0x00675830
 PackValue12* FUN_00675830_shell::FUN_00675830(PackValue12* output, void* actor)
@@ -12012,7 +12012,7 @@ class V
     virtual void f07a();
     virtual void f07b();
     virtual void f07c();
-    virtual unsigned int f07d();
+    virtual std::uintptr_t f07d();
     virtual void f07e();
     virtual void f07f();
     virtual void f080();
@@ -13027,7 +13027,7 @@ Cell* PHost::FUN_00675c20(Ref* actor)
     }
     else if (actor)
     {
-        cell = ((::fnv_00675c20::Cell *)(reinterpret_cast<::fnv_0056ad80::Thing *>((actor))->FUN_0056ad80()));
+        cell = ((::fnv_00675c20::Cell *)(std::uintptr_t)(reinterpret_cast<::fnv_0056ad80::Thing *>((actor))->FUN_0056ad80()));
         if (!cell)
         {
             reinterpret_cast<::MobileObject *>((actor))->ProcessAnimation();
@@ -13410,7 +13410,7 @@ Vec PHost::FUN_00675360(Ref* actor)
             Cell* cell = ((::Cell *)(reinterpret_cast<::LocationDescriptor *>((location))->GetLocationCellReference()));
             if (cell)
             {
-                Ref* reference = ((::Ref *)(reinterpret_cast<::s54cee0::Owner *>((cell))->FUN_0054cee0()));
+                Ref* reference = ((::Ref *)(std::uintptr_t)(reinterpret_cast<::s54cee0::Owner *>((cell))->FUN_0054cee0()));
                 if (reference)
                     position = reference->Position();
                 else if (!reinterpret_cast<::TESObjectCELL *>((cell))->IsCellInterior())
@@ -13512,7 +13512,7 @@ xPt3 xPkg::FUN_00675de0(xRefP* pActor)
             xCell* qxQHW = ((::xCell *)(reinterpret_cast<::LocationDescriptor *>((qsSDDgz))->GetLocationCellReference()));
             if (qxQHW)
             {
-                xRefP* qAhbO = ((::xRefP *)(reinterpret_cast<::s54cee0::Owner *>((qxQHW))->FUN_0054cee0()));
+                xRefP* qAhbO = ((::xRefP *)(std::uintptr_t)(reinterpret_cast<::s54cee0::Owner *>((qxQHW))->FUN_0054cee0()));
                 if (qAhbO)
                     qfTOqo = qAhbO->GetPos();
                 else if (!reinterpret_cast<::TESObjectCELL *>((qxQHW))->IsCellInterior())
@@ -14845,7 +14845,7 @@ void A::FUN_008bed50(A* source, int value, bool react, A* target)
         if (source && !target)
             target = ((::A *)(reinterpret_cast<::FUN_0084e3a0_Class *>((source))->FUN_0084e3a0()));
         List* val;
-        val = ((::List *)(reinterpret_cast<::ZOwner *>(&((*reinterpret_cast<::Lists *>(&::g_011e0e80))))->CollectActorsByPackage((int)(target), 21, 0)));
+        val = ((::List *)(reinterpret_cast<::ZOwner *>(&((*reinterpret_cast<::Lists *>(&::g_011e0e80))))->CollectActorsByPackage((std::intptr_t)(target), 21, 0)));
         if (!val)
             ((::Proc_rtti *)(reinterpret_cast<::BSShaderNoLightingProperty *>((target))->GetBaseTexture()))->SetCount(0);
         else

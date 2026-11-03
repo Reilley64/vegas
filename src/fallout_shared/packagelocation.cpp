@@ -1087,7 +1087,8 @@ class ActiveEffect
 {
   public:
     const void* m_pVtable;
-    char pad04[0x20];
+    float unk04;
+    char pad08[0x1c];
     MagicTarget* pTarget;
     MagicCaster* pCaster;
 };
@@ -1124,9 +1125,9 @@ void FUN_00826be0_shell::FUN_00826be0(float afSecondsElapsed)
             BaseProcess* pprocess = (BaseProcess*)((::Date *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((PlayerQuestData*)ptarget)))->GetBaseTexture()));
             if (!((std::intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((((TESResponse*)pprocess)))->FUN_0045cd60())))
                 ((AIProcess*)pprocess)->Unk_1BE(true);
-            if (*(float*)((char*)this + 4) - *(float*)((char*)this + 0x50) > DAT_01020998)
+            if (this->unk04 - *(float*)((char*)this + 0x50) > DAT_01020998)
                 *(int*)((char*)this + 0x4c) = 20;
-            float fLerp = FUN_0040ebd0(1.0f, (*(float*)((char*)this + 4) - *(float*)((char*)this + 0x50)) / 4.0);
+            float fLerp = FUN_0040ebd0(1.0f, (this->unk04 - *(float*)((char*)this + 0x50)) / 4.0);
             hkVector4 endPos;
             hkVector4 startPos;
             ::fnv_004a3e00::FUN_004a3e00((::fnv_004a3e00::bhkCharacterController &)(endPos), (const ::fnv_004a3e00::NiPoint3 &)(*(NiPoint3*)((char*)this + 0x54)));
@@ -1167,14 +1168,14 @@ void FUN_00826be0_shell::FUN_00826be0(float afSecondsElapsed)
                 if (!((std::intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((((TESResponse*)pprocess)))->FUN_0045cd60())))
                     ((AIProcess*)pprocess)->Unk_1BE(false);
                 reinterpret_cast<::fnv_0041d490::FUN_0041d490_shell *>((((ExtraDataList_helper*)((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((((TESObjectREFR*)ptarget)))->FUN_005d43c0())))))->UpdateRagDoll(0);
-                *(float*)((char*)this + 0x50) = *(float*)((char*)this + 4);
+                *(float*)((char*)this + 0x50) = this->unk04;
             }
         }
         else if (*(int*)((char*)this + 0x4c) == 30)
         {
-            if (*(float*)((char*)this + 4) - *(float*)((char*)this + 0x50) > 2.0)
+            if (this->unk04 - *(float*)((char*)this + 0x50) > 2.0)
             {
-                *(float*)((char*)this + 0x50) = *(float*)((char*)this + 4);
+                *(float*)((char*)this + 0x50) = this->unk04;
                 *(int*)((char*)this + 0x4c) = 40;
                 NiAVObject* pNode = ptarget->GetNiNode();
                 if (pNode)
@@ -1189,7 +1190,7 @@ void FUN_00826be0_shell::FUN_00826be0(float afSecondsElapsed)
         }
         else if (*(int*)((char*)this + 0x4c) == 40)
         {
-            if (*(float*)((char*)this + 4) - *(float*)((char*)this + 0x50) > 1.0)
+            if (this->unk04 - *(float*)((char*)this + 0x50) > 1.0)
             {
                 *(int*)((char*)this + 0x4c) = 50;
                 ptarget->SetActorLifeState((::ACTOR_LIFE_STATE)(4));

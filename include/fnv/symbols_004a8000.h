@@ -1,12 +1,14 @@
 #pragma once
 
+#include <cstdint>
+
 class TESObjectREFR;
 struct BGSBodyPart;
 
 // 0x004a8a90
 namespace fnv_004a8a90 { const char *FUN_004a8a90(char *); }
 // 0x004a8b00
-unsigned int FUN_004a8b00(::BGSBodyPart *);
+std::uintptr_t FUN_004a8b00(::BGSBodyPart *);
 // 0x004a8b40
 void AddToRefCountIfNotFlagged(::TESObjectREFR *, int, int **);
 // 0x004a8bb0

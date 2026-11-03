@@ -19,7 +19,7 @@ int FUN_005ba8d0();
 // 0x005bac20
 namespace fnv_005bac20 { bool FUN_005bac20(); }
 // 0x005bac50
-namespace fnv_005bac50 { unsigned int FUN_005bac50(); }
+namespace fnv_005bac50 { std::uintptr_t FUN_005bac50(); }
 // 0x005bac60
 ::NiNode *FUN_005bac60();
 // 0x005bac70

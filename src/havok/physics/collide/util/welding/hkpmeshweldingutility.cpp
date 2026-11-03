@@ -2,6 +2,7 @@
 // src/havok/physics/collide/util/welding/hkpmeshweldingutility.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/util/welding/hkpmeshweldingutility.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include <xmmintrin.h>
@@ -78,20 +79,6 @@ struct S_00ddecf0_Key
     float a;
     float b;
 };
-struct S_00ddecf0_Heap;
-struct S_00ddecf0_Router
-{
-    int unk0;
-    int unk4;
-    int unk8;
-    int unkC;
-    S_00ddecf0_Heap* m_pStreamAllocator;
-    S_00ddecf0_Heap& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
-
 struct S_00ddecf0_Array
 {
     S_00ddecf0_Key* m_data;
@@ -396,7 +383,7 @@ void S_00ddecf0::InsertKey(float t, float a, float b)
     key.t = t;
     key.a = a;
     key.b = b;
-    reinterpret_cast<::S_00ddecd0 *>(&(m_keys))->FUN_00ddecd0(&(static_cast<S_00ddecf0_Router*>(::FUN_00c85750())->heap()), n, &key);
+    reinterpret_cast<::S_00ddecd0 *>(&(m_keys))->FUN_00ddecd0(&(hkMemoryRouter::getInstance().heap()), n, &key);
 }
 // @fnv 0x00ddecd0
 void S_00ddecd0::FUN_00ddecd0(void* aiArg1, int aiArg2, const S_00ddecf0_Key* aiArg3)
@@ -806,18 +793,6 @@ void FUN_00ddd620(const NormalVector* apVertexA, const NormalVector* apVertexB, 
     *apNormal = n;
 }
 
-struct S_00ddecf0_Heap
-{
-    virtual void unk00();
-    virtual void unk04();
-    virtual void unk08();
-    virtual void unk0C();
-    virtual void ReturnMemory(void* p, int numBytes) throw();
-    template <typename T> __forceinline void _bufFree(void* p, int numElem)
-    {
-        ReturnMemory(p, numElem * (int)sizeof(T));
-    }
-};
 
 
 struct KeyLess
@@ -838,9 +813,9 @@ __declspec(noinline) ComparisonResult __cdecl AreZDiffering(const S_00ddecf0_Key
 
 struct ArrayAllocator
 {
-    __forceinline S_00ddecf0_Heap& get(const void*) const
+    __forceinline hkMemoryAllocator& get(const void*) const
     {
-        return static_cast<S_00ddecf0_Router*>(::FUN_00c85750())->heap();
+        return hkMemoryRouter::getInstance().heap();
     }
 };
 template <typename T> struct SpanStorage
@@ -862,7 +837,7 @@ template <typename T> struct SpanStorage
     {
         return m_data[i];
     }
-    __forceinline void dispose(S_00ddecf0_Heap& alloc)
+    __forceinline void dispose(hkMemoryAllocator& alloc)
     {
         m_iElementCount = 0;
         if (!(m_iCapacityState & 0x80000000))
@@ -870,7 +845,7 @@ template <typename T> struct SpanStorage
         m_data = 0;
         m_iCapacityState = 0x80000000;
     }
-    __forceinline void append(S_00ddecf0_Heap& alloc, const T& value)
+    __forceinline void append(hkMemoryAllocator& alloc, const T& value)
     {
         if (m_iElementCount == capacity())
             ::ResizeAudioStream((::AudioAllocator *)(void *)(&alloc), (::AudioStream *)(void *)(this), sizeof(T));
@@ -1091,14 +1066,6 @@ struct __declspec(align(16)) Item
     const void* payload;
 };
 
-struct S00dde760_PoolState
-{
-    char* cursor;
-    int unk04;
-    int unk08;
-    int unk0c;
-    S_00ddecf0_Heap* allocator;
-};
 
 struct S00dde760_ScratchVector
 {
@@ -1123,16 +1090,14 @@ void __cdecl FUN_00dde760(::hkpShapeCollectionW* a, const void* aiPayload, int c
     vector.elements = 0;
     vector.size = 0;
     vector.encodedCapacity = 0x80000000;
-    S00dde760_PoolState* poolState = ((S00dde760_PoolState*)static_cast<S_00ddecf0_Router*>(::FUN_00c85750()));
-    char* cursor = poolState->cursor;
-    poolState->cursor = cursor + 0x80;
+    hkMemoryRouter& router = hkMemoryRouter::getInstance();
+    char* cursor = static_cast<char*>(router.allocateStack(0x80));
     vector.elements = reinterpret_cast<Item*>(cursor);
     vector.encodedCapacity = 0x80000001;
     vector.originalCursor = cursor;
-    poolState = ((S00dde760_PoolState*)static_cast<S_00ddecf0_Router*>(::FUN_00c85750()));
     if (vector.size == (vector.encodedCapacity & 0x3fffffff))
     {
-        ::ResizeAudioStream((::AudioAllocator *)(poolState->allocator), (::AudioStream *)(void *)(&vector), 0x50);
+        ::ResizeAudioStream((::AudioAllocator *)(&hkMemoryRouter::getInstance().heap()), (::AudioStream *)(void *)(&vector), 0x50);
     }
     Item* destination = vector.elements + vector.size;
     if (destination != 0)
@@ -1143,12 +1108,11 @@ void __cdecl FUN_00dde760(::hkpShapeCollectionW* a, const void* aiPayload, int c
     char* finalCursor = vector.originalCursor;
     if (finalCursor == reinterpret_cast<char*>(vector.elements))
         vector.size = 0;
-    ((S00dde760_PoolState*)static_cast<S_00ddecf0_Router*>(::FUN_00c85750()))->cursor = finalCursor;
-    poolState = ((S00dde760_PoolState*)static_cast<S_00ddecf0_Router*>(::FUN_00c85750()));
-    S_00ddecf0_Heap* currentAllocator = poolState->allocator;
+    hkMemoryRouter::getInstance().deallocateStack(finalCursor);
+    hkMemoryAllocator* currentAllocator = &hkMemoryRouter::getInstance().heap();
     vector.size = 0;
     if ((vector.encodedCapacity & 0x80000000u) == 0)
-        currentAllocator->ReturnMemory(vector.elements, (vector.encodedCapacity & 0x3fffffff) * 0x50);
+        currentAllocator->bufFree(vector.elements, (vector.encodedCapacity & 0x3fffffff) * 0x50);
 }
 
 // Moved from hkpmeshweldingutility_ehsc_noehsc_variant.cpp (VEGAS-15).
@@ -1414,10 +1378,10 @@ struct hkInplaceArrayW
     }
     inline ~hkInplaceArrayW()
     {
-        S_00ddecf0_Heap& alloc = static_cast<S_00ddecf0_Router*>(::FUN_00c85750())->heap();
+        hkMemoryAllocator& alloc = hkMemoryRouter::getInstance().heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
-            alloc.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(unsigned int));
+            alloc.bufFree(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(unsigned int));
         m_data = 0;
         m_iCapacityState = 0x80000000;
     }
@@ -1451,10 +1415,10 @@ struct hkHistogramW
     }
     inline ~hkHistogramW()
     {
-        S_00ddecf0_Heap& alloc = static_cast<S_00ddecf0_Router*>(::FUN_00c85750())->heap();
+        hkMemoryAllocator& alloc = hkMemoryRouter::getInstance().heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
-            alloc.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(hkEntryW));
+            alloc.bufFree(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(hkEntryW));
         m_data = 0;
         m_iCapacityState = 0x80000000;
     }
@@ -1783,9 +1747,9 @@ struct S00dde4c0_Array
     }
     __forceinline void finish()
     {
-        release(static_cast<S_00ddecf0_Router*>(::FUN_00c85750())->heap());
+        release(hkMemoryRouter::getInstance().heap());
     }
-    __forceinline void release(::S_00ddecf0_Heap& a)
+    __forceinline void release(::hkMemoryAllocator& a)
     {
         m_iElementCount = 0;
         if (!(m_iCapacityState & 0x80000000))

@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include <xmmintrin.h>
@@ -332,21 +333,7 @@ void D338e0Owner::FUN_00d338e0(int aiArg1, int apAgentPtr, int aiArg3, int aiArg
     }
 }
 
-struct hkAllocatorD33D
-{
-    virtual void V0() throw();
-    virtual void* AllocateMemoryBlock(int iNumBytes) throw();
-};
 
-struct hkMemoryRouterD33D
-{
-    void* m_apvUnk00[4];
-    hkAllocatorD33D* m_pkHeap;
-    hkAllocatorD33D& heap()
-    {
-        return *m_pkHeap;
-    }
-};
 
 struct Node;
 struct hkTransformCB22;
@@ -384,7 +371,7 @@ class hkpCollisionAgentD33D
 
     static __forceinline void* operator new(size_t uiSize) throw()
     {
-        hkpCollisionAgentD33D* p = (hkpCollisionAgentD33D*)static_cast<hkMemoryRouterD33D*>(::FUN_00c85750())->heap().AllocateMemoryBlock(uiSize);
+        hkpCollisionAgentD33D* p = static_cast<hkpCollisionAgentD33D*>(hkMemoryRouter::getInstance().heap().blockAlloc(uiSize));
         p->m_usMemSizeAndFlags = (unsigned short)uiSize;
         return p;
     }
@@ -520,21 +507,7 @@ void hkObjD33E::FUN_00d33ef0(void* arg)
 }
 
 namespace fnv_00d343f0 {
-struct hkAllocatorD343
-{
-    virtual void V0() throw();
-    virtual void* AllocateMemoryBlock(int iNumBytes) throw();
-};
 
-struct hkMemoryRouterD343
-{
-    void* m_apvUnk00[4];
-    hkAllocatorD343* m_pkHeap;
-    hkAllocatorD343& heap()
-    {
-        return *m_pkHeap;
-    }
-};
 
 struct hkpCdBodyD343;
 struct hkpContactMgrD343;
@@ -565,7 +538,7 @@ class hkpCollisionAgentD343
 
     static __forceinline void* operator new(size_t uiSize) throw()
     {
-        hkpCollisionAgentD343* p = (hkpCollisionAgentD343*)static_cast<hkMemoryRouterD343*>(::FUN_00c85750())->heap().AllocateMemoryBlock(uiSize);
+        hkpCollisionAgentD343* p = static_cast<hkpCollisionAgentD343*>(hkMemoryRouter::getInstance().heap().blockAlloc(uiSize));
         p->m_usMemSizeAndFlags = (unsigned short)uiSize;
         return p;
     }
@@ -1226,20 +1199,7 @@ extern "C" void __cdecl FUN_00d33ca0(const void* a, const void* b, const void* c
 }  // namespace fnv_00d33ca0
 
 namespace fnv_00d34510 {
-struct ChunkAllocator
-{
-    virtual void* vfunc0();
-    virtual void* allocate(int size);
-};
 
-struct MemoryRouter
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    ChunkAllocator* m_pThreadAllocator;
-};
 
 extern "C"
 {
@@ -1285,18 +1245,16 @@ void* __cdecl FUN_00d34510(void* bodyA, void* bodyB, AgentCollisionInput* input,
         switch (input->m_pCollisionDispatcher->getCollisionType(bodyA, bodyB, input))
         {
         case 0: {
-            MemoryRouter* pMemoryRouter = static_cast<MemoryRouter*>(::FUN_00c85750());
             int iAllocSize = 0x90;
-            void* agent = pMemoryRouter->m_pThreadAllocator->allocate(iAllocSize);
+            void* agent = hkMemoryRouter::getInstance().heap().blockAlloc(iAllocSize);
             ((AgentHeader*)agent)->m_usMemSizeAndFlags = (unsigned short)iAllocSize;
             ((PfnD33940)FUN_00d33940)(agent, bodyB, bodyA, input, contactMgr);
             *(void**)agent = (void*)fnv_vftable_hkpSymmetricConvexListAgentD33D;
             return agent;
         }
         case 1: {
-            MemoryRouter* pMemoryRouter = static_cast<MemoryRouter*>(::FUN_00c85750());
             int iAllocSize = 0x38;
-            void* agent = pMemoryRouter->m_pThreadAllocator->allocate(iAllocSize);
+            void* agent = hkMemoryRouter::getInstance().heap().blockAlloc(iAllocSize);
             ((AgentHeader*)agent)->m_usMemSizeAndFlags = (unsigned short)iAllocSize;
             return ((PfnD440f0)FUN_00d440f0)(agent, bodyA, bodyB, input, contactMgr);
         }
@@ -1304,25 +1262,22 @@ void* __cdecl FUN_00d34510(void* bodyA, void* bodyB, AgentCollisionInput* input,
             switch (input->m_pCollisionDispatcher->getCollisionType(bodyB, bodyA, input))
             {
             case 0: {
-                MemoryRouter* pMemoryRouter = static_cast<MemoryRouter*>(::FUN_00c85750());
                 int iAllocSize = 0x90;
-                void* agent = pMemoryRouter->m_pThreadAllocator->allocate(iAllocSize);
+                void* agent = hkMemoryRouter::getInstance().heap().blockAlloc(iAllocSize);
                 ((AgentHeader*)agent)->m_usMemSizeAndFlags = (unsigned short)iAllocSize;
                 return ((PfnD33940)FUN_00d33940)(agent, bodyA, bodyB, input, contactMgr);
             }
             case 1: {
-                MemoryRouter* pMemoryRouter = static_cast<MemoryRouter*>(::FUN_00c85750());
                 int iAllocSize = 0x38;
-                void* agent = pMemoryRouter->m_pThreadAllocator->allocate(iAllocSize);
+                void* agent = hkMemoryRouter::getInstance().heap().blockAlloc(iAllocSize);
                 ((AgentHeader*)agent)->m_usMemSizeAndFlags = (unsigned short)iAllocSize;
                 ((PfnD440f0)FUN_00d440f0)(agent, bodyB, bodyA, input, contactMgr);
                 *(void**)agent = (void*)fnv_vftable_fnv_00d442c0_D442C0ShapeAgent;
                 return agent;
             }
             case 2: {
-                MemoryRouter* pMemoryRouter = static_cast<MemoryRouter*>(::FUN_00c85750());
                 int iAllocSize = 0x80;
-                void* agent = pMemoryRouter->m_pThreadAllocator->allocate(iAllocSize);
+                void* agent = hkMemoryRouter::getInstance().heap().blockAlloc(iAllocSize);
                 ((AgentHeader*)agent)->m_usMemSizeAndFlags = (unsigned short)iAllocSize;
                 ((PfnDacbd0)FUN_00dacbd0)(agent, bodyA, bodyB, contactMgr);
                 *(void**)agent = (void*)fnv_vftable_hkpPredGskfAgentD33D;
@@ -1336,9 +1291,8 @@ void* __cdecl FUN_00d34510(void* bodyA, void* bodyB, AgentCollisionInput* input,
     }
     else
     {
-        MemoryRouter* pMemoryRouter = static_cast<MemoryRouter*>(::FUN_00c85750());
         int iAllocSize = 0x38;
-        void* agent = pMemoryRouter->m_pThreadAllocator->allocate(iAllocSize);
+        void* agent = hkMemoryRouter::getInstance().heap().blockAlloc(iAllocSize);
         ((AgentHeader*)agent)->m_usMemSizeAndFlags = (unsigned short)iAllocSize;
         return ((PfnD440f0)FUN_00d440f0)(agent, bodyA, bodyB, input, 0);
     }
@@ -1598,10 +1552,6 @@ struct AddressValue
     __forceinline AddressValue(void* p) : value(p)
     {}
 };
-struct ScratchArena
-{
-    int* cursor;
-};
 
 typedef void(* Ws70Fn)(void*, const void*);
 typedef void(* Ws00Fn)(void*, const void*, const void*, const void*, void*);
@@ -1737,15 +1687,12 @@ __forceinline void Agent::streamCollision(const Shape& a, const Shape& b, const 
     big.vec.quad = motion;
     reinterpret_cast<::hkTransformCB22 *>(&(big.co))->FUN_00cb22f0((*(const ::hkTransformCB22 *)(a.m_08)), (*(const ::hkTransformCB22 *)(b.m_08)));
     int count = bHead->count;
-    ScratchArena* pool = (ScratchArena*)static_cast<hkMemoryRouterD33D*>(::FUN_00c85750());
-    int* arr = pool->cursor;
-    pool->cursor = reinterpret_cast<int*>(reinterpret_cast<char*>(arr) + ((static_cast<unsigned int>((count + 1) * sizeof(int)) + 0x7f) & ~0x7fu));
+    int* arr = static_cast<int*>(hkMemoryRouter::getInstance().allocateStack((static_cast<unsigned int>((count + 1) * sizeof(int)) + 0x7f) & ~0x7fu));
     for (int i = 0; i < count; i++)
         arr[i] = i;
     arr[count] = -1;
     ::fnv_00da4aa0::FUN_00da4aa0((*(::fnv_00da4aa0::Q30 *)(&streaming())), (*(const ::fnv_00da4aa0::Q14 *)(&big)), (*(const ::fnv_00da4aa0::Q24 * *)&(const ::AddressValue &)(AddressValue(&bHead->unk14))), (const unsigned int *)(arr), (*(::fnv_00da4aa0::Q6 *)(&d)));
-    ScratchArena* pool2 = (ScratchArena*)static_cast<hkMemoryRouterD33D*>(::FUN_00c85750());
-    pool2->cursor = arr;
+    hkMemoryRouter::getInstance().deallocateStack(arr);
 }
 __forceinline void Agent::processCached(const Shape& a, const Shape& b, const Arg3& c, Arg4& d, const Vec4& vec,
                                         Workspace& ws, StackObj& so, ScalarScratch& scratch, bool& retry)

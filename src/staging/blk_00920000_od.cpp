@@ -367,12 +367,7 @@
 #include "fnv/symbols_01203000.h"
 #include "../../include/layout_support.h"
 
-// TESObjectWEAP.h forward-declares ActorValue__Index as an enum, which clashes with the typedef in layout_support.h.
-class TESObjectWEAP
-{
-public:
-    float FUN_00709430(bool);
-};
+#include "fnv/decl/TESObjectWEAP.h"
 
 class TESObjectREFR;
 // The shared fnv/decl/DialogueItem.h declares SelectDefaultResponseList twice (0x005e3fa0 and 0x0083c7b0, which differ

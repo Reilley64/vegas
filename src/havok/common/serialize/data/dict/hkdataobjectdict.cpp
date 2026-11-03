@@ -9788,7 +9788,7 @@ void hkDataWorldDictTrackerDCA::FUN_00dca890(hkDataObjectImplDCA* pkObject) thro
             {
                 unsigned int warnBuf[128];
                 hkOstreamDCA ostr(warnBuf, sizeof(warnBuf));
-                reinterpret_cast<::SinkOwner *>((void *)&(const ::hkOstreamDCA &)(reinterpret_cast<::CC0280Writer *>((void *)&(const ::hkOstreamDCA &)(reinterpret_cast<::SinkOwner *>((void *)&(const ::hkOstreamDCA &)(reinterpret_cast<::SinkOwner *>((void *)&(const ::hkOstreamDCA &)(reinterpret_cast<::SinkOwner *>((void *)&(const ::hkOstreamDCA &)(ostr))->FUN_00cc01c0("The object of class ")))->FUN_00cc01c0(kObjects[j]->GetVariantValue()->getName())))->FUN_00cc01c0(" is about to be removed and all references to it will be invalid.\nHowever, the object is referenced (")))->WriteInt(kObjects[j]->m_iReferenceCount)))->FUN_00cc01c0(") from outside the world and it will lead to unexpected behavior or crash.");
+                reinterpret_cast<::SinkOwner *>((void *)(reinterpret_cast<::CC0280Writer *>((void *)(reinterpret_cast<::SinkOwner *>((void *)(reinterpret_cast<::SinkOwner *>((void *)(reinterpret_cast<::SinkOwner *>((void *)&(ostr))->FUN_00cc01c0("The object of class ")))->FUN_00cc01c0(kObjects[j]->GetVariantValue()->getName())))->FUN_00cc01c0(" is about to be removed and all references to it will be invalid.\nHowever, the object is referenced (")))->WriteInt(kObjects[j]->m_iReferenceCount)))->FUN_00cc01c0(") from outside the world and it will lead to unexpected behavior or crash.");
                 (*reinterpret_cast<::hkErrorDCA * *>(&::DAT_01268360))->message(1, 0x760d3794, (const char*)warnBuf, ".\\Data\\Dict\\hkDataObjectDict.cpp",
                                       0x7b9);
             }

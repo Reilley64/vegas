@@ -1224,7 +1224,7 @@ void hkVisualDebuggerCD1::CaptureSimulationState(const char* pcCaptureFilename) 
         {
             unsigned int reportBuf[128];
             hkOstreamCD1 ostr(reportBuf, sizeof(reportBuf));
-            reinterpret_cast<::SinkOwner *>((void *)&(const ::hkOstreamCD1 &)(reinterpret_cast<::SinkOwner *>((void *)&(const ::hkOstreamCD1 &)(reinterpret_cast<::SinkOwner *>((void *)&(const ::hkOstreamCD1 &)(ostr))->FUN_00cc01c0("Capturing simulation state to '")))->FUN_00cc01c0(pcCaptureFilename)))->FUN_00cc01c0("'");
+            reinterpret_cast<::SinkOwner *>((void *)(reinterpret_cast<::SinkOwner *>((void *)(reinterpret_cast<::SinkOwner *>((void *)&(ostr))->FUN_00cc01c0("Capturing simulation state to '")))->FUN_00cc01c0(pcCaptureFilename)))->FUN_00cc01c0("'");
             (*reinterpret_cast<::hkErrorCD1 * *>(&::DAT_01268360))->message(0, -1, (const char*)reportBuf, ".\\hkVisualDebugger.cpp", 125);
         }
         reinterpret_cast<::Server_cd14 *>(this)->AddEntry((const char *)(void *)(0), 0, pkWriter);
@@ -1242,11 +1242,11 @@ void hkVisualDebuggerCD1::CaptureSimulationState(const char* pcCaptureFilename) 
                 kClient.m_pProcessHandler->selectProcess(aiAllocationTag);
             }
         }
-        reinterpret_cast<::FUN_00d61df0_cls *>((void *)&(const ::hkStringBufCD1 &)(kViewerNames))->FUN_00d61df0((intptr_t)("]"));
+        reinterpret_cast<::FUN_00d61df0_cls *>((void *)&(kViewerNames))->FUN_00d61df0((intptr_t)("]"));
         {
             unsigned int reportBuf[128];
             hkOstreamCD1 ostr(reportBuf, sizeof(reportBuf));
-            reinterpret_cast<::SinkOwner *>((void *)&(const ::hkOstreamCD1 &)(ostr))->FUN_00cc01c0(kViewerNames.cString());
+            reinterpret_cast<::SinkOwner *>((void *)&(ostr))->FUN_00cc01c0(kViewerNames.cString());
             (*reinterpret_cast<::hkErrorCD1 * *>(&::DAT_01268360))->message(0, -1, (const char*)reportBuf, ".\\hkVisualDebugger.cpp", 147);
         }
     }
@@ -1254,7 +1254,7 @@ void hkVisualDebuggerCD1::CaptureSimulationState(const char* pcCaptureFilename) 
     {
         unsigned int reportBuf[128];
         hkOstreamCD1 ostr(reportBuf, sizeof(reportBuf));
-        reinterpret_cast<::SinkOwner *>((void *)&(const ::hkOstreamCD1 &)(reinterpret_cast<::SinkOwner *>((void *)&(const ::hkOstreamCD1 &)(reinterpret_cast<::SinkOwner *>((void *)&(const ::hkOstreamCD1 &)(ostr))->FUN_00cc01c0("Capture file '")))->FUN_00cc01c0(pcCaptureFilename)))->FUN_00cc01c0("' could not be opened for writing");
+        reinterpret_cast<::SinkOwner *>((void *)(reinterpret_cast<::SinkOwner *>((void *)(reinterpret_cast<::SinkOwner *>((void *)&(ostr))->FUN_00cc01c0("Capture file '")))->FUN_00cc01c0(pcCaptureFilename)))->FUN_00cc01c0("' could not be opened for writing");
         (*reinterpret_cast<::hkErrorCD1 * *>(&::DAT_01268360))->message(0, -1, (const char*)reportBuf, ".\\hkVisualDebugger.cpp", 151);
     }
 
@@ -1578,7 +1578,7 @@ FUN_00cd1780::FUN_00cd1780(const hkArrayC17<hkProcessContextC17*>& kContexts,
     {
         unsigned int reportBuf[128];
         hkOstreamC17 ostr(reportBuf, sizeof(reportBuf));
-        reinterpret_cast<::SinkOwner *>((void *)&(const ::hkOstreamC17 &)(ostr))->FUN_00cc01c0("VDB Server instance has been created");
+        reinterpret_cast<::SinkOwner *>((void *)&(ostr))->FUN_00cc01c0("VDB Server instance has been created");
         (*reinterpret_cast<::hkErrorC17 * *>(&::DAT_01268360))->message(0, -1, (const char*)reportBuf, ".\\hkVisualDebugger.cpp", 0x28);
     }
     ::FUN_00d61420();

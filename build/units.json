@@ -440780,7 +440780,7 @@
     },
     {
      "address": "0x00ddf970",
-     "symbol": "?ClearAllItems@@YGXHH@Z",
+     "symbol": "?ClearAllItems@MonitorTreeBuilder@@QAEXHH@Z",
      "size": 149
     },
     {
@@ -440843,7 +440843,7 @@
     "?FUN_00d470d0@FnvCpu_FUN_00d470d0_CpuObject@@QAEHXZ": "0x00d470d0",
     "?FUN_00ddf420@FUN_00ddfab0_cls@fnv_00ddfab0@@QAEXHHH@Z": "0x00ddf420",
     "?FUN_00cf6920@@YAXPAXPAUNode@@0@Z": "0x00cf6920",
-    "?ClearAllItems@@YGXHH@Z": "0x00ddf970",
+    "?ClearAllItems@MonitorTreeBuilder@@QAEXHH@Z": "0x00ddf970",
     "?DAT_01063cbc@@3QBDB": "0x01063cbc",
     "??0MonitorNode@@QAE@PAU0@PBDH@Z": "0x00e0d000"
    }

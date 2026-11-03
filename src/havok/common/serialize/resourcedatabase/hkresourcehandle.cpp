@@ -1876,7 +1876,7 @@ void hkResourceHandleR::FUN_00e2e4c0(hkResourceContainerR* container)
                 char assertBuf[512];
                 hkErrStreamR ostr;
                 new ((void *)&(ostr)) ::FUN_00cb1600(assertBuf, sizeof(assertBuf));
-                reinterpret_cast<::SinkOwner *>((void *)&(const ::fnv_00e2e4c0::hkErrStreamR &)(reinterpret_cast<::SinkOwner *>((void *)&(const ::fnv_00e2e4c0::hkErrStreamR &)(reinterpret_cast<::SinkOwner *>((void *)&(const ::fnv_00e2e4c0::hkErrStreamR &)(reinterpret_cast<::SinkOwner *>((void *)&(const ::fnv_00e2e4c0::hkErrStreamR &)(ostr))->FUN_00cc01c0(str_010eb20c)))->FUN_00cc01c0(reinterpret_cast<::FnvClassNameNode *>((void *)(pClassInfo))->FUN_00d46d40())))->FUN_00cc01c0(str_010eb234)))->FUN_00cc01c0(reinterpret_cast<::FnvClassNameNode *>((void *)(expected))->FUN_00d46d40());
+                reinterpret_cast<::SinkOwner *>((void *)(reinterpret_cast<::SinkOwner *>((void *)(reinterpret_cast<::SinkOwner *>((void *)(reinterpret_cast<::SinkOwner *>((void *)&(ostr))->FUN_00cc01c0(str_010eb20c)))->FUN_00cc01c0(reinterpret_cast<::FnvClassNameNode *>((void *)(pClassInfo))->FUN_00d46d40())))->FUN_00cc01c0(str_010eb234)))->FUN_00cc01c0(reinterpret_cast<::FnvClassNameNode *>((void *)(expected))->FUN_00d46d40());
                 (*reinterpret_cast<::fnv_00e2e4c0::hkErrorR * *>(&::DAT_01268360))->message(1, 0xf034ed21, assertBuf, str_010eb1c4, 0xb2);
                 reinterpret_cast<struct ::FUN_00cc00e0 *>(&(ostr))->FUN_00cc00e0::~FUN_00cc00e0();
                 continue;
@@ -2210,7 +2210,7 @@ int hkMemoryResourceContainer::FUN_00e2e790(hkMemoryResourceContainer* newParent
         {
             char buf[0x200];
             hkErrStreamE2E os(buf, sizeof(buf));
-            reinterpret_cast<::SinkOwner *>((void *)&(const ::hkOstreamE2E &)(reinterpret_cast<::AttributeFormatter *>((void *)&(const ::hkOstreamE2E &)(reinterpret_cast<::SinkOwner *>((void *)&(const ::hkOstreamE2E &)(reinterpret_cast<::AttributeFormatter *>((void *)&(const ::hkOstreamE2E &)(reinterpret_cast<::SinkOwner *>((void *)&(const ::hkOstreamE2E &)(os))->FUN_00cc01c0("Cannot parent '")))->WriteName((::NameReference *)&(m_name))))->FUN_00cc01c0("' to '")))->WriteName((::NameReference *)&(newParent->m_name))))->FUN_00cc01c0("' as this would create a circular dependency ");
+            reinterpret_cast<::SinkOwner *>((void *)(reinterpret_cast<::AttributeFormatter *>((void *)(reinterpret_cast<::SinkOwner *>((void *)(reinterpret_cast<::AttributeFormatter *>((void *)(reinterpret_cast<::SinkOwner *>((void *)&(os))->FUN_00cc01c0("Cannot parent '")))->WriteName((::NameReference *)&(m_name))))->FUN_00cc01c0("' to '")))->WriteName((::NameReference *)&(newParent->m_name))))->FUN_00cc01c0("' as this would create a circular dependency ");
             (*reinterpret_cast<::S00e2e0b0_Error * *>(&::DAT_01268360))->report(1, 0xabba4554, buf, ".\\ResourceDatabase\\hkResourceHandle.cpp", 0x198);
             return 1;
         }

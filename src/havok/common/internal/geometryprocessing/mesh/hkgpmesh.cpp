@@ -2098,7 +2098,7 @@ int __cdecl ReportNotImplemented()
 {
     int buf[0x80];
     E21CE0Ostream os(buf, sizeof(buf));
-    reinterpret_cast<::SinkOwner *>((void *)&(const ::E21CE0Ostream &)(os))->FUN_00cc01c0("Not implemented");
+    reinterpret_cast<::SinkOwner *>((void *)&(os))->FUN_00cc01c0("Not implemented");
     if ((*reinterpret_cast<::E21CE0Error * *>(&::DAT_01268360))->message(3, 0xcfa7dfcc, (const char*)buf,
             "d:\\build\\20091222_000100_AiAnBeClDePh\\Source\\Common/Internal/GeometryProcessing/Mesh/hkgpMesh.h", 0x118))
         __debugbreak();
@@ -3962,7 +3962,7 @@ FUN_00e27df0_cls* FUN_00e27df0_cls::FUN_00e27df0(unsigned char acFlags)
     m_pEntryData = 0;
     *(volatile unsigned int*)&m_uCapBits = 0x80000000u;
     FUN_00e27df0_sub28* pSub28 = &m_sub28;
-    *(volatile int*)&m_vptr08 = (intptr_t)&::DAT_010eb088;
+    *(volatile intptr_t*)&m_vptr08 = (intptr_t)&::DAT_010eb088;
     pSub28->FUN_00e23a10();
     reinterpret_cast<::fnv_00e23d70::S_00e23d70_Array *>((pSub28))->FUN_00e23d70();
     reinterpret_cast<::fnv_00e239c0::EntryListNode *>(&(m_sub10))->ProcessEntries();
@@ -13542,7 +13542,7 @@ void S_e1ce10_Mesh::FUN_00e1ce10(const S_e1ce10_Geometry& geom, const S_e1ce10_T
     if (invalid.GetLogicalSize()) {
         unsigned int reportBuf[128];
         S_e1ce10_Ostream ostr(reportBuf, sizeof(reportBuf));
-        reinterpret_cast<::SinkOwner *>((void *)&(const ::S_e1ce10_Ostream &)(reinterpret_cast<::CC0280Writer *>((void *)&(const ::S_e1ce10_Ostream &)(reinterpret_cast<::SinkOwner *>((void *)&(const ::S_e1ce10_Ostream &)(ostr))->FUN_00cc01c0("Removing ")))->WriteInt(invalid.GetLogicalSize())))->FUN_00cc01c0(" invalid triangles");
+        reinterpret_cast<::SinkOwner *>((void *)(reinterpret_cast<::CC0280Writer *>((void *)(reinterpret_cast<::SinkOwner *>((void *)&(ostr))->FUN_00cc01c0("Removing ")))->WriteInt(invalid.GetLogicalSize())))->FUN_00cc01c0(" invalid triangles");
         DAT_01268360->Report(0, (unsigned int)-1, (const char*)reportBuf, ".\\GeometryProcessing\\Mesh\\hkgpMesh.cpp", 0x695);
     }
     for (int i = 0; i < invalid.GetLogicalSize(); i++) {
@@ -20765,7 +20765,7 @@ bool __cdecl S00e19d60_Mesh::FUN_00e19d60(S00e19d60_Mesh* meshA, S00e19d60_Trian
                     {
                         char reportBuf[512];
                         S00e19d60_ErrStream ostr(reportBuf, sizeof(reportBuf));
-                        reinterpret_cast<::FloatArgStream *>((void *)&(const ::S00e19d60_Ostream &)(reinterpret_cast<::SinkOwner *>((void *)&(const ::S00e19d60_Ostream &)(reinterpret_cast<::FloatArgStream *>((void *)&(const ::S00e19d60_Ostream &)(reinterpret_cast<::SinkOwner *>((void *)&(const ::S00e19d60_Ostream &)(ostr))->FUN_00cc01c0("Clip edge with edge ")))->WriteFloat(u)))->FUN_00cc01c0(",")))->WriteFloat(v);
+                        reinterpret_cast<::FloatArgStream *>((void *)(reinterpret_cast<::SinkOwner *>((void *)(reinterpret_cast<::FloatArgStream *>((void *)(reinterpret_cast<::SinkOwner *>((void *)&(ostr))->FUN_00cc01c0("Clip edge with edge ")))->WriteFloat(u)))->FUN_00cc01c0(",")))->WriteFloat(v);
                         S00e19d60_getError().Report(0, (unsigned int)-1, reportBuf,
                                                     ".\\GeometryProcessing\\Mesh\\hkgpMesh.cpp", 0x89f);
                     } while (0);
@@ -20797,7 +20797,7 @@ bool __cdecl S00e19d60_Mesh::FUN_00e19d60(S00e19d60_Mesh* meshA, S00e19d60_Trian
                     {
                         char reportBuf[512];
                         S00e19d60_ErrStream ostr(reportBuf, sizeof(reportBuf));
-                        reinterpret_cast<::SinkOwner *>((void *)&(const ::S00e19d60_Ostream &)(ostr))->FUN_00cc01c0("Clip edge with vertex");
+                        reinterpret_cast<::SinkOwner *>((void *)&(ostr))->FUN_00cc01c0("Clip edge with vertex");
                         S00e19d60_getError().Report(0, (unsigned int)-1, reportBuf,
                                                     ".\\GeometryProcessing\\Mesh\\hkgpMesh.cpp", 0x8b7);
                     } while (0);
@@ -20835,7 +20835,7 @@ bool __cdecl S00e19d60_Mesh::FUN_00e19d60(S00e19d60_Mesh* meshA, S00e19d60_Trian
                         {
                             char reportBuf[512];
                             S00e19d60_ErrStream ostr(reportBuf, sizeof(reportBuf));
-                            reinterpret_cast<::FloatArgStream *>((void *)&(const ::S00e19d60_Ostream &)(reinterpret_cast<::SinkOwner *>((void *)&(const ::S00e19d60_Ostream &)(ostr))->FUN_00cc01c0("Clip edge with plane: ")))->WriteFloat(da / (da - db));
+                            reinterpret_cast<::FloatArgStream *>((void *)(reinterpret_cast<::SinkOwner *>((void *)&(ostr))->FUN_00cc01c0("Clip edge with plane: ")))->WriteFloat(da / (da - db));
                             S00e19d60_getError().Report(0, (unsigned int)-1, reportBuf,
                                                         ".\\GeometryProcessing\\Mesh\\hkgpMesh.cpp", 0x8d7);
                         } while (0);

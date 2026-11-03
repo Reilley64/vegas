@@ -19,9 +19,14 @@ struct RequestReceiver
 // @fnv 0x00cc05f0
 RequestReceiver* RequestReceiver::InvokeFromRequest(void* request)
 {
-    int* values = (int*)request;
-    if (values[0])
-        unk08->Invoke((const char*)values[0], values[1] - 1);
+    struct StringBuffer
+    {
+        const char* data;
+        int size;
+    };
+    const StringBuffer* values = (const StringBuffer*)request;
+    if (values->data)
+        unk08->Invoke(values->data, values->size - 1);
     else
         unk08->Invoke("(null)", 6);
     return this;

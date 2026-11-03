@@ -775,7 +775,7 @@ unsigned int bhkMoppBvTreeShape::FUN_00cc9f60(NiStream& stream)
 
         char szWarning[512];
         OStream s(szWarning, sizeof(szWarning), true);
-        reinterpret_cast<::SinkOwner *>((void *)&(const ::OStream &)(reinterpret_cast<::SinkOwner *>((void *)&(const ::OStream &)(reinterpret_cast<::SinkOwner *>((void *)&(const ::OStream &)(reinterpret_cast<::SinkOwner *>((void *)&(const ::OStream &)(reinterpret_cast<::SinkOwner *>((void *)&(const ::OStream &)(s))->FUN_00cc01c0("File ")))->FUN_00cc01c0(pcFileName)))->FUN_00cc01c0(" contains an old bhkMoppBvTreeShape! ")))->FUN_00cc01c0(pcAuthor)))->FUN_00cc01c0(" re-export\n");
+        reinterpret_cast<::SinkOwner *>((void *)(reinterpret_cast<::SinkOwner *>((void *)(reinterpret_cast<::SinkOwner *>((void *)(reinterpret_cast<::SinkOwner *>((void *)(reinterpret_cast<::SinkOwner *>((void *)&(s))->FUN_00cc01c0("File ")))->FUN_00cc01c0(pcFileName)))->FUN_00cc01c0(" contains an old bhkMoppBvTreeShape! ")))->FUN_00cc01c0(pcAuthor)))->FUN_00cc01c0(" re-export\n");
         (*reinterpret_cast<::HavokError * *>(&::DAT_01268360))->Warning(1, 0x234f2250, szWarning,
                               "D:\\_Fallout3\\Platforms\\Common\\Code\\BSHavok\\bhkMoppBvTreeShape.cpp", 187);
     }
@@ -985,6 +985,7 @@ class hkReferencedObject_X : public hkBaseObject_X
     hkReferencedObject_X(class FinishingFlag flag)
     {}
 };
+class hkError;
 template <typename T> class hkSingleton
 {
   public:
@@ -1255,6 +1256,10 @@ enum CollisionShapeType
     HK_SHAPE_ALL = -1
 };
 class hkpCollisionDispatcher;
+enum
+{
+    HK_SHAPE_BUFFER_SIZE = 512
+};
 struct __declspec(align(16)) hkpShapeBuffer
 {
     unsigned int w[HK_SHAPE_BUFFER_SIZE / 4];
@@ -2313,7 +2318,7 @@ void MoppCastMachine::FUN_00da71c0(const VectorPropertyRecord* query, const unsi
             const hkUint32_X offset = PC[1];
             if (query != &scaledQuery)
             {
-                reinterpret_cast<::FUN_00da7180_cls *>((void *)&(const ::VectorPropertyRecord &)(scaledQuery))->FUN_00da7180((const ::FUN_00da7180_cls *)&(*query));
+                reinterpret_cast<::FUN_00da7180_cls *>((void *)&(scaledQuery))->FUN_00da7180((const ::FUN_00da7180_cls *)&(*query));
                 query = &scaledQuery;
             }
             scaledQuery.m_uiPropertyCount += offset;
@@ -2324,7 +2329,7 @@ void MoppCastMachine::FUN_00da71c0(const VectorPropertyRecord* query, const unsi
             const hkUint32_X offset = (PC[1] << 8) + PC[2];
             if (query != &scaledQuery)
             {
-                reinterpret_cast<::FUN_00da7180_cls *>((void *)&(const ::VectorPropertyRecord &)(scaledQuery))->FUN_00da7180((const ::FUN_00da7180_cls *)&(*query));
+                reinterpret_cast<::FUN_00da7180_cls *>((void *)&(scaledQuery))->FUN_00da7180((const ::FUN_00da7180_cls *)&(*query));
                 query = &scaledQuery;
             }
             scaledQuery.m_uiPropertyCount += offset;
@@ -2335,7 +2340,7 @@ void MoppCastMachine::FUN_00da71c0(const VectorPropertyRecord* query, const unsi
             const hkUint32_X offset = (PC[1] << 24) + (PC[2] << 16) + (PC[3] << 8) + PC[4];
             if (query != &scaledQuery)
             {
-                reinterpret_cast<::FUN_00da7180_cls *>((void *)&(const ::VectorPropertyRecord &)(scaledQuery))->FUN_00da7180((const ::FUN_00da7180_cls *)&(*query));
+                reinterpret_cast<::FUN_00da7180_cls *>((void *)&(scaledQuery))->FUN_00da7180((const ::FUN_00da7180_cls *)&(*query));
                 query = &scaledQuery;
             }
             scaledQuery.m_uiPropertyCount = offset;
@@ -2356,7 +2361,7 @@ void MoppCastMachine::FUN_00da71c0(const VectorPropertyRecord* query, const unsi
             const hkUint32_X v = scaledQuery.m_kProperties[0];
             if (query != &scaledQuery)
             {
-                reinterpret_cast<::FUN_00da7180_cls *>((void *)&(const ::VectorPropertyRecord &)(scaledQuery))->FUN_00da7180((const ::FUN_00da7180_cls *)&(*query));
+                reinterpret_cast<::FUN_00da7180_cls *>((void *)&(scaledQuery))->FUN_00da7180((const ::FUN_00da7180_cls *)&(*query));
                 query = &scaledQuery;
             }
             scaledQuery.m_kProperties[0] = v;

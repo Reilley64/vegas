@@ -453,7 +453,7 @@ void FUN_00dc0f20_cls::FUN_00dc0f20()
     }
     m_08 = 0;
     m_10 = 0x80000000u;
-    *(volatile int*)&m_vptr = (intptr_t)&(*reinterpret_cast<int *>(&::DAT_0102e388));
+    *(volatile intptr_t*)&m_vptr = (intptr_t)&(*reinterpret_cast<int *>(&::DAT_0102e388));
 }
 }  // namespace fnv_00dc0f20
 

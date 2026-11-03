@@ -1870,16 +1870,13 @@ class Pool_cd09d0 : public Base_cd09d0
     Block_cd09d0 m_akBlocks[32];
     CRITICAL_SECTION m_kLock;
     ~Pool_cd09d0();
-public:
-    // 0x00cd09d0
-    ~Pool_cd09d0();
 };
 
 // @fnv 0x00cd09d0
 Pool_cd09d0::~Pool_cd09d0()
 {
     m_vptr = (void*)&DAT_010cad74;
-    *(volatile int*)&DAT_012686cc = 0;
+    *(volatile uintptr_t*)&DAT_012686cc = 0;
     DeleteCriticalSection(&m_kLock);
 }
 

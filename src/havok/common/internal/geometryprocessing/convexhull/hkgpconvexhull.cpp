@@ -6099,7 +6099,7 @@ unsigned int ConvexHull_d751::FUN_00d75150(const Vertex_d751* pkVertex) const
     {
         unsigned int assertBuf[128];
         Ostream_d751 ostr(assertBuf, sizeof(assertBuf));
-        reinterpret_cast<::SinkOwner *>((void *)&(const ::Ostream_d751 &)(reinterpret_cast<::FUN_00cc02d0_cls *>((void *)&(const ::Ostream_d751 &)(reinterpret_cast<::SinkOwner *>((void *)&(const ::Ostream_d751 &)(ostr))->FUN_00cc01c0("No index available (")))->FUN_00cc02d0(pkData->m_iConfig)))->FUN_00cc01c0(")");
+        reinterpret_cast<::SinkOwner *>((void *)(reinterpret_cast<::FUN_00cc02d0_cls *>((void *)(reinterpret_cast<::SinkOwner *>((void *)&(ostr))->FUN_00cc01c0("No index available (")))->FUN_00cc02d0(pkData->m_iConfig)))->FUN_00cc01c0(")");
         if ((*reinterpret_cast<::Error_d751 * *>(&::DAT_01268360))->message(3, 0x79f9d886, (const char*)assertBuf,
                                    ".\\GeometryProcessing\\ConvexHull\\hkgpConvexHull.cpp", 328))
             __debugbreak();
@@ -14260,7 +14260,7 @@ int S_00d75210_Self::FUN_00d75210(const S_00d75210_Data* v) const throw()
         // Havok builds this with /GS-; a non-char buffer keeps /GS from adding a cookie.
         unsigned int buf[128];
         S_00d75210_ErrStream ostr(buf, sizeof(buf));
-        reinterpret_cast<::SinkOwner *>((void *)&(const ::S_00d75210_ErrStream &)(reinterpret_cast<::FUN_00cc02d0_cls *>((void *)&(const ::S_00d75210_ErrStream &)(reinterpret_cast<::SinkOwner *>((void *)&(const ::S_00d75210_ErrStream &)(ostr))->FUN_00cc01c0("No index available (")))->FUN_00cc02d0(cfg->m_1b0)))->FUN_00cc01c0(")");
+        reinterpret_cast<::SinkOwner *>((void *)(reinterpret_cast<::FUN_00cc02d0_cls *>((void *)(reinterpret_cast<::SinkOwner *>((void *)&(ostr))->FUN_00cc01c0("No index available (")))->FUN_00cc02d0(cfg->m_1b0)))->FUN_00cc01c0(")");
         if ((*reinterpret_cast<::S_00d75210_Error * *>(&::DAT_01268360))->message(3, 0x79f9d886, (const char*)buf, ".\\GeometryProcessing\\ConvexHull\\hkgpConvexHull.cpp", 328))
             __debugbreak();
     }

@@ -377,7 +377,7 @@ int hkPackfileWriterDB7::RegisterObject(void* pvObject, const hkClassDB7* pkClas
             {
                 unsigned int assertBuf[128];
                 hkOstreamDB7 ostr(assertBuf, sizeof(assertBuf));
-                reinterpret_cast<::SinkOwner *>((void *)&(const ::hkOstreamDB7 &)(reinterpret_cast<::SinkOwner *>((void *)&(const ::hkOstreamDB7 &)(reinterpret_cast<::SinkOwner *>((void *)&(const ::hkOstreamDB7 &)(ostr))->FUN_00cc01c0("Conflicting metadata found for class ")))->FUN_00cc01c0(reinterpret_cast<::FnvClassNameNode *>((void *)(pkNewClass))->FUN_00d46d40())))->FUN_00cc01c0(". Perhaps you have called setContents on data which has not been updated to the current version.");
+                reinterpret_cast<::SinkOwner *>((void *)(reinterpret_cast<::SinkOwner *>((void *)(reinterpret_cast<::SinkOwner *>((void *)&(ostr))->FUN_00cc01c0("Conflicting metadata found for class ")))->FUN_00cc01c0(reinterpret_cast<::FnvClassNameNode *>((void *)(pkNewClass))->FUN_00d46d40())))->FUN_00cc01c0(". Perhaps you have called setContents on data which has not been updated to the current version.");
                 if ((*reinterpret_cast<::hkErrorDB7 * *>(&::DAT_01268360))->message(3, 0x2518721c, (const char*)assertBuf, ".\\Packfile\\hkPackfileWriter.cpp",
                                           178))
                     __debugbreak();

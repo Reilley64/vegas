@@ -123,7 +123,7 @@ void __cdecl FUN_00e33a30(const u8*& cur, int aiTick, float afScaleTime, float f
         iCount = 0;
         iSpan = 0;
     }
-    cur = (const u8*)(((u32)cur + 3) & ~3u);
+    cur = (const u8*)(((uintptr_t)cur + 3) & ~uintptr_t(3));
 
     for (int lane = 0; lane < 3; ++lane)
     {
@@ -143,7 +143,7 @@ void __cdecl FUN_00e33a30(const u8*& cur, int aiTick, float afScaleTime, float f
     }
 
     stride = DAT_010eb4d4[idx];
-    cur = (const u8*)(((u32)cur + 1) & ~1u);
+    cur = (const u8*)(((uintptr_t)cur + 1) & ~uintptr_t(1));
     scale = DAT_010eb73c[((u32)fb >> 4) & 7];
     const u8* pSample = (const u8*)(cur + (iSpan - iDegree) * stride * scale);
 

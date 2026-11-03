@@ -30,13 +30,13 @@ struct __declspec(align(16)) SpawnedSnap
     float unk08;
     float unk0C;
 
-    SpawnedSnap(int value, float scale);
+    SpawnedSnap(intptr_t value, float scale);
 };
 
 class FUN_00cb2e30_cls
 {
   public:
-    void SpawnSnap(int value, float scale);
+    void SpawnSnap(intptr_t value, float scale);
 };
 
 
@@ -224,7 +224,7 @@ void CB2FC0Object::FUN_00cb2fc0()
 }
 // Builds a SpawnedSnap from value and scale, then passes it to FUN_00cb2d90 on this object.
 // @fnv 0x00cb2e30
-void FUN_00cb2e30_cls::SpawnSnap(int value, float scale)
+void FUN_00cb2e30_cls::SpawnSnap(intptr_t value, float scale)
 {
     SpawnedSnap snap(value, scale);
     reinterpret_cast<::RotationRows *>((((CB2FC0Object*)this)))->FUN_00cb2d90(&snap);

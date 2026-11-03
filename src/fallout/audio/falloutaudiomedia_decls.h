@@ -125,7 +125,8 @@ namespace fnv_anon_falloutaudiomedia {
 class FAMThread
 {
   public:
-    char inheritedPadding[0x34];
+    char inheritedPadding[0x30];
+    void* hThread;
     unsigned int threadID;
     unsigned int parentID;
     unsigned int state;

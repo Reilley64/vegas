@@ -157,12 +157,14 @@ struct DummyFlags
 struct FUN_00838750_shell
 {
     bool FUN_00838750();
+    char pad00[0x410];
+    DummyFlags kFlags;
 };
-// Calls FUN_00621270 on the DummyFlags sub-object at offset 0x410 with DAT_01000000 and returns whether the result is non-zero.
+// Calls FUN_00621270 on the flags sub-object with DAT_01000000 and returns whether the result is non-zero.
 // @fnv 0x00838750
 bool FUN_00838750_shell::FUN_00838750()
 {
-    return ((int)(reinterpret_cast<::bhkCharacterListener *>((((DummyFlags*)((char*)this + 0x410))))->FUN_00621270((intptr_t)&DAT_01000000))) != 0;
+    return ((int)(reinterpret_cast<::bhkCharacterListener *>(&kFlags)->FUN_00621270((intptr_t)&DAT_01000000))) != 0;
 }
 
 struct FUN_00541570_shell
@@ -178,6 +180,21 @@ unsigned int FUN_00541570_shell::GetField1C()
 }
 
 void __cdecl FUN_00839dc0(bool b);
+
+// The 20 slots of the object at DAT_011dd878 that InitializeSlots resets.
+struct ImpactMixerSlot
+{
+    int unk00;
+    int unk04;
+    float unk08;
+    char pad0c[0x18];
+};
+struct ImpactMixerSlots
+{
+    char pad000[0x188];
+    ImpactMixerSlot akSlots[20];
+};
+
 // If the init check fails, calls FUN_00839dc0(true), then zeroes two ints and sets a float from DAT_01016970 for each of 20 slots.
 // @fnv 0x00839d30
 void __cdecl InitializeSlots()
@@ -191,9 +208,10 @@ void __cdecl InitializeSlots()
 initialize:
     for (int i = 0; i < 20; ++i)
     {
-        *(int*)((char*)&DAT_011dd878 + 0x188 + i * 0x24) = 0;
-        *(int*)((char*)&DAT_011dd878 + 0x18c + i * 0x24) = 0;
-        *(float*)((char*)&DAT_011dd878 + 0x190 + i * 0x24) = DAT_01016970;
+        ImpactMixerSlot& kSlot = reinterpret_cast<ImpactMixerSlots*>(&DAT_011dd878)->akSlots[i];
+        kSlot.unk00 = 0;
+        kSlot.unk04 = 0;
+        kSlot.unk08 = DAT_01016970;
     }
 }
 

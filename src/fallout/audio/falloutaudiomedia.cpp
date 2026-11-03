@@ -131,7 +131,7 @@ namespace fnv_anon_falloutaudiomedia {
 // @fnv 0x0082f790
 void FAMThread::WaitForThread()
 {
-    WaitForSingleObject(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x30), 0xFFFFFFFF);
+    WaitForSingleObject(this->hThread, 0xFFFFFFFF);
 }
 }
 
@@ -237,18 +237,22 @@ void __cdecl PlayMusicType(BGSMusicType* aiMusicType)
 struct FUN_00830050_shell : public BGSMusicType
 {
     bool FUN_00830050();
+    char pad00[0x24];
+    float fVolumeScale;
 };
 
-// Returns true if the float at offset 0x24 is greater than zero.
+// Returns true if the music type's volume scale is greater than zero.
 // @fnv 0x00830050
 bool FUN_00830050_shell::FUN_00830050()
 {
-    return *(float*)((char*)this + 0x24) > 0.0f ? true : false;
+    return fVolumeScale > 0.0f ? true : false;
 }
 
 struct FUN_00830080_shell : public BGSMusicType
 {
     float FUN_00830080();
+    char pad00[0x24];
+    float fVolumeScale;
 };
 // @fnv 0x00830010
 void FalloutAudioMedia::PlayMedia(BGSMusicType* musicType)
@@ -258,13 +262,11 @@ void FalloutAudioMedia::PlayMedia(BGSMusicType* musicType)
                   reinterpret_cast<::FUN_00830080_shell *>((musicType))->FUN_00830080(), 0);
 }
 
-// Returns the float at offset 0x24 negated when it is greater than zero, otherwise returns it unchanged.
+// Returns the volume scale negated when it is greater than zero, otherwise returns it unchanged.
 // @fnv 0x00830080
 float FUN_00830080_shell::FUN_00830080()
 {
-    return (*reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x24) > 0.0)
-               ? -*reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x24)
-               : *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x24);
+    return (fVolumeScale > 0.0) ? -fVolumeScale : fVolumeScale;
 }
 
 class ActorTaskManager

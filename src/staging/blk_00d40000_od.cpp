@@ -2,6 +2,7 @@
 // src/staging/blk_00d40000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include <bit>
 #include "fnv/symbols_00c85000.h"
 #include "../../include/layout_support.h"
 #include <xmmintrin.h>
@@ -266,7 +267,7 @@ FUN_00d56470_cls* FUN_00d56470_cls::FUN_00d56470(int bCompute)
     {
         const int iTranslated = !m_vTranslation.equals3((*reinterpret_cast<::fnv_00d56470::hkVector4D564 *>(&::DAT_01267e30)), DAT_01017d00);
         const int iRotated = (reinterpret_cast<::C74C20Quat *>((void *)&(m_rotation))->GetAngle() < DAT_01017d00) ? 0 : 2;
-        reinterpret_cast<int*>(&m_vTranslation)[3] = iRotated | iTranslated | 0x3f000000;
+        m_vTranslation.m_vComponents[3] = std::bit_cast<float>(iRotated | iTranslated | 0x3f000000);
     }
     return this;
 }

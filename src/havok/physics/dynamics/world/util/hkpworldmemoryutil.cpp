@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/world/util/hkpworldmemoryutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/util/hkpworldmemoryutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include "fnv/decl/D077D0Object.h"
 #include "fnv/decl/FUN_00c91180_Class.h"
@@ -35,33 +36,7 @@ struct S_00d01bc0_Iter
     S_00d01bc0_Node* m_node;
 };
 
-struct S_00d01bc0_Sink
-{
-    virtual void v0();
-    virtual void v1();
-    virtual void v2();
-    virtual void v3();
-    virtual void v4();
-    virtual void v5();
-    virtual void v6();
-    virtual void v7();
-    virtual bool v8(int key);
-};
 
-struct S_00d01bc0_Global
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    S_00d01bc0_Sink* m_sink;
-    S_00d01bc0_Sink* sink()
-    {
-        return m_sink;
-    }
-};
 
 struct S_00d01bc0_Handler
 {
@@ -132,7 +107,7 @@ void __cdecl FUN_00d01bc0(S_00d01bc0_Owner* pOwner)
     unsigned int saved = pOwner->m_uiItemCount;
     S_00d01bc0_Iter iter;
     reinterpret_cast<::FUN_00c92b50_Class *>((pOwner))->ComputeMemoryUsage((::hkpWorld_MemUsageOut *)(::S_00d01bc0_Iter *)(&iter));
-    if (!static_cast<S_00d01bc0_Global*>(::FUN_00c85750())->sink()->v8(iter.m_key))
+    if (!hkMemoryRouter::getInstance().m_solver->forwardToCanAllocTotal(iter.m_key))
     {
         do
         {
@@ -154,7 +129,7 @@ void __cdecl FUN_00d01bc0(S_00d01bc0_Owner* pOwner)
                 }
                 s = (iter.m_node->m_flags >> 2) & 3;
             }
-            if (!static_cast<S_00d01bc0_Global*>(::FUN_00c85750())->sink()->v8(iter.m_key))
+            if (!hkMemoryRouter::getInstance().m_solver->forwardToCanAllocTotal(iter.m_key))
             {
                 S_00d01bc0_Node* node = iter.m_node;
                 if (!reinterpret_cast<::D077D0Object *>((node))->FUN_00d077d0())
@@ -167,7 +142,7 @@ void __cdecl FUN_00d01bc0(S_00d01bc0_Owner* pOwner)
                     reinterpret_cast<::FUN_00c92b50_Class *>((pOwner))->ComputeMemoryUsage((::hkpWorld_MemUsageOut *)(::S_00d01bc0_Iter *)(&iter));
                 }
             }
-        } while (!static_cast<S_00d01bc0_Global*>(::FUN_00c85750())->sink()->v8(iter.m_key));
+        } while (!hkMemoryRouter::getInstance().m_solver->forwardToCanAllocTotal(iter.m_key));
     }
     pOwner->m_uiItemCount = saved;
     reinterpret_cast<::FUN_00c91190_Class *>((pOwner))->FUN_00c91190();
@@ -315,16 +290,8 @@ class Src
   public:
 };
 
-struct D01D20Holder
-{
-    DWORD unk00;
-    DWORD unk04;
-    DWORD unk08;
-    DWORD unk0C;
-    TaskObj* m_pTask;
-};
 
-// If GetA is non-null and vtbl24 returns false, records profiler ticks around a vtbl10 call, then calls FUN_00d88040(0) if DAT_01269200 is set.
+// If GetA is non-null and the heap allocator cannot allocate the total from vtbl0C, records profiler ticks around a vtbl10 call, then calls FUN_00d88040(0) if DAT_01269200 is set.
 // @fnv 0x00d01d20
 void __cdecl FUN_00d01d20(Src* pSrc)
 {
@@ -336,8 +303,7 @@ void __cdecl FUN_00d01d20(Src* pSrc)
     PFN_TlsGetValue pfnTls;
     TaskObj* pTask = ((::TaskObj *)(reinterpret_cast<::WorldWatchDogHolder *>((pSrc))->FUN_00c93570()));
     DWORD r = pTask->vtbl0C();
-    D01D20Holder* h = (D01D20Holder*)static_cast<S_00d01bc0_Global*>(::FUN_00c85750());
-    if (!h->m_pTask->vtbl24(r))
+    if (!hkMemoryRouter::getInstance().heap().canAllocTotal(r))
     {
         pfnTls = &TlsGetValue;
         ProfBuf* pBuf = (ProfBuf*)pfnTls(DAT_0126835c);

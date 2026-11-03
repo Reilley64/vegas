@@ -18,20 +18,7 @@
 #include "fnv/symbols_01269000.h"
 #include "havok/hkpSimpleShapePhantom.h"
 
-struct FUN_00d1f9c0_Memory
-{
-    virtual void FUN_00d1f9c0_a();
-    virtual void FUN_00d1f9c0_b();
-    virtual void FUN_00d1f9c0_free(void* object, unsigned short size);
-};
 
-struct FUN_00d1f9c0_Router
-{
-    unsigned char pad[0x10];
-    FUN_00d1f9c0_Memory* memory;
-};
-
-FUN_00d1f9c0_Router* _D1A0E0GetMemoryRouter();
 
 struct FUN_00d1f9c0_StandIn
 {
@@ -41,7 +28,7 @@ struct FUN_00d1f9c0_StandIn
     void* FUN_00d1f9c0(unsigned int flags);
 };
 
-// Calls FUN_00d1f780, then if flags has bit 1 set frees this through the memory router's free with this->size, and returns this.
+// Calls FUN_00d1f780, then if flags has bit 1 set frees this to the heap allocator with this->size, and returns this.
 // @fnv 0x00d1f9c0
 void* FUN_00d1f9c0_StandIn::FUN_00d1f9c0(unsigned int flags)
 {
@@ -49,10 +36,8 @@ void* FUN_00d1f9c0_StandIn::FUN_00d1f9c0(unsigned int flags)
 
     if (flags & 1)
     {
-        FUN_00d1f9c0_Router* router = _D1A0E0GetMemoryRouter();
-        FUN_00d1f9c0_Memory* memory = router->memory;
         unsigned short size = this->size;
-        memory->FUN_00d1f9c0_free(this, size);
+        hkMemoryRouter::getInstance().heap().blockFree(this, size);
     }
 
     return this;

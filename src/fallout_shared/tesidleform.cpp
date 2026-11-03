@@ -263,9 +263,8 @@ bool FUN_005ff1d0_shell::FUN_005ff1d0()
         return false;
 }
 
-struct FUN_005ff200_shell
+struct FUN_005ff200_shell : ::TESIdleForm
 {
-    unsigned char m_0x38;
     bool IsFlag40Set();
 };
 // @fnv 0x005fedb0
@@ -334,13 +333,13 @@ bool TESIdleForm::HasMissingPathArray()
 // @fnv 0x005ff200
 bool FUN_005ff200_shell::IsFlag40Set()
 {
-    if (((unsigned char*)this)[0x38] & 0x40)
+    if (this->data.m_ucAnimationGroupSection & 0x40)
         return true;
     else
         return false;
 }
 
-struct FUN_005ff220_shell
+struct FUN_005ff220_shell : ::TESIdleForm
 {
     void SetFlag40(bool bFlag);
 };
@@ -350,21 +349,20 @@ struct FUN_005ff220_shell
 void FUN_005ff220_shell::SetFlag40(bool abSet)
 {
     if (abSet)
-        ((unsigned char*)this)[0x38] |= 0x40;
+        this->data.m_ucAnimationGroupSection |= 0x40;
     else
-        ((unsigned char*)this)[0x38] &= ~0x40;
+        this->data.m_ucAnimationGroupSection &= ~0x40;
 }
 
-struct FUN_005ff260_shell
+struct FUN_005ff260_shell : ::TESIdleForm
 {
-    unsigned char m_3e;
     bool FUN_005ff260();
 };
 
 // @fnv 0x005ff260
 bool FUN_005ff260_shell::FUN_005ff260()
 {
-    if (reinterpret_cast<unsigned char*>(this)[0x3e] & 1)
+    if (this->data.m_ucIdleFlags & 1)
         return true;
     else
         return false;
@@ -622,7 +620,7 @@ struct FUN_00485e00_shell
 {
 };
 
-struct FUN_005fea50_shell
+struct FUN_005fea50_shell : ::TESIdleForm
 {
     void FUN_005fea50();
 };
@@ -633,7 +631,7 @@ void FUN_005fea50_shell::FUN_005fea50()
 {
     reinterpret_cast<::fnv_004855a0::ArrSI *>((reinterpret_cast<FUN_004855a0*>(this)))->FUN_004855a0();
 
-    reinterpret_cast<::FUN_004891d0_cls *>((reinterpret_cast<FUN_004891d0_obj*>(reinterpret_cast<char*>(this) + 0x18)))->WriteToBuffer((char *)(0x4c444f4d), (void *)(0x54444f4d));
+    reinterpret_cast<::FUN_004891d0_cls *>((reinterpret_cast<FUN_004891d0_obj*>(static_cast<TESModelAnim *>(this))))->WriteToBuffer((char *)(0x4c444f4d), (void *)(0x54444f4d));
 
     reinterpret_cast<::FUN_00680910_shell *>((reinterpret_cast<TESConditionSave*>(reinterpret_cast<TESTopicInfo*>(this)->GetAddTopicList())))->ProcessItems();
 
@@ -665,13 +663,13 @@ void FUN_005fea50_shell::FUN_005fea50()
         reinterpret_cast<::S_00462230 *>(&(a))->FUN_00462230();
 
     if (((bool)(::FUN_00401500())))
-        reinterpret_cast<::FUN_005fea20_shell *>((reinterpret_cast<IdleAnimationData*>(reinterpret_cast<char*>(this) + 0x38)))->SwapEndian();
+        reinterpret_cast<::FUN_005fea20_shell *>((&this->data))->SwapEndian();
 
     reinterpret_cast<::SDSaveForm *>((reinterpret_cast<FUN_00485e00_shell*>(this)))->FUN_00485e20(
-        (const void *)(reinterpret_cast<std::intptr_t>(reinterpret_cast<char*>(this) + 0x38)), 8);
+        (const void *)(reinterpret_cast<std::intptr_t>(reinterpret_cast<char*>(&this->data))), 8);
 
     if (((bool)(::FUN_00401500())))
-        reinterpret_cast<::FUN_005fea20_shell *>((reinterpret_cast<IdleAnimationData*>(reinterpret_cast<char*>(this) + 0x38)))->SwapEndian();
+        reinterpret_cast<::FUN_005fea20_shell *>((&this->data))->SwapEndian();
 
     reinterpret_cast<::Holder *>((reinterpret_cast<FUN_00485680*>(this)))->FUN_00485680();
 }

@@ -846,7 +846,7 @@ struct FUN_00460090_shell : public TESDataHandler
 // @fnv 0x00460090
 void* FUN_00460090_shell::FUN_00460090()
 {
-    return reinterpret_cast<char*>(this) + 0x1B8;
+    return &musicTypeList;
 }
 
 struct FUN_004600b0_shell : public TESDataHandler
@@ -857,7 +857,7 @@ struct FUN_004600b0_shell : public TESDataHandler
 // @fnv 0x004600b0
 void* FUN_004600b0_shell::FUN_004600b0()
 {
-    return reinterpret_cast<char*>(this) + 0x1C8;
+    return &mediaSetList;
 }
 
 struct FUN_004600d0_shell : public TESDataHandler
@@ -868,18 +868,20 @@ struct FUN_004600d0_shell : public TESDataHandler
 // @fnv 0x004600d0
 void* FUN_004600d0_shell::FUN_004600d0()
 {
-    return reinterpret_cast<char*>(this) + 0x1D0;
+    return &mediaLocControllerList;
 }
 
 struct FUN_00460170_shell : public TES
 {
+    char pad[0x88];
+    int unk88;
     void ClearField88();
 };
 
 // @fnv 0x00460170
 void FUN_00460170_shell::ClearField88()
 {
-    *(int*)((char*)this + 0x88) = 0;
+    unk88 = 0;
 }
 
 struct FUN_00460250_shell : public TESForm
@@ -931,7 +933,7 @@ struct FUN_00461070_shell : public TESDataHandler
 // @fnv 0x00461070
 void* FUN_00461070_shell::GetSomethingAtOffset128()
 {
-    return reinterpret_cast<char*>(this) + 0x128;
+    return &loadScreenList;
 }
 
 struct FUN_00461150_shell : public TESDataHandler
@@ -942,7 +944,7 @@ struct FUN_00461150_shell : public TESDataHandler
 // @fnv 0x00461150
 void* FUN_00461150_shell::FUN_00461150()
 {
-    return reinterpret_cast<char*>(this) + 0x98;
+    return &challengeList;
 }
 
 // @fnv 0x00461190
@@ -959,7 +961,7 @@ struct FUN_004612e0_shell : public TESDataHandler
 // @fnv 0x004612e0
 void* FUN_004612e0_shell::FUN_004612e0()
 {
-    return reinterpret_cast<char*>(this) + 0x108;
+    return &topicList;
 }
 
 struct Actor;
@@ -1104,7 +1106,7 @@ bool FUN_00461560_shell::FUN_00461560()
 }
 
 
-struct FUN_00461780_cls
+struct FUN_00461780_cls : public TESDataHandler
 {
     void Method(std::intptr_t a);
 };
@@ -1113,7 +1115,7 @@ struct FUN_00461780_cls
 // @fnv 0x00461780
 void FUN_00461780_cls::Method(std::intptr_t aiValue)
 {
-    ::AddTopicToList((::TESTopic *)(aiValue), (::BSSimpleList< ::TESTopic *> *)(char *)((char*)this + 0x108), 1);
+    ::AddTopicToList((::TESTopic *)(aiValue), (::BSSimpleList< ::TESTopic *> *)(char *)(&topicList), 1);
 }
 
 struct FUN_004617b0_shell : public TESDataHandler
@@ -1126,7 +1128,7 @@ struct FUN_004617b0_shell : public TESDataHandler
 // @fnv 0x004617b0
 void FUN_004617b0_shell::FUN_004617b0(TESTopicInfo* pNewTopicInfo)
 {
-    ::FUN_0061f360(pNewTopicInfo, (char*)this + 0x110);
+    ::FUN_0061f360(pNewTopicInfo, &topicInfoList);
 }
 
 struct FUN_004623f0_shell : public BGSSaveLoadGame
@@ -1181,7 +1183,7 @@ struct FUN_00464d50_shell : public TESDataHandler
 // @fnv 0x00464d50
 void FUN_00464d50_shell::FUN_00464d50(TESEffectShader* apEffectShader)
 {
-    *(TESEffectShader**)((char*)this + 0x630) = apEffectShader;
+    unk630 = apEffectShader;
 }
 
 struct FUN_00464d70_shell : public TESDataHandler
@@ -1192,7 +1194,7 @@ struct FUN_00464d70_shell : public TESDataHandler
 // @fnv 0x00464d70
 void FUN_00464d70_shell::FUN_00464d70(TESEffectShader* apEffectShader)
 {
-    *(TESEffectShader**)((char*)this + 0x634) = apEffectShader;
+    unk634 = apEffectShader;
 }
 
 struct FUN_00464df0_shell : public TESFile
@@ -1203,7 +1205,7 @@ struct FUN_00464df0_shell : public TESFile
 // @fnv 0x00464df0
 void* FUN_00464df0_shell::FUN_00464df0()
 {
-    return reinterpret_cast<char*>(this) + 0x3ec;
+    return &masterFiles;
 }
 
 struct NiNodeBooleanState;
@@ -1215,7 +1217,7 @@ struct FUN_00464e10_shell : public PlayerCharacter
 // @fnv 0x00464e10
 NiNodeBooleanState* FUN_00464e10_shell::FUN_00464e10()
 {
-    return reinterpret_cast<NiNodeBooleanState*>(reinterpret_cast<char*>(this) + 0x878);
+    return reinterpret_cast<NiNodeBooleanState*>(&unk878);
 }
 
 struct FUN_00465040_shell : public TESDataHandler
@@ -1515,7 +1517,7 @@ struct FUN_009c1a50_shell : public TESDataHandler
 // @fnv 0x009c1a50
 void* FUN_009c1a50_shell::FUN_009c1a50()
 {
-    return reinterpret_cast<char*>(this) + 0x90;
+    return &reputationList;
 }
 
 namespace fnv_00463070 {
@@ -2479,7 +2481,7 @@ void* FUN_0045dfc0_shell::FUN_0045dfc0()
     return reinterpret_cast<char*>(&this->files);
 }
 
-struct FUN_00461010_shell
+struct FUN_00461010_shell : public TESDataHandler
 {
     char* FUN_00461010();
 };
@@ -2487,10 +2489,10 @@ struct FUN_00461010_shell
 // @fnv 0x00461010
 char* FUN_00461010_shell::FUN_00461010()
 {
-    return reinterpret_cast<char*>(this) + 0x140;
+    return reinterpret_cast<char*>(&projectileList);
 }
 
-struct FUN_00461030_shell
+struct FUN_00461030_shell : public TESDataHandler
 {
     char* FUN_00461030();
 };
@@ -2498,10 +2500,10 @@ struct FUN_00461030_shell
 // @fnv 0x00461030
 char* FUN_00461030_shell::FUN_00461030()
 {
-    return reinterpret_cast<char*>(this) + 0x150;
+    return reinterpret_cast<char*>(&radiationStageList);
 }
 
-struct FUN_00461050_shell
+struct FUN_00461050_shell : public TESDataHandler
 {
     char* FUN_00461050();
 };
@@ -2509,10 +2511,10 @@ struct FUN_00461050_shell
 // @fnv 0x00461050
 char* FUN_00461050_shell::FUN_00461050()
 {
-    return reinterpret_cast<char*>(this) + 0x168;
+    return reinterpret_cast<char*>(&sleepDeprivationStageList);
 }
 
-struct FUN_00461090_shell
+struct FUN_00461090_shell : public TESDataHandler
 {
     void* FUN_00461090();
 };
@@ -2520,10 +2522,10 @@ struct FUN_00461090_shell
 // @fnv 0x00461090
 void* FUN_00461090_shell::FUN_00461090()
 {
-    return reinterpret_cast<char*>(this) + 0x1a0;
+    return &anioList;
 }
 
-struct FUN_00461170_shell
+struct FUN_00461170_shell : public TESDataHandler
 {
     void* FUN_00461170();
 };
@@ -2531,10 +2533,10 @@ struct FUN_00461170_shell
 // @fnv 0x00461170
 void* FUN_00461170_shell::FUN_00461170()
 {
-    return reinterpret_cast<char*>(this) + 0xD8;
+    return &acousticSpaceList;
 }
 
-struct FUN_004611b0_shell
+struct FUN_004611b0_shell : public TESDataHandler
 {
     char* GetSelfOffsetF0();
 };
@@ -2542,10 +2544,10 @@ struct FUN_004611b0_shell
 // @fnv 0x004611b0
 char* FUN_004611b0_shell::GetSelfOffsetF0()
 {
-    return reinterpret_cast<char*>(this) + 0xF0;
+    return reinterpret_cast<char*>(&voiceTypeList);
 }
 
-struct FUN_004611d0_shell
+struct FUN_004611d0_shell : public TESDataHandler
 {
     void* GetOffsetF8();
 };
@@ -2553,20 +2555,20 @@ struct FUN_004611d0_shell
 // @fnv 0x004611d0
 void* FUN_004611d0_shell::GetOffsetF8()
 {
-    return reinterpret_cast<char*>(this) + 0xF8;
+    return &impactDataList;
 }
 
-struct FUN_004611f0_shell
+struct FUN_004611f0_shell : public TESDataHandler
 {
     void* FUN_004611f0();
 };
 // @fnv 0x004611f0
 void* FUN_004611f0_shell::FUN_004611f0()
 {
-    return reinterpret_cast<char*>(this) + 0x188;
+    return &noteList;
 }
 
-struct FUN_00461210_shell
+struct FUN_00461210_shell : public TESDataHandler
 {
     void* GetOffset198();
 };
@@ -2574,10 +2576,10 @@ struct FUN_00461210_shell
 // @fnv 0x00461210
 void* FUN_00461210_shell::GetOffset198()
 {
-    return reinterpret_cast<char*>(this) + 0x198;
+    return &menuIconList;
 }
 
-struct FUN_00461230_shell
+struct FUN_00461230_shell : public TESDataHandler
 {
     std::intptr_t GetOffsetPtr();
 };
@@ -2585,10 +2587,10 @@ struct FUN_00461230_shell
 // @fnv 0x00461230
 std::intptr_t FUN_00461230_shell::GetOffsetPtr()
 {
-    return reinterpret_cast<int>(this) + 0x190;
+    return reinterpret_cast<std::intptr_t>(&listFormList);
 }
 
-struct FUN_00461250_shell
+struct FUN_00461250_shell : public TESDataHandler
 {
     void* GetFieldAt1A8();
 };
@@ -2596,10 +2598,10 @@ struct FUN_00461250_shell
 // @fnv 0x00461250
 void* FUN_00461250_shell::GetFieldAt1A8()
 {
-    return reinterpret_cast<char*>(this) + 0x1A8;
+    return &messageList;
 }
 
-struct FUN_00461290_shell
+struct FUN_00461290_shell : public TESDataHandler
 {
     void* FUN_00461290();
 };
@@ -2607,7 +2609,7 @@ struct FUN_00461290_shell
 // @fnv 0x00461290
 void* FUN_00461290_shell::FUN_00461290()
 {
-    return reinterpret_cast<char*>(this) + 0x1C0;
+    return &loadScreenTypeList;
 }
 
 extern "C" unsigned char DAT_01202d63;
@@ -2620,14 +2622,15 @@ void FUN_00461300()
 
 struct FUN_00461310_shell
 {
-    unsigned char m_0024;  // +0x24
+    unsigned char pad[0x24];
+    unsigned char m_0024;
     void SetByteAt24(unsigned char a);
 };
 
 // @fnv 0x00461310
 void FUN_00461310_shell::SetByteAt24(unsigned char a)
 {
-    *reinterpret_cast<unsigned char*>(this + 0x24) = a;
+    m_0024 = a;
 }
 
 extern TESForm* _DAT_01183028;
@@ -2663,7 +2666,7 @@ void FUN_00461930_shell::RemoveAddonNode(BGSAddonNode* node)
     reinterpret_cast<::PtrArrayView *>(&(member_0x1ec))->FUN_009e98d0(((std::uintptr_t)(reinterpret_cast<::FUN_0068a830_shell *>((node))->GetGrass())));
 }
 
-struct FUN_00462ea0_shell
+struct FUN_00462ea0_shell : public TESFile
 {
     void* GetOffset29C();
 };
@@ -2671,7 +2674,7 @@ struct FUN_00462ea0_shell
 // @fnv 0x00462ea0
 void* FUN_00462ea0_shell::GetOffset29C()
 {
-    return reinterpret_cast<char*>(this) + 0x29C;
+    return &fileData;
 }
 
 struct Str6a70
@@ -2692,7 +2695,7 @@ void FUN_00462ec0_shell::AssignString(char const* apString)
     m_str = apString;
 }
 
-struct FUN_00464db0_shell
+struct FUN_00464db0_shell : public TESFile
 {
     unsigned char GetByteAt428();
 };
@@ -2700,22 +2703,21 @@ struct FUN_00464db0_shell
 // @fnv 0x00464db0
 unsigned char FUN_00464db0_shell::GetByteAt428()
 {
-    return ((unsigned char*)this)[0x428];
+    return unk428;
 }
 
-struct FUN_00464dd0_shell
+struct FUN_00464dd0_shell : public TESFile
 {
-    unsigned int* data;
     unsigned int GetFieldAt3E0();
 };
 
 // @fnv 0x00464dd0
 unsigned int FUN_00464dd0_shell::GetFieldAt3E0()
 {
-    return *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x3e0);
+    return recordCount;
 }
 
-struct FUN_00464e30_shell
+struct FUN_00464e30_shell : public PlayerCharacter
 {
     char* GetSelfOffset6A8();
 };
@@ -2723,18 +2725,20 @@ struct FUN_00464e30_shell
 // @fnv 0x00464e30
 char* FUN_00464e30_shell::GetSelfOffset6A8()
 {
-    return reinterpret_cast<char*>(this) + 0x6A8;
+    return reinterpret_cast<char*>(&topicList);
 }
 
 struct FUN_0046a060_shell
 {
+    char pad[0xa8];
+    unsigned int flags;
     bool IsFlag20Set() const;
 };
 
 // @fnv 0x0046a060
 bool FUN_0046a060_shell::IsFlag20Set() const
 {
-    return (*reinterpret_cast<const unsigned int*>(reinterpret_cast<const char*>(this) + 0xa8) & 0x20) ? true : false;
+    return (flags & 0x20) ? true : false;
 }
 
 class TESObjectREFR;
@@ -2780,7 +2784,7 @@ bool FUN_00564e00_shell::FUN_00564e00()
     return result;
 }
 
-struct FUN_00984250_shell
+struct FUN_00984250_shell : public TESDataHandler
 {
     void* FUN_00984250();
 };
@@ -2788,10 +2792,10 @@ struct FUN_00984250_shell
 // @fnv 0x00984250
 void* FUN_00984250_shell::FUN_00984250()
 {
-    return reinterpret_cast<char*>(this) + 0xB8;
+    return &casinoList;
 }
 
-struct FUN_004610b0_shell
+struct FUN_004610b0_shell : public TESDataHandler
 {
     void* GetOffset120Ptr();
 };
@@ -3424,11 +3428,11 @@ void TESDataHandler::InitializeMagicSystem()
 // @fnv 0x004610b0
 void* FUN_004610b0_shell::GetOffset120Ptr()
 {
-    return reinterpret_cast<char*>(this) + 0x120;
+    return &combatStyleList;
 }
 
 
-struct FUN_00461960_shell
+struct FUN_00461960_shell : public TESDataHandler
 {
     int FUN_00461960();
 };
@@ -3436,10 +3440,10 @@ struct FUN_00461960_shell
 // @fnv 0x00461960
 int FUN_00461960_shell::FUN_00461960()
 {
-    return ((int)(::FUN_009938b0((const unsigned short *)(void *)((char*)this + 0x1dc))));
+    return ((int)(::FUN_009938b0((const unsigned short *)(void *)(&interiorCells))));
 }
 
-struct FUN_00464d90_cls
+struct FUN_00464d90_cls : public TESDataHandler
 {
     void SetField638(int value);
 };
@@ -3447,11 +3451,12 @@ struct FUN_00464d90_cls
 // @fnv 0x00464d90
 void FUN_00464d90_cls::SetField638(int value)
 {
-    *(int*)((char*)this + 0x638) = value;
+    unk638 = reinterpret_cast<TESForm*>(static_cast<std::intptr_t>(value));
 }
 
 struct FUN_0046f070_shell
 {
+    char pad[0xa8];
     unsigned int m_flags_0xa8;
     bool FUN_0046f070() const;
 };
@@ -3459,7 +3464,7 @@ struct FUN_0046f070_shell
 // @fnv 0x0046f070
 bool FUN_0046f070_shell::FUN_0046f070() const
 {
-    return (reinterpret_cast<const unsigned int*>(this)[0x2a] & 2) ? true : false;
+    return (m_flags_0xa8 & 2) ? true : false;
 }
 
 namespace fnv_0046fb20 {
@@ -3499,7 +3504,7 @@ void FUN_008c6920_shell::SetFlag(unsigned int auiBitIndex, bool abSet)
         m_0x14 &= ~(1u << auiBitIndex);
 }
 
-struct FUN_00461270_shell
+struct FUN_00461270_shell : public TESDataHandler
 {
     void* FUN_00461270();
 };
@@ -3507,7 +3512,7 @@ struct FUN_00461270_shell
 // @fnv 0x00461270
 void* FUN_00461270_shell::FUN_00461270()
 {
-    return reinterpret_cast<char*>(this) + 0x1B0;
+    return &lightingTemplateList;
 }
 
 extern char $SG4382[];
@@ -4214,26 +4219,43 @@ extern int vftable_FUN_008d4500;
 
 struct FUN_008d43a0 : public FUN_0087d4a0
 {
+    const void* pVtable;
+    char pad04[0x18 - 0x04];
+    const void* pChildCellVtable;
+    char pad1c[0x88 - 0x1c];
+    const void* pMagicCasterVtable;
+    char pad8c[0x94 - 0x8c];
+    const void* pMagicTargetVtable;
+    char pad98[0xa4 - 0x98];
+    const void* pActorValueOwnerVtable;
+    const void* pCachedValuesOwnerVtable;
+    char padac[0x13c - 0xac];
+    unsigned int unk13c;
+    unsigned int unk140;
+    char pad144[0x1b4 - 0x144];
+    unsigned char unk1b4;
+    float unk1b8;
+    float unk1bc;
     FUN_008d43a0();
 };
 
 // @fnv 0x008d43a0
 FUN_008d43a0::FUN_008d43a0() : FUN_0087d4a0(true)
 {
-    *reinterpret_cast<int*>(this) = reinterpret_cast<int>(&vftable_FUN_008d4500);
-    *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x18) = reinterpret_cast<int>(&DAT_010870a0);
-    *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x88) = reinterpret_cast<int>(&DAT_0108704c);
-    *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x94) = reinterpret_cast<int>(&DAT_01087014);
-    *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0xa4) = reinterpret_cast<int>(&DAT_01086fe4);
-    *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0xa8) = reinterpret_cast<int>(&DAT_01086f9c);
+    pVtable = &vftable_FUN_008d4500;
+    pChildCellVtable = &DAT_010870a0;
+    pMagicCasterVtable = &DAT_0108704c;
+    pMagicTargetVtable = &DAT_01087014;
+    pActorValueOwnerVtable = &DAT_01086fe4;
+    pCachedValuesOwnerVtable = &DAT_01086f9c;
 
     reinterpret_cast<::FUN_004f15a0_shell *>((reinterpret_cast<TESForm*>(this)))->FUN_004f15a0((*(int *)&(const ::ENUM_FORM_ID &)(static_cast<ENUM_FORM_ID>(0x3c))));
 
-    *reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(this) + 0x1b4) = 0;
-    *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x1b8) = -1.0f;
-    *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x1bc) = -1.0f;
-    *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x140) = 0;
-    *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x13c) = 0;
+    unk1b4 = 0;
+    unk1b8 = -1.0f;
+    unk1bc = -1.0f;
+    unk140 = 0;
+    unk13c = 0;
 }
 
 class BGSAddonNode;
@@ -4587,7 +4609,7 @@ TESObjectCELL* FUN_00461330_shell::FUN_00461330(const char* editorID, int x, int
 }
 
 extern "C" unsigned char FUN_008256d0(void*);
-struct FUN_00461700_shell
+struct FUN_00461700_shell : public TESDataHandler
 {
     TESForm* FindFormByEditorID(const char* editorID);
 };
@@ -4595,10 +4617,10 @@ struct FUN_00461700_shell
 // @fnv 0x00461700
 TESForm* FUN_00461700_shell::FindFormByEditorID(const char* editorID)
 {
-    if (!FUN_008256d0((char*)this + 0xe8))
+    if (!FUN_008256d0(&globalList))
     {
         TESForm* form;
-        void* node = (char*)this + 0xe8;
+        void* node = &globalList;
         while (node != 0)
         {
             form = *((::TESForm **)((void *)(node)));
@@ -5218,7 +5240,7 @@ bool DataHandlerX::FUN_0045dfe0()
 // @fnv 0x00464e50
 void FUN_00464e50_cls::FUN_00464e50()
 {
-    if (!reinterpret_cast<::FUN_0076b610_Class *>((((FUN_00464e50_list*)((char*)this + 0x1fc))))->FUN_0076b610() && DAT_011c54b9)
+    if (!reinterpret_cast<::FUN_0076b610_Class *>(reinterpret_cast<FUN_00464e50_list*>(&pendingReferences))->FUN_0076b610() && DAT_011c54b9)
     {
         FUN_00461300();
         ::FUN_005b5e40(
@@ -5227,18 +5249,18 @@ void FUN_00464e50_cls::FUN_00464e50()
     }
     bool flagTmp = reinterpret_cast<::FUN_004226e0_shell *>(this)->FUN_004226e0();
     reinterpret_cast<::FUN_00450b40_Class *>(this)->FUN_00450b40(true);
-    FUN_00464e50_item* cur_2 = (FUN_00464e50_item*)((void *)(::FUN_00559450((int *)(((FUN_00464e50_list*)((char*)this + 0x1fc))))));
+    FUN_00464e50_item* cur_2 = (FUN_00464e50_item*)((void *)(::FUN_00559450((int *)reinterpret_cast<FUN_00464e50_list*>(&pendingReferences))));
     FUN_00464e50_item* a;
     FUN_00464e50_item* t;
     FUN_00464e50_item* b;
     while (cur_2 != 0)
     {
-        a = *(FUN_00464e50_item**)((void *)(reinterpret_cast<::ListStandIn *>((((FUN_00464e50_list*)((char*)this + 0x1fc))))->FUN_0057cbe0((int **)(void **)((void**)&cur_2))));
+        a = *(FUN_00464e50_item**)((void *)(reinterpret_cast<::ListStandIn *>(reinterpret_cast<FUN_00464e50_list*>(&pendingReferences))->FUN_0057cbe0((int **)(void **)((void**)&cur_2))));
         t = a;
         b = t;
         b != 0 ? b->vfn_10(1) : 0;
     }
-    reinterpret_cast<::NiTPointerListBase *>((((FUN_00464e50_list*)((char*)this + 0x1fc))))->FUN_00559c30();
+    reinterpret_cast<::NiTPointerListBase *>(reinterpret_cast<FUN_00464e50_list*>(&pendingReferences))->FUN_00559c30();
     reinterpret_cast<::FUN_00450b40_Class *>(this)->FUN_00450b40(flagTmp);
 }
 
@@ -7666,7 +7688,7 @@ struct FNVRecordManager
 };
 
 
-struct FUN_0046f640_shell
+struct FUN_0046f640_shell : public TESDataHandler
 {
     void ProcessInventoryRecords(FNVFile*, int, int);
 };
@@ -7677,7 +7699,7 @@ void FUN_0046f640_shell::ProcessInventoryRecords(FNVFile* file, int remaining, i
 {
     FNVObject* current = 0;
     bool retrying;
-    FNVRecordGroup* group = ((::FNVRecordGroup *)(reinterpret_cast<::FUN_004bfba0_shell *>(((*reinterpret_cast<FNVRecordManager**>(reinterpret_cast<unsigned char*>(this) + 0x628))))->FUN_004bfba0((::TESBoundObject *)(::FNVRecordGroup *)(((::FNVRecordGroup *)(reinterpret_cast<::Twin_0044ddc0 *>((file))->GetName()))), {}, {})));
+    FNVRecordGroup* group = ((::FNVRecordGroup *)(reinterpret_cast<::FUN_004bfba0_shell *>(((pRecordManager)))->FUN_004bfba0((::TESBoundObject *)(::FNVRecordGroup *)(((::FNVRecordGroup *)(reinterpret_cast<::Twin_0044ddc0 *>((file))->GetName()))), {}, {})));
     if (!group)
         return;
 
@@ -7808,7 +7830,7 @@ void FUN_0046f640_shell::ProcessInventoryRecords(FNVFile* file, int remaining, i
             current = 0;
             processed = 0;
             retrying = true;
-            group = ((::FNVRecordGroup *)(reinterpret_cast<::FUN_004bfba0_shell *>(((*reinterpret_cast<FNVRecordManager**>(reinterpret_cast<unsigned char*>(this) + 0x628))))->FUN_004bfba0((::TESBoundObject *)(::FNVRecordGroup *)(((::FNVRecordGroup *)(reinterpret_cast<::Twin_0044ddc0 *>((file))->GetName()))), {}, {})));
+            group = ((::FNVRecordGroup *)(reinterpret_cast<::FUN_004bfba0_shell *>(((pRecordManager)))->FUN_004bfba0((::TESBoundObject *)(::FNVRecordGroup *)(((::FNVRecordGroup *)(reinterpret_cast<::Twin_0044ddc0 *>((file))->GetName()))), {}, {})));
             if (!group)
                 return;
             node = ((::FNVListNode *)(::FUN_00559450((int *)(group))));

@@ -91,8 +91,13 @@ class TESFile
     unsigned int fileSize;
     unsigned char data264[56];
     WIN32_FIND_DATAA fileData;
-    unsigned char data3dc[12];
+    float headerVersion;
+    unsigned int recordCount;
+    unsigned int nextObjectID;
     unsigned int fileFlags;
+    BSSimpleList<TESFile*> masterFiles;
+    unsigned char data3f4[0x428 - 0x3f4];
+    bool unk428;
     void SetGroupMode(bool);
     unsigned char GetFileCompileIndex();
     TESRecordHeader* GetRecordHeader();
@@ -142,6 +147,10 @@ class TESTopic : public TESForm
 class PlayerCharacter
 {
   public:
+    unsigned char playerData[0x6a8];
+    BSSimpleList<TESTopic*> topicList;
+    unsigned char playerData6b0[0x878 - 0x6b0];
+    unsigned char unk878;
     BSSimpleList<TESTopic*>* GetSelfOffset6A8();
     class PlayerBase* FUN_00464e10();
 public:

@@ -90,16 +90,16 @@ struct BGSTESTexture
 {
     unsigned int GetModelLength() const;
 };
-struct FUN_0047a240_shell
+struct FUN_0047a240_shell : ::BGSMessageIcon
 {
     void FUN_0047a240(std::uintptr_t);
 };
 // @fnv 0x0047a240
 void FUN_0047a240_shell::FUN_0047a240(std::uintptr_t a1)
 {
-    if (((BGSTESTexture*)((char*)this + 4))->GetModelLength())
-        ::FUN_004856f0((void *)(a1), (void*)((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((void *)(((FNStub*)((char*)this + 4))))->FUN_00408da0())),
-                     (void *)(((BGSTESTexture*)((char*)this + 4))->GetModelLength() + 1));
+    if (((BGSTESTexture*)&this->Icon)->GetModelLength())
+        ::FUN_004856f0((void *)(a1), (void*)((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((void *)(((FNStub*)&this->Icon)))->FUN_00408da0())),
+                     (void *)(((BGSTESTexture*)&this->Icon)->GetModelLength() + 1));
 }
 
 namespace fnv_0047a2b0 {

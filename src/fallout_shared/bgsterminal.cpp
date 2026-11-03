@@ -381,16 +381,15 @@ bool __cdecl FUN_005012c0(TESObjectREFR* apRef)
     return bretval;
 }
 
-struct FUN_005015d0_shell
+struct FUN_005015d0_shell : ::BGSTerminal
 {
-    unsigned char m_a5;
     bool FUN_005015d0();
 };
 
 // @fnv 0x005015d0
 bool FUN_005015d0_shell::FUN_005015d0()
 {
-    return ((unsigned char*)this)[0xa5] & 2;
+    return this->Data.cFlags & 2;
 }
 
 struct BSSimpleList_REF
@@ -515,7 +514,7 @@ void FUN_00501a80_shell::FUN_00501a80(Script* apScript, int aiValue)
 {
     if (apScript)
     {
-        if (aiValue == ((unsigned char*)this)[0xA4] && !FUN_005015d0())
+        if (aiValue == this->Data.m_ucByte0 && !FUN_005015d0())
             reinterpret_cast<::fnv_0041bf80::FUN_0041bf80_Class *>((((BSSimpleList_REF*)(((::BSSimpleList< ::ScriptReferencedObject *> *)(reinterpret_cast<::FUN_005d43c0_ *>((apScript))->FUN_005d43c0()))))))->FUN_0041bf80(-1);
         else
             reinterpret_cast<::fnv_0041bf80::FUN_0041bf80_Class *>((((BSSimpleList_REF*)(((::BSSimpleList< ::ScriptReferencedObject *> *)(reinterpret_cast<::FUN_005d43c0_ *>((apScript))->FUN_005d43c0()))))))->FUN_0041bf80((unsigned char)aiValue);
@@ -578,14 +577,14 @@ void Host501bb0::FUN_00501bb0(BGSLoadFormBuffer* apLoadGameBuffer)
     }
 }
 
-struct FUN_00501250_shell
+struct FUN_00501250_shell : ::BGSTerminal
 {
     bool IsFlagSet();
 };
 // @fnv 0x00501250
 bool FUN_00501250_shell::IsFlagSet()
 {
-    return (*(unsigned char*)((char*)this + 0xa5) & 1) ? true : false;
+    return (this->Data.cFlags & 1) ? true : false;
 }
 
 struct Setting_S

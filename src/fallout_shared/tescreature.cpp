@@ -462,13 +462,15 @@ int FUN_0050f760_shell::FUN_0050f760(int a)
 
 struct FUN_0051f4b0_shell
 {
+    char pad[0x118];
+    void* pProjectile;
     void FUN_0051f4b0(std::intptr_t value);
 };
 
 // @fnv 0x0051f4b0
 void FUN_0051f4b0_shell::FUN_0051f4b0(std::intptr_t value)
 {
-    *(int*)((char*)this + 0x118) = value;
+    pProjectile = reinterpret_cast<void*>(value);
 }
 
 struct FUN_0047ded0_shell
@@ -476,7 +478,7 @@ struct FUN_0047ded0_shell
     unsigned short FUN_0047ded0(void);
 };
 
-struct FUN_005f7460_shell
+struct FUN_005f7460_shell : public TESFullName
 {
     void FUN_005f7460();
 };
@@ -484,17 +486,17 @@ struct FUN_005f7460_shell
 // @fnv 0x005f7460
 void FUN_005f7460_shell::FUN_005f7460()
 {
-    ((FUN_0047ded0_shell*)((char*)this - 0xd0))->FUN_0047ded0();
+    reinterpret_cast<FUN_0047ded0_shell*>(static_cast<TESCreature*>(static_cast<TESFullName*>(this)))->FUN_0047ded0();
 }
 
-struct FUN_005f7570_shell
+struct FUN_005f7570_shell : public ActorValueOwner
 {
     void* FUN_005f7570();
 };
 // @fnv 0x005f7570
 void* FUN_005f7570_shell::FUN_005f7570()
 {
-    return (char*)this - 0x100;
+    return static_cast<TESCreature*>(static_cast<ActorValueOwner*>(this));
 }
 
 struct FUN_005f9040_shell : public TESActorBaseData
@@ -538,7 +540,7 @@ bool FUN_005f90a0_shell::FUN_005f90a0()
 }
 
 
-struct FUN_005f90c0_shell : TESActorBaseData
+struct FUN_005f90c0_shell : TESCreature
 {
     bool FUN_005f90c0();
 };
@@ -546,10 +548,10 @@ struct FUN_005f90c0_shell : TESActorBaseData
 // @fnv 0x005f90c0
 bool FUN_005f90c0_shell::FUN_005f90c0()
 {
-    return ((TESActorBaseData*)((char*)this + 0x30))->GetFlag(0x01000000);
+    return static_cast<TESActorBaseData*>(this)->GetFlag(0x01000000);
 }
 
-struct FUN_005f90e0_shell : TESActorBaseData
+struct FUN_005f90e0_shell : TESCreature
 {
     bool FUN_005f90e0();
 };
@@ -557,10 +559,10 @@ struct FUN_005f90e0_shell : TESActorBaseData
 // @fnv 0x005f90e0
 bool FUN_005f90e0_shell::FUN_005f90e0()
 {
-    return ((TESActorBaseData*)((char*)this + 0x30))->GetFlag(0x2000000);
+    return static_cast<TESActorBaseData*>(this)->GetFlag(0x2000000);
 }
 
-struct FUN_005f9b10_class
+struct FUN_005f9b10_class : public TESCreature
 {
     void SetBoltSmallWidth(float afBoltSmallWidth);
 };
@@ -568,17 +570,17 @@ struct FUN_005f9b10_class
 // @fnv 0x005f9b10
 void FUN_005f9b10_class::SetBoltSmallWidth(float afBoltSmallWidth)
 {
-    *(float*)((char*)this + 0x138) = afBoltSmallWidth;
+    m_fSecondCreatureStat = afBoltSmallWidth;
 }
 
-struct FUN_005f9b70_shell
+struct FUN_005f9b70_shell : public TESCreature
 {
     void* GetOffset12C();
 };
 // @fnv 0x005f9b70
 void* FUN_005f9b70_shell::GetOffset12C()
 {
-    return (char*)this + 0x12c;
+    return &dataPadding;
 }
 
 struct FUN_006078e0_s
@@ -604,7 +606,7 @@ struct FUN_006078e0_s
     virtual void SetFlags(int);
     void FUN_006078e0(ActorValue::Index aiWhich, int aiValue);
 };
-struct FUN_008126e0_shell
+struct FUN_008126e0_shell : public TESCreature
 {
     void SetWhich(std::intptr_t aiWhich);
 };
@@ -612,7 +614,7 @@ struct FUN_008126e0_shell
 // @fnv 0x008126e0
 void FUN_008126e0_shell::SetWhich(std::intptr_t aiWhich)
 {
-    *(int*)((char*)this + 0x140) = aiWhich;
+    m_pCombatStyle = reinterpret_cast<TESCombatStyle*>(aiWhich);
 }
 
 struct FUN_005f8f10_shell : TESActorBaseData
@@ -657,7 +659,7 @@ struct FUN_005f78b0_shell
 {
     void* DestroyActorBase(unsigned int);
 };
-struct FUN_005f8e90_shell : public TESActorBaseData
+struct FUN_005f8e90_shell : public TESHealthForm
 {
     int FUN_005f8e90();
 };
@@ -666,9 +668,9 @@ struct FUN_005f8e90_shell : public TESActorBaseData
 int FUN_005f8e90_shell::FUN_005f8e90()
 {
     unsigned short result = 0;
-    if (reinterpret_cast<::FUN_00461560_shell *>((reinterpret_cast<FUN_005f8e90_shell*>(reinterpret_cast<char*>(this) - 0x80)))->FUN_00461560())
+    if (reinterpret_cast<::FUN_00461560_shell *>(static_cast<TESActorBaseData*>(static_cast<TESCreature*>(static_cast<TESHealthForm*>(this))))->FUN_00461560())
     {
-        short factor = ((short)(reinterpret_cast<::FUN_0047ded0_shell *>((reinterpret_cast<FUN_005f8e90_shell*>(reinterpret_cast<char*>(this) - 0x80)))->FUN_0047ded0()));
+        short factor = ((short)(reinterpret_cast<::FUN_0047ded0_shell *>(static_cast<TESActorBaseData*>(static_cast<TESCreature*>(static_cast<TESHealthForm*>(this))))->FUN_0047ded0()));
         if (factor < 1)
             factor = 1;
         result = factor * ((int)(std::intptr_t)(reinterpret_cast<::Callees *>(this)->FUN_00726070()));
@@ -707,20 +709,20 @@ struct FUN_005f1f30_shell
 public:
     void FUN_005f1f30(std::uintptr_t);
 };
-struct FUN_005fb330_shell
+struct FUN_005fb330_shell : public TESCreature
 {
     void FUN_005fb330(BGSSaveFormBuffer* buffer);
 };
-// Calls FUN_005f1f30, then if change flag 0x200 is set saves three bytes at offsets 0x12d, 0x12e and 0x12f into the buffer.
+// Calls FUN_005f1f30, then if change flag 0x200 is set saves the three creature data bytes m_ucField00..02 into the buffer.
 // @fnv 0x005fb330
 void FUN_005fb330_shell::FUN_005fb330(BGSSaveFormBuffer* buffer)
 {
     ((FUN_005f1f30_shell*)this)->FUN_005f1f30((std::uintptr_t)(buffer));
     if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(((BGSLoadFormBuffer*)buffer)->GetChangeFlags(0x200)))->FUN_004280f0(0x200))
     {
-        reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50((char*)this + 0x12d, 1, 0);
-        reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50((char*)this + 0x12e, 1, 0);
-        reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50((char*)this + 0x12f, 1, 0);
+        reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50((char*)&m_ucField00, 1, 0);
+        reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50((char*)&m_ucField01, 1, 0);
+        reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50((char*)&m_ucField02, 1, 0);
     }
 }
 
@@ -1001,7 +1003,7 @@ struct FUN_005f12d0_MoodForm
 {
 };
 
-struct FUN_005f12d0_shell : public FUN_005f0b30_shell
+struct FUN_005f12d0_shell : public TESActorBase
 {
     void ApplyCommand(int, int);
 };
@@ -1028,49 +1030,49 @@ void FUN_005f12d0_shell::ApplyCommand(int command, int value)
     switch (command)
     {
     case 5:
-        reinterpret_cast<::fnv_005f14b0::FUN_005f14b0_Class *>((((FUN_005f12d0_AIForm*)((char*)this + 0xb8))))->SetAttribute5((unsigned char)value);
+        reinterpret_cast<::fnv_005f14b0::FUN_005f14b0_Class *>(static_cast<TESAttributes*>(this))->SetAttribute5((unsigned char)value);
         break;
     case 6:
-        reinterpret_cast<::fnv_005f14d0::TESAttributes *>((((FUN_005f12d0_AIForm*)((char*)this + 0xb8))))->FUN_005f14d0((unsigned char)value);
+        reinterpret_cast<::fnv_005f14d0::TESAttributes *>(static_cast<TESAttributes*>(this))->FUN_005f14d0((unsigned char)value);
         break;
     case 7:
-        reinterpret_cast<::fnv_005f14f0::TESAttributes *>((((FUN_005f12d0_AIForm*)((char*)this + 0xb8))))->FUN_005f14f0((unsigned char)value);
+        reinterpret_cast<::fnv_005f14f0::TESAttributes *>(static_cast<TESAttributes*>(this))->FUN_005f14f0((unsigned char)value);
         break;
     case 8:
-        reinterpret_cast<::fnv_005f1510::FUN_005f1510 *>((((FUN_005f12d0_AIForm*)((char*)this + 0xb8))))->SetFlag((unsigned char)value);
+        reinterpret_cast<::fnv_005f1510::FUN_005f1510 *>(static_cast<TESAttributes*>(this))->SetFlag((unsigned char)value);
         break;
     case 9:
-        reinterpret_cast<::fnv_005f1530::TESAttributes *>((((FUN_005f12d0_AIForm*)((char*)this + 0xb8))))->FUN_005f1530((unsigned char)value);
+        reinterpret_cast<::fnv_005f1530::TESAttributes *>(static_cast<TESAttributes*>(this))->FUN_005f1530((unsigned char)value);
         break;
     case 10:
-        reinterpret_cast<::fnv_005f1550::TESAttributes *>((((FUN_005f12d0_AIForm*)((char*)this + 0xb8))))->SetAttribute((unsigned char)value);
+        reinterpret_cast<::fnv_005f1550::TESAttributes *>(static_cast<TESAttributes*>(this))->SetAttribute((unsigned char)value);
         break;
     case 11:
-        reinterpret_cast<::fnv_005f1570::TESAttributes *>((((FUN_005f12d0_AIForm*)((char*)this + 0xb8))))->FUN_005f1570((unsigned char)value);
+        reinterpret_cast<::fnv_005f1570::TESAttributes *>(static_cast<TESAttributes*>(this))->FUN_005f1570((unsigned char)value);
         break;
     case 16:
-        this->FUN_005f0b30(value);
+        reinterpret_cast<FUN_005f0b30_shell*>(this)->FUN_005f0b30(value);
         break;
     case 0:
-        ((TESAIForm*)((char*)this + 0x90))->SetAggression((unsigned char)value, true);
+        static_cast<TESAIForm*>(this)->SetAggression((unsigned char)value, true);
         break;
     case 1:
-        ((TESAIForm*)((char*)this + 0x90))->SetConfidence((unsigned char)value, true);
+        static_cast<TESAIForm*>(this)->SetConfidence((unsigned char)value, true);
         break;
     case 2:
-        ((TESAIForm*)((char*)this + 0x90))->SetEnergy((unsigned char)value, true);
+        static_cast<TESAIForm*>(this)->SetEnergy((unsigned char)value, true);
         break;
     case 3:
-        ((TESAIForm*)((char*)this + 0x90))->SetResponsibility((unsigned char)value, true);
+        static_cast<TESAIForm*>(this)->SetResponsibility((unsigned char)value, true);
         break;
     case 4:
-        reinterpret_cast<::TESAIForm *>((((FUN_005f12d0_MoodForm*)((char*)this + 0x90))))->SetAIMood((unsigned char)value);
+        reinterpret_cast<::TESAIForm *>(static_cast<TESAIForm*>(this))->SetAIMood((unsigned char)value);
         break;
     case 21:
-        reinterpret_cast<::fnv_0047e270::FUN_0047e270_shell *>((((FUN_005f12d0_ActorBase*)((char*)this + 0x30))))->SetSpeedMult((unsigned short)value);
+        reinterpret_cast<::fnv_0047e270::FUN_0047e270_shell *>(static_cast<TESActorBaseData*>(this))->SetSpeedMult((unsigned short)value);
         break;
     case 23:
-        reinterpret_cast<::fnv_0047e1c0::S47b *>((((FUN_005f12d0_ActorBase*)((char*)this + 0x30))))->SetClampedValue((float)value);
+        reinterpret_cast<::fnv_0047e1c0::S47b *>(static_cast<TESActorBaseData*>(this))->SetClampedValue((float)value);
         break;
     default:
         break;
@@ -1154,15 +1156,15 @@ void FUN_005fa200_shell::FUN_005fa200(ActorValue::Index index, int value)
         case 0x38:
             if (value < 0)
             {
-                reinterpret_cast<::FUN_0047ff50_class *>((reinterpret_cast<FUN_0047ff50_class*>(reinterpret_cast<char*>(this) + 0x10c)))->FUN_0047ff50(0);
+                reinterpret_cast<::FUN_0047ff50_class *>(reinterpret_cast<FUN_0047ff50_class*>(static_cast<TESAttackDamageForm*>(reinterpret_cast<TESCreature*>(this))))->FUN_0047ff50(0);
             }
             else if (value > 0xffff)
             {
-                reinterpret_cast<::FUN_0047ff50_class *>((reinterpret_cast<FUN_0047ff50_class*>(reinterpret_cast<char*>(this) + 0x10c)))->FUN_0047ff50(0xffff);
+                reinterpret_cast<::FUN_0047ff50_class *>(reinterpret_cast<FUN_0047ff50_class*>(static_cast<TESAttackDamageForm*>(reinterpret_cast<TESCreature*>(this))))->FUN_0047ff50(0xffff);
             }
             else
             {
-                reinterpret_cast<::FUN_0047ff50_class *>((reinterpret_cast<FUN_0047ff50_class*>(reinterpret_cast<char*>(this) + 0x10c)))->FUN_0047ff50(static_cast<unsigned short>(value));
+                reinterpret_cast<::FUN_0047ff50_class *>(reinterpret_cast<FUN_0047ff50_class*>(static_cast<TESAttackDamageForm*>(reinterpret_cast<TESCreature*>(this))))->FUN_0047ff50(static_cast<unsigned short>(value));
             }
             break;
 
@@ -1188,7 +1190,7 @@ struct FUN_00484d20_Class
 };
 
 
-struct FUN_005fb1e0_shell
+struct FUN_005fb1e0_shell : public TESCreature
 {
     void FUN_005fb1e0(unsigned int);
 };
@@ -1201,17 +1203,17 @@ void FUN_005fb1e0_shell::FUN_005fb1e0(unsigned int flags)
     if (flags & 0x200)
     {
         reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>((reinterpret_cast<PC7d*>(this)))->FUN_00484ce0(
-            (void *)(reinterpret_cast<unsigned char*>(this) + 0x12d), 1);
+            (void *)(&m_ucField00), 1);
         reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>((reinterpret_cast<PC7d*>(this)))->FUN_00484ce0(
-            (void *)(reinterpret_cast<unsigned char*>(this) + 0x12e), 1);
+            (void *)(&m_ucField01), 1);
         reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>((reinterpret_cast<PC7d*>(this)))->FUN_00484ce0(
-            (void *)(reinterpret_cast<unsigned char*>(this) + 0x12f), 1);
+            (void *)(&m_ucField02), 1);
     }
 
     if (flags & 0)
     {
         unsigned int result =
-            ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((*reinterpret_cast<unsigned int*>(reinterpret_cast<unsigned char*>(this) + 0x140)))->FUN_0084e3a0()));
+            ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(m_pCombatStyle)->FUN_0084e3a0()));
         reinterpret_cast<FUN_00484d20_Class*>(this)->ForwardToSaveLoadGame((std::intptr_t)(&result), 4);
     }
 }
@@ -2243,7 +2245,7 @@ struct FUN_005f8d70_actor : FUN_0047ded0_shell
 struct FUN_005f8d70_settings
 {
 };
-struct FUN_005f8d70_shell
+struct FUN_005f8d70_shell : public TESAttackDamageForm
 {
     unsigned short FUN_005f8d70();
 };
@@ -2251,21 +2253,22 @@ struct FUN_005f8d70_shell
 unsigned short FUN_005f8d70_shell::FUN_005f8d70()
 {
     unsigned short result = 0;
+    TESCreature* pcreature = static_cast<TESCreature*>(static_cast<TESAttackDamageForm*>(this));
     if ((*reinterpret_cast<::FUN_005f8d70_runtime * *>(&::DAT_011cb6a0))->FUN_00843150() && !reinterpret_cast<::FUN_004516b0_shell *>(((*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler))))->FUN_004516b0() &&
-        reinterpret_cast<signed char*>(this)[0x50] == -1)
+        (signed char)pcreature->m_cCreatureDataFlag == -1)
     {
         FUN_005f8d70_record* record = static_cast<FUN_005f8d70_record*>(((void *)(reinterpret_cast<::IdleAnimationManager *>(((*reinterpret_cast<::FUN_005f8d70_runtime * *>(&::DAT_011cb6a0))))->FindIdleArrayEntry(
-            (const char *)(void *)(reinterpret_cast<FUN_005f8d70_virtual*>(reinterpret_cast<char*>(this) - 0x30)->v5(1)), {}))));
+            (const char *)(void *)(reinterpret_cast<FUN_005f8d70_virtual*>(static_cast<TESModel*>(pcreature))->v5(1)), {}))));
         if (record == 0 || *((int *)((void *)(record))) == 0)
-            reinterpret_cast<signed char*>(this)[0x50] = 0;
+            pcreature->m_cCreatureDataFlag = 0;
         else
-            reinterpret_cast<signed char*>(this)[0x50] = 1;
+            pcreature->m_cCreatureDataFlag = 1;
     }
-    if (reinterpret_cast<signed char*>(this)[0x50] == 0)
+    if (pcreature->m_cCreatureDataFlag == 0)
         return 0;
-    if (reinterpret_cast<::FUN_00461560_shell *>((reinterpret_cast<FUN_005f8d70_actor*>(reinterpret_cast<char*>(this) - 0xdc)))->FUN_00461560())
+    if (reinterpret_cast<::FUN_00461560_shell *>(reinterpret_cast<FUN_005f8d70_actor*>(static_cast<TESActorBaseData*>(pcreature)))->FUN_00461560())
     {
-        short level = reinterpret_cast<FUN_005f8d70_actor*>(reinterpret_cast<char*>(this) - 0xdc)->FUN_0047ded0();
+        short level = reinterpret_cast<FUN_005f8d70_actor*>(static_cast<TESActorBaseData*>(pcreature))->FUN_0047ded0();
         if (level < 1)
             level = 1;
         result = reinterpret_cast<::TESAttackDamageForm *>(this)->GetAttackDamage();
@@ -3486,7 +3489,7 @@ struct Spells
     virtual int v22();
     virtual void v23(int);
 };
-struct C005f9820
+struct C005f9820Calls
 {
     virtual void v0();
     virtual void v1();
@@ -3588,10 +3591,9 @@ struct C005f9820
     virtual void v97(int);
     virtual int v98();
     virtual void v99(int);
-    char pad[0x30];
-    int unk34;
-    char pad38[0xf0];
-    Sound* sounds;
+};
+struct C005f9820 : public TESCreature
+{
     void CopyFrom(void*);
 };
 // @fnv 0x005f9820
@@ -3603,31 +3605,31 @@ void C005f9820::CopyFrom(void* apSource)
         return;
     if (((::Sound *)(reinterpret_cast<::FUN_005f91d0_shell *>(this)->FUN_005f91d0())))
     {
-        Sound* snd = sounds;
+        Sound* snd = reinterpret_cast<Sound*>(m_pCreatureSounds);
         Sound* del2 = snd;
         del2 ? reinterpret_cast<::CreatureSoundCollection *>((del2))->DeleteThis(1) : 0;
     }
-    sounds = 0;
-    reinterpret_cast<::TESAIForm *>((((S47f190*)((char*)this + 0x90))))->BaseFormRecord((::BaseFormComponent *)(apSource));
-    reinterpret_cast<::fnv_0048d630::SpellListAccess *>((((S48d630*)((char*)this + 0x7c))))->FUN_0048d630((::BaseFormComponent *)(apSource));
-    reinterpret_cast<::FUN_0047bdd0_shell *>((((S47bdd0*)((char*)this + 0x70))))->FUN_0047bdd0((::BaseFormComponent *)(apSource));
-    reinterpret_cast<::fnv_0047d220::ABD_47d220 *>((((S47d220*)((char*)this + 0x30))))->CopyFromActorBaseData((::BaseFormComponent *)(apSource));
-    reinterpret_cast<::FUN_00487240_shell *>((((S487240*)((char*)this + 0xb0))))->CopyHealthForm((::BaseFormComponent *)(apSource));
-    reinterpret_cast<::FUN_00480000_shell *>((((S480000*)((char*)this + 0xb8))))->CopyAttributesFromComponent((::BaseFormComponent *)(apSource));
-    reinterpret_cast<::FUN_004870f0_shell *>((((S4870f0*)((char*)this + 0xd0))))->CopyFullNameFrom((::BaseFormComponent *)(apSource));
-    reinterpret_cast<::ModelCopyView *>((((S489430*)((char*)this + 0xdc))))->FUN_00489430((::BaseFormComponent *)(apSource));
-    reinterpret_cast<::fnv_00489db0::FUN_00489db0_shell *>((((S489db0*)((char*)this + 0x114))))->CopyModelListFromComponent((::BaseFormComponent *)(apSource));
-    reinterpret_cast<::fnv_0048cce0::FUN_0048cce0_shell *>((((S48cce0*)((char*)this + 0xf4))))->CopyFromScriptableForm((::BaseFormComponent *)(apSource));
-    reinterpret_cast<::TESContainer *>((((S481c80*)((char*)this + 0x64))))->CopyFromBase((::BaseFormComponent *)(apSource));
-    reinterpret_cast<::FUN_0047fb50_shell *>((((S47fb50*)((char*)this + 0xc4))))->FUN_0047fb50((::BaseFormComponent *)(apSource));
-    reinterpret_cast<::BGSDestructibleObjectForm *>((((S4786e0*)((char*)this + 0x104))))->FUN_004786e0((::BaseFormComponent *)(apSource));
-    memcpy((char*)this + 0x12c, reinterpret_cast<::FUN_005f9b70_shell *>((src2))->GetOffset12C(), 4);
-    this->unk34 = *((int *)(reinterpret_cast<::BaseProcess *>((((Spells*)((char*)src2 + 0x30))))->GetCurrentProcessData()));
+    m_pCreatureSounds = 0;
+    reinterpret_cast<::TESAIForm *>(static_cast<TESAIForm*>(this))->BaseFormRecord((::BaseFormComponent *)(apSource));
+    reinterpret_cast<::fnv_0048d630::SpellListAccess *>(static_cast<TESSpellList*>(this))->FUN_0048d630((::BaseFormComponent *)(apSource));
+    reinterpret_cast<::FUN_0047bdd0_shell *>(static_cast<BGSTouchSpellForm*>(this))->FUN_0047bdd0((::BaseFormComponent *)(apSource));
+    reinterpret_cast<::fnv_0047d220::ABD_47d220 *>(static_cast<TESActorBaseData*>(this))->CopyFromActorBaseData((::BaseFormComponent *)(apSource));
+    reinterpret_cast<::FUN_00487240_shell *>(static_cast<TESHealthForm*>(this))->CopyHealthForm((::BaseFormComponent *)(apSource));
+    reinterpret_cast<::FUN_00480000_shell *>(static_cast<TESAttributes*>(this))->CopyAttributesFromComponent((::BaseFormComponent *)(apSource));
+    reinterpret_cast<::FUN_004870f0_shell *>(static_cast<TESFullName*>(this))->CopyFullNameFrom((::BaseFormComponent *)(apSource));
+    reinterpret_cast<::ModelCopyView *>(static_cast<TESModel*>(this))->FUN_00489430((::BaseFormComponent *)(apSource));
+    reinterpret_cast<::fnv_00489db0::FUN_00489db0_shell *>(static_cast<TESModelList*>(this))->CopyModelListFromComponent((::BaseFormComponent *)(apSource));
+    reinterpret_cast<::fnv_0048cce0::FUN_0048cce0_shell *>(static_cast<TESScriptableForm*>(this))->CopyFromScriptableForm((::BaseFormComponent *)(apSource));
+    reinterpret_cast<::TESContainer *>(static_cast<TESContainer*>(this))->CopyFromBase((::BaseFormComponent *)(apSource));
+    reinterpret_cast<::FUN_0047fb50_shell *>(static_cast<TESAnimation*>(this))->FUN_0047fb50((::BaseFormComponent *)(apSource));
+    reinterpret_cast<::BGSDestructibleObjectForm *>(static_cast<BGSDestructibleObjectForm*>(this))->FUN_004786e0((::BaseFormComponent *)(apSource));
+    memcpy(&dataPadding, reinterpret_cast<::FUN_005f9b70_shell *>((src2))->GetOffset12C(), 4);
+    this->uiFlags = *((int *)(reinterpret_cast<::BaseProcess *>(static_cast<TESActorBaseData*>(src2))->GetCurrentProcessData()));
     reinterpret_cast<::FUN_005f9af0_shell *>(this)->SetCreatureType(reinterpret_cast<::FUN_005f9ad0_shell *>((src2))->FUN_005f9ad0());
     reinterpret_cast<::FUN_00507780 *>(this)->SetBoltsRadiusStrength(reinterpret_cast<::FUN_00821640_shell *>((src2))->FUN_00821640());
     reinterpret_cast<::FUN_00803a90_shell *>(this)->SetBoltGrowWidth(::FUN_00567470((char *)(src2)));
     reinterpret_cast<::FUN_005f9b10_class *>(this)->SetBoltSmallWidth(reinterpret_cast<::FUN_00821660_shell *>((src2))->FUN_00821660());
-    ((Spells*)((char*)this + 0x30))->v23(((Spells*)((char*)src2 + 0x30))->v22());
+    reinterpret_cast<Spells*>(static_cast<TESActorBaseData*>(this))->v23(reinterpret_cast<Spells*>(static_cast<TESActorBaseData*>(src2))->v22());
     if (((::Sound *)(reinterpret_cast<::FUN_005f91d0_shell *>((src2))->FUN_005f91d0())))
     {
         ptr = ((::Sound *)(reinterpret_cast<::TESCreature *>(this)->GetMutableCreatureSounds()));
@@ -3637,11 +3639,11 @@ void C005f9820::CopyFrom(void* apSource)
     {
         reinterpret_cast<::TESCreature *>(this)->SetCreatureSoundsFrom((::TESCreature *)(::C005f9820 *)(((::C005f9820 *)(reinterpret_cast<::FUN_005f9100_shell *>((src2))->FUN_005f9100()))));
     }
-    *(unsigned int*)((char*)this + 0x154) = reinterpret_cast<::Twin_009c0070 *>((src2))->GetFilePosition();
+    m_eSoundLevel = reinterpret_cast<::Twin_009c0070 *>((src2))->GetFilePosition();
     reinterpret_cast<::FUN_005f8bb0_shell *>(this)->SetImpactDataSet((::BGSImpactDataSet *)(void *)(((void *)(reinterpret_cast<::FUN_005f9b30_shell *>((src2))->GetImpactDataSet()))));
     reinterpret_cast<::FUN_005f8bd0_Helper *>(this)->Set((std::intptr_t)(::GetField158((std::intptr_t)(src2))));
-    v99(src2->v98());
-    v97(src2->v96());
+    reinterpret_cast<C005f9820Calls*>(this)->v99(reinterpret_cast<C005f9820Calls*>(src2)->v98());
+    reinterpret_cast<C005f9820Calls*>(this)->v97(reinterpret_cast<C005f9820Calls*>(src2)->v96());
 }
 
 class MobileObject : public TESObjectREFR

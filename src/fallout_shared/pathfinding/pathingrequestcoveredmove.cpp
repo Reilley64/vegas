@@ -533,7 +533,40 @@ struct FNVElements12
 {
     void* FUN_006a7af0(unsigned int index);
 };
-struct FUN_006e51a0_shell
+struct SaveBuffer6e4
+{
+};
+struct Elements4Ex : FNVElements4
+{
+    int m_kNextStreamField[4];
+};
+struct Elements12Ex : FNVElements12
+{
+    int m_kNextStreamField[4];
+};
+struct Base6e3230
+{
+};
+
+struct Saver6e4 : Base6e3230
+{
+    char m_acPad[0xb0];
+    int m_iB0;
+    int m_iB4;
+    int m_iB8;
+    int m_iBC;
+    int m_iC0;
+    int m_iC4;
+    NiPoint3 m_kC8;
+    NiPoint3 m_kD4;
+    bool m_bE0;
+    Elements4Ex m_kList4;
+    Elements12Ex m_kList12;
+
+    void SaveToBuffer(SaveBuffer6e4* pkBuffer);
+};
+
+struct FUN_006e51a0_shell : Saver6e4
 {
     void LoadFromStream(FNVInputStream* stream);
 };
@@ -541,30 +574,30 @@ struct FUN_006e51a0_shell
 void FUN_006e51a0_shell::LoadFromStream(FNVInputStream* stream)
 {
     reinterpret_cast<::PathingRequest *>(this)->LoadGame((::BGSLoadFormBuffer *)(stream));
-    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((stream))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(reinterpret_cast<char*>(this) + 0xb0), 4);
-    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((stream))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(reinterpret_cast<char*>(this) + 0xb4), 4);
-    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((stream))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(reinterpret_cast<char*>(this) + 0xb8), 4);
-    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((stream))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(reinterpret_cast<char*>(this) + 0xbc), 4);
-    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((stream))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(reinterpret_cast<char*>(this) + 0xc0), 4);
-    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((stream))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(reinterpret_cast<char*>(this) + 0xc4), 4);
-    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((stream))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(reinterpret_cast<char*>(this) + 0xc8), 12);
-    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((stream))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(reinterpret_cast<char*>(this) + 0xd4), 12);
-    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((stream))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(reinterpret_cast<char*>(this) + 0xe0), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((stream))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_iB0), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((stream))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_iB4), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((stream))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_iB8), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((stream))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_iBC), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((stream))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_iC0), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((stream))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_iC4), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((stream))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_kC8), 12);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((stream))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_kD4), 12);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((stream))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_bE0), 1);
 
     unsigned int count4 = ((unsigned int)(reinterpret_cast<::fnv_00864a60::FUN_00864a60_cls *>((stream))->FUN_00864a60()));
-    reinterpret_cast<::fnv_006f2290::BSSimpleArrayActor *>((reinterpret_cast<FNVElements4*>(reinterpret_cast<char*>(this) + 0xe4)))->FUN_006f2290(count4, 1);
+    reinterpret_cast<::fnv_006f2290::BSSimpleArrayActor *>((reinterpret_cast<FNVElements4*>(&m_kList4)))->FUN_006f2290(count4, 1);
     for (unsigned int i = 0; i < count4; ++i)
     {
-        void* item = ((void *)(reinterpret_cast<::S3e60 *>((reinterpret_cast<FNVElements4*>(reinterpret_cast<char*>(this) + 0xe4)))->FUN_006a7ad0(i)));
+        void* item = ((void *)(reinterpret_cast<::S3e60 *>((reinterpret_cast<FNVElements4*>(&m_kList4)))->FUN_006a7ad0(i)));
         reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((stream))->FUN_00864980((::fnv_00864980::NiQuaternion *)(item), 4);
     }
     {
         unsigned int count12 = ((unsigned int)(reinterpret_cast<::fnv_00864a60::FUN_00864a60_cls *>((stream))->FUN_00864a60()));
-        reinterpret_cast<::fnv_0069cea0::FUN_0069cea0_class *>((reinterpret_cast<FNVElements12*>(reinterpret_cast<char*>(this) + 0xf4)))->FUN_0069cea0(count12, 1);
+        reinterpret_cast<::fnv_0069cea0::FUN_0069cea0_class *>((reinterpret_cast<FNVElements12*>(&m_kList12)))->FUN_0069cea0(count12, 1);
         for (unsigned int uiIndex12 = 0; uiIndex12 < count12; ++uiIndex12)
         {
             void* item =
-                reinterpret_cast<FNVElements12*>(reinterpret_cast<char*>(this) + 0xf4)->FUN_006a7af0(uiIndex12);
+                reinterpret_cast<FNVElements12*>(&m_kList12)->FUN_006a7af0(uiIndex12);
             reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((stream))->FUN_00864980((::fnv_00864980::NiQuaternion *)(item), 12);
         }
     }
@@ -658,38 +691,6 @@ FUN_006e5510_cls::FUN_006e5510_cls()
     reinterpret_cast<::FUN_006d2c00_shell *>(&(m_a34))->FUN_006d2c00();
 }
 
-struct SaveBuffer6e4
-{
-};
-struct Elements4Ex : FNVElements4
-{
-    int m_kNextStreamField[4];
-};
-struct Elements12Ex : FNVElements12
-{
-    int m_kNextStreamField[4];
-};
-struct Base6e3230
-{
-};
-
-struct Saver6e4 : Base6e3230
-{
-    char m_acPad[0xb0];
-    int m_iB0;
-    int m_iB4;
-    int m_iB8;
-    int m_iBC;
-    int m_iC0;
-    int m_iC4;
-    NiPoint3 m_kC8;
-    NiPoint3 m_kD4;
-    bool m_bE0;
-    Elements4Ex m_kList4;
-    Elements12Ex m_kList12;
-
-    void SaveToBuffer(SaveBuffer6e4* pkBuffer);
-};
 
 // Serializes the base object, six ints, two NiPoint3s, a bool, and two element lists (counts plus 4- and 12-byte items) into pkBuffer.
 // @fnv 0x006e4fd0

@@ -794,7 +794,7 @@ struct FUN_0069b120_stub
 {
 };
 
-struct FUN_00699590_shell
+struct FUN_00699590_shell : NavMesh
 {
     void ForwardToStub(int arg);
 };
@@ -803,7 +803,7 @@ struct FUN_00699590_shell
 // @fnv 0x00699590
 void FUN_00699590_shell::ForwardToStub(int arg)
 {
-    reinterpret_cast<::B120Array *>((((FUN_0069b120_stub*)((char*)this + 0xd0))))->FUN_0069b120(arg, 1);
+    reinterpret_cast<::B120Array *>((((FUN_0069b120_stub*)(&this->m_kObstacleUndoData))))->FUN_0069b120(arg, 1);
 }
 
 struct Flt
@@ -816,10 +816,9 @@ struct Arr
     Flt* GetAt(int);
 };
 
-struct FUN_00699630_shell
+struct FUN_00699630_shell : NavMesh
 {
     int FindEntryIndex(int);
-    Arr arr;
     int FUN_00699630(int param1, unsigned int* out);
 };
 
@@ -829,7 +828,7 @@ int FUN_00699630_shell::FUN_00699630(int param1, unsigned int* apuiValue)
     int idx = this->FindEntryIndex(param1);
     if (idx != -1)
     {
-        *apuiValue = ((Arr*)((char*)this + 0xd0))->GetAt(idx)->operator unsigned int();
+        *apuiValue = ((Arr*)(&this->m_kObstacleUndoData))->GetAt(idx)->operator unsigned int();
         return idx;
     }
     *apuiValue = 0;
@@ -1100,7 +1099,7 @@ struct Obj00696a10
 // @fnv 0x006969e0
 bool FUN_006969e0_shell::FUN_006969e0(NiPoint3* aRetMin, NiPoint3* aRetMax)
 {
-    reinterpret_cast<::Obj00696a10 *>((reinterpret_cast<DummyA8*>(reinterpret_cast<char*>(this) + 0xa8)))->GetVectors((::Vec00696a10 *)(aRetMin), (::Vec00696a10 *)(aRetMax));
+    reinterpret_cast<::Obj00696a10 *>((reinterpret_cast<DummyA8*>((&this->m_kGrid))))->GetVectors((::Vec00696a10 *)(aRetMin), (::Vec00696a10 *)(aRetMax));
     return true;
 }
 // Copies the object's two Vec00696a10 members into the caller-supplied output vectors.
@@ -1231,7 +1230,7 @@ struct S006950d0
     NavMeshClosedDoorInfo* GetElement(unsigned int);
 };
 
-struct FUN_00699a30_shell
+struct FUN_00699a30_shell : NavMesh
 {
     bool FUN_00699a30(unsigned int doorID);
 };
@@ -1240,16 +1239,16 @@ struct FUN_00699a30_shell
 bool FUN_00699a30_shell::FUN_00699a30(unsigned int doorID)
 {
     unsigned int i = 0;
-    for (; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 0x68))))->GetName())); ++i)
+    for (; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)(&this->m_kClosedDoorInfo))))->GetName())); ++i)
     {
-        if (((S006950d0*)((char*)this + 0x68))->GetElement(i)->iDoorID == doorID)
+        if (((S006950d0*)(&this->m_kClosedDoorInfo))->GetElement(i)->iDoorID == doorID)
         {
-            if (((S006950d0*)((char*)this + 0x68))->GetElement(i)->m_usTriangleID < ::FUN_00558200((char *)(((NavMesh*)this))))
+            if (((S006950d0*)(&this->m_kClosedDoorInfo))->GetElement(i)->m_usTriangleID < ::FUN_00558200((char *)(((NavMesh*)this))))
             {
                 reinterpret_cast<::FUN_00519270_shell *>((((BSXFlags_shell*)((NavMesh*)this)
-                     ->GetTriangle(((S006950d0*)((char*)this + 0x68))->GetElement(i)->m_usTriangleID))))->ClearFlags(0x1000);
+                     ->GetTriangle(((S006950d0*)(&this->m_kClosedDoorInfo))->GetElement(i)->m_usTriangleID))))->ClearFlags(0x1000);
             }
-            ((ActorAvoidanceDataArray*)((char*)this + 0x68))->FUN_00983720(i, 1);
+            ((ActorAvoidanceDataArray*)(&this->m_kClosedDoorInfo))->FUN_00983720(i, 1);
             --i;
         }
     }
@@ -1301,7 +1300,7 @@ unsigned int FUN_0069a940_shell::FUN_0069a940(unsigned short triangle, GlobalObj
     for (int i3 = 0; i3 < 3; ++i3)
     {
         unsigned short vertex3 = reinterpret_cast<::FUN_005582d0_shell *>((navMeshTriangle))->FUN_005582d0(i3);
-        if (((NavMeshTriList*)((char*)this + 0xe4))->FindMatchingIndex(vertex3, 0, ((bool (&)(const unsigned short &, const unsigned short &))::AreWideCharsEqual)) != -1)
+        if (((NavMeshTriList*)(&this->m_kAdditionalData))->FindMatchingIndex(vertex3, 0, ((bool (&)(const unsigned short &, const unsigned short &))::AreWideCharsEqual)) != -1)
         {
             reinterpret_cast<::FUN_00691820_arr *>(&(object->m_kAdditionalIndexList))->Append((const unsigned short *)&(vertex3));
             ++count4;
@@ -2004,7 +2003,7 @@ struct FUN_00693d30_shell
 {
 };
 
-struct FUN_00697590_shell
+struct FUN_00697590_shell : ::NavMesh
 {
     bool CollectTrianglesForDoor(std::uintptr_t, BSSimpleArrayActor*);
 };
@@ -2017,7 +2016,7 @@ bool FUN_00697590_shell::CollectTrianglesForDoor(std::uintptr_t doorID, BSSimple
     reinterpret_cast<::fnv_0084b5c0::FUN_0084b5c0_Array *>((reinterpret_cast<HArr*>(array)))->FUN_0084b5c0(100);
 
     for (unsigned int triangleIndex = 0;
-         triangleIndex < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(reinterpret_cast<unsigned char*>(this) + 0x38)))->GetName()));
+         triangleIndex < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>((&this->Triangles))))->GetName()));
          ++triangleIndex)
     {
         NavMeshTriangle* triangle =
@@ -2063,7 +2062,7 @@ struct NiPointerStandIn
     bool operator==(void*) const;
 };
 
-struct FUN_006995c0_shell
+struct FUN_006995c0_shell : ::NavMesh
 {
     int FindEntryIndex(void* arg);
 };
@@ -2073,9 +2072,9 @@ struct FUN_006995c0_shell
 int FUN_006995c0_shell::FindEntryIndex(void* apTarget)
 {
     unsigned int i = 0;
-    for (; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 0xd0))))->GetName())); ++i)
+    for (; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)(&this->m_kObstacleUndoData))))->GetName())); ++i)
     {
-        if (reinterpret_cast<::FUN_004b0460_class *>((void *)(((NiPointerStandIn*)(((Arr*)((char*)this + 0xd0))->GetAt(i)->pEntry + 0xc))))->FUN_004b0460((const void **)&(apTarget)))
+        if (reinterpret_cast<::FUN_004b0460_class *>((void *)(((NiPointerStandIn*)(((Arr*)(&this->m_kObstacleUndoData))->GetAt(i)->pEntry + 0xc))))->FUN_004b0460((const void **)&(apTarget)))
             return i;
     }
     return -1;
@@ -2617,9 +2616,9 @@ class FUN_0069b0a0_cls
 // @fnv 0x0069a9d0
 void FUN_0069a9d0_shell::FUN_0069a9d0(unsigned short a1, std::uintptr_t a2)
 {
-    if (::IsFieldCZero((::Dummy_0069b080 *)(((NiTPointerMap<unsigned int, SoundPlaybackHandle*>*)((char*)this + 0x88)))))
+    if (::IsFieldCZero((::Dummy_0069b080 *)(((NiTPointerMap<unsigned int, SoundPlaybackHandle*>*)&this->POVPointerArray))))
         reinterpret_cast<::FUN_00699b60_shell *>(this)->BuildPortalPOVs();
-    reinterpret_cast<::FUN_0069b0a0_cls *>((((FUN_0069b0a0_shell*)((char*)this + 0x88))))->LookupValue(a1, (unsigned int *)(a2));
+    reinterpret_cast<::FUN_0069b0a0_cls *>((((FUN_0069b0a0_shell*)&this->POVPointerArray)))->LookupValue(a1, (unsigned int *)(a2));
 }
 // Hashes key, walks the bucket chain comparing keys, and on a match copies the item's value to out and returns true; otherwise returns false.
 // @fnv 0x0069b0a0

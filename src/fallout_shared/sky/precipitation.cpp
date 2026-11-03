@@ -54,7 +54,7 @@ void Precipitation::Load(const char* path)
     }
 }
 
-struct FUN_00636bb0_shell
+struct FUN_00636bb0_shell : ::Precipitation
 {
     void FUN_00636bb0();
 };
@@ -64,7 +64,7 @@ NiAVObject* __cdecl FUN_0054f4f0(void);
 // @fnv 0x00636bb0
 void FUN_00636bb0_shell::FUN_00636bb0()
 {
-    *(NiAVObject**)((char*)this + 0xc) = FUN_0054f4f0();
+    *(NiAVObject**)&this->pParent = FUN_0054f4f0();
 }
 
 struct NodeS

@@ -126,7 +126,7 @@ struct _ref_0084e3a0_t
 {
 };
 
-struct FUN_00511d10_shell
+struct FUN_00511d10_shell : ::TESObjectANIO
 {
     void FUN_00511d10();
 };
@@ -135,7 +135,7 @@ struct FUN_00511d10_shell
 void FUN_00511d10_shell::FUN_00511d10()
 {
     reinterpret_cast<::fnv_004855a0::ArrSI *>((((FUN_004855a0*)this)))->FUN_004855a0();
-    reinterpret_cast<::FUN_0048a520_shell *>((((S_0048a520*)((char*)this + 0x18))))->ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);
+    reinterpret_cast<::FUN_0048a520_shell *>((((S_0048a520*)static_cast<TESModelTextureSwap *>(this))))->ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);
     if (((int*)this)[0x38 / 4])
     {
         unsigned int iid = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((_ref_0084e3a0_t*)(((std::intptr_t*)this)[0x38 / 4]))))->FUN_0084e3a0()));

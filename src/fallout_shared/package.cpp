@@ -3759,7 +3759,7 @@ class FUN_00675980_shell : public TESPackage
 TESObjectREFR* FUN_00675980_shell::FUN_00675980()
 {
     if (GetPackType() == (PTYPE)0xe)
-        return (TESObjectREFR*)*(unsigned int*)((char*)this + 0x28);
+        return reinterpret_cast<TESObjectREFR*>(data);
     return 0;
 }
 
@@ -3791,7 +3791,7 @@ bool FUN_0067a5d0_class::FUN_0067a5d0()
 // @fnv 0x0067a9d0
 bool FUN_0067a9d0(void* pObject)
 {
-    return (*reinterpret_cast<unsigned short*>(reinterpret_cast<char*>(pObject) + 0x22) & 8) ? true : false;
+    return (reinterpret_cast<TESPackage*>(pObject)->f22 & 8) ? true : false;
 }
 
 struct TESUseWeaponPackageData
@@ -3812,7 +3812,7 @@ const TESUseWeaponPackageData* TESPackageShell::FUN_006758f0()
     return 0;
 }
 
-struct TESFormStub
+struct TESFormStub : public TESPackage
 {
     void FUN_00484c50(unsigned int, unsigned int);
     void ApplyFormFlags(unsigned int, unsigned int);
@@ -3826,12 +3826,12 @@ void TESFormStub::ApplyFormFlags(unsigned int aiFlags, unsigned int aiCurrentFla
 {
     reinterpret_cast<::form_load_legacy::TESFormLoadProxy *>(this)->FUN_00484c50(aiFlags, aiCurrentFlags);
     if (aiFlags & 0x80000000)
-        ((unsigned int*)((char*)this + 0x1c))[0] |= 0x8000;
+        flags |= 0x8000;
     if (aiFlags & 0x40000000)
-        ((unsigned int*)((char*)this + 0x1c))[0] |= 0x10000;
+        flags |= 0x10000;
 }
 
-struct FUN_0067a410_shell
+struct FUN_0067a410_shell : public TESPackage
 {
     void SetFlag400000(bool enabled);
 };
@@ -3839,7 +3839,7 @@ struct FUN_0067a410_shell
 // @fnv 0x0067a410
 void FUN_0067a410_shell::SetFlag400000(bool enabled)
 {
-    enabled ? *(unsigned int*)((char*)this + 0x1c) |= 0x400000 : *(unsigned int*)((char*)this + 0x1c) &= ~0x400000;
+    enabled ? flags |= 0x400000 : flags &= ~0x400000;
 }
 
 struct FUN_0067a510_shell
@@ -3912,7 +3912,7 @@ void FUN_0067a640_shell::SetFlag200000(bool abSet)
     abSet ? m_001c |= 0x200000 : m_001c &= ~0x200000;
 }
 
-struct FUN_0067a6b0_shell
+struct FUN_0067a6b0_shell : public TESPackage
 {
     void SetFlag100000(bool flag);
 };
@@ -3920,7 +3920,7 @@ struct FUN_0067a6b0_shell
 // @fnv 0x0067a6b0
 void FUN_0067a6b0_shell::SetFlag100000(bool abSet)
 {
-    abSet ? *(int*)((char*)this + 0x1c) |= 0x100000 : *(int*)((char*)this + 0x1c) &= ~0x100000;
+    abSet ? flags |= 0x100000 : flags &= ~0x100000;
 }
 
 struct FUN_0067a7e0_shell
@@ -3942,7 +3942,7 @@ bool FUN_0067a7e0_shell::IsFlag28Clear()
     return (m_flags & 0x10000000) ? false : true;
 }
 
-struct FUN_0067a8f0_shell
+struct FUN_0067a8f0_shell : public TESPackage
 {
     void SetFlag2(bool bFlag);
 };
@@ -3951,10 +3951,10 @@ struct FUN_0067a8f0_shell
 // @fnv 0x0067a8f0
 void FUN_0067a8f0_shell::SetFlag2(bool abSet)
 {
-    abSet ? *(unsigned short*)((char*)this + 0x22) |= 2 : *(unsigned short*)((char*)this + 0x22) &= ~2;
+    abSet ? f22 |= 2 : f22 &= ~2;
 }
 
-struct FUN_0067a970_shell
+struct FUN_0067a970_shell : public TESPackage
 {
     void SetFlag4(bool value);
 };
@@ -3963,10 +3963,10 @@ struct FUN_0067a970_shell
 // @fnv 0x0067a970
 void FUN_0067a970_shell::SetFlag4(bool abSet)
 {
-    abSet ? *(unsigned short*)((char*)this + 0x22) |= 4 : *(unsigned short*)((char*)this + 0x22) &= ~4;
+    abSet ? f22 |= 4 : f22 &= ~4;
 }
 
-struct FUN_0067a9f0_shell
+struct FUN_0067a9f0_shell : public TESPackage
 {
     void SetFlag8(bool bFlag);
 };
@@ -3974,7 +3974,7 @@ struct FUN_0067a9f0_shell
 // @fnv 0x0067a9f0
 void FUN_0067a9f0_shell::SetFlag8(bool abSet)
 {
-    abSet ? ((unsigned short*)this)[0x11] |= 8 : ((unsigned short*)this)[0x11] &= ~8;
+    abSet ? f22 |= 8 : f22 &= ~8;
 }
 
 struct FUN_0067aa70_shell
@@ -4379,7 +4379,7 @@ void S::FUN_0067a800(bool b)
 }
 }  // namespace fnv_0067a800
 
-struct FUN_0067aaf0_Holder
+struct FUN_0067aaf0_Holder : public TESPackage
 {
     void FUN_0067aaf0(bool);
 };
@@ -4387,10 +4387,10 @@ struct FUN_0067aaf0_Holder
 // @fnv 0x0067aaf0
 void FUN_0067aaf0_Holder::FUN_0067aaf0(bool show)
 {
-    show ? *(unsigned short*)((char*)this + 0x22) |= 0x20 : *(unsigned short*)((char*)this + 0x22) &= ~0x20;
+    show ? f22 |= 0x20 : f22 &= ~0x20;
 }
 
-struct FUN_0067abf0_shell
+struct FUN_0067abf0_shell : public TESPackage
 {
     void FUN_0067abf0(bool);
 };
@@ -4398,7 +4398,7 @@ struct FUN_0067abf0_shell
 // @fnv 0x0067abf0
 void FUN_0067abf0_shell::FUN_0067abf0(bool show)
 {
-    show ? *(unsigned short*)((char*)this + 0x22) |= 0x80 : *(unsigned short*)((char*)this + 0x22) &= ~0x80;
+    show ? f22 |= 0x80 : f22 &= ~0x80;
 }
 
 extern int DAT_01068860;
@@ -5816,13 +5816,13 @@ void FUN_00674f30_shell::SetFlag10000(bool abSet)
 {
     if (abSet)
     {
-        *(unsigned int*)((char*)this + 0x1c) |= 0x10000;
+        reinterpret_cast<TESPackage*>(this)->flags |= 0x10000;
         if (!reinterpret_cast<::BSShaderRenderUtility *>(((*reinterpret_cast<::fnv_00674f30::DataHandler * *>(&::g_dataHandler))))->IsRenderTargetId(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0()))))
             vfn_48(0x40000000);
     }
     else
     {
-        *(unsigned int*)((char*)this + 0x1c) &= 0xfffeffff;
+        reinterpret_cast<TESPackage*>(this)->flags &= 0xfffeffff;
         if (!reinterpret_cast<::BSShaderRenderUtility *>(((*reinterpret_cast<::fnv_00674f30::DataHandler * *>(&::g_dataHandler))))->IsRenderTargetId(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0()))))
             vfn_4c(0x40000000);
     }

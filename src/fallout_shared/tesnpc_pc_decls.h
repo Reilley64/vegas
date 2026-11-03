@@ -539,6 +539,8 @@ struct Biped;
 class PlayerCharacter : public Actor
 {
   public:
+    unsigned char playerData[0x7c5 - 0x210];
+    bool unk7c5;
     TESActorBase* GetActorBase();
     BipedAnim* GetBipedAnim(bool);
 public:
@@ -673,11 +675,11 @@ class TESActorBaseData : public BaseFormComponent
     virtual unsigned int vfn_58();
     virtual void vfn_5c(unsigned int);
     ActorBaseAttributes actorData;
-    TESForm* m_pBaseTemplateForm;
-    TESForm* m_kFactionList;
-    TESForm* m_ppTemplateForms;
-    int m_pDeathItem;
-    BSSimpleList<FactionReaction*> m_pVoiceType;
+    TESForm* pDeathItem;
+    TESForm* pVoiceType;
+    TESForm* pTemplateForm;
+    int unk28;
+    BSSimpleList<FactionReaction*> factionList;
     bool GetFlag(unsigned int) const;
 public:
     void SetMatchesPCLevel(bool);
@@ -899,6 +901,12 @@ class FaceGenUndo;
 class TESRace : public TESForm
 {
   public:
+    unsigned char raceData18[0x60 - 0x18];
+    float m_fGlyphExtent[2];
+    float fWeight[2];
+    unsigned char raceData70[0x4f8 - 0x70];
+    unsigned short m_usRaceAttribute;
+    TESForm* m_apDefaultVoiceTypes[2];
     float GetHeight(SEX);
     float GetWeight(SEX);
 };

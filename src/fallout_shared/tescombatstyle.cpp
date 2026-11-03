@@ -99,7 +99,7 @@ struct FUN_004855a0_shell
 {
 };
 
-struct FUN_005053c0_shell : FUN_004855a0_shell
+struct FUN_005053c0_shell : ::TESCombatStyle
 {
     void FUN_005053c0();
 };
@@ -132,7 +132,7 @@ template <int N> struct EndianSizeTag
 typedef EndianSizeTag<0> BSIntToType0;
 
 
-struct FUN_005057a0_shell
+struct FUN_005057a0_shell : ::UInt32ChunkData
 {
     void FUN_005057a0();
 };
@@ -249,9 +249,8 @@ template <int N> struct EndianSizeTag
 };
 
 
-struct FUN_005059c0_shell
+struct FUN_005059c0_shell : ::StatsChunkData
 {
-    void* vptr;
 
     void SwapEndianFields();
 };

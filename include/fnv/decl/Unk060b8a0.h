@@ -5,5 +5,5 @@
 struct Unk060b8a0 {
 public:
     // 0x0060b8a0
-    std::intptr_t FUN_0060b8a0(std::intptr_t, int, int);
+    std::intptr_t FUN_0060b8a0(std::intptr_t, int, std::intptr_t);
 };

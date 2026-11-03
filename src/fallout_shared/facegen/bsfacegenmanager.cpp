@@ -1134,7 +1134,7 @@ struct FloatVec
 void FloatVec::PushBack(const float& afValue)
 {
     if (((unsigned int)(reinterpret_cast<::FUN_00662820_shell *>((void *)this)->FUN_00662820())) < ((unsigned int)(reinterpret_cast<::FUN_0060b860_Cls *>((void *)this)->FUN_0060b860())))
-        _Mylast = ((float *)(reinterpret_cast<::Unk060b8a0 *>(this)->FUN_0060b8a0((int)(_Mylast), 1, (int)&(afValue))));
+        _Mylast = ((float *)(reinterpret_cast<::Unk060b8a0 *>(this)->FUN_0060b8a0((std::intptr_t)(_Mylast), 1, (std::intptr_t)&(afValue))));
     else
         FUN_00657c50((*(::VIterD *)(reinterpret_cast<::fnv_0065f550::FUN_0065f550_Class *>(this)->CallWithSelf({}))), afValue);
 }

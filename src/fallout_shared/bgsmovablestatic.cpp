@@ -182,7 +182,7 @@ struct FUN_00485e00_shell
 struct SoundH
 {
 };
-struct FUN_004fbf20_shell
+struct FUN_004fbf20_shell : ::BGSMovableStatic
 {
     void Destroy();
 };
@@ -576,13 +576,13 @@ void FUN_004fbf20_shell::Destroy()
     reinterpret_cast<::FUN_0048a520_shell *>((((DoorPart3c*)((char*)this + 0x30))))->ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);
     reinterpret_cast<::FUN_00477f20_shell *>((((DoorPart68*)((char*)this - 8))))->FUN_00477f20();
     if (((bool)(::FUN_00401500())))
-        reinterpret_cast<::TESForm *>((((Date*)((char*)this + 0x5c))))->ClearData();
-    reinterpret_cast<::SDSaveForm *>((((FUN_00485e00_shell*)this)))->FUN_00485e20((Date*)((char*)this + 0x5c), 1);
+        reinterpret_cast<::TESForm *>((((Date*)&this->_pdbpad_5c[0])))->ClearData();
+    reinterpret_cast<::SDSaveForm *>((((FUN_00485e00_shell*)this)))->FUN_00485e20((Date*)&this->_pdbpad_5c[0], 1);
     if (((bool)(::FUN_00401500())))
-        reinterpret_cast<::TESForm *>((((Date*)((char*)this + 0x5c))))->ClearData();
-    if (*(void**)((char*)this + 0x58))
+        reinterpret_cast<::TESForm *>((((Date*)&this->_pdbpad_5c[0])))->ClearData();
+    if (*(void**)&this->m_pSoundEffect)
     {
-        itempint = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(((*(SoundH**)((char*)this + 0x58))))->FUN_0084e3a0()));
+        itempint = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(((*(SoundH**)&this->m_pSoundEffect)))->FUN_0084e3a0()));
         ::FUN_00485910(0x4d414e53, itempint);
     }
     reinterpret_cast<::Holder *>((((FUN_00485680*)this)))->FUN_00485680();

@@ -982,7 +982,7 @@ struct FUN_005230f0_shell : TESObjectWEAP {
 void FUN_005230f0_shell::FUN_005230f0(BGSSaveFormBuffer* buffer)
 {
     reinterpret_cast<::FakeForm *>((reinterpret_cast<FUN_00484d60_holder*>(this)))->SaveIfChanged(buffer);
-    reinterpret_cast<::fnv_0048ea40::TESValueForm *>((reinterpret_cast<FUN_0048ea40_holder*>(reinterpret_cast<char*>(this) + 0x84)))->FUN_0048ea40((::fnv_0048ea40::BGSSaveFormBuffer *)(buffer));
+    reinterpret_cast<::fnv_0048ea40::TESValueForm *>((reinterpret_cast<FUN_0048ea40_holder*>(static_cast<TESValueForm *>(this))))->FUN_0048ea40((::fnv_0048ea40::BGSSaveFormBuffer *)(buffer));
 }
 
 struct FUN_00524cd0_shell
@@ -1051,9 +1051,9 @@ struct FUN_00524b80_This : TESObjectWEAP { float FUN_00524b80(bool); };
 float FUN_00524b80_This::FUN_00524b80(bool abApplyMod)
 {
 	if (abApplyMod)
-		return FUN_00404010(0.0f, *(float*)((char*)this + 0x104) - reinterpret_cast<::FUN_004bcf60_shell *>(this)->GetEffectValue((*(int *)&(const ::WEAPON_MOD_EFFECT &)(WEAPON_MOD_EFFECT_WEAPON_MOD_DECREASE_SPREAD)), 0));
+		return FUN_00404010(0.0f, this->data.m_fMinimumSpread - reinterpret_cast<::FUN_004bcf60_shell *>(this)->GetEffectValue((*(int *)&(const ::WEAPON_MOD_EFFECT &)(WEAPON_MOD_EFFECT_WEAPON_MOD_DECREASE_SPREAD)), 0));
 	else
-		return *(float*)((char*)this + 0x104);
+		return this->data.m_fMinimumSpread;
 }
 
 struct FUN_00524be0_shell : TESObjectWEAP { float FUN_00524be0(bool); };
@@ -1062,9 +1062,9 @@ struct FUN_00524be0_shell : TESObjectWEAP { float FUN_00524be0(bool); };
 float FUN_00524be0_shell::FUN_00524be0(bool abApplyMod)
 {
 	if (abApplyMod)
-		return FUN_00404010(0.0f, *(float *)((char *)this + 0x108) - reinterpret_cast<::FUN_004bcf60_shell *>(this)->GetEffectValue((*(int *)&(const ::WEAPON_MOD_EFFECT &)(WEAPON_MOD_EFFECT_WEAPON_MOD_DECREASE_SPREAD)), 0));
+		return FUN_00404010(0.0f, this->data.fBodyPartChance - reinterpret_cast<::FUN_004bcf60_shell *>(this)->GetEffectValue((*(int *)&(const ::WEAPON_MOD_EFFECT &)(WEAPON_MOD_EFFECT_WEAPON_MOD_DECREASE_SPREAD)), 0));
 	else
-		return *(float *)((char *)this + 0x108);
+		return this->data.fBodyPartChance;
 }
 
 namespace fnv_00524c40 {

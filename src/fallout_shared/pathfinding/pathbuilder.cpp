@@ -702,16 +702,16 @@ int FUN_006cc5e0_shell::FUN_006cc5e0(PathingLocation* aStartLocation, PathingLoc
     bool bAddNodesFromNavMeshIncomplete = false;
     int imaxPassCount = ((int)(::std::uintptr_t)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>((((PathingRequestS*)pRequest)))->FUN_008cdd90()));
     ::ClampInt(&imaxPassCount, 1, 10);
-    reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((((NavMeshInfoArrayS*)((char*)this + 0x14))))->Clear(false);
-    reinterpret_cast<::FUN_0042f9c0_Class *>((((NavMeshArrayS*)((char*)this + 0x24))))->FUN_0042f9c0(0);
+    reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((((NavMeshInfoArrayS*)&this->DetailedPathInfoList)))->Clear(false);
+    reinterpret_cast<::FUN_0042f9c0_Class *>((((NavMeshArrayS*)&this->DetailedPathMeshList)))->FUN_0042f9c0(0);
 
     for (unsigned int i = 0; i < ((int)(::FUN_005a4320((char *)(m_pOutputSolution)))); ++i)
     {
         NavMeshPtrS spmesh;
         if (reinterpret_cast<::PathingLocation *>(&((*(::fnv_006cc5e0::PathingLocationS *)(reinterpret_cast<::BaseProcess *>((((::fnv_006cc5e0::PacketNodeRecord *)(reinterpret_cast<::FUN_006e78b0_shell *>((((PathingSolutionS*)m_pOutputSolution)))->FUN_006e78b0(i)))))->GetCurrentProcessData()))))->ResolveNavMesh((::NavMeshPtr &)(spmesh)))
         {
-            reinterpret_cast<::S2f850 *>((((NavMeshArrayS*)((char*)this + 0x24))))->AppendValue((NavMeshPtr&)spmesh);
-            reinterpret_cast<::FUN_00438690 *>((((NavMeshInfoArrayS*)((char*)this + 0x14))))->FUN_007cb2e0((unsigned int *)&(const ::NavMeshInfo *const &)(reinterpret_cast<::FUN_0068efb0_shell *>((((FUN_0068efb0_shell*)(NavMesh*)spmesh)))->FUN_0068efb0()));
+            reinterpret_cast<::S2f850 *>((((NavMeshArrayS*)&this->DetailedPathMeshList)))->AppendValue((NavMeshPtr&)spmesh);
+            reinterpret_cast<::FUN_00438690 *>((((NavMeshInfoArrayS*)&this->DetailedPathInfoList)))->FUN_007cb2e0((unsigned int *)&(const ::NavMeshInfo *const &)(reinterpret_cast<::FUN_0068efb0_shell *>((((FUN_0068efb0_shell*)(NavMesh*)spmesh)))->FUN_0068efb0()));
         }
     }
 
@@ -725,8 +725,8 @@ int FUN_006cc5e0_shell::FUN_006cc5e0(PathingLocation* aStartLocation, PathingLoc
             {
                 if (((NavMeshArrayS*)((char*)this + 0x24))->Find(loadedNavmeshes.GetAt(i), 0, ((bool (&)(const NavMeshPtr &, const NavMeshPtr &))::FUN_0042ff10)) == -1)
                 {
-                    reinterpret_cast<::S2f850 *>((((NavMeshArrayS*)((char*)this + 0x24))))->AppendValue(loadedNavmeshes.GetAt(i));
-                    reinterpret_cast<::FUN_00438690 *>((((NavMeshInfoArrayS*)((char*)this + 0x14))))->FUN_007cb2e0((unsigned int *)&(const ::NavMeshInfo *const &)(reinterpret_cast<::FUN_0068efb0_shell *>((((FUN_0068efb0_shell*)(NavMesh*)(NavMeshPtrS&)loadedNavmeshes.GetAt(i))))->FUN_0068efb0()));
+                    reinterpret_cast<::S2f850 *>((((NavMeshArrayS*)&this->DetailedPathMeshList)))->AppendValue(loadedNavmeshes.GetAt(i));
+                    reinterpret_cast<::FUN_00438690 *>((((NavMeshInfoArrayS*)&this->DetailedPathInfoList)))->FUN_007cb2e0((unsigned int *)&(const ::NavMeshInfo *const &)(reinterpret_cast<::FUN_0068efb0_shell *>((((FUN_0068efb0_shell*)(NavMesh*)(NavMeshPtrS&)loadedNavmeshes.GetAt(i))))->FUN_0068efb0()));
                 }
             }
         }
@@ -1048,8 +1048,8 @@ struct FUN_006cef10_shell : S5460
 // @fnv 0x006c90d0
 void* FUN_006c90d0_fix::FUN_006c90d0(const PathingInfoEntry& aItem)
 {
-    void* v1 = ((void *)(::std::uintptr_t)(reinterpret_cast<::FUN_006cef10_shell *>((((PathBuilder*)((char*)this + 8))))->AdvanceCounter()));
-    void* v2 = ((void *)(reinterpret_cast<::FUN_006e8f40_shell *>((((PathBuilder*)((char*)this + 8))))->FUN_006e8f40((::std::intptr_t)(v1))));
+    void* v1 = ((void *)(::std::uintptr_t)(reinterpret_cast<::FUN_006cef10_shell *>((((PathBuilder*)&this->m_pAllocator)))->AdvanceCounter()));
+    void* v2 = ((void *)(reinterpret_cast<::FUN_006e8f40_shell *>((((PathBuilder*)&this->m_pAllocator)))->FUN_006e8f40((::std::intptr_t)(v1))));
     new (v2) Item48(aItem);
     return v1;
 }

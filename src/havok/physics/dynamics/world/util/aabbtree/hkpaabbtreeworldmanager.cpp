@@ -2618,7 +2618,6 @@ __declspec(noinline) bool UpdateState::CheckCollidables(NodeArrayBase& output) {
 #include <xmmintrin.h>
 #include "fnv/symbols_simd.h"
 
-void __cdecl FUN_00c908c0(hkMemoryAllocator* alloc, void* arr, int newCap, int elemSize);
 
 struct S00d09020_Vec
 {
@@ -2702,7 +2701,7 @@ template <class T> struct S00d09020_Arr
         if (cap < n)
         {
             int c = cap * 2;
-            FUN_00c908c0(&a, this, n < c ? c : n, sizeof(T));
+            ::FUN_00c908c0((::SpawnedObject *)(&a), (::SpawnedArray *)(void *)(this), n < c ? c : n, sizeof(T));
         }
     }
     void SetSizeAndGrow(int n)

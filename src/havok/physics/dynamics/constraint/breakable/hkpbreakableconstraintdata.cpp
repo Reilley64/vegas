@@ -16,15 +16,24 @@
 #include "fnv/symbols_01269000.h"
 #include "havok/hkpBreakableConstraintData.h"
 
-struct FUN_00d4de80_class
+struct FUN_00d4de80_class : hkpBreakableConstraintData
 {
     void FUN_00d4de80(int, void* out);
 };
+// hkpConstraintData::RuntimeInfo as this function fills it.
+struct BreakableRuntimeInfo
+{
+    int m_sizeOfExternalRuntime;
+    int m_numSolverResults;
+};
+// Bytes of the breakable data's own runtime in front of the child's runtime.
+static const int kBreakableRuntimeBytes = 0x34;
 // @fnv 0x00d4de80
 void FUN_00d4de80_class::FUN_00d4de80(int, void* out)
 {
-    ((int*)out)[1] = *(unsigned short*)((char*)this + 0x1e);
-    ((int*)out)[0] = *(unsigned short*)((char*)this + 0x1c) + 0x34;
+    BreakableRuntimeInfo* info = static_cast<BreakableRuntimeInfo*>(out);
+    info->m_numSolverResults = m_usNumSolverResults;
+    info->m_sizeOfExternalRuntime = m_usRuntimeOffset + kBreakableRuntimeBytes;
 }
 
 struct GenericConstraintAtomScheme
@@ -34,20 +43,18 @@ struct GenericConstraintAtomScheme
     int m_usSizeOfAllAtoms;  // +0x14
 };
 
-struct FUN_00d4de50_class
+struct FUN_00d4de50_class : hkpBreakableConstraintData
 {
-    char pad[0x18];
-    void* m_pHavokConstraint;  // +0x18
     void PopulateInfo(GenericConstraintAtomScheme* info);
 };
 
 // @fnv 0x00d4de50
 void FUN_00d4de50_class::PopulateInfo(GenericConstraintAtomScheme* info)
 {
-    ((void(*)(void*, GenericConstraintAtomScheme*))((*(void***)m_pHavokConstraint)[0x3c / 4]))(
-        m_pHavokConstraint, info);
-    info->m_kBridgeAtoms = (char*)this + 0xc;
-    info->m_usSizeOfAllAtoms = 0xc;
+    ((void(*)(void*, GenericConstraintAtomScheme*))((*(void***)m_pConstraintData)[0x3c / 4]))(
+        m_pConstraintData, info);
+    info->m_kBridgeAtoms = &m_kBridgeAtoms;
+    info->m_usSizeOfAllAtoms = int(sizeof(hkpBridgeAtoms));
 }
 
 struct FUN_00d4dea0_object

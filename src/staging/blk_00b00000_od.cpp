@@ -13,7 +13,6 @@
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
 #include "fnv/decl/FUN_00aff090_cls.h"
-#include "fnv/decl/FUN_00b02860.h"
 #include "fnv/decl/FUN_00b0cff0_class.h"
 #include "fnv/decl/FileNameComponents.h"
 #include "fnv/decl/MemoryManagerStandIn.h"
@@ -36,6 +35,21 @@
 #include "fnv/symbols_01140000.h"
 #include "fnv/symbols_011f6000.h"
 #include "../../include/layout_support.h"
+#include "fnv/decl/FUN_00b12790_class.h"
+#include "fnv/decl/FUN_00b16890_It.h"
+#include "fnv/decl/FUN_00b2e330_It.h"
+#include "fnv/decl/FUN_00b37ad0_class.h"
+#include "fnv/decl/FUN_00b3f130_shell.h"
+#include "fnv/decl/IndexSet.h"
+#include "fnv/decl/fnv_0044a730__FUN_0044a730_cls.h"
+#include "fnv/decl/fnv_00b13c10__Host.h"
+#include "fnv/decl/fnv_00b1fca0__tidyb1f__T1Vector.h"
+#include "fnv/symbols_0044d000.h"
+#include "fnv/symbols_0065f000.h"
+#include "fnv/symbols_00b13000.h"
+#include "fnv/symbols_00b23000.h"
+#include "fnv/symbols_00b36000.h"
+#include "fnv/symbols_011f8000.h"
 
 struct FUN_00b007d0_shell
 {
@@ -345,17 +359,24 @@ extern int DAT_010a48ac;
 
 struct FUN_00b01f00_class
 {
+    const void* vtable;
+    char pad04[0x8];
+    HANDLE threadHandle;
+    char pad10[0x44];
+    CRITICAL_SECTION lock;
+    char pad6c[0x204];
+    HANDLE eventHandle;
     void DestroyAndFreeLibraries();
 };
 
 // @fnv 0x00b01f00
 void FUN_00b01f00_class::DestroyAndFreeLibraries()
 {
-    *(int*)this = (int)&DAT_010a4880;
-    CloseHandle(*(void**)((char*)this + 0x270));
-    DeleteCriticalSection((void*)((char*)this + 0x54));
-    *(int*)this = (int)&DAT_010a48ac;
-    CloseHandle(*(void**)((char*)this + 0xc));
+    vtable = &DAT_010a4880;
+    CloseHandle(eventHandle);
+    DeleteCriticalSection(&lock);
+    vtable = &DAT_010a48ac;
+    CloseHandle(threadHandle);
 }
 
 struct MemoryManager
@@ -366,14 +387,6 @@ struct FUN_00b02970
     void* DeleteThis(unsigned int flags);
     void FUN_00b02860();
 };
-// @fnv 0x00b02970
-void* FUN_00b02970::DeleteThis(unsigned int flags)
-{
-    reinterpret_cast<::FUN_00b02860 *>(this)->FUN_00b02860::~FUN_00b02860();
-    if (flags & 1)
-        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(this);
-    return this;
-}
 
 namespace fnv_00b0e7f0 {
 struct MemoryManager
@@ -718,17 +731,17 @@ struct FUN_00b01510_cls
     virtual void vfn_3();
     virtual void vfn_4();
     virtual void vfn_5();
-    virtual int vfn_6(char* data);
+    virtual const char* vfn_6();
     bool FUN_00b01510(int arg);
 };
 
 // @fnv 0x00b01510
 bool FUN_00b01510_cls::FUN_00b01510(int aiUnused)
 {
-    char data[0x140];
-    int handle = FindFirstFileA((const char*)vfn_6(data));
+    WIN32_FIND_DATAA data;
+    HANDLE handle = FindFirstFileA(vfn_6(), &data);
     bool ok;
-    if (handle == -1)
+    if (handle == INVALID_HANDLE_VALUE)
     {
         ok = false;
     }
@@ -1194,23 +1207,6 @@ bool FUN_00b17e90_cls::ResizeArray(unsigned int count)
 }
 
 namespace fnv_00b00980 {
-#include <windows.h>
-#include "fnv/decl/FUN_00b12790_class.h"
-#include "fnv/decl/FUN_00b15600_cls.h"
-#include "fnv/decl/FUN_00b16890_It.h"
-#include "fnv/decl/FUN_00b2e330_It.h"
-#include "fnv/decl/FUN_00b37ad0_class.h"
-#include "fnv/decl/FUN_00b3f130_shell.h"
-#include "fnv/decl/IndexSet.h"
-#include "fnv/decl/fnv_0044a730__FUN_0044a730_cls.h"
-#include "fnv/decl/fnv_00b13c10__Host.h"
-#include "fnv/decl/fnv_00b1fca0__tidyb1f__T1Vector.h"
-#include "fnv/symbols_0044d000.h"
-#include "fnv/symbols_0065f000.h"
-#include "fnv/symbols_00b13000.h"
-#include "fnv/symbols_00b23000.h"
-#include "fnv/symbols_00b36000.h"
-#include "fnv/symbols_011f8000.h"
 
 extern unsigned int DAT_011f826c;
 extern CRITICAL_SECTION DAT_011f8254;
@@ -1320,7 +1316,7 @@ void StripBuilder::BuildStripIndices(unsigned short ausStripId, StripDestination
         unsigned short* step;
         int indices = (rows - 1) * (2 * position + 4);
         step = new unsigned short[indices];
-        reinterpret_cast<::Target *>((destination))->FUN_00b2fdc0(ausStripId, (unsigned int)(step), (unsigned short)indices);
+        reinterpret_cast<::Target *>((destination))->FUN_00b2fdc0(ausStripId, step, (unsigned short)indices);
         int count = 0;
         float index = 0.0f;
         for (int row = 0; row < rows - 1; row++)
@@ -1406,8 +1402,6 @@ WStr& WStr::Append(const wchar_t* awcText)
     return *this;
 }
 
-int strcpy_s(char* d, unsigned int n, const char* s);
-
 struct DirFileTime
 {
     unsigned int dwLowDateTime;
@@ -1469,7 +1463,7 @@ void CollectDirectoryEntries(const char* pattern, const char* path, BSSimpleList
                 }
             }
         } while (DAT_00fdf068(hFind9, &findData_2));
-        FindClose((int)hFind9);
+        FindClose(hFind9);
     }
 }
 
@@ -1604,18 +1598,7 @@ CopyElem12* __cdecl FUN_00b17b40(CopyElem12* src, CopyElem12* srcEnd, CopyElem12
     return dst;
 }
 
-typedef void* HANDLE;
-typedef unsigned long DWORD;
 typedef DWORD(* ThreadStartFn)(void*);
-struct CRITICAL_SECTION
-{
-    void* DebugInfo;
-    long LockCount;
-    long RecursionCount;
-    void* OwningThread;
-    void* LockSemaphore;
-    unsigned long SpinCount;
-};
 
 struct BSSemaphoreStandIn
 {
@@ -1883,24 +1866,6 @@ void FUN_00b15600_cls::FUN_00b15600()
     m_14 = 0;
 }
 
-struct _FILETIME
-{
-    unsigned long dwLowDateTime;
-    unsigned long dwHighDateTime;
-};
-struct _WIN32_FIND_DATAA
-{
-    unsigned long dwFileAttributes;
-    _FILETIME ftCreationTime;
-    _FILETIME ftLastAccessTime;
-    _FILETIME ftLastWriteTime;
-    unsigned long nFileSizeHigh;
-    unsigned long nFileSizeLow;
-    unsigned long dwReserved0;
-    unsigned long dwReserved1;
-    char cFileName[260];
-    char cAlternateFileName[14];
-};
 struct FUN_00afd390_class
 {
     const char* text;
@@ -1919,7 +1884,7 @@ int DirectoryArchive::FUN_00b01590(const char* root, const char* directory, cons
     char next[260];
     char data2[260];
     _WIN32_FIND_DATAA data5;
-    int state;
+    HANDLE state;
     bool current;
     unsigned char result;
     FUN_00afd390_class meshName3;
@@ -1929,7 +1894,7 @@ int DirectoryArchive::FUN_00b01590(const char* root, const char* directory, cons
     fnv::crt::strcat_s(next, 260, directory);
     fnv::crt::strcat_s(next, 260, "*.*");
     state = FindFirstFileA(next, &data5);
-    if (state == -1)
+    if (state == INVALID_HANDLE_VALUE)
         return 0;
     current = true;
     strcpy_s(data2, 260, directory);
@@ -1975,27 +1940,25 @@ bool FUN_00b01b60(const char* path, DirFileTime* apOutTime)
     if (h != reinterpret_cast<void*>(-1))
     {
         *apOutTime = findData.ftLastWriteTime;
-        FindClose(reinterpret_cast<int>(h));
+        FindClose(h);
         return true;
     }
     return false;
 }
 
-typedef int(* FindFirstFileAFn)(const char* pattern, _WIN32_FIND_DATAA* findData);
-typedef int(* FindFirstFileA1Fn)(const char* pattern);
 
 // Checks whether a file matching the given pattern exists by calling FindFirstFileA and closing the handle immediately.
 // @fnv 0x00b01af0
 bool __cdecl FUN_00b01af0(const char* pattern)
 {
     _WIN32_FIND_DATAA findData;
-    HANDLE handle = (HANDLE)((FindFirstFileAFn)(FindFirstFileA1Fn)&FindFirstFileA)(pattern, &findData);
+    HANDLE handle = FindFirstFileA(pattern, &findData);
     {
         bool found;
         if (handle != (HANDLE)-1)
         {
             found = true;
-            FindClose((int)handle);
+            FindClose(handle);
         }
         else
         {
@@ -2042,7 +2005,6 @@ struct FUN_00b108e0_err
 
 void* __cdecl AllocatePoolArray(unsigned int count);
 
-extern double DAT_010a4d90;
 
 void __cdecl FUN_00b17c20(BB17790Iterator kFirst, BB17790Iterator kLast, int* piDest, void* pvAllocator,
                           BB17790PtrCategory kCategory, BB17790CheckedTag kChecked);
@@ -2070,15 +2032,10 @@ struct HandleHolderB0
 
 struct CSHolderB0
 {
-    int m_debugInfo;
-    int m_lLockCount;
-    int m_recursionCount;
-    int m_owningThread;
-    int m_lockSemaphore;
-    int m_spinCount;
+    CRITICAL_SECTION m_cs;
     ~CSHolderB0()
     {
-        DeleteCriticalSection(&m_debugInfo);
+        DeleteCriticalSection(&m_cs);
     }
 };
 
@@ -2120,6 +2077,15 @@ FUN_00b02860::~FUN_00b02860()
         if (!bStopped)
             ((FUN_00b02860*)rRef.m_r->m_p)->Stop(0);
     }
+}
+
+// @fnv 0x00b02970
+void* FUN_00b02970::DeleteThis(unsigned int flags)
+{
+    reinterpret_cast<::FUN_00b02860 *>(this)->FUN_00b02860::~FUN_00b02860();
+    if (flags & 1)
+        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(this);
+    return this;
 }
 
 struct B0E1A0Base
@@ -2290,7 +2256,7 @@ template <class T> struct Allocator
 {
     __forceinline void deallocate(T* pointer, unsigned int count)
     {
-        ::FUN_00401030 delete(pointer);
+        operator delete(pointer);
     }
 };
 
@@ -3567,7 +3533,7 @@ ItQ_ab9bc0 VecQ_ab9bc0::FUN_00b0e880(CItQ_ab9bc0 _Where, const ElQ_ab9bc0& _Val)
 
 // namespace fnv_00b0e880
 
-namespace std {
+namespace vc9_std {
 class exception
 {
   public:
@@ -3612,7 +3578,7 @@ template <class T> class allocator
     }
     void deallocate(T* p, unsigned int)
     {
-        ::FUN_00401030 delete(p);
+        operator delete(p);
     }
     unsigned int max_size() const throw()
     {
@@ -3626,7 +3592,7 @@ unsigned int __cdecl stringLength(const char*);
 
 int __cdecl stringCopy(void*, unsigned int, const void*, unsigned int);
 
-namespace std {
+namespace vc9_std {
 template <class E> struct char_traits
 {
     typedef E char_type;
@@ -3822,7 +3788,7 @@ typedef basic_string<char, char_traits<char>, allocator<char> > string;
 
 extern char DAT_010173c4[];
 
-namespace std {
+namespace vc9_std {
 class logic_error : public exception
 {
     string text;
@@ -3854,12 +3820,12 @@ struct B0E9Base
 
 struct B0E9Proxy : B0E9Base
 {
-    std::allocator<int> auxAlloc;
+    vc9_std::allocator<int> auxAlloc;
 };
 
 struct B0E9Vec : B0E9Proxy
 {
-    std::allocator<B0E9Rec> alval;
+    vc9_std::allocator<B0E9Rec> alval;
     B0E9Rec* first;
     B0E9Rec* last;
     B0E9Rec* end;
@@ -3869,7 +3835,7 @@ struct B0E9Vec : B0E9Proxy
     }
     static void Xlen()
     {
-        throw std::length_error(std::string(DAT_010173c4));
+        throw vc9_std::length_error(vc9_std::string(DAT_010173c4));
     }
     bool FUN_00b0e9c0(unsigned int capacity);
 };
@@ -5289,20 +5255,6 @@ FUN_00b104f0_It& FUN_00b104f0_It::FUN_00b104f0(int _Off)
     return *this;
 }
 
-inline Mat3 Mat3::Multiply(const Mat3& rhs) const
-{
-    Mat3 result;
-    result.m00 = m00 * rhs.m00 + m01 * rhs.m10 + m02 * rhs.m20;
-    result.m01 = m00 * rhs.m01 + m01 * rhs.m11 + m02 * rhs.m21;
-    result.m02 = m00 * rhs.m02 + m01 * rhs.m12 + m02 * rhs.m22;
-    result.m10 = m10 * rhs.m00 + m11 * rhs.m10 + m12 * rhs.m20;
-    result.m11 = m10 * rhs.m01 + m11 * rhs.m11 + m12 * rhs.m21;
-    result.m12 = m10 * rhs.m02 + m11 * rhs.m12 + m12 * rhs.m22;
-    result.m20 = m20 * rhs.m00 + m21 * rhs.m10 + m22 * rhs.m20;
-    result.m21 = m20 * rhs.m01 + m21 * rhs.m11 + m22 * rhs.m21;
-    result.m22 = m20 * rhs.m02 + m21 * rhs.m12 + m22 * rhs.m22;
-    return result;
-}
 
 struct Mat3Rot : Mat3
 {
@@ -5360,7 +5312,6 @@ namespace fnv_00b13100 {
 extern "C" double __cdecl FUN_00ec6054(double);
 extern "C" double __cdecl FUN_00ec9f30(double);
 extern "C" double __cdecl FUN_00eca060(double);
-extern double DAT_010a4d90;
 template <class T> inline const T& max_value(const T& _Left, const T& _Right)
 {
     return _Left < _Right ? _Right : _Left;
@@ -5547,7 +5498,7 @@ void Effect::FUN_00b13100(ParentNode* node, float amount, unsigned int index, co
         towardParent = transforms[1].position.FUN_00b13040(origin);
     }
     reinterpret_cast<::FUN_00b12790_class *>(&(towardParent))->FUN_00b12790();
-    reinterpret_cast<::fnv_00b13c10::Host *>(this)->FUN_00b13c10((int)&(transforms[1].position), time, (::Link *)(::fnv_00b13100::Effect *)(this), (::fnv_00b13c10::MathPoint *)&(forward), (::fnv_00b13c10::MathPoint *)&(towardParent), speed, mode, (void *)(flags));
+    reinterpret_cast<::fnv_00b13c10::Host *>(this)->FUN_00b13c10((void *)&(transforms[1].position), time, (::Link *)(::fnv_00b13100::Effect *)(this), (::fnv_00b13c10::MathPoint *)&(forward), (::fnv_00b13c10::MathPoint *)&(towardParent), speed, mode, (void *)(flags));
     DeadEnd();
 }
 }
@@ -7745,6 +7696,19 @@ E6EC0* __cdecl FUN_00b16ec0(E6EC0* _First, E6EC0* _Last, E6EC0* _Dest, random_ac
 
 // namespace fnv_00b16ec0
 
+inline float keyOf(SortEntry* entry)
+{
+    return entry->key;
+}
+
+struct SortPred
+{
+    bool operator()(SortEntry* left, SortEntry* right) const
+    {
+        return keyOf(left) < keyOf(right);
+    }
+};
+
 struct SortPredicate
 {
     __forceinline bool operator()(SortEntry* const& left, SortEntry* const& right) const
@@ -8329,18 +8293,6 @@ void __cdecl FUN_00b174c0(NodeD10** _First, NodeD10** _Last, CompareD10 _Pred)
 
 // namespace fnv_00b174c0
 
-inline float keyOf(SortEntry* entry)
-{
-    return entry->key;
-}
-
-struct SortPred
-{
-    bool operator()(SortEntry* left, SortEntry* right) const
-    {
-        return keyOf(left) < keyOf(right);
-    }
-};
 
 template <class T> inline void swapValues(T& left, T& right)
 {
@@ -9000,7 +8952,7 @@ void __cdecl FUN_00b17980(NodeD10** _First, int _Hole, int _Bottom, NodeD10* _Va
         *(_First + _Hole) = *(_First + (_Bottom - 1));
         _Hole = _Bottom - 1;
     }
-    ::FUN_00b17d10((::NodeD10 **)(_First), _Hole, _Top, (::NodeD10 *)(_Val), (*(::CompareD10 *)&(const ::fnv_00b17980::CompareD10 &)(_Pred)));
+    _Push_heapS(_First, _Hole, _Top, _Val, _Pred);
 }
 }
 
@@ -13190,7 +13142,6 @@ unsigned char* __cdecl FUN_00b10d60(unsigned char* _First, unsigned char* _Last,
 
 // namespace fnv_00b10d60
 
-extern double DAT_010a4d90;
 
 struct S_00b134d0_Mat : FUN_00b12af0_shell
 {
@@ -15055,6 +15006,7 @@ template <class _Ty> class vectorS : public _Vector_valS<_Ty>
 template <class _InIt, class _FwdIt, class _Alloc>
 _FwdIt _Uninit_copyS(_InIt _First, _InIt _Last, _FwdIt _Dest, _Alloc& _Al, _Nonscalar_ptr_iterator_tagS,
                      _Range_checked_iterator_tagS);
+struct ElemMOVE;
 template <class _InIt, class _FwdIt, class _Alloc>
 inline _FwdIt unchecked_uninitialized_copyS(_InIt _First, _InIt _Last, _FwdIt _Dest, _Alloc& _Al)
 {
@@ -17060,17 +17012,17 @@ struct StorageProxy
 
 template <class A> struct ProxyStorage : StorageBase
 {
-    std::allocator<StorageProxy> proxyAllocator;
+    vc9_std::allocator<StorageProxy> proxyAllocator;
     explicit ProxyStorage(A a) : proxyAllocator(a)
     {
         proxy = new (proxyAllocator.allocate(1)) StorageProxy(this);
     }
 };
 
-template <class T> struct VectorAllocStorage : ProxyStorage<std::allocator<T> >
+template <class T> struct VectorAllocStorage : ProxyStorage<vc9_std::allocator<T> >
 {
-    std::allocator<T> allocator;
-    VectorAllocStorage(std::allocator<T> a = std::allocator<T>()) : ProxyStorage<std::allocator<T> >(a), allocator(a)
+    vc9_std::allocator<T> allocator;
+    VectorAllocStorage(vc9_std::allocator<T> a = vc9_std::allocator<T>()) : ProxyStorage<vc9_std::allocator<T> >(a), allocator(a)
     {}
 };
 
@@ -17121,7 +17073,7 @@ template <class T> struct VectorLike : VectorAllocStorage<T>
     }
     static void _Xlen()
     {
-        throw std::length_error(std::string(DAT_010173c4));
+        throw vc9_std::length_error(vc9_std::string(DAT_010173c4));
     }
 };
 
@@ -17172,7 +17124,7 @@ struct SplineCurve
     int unk7C;
     int unk80;
 
-    SplineCurve(const std::string& text);
+    SplineCurve(const vc9_std::string& text);
 };
 
 class FUN_00b17fd0
@@ -17204,7 +17156,7 @@ FUN_00b17fd0::FUN_00b17fd0()
     : unk00(0), unk04(0), unk38(1), unk3C(2), unk44(4), unk48(1), unk4C(false), unk68(4), unk6C(1.0f), unk70(0.0f),
       unk74(0.0f), unk78(0.05f), unk7C(2), unk80(1)
 {
-    curve40 = new SplineCurve(std::string(
+    curve40 = new SplineCurve(vc9_std::string(
         "BezierSpline 0.0 1.0 0.0 { 3 0 0.00138887 0.337009 0.941501 0.132767 0.493215 0.998903 1 0.00102074 0.23702 1 -6.24607e-008 0.307222 -0.951638 0.126974 }"));
 }
 

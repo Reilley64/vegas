@@ -3,6 +3,7 @@
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
 #include "fnv/symbols_00c85000.h"
+#include "havok/hkMemoryRouter.h"
 #include "../../include/layout_support.h"
 #include <d3d9.h>
 #include "fnv/decl/FUN_005609f0_shell.h"
@@ -1074,15 +1075,6 @@ struct FUN_00e611d0_Object
     const void* unk18;
 };
 
-struct FUN_00c85750_Result
-{
-    char* unk00;
-    void* unk04;
-    void* unk08;
-    void* unk0C;
-    void* unk10;
-};
-
 
 // Switches on object->unk14: case 0 calls AppendIndexSequence with object fields and value; case 1 calls AppendIndices when unk00 is 3 or 4.
 // @fnv 0x00e611d0
@@ -1091,8 +1083,8 @@ void __cdecl FUN_00e611d0(FUN_00e611d0_Object* object, intptr_t value)
     switch (object->unk14)
     {
     case 0: {
-        FUN_00c85750_Result* result = static_cast<FUN_00c85750_Result*>(::FUN_00c85750());
-        ::AppendIndexSequence(object->unk00, object->unk08, object->unk0C, (::IndexArray *)(value), (void *)(result->unk10));
+        hkMemoryRouter* result = &hkMemoryRouter::getInstance();
+        ::AppendIndexSequence(object->unk00, object->unk08, object->unk0C, (::IndexArray *)(value), (void *)(result->m_heap));
         break;
     }
 
@@ -6470,10 +6462,6 @@ AdditionalDepthData* __cdecl CreateDepthBufferData(AdditionalDepthDevice* device
     return 0;
 }
 
-struct IndexAllocator
-{
-    int unk00;
-};
 struct IndexArray;
 
 struct IndexArray
@@ -6489,8 +6477,8 @@ void __cdecl AppendIndices(int primType, const unsigned short* src, int count, i
     switch (primType)
     {
     case 3: {
-        FUN_00c85750_Result* pResult = static_cast<FUN_00c85750_Result*>(::FUN_00c85750());
-        IndexAllocator* alloc = (IndexAllocator*)pResult->unk10;
+        hkMemoryRouter* pResult = &hkMemoryRouter::getInstance();
+        hkMemoryAllocator* alloc = pResult->m_heap;
         int oldSize = out->size;
         int newSize = oldSize + count;
         int cap = out->capacity & 0x3fffffff;
@@ -6520,8 +6508,8 @@ void __cdecl AppendIndices(int primType, const unsigned short* src, int count, i
     }
     case 4: {
         int n = count * 3 - 6;
-        FUN_00c85750_Result* pResult = static_cast<FUN_00c85750_Result*>(::FUN_00c85750());
-        IndexAllocator* alloc = (IndexAllocator*)pResult->unk10;
+        hkMemoryRouter* pResult = &hkMemoryRouter::getInstance();
+        hkMemoryAllocator* alloc = pResult->m_heap;
         int oldSize = out->size;
         int newSize = oldSize + n;
         int cap = out->capacity & 0x3fffffff;
@@ -6552,28 +6540,6 @@ void __cdecl AppendIndices(int primType, const unsigned short* src, int count, i
     }
 }
 
-struct HeapAllocE60
-{
-    virtual void* v00();
-    virtual void v04();
-    virtual void* v08(int* size);
-    virtual void v0c(void* p, int size);
-    virtual void ReturnMemory(void* p, int size);
-};
-
-struct MemRouter
-{
-    char* stackCur;
-    int unk04;
-    int unk08;
-    int unk0c;
-    HeapAllocE60* heap;
-};
-
-inline MemRouter* getRouter() throw()
-{
-    return (MemRouter*)static_cast<FUN_00c85750_Result*>(::FUN_00c85750());
-}
 
 
 template <class T> inline void construct(T* p, int n, const T& t)
@@ -6589,9 +6555,9 @@ struct IntArray
     int m_iCapacityState;
     void AddBack(const int& e)
     {
-        MemRouter* rr = getRouter();
+        hkMemoryRouter* rr = &hkMemoryRouter::getInstance();
         if (m_iElementCount == (m_iCapacityState & 0x3fffffff))
-            ::ResizeAudioStream((::AudioAllocator *)(rr->heap), (::AudioStream *)(void *)(this), 4);
+            ::ResizeAudioStream((::AudioAllocator *)(rr->m_heap), (::AudioStream *)(void *)(this), 4);
         construct(m_data + m_iElementCount, 1, e);
         m_iElementCount++;
     }
@@ -6604,11 +6570,11 @@ struct U16Array
     int m_iCapacityState;
     char* m_pStackAllocation;
 
-    __forceinline void ClearAndRelease(HeapAllocE60* alloc)
+    __forceinline void ClearAndRelease(hkMemoryAllocator* alloc)
     {
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
-            alloc->ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * 2);
+            alloc->bufFree(m_data, (m_iCapacityState & 0x3fffffff) * 2);
     }
 };
 
@@ -6657,9 +6623,9 @@ void __cdecl BuildIndexArray(IndexSource* src, IntArray* out)
             tmp.m_data = 0;
             tmp.m_iElementCount = 0;
             tmp.m_iCapacityState = 0x80000000;
-            MemRouter* r = getRouter();
-            char* p = r->stackCur;
-            r->stackCur = p + ((n * 2 + 0x7f) & ~0x7f);
+            hkMemoryRouter* r = &hkMemoryRouter::getInstance();
+            char* p = r->m_stackCurrent;
+            r->m_stackCurrent = p + ((n * 2 + 0x7f) & ~0x7f);
             tmp.m_data = (unsigned short*)p;
             tmp.m_iCapacityState = n | 0x80000000;
             tmp.m_pStackAllocation = p;
@@ -6672,8 +6638,8 @@ void __cdecl BuildIndexArray(IndexSource* src, IntArray* out)
             char* pStackMark = tmp.m_pStackAllocation;
             if (pStackMark == (char*)tmp.m_data)
                 tmp.m_iElementCount = 0;
-            getRouter()->stackCur = pStackMark;
-            tmp.ClearAndRelease(getRouter()->heap);
+            hkMemoryRouter::getInstance().m_stackCurrent = pStackMark;
+            tmp.ClearAndRelease(hkMemoryRouter::getInstance().m_heap);
         }
         break;
     case 2:
@@ -6870,22 +6836,6 @@ void __cdecl AppendIndexSequence(int aiSequenceType, int count, int start, Index
     }
 }
 
-class AllocatorE60F;
-
-struct RouterE60F
-{
-    char* unk00;
-    void* unk04;
-    void* unk08;
-    void* unk0C;
-    AllocatorE60F* m_pStreamAllocator;
-
-    AllocatorE60F& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
-
 namespace hkRouterE60F {
 }
 
@@ -6904,7 +6854,7 @@ template <class T> class hkArrayE60F
 
     __forceinline T* expandBy(int n)
     {
-        AllocatorE60F& kAlloc = (*static_cast<RouterE60F*>(::FUN_00c85750())).heap();
+        hkMemoryAllocator& kAlloc = hkMemoryRouter::getInstance().heap();
         int iOldSize = m_iElementCount;
         int iNewSize = iOldSize + n;
         if (getCapacity() < iNewSize)
@@ -8310,19 +8260,6 @@ int ApplyOperator(int op, int val)
     return 0;
 }
 
-struct RouterX
-{
-    char* stackCur;
-    int unk04;
-    int unk08;
-    int unk0c;
-    HeapAllocE60* m_pStreamAllocator;
-    __forceinline HeapAllocE60& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
-
 struct IntArrayX
 {
     int* m_data;
@@ -8333,19 +8270,19 @@ struct IntArrayX
     {
         return m_iCapacityState & 0x3fffffff;
     }
-    __forceinline void GrowArrayCapacity(HeapAllocE60& alloc, int n)
+    __forceinline void GrowArrayCapacity(hkMemoryAllocator& alloc, int n)
     {
         const int cap = getCapacity();
         if (cap < n)
         {
             int cap2 = 2 * cap;
             int newSize = (n < cap2) ? cap2 : n;
-            ::FUN_00c908c0((::SpawnedObject *)(::IndexAllocator *)((IndexAllocator*)&alloc), (::SpawnedArray *)(::IndexArray *)((IndexArray*)this), newSize, sizeof(int));
+            ::FUN_00c908c0((::SpawnedObject *)(&alloc), (::SpawnedArray *)(::IndexArray *)((IndexArray*)this), newSize, sizeof(int));
         }
     }
     __forceinline int* expandBy(int n)
     {
-        HeapAllocE60& alloc = ((RouterX*)static_cast<FUN_00c85750_Result*>(::FUN_00c85750()))->heap();
+        hkMemoryAllocator& alloc = hkMemoryRouter::getInstance().heap();
         int oldSize = m_iElementCount;
         GrowArrayCapacity(alloc, oldSize + n);
         m_iElementCount += n;
@@ -12887,20 +12824,6 @@ struct MoppResults
     int capacityAndFlags;
 };
 
-struct HavokMemory
-{
-
-    void* router;
-
-    void* temporary;
-
-    void* heap;
-
-    void* debug;
-
-    void* allocator;
-};
-
 
 struct MoppErrorStream
 {
@@ -13226,11 +13149,11 @@ append:
 
     MoppResults* output = results;
 
-    HavokMemory* memory = (HavokMemory*)static_cast<FUN_00c85750_Result*>(::FUN_00c85750());
+    hkMemoryRouter* memory = &hkMemoryRouter::getInstance();
 
     if (output->size == (output->capacityAndFlags & 0x3fffffff))
 
-        ::ResizeAudioStream((::AudioAllocator *)(void *)(memory->allocator), (::AudioStream *)(void *)(output), sizeof(unsigned int));
+        ::ResizeAudioStream((::AudioAllocator *)(void *)(memory->m_heap), (::AudioStream *)(void *)(output), sizeof(unsigned int));
 
     unsigned int* dest = output->data + output->size;
 

@@ -94,11 +94,11 @@ struct TargetObj {
     unsigned short size;
 };
 
-// Allocates a 0x18-byte TargetObj from the heap allocator, sets its size to 0x18, and returns the result of FUN_00d32060(a1, a2, a3, a4).
+// Allocates a FUN_00d32060_Class-sized TargetObj from the heap allocator, records its size, and returns the result of FUN_00d32060(a1, a2, a3, a4).
 // @fnv 0x00d32110
 TargetObj* AllocateTargetObj(void* apArg1, void* apArg2, void* apArg3, void* apArg4) {
-    TargetObj* obj = (TargetObj*)hkMemoryRouter::getInstance().heap().blockAlloc(0x18);
-    obj->size = 0x18;
+    TargetObj* obj = (TargetObj*)hkMemoryRouter::getInstance().heap().blockAlloc(sizeof(::FUN_00d32060_Class));
+    obj->size = sizeof(::FUN_00d32060_Class);
     return ((::fnv_00d32110::TargetObj *)(reinterpret_cast<::FUN_00d32060_Class *>((obj))->Init((*static_cast<const ::SourceRef *>(apArg1)), apArg2, apArg3, apArg4)));
 }
 }  // namespace fnv_00d32110
@@ -539,12 +539,12 @@ struct FUN_00d32190_cls {
 
 };
 
-// Allocates a 0x18 byte object via m_pAllocator, sets m_w04 to 0x18, calls FUN_00d32060, and sets m_vptr to DAT_010ceaf4.
+// Allocates a FUN_00d32060_Class-sized object via m_pAllocator, records its size in m_w04, calls FUN_00d32060, and sets m_vptr to DAT_010ceaf4.
 // @fnv 0x00d32190
 FUN_00d32190_cls* __cdecl FUN_00d32190(const void* a1, const void* a2, const void* a3, void* a4)
 {
-    FUN_00d32190_cls* obj = (FUN_00d32190_cls*)hkMemoryRouter::getInstance().heap().blockAlloc(0x18);
-    obj->m_w04 = 0x18;
+    FUN_00d32190_cls* obj = (FUN_00d32190_cls*)hkMemoryRouter::getInstance().heap().blockAlloc(sizeof(::FUN_00d32060_Class));
+    obj->m_w04 = sizeof(::FUN_00d32060_Class);
     reinterpret_cast<::FUN_00d32060_Class *>((obj))->Init((*static_cast<const ::SourceRef *>(a2)), a1, a3, a4);
     obj->m_vptr = DAT_010ceaf4;
     return obj;
@@ -630,7 +630,8 @@ struct CastBody {
     int shapeKey;
     CastTransform* transform;
 };
-struct TimerEvent { const char* name; unsigned time, timeHi; const char* first; };
+struct TimerEventShort { const char* name; unsigned time, timeHi; };
+struct TimerEvent : TimerEventShort { const char* first; };
 struct CastWork {
     CastTransform relativeTransform;
 };
@@ -642,7 +643,7 @@ static __forceinline void event(TimerStream* stream,const char* name) {
         unsigned int stamp;
         stamp = static_cast<unsigned int>(__rdtsc());
         e->time=stamp;
-        stream->current=(TimerEvent*)((unsigned char*)e+12);
+        stream->current=(TimerEvent*)(static_cast<TimerEventShort*>(e)+1);
     }
 }
 // @fnv 0x00d31d30

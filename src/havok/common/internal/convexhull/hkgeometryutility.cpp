@@ -143,9 +143,9 @@ struct D5C110Allocator
 struct D5C110MemoryRouter
 {
     intptr_t unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     D5C110Allocator* m_pStreamAllocator;
 
     D5C110Allocator& heap()
@@ -191,10 +191,10 @@ struct D5C110StridedVertices
 
 struct D5C110Geometry
 {
-    int unk00;
+    void* unk00;
     int m_iStridedVertexCount;
     int unk08;
-    int unk0C;
+    void* unk0C;
     int m_iTriangleCount;
 };
 
@@ -256,7 +256,6 @@ unsigned char S00d5ad60_cls::S00d5ad60_call(float* other, float threshold)
 #ifndef _INCLUDED_MM2
 
 #endif
-extern float DAT_01011d78;
 
 // Checks whether the maximum absolute value of pVec[0..2] differs from 1.0 by less than fTol.
 // @fnv 0x00d5ad90
@@ -326,245 +325,6 @@ S00d5c060_Result FUN_00d5c060(const S00d5c060_Src* src, float scale)
     return result;
 }
 
-namespace fnv_00d5d270 {
-#ifndef _INCLUDED_MM2
-
-#endif
-#ifndef _INCLUDED_MM2
-
-#endif
-
-extern float DAT_01011d78;
-extern float DAT_01012068;
-extern "C" int ae60_mix(intptr_t);
-extern "C" void _ReadWriteBarrier(void);
-
-struct S4
-{
-    intptr_t v;
-    S4(intptr_t x) : v(x)
-    {}
-};
-
-struct ObbVec
-{
-    __m128 q;
-    float x() const
-    {
-        return fnv_simd_as<float>(q)[0];
-    }
-    float y() const
-    {
-        return fnv_simd_as<float>(q)[1];
-    }
-    float z() const
-    {
-        return fnv_simd_as<float>(q)[2];
-    }
-};
-
-struct ObbRot
-{
-    ObbVec c0;
-    ObbVec c1;
-    ObbVec c2;
-};
-
-struct ObbXf
-{
-    ObbVec c0;
-    ObbVec c1;
-    ObbVec c2;
-    ObbVec c3;
-};
-
-struct ObbFrame
-{
-    ObbVec ext1;
-    ObbVec ext0;
-    ObbVec ctr1;
-    ObbVec ctr0;
-    ObbRot rot0;
-    ObbRot rot1;
-    ObbRot cov;
-};
-
-struct ObbTri
-{
-    int i0;
-    int i1;
-    int i2;
-    int i3;
-};
-
-struct ObbGeom
-{
-    ObbVec* verts;
-    int numVerts;
-    int vcap;
-    ObbTri* tris;
-    int numTris;
-    int tcap;
-
-    ObbGeom() : verts(0), numVerts(0), vcap(0x80000000), tris(0), numTris(0), tcap(0x80000000)
-    {}
-};
-
-struct ObbArr
-{
-    ObbVec* m_data;
-    int m_iElementCount;
-    int m_cap;
-    char* m_pTrailingData;
-
-    ObbArr() : m_data(0), m_iElementCount(0), m_cap(0x80000000)
-    {}
-};
-
-struct ObbFlag
-{
-    char c;
-};
-
-void __cdecl FUN_00d5c1a0(void*, int, int, void*, void*, ObbFlag);
-void __cdecl FUN_00d5ac50(void*, void*, void*, void*, void*);
-
-static __declspec(noinline) void FUN_00d5ae60(const char* verts, const char* mat, int count, int stride, S4 extents,
-                                              S4 center)
-{
-    int n = count / 3;
-    const char* p = verts;
-    const char* end = p + n * 16;
-    float acc = 0;
-    while (p != end)
-    {
-        acc += *(const float*)p + *(const float*)mat;
-        p += 16;
-    }
-    n = ae60_mix(n) + n;
-    *(float*)extents.v = acc + *(const float*)(mat + 16) + (float)n;
-    *(int*)center.v = stride;
-}
-
-static __declspec(noinline) float FUN_00d5b990(S4 verts, S4 count, S4 src, int steps, int stride, char* dest)
-{
-    *(int*)dest = stride + steps;
-    intptr_t acc = verts.v + count.v + src.v + steps + stride + (intptr_t)dest;
-    return (float)(acc + ae60_mix(acc));
-}
-
-// Computes the oriented bounding box of a shape's triangle vertices, writing the half-extents and transform to outExt and outXf.
-// @fnv 0x00d5d270
-void FUN_00d5d270(const void* shape, ObbVec* outExt, ObbXf* outXf, int mode)
-{
-    ObbGeom geom;
-    ::InitAndSetB((void *)&(*(const D5C110StridedVertices*)shape), (intptr_t)&(*(D5C110Geometry*)&geom));
-
-    int nStack = geom.numTris * 3;
-    ObbArr arr;
-    D5C110MemoryRouter& router = (*static_cast<D5C110MemoryRouter*>(::FUN_00c85750()));
-    char* start = (char*)router.unk00;
-    router.unk00 = (intptr_t)(start + ((nStack * 16 + 0x7f) & ~0x7f));
-    arr.m_cap = nStack | 0x80000000;
-    arr.m_data = (ObbVec*)start;
-    arr.m_pTrailingData = start;
-
-    int total = geom.numTris * 3;
-    D5C110Allocator& heap = (*static_cast<D5C110MemoryRouter*>(::FUN_00c85750())).heap();
-    if ((arr.m_cap & 0x3fffffff) < total)
-    {
-        int cap = (arr.m_cap & 0x3fffffff) * 2;
-        if (total >= cap)
-            cap = total;
-        ::FUN_00c908c0((::SpawnedObject *)(void *)(&heap), (::SpawnedArray *)(void *)(&arr.m_data), cap, 16);
-    }
-    arr.m_iElementCount = total;
-
-    for (int i = 0; i < geom.numTris; i++)
-    {
-        arr.m_data[i * 3 + 0].q = geom.verts[geom.tris[i].i0].q;
-        arr.m_data[i * 3 + 1].q = geom.verts[geom.tris[i].i1].q;
-        arr.m_data[i * 3 + 2].q = geom.verts[geom.tris[i].i2].q;
-    }
-
-    if (reinterpret_cast<::ObbInput *>((&geom))->FUN_00d5c6d0((*(::ObbVec *)(outExt)), (*(::ObbXf *)(outXf)), ::DAT_01013ea4))
-    {
-        char* saved = arr.m_pTrailingData;
-        if (saved == (char*)arr.m_data)
-            arr.m_iElementCount = 0;
-        (*static_cast<D5C110MemoryRouter*>(::FUN_00c85750())).unk00 = (intptr_t)saved;
-        D5C110Allocator& alloc = (*static_cast<D5C110MemoryRouter*>(::FUN_00c85750())).heap();
-        arr.m_iElementCount = 0;
-        if ((arr.m_cap & 0x80000000) == 0)
-            alloc.ReturnMemory(arr.m_data, (arr.m_cap & 0x3fffffff) * 16);
-        arr.m_cap = 0x80000000;
-        arr.m_data = 0;
-        reinterpret_cast<::FUN_00cce530 *>(&(geom))->FUN_00cce530::~FUN_00cce530();
-        return;
-    }
-
-    const char* data = (const char*)arr.m_data;
-    int count = arr.m_iElementCount;
-
-    ObbFrame f;
-    f.rot0.c0.q = _mm_setr_ps(DAT_01012068, DAT_01011d78, DAT_01011d78, DAT_01011d78);
-    f.rot0.c1.q = _mm_setr_ps(DAT_01011d78, DAT_01012068, DAT_01011d78, DAT_01011d78);
-    f.rot0.c2.q = _mm_setr_ps(DAT_01011d78, DAT_01011d78, DAT_01012068, DAT_01011d78);
-
-    FUN_00d5ae60(data, (const char*)&f.rot0, count, 16, S4((intptr_t)&f.ext0), S4((intptr_t)&f.ctr0));
-    float vol0 = f.ext0.y() * f.ext0.x() * f.ext0.z();
-    ObbFlag flag;
-    flag.c = 0;
-    FUN_00d5c1a0((void*)data, count, 16, &f.cov, &f.ctr1, flag);
-    char ok;
-    FUN_00d5ac50(&ok, &f.cov, &f.rot1.c0, &f.rot1.c1, &f.rot1.c2);
-    FUN_00d5ae60(data, (const char*)&f.rot1, count, 16, S4((intptr_t)&f.ext1), S4((intptr_t)&f.ctr1));
-    float vol1 = f.ext1.y() * f.ext1.x() * f.ext1.z();
-
-    if (mode == 2)
-    {
-        vol0 = FUN_00d5b990(S4((intptr_t)data), S4(count), S4((intptr_t)&f.rot0), 20, 16, (char*)&f.rot0);
-        FUN_00d5ae60(data, (const char*)&f.rot0, count, 16, S4((intptr_t)&f.ext0), S4((intptr_t)&f.ctr0));
-        vol1 = FUN_00d5b990(S4((intptr_t)data), S4(count), S4((intptr_t)&f.rot1), 20, 16, (char*)&f.rot1);
-        FUN_00d5ae60(data, (const char*)&f.rot1, count, 16, S4((intptr_t)&f.ext1), S4((intptr_t)&f.ctr1));
-    }
-
-    __m128 vPickedCtr;
-    ObbRot* pickedRot;
-    if (vol0 < vol1)
-    {
-        vPickedCtr = f.ctr0.q;
-        pickedRot = &f.rot0;
-        outExt->q = f.ext0.q;
-    }
-    else
-    {
-        vPickedCtr = f.ctr1.q;
-        pickedRot = &f.rot1;
-        outExt->q = f.ext1.q;
-    }
-    __m128 vCol0 = pickedRot->c0.q;
-    __m128 vCol1 = pickedRot->c1.q;
-    __m128 vCol2 = pickedRot->c2.q;
-    _ReadWriteBarrier();
-    outXf->c0.q = vCol0;
-    outXf->c1.q = vCol1;
-    outXf->c2.q = vCol2;
-    outXf->c3.q = vPickedCtr;
-
-    char* saved = arr.m_pTrailingData;
-    if (saved == (char*)arr.m_data)
-        arr.m_iElementCount = 0;
-    (*static_cast<D5C110MemoryRouter*>(::FUN_00c85750())).unk00 = (intptr_t)saved;
-    D5C110Allocator& alloc2 = (*static_cast<D5C110MemoryRouter*>(::FUN_00c85750())).heap();
-    arr.m_iElementCount = 0;
-    if ((arr.m_cap & 0x80000000) == 0)
-        alloc2.ReturnMemory(arr.m_data, (arr.m_cap & 0x3fffffff) * 16);
-    arr.m_cap = 0x80000000;
-    arr.m_data = 0;
-    reinterpret_cast<::FUN_00cce530 *>(&(geom))->FUN_00cce530::~FUN_00cce530();
-}
-}  // namespace fnv_00d5d270
 
 
 struct __declspec(align(16)) Vec4
@@ -577,16 +337,9 @@ struct MyPoint
     __m128 v;
 };
 
-// FUN_00d5bb10, FUN_00d5bb80 and FUN_00d5bce0 are stand-ins: the real 2-, 3- and 4-point sphere builders live
+// FUN_00d5bb80 and FUN_00d5bce0 are stand-ins: the real 3- and 4-point sphere builders live
 // elsewhere. Their bodies only keep the static calling sequence the original uses; FUN_00d5beb0 is the function compared.
-static __declspec(noinline) Vec4* FUN_00d5bb10(Vec4* res, Vec4* p0, Vec4* p1, float t)
-{
-    res->x = 0.0f;
-    Vec4 a = *p0;
-    res->y = a.x + t + (float)(intptr_t)p1;
-    res->w = a.y;
-    return res;
-}
+static __declspec(noinline) Vec4* FUN_00d5bb10(Vec4* res, Vec4* p0, Vec4* p1, float t);
 
 static __declspec(noinline) Vec4* FUN_00d5bb80(Vec4* res, Vec4* p0, Vec4* p1, Vec4* p2, float t)
 {
@@ -1822,6 +1575,8 @@ struct hkVec4X
     }
 };
 
+static __declspec(noinline) float FUN_00d5b0c0(const BoundsVector* input, int stride, const char* vertices, int count);
+
 // @fnv 0x00d5b2a0
 static __declspec(noinline) void FUN_00d5b2a0(intptr_t a1, int a2, int a3, float d, intptr_t outI, const float* p)
 
@@ -2729,7 +2484,8 @@ static __declspec(noinline) float FUN_00d5b0c0(const BoundsVector* input, int st
 
     NormalizeThree<false>(axes[2], cross, halfExtents.packed, three, half);
 
-    FUN_00d5ae60(axes, vertices, count, stride, &halfExtents, &center);
+    FUN_00d5ae60((const float*)vertices, count, stride, *(S00d5ae60_Vector4*)&halfExtents,
+                 (const S00d5ae60_Vector4*)axes, *(S00d5ae60_Vector4*)&center);
 
     return halfExtents.component[0] * halfExtents.component[1] * halfExtents.component[2];
 }
@@ -2972,8 +2728,6 @@ static __declspec(noinline) Ball
     return Ball(center, radius + slack);
 }
 
-static __declspec(noinline) Vec4* FUN_00d5bb10(Vec4* res, Vec4* p0, Vec4* p1, float t);
-
 namespace sphere_pair_build {
 
 struct Scalar
@@ -3044,12 +2798,252 @@ __declspec(noinline) Vec4* FUN_00d5bb10(Vec4* result, Vec4* first, Vec4* second,
     const Vector& base = *a;
     Vector delta;
     delta.setSub(*b, base);
-    Scalar half(::fnv_00c88020::DAT_01016248);
+    sphere_pair_build::Scalar half(::fnv_00c88020::DAT_01016248);
     delta.multiply(half);
     float distance = delta.length();
     out->setAdd(base, delta);
     fnv_simd_as<float>(out->q)[3] = distance + radius;
     return result;
 }
+
+namespace fnv_00d5d270 {
+#ifndef _INCLUDED_MM2
+
+#endif
+#ifndef _INCLUDED_MM2
+
+#endif
+
+extern float DAT_01011d78;
+extern float DAT_01012068;
+extern "C" int ae60_mix(intptr_t);
+extern "C" void _ReadWriteBarrier(void);
+
+struct S4
+{
+    intptr_t v;
+    S4(intptr_t x) : v(x)
+    {}
+};
+
+struct ObbVec
+{
+    __m128 q;
+    float x() const
+    {
+        return fnv_simd_as<float>(q)[0];
+    }
+    float y() const
+    {
+        return fnv_simd_as<float>(q)[1];
+    }
+    float z() const
+    {
+        return fnv_simd_as<float>(q)[2];
+    }
+};
+
+struct ObbRot
+{
+    ObbVec c0;
+    ObbVec c1;
+    ObbVec c2;
+};
+
+struct ObbXf
+{
+    ObbVec c0;
+    ObbVec c1;
+    ObbVec c2;
+    ObbVec c3;
+};
+
+struct ObbFrame
+{
+    ObbVec ext1;
+    ObbVec ext0;
+    ObbVec ctr1;
+    ObbVec ctr0;
+    ObbRot rot0;
+    ObbRot rot1;
+    ObbRot cov;
+};
+
+struct ObbTri
+{
+    int i0;
+    int i1;
+    int i2;
+    int i3;
+};
+
+struct ObbGeom
+{
+    ObbVec* verts;
+    int numVerts;
+    int vcap;
+    ObbTri* tris;
+    int numTris;
+    int tcap;
+
+    ObbGeom() : verts(0), numVerts(0), vcap(0x80000000), tris(0), numTris(0), tcap(0x80000000)
+    {}
+};
+
+struct ObbArr
+{
+    ObbVec* m_data;
+    int m_iElementCount;
+    int m_cap;
+    char* m_pTrailingData;
+
+    ObbArr() : m_data(0), m_iElementCount(0), m_cap(0x80000000)
+    {}
+};
+
+struct ObbFlag
+{
+    char c;
+};
+
+void __cdecl FUN_00d5c1a0(void*, int, int, void*, void*, ObbFlag);
+void __cdecl FUN_00d5ac50(void*, void*, void*, void*, void*);
+
+static __declspec(noinline) void FUN_00d5ae60(const char* verts, const char* mat, int count, int stride, S4 extents,
+                                              S4 center)
+{
+    int n = count / 3;
+    const char* p = verts;
+    const char* end = p + n * 16;
+    float acc = 0;
+    while (p != end)
+    {
+        acc += *(const float*)p + *(const float*)mat;
+        p += 16;
+    }
+    n = ae60_mix(n) + n;
+    *(float*)extents.v = acc + *(const float*)(mat + 16) + (float)n;
+    *(int*)center.v = stride;
+}
+
+static __declspec(noinline) float FUN_00d5b990(S4 verts, S4 count, S4 src, int steps, int stride, char* dest)
+{
+    *(int*)dest = stride + steps;
+    intptr_t acc = verts.v + count.v + src.v + steps + stride + (intptr_t)dest;
+    return (float)(acc + ae60_mix(acc));
+}
+
+// Computes the oriented bounding box of a shape's triangle vertices, writing the half-extents and transform to outExt and outXf.
+// @fnv 0x00d5d270
+void FUN_00d5d270(const void* shape, ObbVec* outExt, ObbXf* outXf, int mode)
+{
+    ObbGeom geom;
+    ::InitAndSetB((void *)&(*(const D5C110StridedVertices*)shape), (intptr_t)&(*(D5C110Geometry*)&geom));
+
+    int nStack = geom.numTris * 3;
+    ObbArr arr;
+    D5C110MemoryRouter& router = (*static_cast<D5C110MemoryRouter*>(::FUN_00c85750()));
+    char* start = (char*)router.unk00;
+    router.unk00 = (intptr_t)(start + ((nStack * 16 + 0x7f) & ~0x7f));
+    arr.m_cap = nStack | 0x80000000;
+    arr.m_data = (ObbVec*)start;
+    arr.m_pTrailingData = start;
+
+    int total = geom.numTris * 3;
+    D5C110Allocator& heap = (*static_cast<D5C110MemoryRouter*>(::FUN_00c85750())).heap();
+    if ((arr.m_cap & 0x3fffffff) < total)
+    {
+        int cap = (arr.m_cap & 0x3fffffff) * 2;
+        if (total >= cap)
+            cap = total;
+        ::FUN_00c908c0((::SpawnedObject *)(void *)(&heap), (::SpawnedArray *)(void *)(&arr.m_data), cap, 16);
+    }
+    arr.m_iElementCount = total;
+
+    for (int i = 0; i < geom.numTris; i++)
+    {
+        arr.m_data[i * 3 + 0].q = geom.verts[geom.tris[i].i0].q;
+        arr.m_data[i * 3 + 1].q = geom.verts[geom.tris[i].i1].q;
+        arr.m_data[i * 3 + 2].q = geom.verts[geom.tris[i].i2].q;
+    }
+
+    if (reinterpret_cast<::ObbInput *>((&geom))->FUN_00d5c6d0((*(::ObbVec *)(outExt)), (*(::ObbXf *)(outXf)), ::DAT_01013ea4))
+    {
+        char* saved = arr.m_pTrailingData;
+        if (saved == (char*)arr.m_data)
+            arr.m_iElementCount = 0;
+        (*static_cast<D5C110MemoryRouter*>(::FUN_00c85750())).unk00 = (intptr_t)saved;
+        D5C110Allocator& alloc = (*static_cast<D5C110MemoryRouter*>(::FUN_00c85750())).heap();
+        arr.m_iElementCount = 0;
+        if ((arr.m_cap & 0x80000000) == 0)
+            alloc.ReturnMemory(arr.m_data, (arr.m_cap & 0x3fffffff) * 16);
+        arr.m_cap = 0x80000000;
+        arr.m_data = 0;
+        reinterpret_cast<::FUN_00cce530 *>(&(geom))->FUN_00cce530::~FUN_00cce530();
+        return;
+    }
+
+    const char* data = (const char*)arr.m_data;
+    int count = arr.m_iElementCount;
+
+    ObbFrame f;
+    f.rot0.c0.q = _mm_setr_ps(DAT_01012068, DAT_01011d78, DAT_01011d78, DAT_01011d78);
+    f.rot0.c1.q = _mm_setr_ps(DAT_01011d78, DAT_01012068, DAT_01011d78, DAT_01011d78);
+    f.rot0.c2.q = _mm_setr_ps(DAT_01011d78, DAT_01011d78, DAT_01012068, DAT_01011d78);
+
+    FUN_00d5ae60(data, (const char*)&f.rot0, count, 16, S4((intptr_t)&f.ext0), S4((intptr_t)&f.ctr0));
+    float vol0 = f.ext0.y() * f.ext0.x() * f.ext0.z();
+    ObbFlag flag;
+    flag.c = 0;
+    FUN_00d5c1a0((void*)data, count, 16, &f.cov, &f.ctr1, flag);
+    char ok;
+    FUN_00d5ac50(&ok, &f.cov, &f.rot1.c0, &f.rot1.c1, &f.rot1.c2);
+    FUN_00d5ae60(data, (const char*)&f.rot1, count, 16, S4((intptr_t)&f.ext1), S4((intptr_t)&f.ctr1));
+    float vol1 = f.ext1.y() * f.ext1.x() * f.ext1.z();
+
+    if (mode == 2)
+    {
+        vol0 = FUN_00d5b990(S4((intptr_t)data), S4(count), S4((intptr_t)&f.rot0), 20, 16, (char*)&f.rot0);
+        FUN_00d5ae60(data, (const char*)&f.rot0, count, 16, S4((intptr_t)&f.ext0), S4((intptr_t)&f.ctr0));
+        vol1 = FUN_00d5b990(S4((intptr_t)data), S4(count), S4((intptr_t)&f.rot1), 20, 16, (char*)&f.rot1);
+        FUN_00d5ae60(data, (const char*)&f.rot1, count, 16, S4((intptr_t)&f.ext1), S4((intptr_t)&f.ctr1));
+    }
+
+    __m128 vPickedCtr;
+    ObbRot* pickedRot;
+    if (vol0 < vol1)
+    {
+        vPickedCtr = f.ctr0.q;
+        pickedRot = &f.rot0;
+        outExt->q = f.ext0.q;
+    }
+    else
+    {
+        vPickedCtr = f.ctr1.q;
+        pickedRot = &f.rot1;
+        outExt->q = f.ext1.q;
+    }
+    __m128 vCol0 = pickedRot->c0.q;
+    __m128 vCol1 = pickedRot->c1.q;
+    __m128 vCol2 = pickedRot->c2.q;
+    _ReadWriteBarrier();
+    outXf->c0.q = vCol0;
+    outXf->c1.q = vCol1;
+    outXf->c2.q = vCol2;
+    outXf->c3.q = vPickedCtr;
+
+    char* saved = arr.m_pTrailingData;
+    if (saved == (char*)arr.m_data)
+        arr.m_iElementCount = 0;
+    (*static_cast<D5C110MemoryRouter*>(::FUN_00c85750())).unk00 = (intptr_t)saved;
+    D5C110Allocator& alloc2 = (*static_cast<D5C110MemoryRouter*>(::FUN_00c85750())).heap();
+    arr.m_iElementCount = 0;
+    if ((arr.m_cap & 0x80000000) == 0)
+        alloc2.ReturnMemory(arr.m_data, (arr.m_cap & 0x3fffffff) * 16);
+    arr.m_cap = 0x80000000;
+    arr.m_data = 0;
+    reinterpret_cast<::FUN_00cce530 *>(&(geom))->FUN_00cce530::~FUN_00cce530();
+}
+}  // namespace fnv_00d5d270
 
 #include "generated/data/havok/common/internal/convexhull/hkgeometryutility.inc"

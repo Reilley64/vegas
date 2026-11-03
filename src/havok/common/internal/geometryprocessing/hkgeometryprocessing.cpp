@@ -22,6 +22,7 @@
 #include "fnv/symbols_01268000.h"
 #include "fnv/symbols_00cbf000.h"
 #include <xmmintrin.h>
+#include "fnv/symbols_simd.h"
 #include "fnv/decl/FnvCpu_FUN_00d76d80_CpuOwner.h"
 #include "fnv/decl/FUN_00d5d660_cls.h"
 #include "fnv/symbols_00401000.h"
@@ -144,6 +145,14 @@ struct hkVector4
     {
         m_vComponents = _mm_sub_ps(a.m_vComponents, b.m_vComponents);
     }
+    __forceinline void setCross(const hkVector4& v1, const hkVector4& v2)
+    {
+        m_vComponents =
+            _mm_sub_ps(_mm_mul_ps(_mm_shuffle_ps(v1.m_vComponents, v1.m_vComponents, _MM_SHUFFLE(3, 0, 2, 1)),
+                                  _mm_shuffle_ps(v2.m_vComponents, v2.m_vComponents, _MM_SHUFFLE(3, 1, 0, 2))),
+                       _mm_mul_ps(_mm_shuffle_ps(v1.m_vComponents, v1.m_vComponents, _MM_SHUFFLE(3, 1, 0, 2)),
+                                  _mm_shuffle_ps(v2.m_vComponents, v2.m_vComponents, _MM_SHUFFLE(3, 0, 2, 1))));
+    }
     __forceinline void setAddMul4(const hkVector4& a, const hkVector4& b, const VectorComponentValue& r)
     {
         m_vComponents =
@@ -162,7 +171,6 @@ struct hkVector4
     }
 };
 
-extern const hkVector4 DAT_010c7160;
 
 // Computes the squared distance from point a to the segment bc, clamping the projection parameter to [0,1] and storing it in out.
 // @fnv 0x00de94b0
@@ -173,7 +181,7 @@ float __cdecl FUN_00de94b0(const hkVector4& a, const hkVector4& b, const hkVecto
     hkVector4 vSegmentVec;
     vSegmentVec.setSub4(c, b);
     const VectorComponentValue fLenSq = vSegmentVec.lengthSquared3();
-    const VectorComponentValue num = _mm_sub_ss(DAT_010c7160.m_vComponents, vSegmentVec.dot3(d1).m_vValue);
+    const VectorComponentValue num = _mm_sub_ss(::DAT_010c7160, vSegmentVec.dot3(d1).m_vValue);
     const float t = num / fLenSq;
     *pfT = t;
     if (t < 0.0f)
@@ -554,8 +562,6 @@ bool __cdecl FUN_00dea6b0(const S00dea6b0_Vec& p, const S00dea6b0_Vec& a, const 
 }
 }  // namespace fnv_00dea6b0
 
-extern __m128 DAT_01017d10;
-extern float DAT_01011d78;
 
 struct CubeVector
 {
@@ -652,7 +658,7 @@ float __cdecl FUN_00dea450(const hkVector4& firstStart, const hkVector4& firstEn
         VectorComponentValue squaredLength = firstDirection.lengthSquared3();
         VectorComponentValue projected = offset.dot3(firstDirection);
         VectorComponentValue s =
-            _mm_sub_ss(DAT_010c7160.m_vComponents, _mm_div_ss(projected.m_vValue, squaredLength.m_vValue));
+            _mm_sub_ss(::DAT_010c7160, _mm_div_ss(projected.m_vValue, squaredLength.m_vValue));
         float rawFirst = s;
         float firstClamped = rawFirst < 0.0f ? 0.0f : (rawFirst > 1.0f ? 1.0f : rawFirst);
         *firstParameter = firstClamped;
@@ -727,7 +733,7 @@ inline ScalarValue operator/(const ScalarValue& x, const ScalarValue& y)
 }
 inline ScalarValue operator-(const ScalarValue& x)
 {
-    return _mm_sub_ss(DAT_010c7160.m_vComponents, x.lanes());
+    return _mm_sub_ss(::DAT_010c7160, x.lanes());
 }
 
 class GeomVector
@@ -898,7 +904,6 @@ float __cdecl FUN_00de9f10(const GeomVector& point, const GeomVector& a, const G
 }
 
 #include <float.h>
-#include "fnv/symbols_simd.h"
 
 struct S00dea980_Vec
 {
@@ -968,7 +973,6 @@ float FUN_00dea980(const S00dea980_Vec* apFirst, const S00dea980_Vec* apSecond, 
     return 0.0f;
 }
 
-extern __m128 DAT_010ec7f0;
 static __forceinline void medianInterpolate(hkVector4& result, const hkVector4& first, const hkVector4& second,
                                             const VectorComponentValue& fraction)
 {
@@ -1032,17 +1036,20 @@ struct Sdedf10_Allocator
 class Sdedf10_MemoryRouter
 {
   public:
-    static Sdedf10_MemoryRouter& __cdecl GetMonitorStream();
+    static Sdedf10_MemoryRouter& __cdecl GetMonitorStream()
+    {
+        return *static_cast<Sdedf10_MemoryRouter*>(::FUN_00c85750());
+    }
     __forceinline Sdedf10_Allocator& heap()
     {
         return *m_pStreamAllocator;
     }
 
   private:
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     Sdedf10_Allocator* m_pStreamAllocator;
 };
 __forceinline Sdedf10_Allocator& Sdedf10_heap()
@@ -2225,7 +2232,7 @@ bool __cdecl FUN_00dedbb0(Owner* self, intptr_t count, Vec4Array* out, Obj* obj)
         self->FUN_00e13660(&cur, &scratch, &flag);
         if (flag != 0)
         {
-            cur.w = 1.0f;
+            fnv_simd_as<float>(cur.value)[3] = 1.0f;
             AudioHolder* holder = static_cast<AudioHolder*>(::FUN_00c85750());
             if (out->m_04 == (int)(out->m_08 & 0x3fffffff))
             {

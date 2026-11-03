@@ -608,7 +608,8 @@ void __cdecl ProcessAabbTree(Target* apTarget, Frame* apFrame)
         pProfBuf->m_pCur = pProfRec + 1;
     }
     Frame* pFrame = apFrame;
-    int* rem = (int*)(&apTarget + 1);
+    int remaining;
+    int* rem = &remaining;
     Inner* in = pFrame->m_2C;
     int n = pFrame->m_30;
     if (n > 0)
@@ -2186,13 +2187,25 @@ struct AabbQ
     }
 };
 
+struct ClosestTreeNode
+{
+    AabbQ m_kBounds;
+    int m_children[2];
+    unsigned int m_flags;
+
+    __forceinline unsigned int isLeaf() const
+    {
+        return m_flags & 0x80000000;
+    }
+};
+
 struct AabbTree
 {
     int unk00;
     int unk04;
     int unk08;
     int unk0c;
-    TreeNode* m_pTreeNode;
+    ClosestTreeNode* m_pTreeNode;
     int unk14;
     int unk18;
     TreeNodeArray m_kNodeCollection;
@@ -2201,7 +2214,7 @@ struct AabbTree
 struct ClosestCollector
 {
     virtual void unk00();
-    virtual float processLeaf(const TreeNode* leaf);
+    virtual float processLeaf(const ClosestTreeNode* leaf);
 };
 
 struct HeapAllocator
@@ -2216,10 +2229,10 @@ struct HeapAllocator
 
 struct NodeStack
 {
-    TreeNode** m_data;
+    ClosestTreeNode** m_data;
     int m_iElementCount;
     int m_iCapacityState;
-    TreeNode* m_kStorage[128];
+    ClosestTreeNode* m_kStorage[128];
 
     __forceinline NodeStack()
     {
@@ -2240,18 +2253,18 @@ struct NodeStack
     {
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
-            reinterpret_cast<HeapAllocator&>(alloc).ReturnMemory(m_data, getCapacity() * sizeof(TreeNode*));
+            reinterpret_cast<HeapAllocator&>(alloc).ReturnMemory(m_data, getCapacity() * sizeof(ClosestTreeNode*));
         m_data = 0;
         m_iCapacityState = 0x80000000;
     }
-    __forceinline void _pushBack(S_00d1bcb0_Allocator& alloc, TreeNode* const& t)
+    __forceinline void _pushBack(S_00d1bcb0_Allocator& alloc, ClosestTreeNode* const& t)
     {
         if (m_iElementCount == getCapacity())
-            ::ResizeAudioStream((::AudioAllocator *)&(alloc), (::AudioStream *)(void *)(this), sizeof(TreeNode*));
+            ::ResizeAudioStream((::AudioAllocator *)&(alloc), (::AudioStream *)(void *)(this), sizeof(ClosestTreeNode*));
         hkConstructWithCopy(m_data + m_iElementCount, 1, t);
         m_iElementCount++;
     }
-    __forceinline void AddBack(TreeNode* const& t)
+    __forceinline void AddBack(ClosestTreeNode* const& t)
     {
         _pushBack(static_cast<S_00d1bcb0_Router*>(::FUN_00c85750())->heap(), t);
     }
@@ -2260,7 +2273,7 @@ struct NodeStack
 // @fnv 0x00d1dbb0
 void __cdecl FUN_00d1dbb0(AabbTree* tree, const VectorQ& point, ClosestCollector* collector)
 {
-    TreeNode* root = tree->m_pTreeNode;
+    ClosestTreeNode* root = tree->m_pTreeNode;
     if (root)
     {
         float maxDist = ::DAT_0104da48;
@@ -2271,12 +2284,12 @@ void __cdecl FUN_00d1dbb0(AabbTree* tree, const VectorQ& point, ClosestCollector
             _ReadWriteBarrier();
             do
             {
-                TreeNode* node = stack.m_data[stack.m_iElementCount - 1];
+                ClosestTreeNode* node = stack.m_data[stack.m_iElementCount - 1];
                 stack.m_iElementCount--;
                 if (!node->isLeaf())
                 {
-                    TreeNode* c0 = ((::TreeNode *)(reinterpret_cast<::IdxStand_ *>(&(tree->m_kNodeCollection))->FUN_00d9a4c0(node->m_children[0])));
-                    TreeNode* c1 = ((::TreeNode *)(reinterpret_cast<::IdxStand_ *>(&(tree->m_kNodeCollection))->FUN_00d9a4c0(node->m_children[1])));
+                    ClosestTreeNode* c0 = ((::ClosestTreeNode *)(reinterpret_cast<::IdxStand_ *>(&(tree->m_kNodeCollection))->FUN_00d9a4c0(node->m_children[0])));
+                    ClosestTreeNode* c1 = ((::ClosestTreeNode *)(reinterpret_cast<::IdxStand_ *>(&(tree->m_kNodeCollection))->FUN_00d9a4c0(node->m_children[1])));
                     AabbQ a0;
                     a0 = c0->m_kBounds;
                     AabbQ a1;
@@ -2731,18 +2744,19 @@ struct RayTree
 
 
 // @fnv 0x00d1ca00
-void FUN_00d1ca00(RayTree* tree, Node* node, Node* endNode, const RayQuerySet* rayBundle, RayCollector** collectors,
+void FUN_00d1ca00(RayTree* tree, Node* startNode, Node* endNode, const RayQuerySet* rayBundle, RayCollector** collectors,
                   const float* maxDistances)
 {
+    const TNodeQ* node = reinterpret_cast<const TNodeQ*>(startNode);
     __m128 maxT = _mm_setr_ps(maxDistances[0], maxDistances[1], maxDistances[2], maxDistances[3]);
 
     for (;;)
     {
-        BoundVector bounds[2] = {node->m_kMinimumCorner, node->m_kMaximumCorner};
+        BoundVector bounds[2] = {node->m_kMinimumCorner.m_vComponents, node->m_kMaximumCorner.m_vComponents};
 
-        Node* nextNode;
-        if (node->m_siblingIndex != 0x7fff)
-            nextNode = (Node*)tree->nodes.FUN_00d1bb40(node->m_siblingIndex);
+        const TNodeQ* nextNode;
+        if (node->m_next != 0x7fff)
+            nextNode = (const TNodeQ*)tree->nodes.FUN_00d1bb40(node->m_next);
         else
             nextNode = 0;
 
@@ -2763,14 +2777,16 @@ void FUN_00d1ca00(RayTree* tree, Node* node, Node* endNode, const RayQuerySet* r
         for (int i = 0; i < 3; ++i)
         {
             __m128 t0 =
-                _mm_mul_ps(_mm_sub_ps(minSplat[i], rayBundle->m_vRayOrigins[i]), rayBundle->m_vInverseDirection[i]);
+                _mm_mul_ps(_mm_sub_ps(minSplat[i], rayBundle->m_vFrom.m_data[i].m_vComponents),
+                           rayBundle->m_vInverseDirection.m_data[i].m_vComponents);
             __m128 t1 =
-                _mm_mul_ps(_mm_sub_ps(maxSplat[i], rayBundle->m_vRayOrigins[i]), rayBundle->m_vInverseDirection[i]);
+                _mm_mul_ps(_mm_sub_ps(maxSplat[i], rayBundle->m_vFrom.m_data[i].m_vComponents),
+                           rayBundle->m_vInverseDirection.m_data[i].m_vComponents);
             fNearT[i] = _mm_min_ps(t0, t1);
             fFarT[i] = _mm_max_ps(t0, t1);
         }
 
-        int activeRays = rayBundle->m_activeRays;
+        int activeRays = rayBundle->m_uiMask;
         __m128 tEnter = _mm_max_ps(_mm_max_ps(_mm_max_ps(fNearT[0], fNearT[1]), fNearT[2]), (*reinterpret_cast<const ::__m128 *>(&::DAT_01267e30)));
         __m128 tExit = fFarT[0];
         tExit = _mm_min_ps(tExit, fFarT[1]);
@@ -2785,7 +2801,7 @@ void FUN_00d1ca00(RayTree* tree, Node* node, Node* endNode, const RayQuerySet* r
         {
             if ((node->m_flags & 0x8000) == 0)
             {
-                node = (Node*)tree->nodes.FUN_00d1bb40(node->m_childIndex);
+                node = (const TNodeQ*)tree->nodes.FUN_00d1bb40((unsigned short)node->m_data);
                 continue;
             }
 
@@ -2798,7 +2814,7 @@ void FUN_00d1ca00(RayTree* tree, Node* node, Node* endNode, const RayQuerySet* r
             }
         }
 
-        if (nextNode == endNode)
+        if (nextNode == reinterpret_cast<const TNodeQ*>(endNode))
             break;
         node = nextNode;
     }

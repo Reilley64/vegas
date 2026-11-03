@@ -500,7 +500,9 @@ struct hkMemoryAllocator
 
 struct AudioMgr
 {
-    int unk00, unk04, unk08;
+    void* unk00;
+    void* unk04;
+    void* unk08;
     hkMemoryAllocator* unk0c;
     hkMemoryAllocator* unk10;
     hkMemoryAllocator& heap()
@@ -609,7 +611,7 @@ struct BlobObject
     void Init()
     {
         m_vtbl = (*reinterpret_cast<char (*)[]>(&::DAT_0102e368));
-        m_usMemSizeAndFlags = 0x30;
+        m_usMemSizeAndFlags = sizeof(BlobObject);
         m_sReferenceCount = 1;
         m_data.init();
         unk2c = 2;
@@ -621,7 +623,7 @@ struct BlobObject
 int __cdecl ReadBlobObject(BlobStream* stream, BlobObject** ppOut)
 {
     HeapContextGuard guard(0x10);
-    BlobObject* obj = (BlobObject*)audio()->heap().AllocateMemoryBlock(0x30);
+    BlobObject* obj = (BlobObject*)audio()->heap().AllocateMemoryBlock(sizeof(BlobObject));
     obj->Init();
     *ppOut = obj;
     int count = 0;
@@ -709,8 +711,6 @@ void ApplyDelta(__m128* apDelta, Obj* apObj)
     apObj->m50 = _mm_add_ps(apObj->m50, vMasked);
 }
 
-extern __declspec(align(16)) float DAT_010ec7f0[4];
-
 __forceinline void normalize4(__m128& q)
 {
     __m128 x2 = _mm_mul_ps(q, q);
@@ -749,7 +749,7 @@ __forceinline void interpolate(__m128& dst, __m128 a, __m128 b, float w)
 {
     __m128 wb = _mm_load_ss(&w);
     wb = _mm_shuffle_ps(wb, wb, 0);
-    __m128 other = _mm_sub_ps(_mm_load_ps(DAT_010ec7f0), wb);
+    __m128 other = _mm_sub_ps(::DAT_010ec7f0, wb);
     dst = _mm_add_ps(_mm_mul_ps(other, a), _mm_mul_ps(wb, b));
 }
 // Clamps time, interpolates and normalizes the rotation quaternions, interpolates com0/com1, then recomputes translation from comLocal and rotation columns.
@@ -795,7 +795,7 @@ void __cdecl UpdateRotationInterpolation(float time, FUN_008cd6a0_Class* apTrans
 
     __m128 qAlpha = _mm_load_ss(&alpha);
     qAlpha = _mm_shuffle_ps(qAlpha, qAlpha, 0);
-    __m128 com = _mm_add_ps(_mm_mul_ps(_mm_sub_ps(_mm_load_ps(DAT_010ec7f0), qAlpha), apTransform->com0.q),
+    __m128 com = _mm_add_ps(_mm_mul_ps(_mm_sub_ps(::DAT_010ec7f0, qAlpha), apTransform->com0.q),
                             _mm_mul_ps(qAlpha, apTransform->com1.q));
     apTransform->com0.q = com;
     fnv_simd_as<float>(apTransform->com0.q)[3] = time;
@@ -971,6 +971,14 @@ struct hkVector4
         __m128 m_vComponents;
         float m_f[4];
     };
+    float& operator()(int i)
+    {
+        return m_f[i];
+    }
+    void setZero4()
+    {
+        m_vComponents = _mm_setzero_ps();
+    }
     __forceinline void setAdd4(const hkVector4& a, const hkVector4& b)
     {
         m_vComponents = _mm_add_ps(a.m_vComponents, b.m_vComponents);
@@ -1000,7 +1008,7 @@ struct hkVector4
     {
         __m128 av = a.m_vComponents;
         __m128 weight = t.broadcast();
-        __m128 rest = _mm_sub_ps(_mm_load_ps(DAT_010ec7f0), weight);
+        __m128 rest = _mm_sub_ps(::DAT_010ec7f0, weight);
         m_vComponents = _mm_add_ps(_mm_mul_ps(rest, av), _mm_mul_ps(weight, b.m_vComponents));
     }
     __forceinline void normalize4()
@@ -1038,6 +1046,10 @@ __forceinline void SetRotatedDirection(hkVector4& out, const hkMatrix3& r, const
 struct __declspec(align(16)) hkVector4L
 {
     float x, y, z, w;
+    float GetW() const
+    {
+        return w;
+    }
     __m128 Vector4f() const
     {
         return _mm_load_ps(&x);
@@ -1090,7 +1102,7 @@ void __cdecl FUN_00cf1920(const hkSweptTransform* sweptTrans, float afTime, FUN_
     hkVector4& vTranslation = *((hkVector4*)&pTransform->translation);
     __m128 vTimeWeight = _mm_load_ss(&afTime);
     __m128 vStartPosition = sweptTrans->m_vCenterOfMass0.Vector4f();
-    __m128 vOnes = _mm_load_ps(DAT_010ec7f0);
+    __m128 vOnes = ::DAT_010ec7f0;
     vTimeWeight = _mm_shuffle_ps(vTimeWeight, vTimeWeight, 0);
     __m128 vStartTerm = _mm_mul_ps(_mm_sub_ps(vOnes, vTimeWeight), vStartPosition);
     __m128 vEndTerm = _mm_mul_ps(sweptTrans->m_vCenterOfMass1.Vector4f(), vTimeWeight);

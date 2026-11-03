@@ -59,19 +59,17 @@ void FUN_00d591d0_class::FUN_00d591d0(const ::hkTransformD262* a, float afDelta,
     );
 }
 
-struct RefObj {   };
-struct DDCC60World {  };
-struct FUN_00d5a320 {
+struct FUN_00d5a320 : public ::hkpConvexVerticesShape {
     void FUN_00d59f40();
-    void AssignReference(RefObj* p, bool b);
+    void AssignReference(hkpConvexVerticesConnectivity* p, bool b);
 };
-// Releases the current reference at this+0x60, stores p there, and if b and p are set calls FUN_00d59f40.
+// Releases the current connectivity, stores p there, and if b and p are set calls FUN_00d59f40.
 // @fnv 0x00d5a320
-void FUN_00d5a320::AssignReference(RefObj* apRef, bool b)
+void FUN_00d5a320::AssignReference(hkpConvexVerticesConnectivity* apRef, bool b)
 {
     if (apRef) reinterpret_cast<::FUN_00c90510_class *>((apRef))->FUN_00c90510();
-    if (*(DDCC60World**)((char*)this + 0x60)) reinterpret_cast<::hkReferencedObjectC905 *>(((*(DDCC60World**)((char*)this + 0x60))))->FUN_00c905b0();
-    *(RefObj**)((char*)this + 0x60) = apRef;
+    if (m_pConnectivity) reinterpret_cast<::hkReferencedObjectC905 *>(m_pConnectivity)->FUN_00c905b0();
+    m_pConnectivity = apRef;
     if (b && apRef) FUN_00d59f40();
 }
 
@@ -155,11 +153,11 @@ int FnvCpu_FUN_00d58d10_CpuObject::FUN_00d58d10()
     return value;
 }
 
-struct FnvCpu_FUN_00d58d50_CpuObject { char* FUN_00d58d50(); };
+struct FnvCpu_FUN_00d58d50_CpuObject : public ::hkpConvexVerticesShape { char* FUN_00d58d50(); };
 // @fnv 0x00d58d50
 char* FnvCpu_FUN_00d58d50_CpuObject::FUN_00d58d50()
 {
-    return reinterpret_cast<char*>(this) + 84;
+    return reinterpret_cast<char*>(&m_kVertexPositions);
 }
 
 struct CallTarget_00d5a410 { int FUN_00d5a410(int, int, int, int, int); };
@@ -1575,7 +1573,7 @@ void FUN_00d5a320::FUN_00d59f40()
 
 {
 
-    hkpConvexVerticesShape* shape = reinterpret_cast<hkpConvexVerticesShape*>(this);
+    hkpConvexVerticesShape* shape = this;
 
     PlaneArray planes(shape);
 

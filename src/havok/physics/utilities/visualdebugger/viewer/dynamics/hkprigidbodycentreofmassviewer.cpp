@@ -52,28 +52,38 @@ struct Entries
     void** items;
     int count;
 };
-struct Owner
+// The centre-of-mass viewer: hkReferencedObject, then its hkProcess part (View) at +0x08 and its world listener
+// part (FUN_00d69fb0_cls) at +0x20.
+struct CentreOfMassViewerHead
 {
+    void* m_vtbl;
+    int m_memSizeAndRefCount;
 };
 struct View
 {
-    int unk00;
+    void* m_vtbl;
     int unk04;
     int unk08;
     int unk0c;
     int unk10;
     int unk14;
-    int unk18;
-    Entries* entries;
     void FUN_00d69f60();
 };
-struct Target
-{
-};
+struct CentreOfMassViewer;
 struct FUN_00d69fb0_cls
 {
+    void* m_vtbl;
+    Entries* entries;
     void CallTargetMethod();
+    CentreOfMassViewer* viewer();
 };
+struct CentreOfMassViewer : CentreOfMassViewerHead, View, FUN_00d69fb0_cls
+{
+};
+inline CentreOfMassViewer* FUN_00d69fb0_cls::viewer()
+{
+    return static_cast<CentreOfMassViewer*>(this);
+}
 template <class T> struct S_00d69fc0_Array
 {
     T* m_data;
@@ -310,7 +320,8 @@ class FUN_00d69b20_cls
   public:
 };
 
-class FUN_00d69fa0_cls
+// The viewer's world listener part, as ::FUN_00d69fb0_cls.
+class FUN_00d69fa0_cls : public ::FUN_00d69fb0_cls
 {
   public:
     void FUN_00d69fa0();
@@ -319,7 +330,7 @@ class FUN_00d69fa0_cls
 // @fnv 0x00d69fa0
 void FUN_00d69fa0_cls::FUN_00d69fa0()
 {
-    reinterpret_cast<::FUN_00d69b20_cls *>((((FUN_00d69b20_cls*)((char*)this - 0x20))))->AttachAndDispatch({});
+    reinterpret_cast<::FUN_00d69b20_cls *>(viewer())->AttachAndDispatch({});
 }
 }  // namespace fnv_00d69fa0
 
@@ -917,18 +928,21 @@ struct CenterOfMassRemovalDispatcher
 // @fnv 0x00d69f60
 void View::FUN_00d69f60()
 {
+    CentreOfMassViewer* viewer = static_cast<CentreOfMassViewer*>(this);
+    Entries* entries = viewer->entries;
     if (entries)
     {
         for (int i = 0; i < entries->count; ++i)
-            reinterpret_cast<::CenterOfMassRemovalDispatcher *>((reinterpret_cast<Owner*>(reinterpret_cast<char*>(this) - 8)))->FUN_00d69c10((::Context *)(entries->items[i]));
+            reinterpret_cast<::CenterOfMassRemovalDispatcher *>(viewer)->FUN_00d69c10((::Context *)(entries->items[i]));
     }
 }
-// Calls FUN_00d69c10 on the Target object located 0x20 bytes before this.
+// Calls FUN_00d69c10 on the viewer.
 // @fnv 0x00d69fb0
 void FUN_00d69fb0_cls::CallTargetMethod()
 {
-    reinterpret_cast<::CenterOfMassRemovalDispatcher *>((((Target*)((char*)this - 0x20))))->FUN_00d69c10({});
+    reinterpret_cast<::CenterOfMassRemovalDispatcher *>(viewer())->FUN_00d69c10({});
 }
+
 // Passes callback28 and data2c to context, then calls callback28.deliver for each entry in the data48 lists of list28, list34 and special20.
 // @fnv 0x00d69c10
 void CenterOfMassRemovalDispatcher::FUN_00d69c10(Context* context)

@@ -3,16 +3,13 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 
-// Writes four function pointers into the first 16 bytes of p and clears the two bytes at offsets 16 and 17.
-// @fnv 0x00d3ab60
 #include <new>
 #include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
+#include "fnv/symbols_simd.h"
 #include <intrin.h>
 #include <windows.h>
-#include "fnv/decl/CapsuleTriProcess.h"
 #include "fnv/decl/FUN_00cfbbe0_cls.h"
-#include "fnv/decl/hkpCapsuleTriangleAgent.h"
 #include "fnv/symbols_00cd6000.h"
 #include "fnv/symbols_00d37000.h"
 #include "fnv/symbols_00d38000.h"
@@ -24,15 +21,6 @@
 #include "fnv/symbols_010c4000.h"
 #include "fnv/symbols_010ce000.h"
 #include "fnv/symbols_01268000.h"
-void FUN_00d3ab60(void* apObject)
-{
-    *(void**)apObject = (void*)&((void (&)())::fnv_00d398c0::CreateObjectFromFactory);
-    *(void**)((char*)apObject + 4) = (void*)&((void (&)())::FUN_00d3a8c0);
-    *(void**)((char*)apObject + 8) = (void*)&((void (&)())::hkpCapsuleTriangleAgent::FUN_00d3a280);
-    *(void**)((char*)apObject + 12) = (void*)&((void (&)())::FUN_00daf8e0);
-    *(char*)((char*)apObject + 16) = 0;
-    *(char*)((char*)apObject + 17) = 0;
-}
 
 
 // @fnv 0x00d3ab90
@@ -127,16 +115,6 @@ struct CallbackState {
 };
 
 
-// Builds a CallbackState with a max float, the given value and a constant pointer, then passes it to FUN_00d3a280 with the three pointers reordered.
-// @fnv 0x00d3b220
-void __cdecl FUN_00d3b220(void* apOne, void* apTwo, void* apThree, int aiValue)
-{
-    CallbackState kState;
-    kState.m_fFirstLightParameter = 3.40282e+38f;
-    kState.m_iValue = aiValue;
-    kState.m_pIntegerValue = &(*reinterpret_cast<const int *>(&::DAT_010ce7fc));
-    ::hkpCapsuleTriangleAgent::FUN_00d3a280((*(const ::hkpCdBody_S *)(apTwo)), (*(const ::hkpCdBody_S *)(apOne)), (*(const ::CollisionAgentContext *)(apThree)), (*(::hkpCdPointCollector *)(&kState)));
-}
 
 struct AllocIface {
     virtual void unk00();
@@ -159,30 +137,14 @@ struct FUN_00d39980_cls {
     void* m_vptr;
     unsigned short m_w04;
     unsigned short m_w06;
-    int m_i08;
+    void* m_i08;
     unsigned short m_w0C;
     unsigned short m_w0E;
     unsigned short m_w10;
     unsigned short m_w12;
-    void* m_sub;
+    float m_triangleCache[5];
 };
 
-// @fnv 0x00d39980
-FUN_00d39980_cls* __cdecl CreateAllocatedObject(int a1, int a2, int a3, int a4)
-{
-    AllocHolder* pAllocHolder = static_cast<AllocHolder*>(::FUN_00c85750());
-    FUN_00d39980_cls* pObject = (FUN_00d39980_cls*)pAllocHolder->m_pAllocator->Alloc(0x28);
-    pObject->m_w04 = 0x28;
-    pObject->m_w06 = 1;
-    pObject->m_i08 = a4;
-    pObject->m_w0C = 0xffff;
-    pObject->m_w0E = 0xffff;
-    pObject->m_w10 = 0xffff;
-    pObject->m_vptr = DAT_010ceefc;
-    ::ComputeInverseLengths((__m128 *)(void *)((void*)(*(int*)a1 + 0x20)), (float *)(void *)(&pObject->m_sub));
-    pObject->m_vptr = DAT_010cef38;
-    return pObject;
-}
 
 
 
@@ -231,46 +193,6 @@ struct Buffer_d3b260 {
 
 
 
-struct Agent_d3b260 {
-    void FUN_00d3b260(int a, int b, int c, Buffer_d3b260* buf);
-};
-
-// @fnv 0x00d3b260
-void Agent_d3b260::FUN_00d3b260(int a, int b, int c, Buffer_d3b260* apBuffer)
-{
-    float dist = apBuffer->m_fHitFraction;
-    Elem_d3b260* e = apBuffer->m_kRayEnd;
-    reinterpret_cast<::CapsuleTriProcess *>(this)->FUN_00d3ad70((*(const ::hkpCdBody_S *)(b)), (*(const ::hkpCdBody_S *)(a)), (*(const ::GskAgentInput *)(c)), (*(::WorldOperationEntry *)(apBuffer)));
-    for (; e < apBuffer->m_kRayEnd; e++)
-    {
-        hkVector4 w;
-        w.setBroadcast3(e->m_dir);
-        w.mul4(e->m_dir);
-        w.add4(e->m_pos);
-        e->m_pos = w;
-        e->m_dir.setNeg4(e->m_dir);
-    }
-    if (dist != apBuffer->m_fHitFraction)
-    {
-        apBuffer->m_vHitNormal.neg();
-        unsigned char n = apBuffer->m_ucLowNibble;
-        apBuffer->m_ucLowNibble = apBuffer->m_ucHighNibble;
-        apBuffer->m_ucHighNibble = n;
-        unsigned char t = apBuffer->m_kPointA;
-        apBuffer->m_kPointA = apBuffer->m_kPointB;
-        apBuffer->m_kPointB = t;
-        int idx = apBuffer->m_kPointA + apBuffer->m_kPointB - 1;
-        unsigned short w = apBuffer->m_idx[0];
-        apBuffer->m_idx[0] = apBuffer->m_idx[idx];
-        apBuffer->m_idx[idx] = w;
-        if ((apBuffer->m_kPointA & apBuffer->m_kPointB) == 2)
-        {
-            unsigned short usTmp = apBuffer->m_idx[1];
-            apBuffer->m_idx[1] = apBuffer->m_idx[2];
-            apBuffer->m_idx[2] = usTmp;
-        }
-    }
-}
 
 struct __declspec(align(16)) FourWord {
     unsigned int x, y, z, w;
@@ -309,16 +231,16 @@ struct __declspec(align(16)) MotionCallData {
     const void* descriptor;
     float scale;
     FourWord direction;
-    unsigned int mode;
+    void* mode;
 };
 
 
 
 // Copies the input packet, XORs its direction with DAT_010c44d0, builds primary/secondary MotionCallData and calls FUN_00daf8e0.
 // @fnv 0x00d3ac80
-void __cdecl FUN_00d3ac80(unsigned int first, unsigned int second,
-                           const MotionPacket* apPacket, unsigned int mode,
-                           unsigned int optionalMode)
+void __cdecl FUN_00d3ac80(const void* first, const void* second,
+                           const MotionPacket* apPacket, void* mode,
+                           void* optionalMode)
 {
     MotionPacket packetCopy = *apPacket;
     packetCopy.direction.simd = _mm_xor_ps(apPacket->direction.simd, ::DAT_010c44d0);
@@ -335,9 +257,9 @@ void __cdecl FUN_00d3ac80(unsigned int first, unsigned int second,
         secondary.scale = ::DAT_0104da48;
         secondary.direction = apPacket->direction.words;
         secondary.mode = optionalMode;
-        ::FUN_00daf8e0((const ::IterativeSweep_hkpCdBody *)(second), (const ::IterativeSweep_hkpCdBody *)(first), (const ::IterativeSweep_hkpLinearCastCollisionInput *)(::MotionPacket *)(&packetCopy), (::IterativeSweep_hkpCdPointCollector *)(::MotionCallData *)(&primary), (::IterativeSweep_hkpCdPointCollector *)(::MotionCallData *)(&secondary));
+        ::FUN_00daf8e0(static_cast<const ::IterativeSweep_hkpCdBody *>(second), static_cast<const ::IterativeSweep_hkpCdBody *>(first), (const ::IterativeSweep_hkpLinearCastCollisionInput *)(::MotionPacket *)(&packetCopy), (::IterativeSweep_hkpCdPointCollector *)(::MotionCallData *)(&primary), (::IterativeSweep_hkpCdPointCollector *)(::MotionCallData *)(&secondary));
     } else {
-        ::FUN_00daf8e0((const ::IterativeSweep_hkpCdBody *)(second), (const ::IterativeSweep_hkpCdBody *)(first), (const ::IterativeSweep_hkpLinearCastCollisionInput *)(::MotionPacket *)(&packetCopy), (::IterativeSweep_hkpCdPointCollector *)(::MotionCallData *)(&primary), (::IterativeSweep_hkpCdPointCollector *)(::MotionCallData *)(0));
+        ::FUN_00daf8e0(static_cast<const ::IterativeSweep_hkpCdBody *>(second), static_cast<const ::IterativeSweep_hkpCdBody *>(first), (const ::IterativeSweep_hkpLinearCastCollisionInput *)(::MotionPacket *)(&packetCopy), (::IterativeSweep_hkpCdPointCollector *)(::MotionCallData *)(&primary), (::IterativeSweep_hkpCdPointCollector *)(::MotionCallData *)(0));
     }
 }
 
@@ -380,7 +302,7 @@ static __forceinline void transform(Vec4* out, const char* shape, int count, con
 
 // Transforms two shapes' vertices by their matrices, then calls FUN_00cd6520 with the results, a4, a3's float at +8, a5 and a6.
 // @fnv 0x00d399f0
-void __cdecl TransformAndDispatch(char* a1, char* a2, char* pExtra, void* a4, int a5, int a6)
+void __cdecl TransformAndDispatch(char* a1, char* a2, char* pExtra, void* a4, int a5, ::ContactRecord* a6)
 {
     const char* shapeA = *(const char**)a1;
     const char* shapeB = *(const char**)a2;
@@ -398,7 +320,7 @@ void __cdecl TransformAndDispatch(char* a1, char* a2, char* pExtra, void* a4, in
                  (const float *)(a4),
                  *(float*)((char*)pExtra + 8),
                  a5,
-                 (::ContactRecord *)(a6),
+                 a6,
                  (::Feature *)(0));
 }
 
@@ -558,7 +480,7 @@ int __cdecl FUN_00d39bf0(Obj* a, Obj* b, Par* volatile apParams, void* q, Contac
     Info info[3];
     __m128 res[6];
     Par* input = apParams;
-    ::FUN_00cd6520((const ::ContactVector *)(workspace.la), shapes[0]->radius, (const ::ContactVector *)(workspace.lb), shapes[1]->radius, (const float *)(q), input->c, 0, (::ContactRecord *)((int)res), (::Feature *)((int)info));
+    ::FUN_00cd6520((const ::ContactVector *)(workspace.la), shapes[0]->radius, (const ::ContactVector *)(workspace.lb), shapes[1]->radius, (const float *)(q), input->c, 0, reinterpret_cast<::ContactRecord *>(res), reinterpret_cast<::Feature *>(info));
 
     float fDistA = ((float*)res)[7];
     float fDistB = ((float*)res)[15];
@@ -998,7 +920,7 @@ void __cdecl FUN_00d3a8c0(Body* apBodyA, Body* apBodyB, Input* input, Penetratio
     Shape* pShapeB = apBodyB->shape;
     mytransform(l.outA.points, pShapeA, 2, apBodyA->matrix);
     mytransform2(l.outB.points, pShapeB, 3, apBodyB->matrix);
-    ::FUN_00cd6520((const ::ContactVector *)(void *)(&l.outA), pShapeA->radius, (const ::ContactVector *)(void *)(&l.outB), pShapeB->radius, (const float *)(void *)(&cache), input->tolerance, 0, (::ContactRecord *)((int)&l.result), (::Feature *)(0));
+    ::FUN_00cd6520((const ::ContactVector *)(void *)(&l.outA), pShapeA->radius, (const ::ContactVector *)(void *)(&l.outB), pShapeB->radius, (const float *)(void *)(&cache), input->tolerance, 0, reinterpret_cast<::ContactRecord *>(&l.result), (::Feature *)(0));
     if (l.result.points[0].normal.w < 0.0f || l.result.points[1].normal.w < 0.0f)
         collector->add(apBodyA, apBodyB);
     state = (TimerPair*)TlsGetValue(DAT_0126835c);
@@ -1025,7 +947,7 @@ void __cdecl FUN_00d3a8c0(Body* apBodyA, Body* apBodyB, Input* input, Penetratio
 #include "fnv/symbols_00c85000.h"
 void FUN_00d3ab60(void* apObject);
 void __cdecl FUN_00d3ab90(void** apTable);
-void __cdecl TransformAndDispatch(char* a1, char* a2, char* pExtra, void* a4, int a5, int a6);
+void __cdecl TransformAndDispatch(char* a1, char* a2, char* pExtra, void* a4, int a5, ::ContactRecord* a6);
 int __cdecl FUN_00d39bf0(Obj* a, Obj* b, Par* volatile p, void* q, Contact* out);
 
 typedef float hkReal;
@@ -1648,6 +1570,7 @@ const hkVector4_S*hkpCapsuleShape::GetIndexedVertices()const
 {
 return&m_kVertexA;
 }
+
 class hkpTriangleShape:public hkpConvexShape
 {
 public:
@@ -1662,6 +1585,24 @@ void setType(){m_type=HK_SHAPE_TRIANGLE;}
 const hkVector4_S*hkpTriangleShape::GetIndexedVertices()const
 {
 return&m_kVertexA;
+}
+
+// @fnv 0x00d39980
+FUN_00d39980_cls* __cdecl CreateAllocatedObject(const void* a1, const void* a2, const void* a3, void* a4)
+{
+    AllocHolder* pAllocHolder = static_cast<AllocHolder*>(::FUN_00c85750());
+    FUN_00d39980_cls* pObject = static_cast<FUN_00d39980_cls*>(pAllocHolder->m_pAllocator->Alloc(sizeof(FUN_00d39980_cls)));
+    pObject->m_w04 = sizeof(FUN_00d39980_cls);
+    pObject->m_w06 = 1;
+    pObject->m_i08 = a4;
+    pObject->m_w0C = 0xffff;
+    pObject->m_w0E = 0xffff;
+    pObject->m_w10 = 0xffff;
+    pObject->m_vptr = DAT_010ceefc;
+    const hkpTriangleShape* triangle = static_cast<const hkpTriangleShape*>(static_cast<const hkpCdBody_S*>(a1)->m_pCollisionShape);
+    ::ComputeInverseLengths(const_cast<__m128*>(reinterpret_cast<const __m128*>(triangle->GetIndexedVertices())), pObject->m_triangleCache);
+    pObject->m_vptr = DAT_010cef38;
+    return pObject;
 }
 namespace hkVector4Util_S
 {
@@ -1910,18 +1851,72 @@ m_usContactPointId[p]=(0xffff);
 {StringCursor&mStream=StringCursor::GetMonitorStream();if(reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(mStream.memoryAvailable()))->FUN_005609f0()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName="E" "t" "";h->setTime();mStream.setEnd((char*)(h+1));}};
 }
 
+// Moved from the base unit after the variant classes (VEGAS-15).
+
+struct Agent_d3b260 : CapsuleTriProcess {
+    void FUN_00d3b260(const void* a, const void* b, const void* c, Buffer_d3b260* buf);
+};
+
+// @fnv 0x00d3b260
+void Agent_d3b260::FUN_00d3b260(const void* a, const void* b, const void* c, Buffer_d3b260* apBuffer)
+{
+    float dist = apBuffer->m_fHitFraction;
+    Elem_d3b260* e = apBuffer->m_kRayEnd;
+    FUN_00d3ad70(*static_cast<const hkpCdBody_S*>(b), *static_cast<const hkpCdBody_S*>(a), *static_cast<const GskAgentInput*>(c), (*(::WorldOperationEntry *)(apBuffer)));
+    for (; e < apBuffer->m_kRayEnd; e++)
+    {
+        hkVector4 w;
+        w.setBroadcast3(e->m_dir);
+        w.mul4(e->m_dir);
+        w.add4(e->m_pos);
+        e->m_pos = w;
+        e->m_dir.setNeg4(e->m_dir);
+    }
+    if (dist != apBuffer->m_fHitFraction)
+    {
+        apBuffer->m_vHitNormal.neg();
+        unsigned char n = apBuffer->m_ucLowNibble;
+        apBuffer->m_ucLowNibble = apBuffer->m_ucHighNibble;
+        apBuffer->m_ucHighNibble = n;
+        unsigned char t = apBuffer->m_kPointA;
+        apBuffer->m_kPointA = apBuffer->m_kPointB;
+        apBuffer->m_kPointB = t;
+        int idx = apBuffer->m_kPointA + apBuffer->m_kPointB - 1;
+        unsigned short w = apBuffer->m_idx[0];
+        apBuffer->m_idx[0] = apBuffer->m_idx[idx];
+        apBuffer->m_idx[idx] = w;
+        if ((apBuffer->m_kPointA & apBuffer->m_kPointB) == 2)
+        {
+            unsigned short usTmp = apBuffer->m_idx[1];
+            apBuffer->m_idx[1] = apBuffer->m_idx[2];
+            apBuffer->m_idx[2] = usTmp;
+        }
+    }
+}
+
+// Builds a CallbackState with a max float, the given value and a constant pointer, then passes it to FUN_00d3a280 with the three pointers reordered.
+// @fnv 0x00d3b220
+void __cdecl FUN_00d3b220(void* apOne, void* apTwo, void* apThree, int aiValue)
+{
+    CallbackState kState;
+    kState.m_fFirstLightParameter = 3.40282e+38f;
+    kState.m_iValue = aiValue;
+    kState.m_pIntegerValue = &(*reinterpret_cast<const int *>(&::DAT_010ce7fc));
+    hkpCapsuleTriangleAgent::FUN_00d3a280(*static_cast<const hkpCdBody_S*>(apTwo), *static_cast<const hkpCdBody_S*>(apOne), *static_cast<const CollisionAgentContext*>(apThree), (*(::hkpCdPointCollector *)(&kState)));
+}
+
 // Moved from hkpcapsuletriangleagent_rtm_variant.cpp (VEGAS-15).
 #include "fnv/decl/FUN_00cfbcc0_cls.h"
 
-typedef void(__cdecl* FnA_d3a280)(void*, void*, void*, CallbackState*);
-typedef void(__cdecl* FnB_daf8e0)(unsigned int, unsigned int, MotionPacket*, MotionCallData*, MotionCallData*);
+// Writes the four agent functions into p and clears its flipped and predictive flags.
+// @fnv 0x00d3ab60
 __declspec(noinline) void FUN_00d3ab60(void* p)
 {
     S_00d389f0_AgentFuncs* s = (S_00d389f0_AgentFuncs*)p;
     s->m_pCreateFunc = (S_00d389f0_Func)((void (&)())::fnv_00d398c0::CreateObjectFromFactory);
     s->m_pQueryPenetrationsFunc = (S_00d389f0_Func)((void (&)())::FUN_00d3a8c0);
-    s->m_getClosestPointsFunc = (S_00d389f0_Func)(FnA_d3a280)((void (&)(void *, void *, void *, CallbackState *))::hkpCapsuleTriangleAgent::FUN_00d3a280);
-    s->m_pLinearCastFunc = (S_00d389f0_Func)(FnB_daf8e0)((void (&)(unsigned int, unsigned int, MotionPacket *, MotionCallData *, MotionCallData *))::FUN_00daf8e0);
+    s->m_getClosestPointsFunc = (S_00d389f0_Func)((void (&)())::hkpCapsuleTriangleAgent::FUN_00d3a280);
+    s->m_pLinearCastFunc = (S_00d389f0_Func)((void (&)())::FUN_00daf8e0);
     s->m_bIsFlipped = 0;
     s->m_bIsPredictive = 0;
 }

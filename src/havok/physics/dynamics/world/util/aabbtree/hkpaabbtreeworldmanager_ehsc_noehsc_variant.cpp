@@ -5,6 +5,7 @@
 
 // src/havok/physics/dynamics/world/util/aabbtree/hkpaabbtreeworldmanager.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/util/aabbtree/hkpaabbtreeworldmanager.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <intrin.h>
 #include <windows.h>
 #include "fnv/decl/CollectorState.h"
 #include "fnv/decl/EntListSelf.h"
@@ -853,10 +854,7 @@ struct ProfileStream {
             event->name = name;
             event->first = first;
             unsigned int ticks;
-            __asm {
-                rdtsc
-                mov dword ptr[ticks], eax
-            }
+            ticks = static_cast<unsigned int>(__rdtsc());
             event->tick = ticks;
             cursor = (PEv*)(event + 1);
         }
@@ -866,10 +864,7 @@ struct ProfileStream {
         if (event < end) {
             event->name = name;
             unsigned int ticks;
-            __asm {
-                rdtsc
-                mov dword ptr[ticks], eax
-            }
+            ticks = static_cast<unsigned int>(__rdtsc());
             event->tick = ticks;
             cursor = event + 1;
         }
@@ -996,10 +991,7 @@ struct CommandTimingEntry {
     const char* m_pCommandName; unsigned m_uiStartTicks; unsigned m_uiEndTicks;
     __forceinline void setTime() {
         unsigned int ticks;
-        __asm {
-            rdtsc
-            mov dword ptr[ticks], eax
-        }
+        ticks = static_cast<unsigned int>(__rdtsc());
         m_uiStartTicks = ticks;
     }
 };

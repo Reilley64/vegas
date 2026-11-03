@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 
+#include <intrin.h>
 #include <new>
 #include "fnv/decl/FUN_00ddcc60.h"
 #include "fnv/decl/FUN_00de1fc0.h"
@@ -802,10 +803,7 @@ inline void recordEvent(const char* name) {
     if (event < stream->end) {
         event->name = name;
         unsigned int tick;
-        __asm {
-            rdtsc
-            mov dword ptr[tick], eax
-        }
+        tick = static_cast<unsigned int>(__rdtsc());
         event->timestamp = tick;
         stream->current = event + 1;
     }

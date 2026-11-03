@@ -1,6 +1,7 @@
 // src/havok/physics/dynamics/world/simulation/multithreaded/cpu/hkpcpuintegratejob.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/simulation/multithreaded/cpu/hkpcpuintegratejob.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <intrin.h>
 #include <windows.h>
 #include <new>
 #include "fnv/decl/CB1A90Owner.h"
@@ -636,10 +637,7 @@ void FUN_00d95130(SceneInput island, FlagByte coherent, JobHeader* header,
             MonitorStream::CommandTimingEntry* event=(MonitorStream::CommandTimingEntry*)bytesCopy(stream.GetStreamEnd());
             event->m_pCommandName=str_010d3f1c; _ReadWriteBarrier();
             DWORD ticks;
-            __asm {
-                rdtsc
-                mov dword ptr[ticks], eax
-            }
+            ticks = static_cast<unsigned int>(__rdtsc());
             event->m_uiStartTicks=ticks;
             stream.setEnd((char*)(event+1));
         }
@@ -806,10 +804,7 @@ void FUN_00d95130(SceneInput island, FlagByte coherent, JobHeader* header,
             MonitorStream::CommandTimingEntry* event=(MonitorStream::CommandTimingEntry*)stream.GetStreamEnd();
             event->m_pCommandName=::DAT_010c41f8; _ReadWriteBarrier();
             DWORD ticks;
-            __asm {
-                rdtsc
-                mov dword ptr[ticks], eax
-            }
+            ticks = static_cast<unsigned int>(__rdtsc());
             event->m_uiStartTicks=ticks;
             stream.setEnd((char*)(event+1));
         }
@@ -881,10 +876,7 @@ struct MonitorStream {
 
 __forceinline void MonitorStream::CommandTimingEntry::setTime() {
     unsigned int ticks;
-    __asm {
-        rdtsc
-        mov dword ptr[ticks], eax
-    }
+    ticks = static_cast<unsigned int>(__rdtsc());
     time0 = ticks;
 }
 

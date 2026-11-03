@@ -5,6 +5,7 @@
 // src/havok/physics/utilities/visualdebugger/viewer/collide/hkpcontactpointviewer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/collide/hkpcontactpointviewer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <intrin.h>
 #include <windows.h>
 #include <new>
 #include "fnv/decl/FUN_00ddcc60.h"
@@ -705,10 +706,7 @@ static inline void markContactArrowProfile67(const char* name)
 
         p->name = name;
         unsigned int ticks;
-        __asm {
-            rdtsc
-            mov dword ptr[ticks], eax
-        }
+        ticks = static_cast<unsigned int>(__rdtsc());
         p->tsc = ticks;
 
         s->m_ptr = (char*)(p + 1);

@@ -5,6 +5,7 @@
 
 // src/havok/physics/utilities/charactercontrol/characterproxy/hkpcharacterproxy.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/charactercontrol/characterproxy/hkpcharacterproxy.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <intrin.h>
 #include "fnv/decl/HostC9C6.h"
 #include "fnv/decl/OwnerCD2A.h"
 #include "fnv/decl/PhantomListeners.h"
@@ -1201,10 +1202,7 @@ struct POwner:PBase,PEntityListener,PPhantomListener {
 };
 struct PTimer {const char* tag;unsigned time,time1;__forceinline void stamp() throw(){
 unsigned int ticks;
-__asm {
-    rdtsc
-    mov dword ptr[ticks], eax
-}
+ticks = static_cast<unsigned int>(__rdtsc());
 time=ticks;
 }};
 struct PTimerList:PTimer {const char* first;};

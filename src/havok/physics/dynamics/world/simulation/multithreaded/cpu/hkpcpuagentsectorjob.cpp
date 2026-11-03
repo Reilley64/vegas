@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/world/simulation/multithreaded/cpu/hkpcpuagentsectorjob.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/simulation/multithreaded/cpu/hkpcpuagentsectorjob.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <intrin.h>
 #include <new>
 #include "fnv/decl/FUN_00c911d0_Class.h"
 #include "fnv/decl/FUN_00c91210_Class.h"
@@ -223,10 +224,7 @@ struct Globals {
 };
 struct Queue {  };
 struct MonitorRecord { const char *name; unsigned int time, field08; __forceinline void sample() { unsigned int stamp;
-        __asm {
-            rdtsc
-            mov dword ptr[stamp], eax
-        }
+        stamp = static_cast<unsigned int>(__rdtsc());
         time = stamp;
     } };
 struct Monitor { int field00; MonitorRecord *end; int field08; MonitorRecord *limit; };

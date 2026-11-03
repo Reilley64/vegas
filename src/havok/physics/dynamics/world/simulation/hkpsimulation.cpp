@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/world/simulation/hkpsimulation.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/simulation/hkpsimulation.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <intrin.h>
 #include <windows.h>
 #include <new>
 #include "fnv/decl/CB1A90Owner.h"
@@ -2072,10 +2073,7 @@ __forceinline void stamp(const char* name, volatile unsigned int& clockSlot) {
  if (e < t->m_last) {
   e->m_name = name;
   unsigned int ticks;
-  __asm {
-      rdtsc
-      mov dword ptr[ticks], eax
-  }
+  ticks = static_cast<unsigned int>(__rdtsc());
   e->m_low = ticks;
   t->m_next = e + 1;
  }
@@ -2393,10 +2391,7 @@ __forceinline void stampN(const char* name) {
  if (e < t->m_last) {
   e->m_name = name;
   unsigned int ticks;
-  __asm {
-      rdtsc
-      mov dword ptr[ticks], eax
-  }
+  ticks = static_cast<unsigned int>(__rdtsc());
   e->m_low = ticks;
   t->m_next = e + 1;
  }
@@ -2407,10 +2402,7 @@ __forceinline void stampEnd() {
  if (e < t->m_last) {
   e->m_name = ::DAT_010c41f8;
   unsigned int ticks;
-  __asm {
-      rdtsc
-      mov dword ptr[ticks], eax
-  }
+  ticks = static_cast<unsigned int>(__rdtsc());
   e->m_low = ticks;
   t->m_next = e + 1;
  }

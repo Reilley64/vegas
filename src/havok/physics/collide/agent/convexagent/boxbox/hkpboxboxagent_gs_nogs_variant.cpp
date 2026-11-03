@@ -5,6 +5,7 @@
 
 // src/havok/physics/collide/agent/convexagent/boxbox/hkpboxboxagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/convexagent/boxbox/hkpboxboxagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <intrin.h>
 #include <windows.h>
 #include "fnv/decl/BoxAgent.h"
 #include "fnv/decl/FUN_00cfbbe0_cls.h"
@@ -220,10 +221,7 @@ extern "C" void __cdecl FUN_00d40470(void* first, void* second, void* rawInput, 
             TimerEntry70* r = stream->top;
             r->name = "TtBoxBox";
             unsigned int stamp;
-            __asm {
-                rdtsc
-                mov dword ptr[stamp], eax
-            }
+            stamp = static_cast<unsigned int>(__rdtsc());
             r->ticks = stamp;
             stream->top = r + 1;
         }
@@ -263,10 +261,7 @@ extern "C" void __cdecl FUN_00d40470(void* first, void* second, void* rawInput, 
             TimerEntry70* r = stream->top;
             r->name = "Et";
             unsigned int stamp;
-            __asm {
-                rdtsc
-                mov dword ptr[stamp], eax
-            }
+            stamp = static_cast<unsigned int>(__rdtsc());
             r->ticks = stamp;
             stream->top = r + 1;
         }

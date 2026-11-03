@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/world/simulation/continuous/hkpcontinuoussimulation.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/simulation/continuous/hkpcontinuoussimulation.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <intrin.h>
 #include <windows.h>
 #include <new>
 #include <cmath>
@@ -4426,10 +4427,7 @@ struct TraceCmd {
     __forceinline void setTime()
     {
         unsigned int ticks;
-        __asm {
-            rdtsc
-            mov dword ptr[ticks], eax
-        }
+        ticks = static_cast<unsigned int>(__rdtsc());
         time0=ticks;
     }
 };
@@ -4627,10 +4625,7 @@ static __forceinline void WriteClock(const char* name) {
         h->m_name = name;
         _ReadWriteBarrier();
         unsigned int ticks;
-        __asm {
-            rdtsc
-            mov dword ptr[ticks], eax
-        }
+        ticks = static_cast<unsigned int>(__rdtsc());
         h->m_uiCommandId = ticks;
         s->m_kRayEnd = (char*)(h + 1);
     }
@@ -5519,10 +5514,7 @@ typedef unsigned long DWORD;
 struct ProfRec { const char* m_pName; DWORD m_iTick; DWORD unk08;
     __forceinline void stamp() {
         DWORD value;
-        __asm {
-            rdtsc
-            mov dword ptr[value], eax
-        }
+        value = static_cast<unsigned int>(__rdtsc());
         m_iTick=value;
     }
 };

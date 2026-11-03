@@ -7,6 +7,7 @@
 
 // src/havok/physics/collide/agent/convexagent/gjk/hkpgskbaseagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/convexagent/gjk/hkpgskbaseagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <intrin.h>
 #include <windows.h>
 #include "fnv/decl/Cls_dafcd0.h"
 #include "fnv/decl/FUN_00da9880_cls.h"
@@ -836,10 +837,7 @@ __forceinline void setTime();
 void hkMonitorStream_S::CommandTimingEntry::setTime()
 {
 hkUint32 ticks;
-__asm{
-rdtsc
-mov dword ptr[ticks],eax
-}
+ticks = static_cast<unsigned int>(__rdtsc());
 m_uiStartTicks=ticks;
 }
 class hkContactPoint_S

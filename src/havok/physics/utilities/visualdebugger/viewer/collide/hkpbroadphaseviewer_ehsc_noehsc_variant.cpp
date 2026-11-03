@@ -5,6 +5,7 @@
 
 // src/havok/physics/utilities/visualdebugger/viewer/collide/hkpbroadphaseviewer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/collide/hkpbroadphaseviewer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <intrin.h>
 #include <windows.h>
 #include <new>
 #include "fnv/decl/FUN_00de1210.h"
@@ -309,10 +310,7 @@ static inline void S00d6a9b0_Mark(const char* name)
     {
         r->m_pName = name;
         unsigned int t;
-        __asm {
-            rdtsc
-            mov dword ptr[t], eax
-        }
+        t = static_cast<unsigned int>(__rdtsc());
         r->m_uTick = t;
         p->m_pCur = r + 1;
     }

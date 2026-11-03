@@ -4,6 +4,7 @@
 
 // src/havok/physics/dynamics/world/util/aabbtree/hkpaabbtreeworldmanager.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/util/aabbtree/hkpaabbtreeworldmanager.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <intrin.h>
 #include <windows.h>
 #include "fnv/decl/Dispatcher.h"
 #include "fnv/decl/FUN_00c9bff0_Class.h"
@@ -870,10 +871,7 @@ __forceinline void S00d094a0_beginList(const char* name, const char* detail)
         p->m_detail = detail;
         _ReadWriteBarrier();
         unsigned stamp;
-        __asm {
-            rdtsc
-            mov dword ptr[stamp], eax
-        }
+        stamp = static_cast<unsigned int>(__rdtsc());
         p->m_uiCommandId = stamp;
         t->m_kRayEnd = (char*)p + 16;
     }
@@ -886,10 +884,7 @@ __forceinline void S00d094a0_timer(const char* name)
         p->m_name = name;
         _ReadWriteBarrier();
         unsigned stamp;
-        __asm {
-            rdtsc
-            mov dword ptr[stamp], eax
-        }
+        stamp = static_cast<unsigned int>(__rdtsc());
         p->m_uiCommandId = stamp;
         t->m_kRayEnd = (char*)&p->m_detail;
     }

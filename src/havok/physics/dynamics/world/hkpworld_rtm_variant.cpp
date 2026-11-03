@@ -4,6 +4,7 @@
 
 // src/havok/physics/dynamics/world/hkpworld.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/hkpworld.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <intrin.h>
 #include "generated/data/vtables.h"
 #include <windows.h>
 #include <new>
@@ -6091,10 +6092,7 @@ struct S96_WorldShell : hkpWorld {
    S96_TimerEntry* entry=timer->unk04;
    entry->name=name;
    unsigned tick;
-   __asm {
-    rdtsc
-    mov dword ptr[tick], eax
-   }
+   tick = static_cast<unsigned int>(__rdtsc());
    entry->tick=tick;
    timer->unk04=entry+1;
   }
@@ -6105,10 +6103,7 @@ struct S96_WorldShell : hkpWorld {
    S96_TimerEntry* entry=timer->unk04;
    entry->name=::DAT_010c41f8;
    unsigned tick;
-   __asm {
-    rdtsc
-    mov dword ptr[tick], eax
-   }
+   tick = static_cast<unsigned int>(__rdtsc());
    entry->tick=tick;
    timer->unk04=entry+1;
   }
@@ -6156,10 +6151,7 @@ struct S97_MonitorStream {
         __forceinline void setTime()
         {
             unsigned int ticks;
-            __asm {
-                rdtsc
-                mov dword ptr[ticks], eax
-            }
+            ticks = static_cast<unsigned int>(__rdtsc());
             m_uiStartTicks = ticks;
         }
     };
@@ -6976,10 +6968,7 @@ const char*voN; } ; struct PointerAndIntegerCommand:public TMS::Command{
 void*vp6; int vsAF; } ;
 } ;
 void TMS::CommandTimingEntry::setTime()throw(){ TU32 ticks;
-__asm {
-rdtsc
-mov dword ptr[ticks], eax
-}
+ticks = static_cast<unsigned int>(__rdtsc());
  vt0=ticks; }
 class TTFH;
 class TWMAWD;

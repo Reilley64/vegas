@@ -2,6 +2,7 @@
 // src/havok/physics/collide/agent/miscagent/transform/hkptransformagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/miscagent/transform/hkptransformagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <intrin.h>
 #include "generated/data/vtables.h"
 #include <windows.h>
 #include "fnv/decl/FUN_00cfbbe0_cls.h"
@@ -1409,10 +1410,7 @@ struct S_00d42b50_TimerCommand {
     void setTime()
     {
         unsigned int t;
-        __asm {
-            rdtsc
-            mov dword ptr[t], eax
-        }
+        t = static_cast<unsigned int>(__rdtsc());
         m_uiStartTicks = t;
     }
 };
@@ -1547,10 +1545,7 @@ void S_00d42b50_Cls::FUN_00d42b50(const S_00d42b50_CdBody& bodyA, const S_00d42b
             S_00d42b50_TimerCommand* h = (S_00d42b50_TimerCommand*)mStream.m_kRayEnd;
             h->m_pCommandName = "TtTransform";
             { unsigned int fnv_ticks;
-                __asm {
-                    rdtsc
-                    mov dword ptr[fnv_ticks], eax
-                }
+                fnv_ticks = static_cast<unsigned int>(__rdtsc());
                 scratch.tick = fnv_ticks; }
             h->m_uiStartTicks = scratch.tick;
             mStream.m_kRayEnd = (char*)(h + 1);
@@ -1601,10 +1596,7 @@ void S_00d42b50_Cls::FUN_00d42b50(const S_00d42b50_CdBody& bodyA, const S_00d42b
             S_00d42b50_TimerCommand* h = (S_00d42b50_TimerCommand*)mStream.m_kRayEnd;
             h->m_pCommandName = "Et";
             { unsigned int fnv_ticks;
-                __asm {
-                    rdtsc
-                    mov dword ptr[fnv_ticks], eax
-                }
+                fnv_ticks = static_cast<unsigned int>(__rdtsc());
                 scratch.tick = fnv_ticks; }
             h->m_uiStartTicks = scratch.tick;
             mStream.m_kRayEnd = (char*)(h + 1);

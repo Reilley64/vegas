@@ -4,6 +4,7 @@
 
 // src/havok/physics/collide/agent/convexagent/spheretriangle/hkpspheretriangleagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/convexagent/spheretriangle/hkpspheretriangleagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <intrin.h>
 #include <windows.h>
 #include "fnv/decl/Triangle.h"
 #include "fnv/symbols_00c85000.h"
@@ -572,10 +573,7 @@ void TargetAgent_Cand::FUN_00d3dd90(const CdBody* bodyA, const CdBody* bodyB, co
         cur->name = DAT_010cf0d4;
         unsigned int ticks;
         _ReadWriteBarrier();
-        __asm {
-            rdtsc
-            mov dword ptr[ticks], eax
-        }
+        ticks = static_cast<unsigned int>(__rdtsc());
         cur->timestamp = ticks;
         stream->m_pTileTemplate = cur + 1;
     }
@@ -624,10 +622,7 @@ void TargetAgent_Cand::FUN_00d3dd90(const CdBody* bodyA, const CdBody* bodyB, co
         curEnd->name = DAT_010c41f8;
         unsigned int ticks;
         _ReadWriteBarrier();
-        __asm {
-            rdtsc
-            mov dword ptr[ticks], eax
-        }
+        ticks = static_cast<unsigned int>(__rdtsc());
         curEnd->timestamp = ticks;
         streamEnd->m_pTileTemplate = curEnd + 1;
     }

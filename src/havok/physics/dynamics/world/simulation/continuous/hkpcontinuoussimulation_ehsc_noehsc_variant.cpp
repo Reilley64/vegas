@@ -5,6 +5,7 @@
 
 // src/havok/physics/dynamics/world/simulation/continuous/hkpcontinuoussimulation.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/simulation/continuous/hkpcontinuoussimulation.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <intrin.h>
 #include <windows.h>
 #include <cmath>
 #include "fnv/decl/AdvanceSimulation.h"
@@ -3313,10 +3314,7 @@ struct TraceCmd {
     __forceinline void setTime()
     {
         unsigned int ticks;
-        __asm {
-            rdtsc
-            mov dword ptr[ticks], eax
-        }
+        ticks = static_cast<unsigned int>(__rdtsc());
         time0=ticks;
     }
 };
@@ -3395,10 +3393,7 @@ static __forceinline void WriteClock(const char* name) {
         h->m_name = name;
         _ReadWriteBarrier();
         unsigned int ticks;
-        __asm {
-            rdtsc
-            mov dword ptr[ticks], eax
-        }
+        ticks = static_cast<unsigned int>(__rdtsc());
         h->m_uiCommandId = ticks;
         s->m_kRayEnd = (char*)(h + 1);
     }
@@ -4187,10 +4182,7 @@ struct SolWorld {
 struct SolTimerRecord : TimerCommandD0 {
     __forceinline void stamp() {
         unsigned int ticks;
-        __asm {
-            rdtsc
-            mov dword ptr[ticks], eax
-        }
+        ticks = static_cast<unsigned int>(__rdtsc());
         m_uiCommandId = ticks;
     }
 };
@@ -5337,10 +5329,7 @@ __forceinline void setTime();
 void StringCursor::CommandTimingEntry::setTime()
 {
 hkUint32 ticks;
-__asm{
-rdtsc
-mov dword ptr[ticks],eax
-}
+ticks = static_cast<unsigned int>(__rdtsc());
 m_uiStartTicks=ticks;
 }
 struct MonitorStreamOperationState

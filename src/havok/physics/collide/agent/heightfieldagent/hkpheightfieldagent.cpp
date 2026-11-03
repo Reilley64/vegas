@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 
+#include <intrin.h>
 #include <windows.h>
 #include "fnv/decl/FUN_00cfbbe0_cls.h"
 #include "fnv/decl/hkTransformCB22.h"
@@ -351,10 +352,7 @@ struct StringCursor {
             cmd->name = name1;
             cmd->subName = name2;
             unsigned int ticks;
-            __asm {
-                rdtsc
-                mov dword ptr[ticks], eax
-            }
+            ticks = static_cast<unsigned int>(__rdtsc());
             cmd->time = ticks;
             m_memPos = (char*)(cmd + 1);
         }
@@ -364,10 +362,7 @@ struct StringCursor {
             MonitorCommand* cmd = (MonitorCommand*)m_memPos;
             cmd->name = name;
             unsigned int ticks;
-            __asm {
-                rdtsc
-                mov dword ptr[ticks], eax
-            }
+            ticks = static_cast<unsigned int>(__rdtsc());
             cmd->time = ticks;
             m_memPos = (char*)&cmd->subName;
         }

@@ -3,6 +3,7 @@
 // against, for verified matches whose own declarations clash with the unit's current types.
 // src/havok/physics/vehicle/manager/linearcastbatchingmanager/hkpvehiclelinearcastbatchingmanager.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/vehicle/manager/linearcastbatchingmanager/hkpvehiclelinearcastbatchingmanager.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <intrin.h>
 #include <windows.h>
 #include "fnv/decl/D04B90World.h"
 #include "fnv/decl/VUC_StepInstance.h"
@@ -452,10 +453,7 @@ static inline void E430B0Timer(E430B0Mon* mon, const char* name)
 	{
 		*(const char**)cur = name;
 		unsigned int stamp;
-		__asm {
-		    rdtsc
-		    mov dword ptr[stamp], eax
-		}
+		stamp = static_cast<unsigned int>(__rdtsc());
 		*(unsigned int*)(cur + 4) = stamp;
 		mon->end = cur + 12;
 	}

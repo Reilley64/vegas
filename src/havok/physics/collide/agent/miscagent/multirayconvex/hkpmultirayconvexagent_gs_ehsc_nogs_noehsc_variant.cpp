@@ -5,6 +5,7 @@
 
 // src/havok/physics/collide/agent/miscagent/multirayconvex/hkpmultirayconvexagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/miscagent/multirayconvex/hkpmultirayconvexagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <intrin.h>
 #include <windows.h>
 #include "fnv/decl/FUN_00cfbbe0_cls.h"
 #include "fnv/decl/hkTransformCB22.h"
@@ -291,10 +292,7 @@ inline void timer378(const char* tag) {
         Event378* e = timer->current;
         e->tag = tag;
         unsigned time;
-        __asm {
-            rdtsc
-            mov dword ptr[time], eax
-        }
+        time = static_cast<unsigned int>(__rdtsc());
         e->time = time;
         timer->current = e + 1;
     }

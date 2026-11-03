@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 // @fnv 0x00d68260
+#include <intrin.h>
 #include <windows.h>
 #include <new>
 #include "fnv/decl/FUN_00ddcc60.h"
@@ -530,10 +531,7 @@ static __declspec(noinline) void FUN_00d683b0(Handler* self, Vec* from, Vec* dir
             TimerCmd* h = s->m_kRayEnd;
             h->m_pCommandName = "TtToiDisplayArrow";
             unsigned t1;
-            __asm {
-                rdtsc
-                mov dword ptr[t1], eax
-            }
+            t1 = static_cast<unsigned int>(__rdtsc());
             h->m_uiStartTicks = t1;
             s->m_kRayEnd = h + 1;
         } }
@@ -576,10 +574,7 @@ static __declspec(noinline) void FUN_00d683b0(Handler* self, Vec* from, Vec* dir
             TimerCmd* h = s->m_kRayEnd;
             h->m_pCommandName = "Et";
             unsigned t2;
-            __asm {
-                rdtsc
-                mov dword ptr[t2], eax
-            }
+            t2 = static_cast<unsigned int>(__rdtsc());
             h->m_uiStartTicks = t2;
             s->m_kRayEnd = h + 1;
         } }

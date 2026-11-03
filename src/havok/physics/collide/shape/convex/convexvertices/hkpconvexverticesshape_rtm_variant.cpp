@@ -4,6 +4,7 @@
 
 // src/havok/physics/collide/shape/convex/convexvertices/hkpconvexverticesshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/convex/convexvertices/hkpconvexverticesshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <intrin.h>
 #include <windows.h>
 #include <cmath>
 #include "fnv/decl/FUN_00c90510_class.h"
@@ -477,10 +478,7 @@ __forceinline void TimerMark(const char* name, int kind)
     if (r < s->m_kRayEnd) {
         r->m_name = name;
         unsigned int t;
-        __asm {
-            rdtsc
-            mov dword ptr[t], eax
-        }
+        t = static_cast<unsigned int>(__rdtsc());
         r->m_uiCommandId = t;
         s->m_cur = r + 1;
     }
@@ -492,10 +490,7 @@ __forceinline void TimerMarkOut(const char* name, int kind)
     if (r < s->m_kRayEnd) {
         r->m_name = name;
         unsigned int t;
-        __asm {
-            rdtsc
-            mov dword ptr[t], eax
-        }
+        t = static_cast<unsigned int>(__rdtsc());
         r->m_uiCommandId = t;
         s->m_cur = r + 1;
     }

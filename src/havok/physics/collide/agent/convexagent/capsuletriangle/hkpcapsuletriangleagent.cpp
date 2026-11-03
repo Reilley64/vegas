@@ -5,6 +5,7 @@
 
 // Writes four function pointers into the first 16 bytes of p and clears the two bytes at offsets 16 and 17.
 // @fnv 0x00d3ab60
+#include <intrin.h>
 #include <windows.h>
 #include "fnv/decl/CapsuleTriProcess.h"
 #include "fnv/decl/FUN_00cfbbe0_cls.h"
@@ -894,10 +895,7 @@ void CollisionAgent::FUN_00d39ef0(const BodyRecord& a,const BodyRecord& b,const 
             MonitorRecord* rec=stream->cursor;
             rec->name="TtCapsTriangle";
             unsigned int ticks;
-            __asm {
-                rdtsc
-                mov dword ptr[ticks], eax
-            }
+            ticks = static_cast<unsigned int>(__rdtsc());
             rec->time=ticks;
             stream->cursor=rec+1;
         }
@@ -945,10 +943,7 @@ done:
             MonitorRecord* rec=stream->cursor;
             rec->name="Et";
             unsigned int ticks;
-            __asm {
-                rdtsc
-                mov dword ptr[ticks], eax
-            }
+            ticks = static_cast<unsigned int>(__rdtsc());
             rec->time=ticks;
             stream->cursor=rec+1;
         }

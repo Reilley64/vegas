@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 
+#include <intrin.h>
 #include <windows.h>
 #include <new>
 #include "fnv/decl/CB1A90Owner.h"
@@ -1871,10 +1872,7 @@ __forceinline void S00d094a0_beginList(const char* name, const char* detail)
         p->m_detail = detail;
         _ReadWriteBarrier();
         unsigned stamp;
-        __asm {
-            rdtsc
-            mov dword ptr[stamp], eax
-        }
+        stamp = static_cast<unsigned int>(__rdtsc());
         p->m_uiCommandId = stamp;
         t->m_kRayEnd = (char*)p + 16;
     }
@@ -1887,10 +1885,7 @@ __forceinline void S00d094a0_timer(const char* name)
         p->m_name = name;
         _ReadWriteBarrier();
         unsigned stamp;
-        __asm {
-            rdtsc
-            mov dword ptr[stamp], eax
-        }
+        stamp = static_cast<unsigned int>(__rdtsc());
         p->m_uiCommandId = stamp;
         t->m_kRayEnd = (char*)&p->m_detail;
     }

@@ -2,6 +2,7 @@
 // src/havok/physics/collide/agent/convexagent/spherecapsule/hkpspherecapsuleagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/convexagent/spherecapsule/hkpspherecapsuleagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <intrin.h>
 #include <windows.h>
 #include "fnv/decl/FUN_00cfbbe0_cls.h"
 #include "fnv/decl/hkpSphereCapsuleAgent.h"
@@ -295,10 +296,7 @@ void FUN_00d3e330(const S_00d3ef70_CdBody& bodyA, const S_00d3ef70_CdBody& bodyB
             SphCap_Timer* t = (SphCap_Timer*)pos;
             t->m_name = str_010cf158;
             { unsigned int ticks;
-__asm {
-    rdtsc
-    mov dword ptr[ticks], eax
-}
+ticks = static_cast<unsigned int>(__rdtsc());
 t->m_ticks = ticks; }
             mon->m_kRayEnd = pos + sizeof(SphCap_Timer);
         }
@@ -358,10 +356,7 @@ t->m_ticks = ticks; }
             SphCap_Timer* t = (SphCap_Timer*)pos;
             t->m_name = ::DAT_010c41f8;
             { unsigned int ticks;
-__asm {
-    rdtsc
-    mov dword ptr[ticks], eax
-}
+ticks = static_cast<unsigned int>(__rdtsc());
 t->m_ticks = ticks; }
             mon->m_kRayEnd = pos + sizeof(SphCap_Timer);
         }

@@ -5,6 +5,7 @@
 
 // src/havok/physics/collide/agent/heightfieldagent/hkpheightfieldagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/heightfieldagent/hkpheightfieldagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <intrin.h>
 #include <windows.h>
 #include "fnv/decl/FUN_00cfbbe0_cls.h"
 #include "fnv/decl/hkTransformCB22.h"
@@ -218,10 +219,7 @@ static __forceinline void event(TimerStream* stream,const char* name) {
     if(e<stream->end) {
         e->name=name;
         unsigned int stamp;
-        __asm {
-            rdtsc
-            mov dword ptr[stamp], eax
-        }
+        stamp = static_cast<unsigned int>(__rdtsc());
         e->time=stamp;
         stream->current=(TimerEvent*)((unsigned char*)e+12);
     }
@@ -234,10 +232,7 @@ extern "C" void __cdecl FUN_00d31d30(void* arg0,void* arg1,void* arg2,void* arg3
         e->name="LtHeightField";
         e->first="StClosestPoints";
         unsigned int stamp;
-        __asm {
-            rdtsc
-            mov dword ptr[stamp], eax
-        }
+        stamp = static_cast<unsigned int>(__rdtsc());
         e->time=stamp;
         stream->current=e+1;
     }
@@ -320,10 +315,7 @@ static __forceinline void timer(const char* tag) {
     if (p < s->end) {
         p->tag = tag;
         unsigned int t;
-        __asm {
-            rdtsc
-            mov dword ptr[t], eax
-        }
+        t = static_cast<unsigned int>(__rdtsc());
         p->time = t;
         s->next = p + 1;
     }

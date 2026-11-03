@@ -4,6 +4,7 @@
 
 // src/havok/physics/collide/agent/deprecated/multispheretriangle/hkpmultispheretriangleagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/deprecated/multispheretriangle/hkpmultispheretriangleagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <intrin.h>
 #include <windows.h>
 #include "fnv/symbols_00d37000.h"
 #include "fnv/symbols_00d38000.h"
@@ -475,10 +476,7 @@ struct ProcessTimerRecord {
     unsigned ticks, extra;
     __forceinline void setTime() {
         unsigned ticks;
-        __asm {
-            rdtsc
-            mov dword ptr[ticks], eax
-        }
+        ticks = static_cast<unsigned int>(__rdtsc());
         this->ticks = ticks;
     }
 };

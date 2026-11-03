@@ -4,6 +4,7 @@
 
 // src/havok/physics/utilities/actions/dashpot/hkpdashpotaction.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/actions/dashpot/hkpdashpotaction.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <intrin.h>
 #include <windows.h>
 #include "fnv/decl/FUN_00cf4d80.h"
 #include "fnv/decl/hkpEntityC9C.h"
@@ -254,10 +255,7 @@ void S00d4da60_DashpotAction::FUN_00d4da60(S00d4da60_StepRef stepInfo)
             pRec->m_pName = "TtDashpot";
             _ReadWriteBarrier();
             unsigned int tick;
-            __asm {
-                rdtsc
-                mov dword ptr[tick], eax
-            }
+            tick = static_cast<unsigned int>(__rdtsc());
             pRec->m_iTick = tick;
             pBuf->m_pCur = pRec + 1;
         }
@@ -298,10 +296,7 @@ void S00d4da60_DashpotAction::FUN_00d4da60(S00d4da60_StepRef stepInfo)
             pRec->m_pName = "Et";
             _ReadWriteBarrier();
             unsigned int tick;
-            __asm {
-                rdtsc
-                mov dword ptr[tick], eax
-            }
+            tick = static_cast<unsigned int>(__rdtsc());
             pRec->m_iTick = tick;
             pBuf->m_pCur = pRec + 1;
         }

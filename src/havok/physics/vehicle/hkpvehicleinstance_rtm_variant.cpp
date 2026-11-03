@@ -4,6 +4,7 @@
 
 // src/havok/physics/vehicle/hkpvehicleinstance.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/vehicle/hkpvehicleinstance.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <intrin.h>
 #include <windows.h>
 #include <cmath>
 #include "fnv/decl/FUN_00c90510_class.h"
@@ -2723,10 +2724,7 @@ void VUBCD_Instance::FUN_00e37940()
     if ((char*)h < s->m_capMinus16) {
         h->m_name = "TtUpdateBeforeCD";
         unsigned int ticks;
-        __asm {
-            rdtsc
-            mov dword ptr[ticks], eax
-        }
+        ticks = static_cast<unsigned int>(__rdtsc());
         h->m_ticks = ticks;
         s->m_kRayEnd = (char*)(h + 1);
     }
@@ -2744,10 +2742,7 @@ void VUBCD_Instance::FUN_00e37940()
     if ((char*)h < s->m_capMinus16) {
         h->m_name = "Et";
         unsigned int ticks;
-        __asm {
-            rdtsc
-            mov dword ptr[ticks], eax
-        }
+        ticks = static_cast<unsigned int>(__rdtsc());
         h->m_ticks = ticks;
         s->m_kRayEnd = (char*)(h + 1);
     }

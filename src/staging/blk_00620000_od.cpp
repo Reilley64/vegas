@@ -390,7 +390,7 @@ struct FUN_006228e0_shell
 
 // Calls FUN_006228e0 with the 16-bit value at offset 0xa of this object and the given argument, returning its result.
 // @fnv 0x006227b0
-unsigned int FUN_006228e0_shell::FUN_006227b0(unsigned int arg)
+unsigned int FUN_006228e0_shell::FUN_006227b0(uintptr_t arg)
 {
     return FUN_006228e0(*(unsigned short*)((char*)this + 0xa), (void*)arg);
 }
@@ -3909,7 +3909,7 @@ struct FUN_00457880_Class
     unsigned int FUN_00457880(int value);
 };
 // @fnv 0x0062b150
-unsigned int __cdecl FUN_0062b150(unsigned int param_1, unsigned int uiValue)
+unsigned int __cdecl FUN_0062b150(uintptr_t param_1, uintptr_t uiValue)
 {
     int iStack_8;
     unsigned int uiResult;

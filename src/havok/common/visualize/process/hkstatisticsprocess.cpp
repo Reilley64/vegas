@@ -2,6 +2,8 @@
 // src/havok/common/visualize/process/hkstatisticsprocess.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/visualize/process/hkstatisticsprocess.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
+#include <cstdint>
 #include <new>
 #include "fnv/decl/CB1A90Owner.h"
 #include "fnv/decl/FUN_00cb1fe0_t.h"
@@ -39,14 +41,13 @@ struct AudioAllocator
 
 struct AudioHolder
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     AudioAllocator* m_pAllocator;
 };
 
-AudioHolder* __cdecl FUN_00c85750() throw();
 
 struct ArrayMember
 {
@@ -56,7 +57,7 @@ struct ArrayMember
 
     ~ArrayMember() throw()
     {
-        AudioHolder* pHolder = FUN_00c85750();
+        AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
         AudioAllocator* pAllocator = pHolder->m_pAllocator;
         unsigned int uCapacity = m_uCapacity;
         m_iArrayLength = 0;
@@ -75,12 +76,12 @@ struct PtrArrayMember
 
     ~PtrArrayMember() throw()
     {
-        AudioHolder* pHolder = FUN_00c85750();
+        AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
         AudioAllocator* pAllocator = pHolder->m_pAllocator;
         unsigned int uCapacity = m_uCapacity;
         m_iArrayLength = 0;
         if ((uCapacity & 0x80000000) == 0)
-            pAllocator->FreeArray(m_ppData, (uCapacity & 0x3fffffff) * 4);
+            pAllocator->FreeArray(m_ppData, (uCapacity & 0x3fffffff) * int(sizeof(void*)));
         m_ppData = 0;
         m_uCapacity = 0x80000000;
     }
@@ -153,17 +154,17 @@ struct Singleton
 };
 __forceinline Singleton* GetSingleton()
 {
-    return reinterpret_cast<Singleton*>(FUN_00c85750());
+    return reinterpret_cast<Singleton*>(static_cast<AudioHolder*>(::FUN_00c85750()));
 }
 struct IntVec
 {
-    int* m_pData;
+    unsigned char** m_pData;
     int m_iArrayLength;
     int m_iCapacity;
 };
 struct SrcArr
 {
-    int* m_pData;
+    unsigned char** m_pData;
     int m_iArrayLength;
     int m_iCapacity;
 };
@@ -183,7 +184,7 @@ struct Entry
 struct Pair
 {
     int m_00;
-    int m_04;
+    intptr_t m_04;
 };
 struct ObjA
 {
@@ -335,16 +336,16 @@ void ThisCls::WriteToStream(int aiUnused)
                 if ((vecStarts.m_iCapacity & 0x3fffffff) < pSrcStarts->m_iArrayLength)
                 {
                     if ((vecStarts.m_iCapacity & 0x80000000u) == 0)
-                        alloc->Free(vecStarts.m_pData, (vecStarts.m_iCapacity & 0x3fffffff) * 4);
-                    int bytes = pSrcStarts->m_iArrayLength * 4;
-                    vecStarts.m_pData = (int*)alloc->Alloc(&bytes);
-                    vecStarts.m_iCapacity = bytes / 4;
+                        alloc->Free(vecStarts.m_pData, (vecStarts.m_iCapacity & 0x3fffffff) * int(sizeof(unsigned char*)));
+                    int bytes = pSrcStarts->m_iArrayLength * int(sizeof(unsigned char*));
+                    vecStarts.m_pData = (unsigned char**)alloc->Alloc(&bytes);
+                    vecStarts.m_iCapacity = bytes / int(sizeof(unsigned char*));
                 }
                 {
                     int iCopyCount = pSrcStarts->m_iArrayLength;
                     vecStarts.m_iArrayLength = iCopyCount;
-                    int* pSrcData = pSrcStarts->m_pData;
-                    int* pDstData = vecStarts.m_pData;
+                    unsigned char** pSrcData = pSrcStarts->m_pData;
+                    unsigned char** pDstData = vecStarts.m_pData;
                     for (int k = 0; k < iCopyCount; k++)
                         pDstData[k] = pSrcData[k];
                 }
@@ -354,16 +355,16 @@ void ThisCls::WriteToStream(int aiUnused)
                 if ((vecEnds.m_iCapacity & 0x3fffffff) < pSrcEnds->m_iArrayLength)
                 {
                     if ((vecEnds.m_iCapacity & 0x80000000u) == 0)
-                        pAllocator2->Free(vecEnds.m_pData, (vecEnds.m_iCapacity & 0x3fffffff) * 4);
-                    int bytes2 = pSrcEnds->m_iArrayLength * 4;
-                    vecEnds.m_pData = (int*)pAllocator2->Alloc(&bytes2);
-                    vecEnds.m_iCapacity = bytes2 / 4;
+                        pAllocator2->Free(vecEnds.m_pData, (vecEnds.m_iCapacity & 0x3fffffff) * int(sizeof(unsigned char*)));
+                    int bytes2 = pSrcEnds->m_iArrayLength * int(sizeof(unsigned char*));
+                    vecEnds.m_pData = (unsigned char**)pAllocator2->Alloc(&bytes2);
+                    vecEnds.m_iCapacity = bytes2 / int(sizeof(unsigned char*));
                 }
                 {
                     int iCopyCount2 = pSrcEnds->m_iArrayLength;
                     vecEnds.m_iArrayLength = iCopyCount2;
-                    int* pSrcData2 = pSrcEnds->m_pData;
-                    int* pDstData2 = vecEnds.m_pData;
+                    unsigned char** pSrcData2 = pSrcEnds->m_pData;
+                    unsigned char** pDstData2 = vecEnds.m_pData;
                     for (int k = 0; k < iCopyCount2; k++)
                         pDstData2[k] = pSrcData2[k];
                 }
@@ -374,16 +375,16 @@ void ThisCls::WriteToStream(int aiUnused)
     if (vecStarts.m_iArrayLength == 0)
     {
         TlsBuf* pTlsBuf = (TlsBuf*)TlsGetValue(DAT_0126835c);
-        int cur = (int)pTlsBuf->m_pCurrent;
-        int end = (int)pTlsBuf->m_pRecordEnd;
+        unsigned char* cur = (unsigned char*)pTlsBuf->m_pCurrent;
+        unsigned char* end = (unsigned char*)pTlsBuf->m_pRecordEnd;
         Singleton* s = GetSingleton();
         if (vecStarts.m_iArrayLength == (vecStarts.m_iCapacity & 0x3fffffff))
-            ::ResizeAudioStream((::AudioAllocator *)(s->m_10), (::AudioStream *)(void *)(&vecStarts), 4);
+            ::ResizeAudioStream((::AudioAllocator *)(s->m_10), (::AudioStream *)(void *)(&vecStarts), sizeof(unsigned char*));
         vecStarts.m_pData[vecStarts.m_iArrayLength] = cur;
         vecStarts.m_iArrayLength++;
         Singleton* pSingleton2 = GetSingleton();
         if (vecEnds.m_iArrayLength == (vecEnds.m_iCapacity & 0x3fffffff))
-            ::ResizeAudioStream((::AudioAllocator *)(pSingleton2->m_10), (::AudioStream *)(void *)(&vecEnds), 4);
+            ::ResizeAudioStream((::AudioAllocator *)(pSingleton2->m_10), (::AudioStream *)(void *)(&vecEnds), sizeof(unsigned char*));
         vecEnds.m_pData[vecEnds.m_iArrayLength] = end;
         vecEnds.m_iArrayLength++;
     }
@@ -398,7 +399,7 @@ void ThisCls::WriteToStream(int aiUnused)
     objRecords.m_04 = 0;
     objRecords.m_iArrayLength = -1;
     Singleton* pSingleton4 = GetSingleton();
-    reinterpret_cast<::FUN_00cb1fe0_t *>(&(objRecords))->EnsureCapacity((int)(pSingleton4->m_10), 0);
+    reinterpret_cast<::FUN_00cb1fe0_t *>(&(objRecords))->EnsureCapacity((intptr_t)(pSingleton4->m_10), 0);
     Vec3 vecProcessed;
     new ((void *)&(vecProcessed)) ::FUN_00e0f6e0();
     for (int i = 0; i < vecStarts.m_iArrayLength; i++)
@@ -428,7 +429,7 @@ void ThisCls::WriteToStream(int aiUnused)
     objStr.m_08->m_pData[objStr.m_08->m_iArrayLength] = 0;
     MiniStr ms;
     new ((void *)&(ms)) ::FUN_00dc1680((*(const ::FUN_00dc1680 *)(&(*reinterpret_cast<char *>(&::DAT_010d6ae8)))));
-    ::FUN_00e0bd40((::Sink *)(::SObj *)(&objStr), (::ObjectWriteInfo *)(::MiniStr *)(&ms), 1, 0, (int)(&vecProcessed), (unsigned int)(&(*reinterpret_cast<char *>(&::g_0126c830))), (::ObjectWriteArrItem *)(::Vec4 *)(&vec4));
+    ::FUN_00e0bd40((::Sink *)(::SObj *)(&objStr), (::ObjectWriteInfo *)(::MiniStr *)(&ms), 1, 0, (intptr_t)(&vecProcessed), (uintptr_t)(&(*reinterpret_cast<char *>(&::g_0126c830))), (::ObjectWriteArrItem *)(::Vec4 *)(&vec4));
     objStr.m_00 = &DAT_010c9368;
     if (objStr.m_10 == 0)
     {
@@ -461,7 +462,7 @@ void ThisCls::WriteToStream(int aiUnused)
         int cap2 = vecEnds.m_iCapacity;
         vecEnds.m_iArrayLength = 0;
         if ((cap2 & (int)0x80000000) == 0)
-            pAllocator9->Free(vecEnds.m_pData, (cap2 & 0x3fffffff) * 4);
+            pAllocator9->Free(vecEnds.m_pData, (cap2 & 0x3fffffff) * int(sizeof(unsigned char*)));
         vecEnds.m_pData = 0;
         vecEnds.m_iCapacity = (int)0x80000000;
         Singleton* pSingleton10 = GetSingleton();
@@ -469,7 +470,7 @@ void ThisCls::WriteToStream(int aiUnused)
         int cap1 = vecStarts.m_iCapacity;
         vecStarts.m_iArrayLength = 0;
         if ((cap1 & (int)0x80000000) == 0)
-            pAllocator10->Free(vecStarts.m_pData, (cap1 & 0x3fffffff) * 4);
+            pAllocator10->Free(vecStarts.m_pData, (cap1 & 0x3fffffff) * int(sizeof(unsigned char*)));
         vecStarts.m_pData = 0;
         vecStarts.m_iCapacity = (int)0x80000000;
         {
@@ -494,21 +495,21 @@ void ThisCls::WriteToStream(int aiUnused)
             reinterpret_cast<::FUN_00d607b0_class *>((m_0c))->FUN_00d607b0(m_24);
         reinterpret_cast<::hkOArchive_2 *>((m_0c))->WriteInt(iTextLen2);
         if (iTextLen2 > 0)
-            reinterpret_cast<::FUN_00d607b0_class *>((m_0c))->FUN_00d607b0((int)pOutText->m_pData);
+            reinterpret_cast<::FUN_00d607b0_class *>((m_0c))->FUN_00d607b0((intptr_t)pOutText->m_pData);
         reinterpret_cast<::hkOArchive_2 *>((m_0c))->WriteInt(numRanges);
         for (int i = 0; i < numRanges; i++)
         {
             int diff = vecEnds.m_pData[i] - vecStarts.m_pData[i];
             reinterpret_cast<::hkOArchive_2 *>((m_0c))->WriteInt(diff);
             if (diff > 0)
-                reinterpret_cast<::FUN_00d607b0_class *>((m_0c))->FUN_00d607b0(vecStarts.m_pData[i]);
+                reinterpret_cast<::FUN_00d607b0_class *>((m_0c))->FUN_00d607b0((intptr_t)vecStarts.m_pData[i]);
         }
         Singleton* pSingleton9 = GetSingleton();
         Allocator* pAllocator9 = pSingleton9->m_10;
         int cap2 = vecEnds.m_iCapacity;
         vecEnds.m_iArrayLength = 0;
         if ((cap2 & (int)0x80000000) == 0)
-            pAllocator9->Free(vecEnds.m_pData, (cap2 & 0x3fffffff) * 4);
+            pAllocator9->Free(vecEnds.m_pData, (cap2 & 0x3fffffff) * int(sizeof(unsigned char*)));
         vecEnds.m_pData = 0;
         vecEnds.m_iCapacity = (int)0x80000000;
         Singleton* pSingleton10 = GetSingleton();
@@ -516,7 +517,7 @@ void ThisCls::WriteToStream(int aiUnused)
         int cap1 = vecStarts.m_iCapacity;
         vecStarts.m_iArrayLength = 0;
         if ((cap1 & (int)0x80000000) == 0)
-            pAllocator10->Free(vecStarts.m_pData, (cap1 & 0x3fffffff) * 4);
+            pAllocator10->Free(vecStarts.m_pData, (cap1 & 0x3fffffff) * int(sizeof(unsigned char*)));
         vecStarts.m_pData = 0;
         vecStarts.m_iCapacity = (int)0x80000000;
     }
@@ -565,14 +566,13 @@ struct AudioAllocator
 
 struct AudioHolder
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     AudioAllocator* m_pAllocator;
 };
 
-AudioHolder* __cdecl FUN_00c85750();
 
 struct FUN_00ddc840
 {
@@ -582,7 +582,7 @@ struct FUN_00ddc840
     virtual ~FUN_00ddc840();
     static void operator delete(void* apMemory)
     {
-        AudioHolder* pHolder = FUN_00c85750();
+        AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
         unsigned int uiSize = ((FUN_00ddc840*)apMemory)->m_u04;
         AudioAllocator* pAllocator = pHolder->m_pAllocator;
         pAllocator->Free(apMemory, uiSize);
@@ -631,7 +631,7 @@ struct Sbf00_Arr24
     unsigned int m_uCapacity;
     void Free()
     {
-        AudioHolder* pHolder = FUN_00c85750();
+        AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
         AudioAllocator* pAllocator = pHolder->m_pAllocator;
         unsigned int uCapacity = m_uCapacity;
         m_iArrayLength = 0;
@@ -729,20 +729,20 @@ FUN_00ddbf00::FUN_00ddbf00(PtrArrayMember* pSource)
     {
         Sbf00_Name kName;
         new ((void *)&(kName)) ::FUN_00dc1680((*(const ::FUN_00dc1680 *)(&(*reinterpret_cast<char *>(&::DAT_010d6ae8)))));
-        ::FUN_00e0bd40((::Sink *)(::Sbf00_Ctx *)(&kCtx), (::ObjectWriteInfo *)(::Sbf00_Name *)(&kName), 1, 0, (int)(&kCtx.m_kSub), (unsigned int)(&(*reinterpret_cast<int *>(&::g_0126c860))), (::ObjectWriteArrItem *)(::Sbf00_Arr24 *)(&kArr));
+        ::FUN_00e0bd40((::Sink *)(::Sbf00_Ctx *)(&kCtx), (::ObjectWriteInfo *)(::Sbf00_Name *)(&kName), 1, 0, (intptr_t)(&kCtx.m_kSub), (uintptr_t)(&(*reinterpret_cast<int *>(&::g_0126c860))), (::ObjectWriteArrItem *)(::Sbf00_Arr24 *)(&kArr));
     }
     reinterpret_cast<::FUN_00cc0780 *>(&(kCtx))->FUN_00cc0780::~FUN_00cc0780();
     kArr.Free();
-    Sbf00_Alloc* pAlloc = (Sbf00_Alloc*)FUN_00c85750()->m_pAllocator;
+    Sbf00_Alloc* pAlloc = (Sbf00_Alloc*)static_cast<AudioHolder*>(::FUN_00c85750())->m_pAllocator;
     unsigned int uCap = pThis->m_kFirst.m_uCapacity;
     int iCap = uCap & 0x3fffffff;
     if (iCap < pSource->m_iArrayLength)
     {
         if ((uCap & 0x80000000) == 0)
-            pAlloc->FreeArray(pThis->m_kFirst.m_ppData, iCap * 4);
-        int iBytes = pSource->m_iArrayLength * 4;
+            pAlloc->FreeArray(pThis->m_kFirst.m_ppData, iCap * int(sizeof(void*)));
+        int iBytes = pSource->m_iArrayLength * int(sizeof(void*));
         pThis->m_kFirst.m_ppData = (void**)pAlloc->AllocArray(&iBytes);
-        pThis->m_kFirst.m_uCapacity = iBytes / 4;
+        pThis->m_kFirst.m_uCapacity = iBytes / int(sizeof(void*));
     }
     int n = pSource->m_iArrayLength;
     void** pDst = pThis->m_kFirst.m_ppData;
@@ -764,14 +764,13 @@ struct FixedAllocator
 
 struct AllocHolder
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     FixedAllocator* m_pAllocator;
 };
 
-AllocHolder* FUN_00c85750();
 
 struct ElemSub
 {
@@ -798,7 +797,7 @@ struct FUN_00ddc870_cls
 // @fnv 0x00ddc870
 void FUN_00ddc870_cls::FUN_00ddc870()
 {
-    AllocHolder* holder = FUN_00c85750();
+    AllocHolder* holder = static_cast<AllocHolder*>(::FUN_00c85750());
     FixedAllocator* alloc = holder->m_pAllocator;
     int iCount = m_iArrayLength;
     Elem* pItems = *(Elem* volatile*)&m_pItems;
@@ -808,7 +807,7 @@ void FUN_00ddc870_cls::FUN_00ddc870()
         int n = iCount;
         do
         {
-            ::FUN_00cb0c00((int)(s));
+            ::FUN_00cb0c00((intptr_t)(s));
             s = (ElemSub*)((char*)s + 16);
         } while (--n != 0);
     }

@@ -2,6 +2,9 @@
 // src/havok/common/base/math/matrix/hkmatrix3.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/math/matrix/hkmatrix3.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
+#include <xmmintrin.h>
+#include "fnv_simd.h"
 #include <cmath>
 #include "fnv/symbols_00cd5000.h"
 #include "fnv/symbols_01011000.h"
@@ -46,7 +49,7 @@ CD4AF0Bool CD4AF0Matrix3::FUN_00cd4af0() const
 }
 
 // @fnv 0x00cd4b50
-int __cdecl FUN_00cd4b50()
+intptr_t __cdecl FUN_00cd4b50()
 {
     return 0x1268370;
 }
@@ -144,7 +147,7 @@ struct CdPairOut_cls
 {
     unsigned int m_00;
     unsigned int m_04;
-    void FUN_00cd5610(CdOwner_cls* owner, unsigned int a1);
+    void FUN_00cd5610(CdOwner_cls* owner, uintptr_t a1);
 };
 
 __declspec(align(16)) struct CdBlob_cls
@@ -167,8 +170,8 @@ struct FUN_00cd5880_cls
 {
     unsigned int unk00;
     unsigned int unk04;
-    void FUN_00cd55b0(unsigned int a1, CdPairOut_cls* out);
-    void FUN_00cd5880(unsigned int a1);
+    void FUN_00cd55b0(uintptr_t a1, CdPairOut_cls* out);
+    void FUN_00cd5880(uintptr_t a1);
 };
 
 struct CdOwner_cls
@@ -178,7 +181,7 @@ struct CdOwner_cls
 };
 
 // @fnv 0x00cd5880
-void FUN_00cd5880_cls::FUN_00cd5880(unsigned int a1)
+void FUN_00cd5880_cls::FUN_00cd5880(uintptr_t a1)
 {
     CdBlob_cls blob;
     ((CdPairOut_cls*)&blob.m_00)->FUN_00cd5610((CdOwner_cls*)this, a1);
@@ -186,33 +189,29 @@ void FUN_00cd5880_cls::FUN_00cd5880(unsigned int a1)
 }
 
 #ifndef _INCLUDED_MM2
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
+
 #endif
 
 #ifndef _INCLUDED_MM2
-extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
+
 #endif
 #ifndef _INCLUDED_MM2
-extern "C" __m128 _mm_add_ps(__m128 a, __m128 b);
+
 #endif
 #ifndef _INCLUDED_MM2
-extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
+
 #endif
 #ifndef _INCLUDED_MM2
-extern "C" __m128 _mm_unpacklo_ps(__m128 a, __m128 b);
+
 #endif
 #ifndef _INCLUDED_MM2
-extern "C" __m128 _mm_unpackhi_ps(__m128 a, __m128 b);
+
 #endif
 #ifndef _INCLUDED_MM2
-extern "C" __m128 _mm_movelh_ps(__m128 a, __m128 b);
+
 #endif
 #ifndef _INCLUDED_MM2
-extern "C" __m128 _mm_movehl_ps(__m128 a, __m128 b);
+
 #endif
 
 class hkMatrix3CD4B;
@@ -518,8 +517,6 @@ void MProduct::FUN_00cd55b0(const MProduct& aLeft, const MProduct& aRight)
     }
 }
 
-extern "C" __m128 _mm_setzero_ps(void);
-extern "C" void _mm_store_ps(float* p, __m128 a);
 
 struct SrcRec
 {
@@ -557,7 +554,6 @@ void S00cd54d0_wrap(const SrcRec* src, Matrix34* dest)
     FUN_00cd54d0(dest, src);
 }
 
-extern "C" __m128 _mm_setr_ps(float, float, float, float);
 
 struct S00cd4cc0_V
 {
@@ -584,12 +580,6 @@ void S00cd4cc0_M::FUN_00cd4cc0(const float* apVec)
     c1.set(-apVec[2], 0.0f, apVec[0]);
     c2.set(apVec[1], -apVec[0], 0.0f);
 }
-
-extern "C" __m128 _mm_sub_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_add_ss(__m128 a, __m128 b);
-extern "C" __m128 _mm_load_ss(const float* p);
-extern "C" void _mm_store_ss(float* p, __m128 a);
-extern "C" __m128 _mm_div_ss(__m128 a, __m128 b);
 
 
 typedef __m128 VectorComponentValue;
@@ -621,7 +611,7 @@ struct hkVector4
 
     float& operator()(int i)
     {
-        return m_vComponents.m128_f32[i];
+        return fnv_simd_as<float>(m_vComponents)[i];
     }
 };
 
@@ -688,10 +678,6 @@ int hkMatrix3::FUN_00cd4f10(float epsilon)
     return 1;
 }
 
-extern "C" __m128 _mm_sub_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_add_ss(__m128 a, __m128 b);
-extern "C" __m128 _mm_load_ss(const float* p);
-extern "C" void _mm_store_ss(float* p, __m128 a);
 
 extern double DAT_010cb418;
 extern float DAT_010cb414;
@@ -785,7 +771,7 @@ const __m128* FUN_00cd5180_cls::Subtract(const __m128* apVector)
     return apVector;
 }
 
-extern "C" __m128 _mm_setr_ps(float, float, float, float);
+
 struct DiagVec
 {
     union
@@ -875,9 +861,6 @@ __m128 FUN_00cd51c0_cls::FUN_00cd51c0()
     return _mm_add_ss(_mm_shuffle_ps(d, d, 0xAA), t);
 }
 
-extern "C" __m128 _mm_and_ps(__m128, __m128);
-extern "C" __m128 _mm_cmple_ps(__m128, __m128);
-extern "C" int _mm_movemask_ps(__m128);
 
 // Compares each column of m_mat against other within epsilon and stores the result as a byte in out.
 // @fnv 0x00cd4e00
@@ -950,7 +933,6 @@ void MatrixProduct::FUN_00cd5610(const hkMatrix3CD4B& apLeft, const CD4BA0Matrix
     }
 }
 
-extern "C" __m128 _mm_load_ps(float const* p);
 
 struct FUN_00cd55b0_cls
 {
@@ -962,7 +944,7 @@ struct FUN_00cd5680_cls
     __m128 m_v1;
     __m128 m_v2;
 
-    void FUN_00cd5680(int arg);
+    void FUN_00cd5680(intptr_t arg);
 };
 // Diagonalizes the matrix via Jacobi rotations, accumulating eigenvectors in vectors and eigenvalues in values, returning 1 on failure.
 // @fnv 0x00cd56c0
@@ -985,9 +967,9 @@ int DiagMat::FUN_00cd56c0(DiagMat& apEigenvectors, DiagVec& apEigenvalues, int a
         FUN_00cd54d0((Matrix34*)&jacobi, (const SrcRec*)&rotation);
         DiagMat transposed(jacobi);
         reinterpret_cast<::S_00cd4b60 *>(&(transposed))->FUN_00cd4b60();
-        reinterpret_cast<::FUN_00cd5680_cls *>(&(current))->FUN_00cd5680((int)&(jacobi));
+        reinterpret_cast<::FUN_00cd5680_cls *>(&(current))->FUN_00cd5680((intptr_t)&(jacobi));
         reinterpret_cast<::MProduct *>(&(current))->FUN_00cd55b0((const ::MProduct &)(transposed), (const ::MProduct &)(current));
-        reinterpret_cast<::FUN_00cd5680_cls *>(&(apEigenvectors))->FUN_00cd5680((int)&(jacobi));
+        reinterpret_cast<::FUN_00cd5680_cls *>(&(apEigenvectors))->FUN_00cd5680((intptr_t)&(jacobi));
         ++iteration;
         norm = current.offnorm();
     }
@@ -1015,7 +997,7 @@ struct __declspec(align(16)) FUN_00cd5680_tmp
 
 // Loads three 16-byte blocks from a temporary populated by FUN_00cd55b0 into m_v0, m_v1, and m_v2.
 // @fnv 0x00cd5680
-void FUN_00cd5680_cls::FUN_00cd5680(int arg)
+void FUN_00cd5680_cls::FUN_00cd5680(intptr_t arg)
 {
     FUN_00cd5680_tmp tmp;
     reinterpret_cast<::MProduct *>((((FUN_00cd55b0_cls*)&tmp)))->FUN_00cd55b0((*(const ::MProduct *)(this)), (*(const ::MProduct *)(arg)));
@@ -1024,7 +1006,6 @@ void FUN_00cd5680_cls::FUN_00cd5680(int arg)
     this->m_v2 = _mm_load_ps((float*)&tmp.unk20);
 }
 
-extern "C" __m128 _mm_load_ps(const float* p);
 
 struct MatrixAddReceiver : hkMatrix3
 {
@@ -1044,7 +1025,6 @@ const __m128* MatrixAddReceiver::FUN_00cd5140(const __m128* apOther)
     return apOther;
 }
 
-extern "C" __m128 _mm_load_ps(const float* p);
 
 // out[i] = m * in[i] for the three columns of a 3x4 SSE matrix (columns processed last to first).
 // @fnv 0x00cd5530

@@ -2,6 +2,8 @@
 // src/havok/common/serialize/data/hkdataobject.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/serialize/data/hkdataobject.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
+#include <cstdint>
 #include <new>
 #include "fnv/decl/FUN_00dc72e0_class.h"
 #include "fnv/decl/FUN_00dc73a0_Holder.h"
@@ -250,7 +252,7 @@ struct FirstInterface
 {
     virtual void slot0();
     virtual void slot1();
-    virtual int acquire();
+    virtual intptr_t acquire();
 };
 struct SecondInterface
 {
@@ -462,16 +464,16 @@ struct AudioInterface
     virtual void Reserved14();
     virtual void Reserved15();
     virtual void Reserved16();
-    virtual void Apply(void*, unsigned int, unsigned int);
+    virtual void Apply(void*, uintptr_t, unsigned int);
 };
 struct AudioHandle
 {
     AudioInterface* system;
     void* object;
-    void FUN_00dbab10(unsigned int, unsigned int);
+    void FUN_00dbab10(uintptr_t, unsigned int);
 };
 // @fnv 0x00dbab10
-void AudioHandle::FUN_00dbab10(unsigned int a, unsigned int b)
+void AudioHandle::FUN_00dbab10(uintptr_t a, unsigned int b)
 {
     system->Apply(object, a, b);
 }
@@ -498,16 +500,16 @@ struct S_00dbab30_Target
     virtual void unk44();
     virtual void unk48();
     virtual void unk4C();
-    virtual int unk50(int a, int b);
+    virtual int unk50(int a, intptr_t b);
 };
 struct S_00dbab30_Ref
 {
     S_00dbab30_Target* m_target;
     int m_04;
-    int FUN_00dbab30(int b);
+    int FUN_00dbab30(intptr_t b);
 };
 // @fnv 0x00dbab30
-int S_00dbab30_Ref::FUN_00dbab30(int b)
+int S_00dbab30_Ref::FUN_00dbab30(intptr_t b)
 {
     return m_target->unk50(m_04, b);
 }
@@ -850,16 +852,16 @@ struct dbad60_Target
     virtual void v6();
     virtual void v7();
     virtual void v8();
-    virtual void v9(int a, int b);
+    virtual void v9(int a, intptr_t b);
 };
 struct FUN_00dbad60_cls
 {
     dbad60_Target* m_p;
     int m_f;
-    void FUN_00dbad60(int a, int b);
+    void FUN_00dbad60(intptr_t a, int b);
 };
 // @fnv 0x00dbad60
-void FUN_00dbad60_cls::FUN_00dbad60(int aiArg, int aiUnused)
+void FUN_00dbad60_cls::FUN_00dbad60(intptr_t aiArg, int aiUnused)
 {
     m_p->v9(m_f, aiArg);
 }
@@ -964,17 +966,17 @@ struct Inner
     virtual void v74();
     virtual void v78();
     virtual void v7c();
-    virtual int v80(int a);
+    virtual int v80(intptr_t a);
 };
 
 struct Outer
 {
     Inner* unk00;
-    int FUN_00dbae10(int a);
+    int FUN_00dbae10(intptr_t a);
 };
 
 // @fnv 0x00dbae10
-int Outer::FUN_00dbae10(int a)
+int Outer::FUN_00dbae10(intptr_t a)
 {
     return unk00->v80(a);
 }
@@ -1084,12 +1086,12 @@ DBAFB0Result DBAFB0Handle::GetResult()
 
 struct FUN_00dba650_cls
 {
-    unsigned int m_00;
-    FUN_00dba650_cls* FUN_00dba650(unsigned int value);
+    uintptr_t m_00;
+    FUN_00dba650_cls* FUN_00dba650(uintptr_t value);
 };
 
 // @fnv 0x00dba650
-FUN_00dba650_cls* FUN_00dba650_cls::FUN_00dba650(unsigned int value)
+FUN_00dba650_cls* FUN_00dba650_cls::FUN_00dba650(uintptr_t value)
 {
     this->m_00 = value;
     return this;
@@ -1123,7 +1125,7 @@ struct ValueHolder
 
 void ValueHolder::SetValue(void* p)
 {
-    m_uiFilterValue = (void*)((unsigned int)m_uiFilterValue << ((unsigned int)p & 31));
+    m_uiFilterValue = (void*)((uintptr_t)m_uiFilterValue << ((uintptr_t)p & 31));
 }
 
 struct FUN_00dba6a0_cls
@@ -1136,7 +1138,7 @@ struct FUN_00dba6a0_cls
 void* FUN_00dba6a0_cls::SetShiftedValue(void* pTarget)
 {
     void* r = m_00->v10();
-    reinterpret_cast<::FUN_00dba650_cls *>((reinterpret_cast<ValueHolder*>(pTarget)))->FUN_00dba650((unsigned int)(r));
+    reinterpret_cast<::FUN_00dba650_cls *>((reinterpret_cast<ValueHolder*>(pTarget)))->FUN_00dba650((uintptr_t)(r));
     return pTarget;
 }
 
@@ -1413,7 +1415,7 @@ void FnvCpu_FUN_00dba8d0_CpuOwner::FUN_00dba8d0(int arg0)
 // [vftable-4]), so the virtual at vtable offset 0x20 is the NINTH one: eight
 // dummies plus the real one.
 //
-// The tail-jump target register follows the callee's stack arguments: a
+// The tail-jump target follows the callee's stack arguments: a
 // virtual call with NO stack argument gets its target in EDX (jmp edx), a
 // call with one 4-byte stack argument forwarded in place gets it in EAX
 // (jmp eax) - which is what the original does.  The virtual therefore takes
@@ -2230,17 +2232,16 @@ struct S_Alloc
 };
 struct S_Router
 {
-    int unk0;
-    int unk4;
-    int unk8;
-    int unkc;
+    void* unk0;
+    void* unk4;
+    void* unk8;
+    void* unkc;
     S_Alloc* m10;
     S_Alloc& heap()
     {
         return *m10;
     }
 };
-S_Router* FUN_00c85750();
 
 struct S_Obj
 {
@@ -2315,7 +2316,7 @@ struct S_Arr
     }
     void SetSizeAndGrow(int n)
     {
-        reserve(FUN_00c85750()->heap(), n);
+        reserve(static_cast<S_Router*>(::FUN_00c85750())->heap(), n);
         size = n;
     }
 };
@@ -2495,7 +2496,7 @@ struct DB8000_PtrArray
 
     void ClearAndRelease()
     {
-        DB8000_Alloc& alloc = ((DB8000_Router*)FUN_00c85750())->heap();
+        DB8000_Alloc& alloc = ((DB8000_Router*)static_cast<S_Router*>(::FUN_00c85750()))->heap();
         int cap = m_iCapacityState;
         m_iElementCount = 0;
         if ((cap & 0x80000000) == 0)
@@ -2528,7 +2529,7 @@ struct DB8000_Out
 
     void ClearAndRelease()
     {
-        DB8000_Alloc& alloc = ((DB8000_Router*)FUN_00c85750())->heap();
+        DB8000_Alloc& alloc = ((DB8000_Router*)static_cast<S_Router*>(::FUN_00c85750()))->heap();
         int cap = m_iCapacityState;
         m_iElementCount = 0;
         if ((cap & 0x80000000) == 0)
@@ -2544,9 +2545,9 @@ typedef void(__cdecl* DB8000_Callback)(DB8000_Ref*);
 
 struct DB8000_OpData
 {
-    int m_00;
-    int m_04;
-    int m_08;
+    intptr_t m_00;
+    intptr_t m_04;
+    intptr_t m_08;
     int m_0c;
 };
 
@@ -2652,7 +2653,7 @@ static __declspec(noinline) int __cdecl FUN_00db8000(DB8000_Self* self, DB8000_I
                         DB8000_Callback pCallback = (DB8000_Callback)op->m_data->m_04;
                         DB8000_PtrArray arr4;
                         arr4.init();
-                        reinterpret_cast<::FUN_00dc73c0_class *>((self))->InitAndRun((int)(name), (int)(&arr4));
+                        reinterpret_cast<::FUN_00dc73c0_class *>((self))->InitAndRun((intptr_t)(name), (intptr_t)(&arr4));
                         for (int kIndex = 0; kIndex < arr4.m_iElementCount; ++kIndex)
                         {
                             DB8000_Ref ref4;
@@ -2678,12 +2679,12 @@ static __declspec(noinline) int __cdecl FUN_00db8000(DB8000_Self* self, DB8000_I
                         reinterpret_cast<::FUN_00dba650_cls *>(&(hSub5))->FUN_00dba650(self->vfn9((const char*)d->m_00));
                         DB8000_PtrArray arr5;
                         arr5.init();
-                        reinterpret_cast<::FUN_00dc73a0_Holder *>((self))->CallWithReset((int)(name), (int *)(::DB8000_PtrArray *)(&arr5));
+                        reinterpret_cast<::FUN_00dc73a0_Holder *>((self))->CallWithReset((intptr_t)(name), (int *)(::DB8000_PtrArray *)(&arr5));
                         for (int kIndex = 0; kIndex < arr5.m_iElementCount; ++kIndex)
                         {
                             DB8000_Ref ref5;
                             ref5.FUN_00dba760(arr5.m_data[kIndex]);
-                            reinterpret_cast<::FUN_00dc7dc0_StandIn *>((self))->FUN_00dc7dc0((int)(&ref5), (int)(&hSub5));
+                            reinterpret_cast<::FUN_00dc7dc0_StandIn *>((self))->FUN_00dc7dc0((intptr_t)(&ref5), (intptr_t)(&hSub5));
                             reinterpret_cast<::DBA7F0Ref *>(&(ref5))->FUN_00dba7f0();
                         }
                         arr5.ClearAndRelease();
@@ -2697,10 +2698,10 @@ static __declspec(noinline) int __cdecl FUN_00db8000(DB8000_Self* self, DB8000_I
                 } while (jIndex < item->m_numOps);
             }
 
-            int unk0c = item->m_unk0c;
+            intptr_t unk0c = item->m_unk0c;
             if (unk0c == -1)
             {
-                reinterpret_cast<::hkObjDC88 *>((self))->ReleaseRef((*(struct struct ::FUN_00dba660 *)(&hMain)));
+                reinterpret_cast<::hkObjDC88 *>((self))->ReleaseRef((*(struct ::FUN_00dba660 *)(&hMain)));
             }
             else if (item->m_unk08 != -1 && item->m_unk08 != unk0c)
             {
@@ -3027,4 +3028,45 @@ struct DataClassAccess
 DataClassResult DataClassAccess::FUN_00dbac20()
 {
     return DataClassResult(provider->getClassValue());
+}
+
+
+struct MemberArrayProvider
+{
+    virtual void v00();
+    virtual void v01();
+    virtual void v02();
+    virtual void v03();
+    virtual void v04();
+    virtual void v05();
+    virtual void v06();
+    virtual void v07();
+    virtual void v08();
+    virtual void v09();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual void v20();
+    virtual void v21();
+    virtual DBAB50Object* getArray(const char* name);
+};
+
+struct MemberArrayValue
+{
+    MemberArrayProvider* provider;
+    const char* name;
+    FUN_00dbab50 FUN_00dbacd0() const;
+};
+
+// @fnv 0x00dbacd0
+FUN_00dbab50 MemberArrayValue::FUN_00dbacd0() const
+{
+    return FUN_00dbab50(provider->getArray(name));
 }

@@ -230,7 +230,6 @@ int FUN_00a4eb50_cls::BuildAndDispatchVec12(int unused)
     return 0;
 }
 
-extern "C" int DAT_0109917c;
 extern "C" void (* DAT_00fdf1c4)(void*);
 void __cdecl FUN_00aa1460(void* ptr, unsigned int size);
 
@@ -443,8 +442,8 @@ VertexBufferLockInfo* VertexRenderer::FUN_00e8c820(VertexSource* source, unsigne
     unsigned short* indices = data->indices;
     vertexCount = 0;
     stride = 0;
-    ::FUN_00e8c120((::Outer *)this, (::Outer *)(source), (unsigned int *)(data), &vertexCount, (int *)(unsigned int *)(&stride), &positionOffset, &attributeOffset,
-                  &normalOffset, &dataFlags);
+    ::FUN_00e8c120((::Outer *)(source), (::Outer *)(data), &vertexCount, &stride, (int *)(&positionOffset), &attributeOffset,
+                  &normalOffset, &dataFlags, &texOffset);
 
     RenderBuffer* buffer = data->buffer;
     reinterpret_cast<::C_00e8f010 *>((buffer))->FUN_00e8f010(vertexCount);
@@ -469,7 +468,7 @@ VertexBufferLockInfo* VertexRenderer::FUN_00e8c820(VertexSource* source, unsigne
             }
         }
         if (!valid) {
-            if (!::FUN_00e8bfa0((::Outer *)this, (uintptr_t)(buffer)))
+            if (!::FUN_00e8bfa0((::Outer *)(buffer), 0))
                 return 0;
             if (buffer->count > 0)
                 resource = *(VertexBufferLockInfo**)buffer->entries;

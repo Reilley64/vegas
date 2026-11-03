@@ -55,7 +55,7 @@ bool NiD3DShaderProgramCreatorAsm::FUN_00e97940(NiD3DPixelShader* pkPixelShader)
     hShader = pkPixelShader->f25();
     if (!hShader)
         return false;
-    pvCode = ((void *)(::FUN_00e988d0((void *)this)));
+    pvCode = ((void *)(::FUN_00e988d0((void *)(hShader))));
     if (!pvCode)
         return false;
     pkPixelShader->f32(pvCode);
@@ -114,7 +114,7 @@ bool PixelShaderCreator::CreateShaderProgram(PixelShaderInterface* shader)
     if (!pixel)
         return false;
     void* program = shader->GetShaderProgram();
-    void* created = ::CreateVertexShaderChecked((void *)this, pixel, (uintptr_t)(&program), shader->GetShaderData(), 0, 0);
+    void* created = ::CreateVertexShaderChecked((void *)(pixel), (void *)(&program), (uintptr_t)(shader->GetShaderData()), 0, 0, 0);
     if (!created)
         return false;
     shader->SetShaderProgram(created);
@@ -230,7 +230,7 @@ NiD3DVertexShader* VertexShaderCreatorAsm::FUN_00e97980(const char* pcFileName, 
         return 0;
     }
 
-    void* hShader = ::CreateVertexShaderChecked((void *)this, pvCode, (uintptr_t)(&hDecl), (void *)(uiUsage), (uintptr_t)(pvConstants), (uintptr_t)(pvConstantsExtra));
+    void* hShader = ::CreateVertexShaderChecked(pvCode, (void *)(&hDecl), uiUsage, pvConstants, (uintptr_t)(pvConstantsExtra), bSoftwareVP);
     if (!hShader)
     {
         ::FUN_00aa0020(1, bRecoverable, "Failed CreateVertexShader call on %s\n", (intptr_t)pcShaderName);
@@ -353,7 +353,7 @@ NiD3DPixelShaderStub* ShaderCreatorAsmStub::FUN_00e97c60(const char* pcFileName,
         return 0;
     }
 
-    GeometryRelatedType* hShader = ((::fnv_00e97c60::GeometryRelatedType *)(::FUN_00e988d0((void *)this)));
+    GeometryRelatedType* hShader = ((::fnv_00e97c60::GeometryRelatedType *)(::FUN_00e988d0((void *)(pvCode))));
     if (!hShader)
     {
         ::FUN_00aa0020(1, iFlags, "Failed CreatePixelShader call on %s\n", (intptr_t)pcShaderName);
@@ -449,7 +449,7 @@ Pixel* Creator::FUN_00e97d80(void* a, void* b, void* apShaderName, int d, int e,
         shader->destroy(1);
         return 0;
     }
-    void* pShaderHandle = ((void *)(::FUN_00e988d0((void *)(reinterpret_cast<NiD3DShaderProgramCreatorAsm*>(this)))));
+    void* pShaderHandle = ((void *)(::FUN_00e988d0((void *)(first))));
     if (!pShaderHandle)
     {
         ::FUN_00aa0020(1, f, "Failed CreatePixelShader call on %s\n", (intptr_t)apShaderName);
@@ -507,7 +507,7 @@ NiD3DVertexShader* VertexShaderCreatorHLSL::FUN_00e97af0(const char* pcFileName,
         return 0;
     }
 
-    void* hShader = ::CreateVertexShaderChecked((void *)this, pvCode, (uintptr_t)(&hDecl), (void *)(uiUsage), (uintptr_t)(pvConstants), (uintptr_t)(pvConstantsExtra));
+    void* hShader = ::CreateVertexShaderChecked(pvCode, (void *)(&hDecl), uiUsage, pvConstants, (uintptr_t)(pvConstantsExtra), bSoftwareVP);
     if (!hShader)
     {
         FUN_00aa0020(1, bRecoverable, "Failed CreateVertexShader call on %s\n", pcShaderName);

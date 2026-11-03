@@ -2,28 +2,11 @@
 // src/havok/common/base/math/swepttransform/hkswepttransform.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/math/swepttransform/hkswepttransform.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <xmmintrin.h>
+#include "fnv_simd.h"
 #include "fnv/decl/RotationRows.h"
 #include "havok/hkSweptTransform.h"
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C"
-{
-    __m128 _mm_add_ps(__m128 a, __m128 b);
-    __m128 _mm_sub_ps(__m128 a, __m128 b);
-    __m128 _mm_mul_ps(__m128 a, __m128 b);
-    __m128 _mm_sub_ss(__m128 a, __m128 b);
-    __m128 _mm_mul_ss(__m128 a, __m128 b);
-    __m128 _mm_rsqrt_ss(__m128 a);
-    __m128 _mm_cmpeq_ss(__m128 a, __m128 b);
-    __m128 _mm_andnot_ps(__m128 a, __m128 b);
-    __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm8);
-    __m128 _mm_set_ss(float a);
-    __m128 _mm_set_ps1(float a);
-}
 
 static const __declspec(align(16)) float g_quadOne[4] = {1.0f, 1.0f, 1.0f, 1.0f};
 
@@ -115,7 +98,7 @@ class hkSweptTransformq
 // @fnv 0x00cf22d0
 void hkSweptTransformq::Evaluate(float time, hkTransformq& transformOut) const
 {
-    float t = (time - m_vCenterOfMass0.m_vComponents.m128_f32[3]) * m_vCenterOfMass1.m_vComponents.m128_f32[3];
+    float t = (time - fnv_simd_as<float>(m_vCenterOfMass0.m_vComponents)[3]) * fnv_simd_as<float>(m_vCenterOfMass1.m_vComponents)[3];
     hkVector4q t4;
     t4.m_vComponents = _mm_set_ps1(t);
 
@@ -131,12 +114,8 @@ void hkSweptTransformq::Evaluate(float time, hkTransformq& transformOut) const
 }
 
 namespace fnv_00cf2410 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C" __m128 _mm_setzero_ps(void);
+
+
 struct Swept_00cf2410_Sub
 {
     void FUN_00cf2280(__m128 const* a, __m128 const* b);

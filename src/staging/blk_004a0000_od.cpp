@@ -571,7 +571,7 @@ struct FUN_004b4ab0_Class
 };
 
 // @fnv 0x004b4ab0
-void FUN_004b4ab0_Class::FUN_004b4ab0(int a, int b)
+void FUN_004b4ab0_Class::FUN_004b4ab0(intptr_t a, intptr_t b)
 {
     FUN_004b4ad0(a, b);
 }

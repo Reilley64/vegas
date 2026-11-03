@@ -2,6 +2,7 @@
 // src/havok/common/base/reflection/hkclass.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/reflection/hkclass.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/ClassMember_d869.h"
 #include "fnv/decl/D60590Object.h"
@@ -98,7 +99,7 @@ struct TypeNode
 };
 struct Container
 {
-    int FindMemberByName(const char* name) const;
+    intptr_t FindMemberByName(const char* name) const;
 };
 
 
@@ -171,15 +172,15 @@ struct FUN_00d46fe0_class
 
 struct FUN_00d87150_class
 {
-    int m_offset;
+    intptr_t m_offset;
     FUN_00d46fe0_result* m_kMemberDescriptor;
 
-    void InitBitOffset(int baseOffset, FUN_00d46fe0_class* cls, const char* name);
+    void InitBitOffset(intptr_t baseOffset, FUN_00d46fe0_class* cls, const char* name);
 };
 
 // Looks up name via cls, stores the result, and sets m_offset to baseOffset plus the result's m_bitOffset when found.
 // @fnv 0x00d87150
-void FUN_00d87150_class::InitBitOffset(int baseOffset, FUN_00d46fe0_class* apClass, const char* name)
+void FUN_00d87150_class::InitBitOffset(intptr_t baseOffset, FUN_00d46fe0_class* apClass, const char* name)
 {
     m_offset = 0;
     m_kMemberDescriptor = ((::FUN_00d46fe0_result *)(reinterpret_cast<::FUN_00d46fe0_Class *>((void *)(apClass))->FUN_00d46fe0((const int *)(name))));
@@ -247,7 +248,7 @@ struct FUN_00d46f70_cls
 };
 // Scans the container's members by index and returns the first whose name matches the given string, or 0 if none match.
 // @fnv 0x00d46f90
-int Container::FindMemberByName(const char* name) const
+intptr_t Container::FindMemberByName(const char* name) const
 {
     Container* self = const_cast<Container*>(this);
     TypeNode* node = reinterpret_cast<TypeNode*>(self);
@@ -259,7 +260,7 @@ int Container::FindMemberByName(const char* name) const
             void* member = reinterpret_cast<::FUN_00d46f80_class *>((void *)(self))->FUN_00d46f80(i);
             const char* pcMemberName = *reinterpret_cast<const char**>(member);
             if (!::fnv_00cb0fa0::FUN_00cb0fa0(pcMemberName, name))
-                return reinterpret_cast<int>(member);
+                return reinterpret_cast<intptr_t>(member);
             ++i;
         } while (i < reinterpret_cast<::FUN_00d46f70_cls *>((node))->FUN_00d46f70());
     }
@@ -360,19 +361,19 @@ hkResultD472 hkPackfileD472::WriteItemName(int index, hkStreamWriterD472* writer
 
 struct hkNamedEntryD473
 {
-    int m_name;
+    intptr_t m_name;
 };
 
 class hkEntryListD473
 {
   public:
 
-    hkNamedEntryD473* FUN_00d47300(int iName);
+    hkNamedEntryD473* FUN_00d47300(intptr_t iName);
 };
 
 // Scans the entry list and returns the first entry whose m_name matches iName, or null if none matches.
 // @fnv 0x00d47300
-hkNamedEntryD473* hkEntryListD473::FUN_00d47300(int iName)
+hkNamedEntryD473* hkEntryListD473::FUN_00d47300(intptr_t iName)
 {
     for (int i = 0; i < reinterpret_cast<::FnvCpu_FUN_00d46ef0_CpuObject *>((void *)this)->FUN_00d46ef0(); i++)
     {
@@ -471,7 +472,7 @@ void ClassRec::WriteToStream(void* stream) const
         }
         if (info.m_pClassEnum)
             reinterpret_cast<::hkClassEnum *>((((::EnumRec *)(reinterpret_cast<::FUN_00d86930_StandIn *>((void *)&(member))->FUN_00d86930()))))->FUN_00db7600((::hkStreamWriter *)(stream));
-        reinterpret_cast<::FUN_00d607b0_class *>(&(out))->FUN_00d607b0((int)(info.m_name));
+        reinterpret_cast<::FUN_00d607b0_class *>(&(out))->FUN_00d607b0((intptr_t)(info.m_name));
         ::FUN_00d60900((char *)&(out));
         ::FUN_00d60900((char *)&(out));
         if (altType != 0)
@@ -538,7 +539,7 @@ struct hkVariantD476
 // @fnv 0x00d476e0
 int hkVariantD476::SetData(const void* src, const void* type)
 {
-    hkTypeInfoD476* info = ((::hkTypeInfoD476 *)(::FUN_00d868a0((int)(type))));
+    hkTypeInfoD476* info = ((::hkTypeInfoD476 *)(::FUN_00d868a0((intptr_t)(type))));
     if ((unsigned short)info->m_iElementCount <= 0x40)
     {
         m_type = type;
@@ -619,7 +620,7 @@ struct HkClassNode
     HkMem* m_members;
     int m_uiCount;
     int FUN_00d46f00();
-    HkMem* FUN_00d46f20(int i);
+    HkMem* FUN_00d46f20(intptr_t i);
 };
 // Scans entries by index and returns the first whose first field matches name via FUN_00cb0fa0, or 0 if none match.
 // @fnv 0x00d46fe0
@@ -628,7 +629,7 @@ int* FUN_00d46fe0_Class::FUN_00d46fe0(const int* name)
     for (int i = 0; i < ((int)(reinterpret_cast<::FUN_00d46f00_s *>(this)->FUN_00d46f00())); i++)
     {
         int* m = ((int *)(reinterpret_cast<::HkClassNode *>(this)->FUN_00d46f20(i)));
-        if (::fnv_00cb0fa0::FUN_00cb0fa0((const char *)(m[0]), (const char *)((int)name)) == 0)
+        if (::fnv_00cb0fa0::FUN_00cb0fa0(*(const char* const*)m, (const char *)((intptr_t)name)) == 0)
             return m;
     }
     return 0;
@@ -656,10 +657,10 @@ __declspec(noinline) int HkClassNode::FUN_00d46f00()
 
 // Resolves a global member index i by walking up the HkClassNode parent chain and returning the matching HkMem entry from m_members.
 // @fnv 0x00d46f20
-HkMem* HkClassNode::FUN_00d46f20(int aiIndex)
+HkMem* HkClassNode::FUN_00d46f20(intptr_t aiIndex)
 {
     HkClassNode* pNode = this;
-    int iOffset = aiIndex - ((int)(reinterpret_cast<::FUN_00d46f00_s *>(this)->FUN_00d46f00()));
+    intptr_t iOffset = aiIndex - ((int)(reinterpret_cast<::FUN_00d46f00_s *>(this)->FUN_00d46f00()));
     if (this != 0)
     {
         do
@@ -952,7 +953,7 @@ struct LookupNode
     int m_uiCount;
     int* m_pDefaultObject;
     int FUN_00d46f00();
-    int FUN_00d47130(int offset, char** value, HkMem** member);
+    int FUN_00d47130(intptr_t offset, char** value, HkMem** member);
 };
 // Looks up name via FUN_00d47130 and, on success, calls target->vf10 with the index and p->FUN_00d86980().
 // @fnv 0x00d471c0
@@ -960,7 +961,7 @@ int FUN_00d47130_class::InvokeTarget(const char* name, FUN_00d471c0_target* targ
 {
     int index;
     FUN_00d86980_class* p;
-    int result = reinterpret_cast<::LookupNode *>(this)->FUN_00d47130((int)(name), (char **)(int *)(&index), (::HkMem **)(::FUN_00d86980_class **)(&p));
+    int result = reinterpret_cast<::LookupNode *>(this)->FUN_00d47130((intptr_t)(name), (char **)(int *)(&index), (::HkMem **)(::FUN_00d86980_class **)(&p));
     if (result == 0)
         target->vf10(index, reinterpret_cast<::ClassMember_d869 *>((p))->FUN_00d86980());
     return result;
@@ -981,7 +982,7 @@ __declspec(noinline) int LookupNode::FUN_00d46f00()
 }
 // Walks the parent chain to locate the node containing the offset, then resolves the member pointer and value from m_pDefaultObject.
 // @fnv 0x00d47130
-int LookupNode::FUN_00d47130(int offset, char** value, HkMem** member)
+int LookupNode::FUN_00d47130(intptr_t offset, char** value, HkMem** member)
 {
     LookupNode* node = this;
     offset -= ((int)(reinterpret_cast<::FUN_00d46f00_s *>((node))->FUN_00d46f00()));
@@ -1086,7 +1087,7 @@ hkResultD473 hkClassAccessorD473::FUN_00d473f0(int iIndex, hkDataValueD473& kOut
             else if (ucType == 0x18)
             {
                 const hkClassEnumD473* pkEnum = ((const ::hkClassEnumD473 *)(reinterpret_cast<::FUN_00d86930_StandIn *>((void *)&(kMember))->FUN_00d86930()));
-                int iValue = ::ReadSignedValueBySize((const void *)&(kMember));
+                intptr_t iValue = ::ReadSignedValueBySize((const void *)&(kMember));
                 kOut.m_class = pkEnum;
                 kOut.m_uiFilterValue = (const void*)iValue;
                 kOut.m_type = 0x18;
@@ -1129,7 +1130,7 @@ static __declspec(noinline) int FUN_00e03100(S_00e03240_Node* node)
 }
 
 // @fnv 0x00e03240
-int __cdecl FUN_00e03240(S_00e03240_Holder* holder, S_00e03240_Node* node, int value, int flags)
+int __cdecl FUN_00e03240(S_00e03240_Holder* holder, S_00e03240_Node* node, intptr_t value, intptr_t flags)
 {
     int result = reinterpret_cast<::FUN_00d47130_class *>((holder))->InvokeTarget((const char *)(value), (::FUN_00d471c0_target *)(flags));
 

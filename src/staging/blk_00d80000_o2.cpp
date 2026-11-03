@@ -1,4 +1,5 @@
 // staging/blk_00d80000_o2.cpp: IdxStand_, ObjD9A4, MonitorBuffer (124 functions)
+#include <cstdint>
 #include <cstddef>
 #include <windows.h>
 #include <stdlib.h>
@@ -2143,7 +2144,7 @@ struct IdxStand_ {
     void* FUN_00d9a4c0(int idx);
 };
 // @fnv 0x00d9a4c0
-void* IdxStand_::FUN_00d9a4c0(int idx)
+void* IdxStand_::FUN_00d9a4c0(intptr_t idx)
 {
     return m_iWordAt00 + idx * 48;
 }
@@ -2155,7 +2156,7 @@ struct FUN_00d9a4d0_Class {
 };
 
 // @fnv 0x00d9a4d0
-int FUN_00d9a4d0_Class::GetEntryOffset(unsigned short value) {
+intptr_t FUN_00d9a4d0_Class::GetEntryOffset(unsigned short value) {
     return unk00 + value * 0x14;
 }
 
@@ -3382,7 +3383,7 @@ struct FUN_00d87180_cls : S {
 };
 
 // @fnv 0x00d87180
-FUN_00d87180_cls* FUN_00d87180_cls::FUN_00d87180(unsigned int auiValue, B* apPtr)
+FUN_00d87180_cls* FUN_00d87180_cls::FUN_00d87180(uintptr_t auiValue, B* apPtr)
 {
     void (S::*call)(unsigned int, B*) = &S::SetValueAndPtr;
     (static_cast<S*>(this)->*call)(auiValue, apPtr);

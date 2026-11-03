@@ -675,7 +675,7 @@ void __cdecl ApplyTurnRate(hkpRigidBodyq* body, hkReal minSpeed, hkReal turnRate
             reinterpret_cast<::MProduct *>(&(newRot))->FUN_00cd55b0((const ::MProduct &)(rot), (const ::MProduct &)(t.m_rotation));
             t.m_rotation = newRot;
 
-            reinterpret_cast<::CA8890Object *>((body))->FUN_00ca8890((const void *)&(t));
+            reinterpret_cast<::CA8890Object *>((body))->FUN_00ca8890((intptr_t)&(t));
         }
     }
 }

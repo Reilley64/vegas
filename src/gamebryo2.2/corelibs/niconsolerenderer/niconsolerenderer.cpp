@@ -52,8 +52,6 @@
 #include "fnv/decl/NiTriStripsDataStandin.h"
 #include "fnv/decl/Owner.h"
 #include "fnv/decl/Owner_e8bff0.h"
-#include "fnv/decl/PresentationRenderer.h"
-#include "fnv/decl/ResetRenderer.h"
 #include "fnv/decl/ResourceCache.h"
 #include "fnv/decl/S00e8f360_Mgr.h"
 #include "fnv/decl/S00e90a80.h"
@@ -112,6 +110,20 @@
 #include "fnv/symbols_0126f000.h"
 #include "fnv/symbols_01270000.h"
 #include "fnv/symbols_01400000.h"
+#include "fnv/decl/FUN_00ee88b0.h"
+#include "fnv/decl/NiD3DTextureData.h"
+#include "fnv/symbols_00e6d000.h"
+#include "fnv/symbols_00e6f000.h"
+#include "fnv/decl/FUN_00ee8850_C.h"
+#include "fnv/decl/ControllerMapE8B.h"
+#include "fnv/decl/FUN_00e6e630_cls.h"
+#include "fnv/decl/FUN_00e8b170_cls.h"
+#include "fnv/decl/Owner8F6D0.h"
+#include "fnv/decl/SkinInstance.h"
+#include "fnv/decl/TexFormatList.h"
+#include "fnv/decl/This_cd60.h"
+#include "fnv/symbols_004dc000.h"
+#include "fnv/symbols_00b6c000.h"
 class NiRenderTargetGroup;
 #include "niconsolerenderer_packet.h"
 enum _D3DFORMAT { D3DFMT_PACKET_FORCE_DWORD=0x7fffffff };
@@ -135,7 +147,7 @@ public:
  static RecursiveSpinLock ms_kPoolState;
 };
 template<class T> class NiTPointerAllocator {};
-template<class Alloc, class T> class NiTPointerListBase {
+template<class Alloc, class T> class NiTPointerListBaseT {
 public:
  typedef PoolAllocatorBase<unsigned int>::LinkedListEntry Node;
  Node* head; Node* tail; unsigned int count;
@@ -224,7 +236,7 @@ bool GraphicsRenderer::HasPendingPackets() {
 // Removes the last node from the list, returns its data pointer, and recycles the node into the allocator's free list.
 // @fnv 0x00e7d5b0
 template<>
-char* NiTPointerListBase<NiTPointerAllocator<unsigned int>,char*>::RemoveTail() {
+char* NiTPointerListBaseT<NiTPointerAllocator<unsigned int>,char*>::RemoveTail() {
  Node* node = tail;
  tail = node->prev;
  if (tail) tail->next = 0;
@@ -395,12 +407,12 @@ struct FUN_00e69b40_shell {
     unsigned int pad[8];
     unsigned int count;
     unsigned int pad24;
-    unsigned int* entries;
-    unsigned int GetEntry(unsigned int index);
+    uintptr_t* entries;
+    uintptr_t GetEntry(unsigned int index);
 };
 
 // @fnv 0x00e69b40
-unsigned int FUN_00e69b40_shell::GetEntry(unsigned int index)
+uintptr_t FUN_00e69b40_shell::GetEntry(unsigned int index)
 {
     if (index < count)
         return entries[index];
@@ -4180,7 +4192,7 @@ struct GeomData_e6da60
     virtual void vf41();
     virtual bool GetFlagValue();
     virtual void vf43();
-    virtual bool GetCachedStreams(unsigned int* puiOut, unsigned int* puiCount);
+    virtual bool GetCachedStreams(uintptr_t* puiOut, unsigned int* puiCount);
 };
 
 struct Packet_e6da60;
@@ -7778,7 +7790,7 @@ void Renderer::RenderInput(Input* input) {
 }
 }  // namespace fnv_00e750e0
 
-struct ShaderList : NiTPointerListBase<NiTPointerAllocator<unsigned int>, char*> {
+struct ShaderList : NiTPointerListBaseT<NiTPointerAllocator<unsigned int>, char*> {
     static void FreeNode(Node* pkNode) {
         pkNode->data = 0;
         reinterpret_cast<::FUN_0040fbf0_shell *>(&((*reinterpret_cast<::RecursiveSpinLock *>(&::g_011c5f80))))->FUN_0040fbf0((char *)(0));
@@ -14129,7 +14141,7 @@ inline BSMultiBound* CastBound(BSMultiBound* p) {
 struct BoundNode { BoundNode* next; BoundNode* prev; BSMultiBound* item;
  static BSMultiBound*& Advance(BoundNode*& n) {BSMultiBound*& value=n->item;n=n->next;return value;}
 };
-struct BoundCache : NiTPointerListBase<NiTPointerAllocator<unsigned int>, BSMultiBound*> {
+struct BoundCache : NiTPointerListBaseT<NiTPointerAllocator<unsigned int>, BSMultiBound*> {
  void AddTail(BSMultiBound* const&) throw();
 };
 struct BoundCollection {
@@ -20742,6 +20754,863 @@ void RendererPacketMap::FUN_00e72cf0(unsigned int key, ReferencePtr value) {
         if (!InterlockedDecrement(&ptr->referenceCount)) ptr->DeleteThis();
     }
 }
+struct ResetObject;
+struct ResetGeometry { int unk00; int unk04; int unk08; int unk0c; int unk10; int unk14; int unk18; int unk1c; int unk20; int unk24; int unk28; int unk2c; int unk30; int unk34; int unk38; int unk3c; };
+struct ResetRef { ResetObject* ptr; ResetObject* operator->() const { return ptr; } };
+struct ResetResourceNode { ResetResourceNode* next; int key; ResetRef value; };
+struct ResetNode { ResetNode* next; ResetGeometry* key; ResetObject* value; };
+struct ResetMap {
+ virtual void v0(); virtual unsigned Hash(ResetGeometry*);
+ unsigned size; ResetNode** buckets; unsigned count;
+ ResetNode* First() { for(unsigned i=0;i<size;++i) if(buckets[i]) return buckets[i]; return 0; }
+ void Next(ResetNode*& pos, ResetGeometry*& key, ResetObject*& value) { key=pos->key; value=pos->value; pos=pos->next; if(!pos) { unsigned i=Hash(key)+1; while(i<size) { pos=buckets[i]; if(pos) return; ++i; } pos=0; } }
+ void Store(ResetGeometry*,void*);
+ void AdvanceIterator(ResetNode*& pos, const char*& key, ResetObject*& value);
+};
+struct ResetManager { virtual void Run(); };
+struct ResetResourceManager {
+virtual void ReportDiagnostic();
+virtual void unused1();
+virtual void unused2();
+virtual void FlushUsageData();
+virtual void unused4();
+virtual void unused5();
+virtual void unused6();
+virtual void unused7();
+virtual void unused8();
+virtual void unused9();
+virtual void unused10();
+virtual void unused11();
+virtual void unused12();
+virtual void unused13();
+virtual void unused14();
+virtual void unused15();
+virtual void unused16();
+virtual void unused17();
+virtual void unused18();
+virtual void unused19();
+virtual void unused20();
+virtual void unused21();
+virtual void unused22();
+virtual void unused23();
+virtual void unused24();
+virtual void unused25();
+virtual void unused26();
+virtual void unused27();
+virtual void unused28();
+virtual void unused29();
+virtual void unused30();
+virtual void unused31();
+virtual void unused32();
+virtual void unused33();
+virtual void unused34();
+virtual void unused35();
+virtual void unused36();
+virtual void unused37();
+virtual void unused38();
+virtual void unused39();
+virtual void unused40();
+virtual void unused41();
+virtual void unused42();
+virtual void unused43();
+virtual void unused44();
+virtual void unused45();
+virtual void unused46();
+virtual void unused47();
+virtual void unused48();
+virtual void unused49();
+virtual void unused50();
+virtual void unused51();
+virtual void unused52();
+virtual void unused53();
+virtual void unused54();
+virtual void unused55();
+virtual void unused56();
+virtual void unused57();
+virtual void unused58();
+virtual void unused59();
+virtual void unused60();
+virtual void unused61();
+virtual void unused62();
+virtual void unused63();
+virtual void Reset(); };
+struct ResetPhaseA {   };
+struct ResetPhaseB {  };
+struct ResetPhaseC {  };
+struct ResetRenderer {
+ virtual void v0();
+ virtual void v1();
+ virtual void v2();
+ virtual void v3();
+ virtual void v4();
+ virtual void v5();
+ virtual void v6();
+ virtual void v7();
+ virtual void v8();
+ virtual void v9();
+ virtual void v10();
+ virtual void v11();
+ virtual void v12();
+ virtual void v13();
+ virtual void v14();
+ virtual void v15();
+ virtual void v16();
+ virtual void v17();
+ virtual void v18();
+ virtual void v19();
+ virtual void v20();
+ virtual void v21();
+ virtual void v22();
+ virtual void v23();
+ virtual void v24();
+ virtual void v25();
+ virtual void v26();
+ virtual void v27();
+ virtual void v28();
+ virtual void v29();
+ virtual void v30();
+ virtual void v31();
+ virtual void v32();
+ virtual void v33();
+ virtual void v34();
+ virtual void v35();
+ virtual void v36();
+ virtual void v37();
+ virtual void v38();
+ virtual void v39();
+ virtual void v40();
+ virtual void v41();
+ virtual void v42();
+ virtual void v43();
+ virtual void v44();
+ virtual void v45();
+ virtual void v46();
+ virtual void v47();
+ virtual void v48();
+ virtual void v49();
+ virtual void v50();
+ virtual void v51();
+ virtual void v52();
+ virtual void v53();
+ virtual void v54();
+ virtual void v55();
+ virtual void v56();
+ virtual void v57();
+ virtual void v58();
+ virtual void v59();
+ virtual void v60();
+ virtual void v61();
+ virtual void v62();
+ virtual void v63();
+ virtual void v64();
+ virtual void v65();
+ virtual void ReleaseGeometry(ResetGeometry*);
+ virtual void v67();
+ virtual void v68();
+ virtual void v69();
+ virtual void v70();
+ virtual void v71();
+ virtual void v72();
+ virtual void v73();
+ virtual void v74();
+ virtual void v75();
+ virtual void v76();
+ virtual void v77();
+ virtual void v78();
+ virtual void v79();
+ virtual void RestoreGeometry(ResetGeometry*,int);
+ virtual void v81();
+ virtual void RestoreOther(ResetGeometry*);
+ virtual void RestoreThird(ResetGeometry*);
+ int unk004;
+ int unk008;
+ int unk00c;
+ int unk010;
+ int unk014;
+ int unk018;
+ int unk01c;
+ int unk020;
+ int unk024;
+ int unk028;
+ int unk02c;
+ int unk030;
+ int unk034;
+ int unk038;
+ int unk03c;
+ int unk040;
+ int unk044;
+ int unk048;
+ int unk04c;
+ int unk050;
+ int unk054;
+ int unk058;
+ int unk05c;
+ int unk060;
+ int unk064;
+ int unk068;
+ int unk06c;
+ int unk070;
+ int unk074;
+ int unk078;
+ int unk07c;
+ int unk080;
+ int unk084;
+ int unk088;
+ int unk08c;
+ int unk090;
+ int unk094;
+ int unk098;
+ int unk09c;
+ int unk0a0;
+ int unk0a4;
+ int unk0a8;
+ int unk0ac;
+ int unk0b0;
+ int unk0b4;
+ int unk0b8;
+ int unk0bc;
+ int unk0c0;
+ int unk0c4;
+ int unk0c8;
+ int unk0cc;
+ int unk0d0;
+ int unk0d4;
+ int unk0d8;
+ int unk0dc;
+ int unk0e0;
+ int unk0e4;
+ int unk0e8;
+ int unk0ec;
+ int unk0f0;
+ int unk0f4;
+ int unk0f8;
+ int unk0fc;
+ int unk100;
+ int unk104;
+ int unk108;
+ int unk10c;
+ int unk110;
+ int unk114;
+ int unk118;
+ int unk11c;
+ int unk120;
+ int unk124;
+ int unk128;
+ int unk12c;
+ int unk130;
+ int unk134;
+ int unk138;
+ int unk13c;
+ int unk140;
+ int unk144;
+ int unk148;
+ int unk14c;
+ int unk150;
+ int unk154;
+ int unk158;
+ int unk15c;
+ int unk160;
+ int unk164;
+ int unk168;
+ int unk16c;
+ int unk170;
+ int unk174;
+ int unk178;
+ int unk17c;
+ int unk180;
+ int unk184;
+ int unk188;
+ int unk18c;
+ int unk190;
+ int unk194;
+ int unk198;
+ int unk19c;
+ int unk1a0;
+ int unk1a4;
+ int unk1a8;
+ int unk1ac;
+ int unk1b0;
+ int unk1b4;
+ int unk1b8;
+ int unk1bc;
+ int unk1c0;
+ int unk1c4;
+ int unk1c8;
+ int unk1cc;
+ int unk1d0;
+ int unk1d4;
+ int unk1d8;
+ int unk1dc;
+ int unk1e0;
+ int unk1e4;
+ int unk1e8;
+ int unk1ec;
+ int unk1f0;
+ int unk1f4;
+ int unk1f8;
+ int unk1fc;
+ int unk200;
+ int unk204;
+ int unk208;
+ int unk20c;
+ int unk210;
+ int unk214;
+ int unk218;
+ int unk21c;
+ int unk220;
+ int unk224;
+ int unk228;
+ int unk22c;
+ int unk230;
+ int unk234;
+ int unk238;
+ int unk23c;
+ int unk240;
+ int unk244;
+ int unk248;
+ int unk24c;
+ int unk250;
+ int unk254;
+ int unk258;
+ int unk25c;
+ int unk260;
+ int unk264;
+ int unk268;
+ int unk26c;
+ int unk270;
+ int unk274;
+ int unk278;
+ int unk27c;
+ int unk280;
+ int unk284;
+ void* device;
+ int unk28c;
+ int unk290;
+ int unk294;
+ int unk298;
+ int unk29c;
+ int unk2a0;
+ int unk2a4;
+ int unk2a8;
+ int unk2ac;
+ int unk2b0;
+ int unk2b4;
+ int unk2b8;
+ int unk2bc;
+ int unk2c0;
+ int unk2c4;
+ int unk2c8;
+ int unk2cc;
+ int unk2d0;
+ int unk2d4;
+ int unk2d8;
+ int unk2dc;
+ int unk2e0;
+ int unk2e4;
+ int unk2e8;
+ int unk2ec;
+ int unk2f0;
+ int unk2f4;
+ int unk2f8;
+ int unk2fc;
+ int unk300;
+ int unk304;
+ int unk308;
+ int unk30c;
+ int unk310;
+ int unk314;
+ int unk318;
+ int unk31c;
+ int unk320;
+ int unk324;
+ int unk328;
+ int unk32c;
+ int unk330;
+ int unk334;
+ int unk338;
+ int unk33c;
+ int unk340;
+ int unk344;
+ int unk348;
+ int unk34c;
+ int unk350;
+ int unk354;
+ int unk358;
+ int unk35c;
+ int unk360;
+ int unk364;
+ int unk368;
+ int unk36c;
+ int unk370;
+ int unk374;
+ int unk378;
+ int unk37c;
+ int unk380;
+ int unk384;
+ int unk388;
+ int unk38c;
+ int unk390;
+ int unk394;
+ int unk398;
+ int unk39c;
+ int unk3a0;
+ int unk3a4;
+ int unk3a8;
+ int unk3ac;
+ int unk3b0;
+ int unk3b4;
+ int unk3b8;
+ int unk3bc;
+ int unk3c0;
+ int unk3c4;
+ int unk3c8;
+ int unk3cc;
+ int unk3d0;
+ int unk3d4;
+ int unk3d8;
+ int unk3dc;
+ int unk3e0;
+ int unk3e4;
+ int unk3e8;
+ int unk3ec;
+ int unk3f0;
+ int unk3f4;
+ int unk3f8;
+ int unk3fc;
+ int unk400;
+ int unk404;
+ int unk408;
+ int unk40c;
+ int unk410;
+ int unk414;
+ int unk418;
+ int unk41c;
+ int unk420;
+ int unk424;
+ int unk428;
+ int unk42c;
+ int unk430;
+ int unk434;
+ int unk438;
+ int unk43c;
+ int unk440;
+ int unk444;
+ int unk448;
+ int unk44c;
+ int unk450;
+ int unk454;
+ int unk458;
+ int unk45c;
+ int unk460;
+ int unk464;
+ int unk468;
+ int unk46c;
+ int unk470;
+ int unk474;
+ int unk478;
+ int unk47c;
+ int unk480;
+ int unk484;
+ int unk488;
+ int unk48c;
+ int unk490;
+ int unk494;
+ int unk498;
+ int unk49c;
+ int unk4a0;
+ int unk4a4;
+ int unk4a8;
+ int unk4ac;
+ int unk4b0;
+ int unk4b4;
+ int unk4b8;
+ int unk4bc;
+ int unk4c0;
+ int unk4c4;
+ int unk4c8;
+ int unk4cc;
+ int unk4d0;
+ int unk4d4;
+ int unk4d8;
+ int unk4dc;
+ int unk4e0;
+ int unk4e4;
+ int unk4e8;
+ int unk4ec;
+ int unk4f0;
+ int unk4f4;
+ int unk4f8;
+ int unk4fc;
+ int unk500;
+ int unk504;
+ int unk508;
+ int unk50c;
+ int unk510;
+ int unk514;
+ int unk518;
+ int unk51c;
+ int unk520;
+ int unk524;
+ int unk528;
+ int unk52c;
+ int unk530;
+ int unk534;
+ int unk538;
+ int unk53c;
+ int unk540;
+ int unk544;
+ int unk548;
+ int unk54c;
+ int unk550;
+ int unk554;
+ int unk558;
+ int unk55c;
+ int unk560;
+ int unk564;
+ int unk568;
+ int unk56c;
+ int unk570;
+ int unk574;
+ int unk578;
+ int unk57c;
+ int unk580;
+ int unk584;
+ int unk588;
+ int unk58c;
+ int unk590;
+ int unk594;
+ int unk598;
+ int unk59c;
+ int unk5a0;
+ int unk5a4;
+ int unk5a8;
+ int unk5ac;
+ int unk5b0;
+ int unk5b4;
+ int unk5b8;
+ int unk5bc;
+ int unk5c0;
+ int unk5c4;
+ int unk5c8;
+ int unk5cc;
+ int unk5d0;
+ int unk5d4;
+ int unk5d8;
+ int unk5dc;
+ int unk5e0;
+ int unk5e4;
+ int unk5e8;
+ int unk5ec;
+ int unk5f0;
+ int unk5f4;
+ int unk5f8;
+ int unk5fc;
+ int unk600;
+ int unk604;
+ int unk608;
+ int unk60c;
+ int unk610;
+ int unk614;
+ int unk618;
+ int unk61c;
+ int unk620;
+ int unk624;
+ int unk628;
+ int unk62c;
+ int unk630;
+ int unk634;
+ int unk638;
+ int unk63c;
+ int unk640;
+ int unk644;
+ int unk648;
+ int unk64c;
+ int unk650;
+ int unk654;
+ int unk658;
+ int unk65c;
+ int unk660;
+ int unk664;
+ int unk668;
+ int unk66c;
+ int unk670;
+ int unk674;
+ int unk678;
+ int unk67c;
+ int unk680;
+ int unk684;
+ int unk688;
+ int unk68c;
+ int unk690;
+ int unk694;
+ int unk698;
+ int unk69c;
+ int unk6a0;
+ int unk6a4;
+ int unk6a8;
+ int unk6ac;
+ int unk6b0;
+ int unk6b4;
+ int unk6b8;
+ int unk6bc;
+ int unk6c0;
+ int unk6c4;
+ int unk6c8;
+ int unk6cc;
+ int unk6d0;
+ int unk6d4;
+ int unk6d8;
+ int unk6dc;
+ int unk6e0;
+ int unk6e4;
+ int unk6e8;
+ int unk6ec;
+ int unk6f0;
+ int unk6f4;
+ unsigned generation;
+ unsigned char state; unsigned char state1; unsigned short state2;
+ int unk700;
+ int unk704;
+ int unk708;
+ int unk70c;
+ int unk710;
+ int unk714;
+ int unk718;
+ int unk71c;
+ int unk720;
+ int unk724;
+ int unk728;
+ int unk72c;
+ int unk730;
+ int unk734;
+ int unk738;
+ int unk73c;
+ int unk740;
+ int unk744;
+ int unk748;
+ int unk74c;
+ int unk750;
+ int unk754;
+ int unk758;
+ int unk75c;
+ int unk760;
+ int unk764;
+ int unk768;
+ int unk76c;
+ int unk770;
+ int unk774;
+ int unk778;
+ int unk77c;
+ int unk780;
+ int unk784;
+ int unk788;
+ int unk78c;
+ int unk790;
+ int unk794;
+ int unk798;
+ int unk79c;
+ int unk7a0;
+ int unk7a4;
+ int unk7a8;
+ int unk7ac;
+ int unk7b0;
+ int unk7b4;
+ int unk7b8;
+ int unk7bc;
+ int unk7c0;
+ int unk7c4;
+ int unk7c8;
+ int unk7cc;
+ int unk7d0;
+ int unk7d4;
+ int unk7d8;
+ int unk7dc;
+ int unk7e0;
+ int unk7e4;
+ int unk7e8;
+ int unk7ec;
+ int unk7f0;
+ int unk7f4;
+ int unk7f8;
+ int unk7fc;
+ int unk800;
+ int unk804;
+ int unk808;
+ int unk80c;
+ int unk810;
+ int unk814;
+ int unk818;
+ int unk81c;
+ int unk820;
+ int unk824;
+ int unk828;
+ int unk82c;
+ int unk830;
+ int unk834;
+ int unk838;
+ int unk83c;
+ int unk840;
+ int unk844;
+ int unk848;
+ int unk84c;
+ int unk850;
+ int unk854;
+ int unk858;
+ int unk85c;
+ int unk860;
+ int unk864;
+ int unk868;
+ int unk86c;
+ int unk870;
+ int unk874;
+ int unk878;
+ int unk87c;
+ int unk880;
+ ResetObject* defaultGroup;
+ int unk888;
+ int unk88c;
+ ResetMap geometry;
+ int unk8a0;
+ int unk8a4;
+ int unk8a8;
+ int unk8ac;
+ int unk8b0;
+ ResetManager* manager;
+ ResetResourceManager* resourceManager;
+ ResetPhaseC* manager1;
+ ResetPhaseB* manager2;
+ int unk8c4;
+ ResetPhaseA* manager3;
+ ResetMap map1;
+ ResetMap map2;
+ ResetMap map3;
+ int unk8fc;
+ int unk900;
+ int unk904;
+ int unk908;
+ ResetResourceNode* resources;
+ int unk910;
+ int unk914;
+ int unk918;
+ int unk91c;
+ int unk920;
+ int unk924;
+ int unk928;
+ int unk92c;
+ int unk930;
+ int unk934;
+ int unk938;
+ int unk93c;
+ int unk940;
+ int unk944;
+ int unk948;
+ int unk94c;
+ int unk950;
+ int unk954;
+ int unk958;
+ int unk95c;
+ int unk960;
+ int unk964;
+ int unk968;
+ int unk96c;
+ int unk970;
+ int unk974;
+ int unk978;
+ int unk97c;
+ int unk980;
+ int unk984;
+ int unk988;
+ int unk98c;
+ int unk990;
+ int unk994;
+ int unk998;
+ int unk99c;
+ int unk9a0;
+ int unk9a4;
+ int unk9a8;
+ int unk9ac;
+ int unk9b0;
+ int unk9b4;
+ int unk9b8;
+ int unk9bc;
+ int unk9c0;
+ int unk9c4;
+ int unk9c8;
+ int unk9cc;
+ int unk9d0;
+ int unk9d4;
+ int unk9d8;
+ int unk9dc;
+ int unk9e0;
+ int unk9e4;
+ int unk9e8;
+ int unk9ec;
+ int unk9f0;
+ int unk9f4;
+ int unk9f8;
+ int unk9fc;
+ int unka00;
+ int unka04;
+ int unka08;
+ int unka0c;
+ int unka10;
+ int unka14;
+ int unka18;
+ int unka1c;
+ int unka20;
+ int unka24;
+ int unka28;
+ int unka2c;
+ int unka30;
+ int unka34;
+ int unka38;
+ int unka3c;
+ int unka40;
+ int unka44;
+ int unka48;
+ int unka4c;
+ int unka50;
+ int unka54;
+ int unka58;
+ int unka5c;
+ int unka60;
+ int unka64;
+ int unka68;
+ int unka6c;
+ int unka70;
+ int unka74;
+ int unka78;
+ int unka7c;
+ int unka80;
+ int unka84;
+ int unka88;
+ int unka8c;
+ int unka90;
+ int unka94;
+ int unka98;
+ int unka9c;
+ int unkaa0;
+ int unkaa4;
+ int unkaa8;
+ int unkaac;
+ int unkab0;
+ int unkab4;
+ int unkab8;
+ int unkabc;
+ int unkac0;
+ int unkac4;
+ int unkac8;
+ int unkacc;
+ int unkad0;
+ int unkad4;
+ bool (__cdecl ** callbacks)(bool,void*);
+ unsigned short callbackCapacity;
+ unsigned short callbackCount;
+ int unkae0;
+ int unkae4;
+ void** callbackData;
+ bool FUN_00e736b0();
+};
 
 namespace fnv_00e73eb0 {
 
@@ -21837,10 +22706,10 @@ void MeshGenerator::FUN_00e6d3a0(float* pDest, unsigned short* pIndex, SrcObj* p
 
                 float fW = pAlpha ? (float)pAlpha[usRow] : -1.0f;
 
-                pDest = ::WriteVertex((float *)this, (*(const ::PointE69 *)(pDest)), pPos[0], (uintptr_t)&(pNorm[0]), uiColor, fV, 0.0f);
-                pDest = ::WriteVertex((float *)this, (*(const ::PointE69 *)(pDest)), pPos[1], (uintptr_t)&(pNorm[0]), uiColor, fV, 1.0f);
-                pDest = ::WriteVertex((float *)this, (*(const ::PointE69 *)(pDest)), pPos[2], (uintptr_t)&(pNorm[1]), uiColor, fV, 0.0f);
-                pDest = ::WriteVertex((float *)this, (*(const ::PointE69 *)(pDest)), pPos[3], (uintptr_t)&(pNorm[1]), uiColor, fV, 1.0f);
+                pDest = ::WriteVertex(pDest, pPos[0], pNorm[0], uiColor, fV, 0.0f, fW);
+                pDest = ::WriteVertex(pDest, pPos[1], pNorm[0], uiColor, fV, 1.0f, fW);
+                pDest = ::WriteVertex(pDest, pPos[2], pNorm[1], uiColor, fV, 0.0f, fW);
+                pDest = ::WriteVertex(pDest, pPos[3], pNorm[1], uiColor, fV, 1.0f, fW);
                 fV += fStep;
 
                 *pIndex++ = (unsigned short)uiIndex++;
@@ -24314,7 +25183,7 @@ struct List74 {
         head = n->next;
         if (head) head->prev = 0; else tail = 0;
         RPtr74 e = n->elem;
-        ::ReleaseRefCountedNode((void *)this);
+        ::ReleaseRefCountedNode((void *)(n));
         count--;
     }
     bool IsEmpty() const { return count == 0; }
@@ -26426,6 +27295,8 @@ struct NiPixelFormat {
     NiComponentSpec m_akComponents[4];
 public:
     bool operator!=(const ::NiPixelFormat &) const;
+public:
+    bool operator==(const ::NiPixelFormat &) const;
 };
 // Copies a source surface to a destination surface via StretchRect, validating device, renderer data, pixel formats, and surfaces.
 // @fnv 0x00e6f6e0
@@ -28891,6 +29762,400 @@ GraphicsRenderer* GraphicsRenderer::Create(unsigned int auiArg1,unsigned int aui
  }
  return renderer;
 }
+struct PresentationParameters {
+    unsigned width, height, format, backBufferCount;
+    unsigned multisampleType;
+    unsigned long multisampleQuality;
+    unsigned swapEffect;
+    void* window;
+    int windowed, enableDepth;
+    uintptr_t depthFormat;
+    unsigned long flags;
+    unsigned refreshRate, interval;
+};
+struct PresentationFormats {
+};
+struct PresentationRenderer {
+    unsigned unk000;
+    unsigned unk004;
+    unsigned unk008;
+    unsigned unk00c;
+    unsigned unk010;
+    unsigned unk014;
+    unsigned unk018;
+    unsigned unk01c;
+    unsigned unk020;
+    unsigned unk024;
+    unsigned unk028;
+    unsigned unk02c;
+    unsigned unk030;
+    unsigned unk034;
+    unsigned unk038;
+    unsigned unk03c;
+    unsigned unk040;
+    unsigned unk044;
+    unsigned unk048;
+    unsigned unk04c;
+    unsigned unk050;
+    unsigned unk054;
+    unsigned unk058;
+    unsigned unk05c;
+    unsigned unk060;
+    unsigned unk064;
+    unsigned unk068;
+    unsigned unk06c;
+    unsigned unk070;
+    unsigned unk074;
+    unsigned unk078;
+    unsigned unk07c;
+    unsigned unk080;
+    unsigned unk084;
+    unsigned unk088;
+    unsigned unk08c;
+    unsigned unk090;
+    unsigned unk094;
+    unsigned unk098;
+    unsigned unk09c;
+    unsigned unk0a0;
+    unsigned unk0a4;
+    unsigned unk0a8;
+    unsigned unk0ac;
+    unsigned unk0b0;
+    unsigned unk0b4;
+    unsigned unk0b8;
+    unsigned unk0bc;
+    unsigned unk0c0;
+    unsigned unk0c4;
+    unsigned unk0c8;
+    unsigned unk0cc;
+    unsigned unk0d0;
+    unsigned unk0d4;
+    unsigned unk0d8;
+    unsigned unk0dc;
+    unsigned unk0e0;
+    unsigned unk0e4;
+    unsigned unk0e8;
+    unsigned unk0ec;
+    unsigned unk0f0;
+    unsigned unk0f4;
+    unsigned unk0f8;
+    unsigned unk0fc;
+    unsigned unk100;
+    unsigned unk104;
+    unsigned unk108;
+    unsigned unk10c;
+    unsigned unk110;
+    unsigned unk114;
+    unsigned unk118;
+    unsigned unk11c;
+    unsigned unk120;
+    unsigned unk124;
+    unsigned unk128;
+    unsigned unk12c;
+    unsigned unk130;
+    unsigned unk134;
+    unsigned unk138;
+    unsigned unk13c;
+    unsigned unk140;
+    unsigned unk144;
+    unsigned unk148;
+    unsigned unk14c;
+    unsigned unk150;
+    unsigned unk154;
+    unsigned unk158;
+    unsigned unk15c;
+    unsigned unk160;
+    unsigned unk164;
+    unsigned unk168;
+    unsigned unk16c;
+    unsigned unk170;
+    unsigned unk174;
+    unsigned unk178;
+    unsigned unk17c;
+    unsigned unk180;
+    unsigned unk184;
+    unsigned unk188;
+    unsigned unk18c;
+    unsigned unk190;
+    unsigned unk194;
+    unsigned unk198;
+    unsigned unk19c;
+    unsigned unk1a0;
+    unsigned unk1a4;
+    unsigned unk1a8;
+    unsigned unk1ac;
+    unsigned unk1b0;
+    unsigned unk1b4;
+    unsigned unk1b8;
+    unsigned unk1bc;
+    unsigned unk1c0;
+    unsigned unk1c4;
+    unsigned unk1c8;
+    unsigned unk1cc;
+    unsigned unk1d0;
+    unsigned unk1d4;
+    unsigned unk1d8;
+    unsigned unk1dc;
+    unsigned unk1e0;
+    unsigned unk1e4;
+    unsigned unk1e8;
+    unsigned unk1ec;
+    unsigned unk1f0;
+    unsigned unk1f4;
+    unsigned unk1f8;
+    unsigned unk1fc;
+    unsigned unk200;
+    unsigned unk204;
+    unsigned unk208;
+    unsigned unk20c;
+    unsigned unk210;
+    unsigned unk214;
+    unsigned unk218;
+    unsigned unk21c;
+    unsigned unk220;
+    unsigned unk224;
+    unsigned unk228;
+    unsigned unk22c;
+    unsigned unk230;
+    unsigned unk234;
+    unsigned unk238;
+    unsigned unk23c;
+    unsigned unk240;
+    unsigned unk244;
+    unsigned unk248;
+    unsigned unk24c;
+    unsigned unk250;
+    unsigned unk254;
+    unsigned unk258;
+    unsigned unk25c;
+    unsigned unk260;
+    unsigned unk264;
+    unsigned unk268;
+    unsigned unk26c;
+    unsigned unk270;
+    unsigned unk274;
+    unsigned unk278;
+    unsigned unk27c;
+    unsigned unk280;
+    unsigned unk284;
+    unsigned unk288;
+    unsigned unk28c;
+    unsigned unk290;
+    unsigned unk294;
+    unsigned unk298;
+    unsigned unk29c;
+    unsigned unk2a0;
+    unsigned unk2a4;
+    unsigned unk2a8;
+    unsigned unk2ac;
+    unsigned unk2b0;
+    unsigned unk2b4;
+    unsigned unk2b8;
+    unsigned unk2bc;
+    unsigned unk2c0;
+    unsigned unk2c4;
+    unsigned unk2c8;
+    unsigned unk2cc;
+    unsigned unk2d0;
+    unsigned unk2d4;
+    unsigned unk2d8;
+    unsigned unk2dc;
+    unsigned unk2e0;
+    unsigned unk2e4;
+    unsigned unk2e8;
+    unsigned unk2ec;
+    unsigned unk2f0;
+    unsigned unk2f4;
+    unsigned unk2f8;
+    unsigned unk2fc;
+    unsigned unk300;
+    unsigned unk304;
+    unsigned unk308;
+    unsigned unk30c;
+    unsigned unk310;
+    unsigned unk314;
+    unsigned unk318;
+    unsigned unk31c;
+    unsigned unk320;
+    unsigned unk324;
+    unsigned unk328;
+    unsigned unk32c;
+    unsigned unk330;
+    unsigned unk334;
+    unsigned unk338;
+    unsigned unk33c;
+    unsigned unk340;
+    unsigned unk344;
+    unsigned unk348;
+    unsigned unk34c;
+    unsigned unk350;
+    unsigned unk354;
+    unsigned unk358;
+    unsigned unk35c;
+    unsigned unk360;
+    unsigned unk364;
+    unsigned unk368;
+    unsigned unk36c;
+    unsigned unk370;
+    unsigned unk374;
+    unsigned unk378;
+    unsigned unk37c;
+    unsigned unk380;
+    unsigned unk384;
+    unsigned unk388;
+    unsigned unk38c;
+    unsigned unk390;
+    unsigned unk394;
+    unsigned unk398;
+    unsigned unk39c;
+    unsigned unk3a0;
+    unsigned unk3a4;
+    unsigned unk3a8;
+    unsigned unk3ac;
+    unsigned unk3b0;
+    unsigned unk3b4;
+    unsigned unk3b8;
+    unsigned unk3bc;
+    unsigned unk3c0;
+    unsigned unk3c4;
+    unsigned unk3c8;
+    unsigned unk3cc;
+    unsigned unk3d0;
+    unsigned unk3d4;
+    unsigned unk3d8;
+    unsigned unk3dc;
+    unsigned unk3e0;
+    unsigned unk3e4;
+    unsigned unk3e8;
+    unsigned unk3ec;
+    unsigned unk3f0;
+    unsigned unk3f4;
+    unsigned unk3f8;
+    unsigned unk3fc;
+    unsigned unk400;
+    unsigned unk404;
+    unsigned unk408;
+    unsigned unk40c;
+    unsigned unk410;
+    unsigned unk414;
+    unsigned unk418;
+    unsigned unk41c;
+    unsigned unk420;
+    unsigned unk424;
+    unsigned unk428;
+    unsigned unk42c;
+    unsigned unk430;
+    unsigned unk434;
+    unsigned unk438;
+    unsigned unk43c;
+    unsigned unk440;
+    unsigned unk444;
+    unsigned unk448;
+    unsigned unk44c;
+    unsigned unk450;
+    unsigned unk454;
+    unsigned unk458;
+    unsigned unk45c;
+    unsigned unk460;
+    unsigned unk464;
+    unsigned unk468;
+    unsigned unk46c;
+    unsigned unk470;
+    unsigned unk474;
+    unsigned unk478;
+    unsigned unk47c;
+    unsigned unk480;
+    unsigned unk484;
+    unsigned unk488;
+    unsigned unk48c;
+    unsigned unk490;
+    unsigned unk494;
+    unsigned unk498;
+    unsigned unk49c;
+    unsigned unk4a0;
+    unsigned unk4a4;
+    unsigned unk4a8;
+    unsigned unk4ac;
+    unsigned unk4b0;
+    unsigned unk4b4;
+    unsigned unk4b8;
+    unsigned unk4bc;
+    unsigned unk4c0;
+    unsigned unk4c4;
+    unsigned unk4c8;
+    unsigned unk4cc;
+    unsigned unk4d0;
+    unsigned unk4d4;
+    unsigned unk4d8;
+    unsigned unk4dc;
+    unsigned unk4e0;
+    unsigned unk4e4;
+    unsigned unk4e8;
+    unsigned unk4ec;
+    unsigned unk4f0;
+    unsigned unk4f4;
+    unsigned unk4f8;
+    unsigned unk4fc;
+    unsigned unk500;
+    unsigned unk504;
+    unsigned unk508;
+    unsigned unk50c;
+    unsigned unk510;
+    unsigned unk514;
+    unsigned unk518;
+    unsigned unk51c;
+    unsigned unk520;
+    unsigned unk524;
+    unsigned unk528;
+    unsigned unk52c;
+    unsigned unk530;
+    unsigned unk534;
+    unsigned unk538;
+    unsigned unk53c;
+    unsigned unk540;
+    unsigned unk544;
+    unsigned unk548;
+    unsigned unk54c;
+    unsigned unk550;
+    unsigned unk554;
+    unsigned unk558;
+    unsigned unk55c;
+    unsigned unk560;
+    unsigned unk564;
+    unsigned unk568;
+    unsigned unk56c;
+    unsigned unk570;
+    unsigned unk574;
+    unsigned unk578;
+    unsigned unk57c;
+    unsigned unk580;
+    unsigned unk584;
+    unsigned unk588;
+    unsigned unk58c;
+    unsigned unk590;
+    unsigned unk594;
+    unsigned unk598;
+    unsigned unk59c;
+    unsigned unk5a0;
+    unsigned unk5a4;
+    unsigned unk5a8;
+    unsigned unk5ac;
+    unsigned unk5b0;
+    unsigned unk5b4;
+    unsigned unk5b8;
+    unsigned unk5bc;
+    unsigned unk5c0;
+    unsigned unk5c4;
+    unsigned unk5c8;
+    unsigned unk5cc;
+    unsigned unk5d0;
+    unsigned unk5d4;
+    PresentationFormats* displayFormats;
+    PresentationFormats* formats;
+    bool FUN_00e6bf50(void* window, unsigned width, unsigned height, unsigned flags, unsigned backCount,
+                      unsigned format, uintptr_t depthFormat, unsigned count, unsigned swap,
+                      unsigned refresh, unsigned interval, PresentationParameters* out);
+};
 // @fnv 0x00e72e60
 bool InitRenderer::FUN_00e72e60(unsigned width,unsigned height,unsigned options,unsigned deviceWindow,unsigned focusWindow,unsigned adapterIndex,unsigned deviceChoice,unsigned p8,unsigned p9,unsigned p10,unsigned p11,unsigned p12,unsigned aiBackBufferCountOut,unsigned p14)
 {
@@ -32919,8 +34184,9 @@ void BoneHost::FUN_00e6fe30(SkinMatrixBlock* block, Xf* parent, bool transpose, 
     SkinNode* root = block->root;
     reinterpret_cast<::NiTransform *>(&(root->world))->CalculateInverse((*(::NiTransform *)(&t1)));
     Geom* current = block->geom;
-    t1 = *new (&t2) Xf(reinterpret_cast<::NiTransform *>((void *)&(const ::Xf &)(current->world))->operator*((const ::NiTransform &)(t1)));
-    t2 = reinterpret_cast<::NiTransform *>((void *)&(const ::Xf &)((*parent)))->operator*((const ::NiTransform &)(t1));
+    *reinterpret_cast<::NiTransform *>(&(t2)) = *reinterpret_cast<const ::NiTransform *>(&(current->world)) * *reinterpret_cast<const ::NiTransform *>(&(t1));
+    t1 = t2;
+    *reinterpret_cast<::NiTransform *>(&(t2)) = *reinterpret_cast<const ::NiTransform *>(&(*parent)) * *reinterpret_cast<const ::NiTransform *>(&(t1));
 
     bool bNonUnitScale;
     bNonUnitScale = false;
@@ -32940,13 +34206,13 @@ void BoneHost::FUN_00e6fe30(SkinMatrixBlock* block, Xf* parent, bool transpose, 
         
         p3 += 8;
         do {
-            new (&t1) Xf(reinterpret_cast<::NiTransform *>((void *)&(const ::Xf &)(bones[i]->world))->operator*((const ::NiTransform &)(pBoneXform->xf)));
+            *reinterpret_cast<::NiTransform *>(&(t1)) = *reinterpret_cast<const ::NiTransform *>(&(bones[i]->world)) * *reinterpret_cast<const ::NiTransform *>(&(pBoneXform->xf));
             if (bones[i]->world.scale < ::CombatRegion::DAT_0106d508) {
                 if ((double)bones[i]->world.scale > 1.01f)
                     bNonUnitScale = true;
             }
             if (!skipExtra)
-                t1 = reinterpret_cast<::NiTransform *>((void *)&(const ::Xf &)(t2))->operator*((const ::NiTransform &)(t1));
+                *reinterpret_cast<::NiTransform *>(&(t1)) = *reinterpret_cast<const ::NiTransform *>(&(t2)) * *reinterpret_cast<const ::NiTransform *>(&(t1));
             if (rows == 4) {
                 if (transpose)
                     BuildWorldToSkinTransform(p4, (const NiTransform*)&t1, &t1.t, t1.scale);
@@ -32988,7 +34254,6 @@ struct FrameInfo {
 
 struct Material {float r,g,b,a;};
 
-extern "C" char DAT_011f4288[16];
 
 
 
@@ -33563,8 +34828,8 @@ bool Renderer_e6da60::BuildPacket(Packet_e6da60* pkPacket, Model_e6da60* pkModel
         if (pkData && pkData->m_usType > 4)
             return false;
         ItemUpdateArray = 1;
-        ::FUN_00e8c120((::Outer *)(m_pShaderStreamInfo), (::Outer *)(pkModel), (unsigned int *)(pkData), &uiStreams, (int *)(unsigned int *)(&uiSingleValue),
-            &uiOutC, &uiOutD, &uiOutE, &uiOutF);
+        ::FUN_00e8c120((::Outer *)(pkModel), (::Outer *)(pkData), &uiStreams, &uiSingleValue, (int *)(&uiOutC),
+            &uiOutD, &uiOutE, &uiOutF, &uiOutG);
     }
 
     reinterpret_cast<::NiSlotSetE8E *>((pkPacket))->FUN_00e8ef10(ItemUpdateArray);
@@ -33606,7 +34871,7 @@ bool Renderer_e6da60::BuildPacket(Packet_e6da60* pkPacket, Model_e6da60* pkModel
     unsigned int j;
     for (j = 0; j < ItemUpdateArray; j++)
     {
-        if (!::FUN_00e8bfa0((::Outer *)(m_pShaderStreamInfo), (uintptr_t)(pkPacket)))
+        if (!::FUN_00e8bfa0((::Outer *)(pkPacket), j))
         {
             for (; j > 0; j--)
                 pkPacket->m_pkOwnerManager->ReleaseStream(pkPacket, j);
@@ -33670,7 +34935,7 @@ void StripRenderer::FUN_00e70720(StripGeometry* geometry)
     shader->v80(properties);
     shader->v84(properties);
     shader->v88(properties,true);
-    ::FUN_00e8bfa0((::Outer *)(vertexManager), (uintptr_t)(rd));
+    ::FUN_00e8bfa0((::Outer *)(rd), false);
     StripStream* stream;
     if (rd->streamCount > 0) stream = rd->streams[0];
     else stream = 0;
@@ -33708,7 +34973,7 @@ struct VertexData : Holder_00e8f040 {
 
     unsigned int* format;
 
-    unsigned int* current;
+    uintptr_t* current;
 
     unsigned int unk02c; unsigned int unk030;
 
@@ -33784,7 +35049,7 @@ void LineRenderer::FUN_00e70be0(LineGeometry* pkLines)
     reinterpret_cast<::C_00e8f010 *>((pkBuffData))->FUN_00e8f010(uiFVF);
     if (pkBuffData->m_uiRegisterStreamCount > 0)
         pkBuffData->m_puiVertexStrides[0] = uiStride;
-    ::FUN_00e8bfa0((::Outer *)(m_pShaderStreamInfo), (uintptr_t)(pkBuffData));
+    ::FUN_00e8bfa0((::Outer *)(pkBuffData), 0);
     LineVBInfo* pkVBInfo = (pkBuffData->m_uiRegisterStreamCount > 0) ? pkBuffData->m_ppkVBInfo[0] : 0;
     m_pCurrentRenderState->SetShaderDeclaration(pkBuffData->m_pkVertexDeclaration, false);
     if (!pkVBInfo->m_pkOwningStream)
@@ -34189,7 +35454,7 @@ void RendererE70140::FUN_00e70140(SceneArg* apSceneArg)
         handle = ((::FakeCOM_00e8f040 *)(reinterpret_cast<::FUN_00e69790_shell *>(this)->FUN_00e69790()));
         buffer->SetComPointer(handle);
         if (0 < buffer->streamSize) buffer->format[0] = 0x28;
-        ::FUN_00e8bfa0((::Outer *)(shader), (uintptr_t)(buffer));
+        ::FUN_00e8bfa0((::Outer *)(buffer), 0);
         StreamRecord* j = (buffer->streamSize > 0) ? (StreamRecord*)*buffer->current : 0;
         indexDest = &j->buffer;
         if (!j->Buffer()) return;
@@ -34200,7 +35465,7 @@ void RendererE70140::FUN_00e70140(SceneArg* apSceneArg)
         handle = ((::FakeCOM_00e8f040 *)(reinterpret_cast<::RendererDeclarationOwner *>(this)->FUN_00e696a0()));
         buffer->SetComPointer(handle);
         if (0 < buffer->streamSize) buffer->format[0] = 0x24;
-        ::FUN_00e8bfa0((::Outer *)(shader), (uintptr_t)(buffer));
+        ::FUN_00e8bfa0((::Outer *)(buffer), 0);
         StreamRecord* j = (buffer->streamSize > 0) ? (StreamRecord*)*buffer->current : 0;
         indexDest = &j->buffer;
         if (!j->Buffer()) return;
@@ -34228,4 +35493,790 @@ void RendererE70140::FUN_00e70140(SceneArg* apSceneArg)
     overlayArg->Finish(k);
 }
 
+extern "C" int fnv_CopyFilePath(char*,unsigned int,const char*,unsigned int);
+int __cdecl FUN_00dc9e60();
+void FUN_00e69ad0(const char* path);
+unsigned int GetValueForIndex(unsigned int param);
+void __cdecl BuildWorldToSkinTransform(NiWorldToSkin* out, const NiTransform* kWorldToRootParent, const NiPoint3* kIntersectionOffset, float fScale);
+bool FUN_00e6c760(int value);
+void FUN_00e6d740(void* a1);
+void* __cdecl FUN_00e757b0();
+void* __cdecl FUN_00e766f0();
+bool __cdecl FUN_00e7a760();
+void* _fnv_zlib_memset(void* dst, int val, unsigned int size);
+void* _fnv_zlib_memset(void*, int, unsigned int);
+RenderBufferAllocation* CreateRenderBufferAllocation(void* parameters);
+bool ReleaseOwnerItems(PktOwner* a1);
+void* __cdecl _fnv_zlib_memset(void*, int, unsigned int);
+extern "C" void* __cdecl FUN_00ec61c0(void*, int, unsigned int);
+extern "C" void* __cdecl fnv_zlib_memset(void*, int, unsigned int);
+void __cdecl FUN_00e752a0();
+bool IsAlwaysTrue(void* a1, void* a2, void* a3);
+void* __cdecl FUN_00ec44d0(void*, const void*, unsigned int);
+
+struct FnvSlotTable;
+struct FnvSlotObj;
+
+struct FnvSlotTable {
+    unsigned int unk00;
+    unsigned int unk04;
+    unsigned short count;
+    unsigned short u0a;
+    unsigned short unk0c;
+    unsigned short base;
+};
+
+struct FnvSlotObj {
+    unsigned int idx;
+    FnvSlotTable sub;
+};
+
+struct FnvSlotRaw {
+    FnvSlotObj* FUN_00e7a640();
+};
+
+extern unsigned int DAT_0126f508[];
+
+void FUN_00e78560(unsigned int a, unsigned int b);
+
+// @fnv 0x00e7a760
+bool FUN_00e7a760() {
+    if (reinterpret_cast<FnvSlotTable*>(DAT_0126f550)->u0a == 0x12) {
+        return true;
+    }
+    DAT_0126f508[0] = 4;
+    DAT_0126f508[1] = 8;
+    DAT_0126f508[2] = 0xc;
+    DAT_0126f508[3] = 0x10;
+    DAT_0126f508[4] = 4;
+    DAT_0126f508[5] = 4;
+    DAT_0126f508[6] = 4;
+    DAT_0126f508[7] = 8;
+    DAT_0126f508[8] = 4;
+    DAT_0126f508[9] = 4;
+    DAT_0126f508[10] = 8;
+    DAT_0126f508[11] = 4;
+    DAT_0126f508[12] = 8;
+    DAT_0126f508[13] = 4;
+    DAT_0126f508[14] = 4;
+    DAT_0126f508[15] = 4;
+    DAT_0126f508[16] = 8;
+
+    for (unsigned int i = 0; i < 0x12; ++i) {
+        FnvSlotObj* local;
+        void* p = FUN_00aa13e0(0x14);
+        FnvSlotObj* __restrict obj = p ? ((::FnvSlotObj *)(new ((void *)(reinterpret_cast<FnvSlotRaw*>(p))) ::FUN_00e7a640())) : 0;
+        local = obj;
+        obj->idx = i;
+        reinterpret_cast<::FUN_00a41520_cls *>(&(obj->sub))->FUN_00a90180(0x26);
+        FnvSlotTable* t = reinterpret_cast<FnvSlotTable*>(DAT_0126f550);
+        unsigned short cnt = reinterpret_cast<FnvSlotTable*>(DAT_0126f550)->count;
+        if (i >= cnt) {
+            reinterpret_cast<::FUN_00a41520_cls *>((reinterpret_cast<FnvSlotTable*>(DAT_0126f550)))->FUN_00a90180(reinterpret_cast<FnvSlotTable*>(DAT_0126f550)->base + i);
+        }
+        reinterpret_cast<::FUN_00a41520_cls *>((t))->FUN_00ba3aa0(i, (::KeyPair **)(::FnvSlotObj **)(&local));
+    }
+
+    for (unsigned int a = 0; a < 0x12; ++a) {
+        for (unsigned int b = 0; b < 0x21; ++b) {
+            FUN_00e78560(a, b);
+        }
+    }
+    return true;
+}
+
+
+extern "C" const char* FUN_00ee6e2e(void* pDevice);
+extern "C" const char* FUN_00ee6e28(void* pDevice);
+int __cdecl GetGlobalDataPtr() throw();
+
+
+struct ShaderName
+{
+    const char* m_handle;
+    ShaderName(const char* s)
+    {
+        if (!s)
+            m_handle = ::DAT_0109b220;
+        else
+            m_handle = ::NiGlobalStringTable::AddString(s);
+    }
+    ~ShaderName()
+    {
+        if (m_handle != ::DAT_0109b220)
+            InterlockedDecrement((long volatile*)(m_handle - 8));
+    }
+};
+
+struct ShaderProgram;
+
+struct ShaderEntry
+{
+    ShaderEntry(unsigned int id, int target, int type, const ShaderName& name, const char* libraryName, int a2, int a3,
+                int a5, int a4) throw();
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3C;
+    int unk40;
+    int unk44;
+};
+
+struct ShaderLibrary
+{
+    virtual void v00();
+    virtual void v01();
+    virtual void v02();
+    virtual void v03();
+    virtual void v04();
+    virtual void v05();
+    virtual void v06();
+    virtual void v07();
+    virtual void v08();
+    virtual void v09();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual void v20();
+    virtual void v21();
+    virtual void v22();
+    virtual void v23();
+    virtual void AddEntry(ShaderEntry* entry, int type);
+    int unk04;
+    const char* unk08;
+};
+
+struct ShaderRenderer
+{
+    int unk000;
+    int unk004;
+    int unk008;
+    int unk00C;
+    int unk010;
+    int unk014;
+    int unk018;
+    int unk01C;
+    int unk020;
+    int unk024;
+    int unk028;
+    int unk02C;
+    int unk030;
+    int unk034;
+    int unk038;
+    int unk03C;
+    int unk040;
+    int unk044;
+    int unk048;
+    int unk04C;
+    int unk050;
+    int unk054;
+    int unk058;
+    int unk05C;
+    int unk060;
+    int unk064;
+    int unk068;
+    int unk06C;
+    int unk070;
+    int unk074;
+    int unk078;
+    int unk07C;
+    int unk080;
+    int unk084;
+    int unk088;
+    int unk08C;
+    int unk090;
+    int unk094;
+    int unk098;
+    int unk09C;
+    int unk0A0;
+    int unk0A4;
+    int unk0A8;
+    int unk0AC;
+    int unk0B0;
+    int unk0B4;
+    int unk0B8;
+    int unk0BC;
+    int unk0C0;
+    int unk0C4;
+    int unk0C8;
+    int unk0CC;
+    int unk0D0;
+    int unk0D4;
+    int unk0D8;
+    int unk0DC;
+    int unk0E0;
+    int unk0E4;
+    int unk0E8;
+    int unk0EC;
+    int unk0F0;
+    int unk0F4;
+    int unk0F8;
+    int unk0FC;
+    int unk100;
+    int unk104;
+    int unk108;
+    int unk10C;
+    int unk110;
+    int unk114;
+    int unk118;
+    int unk11C;
+    int unk120;
+    int unk124;
+    int unk128;
+    int unk12C;
+    int unk130;
+    int unk134;
+    int unk138;
+    int unk13C;
+    int unk140;
+    int unk144;
+    int unk148;
+    int unk14C;
+    int unk150;
+    int unk154;
+    int unk158;
+    int unk15C;
+    int unk160;
+    int unk164;
+    int unk168;
+    int unk16C;
+    int unk170;
+    int unk174;
+    int unk178;
+    int unk17C;
+    int unk180;
+    int unk184;
+    int unk188;
+    int unk18C;
+    int unk190;
+    int unk194;
+    int unk198;
+    int unk19C;
+    int unk1A0;
+    int unk1A4;
+    int unk1A8;
+    int unk1AC;
+    int unk1B0;
+    int unk1B4;
+    int unk1B8;
+    int unk1BC;
+    int unk1C0;
+    int unk1C4;
+    int unk1C8;
+    int unk1CC;
+    int unk1D0;
+    int unk1D4;
+    int unk1D8;
+    int unk1DC;
+    int unk1E0;
+    int unk1E4;
+    int unk1E8;
+    int unk1EC;
+    int unk1F0;
+    int unk1F4;
+    int unk1F8;
+    int unk1FC;
+    int unk200;
+    int unk204;
+    int unk208;
+    int unk20C;
+    int unk210;
+    int unk214;
+    int unk218;
+    int unk21C;
+    int unk220;
+    int unk224;
+    int unk228;
+    int unk22C;
+    int unk230;
+    int unk234;
+    int unk238;
+    int unk23C;
+    int unk240;
+    int unk244;
+    int unk248;
+    int unk24C;
+    int unk250;
+    int unk254;
+    int unk258;
+    int unk25C;
+    int unk260;
+    int unk264;
+    int unk268;
+    int unk26C;
+    int unk270;
+    int unk274;
+    int unk278;
+    int unk27C;
+    int unk280;
+    int unk284;
+    void* m_pDirectInputDevice;
+    void FUN_00e6bdc0(ShaderLibrary* lib, int a2, int a3, int a4, int a5, int target);
+};
+
+// @fnv 0x00e6bdc0
+void ShaderRenderer::FUN_00e6bdc0(ShaderLibrary* lib, int a2, int a3, int a4, int a5, int target)
+{
+    const char* profile = FUN_00ee6e2e(m_pDirectInputDevice);
+    if (target == 0)
+        target = GetGlobalDataPtr();
+    const char* ln;
+    ShaderEntry* entry =
+        new ShaderEntry(reinterpret_cast<::FUN_00ee8850_C *>((lib))->GetTotalValue(0), target, 0, ShaderName(profile), ln = lib->unk08, a2, a3, a5, a4);
+    lib->AddEntry(entry, 0);
+    profile = FUN_00ee6e28(m_pDirectInputDevice);
+    entry = new ShaderEntry(reinterpret_cast<::FUN_00ee8850_C *>((lib))->GetTotalValue(2), target, 2, ShaderName(profile), ln = lib->unk08, a2, a3, a5, a4);
+    lib->AddEntry(entry, 2);
+}
+
+unsigned int GetValueForIndex(unsigned int uiIndex);
+void __cdecl BuildWorldToSkinTransform(NiWorldToSkin* out, const NiTransform* kWorldToRootParent, const NiPoint3* apTranslation, float fScale);
+void FUN_00e6d740(void* apObject);
+bool ReleaseOwnerItems(PktOwner* pOwner);
+void* __cdecl _memmove(void*, const void*, unsigned int);
+void __cdecl FUN_00e78560(unsigned int type, unsigned int mode);
+void* __cdecl FUN_00ec61c0(void* destination, int value, unsigned int count);
+void* __cdecl FUN_00ec44d0(void* destination, const void* source, unsigned int count);
+void* _memmove(void*, const void*, unsigned int);
+
+unsigned __cdecl GetValueForIndex(unsigned);
+inline unsigned PresentRefresh(unsigned rate) { if(rate == 0) return 0; return rate; }
+// Presentation parameters use the original 32-bit device layout.
+struct PresentationCaps { unsigned unk00, unk04, unk08, unk0c, unk10, unk14, intervals; };
+struct PresentationDevice {
+    virtual void method00();
+    virtual void method01();
+    virtual void method02();
+    virtual void method03();
+    virtual void method04();
+    virtual void method05();
+    virtual void method06();
+    virtual void method07();
+    virtual void method08();
+    virtual void method09();
+    virtual void method10();
+    virtual long CheckMultisample(unsigned, unsigned, unsigned, int, unsigned, unsigned*);
+};
+extern const char DAT_010ed800[];
+extern const char DAT_010ed7b8[];
+extern const char DAT_010ed778[];
+extern const char DAT_010ed730[];
+extern const char DAT_010ed6d8[];
+extern const char DAT_010ed69c[];
+extern const char DAT_010ed650[];
+extern const char DAT_010ed5f0[];
+// @fnv 0x00e6bf50
+bool PresentationRenderer::FUN_00e6bf50(void* window, unsigned width, unsigned height, unsigned flags, unsigned backCount,
+    unsigned format, uintptr_t depthFormat, unsigned count, unsigned swap,
+    unsigned refresh, unsigned interval, PresentationParameters* out)
+{
+    bool windowed;
+    windowed = !(flags & 4);
+    PresentationCaps* caps = (PresentationCaps*)formats;
+    unsigned quality;
+    unsigned bitsPerPixel;
+    bitsPerPixel = 32;
+    if (flags & 16) bitsPerPixel = 16;
+    if (!format) {
+        format = ((unsigned int)(reinterpret_cast<::TexFormatList *>((formats))->FindFormatValue(windowed, bitsPerPixel)));
+        if (format == 0) {
+            fnv::crt::strncpy_s(DAT_011f4648, 256, DAT_010ed800, 255);
+            ::FUN_00a29680();
+            return false;
+        }
+    }
+    unsigned d3dFormat;
+    d3dFormat = MapIndexToValue(format);
+    if (!depthFormat) {
+        depthFormat = ((uintptr_t)(reinterpret_cast<::RendererE7B *>((formats))->FUN_00e7b0f0(GetValueForIndex(format), d3dFormat, bitsPerPixel, flags & 8)));
+        if (!depthFormat) {
+            fnv::crt::strncpy_s(DAT_011f4648, 256, DAT_010ed778, 255);
+            ::FUN_00a29680();
+            return false;
+        }
+    }
+    std::memset(out, 0, 56);
+    out->width = width;
+    out->height = height;
+    out->format = d3dFormat;
+    unsigned samples = ((unsigned int)(::FUN_00b6c200(backCount)));
+    out->multisampleType = samples;
+    if (samples == 1) out->multisampleQuality = backCount & 0x7fffffff;
+    else out->multisampleQuality = 0;
+    out->depthFormat = depthFormat;
+    out->backBufferCount = count;
+    out->enableDepth = !(unsigned char)(flags & 1);
+    out->windowed = windowed;
+    unsigned swapEffect;
+    if (backCount == 0 || backCount == 1) {
+        switch (swap) {
+        default: swapEffect = 1; break;
+        case 1: swapEffect = 1; break;
+        case 2: swapEffect = 2; break;
+        case 3: swapEffect = 3; break;
+        }
+    }
+    else swapEffect = 1;
+    out->swapEffect = swapEffect;
+    out->flags = backCount == 1 ? 1UL : 0UL;
+    out->window = window;
+    out->refreshRate = PresentRefresh(refresh);
+    out->interval = ::FUN_00e69e50(interval);
+    PresentationDevice* device;
+    device = (PresentationDevice*)DAT_0126f0d8;
+    if (device->CheckMultisample(unk5c4, unk5c8, d3dFormat, windowed, samples, &quality) < 0) {
+        ::FUN_00a29680();
+        out->multisampleType = 0;
+    } else if (quality <= out->multisampleQuality) {
+        out->multisampleQuality = quality - 1;
+    }
+    if (0 == out->backBufferCount) out->backBufferCount = 1;
+    else if (3 < out->backBufferCount) out->backBufferCount = 3;
+    unsigned previousRefreshRate;
+    previousRefreshRate = out->refreshRate;
+    if (out->windowed) out->refreshRate = 0;
+    else {
+        if (!((uintptr_t)(reinterpret_cast<::Owner *>((displayFormats))->FUN_00e7b190(GetValueForIndex(MapCodeToIndex(out->format)), out->width, out->height, &out->refreshRate)))) {
+            FUN_00e69ad0(DAT_010ed69c);
+            ::FUN_00a29680();
+            return false;
+        }
+        if (previousRefreshRate != out->refreshRate) ::FUN_00a29680();
+    }
+    if (out->windowed) {
+        if (out->interval != 0 && out->interval != 0x80000000 && out->interval != 1)
+            out->interval = 0x80000000;
+    } else if (!(caps->intervals & out->interval)) out->interval = 1;
+    return true;
+}
+
+typedef bool (__cdecl *ResetCallback)(bool,void*);
+struct ResetRTTI { const char* name; ResetRTTI* base; };
+struct ResetFlagState { int a,b,c,d; ResetObject* data; };
+struct ResetObject {
+ virtual void Delete(unsigned);
+ virtual void Destroy();
+ virtual void v2();
+ virtual ResetRTTI* Type();
+ virtual void v4();
+ virtual void v5();
+ virtual void v6();
+ virtual void v7();
+ virtual void v8();
+ virtual void v9();
+ virtual void v10();
+ virtual void v11();
+ virtual void v12();
+ virtual void v13();
+ virtual void v14();
+ virtual void v15();
+ virtual void v16();
+ virtual void v17();
+ virtual void v18();
+ virtual void v19();
+ virtual void v20();
+ virtual void Lost();
+ virtual void Restore(void*);
+ virtual void v23();
+ virtual void v24();
+ virtual void v25();
+ virtual void v26();
+ virtual void v27();
+ virtual void v28();
+ virtual void v29();
+ virtual void v30();
+ virtual void v31();
+ virtual void v32();
+ virtual void v33();
+ virtual void v34();
+ virtual void v35();
+ virtual void v36();
+ virtual void v37();
+ virtual void v38();
+ virtual void v39();
+ virtual void v40();
+ virtual void v41();
+ virtual void v42();
+ virtual void v43();
+ virtual ResetFlagState* Buffer(unsigned);
+ virtual ResetFlagState* OtherBuffer();
+ virtual void v46();
+ virtual void v47();
+ virtual void v48();
+ virtual void LostResource();
+ virtual void RestoreResource();
+ virtual ResetObject* Other();
+ int refs;
+ bool IsKindOfType(ResetRTTI* type) { ResetRTTI* current=Type(); while(current) { if(current==type) return true; current=current->base; } return false; }
+ ResetObject* Cast(ResetRTTI* type) { if (!this) return 0; return IsKindOfType(type) ? this : 0; }
+};
+inline void ResetMap::AdvanceIterator(ResetNode*& pos, const char*& key, ResetObject*& value) {
+ ResetNode* node=pos; key=(const char*)node->key;
+ if(value!=node->value) {
+  if(value && !InterlockedDecrement((long*)&value->refs)) value->Destroy();
+  value=node->value;
+  if(value) InterlockedIncrement((long*)&value->refs);
+ }
+ pos=node->next;
+ if(!pos) {
+  unsigned index=Hash(node->key)+1;
+  for(;index<size;++index) { pos=buckets[index]; if(pos) return; }
+  pos=0;
+ }
+}
+struct ResetResourceList { static ResetRef& Next(ResetResourceNode*& pos) { ResetRef& value=pos->value; pos=pos->next; return value; } };
+extern const char DAT_010ee2e8[], DAT_010ee298[], DAT_010ee238[];
+struct ResetDevice { void* v0; void* v1; void* v2; void* v3; void* v4; void* v5; void* v6; void* v7; void* v8; void* v9; void* v10; void* v11; void* v12; void* v13; void* v14; void* v15; int (*Reset)(void*,void*); };
+struct ResetData { int a,b,c,d,e,f,g,h; int parameters; };
+// @fnv 0x00e736b0
+bool ResetRenderer::FUN_00e736b0() {
+ reinterpret_cast<::ControllerMapE8B *>((manager3))->FUN_00e8be20(); reinterpret_cast<::Owner8F6D0 *>((manager2))->FUN_00e8f6d0(); reinterpret_cast<::This_cd60 *>((manager1))->FUN_00e8cd60();
+ FUN_00e7cc50((int*)device,1); FUN_00e7cc50((int*)device,2); FUN_00e7cc50((int*)device,3);
+ long (*decrement)(long volatile*)= [](volatile long* p) { return InterlockedDecrement(p); };
+ ResetNode* pos=geometry.First();
+ while(pos) { const char* key; ResetObject* obj=0; reinterpret_cast<::FUN_00e6e630_cls *>(&(geometry))->AdvanceIterator((::MapItemNode **)&(pos),(unsigned int *)&(key),(::MapValueObject **)&(obj)); ResetObject* object=obj;
+ object->Buffer(0)->data->Cast(&(*reinterpret_cast<::ResetRTTI *>(&::g_0126f5d8)))->Lost();
+ ResetFlagState* other=object->OtherBuffer(); if(other && other->data) { ResetObject* data=other->data->Cast(&(*reinterpret_cast<::ResetRTTI *>(&::g_0126f5ac))); if(data) data->Lost(); }
+ if(!decrement((long*)&object->refs)) object->Destroy(); }
+ { ResetNode* iter=map1.First(); while(iter) { ResetGeometry* key; ResetObject* value; map1.Next(iter,key,value); ReleaseGeometry(key); reinterpret_cast<::HashTableBase *>((((NiVBSet*)&map1)))->InsertOrUpdate((uintptr_t)key,(unsigned int)(0)); } }
+ { ResetNode* iter=map2.First(); while(iter) { ResetGeometry* key; ResetObject* value; map2.Next(iter,key,value); ReleaseGeometry(key); reinterpret_cast<::HashTableBase *>((((NiVBSet*)&map2)))->InsertOrUpdate((uintptr_t)key,(unsigned int)(0)); } }
+ { ResetNode* iter=map3.First(); while(iter) { ResetGeometry* key; ResetObject* value; map3.Next(iter,key,value); key->unk24=0; if(value) value->Delete(1); reinterpret_cast<::HashTableBase *>((((NiVBSet*)&map3)))->InsertOrUpdate((uintptr_t)key,(unsigned int)(0)); } }
+ ::FUN_00e7cec0();
+ { ResetResourceNode* iter=resources; while(iter) { ResetResourceList::Next(iter)->LostResource(); } }
+ manager->Run();
+ unsigned count=callbackCount;
+ for(unsigned i=0;i<count;++i) { ResetCallback callback=callbacks[i]; void* data=callbackData[i]; if(callback && !callback(true,data)) { ::FUN_00a29680(); return false; } }
+ ResetObject* data=defaultGroup->Buffer(0)->data->Cast(&(*reinterpret_cast<::ResetRTTI *>(&::g_0126f5d8)));
+ if((*(ResetDevice**)device)->Reset(device,&((ResetData*)data)->parameters)<0) return false;
+ ++generation; state=0;
+ pos=geometry.First();
+ while(pos) { const char* key; ResetObject* obj=0; reinterpret_cast<::FUN_00e6e630_cls *>(&(geometry))->AdvanceIterator((::MapItemNode **)&(pos),(unsigned int *)&(key),(::MapValueObject **)&(obj)); ResetObject* object=obj;
+ object->Buffer(0)->data->Cast(&(*reinterpret_cast<::ResetRTTI *>(&::g_0126f5d8)))->Restore(device);
+ ResetObject* other=object->Other(); if(other) { ResetObject* data=other->Cast(&(*reinterpret_cast<::ResetRTTI *>(&::g_0126f5ac))); if(data) data->Restore(device); }
+ if(!decrement((long*)&object->refs)) object->Destroy(); }
+ if(!reinterpret_cast<::RendererBridge *>(this)->InitializeRendererResources()) { ::FUN_00a29680(); return false; }
+ { ResetNode* iter=map1.First(); while(iter) { ResetGeometry* key; ResetObject* value; map1.Next(iter,key,value); RestoreGeometry(key,key->unk3c); } }
+ { ResetNode* iter=map2.First(); while(iter) { ResetGeometry* key; ResetObject* value; map2.Next(iter,key,value); RestoreOther(key); } }
+ { ResetNode* iter=map3.First(); while(iter) { ResetGeometry* key; ResetObject* value; map3.Next(iter,key,value); RestoreThird(key); } }
+ ::FUN_00e7cf00(device);
+ { ResetResourceNode* iter=resources; while(iter) { ResetResourceList::Next(iter)->RestoreResource(); } }
+ resourceManager->Reset(); reinterpret_cast<::FUN_00e8b170_cls *>((manager3))->FUN_00e8b170();
+ for(unsigned i=0;i<count;++i) { ResetCallback callback=callbacks[i]; void* data=callbackData[i]; if(callback && !callback(false,data)) { ::FUN_00a29680(); return false; } }
+ return true;
+}
+
+struct VertexBufferDesc767 { unsigned format, type, usage, pool, size, fvf; };
+struct VertexCOM767 {
+    virtual void v00(); virtual void v01(); virtual void v02();
+    virtual void v03(); virtual void v04(); virtual void v05();
+    virtual void v06(); virtual void v07(); virtual void v08();
+    virtual void v09(); virtual void v10(); virtual void v11();
+    virtual void v12(); virtual long GetDesc(VertexBufferDesc767*);
+};
+struct Buffer767 { unsigned unk00,unk04; VertexCOM767* buffer; unsigned offset, size, flags; };
+struct StreamData767 {
+    unsigned unk00,unk04,unk08,unk0c,unk10; bool software;
+    unsigned unk18,unk1c,count; unsigned* strides;
+    Buffer767* GetEntry(unsigned);
+};
+struct Geometry767 {
+    virtual void v00(); virtual void v01(); virtual void v02(); virtual void v03();
+    virtual void v04(); virtual void v05(); virtual void v06(); virtual void v07();
+    virtual void v08(); virtual void v09(); virtual void v10(); virtual void v11();
+    virtual void v12(); virtual void v13(); virtual void v14(); virtual void v15();
+    virtual void v16(); virtual void v17(); virtual void v18(); virtual void v19();
+    virtual void v20(); virtual void v21(); virtual void v22(); virtual void v23();
+    virtual void v24(); virtual void v25(); virtual void v26(); virtual void v27();
+    virtual void v28(); virtual void v29(); virtual void v30(); virtual void v31();
+    virtual void v32(); virtual void v33(); virtual void v34(); virtual void v35();
+    virtual unsigned short VertexCount();
+    unsigned unk04; unsigned short count; unsigned short unk0a;
+    unsigned unk0c,unk10,unk14,unk18,unk1c;
+    void* unk20; void* unk24;
+    unsigned unk28,unk2c,unk30;
+    StreamData767* streams;
+};
+struct Skin767 { unsigned unk00,unk04,unk08,unk0c,unk10,unk14,unk18; unsigned short count,unk1e; void* data20; void* data24; StreamData767* streams; };
+struct SkinProcessor767 {  };
+struct BufferManager767 {
+};
+struct Extra767 { unsigned unk00, unk04; };
+struct Inputs767_6 { char* destination; Extra767 extra; };
+struct Shader767 {
+    virtual void v00(); virtual void v01(); virtual void v02(); virtual void v03();
+    virtual void v04(); virtual void v05(); virtual void v06(); virtual void v07();
+    virtual void v08(); virtual void v09(); virtual void v10(); virtual void v11();
+    virtual void v12(); virtual void v13(); virtual void v14(); virtual void v15();
+    virtual void v16(); virtual void v17(); virtual void v18(); virtual void v19();
+    virtual void v20(); virtual void v21(); virtual void v22(); virtual void v23();
+    virtual void v24(); virtual void v25(); virtual void v26(); virtual void v27();
+    virtual void v28(); virtual void v29(); virtual void v30(); virtual void v31();
+    virtual void v32(); virtual void v33(); virtual void v34(); virtual void v35();
+    virtual void v36(); virtual void v37(); virtual void v38(); virtual void v39();
+    virtual unsigned GetStride(unsigned); virtual void v41(); virtual bool Software(); virtual void v43();
+    virtual bool GetDeclaration(void**,unsigned*);
+    unsigned unk04; Renderer_e6da60* renderer; BufferManager767* manager;
+    unsigned unk10,unk14,unk18,m_uiValueAtOffset1C,streamCount; ShaderStreamInfo* streams;
+    Buffer767* FUN_00e76770(Geometry767*,SkinProcessor767*,Skin767*,unsigned,Buffer767*,unsigned,Inputs767_6);
+};
+// @fnv 0x00e76770
+Buffer767* Shader767::FUN_00e76770(Geometry767* geometry, SkinProcessor767* skinInstance, Skin767* skin, unsigned mask, Buffer767* oldBuffer, unsigned stream, Inputs767_6 inputs6)
+{
+    unsigned short vertexCount = skin ? skin->count : geometry->VertexCount();
+    if (!vertexCount)
+        return oldBuffer;
+
+    void* declaration = 0;
+    unsigned declarationSize = 0;
+    if (!GetDeclaration(&declaration, &declarationSize))
+        return 0;
+
+    StreamData767* data = skin ? skin->streams : geometry->streams;
+    reinterpret_cast<::Holder_00e8f040 *>((data))->SetComPointer((::FakeCOM_00e8f040 *)(declaration));
+    if (stream < data->count)
+        data->strides[stream] = streams[stream].m_uiStride;
+    if (renderer->m_bFlag5D4)
+        data->software = Software();
+
+    bool unlock = true;
+    Buffer767* buffer;
+    if (inputs6.destination) {
+        buffer = oldBuffer;
+        unlock = false;
+    } else {
+        VertexBufferDesc767 desc;
+        if (oldBuffer) {
+            VertexCOM767* vertexBuffer = oldBuffer->buffer;
+            if (vertexBuffer) {
+                vertexBuffer->GetDesc(&desc);
+                if (desc.format == 100 && desc.size >= GetStride(stream) * vertexCount) {
+                    buffer = oldBuffer;
+                    goto have_buffer;
+                }
+            }
+        }
+        if (!::FUN_00e8bfa0((::Outer *)(data), stream))
+            return 0;
+        buffer = (Buffer767*)((FUN_00e69b40_shell*)data)->GetEntry(stream);
+        mask = 0xfff;
+
+    have_buffer:
+        unsigned sizeValue = buffer->size;
+        unsigned flagsValue = buffer->flags;
+        unsigned offsetValue = buffer->offset;
+        VertexCOM767* bufferValue = buffer->buffer;
+        inputs6.destination = ((char *)(reinterpret_cast<::Owner_e8bff0 *>((manager))->FUN_00e8bff0((::Holder_e8bff0 *)(bufferValue), offsetValue, flagsValue, sizeValue)));
+    }
+
+    bool skinned = skinInstance && !skin;
+
+    ShaderStreamInfo* entries = &streams[stream];
+    char* position = 0;
+    char* weight = 0;
+    char* normal = 0;
+    char* blend = 0;
+    int i;
+    if (entries) {
+        for (i = 0; (unsigned)i < m_uiValueAtOffset1C; i++) {
+            ShaderStreamMapping* entry = &entries->m_pkEntryArray[i];
+            char* output = inputs6.destination + entry->m_uiValue2;
+            switch (entry->m_uiValue3) {
+            case 0:
+                if (!(mask & 1)) continue;
+                if (skinned) { position = output; continue; }
+                break;
+            case 3:
+                if (!(mask & 2)) continue;
+                if (skinned) { weight = output; continue; }
+                break;
+            case 14:
+                if (!(mask & 2)) continue;
+                if (skinned) { normal = output; continue; }
+                break;
+            case 13:
+                if (!(mask & 2)) continue;
+                if (skinned) { blend = output; continue; }
+                break;
+            case 4:
+                if (!(mask & 4)) continue;
+                break;
+            case 5:
+            case 6:
+            case 7:
+            case 8:
+            case 9:
+            case 10:
+            case 11:
+            case 12:
+                if (!(mask & 8)) continue;
+                break;
+            }
+            ::ConvertGeometryData((unsigned short)(vertexCount), (::NiGeometryData *)(geometry), (uintptr_t)(skinInstance), (::E7Skin *)(skin), (::E7Descriptor *)(entry), (uintptr_t)(entries->m_uiStride), (void *)(output), (bool)(inputs6.extra.unk00), inputs6.extra.unk04);
+        }
+    }
+    if (skinned)
+        reinterpret_cast<::SkinInstance *>((skinInstance))->FUN_00a855f0((const ::NiPoint3 *)(geometry->unk20), (const ::NiPoint3 *)(geometry->unk24), geometry->count, (::NiPoint3 *)(position), (::NiPoint3 *)(weight), (::NiPoint3 *)(normal), (::NiPoint3 *)(blend), entries->m_uiStride);
+    if(unlock) { VertexCOM767* value = buffer->buffer; if(!reinterpret_cast<::S_00e8c0d0 *>((manager))->CopyAndRelease(value)) return 0; }
+    return buffer;
+}
+
+
+void __cdecl FUN_00e78bd0(void* element);
+void FUN_00401050(void* buffer, unsigned int elementSize, unsigned int count, void (__cdecl* ctor)(void*));
+struct OuterSlot { OuterSlot() throw();
+    unsigned int unk00;
+    unsigned int unk04;
+    void* inner;
+    unsigned int unk0c;
+};
+struct InnerRaw : FUN_00e76320 {
+
+};
+class DeclMap786 {
+public:
+    unsigned int unk00;
+    unsigned int unk04;
+    FUN_00e69660_shell* m_08;
+    FUN_00e8bf80_shell* m_0c;
+    IDev* m_10;
+    unsigned int unk14;
+    unsigned int unk18;
+    unsigned int m_1c;
+    unsigned int m_20;
+    OuterSlot* m_24;
+    bool FUN_00e78c60(FUN_00e69660_shell* a, unsigned int b, unsigned int c) throw();
+};
+// @fnv 0x00e78c60
+bool DeclMap786::FUN_00e78c60(FUN_00e69660_shell* a, unsigned int b, unsigned int c) throw() {
+    m_08 = a;
+    m_0c = m_08->h8bc;
+    m_10 = m_08->dev; m_10->f01();
+    m_1c = b;
+    m_20 = c;
+    m_24 = new OuterSlot[c];
+    for (unsigned int i = 0; i < m_20; ++i) {
+        InnerRaw* inner = new InnerRaw[m_1c];
+        m_24[i].inner = inner;
+    }
+    return true;
+}
 #include "generated/data/gamebryo2.2/corelibs/niconsolerenderer/niconsolerenderer.inc"

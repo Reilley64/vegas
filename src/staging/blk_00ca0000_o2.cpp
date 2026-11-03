@@ -10376,7 +10376,7 @@ int CompareStringsCaseInsensitive(const char* pStringA, const char* pStringB)
 
 void FUN_00cd4af0(int a1);
 // @fnv 0x00cb2d70
-unsigned int FUN_00cb2d70(unsigned int uiValue)
+uintptr_t FUN_00cb2d70(uintptr_t uiValue)
 {
     FUN_00cd4af0((int)uiValue);
     return uiValue;
@@ -13515,7 +13515,7 @@ void FUN_00ca8960_Class::EnqueueTransform(const __m128* position, const __m128* 
         reinterpret_cast<::WorldWithPending *>((queue08))->FUN_00c91160();
     }
     else
-        reinterpret_cast<::FUN_00ca8860_cls *>(this)->FUN_00ca8860((const void *)(position), (const void *)(rotation));
+        reinterpret_cast<::FUN_00ca8860_cls *>(this)->FUN_00ca8860((intptr_t)(position), (intptr_t)(rotation));
 }
 
 namespace fnv_00cabf30 {

@@ -2,6 +2,9 @@
 // src/havok/common/scenedata/mesh/hkxvertexbuffer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/scenedata/mesh/hkxvertexbuffer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
+#include <cstdint>
+#include <cstddef>
 #include <new>
 #include "fnv/decl/DFD680MeshData.h"
 #include "fnv/decl/FUN_00e3dfb0_cls.h"
@@ -51,7 +54,6 @@ struct hkMemoryRouterE3E2
         return *m_pkHeap;
     }
 };
-extern "C" hkMemoryRouterE3E2* __cdecl FUN_00c85750() throw();
 
 
 template <typename T> struct hkArrayE3E2
@@ -76,7 +78,7 @@ template <typename T> struct hkArrayE3E2
     }
     void SetSizeAndGrow(int n)
     {
-        GrowArrayCapacity(FUN_00c85750()->heap(), n);
+        GrowArrayCapacity(static_cast<hkMemoryRouterE3E2*>(::FUN_00c85750())->heap(), n);
         m_iElementCount = n;
     }
 };
@@ -252,14 +254,13 @@ struct FUN_00e3e760_VirtualTarget
 
 struct FUN_00e3e760_Holder
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     FUN_00e3e760_VirtualTarget* unk10;
 };
 
-void* __cdecl FUN_00c85750();
 
 struct FUN_00e3e760_Base
 {
@@ -288,10 +289,10 @@ struct FUN_00e3e760_Base
 
 struct FUN_00e3e760_Class
 {
-    int unk00;
+    intptr_t unk00;
     int unk04;
     FUN_00e3e760_Base unk08;
-    int unk5C;
+    intptr_t unk5C;
     int unk60;
     int unk64;
 
@@ -321,7 +322,7 @@ skip:
     unk5C = 0;
     unk64 = 0x80000000;
     reinterpret_cast<::DFD680MeshData *>(&(unk08))->FUN_00dfd680();
-    unk00 = (int)(unsigned int)&(*reinterpret_cast<int *>(&::DAT_0102e388));
+    unk00 = (int)(uintptr_t)&(*reinterpret_cast<int *>(&::DAT_0102e388));
 }
 }  // namespace fnv_00e3e760
 
@@ -342,10 +343,10 @@ class hkMemoryAllocatorXe3e7b0
 
 struct hkMemoryRouterXe3e7b0
 {
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
+    void* m_00;
+    void* m_04;
+    void* m_08;
+    void* m_0c;
     hkMemoryAllocatorXe3e7b0* m_pStreamAllocator;
 
     hkMemoryAllocatorXe3e7b0& heap()
@@ -354,7 +355,6 @@ struct hkMemoryRouterXe3e7b0
     }
 };
 
-extern "C" hkMemoryRouterXe3e7b0& __cdecl FUN_00c85750() throw();
 
 class hkObje3e7b0 : public FUN_00e3e760
 {
@@ -363,7 +363,7 @@ class hkObje3e7b0 : public FUN_00e3e760
 
     static void operator delete(void* p) throw()
     {
-        FUN_00c85750().heap().ReleaseBlock(p, static_cast<hkObje3e7b0*>(p)->GetAllocationSize());
+        (*static_cast<hkMemoryRouterXe3e7b0*>(::FUN_00c85750())).heap().ReleaseBlock(p, static_cast<hkObje3e7b0*>(p)->GetAllocationSize());
     }
     int GetAllocationSize() const
     {
@@ -466,7 +466,7 @@ void BufferHelper::FUN_00e3e030(const hkxVertexBuffer* src, int srcIndex, int ds
         }
         aiUsageCounts[decl.m_eDataUsage]++;
         void* dstData = ((void *)(reinterpret_cast<::FUN_00e3dfb0_cls *>(this)->FUN_00e3dfb0((::FUN_00e3dfb0_arg *)&(decl))));
-        const void* srcData = ((const void *)(::FUN_00e3e020((int)(srcBuf), (int *)&(*srcDecl))));
+        const void* srcData = ((const void *)(::FUN_00e3e020((intptr_t)(srcBuf), (int *)&(*srcDecl))));
 
         int size = 0;
         switch (decl.m_type)
@@ -501,6 +501,7 @@ void BufferHelper::FUN_00e3e030(const hkxVertexBuffer* src, int srcIndex, int ds
 
 extern "C" void _ReadWriteBarrier();
 
+
 struct VertexDeclMatch
 {
     unsigned int offset;
@@ -529,7 +530,7 @@ struct DescriptionMatch
     }
     VertexDeclMatch& AllocatePair()
     {
-        hkAllocatorE3E2* alloc = &FUN_00c85750()->heap();
+        hkAllocatorE3E2* alloc = &static_cast<hkMemoryRouterE3E2*>(::FUN_00c85750())->heap();
         if (size == (capacity & 0x3fffffff))
             ::ResizeAudioStream((::AudioAllocator *)(alloc), (::AudioStream *)(void *)(this), sizeof(VertexDeclMatch));
         new (data + size) VertexDeclMatch;

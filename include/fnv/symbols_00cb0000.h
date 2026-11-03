@@ -1,11 +1,12 @@
 #pragma once
+#include <cstdint>
 
 namespace fnv_00cb0df0 { struct GrowBuffer; }
 struct S_00cb0da0;
 struct SpawnedBuffer;
 
 // 0x00cb0c00
-void FUN_00cb0c00(int);
+void FUN_00cb0c00(intptr_t);
 // 0x00cb0da0
 void FUN_00cb0da0(::S_00cb0da0 *);
 // 0x00cb0db0
@@ -19,9 +20,9 @@ char ToUpperAscii(char);
 // 0x00cb0f30
 char ToLowerAscii(char);
 // 0x00cb0f50
-void FUN_00cb0f50(int, int, int, int);
+void FUN_00cb0f50(intptr_t, int, intptr_t, intptr_t);
 // 0x00cb0f60
-int Vsnprintf(char *, int, const char *, ...);
+int Vsnprintf(char *, intptr_t, const char *, ...);
 // 0x00cb0f80
 void FUN_00cb0f80(char *, const char *, char *);
 // 0x00cb0fa0

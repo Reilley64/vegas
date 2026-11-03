@@ -2,6 +2,8 @@
 // src/havok/animation/animation/animation/hkaanimationbindingclass.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/animation/animation/hkaanimationbindingclass.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
+#include <cstdint>
 #include "fnv/decl/hkReferencedObjectC905.h"
 #include "fnv/symbols_00cb0000.h"
 #include "fnv/symbols_0102e000.h"
@@ -14,13 +16,12 @@ struct Manager
 };
 struct Holder
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     Manager* manager;
 };
-Holder* FUN_00c85750();
 struct Record
 {
     int unk00;
@@ -35,7 +36,7 @@ Record* Record::FUN_00dfea70(unsigned int flags)
     ClearReferences();
     if (flags & 1)
     {
-        Holder* holder = FUN_00c85750();
+        Holder* holder = static_cast<Holder*>(::FUN_00c85750());
         holder->manager->Notify(this, value);
     }
     return this;
@@ -56,7 +57,7 @@ struct ReclaimState
     int unk04;          // 0x04
     int unk08;          // 0x08 (sub-object head, passed as this to FUN_00cb0c00)
     void* unk0c;        // 0x0c
-    int unk10;          // 0x10
+    intptr_t unk10;          // 0x10
     int unk14;          // 0x14
     int unk18;          // 0x18
     Record* m_1c;       // 0x1c
@@ -75,7 +76,7 @@ struct CalleeB
 void Record::ClearReferences()
 {
     ReclaimState* pState = reinterpret_cast<ReclaimState*>(this);
-    Holder* pManagerHolder = FUN_00c85750();
+    Holder* pManagerHolder = static_cast<Holder*>(::FUN_00c85750());
     ManagerSlots* pManager = reinterpret_cast<ManagerSlots*>(pManagerHolder->manager);
     pState->m_20 = 0;
     if ((pState->m_24 & 0x80000000u) == 0)
@@ -85,7 +86,7 @@ void Record::ClearReferences()
     pState->m_1c = 0;
     pState->m_24 = 0x80000000u;
 
-    pManagerHolder = FUN_00c85750();
+    pManagerHolder = static_cast<Holder*>(::FUN_00c85750());
     pManager = reinterpret_cast<ManagerSlots*>(pManagerHolder->manager);
     pState->unk14 = 0;
     if ((pState->unk18 & 0x80000000u) == 0)
@@ -101,6 +102,6 @@ void Record::ClearReferences()
         reinterpret_cast<::hkReferencedObjectC905 *>((reinterpret_cast<CalleeA*>(p)))->FUN_00c905b0();
     }
     pState->unk0c = 0;
-    ::FUN_00cb0c00((int)(reinterpret_cast<CalleeB*>(&pState->unk08)));
+    ::FUN_00cb0c00((intptr_t)(reinterpret_cast<CalleeB*>(&pState->unk08)));
     pState->vptr = (void*)&(*reinterpret_cast<char *>(&::DAT_0102e388));
 }

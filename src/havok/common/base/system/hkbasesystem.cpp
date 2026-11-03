@@ -4,6 +4,7 @@
 
 
 // @fnv 0x00cbb950
+#include "fnv/symbols_00c85000.h"
 #include <cstdint>
 #include <cstddef>
 #include <windows.h>
@@ -30,8 +31,8 @@ void __cdecl FUN_00cbb950(unsigned char* out)
 struct FUN_00c903b0_Class
 {
 };
-extern int DAT_011b3dec;
-extern "C" void __cdecl FUN_00cbb990();
+extern intptr_t DAT_011b3dec;
+extern "C" int __cdecl FUN_00cbb990();
 extern "C" void __cdecl FUN_00cbbbd0();
 // @fnv 0x00cbbcb0
 int __cdecl ShutdownIfInitialized()
@@ -46,10 +47,10 @@ int __cdecl ShutdownIfInitialized()
             (*reinterpret_cast<unsigned char *>(&::DAT_01268a44)) = 0;
         }
         if ((*reinterpret_cast<int *>(&::DAT_01268360)))
-            reinterpret_cast<::FUN_00c903b0_class *>((((FUN_00c903b0_Class*)(*reinterpret_cast<int *>(&::DAT_01268360)))))->ReleaseReference();
+            reinterpret_cast<::FUN_00c903b0_class *>((((FUN_00c903b0_Class*)(*reinterpret_cast<intptr_t *>(&::DAT_01268360)))))->ReleaseReference();
         (*reinterpret_cast<int *>(&::DAT_01268360)) = 0;
         if ((*reinterpret_cast<int *>(&::DAT_01268364)))
-            reinterpret_cast<::FUN_00c903b0_class *>((((FUN_00c903b0_Class*)(*reinterpret_cast<int *>(&::DAT_01268364)))))->ReleaseReference();
+            reinterpret_cast<::FUN_00c903b0_class *>((((FUN_00c903b0_Class*)(*reinterpret_cast<intptr_t *>(&::DAT_01268364)))))->ReleaseReference();
         (*reinterpret_cast<int *>(&::DAT_01268364)) = 0;
         FUN_00cbb990();
         DAT_01268414 = 0;
@@ -57,7 +58,6 @@ int __cdecl ShutdownIfInitialized()
     return 0;
 }
 
-extern "C" void __cdecl SetThreadLocalValue(void* value);
 
 // @fnv 0x00cbb930
 int __cdecl FUN_00cbb930(void* value)
@@ -116,10 +116,9 @@ struct AudioMgr
 };
 
 struct BSAudio;
-BSAudio* __cdecl FUN_00c85750();
 inline AudioMgr* audio()
 {
-    return (AudioMgr*)FUN_00c85750();
+    return (AudioMgr*)static_cast<BSAudio*>(::FUN_00c85750());
 }
 
 struct LocalBuf
@@ -156,12 +155,12 @@ inline void* hkAlloc(int n)
 }
 
 // @fnv 0x00cbbee0
-ObjB* FUN_00cbbee0(int a)
+ObjB* FUN_00cbbee0(const char* a)
 {
     LocalBuf localBuf;
     reinterpret_cast<::BufferOwner *>(&(localBuf))->InitBuffer();
     ObjA* objA = (ObjA*)hkAlloc(sizeof(ObjA));
-    ObjA* src = ((::ObjA *)(reinterpret_cast<::Candidate *>((objA))->OpenFile((const char *)(DAT_011b3dc0(a, &localBuf)))));
+    ObjA* src = ((::ObjA *)(reinterpret_cast<::Candidate *>((objA))->OpenFile(DAT_011b3dc0(a, &localBuf))));
     ObjB* objB = (ObjB*)hkAlloc(sizeof(ObjB));
     ObjB* result = ((::ObjB *)(new ((void *)(objB)) ::hkBufStreamWriterD274((::hkStreamWriterD274 *)(src), 0x1000)));
     reinterpret_cast<::hkReferencedObjectC905 *>((src))->FUN_00c905b0();
@@ -234,7 +233,7 @@ found:
     reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::FUN_00aa4060_cls *>(&::g_memoryManager))))->FUN_00aa4060(cur);
 }
 
-extern int DAT_01268790;
+extern intptr_t DAT_01268790;
 
 struct SoundNode
 {
@@ -286,7 +285,7 @@ extern "C" void __cdecl FUN_00cbbbd0()
         heap.ReturnMemory(pendingList.m_data, (pendingList.m_iCapacityState & 0x3fffffff) * 4);
 }
 
-extern int DAT_01268790;
+extern intptr_t DAT_01268790;
 struct SpawnedListNode
 {
     int m_00;
@@ -418,14 +417,13 @@ struct SpawnedAllocator
 
 struct SpawnedHolder
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     SpawnedAllocator* m_pAllocator;
 };
 
-SpawnedHolder* __cdecl FUN_00c85750();
 
 struct SpawnedObject
 {
@@ -442,7 +440,7 @@ struct SpawnedObject
 // @fnv 0x00cbb9c0
 void __cdecl FUN_00cbb9c0()
 {
-    SpawnedHolder* pHolder = FUN_00c85750();
+    SpawnedHolder* pHolder = static_cast<SpawnedHolder*>(::FUN_00c85750());
     SpawnedAllocator* pAllocator = pHolder->m_pAllocator;
     SpawnedObject* pSpawnedObject = (SpawnedObject*)pAllocator->Alloc(8);
     pSpawnedObject->m_w04 = 8;
@@ -453,7 +451,7 @@ void __cdecl FUN_00cbb9c0()
 
 namespace fnv_00cbbb10 {
 extern "C" unsigned char DAT_010c8eb8;
-extern int DAT_01268410;
+extern intptr_t DAT_01268410;
 
 struct FNV_Allocator
 {
@@ -463,10 +461,10 @@ struct FNV_Allocator
 
 struct AllocHolder
 {
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     FNV_Allocator* m_pAllocator;
 };
 
@@ -491,7 +489,6 @@ struct VirtualIface
     virtual void v3();
 };
 
-AllocHolder* __cdecl FUN_00c85750();
 
 // Allocates and initializes two spawned objects, stores them in global pointers, and sets the initialization flag.
 // @fnv 0x00cbbb10
@@ -502,26 +499,26 @@ int __cdecl FUN_00cbbb10(intptr_t a1, uintptr_t auParam1, unsigned int auParam2)
         return 0;
     }
     ::FUN_00cbb930((void *)(a1));
-    AllocHolder* holder = FUN_00c85750();
+    AllocHolder* holder = static_cast<AllocHolder*>(::FUN_00c85750());
     SpawnedObject8* obj8 = (SpawnedObject8*)holder->m_pAllocator->Alloc(8);
     obj8->m_size04 = 8;
     obj8->m_flags06 = 1;
     obj8->m_vtbl = &DAT_010c8eb8;
     if ((*reinterpret_cast<int *>(&::DAT_01268364)) != 0)
     {
-        reinterpret_cast<::FUN_00c903b0_class *>((((FUN_00c903b0_Class*)(*reinterpret_cast<int *>(&::DAT_01268364)))))->ReleaseReference();
+        reinterpret_cast<::FUN_00c903b0_class *>((((FUN_00c903b0_Class*)(*reinterpret_cast<intptr_t *>(&::DAT_01268364)))))->ReleaseReference();
     }
-    (*reinterpret_cast<int *>(&::DAT_01268364)) = (int)obj8;
+    (*reinterpret_cast<int *>(&::DAT_01268364)) = (intptr_t)obj8;
 
-    holder = FUN_00c85750();
+    holder = static_cast<AllocHolder*>(::FUN_00c85750());
     SpawnedObject28* obj28 = (SpawnedObject28*)holder->m_pAllocator->Alloc(0x28);
     obj28->m_size04 = 0x28;
     obj28 = ((::fnv_00cbbb10::SpawnedObject28 *)(reinterpret_cast<::D2B640Object *>((obj28))->Initialize(auParam1, auParam2)));
     if ((*reinterpret_cast<int *>(&::DAT_01268360)) != 0)
     {
-        reinterpret_cast<::FUN_00c903b0_class *>((((FUN_00c903b0_Class*)(*reinterpret_cast<int *>(&::DAT_01268360)))))->ReleaseReference();
+        reinterpret_cast<::FUN_00c903b0_class *>((((FUN_00c903b0_Class*)(*reinterpret_cast<intptr_t *>(&::DAT_01268360)))))->ReleaseReference();
     }
-    (*reinterpret_cast<int *>(&::DAT_01268360)) = (int)obj28;
+    (*reinterpret_cast<int *>(&::DAT_01268360)) = (intptr_t)obj28;
     ::FUN_00cbb9f0();
     ((VirtualIface*)DAT_01268410)->v3();
     DAT_01268414 = 1;
@@ -541,9 +538,9 @@ struct S_00cbbde0_Allocator
 
 struct S_00cbbde0_Router
 {
-    int unk0;
-    int unk4;
-    int unk8;
+    void* unk0;
+    void* unk4;
+    void* unk8;
     S_00cbbde0_Allocator* unkc;
     S_00cbbde0_Allocator* unk10;
     S_00cbbde0_Allocator& temp()
@@ -556,7 +553,6 @@ struct S_00cbbde0_Router
     }
 };
 
-S_00cbbde0_Router* FUN_00c85750() throw();
 
 struct S_00cbbde0_Bool
 {
@@ -580,7 +576,7 @@ struct S_00cbbde0_StringBuf
     S_00cbbde0_StringBuf() throw();
     ~S_00cbbde0_StringBuf() throw()
     {
-        S_00cbbde0_Allocator& a = FUN_00c85750()->temp();
+        S_00cbbde0_Allocator& a = static_cast<S_00cbbde0_Router*>(::FUN_00c85750())->temp();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
             a.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(char));
@@ -595,7 +591,7 @@ struct S_00cbbde0_RefObject
     virtual ~S_00cbbde0_RefObject() throw();
     void* operator new(std::size_t n)
     {
-        S_00cbbde0_RefObject* b = static_cast<S_00cbbde0_RefObject*>(FUN_00c85750()->heap().AllocateMemoryBlock(n));
+        S_00cbbde0_RefObject* b = static_cast<S_00cbbde0_RefObject*>(static_cast<S_00cbbde0_Router*>(::FUN_00c85750())->heap().AllocateMemoryBlock(n));
         b->m_usMemSizeAndFlags = (unsigned short)n;
         return b;
     }

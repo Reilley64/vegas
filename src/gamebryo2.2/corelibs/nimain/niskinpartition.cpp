@@ -34,6 +34,7 @@
 #include "fnv/symbols_011f5000.h"
 #include "fnv/symbols_011f6000.h"
 #include "niskinpartition_decls.h"
+#include "fnv/decl/FUN_00a5d610_Object.h"
 // @fnv 0x00d47a40
 void NiAccumulator::SetSortingCamera(const NiCamera* camera)
 {
@@ -1075,16 +1076,16 @@ struct SkinBuilder
     int unk00;
     int unk04;
     unsigned int count;
-    bool BuildTriangleSetMapping(SkinGeom*, void*, uintptr_t, void*, SkinItems*, int**, int*) throw();
+    bool BuildTriangleSetMapping(SkinGeom*, void*, unsigned int, void*, SkinItems*, int**, int*) throw();
 };
 // Builds a per-triangle set index mapping from group IDs or weights, compacts unused sets, and returns false if a triangle's vertices span three distinct groups.
 // @fnv 0x00a84310
-bool SkinBuilder::BuildTriangleSetMapping(SkinGeom* geom, void* unused, uintptr_t input, void* weights,
+bool SkinBuilder::BuildTriangleSetMapping(SkinGeom* geom, void* unused, unsigned int input, void* weights,
                                           SkinItems* sets, int** mapping, int* groupIDs) throw()
 {
     unsigned int triangles = geom->triangleCount;
-    ::BuildBoneLODControllerSets((::ScriptProgram *)this, (::BoneWeights *)(geom), (::BoneArray< ::BoneLODControllerArray *> *)(weights), (unsigned int *)(sets));
-    ::FUN_00a839d0((unsigned char)this, (::MergeItems *)(input));
+    ::BuildBoneLODControllerSets((::ScriptProgram *)(geom), (::BoneWeights *)(weights), (::BoneArray< ::BoneLODControllerArray *> *)(sets), (unsigned int *)(groupIDs));
+    ::FUN_00a839d0((unsigned char)(input), (::MergeItems *)(sets));
     *mapping = (int*)::FUN_00aa1070(triangles * sizeof(int));
     unsigned int setCount = sets->count;
     unsigned char* pUsedFlags = (unsigned char*)::FUN_00aa1070(setCount);
@@ -1101,7 +1102,7 @@ bool SkinBuilder::BuildTriangleSetMapping(SkinGeom* geom, void* unused, uintptr_
             if (groupIDs[indices[0]] == groupIDs[indices[1]] && groupIDs[indices[1]] == groupIDs[indices[2]] &&
                 groupIDs[indices[0]] == groupIDs[indices[2]])
             {
-                reinterpret_cast<::A54440Hash *>(&(map))->FUN_00a53c30((::A54440Manager *)(groupIDs[indices[0]]), (::A54440Manager **)&(found));
+                found = map.Lookup(groupIDs[indices[0]]);
                 if (found != -1)
                     (*mapping)[tri] = found;
             }
@@ -2444,7 +2445,7 @@ bool Processor::ReduceGroupWeights(Geometry* geometry, unsigned char maxTriangle
         geometry->GetTriangle(triangle, indices[0], indices[1], indices[2]);
         if (indices[0] != indices[1] && indices[1] != indices[2] && indices[2] != indices[0])
         {
-            ::MergeGroupWeights((::WeightedMap *)this, (const unsigned short *)(::SkinWeights::WeightMap *)(&map), (::EntryGroup *__restrict)(indices));
+            ::MergeGroupWeights((::WeightedMap *)(&map), (const unsigned short *)(indices), (::EntryGroup *)(groups));
             unsigned int count = map.count;
             if (count > maxTriangle)
             {
@@ -2509,7 +2510,7 @@ bool Processor::ReduceGroupWeights(Geometry* geometry, unsigned char maxTriangle
                     if (--count == maxTriangle)
                         break;
                     reinterpret_cast<::S_00b601a0_Map *>(&(map))->FUN_00b601a0();
-                    ::MergeGroupWeights((::WeightedMap *)this, (const unsigned short *)(::SkinWeights::WeightMap *)(&map), (::EntryGroup *__restrict)(indices));
+                    ::MergeGroupWeights((::WeightedMap *)(&map), (const unsigned short *)(indices), (::EntryGroup *)(groups));
                 }
             }
             reinterpret_cast<::S_00b601a0_Map *>(&(map))->FUN_00b601a0();
@@ -2535,4 +2536,384 @@ bool Processor::ReduceGroupWeights(Geometry* geometry, unsigned char maxTriangle
 
 }  // namespace SkinWeights
 
+const void* __cdecl FUN_00a820d0();
+void FUN_00a82600(int a, int b, float c);
+void PoolFreeUIntNode(void* a);
+// Candidate reconstruction of ContainsAllValues (0x00a821f0, 83 bytes).
+//
+// What the original does (read from the image):
+//   * ebx = the stack argument (a pointer to a block of 8-byte records),
+//     ebp = ebx->unk08 (the number of records), esi = the record index,
+//     edi = this.
+//   * For every record it takes the 16-bit field at offset 0 of the record,
+//     stores it into a 32-bit scratch slot that lives in the (by then dead)
+//     incoming-argument slot, and hands the address of that slot to a CRT
+//     binary-search helper together with this->unk00 (the array that is
+//     searched), this->unk08 (its element count), the element size 2 and the
+//     game's 16-bit comparison routine at 0x00a81b80.
+//   * A record that is NOT found makes the function return 0; if every record
+//     is found it returns 1.
+//
+// The helper and the comparison routine are declared but never defined, so the
+// checker binds both call targets from the original's own bytes.
+extern "C" void* __cdecl FNV_search_821f0(const void* key, const void* base, unsigned int count, unsigned int size,
+                                          int(__cdecl* cmp)(const void*, const void*));
+int __cdecl FindMatchingItem(ItemSet* set, const unsigned short* a2, const void* a3, unsigned char* flags,
+                             unsigned char key);
+extern "C" void* __cdecl fnv_zlib_memset(void*, int, unsigned int) throw();
+
+struct MergeSet : Holder
+{
+
+    int key;
+
+
+
+    ~MergeSet()
+    {
+        ::FUN_00aa10f0(m_pusData);
+    }
+
+};
+
+struct MergeItems
+{
+    MergeSet** items;
+    unsigned int capacity, count;
+
+    void SetAt(unsigned int i, MergeSet* p)
+    {
+        if (i < count)
+            items[i] = p;
+    }
+};
+
+// @fnv 0x00a839d0
+void FUN_00a839d0(unsigned char threshold, MergeItems* items)
+{
+    // One equivalence id per bounded skin set; 50 entries inferred from the frame.
+    int cls[50];
+    struct Pair
+    {
+        unsigned int first, second;
+    } sel;
+    long best;
+    unsigned int i, j, k, ids;
+restart:
+    sel.first = 0;
+    sel.second = 0;
+    best = -1;
+    for (i = 0; i < items->count; ++i)
+    {
+        MergeSet* a = items->items[i];
+        for (j = i + 1; j < items->count; ++j)
+        {
+            MergeSet* b = items->items[j];
+            unsigned int size = reinterpret_cast<::CA82770IndexArray *>((a))->GetMergeCount((::CA82770IndexArray *)(b));
+            if (size > threshold)
+                continue;
+            int otherCount = (int)b->m_uiCount, thisCount = (int)a->m_uiCount;
+            int score = thisCount - (int)size + otherCount;
+            if (thisCount == otherCount)
+                score = -1;
+            if (score > best)
+            {
+                sel.first = i;
+                sel.second = j;
+                best = score;
+            }
+        }
+    }
+    if (best < 0)
+        goto group;
+    reinterpret_cast<::ListMerge *>((items->items[sel.first]))->Merge((const ::ListMerge *)(items->items[sel.second]));
+    if (items->items[sel.first]->key != items->items[sel.second]->key)
+    {
+        reinterpret_cast<::ListMerge *>((items->items[sel.second]))->Merge((const ::ListMerge *)(items->items[sel.first]));
+        goto restart;
+    }
+    delete items->items[sel.second];
+    --items->count;
+    items->items[sel.second] = items->items[items->count];
+    {
+        MergeSet* a = items->items[sel.first];
+        for (k = 0; k < items->count;)
+        {
+            MergeSet* e = items->items[k];
+            if (e != a && a->ContainsSortedSubset(e))
+            {
+                delete e;
+                --items->count;
+                items->items[k] = items->items[items->count];
+            }
+            else
+                ++k;
+        }
+    }
+    goto restart;
+group:
+    unsigned int count = items->count;
+    ids = 0;
+    for (k = 0; k < items->count; ++k)
+    {
+        if (k == 0)
+        {
+            cls[0] = ids++;
+            continue;
+        }
+        for (j = 0; j < k; ++j)
+        {
+            MergeSet* x = items->items[k];
+            MergeSet* y = items->items[j];
+            if (x->ContainsSortedSubset(y) && y->ContainsSortedSubset(x))
+            {
+                cls[k] = cls[j];
+                break;
+            }
+        }
+        if (j == k)
+            cls[k] = ids++;
+    }
+    for (i = 0; i < count; ++i)
+        for (j = 0; j < i; ++j)
+            if (cls[i] > cls[j])
+            {
+                int t = cls[i];
+                cls[i] = cls[j];
+                cls[j] = t;
+                MergeSet* p = items->items[i];
+                items->SetAt(i, items->items[j]);
+                items->SetAt(j, p);
+            }
+}
+
+void __cdecl FreeBlock(void* p);
+
+struct LBBinaryStream
+{
+    void* pVtable;
+    unsigned int m_uiStreamFlags;
+    unsigned int(__cdecl* m_pfnRead)(LBBinaryStream* apThis, void* apvBuffer, unsigned int auiBytes,
+                                     unsigned int* apuiComponentSizes, unsigned int auiNumComponents);
+
+    unsigned int BinaryRead(void* apvBuffer, unsigned int auiTotalBytes, unsigned int* apuiComponentSizes,
+                            unsigned int auiNumComponents)
+    {
+        unsigned int uiBytesRead = m_pfnRead(this, apvBuffer, auiTotalBytes, apuiComponentSizes, auiNumComponents);
+        m_uiStreamFlags += uiBytesRead;
+        return uiBytesRead;
+    }
+};
+
+template <class T> inline unsigned int LBBinaryStreamLoad(LBBinaryStream& arStream, T* apValue, unsigned int auiNumEls)
+{
+    unsigned int uiComponentSize = sizeof(T);
+    return arStream.BinaryRead(apValue, auiNumEls * sizeof(T), &uiComponentSize, 1);
+}
+
+struct LBStream
+{
+    virtual void v00();
+    int unk004;
+    int unk008;
+    int unk00C;
+    int unk010;
+    int unk014;
+    int unk018;
+    int unk01C;
+    int unk020;
+    int unk024;
+    int unk028;
+    int unk02C;
+    int unk030;
+    int unk034;
+    int unk038;
+    int unk03C;
+    int unk040;
+    int unk044;
+    int unk048;
+    int unk04C;
+    int unk050;
+    int unk054;
+    int unk058;
+    int unk05C;
+    int unk060;
+    int unk064;
+    int unk068;
+    int unk06C;
+    int unk070;
+    int unk074;
+    int unk078;
+    int unk07C;
+    int unk080;
+    int unk084;
+    int unk088;
+    int unk08C;
+    int unk090;
+    int unk094;
+    int unk098;
+    int unk09C;
+    int unk0A0;
+    int unk0A4;
+    int unk0A8;
+    int unk0AC;
+    int unk0B0;
+    int unk0B4;
+    int unk0B8;
+    int unk0BC;
+    int unk0C0;
+    int unk0C4;
+    int unk0C8;
+    int unk0CC;
+    int unk0D0;
+    int unk0D4;
+    int unk0D8;
+    int unk0DC;
+    int unk0E0;
+    int unk0E4;
+    int unk0E8;
+    int unk0EC;
+    int unk0F0;
+    int unk0F4;
+    int unk0F8;
+    int unk0FC;
+    int unk100;
+    int unk104;
+    int unk108;
+    int unk10C;
+    int unk110;
+    int unk114;
+    int unk118;
+    int unk11C;
+    int unk120;
+    int unk124;
+    int unk128;
+    int unk12C;
+    int unk130;
+    int unk134;
+    int unk138;
+    int unk13C;
+    int unk140;
+    int unk144;
+    int unk148;
+    int unk14C;
+    int unk150;
+    int unk154;
+    int unk158;
+    int unk15C;
+    int unk160;
+    int unk164;
+    int unk168;
+    int unk16C;
+    int unk170;
+    int unk174;
+    int unk178;
+    int unk17C;
+    int unk180;
+    int unk184;
+    int unk188;
+    int unk18C;
+    int unk190;
+    int unk194;
+    int unk198;
+    int unk19C;
+    int unk1A0;
+    int unk1A4;
+    int unk1A8;
+    int unk1AC;
+    int unk1B0;
+    int unk1B4;
+    int unk1B8;
+    int unk1BC;
+    int unk1C0;
+    int unk1C4;
+    int unk1C8;
+    int unk1CC;
+    int unk1D0;
+    int unk1D4;
+    int unk1D8;
+    int unk1DC;
+    int unk1E0;
+    int unk1E4;
+    int unk1E8;
+    int unk1EC;
+    int unk1F0;
+    int unk1F4;
+    int unk1F8;
+    int unk1FC;
+    int unk200;
+    int unk204;
+    int unk208;
+    int unk20C;
+    int unk210;
+    int unk214;
+    int unk218;
+    int unk21C;
+    int unk220;
+    int unk224;
+    int unk228;
+    int unk22C;
+    int unk230;
+    int unk234;
+    int unk238;
+    int unk23C;
+    int unk240;
+    int unk244;
+    int unk248;
+    LBBinaryStream* m_pUnderlyingStream;
+};
+
+template <class T> inline void LBStreamLoadBinary(LBStream& arStream, T& arValue)
+{
+    LBBinaryStreamLoad(*arStream.m_pUnderlyingStream, &arValue, 1);
+}
+
+struct LBMemoryManager
+{
+};
+
+
+
+struct LBObject
+{
+    virtual ~LBObject();
+    int unk04;
+
+};
+
+struct LBPartition
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+
+    LBPartition() throw();
+    ~LBPartition();
+};
+
+struct LBSkinPartition : LBObject
+{
+    unsigned int m_uiPartitionCount;
+    LBPartition* m_pPartitions;
+
+    void FUN_00a83c30(LBStream& arStream);
+};
+
+// @fnv 0x00a83c30
+void LBSkinPartition::FUN_00a83c30(LBStream& arStream)
+{
+    reinterpret_cast<::FUN_00a5d610_Object *>(this)->ReadGroup((::NiStream *)&(arStream));
+    LBStreamLoadBinary(arStream, m_uiPartitionCount);
+    m_pPartitions = new LBPartition[m_uiPartitionCount];
+    for (unsigned int i = 0; i < m_uiPartitionCount; i++)
+        reinterpret_cast<::PartitionLoader *>(&(m_pPartitions[i]))->FUN_00a82d90((::NiStream &)(arStream));
+}
 #include "generated/data/gamebryo2.2/corelibs/nimain/niskinpartition.inc"

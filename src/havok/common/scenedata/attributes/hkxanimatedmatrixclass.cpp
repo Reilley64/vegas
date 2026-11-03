@@ -3,6 +3,8 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 
+#include "fnv/symbols_00c85000.h"
+#include <cstdint>
 #include "fnv/symbols_0102e000.h"
 struct AudioAllocator
 {
@@ -15,21 +17,20 @@ struct AudioAllocator
 
 struct AudioHolder
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     AudioAllocator* m_pAllocator;
 };
 
-AudioHolder* __cdecl FUN_00c85750() throw();
 
 struct FUN_00e02650_cls
 {
-    int m_vptr;
+    intptr_t m_vptr;
     unsigned short m_uSize;
     unsigned short m_u06;
-    int m_08;
+    intptr_t m_08;
     int m_0c;
     unsigned int m_10;
 
@@ -39,7 +40,7 @@ struct FUN_00e02650_cls
 // @fnv 0x00e02650
 FUN_00e02650_cls* FUN_00e02650_cls::Destroy(unsigned char acFlags)
 {
-    AudioHolder* pHolder = FUN_00c85750();
+    AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
     AudioAllocator* pAllocator = pHolder->m_pAllocator;
     m_0c = 0;
     unsigned int uFlags = m_10;
@@ -51,10 +52,10 @@ FUN_00e02650_cls* FUN_00e02650_cls::Destroy(unsigned char acFlags)
     bool bFree = (acFlags & 1) != 0;
     m_08 = 0;
     m_10 = 0x80000000u;
-    m_vptr = (int)&(*reinterpret_cast<int *>(&::DAT_0102e388));
+    m_vptr = (intptr_t)&(*reinterpret_cast<int *>(&::DAT_0102e388));
     if (bFree)
     {
-        AudioHolder* pHolder2 = FUN_00c85750();
+        AudioHolder* pHolder2 = static_cast<AudioHolder*>(::FUN_00c85750());
         AudioAllocator* pAllocator2 = pHolder2->m_pAllocator;
         pAllocator2->Free(this, m_uSize);
     }

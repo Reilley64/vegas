@@ -747,7 +747,7 @@ void PhysicsSystemWrapper::ApplyMotionTransform(const hkTransform* a2)
         AlignedTransform t2 = t1;
 
         reinterpret_cast<::Obj *>(&(t2))->FUN_00cb23e0((int)(&((FUN_00ca8890_Class*)m_ppRigidBodies.m_data[i])->m_kMotionTransform));
-        reinterpret_cast<::CA8890Object *>((((FUN_00ca8890_Class*)m_ppRigidBodies.m_data[i])))->FUN_00ca8890((const void *)(&t2));
+        reinterpret_cast<::CA8890Object *>((((FUN_00ca8890_Class*)m_ppRigidBodies.m_data[i])))->FUN_00ca8890((intptr_t)(&t2));
     }
     for (int i = 0; i < m_ppConstraints.m_iElementCount; ++i)
     {

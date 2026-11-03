@@ -1238,3 +1238,21 @@ FUN_00a5c780::~FUN_00a5c780()
 {
     ::FUN_00aa10f0(m_pData);
 }
+
+
+struct FUN_007408d0_Class
+{
+    char m_auiShapeKeys[0x24];
+    int m_val;
+    bool FUN_007408d0(int a);
+};
+// @fnv 0x007408d0
+bool FUN_007408d0_Class::FUN_007408d0(int a)
+{
+    if (a == 2 || a == 0)
+    {
+        m_val = a;
+        return true;
+    }
+    return false;
+}

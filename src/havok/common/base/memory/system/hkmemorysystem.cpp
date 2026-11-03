@@ -3,7 +3,10 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 // @fnv 0x00cbc440
+#include "fnv/symbols_00c85000.h"
 #include <cstdint>
+#include "fnv/decl/FUN_00537e90.h"
+#include "fnv/symbols_00cbb000.h"
 #include "fnv/decl/Target.h"
 #include "fnv/symbols_00cc0000.h"
 #include "fnv/symbols_01268000.h"
@@ -30,14 +33,14 @@ extern int DAT_010c8efc;
 
 struct FUN_00cbbfe0_This
 {
-    int unk00;
+    intptr_t unk00;
     void FUN_00cbbfe0();
 };
 
 // @fnv 0x00cbbfe0
 void FUN_00cbbfe0_This::FUN_00cbbfe0()
 {
-    this->unk00 = reinterpret_cast<int>(&DAT_010c8efc);
+    this->unk00 = reinterpret_cast<intptr_t>(&DAT_010c8efc);
 }
 
 // FUN_00cbc450 - 10 bytes
@@ -111,7 +114,7 @@ struct S00cbc000_Stats
 
 // Formats values derived from S00cbc000_Stats and limit through FUN_00cc0410.
 // @fnv 0x00cbc000
-static __declspec(noinline) void FUN_00cbc000(S00cbc000_Stats* apStats, unsigned int limit, int handle,
+static __declspec(noinline) void FUN_00cbc000(S00cbc000_Stats* apStats, unsigned int limit, intptr_t handle,
                                               const char* name)
 {
     unsigned int total = S00cbc000_max(apStats->unk00, apStats->unk04);
@@ -217,11 +220,11 @@ struct MemSystemInfo
 
 struct AllocatorHolder
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
+    void* unk10;
     hkMemoryAllocator* m_pAllocator;
     hkMemoryAllocator* m_pSolverAllocator;
     hkMemoryAllocator& debugAllocator()
@@ -233,7 +236,6 @@ struct AllocatorHolder
         return *m_pSolverAllocator;
     }
 };
-AllocatorHolder* __cdecl FUN_00c85750();
 
 namespace MathUtilities {
 template <typename T> inline T max2(T x, T y)
@@ -315,13 +317,13 @@ void FUN_00cbc220(hkOstream* ostr, MemSystemInfo* info)
     }
     ::FUN_00cc0410(ostr, "            = total %i\n\n", stackTotal);
 
-    FUN_00c85750()->solverAllocator().FillMemoryStatistics(stats);
+    static_cast<AllocatorHolder*>(::FUN_00c85750())->solverAllocator().FillMemoryStatistics(stats);
     ::FUN_00cc0410(ostr, "\t%s:\n", "Solver");
     ::FUN_00cc0410(ostr, "            totalSize:   %10i\n", stats.m_uiFirstValue);
     ::FUN_00cc0410(ostr, "              peak:      %10i (%4.1f%%)\n\n", stats.m_uiThirdValue,
                  (float)stats.m_uiThirdValue * 100.0 / (float)stats.m_uiFirstValue);
 
-    FUN_00c85750()->debugAllocator().FillMemoryStatistics(stats);
+    static_cast<AllocatorHolder*>(::FUN_00c85750())->debugAllocator().FillMemoryStatistics(stats);
     if (heapInUse == stats.m_pAllocationMap)
     {
         ::FUN_00cc0410(ostr, "\tDebugMem: Not used.\n\n");
@@ -330,6 +332,27 @@ void FUN_00cbc220(hkOstream* ostr, MemSystemInfo* info)
     {
         FUN_00cbc000(ostr, "DebugMem", stats, 0x7fffffff);
     }
+}
+
+
+struct Quantity
+{
+    unsigned int m_quantity;
+};
+unsigned int __cdecl FUN_005e0b50(void* p, int v);
+struct QuantitySet
+{
+    Quantity m_kPointA;
+    Quantity m_kPointB;
+    Quantity m_iThirdValue;
+    void FUN_008c70c0(uintptr_t q, int v);
+};
+// @fnv 0x008c70c0
+void QuantitySet::FUN_008c70c0(uintptr_t q, int v)
+{
+    reinterpret_cast<::FUN_00537e90 *>(&(m_kPointB))->SetQuantity(q);
+    reinterpret_cast<::FUN_00537e90 *>(&(m_kPointA))->SetQuantity(q);
+    reinterpret_cast<::FUN_00537e90 *>(&(m_iThirdValue))->SetQuantity(FUN_005e0b50((void*)q, v));
 }
 
 #include "generated/data/havok/common/base/memory/system/hkmemorysystem.inc"

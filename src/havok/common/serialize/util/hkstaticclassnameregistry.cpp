@@ -2,6 +2,7 @@
 // src/havok/common/serialize/util/hkstaticclassnameregistry.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/serialize/util/hkstaticclassnameregistry.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include "fnv/decl/FUN_00db7a80_Class.h"
 #include "fnv/decl/FnvClassNameNode.h"
 #include "fnv/symbols_00c90000.h"
@@ -74,10 +75,10 @@ struct FUN_00db7b70_Array
 
 struct FUN_00c85750_Obj
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     void* unk10;
 };
 
@@ -92,7 +93,6 @@ struct FUN_00db7b70_Class
     void AppendToArray(FUN_00db7b70_Array* p);
 };
 
-void* FUN_00c85750();
 
 // Appends the null-terminated pointer list in unk0c to the array p, growing its capacity via the memory manager when needed.
 // @fnv 0x00db7b70

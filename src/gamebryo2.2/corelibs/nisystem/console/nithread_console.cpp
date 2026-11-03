@@ -20,7 +20,7 @@ void __cdecl SetDebuggerThreadName(unsigned long dwThreadID, const char* szThrea
     info.dwFlags = 0;
     __try
     {
-        RaiseException(0x406D1388, 0, sizeof(info) / sizeof(unsigned long), (const unsigned long*)&info);
+        RaiseException(0x406D1388, 0, sizeof(info) / sizeof(ULONG_PTR), reinterpret_cast<const ULONG_PTR*>(&info));
     }
     __except (-1)
     {}

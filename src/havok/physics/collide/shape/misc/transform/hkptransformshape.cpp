@@ -2,6 +2,7 @@
 // src/havok/physics/collide/shape/misc/transform/hkptransformshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/misc/transform/hkptransformshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/decl/FUN_00cf5950_cls.h"
 #include "fnv/decl/FunctionContext.h"
 #include "fnv/decl/hkReferencedObjectC905.h"
@@ -184,7 +185,7 @@ struct cf5990_TransformShape
 
 // Initializes the shape with a contained child shape and transform, setting reference count, type, and vtables.
 // @fnv 0x00cf5990
-int cf5990_TransformShape::FUN_00cf5990(hkpShape* apContainedShape, const hkTransform& transform)
+intptr_t cf5990_TransformShape::FUN_00cf5990(hkpShape* apContainedShape, const hkTransform& transform)
 {
     m_sReferenceCount = 1;
     m_ulUserData = 0;

@@ -2,6 +2,7 @@
 // src/havok/physics/internal/collide/mopp/builder/assembler/hkpmoppdefaultassembler.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/physics/internal/collide/mopp/builder/assembler/hkpmoppdefaultassembler.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <cstddef>
 #include <new>
 #include <cstring>
@@ -696,7 +697,7 @@ struct FUN_00e06800_cls
 };
 
 // @fnv 0x00e06800
-void FUN_00e06800_cls::FUN_00e06800(char acByte, int aiValue)
+void FUN_00e06800_cls::FUN_00e06800(char acByte, intptr_t aiValue)
 {
     m_buf[m_cap - m_uiItemCount - 1] = (char)aiValue;
     m_uiItemCount++;
@@ -770,7 +771,7 @@ int E06C20Object::FUN_00e06c20(void* data)
 
 // Writes the four bytes of v and then a into m_buf from the end backwards, flushing whenever the buffer fills.
 // @fnv 0x00e069a0
-void FUN_00e069a0_cls::FUN_00e069a0(char a, unsigned int auValue)
+void FUN_00e069a0_cls::FUN_00e069a0(char a, uintptr_t auValue)
 {
     m_buf[m_cap - m_uiItemCount - 1] = (char)auValue;
     m_uiItemCount++;

@@ -109,7 +109,7 @@ void bhkRigidBody::FUN_00c8d1d0(const NiPoint3& p, const NiQuaternion& q)
         if (body)
         {
             reinterpret_cast<::FUN_00c87a50_t *>(this)->FUN_00c87a50();
-            reinterpret_cast<::FUN_00ca8860_cls *>((body))->FUN_00ca8860(&(p), &(q));
+            reinterpret_cast<::FUN_00ca8860_cls *>((body))->FUN_00ca8860((intptr_t)&(p), (intptr_t)&(q));
         }
     }
 }

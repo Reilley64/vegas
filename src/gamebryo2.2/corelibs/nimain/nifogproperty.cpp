@@ -64,8 +64,6 @@ public:
     void SaveBinary(::NiStream &);
 };
 extern NiColor DAT_011f4998;
-extern int DAT_011f499c;
-extern int DAT_011f49a0;
 struct FUN_00a99ed0 : NiProperty
 {
     unsigned short m_uiObjectFlags;

@@ -2,6 +2,58 @@
 // src/havok/unplaced/viewcaster.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/havok/viewcaster.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
+#include <xmmintrin.h>
+#include <new>
+#include "fnv/decl/AlignedVector.h"
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/BSShaderNoLightingProperty.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/FUN_0043b4d0_shell.h"
+#include "fnv/decl/FUN_00456630_helper.h"
+#include "fnv/decl/FUN_00458b30_class.h"
+#include "fnv/decl/FUN_0046f070_shell.h"
+#include "fnv/decl/FUN_004a3fb0_shell.h"
+#include "fnv/decl/FUN_004a46b0_class.h"
+#include "fnv/decl/FUN_005609f0_shell.h"
+#include <cstdint>
+#include "fnv/decl/FUN_0062a2d0_Class.h"
+#include "fnv/decl/FUN_00632c30_Class.h"
+#include "fnv/decl/FUN_00632c60_Class.h"
+#include "fnv/decl/FUN_00632ce0_Class.h"
+#include "fnv/decl/FUN_00632d00_Class.h"
+#include "fnv/decl/FUN_00632d20_shell.h"
+#include "fnv/decl/FUN_009611e0_shell.h"
+#include "fnv/decl/FUN_00c7f690_cls.h"
+#include "fnv/decl/Hld621210.h"
+#include "fnv/decl/MagicCaster_shell.h"
+#include "fnv/decl/PD_.h"
+#include "fnv/decl/PatrolActorPackageData.h"
+#include "fnv/decl/S004586d0_Obj.h"
+#include "fnv/decl/S00458a10_Vector.h"
+#include "fnv/decl/S0062aea0_Vector.h"
+#include "fnv/decl/S3e60.h"
+#include "fnv/decl/S_00627920.h"
+#include "fnv/decl/ScriptX.h"
+#include "fnv/decl/SortableArray.h"
+#include "fnv/decl/TESActorBaseData.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_00632df0__ShadowLightData.h"
+#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
+#include "fnv/decl/fnv_009306d0__FUN_009306d0_shell.h"
+#include "fnv/decl/fnv_00968670__FUN_00968670_shell.h"
+#include "fnv/symbols_0043b000.h"
+#include "fnv/symbols_0043d000.h"
+#include "fnv/symbols_00458000.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_004a3000.h"
+#include "fnv/symbols_004b2000.h"
+#include "fnv/symbols_004b5000.h"
+#include "fnv/symbols_0056f000.h"
+#include "fnv/symbols_011ca000.h"
+#include "fnv/symbols_011cc000.h"
+#include "fnv/symbols_011d8000.h"
+#include "fnv/symbols_011de000.h"
 #include "fnv/decl/C68E30Owner.h"
 #include "fnv/decl/FUN_00632dc0_Host.h"
 #include "fnv/decl/FUN_00c87a40_obj.h"
@@ -17,16 +69,16 @@ struct FUN_00621440_cls
 {
     int unk00;
 
-    int FUN_00621440();
+    intptr_t FUN_00621440();
 };
 
 // If FUN_00559450 returns non-null, passes the result of its FUN_00c87a40 call through FUN_00621480; otherwise returns 0.
 // @fnv 0x00621440
-int FUN_00621440_cls::FUN_00621440()
+intptr_t FUN_00621440_cls::FUN_00621440()
 {
-    int result = 0;
-    if (((void *)(::FUN_00559450((int *)this))))
-        result = ((int)(::FUN_00621480((::HighProcess *)(((int)(reinterpret_cast<::FUN_00c87a40_obj *>((((Inner62*)((void *)(::FUN_00559450((int *)this))))))->FUN_00c87a40()))))));
+    intptr_t result = 0;
+    if (((*(void * *)(this))))
+        result = ((intptr_t)(::FUN_00621480((::HighProcess *)(((intptr_t)(reinterpret_cast<::FUN_00c87a40_obj *>((((Inner62*)((*(void * *)(this))))))->FUN_00c87a40()))))));
     return result;
 }
 
@@ -94,12 +146,12 @@ class FUN_00631ca0_cls
 void FUN_00631ca0_cls::FUN_00631ca0(SpawnedObject* obj)
 {
     ScopeGuard guard(0x10, 1, "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\Havok\\ViewCaster.cpp", 0x74);
-    if (((::SpawnedObject *)(::FUN_00559450((int *)(this)))) != 0)
+    if (((*(::SpawnedObject * *)((this)))) != 0)
     {
-        ((::SpawnedObject *)(::FUN_00559450((int *)(this))))->v39(obj);
+        ((*(::SpawnedObject * *)((this))))->v39(obj);
         if (obj != 0)
         {
-            reinterpret_cast<::C68E30Owner *>((obj))->FUN_00c68e30((::C68E30Holder *)(::SpawnedObject *)(((::SpawnedObject *)(::FUN_00559450((int *)(this))))), ::PackBytesBigEndian(0x58, 0xad, 0x56, 0x19));
+            reinterpret_cast<::C68E30Owner *>((obj))->FUN_00c68e30((::C68E30Holder *)(::SpawnedObject *)(((*(::SpawnedObject * *)((this))))), ::PackBytesBigEndian(0x58, 0xad, 0x56, 0x19));
         }
     }
 }
@@ -154,4 +206,1169 @@ FUN_00632d40_shell& FUN_00632d40_shell::FUN_00632d40(const FUN_00632d40_shell& o
     unk4C = other.unk4C;
     unk50 = other.unk50;
     return *this;
+}
+class Point631
+{
+  public:
+    Point631 operator+(const Point631& kPt) const;
+    Point631 operator*(float fScalar) const;
+    float x, y, z;
+};
+
+class hkSimdReal631
+{
+  public:
+    hkSimdReal631();
+    __m128 m_vValue;
+};
+
+class Transform631;
+
+class hkVector4_631
+{
+  public:
+    hkVector4_631();
+    hkVector4_631& operator=(const hkVector4_631& kOther);
+    hkSimdReal631 Dot(const hkVector4_631& kOther) const;
+    hkSimdReal631 Length() const;
+    __m128 m_vComponents;
+};
+
+class hkBool631
+{
+  public:
+    hkBool631();
+    char m_cBooleanValue;
+};
+
+class Entity631
+{
+  public:
+    const Transform631& GetTransform();
+};
+
+class Transform631
+{
+  public:
+    Transform631(const Transform631& kOther);
+    hkVector4_631 m_kCol0;
+    hkVector4_631 m_kCol1;
+    hkVector4_631 m_kCol2;
+    hkVector4_631 m_kTranslation;
+};
+
+class Filter631
+{
+  public:
+    Filter631();
+    Filter631(uintptr_t uiFilterInfo);
+    unsigned int m_uiBits;
+};
+
+class RayInput631
+{
+  public:
+    RayInput631();
+    hkVector4_631 m_kFrom;
+    hkVector4_631 m_kTo;
+    uintptr_t m_uiFilter;
+    int unk24;
+    int unk28;
+    int unk2c;
+};
+
+class RayOutput631
+{
+  public:
+    RayOutput631();
+    hkVector4_631 m_kPlaneNormal;
+    float m_fHitFraction;
+    unsigned int unk14;
+    unsigned int unk18;
+    unsigned int unk1c;
+    unsigned int unk20;
+    unsigned int unk24;
+    unsigned int unk28;
+    unsigned int unk2c;
+    unsigned int unk30;
+    unsigned int unk34;
+    unsigned int unk38;
+    unsigned int unk3c;
+    unsigned int unk40;
+    unsigned int unk44;
+    unsigned int unk48;
+    unsigned int unk4c;
+};
+
+class Owner631
+{
+  public:
+    hkBool631 CastRay(RayInput631& kInput, RayOutput631& kOutput);
+};
+
+class Collidable631
+{
+  public:
+};
+
+class Hit631
+{
+  public:
+    Hit631(const Hit631& kOther);
+    hkVector4_631 m_kPathOffset;
+    hkVector4_631 m_kPlaneNormal;
+    float m_fHitFraction;
+    unsigned int unk24;
+    unsigned int unk28;
+    unsigned int unk2c;
+    unsigned int unk30;
+    unsigned int unk34;
+    unsigned int unk38;
+    unsigned int unk3c;
+    unsigned int unk40;
+    unsigned int unk44;
+    Collidable631* m_pkCollidable;
+    unsigned int unk4c;
+    unsigned int unk50;
+    unsigned int unk54;
+    unsigned int unk58;
+    unsigned int unk5c;
+    unsigned int unk60;
+    unsigned int unk64;
+    unsigned int unk68;
+    unsigned int unk6c;
+};
+
+class HitArray631
+{
+  public:
+    Hit631& GetAt(int i);
+};
+
+class Query631
+{
+  public:
+    Query631();
+    ~Query631();
+    __m128 m_q00;
+    __m128 m_q10;
+    __m128 m_q20;
+    __m128 m_q30;
+    __m128 m_q40;
+    __m128 m_q50;
+    __m128 m_q60;
+    __m128 m_q70;
+    __m128 m_q80;
+    __m128 m_q90;
+    __m128 m_qa0;
+    __m128 m_qb0;
+    __m128 m_qc0;
+    __m128 m_qd0;
+    __m128 m_qe0;
+    __m128 m_qf0;
+    __m128 m_q100;
+    __m128 m_q110;
+    __m128 m_q120;
+    __m128 m_q130;
+    __m128 m_q140;
+    __m128 m_q150;
+    __m128 m_q160;
+    __m128 m_q170;
+    __m128 m_q180;
+    __m128 m_q190;
+    __m128 m_q1a0;
+    __m128 m_q1b0;
+    __m128 m_q1c0;
+    __m128 m_q1d0;
+    __m128 m_q1e0;
+    __m128 m_q1f0;
+    __m128 m_q200;
+    __m128 m_q210;
+    __m128 m_q220;
+    __m128 m_q230;
+    __m128 m_q240;
+    __m128 m_q250;
+    __m128 m_q260;
+    __m128 m_q270;
+    __m128 m_q280;
+    __m128 m_q290;
+    __m128 m_q2a0;
+    __m128 m_q2b0;
+    __m128 m_q2c0;
+    __m128 m_q2d0;
+    __m128 m_q2e0;
+    __m128 m_q2f0;
+    __m128 m_q300;
+    __m128 m_q310;
+    __m128 m_q320;
+    __m128 m_q330;
+    __m128 m_q340;
+    __m128 m_q350;
+    __m128 m_q360;
+    __m128 m_q370;
+    __m128 m_q380;
+    __m128 m_q390;
+};
+
+class CastInput631
+{
+  public:
+    CastInput631();
+    hkVector4_631 m_kTo;
+    float m_fRadiusA;
+    float m_fRadiusB;
+    int unk18;
+    int unk1c;
+};
+
+class Shape631
+{
+  public:
+    Filter631 GetFilter();
+};
+
+class RayHit631
+{
+  public:
+    unsigned int unk00;
+    unsigned int unk04;
+    unsigned int unk08;
+    unsigned int unk0c;
+    unsigned int unk10;
+    unsigned int unk14;
+    unsigned int unk18;
+    unsigned int unk1c;
+    unsigned int unk20;
+    unsigned int unk24;
+    unsigned int unk28;
+    unsigned int unk2c;
+    unsigned int unk30;
+    unsigned int unk34;
+    unsigned int unk38;
+    unsigned int unk3c;
+    unsigned int unk40;
+    unsigned int unk44;
+    unsigned int unk48;
+    unsigned int unk4c;
+    void* m_pvRootCollidable;
+};
+
+class RayHitArray631
+{
+  public:
+};
+
+class RayHitCollector631
+{
+  public:
+    virtual ~RayHitCollector631();
+    float m_fEarlyOutHitFraction;
+};
+
+class AllRayHits631 : public RayHitCollector631
+{
+  public:
+    AllRayHits631();
+    virtual ~AllRayHits631();
+    __m128 m_q10;
+    __m128 m_q20;
+    __m128 m_q30;
+    __m128 m_q40;
+    __m128 m_q50;
+    __m128 m_q60;
+    __m128 m_q70;
+    __m128 m_q80;
+    __m128 m_q90;
+    __m128 m_qa0;
+    __m128 m_qb0;
+    __m128 m_qc0;
+    __m128 m_qd0;
+    __m128 m_qe0;
+    __m128 m_qf0;
+    __m128 m_q100;
+    __m128 m_q110;
+    __m128 m_q120;
+    __m128 m_q130;
+    __m128 m_q140;
+    __m128 m_q150;
+    __m128 m_q160;
+    __m128 m_q170;
+    __m128 m_q180;
+    __m128 m_q190;
+    __m128 m_q1a0;
+    __m128 m_q1b0;
+    __m128 m_q1c0;
+    __m128 m_q1d0;
+    __m128 m_q1e0;
+    __m128 m_q1f0;
+    __m128 m_q200;
+    __m128 m_q210;
+    __m128 m_q220;
+    __m128 m_q230;
+    __m128 m_q240;
+    __m128 m_q250;
+    __m128 m_q260;
+    __m128 m_q270;
+    __m128 m_q280;
+    __m128 m_q290;
+    __m128 m_q2a0;
+    __m128 m_q2b0;
+    __m128 m_q2c0;
+    __m128 m_q2d0;
+    __m128 m_q2e0;
+    __m128 m_q2f0;
+    __m128 m_q300;
+    __m128 m_q310;
+};
+
+class Pick631
+{
+  public:
+    Pick631();
+    void SetFilter(Filter631 kFilter);
+    __m128 m_q00;
+    __m128 m_q10;
+    __m128 m_q20;
+    __m128 m_q30;
+    __m128 m_q40;
+    __m128 m_q50;
+    __m128 m_q60;
+    __m128 m_q70;
+    __m128 m_q80;
+    __m128 m_q90;
+    __m128 m_qa0;
+};
+
+class Caster631
+{
+  public:
+    virtual void v000();
+    virtual void v004();
+    virtual void v008();
+    virtual void v00c();
+    virtual void v010();
+    virtual void v014();
+    virtual void v018();
+    virtual void v01c();
+    virtual void v020();
+    virtual void v024();
+    virtual void v028();
+    virtual void v02c();
+    virtual void v030();
+    virtual void v034();
+    virtual void v038();
+    virtual void v03c();
+    virtual void v040();
+    virtual void v044();
+    virtual void v048();
+    virtual void v04c();
+    virtual void v050();
+    virtual void v054();
+    virtual void v058();
+    virtual void v05c();
+    virtual void v060();
+    virtual void v064();
+    virtual void v068();
+    virtual void v06c();
+    virtual void v070();
+    virtual void v074();
+    virtual void v078();
+    virtual void v07c();
+    virtual void v080();
+    virtual void v084();
+    virtual void v088();
+    virtual void v08c();
+    virtual void v090();
+    virtual void v094();
+    virtual void v098();
+    virtual void v09c();
+    virtual void v0a0();
+    virtual void v0a4();
+    virtual void v0a8();
+    virtual void v0ac();
+    virtual void v0b0();
+    virtual void v0b4();
+    virtual void v0b8();
+    virtual void v0bc();
+    virtual void v0c0();
+    virtual void v0c4();
+    virtual void CastRay(Pick631* pkPick);
+};
+
+class NiAVObject631
+{
+  public:
+};
+
+class BaseForm631
+{
+  public:
+    int GetFormType();
+};
+
+class Process631
+{
+  public:
+    virtual void v000();
+    virtual void v004();
+    virtual void v008();
+    virtual void v00c();
+    virtual void v010();
+    virtual void v014();
+    virtual void v018();
+    virtual void v01c();
+    virtual void v020();
+    virtual void v024();
+    virtual void v028();
+    virtual void v02c();
+    virtual void v030();
+    virtual void v034();
+    virtual void v038();
+    virtual void v03c();
+    virtual void v040();
+    virtual void v044();
+    virtual void v048();
+    virtual void v04c();
+    virtual void v050();
+    virtual void v054();
+    virtual void v058();
+    virtual void v05c();
+    virtual void v060();
+    virtual void v064();
+    virtual void v068();
+    virtual void v06c();
+    virtual void v070();
+    virtual void v074();
+    virtual void v078();
+    virtual void v07c();
+    virtual void v080();
+    virtual void v084();
+    virtual void v088();
+    virtual void v08c();
+    virtual void v090();
+    virtual void v094();
+    virtual void v098();
+    virtual void v09c();
+    virtual void v0a0();
+    virtual void v0a4();
+    virtual void v0a8();
+    virtual void v0ac();
+    virtual void v0b0();
+    virtual void v0b4();
+    virtual void v0b8();
+    virtual void v0bc();
+    virtual void v0c0();
+    virtual void v0c4();
+    virtual void v0c8();
+    virtual void v0cc();
+    virtual void v0d0();
+    virtual void v0d4();
+    virtual void v0d8();
+    virtual void v0dc();
+    virtual void v0e0();
+    virtual void v0e4();
+    virtual void v0e8();
+    virtual void v0ec();
+    virtual void v0f0();
+    virtual void v0f4();
+    virtual void v0f8();
+    virtual void v0fc();
+    virtual void v100();
+    virtual void v104();
+    virtual void v108();
+    virtual void v10c();
+    virtual void v110();
+    virtual void v114();
+    virtual void v118();
+    virtual void v11c();
+    virtual void v120();
+    virtual void v124();
+    virtual void v128();
+    virtual void v12c();
+    virtual void v130();
+    virtual void v134();
+    virtual void v138();
+    virtual void v13c();
+    virtual void v140();
+    virtual void v144();
+    virtual void v148();
+    virtual void v14c();
+    virtual void v150();
+    virtual void v154();
+    virtual void v158();
+    virtual void v15c();
+    virtual void v160();
+    virtual void v164();
+    virtual void v168();
+    virtual void v16c();
+    virtual void v170();
+    virtual void v174();
+    virtual void v178();
+    virtual void v17c();
+    virtual void v180();
+    virtual void v184();
+    virtual void v188();
+    virtual void v18c();
+    virtual void v190();
+    virtual void v194();
+    virtual void v198();
+    virtual void v19c();
+    virtual void v1a0();
+    virtual void v1a4();
+    virtual void v1a8();
+    virtual void v1ac();
+    virtual void v1b0();
+    virtual void v1b4();
+    virtual void v1b8();
+    virtual void v1bc();
+    virtual void v1c0();
+    virtual void v1c4();
+    virtual void v1c8();
+    virtual void v1cc();
+    virtual void v1d0();
+    virtual void v1d4();
+    virtual void v1d8();
+    virtual void v1dc();
+    virtual void v1e0();
+    virtual void v1e4();
+    virtual void v1e8();
+    virtual void v1ec();
+    virtual void v1f0();
+    virtual void v1f4();
+    virtual void v1f8();
+    virtual void v1fc();
+    virtual void v200();
+    virtual void v204();
+    virtual void v208();
+    virtual void v20c();
+    virtual void v210();
+    virtual void v214();
+    virtual void v218();
+    virtual void v21c();
+    virtual void v220();
+    virtual void v224();
+    virtual void v228();
+    virtual void v22c();
+    virtual void v230();
+    virtual void v234();
+    virtual void v238();
+    virtual void v23c();
+    virtual void v240();
+    virtual void v244();
+    virtual void v248();
+    virtual void v24c();
+    virtual void v250();
+    virtual void v254();
+    virtual void v258();
+    virtual void v25c();
+    virtual void v260();
+    virtual void v264();
+    virtual void v268();
+    virtual void v26c();
+    virtual void v270();
+    virtual void v274();
+    virtual void v278();
+    virtual void v27c();
+    virtual void v280();
+    virtual void v284();
+    virtual void v288();
+    virtual void v28c();
+    virtual void v290();
+    virtual void v294();
+    virtual void v298();
+    virtual void v29c();
+    virtual void v2a0();
+    virtual void v2a4();
+    virtual void v2a8();
+    virtual void v2ac();
+    virtual void v2b0();
+    virtual void v2b4();
+    virtual void v2b8();
+    virtual void v2bc();
+    virtual void v2c0();
+    virtual void v2c4();
+    virtual void v2c8();
+    virtual void v2cc();
+    virtual void v2d0();
+    virtual void v2d4();
+    virtual void v2d8();
+    virtual void v2dc();
+    virtual void v2e0();
+    virtual void v2e4();
+    virtual void v2e8();
+    virtual void v2ec();
+    virtual void v2f0();
+    virtual void v2f4();
+    virtual void v2f8();
+    virtual void v2fc();
+    virtual void v300();
+    virtual void v304();
+    virtual void v308();
+    virtual void v30c();
+    virtual void v310();
+    virtual void v314();
+    virtual void v318();
+    virtual void v31c();
+    virtual void v320();
+    virtual void v324();
+    virtual void v328();
+    virtual void v32c();
+    virtual void v330();
+    virtual void v334();
+    virtual void v338();
+    virtual void v33c();
+    virtual void v340();
+    virtual void v344();
+    virtual void v348();
+    virtual void v34c();
+    virtual void v350();
+    virtual void v354();
+    virtual void v358();
+    virtual void v35c();
+    virtual void v360();
+    virtual void v364();
+    virtual void v368();
+    virtual void v36c();
+    virtual void v370();
+    virtual void v374();
+    virtual void v378();
+    virtual void v37c();
+    virtual void v380();
+    virtual void v384();
+    virtual void v388();
+    virtual void v38c();
+    virtual void v390();
+    virtual void v394();
+    virtual void v398();
+    virtual void v39c();
+    virtual void v3a0();
+    virtual void v3a4();
+    virtual void v3a8();
+    virtual void v3ac();
+    virtual void v3b0();
+    virtual void v3b4();
+    virtual void v3b8();
+    virtual void v3bc();
+    virtual void v3c0();
+    virtual void v3c4();
+    virtual void v3c8();
+    virtual void v3cc();
+    virtual void v3d0();
+    virtual void v3d4();
+    virtual void v3d8();
+    virtual void v3dc();
+    virtual void v3e0();
+    virtual void v3e4();
+    virtual void v3e8();
+    virtual void v3ec();
+    virtual void v3f0();
+    virtual void v3f4();
+    virtual void v3f8();
+    virtual void v3fc();
+    virtual void v400();
+    virtual void v404();
+    virtual void v408();
+    virtual void v40c();
+    virtual void v410();
+    virtual void v414();
+    virtual void v418();
+    virtual void v41c();
+    virtual void v420();
+    virtual void v424();
+    virtual void v428();
+    virtual void v42c();
+    virtual void v430();
+    virtual void v434();
+    virtual void v438();
+    virtual void v43c();
+    virtual void v440();
+    virtual void v444();
+    virtual void v448();
+    virtual void v44c();
+    virtual void v450();
+    virtual void v454();
+    virtual void v458();
+    virtual void v45c();
+    virtual void v460();
+    virtual void v464();
+    virtual void v468();
+    virtual void v46c();
+    virtual void v470();
+    virtual void v474();
+    virtual void v478();
+    virtual void v47c();
+    virtual void v480();
+    virtual void v484();
+    virtual void v488();
+    virtual void v48c();
+    virtual void v490();
+    virtual void v494();
+    virtual void v498();
+    virtual void v49c();
+    virtual void v4a0();
+    virtual void v4a4();
+    virtual void v4a8();
+    virtual void v4ac();
+    virtual void v4b0();
+    virtual void v4b4();
+    virtual void v4b8();
+    virtual int GetState();
+};
+
+class Controller631
+{
+  public:
+};
+
+class TESObjectREFR631
+{
+  public:
+    virtual void v000();
+    virtual void v004();
+    virtual void v008();
+    virtual void v00c();
+    virtual void v010();
+    virtual void v014();
+    virtual void v018();
+    virtual void v01c();
+    virtual void v020();
+    virtual void v024();
+    virtual void v028();
+    virtual void v02c();
+    virtual void v030();
+    virtual void v034();
+    virtual void v038();
+    virtual void v03c();
+    virtual void v040();
+    virtual void v044();
+    virtual void v048();
+    virtual void v04c();
+    virtual void v050();
+    virtual void v054();
+    virtual void v058();
+    virtual void v05c();
+    virtual void v060();
+    virtual void v064();
+    virtual void v068();
+    virtual void v06c();
+    virtual void v070();
+    virtual void v074();
+    virtual void v078();
+    virtual void v07c();
+    virtual void v080();
+    virtual void v084();
+    virtual void v088();
+    virtual void v08c();
+    virtual void v090();
+    virtual void v094();
+    virtual void v098();
+    virtual void v09c();
+    virtual void v0a0();
+    virtual void v0a4();
+    virtual void v0a8();
+    virtual void v0ac();
+    virtual void v0b0();
+    virtual void v0b4();
+    virtual void v0b8();
+    virtual void v0bc();
+    virtual void v0c0();
+    virtual void v0c4();
+    virtual void v0c8();
+    virtual void v0cc();
+    virtual void v0d0();
+    virtual void v0d4();
+    virtual void v0d8();
+    virtual void v0dc();
+    virtual void v0e0();
+    virtual void v0e4();
+    virtual void v0e8();
+    virtual void v0ec();
+    virtual void v0f0();
+    virtual void v0f4();
+    virtual void v0f8();
+    virtual void v0fc();
+    virtual bool IsActor();
+    virtual void v104();
+    virtual void v108();
+    virtual void v10c();
+    virtual void v110();
+    virtual void v114();
+    virtual void v118();
+    virtual void v11c();
+    virtual void v120();
+    virtual void v124();
+    virtual void v128();
+    virtual void v12c();
+    virtual void v130();
+    virtual void v134();
+    virtual void v138();
+    virtual void v13c();
+    virtual void v140();
+    virtual void v144();
+    virtual void v148();
+    virtual void v14c();
+    virtual void v150();
+    virtual void v154();
+    virtual void v158();
+    virtual void v15c();
+    virtual void v160();
+    virtual void v164();
+    virtual void v168();
+    virtual void v16c();
+    virtual void v170();
+    virtual void v174();
+    virtual void v178();
+    virtual void v17c();
+    virtual void v180();
+    virtual void v184();
+    virtual void v188();
+    virtual void v18c();
+    virtual void v190();
+    virtual void v194();
+    virtual void v198();
+    virtual void v19c();
+    virtual void v1a0();
+    virtual void v1a4();
+    virtual void v1a8();
+    virtual void v1ac();
+    virtual void v1b0();
+    virtual void v1b4();
+    virtual void v1b8();
+    virtual void v1bc();
+    virtual void v1c0();
+    virtual void v1c4();
+    virtual void v1c8();
+    virtual void v1cc();
+    virtual NiAVObject631* Get3D();
+};
+
+class Result631
+{
+  public:
+    void* GetObject();
+};
+
+class Results631
+{
+  public:
+};
+
+class List631
+{
+  public:
+    List631(int iA, int iB);
+    ~List631();
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+};
+
+class Scope631
+{
+  public:
+    Scope631(int iType, int iFlag, const char* pcFile, int iLine);
+    ~Scope631();
+    int unk00;
+};
+
+class BoolSetting631
+{
+  public:
+    bool* GetBool();
+};
+class IntSetting631
+{
+  public:
+};
+
+
+class ViewCaster631
+{
+  public:
+    TESObjectREFR631* FUN_00631d60(const Point631* pkOrigin, const Point631* pkDir, float fImpulseRadiusSquared, float* pfDistance,
+                                   bool* pbAlternate);
+};
+
+// @fnv 0x00631d60
+TESObjectREFR631* ViewCaster631::FUN_00631d60(const Point631* pkOrigin, const Point631* pkDir, float fImpulseRadiusSquared,
+                                              float* pfDistance, bool* pbAlternate)
+{
+    Scope631 kScope(0x10, 1, "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\Havok\\ViewCaster.cpp", 0x9b);
+    (*reinterpret_cast<void * *>(&::DAT_011cc5ec)) = 0;
+    TESObjectREFR631* pkResult = 0;
+    if (reinterpret_cast<::PatrolActorPackageData *>(this)->IsPatrolling() && ((*(::Shape631 * *)(this))) && ((::Caster631 *)(reinterpret_cast<::FUN_00621440_cls *>(this)->FUN_00621440())))
+    {
+        Query631 kQuery;
+        Caster631* pkCaster = ((::Caster631 *)(reinterpret_cast<::FUN_00621440_cls *>(this)->FUN_00621440()));
+        Point631 kEnd = *pkOrigin + *pkDir * fImpulseRadiusSquared;
+        *pbAlternate = false;
+        *pfDistance = 3.402823466e+38f;
+        List631 kList(0, 8);
+        reinterpret_cast<::FUN_00632d20_shell *>(&(kList))->FUN_00632d20(0);
+        reinterpret_cast<::FUN_00458b30_class *>(&(kList))->SetByteAtOffset17(1);
+        ::DAT_011d8a90 = 0xdad;
+        hkVector4_631 kFrom;
+        ::fnv_004a3e00::FUN_004a3e00((::fnv_004a3e00::bhkCharacterController &)(kFrom), (const ::fnv_004a3e00::NiPoint3 &)(*pkOrigin));
+        hkVector4_631 kTo;
+        ::fnv_004a3e00::FUN_004a3e00((::fnv_004a3e00::bhkCharacterController &)(kTo), (const ::fnv_004a3e00::NiPoint3 &)(kEnd));
+        bool bHits = false;
+        CastInput631 kInput;
+        kInput.m_fRadiusB = 0.01f;
+        kInput.m_fRadiusA = 0.01f;
+        reinterpret_cast<::AlignedVector *>((void *)&(const ::hkVector4_631 &)(kInput.m_kTo))->FUN_004a3f10((const ::AlignedVector &)(kTo));
+        reinterpret_cast<::fnv_00632df0::ShadowLightData *>(this)->CallWithConstant();
+        reinterpret_cast<::ScriptX *>((((*(::Shape631 * *)(this)))))->InvokeInterfaceCall((intptr_t)&(kFrom), (intptr_t)&(kInput), (intptr_t)&(kQuery), 0);
+        if (reinterpret_cast<::FUN_005609f0_shell *>((void *)(void *)&(const ::hkBool631 &)((*(::hkBool631 *)(reinterpret_cast<::Hld621210 *>(&(kQuery))->FUN_00621210({})))))->FUN_005609f0())
+        {
+            reinterpret_cast<::SortableArray *>(&(kQuery))->FUN_00cabad0();
+            bHits = true;
+        }
+        TESObjectREFR631* pkClosest = 0;
+        float fClosest = 3.402823466e+38f;
+        TESObjectREFR631* pkAlternate = 0;
+        float fAlternateDistance = 3.402823466e+38f;
+        float fAlternateOffset = 3.402823466e+38f;
+        void* pvAlternateHit = 0;
+        bool bCheck = *(*reinterpret_cast<::BoolSetting631 *>(&::g_011cc628)).GetBool();
+        int iRays = 0;
+        int iHits = 0;
+        int iTargets = 0;
+        if (bHits)
+        {
+            ::DAT_011d8a90 = 0xdae;
+            TESObjectREFR631* pkLast = 0;
+            TESObjectREFR631* pkRef = 0;
+            Entity631* pkLastEntity = 0;
+            for (int i = 0; i < ((intptr_t)(reinterpret_cast<::Callees *>((((::HitArray631 *)(::FUN_00460140((intptr_t)&(kQuery))))))->FUN_00726070())); i++)
+            {
+                ::DAT_011d8a90 = 0xdaf;
+                Hit631 kHit(((::HitArray631 *)(::FUN_00460140((intptr_t)&(kQuery))))->GetAt(i));
+                if (kHit.m_pkCollidable)
+                {
+                    ::DAT_011d8a90 = 0xdb0;
+                    NiAVObject631* pkObject = ((::NiAVObject631 *)(::FUN_004b5820((::FormLike *)(kHit.m_pkCollidable))));
+                    ::DAT_011d8a90 = 0xdb1;
+                    if (pkObject)
+                        pkRef = ((::TESObjectREFR631 *)(::FUN_0056f930((::NiAVObject *)(pkObject))));
+                    if (!pkRef || pkRef == (*reinterpret_cast<::TESObjectREFR631 * *>(&::_g_thePlayer)))
+                        continue;
+                    bool bHidden = false;
+                    NiAVObject631* pkWalk = pkObject;
+                    NiAVObject631* pkRoot = pkRef->Get3D();
+                    while (!bHidden && pkWalk && pkWalk != pkRoot)
+                    {
+                        bHidden |= reinterpret_cast<::FUN_00456630_helper *>((pkWalk))->FUN_00456610();
+                        pkWalk = ((::NiAVObject631 *)(reinterpret_cast<::FUN_009611e0_shell *>((pkWalk))->FUN_009611e0()));
+                    }
+                    if (bHidden)
+                        continue;
+                    Entity631* pkEntity = ((::Entity631 *)(::FUN_004b59f0(kHit.m_pkCollidable)));
+                    bool bSolid = false;
+                    Filter631 kFilter(::FUN_0043b540((char *)(kHit.m_pkCollidable)));
+                    switch (reinterpret_cast<::FUN_0043b4d0_shell *>(&(kFilter))->FUN_0043b4d0())
+                    {
+                    case 4:
+                    case 5:
+                    case 6:
+                        bSolid = true;
+                        break;
+                    case 1: {
+                        Owner631* pkOwner = ((*(::Owner631 * *)((kHit.m_pkCollidable))));
+                        if (pkOwner && ((intptr_t)(::fnv_0043b230::FUN_0043b230((const char *)(pkOwner)))) == 0xa)
+                            bSolid = true;
+                    }
+                    break;
+                    }
+                    if (((::BaseForm631 *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((pkRef))->FUN_007af430())) == (*reinterpret_cast<::BaseForm631 * *>(&::DAT_011ca240)))
+                        bSolid = true;
+                    if (pkEntity && pkEntity != pkLastEntity && bSolid)
+                    {
+                        pkLastEntity = pkEntity;
+                        if (iHits < *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::IntSetting631 *>(&::g_011cc61c)))))))
+                        {
+                            iHits++;
+                            RayInput631 kRay;
+                            Filter631 kFilter = ((*(::Shape631 * *)(this)))->GetFilter();
+                            kRay.m_uiFilter = ((unsigned int)(::FUN_00559450((int *)&kFilter)));
+                            Transform631 kXform(pkEntity->GetTransform());
+                            reinterpret_cast<::FUN_00c7f690_cls *>(&(kRay.m_kFrom))->FUN_00c7f690((const ::S_00c7f690_M *)&(kXform), (const ::S_00c7f690_V *)&(kFrom));
+                            reinterpret_cast<::FUN_00c7f690_cls *>(&(kRay.m_kTo))->FUN_00c7f690((const ::S_00c7f690_M *)&(kXform), (const ::S_00c7f690_V *)&(kTo));
+                            RayOutput631 kOut;
+                            reinterpret_cast<::FUN_0062a2d0_Class *>(&(kOut))->FUN_0062a2d0();
+                            Owner631* pkShape = ((*(::Owner631 * *)((kHit.m_pkCollidable))));
+                            reinterpret_cast<::FUN_00632c30_Class *>((pkShape))->ForwardToV8((void *)&(kRay), (void *)&(kOut), {});
+                            if (reinterpret_cast<::FUN_005609f0_shell *>((void *)(void *)&(const ::hkBool631 &)((*(::hkBool631 *)(reinterpret_cast<::FUN_00632c60_Class *>(&(kOut))->FUN_00632c60({})))))->FUN_005609f0())
+                            {
+                                if (kOut.m_fHitFraction < fClosest)
+                                {
+                                    pkClosest = pkRef;
+                                    fClosest = kOut.m_fHitFraction;
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        ::DAT_011d8a90 = 0xdb2;
+                        if (pkLast != pkRef && pkRef->Get3D() && iTargets < *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::IntSetting631 *>(&::g_011cc644)))))))
+                        {
+                            iTargets++;
+                            ::FUN_004b2780((::NiPick *)(::List631 *)(&kList), (intptr_t)(pkOrigin), (intptr_t)(pkDir), fImpulseRadiusSquared, (intptr_t)(pkRef->Get3D()), 0);
+                        }
+                    }
+                    bool bValid = true;
+                    switch (reinterpret_cast<::FUN_0043b4d0_shell *>(&(kFilter))->FUN_0043b4d0())
+                    {
+                    case 30:
+                        if (pkRef->IsActor())
+                        {
+                            Process631* pkProcess = ((::Process631 *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pkRef))->GetBaseTexture()));
+                            Controller631* pkController = ((::Controller631 *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>((pkRef))->FUN_009306d0()));
+                            if (pkProcess && pkController && ((intptr_t)(reinterpret_cast<::FUN_00632d00_Class *>((pkController))->GetField600())) == 1)
+                            {
+                                int iState = pkProcess->GetState();
+                                if (iState == 9 || iState == 4)
+                                    bValid = false;
+                            }
+                        }
+                        break;
+                    case 1:
+                    case 13:
+                    case 17:
+                    case 18:
+                        bValid = false;
+                        break;
+                    case 6:
+                        if (!pkEntity)
+                            bValid = false;
+                        break;
+                    }
+                    if (bValid && bCheck && pkCaster)
+                    {
+                        hkVector4_631 kIntersectionOffset;
+                        reinterpret_cast<::S00458a10_Vector *>(&(kIntersectionOffset))->FUN_00458a10((const ::S00458a10_Vector *)&((*(const ::hkVector4_631 *)(new ((void *)&(kHit)) ::Vec3()))), (const ::S00458a10_Vector *)&(kFrom));
+                        hkVector4_631 kWorldPosition;
+                        reinterpret_cast<::S00458a10_Vector *>(&(kWorldPosition))->FUN_00458a10((const ::S00458a10_Vector *)&(kTo), (const ::S00458a10_Vector *)&(kFrom));
+                        reinterpret_cast<::S0062aea0_Vector *>(&(kWorldPosition))->FUN_0062aea0();
+                        reinterpret_cast<::S_00627920 *>(&(kWorldPosition))->FUN_00627920((::S_00561240 *)&(const ::hkSimdReal631 &)(kWorldPosition.Dot(kIntersectionOffset)));
+                        hkVector4_631 kPerp;
+                        reinterpret_cast<::S00458a10_Vector *>(&(kPerp))->FUN_00458a10((const ::S00458a10_Vector *)&(kIntersectionOffset), (const ::S00458a10_Vector *)&(kWorldPosition));
+                        float fProjectionAlongAim = FUN_004587d0(reinterpret_cast<::S004586d0_Obj *>((void *)(void *)&(const ::hkSimdReal631 &)(kPerp.Length()))->FUN_004586d0());
+                        if (fProjectionAlongAim < fAlternateOffset)
+                        {
+                            if (iRays < *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::IntSetting631 *>(&::g_011cc668)))))))
+                            {
+                                if (pkAlternate && pkAlternate == pkRef)
+                                {
+                                    fAlternateDistance = FUN_004587d0(reinterpret_cast<::S004586d0_Obj *>((void *)(void *)&(const ::hkSimdReal631 &)(kIntersectionOffset.Length()))->FUN_004586d0());
+                                    fAlternateOffset = fProjectionAlongAim;
+                                }
+                                else
+                                {
+                                    iRays++;
+                                    Pick631 kPick;
+                                    kPick.SetFilter(((*(::Shape631 * *)(this)))->GetFilter());
+                                    reinterpret_cast<::S3e60 *>(&(kPick))->FUN_0056d340((uintptr_t)&(kFrom));
+                                    reinterpret_cast<::PD_ *>(&(kPick))->FUN_004a3f40((void *)&((*(const ::hkVector4_631 *)(new ((void *)&(kHit)) ::Vec3()))));
+                                    AllRayHits631 kRayHits;
+                                    reinterpret_cast<::FUN_004a3fb0_shell *>(&(kPick))->FUN_004a3fb0((::hkpAllRayHitCollector *)(::AllRayHits631 *)(&kRayHits));
+                                    pkCaster->CastRay(&kPick);
+                                    if (!((bool)(reinterpret_cast<::FUN_00632ce0_Class *>(&(kPick))->FUN_00632ce0())))
+                                    {
+                                        if (((intptr_t)(reinterpret_cast<::Callees *>((((::RayHitArray631 *)(::FUN_00460140((intptr_t)&(kRayHits))))))->FUN_00726070())) > 0)
+                                        {
+                                            NiAVObject631* pkHitObject = ((::NiAVObject631 *)(::FUN_004b5820(
+                                                (::FormLike *)(::Collidable631 *)((Collidable631*)((::RayHit631 *)(reinterpret_cast<::FUN_004a46b0_class *>((((::RayHitArray631 *)(::FUN_00460140((intptr_t)&(kRayHits))))))->GetEntryAt(0)))->m_pvRootCollidable))));
+                                            if (pkHitObject)
+                                            {
+                                                TESObjectREFR631* pkHitRef = ((::TESObjectREFR631 *)(::FUN_0056f930((::NiAVObject *)(pkHitObject))));
+                                                if (pkHitRef && pkHitRef == pkRef)
+                                                {
+                                                    pkAlternate = pkRef;
+                                                    fAlternateDistance =
+                                                        FUN_004587d0(reinterpret_cast<::S004586d0_Obj *>((void *)(void *)&(const ::hkSimdReal631 &)(kIntersectionOffset.Length()))->FUN_004586d0());
+                                                    fAlternateOffset = fProjectionAlongAim;
+                                                    pvAlternateHit = ::FUN_004b5a80(pkEntity);
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            pkAlternate = pkRef;
+                                            fAlternateDistance = FUN_004587d0(reinterpret_cast<::S004586d0_Obj *>((void *)(void *)&(const ::hkSimdReal631 &)(kIntersectionOffset.Length()))->FUN_004586d0());
+                                            fAlternateOffset = fProjectionAlongAim;
+                                            pvAlternateHit = ::FUN_004b5a80(pkEntity);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    ::DAT_011d8a90 = 0xdb3;
+                    pkLast = pkRef;
+                }
+            }
+        }
+        fClosest *= fImpulseRadiusSquared;
+        ::DAT_011d8a90 = 0xdb5;
+        if (((uintptr_t)(reinterpret_cast<::MagicCaster_shell *>((((::Results631 *)(reinterpret_cast<::BGSCameraPath *>(&(kList))->GetConditions()))))->FUN_0044edb0())) > 0)
+        {
+            ::DAT_011d8a90 = 0xdb6;
+            void* pvObject = ((::Result631 *)(reinterpret_cast<::fnv_00968670::FUN_00968670_shell *>((((::Results631 *)(reinterpret_cast<::BGSCameraPath *>(&(kList))->GetConditions()))))->FUN_00968670(0)))->GetObject();
+            ::DAT_011d8a90 = 0xdb7;
+            pkResult = ((::TESObjectREFR631 *)(::FUN_0056f930((::NiAVObject *)(pvObject))));
+            ::DAT_011d8a90 = 0xdb8;
+            *pfDistance = reinterpret_cast<::TESActorBaseData *>((((::Result631 *)(reinterpret_cast<::fnv_00968670::FUN_00968670_shell *>((((::Results631 *)(reinterpret_cast<::BGSCameraPath *>(&(kList))->GetConditions()))))->FUN_00968670(0)))))->GetHealthRegeneration();
+            ::DAT_011d8a90 = 0xdb9;
+            if (*pfDistance > fClosest)
+            {
+                *pfDistance = fClosest;
+                pkResult = pkClosest;
+            }
+        }
+        else if (pkClosest)
+        {
+            *pfDistance = fClosest;
+            pkResult = pkClosest;
+        }
+        ::DAT_011d8a90 = 0xdba;
+        if (bCheck)
+        {
+            bool bUseAlternate = true;
+            if (pkResult && ((::BaseForm631 *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((pkResult))->FUN_007af430())))
+            {
+                bUseAlternate = false;
+                switch (((::BaseForm631 *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((pkResult))->FUN_007af430()))->GetFormType())
+                {
+                case 0x20:
+                case 0x21:
+                case 0x25:
+                    bUseAlternate = true;
+                    break;
+                case 0x1e:
+                    if (!reinterpret_cast<::FUN_0046f070_shell *>((((::BaseForm631 *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((pkResult))->FUN_007af430()))))->FUN_0046f070())
+                        bUseAlternate = true;
+                    break;
+                }
+            }
+            if (bUseAlternate && pkAlternate && pkResult != pkAlternate)
+            {
+                *pfDistance = fAlternateDistance;
+                pkResult = pkAlternate;
+                *pbAlternate = true;
+                (*reinterpret_cast<void * *>(&::DAT_011cc5ec)) = pvAlternateHit;
+            }
+        }
+    }
+    return pkResult;
 }

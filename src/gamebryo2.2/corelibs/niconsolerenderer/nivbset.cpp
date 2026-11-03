@@ -99,7 +99,7 @@ void NiVBSet::FUN_00e94490(unsigned int uiArrayIndex, uintptr_t uiChipIndex)
     if (pkVBBlock->m_uiValue28 == pkVBBlock->m_uiSize)
     {
         reinterpret_cast<::SomeClass *>(&(m_kBlockArray))->FUN_00a93c50(uiArrayIndex);
-        ::FUN_00e94330((void *)this);
+        ::FUN_00e94330((void *)(pkVBBlock));
     }
     else
     {
@@ -368,7 +368,7 @@ void* VBSet::FUN_00e94650(unsigned int uiSize, bool bForceNew)
     void* pvChip = 0;
     VBBlock* pkBlock = 0;
     if (!bForceNew)
-        pkBlock = ((::VBBlock *)(::RemoveFirstNodeAtLeast((::FUN_00e941d0_This *)this, uiSize, {})));
+        pkBlock = ((::VBBlock *)(::RemoveFirstNodeAtLeast((::FUN_00e941d0_This *)this, 0, uiSize)));
     if (!pkBlock)
         pkBlock = ((::VBBlock *)(reinterpret_cast<::VBSetX *>(this)->FUN_00e94580(uiSize)));
     if (pkBlock)

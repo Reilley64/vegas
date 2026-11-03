@@ -12175,7 +12175,7 @@ void UpdateManager::FUN_00ca1410()
             if (((long long)(::FUN_00aa4d80())) - startTime <= duration || entries[i]->active)
                 reinterpret_cast<::FUN_00d1fa20_t *>((entries[i]->controller))->ResetEntries();
             FUN_00c7c030 pose(entries[i]->rig->getSkeleton());
-            ::FUN_00ce18d0((int)(entries[i]->rig));
+            ::FUN_00ce18d0((intptr_t)(entries[i]->rig), (::hkQsTransformC17 *)(&pose));
             if (entries[i]->rig->getWorld() != entries[i]->observer->getWorld())
             {
                 World* w = entries[i]->rig->getWorld();

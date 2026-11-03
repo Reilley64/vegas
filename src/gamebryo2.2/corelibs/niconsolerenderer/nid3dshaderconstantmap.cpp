@@ -41,8 +41,8 @@
 // @fnv 0x00e87200
 void NiD3DShaderConstantMap::ResetShaderConstantMap()
 {
-    ::CompactEnabledEntries((::ShaderEntryArray *)this);
-    ::CompactEnabledEntries((::ShaderEntryArray *)this);
+    ::CompactEnabledEntries((::ShaderEntryArray *)(&entries));
+    ::CompactEnabledEntries((::ShaderEntryArray *)(&defined));
 }
 // @fnv 0x00b71a40
 void BuildTransformMatrix(float* afOutMatrix, const ThreeByThreeMatrix& r, const NiPoint3& atTranslation, float afScale)
@@ -1983,13 +1983,13 @@ unsigned int TexConstantMap::FUN_00e84ba0(TexProgram* prog, TexEntry* entry, NiA
     const void* data;
     if (!tex)
     {
-        data = ::GetConstantData((void *)this);
+        data = ::GetConstantData((void *)(entry));
         if (!data)
             return 0x10;
     }
     else
     {
-        data = ::GetShaderConstantValue((::NiShaderConstantMapEntry *)this, (::ExtraDataStandIn *)(entry));
+        data = ::GetShaderConstantValue((::NiShaderConstantMapEntry *)(entry), (::ExtraDataStandIn *)(tex));
         if (!data)
             return 0x40;
     }
@@ -3119,7 +3119,7 @@ int SCConstantMap::LoadConstant(unsigned int auiRegister, SCMapEntry* apEntry, S
     if (!pExtraData)
         return 0x10;
 
-    void* pData = ::GetShaderConstantValue((::NiShaderConstantMapEntry *)this, (::ExtraDataStandIn *)(apEntry));
+    const void* pData = ::GetShaderConstantValue((::NiShaderConstantMapEntry *)(apEntry), (::ExtraDataStandIn *)(pExtraData));
     unsigned int uiType = (*reinterpret_cast<unsigned int (*)[256]>(&::DAT_011f5fc4))[apEntry->m_uiValue1 & 0xff];
     if (uiType == 3)
     {
@@ -3457,13 +3457,13 @@ unsigned int FUN_00e87220_shell::FUN_00e87220(void* pkShaderProgram, OpCEntry* p
     switch (uiOperator)
     {
     case 0x10000000:
-        return ::FUN_00e82b40((::FUN_00e84b60_prog *)this, pkShaderProgram, (uintptr_t)(pkEntry), eType1, eType2, bTranspose);
+        return ::FUN_00e82b40((::FUN_00e84b60_prog *)(pkShaderProgram), (void *)(pkEntry), eType1, eType2, bTranspose, bInverse);
     case 0x20000000:
-        return ((unsigned int)(::FUN_00e82e70((::ConstantTarget *)this, (intptr_t)(pkShaderProgram), (intptr_t)(pkEntry), eType1, eType2, bTranspose)));
+        return ((unsigned int)(::FUN_00e82e70((::ConstantTarget *)(pkShaderProgram), (intptr_t)(pkEntry), eType1, eType2, bTranspose, bInverse)));
     case 0x30000000:
-        return ((unsigned int)(::SetConstantSum((::ConstantTarget *)this, (intptr_t)(pkShaderProgram), (intptr_t)(pkEntry), eType1, eType2, bTranspose)));
+        return ((unsigned int)(::SetConstantSum((::ConstantTarget *)(pkShaderProgram), (intptr_t)(pkEntry), eType1, eType2, bTranspose, bInverse)));
     case 0x40000000:
-        return ((unsigned int)(::FUN_00e83320((::ConstantTarget *)this, (intptr_t)(pkShaderProgram), (intptr_t)(pkEntry), eType1, eType2, bTranspose)));
+        return ((unsigned int)(::FUN_00e83320((::ConstantTarget *)(pkShaderProgram), (intptr_t)(pkEntry), eType1, eType2, bTranspose, bInverse)));
     }
     return 1;
 }
@@ -6352,7 +6352,9 @@ unsigned int ConstantMapView::FUN_00e85d10(unsigned int slot, Mapping* apMapping
     case 84:
     case 85:
     case 86: {
-        ExtraValue* extra = geometry->FUN_00a5bdd0(*((::fnv_00e85d10::TimeString *)(new ((void *)&(TimeString())) ::NiFixedString(::DAT_011bf65c))));
+        TimeString kName;
+        new ((void *)&kName) ::NiFixedString(::DAT_011bf65c);
+        ExtraValue* extra = geometry->FUN_00a5bdd0(kName);
         if (!extra)
             return 16;
         float value = extra->value;
@@ -6425,5 +6427,4 @@ unsigned int ConstantMapView::FUN_00e85d10(unsigned int slot, Mapping* apMapping
     return 0;
 }
 }  // namespace fnv_00e85d10
-
 #include "generated/data/gamebryo2.2/corelibs/niconsolerenderer/nid3dshaderconstantmap.inc"

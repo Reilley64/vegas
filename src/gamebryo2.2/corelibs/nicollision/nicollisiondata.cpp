@@ -1767,7 +1767,7 @@ void NiCollDataStandIn::UpdateCollision(NiAVObjectStandIn* pkObject)
                 if (pkNode)
                 {
                     if (pkNode->m_pkCollisionObject == 0)
-                        pkNode = ((::NiAVObjectStandIn *)(::FUN_00ead0d0((::FadeNodeEntry *)this)));
+                        pkNode = ((::NiAVObjectStandIn *)(::FUN_00ead0d0((::FadeNodeEntry *)(pkNode))));
                     if (pkNode)
                         pkData = pkNode->m_pkCollisionObject;
                 }
@@ -1849,9 +1849,9 @@ void FUN_00ead8d0_shell::FUN_00ead8d0(StrArr* pkStrings)
     reinterpret_cast<::ClaimCls *>(this)->WriteToStream((*(::StreamShell *)(pkStrings)));
     pkStrings->Add(::FUN_00a7d330((char*)(*reinterpret_cast<void * *>(&::g_0126fab4))));
     unsigned int propagationMode = m_ePropagationMode;
-    pkStrings->Add(::FormatName((const char *)this, (intptr_t)("m_ePropagationMode")));
+    pkStrings->Add(::FormatName("m_ePropagationMode", (intptr_t)(propagationMode)));
     unsigned int collisionMode = m_eCollisionMode;
-    pkStrings->Add(::FUN_00eacef0((const char *)this, (uintptr_t)("m_eCollisionMode")));
+    pkStrings->Add(::FUN_00eacef0("m_eCollisionMode", (uintptr_t)(collisionMode)));
     if (m_pkModelABV)
         m_pkModelABV->GetViewerStrings("m_pkModelABV->Type", pkStrings);
     pkStrings->Add(reinterpret_cast<::NiPoint3 *>(&(m_kLocalVelocity))->FUN_00a59af0("m_kLocalVelocity"));

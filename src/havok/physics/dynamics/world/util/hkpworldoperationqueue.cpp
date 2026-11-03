@@ -784,7 +784,7 @@ void Pending::FUN_00cf7c10()
             release(p->object);
             break;
         case 24:
-            reinterpret_cast<::FUN_00ca8860_cls *>((p->object))->FUN_00ca8860((const void *)&(p->point[0]), (const void *)&(p->point[1]));
+            reinterpret_cast<::FUN_00ca8860_cls *>((p->object))->FUN_00ca8860((intptr_t)&(p->point[0]), (intptr_t)&(p->point[1]));
             freeBlock(p->point, 32);
             release(p->object);
             break;

@@ -1648,4 +1648,21 @@ bool NiCameraV7::FUN_00a70080(const NiBoundV7& bound)
     return true;
 }
 
+
+struct NiPlane
+{
+    char pad[16];
+    NiPlane();
+};
+struct FUN_0045c620
+{
+    NiPlane arr[6];
+    int x;
+    FUN_0045c620();
+};
+// @fnv 0x0045c620
+FUN_0045c620::FUN_0045c620()
+{
+    x = 0x3F;
+}
 #include "generated/data/gamebryo2.2/corelibs/nimain/nicamera.inc"

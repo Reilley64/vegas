@@ -2,6 +2,9 @@
 // src/havok/common/scenedata/scene/hkxscene.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/scenedata/scene/hkxscene.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
+#include <cstdint>
+#include <xmmintrin.h>
 #include "fnv/decl/hkReferencedObjectC905.h"
 #include "fnv/symbols_00cb0000.h"
 #include "fnv/symbols_0102e000.h"
@@ -21,10 +24,9 @@ struct Alloc
 };
 struct Router
 {
-    int unk00, unk04, unk08, unk0c;
+    void* unk00; void* unk04; void* unk08; void* unk0c;
     Alloc* unk10;
 };
-void* __cdecl FUN_00c85750();
 struct FUN_00cb0c00_class
 {
     char* value;
@@ -208,16 +210,11 @@ void Scene::ClearScene()
         unk18.capacity = 0x80000000;
     }
     unk14.~Root();
-    ::FUN_00cb0c00((int)&(unk0c));
-    ::FUN_00cb0c00((int)&(unk08));
+    ::FUN_00cb0c00((intptr_t)&(unk0c));
+    ::FUN_00cb0c00((intptr_t)&(unk08));
     unk00 = &(*reinterpret_cast<int *>(&::DAT_0102e388));
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 
 struct hkVector4E4A6
 {
@@ -319,13 +316,12 @@ struct Heap_e4a4
 };
 struct Router_e4a4
 {
-    int unk00, unk04, unk08, unk0C;
+    void* unk00; void* unk04; void* unk08; void* unk0C;
     Heap_e4a4* m_pStreamAllocator;
     Heap_e4a4& heap()
     {
         return *m_pStreamAllocator;
     }
-    static Router_e4a4& __cdecl FUN_00c85750() throw();
 };
 
 template <class T> struct hkArray_e4a4
@@ -343,7 +339,7 @@ template <class T> struct hkArray_e4a4
     }
     __forceinline void ClearAndRelease() throw()
     {
-        Heap_e4a4& heap = Router_e4a4::FUN_00c85750().heap();
+        Heap_e4a4& heap = (*static_cast<Router_e4a4*>(::FUN_00c85750())).heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
             heap.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
@@ -393,7 +389,7 @@ void Mesh_e4a4::FUN_00e4a460()
     int n = m_entries.GetLogicalSize();
     for (int i = 0; i < n; i++)
         m_entries[i].~Entry_e4a4();
-    ::FUN_00cb0c00((int)&(m_name));
+    ::FUN_00cb0c00((intptr_t)&(m_name));
     m_iSlotIds.ClearAndRelease();
     m_ppIndices.ClearAndRelease();
     m_entries.ClearAndRelease();

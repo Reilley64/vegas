@@ -2,6 +2,8 @@
 // src/havok/common/visualize/hkversionreporter.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/visualize/hkversionreporter.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
+#include <cstdint>
 #include <new>
 #include "fnv/decl/BufferOwner.h"
 #include "fnv/decl/D60590Object.h"
@@ -23,9 +25,9 @@ struct S_Alloc
 };
 struct S_Router
 {
-    int unk0;
-    int unk4;
-    int unk8;
+    void* unk0;
+    void* unk4;
+    void* unk8;
     S_Alloc* m0c;
     S_Alloc* m10;
     S_Alloc& temp()
@@ -37,7 +39,6 @@ struct S_Router
         return *m10;
     }
 };
-S_Router* FUN_00c85750();
 
 struct S_Arr
 {
@@ -116,15 +117,15 @@ int WriteCompilerInfo(const char* name)
     buffer.size = 0;
     buffer.cap = 0x80000000;
     S_Out outStream;
-    new ((void *)&(outStream)) ::FUN_00dda690((int)(&buffer));
+    new ((void *)&(outStream)) ::FUN_00dda690((intptr_t)(&buffer));
     reinterpret_cast<::FUN_00d605d0_class *>(&(outStream))->FUN_00d605d0(0x90);
     reinterpret_cast<::hkOArchive_2 *>(&(outStream))->WriteInt(DAT_011b5dc0);
     reinterpret_cast<::hkOArchive_2 *>(&(outStream))->WriteInt(DAT_011b5dbc);
-    int n = ::fnv_00cb10d0::FUN_00cb10d0("PC_32");
+    intptr_t n = ::fnv_00cb10d0::FUN_00cb10d0("PC_32");
     if (n > 0xffff)
         n = 0xffff;
     reinterpret_cast<::hkOArchiveStandIn *>(&(outStream))->WriteUInt16(n);
-    reinterpret_cast<::FUN_00d607b0_class *>(&(outStream))->FUN_00d607b0((int)("PC_32"));
+    reinterpret_cast<::FUN_00d607b0_class *>(&(outStream))->FUN_00d607b0((intptr_t)("PC_32"));
     S_Str versionStr;
     reinterpret_cast<::BufferOwner *>(&(versionStr))->InitBuffer();
     reinterpret_cast<::StringBuf *>((&versionStr))->FUN_00d61d00("%s:%i", "MSVC", 1500);
@@ -132,15 +133,15 @@ int WriteCompilerInfo(const char* name)
     if (iVersionLen > 0xffff)
         iVersionLen = 0xffff;
     reinterpret_cast<::hkOArchiveStandIn *>(&(outStream))->WriteUInt16(iVersionLen);
-    reinterpret_cast<::FUN_00d607b0_class *>(&(outStream))->FUN_00d607b0((int)(versionStr.data));
+    reinterpret_cast<::FUN_00d607b0_class *>(&(outStream))->FUN_00d607b0((intptr_t)(versionStr.data));
     S_Out f;
-    new ((void *)&(f)) ::FUN_00dda6e0((int)(name));
+    new ((void *)&(f)) ::FUN_00dda6e0((intptr_t)(name));
     reinterpret_cast<::hkOArchive_2 *>(&(f))->WriteInt(buffer.size);
-    reinterpret_cast<::FUN_00d607b0_class *>(&(f))->FUN_00d607b0((int)(buffer.data));
+    reinterpret_cast<::FUN_00d607b0_class *>(&(f))->FUN_00d607b0((intptr_t)(buffer.data));
     reinterpret_cast<::D60590Object *>(&(f))->FUN_00d60590();
-    versionStr.clear(FUN_00c85750()->temp());
+    versionStr.clear(static_cast<S_Router*>(::FUN_00c85750())->temp());
     reinterpret_cast<::D60590Object *>(&(outStream))->FUN_00d60590();
-    buffer.clear(FUN_00c85750()->heap());
+    buffer.clear(static_cast<S_Router*>(::FUN_00c85750())->heap());
     return 0;
 }
 

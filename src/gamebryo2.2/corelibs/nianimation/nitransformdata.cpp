@@ -156,7 +156,7 @@ void FUN_00a4e270_shell::DestroyTransformData()
     if (pkScaleKeys)
     {
         void(__cdecl * pfnScaleDeleteFunc)(TimedAnimationKey*) =
-            (*reinterpret_cast<void (*(*)[6])(TimedAnimationKey *)>(&::DAT_011f38a0))[*reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x18)];
+            (*reinterpret_cast<void (*(*)[6])(TimedAnimationKey *)>(&::DAT_011f38a0))[*reinterpret_cast<int*>(&this->m_eScaleKeyType)];
         pfnScaleDeleteFunc(pkScaleKeys);
     }
     reinterpret_cast<class ::FUN_00a5d3d0 *>((reinterpret_cast<NiObject_Helper*>(this)))->FUN_00a5d3d0::~FUN_00a5d3d0();
@@ -199,7 +199,7 @@ NiBlendInterpolator* FUN_00a4eaa0_shell::FUN_00a4eaa0(unsigned short usIndex, bo
 {
     BlendPoint3Stub* p = (BlendPoint3Stub*)::operator new(0x40);
     if (p)
-        return (NiBlendInterpolator*)((::BlendPoint3Stub *)(new ((void *)(p)) ::FUN_00a55a10((void *)(bManagerControlled), fWeightThreshold, (void *)(ucArraySize))));
+        return (NiBlendInterpolator*)((::BlendPoint3Stub *)(new ((void *)(p)) ::FUN_00a55a10(bManagerControlled, fWeightThreshold, ucArraySize)));
     return 0;
 }
 
@@ -1077,5 +1077,3 @@ void TransformDataLoader::FUN_00a4e5d0(NiStream& stream)
         SetScaleKeys(keys, numKeys, type);
     }
 }
-
-#include "generated/data/gamebryo2.2/corelibs/nianimation/nitransformdata.inc"

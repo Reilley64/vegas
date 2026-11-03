@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 class NiAVObject;
 class NiRTTI;
@@ -23,7 +24,7 @@ bool FUN_0043b300(const ::NiRTTI *, ::NiAVObject *);
 // 0x0043b460
 void FUN_0043b460(void *, void *, unsigned int);
 // 0x0043b540
-unsigned int FUN_0043b540(char *);
+uintptr_t FUN_0043b540(char *);
 // 0x0043ba60
 namespace fnv_0043ba60 { void FUN_0043ba60(int *); }
 // 0x0043bac0

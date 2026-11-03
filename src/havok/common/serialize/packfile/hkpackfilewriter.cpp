@@ -5,6 +5,12 @@
 
 // Calls Vsnprintf with a and b and a formatted Havok version string (7.1.0-r1).
 // @fnv 0x00dbda20
+#include "fnv/symbols_00c85000.h"
+#include <cstdint>
+#include "fnv/decl/AttributeFormatter.h"
+#include "fnv/decl/FUN_00ce2510.h"
+#include "fnv/symbols_00cb1000.h"
+#include "fnv/symbols_00dbd000.h"
 #include <new>
 #include "fnv/decl/CB1A90Owner.h"
 #include "fnv/decl/E02A80_cls.h"
@@ -34,7 +40,7 @@
 #include "fnv/symbols_0126c000.h"
 void __cdecl FUN_00dbda20(void* a, void* b)
 {
-    ::Vsnprintf((char *)(a), (int)(b), "Havok-%i.%i.%i-%s", 7, 1, 0, "r1");
+    ::Vsnprintf((char *)(a), (intptr_t)(b), "Havok-%i.%i.%i-%s", 7, 1, 0, "r1");
 }
 
 struct FUN_00dbdd40_s
@@ -51,7 +57,7 @@ struct FUN_00dbdf30_s
 {
     int m_kPointA;
     int m_kPointB;
-    void FUN_00dbdf30(int a, int b);
+    void FUN_00dbdf30(intptr_t a, intptr_t b);
 };
 struct MemoryRouter
 {
@@ -76,7 +82,7 @@ struct FUN_00dbdae0
 void FUN_00dbdae0::FUN_00dbdae0_0(void* a, int b)
 {
     void* r = D1A0E0GetMemoryRouter()->m10;
-    reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(m_dl))->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(r)), (unsigned int)(a), b);
+    reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(m_dl))->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(r)), (uintptr_t)(a), b);
 }
 
 namespace fnv_00dbdf00 {
@@ -104,7 +110,7 @@ void FUN_00dbdf00_s::FUN_00dbdf00(void* a, int b)
     int result = reinterpret_cast<FUN_00dbdd40_s*>(this)->GetOrAddString(b);
     FUN_00dbdf00_router* router = _D1A0E0GetMemoryRouter();
 
-    reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>((reinterpret_cast<DepthLimit*>(reinterpret_cast<char*>(this) + 0x9c)))->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(router->m_p)), (unsigned int)(a), result);
+    reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>((reinterpret_cast<DepthLimit*>(reinterpret_cast<char*>(this) + 0x9c)))->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(router->m_p)), (uintptr_t)(a), result);
 }
 }  // namespace fnv_00dbdf00
 
@@ -147,7 +153,6 @@ struct FUN_00c85750_s
     void* m08;
     void* m0c;
     void* allocator;
-    static FUN_00c85750_s* __cdecl FUN_00c85750();
 };
 struct TrackedElement
 {
@@ -174,22 +179,22 @@ struct FUN_00dbda80_s
 // @fnv 0x00dbda80
 void FUN_00dbda80_s::FUN_00dbda80(void* key, int value)
 {
-    int index = reinterpret_cast<::FUN_00cb1930_t *>(&(entryIndex))->LookupHashEntry((int)(key), -1);
+    intptr_t index = reinterpret_cast<::FUN_00cb1930_t *>(&(entryIndex))->LookupHashEntry((intptr_t)(key), -1);
     if (index >= 0)
         entries[index].state = -2;
 
-    FUN_00c85750_s* router = FUN_00c85750_s::FUN_00c85750();
-    reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>((((DepthLimit*)&entryIndex)))->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(router->allocator)), (unsigned int)(key), -2);
+    FUN_00c85750_s* router = static_cast<FUN_00c85750_s*>(::FUN_00c85750());
+    reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>((((DepthLimit*)&entryIndex)))->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(router->allocator)), (uintptr_t)(key), -2);
 
-    FUN_00c85750_s* router2 = FUN_00c85750_s::FUN_00c85750();
-    reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(firstDepth))->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(router2->allocator)), (unsigned int)(key), value);
+    FUN_00c85750_s* router2 = static_cast<FUN_00c85750_s*>(::FUN_00c85750());
+    reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(firstDepth))->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(router2->allocator)), (uintptr_t)(key), value);
 }
 
 
 struct FUN_00dbdb10_buf
 {
     int unk00;
-    int unk04;
+    intptr_t unk04;
     volatile int unk08;
     int unk0C;
     int unk10;
@@ -225,10 +230,10 @@ void __cdecl FUN_00dbdb10(void* apArg1, void* apArg2, void* apArg3)
     FUN_00dbdb10_buf buf;
 
     reinterpret_cast<::FUN_00dc1670_cls *>((reinterpret_cast<FUN_00dc1670_Obj*>(&buf.unk00)))->FUN_00dc1670();
-    reinterpret_cast<::FUN_00e02bb0_cls *>((reinterpret_cast<FUN_00e02bb0_Obj*>(&buf.unk14)))->FUN_00e02bb0((int)(&buf));
+    reinterpret_cast<::FUN_00e02bb0_cls *>((reinterpret_cast<FUN_00e02bb0_Obj*>(&buf.unk14)))->FUN_00e02bb0((intptr_t)(&buf));
     new ((void *)(reinterpret_cast<FUN_00e02ef0_Obj*>(&buf.unk04))) ::FUN_00e02ef0();
-    reinterpret_cast<::E02A80_cls *>((reinterpret_cast<FUN_00e02a80_Obj*>(&buf.unk14)))->FUN_00e02a80((::E02A80Arg *)(void *)(&buf.unk04), (int)(apArg1), (::E02A80Helper *)(apArg2), (int)(apArg3));
-    buf.unk04 = (int)&(*reinterpret_cast<int *>(&::DAT_0102e388));
+    reinterpret_cast<::E02A80_cls *>((reinterpret_cast<FUN_00e02a80_Obj*>(&buf.unk14)))->FUN_00e02a80((::E02A80Arg *)(void *)(&buf.unk04), (intptr_t)(apArg1), (::E02A80Helper *)(apArg2), (intptr_t)(apArg3));
+    buf.unk04 = (intptr_t)&(*reinterpret_cast<int *>(&::DAT_0102e388));
     reinterpret_cast<::FUN_00e02c70_Class *>((reinterpret_cast<FUN_00e02c70_Obj*>(&buf.unk14)))->FUN_00e02c70_Class::~FUN_00e02c70_Class();
 }
 
@@ -251,12 +256,12 @@ struct DbSecond
     virtual void vf04();
     virtual void vf08();
     virtual void vf0C();
-    virtual unsigned int vf10(unsigned int value);
+    virtual unsigned int vf10(uintptr_t value);
 };
 
 // Calls first->GetLastNodeFlag; if its first character is nonzero, returns second->vf10(arg) or 0; otherwise returns the first pointer.
 // @fnv 0x00dbd9f0
-static __declspec(noinline) unsigned int FUN_00dbd9f0(DbFirst* first, DbSecond* second, unsigned int arg)
+static __declspec(noinline) uintptr_t FUN_00dbd9f0(DbFirst* first, DbSecond* second, uintptr_t arg)
 {
     bool bFlag;
     char* result = first->GetLastNodeFlag(&bFlag);
@@ -267,13 +272,13 @@ static __declspec(noinline) unsigned int FUN_00dbd9f0(DbFirst* first, DbSecond* 
             return second->vf10(arg);
         return 0;
     }
-    return (unsigned int)first;
+    return (uintptr_t)first;
 }
 
 DbFirst* volatile g_dbd_first;
 DbSecond* volatile g_dbd_second;
 unsigned int volatile g_dbd_arg;
-unsigned int volatile g_dbd_sink;
+uintptr_t volatile g_dbd_sink;
 
 void dbd9f0_probe_caller(void)
 {
@@ -365,39 +370,39 @@ int hkPackfileWriterDB7::RegisterObject(void* pvObject, const hkClassDB7* pkClas
     {
         const hkClassDB7* pkNewClass = (const hkClassDB7*)pvObject;
         const char* pcName = reinterpret_cast<::FnvClassNameNode *>((void *)(pkNewClass))->FUN_00d46d40();
-        const hkClassDB7* pkOldClass = (const hkClassDB7*)((void *)(reinterpret_cast<::hkObjectD878 *>((void *)&(m_kObjectNameMap))->GetValue((int)(pcName), (int)(0))));
+        const hkClassDB7* pkOldClass = (const hkClassDB7*)((void *)(reinterpret_cast<::hkObjectD878 *>((void *)&(m_kObjectNameMap))->GetValue((intptr_t)(pcName), (int)(0))));
         if (pkOldClass)
         {
             if (reinterpret_cast<::FUN_00d47690_class *>((void *)(pkNewClass))->ComputeSignature(0) != reinterpret_cast<::FUN_00d47690_class *>((void *)(pkOldClass))->ComputeSignature(0))
             {
                 unsigned int assertBuf[128];
                 hkOstreamDB7 ostr(assertBuf, sizeof(assertBuf));
-                reinterpret_cast<::SinkOwner *>((void *)&(const ::hkOstreamDB7 &)(reinterpret_cast<::SinkOwner *>((void *)&(const ::hkOstreamDB7 &)(reinterpret_cast<::SinkOwner *>((void *)&(const ::hkOstreamDB7 &)(ostr))->FUN_00cc01c0("Conflicting metadata found for class ")))->FUN_00cc01c0(reinterpret_cast<::FnvClassNameNode *>((void *)(pkNewClass))->FUN_00d46d40())))->FUN_00cc01c0(". Perhaps you have called setContents on data which has not been updated to the current version.");
+                reinterpret_cast<::SinkOwner *>((void *)(reinterpret_cast<::SinkOwner *>((void *)(reinterpret_cast<::SinkOwner *>((void *)&(ostr))->FUN_00cc01c0("Conflicting metadata found for class ")))->FUN_00cc01c0(reinterpret_cast<::FnvClassNameNode *>((void *)(pkNewClass))->FUN_00d46d40())))->FUN_00cc01c0(". Perhaps you have called setContents on data which has not been updated to the current version.");
                 if ((*reinterpret_cast<::hkErrorDB7 * *>(&::DAT_01268360))->message(3, 0x2518721c, (const char*)assertBuf, ".\\Packfile\\hkPackfileWriter.cpp",
                                           178))
                     __debugbreak();
             }
-            int iIndex = reinterpret_cast<::FUN_00cb1930_t *>((void *)&(m_kObjectIndexMap))->LookupHashEntry((int)(pkOldClass), -1);
-            reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(m_kObjectIndexMap))->FUN_00cb1870((::fnv_00cb1870::hkMemoryAllocatorCB18 &)(GetMemoryRouterDB7().heap()), (unsigned int)(pkNewClass), iIndex);
-            reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(m_kClassMap))->FUN_00cb1870((::fnv_00cb1870::hkMemoryAllocatorCB18 &)(GetMemoryRouterDB7().heap()), (unsigned int)(pkNewClass), (int)pkOldClass);
+            intptr_t iIndex = reinterpret_cast<::FUN_00cb1930_t *>((void *)&(m_kObjectIndexMap))->LookupHashEntry((intptr_t)(pkOldClass), -1);
+            reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(m_kObjectIndexMap))->FUN_00cb1870((::fnv_00cb1870::hkMemoryAllocatorCB18 &)(GetMemoryRouterDB7().heap()), (uintptr_t)(pkNewClass), iIndex);
+            reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(m_kClassMap))->FUN_00cb1870((::fnv_00cb1870::hkMemoryAllocatorCB18 &)(GetMemoryRouterDB7().heap()), (uintptr_t)(pkNewClass), (intptr_t)pkOldClass);
             return 0;
         }
         const char* pcNewName = reinterpret_cast<::FnvClassNameNode *>((void *)(pkNewClass))->FUN_00d46d40();
-        reinterpret_cast<::hkStringMapD874 *>(&(m_kObjectNameMap))->FUN_00d874d0(pcNewName, (int)((void*)pkNewClass));
+        reinterpret_cast<::hkStringMapD874 *>(&(m_kObjectNameMap))->FUN_00d874d0(pcNewName, (intptr_t)((void*)pkNewClass));
     }
     else if (::fnv_00cb0fa0::FUN_00cb0fa0(reinterpret_cast<::FnvClassNameNode *>((void *)(pkClass))->FUN_00d46d40(), "hkClassEnum") == 0)
     {
         const hkClassEnumDB7* pkNewEnum = (const hkClassEnumDB7*)pvObject;
         const char* pcName = pkNewEnum->m_name;
-        const hkClassEnumDB7* pkOldEnum = (const hkClassEnumDB7*)((void *)(reinterpret_cast<::hkObjectD878 *>((void *)&(m_kClassLookupMap))->GetValue((int)(pcName), (int)(0))));
+        const hkClassEnumDB7* pkOldEnum = (const hkClassEnumDB7*)((void *)(reinterpret_cast<::hkObjectD878 *>((void *)&(m_kClassLookupMap))->GetValue((intptr_t)(pcName), (int)(0))));
         if (pkOldEnum)
         {
-            int iIndex = reinterpret_cast<::FUN_00cb1930_t *>((void *)&(m_kObjectIndexMap))->LookupHashEntry((int)(pkOldEnum), -1);
-            reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(m_kObjectIndexMap))->FUN_00cb1870((::fnv_00cb1870::hkMemoryAllocatorCB18 &)(GetMemoryRouterDB7().heap()), (unsigned int)(pkNewEnum), iIndex);
-            reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(m_kClassMap))->FUN_00cb1870((::fnv_00cb1870::hkMemoryAllocatorCB18 &)(GetMemoryRouterDB7().heap()), (unsigned int)(pkNewEnum), (int)pkOldEnum);
+            intptr_t iIndex = reinterpret_cast<::FUN_00cb1930_t *>((void *)&(m_kObjectIndexMap))->LookupHashEntry((intptr_t)(pkOldEnum), -1);
+            reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(m_kObjectIndexMap))->FUN_00cb1870((::fnv_00cb1870::hkMemoryAllocatorCB18 &)(GetMemoryRouterDB7().heap()), (uintptr_t)(pkNewEnum), iIndex);
+            reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(m_kClassMap))->FUN_00cb1870((::fnv_00cb1870::hkMemoryAllocatorCB18 &)(GetMemoryRouterDB7().heap()), (uintptr_t)(pkNewEnum), (intptr_t)pkOldEnum);
             return 0;
         }
-        reinterpret_cast<::hkStringMapD874 *>(&(m_kClassLookupMap))->FUN_00d874d0(pkNewEnum->m_name, (int)((void*)pkNewEnum));
+        reinterpret_cast<::hkStringMapD874 *>(&(m_kClassLookupMap))->FUN_00d874d0(pkNewEnum->m_name, (intptr_t)((void*)pkNewEnum));
     }
     return 1;
 }
@@ -415,15 +420,14 @@ template <int SIZE> __forceinline void memCpyOneAlignedXdbdd40(void* dst, const 
 
 struct hkMemoryRouterXdbdd40
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     void* m_pStreamAllocator;
 };
 
 namespace hkRouterXdbdd40 {
-extern "C" hkMemoryRouterXdbdd40& __cdecl FUN_00c85750() throw();
 }
 
 template <class T> class hkArrayXdbdd40
@@ -439,7 +443,7 @@ template <class T> class hkArrayXdbdd40
     }
     __forceinline void AddBack(const T& e)
     {
-        hkMemoryRouterXdbdd40& router = hkRouterXdbdd40::FUN_00c85750();
+        hkMemoryRouterXdbdd40& router = (*static_cast<hkMemoryRouterXdbdd40*>(::FUN_00c85750()));
         if (m_iElementCount == getCapacity())
             ::ResizeAudioStream((::AudioAllocator *)(router.m_pStreamAllocator), (::AudioStream *)(void *)(this), sizeof(T));
         memCpyOneAlignedXdbdd40<sizeof(T)>(m_data + m_iElementCount, &e);
@@ -464,7 +468,7 @@ class hkStringPoolXdbdd40
     int GetOrAddString(const char* str);
 };
 // @fnv 0x00dbdf30
-void FUN_00dbdf30_s::FUN_00dbdf30(int pNameSource, int a)
+void FUN_00dbdf30_s::FUN_00dbdf30(intptr_t pNameSource, intptr_t a)
 {
     int idx = reinterpret_cast<::hkStringPoolXdbdd40 *>((((FUN_00dbdd40_s*)this)))->GetOrAddString((const char *)(a));
     const char* name = reinterpret_cast<::FnvClassNameNode *>((((FUN_00d46d40_s*)(void*)pNameSource)))->FUN_00d46d40();
@@ -491,11 +495,11 @@ struct S00dbde40_Base
 
 struct S00dbde40_Entry
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
+    intptr_t unk00;
+    intptr_t unk04;
+    intptr_t unk08;
+    intptr_t unk0C;
+    intptr_t unk10;
     int unk14;
 };
 
@@ -546,10 +550,9 @@ struct S00dbde40_Obj : public S00dbde40_Base
     int unk94;
     int unk98;
 
-    void FUN_00dbde40(int a, int b, int c, int d, int e);
+    void FUN_00dbde40(intptr_t a, intptr_t b, intptr_t c, intptr_t d, intptr_t e);
 };
 
-void* __cdecl FUN_00c85750(void);
 
 class hkMemoryAllocatorDF6
 {
@@ -726,7 +729,7 @@ struct hkPointerMapE4D
 {
     hkPointerMapE4D() : m_kPrimitiveElement(0), m_iCapacityFlags(0), m_iPairCount(-1)
     {
-        reinterpret_cast<::FUN_00cb1fe0_t *>(this)->EnsureCapacity((int)&(GetMemoryRouterE4D().heap()), 0);
+        reinterpret_cast<::FUN_00cb1fe0_t *>(this)->EnsureCapacity((intptr_t)&(GetMemoryRouterE4D().heap()), 0);
     }
     void insert(hkMemoryAllocatorE4D& kAlloc, const void* pvKey, int iValue);
     void* m_kPrimitiveElement;
@@ -779,9 +782,9 @@ FUN_00dbe4d0::FUN_00dbe4d0() throw()
       m_kImports(hkContainerHeapAllocatorE4D()), m_iContentsSection(-1), m_iDataSection(-1), m_pvContents(0),
       m_pvContentsClass(0), m_classesWritten(hkContainerHeapAllocatorE4D())
 {
-    reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(m_kObjectNameMap))->FUN_00cb1870((::fnv_00cb1870::hkMemoryAllocatorCB18 &)(GetMemoryRouterE4D().heap()), (unsigned int)(&(*reinterpret_cast<::hkClassE4D *>(&::g_0126cab8))), -1);
-    reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(m_kObjectNameMap))->FUN_00cb1870((::fnv_00cb1870::hkMemoryAllocatorCB18 &)(GetMemoryRouterE4D().heap()), (unsigned int)(&(*reinterpret_cast<::hkClassE4D *>(&::g_0126ca58))), -1);
-    reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(m_kObjectNameMap))->FUN_00cb1870((::fnv_00cb1870::hkMemoryAllocatorCB18 &)(GetMemoryRouterE4D().heap()), (unsigned int)(&(*reinterpret_cast<::hkClassE4D *>(&::g_0126cae8))), -1);
+    reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(m_kObjectNameMap))->FUN_00cb1870((::fnv_00cb1870::hkMemoryAllocatorCB18 &)(GetMemoryRouterE4D().heap()), (uintptr_t)(&(*reinterpret_cast<::hkClassE4D *>(&::g_0126cab8))), -1);
+    reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(m_kObjectNameMap))->FUN_00cb1870((::fnv_00cb1870::hkMemoryAllocatorCB18 &)(GetMemoryRouterE4D().heap()), (uintptr_t)(&(*reinterpret_cast<::hkClassE4D *>(&::g_0126ca58))), -1);
+    reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(m_kObjectNameMap))->FUN_00cb1870((::fnv_00cb1870::hkMemoryAllocatorCB18 &)(GetMemoryRouterE4D().heap()), (uintptr_t)(&(*reinterpret_cast<::hkClassE4D *>(&::g_0126cae8))), -1);
 }
 
 struct Mgr
@@ -871,13 +874,13 @@ struct S00dbddc0_cls : public S00dbddc0_Base
     S00dbddc0_Sub9C m_sub9c;
     S00dbddc0_SubA8 m_suba8;
 
-    int FUN_00dbddc0(int a1, S00dbddc0_Node* a2, int a3);
+    intptr_t FUN_00dbddc0(intptr_t a1, S00dbddc0_Node* a2, intptr_t a3);
 };
 // Calls FUN_00dbddc0, builds an S00dbde40_Entry, appends it to arr, and increments unk98 or unk94 depending on b.
 // @fnv 0x00dbde40
-void S00dbde40_Obj::FUN_00dbde40(int a, int b, int c, int d, int e)
+void S00dbde40_Obj::FUN_00dbde40(intptr_t a, intptr_t b, intptr_t c, intptr_t d, intptr_t e)
 {
-    int result = reinterpret_cast<::S00dbddc0_cls *>((this))->FUN_00dbddc0(c, (::S00dbddc0_Node *)(d), e);
+    intptr_t result = reinterpret_cast<::S00dbddc0_cls *>((this))->FUN_00dbddc0(c, (::S00dbddc0_Node *)(d), e);
     S00dbde40_Entry tmp;
     tmp.unk00 = a;
     tmp.unk04 = b;
@@ -902,21 +905,21 @@ void S00dbde40_Obj::FUN_00dbde40(int a, int b, int c, int d, int e)
     }
 
     ++arr.m_iElementCount;
-    this->unk98 += (b == (int)&(*reinterpret_cast<char *>(&::g_0126cae8)));
-    this->unk94 += (b != (int)&(*reinterpret_cast<char *>(&::g_0126cae8)));
+    this->unk98 += (b == (intptr_t)&(*reinterpret_cast<char *>(&::g_0126cae8)));
+    this->unk94 += (b != (intptr_t)&(*reinterpret_cast<char *>(&::g_0126cae8)));
 }
 
 // Looks up a hash entry for a1, then walks the node chain a2 calling GetValue on each key, returning the first hit or calling GetOrAddString(a3).
 // @fnv 0x00dbddc0
-int S00dbddc0_cls::FUN_00dbddc0(int a1, S00dbddc0_Node* apStartNode, int a3)
+intptr_t S00dbddc0_cls::FUN_00dbddc0(intptr_t a1, S00dbddc0_Node* apStartNode, intptr_t a3)
 {
-    int r = reinterpret_cast<::FUN_00cb1930_t *>(&(m_sub9c))->LookupHashEntry(a1, -1);
+    intptr_t r = reinterpret_cast<::FUN_00cb1930_t *>(&(m_sub9c))->LookupHashEntry(a1, -1);
     if (r != -1)
     {
         return r;
     }
     S00dbddc0_Node* n = apStartNode;
-    int iKey = ((int)(reinterpret_cast<::FnvClassNameNode *>((n))->FUN_00d46d40()));
+    intptr_t iKey = ((intptr_t)(reinterpret_cast<::FnvClassNameNode *>((n))->FUN_00d46d40()));
     r = reinterpret_cast<::hkObjectD878 *>(&(m_suba8))->GetValue(iKey, -1);
     if (r != -1)
     {
@@ -929,7 +932,7 @@ int S00dbddc0_cls::FUN_00dbddc0(int a1, S00dbddc0_Node* apStartNode, int a3)
         {
             return reinterpret_cast<::hkStringPoolXdbdd40 *>(this)->GetOrAddString((const char *)(a3));
         }
-        iKey = ((int)(reinterpret_cast<::FnvClassNameNode *>((n))->FUN_00d46d40()));
+        iKey = ((intptr_t)(reinterpret_cast<::FnvClassNameNode *>((n))->FUN_00d46d40()));
         r = reinterpret_cast<::hkObjectD878 *>(&(m_suba8))->GetValue(iKey, -1);
     } while (r == -1);
     return r;
@@ -974,8 +977,8 @@ extern void* DAT_011b7ae8;
 
 struct Class_00dbe680
 {
-    int unk00;
-    int unk04;
+    intptr_t unk00;
+    intptr_t unk04;
     int unk08;
     int unk0C;
     int unk10;
@@ -1009,14 +1012,14 @@ struct Class_00dbe680
     int unk80;
     int unk84;
     int unk88;
-    int m_8c;
-    int m_90;
+    intptr_t m_8c;
+    intptr_t m_90;
 
-    void FUN_00dbe150(int a1, void* a2, S00dbe680_A3* a3, int a4, void* a5);
+    void FUN_00dbe150(intptr_t a1, void* a2, S00dbe680_A3* a3, intptr_t a4, void* a5);
     void FUN_00dbe680(int a1, S00dbe680_A2* a2, S00dbe680_A3* a3, int a4);
 };
 
-__declspec(noinline) void Class_00dbe680::FUN_00dbe150(int a1, void* a2, S00dbe680_A3* a3, int a4, void* a5)
+__declspec(noinline) void Class_00dbe680::FUN_00dbe150(intptr_t a1, void* a2, S00dbe680_A3* a3, intptr_t a4, void* a5)
 {
     unk00 = a1;
     unk04 = a4;
@@ -1037,7 +1040,7 @@ void Class_00dbe680::FUN_00dbe680(int a1, S00dbe680_A2* a2, S00dbe680_A3* a3, in
     }
     FUN_00dbe150(a1, target, a3, a4, DAT_011b7ae8);
     m_8c = reinterpret_cast<::FUN_00cb1930_t *>(&(m_hashTable))->LookupHashEntry(a1, -1);
-    m_90 = reinterpret_cast<::FUN_00cb1930_t *>(&(m_hashTable))->LookupHashEntry((int)target, -1);
+    m_90 = reinterpret_cast<::FUN_00cb1930_t *>(&(m_hashTable))->LookupHashEntry((intptr_t)target, -1);
 }
 }  // namespace fnv_00dbe680
 
@@ -1051,19 +1054,19 @@ struct SgE150
 };
 struct FUN_00cb18f0_t
 {
-    int unk00;
+    void* unk00;
     int unk04;
     int unk08;
-    int FindSlot(int key);
-    __forceinline void insert(void* key, int value)
+    intptr_t FindSlot(intptr_t key);
+    __forceinline void insert(void* key, intptr_t value)
     {
         SgE150* sg = (SgE150*)FUN_00c85750();
-        reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(this)->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(sg->allocator)), (int)key, value);
+        reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(this)->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(sg->allocator)), (intptr_t)key, value);
     }
 };
 struct MapB8E150
 {
-    int unk00;
+    intptr_t unk00;
     int unk04;
     int unk08;
     FUN_00cb18f0_t indices;
@@ -1074,6 +1077,11 @@ struct PairE150
 {
     void* key;
     void* value;
+};
+struct MultiMapEntryE150
+{
+    int value;
+    int next;
 };
 struct PairListE150
 {
@@ -1124,7 +1132,7 @@ struct LogObjE150
     virtual void v2();
     virtual int v3(int a, int magic, const char* buf, const char* f, int line);
 };
-extern int DAT_011b7aec;
+extern intptr_t DAT_011b7aec;
 extern const char DAT_010d6734;
 extern const char DAT_010d6760;
 extern const char DAT_010d67a8;
@@ -1311,11 +1319,11 @@ struct OwnerE150
 void OwnerE150::FUN_00dbe150(void* apKey, void* a2, void* a3, void* a4, void* a5)
 {
     FUN_00cb18f0_t* pMap = &map14;
-    if (pMap->FindSlot((int)apKey) <= pMap->unk08)
+    if (pMap->FindSlot((intptr_t)apKey) <= pMap->unk08)
     {
         return;
     }
-    void* result = (void*)FUN_00dbd9f0((DbFirst*)a2, (DbSecond*)a3, (unsigned int)apKey);
+    void* result = (void*)FUN_00dbd9f0((DbFirst*)a2, (DbSecond*)a3, (uintptr_t)apKey);
     if (result)
     {
         void* pResolvedKey = apKey;
@@ -1332,7 +1340,7 @@ void OwnerE150::FUN_00dbe150(void* apKey, void* a2, void* a3, void* a4, void* a5
             }
             if (apKey != pResolvedKey)
             {
-                if (pMap->FindSlot((int)pResolvedKey) <= pMap->unk08)
+                if (pMap->FindSlot((intptr_t)pResolvedKey) <= pMap->unk08)
                 {
                     return;
                 }
@@ -1341,9 +1349,9 @@ void OwnerE150::FUN_00dbe150(void* apKey, void* a2, void* a3, void* a4, void* a5
             if (pResolvedKey != apKey)
             {
                 pMap->insert(pResolvedKey, unk0c);
-                map58.insert(pResolvedKey, (int)apKey);
+                map58.insert(pResolvedKey, (intptr_t)apKey);
             }
-            reinterpret_cast<::S00dbde40_Obj *>(this)->FUN_00dbde40((int)(pResolvedKey), (int)(pResolvedValue), (int)(apKey), (int)(a2), (int)(a5));
+            reinterpret_cast<::S00dbde40_Obj *>(this)->FUN_00dbde40((intptr_t)(pResolvedKey), (intptr_t)(pResolvedValue), (intptr_t)(apKey), (intptr_t)(a2), (intptr_t)(a5));
             BufObjE150 buf;
             new ((void *)&(buf)) ::FUN_00dbd870();
             FUN_00dbdb10(pResolvedKey, pResolvedValue, &buf);
@@ -1361,20 +1369,20 @@ void OwnerE150::FUN_00dbe150(void* apKey, void* a2, void* a3, void* a4, void* a5
                         if (e->m0c)
                         {
                             FUN_00cb18f0_t* map9cp = &map9c;
-                            if (map9cp->FindSlot((int)k1) > map9cp->unk08)
+                            if (map9cp->FindSlot((intptr_t)k1) > map9cp->unk08)
                             {
-                                int code = reinterpret_cast<::hkStringPoolXdbdd40 *>((((FUN_00dbdd40_s*)this)))->GetOrAddString((const char *)((int)a5));
-                                int iValue = reinterpret_cast<::FUN_00cb1930_t *>((map9cp))->LookupHashEntry((int)pResolvedKey, code);
+                                int code = reinterpret_cast<::hkStringPoolXdbdd40 *>((((FUN_00dbdd40_s*)this)))->GetOrAddString((const char *)((intptr_t)a5));
+                                intptr_t iValue = reinterpret_cast<::FUN_00cb1930_t *>((map9cp))->LookupHashEntry((intptr_t)pResolvedKey, code);
                                 map9cp->insert(k1, iValue);
                             }
                         }
-                        reinterpret_cast<::fnv_00dbe680::Class_00dbe680 *>(this)->FUN_00dbe150((int)(k1), k2, (::fnv_00dbe680::S00dbe680_A3 *)(a3), (int)(a4), a5);
+                        reinterpret_cast<::fnv_00dbe680::Class_00dbe680 *>(this)->FUN_00dbe150((intptr_t)(k1), k2, (::fnv_00dbe680::S00dbe680_A3 *)(a3), (intptr_t)(a4), a5);
                         if (pResolvedKey != k1)
                         {
-                            int tmp = reinterpret_cast<::FUN_00cb1930_t *>((pMap))->LookupHashEntry((int)k1, -1);
+                            intptr_t tmp = reinterpret_cast<::FUN_00cb1930_t *>((pMap))->LookupHashEntry((intptr_t)k1, -1);
                             if (tmp != -1)
                             {
-                                reinterpret_cast<::OwnerDC9E *>(&(mapb8))->FUN_00dc9ec0((unsigned long)(pResolvedKey), (const ::KeyDC9E *)(int *)(&tmp));
+                                reinterpret_cast<::OwnerDC9E *>(&(mapb8))->FUN_00dc9ec0((uintptr_t)(pResolvedKey), (const ::KeyDC9E *)(int *)(&tmp));
                             }
                         }
                     }
@@ -1382,7 +1390,7 @@ void OwnerE150::FUN_00dbe150(void* apKey, void* a2, void* a3, void* a4, void* a5
                     iOffset += 0x10;
                 } while (idx < buf.m_uiItemCount);
             }
-            reinterpret_cast<::fnv_00dbe680::Class_00dbe680 *>(this)->FUN_00dbe150((int)(pResolvedValue), (void*)&(*reinterpret_cast<char *>(&::g_0126cae8)), (::fnv_00dbe680::S00dbe680_A3 *)(a3), (int)(a4), (void*)DAT_011b7aec);
+            reinterpret_cast<::fnv_00dbe680::Class_00dbe680 *>(this)->FUN_00dbe150((intptr_t)(pResolvedValue), (void*)&(*reinterpret_cast<char *>(&::g_0126cae8)), (::fnv_00dbe680::S00dbe680_A3 *)(a3), (intptr_t)(a4), (void*)DAT_011b7aec);
             reinterpret_cast<::FUN_00e028e0 *>(&(buf))->FUN_00e028e0::~FUN_00e028e0();
         }
         else
@@ -1414,12 +1422,256 @@ void OwnerE150::FUN_00dbe150(void* apKey, void* a2, void* a3, void* a4, void* a5
 
 __declspec(noinline) void MapB8E150::FUN_00dc9ec0(void* a, int* b)
 {
-    int oldIndex = reinterpret_cast<::FUN_00cb1930_t *>(&(indices))->LookupHashEntry((int)a, -1);
+    intptr_t oldIndex = reinterpret_cast<::FUN_00cb1930_t *>(&(indices))->LookupHashEntry((intptr_t)a, -1);
     int index = AllocateSlot();
-    PairE150* entries = (PairE150*)unk00;
-    entries[index].key = (void*)*b;
-    entries[index].value = (void*)oldIndex;
+    MultiMapEntryE150* entries = (MultiMapEntryE150*)unk00;
+    entries[index].value = *b;
+    entries[index].next = (int)oldIndex;
     indices.insert(a, index);
+}
+
+
+struct TaggedName
+{
+    const char* tagged;
+    const char* text() const
+    {
+        return (const char*)((uintptr_t)tagged & ~1u);
+    }
+};
+struct RigidBody
+{
+    int field00, field04, field08, field0c, field10, field14, field18, field1c;
+    int field20, field24, field28, field2c, field30, field34, field38, field3c;
+    int field40, field44, field48, field4c, field50, field54, field58, field5c;
+    int field60, field64, field68, field6c, field70;
+    TaggedName name;
+};
+struct Constraint
+{
+    int field00, field04, field08, field0c, field10;
+    RigidBody* bodyA;
+    RigidBody* bodyB;
+};
+struct Bone
+{
+    TaggedName name;
+    int lockTranslation;
+};
+struct Skeleton
+{
+    int field00, field04, field08;
+    short* parents;
+    int field10, field14;
+    Bone* bones;
+    int boneCount;
+};
+struct Allocator
+{
+    virtual void ReportDiagnostic();
+    virtual void* allocate(int) throw();
+    virtual void unused2();
+    virtual void FlushUsageData();
+    virtual void deallocate(void*, int) throw();
+};
+struct StackRouter
+{
+    void* top;
+    int field04, field08, field0c;
+    Allocator* heap;
+};
+inline StackRouter* router()
+{
+    return (StackRouter*)FUN_00c85750();
+}
+
+template <class T> struct Array
+{
+    T* data;
+    int size;
+    int capacity;
+    void ClearAndRelease(Allocator& alloc)
+    {
+        size = 0;
+        if ((capacity & (int)0x80000000) == 0)
+            alloc.deallocate(data, (capacity & 0x3fffffff) * sizeof(T));
+        data = 0;
+        capacity = 0x80000000;
+    }
+    ~Array()
+    {
+        ClearAndRelease(*::router()->heap);
+    }
+};
+template <class T> struct LocalArray : Array<T>
+{
+    T* initial;
+    LocalArray(int count) throw()
+    {
+        data = 0;
+        size = 0;
+        capacity = 0x80000000;
+        StackRouter* router = ::router();
+        T* allocated = (T*)router->top;
+        router->top = (char*)allocated + ((count * sizeof(T) + 127) & ~127);
+        data = allocated;
+        capacity = count | 0x80000000;
+        initial = allocated;
+    }
+    void clear()
+    {
+        size = 0;
+    }
+    T* getInitial() const
+    {
+        return initial;
+    }
+    static void resetStack(T* p)
+    {
+        ::router()->top = p;
+    }
+    static void resetStackRef(T* const& p)
+    {
+        ::router()->top = p;
+    }
+    ~LocalArray() throw()
+    {
+        if (initial == data)
+            clear();
+        resetStack(initial);
+    }
+    void AddBack(T value) throw()
+    {
+        StackRouter* router = ::router();
+        if (size == (capacity & 0x3fffffff))
+            ::ResizeAudioStream((::AudioAllocator *)(router->heap), (::AudioStream *)(void *)(this), sizeof(T));
+        data[size++] = value;
+    }
+};
+struct Message
+{
+    int field00, field04, field08;
+    Message(char* buffer, int size) throw()
+    {
+        new ((void *)this) ::FUN_00cb1600(buffer, size);
+    }
+};
+struct Ragdoll
+{
+    void* vtable;
+    unsigned short allocationSize;
+    unsigned short references;
+};
+struct ErrorReporter
+{
+    virtual void ReportDiagnostic();
+    virtual void unused1();
+    virtual void unused2();
+    virtual void report(int, unsigned int, const char*, const char*, int) throw();
+};
+
+// @fnv 0x00cea810
+Ragdoll* __cdecl FUN_00cea810(Skeleton* skeleton, const Array<RigidBody*>& bodies,
+                              const Array<Constraint*>& constraints)
+{
+    int count = skeleton->boneCount;
+    LocalArray<RigidBody*> matchedBodies(count);
+    LocalArray<Constraint*> matchedConstraints(count - 1);
+    LocalArray<int> boneToBody(count);
+    char buffer[512];
+    bool missingName = false;
+    for (int i = 0; i < count; ++i)
+    {
+        Bone& bone = skeleton->bones[i];
+        short parent = skeleton->parents[i];
+        if (!(bone.name.text()))
+        {
+            missingName = true;
+            break;
+        }
+        RigidBody* body = 0;
+        for (int j = 0; j < bodies.size; ++j)
+        {
+            RigidBody* candidate = bodies.data[j];
+            const char* name = candidate->name.text();
+            if (name && ::fnv_00cb0fa0::FUN_00cb0fa0(name, bone.name.text()) == 0)
+            {
+                if (!body)
+                    body = candidate;
+                else
+                {
+                    Message message(buffer, 512);
+                    reinterpret_cast<::SinkOwner *>((((::Message *)(reinterpret_cast<::SinkOwner *>(&(message))->FUN_00cc01c0("Some RBS have duplicated names : ")))))->FUN_00cc01c0((const char*)name);
+                    DAT_01268360->report(1, 0xabba98aa, buffer, ".\\Utils\\hkaRagdollUtils.cpp", 0x26b);
+                    reinterpret_cast<struct ::FUN_00cc00e0 *>(&(message))->FUN_00cc00e0::~FUN_00cc00e0();
+                }
+            }
+        }
+        if (!body)
+        {
+            boneToBody.AddBack(-1);
+            continue;
+        }
+        boneToBody.AddBack(matchedBodies.size);
+        matchedBodies.AddBack(body);
+        if (parent == -1)
+            continue;
+        RigidBody* parentBody = matchedBodies.data[boneToBody.data[parent]];
+        Constraint* constraint = 0;
+        for (int j = 0; j < constraints.size; ++j)
+        {
+            Constraint* candidate = constraints.data[j];
+            RigidBody* a = candidate->bodyA;
+            RigidBody* b = candidate->bodyB;
+            if (a == body && b == parentBody)
+            {
+                if (!constraint)
+                    constraint = candidate;
+                else
+                {
+                    Message message(buffer, 512);
+                    reinterpret_cast<::SinkOwner *>((((::Message *)(reinterpret_cast<::SinkOwner *>((((::Message *)(reinterpret_cast<::SinkOwner *>((((::Message *)(reinterpret_cast<::SinkOwner *>(&(message))->FUN_00cc01c0("Found more than one constraint between rigid bodies ")))))->FUN_00cc01c0((const char*)(a->name.text()))))))->FUN_00cc01c0(" and ")))))->FUN_00cc01c0((const char*)(b->name.text()));
+                    DAT_01268360->report(1, 0xabba82ff, buffer, ".\\Utils\\hkaRagdollUtils.cpp", 0x291);
+                    reinterpret_cast<struct ::FUN_00cc00e0 *>(&(message))->FUN_00cc00e0::~FUN_00cc00e0();
+                }
+            }
+        }
+        if (!constraint)
+        {
+            Message message(buffer, 512);
+            reinterpret_cast<::AttributeFormatter *>((((::Message *)(reinterpret_cast<::SinkOwner *>(&(message))->FUN_00cc01c0("Couldn't find constraint for bone : ")))))->WriteName((::NameReference *)(&bone));
+            DAT_01268360->report(1, 0xabba9f9f, buffer, ".\\Utils\\hkaRagdollUtils.cpp", 0x298);
+            reinterpret_cast<struct ::FUN_00cc00e0 *>(&(message))->FUN_00cc00e0::~FUN_00cc00e0();
+            return 0;
+        }
+        matchedConstraints.AddBack(constraint);
+    }
+    if (missingName)
+    {
+        {
+            Message message(buffer, 512);
+            reinterpret_cast<::SinkOwner *>(&(message))->FUN_00cc01c0("Some bones have no name - can't create rag doll");
+            DAT_01268360->report(1, 0xabbae6a2, buffer, ".\\Utils\\hkaRagdollUtils.cpp", 0x2a3);
+            reinterpret_cast<struct ::FUN_00cc00e0 *>(&(message))->FUN_00cc00e0::~FUN_00cc00e0();
+        }
+        return 0;
+    }
+    if (!matchedBodies.size)
+    {
+        Message message(buffer, 512);
+        reinterpret_cast<::SinkOwner *>(&(message))->FUN_00cc01c0("Skeleton has no associated rigid bodies - can't create rag doll");
+        DAT_01268360->report(1, 0xabbae6e4, buffer, ".\\Utils\\hkaRagdollUtils.cpp", 0x2aa);
+        reinterpret_cast<struct ::FUN_00cc00e0 *>(&(message))->FUN_00cc00e0::~FUN_00cc00e0();
+        return 0;
+    }
+    {
+        Ragdoll* result = (Ragdoll*)::router()->heap->allocate(0x30);
+        result->allocationSize = 0x30;
+        result = ((::Ragdoll *)(new ((void *)(result)) ::FUN_00ce2510((intptr_t)(&matchedBodies), (intptr_t)(&matchedConstraints), (intptr_t)(skeleton), (::ObjectArray<int> *)(::Array<int> *)(&boneToBody))));
+        return result;
+    }
+
+    return 0;
 }
 
 #include "generated/data/havok/common/serialize/packfile/hkpackfilewriter.inc"

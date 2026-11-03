@@ -2,6 +2,8 @@
 // src/havok/common/base/types/geometry/localframe/hklocalframeclass.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/types/geometry/localframe/hklocalframeclass.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
+#include <cstdint>
 #include "fnv/decl/FUN_00df67d0.h"
 #include "fnv/symbols_00cb0000.h"
 #include "fnv/symbols_0102e000.h"
@@ -17,13 +19,12 @@ struct FUN_00da0860_manager
 };
 struct BSAudio
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     FUN_00da0860_manager* unk10;
 };
-BSAudio* FUN_00c85750();
 struct FUN_00da0860_class : FUN_00df67d0_Base
 {
     unsigned short unk04;
@@ -35,7 +36,7 @@ FUN_00da0860_class* FUN_00da0860_class::FUN_00da0860(unsigned int flags)
     reinterpret_cast<::FUN_00df67d0 *>(this)->FUN_00df67d0::~FUN_00df67d0();
     if (flags & 1)
     {
-        BSAudio* audio = FUN_00c85750();
+        BSAudio* audio = static_cast<BSAudio*>(::FUN_00c85750());
         audio->unk10->FUN_00da0860_release(this, unk04);
     }
     return this;
@@ -68,7 +69,7 @@ struct DA0890Object
     int unk58;
     int unk5C;
     int unk60;
-    unsigned int m_taggedPointer;
+    uintptr_t m_taggedPointer;
 
     void* GetUntaggedPointer() const;
 };
@@ -85,7 +86,6 @@ struct FUN_00cb0c00_class
 {
 };
 
-BSAudio* FUN_00c85750();
 
 struct SomeClass
 {
@@ -98,11 +98,11 @@ struct SomeClass
 // @fnv 0x00da0800
 void* SomeClass::FUN_00da0800(unsigned int flags)
 {
-    ::FUN_00cb0c00((int)(((FUN_00cb0c00_class*)((char*)this + 8))));
+    ::FUN_00cb0c00((intptr_t)(((FUN_00cb0c00_class*)((char*)this + 8))));
     this->vptr = (void*)&(*reinterpret_cast<int *>(&::DAT_0102e388));
     if (flags & 1)
     {
-        BSAudio* a = FUN_00c85750();
+        BSAudio* a = static_cast<BSAudio*>(::FUN_00c85750());
         unsigned short d = this->unk04;
         ((FUN_00da0860_manager*)a->unk10)->FUN_00da0860_release(this, d);
     }

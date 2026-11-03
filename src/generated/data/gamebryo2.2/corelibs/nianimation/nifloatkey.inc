@@ -4,3 +4,7 @@
 
 float g_fDefaultValueA26;
 bool g_bA26E20Registered;
+int DAT_011f3b70;
+int DAT_011f3c00;
+int DAT_011f3c90;
+int DAT_011f3d20;

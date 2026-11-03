@@ -69,46 +69,53 @@ unsigned int NiD3DHLSLPixelShader::FUN_00e96d10()
     return m_pShaderConstantTable->GetDesc(&kDesc) < 0 ? 0 : kDesc.Constants;
 }
 
+struct D3DXConstantDesc00e96d40
+{
+    const char* Name;
+    unsigned int RegisterSet;
+    unsigned int RegisterIndex;
+    unsigned int RegisterCount;
+    unsigned int Class;
+    unsigned int Type;
+    unsigned int Rows;
+    unsigned int Columns;
+    unsigned int Elements;
+    unsigned int StructMembers;
+    unsigned int Bytes;
+    const void* DefaultValue;
+};
+struct FakeConstantTable00e96d40
+{
+    virtual long F0();
+    virtual long F1();
+    virtual long F2();
+    virtual long F3();
+    virtual long F4();
+    virtual long F5();
+    virtual long GetConstantDesc(const char* hConstant, D3DXConstantDesc00e96d40* pDesc, unsigned int* pCount);
+    virtual long F7();
+    virtual const char* GetConstant(const char* hConstant, unsigned int uiIndex);
+};
 struct FUN_00e96d40_Class
 {
     char _pad00[0x38];
-    void* m_pShaderConstantTable;
-    unsigned int FUN_00e96d40(unsigned int a);
+    FakeConstantTable00e96d40* m_pShaderConstantTable;
+    const char* FUN_00e96d40(unsigned int a);
 };
 
-struct FUN_00e96d40_Out
-{
-    unsigned int u0;
-    unsigned int u1;
-    unsigned int u2;
-    unsigned int u3;
-    unsigned int u4;
-    unsigned int u5;
-    unsigned int u6;
-    unsigned int u7;
-    unsigned int u8;
-    unsigned int u9;
-    unsigned int u10;
-    unsigned int u11;
-};
-
-typedef unsigned int(* FNC_F20)(void*, void*, unsigned int, unsigned int);
-typedef long(* FNC_F18)(void*, void*, unsigned int, unsigned int*, unsigned int&);
-
+// Returns the name of the shader constant at index a, or null.
 // @fnv 0x00e96d40
-unsigned int FUN_00e96d40_Class::FUN_00e96d40(unsigned int a)
+const char* FUN_00e96d40_Class::FUN_00e96d40(unsigned int a)
 {
-    FUN_00e96d40_Out out;
-    unsigned int r1 = (*(FNC_F20*)((char*)(unsigned int)*(int*)m_pShaderConstantTable + 0x20))(
-        (void*)(unsigned int)*(int*)m_pShaderConstantTable, m_pShaderConstantTable, 0u, a);
-    if (r1 == 0)
-        return 0;
-    a = 1u;
-    long lResult = (*(FNC_F18*)((char*)(unsigned int)*(int*)m_pShaderConstantTable + 0x18))(
-        (void*)(unsigned int)*(int*)m_pShaderConstantTable, m_pShaderConstantTable, r1, &out.u0, a);
-    if (lResult < 0 || a == 0)
-        return 0;
-    return out.u0;
+    D3DXConstantDesc00e96d40 out;
+    const char* hConstant = m_pShaderConstantTable->GetConstant(nullptr, a);
+    if (hConstant == nullptr)
+        return nullptr;
+    unsigned int uiCount = 1;
+    long lResult = m_pShaderConstantTable->GetConstantDesc(hConstant, &out, &uiCount);
+    if (lResult < 0 || uiCount == 0)
+        return nullptr;
+    return out.Name;
 }
 
 struct FUN_00e898d0_shell
@@ -2946,5 +2953,4 @@ bool Player::FUN_00e96da0(Entry* entry, intptr_t arg, int extra)
     return ok;
 }
 }  // namespace fnv_00e96da0
-
 #include "generated/data/gamebryo2.2/corelibs/niconsolerenderer/nid3dhlslpixelshader.inc"

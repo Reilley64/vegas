@@ -114,7 +114,7 @@ static const char s_sz67[] = "BSBlendTreadTransfInterpolator";
 static const char s_sz68[] = "BSMultiTargetTreadTransfController";
 static const char s_sz69[] = "BSFrustumFOVController";
 static const char s_sz70[] = "NiVisData";
-extern const char g_szShutdownEnd[] = "";
+static const char g_szShutdownEnd[] = "";
 
 // @fnv 0x00a2de70
 void __cdecl ShutdownAnimationClasses()

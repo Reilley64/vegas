@@ -11,3 +11,15 @@ const double DAT_010d3688 = -8192.0;
 const float DAT_010d3690 = 8191.0f;
 const double DAT_010d3698 = 8191.0;
 int DAT_01268370;
+#pragma comment(linker, "/alternatename:?DAT_0104da4c@@3MA=?DAT_0104da4c@@3MB")
+#pragma comment(linker, "/alternatename:?DAT_010c44d0@@3T__m128@@A=?DAT_010c44d0@@3T__m128@@B")
+#pragma comment(linker, "/alternatename:?DAT_010c7160@@3T__m128@@B=?DAT_010c7160@@3T__m128@@A")
+#pragma comment(linker, "/alternatename:?DAT_010c7170@@3T__m128@@B=?DAT_010c7170@@3T__m128@@A")
+
+const char str_010c1a98[3] = "%u";
+const char str_010d35f0[105] = "d:\\build\\20091222_000100_AiAnBeClDePh\\Source\\Common/Internal/GeometryProcessing/hkGeometryProcessing.inl";
+const char str_010d365c[43] = "Item does not belong to the pool allocator";
+const char str_010d36ec[15] = "Internal error";
+const char str_010d36fc[27] = "Failed to generate samples";
+const char str_010d3718[26] = "Input domain out of range";
+const char str_010d37a8[45] = "Operation not implemented for that dimension";

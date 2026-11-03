@@ -259,10 +259,10 @@ class hkMemoryAllocatorE05B;
 
 struct hkMemoryRouterE05B
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     hkMemoryAllocatorE05B* m_pStreamAllocator;
 
     hkMemoryAllocatorE05B& heap()
@@ -272,7 +272,6 @@ struct hkMemoryRouterE05B
 };
 
 namespace hkRouterE05B {
-extern "C" hkMemoryRouterE05B& __cdecl FUN_00c85750() throw();
 }
 
 class hkRefObjE05B
@@ -312,7 +311,7 @@ FUN_00e05b40::FUN_00e05b40(void* data, int size, int external) throw()
     m_external = external;
     if (!external)
     {
-        m_data = ::AllocateWithHeader((::FUN_00c85690_Allocator *)&(hkRouterE05B::FUN_00c85750().heap()), size);
+        m_data = ::AllocateWithHeader((::FUN_00c85690_Allocator *)&((*static_cast<hkMemoryRouterE05B*>(::FUN_00c85750())).heap()), size);
         ::FUN_00cb1260(m_data, data, size);
     }
     else
@@ -324,18 +323,17 @@ FUN_00e05b40::FUN_00e05b40(void* data, int size, int external) throw()
 namespace fnv_00e05bb0 {
 struct hkMemoryRouterE05B
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     void* m_pStreamAllocator;
 };
 
-extern "C" hkMemoryRouterE05B* __cdecl FUN_00c85750() throw();
 
 inline void hkDeallocateE05B(void* p)
 {
-    hkMemoryRouterE05B* r = FUN_00c85750();
+    hkMemoryRouterE05B* r = static_cast<hkMemoryRouterE05B*>(::FUN_00c85750());
     ::FUN_00c856c0((::FNV_Dispatch *)(r->m_pStreamAllocator), (char *)(p));
 }
 

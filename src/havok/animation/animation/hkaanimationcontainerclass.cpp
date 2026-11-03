@@ -2,6 +2,8 @@
 // src/havok/animation/animation/hkaanimationcontainerclass.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/animation/hkaanimationcontainerclass.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
+#include <cstddef>
 #include <new>
 #include "fnv/decl/hkReferencedObjectC905.h"
 struct CpuAllocator
@@ -12,13 +14,12 @@ struct CpuAllocator
 };
 struct CpuAllocatorHolder
 {
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     CpuAllocator* allocator;
 };
-CpuAllocatorHolder* __cdecl FUN_00c85750();
 struct CpuObject
 {
     unsigned int unk00;
@@ -33,7 +34,7 @@ CpuObject* CpuObject::FUN_00dfe940(unsigned int flags)
     ReleaseAllBucketsAndReset();
     if (flags & 1)
     {
-        CpuAllocatorHolder* holder = FUN_00c85750();
+        CpuAllocatorHolder* holder = static_cast<CpuAllocatorHolder*>(::FUN_00c85750());
         holder->allocator->Invoke(this, size);
     }
     return this;
@@ -75,7 +76,7 @@ struct CpuVtableHolder
 
 __forceinline static void ReleaseBucket(CpuBucket& b)
 {
-    CpuAllocatorSlots* alloc = reinterpret_cast<CpuAllocatorSlots*>(FUN_00c85750()->allocator);
+    CpuAllocatorSlots* alloc = reinterpret_cast<CpuAllocatorSlots*>(static_cast<CpuAllocatorHolder*>(::FUN_00c85750())->allocator);
     CpuItem** items = b.items;
     int n = b.count;
     for (int i = 0; i < n; ++i)

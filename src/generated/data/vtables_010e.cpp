@@ -13,12 +13,12 @@ extern "C" void fnv_fn_00a4d5f0() __asm__("?FUN_00a4d5f0@@YAXPEAV?$NiTMapItem@IV
 extern "C" void fnv_fn_00a57020() __asm__("?FUN_00a57020@@YADHHH@Z");
 extern "C" void fnv_fn_00a5d2f0() __asm__("?FUN_00a5d2f0@FUN_00a5d2f0_class@@QEAAXPEAUStreamDev@@@Z");
 extern "C" void fnv_fn_00a5d310() __asm__("?FUN_00a5d310@FUN_00a5d310_Class@@QEAAXXZ");
-extern "C" void fnv_fn_00a5d430() __asm__("?FUN_00a5d430@FUN_00a5d430_Class@@QEAAXI@Z");
+extern "C" void fnv_fn_00a5d430() __asm__("?FUN_00a5d430@FUN_00a5d430_Class@@QEAAX_K@Z");
 extern "C" void fnv_fn_00a5d470() __asm__("?IsSameAs@A5d470Class@@UEAA_NPEAUA5d470Object@@@Z");
 extern "C" void fnv_fn_00a5d610() __asm__("?ReadGroup@FUN_00a5d610_Object@@QEAAXPEAUNiStream@@@Z");
 extern "C" void fnv_fn_00a5d6e0() __asm__("?AppendCameraPathEntries@A5D6E0This@@QEAAXPEAV?$NiTArray@PEAUBGSCameraPath@@V?$NiTMallocInterface@PEAUBGSCameraPath@@@@@@@Z");
 extern "C" void fnv_fn_00a63840() __asm__("?FUN_00a63840@FUN_00a63840_Class@@QEAAII@Z");
-extern "C" void fnv_fn_00a89af0() __asm__("?FUN_00a89af0@@YAXH@Z");
+extern "C" void fnv_fn_00a89af0() __asm__("?FUN_00a89af0@@YAX_J@Z");
 extern "C" void fnv_fn_00a8f3e0() __asm__("?FUN_00a8f3e0@@YAHHHHHHHH@Z");
 extern "C" void fnv_fn_00a8f3f0() __asm__("?FUN_00a8f3f0@@YAHHHHHHHHH@Z");
 extern "C" void fnv_fn_00a8f400() __asm__("?FUN_00a8f400@@YAHHHHH@Z");
@@ -402,7 +402,7 @@ extern "C" void fnv_fn_00e6e9b0() __asm__("?FUN_00e6e9b0@FUN_00e6e9b0_shell@fnv_
 extern "C" void fnv_fn_00e6e9f0() __asm__("?FUN_00e6e9f0@NiTMapBaseStub@fnv_00e6e9f0@@QEAAPEAXI@Z");
 extern "C" void fnv_fn_00e6ea30() __asm__("?FUN_00e6ea30@FUN_00e6ea30_shell@fnv_00e6ea30@@QEAAPEAXI@Z");
 extern "C" void fnv_fn_00e6ea70() __asm__("?FUN_00e6ea70@Map_e6ea70@@QEAAPEAXI@Z");
-extern "C" void fnv_fn_00e6eab0() __asm__("?DestroyMap@FUN_00e6eab0_shell@@QEAAHH@Z");
+extern "C" void fnv_fn_00e6eab0() __asm__("?DestroyMap@FUN_00e6eab0_shell@@QEAA_JH@Z");
 extern "C" void fnv_fn_00e6eb30() __asm__("?FUN_00e6eb30@FUN_00e6eb30_shell@fnv_00e6eb30@@QEAAPEAXI@Z");
 extern "C" void fnv_fn_00e6eba0() __asm__("?FUN_00e6eba0@FUN_00e6eba0_holder@fnv_00e6eba0@@QEAAPEAXI@Z");
 extern "C" void fnv_fn_00e6ebe0() __asm__("?FUN_00e6ebe0@Unknown00e6ebe0@fnv_00e6ebe0@@QEAAPEAXI@Z");
@@ -528,7 +528,7 @@ extern "C" void fnv_fn_00e898d0() __asm__("?FUN_00e898d0@FUN_00e898d0_shell@@QEA
 extern "C" void fnv_fn_00e899a0() __asm__("?FUN_00e899a0@FUN_00e899a0_shell@fnv_00e899a0@@QEAA_NPEAUNiShaderConstantMapEntry@2@PEBXI@Z");
 extern "C" void fnv_fn_00e89a40() __asm__("?FUN_00e89a40@S_00e89a40_Shell@@QEAA_NPEAUS_00e89a40_Data@@PEAXIIPEBG@Z");
 extern "C" void fnv_fn_00e89ac0() __asm__("?FUN_00e89ac0@FUN_00e89ac0_Class@@QEAAXXZ");
-extern "C" void fnv_fn_00e89ad0() __asm__("?FUN_00e89ad0@@YAXH@Z");
+extern "C" void fnv_fn_00e89ad0() __asm__("?FUN_00e89ad0@@YAX_J@Z");
 extern "C" void fnv_fn_00e89ba0() __asm__("?UploadConstants@NiD3DShaderProgramLike@@QEAA_NPEAUNiShaderConstantMapEntry@@PEBXI@Z");
 extern "C" void fnv_fn_00e89c70() __asm__("?SetShaderConstantF@CE89C70ShaderProgram@@QEAA_NPEAUCE89C70ShaderConstant@@PEBMIIPEBG@Z");
 extern "C" void fnv_fn_00e8a120() __asm__("?InitFromTexture@TextureInfo@@QEAA_NPEAUBaseTex@@@Z");
@@ -543,9 +543,9 @@ extern "C" void fnv_fn_00e8ce70() __asm__("?FUN_00e8ce70@FUN_00e8ce70_Class@@QEA
 extern "C" void fnv_fn_00e8d200() __asm__("?FUN_00e8d200@FUN_00e8ceb0_Class@@QEAAPEAX_N@Z");
 extern "C" void fnv_fn_00e8d230() __asm__("?EnsureInitialized@FUN_00e8d230_shell@@QEAADH@Z");
 extern "C" void fnv_fn_00e8d250() __asm__("?FUN_00e8d250@@YAIPEAX000000@Z");
-extern "C" void fnv_fn_00e8d260() __asm__("?FUN_00e8d260@FragHost@@QEAAHIIPEAURec24@@IIIII@Z");
+extern "C" void fnv_fn_00e8d260() __asm__("?FUN_00e8d260@FragHost@@QEAAH_K0PEAURec24@@00000@Z");
 extern "C" void fnv_fn_00e8d2e0() __asm__("?FUN_00e8d2e0@@YAXXZ");
-extern "C" void fnv_fn_00e8d2f0() __asm__("?FUN_00e8d2f0@@YAHXZ");
+extern "C" void fnv_fn_00e8d2f0() __asm__("?FUN_00e8d2f0@@YA_JXZ");
 extern "C" void fnv_fn_00e8d300() __asm__("?FUN_00e8d300@@YAXXZ");
 extern "C" void fnv_fn_00e8d310() __asm__("?FUN_00e8d310@@YAXXZ");
 extern "C" void fnv_fn_00e8d320() __asm__("?FUN_00e8d320@@YAXXZ");

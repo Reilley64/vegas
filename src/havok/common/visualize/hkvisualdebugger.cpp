@@ -2,7 +2,12 @@
 // src/havok/common/visualize/hkvisualdebugger.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/visualize/hkvisualdebugger.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <cstddef>
+#include "fnv/symbols_00c85000.h"
+#include "fnv/symbols_00ccf000.h"
+#include "fnv/symbols_0104d000.h"
+#include <math.h>
 #include <new>
 #include "fnv/decl/CC0280Writer.h"
 #include "fnv/decl/FUN_00c90510_class.h"
@@ -393,13 +398,12 @@ struct FUN_00cd12e0_array
 };
 struct FUN_00cd12e0_router
 {
-    unsigned int m_iWordAt00;
-    unsigned int m_iWordAt04;
-    unsigned int m_8;
-    unsigned int m_iThirdValue;
+    void* m_iWordAt00;
+    void* m_iWordAt04;
+    void* m_8;
+    void* m_iThirdValue;
     void* heap;
 };
-FUN_00cd12e0_router* FUN_00c85750();
 struct FUN_00cd12e0_owner
 {
     void FUN_00cd12e0();
@@ -408,7 +412,7 @@ struct FUN_00cd12e0_owner
 void FUN_00cd12e0_owner::FUN_00cd12e0()
 {
     FUN_00cd12e0_array* array = reinterpret_cast<FUN_00cd12e0_array*>(reinterpret_cast<char*>(this) + 0x50);
-    FUN_00cd12e0_router* router = FUN_00c85750();
+    FUN_00cd12e0_router* router = static_cast<FUN_00cd12e0_router*>(::FUN_00c85750());
     if (array->size == (array->capacityFlags & 0x3fffffff))
     {
         ::ResizeAudioStream((::AudioAllocator *)(router->heap), (::AudioStream *)(array), 4);
@@ -423,7 +427,6 @@ void FUN_00cd12e0_owner::FUN_00cd12e0()
 }
 
 namespace fnv_00cd1330 {
-void* FUN_00c85750();
 
 struct Router
 {
@@ -449,7 +452,7 @@ template <typename T> struct hkArray
 
     T& AllocatePair()
     {
-        void* heap = ((Router*)FUN_00c85750())->m_10;
+        void* heap = ((Router*)static_cast<FUN_00cd12e0_router*>(::FUN_00c85750()))->m_10;
         if (m_iElementCount == (m_iCapacityState & 0x3FFFFFFF))
         {
             ::ResizeAudioStream((::AudioAllocator *)(heap), (::AudioStream *)(void *)(this), sizeof(T));
@@ -531,15 +534,14 @@ template <int SIZE> __forceinline void memCpyOneAlignedXcd13c0(void* dst, const 
 
 struct hkMemoryRouterXcd13c0
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     void* m_pStreamAllocator;
 };
 
 namespace hkRouterXcd13c0 {
-extern "C" hkMemoryRouterXcd13c0& __cdecl FUN_00c85750() throw();
 }
 
 template <class T> class hkArrayXcd13c0
@@ -555,7 +557,7 @@ template <class T> class hkArrayXcd13c0
     }
     __forceinline void AddBack(const T& e)
     {
-        hkMemoryRouterXcd13c0& router = hkRouterXcd13c0::FUN_00c85750();
+        hkMemoryRouterXcd13c0& router = (*static_cast<hkMemoryRouterXcd13c0*>(::FUN_00c85750()));
         if (m_iElementCount == getCapacity())
             ::ResizeAudioStream((::AudioAllocator *)(router.m_pStreamAllocator), (::AudioStream *)(void *)(this), sizeof(T));
         memCpyOneAlignedXcd13c0<sizeof(T)>(m_data + m_iElementCount, &e);
@@ -597,13 +599,12 @@ struct hkMemoryRouterCD17
 };
 
 namespace fnvc_adapt {
-extern "C" hkMemoryRouterCD17& __cdecl FUN_00c85750() throw();
 }
 
 struct ItemCD17
 {
     char unk00[0x38];
-    int m_i38;
+    void* m_i38;
     int m_i3C;
 };
 
@@ -645,9 +646,9 @@ void FUN_00cd1710_C::FUN_00cd1710(SinkCD17* pkSink)
         {
             ItemCD17* pItem = kEntry.m_pInventoryEntryData;
             int iB = pItem->m_i3C;
-            int iA = pItem->m_i38;
+            void* iA = pItem->m_i38;
             int iValue = pkSink->m_i04;
-            reinterpret_cast<::SearchObject *>((pkSink))->Search(fnvc_adapt::(unsigned int)&(const <dependent type> &)(FUN_00c85750().heap()), iValue, iA, iB);
+            reinterpret_cast<::SearchObject *>((pkSink))->Search((uintptr_t)(static_cast<FUN_00cd12e0_router*>(::FUN_00c85750())->heap), iValue, (uintptr_t)iA, iB);
         }
     }
 }
@@ -678,7 +679,7 @@ hkMemoryRouterC19& __cdecl GetMemoryRouterC19() throw();
 template <typename T> __forceinline void DestructC19(T* pArr, int n) throw()
 {
     for (int i = 0; i < n; i++)
-        ::FUN_00cb0c00((int)&(pArr[i]));
+        ::FUN_00cb0c00((intptr_t)&(pArr[i]));
 }
 
 template <typename T> struct hkArrayC19
@@ -939,7 +940,7 @@ struct hkStringPtrCD1
 {
     const char* cString() const
     {
-        return reinterpret_cast<const char*>(reinterpret_cast<unsigned long>(m_pcText) & ~1);
+        return reinterpret_cast<const char*>(reinterpret_cast<uintptr_t>(m_pcText) & ~1);
     }
     const char* m_pcText;
 };
@@ -1125,13 +1126,12 @@ struct Heap_cd14
 };
 struct Router_cd14
 {
-    int unk00, unk04, unk08, unk0C;
+    void* unk00; void* unk04; void* unk08; void* unk0C;
     Heap_cd14* m_pStreamAllocator;
     Heap_cd14& heap()
     {
         return *m_pStreamAllocator;
     }
-    static Router_cd14& __cdecl FUN_00c85750() throw();
 };
 
 template <class T> struct hkArray_cd14
@@ -1141,7 +1141,7 @@ template <class T> struct hkArray_cd14
     int m_iCapacityState;
     __forceinline T& AllocatePair() throw()
     {
-        Heap_cd14& heap = Router_cd14::FUN_00c85750().heap();
+        Heap_cd14& heap = (*static_cast<Router_cd14*>(::FUN_00c85750())).heap();
         int n = m_iElementCount;
         int newSize = n + 1;
         int cap = m_iCapacityState & 0x3fffffff;
@@ -1189,7 +1189,7 @@ struct Process_cd14
     int unk4C;
     static void* operator new(std::size_t nbytes) throw()
     {
-        Process_cd14* p = (Process_cd14*)Router_cd14::FUN_00c85750().heap().AllocateMemoryBlock(nbytes);
+        Process_cd14* p = (Process_cd14*)(*static_cast<Router_cd14*>(::FUN_00c85750())).heap().AllocateMemoryBlock(nbytes);
         p->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return p;
     }
@@ -1223,7 +1223,7 @@ void hkVisualDebuggerCD1::CaptureSimulationState(const char* pcCaptureFilename) 
         {
             unsigned int reportBuf[128];
             hkOstreamCD1 ostr(reportBuf, sizeof(reportBuf));
-            reinterpret_cast<::SinkOwner *>((void *)&(const ::hkOstreamCD1 &)(reinterpret_cast<::SinkOwner *>((void *)&(const ::hkOstreamCD1 &)(reinterpret_cast<::SinkOwner *>((void *)&(const ::hkOstreamCD1 &)(ostr))->FUN_00cc01c0("Capturing simulation state to '")))->FUN_00cc01c0(pcCaptureFilename)))->FUN_00cc01c0("'");
+            reinterpret_cast<::SinkOwner *>((void *)(reinterpret_cast<::SinkOwner *>((void *)(reinterpret_cast<::SinkOwner *>((void *)&(ostr))->FUN_00cc01c0("Capturing simulation state to '")))->FUN_00cc01c0(pcCaptureFilename)))->FUN_00cc01c0("'");
             (*reinterpret_cast<::hkErrorCD1 * *>(&::DAT_01268360))->message(0, -1, (const char*)reportBuf, ".\\hkVisualDebugger.cpp", 125);
         }
         reinterpret_cast<::Server_cd14 *>(this)->AddEntry((const char *)(void *)(0), 0, pkWriter);
@@ -1241,11 +1241,11 @@ void hkVisualDebuggerCD1::CaptureSimulationState(const char* pcCaptureFilename) 
                 kClient.m_pProcessHandler->selectProcess(aiAllocationTag);
             }
         }
-        reinterpret_cast<::FUN_00d61df0_cls *>((void *)&(const ::hkStringBufCD1 &)(kViewerNames))->FUN_00d61df0((int)("]"));
+        reinterpret_cast<::FUN_00d61df0_cls *>((void *)&(kViewerNames))->FUN_00d61df0((intptr_t)("]"));
         {
             unsigned int reportBuf[128];
             hkOstreamCD1 ostr(reportBuf, sizeof(reportBuf));
-            reinterpret_cast<::SinkOwner *>((void *)&(const ::hkOstreamCD1 &)(ostr))->FUN_00cc01c0(kViewerNames.cString());
+            reinterpret_cast<::SinkOwner *>((void *)&(ostr))->FUN_00cc01c0(kViewerNames.cString());
             (*reinterpret_cast<::hkErrorCD1 * *>(&::DAT_01268360))->message(0, -1, (const char*)reportBuf, ".\\hkVisualDebugger.cpp", 147);
         }
     }
@@ -1253,7 +1253,7 @@ void hkVisualDebuggerCD1::CaptureSimulationState(const char* pcCaptureFilename) 
     {
         unsigned int reportBuf[128];
         hkOstreamCD1 ostr(reportBuf, sizeof(reportBuf));
-        reinterpret_cast<::SinkOwner *>((void *)&(const ::hkOstreamCD1 &)(reinterpret_cast<::SinkOwner *>((void *)&(const ::hkOstreamCD1 &)(reinterpret_cast<::SinkOwner *>((void *)&(const ::hkOstreamCD1 &)(ostr))->FUN_00cc01c0("Capture file '")))->FUN_00cc01c0(pcCaptureFilename)))->FUN_00cc01c0("' could not be opened for writing");
+        reinterpret_cast<::SinkOwner *>((void *)(reinterpret_cast<::SinkOwner *>((void *)(reinterpret_cast<::SinkOwner *>((void *)&(ostr))->FUN_00cc01c0("Capture file '")))->FUN_00cc01c0(pcCaptureFilename)))->FUN_00cc01c0("' could not be opened for writing");
         (*reinterpret_cast<::hkErrorCD1 * *>(&::DAT_01268360))->message(0, -1, (const char*)reportBuf, ".\\hkVisualDebugger.cpp", 151);
     }
 
@@ -1577,7 +1577,7 @@ FUN_00cd1780::FUN_00cd1780(const hkArrayC17<hkProcessContextC17*>& kContexts,
     {
         unsigned int reportBuf[128];
         hkOstreamC17 ostr(reportBuf, sizeof(reportBuf));
-        reinterpret_cast<::SinkOwner *>((void *)&(const ::hkOstreamC17 &)(ostr))->FUN_00cc01c0("VDB Server instance has been created");
+        reinterpret_cast<::SinkOwner *>((void *)&(ostr))->FUN_00cc01c0("VDB Server instance has been created");
         (*reinterpret_cast<::hkErrorC17 * *>(&::DAT_01268360))->message(0, -1, (const char*)reportBuf, ".\\hkVisualDebugger.cpp", 0x28);
     }
     ::FUN_00d61420();
@@ -1638,18 +1638,18 @@ struct FUN_00cd1610_cls
     unsigned int unk4c;
     DefaultProcessSlot* m_processes;
     int m_uiItemCount;
-    void FUN_00cd1610(unsigned int wanted);
+    void FUN_00cd1610(uintptr_t wanted);
 };
 // Removes the process slot matching wanted from m_processes, or logs an error via DAT_01268360 if it is not found.
 // @fnv 0x00cd1610
-void FUN_00cd1610_cls::FUN_00cd1610(unsigned int wanted)
+void FUN_00cd1610_cls::FUN_00cd1610(uintptr_t wanted)
 {
     for (int i = 0; i < m_uiItemCount; ++i)
     {
-        unsigned int current = m_processes[i].taggedPtr;
+        uintptr_t current = m_processes[i].taggedPtr;
         if (::fnv_00cb0fa0::FUN_00cb0fa0((const char *)(current & ~1u), (const char *)(wanted)) == 0)
         {
-            ::FUN_00cb0c00((int)&(m_processes[i]));
+            ::FUN_00cb0c00((intptr_t)&(m_processes[i]));
             --m_uiItemCount;
             if (m_uiItemCount != i)
             {
@@ -1667,6 +1667,124 @@ void FUN_00cd1610_cls::FUN_00cd1610(unsigned int wanted)
     reinterpret_cast<struct ::FUN_00cc00e0 *>(&(message))->FUN_00cc00e0::~FUN_00cc00e0();
     (*reinterpret_cast<::fnv_00cd1610::ErrorService * *>(&::DAT_01268360))->V08();
 }
-}  // namespace fnv_00cd1610
+}
+typedef unsigned __int64 TickCount;
+TickCount __cdecl FUN_00d60570();
+TickCount __cdecl FUN_00d60580();
+double __cdecl DivideInt64ToFloat(TickCount, TickCount);
+extern const char DAT_010caf8c[];
+extern const char DAT_010caf48[];
+struct DebugReport
+{
+    virtual void unknown00();
+    virtual void unknown04();
+    virtual void unknown08();
+    virtual void report(int, int, const char*, const char*, int);
+    virtual void unknown10();
+    virtual void unknown14();
+    virtual void unknown18();
+    virtual void begin(unsigned int, const char*);
+    virtual void end();
+};
+struct ClientProcess
+{
+    virtual void unknown00();
+    virtual void unknown04();
+    virtual void unknown08();
+    virtual void unknown0c();
+    virtual bool alive();
+    virtual void unknown14();
+    virtual void step(float);
+};
+struct ClientHandler
+{
+    unsigned int unk00, unk04, unk08;
+    ClientProcess process;
+};
+struct DebugClient
+{
+    void* connection;
+    ClientHandler* handler;
+};
+struct DebuggerReference523
+{
+    virtual void unknown00();
+    virtual void unknown04();
+    virtual void unknown08();
+    virtual void unknown0c();
+    virtual void prepareStep();
+    unsigned short memorySize, referenceCount;
+};
+struct VisualDebugger523 : DebuggerReference523
+{
+    unsigned int unk08, unk0c;
+    DebugClient* clients;
+    int numClients;
+    unsigned int unk18, unk1c, unk20, unk24, unk28, unk2c, unk30, unk34, unk38, unk3c;
+    unsigned int unk40, unk44, unk48, unk4c, unk50, unk54, unk58;
+    bool timingEnabled;
+    unsigned char unk5d, unk5e, unk5f;
+    TickCount startTime, totalTime, frameStart, frameTotal;
+    bool running;
+    unsigned char unk81, unk82, unk83;
+    int numFrames;
+    void FUN_00cd0ec0(float timeStep);
+};
+// @fnv 0x00cd0ec0
+void VisualDebugger523::FUN_00cd0ec0(float timeStep)
+{
+    float stepTime = 16.0f;
+    if (timingEnabled)
+    {
+        TickCount elapsed = totalTime;
+        if (running)
+            elapsed += FUN_00d60570() - startTime;
+        stepTime = (float)(DivideInt64ToFloat(elapsed, FUN_00d60580()) * 1000.0);
+        running = false;
+        TickCount now = FUN_00d60570();
+        totalTime += now - startTime;
+        frameTotal += now - frameStart;
+        ++numFrames;
+    }
+    timingEnabled = true;
+    float magnitude = (float)fabs(timeStep);
+    if (magnitude > 1.1920928955078125e-7f)
+        stepTime = timeStep;
+    prepareStep();
+    for (int index = numClients - 1; index >= 0; --index)
+    {
+        DebugClient* client = &clients[index];
+        if (client->handler->process.alive())
+        {
+            client->handler->process.step(stepTime);
+            reinterpret_cast<::hkOwnerCD0E *>(this)->ActivateEntry(index, stepTime);
+        }
+        ClientHandler* handler = client->handler;
+        if (!handler->process.alive())
+        {
+            (*reinterpret_cast<::DebugReport * *>(&::DAT_01268360))->begin(0x76e3a642, DAT_010caf8c);
+            {
+                char buffer[512];
+                FUN_00cb1600 stream(buffer, 512);
+                reinterpret_cast<::SinkOwner *>(&(stream))->FUN_00cc01c0(DAT_010caf48);
+                (*reinterpret_cast<::DebugReport * *>(&::DAT_01268360))->report(0, -1, buffer, DAT_010cae1c, 0x120);
+            }
+            (*reinterpret_cast<::DebugReport * *>(&::DAT_01268360))->end();
+            reinterpret_cast<::Owner_cd0e *>(this)->RemovePair(index);
+        }
+    }
+    if (timingEnabled)
+    {
+        startTime = 0;
+        totalTime = 0;
+        frameStart = 0;
+        frameTotal = 0;
+        numFrames = 0;
+        running = true;
+        TickCount now = FUN_00d60570();
+        startTime = now;
+        frameStart = startTime;
+    }
+}
 
 #include "generated/data/havok/common/visualize/hkvisualdebugger.inc"

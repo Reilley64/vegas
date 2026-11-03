@@ -5,4 +5,4 @@
 extern "C" void fnv_fn_00dc05b0() __asm__("?WriteAudioObject@@YAHHPEAUCallbackTarget@@H@Z");
 
 int (*DAT_010cf9d4)(SetBlk *, int, int, int) = reinterpret_cast< int (*)(SetBlk *, int, int, int)>(&fnv_fn_00dc05b0);
-int DAT_01269b10;
+intptr_t DAT_01269b10;

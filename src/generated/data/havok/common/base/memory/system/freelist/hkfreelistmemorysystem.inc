@@ -4,4 +4,4 @@
 
 namespace fnv_00cd0b30 { char str_010cadb4 = 61; }
 namespace fnv_00cd0b30 { char str_010cade0 = 104; }
-unsigned int DAT_012686cc;
+uintptr_t DAT_012686cc;

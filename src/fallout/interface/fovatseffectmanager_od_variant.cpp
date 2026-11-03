@@ -226,7 +226,7 @@ struct ExtraLike
 void* FUN_004b5ad0(NiAVObject* p);
 
 // @fnv 0x004b5820
-unsigned int FUN_004b5820(FormLike* form)
+uintptr_t FUN_004b5820(FormLike* form)
 {
     unsigned int result5 = 0;
     if (form)

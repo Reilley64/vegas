@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 class HkVec4;
 struct Aabb16;
@@ -26,7 +27,7 @@ int FUN_00d1b4d0(::S00d1b4d0_Node *, ::S00d1b4d0_Entry *, const ::RealVec &, con
 // 0x00d1b850
 void FUN_00d1b850(::QueryObj *, int, int);
 // 0x00d1b930
-void FUN_00d1b930(::S00d1b7f0_Input *, int, int, int);
+void FUN_00d1b930(::S00d1b7f0_Input *, int, int, intptr_t);
 // 0x00d1b9b0
 void FUN_00d1b9b0(::QueryObj *, int, int);
 // 0x00d1bad0

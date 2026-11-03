@@ -6,15 +6,20 @@ set(VEGAS16_GAMEBRYO_SOURCES
   src/gamebryo2.2/corelibs/nianimation/bsfrustumfovcontroller.cpp
   src/gamebryo2.2/corelibs/nianimation/bsgrabiknote.cpp
   src/gamebryo2.2/corelibs/nianimation/bslookiknote.cpp
+  src/gamebryo2.2/corelibs/nianimation/bsmultitargettreadtransfcontroller.cpp
   src/gamebryo2.2/corelibs/nianimation/bsrotaccumtransfinterpolator.cpp
   src/gamebryo2.2/corelibs/nianimation/bstreadtransfinterpolator.cpp
   src/gamebryo2.2/corelibs/nianimation/niactormanager.cpp
   src/gamebryo2.2/corelibs/nianimation/nialphacontroller.cpp
+  src/gamebryo2.2/corelibs/nianimation/nianimationkey.cpp
   src/gamebryo2.2/corelibs/nianimation/nianimationsdm.cpp
   src/gamebryo2.2/corelibs/nianimation/niblendaccumtransforminterpolator.cpp
   src/gamebryo2.2/corelibs/nianimation/niblendaccumtransforminterpolator_h_unit.cpp
   src/gamebryo2.2/corelibs/nianimation/niblendboolinterpolator.cpp
+  src/gamebryo2.2/corelibs/nianimation/niblendcolorinterpolator.cpp
   src/gamebryo2.2/corelibs/nianimation/niblendfloatinterpolator.cpp
+  src/gamebryo2.2/corelibs/nianimation/niblendinterpolator.cpp
+  src/gamebryo2.2/corelibs/nianimation/niblendpoint3interpolator.cpp
   src/gamebryo2.2/corelibs/nianimation/niblendquaternioninterpolator.cpp
   src/gamebryo2.2/corelibs/nianimation/niblendtransforminterpolator.cpp
   src/gamebryo2.2/corelibs/nianimation/nibonelodcontroller.cpp
@@ -23,6 +28,7 @@ set(VEGAS16_GAMEBRYO_SOURCES
   src/gamebryo2.2/corelibs/nianimation/niboolinterpolator.cpp
   src/gamebryo2.2/corelibs/nianimation/niboolkey.cpp
   src/gamebryo2.2/corelibs/nianimation/nibooltimelineinterpolator.cpp
+  src/gamebryo2.2/corelibs/nianimation/nibsplinebasisdata.cpp
   src/gamebryo2.2/corelibs/nianimation/nibsplinecolorinterpolator.cpp
   src/gamebryo2.2/corelibs/nianimation/nibsplinecompcolorinterpolator.cpp
   src/gamebryo2.2/corelibs/nianimation/nibsplinecompfloatinterpolator.cpp
@@ -38,7 +44,10 @@ set(VEGAS16_GAMEBRYO_SOURCES
   src/gamebryo2.2/corelibs/nianimation/nicolorextradatacontroller.cpp
   src/gamebryo2.2/corelibs/nianimation/nicolorinterpolator.cpp
   src/gamebryo2.2/corelibs/nianimation/nicolorinterpolator_h_unit.cpp
+  src/gamebryo2.2/corelibs/nianimation/nicolorkey.cpp
+  src/gamebryo2.2/corelibs/nianimation/nicontrollermanager.cpp
   src/gamebryo2.2/corelibs/nianimation/nicontrollermanager_h_unit.cpp
+  src/gamebryo2.2/corelibs/nianimation/nicontrollersequence.cpp
   src/gamebryo2.2/corelibs/nianimation/nicontrollersequence_h_unit.cpp
   src/gamebryo2.2/corelibs/nianimation/nieulerrotkey.cpp
   src/gamebryo2.2/corelibs/nianimation/niextradatacontroller.cpp
@@ -52,6 +61,7 @@ set(VEGAS16_GAMEBRYO_SOURCES
   src/gamebryo2.2/corelibs/nianimation/nifloatinterpolator_h_unit.cpp
   src/gamebryo2.2/corelibs/nianimation/nifloatkey.cpp
   src/gamebryo2.2/corelibs/nianimation/nifloatsextradatacontroller.cpp
+  src/gamebryo2.2/corelibs/nianimation/nifloatsextradatapoint3controller.cpp
   src/gamebryo2.2/corelibs/nianimation/nigeommorphercontroller.cpp
   src/gamebryo2.2/corelibs/nianimation/nigeommorphercontroller_h_unit.cpp
   src/gamebryo2.2/corelibs/nianimation/nigeommorpherupdatetask.cpp
@@ -62,6 +72,7 @@ set(VEGAS16_GAMEBRYO_SOURCES
   src/gamebryo2.2/corelibs/nianimation/nilightcolorcontroller.cpp
   src/gamebryo2.2/corelibs/nianimation/nilightdimmercontroller.cpp
   src/gamebryo2.2/corelibs/nianimation/nilookatcontroller.cpp
+  src/gamebryo2.2/corelibs/nianimation/nilookatinterpolator.cpp
   src/gamebryo2.2/corelibs/nianimation/nimaterialcolorcontroller.cpp
   src/gamebryo2.2/corelibs/nianimation/nimorphdata.cpp
   src/gamebryo2.2/corelibs/nianimation/nimultitargettransformcontroller.cpp
@@ -69,10 +80,12 @@ set(VEGAS16_GAMEBRYO_SOURCES
   src/gamebryo2.2/corelibs/nianimation/nipathcontroller.cpp
   src/gamebryo2.2/corelibs/nianimation/nipathinterpolator.cpp
   src/gamebryo2.2/corelibs/nianimation/nipoint3interpcontroller.cpp
+  src/gamebryo2.2/corelibs/nianimation/nipoint3interpolator.cpp
   src/gamebryo2.2/corelibs/nianimation/niposdata.cpp
   src/gamebryo2.2/corelibs/nianimation/niposdata_h_unit.cpp
   src/gamebryo2.2/corelibs/nianimation/niposkey.cpp
   src/gamebryo2.2/corelibs/nianimation/niquaternioninterpolator.cpp
+  src/gamebryo2.2/corelibs/nianimation/niquattransform.cpp
   src/gamebryo2.2/corelibs/nianimation/niquattransform_h_unit.cpp
   src/gamebryo2.2/corelibs/nianimation/nirollcontroller.cpp
   src/gamebryo2.2/corelibs/nianimation/nirotdata.cpp
@@ -83,6 +96,8 @@ set(VEGAS16_GAMEBRYO_SOURCES
   src/gamebryo2.2/corelibs/nianimation/nitextkey.cpp
   src/gamebryo2.2/corelibs/nianimation/nitextkeyextradata.cpp
   src/gamebryo2.2/corelibs/nianimation/nitexturetransformcontroller.cpp
+  src/gamebryo2.2/corelibs/nianimation/nitransformcontroller.cpp
+  src/gamebryo2.2/corelibs/nianimation/nitransformdata.cpp
   src/gamebryo2.2/corelibs/nianimation/nitransformdata_h_unit.cpp
   src/gamebryo2.2/corelibs/nianimation/nitransforminterpolator.cpp
   src/gamebryo2.2/corelibs/nianimation/niuvcontroller.cpp
@@ -94,6 +109,7 @@ set(VEGAS16_GAMEBRYO_SOURCES
   src/gamebryo2.2/corelibs/nicollision/niboxcapsuleintersector.cpp
   src/gamebryo2.2/corelibs/nicollision/niboxsphereintersector.cpp
   src/gamebryo2.2/corelibs/nicollision/nicapsulebv.cpp
+  src/gamebryo2.2/corelibs/nicollision/nicapsulecapsuleintersector.cpp
   src/gamebryo2.2/corelibs/nicollision/nicapsulesphereintersector.cpp
   src/gamebryo2.2/corelibs/nicollision/nicapsuletriintersector.cpp
   src/gamebryo2.2/corelibs/nicollision/nicollisiondata.cpp
@@ -111,6 +127,7 @@ set(VEGAS16_GAMEBRYO_SOURCES
   src/gamebryo2.2/corelibs/nicollision/nispherebv.cpp
   src/gamebryo2.2/corelibs/nicollision/nispheretriintersector.cpp
   src/gamebryo2.2/corelibs/nicollision/nitrigon.cpp
+  src/gamebryo2.2/corelibs/nicollision/niunionbv.cpp
   src/gamebryo2.2/corelibs/niconsolerenderer/console/nid3dshaderprogramcreator_console.cpp
   src/gamebryo2.2/corelibs/niconsolerenderer/console/nid3dshaderprogramcreatorasm_console.cpp
   src/gamebryo2.2/corelibs/niconsolerenderer/niconsoledirect3dtexture.cpp
@@ -118,29 +135,37 @@ set(VEGAS16_GAMEBRYO_SOURCES
   src/gamebryo2.2/corelibs/niconsolerenderer/niconsoleerrorshader.cpp
   src/gamebryo2.2/corelibs/niconsolerenderer/niconsolefragmentshader.cpp
   src/gamebryo2.2/corelibs/niconsolerenderer/niconsoleibmanager.cpp
+  src/gamebryo2.2/corelibs/niconsolerenderer/niconsolepersistentsrctexturerendererdata.cpp
   src/gamebryo2.2/corelibs/niconsolerenderer/niconsolepixelformat.cpp
+  src/gamebryo2.2/corelibs/niconsolerenderer/niconsolerenderer.cpp
   src/gamebryo2.2/corelibs/niconsolerenderer/niconsolerenderer_h_unit.cpp
   src/gamebryo2.2/corelibs/niconsolerenderer/niconsolerenderersdm.cpp
   src/gamebryo2.2/corelibs/niconsolerenderer/niconsolerenderstate.cpp
   src/gamebryo2.2/corelibs/niconsolerenderer/niconsolerenderstate_h_unit.cpp
   src/gamebryo2.2/corelibs/niconsolerenderer/niconsoleshaderdeclaration.cpp
   src/gamebryo2.2/corelibs/niconsolerenderer/niconsoletexturedata.cpp
+  src/gamebryo2.2/corelibs/niconsolerenderer/niconsolevbmanager.cpp
   src/gamebryo2.2/corelibs/niconsolerenderer/niconsolevbmanager_copies_040.cpp
   src/gamebryo2.2/corelibs/niconsolerenderer/nid3ddefaultshader.cpp
   src/gamebryo2.2/corelibs/niconsolerenderer/nid3dgeometrygroupmanager.cpp
+  src/gamebryo2.2/corelibs/niconsolerenderer/nid3dgpuprogramcache.cpp
+  src/gamebryo2.2/corelibs/niconsolerenderer/nid3dhlslpixelshader.cpp
   src/gamebryo2.2/corelibs/niconsolerenderer/nid3dhlslvertexshader.cpp
+  src/gamebryo2.2/corelibs/niconsolerenderer/nid3dpass.cpp
   src/gamebryo2.2/corelibs/niconsolerenderer/nid3dpass_h_unit.cpp
   src/gamebryo2.2/corelibs/niconsolerenderer/nid3dpixelshader.cpp
   src/gamebryo2.2/corelibs/niconsolerenderer/nid3dpixelshader_copies_039.cpp
   src/gamebryo2.2/corelibs/niconsolerenderer/nid3drenderstategroup.cpp
   src/gamebryo2.2/corelibs/niconsolerenderer/nid3dshader.cpp
   src/gamebryo2.2/corelibs/niconsolerenderer/nid3dshaderconstantmanager.cpp
+  src/gamebryo2.2/corelibs/niconsolerenderer/nid3dshaderconstantmap.cpp
   src/gamebryo2.2/corelibs/niconsolerenderer/nid3dshaderdeclaration.cpp
   src/gamebryo2.2/corelibs/niconsolerenderer/nid3dshaderfactory.cpp
   src/gamebryo2.2/corelibs/niconsolerenderer/nid3dshaderinterface.cpp
   src/gamebryo2.2/corelibs/niconsolerenderer/nid3dshaderprogram.cpp
   src/gamebryo2.2/corelibs/niconsolerenderer/nid3dshaderprogramcreatorasm.cpp
   src/gamebryo2.2/corelibs/niconsolerenderer/nid3dshaderprogramcreatorhlsl.cpp
+  src/gamebryo2.2/corelibs/niconsolerenderer/nid3dshaderprogramcreatorobj.cpp
   src/gamebryo2.2/corelibs/niconsolerenderer/nid3dshaderprogramfactory.cpp
   src/gamebryo2.2/corelibs/niconsolerenderer/nid3dutility.cpp
   src/gamebryo2.2/corelibs/niconsolerenderer/nid3dvertexshader.cpp
@@ -150,6 +175,8 @@ set(VEGAS16_GAMEBRYO_SOURCES
   src/gamebryo2.2/corelibs/niconsolerenderer/nistaticgeometrygroup.cpp
   src/gamebryo2.2/corelibs/niconsolerenderer/niunsharedgeometrygroup.cpp
   src/gamebryo2.2/corelibs/niconsolerenderer/nivbset.cpp
+  src/gamebryo2.2/corelibs/niconsolerenderer/nivbset_h_unit.cpp
+  src/gamebryo2.2/corelibs/nimain/bsdismemberskininstance.cpp
   src/gamebryo2.2/corelibs/nimain/bspackedadditionalgeometrydata.cpp
   src/gamebryo2.2/corelibs/nimain/bsresizabletrishape.cpp
   src/gamebryo2.2/corelibs/nimain/bssegmentedtrishape.cpp
@@ -171,6 +198,7 @@ set(VEGAS16_GAMEBRYO_SOURCES
   src/gamebryo2.2/corelibs/nimain/nialphaaccumulator.cpp
   src/gamebryo2.2/corelibs/nimain/nialphaproperty.cpp
   src/gamebryo2.2/corelibs/nimain/niambientlight.cpp
+  src/gamebryo2.2/corelibs/nimain/niavobject.cpp
   src/gamebryo2.2/corelibs/nimain/niavobject_inl_unit.cpp
   src/gamebryo2.2/corelibs/nimain/niavobjectpalette.cpp
   src/gamebryo2.2/corelibs/nimain/nibacktofrontaccumulator.cpp
@@ -179,13 +207,17 @@ set(VEGAS16_GAMEBRYO_SOURCES
   src/gamebryo2.2/corelibs/nimain/nibooleanextradata.cpp
   src/gamebryo2.2/corelibs/nimain/nibound.cpp
   src/gamebryo2.2/corelibs/nimain/nibound_h_unit.cpp
+  src/gamebryo2.2/corelibs/nimain/nibspnode.cpp
   src/gamebryo2.2/corelibs/nimain/nicamera.cpp
   src/gamebryo2.2/corelibs/nimain/nicollisionobject.cpp
   src/gamebryo2.2/corelibs/nimain/nicolor.cpp
   src/gamebryo2.2/corelibs/nimain/nicolorextradata.cpp
   src/gamebryo2.2/corelibs/nimain/nicullingprocess.cpp
   src/gamebryo2.2/corelibs/nimain/nicullingproperty.cpp
+  src/gamebryo2.2/corelibs/nimain/niddsreader.cpp
+  src/gamebryo2.2/corelibs/nimain/nidefaultavobjectpalette.cpp
   src/gamebryo2.2/corelibs/nimain/nidepthstencilbuffer.cpp
+  src/gamebryo2.2/corelibs/nimain/nidevimageconverter.cpp
   src/gamebryo2.2/corelibs/nimain/nidirectionallight.cpp
   src/gamebryo2.2/corelibs/nimain/niditherproperty.cpp
   src/gamebryo2.2/corelibs/nimain/nidynamiceffect.cpp
@@ -193,9 +225,12 @@ set(VEGAS16_GAMEBRYO_SOURCES
   src/gamebryo2.2/corelibs/nimain/nifixedstring_h_unit.cpp
   src/gamebryo2.2/corelibs/nimain/nifloatextradata.cpp
   src/gamebryo2.2/corelibs/nimain/nifloatsextradata.cpp
+  src/gamebryo2.2/corelibs/nimain/nifogproperty.cpp
   src/gamebryo2.2/corelibs/nimain/nifrustum.cpp
   src/gamebryo2.2/corelibs/nimain/nigeometry.cpp
   src/gamebryo2.2/corelibs/nimain/nigeometrydata.cpp
+  src/gamebryo2.2/corelibs/nimain/niglobalstringtable.cpp
+  src/gamebryo2.2/corelibs/nimain/nigpuprogramcache.cpp
   src/gamebryo2.2/corelibs/nimain/niimageconverter.cpp
   src/gamebryo2.2/corelibs/nimain/niintegerextradata.cpp
   src/gamebryo2.2/corelibs/nimain/niintegersextradata.cpp
@@ -212,6 +247,7 @@ set(VEGAS16_GAMEBRYO_SOURCES
   src/gamebryo2.2/corelibs/nimain/nimath.cpp
   src/gamebryo2.2/corelibs/nimain/ninifimagereader.cpp
   src/gamebryo2.2/corelibs/nimain/ninode.cpp
+  src/gamebryo2.2/corelibs/nimain/niobject.cpp
   src/gamebryo2.2/corelibs/nimain/niobjectnet.cpp
   src/gamebryo2.2/corelibs/nimain/nioldscreenspace.cpp
   src/gamebryo2.2/corelibs/nimain/nipalette.cpp
@@ -258,25 +294,33 @@ set(VEGAS16_GAMEBRYO_SOURCES
   src/gamebryo2.2/corelibs/nimain/nisingleshadermateriallibrary.cpp
   src/gamebryo2.2/corelibs/nimain/niskindata.cpp
   src/gamebryo2.2/corelibs/nimain/niskininstance.cpp
+  src/gamebryo2.2/corelibs/nimain/niskinpartition.cpp
   src/gamebryo2.2/corelibs/nimain/niskinpartition_copies_036.cpp
   src/gamebryo2.2/corelibs/nimain/nismartpointer_h_unit.cpp
   src/gamebryo2.2/corelibs/nimain/nisortadjustnode.cpp
+  src/gamebryo2.2/corelibs/nimain/nisourcecubemap.cpp
   src/gamebryo2.2/corelibs/nimain/nisourcetexture.cpp
   src/gamebryo2.2/corelibs/nimain/nispecularproperty.cpp
   src/gamebryo2.2/corelibs/nimain/nispotlight.cpp
   src/gamebryo2.2/corelibs/nimain/nistencilproperty.cpp
+  src/gamebryo2.2/corelibs/nimain/nistream.cpp
   src/gamebryo2.2/corelibs/nimain/nistream_h_unit.cpp
   src/gamebryo2.2/corelibs/nimain/nistring.cpp
+  src/gamebryo2.2/corelibs/nimain/nistringextradata.cpp
   src/gamebryo2.2/corelibs/nimain/nistringsextradata.cpp
   src/gamebryo2.2/corelibs/nimain/niswitchnode.cpp
+  src/gamebryo2.2/corelibs/nimain/niswitchstringextradata.cpp
+  src/gamebryo2.2/corelibs/nimain/nitarray_h_unit.cpp
   src/gamebryo2.2/corelibs/nimain/nitcollection_h_unit.cpp
   src/gamebryo2.2/corelibs/nimain/nitexture.cpp
   src/gamebryo2.2/corelibs/nimain/nitexturecodec.cpp
   src/gamebryo2.2/corelibs/nimain/nitextureeffect.cpp
   src/gamebryo2.2/corelibs/nimain/nitexturetransform.cpp
+  src/gamebryo2.2/corelibs/nimain/nitexturingproperty.cpp
   src/gamebryo2.2/corelibs/nimain/nitexturingproperty_h_unit.cpp
   src/gamebryo2.2/corelibs/nimain/nitfixedstringmap_h_unit.cpp
   src/gamebryo2.2/corelibs/nimain/nitimecontroller.cpp
+  src/gamebryo2.2/corelibs/nimain/nitlargearray_h_unit.cpp
   src/gamebryo2.2/corelibs/nimain/nitmap_h_unit.cpp
   src/gamebryo2.2/corelibs/nimain/nitmapbase_h_unit.cpp
   src/gamebryo2.2/corelibs/nimain/nitpointerlistbase_h_unit.cpp
@@ -285,11 +329,14 @@ set(VEGAS16_GAMEBRYO_SOURCES
   src/gamebryo2.2/corelibs/nimain/nitransform.cpp
   src/gamebryo2.2/corelibs/nimain/nitribasedgeom.cpp
   src/gamebryo2.2/corelibs/nimain/nitribasedgeomdata.cpp
+  src/gamebryo2.2/corelibs/nimain/nitrishape.cpp
   src/gamebryo2.2/corelibs/nimain/nitrishapedata.cpp
   src/gamebryo2.2/corelibs/nimain/nitrishapedata_h_unit.cpp
   src/gamebryo2.2/corelibs/nimain/nitrishapedynamicdata.cpp
   src/gamebryo2.2/corelibs/nimain/nitristrips.cpp
+  src/gamebryo2.2/corelibs/nimain/nitristripsdata.cpp
   src/gamebryo2.2/corelibs/nimain/nitristripsdynamicdata.cpp
+  src/gamebryo2.2/corelibs/nimain/nitset_h_unit.cpp
   src/gamebryo2.2/corelibs/nimain/nitstringmap_h_unit.cpp
   src/gamebryo2.2/corelibs/nimain/nivectorextradata.cpp
   src/gamebryo2.2/corelibs/nimain/nivertexcolorproperty.cpp
@@ -317,8 +364,12 @@ set(VEGAS16_GAMEBRYO_SOURCES
   src/gamebryo2.2/corelibs/niparticle/nipsyscollidermanager.cpp
   src/gamebryo2.2/corelibs/niparticle/nipsyscolormodifier.cpp
   src/gamebryo2.2/corelibs/niparticle/nipsyscylinderemitter.cpp
+  src/gamebryo2.2/corelibs/niparticle/nipsysdata.cpp
   src/gamebryo2.2/corelibs/niparticle/nipsysdragfieldmodifier.cpp
+  src/gamebryo2.2/corelibs/niparticle/nipsysdragmodifier.cpp
   src/gamebryo2.2/corelibs/niparticle/nipsysemitter.cpp
+  src/gamebryo2.2/corelibs/niparticle/nipsysemitterctlr.cpp
+  src/gamebryo2.2/corelibs/niparticle/nipsysemitterctlrdata.cpp
   src/gamebryo2.2/corelibs/niparticle/nipsysemitterdeclinationctlr.cpp
   src/gamebryo2.2/corelibs/niparticle/nipsysemitterdeclinationvarctlr.cpp
   src/gamebryo2.2/corelibs/niparticle/nipsysemitterinitialradiusctlr.cpp
@@ -338,9 +389,11 @@ set(VEGAS16_GAMEBRYO_SOURCES
   src/gamebryo2.2/corelibs/niparticle/nipsysinitialrotanglevarctlr.cpp
   src/gamebryo2.2/corelibs/niparticle/nipsysinitialrotspeedctlr.cpp
   src/gamebryo2.2/corelibs/niparticle/nipsysinitialrotspeedvarctlr.cpp
+  src/gamebryo2.2/corelibs/niparticle/nipsysmeshemitter.cpp
   src/gamebryo2.2/corelibs/niparticle/nipsysmeshupdatemodifier.cpp
   src/gamebryo2.2/corelibs/niparticle/nipsysmodifier.cpp
   src/gamebryo2.2/corelibs/niparticle/nipsysmodifieractivectlr.cpp
+  src/gamebryo2.2/corelibs/niparticle/nipsysmodifierboolctlr.cpp
   src/gamebryo2.2/corelibs/niparticle/nipsysmodifierctlr.cpp
   src/gamebryo2.2/corelibs/niparticle/nipsysmodifierfloatctlr.cpp
   src/gamebryo2.2/corelibs/niparticle/nipsysplanarcollider.cpp
@@ -354,12 +407,15 @@ set(VEGAS16_GAMEBRYO_SOURCES
   src/gamebryo2.2/corelibs/niparticle/nipsysupdatectlr.cpp
   src/gamebryo2.2/corelibs/niparticle/nipsysupdatetask.cpp
   src/gamebryo2.2/corelibs/niparticle/nipsysvolumeemitter.cpp
+  src/gamebryo2.2/corelibs/niparticle/nipsysvortexfieldmodifier.cpp
   src/gamebryo2.2/corelibs/nisystem/bsniallocator.cpp
+  src/gamebryo2.2/corelibs/nisystem/console/nifile_console.cpp
   src/gamebryo2.2/corelibs/nisystem/console/nifilename.cpp
   src/gamebryo2.2/corelibs/nisystem/console/nipath_console.cpp
   src/gamebryo2.2/corelibs/nisystem/console/nisystem.cpp
   src/gamebryo2.2/corelibs/nisystem/console/nisystem_copies_038.cpp
   src/gamebryo2.2/corelibs/nisystem/console/nisystem_h_unit.cpp
+  src/gamebryo2.2/corelibs/nisystem/console/nithread_console.cpp
   src/gamebryo2.2/corelibs/nisystem/nibinaryloadsave_h_unit.cpp
   src/gamebryo2.2/corelibs/nisystem/nibinarystream.cpp
   src/gamebryo2.2/corelibs/nisystem/nifile.cpp

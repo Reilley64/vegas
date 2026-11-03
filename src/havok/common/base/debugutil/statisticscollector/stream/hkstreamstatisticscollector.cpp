@@ -2,7 +2,10 @@
 // src/havok/common/base/debugutil/statisticscollector/stream/hkstreamstatisticscollector.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/debugutil/statisticscollector/stream/hkstreamstatisticscollector.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
+#include <cstdint>
 #include <cstddef>
+#include "fnv/symbols_01063000.h"
 #include <new>
 #include "fnv/decl/CB1A90Owner.h"
 #include "fnv/decl/D06D50Finder.h"
@@ -13,7 +16,6 @@
 #include "fnv/decl/FUN_00d06d90_cls.h"
 #include "fnv/decl/FUN_00d06f50.h"
 #include "fnv/decl/FnvCpu_FUN_00d470d0_CpuObject.h"
-#include "fnv/decl/MonitorTreeBuilder.h"
 #include "fnv/decl/fnv_00cb1870__hkMapBaseCB18.h"
 #include "fnv/decl/fnv_00e0d0a0__Owner.h"
 #include "fnv/symbols_00a29000.h"
@@ -59,29 +61,28 @@ struct AudioMgr
 };
 
 struct BSAudio;
-BSAudio* __cdecl FUN_00c85750();
 inline AudioMgr* audio()
 {
-    return (AudioMgr*)FUN_00c85750();
+    return (AudioMgr*)static_cast<BSAudio*>(::FUN_00c85750());
 }
 
 
 struct hkArrayChar
 {
     char* m_data;
-    int m_iElementCount;
+    intptr_t m_iElementCount;
     int m_iCapacityState;
 
-    int getCapacity() const
+    intptr_t getCapacity() const
     {
         return m_iCapacityState & 0x3fffffff;
     }
-    void setData(const void* src, int n)
+    void setData(const void* src, intptr_t n)
     {
         hkMemoryAllocator& alloc = audio()->heap();
         if (getCapacity() < n)
         {
-            int cap = 2 * getCapacity();
+            intptr_t cap = 2 * getCapacity();
             ::FUN_00c908c0((::SpawnedObject *)(::hkMemoryAllocator *)(&alloc), (::SpawnedArray *)(void *)(this), n < cap ? cap : n, 1);
         }
         m_iElementCount = n;
@@ -154,13 +155,12 @@ struct MemoryAllocator
 };
 struct AllocatorHolder
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     MemoryAllocator* allocator;
 };
-extern AllocatorHolder* __cdecl FUN_00c85750();
 struct StreamStatisticsCollector
 {
     int unk00;
@@ -174,7 +174,7 @@ void* StreamStatisticsCollector::FreeIfFlagged(unsigned int flags)
     FUN_00ddf240();
     if (flags & 1)
     {
-        AllocatorHolder* holder = FUN_00c85750();
+        AllocatorHolder* holder = static_cast<AllocatorHolder*>(::FUN_00c85750());
         holder->allocator->Free(this, (unsigned int)unk04);
     }
     return this;
@@ -183,7 +183,7 @@ void* StreamStatisticsCollector::FreeIfFlagged(unsigned int flags)
 
 
 // @fnv 0x00ddf370
-static __declspec(noinline) int* FUN_00ddf370(hkArrayChar* apArray, int n)
+static __declspec(noinline) int* FUN_00ddf370(hkArrayChar* apArray, intptr_t n)
 {
     int* pSlot;
     if (apArray->m_iElementCount > 0)
@@ -207,6 +207,7 @@ int* __cdecl fnv_caller(hkArrayChar* a, int n)
 {
     return FUN_00ddf370(a, n);
 }
+
 
 struct MonitorNode;
 struct MonitorChildren
@@ -242,7 +243,7 @@ struct MonitorNode
 };
 struct MonitorString
 {
-    unsigned int tagged;
+    uintptr_t tagged;
     void FUN_00cb0b80(const char* s);
     void FUN_00cb0bd0(const MonitorString& s);
     void FUN_00cb0c00();
@@ -337,7 +338,7 @@ class hkMemoryAllocatorDDF9
 
 struct hkMemoryRouterDDF9
 {
-    int unk00, unk04, unk08, unk0C;
+    void* unk00; void* unk04; void* unk08; void* unk0C;
     hkMemoryAllocatorDDF9* m_pStreamAllocator;
     hkMemoryAllocatorDDF9& heap()
     {
@@ -346,7 +347,6 @@ struct hkMemoryRouterDDF9
 };
 
 namespace hkRouterDDF9 {
-extern "C" hkMemoryRouterDDF9& __cdecl FUN_00c85750() throw();
 }
 
 template <class T> class hkArrayDDF9
@@ -356,7 +356,7 @@ template <class T> class hkArrayDDF9
     {}
     ~hkArrayDDF9()
     {
-        _clearAndDeallocate(hkRouterDDF9::FUN_00c85750().heap());
+        _clearAndDeallocate((*static_cast<hkMemoryRouterDDF9*>(::FUN_00c85750())).heap());
     }
     void _clearAndDeallocate(hkMemoryAllocatorDDF9& alloc)
     {
@@ -380,24 +380,12 @@ class ObjDDF9
     }
     static void operator delete(void* p, std::size_t nbytes)
     {
-        hkRouterDDF9::FUN_00c85750().heap().ReleaseBlock(p, nbytes);
+        (*static_cast<hkMemoryRouterDDF9*>(::FUN_00c85750())).heap().ReleaseBlock(p, nbytes);
     }
     int unk00, unk04, unk08, unk0C, unk10, unk14, unk18, unk1C, unk20, unk24, unk28, unk2C;
     int unk30, unk34, unk38, unk3C, unk40, unk44, unk48, unk4C, unk50, unk54;
 };
 
-
-// @fnv 0x00ddf970
-void ClearAllItems(int iUnused0, int iUnused1)
-{
-    hkArrayDDF9<ObjDDF9*> kArray;
-    reinterpret_cast<::MonitorTreeBuilder *>((kArray))->FUN_00ddf740((::MonitorNodeArray *)(0), {});
-    while (kArray.m_iElementCount)
-    {
-        delete kArray.m_data[kArray.m_iElementCount - 1];
-        kArray.m_iElementCount--;
-    }
-}
 
 extern int DAT_010d8040;
 
@@ -415,16 +403,16 @@ struct AudioAllocator
 
 struct AudioHolder
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     AudioAllocator* m_pAllocator;
 };
 
 inline AudioHolder* holderGet()
 {
-    return (AudioHolder*)FUN_00c85750();
+    return (AudioHolder*)static_cast<BSAudio*>(::FUN_00c85750());
 }
 
 struct SpawnedHandle
@@ -442,7 +430,7 @@ struct SpawnedHandle
     }
     void SetSizeAndGrow(int n)
     {
-        hkMemoryAllocatorDDF9& alloc = hkRouterDDF9::FUN_00c85750().heap();
+        hkMemoryAllocatorDDF9& alloc = (*static_cast<hkMemoryRouterDDF9*>(::FUN_00c85750())).heap();
         if (getCap() < n)
         {
             int cap = 2 * getCap();
@@ -462,12 +450,12 @@ struct FUN_00ddf170_cls
     SpawnedHandle m_14;
     SpawnedHandle m_20;
 
-    FUN_00ddf170_cls* FUN_00ddf170(int a1, int a2);
+    FUN_00ddf170_cls* FUN_00ddf170(intptr_t a1, int a2);
 };
 
 // Calls a base method, sets the vtable, initializes two SpawnedHandle members, and optionally allocates a buffer.
 // @fnv 0x00ddf170
-FUN_00ddf170_cls* FUN_00ddf170_cls::FUN_00ddf170(int a1, int aiBufferSize)
+FUN_00ddf170_cls* FUN_00ddf170_cls::FUN_00ddf170(intptr_t a1, int aiBufferSize)
 {
     new ((void *)(((SubBase*)this))) ::FUN_00d06f50((void *)(a1));
     int value = aiBufferSize;
@@ -477,7 +465,7 @@ FUN_00ddf170_cls* FUN_00ddf170_cls::FUN_00ddf170(int a1, int aiBufferSize)
     pHandle->m_uiFilterValue = 0;
     pHandle->m_flags = 0x80000000u;
 
-    hkMemoryAllocatorDDF9& alloc = hkRouterDDF9::FUN_00c85750().heap();
+    hkMemoryAllocatorDDF9& alloc = (*static_cast<hkMemoryRouterDDF9*>(::FUN_00c85750())).heap();
     void* p;
     if (value)
     {
@@ -499,7 +487,7 @@ FUN_00ddf170_cls* FUN_00ddf170_cls::FUN_00ddf170(int a1, int aiBufferSize)
     pHandle2->m_uiFilterValue = 0;
     pHandle2->m_flags = 0xffffffffu;
     AudioAllocator* pAudioAllocator = holderGet()->m_pAllocator;
-    reinterpret_cast<::FUN_00cb1fe0_t *>(&(m_20))->EnsureCapacity((int)(pAudioAllocator), 0);
+    reinterpret_cast<::FUN_00cb1fe0_t *>(&(m_20))->EnsureCapacity((intptr_t)(pAudioAllocator), 0);
 
     pHandle->SetSizeAndGrow(0);
     return this;
@@ -519,8 +507,8 @@ void StrPacker::FUN_00ddf5a0(const char* str)
 {
     if (m14.getCapacity() > m14.m_iElementCount + 0x46)
     {
-        int count = 0;
-        int pad = 0;
+        intptr_t count = 0;
+        intptr_t pad = 0;
         if (str != 0)
         {
             count = ::fnv_00cb10d0::FUN_00cb10d0(str) + 1;
@@ -549,12 +537,11 @@ struct S_00ddeff0_Heap
 
 struct S_00ddeff0_Router
 {
-    int unk0;
-    int unk4;
-    int unk8;
-    int unkC;
+    void* unk0;
+    void* unk4;
+    void* unk8;
+    void* unkC;
     S_00ddeff0_Heap* m_pStreamAllocator;
-    static S_00ddeff0_Router* FUN_00c85750();
     S_00ddeff0_Heap& heap()
     {
         return *m_pStreamAllocator;
@@ -569,7 +556,7 @@ struct FUN_00ddeff0
     void operator delete(void* p, std::size_t nbytes)
     {
         if (p)
-            S_00ddeff0_Router::FUN_00c85750()->heap().ReleaseBlock(p, nbytes);
+            static_cast<S_00ddeff0_Router*>(::FUN_00c85750())->heap().ReleaseBlock(p, nbytes);
     }
     int unk8;
     int unkC;
@@ -606,7 +593,7 @@ struct FUN_00ddf640_Cls : Obj
 unsigned char* FUN_00ddf640_Cls::FUN_00ddf640()
 {
     unsigned char* out = (unsigned char*)m14.getCapacity();
-    if ((int)out > m14.m_iElementCount + 0x46)
+    if ((intptr_t)out > m14.m_iElementCount + 0x46)
     {
         out = (unsigned char*)FUN_00ddf370(&m14, 0);
         out[0] = 0x70;
@@ -629,14 +616,13 @@ struct AudioAllocator
 
 struct AudioHolder
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     AudioAllocator* m_pAllocator;
 };
 
-AudioHolder* __cdecl FUN_00c85750() throw();
 
 struct SpawnedSub
 {
@@ -665,10 +651,10 @@ struct FUN_00ddf240_cls : SpawnedRoot
 FUN_00ddf240_cls::~FUN_00ddf240_cls() throw()
 {
     SpawnedSub* pSub = &m_sub;
-    AudioHolder* pHolder = FUN_00c85750();
+    AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
     reinterpret_cast<::CB1A90Owner *>((pSub))->ProcessArgument((::CB1A90Argument *)(pHolder->m_pAllocator));
     ::FUN_00a29680();
-    AudioHolder* pHolder2 = FUN_00c85750();
+    AudioHolder* pHolder2 = static_cast<AudioHolder*>(::FUN_00c85750());
     AudioAllocator* pAllocator = pHolder2->m_pAllocator;
     unsigned int uFlags = m_uiObjectFlags;
     m_iUnk18 = 0;
@@ -684,14 +670,13 @@ FUN_00ddf240_cls::~FUN_00ddf240_cls() throw()
 namespace fnv_00ddfa10 {
 struct SpawnHolder
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int m_10;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
+    intptr_t m_10;
 };
 
-SpawnHolder* FUN_00c85750();
 
 struct Sub20_cls
 {
@@ -711,13 +696,13 @@ struct FUN_00ddfa10_cls
     unsigned int m_1c;
     Sub20_cls m_20;
 
-    void DDF420(int a, int b, int c);
-    void FUN_00ddfa10(int a1, int a2, unsigned char flag);
+    void DDF420(int a, intptr_t b, int c);
+    void FUN_00ddfa10(int a1, intptr_t a2, unsigned char flag);
 };
 
 // After capacity and a2 checks, updates m_20 and calls a virtual function from a2; when flag bit 0 is clear, it also calls DDF420 and DDF020.
 // @fnv 0x00ddfa10
-void FUN_00ddfa10_cls::FUN_00ddfa10(int a1, int a2, unsigned char aiFlags)
+void FUN_00ddfa10_cls::FUN_00ddfa10(int a1, intptr_t a2, unsigned char aiFlags)
 {
     int count = (int)(m_1c & 0x3fffffffu);
     if (count <= m_18 + 0x46)
@@ -727,20 +712,20 @@ void FUN_00ddfa10_cls::FUN_00ddfa10(int a1, int a2, unsigned char aiFlags)
     Sub20_cls* sub = &m_20;
     if (reinterpret_cast<::FUN_00cb1930_t *>((sub))->LookupHashEntry(a2, 0))
         return;
-    SpawnHolder* holder = FUN_00c85750();
+    SpawnHolder* holder = static_cast<SpawnHolder*>(::FUN_00c85750());
     reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>((sub))->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(holder->m_10)), a2, 1);
     if ((aiFlags & 1) == 0)
     {
         DDF420(a1, a2, reinterpret_cast<::FUN_00d06d90_cls *>(this)->GetFlagsOrProcess((::Rec *)(a2)));
         void** pVTable = *(void***)a2;
-        int r = ((int)(reinterpret_cast<::D06D50Finder *>(this)->FindClass((const ::D06D50Object *)(a2))));
+        intptr_t r = ((intptr_t)(reinterpret_cast<::D06D50Finder *>(this)->FindClass((const ::D06D50Object *)(a2))));
         ((VSlot8)pVTable[2])((void*)a2, this, r);
         reinterpret_cast<::FUN_00ddf020_Class *>(this)->FUN_00ddf020();
     }
     else
     {
         void** pVTable = *(void***)a2;
-        int r = ((int)(reinterpret_cast<::D06D50Finder *>(this)->FindClass((const ::D06D50Object *)(a2))));
+        intptr_t r = ((intptr_t)(reinterpret_cast<::D06D50Finder *>(this)->FindClass((const ::D06D50Object *)(a2))));
         ((VSlot8)pVTable[2])((void*)a2, this, r);
     }
 }
@@ -749,11 +734,11 @@ void FUN_00ddfa10_cls::FUN_00ddfa10(int a1, int a2, unsigned char aiFlags)
 namespace fnv_00ddfab0 {
 struct AudioHolder
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int m_10;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
+    intptr_t m_10;
 };
 
 struct Param1
@@ -764,7 +749,6 @@ struct Sub20
 {
 };
 
-AudioHolder* __cdecl FUN_00c85750() throw();
 
 struct FUN_00ddfab0_cls
 {
@@ -778,13 +762,13 @@ struct FUN_00ddfab0_cls
     unsigned int m_1c;
     Sub20 m_20;
 
-    void FUN_00ddf420(int a, int b, int c);
-    void FUN_00ddfab0(Param1* a1, int a2, int a3, int a4);
+    void FUN_00ddf420(int a, intptr_t b, int c);
+    void FUN_00ddfab0(Param1* a1, int a2, intptr_t a3, int a4);
 };
 
 // Checks m_1c, m_18, and a3; updates m_20, then calls FUN_00cf6920 and conditionally calls FUN_00ddf420 and FUN_00ddf020.
 // @fnv 0x00ddfab0
-void FUN_00ddfab0_cls::FUN_00ddfab0(Param1* a1, int a2, int a3, int aiFlags)
+void FUN_00ddfab0_cls::FUN_00ddfab0(Param1* a1, int a2, intptr_t a3, int aiFlags)
 {
     int iMasked = (int)(m_1c & 0x3fffffff);
     int iLimit = m_18 + 0x46;
@@ -800,7 +784,7 @@ void FUN_00ddfab0_cls::FUN_00ddfab0(Param1* a1, int a2, int a3, int aiFlags)
     {
         return;
     }
-    AudioHolder* holder = FUN_00c85750();
+    AudioHolder* holder = static_cast<AudioHolder*>(::FUN_00c85750());
     reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(m_20))->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(holder->m_10)), a3, 1);
     if ((aiFlags & 1) == 0)
     {
@@ -829,7 +813,7 @@ struct AllocIface
     virtual void v20();
     virtual void v24();
     virtual void v28();
-    virtual unsigned int allocTag(int size, int tag);
+    virtual unsigned int allocTag(intptr_t size, int tag);
 };
 struct MonitorStream
 {
@@ -849,8 +833,8 @@ void MonitorStream::FUN_00ddf4d0(int unused, const char* name, int size, int id,
         return;
     if (id == 0 && tag == 0)
         return;
-    int len = 0;
-    int odd = 0;
+    intptr_t len = 0;
+    intptr_t odd = 0;
     if (name)
     {
         len = ::fnv_00cb10d0::FUN_00cb10d0(name) + 1;
@@ -882,8 +866,8 @@ struct Pkt : Obj
 // @fnv 0x00ddf420
 void Pkt::FUN_00ddf420(const char* str, const void* a2, int a3)
 {
-    int len = 0;
-    int pad = 0;
+    intptr_t len = 0;
+    intptr_t pad = 0;
     if (str != 0)
     {
         len = ::fnv_00cb10d0::FUN_00cb10d0(str) + 1;
@@ -898,12 +882,153 @@ void Pkt::FUN_00ddf420(const char* str, const void* a2, int a3)
     if (a3 == 0)
         v = 0;
     else
-        v = ((AllocIface&)audio()->heap()).allocTag((int)a2, a3);
+        v = ((AllocIface&)audio()->heap()).allocTag((intptr_t)a2, a3);
     rec->b = (unsigned short)v;
     if (len > 0)
     {
         ::FUN_00cb1260(out + 6, str, len);
         if (pad != 0)
             out[len + 6] = 0;
+    }
+}
+
+void __cdecl AggregateChildValues(MonitorNode* node, MonitorStrings* strings);
+
+struct MonitorHeap
+{
+    virtual void v0();
+    virtual void* AllocateMemoryBlock(int numBytes);
+    virtual void ReleaseBlock(void* p, int numBytes);
+    virtual void v3();
+    virtual void ReturnMemory(void* p, int numBytes);
+};
+
+struct MonitorTreeNode
+{
+};
+
+
+template <class T> __forceinline void constructRange(T* p, int count, const T& value)
+{
+    for (int i = 0; i < count; ++i)
+        p[i] = value;
+}
+
+struct MonitorNodeArray
+{
+    MonitorNode** m_data;
+    int m_iElementCount;
+    int m_iCapacityState;
+
+    MonitorNodeArray() : m_data(0), m_iElementCount(0), m_iCapacityState(0x80000000)
+    {}
+    ~MonitorNodeArray()
+    {
+        hkMemoryAllocator& alloc = audio()->heap();
+        m_iElementCount = 0;
+        if ((m_iCapacityState & 0x80000000) == 0)
+            ((MonitorHeap&)alloc).ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(MonitorNode*));
+    }
+    MonitorNode*& back()
+    {
+        return m_data[m_iElementCount - 1];
+    }
+    void popBack()
+    {
+        m_iElementCount--;
+    }
+    void pushBackPlacement(MonitorNode* const& e)
+    {
+        hkMemoryAllocator& alloc = audio()->heap();
+        if (m_iElementCount == (m_iCapacityState & 0x3fffffff))
+            ::ResizeAudioStream((::AudioAllocator *)(void *)(&alloc), (::AudioStream *)(void *)(this), 4);
+        MonitorNode** p = m_data + m_iElementCount;
+        constructRange(p, 1, e);
+        m_iElementCount++;
+    }
+    void AddBack(MonitorNode* const& e)
+    {
+        hkMemoryAllocator& alloc = audio()->heap();
+        if (m_iElementCount == (m_iCapacityState & 0x3fffffff))
+            ::ResizeAudioStream((::AudioAllocator *)(void *)(&alloc), (::AudioStream *)(void *)(this), 4);
+        m_data[m_iElementCount++] = e;
+    }
+};
+struct MonitorNodeArray;
+struct MonitorStrings;
+
+
+struct MonitorTreeBuilder : Obj
+{
+    void FUN_00ddf740(MonitorNodeArray* roots, MonitorStrings* strings);
+    void ClearAllItems(int iUnused0, int iUnused1);
+};
+
+// @fnv 0x00ddf740
+void MonitorTreeBuilder::FUN_00ddf740(MonitorNodeArray* roots, MonitorStrings* strings)
+{
+    MonitorNodeArray stack;
+    MonitorNode* top;
+    if (roots->m_iElementCount > 0)
+    {
+        top = roots->m_data[0];
+        while (roots->m_iElementCount > 1)
+        {
+            MonitorNode* p = roots->back();
+            if (p)
+            {
+                reinterpret_cast<::fnv_00e0d0a0::Owner *>((((MonitorTreeNode*)p)))->ClearItems();
+                ((MonitorHeap*)audio()->unk10)->ReleaseBlock(p, sizeof(MonitorNode));
+            }
+            roots->popBack();
+        }
+    }
+    else
+    {
+        void* storage = ((MonitorHeap*)audio()->unk10)->AllocateMemoryBlock(sizeof(MonitorNode));
+        top = storage ? new (storage) MonitorNode(0, &(*reinterpret_cast<char *>((void *)&::DAT_01063cbc)), 1) : 0;
+        roots->pushBackPlacement(top);
+    }
+    stack.AddBack(top);
+
+    for (int off = 0; off < m14.m_iElementCount;)
+    {
+        const Record* rec = (const Record*)(m14.m_data + off);
+        const char* name = rec->len > 0 ? (const char*)rec + 6 : 0;
+        int step = rec->len + 6;
+        switch (rec->type)
+        {
+        case 'p':
+            stack.popBack();
+            break;
+        case 'P': {
+            MonitorNode* parent = stack.back();
+            MonitorNode* child = FUN_00ddf070(name, strings, parent, rec->a, rec->b);
+            stack.AddBack(child);
+            break;
+        }
+        case 'C':
+            FUN_00ddf070(name, strings, stack.back(), rec->a, rec->b);
+            break;
+        default:
+            return;
+        }
+        off += step;
+    }
+    AggregateChildValues(top, strings);
+}
+
+
+
+// The release passes its own this (ecx) on to FUN_00ddf740.
+// @fnv 0x00ddf970
+void MonitorTreeBuilder::ClearAllItems(int iUnused0, int iUnused1)
+{
+    hkArrayDDF9<ObjDDF9*> kArray;
+    FUN_00ddf740((::MonitorNodeArray *)&kArray, (::MonitorStrings *)0);
+    while (kArray.m_iElementCount)
+    {
+        delete kArray.m_data[kArray.m_iElementCount - 1];
+        kArray.m_iElementCount--;
     }
 }

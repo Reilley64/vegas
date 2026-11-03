@@ -2,6 +2,9 @@
 // src/havok/common/scenedata/alignscene/hkalignscenetonodeoptions.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/scenedata/alignscene/hkalignscenetonodeoptions.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
+#include <cstdint>
+#include <xmmintrin.h>
 #include "fnv/decl/S_00e3ed00_Foo.h"
 #include "fnv/symbols_00cb0000.h"
 #include "havok/hkAlignSceneToNodeOptions.h"
@@ -37,17 +40,16 @@ class hkMemoryAllocatorE4AF
 
 struct hkMemoryRouterE4AF
 {
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
+    void* m_00;
+    void* m_04;
+    void* m_08;
+    void* m_0c;
     hkMemoryAllocatorE4AF* m_pStreamAllocator;
     hkMemoryAllocatorE4AF& heap()
     {
         return *m_pStreamAllocator;
     }
 };
-extern "C" hkMemoryRouterE4AF& __cdecl FUN_00c85750();
 
 class FUN_00cb0c00_class
 {
@@ -56,7 +58,7 @@ class FUN_00cb0c00_class
 
     ~FUN_00cb0c00_class()
     {
-        ::FUN_00cb0c00((int)this);
+        ::FUN_00cb0c00((intptr_t)this);
     }
 };
 
@@ -70,7 +72,7 @@ class hkReferencedObjectE4AF
 
     static void operator delete(void* p) throw()
     {
-        FUN_00c85750().heap().ReleaseBlock(p, static_cast<hkReferencedObjectE4AF*>(p)->m_usMemSizeAndFlags);
+        (*static_cast<hkMemoryRouterE4AF*>(::FUN_00c85750())).heap().ReleaseBlock(p, static_cast<hkReferencedObjectE4AF*>(p)->m_usMemSizeAndFlags);
     }
 };
 
@@ -100,12 +102,7 @@ hkAlignSceneToNodeOptionsE4AF* hkAlignSceneToNodeOptionsE4AF::FUN_00e4afa0(unsig
     return this;
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C" __m128 _mm_setzero_ps();
+
 struct HeapAllocE4
 {
     virtual void v00();
@@ -190,7 +187,7 @@ template <class T, int N> struct InplaceArrE4
     }
     __forceinline void release() throw()
     {
-        HeapAllocE4& h = ((RouterE4*)&FUN_00c85750())->heap();
+        HeapAllocE4& h = ((RouterE4*)&(*static_cast<hkMemoryRouterE4AF*>(::FUN_00c85750())))->heap();
         m_iElementCount = 0;
         if (!(m_iCapacityState & 0x80000000))
             h.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));

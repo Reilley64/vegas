@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 struct Aabb;
 struct ParamOwner;
@@ -13,5 +14,5 @@ public:
     // 0x00c8d240
     ::hkVector4 GetVec() const;
     // 0x00d9d110
-    int FUN_00d9d110(const ::Aabb *, int);
+    int FUN_00d9d110(const ::Aabb *, intptr_t);
 };

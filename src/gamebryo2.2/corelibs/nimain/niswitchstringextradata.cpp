@@ -370,7 +370,7 @@ struct NiExtraDataView
     unsigned int m_uiRefCount;
     char* m_pcName;
     unsigned int m_uiNumEntries;
-    unsigned int* m_pLinkIds;
+    char** m_pLinkIds;
     unsigned int m_uiNumLinkIds;
     void LoadFromStream(NiStreamView& kStream);
 };
@@ -391,7 +391,7 @@ void NiExtraDataView::LoadFromStream(NiStreamView& kStream)
     reinterpret_cast<::FUN_00a7b2c0_shell *>(this)->FUN_00a7b2c0((::NiStream &)(kStream));
     ReadBinaryValue(kStream, m_uiNumEntries);
     for (unsigned int i = 0; i < m_uiNumEntries; ++i)
-        reinterpret_cast<::FUN_00a64160_cls *>(&(kStream))->FUN_00a64160((const char *)(m_pLinkIds[i]));
+        reinterpret_cast<::FUN_00a64160_cls *>(&(kStream))->FUN_00a64160(m_pLinkIds[i]);
     ReadBinaryValue(kStream, m_uiNumLinkIds);
 }
 

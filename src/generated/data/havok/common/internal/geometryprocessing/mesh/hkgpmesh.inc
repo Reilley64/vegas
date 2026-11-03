@@ -36,3 +36,5 @@ unsigned int DAT_0126ebe8;
 unsigned int DAT_0126ebec;
 unsigned int DAT_0126ebf0;
 int DAT_0126ec00;
+
+char str_010eb06c[20] = "T-Jonctions fixed: ";

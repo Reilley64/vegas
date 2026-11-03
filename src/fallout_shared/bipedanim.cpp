@@ -783,7 +783,7 @@ SrcList* FUN_004ae700_S::FUN_004ae700()
 
 // Returns the result of GetReferenceFlags on p when p is non-null, otherwise returns 0.
 // @fnv 0x004ae750
-int FUN_004ae750(void* p)
+intptr_t FUN_004ae750(void* p)
 {
     return p ? ((int)(reinterpret_cast<::FUN_00620b80_shell *>((p))->GetReferenceFlags())) : 0;
 }

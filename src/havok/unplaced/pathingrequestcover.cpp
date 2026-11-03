@@ -2,6 +2,8 @@
 // src/havok/unplaced/pathingrequestcover.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/pathfinding/pathingrequestcover.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
+#include <cstdint>
 #include "fnv/decl/AlchemyItem.h"
 #include "fnv/decl/FUN_00439ef0_class.h"
 #include "fnv/decl/FUN_005076c0Class.h"
@@ -110,7 +112,7 @@ void PathingRequestCover::SetCover(const NiPoint3& point)
 }
 
 // @fnv 0x006e4630
-unsigned char* FUN_006e4630(int aiBase, unsigned short ausIndex, unsigned char aucOffset)
+unsigned char* FUN_006e4630(intptr_t aiBase, unsigned short ausIndex, unsigned char aucOffset)
 {
     return (unsigned char*)((aiBase << 0x10) + ausIndex * 4 + aucOffset);
 }
@@ -465,7 +467,7 @@ bool DistanceCheck::FUN_006e4840(const NiPoint3& point)
     return false;
 }
 
-typedef unsigned int E41E0size_t;
+typedef std::size_t E41E0size_t;
 
 struct FUN_006e41e0
 {

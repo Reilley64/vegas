@@ -366,7 +366,7 @@ extern "C" void fnv_fn_0084bad0() __asm__("?FUN_0084bad0@FUN_0084bad0_class@@QEA
 extern "C" void fnv_fn_0084bb00() __asm__("?DestroySelf@FUN_0084ba20@@QEAAPEAXI@Z");
 extern "C" void fnv_fn_0084d270() __asm__("?FUN_0084d270@FUN_0084d270_class@@QEAAPEAXI@Z");
 extern "C" void fnv_fn_0084d480() __asm__("?FUN_0084d480@FUN_0084d480_Class@@QEAAPEAXI@Z");
-extern "C" void fnv_fn_0084e3a0() __asm__("?FUN_0084e3a0@FUN_0084e3a0_Class@@QEAAHXZ");
+extern "C" void fnv_fn_0084e3a0() __asm__("?FUN_0084e3a0@FUN_0084e3a0_Class@@QEAA_JXZ");
 extern "C" void fnv_fn_00852840() __asm__("?FUN_00852840@FUN_00852840_shell@@QEAAPEAXI@Z");
 extern "C" void fnv_fn_00853240() __asm__("?FUN_00853240@FUN_00853240_Class@fnv_00853240@@QEAAXPEAX@Z");
 extern "C" void fnv_fn_00863840() __asm__("?SetMapItemKeyValue@@YAXPEAXUArgItem_00863840@@UArgKey_00863840@@UArgVal_00863840@@@Z");
@@ -398,9 +398,9 @@ extern "C" void fnv_fn_009fcf60() __asm__("?FUN_009fcf60@@YAKPEAURefCounted@@@Z"
 extern "C" void fnv_fn_009fcf80() __asm__("?FUN_009fcf80@@YAIPEAVFUN_009fcf80_cls@@@Z");
 extern "C" void fnv_fn_009fdcb0() __asm__("?FUN_009fdcb0@FUN_009fdcb0_class@@QEAAPEAHH@Z");
 extern "C" void fnv_fn_00a5d310() __asm__("?FUN_00a5d310@FUN_00a5d310_Class@@QEAAXXZ");
-extern "C" void fnv_fn_00a5d430() __asm__("?FUN_00a5d430@FUN_00a5d430_Class@@QEAAXI@Z");
-extern "C" void fnv_fn_00a7b850() __asm__("?FUN_00a7b850@FnvCpu_FUN_00a7b850_CpuObject@@QEAAPEAXXZ");
-extern "C" void fnv_fn_00a89af0() __asm__("?FUN_00a89af0@@YAXH@Z");
+extern "C" void fnv_fn_00a5d430() __asm__("?FUN_00a5d430@FUN_00a5d430_Class@@QEAAX_K@Z");
+extern "C" void fnv_fn_00a7b850() __asm__("?FUN_00a7b850@FnvCpu_FUN_00a7b850_CpuObject@@QEAAHXZ");
+extern "C" void fnv_fn_00a89af0() __asm__("?FUN_00a89af0@@YAX_J@Z");
 extern "C" void fnv_fn_00acbb70() __asm__("?FUN_00acbb70@FUN_00acbb70_shell@@QEAAHXZ");
 extern "C" void fnv_fn_00b6f470() __asm__("?FUN_00b6f470@@YAHXZ");
 extern "C" void fnv_fn_00c6c840() __asm__("?FUN_00c6c840@S_00c6c840_class@@QEAAXHPEAUS_00c6c840_Param@@@Z");

@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 
+#include <cstdint>
 #include "fnv/decl/FUN_0043b4d0_shell.h"
 #include "fnv/decl/FUN_00624020_Class.h"
 #include "fnv/decl/FUN_00ca9440_cls.h"
@@ -28,7 +29,7 @@ void* FUN_0062a2f0::DeleteThis(unsigned int flags)
 struct S_0062a320_Key
 {
     unsigned int m_uiFilterValue;
-    S_0062a320_Key(unsigned int v);
+    S_0062a320_Key(uintptr_t v);
 };
 
 struct S_0062a320_Node

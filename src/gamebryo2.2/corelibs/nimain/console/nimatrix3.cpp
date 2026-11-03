@@ -670,7 +670,7 @@ void ThreeByThreeMatrix::FUN_00a59780(float fZ, float fY, float fX)
 }
 
 
-ThreeByThreeMatrix ThreeByThreeMatrix::FUN_0043f8d0(const ThreeByThreeMatrix& r) const
+inline ThreeByThreeMatrix ThreeByThreeMatrix::FUN_0043f8d0(const ThreeByThreeMatrix& r) const
 {
     ThreeByThreeMatrix product;
     for(int c=0;c<3;++c)

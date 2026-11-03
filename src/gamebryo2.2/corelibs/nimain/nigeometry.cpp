@@ -124,7 +124,7 @@ void NiAVObject::FUN_00a5ac90(NiAVObject* dest, CloningProcess& process)
     dest->m_flags = this->m_flags | 0x80000;
     dest->m_kLocalTransform = this->m_kLocalTransform;
     if (*(unsigned int*)((char*)this + 0x2c))
-        ::FUN_00a5abe0((::FUN_00a5abe0_owner *)this, dest, (void *volatile)((char*)&this->m_kProperties));
+        ::FUN_00a5abe0((::FUN_00a5abe0_owner *)(dest), (void *)&this->m_kProperties, (void *)&(process));
     if (m_spCollisionObject)
         reinterpret_cast<::Owner62B *>((dest))->AttachTarget(m_spCollisionObject->Clone(process));
 }
@@ -1575,7 +1575,7 @@ inline S00a7ff70_P3 operator*(const S00a7ff70_P3& p, const ThreeByThreeMatrix& m
                         m.m_afEntries[0][1] * p.x + m.m_afEntries[1][1] * p.y + m.m_afEntries[2][1] * p.z,
                         m.m_afEntries[0][2] * p.x + m.m_afEntries[1][2] * p.y + m.m_afEntries[2][2] * p.z);
 }
-__declspec(noinline) ThreeByThreeMatrix ThreeByThreeMatrix::FUN_0043f8d0(const ThreeByThreeMatrix& o) const
+__declspec(noinline) inline ThreeByThreeMatrix ThreeByThreeMatrix::FUN_0043f8d0(const ThreeByThreeMatrix& o) const
 {
     ThreeByThreeMatrix result;
     result.m_afEntries[0][0] = m_afEntries[0][0] * o.m_afEntries[0][0] + m_afEntries[0][1] * o.m_afEntries[1][0] +

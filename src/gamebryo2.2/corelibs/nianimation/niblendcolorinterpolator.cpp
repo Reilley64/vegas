@@ -143,7 +143,7 @@ void NiBlendColorInterpolator_shell::FUN_00a56460(NiStream& kStream)
 {
     reinterpret_cast<::fnv_00a37980::Blend100 *>((((NiBlendInterpolator*)this)))->FUN_00a37980((::fnv_00a37980::Stream100 &)(kStream));
     reinterpret_cast<::RgbaColor *>((((NiColorA_Helper*)((char*)this + 0x30))))->LoadBinary(kStream);
-    if (reinterpret_cast<::fnv_004a4c90::FUN_004a4c90_shell *>((((NiColorA_Compare*)((char*)this + 0x30))))->FUN_004a4c90!=((void *)(&::DAT_011a9430)))
+    if (reinterpret_cast<::fnv_004a4c90::FUN_004a4c90_shell *>((((NiColorA_Compare*)((char*)this + 0x30))))->FUN_004a4c90((void *)(&::DAT_011a9430)))
         *(bool*)((char*)this + 0x40) = true;
 }
 }  // namespace fnv_00a56460

@@ -2,6 +2,8 @@
 // src/havok/common/visualize/hkprocessfactory.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/visualize/hkprocessfactory.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
+#include <cstdint>
 #include <new>
 #include "fnv/decl/FUN_00cb0a60.h"
 #include "fnv/decl/FUN_00cf6da0_cls.h"
@@ -16,13 +18,12 @@ struct FUN_00dd9580_Interface
 };
 struct FUN_00dd9580_Service
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     FUN_00dd9580_Interface* unk10;
 };
-FUN_00dd9580_Service* __cdecl FUN_00c85750();
 struct FUN_00dd9580_Class
 {
     void* vtable;
@@ -65,7 +66,7 @@ FUN_00dd9460_cls* FUN_00dd9460_cls::Initialize()
     unk0c = 0;
     unk10 = 0;
     unk14 = 0x80000000u;
-    FUN_00dd9580_Service* svc = FUN_00c85750();
+    FUN_00dd9580_Service* svc = static_cast<FUN_00dd9580_Service*>(::FUN_00c85750());
     FUN_00dd9460_Factory* f = reinterpret_cast<FUN_00dd9460_Factory*>(svc->unk10);
     void* pBuffer = f->CreateBuffer(0x18);
     if (pBuffer != 0)
@@ -99,7 +100,7 @@ struct MyInterface
 // @fnv 0x00dd9550
 MyFactory* CreateFactory()
 {
-    FUN_00dd9580_Service* service = FUN_00c85750();
+    FUN_00dd9580_Service* service = static_cast<FUN_00dd9580_Service*>(::FUN_00c85750());
     MyInterface* iface = (MyInterface*)service->unk10;
     MyFactory* factory = iface->v04(0x1c);
     factory->unk04 = 0x1c;
@@ -117,7 +118,7 @@ struct S_00dd94c0_Heap
 };
 inline S_00dd94c0_Heap& S_00dd94c0_GetHeap()
 {
-    return *(S_00dd94c0_Heap*)FUN_00c85750()->unk10;
+    return *(S_00dd94c0_Heap*)static_cast<FUN_00dd9580_Service*>(::FUN_00c85750())->unk10;
 }
 
 struct S_00dd94c0_Entry
@@ -138,7 +139,7 @@ struct S_00dd94c0_Array
         int n = m_iElementCount;
         S_00dd94c0_Entry* p = m_data;
         for (int i = 0; i < n; i++, p++)
-            ::FUN_00cb0c00((int)(p));
+            ::FUN_00cb0c00((intptr_t)(p));
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
             h.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(S_00dd94c0_Entry));
@@ -168,7 +169,7 @@ FUN_00dd9580_Class* FUN_00dd9580_Class::FUN_00dd9580(char flags)
     reinterpret_cast<::FUN_00dd94c0 *>(this)->FUN_00dd94c0::~FUN_00dd94c0();
     if (flags & 1)
     {
-        FUN_00dd9580_Service* service = FUN_00c85750();
+        FUN_00dd9580_Service* service = static_cast<FUN_00dd9580_Service*>(::FUN_00c85750());
         service->unk10->notify(this, unk04);
     }
     return this;
@@ -182,7 +183,7 @@ FUN_00dd94c0::~FUN_00dd94c0() throw()
     if (lock)
     {
         DeleteCriticalSection(lock);
-        FUN_00dd9580_Service* sv = FUN_00c85750();
+        FUN_00dd9580_Service* sv = static_cast<FUN_00dd9580_Service*>(::FUN_00c85750());
         sv->unk10->notify(lock, 0x18);
     }
     m_entries.clear();
@@ -206,7 +207,7 @@ struct S_00dd9380_Router
 
 struct S_00dd9380_StringPtr
 {
-    unsigned int m_pcText;
+    uintptr_t m_pcText;
     const char* cString() const
     {
         return (const char*)(m_pcText & ~1u);
@@ -227,7 +228,7 @@ inline int S_00dd9380_strCmp(const char* a, const char* b)
 struct S_00dd9380_Entry
 {
     S_00dd9380_StringPtr m_name;
-    int m_uiFilterValue;
+    intptr_t m_uiFilterValue;
     int m_iOwnerObjectOffset;
 };
 
@@ -262,7 +263,7 @@ struct S_00dd9380_Array
     }
     S_00dd9380_Entry& AllocatePair()
     {
-        return _expandOne(((S_00dd9380_Router*)FUN_00c85750())->heap());
+        return _expandOne(((S_00dd9380_Router*)static_cast<FUN_00dd9580_Service*>(::FUN_00c85750()))->heap());
     }
 };
 
@@ -273,12 +274,12 @@ struct S_00dd9380
     int m_nextId;
     S_00dd9380_Array m_entries;
     CRITICAL_SECTION* m_lock;
-    int FUN_00dd9380(const char* name, int value);
+    intptr_t FUN_00dd9380(const char* name, intptr_t value);
 };
 
 // Finds an entry by name or creates one with the supplied value and next owner offset, then returns its owner offset.
 // @fnv 0x00dd9380
-int S_00dd9380::FUN_00dd9380(const char* name, int value)
+intptr_t S_00dd9380::FUN_00dd9380(const char* name, intptr_t value)
 {
     EnterCriticalSection(m_lock);
     S_00dd9380_Entry* e = 0;

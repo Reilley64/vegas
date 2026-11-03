@@ -2,14 +2,18 @@
 // src/havok/common/base/thread/jobqueue/hkjobqueue.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/thread/jobqueue/hkjobqueue.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
+#include <cstdint>
 #include <cstddef>
+#include <new>
+#include "fnv/decl/FUN_005609f0_shell.h"
+#include "fnv/symbols_00d2c000.h"
+#include <intrin.h>
 #include <windows.h>
 #include "fnv/decl/ArrayRecord.h"
 #include "fnv/decl/CBF490Lists.h"
 #include "fnv/decl/FUN_00d04370_cls.h"
 #include "fnv/decl/FUN_00d04390.h"
-#include "fnv/decl/Host.h"
-#include "fnv/decl/JobDispatcher.h"
 #include "fnv/symbols_00c90000.h"
 #include "fnv/symbols_00cb1000.h"
 #include "fnv/symbols_00cbb000.h"
@@ -107,7 +111,7 @@ struct ItemManager
 
 struct Bucket
 {
-    int unk00;
+    intptr_t unk00;
     int unk04;
     int unk08;
     int unk0C;
@@ -223,15 +227,10 @@ __declspec(align(16)) struct RequestContext
 };
 struct Owner
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
+    CRITICAL_SECTION m_section;
+    void* unk18;
     int unk1C;
-    int unk20;
+    intptr_t unk20;
     int unk24;
     int unk28;
     int unk2C;
@@ -273,7 +272,7 @@ struct Mgr
 
 struct Obj
 {
-    int ForwardWithZero(int a, int b);
+    int ForwardWithZero(intptr_t a, int b);
 };
 
 struct S_00d056a0_Allocator
@@ -285,10 +284,10 @@ struct S_00d056a0_Allocator
 
 struct S_00d056a0_Router
 {
-    int unk0;
-    int unk4;
-    int unk8;
-    int unkC;
+    void* unk0;
+    void* unk4;
+    void* unk8;
+    void* unkC;
     S_00d056a0_Allocator* m_pStreamAllocator;
     S_00d056a0_Allocator* heap()
     {
@@ -296,7 +295,6 @@ struct S_00d056a0_Router
     }
 };
 
-S_00d056a0_Router* FUN_00c85750();
 
 struct S_00d056a0_Elem
 {
@@ -320,7 +318,7 @@ void S_00d056a0::FUN_00d056a0()
     if (n)
     {
         S_00d056a0_Elem* pData = m_data;
-        FUN_00c85750()->heap()->ReleaseBlock(pData, n * sizeof(S_00d056a0_Elem));
+        static_cast<S_00d056a0_Router*>(::FUN_00c85750())->heap()->ReleaseBlock(pData, n * sizeof(S_00d056a0_Elem));
     }
 }
 
@@ -622,11 +620,7 @@ struct FUN_00d048e0_cls
     int unk6c;
     int unk70;
     int unk74;
-    int m_78;
-    int unk7c;
-    int unk80;
-    int unk84;
-    int unk88;
+    void* m_78[5];
     int m_8c;
 
     void ProcessPendingEntries(char* tbl);
@@ -691,7 +685,7 @@ scan:
     return;
 found:
     *(unsigned short*)(tbl + 0x22 + i * 2) += 0xffff;
-    ::FUN_00d043c0((::CallTarget *)((&this->m_78)[i]), 1);
+    ::FUN_00d043c0((::CallTarget *)(this->m_78[i]), 1);
 }
 
 struct __declspec(align(16)) D049D0LockInfo
@@ -1011,10 +1005,10 @@ struct D04A20Allocator;
 
 struct D04A20MemoryRouter
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     D04A20Allocator* m_pStreamAllocator;
 
     D04A20Allocator& heap()
@@ -1024,7 +1018,6 @@ struct D04A20MemoryRouter
 };
 
 namespace fnvc_adapt {
-extern "C" D04A20MemoryRouter& __cdecl FUN_00c85750();
 }
 
 struct D04A20Operation
@@ -1047,7 +1040,7 @@ struct D04A20OperationArray
 
     D04A20Operation& AllocatePair()
     {
-        D04A20Allocator& alloc = fnvc_adapt::FUN_00c85750().heap();
+        D04A20Allocator& alloc = (*static_cast<D04A20MemoryRouter*>(::FUN_00c85750())).heap();
         if (m_iElementCount == getCapacity())
             ::ResizeAudioStream((::AudioAllocator *)(void *)(&alloc), (::AudioStream *)(void *)(this), sizeof(D04A20Operation));
         return m_data[m_iElementCount++];
@@ -1165,17 +1158,6 @@ struct D04A20World
     void QueueOperation(void* object, bool flag, int data);
 };
 
-// Appends an operation with the given object, flag and data to the pending array, then processes pending operations.
-// @fnv 0x00d04a20
-void D04A20World::QueueOperation(void* object, bool flag, int data)
-{
-    D04A20Operation& op = m_pPendingOperations.AllocatePair();
-    op.m_object = object;
-    op.m_flag = flag;
-    op.m_data = data;
-    reinterpret_cast<::JobDispatcher *>(this)->FUN_00d04590();
-}
-
 
 struct D05490Base
 {
@@ -1224,7 +1206,7 @@ struct PoolTable
 {
     static void* operator new(std::size_t nbytes) throw()
     {
-        return FUN_00c85750()->heap()->AllocateMemoryBlock(nbytes);
+        return static_cast<S_00d056a0_Router*>(::FUN_00c85750())->heap()->AllocateMemoryBlock(nbytes);
     }
 
     unsigned short m_counts[12];
@@ -1246,7 +1228,7 @@ struct PoolTable
 
 struct Slot16
 {
-    int m_i00;
+    intptr_t m_i00;
     int m_i04;
     void* m_p08;
     void* m_p0c;
@@ -1336,12 +1318,12 @@ int __cdecl FUN_00d04550(void* context, void* argument, void* item)
 
 template <typename T> inline T* hkAllocateChunk(int n)
 {
-    return static_cast<T*>(FUN_00c85750()->heap()->AllocateMemoryBlock(n * sizeof(T)));
+    return static_cast<T*>(static_cast<S_00d056a0_Router*>(::FUN_00c85750())->heap()->AllocateMemoryBlock(n * sizeof(T)));
 }
 
 template <typename T> inline void hkDeallocateChunk(T* p, int n)
 {
-    FUN_00c85750()->heap()->ReleaseBlock(p, n * sizeof(T));
+    static_cast<S_00d056a0_Router*>(::FUN_00c85750())->heap()->ReleaseBlock(p, n * sizeof(T));
 }
 
 struct hkQueue128
@@ -1368,37 +1350,6 @@ void D057A0Queue::FUN_00d057a0(const D057A0Element& element)
         m_pTail = 0;
     m_data[m_pTail++] = element;
     m_iNodeCount++;
-}
-// Initializes the TLS value, allocates a PoolTable, sets up its entries and slot callbacks, then calls FinishInit.
-// @fnv 0x00d05490
-FUN_00d05490::FUN_00d05490(SrcCfg* pConfig) throw() : D05490Base(0)
-{
-    TlsSetValue(g_dwTlsIndex, 0);
-    m_pTable = new PoolTable;
-    m_b74 = 0;
-    m_pTable->m_b20 = 0;
-    m_pTable->m_i1c = 0;
-    reinterpret_cast<::ArrayRecord *>(&(m_sub))->FUN_00d05b50((*(const ::ArrayRecord *)(pConfig)));
-    m_uiItemCount = pConfig->m_i18;
-    m_i70 = 0;
-    for (int i = 0; i < 16; ++i)
-    {
-        reinterpret_cast<::hkQueue128 *>(&((*m_pTable)[i]))->FUN_00d056d0(0x80);
-    }
-    m_pTable->m_i18 = 0;
-    for (int k = 0; k < m_uiItemCount; ++k)
-    {
-        m_slots[k].m_i04 = 0;
-        m_slots[k].m_i00 = 0;
-        m_slots[k].m_p08 = (void*)((void (&)())::FUN_00d043d0);
-        m_slots[k].m_p0c = (void*)((void (&)())::FUN_00d043e0);
-        m_pTable->m_counts[k] = 0;
-        m_pTable->m_i18 |= 1 << k;
-    }
-    m_pFn1 = (void*)((void (&)())::FUN_00d04550);
-    m_pFn2 = (void*)((void (&)())::FUN_00d04570);
-    m_i8c = 0;
-    reinterpret_cast<::JobDispatcher *>(this)->FUN_00d04590();
 }
 
 // Grows the underlying element array to at least n slots, copying existing nodes and resetting the ring indices.
@@ -1454,10 +1405,10 @@ static __forceinline short& Ref212(Registry* r, unsigned char sub)
 }
 struct LunaOwner : Owner
 {
-    int ProcessCallback(int param_2, int param_3, int param_4);
+    int ProcessCallback(intptr_t param_2, intptr_t param_3, int param_4);
 };
 // @fnv 0x00d05190
-int Obj::ForwardWithZero(int aiFirst, int aiSecond)
+int Obj::ForwardWithZero(intptr_t aiFirst, int aiSecond)
 {
     return reinterpret_cast<::LunaOwner *>(this)->ProcessCallback(0, aiFirst, aiSecond);
 }
@@ -1506,7 +1457,6 @@ struct FUN_00d04bd0_cls : Owner
 {
     void AddJobBatch(ArrayOfJobs* jobs, int priority);
 };
-
 
 
 struct S_00d05020_Job
@@ -1647,7 +1597,7 @@ struct S00df8570_Rec
     int m08;
     int m0c;
     int m10;
-    int m14;
+    intptr_t m14;
     int m18;
     int m1c;
     int m20;
@@ -1691,20 +1641,20 @@ struct S00df8570_Result
 struct S00df8570_Enc
 {
     int FUN_00d04400(S00df8570_Result* result);
-    void FUN_00d04420(int output);
+    void FUN_00d04420(intptr_t output);
 };
 // Writes trace markers, copies input fields into records, calls InitSplitChunks, encodes and inserts items, then calls ProcessCallback and returns its result.
 // @fnv 0x00df8570
 int __cdecl FUN_00df8570(S00df8570_Enc* encoder, S00df8570_Input* input)
 {
     volatile unsigned int stamp;
-    int output;
+    intptr_t output;
     {
         S00df8570_Trace* trace = static_cast<S00df8570_Trace*>(TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c))));
         unsigned int* next = trace->next;
         if (next < trace->end)
         {
-            next[0] = reinterpret_cast<unsigned int>(str_010dba98);
+            next[0] = reinterpret_cast<uintptr_t>(str_010dba98);
             _ReadWriteBarrier();
             stamp = static_cast<unsigned int>(__rdtsc());
             next[1] = stamp;
@@ -1718,7 +1668,7 @@ int __cdecl FUN_00df8570(S00df8570_Enc* encoder, S00df8570_Input* input)
     *input->outCount = count;
     if (count > 0)
     {
-        records[0].m14 = reinterpret_cast<int>(input->outCount);
+        records[0].m14 = reinterpret_cast<intptr_t>(input->outCount);
         records[0].m10 = input->m10;
         records[0].m1c = input->m1c;
         records[0].m20 = input->m20;
@@ -1738,13 +1688,13 @@ int __cdecl FUN_00df8570(S00df8570_Enc* encoder, S00df8570_Input* input)
             reinterpret_cast<::Mgr *>((encoder))->InsertItemAndNotify((::PoolSet *)(output), (*(const ::Item *)(&records[i])), 0);
         encoder->FUN_00d04420(output);
     }
-    int iResult = reinterpret_cast<::LunaOwner *>((encoder))->ProcessCallback((int)(input), (int)(input), 0);
+    int iResult = reinterpret_cast<::LunaOwner *>((encoder))->ProcessCallback((intptr_t)(input), (intptr_t)(input), 0);
     {
         S00df8570_Trace* trace = static_cast<S00df8570_Trace*>(TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c))));
         unsigned int* next = trace->next;
         if (next < trace->end)
         {
-            next[0] = reinterpret_cast<unsigned int>(::DAT_010c41f8);
+            next[0] = reinterpret_cast<uintptr_t>(::DAT_010c41f8);
             _ReadWriteBarrier();
             reinterpret_cast<volatile unsigned int&>(output) = static_cast<unsigned int>(__rdtsc());
             next[1] = reinterpret_cast<volatile unsigned int&>(output);
@@ -1804,17 +1754,16 @@ struct S_00d055c0_Heap
 };
 struct S_00d055c0_Router
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     S_00d055c0_Heap* m10;
     __forceinline S_00d055c0_Heap& heap()
     {
         return *m10;
     }
 };
-S_00d055c0_Router* FUN_00c85750() throw();
 
 struct S_00d055c0_Elem
 {
@@ -1984,7 +1933,7 @@ void S_00d055c0_Obj::FUN_00d055c0()
             p--;
             reinterpret_cast<::S_00d056a0 *>((p))->FUN_00d056a0();
         } while (--n >= 0);
-        FUN_00c85750()->heap().ReleaseBlock(pool, 0x170);
+        static_cast<S_00d055c0_Router*>(::FUN_00c85750())->heap().ReleaseBlock(pool, 0x170);
     }
     if (unk74)
     {
@@ -1994,12 +1943,12 @@ void S_00d055c0_Obj::FUN_00d055c0()
             if (h)
             {
                 reinterpret_cast<::FUN_00d04370_cls *>((h))->FUN_00d04370();
-                FUN_00c85750()->heap().ReleaseBlock(h, 4);
+                static_cast<S_00d055c0_Router*>(::FUN_00c85750())->heap().ReleaseBlock(h, 4);
             }
         }
     }
     {
-        S_00d055c0_Heap& heap = FUN_00c85750()->heap();
+        S_00d055c0_Heap& heap = static_cast<S_00d055c0_Router*>(::FUN_00c85750())->heap();
         unk1a0._clearAndDeallocate(heap);
     }
     reinterpret_cast<::CBF490Lists *>(&(unk58))->ClearLists();
@@ -2055,14 +2004,13 @@ struct SlotAllocator
 
 struct AllocHolder
 {
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     SlotAllocator* m_pAllocator;
 };
 
-AllocHolder* FUN_00c85750();
 
 // Initializes fields of a local ScratchBlock, passes it to FUN_00d883c0, then conditionally calls vSlot10 on m_pAllocator.
 // @fnv 0x00d889f0
@@ -2084,7 +2032,7 @@ void* __cdecl FUN_00d889f0(void* a1)
     s.unk64 = 0x80000000u;
     s.unk7C = 0;
     void* obj = ((void *)(::FUN_00d883c0((*(const ::S883_Island *)(a1)), (char *)(0), 0, (*(::S883_TaskHeader *)(&s)))));
-    AllocHolder* pAllocHolder = FUN_00c85750();
+    AllocHolder* pAllocHolder = static_cast<AllocHolder*>(::FUN_00c85750());
     SlotAllocator* alloc = pAllocHolder->m_pAllocator;
     unsigned int flag = s.unk64;
     if ((flag & 0x80000000u) == 0)
@@ -2213,7 +2161,7 @@ int Dispatcher::FUN_00d051b0()
 {
     TimerSamples samples;
     DispatchJob job;
-    int result = reinterpret_cast<::Obj *>((((JobFetchView*)this)))->ForwardWithZero((int)&job, 0);
+    int result = reinterpret_cast<::Obj *>((((JobFetchView*)this)))->ForwardWithZero((intptr_t)&job, 0);
     if (result != 0)
         return result;
     do
@@ -2375,162 +2323,11 @@ struct QueueLockView : Owner
 {
     Registry* FUN_00d04400(RequestContext* storage);
 };
-// When param_2 is nonzero, invokes the owner callback and inserts its payload; repeats FUN_00d05840 until it returns a value other than -1.
-// @fnv 0x00d04e80
-int LunaOwner::ProcessCallback(int param_2, int param_3, int param_4)
-{
-    union Phase212
-    {
-        volatile unsigned int tick;
-        Registry* registry;
-    };
-    Phase212 phase;
-    {
-        LunaTrace* trace = (LunaTrace*)TlsGetValue(::DAT_0126835c);
-        unsigned int* cursor = trace->current;
-        if (cursor < trace->end)
-        {
-            *cursor = (unsigned int)str_010ccd90;
-            _ReadWriteBarrier();
-            phase.tick = static_cast<unsigned int>(__rdtsc());
-            cursor[1] = phase.tick;
-            cursor += 3;
-            trace->current = cursor;
-        }
-    }
-
-    int result;
-    for (;;)
-    {
-        RequestContext context;
-        phase.registry = reinterpret_cast<::QueueLockView *>(this)->FUN_00d04400(&context);
-        int index = -1;
-        if (param_2 != 0)
-        {
-            LunaCallbackItem item;
-            typedef int(__cdecl * OwnerCallback)(Owner*, Registry*, int, LunaCallbackItem*);
-            if (((OwnerCallback)unk20)(this, phase.registry, param_2, &item) == 0)
-            {
-                index = reinterpret_cast<::FUN_00d04890_cls *>(this)->LookupSpawnedEntry((const unsigned char *)(::Item *)(&item.payload));
-                Bucket* bucket = &phase.registry->buckets[index];
-                int capacity = bucket->unk04;
-
-                if (item.unk00 == 0)
-                {
-                    if (bucket->unk10 >= capacity)
-                    {
-                        if (capacity == 0)
-                            reinterpret_cast<::hkQueue128 *>((bucket))->FUN_00d056d0(8);
-                        else
-                            reinterpret_cast<::hkQueue128 *>((bucket))->FUN_00d056d0(capacity * 2);
-                    }
-                    if (bucket->unk08 == 0)
-                        bucket->unk08 = bucket->unk04;
-                    --bucket->unk08;
-                    Item* destination = (Item*)(bucket->unk00 + bucket->unk08 * 0x80);
-                    *destination = item.payload;
-                    ++bucket->unk10;
-                }
-                else
-                {
-                    if (bucket->unk10 >= capacity)
-                    {
-                        if (capacity == 0)
-                            reinterpret_cast<::hkQueue128 *>((bucket))->FUN_00d056d0(8);
-                        else
-                            reinterpret_cast<::hkQueue128 *>((bucket))->FUN_00d056d0(capacity * 2);
-                    }
-                    if (bucket->unk0C == bucket->unk04)
-                        bucket->unk0C = 0;
-                    Item* destination = (Item*)(bucket->unk00 + bucket->unk0C * 0x80);
-                    *destination = item.payload;
-                    ++bucket->unk0C;
-                    ++bucket->unk10;
-                }
-            }
-
-            unsigned char sub = *(unsigned char*)(param_2 + 1);
-            --Ref212(phase.registry, sub);
-            param_2 = 0;
-        }
-
-        result = reinterpret_cast<::Host *>(this)->FUN_00d05840(index, (::Refs *)(phase.registry), param_4, param_3);
-        if (result != -1)
-            break;
-    }
-
-    {
-        LunaTrace* trace = (LunaTrace*)TlsGetValue(::DAT_0126835c);
-        unsigned int* cursor = trace->current;
-        if (cursor < trace->end)
-        {
-            *cursor = (unsigned int)::DAT_010c41f8;
-            _ReadWriteBarrier();
-            volatile unsigned int stamp = static_cast<unsigned int>(__rdtsc());
-            cursor[1] = (unsigned int)stamp;
-            cursor += 3;
-            trace->current = cursor;
-        }
-    }
-
-    return result;
-}
-// Enqueues a job at the front or tail of a queue, then repeats FUN_00d05840 until it returns a value other than -1.
-// @fnv 0x00d05020
-int S_00d05020_JobQueue::FUN_00d05020(int aiJobType, int priority, S_00d05020_Job& jobInOut, int waitStatus)
-{
-    volatile unsigned int tick;
-    {
-        MonitorStream* s = (MonitorStream*)TlsGetValue(::DAT_0126835c);
-        if (s->m_cur < s->m_kRayEnd)
-        {
-            TimerEntry* h = (TimerEntry*)s->m_cur;
-            h->m_name = "TtGetNextJob";
-            _ReadWriteBarrier();
-            tick = (unsigned int)__rdtsc();
-            h->m_uiCommandId = tick;
-            s->m_cur = (char*)(h + 1);
-        }
-    }
-    RequestContext dynamicDataStorage;
-    bool jobToAdd = true;
-    int result;
-    do
-    {
-        S_00d05020_DynamicData* data = ((::S_00d05020_DynamicData *)(reinterpret_cast<::QueueLockView *>(this)->FUN_00d04400((::RequestContext *)(char *)((char*)&dynamicDataStorage))));
-        int queueIndex = -1;
-        if (jobToAdd)
-        {
-            data->m_sQueueCounts[aiJobType]--;
-            queueIndex = reinterpret_cast<::FUN_00d04890_cls *>(this)->LookupSpawnedEntry((const unsigned char *)&(jobInOut));
-            S_00d05020_Queue& queue = data->m_kQueues[queueIndex];
-            if (priority == 0)
-                queue.enqueueInFront(jobInOut);
-            else
-                queue.enqueue(jobInOut);
-            jobToAdd = false;
-        }
-        result = reinterpret_cast<::Host *>(this)->FUN_00d05840(queueIndex, (::Refs *)(data), waitStatus, (int)&(jobInOut));
-    } while (result == -1);
-    {
-        MonitorStream* s = (MonitorStream*)TlsGetValue(::DAT_0126835c);
-        if (s->m_cur < s->m_kRayEnd)
-        {
-            TimerEntry* h = (TimerEntry*)s->m_cur;
-            h->m_name = "Et";
-            _ReadWriteBarrier();
-            tick = (unsigned int)__rdtsc();
-            h->m_uiCommandId = tick;
-            s->m_cur = (char*)(h + 1);
-        }
-    }
-    return result;
-}
 
 // @fnv 0x00d04400
 Registry* QueueLockView::FUN_00d04400(RequestContext*)
 {
-    EnterCriticalSection(this);
+    EnterCriticalSection(&m_section);
     return reinterpret_cast<Registry*>(unk18);
 }
 
@@ -2560,7 +2357,7 @@ void FUN_00d04450_cls::SetValue(int aiValue)
     {
         unsigned short dec = 0xffff;
         *(unsigned short*)(obj + 0x22 + *(signed char*)((char*)this + 0xea) * 2) += dec;
-        ::FUN_00d043c0((::CallTarget *)(((int*)((char*)this + 0x78))[*(signed char*)((char*)this + 0xea)]), 1);
+        ::FUN_00d043c0((::CallTarget *)(((void**)((char*)this + 0x78))[*(signed char*)((char*)this + 0xea)]), 1);
     }
     reinterpret_cast<::CriticalSectionOwner *>(this)->FUN_00d04420((::Registry *)(obj));
 }
@@ -2713,7 +2510,729 @@ void Worker::FUN_00d04d80(TraceArg* apTraceArg, int flag)
 // @fnv 0x00d04420
 void CriticalSectionOwner::FUN_00d04420(Registry* data)
 {
-    LeaveCriticalSection(this);
+    LeaveCriticalSection((LPCRITICAL_SECTION)this);
+}
+
+
+// hkBase.lib debug info; byte-exact with the game under the Havok release flags.
+struct RTL_CRITICAL_SECTION_
+{
+    void* DebugInfo;
+    long LockCount;
+    long RecursionCount;
+    void* OwningThread;
+    void* LockSemaphore;
+    unsigned long SpinCount;
+};
+
+typedef signed char hkInt8;
+typedef unsigned char hkUint8;
+typedef unsigned short hkUint16;
+typedef std::size_t hk_size_t;
+
+class hkMemoryAllocator
+{
+  public:
+    virtual ~hkMemoryAllocator();
+    virtual void* AllocateMemoryBlock(int numBytes) = 0;
+    virtual void ReleaseBlock(void* p, int numBytes) = 0;
+};
+
+class NineIntegerRecord
+{
+  public:
+    static NineIntegerRecord& __cdecl GetMonitorStream();
+    inline hkMemoryAllocator& heap()
+    {
+        return *m_pStreamAllocator;
+    }
+
+  protected:
+    void* m_stackNext;
+    void* m_stackStart;
+    void* m_stackEnd;
+    hkMemoryAllocator* m_pTemp;
+    hkMemoryAllocator* m_pStreamAllocator;
+};
+
+class hkBool
+{
+  public:
+    inline operator bool() const
+    {
+        return m_cBooleanValue != 0;
+    }
+    inline hkBool& operator=(bool e)
+    {
+        m_cBooleanValue = static_cast<char>(e);
+        return *this;
+    }
+    char m_cBooleanValue;
+};
+
+struct RouterHeapAllocatorProvider
+{
+    hkMemoryAllocator& get(const void*)
+    {
+        return NineIntegerRecord::GetMonitorStream().heap();
+    }
+};
+
+template <typename T> class HavokElementArray
+{
+  public:
+    __forceinline T& operator[](int i);
+    __forceinline int GetLogicalSize() const;
+
+  protected:
+    T* m_data;
+    int m_iElementCount;
+    int m_iCapacityState;
+};
+
+template <typename T, typename Allocator = RouterHeapAllocatorProvider> class hkArray : public HavokElementArray<T>
+{
+  public:
+    typedef Allocator AllocatorType;
+};
+
+template <typename T> __forceinline int HavokElementArray<T>::GetLogicalSize() const
+{
+    return m_iElementCount;
+}
+
+class BusyWaitingSemaphore
+{
+  public:
+    __forceinline void* __cdecl operator new(hk_size_t nbytes)
+    {
+        void* obj = NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));
+        return obj;
+    }
+    __forceinline void __cdecl operator delete(void* p)
+    {
+        if (p)
+        {
+            NineIntegerRecord::GetMonitorStream().heap().ReleaseBlock(p, sizeof(BusyWaitingSemaphore));
+        }
+    }
+    BusyWaitingSemaphore(int initialCount = 0, int maxCount = 1000);
+    ~BusyWaitingSemaphore();
+
+  protected:
+    void* m_pCompletionSemaphore;
+};
+typedef BusyWaitingSemaphore hkSemaphoreBusyWait;
+
+enum JobCategory
+{
+    HK_JOB_TYPE_MAX = 11
+};
+
+struct CellJobConfiguration
+{
+    enum CellRules
+    {
+        PPU_CAN_TAKE_SPU_TASKS,
+        PPU_CANNOT_TAKE_SPU_TASKS
+    };
+    CellRules m_eCellRules;
+    hkBool m_bCellConfigurationFlag;
+    int m_iCellConfigurationValue;
+    hkArray<hkArray<int> > m_kNestedIntegerLists;
+};
+
+struct ThreePointerIntegerRecord
+{
+    void* m_pFirstPointer;
+    int m_iIntegerValue;
+    void* m_pSecondPointer;
+    void* m_pThirdPointer;
+};
+
+enum
+{
+    MAX_NUM_THREAD_TYPES = 5
+};
+
+class JobDispatcher
+{
+  public:
+    struct JobQueueWaitState
+    {
+        short m_sQueueCounts[HK_JOB_TYPE_MAX];
+        int m_iWaitCount;
+        int m_eWaitPolicy;
+        hkBool m_bWaiting;
+        hkUint16 m_auiThreadIds[MAX_NUM_THREAD_TYPES];
+    };
+
+    void FUN_00d04590();
+
+    RTL_CRITICAL_SECTION_ m_pWorldLock;
+    JobQueueWaitState* m_data;
+    void* m_pSecondPointer;
+    void* m_pThirdPointer;
+
+    int iFirstInteger;
+    int iSecondInteger;
+    int iThirdInteger;
+    int iFourthInteger;
+    int m_iFifthIntegerInRun;
+
+    struct JobCategorySubtypeRecord
+    {
+        JobCategory m_eJobType;
+        hkUint8 m_ucSubType;
+        hkUint8 m_ucAdditionalJobByte;
+    };
+    JobCategorySubtypeRecord akSubtypeRecords[2];
+    int iPostArrayInteger;
+
+    int m_iSecondIntegerAfterJobTypePairs;
+    int m_iThirdIntegerAfterJobTypePairs;
+
+    int m_iFourthIntegerAfterJobTypePairs;
+
+    CellJobConfiguration kThreadState;
+
+    int m_iIntegerAfterCellConfig;
+    hkBool bIsActive;
+
+    hkSemaphoreBusyWait* apThreadSemaphores[MAX_NUM_THREAD_TYPES];
+    int iSemaphoreCount;
+
+    hkInt8 aacThreadTypeNames[MAX_NUM_THREAD_TYPES][18];
+
+    hkInt8 acFourByteValues[4];
+
+    ThreePointerIntegerRecord m_akJobTypeEntries[HK_JOB_TYPE_MAX];
+
+    struct JobCategoryThreadInfo
+    {
+        JobCategory m_eJobType;
+        hkUint8 m_ucSubType;
+        int m_uiThreadId;
+    };
+    hkArray<JobCategoryThreadInfo> kJobEntries;
+};
+
+// @fnv 0x00d04590
+void JobDispatcher::FUN_00d04590()
+{
+    int numSharedCaches = kThreadState.m_kNestedIntegerLists.GetLogicalSize() == 0
+                              ? 1
+                              : kThreadState.m_kNestedIntegerLists.GetLogicalSize();
+    iPostArrayInteger = kJobEntries.GetLogicalSize();
+
+    if (!reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(kThreadState.m_bCellConfigurationFlag))->FUN_005609f0())
+    {
+        iSecondInteger = iFirstInteger;
+    }
+    else
+    {
+        iSecondInteger = 0;
+    }
+
+    iThirdInteger = iSecondInteger + numSharedCaches;
+    iFourthInteger = kJobEntries.GetLogicalSize() + iThirdInteger;
+    m_iFifthIntegerInRun = iFourthInteger + iFirstInteger;
+
+    m_iSecondIntegerAfterJobTypePairs = iSecondInteger;
+
+    m_iThirdIntegerAfterJobTypePairs = iFourthInteger;
+
+    if (kThreadState.m_kNestedIntegerLists.GetLogicalSize() > 0)
+    {
+        for (int i = 0; i < kThreadState.m_iCellConfigurationValue; i++)
+        {
+            acFourByteValues[i] = -1;
+        }
+        for (int i = 0; i < kThreadState.m_kNestedIntegerLists.GetLogicalSize(); i++)
+        {
+            for (int j = 0; j < kThreadState.m_kNestedIntegerLists[i].GetLogicalSize(); j++)
+            {
+                acFourByteValues[kThreadState.m_kNestedIntegerLists[i][j]] = hkInt8(iSecondInteger + i);
+            }
+        }
+        for (int i = 0; i < kThreadState.m_iCellConfigurationValue; i++)
+        {
+            ;  // HK_ASSERT: every CPU thread has a cache queue (release build: compiled out)
+        }
+    }
+
+    if (kThreadState.m_kNestedIntegerLists.GetLogicalSize() == 0)
+    {
+        for (int i = 0; i < kThreadState.m_iCellConfigurationValue; i++)
+        {
+            acFourByteValues[i] = hkInt8(iSecondInteger);
+        }
+    }
+
+    for (int i = 0; i < numSharedCaches; i++)
+    {
+        hkInt8* table = &aacThreadTypeNames[i + iSecondInteger][0];
+        *table++ = hkInt8(i + iSecondInteger);
+
+        for (int j = 0; j < kThreadState.m_kNestedIntegerLists.GetLogicalSize(); j++)
+        {
+            if (i != j)
+            {
+                *table++ = hkInt8(j + iSecondInteger);
+            }
+        }
+
+        for (int j = 0; j < iFirstInteger; j++)
+        {
+            *table++ = hkInt8(j + iFourthInteger);
+        }
+        if (kThreadState.m_eCellRules == CellJobConfiguration::PPU_CAN_TAKE_SPU_TASKS)
+        {
+            for (int j = 0; j < iFirstInteger; j++)
+            {
+                *table++ = hkInt8(j);
+            }
+        }
+
+        for (int j = 0; j < iPostArrayInteger; j++)
+        {
+            *table++ = hkInt8(j + iThirdInteger);
+        }
+
+        *table++ = -1;
+    }
+
+    for (int i = 0; i < iPostArrayInteger; i++)
+    {
+        akSubtypeRecords[i].m_eJobType = kJobEntries[i].m_eJobType;
+        akSubtypeRecords[i].m_ucSubType = kJobEntries[i].m_ucSubType;
+        akSubtypeRecords[i].m_ucAdditionalJobByte = hkUint8(i + iThirdInteger);
+
+        int originalSemaphoreIndex = acFourByteValues[kJobEntries[i].m_uiThreadId];
+        acFourByteValues[kJobEntries[i].m_uiThreadId] = akSubtypeRecords[i].m_ucAdditionalJobByte;
+
+        hkInt8* table = &aacThreadTypeNames[i + iThirdInteger][0];
+        *table++ = hkInt8(i + iThirdInteger);
+
+        for (int j = 0; aacThreadTypeNames[originalSemaphoreIndex][j] != -1; j++)
+        {
+            if (aacThreadTypeNames[originalSemaphoreIndex][j] != akSubtypeRecords[i].m_ucAdditionalJobByte)
+            {
+                *table++ = aacThreadTypeNames[originalSemaphoreIndex][j];
+            }
+        }
+        *table++ = -1;
+    }
+
+    int numSemaphores = iFourthInteger;
+
+    m_iFourthIntegerAfterJobTypePairs = acFourByteValues[0];
+    bool newSemaphoreNeeded = false;
+    for (int i = 1; i < kThreadState.m_iCellConfigurationValue; i++)
+    {
+        if (acFourByteValues[i] == acFourByteValues[0])
+        {
+            newSemaphoreNeeded = true;
+            break;
+        }
+    }
+    if (newSemaphoreNeeded)
+    {
+        acFourByteValues[0] = hkInt8(numSemaphores);
+        numSemaphores++;
+    }
+
+    if (reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(bIsActive))->FUN_005609f0())
+    {
+        for (int i = 0; i < iSemaphoreCount; i++)
+        {
+            delete apThreadSemaphores[i];
+        }
+    }
+
+    iSemaphoreCount = numSemaphores;
+
+    for (int i = 0; i < iSemaphoreCount; i++)
+    {
+        m_data->m_auiThreadIds[i] = 0;
+        apThreadSemaphores[i] = new hkSemaphoreBusyWait(0, 1000);
+    }
+
+    bIsActive = true;
+}
+
+extern const char str_010ccd70[];
+struct MonEntry { void* name; int tick; int unk08; };
+struct MonStream { int unk00; MonEntry* m_cur; int unk08; MonEntry* m_kRayEnd; };
+static __forceinline void CaptureMarker(void* marker)
+{
+    MonStream* s = (MonStream*)TlsGetValue(DAT_0126835c);
+    MonEntry* entry=s->m_cur;
+    if (entry < s->m_kRayEnd) {
+        entry->name = marker;
+        unsigned int ticks;
+        ticks = static_cast<unsigned int>(__rdtsc());
+        entry->tick = ticks;
+        s->m_cur=entry+1;
+    }
+}
+struct __declspec(align(16)) ItemBuf { int data[32]; };
+struct Bucket20
+{
+    ItemBuf* m_base;
+    int m_pRayCursor;
+    int m_pFirstNode;
+    int unk0C;
+    int m_uiItemCount;
+};
+struct Refs
+{
+    unsigned short w00; unsigned short w02; unsigned short w04; unsigned short w06;
+    unsigned short w08; unsigned short w0A; unsigned short w0C; unsigned short w0E;
+    unsigned short w10; unsigned short w12; unsigned short w14; unsigned short w16;
+    int f18;
+    int f1C;
+    unsigned short w20;
+    unsigned short pending[5];
+    Bucket20 buckets[1];
+    bool IsClear(int m) const { if (f18 & m) return false; return true; }
+};
+typedef int (__cdecl *ItemFn)(void* self, Refs* refs, ItemBuf* item, int arg);
+struct BSRenderedTexture;
+struct FUN_00b37880;
+struct FakeObj;
+struct Helper;
+struct Output;
+struct P1;
+struct P3;
+struct Param;
+struct Ptr;
+struct Refs;
+struct VirtObj;
+struct Wrap;
+
+struct Host
+{
+    int unk00; int unk04; int unk08; int unk0C; int unk10; int unk14; int unk18;
+    ItemFn m_fn1C;
+    int unk20;
+    int m_count24;
+    int unk28; int unk2C;
+    int m_bucketBase30;
+    int unk34; int unk38; int unk3C; int unk40; int unk44; int unk48;
+    int m_lo4C;
+    int m_hi50;
+    int m_def54;
+    int unk58; int unk5C; int unk60; int unk64; int unk68; int unk6C; int unk70; int unk74;
+    int* m_iSlotIds[5];
+    int unk8C; int unk90; int unk94; int unk98; int unk9C; int unkA0; int unkA4; int unkA8;
+    int unkAC; int unkB0; int unkB4; int unkB8; int unkBC; int unkC0; int unkC4; int unkC8;
+    int unkCC; int unkD0; int unkD4; int unkD8; int unkDC; int unkE0; int unkE4;
+    unsigned short wE8;
+    signed char bEA;
+    unsigned char bEB;
+    __forceinline int tryPop(Refs* refs,int a4) {
+    int v;
+    if (TlsGetValue((*reinterpret_cast<int *>(&::g_dwTlsIndex))) == 0)
+        v = m_def54;
+    else
+        v = ((signed char*)TlsGetValue((*reinterpret_cast<int *>(&::g_dwTlsIndex))))[(intptr_t)this + 0xea];
+    signed char* cursor = (signed char*)this + (v * 9 + 0x48) * 2;
+    int cur = *cursor;
+    while(cur >= 0) {
+        Bucket20* bucket = (Bucket20*)((char*)refs + cur*20+0x2c);
+        ++cursor;
+        if(bucket->m_uiItemCount != 0) {
+        ItemBuf item;
+        item = bucket->m_base[bucket->m_pFirstNode];
+        int head = bucket->m_pFirstNode + 1;
+        bucket->m_pFirstNode = head;
+        if (head == bucket->m_pRayCursor)
+            bucket->m_pFirstNode = 0;
+        bucket->m_uiItemCount--;
+        int r = m_fn1C(this, refs, &item, a4);
+        if (r == 1) {
+            reinterpret_cast<::fnv_00d057f0::ItemPool *>((bucket))->FUN_00d057f0((*(const ::fnv_00d057f0::Item *)(&item)));
+            reinterpret_cast<::ItemManager *>(this)->RemoveItemReference(cur, (::UnsignedShortCountBlock *)(refs));
+        }
+        ((unsigned short*)refs)[((unsigned char*)&item)[1]]++;
+        return cur;
+        }
+        cur=*cursor;
+    }
+    return -1;
+    }
+    int FUN_00d05840(int a1, Refs* refs, int a3, int a4);
+public:
+    // 0x0050de60
+    bool FUN_0050de60(::Ptr, float *, ::P3 *);
+    // 0x005174d0
+    void *FUN_005174d0(unsigned int);
+    // 0x00639c90
+    bool FUN_00639c90(unsigned int);
+    // 0x0068b4c0
+    bool FUN_0068b4c0(::Param *);
+    // 0x00872f50
+    ::BSRenderedTexture *FUN_00872f50(::P1 *, ::BSRenderedTexture *, unsigned char, unsigned char);
+    // 0x0087ae60
+    void QueueCheckTask(::FakeObj *);
+    // 0x00913fb0
+    void FUN_00913fb0(::VirtObj *);
+    // 0x009a3780
+    void ProcessElements(::Helper *);
+    // 0x00b18f60
+    void FUN_00b18f60(::FUN_00b37880 *);
+    // 0x00b8b3b0
+    void FUN_00b8b3b0();
+    // 0x00dbf930
+    void WriteArray(const ::Wrap &, int);
+    // 0x00df9fe0
+    int FUN_00df9fe0(::Output *, int *);
+};
+// @fnv 0x00d05840
+int Host::FUN_00d05840(int a1, Refs* refs, int a3, int a4)
+{
+    int ediVal = tryPop(refs,a4);
+    if (a1 != -1 && a1 != ediVal) reinterpret_cast<::ItemManager *>(this)->RemoveItemReference(a1,(::UnsignedShortCountBlock *)(refs));
+    if (ediVal >= 0) { reinterpret_cast<::CriticalSectionOwner *>(this)->FUN_00d04420((::Registry *)(refs)); return 0; }
+    {
+        int total = 0;
+        for(int i=m_lo4C;i<m_hi50;++i) total += refs->buckets[i].m_uiItemCount;
+        if (total != 0)
+            goto tail_check;
+        int mask = 0;
+        for (int k = 0; k < m_count24; k++) {
+            mask |= ((((short*)refs)[k] > 0 || refs->buckets[m_bucketBase30 + k].m_uiItemCount != 0) ? 1 : 0) << k;
+        }
+        bool none = refs->IsClear(mask) != 0;
+        bool maskZero = mask == 0;
+        if (none) {
+            if (TlsGetValue((*reinterpret_cast<int *>(&::g_dwTlsIndex))) == 0) {
+                if (maskZero)
+                    reinterpret_cast<::FnvReleaseSet *>(this)->ReleasePendingCounts((::FnvReleaseCounts *)(refs));
+                reinterpret_cast<::CriticalSectionOwner *>(this)->FUN_00d04420((::Registry *)(refs));
+                return 2;
+            }
+            if (refs->pending[bEA] > 0) {
+                refs->pending[bEA]--;
+                ::FUN_00d043c0((::CallTarget *)((intptr_t)m_iSlotIds[bEA]), 1);
+            }
+        }
+        if (maskZero && refs->f1C != 1) {
+            reinterpret_cast<::FnvReleaseSet *>(this)->ReleasePendingCounts((::FnvReleaseCounts *)(refs));
+            reinterpret_cast<::CriticalSectionOwner *>(this)->FUN_00d04420((::Registry *)(refs));
+            return 2;
+        }
+    }
+tail_check:
+    if (a3 == 1) {
+        reinterpret_cast<::CriticalSectionOwner *>(this)->FUN_00d04420((::Registry *)(refs));
+        return 1;
+    }
+    {
+        int idx = ((signed char*)TlsGetValue((*reinterpret_cast<int *>(&::g_dwTlsIndex))))[(intptr_t)&this->bEA];
+        refs->pending[idx]++;
+        reinterpret_cast<::CriticalSectionOwner *>(this)->FUN_00d04420((::Registry *)(refs));
+        CaptureMarker((void*)str_010ccd70);
+        ::FUN_00d043b0((void *)((intptr_t)m_iSlotIds[idx]));
+        CaptureMarker((void*)::DAT_010c41f8);
+        return -1;
+    }
+}
+
+
+
+// Appends an operation with the given object, flag and data to the pending array, then processes pending operations.
+// @fnv 0x00d04a20
+void D04A20World::QueueOperation(void* object, bool flag, int data)
+{
+    D04A20Operation& op = m_pPendingOperations.AllocatePair();
+    op.m_object = object;
+    op.m_flag = flag;
+    op.m_data = data;
+    reinterpret_cast<::JobDispatcher *>(this)->FUN_00d04590();
+}
+// Initializes the TLS value, allocates a PoolTable, sets up its entries and slot callbacks, then calls FinishInit.
+// @fnv 0x00d05490
+FUN_00d05490::FUN_00d05490(SrcCfg* pConfig) throw() : D05490Base(0)
+{
+    TlsSetValue(g_dwTlsIndex, 0);
+    m_pTable = new PoolTable;
+    m_b74 = 0;
+    m_pTable->m_b20 = 0;
+    m_pTable->m_i1c = 0;
+    reinterpret_cast<::ArrayRecord *>(&(m_sub))->FUN_00d05b50((*(const ::ArrayRecord *)(pConfig)));
+    m_uiItemCount = pConfig->m_i18;
+    m_i70 = 0;
+    for (int i = 0; i < 16; ++i)
+    {
+        reinterpret_cast<::hkQueue128 *>(&((*m_pTable)[i]))->FUN_00d056d0(0x80);
+    }
+    m_pTable->m_i18 = 0;
+    for (int k = 0; k < m_uiItemCount; ++k)
+    {
+        m_slots[k].m_i04 = 0;
+        m_slots[k].m_i00 = 0;
+        m_slots[k].m_p08 = (void*)((void (&)())::FUN_00d043d0);
+        m_slots[k].m_p0c = (void*)((void (&)())::FUN_00d043e0);
+        m_pTable->m_counts[k] = 0;
+        m_pTable->m_i18 |= 1 << k;
+    }
+    m_pFn1 = (void*)((void (&)())::FUN_00d04550);
+    m_pFn2 = (void*)((void (&)())::FUN_00d04570);
+    m_i8c = 0;
+    reinterpret_cast<::JobDispatcher *>(this)->FUN_00d04590();
+}
+// When param_2 is nonzero, invokes the owner callback and inserts its payload; repeats FUN_00d05840 until it returns a value other than -1.
+// @fnv 0x00d04e80
+int LunaOwner::ProcessCallback(intptr_t param_2, intptr_t param_3, int param_4)
+{
+    union Phase212
+    {
+        volatile unsigned int tick;
+        Registry* registry;
+    };
+    Phase212 phase;
+    {
+        LunaTrace* trace = (LunaTrace*)TlsGetValue(::DAT_0126835c);
+        unsigned int* cursor = trace->current;
+        if (cursor < trace->end)
+        {
+            *cursor = (uintptr_t)str_010ccd90;
+            _ReadWriteBarrier();
+            phase.tick = static_cast<unsigned int>(__rdtsc());
+            cursor[1] = phase.tick;
+            cursor += 3;
+            trace->current = cursor;
+        }
+    }
+
+    int result;
+    for (;;)
+    {
+        RequestContext context;
+        phase.registry = reinterpret_cast<::QueueLockView *>(this)->FUN_00d04400(&context);
+        int index = -1;
+        if (param_2 != 0)
+        {
+            LunaCallbackItem item;
+            typedef int(__cdecl * OwnerCallback)(Owner*, Registry*, int, LunaCallbackItem*);
+            if (((OwnerCallback)unk20)(this, phase.registry, param_2, &item) == 0)
+            {
+                index = reinterpret_cast<::FUN_00d04890_cls *>(this)->LookupSpawnedEntry((const unsigned char *)(::Item *)(&item.payload));
+                Bucket* bucket = &phase.registry->buckets[index];
+                int capacity = bucket->unk04;
+
+                if (item.unk00 == 0)
+                {
+                    if (bucket->unk10 >= capacity)
+                    {
+                        if (capacity == 0)
+                            reinterpret_cast<::hkQueue128 *>((bucket))->FUN_00d056d0(8);
+                        else
+                            reinterpret_cast<::hkQueue128 *>((bucket))->FUN_00d056d0(capacity * 2);
+                    }
+                    if (bucket->unk08 == 0)
+                        bucket->unk08 = bucket->unk04;
+                    --bucket->unk08;
+                    Item* destination = (Item*)(bucket->unk00 + bucket->unk08 * 0x80);
+                    *destination = item.payload;
+                    ++bucket->unk10;
+                }
+                else
+                {
+                    if (bucket->unk10 >= capacity)
+                    {
+                        if (capacity == 0)
+                            reinterpret_cast<::hkQueue128 *>((bucket))->FUN_00d056d0(8);
+                        else
+                            reinterpret_cast<::hkQueue128 *>((bucket))->FUN_00d056d0(capacity * 2);
+                    }
+                    if (bucket->unk0C == bucket->unk04)
+                        bucket->unk0C = 0;
+                    Item* destination = (Item*)(bucket->unk00 + bucket->unk0C * 0x80);
+                    *destination = item.payload;
+                    ++bucket->unk0C;
+                    ++bucket->unk10;
+                }
+            }
+
+            unsigned char sub = *(unsigned char*)(param_2 + 1);
+            --Ref212(phase.registry, sub);
+            param_2 = 0;
+        }
+
+        result = reinterpret_cast<::Host *>(this)->FUN_00d05840(index, (::Refs *)(phase.registry), param_4, param_3);
+        if (result != -1)
+            break;
+    }
+
+    {
+        LunaTrace* trace = (LunaTrace*)TlsGetValue(::DAT_0126835c);
+        unsigned int* cursor = trace->current;
+        if (cursor < trace->end)
+        {
+            *cursor = (uintptr_t)::DAT_010c41f8;
+            _ReadWriteBarrier();
+            volatile unsigned int stamp = static_cast<unsigned int>(__rdtsc());
+            cursor[1] = (unsigned int)stamp;
+            cursor += 3;
+            trace->current = cursor;
+        }
+    }
+
+    return result;
+}
+// Enqueues a job at the front or tail of a queue, then repeats FUN_00d05840 until it returns a value other than -1.
+// @fnv 0x00d05020
+int S_00d05020_JobQueue::FUN_00d05020(int aiJobType, int priority, S_00d05020_Job& jobInOut, int waitStatus)
+{
+    volatile unsigned int tick;
+    {
+        MonitorStream* s = (MonitorStream*)TlsGetValue(::DAT_0126835c);
+        if (s->m_cur < s->m_kRayEnd)
+        {
+            TimerEntry* h = (TimerEntry*)s->m_cur;
+            h->m_name = "TtGetNextJob";
+            _ReadWriteBarrier();
+            tick = (unsigned int)__rdtsc();
+            h->m_uiCommandId = tick;
+            s->m_cur = (char*)(h + 1);
+        }
+    }
+    RequestContext dynamicDataStorage;
+    bool jobToAdd = true;
+    int result;
+    do
+    {
+        S_00d05020_DynamicData* data = ((::S_00d05020_DynamicData *)(reinterpret_cast<::QueueLockView *>(this)->FUN_00d04400((::RequestContext *)(char *)((char*)&dynamicDataStorage))));
+        int queueIndex = -1;
+        if (jobToAdd)
+        {
+            data->m_sQueueCounts[aiJobType]--;
+            queueIndex = reinterpret_cast<::FUN_00d04890_cls *>(this)->LookupSpawnedEntry((const unsigned char *)&(jobInOut));
+            S_00d05020_Queue& queue = data->m_kQueues[queueIndex];
+            if (priority == 0)
+                queue.enqueueInFront(jobInOut);
+            else
+                queue.enqueue(jobInOut);
+            jobToAdd = false;
+        }
+        result = reinterpret_cast<::Host *>(this)->FUN_00d05840(queueIndex, (::Refs *)(data), waitStatus, (intptr_t)&(jobInOut));
+    } while (result == -1);
+    {
+        MonitorStream* s = (MonitorStream*)TlsGetValue(::DAT_0126835c);
+        if (s->m_cur < s->m_kRayEnd)
+        {
+            TimerEntry* h = (TimerEntry*)s->m_cur;
+            h->m_name = "Et";
+            _ReadWriteBarrier();
+            tick = (unsigned int)__rdtsc();
+            h->m_uiCommandId = tick;
+            s->m_cur = (char*)(h + 1);
+        }
+    }
+    return result;
 }
 
 #include "generated/data/havok/common/base/thread/jobqueue/hkjobqueue.inc"

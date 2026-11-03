@@ -2,6 +2,7 @@
 // src/staging/blk_00d00000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstdint>
 #include <windows.h>
 #include <new>
 #include <cstring>
@@ -1237,7 +1238,7 @@ void __cdecl FUN_00d1b850(QueryObj* obj, int arg1, int arg2)
 
 // Builds a frame from the vectors at p->m30 and p->m40 (start and difference) and calls FUN_00d1b4d0 with count m0C, or 128 if that is not positive.
 // @fnv 0x00d1b930
-void __cdecl FUN_00d1b930(S00d1b7f0_Input* p, int argB, int argC, int argD)
+void __cdecl FUN_00d1b930(S00d1b7f0_Input* p, int argB, int argC, intptr_t argD)
 {
     S00d1b7f0_Frame frame;
     __m128 end = _mm_load_ps(reinterpret_cast<const float*>(&p->m40));

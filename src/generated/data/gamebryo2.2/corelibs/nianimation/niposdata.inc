@@ -6,4 +6,6 @@ char str_01097164[12] = "m_uiNumKeys";
 unsigned char DAT_011f375e[1];
 void (*DAT_011f3798[2])(PositionKeyInterpolator *, unsigned int, unsigned char);
 void (*DAT_011f38b8[1])(PositionKeyInterpolator *);
+void (*g_011f3a68[1])(NiStream &, PositionKeyInterpolator *, unsigned int);
+bool (*DAT_011f3af8[6])(void *, void *);
 PositionKeyInterpolator *(*DAT_011f3dc8[1])(NiStream &, unsigned int);

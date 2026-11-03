@@ -177,13 +177,13 @@ bool NiPersistentSrcTextureRendererData::FUN_00a98170(NiStream& kStream)
 }
 }  // namespace fnv_00a98170
 
-struct S
+struct S_00a98480
 {
     void* DestroyIfFlagged(unsigned int);
 };
 // Calls FUN_00a98240, then deletes this with size 0x94 when f has bit 0 set, and returns this.
 // @fnv 0x00a98480
-void* S::DestroyIfFlagged(unsigned int auiFlags)
+void* S_00a98480::DestroyIfFlagged(unsigned int auiFlags)
 {
     static_cast<::fnv_00a98240::NiObjectShell *>(nullptr)->FUN_00a98240();
     if (auiFlags & 1)

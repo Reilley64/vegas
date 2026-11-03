@@ -35,6 +35,7 @@
 #include "fnv/symbols_011f3000.h"
 #include "fnv/symbols_011f6000.h"
 #include "niblendaccumtransforminterpolator_decls.h"
+#include "fnv/decl/QXform2.h"
 struct Q
 {
     float w, x, y, z;
@@ -1019,4 +1020,36 @@ bool BlendAccumState::FUN_00a39960(float time, void* target, NiQuatTransform& ou
     return false;
 }
 
+void _fnv_CopyFilePath(char*, unsigned int, const char*, unsigned int);
+char* CopyFilePath(char* dst, unsigned int a, const char* b, unsigned int c);
+
+struct FUN_00a393c0_cls : NiBlendAccumTransformInterpolator
+{
+    void FUN_00a393c0(unsigned char idx);
+};
+// @fnv 0x00a393c0
+void FUN_00a393c0_cls::FUN_00a393c0(unsigned char idx)
+{
+    if (m_ucInterpCount == 1 && idx == m_ucSingleIdx && !reinterpret_cast<::NiQuatTransform *>((void *)&(m_kAccumulatedTransform))->IsInvalid())
+    {
+        NiQuatTransform* value = &m_pAccumulationData[m_ucSingleIdx].value;
+        if (!value->IsInvalid())
+            m_kAccumulatedTransform = m_kAccumulatedTransform.CombineTransforms(*value);
+    }
+    bool active = m_pInterpArray[idx].interpolator != 0;
+    reinterpret_cast<::NiBlendInterpolator *>(this)->RemoveInterpolatorAt(idx);
+    if (m_ucInterpCount == 1 && active)
+    {
+        AccumItem* item = &m_pAccumulationData[m_ucSingleIdx];
+        m_bHasAccumulation = true;
+        item->time = -3.4028234663852886e38f;
+        item->value.m_kTranslate.x = -3.4028234663852886e38f;
+        item->value.m_kRotate.x = -3.4028234663852886e38f;
+        item->value.m_fScale = -3.4028234663852886e38f;
+        item->accum.m_kTranslate.x = -3.4028234663852886e38f;
+        item->accum.m_kRotate.x = -3.4028234663852886e38f;
+        item->accum.m_fScale = -3.4028234663852886e38f;
+        memcpy(item->rotation, (*reinterpret_cast<float (*)[9]>(&::DAT_011a9448)), sizeof(item->rotation));
+    }
+}
 #include "generated/data/gamebryo2.2/corelibs/nianimation/niblendaccumtransforminterpolator.inc"

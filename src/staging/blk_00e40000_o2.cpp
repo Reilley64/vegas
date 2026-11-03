@@ -1895,7 +1895,7 @@ extern void __cdecl FUN_00e58440(int, int, int, int, float, int, int, int, int);
 
 // Passes all nine arguments through unchanged to FUN_00e58440.
 // @fnv 0x00e58740
-void __cdecl FUN_00e58740(int i1, int i2, int i3, int i4, float f5, int i6, int i7, int i8, int i9)
+void __cdecl FUN_00e58740(int i1, intptr_t i2, intptr_t i3, int i4, float f5, intptr_t i6, intptr_t i7, intptr_t i8, intptr_t i9)
 {
     FUN_00e58440(i1, i2, i3, i4, f5, i6, i7, i8, i9);
 }
@@ -2261,7 +2261,7 @@ public:
 
 // Scans m_pEntries for the first entry whose masked m_ptr matches a1 via CompareStringsCaseInsensitive and returns its index, or -1 if none match.
 // @fnv 0x00e5c490
-int FUN_00e5c490_cls::FindEntryIndex(unsigned int a1)
+int FUN_00e5c490_cls::FindEntryIndex(uintptr_t a1)
 {
     for (int i = 0; i < m_uiItemCount; i++)
     {
@@ -2654,11 +2654,11 @@ int FUN_00e5c9b0_cls::GetFloatAttribute(const char* name, bool log, float* out)
 // with a literal zero inserted as the third argument.
 
 struct FUN_00e5cdb0_class {
-    void FUN_00e5cec0(int a, int b, int c, int d);
+    void FUN_00e5cec0(intptr_t a, int b, intptr_t c, int d);
 };
 
 // @fnv 0x00e5cec0
-void FUN_00e5cdb0_class::FUN_00e5cec0(int a, int b, int c, int d)
+void FUN_00e5cdb0_class::FUN_00e5cec0(intptr_t a, int b, intptr_t c, int d)
 {
     reinterpret_cast<::hkArrayE5CD *>(this)->SpliceArray((*(::hkMemoryAllocatorE5CD *)(a)), b, 0, (const ::hkxAttributeE5CD *)(c), d);
 }

@@ -4,7 +4,13 @@
 
 // Returns the smaller of the two float arguments.
 // @fnv 0x00e0c260
+#include "fnv/symbols_00c85000.h"
+#include <cstdint>
 #include <cstddef>
+#include "fnv/decl/CB1A90Owner.h"
+#include "fnv/decl/FUN_00cb1fe0_t.h"
+#include "fnv/symbols_00a29000.h"
+#include "fnv/symbols_00e10000.h"
 #include <new>
 #include <cstring>
 #include "fnv/decl/FUN_005609f0_shell.h"
@@ -238,14 +244,14 @@ struct E0C860Node
 };
 
 // @fnv 0x00e0c860
-int __cdecl GetTreeWidth(E0C860Node* node, int depth, int indent, bool onlyExpanded)
+intptr_t __cdecl GetTreeWidth(E0C860Node* node, intptr_t depth, int indent, bool onlyExpanded)
 {
-    int width = ::fnv_00cb10d0::FUN_00cb10d0(node->m_name) + depth * indent + 8;
+    intptr_t width = ::fnv_00cb10d0::FUN_00cb10d0(node->m_name) + depth * indent + 8;
     if (!onlyExpanded || (node->m_flags & 1))
     {
         for (int i = 0; i < node->m_children.GetLogicalSize(); i++)
         {
-            int childWidth = GetTreeWidth(node->m_children[i], depth + 1, indent, onlyExpanded);
+            intptr_t childWidth = GetTreeWidth(node->m_children[i], depth + 1, indent, onlyExpanded);
             if (childWidth > width)
                 width = childWidth;
         }
@@ -257,21 +263,20 @@ int __cdecl GetTreeWidth(E0C860Node* node, int depth, int indent, bool onlyExpan
 struct S_e0ce00_Alloc;
 struct S_e0ce00_Router
 {
-    int unk0;
-    int unk4;
-    int unk8;
-    int unkC;
+    void* unk0;
+    void* unk4;
+    void* unk8;
+    void* unkC;
     S_e0ce00_Alloc* m_pStreamAllocator;
     S_e0ce00_Alloc& heap()
     {
         return *m_pStreamAllocator;
     }
 };
-S_e0ce00_Router* __cdecl FUN_00c85750();
 
 struct S_e0ce00_Block
 {
-    int unk0;
+    intptr_t unk0;
     int unk4;
     int unk8;
     int unkC;
@@ -324,7 +329,7 @@ S_e0ce00_Bool S_e0ce00::AppendBlock(const char* begin, const char* end, const S_
     int n = end - begin;
     if ((m_iCapacityState & 0x3fffffff) - m_iElementCount < n)
         return false;
-    S_e0ce00_Alloc& alloc = FUN_00c85750()->heap();
+    S_e0ce00_Alloc& alloc = static_cast<S_e0ce00_Router*>(::FUN_00c85750())->heap();
     S_e0ce00_Array& arr = m_arrays[aBlock.unk18];
     S_e0ce00_Block& nb = arr.AllocatePair(alloc);
     nb = aBlock;
@@ -349,7 +354,6 @@ struct Device
     virtual void D();
     virtual void ReleaseBuffer(void* p, unsigned int bytes);
 };
-void* __cdecl FUN_00c85750();
 struct Owner
 {
     int unk00;
@@ -427,10 +431,9 @@ struct AudioMgr
 };
 
 struct BSAudio;
-BSAudio* __cdecl FUN_00c85750();
 inline AudioMgr* audio()
 {
-    return (AudioMgr*)FUN_00c85750();
+    return (AudioMgr*)static_cast<BSAudio*>(::FUN_00c85750());
 }
 
 
@@ -838,7 +841,7 @@ void __cdecl ProcessRecords(unsigned char* pRecords, unsigned char* end, Sink* s
             pRecords += 4;
             continue;
         }
-        Singleton* pSingleton = (Singleton*)FUN_00c85750();
+        Singleton* pSingleton = (Singleton*)static_cast<S_e0ce00_Router*>(::FUN_00c85750());
         reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>((sink))->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(pSingleton->unk10)), (int)v, (int)v);
         char* s = *(char**)pRecords;
         switch (*s)
@@ -852,14 +855,14 @@ void __cdecl ProcessRecords(unsigned char* pRecords, unsigned char* end, Sink* s
         }
         case 0x4f: {
             int w = *(int*)(pRecords + 0xc);
-            Singleton* g = (Singleton*)FUN_00c85750();
+            Singleton* g = (Singleton*)static_cast<S_e0ce00_Router*>(::FUN_00c85750());
             reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>((sink))->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(g->unk10)), w, w);
             pRecords += 0x10;
             break;
         }
         case 0x4c: {
             int w = *(int*)(pRecords + 0xc);
-            Singleton* g = (Singleton*)FUN_00c85750();
+            Singleton* g = (Singleton*)static_cast<S_e0ce00_Router*>(::FUN_00c85750());
             reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>((sink))->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(g->unk10)), w, w);
             pRecords += 0x10;
             break;
@@ -964,7 +967,7 @@ struct S00e0c690_entry
     int unk40;
     int unk44;
     int unk48;
-    int m_4c;
+    intptr_t m_4c;
 };
 
 struct FUN_00e0c690_owner
@@ -991,9 +994,9 @@ extern "C" int __cdecl FUN_00cb0fa0(int a, unsigned int b);
 
 // Checks the cached index, then scans entries for a matching m_4c; stores the scanned index on a match.
 // @fnv 0x00e0c690
-static __declspec(noinline) unsigned char FUN_00e0c690(unsigned int uiKey, int* piIndex, FUN_00e0c690_owner* apOwner)
+static __declspec(noinline) unsigned char FUN_00e0c690(uintptr_t uiKey, int* piIndex, FUN_00e0c690_owner* apOwner)
 {
-    unsigned int* pa = &uiKey;
+    uintptr_t* pa = &uiKey;
     int idx = *piIndex;
     if (apOwner->m_34 > idx)
     {
@@ -1225,7 +1228,7 @@ struct S_00e0cbe0_Entry
     int unk40;
     int unk44;
     int unk48;
-    int unk4c;
+    intptr_t unk4c;
 };
 
 struct S_00e0cbe0_Owner
@@ -1250,10 +1253,10 @@ int __cdecl FUN_00cb0fa0(int a, int b);
 
 // Searches owner->unk30 for an entry matching key, then returns the first subsequent entry whose unk4c fails FUN_00cb0fa0 against value.
 // @fnv 0x00e0cbe0
-static __declspec(noinline) int __cdecl FUN_00e0cbe0(S_00e0cbe0_Owner* owner, S_00e0cbe0_Entry* key, int value)
+static __declspec(noinline) intptr_t __cdecl FUN_00e0cbe0(S_00e0cbe0_Owner* owner, S_00e0cbe0_Entry* key, const char* value)
 {
     int index;
-    int* piValue = &value;
+    const char** piValue = &value;
 
     index = 0;
     while (index < owner->unk34)
@@ -1270,15 +1273,15 @@ static __declspec(noinline) int __cdecl FUN_00e0cbe0(S_00e0cbe0_Owner* owner, S_
     do
     {
         S_00e0cbe0_Entry** slot = &owner->unk30[index];
-        if (!::fnv_00cb0fa0::FUN_00cb0fa0((const char *)(*piValue), (const char *)((*slot)->unk4c)))
-            return reinterpret_cast<int>(owner->unk30[index]);
+        if (!::fnv_00cb0fa0::FUN_00cb0fa0(*piValue, (const char *)((*slot)->unk4c)))
+            return reinterpret_cast<intptr_t>(owner->unk30[index]);
         ++index;
     } while (index < owner->unk34);
 
     return 0;
 }
 
-int __cdecl S00e0cbe0_Call(S_00e0cbe0_Owner* owner, S_00e0cbe0_Entry* key, int value)
+intptr_t __cdecl S00e0cbe0_Call(S_00e0cbe0_Owner* owner, S_00e0cbe0_Entry* key, const char* value)
 {
     return FUN_00e0cbe0(owner, key, value);
 }
@@ -1293,7 +1296,7 @@ struct TempArray830
     {}
     void reserve(int count)
     {
-        S_e0ce00_Alloc& heap = FUN_00c85750()->heap();
+        S_e0ce00_Alloc& heap = static_cast<S_e0ce00_Router*>(::FUN_00c85750())->heap();
         int cap = capacity & 0x3fffffff;
         if (cap < count)
         {
@@ -1305,7 +1308,7 @@ struct TempArray830
     }
     void release()
     {
-        S_e0ce00_Alloc& heap = FUN_00c85750()->heap();
+        S_e0ce00_Alloc& heap = static_cast<S_e0ce00_Router*>(::FUN_00c85750())->heap();
         size = 0;
         if ((capacity & 0x80000000u) == 0)
             heap.v10(data, (capacity & 0x3fffffff) * 4);
@@ -1315,7 +1318,7 @@ struct Owner830
 {
     void* data;
     int count;
-    void FUN_00e0f5e0(void* name, int argument);
+    void FUN_00e0f5e0(void* name, intptr_t argument);
 };
 struct FUN_00e0d000;
 struct FUN_00e0d000Array
@@ -1343,7 +1346,7 @@ struct FUN_00e0d000
     int unk54;
     FUN_00e0d000() : children(0), childCount(0), childCapacity(0x80000000)
     {}
-    FUN_00e0d000(int, const char*, int);
+    FUN_00e0d000(intptr_t, const char*, int);
     __forceinline void accumulate(const FUN_00e0d000& src)
     {
         for (int i = 0; i < 8; ++i)
@@ -1379,7 +1382,7 @@ struct FUN_00e0d000Map
 int __cdecl FUN_00cb0fa0(const char*, const char*);
 __forceinline FUN_00e0d000& FUN_00e0d000Array::AllocatePair()
 {
-    FUN_00e0d000Heap& heap = static_cast<FUN_00e0d000Router*>(FUN_00c85750())->heapForStats();
+    FUN_00e0d000Heap& heap = static_cast<FUN_00e0d000Router*>(static_cast<S_e0ce00_Router*>(::FUN_00c85750()))->heapForStats();
     int oldSize = size;
     int count = oldSize + 1;
     int cap = capacity & 0x3fffffff;
@@ -1415,14 +1418,14 @@ __forceinline FUN_00e0d000* findOrAdd(FUN_00e0d000Array& array, const char* name
 void __cdecl FUN_00e0f880(FUN_00e0d000* node, FUN_00e0d000Map* map)
 {
     const char* name = node->name;
-    FUN_00e0d000Total* total = ((::FUN_00e0d000Total *)(reinterpret_cast<::hkObjectD878 *>((map))->GetValue((int)(name), 0)));
+    FUN_00e0d000Total* total = ((::FUN_00e0d000Total *)(reinterpret_cast<::hkObjectD878 *>((map))->GetValue((intptr_t)(name), 0)));
     if (!total)
     {
         total =
-            new (static_cast<FUN_00e0d000Router*>(FUN_00c85750())->heapForStats().allocate(sizeof(FUN_00e0d000Total)))
+            new (static_cast<FUN_00e0d000Router*>(static_cast<S_e0ce00_Router*>(::FUN_00c85750()))->heapForStats().allocate(sizeof(FUN_00e0d000Total)))
                 FUN_00e0d000Total;
         total->name = name;
-        reinterpret_cast<::hkStringMapD874 *>((map))->FUN_00d874d0(name, (int)(total));
+        reinterpret_cast<::hkStringMapD874 *>((map))->FUN_00d874d0(name, (intptr_t)(total));
     }
     total->accumulate(*node);
     for (int i = 0; i < node->childCount; ++i)
@@ -1490,40 +1493,21 @@ void e0c1c0_caller(void)
     FUN_00e0c1c0(e0c1c0_tblidx(), g_e0c1c0_stride, g_e0c1c0_out);
 }
 
-struct S00e0c210_Obj
-{
-    int unk00;
-};
-
-static __declspec(noinline) void FUN_00e0c1c0(S00e0c210_Obj* self, int digit, int* out)
-{
-    int** pout = &out;
-    self->unk00 = digit;
-    self = (S00e0c210_Obj*)((int)self + digit);
-    (*pout)[0] = self->unk00;
-}
-
 // Computes four decimal digits from thousands through ones, passing each to FUN_00e0c1c0 and advancing out by seven integers.
 // @fnv 0x00e0c210
-static __declspec(noinline) void __cdecl FUN_00e0c210(int value, S00e0c210_Obj* self, int* out)
+static __declspec(noinline) void __cdecl FUN_00e0c210(int value, int stride, int* out)
 {
     int place = 1000;
     int* cur = out;
-    S00e0c210_Obj** ppSelf = &self;
     int ten = 10;
     do
     {
         int quotient = value / place;
         int digit = quotient % ten;
-        FUN_00e0c1c0(*ppSelf, digit, cur);
+        FUN_00e0c1c0(digit, stride, (unsigned int*)cur);
         place /= 10;
         cur += 7;
     } while (place >= 1);
-}
-
-void __cdecl S00e0c210_Entry(int value, S00e0c210_Obj* self)
-{
-    FUN_00e0c210(value, self, 0);
 }
 
 union CommandWord
@@ -1635,7 +1619,7 @@ next:
     return;
 do_command:
     const char* str;
-    if (::LookupBucketValue((::DepthLimit *)(map), tag, (int)(&str), {}) != 0)
+    if (::LookupBucketValue((::DepthLimit *)(map), tag, (uintptr_t *)(&str)) != 0)
     {
         return;
     }
@@ -1667,7 +1651,7 @@ do_command:
         apBuffer += 16;
         unsigned int key = ((NamedCommand*)cur)->object.tag;
         const char* pObjectName;
-        if (::LookupBucketValue((::DepthLimit *)(map), key, (int)(&pObjectName), {}) == 0)
+        if (::LookupBucketValue((::DepthLimit *)(map), key, (uintptr_t *)(&pObjectName)) == 0)
         {
             ((NamedCommand*)cur)->object.name = pObjectName;
         }
@@ -1683,7 +1667,7 @@ do_command:
         apBuffer += 16;
         unsigned int key = ((NamedCommand*)cur)->object.tag;
         const char* pObjectName;
-        if (::LookupBucketValue((::DepthLimit *)(map), key, (int)(&pObjectName), {}) == 0)
+        if (::LookupBucketValue((::DepthLimit *)(map), key, (uintptr_t *)(&pObjectName)) == 0)
         {
             ((NamedCommand*)cur)->object.name = pObjectName;
         }
@@ -1768,7 +1752,7 @@ static __declspec(noinline) RecEntry* FUN_00e0cb80(RecBox* box, NameArg name, bo
         return box->unk30[0];
     return 0;
 }
-volatile int g_in_name;
+volatile intptr_t g_in_name;
 RecBox* volatile g_in_box;
 void* volatile g_out;
 void* volatile g_out2;
@@ -1834,9 +1818,9 @@ static __declspec(noinline) FUN_00e0d000* FUN_00e0d100(FUN_00e0d000* parent, Nam
             }
         }
     }
-    void* storage = ((CreateRouter*)FUN_00c85750())->getHeap().allocate(0x58);
+    void* storage = ((CreateRouter*)static_cast<S_e0ce00_Router*>(::FUN_00c85750()))->getHeap().allocate(0x58);
     if (storage)
-        return new (storage) FUN_00e0d000((int)parent, key, extra.value);
+        return new (storage) FUN_00e0d000((intptr_t)parent, key, extra.value);
     return 0;
 }
 FUN_00e0d000* CallCreate(FUN_00e0d000* parent, NameArg name, IntArg extra, BoolArg findExisting)
@@ -1872,12 +1856,12 @@ struct FUN_00e108b0
     }
     void reserve(int n)
     {
-        reserve(((DumpRouter*)FUN_00c85750())->heap(), n);
+        reserve(((DumpRouter*)static_cast<S_e0ce00_Router*>(::FUN_00c85750()))->heap(), n);
         size = n;
     }
     void append(char c)
     {
-        DumpRouter* r = (DumpRouter*)FUN_00c85750();
+        DumpRouter* r = (DumpRouter*)static_cast<S_e0ce00_Router*>(::FUN_00c85750());
         if (size == (capacity & 0x3fffffff))
             ::ResizeAudioStream((::AudioAllocator *)(::S_e0ce00_Alloc *)((S_e0ce00_Alloc*)r->allocator), (::AudioStream *)(void *)(this), 1);
         data[size++] = c;
@@ -1889,7 +1873,7 @@ struct FUN_00e108b0
     }
     void clearAndFree()
     {
-        S_e0ce00_Alloc& a = *((DumpRouter*)FUN_00c85750())->allocator;
+        S_e0ce00_Alloc& a = *((DumpRouter*)static_cast<S_e0ce00_Router*>(::FUN_00c85750()))->allocator;
         size = 0;
         clearAndFree(a);
     }
@@ -2016,14 +2000,14 @@ void DumpState::FUN_00e0eef0(void* stream)
                 case 'p':
                     break;
                 default:
-                    cleanupAllocator = &((DumpRouter*)FUN_00c85750())->heap();
+                    cleanupAllocator = &((DumpRouter*)static_cast<S_e0ce00_Router*>(::FUN_00c85750()))->heap();
                     indent.size = 0;
                     goto cleanup;
                 }
             }
         }
     }
-    cleanupAllocator = &((DumpRouter*)FUN_00c85750())->heap();
+    cleanupAllocator = &((DumpRouter*)static_cast<S_e0ce00_Router*>(::FUN_00c85750()))->heap();
     indent.size = 0;
 cleanup:
     if ((indent.capacity & 0x80000000u) == 0)
@@ -2110,7 +2094,7 @@ struct Alloc2
 };
 struct Router2
 {
-    int m_fMinimumV;
+    intptr_t m_fMinimumV;
     int unk04;
     int unk08;
     int unk0c;
@@ -2142,15 +2126,15 @@ struct CfgObj
     char b1a;
     char unk1b;
 };
-void __cdecl ext_merge(int, int);
+void __cdecl ext_merge(int, intptr_t);
 __declspec(noinline) void __cdecl FUN_00e0d880(AggObj* agg, TimerObj* timer)
 {
-    ext_merge(agg->unk04, (int)timer->m_name);
+    ext_merge(agg->unk04, (intptr_t)timer->m_name);
     agg->unk08 = 1;
 }
 struct SearchKey
 {
-    int value;
+    intptr_t value;
 };
 int __cdecl FUN_00cb0fa0(const char*, const char*);
 static __declspec(noinline) TimerObj* FUN_00e0cb80(TimerObj* root, SearchKey key, S_Flag flag)
@@ -2250,7 +2234,7 @@ static __declspec(noinline) void FUN_00e0fc50(void* stream, void* rootNode, floa
     arr.capacity = (int)0x80000000;
     FUN_00e0f880(rootNode, &map);
     int count = map.m_iElementCount;
-    Alloc2* heap = ((RouterFx*)FUN_00c85750())->temp;
+    Alloc2* heap = ((RouterFx*)static_cast<S_e0ce00_Router*>(::FUN_00c85750()))->temp;
     if ((arr.capacity & 0x3fffffff) < count)
     {
         int cap = (arr.capacity & 0x3fffffff) * 2;
@@ -2295,9 +2279,9 @@ static __declspec(noinline) void FUN_00e0fc50(void* stream, void* rootNode, floa
             }
         }
         item->FUN_00e10930();
-        ((RouterFx*)FUN_00c85750())->debug->free1(item, 0x70);
+        ((RouterFx*)static_cast<S_e0ce00_Router*>(::FUN_00c85750()))->debug->free1(item, 0x70);
     }
-    Alloc2* temp = ((RouterFx*)FUN_00c85750())->temp;
+    Alloc2* temp = ((RouterFx*)static_cast<S_e0ce00_Router*>(::FUN_00c85750()))->temp;
     arr.size = 0;
     if (arr.capacity >= 0)
         temp->free2(arr.data, (arr.capacity & 0x3fffffff) * 4);
@@ -2322,7 +2306,7 @@ struct ReportMetrics
 
 // Writes a Havok timer report to a stream, printing total times, per-frame ASCII bars, and optional per-frame or per-thread detail sections based on flags.
 // @fnv 0x00e0fec0
-void __cdecl FUN_00e0fec0(int aStream, void* apArray, int aiThreadCount, int aiSpuCount, int aiFlags, int aiKey, int a6)
+void __cdecl FUN_00e0fec0(intptr_t aStream, void* apArray, int aiThreadCount, int aiSpuCount, int aiFlags, int aiKey, int a6)
 {
     void* stream = (void*)aStream;
     ArrayArg* pArray = (ArrayArg*)apArray;
@@ -2473,14 +2457,14 @@ void __cdecl FUN_00e0fec0(int aStream, void* apArray, int aiThreadCount, int aiS
                     arr.m_iElementCount = 0;
                     arr.m_iCapacityState = (int)0x80000000;
                     int iCount = pa->m_iElementCount;
-                    Router2* router = (Router2*)FUN_00c85750();
-                    int top = router->m_fMinimumV;
+                    Router2* router = (Router2*)static_cast<S_e0ce00_Router*>(::FUN_00c85750());
+                    intptr_t top = router->m_fMinimumV;
                     router->m_fMinimumV = top + ((iCount * 4 + 0x7f) & ~0x7f);
                     arr.m_iCapacityState = iCount | (int)0x80000000;
                     arr.m_data = (AggObj**)top;
                     arr.m_originalData = arr.m_data;
                     iCount = pa->m_iElementCount;
-                    Router2* router2 = (Router2*)FUN_00c85750();
+                    Router2* router2 = (Router2*)static_cast<S_e0ce00_Router*>(::FUN_00c85750());
                     Alloc2* heap = router2->m_pStreamAllocator;
                     if ((arr.m_iCapacityState & 0x3fffffff) < iCount)
                     {
@@ -2492,7 +2476,7 @@ void __cdecl FUN_00e0fec0(int aStream, void* apArray, int aiThreadCount, int aiS
                     arr.m_iElementCount = iCount;
                     for (int k = 0; k < pa->m_iElementCount; k++)
                     {
-                        Router2* pRouter3 = (Router2*)FUN_00c85750();
+                        Router2* pRouter3 = (Router2*)static_cast<S_e0ce00_Router*>(::FUN_00c85750());
                         Alloc2* pHeap3 = pRouter3->m_pStreamAllocator;
                         AggObj* obj = (AggObj*)pHeap3->alloc(0x58);
                         if (obj)
@@ -2514,7 +2498,7 @@ void __cdecl FUN_00e0fec0(int aStream, void* apArray, int aiThreadCount, int aiS
                     pCfg->b1a = 0;
                     for (; m < arr.m_iElementCount; m++)
                         ::FUN_00e0d280(arr.m_data[0], arr.m_data[m], m, 0, 0.0f);
-                    ::fnv_00e0d640::FUN_00e0d640((int)(arr.m_data[0]), aiThreadCount, aiSpuCount, (::fnv_00e0d640::FUN_00e0d640_buf *)(stream), (::fnv_00e0d640::FUN_00e0d640_cfg *)(pCfg));
+                    ::fnv_00e0d640::FUN_00e0d640((intptr_t)(arr.m_data[0]), aiThreadCount, aiSpuCount, (::fnv_00e0d640::FUN_00e0d640_buf *)(stream), (::fnv_00e0d640::FUN_00e0d640_cfg *)(pCfg));
                     if (metrics.flag8)
                     {
                         FUN_00e0fc50(stream, arr.m_data[0], 0.01f);
@@ -2525,7 +2509,7 @@ void __cdecl FUN_00e0fec0(int aStream, void* apArray, int aiThreadCount, int aiS
                         if (obj)
                         {
                             reinterpret_cast<::fnv_00e0d0a0::Owner *>((obj))->ClearItems();
-                            Router2* pRouter4 = (Router2*)FUN_00c85750();
+                            Router2* pRouter4 = (Router2*)static_cast<S_e0ce00_Router*>(::FUN_00c85750());
                             pRouter4->m_pStreamAllocator->free1(obj, 0x58);
                         }
                     }
@@ -2534,9 +2518,9 @@ void __cdecl FUN_00e0fec0(int aStream, void* apArray, int aiThreadCount, int aiS
                     {
                         arr.m_iElementCount = 0;
                     }
-                    Router2* pRouter5 = (Router2*)FUN_00c85750();
-                    pRouter5->m_fMinimumV = (int)originalData;
-                    Router2* pRouter6 = (Router2*)FUN_00c85750();
+                    Router2* pRouter5 = (Router2*)static_cast<S_e0ce00_Router*>(::FUN_00c85750());
+                    pRouter5->m_fMinimumV = (intptr_t)originalData;
+                    Router2* pRouter6 = (Router2*)static_cast<S_e0ce00_Router*>(::FUN_00c85750());
                     Alloc2* pHeap6 = pRouter6->m_pStreamAllocator;
                     int iCapacityState = arr.m_iCapacityState;
                     arr.m_iElementCount = 0;
@@ -2654,16 +2638,16 @@ struct FUN_00e0cc90_cls
     int m_iArrayLength;       // +0x0c
     int unk10;
     int m_iFallback;  // +0x14
-    int FUN_00e0cc90(int arg);
+    int FUN_00e0cc90(intptr_t arg);
 };
 
 // Searches m_pEntries for a case-insensitive key match and returns its value, or m_iFallback if not found.
 // @fnv 0x00e0cc90
-int FUN_00e0cc90_cls::FUN_00e0cc90(int aiKey)
+int FUN_00e0cc90_cls::FUN_00e0cc90(intptr_t aiKey)
 {
     for (int i = 0; i < m_iArrayLength; ++i)
     {
-        unsigned int key = m_pEntries[i].key & 0xfffffffe;
+        uintptr_t key = m_pEntries[i].key & 0xfffffffe;
         if (::fnv_00cb0fe0::CompareStringsCaseInsensitive((const char *)(key), (const char *)(aiKey)) != 0)
         {
         }
@@ -2714,7 +2698,7 @@ struct S00e0d180_Node
     void* operator new(std::size_t size)
     {
 
-        return reinterpret_cast<FUN_00e0d000Heap&>(FUN_00c85750()->heap()).allocate(size);
+        return reinterpret_cast<FUN_00e0d000Heap&>(static_cast<S_e0ce00_Router*>(::FUN_00c85750())->heap()).allocate(size);
     }
 
     S00e0d180_Node(S00e0d180_Node* parent, const char* name, int flags);
@@ -2752,7 +2736,7 @@ extern "C" void __cdecl FUN_00e0d180(void* apDestNode, void* apSrcNode, int inde
 
             S00e0d180_Node* dst;
 
-            if (!FUN_00e0c690((unsigned int)((S00e0d180_Node*)apSrcNode)->children[i]->name, &index,
+            if (!FUN_00e0c690((uintptr_t)((S00e0d180_Node*)apSrcNode)->children[i]->name, &index,
                               (FUN_00e0c690_owner*)apDestNode))
             {
 
@@ -2938,7 +2922,7 @@ void __cdecl FUN_00e0d2c0(PrintStream* stream, PrintNode* node, int depth, const
             FUN_00e0d2c0(stream, ((*(i + (node->children)))), depth + 1, threads, spus, apConfig);
     }
     reinterpret_cast<struct ::FUN_00cc00e0 *>(&(line))->FUN_00cc00e0::~FUN_00cc00e0();
-    S_e0ce00_Alloc& heap = FUN_00c85750()->heap();
+    S_e0ce00_Alloc& heap = static_cast<S_e0ce00_Router*>(::FUN_00c85750())->heap();
     pad.size = 0;
     if ((pad.m_iCapacity & 0x80000000u) == 0)
         heap.v10(pad.data, pad.m_iCapacity & 0x3fffffff);
@@ -3080,7 +3064,7 @@ void __cdecl FUN_00e0dd30(const MonNodeList& threadNodes, const AnimationTimingI
 
     int n = input.m_iFrameCount;
     {
-        S_e0ce00_Router* router = FUN_00c85750();
+        S_e0ce00_Router* router = static_cast<S_e0ce00_Router*>(::FUN_00c85750());
         S_e0ce00_Alloc* heap = router->m_pStreamAllocator;
         int cap = startTimes.m_iCapacityState & 0x3fffffff;
         if (cap < n)
@@ -3191,7 +3175,7 @@ struct PixelSource
 void __cdecl FUN_00c856c0(S_e0ce00_Alloc* alloc, void* p);
 // Calls FUN_00e0e0c0, passes its output buffer and q to WriteTgaImage, then calls FUN_00c856c0 with the allocator and buffer.
 // @fnv 0x00e0e470
-void __cdecl FUN_00e0e470(int a1, PixelSource* apPixelSource, int a3, E0C150Stream* apStream, int a5)
+void __cdecl FUN_00e0e470(intptr_t a1, PixelSource* apPixelSource, intptr_t a3, E0C150Stream* apStream, intptr_t a5)
 {
     void* out1 = 0;
     int q = 0;
@@ -3200,7 +3184,7 @@ void __cdecl FUN_00e0e470(int a1, PixelSource* apPixelSource, int a3, E0C150Stre
     if (p != 0)
     {
         WriteTgaImage(p, apStream, apPixelSource->m_14, q);
-        S_e0ce00_Router* h = FUN_00c85750();
+        S_e0ce00_Router* h = static_cast<S_e0ce00_Router*>(::FUN_00c85750());
         FUN_00c856c0(h->m_pStreamAllocator, (void*)p);
     }
 }
@@ -3270,7 +3254,7 @@ struct ReportArray
     {}
     void reserve(int n)
     {
-        ReportHeap& heap = reinterpret_cast<ReportRouter*>(FUN_00c85750())->temp();
+        ReportHeap& heap = reinterpret_cast<ReportRouter*>(static_cast<S_e0ce00_Router*>(::FUN_00c85750()))->temp();
         int cap = capacity & 0x3fffffff;
         if (cap < n)
         {
@@ -3282,7 +3266,7 @@ struct ReportArray
     }
     void release()
     {
-        ReportHeap& heap = reinterpret_cast<ReportRouter*>(FUN_00c85750())->temp();
+        ReportHeap& heap = reinterpret_cast<ReportRouter*>(static_cast<S_e0ce00_Router*>(::FUN_00c85750()))->temp();
         size = 0;
         if ((capacity & 0x80000000u) == 0)
             heap.freeBuffer(data, (capacity & 0x3fffffff) * 4);
@@ -3340,7 +3324,7 @@ static __declspec(noinline) void FUN_00e0fc50(FUN_00e0d000* root, float threshol
             }
         }
         node->FUN_00e10930();
-        reinterpret_cast<ReportRouter*>(FUN_00c85750())->stats().freeNode(node, 0x70);
+        reinterpret_cast<ReportRouter*>(static_cast<S_e0ce00_Router*>(::FUN_00c85750()))->stats().freeNode(node, 0x70);
     }
     nodes.release();
 }
@@ -3362,16 +3346,15 @@ struct AudioAllocator
 
 struct AudioHolder
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int m_i10;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
+    intptr_t m_i10;
     AudioAllocator* m_pAllocator;
 };
 
 extern "C" void _ReadWriteBarrier(void);
-AudioHolder* __cdecl FUN_00c85750() throw();
 
 struct FUN_00e0d000_cls;
 
@@ -3430,7 +3413,7 @@ FUN_00e0d000_cls* FUN_00e0d000_cls::FUN_00e0d000(OwnerNode* apOwner, int aiA, in
     if (apOwner != 0)
     {
         SubList* list = &apOwner->m_kNode;
-        AudioHolder* holder = FUN_00c85750();
+        AudioHolder* holder = static_cast<AudioHolder*>(::FUN_00c85750());
         if (list->m_iArrayLength == (int)(list->m_uCapFlags & 0x3fffffffu))
         {
             ::ResizeAudioStream((::AudioAllocator *)(holder->m_i10), (::AudioStream *)(list), 4);
@@ -3457,12 +3440,12 @@ struct FUN_00e0d640_buf
     int unk04;
     int unk08;
     char* m_pData;
-    int m_iLen;
+    intptr_t m_iLen;
     int m_uiObjectFlags;
 };
 struct FUN_00e0d640_cfg
 {
-    int m_iBase;
+    intptr_t m_iBase;
     int m_iStep;
     int m_iVal;
     int unk0C;
@@ -3480,20 +3463,19 @@ struct FUN_00e0d640_alloc
 };
 struct FUN_00e0d640_hold
 {
-    int u0;
-    int u1;
-    int u2;
-    int u3;
+    void* u0;
+    void* u1;
+    void* u2;
+    void* u3;
     FUN_00e0d640_alloc* m_pAllocationContext;
 };
-FUN_00e0d640_hold* FUN_00c85750();
 
 // Formats a CPU timing header with thread and spu labels into a4, then appends the timing data via FUN_00e0d2c0.
 // @fnv 0x00e0d640
-void __cdecl FUN_00e0d640(int a1, int aiThreadCount, int aiSpuCount, FUN_00e0d640_buf* apOutput,
+void __cdecl FUN_00e0d640(intptr_t a1, int aiThreadCount, int aiSpuCount, FUN_00e0d640_buf* apOutput,
                           FUN_00e0d640_cfg* apConfig)
 {
-    int i = 0;
+    intptr_t i = 0;
     apConfig->m_iBase = ::GetTreeWidth((::E0C860Node *)(a1), i, apConfig->m_iVal, apConfig->m_bFlag);
     FUN_00e0d640_buf buf;
     buf.m_pData = (char*)i;
@@ -3509,10 +3491,10 @@ void __cdecl FUN_00e0d640(int a1, int aiThreadCount, int aiSpuCount, FUN_00e0d64
                 reinterpret_cast<::FUN_00cc01a0_class *>(&(buf))->InvokeSubObject(9);
             else
             {
-                int n = apConfig->m_iStep * i - buf.m_iLen + apConfig->m_iBase;
+                intptr_t n = apConfig->m_iStep * i - buf.m_iLen + apConfig->m_iBase;
                 if (n > 0)
                 {
-                    int c = n;
+                    intptr_t c = n;
                     do
                     {
                         reinterpret_cast<::FUN_00cc01a0_class *>(&(buf))->InvokeSubObject(0x20);
@@ -3528,10 +3510,10 @@ void __cdecl FUN_00e0d640(int a1, int aiThreadCount, int aiSpuCount, FUN_00e0d64
                 reinterpret_cast<::FUN_00cc01a0_class *>(&(buf))->InvokeSubObject(9);
             else
             {
-                int n = (i + aiThreadCount) * apConfig->m_iStep - buf.m_iLen + apConfig->m_iBase;
+                intptr_t n = (i + aiThreadCount) * apConfig->m_iStep - buf.m_iLen + apConfig->m_iBase;
                 if (n > 0)
                 {
-                    int c = n;
+                    intptr_t c = n;
                     do
                     {
                         reinterpret_cast<::FUN_00cc01a0_class *>(&(buf))->InvokeSubObject(0x20);
@@ -3548,10 +3530,10 @@ void __cdecl FUN_00e0d640(int a1, int aiThreadCount, int aiSpuCount, FUN_00e0d64
                 reinterpret_cast<::FUN_00cc01a0_class *>(&(buf))->InvokeSubObject(9);
             else
             {
-                int n = apConfig->m_iStep * k - buf.m_iLen + apConfig->m_iBase;
+                intptr_t n = apConfig->m_iStep * k - buf.m_iLen + apConfig->m_iBase;
                 if (n > 0)
                 {
-                    int c = n;
+                    intptr_t c = n;
                     do
                     {
                         reinterpret_cast<::FUN_00cc01a0_class *>(&(buf))->InvokeSubObject(0x20);
@@ -3568,10 +3550,10 @@ void __cdecl FUN_00e0d640(int a1, int aiThreadCount, int aiSpuCount, FUN_00e0d64
                 reinterpret_cast<::FUN_00cc01a0_class *>(&(buf))->InvokeSubObject(9);
             else
             {
-                int n = apConfig->m_iStep * k - buf.m_iLen + apConfig->m_iBase;
+                intptr_t n = apConfig->m_iStep * k - buf.m_iLen + apConfig->m_iBase;
                 if (n > 0)
                 {
-                    int c = n;
+                    intptr_t c = n;
                     do
                     {
                         reinterpret_cast<::FUN_00cc01a0_class *>(&(buf))->InvokeSubObject(0x20);
@@ -3586,7 +3568,7 @@ void __cdecl FUN_00e0d640(int a1, int aiThreadCount, int aiSpuCount, FUN_00e0d64
     ::FUN_00cc0410((::hkOstream *)(apOutput), "\n\n");
     ::FUN_00e0d2c0((::PrintStream *)(apOutput), (::PrintNode *)(a1), 0, aiThreadCount, aiSpuCount, (::PrintConfig *)(apConfig));
     reinterpret_cast<struct ::FUN_00cc00e0 *>(&(buf))->FUN_00cc00e0::~FUN_00cc00e0();
-    FUN_00e0d640_hold* h = FUN_00c85750();
+    FUN_00e0d640_hold* h = static_cast<FUN_00e0d640_hold*>(::FUN_00c85750());
     FUN_00e0d640_alloc* pAllocator = h->m_pAllocationContext;
     buf.m_iLen = 0;
     if ((buf.m_uiObjectFlags & 0x80000000) == 0)
@@ -3614,7 +3596,7 @@ struct StatsAllocator
 
 struct NodeInitializer
 {
-    FUN_00e0d000* FUN_00e0d000(int parent, const char* name, StatsValue value);
+    FUN_00e0d000* FUN_00e0d000(intptr_t parent, const char* name, StatsValue value);
 };
 
 static __declspec(noinline) FUN_00e0d000* FUN_00e0cb80(FUN_00e0d000* owner, const char* key, S_Flag fallback)
@@ -3636,7 +3618,7 @@ __forceinline int asLocal(const volatile int& v)
 
 // Recursively copies each child node from source into parentArg, creating missing nodes via the stats allocator before accumulating values.
 // @fnv 0x00e0d880
-void __cdecl FUN_00e0d880(int aiParent, FUN_00e0d000* source)
+void __cdecl FUN_00e0d880(intptr_t aiParent, FUN_00e0d000* source)
 {
     for (int i = 0; i < source->childCount; ++i)
     {
@@ -3645,8 +3627,8 @@ void __cdecl FUN_00e0d880(int aiParent, FUN_00e0d000* source)
 
         if (!dst)
         {
-            int parent = aiParent;
-            S_e0ce00_Router* holder = FUN_00c85750();
+            intptr_t parent = aiParent;
+            S_e0ce00_Router* holder = static_cast<S_e0ce00_Router*>(::FUN_00c85750());
             void* mem = ((StatsAllocator*)holder->m_pStreamAllocator)->allocate(sizeof(FUN_00e0d000));
 
             if (mem)
@@ -3660,28 +3642,28 @@ void __cdecl FUN_00e0d880(int aiParent, FUN_00e0d000* source)
         }
 
         dst->accumulate(*item);
-        ::fnv_00e0fec0::FUN_00e0d880((::fnv_00e0fec0::AggObj *)((int)dst), (::fnv_00e0fec0::TimerObj *)(item));
+        ::fnv_00e0fec0::FUN_00e0d880((::fnv_00e0fec0::AggObj *)((intptr_t)dst), (::fnv_00e0fec0::TimerObj *)(item));
     }
 }
 
 namespace fnv_00e0d980 {
+
 struct S_e0d980_Heap
 {
     int unk0;
 };
 struct S_e0d980_Holder
 {
-    int unk0;
-    int unk4;
-    int unk8;
-    int unkc;
+    void* unk0;
+    void* unk4;
+    void* unk8;
+    void* unkc;
     S_e0d980_Heap* unk10;
     S_e0d980_Heap& heap()
     {
         return *unk10;
     }
 };
-S_e0d980_Holder* FUN_00c85750() throw();
 
 struct S_e0d980_Str
 {
@@ -3708,7 +3690,7 @@ struct S_e0d980_Arr
     unsigned int cap;
     void push(const S_e0d980_Item& it)
     {
-        S_e0d980_Holder* r = FUN_00c85750();
+        S_e0d980_Holder* r = static_cast<S_e0d980_Holder*>(::FUN_00c85750());
         if (size == (int)(cap & 0x3fffffff))
             ::ResizeAudioStream((::AudioAllocator *)&(r->heap()), (::AudioStream *)(void *)(this), 8);
         S_e0d980_Item* p = data + size;
@@ -3801,7 +3783,7 @@ struct S00e0e4e0_Layout
 
 static __forceinline void S00e0e4e0_push(S00e0e4e0_PArr* out, void* v)
 {
-    S_e0ce00_Alloc& a = FUN_00c85750()->heap();
+    S_e0ce00_Alloc& a = static_cast<S_e0ce00_Router*>(::FUN_00c85750())->heap();
     if (out->m_iElementCount == (out->m_iCapacityState & 0x3fffffff))
         ::ResizeAudioStream((::AudioAllocator *)(::S_e0ce00_Alloc *)(&a), (::AudioStream *)(out), 4);
     out->m_data[out->m_iElementCount] = v;
@@ -3810,35 +3792,12 @@ static __forceinline void S00e0e4e0_push(S00e0e4e0_PArr* out, void* v)
 
 static void FUN_00e0cec0(float value, float step, int axis, S00e0e4e0_Node* node, int n, S00e0e4e0_PArr* out);
 
-static __declspec(noinline) int FUN_00e0da00(int row, int col, const S00e0e4e0_NodeArr& nodes, int height, float range,
-                                             float value, S00e0e4e0_Info* info)
-{
-    float step = range / height;
-    S00e0e4e0_PArr arr;
-    arr.m_data = 0;
-    arr.m_iElementCount = 0;
-    arr.m_iCapacityState = 0x80000000;
-    S_e0ce00_Alloc& a = FUN_00c85750()->heap();
-    if ((arr.m_iCapacityState & 0x3fffffff) < height)
-        ::FUN_00c908c0((::SpawnedObject *)(::S_e0ce00_Alloc *)(&a), (::SpawnedArray *)(void *)(&arr), height, 4);
-    int res = 0;
-    if (nodes[row]->m_children.GetLogicalSize() > 0)
-    {
-        arr.m_iElementCount = 0;
-        FUN_00e0cec0(value, step, info->unk0c == 0 ? info->unk04 : info->unk08, nodes[row], height, &arr);
-        if (col < arr.m_iElementCount)
-            res = (int)arr.m_data[col];
-    }
-    S_e0ce00_Alloc& a2 = FUN_00c85750()->heap();
-    arr.m_iElementCount = 0;
-    if ((arr.m_iCapacityState & 0x80000000) == 0)
-        a2.v10(arr.m_data, (arr.m_iCapacityState & 0x3fffffff) * sizeof(void*));
-    return res;
-}
+intptr_t __cdecl FUN_00e0da00(int row, int col, const S00e0e4e0_NodeArr& nodes, int height, float range, float value,
+                               S00e0e4e0_Info* info);
 
 // Resolves a slot id at pixel coordinates by mapping to a level and row, then querying the node tree via FUN_00e0da00.
 // @fnv 0x00e0e4e0
-int __cdecl FUN_00e0e4e0(int x, int y, S00e0e4e0_NodeArr& img, S00e0e4e0_Layout* lay, S00e0e4e0_EntryList* list)
+intptr_t __cdecl FUN_00e0e4e0(int x, int y, S00e0e4e0_NodeArr& img, S00e0e4e0_Layout* lay, S00e0e4e0_EntryList* list)
 {
     int numLevels = img.GetLogicalSize();
     int numPages = lay->m_numPages;
@@ -3864,15 +3823,14 @@ int __cdecl FUN_00e0e4e0(int x, int y, S00e0e4e0_NodeArr& img, S00e0e4e0_Layout*
     ::FUN_00e0dd30((const ::MonNodeList &)(img), (*(const ::AnimationTimingInfo *)(lay)), (*(const ::FrameInfoArrays *)(list)), (*(float *)(&range)), (*(::FloatArray *)(&arr)));
     S00e0e4e0_Node** slot = &img.m_data[lvl];
     S00e0e4e0_Info* info = list->m_data[lvl].m_info;
-    int res = FUN_00e0da00(row, x - border, (*slot)->m_children, h, range, arr.m_data[row], info);
-    S_e0ce00_Alloc& a = FUN_00c85750()->heap();
+    intptr_t res = FUN_00e0da00(row, x - border, (*slot)->m_children, h, range, arr.m_data[row], info);
+    S_e0ce00_Alloc& a = static_cast<S_e0ce00_Router*>(::FUN_00c85750())->heap();
     arr.m_iElementCount = 0;
     if ((arr.m_iCapacityState & 0x80000000) == 0)
         a.v10(arr.m_data, (arr.m_iCapacityState & 0x3fffffff) * sizeof(float));
     return res;
 }
 
-__declspec(nothrow) S_e0ce00_Router* __cdecl FUN_00c85750();
 __declspec(nothrow) int __cdecl FUN_00cb0fa0(const char*, const char*);
 struct AccumNode
 {
@@ -3884,10 +3842,10 @@ struct StatsHeap
 };
 struct StatsRouter
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     StatsHeap* heap;
     __forceinline StatsHeap& getHeap()
     {
@@ -3896,10 +3854,9 @@ struct StatsRouter
 };
 __forceinline StatsHeap& statsHeap()
 {
-    return *reinterpret_cast<StatsRouter*>(FUN_00c85750())->heap;
+    return *reinterpret_cast<StatsRouter*>(static_cast<S_e0ce00_Router*>(::FUN_00c85750()))->heap;
 }
 namespace StatHeap {
-StatsRouter* FUN_00c85750();
 }
 struct BoolArg
 {
@@ -3928,8 +3885,8 @@ static __declspec(noinline) __declspec(nothrow) FUN_00e0d000* FUN_00e0d100(FUN_0
                 return parent->children[i];
         }
     }
-    void* mem = StatHeap::FUN_00c85750()->getHeap().allocate(sizeof(FUN_00e0d000));
-    return mem ? new (mem) FUN_00e0d000((int)parent, text, type) : 0;
+    void* mem = static_cast<StatsRouter*>(::FUN_00c85750())->getHeap().allocate(sizeof(FUN_00e0d000));
+    return mem ? new (mem) FUN_00e0d000((intptr_t)parent, text, type) : 0;
 }
 struct Record
 {
@@ -3961,7 +3918,7 @@ struct RecordArray
     }
     __forceinline void push(const Record& r)
     {
-        S_e0ce00_Alloc& heap = FUN_00c85750()->heap();
+        S_e0ce00_Alloc& heap = static_cast<S_e0ce00_Router*>(::FUN_00c85750())->heap();
         if (size == (capacity & 0x3fffffff))
             ::ResizeAudioStream((::AudioAllocator *)(::S_e0ce00_Alloc *)(&heap), (::AudioStream *)(void *)(this), 12);
         new (data + size) Record(r);
@@ -3969,7 +3926,7 @@ struct RecordArray
     }
     __forceinline void resize(int count)
     {
-        S_e0ce00_Alloc& heap = FUN_00c85750()->heap();
+        S_e0ce00_Alloc& heap = static_cast<S_e0ce00_Router*>(::FUN_00c85750())->heap();
         int cap = capacity & 0x3fffffff;
         if (cap < count)
         {
@@ -3982,7 +3939,7 @@ struct RecordArray
     }
     __forceinline __declspec(nothrow) void release()
     {
-        S_e0ce00_Alloc& heap = FUN_00c85750()->heap();
+        S_e0ce00_Alloc& heap = static_cast<S_e0ce00_Router*>(::FUN_00c85750())->heap();
         size = 0;
         if ((capacity & 0x80000000u) == 0)
             heap.v10(data, (capacity & 0x3fffffff) * 12);
@@ -3996,7 +3953,7 @@ FUN_00e0d000* __cdecl FUN_00e0e630(const char* begin, const char* end, AxisData*
 {
     const char* cursor = begin;
     const char* tag;
-    void* mem = StatHeap::FUN_00c85750()->getHeap().allocate(sizeof(FUN_00e0d000));
+    void* mem = static_cast<StatsRouter*>(::FUN_00c85750())->getHeap().allocate(sizeof(FUN_00e0d000));
     FUN_00e0d000* node = mem ? new (mem) FUN_00e0d000(0, name, 1) : 0;
     FUN_00e0d000* root = node;
     RecordArray frames;
@@ -4005,7 +3962,7 @@ FUN_00e0d000* __cdecl FUN_00e0e630(const char* begin, const char* end, AxisData*
     {
         const Record* r = (const Record*)cursor;
         tag = r->name;
-        if ((unsigned int)tag < 10)
+        if ((uintptr_t)tag < 10)
         {
             cursor += 4;
             continue;
@@ -4131,7 +4088,7 @@ struct S00e0ee00_Children
     }
     __forceinline void SetSize(int n)
     {
-        S_e0ce00_Alloc& alloc = FUN_00c85750()->heap();
+        S_e0ce00_Alloc& alloc = static_cast<S_e0ce00_Router*>(::FUN_00c85750())->heap();
         int capacity = m_iCapacityState & 0x3fffffff;
         if (capacity < n)
         {
@@ -4177,7 +4134,7 @@ void FUN_00e10630_cls::ProcessItems(int a1, int a2)
     for (int i = 0; i < this->m_count04; ++i)
     {
         void* item = ((void *)(reinterpret_cast<::S00e0ee00_Analyzer *>((this))->FUN_00e0ee00(i, (*(::S_e0ce00_Bool *)&(const ::S_Flag &)(S_Flag())))));
-        S_e0ce00_Router* holder = FUN_00c85750();
+        S_e0ce00_Router* holder = static_cast<S_e0ce00_Router*>(::FUN_00c85750());
         if (arr.m_iElementCount == (int)(arr.m_iCapacityState & 0x3fffffffu))
         {
             ::ResizeAudioStream((::AudioAllocator *)(holder->m_pStreamAllocator), (::AudioStream *)(void *)(&arr), 4);
@@ -4193,12 +4150,12 @@ void FUN_00e10630_cls::ProcessItems(int a1, int a2)
         if (item)
         {
             reinterpret_cast<::fnv_00e0d0a0::Owner *>((((FUN_00e0d0a0_s*)item)))->ClearItems();
-            S_e0ce00_Router* holder = FUN_00c85750();
+            S_e0ce00_Router* holder = static_cast<S_e0ce00_Router*>(::FUN_00c85750());
             holder->m_pStreamAllocator->v08(item, 0x58);
         }
     }
 
-    S_e0ce00_Router* holder = FUN_00c85750();
+    S_e0ce00_Router* holder = static_cast<S_e0ce00_Router*>(::FUN_00c85750());
     S_e0ce00_Alloc* alloc = holder->m_pStreamAllocator;
     arr.m_iElementCount = 0;
     if ((arr.m_iCapacityState & 0x80000000u) == 0)
@@ -4208,7 +4165,7 @@ void FUN_00e10630_cls::ProcessItems(int a1, int a2)
 }
 // Builds a TempArray830 of item pointers from count, calls FUN_00e0e470, then clears and frees each item and releases the array.
 // @fnv 0x00e0f5e0
-void Owner830::FUN_00e0f5e0(void* name, int argument)
+void Owner830::FUN_00e0f5e0(void* name, intptr_t argument)
 {
     TempArray830 temp;
     int iCount = count;
@@ -4216,14 +4173,14 @@ void Owner830::FUN_00e0f5e0(void* name, int argument)
     temp.size = iCount;
     for (int i = 0; i < iCount; i++)
         temp.data[i] = ((void *)(reinterpret_cast<::S00e0ee00_Analyzer *>((this))->FUN_00e0ee00(i, (*(::S_e0ce00_Bool *)&(const ::S_Flag &)(S_Flag())))));
-    ::FUN_00e0e470((int)(&temp), (::PixelSource *)(name), (int)(this), (::E0C150Stream *)(argument), 0);
+    ::FUN_00e0e470((intptr_t)(&temp), (::PixelSource *)(name), (intptr_t)(this), (::E0C150Stream *)(argument), 0);
     for (int j = 0; j < iCount; j++)
     {
         FUN_00e0d0a0_s* p = (FUN_00e0d0a0_s*)temp.data[j];
         if (p)
         {
             reinterpret_cast<::fnv_00e0d0a0::Owner *>((p))->ClearItems();
-            S_e0ce00_Alloc& heap = FUN_00c85750()->heap();
+            S_e0ce00_Alloc& heap = static_cast<S_e0ce00_Router*>(::FUN_00c85750())->heap();
             heap.v08(p, 0x58);
         }
     }
@@ -4233,7 +4190,7 @@ void Owner830::FUN_00e0f5e0(void* name, int argument)
 // @fnv 0x00e0ee00
 S00e0ee00_Root* __cdecl S00e0ee00_Analyzer::FUN_00e0ee00(int aIndex, S_e0ce00_Bool aFlag)
 {
-    S00e0ee00_Root* root = new (((S00e0ee00_Heap&)FUN_00c85750()->heap()).v04(0x58)) S00e0ee00_Root(0, DAT_01063cbc, 1);
+    S00e0ee00_Root* root = new (((S00e0ee00_Heap&)static_cast<S_e0ce00_Router*>(::FUN_00c85750())->heap()).v04(0x58)) S00e0ee00_Root(0, DAT_01063cbc, 1);
     root->m_children.SetSize(m_arrays[aIndex].m_iElementCount);
     for (int i = 0; i < m_arrays[aIndex].m_iElementCount; i++)
     {
@@ -4247,6 +4204,7 @@ S00e0ee00_Root* __cdecl S00e0ee00_Analyzer::FUN_00e0ee00(int aIndex, S_e0ce00_Bo
 }
 
 namespace fnv_00e0f710 {
+
 struct S_00e0f710_Heap
 {
     virtual void v00();
@@ -4258,10 +4216,10 @@ struct S_00e0f710_Heap
 
 struct S_00e0f710_Router
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     S_00e0f710_Heap* m_pStreamAllocator;
     S_00e0f710_Heap& heap()
     {
@@ -4269,7 +4227,6 @@ struct S_00e0f710_Router
     }
 };
 
-S_00e0f710_Router* __cdecl FUN_00c85750() throw();
 
 struct S_00e0f710_Elem
 {
@@ -4280,7 +4237,7 @@ struct S_00e0f710_Elem
     {}
     __forceinline void ClearAndRelease()
     {
-        S_00e0f710_Heap& h2 = FUN_00c85750()->heap();
+        S_00e0f710_Heap& h2 = static_cast<S_00e0f710_Router*>(::FUN_00c85750())->heap();
         unsigned int c = m_cap;
         m_iElementCount = 0;
         if ((c & 0x80000000) == 0)
@@ -4310,7 +4267,7 @@ struct S_00e0f710_Cls
 // @fnv 0x00e0f710
 void S_00e0f710_Cls::FUN_00e0f710(int a, int b)
 {
-    S_00e0f710_Heap& h = FUN_00c85750()->heap();
+    S_00e0f710_Heap& h = static_cast<S_00e0f710_Router*>(::FUN_00c85750())->heap();
     int n = a + b;
     int cap = m_cap & 0x3fffffff;
     if (cap < n)
@@ -4382,15 +4339,14 @@ struct S_00e0c85750_Object
 
 struct S_00c85750_Result
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
+    void* unk10;
     S_00e0c85750_Object* unk14;
 };
 
-S_00c85750_Result* FUN_00c85750();
 
 struct S_00e10930_Foo : S_00e0d0a0
 {
@@ -4408,7 +4364,7 @@ struct S_00e10930_Foo : S_00e0d0a0
 // @fnv 0x00e10930
 void S_00e10930_Foo::FUN_00e10930()
 {
-    S_00e0c85750_Object* ebp = FUN_00c85750()->unk14;
+    S_00e0c85750_Object* ebp = static_cast<S_00c85750_Result*>(::FUN_00c85750())->unk14;
 
     S_00e0d0a0* edi = unk64;
     int eax = unk68;
@@ -4433,7 +4389,7 @@ void S_00e10930_Foo::FUN_00e10930()
     unk64 = 0;
     unk6c = 0x80000000;
 
-    ebp = FUN_00c85750()->unk14;
+    ebp = static_cast<S_00c85750_Result*>(::FUN_00c85750())->unk14;
 
     edi = unk58;
     eax = unk5c;
@@ -4504,7 +4460,7 @@ struct FrameTickAllocator
 {
     __forceinline S_e0ce00_Alloc& get(const void*)
     {
-        return FUN_00c85750()->heap();
+        return static_cast<S_e0ce00_Router*>(::FUN_00c85750())->heap();
     }
 };
 
@@ -4549,6 +4505,597 @@ static __declspec(noinline) void FUN_00e0cec0(float start, float step, int axis,
         t += step;
         --n;
     }
+}
+
+
+static __declspec(noinline) intptr_t FUN_00e0da00(int row, int col, const S00e0e4e0_NodeArr& nodes, int height, float range,
+                                             float value, S00e0e4e0_Info* info);
+namespace NodeTickSupport {
+
+template <class T> struct NodeTickArrayBase
+{
+    T* data;
+    int size;
+    int flags;
+    __forceinline T& operator[](int index)
+    {
+        return data[index];
+    }
+    __forceinline T& back()
+    {
+        return data[size - 1];
+    }
+    __forceinline int GetLogicalSize() const
+    {
+        return size;
+    }
+    __forceinline int capacity() const
+    {
+        return flags & 0x3fffffff;
+    }
+    __forceinline void clear()
+    {
+        size = 0;
+    }
+};
+template <class T> struct NodeTickArray : NodeTickArrayBase<T>
+{
+    __forceinline NodeTickArray()
+    {
+        data = 0;
+        size = 0;
+        flags = 0x80000000;
+    }
+    __forceinline void reserveExactly(int count)
+    {
+        S_e0ce00_Alloc& alloc = static_cast<S_e0ce00_Router*>(::FUN_00c85750())->heap();
+        if (capacity() < count)
+            ::FUN_00c908c0((::SpawnedObject *)(::S_e0ce00_Alloc *)(&alloc), (::SpawnedArray *)(void *)(this), count, sizeof(T));
+    }
+    __forceinline ~NodeTickArray()
+    {
+        S_e0ce00_Alloc& alloc = static_cast<S_e0ce00_Router*>(::FUN_00c85750())->heap();
+        clear();
+        if ((flags & 0x80000000u) == 0)
+            alloc.v10(data, capacity() * sizeof(T));
+        data = 0;
+        flags = 0x80000000;
+    }
+};
+
+}
+
+// @fnv 0x00e0da00
+__declspec(noinline) intptr_t __cdecl FUN_00e0da00(int row, int col, const S00e0e4e0_NodeArr& nodes, int height, float range,
+                                              float value, S00e0e4e0_Info* info)
+{
+    float step = range / height;
+    NodeTickSupport::NodeTickArray<MonNode*> samples;
+    samples.reserveExactly(height);
+    MonNode* result = 0;
+    const MonNodeList& roots = (const MonNodeList&)nodes;
+    if (roots[row]->m_children.GetLogicalSize() > 0)
+    {
+        samples.clear();
+        int axis = info->unk0c == 0 ? info->unk04 : info->unk08;
+        ::FUN_00e0cec0(value, step, axis, reinterpret_cast<S00e0e4e0_Node*>(roots[row]), height,
+                       reinterpret_cast<S00e0e4e0_PArr*>(&samples));
+        int size = samples.GetLogicalSize();
+        if (col < size)
+            result = samples[col];
+    }
+    return (intptr_t)result;
+}
+
+struct Se0e0c0_Allocator
+{
+    virtual void v00();
+    virtual void v04();
+    virtual void v08();
+    virtual void v0c();
+    virtual void ReturnMemory(void* p, int numBytes);
+};
+void* __cdecl AllocateWithHeader(Se0e0c0_Allocator* alloc, intptr_t numBytes);
+
+struct Se0e0c0_Heap
+{
+    __forceinline Se0e0c0_Allocator& get(const void*)
+    {
+        return *(Se0e0c0_Allocator*)&static_cast<S_e0ce00_Router*>(::FUN_00c85750())->heap();
+    }
+};
+
+template <typename T> struct Se0e0c0_ArrayBase
+{
+    T* m_data;
+    int m_iElementCount;
+    int m_iCapacityState;
+    __forceinline int GetLogicalSize() const
+    {
+        return m_iElementCount;
+    }
+    __forceinline T& operator[](int i)
+    {
+        return m_data[i];
+    }
+    __forceinline const T& operator[](int i) const
+    {
+        return m_data[i];
+    }
+};
+template <typename T> struct Se0e0c0_Array : Se0e0c0_ArrayBase<T>
+{
+    __forceinline Se0e0c0_Array()
+    {
+        this->m_data = 0;
+        this->m_iElementCount = 0;
+        this->m_iCapacityState = 0x80000000;
+    }
+    __forceinline ~Se0e0c0_Array()
+    {
+        Se0e0c0_Allocator& alloc = Se0e0c0_Heap().get(this);
+        this->m_iElementCount = 0;
+        if ((this->m_iCapacityState & 0x80000000) == 0)
+        {
+            alloc.ReturnMemory(this->m_data, (this->m_iCapacityState & 0x3fffffff) * sizeof(T));
+        }
+    }
+};
+
+struct Se0e0c0_Bool
+{
+    char m_cBooleanValue;
+    __forceinline Se0e0c0_Bool(bool b)
+    {
+        m_cBooleanValue = (char)b;
+    }
+    __forceinline operator bool() const
+    {
+        return m_cBooleanValue != 0;
+    }
+};
+
+struct Se0e0c0_Dummy;
+struct Se0e0c0_Pair
+{
+    unsigned long key;
+    unsigned long val;
+};
+struct Se0e0c0_MapBase
+{
+    Se0e0c0_Pair* m_kPrimitiveElement;
+    int m_iCapacityFlags;
+    int m_iPairCount;
+    __forceinline Se0e0c0_MapBase() : m_kPrimitiveElement(0), m_iCapacityFlags(0), m_iPairCount(-1)
+    {}
+    int get(unsigned long key, unsigned long* out) const;
+    int insert(Se0e0c0_Allocator& alloc, unsigned long key, unsigned long val);
+    __forceinline Se0e0c0_Dummy* GetFirstIterator() const
+    {
+        intptr_t i;
+        for (i = 0; i <= m_iPairCount; ++i)
+        {
+            if (m_kPrimitiveElement[i].key != (unsigned long)-1)
+                break;
+        }
+        return (Se0e0c0_Dummy*)i;
+    }
+    __forceinline Se0e0c0_Dummy* getNext(Se0e0c0_Dummy* it) const
+    {
+        intptr_t i = (intptr_t)it;
+        for (i += 1; i <= m_iPairCount; ++i)
+        {
+            if (m_kPrimitiveElement[i].key != (unsigned long)-1)
+                break;
+        }
+        return (Se0e0c0_Dummy*)i;
+    }
+    __forceinline Se0e0c0_Bool isValid(Se0e0c0_Dummy* it) const
+    {
+        intptr_t i = (intptr_t)it;
+        return Se0e0c0_Bool(i <= m_iPairCount);
+    }
+};
+struct Se0e0c0_PointerMap : Se0e0c0_MapBase
+{
+    __forceinline Se0e0c0_PointerMap()
+    {
+        reinterpret_cast<::FUN_00cb1fe0_t *>(this)->EnsureCapacity((intptr_t)&(Se0e0c0_Heap().get(this)), 0);
+    }
+    __forceinline ~Se0e0c0_PointerMap()
+    {
+        reinterpret_cast<::CB1A90Owner *>(this)->ProcessArgument((::CB1A90Argument *)&(Se0e0c0_Heap().get(this)));
+        ::FUN_00a29680();
+    }
+};
+
+struct Se0e0c0_FrameInfo
+{
+    const char* m_pHeading;
+    int m_iColor;
+    int m_iTimer0;
+    unsigned int m_uiTimer1;
+    float m_fStartTime;
+    float m_fEndTime;
+    int m_uiThreadId;
+    int m_iTimer0Index;
+    int m_iTimer1Index;
+};
+struct Se0e0c0_Node
+{
+    float m_uiFilterValue[8];
+    unsigned short m_uiItemCount[8];
+    Se0e0c0_ArrayBase<Se0e0c0_Node*> m_children;
+    double m_dValue;
+    Se0e0c0_Node* m_next;
+    const char* m_name;
+};
+struct Se0e0c0_ColorPair
+{
+    const char* m_kColorName;
+    unsigned int m_kDiffuseColor;
+};
+struct Se0e0c0_ColorTable
+{
+    void* vtbl;
+    int m_refs;
+    Se0e0c0_ArrayBase<Se0e0c0_ColorPair> m_kColorPairs;
+};
+struct Se0e0c0_Input
+{
+    int m_iValueAt00;
+    int m_iFrameCount;
+    int m_iValueAt08;
+    int m_iValueAt0C;
+    int m_iValueAt10;
+    int m_iValueAt14;
+    float m_fValueAt18;
+    float m_fValueAt1C;
+    Se0e0c0_Bool m_bValueAt20;
+    Se0e0c0_ColorTable* m_pColorTable;
+};
+struct Se0e0c0_SampleInfo
+{
+    float m_fValueAt00;
+};
+
+static void __cdecl FUN_00e0daf0(const Se0e0c0_FrameInfo& info, int frame,
+                                 const Se0e0c0_ArrayBase<Se0e0c0_Node*>& nodes, int* texture, int height,
+                                 Se0e0c0_ColorTable* colorTable, int rowStride, int width, float maxFrameTime,
+                                 float startTime, Se0e0c0_PointerMap& unknownTimers);
+
+// @fnv 0x00e0e0c0
+void __cdecl FUN_00e0e0c0(const Se0e0c0_ArrayBase<Se0e0c0_Node*>& nodes, const Se0e0c0_Input& input,
+                          Se0e0c0_ArrayBase<Se0e0c0_Array<Se0e0c0_FrameInfo> >& frameInfos, int*& texture, int& height,
+                          Se0e0c0_SampleInfo* sampleInfo)
+{
+    int numThreads = nodes.GetLogicalSize();
+    if (numThreads < 1)
+    {
+        return;
+    }
+    float maxFrameTime = -1.0f;
+    Se0e0c0_Array<float> startTimes;
+    FUN_00e0dd30((const MonNodeList&)nodes, (const AnimationTimingInfo&)input, (const FrameInfoArrays&)frameInfos, maxFrameTime,
+                 (FloatArray&)startTimes);
+
+    int maxFrames = frameInfos[0].GetLogicalSize() - input.m_iValueAt00;
+    int numFrames = input.m_iFrameCount > maxFrames ? maxFrames : input.m_iFrameCount;
+    int endFrame = input.m_iValueAt00 + numFrames;
+    int threadSpacing = input.m_iValueAt08 + input.m_iValueAt0C;
+    int frameHeight = threadSpacing * numThreads + input.m_iValueAt10;
+    int totalHeight = frameHeight * numFrames;
+    int currentY = totalHeight;
+    int border = (numFrames > 1) ? 32 : 0;
+    int drawWidth = input.m_iValueAt14 - border;
+    int numPixels = (input.m_iValueAt14 + 1) * totalHeight;
+
+    texture = (int*)AllocateWithHeader((Se0e0c0_Allocator*)&static_cast<S_e0ce00_Router*>(::FUN_00c85750())->heap(), numPixels * sizeof(int));
+    height = totalHeight;
+    ::FUN_00cb1280(texture, 0, numPixels * 4);
+    if (sampleInfo)
+    {
+        sampleInfo->m_fValueAt00 = maxFrameTime;
+    }
+
+    Se0e0c0_PointerMap unknownTimers;
+
+    for (int frame = input.m_iValueAt00; frame < endFrame; frame++)
+    {
+        currentY -= input.m_iValueAt10;
+        if (numFrames > 1)
+        {
+            FUN_00e0c210(frame, input.m_iValueAt14,
+                         texture + (currentY - threadSpacing) * input.m_iValueAt14);
+        }
+        for (int thread = 0; thread < numThreads; thread++)
+        {
+            currentY -= threadSpacing;
+            int* row = texture + currentY * input.m_iValueAt14 + border;
+            FUN_00e0daf0(frameInfos[thread][0], frame, nodes[thread]->m_children, row, input.m_iValueAt08,
+                         input.m_pColorTable, input.m_iValueAt14, drawWidth, maxFrameTime,
+                         startTimes[frame - input.m_iValueAt00], unknownTimers);
+        }
+    }
+
+    float pixelsPerFrame = (drawWidth * 1000) / maxFrameTime;
+    int startOffset = (int)(((int)input.m_fValueAt1C % 1000) * 0.001f * pixelsPerFrame);
+
+    if (pixelsPerFrame > 5.0)
+    {
+        int x = border - startOffset;
+        int i = 0;
+        while (x < input.m_iValueAt14)
+        {
+            if (x >= 0)
+            {
+                for (int y = 0; y < totalHeight; y++)
+                {
+                    texture[y * input.m_iValueAt14 + x] = 0xff0000ff;
+                }
+            }
+            i++;
+            x = border - startOffset + (int)(i * pixelsPerFrame);
+        }
+    }
+
+    int step = (int)((drawWidth * 16666) / maxFrameTime);
+    if (step > 0)
+    {
+        for (int x = border - startOffset; x < input.m_iValueAt14; x += step)
+        {
+            if (x < 0)
+                continue;
+            for (int y = 0; y < totalHeight; y++)
+            {
+                texture[y * input.m_iValueAt14 + x] = 0xff00ff00;
+                texture[y * input.m_iValueAt14 + x + 1] = 0xff00ff00;
+            }
+        }
+    }
+
+    if (input.m_bValueAt20)
+    {
+        for (Se0e0c0_Dummy* it = unknownTimers.GetFirstIterator(); unknownTimers.isValid(it);
+             it = unknownTimers.getNext(it))
+        {
+        }
+    }
+}
+
+template <class T> __forceinline void copyElements(T* dst, int count, const T& value)
+{
+    for (int i = 0; i < count; ++i)
+        dst[i] = value;
+}
+
+template <class T> struct SampleArrayBase
+{
+    T* m_data;
+    int m_iElementCount;
+    int m_iCapacityState;
+    __forceinline SampleArrayBase() : m_data(0), m_iElementCount(0), m_iCapacityState(0x80000000)
+    {}
+    __forceinline T& operator[](int i)
+    {
+        return m_data[i];
+    }
+    __forceinline const T& operator[](int i) const
+    {
+        return m_data[i];
+    }
+    __forceinline T& back()
+    {
+        return m_data[m_iElementCount - 1];
+    }
+    __forceinline int GetLogicalSize() const
+    {
+        return m_iElementCount;
+    }
+    __forceinline int capacity() const
+    {
+        return m_iCapacityState & 0x3fffffff;
+    }
+    __forceinline void clear()
+    {
+        m_iElementCount = 0;
+    }
+    __forceinline void append(S_e0ce00_Alloc& allocator, const T& value)
+    {
+        if (m_iElementCount == capacity())
+            ::ResizeAudioStream((::AudioAllocator *)(::S_e0ce00_Alloc *)(&allocator), (::AudioStream *)(void *)(this), sizeof(T));
+        copyElements(m_data + m_iElementCount, 1, value);
+        ++m_iElementCount;
+    }
+    __forceinline void reserveExactly(S_e0ce00_Alloc& allocator, int count)
+    {
+        if (capacity() < count)
+            ::FUN_00c908c0((::SpawnedObject *)(::S_e0ce00_Alloc *)(&allocator), (::SpawnedArray *)(void *)(this), count, sizeof(T));
+    }
+    __forceinline void release(S_e0ce00_Alloc& allocator)
+    {
+        clear();
+        if ((m_iCapacityState & 0x80000000u) == 0)
+            allocator.v10(m_data, capacity() * sizeof(T));
+        m_data = 0;
+        m_iCapacityState = 0x80000000;
+    }
+};
+
+struct SampleAllocator
+{
+    __forceinline S_e0ce00_Alloc& get(const void*)
+    {
+        return static_cast<S_e0ce00_Router*>(::FUN_00c85750())->heap();
+    }
+};
+
+template <class T> struct SampleArray : SampleArrayBase<T>
+{
+    __forceinline void AddBack(const T& value)
+    {
+        SampleArrayBase<T>::append(SampleAllocator().get(this), value);
+    }
+    __forceinline void reserveExactly(int count)
+    {
+        SampleArrayBase<T>::reserveExactly(SampleAllocator().get(this), count);
+    }
+    __forceinline ~SampleArray()
+    {
+        SampleArrayBase<T>::release(SampleAllocator().get(this));
+    }
+};
+
+struct SampleNode
+{
+    float m_iSlotIds[8];
+    unsigned short m_counts[8];
+    SampleArray<SampleNode*> m_children;
+    double m_base;
+    SampleNode* m_parent;
+    const char* m_name;
+};
+
+struct ColorMapBase
+{
+    void* m_entries;
+    int m_iElementCount;
+    int m_mod;
+    __forceinline ColorMapBase() : m_entries(0), m_iElementCount(0), m_mod(-1)
+    {}
+    __forceinline ~ColorMapBase()
+    {
+        ::FUN_00a29680();
+    }
+};
+struct ColorMapStorage : ColorMapBase
+{
+    __forceinline ColorMapStorage()
+    {
+        reinterpret_cast<::FUN_00cb1fe0_t *>(this)->EnsureCapacity((intptr_t)(&SampleAllocator().get(this)), 0);
+    }
+    __forceinline ~ColorMapStorage()
+    {
+        reinterpret_cast<::CB1A90Owner *>(this)->ProcessArgument((::CB1A90Argument *)(::S_e0ce00_Alloc *)(&SampleAllocator().get(this)));
+    }
+    __forceinline int insert(uintptr_t key, unsigned long value)
+    {
+        return reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(this)->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(&SampleAllocator().get(this))), key, value);
+    }
+};
+struct ColorMap
+{
+    ColorMapStorage m_map;
+    __forceinline int get(const char* key, int* out) const
+    {
+        uintptr_t value;
+        if (::LookupBucketValue((::DepthLimit *)&(m_map), (uintptr_t)key, (uintptr_t *)(&value)) == 0)
+        {
+            *out = int(value);
+            return 0;
+        }
+        return 1;
+    }
+    __forceinline int insert(const char* key, int value)
+    {
+        return m_map.insert((uintptr_t)key, (unsigned long)value);
+    }
+};
+typedef Se0e0c0_FrameInfo TextureFrame;
+struct ColorName
+{
+    uintptr_t m_tagged;
+    __forceinline operator const char*() const
+    {
+        return (const char*)(m_tagged & ~1u);
+    }
+};
+struct ColorPair
+{
+    ColorName m_name;
+    unsigned int m_kDiffuseColor;
+};
+struct TextureColors
+{
+    int unk00;
+    int unk04;
+    SampleArray<ColorPair> m_pairs;
+    unsigned int m_uiColorValue;
+};
+
+static __forceinline void renderTextureColumns(const TextureFrame& info, int frame,
+                                               const SampleArrayBase<SampleNode*>& trees, int* image, int rows,
+                                               TextureColors& colors, int stride, int samples, float duration,
+                                               float start, ColorMap& missing)
+{
+    ColorMap cache;
+    float increment = duration / samples;
+    SampleArray<SampleNode*> ticks;
+    ticks.reserveExactly(samples);
+    if (trees[frame]->m_children.GetLogicalSize() > 0)
+    {
+        ticks.clear();
+        int axis = info.m_uiTimer1 == 0 ? info.m_iColor : info.m_iTimer0;
+        FUN_00e0cec0(start, increment, axis, reinterpret_cast<S00e0e4e0_Node*>(trees[frame]), samples,
+                     reinterpret_cast<S00e0e4e0_PArr*>(&ticks));
+        int size = ticks.GetLogicalSize();
+        for (int column = 0; column < size && column < samples; ++column)
+        {
+            int color = -1;
+            if (ticks[column])
+            {
+                SampleNode* current = ticks[column];
+                while (current)
+                {
+                    const char* label = current->m_name;
+                    if (cache.get(label, &color) == 1)
+                    {
+                        if (missing.get(label, &color) != 1)
+                        {
+                            current = current->m_parent;
+                            continue;
+                        }
+                        bool found = false;
+                        for (int entry = 0; entry < colors.m_pairs.GetLogicalSize(); ++entry)
+                        {
+                            if (::fnv_00cb0fe0::CompareStringsCaseInsensitive(colors.m_pairs[entry].m_name, label) == 0)
+                            {
+                                color = colors.m_pairs[entry].m_kDiffuseColor;
+                                found = true;
+                                break;
+                            }
+                        }
+                        if (found)
+                        {
+                            cache.insert(label, color);
+                            break;
+                        }
+                        else
+                        {
+                            missing.insert(label, color);
+                            current = current->m_parent;
+                        }
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+            }
+            for (int row = 0; row < rows; ++row)
+                image[row * stride + column] = color;
+        }
+    }
+}
+
+// @fnv 0x00e0daf0
+static __declspec(noinline) void FUN_00e0daf0(const Se0e0c0_FrameInfo& info, int frame,
+                                              const Se0e0c0_ArrayBase<Se0e0c0_Node*>& trees, int* image, int rows,
+                                              Se0e0c0_ColorTable* colors, int stride, int samples, float duration,
+                                              float start, Se0e0c0_PointerMap& missing)
+{
+    renderTextureColumns((const TextureFrame&)info, frame, (const SampleArrayBase<SampleNode*>&)trees, image, rows,
+                         *(TextureColors*)colors, stride, samples, duration, start, (ColorMap&)missing);
 }
 
 #include "generated/data/havok/common/base/monitor/monitorstreamanalyzer/hkmonitorstreamanalyzer.inc"

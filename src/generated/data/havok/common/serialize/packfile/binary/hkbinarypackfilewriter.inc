@@ -9,5 +9,5 @@
 #pragma comment(linker, "/alternatename:?g_0126cab8@@3UGlobalObjectO2_00d472a0@@A=?g_0126cab8@@3VGlobalObjectO2_00d472a0@@A")
 #pragma comment(linker, "/alternatename:?g_0126cae8@@3UGlobalObjectO2_00d472a0@@A=?g_0126cae8@@3VGlobalObjectO2_00d472a0@@A")
 
-int DAT_011b7aec = 0;
+intptr_t DAT_011b7aec = 0;
 char DAT_011b7b89;

@@ -724,7 +724,7 @@ int OBBLeaf::FUN_00eb9b00(OBBLeaf* pkOther, intptr_t iA, intptr_t iB, intptr_t i
         *pbHit = true;
         reinterpret_cast<::S_00ebf4a0_Class *>(&(m_kContext))->ProjectOntoAxes((const ::S_00ebf4a0_Vec3 *)(::NiPoint3 *)(&kRecord.m_kPoint), (::S_00ebf4a0_Vec3 *)(::NiPoint3 *)(&kRecord.m_kNormal0));
         reinterpret_cast<::S_00ebf4a0_Class *>(&(pkOther->m_kContext))->ProjectOntoAxes((const ::S_00ebf4a0_Vec3 *)(::NiPoint3 *)(&kRecord.m_kPoint), (::S_00ebf4a0_Vec3 *)(::NiPoint3 *)(&kRecord.m_kNormal1));
-        return ::RunSwapTests((::SwapNode *)this);
+        return ::RunSwapTests((::SwapNode *)(&kRecord));
     }
     return 0;
 }

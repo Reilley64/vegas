@@ -2,6 +2,7 @@
 // src/havok/unplaced/loadedareabound.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/havok/loadedareabound.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/BSShaderNoLightingProperty.h"
 #include "fnv/decl/Callees.h"
@@ -709,7 +710,7 @@ void ThisCls::FUN_00972d30()
                                             continue;
                                         {
                                             j->ConfigureActorState(0, 0);
-                                            int pObj4 = ((int)(reinterpret_cast<::s575ca0::Owner *>((j))->FUN_00575ca0()));
+                                            intptr_t pObj4 = ((intptr_t)(reinterpret_cast<::s575ca0::Owner *>((j))->FUN_00575ca0()));
                                             Refr* accepted = 0;
                                             bool visible = false;
                                             bool _x = false;
@@ -746,11 +747,11 @@ void ThisCls::FUN_00972d30()
                                             {
                                                 q = ((::Proc *)(reinterpret_cast<::BSShaderNoLightingProperty *>((j))->GetBaseTexture())) ? ((::Proc *)(reinterpret_cast<::BSShaderNoLightingProperty *>((j))->GetBaseTexture()))->v514() : 0;
                                             }
-                                            long _object;
+                                            intptr_t _object;
                                             _object = ((::Proc *)(reinterpret_cast<::BSShaderNoLightingProperty *>((j))->GetBaseTexture()))->v4d4();
                                             unsigned int idx13 = -1;
                                             if (refr38 != 0 && reinterpret_cast<::FUN_00568680_shell *>((refr38))->FUN_00568680() &&
-                                                ((int)(reinterpret_cast<::s575ca0::Owner *>((refr38))->FUN_00575ca0())) == pObj4)
+                                                ((intptr_t)(reinterpret_cast<::s575ca0::Owner *>((refr38))->FUN_00575ca0())) == pObj4)
                                             {
                                                 accepted = refr38;
                                                 chosen = ((::ObjA *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((accepted))->FUN_007af430()));
@@ -763,7 +764,7 @@ void ThisCls::FUN_00972d30()
                                                     _x = true;
                                                 }
                                             }
-                                            else if (q != 0 && reinterpret_cast<::FUN_00568680_shell *>((q))->FUN_00568680() && ((int)(reinterpret_cast<::s575ca0::Owner *>((q))->FUN_00575ca0())) == pObj4)
+                                            else if (q != 0 && reinterpret_cast<::FUN_00568680_shell *>((q))->FUN_00568680() && ((intptr_t)(reinterpret_cast<::s575ca0::Owner *>((q))->FUN_00575ca0())) == pObj4)
                                             {
                                                 accepted = q;
                                                 chosen = ((::ObjA *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((accepted))->FUN_007af430()));
@@ -787,7 +788,7 @@ void ThisCls::FUN_00972d30()
                                                 {
                                                     currentReference = *((::Refr **)(new ((void *)(iter)) ::Vec3()));
                                                     bool flag49 = false;
-                                                    if (((int)(reinterpret_cast<::s575ca0::Owner *>((currentReference))->FUN_00575ca0())) == pObj4)
+                                                    if (((intptr_t)(reinterpret_cast<::s575ca0::Owner *>((currentReference))->FUN_00575ca0())) == pObj4)
                                                     {
                                                         if (((void *)(reinterpret_cast<::OwnerLookupView *>((currentReference))->FUN_00567790())) == 0 ||
                                                             reinterpret_cast<::OwnershipReferenceView *>((currentReference))->FUN_005785e0(j, true))
@@ -829,7 +830,7 @@ void ThisCls::FUN_00972d30()
                                                     {
                                                         currentReference = *((::Refr **)(new ((void *)(iter)) ::Vec3()));
                                                         bool flag4a = false;
-                                                        if (((int)(reinterpret_cast<::s575ca0::Owner *>((currentReference))->FUN_00575ca0())) == pObj4 &&
+                                                        if (((intptr_t)(reinterpret_cast<::s575ca0::Owner *>((currentReference))->FUN_00575ca0())) == pObj4 &&
                                                             currentReference != 0)
                                                         {
                                                             if (((void *)(reinterpret_cast<::OwnerLookupView *>((currentReference))->FUN_00567790())) == 0 ||
@@ -1026,10 +1027,10 @@ struct FUN_00628df0_class
 void FUN_00628df0_class::FUN_00628df0(Arg1* a1, Arg2* apItems, Arg3* apTarget)
 {
     FUN_00437c10 tmp;
-    for (int i = 0; i < ((int)(reinterpret_cast<::Callees *>((apItems))->FUN_00726070())); ++i)
+    for (int i = 0; i < ((intptr_t)(reinterpret_cast<::Callees *>((apItems))->FUN_00726070())); ++i)
     {
-        ItemObj* p38 = (ItemObj*)((void *)(::FUN_00460140((int)(((::Arg2Item *)&(reinterpret_cast<::FUN_00629ab0_shell *>((apItems))->FUN_00629ab0(i)))->pItem))));
-        if (((const char *)(::FUN_00559450((int *)(p38)))))
+        ItemObj* p38 = (ItemObj*)((void *)(::FUN_00460140((intptr_t)(((::Arg2Item *)&(reinterpret_cast<::FUN_00629ab0_shell *>((apItems))->FUN_00629ab0(i)))->pItem))));
+        if (((*(const char * *)((p38)))))
         {
             TargetObj* pTarget = ((::TargetObj *)(reinterpret_cast<::LowProcess *>((apTarget))->GetPackageObjectType()));
             pTarget->vfunc_0x3c(((void *)(reinterpret_cast<::NonActorMagicTarget *>((p38))->GetActiveEffectList())), &tmp);

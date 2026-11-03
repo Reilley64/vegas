@@ -24,6 +24,7 @@
 #include "fnv/symbols_00ee6000.h"
 #include "fnv/symbols_010f1000.h"
 #include "fnv/symbols_0126f000.h"
+#include "fnv/symbols_00c85000.h"
 struct NiD3DPixelShader
 {
     void* DestroyPixelShader(unsigned int flags);
@@ -77,7 +78,6 @@ struct VTableObj
     virtual void Call(int a, int b);
 };
 
-extern "C" void* __cdecl FUN_00c85750();
 
 struct FUN_00c7b0f0_shell
 {
@@ -90,7 +90,7 @@ struct FUN_00c7b0f0_shell
 // @fnv 0x00c7b0f0
 void FUN_00c7b0f0_shell::FUN_00c7b0f0()
 {
-    void* p = FUN_00c85750();
+    void* p = reinterpret_cast<void* (*)()>(&::FUN_00c85750)();
     VTableObj* pTarget = *(VTableObj**)((char*)p + 0x10);
     m_kPointB = 0;
     unsigned int uiFlags = m_iThirdValue;
@@ -637,7 +637,7 @@ bool FUN_00e95c40_cls::AttachShaderFromCode(Shader_e95* pkShader)
     void* pvCode = pkShader->GetCode();
     if (!pvCode)
         return false;
-    void* pvShader = ((void *)(::FUN_00e988d0((void *)this)));
+    void* pvShader = ((void *)(::FUN_00e988d0((void *)(pvCode))));
     if (!pvShader)
         return false;
     pkShader->SetShader(pvShader);
@@ -784,7 +784,7 @@ NiD3DHLSLPixelShaderStandIn* HLSLCreator::FUN_00e967d0(const void* pvBuffer, uns
         return 0;
     }
 
-    void* hShader = ::CreateVertexShaderChecked((void *)this, pvCode, (uintptr_t)(&pvHandle), (void *)(auiGroupKey), (unsigned int)(0), 0);
+    void* hShader = ::CreateVertexShaderChecked(pvCode, (void *)(&pvHandle), auiGroupKey, 0, 0, bSoftwareVP);
     if (hShader == 0)
     {
         ::FUN_00aa0020(1, bRecoverable, "Failed CreateVertexShader call on %s\n", pcShaderName);
@@ -1105,8 +1105,8 @@ NiD3DHLSLPixelShaderStandIn* HLSLCreator_b10814::FUN_00e95f20(void* pvBuffer, un
         pcShaderTarget = reinterpret_cast<const char*(*)(void*)>(&FUN_00ee6e2e)(g_0126fa28);
     }
 
-    void* pvHandle = ::CreateVertexShaderChecked((void *)(this), ((ID3DXBuffer*)pvBuffer)->GetBufferPointer(), (uintptr_t)((void*)&pcName),
-                                                     (void *)(auiPassCount), (unsigned int)(0), 0);
+    void* pvHandle = ::CreateVertexShaderChecked(((ID3DXBuffer*)pvBuffer)->GetBufferPointer(), (void*)&pcName,
+                                                     auiPassCount, 0, 0, bSoftwareVP);
     if (pvHandle == 0)
     {
         ::FUN_00aa0020(1, bRecoverable, "Failed CreateVertexShader call on %s\n", pcShaderName);
@@ -1247,7 +1247,7 @@ HLSLPixelShader96* PixelShaderCreatorHLSL::FUN_00e96b10(const void* pvSourceBuff
         return 0;
     }
 
-    void* hShader = ((void *)(::FUN_00e988d0((void *)this)));
+    void* hShader = ((void *)(::FUN_00e988d0((void *)(pvCode))));
     if (!hShader)
     {
         ::FUN_00aa0020(1, bRecoverable, "Failed CreatePixelShader call on %s\n", pcShaderName);
@@ -1412,7 +1412,7 @@ bool ShaderMgrE95::FUN_00e95ba0(ShaderSrcE95* pkShader)
         return false;
 
     unsigned int uiVersion = pkShader->GetShaderVersion();
-    void* pvHandle = ::CreateVertexShaderChecked((void *)this, pvCode, (uintptr_t)(&uiVersion), (void *)(pkShader->GetCodeSize()), (unsigned int)(0), 0);
+    void* pvHandle = ::CreateVertexShaderChecked(pvCode, (void *)(&uiVersion), pkShader->GetCodeSize(), 0, 0, 0);
     if (!pvHandle)
         return false;
 
@@ -1570,7 +1570,7 @@ S00e96610_VS* S00e96610_Creator::FUN_00e96610(const char* pcFileName, const char
         return 0;
     }
 
-    void* hShader = ::CreateVertexShaderChecked((void *)this, pvCode, (uintptr_t)(&hDecl), (void *)(uiUsage), (unsigned int)(0), 0);
+    void* hShader = ::CreateVertexShaderChecked(pvCode, (void *)(&hDecl), uiUsage, 0, 0, bSoftwareVP);
     if (!hShader)
     {
         ::FUN_00aa0020(1, bRecoverable, "Failed CreateVertexShader call on %s\n", pcShaderName);
@@ -1714,7 +1714,7 @@ HLSLPixelShaderObj* HLSLFileShaderCreator::FUN_00e96990(ShaderArgs args, const c
         delete pkPixelShader;
         return 0;
     }
-    void* hShader = ((void *)(::FUN_00e988d0((void *)this)));
+    void* hShader = ((void *)(::FUN_00e988d0((void *)(pvCode))));
     if (!hShader)
     {
         ::FUN_00aa0020(1, bRecoverable, "Failed CreatePixelShader call on %s\n", args.pcShaderName);
@@ -1781,7 +1781,7 @@ HLSLPixelShaderObj* BufferPixelShaderCreator::FUN_00e96100(ID3DXBuffer* code, un
     if (!target)
         target = FUN_00ee6e28(::g_0126fa28);
 
-    void* handle = ((void *)(::FUN_00e988d0((void *)this)));
+    void* handle = ((void *)(::FUN_00e988d0((void *)(code->GetBufferPointer()))));
     if (!handle)
     {
         ::FUN_00aa0020(1, recoverable, "Failed CreatePixelShader call on %s\n", name);
@@ -1805,4 +1805,20 @@ HLSLPixelShaderObj* BufferPixelShaderCreator::FUN_00e96100(ID3DXBuffer* code, un
     return shader;
 }
 
+void* __cdecl FUN_00e95cc0();
+const void* __cdecl FUN_00e95df0();
+
+struct ID3DXConstantTable;
+struct NiD3DHLSLPixelShader_od
+{
+    char m_auiShapeKeys[0x48];
+    ID3DXConstantTable* m_pShaderConstantTable;
+    ID3DXConstantTable* FUN_00b18300();
+};
+
+// @fnv 0x00b18300
+ID3DXConstantTable* NiD3DHLSLPixelShader_od::FUN_00b18300()
+{
+    return m_pShaderConstantTable;
+}
 #include "generated/data/gamebryo2.2/corelibs/niconsolerenderer/nid3dshaderprogramcreatorhlsl.inc"

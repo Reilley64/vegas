@@ -37,6 +37,8 @@
 #include "fnv/symbols_011a9000.h"
 #include "fnv/symbols_011f3000.h"
 #include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_00a4c000.h"
+#include "fnv/symbols_00a81000.h"
 void* __cdecl FUN_00a4be10()
 {
     return &(*reinterpret_cast<void * *>(&::g_011f3f90));
@@ -1451,13 +1453,11 @@ FUN_00a4bcf0::FUN_00a4bcf0(unsigned int pkLookAt, unsigned int eAxis, bool bFlip
 }
 
 extern "C" void _ReadWriteBarrier(void);
-const float DAT_01015f5c = -3.4028234663852886e38f;
 const float DAT_01017d00 = 0.0010000000474974513f;
 const float DAT_01098c00 = 1.0010000467300415f;
 const double DAT_01098bf8 = 0.9990000128746033;
 const float DAT_01098bf0 = -1.0010000467300415f;
 const double DAT_01098be8 = -0.9990000128746033;
-const double DAT_010241b0 = -3.4028234663852886e38;
 struct LookNode;
 struct LookVector
 {
@@ -1875,4 +1875,94 @@ void S_00a4c4b0_Obj::FUN_00a4c4b0(S_00a4c4b0_Obj* dest, S_00a4c4b0_Cloning& c)
 }
 }  // namespace fnv_00a4c4b0
 
+void* __cdecl FUN_00a4be10();
+
+
+class LAFixedString
+{
+  public:
+    ~LAFixedString()
+    {
+        DecRefCount(m_kHandle);
+    }
+    LAFixedString& operator=(const LAFixedString& kString)
+    {
+        char* h = kString.m_kHandle;
+        if (m_kHandle != h)
+        {
+            IncRefCount(h);
+            DecRefCount(m_kHandle);
+            m_kHandle = h;
+        }
+        return *this;
+    }
+    static void IncRefCount(char* h)
+    {
+        if (h == ::DAT_0109b220)
+            return;
+        InterlockedIncrement((long volatile*)(h - 8));
+    }
+    static void DecRefCount(char* h)
+    {
+        if (h == ::DAT_0109b220)
+            return;
+        InterlockedDecrement((long volatile*)(h - 8));
+    }
+    char* m_kHandle;
+};
+
+class LARefObject
+{
+  public:
+    virtual ~LARefObject();
+    virtual void DeleteThis();
+    void DecRefCount()
+    {
+        if (InterlockedDecrement(&m_lRefCount) == 0)
+            DeleteThis();
+    }
+    long m_lRefCount;
+};
+
+template <class T> class LAPointer
+{
+  public:
+    ~LAPointer()
+    {
+        if (m_pObject)
+            m_pObject->DecRefCount();
+    }
+    T* m_pObject;
+};
+
+class NiInterpolator_noehsc : public LARefObject
+{
+  public:
+    virtual ~NiInterpolator_noehsc();
+    int unk08;
+    int unk0C;
+    int unk10;
+};
+
+class NiLookAtInterpolatorX : public NiInterpolator_noehsc
+{
+  public:
+    virtual ~NiLookAtInterpolatorX();
+    LAFixedString m_kTargetNodeName;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    LAPointer<NiInterpolator_noehsc> m_akReferencedObjects[3];
+};
+
+// @fnv 0x00a4be20
+NiLookAtInterpolatorX::~NiLookAtInterpolatorX()
+{
+    m_kTargetNodeName = *(LAFixedString*)&(*reinterpret_cast<char * *>(&::DAT_011f49e0));
+}
 #include "generated/data/gamebryo2.2/corelibs/nianimation/nilookatinterpolator.inc"

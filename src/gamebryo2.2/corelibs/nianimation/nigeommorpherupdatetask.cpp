@@ -14,6 +14,7 @@
 #include "fnv/symbols_00e7f000.h"
 #include "fnv/symbols_011f4000.h"
 #include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_00a56000.h"
 extern "C"
 {
 }
@@ -437,4 +438,37 @@ void NiStreamLinkIDSet::FUN_00a56e60(unsigned int uiTaskCount)
     m_pkBlocks = pkBlock;
 }
 
+const void* __cdecl FUN_00a56c00();
+void ResetRegistry();
+
+struct S_00a56ce0_HeapX
+{
+};
+
+
+struct MorphTaskArr
+{
+    void* vptr;
+    int _pad[2];
+    void* m_pkMorphController;
+    void* m_spReferencedObject;
+
+    MorphTaskArr();
+    ~MorphTaskArr();
+
+    static void* operator new[](size_t size, unsigned int count);
+};
+
+inline void* MorphTaskArr::operator new[](size_t size, unsigned int count)
+{
+    if (count == 0)
+        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::S_00a56ce0_HeapX *>(&::g_memoryManager))))->FUN_00aa3e40(4);
+    return FUN_00aa1420(size);
+}
+
+// @fnv 0x00a56ce0
+NiGeomMorpherUpdateTask* __cdecl FUN_00a56ce0(unsigned int ItemUpdateArray) throw()
+{
+    return (NiGeomMorpherUpdateTask*)(new (ItemUpdateArray) MorphTaskArr[ItemUpdateArray]);
+}
 #include "generated/data/gamebryo2.2/corelibs/nianimation/nigeommorpherupdatetask.inc"

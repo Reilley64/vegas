@@ -2,6 +2,8 @@
 // src/havok/common/serialize/util/hkstructurelayout.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/serialize/util/hkstructurelayout.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
+#include <cstdint>
 #include <new>
 #include "fnv/decl/ClassMember_d869.h"
 #include "fnv/decl/D10710Object.h"
@@ -251,7 +253,7 @@ int GetMemberSize(Lay_cls* pLayout, unsigned char* pMemberData, int iType)
         r = r + *pMemberData + 4;
         break;
     case 24: {
-        int m = reinterpret_cast<::FnvCpu_FUN_00d470d0_CpuObject *>((((Mem_cls*)(((int)(reinterpret_cast<::TestClass *>((pLayout))->FUN_00d86910()))))))->FUN_00d470d0();
+        int m = reinterpret_cast<::FnvCpu_FUN_00d470d0_CpuObject *>((((Mem_cls*)(((intptr_t)(reinterpret_cast<::TestClass *>((pLayout))->FUN_00d86910()))))))->FUN_00d470d0();
         r = (reinterpret_cast<::OwnerD869 *>((pLayout))->FUN_00d86940() != 0 ? reinterpret_cast<::OwnerD869 *>((pLayout))->FUN_00d86940() : 1) * m;
         break;
     }
@@ -291,15 +293,15 @@ struct FUN_00cb18f0_Obj
 class FUN_00dc1bb0_Class
 {
   public:
-    void FUN_00dc1bb0(unsigned int param1, unsigned int param2, int param3);
+    void FUN_00dc1bb0(uintptr_t param1, uintptr_t param2, int param3);
 };
 
 // Calls FindSlot on the object with param1 and, if the result exceeds object->unk08, calls FUN_00dc1960 with this, object and param3.
 // @fnv 0x00dc1bb0
-void FUN_00dc1bb0_Class::FUN_00dc1bb0(unsigned int uiValue, unsigned int pObject, int param3)
+void FUN_00dc1bb0_Class::FUN_00dc1bb0(uintptr_t uiValue, uintptr_t pObject, int param3)
 {
     FUN_00cb18f0_Obj* object = reinterpret_cast<FUN_00cb18f0_Obj*>(pObject);
-    int result = reinterpret_cast<::FUN_00cb18f0_t *>((object))->FindSlot(uiValue);
+    intptr_t result = reinterpret_cast<::FUN_00cb18f0_t *>((object))->FindSlot(uiValue);
 
     if (result > object->unk08)
     {
@@ -348,13 +350,12 @@ struct Allocator
 };
 struct Manager
 {
-    int unk00;
-    int unk04;
-    int unk08;
+    void* unk00;
+    void* unk04;
+    void* unk08;
     Allocator* allocator;
     void* unk10;
 };
-extern "C" Manager* __cdecl FUN_00c85750();
 struct NodeListEx;
 struct NodeEx
 {
@@ -400,13 +401,13 @@ struct Arg2
     int unk00;
     int unk04;
     int unk08;
-    ByteBool Valid(int i) const
+    ByteBool Valid(intptr_t i) const
     {
         return i <= unk08;
     }
     ByteBool IsMissing(NodeListEx* p)
     {
-        return !Valid(reinterpret_cast<::FUN_00cb18f0_t *>(this)->FindSlot((int)(p)));
+        return !Valid(reinterpret_cast<::FUN_00cb18f0_t *>(this)->FindSlot((intptr_t)(p)));
     }
 };
 struct Array
@@ -416,7 +417,7 @@ struct Array
     int m_pRayCursor;
     void Free()
     {
-        Manager* mgr = FUN_00c85750();
+        Manager* mgr = static_cast<Manager*>(::FUN_00c85750());
         Allocator* alloc = mgr->allocator;
         int cap = m_pRayCursor;
         m_iElementCount = 0;
@@ -430,8 +431,8 @@ struct Array
 // @fnv 0x00dc1960
 void __cdecl FUN_00dc1960(NodeListEx& root, const LayoutOptions& options, Arg2& visited, int arg3)
 {
-    Manager* i = FUN_00c85750();
-    reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(visited))->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(i->unk10)), (unsigned int)((&root)), 0);
+    Manager* i = static_cast<Manager*>(::FUN_00c85750());
+    reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(visited))->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(i->unk10)), (uintptr_t)((&root)), 0);
     if (0 != arg3)
     {
         int fallback = ((int)(reinterpret_cast<::FUN_00d46f00_s *>((void *)&(root))->FUN_00d46f00()));
@@ -462,7 +463,7 @@ void __cdecl FUN_00dc1960(NodeListEx& root, const LayoutOptions& options, Arg2& 
     while (pNodeList)
     {
         NodeListEx* pCurrent = pNodeList;
-        Manager* m = FUN_00c85750();
+        Manager* m = static_cast<Manager*>(::FUN_00c85750());
         reinterpret_cast<::D10710Object *>(&(nodeArray))->CallWithFlag(m->allocator, (void *)(0), (void *)&(pCurrent));
         pNodeList = const_cast<NodeListEx*>(((const ::NodeListEx *)(reinterpret_cast<::ReflectObj *>((void *)(pNodeList))->FUN_00d46d50())));
     }

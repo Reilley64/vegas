@@ -2,7 +2,10 @@
 // src/havok/common/visualize/hkserverprocesshandler.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/visualize/hkserverprocesshandler.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
+#include <cstdint>
 #include <cstddef>
+#include <new>
 #include "fnv/decl/CB1A90Owner.h"
 #include "fnv/decl/DD8FE0_Stream.h"
 #include "fnv/decl/FUN_00cb1fe0_t.h"
@@ -58,12 +61,12 @@ struct FUN_00d607b0_s
 };
 struct FUN_00d60ca0_s
 {
-    int FUN_00d60ca0(int a, int b);
+    int FUN_00d60ca0(intptr_t a, int b);
 };
 // @fnv 0x00d60ca0
-int FUN_00d60ca0_s::FUN_00d60ca0(int a, int b)
+int FUN_00d60ca0_s::FUN_00d60ca0(intptr_t a, int b)
 {
-    int iClamped = ::fnv_00cb10d0::FUN_00cb10d0((const char *)(a));
+    intptr_t iClamped = ::fnv_00cb10d0::FUN_00cb10d0((const char *)(a));
     if (iClamped > 0xffff)
         iClamped = 0xffff;
     reinterpret_cast<::hkOArchive_2 *>((((FUN_00d60940_s*)*(void**)((char*)this + 0x10))))->WriteInt(iClamped + 7);
@@ -171,10 +174,10 @@ struct FUN_00d60d40_Class
     FUN_00d60d40_Element** m_p;
     int m_uiItemCount;
 
-    int FUN_00d60d40(int value);
+    int FUN_00d60d40(intptr_t value);
 };
 
-int FUN_00d60d40_Class::FUN_00d60d40(int value)
+int FUN_00d60d40_Class::FUN_00d60d40(intptr_t value)
 {
     int count = m_uiItemCount;
     int index = 0;
@@ -193,7 +196,7 @@ struct FUN_00dd9270_Class
 // @fnv 0x00d61240
 void __cdecl FUN_00d61240()
 {
-    reinterpret_cast<::FUN_00dd9270_cls *>((((FUN_00dd9270_Class*)(*reinterpret_cast<int *>(&::DAT_01269cd0)))))->FindEntry({});
+    reinterpret_cast<::FUN_00dd9270_cls *>((((FUN_00dd9270_Class*)(*reinterpret_cast<intptr_t *>(&::DAT_01269cd0)))))->FindEntry({});
 }
 
 struct FUN_00d61260_Class
@@ -252,7 +255,7 @@ hkObjD60B* hkObjD60B::FUN_00d60bd0(unsigned int uiFlags) throw()
 
 struct hkEntryD60D
 {
-    unsigned int m_name;
+    uintptr_t m_name;
     int unk04;
     int unk08;
 };
@@ -290,7 +293,7 @@ struct hkObjD60D
 // @fnv 0x00d60d80
 int hkObjD60D::VisitEntryNames()
 {
-    hkEntryArrayD60D& entries = reinterpret_cast<hkRegistryD60D*>((*reinterpret_cast<int *>(&::DAT_01269cd0)))->m_entries;
+    hkEntryArrayD60D& entries = reinterpret_cast<hkRegistryD60D*>((*reinterpret_cast<intptr_t *>(&::DAT_01269cd0)))->m_entries;
     for (int i = 0; i < entries.m_iElementCount; i++)
         m_visitor.v04((const char*)(entries.m_data[i].m_name & ~1u), i);
     return 0;
@@ -358,17 +361,16 @@ class hkMemoryAllocatorD610
 
 struct hkMemoryRouterD610
 {
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
+    void* m_00;
+    void* m_04;
+    void* m_08;
+    void* m_0c;
     hkMemoryAllocatorD610* m_pStreamAllocator;
     hkMemoryAllocatorD610& heap()
     {
         return *m_pStreamAllocator;
     }
 };
-extern "C" hkMemoryRouterD610& __cdecl FUN_00c85750();
 
 template <class T> class hkArrayD610
 {
@@ -379,7 +381,7 @@ template <class T> class hkArrayD610
 
     ~hkArrayD610() throw()
     {
-        hkMemoryAllocatorD610& kHeap = FUN_00c85750().heap();
+        hkMemoryAllocatorD610& kHeap = (*static_cast<hkMemoryRouterD610*>(::FUN_00c85750())).heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
             kHeap.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
@@ -408,7 +410,7 @@ class hkPointerMapD610
 
     ~hkPointerMapD610() throw()
     {
-        reinterpret_cast<::CB1A90Owner *>(&(m_map))->ProcessArgument((::CB1A90Argument *)&(FUN_00c85750().heap()));
+        reinterpret_cast<::CB1A90Owner *>(&(m_map))->ProcessArgument((::CB1A90Argument *)&((*static_cast<hkMemoryRouterD610*>(::FUN_00c85750())).heap()));
     }
 };
 
@@ -524,7 +526,7 @@ struct FUN_00dd9240_Class
 // @fnv 0x00d61250
 void __cdecl FUN_00d61250()
 {
-    reinterpret_cast<::FUN_00dd9240_cls *>((((FUN_00dd9240_Class*)(*reinterpret_cast<int *>(&::DAT_01269cd0)))))->FUN_00dd9240({});
+    reinterpret_cast<::FUN_00dd9240_cls *>((((FUN_00dd9240_Class*)(*reinterpret_cast<intptr_t *>(&::DAT_01269cd0)))))->FUN_00dd9240({});
 }
 
 namespace fnv_00dd9cc0 {
@@ -538,17 +540,16 @@ class hkMemoryAllocatorDD9C
 
 struct hkMemoryRouterDD9C
 {
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
+    void* m_00;
+    void* m_04;
+    void* m_08;
+    void* m_0c;
     hkMemoryAllocatorDD9C* m_pStreamAllocator;
     hkMemoryAllocatorDD9C& heap()
     {
         return *m_pStreamAllocator;
     }
 };
-extern "C" hkMemoryRouterDD9C& __cdecl FUN_00c85750();
 
 class FUN_00cf6da0
 {
@@ -557,7 +558,7 @@ class FUN_00cf6da0
 
     static void* operator new(std::size_t uiSize) throw()
     {
-        return FUN_00c85750().heap().AllocateMemoryBlock(uiSize);
+        return (*static_cast<hkMemoryRouterDD9C*>(::FUN_00c85750())).heap().AllocateMemoryBlock(uiSize);
     }
     static void operator delete(void* p) throw();
 
@@ -619,15 +620,14 @@ template <int SIZE> __forceinline void memCpyOneAlignedD60E(void* dst, const voi
 
 struct hkMemoryRouterD60E
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     void* m_pStreamAllocator;
 };
 
 namespace hkRouterD60E {
-extern "C" hkMemoryRouterD60E& __cdecl FUN_00c85750() throw();
 }
 void __cdecl ResizeAudioStream(void* m_pPoolBase, void* pArray, int iSizeElem);
 
@@ -644,7 +644,7 @@ template <class T> class hkArrayD60E
     }
     __forceinline void AddBack(const T& e)
     {
-        hkMemoryRouterD60E& router = hkRouterD60E::FUN_00c85750();
+        hkMemoryRouterD60E& router = (*static_cast<hkMemoryRouterD60E*>(::FUN_00c85750()));
         if (m_iElementCount == getCapacity())
             ResizeAudioStream(router.m_pStreamAllocator, this, sizeof(T));
         memCpyOneAlignedD60E<sizeof(T)>(m_data + m_iElementCount, &e);
@@ -715,7 +715,7 @@ int OwnerD60E::FUN_00d60e80(int aiSoundId)
 {
     if (reinterpret_cast<::FUN_00d60d40_Class *>(this)->FUN_00d60d40(aiSoundId) >= 0)
         return 0;
-    EntryD60E* pkEntry = ((::EntryD60E *)(reinterpret_cast<::FUN_00dd92f0_cls *>((((EntryFactoryD60E*)(*reinterpret_cast<int *>(&::DAT_01269cd0)))))->InvokeRecord(aiSoundId, (int)(&m_unk44))));
+    EntryD60E* pkEntry = ((::EntryD60E *)(reinterpret_cast<::FUN_00dd92f0_cls *>((((EntryFactoryD60E*)(*reinterpret_cast<intptr_t *>(&::DAT_01269cd0)))))->InvokeRecord(aiSoundId, (intptr_t)(&m_unk44))));
     if (pkEntry)
     {
         EntryD60E* const receiver = pkEntry;
@@ -780,7 +780,7 @@ struct Part_d60e
 // @fnv 0x00d60e20
 int Part_d60e::FUN_00d60e20(void* key)
 {
-    int index = reinterpret_cast<::FUN_00d60d40_Class *>((((Owner_d60e*)((char*)this - 8))))->FUN_00d60d40((int)(key));
+    int index = reinterpret_cast<::FUN_00d60d40_Class *>((((Owner_d60e*)((char*)this - 8))))->FUN_00d60d40((intptr_t)(key));
     if (index >= 0)
     {
         Item_d60e* item = m_items[index];
@@ -851,17 +851,16 @@ struct MemManager
 };
 struct BSAudio
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     MemManager* m_mm;
     MemManager& heap()
     {
         return *m_mm;
     }
 };
-BSAudio& __cdecl FUN_00c85750();
 
 struct __declspec(novtable) RefObject
 {
@@ -872,7 +871,7 @@ struct __declspec(novtable) RefObject
     {}
     static void* operator new(std::size_t size)
     {
-        RefObject* p = (RefObject*)FUN_00c85750().heap().Alloc(size);
+        RefObject* p = (RefObject*)(*static_cast<BSAudio*>(::FUN_00c85750())).heap().Alloc(size);
         p->m_iElementCount = (unsigned short)size;
         return p;
     }
@@ -917,7 +916,7 @@ struct PtrArray
     }
     __forceinline PtrArray& operator=(const PtrArray& a)
     {
-        copyFromArray(FUN_00c85750().heap(), a);
+        copyFromArray((*static_cast<BSAudio*>(::FUN_00c85750())).heap(), a);
         return *this;
     }
 };
@@ -928,7 +927,7 @@ struct HandleSet
     int unk08;
     HandleSet(int count = 0) : unk00(0), unk04(0), unk08(-1)
     {
-        reinterpret_cast<::FUN_00cb1fe0_t *>(this)->EnsureCapacity((int)(&FUN_00c85750().heap()), count);
+        reinterpret_cast<::FUN_00cb1fe0_t *>(this)->EnsureCapacity((intptr_t)(&(*static_cast<BSAudio*>(::FUN_00c85750())).heap()), count);
     }
 };
 

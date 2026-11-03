@@ -722,7 +722,7 @@ void FUN_00d08a90_class::FUN_00d08a90(void* arg)
 void FUN_00d08940_shell::FUN_00d08940(char const* name)
 {
     hkObjectE02* obj;
-    if (::LookupBucketValue((::DepthLimit *)&(loader), (int)(name), (int)(&obj), {})) {
+    if (::LookupBucketValue((::DepthLimit *)&(loader), (uintptr_t)(name), (uintptr_t *)(&obj))) {
         Router* router = _FNV_e03300_arena();
         reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>((reinterpret_cast<Sink*>(&this->loader)))->FUN_00cb1870(
             (*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(reinterpret_cast<void*>(router->e))), reinterpret_cast<int>(name), 1);

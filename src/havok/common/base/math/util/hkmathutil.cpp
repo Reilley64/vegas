@@ -1,6 +1,7 @@
 // src/havok/common/base/math/util/hkmathutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/math/util/hkmathutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <xmmintrin.h>
 #include "fnv/decl/FUN_00827200_class.h"
 #include "fnv/decl/FUN_00cdf230_cls.h"
@@ -109,16 +110,16 @@ void FUN_00c7a410(S_c7a410_Obj* obj, char* apBuffer)
         case 7: {
             S_c7a410_B tTransform;
             reinterpret_cast<::RotationRows *>(&(tTransform))->FUN_00cb2d90((void *)(apBuffer + 0x10 + iIndex * 0x30));
-            reinterpret_cast<::FUN_00cdf230_cls *>((p))->FUN_00cdf230((int)(&tTransform));
+            reinterpret_cast<::FUN_00cdf230_cls *>((p))->FUN_00cdf230((intptr_t)(&tTransform));
             break;
         }
         case 2: {
             S_c7a410_A a;
-            reinterpret_cast<::FUN_00827200_class *>(&(a))->FUN_00cb26e0((int)((char*)p + 0x20));
+            reinterpret_cast<::FUN_00827200_class *>(&(a))->FUN_00cb26e0((intptr_t)((char*)p + 0x20));
             S_c7a410_A b;
-            reinterpret_cast<::FUN_00827200_class *>(&(b))->FUN_00cb26e0((int)((char*)p + 0x60));
+            reinterpret_cast<::FUN_00827200_class *>(&(b))->FUN_00cb26e0((intptr_t)((char*)p + 0x60));
             S_c7a410_C c;
-            ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(c), (void *)(apBuffer + 0x10 + iIndex * 0x30), (const ::fnv_00c66320::__m128 *)(::S_c7a410_A *)(&a), {});
+            ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(c), nullptr, (const ::fnv_00c66320::__m128 *)(apBuffer + 0x10 + iIndex * 0x30), (const ::fnv_00c66320::__m128 *)(::S_c7a410_A *)(&a));
             S_c7a410_D d;
             reinterpret_cast<::QuatResult *>(&(d))->FUN_00c74b70((const float *)(::S_c7a410_A *)(&b), (const float *)(::S_c7a410_C *)(&c));
             S_c7a410_Vec v;

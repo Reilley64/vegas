@@ -12,4 +12,4 @@ namespace fnv_004753d0 { bool FUN_004753d0(void *); }
 // 0x00475920
 int FindIndexByValue(void *, std::uintptr_t);
 // 0x004759a0
-int GetElementValue(void *, int);
+std::intptr_t GetElementValue(void *, int);

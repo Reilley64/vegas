@@ -21734,7 +21734,7 @@ void Target42::FUN_0042dae0(Buf42* pBuffer)
         if (((void *)(reinterpret_cast<::FUN_0042e250_shell *>(this)->FUN_0042e250())))
             p->v115(0, 1);
         if (((void *)(reinterpret_cast<::fnv_00410220::FUN_00410220_shell *>(this)->FUN_00410220(0x56))))
-            ::fnv_00477ce0::SetOrRemoveMapEntry((unsigned int)(p), 0);
+            ::fnv_00477ce0::SetOrRemoveMapEntry((std::uintptr_t)(p), 0);
         Ref42* ref = ((::fnv_0042dae0::Ref42 *)(reinterpret_cast<::FUN_0041de00_shell *>(this)->FUN_0041de00()));
         if (ref)
             reinterpret_cast<::fnv_0041e0d0::FUN_0041e0d0_shell *>((((::fnv_0042dae0::Extra42 *)(reinterpret_cast<::FUN_005d43c0_ *>((ref))->FUN_005d43c0()))))->FUN_0041e0d0(p);
@@ -28039,10 +28039,10 @@ void ExtraDataLoader::FUN_00428150(LoadBuffer* buf)
             case 0x56: {
                 X56* p56 = (X56*)(abHas[cType] ? reinterpret_cast<::fnv_00410220::FUN_00410220_shell *>(this)->FUN_00410220(cType) : ((::ExtraData110 *)(reinterpret_cast<::fnv_0040ff60::FUN_0040ff60_shell *>(this)->FUN_0040ff60((::BSExtraData *)(::ExtraData110 *)(new X56)))));
                 reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buf))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&p56->f0C), 4);
-                void* value = ((void *)(::GetDestructionStageSelfDamage((::TESObjectREFR *)(pRef), p56->f0C)));
+                unsigned int value = ::GetDestructionStageSelfDamage((::TESObjectREFR *)(pRef), p56->f0C);
                 if (value != 0)
                 {
-                    ::fnv_00477ce0::SetOrRemoveMapEntry((unsigned int)(pRef), (unsigned int)(value));
+                    ::fnv_00477ce0::SetOrRemoveMapEntry((std::uintptr_t)(pRef), value);
                 }
                 break;
             }

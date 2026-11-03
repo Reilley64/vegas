@@ -121,8 +121,6 @@ struct NiTexturePtr
 }
 
 typedef unsigned int size_t;
-void* __cdecl operator new(size_t);
-void __cdecl operator delete(void*);
 inline unsigned int BSStringLength(const char* p)
 {
     return strlen(p);
@@ -212,11 +210,6 @@ struct AtlasEntry
     AtlasRect rect;
     AtlasEntry()
     {}
-    static void* operator new(size_t n)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(n);
-    }
-    static void operator delete(void*);
 };
 struct AtlasNode
 {
@@ -224,10 +217,6 @@ struct AtlasNode
     AtlasNode* next;
     AtlasNode(AtlasEntry* const& value) : entry(value), next(0)
     {}
-    static void* operator new(size_t n)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(n);
-    }
     void AddToHead(AtlasEntry** value)
     {
         if (!*value)
@@ -266,8 +255,6 @@ struct AtlasFile
 };
 AtlasFile* FUN_00afdf00(const char*, int, unsigned int);
 
-void* __cdecl operator new(size_t);
-void __cdecl operator delete(void*);
 extern "C" int __cdecl memcpy_s(void*, size_t, const void*, size_t);
 extern "C" int __cdecl memmove_s(void*, size_t, const void*, size_t);
 namespace std {

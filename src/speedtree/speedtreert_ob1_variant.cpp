@@ -5,6 +5,7 @@
 
 // src/speedtree/speedtreert.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/speedtree/speedtreert.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstddef>
 #include <windows.h>
 #include <new>
 #include <cerrno>
@@ -1165,22 +1166,6 @@ struct MemoryManagerAllocHelper
     void Deallocate(void* p);
 };
 extern MemoryManagerAllocHelper DAT_011f6238;
-inline void* operator new(unsigned int n)
-{
-    return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::MemoryManagerAllocHelper *>(&::g_memoryManager))))->FUN_00aa3e40(n);
-}
-inline void* operator new[](unsigned int n)
-{
-    return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::MemoryManagerAllocHelper *>(&::g_memoryManager))))->FUN_00aa3e40(n);
-}
-inline void operator delete(void* p)
-{
-    reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::MemoryManagerAllocHelper *>(&::g_memoryManager))))->FUN_00aa4060(p);
-}
-inline void operator delete[](void* p)
-{
-    reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::MemoryManagerAllocHelper *>(&::g_memoryManager))))->FUN_00aa4060(p);
-}
 struct CritSecQ
 {
     int a, b, c, d, e, f;
@@ -1825,14 +1810,6 @@ struct MemoryManagerB05210
 };
 struct SpeedTreeRTB05210
 {
-    static void* operator new(unsigned int uiSize)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00b05210::MemoryManagerB05210 *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize);
-    }
-    static void operator delete(void* pvMem)
-    {
-        (*reinterpret_cast<::fnv_00b05210::MemoryManagerB05210 *>(&::g_memoryManager)).Deallocate(pvMem);
-    }
     SpeedTreeRTB05210(const SpeedTreeRTB05210* pOriginal);
     SpeedTreeRTB05210* FUN_00b05210();
     int unk00;
@@ -2024,14 +2001,6 @@ struct TreeHeapQ
     void FUN_00aa4060(void*);
 };
 extern TreeHeapQ DAT_011f6238;
-inline void* operator new[](unsigned n)
-{
-    return DAT_011f6238.FUN_00aa3e40(n);
-}
-inline void operator delete[](void* p)
-{
-    DAT_011f6238.FUN_00aa4060(p);
-}
 struct SpdLoadQ
 {
     bool FUN_00b059e0(const char*, int);
@@ -2116,7 +2085,6 @@ inline void __cdecl FUN_0044a8c0(char& destination, const char& source)
 }
 
 void __cdecl FUN_00ec7c56();
-void __cdecl operator delete(void*);
 struct Alloc59;
 
 struct Global59
@@ -3815,7 +3783,6 @@ inline typename _Traits::char_type* copy_s(typename _Traits::char_type* _First1,
 }
 }
 
-void __cdecl operator delete(void*);
 template <class _Ty> class allocator
 {
   public:
@@ -4869,7 +4836,6 @@ inline typename _Traits::char_type* copy_s(typename _Traits::char_type* _First1,
 }
 }
 
-void __cdecl operator delete(void*);
 template <class _Ty> class allocator
 {
   public:
@@ -4955,15 +4921,7 @@ class MemoryManagerB07
 };
 extern MemoryManagerB07 g_kMemoryManagerB07;
 
-inline void* operator new[](unsigned int uiSize)
-{
-    return g_kMemoryManagerB07.Allocate(uiSize);
-}
 
-inline void operator delete[](void* pvMem)
-{
-    g_kMemoryManagerB07.Deallocate(pvMem);
-}
 
 class WindMatrixB07
 {
@@ -5774,7 +5732,6 @@ inline typename _Traits::char_type* copy_s(typename _Traits::char_type* _First1,
 }
 }
 
-void __cdecl operator delete(void*);
 template <class _Ty> class allocator
 {
   public:
@@ -5863,10 +5820,6 @@ class BranchGeometryB08
 {
   public:
     ~BranchGeometryB08();
-    static void operator delete(void* pvMem)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00b088d0::MemoryManagerB08 *>(&::g_memoryManager))))->FUN_00aa4060(pvMem);
-    }
     char m_acData[0x10];
 };
 
@@ -6291,8 +6244,6 @@ void S00b092a0_cls::FUN_00b092a0(S00b092a0_Reader* r)
 unsigned int __cdecl _strlen(const char* s);
 int __cdecl memcpy_s(void*, unsigned int, const void*, unsigned int);
 int __cdecl memmove_s(void*, unsigned int, const void*, unsigned int);
-void* __cdecl operator new(unsigned int);
-void __cdecl operator delete(void*);
 struct SpdCharTraits
 {
     static void assign(char& a, const char& b)
@@ -6699,7 +6650,6 @@ void SpdWindReader::FUN_00b097e0(SpdParser* pParser)
 
 extern "C" int __cdecl memcpy_s(void* pvDst, unsigned int uiDstSize, const void* pvSrc, unsigned int ItemUpdateArray);
 extern "C" int __cdecl memmove_s(void* pvDst, unsigned int uiDstSize, const void* pvSrc, unsigned int ItemUpdateArray);
-void* __cdecl operator new(unsigned int uiSize);
 namespace std {
 class bad_alloc
 {
@@ -6988,7 +6938,6 @@ namespace fnv_00b09f90 {
 extern "C" unsigned int __cdecl strlen(const char* pcString);
 extern "C" int __cdecl memcpy_s(void* pvDst, unsigned int uiDstSize, const void* pvSrc, unsigned int ItemUpdateArray);
 extern "C" int __cdecl memmove_s(void* pvDst, unsigned int uiDstSize, const void* pvSrc, unsigned int ItemUpdateArray);
-void* __cdecl operator new(unsigned int uiSize);
 void __cdecl FUN_00ec7c56();
 namespace std {
 class bad_alloc
@@ -7581,10 +7530,6 @@ struct MemoryManagerB0A7A0
 struct FrondGeometryB0A7A0
 {
     ~FrondGeometryB0A7A0();
-    static void operator delete(void* pvMem)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00b0a7a0::MemoryManagerB0A7A0 *>(&::g_memoryManager))))->FUN_00aa4060(pvMem);
-    }
 };
 struct BranchGeometryB0A7A0
 {
@@ -9628,10 +9573,6 @@ struct Pool
     void* FUN_00aa3e40(unsigned n);
 };
 extern Pool DAT_011f6238;
-inline void* __cdecl operator new[](unsigned n)
-{
-    return DAT_011f6238.FUN_00aa3e40(n);
-}
 struct SpdTreeQ
 {
     int ai[9];
@@ -9676,14 +9617,6 @@ class Track_b0cd
 {
   public:
     Track_b0cd();
-    static void* operator new(unsigned int uiSize)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::Pool_b0cd *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize);
-    }
-    static void operator delete(void* pvBlock)
-    {
-        (*reinterpret_cast<::Pool_b0cd *>(&::g_memoryManager)).FUN_00aa4060(pvBlock);
-    }
 
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
     int unk20, unk24, unk28, unk2c, unk30, unk34, unk38, unk3c;
@@ -10644,12 +10577,6 @@ ElemEBB0& FUN_00b0ebb0_Iterator::FUN_00b0ebb0() const
 }
 }  // namespace fnv_00b0ebb0
 
-inline void* operator new(unsigned int, void* p)
-{
-    return p;
-}
-inline void operator delete(void*, void*)
-{}
 struct ElQ
 {
     int m[7];
@@ -10970,7 +10897,6 @@ bool FUN_00b06180_Reader::FUN_00b06180()
 }  // namespace fnv_00b06180
 
 namespace fnv_00b06090 {
-void __cdecl operator delete(void* _Ptr) throw();
 namespace bufb060 {
 template <class T> inline void GvDestroyOne(T* _Ptr)
 {
@@ -11875,10 +11801,6 @@ struct HeapQ
     void* FUN_00aa3e40(size_t n);
 };
 extern HeapQ DAT_011f6238;
-inline void* operator new[](size_t n)
-{
-    return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00b09960::HeapQ *>(&::g_memoryManager))))->FUN_00aa3e40(n);
-}
 struct FUN_0044a4c0
 {
     int iAl;
@@ -11952,10 +11874,6 @@ struct TexCoordQ
     FUN_0044a4c0 strName;
     int aiPad[8];
     TexCoordQ();
-    static void* operator new(size_t n)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00b09960::HeapQ *>(&::g_memoryManager))))->FUN_00aa3e40(n);
-    }
 };
 inline void DeadTop()
 {
@@ -12113,16 +12031,6 @@ struct FUN_00b0dfb0
         Init();
     }
     void Init();
-    static void* operator new(unsigned n)
-    {
-        int aiA[41];
-        aiA[0] = 0;
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00b0a490::Pool *>(&::g_memoryManager))))->FUN_00aa3e40(n);
-    }
-    static void operator delete(void* p)
-    {
-        (*reinterpret_cast<::fnv_00b0a490::Pool *>(&::g_memoryManager)).Free(p);
-    }
 };
 inline void Dead40()
 {
@@ -12346,7 +12254,6 @@ void Tree::FUN_00b0d810(Parser* p)
 }  // namespace fnv_00b0d810
 
 namespace fnv_00b0dfb0 {
-void __cdecl operator delete(void* _Ptr) throw();
 namespace vct0dfb0 {
 void FUN_00ec7c56();
 template <class T> inline void GvDestroyOne(T* _Ptr)
@@ -13332,10 +13239,6 @@ FUN_00b0dfb0::FUN_00b0dfb0() : GvVectorStore<BxString>()
 
 struct TreeResource
 {
-    static __forceinline void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(p);
-    }
 };
 struct BranchResource : TreeResource
 {
@@ -13776,7 +13679,6 @@ inline TreeConstIterator::TreeConstIterator(float* p, const TreeContainer* conta
 }
 
 extern "C" int __cdecl memcpy_s(void*, unsigned int, const void*, unsigned int);
-void __cdecl operator delete(void*);
 struct TreeCharAllocator
 {
     void deallocate(char* p, unsigned int count)
@@ -13877,10 +13779,6 @@ struct EmbeddedTex
 {
     int u000, u004, u008, u00c, u010, u014, u018, u01c, u020;
     TreeString value;
-    void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>((((MM*)&(*reinterpret_cast<::MemoryManagerAllocHelper *>(&::g_memoryManager)))))->FUN_00aa4060(p);
-    }
 };
 
 struct TreeRuntimeQ
@@ -14496,7 +14394,7 @@ struct InnerQ
 struct FUN_00b036d0;
 struct WrapQ
 {
-    static void* operator new(unsigned int n, MemoryManagerAllocHelper& h)
+    static void* operator new(std::size_t n, MemoryManagerAllocHelper& h)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>(&(h))->FUN_00aa3e40(n);
     }
@@ -14636,7 +14534,6 @@ inline typename _Traits::char_type* copy_s(typename _Traits::char_type* _First1,
 }
 }
 
-void __cdecl operator delete(void*);
 template <class _Ty> class allocator
 {
   public:
@@ -14752,10 +14649,6 @@ class MemoryManagerD04
 };
 extern MemoryManagerD04 g_kMemoryManagerD04;
 
-inline void* operator new[](unsigned int uiSize)
-{
-    return g_kMemoryManagerD04.Allocate(uiSize);
-}
 
 
 struct SLeafTextureD04

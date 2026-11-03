@@ -227,7 +227,7 @@ hkDerivedE463* hkDerivedE463::DestroyAndFree(unsigned int uiFlags) throw()
 {
     this->hkDerivedE463::~hkDerivedE463();
     if (uiFlags & 1)
-        hkDerivedE463::operator delete(this);
+        ::operator delete(this);
     return this;
 }
 }  // namespace fnv_00e46340

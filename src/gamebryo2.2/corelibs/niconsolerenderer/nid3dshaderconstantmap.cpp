@@ -464,7 +464,6 @@ struct FUN_00a9beb0
 {
     unsigned int a, b;
     virtual ~FUN_00a9beb0();
-    static void operator delete(void* p, unsigned int n);
 };
 // @fnv 0x00a9beb0
 FUN_00a9beb0::~FUN_00a9beb0()
@@ -606,7 +605,6 @@ struct FUN_00e81f10_shell : public NiD3DShaderConstantMap
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 struct CtorShim
 {
@@ -671,7 +669,7 @@ unsigned int FUN_00e81f10_shell::FUN_00e81f10(char* pszKey, unsigned int uiExtra
                                               char* pszVariableName, unsigned int uiConstantDataSize,
                                               unsigned int uiDataStride, void* pvDataSource, bool bCopyData)
 {
-    void* mem = BSFadeNode::operator new(0x38);
+    void* mem = ::operator new(0x38);
     NiShaderConstantMapEntry* pkEntry = mem ? new ((void *)(((CtorShim*)mem))) ::NiShaderConstantMapEntry() : 0;
     EntryLayout* e = (EntryLayout*)pkEntry;
     e->m_kControlPoint = pszKey;
@@ -1049,7 +1047,6 @@ struct Entry311
     String311 alternative;
     unsigned int unk28, unk2c, unk30, unk34;
     __declspec(nothrow) Entry311() throw();
-    __declspec(noalias) __declspec(nothrow) static void* operator new(unsigned int) throw();
 };
 struct Map311
 {
@@ -1423,10 +1420,6 @@ unsigned int FUN_00e82b40(FUN_00e84b60_prog* prog, void* entry, unsigned int typ
 void* __cdecl FUN_00aa13e0(unsigned int);
 void __cdecl FUN_00aa10f0(void*);
 void* __cdecl FUN_00aa1070(unsigned int);
-inline void* operator new(unsigned int, void* location)
-{
-    return location;
-}
 
 struct FUN_00e81ba0
 {

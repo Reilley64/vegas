@@ -1,4 +1,5 @@
 // staging/blk_00d80000_o2.cpp: IdxStand_, ObjD9A4, MonitorBuffer (124 functions)
+#include <cstddef>
 #include <windows.h>
 #include <stdlib.h>
 
@@ -356,7 +357,7 @@ void D85440MemCpy(void* dst, const void* src, int nbytes);
 
 class D85440ReferencedObject {
 public:
-    static void* operator new(unsigned int nbytes)
+    static void* operator new(std::size_t nbytes)
     {
         D85440ReferencedObject* b = static_cast<D85440ReferencedObject*>(FUN_00c85750().heap().AllocateMemoryBlock(nbytes));
         b->m_usMemSizeAndFlags = static_cast<unsigned short>(nbytes);
@@ -997,7 +998,7 @@ public:
     D85660Object() throw();
     virtual ~D85660Object();
 
-    static void* operator new(unsigned int nbytes) throw()
+    static void* operator new(std::size_t nbytes) throw()
     {
         D85660Object* p = static_cast<D85660Object*>(D85660GetMemoryRouter().heap().AllocateMemoryBlock(nbytes));
         p->m_usMemSizeAndFlags = (unsigned short)nbytes;
@@ -2460,7 +2461,7 @@ struct FUN_00dee750 {
     int unka8;
     int unkac;
 
-    static void* operator new(unsigned int sz)
+    static void* operator new(std::size_t sz)
     {
         AllocHolder* holder = FUN_00c85750();
         AllocIface* alloc = holder->m_pAllocator;
@@ -2603,7 +2604,7 @@ public:
     FUN_00d88050() throw();
     ~FUN_00d88050() throw() {}
 
-    static void* operator new(unsigned int nbytes) { return hkRouterD881::FUN_00c85750().heap().AllocateMemoryBlock(0x3c); }
+    static void* operator new(std::size_t nbytes) { return hkRouterD881::FUN_00c85750().heap().AllocateMemoryBlock(0x3c); }
     static void operator delete(void* p) { hkRouterD881::FUN_00c85750().heap().ReleaseBlock(p, 0x3c); }
 };
 
@@ -4400,7 +4401,6 @@ struct DynamicsJobSubtype14 : public DynamicsJob {
         m_kHeader = job.m_kHeader;
     }
 };
-inline void* operator new(unsigned int, void* where) throw() { return where; }
 struct JobRecord {
     int m_iFirstValue;
     int unk04;
@@ -4649,8 +4649,6 @@ static __forceinline void InitEv(Ev* e, Ev* ev, unsigned char type, unsigned cha
     e->m_1c = ev->m_1c;
 }
 
-inline void* __cdecl operator new(unsigned int, void* p) throw() { return p; }
-inline void __cdecl operator delete(void*,void*) throw() {}
 struct Placed2 : Ev { __forceinline Placed2(Ev* ev, State* s) {
                     InitEv(this, ev, 8, 1, 0x30);
                     *(Ev30*)this = *(Ev30*)ev;

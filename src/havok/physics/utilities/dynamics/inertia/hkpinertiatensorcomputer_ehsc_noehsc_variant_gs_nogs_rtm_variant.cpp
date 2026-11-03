@@ -7,6 +7,7 @@
 
 // src/havok/physics/utilities/dynamics/inertia/hkpinertiatensorcomputer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/dynamics/inertia/hkpinertiatensorcomputer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <new>
 #include <cstring>
 #include "fnv/decl/D762F0Owner.h"
 #include "fnv/decl/ExpandShape.h"
@@ -887,10 +888,6 @@ extern "C"
     __m128 _mm_mul_ps(__m128, __m128);
     __m128 _mm_andnot_ps(__m128, __m128);
     __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-}
-inline void* __cdecl operator new(unsigned int, void* p)
-{
-    return p;
 }
 
 typedef __m128 hkQuadReal;

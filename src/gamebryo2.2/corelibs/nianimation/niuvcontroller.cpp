@@ -543,10 +543,6 @@ struct SpawnedObject
     unsigned char m4c;
 
 
-    static void* operator new(unsigned int size) throw()
-    {
-        return FUN_00aa13e0(size);
-    }
 
     SpawnedObject() throw()
     {
@@ -731,10 +727,6 @@ struct MyUVData : Base106
     Reference106 m48;
     unsigned char m4C;
     virtual ~MyUVData();
-    static void* operator new(unsigned int size) throw()
-    {
-        return FUN_00aa13e0(size);
-    }
     MyUVData() throw()
     {
         m44 = 0;

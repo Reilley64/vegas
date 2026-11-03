@@ -60,6 +60,5 @@ class FUN_005a71d0
 };
 
 
-void operator delete(void* pointer);
 
 #endif

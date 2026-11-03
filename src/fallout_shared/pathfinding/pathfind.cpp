@@ -1,5 +1,6 @@
 // fallout_shared/pathfinding/pathfind.cpp: Pathing, ActorDeletionQueue, PathBuilder, ArrHelper and more (87 functions)
 
+#include <cstddef>
 #include <new>
 #include <cstring>
 #include "fnv/decl/ActorMover.h"
@@ -408,7 +409,6 @@ struct ParentSpaceNode
     TESObjectCELL* m_pReferenceCell;
 };
 
-void* __cdecl operator new(unsigned int, void*);
 struct ArrHelper
 {
     void ConstructParentSpaceNodes(ParentSpaceNode* first, unsigned int count);
@@ -1650,7 +1650,7 @@ struct FUN_006f4d00
 {
     unsigned int m00, m04, m08, m0c, m10, m14, m18, m1c, m20, m24, m28, m2c;
     FUN_006f4d00(const PathingLocation& location);
-    static __forceinline void* operator new(unsigned int bytes, void* heap)
+    static __forceinline void* operator new(std::size_t bytes, void* heap)
     {
         return FUN_006e6da0(bytes, heap);
     }
@@ -5300,8 +5300,6 @@ struct PathNodeHolder
 {
     void IncRefCount();
     void DecRefCount();
-    static void* operator new(unsigned int size);
-    static void operator delete(void* p, unsigned int);
     PathNodeHolder(NiPoint3 pos, float radius);
     char data[0x50];
 };
@@ -9044,8 +9042,6 @@ bool __cdecl BuildOptimalPathSolution(PathingRequestOptimalLocation* request, Pa
 }
 }  // namespace fnv_006d23d0
 
-void* operator new(unsigned int uiSize, void* pvMem);
-void operator delete(void* pvMem, void* pvPlace);
 
 struct FUN_006a0480
 {

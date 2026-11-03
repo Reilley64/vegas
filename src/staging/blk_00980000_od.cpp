@@ -384,7 +384,6 @@ void GlobalObject_00869f00::FUN_00983700()
 }
 }  // namespace fnv_00983700
 
-void* __cdecl operator new(unsigned int);
 
 // If DAT_011f1708 is null, allocates one byte with operator new and stores the pointer in DAT_011f1708.
 // @fnv 0x00983910
@@ -747,7 +746,6 @@ struct FUN_00993bf0_class
     void FUN_00993bf0();
 };
 
-void* __cdecl operator new(unsigned int);
 
 struct FUN_00993cd0
 {
@@ -4738,8 +4736,6 @@ void FUN_0098fa00_cls::FUN_0098fa00(int a1, int a2)
     }
 }
 
-void* operator new(unsigned int size, void* place);
-void operator delete(void* object, void* place);
 
 struct FUN_0098fc70_Elem
 {
@@ -8164,7 +8160,6 @@ struct BuildOwner
     void SetThreadTasklet(BuildFirst*, BuildSecond*, int);
     BuildResult* BuildResultForInput(int, int, BuildInput*, bool);
 };
-void* __cdecl operator new(unsigned int);
 // Validates input, builds entries and objects, creates a BuildResult when objects exist, and optionally a BuildMonitor, then returns the result.
 // @fnv 0x00994f10
 BuildResult* BuildOwner::BuildResultForInput(int first, int second, BuildInput* input, bool monitor)

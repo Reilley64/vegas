@@ -6874,8 +6874,6 @@ struct Entry
     void* unk00;
     void* unk04;
     Entry(void*);
-    static void* operator new(unsigned, void*);
-    static void operator delete(void*, void*);
 };
 struct Context
 {

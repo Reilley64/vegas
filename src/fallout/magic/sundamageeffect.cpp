@@ -160,8 +160,6 @@ struct EffectItem;
 
 struct AC0ActiveEffect
 {
-    static void* operator new(unsigned int size);
-    static void operator delete(void* p);
 
     virtual void vfunc00();
     virtual void vfunc04();
@@ -560,7 +558,6 @@ struct S_00829e00_HitEffect
 
 struct S_00829e00_Effect : S_00829e00_HitEffect
 {
-    static void* operator new(unsigned int size);
     S_00829e00_Effect(S_00829e00_Target* target, void* form, float duration);
 };
 

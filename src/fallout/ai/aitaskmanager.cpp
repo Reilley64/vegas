@@ -246,7 +246,6 @@ FUN_008c8830_shell* FUN_008c8830_shell::Construct(int p)
     return this;
 }
 
-void __cdecl operator delete(void*);
 struct FUN_008c8860_shell
 {
     void* FUN_008c8860(unsigned int flags);
@@ -312,7 +311,6 @@ FUN_008c89a0::FUN_008c89a0(int aiValue) : FUN_008c82e0(aiValue)
     field38 = 0;
 }
 
-void __cdecl operator delete(void*);
 struct FUN_008c89d0_shell
 {
     void* Destroy(unsigned int flags);
@@ -357,7 +355,6 @@ void FUN_008c8a50_shell::FUN_008c8a50(int aiUnused)
 }
 }  // namespace fnv_008c8a50
 
-void __cdecl operator delete(void*);
 struct FUN_008c8b20_shell
 {
     void* DestroyOrReturnSelf(unsigned int flags);
@@ -421,7 +418,6 @@ FUN_008c9020::FUN_008c9020(int a) : FUN_008c82e0(a)
 }
 }  // namespace fnv_008c9020
 
-void __cdecl operator delete(void*);
 struct FUN_008c9050_shell
 {
     void* FUN_008c9050(unsigned int flags);
@@ -472,7 +468,6 @@ FUN_008c9170::FUN_008c9170(int a) : FUN_008c82e0(a)
 }
 }  // namespace fnv_008c9170
 
-void __cdecl operator delete(void*);
 struct FUN_008c91a0_shell
 {
     void* FUN_008c91a0(unsigned int flags);
@@ -572,7 +567,6 @@ void Obj_008c9a80::PushItem(int aiValue)
     }
 }
 
-void __cdecl operator delete(void*);
 struct FUN_008c9ec0_shell
 {
     void FUN_008c9ef0();
@@ -679,7 +673,6 @@ void FUN_008ca3c0(void* thisPtr)
     *static_cast<void**>(thisPtr) = &DAT_0108583c;
 }
 
-void __cdecl operator delete(void*);
 struct FUN_008ca3e0_shell
 {
     void FUN_008ca3c0();
@@ -695,7 +688,6 @@ void* FUN_008ca3e0_shell::FUN_008ca3e0(unsigned int flags)
     return this;
 }
 
-void __cdecl operator delete(void*);
 struct FUN_008ca410_shell
 {
     void FUN_008ca350();
@@ -752,7 +744,6 @@ void FUN_008ca520_shell::InitVtbl()
 }
 }  // namespace fnv_008ca520
 
-void __cdecl operator delete(void*);
 struct FUN_008ca540_shell
 {
     void FUN_008ca500();
@@ -768,7 +759,6 @@ void* FUN_008ca540_shell::FUN_008ca540(unsigned int flags)
     return this;
 }
 
-void __cdecl operator delete(void*);
 struct FUN_008ca570_shell
 {
     void* FUN_008ca570(unsigned int flags);
@@ -1031,7 +1021,6 @@ FUN_008c9a20_shell* FUN_008c9a20_shell::FUN_008c9a20(unsigned int v)
     return this;
 }
 
-void* __cdecl operator new(unsigned int);
 struct BSThread
 {
     char d[0x30];
@@ -1243,7 +1232,6 @@ FUN_008ca680::FUN_008ca680()
 }
 }  // namespace fnv_008ca680
 
-void __cdecl operator delete(void*);
 struct FUN_008ca710_shell
 {
     void FUN_008ca480();

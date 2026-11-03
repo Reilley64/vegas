@@ -16170,7 +16170,6 @@ class TargetDoorController
   public:
     ~TargetDoorController();
 
-    static void operator delete(void*);
 };
 
 class PackageActorView : public Actor

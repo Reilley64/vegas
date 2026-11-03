@@ -212,7 +212,6 @@ struct S3c60
     bool AddAudioFormEntry(Form* pForm, ArrSI* pAudio);
 };
 
-void* __cdecl operator new(unsigned int);
 
 // @fnv 0x0081a960
 bool S3c60::AddAudioFormEntry(Form* pForm, ArrSI* pAudio)
@@ -1461,7 +1460,6 @@ struct MADName
 };
 struct NiMemObject
 {
-    static void* operator new(unsigned int uiSize);
 };
 struct FUN_00a75650 : NiMemObject
 {
@@ -1795,7 +1793,6 @@ struct S86a0
 {
 };
 
-void* __cdecl operator new(unsigned int size);
 
 struct Host096d450
 {

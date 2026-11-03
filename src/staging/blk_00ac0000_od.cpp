@@ -5070,7 +5070,6 @@ void __cdecl FUN_00ac1600(Rec_00ac1600* begin, Rec_00ac1600* end, const Rec_00ac
 }
 
 
-void __cdecl operator delete(void* pv);
 
 struct S00ace060_Obj
 {

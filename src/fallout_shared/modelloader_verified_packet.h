@@ -163,7 +163,6 @@ struct QueueKFListLocals
 };
 
 extern int __cdecl strcat_s(char*, unsigned int, const char*);
-extern void __cdecl operator delete(void*);
 
 class InventoryStackRecord;
 struct RefObj;

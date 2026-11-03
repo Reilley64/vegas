@@ -69,7 +69,6 @@ FUN_0080c730_shell* __cdecl FUN_0080c730(void* a, void* b, void* c)
     return new FUN_0080c730_shell(a, b, c);
 }
 
-void* __cdecl operator new(unsigned int);
 
 typedef void ActiveEffect;
 

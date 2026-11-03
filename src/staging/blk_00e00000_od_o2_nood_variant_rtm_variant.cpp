@@ -6,6 +6,7 @@
 // to their real unit once identified.
 // src/staging/blk_00e00000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include <new>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
 #include "fnv/decl/FUN_00cb0a70_Class.h"
@@ -98,10 +99,6 @@ struct hkFinishMemberE01710
     void* m_ptr;
     hkFinishMemberE01710(FinishingFlag flag);
 };
-inline void* operator new(unsigned int, void* pvWhere) throw()
-{
-    return pvWhere;
-}
 struct __declspec(align(16)) hkObjectE01710
 {
     virtual ~hkObjectE01710();

@@ -1,6 +1,8 @@
 // src/staging/blk_00d80000_o2_rtm_variant.cpp - RTM variant unit created 2026-11-01 by rtm_route.py: community reworks of src/staging/blk_00d80000_o2.cpp that match byte for byte only
 // with VC9 RTM (cl 15.00.21022.08, the compiler the game was built with). Declarations copied from that unit's skeleton.
 
+#include <new>
+#include <cstddef>
 #include <windows.h>
 #include <stdlib.h>
 
@@ -200,7 +202,7 @@ public:
     D85660Object() throw();
     virtual ~D85660Object();
 
-    static void* operator new(unsigned int nbytes) throw()
+    static void* operator new(std::size_t nbytes) throw()
     {
         D85660Object* p = static_cast<D85660Object*>(D85660GetMemoryRouter().heap().AllocateMemoryBlock(nbytes));
         p->m_usMemSizeAndFlags = (unsigned short)nbytes;
@@ -1094,7 +1096,7 @@ struct FUN_00dee750 {
     int unka8;
     int unkac;
 
-    static void* operator new(unsigned int sz)
+    static void* operator new(std::size_t sz)
     {
         AllocHolder* holder = FUN_00c85750();
         AllocIface* alloc = holder->m_pAllocator;
@@ -1989,7 +1991,6 @@ struct DynamicsJobSubtype14 : public DynamicsJob {
         m_kHeader = job.m_kHeader;
     }
 };
-inline void* operator new(unsigned int, void* where) throw() { return where; }
 struct JobRecord {
     int m_iFirstValue;
     int unk04;

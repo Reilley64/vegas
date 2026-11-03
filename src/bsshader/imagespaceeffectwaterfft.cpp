@@ -67,14 +67,6 @@ struct ImageSpaceShaderParam : ImageSpaceEffectParam
 {
     ImageSpaceShaderParam();
 
-    static void* operator new(unsigned int size)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(g_memoryManager))->FUN_00aa3e40(size);
-    }
-    static void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(p);
-    }
 
     int unk04;
     int unk08;

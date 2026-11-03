@@ -4,6 +4,7 @@
 
 // src/havok/physics/collide/agent/deprecated/convexlist/hkpconvexlistagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/deprecated/convexlist/hkpconvexlistagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstddef>
 #include <windows.h>
 #include <new>
 #include "fnv/decl/Cls_dafcd0.h"
@@ -198,7 +199,7 @@ class hkpCollisionAgentD33D
     unsigned short m_usMemSizeAndFlags;
     short m_sReferenceCount;
 
-    static __forceinline void* operator new(unsigned int uiSize) throw()
+    static __forceinline void* operator new(std::size_t uiSize) throw()
     {
         hkpCollisionAgentD33D* p = (hkpCollisionAgentD33D*)FUN_00c85750()->heap().AllocateMemoryBlock(uiSize);
         p->m_usMemSizeAndFlags = (unsigned short)uiSize;
@@ -252,10 +253,6 @@ struct hkArrayD33E
 
     hkArrayD33E() : m_data(0), m_iElementCount(0), m_iCapacityState(0x80000000)
     {}
-    static void* operator new(unsigned int, void* p) throw()
-    {
-        return p;
-    }
 };
 struct hkObjD33E
 {

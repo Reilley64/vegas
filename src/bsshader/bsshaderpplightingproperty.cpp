@@ -68,16 +68,11 @@ int FUN_00b67260(char* pThis, int, int idx1, int idx2)
 
 struct BSFadeNode
 {
-    static void* operator new(unsigned int);
 };
 struct NewObj
 {
     char pad[0x104];
     NewObj();
-    static void* operator new(unsigned int n)
-    {
-        return BSFadeNode::operator new(n);
-    }
 };
 struct SelfStub
 {
@@ -408,18 +403,10 @@ void FUN_00b675c0_shell::AssignRefObj(RefObj* apRefObj)
 struct MemoryManager
 {
 };
-inline void operator delete[](void* p)
-{
-    reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(p);
-}
 
 struct FUN_00ba8cd0
 {
     ~FUN_00ba8cd0();
-    static void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(p);
-    }
 };
 
 struct RefObj_b67380
@@ -901,10 +888,6 @@ void S_00b68ed0_Obj::ReadFromStream(S_00b68ed0_Stream* apStream)
 struct CopyAllocator
 {
 };
-inline void* operator new[](unsigned int size)
-{
-    return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::CopyAllocator *>(&::g_memoryManager))))->FUN_00aa3e40(size);
-}
 struct CopyPtr
 {
     RefObject_00b67200* ptr;
@@ -1391,7 +1374,6 @@ struct PropObj
 };
 struct NiMemObject
 {
-    static void* operator new(unsigned int);
 };
 struct FUN_00bb4540 : NiMemObject
 {
@@ -1524,8 +1506,6 @@ NewObj* __cdecl CreateNewObj()
 class BSFaceGenMorphData
 {
   public:
-    static void* operator new(unsigned int auiSize);
-    static void operator delete(void* apMem);
 };
 
 class BSShaderTextureSet : public BSFaceGenMorphData
@@ -2156,12 +2136,6 @@ template <class T> class NiPointer
         }
         return *this;
     }
-    static void* operator new[](unsigned int size)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::MemoryManagerAllocHelper *>(&::g_memoryManager))))->FUN_00aa3e40(size);
-    }
-    static void operator delete[](void* p)
-    {}
 };
 
 struct FUN_00b71720
@@ -2316,14 +2290,6 @@ struct NiPtrX
                 m_pObject->IncRefCount();
         }
         return *this;
-    }
-    static void* operator new[](unsigned int s)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::Pool *>(&::g_memoryManager))))->FUN_00aa3e40(s);
-    }
-    static void operator delete[](void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::Pool *>(&::g_memoryManager))))->FUN_00aa4060(p);
     }
 };
 struct OwnerX

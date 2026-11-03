@@ -49,7 +49,6 @@ void BGSImpactDataSet::ResetFormData()
 
 #include "bgsimpactdataset_TESFile.h"
 #include <malloc.h>
-void* __cdecl operator new(unsigned int);
 class DataHandler
 {
   public:
@@ -504,7 +503,6 @@ bool FUN_0058f5c0_shell::IsImpactSwapDifferent(ImpactSwap* apSwap)
     return false;
 }
 
-void __cdecl operator delete(void*);
 
 struct RefObj
 {

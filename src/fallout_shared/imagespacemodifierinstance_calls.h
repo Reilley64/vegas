@@ -2,6 +2,7 @@
 #ifndef FNV_IMAGESPACEMODIFIERINSTANCE_CALLS_H
 #define FNV_IMAGESPACEMODIFIERINSTANCE_CALLS_H
 
+#include <new>
 #include "fnv/decl/Callees.h"
 #include "fnv/decl/FUN_00ad8830_shell.h"
 #include "fnv/decl/ListReader.h"
@@ -15,8 +16,6 @@ class ImageSpaceModifierInstance;
 class NiMemObjectAllocation
 {
   public:
-    static void* operator new(unsigned int size);
-    static void operator delete(void* pointer, unsigned int size);
 };
 template <> class NiPointer<ImageSpaceModifierInstance>
 {

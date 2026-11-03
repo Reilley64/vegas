@@ -4,6 +4,8 @@
 
 // src/gamebryo2.2/corelibs/nianimation/nicontrollersequence.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/nicontrollersequence.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <new>
+#include <cstddef>
 #include <windows.h>
 #include <cmath>
 #include <cstdlib>
@@ -186,7 +188,6 @@ struct FUN_00a30900_shell
 };
 struct A51BF0Base
 {
-    static void* __cdecl operator new(unsigned int);
 };
 struct FUN_00a316a0_shell
 {
@@ -1664,10 +1665,6 @@ struct NiMultiTargetTransformController : Controller31910
         reinterpret_cast<::Controller *>(this)->FUN_00a2feb0(n);
     }
 };
-void* __cdecl operator new(unsigned int, void* p)
-{
-    return p;
-}
 static bool IsKind31910(Node31910* node, Rtti31910* type)
 {
     Rtti31910* rtti = node->GetRTTI();
@@ -2655,12 +2652,7 @@ struct OldSequence
 struct NewSequence : SeqRefObject
 {
 
-    static void* __cdecl operator new(unsigned int);
 
-    static void* __cdecl operator new(unsigned int, void* p)
-    {
-        return p;
-    }
 
     __declspec(noalias)
         NewSequence(const char* const& kName, unsigned int uiArraySize, unsigned int uiArrayGrowBy) throw();
@@ -2992,14 +2984,14 @@ struct LegacyRef
     LegacyController* pointer;
     ~LegacyRef() throw()
     {}
-    static void* operator new[](unsigned int bytes, ReferenceAllocation*& allocation) throw();
+    static void* operator new[](std::size_t bytes, ReferenceAllocation*& allocation) throw();
 };
 struct ReferenceAllocation
 {
     unsigned int count;
     LegacyRef elements[1];
 };
-__forceinline void* LegacyRef::operator new[](unsigned int bytes, ReferenceAllocation*& allocation) throw()
+__forceinline void* LegacyRef::operator new[](std::size_t bytes, ReferenceAllocation*& allocation) throw()
 {
     allocation = (ReferenceAllocation*)reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(bytes);
     return allocation;

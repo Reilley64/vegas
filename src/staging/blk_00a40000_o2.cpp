@@ -92,13 +92,12 @@ FUN_00a409b0_class::FUN_00a409b0_class()
 
 struct BSFadeNode
 {
-    static void* operator new(unsigned int);
 };
 
 // @fnv 0x00a409d0
 void* __cdecl FUN_00a409d0()
 {
-    void* p = BSFadeNode::operator new(0x30);
+    void* p = ::operator new(0x30);
     if (p)
     {
         new ((void *)(p)) class ::FUN_00a36890();
@@ -111,13 +110,12 @@ void* __cdecl FUN_00a409d0()
 namespace fnv_00a411f0 {
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 // Allocates a 0x40-byte BSFadeNode, initialises it via InitTimeController, sets its vtable to DAT_010975fc and returns it, or returns 0 on allocation failure.
 // @fnv 0x00a411f0
 int* __cdecl FUN_00a411f0()
 {
-    int* p = static_cast<int*>(BSFadeNode::operator new(0x40));
+    int* p = static_cast<int*>(::operator new(0x40));
     if (p)
     {
         ::InitTimeController(p);
@@ -246,7 +244,7 @@ void FUN_00a57870_Class::ReleaseString()
 // @fnv 0x00a42f90
 void* __cdecl FUN_00a42f90()
 {
-    void* p = BSFadeNode::operator new(0x34);
+    void* p = ::operator new(0x34);
     if (p)
     {
         new ((void *)(p)) class ::FUN_00a36890();
@@ -306,7 +304,7 @@ struct BaseHolder
 // @fnv 0x00a50ad0
 void* __cdecl FUN_00a50ad0()
 {
-    void* p = BSFadeNode::operator new(0x24);
+    void* p = ::operator new(0x24);
     if (p)
     {
         reinterpret_cast<::FUN_00a57f20_cls *>((((BaseHolder*)p)))->FUN_00a57f20((void *)(0), (void *)(0));
@@ -323,7 +321,7 @@ extern int DAT_01099e54;
 // @fnv 0x00a51e10
 void* __cdecl FUN_00a51e10()
 {
-    void* p = BSFadeNode::operator new(0x18);
+    void* p = ::operator new(0x18);
     if (p)
     {
         _Call_a5d3a0(p);
@@ -530,7 +528,6 @@ FUN_00a414c0_class* FUN_00a414c0_class::FUN_00a414c0(unsigned char flags)
 extern int DAT_010976fc;
 struct A51BF0Base
 {
-    static void* operator new(unsigned int);
 };
 struct A51BF0
 {
@@ -545,7 +542,7 @@ struct A51BF0
 // @fnv 0x00a415a0
 A51BF0* CreateA51BF0()
 {
-    A51BF0* p = (A51BF0*)A51BF0Base::operator new(0x18);
+    A51BF0* p = (A51BF0*)::operator new(0x18);
     if (p)
     {
         p->FUN_00a5d3a0();
@@ -602,7 +599,6 @@ extern int DAT_01097f84;
 namespace fnv_00a47f20 {
 struct A51BF0Base
 {
-    static void* __cdecl operator new(unsigned int);
 };
 
 struct FUN_00a47bd0_class
@@ -613,7 +609,7 @@ struct FUN_00a47bd0_class
 // @fnv 0x00a47f20
 void* FUN_00a47f20()
 {
-    FUN_00a47bd0_class* p = static_cast<FUN_00a47bd0_class*>(A51BF0Base::operator new(0x34));
+    FUN_00a47bd0_class* p = static_cast<FUN_00a47bd0_class*>(::operator new(0x34));
 
     if (p)
         return p->FUN_00a47bd0(0, 0xc, 0xc);
@@ -670,7 +666,6 @@ namespace fnv_00a537f0 {
 
 struct A51BF0Base
 {
-    static void* __cdecl operator new(unsigned int);
 };
 
 struct FUN_00a5d3a0_class
@@ -687,7 +682,7 @@ struct FUN_00a5d3a0_class
 // @fnv 0x00a537f0
 void* FUN_00a537f0()
 {
-    FUN_00a5d3a0_class* p = (FUN_00a5d3a0_class*)A51BF0Base::operator new(0x18);
+    FUN_00a5d3a0_class* p = (FUN_00a5d3a0_class*)::operator new(0x18);
     if (p)
     {
         p->FUN_00a5d3a0();
@@ -765,7 +760,7 @@ struct ControllerAllocation
 ControllerAllocation* FUN_00a411c0(unsigned int auiUnused1, void* target, unsigned int unused2, float value,
                                              unsigned int flags)
 {
-    ControllerAllocation* controller = static_cast<ControllerAllocation*>(BSFadeNode::operator new(52));
+    ControllerAllocation* controller = static_cast<ControllerAllocation*>(::operator new(52));
     if (controller)
         return ((::ControllerAllocation *)(new ((void *)(controller)) ::FUN_00a40520((bool)(target), value, flags)));
     return 0;
@@ -848,7 +843,6 @@ void FUN_00a41410_cls::DispatchByKey(HandlerArg* a1)
 
 struct S_00a42290_Mem
 {
-    static void* operator new(unsigned int);
 };
 struct FUN_00a5d3a0 : S_00a42290_Mem
 {
@@ -1788,10 +1782,6 @@ class A5B660StringTable
   public:
     ~A5B660StringTable();
 
-    static void operator delete(void* pvMem)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(reinterpret_cast<A5B660Heap&>(g_memoryManager)))->FUN_00aa4060(pvMem);
-    }
 
 
     static void FUN_00a5b660();
@@ -2085,10 +2075,6 @@ struct A1450Element
 {
     int unk00;
 
-    static void operator delete(void* pvMem)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::A1450MemoryManager *>(&::g_memoryManager))))->FUN_00aa4060(pvMem);
-    }
 };
 
 class A1450Array
@@ -2468,7 +2454,7 @@ void __cdecl ConvertLegacyController(StubController* p)
     ConvertedController* controller = ((::ConvertedController *)(reinterpret_cast<::MyHost *>((host))->FUN_00a5c570((const ::MyRTTI *)(const ::NiRTTI *)(&(*reinterpret_cast<const ::NiRTTI *>(&::g_011f36ec))))));
     if (controller)
         controller->IncRefCount();
-    ControllerInterpolator* allocation = static_cast<ControllerInterpolator*>(BSFadeNode::operator new(0x5c));
+    ControllerInterpolator* allocation = static_cast<ControllerInterpolator*>(::operator new(0x5c));
     ControllerInterpolator* interpolator;
     if (allocation)
     {
@@ -2495,7 +2481,7 @@ void __cdecl ConvertLegacyController(StubController* p)
     }
     else
     {
-        ConvertedController* fresh = static_cast<ConvertedController*>(BSFadeNode::operator new(0x38));
+        ConvertedController* fresh = static_cast<ConvertedController*>(::operator new(0x38));
         fresh = fresh ? ((::ConvertedController *)(reinterpret_cast<::S_00a36560 *>((fresh))->FUN_00a36560())) : 0;
         if (controller != fresh)
         {
@@ -2658,7 +2644,6 @@ struct Result
     int unk28;
     int unk2c;
     int unk30;
-    static void* operator new(unsigned int) throw();
     Result(const char*, int, int) throw();
 };
 struct Stream

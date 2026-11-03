@@ -132,7 +132,6 @@ bool Self::FUN_00a394b0(QT* kValue)
 namespace fnv_00a39700 {
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 
 struct Obj
@@ -143,7 +142,7 @@ struct Obj
 // @fnv 0x00a39700
 void* __cdecl FUN_00a39700()
 {
-    void* p = BSFadeNode::operator new(0x58);
+    void* p = ::operator new(0x58);
     if (p)
     {
         Obj* o = (Obj*)p;
@@ -225,10 +224,6 @@ struct Item
 {
     char d[0x68];
     Item() throw();
-    static void* operator new[](unsigned int n)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00a39ec0::MemoryManager *>(&::g_memoryManager))))->FUN_00aa3e40(n);
-    }
 };
 struct Base
 {
@@ -272,10 +267,6 @@ struct Item
 {
     char d[0x68];
     Item() throw();
-    static void* operator new[](unsigned int n)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00a3a450::MemoryManager *>(&::g_memoryManager))))->FUN_00aa3e40(n);
-    }
 };
 struct Base
 {
@@ -322,10 +313,6 @@ struct Item
     QT b;
     ThreeByThreeMatrix m;
     Item() throw();
-    static void* operator new[](unsigned int n)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00a3a4f0::MemoryManager *>(&::g_memoryManager))))->FUN_00aa3e40(n);
-    }
 };
 struct NiBlendInterpolator
 {
@@ -418,7 +405,6 @@ bool Self::UpdateInterpolators(float fTime, NiObjectNET* pkInterpTarget, NiQuatT
 namespace fnv_00a3a660 {
 struct BSFadeNode
 {
-    static void* operator new(unsigned int);
 };
 struct FUN_00a39230 : BSFadeNode
 {

@@ -5,6 +5,7 @@
 
 // src/havok/common/internal/geometryprocessing/convexhull/hkgpconvexhull.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/common/internal/geometryprocessing/convexhull/hkgpconvexhull.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <new>
 #include <cmath>
 #include "fnv/decl/BevelHull.h"
 #include "fnv/decl/Centroid352.h"
@@ -809,7 +810,6 @@ template <typename T> struct S_00d7a010_Array
 struct S_00d7a010_Obj
 {
     virtual ~S_00d7a010_Obj() throw();
-    void operator delete(void* p) throw();
 };
 void __cdecl DeleteCollectedObjects(int a, int b, int c, float f);
 struct S_00d7c200_Heap
@@ -2033,10 +2033,6 @@ struct S00d7d1c0_Base
     virtual void v2(void* p, int size);
     unsigned short m04;
 };
-inline void* operator new(unsigned int, void* p)
-{
-    return p;
-}
 struct S00d7d1c0_Derived : S00d7d1c0_Base
 {
     S00d7d1c0_M08 m08;

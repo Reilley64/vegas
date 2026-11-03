@@ -97,7 +97,6 @@ class LipSyncAnimation
 };
 
 
-void __cdecl operator delete(void*);
 
 class NiBinaryStream
 {

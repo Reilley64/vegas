@@ -5,6 +5,7 @@
 
 // src/havok/common/visualize/serialize/hkdisplayserializeistream.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/visualize/serialize/hkdisplayserializeistream.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstddef>
 #include "fnv/decl/DD8FE0_Stream.h"
 #include "fnv/decl/hkDisplaySerializeIStream.h"
 #include "fnv/decl/hkLargeBlockAllocator.h"
@@ -155,7 +156,7 @@ struct hkGeometryQ
     int unk10;
     int unk14;
     hkGeometryQ();
-    __forceinline static void* operator new(unsigned int nbytes)
+    __forceinline static void* operator new(std::size_t nbytes)
     {
         return getRouterQ()->heap().AllocateMemoryBlock(nbytes);
     }
@@ -172,7 +173,7 @@ struct hkDisplayGeometryQ
     int unk0C;
     hkTransformQ m_kMotionTransform;
 
-    __forceinline static void* operator new(unsigned int nbytes)
+    __forceinline static void* operator new(std::size_t nbytes)
     {
         void* b = getRouterQ()->heap().AllocateMemoryBlock(nbytes);
         static_cast<hkDisplayGeometryQ*>(b)->m_usMemSizeAndFlags = static_cast<unsigned short>(nbytes);

@@ -2,6 +2,7 @@
 // src/havok/physics/collide/agent3/machine/1n/hkpagent1nmachine.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent3/machine/1n/hkpagent1nmachine.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
 #include "fnv/symbols_00c90000.h"
 #include "fnv/symbols_00cfe000.h"
 #include "fnv/symbols_00d2c000.h"
@@ -55,10 +56,6 @@ struct BlockPoolBlock
     BlockPoolBlock()
     {
         unk00 = 0;
-    }
-    static void* operator new(BlockPoolsize_t, void* p) throw()
-    {
-        return p;
     }
 };
 

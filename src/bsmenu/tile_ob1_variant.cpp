@@ -712,7 +712,6 @@ void FUN_00a087d0_shell::FUN_00a087d0(Tile* apParent, Tile* apReplacedTile)
 struct MemoryManager { void Deallocate(void*); };
 struct TileCollection : FUN_00a0c190 {
     ~TileCollection() { int a; int b; int c; int d; int e; }
-    static void operator delete(void* p) { reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(p); }
 };
 struct FUN_00a0ad40 {
     TileCollection* pTemplate;
@@ -1164,7 +1163,6 @@ public:
         }
         m_pOwnerObject = apOwner;
     }
-    static void* operator new(unsigned int auiSize) { return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::MM *>(&::g_memoryManager))))->FUN_00aa3e40(auiSize); }
 };
 
 struct TemplateList_00a0ae70 {
@@ -1172,7 +1170,6 @@ struct TemplateList_00a0ae70 {
     TemplateList_00a0ae70* m_pkNext;
 
     TemplateList_00a0ae70(TileTemplate_00a0ae70* apItem) : m_item(apItem), m_pkNext(0) {}
-    static void* operator new(unsigned int auiSize) { return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::MM *>(&::g_memoryManager))))->FUN_00aa3e40(auiSize); }
 
     void AddTail(TileTemplate_00a0ae70** apItem) {
         if (*apItem == 0) return;
@@ -1282,7 +1279,6 @@ struct Item_00a0ba50 {
         reinterpret_cast<::TextString *>(&(m_str))->FUN_004037f0(0, 0);
     }
 
-    static void operator delete(void* apMemory) { reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::FUN_00a0d220_pool *>(&::g_memoryManager))))->FUN_00aa4060(apMemory); }
 };
 
 // @fnv 0x00a0ba50
@@ -1370,8 +1366,6 @@ struct TileTemplateNew_ac80 {
         m_kName = apName;
         m_pkOwnerManager = apOwner;
     }
-    static void* operator new(unsigned int auiSize) { return reinterpret_cast<::MemoryManagerStandIn *>((((TilePool_ac80*)&(*reinterpret_cast<::FUN_00a0d220_pool *>(&::g_memoryManager)))))->FUN_00aa3e40(auiSize); }
-    static void operator delete(void* apMem) { reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::FUN_00a0d220_pool *>(&::g_memoryManager))))->FUN_00aa4060(apMem); }
 };
 struct FUN_00a0ac80 {
     TileCollection* pTemplate;
@@ -1603,8 +1597,6 @@ void TileWork::FUN_00a0b520() {
 }
 
 inline unsigned int BSStringCapacityMaximum(unsigned int a, unsigned int b) { return a > b ? a : b; }
-void* operator new(unsigned int size);
-void operator delete(void* memory);
 struct ReuseString {
     char* pString;
     unsigned short length;
@@ -1663,8 +1655,6 @@ struct ReuseNode {
         owner = c;
     }
 };
-inline void* operator new(unsigned int size) { return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::MM *>(&::g_memoryManager))))->FUN_00aa3e40(size); }
-void operator delete(void* memory);
 // @fnv 0x00a0b950
 ReuseNode* FUN_00a0b950(int a, float f, const char* s, int b, int c) {
     ReuseNode* node;
@@ -1851,9 +1841,6 @@ struct XmlAllocator {
 };
 struct ReleaseValue {
     __forceinline ~ReleaseValue();
-    static __forceinline void operator delete(void* memory) {
-        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_009ff690::XmlAllocator *>(&::g_memoryManager))))->FUN_00aa4060(memory);
-    }
 };
 struct ReleaseArray {
     void* vtable;
@@ -2004,17 +1991,14 @@ void __cdecl FUN_00a04500(); // LeaveCriticalSection
 class TileTemplateA00 {
 public:
     ~TileTemplateA00(); // FUN_00a0bb50
-    static void operator delete(void* pvMem) { reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00a00a30::MemoryManagerA00 *>(&::g_memoryManager))))->FUN_00aa4060(pvMem); }
 };
 
 class FadeNodeA00 {
 public:
-    static void operator delete(void* pvMem) { reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00a00a30::MemoryManagerA00 *>(&::g_memoryManager))))->FUN_00aa4060(pvMem); }
 };
 
 template <class T> class SimpleListA00 {
 public:
-    static void operator delete(void* pvMem) { reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00a00a30::MemoryManagerA00 *>(&::g_memoryManager))))->FUN_00aa4060(pvMem); }
     ~SimpleListA00() {}
 
     void FUN_00ae83e0()
@@ -2120,12 +2104,6 @@ struct SmallArray {
     ~SmallArray();
 };
 struct Tile3D {
-    static __forceinline void* operator new(unsigned int bytes) {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00a00c20::XmlAllocator *>(&::g_memoryManager))))->FUN_00aa3e40(bytes);
-    }
-    static __forceinline void operator delete(void* memory) {
-        (*reinterpret_cast<::fnv_00a00c20::XmlAllocator *>(&::g_memoryManager)).FUN_00aa4060(memory);
-    }
     Tile3D();
     virtual ~Tile3D();
     int unk04; int unk08; int unk0c; int unk10; int unk14; int unk18; int unk1c;
@@ -2322,10 +2300,6 @@ struct XmlAllocator {
 struct FUN_00a0ac80;
 typedef FUN_00a0ac80 XmlNode;
 struct FUN_00a0ac80 {
-    static __forceinline void* operator new(unsigned int bytes) {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00a01e20::XmlAllocator *>(&::g_memoryManager))))->FUN_00aa3e40(bytes);
-    }
-    static __forceinline void operator delete(void*) {}
     FUN_00a0ac80();
     XmlNode* m_pTreeNode;
     XmlNode* m_parent;
@@ -2343,9 +2317,6 @@ struct XmlFile {
             (*reinterpret_cast<::fnv_00a01e20::XmlAllocator *>(&::g_memoryManager)).FUN_00aa4060((void*)old);
         }
         data = 0;
-    }
-    static __forceinline void operator delete(void* p) {
-        (*reinterpret_cast<::fnv_00a01e20::XmlAllocator *>(&::g_memoryManager)).FUN_00aa4060(p);
     }
 };
 extern unsigned char DAT_011f32c8;
@@ -3005,12 +2976,6 @@ struct ListNode_a0a130 {
     int m_item;
     ListNode_a0a130* m_pkNext;
     ListNode_a0a130() { m_item = 0; m_pkNext = 0; }
-    static void* operator new(unsigned int uiSize) { return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00a0a130::MemoryHeap_a0a130 *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize); }
-    static void operator delete(void* pvMem)
-    {
-        int unused[5];   // frame space the original's inlined pool free reserves (never touched)
-        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00a0a130::MemoryHeap_a0a130 *>(&::g_memoryManager))))->FUN_00aa4060(pvMem);
-    }
 };
 
 struct ListMap_a0a130 {
@@ -3225,7 +3190,6 @@ struct FUN_00a0c190
 {
     int m_00;
     ~FUN_00a0c190();
-    static void operator delete(void* p) { int unused[4]; (void)unused; reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00a1e1d0::A1E1D0_Pool *>(&::g_memoryManager))))->FUN_00aa4060(p); }
 };
 struct A1E1D0_Holder
 {
@@ -3401,7 +3365,6 @@ struct TileBaseA0BBF0 {
     unsigned int uiFlags;
 
     bool GetFlag(unsigned int uiFlag) const { return (uiFlags & uiFlag) != 0; }
-    static void operator delete(void* p) { reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(p); }
 };
 
 struct FUN_00a0bbf0 : TileBaseA0BBF0 {
@@ -3589,9 +3552,6 @@ struct FUN_00a0ad40 {
     bool bUnk10;
 
     ~FUN_00a0ad40();
-    void operator delete(void* p) {
-        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00a01b00::MemoryManager *>(&::g_memoryManager))))->FUN_00aa4060(p);
-    }
 };
 
 extern unsigned int DAT_0126fd98;
@@ -3786,7 +3746,6 @@ struct ParsedToken {
     ParsedText text;
     int integer;
     void* context;
-    static void operator delete(void* pointer) { reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::FUN_00a0d220_pool *>(&::g_memoryManager))))->FUN_00aa4060(pointer); }
     __forceinline void SetText(const char* value) {
         ParsedText* textObject = &text;
         reinterpret_cast<::TextString *>((textObject))->FUN_004037f0(value, 0);
@@ -3797,7 +3756,6 @@ struct ParsedToken {
     }
 };
 struct ParsedNode {
-    static void* operator new[](unsigned int bytes) { return FUN_00401000(bytes); }
     ParsedNode* next;
     ParsedNode* previous;
     ParsedToken* value;
@@ -4148,7 +4106,6 @@ struct FadeRecord {
 struct LocalManager { void Deallocate(void*); void* Allocate(unsigned int); };
 struct FadeList {
     FadeRecord* item; FadeList* next;
-    static void operator delete(void* p) { reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::LocalManager *>(&::g_memoryManager))))->FUN_00aa4060(p); }
     ~FadeList() { RemoveAll(); }
     inline void RemoveAll() { while (next) { FadeList* after=next->next; next->next=0; delete next; next=after; } item=0; }
     inline void FUN_00a0cbe0(FadeRecord*& p) {
@@ -4164,8 +4121,6 @@ extern FadeList DAT_011f3348;
 int __cdecl FUN_00a01860(const char*);
 struct FUN_00ae83e0 {
     FadeRecord* item; FUN_00ae83e0* next;
-    static void* operator new(unsigned int size) {return (*reinterpret_cast<::LocalManager *>(&::g_memoryManager)).Allocate(size);}
-    static void operator delete(void* p) {reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::LocalManager *>(&::g_memoryManager))))->FUN_00aa4060(p);}
     ~FUN_00ae83e0();
     inline void RemoveAll() { while (next) { FUN_00ae83e0* after=next->next; next->next=0; delete next; next=after; } item=0; }
     inline void AddToHead(FadeRecord*& p) {

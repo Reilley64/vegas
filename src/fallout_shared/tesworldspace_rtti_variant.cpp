@@ -234,8 +234,6 @@ class WorldSpaceLOD5845
 {
   public:
     WorldSpaceLOD5845(WorldSpaceOwner5845* pkWorld);
-    static void* operator new(unsigned int uiSize);
-    static void operator delete(void* pvMem);
     unsigned int unk00;
     unsigned int unk04;
     unsigned int unk08;

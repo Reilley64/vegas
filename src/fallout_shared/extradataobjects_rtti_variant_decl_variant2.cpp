@@ -100,7 +100,6 @@ template <> bool BSStringT<char>::Set(const BSStringT<char>& source)
     return length != 0;
 }
 
-void __cdecl operator delete(void*);
 
 // Walks m_kDecalReferences, resolving each decal's m_pHitReference form ID against the given TESForm and removing entries that cannot be resolved.
 // @fnv 0x00433db0

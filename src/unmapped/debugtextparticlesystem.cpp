@@ -4,6 +4,7 @@
 
 
 // @fnv 0x00ca34b0
+#include <cstddef>
 #include <new>
 #include "runtime/crt.h"
 #include "fnv/decl/CA0E60Array.h"
@@ -55,8 +56,6 @@ void FUN_00ca3560(int** self, int)
 class CA34C0Object
 {
   public:
-    static void* __cdecl operator new(unsigned int size);
-    static void __cdecl operator delete(void* p);
 
     CA34C0Object();
     virtual ~CA34C0Object();
@@ -133,12 +132,6 @@ Special* Special::FUN_00ca2aa0(unsigned int flags)
 #include <xmmintrin.h>
 #include <string.h>
 #include "fnv/symbols_simd.h"
-inline void* __cdecl operator new(unsigned int, void* p)
-{
-    return p;
-}
-inline void __cdecl operator delete(void*, void*)
-{}
 struct MemoryAllocator
 {
     virtual void ReportDiagnostic();
@@ -518,7 +511,7 @@ struct hkaSkeleton : RigBase
     HavokArray<Transform> transforms;
     HavokArray<int> slots;
     HavokArray<int> extras;
-    static __forceinline void* __cdecl operator new(unsigned int n)
+    static __forceinline void* __cdecl operator new(std::size_t n)
     {
         RigBase* memory = (RigBase*)FUN_00c85750().heap().allocate(n);
         memory->memorySize = (unsigned short)n;
@@ -1250,7 +1243,6 @@ struct Item
     unsigned int mask;
     unsigned char active;
     Item();
-    static void* operator new(unsigned int);
 };
 struct AllocatorExtended : Allocator
 {
@@ -1363,11 +1355,6 @@ struct FUN_0056e550
     void* resource;
     FUN_0056e550(SceneRecord*);
     unsigned unk0c, unk10, unk14;
-    static __forceinline void* operator new(unsigned n)
-    {
-        return FUN_00aa13e0(n);
-    }
-    static void operator delete(void*);
 };
 struct PayloadArgs
 {
@@ -1382,7 +1369,7 @@ struct FUN_00d1fa50
     unsigned short flags;
     unsigned int unk08, unk0c, unk10, unk14, unk18, unk1c, unk20, unk24;
     FUN_00d1fa50(PayloadArgs*);
-    static __forceinline void* operator new(unsigned int size)
+    static __forceinline void* operator new(std::size_t size)
     {
         Context* alloc = (Context*)fnvc_adapt::FUN_00c85750();
         FUN_00d1fa50* p = (FUN_00d1fa50*)alloc->provider->vtbl->allocate(alloc->provider, size);
@@ -1496,10 +1483,6 @@ __forceinline Item::Item()
     : source(0), collection(0), scene(0), bounding(0), payload(0), unknown14(0), unknown18(0), mask(0x80000000),
       active(1)
 {}
-__forceinline void* Item::operator new(unsigned int n)
-{
-    return reinterpret_cast<::MemoryManagerStandIn *>((((AllocatorExtended*)&(*reinterpret_cast<::Allocator *>(&::g_memoryManager)))))->FUN_00aa3e40(n);
-}
 static __forceinline void add_pointer(PointerVec& vec, Item* const& ptr)
 {
     if (vec.size == vec.capacity)

@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/actions/spring/hkpspringaction.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/actions/spring/hkpspringaction.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
 #include <new>
 #include <cstring>
 #include "fnv/decl/FUN_00c7f690_cls.h"
@@ -406,7 +407,7 @@ struct hkpCloneArgD4A0
 
 struct S00d4d4a0_Obj
 {
-    static void* operator new(unsigned int size)
+    static void* operator new(std::size_t size)
     {
         S00d4d4a0_Obj* memory = reinterpret_cast<S00d4d4a0_Obj*>(FUN_00c85750()->heap().AllocateMemoryBlock(size));
         memory->m_usMemSizeAndFlags = static_cast<unsigned short>(size);

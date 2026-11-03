@@ -49,7 +49,5 @@ class IntSeenData : public SeenData
 extern void* DAT_01083fc4;
 extern unsigned int DAT_011a31ec;
 extern float DAT_011a31e8;
-void* __cdecl operator new(unsigned int size);
-void __cdecl operator delete(void* pointer);
 
 #endif

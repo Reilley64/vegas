@@ -10312,8 +10312,6 @@ struct SearchReference
 struct SearchResult
 {
     SearchResult();
-    static void* operator new(unsigned int);
-    static void operator delete(void*);
     SearchReference* owner;
     TESBoundObject* object;
     int unknown8;

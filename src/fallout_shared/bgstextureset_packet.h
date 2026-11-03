@@ -6,6 +6,7 @@
 #ifndef FNV_BGSTEXTURESET_UNIT_H
 #define FNV_BGSTEXTURESET_UNIT_H
 
+#include <new>
 #include "fnv/decl/FUN_00408da0_Class.h"
 #include "fnv/decl/FUN_00472840_impl.h"
 #include "fnv/decl/TESDataHandler.h"
@@ -24,8 +25,6 @@
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
 };
 class NiObject : public NiMemObject
 {
@@ -161,8 +160,6 @@ struct TESDataHandlerForms
 };
 class TESDataHandler;
 
-void* operator new(unsigned int);
-void operator delete(void*);
 struct TESFileChunkData16
 {
 };

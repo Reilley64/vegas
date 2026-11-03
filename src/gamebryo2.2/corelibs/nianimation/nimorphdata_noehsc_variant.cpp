@@ -624,10 +624,6 @@ struct MorphPoint3
     float x, y, z;
     MorphPoint3()
     {}
-    static void* operator new[](unsigned int n)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::MorphMemory *>(&::g_memoryManager))))->FUN_00aa3e40(n);
-    }
 };
 struct NiFloatData;
 struct NiFloatInterpolator
@@ -691,7 +687,6 @@ struct NiFloatInterpolator
         if (InterlockedDecrement(&m_uiRefCount) == 0)
             DeleteThis();
     }
-    static void* operator new(unsigned int);
     NiFloatInterpolator(NiFloatData*) throw();
     void SetKeyData(void* pkKeys, unsigned int uiNumKeys, unsigned int eType);
 };
@@ -781,10 +776,6 @@ struct FUN_00a415f0
     ~FUN_00a415f0()
     {
         reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::MorphMemory *>(&::g_memoryManager))))->FUN_00aa4060(m_pkVertexPositions);
-    }
-    static void* operator new[](unsigned int n)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::MorphMemory *>(&::g_memoryManager))))->FUN_00aa3e40(n);
     }
     void SetName(const NiFixedStrL& kName)
     {

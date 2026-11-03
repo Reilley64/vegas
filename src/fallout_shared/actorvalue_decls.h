@@ -571,8 +571,6 @@ class GlobalObject_0066ef90
     ActorValueInfo* values[77];
     GlobalObject_0066ef90();
 };
-void* __cdecl operator new(size_t) throw();
-void __cdecl operator delete(void*);
 enum ActorValue__Index
 {
     ActorValue__Index_None = -1

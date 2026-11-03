@@ -232,7 +232,6 @@ struct CloningProcess
 };
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 struct NiNode_Helper
 {
@@ -249,7 +248,7 @@ struct FUN_00a94500_Holder : NiSwitchNode
 NiObject* FUN_00a94500_Holder::CloneSwitchNode(CloningProcess& kCloning)
 {
     NiSwitchNode* pkObject;
-    void* pMemory = BSFadeNode::operator new(0xCC);
+    void* pMemory = ::operator new(0xCC);
     if (pMemory)
         pkObject = ((NiSwitchNode_Helper*)pMemory)->FUN_00a94360();
     else

@@ -504,7 +504,6 @@ namespace ScreenSplatterImpl {
 class FUN_00622c80 : public FUN_00620ff0
 {
   public:
-    static void operator delete(void*);
 
   private:
   public:

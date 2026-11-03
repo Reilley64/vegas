@@ -4,6 +4,8 @@
 
 // src/staging/blk_00c80000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
+#include <new>
+#include <cstddef>
 #include <windows.h>
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -179,7 +181,6 @@ struct FUN_00c87670_Class : NiObject
     void* m_pad_0x8;
     void* m_field_0xc;
 };
-extern "C" void __cdecl operator delete(void*, unsigned int);
 struct FUN_00c88a20_cls
 {
     void FUN_00c88930();
@@ -292,7 +293,6 @@ struct FUN_00c9aeb0_t
     char m_data[0x5c];
     FUN_00c9aeb0_t();
     ~FUN_00c9aeb0_t();
-    static void* operator new(unsigned int);
 };
 struct FUN_00c9eba0_IFace
 {
@@ -321,7 +321,6 @@ extern void(* DAT_0126820c_enter)(int*);
 extern void(* DAT_0126820c_leave)(int*);
 struct A51BF0Base
 {
-    static void* __cdecl operator new(unsigned int size);
 };
 struct FUN_00c6b910 : A51BF0Base
 {
@@ -526,10 +525,6 @@ struct TemporaryArena
     unsigned int unk1C;
     unsigned int unk20;
     TemporaryArena();
-    static void* operator new(unsigned int bytes)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>((static_cast<ArenaMemoryManager*>(&g_memoryManager)))->FUN_00aa3e40(bytes);
-    }
 };
 struct ArenaRegistrationFlag
 {
@@ -620,10 +615,6 @@ struct SpawnedPtrArray
 };
 extern "C" void _ReadWriteBarrier(void);
 SpawnedAllocHolder* FUN_00c85750();
-inline void* __cdecl operator new(unsigned int, void* placement)
-{
-    return placement;
-}
 struct NiAllocator
 {
 };
@@ -4753,8 +4744,6 @@ class C11F0Material
     C11F0Material();
     virtual ~C11F0Material();
 
-    static void* operator new(unsigned int uiSize);
-    static void operator delete(void* pvMem);
 
     void SetEmittance(const C11F0Color& kColor)
     {
@@ -5459,7 +5448,6 @@ struct NiNodeX
     int unka4;
     int unka8;
     NiNodeX(unsigned short count);
-    static void* operator new(unsigned int size);
 };
 struct bhkWorldX
 {
@@ -5568,8 +5556,6 @@ class BC88760CloningProcess;
 class BC88760Base
 {
   public:
-    static void* operator new(unsigned int uiSize);
-    static void operator delete(void* pvMem);
 
     BC88760Base();
     virtual ~BC88760Base();
@@ -5855,10 +5841,6 @@ struct Base_00c8ae60
 };
 struct Object_00c8ae60 : Base_00c8ae60
 {
-    static void* operator new(unsigned int bytes)
-    {
-        return FUN_00aa13e0(bytes);
-    }
     Object_00c8ae60()
     {
         vtable = &DAT_01030bf4;
@@ -6091,11 +6073,6 @@ template <class T> class C8B9E0Array
 class C8B9E0Listener
 {
   public:
-    static void* operator new(unsigned int uiSize)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::C8B9E0Heap *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize);
-    }
-    static void operator delete(void* pvMem);
 
     C8B9E0Listener() : m_pkOwnerManager(0)
     {}
@@ -7378,7 +7355,6 @@ struct FUN_00c87dc0_class
     void FUN_00c87d20();
     unsigned int FUN_00c87dc0(unsigned char param_2);
 };
-extern "C" void __cdecl operator delete(void*, unsigned int);
 void __cdecl DispatchToTarget();
 void __cdecl FUN_00c87fa0();
 struct FUN_00c88430_t
@@ -7658,7 +7634,7 @@ struct hkRefObj_c8b090
     unsigned short m_usMemSizeAndFlags;
     unsigned short m_sReferenceCount;
 
-    static void* operator new(unsigned int size)
+    static void* operator new(std::size_t size)
     {
         SpawnedAllocHolder* holder = FUN_00c85750();
         Alloc8b_c8b090* alloc = (Alloc8b_c8b090*)holder->m_pAllocator;
@@ -7666,7 +7642,7 @@ struct hkRefObj_c8b090
         b->m_usMemSizeAndFlags = (unsigned short)size;
         return b;
     }
-    static void operator delete(void* p, unsigned int size)
+    static void operator delete(void* p, std::size_t size)
     {
         SpawnedAllocHolder* holder = FUN_00c85750();
         Alloc8b_c8b090* alloc = (Alloc8b_c8b090*)holder->m_pAllocator;
@@ -8034,10 +8010,6 @@ struct MemoryManager0AA0
 class ListNode0AA0
 {
   public:
-    static void* operator new(unsigned int uiSize) throw()
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::MemoryManager0AA0 *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize);
-    }
     ListNode0AA0(const NiPointer0AA0<RefObject0AA0>& spRetainedObject) : m_pReferencedObject(spRetainedObject)
     {
         m_pkNext = 0;
@@ -8081,10 +8053,6 @@ struct MeshMemoryScope
         g_tlsBlock.m_2b4 = saved;
     }
 };
-inline void* __cdecl operator new[](unsigned int size)
-{
-    return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::NiAllocator *>(&::g_memoryManager))))->FUN_00aa3e40(size);
-}
 struct FourFloatComponents
 {
     float unk00, unk04, unk08, unk0c;
@@ -8107,8 +8075,6 @@ struct GeometryData
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int);
-    static void operator delete(void*);
 };
 class NiTriShape : public NiMemObject
 {
@@ -9384,10 +9350,6 @@ struct FUN_00cca4e0
     int m_0c;
     int m_10;
     FUN_00cca4e0(void* value);
-    static void* operator new(unsigned int bytes)
-    {
-        return FUN_00aa13e0(bytes);
-    }
 };
 struct FUN_00c87670_class
 {
@@ -9826,7 +9788,7 @@ struct Base674
     virtual ~Base674();
     unsigned short size;
     unsigned short flags;
-    static void* operator new(unsigned int size)
+    static void* operator new(std::size_t size)
     {
         SpawnedAllocHolder* r = FUN_00c85750();
         Heap674* heap = (Heap674*)r->m_pAllocator;
@@ -10212,7 +10174,6 @@ struct WrapperLocal
     int unk08;
     int unk0c;
     int unk10;
-    static void* operator new(unsigned int);
     WrapperLocal(ShapeLocal*);
 };
 struct AllocLocal;
@@ -11887,10 +11848,6 @@ struct FUN_00c7f9e0 : RuntimeObject
 
     unsigned unk08, unk0c;
 
-    static void* operator new(unsigned n)
-    {
-        return FUN_00aa13e0(n);
-    }
 
     FUN_00c7f9e0(const Context&);
 };

@@ -164,7 +164,6 @@ struct FUN_00a30900_shell
 };
 struct A51BF0Base
 {
-    static void* __cdecl operator new(unsigned int);
 };
 struct FUN_00a316a0_shell
 {
@@ -1421,10 +1420,6 @@ struct SeqInterpItem
 
     SeqInterpItem();
     ~SeqInterpItem();
-    static void* operator new[](unsigned int uiSize)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(uiSize);
-    }
 };
 
 struct SeqTag
@@ -1437,10 +1432,6 @@ struct SeqTag
 
     SeqTag();
     ~SeqTag();
-    static void* operator new[](unsigned int uiSize)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(uiSize);
-    }
 };
 
 struct SeqRefObj

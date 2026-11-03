@@ -7,7 +7,6 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 #include "fnv/symbols_0059c000.h"
 #include "fnv/symbols_00cf0000.h"
-extern void __cdecl operator delete(void*);
 struct HKPCloseStrayHitCollector
 {
     void* Destroy(unsigned int flags);

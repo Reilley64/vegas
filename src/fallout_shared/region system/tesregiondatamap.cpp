@@ -202,7 +202,6 @@ FUN_004f3de0::~FUN_004f3de0()
     reinterpret_cast<::BSStringTChar *>((((FUN_004f14a0_shell*)&this->m_kMapName.p[0])))->BSStringTChar::~BSStringTChar();
 }
 
-void* __cdecl operator new(unsigned int);
 
 struct FUN_004f3d50 : public TESRegionData
 {

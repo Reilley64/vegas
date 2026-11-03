@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/niparticle/nipsysvolumeemitter.cpp: NiPSysVolumeEmitter (10 functions)
 
+#include <new>
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FUN_00416870_t.h"
@@ -168,7 +169,6 @@ char const* const* __cdecl FUN_00c31bc0()
 }
 
 
-extern "C" void __cdecl operator delete(void*, unsigned int);
 
 struct FUN_00c31c70_shell
 {

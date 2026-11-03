@@ -7,6 +7,7 @@
 // to their real unit once identified.
 // src/staging/blk_00de0000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
+#include <new>
 #include <windows.h>
 #include "fnv/decl/AnimationEndian.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -449,7 +450,6 @@ struct FUN_00de10e0_cls
     int m_10;
 
     FUN_00de10e0_cls* FUN_00de10e0(unsigned char acFlags);
-    static void operator delete(void* apMemory) throw();
 };
 struct FUN_00de3050
 {
@@ -1140,10 +1140,6 @@ class DFB550Object
     virtual ~DFB550Object();
 };
 int* __cdecl FUN_00dfb560();
-inline void* operator new(unsigned int, void* pvWhere) throw()
-{
-    return pvWhere;
-}
 struct DFB570FinishFlag
 {
     int m_bFinishing;
@@ -1906,10 +1902,6 @@ class DFF2E0Object
   public:
     DFF2E0Object(DFF2E0FinishFlag flag);
 
-    static void* operator new(unsigned int, void* p)
-    {
-        return p;
-    }
 };
 int* __cdecl FUN_00dff330();
 int __cdecl FUN_00dff3b0();
@@ -1933,10 +1925,6 @@ class DFF520Object
   public:
     DFF520Object(DFF520FinishFlag flag);
 
-    static void* operator new(unsigned int, void* p)
-    {
-        return p;
-    }
 };
 int __cdecl FUN_00dff570();
 struct CpuOpaque;

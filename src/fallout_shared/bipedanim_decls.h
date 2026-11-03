@@ -2,6 +2,7 @@
 #ifndef BIPEDANIM_DECLS_H
 #define BIPEDANIM_DECLS_H
 
+#include <new>
 #include <cstring>
 #include "runtime/crt.h"
 #include "fnv/decl/BGSTerrainManager.h"
@@ -229,8 +230,6 @@ typedef FaceGenMatrix<float> FaceGenCoord;
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
 };
 class NiObject : public NiMemObject
 {

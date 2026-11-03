@@ -1306,7 +1306,6 @@ bool FUN_00862430_cls::HasInvalidComponents(FUN_00862430_vec* pVec)
 }
 
 namespace fnv_008632a0 {
-void* __cdecl operator new(unsigned int);
 
 struct TESTopicInfo;
 
@@ -5753,8 +5752,6 @@ struct PixelData
     int unk68;
     int unk6c;
     int unk70;
-    static void* operator new(unsigned int);
-    static void operator delete(void*);
     PixelData(unsigned int, unsigned int, const PixelFormat&, unsigned int, unsigned int);
 };
 struct Preferences
@@ -7558,7 +7555,6 @@ struct AutoMemContext
     ~AutoMemContext();
 };
 extern const char DAT_01080750[];
-void* __cdecl operator new(unsigned int);
 
 struct SaveMemory
 {
@@ -10082,8 +10078,6 @@ struct Flame77 : CreatedForm77
     Flame77();
 };
 
-void* operator new(unsigned int);
-void operator delete(void*);
 enum MEM_CONTEXT;
 
 struct Record77

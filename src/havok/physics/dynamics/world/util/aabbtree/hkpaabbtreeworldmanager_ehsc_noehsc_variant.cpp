@@ -5,6 +5,7 @@
 
 // src/havok/physics/dynamics/world/util/aabbtree/hkpaabbtreeworldmanager.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/util/aabbtree/hkpaabbtreeworldmanager.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstddef>
 #include <windows.h>
 #include "fnv/decl/CollectorState.h"
 #include "fnv/decl/EntListSelf.h"
@@ -285,7 +286,7 @@ public:
     void FUN_00d08570(hkEntityD085* entity);
 };
 struct PlaceTagD088 {};
-inline void* operator new(unsigned int, void* p, PlaceTagD088) throw() { __assume(p != 0); return p; }
+inline void* operator new(std::size_t, void* p, PlaceTagD088) throw() { __assume(p != 0); return p; }
 inline void operator delete(void*, void*, PlaceTagD088) throw() {}
 template <class T>
 struct hkArrayD088 {

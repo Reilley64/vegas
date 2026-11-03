@@ -142,7 +142,6 @@ struct ChildObject : ChildBase
     int m_i0bc;
     int m_i0c0;
 
-    static void* operator new(unsigned int auiSize) throw();
 
     ChildObject() throw()
     {}

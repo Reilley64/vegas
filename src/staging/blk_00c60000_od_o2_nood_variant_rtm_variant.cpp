@@ -7,6 +7,7 @@
 // to their real unit once identified.
 // src/staging/blk_00c60000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include <cstddef>
 #include <windows.h>
 #include <new>
 #include <cmath>
@@ -345,12 +346,10 @@ struct FUN_00c65680_Class
 struct FUN_00c600c0_class
 {
     void* FUN_00c600c0(unsigned int flags);
-    static void __cdecl operator delete(void* p, unsigned int size);
 };
 struct FUN_00c613a0_Class
 {
     void* FUN_00c617e0(unsigned int flags);
-    void operator delete(void* p, unsigned int size);
 };
 extern "C" void NiFree(void*);
 struct MemoryManager
@@ -371,7 +370,6 @@ struct FUN_00c632f0_class
 {
     void* FUN_00c632f0(unsigned int flags);
 };
-void __cdecl operator delete(void*, int);
 struct CloningProcess;
 struct NiPSysModifierCopy : NiPSysModifier
 {
@@ -390,7 +388,6 @@ struct FUN_00c63970_class : NiPSysModifier_00c31950
     void FUN_00c63970(void* stream);
 };
 void __cdecl FUN_00c63b40(void* p);
-void __cdecl operator delete(void* p, unsigned int size);
 struct FUN_00c64610_Class
 {
     void FUN_00c63b40();
@@ -479,7 +476,6 @@ struct FUN_00c61b10
     char m_iWordAt00[0x6c];
     FUN_00c61b10();
     ~FUN_00c61b10();
-    static void* operator new(unsigned int size);
 };
 FUN_00c61b10* FUN_00c61e70();
 extern "C" void* __cdecl NiMalloc(unsigned int);
@@ -583,14 +579,12 @@ struct FUN_00c60a10_Class
 
     bool FUN_00c60a10(NiObject*);
 };
-void __cdecl operator delete(void* p, unsigned int size);
 struct FUN_00c60d10_Class
 {
     void* FUN_00c60d10(unsigned int flags);
 };
 struct A51BF0Base
 {
-    static void* __cdecl operator new(unsigned int size);
 };
 struct FUN_00c612b0_Class : NiAVObject, A51BF0Base
 {
@@ -625,7 +619,6 @@ struct FUN_00c63900_class : NiPSysModifierStub
 {
     void LoadModifierData(NiStream& stream);
 };
-void __cdecl operator delete(void* p, unsigned int size);
 struct FUN_00c31750_Class
 {
 };
@@ -662,7 +655,6 @@ struct FUN_00c64dc0_Class
     int m_10;
     FUN_0043ba10_shell* FUN_00c64dc0(unsigned int a);
 };
-void __cdecl operator delete(void* p, unsigned int size);
 struct FUN_00c64e70_Class
 {
     void* FUN_00c65650(unsigned int flags);
@@ -672,10 +664,6 @@ struct SpawnedObject_b9118
 {
     char m00[0x60];
     SpawnedObject_b9118();
-    static void* operator new(unsigned int size)
-    {
-        return FUN_00aa13e0(size);
-    }
 };
 class C61330Base
 {
@@ -912,10 +900,6 @@ struct PositionModifierObject_b9439
 {
     char m00[0x3c];
     PositionModifierObject_b9439();
-    static void* operator new(unsigned int size)
-    {
-        return FUN_00aa13e0(size);
-    }
 };
 struct Pad32
 {
@@ -1099,8 +1083,6 @@ class NiObjectC60
     NiObjectC60();
     virtual ~NiObjectC60();
 
-    static void* operator new(unsigned int uiSize);
-    static void operator delete(void* pvMem);
 
     int unk04;
     int unk08;
@@ -2261,10 +2243,6 @@ struct FilterCast : WorldRayCaster
         reinterpret_cast<::CbfOwner *>(this)->FUN_00cbf860((::CbfTarget *)(world->field58), (::CbfSrc *)(query), (int *)(mode), (int)(cache), (int)(collector));
     }
 };
-inline void* __cdecl operator new(unsigned int, void* p)
-{
-    return p;
-}
 struct RayCaster
 {
     virtual void v00();
@@ -2793,20 +2771,10 @@ struct CompoundInfo
 struct FUN_00cab710 : ShapeRef
 {
     FUN_00cab710(NiPoint3 const&, NiPoint3 const&, float);
-    static void* operator new(unsigned int n)
-    {
-        return FUN_00aa13e0(n);
-    }
-    static void operator delete(void*);
 };
 struct FUN_00c6d290 : ShapeRef
 {
     FUN_00c6d290(CompoundInfo const&);
-    static void* operator new(unsigned int n)
-    {
-        return FUN_00aa13e0(n);
-    }
-    static void operator delete(void*);
 };
 struct FUN_00cd8160
 {
@@ -2815,7 +2783,7 @@ struct FUN_00cd8160
     int unk08, unk0c;
     float radius;
     int unk14, unk18, unk1c;
-    static void* operator new(unsigned int n)
+    static void* operator new(std::size_t n)
     {
         HeapContext* ctx = FUN_00c85750();
         FUN_00cd8160* result = (FUN_00cd8160*)ctx->allocator->Allocate(n);
@@ -2849,7 +2817,7 @@ struct FUN_00c6d1e0 : ShapeRef
 {
     int unk14, unk18, unk1c;
     FUN_00c6d1e0(AuxInfo const&, ShapeOwner*);
-    static void* operator new(unsigned int n)
+    static void* operator new(std::size_t n)
     {
         unsigned char* p = (unsigned char*)reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::MemoryManagerLocal *>(&::g_memoryManager))))->FUN_00aa3e40(n + 16);
         unsigned char offset = 16 - ((unsigned int)p & 15);
@@ -7252,10 +7220,6 @@ struct FUN_00c6d9f0
     PointerC object;
     Vec3C position, normal, velocity;
     FUN_00c6d9f0() throw();
-    static void* operator new(unsigned int size)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(size);
-    }
 };
 struct EntryListC
 {

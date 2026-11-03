@@ -4,7 +4,6 @@
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int);
 };
 struct NiPixelFormat
 {

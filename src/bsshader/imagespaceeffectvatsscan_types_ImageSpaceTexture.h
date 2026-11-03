@@ -43,10 +43,6 @@ class ImageSpaceTexture
     NiPointer<NiObject> pTexture;                          // +0x4, 4 bytes
     NiTexturingProperty__FilterMode m_eTextureFilterMode;  // +0x8, 4 bytes
     NiTexturingProperty__ClampMode m_eClampMode;           // +0xC, 4 bytes
-    static void* operator new(unsigned int size)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(size);
-    }
     ImageSpaceTexture()
     {
         m_bTextureFlag1 = false;

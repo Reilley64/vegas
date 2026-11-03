@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nimain/nitexturingproperty.cpp: Holder, NiTexturingProperty, Map, MyThis and more (44 functions)
 
+#include <new>
 #include <windows.h>
 #include <cstring>
 #include "fnv/decl/EqBase.h"
@@ -637,7 +638,6 @@ char* BuildFilterModeString(const char* pcPrefix, unsigned int eMode)
 
 struct A51BF0Base
 {
-    static void* __cdecl operator new(unsigned int);
 };
 
 // @fnv 0x00a6ad40
@@ -790,10 +790,6 @@ struct TexMapStub
     int unk0C;
     TexMapStub(NiTexture* pkTexture, unsigned int uiIndex, int eClamp, int eFilter,
                TextureMapTransform* pkXform) throw();
-    static void* operator new(unsigned int n)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(n);
-    }
 };
 
 struct FUN_00a6abb0 : PropertyBase
@@ -2151,11 +2147,6 @@ struct TexMap
     void* m_spTexture;
     void* m_pTextureTransform;
     TexMap(const TexMap&);
-    static void operator delete(void*, void*);
-    static void* operator new(unsigned int n)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(n);
-    }
 };
 struct TexBumpMap : TexMap
 {
@@ -2207,10 +2198,6 @@ struct TexShaderMapArray : TexShaderMapArrayBase
     TexShaderMapArray(unsigned int maxSize = 0, unsigned int growBy = 1) : TexShaderMapArrayBase(maxSize, growBy)
     {}
     virtual ~TexShaderMapArray();
-    static void* operator new(unsigned int n)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(n);
-    }
     void SetAt(unsigned int i, TexShaderMap*& value)
     {
         if (i >= m_usSize)

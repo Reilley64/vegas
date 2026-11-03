@@ -152,8 +152,6 @@ class ParticleShader : public BSShader
   public:
     static unsigned int GetShaderParticleCount();
     static BSShader* CreateShader();
-    static void* operator new(unsigned int) throw();
-    static void operator delete(void*);
     char data[0x128];
 };
 

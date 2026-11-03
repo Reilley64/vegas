@@ -190,7 +190,6 @@ void FUN_00e891f0_Class::FUN_00e891f0()
     *(int*)((char*)this + 4) = 0;
 }
 
-extern "C" void __cdecl operator delete(void* p, unsigned int size);
 extern int DAT_010efc34;
 void __cdecl FUN_00e68830();
 
@@ -259,12 +258,11 @@ struct FUN_00e97790_Class {
     int InitFromSource(int a, int b);
 };
 struct BSFadeNode {
-    static void* __cdecl operator new(unsigned int);
 };
 // @fnv 0x00e978a0
 int __cdecl FUN_00e978a0(int a, int b)
 {
-    void* p = BSFadeNode::operator new(0x8c);
+    void* p = ::operator new(0x8c);
     if (p)
         return reinterpret_cast<FUN_00e97790_Class*>(p)->InitFromSource(a, b);
     return 0;
@@ -586,7 +584,7 @@ extern int DAT_010f0af4;
 // @fnv 0x00e91b90
 void __cdecl FUN_00e91b90()
 {
-    FUN_00e91b90_Class* p = (FUN_00e91b90_Class*)BSFadeNode::operator new(0x10);
+    FUN_00e91b90_Class* p = (FUN_00e91b90_Class*)::operator new(0x10);
     if (p) {
         p->m_auiShapeKeys[0] = 0;
         p->m_auiShapeKeys[1] = 0;
@@ -696,7 +694,6 @@ FUN_00e941d0_Node* RemoveFirstNodeAtLeast(FUN_00e941d0_This* self, int, unsigned
     return node;
 }
 
-extern "C" void __cdecl operator delete(void* p, unsigned int size);
 
 struct FUN_00e98610_Node {
     void* m_next;
@@ -878,7 +875,7 @@ extern int DAT_0126fa50;
 // @fnv 0x00e91b40
 void __cdecl FUN_00e91b40()
 {
-    NiD3DShaderProgramCreator* p = (NiD3DShaderProgramCreator*)BSFadeNode::operator new(0x10);
+    NiD3DShaderProgramCreator* p = (NiD3DShaderProgramCreator*)::operator new(0x10);
     if (p) {
         *(int*)p = (int)&DAT_010f0ac0;
         *(int*)(p + 1) = 0;
@@ -1100,7 +1097,6 @@ void* FUN_00e8ce70_Class::FUN_00e8ce70(int flag)
     return this;
 }
 
-extern "C" void __cdecl operator delete(void*, unsigned int);
 struct FUN_00e8ceb0_Class {
     void* FUN_00e8d200(bool flag);
 };
@@ -1576,7 +1572,6 @@ void FUN_00e96c90_Class::FUN_00e96c90()
     reinterpret_cast<::S_00e89970 *>(this)->FUN_00e89970();
 }
 
-extern "C" void __cdecl operator delete(void* p, unsigned int size);
 void __cdecl FUN_00e989c0();
 extern int DAT_010f1550;
 
@@ -1596,7 +1591,6 @@ FUN_00e97870_Class::FUN_00e97870_Class(unsigned char flag) {
 extern unsigned int DAT_011c1118;
 
 struct A51BF0Base {
-    static void* __cdecl operator new(unsigned int);
 };
 
 // Allocates DAT_011c1118 zero-initialised 0x20-byte nodes, links each to the previous head via offsets 0x1c and 0x18, and updates DAT_0126fa58 to the new head.
@@ -1606,7 +1600,7 @@ void AllocateNodeList()
     unsigned int i = 0;
     if (DAT_011c1118 > 0) {
         do {
-            void* mem = A51BF0Base::operator new(0x20);
+            void* mem = ::operator new(0x20);
             int* node;
             if (mem != 0) {
                 node = (int*)mem;
@@ -9126,7 +9120,6 @@ struct FUN_00e940a0_Class {
     void ReleaseGlobalSlot();
 };
 
-extern "C" void __cdecl operator delete(void* p, unsigned int size);
 
 // If the global object exists and holds a pointer in unk_48, clears that slot, nulls m_00 when it matches, and deletes the pointer.
 // @fnv 0x00e940a0
@@ -9725,7 +9718,6 @@ struct E94B0Block {
             m_pkEntryArray = 0;
     }
 
-    static void* operator new(unsigned int uiSize) { return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::E94B0MemoryManager *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize); }
 
     E94B0Entry* GetAt(unsigned int uiIndex)
     {
@@ -10167,11 +10159,8 @@ struct NiColor3 {
 
 class NiMemObject {
 public:
-    static void* operator new(unsigned int size) throw();
-    static void* operator new(unsigned int, void* p) { return p; }
 };
 
-inline void* __cdecl operator new(unsigned int, void* p) { return p; }
 
 extern volatile long DAT_011f4400;
 
@@ -10752,7 +10741,7 @@ void LightManager::FUN_00e8b740(LightInput* input) {
  else {
  unsigned int index=((unsigned int)(reinterpret_cast<::FUN_00e8b1f0_cls *>(this)->AllocateBitIndex()));
  if(index==-1)continue;
- ActiveLight* fresh=(ActiveLight*)BSFadeNode::operator new(sizeof(ActiveLight));
+ ActiveLight* fresh=(ActiveLight*)::operator new(sizeof(ActiveLight));
  if(fresh)data=((::ActiveLight *)(reinterpret_cast<::S_00e8b4b0_Class *>((fresh))->Init((int)(current),index))); else data=0;
  reinterpret_cast<::HashTableBase *>(this)->InsertOrUpdate((unsigned int)(current),(unsigned int)(data));
  current->active=data;
@@ -11768,13 +11757,11 @@ struct Chip8F6D0 {
     int unk30;
     int unk34;
     ~Chip8F6D0();
-    static void operator delete(void* pvMem, unsigned int uiSize);
 };
 struct Entry8F6D0 {
     int unk00;
     int unk04;
     Chip8F6D0* m_apChips[5];
-    static void operator delete(void* pvMem, unsigned int uiSize);
 };
 struct Item8F6D0 {
     Item8F6D0* m_pkNext;
@@ -11988,7 +11975,6 @@ void __cdecl FUN_00e9ca50(
 struct FUN_00e9ec90 {
     void* m_pData;
     virtual ~FUN_00e9ec90();
-    static void operator delete(void* p) { reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(p); }
 };
 
 // Destructor that frees m_pData with NiFree.
@@ -14657,7 +14643,6 @@ void E895A0_Object::FUN_00e895a0()
     NiFree(m_00);
 }
 
-extern "C++" void __cdecl operator delete(void*, int);
 struct E95B80SV {  };
 extern unsigned char kVtbl_NiDX9IndexBufferManager;
 

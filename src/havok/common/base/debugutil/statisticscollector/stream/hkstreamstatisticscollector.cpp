@@ -2,6 +2,7 @@
 // src/havok/common/base/debugutil/statisticscollector/stream/hkstreamstatisticscollector.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/debugutil/statisticscollector/stream/hkstreamstatisticscollector.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
 #include <new>
 #include "fnv/decl/CB1A90Owner.h"
 #include "fnv/decl/D06D50Finder.h"
@@ -207,10 +208,6 @@ int* __cdecl fnv_caller(hkArrayChar* a, int n)
     return FUN_00ddf370(a, n);
 }
 
-inline void* operator new(size_t, void* p)
-{
-    return p;
-}
 struct MonitorNode;
 struct MonitorChildren
 {
@@ -381,7 +378,7 @@ class ObjDDF9
     {
         reinterpret_cast<::fnv_00e0d0a0::Owner *>(this)->ClearItems();
     }
-    static void operator delete(void* p, unsigned int nbytes)
+    static void operator delete(void* p, std::size_t nbytes)
     {
         hkRouterDDF9::FUN_00c85750().heap().ReleaseBlock(p, nbytes);
     }
@@ -569,7 +566,7 @@ struct FUN_00ddeff0
     int unk4;
     FUN_00ddeff0();
     virtual ~FUN_00ddeff0();
-    void operator delete(void* p, unsigned int nbytes)
+    void operator delete(void* p, std::size_t nbytes)
     {
         if (p)
             S_00ddeff0_Router::FUN_00c85750()->heap().ReleaseBlock(p, nbytes);

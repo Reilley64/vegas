@@ -1810,8 +1810,6 @@ struct Node90
     int unk0a4;
     int unk0a8;
     Node90(int);
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
 };
 struct Pointer90
 {

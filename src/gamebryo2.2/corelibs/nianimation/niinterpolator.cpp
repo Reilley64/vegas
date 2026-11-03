@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nianimation/niinterpolator.cpp: NiInterpolator, NiKeyBasedInterpolator (8 functions)
 
+#include <new>
 #include "fnv/decl/A5D6E0This.h"
 #include "fnv/decl/CloneSourceA5d6.h"
 #include "fnv/decl/FUN_00a5d3d0.h"
@@ -161,7 +162,6 @@ char FUN_00a57020(int a, int b, int c)
     return 0;
 }
 
-void __cdecl operator delete(void*, unsigned int);
 struct FUN_00a57080_Owner
 {
     void* Destroy(unsigned int);

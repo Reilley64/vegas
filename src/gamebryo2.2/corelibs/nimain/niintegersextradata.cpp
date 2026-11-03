@@ -177,7 +177,6 @@ void NiExtraDataSaveHelperShell::FUN_00c54170(NiStream& stream)
 
 struct A51BF0Base
 {
-    static void* __cdecl operator new(unsigned int size);
 };
 
 struct FUN_00c53f10 : A51BF0Base

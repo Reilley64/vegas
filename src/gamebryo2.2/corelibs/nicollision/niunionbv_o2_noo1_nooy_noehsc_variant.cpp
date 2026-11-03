@@ -109,10 +109,6 @@ class E9EE20Base
     virtual ~E9EE20Base()
     {}
 
-    static void operator delete(void* pvMem)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::E9EE20MemoryManager *>(&::g_memoryManager))))->FUN_00aa4060(pvMem);
-    }
 };
 
 class E9EE20Buffer

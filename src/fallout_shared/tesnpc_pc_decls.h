@@ -1007,9 +1007,6 @@ class TESNPCFileAccess : public TESFileFormVersion
   public:
 };
 
-void* __cdecl operator new(unsigned int);
-void __cdecl operator delete(void*);
-void __cdecl operator delete[](void*);
 template <int N> struct EndianSizeTag
 {
 };

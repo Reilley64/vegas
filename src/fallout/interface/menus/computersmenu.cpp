@@ -304,7 +304,6 @@ void FUN_00759780()
     DAT_011d9338 = 0;
 }
 
-void __cdecl operator delete(void*);
 struct FUN_007597c0_shell
 {
     void FUN_007597f0();
@@ -403,7 +402,6 @@ void TileProcessor::ProcessAllTiles()
     }
 }
 
-void __cdecl operator delete(void*);
 
 struct FUN_0075aa20_shell
 {
@@ -505,7 +503,6 @@ bool FUN_0075ab20_shell::IsTileTraitEnabled()
     return m_pTile && reinterpret_cast<FUN_00a01230_shell*>(m_pTile)->IsTraitNonZero(trait);
 }
 
-void* __cdecl operator new(unsigned int);
 
 struct M788
 {

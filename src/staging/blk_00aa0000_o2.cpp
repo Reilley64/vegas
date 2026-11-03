@@ -1103,10 +1103,6 @@ struct StringHandleAllocatorAA0
 class FixedStringAA0
 {
   public:
-    static void* operator new(unsigned int uiSize) throw()
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::StringHandleAllocatorAA0 *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize);
-    }
     FixedStringAA0() throw()
     {
         m_kHandle = ::DAT_0109b220;

@@ -116,7 +116,6 @@ struct FUN_00b319a0_class
     int m_10;
     int FUN_00b319a0(int n);
 };
-void __cdecl operator delete(void*);
 struct FUN_00b1ec70_class
 {
     int i0;
@@ -168,7 +167,6 @@ struct FUN_00b1fe80_helper
     void FUN_00b22650(int* a, int* b);
     void FUN_00b1fe80();
 };
-void __cdecl operator delete(void*);
 struct FUN_00b20c30_class
 {
     void FUN_00b20c30(void* a, void* b);
@@ -311,7 +309,6 @@ struct FUN_00ec78f1_t
     int m4;
     void* FUN_00ec78f1(int* out);
 };
-void* __cdecl operator new(unsigned int);
 void* __cdecl FUN_00b23980(unsigned int n);
 void __cdecl CopyObjects(CopyableStateBlock* dst, unsigned int n, const CopyableStateBlock* src);
 
@@ -660,7 +657,6 @@ class bad_alloc : public exception
 {
 };
 }
-void* __cdecl operator new(unsigned int);
 
 // @fnv 0x00b23b50
 void* __cdecl FUN_00b23b50(unsigned int n)
@@ -679,10 +675,6 @@ void* __cdecl FUN_00b23b50(unsigned int n)
     return ::FUN_00401000(n * 44);
 }
 
-inline void* __cdecl operator new(unsigned int, void* _Where) throw()
-{
-    return (_Where);
-}
 
 struct GlobalObject_00b3f100
 {
@@ -1229,10 +1221,7 @@ FUN_00b16890_It& FUN_00b16890_It::FUN_00b16890(int _Off)
     return *this;
 }
 
-void __cdecl operator delete(void* _Ptr) throw();
 extern int DAT_010173f0;
-inline void operator delete(void*, void*)
-{}
 namespace dtorb181 {
 int FUN_00ec7c6b(void* _Dst, unsigned int _Size, const void* _Src, unsigned int _Count);
 template <class T> inline void GvDestroyOne(T* _Ptr)
@@ -2767,9 +2756,6 @@ VecQ& VecQ::FUN_00b1d130(const VecQ& _Right)
 }
 
 namespace fnv_00b1d8a0 {
-void __cdecl operator delete(void* _Ptr) throw();
-inline void operator delete(void*, void*) throw()
-{}
 namespace vct1d8a0 {
 void FUN_00ec7c56();
 template <class T> inline void GvDestroyOne(T* _Ptr)
@@ -3966,9 +3952,6 @@ void FUN_00b1df10_obj::FUN_00b1df10()
 }
 
 namespace fnv_00b1e090 {
-void __cdecl operator delete(void* _Ptr) throw();
-inline void operator delete(void*, void*) throw()
-{}
 namespace ctoraca {
 void FUN_00ec7c56();
 template <class T> inline void GvDestroyOne(T* _Ptr)
@@ -5289,9 +5272,6 @@ void VcVector::FUN_00b1e2f0()
 }
 
 namespace fnv_00b1e3e0 {
-void __cdecl operator delete(void* _Ptr) throw();
-inline void operator delete(void*, void*) throw()
-{}
 namespace vct1e3e0 {
 void FUN_00ec7c56();
 template <class T> inline void GvDestroyOne(T* _Ptr)
@@ -7537,7 +7517,6 @@ bool BxVector::FUN_00b1f590(unsigned int _Capacity)
 }
 
 namespace fnv_00b1f800 {
-void __cdecl operator delete(void*);
 int __cdecl memcpy_s(void*, unsigned int, const void*, unsigned int);
 struct EraseSecureTag
 {
@@ -7607,7 +7586,6 @@ struct EraseElement
         reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>(this)->FUN_0044a730(true, 0);
     }
 };
-void __cdecl operator delete(void*);
 EraseElement* __cdecl FUN_00b23830(EraseElement*, EraseElement*, EraseElement*);
 struct EraseVector;
 struct EraseIteratorBase
@@ -7755,10 +7733,7 @@ EraseIterator EraseVector::FUN_00b1f800(EraseConstIterator first_arg, EraseConst
 }  // namespace fnv_00b1f800
 
 namespace fnv_00b1f9e0 {
-void __cdecl operator delete(void* _Ptr) throw();
 extern int DAT_010173f0;
-inline void operator delete(void*, void*)
-{}
 namespace tidyb1f9 {
 void FUN_00ec7c56();
 int FUN_00ec7c6b(void* _Dst, unsigned int _Size, const void* _Src, unsigned int _Count);
@@ -9355,9 +9330,6 @@ void VecQ::FUN_00b20360(CItQ _Where, unsigned _Count, const ElQ& _Val)
 }  // namespace fnv_00b20360
 
 namespace fnv_00b20ba0 {
-void __cdecl operator delete(void* _Ptr) throw();
-inline void operator delete(void*, void*) throw()
-{}
 namespace auxb20b {
 void FUN_00ec7c56();
 template <class T> inline void GvDestroyOne(T* _Ptr)
@@ -11724,9 +11696,6 @@ FUN_00b23520_It& FUN_00b23520_It::FUN_00b23520(int _Off)
 }
 
 namespace fnv_00b23760 {
-void __cdecl operator delete(void* _Ptr) throw();
-inline void operator delete(void*, void*) throw()
-{}
 namespace cpyb237 {
 void FUN_00ec7c56();
 template <class T> inline void GvDestroyOne(T* _Ptr)
@@ -13189,9 +13158,6 @@ EUMB* __cdecl FUN_00b23930(EUMB* _First, EUMB* _Last, EUMB* _Dest)
 }  // namespace fnv_00b23930
 
 namespace fnv_00b239e0 {
-void __cdecl operator delete(void* _Ptr) throw();
-inline void operator delete(void*, void*) throw()
-{}
 namespace cbkb239 {
 template <class T> inline void swap(T& _Left, T& _Right)
 {
@@ -18446,9 +18412,6 @@ Elem64a0* __cdecl FUN_00b264a0(Elem64a0* _First, Elem64a0* _Last, Elem64a0* _Des
 }  // namespace fnv_00b264a0
 
 namespace fnv_00b26ab0 {
-void __cdecl operator delete(void* _Ptr) throw();
-inline void operator delete(void*, void*) throw()
-{}
 namespace swapb26a {
 void FUN_00ec7c56();
 template <class T> inline void GvDestroyOne(T* _Ptr)
@@ -19481,9 +19444,6 @@ void __cdecl FUN_00b26b50(SFrondGuideEntry* first, int hole, int bottom, SFrondG
 }
 
 namespace fnv_00b26ce0 {
-void __cdecl operator delete(void* _Ptr) throw();
-inline void operator delete(void*, void*) throw()
-{}
 namespace cbkb26c {
 void FUN_00ec7c56();
 template <class T> inline void GvDestroyOne(T* _Ptr)
@@ -20375,8 +20335,6 @@ GvElem* FUN_00b26ce0(GvElem* _First, GvElem* _Last, GvElem* _Dest)
 }  // namespace fnv_00b26ce0
 
 namespace fnv_00b26db0 {
-inline void operator delete(void*, void*)
-{}
 struct ElQ
 {
     int m[14];
@@ -20410,9 +20368,6 @@ ElQ* FUN_00b26db0(ElQ* first, ElQ* last, ElQ* dest)
 }  // namespace fnv_00b26db0
 
 namespace fnv_00b26e80 {
-void __cdecl operator delete(void* _Ptr) throw();
-inline void operator delete(void*, void*) throw()
-{}
 namespace pushb26e {
 void FUN_00ec7c56();
 template <class T> inline void GvDestroyOne(T* _Ptr)
@@ -21296,9 +21251,6 @@ void FUN_00b26e80(GvElem* _First, int _Hole, int _Top, GvElem _Val, GvElemLess _
 }  // namespace fnv_00b26e80
 
 namespace fnv_00b26f90 {
-void __cdecl operator delete(void* _Ptr) throw();
-inline void operator delete(void*, void*) throw()
-{}
 namespace popb26f {
 void FUN_00ec7c56();
 template <class T> inline void GvDestroyOne(T* _Ptr)
@@ -24620,7 +24572,6 @@ template <class _Ty> class vectorS : public _Vector_valS<_Ty>
 };
 extern "C" unsigned int __cdecl strlen(const char* pcString);
 extern "C" int __cdecl memcpy_s(void* pvDst, unsigned int uiDstSize, const void* pvSrc, unsigned int ItemUpdateArray);
-void* __cdecl operator new(unsigned int uiSize);
 namespace std {
 class bad_alloc
 {
@@ -25144,12 +25095,6 @@ SA4830* __cdecl FUN_00b23b00(SA4830* _First, SA4830* _Last, SA4830* _Dest)
 }  // namespace fnv_00b23b00
 
 namespace fnv_00b24180 {
-inline void* operator new(unsigned int, void* p)
-{
-    return p;
-}
-inline void operator delete(void*, void*)
-{}
 inline void FreeQ(void* p)
 {
     ::FUN_00401030(p);
@@ -25205,12 +25150,6 @@ void FUN_00b24180(ElemQ* first, unsigned int n, const ElemQ& val)
 }  // namespace fnv_00b24180
 
 namespace fnv_00b243a0 {
-inline void* operator new(unsigned int, void* p)
-{
-    return p;
-}
-inline void operator delete(void*, void*)
-{}
 struct StrY
 {
     char b[0x1c];
@@ -25256,12 +25195,6 @@ void FUN_00b243a0(FUN_00b22f80* first, unsigned int n, const FUN_00b22f80& val)
 }  // namespace fnv_00b243a0
 
 namespace fnv_00b24580 {
-inline void* operator new(unsigned int, void* p)
-{
-    return p;
-}
-inline void operator delete(void*, void*)
-{}
 inline void FreeQ(void* p)
 {
     ::FUN_00401030(p);
@@ -25750,7 +25683,6 @@ template <class _Ty> class vectorS : public _Vector_valS<_Ty>
 };
 extern "C" unsigned int __cdecl strlen(const char* pcString);
 extern "C" int __cdecl memcpy_s(void* pvDst, unsigned int uiDstSize, const void* pvSrc, unsigned int ItemUpdateArray);
-void* __cdecl operator new(unsigned int uiSize);
 namespace std {
 class bad_alloc
 {
@@ -26623,7 +26555,6 @@ template <class _Ty> class vectorS : public _Vector_valS<_Ty>
 };
 extern "C" unsigned int __cdecl strlen(const char* pcString);
 extern "C" int __cdecl memcpy_s(void* pvDst, unsigned int uiDstSize, const void* pvSrc, unsigned int ItemUpdateArray);
-void* __cdecl operator new(unsigned int uiSize);
 namespace std {
 class bad_alloc
 {
@@ -27061,12 +26992,6 @@ E48C0* __cdecl FUN_00b248c0(E48C0* _First, E48C0* _Last, E48C0* _Dest, random_ac
 }  // namespace fnv_00b248c0
 
 namespace fnv_00b25ba0 {
-inline void* operator new(unsigned int, void* p)
-{
-    return p;
-}
-inline void operator delete(void*, void*)
-{}
 struct StrY
 {
     char b[0x1c];
@@ -27113,12 +27038,6 @@ FUN_00b22f80* FUN_00b25ba0(FUN_00b22f80* first, FUN_00b22f80* last, FUN_00b22f80
 }  // namespace fnv_00b25ba0
 
 namespace fnv_00b25ca0 {
-inline void* operator new(unsigned int, void* p)
-{
-    return p;
-}
-inline void operator delete(void*, void*)
-{}
 inline void FreeQ(void* p)
 {
     ::FUN_00401030(p);
@@ -27190,12 +27109,6 @@ ElemQ* FUN_00b25ca0(ElemQ* first, ElemQ* last, ElemQ* dest)
 }  // namespace fnv_00b25ca0
 
 namespace fnv_00b25e20 {
-inline void* operator new(unsigned int, void* p)
-{
-    return p;
-}
-inline void operator delete(void*, void*)
-{}
 inline void FreeQ(void* p)
 {
     ::FUN_00401030(p);
@@ -27266,12 +27179,6 @@ ElemQ* FUN_00b25e20(ElemQ* first, ElemQ* last, ElemQ* dest)
 }  // namespace fnv_00b25e20
 
 namespace fnv_00b25fa0 {
-inline void* operator new(unsigned int, void* p)
-{
-    return p;
-}
-inline void operator delete(void*, void*)
-{}
 inline void FreeQ(void* p)
 {
     ::FUN_00401030(p);
@@ -30095,8 +30002,6 @@ FUN_00b22ff0::FUN_00b22ff0(const FUN_00b22ff0& _Right) : VectorOperations(_Right
 namespace FrondComputeCrt {
 extern "C" unsigned __cdecl strlen(const char*);
 }
-void __cdecl operator delete(void*);
-void* __cdecl operator new(unsigned);
 namespace std {
 template <class T> struct char_traits
 {

@@ -892,7 +892,6 @@ struct PixelData
     unsigned int* heights;
     unsigned int* offsets;
     unsigned int levels, unk64, unk68, faces, unk70;
-    static void* operator new(unsigned int) throw();
     PixelData(unsigned int, unsigned int, const NiPixelFormat&, unsigned int, unsigned int) throw();
 };
 struct DDSReader
@@ -1232,10 +1231,6 @@ struct MemoryManager
 struct FUN_00a8e480 : NiImageReader
 {
     virtual ~FUN_00a8e480();
-    static void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(p);
-    }
 };
 // @fnv 0x00a8e480
 FUN_00a8e480::~FUN_00a8e480()

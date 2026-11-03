@@ -5,6 +5,8 @@
 
 // src/havok/physics/dynamics/world/hkpworld.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/hkpworld.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <new>
+#include <cstddef>
 #include <windows.h>
 #include "fnv/decl/BatchAdd__WorldHelper.h"
 #include "fnv/decl/C66A00This.h"
@@ -1869,12 +1871,6 @@ struct WorldWatchDogHolder : hkpWorld
 {
     void* FUN_00c93570();
 };
-inline void* __cdecl operator new(unsigned int, void* p)
-{
-    return p;
-}
-inline void __cdecl operator delete(void*, void*)
-{}
 struct hkpPhantom;
 struct ThreadMemHolder
 {
@@ -4904,7 +4900,7 @@ class hkRefObjC97E
     virtual ~hkRefObjC97E();
     unsigned short m_usMemSizeAndFlags;
     short m_sReferenceCount;
-    static void* operator new(unsigned int nbytes)
+    static void* operator new(std::size_t nbytes)
     {
         hkRefObjC97E* b = static_cast<hkRefObjC97E*>(hkRouterC97E::FUN_00c85750().heap().AllocateMemoryBlock(nbytes));
         b->m_usMemSizeAndFlags = (unsigned short)nbytes;

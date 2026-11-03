@@ -7,6 +7,7 @@
 
 // src/havok/physics/utilities/dynamics/inertia/hkpinertiatensorcomputer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/dynamics/inertia/hkpinertiatensorcomputer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <new>
 #include <cstring>
 #include "fnv/decl/D762F0Owner.h"
 #include "fnv/decl/ExpandShape.h"
@@ -1553,10 +1554,6 @@ struct CapsuleMassBody
 };
 struct CapsuleMassElement
 {
-    static __forceinline void* operator new(unsigned int, void* p)
-    {
-        return p;
-    }
     CapsuleMassBody properties;
     CapsuleMassTransform transform;
     __forceinline CapsuleMassElement() : transform(true)

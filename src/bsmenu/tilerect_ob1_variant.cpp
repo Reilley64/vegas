@@ -55,7 +55,6 @@ class Tile__Extra;
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int uiSize);
 };
 
 // The scene graph node the tile builds.  Only the members this function touches

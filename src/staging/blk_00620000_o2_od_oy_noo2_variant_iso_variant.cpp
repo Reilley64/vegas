@@ -7,6 +7,7 @@
 // to their real unit once identified.
 // src/staging/blk_00620000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
+#include <new>
 #include "fnv/decl/AlignedVector.h"
 #include "fnv/decl/BSShaderNoLightingProperty.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -128,8 +129,6 @@
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
 };
 class bhkSphereShape : public NiMemObject
 {
@@ -193,8 +192,6 @@ typedef union __declspec(intrin_type) __declspec(align(16)) __m128
 } __m128;
 struct xMemObj
 {
-    static void* operator new(unsigned int uiSize);
-    static void operator delete(void* p, unsigned int);
 };
 class xSphereShape : public xMemObj
 {
@@ -1772,7 +1769,6 @@ class NodeV
 };
 struct SmoothEntryV
 {
-    static void* operator new(unsigned int uiSize);
     BodyV* m_pkBody;
     void* m_pvRef;
     float m_fTime;

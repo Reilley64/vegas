@@ -413,7 +413,6 @@ BSSimpleList<int>* FUN_00660400(BSSimpleList<int>* a)
 {
     return ((::BSSimpleList<int> *)(reinterpret_cast<::Callees *>((a))->FUN_00726070()));
 }
-void* __cdecl operator new(unsigned int);
 struct AutoMemHelper
 {
     int pad;
@@ -431,7 +430,6 @@ struct FUN_00665e30_Class
     int* data;
     FUN_0044d000* FUN_00665e30(int index);
 };
-void* __cdecl operator new(unsigned int);
 struct DetectionViewData;
 struct List_009e03e0
 {
@@ -465,7 +463,6 @@ struct DetectionViewData
     DetectionViewData();
     void FUN_0066e440(BGSLoadGameBuffer* buffer);
 };
-void* __cdecl operator new(unsigned int);
 struct FUN_0067caa0
 {
     int m_auiShapeKeys[9];
@@ -501,7 +498,6 @@ struct C0190ScalarPtrTag
 struct C0190RangeCheckedTag
 {
 };
-void* operator new(unsigned int uiSize, void* pvWhere);
 struct C6602B0Entry
 {
     short m_sA;
@@ -523,8 +519,6 @@ extern "C" void __cdecl FUN_006603a0(void* a, void* b, void* c, void* d)
 
 // std::_Construct for a 0x58-byte element: copy-construct in place.
 
-void* __cdecl operator new(unsigned int uiSize, void* pvMem);
-void __cdecl operator delete(void* pvObject, void* pvMem);
 struct C60490Element
 {
     int unk00;

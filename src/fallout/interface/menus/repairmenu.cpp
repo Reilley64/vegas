@@ -1310,7 +1310,6 @@ struct RepairView
 struct Setting
 {
 };
-void* operator new(unsigned int);
 struct ExtraList
 {
     void AddHead(Extra*&);

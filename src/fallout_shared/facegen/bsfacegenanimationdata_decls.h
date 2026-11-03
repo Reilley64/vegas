@@ -16,7 +16,6 @@ class RotationValues
 {
   public:
 };
-void* __cdecl operator new(unsigned);
 enum BS_FACEGEN_MORPH_TYPE
 {
     PHONEME = 0,

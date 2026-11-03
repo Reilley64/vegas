@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nimain/nicamera.cpp: NiCamera, ComparableCamera, CamLook, ScreenCamera and more (20 functions)
 
+#include <new>
 #include <cstring>
 #include "fnv/decl/A5a260Object.h"
 #include "fnv/decl/FUN_004a0c10_s.h"
@@ -203,7 +204,6 @@ extern int DAT_0109cb9c;
 
 struct NiMemObject
 {
-    static void __cdecl operator delete(void*, unsigned int);
 };
 
 // @fnv 0x00a70050
@@ -239,7 +239,6 @@ struct FUN_00a713e0_shell : public NiCamera
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 struct FUN_00a712f0 : BSFadeNode
 {
@@ -261,7 +260,6 @@ void* FUN_00a713e0(CamStub* self, int edx, CloningProcess* kCloning)
 namespace fnv_00a71430 {
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 struct FUN_00a712f0 : BSFadeNode
 {

@@ -623,14 +623,12 @@ struct PointJack
     {}
     PointJack(float a, float b, float c) : x(a), y(b), z(c)
     {}
-    static void* operator new[](unsigned int n);
 };
 struct ColorJack
 {
     float r, g, b, a;
     ColorJack() : r(0), g(0), b(0), a(0)
     {}
-    static void* operator new[](unsigned int n);
 };
 struct MatrixJack
 {
@@ -662,18 +660,6 @@ struct NameJack
         }
     }
 };
-inline void* operator new[](unsigned int n)
-{
-    return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::PoolJack *>(&::g_memoryManager))))->FUN_00aa3e40(n);
-}
-inline void* PointJack::operator new[](unsigned int n)
-{
-    return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::PoolJack *>(&::g_memoryManager))))->FUN_00aa3e40(n);
-}
-inline void* ColorJack::operator new[](unsigned int n)
-{
-    return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::PoolJack *>(&::g_memoryManager))))->FUN_00aa3e40(n);
-}
 struct JackGeometry
 {
     unsigned int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
@@ -683,8 +669,6 @@ struct JackGeometry
     unsigned int unk64, unk68, unk6c, unk70, unk74, unk78, unk7c;
     unsigned int unk80, unk84, unk88, unk8c, unk90, unk94, unk98, unk9c;
     unsigned int unka0, unka4, unka8, unkac, unkb0, unkb4, unkb8, unkbc, unkc0;
-    static void* operator new(unsigned int);
-    static void operator delete(void*);
     JackGeometry(int, PointJack*, ColorJack*, int, int, int, char*);
 };
 // @fnv 0x00c59200

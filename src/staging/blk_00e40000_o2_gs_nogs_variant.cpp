@@ -3,6 +3,7 @@
 // to their real unit once identified.
 
 
+#include <cstddef>
 #include <new>
 #include <cmath>
 #include "fnv/decl/AttributeFormatter.h"
@@ -1813,7 +1814,6 @@ struct LoadedObject {
     unsigned char type;
     LoadedObject* Initialize(LoadedFlag flag);
 };
-void* operator new(size_t, void* p) { return p; }
 struct Actor : ActorEntry {
     __forceinline ExtendedListeners* listeners() {
         if (!m_pExtendedListeners) m_pExtendedListeners = new ExtendedListeners;
@@ -2480,7 +2480,7 @@ struct Se5b160_RefObj {
     static Se5b160_Heap& heap() { return reinterpret_cast<Se5b160_Router*>(FUN_00c85750())->heap(); }
     unsigned short m_usAllocationSize;
     unsigned short m_iObjectReferenceCount;
-    static void* operator new(unsigned int nbytes) {
+    static void* operator new(std::size_t nbytes) {
         Se5b160_RefObj* b = static_cast<Se5b160_RefObj*>(Se5b160_Router::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes)));
         b->m_usAllocationSize = static_cast<unsigned short>(nbytes);
         return b;

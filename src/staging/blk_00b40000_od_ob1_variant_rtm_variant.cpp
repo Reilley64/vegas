@@ -7,6 +7,7 @@
 // to their real unit once identified.
 // src/staging/blk_00b40000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include <new>
 #include <cstdlib>
 #include <cstring>
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -51,7 +52,6 @@ struct FUN_00b42980
     int b;
     FUN_00b42980& Set(unsigned int v, FUN_00b42980 const& src);
 };
-void* operator new(unsigned int);
 struct FUN_00b40150 : CIdvCamera
 {
     unsigned char data[76];
@@ -263,7 +263,6 @@ class FUN_00b420a0_cls
     FUN_00b42980 m_obj;
     int CompareAndGetDelta(FUN_00b42980 const& arg);
 };
-void* operator new(unsigned int);
 struct FnvThrowObj
 {
     void* vptr;
@@ -415,11 +414,6 @@ struct FUN_00b40000_class
 };
 // VC9 (Dinkumware, _SECURE_SCL=1) vector / vector<bool> subset, transcribed
 // into namespace stl so the checker can compile it without <vector>.
-inline void* operator new(unsigned int, void* _Where) throw()
-{
-    return _Where;
-}
-void __cdecl operator delete(void*) throw();
 namespace stl {
 
 struct _Length_error
@@ -1177,7 +1171,6 @@ struct Matcher
     float limit;
     void FUN_00b41110(stl::vector<MatchNode*> nodes);
 };
-void __cdecl operator delete(void*) throw();
 struct VbAux
 {
     const void* container;
@@ -2174,10 +2167,6 @@ class BoolIteratorB42 : public IteratorBaseAuxB42
     unsigned int* _Myptr;
     unsigned int _Myoff;
 };
-void operator delete(void*) throw();
-void* operator new(unsigned int);
-inline void operator delete(void*, void*) throw()
-{}
 void* __cdecl FUN_0044d670(unsigned int count, void* hint);
 struct VecAux
 {

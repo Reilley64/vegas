@@ -2,6 +2,7 @@
 // src/fallout_shared/pathfinding/pathinglosmap.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/pathfinding/pathinglosmap.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
 #include "fnv/decl/BGSMessageInitAccess.h"
 #include "fnv/decl/BSShaderManager.h"
 #include "fnv/decl/DecalStub.h"
@@ -34,7 +35,6 @@ struct PathingLOSMap
     void* DestroyAndFree(unsigned int flags);
 };
 
-extern "C" void __cdecl operator delete(void* p, unsigned int size);
 
 namespace fnv_006e1610 {
 struct DummyPointerMap
@@ -189,7 +189,6 @@ struct LOSSub08
 struct LOSHeap
 {
     unsigned int unk00;
-    static void operator delete(void* apMemory);
 };
 
 struct LOSMember1C
@@ -405,8 +404,6 @@ struct ImageSpaceEffectParam
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int size);
-    static void operator delete(void* p, unsigned int size);
 };
 
 class NiObject : public NiMemObject

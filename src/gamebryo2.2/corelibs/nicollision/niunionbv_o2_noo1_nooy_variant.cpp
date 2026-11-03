@@ -156,10 +156,6 @@ struct ShaderObj
     int m_unk10;
     int m_unk14;
     ShaderObj() throw();
-    void* operator new(unsigned int n)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(n);
-    }
 };
 
 // @fnv 0x00e9efe0

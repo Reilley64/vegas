@@ -804,8 +804,6 @@ float PlayerCharacter::GetActorValueModifierAmount(ModifierGroup modifier, Actor
     return value;
 }
 
-void* operator new(unsigned int) throw();
-void operator delete(void*);
 
 struct IntSetting
 {
@@ -1526,8 +1524,6 @@ struct Alloc1C8
 struct AllocB0
 {
     AllocB0();
-    static void* operator new(unsigned int) throw();
-    static void operator delete(void*, unsigned int);
     unsigned int unk000;
     unsigned int unk004;
     unsigned int unk008;
@@ -1577,8 +1573,6 @@ struct AllocB0
 struct Alloc44
 {
     Alloc44(float, float, float, float);
-    static void* operator new(unsigned int) throw();
-    static void operator delete(void*, unsigned int);
     unsigned int unk000;
     unsigned int unk004;
     unsigned int unk008;
@@ -2911,7 +2905,6 @@ void* FUN_00939880_t::FUN_00939880()
     return this;
 }
 
-void __cdecl operator delete(void* p);
 
 struct FUN_009398a0_Class
 {
@@ -6549,7 +6542,6 @@ TESObjectCELL* PlayerCellQuery::FUN_0093bba0(float radius)
 
 struct B93BE30Request
 {
-    static void operator delete(void* pvMem);
 
     int m_iData;
 };
@@ -11126,8 +11118,6 @@ extern DataHandler93dd80* g_dataHandler;
 
 struct Obj93dd80
 {
-    static void* operator new(unsigned int size);
-    static void operator delete(void*, unsigned int);
     Obj93dd80(void* form, unsigned int value, float f);
     virtual ~Obj93dd80();
     virtual void v01();
@@ -12204,8 +12194,6 @@ struct Effect
     int unk60;
     int unk64;
     int unk68;
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
     Effect(void*, void*, float);
 };
 struct Collection
@@ -21835,7 +21823,6 @@ class GarbageCollectorDeleteB
   public:
     ~GarbageCollectorDeleteB();
 };
-void __cdecl operator delete(void*);
 struct OSState
 {
 };
@@ -26500,8 +26487,6 @@ struct xGO
 };
 struct xFadeNode
 {
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
     xFadeNode();
     int m_kPointA[0x70];
 };
@@ -42735,7 +42720,6 @@ VTableTarget116* FUN_00963730_cls::FUN_00963730()
     return (m_0D2C != 0 && m_0D2C->v116() != 0) ? m_0D2C : 0;
 }
 
-void* __cdecl operator new(unsigned int);
 
 struct FUN_005eb6a0_Class
 {
@@ -44064,10 +44048,6 @@ bool FUN_00963ce0_StandIn::HasAction(int aeAction)
 
 struct B63E00Entry
 {
-    static void operator delete(void* pvMem)
-    {
-        ::FUN_00401030(pvMem);
-    }
 
     void* m_pkForm;
     int unk04;
@@ -56070,7 +56050,6 @@ struct Sphere
     int unk008;
     int unk00c;
     int unk010;
-    static void* operator new(unsigned);
     Sphere(float, bool);
 };
 struct SpherePtr
@@ -61300,7 +61279,6 @@ struct AudioNode
     unsigned int unk44;
     unsigned int unk48;
     unsigned int unk4C;
-    static void* operator new(unsigned int size);
     AudioNode();
 };
 struct SoundObject

@@ -73,8 +73,6 @@ template <> class BSSimpleList<MediaSet*>
     MediaSet* m_item;
     BSSimpleList* m_pkNext;
 };
-void* operator new(unsigned int) throw();
-void operator delete(void*) throw();
 class TaskQueueInterface
 {
   public:

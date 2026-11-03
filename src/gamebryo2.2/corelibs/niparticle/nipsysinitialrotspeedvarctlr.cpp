@@ -91,10 +91,6 @@ void* __cdecl FUN_00aa13e0(unsigned int size);
 struct SpawnedFloat
 {
     unsigned int unk00[6];
-    static void* operator new(unsigned int size)
-    {
-        return FUN_00aa13e0(size);
-    }
 
     SpawnedFloat(float value) throw();
 };

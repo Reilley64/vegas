@@ -4,6 +4,8 @@
 // to their real unit once identified.
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <new>
+#include <cstddef>
 #include "fnv/decl/Array6cff.h"
 #include "fnv/decl/BSSimpleArray_PathingNode_1024.h"
 #include "fnv/decl/FUN_006925b0_class.h"
@@ -228,7 +230,6 @@ struct FUN_006cfcb0_Class
 {
     void* FUN_006cfcb0(unsigned int flags);
 };
-void __cdecl operator delete(void* p);
 struct FUN_006cfd40_Class
 {
     void FUN_006cf610();
@@ -318,7 +319,6 @@ struct FUN_005ef6a0Class
 public:
     void SetOrReplace(int, int);
 };
-void* __cdecl operator new(unsigned int, void*);
 struct EightByteData
 {
     unsigned char m_data[8];
@@ -596,8 +596,6 @@ struct FUN_006cfe70_Class : public FUN_006d0540_shell
 {
     void FUN_006cfe70(int value, int count);
 };
-void* __cdecl operator new(unsigned int size, void* place);
-void __cdecl operator delete(void* p, void* place);
 struct SpawnedObject9
 {
     int m_00;
@@ -787,7 +785,7 @@ inline void DeadQ6()
 struct PNQ0cd50
 {
 };
-inline void* __cdecl operator new(unsigned int, void* p, PNQ0cd50*)
+inline void* __cdecl operator new(std::size_t, void* p, PNQ0cd50*)
 {
     return p;
 }
@@ -850,12 +848,6 @@ void ArrQ0cd50::FUN_00a0cd50(unsigned int index, void* const& item)
 }
 
 extern int DAT_0109527c;
-inline void* __cdecl operator new(unsigned int, void* memory)
-{
-    return memory;
-}
-inline void __cdecl operator delete(void*, void*)
-{}
 
 struct ArrayVector
 {

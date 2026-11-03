@@ -5,6 +5,8 @@
 
 // src/havok/physics/vehicle/hkpvehicleinstance.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/vehicle/hkpvehicleinstance.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <new>
+#include <cstddef>
 #include <windows.h>
 #include "fnv/decl/FUN_00c90510_class.h"
 #include "fnv/decl/FUN_00c91620_Class.h"
@@ -719,7 +721,7 @@ class FUN_00e38b20
     hkClonableE392* m_9c;
     char unkA0[0x34];
 
-    void* operator new(unsigned int nbytes)
+    void* operator new(std::size_t nbytes)
     {
         FUN_00e38b20* b = static_cast<FUN_00e38b20*>(
             static_cast<hkMemoryRouterE392*>(FUN_00c85750())->heap().AllocateMemoryBlock(nbytes));
@@ -892,10 +894,6 @@ struct FUN_00e39300_class
     float unkd4;
     FUN_00e39300_class& FUN_00e39300(const FUN_00e39300_class* src);
 };
-inline void* operator new(unsigned int, void* pvWhere)
-{
-    return pvWhere;
-}
 class hkMemoryAllocatorE39
 {
   public:

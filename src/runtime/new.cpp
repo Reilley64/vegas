@@ -10,32 +10,8 @@
 // NiMemObject allocations reach the same MemoryManager through BSNiAllocator,
 // so a block is always freed into the heap it came from.
 
-void* operator new(std::size_t size)
-{
-    return FUN_00401000(static_cast<unsigned int>(size));
-}
 
-void* operator new[](std::size_t size)
-{
-    return FUN_00401000(static_cast<unsigned int>(size));
-}
 
-void operator delete(void* memory) noexcept
-{
-    FUN_00401030(memory);
-}
 
-void operator delete[](void* memory) noexcept
-{
-    FUN_00401030(memory);
-}
 
-void operator delete(void* memory, std::size_t) noexcept
-{
-    FUN_00401030(memory);
-}
 
-void operator delete[](void* memory, std::size_t) noexcept
-{
-    FUN_00401030(memory);
-}

@@ -1,5 +1,6 @@
 // bshavok/bhkrigidbody_h_unit.cpp: WorldObject (4 functions)
 
+#include <cstddef>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/CA8830Object.h"
 #include "fnv/decl/FNV_MemoryManager.h"
@@ -48,7 +49,7 @@ struct FUN_00c8f510
     FUN_00c8f510();
     ~FUN_00c8f510();
 };
-__forceinline void* __cdecl operator new(unsigned int size, AllocationManager& allocator)
+__forceinline void* __cdecl operator new(std::size_t size, AllocationManager& allocator)
 {
     unsigned char* storage = static_cast<unsigned char*>(reinterpret_cast<::MemoryManagerStandIn *>(&(allocator))->FUN_00aa3e40(0xf0));
     unsigned char adjustment = static_cast<unsigned char>(16 - (reinterpret_cast<unsigned int>(storage) & 15));

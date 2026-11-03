@@ -2,6 +2,7 @@
 // src/havok/physics/vehicle/suspension/default/hkpvehicledefaultsuspensionclass.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/vehicle/suspension/default/hkpvehicledefaultsuspensionclass.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
 #include <xmmintrin.h>
 #include "fnv/symbols_00c90000.h"
 struct AllocHolder
@@ -92,7 +93,7 @@ struct FUN_00dfbff0
     FUN_00dfbff0();
     virtual ~FUN_00dfbff0();
 
-    static void operator delete(void* p, unsigned int nbytes)
+    static void operator delete(void* p, std::size_t nbytes)
     {
         FUN_00dfbff0* b = static_cast<FUN_00dfbff0*>(p);
         FUN_00c85750().heap().ReleaseBlock(p, b->m_usMemSizeAndFlags);

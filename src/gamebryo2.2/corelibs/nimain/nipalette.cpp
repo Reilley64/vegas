@@ -55,7 +55,6 @@ void FUN_00a8b010_Node::Unlink()
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 extern int DAT_0109f3fc;
 void FUN_00a8afc0(void*);
@@ -75,7 +74,7 @@ struct MyObj
 // @fnv 0x00a8b220
 void* FUN_00a8b220()
 {
-    MyObj* p = (MyObj*)BSFadeNode::operator new(0x24);
+    MyObj* p = (MyObj*)::operator new(0x24);
     if (p)
     {
         new ((void *)(p)) struct ::FUN_00a5d3a0();
@@ -222,10 +221,6 @@ struct A8b110Allocator
 
 struct A8b110Elem
 {
-    static void* operator new[](unsigned int bytes)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::A8b110Allocator *>(&::g_memoryManager))))->FUN_00aa3e40(bytes);
-    }
     int m_uiFilterValue;
 };
 
@@ -382,10 +377,6 @@ struct MemoryBlock
     unsigned int value;
     MemoryBlock()
     {}
-    static void* operator new[](unsigned int size)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(reinterpret_cast<MMExtra&>((*reinterpret_cast<::MM *>(&::g_memoryManager)))))->FUN_00aa3e40(size);
-    }
 };
 struct Observer
 {
@@ -689,10 +680,6 @@ struct MMAllocInterface
 struct ArrayElement
 {
     unsigned int value;
-    static void* operator new[](unsigned int bytes)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>((((MMAllocInterface*)&(*reinterpret_cast<::MM *>(&::g_memoryManager)))))->FUN_00aa3e40(bytes);
-    }
 };
 // Copies the f08 scalar and the f14/f0C integer array from rhs, reallocating the array only when the element count differs.
 // @fnv 0x00a8b190

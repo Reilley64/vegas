@@ -221,14 +221,6 @@ struct NiMemorySystem
 {
 };
 
-inline void* __cdecl operator new[](unsigned int n)
-{
-    return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::NiMemorySystem *>(&::g_memoryManager))))->FUN_00aa3e40(n);
-}
-inline void __cdecl operator delete[](void* p)
-{
-    reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::NiMemorySystem *>(&::g_memoryManager))))->FUN_00aa4060(p);
-}
 
 
 struct NiScreenElementsDataShell : NiScreenElementsData

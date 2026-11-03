@@ -819,8 +819,6 @@ class FUN_0058b3f0
 {
   public:
     FUN_0058b3f0();
-    void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
     unsigned int unk0, unk4, unk8, unkC, unk10, unk14;
 };
 class OwnerX

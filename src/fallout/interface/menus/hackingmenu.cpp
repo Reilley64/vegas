@@ -578,7 +578,6 @@ TGF* FUN_00767bb0_shell::FUN_00767bb0(unsigned int a, unsigned int b)
     return 0;
 }
 
-void* __cdecl operator new(unsigned int);
 
 struct FUN_00702220
 {
@@ -2269,9 +2268,6 @@ struct Node83
     Node83* next;
     void FUN_0063f7b0();
 };
-void operator delete(void*);
-void* operator new[](unsigned int);
-void operator delete[](void*);
 struct Hack83
 {
     int unk00;
@@ -4143,8 +4139,6 @@ struct Menu84
     bool key;
     unsigned char unk1db;
 };
-void* operator new(unsigned int);
-void operator delete(void*);
 // Creates and configures the hacking menu from hacking_menu.xml, populating entries based on terminal difficulty and skill.
 // @fnv 0x00765b80
 Tile84* FUN_00765b80(Ref84* reference)

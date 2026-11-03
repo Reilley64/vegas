@@ -2195,9 +2195,6 @@ struct FUN_006e6da0
 {
     int a, b;
 };
-void* __cdecl operator new(unsigned int uiSize, FUN_006e6da0* pPlace);
-inline void __cdecl operator delete(void*, FUN_006e6da0*)
-{}
 class FUN_009e9af0
 {
   public:

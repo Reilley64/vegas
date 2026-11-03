@@ -847,10 +847,6 @@ struct NiStreamL_a41940
 struct NiPoint3_a41940
 {
     float x, y, z;
-    static void* operator new[](unsigned int uiSize)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(g_memoryManager))->FUN_00aa3e40(uiSize);
-    }
 };
 struct MorphTarget_a41940
 {

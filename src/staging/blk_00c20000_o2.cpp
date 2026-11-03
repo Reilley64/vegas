@@ -32,14 +32,13 @@
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 
 
 // @fnv 0x00c25820
 BSFadeNode* __cdecl FUN_00c25820()
 {
-    BSFadeNode* node = static_cast<BSFadeNode*>(BSFadeNode::operator new(0x110));
+    BSFadeNode* node = static_cast<BSFadeNode*>(::operator new(0x110));
     if (node)
     {
         new ((void *)(node)) ::FUN_00c1b5c0();
@@ -58,7 +57,6 @@ struct NiPSysPositionModifier
 
 struct BSFadeNode
 {
-    static void* operator new(unsigned int);
 };
 
 extern "C" void* DAT_010bea54;
@@ -67,7 +65,7 @@ extern "C" void* DAT_010bea54;
 // @fnv 0x00c28b20
 NiPSysPositionModifier* FUN_00c28b20()
 {
-    NiPSysPositionModifier* p = (NiPSysPositionModifier*)BSFadeNode::operator new(0x18);
+    NiPSysPositionModifier* p = (NiPSysPositionModifier*)::operator new(0x18);
     if (p)
     {
         p->NiPSysPositionModifier::NiPSysPositionModifier();
@@ -81,7 +79,6 @@ NiPSysPositionModifier* FUN_00c28b20()
 namespace fnv_00c29d00 {
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int size);
 };
 
 extern int DAT_010bebbc;
@@ -89,7 +86,7 @@ extern int DAT_010bebbc;
 // @fnv 0x00c29d00
 void* __cdecl FUN_00c29d00()
 {
-    void* p = BSFadeNode::operator new(0x40);
+    void* p = ::operator new(0x40);
     if (p)
     {
         ::FUN_00c32b60(p);
@@ -103,7 +100,6 @@ void* __cdecl FUN_00c29d00()
 namespace fnv_00c2a050 {
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 
 struct FUN_00c32d80
@@ -115,7 +111,7 @@ struct FUN_00c32d80
 // @fnv 0x00c2a050
 FUN_00c32d80* __cdecl FUN_00c2a050()
 {
-    void* p = BSFadeNode::operator new(0x40);
+    void* p = ::operator new(0x40);
     if (p)
     {
         FUN_00c32d80* q = reinterpret_cast<FUN_00c32d80*>(p);
@@ -131,7 +127,6 @@ namespace fnv_00c2a870 {
 struct BSFadeNode
 {
     void* FUN_00c32d80();
-    static void* __cdecl operator new(unsigned int);
 };
 
 extern int DAT_010bf1ac;
@@ -139,7 +134,7 @@ extern int DAT_010bf1ac;
 // @fnv 0x00c2a870
 void* __cdecl FUN_00c2a870()
 {
-    void* p = BSFadeNode::operator new(0x40);
+    void* p = ::operator new(0x40);
     if (p)
     {
         reinterpret_cast<BSFadeNode*>(p)->FUN_00c32d80();
@@ -161,7 +156,6 @@ struct FUN_00c32d80
 
 struct BSFadeNode
 {
-    static void* operator new(unsigned int size);
     void* m_vf;
 };
 
@@ -169,7 +163,7 @@ struct BSFadeNode
 // @fnv 0x00c2b110
 void* __cdecl FUN_00c2b110()
 {
-    void* p = BSFadeNode::operator new(0x40);
+    void* p = ::operator new(0x40);
     if (p)
     {
         ((FUN_00c32d80*)p)->FUN_00c32d80::FUN_00c32d80();
@@ -186,7 +180,6 @@ extern int DAT_010bf554;
 struct BSFadeNode
 {
     void* vtbl;
-    static void* operator new(unsigned int size);
 };
 
 struct FUN_00c32d80
@@ -198,7 +191,7 @@ struct FUN_00c32d80
 // @fnv 0x00c2b200
 void* FUN_00c2b200()
 {
-    BSFadeNode* node = static_cast<BSFadeNode*>(BSFadeNode::operator new(0x40));
+    BSFadeNode* node = static_cast<BSFadeNode*>(::operator new(0x40));
     if (node)
     {
         FUN_00c32d80* obj = reinterpret_cast<FUN_00c32d80*>(node);
@@ -218,7 +211,6 @@ struct FUN_00c32d80
 
 struct BSFadeNode
 {
-    static void* operator new(unsigned int);
 };
 
 extern "C" void* DAT_010bf954;
@@ -227,7 +219,7 @@ extern "C" void* DAT_010bf954;
 // @fnv 0x00c2b620
 void* __cdecl FUN_00c2b620()
 {
-    void* p = BSFadeNode::operator new(0x40);
+    void* p = ::operator new(0x40);
     if (p)
     {
         FUN_00c32d80* q = (FUN_00c32d80*)p;
@@ -242,7 +234,6 @@ void* __cdecl FUN_00c2b620()
 namespace fnv_00c2b720 {
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
     void* m_vftable;
 };
 
@@ -254,7 +245,7 @@ struct FUN_00c32d80
 // @fnv 0x00c2b720
 void* __cdecl FUN_00c2b720()
 {
-    BSFadeNode* node = (BSFadeNode*)BSFadeNode::operator new(0x40);
+    BSFadeNode* node = (BSFadeNode*)::operator new(0x40);
     if (node)
     {
         FUN_00c32d80* obj = (FUN_00c32d80*)node;
@@ -274,13 +265,12 @@ struct FUN_00c32d80
 };
 struct BSFadeNode
 {
-    static void* operator new(unsigned int);
 };
 
 // @fnv 0x00c2b870
 FUN_00c32d80* __cdecl FUN_00c2b870()
 {
-    FUN_00c32d80* p = (FUN_00c32d80*)BSFadeNode::operator new(0x40);
+    FUN_00c32d80* p = (FUN_00c32d80*)::operator new(0x40);
     if (p)
     {
         p->FUN_00c32d80::FUN_00c32d80();
@@ -294,7 +284,6 @@ FUN_00c32d80* __cdecl FUN_00c2b870()
 namespace fnv_00c30600 {
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
     void* m_vftable;
 };
 
@@ -307,7 +296,7 @@ struct FUN_00c32d80
 // @fnv 0x00c30600
 void* __cdecl FUN_00c30600()
 {
-    void* p = BSFadeNode::operator new(0x40);
+    void* p = ::operator new(0x40);
     if (p)
     {
         reinterpret_cast<FUN_00c32d80*>(p)->FUN_00c32d80::FUN_00c32d80();
@@ -322,7 +311,7 @@ void* __cdecl FUN_00c30600()
 // @fnv 0x00c270f0
 BSFadeNode* __cdecl FUN_00c270f0()
 {
-    BSFadeNode* node = static_cast<BSFadeNode*>(BSFadeNode::operator new(0x34));
+    BSFadeNode* node = static_cast<BSFadeNode*>(::operator new(0x34));
     if (node)
     {
         new ((void *)(node)) class ::FUN_00a6d220();
@@ -339,7 +328,7 @@ extern int DAT_010be8e4;
 // @fnv 0x00c283b0
 BSFadeNode* __cdecl FUN_00c283b0()
 {
-    BSFadeNode* p = (BSFadeNode*)BSFadeNode::operator new(0x38);
+    BSFadeNode* p = (BSFadeNode*)::operator new(0x38);
     if (p)
     {
         new ((void *)(p)) class ::FUN_00a6d220();
@@ -358,7 +347,7 @@ struct NiLODData
 // @fnv 0x00c2ba60
 BSFadeNode* __cdecl FUN_00c2ba60()
 {
-    BSFadeNode* p = (BSFadeNode*)BSFadeNode::operator new(0x28);
+    BSFadeNode* p = (BSFadeNode*)::operator new(0x28);
     if (p)
     {
         NiLODData* pLodData = (NiLODData*)p;
@@ -407,7 +396,7 @@ public:
 // @fnv 0x00c2c7b0
 FUN_00c31ff0* __cdecl FUN_00c2c7b0()
 {
-    FUN_00c31ff0* p = (FUN_00c31ff0*)BSFadeNode::operator new(0x40);
+    FUN_00c31ff0* p = (FUN_00c31ff0*)::operator new(0x40);
     if (p)
     {
         new ((void *)(p)) ::FUN_00c31ff0();
@@ -475,7 +464,7 @@ struct NiPSysPositionModifier
 // @fnv 0x00c2e4c0
 NiPSysPositionModifier* FUN_00c2e4c0()
 {
-    NiPSysPositionModifier* p = static_cast<NiPSysPositionModifier*>(BSFadeNode::operator new(0x38));
+    NiPSysPositionModifier* p = static_cast<NiPSysPositionModifier*>(::operator new(0x38));
     if (p)
     {
         p->NiPSysPositionModifier::NiPSysPositionModifier();
@@ -495,7 +484,6 @@ NiPSysPositionModifier* FUN_00c2e4c0()
 
 struct A51BF0Base
 {
-    static void* __cdecl operator new(unsigned int);
 };
 
 struct FUN_00c31ff0_ctor_helper
@@ -509,7 +497,7 @@ extern int DAT_010be604;
 // @fnv 0x00c26790
 FUN_00c31ff0* __cdecl FUN_00c26790()
 {
-    FUN_00c31ff0* p = (FUN_00c31ff0*)A51BF0Base::operator new(0x3c);
+    FUN_00c31ff0* p = (FUN_00c31ff0*)::operator new(0x3c);
     if (p)
     {
         new ((void *)(((FUN_00c31ff0_ctor_helper*)p))) ::FUN_00c31ff0();
@@ -558,7 +546,7 @@ struct FUN_00c22ad0_object : A51BF0Base
 // @fnv 0x00c22ad0
 A51BF0Base* FUN_00c22ad0()
 {
-    FUN_00c22ad0_object* object = static_cast<FUN_00c22ad0_object*>(A51BF0Base::operator new(0x40));
+    FUN_00c22ad0_object* object = static_cast<FUN_00c22ad0_object*>(::operator new(0x40));
 
     if (object)
         return object->InitDefaults();
@@ -606,7 +594,7 @@ struct FUN_00c24c90
 // @fnv 0x00c25ca0
 FUN_00c24c90* __cdecl CreateFUN_00c24c90()
 {
-    FUN_00c24c90* p = (FUN_00c24c90*)A51BF0Base::operator new(0x90);
+    FUN_00c24c90* p = (FUN_00c24c90*)::operator new(0x90);
     if (p)
     {
         p->FUN_00c24c90::FUN_00c24c90();
@@ -623,7 +611,7 @@ extern int DAT_010be774;
 // @fnv 0x00c27350
 FUN_00c31ff0* __cdecl FUN_00c27350()
 {
-    FUN_00c31ff0* p = (FUN_00c31ff0*)A51BF0Base::operator new(0x3c);
+    FUN_00c31ff0* p = (FUN_00c31ff0*)::operator new(0x3c);
     if (p)
     {
         new ((void *)(p)) ::FUN_00c31ff0();
@@ -641,7 +629,7 @@ extern int DAT_010be99c;
 // @fnv 0x00c28570
 FUN_00c31ff0* __cdecl FUN_00c28570()
 {
-    FUN_00c31ff0* p = (FUN_00c31ff0*)A51BF0Base::operator new(0x34);
+    FUN_00c31ff0* p = (FUN_00c31ff0*)::operator new(0x34);
     if (p)
     {
         new ((void *)(p)) ::FUN_00c31ff0();
@@ -655,7 +643,6 @@ FUN_00c31ff0* __cdecl FUN_00c28570()
 struct Host
 {
     Host* DestroyIfRequested(bool bFree);
-    static void __cdecl operator delete(void*, unsigned int);
 };
 struct FUN_00c32d80
 {
@@ -667,7 +654,7 @@ struct FUN_00c32d80
 // @fnv 0x00c2b010
 FUN_00c32d80* __cdecl FUN_00c2b010()
 {
-    FUN_00c32d80* p = static_cast<FUN_00c32d80*>(A51BF0Base::operator new(0x40));
+    FUN_00c32d80* p = static_cast<FUN_00c32d80*>(::operator new(0x40));
     if (p)
     {
         p->FUN_00c32d80::FUN_00c32d80();
@@ -683,7 +670,7 @@ extern int DAT_010c0304;
 // @fnv 0x00c2ef20
 NiPSysPositionModifier* FUN_00c2ef20()
 {
-    NiPSysPositionModifier* p = (NiPSysPositionModifier*)A51BF0Base::operator new(0x20);
+    NiPSysPositionModifier* p = (NiPSysPositionModifier*)::operator new(0x20);
     if (p)
     {
         p->NiPSysPositionModifier::NiPSysPositionModifier();
@@ -705,7 +692,7 @@ struct FUN_00c32d80
 // @fnv 0x00c30790
 void* FUN_00c30790(void)
 {
-    FUN_00c32d80* p = (FUN_00c32d80*)A51BF0Base::operator new(0x40);
+    FUN_00c32d80* p = (FUN_00c32d80*)::operator new(0x40);
     if (p)
     {
         new ((void *)(p)) ::FUN_00c32d80();
@@ -811,8 +798,6 @@ class C29E50Base
     C29E50Base() throw();
     virtual ~C29E50Base();
 
-    static void* operator new(unsigned int uiSize);
-    static void operator delete(void* pvMem);
 
     int unk04;
     int unk08;
@@ -856,7 +841,7 @@ struct ParticleFactoryObject : FUN_00c32d80, A51BF0Base
 ParticleFactoryObject* CreateParticleFactoryObject()
 {
     ParticleFactoryObject* object =
-        static_cast<ParticleFactoryObject*>(A51BF0Base::operator new(sizeof(ParticleFactoryObject)));
+        static_cast<ParticleFactoryObject*>(::operator new(sizeof(ParticleFactoryObject)));
     if (object)
     {
         new ((void *)(object)) ::FUN_00c32d80();
@@ -867,10 +852,6 @@ ParticleFactoryObject* CreateParticleFactoryObject()
 }
 
 
-void* operator new(unsigned int, void* memory)
-{
-    return memory;
-}
 
 struct ParticleObjectFactoryType : FUN_00c32d80
 {
@@ -884,7 +865,7 @@ struct ParticleObjectFactoryType : FUN_00c32d80
 // @fnv 0x00c2a160
 ParticleObjectFactoryType* CreateParticleObjectFactory()
 {
-    void* memory = BSFadeNode::operator new(sizeof(ParticleObjectFactoryType));
+    void* memory = ::operator new(sizeof(ParticleObjectFactoryType));
     if (memory)
         return new (memory) ParticleObjectFactoryType;
     return 0;
@@ -925,7 +906,7 @@ struct ParticleEmitterAllocation : FUN_00c32d80
 ParticleEmitterAllocation* CreateParticleEmitterAllocation()
 {
     ParticleEmitterAllocation* emitter =
-        static_cast<ParticleEmitterAllocation*>(A51BF0Base::operator new(sizeof(ParticleEmitterAllocation)));
+        static_cast<ParticleEmitterAllocation*>(::operator new(sizeof(ParticleEmitterAllocation)));
     if (emitter)
     {
         new ((void *)(emitter)) ::FUN_00c32d80();
@@ -941,8 +922,6 @@ class NiPSysModifierC2D
     NiPSysModifierC2D() throw();
     virtual ~NiPSysModifierC2D();
 
-    static void* operator new(unsigned int uiSize);
-    static void operator delete(void* pvMem);
 
     int unk04;
     int unk08;
@@ -1034,7 +1013,6 @@ FUN_00c31440_cls* FUN_00c31440_cls::AssignString(char** src)
 extern int DAT_010bf754;
 struct PSysFactoryObject : FUN_00c32d80
 {
-    static void* __cdecl operator new(unsigned int);
     PSysFactoryObject() throw()
     {
         m_vtbl = &DAT_010bf754;
@@ -1072,7 +1050,6 @@ FUN_00c2b970_Class* FUN_00c2b970_Class::FUN_00c2b970()
 extern int DAT_010bf854;
 struct PSysFactoryObjectB52 : FUN_00c32d80
 {
-    static void* __cdecl operator new(unsigned int);
     PSysFactoryObjectB52() throw()
     {
         m_vtbl = &DAT_010bf854;

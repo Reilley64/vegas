@@ -5,6 +5,7 @@
 
 // src/havok/common/base/container/array/hkarrayutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/container/array/hkarrayutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <new>
 struct CB1BC0Allocator;
 typedef unsigned __int64 CB1BC0Key;
 struct CB1BC0MapOperations
@@ -80,12 +81,6 @@ void ResizeAudioStream(AudioAllocator* pAlloc, AudioStream* pStream, int elemSiz
 typedef unsigned int hkUlong;
 extern void __cdecl FUN_00c908c0(void* alloc, void* arr, int n, int sizeElem);
 extern void __cdecl ResizeAudioStream(void* alloc, void* arr, int sizeElem);
-inline void* operator new(unsigned int, void* p)
-{
-    return p;
-}
-inline void operator delete(void*, void*)
-{}
 struct S_00da2bd0_Node
 {
     hkUlong m_uiFilterValue;

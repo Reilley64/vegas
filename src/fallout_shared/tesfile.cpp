@@ -1651,7 +1651,6 @@ BGSPerk* FUN_00471a60::GetPerk(unsigned int count)
 }
 }  // namespace fnv_00471a60
 
-void* __cdecl operator new(unsigned int);
 struct G2
 {
     void AddHead(int*);

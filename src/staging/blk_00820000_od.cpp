@@ -762,7 +762,6 @@ struct S_00836470
     void UpdateSoundItems(int);
 };
 
-void* __cdecl operator new(unsigned int);
 struct TESTopic : TESForm
 {
     virtual ~TESTopic();

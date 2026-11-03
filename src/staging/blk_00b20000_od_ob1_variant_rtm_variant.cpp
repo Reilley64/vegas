@@ -7,6 +7,7 @@
 // to their real unit once identified.
 // src/staging/blk_00b20000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include <new>
 #include "runtime/crt.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FUN_0044a450.h"
@@ -1981,12 +1982,6 @@ template <class I, class O, class C> inline O copyLoop(I _First, I _Last, O _Des
     return _Dest;
 }
 }
-inline void* operator new(unsigned int, void* p)
-{
-    return p;
-}
-inline void operator delete(void*, void*)
-{}
 struct StrY
 {
     char b[0x1c];
@@ -3552,7 +3547,6 @@ struct FUN_00b311b0 : FUN_00b326e0
 {
     explicit FUN_00b311b0(unsigned int n);
 };
-void __cdecl operator delete(void*) throw();
 struct ScalarTag31
 {
 };

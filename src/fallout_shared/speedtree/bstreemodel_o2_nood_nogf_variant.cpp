@@ -5,6 +5,7 @@
 
 // src/fallout_shared/speedtree/bstreemodel.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/speedtree/bstreemodel.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <new>
 #include "fnv/decl/A5D2C0Object.h"
 #include "fnv/decl/ActorTaskManager.h"
 #include "fnv/decl/BGSCameraPath.h"
@@ -62,7 +63,6 @@ struct BSTreeModel
 {
     virtual ~BSTreeModel();
     void* DestroyAndFree(unsigned int flags);
-    static void operator delete(void* p, unsigned int flags);
 };
 struct FUN_00666f00_shell
 {
@@ -129,7 +129,6 @@ struct NiAlphaProperty
     char m_auiShapeKeys[0x1c];
     NiAlphaProperty();
     ~NiAlphaProperty();
-    static void* operator new(unsigned int);
 };
 struct RefBase
 {
@@ -182,8 +181,6 @@ struct ColorAX
 };
 struct MemObjX
 {
-    static void* operator new(unsigned int auiSize);
-    static void operator delete(void* apMem);
 };
 struct LeafDataX : public MemObjX
 {
@@ -290,8 +287,6 @@ template <class T> struct NiPointer
     NiPointer& operator=(const NiPointer&);
     NiPointer& operator=(T*);
     operator T*();
-    static void* operator new[](unsigned int);
-    static void operator delete[](void*);
 };
 struct TreeRuntimeCopy
 {
@@ -538,8 +533,6 @@ struct Geometry
     int unkb8;
     int unkbc;
     int unkc0;
-    static void* operator new(unsigned int);
-    static void operator delete(void*);
     Geometry(GeometryData*);
 };
 struct Leaves : Geometry
@@ -746,8 +739,6 @@ struct Tree
     int unkec;
     int unkf0;
     int unkf4;
-    static void* operator new(unsigned int);
-    static void operator delete(void*);
     Tree(Model*, Object*);
 };
 struct Model

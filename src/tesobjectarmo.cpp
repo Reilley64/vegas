@@ -747,8 +747,6 @@ void ArmorSerializer::Save()
     reinterpret_cast<::Holder *>((((FUN_004855a0_shell*)this)))->FUN_00485680();
 }
 
-void* __cdecl operator new(unsigned int);
-void __cdecl operator delete(void*);
 struct ArmorCopy : TESObjectARMO
 {
     void CopyArmorData(TESForm* form);

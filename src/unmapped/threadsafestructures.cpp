@@ -198,7 +198,6 @@ FUN_0044c760_class::FUN_0044c760_class(unsigned int auiSlotCount, unsigned int a
     m_pManager = new ThreadInterfaceManager<LockFreeQueue<bhkRigidBody*>::QueueDeleteManagerTag>(auiSlotCount);
 }
 
-void* __cdecl operator new(unsigned int);
 
 struct FUN_006ec660 : InterfacedClass
 {

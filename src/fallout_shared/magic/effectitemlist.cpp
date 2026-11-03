@@ -663,11 +663,6 @@ class B5B10ItemCopy
   public:
     B5B10ItemCopy(EffectItem* pkSource);
 
-    static void* operator new(unsigned int uiSize)
-    {
-        return FUN_00401000(uiSize);
-    }
-    static void operator delete(void* pvMem);
 
     int unk00;
     int unk04;

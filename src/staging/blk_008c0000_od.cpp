@@ -4765,7 +4765,6 @@ struct NiRefObjectStub
 {
     void IncRefCount();
     void DecRefCount();
-    static void* operator new(unsigned int size);
 };
 
 struct BSMultiBoundShape : NiRefObjectStub
@@ -5091,8 +5090,6 @@ int GetLevelValue(int iLevel)
     return 0;
 }
 
-void* operator new(unsigned int, void*);
-void operator delete(void*, void*);
 struct HandleBase
 {
     ~HandleBase();
@@ -5634,7 +5631,6 @@ void FUN_008c2630_Owner::FUN_008c2630(TESBoundObject* apForm, int a2)
 }
 
 namespace fnv_008d5020 {
-void* __cdecl operator new(unsigned int);
 
 struct FUN_008d5590_shell_helper
 {

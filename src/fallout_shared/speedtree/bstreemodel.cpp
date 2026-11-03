@@ -117,7 +117,6 @@ struct BSTreeModel
 {
     virtual ~BSTreeModel();
     void* DestroyAndFree(unsigned int flags);
-    static void operator delete(void* p, unsigned int flags);
 };
 
 struct FUN_00666f00_shell
@@ -321,8 +320,6 @@ struct NiAlphaProperty
     char m_auiShapeKeys[0x1c];
     NiAlphaProperty();
     ~NiAlphaProperty();
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
 };
 // @fnv 0x006698f0
 NiAlphaProperty* FUN_006698f0()
@@ -387,8 +384,6 @@ struct ColorAX
 
 struct MemObjX
 {
-    static void* operator new(unsigned int auiSize);
-    static void operator delete(void* apMem, unsigned int);
 };
 struct LeafDataX : public MemObjX
 {
@@ -829,8 +824,6 @@ struct TexturingProp
     int unk0bc;
     int unk0c0;
     TexturingProp(NiTexture* tex);
-    static void* operator new(unsigned int size);
-    static void operator delete(void* p, unsigned int);
 };
 
 struct ShaderProp
@@ -839,8 +832,6 @@ struct ShaderProp
     virtual void v00();
     void SetName(const char* prefix, const char* name);
     void SetFlag(unsigned int flag, bool on);
-    static void* operator new(unsigned int size);
-    static void operator delete(void* p, unsigned int);
 };
 
 struct ShaderPropV
@@ -911,8 +902,6 @@ struct ShaderPropV
     virtual void vfc();
     virtual void Set100(int a, void* b);
     ShaderPropV();
-    static void* operator new(unsigned int size);
-    static void operator delete(void* p, unsigned int);
     int unk004;
     int unk008;
     int unk00c;
@@ -1145,8 +1134,6 @@ template <class T> struct NiPointer
     NiPointer& operator=(const NiPointer&);
     NiPointer& operator=(T*);
     operator T*();
-    static void* operator new[](unsigned int);
-    static void operator delete[](void*);
 };
 struct TreeRuntimeCopy
 {
@@ -1304,7 +1291,6 @@ struct CSpeedTreeRT_Load
     unsigned int unk98;
     unsigned int unk9c;
     CSpeedTreeRT_Load();
-    static void* operator new(unsigned int);
     ~CSpeedTreeRT_Load();
 };
 struct TreeName
@@ -1707,8 +1693,6 @@ struct Geometry
     int unkb8;
     int unkbc;
     int unkc0;
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
     Geometry(GeometryData*);
 };
 struct Leaves : Geometry
@@ -1915,8 +1899,6 @@ struct Tree
     int unkec;
     int unkf0;
     int unkf4;
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
     Tree(Model*, Object*);
 };
 struct Model
@@ -2058,8 +2040,6 @@ struct FUN_00b02e20
 };
 struct NiMemObject
 {
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
 };
 struct BSShaderTextureSet : NiMemObject
 {
@@ -2340,7 +2320,6 @@ struct Element226
 {
     void* object;
     ~Element226();
-    static void operator delete[](void*);
 };
 struct Ref226
 {
@@ -2417,8 +2396,6 @@ namespace fnv_00668500 {
 class NiGPUProgram;
 struct NiMemObject
 {
-    static void* operator new(unsigned int uiSize);
-    static void operator delete(void* pMem, unsigned int);
 };
 class NiAVObject : public NiMemObject
 {

@@ -53,7 +53,6 @@ const void* __cdecl FUN_00a4f5d0()
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 
 struct NiFlipController
@@ -64,7 +63,7 @@ struct NiFlipController
 // @fnv 0x00a4f970
 void* __cdecl CreateNiFlipController()
 {
-    void* p = BSFadeNode::operator new(0x54);
+    void* p = ::operator new(0x54);
     if (p)
         return ((NiFlipController*)p)->FUN_00a4f820();
     return 0;
@@ -227,7 +226,6 @@ bool ProxyFlip::FUN_00a4f350(NiStream& kStream)
 
 struct A51BF0Base
 {
-    static void* __cdecl operator new(unsigned int);
 };
 
 struct NiObject
@@ -432,7 +430,7 @@ class FUN_00a4f820 : public A4F820Controller
 // @fnv 0x00a4fa20
 void* FUN_00a4fa20_shell::CreateFlipController(CloningProcess& kCloning)
 {
-    NiFlipController* pkObject = (NiFlipController*)A51BF0Base::operator new(0x54);
+    NiFlipController* pkObject = (NiFlipController*)::operator new(0x54);
     if (pkObject)
         pkObject = (NiFlipController*)((void *)(new ((void *)(pkObject)) ::FUN_00a4f820()));
     else
@@ -813,11 +811,6 @@ struct MemoryManager
 
 struct NiMemObject
 {
-    static void* operator new(unsigned int size);
-    static void* operator new(unsigned int, void* p)
-    {
-        return p;
-    }
 };
 
 struct FUN_00a5d3a0 : NiMemObject
@@ -906,10 +899,6 @@ struct KeyPair
     ~KeyPair();
 };
 
-void* operator new[](unsigned int size)
-{
-    return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(size);
-}
 
 struct CtrlA4F610
 {

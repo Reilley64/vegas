@@ -5,6 +5,7 @@
 
 // src/staging/blk_00d20000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
+#include <new>
 #include <windows.h>
 #include <cstdio>
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -135,7 +136,6 @@ struct D28030UnionFind {
     void Union(int i, int j);
 };
 struct LinkedIndexArray { int** entries; int count; void FUN_00d280e0(); };
-inline void* __cdecl operator new(unsigned int, void* p) { return p; }
 struct IndexBuffer { int* data; int size; unsigned capacityFlags; };
 struct IndexStorage { int* data; };
 struct AllocationManager { int unk00; int unk04; int unk08; int unk0C; void* allocator; };
@@ -548,8 +548,6 @@ class ObjD2C840 : public FUN_00d2c7e0 {
 public:
     virtual ~ObjD2C840();
     ObjD2C840(int count) : FUN_00d2c7e0(count) {}
-    static void* operator new(unsigned int, void* p) throw() { return p; }
-    static void operator delete(void*, void*) throw() {}
 };
 struct FUN_00d04350_Obj
 {

@@ -4,6 +4,7 @@
 
 // src/havok/physics/collide/agent/deprecated/multispheretriangle/hkpmultispheretriangleagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/deprecated/multispheretriangle/hkpmultispheretriangleagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstddef>
 #include <windows.h>
 #include "fnv/symbols_00d37000.h"
 #include "fnv/symbols_00d38000.h"
@@ -28,7 +29,7 @@ struct S_00d37e60_RefObj {
     short m_sReferenceCount;
     S_00d37e60_RefObj() { m_sReferenceCount = 1; }
     virtual ~S_00d37e60_RefObj() throw() {}
-    void* operator new(unsigned int nbytes)
+    void* operator new(std::size_t nbytes)
     {
         S_00d37e60_RefObj* b = static_cast<S_00d37e60_RefObj*>(FUN_00c85750()->heap().AllocateMemoryBlock(nbytes));
         b->m_usMemSizeAndFlags = (unsigned short)nbytes;

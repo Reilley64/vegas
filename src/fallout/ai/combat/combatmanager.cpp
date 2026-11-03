@@ -159,7 +159,6 @@ void CombatManager::ApplyLoadBuffer(BGSLoadGameBuffer* buffer)
     reinterpret_cast<::FUN_009a5cd0_cls *>((m_pThreatMap))->ProcessAllProjectiles((int)(buffer));
 }
 
-void* __cdecl operator new(unsigned int);
 
 namespace N {
 class CombatThreatMap
@@ -311,8 +310,6 @@ struct ProcessLists
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
-    static void __cdecl operator delete(void*);
 };
 
 struct NiUpdateData
@@ -1618,7 +1615,6 @@ struct QuantityData
 struct FUN_00985d10 : QuantityData
 {
     char pad[0x15c];
-    void* operator new(size_t size);
     FUN_00985d10(unsigned int);
 };
 
@@ -1691,7 +1687,6 @@ struct FUN_009867d0_shell
 struct CombatController
 {
     char pad[0x188];
-    void* operator new(size_t size);
     CombatController(void* arg1, FUN_009867d0_shell* group, void* arg2);
 };
 

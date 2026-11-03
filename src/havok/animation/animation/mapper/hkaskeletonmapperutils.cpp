@@ -2,6 +2,7 @@
 // src/havok/animation/animation/mapper/hkaskeletonmapperutils.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/animation/mapper/hkaskeletonmapperutils.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
 #include "fnv/decl/QuatResult.h"
 #include "fnv/symbols_00c90000.h"
 #include "fnv/symbols_00ce5000.h"
@@ -436,10 +437,6 @@ void FUN_00ce5fe0(const void* data, const hkaSkeleton* skelA, const hkQsTransfor
 
 typedef unsigned int size_t;
 
-inline void* operator new(size_t, void* p)
-{
-    return p;
-}
 
 struct hkMemoryAllocator;
 

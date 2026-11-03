@@ -106,7 +106,6 @@ void CombatProcedureEngageTarget::FUN_009d3b50()
     reinterpret_cast<::fnv_00996ea0::MyProc *>((((CombatProcedure*)this)))->FUN_00996ea0();
 }
 
-void __cdecl operator delete(void*);
 
 struct FUN_009d3b00_shell
 {

@@ -1248,10 +1248,6 @@ void NotifyPhantomCollision(PairD020* pkPair)
     }
 }
 
-inline void* __cdecl operator new(unsigned int, void* p) throw()
-{
-    return p;
-}
 struct GroupIdentity
 {
     int unk00, unk04, unk08, unk0C, unk10, unk14, unk18, unk1C;

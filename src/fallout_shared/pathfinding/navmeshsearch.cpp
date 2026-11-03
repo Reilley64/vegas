@@ -1,5 +1,6 @@
 // fallout_shared/pathfinding/navmeshsearch.cpp: NavMeshSearch, NavMeshSearchEdges (25 functions)
 
+#include <cstddef>
 #include "fnv/decl/CombatTargetTimestamp.h"
 #include "fnv/decl/FUN_00416870_t.h"
 #include "fnv/decl/FUN_00438690.h"
@@ -477,7 +478,7 @@ void FUN_006a8490_class::UnlinkNode(FUN_006a8490_node* pNode)
 
 struct A83A0ScrapHeap;
 
-void* operator new(unsigned int uiSize, A83A0ScrapHeap* pkHeap);
+void* operator new(std::size_t uiSize, A83A0ScrapHeap* pkHeap);
 
 struct A83A0Node
 {

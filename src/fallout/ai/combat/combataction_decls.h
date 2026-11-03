@@ -3,8 +3,6 @@
 
 
 #include "fnv/symbols_005b5000.h"
-void* __cdecl operator new(unsigned int size);
-void __cdecl operator delete(void* memory);
 
 class UnsignedIdHandle;
 struct CombatWorldStateListNode

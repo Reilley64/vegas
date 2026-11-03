@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/weapons/hkpprojectilegun.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/weapons/hkpprojectilegun.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
 #include "fnv/decl/CA8890Object.h"
 #include "fnv/decl/FUN_00c90510_class.h"
 #include "fnv/decl/FUN_00c91620_Class.h"
@@ -908,7 +909,7 @@ class FUN_00e46e80
     FUN_00e46e80() throw();
     void FUN_00e45460(void* world) throw();
 
-    static void* operator new(unsigned int n)
+    static void* operator new(std::size_t n)
     {
         return hkRouterE46F::FUN_00c85750().heap().AllocateMemoryBlock(n);
     }

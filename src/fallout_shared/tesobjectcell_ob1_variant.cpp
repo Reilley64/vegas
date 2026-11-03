@@ -36,7 +36,6 @@
 #include "fnv/symbols_011ca000.h"
 #include "fnv/symbols_01203000.h"
 #include "tesobjectcell_packet.h"
-void __cdecl operator delete(void* pointer);
 const char kTESObjectCELLCellRefLockEnter[] = "TESObjectCELL::CellRefLockEnter()";
 NiAVObject* FUN_0054f4f0();
 

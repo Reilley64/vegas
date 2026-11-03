@@ -74,7 +74,6 @@ FUN_00b42980& FUN_00b42980::Set(unsigned int v, FUN_00b42980 const& src)
     return *this;
 }
 
-void* operator new(unsigned int);
 
 struct FUN_00b40150 : CIdvCamera
 {
@@ -481,7 +480,6 @@ int FUN_00b420a0_cls::CompareAndGetDelta(FUN_00b42980 const& arg)
     return (m_obj.b - arg.b) >> 2;
 }
 
-void* operator new(unsigned int);
 
 extern char DAT_01140ef8[];
 

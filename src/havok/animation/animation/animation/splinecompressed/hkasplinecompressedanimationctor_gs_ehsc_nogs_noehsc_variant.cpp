@@ -334,10 +334,6 @@ struct RouterL
 RouterL* GetRouterL() throw();
 void ReserveMoreL(HeapL& alloc, void* arr, int elemSize) throw();
 void ReserveL(HeapL& alloc, void* arr, int numElem, int elemSize) throw();
-inline void* operator new(unsigned int, void* p) throw()
-{
-    return p;
-}
 template <class T> struct ArrL
 {
     T* m_data;

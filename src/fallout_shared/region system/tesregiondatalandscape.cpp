@@ -1,5 +1,6 @@
 // fallout_shared/region system/tesregiondatalandscape.cpp: TESRegionDataLandscape, ThisT (15 functions)
 
+#include <new>
 #include <cmath>
 #include "fnv/decl/FUN_00408da0_Class.h"
 #include "fnv/decl/FUN_004726b0_class.h"
@@ -212,8 +213,6 @@ struct NiPixelData
     unsigned int unk68;
     unsigned int unk6C;
     unsigned int unk70;
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
     NiPixelData(unsigned int, unsigned int, const NiPixelFormat&, unsigned int, unsigned int);
 };
 struct NiFixedString
@@ -246,8 +245,6 @@ struct FUN_00a6abb0
     unsigned int unk24;
     unsigned int unk28;
     unsigned int unk2C;
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
     FUN_00a6abb0(NiPixelData*, const NiFixedString&, TextureFormatPreferences&);
 };
 struct GO
@@ -437,7 +434,6 @@ void ThisT::UpdateFromSource(ThisT* a1, int a2)
 
 // TESRegionDataLandscape copy constructor: copy the base region data and clone the texture.
 
-void* __cdecl operator new(unsigned int uiSize);
 
 class F2870Texture
 {

@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/niconsolerenderer/nid3dshaderprogramfactory.cpp: NiD3DShaderProgramFactory, ProgFactoryDirs, ShaderEntryOwner (26 functions)
 
+#include <new>
 #include <windows.h>
 #include <cctype>
 #include <cstring>
@@ -708,11 +709,6 @@ public:
 class NiMemObject_00e93ad0
 {
   public:
-    static void* operator new(unsigned int uiSize) throw()
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize);
-    }
-    static void operator delete(void*, unsigned int);
 };
 
 template <class TVAL> class ShaderMapBase : public NiMemObject_00e93ad0

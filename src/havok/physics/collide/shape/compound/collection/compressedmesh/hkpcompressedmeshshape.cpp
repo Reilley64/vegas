@@ -1203,10 +1203,6 @@ extern "C"
     __m128 _mm_setzero_ps(void);
     __m128 _mm_mul_ps(__m128 a, __m128 b);
 }
-inline void* operator new(unsigned int, void* memory)
-{
-    return memory;
-}
 
 struct __declspec(align(16)) Vector
 {

@@ -2,6 +2,7 @@
 // src/havok/physics/internal/collide/mopp/builder/splitter/hkpmoppdefaultsplitter.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/physics/internal/collide/mopp/builder/splitter/hkpmoppdefaultsplitter.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
 #include <cmath>
 #include "fnv/decl/SortedList.h"
 #include "fnv/decl/TimedEntryCollection.h"
@@ -732,10 +733,6 @@ __forceinline void quickSortItems(SplitItem* items, int numItems)
     quickSortItems(items, numItems, SplitLess());
 }
 
-__forceinline void* __cdecl operator new(unsigned int, void* p)
-{
-    return p;
-}
 struct Scratch
 {
     union

@@ -5,6 +5,8 @@
 
 // src/havok/physics/internal/collide/mopp/builder/assembler/hkpmoppdefaultassembler.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/physics/internal/collide/mopp/builder/assembler/hkpmoppdefaultassembler.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <new>
+#include <cstddef>
 #include "fnv/decl/E06490Stack.h"
 #include "fnv/decl/FUN_00e06d70_Class.h"
 #include "fnv/decl/KdQuantizer.h"
@@ -1278,7 +1280,7 @@ struct FUN_00e065f0
     BvArray<BvFixup> m_buffer;
 
     FUN_00e065f0(unsigned int id) throw();
-    void* operator new(unsigned int n)
+    void* operator new(std::size_t n)
     {
         FUN_00e065f0* p = static_cast<FUN_00e065f0*>(GetBvRouter()->allocator->AllocateMemoryBlock(n));
         p->m_usMemSizeAndFlags = (unsigned short)n;
@@ -1389,10 +1391,6 @@ struct BvBuilder
 
     void FUN_00e08a60(BvNode* node, FUN_00e095d0_cls* parent, FUN_00e095d0_cls* stack, int depth, BvArray<int>* refs);
 };
-inline void* operator new(unsigned int, void* p)
-{
-    return p;
-}
 template <class T> __forceinline void constructCopy(T* p, int n, const T& value)
 {
     for (int i = 0; i < n; ++i)
@@ -1593,10 +1591,6 @@ template <typename T> struct TypeSizeConstant
 class hkMemoryAllocator
 {
   public:
-    __forceinline void* __cdecl operator new(hk_size_t, void* p)
-    {
-        return p;
-    }
     virtual ~hkMemoryAllocator();
     virtual void* AllocateMemoryBlock(int numBytes) = 0;
     virtual void ReleaseBlock(void* p, int numBytes) = 0;
@@ -1630,10 +1624,6 @@ struct StringPointerTriple
 class NineIntegerRecord
 {
   public:
-    __forceinline void* __cdecl operator new(hk_size_t, void* p)
-    {
-        return p;
-    }
     typedef hkMemoryAllocator Allocator;
     static NineIntegerRecord& __cdecl GetMonitorStream();
     inline Allocator& heap()
@@ -1659,7 +1649,7 @@ class hkBaseObject
 class hkReferencedObject : public hkBaseObject
 {
   public:
-    __forceinline void* __cdecl operator new(hk_size_t nbytes)
+    __forceinline void* __cdecl operator new(std::size_t nbytes)
     {
         ;
         hkReferencedObject* b = static_cast<hkReferencedObject*>(
@@ -1813,7 +1803,7 @@ class VectorComponentValue
 class hkVector4
 {
   public:
-    __forceinline void* __cdecl operator new(hk_size_t nbytes)
+    __forceinline void* __cdecl operator new(std::size_t nbytes)
     {
         ;
         void* obj = NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));
@@ -1865,7 +1855,7 @@ inline void hkVector4::normalize3()
 class hkpMoppCode : public hkReferencedObject
 {
   public:
-    __forceinline void* __cdecl operator new(hk_size_t nbytes)
+    __forceinline void* __cdecl operator new(std::size_t nbytes)
     {
         ;
         hkReferencedObject* b = static_cast<hkReferencedObject*>(
@@ -1882,7 +1872,7 @@ class hkpMoppCode : public hkReferencedObject
     };
     struct CodeInfo
     {
-        __forceinline void* __cdecl operator new(hk_size_t nbytes)
+        __forceinline void* __cdecl operator new(std::size_t nbytes)
         {
             ;
             void* obj = NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));
@@ -1897,12 +1887,12 @@ class hkpMoppCode : public hkReferencedObject
                 NineIntegerRecord::GetMonitorStream().heap().ReleaseBlock(p, sizeof(hkpMoppCode::CodeInfo));
             }
         }
-        __forceinline void* __cdecl operator new(hk_size_t n, void* p)
+        __forceinline void* __cdecl operator new(std::size_t n, void* p)
         {
             ;
             return p;
         }
-        __forceinline void* __cdecl operator new[](hk_size_t, void* p)
+        __forceinline void* __cdecl operator new[](std::size_t, void* p)
         {
             return p;
         }
@@ -1944,7 +1934,7 @@ struct MoppSplitPlane
 class hkpMoppAssembler : public hkReferencedObject
 {
   public:
-    __forceinline void* __cdecl operator new(hk_size_t nbytes)
+    __forceinline void* __cdecl operator new(std::size_t nbytes)
     {
         ;
         hkReferencedObject* b = static_cast<hkReferencedObject*>(
@@ -1955,7 +1945,7 @@ class hkpMoppAssembler : public hkReferencedObject
     }
     struct MoppAssemblerSettings
     {
-        __forceinline void* __cdecl operator new(hk_size_t nbytes)
+        __forceinline void* __cdecl operator new(std::size_t nbytes)
         {
             ;
             void* obj = NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));
@@ -1971,12 +1961,12 @@ class hkpMoppAssembler : public hkReferencedObject
                     p, sizeof(hkpMoppAssembler::MoppAssemblerSettings));
             }
         }
-        __forceinline void* __cdecl operator new(hk_size_t n, void* p)
+        __forceinline void* __cdecl operator new(std::size_t n, void* p)
         {
             ;
             return p;
         }
-        __forceinline void* __cdecl operator new[](hk_size_t, void* p)
+        __forceinline void* __cdecl operator new[](std::size_t, void* p)
         {
             return p;
         }

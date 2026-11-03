@@ -1,5 +1,6 @@
 // staging/blk_005e0000_od_ctx_variant.cpp: Derived, Holder (4 functions)
 
+#include <new>
 #include <windows.h>
 #include <string.h>
 // blk_005e0000_od_ctx_variant.cpp: context variant of src/staging/blk_005e0000_od.cpp: its stripped skeleton, as these functions were checked
@@ -230,7 +231,6 @@ struct FUN_005eefc0_class
 {
     FUN_005eefc0_class* FUN_005eefc0();
 };
-void* __cdecl operator new(unsigned int);
 struct FUN_005ef150_class
 {
     void* FUN_005ef150(int a);
@@ -377,7 +377,6 @@ struct FUN_005dd7b0_class
 struct FUN_005e03a0_Class
 {
 };
-void __cdecl operator delete(void*);
 struct FUN_005e06e0_Class
 {
     void* FUN_005e06e0(unsigned int flags);
@@ -397,7 +396,6 @@ struct FUN_005e0740_class : FUN_005e0460_class
 {
     void* FUN_005e0740(unsigned int flags);
 };
-void __cdecl operator delete(void*);
 struct FUN_005dd7f0_class
 {
     void FUN_005dd7f0();
@@ -411,7 +409,6 @@ struct _Mem_20a4
     ~_Mem_20a4();
     _Mem_20a4* FUN_005e07a0(unsigned int flags);
 };
-void __cdecl operator delete(void*);
 struct FUN_005e0590_shell
 {
 };
@@ -467,7 +464,6 @@ struct GlobalObject_00869f00_Deleting : GlobalObject_00869f00
 {
     GlobalObject_00869f00* FUN_005ef590(unsigned int flags);
 };
-void __cdecl operator delete(void*);
 struct FUN_005eeff0_shell
 {
 };
@@ -478,12 +474,10 @@ struct FUN_005ef5c0_class
 struct FUN_005ef1d0_class
 {
 };
-void __cdecl operator delete(void*);
 struct FUN_005ef5f0_class
 {
     void* FUN_005ef5f0(unsigned int flags);
 };
-void __cdecl operator delete(void*);
 struct FUN_005ef3b0
 {
     FUN_005ef3b0* FUN_005ef620(unsigned int flags);
@@ -1214,8 +1208,6 @@ struct FUN_005efa80_cls
     void* m_0c;
     void FUN_005efa80(void* a1, unsigned int a2);
 };
-void* operator new(unsigned int uiSize, void* pvMem);
-void operator delete(void* pvMem, void* pvPlace);
 struct EFBC0Item
 {
     EFBC0Item();
@@ -1865,7 +1857,6 @@ struct Target005ed1e0
     EntryArray005ed1e0 entries_14;
     bool FUN_005ed1e0(Target005ed1e0* other);
 };
-void* __cdecl operator new(unsigned int, void*);
 struct SpawnItem : FUN_005ef7f0_Data
 {
     int unk20;
@@ -1876,8 +1867,6 @@ struct SpawnItem : FUN_005ef7f0_Data
     int unk34;
     SpawnItem();
 };
-void* __cdecl operator new(unsigned int uiSize, void* pvMem);
-void __cdecl operator delete(void* pvObject, void* pvMem);
 struct E5EF9A0Entry
 {
     int unk00;
@@ -2396,7 +2385,6 @@ struct Data5E35
 
     void FUN_005e3510();
 };
-void __cdecl operator delete(void*);
 struct DeletingObject
 {
     void FUN_005e4bc0();

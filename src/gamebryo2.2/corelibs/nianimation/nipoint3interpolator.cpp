@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nianimation/nipoint3interpolator.cpp: NiPoint3Interpolator, NiPoint3InterpolatorRange, PosInterpEq (24 functions)
 
+#include <new>
 #include "fnv/decl/B5Owner.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/CameraState.h"
@@ -259,7 +260,6 @@ void FUN_00a49530_shell::FUN_00a49530(NiStream* pkStream)
 
 struct NiMemObject_Delete : public NiMemObject
 {
-    static void __cdecl operator delete(void* pvMem, size_t stElementSize);
 };
 
 // @fnv 0x00a49ae0
@@ -629,8 +629,6 @@ class A49B30KeyBasedInterpolator
     A49B30KeyBasedInterpolator() throw();
     virtual ~A49B30KeyBasedInterpolator();
 
-    static void* operator new(unsigned int uiSize);
-    static void operator delete(void* pvMem);
 
     int unk04;
     int unk08;

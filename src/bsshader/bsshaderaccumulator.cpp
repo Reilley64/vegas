@@ -972,10 +972,6 @@ struct OMObjC4
     {
         reinterpret_cast<::FUN_00c4ed40_cls *>((this))->FUN_00c4ed40();
     }
-    static void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(p);
-    }
 };
 struct OMObjD9
 {
@@ -983,27 +979,15 @@ struct OMObjD9
     {
         ::FUN_00bd9150(this);
     }
-    static void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(p);
-    }
 };
 struct OMData140
 {
     char pad[0x14];
     OMObjC4* m_p14;
-    static void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(p);
-    }
 };
 struct OMPod
 {
     char c;
-    static void operator delete[](void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(p);
-    }
 };
 struct OMCS
 {
@@ -1235,7 +1219,6 @@ struct NiUpdateData
 
 struct A51BF0Base
 {
-    static void* __cdecl operator new(unsigned int);
 };
 
 struct NiAVObject : A51BF0Base
@@ -1300,14 +1283,6 @@ struct QueryLocal
 {
     unsigned int handle;
     QueryLocal();
-    static void* operator new(unsigned int size)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(size);
-    }
-    static void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(p);
-    }
 };
 struct FUN_00c4ecf0 : QueryLocal
 {
@@ -3810,10 +3785,6 @@ struct LocalCriticalSection
     ~LocalCriticalSection();
 };
 
-inline void* operator new[](unsigned n)
-{
-    return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(n);
-}
 struct NiAlphaProperty
 {
     int unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20, unk24, unk28, unk2c, unk30;
@@ -3896,10 +3867,6 @@ struct RefPtr
 struct FUN_00bd9120
 {
     void* state;
-    static void* operator new(unsigned n)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(n);
-    }
     FUN_00bd9120();
 };
 void* __cdecl FUN_00aa13e0(unsigned);
@@ -3922,10 +3889,6 @@ struct FUN_00b9a5b0
     void* alphaGroups[2];
     List12 alphaLists[2];
     void* currentGroups[2];
-    static void* operator new(unsigned n)
-    {
-        return FUN_00aa13e0(n);
-    }
     FUN_00b9a5b0(unsigned, int);
 };
 void* __cdecl FUN_00aa1070(unsigned);

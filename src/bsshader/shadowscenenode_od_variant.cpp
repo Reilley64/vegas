@@ -143,8 +143,6 @@ struct Provider2180
 struct FUN_00a712f0
 {
     int bytes[0x114 / 4];
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
     FUN_00a712f0();
 };
 struct Target2180

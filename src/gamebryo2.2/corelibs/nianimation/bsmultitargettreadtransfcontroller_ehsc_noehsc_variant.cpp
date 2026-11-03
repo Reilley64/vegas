@@ -3,6 +3,7 @@
 // byte only under /MT /O2 /GS /EHs-c- /Gy (unit src/gamebryo2.2/corelibs/nianimation/bsmultitargettreadtransfcontroller.cpp lists /MT /O2 /GS /EHsc /Gy). Declarations copied from that unit's skeleton; move the functions
 // to their real unit once identified.
 
+#include <cstddef>
 #include <windows.h>
 #include <cstring>
 #include "fnv/decl/CloneableObj.h"
@@ -235,10 +236,6 @@ struct TreadInterpolator : FUN_00a2f8c0
     unsigned short unk40;
     unsigned short unk42;
 
-    static void* operator new(unsigned int size) throw()
-    {
-        return FUN_00aa13e0(size);
-    }
     TreadInterpolator() throw()
     {
         vtable = &DAT_01096694;
@@ -513,24 +510,20 @@ struct ArrayCount
 struct MemoryManagerAllocHelper
 {
 };
-__forceinline void* __cdecl operator new(unsigned int n)
-{
-    return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::MemoryManagerAllocHelper *>(&::g_memoryManager))))->FUN_00aa3e40(n);
-}
 void* __cdecl FUN_00aa1420(unsigned int);
 struct SNAEntry
 {
-    static void* operator new(unsigned int n)
+    static void* operator new(std::size_t n)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::MemoryManagerAllocHelper *>(&::g_memoryManager))))->FUN_00aa3e40(n);
     }
-    static void* operator new[](unsigned int s, ArrayCount count)
+    static void* operator new[](std::size_t s, ArrayCount count)
     {
         if (count.value == 0)
             return ::FUN_00401000(4);
         return FUN_00aa1420(s);
     }
-    static void operator delete[](void*, unsigned int);
+    static void operator delete[](void*, std::size_t);
 };
 struct FUN_00a42f60 : SNAEntry
 {
@@ -551,10 +544,6 @@ struct FUN_00a42f60 : SNAEntry
 };
 struct NodeA35
 {
-    static void* operator new(unsigned int n)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::MemoryManagerAllocHelper *>(&::g_memoryManager))))->FUN_00aa3e40(n);
-    }
     int a;
     int b;
     int c;

@@ -104,7 +104,6 @@ FUN_00511950::FUN_00511950()
     pAnim = 0;
 }
 
-void operator delete(void*);
 
 struct FUN_005119e0_obj
 {

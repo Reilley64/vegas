@@ -159,7 +159,6 @@ struct ShieldEffectUpdate
 {
     void UpdateShieldEffect(float dt);
 };
-void* __cdecl operator new(unsigned int);
 
 struct ShieldEffect;
 

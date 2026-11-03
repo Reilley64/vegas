@@ -5,6 +5,7 @@
 
 // src/fallout/ai/mobileobject_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/fallout/ai/mobileobject.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
+#include <cstddef>
 #include "fnv/decl/ActorStandIn008a.h"
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/BGSProjectile.h"
@@ -263,8 +264,6 @@ struct __declspec(align(16)) xCinfo
 };
 struct xNiAlloc
 {
-    static void* operator new(unsigned int);
-    static void operator delete(void*);
 };
 struct xShape : xNiAlloc
 {
@@ -547,8 +546,6 @@ class NiNode9BE : public Node9BE
 class Shape9BE
 {
   public:
-    static void* operator new(unsigned int uiSize);
-    static void operator delete(void* pvMem);
     Shape9BE(float fRadius, int iType);
     int unk00;
     int unk04;
@@ -692,7 +689,7 @@ class Controller9BE
     virtual void v0c8();
     virtual void v0cc();
     virtual void SetState(int iState);
-    static void* operator new(unsigned int uiSize);
+    static void* operator new(std::size_t uiSize);
     static void operator delete(void* pvMem);
     Controller9BE(ControllerInfo9BE& kInfo, Actor9BE* pkActor);
     World9BE* GetWorld();

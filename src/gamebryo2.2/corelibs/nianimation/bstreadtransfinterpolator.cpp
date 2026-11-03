@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/nianimation/bstreadtransfinterpolator.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/bstreadtransfinterpolator.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
 #include "fnv/decl/DataA38.h"
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_00a3ca30_shell.h"
@@ -602,8 +603,6 @@ void A43600Controller::FUN_00a43600(A43600Stream& kStream)
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int stSize);
-    static void operator delete(void* pvMem, unsigned int stElementSize);
 };
 
 class NiKeyBasedInterpolator : public NiMemObject

@@ -301,10 +301,6 @@ class NamedC318 : public FUN_00a5d3d0
     virtual ~NamedC318()
     {}
 
-    static void operator delete(void* pvMem, unsigned int uiSize)
-    {
-        FUN_00aa1460(pvMem, uiSize);
-    }
 
     NiFixedStringC318 m_kName;
     int unk0C[3];
@@ -318,7 +314,7 @@ NamedC318* NamedC318::FUN_00c31870(unsigned int uiFlags)
 {
     this->NamedC318::~NamedC318();
     if (uiFlags & 1)
-        NamedC318::operator delete(this, sizeof(NamedC318));
+        ::operator delete(this, sizeof(NamedC318));
     return this;
 }
 

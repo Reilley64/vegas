@@ -9,7 +9,6 @@ struct FUN_00e00910_cls
     {}
 
     FUN_00e00910_cls* Destroy(unsigned char acFlags);
-    static void operator delete(void* apMemory) throw();
 };
 
 // Destroys the object, calling the destructor and freeing memory when acFlags has bit 0 set.

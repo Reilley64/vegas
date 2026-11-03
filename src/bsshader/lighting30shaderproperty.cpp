@@ -22,7 +22,6 @@ GlobalObjectO2_00a7b610* __cdecl FUN_00a756c0()
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 
 void* FUN_00a75650(void*);
@@ -30,7 +29,7 @@ void* FUN_00a75650(void*);
 // @fnv 0x00a756d0
 void* __cdecl FUN_00a756d0()
 {
-    void* p = BSFadeNode::operator new(0x4c);
+    void* p = ::operator new(0x4c);
     if (p)
         return FUN_00a75650(p);
     return 0;

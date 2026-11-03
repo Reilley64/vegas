@@ -13,7 +13,6 @@ class NiTriShape;
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int) throw();
 };
 
 class NiTriBasedGeomData : public NiMemObject

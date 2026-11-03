@@ -78,7 +78,7 @@ class NiRenderTargetGroup;
 #include "niconsolerenderer_packet.h"
 enum _D3DFORMAT { D3DFMT_PACKET_FORCE_DWORD=0x7fffffff };
 struct RendererPacketEntry { unsigned int pad[2]; void* resource; };
-class NiMemObject { public: static void* operator new(unsigned int); };
+class NiMemObject { public: };
 class GraphicsRenderer : public NiMemObject {
 public:
  virtual ~GraphicsRenderer() throw();
@@ -1927,7 +1927,6 @@ public:
 };
 class NiPixelData : public NiRefObject {
 public:
-    static void* operator new(unsigned int);
     NiPixelData(unsigned int, unsigned int, const NiPixelFormat&, unsigned int, unsigned int) throw();
     int unk08; int unk0c; int unk10; int unk14; int unk18; int unk1c;
     int unk20; int unk24; int unk28; int unk2c; int unk30; int unk34; int unk38; int unk3c;
@@ -3791,7 +3790,6 @@ class E6EC20Cache {
 public:
     ~E6EC20Cache();
 
-    static void operator delete(void* pvMem, unsigned int uiSize) { operator_delete_sized(pvMem, uiSize); }
 
     int unk00; int unk04; int unk08; int unk0C; int unk10;
 };
@@ -7995,8 +7993,6 @@ struct ShaderD3DDevice {
 };
 struct ShaderMemMgr {
 };
-inline void* operator new[](unsigned int size) { return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::ShaderMemMgr *>(&::g_memoryManager))))->FUN_00aa3e40(size); }
-inline void operator delete[](void* p) { reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::ShaderMemMgr *>(&::g_memoryManager))))->FUN_00aa4060(p); }
 struct ShaderVertexElement {
     unsigned short Stream;
     unsigned short Offset;
@@ -8231,7 +8227,6 @@ class E7A6A0Bucket {
 public:
     __forceinline ~E7A6A0Bucket() { m_kEntries.RemoveAll(); }
 
-    static void operator delete(void* pvMem, unsigned int uiSize) { operator_delete_sized(pvMem, uiSize); }
 
     int m_iKey;
     E7A6A0Array<E7A6A0Entry*> m_kEntries;
@@ -11167,11 +11162,6 @@ struct Node {
 
     Node* m_next;
 
-    static void operator delete(void* pvMem, unsigned int uiSize) {
-
-        operator_delete_sized(pvMem, uiSize);
-
-    }
 
 };
 void* NiMalloc(unsigned int);

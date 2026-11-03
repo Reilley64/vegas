@@ -4,6 +4,7 @@
 
 // src/havok/common/internal/misc/hksystemtime.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/common/internal/misc/hksystemtime.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <new>
 #include "fnv/symbols_00e29000.h"
 extern "C" __int64 __cdecl __time64(__int64*);
 int FUN_00e29910(void);
@@ -313,12 +314,6 @@ template <typename T> class S29cd0_hkLocalArray : public S29cd0_hkArray<T>
 
 struct S29cd0_int4
 {
-    __forceinline static void* operator new(unsigned int, void* p)
-    {
-        return p;
-    }
-    __forceinline static void operator delete(void*, void*)
-    {}
     __forceinline S29cd0_int4()
     {
         for (int i = 0; i < 4; i++)

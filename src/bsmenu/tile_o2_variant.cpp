@@ -2,6 +2,7 @@
 // src/bsmenu/tile_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/bsmenu/tile.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
+#include <new>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/Bound88.h"
 #include "fnv/decl/FNV_MemoryManager.h"
@@ -32,7 +33,6 @@ void FUN_00bb79d0_class::FUN_00bb79d0(bool value)
 struct MemoryManager
 {
 };
-void operator delete(void*, unsigned int);
 struct NiPoint3;
 struct NiPoint2;
 struct RgbaColor;

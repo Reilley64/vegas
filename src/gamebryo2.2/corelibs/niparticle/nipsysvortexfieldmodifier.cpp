@@ -4,6 +4,7 @@
 
 
 // @fnv 0x00c26810
+#include <new>
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/FUN_004a0c10_s.h"
 #include "fnv/decl/FUN_00589850_Class.h"
@@ -43,7 +44,6 @@ void NiPSysVortexFieldModifier::FUN_00c267d0(NiStream& stream)
     ((NiColor*)((char*)this + 0x30))->LoadBinary(stream);
 }
 
-void __cdecl operator delete(void*, unsigned int);
 
 struct FUN_00c26920_shell
 {
@@ -168,7 +168,6 @@ struct CloneItemBase
 
 struct CloneItem : CloneItemBase
 {
-    void* operator new(unsigned int) throw();
     CloneItem() throw()
     {
         m_30 = (*reinterpret_cast<::CloneVec3 *>((void *)&::NiPoint3::ZERO));

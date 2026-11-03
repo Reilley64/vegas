@@ -133,8 +133,6 @@ void FleePackage::FUN_009f1310(TESObjectREFR* apRef)
         AvoidedRefList.AddHead(apRef);
 }
 
-void* __cdecl operator new(unsigned int);
-void __cdecl operator delete(void*);
 
 enum PACKAGE_PROCEDURE_TYPE
 {
@@ -1642,8 +1640,6 @@ struct PathingAvoidNodeArray
     unsigned int growth;
     unsigned int ownership;
 
-    static void* __cdecl operator new(unsigned int);
-    static void __cdecl operator delete(void*);
     PathingAvoidNodeArray();
 };
 

@@ -122,10 +122,6 @@ struct MemoryManager
 struct FUN_00aa2510
 {
     virtual ~FUN_00aa2510();
-    void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(p);
-    }
 };
 // @fnv 0x00aa2510
 FUN_00aa2510::~FUN_00aa2510()

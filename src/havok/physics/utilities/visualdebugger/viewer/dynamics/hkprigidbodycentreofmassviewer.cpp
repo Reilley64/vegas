@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/visualdebugger/viewer/dynamics/hkprigidbodycentreofmassviewer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/dynamics/hkprigidbodycentreofmassviewer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
 #include <windows.h>
 #include "fnv/decl/MotionMassView.h"
 #include "fnv/decl/S_00dd9380.h"
@@ -136,7 +137,7 @@ extern "C" D6A140MemoryRouter& __cdecl FUN_00c85750();
 class D6A140ReferencedObject
 {
   public:
-    static void* operator new(unsigned int nbytes)
+    static void* operator new(std::size_t nbytes)
     {
         D6A140ReferencedObject* b =
             static_cast<D6A140ReferencedObject*>(FUN_00c85750().heap().AllocateMemoryBlock(nbytes));

@@ -2,6 +2,7 @@
 // src/havok/animation/animation/animation/splinecompressed/hkasplinecompressedanimationctor.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/animation/animation/splinecompressed/hkasplinecompressedanimationctor.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
 #include "fnv/decl/Se31d50_Anim.h"
 #include "fnv/symbols_00c90000.h"
 #include "fnv/symbols_00e30000.h"
@@ -448,10 +449,6 @@ struct RouterL
     }
 };
 RouterL* GetRouterL() throw();
-inline void* operator new(unsigned int, void* p) throw()
-{
-    return p;
-}
 
 template <class T> struct ArrL
 {

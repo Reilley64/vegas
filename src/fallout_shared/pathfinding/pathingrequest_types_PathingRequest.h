@@ -2,6 +2,7 @@
 #ifndef FNV_PATHINGREQUEST_H
 #define FNV_PATHINGREQUEST_H
 
+#include <new>
 #include "fnv/decl/FUN_006a7910_shell.h"
 #include "fnv/decl/FUN_006c9900_shell.h"
 #include "fnv/decl/FUN_006d3ac0_Class.h"
@@ -82,8 +83,6 @@ class PathingRequest : public PathingInfo
     void SetSmoothingRandomness(float);
     void SetAvoidNodeArray(BSSimpleArray<void*, 1024>*);
 
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
     static PathingRequest* CreateRequestForType(PATHING_REQUEST_TYPE);
     void LoadGame(BGSLoadFormBuffer* buffer);
     void InitLoadGame(BGSLoadFormBuffer* buffer);

@@ -2,6 +2,7 @@
 // src/staging/blk_00a20000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstddef>
 #include <windows.h>
 #include <new>
 #include <cstdlib>
@@ -152,8 +153,6 @@ struct TCBKeyS {
     Vec3S out;
     float extra[6];
     ~TCBKeyS() {}
-    static void* operator new[](unsigned int n) { return reinterpret_cast<::MemoryManagerStandIn *>((((P03MM*)&g_memoryManager)))->FUN_00aa3e40(n); }
-    static void operator delete[](void* p, unsigned int) { reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(p); }
 };
 bool FindKeyIndex(float t, TCBKeyS* keys, unsigned int count, unsigned int* idx, unsigned int stride);
 Vec3R GetKeyPosAtTime(float t, TCBKeyS* keys, int type, unsigned int count, unsigned int stride);
@@ -593,14 +592,6 @@ struct TempArrayElement
     void* c;
     void* d;
     ~TempArrayElement() {}
-    static void* operator new[](unsigned int size)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>((((P03MM*)&g_memoryManager)))->FUN_00aa3e40(size);
-    }
-    static void operator delete[](void* p, unsigned int)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(p);
-    }
 };
 
 // Allocates an array of TempArrayElement of the given count using the memory manager's operator new[].
@@ -620,8 +611,6 @@ struct BezFloatKey {
     float inTan;
     float outTan;
     ~BezFloatKey() {}
-    static void* operator new[](unsigned int n) { return reinterpret_cast<::MemoryManagerStandIn *>((((P03MM*)&g_memoryManager)))->FUN_00aa3e40(n); }
-    static void operator delete[](void* p, unsigned int) { reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(p); }
 };
 
 float GenInterpFloat(float t, BezFloatKey* keys, int type, unsigned int count, unsigned int stride);
@@ -732,10 +721,6 @@ class A27250FloatKey {
 public:
     ~A27250FloatKey();
 
-    static void* operator new[](unsigned int uiSize)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(reinterpret_cast<A27250Heap&>(g_memoryManager)))->FUN_00aa3e40(uiSize);
-    }
 
 
     float m_fTime;
@@ -883,8 +868,6 @@ struct Elem64 {
     int unk38;
     int unk3C;
 
-    static void* operator new[](unsigned int aSize) { return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::DynamicMemoryAllocator *>(&::g_memoryManager))))->FUN_00aa3e40(aSize); }
-    static void operator delete[](void* apBlock) { reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::DynamicMemoryAllocator *>(&::g_memoryManager))))->FUN_00aa4060(apBlock); }
     ~Elem64() {}
 };
 
@@ -979,10 +962,6 @@ class A281E0BezPosKey {
 public:
     ~A281E0BezPosKey();
 
-    static void* operator new[](unsigned int uiSize)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(reinterpret_cast<A281E0Heap&>(g_memoryManager)))->FUN_00aa3e40(uiSize);
-    }
 
 
     float m_fTime;
@@ -2029,8 +2008,6 @@ extern Pool DAT_011f6238;
 struct Elem {
     int a; int b;
     ~Elem();
-    static void* operator new[](unsigned n) { return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00a2a5a0::Pool *>(&::g_memoryManager))))->FUN_00aa3e40(n); }
-    static void operator delete[](void*) {}
 };
 // Allocates an array of n Elem objects and calls Init(x) on each element, returning the array.
 // @fnv 0x00a2a5a0
@@ -2084,7 +2061,6 @@ void FUN_00a2a890(float fTime, const A2A890Key& kKey0, const A2A890Key& kKey1, A
 struct VertexRecord {
     int x, y, z, w;
     ~VertexRecord() {}
-    static void* operator new[](unsigned int size) { return reinterpret_cast<::MemoryManagerStandIn *>((((P03MM*)&g_memoryManager)))->FUN_00aa3e40(size); }
 };
 // @fnv 0x00a2a8e0
 VertexRecord* __cdecl CreateVertexRecords(int v, unsigned int count)
@@ -2107,8 +2083,6 @@ struct AnimKeyBase {
 };
 struct LinPosKey : AnimKeyBase {
     Vec3S pos;
-    static void* operator new[](unsigned int n) { return reinterpret_cast<::MemoryManagerStandIn *>((((P03MM*)&g_memoryManager)))->FUN_00aa3e40(n); }
-    static void operator delete[](void* p) { reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(p); }
 };
 
 // Inserts a new linear position key at time t (value sampled from the existing curve).
@@ -2209,8 +2183,6 @@ struct BezierKeyS {
     Vec3S out;
     float extra[9];
     ~BezierKeyS() {}
-    static void* operator new[](unsigned int n) { return reinterpret_cast<::MemoryManagerStandIn *>((((P03MM*)&g_memoryManager)))->FUN_00aa3e40(n); }
-    static void operator delete[](void* p, unsigned int) { reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(p); }
 };
 
 // Allocates an array of count BezierKeyS objects using the memory manager and returns the pointer.
@@ -2596,7 +2568,6 @@ struct Element76 {
     int unk44;
     int unk48;
     ~Element76() {}
-    static void* operator new[](unsigned int auiSize) { return DAT_011f6238.FUN_00aa3e40(auiSize); }
 };
 
 // Allocates an array of Element76 objects and calls Init(a1) on each element.
@@ -3213,8 +3184,6 @@ struct Elem28 {
     int unk14;
     int unk18;
 
-    static void* operator new[](unsigned int aSize) { return DAT_011f6238.Allocate(aSize); }
-    static void operator delete[](void* apBlock) { DAT_011f6238.Free(apBlock); }
     ~Elem28() {}
 };
 
@@ -3492,9 +3461,6 @@ struct KeyframeElement {
     float continuity;
     float bias;
     ~KeyframeElement();
-    static void* operator new[](unsigned int bytes) {
-        return reinterpret_cast<::MemoryManagerStandIn *>((((P03MM*)&g_memoryManager)))->FUN_00aa3e40(bytes);
-    }
 };
 // @fnv 0x00a2caf0
 KeyframeElement* __cdecl AllocateKeyframeElements(void* context, unsigned int count) {
@@ -3563,12 +3529,6 @@ struct Arr8 {
     float f;
     char c;
     ~Arr8() {}
-    __forceinline static void* operator new[](unsigned int n) {
-        return reinterpret_cast<::MemoryManagerStandIn *>((((P03MM*)&g_memoryManager)))->FUN_00aa3e40(n);
-    }
-    __forceinline static void operator delete[](void* p, unsigned int) {
-        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(p);
-    }
 };
 
 // Allocates an array of count Arr8 objects using the memory manager and returns the pointer.
@@ -3639,7 +3599,6 @@ struct KeyPair8 {
     float value;
 
     ~KeyPair8() {}
-    static void* operator new[](unsigned int aSize) { return reinterpret_cast<::MemoryManagerStandIn *>((reinterpret_cast<DynamicMemoryAllocator*>(&DAT_011f6238)))->FUN_00aa3e40(aSize); }
 };
 
 bool FindKeyIndex(float t, TCBKeyS* keys, unsigned int count, unsigned int* idx, unsigned int stride);
@@ -3963,9 +3922,6 @@ struct FUN_00a362f0 {
   unsigned int unk60;
   unsigned int unk64;
   __declspec(nothrow) FUN_00a362f0();
-  static void* operator new[](unsigned int n) {
-    return DAT_011f6238.FUN_00aa3e40(n);
-  }
 };
 struct Base {
   void* vtable;
@@ -4115,7 +4071,6 @@ void FUN_00a3a730_cls::FUN_00a3a730(int aiArg1, int aiArg2)
 
 class NiMemObject {
 public:
-    static void* operator new(unsigned int size);
 };
 class NiKeyBasedInterpolator : public NiMemObject {
 public:
@@ -4135,13 +4090,10 @@ public:
         lastIndex = 0;
     }
 };
-inline void* __cdecl operator new(unsigned int, void* memory) throw() {
-    return memory;
-}
 // Allocates a NiFloatInterpolator via NiMemObject::operator new and placement-constructs it, returning null on allocation failure.
 // @fnv 0x00a3c570
 NiFloatInterpolator* __cdecl CreateNiFloatInterpolator() {
-    void* memory = NiMemObject::operator new(sizeof(NiFloatInterpolator));
+    void* memory = ::operator new(sizeof(NiFloatInterpolator));
     if (memory)
         return ::new (memory) NiFloatInterpolator;
     return 0;
@@ -4446,7 +4398,6 @@ struct FloatKey {
     float time;
     float value;
     ~FloatKey() throw() {}
-    static void* operator new[](unsigned int n) { return reinterpret_cast<::MemoryManagerStandIn *>((((P03MM*)&g_memoryManager)))->FUN_00aa3e40(n); }
 };
 
 float __cdecl GetValueAtTime(float t, TCBKeyS* keys, int type, unsigned int count, unsigned int stride);
@@ -4505,8 +4456,6 @@ struct BezPosKey {
     Vec3S unk34;
     Vec3S unk40;
     ~BezPosKey() {}
-    static void* operator new[](unsigned int n) { return reinterpret_cast<::MemoryManagerStandIn *>((((P03MM*)&g_memoryManager)))->FUN_00aa3e40(n); }
-    static void operator delete[](void* p) { reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(p); }
 };
 
 // @fnv 0x00a2b850
@@ -4527,7 +4476,7 @@ bool InsertBezPosKey(float t, BezPosKey** pKeys, unsigned int* puiCount) {
         key.in.z = 0.0f;
         ++*puiCount;
         if (oldKeys)
-            BezPosKey::operator delete[]((unsigned int*)oldKeys - 1);
+            ::operator delete[]((unsigned int*)oldKeys - 1);
         *pKeys = newKeys;
         ::FUN_00a2b410((::PositionSplineKey *)(newKeys), *puiCount);
         return true;
@@ -4540,7 +4489,6 @@ struct InsertPositionKey {
     float time;
     Vec3S position;
     ~InsertPositionKey() {}
-    static void* operator new[](unsigned int bytes) { return reinterpret_cast<::MemoryManagerStandIn *>((((P03MM*)&g_memoryManager)))->FUN_00aa3e40(bytes); }
 };
 
 bool FindKeyIndex(float, InsertPositionKey*, unsigned int, unsigned int*, unsigned int);
@@ -5146,10 +5094,10 @@ void __cdecl FUN_00a2b410(PositionSplineKey* pkTCB, unsigned int uiNumKeys)
 struct ElemA2 {
     float m_00, m_04, m_08, m_0c, m_10;
     ~ElemA2() {}
-    static void* operator new[](unsigned int size) {
+    static void* operator new[](std::size_t size) {
         return reinterpret_cast<::MemoryManagerStandIn *>((((P03MM*)&g_memoryManager)))->FUN_00aa3e40(size);
     }
-    static void* operator new[](unsigned int size, unsigned int& total) throw() {
+    static void* operator new[](std::size_t size, unsigned int& total) throw() {
         total = size;
         return 0;
     }
@@ -5216,7 +5164,6 @@ struct ControllerBase {
     int unk02c;
     int unk30;
 
-    static void* operator new(unsigned int uiSize);
     ControllerBase() throw();
 };
 
@@ -5320,7 +5267,7 @@ struct ArrayElement : NiColorKey_K
 {
     ArrayElement() throw() {}
     ~ArrayElement() {}
-    static void* operator new[](unsigned int bytes, unsigned int& requested) throw()
+    static void* operator new[](std::size_t bytes, unsigned int& requested) throw()
     {
         requested = bytes;
         return 0;

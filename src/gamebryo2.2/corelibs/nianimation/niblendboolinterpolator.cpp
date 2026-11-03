@@ -39,14 +39,13 @@ bool FUN_00a565a0_shell::FUN_00a565a0(NiInterpolator* pkInterpolator)
 class BSFadeNode
 {
   public:
-    static void* __cdecl operator new(unsigned int);
 };
 
 
 // @fnv 0x00a565c0
 void* __cdecl FUN_00a565c0()
 {
-    void* p = BSFadeNode::operator new(0x34);
+    void* p = ::operator new(0x34);
     if (p)
     {
         new ((void *)(p)) class ::FUN_00a36890();
@@ -126,7 +125,6 @@ struct M76Obj
     void* vtbl;
     char pad[0x2c];
     unsigned char m_bBoolValue;
-    static void* __cdecl operator new(unsigned int);
 };
 // Allocates and initialises an M76Obj, passes it to self's FUN_00a37510 with cloning, copies self's m_bBoolValue into it and returns it.
 // @fnv 0x00a56650

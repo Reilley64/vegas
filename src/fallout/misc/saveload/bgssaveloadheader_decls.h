@@ -69,7 +69,6 @@ class FUN_004f31d0_holder
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int size);
 };
 
 extern int(__cdecl* DAT_00fdf0d4)(char* path);

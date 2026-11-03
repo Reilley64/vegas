@@ -1565,7 +1565,6 @@ struct FUN_00420c10_Class : public FUN_004207e0Class
     void FUN_00420c10(int value);
 };
 
-void* __cdecl operator new(unsigned int size);
 
 // Ensures the object exists when value is nonzero, then adds value to the list at offset 8 if it is not already present.
 // @fnv 0x00420c10
@@ -1983,8 +1982,6 @@ void FUN_0042e060_class::FUN_0042e060(unsigned int a, unsigned int b)
     reinterpret_cast<::fnv_0040ff60::FUN_0040ff60_shell *>(this)->FUN_0040ff60((::BSExtraData *)(pEntry));
 }
 
-void* __cdecl operator new(unsigned int uiSize, void* pvMem);
-void __cdecl operator delete(void* pvObject, void* pvMem);
 
 struct B42FA60Entry
 {
@@ -2029,8 +2026,6 @@ FUN_0042fe80_Map::~FUN_0042fe80_Map()
     reinterpret_cast<::FUN_00438af0_Class *>(this)->FUN_00438af0();
 }
 
-void* __cdecl operator new(unsigned int, void*);
-void __cdecl operator delete(void*, void*);
 struct FUN_004300a0
 {
     void* m_uiFilterValue;
@@ -3300,8 +3295,6 @@ class TESObjectREFR
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
 };
 struct Bound : NiMemObject
 {
@@ -3490,8 +3483,6 @@ struct AnimMatrix3
 
 struct AnimMemObject
 {
-    static void* operator new(unsigned int uiSize);
-    static void operator delete(void* pvMem, unsigned int);
 };
 
 struct AnimSource

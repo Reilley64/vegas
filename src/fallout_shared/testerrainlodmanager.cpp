@@ -195,8 +195,6 @@ struct NiAVObject
 };
 struct NiNode : public NiAVObject
 {
-    static void* operator new(unsigned int size);
-    static void operator delete(void*, unsigned int);
     NiNode(unsigned short count);
     char pad[0xac];
 };
@@ -418,8 +416,6 @@ struct TerrainNode
     unsigned int unka4;
     unsigned int unka8;
     TerrainNode(unsigned short);
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
 };
 struct Cell
 {

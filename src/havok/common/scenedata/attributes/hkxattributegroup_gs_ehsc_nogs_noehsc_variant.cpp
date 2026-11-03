@@ -18,10 +18,6 @@
 #include "fnv/symbols_00e5c000.h"
 #include "fnv/symbols_01268000.h"
 #include "havok/hkxAttributeGroup.h"
-__forceinline void* __cdecl operator new(unsigned int, void* pvWhere) throw()
-{
-    return pvWhere;
-}
 struct FUN_00cb0c00_class
 {
 };

@@ -785,12 +785,11 @@ void TexEffectSaver::FUN_00a932f0(NiStream& kStream)
 
 struct NiMemObject
 {
-    static void* __cdecl operator new(unsigned int size);
 };
 // @fnv 0x00a929b0
 void* __cdecl FUN_00a929b0()
 {
-    FUN_00a92710_cls* obj = (FUN_00a92710_cls*)NiMemObject::operator new(0x15c);
+    FUN_00a92710_cls* obj = (FUN_00a92710_cls*)::operator new(0x15c);
     if (obj)
         return obj->FUN_00a92710();
     return 0;
@@ -1171,7 +1170,6 @@ void TexEffectLoader::FUN_00a93140(NiStreamL& kStream)
 class TESObjectDoorController
 {
   public:
-    static void* operator new(unsigned int n);
 };
 class NiCloningProcessA93;
 namespace a93 {
@@ -1179,10 +1177,6 @@ class FUN_00a92710
 {
   public:
     FUN_00a92710() throw();
-    static void* operator new(unsigned int n)
-    {
-        return TESObjectDoorController::operator new(n);
-    }
     unsigned int unk000;
     unsigned int unk004;
     unsigned int unk008;

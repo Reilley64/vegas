@@ -242,8 +242,6 @@ FUN_0040e0b0::FUN_0040e0b0(int a, float b) : FUN_0040e130(a, b)
 class BSFadeNode
 {
   public:
-    static void* __cdecl operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
 };
 
 class ActorPathingMessageQueue : public BSFadeNode
@@ -492,8 +490,6 @@ struct FUN_009dd1c0_shell : public ActorMover
 class BSFadeNode
 {
   public:
-    static void* __cdecl operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
 };
 
 class ActorPathingMessageQueue
@@ -501,11 +497,6 @@ class ActorPathingMessageQueue
   public:
     char pad[0x1c];
     ActorPathingMessageQueue();
-    static void* __cdecl operator new(unsigned int s)
-    {
-        return BSFadeNode::operator new(s);
-    }
-    static void operator delete(void*, unsigned int);
 };
 
 struct Helper_009057d0
@@ -586,7 +577,6 @@ struct FUN_009ddf60_shell : public ActorMover
     void SetMoveModeFlags(unsigned int);
 };
 
-void* __cdecl operator new(unsigned int);
 void* FUN_009dff40(void*, int, void*, void*);
 
 struct Dummy_0xe4
@@ -724,8 +714,6 @@ class ActorPathingMessageQueue
 {
   public:
     char pad[0x1c];
-    static void* __cdecl operator new(unsigned int);
-    static void __cdecl operator delete(void*, unsigned int);
     ActorPathingMessageQueue();
 };
 
@@ -1028,8 +1016,6 @@ namespace fnv_009db950 {
 struct ActorPathingMessageQueue
 {
     char data[0x1c];
-    static void* operator new(unsigned int size);
-    static void operator delete(void*, unsigned int);
     ActorPathingMessageQueue();
 };
 struct NP_0081c630
@@ -1282,8 +1268,6 @@ namespace fnv_009dfb80 {
 struct ActorPathingMessageQueue
 {
     ActorPathingMessageQueue();
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
     void* vtable;
     unsigned int m_uiRefCount;
     void* pHead;
@@ -5618,8 +5602,6 @@ struct Node
 };
 struct Solution
 {
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
     Solution();
     int a00;
     int a04;
@@ -6642,7 +6624,6 @@ float abs(float);
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int);
 };
 
 struct BackgroundQueueAssign14

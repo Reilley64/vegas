@@ -1362,7 +1362,6 @@ struct FUN_0044ed50_Class
     void FUN_0044dd40();
     void* FUN_0044ed50(unsigned int flags);
 };
-void __cdecl operator delete(void*);
 struct FUN_0044f200_Class
 {
     void FUN_0044f200();
@@ -1826,7 +1825,6 @@ struct FUN_0043bb80_shell
 {
     void DestroyLoadedFile();
 };
-void __cdecl operator delete(void* p, unsigned int sz);
 struct FUN_0044b1f0_class
 {
     void* FUN_0044b1f0(unsigned int flags);
@@ -3289,8 +3287,6 @@ struct Node
     int value;
     Node* next;
     Node(int, int, int*);
-    static void* __cdecl operator new(unsigned int);
-    static void __cdecl operator delete(void*);
 };
 struct TaggedPointer
 {
@@ -3714,8 +3710,6 @@ struct S_00453720_Obj
     int unk00;
     int unk04;
     int unk08;
-    static void* operator new(unsigned int size);
-    static void operator delete(void*, unsigned int);
 };
 
 // Returns the global S_00453720_Obj instance, allocating a new one if it is null.
@@ -5475,8 +5469,6 @@ struct FUN_0058b770
     int unk24;
     FUN_0058b770();
 };
-void* __cdecl operator new(unsigned int);
-void __cdecl operator delete(void*);
 struct GlobalObject_0048f200_d0054da00 : GlobalObject_0048f200
 {
     ~GlobalObject_0048f200_d0054da00();

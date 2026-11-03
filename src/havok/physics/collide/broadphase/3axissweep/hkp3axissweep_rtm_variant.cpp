@@ -4,6 +4,7 @@
 
 // src/havok/physics/collide/broadphase/3axissweep/hkp3axissweep.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/broadphase/3axissweep/hkp3axissweep.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <new>
 #include "fnv/decl/FUN_00d06fb0_cls.h"
 #include "fnv/decl/S_00d112c0.h"
 #include "fnv/decl/fnv_00d11650__AxisSweep3.h"
@@ -1006,7 +1007,6 @@ struct SweepEndpoint {
     SweepEndpoint() {}
     SweepEndpoint(unsigned short val, unsigned short idx) : m_uiFilterValue(val), m_usIndex(idx) {}
 };
-inline void* operator new(unsigned int, void* p) { return p; }
 template <typename T>
 inline void S00d13950_constructWithCopy(T* p, int n, const T& t)
 {

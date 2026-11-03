@@ -384,8 +384,6 @@ struct NiFrustumPlanes
 };
 struct FUN_00c335d0 : NiRefObject
 {
-    static void* operator new(unsigned int uiSize);
-    static void operator delete(void*, unsigned int);
     NiPoint3 kTargetCenter;
     NiPoint2 m_kPoint2;
     ThreeByThreeMatrix kRotationBasis;
@@ -426,8 +424,6 @@ struct ThreeByThreeMatrix
 };
 struct FUN_00c36310 : NiRefObject
 {
-    static void* operator new(unsigned int uiSize);
-    static void operator delete(void*, unsigned int);
     int m_uiShapeType;
     NiPoint3 kTargetCenter;
     NiPoint3 kSize;
@@ -458,8 +454,6 @@ struct NiRefObject
 };
 struct FUN_00c37ec0 : NiRefObject
 {
-    static void* operator new(unsigned int uiSize);
-    static void operator delete(void*, unsigned int);
     int m_uiShapeType;
     NiPoint3 kTargetCenter;
     NiPoint3 m_kPoint2;
@@ -489,8 +483,6 @@ struct NiRefObject
 };
 struct FUN_00c4fb10 : NiRefObject
 {
-    static void* operator new(unsigned int uiSize);
-    static void operator delete(void*, unsigned int);
     int m_uiShapeType;
     NiPoint3 kTargetCenter;
     float fRadius;
@@ -1647,8 +1639,6 @@ void H00c50330::CopyTo(O00c50330* pOut)
 struct FUN_00c4fb10_shell
 {
     char m0[0x1c];
-    static void* __cdecl operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
     FUN_00c4fb10_shell();
 };
 // Allocates and constructs a new FUN_00c4fb10_shell object, returning the pointer.
@@ -1691,8 +1681,6 @@ class GO
 
 struct A51BF0Base
 {
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
 };
 
 struct FUN_004a5300_shell
@@ -1727,8 +1715,6 @@ struct NiPoint3Access
 
 struct A51BF0Base
 {
-    static void* __cdecl operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
 };
 
 struct BSPortal : A51BF0Base
@@ -1801,8 +1787,6 @@ void FUN_00c38220_shell::AddPropertyNames(NiTPrimitiveArray_unsigned_int_* array
 namespace fnv_00c4f620 {
 struct A51BF0Base
 {
-    static void* __cdecl operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
     virtual ~A51BF0Base();
 };
 
@@ -2260,8 +2244,6 @@ struct FUN_004a7aa0_obj
     int _08;
     FUN_004a7aa0_color mColor;
     float mRadius;
-    static void* __cdecl operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
     FUN_004a7aa0_obj(const FUN_004a7aa0_color& c);
 };
 
@@ -2282,8 +2264,6 @@ void* FUN_004a7aa0_cls::FUN_004a7aa0(int aiUnused)
 class BC36500Object
 {
   public:
-    static void* operator new(unsigned int uiSize);
-    static void operator delete(void* pvMem, unsigned int);
 
     BC36500Object();
     virtual ~BC36500Object();
@@ -2371,8 +2351,6 @@ void C37E00Box::GetPlanes(C37E00Plane* pkPlanes)
 struct NewBodyCls
 {
     unsigned int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20;
-    static void* operator new(unsigned int size);
-    static void operator delete(void*, unsigned int);
     NewBodyCls();
 };
 

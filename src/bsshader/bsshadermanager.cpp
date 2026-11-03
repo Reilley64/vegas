@@ -2779,7 +2779,6 @@ struct Material : NiRefObject
     Color3* colorOverride;
     float value38, value3C, value40;
     unsigned int revision, unk48;
-    static void* operator new(unsigned int);
     Material();
     void SetColor1(const Color3& v)
     {
@@ -3232,10 +3231,6 @@ class NP
                 ++value->refs;
         }
     }
-    static void operator delete[](void* data)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00b54630::CleanupHeap *>(&::g_memoryManager))))->FUN_00aa4060(data);
-    }
 };
 namespace CleanupState {
 struct CleanupA
@@ -3244,20 +3239,12 @@ struct CleanupA
     {
         reinterpret_cast<::FUN_00b97690 *>(this)->FUN_00b97690::~FUN_00b97690();
     }
-    static void operator delete(void* data)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00b54630::CleanupHeap *>(&::g_memoryManager))))->FUN_00aa4060(data);
-    }
 };
 struct CleanupB
 {
     ~CleanupB()
     {
         reinterpret_cast<::FUN_00b6f0b0 *>(this)->FUN_00b6f0b0::~FUN_00b6f0b0();
-    }
-    static void operator delete(void* data)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00b54630::CleanupHeap *>(&::g_memoryManager))))->FUN_00aa4060(data);
     }
 };
 struct CleanupString
@@ -3267,10 +3254,6 @@ struct CleanupString
     {
         if (value != ::DAT_0109b220)
             InterlockedDecrement((volatile long*)(value - 8));
-    }
-    static void operator delete(void* data)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00b54630::CleanupHeap *>(&::g_memoryManager))))->FUN_00aa4060(data);
     }
 };
 struct CleanupPool
@@ -3705,14 +3688,6 @@ struct TextureManagerInit
     unsigned int unk0a8;
     unsigned int unk0ac;
     TextureManagerInit();
-    static void* operator new(unsigned int n)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(n);
-    }
-    static void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>((reinterpret_cast<InitMemory*>(&::g_memoryManager)))->FUN_00aa4060(p);
-    }
 };
 struct TextureLoaderInit
 {
@@ -3725,14 +3700,6 @@ struct TextureLoaderInit
     unsigned int unk018;
     TextureLoaderInit(void*);
     ~TextureLoaderInit();
-    static void* operator new(unsigned int n)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(n);
-    }
-    static void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>((reinterpret_cast<InitMemory*>(&::g_memoryManager)))->FUN_00aa4060(p);
-    }
 };
 struct ImageManagerInit
 {
@@ -3936,14 +3903,6 @@ struct ImageManagerInit
     unsigned int unk314;
     unsigned int unk318;
     ImageManagerInit();
-    static void* operator new(unsigned int n)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(n);
-    }
-    static void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>((reinterpret_cast<InitMemory*>(&::g_memoryManager)))->FUN_00aa4060(p);
-    }
 };
 struct InitString
 {
@@ -3951,14 +3910,6 @@ struct InitString
     InitString(const char* s)
     {
         handle = ::NiGlobalStringTable::AddString(s);
-    }
-    static void* operator new(unsigned int n)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(n);
-    }
-    static void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>((reinterpret_cast<InitMemory*>(&::g_memoryManager)))->FUN_00aa4060(p);
     }
 };
 struct ColorInit
@@ -4133,22 +4084,12 @@ struct AccumulatorInit : NiRefObject
     unsigned int unk278;
     unsigned int unk27c;
     AccumulatorInit(int, unsigned int, unsigned int);
-    static void* operator new(unsigned int);
-    static void operator delete(void*);
 };
 struct AccumPointerInit
 {
     AccumulatorInit* object;
     AccumPointerInit();
     ~AccumPointerInit();
-    static void* operator new[](unsigned int n)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(n);
-    }
-    static void operator delete[](void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>((reinterpret_cast<InitMemory*>(&::g_memoryManager)))->FUN_00aa4060(p);
-    }
     void operator=(AccumulatorInit* p)
     {
         if (object != p)
@@ -4308,10 +4249,6 @@ struct NiPoint3
         float sz = p.z;
         z = z + sz;
     }
-    static void* operator new[](unsigned int bytes)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(bytes);
-    }
 public:
     ::NiPoint3 CrossProduct(const ::NiPoint3 &) const;
 };
@@ -4329,10 +4266,6 @@ struct NativeB66810 : NiRefObject
     unsigned char unk09, unk0a, unk0b;
     NiPoint3* first;
     NiPoint3* second;
-    static void* operator new(unsigned int n)
-    {
-        return FUN_00aa13e0(n);
-    }
     NiPoint3* GetFirst() const
     {
         return first;

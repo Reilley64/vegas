@@ -2,6 +2,7 @@
 // src/fallout_shared/pathfinding/pathingrequestflee.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/pathfinding/pathingrequestflee.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
 #include "fnv/decl/FUN_006d2c20_Class.h"
 #include "fnv/decl/FUN_006dad70_shell.h"
 #include "fnv/decl/FUN_006e3230_shell.h"
@@ -12,7 +13,6 @@ class BGSLoadFormBuffer;
 struct PathingRequest
 {
     ~PathingRequest();
-    static void operator delete(void* p, unsigned int size);
 public:
     void CopyTo(::PathingRequest *);
 public:

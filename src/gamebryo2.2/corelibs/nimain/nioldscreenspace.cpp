@@ -69,13 +69,12 @@ GlobalObjectO2_00a7b610* __cdecl FUN_00a8ff70()
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 
 // @fnv 0x00a8ff80
 void* __cdecl FUN_00a8ff80()
 {
-    void* p = BSFadeNode::operator new(0xc4);
+    void* p = ::operator new(0xc4);
     if (p)
     {
         new ((void *)(((BSFadeNode*)p))) ::FUN_00a744a0();
@@ -101,14 +100,13 @@ struct _Call_a5d3a0
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 
 
 // @fnv 0x00a8ffc0
 void* __cdecl FUN_00a8ffc0()
 {
-    void* p = BSFadeNode::operator new(0x1c);
+    void* p = ::operator new(0x1c);
     if (p)
     {
         new ((void *)(reinterpret_cast<_Call_a5d3a0*>(p))) struct ::FUN_00a5d3a0();
@@ -409,7 +407,7 @@ struct NiScreenSpaceCamera
 // @fnv 0x00a91ee0
 BSFadeNode* FUN_00a91ee0()
 {
-    void* p = BSFadeNode::operator new(0x134);
+    void* p = ::operator new(0x134);
     if (p)
         return (BSFadeNode*)((NiScreenSpaceCamera*)p)->FUN_00a91d80();
     return 0;
@@ -490,10 +488,6 @@ struct NiColor
     NiColor()
     {}
     void LoadBinary(NiStream&);
-    static void* operator new[](unsigned int s)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(s);
-    }
 public:
     void SaveBinary(::NiStream &);
 };
@@ -503,10 +497,6 @@ struct NiPoint2
     NiPoint2()
     {}
     void LoadBinary(NiStream&);
-    static void* operator new[](unsigned int s)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(s);
-    }
 };
 struct RgbaColor
 {
@@ -514,10 +504,6 @@ struct RgbaColor
     RgbaColor() : r(0.0f), g(0.0f), b(0.0f), a(0.0f)
     {}
     void LoadBinary(NiStream&);
-    static void* operator new[](unsigned int s)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(s);
-    }
 };
 struct NiObjLB
 {
@@ -584,7 +570,6 @@ void FUN_00a90d70_poly::FUN_00a90d70(NiStream& kStream)
 
 struct A51BF0Base
 {
-    static void* __cdecl operator new(unsigned int);
 };
 
 struct FUN_00a90a50_class
@@ -594,7 +579,7 @@ struct FUN_00a90a50_class
 // @fnv 0x00a90b20
 void* __cdecl FUN_00a90b20()
 {
-    FUN_00a90a50_class* object = static_cast<FUN_00a90a50_class*>(A51BF0Base::operator new(0x70));
+    FUN_00a90a50_class* object = static_cast<FUN_00a90a50_class*>(::operator new(0x70));
 
     if (object)
         return ((void *)(new ((void *)(object)) ::FUN_00a90a50()));
@@ -624,10 +609,6 @@ struct ObjA8F260 : BaseA8F260
         *(volatile int*)&m_10 = 0;
     }
 
-    static void* operator new(unsigned int size) throw()
-    {
-        return FUN_00aa13e0(size);
-    }
 };
 
 // Allocates an ObjA8F260, stores the two arguments in m_08 and m_0c, and returns it.
@@ -981,10 +962,6 @@ struct SpawnedObj_a905c0
     unsigned int unk18;
 
     SpawnedObj_a905c0() throw();
-    static void* operator new(unsigned int size) throw()
-    {
-        return FUN_00aa13e0(size);
-    }
 };
 
 SpawnedObj_a905c0::SpawnedObj_a905c0() throw()
@@ -1494,7 +1471,6 @@ struct NiScreenSpaceCameraNew : NiScreenSpaceCamera
     unsigned int unk128;
     unsigned int unk12C;
     unsigned int unk130;
-    static void* __cdecl operator new(unsigned int);
 };
 
 struct FUN_00a91e90_cls
@@ -1591,8 +1567,6 @@ class NiPSysBaseA90
     NiPSysBaseA90() throw();
     virtual ~NiPSysBaseA90();
 
-    static void* operator new(unsigned int uiSize);
-    static void operator delete(void* pvMem);
 
     int unk04, unk08, unk0C, unk10, unk14, unk18, unk1C, unk20;
     int unk24, unk28, unk2C, unk30, unk34, unk38, unk3C, unk40;
@@ -2678,19 +2652,11 @@ struct Point91950
     float x, y;
     Point91950()
     {}
-    static void* operator new[](unsigned int n)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::GlobalAlloc_a905c0 *>(&::g_memoryManager))))->FUN_00aa3e40(n);
-    }
 };
 struct Color91950
 {
     float r, g, b, a;
     Color91950() throw();
-    static void* operator new[](unsigned int n)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::GlobalAlloc_a905c0 *>(&::g_memoryManager))))->FUN_00aa3e40(n);
-    }
 };
 struct Element91950
 {

@@ -40,7 +40,6 @@ char const* const* __cdecl FUN_00a51aa0()
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 struct BaseHolder
 {
@@ -60,7 +59,7 @@ struct Obj34
 // @fnv 0x00a51c60
 void* FUN_00a51c60()
 {
-    Obj34* p = (Obj34*)BSFadeNode::operator new(52);
+    Obj34* p = (Obj34*)::operator new(52);
     if (p)
     {
         reinterpret_cast<::FUN_00a57f20_cls *>((((BaseHolder*)p)))->FUN_00a57f20((void *)(0), (void *)(0));
@@ -99,7 +98,6 @@ struct A51BF0ColorA
 
 struct A51BF0Base
 {
-    static void* operator new(A51BF0size_t stSize);
 
     __declspec(nothrow) A51BF0Base(int a, int b);
     virtual ~A51BF0Base();

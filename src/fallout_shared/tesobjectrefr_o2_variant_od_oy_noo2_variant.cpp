@@ -5,6 +5,7 @@
 
 // src/fallout_shared/tesobjectrefr_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/fallout_shared/tesobjectrefr.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
+#include <cstddef>
 #include <new>
 #include "fnv/decl/ActorTaskManager.h"
 #include "fnv/decl/BSXFlags_shell.h"
@@ -421,8 +422,6 @@ struct FUN_00c9fde0 : bhkRefObject
 };
 struct A51BF0Base
 {
-    static void* __cdecl operator new(unsigned int size);
-    static void operator delete(void*, unsigned int);
 };
 extern int DAT_01030864;
 struct S_00cb79d0_Base
@@ -918,10 +917,6 @@ struct TlsGuard_t
         g_tlsBlock.m_2b4 = m_saved;
     }
 };
-inline void* operator new(unsigned int n)
-{
-    return FUN_00aa13e0(n);
-}
 struct FUN_00c9efa0_cls
 {
     bhkRefObject* FUN_00c9efa0(unsigned int flag);
@@ -1475,14 +1470,14 @@ struct FUN_00cf2cb0
 {
     int unk0;
     unsigned short length;
-    static void* operator new(unsigned int count)
+    static void* operator new(std::size_t count)
     {
         Pool* pool = FUN_00c85750();
         FUN_00cf2cb0* p = (FUN_00cf2cb0*)pool->allocator->Allocate(224);
         p->length = 224;
         return p;
     }
-    static void operator delete(void*, unsigned int);
+    static void operator delete(void*, std::size_t);
     FUN_00cf2cb0(void* contents, int tag);
 };
 struct Input
@@ -1965,11 +1960,6 @@ class CA0840Output
     CA0840Output() : m_pkTarget(0), m_fValue(DAT_010c72bc)
     {}
 
-    static void* operator new(unsigned int uiSize)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::CA0840Heap *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize);
-    }
-    static void operator delete(void* pvMem, unsigned int);
 
     void* m_pkTarget;
     float m_fValue;
@@ -2045,8 +2035,6 @@ class FUN_00ccf740_cls : public FUN_00c9fb00
 class NiObjectC9E
 {
   public:
-    static void* operator new(unsigned int uiSize);
-    static void operator delete(void* pvMem, unsigned int uiSize);
 
     virtual ~NiObjectC9E();
 };
@@ -2572,7 +2560,7 @@ class SystemSrcF14
 class ShapeF14
 {
   public:
-    static void* operator new(unsigned int uiSize);
+    static void* operator new(std::size_t uiSize);
     static void operator delete(void* pv);
     ShapeF14(const hkVector4F14& m_kPoint2, float fRadius);
     char m_acData[0x30];
@@ -2581,7 +2569,7 @@ class ShapeF14
 class MaterialF14
 {
   public:
-    static void* operator new(unsigned int uiSize);
+    static void* operator new(std::size_t uiSize);
     static void operator delete(void* pv);
     MaterialF14();
     char m_acData[0x10];
@@ -2590,7 +2578,7 @@ class MaterialF14
 class WrapperF14
 {
   public:
-    static void* operator new(unsigned int uiSize);
+    static void* operator new(std::size_t uiSize);
     static void operator delete(void* pv);
     WrapperF14(ShapeF14* pkShape, MaterialF14* pkMaterial);
     char m_acData[0x1c];
@@ -2609,8 +2597,6 @@ class BodyInfoF14
 class NiMemObjectF14
 {
   public:
-    static void* operator new(unsigned int uiSize);
-    static void operator delete(void* pv, unsigned int);
 };
 
 class BodyF14 : public NiMemObjectF14

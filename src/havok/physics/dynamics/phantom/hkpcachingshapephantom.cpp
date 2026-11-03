@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/phantom/hkpcachingshapephantom.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/phantom/hkpcachingshapephantom.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
 #include <new>
 #include "fnv/decl/C.h"
 #include "fnv/decl/CA92A0Object.h"
@@ -578,7 +579,7 @@ class hkpWorldObjectD4D0
 class FUN_00d4ce10 : public hkpWorldObjectD4D0
 {
   public:
-    static __forceinline void* operator new(unsigned int uiSize) throw()
+    static __forceinline void* operator new(std::size_t uiSize) throw()
     {
         hkpWorldObjectD4D0* p = (hkpWorldObjectD4D0*)FUN_00c85750().heap().AllocateMemoryBlock(uiSize);
         p->m_usMemSizeAndFlags = (hkUint16)uiSize;

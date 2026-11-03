@@ -5,6 +5,7 @@
 
 // src/havok/common/internal/geometryprocessing/mesh/hkgpmesh.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/common/internal/geometryprocessing/mesh/hkgpmesh.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstddef>
 #include <new>
 #include <cmath>
 #include <cstring>
@@ -283,7 +284,7 @@ struct FUN_00d76ca0
         ((FUN_00d76ca0*)memory)->memorySize = (unsigned short)bytes;
         return memory;
     }
-    static void* operator new(unsigned int bytes)
+    static void* operator new(std::size_t bytes)
     {
         return allocate(FUN_00c85750().getHeap(), bytes);
     }
@@ -1994,10 +1995,6 @@ struct E24850Node
     E24850Node* m_next;
     E24850Node* m_pSecondNode;
 
-    static void* operator new(unsigned int, void* p)
-    {
-        return p;
-    }
     E24850Node(void* data);
 };
 struct E24850List
@@ -2879,7 +2876,7 @@ struct GpPool
     int unk380;
     int m_iAllocatedCount;
 
-    static void operator delete(void* p, unsigned int size)
+    static void operator delete(void* p, std::size_t size)
     {
         ((BlockAllocAB*)&FUN_00c85750().getHeap())->ReleaseBlock(p, size);
     }

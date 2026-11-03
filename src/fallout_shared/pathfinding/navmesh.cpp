@@ -315,7 +315,6 @@ struct NavMeshDestructView
 class NiMemObject
 {
   public:
-    static void __cdecl operator delete(void*, unsigned int);
 };
 
 struct FUN_0068ed30_impl : public FUN_0068ed30_shell

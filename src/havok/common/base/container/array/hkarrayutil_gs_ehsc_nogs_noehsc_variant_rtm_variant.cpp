@@ -7,6 +7,7 @@
 // to their real unit once identified.
 // src/havok/common/base/container/array/hkarrayutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/container/array/hkarrayutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <new>
 #include "fnv/decl/FUN_00db0060_class.h"
 #include "fnv/decl/MapBase_cb1e.h"
 #include "fnv/symbols_00c90000.h"
@@ -81,12 +82,6 @@ struct AudioAllocator
 };
 extern "C" void* __cdecl FNV_block_copy(void* dst, const void* src, unsigned int size);
 typedef unsigned int hkUlong;
-inline void* operator new(unsigned int, void* p)
-{
-    return p;
-}
-inline void operator delete(void*, void*)
-{}
 struct S_00da2bd0_Node
 {
     hkUlong m_uiFilterValue;

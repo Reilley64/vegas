@@ -4,6 +4,8 @@
 
 // src/havok/physics/collide/agent3/bvtree3/hkpbvtreeagent3.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent3/bvtree3/hkpbvtreeagent3.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <new>
+#include <cstddef>
 #include <windows.h>
 #include "fnv/decl/FUN_005609f0_shell.h"
 #include "fnv/decl/FUN_00cb21e0_shell.h"
@@ -409,10 +411,6 @@ template <typename TYPE> class ValueWrapper
 class hkMemoryAllocator
 {
   public:
-    __forceinline void* __cdecl operator new(hk_size_t, void* p)
-    {
-        return p;
-    }
     virtual void* AllocateMemoryBlock(int numBytes) = 0;
     virtual void ReleaseBlock(void* p, int numBytes) = 0;
 
@@ -434,10 +432,6 @@ struct StringPointerTriple
 class NineIntegerRecord
 {
   public:
-    __forceinline void* __cdecl operator new(hk_size_t, void* p)
-    {
-        return p;
-    }
     typedef hkMemoryAllocator Allocator;
     static NineIntegerRecord& __cdecl GetMonitorStream();
     inline Allocator& heap()
@@ -467,7 +461,7 @@ class hkStatisticsCollector;
 class hkReferencedObject : public hkBaseObject
 {
   public:
-    __forceinline void* __cdecl operator new(hk_size_t nbytes)
+    __forceinline void* __cdecl operator new(std::size_t nbytes)
     {
         ;
         hkReferencedObject* b = static_cast<hkReferencedObject*>(
@@ -648,7 +642,7 @@ class hkTransform;
 class hkVector4
 {
   public:
-    __forceinline void* __cdecl operator new(hk_size_t nbytes)
+    __forceinline void* __cdecl operator new(std::size_t nbytes)
     {
         ;
         void* obj = NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));
@@ -686,7 +680,7 @@ class hkVector4
 class hkQuaternion
 {
   public:
-    __forceinline void* __cdecl operator new(hk_size_t nbytes)
+    __forceinline void* __cdecl operator new(std::size_t nbytes)
     {
         ;
         void* obj = NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));
@@ -703,7 +697,7 @@ class hkQuaternion
 class hkMatrix3
 {
   public:
-    __forceinline void* __cdecl operator new(hk_size_t nbytes)
+    __forceinline void* __cdecl operator new(std::size_t nbytes)
     {
         ;
         void* obj = NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));
@@ -720,7 +714,7 @@ class hkMatrix3
 class __declspec(align(16)) hkRotation : public hkMatrix3
 {
   public:
-    __forceinline void* __cdecl operator new(hk_size_t nbytes)
+    __forceinline void* __cdecl operator new(std::size_t nbytes)
     {
         ;
         void* obj = NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));
@@ -731,7 +725,7 @@ class __declspec(align(16)) hkRotation : public hkMatrix3
 class hkTransform
 {
   public:
-    __forceinline void* __cdecl operator new(hk_size_t nbytes)
+    __forceinline void* __cdecl operator new(std::size_t nbytes)
     {
         ;
         void* obj = NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));
@@ -902,7 +896,7 @@ const hkSweptTransform& hkMotionState::getSweptTransform() const
 class hkAabb
 {
   public:
-    __forceinline void* __cdecl operator new(hk_size_t nbytes)
+    __forceinline void* __cdecl operator new(std::size_t nbytes)
     {
         ;
         void* obj = NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));
@@ -994,7 +988,7 @@ class hkpShape : public hkReferencedObject
     }
     struct PhysicsShape
     {
-        __forceinline void* __cdecl operator new(hk_size_t nbytes)
+        __forceinline void* __cdecl operator new(std::size_t nbytes)
         {
             ;
             void* obj = NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));
@@ -1009,12 +1003,12 @@ class hkpShape : public hkReferencedObject
                 NineIntegerRecord::GetMonitorStream().heap().ReleaseBlock(p, sizeof(hkpShape::PhysicsShape));
             }
         }
-        __forceinline void* __cdecl operator new(hk_size_t n, void* p)
+        __forceinline void* __cdecl operator new(std::size_t n, void* p)
         {
             ;
             return p;
         }
-        __forceinline void* __cdecl operator new[](hk_size_t, void* p)
+        __forceinline void* __cdecl operator new[](std::size_t, void* p)
         {
             return p;
         }
@@ -1063,7 +1057,7 @@ void hkpShape::getAabb(const hkTransform& localToWorld, hkReal tolerance, hkAabb
 class hkpCdBody
 {
   public:
-    __forceinline void* __cdecl operator new(hk_size_t nbytes)
+    __forceinline void* __cdecl operator new(std::size_t nbytes)
     {
         ;
         void* obj = NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));
@@ -1163,7 +1157,7 @@ struct CollisionAgentContext
     ValueWrapper<const hkpConvexListFilter*> m_pConvexListCollisionFilter;
     struct AabbBoundsAndScale
     {
-        __forceinline void* __cdecl operator new(hk_size_t nbytes)
+        __forceinline void* __cdecl operator new(std::size_t nbytes)
         {
             ;
             void* obj = NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));
@@ -1179,12 +1173,12 @@ struct CollisionAgentContext
                     p, sizeof(CollisionAgentContext::AabbBoundsAndScale));
             }
         }
-        __forceinline void* __cdecl operator new(hk_size_t n, void* p)
+        __forceinline void* __cdecl operator new(std::size_t n, void* p)
         {
             ;
             return p;
         }
-        __forceinline void* __cdecl operator new[](hk_size_t, void* p)
+        __forceinline void* __cdecl operator new[](std::size_t, void* p)
         {
             return p;
         }
@@ -1213,7 +1207,7 @@ class hkpCollisionDispatcher : public hkReferencedObject
     };
 
   public:
-    __forceinline void* __cdecl operator new(hk_size_t nbytes)
+    __forceinline void* __cdecl operator new(std::size_t nbytes)
     {
         ;
         hkReferencedObject* b = static_cast<hkReferencedObject*>(
@@ -1226,7 +1220,7 @@ class hkpCollisionDispatcher : public hkReferencedObject
                                                     const CollisionAgentContext& env, hkpContactMgr* mgr);
     struct Agent3FunctionTable
     {
-        __forceinline void* __cdecl operator new(hk_size_t nbytes)
+        __forceinline void* __cdecl operator new(std::size_t nbytes)
         {
             ;
             void* obj = NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));
@@ -1241,12 +1235,12 @@ class hkpCollisionDispatcher : public hkReferencedObject
                 NineIntegerRecord::GetMonitorStream().heap().ReleaseBlock(p, sizeof(Agent3FunctionTable));
             }
         }
-        __forceinline void* __cdecl operator new(hk_size_t n, void* p)
+        __forceinline void* __cdecl operator new(std::size_t n, void* p)
         {
             ;
             return p;
         }
-        __forceinline void* __cdecl operator new[](hk_size_t, void* p)
+        __forceinline void* __cdecl operator new[](std::size_t, void* p)
         {
             return p;
         }
@@ -1286,7 +1280,7 @@ class hkpCollisionDispatcher : public hkReferencedObject
   public:
     struct IntegerPair
     {
-        __forceinline void* __cdecl operator new(hk_size_t nbytes)
+        __forceinline void* __cdecl operator new(std::size_t nbytes)
         {
             ;
             void* obj = NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));
@@ -1301,12 +1295,12 @@ class hkpCollisionDispatcher : public hkReferencedObject
                 NineIntegerRecord::GetMonitorStream().heap().ReleaseBlock(p, sizeof(IntegerPair));
             }
         }
-        __forceinline void* __cdecl operator new(hk_size_t n, void* p)
+        __forceinline void* __cdecl operator new(std::size_t n, void* p)
         {
             ;
             return p;
         }
-        __forceinline void* __cdecl operator new[](hk_size_t, void* p)
+        __forceinline void* __cdecl operator new[](std::size_t, void* p)
         {
             return p;
         }
@@ -1320,7 +1314,7 @@ class hkpCollisionDispatcher : public hkReferencedObject
     };
     struct AgentTypePairPriority
     {
-        __forceinline void* __cdecl operator new(hk_size_t nbytes)
+        __forceinline void* __cdecl operator new(std::size_t nbytes)
         {
             ;
             void* obj = NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));
@@ -1335,12 +1329,12 @@ class hkpCollisionDispatcher : public hkReferencedObject
                 NineIntegerRecord::GetMonitorStream().heap().ReleaseBlock(p, sizeof(AgentTypePairPriority));
             }
         }
-        __forceinline void* __cdecl operator new(hk_size_t n, void* p)
+        __forceinline void* __cdecl operator new(std::size_t n, void* p)
         {
             ;
             return p;
         }
-        __forceinline void* __cdecl operator new[](hk_size_t, void* p)
+        __forceinline void* __cdecl operator new[](std::size_t, void* p)
         {
             return p;
         }
@@ -1379,7 +1373,7 @@ class hkpCollisionDispatcher : public hkReferencedObject
 class hkStepInfo
 {
   public:
-    __forceinline void* __cdecl operator new(hk_size_t nbytes)
+    __forceinline void* __cdecl operator new(std::size_t nbytes)
     {
         ;
         void* obj = NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));

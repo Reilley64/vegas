@@ -70,7 +70,6 @@ public:
 class ContainerItemExtra
 {
   public:
-    static void* operator new(unsigned int);
     ContainerItemExtra();
     bool Load(TESFile*);
     void* data[3];
@@ -332,7 +331,6 @@ struct FUN_0096a2d0
     FUN_0096a2d0();
     void FUN_005ae3d0(SpellItem*&);
 };
-void* operator new(unsigned int);
 struct SpellSelector
 {
     int unk00;

@@ -46,7 +46,6 @@ void FUN_00a576c0(NiTPrimitiveArray_char* pkStrings)
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 struct FUN_00a3c390 : BSFadeNode
 {

@@ -2,6 +2,7 @@
 // src/staging/blk_00d20000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstddef>
 #include <windows.h>
 #include <new>
 #include <cstdio>
@@ -351,7 +352,6 @@ void LinkedIndexArray::FUN_00d280e0(){
 int* values=*entries; int* current=*entries; int* end=current+count;while(current!=end){if(*current>=0){while(values[*current]>=0){*current=values[*current];values=*entries;}}++current;}
 }
 
-inline void* __cdecl operator new(unsigned int, void* p) { return p; }
 struct IndexBuffer { int* data; int size; unsigned capacityFlags; };
 struct IndexStorage { int* data; };
 struct AllocationManager { int unk00; int unk04; int unk08; int unk0C; void* allocator; };
@@ -518,7 +518,7 @@ public:
     D2F240Agent(void* pvMgr) throw();
     virtual ~D2F240Agent();
 
-    static void* operator new(unsigned int uiSize) {
+    static void* operator new(std::size_t uiSize) {
         void* p = FUN_00c85750().heap().AllocateMemoryBlock(uiSize);
         static_cast<D2F240Agent*>(p)->m_usMemSizeAndFlags = (unsigned short)uiSize;
         return p;
@@ -695,7 +695,6 @@ struct FUN_00d327e0_cls {
     int m_uiItemCount;
 
     FUN_00d327e0_cls* Destroy(unsigned char acFlags);
-    static void operator delete(void* apMemory) throw();
 };
 
 // Resets the object's vtable and data, frees the data array via the audio allocator, and frees the object itself when acFlags bit 0 is set.
@@ -930,7 +929,7 @@ struct S_00d37da0_RefObj {
     short m_sReferenceCount;
     S_00d37da0_RefObj() { m_sReferenceCount = 1; }
     virtual ~S_00d37da0_RefObj() throw() {}
-    void* operator new(unsigned int nbytes)
+    void* operator new(std::size_t nbytes)
     {
         S_00d37da0_RefObj* b = static_cast<S_00d37da0_RefObj*>(FUN_00c85750()->heap().AllocateMemoryBlock(nbytes));
         b->m_usMemSizeAndFlags = (unsigned short)nbytes;
@@ -1177,7 +1176,7 @@ struct S_00d3f620_RefObj {
     short m_sReferenceCount;
     S_00d3f620_RefObj() throw() { m_sReferenceCount = 1; }
     virtual ~S_00d3f620_RefObj() throw();
-    void* operator new(unsigned int n) {
+    void* operator new(std::size_t n) {
         S_00d3f620_RefObj* b = static_cast<S_00d3f620_RefObj*>(FUN_00c85750()->heap().AllocateMemoryBlock(n));
         b->m_usMemSizeAndFlags = (unsigned short)n;
         return b;
@@ -1782,8 +1781,6 @@ class ObjD2C840 : public FUN_00d2c7e0 {
 public:
     virtual ~ObjD2C840();
     ObjD2C840(int count) : FUN_00d2c7e0(count) {}
-    static void* operator new(unsigned int, void* p) throw() { return p; }
-    static void operator delete(void*, void*) throw() {}
 };
 // Placement-constructs an ObjD2C840 with the given count into the provided storage.
 // @fnv 0x00d2c840
@@ -2677,13 +2674,13 @@ hkMemoryRouterB110* __cdecl GetMemoryRouterB110();
 
 class hkReferencedObjectB110 {
 public:
-    static void* operator new(unsigned int nbytes)
+    static void* operator new(std::size_t nbytes)
     {
         hkReferencedObjectB110* b = static_cast<hkReferencedObjectB110*>(GetMemoryRouterB110()->heap().AllocateMemoryBlock(static_cast<int>(nbytes)));
         b->m_usMemSizeAndFlags = static_cast<unsigned short>(nbytes);
         return b;
     }
-    static void operator delete(void* p, unsigned int nbytes)
+    static void operator delete(void* p, std::size_t nbytes)
     {
         hkReferencedObjectB110* b = static_cast<hkReferencedObjectB110*>(p);
         GetMemoryRouterB110()->heap().ReleaseBlock(p, b->m_usMemSizeAndFlags);
@@ -2811,14 +2808,14 @@ class hkReferencedObjectD2C9 {
 public:
     virtual ~hkReferencedObjectD2C9();
 
-    void* operator new(unsigned int nbytes)
+    void* operator new(std::size_t nbytes)
     {
         hkReferencedObjectD2C9* b = static_cast<hkReferencedObjectD2C9*>(RouterD2C9::FUN_00c85750().heap().AllocateMemoryBlock(nbytes));
         b->m_usMemSizeAndFlags = static_cast<unsigned short>(nbytes);
         return b;
     }
 
-    void operator delete(void* p, unsigned int nbytes)
+    void operator delete(void* p, std::size_t nbytes)
     {
         RouterD2C9::FUN_00c85750().heap().ReleaseBlock(p, nbytes);
     }
@@ -3523,7 +3520,7 @@ struct FUN_00d36b20
     int unk14;
     int unk18;
 
-    static __forceinline void* operator new(unsigned int size) throw()
+    static __forceinline void* operator new(std::size_t size) throw()
     {
         AllocationManager* manager = FUN_00c85750();
         FUN_00d36b20* object = static_cast<FUN_00d36b20*>(static_cast<D36B70_Heap*>(manager->allocator)->AllocateMemoryBlock(size));
@@ -3570,9 +3567,9 @@ public:
     FUN_00d2dc10() {}
     virtual ~FUN_00d2dc10() {}
 
-    static void* operator new(unsigned int, void* p) { return p; }
+    static void* operator new(std::size_t, void* p) { return p; }
     static void operator delete(void*, void*) {}
-    static void operator delete(void* p, unsigned int nbytes) { FUN_00c85750().heap().ReleaseBlock(p, nbytes); }
+    static void operator delete(void* p, std::size_t nbytes) { FUN_00c85750().heap().ReleaseBlock(p, nbytes); }
 
     int unk04;
     int unk08;

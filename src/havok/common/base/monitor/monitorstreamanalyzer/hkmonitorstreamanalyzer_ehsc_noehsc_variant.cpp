@@ -7,6 +7,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 // Returns the smaller of the two float arguments.
 // @fnv 0x00e0c260
+#include <cstddef>
 #include <new>
 #include "fnv/decl/CB1A90Owner.h"
 #include "fnv/decl/FUN_005609f0_shell.h"
@@ -241,10 +242,6 @@ int __cdecl GetTreeWidth(E0C860Node* node, int depth, int indent, bool onlyExpan
         }
     }
     return width;
-}
-inline void* operator new(unsigned int, void* p)
-{
-    return p;
 }
 struct S_e0ce00_Alloc;
 struct S_e0ce00_Router
@@ -1878,7 +1875,7 @@ struct S00e0d180_Node
 
     int unk54;
 
-    void* operator new(unsigned int size)
+    void* operator new(std::size_t size)
     {
 
         return reinterpret_cast<FUN_00e0d000Heap&>(FUN_00c85750()->heap()).allocate(size);

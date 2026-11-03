@@ -7,6 +7,7 @@
 // to their real unit once identified.
 // src/havok/physics/collide/broadphase/3axissweep/hkp3axissweep.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/broadphase/3axissweep/hkp3axissweep.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <new>
 #include "fnv/decl/FUN_00d06fb0_cls.h"
 #include "fnv/decl/FUN_00d11e80_cls.h"
 #include "fnv/decl/SweepMerge.h"
@@ -1666,7 +1667,6 @@ __forceinline void S4ef0Owner::_querySingleAabb(const S4ef0Aabb& aabb,int type,S
  }
  querySingleAabbSub(object,bitField,refNode,type,pairsOut,nodesOut,collector);
 }
-inline void* __cdecl operator new(unsigned int, void* storage) { return storage; }
 static const __m128 batchSweepBias={65536.0f,65536.0f,65536.0f,65536.0f};
 struct BatchSweepAllocator {
     virtual void reserved0();

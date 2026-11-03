@@ -11,14 +11,6 @@ class MemoryManager
 class FUN_00ba94b0
 {
   public:
-    static void* operator new(unsigned int n)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(n);
-    }
-    static void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(p);
-    }
     FUN_00ba94b0(unsigned int);
     char data[20];
 };

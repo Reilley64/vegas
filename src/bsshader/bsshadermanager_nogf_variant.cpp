@@ -806,9 +806,7 @@ class NiMemObject
 {
 
   public:
-    static void* operator new(size_t);
 
-    static void operator delete(void*);
 };
 
 class NiPixelData : public NiRefObject, public NiMemObject

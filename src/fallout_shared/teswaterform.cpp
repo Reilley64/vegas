@@ -632,7 +632,6 @@ struct FUN_00580130_shell : public TESWaterForm
     BGSPlaceableWater* FUN_00580130();
 };
 
-void* __cdecl operator new(unsigned int);
 
 BGSPlaceableWater::BGSPlaceableWater()
 {}
@@ -717,7 +716,6 @@ struct FUN_00580330_shell
     BGSPlaceableWater* FUN_00580330();
 };
 
-void* __cdecl operator new(unsigned int);
 
 // @fnv 0x00580330
 BGSPlaceableWater* FUN_00580330_shell::FUN_00580330()

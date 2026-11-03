@@ -222,7 +222,7 @@ int __cdecl BuildKdTreeDistributed(ContextHandle ctx, ArgStruct* input, ...)
     int result;
     if (8 > arg->m_38)
     {
-        ::MixChannels(&head, (int *)(arg->m_28), arg->m_2c, (void *)(arg->m_3c), arg->m_38, (int *)(arg->m_40), (int *)(unsigned long *)(&scratch.value));
+        ::MixChannels(&head, (int *)(arg->m_28), arg->m_2c, (void *)(intptr_t)arg->m_3c, arg->m_38, (int *)(intptr_t)arg->m_40, (int *)(unsigned long *)(&scratch.value));
         result = 0;
         int* p30 = arg->m_30;
         if (p30 != 0)
@@ -375,12 +375,12 @@ int __cdecl BuildKdTreeDistributed(ContextHandle ctx, ArgStruct* input, ...)
             DWORD unk168;
             DWORD unk16c;
         } buf;
-        int h = ((int)(reinterpret_cast<::QueueLockView *>(((ctx).operator->()))->FUN_00d04400((::RequestContext *)(void *)(&buf))));
+        ::Registry* h = reinterpret_cast<::QueueLockView *>(((ctx).operator->()))->FUN_00d04400((::RequestContext *)(void *)(&buf));
         reinterpret_cast<::Mgr *>(((ctx).operator->()))->InsertItemAndNotify((::PoolSet *)(h), (*(const ::Item *)(&out[0])), result);
         reinterpret_cast<::Mgr *>(((ctx).operator->()))->InsertItemAndNotify((::PoolSet *)(h), (*(const ::Item *)(&out[1])), result);
         reinterpret_cast<::Mgr *>(((ctx).operator->()))->InsertItemAndNotify((::PoolSet *)(h), (*(const ::Item *)(&out[2])), result);
         reinterpret_cast<::Mgr *>(((ctx).operator->()))->InsertItemAndNotify((::PoolSet *)(h), (*(const ::Item *)(&out[3])), result);
-        reinterpret_cast<::CriticalSectionOwner *>(((ctx).operator->()))->FUN_00d04420((::Registry *)(h));
+        reinterpret_cast<::CriticalSectionOwner *>(((ctx).operator->()))->FUN_00d04420(h);
         (void)buf;
     }
     zero = reinterpret_cast<::LunaOwner *>(((ctx).operator->()))->ProcessCallback((intptr_t)(arg), (intptr_t)(arg), result);
@@ -397,6 +397,18 @@ int __cdecl BuildKdTreeDistributed(ContextHandle ctx, ArgStruct* input, ...)
     return zero;
 }
 
+
+struct S00d947e0_TimerRec
+{
+    const char* m_name;
+    unsigned int m_ticks;
+    unsigned int unk08;
+};
+
+struct S00d947e0_TimerRec2 : S00d947e0_TimerRec
+{
+    const char* m_name2;
+};
 
 struct S00d947e0_Tls
 {
@@ -458,7 +470,7 @@ struct S00d947e0_Data
     int unk14;
     S00d947e0_Info* unk18;
     int unk1c;
-    int unk20;
+    char* unk20;
     int unk24;
     int unk28;
     int unk2c;
@@ -587,18 +599,19 @@ void __cdecl FUN_00d947e0(S00d947e0_Obj** a1, S00d947e0_Queue* apQueue, S00d947e
     char* cur = tls->unk04;
     if (cur < tls->unk0C)
     {
-        *(char**)cur = &(*reinterpret_cast<char *>(&::str_010cc5c4));
-        *(char**)(cur + 0xc) = &::fnv_00d94570::str_010d3ea4;
+        S00d947e0_TimerRec2* rec = reinterpret_cast<S00d947e0_TimerRec2*>(cur);
+        rec->m_name = &(*reinterpret_cast<char *>(&::str_010cc5c4));
+        rec->m_name2 = &::fnv_00d94570::str_010d3ea4;
         _ReadWriteBarrier();
         tb = (unsigned int)__rdtsc();
-        *(unsigned int*)(cur + 4) = tb;
-        tls->unk04 = cur + 0x10;
+        rec->m_ticks = tb;
+        tls->unk04 = reinterpret_cast<char*>(rec + 1);
     }
 
-    int base = apData->unk20;
-    int p28 = apData->unk28 + base;
-    int p2c = apData->unk2c + base;
-    int p30 = apData->unk30 + base;
+    char* base = apData->unk20;
+    char* p28 = apData->unk28 + base;
+    char* p2c = apData->unk2c + base;
+    char* p30 = apData->unk30 + base;
     unsigned int bytes = (apData->unk38 * 4 + 15) & 0xfffffff0u;
     S00d947e0_memClear16((int*)p30, bytes / 16);
     ::FUN_00d8d030((*(const ::SInfo *)(&(*a1)->unk000 + 0x1e0)), (::JSchema *)(p2c), (::SAccum *)(p28), (::SElem *)(p30));
@@ -610,11 +623,12 @@ void __cdecl FUN_00d947e0(S00d947e0_Obj** a1, S00d947e0_Queue* apQueue, S00d947e
     cur = tls->unk04;
     if (cur < tls->unk0C)
     {
-        *(char**)cur = &(*reinterpret_cast<char *>(&::DAT_010d3eb8));
+        S00d947e0_TimerRec* rec = reinterpret_cast<S00d947e0_TimerRec*>(cur);
+        rec->m_name = &(*reinterpret_cast<char *>(&::DAT_010d3eb8));
         _ReadWriteBarrier();
         tb = (unsigned int)__rdtsc();
-        *(unsigned int*)(cur + 4) = tb;
-        tls->unk04 = cur + 0xc;
+        rec->m_ticks = tb;
+        tls->unk04 = reinterpret_cast<char*>(rec + 1);
     }
 
     ::FUN_00df0680();
@@ -623,11 +637,12 @@ void __cdecl FUN_00d947e0(S00d947e0_Obj** a1, S00d947e0_Queue* apQueue, S00d947e
     cur = tls->unk04;
     if (cur < tls->unk0C)
     {
-        *(char**)cur = &(*reinterpret_cast<char *>((void *)&::str_01076f38));
+        S00d947e0_TimerRec* rec = reinterpret_cast<S00d947e0_TimerRec*>(cur);
+        rec->m_name = &(*reinterpret_cast<char *>((void *)&::str_01076f38));
         _ReadWriteBarrier();
         tb = (unsigned int)__rdtsc();
-        *(unsigned int*)(cur + 4) = tb;
-        tls->unk04 = cur + 0xc;
+        rec->m_ticks = tb;
+        tls->unk04 = reinterpret_cast<char*>(rec + 1);
     }
 
     reinterpret_cast<::LunaOwner *>((apQueue))->ProcessCallback((intptr_t)(apData), (intptr_t)(apData), 0);

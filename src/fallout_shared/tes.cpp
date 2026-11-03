@@ -11452,7 +11452,7 @@ void AttachmentHandler::FUN_00451ef0(AttachRef* ref, AttachCell* cell, AttachRef
         {
             node = ((::AttachNode *)(reinterpret_cast<::FUN_005d8710_shell *>((other))->FUN_005d8710()));
             if (!((void *)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((ref))->FUN_0043fcd0())))
-                reinterpret_cast<::fnv_00570f70::Obj570 *>((ref))->FUN_00570f70((int)(node));
+                reinterpret_cast<::fnv_00570f70::Obj570 *>((ref))->FUN_00570f70((std::intptr_t)(node));
         }
         else
             node = ref->GetNode(0);

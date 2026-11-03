@@ -7617,7 +7617,7 @@ struct OwnerB
 
 struct TmpGuard
 {
-    unsigned int m0;
+    std::uintptr_t m0;
     unsigned int m1;
     unsigned int m2;
 

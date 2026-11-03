@@ -4495,7 +4495,7 @@ struct DataHandlerX
 struct FUN_00460270_cls
 {
     unsigned char unk000[0x20c];
-    unsigned int m_20c;
+    std::uintptr_t m_20c;
 
     bool FUN_00460270(TESForm* a, int unused);
 };

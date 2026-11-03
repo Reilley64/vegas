@@ -697,7 +697,7 @@ struct FUN_00662030_cls
 // @fnv 0x00662030
 void FUN_00662030_cls::FUN_00662030(int aiSelector, int aiIndex, int aiArg1, int aiArg2, float p5)
 {
-    int pMorph = 0;
+    std::intptr_t pMorph = 0;
     switch (aiSelector)
     {
     case 1:

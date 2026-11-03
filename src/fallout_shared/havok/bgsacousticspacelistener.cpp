@@ -73,7 +73,7 @@ void FUN_0061f8e0_shell::FUN_0061f8e0(bool abDoRemoval)
     void* pos2 = reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>((((MapX*)((char*)this + 0x18))))->GetFirstPos();
     while (pos2)
     {
-        unsigned int key;
+        std::uintptr_t key;
         void* value2;
         reinterpret_cast<::C6b7f20_Map *>((((NiTMap*)((char*)this + 0x18))))->FUN_006b7f20((::C6b7f20_Node **)&(pos2), (unsigned int *)&(key), (void **)&(value2));
         SoundPlaybackManager::ResetAcousticSpace(((::BGSAcousticSpace *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((TESObjectREFR*)key)))->FUN_007af430())));
@@ -157,7 +157,7 @@ void BGSAcousticSpaceListenerX::UpdateAcousticSpaceRefCounts(float afTime)
         while (iter2)
         {
             unsigned int icount;
-            unsigned int key;
+            std::uintptr_t key;
             reinterpret_cast<::C6b7f20_Map *>((((NiTMap*)((char*)this + 0x18))))->FUN_006b7f20((::C6b7f20_Node **)&(iter2), (unsigned int *)&(key), (void **)&((void*&)icount));
             if (icount == 0)
             {

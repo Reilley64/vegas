@@ -289,7 +289,7 @@ struct FUN_005ab240_shell
 struct FUN_0067dbf0_shell
 {
     int unk00;
-    int unk04;
+    std::intptr_t unk04;
     int unk08;
     bool FUN_0067dbf0(TESObjectREFR_GetFlags_caller* apParam);
 };

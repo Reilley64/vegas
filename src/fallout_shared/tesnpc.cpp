@@ -2707,7 +2707,7 @@ void NPCSerializer::WriteToStream()
     }
     ::FUN_00485910(0x344d414e, *(unsigned int*)((char*)this + 0x1e4));
 
-    unsigned int formID = ((unsigned int)(reinterpret_cast<::FUN_009611e0_shell *>((((FaceMatrix*)((char*)this + 0x134))))->FUN_009611e0()));
+    std::uintptr_t formID = ((unsigned int)(reinterpret_cast<::FUN_009611e0_shell *>((((FaceMatrix*)((char*)this + 0x134))))->FUN_009611e0()));
     if (formID != 0)
     {
         unsigned int values = formID * 4;
@@ -3931,8 +3931,8 @@ void ProcessHost::FUN_0060a890(int pObject)
     {
         OutBuf out;
         std::intptr_t x;
-        int y;
-        int p;
+        std::intptr_t y;
+        std::intptr_t p;
         x = (std::intptr_t)((void *)(reinterpret_cast<::FUN_00950bb0_shell *>((((ProcessHost*)(*reinterpret_cast<int *>(&::_g_thePlayer)))))->FUN_00950bb0(1)));
         y = x != 0 ? x : 0;
         p = y != 0 ? (int)((void *)(reinterpret_cast<::S_FUN_0045bc00 *>((((ProcessHost*)y)))->FUN_0045bc00(0))) : 0;
@@ -5891,7 +5891,7 @@ void FUN_00605e70_Owner::ProcessInventoryItems(EqRef* apRef, EqInventory* apInve
     EqNode* pNode;
     EqActor* pActor6;
     unsigned int i4;
-    int iItem7;
+    std::intptr_t iItem7;
 
     reinterpret_cast<::BipedAnim *>((apInventory))->UpdateRaceSex((::TESRace *)(((reinterpret_cast<::Callees *>(&(kList))->FUN_00726070()))), (::SEX)((iFlags & 1) ? 1 : 0));
     pActor6 = static_cast<EqActor*>(apRef);

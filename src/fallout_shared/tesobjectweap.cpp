@@ -2395,9 +2395,9 @@ bool TESObjectWEAP::Load(TESFile* file)
 // @fnv 0x00521730
 void Weapon::Save()
 {
-    UInt32 savedProj;
-    UInt32 savedVats;
-    UInt32 savedCrit;
+    std::uintptr_t savedProj;
+    std::uintptr_t savedVats;
+    std::uintptr_t savedCrit;
 
     reinterpret_cast<::fnv_004855a0::ArrSI *>(this)->FUN_004855a0();
     reinterpret_cast<::FUN_00487010_shell *>(&(fullName))->FUN_00487010();

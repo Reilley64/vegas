@@ -691,7 +691,7 @@ struct BGSDistantTreeBlock
 void Dfcfa0Manager::FUN_006fcfa0(Dfcfa0Ref* ref, bool addIfMissing)
 {
     unsigned int formId = ((int)(reinterpret_cast<::FUN_00485b60 *>((ref))->Go()));
-    int block = ForwardToCallee(ref->GetBlock());
+    std::intptr_t block = ForwardToCallee(ref->GetBlock());
     if (block)
     {
         reinterpret_cast<::BGSDistantTreeBlock_shell *>((((BGSDistantTreeBlock*)block)))->MarkTreeInstance(formId, true);

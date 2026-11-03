@@ -563,7 +563,7 @@ void BGSDistantTreeBlock::ProcessAllTrees()
 // @fnv 0x006f9230
 void BGSDistantTreeBlock_shell::MarkTreeInstance(unsigned int aID, bool abQueue)
 {
-    unsigned int pinst = 0;
+    std::uintptr_t pinst = 0;
     bool bfound = reinterpret_cast<::fnv_00853130::NiTMapBase *>((((DummyPointerMap*)((char*)this + 0x14))))->FUN_00853130(aID, (::fnv_00853130::CombatThreatRecord *&)(pinst));
     if (bfound)
     {

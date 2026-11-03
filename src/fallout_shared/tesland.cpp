@@ -1240,7 +1240,7 @@ void Mgr_e74120_iso::FUN_00e74120()
                     unsigned int index = it->unk1c;
                     UploadBatchItem* nx = it->next;
                     sub = arr->GetPart(index);
-                    unsigned int offset = sub->firstByte + base;
+                    std::uintptr_t offset = sub->firstByte + base;
                     if (!it->unk0c ||
                         !it->unk0c->FUN_00e74288(it->unk00, it->unk04, it->unk08, 0xfff, sub, index, offset, 0, 0))
                     {
@@ -1279,7 +1279,7 @@ void Mgr_e74120_iso::FUN_00e74120()
                             }
                             int tmp = arr->unk30;
                             bool fl2 = arr->unk14;
-                            unsigned int prev = arr->unk34;
+                            std::uintptr_t prev = arr->unk34;
                             arr->unk34 =
                                 ((unsigned int)(reinterpret_cast<::IndexBufferManager *>((helper8c0))->PackBuffer((const unsigned short *)(data), a, b, (::COMBaseInterface *)(prev), (*(unsigned int *)(&tmp)), DAT_0126f0d0 == 0, fl2 ? 0x10 : 0)));
                             arr->unk2c = a;
@@ -6962,7 +6962,7 @@ void This538110::FUN_00538110()
             if (m_28->m_30arr[w] != 0) {
                 int u3;
                 int u6;
-                int w1;
+                std::intptr_t w1;
                 u3 = 6;
                 for (u6 = 0; u6 < u3; u6++) {
                     w1 = m_28->m_30arr[w][u6];

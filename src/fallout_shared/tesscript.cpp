@@ -1353,7 +1353,7 @@ struct AutoMemHelper
 struct SL
 {
     int a;
-    int b;
+    std::intptr_t b;
     SL();
 };
 struct SoundListView
@@ -2181,7 +2181,7 @@ struct FUN_005a8c00_list
 // @fnv 0x005a8c00
 void FUN_005a8c00(void* pThis)
 {
-    unsigned int v;
+    std::uintptr_t v;
     void* arg;
     void* t;
     void* l;

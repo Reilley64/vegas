@@ -2425,7 +2425,7 @@ struct FUN_006f6d10 : ArchiveFileManager
     int m_iY;
     int m_iZ;
     int m_iParent;
-    int m_iWorld;
+    std::intptr_t m_iWorld;
     TaskPtr<TaskNode> m_spNode;
     TaskPtr<TaskNode> m_spLand;
     unsigned char m_bLoadComplete;

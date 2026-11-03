@@ -148,7 +148,7 @@ struct FUN_00807730_shell
 TESObjectREFR* FUN_00807730_shell::FUN_00807730(void* p)
 {
     TESObjectREFR* result = 0;
-    int blood = ::FUN_00c7fa90((::S_Obj *)(p));
+    std::intptr_t blood = ::FUN_00c7fa90((::S_Obj *)(p));
     if (blood)
         result = ::FUN_0056f930((::NiAVObject *)(void *)((void*)blood));
     return result;

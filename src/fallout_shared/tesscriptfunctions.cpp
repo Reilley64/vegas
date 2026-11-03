@@ -3617,7 +3617,7 @@ struct FUN_004f8940_class
 {
     int m_uiStandInValue;
     int m_pad4;
-    int m_field_08;
+    std::intptr_t m_field_08;
     void FUN_004f8940();
 };
 
@@ -6586,7 +6586,7 @@ extern CameraPathManager* g_thePlayer;
 // @fnv 0x005cad20
 bool FUN_005cad20(const ScriptParameter* paramInfo, const char* scriptData, TESObjectREFR* thisObj, TESObjectREFR* containingObj, Script* scriptObj, ScriptLocals* eventList, double& result, unsigned int& opcodeOffsetPtr)
 {
-    unsigned int iLooking = 0;
+    std::uintptr_t iLooking = 0;
     int iPipBoy = 1;
     int iFighting = 1;
     int iSneaking = 1;
@@ -18254,7 +18254,7 @@ bool ParseControlArgs5cae30(void* a1, void* a2, void* a7, void* a3, void* a4, vo
 // @fnv 0x005cae30
 bool FUN_005cae30(void* a1, void* a2, void* a3, void* a4, void* a5, void* a6, void* a7, void* a8)
 {
-    unsigned int looking = 0;
+    std::uintptr_t looking = 0;
     int fighting = 1;
     int movement = 1;
     int rolloverText = 1;
@@ -26379,7 +26379,7 @@ bool FUN_005b7b40(int form,int flags,int option,int source,int destination,int q
     reinterpret_cast<::TESObjectCELL_Ext *>((process23))->FUN_00555b10((*(const ::NiPoint3 *)(&camera3)),(*(::NiPoint3 *)(&baseCamera32)),1);
     int baseX=(FUN_00406d90(baseCamera32.x)-2048)>>12;
     int baseY31=(FUN_00406d90(baseCamera32.y)-2048)>>12;
-    int centerX2=baseX+cellX2-(cellCount7>>1);
+    std::intptr_t centerX2=baseX+cellX2-(cellCount7>>1);
     int centerY18=baseY31+cellY2-(cellCount7>>1);
     origin=NiPoint3(float(centerX2*4096+2048),float(centerY18*4096+2048),0);
     tileData13=((void *)(reinterpret_cast<::Target556ef0 *>((process23))->FUN_00556ef0(centerX2,centerY18,0)));
@@ -44956,7 +44956,7 @@ bool FUN_005dc9a0(const void* pParams, const char* pData, xRef* pThis, xRef* pCo
                             std::intptr_t iSeq = 0;
                             if (qsSDDgz->ComputePositionAtTime() && ((::xControllerManager *)(reinterpret_cast<::fnv_00496940::FUN_00496940_shell *>((qsSDDgz->ComputePositionAtTime()))->FUN_00496940())))
                                 iSeq = ((std::intptr_t)(::fnv_00537bd0::GetStringAtOffset((const char *)(((::xControllerManager *)(reinterpret_cast<::fnv_00496940::FUN_00496940_shell *>((qsSDDgz->ComputePositionAtTime()))->FUN_00496940()))))));
-                            int iSeq2 = iSeq;
+                            std::intptr_t iSeq2 = iSeq;
                             xProc* pkProc = qsSDDgz->GetProc(0);
                             if (pkProc && ((::xDays *)(reinterpret_cast<::FUN_009611e0_shell *>((pkProc))->FUN_009611e0()))) {
                                 ::FUN_00a6e8e0((::S_00a6e8e0_Object *)(pkProc), (::S_00a6e8e0_Palette *)(iSeq2));

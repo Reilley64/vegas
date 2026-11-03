@@ -10572,7 +10572,7 @@ struct Package679120 : TESPackage
 void Package679120::SavePackage()
 {
     unsigned short blockLength = 0;
-    unsigned int start = 0;
+    std::uintptr_t start = 0;
     unsigned int blockStart = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((SaveStream679120*)(*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00();
     if (*::g_011de4e8.Bool())
         blockStart = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((SaveStream679120*)(*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00();

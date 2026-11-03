@@ -480,7 +480,7 @@ struct FUN_0062e500_shell : FUN_0057b700_class
 // @fnv 0x0062e500
 void FUN_0062e500_shell::FUN_0062e500(int aiKey, int auiValue)
 {
-    int ptarget2 = *(int*)((char*)this + 0x14) ? FUN_0057b730(aiKey) : 0;
+    std::intptr_t ptarget2 = *(int*)((char*)this + 0x14) ? FUN_0057b730(aiKey) : 0;
     unsigned int uindex;
     if (ptarget2)
     {
@@ -2135,7 +2135,7 @@ void WaterZoneRemoval::FUN_0062fc70(ParamStruct* apParams)
             while (pos4)
             {
                 void* val = 0;
-                unsigned int keyTmp = 0;
+                std::uintptr_t keyTmp = 0;
                 reinterpret_cast<::C6b7f20_Map *>((map4))->FUN_006b7f20((::C6b7f20_Node **)&(pos4), (unsigned int *)&(keyTmp), (void **)&(val));
                 if (var_8 != 0 && ((EffectItem*)keyTmp)->unk1c == var_8)
                 {

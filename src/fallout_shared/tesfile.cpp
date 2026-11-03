@@ -6,6 +6,7 @@
 #include <cstdio>
 #include <cstring>
 #include <malloc.h>
+#include "fileformat/compression.h"
 #include "runtime/crt.h"
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/BGSReconstructFormsInAllFilesMap.h"
@@ -3313,26 +3314,6 @@ struct AutoMemX
 struct TagX
 {
 };
-struct ZStreamX
-{
-    char* m_pNextInputByte;
-    unsigned int m_uiAvailableInputBytes;
-    unsigned long m_ulTotalInputBytes;
-    char* m_pNextOutputByte;
-    unsigned int m_uiAvailableOutputBytes;
-    unsigned long m_ulTotalOutputBytes;
-    char* msg;
-    void* state;
-    void* (*m_pAllocateCallback)(void*, unsigned int, unsigned int);
-    void (*m_pFreeCallback)(void*, void*);
-    void* opaque;
-    int data_type;
-    unsigned long m_ulAdler32Checksum;
-    unsigned long reserved;
-};
-int FUN_00b43fe0(ZStreamX* s, const char* ver, int size);
-int FUN_00b44000(ZStreamX* s, int flush);
-int FUN_00b45db0(ZStreamX* s);
 struct FileX
 {
 };
@@ -3375,45 +3356,18 @@ void SelfX::InflateCompressedForm()
             pBufferVal[m244] = 0;
             m420 = (char*)::FUN_00401000(uiSize7);
             m424 = uiSize7;
-            ZStreamX kStream;
-            char acState[0x1ba4];
-            kStream.m_pAllocateCallback = ((void *(&)(void *, unsigned int, unsigned int))::AllocateProduct);
-            kStream.m_pFreeCallback = ::fnv_00474480::FUN_00474480;
-            kStream.opaque = 0;
-            kStream.m_uiAvailableInputBytes = 0;
-            kStream.m_pNextInputByte = 0;
-            kStream.state = acState;
-            int iRet6 = FUN_00b43fe0(&kStream, "1.2.1", 0x38);
-            if (iRet6)
+            // One stream per loading thread, reused for every compressed record.
+            static thread_local fileformat::Inflater kInflater;
+            kInflater.Reset();
+            std::span<const std::byte> kInput(reinterpret_cast<const std::byte*>(pData4), m244 - 4);
+            std::span<std::byte> kOutput(reinterpret_cast<std::byte*>(m420), uiSize7);
+            if (kInflater.Inflate(kInput, kOutput) != fileformat::InflateStatus::End)
             {
-                FUN_00b45db0(&kStream);
                 ::FUN_005b5e40();
                 reinterpret_cast<::FUN_00473960_shell *>(this)->FUN_00473960();
                 ::FUN_00401030(pBufferVal);
                 return;
             }
-            kStream.m_uiAvailableInputBytes = m244 - 4;
-            kStream.m_pNextInputByte = pData4;
-            kStream.m_uiAvailableOutputBytes = uiSize7;
-            kStream.m_pNextOutputByte = m420;
-            iRet6 = FUN_00b44000(&kStream, 0);
-            if (iRet6 == -2 || iRet6 == 2 || iRet6 == -3 || iRet6 == -4)
-            {
-                FUN_00b45db0(&kStream);
-                ::FUN_005b5e40();
-                reinterpret_cast<::FUN_00473960_shell *>(this)->FUN_00473960();
-                ::FUN_00401030(pBufferVal);
-                return;
-            }
-            if (iRet6 != 1)
-            {
-                FUN_00b45db0(&kStream);
-                ::FUN_005b5e40();
-                reinterpret_cast<::FUN_00473960_shell *>(this)->FUN_00473960();
-                ::FUN_00401030(pBufferVal);
-                return;
-            }
-            FUN_00b45db0(&kStream);
         }
         ::FUN_00401030(pBufferVal);
     }

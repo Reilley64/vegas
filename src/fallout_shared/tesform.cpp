@@ -2,6 +2,7 @@
 
 #include <new>
 #include <cstring>
+#include "fileformat/compression.h"
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/BSSimpleArrayActor.h"
 #include "fnv/decl/Callees.h"
@@ -3193,31 +3194,10 @@ struct CompressionRecord
     unsigned int versionControl;
     unsigned int version;
 };
-struct CompressionStream
-{
-    unsigned char* m_pNextInputByte;
-    unsigned int m_uiAvailableInputBytes;
-    unsigned int m_ulTotalInputBytes;
-    unsigned char* m_pNextOutputByte;
-    unsigned int m_uiAvailableOutputBytes;
-    unsigned int m_ulTotalOutputBytes;
-    char* msg;
-    void* state;
-    void*(__cdecl* m_pAllocateCallback)(void*, unsigned int, unsigned int);
-    void(__cdecl* m_pFreeCallback)(void*, void*);
-    void* opaque;
-    int data_type;
-    unsigned int m_ulAdler32Checksum;
-    unsigned int reserved;
-};
-extern "C" int __cdecl FUN_00b46360(CompressionStream*, int, const char*, int);
-extern "C" int __cdecl deflate(CompressionStream*, int);
-extern "C" int __cdecl FUN_00b47370(CompressionStream*);
 
 // Local roles: j = write cursor, e = output buffer, c = record header,
-// l = zlib status, k = new record size, ba = compressed buffer,
-// b = stored original size, q = input size, cf = zlib stream,
-// eb = compression capacity, f = compressed size.
+// k = new record size, ba = compressed buffer, b = stored original size,
+// q = input size, eb = compression capacity, f = compressed size.
 // @fnv 0x00483d70
 void CompressSaveLoadRecord()
 {
@@ -3235,31 +3215,16 @@ void CompressSaveLoadRecord()
         unsigned int q = DAT_011c54d0 - 24;
         unsigned char* j = (unsigned char*)DAT_011c54cc;
         j += 24;
-        CompressionStream cf;
-        cf.m_pAllocateCallback = 0;
-        cf.m_pFreeCallback = 0;
-        cf.opaque = 0;
-        cf.state = 0;
-        int l = FUN_00b46360(&cf, -1, "1.2.1", 56);
-        if (l != 0)
-        {
-            ::FUN_005b5e40();
-            return;
-        }
         unsigned int eb = q * 2;
         unsigned char* ba = new unsigned char[eb];
-        cf.m_uiAvailableInputBytes = q;
-        cf.m_pNextInputByte = j;
-        cf.m_uiAvailableOutputBytes = eb;
-        cf.m_pNextOutputByte = ba;
-        l = deflate(&cf, 4);
-        if (l == -2)
+        unsigned int f = (unsigned int)fileformat::Deflate(std::span<const std::byte>((const std::byte*)j, q),
+                                                           std::span<std::byte>((std::byte*)ba, eb));
+        if (f == 0)
         {
             ::FUN_005b5e40();
             delete[] ba;
             return;
         }
-        unsigned int f = eb - cf.m_uiAvailableOutputBytes;
         unsigned int k = f + 28;
         unsigned char* e = new unsigned char[k];
         j = e;
@@ -3278,7 +3243,6 @@ void CompressSaveLoadRecord()
         ::FUN_00401030(DAT_011c54cc);
         DAT_011c54cc = e;
         DAT_011c54d0 = k;
-        FUN_00b47370(&cf);
         delete[] ba;
     }
 }

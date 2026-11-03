@@ -150,7 +150,7 @@ struct FUN_00e34800
 FUN_00e34800::FUN_00e34800(int aiValue)
 {
     vtbl = &DAT_010eb770;
-    reinterpret_cast<::FUN_00cb0a70_Class *>((((FUN_00e34800*)((char*)this + 0xc))))->FUN_00cb0a70(aiValue);
+    reinterpret_cast<::FUN_00cb0a70_Class *>(&c)->FUN_00cb0a70(aiValue);
 }
 
 struct CB2FC0Object
@@ -171,6 +171,9 @@ void FUN_00e3b4d0_Class::ApplyToBothObjects(void* a, void* b)
 
 struct FUN_00e3ec30_Class
 {
+    char m_pad00[0x28];
+    char** m_ppEntries;
+    int m_iEntryCount;
     char* FUN_00e3ec30(intptr_t arg);
 };
 
@@ -179,9 +182,9 @@ char* FUN_00e3ec30_Class::FUN_00e3ec30(intptr_t arg)
 {
     if (!arg)
         return 0;
-    for (int i = 0; i < *(int*)((char*)this + 0x2c); ++i)
+    for (int i = 0; i < m_iEntryCount; ++i)
     {
-        char** p = *(char***)((char*)this + 0x28);
+        char** p = m_ppEntries;
         char* pEntry = p[i];
         uintptr_t eax = *(uintptr_t*)(pEntry + 0x14);
         if ((eax & ~(uintptr_t)1) != 0)
@@ -200,12 +203,14 @@ struct D481D0RefVariant
 };
 struct FUN_00e3f8d0_class
 {
+    int unk00;
+    D481D0RefVariant m_kVariant;
     void FUN_00e3f8d0(void* a, const void* b);
 };
 // @fnv 0x00e3f8d0
 void FUN_00e3f8d0_class::FUN_00e3f8d0(void* a, const void* b)
 {
-    reinterpret_cast<::FUN_00d47770 *>((((D481D0RefVariant*)((char*)this + 4))))->SetObject((::hkReferencedObject *)(a), (intptr_t)(b));
+    reinterpret_cast<::FUN_00d47770 *>(&m_kVariant)->SetObject((::hkReferencedObject *)(a), (intptr_t)(b));
 }
 
 struct FUN_00e29620_class
@@ -267,16 +272,15 @@ void __cdecl InitSplitChunks(int a1, int aiTotal, int a3, int a4, int a5, SplitC
     if (n > 1)
     {
         int bnd = q;
-        int* e = &out[1].unk5c;
+        SplitChunk* p = out + 1;
         int cnt = n - 1;
         do
         {
-            SplitChunk* p = (SplitChunk*)((char*)e - 0x5c);
             *p = *out;
-            e[-1] = bnd;
+            p->unk58 = bnd;
             bnd += q;
-            *e = bnd;
-            e = (int*)((char*)e + 0x70);
+            p->unk5c = bnd;
+            ++p;
             cnt--;
         } while (cnt != 0);
     }
@@ -2547,7 +2551,7 @@ unsigned char FUN_00e3f210_cls::HasDelimiter()
 struct FUN_00e3f230_Entry
 {
     uintptr_t m_flagged;
-    unsigned int unk04;
+    uintptr_t m_flaggedValue;
 };
 
 struct FUN_00e3f230_cls
@@ -2564,7 +2568,7 @@ void* FUN_00e3f340_Class::GetEntryByArg(int arg)
     int index = reinterpret_cast<::FUN_00e3f230_cls *>(this)->FindEntryByKey(arg);
     if (index != -1)
     {
-        void* entry = *(void**)(*(char**)((char*)this + 8) + index * 8 + 4);
+        void* entry = (void*)reinterpret_cast<FUN_00e3f230_cls*>(this)->m_pEntries[index].m_flaggedValue;
         return (void*)((uintptr_t)entry & ~(uintptr_t)1);
     }
     return 0;
@@ -4051,7 +4055,7 @@ void FUN_00e2cc30(SplitInput* input, intptr_t a2, intptr_t a3, intptr_t a4, intp
     WorkItem* data = (WorkItem*)router->unk00;
     stack.m_data = data;
     stack.localMemory = data;
-    router->unk00 = (char*)data + 384;
+    router->unk00 = (char*)data + ((10 * sizeof(WorkItem) + 127) & -128);
     int iMaxDepth = 0;
     stack.m_iElementCount = 0;
     stack.m_iCapacityState = 10 | 0x80000000;

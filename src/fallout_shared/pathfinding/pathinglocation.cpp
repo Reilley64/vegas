@@ -211,7 +211,7 @@ struct StandInShell
 // @fnv 0x006dcc40
 StandInShell* StandInShell::FUN_006dcc40(void* other)
 {
-    *(int*)this = (int)&DAT_0102583c;
+    *(void**)this = (void*)&DAT_0102583c;
     (void *)(((StandIn6815c0*)((char*)this + 4)));
     *(Point3_12*)((char*)this + 4) = *(Point3_12*)((char*)other + 4);
     *(int*)((char*)this + 0x10) = *(int*)((char*)other + 0x10);

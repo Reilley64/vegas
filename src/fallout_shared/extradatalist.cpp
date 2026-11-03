@@ -10768,7 +10768,7 @@ struct FUN_0042c6d0 : BE
 // @fnv 0x0042c6d0
 FUN_0042c6d0::FUN_0042c6d0() : BE(0x26)
 {
-    *(int*)this = (int)&DAT_010158f0;
+    *(void**)this = (void*)&DAT_010158f0;
     f0c = 0;
 }
 }  // namespace fnv_0042c6d0
@@ -10789,7 +10789,7 @@ struct FUN_0042c700 : BE
 // @fnv 0x0042c700
 FUN_0042c700::FUN_0042c700() : BE(0x27)
 {
-    *(int*)this = (int)&DAT_010158fc;
+    *(void**)this = (void*)&DAT_010158fc;
     _10 = 0.0f;
 }
 }  // namespace fnv_0042c700
@@ -10833,7 +10833,7 @@ struct FUN_0042c800 : BE
 // @fnv 0x0042c800
 FUN_0042c800::FUN_0042c800() : BE(0x4A)
 {
-    *(int*)this = (int)&DAT_0101592c;
+    *(void**)this = (void*)&DAT_0101592c;
     _0C = 0;
 }
 }  // namespace fnv_0042c800
@@ -10856,7 +10856,7 @@ struct FUN_0042ca30 : BE
 // @fnv 0x0042ca30
 FUN_0042ca30::FUN_0042ca30() : BE(0x5c)
 {
-    *(int*)this = (int)&DAT_01015208;
+    *(void**)this = (void*)&DAT_01015208;
     _0c = 0.0f;
 }
 }  // namespace fnv_0042ca30
@@ -10873,7 +10873,7 @@ struct FUN_0042ca60 : BE
 // @fnv 0x0042ca60
 FUN_0042ca60::FUN_0042ca60() : BE(0x5D)
 {
-    *(int*)this = (int)&::fnv_00422420::DAT_01015214;
+    *(void**)this = (void*)&::fnv_00422420::DAT_01015214;
     *(float*)((char*)this + 0xC) = 0.0f;
 }
 }  // namespace fnv_0042ca60
@@ -10895,7 +10895,7 @@ struct FUN_0042cc40 : BE
 // @fnv 0x0042cc40
 FUN_0042cc40::FUN_0042cc40() : BE(0x8d)
 {
-    *(int*)this = (int)&DAT_010159a4;
+    *(void**)this = (void*)&DAT_010159a4;
     this->_m3 = 0;
 }
 }  // namespace fnv_0042cc40
@@ -13311,7 +13311,7 @@ struct FUN_0041faf0 : BE
 // @fnv 0x0041faf0
 FUN_0041faf0::FUN_0041faf0(void* arg) : BE(0x6b)
 {
-    *(int*)this = (int)&DAT_010151b4;
+    *(void**)this = (void*)&DAT_010151b4;
     *(void**)((char*)this + 0xc) = arg;
 }
 }  // namespace fnv_0041faf0
@@ -13617,7 +13617,7 @@ struct FUN_0042c9f0 : BE
 // @fnv 0x0042c9f0
 FUN_0042c9f0::FUN_0042c9f0() : BE(0x5B)
 {
-    *(int*)this = (int)&::DAT_01015980;
+    *(void**)this = (void*)&::DAT_01015980;
     *(int*)((char*)this + 0xC) = 0;
     *(int*)((char*)this + 0x10) = 0;
 }
@@ -14750,7 +14750,7 @@ class Unit_59097dfe3b9e
 // @fnv 0x0041cc30
 char Unit_59097dfe3b9e::GetByteAtOffset26()
 {
-    int value = ((int)(reinterpret_cast<::fnv_00410220::FUN_00410220_shell *>(this)->FUN_00410220(0x19)));
+    int value = ((int)(std::uintptr_t)(reinterpret_cast<::fnv_00410220::FUN_00410220_shell *>(this)->FUN_00410220(0x19)));
     if (value)
         return *(char*)(value + 0x1a);
     else
@@ -15939,7 +15939,7 @@ struct FUN_0042efe0_cls : BaseExtraList
 // @fnv 0x0042efe0
 int FUN_0042efe0_cls::FUN_0042efe0()
 {
-    int result = ((int)(reinterpret_cast<::fnv_00410220::FUN_00410220_shell *>(this)->FUN_00410220(0x73)));
+    std::intptr_t result = ((std::intptr_t)(reinterpret_cast<::fnv_00410220::FUN_00410220_shell *>(this)->FUN_00410220(0x73)));
     return result;
 }
 
@@ -20402,7 +20402,7 @@ void Owner::WriteNodeList(BufObj* apBuffer)
                     ListNode* e = *((::fnv_00426a30::ListNode **)((void *)(cursor4)));
                     if (e != 0)
                     {
-                        int res1 = ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((e))->FUN_0045cd60()));
+                        std::intptr_t res1 = ((std::intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((e))->FUN_0045cd60()));
                         void* res2 = reinterpret_cast<::Callees *>((e))->FUN_00726070();
                         reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50(&res1, 4, 0);
                         reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50(&res2, 4, 0);
@@ -20647,7 +20647,7 @@ void Owner::WriteNodeList(BufObj* apBuffer)
                 reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(record3->m_0c), 0);
                 reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(record3->m_10), 0);
                 ObjR* object4 = ((::fnv_00426a30::ObjR *)(reinterpret_cast<::Actor *>((((ObjRBase*)r1)))->GetActorBase()));
-                int val = ((int)(reinterpret_cast<::FUN_0045cd60_shell *>(&(object4->m_30))->FUN_0045cd60()));
+                std::intptr_t val = ((std::intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>(&(object4->m_30))->FUN_0045cd60()));
                 reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50(&val, 4, 0);
                 TempC2 res2;
                 apBuffer->FUN_00428110((TempC*)&res2);
@@ -23146,7 +23146,7 @@ void ResolveExtraOwner::FUN_00416be0(TESForm* owner)
         {
         case 104: {
             ResolvePayload* sourceFile = &static_cast<ResolveExtraPayload*>(pNode)->payload;
-            unsigned int pNode = reinterpret_cast<unsigned int>(sourceFile->ref);
+            unsigned int pNode = (unsigned int)reinterpret_cast<std::uintptr_t>(sourceFile->ref);
             if (pNode)
             {
                 ::ResolveFormID(&pNode, owner->GetFile(-1));
@@ -23187,7 +23187,7 @@ void ResolveExtraOwner::FUN_00416be0(TESForm* owner)
             ResolveMap* sourceFile = reinterpret_cast<ResolveMap*>(static_cast<ResolveExtraPointer*>(pNode)->value);
             if (reinterpret_cast<::MapMarkerData *>((sourceFile))->IsTravelLocation() && !reinterpret_cast<::MapMarkerData *>((sourceFile))->GetVisible())
                 reinterpret_cast<::MapMarkerData *>((sourceFile))->SetTravelLocation(false);
-            unsigned int pNode = ((unsigned int)(reinterpret_cast<::MagicCaster_shell *>((sourceFile))->FUN_0044edb0()));
+            std::uintptr_t pNode = ((std::uintptr_t)(reinterpret_cast<::MagicCaster_shell *>((sourceFile))->FUN_0044edb0()));
             if (pNode)
             {
                 TESForm* form = ((::TESForm *)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::fnv_00416be0::ResolveManager * *>(&::g_dataHandler))))->GetReputation(pNode)));
@@ -23212,7 +23212,7 @@ void ResolveExtraOwner::FUN_00416be0(TESForm* owner)
         }
         case 33: {
             ResolveExtraValue* extra = static_cast<ResolveExtraValue*>(pNode);
-            unsigned int id = reinterpret_cast<unsigned int>(extra->form);
+            unsigned int id = (unsigned int)reinterpret_cast<std::uintptr_t>(extra->form);
             ::ResolveFormID(&id, sourceFile);
             extra->form = ::FUN_004839c0(id);
             if (!extra->form)
@@ -23224,7 +23224,7 @@ void ResolveExtraOwner::FUN_00416be0(TESForm* owner)
         }
         case 34: {
             ResolveExtraValue* extra = static_cast<ResolveExtraValue*>(pNode);
-            unsigned int id = reinterpret_cast<unsigned int>(extra->form);
+            unsigned int id = (unsigned int)reinterpret_cast<std::uintptr_t>(extra->form);
             ::ResolveFormID(&id, sourceFile);
             extra->form = dynamic_cast<TESGlobal*>(::FUN_004839c0(id));
             if (!extra->form)
@@ -23236,7 +23236,7 @@ void ResolveExtraOwner::FUN_00416be0(TESForm* owner)
         }
         case 63: {
             ResolveExtraValue* extra = static_cast<ResolveExtraValue*>(pNode);
-            unsigned int id = reinterpret_cast<unsigned int>(extra->form);
+            unsigned int id = (unsigned int)reinterpret_cast<std::uintptr_t>(extra->form);
             ::ResolveFormID(&id, sourceFile);
             extra->form = dynamic_cast<AlchemyItem*>(::FUN_004839c0(id));
             if (!extra->form)
@@ -23248,7 +23248,7 @@ void ResolveExtraOwner::FUN_00416be0(TESForm* owner)
         }
         case 8: {
             ResolveExtraValue* extra = static_cast<ResolveExtraValue*>(pNode);
-            unsigned int id = reinterpret_cast<unsigned int>(extra->form);
+            unsigned int id = (unsigned int)reinterpret_cast<std::uintptr_t>(extra->form);
             ::ResolveFormID(&id, sourceFile);
             extra->form = dynamic_cast<TESClimate*>(::FUN_004839c0(id));
             if (!extra->form)
@@ -23260,7 +23260,7 @@ void ResolveExtraOwner::FUN_00416be0(TESForm* owner)
         }
         case 89: {
             ResolveExtraValue* extra = static_cast<ResolveExtraValue*>(pNode);
-            unsigned int id = reinterpret_cast<unsigned int>(extra->form);
+            unsigned int id = (unsigned int)reinterpret_cast<std::uintptr_t>(extra->form);
             ::ResolveFormID(&id, sourceFile);
             extra->form = dynamic_cast<TESImageSpace*>(::FUN_004839c0(id));
             if (!extra->form)
@@ -23278,7 +23278,7 @@ void ResolveExtraOwner::FUN_00416be0(TESForm* owner)
         }
         case 129: {
             ResolveExtraValue* extra = static_cast<ResolveExtraValue*>(pNode);
-            unsigned int id = reinterpret_cast<unsigned int>(extra->form);
+            unsigned int id = (unsigned int)reinterpret_cast<std::uintptr_t>(extra->form);
             ::ResolveFormID(&id, sourceFile);
             extra->form = dynamic_cast<BGSAcousticSpace*>(::FUN_004839c0(id));
             if (!extra->form)
@@ -23290,7 +23290,7 @@ void ResolveExtraOwner::FUN_00416be0(TESForm* owner)
         }
         case 3: {
             ResolveExtraValue* extra = static_cast<ResolveExtraValue*>(pNode);
-            unsigned int id = reinterpret_cast<unsigned int>(extra->form);
+            unsigned int id = (unsigned int)reinterpret_cast<std::uintptr_t>(extra->form);
             ::ResolveFormID(&id, sourceFile);
             extra->form = dynamic_cast<TESWaterForm*>(::FUN_004839c0(id));
             if (!extra->form)
@@ -23302,7 +23302,7 @@ void ResolveExtraOwner::FUN_00416be0(TESForm* owner)
         }
         case 7: {
             ResolveExtraValue* extra = static_cast<ResolveExtraValue*>(pNode);
-            unsigned int id = reinterpret_cast<unsigned int>(extra->form);
+            unsigned int id = (unsigned int)reinterpret_cast<std::uintptr_t>(extra->form);
             ::ResolveFormID(&id, sourceFile);
             extra->form = dynamic_cast<BGSMusicType*>(::FUN_004839c0(id));
             if (!extra->form)
@@ -23314,7 +23314,7 @@ void ResolveExtraOwner::FUN_00416be0(TESForm* owner)
         }
         case 24: {
             ResolveExtraValue* extra = static_cast<ResolveExtraValue*>(pNode);
-            unsigned int id = reinterpret_cast<unsigned int>(extra->form);
+            unsigned int id = (unsigned int)reinterpret_cast<std::uintptr_t>(extra->form);
             ::ResolveFormID(&id, sourceFile);
             extra->form = ::FUN_004839c0(id);
             if (!extra->form)
@@ -23327,7 +23327,7 @@ void ResolveExtraOwner::FUN_00416be0(TESForm* owner)
         }
         case 55: {
             ResolveExtraValue* extra = static_cast<ResolveExtraValue*>(pNode);
-            unsigned int id = reinterpret_cast<unsigned int>(extra->form);
+            unsigned int id = (unsigned int)reinterpret_cast<std::uintptr_t>(extra->form);
             ::ResolveFormID(&id, sourceFile);
             extra->form = dynamic_cast<TESObjectREFR*>(::FUN_004839c0(id));
             if (!extra->form)
@@ -23351,7 +23351,7 @@ void ResolveExtraOwner::FUN_00416be0(TESForm* owner)
         }
         case 59: {
             ResolveExtraValue* extra = static_cast<ResolveExtraValue*>(pNode);
-            unsigned int id = reinterpret_cast<unsigned int>(extra->form);
+            unsigned int id = (unsigned int)reinterpret_cast<std::uintptr_t>(extra->form);
             ::ResolveFormID(&id, sourceFile);
             extra->form = dynamic_cast<TESObjectREFR*>(::FUN_004839c0(id));
             if (!extra->form)
@@ -23373,7 +23373,7 @@ void ResolveExtraOwner::FUN_00416be0(TESForm* owner)
         }
         case 81: {
             ResolveExtraValue* extra = static_cast<ResolveExtraValue*>(pNode);
-            unsigned int id = reinterpret_cast<unsigned int>(extra->form);
+            unsigned int id = (unsigned int)reinterpret_cast<std::uintptr_t>(extra->form);
             ::ResolveFormID(&id, sourceFile);
             extra->form = dynamic_cast<TESObjectREFR*>(::FUN_004839c0(id));
             if (!extra->form)
@@ -23389,7 +23389,7 @@ void ResolveExtraOwner::FUN_00416be0(TESForm* owner)
             ResolveExtraArray* extra = static_cast<ResolveExtraArray*>(pNode);
             for (int index = 0; index < 4; index++)
             {
-                unsigned int list = reinterpret_cast<unsigned int>(extra->array->items[index]);
+                unsigned int list = (unsigned int)reinterpret_cast<std::uintptr_t>(extra->array->items[index]);
                 list = 0;
                 ::ResolveFormID(&list, sourceFile);
                 extra->array->items[index] = dynamic_cast<TESObjectREFR*>(::FUN_004839c0(list));
@@ -23416,7 +23416,7 @@ void ResolveExtraOwner::FUN_00416be0(TESForm* owner)
             ResolveExtraPair* extra = static_cast<ResolveExtraPair*>(pNode);
             for (int index = 0; index < 2; index++)
             {
-                unsigned int id = reinterpret_cast<unsigned int>(extra->pair->items[index]);
+                unsigned int id = (unsigned int)reinterpret_cast<std::uintptr_t>(extra->pair->items[index]);
                 ::ResolveFormID(&id, sourceFile);
                 extra->pair->items[index] = dynamic_cast<TESObjectREFR*>(::FUN_004839c0(id));
                 if (id && !extra->pair->items[index])
@@ -23449,7 +23449,7 @@ void ResolveExtraOwner::FUN_00416be0(TESForm* owner)
             ResolveNode* extra = reinterpret_cast<ResolveNode*>(&node->payload->unk08);
             while (extra && *((void **)((void *)(extra))))
             {
-                unsigned int ref = reinterpret_cast<unsigned int>(*((void **)((void *)(extra))));
+                unsigned int ref = (unsigned int)reinterpret_cast<std::uintptr_t>(*((void **)((void *)(extra))));
                 ::ResolveFormID(&ref, sourceFile);
                 TESObjectREFR* id = dynamic_cast<TESObjectREFR*>(::FUN_004839c0(ref));
                 if (ref && !id)
@@ -23472,7 +23472,7 @@ void ResolveExtraOwner::FUN_00416be0(TESForm* owner)
             while (node && !node->FUN_008256d0())
             {
                 ResolveItem* item = static_cast<ResolveItem*>(*((void **)((void *)(node))));
-                unsigned int id = reinterpret_cast<unsigned int>(item->ref);
+                unsigned int id = (unsigned int)reinterpret_cast<std::uintptr_t>(item->ref);
                 ::ResolveFormID(&id, sourceFile);
                 item->ref = dynamic_cast<TESObjectREFR*>(::FUN_004839c0(id));
                 if (!item->ref)
@@ -23513,7 +23513,7 @@ void ResolveExtraOwner::FUN_00416be0(TESForm* owner)
         }
         case 60: {
             ResolveExtraValue* extra = static_cast<ResolveExtraValue*>(pNode);
-            unsigned int id = reinterpret_cast<unsigned int>(extra->form);
+            unsigned int id = (unsigned int)reinterpret_cast<std::uintptr_t>(extra->form);
             ::ResolveFormID(&id, sourceFile);
             extra->form = dynamic_cast<TESObjectREFR*>(::FUN_004839c0(id));
             if (!extra->form)
@@ -23526,7 +23526,7 @@ void ResolveExtraOwner::FUN_00416be0(TESForm* owner)
         }
         case 68: {
             ResolveExtraValue* extra = static_cast<ResolveExtraValue*>(pNode);
-            unsigned int id = reinterpret_cast<unsigned int>(extra->form);
+            unsigned int id = (unsigned int)reinterpret_cast<std::uintptr_t>(extra->form);
             ::ResolveFormID(&id, sourceFile);
             extra->form = dynamic_cast<TESObjectREFR*>(::FUN_004839c0(id));
             if (!extra->form)
@@ -23538,7 +23538,7 @@ void ResolveExtraOwner::FUN_00416be0(TESForm* owner)
         }
         case 116: {
             ResolveExtraValue* extra = static_cast<ResolveExtraValue*>(pNode);
-            unsigned int id = reinterpret_cast<unsigned int>(extra->form);
+            unsigned int id = (unsigned int)reinterpret_cast<std::uintptr_t>(extra->form);
             ::ResolveFormID(&id, sourceFile);
             extra->form = dynamic_cast<BGSEncounterZone*>(::FUN_004839c0(id));
             if (!extra->form)
@@ -23550,7 +23550,7 @@ void ResolveExtraOwner::FUN_00416be0(TESForm* owner)
         }
         case 103: {
             ResolveExtraValue* extra = static_cast<ResolveExtraValue*>(pNode);
-            unsigned int id = reinterpret_cast<unsigned int>(extra->form);
+            unsigned int id = (unsigned int)reinterpret_cast<std::uintptr_t>(extra->form);
             ::ResolveFormID(&id, sourceFile);
             extra->form = ::FUN_004839c0(id);
             if (extra->form)
@@ -23574,7 +23574,7 @@ void ResolveExtraOwner::FUN_00416be0(TESForm* owner)
         }
         case 99: {
             ResolveExtraValue* extra = static_cast<ResolveExtraValue*>(pNode);
-            unsigned int id = reinterpret_cast<unsigned int>(extra->form);
+            unsigned int id = (unsigned int)reinterpret_cast<std::uintptr_t>(extra->form);
             ::ResolveFormID(&id, sourceFile);
             extra->form = dynamic_cast<TESObjectREFR*>(::FUN_004839c0(id));
             if (extra->form == owner)
@@ -23610,7 +23610,7 @@ void ResolveExtraOwner::FUN_00416be0(TESForm* owner)
         }
         case 110: {
             ResolveExtraValue* extra = static_cast<ResolveExtraValue*>(pNode);
-            unsigned int id = reinterpret_cast<unsigned int>(extra->form);
+            unsigned int id = (unsigned int)reinterpret_cast<std::uintptr_t>(extra->form);
             ::ResolveFormID(&id, sourceFile);
             extra->form = dynamic_cast<TESAmmo*>(::FUN_004839c0(id));
             if (!extra->form)

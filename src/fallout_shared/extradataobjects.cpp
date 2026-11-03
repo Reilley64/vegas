@@ -3443,7 +3443,7 @@ struct FUN_00433640 : BE
 // @fnv 0x00433640
 FUN_00433640::FUN_00433640() : BE(0x51)
 {
-    *(int*)this = (int)&DAT_01015cc0;
+    *(void**)this = (void*)&DAT_01015cc0;
     unk0C = 0;
 }
 }  // namespace fnv_00433640
@@ -4312,7 +4312,7 @@ struct FUN_00431ec0 : BE
 // @fnv 0x00431ec0
 FUN_00431ec0::FUN_00431ec0(float value) : BE(0x27)
 {
-    *(int*)this = (int)&::fnv_0042c700::DAT_010158fc;
+    *(void**)this = (void*)&::fnv_0042c700::DAT_010158fc;
     f = value;
 }
 }  // namespace fnv_00431ec0
@@ -4334,7 +4334,7 @@ struct FUN_00431f60 : BE
 // @fnv 0x00431f60
 FUN_00431f60::FUN_00431f60(float value) : BE(0x28)
 {
-    *(int*)this = (int)&DAT_01015908;
+    *(void**)this = (void*)&DAT_01015908;
     f = value;
 }
 }  // namespace fnv_00431f60
@@ -4424,7 +4424,7 @@ struct FUN_00432810 : BE
 // @fnv 0x00432810
 FUN_00432810::FUN_00432810() : BE(0x19)
 {
-    *(int*)this = (int)&(*reinterpret_cast<int *>(&::fnv_00432870::DAT_01015c24));
+    *(void**)this = (void*)&(*reinterpret_cast<int *>(&::fnv_00432870::DAT_01015c24));
     *(int*)((char*)this + 0xc) = 0;
     *(int*)((char*)this + 0x10) = -1;
     *(int*)((char*)this + 0x14) = 0;
@@ -4502,7 +4502,7 @@ struct FUN_00433300 : public BE
 // @fnv 0x00433300
 FUN_00433300::FUN_00433300() : BE(0x37)
 {
-    *reinterpret_cast<unsigned int*>(this) = reinterpret_cast<unsigned int>(&DAT_01015c90);
+    *reinterpret_cast<void**>(this) = (void*)&DAT_01015c90;
     field = 0;
     flag = 0;
 }
@@ -4723,7 +4723,7 @@ struct FUN_004376e0 : BE
 // @fnv 0x004376e0
 FUN_004376e0::FUN_004376e0(int arg) : BE(0x75)
 {
-    *(int*)this = (int)&::DAT_01015f48;
+    *(void**)this = (void*)&::DAT_01015f48;
     *(int*)((char*)this + 0xc) = arg;
     *(int*)((char*)this + 0x10) = 0;
     *(int*)((char*)this + 0x14) = 0;
@@ -8195,7 +8195,7 @@ void ExtraLitWaterRefsStandIn::FUN_00434050(LitWaterOwner* apOwner)
     while (pNodeB8 && !pNodeB8->IsEmpty())
     {
         LitWaterRef* pItem3 = (pNodeB8->m_item);
-        unsigned int auiFormId = (unsigned int)pItem3;
+        unsigned int auiFormId = (unsigned int)(std::uintptr_t)pItem3;
         ResolveFormID(&auiFormId, reinterpret_cast<::TESForm *>((apOwner))->GetFile(-1));
         LitWaterRef* pRef = (LitWaterRef*)dynamic_cast<TESObjectREFR*>(FUN_004839c0(auiFormId));
         if (!pRef || !reinterpret_cast<::fnv_005653d0::FUN_005653d0_shell *>((pRef))->FUN_005653d0())
@@ -8244,7 +8244,7 @@ void ReflectReferences554::FUN_00433ed0(TESForm* form)
     {
         bool removed = false;
         ReflectReference554* item3 = (position->m_item);
-        unsigned int formID5 = reinterpret_cast<unsigned int>(item3->m_pWorldReferenceInfo);
+        unsigned int formID5 = (unsigned int)reinterpret_cast<std::uintptr_t>(item3->m_pWorldReferenceInfo);
         ResolveFormID(&formID5, form->GetFile(-1));
         TESObjectREFR* reference_2 = dynamic_cast<TESObjectREFR*>(FUN_004839c0(formID5));
         if (!reference_2 || !reinterpret_cast<::fnv_005653d0::FUN_005653d0_shell *>((reference_2))->FUN_005653d0())
@@ -8293,7 +8293,7 @@ void ExtraDecalRefs::FUN_00433db0(TESForm* form)
     {
         bool removed = false;
         ReferenceIntersectionData* decal = (position->m_item);
-        unsigned int formID = reinterpret_cast<unsigned int>(decal->m_pHitReference);
+        unsigned int formID = (unsigned int)reinterpret_cast<std::uintptr_t>(decal->m_pHitReference);
         ResolveFormID(&formID, form->GetFile(-1));
         TESObjectREFR* resolvedB = dynamic_cast<TESObjectREFR*>(FUN_004839c0(formID));
         if (!resolvedB)

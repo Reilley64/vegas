@@ -164,7 +164,7 @@ struct S6Point
 
 // @fnv 0x006cd5c0
 bool CheckLineOfSightFilterWater::IsLineOfSightClear(unsigned int firstMesh, unsigned int firstTriangle,
-                                                     unsigned int firstEdge, std::uintptr_t secondMesh,
+                                                     unsigned int firstEdge, ::std::uintptr_t secondMesh,
                                                      unsigned int secondTriangle, unsigned int secondEdge)
 {
     NavMeshTriangle* triangle =
@@ -700,7 +700,7 @@ int FUN_006cc5e0_shell::FUN_006cc5e0(PathingLocation* aStartLocation, PathingLoc
 
     BSSimpleArray<NavMeshTriangleEdgeReference, 1024> BadNodes(0x20, 0);
     bool bAddNodesFromNavMeshIncomplete = false;
-    int imaxPassCount = ((int)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>((((PathingRequestS*)pRequest)))->FUN_008cdd90()));
+    int imaxPassCount = ((int)(::std::uintptr_t)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>((((PathingRequestS*)pRequest)))->FUN_008cdd90()));
     ::ClampInt(&imaxPassCount, 1, 10);
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((((NavMeshInfoArrayS*)((char*)this + 0x14))))->Clear(false);
     reinterpret_cast<::FUN_0042f9c0_Class *>((((NavMeshArrayS*)((char*)this + 0x24))))->FUN_0042f9c0(0);

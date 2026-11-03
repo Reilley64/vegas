@@ -253,7 +253,7 @@ struct S_006c87c0
 // @fnv 0x006c87c0
 S_006c87c0* S_006c87c0::FUN_006c87c0()
 {
-    *(int*)this = (int)&DAT_0106c8d4;
+    *(void**)this = (void*)&DAT_0106c8d4;
     reinterpret_cast<::FUN_006c8c70_Class *>(this)->FUN_006c8c70(0, 0);
     return this;
 }

@@ -682,7 +682,7 @@ struct FUN_006d04e0_shell
 // @fnv 0x006d04e0
 void* FUN_006d04e0_shell::FUN_006d04e0()
 {
-    *(int*)this = (int)&DAT_0106c9e0;
+    *(void**)this = (void*)&DAT_0106c9e0;
     reinterpret_cast<::FUN_006dc440_Class *>((reinterpret_cast<FUN_006dc440_class*>(this)))->FUN_006dc440(0, 0);
     return this;
 }

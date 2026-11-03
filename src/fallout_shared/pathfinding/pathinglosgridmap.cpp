@@ -540,7 +540,7 @@ bool FUN_006e05f0_shell::AddNavMeshes(ArrSI* aArg)
         if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>((reinterpret_cast<DummyPointerMap*>(reinterpret_cast<unsigned char*>(this) + 8)))->FUN_00853130(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<NavMesh*>(static_cast<unsigned int>(ptrNavMesh2))))->FUN_0084e3a0())),
                          (::fnv_00853130::CombatThreatRecord *&)(navMeshID)))
         {
-            navMeshID = reinterpret_cast<unsigned int>(new FUN_006e0730(&ptrNavMesh2));
+            navMeshID = (unsigned int)reinterpret_cast<std::uintptr_t>(new FUN_006e0730(&ptrNavMesh2));
 
             reinterpret_cast<::FUN_00844700_Class *>((reinterpret_cast<SetAtHelper*>(reinterpret_cast<unsigned char*>(this) + 8)))->FUN_00844700(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<NavMesh*>(static_cast<unsigned int>(ptrNavMesh2))))->FUN_0084e3a0())), navMeshID);
         }

@@ -2889,9 +2889,9 @@ void __cdecl RemoveNavMeshId(std::uintptr_t id)
         int secondCount = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(firstCount->second))->GetName()));
         for (int j = 0; j < info + secondCount; ++j)
         {
-            unsigned int entry;
+            std::uintptr_t entry;
             if (j < info)
-                entry = (unsigned int)*firstCount->first.FUN_00877a30(j);
+                entry = (std::uintptr_t)*firstCount->first.FUN_00877a30(j);
             else
                 entry = (unsigned int)*firstCount->second.FUN_00877a30(j - info);
             if (entry == id)

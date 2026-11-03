@@ -24720,7 +24720,7 @@ void SaveReference::FUN_0055e940(unsigned int flags)
             if (reinterpret_cast<::FUN_00862110_cls *>((g_TESSaveLoadGame))->FUN_00862110())
             {
                 unsigned int end = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((g_TESSaveLoadGame))->FUN_00825c00();
-                unsigned int blockStart = reinterpret_cast<unsigned int>(pusBlockSize);
+                std::uintptr_t blockStart = reinterpret_cast<std::uintptr_t>(pusBlockSize);
                 if (end > blockStart + 0xffff)
                     ::FUN_005b5e40();
                 *pusBlockSize = static_cast<unsigned short>(end - blockStart);
@@ -35805,7 +35805,7 @@ void Actor::FUN_00571760(TESObjectWEAP* pWeapon)
             {
                 if (!V139(1))
                 {
-                    int n3 = ((int)(reinterpret_cast<::fnv_00447330::FUN_00447330_shell *>(((*reinterpret_cast<::fnv_00571760::LoaderShell * *>(&::g_modelLoader))))->FUN_00447330((char *)(void *)(((void *)(reinterpret_cast<::TESObjectREFR *>(this)->GetModelFilePath()))), {}, {}, {})));
+                    std::intptr_t n3 = ((std::intptr_t)(reinterpret_cast<::fnv_00447330::FUN_00447330_shell *>(((*reinterpret_cast<::fnv_00571760::LoaderShell * *>(&::g_modelLoader))))->FUN_00447330((char *)(void *)(((void *)(reinterpret_cast<::TESObjectREFR *>(this)->GetModelFilePath()))), {}, {}, {})));
                     reinterpret_cast<::S_00490400_Anim *>((((AnimObj*)V121())))->FUN_00490400((::BSSimpleList<const char *> *)(n3));
                 }
             }
@@ -35821,7 +35821,7 @@ void Actor::FUN_00571760(TESObjectWEAP* pWeapon)
         if (pScale)
         {
             int fiveVal = 5;
-            int rAeed3 = ((int)(::FUN_004aeed0((::TESForm *)(pWeapon), (::TESModel *)(pScale), fiveVal, (::TESObjectREFR *)(void *)(this), (::NiAVObject *)(0))));
+            std::intptr_t rAeed3 = ((std::intptr_t)(::FUN_004aeed0((::TESForm *)(pWeapon), (::TESModel *)(pScale), fiveVal, (::TESObjectREFR *)(void *)(this), (::NiAVObject *)(0))));
             if (!reinterpret_cast<::fnv_0042ce10::FUN_0042ce10_shell *>(((*reinterpret_cast<::fnv_00571760::SaveShell * *>(&::g_BGSSaveLoadGame))))->FUN_0042ce10())
             {
                 bool flagC3 = reinterpret_cast<::FUN_008a16d0_shell *>((pRefG))->FUN_008a16d0();
@@ -36397,7 +36397,7 @@ ResQ* OwnQ::FUN_0055c050(int a1, std::intptr_t a2)
     ExtraMultiBoundRef* pLeveled_xczy = dynamic_cast<ExtraMultiBoundRef*>(reinterpret_cast<::fnv_00410220::FUN_00410220_shell *>((FUN_005d43c0(0x63)))->FUN_00410220({}));
     if (pLeveled_xczy)
         reinterpret_cast<::FUN_00410020_t *>((FUN_005d43c0((std::intptr_t)pLeveled_xczy)))->FUN_00410020((::BSExtraData *)(0), {});
-    int iSaved_yywkx = ((int)(reinterpret_cast<::LowProcess *>(this)->GetTarget()));
+    int iSaved_yywkx = ((int)(std::uintptr_t)(reinterpret_cast<::LowProcess *>(this)->GetTarget()));
     Lock(0);
     ResQ* pResult_f = (ResQ*)dynamic_cast<TESObjectREFR*>(((::TESForm *)(reinterpret_cast<::FUN_004867a0_cls *>(this)->FUN_004867a0((void *)(0), (void *)(a2)))));
     if (pTeleport_mcxj)
@@ -38759,7 +38759,7 @@ bool Thing::FUN_005656d0()
     }
     else
     {
-        int value = ((int)(reinterpret_cast<::s55d310::Owner *>(this)->FUN_0055d310()));
+        int value = ((int)(std::uintptr_t)(reinterpret_cast<::s55d310::Owner *>(this)->FUN_0055d310()));
         if (value != 0)
         {
             std::intptr_t inv = (int)FUN_004bf220((::TESObjectREFR *)this);
@@ -42468,7 +42468,7 @@ FormStub* RefrStub::FUN_00572e50(FormStub* apOwner)
         ProcStub* proc = 0;
         if (((::ProcStub *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture())))
         {
-            int lvl = ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((::ProcStub *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))))->FUN_0045cd60()));
+            std::intptr_t lvl = ((std::intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((((::ProcStub *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))))->FUN_0045cd60()));
             if (lvl != 1 && lvl != 0 && apOwner)
                 reinterpret_cast<::fnv_00931920::FUN_00931920_shell *>((actor))->CheckTargetAndDelete(0);
             switch (((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((::ProcStub *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))))->FUN_0045cd60())))
@@ -42521,7 +42521,7 @@ int Actor::FUN_005730d0()
     int iType = -1;
     Package* pkPackage = ((::s5730d0::Package *)(reinterpret_cast<::ExtraDataList *>((FUN_005d43c0()))->GetDismemberedLimbs()));
     if (pkPackage)
-        iType = ((int)(reinterpret_cast<::MagicCaster_shell *>((pkPackage))->FUN_0044edb0()));
+        iType = ((int)(std::uintptr_t)(reinterpret_cast<::MagicCaster_shell *>((pkPackage))->FUN_0044edb0()));
     return iType;
 }
 
@@ -42983,7 +42983,7 @@ struct Thing
 // @fnv 0x00575590
 int Thing::FUN_00575590(unsigned char abUseGlobal, unsigned char value)
 {
-    int result = ((int)(reinterpret_cast<::s55d310::Owner *>(this)->FUN_0055d310()));
+    std::intptr_t result = ((std::intptr_t)(reinterpret_cast<::s55d310::Owner *>(this)->FUN_0055d310()));
     int out = -1;
     if (result != 0)
     {
@@ -62565,7 +62565,7 @@ struct S00cb39d0_S_00cb3860
 void* __cdecl operator new(std::size_t size, S00cb39d0_S_00aa3e40& manager, unsigned int allocationSize)
 {
     unsigned char* ptr = static_cast<unsigned char*>(reinterpret_cast<::MemoryManagerStandIn *>(&(manager))->FUN_00aa3e40(allocationSize));
-    unsigned int address = reinterpret_cast<unsigned int>(ptr);
+    std::uintptr_t address = reinterpret_cast<std::uintptr_t>(ptr);
     unsigned char alignment = static_cast<unsigned char>(0x10 - (address & 0x0f));
     ptr += alignment;
     ptr[-1] = alignment;

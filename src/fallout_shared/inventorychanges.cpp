@@ -16577,7 +16577,7 @@ void AddInventory::FUN_004c29a0(AddForm* form, AddExtra* extra, int count)
 // @fnv 0x004c6d40
 void FUN_004c6d40_cls::ResetAndProcess(int aiArg, unsigned char a2, int aiCount)
 {
-    int ptr;
+    std::intptr_t ptr;
     int cnt;
     m_0c = m_08;
     m_08 = ::DAT_01012054;
@@ -16585,7 +16585,7 @@ void FUN_004c6d40_cls::ResetAndProcess(int aiArg, unsigned char a2, int aiCount)
     cnt = 0;
     while (aiCount > 0)
     {
-        ptr = ((int)(reinterpret_cast<::Inv4c6ba0 *>(this)->FindFirstItemOfType(aiArg, &cnt)));
+        ptr = ((std::intptr_t)(reinterpret_cast<::Inv4c6ba0 *>(this)->FindFirstItemOfType(aiArg, &cnt)));
         if (cnt > aiCount)
         {
             cnt = aiCount;
@@ -16709,7 +16709,7 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, std::intptr_
         return resultRef6;
     int leveledItem0 = 0;
     bool hasRemainder15 = 0;
-    long unusedChange80 = 0;
+    std::intptr_t unusedChange80 = 0;
     (void)leveledItem0;
     (void)hasRemainder15;
     (void)unusedChange80;
@@ -16803,7 +16803,7 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, std::intptr_
                     if (stackCount10 > aiCount || ((::Transfer4c37Ret720 *)(reinterpret_cast<::FUN_00418720_shell *>((sourceExtra3))->GetExtraLeveledItem())) != 0)
                     {
                         int flag_ed;
-                        leveledItem0 = (int)((::Transfer4c37Ret720 *)(reinterpret_cast<::FUN_00418720_shell *>((sourceExtra3))->GetExtraLeveledItem()));
+                        leveledItem0 = (int)(std::uintptr_t)((::Transfer4c37Ret720 *)(reinterpret_cast<::FUN_00418720_shell *>((sourceExtra3))->GetExtraLeveledItem()));
                         flag_ed = FUN_00401170(((int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((itemChange7))->GetName())));
                         if (((::Transfer4c37Ret720 *)(reinterpret_cast<::FUN_00418720_shell *>((sourceExtra3))->GetExtraLeveledItem())) != 0 && ((void *)(reinterpret_cast<::FUN_00418800_shell *>((sourceExtra3))->FUN_00418800())) != 0 &&
                             flag_ed != 0x18 && flag_ed != 0x1a)
@@ -16886,7 +16886,7 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, std::intptr_
                             transferExtra18 = 0;
                         }
                         if (itemChange7->m04 == 0)
-                            unusedChange80 = (int)itemChange7;
+                            unusedChange80 = (std::intptr_t)itemChange7;
                     }
                 }
             block4323:
@@ -17062,10 +17062,10 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, std::intptr_
                                 {
                                     if (apSource->Vcall100())
                                     {
-                                        int item8c = 0;
+                                        std::intptr_t item8c = 0;
                                         item8c = (int)::FUN_004216f0((::BaseExtraList *)(((::Transfer4c37MidObj *)(reinterpret_cast<::FUN_005d43c0_ *>((apSource))->FUN_005d43c0()))));
                                         if (item8c == 0)
-                                            item8c = (int)((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((apSource))->FUN_007af430()));
+                                            item8c = (std::intptr_t)((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((apSource))->FUN_007af430()));
                                         item88 = item8c;
                                     }
                                     else
@@ -17092,10 +17092,10 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, std::intptr_
                                 std::intptr_t item90 = 0;
                                 if (apSource->Vcall100())
                                 {
-                                    int item94 = 0;
+                                    std::intptr_t item94 = 0;
                                     item94 = (int)::FUN_004216f0((::BaseExtraList *)(((::Transfer4c37MidObj *)(reinterpret_cast<::FUN_005d43c0_ *>((apSource))->FUN_005d43c0()))));
                                     if (item94 == 0)
-                                        item94 = (int)((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((apSource))->FUN_007af430()));
+                                        item94 = (std::intptr_t)((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((apSource))->FUN_007af430()));
                                     item90 = item94;
                                 }
                                 else
@@ -17402,7 +17402,7 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, std::intptr_
                         transferCount2 = (int)reinterpret_cast<::FUN_00418770_shell *>((sourceList32))->FUN_00418770();
                         if (transferCount2 > aiCount || ((::Transfer4c37Ret720 *)(reinterpret_cast<::FUN_00418720_shell *>((sourceList32))->GetExtraLeveledItem())) != 0)
                         {
-                            leveledItem0 = (int)((::Transfer4c37Ret720 *)(reinterpret_cast<::FUN_00418720_shell *>((sourceList32))->GetExtraLeveledItem()));
+                            leveledItem0 = (int)(std::uintptr_t)((::Transfer4c37Ret720 *)(reinterpret_cast<::FUN_00418720_shell *>((sourceList32))->GetExtraLeveledItem()));
                             if (leveledItem0)
                             {
                                 if (aiCount == transferCount2 || aiCount > transferCount2)
@@ -17634,10 +17634,10 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, std::intptr_
                             std::intptr_t item_100 = 0;
                             if (apSource->Vcall100())
                             {
-                                int t104 = 0;
+                                std::intptr_t t104 = 0;
                                 t104 = (int)::FUN_004216f0((::BaseExtraList *)(((::Transfer4c37MidObj *)(reinterpret_cast<::FUN_005d43c0_ *>((apSource))->FUN_005d43c0()))));
                                 if (t104 == 0)
-                                    t104 = (int)((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((apSource))->FUN_007af430()));
+                                    t104 = (std::intptr_t)((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((apSource))->FUN_007af430()));
                                 item_100 = t104;
                             }
                             else
@@ -17748,10 +17748,10 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, std::intptr_
             std::uintptr_t item_114 = 0;
             if (apSource->Vcall100())
             {
-                int a = 0;
+                std::intptr_t a = 0;
                 a = (int)::FUN_004216f0((::BaseExtraList *)(((::Transfer4c37MidObj *)(reinterpret_cast<::FUN_005d43c0_ *>((apSource))->FUN_005d43c0()))));
                 if (!a)
-                    a = (int)((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((apSource))->FUN_007af430()));
+                    a = (std::intptr_t)((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((apSource))->FUN_007af430()));
                 item_114 = a;
             }
             else

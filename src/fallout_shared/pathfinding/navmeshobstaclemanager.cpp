@@ -245,7 +245,7 @@ void NavMeshObstacleManager::ClearObstacles()
     BSSimpleList<BGSPerkEntry*>* item = (BSSimpleList<BGSPerkEntry*>*)((char*)this + 0x34);
     while (item && !((BSSimpleList<BGSCameraShot*>*)item)->IsEmpty())
     {
-        unsigned int auiFormId = (unsigned int)(item->m_item);
+        unsigned int auiFormId = (unsigned int)(std::uintptr_t)(item->m_item);
         item = ((::BSSimpleList< ::BGSPerkEntry *> *)(reinterpret_cast<::Callees *>((item))->FUN_00726070()));
         NiPointer<AnimIdle> spReference((AnimIdle*)0);
         if (((NiTMapBase<DFALL<NiTMapItem<bhkRigidBody*, NiPointer<ObstacleData> > >, bhkRigidBody*,

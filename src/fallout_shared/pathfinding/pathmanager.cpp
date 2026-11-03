@@ -611,7 +611,7 @@ struct FUN_006ebdc0_shell
 // @fnv 0x006ebdc0
 void FUN_006ebdc0_shell::SetVtable()
 {
-    *(int*)this = (int)&DAT_0106d644;
+    *(void**)this = (void*)&DAT_0106d644;
 }
 
 struct FUN_006ebde0_shell
@@ -680,7 +680,7 @@ void GlobalObject_00869f00::Clear(bool)
 // @fnv 0x006ebf10
 void GlobalObject_00869f00::FUN_006ebf10()
 {
-    *(int*)this = (int)&::DAT_0106d664;
+    *(void**)this = (void*)&::DAT_0106d664;
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(this)->Clear(true);
 }
 }  // namespace fnv_006ebf10

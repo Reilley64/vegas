@@ -5847,7 +5847,7 @@ bool FUN_00550340_t::FUN_00550340()
             unsigned int ioffset;
             bool bload;
             bload = false;
-            ioffset = (unsigned int)(((::fnv_00550340::FUN_008256d0_list *)(reinterpret_cast<::FUN_00464df0_shell *>((((FUN_00464df0_shell*)pfile)))->FUN_00464df0()))->FUN_008256d0()
+            ioffset = (unsigned int)(std::uintptr_t)(((::fnv_00550340::FUN_008256d0_list *)(reinterpret_cast<::FUN_00464df0_shell *>((((FUN_00464df0_shell*)pfile)))->FUN_00464df0()))->FUN_008256d0()
                                          ? ::FUN_0054de40((TESObjectCELL*)this)
                                          : 0);
             if (ioffset)
@@ -8037,10 +8037,10 @@ class GuardedSubHolder
 // @fnv 0x00535af0
 int GuardedSubHolder::FUN_00535af0(int arg)
 {
-    int result = 0;
+    std::intptr_t result = 0;
     if (this->sub != 0 && arg < 4)
     {
-        result = ((int)(reinterpret_cast<::FUN_0045c9a0_shell *>((this->sub))->GetCellNodeAt(arg)));
+        result = ((std::intptr_t)(reinterpret_cast<::FUN_0045c9a0_shell *>((this->sub))->GetCellNodeAt(arg)));
     }
     return result;
 }
@@ -13896,7 +13896,7 @@ RefObject* CellRefScan::FindFirstRefByType(std::intptr_t typeId, bool filtered)
     while (current && !current->FUN_008256d0())
     {
         reference = ((::RefWrapper *)((void *)(current)))->reference;
-        itemType = ((int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((reference))->FUN_007af430()));
+        itemType = ((int)(std::uintptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((reference))->FUN_007af430()));
         current = ((::RefEntry *)(reinterpret_cast<::Callees *>((current))->FUN_00726070()));
         if (itemType && (!filtered || !reinterpret_cast<::FUN_00440d80_shell *>((reference))->FUN_00440d80()) && itemType == typeId)
         {
@@ -14767,7 +14767,7 @@ bool HasFormInGroup(TESFile* file, unsigned int formID)
     {
         if (size->type != ::fnv_00543df0::kGroupFormType)
         {
-            unsigned int current = ((unsigned int)(reinterpret_cast<::MiddleHighProcess *>((((FileH*)file)))->GetFaceGenHeadNode())) & 0xffffff;
+            std::uintptr_t current = ((std::uintptr_t)(reinterpret_cast<::MiddleHighProcess *>((((FileH*)file)))->GetFaceGenHeadNode())) & 0xffffff;
             if (current == formID)
                 header = true;
             else
@@ -16290,7 +16290,7 @@ void LinkedFormOwner::UpdateLinkedForm(unsigned int uiFlags, int iArg)
         FormStub* pkForm = ((::FormStub *)(reinterpret_cast<::DoorCell *>(this)->GetOwner()));
         if (pkForm)
         {
-            unsigned int auiFormId = (unsigned int)pkForm;
+            unsigned int auiFormId = (unsigned int)(std::uintptr_t)pkForm;
             pkForm = ((::FormStub *)(::FUN_004839c0(auiFormId)));
             reinterpret_cast<::FUN_00546bf0_class *>(this)->FUN_00546bf0((std::intptr_t)(pkForm));
         }
@@ -17186,10 +17186,10 @@ void FNV_Cell::FUN_00548880(FNV_Ref* reference, int unused)
             FNV_Effects* EndLocTmp;
             FNV_Render* EndLoc2;
             void* EntryLoc9;
-            int Diff;
+            std::intptr_t Diff;
             if (!((::fnv_00548880::FNV_Render *)(reinterpret_cast<::ExtraList420 *>((((::fnv_00548880::FNV_Sub *)(reinterpret_cast<::FUN_005d43c0_ *>((reference))->FUN_005d43c0()))))->FUN_00420ed0())))
             {
-                Diff = ((int)(reinterpret_cast<::Ref5699 *>((reference))->FUN_005699b0()));
+                Diff = ((std::intptr_t)(reinterpret_cast<::Ref5699 *>((reference))->FUN_005699b0()));
                 if (!Diff)
                 {
                     BSMultiBound* Dir9;
@@ -17825,7 +17825,7 @@ bool Cell::FUN_00550500(File* file)
     bool ok5 = true;
     while (hdr4 && ::FUN_005548a0(::FindFormEnumIndex(hdr4->sig)))
     {
-        unsigned int id4 = ((unsigned int)(reinterpret_cast<::MiddleHighProcess *>((file))->GetFaceGenHeadNode()));
+        unsigned int id4 = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::MiddleHighProcess *>((file))->GetFaceGenHeadNode()));
         if (::TESWorldSpace::IsFormIDOwnedByFile(id4, (::TESFile *)(file)))
         {
             void* p2 = ((void *)(::FUN_004839c0(id4)));
@@ -19674,7 +19674,7 @@ struct Owner
 // @fnv 0x005447b0
 void Owner::FUN_005447b0(Color* pkColor)
 {
-    unsigned int uiPackedColor = ((unsigned int)(::GetCellNode((::TESObjectCELL *)this)));
+    unsigned int uiPackedColor = ((unsigned int)(std::uintptr_t)(::GetCellNode((::TESObjectCELL *)this)));
     pkColor->r = (unsigned char)(uiPackedColor & 0xff) / 255.0;
     pkColor->g = (unsigned char)(((unsigned short)uiPackedColor >> 8) & 0xff) / 255.0;
     pkColor->b = (unsigned char)((uiPackedColor >> 16) & 0xff) / 255.0;
@@ -24319,7 +24319,7 @@ void Cell::FUN_00542d40()
 
         if (((unsigned int)(reinterpret_cast<::FUN_00558b40_shell *>(this)->GetLightingTemplate())))
         {
-            unsigned int handle = ((unsigned int)(reinterpret_cast<::FUN_00558b40_shell *>(this)->GetLightingTemplate()));
+            unsigned int handle = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::FUN_00558b40_shell *>(this)->GetLightingTemplate()));
             ::ResolveFormID(&handle, (::TESFile *)(((reinterpret_cast<::TESForm_ctx4 *>(this)->GetFile(-1)))));
             BGSLightingTemplate* resolved = dynamic_cast<BGSLightingTemplate*>(::FUN_004839c0(handle));
             reinterpret_cast<::fnv_00558b60::FUN_00558b60_shell *>(this)->FUN_00558b60((::fnv_00558b60::BGSLightingTemplate *)(resolved));

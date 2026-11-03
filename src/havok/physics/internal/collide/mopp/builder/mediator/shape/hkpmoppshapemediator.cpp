@@ -7,9 +7,15 @@
 #include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
 #include "fnv/decl/FUN_00dd51d0_class.h"
-int ReadIntField(const void* a, int* piValue)
+// hkpMoppCompilerPrimitive: the two ids of a primitive; the property is the second id.
+struct MoppCompilerPrimitive
 {
-    *piValue = *(const int*)((const char*)a + 4);
+    int m_primitiveID;
+    int m_primitiveID2;
+};
+int ReadIntField(const MoppCompilerPrimitive* a, int* piValue)
+{
+    *piValue = a->m_primitiveID2;
     return 1;
 }
 
@@ -267,7 +273,7 @@ void ProjectionShape::ComputeProjectionRange(const hkVector4& direction, int unu
 
 // Moved from hkpmoppshapemediator_gs_nogs_variant.cpp (VEGAS-15).
 #include "fnv/symbols_00c85000.h"
-int ReadIntField(const void* a, int* b);
+int ReadIntField(const MoppCompilerPrimitive* a, int* b);
 void FUN_00dd5260(FUN_00dd5260_T* pSrc, int a1, int a2, int a3, FUN_00dd5260_T* pDst);
 void FUN_00dd51e0(int, int);
 

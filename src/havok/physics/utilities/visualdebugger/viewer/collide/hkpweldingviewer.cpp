@@ -32,10 +32,15 @@ struct S_00d62650_B3
 struct S_00d62650_Arg
 {
 };
+struct HKWorldList
+{
+};
+
 struct S_00d62650_B2
 {
     virtual void DispatchToArg(S_00d62650_Arg* arg);
     int unk04;
+    void FUN_00d62680(HKWorldList* list);
 };
 struct S_00d62650_D : S_00d62650_B1, S_00d62650_B2, S_00d62650_B3
 {
@@ -50,28 +55,12 @@ void S_00d62650_D::DispatchToArg(S_00d62650_Arg* arg)
 }
 
 // hkpWeldingViewer - virtual slot 2 of the base subobject at +0x20.
-// Removes the entity pointer held by this subobject from the world's list.
-//   this  -> the base subobject (complete object + 0x20)
-//   -0x20 -> the complete object
-//   +0x08 -> the pointer that is handed to the list (complete object + 0x28)
-
-struct HKWorldList
-{
-};
-
-struct HKConstraint
-{
-    int unk00;
-    int unk04;
-    void* unk08;
-    void FUN_00d62680(HKWorldList* list);
-};
-
-// Passes a pointer to unk08 to the list's add method, or null when the adjusted this pointer is zero.
+// Removes the viewer's listener part (S_00d62650_B3) from the world's list.
 // @fnv 0x00d62680
-void HKConstraint::FUN_00d62680(HKWorldList* pWorldList)
+void S_00d62650_B2::FUN_00d62680(HKWorldList* pWorldList)
 {
-    reinterpret_cast<::SearchArray *>((pWorldList))->ClearValue((((char*)this - 0x20) ? (void*)&unk08 : (void*)0));
+    S_00d62650_B3* listener = static_cast<S_00d62650_D*>(this);
+    reinterpret_cast<::SearchArray *>((pWorldList))->ClearValue(listener);
 }
 
 struct S_00d626b0_Item

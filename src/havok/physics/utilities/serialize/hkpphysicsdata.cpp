@@ -228,8 +228,9 @@ class __declspec(align(16)) FUN_00553540
 class hkpWorld
 {
   public:
-    int unk00;
-    int unk04;
+    void* m_pVtable;
+    unsigned short m_usMemSizeAndFlags;
+    short m_sReferenceCount;
     int unk08;
     int unk0c;
     int unk10;
@@ -444,7 +445,7 @@ class hkpWorld
     void* operator new(size_t size) throw()
     {
         void* p = ((hkThreadMemory*)&hkMemoryRouter::getInstance())->allocateChunk(size);
-        ((unsigned short*)p)[2] = (unsigned short)size;
+        static_cast<hkpWorld*>(p)->m_usMemSizeAndFlags = (unsigned short)size;
         return p;
     }
     hkpWorld* FUN_00c95a80(const FUN_00553540* info, unsigned int version = 0x111d4) throw();

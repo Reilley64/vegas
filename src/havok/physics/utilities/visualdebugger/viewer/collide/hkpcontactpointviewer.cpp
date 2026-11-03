@@ -196,15 +196,17 @@ struct hkpWorldPostSimulationListener
     virtual void post2() throw();
     __forceinline ~hkpWorldPostSimulationListener() throw();
 };
-__forceinline hkpWorldPostSimulationListener::~hkpWorldPostSimulationListener() throw()
-{
-    reinterpret_cast<struct ::FUN_00ddcc60 *>((((hkpWorldViewerBase*)((char*)this - 0x28))))->FUN_00ddcc60::~FUN_00ddcc60();
-}
 struct hkpContactPointViewer : hkpWorldViewerBase, hkpWorldPostSimulationListener
 {
     __forceinline virtual ~hkpContactPointViewer() throw();
     void DestroyContactPointViewer() throw();
 };
+// The viewer's base destructor, run from its post-simulation listener part.
+__forceinline hkpWorldPostSimulationListener::~hkpWorldPostSimulationListener() throw()
+{
+    hkpWorldViewerBase* viewer = static_cast<hkpContactPointViewer*>(this);
+    reinterpret_cast<struct ::FUN_00ddcc60 *>(viewer)->FUN_00ddcc60::~FUN_00ddcc60();
+}
 __forceinline hkpContactPointViewer::~hkpContactPointViewer() throw()
 {
     for (int i = 0; this->contacts && i < this->contacts->size; ++i)

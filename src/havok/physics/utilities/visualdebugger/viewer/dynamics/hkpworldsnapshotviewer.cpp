@@ -16,13 +16,30 @@ extern int DAT_010d1700;
 extern int DAT_010d1720;
 extern void __cdecl FUN_00ddcc60();
 
-struct FUN_00d62fe0_cls
+struct FUN_00d62fe0_RefObject
 {
     const void* m_vtbl;
     int m4;
+};
+
+// The viewer's hkProcess part.
+struct FUN_00d63210_class
+{
     const void* m_processVtbl;
     char m0C[0x14];
+    int GetValueByFlag();
+};
+
+struct FUN_00d62fe0_WorldListener
+{
     const void* m_listenerVtbl;
+    void* m_context;
+};
+
+// hkpWorldSnapshotViewer.
+struct FUN_00d62fe0_cls : FUN_00d62fe0_RefObject, FUN_00d63210_class, FUN_00d62fe0_WorldListener
+{
+    bool m_convertToXml;
     void FUN_00d62fe0();
 };
 
@@ -38,15 +55,10 @@ void FUN_00d62fe0_cls::FUN_00d62fe0()
 extern int DAT_01268fc0;
 extern int DAT_01268fc4;
 
-struct FUN_00d63210_class
-{
-    int GetValueByFlag();
-};
-
 // @fnv 0x00d63210
 int FUN_00d63210_class::GetValueByFlag()
 {
-    if (*(char*)((char*)this + 0x20))
+    if (static_cast<FUN_00d62fe0_cls*>(this)->m_convertToXml)
         return DAT_01268fc0;
     return DAT_01268fc4;
 }

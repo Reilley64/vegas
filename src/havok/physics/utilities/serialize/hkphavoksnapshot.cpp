@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include "havok/hkMemoryRouter.h"
+#include "havok/hkUlong.h"
 #include "fnv/symbols_00c85000.h"
 #include <new>
 #include "fnv/decl/FUN_005609f0_shell.h"
@@ -149,6 +150,26 @@ struct Allocator
     virtual void* allocate(unsigned int size);
 };
 
+// The leading members of hkpSampledHeightFieldShape (include/havok/hkpSampledHeightFieldShape.h, which this unit
+// cannot include: its own hkBool and hkStringPtr differ from hkBase.h's).
+struct SampledHeightFieldHead
+{
+    enum HeightFieldType
+    {
+        HEIGHTFIELD_USER = 2
+    };
+    void* m_pVtable;
+    unsigned short m_usMemSizeAndFlags;
+    short m_sReferenceCount;
+    hkUlong m_ulUserData;
+    unsigned int m_type;
+    int m_iXResolution;
+    int m_iZResolution;
+    float m_fHeightScale;
+    unsigned char m_bUseProjectionBasedHeight;
+    unsigned char m_ucHeightFieldType;
+};
+
 struct hkBool
 {
     char m_kPointB;
@@ -283,7 +304,7 @@ void FUN_00cc08f0_cls::FUN_00cc08f0(void** a1, void** a2)
     if (reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(::g_01268c5c.FUN_00d46d80(*cur)))->FUN_005609f0())
     {
         void* v = *a1;
-        if (((unsigned char*)v)[0x1d] == 2)
+        if (static_cast<const SampledHeightFieldHead*>(v)->m_ucHeightFieldType == SampledHeightFieldHead::HEIGHTFIELD_USER)
         {
             hkMemoryRouter* h = &hkMemoryRouter::getInstance();
             Obj80* o = (Obj80*)((Allocator*)h->m_heap)->allocate(0x80);

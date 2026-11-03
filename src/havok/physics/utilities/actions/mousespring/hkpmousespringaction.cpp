@@ -23,21 +23,21 @@
 #include "fnv/symbols_01268000.h"
 #include "havok/hkpMouseSpringAction.h"
 
-struct FUN_00d2b1f0
+struct FUN_00d2b1f0 : hkpUnaryAction
 {
-    void EntityRemovedCallback(int);
+    void EntityRemovedCallback(hkpEntity*);
 };
 
 struct FUN_00cbb1c0 : FUN_00d2b1f0
 {
-    void Method(int);
+    void Method(hkpEntity*);
 };
 
 // @fnv 0x00cbb1c0
-void FUN_00cbb1c0::Method(int aiValue)
+void FUN_00cbb1c0::Method(hkpEntity* entity)
 {
-    EntityRemovedCallback(aiValue);
-    *(int*)((char*)this + 0x18) = 0;
+    EntityRemovedCallback(entity);
+    m_pEntity = nullptr;
 }
 
 struct FUN_00cbb1b0_Class

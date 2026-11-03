@@ -353,7 +353,7 @@ class BallSocketChainSchema : public SolverSchemaHeader
   public:
     __forceinline static ConstraintJacobian* getJacobians(SolverSchemaHeader* schema)
     {
-        return reinterpret_cast<ConstraintJacobian*>(reinterpret_cast<char*>(schema) + 0x10);
+        return reinterpret_cast<ConstraintJacobian*>(static_cast<BallSocketChainSchema*>(schema) + 1);
     }
     __forceinline Matrix3LowerDiagonalUpperFactors* getMatrixBuffer()
     {

@@ -5,13 +5,14 @@ on:
     types: [opened, edited, reopened, synchronize]
 
 permissions:
+  contents: read
   pull-requests: read
 
 jobs:
   test-policy:
     name: "Test: Pull request policy"
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 15
 
     steps:
       - name: "Policy: Enforce a conventional commit title"
@@ -31,3 +32,27 @@ jobs:
             revert
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: "Source: Check out the pull request"
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+
+      - name: "Setup: Install gitleaks"
+        run: |
+          curl -sSfL -o gitleaks.tar.gz https://github.com/gitleaks/gitleaks/releases/download/v8.30.1/gitleaks_8.30.1_linux_x64.tar.gz
+          echo "551f6fc83ea457d62a0d98237cbad105af8d557003051f41f3e7ca7b3f2470eb  gitleaks.tar.gz" | sha256sum -c -
+          tar -xzf gitleaks.tar.gz gitleaks
+          sudo mv gitleaks /usr/local/bin/
+
+      # The local hooks are the gate; this catches content committed without them.
+      - name: "Policy: Keep personal and private details out"
+        env:
+          PUBLIC_ALLOW_EMAILS: ${{ vars.ALLOWED_AUTHOR_EMAILS }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          PR_TITLE: ${{ github.event.pull_request.title }}
+          PR_BODY: ${{ github.event.pull_request.body }}
+        run: |
+          tools/hooks/public-check range "$BASE_SHA..$HEAD_SHA"
+          printf '%s\n%s\n' "$PR_TITLE" "$PR_BODY" | tools/hooks/public-check text

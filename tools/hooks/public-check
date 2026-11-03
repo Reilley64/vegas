@@ -1,0 +1,124 @@
+#!/usr/bin/env bash
+# Stops content that would expose a contributor's machines, accounts or credentials
+# from being committed or pushed. The repository is public and mirrored.
+#
+#   public-check staged          staged changes and the commit author
+#   public-check message FILE    a commit message
+#   public-check range REVS...   commits selected by git rev-list arguments
+#   public-check text            text on standard input, such as a pull request body
+#
+# Personal words to refuse live outside the repository:
+#   git config --global --add public.deny <word>
+# Email addresses allowed as authors or in text, besides GitHub noreply addresses:
+#   git config --global --add public.allowEmail <address>
+# CI passes allowed addresses in PUBLIC_ALLOW_EMAILS, separated by spaces.
+set -euo pipefail
+
+root=$(git rev-parse --show-toplevel)
+allow_file="$root/tools/hooks/public-allow.txt"
+
+patterns=(
+  'home path|(/Users/[A-Za-z0-9._-]+|/home/[a-z_][a-z0-9_-]*|[A-Za-z]:\\\\?Users\\\\?)'
+  'private IP address|(^|[^0-9.])(10\.[0-9]{1,3}|192\.168|172\.(1[6-9]|2[0-9]|3[01]))\.[0-9]{1,3}\.[0-9]{1,3}([^0-9.]|$)'
+  'tracker URL|app\.plane\.so/'
+  'private key|-----BEGIN [A-Z ]*PRIVATE KEY-----'
+)
+email_re='[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}'
+
+allowed_emails() {
+  git config --get-all public.allowEmail || true
+  for e in ${PUBLIC_ALLOW_EMAILS:-}; do echo "$e"; done
+}
+
+email_allowed() {
+  local e
+  e=$(tr '[:upper:]' '[:lower:]' <<<"$1")
+  [[ $e == *@users.noreply.github.com ]] && return 0
+  allowed_emails | tr '[:upper:]' '[:lower:]' | grep -qxF -- "$e"
+}
+
+drop_allowed() {
+  if [[ -s $allow_file ]]; then
+    grep -vF -f <(grep -v '^#' "$allow_file" | grep .) || true
+  else
+    cat
+  fi
+}
+
+found=0
+report() {
+  echo "public-check: $1: $2" >&2
+  found=1
+}
+
+scan_text() {
+  local where=$1 text
+  text=$(drop_allowed)
+  [[ -z $text ]] && return 0
+  local p name re
+  for p in "${patterns[@]}"; do
+    name=${p%%|*}
+    re=${p#*|}
+    while IFS= read -r line; do
+      report "$where" "$name in: ${line:0:160}"
+    done < <(grep -E -- "$re" <<<"$text" || true)
+  done
+  local deny
+  deny=$(git config --get-all public.deny || true)
+  if [[ -n $deny ]]; then
+    while IFS= read -r line; do
+      report "$where" "a word from public.deny in: ${line:0:160}"
+    done < <(grep -iF -f <(printf '%s\n' "$deny") <<<"$text" || true)
+  fi
+  while IFS= read -r e; do
+    email_allowed "$e" || report "$where" "email address $e"
+  done < <(grep -oE -- "$email_re" <<<"$text" | sort -u || true)
+  if command -v gitleaks >/dev/null; then
+    gitleaks stdin --no-banner --redact --log-level error <<<"$text" >/dev/null 2>&1 \
+      || report "$where" "gitleaks found a secret (run gitleaks to see it)"
+  else
+    report "$where" "gitleaks is not installed"
+  fi
+  return "$found"
+}
+
+check_ident() {
+  local who=$1 email=$2
+  email_allowed "$email" || report "$who" "email address $email is not allowed"
+}
+
+added_lines() {
+  grep '^+' | grep -v '^+++ ' | cut -c2- || true
+}
+
+case ${1:-} in
+  staged)
+    git diff --cached -U0 --no-color --no-ext-diff | added_lines | scan_text "staged changes" || found=1
+    ident=$(git var GIT_AUTHOR_IDENT)
+    check_ident "author" "$(sed -E 's/.*<([^>]*)>.*/\1/' <<<"$ident")"
+    ;;
+  message)
+    grep -v '^#' "$2" | scan_text "commit message" || found=1
+    ;;
+  range)
+    shift
+    while read -r rev; do
+      git show -U0 --no-color --no-ext-diff --format= "$rev" | added_lines | scan_text "commit $rev" || found=1
+      git log -1 --format=%B "$rev" | scan_text "message of $rev" || found=1
+      check_ident "author of $rev" "$(git log -1 --format=%ae "$rev")"
+      check_ident "committer of $rev" "$(git log -1 --format=%ce "$rev")"
+    done < <(git rev-list "$@")
+    ;;
+  text)
+    scan_text "text" || found=1
+    ;;
+  *)
+    echo "usage: public-check staged | message FILE | range REVS... | text" >&2
+    exit 2
+    ;;
+esac
+
+if (( found )); then
+  echo "public-check: refused. Remove the content above, or add a public string to tools/hooks/public-allow.txt." >&2
+  exit 1
+fi

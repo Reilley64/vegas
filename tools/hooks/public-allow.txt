@@ -1,0 +1,3 @@
+# Public strings that public-check would otherwise refuse, one per line.
+# Every line needs a reason in the commit that adds it.
+contact@fnvdecomp.com

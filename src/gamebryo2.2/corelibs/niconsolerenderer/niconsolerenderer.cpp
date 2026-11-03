@@ -147,7 +147,7 @@ public:
  static RecursiveSpinLock ms_kPoolState;
 };
 template<class T> class NiTPointerAllocator {};
-template<class Alloc, class T> class NiTPointerListBase {
+template<class Alloc, class T> class NiTPointerListBaseT {
 public:
  typedef PoolAllocatorBase<unsigned int>::LinkedListEntry Node;
  Node* head; Node* tail; unsigned int count;
@@ -236,7 +236,7 @@ bool GraphicsRenderer::HasPendingPackets() {
 // Removes the last node from the list, returns its data pointer, and recycles the node into the allocator's free list.
 // @fnv 0x00e7d5b0
 template<>
-char* NiTPointerListBase<NiTPointerAllocator<unsigned int>,char*>::RemoveTail() {
+char* NiTPointerListBaseT<NiTPointerAllocator<unsigned int>,char*>::RemoveTail() {
  Node* node = tail;
  tail = node->prev;
  if (tail) tail->next = 0;
@@ -407,12 +407,12 @@ struct FUN_00e69b40_shell {
     unsigned int pad[8];
     unsigned int count;
     unsigned int pad24;
-    unsigned int* entries;
-    unsigned int GetEntry(unsigned int index);
+    uintptr_t* entries;
+    uintptr_t GetEntry(unsigned int index);
 };
 
 // @fnv 0x00e69b40
-unsigned int FUN_00e69b40_shell::GetEntry(unsigned int index)
+uintptr_t FUN_00e69b40_shell::GetEntry(unsigned int index)
 {
     if (index < count)
         return entries[index];
@@ -4192,7 +4192,7 @@ struct GeomData_e6da60
     virtual void vf41();
     virtual bool GetFlagValue();
     virtual void vf43();
-    virtual bool GetCachedStreams(unsigned int* puiOut, unsigned int* puiCount);
+    virtual bool GetCachedStreams(uintptr_t* puiOut, unsigned int* puiCount);
 };
 
 struct Packet_e6da60;
@@ -7790,7 +7790,7 @@ void Renderer::RenderInput(Input* input) {
 }
 }  // namespace fnv_00e750e0
 
-struct ShaderList : NiTPointerListBase<NiTPointerAllocator<unsigned int>, char*> {
+struct ShaderList : NiTPointerListBaseT<NiTPointerAllocator<unsigned int>, char*> {
     static void FreeNode(Node* pkNode) {
         pkNode->data = 0;
         reinterpret_cast<::FUN_0040fbf0_shell *>(&((*reinterpret_cast<::RecursiveSpinLock *>(&::g_011c5f80))))->FUN_0040fbf0((char *)(0));
@@ -14141,7 +14141,7 @@ inline BSMultiBound* CastBound(BSMultiBound* p) {
 struct BoundNode { BoundNode* next; BoundNode* prev; BSMultiBound* item;
  static BSMultiBound*& Advance(BoundNode*& n) {BSMultiBound*& value=n->item;n=n->next;return value;}
 };
-struct BoundCache : NiTPointerListBase<NiTPointerAllocator<unsigned int>, BSMultiBound*> {
+struct BoundCache : NiTPointerListBaseT<NiTPointerAllocator<unsigned int>, BSMultiBound*> {
  void AddTail(BSMultiBound* const&) throw();
 };
 struct BoundCollection {
@@ -20765,20 +20765,7 @@ struct ResetMap {
  ResetNode* First() { for(unsigned i=0;i<size;++i) if(buckets[i]) return buckets[i]; return 0; }
  void Next(ResetNode*& pos, ResetGeometry*& key, ResetObject*& value) { key=pos->key; value=pos->value; pos=pos->next; if(!pos) { unsigned i=Hash(key)+1; while(i<size) { pos=buckets[i]; if(pos) return; ++i; } pos=0; } }
  void Store(ResetGeometry*,void*);
- void AdvanceIterator(ResetNode*& pos, const char*& key, ResetObject*& value) {
- ResetNode* node=pos; key=(const char*)node->key;
- if(value!=node->value) {
-  if(value && !InterlockedDecrement((long*)&value->refs)) value->Destroy();
-  value=node->value;
-  if(value) InterlockedIncrement((long*)&value->refs);
- }
- pos=node->next;
- if(!pos) {
-  unsigned index=Hash(node->key)+1;
-  for(;index<size;++index) { pos=buckets[index]; if(pos) return; }
-  pos=0;
- }
-}
+ void AdvanceIterator(ResetNode*& pos, const char*& key, ResetObject*& value);
 };
 struct ResetManager { virtual void Run(); };
 struct ResetResourceManager {
@@ -22719,10 +22706,10 @@ void MeshGenerator::FUN_00e6d3a0(float* pDest, unsigned short* pIndex, SrcObj* p
 
                 float fW = pAlpha ? (float)pAlpha[usRow] : -1.0f;
 
-                pDest = ::WriteVertex((float *)this, (*(const ::PointE69 *)(pDest)), pPos[0], (uintptr_t)&(pNorm[0]), uiColor, fV, 0.0f);
-                pDest = ::WriteVertex((float *)this, (*(const ::PointE69 *)(pDest)), pPos[1], (uintptr_t)&(pNorm[0]), uiColor, fV, 1.0f);
-                pDest = ::WriteVertex((float *)this, (*(const ::PointE69 *)(pDest)), pPos[2], (uintptr_t)&(pNorm[1]), uiColor, fV, 0.0f);
-                pDest = ::WriteVertex((float *)this, (*(const ::PointE69 *)(pDest)), pPos[3], (uintptr_t)&(pNorm[1]), uiColor, fV, 1.0f);
+                pDest = ::WriteVertex(pDest, pPos[0], pNorm[0], uiColor, fV, 0.0f, fW);
+                pDest = ::WriteVertex(pDest, pPos[1], pNorm[0], uiColor, fV, 1.0f, fW);
+                pDest = ::WriteVertex(pDest, pPos[2], pNorm[1], uiColor, fV, 0.0f, fW);
+                pDest = ::WriteVertex(pDest, pPos[3], pNorm[1], uiColor, fV, 1.0f, fW);
                 fV += fStep;
 
                 *pIndex++ = (unsigned short)uiIndex++;
@@ -25196,7 +25183,7 @@ struct List74 {
         head = n->next;
         if (head) head->prev = 0; else tail = 0;
         RPtr74 e = n->elem;
-        ::ReleaseRefCountedNode((void *)this);
+        ::ReleaseRefCountedNode((void *)(n));
         count--;
     }
     bool IsEmpty() const { return count == 0; }
@@ -27310,7 +27297,6 @@ public:
     bool operator!=(const ::NiPixelFormat &) const;
 public:
     bool operator==(const ::NiPixelFormat &) const;
-    NiPixelFormat();
 };
 // Copies a source surface to a destination surface via StretchRect, validating device, renderer data, pixel formats, and surfaces.
 // @fnv 0x00e6f6e0
@@ -34198,8 +34184,9 @@ void BoneHost::FUN_00e6fe30(SkinMatrixBlock* block, Xf* parent, bool transpose, 
     SkinNode* root = block->root;
     reinterpret_cast<::NiTransform *>(&(root->world))->CalculateInverse((*(::NiTransform *)(&t1)));
     Geom* current = block->geom;
-    t1 = *new (&t2) Xf(reinterpret_cast<::NiTransform *>((void *)&(const ::Xf &)(current->world))->operator*((const ::NiTransform &)(t1)));
-    t2 = reinterpret_cast<::NiTransform *>((void *)&(const ::Xf &)((*parent)))->operator*((const ::NiTransform &)(t1));
+    *reinterpret_cast<::NiTransform *>(&(t2)) = *reinterpret_cast<const ::NiTransform *>(&(current->world)) * *reinterpret_cast<const ::NiTransform *>(&(t1));
+    t1 = t2;
+    *reinterpret_cast<::NiTransform *>(&(t2)) = *reinterpret_cast<const ::NiTransform *>(&(*parent)) * *reinterpret_cast<const ::NiTransform *>(&(t1));
 
     bool bNonUnitScale;
     bNonUnitScale = false;
@@ -34219,13 +34206,13 @@ void BoneHost::FUN_00e6fe30(SkinMatrixBlock* block, Xf* parent, bool transpose, 
         
         p3 += 8;
         do {
-            new (&t1) Xf(reinterpret_cast<::NiTransform *>((void *)&(const ::Xf &)(bones[i]->world))->operator*((const ::NiTransform &)(pBoneXform->xf)));
+            *reinterpret_cast<::NiTransform *>(&(t1)) = *reinterpret_cast<const ::NiTransform *>(&(bones[i]->world)) * *reinterpret_cast<const ::NiTransform *>(&(pBoneXform->xf));
             if (bones[i]->world.scale < ::CombatRegion::DAT_0106d508) {
                 if ((double)bones[i]->world.scale > 1.01f)
                     bNonUnitScale = true;
             }
             if (!skipExtra)
-                t1 = reinterpret_cast<::NiTransform *>((void *)&(const ::Xf &)(t2))->operator*((const ::NiTransform &)(t1));
+                *reinterpret_cast<::NiTransform *>(&(t1)) = *reinterpret_cast<const ::NiTransform *>(&(t2)) * *reinterpret_cast<const ::NiTransform *>(&(t1));
             if (rows == 4) {
                 if (transpose)
                     BuildWorldToSkinTransform(p4, (const NiTransform*)&t1, &t1.t, t1.scale);
@@ -34267,7 +34254,6 @@ struct FrameInfo {
 
 struct Material {float r,g,b,a;};
 
-extern "C" char DAT_011f4288[16];
 
 
 
@@ -34842,8 +34828,8 @@ bool Renderer_e6da60::BuildPacket(Packet_e6da60* pkPacket, Model_e6da60* pkModel
         if (pkData && pkData->m_usType > 4)
             return false;
         ItemUpdateArray = 1;
-        ::FUN_00e8c120((::Outer *)(m_pShaderStreamInfo), (::Outer *)(pkModel), (unsigned int *)(pkData), &uiStreams, (int *)(unsigned int *)(&uiSingleValue),
-            &uiOutC, &uiOutD, &uiOutE, &uiOutF);
+        ::FUN_00e8c120((::Outer *)(pkModel), (::Outer *)(pkData), &uiStreams, &uiSingleValue, (int *)(&uiOutC),
+            &uiOutD, &uiOutE, &uiOutF, &uiOutG);
     }
 
     reinterpret_cast<::NiSlotSetE8E *>((pkPacket))->FUN_00e8ef10(ItemUpdateArray);
@@ -34885,7 +34871,7 @@ bool Renderer_e6da60::BuildPacket(Packet_e6da60* pkPacket, Model_e6da60* pkModel
     unsigned int j;
     for (j = 0; j < ItemUpdateArray; j++)
     {
-        if (!::FUN_00e8bfa0((::Outer *)(m_pShaderStreamInfo), (uintptr_t)(pkPacket)))
+        if (!::FUN_00e8bfa0((::Outer *)(pkPacket), j))
         {
             for (; j > 0; j--)
                 pkPacket->m_pkOwnerManager->ReleaseStream(pkPacket, j);
@@ -34949,7 +34935,7 @@ void StripRenderer::FUN_00e70720(StripGeometry* geometry)
     shader->v80(properties);
     shader->v84(properties);
     shader->v88(properties,true);
-    ::FUN_00e8bfa0((::Outer *)(vertexManager), (uintptr_t)(rd));
+    ::FUN_00e8bfa0((::Outer *)(rd), false);
     StripStream* stream;
     if (rd->streamCount > 0) stream = rd->streams[0];
     else stream = 0;
@@ -34987,7 +34973,7 @@ struct VertexData : Holder_00e8f040 {
 
     unsigned int* format;
 
-    unsigned int* current;
+    uintptr_t* current;
 
     unsigned int unk02c; unsigned int unk030;
 
@@ -35063,7 +35049,7 @@ void LineRenderer::FUN_00e70be0(LineGeometry* pkLines)
     reinterpret_cast<::C_00e8f010 *>((pkBuffData))->FUN_00e8f010(uiFVF);
     if (pkBuffData->m_uiRegisterStreamCount > 0)
         pkBuffData->m_puiVertexStrides[0] = uiStride;
-    ::FUN_00e8bfa0((::Outer *)(m_pShaderStreamInfo), (uintptr_t)(pkBuffData));
+    ::FUN_00e8bfa0((::Outer *)(pkBuffData), 0);
     LineVBInfo* pkVBInfo = (pkBuffData->m_uiRegisterStreamCount > 0) ? pkBuffData->m_ppkVBInfo[0] : 0;
     m_pCurrentRenderState->SetShaderDeclaration(pkBuffData->m_pkVertexDeclaration, false);
     if (!pkVBInfo->m_pkOwningStream)
@@ -35468,7 +35454,7 @@ void RendererE70140::FUN_00e70140(SceneArg* apSceneArg)
         handle = ((::FakeCOM_00e8f040 *)(reinterpret_cast<::FUN_00e69790_shell *>(this)->FUN_00e69790()));
         buffer->SetComPointer(handle);
         if (0 < buffer->streamSize) buffer->format[0] = 0x28;
-        ::FUN_00e8bfa0((::Outer *)(shader), (uintptr_t)(buffer));
+        ::FUN_00e8bfa0((::Outer *)(buffer), 0);
         StreamRecord* j = (buffer->streamSize > 0) ? (StreamRecord*)*buffer->current : 0;
         indexDest = &j->buffer;
         if (!j->Buffer()) return;
@@ -35479,7 +35465,7 @@ void RendererE70140::FUN_00e70140(SceneArg* apSceneArg)
         handle = ((::FakeCOM_00e8f040 *)(reinterpret_cast<::RendererDeclarationOwner *>(this)->FUN_00e696a0()));
         buffer->SetComPointer(handle);
         if (0 < buffer->streamSize) buffer->format[0] = 0x24;
-        ::FUN_00e8bfa0((::Outer *)(shader), (uintptr_t)(buffer));
+        ::FUN_00e8bfa0((::Outer *)(buffer), 0);
         StreamRecord* j = (buffer->streamSize > 0) ? (StreamRecord*)*buffer->current : 0;
         indexDest = &j->buffer;
         if (!j->Buffer()) return;
@@ -35508,9 +35494,6 @@ void RendererE70140::FUN_00e70140(SceneArg* apSceneArg)
 }
 
 extern "C" int fnv_CopyFilePath(char*,unsigned int,const char*,unsigned int);
-void* __cdecl FUN_00a5f200();
-int __cdecl FUN_00a5f4f0();
-int __cdecl FUN_00a5f500();
 int __cdecl FUN_00dc9e60();
 void FUN_00e69ad0(const char* path);
 unsigned int GetValueForIndex(unsigned int param);
@@ -35552,7 +35535,7 @@ struct FnvSlotRaw {
     FnvSlotObj* FUN_00e7a640();
 };
 
-extern unsigned int DAT_0126f508[17];
+extern unsigned int DAT_0126f508[];
 
 void FUN_00e78560(unsigned int a, unsigned int b);
 
@@ -35873,24 +35856,6 @@ void* __cdecl _memmove(void*, const void*, unsigned int);
 void __cdecl FUN_00e78560(unsigned int type, unsigned int mode);
 void* __cdecl FUN_00ec61c0(void* destination, int value, unsigned int count);
 void* __cdecl FUN_00ec44d0(void* destination, const void* source, unsigned int count);
-namespace RendererReset {
-
-extern "C" void* __cdecl FUN_00ec61c0(void*,int,unsigned int);
-
-typedef InitPoint Vec;
-
-struct Ref {virtual void slot0();virtual void Destroy();volatile long count;};struct Ptr {Ref* object;void Clear(){Ref* old=object;if(old){if(!InterlockedDecrement(&old->count))old->Destroy();object=0;}}};
-
-struct State {unsigned int values[22];void Clear(){for(int j=0;j<22;++j)values[j]=0;}};
-
-struct Matrix {float data[16];};
-
-struct Renderer {unsigned int unk0;unsigned int unk4;unsigned int unk8;unsigned int unkc;unsigned int unk10;unsigned int unk14;unsigned int unk18;unsigned int unk1c;unsigned int unk20;unsigned int unk24;unsigned int unk28;unsigned int unk2c;unsigned int unk30;unsigned int unk34;unsigned int unk38;unsigned int unk3c;unsigned int unk40;unsigned int unk44;unsigned int unk48;unsigned int unk4c;unsigned int unk50;unsigned int unk54;unsigned int unk58;unsigned int unk5c;unsigned int unk60;unsigned int unk64;unsigned int unk68;unsigned int unk6c;unsigned int unk70;unsigned int unk74;unsigned int unk78;unsigned int unk7c;unsigned int unk80;unsigned int unk84;unsigned int unk88;unsigned int unk8c;unsigned int unk90;unsigned int unk94;unsigned int unk98;unsigned int unk9c;unsigned int unka0;unsigned int unka4;unsigned int unka8;unsigned int unkac;unsigned int unkb0;unsigned int unkb4;unsigned int unkb8;unsigned int unkbc;unsigned int unkc0;unsigned int unkc4;unsigned int unkc8;unsigned int unkcc;unsigned int unkd0;unsigned int unkd4;unsigned int unkd8;unsigned int unkdc;unsigned int unke0;unsigned int unke4;unsigned int unke8;unsigned int unkec;unsigned int unkf0;unsigned int unkf4;unsigned int unkf8;unsigned int unkfc;unsigned int unk100;unsigned int unk104;unsigned int unk108;unsigned int unk10c;unsigned int unk110;unsigned int unk114;unsigned int unk118;unsigned int unk11c;unsigned int unk120;unsigned int unk124;unsigned int unk128;unsigned int unk12c;unsigned int unk130;unsigned int unk134;unsigned int unk138;unsigned int unk13c;unsigned int unk140;unsigned int unk144;unsigned int unk148;unsigned int unk14c;unsigned int unk150;unsigned int unk154;unsigned int unk158;unsigned int unk15c;unsigned int unk160;unsigned int unk164;unsigned int unk168;unsigned int unk16c;unsigned int unk170;unsigned int unk174;unsigned int unk178;unsigned int unk17c;unsigned int unk180;unsigned int unk184;unsigned int unk188;unsigned int unk18c;unsigned int unk190;unsigned int unk194;unsigned int unk198;unsigned int unk19c;unsigned int unk1a0;unsigned int unk1a4;unsigned int unk1a8;unsigned int unk1ac;unsigned int unk1b0;unsigned int unk1b4;unsigned int unk1b8;unsigned int unk1bc;unsigned int unk1c0;unsigned int unk1c4;unsigned int unk1c8;unsigned int unk1cc;unsigned int unk1d0;unsigned int unk1d4;unsigned int unk1d8;unsigned int unk1dc;unsigned int unk1e0;unsigned int unk1e4;unsigned int unk1e8;unsigned int unk1ec;unsigned int unk1f0;unsigned int unk1f4;unsigned int unk1f8;unsigned int unk1fc;unsigned int unk200;unsigned int unk204;unsigned int unk208;unsigned int unk20c;unsigned int unk210;unsigned int unk214;unsigned int unk218;unsigned int unk21c;unsigned int unk220;unsigned int unk224;unsigned int unk228;unsigned int unk22c;unsigned int unk230;unsigned int unk234;unsigned int unk238;unsigned int unk23c;unsigned int unk240;unsigned int unk244;unsigned int unk248;unsigned int unk24c;unsigned int unk250;unsigned int unk254;unsigned int unk258;unsigned int unk25c;unsigned int unk260;unsigned int unk264;unsigned int unk268;unsigned int unk26c;unsigned int unk270;unsigned int unk274;unsigned int unk278;unsigned int unk27c;unsigned int unk280;unsigned int unk284;unsigned int unk288;unsigned int unk28c;unsigned int unk290;unsigned int unk294;unsigned int unk298;unsigned int unk29c;unsigned int unk2a0;unsigned int unk2a4;unsigned int unk2a8;unsigned int unk2ac;unsigned int unk2b0;unsigned int unk2b4;unsigned int unk2b8;unsigned int unk2bc;unsigned int unk2c0;unsigned int unk2c4;unsigned int unk2c8;unsigned int unk2cc;unsigned int unk2d0;unsigned int unk2d4;unsigned int unk2d8;unsigned int unk2dc;unsigned int unk2e0;unsigned int unk2e4;unsigned int unk2e8;unsigned int unk2ec;unsigned int unk2f0;unsigned int unk2f4;unsigned int unk2f8;unsigned int unk2fc;unsigned int unk300;unsigned int unk304;unsigned int unk308;unsigned int unk30c;unsigned int unk310;unsigned int unk314;unsigned int unk318;unsigned int unk31c;unsigned int unk320;unsigned int unk324;unsigned int unk328;unsigned int unk32c;unsigned int unk330;unsigned int unk334;unsigned int unk338;unsigned int unk33c;unsigned int unk340;unsigned int unk344;unsigned int unk348;unsigned int unk34c;unsigned int unk350;unsigned int unk354;unsigned int unk358;unsigned int unk35c;unsigned int unk360;unsigned int unk364;unsigned int unk368;unsigned int unk36c;unsigned int unk370;unsigned int unk374;unsigned int unk378;unsigned int unk37c;unsigned int unk380;unsigned int unk384;unsigned int unk388;unsigned int unk38c;unsigned int unk390;unsigned int unk394;unsigned int unk398;unsigned int unk39c;unsigned int unk3a0;unsigned int unk3a4;unsigned int unk3a8;unsigned int unk3ac;unsigned int unk3b0;unsigned int unk3b4;unsigned int unk3b8;unsigned int unk3bc;unsigned int unk3c0;bool b3c4;unsigned char unk3c5;unsigned char unk3c6;unsigned char unk3c7;unsigned int unk3c8;unsigned int unk3cc;unsigned int unk3d0;unsigned int unk3d4;unsigned int unk3d8;unsigned int unk3dc;unsigned int unk3e0;unsigned int unk3e4;unsigned int unk3e8;unsigned int unk3ec;unsigned int unk3f0;unsigned int unk3f4;unsigned int unk3f8;unsigned int unk3fc;unsigned int unk400;unsigned int unk404;unsigned int unk408;unsigned int unk40c;unsigned int unk410;unsigned int unk414;unsigned int unk418;unsigned int unk41c;unsigned int unk420;unsigned int unk424;unsigned int unk428;unsigned int unk42c;unsigned int unk430;unsigned int unk434;unsigned int unk438;unsigned int unk43c;unsigned int unk440;unsigned int unk444;unsigned int unk448;unsigned int unk44c;unsigned int unk450;unsigned int unk454;unsigned int unk458;unsigned int unk45c;unsigned int unk460;unsigned int unk464;unsigned int unk468;unsigned int unk46c;unsigned int unk470;unsigned int unk474;unsigned int unk478;unsigned int unk47c;unsigned int unk480;unsigned int unk484;unsigned int unk488;unsigned int unk48c;unsigned int unk490;unsigned int unk494;unsigned int unk498;unsigned int unk49c;unsigned int unk4a0;unsigned int unk4a4;unsigned int unk4a8;unsigned int unk4ac;unsigned int unk4b0;unsigned int unk4b4;unsigned int unk4b8;unsigned int unk4bc;unsigned int unk4c0;unsigned int unk4c4;unsigned int unk4c8;unsigned int unk4cc;unsigned int unk4d0;unsigned int unk4d4;unsigned int unk4d8;unsigned int unk4dc;unsigned int unk4e0;unsigned int unk4e4;unsigned int unk4e8;unsigned int unk4ec;unsigned int unk4f0;unsigned int unk4f4;unsigned int unk4f8;unsigned int unk4fc;unsigned int unk500;unsigned int unk504;unsigned int unk508;unsigned int unk50c;unsigned int unk510;unsigned int unk514;unsigned int unk518;unsigned int unk51c;unsigned int unk520;unsigned int unk524;unsigned int unk528;unsigned int unk52c;unsigned int unk530;unsigned int unk534;unsigned int unk538;unsigned int unk53c;unsigned int unk540;unsigned int unk544;unsigned int unk548;unsigned int unk54c;unsigned int unk550;unsigned int unk554;unsigned int unk558;unsigned int unk55c;unsigned int unk560;unsigned int unk564;unsigned int unk568;unsigned int unk56c;unsigned int unk570;unsigned int unk574;unsigned int unk578;unsigned int unk57c;unsigned int unk580;unsigned int unk584;unsigned int unk588;unsigned int unk58c;unsigned int unk590;unsigned int unk594;unsigned int unk598;unsigned int unk59c;unsigned int unk5a0;unsigned int unk5a4;unsigned int unk5a8;unsigned int unk5ac;unsigned int unk5b0;unsigned int unk5b4;unsigned int unk5b8;unsigned int unk5bc;unsigned int unk5c0;unsigned int unk5c4;unsigned int unk5c8;unsigned int unk5cc;unsigned int unk5d0;bool b5d4;bool b5d5;unsigned char unk5d6;unsigned char unk5d7;unsigned int unk5d8;unsigned int unk5dc;unsigned int unk5e0;float unk5e4;unsigned int unk5e8;unsigned int unk5ec;bool b5f0;unsigned char unk5f1;unsigned char unk5f2;unsigned char unk5f3;unsigned int unk5f4;unsigned int unk5f8;unsigned int unk5fc;unsigned int unk600;unsigned int unk604;unsigned int unk608;unsigned int unk60c;unsigned int unk610;unsigned int unk614;unsigned int unk618;unsigned int unk61c;unsigned int unk620;unsigned int unk624;unsigned int unk628;unsigned int unk62c;unsigned int unk630;Vec v634;Vec v640;Vec v64c;Vec v658;unsigned int unk664;unsigned int unk668;unsigned int unk66c;unsigned int unk670;unsigned int unk674;unsigned int unk678;unsigned int unk67c;unsigned int unk680;float unk684;float unk688;Matrix matrix;unsigned int unk6cc;unsigned int unk6d0;unsigned int unk6d4;unsigned int unk6d8;float unk6dc;float unk6e0;unsigned int unk6e4;unsigned int unk6e8;unsigned int unk6ec;unsigned int unk6f0;bool b6f4;bool b6f5;unsigned char unk6f6;unsigned char unk6f7;unsigned int unk6f8;bool b6fc;unsigned char unk6fd;unsigned char unk6fe;unsigned char unk6ff;State states[4];unsigned int counters[4];Ptr refs[4];unsigned int unk880;unsigned int unk884;unsigned int unk888;unsigned int unk88c;unsigned int unk890;unsigned int unk894;unsigned int unk898;unsigned int unk89c;unsigned int unk8a0;bool b8a4;bool b8a5;unsigned char unk8a6;unsigned char unk8a7;unsigned int unk8a8;unsigned int unk8ac;unsigned int unk8b0;unsigned int unk8b4;unsigned int unk8b8;unsigned int unk8bc;unsigned int unk8c0;unsigned int unk8c4;unsigned int unk8c8;unsigned int unk8cc;unsigned int unk8d0;unsigned int unk8d4;unsigned int unk8d8;unsigned int unk8dc;unsigned int unk8e0;unsigned int unk8e4;unsigned int unk8e8;unsigned int unk8ec;unsigned int unk8f0;unsigned int unk8f4;unsigned int unk8f8;unsigned int unk8fc;unsigned int unk900;unsigned int unk904;unsigned int unk908;unsigned int unk90c;unsigned int unk910;unsigned int unk914;unsigned int unk918;unsigned int unk91c;unsigned int unk920;unsigned int unk924;unsigned int unk928;unsigned int unk92c;unsigned int unk930;unsigned int unk934;unsigned int unk938;unsigned int unk93c;unsigned int unk940;unsigned int unk944;unsigned int unk948;float unk94c;unsigned int unk950;unsigned int unk954;unsigned int unk958;float unk95c;unsigned int unk960;unsigned int unk964;unsigned int unk968;float unk96c;unsigned int unk970;unsigned int unk974;unsigned int unk978;float unk97c;unsigned int unk980;unsigned int unk984;unsigned int unk988;unsigned int unk98c;unsigned int unk990;unsigned int unk994;unsigned int unk998;unsigned int unk99c;unsigned int unk9a0;unsigned int unk9a4;unsigned int unk9a8;unsigned int unk9ac;unsigned int unk9b0;unsigned int unk9b4;unsigned int unk9b8;unsigned int unk9bc;unsigned int unk9c0;unsigned int unk9c4;unsigned int unk9c8;unsigned int unk9cc;unsigned int unk9d0;unsigned int unk9d4;unsigned int unk9d8;unsigned int unk9dc;unsigned int unk9e0;unsigned int unk9e4;unsigned int unk9e8;unsigned int unk9ec;unsigned int unk9f0;unsigned int unk9f4;unsigned int unk9f8;unsigned int unk9fc;unsigned int unka00;unsigned int unka04;unsigned int unka08;unsigned int unka0c;unsigned int unka10;unsigned int unka14;unsigned int unka18;unsigned int unka1c;unsigned int unka20;unsigned int unka24;unsigned int unka28;unsigned int unka2c;unsigned int unka30;unsigned int unka34;unsigned int unka38;unsigned int unka3c;unsigned int unka40;unsigned int unka44;unsigned int unka48;unsigned int unka4c;unsigned int unka50;unsigned int unka54;unsigned int unka58;unsigned int unka5c;unsigned int unka60;unsigned int unka64;unsigned int unka68;unsigned int unka6c;unsigned int unka70;unsigned int unka74;unsigned int unka78;unsigned int unka7c;unsigned int unka80;unsigned int unka84;unsigned int unka88;unsigned short wA8c;unsigned short unkA8e;unsigned int unka90;unsigned int unka94;unsigned int unka98;unsigned int unka9c;unsigned int unkaa0;unsigned int unkaa4;unsigned int unkaa8;unsigned int unkaac;unsigned int unkab0;unsigned int unkab4;unsigned int unkab8;unsigned int unkabc;unsigned int unkac0;unsigned int unkac4;unsigned int unkac8;unsigned int unkacc;unsigned int unkad0;__forceinline void ResetColors(){unk5c4=0;unk3c0=0;unk5cc=0;unk5d0=0;b5d4=false;b5d5=false;unk6e4=0;unk6e8=0;unk6ec=0;unk6f0=0;b6f4=false;b6f5=false;unk8a0=0;b8a4=false;b8a5=false;unk6f8=0;b6fc=false;unk5e0=0xff808080;unk5e8=0;unk5ec=0;b5f0=false;unk5c8=1;
-
-v634=(*reinterpret_cast<::InitPoint *>(&::DAT_011a946c));v640=(*reinterpret_cast<::InitPoint *>(&::DAT_011a9478));v64c=(*reinterpret_cast<::InitPoint *>(&::DAT_011a946c));v658=(*reinterpret_cast<::InitPoint *>(&::DAT_011a9478));unk684=0.1f;}
-void FUN_00e6b990();};
-
-}
 void* _memmove(void*, const void*, unsigned int);
 
 unsigned __cdecl GetValueForIndex(unsigned);
@@ -36064,6 +36029,20 @@ struct ResetObject {
  bool IsKindOfType(ResetRTTI* type) { ResetRTTI* current=Type(); while(current) { if(current==type) return true; current=current->base; } return false; }
  ResetObject* Cast(ResetRTTI* type) { if (!this) return 0; return IsKindOfType(type) ? this : 0; }
 };
+inline void ResetMap::AdvanceIterator(ResetNode*& pos, const char*& key, ResetObject*& value) {
+ ResetNode* node=pos; key=(const char*)node->key;
+ if(value!=node->value) {
+  if(value && !InterlockedDecrement((long*)&value->refs)) value->Destroy();
+  value=node->value;
+  if(value) InterlockedIncrement((long*)&value->refs);
+ }
+ pos=node->next;
+ if(!pos) {
+  unsigned index=Hash(node->key)+1;
+  for(;index<size;++index) { pos=buckets[index]; if(pos) return; }
+  pos=0;
+ }
+}
 struct ResetResourceList { static ResetRef& Next(ResetResourceNode*& pos) { ResetRef& value=pos->value; pos=pos->next; return value; } };
 extern const char DAT_010ee2e8[], DAT_010ee298[], DAT_010ee238[];
 struct ResetDevice { void* v0; void* v1; void* v2; void* v3; void* v4; void* v5; void* v6; void* v7; void* v8; void* v9; void* v10; void* v11; void* v12; void* v13; void* v14; void* v15; int (*Reset)(void*,void*); };
@@ -36195,7 +36174,7 @@ Buffer767* Shader767::FUN_00e76770(Geometry767* geometry, SkinProcessor767* skin
                 }
             }
         }
-        if (!::FUN_00e8bfa0((::Outer *)(manager), (uintptr_t)(data)))
+        if (!::FUN_00e8bfa0((::Outer *)(data), stream))
             return 0;
         buffer = (Buffer767*)((FUN_00e69b40_shell*)data)->GetEntry(stream);
         mask = 0xfff;
@@ -36251,7 +36230,7 @@ Buffer767* Shader767::FUN_00e76770(Geometry767* geometry, SkinProcessor767* skin
                 if (!(mask & 8)) continue;
                 break;
             }
-            ::ConvertGeometryData((unsigned short)this, (::NiGeometryData *)(vertexCount), (uintptr_t)(geometry), (::E7Skin *)(skinInstance), (::E7Descriptor *)(skin), (uintptr_t)(entry), (void *)(entries->m_uiStride), (bool)(output), (*(unsigned int *)&(const ::Extra767 &)(inputs6.extra)));
+            ::ConvertGeometryData((unsigned short)(vertexCount), (::NiGeometryData *)(geometry), (uintptr_t)(skinInstance), (::E7Skin *)(skin), (::E7Descriptor *)(entry), (uintptr_t)(entries->m_uiStride), (void *)(output), (bool)(inputs6.extra.unk00), inputs6.extra.unk04);
         }
     }
     if (skinned)

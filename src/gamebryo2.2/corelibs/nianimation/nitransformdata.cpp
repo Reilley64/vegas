@@ -199,7 +199,7 @@ NiBlendInterpolator* FUN_00a4eaa0_shell::FUN_00a4eaa0(unsigned short usIndex, bo
 {
     BlendPoint3Stub* p = (BlendPoint3Stub*)::operator new(0x40);
     if (p)
-        return (NiBlendInterpolator*)((::BlendPoint3Stub *)(new ((void *)(p)) ::FUN_00a55a10((void *)(bManagerControlled), fWeightThreshold, (void *)(ucArraySize))));
+        return (NiBlendInterpolator*)((::BlendPoint3Stub *)(new ((void *)(p)) ::FUN_00a55a10(bManagerControlled, fWeightThreshold, ucArraySize)));
     return 0;
 }
 

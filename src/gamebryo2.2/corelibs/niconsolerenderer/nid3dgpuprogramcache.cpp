@@ -274,7 +274,7 @@ bool E8DF70Writer::WriteShader(E8DF70BinaryStream& kStream, E8DF70Shader* pkShad
     if (!pkShader)
         return false;
 
-    ::FUN_00ee9230((::S_00ee9230_Stream *)this, (const char *)&(kStream));
+    ::FUN_00ee9230((::S_00ee9230_Stream *)&(kStream), *pkShader->GetName());
     unsigned int uiCodeSize = pkShader->GetCodeSize();
     const char* pcCode = pkShader->GetCode();
     E8DF70BinaryStreamSave(kStream, &uiCodeSize);
@@ -303,7 +303,7 @@ struct S_00e8e1d0_Ptr
 struct S_00e8e1d0_Node
 {
     S_00e8e1d0_Node* next;
-    unsigned key;
+    char* key;
     S_00e8e1d0_Ptr val;
 };
 struct S_00e8e1d0_Map
@@ -313,23 +313,23 @@ struct S_00e8e1d0_Map
     unsigned nBuckets;
     S_00e8e1d0_Node** buckets;
     unsigned count;
-    void InsertOrAssign(const unsigned* k, S_00e8e1d0_Ptr v) throw();
+    void InsertOrAssign(char* const* k, S_00e8e1d0_Ptr v) throw();
 };
 // @fnv 0x00e8e1d0
-void S_00e8e1d0_Map::InsertOrAssign(const unsigned* pKey, S_00e8e1d0_Ptr v)
+void S_00e8e1d0_Map::InsertOrAssign(char* const* pKey, S_00e8e1d0_Ptr v)
 {
-    unsigned i = *pKey % nBuckets;
+    unsigned i = (unsigned)(uintptr_t)*pKey % nBuckets;
     for (S_00e8e1d0_Node* n = buckets[i]; n; n = n->next)
     {
         if (*pKey == n->key)
         {
-            ::AssignValueHolder((::ValueHolder *)this, (char **)(n), (::ObjectReference)(pKey));
+            ::AssignValueHolder((::ValueHolder *)(n), (char **)(pKey), *reinterpret_cast<::ObjectReference *>(&v));
             v.Release();
             return;
         }
     }
     S_00e8e1d0_Node* n = Alloc();
-    ::AssignValueHolder((::ValueHolder *)this, (char **)(n), (::ObjectReference)(pKey));
+    ::AssignValueHolder((::ValueHolder *)(n), (char **)(pKey), *reinterpret_cast<::ObjectReference *>(&v));
     n->next = buckets[i];
     buckets[i] = n;
     count++;
@@ -686,7 +686,7 @@ bool ShaderLoader8e::LoadShaderProgram(ShaderStream8e* pkStream, const FixedStri
     *ppkProgram = 0;
     unsigned int uiCodeSize = 0;
     char acType[256];
-    ::FUN_00ee92d0((::S_00a8d8b0 *)this, (uintptr_t)(pkStream), (uintptr_t)(acType));
+    ::FUN_00ee92d0((::S_00a8d8b0 *)(pkStream), acType, 0x100);
 
     bool bVertex;
     if (FUN_00aa1360(acType, (*reinterpret_cast<const char * *>(&::g_0126fa48))) == 0)
@@ -993,7 +993,7 @@ RefCountedBase* S00e8eb80_Obj::FUN_00e8eb80(const char* name, const char* apSour
                 vfn84(node, &value);
             }
 
-            reinterpret_cast<::S_00e8e1d0_Map *>(&(m_08))->InsertOrAssign((const unsigned int*)&value, (*(::S_00e8e1d0_Ptr *)&(const ::NiPointerVal &)(node)));
+            reinterpret_cast<::S_00e8e1d0_Map *>(&(m_08))->InsertOrAssign(&value, (*(::S_00e8e1d0_Ptr *)&(const ::NiPointerVal &)(node)));
             if (value != ::DAT_0109b220)
             {
                 InterlockedDecrement((volatile long*)(value - 8));

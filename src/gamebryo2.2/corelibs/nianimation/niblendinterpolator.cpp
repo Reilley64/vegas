@@ -1169,6 +1169,8 @@ struct LoadInterpItem
 };
 
 struct InterpolatorRegistry;
+class NiBinaryStream;
+class NiTexture;
 class NiObject;
 class NiStream
 {
@@ -1793,12 +1795,12 @@ bool NiBlendInterpolatorW::FUN_00a37690()
     if (ucNewArraySize < 4)
         ucNewArraySize = 4;
 
-    FUN_00a370a0* pkNewInterpArray = new FUN_00a370a0[ucNewArraySize];
+    class FUN_00a370a0* pkNewInterpArray = new class FUN_00a370a0[ucNewArraySize];
     for (unsigned char uc = 0; uc < m_ucArraySize; uc++)
     {
         *(NiBlendInterpolator__InterpArrayItem*)&pkNewInterpArray[uc] = m_pInterpArray[uc];
     }
-    delete[] (FUN_00a370a0*)m_pInterpArray;
+    delete[] (class FUN_00a370a0*)m_pInterpArray;
 
     m_pInterpArray = pkNewInterpArray;
     m_ucArraySize = ucNewArraySize;

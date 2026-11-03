@@ -573,7 +573,7 @@ struct FUN_00c2bc90_shell : FUN_00c2bb70_shell
 // @fnv 0x00c2bc90
 void FUN_00c2bc90_shell::FUN_00c2bc90(NiStreamView& kStream)
 {
-    reinterpret_cast<::FUN_00a5d610_Object *>((kStream))->ReadGroup({});
+    reinterpret_cast<::FUN_00a5d610_Object *>(this)->ReadGroup((::NiStream *)&kStream);
 
     unsigned int uiNumBirthRateKeys;
     ReadBinaryValue(kStream, uiNumBirthRateKeys);

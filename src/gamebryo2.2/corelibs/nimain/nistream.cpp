@@ -1229,11 +1229,11 @@ typedef void (*S_00a63540_PostProcess)(void*);
 // @fnv 0x00a63540
 void RemovePostProcess(S_00a63540_PostProcess apPostProcess)
 {
-    for (unsigned int ui = 0; ui < (*reinterpret_cast<::fnv_00a63540::S_00a63540_Array<void (**)(void *)> *>(&::DAT_011f4788))->GetSize(); ui++)
+    for (unsigned int ui = 0; ui < (*reinterpret_cast<::fnv_00a63540::S_00a63540_Array<S_00a63540_PostProcess> **>(&::DAT_011f4788))->GetSize(); ui++)
     {
-        if ((*reinterpret_cast<::fnv_00a63540::S_00a63540_Array<void (**)(void *)> *>(&::DAT_011f4788))->GetAt(ui) == apPostProcess)
+        if ((*reinterpret_cast<::fnv_00a63540::S_00a63540_Array<S_00a63540_PostProcess> **>(&::DAT_011f4788))->GetAt(ui) == apPostProcess)
         {
-            (*reinterpret_cast<::fnv_00a63540::S_00a63540_Array<void (**)(void *)> *>(&::DAT_011f4788))->RemoveAt(ui);
+            (*reinterpret_cast<::fnv_00a63540::S_00a63540_Array<S_00a63540_PostProcess> **>(&::DAT_011f4788))->RemoveAt(ui);
             break;
         }
     }
@@ -6918,20 +6918,6 @@ struct FUN_00c68050_shell : public NiStream
     void RegisterThread();
 };
 
-struct CRITICAL_SECTION
-{
-    void* DebugInfo;
-    long LockCount;
-    long RecursionCount;
-    void* OwningThread;
-    void* LockSemaphore;
-    unsigned long SpinCount;
-};
-typedef CRITICAL_SECTION* LPCRITICAL_SECTION;
-
-extern "C"
-{
-}
 
 struct NineIntegerRecord;
 

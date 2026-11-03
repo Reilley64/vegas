@@ -2445,7 +2445,7 @@ bool Processor::ReduceGroupWeights(Geometry* geometry, unsigned char maxTriangle
         geometry->GetTriangle(triangle, indices[0], indices[1], indices[2]);
         if (indices[0] != indices[1] && indices[1] != indices[2] && indices[2] != indices[0])
         {
-            ::MergeGroupWeights((::WeightedMap *)this, (const unsigned short *)(::SkinWeights::WeightMap *)(&map), (::EntryGroup *__restrict)(indices));
+            ::MergeGroupWeights((::WeightedMap *)(&map), (const unsigned short *)(indices), (::EntryGroup *)(groups));
             unsigned int count = map.count;
             if (count > maxTriangle)
             {
@@ -2510,7 +2510,7 @@ bool Processor::ReduceGroupWeights(Geometry* geometry, unsigned char maxTriangle
                     if (--count == maxTriangle)
                         break;
                     reinterpret_cast<::S_00b601a0_Map *>(&(map))->FUN_00b601a0();
-                    ::MergeGroupWeights((::WeightedMap *)this, (const unsigned short *)(::SkinWeights::WeightMap *)(&map), (::EntryGroup *__restrict)(indices));
+                    ::MergeGroupWeights((::WeightedMap *)(&map), (const unsigned short *)(indices), (::EntryGroup *)(groups));
                 }
             }
             reinterpret_cast<::S_00b601a0_Map *>(&(map))->FUN_00b601a0();

@@ -124,7 +124,7 @@ void NiAVObject::FUN_00a5ac90(NiAVObject* dest, CloningProcess& process)
     dest->m_flags = this->m_flags | 0x80000;
     dest->m_kLocalTransform = this->m_kLocalTransform;
     if (*(unsigned int*)((char*)this + 0x2c))
-        ::FUN_00a5abe0((::FUN_00a5abe0_owner *)this, dest, (void *volatile)((char*)&this->m_kProperties));
+        ::FUN_00a5abe0((::FUN_00a5abe0_owner *)(dest), (void *)&this->m_kProperties, (void *)&(process));
     if (m_spCollisionObject)
         reinterpret_cast<::Owner62B *>((dest))->AttachTarget(m_spCollisionObject->Clone(process));
 }

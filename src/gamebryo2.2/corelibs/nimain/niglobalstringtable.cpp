@@ -44,7 +44,7 @@ char* NiGlobalStringTable::AddString(const char* s)
     }
     unsigned tlsIndex = ::DAT_0126fd98;
 
-    char* pTlsData = ((char**)__readfsdword(0x2c))[tlsIndex];
+    char* pTlsData = ((char**)__readgsqword(0x58))[tlsIndex];
     volatile unsigned uiOldTlsValue = *(unsigned*)(pTlsData + 0x2b4);
     *(unsigned*)(pTlsData + 0x2b4) = 8;
     unsigned uiAllocSize = len + 9;
@@ -57,7 +57,7 @@ char* NiGlobalStringTable::AddString(const char* s)
     allocation[1] = len;
     char* handle = result;
     std::memmove(result, s, len + 1);
-    reinterpret_cast<::ThreadedTable *>((DAT_011f42c0))->FUN_00a5b5a0(&handle, len);
+    reinterpret_cast<::ThreadedTable *>((DAT_011f42c0))->FUN_00a5b5a0((const char **)&handle, len);
     LeaveCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>((char*)DAT_011f42c0 + 0x2080));
     *(unsigned*)(pTlsData + 0x2b4) = uiOldTlsValue;
     return result;

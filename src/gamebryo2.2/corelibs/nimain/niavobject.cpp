@@ -284,7 +284,7 @@ void S59ec0::FUN_00a59ec0(CloningProcess& kCloning)
 {
     reinterpret_cast<::NiObjectNET *>((((NiObjectNET*)(void*)this)))->ProcessClone((::CloningProcess &)(kCloning));
     if (m_kNode[2])
-        ::FUN_00a59e70((::ListOwner *)this, (::Holder *)(m_kNode));
+        ::FUN_00a59e70((::ListOwner *)(m_kNode), (::Holder *)&(kCloning));
     NiObjectNET* pkCollision = m_spCollision;
     if (pkCollision)
         pkCollision->ProcessClone(kCloning);

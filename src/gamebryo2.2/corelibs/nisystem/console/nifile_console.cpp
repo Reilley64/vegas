@@ -269,7 +269,7 @@ FUN_00aa18c0::~FUN_00aa18c0()
 {
     if (m_bGood && m_pFile)
     {
-        reinterpret_cast<::NiFile *>((((NiFileFlushExposer*)(void*)this)))->Flush();
+        ((NiFileFlushExposer*)(void*)this)->CallFlush();
         std::fclose((std::FILE *)(m_pFile));
     }
     ::FUN_00aa10f0(m_pBuffer);

@@ -955,7 +955,7 @@ void BoardObject::FUN_00a7de40(const BoardObject* camera)
     case 3:
         if (mode == 3)
         {
-            if (!::FUN_00a7dc40((::NiCameraStandIn *)this, (*(const ::NiPoint3 *)(camera)), (::NiPoint3 &)(world.translate), (::NiPoint3 &)(kWorldPosition), (::NiPoint3 &)(kUp)))
+            if (!::FUN_00a7dc40((::NiCameraStandIn *)(camera), (const ::NiPoint3 &)(world.translate), (::NiPoint3 &)(kWorldPosition), (::NiPoint3 &)(kUp), (::NiPoint3 &)(kRight)))
                 break;
         }
         else
@@ -1025,7 +1025,7 @@ void BoardObject::FUN_00a7de40(const BoardObject* camera)
     case 4:
         if (mode == 4)
         {
-            if (!::FUN_00a7dc40((::NiCameraStandIn *)this, (*(const ::NiPoint3 *)(camera)), (::NiPoint3 &)(world.translate), (::NiPoint3 &)(kRight), (::NiPoint3 &)(kUp)))
+            if (!::FUN_00a7dc40((::NiCameraStandIn *)(camera), (const ::NiPoint3 &)(world.translate), (::NiPoint3 &)(kRight), (::NiPoint3 &)(kUp), (::NiPoint3 &)(kWorldPosition)))
                 break;
         }
         else

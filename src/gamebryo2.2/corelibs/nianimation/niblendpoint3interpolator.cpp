@@ -251,13 +251,13 @@ struct FUN_00a55a10
     NiPoint3 m_kPoint3Value;
     bool m_bValueValid;
 
-    FUN_00a55a10(void* a, float f, void* c);
+    FUN_00a55a10(bool a, float f, unsigned char c);
 };
 
 // @fnv 0x00a55a10
-FUN_00a55a10::FUN_00a55a10(void* apArg, float f, void* c)
+FUN_00a55a10::FUN_00a55a10(bool apArg, float f, unsigned char c)
 {
-    reinterpret_cast<::S_00a370b0_Class *>((((FUN_00a370b0_tgt*)this)))->FUN_00a370b0((bool)(apArg), f, (volatile unsigned char)(c));
+    reinterpret_cast<::S_00a370b0_Class *>((((FUN_00a370b0_tgt*)this)))->FUN_00a370b0(apArg, f, c);
     m_vptr = reinterpret_cast<intptr_t>(&DAT_0109a49c);
     m_kPoint3Value = DAT_011a9424;
     m_bValueValid = false;

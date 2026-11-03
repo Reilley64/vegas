@@ -643,7 +643,6 @@ SpawnedCubeShell* __cdecl CreateSpawnedCubeShell(char** ppName, NiObject* pOwner
 
 namespace fnv_00a61040 {
 
-extern "C" void __cdecl FUN_00a76960(char** ppName, void* pExtra);
 
 
 struct FUN_00a5fc10_cls
@@ -746,7 +745,7 @@ SpawnedObject* __cdecl FUN_00a61040(char** ppName, int aValue, NiRenderer* pRend
     }
 
     ::FUN_00a57500((::NiFixedString *)(ppNameSlot));
-    FUN_00a76960(ppNameSlot, &p->m_34);
+    ::fnv_00a76960::FUN_00a76960(ppNameSlot, (char **)(&p->m_34));
 
     if (p->m_48 != 0)
     {

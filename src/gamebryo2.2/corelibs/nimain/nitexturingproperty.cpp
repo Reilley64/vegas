@@ -2034,7 +2034,7 @@ int __cdecl FUN_00e7cd40()
 
 extern "C" void _ReadWriteBarrier();
 
-const void* DAT_0109c4c4[];
+extern const void* DAT_0109c4c4[];
 
 class FUN_00a69dd0_cls
 {

@@ -314,7 +314,7 @@ struct FUN_00c1be10_shell : NiPSysEmitterCtlr
 // @fnv 0x00c1be10
 bool FUN_00c1be10_shell::RegisterEmitterInterpolatorStreamables(NiStream& kStream)
 {
-    if (!reinterpret_cast<::FUN_00a57780_shell *>((kStream))->FUN_00a57780(*(::NiStream *)nullptr))
+    if (!reinterpret_cast<::FUN_00a57780_shell *>(this)->FUN_00a57780(kStream))
         return false;
     NiInterpolator* pkEmitter = this->m_spVisibilityInterpolator.m_pObject;
     if (pkEmitter)
@@ -1632,7 +1632,7 @@ struct GO
 struct NiPSysEmitterCtlr_StandIn
 {
     char pad[0x34];
-    GO m34;
+    ::NiObject* m34;
     NiBoolInterpolator* FUN_00639b60();
 public:
     void FUN_00c5cb20(::NiPSysEmitterCtlr_StandIn *, void *);
@@ -1864,7 +1864,6 @@ void C630Ctlr::FUN_00c1c630(float* time)
 }
 
 void* __cdecl FUN_00a537e0();
-void FUN_00c1ba30(FUN_00c1ba30* self, int unused);
 const char* const* __cdecl FUN_00c1c2f0();
 const char* const* FUN_00c1ba50(unsigned short usIndex);
 
@@ -1879,19 +1878,19 @@ NiBoolInterpolator* NiPSysEmitterCtlr_StandIn::FUN_00639b60()
     NiBoolInterpolator* pkBoolInterp;
     NiBlendBoolInterpolator* pkBlendInterp;
 
-    pkBoolInterp = reinterpret_cast<NiBoolInterpolator*>(((void *)(::FUN_00653270((const ::NiRTTI *)(void *)(&(*reinterpret_cast<int *>(&::g_011f3738))), (::NiObject *)(m34.operator unsigned int())))));
+    pkBoolInterp = reinterpret_cast<NiBoolInterpolator*>(((void *)(::FUN_00653270((const ::NiRTTI *)(void *)(&(*reinterpret_cast<int *>(&::g_011f3738))), m34))));
 
     if (pkBoolInterp)
         return pkBoolInterp;
 
     pkBlendInterp =
-        reinterpret_cast<NiBlendBoolInterpolator*>(((void *)(::FUN_00653270((const ::NiRTTI *)(void *)(&::g_011f3e58), (::NiObject *)(m34.operator unsigned int())))));
+        reinterpret_cast<NiBlendBoolInterpolator*>(((void *)(::FUN_00653270((const ::NiRTTI *)(void *)(&::g_011f3e58), m34))));
 
     if (pkBlendInterp)
     {
         unsigned char m_ucClipIdentifier = reinterpret_cast<::nsa::FUN_00a368f0_cls *>((pkBlendInterp))->FindHighestWeightIndex();
         if (m_ucClipIdentifier != DAT_01096968)
-            return ((::NiBoolInterpolator *)(reinterpret_cast<::fnv_00495d50::Holder_00495d50 *>((pkBlendInterp))->GetValueForIndex(m_ucClipIdentifier)));
+            return ((::NiBoolInterpolator *)(uintptr_t)(reinterpret_cast<::fnv_00495d50::Holder_00495d50 *>((pkBlendInterp))->GetValueForIndex(m_ucClipIdentifier)));
     }
 
     return 0;

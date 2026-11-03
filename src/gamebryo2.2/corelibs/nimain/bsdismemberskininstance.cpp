@@ -15,8 +15,6 @@
 #include "fnv/symbols_00aa1000.h"
 #include "fnv/symbols_011f6000.h"
 
-const NiRTTI BSDismemberSkinInstance::ms_kRTTI;
-
 // @fnv 0x006885d0
 const NiRTTI* BSDismemberSkinInstance::GetRTTI() const
 {

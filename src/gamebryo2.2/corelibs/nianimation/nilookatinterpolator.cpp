@@ -1453,13 +1453,11 @@ FUN_00a4bcf0::FUN_00a4bcf0(unsigned int pkLookAt, unsigned int eAxis, bool bFlip
 }
 
 extern "C" void _ReadWriteBarrier(void);
-const float DAT_01015f5c = -3.4028234663852886e38f;
 const float DAT_01017d00 = 0.0010000000474974513f;
 const float DAT_01098c00 = 1.0010000467300415f;
 const double DAT_01098bf8 = 0.9990000128746033;
 const float DAT_01098bf0 = -1.0010000467300415f;
 const double DAT_01098be8 = -0.9990000128746033;
-const double DAT_010241b0 = -3.4028234663852886e38;
 struct LookNode;
 struct LookVector
 {

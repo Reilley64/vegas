@@ -18,7 +18,7 @@ struct SlotState
 {
     float m00;
     unsigned int unk04[4];
-    void* m14[3];
+    unsigned int m14[3];
     int m20[3];
     unsigned char m2c[3];
     unsigned char unk2F;
@@ -37,15 +37,15 @@ void __cdecl UpdateSlotStates(int aiSlotGroup, intptr_t a2, void** apSlotData, i
         do
         {
             unsigned char idx = (unsigned char)i;
-            void* pSlotData = pSlot->m14[idx];
+            unsigned int uiSlotCount = pSlot->m14[idx];
             int iSlotIndex = pSlot->m20[idx];
             void* volatile savedC = pSlot->m30[idx];
-            a2 = (intptr_t)pSlotData;
-            void* pResult = pSlotData;
-            if (pSlotData != 0)
+            int iCount = (int)uiSlotCount;
+            unsigned int pResult = uiSlotCount;
+            if (uiSlotCount != 0)
             {
-                UpdateSlotStates(0, iSlotIndex, (void**)(void*)&savedC, &a2, afValueA, afValueB);
-                pResult = (void*)a2;
+                UpdateSlotStates(0, iSlotIndex, (void**)(void*)&savedC, &iCount, afValueA, afValueB);
+                pResult = (unsigned int)iCount;
             }
             pSlot->m30[idx] = savedC;
             pSlot->m14[idx] = pResult;
@@ -94,7 +94,7 @@ typedef void (*CopyCallback)(void* dst, void* src);
 
 
 // @fnv 0x00a3d630
-void FUN_00a3d630(int a1, int a2, void* apData, intptr_t aiCount, float afMin, float afMax, void** apOut, int* apiOutCount)
+void FUN_00a3d630(int a1, intptr_t a2, void* apData, intptr_t aiCount, float afMin, float afMax, void** apOut, int* apiOutCount)
 {
     if (a2 == 4)
     {

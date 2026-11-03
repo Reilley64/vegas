@@ -1819,6 +1819,8 @@ class A1400StringGroup
 };
 namespace fnv_00a32330
 {
+struct InterpArrayItem;
+struct IDTag;
 struct SequenceArrays
 {
     void* m_ppVirtualMethodTable;
@@ -3532,7 +3534,7 @@ void CloneSequence::FUN_00a32470(CloneContext& context)
                 else
                     reinterpret_cast<::FUN_00c663d0 *>(&(dest))->operator=((const ::FUN_00c663d0 &)(items[i]));
             }
-            if (reinterpret_cast<::A54440Hash *>((void *)(context.map))->FUN_00a53c30(reinterpret_cast<::A54440Manager *>((items[i].controller)), (::A54440Manager **)&(clone)))
+            if (reinterpret_cast<::A54440Hash *>((void *)(context.map))->FUN_00a53c30(reinterpret_cast<::A54440Manager *>((CloneObject*)(items[i].controller)), (::A54440Manager **)&(clone)))
             {
                 CloneObject* old = copy->items[i].controller;
                 ClonePointer* volatile dest = &copy->items[i].controller;
@@ -4629,6 +4631,8 @@ struct SeqFixedString
 
     char* m_kHandle;
 
+    SeqFixedString() : m_kHandle(::DAT_0109b220)
+    {}
     SeqFixedString(const char* pcString)
 
     {
@@ -5915,16 +5919,6 @@ void Sequence71::FUN_00a33e40(Stream71& stream)
 }
 
 void* __cdecl FormatStringWithType(const char* pcText, void* arg2);
-static const char* MorphType31910()
-{
-    if (!(DAT_011f36c8 & 1))
-    {
-        DAT_011f36c8 |= 1;
-        DAT_011f36c4 = ::NiGlobalStringTable::AddString(&DAT_01096564);
-        atexit(FUN_00fdad60);
-    }
-    return DAT_011f36c4;
-}
 
 extern unsigned char DAT_01096968;
 extern unsigned int DAT_01096688;

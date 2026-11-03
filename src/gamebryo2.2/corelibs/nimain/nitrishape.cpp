@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nimain/nitrishape.cpp: NiTriShape (16 functions)
 
+#include "fnv/decl/FUN_00a98eb0_shell.h"
 #include <new>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
@@ -338,9 +339,9 @@ class NiStream;
 
 
 // @fnv 0x00a98eb0
-void FUN_00a98eb0(NiStream& stream)
+void FUN_00a98eb0_shell::FUN_00a98eb0(NiStream& stream)
 {
-    reinterpret_cast<::ParticleLinkEndpoint *>((stream))->FUN_00a74780(*(::NiStream *)nullptr);
+    reinterpret_cast<::ParticleLinkEndpoint *>(this)->FUN_00a74780(stream);
 }
 
 

@@ -151,7 +151,7 @@ RgbaColor __cdecl InterpolateColor(float afTime, const char* table, unsigned int
     color.b = 0.0f;
     color.a = 0.0f;
     float t = (afTime - prevVal) / (fCurTime - prevVal);
-    (*reinterpret_cast<void (*(*)[])(float, const char *, const char *, void *)>(&::DAT_011f3cd8))[interp](t, table + stride * idx, table + stride * i, &color);
+    (*reinterpret_cast<void (*(*)[])(float, const char *, const char *, void *)>((void *)&::DAT_011f3cd8))[interp](t, table + stride * idx, table + stride * i, &color);
     *pIdx = idx;
     return color;
 }

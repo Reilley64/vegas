@@ -32,6 +32,7 @@
 #include "fnv/decl/S_00c22530_Emitter.h"
 #include "fnv/decl/ViewerStrings.h"
 #include "fnv/decl/fnv_00b5c7d0__StrArr.h"
+#include "fnv/symbols_00525000.h"
 #include "fnv/symbols_00639000.h"
 #include "fnv/symbols_00a47000.h"
 #include "fnv/symbols_00a7d000.h"
@@ -1006,7 +1007,7 @@ void SkinVertex(NiPoint3* outPos, NiPoint3* outVel, Arg3Obj* arg3, Arg4Obj* arg4
     BoneTransformD230 c;
     reinterpret_cast<::NiTransform *>(&(arg4->m_10->m_68))->CalculateInverse((*(::NiTransform *)((void*)&c)));
     BoneTransformD230 ptr;
-    ptr = reinterpret_cast<::NiTransform *>((void *)&(const ::BoneTransformD230 &)(skin->m_0c))->operator*((const ::NiTransform &)(c));
+    *reinterpret_cast<::NiTransform *>(&ptr) = reinterpret_cast<::NiTransform *>(&skin->m_0c)->operator*(*reinterpret_cast<const ::NiTransform *>(&c));
     BoneEntry* bones = skin->m_40;
     AccObj acc;
     LoopPair scratch;
@@ -1050,7 +1051,8 @@ void SkinVertex(NiPoint3* outPos, NiPoint3* outVel, Arg3Obj* arg3, Arg4Obj* arg4
             BoneTransformD230* res = &arg4->m_14[bindDir]->world;
             BoneTransformD230* wv = &bones[bindDir].transform;
             Mat3 ls;
-            c = reinterpret_cast<::NiTransform *>((void *)&(const ::BoneTransformD230 &)((reinterpret_cast<::NiTransform *>((void *)&(const ::BoneTransformD230 &)(ptr))->operator*((const ::NiTransform &)(*res)))))->operator*((const ::NiTransform &)(*wv));
+            ::NiTransform kPtrRes = reinterpret_cast<::NiTransform *>(&ptr)->operator*(*reinterpret_cast<const ::NiTransform *>(res));
+            *reinterpret_cast<::NiTransform *>(&c) = kPtrRes.operator*(*reinterpret_cast<const ::NiTransform *>(wv));
             BoneTransformD230& a = c;
             Mat3& elemT = ls;
             elemT.m[0] = a.m_00 * a.m_fScale;
@@ -1199,7 +1201,8 @@ bool SkinEmitter::GetRandomEmitterParticle(SkinInst* skin, SkinGeometry* geometr
         {
             Point3 localPosition = (*reinterpret_cast<::fnv_00c1dec0::Point3 *>((void *)&::NiPoint3::ZERO));
             localVelocity = (*reinterpret_cast<::fnv_00c1dec0::Point3 *>((void *)&::NiPoint3::ZERO));
-            ::SkinVertex((::NiPoint3 *)this, (::NiPoint3 *)(::fnv_00c1dec0::Point3 *)(&localPosition), (::Arg3Obj *)(::fnv_00c1dec0::Point3 *)(&localVelocity), (::Arg4Obj *)(geometry), (::Arg5Obj *)(data), (intptr_t)(record));
+            ::SkinVertex((::NiPoint3 *)(void *)(&localPosition), (::NiPoint3 *)(void *)(&localVelocity), (::Arg3Obj *)(geometry), (::Arg4Obj *)(data), (::Arg5Obj *)(record),
+                         (intptr_t)(unsigned int)((record->vertexCount - 1) * randomVertex));
             position = localPosition;
         }
         if (unk74 == 0 && geometry->extra->hasData != 0)
@@ -1213,7 +1216,6 @@ bool SkinEmitter::GetRandomEmitterParticle(SkinInst* skin, SkinGeometry* geometr
 }
 }  // namespace fnv_00c1dec0
 
-void __cdecl FUN_00525340(NiPoint3*);
 NiPoint3 __cdecl FUN_004a3760(float, const NiPoint3&);
 
 struct Partition
@@ -1385,8 +1387,8 @@ bool EmitterAccessor::FUN_00c1e4e0(NiSkinInstance* pkSkinInstance, NiGeometry* p
     NiPoint3 kPos1 = ::NiPoint3::ZERO;
     NiPoint3 kNorm1 = ::NiPoint3::ZERO;
 
-    ::SkinVertex((::NiPoint3 *)(this), (::NiPoint3 *)&(kPos0), (::Arg3Obj *)&(kNorm0), (::Arg4Obj *)(pkGeometry), (::Arg5Obj *)(pkData), (intptr_t)(pkPartition));
-    ::SkinVertex((::NiPoint3 *)(this), (::NiPoint3 *)&(kPos1), (::Arg3Obj *)&(kNorm1), (::Arg4Obj *)(pkGeometry), (::Arg5Obj *)(pkData), (intptr_t)(pkPartition));
+    ::SkinVertex((::NiPoint3 *)&(kPos0), (::NiPoint3 *)&(kNorm0), (::Arg3Obj *)(pkGeometry), (::Arg4Obj *)(pkData), (::Arg5Obj *)(pkPartition), (intptr_t)(usV0));
+    ::SkinVertex((::NiPoint3 *)&(kPos1), (::NiPoint3 *)&(kNorm1), (::Arg3Obj *)(pkGeometry), (::Arg4Obj *)(pkData), (::Arg5Obj *)(pkPartition), (intptr_t)(usV1));
     {
         NiPoint3 kTmp = reinterpret_cast<::Point3_0053d280 *>((void *)(void *)&(const ::MyPoint3 &)(((MyPoint3&)kPos0 + (MyPoint3&)kPos1)))->FUN_0053d280(2.0f);
         kPosition = kTmp;
@@ -1395,7 +1397,7 @@ bool EmitterAccessor::FUN_00c1e4e0(NiSkinInstance* pkSkinInstance, NiGeometry* p
     if (this->m_iEmissionDirection == 0)
     {
         NiPoint3 kNormal = reinterpret_cast<::Point3_0053d280 *>((void *)(void *)&(const ::MyPoint3 &)(((MyPoint3&)kNorm0 + (MyPoint3&)kNorm1)))->FUN_0053d280(2.0f);
-        FUN_00525340(&kNormal);
+        ::FUN_00525340((float *)&kNormal);
         float fSpeed = reinterpret_cast<::NiPoint3 *>((((MyPoint3*)&kMotionVelocity)))->ComputeMagnitude();
         kMotionVelocity = FUN_004a3760(fSpeed, kNormal);
     }
@@ -1842,7 +1844,6 @@ struct GeometryRuntimeType
     const GeometryRuntimeType* parent;
 };
 
-extern "C" void __cdecl FUN_00525340(MeshPoint* point);
 
 typedef int(* GeometryTestFn)(NiGeometry*);
 typedef GeometryRuntimeType*(* GeometryRTTIFn)(NiGeometry*);
@@ -1931,7 +1932,7 @@ bool MeshEmitterCandidate::PickEmitterParticle(NiGeometry* geometry, MeshPoint& 
         MeshPoint normal0 = normals[vertex0];
         MeshPoint normal1 = normals[vertex1];
         MeshPoint normal = (normal0 + normal1) * 0.5f;
-        FUN_00525340(&normal);
+        ::FUN_00525340((float *)&normal);
         float magnitude = sqrtf(velocity.x * velocity.x + velocity.y * velocity.y + velocity.z * velocity.z);
         velocity = normal * magnitude;
     }
@@ -2315,7 +2316,6 @@ struct GeometryRuntimeType
     const GeometryRuntimeType* parent;
 };
 extern const double DAT_01099ee0;
-extern "C" void __cdecl FUN_00525340(MeshPoint* point);
 typedef int(* GeometryTestFn)(NiGeometry*);
 typedef GeometryRuntimeType*(* GeometryRTTIFn)(NiGeometry*);
 typedef unsigned short(* GetTriangleCountFn)(void*);
@@ -2371,7 +2371,7 @@ bool MeshEmitterCandidate::EmitFromMesh(NiGeometry* geometry, MeshPoint& positio
                 MeshPoint normal2 = normals[vertex2];
                 MeshPoint normalSum = normal0 + normal1 + normal2;
                 MeshPoint normal = normalSum * oneThird;
-                FUN_00525340(&normal);
+                ::FUN_00525340((float *)&normal);
                 float magnitude = sqrtf(velocity.x * velocity.x + velocity.y * velocity.y + velocity.z * velocity.z);
                 velocity = normal * magnitude;
             }
@@ -2727,7 +2727,7 @@ struct MeshVectorOps
 __forceinline NiPoint3 ScaleVector(const NiPoint3& value, float scalar)
 {
     NiPoint3 result;
-    reinterpret_cast<::Point3_0053d280 *>((void *)(reinterpret_cast<const MeshVectorOps*>(&value)))->FUN_0053d280((float)(&result));
+    *reinterpret_cast<::NiPoint3 *>(&result) = reinterpret_cast<const ::Point3_0053d280 *>(&value)->FUN_0053d280(scalar);
     return result;
 }
 __forceinline void AddVector(NiPoint3& output, const NiPoint3& a, const NiPoint3& b)
@@ -2882,9 +2882,9 @@ bool MeshReconstruction::FUN_00c1e080(NiSkinInstance* apSkinInstance, NiGeometry
     triangle.v1 = ::NiPoint3::ZERO;
     triangle.p2 = ::NiPoint3::ZERO;
     triangle.v2 = ::NiPoint3::ZERO;
-    ::SkinVertex((::NiPoint3 *)this, (::NiPoint3 *)&(triangle.p0), (::Arg3Obj *)&(triangle.v0), (::Arg4Obj *)(geometry), (::Arg5Obj *)(data), (intptr_t)(sample));
-    ::SkinVertex((::NiPoint3 *)this, (::NiPoint3 *)&(triangle.p1), (::Arg3Obj *)&(triangle.v1), (::Arg4Obj *)(geometry), (::Arg5Obj *)(data), (intptr_t)(sample));
-    ::SkinVertex((::NiPoint3 *)this, (::NiPoint3 *)&(triangle.p2), (::Arg3Obj *)&(triangle.v2), (::Arg4Obj *)(geometry), (::Arg5Obj *)(data), (intptr_t)(sample));
+    ::SkinVertex((::NiPoint3 *)&(triangle.p0), (::NiPoint3 *)&(triangle.v0), (::Arg3Obj *)(geometry), (::Arg4Obj *)(data), (::Arg5Obj *)(sample), (intptr_t)(first));
+    ::SkinVertex((::NiPoint3 *)&(triangle.p1), (::NiPoint3 *)&(triangle.v1), (::Arg3Obj *)(geometry), (::Arg4Obj *)(data), (::Arg5Obj *)(sample), (intptr_t)(second));
+    ::SkinVertex((::NiPoint3 *)&(triangle.p2), (::NiPoint3 *)&(triangle.v2), (::Arg3Obj *)(geometry), (::Arg4Obj *)(data), (::Arg5Obj *)(sample), (intptr_t)(uiThirdIndex));
     {
         SumValue scratch(triangle.p0.x + triangle.p1.x);
         scratch.y = triangle.p1.y + triangle.p0.y;
@@ -2898,8 +2898,8 @@ bool MeshReconstruction::FUN_00c1e080(NiSkinInstance* apSkinInstance, NiGeometry
         scratch.y = triangle.v1.y + triangle.v0.y;
         scratch.z = triangle.v1.z + triangle.v0.z;
         AddAccumulator(triangle.accumulator, scratch, triangle.v2);
-        reinterpret_cast<::Point3_0053d280 *>((void *)(reinterpret_cast<MeshVectorOps*>(&triangle.accumulator)))->FUN_0053d280((float)(&triangle.v2));
-        FUN_00525340(&triangle.v2);
+        *reinterpret_cast<::NiPoint3 *>(&triangle.v2) = reinterpret_cast<const ::Point3_0053d280 *>(&triangle.accumulator)->FUN_0053d280(DAT_01017718);
+        ::FUN_00525340((float *)&triangle.v2);
         float magnitude = reinterpret_cast<::NiPoint3 *>((void *)(reinterpret_cast<MeshVectorOps*>(&velocity)))->ComputeMagnitude();
         NiPoint3* result = ::NiPosData::ComputePositionAtTime(&triangle.accumulator, magnitude, &triangle.v2);
         velocity = *result;

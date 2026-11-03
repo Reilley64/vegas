@@ -562,28 +562,28 @@ void __cdecl AdvancePosition(S_00a8d8b0* a, void* b, unsigned int c);
 
 // Reads a length-prefixed string into a2 via self->fn, advances self->pos, and null-terminates the buffer; returns false if a3 is 0 or a2 is null.
 // @fnv 0x00ee92d0
-bool FUN_00ee92d0(S_00a8d8b0* self, uintptr_t pBuffer, uintptr_t a3)
+bool FUN_00ee92d0(S_00a8d8b0* self, char* pBuffer, unsigned int a3)
 {
     if (a3 == 0)
         goto fail;
-    char* out = (char*)pBuffer;
-    if (out != 0)
     {
-        unsigned int* pLength = &a3;
-        *pLength = 0;
-        unsigned int* pReadSize = &pBuffer;
-        *pReadSize = 4;
-        unsigned int n = self->fn(self, pLength, 4, pReadSize, 1);
-        self->pos += (int)n;
-        unsigned int v = *pLength;
-        if (v == 0)
-            goto zero;
-        AdvancePosition(self, out, *pLength);
-        out[*(volatile unsigned int*)pLength + 1] = 0;
-        return true;
-    zero:
-        *out = (char)v;
-        return true;
+        char* out = pBuffer;
+        if (out != 0)
+        {
+            unsigned int uiLength = 0;
+            unsigned int uiReadSize = 4;
+            unsigned int n = self->fn(self, &uiLength, 4, &uiReadSize, 1);
+            self->pos += (int)n;
+            unsigned int v = uiLength;
+            if (v == 0)
+            {
+                *out = (char)v;
+                return true;
+            }
+            AdvancePosition(self, out, uiLength);
+            out[*(volatile unsigned int*)&uiLength + 1] = 0;
+            return true;
+        }
     }
 fail:
     return false;
@@ -676,7 +676,7 @@ struct S_00ee97e0_Cls
 bool S_00ee97e0_Cls::WriteToStream(S_00ee97e0_Stream* pStream, S_00ee97e0_Obj* pObj, int* piValue)
 {
     S_00ee97e0_Write(pStream, &unk34);
-    ::FUN_00ee9230((::S_00ee9230_Stream *)this, (const char *)(pStream));
+    ::FUN_00ee9230((::S_00ee9230_Stream *)(pStream), *(const char* const*)piValue);
     int f8 = pObj->unk08;
     if (!vf90(pStream, f8))
         return false;
@@ -685,11 +685,12 @@ bool S_00ee97e0_Cls::WriteToStream(S_00ee97e0_Stream* pStream, S_00ee97e0_Obj* p
     for (unsigned int i = 0; i < count; i++)
     {
         S_00ee97e0_Elem* e = pObj->unk0c[i];
-        ::FUN_00ee9230((::S_00ee9230_Stream *)this, (const char *)(pStream));
-        ::FUN_00ee9230((::S_00ee9230_Stream *)this, (const char *)(pStream));
-        ::FUN_00ee9230((::S_00ee9230_Stream *)this, (const char *)(pStream));
-        ::FUN_00ee9230((::S_00ee9230_Stream *)this, (const char *)(pStream));
-        ::FUN_00ee9230((::S_00ee9230_Stream *)this, (const char *)(pStream));
+        ::S_00ee9230_Stream* pkOut = (::S_00ee9230_Stream *)(pStream);
+        ::FUN_00ee9230(pkOut, *(const char* const*)&reinterpret_cast<::FUN_00a62660_cls *>(e)->FUN_00a62660());
+        ::FUN_00ee9230(pkOut, *(const char* const*)reinterpret_cast<::FUN_00eea4f0_cls *>(e)->FUN_00eea4f0());
+        ::FUN_00ee9230(pkOut, *(const char* const*)reinterpret_cast<::FUN_00eea500_Holder *>(e)->FUN_00eea500());
+        ::FUN_00ee9230(pkOut, *(const char* const*)::FUN_00eea510(e));
+        ::FUN_00ee9230(pkOut, *(const char* const*)reinterpret_cast<::FnvCpu_FUN_00eea520_CpuObject *>(e)->FUN_00eea520());
         int a = reinterpret_cast<::C00be0ad0 *>((e))->FUN_00be0ad0();
         S_00ee97e0_Write(pStream, &a);
         int b = ((int)(reinterpret_cast<::AA1AC0Class *>((e))->FUN_00aa1ac0()));
@@ -1500,19 +1501,19 @@ bool NiGPUProgramCacheE93::LoadCacheFile()
                 return false;
             }
 
-            ::FUN_00ee92d0((::S_00a8d8b0 *)this, (uintptr_t)(pkFile), (uintptr_t)(acBuffer));
+            ::FUN_00ee92d0((::S_00a8d8b0 *)(pkFile), acBuffer, 0x200);
             if (FUN_00aa1360(acBuffer, GetShaderType()) != 0)
             {
                 delete pkFile;
                 return false;
             }
-            ::FUN_00ee92d0((::S_00a8d8b0 *)this, (uintptr_t)(pkFile), (uintptr_t)(acBuffer));
+            ::FUN_00ee92d0((::S_00a8d8b0 *)(pkFile), acBuffer, 0x200);
             if (FUN_00aa1360(acBuffer, GetRendererName()) != 0)
             {
                 delete pkFile;
                 return false;
             }
-            ::FUN_00ee92d0((::S_00a8d8b0 *)this, (uintptr_t)(pkFile), (uintptr_t)(acBuffer));
+            ::FUN_00ee92d0((::S_00a8d8b0 *)(pkFile), acBuffer, 0x200);
             if (FUN_00aa1360(acBuffer, GetPlatformName()) != 0)
             {
                 delete pkFile;
@@ -1631,11 +1632,11 @@ class GpuCacheWriter
     virtual void v12();
     virtual void v13();
     virtual void v14();
-    virtual unsigned int* v15();
+    virtual const char* const* v15();
     virtual void v16();
     virtual void v17();
-    virtual unsigned int v18();
-    virtual unsigned int v19();
+    virtual const char* v18();
+    virtual const char* v19();
     virtual void v1a();
     virtual void v1b();
     virtual void v1c();
@@ -1677,9 +1678,9 @@ bool GpuCacheWriter::FUN_00ee9620()
         unsigned int version = 5;
         S00ee9620_SaveBinary(s, version);
 
-        ::FUN_00ee9230((::S_00ee9230_Stream *)this, (const char *)(s));
-        ::FUN_00ee9230((::S_00ee9230_Stream *)this, (const char *)(s));
-        ::FUN_00ee9230((::S_00ee9230_Stream *)this, (const char *)(s));
+        ::FUN_00ee9230((::S_00ee9230_Stream *)(s), v19());
+        ::FUN_00ee9230((::S_00ee9230_Stream *)(s), v18());
+        ::FUN_00ee9230((::S_00ee9230_Stream *)(s), *v15());
 
         MapItem* pItem = ((::MapItem *)(reinterpret_cast<::FUN_00ee8ac0_cls *>(&(m_map))->FUN_00ee8ac0()));
         while (pItem != 0)

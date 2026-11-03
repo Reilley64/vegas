@@ -2023,7 +2023,7 @@ void Shader::SetupTextureStages(Arg* arg)
     stage->texture = geometry->texture->value;
     reinterpret_cast<::E7DE90Owner *>((stage))->ApplyPairToState(geometry->v56());
     stage = (*reinterpret_cast<::Pass * *>(&::DAT_0126f74c))->stages[1];
-    stage->texture = ((::Texture *)(::GetTextureByIndex((char *)this, (intptr_t)(geometry))));
+    stage->texture = ((::Texture *)(::GetTextureByIndex((char *)(geometry), 0)));
     reinterpret_cast<::E7DE90Owner *>((stage))->ApplyPairToState(geometry->v56());
     reinterpret_cast<::NiD3DPass *>(((*reinterpret_cast<::Pass * *>(&::DAT_0126f74c))->stages[0]))->ApplyRenderStateChanges(0);
     reinterpret_cast<::NiD3DPass *>(((*reinterpret_cast<::Pass * *>(&::DAT_0126f74c))->stages[1]))->ApplyRenderStateChanges(0);
@@ -2032,7 +2032,7 @@ void Shader::SetupTextureStages(Arg* arg)
     Matrix4 matrix;
     ::fnv_00c4c2d0::FUN_00c4c2d0((::fnv_00c4c2d0::NiAVObject *)(transform), 0, (::fnv_00c4c2d0::Mat4 *)(::Matrix4 *)(&matrix));
     reinterpret_cast<::FUN_00b7c750_cls *>(this)->FUN_00b7c750((uintptr_t)(source), (uintptr_t)(transform));
-    ::UpdateLightShaderConstants((const ::Matrix *)this, (float)(&matrix));
+    ::UpdateLightShaderConstants((const ::Matrix *)(&matrix), transform->scale);
     Bound bound;
     Transform output;
     Device* active = device;
@@ -2117,7 +2117,7 @@ bool NiD3DPass::ApplyRenderStateChanges(bool force)
 typedef void(* DeviceStageFn)(void*, unsigned int, int, void*, int);
 typedef void(* DeviceStateFn)(void*, unsigned int, int);
 typedef void(* DeviceDisableFn)(void*, unsigned int, int, int, int);
-typedef int(* ObjectQueryFn)(void*, void*, char*, char*, int*);
+typedef int(* ObjectQueryFn)(void*, void*, char*, char*, intptr_t*);
 typedef void(* DeviceFinishFn)(void*, unsigned int, int, int);
 // @fnv 0x00e7ea00
 void PassState::ApplyPassState()
@@ -2784,7 +2784,7 @@ void BSShader::SetupShaderPasses(BSShaderParam* apParam)
     pPass->pTexture = pGeom->pProperty->pTexture;
     reinterpret_cast<::E7DE90Owner *>((pPass))->ApplyPairToState((uintptr_t)(pGeom->GetModelData()));
     pPass = (*reinterpret_cast<::fnv_00b7dfe0::S * *>(&::DAT_0126f74c))->ppPasses[1];
-    pPass->pTexture = ((::fnv_00b7dfe0::BSTexture *)(::GetTextureByIndex((char *)this, (intptr_t)(pGeom))));
+    pPass->pTexture = ((::fnv_00b7dfe0::BSTexture *)(::GetTextureByIndex((char *)(pGeom), 0)));
     reinterpret_cast<::E7DE90Owner *>((pPass))->ApplyPairToState((uintptr_t)(pGeom->GetModelData()));
     reinterpret_cast<::NiD3DPass *>(((*reinterpret_cast<::fnv_00b7dfe0::S * *>(&::DAT_0126f74c))->ppPasses[0]))->ApplyRenderStateChanges(false);
     reinterpret_cast<::NiD3DPass *>(((*reinterpret_cast<::fnv_00b7dfe0::S * *>(&::DAT_0126f74c))->ppPasses[1]))->ApplyRenderStateChanges(false);
@@ -4981,7 +4981,7 @@ void Shell_b7e1::FUN_00b7e150(DrawArg* apDrawArg)
     stage->texture = geom->material->texture;
     reinterpret_cast<::E7DE90Owner *>((stage))->ApplyPairToState((uintptr_t)(geom->GetTextureState()));
     stage = (*reinterpret_cast<::rw_b7e1::RendererStageContext * *>(&::DAT_0126f74c))->stages[1];
-    stage->texture = ((void *)(::GetTextureByIndex((char *)this, (intptr_t)(geom))));
+    stage->texture = ((void *)(::GetTextureByIndex((char *)(geom), 0)));
     reinterpret_cast<::E7DE90Owner *>((stage))->ApplyPairToState((uintptr_t)(geom->GetTextureState()));
     stage = (*reinterpret_cast<::rw_b7e1::RendererStageContext * *>(&::DAT_0126f74c))->stages[3];
     if (geom->GetTexture(3, 0))
@@ -5281,7 +5281,7 @@ void BloodDraw_b7dde0::FUN_00b7dde0(DrawArgument_b7dde0* argument)
     pass = passes->second;
 
     reinterpret_cast<TextureStageView_b7dde0*>(pass)->texture =
-        reinterpret_cast<uintptr_t>(((void *)(::GetTextureByIndex((char *)this, (intptr_t)(reinterpret_cast<char*>(source))))));
+        reinterpret_cast<uintptr_t>(((void *)(::GetTextureByIndex(reinterpret_cast<char*>(source), 0))));
 
     reinterpret_cast<::E7DE90Owner *>((reinterpret_cast<TextureStageView_b7dde0*>(pass)))->ApplyPairToState(source->GetValue());
 

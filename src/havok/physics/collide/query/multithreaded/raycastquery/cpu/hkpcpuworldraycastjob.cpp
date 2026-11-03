@@ -57,16 +57,6 @@ struct S_00df8d60_Data
     char unk4;
     signed char unk5;
 };
-struct S_00df8d60
-{
-    int unk0;
-    int unk4;
-    int unk8;
-    int unkC;
-    const void* unk10;
-    float unk14;
-    float FUN_00df8d60(const S_00df8d60_Data* data, int unused);
-};
 struct ParamBlock
 {
     int unk00;
@@ -80,19 +70,45 @@ struct ParamBlock
     int m_iValue;
 };
 
-struct Container
+struct FUN_00df8dd0_Param
 {
+    int unk00;
+    int unk04;
+    int unk08;
+    unsigned int m_i0c;
+};
+
+struct S_00df8d60Head
+{
+    int unk0;
+};
+
+struct AdjustOwner
+{
+    int unk00;
+    void* FUN_00df8d90(void* apFirst, int aiSecond);
 };
 
 struct FUN_00df8db0_cls
 {
     int unk00;
-    int unk04;
-    int unk08;
-    float m_fResult;
-
     float GetResult(ParamBlock* apParam);
 };
+
+struct FUN_00df8dd0_cls
+{
+    int unk00;
+    float FUN_00df8dd0(FUN_00df8dd0_Param* p);
+};
+
+// The ray caster's interfaces sit at +4 (AdjustOwner), +8 (FUN_00df8db0_cls) and +0xc (FUN_00df8dd0_cls).
+struct S_00df8d60 : S_00df8d60Head, AdjustOwner, FUN_00df8db0_cls, FUN_00df8dd0_cls
+{
+    const void* unk10;
+    float unk14;
+    float FUN_00df8d60(const S_00df8d60_Data* data, int unused);
+};
+
 
 extern int DAT_0101e594;
 
@@ -118,35 +134,8 @@ FUN_00df8960_cls* FUN_00df8960_cls::FUN_00df8960(unsigned char acFlags)
     return this;
 }
 
-struct AdjustedBase
-{
-};
 
-struct AdjustOwner
-{
-    void* FUN_00df8d90(void* apFirst, int aiSecond);
-};
 
-struct FUN_00df8dd0_Param
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    unsigned int m_i0c;
-};
-
-struct FUN_00df8dd0_helper
-{
-};
-
-struct FUN_00df8dd0_cls
-{
-    int unk00;
-    int unk04;
-    float m_f08;
-
-    float FUN_00df8dd0(FUN_00df8dd0_Param* p);
-};
 
 namespace fnv_00df9470 {
 
@@ -746,21 +735,22 @@ float S_00df8d60::FUN_00df8d60(const S_00df8d60_Data* data, int unused)
 float FUN_00df8db0_cls::GetResult(ParamBlock* apParam)
 {
     int iOut;
-    Container* pContainer = (Container*)((char*)this - 8);
-    reinterpret_cast<::RayCaster_00df8aa0 *>((pContainer))->FUN_00df8aa0(&iOut);
-    return m_fResult;
+    S_00df8d60* owner = static_cast<S_00df8d60*>(this);
+    static_cast<::RayCaster_00df8aa0 *>(owner)->FUN_00df8aa0(&iOut);
+    return owner->unk14;
 }
 // @fnv 0x00df8d90
 void* AdjustOwner::FUN_00df8d90(void* apFirst, int aiSecond)
 {
-    reinterpret_cast<::RayCaster_00df8aa0 *>((((AdjustedBase*)((char*)this - 4))))->FUN_00df8aa0(apFirst);
+    static_cast<::RayCaster_00df8aa0 *>(static_cast<S_00df8d60*>(this))->FUN_00df8aa0(apFirst);
     return apFirst;
 }
 // @fnv 0x00df8dd0
 float FUN_00df8dd0_cls::FUN_00df8dd0(FUN_00df8dd0_Param* pParam)
 {
-    reinterpret_cast<::RayCaster_00df8aa0 *>((((FUN_00df8dd0_helper*)((char*)this - 12))))->FUN_00df8aa0(&pParam);
-    return m_f08;
+    S_00df8d60* owner = static_cast<S_00df8d60*>(this);
+    static_cast<::RayCaster_00df8aa0 *>(owner)->FUN_00df8aa0(&pParam);
+    return owner->unk14;
 }
 
 __forceinline void memCpy16NonEmpty(void* dst, const void* src, int numQuads)

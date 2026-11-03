@@ -254,8 +254,8 @@ void FUN_007ffaf0_shell::FUN_007ffaf0()
         ((BSFadeNode*)(uintptr_t)(*reinterpret_cast<::Flt *>(&::g_011db63c)))->SetRange(0.0f, 0.0f);
         ForwardToGlobalObject(iSavedValue);
     }
-    ((char*)this)[0xec] = 1;
-    *(float*)((char*)this + 0xe8) = 1.0f;
+    this->unkec = 1;
+    this->unke8 = 1.0f;
 }
 
 struct FUN_007ff820_shell : public FUN_007ff7c0_shell
@@ -702,7 +702,7 @@ void RenderNode::SetupPowerButtonScreen()
     FourFloatVector colorF(0.f, 0.f, 0.f, 0.f);
     if (reinterpret_cast<::SystemColorManager *>((((::Colors *)(::FUN_00718b60()))))->GetColor((intptr_t)&(colorF), *(::NiColor *)nullptr))
         reinterpret_cast<::FUN_007f7fb0_Class *>(this)->FUN_007f7fb0((const ::FUN_007f7fb0_Value *)&(colorF));
-    *(float*)((char*)this + 0xe8) = 1.f;
+    this->unke8 = 1.f;
 }
 
 struct Sound376

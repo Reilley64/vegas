@@ -2702,7 +2702,7 @@ void FUN_00781b10_shell::ClearActionPointSource()
     reinterpret_cast<InventoryMenu*>(this)->m_pTiles[22]->Set(0xFA3, 0);
 
     (*reinterpret_cast<FUN_0073ac90_shell*>(
-          reinterpret_cast<char*>(*reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(this) + 0x3C)) + 4)
+          reinterpret_cast<char*>(this->unk3c) + 4)
           ->FUN_0073ac90())
         ->Set(0xFA3, 0);
 

@@ -140,7 +140,7 @@ struct TraitMenu : Menu
 // @fnv 0x007e73c0
 void TraitMenu::FUN_007e73c0()
 {
-    if (*(int*)((char*)this + 0x24) == 4)
+    if (this->unk24 == 4)
     {
         if (!reinterpret_cast<::FUN_00525430_Class *>(&((*reinterpret_cast<::fnv_007e73c0::HUDMainMenu *>(&::g_011f2250))))->FUN_00525430())
         {
@@ -885,7 +885,7 @@ void FUN_007e7030_shell::PopulatePerkList()
 {
     int itotalSkillPoints = 0;
     int inumSkills = 0;
-    ((LBH*)((char*)this + 0x54))->Initialize(*(Tile**)((char*)this + 0x2c), "LUM_PerkTemplate");
+    ((LBH*)((char*)this + 0x54))->Initialize(this->unk2c, "LUM_PerkTemplate");
     for (BSSimpleList* pcurrentPerk = (BSSimpleList*)((char*)this + 0x84); pcurrentPerk && *((::BGSPerk **)(&reinterpret_cast<::SimpleListNodeView*>(pcurrentPerk)->m_item));
          pcurrentPerk = ((::BSSimpleList *)(reinterpret_cast<::Callees *>((pcurrentPerk))->FUN_00726070())))
     {

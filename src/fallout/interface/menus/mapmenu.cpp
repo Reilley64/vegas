@@ -695,7 +695,7 @@ struct FUN_00798420_shell
 // @fnv 0x00798420
 char FUN_00798420_shell::GetUnk7d()
 {
-    return ((char*)this)[0x7d];
+    return this->unk7d;
 }
 
 extern float DAT_01074f70;
@@ -803,7 +803,7 @@ public:
 // @fnv 0x007983c0
 float S::GetScaledValue()
 {
-    return (float)(*(float*)((char*)this + 0x4B0) * DAT_0106e7f8 / FUN_004dc200());
+    return (float)(this->unk4b0 * DAT_0106e7f8 / FUN_004dc200());
 }
 
 struct FUN_00798480_This
@@ -822,8 +822,8 @@ void FUN_00798480_This::FUN_00798480(int aiID, Tile* apTarget)
 {
     if (aiID == 4)
     {
-        *(float*)((char*)this + 0x120) = (*(Tile**)((char*)this + 0x38))->GetFloat(4001);
-        *(float*)((char*)this + 0x124) = (*(Tile**)((char*)this + 0x38))->GetFloat(4002);
+        this->unk120 = (this->unk38)->GetFloat(4001);
+        this->unk124 = (this->unk38)->GetFloat(4002);
     }
 }
 
@@ -944,7 +944,7 @@ struct FUN_0079b800_shell
 // @fnv 0x0079b800
 bool FUN_0079b800_shell::IsFlagSet()
 {
-    return *(const unsigned short*)((const char*)this + 0x5c) & 4;
+    return this->unk5c & 4;
 }
 
 extern int DAT_01075530;

@@ -338,9 +338,9 @@ struct FUN_0075cf70_shell
 // @fnv 0x0075cf70
 void FUN_0075cf70_shell::ClearTileValues(int aiID, Tile* apTarget)
 {
-    (*(Tile**)((char*)this + 0x5C))->Set(0xFA3, 0);
-    (*(Tile**)((char*)this + 0x58))->Set(0xFA3, 0);
-    (*(Tile**)((char*)this + 0x4C))->Set(0xFA3, 0);
+    (this->unk5c)->Set(0xFA3, 0);
+    (this->unk58)->Set(0xFA3, 0);
+    (this->unk4c)->Set(0xFA3, 0);
 }
 
 struct FUN_0075b710_shell

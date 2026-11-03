@@ -1544,7 +1544,7 @@ void ClearMapMenuNote()
 {
     if (DAT_011da368 != 0)
     {
-        *(BGSNote**)((char*)DAT_011da368 + 0x90) = 0;
+        *(BGSNote**)&DAT_011da368->unk90 = 0;
     }
 }
 
@@ -2420,7 +2420,7 @@ class MapMenu;
 void FUN_00704450(char bShow)
 {
     if (DAT_011da368)
-        ((char*)DAT_011da368)[0x12c] = bShow;
+        DAT_011da368->unk12c = bShow;
 }
 
 
@@ -2659,7 +2659,7 @@ char FUN_00706830()
 {
     int v;
     if (DAT_011da368)
-        v = ((int*)DAT_011da368)[0x80 / 4] - 0x20;
+        v = DAT_011da368->unk80 - 0x20;
     else
         v = 4;
     return (char)v;

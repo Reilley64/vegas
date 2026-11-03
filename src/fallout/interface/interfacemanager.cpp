@@ -516,7 +516,7 @@ struct SSN
 // @fnv 0x0070b760
 void SSN::FUN_0070b760(unsigned char ucValue)
 {
-    *(unsigned char*)((char*)this + 0x120) = ucValue;
+    this->unk120 = ucValue;
     ::FUN_00b4f2f0(ucValue, (::ShadowSceneNode *)(::SSN *)(this));
 }
 
@@ -1468,9 +1468,9 @@ struct AI_
 // @fnv 0x007166f0
 void AI_::FUN_007166f0(int a)
 {
-    *(int*)((char*)this + 0x154) = ((int)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::TimeGlobal *>(&::g_timeGlobal))))->FUN_00825c00()));
-    *(int*)((char*)this + 0x158) = 0;
-    *(int*)((char*)this + 0x150) = a;
+    this->unk154 = ((int)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::TimeGlobal *>(&::g_timeGlobal))))->FUN_00825c00()));
+    this->unk158 = 0;
+    this->unk150 = a;
 }
 
 namespace fnv_00716910 {
@@ -6866,7 +6866,7 @@ struct FUN_00711d60Class
 // @fnv 0x00711d60
 char FUN_00711d60Class::GetByteAtOffset1B50()
 {
-    return *(char*)((char*)this + 0x1b50);
+    return this->unk1b50;
 }
 
 struct FUN_00711e00_StandIn
@@ -6901,9 +6901,9 @@ void FUN_007123f0_shell::FUN_007123f0(float afValue)
 // @fnv 0x00712420
 void FUN_00712420_Class::FUN_00712420(float value)
 {
-    if (*(unsigned char*)((char*)this + 0x60))
+    if (this->unk60)
     {
-        *(float*)((char*)this + 0x5c) = value;
+        this->unk5c = value;
     }
 }
 
@@ -6970,7 +6970,7 @@ struct FUN_00714d70
 // @fnv 0x00714d70
 void FUN_00714d70::SetField(intptr_t value)
 {
-    *(int*)((char*)this + 0xf0) = value;
+    this->unkf0 = value;
 }
 
 namespace fnv_00714d90 {
@@ -7070,10 +7070,10 @@ void FUN_00715e00_t::SetTileValues(int aiWidth, int aiHeight)
         else
             reinterpret_cast<::S0042fa20 *>((((S0042fa20*)&g_011d8bf0)))->FUN_0045ce80(aiWidth);
     }
-    reinterpret_cast<::FUN_00a012d0_t *>((((TileF*)*(Tile**)((char*)this + 0x9c))))->FUN_00a012d0(0xfc0, ::FUN_007177c0(), true);
-    reinterpret_cast<::FUN_00a012d0_t *>((((TileF*)*(Tile**)((char*)this + 0x9c))))->FUN_00a012d0(0xfbf, ::fnv_00717820::FUN_00717820(), true);
-    reinterpret_cast<::FUN_00a012d0_t *>((((TileF*)*(Tile**)((char*)this + 0x9c))))->FUN_00a012d0(0xfb1, InterfaceManager::UpdateInterfaceState(), true);
-    reinterpret_cast<::FUN_00a012d0_t *>((((TileF*)*(Tile**)((char*)this + 0x9c))))->FUN_00a012d0(0xfb0, ::FUN_00715da0(), true);
+    reinterpret_cast<::FUN_00a012d0_t *>((((TileF*)this->unk9c)))->FUN_00a012d0(0xfc0, ::FUN_007177c0(), true);
+    reinterpret_cast<::FUN_00a012d0_t *>((((TileF*)this->unk9c)))->FUN_00a012d0(0xfbf, ::fnv_00717820::FUN_00717820(), true);
+    reinterpret_cast<::FUN_00a012d0_t *>((((TileF*)this->unk9c)))->FUN_00a012d0(0xfb1, InterfaceManager::UpdateInterfaceState(), true);
+    reinterpret_cast<::FUN_00a012d0_t *>((((TileF*)this->unk9c)))->FUN_00a012d0(0xfb0, ::FUN_00715da0(), true);
 }
 }  // namespace fnv_00715e00
 
@@ -7121,7 +7121,7 @@ struct FUN_00716320_shell
 // @fnv 0x00716320
 void FUN_00716320_shell::UpdateNodeTimers()
 {
-    FUN_00716320_Node* pNode = (*(FUN_00716320_List**)((char*)this + 0x164))->pTail;
+    FUN_00716320_Node* pNode = (this->unk164)->pTail;
     while (pNode)
     {
         if (((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)&(*reinterpret_cast<::fnv_00716320::ArrSIH *>(&::g_011f2250)))))->GetName())) == 4)
@@ -7481,9 +7481,9 @@ bool FUN_007e6620_t::HandleTileClick(int aiTileID)
 {
     if (aiTileID == 0x80000008)
     {
-        if (reinterpret_cast<::FUN_00a01230_shell *>((((TileQ*)*(Tile**)((char*)this + 0x2c))))->IsTraitNonZero(0xfaf))
+        if (reinterpret_cast<::FUN_00a01230_shell *>((((TileQ*)this->unk2c)))->IsTraitNonZero(0xfaf))
         {
-            HandleClick(1, *(Tile**)((char*)this + 0x2c));
+            HandleClick(1, this->unk2c);
             return true;
         }
         else
@@ -7602,7 +7602,7 @@ void S4::FUN_007123a0(unsigned char aucValue)
 // @fnv 0x007123d0
 void FUN_007123d0_class::SetByteAtOffset60(unsigned char aucValue)
 {
-    *reinterpret_cast<unsigned char*>((char*)this + 0x60) = aucValue;
+    this->unk60 = aucValue;
 }
 
 struct FUN_007185e0_class
@@ -7682,7 +7682,7 @@ struct FUN_0070ec70_class
 // @fnv 0x0070ec70
 long FUN_0070ec70_class::FUN_0070ec70()
 {
-    return (long)*((float*)((char*)this + 0x44));
+    return (long)this->unk44;
 }
 
 namespace fnv_0070ecb0 {
@@ -8413,9 +8413,9 @@ void FUN_00717600_shell::FUN_00717600()
 {
     if ((*reinterpret_cast<void * *>(&::_g_thePlayer)) && ((unsigned char*)this)[0xc9] && !reinterpret_cast<::FUN_004516b0_shell *>(((*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler))))->FUN_004516b0())
     {
-        void* cmode = *(void**)((char*)this + 0xc);
+        void* cmode = this->unkc;
         reinterpret_cast<::fnv_00717660::FUN_00717660_shell *>(this)->FUN_00717660();
-        *(void**)((char*)this + 0xc) = cmode;
+        this->unkc = cmode;
         ((char*)this)[0xc9] = 0;
     }
 }
@@ -9685,9 +9685,9 @@ struct FUN_007e6700_Class
 // @fnv 0x007e65f0
 void TextEditMenu::FUN_007e65f0()
 {
-    if ((unsigned char)GetByteAtOffset33((char*)this + 0x34))
+    if ((unsigned char)GetByteAtOffset33((char*)&this->unk34))
     {
-        ::fnv_00717050::ToggleFlagOnInterval((::fnv_00717050::FUN_00717050_this *)(char *)((char*)this + 0x34));
+        ::fnv_00717050::ToggleFlagOnInterval((::fnv_00717050::FUN_00717050_this *)&this->unk34);
         reinterpret_cast<::FUN_007e6700_Class *>((this))->FUN_007e6700();
     }
 }

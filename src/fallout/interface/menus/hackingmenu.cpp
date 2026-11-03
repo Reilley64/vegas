@@ -209,8 +209,8 @@ struct HackingMenu
 void HackingMenu::FUN_00767ff0(int aiID, void* apTarget)
 {
     ClearTilePayloadPair();
-    ((char*)this)[0x1d8] = 0;
-    *(int*)((char*)this + 0x1c0) = 0;
+    this->unk1d8 = 0;
+    this->unk1c0 = 0;
 }
 }  // namespace fnv_00767ff0
 
@@ -264,7 +264,7 @@ public:
 // @fnv 0x00747d00
 int InterfaceManager::FUN_00747d00()
 {
-    return (int)(UpdateInterfaceState() / 2.0 + *(float*)((char*)this + 0x2c));
+    return (int)(UpdateInterfaceState() / 2.0 + this->unk2c);
 }
 
 
@@ -287,7 +287,7 @@ struct FUN_0076a510_shell : HackingMenu
 // @fnv 0x0076a510
 void FUN_0076a510_shell::FUN_0076a510()
 {
-    if (((unsigned int)(::FUN_00457fe0())) > *(unsigned int*)((char*)this + 0x1d0))
+    if (((unsigned int)(::FUN_00457fe0())) > this->unk1d0)
     {
         FUN_0076a540();
     }
@@ -352,7 +352,7 @@ bool FUN_00767b80_shell::HandleButton10(int aiButton, float afValue)
 {
     if (aiButton == 10)
     {
-        *(int*)((char*)this + 0x1c4) = 4;
+        this->unk1c4 = 4;
         UpdateD766AA0Menu();
         return true;
     }
@@ -419,8 +419,8 @@ struct FUN_007694f0_shell
 intptr_t FUN_007694f0_shell::FUN_007694f0()
 {
     new ((void *)this) ::FUN_00726c90();
-    *(int*)((char*)this + 0x30) = 0;
-    *(int*)((char*)this + 0x2c) = 0;
+    this->unk30 = 0;
+    this->unk2c = 0;
     return (intptr_t)this;
 }
 
@@ -786,7 +786,7 @@ void FUN_00767ef0_shell::AddValueRows(unsigned int count, const uintptr_t* puiVa
     }
     for (unsigned int index = 0; index < count; ++index)
     {
-        item = ((::ValueRow *)(reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>(this)->FUN_00a1ddb0((::Tile *)(*(void**)((char*)this + 0x118)), (char *)(int *)(&DAT_010729c8), (::Tile *)(0))));
+        item = ((::ValueRow *)(reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>(this)->FUN_00a1ddb0((::Tile *)(this->unk118), (char *)(int *)(&DAT_010729c8), (::Tile *)(0))));
         reinterpret_cast<::Tile *>((item))->Set(0xfac, count - index - 1);
         reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((item))->FUN_00a01350(0xfc4, (char *)(puiValues[index]), 1);
         reinterpret_cast<::FUN_004ed8c0_shell *>((((EntryListNode*)((char*)this + 0x168))))->FUN_004ed8c0((int *)(::ValueRow **)(&item));
@@ -1063,25 +1063,25 @@ struct HackingMenuDecomp : HackingMenu
 // @fnv 0x0076a9d0
 void HackingMenuDecomp::UpdateFade()
 {
-    static float delay = reinterpret_cast<::TileListBoxCalls *>(((*reinterpret_cast<Resources**>(reinterpret_cast<char*>(this) + 0x11c))))->GetFloat(::FUN_00a00940(&str_01072108, -1));
-    if (*reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x1c4) == 4 && reinterpret_cast<::FUN_00a01230_shell *>((((::Widget *)(reinterpret_cast<::MenuFields *>(this)->tile))))->IsTraitNonZero({}))
+    static float delay = reinterpret_cast<::TileListBoxCalls *>(((this->unk11c)))->GetFloat(::FUN_00a00940(&str_01072108, -1));
+    if (this->unk1c4 == 4 && reinterpret_cast<::FUN_00a01230_shell *>((((::Widget *)(reinterpret_cast<::MenuFields *>(this)->tile))))->IsTraitNonZero({}))
     {
         return;
     }
     else
     {
         static unsigned int nextUpdate = 0;
-        if (((unsigned int)(::FUN_00457fe0())) > nextUpdate && *reinterpret_cast<Fade**>(reinterpret_cast<char*>(this) + 0x1d4) != 0)
+        if (((unsigned int)(::FUN_00457fe0())) > nextUpdate && this->unk1d4 != 0)
         {
-            (*reinterpret_cast<Fade**>(reinterpret_cast<char*>(this) + 0x1d4))
+            (this->unk1d4)
                 ->FUN_00a0a270(
-                    (*reinterpret_cast<Fade**>(reinterpret_cast<char*>(this) + 0x1d4))->amount == 1.0 ? 0.0f : 1.0f, 1);
+                    (this->unk1d4)->amount == 1.0 ? 0.0f : 1.0f, 1);
             nextUpdate = static_cast<unsigned int>(((unsigned int)(::FUN_00457fe0())) + delay);
         }
-        else if (*reinterpret_cast<Fade**>(reinterpret_cast<char*>(this) + 0x1d4) == 0)
+        else if (this->unk1d4 == 0)
         {
-            *reinterpret_cast<Fade**>(reinterpret_cast<char*>(this) + 0x1d4) =
-                ((::Fade *)(reinterpret_cast<::FUN_00a00e90_shell *>(((*reinterpret_cast<Resources**>(reinterpret_cast<char*>(this) + 0x11c))))->FindTraitValue(0xfa3)));
+            this->unk1d4 =
+                ((::Fade *)(reinterpret_cast<::FUN_00a00e90_shell *>(((this->unk11c)))->FindTraitValue(0xfa3)));
         }
     }
 }
@@ -2156,7 +2156,7 @@ struct FUN_00768070_shell : FUN_00768a10_shell
     void SelectWordSet(unsigned int);
     char pad00[0x19c];
     char* unk19c;
-    char pad1a0[0x4];
+    void* unk1a0;
     void* unk1a4;
     unsigned int unk1a8;
     unsigned int unk1ac;
@@ -2180,9 +2180,9 @@ void FUN_00768070_shell::SelectWordSet(unsigned int requestedCount)
     attacker = 0;
     ammo = 8;
     int threat = 10;
-    unsigned int qty = (requestedCount - 2) / *(unsigned int*)((char*)this + 0x1ac) + 1;
+    unsigned int qty = (requestedCount - 2) / this->unk1ac + 1;
     ahead = 0;
-    if (*(unsigned int*)((char*)this + 0x1ac) == 0)
+    if (this->unk1ac == 0)
         return;
     ((StrMemMethods*)&dataFileName.str)->FUN_00438390(str_01072a34);
     openedFile = (FileObj*)FUN_00afdf20(((const char *)(::FUN_00559450((int *)(((StrMemMethods*)&dataFileName.str))))), 0, 0x4000, 0x100);
@@ -2205,7 +2205,7 @@ void FUN_00768070_shell::SelectWordSet(unsigned int requestedCount)
             if (!line[0])
                 continue;
         }
-        if (::FUN_0044a670(line) == *(unsigned int*)((char*)this + 0x1ac))
+        if (::FUN_0044a670(line) == this->unk1ac)
             ((FUN_0076b240_shell*)&available)->FUN_0076b240(line);
     }
     delete openedFile;
@@ -2218,9 +2218,9 @@ void FUN_00768070_shell::SelectWordSet(unsigned int requestedCount)
         while (((unsigned int)(::FUN_00457fe0())) < limit && ++attacker)
         {
             reinterpret_cast<::fnv_0076b2a0::FUN_0076b2a0_shell *>((((WordsView*)((char*)this + 0x180))))->FreeAll();
-            *(unsigned int*)((char*)this + 0x1a8) = 0;
+            this->unk1a8 = 0;
             ((FUN_007687b0_shell*)&available)->SortWeatherEntries();
-            for (currentNode = (WordsView*)&available; *(unsigned int*)((char*)this + 0x1a8) < requestedCount &&
+            for (currentNode = (WordsView*)&available; this->unk1a8 < requestedCount &&
                                                        currentNode && (chosen = *((char **)(&reinterpret_cast<::SimpleListNodeView*>(currentNode)->m_item)));
                  currentNode = ((::WordsView *)(reinterpret_cast<::Callees *>((currentNode))->FUN_00726070())))
             {
@@ -2231,11 +2231,11 @@ void FUN_00768070_shell::SelectWordSet(unsigned int requestedCount)
                      accepted && selected && (aimed = *((char **)(&reinterpret_cast<::SimpleListNodeView*>(selected)->m_item))); selected = ((::WordsView *)(reinterpret_cast<::Callees *>((selected))->FUN_00726070())))
                 {
                     unsigned int similarity = CountMatchingChars(chosen, aimed);
-                    if (similarity == *(unsigned int*)((char*)this + 0x1ac))
+                    if (similarity == this->unk1ac)
                     {
                         accepted = false;
                     }
-                    else if (*(unsigned int*)((char*)this + 0x1a8) < requestedCount - 1)
+                    else if (this->unk1a8 < requestedCount - 1)
                     {
                         accepted = (similarity > 0 || ::FUN_005a00a0(10) < (unsigned int)ahead);
                     }
@@ -2247,13 +2247,13 @@ void FUN_00768070_shell::SelectWordSet(unsigned int requestedCount)
                 if (accepted)
                 {
                     ((FUN_0076b240_shell*)((WordsView*)((char*)this + 0x180)))->FUN_0076b240(chosen);
-                    ++*(unsigned int*)((char*)this + 0x1a8);
+                    ++this->unk1a8;
                 }
             }
-            if (*(unsigned int*)((char*)this + 0x1a8) == requestedCount)
+            if (this->unk1a8 == requestedCount)
                 break;
         }
-        if (*(unsigned int*)((char*)this + 0x1a8) == requestedCount)
+        if (this->unk1a8 == requestedCount)
         {
             break;
         }
@@ -2271,13 +2271,13 @@ void FUN_00768070_shell::SelectWordSet(unsigned int requestedCount)
     ((FUN_007687b0_shell*)((WordsView*)((char*)this + 0x180)))->SortWeatherEntries();
     ((FUN_007687b0_shell*)((WordsView*)((char*)this + 0x180)))->SortWeatherEntries();
     ((FUN_007687b0_shell*)((WordsView*)((char*)this + 0x180)))->SortWeatherEntries();
-    bracket = ::FUN_005a00a0(*(unsigned int*)((char*)this + 0x1a8));
+    bracket = ::FUN_005a00a0(this->unk1a8);
     currentNode = ((WordsView*)((char*)this + 0x180));
     for (int index = 0; (unsigned int)index < bracket; ++index)
         currentNode = ((::WordsView *)(reinterpret_cast<::Callees *>((currentNode))->FUN_00726070()));
-    *(char**)((char*)this + 0x19c) = *((char **)(&reinterpret_cast<::SimpleListNodeView*>(currentNode)->m_item));
+    this->unk19c = *((char **)(&reinterpret_cast<::SimpleListNodeView*>(currentNode)->m_item));
     ::FUN_0040fbe0();
-    MatrixWrapper bonus(*(unsigned int*)((char*)this + 0x1a8));
+    MatrixWrapper bonus(this->unk1a8);
     row = 0;
     for (currentNode = ((WordsView*)((char*)this + 0x180)); currentNode && *((char **)(&reinterpret_cast<::SimpleListNodeView*>(currentNode)->m_item));
          currentNode = ((::WordsView *)(reinterpret_cast<::Callees *>((currentNode))->FUN_00726070())))
@@ -2293,9 +2293,9 @@ void FUN_00768070_shell::SelectWordSet(unsigned int requestedCount)
         }
         ++row;
     }
-    *(void**)((char*)this + 0x1a0) = (void*)reinterpret_cast<::Context *>((this))->FUN_00769520(&bonus);
-    *(void**)((char*)this + 0x1a0) = (void*)::FUN_00403940(4, *(unsigned int*)((char*)this + 0x1a0));
-    *(void**)((char*)this + 0x1a4) = *(void**)((char*)this + 0x1a0);
+    this->unk1a0 = (void*)reinterpret_cast<::Context *>((this))->FUN_00769520(&bonus);
+    this->unk1a0 = (void*)::FUN_00403940(4, *(unsigned int*)&this->unk1a0);
+    this->unk1a4 = this->unk1a0;
 }
 
 struct Text83
@@ -3661,11 +3661,11 @@ struct RenderedMenuTileView
 // @fnv 0x0076a540
 void FUN_0076a510_shell::FUN_0076a540()
 {
-    (*(Tile**)((char*)this + 4))->Set(0x1772, 1);
+    (this->unk4)->Set(0x1772, 1);
     reinterpret_cast<::FUN_00a1d910_shell *>((((FUN_00766aa0_Menu*)this)))->FUN_00a1d910();
-    if (*(int*)((char*)this + 0x194))
+    if (this->unk194)
     {
-        TilePX* pTile = ((::TilePX *)(::fnv_00757b70::CreateComputerMenu((::fnv_00757b70::Ref *)(*(const char**)((char*)this + 0x198)))));
+        TilePX* pTile = ((::TilePX *)(::fnv_00757b70::CreateComputerMenu((::fnv_00757b70::Ref *)(*(const char**)&this->unk198))));
         ::FUN_00867a20((void *)(((::MenuPX *)(reinterpret_cast<::FUN_00a03c90_shell *>((pTile))->FUN_00a03c90()))));
         ::fnv_00a04200::FUN_00a04200(false);
         FORenderedTerminal* r = dynamic_cast<FORenderedTerminal*>(FUN_00707ad0());

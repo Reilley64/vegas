@@ -125,7 +125,7 @@ struct FUN_007316f0_shell
 // @fnv 0x007316f0
 void FUN_007316f0_shell::ClearField()
 {
-    ((int*)this)[0xdb0 / 4] = 0;
+    this->unkdb0 = 0;
 }
 
 struct BlackJackMenu
@@ -178,7 +178,7 @@ struct FUN_007399d0_shell
 // @fnv 0x007399d0
 void FUN_007399d0_shell::FUN_007399d0()
 {
-    ((int*)this)[0xda0 / 4] = ((int*)this)[0xd9c / 4] * 0x34;
+    this->unkda0 = this->unkd9c * 0x34;
 }
 
 struct FUN_00734d30_shell
@@ -191,7 +191,7 @@ struct FUN_00734d30_shell
 // @fnv 0x00734d30
 int FUN_00734d30_shell::HasFlag(int aFlag)
 {
-    return (*(reinterpret_cast<int*>(this) + 0xdb0 / 4) & aFlag) != 0;
+    return (this->unkdb0 & aFlag) != 0;
 }
 
 struct FUN_007317d0_shell

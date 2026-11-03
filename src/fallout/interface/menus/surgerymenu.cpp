@@ -131,7 +131,7 @@ struct FUN_007e4fc0_shell
 // @fnv 0x007e4fc0
 intptr_t FUN_007e4fc0_shell::FUN_007e4fc0(int aiIndex)
 {
-    return *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x18) + aiIndex * 0x14;
+    return this->unk18 + aiIndex * 0x14;
 }
 
 struct S

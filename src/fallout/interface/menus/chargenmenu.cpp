@@ -81,7 +81,7 @@ void CharGenMenu::SetTile(int aiIndex, Tile* tile)
 {
     if (aiIndex >= 0 && aiIndex < 7)
     {
-        ((Tile**)((char*)this + 0x2c))[aiIndex] = tile;
+        (&this->unk2c)[aiIndex] = tile;
     }
 }
 }  // namespace fnv_00753350

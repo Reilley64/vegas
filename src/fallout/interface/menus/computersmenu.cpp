@@ -177,7 +177,7 @@ struct FUN_00757e80_shell
 // @fnv 0x00757e80
 unsigned char FUN_00757e80_shell::IsFlagBitSet()
 {
-    return ((*(unsigned char*)((unsigned char*)this + 0xa5) & 4) != 0);
+    return ((this->unka5 & 4) != 0);
 }
 
 struct FUN_00758390_shell
@@ -203,7 +203,7 @@ struct FUN_00758a60_shell
 // @fnv 0x00758a60
 bool FUN_00758a60_shell::FUN_00758a60()
 {
-    return (((char*)this)[0x74] & 4) != 0;
+    return (this->unk74 & 4) != 0;
 }
 
 namespace fnv_007596a0 {
@@ -256,7 +256,7 @@ struct FUN_00758350_shell
 // @fnv 0x00758350
 bool FUN_00758350_shell::FUN_00758350()
 {
-    return *(int*)((char*)this + 0x6c) && ((*(signed char*)((char*)this + 0x74) & 1));
+    return this->unk6c && ((this->unk74 & 1));
 }
 
 struct Helper98
@@ -1639,8 +1639,8 @@ struct CHMenu
 void FUN_00758a80_shell::FUN_00758a80()
 {
     ((Helper98*)((char*)this + 0x98))->_ref_0063f7b0();
-    *(int*)((char*)this + 0xA8) = *(((int *)(&reinterpret_cast<::SimpleListNodeView*>(((Helper98*)((char*)this + 0x98)))->m_item)));
-    if (*(int*)((char*)this + 0xA8) != 0)
+    this->unka8 = *(((int *)(&reinterpret_cast<::SimpleListNodeView*>(((Helper98*)((char*)this + 0x98)))->m_item)));
+    if (this->unka8 != 0)
         reinterpret_cast<::CHMenu *>((((DispHelper*)this)))->FUN_007586e0(0);
     else
         RefreshF57EA0TerminalMenu();

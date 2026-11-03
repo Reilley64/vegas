@@ -141,9 +141,9 @@ void RepairServicesMenu::UpdateRepairServiceTiles(int aiID, Tile* apTarget)
 {
     if (aiID == 0x11)
     {
-        reinterpret_cast<Tile*>(*(int*)((std::intptr_t)this + 0x5C))->Set(0xFAF, 1);
-        reinterpret_cast<Tile*>(*(int*)((std::intptr_t)this + 0x34))->Set(0xFA3, 0);
-        reinterpret_cast<Tile*>(*(int*)((std::intptr_t)this + 0x38))->Set(0xFA3, 0);
+        reinterpret_cast<Tile*>(this->unk5c)->Set(0xFAF, 1);
+        reinterpret_cast<Tile*>(this->unk34)->Set(0xFA3, 0);
+        reinterpret_cast<Tile*>(this->unk38)->Set(0xFA3, 0);
     }
 }
 }  // namespace fnv_007b8ae0

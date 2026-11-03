@@ -327,7 +327,7 @@ void FUN_007e8e20_shell::FUN_007e8e20()
 // @fnv 0x007e8e40
 void FUN_007e8e40_shell::DecrementAndDispatch()
 {
-    reinterpret_cast<::HelpMenuShell *>(this)->ShowPageByIndex(((int*)this)[0x48 / 4] - 1);
+    reinterpret_cast<::HelpMenuShell *>(this)->ShowPageByIndex(this->unk48 - 1);
 }
 
 // Sets the current help page index, updates the page counter tile, walks the page list to the requested page, shows it and refreshes the menu.

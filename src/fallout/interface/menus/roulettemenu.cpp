@@ -224,23 +224,23 @@ struct FUN_007bf670_shell
 // @fnv 0x007bf670
 void FUN_007bf670_shell::FUN_007bf670()
 {
-    *(unsigned int*)((char*)this + 0x4008) = GetRandomNumberInRange(0, 3);
-    *(unsigned int*)((char*)this + 0x4004) = GetRandomNumberInRange(0, 0x26);
-    int v2 = *(int*)((char*)this + 0x3ff4) - 5;
+    this->unk4008 = GetRandomNumberInRange(0, 3);
+    this->unk4004 = GetRandomNumberInRange(0, 0x26);
+    int v2 = this->unk3ff4 - 5;
     if (v2 == 0)
     {
-        *(unsigned char*)((char*)this + 0x400e) = 0;
-        *(unsigned char*)((char*)this + 0x400d) = 0;
+        this->unk400e = 0;
+        this->unk400d = 0;
     }
     else if (v2 > 0)
     {
-        *(unsigned char*)((char*)this + 0x400e) = 0;
-        *(unsigned char*)((char*)this + 0x400d) = 1;
+        this->unk400e = 0;
+        this->unk400d = 1;
     }
     else if (v2 < 0)
     {
-        *(unsigned char*)((char*)this + 0x400e) = 1;
-        *(unsigned char*)((char*)this + 0x400d) = 0;
+        this->unk400e = 1;
+        this->unk400d = 0;
     }
 }
 
@@ -292,7 +292,7 @@ struct FUN_007bc830_shell
 char FUN_007bc830_shell::HasAllTiles()
 {
     for (int i = 0; i < 11; ++i)
-        if (!((Tile**)((char*)this + 0x2c))[i])
+        if (!(&this->unk2c)[i])
             return 0;
     return 1;
 }
@@ -519,23 +519,23 @@ void FUN_007bf840_shell::FUN_007bf840()
     NiPoint3 loc;
     int level = 0;
 
-    if (*reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x3fe8) < 5)
+    if (this->unk3fe8 < 5)
         level = 1;
-    else if (*reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x3fe8) < 10)
+    else if (this->unk3fe8 < 10)
         level = 2;
-    else if (*reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x3fe8) < 25)
+    else if (this->unk3fe8 < 25)
         level = 3;
-    else if (*reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x3fe8) < 40)
+    else if (this->unk3fe8 < 40)
         level = 4;
-    else if (*reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x3fe8) < 70)
+    else if (this->unk3fe8 < 70)
         level = 5;
-    else if (*reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x3fe8) < 100)
+    else if (this->unk3fe8 < 100)
         level = 6;
-    else if (*reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x3fe8) < 250)
+    else if (this->unk3fe8 < 250)
         level = 7;
-    else if (*reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x3fe8) < 500)
+    else if (this->unk3fe8 < 500)
         level = 8;
-    else if (*reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x3fe8) < 1000)
+    else if (this->unk3fe8 < 1000)
         level = 9;
     else
         level = 10;
@@ -543,16 +543,16 @@ void FUN_007bf840_shell::FUN_007bf840()
     loc = *reinterpret_cast<const NiPoint3*>(
         ((::BSSimpleList< ::TESEyes *> *)&(reinterpret_cast<::NiAVObject *>((reinterpret_cast<TESDataHandler*>(
             *reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x3f14 +
-                                      *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x3fe0) * 4))))->FUN_0043c490())));
+                                      this->unk3fe0 * 4))))->FUN_0043c490())));
 
     reinterpret_cast<FUN_004bc1f0_S*>(
         *reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x3f14 +
-                                  *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x3fe0) * 4))
+                                  this->unk3fe0 * 4))
         ->FUN_004bc1f0(loc.x, loc.y, static_cast<float>(level * DAT_01070e78));
 
     reinterpret_cast<FUN_004bc1f0_S*>(
         *reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x3f3c +
-                                  *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x3fe0) * 4))
+                                  this->unk3fe0 * 4))
         ->FUN_004bc1f0(loc.x, loc.y, 0.0f);
 
     NiUpdateData update1(0.0f, false, false);

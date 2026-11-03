@@ -922,7 +922,7 @@ void FOVATSEffectManager_00801a60::FUN_00801ad0(int a0, intptr_t a1, int a2, uns
     Vec4Tmp_00801ad0 tmp;
     new ((void *)&(tmp)) ::ImageSpaceEffectParam(0.0f, 0.0f, 0.0f, 0.0f);
     reinterpret_cast<::SystemColorManager *>((((::Obj719_00801ad0 *)(::FUN_00718b60()))))->GetColor({}, *(::NiColor *)nullptr);
-    DAT_01201f2c = *(float*)((char*)this + 0x2bc);
+    DAT_01201f2c = this->unk2bc;
     DAT_011ae614 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Holder_00801ad0 *>(&::g_011db7b4))))));
     DAT_011ae618 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Holder_00801ad0 *>(&::g_011db694))))));
     (*reinterpret_cast<unsigned int *>(&::DAT_01201f30)) = tmp.d0;
@@ -1570,9 +1570,9 @@ void FOVATSEffectManager_00801a60::FUN_00801a60(intptr_t a, intptr_t b, int c, u
 {
     if (FUN_00709d00())
         return;
-    if (reinterpret_cast<unsigned char*>(this)[0x129])
+    if (this->unk129)
     {
-        if (reinterpret_cast<unsigned char*>(this)[0x2b4])
+        if (this->unk2b4)
         {
             FUN_00801ad0(a, b, c, d);
         }

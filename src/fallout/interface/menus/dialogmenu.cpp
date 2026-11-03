@@ -960,18 +960,18 @@ struct FUN_00764200_shell
 // @fnv 0x00764200
 void FUN_00764200_shell::SetActive(bool abActive)
 {
-    if (((const unsigned char*)this)[0x131] && !abActive)
+    if (this->unk131 && !abActive)
     {
         reinterpret_cast<::FUN_00ad8830_shell *>((((BSSoundHandleEx*)((char*)this + 0x74))))->FUN_00ad8830(false);
-        ((unsigned char*)this)[0x131] = 0;
-        ((int*)this)[0x28 / 4] = ((int*)this)[0x134 / 4];
+        this->unk131 = 0;
+        this->unk28 = this->unk134;
     }
-    else if (!((const unsigned char*)this)[0x131] && abActive)
+    else if (!this->unk131 && abActive)
     {
         ((FUN_00ad88b0_h*)((char*)this + 0x74))->FUN_00ad88b0();
-        ((unsigned char*)this)[0x131] = 1;
-        ((int*)this)[0x134 / 4] = ((int*)this)[0x28 / 4];
-        ((int*)this)[0x28 / 4] = 2;
+        this->unk131 = 1;
+        this->unk134 = this->unk28;
+        this->unk28 = 2;
     }
 }
 

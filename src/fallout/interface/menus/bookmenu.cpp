@@ -508,7 +508,7 @@ struct FUN_0073b460_shell
 // @fnv 0x0073b460
 bool FUN_0073b460_shell::FUN_0073b460()
 {
-    return (unsigned char)((char*)this)[0xc0] & 2;
+    return (unsigned char)this->unkc0 & 2;
 }
 
 namespace fnv_0073af90 {

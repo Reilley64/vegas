@@ -171,7 +171,7 @@ struct FUN_0073bb10_shell
 // @fnv 0x0073bb10
 void FUN_0073bb10_shell::ClearField()
 {
-    ((int*)this)[0x39d] = 0;
+    this->unke74 = 0;
 }
 
 struct FUN_0073bb30_shell
@@ -223,7 +223,7 @@ struct FUN_0073cba0_shell
 // @fnv 0x0073cba0
 int FUN_0073cba0_shell::GetField614()
 {
-    return *(int*)((char*)this + 0x614);
+    return this->unk614;
 }
 
 struct FUN_0073cbc0_shell
@@ -237,7 +237,7 @@ struct FUN_0073cbc0_shell
 // @fnv 0x0073cbc0
 unsigned int FUN_0073cbc0_shell::GetField618()
 {
-    return *(unsigned int*)((char*)this + 0x618);
+    return this->unk618;
 }
 
 // The player's caravan card lists.
@@ -265,7 +265,7 @@ struct FUN_00740900_shell
 // @fnv 0x00740900
 unsigned int FUN_00740900_shell::GetFieldAtOffset61C()
 {
-    return ((unsigned int*)this)[0x61c / 4];
+    return this->unk61c;
 }
 
 struct FUN_00740920_struct
@@ -279,7 +279,7 @@ struct FUN_00740920_struct
 // @fnv 0x00740920
 unsigned int FUN_00740920_struct::GetField620()
 {
-    return *(unsigned int*)((char*)this + 0x620);
+    return this->unk620;
 }
 
 struct FUN_00740e50_class
@@ -293,7 +293,7 @@ struct FUN_00740e50_class
 // @fnv 0x00740e50
 unsigned int FUN_00740e50_class::GetMember62C()
 {
-    return ((unsigned int*)this)[0x18B];
+    return this->unk62c;
 }
 
 struct FUN_00740e90_shell
@@ -307,7 +307,7 @@ struct FUN_00740e90_shell
 // @fnv 0x00740e90
 void FUN_00740e90_shell::FUN_00740e90(int value)
 {
-    *(int*)((char*)this + 0x620) = value;
+    this->unk620 = value;
 }
 
 struct FUN_00740eb0_shell
@@ -321,7 +321,7 @@ struct FUN_00740eb0_shell
 // @fnv 0x00740eb0
 void FUN_00740eb0_shell::SetField624(int aiValue)
 {
-    *(int*)((char*)this + 0x624) = aiValue;
+    this->unk624 = aiValue;
 }
 
 struct FUN_00740ed0_shell
@@ -335,7 +335,7 @@ struct FUN_00740ed0_shell
 // @fnv 0x00740ed0
 void FUN_00740ed0_shell::SetField628(int value)
 {
-    *(int*)((char*)this + 0x628) = value;
+    this->unk628 = value;
 }
 
 struct FUN_00740ef0_shell
@@ -349,7 +349,7 @@ struct FUN_00740ef0_shell
 // @fnv 0x00740ef0
 void FUN_00740ef0_shell::FUN_00740ef0(int value)
 {
-    ((int*)((char*)this + 0x62c))[0] = value;
+    (&this->unk62c)[0] = value;
 }
 
 struct FUN_00a253d0_shell
@@ -400,13 +400,13 @@ struct FUN_00740e70_shell
 // @fnv 0x00740e70
 void FUN_00740e70_shell::FUN_00740e70(int value)
 {
-    *(unsigned int*)((char*)this + 0x61c) = value;
+    this->unk61c = value;
 }
 
 // @fnv 0x0073bab0
 void FUN_0073bab0_shell::SetFlag(int auiMask, int abSet)
 {
-    *(unsigned char*)&abSet ? *(int*)((char*)this + 0xe74) |= auiMask : *(int*)((char*)this + 0xe74) &= ~auiMask;
+    *(unsigned char*)&abSet ? this->unke74 |= auiMask : this->unke74 &= ~auiMask;
 }
 
 struct FUN_0073bb70_shell
@@ -427,7 +427,7 @@ char FUN_007414c0_shell::HasAllTiles()
 {
     for (int i = 0; i < 0x33; ++i)
     {
-        if (reinterpret_cast<Tile**>(reinterpret_cast<char*>(this) + 0x30)[i] == 0)
+        if ((&this->unk30)[i] == 0)
             return 0;
     }
     return 1;
@@ -469,23 +469,23 @@ struct CaravanMenu_0074a090
 // @fnv 0x0074a090
 void __cdecl FUN_0074a090(int aiAmount)
 {
-    int iDelta = aiAmount - (*(int*)((char*)DAT_011d917c + 0xadc));
-    (*(int*)((char*)DAT_011d917c + 0xadc)) = (*(int*)((char*)DAT_011d917c + 0xadc)) + aiAmount;
-    (*(FUN_00a01290_shell**)((char*)DAT_011d917c + 0x44))->SetTraitAndReset(::CaravanSetup::DAT_011d9174, 1.0f);
-    reinterpret_cast<::Tile *>((((Tile_Set_Helper*)(*(FUN_00a01290_shell**)((char*)DAT_011d917c + 0x44)))))->Set(::CaravanSetup::DAT_011d9174, (*(int*)((char*)DAT_011d917c + 0xadc)));
+    int iDelta = aiAmount - (DAT_011d917c->unkadc);
+    (DAT_011d917c->unkadc) = (DAT_011d917c->unkadc) + aiAmount;
+    (*(FUN_00a01290_shell**)&DAT_011d917c->unk44)->SetTraitAndReset(::CaravanSetup::DAT_011d9174, 1.0f);
+    reinterpret_cast<::Tile *>((((Tile_Set_Helper*)(*(FUN_00a01290_shell**)&DAT_011d917c->unk44))))->Set(::CaravanSetup::DAT_011d9174, (DAT_011d917c->unkadc));
     DAT_011d917c->SetFlag(1, 0);
-    int iMax = (int)((*(int*)((char*)DAT_011d917c + 0x110)) * (*(float*)((char*)DAT_011d917c + 0x10c)) +
-                     (*(int*)((char*)DAT_011d917c + 0x110)) * (*(float*)((char*)DAT_011d917c + 0x10c)) *
+    int iMax = (int)((DAT_011d917c->unk110) * (DAT_011d917c->unk10c) +
+                     (DAT_011d917c->unk110) * (DAT_011d917c->unk10c) *
                          (((ActorValueOwner*)((*reinterpret_cast<char * *>(&::_g_thePlayer)) + 0xa4))->GetActorValueFloatByIndex((::ActorValue::Index)(0x20)) / 100.0));
-    iMax = MinInt(iMax, (*(int*)((char*)DAT_011d917c + 0x110)));
-    if ((*(int*)((char*)DAT_011d917c + 0xadc)) > (*(int*)((char*)DAT_011d917c + 0xae0)))
+    iMax = MinInt(iMax, (DAT_011d917c->unk110));
+    if ((DAT_011d917c->unkadc) > (DAT_011d917c->unkae0))
     {
-        (*(int*)((char*)DAT_011d917c + 0xae0)) = MinInt(iMax, (*(int*)((char*)DAT_011d917c + 0xadc)));
-        (*(FUN_00a01290_shell**)((char*)DAT_011d917c + 0x40))->SetTraitAndReset(::CaravanSetup::DAT_011d9174, 1.0f);
-        reinterpret_cast<::Tile *>((((Tile_Set_Helper*)(*(FUN_00a01290_shell**)((char*)DAT_011d917c + 0x40)))))->Set(::CaravanSetup::DAT_011d9174, (*(int*)((char*)DAT_011d917c + 0xae0)));
+        (DAT_011d917c->unkae0) = MinInt(iMax, (DAT_011d917c->unkadc));
+        (*(FUN_00a01290_shell**)&DAT_011d917c->unk40)->SetTraitAndReset(::CaravanSetup::DAT_011d9174, 1.0f);
+        reinterpret_cast<::Tile *>((((Tile_Set_Helper*)(*(FUN_00a01290_shell**)&DAT_011d917c->unk40))))->Set(::CaravanSetup::DAT_011d9174, (DAT_011d917c->unkae0));
     }
     iDelta +=
-        FUN_00647b70(MinInt((*(int*)((char*)DAT_011d917c + 0xadc)), iMax) - (*(int*)((char*)DAT_011d917c + 0xae0)), 0);
+        FUN_00647b70(MinInt((DAT_011d917c->unkadc), iMax) - (DAT_011d917c->unkae0), 0);
     ((CaravanMenu_0074a090*)DAT_011d917c)->UpdateControls();
     ((CaravanMenu_0074a090*)DAT_011d917c)->FUN_00749a40(-1);
     ((CaravanMenu_0074a090*)DAT_011d917c)->PlaceBillsAndCoins(iMax, iDelta);
@@ -510,7 +510,7 @@ struct FUN_007492f0_shell
     int unk28;
     int unk2c;
     char pad30[0x3c];
-    int unk6c;
+    void* unk6c;
     char pad70[0xa88];
     int unkaf8;
     char padafc[0x4];
@@ -523,12 +523,12 @@ struct FUN_007492f0_shell
 // @fnv 0x007492f0
 void FUN_007492f0_shell::InitType15State(int aiType, int aiPad)
 {
-    ((char*)this)[0xe85] = 0;
-    if (*(int*)((char*)this + 0x28) == 1 && aiType == 15 && *(int*)((char*)this + 0x2c) == 0)
+    this->unke85 = 0;
+    if (this->unk28 == 1 && aiType == 15 && this->unk2c == 0)
     {
-        *(int*)((char*)this + 0xaf8) = (int)reinterpret_cast<::TileListBoxCalls *>((((TGF*)*(intptr_t*)((char*)this + 0x6c))))->GetFloat(DAT_011d9170);
-        ((char*)this)[0xe85] = 1;
-        *(int*)((char*)this + 0xb00) = DAT_011d9180->FUN_00747d00();
+        this->unkaf8 = (int)reinterpret_cast<::TileListBoxCalls *>((((TGF*)this->unk6c)))->GetFloat(DAT_011d9170);
+        this->unke85 = 1;
+        this->unkb00 = DAT_011d9180->FUN_00747d00();
     }
 }
 
@@ -939,8 +939,8 @@ bool FUN_0073ced0_shell::RebuildCardLists()
     activelist =
         reinterpret_cast<BSSimpleListTESRaceSize*>(reinterpret_cast<::PlayerCaravanCards *>((*reinterpret_cast<char * *>(&::_g_thePlayer)))->pActiveCards);
 
-    *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0xaec) = activelist->GetSize();
-    *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0xaf0) =
+    this->unkaec = activelist->GetSize();
+    this->unkaf0 =
         inactivelist->GetSize() + activelist->GetSize();
 
     i = 0;
@@ -967,9 +967,9 @@ bool FUN_0073ced0_shell::RebuildCardLists()
 
     reinterpret_cast<FUN_00729970_shell*>(reinterpret_cast<char*>(this) + 0xa6c)->FUN_00729970((intptr_t)(((void (&)())::FUN_0059ae10)));
 
-    *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0xaf4) =
-        (*reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0xaf0) / 10 > 10)
-            ? (*reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0xaf0) / 10)
+    this->unkaf4 =
+        (this->unkaf0 / 10 > 10)
+            ? (this->unkaf0 / 10)
             : 10;
 
     return true;
@@ -1843,10 +1843,10 @@ struct HudGlyphMenu
 // @fnv 0x0074af70
 void HudGlyphMenu::UpdateIconResources(int iconIndex)
 {
-    if (*(void**)((char*)this + 0x91c) && *(void**)((char*)this + 0x97c) && *(void**)((char*)this + 0x9dc) &&
-        *(void**)((char*)this + 0xa3c))
+    if (this->unk91c && this->unk97c && this->unk9dc &&
+        this->unka3c)
     {
-        reinterpret_cast<::TileListBoxCalls *>(((*(UIOptions**)((char*)this + 0x6c))))->GetFloat(DAT_011d9170);
+        reinterpret_cast<::TileListBoxCalls *>(((this->unk6c)))->GetFloat(DAT_011d9170);
         int imageKey = FUN_00ec62c0();
         char generatedPath[260];
         char resolvedPath[260];
@@ -24885,7 +24885,7 @@ bool xCaravan::FUN_00747d30(int aiKey, int aiUnused)
             int OLDBET = m_adc;
             m_adc = ::MinInt(m_ae0, m_ae4);
             reinterpret_cast<::FUN_00a01290_shell *>((m_44))->SetTraitAndReset(::CaravanSetup::DAT_011d9174, 1.0f);
-            reinterpret_cast<::Tile *>((m_44))->Set(::CaravanSetup::DAT_011d9174, *(int*)((char*)(*reinterpret_cast<::xGameState * *>(&::DAT_011d917c)) + 0xadc));
+            reinterpret_cast<::Tile *>((m_44))->Set(::CaravanSetup::DAT_011d9174, (*reinterpret_cast<::xGameState * *>(&::DAT_011d917c))->unkadc);
             handled = true;
             int CAPS =
                 (int)((*reinterpret_cast<::xGameState * *>(&::DAT_011d917c))->m_110 * (*reinterpret_cast<::xGameState * *>(&::DAT_011d917c))->m_10c +

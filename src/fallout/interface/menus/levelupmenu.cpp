@@ -270,7 +270,7 @@ struct FUN_00784b90_shell
 void FUN_00784b90_shell::SetTileByID(int aiID, void* apTile)
 {
     if (aiID >= 0 && aiID < 10)
-        ((void**)((char*)this + 0x2c))[aiID] = apTile;
+        (&this->unk2c)[aiID] = apTile;
 }
 
 struct S
@@ -550,7 +550,7 @@ int FUN_007879f0::GetIntegerResult()
 {
     static int numFiltered = ::FUN_00a00940("_num_filtered", -1);
     return ::GetRaceCount((char *)(((VATSMenu*)this))) -
-           (unsigned int)reinterpret_cast<::TileListBoxCalls *>((((TGF*)(*((char**)((char*)this + 0xc))))))->GetFloat(numFiltered);
+           (unsigned int)reinterpret_cast<::TileListBoxCalls *>((((TGF*)(this->unkc))))->GetFloat(numFiltered);
 }
 
 namespace fnv_00785990 {

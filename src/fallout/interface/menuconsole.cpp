@@ -177,7 +177,7 @@ struct FUN_0071d750_shell
 // @fnv 0x0071d750
 void FUN_0071d750_shell::ClearField()
 {
-    ((int*)this)[0x3c] = 0;
+    this->unkf0 = 0;
 }
 
 struct ListNode

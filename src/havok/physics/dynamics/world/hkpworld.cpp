@@ -2446,7 +2446,6 @@ struct hkpPhantom;
 
 
 
-void ResizeAudioStream(void* alloc, void* array, int elemSize);
 
 struct PendingOperation {
     unsigned char m_type;
@@ -6533,7 +6532,6 @@ __forceinline void memCpyOneAlignedXc937a0(void* dst, const void* src)
 }
 
 
-void __cdecl ResizeAudioStream(void* m_pPoolBase, void* pArray, int iSizeElem);
 
 template <class T>
 class hkArrayXc937a0 {
@@ -7655,7 +7653,6 @@ __forceinline void memCpyOneAlignedXc99ce0(void* dst, const void* src)
 }
 
 
-void __cdecl ResizeAudioStream(void* m_pPoolBase, void* pArray, int iSizeElem);
 
 template <class T>
 class hkArrayXc99ce0 {
@@ -8655,7 +8652,6 @@ struct Agent {
 };
 struct CollisionAgentEntry { Agent* agent; CollisionObject* other; };
 
-void ResizeAudioStream(void*, void*, int);
 static __declspec(noinline) void __cdecl SyncOverlap(PhantomInterface* phantom, CollisionObject* other, CollisionFilter* filter) {
     FilterBool overlapping = phantom->hasOverlap(other);
     CollisionObject* self = &phantom->collidable;
@@ -13027,7 +13023,6 @@ void** FUN_00c939a0_Class::FUN_00c939a0(void* listener) {
 }
 
 
-void ResizeAudioStream(void*, void*, int);
 
 struct hkpWorld_Listener : hkpWorld {
     void*& FUN_00c93a60(void* listener);
@@ -13150,7 +13145,6 @@ bool HostClass::FUN_00c6d3f0(ArgClass* a1, int aiUnused) {
 }
 
 
-void ResizeAudioStream(void*, void*, int);
 
 template <typename T>
 inline T* hkArrayPushBack(hkArray<T>& arr, hkMemoryRouter* mem, const T& t) {

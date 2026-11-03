@@ -642,9 +642,16 @@ struct __declspec(align(16)) Blob
     int unk38, unk3c;
 };
 
+struct FeatureContactPoint
+{
+    unsigned char m_featureIdA;      // +0x0
+    unsigned char m_featureIdB;      // +0x1
+    unsigned short m_contactPointId; // +0x2
+};
+
 struct ContactList
 {
-    int values[8];
+    FeatureContactPoint values[8];
     unsigned char unk20;
     unsigned char count;
     unsigned char flag;
@@ -865,7 +872,7 @@ __declspec(noinline) void Owner::FUN_00db1990(ContactList* p0, Input* p1, float 
         }
         for (int i = 0; i < p0->count; ++i)
         {
-            if ((unsigned char)p0->values[i] > 6)
+            if (p0->values[i].m_featureIdA > 6)
             {
                 continue;
             }
@@ -946,7 +953,7 @@ __declspec(noinline) void Owner::FUN_00db1990(ContactList* p0, Input* p1, float 
     }
     long t58;
     t58 = m_0c->Call(m_00, m_04, m_08, m_10, 0, rec);
-    unsigned short* pForm = reinterpret_cast<unsigned short*>(&p0->values[row]) + 1;
+    unsigned short* pForm = &p0->values[row].m_contactPointId;
     *pForm = t58;
     if ((unsigned short)t58 == 0xffff)
     {
@@ -1103,7 +1110,7 @@ struct __declspec(align(16)) hkContactPoint
     }
     __forceinline void setDistance(float d)
     {
-        ((float*)&m_vSeparatingNormal)[3] = d;
+        m_vSeparatingNormal.m_vComponents[3] = d;
     }
 };
 

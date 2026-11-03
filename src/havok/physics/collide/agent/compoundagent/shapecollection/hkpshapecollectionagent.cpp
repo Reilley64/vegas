@@ -1028,7 +1028,7 @@ struct Handler
     virtual void v08();
     virtual void v0c();
     virtual void v10();
-    virtual void v14(Packet* packet, int a, int b, int c, int d);
+    virtual void v14(Packet* packet, void* a, void* b, void* c, void* d);
 };
 
 struct Pair
@@ -1067,12 +1067,12 @@ struct B512
 // Calling convention note: declared as in the packet (this in ecx, callee pops 20 bytes).
 struct Agent : hkpShapeCollectionAgent
 {
-    void FUN_00d43aa0(Holder* holder, int a, int b, int c, int d);
+    void FUN_00d43aa0(Holder* holder, void* a, void* b, void* c, void* d);
 };
 
 // Records profiler markers, queries holder's Queryable for each pair, and dispatches results to each handler with the given arguments.
 // @fnv 0x00d43aa0
-void Agent::FUN_00d43aa0(Holder* holder, int a, int b, int c, int d)
+void Agent::FUN_00d43aa0(Holder* holder, void* a, void* b, void* c, void* d)
 {
     ProfilerBuf* pb = (ProfilerBuf*)TlsGetValue(::DAT_0126835c);
     Rec* cur = pb->cur;
@@ -1634,7 +1634,7 @@ class ShapeObject
     virtual void vtbl04(void);
     virtual void vtbl08(void);
     virtual void vtbl0C(void);
-    virtual void vtbl10(void* pKey, DWORD a1, DWORD a2, DWORD a3);
+    virtual void vtbl10(void* pKey, void* a1, void* a2, void* a3);
 };
 
 struct ShapeHolder
@@ -1646,12 +1646,12 @@ struct ShapeHolder
 
 struct FUN_00d43880_cls : public hkpShapeCollectionAgent
 {
-    void FUN_00d43880(ShapeHolder* pHolder, DWORD a1, DWORD a2, DWORD a3);
+    void FUN_00d43880(ShapeHolder* pHolder, void* a1, void* a2, void* a3);
 };
 
 // Between profiler records, loops count pairs: pHandler->vtbl14 fills a result for each key, then the pair's object receives it via vtbl10 with a1, a2, a3.
 // @fnv 0x00d43880
-void FUN_00d43880_cls::FUN_00d43880(ShapeHolder* pHolder, DWORD a1, DWORD a2, DWORD a3)
+void FUN_00d43880_cls::FUN_00d43880(ShapeHolder* pHolder, void* a1, void* a2, void* a3)
 {
     ProfBuf* pBuf = (ProfBuf*)TlsGetValue(::DAT_0126835c);
     if (pBuf->m_pCur < pBuf->m_pRecordEnd)
@@ -1759,7 +1759,7 @@ struct CollectionProcessHandler
     virtual void v0c(void);
     virtual CollectionProcessHandler* v10(void);
     virtual void* v14(void* pShape, void* pOut);
-    virtual void v18(void* apPairs, unsigned int a0, unsigned int a1, unsigned int a2);
+    virtual void v18(void* apPairs, void* a0, void* a1, void* a2);
 };
 
 struct ShapeArg
@@ -1785,12 +1785,12 @@ struct CollectionProcessBody
 
 struct CollectionProcessAgent : hkpShapeCollectionAgent
 {
-    void FUN_00d437a0(ShapeArg* arg, unsigned int a0, unsigned int a1, unsigned int a2);
+    void FUN_00d437a0(ShapeArg* arg, void* a0, void* a1, void* a2);
 };
 
 // Records a TtShapeCollection profiler tick, calls v14 on each shape, dispatches results via v18, then records an Et profiler tick.
 // @fnv 0x00d437a0
-void CollectionProcessAgent::FUN_00d437a0(ShapeArg* arg, unsigned int a0, unsigned int a1, unsigned int a2)
+void CollectionProcessAgent::FUN_00d437a0(ShapeArg* arg, void* a0, void* a1, void* a2)
 {
     ProfBuf* pBuf = (ProfBuf*)TlsGetValue(::DAT_0126835c);
     if (pBuf->m_pCur < pBuf->m_pRecordEnd)

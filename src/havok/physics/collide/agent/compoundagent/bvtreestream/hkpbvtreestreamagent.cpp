@@ -2,6 +2,8 @@
 // src/havok/physics/collide/agent/compoundagent/bvtreestream/hkpbvtreestreamagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/compoundagent/bvtreestream/hkpbvtreestreamagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <xmmintrin.h>
+#include "fnv/symbols_simd.h"
 #include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include <new>
@@ -20,7 +22,7 @@
 #include "fnv/symbols_00da4000.h"
 #include "fnv/symbols_0104d000.h"
 #include "fnv/symbols_010ce000.h"
-extern "C" void __cdecl FUN_00d312f0(void*, void*, void*, void*);
+void __cdecl FUN_00d312f0(void*, void*, void*, void*);
 
 struct FUN_00d2dd30_class
 {
@@ -36,13 +38,13 @@ void FUN_00d2dd30_class::FUN_00d2dd30(void* apArg1, void* apArg2, void* apArg3, 
 
 struct FUN_00d2ddd0_class
 {
-    void FUN_00d2ddd0(int a);
+    void FUN_00d2ddd0(void* a);
 };
 
 // @fnv 0x00d2ddd0
-void FUN_00d2ddd0_class::FUN_00d2ddd0(int aiValue)
+void FUN_00d2ddd0_class::FUN_00d2ddd0(void* aiValue)
 {
-    ::FUN_00da3510((*(::AgentSectorPointerArray *)((char*)this + 0x30)), (*(::CollisionAgentContext *)((void*)aiValue)));
+    ::FUN_00da3510((*(::AgentSectorPointerArray *)((char*)this + 0x30)), (*static_cast<::CollisionAgentContext *>(aiValue)));
 }
 
 extern "C" void __cdecl FUN_00d31110(void*, void*, void*, void*);
@@ -67,8 +69,8 @@ struct FUN_00d2dda0_class
 {
     virtual void finish(int);
     int unk04;
-    int unk08;
-    int unk0c;
+    void* unk08;
+    void* unk0c;
     int unk10;
     int unk14;
     int unk18;
@@ -78,13 +80,13 @@ struct FUN_00d2dda0_class
     int unk28;
     int unk2c;
     int unk30;
-    void FUN_00d2dda0(int value);
+    void FUN_00d2dda0(void* value);
 };
 // Passes unk0c, unk08 and value to FUN_00da42b0 with &unk30, then calls finish(1).
 // @fnv 0x00d2dda0
-void FUN_00d2dda0_class::FUN_00d2dda0(int value)
+void FUN_00d2dda0_class::FUN_00d2dda0(void* value)
 {
-    ::FUN_00da42b0((::BlockPoolArray *)(void *)(&unk30), (::S_00da40e0_Dispatcher *)(unk0c), (::S_00da40e0_ContactMgr *)(unk08), (*(::S_00da40e0_ConstraintOwner *)(value)));
+    ::FUN_00da42b0((::BlockPoolArray *)(void *)(&unk30), static_cast<::S_00da40e0_Dispatcher *>(unk0c), static_cast<::S_00da40e0_ContactMgr *>(unk08), (*static_cast<::S_00da40e0_ConstraintOwner *>(value)));
     finish(1);
 }
 
@@ -149,7 +151,6 @@ void* __cdecl FUN_00d2df50(int aiArg0, int aiArg1, int aiArg2, int aiArg3)
 }
 
 
-void FUN_00d31110();
 struct Conversion
 {
     void (*convert)();
@@ -175,7 +176,7 @@ void FUN_00d2e760(Registry* registry)
     reinterpret_cast<::FUN_00cfbbe0_cls *>((registry))->FUN_00cfbbe0((::FUN_00cfbbe0_rec *)(::Conversion *)(&conversionEntry), 8, 24);
     conversionEntry.convert = ((void (&)())::FUN_00d2df50);
     conversionEntry.create = (void (*)())FUN_00d312f0;
-    conversionEntry.copy = FUN_00d31110;
+    conversionEntry.copy = (void (*)())FUN_00d31110;
     conversionEntry.destroy = ((void (&)())::FUN_00d30f50);
     conversionEntry.enabled = false;
     conversionEntry.supported = true;
@@ -188,7 +189,6 @@ typedef void(__cdecl* S_00d2e8e0_GetClosestPointsFunc)(void*, void*, void*, void
 typedef void(__cdecl* S_00d2e8e0_LinearCastFunc)(void*, void*, void*, void*, void*);
 
 void FUN_00d2e970(void*, void*, void*, void*);
-void FUN_00d31110(void*, void*, void*, void*);
 
 struct S_00d2e8e0_AgentFuncs
 {
@@ -241,20 +241,18 @@ struct D2E9B0CollectorBase
 
 struct D2E9B0Collector : D2E9B0CollectorBase
 {
-    int m_iData;
+    void* m_iData;
 
-    D2E9B0Collector(int iData) : m_iData(iData)
+    D2E9B0Collector(void* iData) : m_iData(iData)
     {}
 
     virtual void unk00();
     virtual void unk04();
 };
 
-void __cdecl FUN_00d31110(int a, int b, int c, D2E9B0CollectorBase* collector);
-
 // Constructs a D2E9B0Collector from d and passes it with b, a, c to FUN_00d31110.
 // @fnv 0x00d2e9b0
-void __cdecl FUN_00d2e9b0(int aiArg1, int aiArg2, int aiArg3, int aiData)
+void __cdecl FUN_00d2e9b0(void* aiArg1, void* aiArg2, void* aiArg3, void* aiData)
 {
     D2E9B0Collector collector(aiData);
     FUN_00d31110(aiArg2, aiArg1, aiArg3, &collector);
@@ -279,7 +277,7 @@ void Context::FUN_00d2edd0(void* first, void* second, void* third, void* fourth)
     hkpSymmetricAgentFlipCollector collector;
     collector.threshold = ::DAT_0104da48;
     collector.object = fourth;
-    reinterpret_cast<::FUN_00d43880_cls *>(this)->FUN_00d43880((::ShapeHolder *)(second), (unsigned long)(first), (unsigned long)(third), (unsigned long)(&collector));
+    reinterpret_cast<::FUN_00d43880_cls *>(this)->FUN_00d43880(static_cast<::ShapeHolder *>(second), first, third, &collector);
 }
 
 extern "C" const char str_010ce828[];
@@ -296,10 +294,10 @@ struct VisitTarget
     {}
     virtual void v04()
     {}
-    virtual void Visit(int kind, const char* name, void* data, unsigned int size, void* extra)
+    virtual void Visit(int kind, const char* name, void* data, unsigned int size, int extra)
     {}
     int unk04;
-    int m_08;
+    char** m_08;
     int unk0C;
     unsigned char m_10;
 };
@@ -338,10 +336,10 @@ void BufOwner::VisitPackedBuffer(VisitTarget* target, int flags)
     {
         void* p = pBuffer->m_ptr;
         unsigned int uiByteSize = (uiFlags & 0x3fffffffu) * 4;
-        void* mem = FUN_00d06f80(p, uiByteSize);
+        int mem = ::fnv_00d06f80::FUN_00d06f80(static_cast<const char*>(p), uiByteSize);
         target->Visit(3, str_010ce828, pBuffer->m_ptr, pBuffer->m_uiItemCount * 4, mem);
     }
-    ::FUN_00d97250((::Hdr *)(pBuffer), (char **)(target->m_08), (::Logger *)(target));
+    ::FUN_00d97250((::Hdr *)(pBuffer), target->m_08, (::Logger *)(target));
 }
 
 
@@ -442,21 +440,21 @@ struct CpuCallData
 {
     void* descriptor;
     float bound;
-    unsigned int value;
+    void* value;
 };
 struct CpuObject
 {
-    void DispatchWithBoundData(void*, void*, unsigned int, unsigned int);
+    void DispatchWithBoundData(void*, void*, void*, void*);
 };
 // Builds a CpuCallData from fourth, DAT_0104da48 and DAT_010ce7fc, then forwards second, first, third and the data to FUN_00d2dd50.
 // @fnv 0x00d2ebf0
-void CpuObject::DispatchWithBoundData(void* first, void* second, unsigned int third, unsigned int fourth)
+void CpuObject::DispatchWithBoundData(void* first, void* second, void* third, void* fourth)
 {
     CpuCallData data;
     data.value = fourth;
     data.bound = ::DAT_0104da48;
     data.descriptor = &DAT_010ce7fc;
-    ::FUN_00d2dd50((void *)this, second, first, (void *)(third));
+    ::FUN_00d2dd50(second, first, third, &data);
 }
 
 struct CallTarget_00d2de20
@@ -584,7 +582,7 @@ struct FUN_00d2def0_cls
     const void* m_vptr;
     unsigned short unk04;
     unsigned short m_06;
-    int m_08;
+    void* m_08;
     int m_0c;
     __m128 m_10;
     __m128 m_20;
@@ -592,12 +590,12 @@ struct FUN_00d2def0_cls
     int m_34;
     unsigned int m_38;
 
-    FUN_00d2def0_cls* FUN_00d2def0(void* a1, void* a2, int* a3, int a4);
+    FUN_00d2def0_cls* FUN_00d2def0(void* a1, void* a2, int* a3, void* a4);
 };
 
 // Initializes the object's block pool fields, sets m_0c from a3, zeroes m_10 and m_20, and calls InitBlockPool on the pool block.
 // @fnv 0x00d2def0
-FUN_00d2def0_cls* FUN_00d2def0_cls::FUN_00d2def0(void* a1, void* apUnused, int* piSource, int a4)
+FUN_00d2def0_cls* FUN_00d2def0_cls::FUN_00d2def0(void* a1, void* apUnused, int* piSource, void* a4)
 {
     m_06 = 1;
     m_08 = a4;
@@ -639,13 +637,13 @@ struct Record_d2e9
     const unsigned int* m_vtbl;
     float m_fScalar;
     Key_d2e9 m_key;
-    int m_uiFilterValue;
+    void* m_uiFilterValue;
 };
 
 
 // Copies input, XORs its m_vComponents with DAT_010c44d0, builds a Record_d2e9 with a4, and calls FUN_00d30f50 with an optional second record when a5 is non-zero.
 // @fnv 0x00d2e9f0
-void __cdecl FUN_00d2e9f0(int a2, int a1, const Input_d2e9* input, int aiRecordValue, int aiOptionalRecordValue)
+void __cdecl FUN_00d2e9f0(void* a2, void* a1, const Input_d2e9* input, void* aiRecordValue, void* aiOptionalRecordValue)
 {
     Input_d2e9 local = *input;
     local.m_vComponents = _mm_xor_ps(input->m_vComponents, DAT_010c44d0);
@@ -663,11 +661,11 @@ void __cdecl FUN_00d2e9f0(int a2, int a1, const Input_d2e9* input, int aiRecordV
         rec2.m_fScalar = ::DAT_0104da48;
         rec2.m_key = input->m_key;
         rec2.m_uiFilterValue = aiOptionalRecordValue;
-        ::FUN_00d30f50((*(const ::S_00d30f50_CdBody *)(a1)), (*(const ::S_00d30f50_CdBody *)(a2)), (*(const ::S_00d30f50_LinearCastInput *)(&local)), (*(::S_00d30f50_CdPointCollector *)(&rec)), (::S_00d30f50_CdPointCollector *)(::Record_d2e9 *)(&rec2));
+        ::FUN_00d30f50((*static_cast<const ::S_00d30f50_CdBody *>(a1)), (*static_cast<const ::S_00d30f50_CdBody *>(a2)), (*(const ::S_00d30f50_LinearCastInput *)(&local)), (*(::S_00d30f50_CdPointCollector *)(&rec)), (::S_00d30f50_CdPointCollector *)(::Record_d2e9 *)(&rec2));
     }
     else
     {
-        ::FUN_00d30f50((*(const ::S_00d30f50_CdBody *)(a1)), (*(const ::S_00d30f50_CdBody *)(a2)), (*(const ::S_00d30f50_LinearCastInput *)(&local)), (*(::S_00d30f50_CdPointCollector *)(&rec)), (::S_00d30f50_CdPointCollector *)(::Record_d2e9 *)(0));
+        ::FUN_00d30f50((*static_cast<const ::S_00d30f50_CdBody *>(a1)), (*static_cast<const ::S_00d30f50_CdBody *>(a2)), (*(const ::S_00d30f50_LinearCastInput *)(&local)), (*(::S_00d30f50_CdPointCollector *)(&rec)), (::S_00d30f50_CdPointCollector *)(::Record_d2e9 *)(0));
     }
 }
 
@@ -869,11 +867,11 @@ struct S_00d2f000_Base
     float m_f04;
     unsigned unk08, unk0C;
     S_00d2f000_V4 m_v10;
-    unsigned m_p20;
+    void* m_p20;
     unsigned unk24, unk28, unk2C;
     S_00d2f000_Base()
     {}
-    S_00d2f000_Base(float f, const S_00d2f000_V4& v, unsigned p)
+    S_00d2f000_Base(float f, const S_00d2f000_V4& v, void* p)
     {
         m_f04 = f;
         m_v10 = v;
@@ -885,7 +883,7 @@ struct __declspec(align(16)) S_00d2f000_Flip : public S_00d2f000_Base
 {
     S_00d2f000_Flip()
     {}
-    S_00d2f000_Flip(float f, const S_00d2f000_V4& v, unsigned p) : S_00d2f000_Base(f, v, p)
+    S_00d2f000_Flip(float f, const S_00d2f000_V4& v, void* p) : S_00d2f000_Base(f, v, p)
     {}
     virtual void vtbl00(void);
     virtual void vtbl04(void);
@@ -893,12 +891,12 @@ struct __declspec(align(16)) S_00d2f000_Flip : public S_00d2f000_Base
 
 struct FUN_00d2f000_class
 {
-    void LinearCastFlip(unsigned a1, unsigned a2, S_00d2f000_Input* in, unsigned a4, unsigned a5);
+    void LinearCastFlip(void* a1, void* a2, S_00d2f000_Input* in, void* a4, void* a5);
 };
 
 // Copies in with its vector at +0x50 sign-flipped, builds a record from a4 (and a5 if non-zero), and calls linearCast(a2, a1, ...).
 // @fnv 0x00d2f000
-void FUN_00d2f000_class::LinearCastFlip(unsigned a1, unsigned a2, S_00d2f000_Input* in, unsigned a4, unsigned a5)
+void FUN_00d2f000_class::LinearCastFlip(void* a1, void* a2, S_00d2f000_Input* in, void* a4, void* a5)
 {
     __m128 v = in->m_q50;
     __m128 mask = ::DAT_010c44d0;
@@ -915,10 +913,10 @@ void FUN_00d2f000_class::LinearCastFlip(unsigned a1, unsigned a2, S_00d2f000_Inp
         fl.m_f04 = ::DAT_0104da48;
         fl.m_v10 = in->m_v50;
         fl.m_p20 = a5;
-        reinterpret_cast<::Agent *>((this))->FUN_00d43aa0((::Holder *)(a2), a1, (int)(&local), (int)(&fr), (int)(&fl));
+        reinterpret_cast<::Agent *>((this))->FUN_00d43aa0(static_cast<::Holder *>(a2), a1, &local, &fr, &fl);
     }
     else
-        reinterpret_cast<::Agent *>((this))->FUN_00d43aa0((::Holder *)(a2), a1, (int)(&local), (int)(&fr), (int)(0));
+        reinterpret_cast<::Agent *>((this))->FUN_00d43aa0(static_cast<::Holder *>(a2), a1, &local, &fr, nullptr);
 }
 }  // namespace fnv_00d2f000
 
@@ -987,7 +985,7 @@ void* FUN_00d2e5a0(void* a1, void* a2, void* a3, void* a4)
             Allocator* pAllocator = holder->m_pAllocator;
             SpawnedObject* obj = (SpawnedObject*)pAllocator->Alloc(0x40);
             obj->m_iElementCount = 0x40;
-            return ((void *)(reinterpret_cast<::FUN_00d2def0_cls *>((((FUN_00d2def0_cls*)obj)))->FUN_00d2def0(a1, a2, (int *)(a3), (int)(a4))));
+            return ((void *)(reinterpret_cast<::FUN_00d2def0_cls *>((((FUN_00d2def0_cls*)obj)))->FUN_00d2def0(a1, a2, (int *)(a3), a4)));
         }
         case 1: {
             AllocHolder* holder = static_cast<AllocHolder*>(::FUN_00c85750());
@@ -1066,11 +1064,6 @@ struct TargetClass
 {
 };
 
-extern "C"
-{
-
-    void FUN_00d31110();
-}
 
 // Fills a RegEntry with four function pointers and two flags and passes it to obj->FUN_00cfbbe0 with (8, 0x12), then again with different pointers and (0x12, 8).
 // @fnv 0x00d2e6d0
@@ -1218,17 +1211,17 @@ struct Obj56 : Header
 struct Obj64 : Header
 {
 };
-static __forceinline Obj56* Create56(void* second, void* first, StreamDispatchInput* context, unsigned int flags)
+static __forceinline Obj56* Create56(void* second, void* first, StreamDispatchInput* context, void* flags)
 {
     AudioMgr* owner = audio();
     hkMemoryAllocator* allocator = owner->unk10;
     Obj56* obj = static_cast<Obj56*>(allocator->AllocateMemoryBlock(0x38));
     obj->size = 0x38;
-    new ((void *)(obj)) ::FUN_00d440f0((*(const ::CdBodyS *)(second)), (*(const ::CdBodyS *)(first)), (*(const ::CollisionInputS *)(context)), (::ContactMgrS *)(flags));
+    new ((void *)(obj)) ::FUN_00d440f0((*(const ::CdBodyS *)(second)), (*(const ::CdBodyS *)(first)), (*(const ::CollisionInputS *)(context)), static_cast<::ContactMgrS *>(flags));
     obj->vtable = g_010ce8b0;
     return obj;
 }
-static __forceinline Obj64* Create64(void* second, void* first, StreamDispatchInput* context, unsigned int flags)
+static __forceinline Obj64* Create64(void* second, void* first, StreamDispatchInput* context, void* flags)
 {
     AudioMgr* owner = audio();
     hkMemoryAllocator* allocator = owner->unk10;
@@ -1240,7 +1233,7 @@ static __forceinline Obj64* Create64(void* second, void* first, StreamDispatchIn
 }
 // Creates an Obj56 or Obj64 stream object based on the selector's classification, or a default Obj64 when flags is zero.
 // @fnv 0x00d2e7f0
-Header* FUN_00d2e7f0(void* first, void* second, StreamDispatchInput* context, unsigned int flags)
+Header* FUN_00d2e7f0(void* first, void* second, StreamDispatchInput* context, void* flags)
 {
     if (flags)
     {
@@ -1267,8 +1260,6 @@ Header* FUN_00d2e7f0(void* first, void* second, StreamDispatchInput* context, un
 // src/havok/physics/collide/agent/compoundagent/bvtreestream/hkpbvtreestreamagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/compoundagent/bvtreestream/hkpbvtreestreamagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 #include "fnv/decl/CollectionProcessAgent.h"
-#include "fnv/decl/FUN_00d2de20_cls.h"
-#include "fnv/decl/FUN_00d2def0_cls.h"
 void FUN_00d2e8e0(S_00d2e8e0_Dispatcher* dispatcher);
 struct S2ee10_Ref
 {
@@ -1388,7 +1379,7 @@ void hkpSymmetricAgentT::FUN_00d2ee10(const hkpCdBody& bodyA, S2ee10_Ref bodyB, 
 {
     float oldTime = output.m_fTimeOfImpact.m_uiCommandId;
     S2ee10_ContactPoint* cp = output.m_pAlignedPairData;
-    reinterpret_cast<::CollectionProcessAgent *>(this)->FUN_00d437a0((*(::ShapeArg * *)&(const ::S2ee10_Ref &)(bodyB)), (unsigned int)&(bodyA), (unsigned int)&(input), (unsigned int)&(output));
+    reinterpret_cast<::CollectionProcessAgent *>(this)->FUN_00d437a0((*(::ShapeArg * *)&(const ::S2ee10_Ref &)(bodyB)), const_cast<hkpCdBody*>(&bodyA), const_cast<CollisionAgentContext*>(&input), &output);
     for (; cp < output.m_pAlignedPairData; cp++)
     {
         cp->m_vContactPosition.addMul4(cp->m_vSeparatingNormal.getSimdAt3(), cp->m_vSeparatingNormal);

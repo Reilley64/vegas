@@ -128,13 +128,15 @@ void FUN_00b029a0_class::FUN_00b029a0()
 
 struct FUN_00b18320_Class
 {
+    char pad00[0x4c];
+    char unk4c;
     char GetByteAtOffset4C();
 };
 
 // @fnv 0x00b18320
 char FUN_00b18320_Class::GetByteAtOffset4C()
 {
-    return ((const char*)this)[0x4c];
+    return unk4c;
 }
 
 struct FUN_00b008f0_class
@@ -155,6 +157,34 @@ void FUN_00b00970(int value)
     DAT_011f8250 = value;
 }
 
+class BSWin32TaskletManager
+{
+  public:
+    virtual void vf00();
+    virtual void vf04();
+    virtual void vf08();
+    virtual void vf0c();
+    virtual bool vf10(int& value);
+
+    unsigned char unk04;
+    int unk08;
+
+    bool GetTaskletValue(void* result);
+};
+
+inline void BSWin32TaskletManager::vf00()
+{}
+inline void BSWin32TaskletManager::vf04()
+{}
+inline void BSWin32TaskletManager::vf08()
+{}
+inline void BSWin32TaskletManager::vf0c()
+{}
+inline bool BSWin32TaskletManager::vf10(int&)
+{
+    return false;
+}
+
 extern int DAT_011f8af4;
 extern void* DAT_011f8b38[16];
 struct TaskletManager
@@ -165,7 +195,7 @@ struct TaskletManager
 // @fnv 0x00b00da0
 char QueueTasklet(void* param_1)
 {
-    int* obj = (int*)((char*)&(*(::TaskletManager *)&(::GetTaskletManager())) + 8);
+    int* obj = &::GetTaskletManager().unk08;
     char result;
     if (*obj == 0 && DAT_011f8af4 < 16)
     {
@@ -187,6 +217,8 @@ struct FUN_00b130a0
 {
     float a, b, c;
     float d, e, f;
+    float unk18;
+    float m_afRotation[9];
     FUN_00b130a0();
 };
 // Zeroes the six float members a-f and calls FUN_00b12af0 on the object at offset 0x1c.
@@ -200,7 +232,7 @@ FUN_00b130a0::FUN_00b130a0()
     p[2] = 0.0f;
     p[1] = 0.0f;
     p[0] = 0.0f;
-    ::FUN_00b12af0((::FUN_00b12af0_shell *)(((FUN_00b12af0_shell*)((char*)this + 0x1c))));
+    ::FUN_00b12af0((::FUN_00b12af0_shell *)m_afRotation);
 }
 
 struct FUN_00b0cf90_class
@@ -269,6 +301,7 @@ void FUN_00b00cf0_shell::CallVirtualOnAllEntries()
 
 struct FUN_00b12b50_class
 {
+    float m[9];
     float* TransformVector(float* dst, const float* src) const;
 };
 
@@ -276,9 +309,9 @@ struct FUN_00b12b50_class
 // @fnv 0x00b12b50
 float* FUN_00b12b50_class::TransformVector(float* dst, const float* src) const
 {
-    float t0 = src[2] * ((const float*)this)[2] + (src[1] * ((const float*)this)[1] + src[0] * ((const float*)this)[0]);
-    float t1 = src[2] * ((const float*)this)[5] + (src[1] * ((const float*)this)[4] + src[0] * ((const float*)this)[3]);
-    float t2 = src[2] * ((const float*)this)[8] + (src[1] * ((const float*)this)[7] + src[0] * ((const float*)this)[6]);
+    float t0 = src[2] * m[2] + (src[1] * m[1] + src[0] * m[0]);
+    float t1 = src[2] * m[5] + (src[1] * m[4] + src[0] * m[3]);
+    float t2 = src[2] * m[8] + (src[1] * m[7] + src[0] * m[6]);
     dst[0] = t0;
     dst[1] = t1;
     dst[2] = t2;
@@ -328,7 +361,7 @@ extern void* DAT_011f8af8[16];
 char FUN_00b00d50(void* param_1)
 {
     char local2;
-    int* piVar2 = (int*)((char*)&(*(::TaskletManager *)&(::GetTaskletManager())) + 8);
+    int* piVar2 = &::GetTaskletManager().unk08;
     if (*piVar2 == 0 && DAT_011f8af0 < 0x10)
     {
         DAT_011f8af8[DAT_011f8af0] = param_1;
@@ -458,6 +491,8 @@ struct FUN_00b00820_tail
 };
 struct FUN_00b00820_shell
 {
+    char m_acPath[0x248];
+    FUN_00b00820_tail m_kTail;
     FUN_00b00820_shell* FUN_00b00820(const char* value);
 };
 
@@ -465,8 +500,8 @@ struct FUN_00b00820_shell
 // @fnv 0x00b00820
 FUN_00b00820_shell* FUN_00b00820_shell::FUN_00b00820(const char* value)
 {
-    reinterpret_cast<FUN_00b00820_tail*>(reinterpret_cast<char*>(this) + 0x248)->pendingState = 0;
-    reinterpret_cast<FUN_00b00820_tail*>(reinterpret_cast<char*>(this) + 0x248)->sequence = 0;
+    m_kTail.pendingState = 0;
+    m_kTail.sequence = 0;
     reinterpret_cast<::FileNameComponents *>(this)->SetFullPath(value);
     return this;
 }
@@ -494,33 +529,6 @@ struct FUN_00b008a0_cls
 // @fnv 0x00b008a0
 void FUN_00b008a0_cls::FUN_00b008a0()
 {}
-
-class BSWin32TaskletManager
-{
-  public:
-    virtual void vf00();
-    virtual void vf04();
-    virtual void vf08();
-    virtual void vf0c();
-    virtual bool vf10(int& value);
-
-    unsigned char unk04;
-
-    bool GetTaskletValue(void* result);
-};
-
-inline void BSWin32TaskletManager::vf00()
-{}
-inline void BSWin32TaskletManager::vf04()
-{}
-inline void BSWin32TaskletManager::vf08()
-{}
-inline void BSWin32TaskletManager::vf0c()
-{}
-inline bool BSWin32TaskletManager::vf10(int&)
-{
-    return false;
-}
 
 // If unk04 is set, calls vf10 to obtain a value and stores it through result, returning the call's success; otherwise stores 0 and returns false.
 // @fnv 0x00b00a80
@@ -1529,7 +1537,7 @@ struct S_b16cd0
 // @fnv 0x00b16cd0
 void __cdecl CopyStructArray(S_b16cd0* apDest, unsigned int auiCount, S_b16cd0* apSource)
 {
-    void* v14 = (void*)apDest;
+    S_b16cd0* v14 = apDest;
     try
     {
         for (; auiCount > 0; auiCount -= 1, apDest += 1)
@@ -1551,7 +1559,7 @@ void __cdecl CopyStructArray(S_b16cd0* apDest, unsigned int auiCount, S_b16cd0* 
     }
     catch (...)
     {
-        for (; v14 != (void*)apDest; v14 = (char*)v14 + 0x18)
+        for (; v14 != apDest; ++v14)
         {
         }
         throw;
@@ -1715,38 +1723,40 @@ void* FUN_00b02720_shell::Init()
 }
 
 extern int DAT_010a48d8;
-struct FUN_00b027c0
+struct FUN_00b027c0_Fields
 {
     void* vtable;
-    char bActive;
-    void* pGroup;
+    char bStopped;
+    BSSemaphoreStandIn semaphore;
+    CRITICAL_SECTION cs;
+    char unk2c;
+    char unk2d;
+    char unk2e;
+    int unk30;
+    int unk34;
+    int unk38;
+};
+struct FUN_00b027c0 : FUN_00b027c0_Fields
+{
     FUN_00b027c0();
 };
-struct CSFields
-{
-    long LockCount;
-    HANDLE Semaphore;
-    long Pad1;
-};
-// Constructor that sets the vtable and bActive, creates a semaphore (max count 1) and a critical section, and zeroes several fields.
+// Constructor that sets the vtable and bStopped, creates a semaphore (max count 1) and a critical section, and zeroes several fields.
 // @fnv 0x00b027c0
 FUN_00b027c0::FUN_00b027c0()
 {
     vtable = &DAT_010a48e8;
-    bActive = 1;
+    bStopped = 1;
     vtable = &DAT_010a48d8;
-    CSFields* pCS = (CSFields*)&this->pGroup;
-    pCS->LockCount = 0;
-    pCS->Pad1 = 1;
-    pCS->Semaphore = CreateSemaphoreA(0, 0, 1, 0);
-    CRITICAL_SECTION* pCS2 = (CRITICAL_SECTION*)((char*)this + 0x14);
-    InitializeCriticalSection(pCS2);
-    ((char*)this)[0x2c] = 0;
-    ((char*)this)[0x2d] = 0;
-    ((char*)this)[0x2e] = 0;
-    *(int*)((char*)this + 0x30) = 0;
-    *(int*)((char*)this + 0x34) = 0;
-    *(int*)((char*)this + 0x38) = 0;
+    semaphore.count = 0;
+    semaphore.maxCount = 1;
+    semaphore.semaphore = CreateSemaphoreA(0, 0, 1, 0);
+    InitializeCriticalSection(&cs);
+    unk2c = 0;
+    unk2d = 0;
+    unk2e = 0;
+    unk30 = 0;
+    unk34 = 0;
+    unk38 = 0;
 }
 
 struct B0Elem
@@ -1974,7 +1984,7 @@ bool __cdecl FUN_00b01af0(const char* pattern)
 typedef long LONG;
 typedef void* HANDLE;
 
-struct FUN_00b02920_class
+struct FUN_00b02920_class : FUN_00b027c0_Fields
 {
     void FUN_00b02920(int unused);
 };
@@ -1982,14 +1992,13 @@ struct FUN_00b02920_class
 // @fnv 0x00b02920
 void FUN_00b02920_class::FUN_00b02920(int unused)
 {
-    if (*(int*)((char*)this + 0x38) != *(int*)((char*)this + 0x34))
+    if (unk38 != unk34)
     {
-        char* ptr = (char*)this + 8;
-        WaitForSingleObject(*(HANDLE*)(ptr + 4), 0xffffffff);
-        InterlockedDecrement((LONG*)ptr);
+        WaitForSingleObject(semaphore.semaphore, 0xffffffff);
+        InterlockedDecrement((LONG*)&semaphore.count);
     }
-    *(char*)((char*)this + 4) = 1;
-    *(char*)((char*)this + 0x2c) = 0;
+    bStopped = 1;
+    unk2c = 0;
 }
 
 void FUN_00b00970(int value);
@@ -2786,7 +2795,7 @@ void FUN_00b0dc10_Vector::FUN_00b0dc10()
     const ::_Vector_const_iteratorS<int> &first = begin();
     const ::_Vector_const_iteratorS<int> &last = end();
     ::FUN_00b0e510_pair result;
-    reinterpret_cast<::FUN_00b0e510_cls *>(this)->FUN_00b0e510(&result, (uintptr_t)(((void *const *)&(first))[0]), (uintptr_t)(((void *const *)&(first))[1]), (uintptr_t)(((void *const *)&(last))[0]), (uintptr_t)(((void *const *)&(last))[1]));
+    reinterpret_cast<::FUN_00b0e510_cls *>(this)->FUN_00b0e510(&result, (uintptr_t)first._Myaux, (uintptr_t)first._Myptr, (uintptr_t)last._Myaux, (uintptr_t)last._Myptr);
 }
 
 struct DceAux;
@@ -4228,7 +4237,7 @@ void VcVec::FUN_00b0e200(unsigned int _Newsize, char _Val)
         const ::VcConstIter &first = begin() + _Newsize;
         const ::VcConstIter &last = end();
         ::FUN_00b0e510_pair result;
-        reinterpret_cast<::FUN_00b0e510_cls *>(this)->FUN_00b0e510(&result, (uintptr_t)(((void *const *)&(first))[0]), (uintptr_t)((*(void *const *)&(first)._Myptr)), (uintptr_t)(((void *const *)&(last))[0]), (uintptr_t)((*(void *const *)&(last)._Myptr)));
+        reinterpret_cast<::FUN_00b0e510_cls *>(this)->FUN_00b0e510(&result, (uintptr_t)first._Myaux, (uintptr_t)first._Myptr, (uintptr_t)last._Myaux, (uintptr_t)last._Myptr);
     }
 }
 

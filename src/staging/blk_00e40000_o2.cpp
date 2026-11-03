@@ -159,6 +159,10 @@ int __cdecl FUN_00e42940(intptr_t pObject)
 extern "C" void __cdecl FUN_00cb0a60();
 
 struct FUN_00e4e400_class {
+    void* m_pVtbl;
+    void* m_pData;
+    int m_iSize;
+    int m_iCapacityAndFlags;
     FUN_00e4e400_class* FUN_00e4e400();
 };
 
@@ -166,9 +170,9 @@ struct FUN_00e4e400_class {
 FUN_00e4e400_class* FUN_00e4e400_class::FUN_00e4e400()
 {
     FUN_00cb0a60();
-    *(int*)((char*)this + 4) = 0;
-    *(int*)((char*)this + 8) = 0;
-    *(int*)((char*)this + 12) = 0x80000000;
+    m_pData = 0;
+    m_iSize = 0;
+    m_iCapacityAndFlags = 0x80000000;
     return this;
 }
 
@@ -191,17 +195,22 @@ void FUN_00e52ef0(const float* src, float* dst)
 }
 
 struct FUN_00e58780_Class {
+    int* m_pData;
+    int m_iSize;
+    int m_iCapacityAndFlags;
+    int m_iRows;
+    int m_iColumns;
     int* GetElementPtr(int a, int b);
 };
 
 // @fnv 0x00e58780
 int* FUN_00e58780_Class::GetElementPtr(int a, int b)
 {
-    return *(int**)(this + 0) + a * *(int*)((char*)this + 0x10) + b;
+    return m_pData + a * m_iColumns + b;
 }
 
 struct FUN_00e587c0_Class {
-    int m_00;
+    float* m_00;
     int m_04;
     int m_08;
     int m_0c;
@@ -211,11 +220,14 @@ struct FUN_00e587c0_Class {
 
 // @fnv 0x00e587c0
 float FUN_00e587c0_Class::GetFloatAt(int iIndex, int base) {
-    return *(float*)((char*)*(void**)((char*)this + 0) + (iIndex * m_10 + base) * 4);
+    return m_00[iIndex * m_10 + base];
 }
 
 
 struct FUN_00e459c0_class {
+    char m_pad00[0x30];
+    bool m_bAll;
+    int m_aiMasks[32];
     void SetBitMaskFlags(int a, int b);
 };
 
@@ -225,19 +237,22 @@ void FUN_00e459c0_class::SetBitMaskFlags(int a, int b)
 {
     if (!a && !b)
     {
-        ((char*)this)[0x30] = 1;
+        m_bAll = true;
         return;
     }
     for (int i = 0; i < 32; i++)
     {
         if (a & (1 << i))
-            ((int*)((char*)this + 0x34))[i] |= b;
+            m_aiMasks[i] |= b;
         if (b & (1 << i))
-            ((int*)((char*)this + 0x34))[i] |= a;
+            m_aiMasks[i] |= a;
     }
 }
 
 struct FUN_00e45a10_class {
+    char m_pad00[0x30];
+    bool m_bAll;
+    int m_aiMasks[32];
     void ClearFlags(int a, int b);
 };
 // If both masks are zero, clears the byte at offset 0x30; otherwise for each of 32 bits, clears the other mask's bits in the corresponding dword at 0x34 + i*4.
@@ -246,15 +261,15 @@ void FUN_00e45a10_class::ClearFlags(int a, int b)
 {
     if (!a && !b)
     {
-        *(unsigned char*)((char*)this + 0x30) = 0;
+        m_bAll = false;
         return;
     }
     for (int i = 0; i < 32; ++i)
     {
         if (a & (1 << i))
-            *(unsigned int*)((char*)this + 0x34 + i * 4) &= ~b;
+            m_aiMasks[i] &= ~b;
         if (b & (1 << i))
-            *(unsigned int*)((char*)this + 0x34 + i * 4) &= ~a;
+            m_aiMasks[i] &= ~a;
     }
 }
 
@@ -317,6 +332,7 @@ extern int DAT_010e62a4;
 
 struct FUN_00e44280_struct {
     int* m_00;
+    unsigned short m_04;
     unsigned short m_06;
     float m_08;
     float m_0c;
@@ -336,7 +352,7 @@ FUN_00e44280_struct* FUN_00e44280_struct::InitializeDefaults()
 {
     m_08 = 1000.0f;
     m_0c = runtimeFloatSettingDefault132;
-    *(unsigned short*)((char*)this + 6) = 1;
+    m_06 = 1;
     m_00 = &DAT_010e62a4;
     m_10 = runtimeFloatSettingDefault255;
     m_14 = g_011c7344_arg1;
@@ -2330,7 +2346,7 @@ int FUN_00e5c6b0_cls::GetBoolAttribute(const char* name, bool required, unsigned
     AttrWriter_b5103 s(buf, 0x200);
     reinterpret_cast<::SinkOwner *>(&((*(::AttrWriter_b5103 *)(reinterpret_cast<::AttributeFormatter *>(&((*(::AttrWriter_b5103 *)(reinterpret_cast<::SinkOwner *>(&((*(::AttrWriter_b5103 *)(reinterpret_cast<::SinkOwner *>(&((*(::AttrWriter_b5103 *)(reinterpret_cast<::SinkOwner *>(&(s))->FUN_00cc01c0("Bool attribute ")))))->FUN_00cc01c0({})))))->FUN_00cc01c0({})))))->WriteName({})))))->FUN_00cc01c0({});
     AttrLog_b5103* log = (*reinterpret_cast<::AttrLog_b5103 * *>(&::DAT_01268360));
-    log->Assert(1, 0xabbaab81, (const char*)&s + 0xc, ".\\Attributes\\hkxAttributeGroup.cpp", 0x32);
+    log->Assert(1, 0xabbaab81, (const char*)buf, ".\\Attributes\\hkxAttributeGroup.cpp", 0x32);
     reinterpret_cast<struct ::FUN_00cc00e0 *>(&(s))->FUN_00cc00e0::~FUN_00cc00e0();
     return 1;
 }
@@ -2782,9 +2798,10 @@ inline void TimerMark(const char* name)
     }
 }
 struct E42940Inner { int unk00; int unk04; int unk08; int unk0c; int unk10; int unk14; int unk18; int unk1c; int m_type; };
+struct E42940World { char m_pad00[0x7c]; E42940Inner* m_pInner; };
 __declspec(noinline) int __cdecl FUN_00e42940(intptr_t p)
 {
-    E42940Inner* inner = *(E42940Inner**)((char*)p + 0x7c);
+    E42940Inner* inner = ((E42940World*)p)->m_pInner;
     return inner->m_type == 2 ? 0x100 : 0;
 }
 struct VStepJob {
@@ -2792,6 +2809,8 @@ struct VStepJob {
 void* __cdecl FUN_00c85620(void* alloc, int a, int b);
 void __cdecl FUN_00c85660(void* alloc, void* p);
 struct VWorld {
+    char m_pad000[0x1d0];
+    char m_k1d0[1];
 };
 struct VCollector {
     virtual void v00();
@@ -2839,7 +2858,7 @@ void VSim::RunVehicleSync(VWorld* world, VCollector* coll, VInfo* info, int aiCo
     reinterpret_cast<::FUN_00d04370_cls *>((job))->FUN_00d04370();
     HolderStub* h2 = static_cast<HolderStub*>(::FUN_00c85750());
     FUN_00c85660(h2->m_pAllocator, job);
-    vfn_28((char*)world + 0x1d0, aiCount, mark);
+    vfn_28(world->m_k1d0, aiCount, mark);
     static_cast<HolderStub*>(::FUN_00c85750())->unk00 = mark;
     TimerMark("Et");
 }
@@ -5303,11 +5322,11 @@ hkpRemoveTerminalsMoppModifier2::hkpRemoveTerminalsMoppModifier2(const void* a, 
     m_1c = 0;
 }
 
-struct FnvCpu_FUN_00e49bb0_CpuObject { char* FUN_00e49bb0(); };
+struct FnvCpu_FUN_00e49bb0_CpuObject { char m_pad00[0x30]; char m_k30[1]; char* FUN_00e49bb0(); };
 // @fnv 0x00e49bb0
 char* FnvCpu_FUN_00e49bb0_CpuObject::FUN_00e49bb0()
 {
-    return reinterpret_cast<char*>(this) + 48;
+    return m_k30;
 }
 
 

@@ -1,12 +1,132 @@
-# fallout_shared units in the game library (VEGAS-18).
+# fallout_shared units in the game library (VEGAS-18). A pointer must never be narrowed to a 32-bit integer.
 set(VEGAS18_FALLOUT_SHARED_SOURCES
   src/fallout_shared/actionpoints.cpp
+  src/fallout_shared/actorvalue_h_unit.cpp
+  src/fallout_shared/audiomarkerdata.cpp
+  src/fallout_shared/bgscliproundsform.cpp
+  src/fallout_shared/bgsdefaultobjectmanager.cpp
+  src/fallout_shared/bgsentrypointfunction_h_unit.cpp
+  src/fallout_shared/bgsloadedreferencecollection.cpp
+  src/fallout_shared/bgsmenuicon.cpp
+  src/fallout_shared/bgsmovablestatic.cpp
+  src/fallout_shared/bgsmusictype.cpp
+  src/fallout_shared/bgssleepdeprevation.cpp
+  src/fallout_shared/bgsstaticcollection.cpp
+  src/fallout_shared/bgsvoicetype.cpp
+  src/fallout_shared/bsanimgroupsequence_h_unit.cpp
+  src/fallout_shared/bsbipnode.cpp
+  src/fallout_shared/bsdiscerrorthread.cpp
+  src/fallout_shared/containeritemextra.cpp
+  src/fallout_shared/experiencepoints.cpp
+  src/fallout_shared/extradatacell.cpp
+  src/fallout_shared/facegen/bsfacegenanimationdata.cpp
+  src/fallout_shared/facegen/bsfacegenanimationdata_h_unit.cpp
+  src/fallout_shared/facegen/bsfacegenimage.cpp
+  src/fallout_shared/facegen/bsfacegenmorphdata_h_unit.cpp
+  src/fallout_shared/formcomponentcollection.cpp
+  src/fallout_shared/gameplayformulas.cpp
+  src/fallout_shared/havok/decalcaster.cpp
+  src/fallout_shared/havok/xblendsettings.cpp
+  src/fallout_shared/lipsynchanim.cpp
+  src/fallout_shared/magic/alchemyitem_h_unit.cpp
+  src/fallout_shared/magic/effectitem_h_unit.cpp
+  src/fallout_shared/magic/ingredientitem_h_unit.cpp
+  src/fallout_shared/magic/magicformulas.cpp
+  src/fallout_shared/magic/magicitemform.cpp
+  src/fallout_shared/magic/magicitemobject_h_unit.cpp
+  src/fallout_shared/magic/magicsystem.cpp
+  src/fallout_shared/modelloader_h_unit.cpp
+  src/fallout_shared/multiboundmarkerdata.cpp
+  src/fallout_shared/niformarray.cpp
+  src/fallout_shared/packagedataambush.cpp
+  src/fallout_shared/packagedatadialogue.cpp
+  src/fallout_shared/packagedataescort.cpp
+  src/fallout_shared/packagedatafollow.cpp
+  src/fallout_shared/packagedatauseitem.cpp
+  src/fallout_shared/packageeventaction.cpp
+  src/fallout_shared/packageschedule.cpp
+  src/fallout_shared/pathfinding/navmesh_h_unit.cpp
+  src/fallout_shared/pathfinding/navmesharray_h_unit.cpp
+  src/fallout_shared/pathfinding/navmeshbounds.cpp
+  src/fallout_shared/pathfinding/navmeshedgeextrainfo.cpp
+  src/fallout_shared/pathfinding/navmeshinfo_h_unit.cpp
+  src/fallout_shared/pathfinding/navmeshmath.cpp
+  src/fallout_shared/pathfinding/navmeshobstaclecutter.cpp
+  src/fallout_shared/pathfinding/navmeshobstaclemanager_h_unit.cpp
+  src/fallout_shared/pathfinding/navmeshportal.cpp
+  src/fallout_shared/pathfinding/navmeshptr_h_unit.cpp
+  src/fallout_shared/pathfinding/navmeshsearch.cpp
+  src/fallout_shared/pathfinding/navmeshsearchclosepoint.cpp
+  src/fallout_shared/pathfinding/navmeshsearchslpoint.cpp
+  src/fallout_shared/pathfinding/pathingavoidnode.cpp
+  src/fallout_shared/pathfinding/pathinginfo_h_unit.cpp
+  src/fallout_shared/pathfinding/pathingnode.cpp
+  src/fallout_shared/pathfinding/pathingrequestclosepoint.cpp
+  src/fallout_shared/pathfinding/pathingrequestcoveredmove.cpp
+  src/fallout_shared/pathfinding/pathingrequestflee.cpp
+  src/fallout_shared/pathfinding/pathingrequesthide.cpp
+  src/fallout_shared/pathfinding/pathingrequestoptimallocation.cpp
+  src/fallout_shared/pathfinding/pathingsearchraycast.cpp
+  src/fallout_shared/pathfinding/pathmanager_h_unit.cpp
+  src/fallout_shared/pathfinding/teleportpath.cpp
+  src/fallout_shared/ragdolldata.cpp
+  "src/fallout_shared/region system/tesregiondata.cpp"
+  "src/fallout_shared/region system/tesregiondatamanager.cpp"
+  "src/fallout_shared/region system/tesregiondataweather.cpp"
+  "src/fallout_shared/region system/tesregionlist.cpp"
+  "src/fallout_shared/region system/tesregionobject.cpp"
+  src/fallout_shared/script_commands.cpp
+  src/fallout_shared/settings/xgamesetting_copies_024.cpp
+  src/fallout_shared/settings/xgamesetting_h_unit.cpp
+  src/fallout_shared/sky/sky_h_unit.cpp
+  src/fallout_shared/sky/skyobject.cpp
+  src/fallout_shared/sky/skytexturemanager.cpp
+  src/fallout_shared/tempeffects/bstecreatetask.cpp
+  src/fallout_shared/tempeffects/bstempeffectdebris_copies_026.cpp
+  src/fallout_shared/tesaiform.cpp
+  src/fallout_shared/tesanimation.cpp
+  src/fallout_shared/tesattributes.cpp
+  src/fallout_shared/tescombatstyle.cpp
+  src/fallout_shared/tescombatstyle_h_unit.cpp
+  src/fallout_shared/tescreature_h_unit.cpp
+  src/fallout_shared/tesenchantableform_h_unit.cpp
+  src/fallout_shared/teseyes.cpp
+  src/fallout_shared/tesfullname.cpp
+  src/fallout_shared/tesfurniture.cpp
+  src/fallout_shared/tesglobal.cpp
+  src/fallout_shared/tesgrass_h_unit.cpp
+  src/fallout_shared/teshair.cpp
+  src/fallout_shared/tesidleform_h_unit.cpp
+  src/fallout_shared/tesimagespace.cpp
+  src/fallout_shared/tesimagespacemodifiablecountform_h_unit.cpp
+  src/fallout_shared/teskey.cpp
+  src/fallout_shared/tesnpc_h_unit.cpp
+  src/fallout_shared/tesobjectbook.cpp
+  src/fallout_shared/tesobjectimod.cpp
+  src/fallout_shared/tesobjectrefr_h_unit.cpp
+  src/fallout_shared/tesobjecttree_h_unit.cpp
+  src/fallout_shared/tesobjectweap_h_unit.cpp
+  src/fallout_shared/tesqueststage.cpp
+  src/fallout_shared/tesscriptableform.cpp
+  src/fallout_shared/tesscriptrunmanager.cpp
+  src/fallout_shared/tesscriptshared.cpp
+  src/fallout_shared/tessound.cpp
+  src/fallout_shared/tessoundfile.cpp
+  src/fallout_shared/tesweather.cpp
+)
+target_sources(game PRIVATE ${VEGAS18_FALLOUT_SHARED_SOURCES})
+set_source_files_properties(${VEGAS18_FALLOUT_SHARED_SOURCES} PROPERTIES
+  INCLUDE_DIRECTORIES "${PROJECT_SOURCE_DIR}/include"
+  COMPILE_DEFINITIONS "WIN32_LEAN_AND_MEAN;NOMINMAX"
+  COMPILE_OPTIONS "-Werror=pointer-to-int-cast;-Werror=void-pointer-to-int-cast;-Werror=int-to-pointer-cast;-Werror=int-to-void-pointer-cast"
+)
+
+# Units that still keep pointers in 32-bit integers build without the narrowing errors until they are clean.
+set(VEGAS18_FALLOUT_SHARED_NARROWING_SOURCES
   src/fallout_shared/actorcause.cpp
   src/fallout_shared/actorvalue.cpp
-  src/fallout_shared/actorvalue_h_unit.cpp
   src/fallout_shared/aiformulas.cpp
   src/fallout_shared/animation.cpp
-  src/fallout_shared/audiomarkerdata.cpp
   src/fallout_shared/bgsacousticspace.cpp
   src/fallout_shared/bgsaddonnode.cpp
   src/fallout_shared/bgsammoform.cpp
@@ -16,16 +136,13 @@ set(VEGAS18_FALLOUT_SHARED_SOURCES
   src/fallout_shared/bgsbodypartdata.cpp
   src/fallout_shared/bgscamerapath.cpp
   src/fallout_shared/bgscamerashot.cpp
-  src/fallout_shared/bgscliproundsform.cpp
   src/fallout_shared/bgsconstructibleobject.cpp
   src/fallout_shared/bgsdebris.cpp
   src/fallout_shared/bgsdecalmanager.cpp
   src/fallout_shared/bgsdecalnode.cpp
-  src/fallout_shared/bgsdefaultobjectmanager.cpp
   src/fallout_shared/bgsdehydration.cpp
   src/fallout_shared/bgsdestructibleobjectform.cpp
   src/fallout_shared/bgsentrypointfunction.cpp
-  src/fallout_shared/bgsentrypointfunction_h_unit.cpp
   src/fallout_shared/bgsequiptype.cpp
   src/fallout_shared/bgsexplosion.cpp
   src/fallout_shared/bgsheadpart.cpp
@@ -35,12 +152,8 @@ set(VEGAS18_FALLOUT_SHARED_SOURCES
   src/fallout_shared/bgsimpactdata.cpp
   src/fallout_shared/bgslightingtemplate.cpp
   src/fallout_shared/bgslistform.cpp
-  src/fallout_shared/bgsloadedreferencecollection.cpp
-  src/fallout_shared/bgsmenuicon.cpp
   src/fallout_shared/bgsmessage.cpp
   src/fallout_shared/bgsmessageicon.cpp
-  src/fallout_shared/bgsmovablestatic.cpp
-  src/fallout_shared/bgsmusictype.cpp
   src/fallout_shared/bgsnote.cpp
   src/fallout_shared/bgsopencloseform.cpp
   src/fallout_shared/bgsperk.cpp
@@ -53,24 +166,17 @@ set(VEGAS18_FALLOUT_SHARED_SOURCES
   src/fallout_shared/bgsragdoll.cpp
   src/fallout_shared/bgsrepairitemlist.cpp
   src/fallout_shared/bgssceneinfo.cpp
-  src/fallout_shared/bgssleepdeprevation.cpp
-  src/fallout_shared/bgsstaticcollection.cpp
   src/fallout_shared/bgstalkingactivator.cpp
   src/fallout_shared/bgsterminal.cpp
   src/fallout_shared/bgstextureset.cpp
   src/fallout_shared/bgstextureusemap.cpp
   src/fallout_shared/bgstouchspellform.cpp
-  src/fallout_shared/bgsvoicetype.cpp
   src/fallout_shared/bgsworldlocation.cpp
   src/fallout_shared/bipedanim.cpp
   src/fallout_shared/bsanimgroupsequence.cpp
-  src/fallout_shared/bsanimgroupsequence_h_unit.cpp
   src/fallout_shared/bsanimnotereceiver.cpp
-  src/fallout_shared/bsbipnode.cpp
   src/fallout_shared/bsclonepool.cpp
-  src/fallout_shared/bsdiscerrorthread.cpp
   src/fallout_shared/combatformulas.cpp
-  src/fallout_shared/containeritemextra.cpp
   src/fallout_shared/creaturesounds.cpp
   src/fallout_shared/decaldata.cpp
   "src/fallout_shared/distant terrain system/bgsdistantobjectblock.cpp"
@@ -78,223 +184,140 @@ set(VEGAS18_FALLOUT_SHARED_SOURCES
   "src/fallout_shared/distant terrain system/bgsterrainchunk.cpp"
   "src/fallout_shared/distant terrain system/bgsterrainmanager.cpp"
   src/fallout_shared/doorlock.cpp
-  src/fallout_shared/experiencepoints.cpp
   src/fallout_shared/expression.cpp
   src/fallout_shared/exteriorcellloader.cpp
-  src/fallout_shared/extradatacell.cpp
   src/fallout_shared/extradatalist.cpp
   src/fallout_shared/extradataobjects.cpp
-  src/fallout_shared/facegen/bsfacegenanimationdata.cpp
-  src/fallout_shared/facegen/bsfacegenanimationdata_h_unit.cpp
-  src/fallout_shared/facegen/bsfacegenimage.cpp
   src/fallout_shared/facegen/bsfacegenkeyframe.cpp
   src/fallout_shared/facegen/bsfacegenmanager.cpp
   src/fallout_shared/facegen/bsfacegenmodel.cpp
   src/fallout_shared/facegen/bsfacegenmorph.cpp
   src/fallout_shared/facegen/bsfacegenmorphdata.cpp
-  src/fallout_shared/facegen/bsfacegenmorphdata_h_unit.cpp
   src/fallout_shared/facegen/bsfacegenninode.cpp
-  src/fallout_shared/formcomponentcollection.cpp
-  src/fallout_shared/gameplayformulas.cpp
   src/fallout_shared/globalfunc.cpp
   src/fallout_shared/gridarray.cpp
   src/fallout_shared/gridcell.cpp
   src/fallout_shared/havok/bgsacousticspacelistener.cpp
   src/fallout_shared/havok/bgszonetargetlistener.cpp
   src/fallout_shared/havok/cameracaster.cpp
-  src/fallout_shared/havok/decalcaster.cpp
   src/fallout_shared/havok/foislandactivationlistener.cpp
   src/fallout_shared/havok/tesarrowtargetlistener.cpp
   src/fallout_shared/havok/teshavokutilities.cpp
   src/fallout_shared/havok/testraplistener.cpp
   src/fallout_shared/havok/teswaterlistener.cpp
-  src/fallout_shared/havok/xblendsettings.cpp
   src/fallout_shared/imagespacemodifierinstance.cpp
   src/fallout_shared/inventorychanges.cpp
-  src/fallout_shared/lipsynchanim.cpp
   src/fallout_shared/magic/alchemyitem.cpp
-  src/fallout_shared/magic/alchemyitem_h_unit.cpp
   src/fallout_shared/magic/effectarchetype.cpp
   src/fallout_shared/magic/effectitem.cpp
-  src/fallout_shared/magic/effectitem_h_unit.cpp
   src/fallout_shared/magic/effectitemlist.cpp
   src/fallout_shared/magic/effectsettingcollection.cpp
   src/fallout_shared/magic/enchantmentitem.cpp
   src/fallout_shared/magic/ingredientitem.cpp
-  src/fallout_shared/magic/ingredientitem_h_unit.cpp
-  src/fallout_shared/magic/magicformulas.cpp
   src/fallout_shared/magic/magicitem.cpp
-  src/fallout_shared/magic/magicitemform.cpp
   src/fallout_shared/magic/magicitemobject.cpp
-  src/fallout_shared/magic/magicitemobject_h_unit.cpp
-  src/fallout_shared/magic/magicsystem.cpp
   src/fallout_shared/magic/spellitem.cpp
   src/fallout_shared/mapmarkerdata.cpp
   src/fallout_shared/medialocationcontroller.cpp
   src/fallout_shared/mediaset.cpp
   src/fallout_shared/miscstats.cpp
   src/fallout_shared/modelloader.cpp
-  src/fallout_shared/modelloader_h_unit.cpp
-  src/fallout_shared/multiboundmarkerdata.cpp
-  src/fallout_shared/niformarray.cpp
   src/fallout_shared/package.cpp
-  src/fallout_shared/packagedataambush.cpp
-  src/fallout_shared/packagedatadialogue.cpp
   src/fallout_shared/packagedataeat.cpp
-  src/fallout_shared/packagedataescort.cpp
-  src/fallout_shared/packagedatafollow.cpp
   src/fallout_shared/packagedatapatrol.cpp
-  src/fallout_shared/packagedatauseitem.cpp
   src/fallout_shared/packagedatauseweapon.cpp
-  src/fallout_shared/packageeventaction.cpp
   src/fallout_shared/packagelist.cpp
   src/fallout_shared/packagelocation.cpp
-  src/fallout_shared/packageschedule.cpp
   src/fallout_shared/packagetarget.cpp
   src/fallout_shared/pathfinding/astarsearch_h_unit.cpp
   src/fallout_shared/pathfinding/navmesh.cpp
-  src/fallout_shared/pathfinding/navmesh_h_unit.cpp
   src/fallout_shared/pathfinding/navmesh_loadsave.cpp
   src/fallout_shared/pathfinding/navmesh_util.cpp
-  src/fallout_shared/pathfinding/navmesharray_h_unit.cpp
-  src/fallout_shared/pathfinding/navmeshbounds.cpp
-  src/fallout_shared/pathfinding/navmeshedgeextrainfo.cpp
   src/fallout_shared/pathfinding/navmeshinfo.cpp
-  src/fallout_shared/pathfinding/navmeshinfo_h_unit.cpp
   src/fallout_shared/pathfinding/navmeshinfomap.cpp
   src/fallout_shared/pathfinding/navmeshinfosearch.cpp
-  src/fallout_shared/pathfinding/navmeshmath.cpp
-  src/fallout_shared/pathfinding/navmeshobstaclecutter.cpp
   src/fallout_shared/pathfinding/navmeshobstaclemanager.cpp
-  src/fallout_shared/pathfinding/navmeshobstaclemanager_h_unit.cpp
   src/fallout_shared/pathfinding/navmeshobstacletask.cpp
-  src/fallout_shared/pathfinding/navmeshportal.cpp
   src/fallout_shared/pathfinding/navmeshpovsearch.cpp
-  src/fallout_shared/pathfinding/navmeshptr_h_unit.cpp
   src/fallout_shared/pathfinding/navmeshrender.cpp
-  src/fallout_shared/pathfinding/navmeshsearch.cpp
-  src/fallout_shared/pathfinding/navmeshsearchclosepoint.cpp
   src/fallout_shared/pathfinding/navmeshsearchflee.cpp
   src/fallout_shared/pathfinding/navmeshsearchhide.cpp
   src/fallout_shared/pathfinding/navmeshsearchlos.cpp
   src/fallout_shared/pathfinding/navmeshsearchmaxcost.cpp
-  src/fallout_shared/pathfinding/navmeshsearchslpoint.cpp
   src/fallout_shared/pathfinding/pathbuilder.cpp
   src/fallout_shared/pathfinding/pathfind.cpp
-  src/fallout_shared/pathfinding/pathingavoidnode.cpp
   src/fallout_shared/pathfinding/pathingdebuggeometry.cpp
-  src/fallout_shared/pathfinding/pathinginfo_h_unit.cpp
   src/fallout_shared/pathfinding/pathinglocation.cpp
   src/fallout_shared/pathfinding/pathinglosgridmap.cpp
   src/fallout_shared/pathfinding/pathinglosmap.cpp
-  src/fallout_shared/pathfinding/pathingnode.cpp
   src/fallout_shared/pathfinding/pathingrequest.cpp
-  src/fallout_shared/pathfinding/pathingrequestclosepoint.cpp
-  src/fallout_shared/pathfinding/pathingrequestcoveredmove.cpp
-  src/fallout_shared/pathfinding/pathingrequestflee.cpp
-  src/fallout_shared/pathfinding/pathingrequesthide.cpp
   src/fallout_shared/pathfinding/pathingrequestlos.cpp
-  src/fallout_shared/pathfinding/pathingrequestoptimallocation.cpp
   src/fallout_shared/pathfinding/pathingrequestsafestraightline.cpp
-  src/fallout_shared/pathfinding/pathingsearchraycast.cpp
   src/fallout_shared/pathfinding/pathingsolution.cpp
   src/fallout_shared/pathfinding/pathmanager.cpp
-  src/fallout_shared/pathfinding/pathmanager_h_unit.cpp
   src/fallout_shared/pathfinding/pathsmoother.cpp
   src/fallout_shared/pathfinding/pathsmootherpov.cpp
   src/fallout_shared/pathfinding/teleportdoorsearch.cpp
-  src/fallout_shared/pathfinding/teleportpath.cpp
-  src/fallout_shared/ragdolldata.cpp
   "src/fallout_shared/region system/tesregion.cpp"
-  "src/fallout_shared/region system/tesregiondata.cpp"
   "src/fallout_shared/region system/tesregiondatagrass.cpp"
   "src/fallout_shared/region system/tesregiondataimposter.cpp"
   "src/fallout_shared/region system/tesregiondatalandscape.cpp"
   "src/fallout_shared/region system/tesregiondatalist.cpp"
-  "src/fallout_shared/region system/tesregiondatamanager.cpp"
   "src/fallout_shared/region system/tesregiondatamap.cpp"
-  "src/fallout_shared/region system/tesregiondataweather.cpp"
   "src/fallout_shared/region system/tesregiongrassobjectlist.cpp"
-  "src/fallout_shared/region system/tesregionlist.cpp"
-  "src/fallout_shared/region system/tesregionobject.cpp"
   "src/fallout_shared/region system/tesregionpointlist.cpp"
   src/fallout_shared/region_system/tesregiongrassobject.cpp
   src/fallout_shared/renderer.cpp
   src/fallout_shared/screencustomsplatter.cpp
   src/fallout_shared/screensplatter.cpp
-  src/fallout_shared/script_commands.cpp
   src/fallout_shared/settings/xgamesetting.cpp
-  src/fallout_shared/settings/xgamesetting_copies_024.cpp
-  src/fallout_shared/settings/xgamesetting_h_unit.cpp
   src/fallout_shared/sky/atmosphere.cpp
   src/fallout_shared/sky/clouds.cpp
   src/fallout_shared/sky/moon.cpp
   src/fallout_shared/sky/precipitation.cpp
   src/fallout_shared/sky/sky.cpp
-  src/fallout_shared/sky/sky_h_unit.cpp
-  src/fallout_shared/sky/skyobject.cpp
-  src/fallout_shared/sky/skytexturemanager.cpp
   src/fallout_shared/sky/stars.cpp
   src/fallout_shared/sky/sun.cpp
   src/fallout_shared/speedtree/bstreemanager.cpp
   src/fallout_shared/speedtree/bstreemodel.cpp
   src/fallout_shared/speedtree/bstreenode.cpp
   src/fallout_shared/teleportdata.cpp
-  src/fallout_shared/tempeffects/bstecreatetask.cpp
   src/fallout_shared/tempeffects/bstempeffect.cpp
   src/fallout_shared/tempeffects/bstempeffectdebris.cpp
-  src/fallout_shared/tempeffects/bstempeffectdebris_copies_026.cpp
   src/fallout_shared/tempeffects/bstempeffectgeometrydecal.cpp
   src/fallout_shared/tempeffects/bstempeffectparticle.cpp
   src/fallout_shared/tempeffects/bstempeffectsimpledecal.cpp
   src/fallout_shared/tes.cpp
   src/fallout_shared/tesactorbase.cpp
   src/fallout_shared/tesactorbasedata.cpp
-  src/fallout_shared/tesaiform.cpp
   src/fallout_shared/tesammo.cpp
   src/fallout_shared/tesammoeffect.cpp
-  src/fallout_shared/tesanimation.cpp
   src/fallout_shared/tesanimgroup.cpp
   src/fallout_shared/tesattackdamageform.cpp
-  src/fallout_shared/tesattributes.cpp
   src/fallout_shared/tesbipedmodelform.cpp
   src/fallout_shared/tescaravan.cpp
   src/fallout_shared/tescasinochips.cpp
   src/fallout_shared/teschallenge.cpp
   src/fallout_shared/tesclass.cpp
-  src/fallout_shared/tescombatstyle.cpp
-  src/fallout_shared/tescombatstyle_h_unit.cpp
   src/fallout_shared/tescondition.cpp
   src/fallout_shared/tesconditionfunctions.cpp
   src/fallout_shared/tesconditionitem.cpp
   src/fallout_shared/tescontainer.cpp
   src/fallout_shared/tescreature.cpp
-  src/fallout_shared/tescreature_h_unit.cpp
   src/fallout_shared/tesdatahandler.cpp
   src/fallout_shared/tesdescription.cpp
   src/fallout_shared/teseffectshader.cpp
   src/fallout_shared/tesenchantableform.cpp
-  src/fallout_shared/tesenchantableform_h_unit.cpp
-  src/fallout_shared/teseyes.cpp
   src/fallout_shared/tesfaction.cpp
   src/fallout_shared/tesfile.cpp
   src/fallout_shared/tesflora.cpp
   src/fallout_shared/tesform.cpp
-  src/fallout_shared/tesfullname.cpp
-  src/fallout_shared/tesfurniture.cpp
-  src/fallout_shared/tesglobal.cpp
   src/fallout_shared/tesgrass.cpp
-  src/fallout_shared/tesgrass_h_unit.cpp
-  src/fallout_shared/teshair.cpp
   src/fallout_shared/teshealthform.cpp
   src/fallout_shared/tesidleform.cpp
-  src/fallout_shared/tesidleform_h_unit.cpp
   src/fallout_shared/tesidlemanager.cpp
-  src/fallout_shared/tesimagespace.cpp
-  src/fallout_shared/tesimagespacemodifiablecountform_h_unit.cpp
   src/fallout_shared/tesimagespacemodifiableform.cpp
   src/fallout_shared/tesimagespacemodifier.cpp
-  src/fallout_shared/teskey.cpp
   src/fallout_shared/tesland.cpp
   src/fallout_shared/teslevcharacter.cpp
   src/fallout_shared/teslevcreature.cpp
@@ -307,28 +330,21 @@ set(VEGAS18_FALLOUT_SHARED_SOURCES
   src/fallout_shared/tesmodellist.cpp
   src/fallout_shared/tesmodeltextureswap.cpp
   src/fallout_shared/tesnpc.cpp
-  src/fallout_shared/tesnpc_h_unit.cpp
   src/fallout_shared/tesobject.cpp
   src/fallout_shared/tesobjectacti.cpp
   src/fallout_shared/tesobjectanio.cpp
   src/fallout_shared/tesobjectarma.cpp
-  src/fallout_shared/tesobjectbook.cpp
   src/fallout_shared/tesobjectcell.cpp
   src/fallout_shared/tesobjectclot.cpp
   src/fallout_shared/tesobjectcont.cpp
   src/fallout_shared/tesobjectdoor.cpp
-  src/fallout_shared/tesobjectimod.cpp
   src/fallout_shared/tesobjectmisc.cpp
   src/fallout_shared/tesobjectrefr.cpp
-  src/fallout_shared/tesobjectrefr_h_unit.cpp
   src/fallout_shared/tesobjectstat.cpp
-  src/fallout_shared/tesobjecttree_h_unit.cpp
   src/fallout_shared/tesobjectweap.cpp
-  src/fallout_shared/tesobjectweap_h_unit.cpp
   src/fallout_shared/tesparameters.cpp
   src/fallout_shared/tesproduceform.cpp
   src/fallout_shared/tesquest.cpp
-  src/fallout_shared/tesqueststage.cpp
   src/fallout_shared/tesquesttarget.cpp
   src/fallout_shared/tesrace.cpp
   src/fallout_shared/tesraceform.cpp
@@ -337,15 +353,10 @@ set(VEGAS18_FALLOUT_SHARED_SOURCES
   src/fallout_shared/tesresponse.cpp
   src/fallout_shared/tessaveloadgame.cpp
   src/fallout_shared/tesscript.cpp
-  src/fallout_shared/tesscriptableform.cpp
   src/fallout_shared/tesscriptcompiler.cpp
   src/fallout_shared/tesscriptfunctions.cpp
-  src/fallout_shared/tesscriptrunmanager.cpp
-  src/fallout_shared/tesscriptshared.cpp
   src/fallout_shared/tesscriptvariable.cpp
   src/fallout_shared/tesskill.cpp
-  src/fallout_shared/tessound.cpp
-  src/fallout_shared/tessoundfile.cpp
   src/fallout_shared/tesspelllist.cpp
   src/fallout_shared/testerrainlodmanager.cpp
   src/fallout_shared/testexture.cpp
@@ -354,13 +365,12 @@ set(VEGAS18_FALLOUT_SHARED_SOURCES
   src/fallout_shared/tesvalueform.cpp
   src/fallout_shared/teswater.cpp
   src/fallout_shared/teswaterform.cpp
-  src/fallout_shared/tesweather.cpp
   src/fallout_shared/tesweatherlist.cpp
   src/fallout_shared/tesweightform.cpp
   src/fallout_shared/tesworldspace.cpp
 )
-target_sources(game PRIVATE ${VEGAS18_FALLOUT_SHARED_SOURCES})
-set_source_files_properties(${VEGAS18_FALLOUT_SHARED_SOURCES} PROPERTIES
+target_sources(game PRIVATE ${VEGAS18_FALLOUT_SHARED_NARROWING_SOURCES})
+set_source_files_properties(${VEGAS18_FALLOUT_SHARED_NARROWING_SOURCES} PROPERTIES
   INCLUDE_DIRECTORIES "${PROJECT_SOURCE_DIR}/include"
   COMPILE_DEFINITIONS "WIN32_LEAN_AND_MEAN;NOMINMAX"
 )

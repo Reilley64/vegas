@@ -5657,7 +5657,7 @@ int FUN_00704ed0(TESObjectREFR* apRef, int aType)
 }
 
 // @fnv 0x0040fbe0
-void __cdecl FUN_0040fbe0()
+void __cdecl FUN_0040fbe0(...)
 {}
 
 struct MgrQ

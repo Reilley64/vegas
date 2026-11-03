@@ -82,15 +82,15 @@ void TESFaction::ResetFormData()
 // @fnv 0x005fd7d0
 void TESFaction::InitLoadGame(BGSLoadFormBuffer* buffer)
 {
-    reinterpret_cast<::FUN_004534f0_shell *>((reinterpret_cast<TESFormBufferAccess*>(static_cast<TESForm*>(this))))->FUN_004534f0((unsigned int)(buffer));
+    reinterpret_cast<::FUN_004534f0_shell *>((reinterpret_cast<TESFormBufferAccess*>(static_cast<TESForm*>(this))))->FUN_004534f0((std::uintptr_t)(buffer));
     reinterpret_cast<::TESReactionForm *>(&(reinterpret_cast<TESFactionReactionView&>(*this).reaction))->InitLoadGame(buffer);
 }
 
 // @fnv 0x005fd800
 void TESFaction::Revert(BGSLoadFormBuffer* buffer)
 {
-    reinterpret_cast<::FUN_004534f0_shell *>((reinterpret_cast<TESFormBufferAccess*>(static_cast<TESForm*>(this))))->FUN_004534f0((unsigned int)(buffer));
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetOldChangeFlags(0x80000000)))->FUN_004280f0())
+    reinterpret_cast<::FUN_004534f0_shell *>((reinterpret_cast<TESFormBufferAccess*>(static_cast<TESForm*>(this))))->FUN_004534f0((std::uintptr_t)(buffer));
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetOldChangeFlags(0x80000000)))->FUN_004280f0(0x80000000))
     {
         m_iFirstFactionValue = 0;
         m_iSecondFactionValue = 0;
@@ -103,7 +103,7 @@ void TESFaction::ClearReactions()
     FactionRankPresentation* rankData;
     while (!((::BSSimpleList< ::FactionRankPresentation *> *)(reinterpret_cast<struct ::FUN_005a8080 *>(this)->GetField()))->IsEmpty())
     {
-        rankData = ((::FactionRankPresentation *)(new ((void *)(((::BSSimpleList< ::FactionRankPresentation *> *)(reinterpret_cast<struct ::FUN_005a8080 *>(this)->GetField())))) ::Vec3()));
+        rankData = ((((::BSSimpleList< ::FactionRankPresentation *> *)(reinterpret_cast<struct ::FUN_005a8080 *>(this)->GetField())))->m_item);
         delete rankData;
         ((::BSSimpleList< ::FactionRankPresentation *> *)(reinterpret_cast<struct ::FUN_005a8080 *>(this)->GetField()))->RemoveHead();
     }
@@ -120,7 +120,7 @@ void TESFaction::InitItem()
     if (pReputationData != 0)
     {
         unsigned int formID = 0;
-        formID = reinterpret_cast<unsigned int>(pReputationData);
+        formID = (unsigned int)(std::uintptr_t)(pReputationData);
         ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
         pReputationData = reinterpret_cast<::TESDataHandler *>((reinterpret_cast<TESDataHandlerAccess*>((*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler)))))->GetReputation(formID);
     }
@@ -131,9 +131,9 @@ void TESFaction::LoadGame(BGSLoadFormBuffer* buffer)
 {
     reinterpret_cast<::TESForm *>((reinterpret_cast<TESFormBufferAccess*>(static_cast<TESForm*>(this))))->LoadGame(buffer);
     reinterpret_cast<::FUN_0048ca90 *>(&(reinterpret_cast<TESFactionReactionView&>(*this).reaction))->LoadReaction(buffer);
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetChangeFlags(2)))->FUN_004280f0())
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetChangeFlags(2)))->FUN_004280f0(2))
         reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&data), 4);
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetChangeFlags(0x80000000)))->FUN_004280f0())
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetChangeFlags(0x80000000)))->FUN_004280f0(0x80000000))
     {
         reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_iFirstFactionValue), 4);
         reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_iSecondFactionValue), 4);
@@ -162,7 +162,7 @@ void FUN_005fc860_shell::FUN_005fc860()
 {
     while (!((::BSSimpleList< ::FactionRankPresentation *> *)(reinterpret_cast<struct ::FUN_005a8080 *>(this)->GetField()))->IsEmpty())
     {
-        FactionRankPresentation* rankData = ((::FactionRankPresentation *)(new ((void *)(((::BSSimpleList< ::FactionRankPresentation *> *)(reinterpret_cast<struct ::FUN_005a8080 *>(this)->GetField())))) ::Vec3()));
+        FactionRankPresentation* rankData = ((((::BSSimpleList< ::FactionRankPresentation *> *)(reinterpret_cast<struct ::FUN_005a8080 *>(this)->GetField())))->m_item);
         delete rankData;
         ((::BSSimpleList< ::FactionRankPresentation *> *)(reinterpret_cast<struct ::FUN_005a8080 *>(this)->GetField()))->RemoveHead();
     }
@@ -240,7 +240,7 @@ struct Dummy_0048bf50
 // @fnv 0x005fd3b0
 int FUN_005fd3b0_shell::FUN_005fd3b0(TESFaction* pFaction)
 {
-    return reinterpret_cast<::FUN_0048bf50_cls *>((((Dummy_0048bf50*)static_cast<TESReactionForm *>(this))))->FindValueByKey((int)(pFaction));
+    return reinterpret_cast<::FUN_0048bf50_cls *>((((Dummy_0048bf50*)static_cast<TESReactionForm *>(this))))->FindValueByKey((std::intptr_t)(pFaction));
 }
 
 struct Sub005fd430
@@ -320,11 +320,11 @@ void FUN_005fd730_shell::FUN_005fd730(BGSLoadFormBuffer* apLoadGameBuffer)
 {
     TESForm::LoadGame(apLoadGameBuffer);
     reinterpret_cast<::FUN_0048ca90 *>((((TESReactionFormBufferAccess*)static_cast<TESReactionForm *>(this))))->LoadReaction(apLoadGameBuffer);
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(apLoadGameBuffer->GetChangeFlags(2)))->FUN_004280f0())
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(apLoadGameBuffer->GetChangeFlags(2)))->FUN_004280f0(2))
     {
         reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)&this->data), 4);
     }
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(apLoadGameBuffer->GetChangeFlags(0x80000000)))->FUN_004280f0())
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(apLoadGameBuffer->GetChangeFlags(0x80000000)))->FUN_004280f0(0x80000000))
     {
         reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)&this->m_iFirstFactionValue), 4);
         reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)&this->m_iSecondFactionValue), 4);
@@ -339,8 +339,8 @@ struct FUN_005fd800_shell : public TESFaction
 // @fnv 0x005fd800
 void FUN_005fd800_shell::FUN_005fd800(BGSLoadFormBuffer* apLoadGameBuffer)
 {
-    reinterpret_cast<::FUN_004534f0_shell *>(this)->FUN_004534f0((unsigned int)apLoadGameBuffer);
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(apLoadGameBuffer->GetOldChangeFlags(0x80000000)))->FUN_004280f0())
+    reinterpret_cast<::FUN_004534f0_shell *>(this)->FUN_004534f0((std::uintptr_t)apLoadGameBuffer);
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(apLoadGameBuffer->GetOldChangeFlags(0x80000000)))->FUN_004280f0(0x80000000))
     {
         this->m_iFirstFactionValue = 0;
         this->m_iSecondFactionValue = 0;
@@ -516,7 +516,7 @@ void FUN_005fd5c0_shell::FUN_005fd5c0(unsigned int aiFlags)
     reinterpret_cast<::PC7d *>((((FUN_0051b070_shell*)this)))->FUN_00484c20(aiFlags);
     ((S24*)((char*)this + 0x24))->WriteReactionList(aiFlags);
     if (aiFlags & 2)
-        reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>((((PC7d*)this)))->FUN_00484ce0((void *)((unsigned int)((char*)this + 0x34)), 4);
+        reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>((((PC7d*)this)))->FUN_00484ce0((void *)((std::uintptr_t)((char*)this + 0x34)), 4);
 }
 
 struct TESFormStub
@@ -530,10 +530,10 @@ struct STR00
 };
 struct FUN_005fd610_shell
 {
-    void FUN_005fd610(unsigned int, unsigned int);
+    void FUN_005fd610(unsigned int, std::uintptr_t);
 };
 // @fnv 0x005fd610
-void FUN_005fd610_shell::FUN_005fd610(unsigned int aiFlags, unsigned int aiCurrentFlags)
+void FUN_005fd610_shell::FUN_005fd610(unsigned int aiFlags, std::uintptr_t aiCurrentFlags)
 {
     reinterpret_cast<::form_load_legacy::TESFormLoadProxy *>((((TESFormStub*)this)))->FUN_00484c50(aiFlags, aiCurrentFlags);
     reinterpret_cast<::TESReactionFormLoad *>((((STR24*)((char*)this + 0x24))))->LoadReactions(aiFlags, (::BGSLoadFormBuffer *)(aiCurrentFlags));
@@ -638,11 +638,11 @@ struct Outer_5fd400
     virtual void v18(int);
     int _pad[8];
     Helper_48c0b0 _h;
-    void FUN_005fd400(int, int);
+    void FUN_005fd400(std::intptr_t, int);
 };
 // Calls the helper's FUN_0048c0b0 with a and b, then invokes virtual v18 with 4.
 // @fnv 0x005fd400
-void Outer_5fd400::FUN_005fd400(int aiArg1, int aiArg2)
+void Outer_5fd400::FUN_005fd400(std::intptr_t aiArg1, int aiArg2)
 {
     reinterpret_cast<::C0B0Owner *>(&(_h))->FUN_0048c0b0((::C0B0Form *)(aiArg1), aiArg2);
     v18(4);
@@ -745,7 +745,7 @@ void FUN_005fd210_shell::FUN_005fd210(TESForm* apCopy)
             return;
         reinterpret_cast<::FormCloneOperation *>((((FUN_005e78f0_t*)this)))->FUN_004851b0(apCopy);
         __memcpy((char*)&this->data, ::FUN_006a9540((char *)(((NiAVObject*)faction))), 4);
-        reinterpret_cast<::FUN_0040e500_shell *>((((BGSAcousticSpace*)this)))->SetValue((int)(((::TESSound *)(::GetField38((char *)(((TESTopicInfo*)faction)))))));
+        reinterpret_cast<::FUN_0040e500_shell *>((((BGSAcousticSpace*)this)))->SetValue((std::intptr_t)(((::TESSound *)(::GetField38((char *)(((TESTopicInfo*)faction)))))));
         ClearReactions();
         pDestRankList = ((::BSSimpleList< ::FactionRankPresentation *> *)(reinterpret_cast<struct ::FUN_005a8080 *>(this)->GetField()));
         {
@@ -753,9 +753,9 @@ void FUN_005fd210_shell::FUN_005fd210(TESForm* apCopy)
             while (pSourceRankList && !pSourceRankList->IsEmpty())
             {
                 FactionRankPresentation* pdata = new FactionRankPresentation;
-                reinterpret_cast<::TextString *>((((BSStr*)&pdata->m_kMaleRankName)))->FUN_004037f0((const char*)(unsigned int)*(Flt*)&((::FactionRankPresentation *)(new ((void *)(pSourceRankList)) ::Vec3()))->m_kMaleRankName, 0);
-                reinterpret_cast<::TextString *>((((BSStr*)&pdata->m_kFemaleRankName)))->FUN_004037f0((const char*)(unsigned int)*(Flt*)&((::FactionRankPresentation *)(new ((void *)(pSourceRankList)) ::Vec3()))->m_kFemaleRankName, 0);
-                pdata->m_kRankTexture.CopyFromBase(&((::FactionRankPresentation *)(new ((void *)(pSourceRankList)) ::Vec3()))->m_kRankTexture);
+                reinterpret_cast<::TextString *>((((BSStr*)&pdata->m_kMaleRankName)))->FUN_004037f0((const char*)(unsigned int)*(Flt*)&(pSourceRankList->m_item)->m_kMaleRankName, 0);
+                reinterpret_cast<::TextString *>((((BSStr*)&pdata->m_kFemaleRankName)))->FUN_004037f0((const char*)(unsigned int)*(Flt*)&(pSourceRankList->m_item)->m_kFemaleRankName, 0);
+                pdata->m_kRankTexture.CopyFromBase(&(pSourceRankList->m_item)->m_kRankTexture);
                 reinterpret_cast<::Callees *>((pDestRankList))->FUN_00905820((void *)&(pdata));
                 if (((::BSSimpleList< ::FactionRankPresentation *> *)(reinterpret_cast<::Callees *>((pDestRankList))->FUN_00726070())))
                     pDestRankList = (BSSimpleList<FactionRankPresentation*>*)((::BSSimpleList< ::FactionRankPresentation *> *)(reinterpret_cast<::Callees *>((pDestRankList))->FUN_00726070()));
@@ -778,9 +778,9 @@ void FUN_005fd690_s::FUN_005fd690(BGSSaveFormBuffer* buffer)
 {
     reinterpret_cast<::FakeForm *>((((BGSSaveFormBuffer*)this)))->SaveIfChanged(buffer);
     reinterpret_cast<::FUN_0048c9d0_Class *>((((BGSSaveFormBuffer*)((char*)this + 0x24))))->FUN_0048c9d0((::FUN_0048c9d0_SaveBuffer *)(buffer));
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetChangeFlags(2)))->FUN_004280f0())
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetChangeFlags(2)))->FUN_004280f0(2))
         reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50((char*)this + 0x34, 4, 0);
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetChangeFlags(0x80000000)))->FUN_004280f0())
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetChangeFlags(0x80000000)))->FUN_004280f0(0x80000000))
     {
         reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50((char*)this + 0x44, 4, 0);
         reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50((char*)this + 0x48, 4, 0);
@@ -811,17 +811,17 @@ struct Reaction_5fd850
 // @fnv 0x005fd850
 void ValidateFactionReactions()
 {
-    BSSimpleList<TESFaction*>* pIter = (BSSimpleList<TESFaction*>*)::FUN_00871a30((int)(*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler)));
+    BSSimpleList<TESFaction*>* pIter = (BSSimpleList<TESFaction*>*)::FUN_00871a30((std::intptr_t)(*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler)));
     while (pIter)
     {
-        TESFaction* pFaction = (TESFaction*)*((void **)(new ((void *)(((Node_006815c0*)pIter))) ::Vec3()));
+        TESFaction* pFaction = (TESFaction*)*((void **)((void *)(((Node_006815c0*)pIter))));
         if (pFaction)
         {
             BSSimpleList<Reaction_5fd850*>* pRIter =
                 (BSSimpleList<Reaction_5fd850*>*)((void *)(reinterpret_cast<::BaseProcess *>((((TgtOps*)static_cast<TESReactionForm *>(pFaction))))->GetCurrentProcessData()));
             while (pRIter)
             {
-                Reaction_5fd850* pReaction = (Reaction_5fd850*)*((void **)(new ((void *)(((Node_006815c0*)pRIter))) ::Vec3()));
+                Reaction_5fd850* pReaction = (Reaction_5fd850*)*((void **)((void *)(((Node_006815c0*)pRIter))));
                 if (pReaction && pReaction->pFaction && FNV_GetFormType((TESForm*)pReaction->pFaction) == 8 &&
                     (pReaction->eReaction == 3 || pReaction->eReaction == 2))
                 {
@@ -923,7 +923,7 @@ void TESFactionSaveShell::SaveFactionData()
     BSSimpleList<FactionRankPresentation*>* pNode = ((::BSSimpleList< ::FactionRankPresentation *> *)(reinterpret_cast<struct ::FUN_005a8080 *>(this)->GetField()));
     while (pNode && !pNode->IsEmpty())
     {
-        FactionRankPresentation* pRank = ((::FactionRankPresentation *)(new ((void *)(pNode)) ::Vec3()));
+        FactionRankPresentation* pRank = (pNode->m_item);
         ::FUN_00485910(0x4d414e52, iRankIndex);
         if (((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>(&(static_cast<RankTitle&>(pRank->m_kMaleRankName)))->FUN_004048e0())))
             ::FUN_004856f0((void *)(0x4d414e4d), (void *)((const char*)static_cast<RankTitle&>(pRank->m_kMaleRankName)),
@@ -1043,7 +1043,7 @@ bool FactionLoader::LoadFactionRecord(TESFile* file)
             file->GetChunkData(&formID);
             if (formID)
             {
-                pReputationData = (TESReputation*)formID;
+                pReputationData = (TESReputation*)(std::uintptr_t)formID;
             }
             break;
         }
@@ -1082,10 +1082,10 @@ bool FactionCompareAccess::IsDifferentFrom(TESForm* other)
     BSSimpleList<FactionRankPresentation*>* node2 = ((::BSSimpleList< ::FactionRankPresentation *> *)(reinterpret_cast<struct ::FUN_005a8080 *>((faction2))->GetField()));
     while (node1 && !node1->IsEmpty())
     {
-        if (!node2 || !((::FactionRankPresentation *)(new ((void *)(node2)) ::Vec3())))
+        if (!node2 || !(node2->m_item))
             return true;
-        FactionRankPresentation* current2 = ((::FactionRankPresentation *)(new ((void *)(node1)) ::Vec3()));
-        FactionRankPresentation* current = ((::FactionRankPresentation *)(new ((void *)(node2)) ::Vec3()));
+        FactionRankPresentation* current2 = (node1->m_item);
+        FactionRankPresentation* current = (node2->m_item);
         if (((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((void *)&(static_cast<RankStringAccess&>(current2->m_kMaleRankName)))->FUN_004048e0())) ||
             ((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((void *)&(static_cast<RankStringAccess&>(current->m_kMaleRankName)))->FUN_004048e0())))
         {

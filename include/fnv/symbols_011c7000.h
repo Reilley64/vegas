@@ -16,6 +16,7 @@ class GlobalObject_004a4a40;
 class GlobalObject_004de2f0;
 class GlobalObject_004de370;
 class GlobalObject_00633c90;
+class NiColor;
 class GlobalObject_00a7b610;
 class NiTexture;
 class SettingFloat_007d23b0;
@@ -133,7 +134,7 @@ extern ::GlobalObject_0044f440 g_011c7494;
 // 0x011c74a0
 extern ::GlobalObject_0044f440 g_011c74a0;
 // 0x011c74b8
-extern "C" extern void *DAT_011c74b8;
+extern "C" ::NiColor DAT_011c74b8;
 // 0x011c74d4
 extern ::GlobalObject_004de2f0 g_011c74d4;
 // 0x011c74e0

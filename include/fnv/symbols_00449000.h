@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 struct LockedReceiver;
 struct ReceiverArgument;
@@ -14,7 +15,7 @@ bool FUN_00449130(int *);
 // 0x00449150
 void SetFieldCToFive(char *);
 // 0x004491c0
-bool FUN_004491c0(volatile long *, long, long);
+bool FUN_004491c0(volatile long *, std::intptr_t, std::intptr_t);
 // 0x00449240
 void FUN_00449240(::LockedReceiver *, ::ReceiverArgument);
 // 0x00449680

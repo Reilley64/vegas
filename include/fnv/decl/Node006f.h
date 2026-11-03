@@ -3,5 +3,5 @@
 struct Node006f {
 public:
     // 0x006fdfc0
-    void UpdateBlock(int, bool);
+    void UpdateBlock(void*, bool);
 };

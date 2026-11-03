@@ -64,7 +64,7 @@ void FUN_0052ce20_shell::FUN_0052ce20(float afX)
 
 struct FUN_004f5600_shell
 {
-    int m_vftable;
+    std::intptr_t m_vftable;
     FUN_004f5600_shell();
 };
 
@@ -73,7 +73,7 @@ extern int DAT_01023ee4;
 // @fnv 0x004f5600
 FUN_004f5600_shell::FUN_004f5600_shell()
 {
-    m_vftable = (int)&DAT_01023ee4;
+    m_vftable = (std::intptr_t)&DAT_01023ee4;
 }
 
 extern int DAT_01023ec4;
@@ -321,7 +321,7 @@ float PlcPlacer::GetPlacementChance(PlcPoint2* apPos, PlcWorldSpace* apWorld, bo
 
     if (GetSoundByEditorID())
     {
-        PlcSound* pSoundA = ((::PlcSound *)(reinterpret_cast<::FUN_0053a5e0_cls *>((((::PlcWater *)(reinterpret_cast<::S00546fb0_Cell *>((pCell8))->FUN_00546fb0()))))->FUN_0053a5e0((int)(apPos))));
+        PlcSound* pSoundA = ((::PlcSound *)(reinterpret_cast<::FUN_0053a5e0_cls *>((((::PlcWater *)(reinterpret_cast<::S00546fb0_Cell *>((pCell8))->FUN_00546fb0()))))->FUN_0053a5e0((std::intptr_t)(apPos))));
         if (!pSoundA || ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pSoundA))->FUN_0084e3a0())) != ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((GetSoundByEditorID()))->FUN_0084e3a0())))
             return 0.0f;
     }
@@ -380,7 +380,7 @@ float PlcPlacer::GetPlacementChance(PlcPoint2* apPos, PlcWorldSpace* apWorld, bo
         {
             PlcPoint3 kA7;
             PlcPoint3 kB3;
-            if (reinterpret_cast<::Owner *>((((::PlcWater *)(reinterpret_cast<::S00546fb0_Cell *>((pCell8))->FUN_00546fb0()))))->FUN_0053d2e0((int)(apPos), (int)(&kA7), (int)(&kB3)))
+            if (reinterpret_cast<::Owner *>((((::PlcWater *)(reinterpret_cast<::S00546fb0_Cell *>((pCell8))->FUN_00546fb0()))))->FUN_0053d2e0((std::intptr_t)(apPos), (std::intptr_t)(&kA7), (std::intptr_t)(&kB3)))
             {
                 fSlope_ = ::FUN_004f6e00((*(int *)&(const ::PlcPoint3 &)(kA7)), {}, {});
                 if (fSlope_ > pObject->GetSecondFloat() || fSlope_ < pObject->GetFirstFloat())

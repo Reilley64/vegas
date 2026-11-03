@@ -12,11 +12,21 @@
 #include "ExpressionEvaluator.h"
 #include "TESQuest.h"
 #include "TESGlobal.h"
+#include "fnv/decl/FUN_004077c0_shell.h"
+#include "fnv/decl/FUN_005673e0_shell.h"
+#include "fnv/decl/FUN_005a9290_shell.h"
+#include "fnv/symbols_005b5000.h"
 extern ScriptFunctionInfo g_scriptBlocks[kScriptBlockCount];
 extern const char* g_expressionErrorStrings[];
 extern void DebugLog(const char* format, ...);
 extern bool IsScriptDebuggingEnabled();
 extern const char* PrepareScriptMessage(const char* message, bool localized);
+
+// Warning is the release build's empty logger (FUN_005b5e40); the arguments are not used.
+static int Warning(const char*, ...)
+{
+    return ::FUN_005b5e40();
+}
 
 // @fnv 0x005e13a0
 bool ScriptRunner::ParseOutput(Script* script, SCRIPT_OUTPUT& output, unsigned int& offset, int& lineSize,
@@ -32,7 +42,7 @@ bool ScriptRunner::ParseOutput(Script* script, SCRIPT_OUTPUT& output, unsigned i
         offset += 2;
         if (!skipReference)
         {
-            ScriptReferencedObject* object = script->GetReferencedForm(referenceID, m_pScriptLocals);
+            ScriptReferencedObject* object = reinterpret_cast<::fnv_005ac4f0::FUN_005ac4f0_shell *>(script)->GetNthRefByIndex(referenceID, m_pScriptLocals);
             if (object)
             {
                 isVariable = object->m_uiFormID > 0;
@@ -94,7 +104,7 @@ bool ScriptRunner::ParseBlock(Script* script, const SCRIPT_OUTPUT output, TESObj
         if (skip)
         {
             if (blockParams && blockSize)
-                ExtractArgs(blockParams, data, &offset, reference, m_pReference, script, m_pScriptLocals);
+                ::FUN_005accb0((const ::ExtractParameter *)blockParams, data, &offset, reference, m_pReference, (::ExtractScript *)script, m_pScriptLocals);
         }
         else
         {
@@ -144,14 +154,14 @@ bool ScriptRunner::ParseBlock(Script* script, const SCRIPT_OUTPUT output, TESObj
                     varType = data[offset];
                     offset++;
                 }
-                referencedObject = script->GetReferencedForm(referenceID, m_pScriptLocals);
+                referencedObject = reinterpret_cast<::fnv_005ac4f0::FUN_005ac4f0_shell *>(script)->GetNthRefByIndex(referenceID, m_pScriptLocals);
                 if (!skip)
                 {
                     if (varType != kScriptReferenceVariable && referencedObject && referencedObject->pForm)
                     {
                         TESObjectREFR* object = dynamic_cast<TESObjectREFR*>(referencedObject->pForm);
                         if (object)
-                            currentPScriptVariables = object->GetReferenceLocals();
+                            currentPScriptVariables = reinterpret_cast<::FUN_005673e0_shell *>(object)->FUN_005673e0();
                         else
                         {
                             TESQuest* quest = dynamic_cast<TESQuest*>(referencedObject->pForm);
@@ -195,7 +205,7 @@ bool ScriptRunner::ParseBlock(Script* script, const SCRIPT_OUTPUT output, TESObj
             {
                 Warning("SCRIPTS: Script '%s', line %d: Set expression returned an error: %s.\r\n", script->GetName(),
                         lineNumber, g_expressionErrorStrings[variableExpression.ExpressionError()]);
-                script->GetHeader()->dataSize = 0;
+                script->m_kHeader.dataSize = 0;
                 return false;
             }
             if (!skip)
@@ -206,8 +216,8 @@ bool ScriptRunner::ParseBlock(Script* script, const SCRIPT_OUTPUT output, TESObj
                     {
                         if (!skip)
                         {
-                            static_cast<TESGlobal*>(referencedObject->pForm)
-                                ->SetValue(static_cast<float>(expressionValue));
+                            reinterpret_cast<::FUN_0046dce0_class *>(static_cast<TESGlobal*>(referencedObject->pForm))
+                                ->FUN_0046dce0(static_cast<float>(expressionValue));
                             if (IsScriptDebuggingEnabled())
                                 DebugLog("set global >> %0.2f", static_cast<float>(expressionValue));
                         }
@@ -227,17 +237,17 @@ bool ScriptRunner::ParseBlock(Script* script, const SCRIPT_OUTPUT output, TESObj
                         {
                         case kScriptLongVariable:
                         case kScriptShortVariable:
-                            currentPScriptVariables->SetVariable(variableID, static_cast<int>(expressionValue));
+                            reinterpret_cast<::FUN_005a9290_shell *>(currentPScriptVariables)->SetScriptVariable(variableID, static_cast<int>(expressionValue));
                             if (IsScriptDebuggingEnabled())
                                 DebugLog("set %s >> %i",
-                                         currentPScriptVariables->m_pOwnerScript->GetVariableName(variableID),
+                                         reinterpret_cast<::FUN_005abed0_shell *>(currentPScriptVariables->m_pOwnerScript)->FUN_005abed0(variableID),
                                          static_cast<int>(expressionValue));
                             break;
                         case kScriptFloatVariable:
-                            currentPScriptVariables->SetVariable(variableID, expressionValue);
+                            reinterpret_cast<::FUN_005a9290_shell *>(currentPScriptVariables)->SetScriptVariable(variableID, expressionValue);
                             if (IsScriptDebuggingEnabled())
                                 DebugLog("set %s >> %.2f",
-                                         currentPScriptVariables->m_pOwnerScript->GetVariableName(variableID),
+                                         reinterpret_cast<::FUN_005abed0_shell *>(currentPScriptVariables->m_pOwnerScript)->FUN_005abed0(variableID),
                                          expressionValue);
                             break;
                         }
@@ -251,7 +261,7 @@ bool ScriptRunner::ParseBlock(Script* script, const SCRIPT_OUTPUT output, TESObj
                             }
                             else
                                 changedReference = reference;
-                            if (changedReference && !changedReference->IsTemporary())
+                            if (changedReference && !reinterpret_cast<::FUN_004077c0_shell *>(changedReference)->FUN_004077c0())
                             {
                                 if (!changedReference->GetParentCell() ||
                                     !changedReference->GetParentCell()->IsOutdoorCell())
@@ -297,7 +307,7 @@ bool ScriptRunner::ParseBlock(Script* script, const SCRIPT_OUTPUT output, TESObj
             {
                 SetError(script, SCRIPT_ERROR_ERROR_SCRIPT_EXPRESSION);
                 Warning("SCRIPTS: Script '%s', line %d: failed to evaluate expression.", script->GetName(), lineNumber);
-                script->GetHeader()->dataSize = 0;
+                script->m_kHeader.dataSize = 0;
                 m_eExpressionError = condition.ExpressionError();
                 return false;
             }
@@ -354,7 +364,7 @@ bool ScriptRunner::ParseBlock(Script* script, const SCRIPT_OUTPUT output, TESObj
                 {
                     if (blockParams && blockSize)
                     {
-                        ExtractArgs(blockParams, data, &offset, reference, m_pReference, script, m_pScriptLocals);
+                        ::FUN_005accb0((const ::ExtractParameter *)blockParams, data, &offset, reference, m_pReference, (::ExtractScript *)script, m_pScriptLocals);
                         switch (output)
                         {
                         case SCRIPT_OUTPUT_FUNCTION_MESSAGE: {

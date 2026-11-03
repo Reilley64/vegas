@@ -2,6 +2,7 @@
 #ifndef FNV_BGSCAMERAPATH_UNIT_H
 #define FNV_BGSCAMERAPATH_UNIT_H
 
+#include <cstdint>
 #include "fnv/decl/Callees.h"
 #include "fnv/decl/FUN_005ffbf0_shell.h"
 #include "fnv/decl/FUN_0084e3a0_Class.h"
@@ -76,7 +77,7 @@ class BGSImpactData
 class FUN_005a71d0
 {
   public:
-    unsigned int parent, previous;
+    std::uintptr_t parent, previous;
 };
 class ScriptVariableInfo;
 class TESTopicInfo;

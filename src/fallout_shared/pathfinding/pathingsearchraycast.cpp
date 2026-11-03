@@ -13,7 +13,7 @@ struct PathingSearchRayCast
 // @fnv 0x006e6280
 void* PathingSearchRayCast::Destroy(unsigned int flags)
 {
-    reinterpret_cast<::FUN_006e62b0_Class *>(this)->FUN_006e62b0_Class::~FUN_006e62b0_Class();
+    reinterpret_cast<::FUN_006e62b0_Class *>(this)->::FUN_006e62b0_Class::~FUN_006e62b0_Class();
     if (flags & 1)
         ::FUN_00401030(this);
     return this;

@@ -214,7 +214,7 @@ DebrisModelEntry* BGSDebris::AddDebrisModel(char chance, const char* path, char 
         data->chance = chance;
         reinterpret_cast<::FUN_004fa670_shell *>((data))->FUN_004fa670((char *)(path));
         data->flags = flags;
-        ::InsertDebrisIfValid((char *)this, (::DArg)(data));
+        ::InsertDebrisIfValid((char *)this, ::DArg{(DebrisData *)data});
         return data;
     }
     return 0;
@@ -301,7 +301,7 @@ void BGSDebris::ClearData()
     BSSimpleList<DebrisModelEntry*>* list = &DataList;
     while (!DataList.IsEmpty())
     {
-        DebrisModelEntry* data = ((::DebrisModelEntry *)(new ((void *)(list)) ::Vec3()));
+        DebrisModelEntry* data = (list->m_item);
         if (data)
         {
             char* path = data->path;
@@ -318,9 +318,9 @@ void BGSDebris::Preload(int priority, void* file)
     BSSimpleList<DebrisModelEntry*>* list = GetDataList();
     while (list)
     {
-        DebrisModelEntry* data = ((::DebrisModelEntry *)(new ((void *)(list)) ::Vec3()));
+        DebrisModelEntry* data = (list->m_item);
         if (data && data->path && ::FUN_0044a670(data->path))
-            reinterpret_cast<::C4442C0Queue *>((g_modelLoader))->QueueFullWithNullResult((int)(data->path), (int)(&data->model), priority, (int)(file), 1, 1, 0, 0);
+            reinterpret_cast<::C4442C0Queue *>((g_modelLoader))->QueueFullWithNullResult((std::intptr_t)(data->path), (std::intptr_t)(&data->model), priority, (std::intptr_t)(file), 1, 1, 0, 0);
         list = ((::BSSimpleList< ::DebrisModelEntry *> *)(reinterpret_cast<::Callees *>((list))->FUN_00726070()));
     }
 }
@@ -335,7 +335,7 @@ void BGSDebris_shell::CopyFromDebris(TESForm* source)
     BSSimpleList<DebrisModelEntry*>* list = debris2->GetDataList();
     while (list)
     {
-        DebrisModelEntry* data = ((::DebrisModelEntry *)(new ((void *)(list)) ::Vec3()));
+        DebrisModelEntry* data = (list->m_item);
         if (data)
             AddDebrisModel(data->chance, data->path, data->flags);
         list = ((::BSSimpleList< ::DebrisModelEntry *> *)(reinterpret_cast<::Callees *>((list))->FUN_00726070()));
@@ -377,7 +377,7 @@ void BGSDebris_shell2::FUN_004fa6f0(void* a1, Vec3* apPosition, unsigned int cou
     DNode* node_ = ((::DNode *)(reinterpret_cast<::BGSDebris *>((((DList*)this)))->GetDataList()));
     while (node_)
     {
-        DItem* d9 = (DItem*)*((void **)(new ((void *)(node_)) ::Vec3()));
+        DItem* d9 = (DItem*)*((void **)((void *)(node_)));
         if (d9 && d9->model && d9->chance)
         {
             unsigned int n = d9->chance * count / 100;
@@ -399,7 +399,7 @@ void BGSDebris_shell2::FUN_004fa6f0(void* a1, Vec3* apPosition, unsigned int cou
                 }
                 else
                 {
-                    ::FUN_006890b0((::World *)(a1), ::DAT_01017b78, (int)(d9->model), v4, *apPosition, (float)(scale * DAT_01020758), 7, 0);
+                    ::FUN_006890b0((::World *)(a1), ::DAT_01017b78, (std::intptr_t)(d9->model), v4, *apPosition, (float)(scale * DAT_01020758), 7, 0);
                 }
                 i8++;
             }
@@ -434,7 +434,7 @@ void FUN_004fa1a0_shell::WriteDebrisEntries()
     DNode* pkNode = ((::DNode *)(reinterpret_cast<::BGSDebris *>(this)->GetDataList()));
     while (pkNode)
     {
-        DebrisEntry4fa* pkData = (DebrisEntry4fa*)*((void **)(new ((void *)(pkNode)) ::Vec3()));
+        DebrisEntry4fa* pkData = (DebrisEntry4fa*)*((void **)((void *)(pkNode)));
         if (pkData && pkData->pcPath && ::FUN_0044a670(pkData->pcPath))
         {
             unsigned int uiSize = ::FUN_0044a670(pkData->pcPath) + 3;
@@ -446,9 +446,9 @@ void FUN_004fa1a0_shell::WriteDebrisEntries()
             pcCur += ::FUN_0044a670(pkData->pcPath) + 1;
             *pcCur = pkData->cFlags;
             pcCur++;
-            ::FUN_004856f0((void *)('ATAD'), pTmpcBuffer, (void *)(uiSize));
+            ::FUN_004856f0((void *)('ATAD'), pTmpcBuffer, (void *)(std::uintptr_t)(uiSize));
             delete pTmpcBuffer;
-            reinterpret_cast<::FUN_008d0600_s *>(&(pkData->kModel))->FUN_008d0600('TDOM', (int)pkData->pcPath);
+            reinterpret_cast<::FUN_008d0600_s *>(&(pkData->kModel))->FUN_008d0600('TDOM', (std::intptr_t)pkData->pcPath);
         }
         pkNode = ((::DNode *)(reinterpret_cast<::Callees *>((pkNode))->FUN_00726070()));
     }
@@ -479,8 +479,8 @@ bool BGSDebris_cmp::FUN_004fa390(TESForm* form)
     DebrisListNode* iter = (DebrisListNode*)&DataList;
     while (otherIter2)
     {
-        DebrisModelEntry* srcData = *((::DebrisModelEntry **)(new ((void *)(otherIter2)) ::Vec3()));
-        DebrisModelEntry* dstData = *((::DebrisModelEntry **)(new ((void *)(iter)) ::Vec3()));
+        DebrisModelEntry* srcData = *((::DebrisModelEntry **)((void *)(otherIter2)));
+        DebrisModelEntry* dstData = *((::DebrisModelEntry **)((void *)(iter)));
         if ((!srcData && dstData) || (srcData && !dstData))
             return true;
         if (srcData && dstData)

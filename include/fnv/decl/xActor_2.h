@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 struct xP3;
 
@@ -9,7 +10,7 @@ public:
     // 0x0088c240
     bool FUN_0088c240(const ::xP3 &, bool, bool);
     // 0x008bd830
-    float FUN_008bd830(int, float);
+    float FUN_008bd830(std::intptr_t, float);
     // 0x008caea0
     void FUN_008caea0(::xActor *, float);
     // 0x008ccce0

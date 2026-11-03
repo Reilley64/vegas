@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include "fnv/decl/FUN_00401660_Class.h"
+#include <string.h>
 #include "fnv/decl/FUN_00481110_shell.h"
 #include "fnv/decl/FUN_00487980_shell.h"
 #include "fnv/decl/FUN_004f9ef0_shell.h"
@@ -29,6 +30,19 @@
 #include "fnv/symbols_011ac000.h"
 #include "fnv/symbols_011c5000.h"
 #include "fnv/symbols_011f8000.h"
+#include <cstring>
+#include <malloc.h>
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_00478130_class.h"
+#include "fnv/decl/FUN_00478570_holder.h"
+#include "fnv/decl/FUN_00478690_shell.h"
+#include "fnv/decl/FUN_00478e90_This.h"
+#include "fnv/decl/FUN_0048a7b0_shell.h"
+#include "fnv/decl/ManagedSceneHolder.h"
+#include "fnv/decl/fnv_00403570__FUN_00403570_shell.h"
+#include "fnv/decl/fnv_00503210__Unk.h"
 struct BSFileEntry;
 struct FileFormCollection;
 struct TESFile;
@@ -273,7 +287,7 @@ struct FakeOwner
 void FUN_00487a00_shell::FUN_00487a00(TESForm* apOwner, unsigned short asLevel, unsigned short asCount, TESForm* apForm,
                                       ContainerItemExtra* apExtra)
 {
-    LeveledObject* plev = ((::LeveledObject *)(reinterpret_cast<::Owner487a60 *>(this)->InsertEntryByPriority(asLevel, asCount, (int)(apForm), (int)(apExtra))));
+    LeveledObject* plev = ((::LeveledObject *)(reinterpret_cast<::Owner487a60 *>(this)->InsertEntryByPriority(asLevel, asCount, (std::intptr_t)(apForm), (std::intptr_t)(apExtra))));
     if (plev)
     {
         ((G2*)m_kLeveledObjects)->AddHead(plev);
@@ -401,8 +415,6 @@ struct FUN_00489940_shell : public FileEntryList
 struct TESFile
 {
 };
-extern "C" void* __cdecl _alloca(unsigned int);
-extern "C" void* __cdecl memset(void*, int, unsigned int);
 // @fnv 0x00489940
 void FUN_00489940_shell::LoadChunkData(TESFile* file, TESForm* form, char* name)
 {
@@ -520,11 +532,11 @@ class B479FB0IdleList
     short unk06;
     B479FB0Idle** m_ppkIdles;
 
-    bool FUN_00479fb0(B479FB0Actor* pkActor, int iArg);
+    bool FUN_00479fb0(B479FB0Actor* pkActor, std::intptr_t iArg);
 };
 
 // @fnv 0x00479fb0
-bool B479FB0IdleList::FUN_00479fb0(B479FB0Actor* pkActor, int iArg)
+bool B479FB0IdleList::FUN_00479fb0(B479FB0Actor* pkActor, std::intptr_t iArg)
 {
     if (pkActor)
     {
@@ -817,7 +829,7 @@ void FUN_004891d0_cls::WriteToBuffer(char* pcBuffer, void* pkOut)
         if (pcBuffer)
             ::FUN_004856f0(pcBuffer, (void *)(GetPath()), (void *)(FUN_0048cee0() + 1));
         if (pkOut)
-            reinterpret_cast<::FUN_008d0600_s *>(&(m_kObjectMap))->FUN_008d0600((int)(pkOut), (int)(GetPath()));
+            reinterpret_cast<::FUN_008d0600_s *>(&(m_kObjectMap))->FUN_008d0600((std::intptr_t)(pkOut), (std::intptr_t)(GetPath()));
     }
 }
 
@@ -990,4 +1002,435 @@ FUN_004895b0_model* __cdecl FUN_00481010(TESForm* apBipedModelForm, TESObjectREF
     if (biped != 0 && _FNV_GetFormType(biped) == 0x2a)
         iOwnerSex = reinterpret_cast<ActorSexView481010*>(biped)->FUN_005f0cc0();
     return ((::FUN_004895b0_model *)(reinterpret_cast<::FUN_00481110_shell *>((sex))->GetWorldModel(iOwnerSex)));
+}
+
+struct TESForm_decl;
+
+struct FileEntryList_decl
+{
+    bool ClearData();
+    void SaveToBuffer(FileFormCollection*);
+    void WriteFileEntryToBuffer(FileFormCollection*, unsigned int, TESForm_decl*, char*);
+    void Save(int, char*);
+    void Load(TESFile*, TESForm_decl*, char*);
+    void Copy(FileEntryList_decl*);
+    unsigned char GetTextureCount();
+    BSFileEntry** GetTextureOffsetArray();
+    void* __vecDelDtor(unsigned int);
+    unsigned char m_ucFileEntryCount;
+    char _pad_1[3];
+    BSFileEntry** m_ppFileEntries;
+};
+
+struct FUN_00488ff0_shell_decl : public FileEntryList_decl
+{
+    void FUN_00488ff0();
+};
+
+struct FUN_00489620_t_decl
+{
+};
+
+bool FUN_004898e0();
+
+struct TESForm_decl;
+
+struct TESLeveledList_decl : public BaseFormComponent
+{
+    virtual unsigned char GetChanceNone();
+    virtual bool UsesAllEntries();
+    virtual int GetMaxLevelDifference();
+    virtual void ErrorCheckList();
+    virtual void InitializeComponent();
+    virtual void ClearComponent();
+    void SetChanceNone(unsigned char);
+    bool GetCalcAllBelow();
+    void SetCalcAllBelow(bool);
+    void SetMultCalc(bool);
+    bool GetUseAll();
+    void SetUseAll(bool);
+    TESGlobal* GetChanceGlobal();
+    void SetChanceGlobal(TESGlobal*);
+    void InitializeLeveledList();
+    void SortLeveledList();
+    LeveledObject* CreateLeveledObject(unsigned short, unsigned short, TESForm_decl*, ContainerItemExtra*);
+    void DeleteLeveledObject(LeveledObject*);
+    void SelectLeveledObject(unsigned short, TESForm_decl**, unsigned short*, ContainerItemExtra**, bool, int);
+    void PopulateContainerWithLeveledItems(unsigned short, unsigned short, TESContainer*, int);
+    void PopulateContainerFromReference(TESObjectREFR*, TESContainer*);
+    void AddScriptAddedLeveledObject(TESForm_decl*, unsigned short, unsigned short, TESForm_decl*, ContainerItemExtra*);
+    void SaveGame(BGSSaveFormBuffer*);
+    void LoadGame(BGSLoadFormBuffer*);
+    void Revert(BGSLoadFormBuffer*);
+    void Save();
+    virtual void BaseFormRecord(BaseFormComponent*);
+    virtual bool IsEqualToBase(BaseFormComponent*);
+    void InitItem(TESForm_decl*);
+    static TESLeveledList_decl* GetFormAsLeveledList(TESForm_decl*);
+    void* GetLeveledList();
+    void* __vecDelDtor(unsigned int);
+    char leveledList[8];
+    unsigned char m_pChanceGlobal;
+    unsigned char m_ucChanceNone;
+    char _pad_e[2];
+    TESGlobal* m_pLevelGlobal;
+    char m_kLeveledObjects[8];
+};
+
+struct FUN_00487a00_shell_decl : public TESLeveledList_decl
+{
+    void FUN_00487a00(TESForm_decl*, unsigned short, unsigned short, TESForm_decl*, ContainerItemExtra*);
+};
+
+struct TESModel_decl
+{
+    virtual ~TESModel_decl();
+    virtual void TM01();
+    virtual void TM02();
+    virtual void TM03();
+    virtual void TM04();
+    virtual void TM05();
+    virtual void SetModelPath(const char* path);
+    void* FUN_00489010(unsigned int flags);
+};
+
+struct FUN_004898a0_shell_decl : public FUN_004898c0_shell
+{
+    bool FUN_004898a0();
+};
+
+struct FUN_00489480_shell_decl : public TESModel_decl
+{
+    virtual void VFunc04();
+    virtual void VFunc08();
+    virtual void VFunc0C();
+    virtual void VFunc10();
+    virtual const char* GetModelPath();
+
+    bool IsModelPathDifferent(BaseFormComponent* pkComponent);
+};
+
+struct FUN_004898a0_shell_decl;
+
+class String;
+
+template <class T> struct tList
+{
+    T* item;
+    tList<T>* next;
+};
+
+class TESForm_decl : public BaseFormComponent
+{
+  public:
+    virtual void* Destroy(bool doFree);
+    virtual void Unk_05(void);
+    virtual void Unk_06(void);
+    virtual bool Unk_07(void);
+    virtual bool LoadForm(TESFile* modInfo);
+    virtual bool Unk_09(void* arg);
+    virtual bool AppendForm(TESFile* modInfo);
+    virtual void SaveForm(void);
+    virtual bool LoadForm2(TESFile* modInfo);
+    virtual void WriteFormInfo(TESFile* modInfo);
+    virtual bool Unk_0E(void* arg);
+    virtual bool Sort(TESForm_decl* form);
+    virtual TESForm_decl* CreateForm(void* arg0, void* mapToAddTo);
+    virtual void Unk_11(void* arg);
+    virtual void MarkAsModified(unsigned long changedFlags);
+    virtual void MarkAsUnmodified(unsigned long changedFlags);
+    virtual unsigned long GetSaveSize(unsigned long changedFlags);
+    virtual void Unk_15(void* arg);
+    virtual void SaveGame(unsigned long changedFlags);
+    virtual void LoadGame(void* arg);
+    virtual void LoadGame2(unsigned long changedFlags);
+    virtual void Unk_19(void* arg);
+    virtual void Unk_1A();
+    virtual void Unk_1B(void* arg0, void* arg1);
+    virtual void Revert(unsigned long changedFlags);
+    virtual void Unk_1D(void* arg);
+    virtual void Unk_1E(void* arg);
+    virtual bool Unk_1F(void* arg);
+    virtual void Unk_20(void* arg);
+    virtual void Unk_21(void* arg);
+    virtual void InitItem(void);
+    virtual unsigned long GetTypeID(void);
+    virtual void GetDebugName(String* dst);
+    virtual bool IsQuestItem(void);
+    virtual bool Unk_26(void);
+    virtual bool Unk_27(void);
+    virtual bool Unk_28(void);
+    virtual bool Unk_29(bool set);
+    virtual bool Unk_2A(bool set);
+    virtual bool Unk_2B(void);
+    virtual bool Unk_2C(void);
+    virtual bool Unk_2D(void);
+    virtual bool Unk_2E(void);
+    virtual void Unk_2F(bool set);
+    virtual bool Unk_30(void);
+    virtual void MarkForDeletion(bool set);
+    virtual void SetAltered(bool set);
+    virtual void SetQuestItem(bool set);
+    virtual void Unk_34(bool set);
+    virtual void Unk_35(bool set);
+    virtual void Unk_36(bool set);
+    virtual void Unk_37(void);
+    virtual void readOBNDSubRecord(TESFile* modInfo);
+    virtual bool IsActor_InEditor(void);
+    virtual bool IsBoundObject(void);
+    virtual bool Unk_3B(void);
+    virtual bool GetIsReference() const;
+    virtual bool Unk_3D(void);
+    virtual bool Unk_3E(void);
+    virtual bool Unk_3F(void) const;
+    virtual bool IsActor_Runtime(void);
+    virtual unsigned long Unk_41(void);
+    virtual void CopyFrom(const TESForm_decl* form);
+    virtual bool Compare(TESForm_decl* form);
+    virtual bool CheckFormGRUP(void* arg);
+    virtual void InitFormGRUP(void* dst, void* arg1);
+    virtual bool Unk_46(void);
+    virtual bool Unk_47(void);
+    virtual bool Unk_48(unsigned long formType);
+    virtual bool Unk_49(void* arg0, void* arg1, void* arg2, void* arg3, void* arg4);
+    virtual void SetRefID(unsigned long refID, bool generateID);
+    virtual char* GetName2(void);
+    virtual char* GetName(void) const;
+    virtual bool SetEditorID_AtRuntime(const char* edid);
+    unsigned char typeID;
+    unsigned char typeIDPad[3];
+    unsigned long flags;
+    unsigned long refID;
+    tList<TESFile> mods;
+};
+
+struct TESFile
+{
+    bool IsEndianConversionRequired();
+    bool NextChunk();
+};
+
+struct DestructionStage
+{
+    unsigned char damageStage;
+    unsigned char healthPercent;
+    unsigned char flags;
+    unsigned int selfDamage;
+    TESForm_decl* explosion;
+    TESForm_decl* debris;
+    unsigned int debrisCount;
+    TESModel_decl* replacementModel;
+};
+
+struct DestructibleData
+{
+    unsigned int health;
+    unsigned char stageCount;
+    unsigned char flags;
+    DestructionStage** stages;
+};
+
+class BGSDestructibleObjectForm : public BaseFormComponent
+{
+  public:
+    DestructibleData* pkData;
+};
+
+struct DestructibleHeader
+{
+    unsigned int health;
+    unsigned char stageCount;
+    unsigned char flags;
+    unsigned short unused;
+    DestructibleHeader();
+};
+
+struct DestructionStageChunk
+{
+    unsigned char healthPercent;
+    unsigned char index;
+    unsigned char damageStage;
+    unsigned char flags;
+    unsigned int selfDamage;
+    TESForm_decl* explosion;
+    TESForm_decl* debris;
+    unsigned int debrisCount;
+};
+
+// @fnv 0x004781e0
+void __cdecl FUN_004781e0(BGSDestructibleObjectForm* component, TESFile* file)
+{
+    if (!file || !component)
+        return;
+    int chunkID = ((unsigned int)(reinterpret_cast<::FUN_004726b0_class *>((file))->FUN_004726b0()));
+    reinterpret_cast<::ManagedSceneHolder *>((component))->EnsureCurrentEntry();
+    DestructibleData* pkData = ((::DestructibleData *)(reinterpret_cast<::Callees *>((component))->FUN_00726070()));
+    switch (chunkID)
+    {
+    case 0x54534544: {
+        DestructibleHeader header;
+        if (reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C() != 8)
+        {
+            TESForm_decl* form = dynamic_cast<TESForm_decl*>(component);
+            ::FUN_005b5e40();
+            reinterpret_cast<::FUN_00478690_shell *>((component))->FUN_00478690();
+            return;
+        }
+        reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(void *)(&header), 0);
+        if (file->IsEndianConversionRequired())
+            reinterpret_cast<::fnv_00503210::Unk *>(&(header))->FUN_00503210();
+        pkData->health = header.health;
+        pkData->stageCount = header.stageCount;
+        pkData->flags = header.flags;
+        if (pkData->stageCount)
+            pkData->stages = ((::DestructionStage **)(reinterpret_cast<::FUN_00478e90_This *>((component))->AllocateSpawnedItemArray(pkData->stageCount)));
+        break;
+    }
+    case 0x44545344: {
+        DestructionStageChunk stage;
+        memset(&stage, 0, sizeof(stage));
+        reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(void *)(&stage), sizeof(stage));
+        if (file->IsEndianConversionRequired())
+            reinterpret_cast<::FUN_00478130_class *>(&(stage))->FUN_00478130();
+        unsigned char index = stage.index;
+        if (index < pkData->stageCount)
+        {
+            pkData->stages[index]->damageStage = stage.damageStage;
+            pkData->stages[index]->healthPercent = stage.healthPercent;
+            pkData->stages[index]->flags = stage.flags;
+            pkData->stages[index]->selfDamage = stage.selfDamage;
+            pkData->stages[index]->explosion = stage.explosion;
+            pkData->stages[index]->debris = stage.debris;
+            pkData->stages[index]->debrisCount = stage.debrisCount;
+            while ((chunkID = ((unsigned int)(reinterpret_cast<::FUN_004726b0_class *>((file))->FUN_004726b0()))) != 0)
+            {
+                switch (chunkID)
+                {
+                case 0x4c444d44: {
+                    reinterpret_cast<::FUN_00478570_holder *>((pkData->stages[index]))->EnsureB2_4fe();
+                    char* path = (char*)_alloca(reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C());
+                    reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(path), 0);
+                    pkData->stages[index]->replacementModel->SetModelPath(path);
+                    break;
+                }
+                case 0x54444d44:
+                    reinterpret_cast<::FUN_00478570_holder *>((pkData->stages[index]))->EnsureB2_4fe();
+                    FUN_004893e0(reinterpret_cast<TESModel*>(pkData->stages[index]->replacementModel), file);
+                    break;
+                case 0x53444d44: {
+                    reinterpret_cast<::FUN_00478570_holder *>((pkData->stages[index]))->EnsureB2_4fe();
+                    unsigned int size = reinterpret_cast<::FUN_00401660_Class *>((file))->GetField25C();
+                    void* pBuffer = _alloca(size);
+                    reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(pBuffer), size);
+                    reinterpret_cast<::FUN_0048a7b0_shell *>((pkData->stages[index]->replacementModel))->LoadTextureSwapList(pBuffer, size, reinterpret_cast<::fnv_00403570::FUN_00403570_shell *>((file))->FUN_00403570());
+                    break;
+                }
+                case 0x46545344:
+                    return;
+                }
+                if (!file->NextChunk())
+                    break;
+            }
+        }
+        break;
+    }
+    }
+}
+
+struct FileEntryList_o2
+{
+    bool ClearData();
+    void SaveToBuffer(FileFormCollection*);
+    void WriteFileEntryToBuffer(FileFormCollection*, unsigned int, TESForm*, char*);
+    void Save(int, char*);
+    void Copy(FileEntryList_o2*);
+    unsigned char GetTextureCount();
+    BSFileEntry** GetTextureOffsetArray();
+    void* __vecDelDtor(unsigned int);
+    unsigned char m_ucFileEntryCount;
+    char _pad_1[3];
+    BSFileEntry** m_ppFileEntries;
+};
+
+struct FUN_00488ff0_shell_o2 : public FileEntryList_o2
+{
+    void FUN_00488ff0();
+};
+
+struct FUN_00489620_t_o2
+{
+};
+
+struct FUN_008c1be0_shell_o2
+{
+};
+
+// sub ecx,0x30; jmp FUN_004029f0  ==  MSVC adjustor thunk (multiple inheritance,
+// primary base occupies 0x30 bytes; both bases declare the same virtual, the derived
+// class only defines its constructor so the compiler emits the this-adjusting thunk).
+struct PrimaryBase
+{
+    virtual void FUN_00403a40();
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+};
+
+struct SecondaryBase
+{
+    virtual void FUN_00403a40();
+};
+
+struct Derived : PrimaryBase, SecondaryBase
+{
+    Derived();
+// @fnv 0x00403a40
+    virtual void FUN_00403a40();
+};
+
+Derived::Derived()
+{}
+
+namespace fnv_0040a110 {
+// sub ecx,0x30; jmp target  ==  MSVC adjustor thunk: Derived overrides a virtual that both of its bases
+// declare, so the second base's vtable gets a thunk that moves `this` back by the first base's size (0x30).
+struct PrimaryBase
+{
+    virtual void FUN_0040a110();
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+};
+
+
+struct SecondaryBase
+{
+    virtual void FUN_0040a110();
+};
+
+struct DerivedThunkHost : PrimaryBase, SecondaryBase
+{
+    DerivedThunkHost();
+// @fnv 0x0040a110
+    virtual void FUN_0040a110();
+};
+
+DerivedThunkHost::DerivedThunkHost()
+{}
 }

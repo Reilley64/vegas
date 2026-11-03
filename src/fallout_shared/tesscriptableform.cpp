@@ -1,5 +1,6 @@
 // fallout_shared/tesscriptableform.cpp: TESScriptableForm (6 functions)
 
+#include <cstdint>
 #include "fnv/decl/Callees.h"
 #include "fnv/decl/CombatProcedure.h"
 #include "fnv/decl/FUN_00401660_Class.h"
@@ -27,7 +28,7 @@ void TESScriptableForm::InitItem(TESForm* owner)
         return;
     if (m_pFormScript)
     {
-        unsigned int scriptID = (unsigned int)m_pFormScript;
+        std::uintptr_t scriptID = (std::uintptr_t)m_pFormScript;
         ::ResolveFormID((unsigned int *)&(scriptID), owner->GetFile(-1));
         m_pFormScript = dynamic_cast<Script*>(::FUN_004839c0(scriptID));
         if (!m_pFormScript)
@@ -296,7 +297,7 @@ void FUN_0048cce0_shell::CopyFromScriptableForm(BaseFormComponent* apCopyFC)
     TESScriptableForm* pCopy = dynamic_cast<TESScriptableForm*>(apCopyFC);
     if (!pCopy)
         return;
-    reinterpret_cast<::CombatProcedure *>((((TESRaceForm*)this)))->Initialize((::CombatController *)(((unsigned int)(reinterpret_cast<::Callees *>((((Ref00726070*)pCopy)))->FUN_00726070()))));
+    reinterpret_cast<::CombatProcedure *>((((TESRaceForm*)this)))->Initialize((::CombatController *)(((reinterpret_cast<::Callees *>((((Ref00726070*)pCopy)))->FUN_00726070()))));
 }
 }  // namespace fnv_0048cce0
 
@@ -314,8 +315,8 @@ bool Holder_0048cd30::FUN_0048cd30(BaseFormComponent* apComponent)
     TESScriptableForm* b = dynamic_cast<TESScriptableForm*>(apComponent);
     if (!b)
         return true;
-    if (((unsigned int)(reinterpret_cast<::Callees *>((reinterpret_cast<Helper_00726070*>(this)))->FUN_00726070())) !=
-        ((unsigned int)(reinterpret_cast<::Callees *>((reinterpret_cast<Helper_00726070*>(b)))->FUN_00726070())))
+    if (((unsigned int)(std::uintptr_t)(reinterpret_cast<::Callees *>((reinterpret_cast<Helper_00726070*>(this)))->FUN_00726070())) !=
+        ((std::uintptr_t)(reinterpret_cast<::Callees *>((reinterpret_cast<Helper_00726070*>(b)))->FUN_00726070())))
         return true;
     return false;
 }

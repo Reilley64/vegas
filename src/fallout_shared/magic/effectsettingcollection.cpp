@@ -108,8 +108,8 @@ EffectSetting* EffectSettingCollection::CreateEffectSetting(unsigned int formID,
     effect->UpdateEffectName(fullName);
     reinterpret_cast<::FUN_004ee4b0_shell *>((effect))->FUN_004ee4b0(cost);
     reinterpret_cast<::FUN_00810570_shell *>((effect))->SetAssociatedActorValue(skill);
-    ((MiddleHighProcess*)effect)->AddDeferredHideLimb((TargetDoorController*)item);
-    reinterpret_cast<::MiddleHighProcess *>((((PlayerQuestData*)effect)))->SetFaceAnimationData((::TargetDoorController *)(::Date *)((Date*)resist));
+    ((MiddleHighProcess*)effect)->AddDeferredHideLimb((TargetDoorController*)(std::uintptr_t)item);
+    reinterpret_cast<::MiddleHighProcess *>((((PlayerQuestData*)effect)))->SetFaceAnimationData((::TargetDoorController *)(::Date *)((Date*)(std::uintptr_t)resist));
     reinterpret_cast<::FUN_004078a0_shell *>((effect))->SetEffectID(flags);
     ::RegisterEffectSetting((int *)(effect));
     return effect;
@@ -186,7 +186,7 @@ unsigned int FUN_00408c30()
     }
     size += 4;
     for (BSSimpleList<EffectSetting*>* node = (BSSimpleList<EffectSetting*>*)&::g_011c3400;
-         node && (mgef = ((::EffectSetting *)(new ((void *)(node)) ::Vec3()))) != 0; node = ((::BSSimpleList< ::EffectSetting *> *)(reinterpret_cast<::Callees *>((node))->FUN_00726070())))
+         node && (mgef = (node->m_item)) != 0; node = ((::BSSimpleList< ::EffectSetting *> *)(reinterpret_cast<::Callees *>((node))->FUN_00726070())))
     {
         if (reinterpret_cast<::S3e60 *>((((EffectSettingFlags*)mgef)))->FUN_00403e60(0x200000))
             size += 4;

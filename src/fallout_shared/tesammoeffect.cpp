@@ -311,7 +311,7 @@ void FUN_00599ef0_shell::FUN_00599ef0()
     reinterpret_cast<::FUN_00487010_shell *>((((S_00487010*)((char*)this + 0x18))))->FUN_00487010();
     if (((bool)(::FUN_00401500())))
         reinterpret_cast<::Class005a6b10 *>((((ContainerItemExtraFileData*)((char*)this + 0x24))))->FUN_005a6b10();
-    reinterpret_cast<::SDSaveForm *>((((FUN_00485e00_shell*)this)))->FUN_00485e20((const void *)((int)((char*)this + 0x24)), 0xc);
+    reinterpret_cast<::SDSaveForm *>((((FUN_00485e00_shell*)this)))->FUN_00485e20((const void *)((std::intptr_t)((char*)this + 0x24)), 0xc);
     if (((bool)(::FUN_00401500())))
         reinterpret_cast<::Class005a6b10 *>((((ContainerItemExtraFileData*)((char*)this + 0x24))))->FUN_005a6b10();
     reinterpret_cast<::Holder *>((((FUN_00485680*)this)))->FUN_00485680();
@@ -352,20 +352,20 @@ float ComputeAmmoEffectValue(int iEffectType, AmmoEffectList* pEffectList, float
     if (!pEffectList)
         return fResult;
     AmmoEffectList* sorted = new AmmoEffectList;
-    while (pEffectList && ((::AmmoEffectValue *)(new ((void *)(pEffectList)) ::Vec3())))
+    while (pEffectList && (pEffectList->value))
     {
-        if (((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((::AmmoEffectValue *)(new ((void *)(pEffectList)) ::Vec3()))))->FUN_0045cd60())) == 1)
-            sorted->FUN_005ae3d0(((::AmmoEffectValue *)(new ((void *)(pEffectList)) ::Vec3())));
+        if (((int)(std::uintptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>(((pEffectList->value)))->FUN_0045cd60())) == 1)
+            sorted->FUN_005ae3d0((pEffectList->value));
         else
-            reinterpret_cast<::Callees *>((sorted))->FUN_00905820((void *)&(((::AmmoEffectValue *)(new ((void *)(pEffectList)) ::Vec3()))));
+            reinterpret_cast<::Callees *>((sorted))->FUN_00905820((void *)&((pEffectList->value)));
         pEffectList = ((::AmmoEffectList *)(reinterpret_cast<::Callees *>((pEffectList))->FUN_00726070()));
     }
-    while (sorted && ((::AmmoEffectValue *)(new ((void *)(sorted)) ::Vec3())))
+    while (sorted && (sorted->value))
     {
-        AmmoEffectValue* effect = ((::AmmoEffectValue *)(new ((void *)(sorted)) ::Vec3()));
+        AmmoEffectValue* effect = (sorted->value);
         sorted = ((::AmmoEffectList *)(reinterpret_cast<::Callees *>((sorted))->FUN_00726070()));
         int effectType = ((int)(reinterpret_cast<::ActorMover *>((effect))->GetCurrentMoveModeType()));
-        int iOperation = ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((effect))->FUN_0045cd60()));
+        std::intptr_t iOperation = ((std::intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((effect))->FUN_0045cd60()));
         float magnitude = reinterpret_cast<::FUN_00759450_shell *>((effect))->FUN_00759450();
         if (effectType != iEffectType)
             continue;
@@ -425,7 +425,7 @@ void AmmoEffectDesc::FormatDescription(char* buffer, int bufferSize)
     char opText[2];
 
     opText[0] = 0;
-    switch (((unsigned int)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60())))
+    switch (((unsigned int)(std::uintptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60())))
     {
     case 0:
         ::TaskQueueInterface::CopyStringToBuffer(opText, 2, "+");

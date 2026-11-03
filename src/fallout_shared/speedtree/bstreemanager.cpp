@@ -1,5 +1,7 @@
 // fallout_shared/speedtree/bstreemanager.cpp: BSTreeManager, LFFreeList, TreeManager (27 functions)
 
+#include <cstdint>
+#include <cmath>
 #include <new>
 #include "fnv/decl/ActorTaskManager.h"
 #include "fnv/decl/BGSCameraPath.h"
@@ -84,6 +86,9 @@
 #include "fnv/symbols_011f9000.h"
 #include "fnv/symbols_011fd000.h"
 #include "bstreemanager_decls.h"
+#include "fnv/decl/B6B330Renderer.h"
+#include "fnv/symbols_0054e000.h"
+#include "fnv/symbols_00b6b000.h"
 
 // @fnv 0x00664870
 void BSTreeManager::Create(bool create)
@@ -108,7 +113,7 @@ void BSTreeManager::UpdateTreeInstances()
     if (((NiPointer<NiAVObject>*)((char*)FUN_00664840(true) + 4))->operator NiAVObject*())
     {
         ((NiPointer<NiNode>*)((char*)FUN_00664840(true) + 4))->operator=(0);
-        ::SetGlobalValue(false);
+        ::SetGlobalValue(nullptr);
         reinterpret_cast<::LookupHandler *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->FUN_00456800((void *)("Data\\Textures\\Trees\\CanopyShadow.dds"), 0);
     }
 }
@@ -161,9 +166,9 @@ struct NP
 
 
 // @fnv 0x00664820
-void SetGlobalValue(unsigned int value)
+void SetGlobalValue(void* value)
 {
-    (*reinterpret_cast<::NP *>(&::DAT_011f95e4)) = (void*)value;
+    (*reinterpret_cast<::NP *>(&::DAT_011f95e4)) = value;
 }
 
 struct FUN_006652c0_shell
@@ -384,9 +389,9 @@ void FUN_006652e0(NiAVObject* apCamera, bool abMenuMode)
     }
     if (apCamera)
     {
-        fcamLoc[0] = ((::NiPoint3 *)(::FUN_0045bb80((int)(apCamera))))->x;
-        fcamLoc[1] = ((::NiPoint3 *)(::FUN_0045bb80((int)(apCamera))))->y;
-        fcamLoc[2] = ((::NiPoint3 *)(::FUN_0045bb80((int)(apCamera))))->z;
+        fcamLoc[0] = ((::NiPoint3 *)(::FUN_0045bb80((std::intptr_t)(apCamera))))->x;
+        fcamLoc[1] = ((::NiPoint3 *)(::FUN_0045bb80((std::intptr_t)(apCamera))))->y;
+        fcamLoc[2] = ((::NiPoint3 *)(::FUN_0045bb80((std::intptr_t)(apCamera))))->z;
         vecTemp = NiPosData::ComputePositionAtTime(-1.0f, apCamera->GetWorldTranslation());
         fcamDir[0] = vecTemp.x;
         fcamDir[1] = vecTemp.y;
@@ -397,19 +402,19 @@ void FUN_006652e0(NiAVObject* apCamera, bool abMenuMode)
     {
         if ((*reinterpret_cast<::TES * *>(&::g_TES)) && ((::fnv_006652e0::NiTexture *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((BSShaderNoLightingProperty*)(*reinterpret_cast<::TES * *>(&::g_TES)))))->GetBaseTexture())))
         {
-            if (((int)(reinterpret_cast<::BGSCameraPath *>((((CP_008c48d0*)(*reinterpret_cast<::TES * *>(&::g_TES)))))->GetPrevPath())))
+            if (((int)(std::intptr_t)(reinterpret_cast<::BGSCameraPath *>((((CP_008c48d0*)(*reinterpret_cast<::TES * *>(&::g_TES)))))->GetPrevPath())))
                 *(float*)(((unsigned char *)(::FUN_00664840(1))) + 0x14) = 0.0f;
             else
                 *(float*)(((unsigned char *)(::FUN_00664840(1))) + 0x14) =
                     reinterpret_cast<::FUN_004536e0_Class *>((((Sky*)((::fnv_006652e0::NiTexture *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((BSShaderNoLightingProperty*)(*reinterpret_cast<::TES * *>(&::g_TES)))))->GetBaseTexture())))))->GetFieldCC();
-            if ((unsigned int)*(Flt*)(((unsigned char *)(::FUN_00664840(1))) + 8) &&
+            if (*(void**)(((unsigned char *)(::FUN_00664840(1))) + 8) &&
                 ((::fnv_006652e0::TESFile *)(reinterpret_cast<::FUN_00450570_Class *>((((FUN_00450570_shell*)((::fnv_006652e0::NiTexture *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((BSShaderNoLightingProperty*)(*reinterpret_cast<::TES * *>(&::g_TES)))))->GetBaseTexture())))))->FUN_00450570())))
             {
                 NiColor col;
                 col = *(const NiColor*)((const char *)(reinterpret_cast<::BGSCameraPath *>((((::fnv_006652e0::TESFile *)(reinterpret_cast<::FUN_00450570_Class *>((((FUN_00450570_shell*)((::fnv_006652e0::NiTexture *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((BSShaderNoLightingProperty*)(*reinterpret_cast<::TES * *>(&::g_TES)))))->GetBaseTexture())))))->FUN_00450570()))))->GetShotList()));
-                reinterpret_cast<::FUN_004534f0_shell *>((((FUN_004534f0_shell*)(unsigned int)*(Flt*)(((unsigned char *)(::FUN_00664840(1))) + 8))))->FUN_004534f0((unsigned int)&col);
-                reinterpret_cast<::FUN_004534f0_shell *>((((FUN_004534f0_shell*)(unsigned int)*(Flt*)(((unsigned char *)(::FUN_00664840(1))) + 8))))->FUN_004534f0((unsigned int)&col);
-                reinterpret_cast<::fnv_004bc450::FUN_004bc450_S *>((((NiProperty*)(unsigned int)*(Flt*)(((unsigned char *)(::FUN_00664840(1))) + 8))))->FUN_004bc450((const ::fnv_004bc450::C3 *)(const ::fnv_006652e0::NiColor *)(&col));
+                reinterpret_cast<::FUN_004534f0_shell *>((((FUN_004534f0_shell*)*(void**)(((unsigned char *)(::FUN_00664840(1))) + 8))))->FUN_004534f0((std::uintptr_t)&col);
+                reinterpret_cast<::FUN_004534f0_shell *>((((FUN_004534f0_shell*)*(void**)(((unsigned char *)(::FUN_00664840(1))) + 8))))->FUN_004534f0((std::uintptr_t)&col);
+                reinterpret_cast<::fnv_004bc450::FUN_004bc450_S *>((((NiProperty*)*(void**)(((unsigned char *)(::FUN_00664840(1))) + 8))))->FUN_004bc450((const ::fnv_004bc450::C3 *)(const ::fnv_006652e0::NiColor *)(&col));
             }
         }
         ((FUN_006658b0_shell*)((unsigned char *)(::FUN_00664840(1))))->Update();
@@ -629,7 +634,7 @@ class FUN_00665c50
 struct Mgr6649c0
 {
     FUN_00665c50* m_map;
-    NiPointer<NiTexture>* GetOrCreateTexturePointer(unsigned int key);
+    NiPointer<NiTexture>* GetOrCreateTexturePointer(std::uintptr_t key);
 };
 // @fnv 0x00664b50
 void TreeMgr664b50::GetOrCreateModel(TESObjectTREE* tree, int key, TreeModelPtr& out)
@@ -638,7 +643,7 @@ void TreeMgr664b50::GetOrCreateModel(TESObjectTREE* tree, int key, TreeModelPtr&
     TreeModelPtr spModel3(0);
     if (tree)
     {
-        TreeModelPtr* entries3 = ((::TreeModelPtr *)(reinterpret_cast<::Mgr6649c0 *>(this)->GetOrCreateTexturePointer((unsigned int)(tree))));
+        TreeModelPtr* entries3 = ((::TreeModelPtr *)(reinterpret_cast<::Mgr6649c0 *>(this)->GetOrCreateTexturePointer((std::uintptr_t)(tree))));
         int freeIdx3 = -1;
         bool found3 = false;
         for (int i3 = 0; i3 < 1; i3++)
@@ -646,7 +651,7 @@ void TreeMgr664b50::GetOrCreateModel(TESObjectTREE* tree, int key, TreeModelPtr&
             TreeModel664b50* model = entries3[i3];
             if (model)
             {
-                if (((int)(reinterpret_cast<::LowProcess *>((void *)(model))->GetTarget())) == key)
+                if (((int)(std::intptr_t)(reinterpret_cast<::LowProcess *>((void *)(model))->GetTarget())) == key)
                 {
                     spModel3 = model;
                     found3 = true;
@@ -677,7 +682,7 @@ void TreeMgr664b50::GetOrCreateModel(TESObjectTREE* tree, int key, TreeModelPtr&
 
 // Looks up key in m_map, creating the map if null and inserting a new NiPointer<NiTexture> array when absent, then returns the pointer.
 // @fnv 0x006649c0
-NiPointer<NiTexture>* Mgr6649c0::GetOrCreateTexturePointer(unsigned int key)
+NiPointer<NiTexture>* Mgr6649c0::GetOrCreateTexturePointer(std::uintptr_t key)
 {
     AutoMemContext ctx(MEM_CONTEXT_MEM_CONTEXT_TREEART, true,
                        "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\SpeedTree\\BSTreeManager.cpp", 216);
@@ -789,7 +794,7 @@ NiAVObject* TreeManager::CreateTreeInstance(TreeReference* reference, TESObjectT
     reinterpret_cast<::TreeMgr664b50 *>((((TreeModelManager*)FUN_00664840(true))))->GetOrCreateModel(tree, node, (::TreeModelPtr &)(scale));
     if (!(BSTreeModel*)scale)
         return 0;
-    if (((unsigned int)(reinterpret_cast<::Callees *>((((BSTreeModel*)scale)))->FUN_00726070())) > 2)
+    if (((unsigned int)(std::uintptr_t)(reinterpret_cast<::Callees *>((((BSTreeModel*)scale)))->FUN_00726070())) > 2)
     {
         model = new FUN_00666650;
         if (!reinterpret_cast<::TreeCloneView *>((model))->CloneFromModel((::TreeCloneView *)(::BSTreeModel *)(scale)))
@@ -809,7 +814,7 @@ NiAVObject* TreeManager::CreateTreeInstance(TreeReference* reference, TESObjectT
         key = reinterpret_cast<::fnv_00567400::FUN_00567400_shell *>((reference))->FUN_00567400();
     NiAVObject* instanceModel = model->CreateInstance(key);
     if (instanceModel)
-        ::AssignFixedString((char *)(instanceModel), (int)&(const ::NiFixedString &)(NiFixedString(tree->model.GetModelPath())), {});
+        ::AssignFixedString((char *)(instanceModel), (std::intptr_t)&(const ::NiFixedString &)(NiFixedString(tree->model.GetModelPath())), {});
     reinterpret_cast<::FUN_006652c0_shell *>((model))->SetByteAtOffset44(1);
     return instanceModel;
 }
@@ -892,7 +897,7 @@ NiSourceTexture* FUN_00665610()
                                (::TexPtr< ::NiSourceTexture> &)(((TreeTextureState*)FUN_00664840(true))->shadow), true, false);
         else
             ((TreeTextureState*)FUN_00664840(true))->shadow.FUN_0066b0d0(0);
-        SetGlobalValue((unsigned int)((::NiSourceTexture *)(::FUN_00559450((int *)&(((TreeTextureState*)FUN_00664840(true))->shadow)))));
+        SetGlobalValue(((::NiSourceTexture *)(::FUN_00559450((int *)&(((TreeTextureState*)FUN_00664840(true))->shadow)))));
     }
     if (!((::NiSourceTexture *)(::FUN_00559450((int *)&(((TreeTextureState*)FUN_00664840(true))->shadow)))))
     {
@@ -908,9 +913,10 @@ NiSourceTexture* FUN_00665610()
             }
         }
         reinterpret_cast<::NiGlobalStringTable *>((pixels))->AddString();
+        NiFixedString kName("CanopyShadowTexture");
         ((TreeTextureState*)FUN_00664840(true))
-            ->shadow.FUN_0066b0d0(((::NiSourceTexture *)(::fnv_00a5ff10::FUN_00a5ff10((::fnv_00a5ff10::RefCounted *)(pixels), (void *)(NiFixedString("CanopyShadowTexture")), (const ::fnv_00a5ff10::OwnerTriple *)&((*reinterpret_cast<const ::fnv_00665610::TextureFormatPrefs *>(&::DAT_011a9598)))))));
-        SetGlobalValue((unsigned int)((::NiSourceTexture *)(::FUN_00559450((int *)&(((TreeTextureState*)FUN_00664840(true))->shadow)))));
+            ->shadow.FUN_0066b0d0(((::NiSourceTexture *)(::fnv_00a5ff10::FUN_00a5ff10((::fnv_00a5ff10::RefCounted *)(pixels), &kName, (const ::fnv_00a5ff10::OwnerTriple *)&((*reinterpret_cast<const ::fnv_00665610::TextureFormatPrefs *>(&::DAT_011a9598)))))));
+        SetGlobalValue(((::NiSourceTexture *)(::FUN_00559450((int *)&(((TreeTextureState*)FUN_00664840(true))->shadow)))));
     }
     return ((::NiSourceTexture *)(::FUN_00559450((int *)&(((TreeTextureState*)FUN_00664840(true))->shadow))));
 }
@@ -941,7 +947,7 @@ struct Entry664
 FUN_00664740::~FUN_00664740()
 {
     ::Entry664::FUN_00664cd0(0);
-    ::SetGlobalValue(false);
+    ::SetGlobalValue(nullptr);
     ::FUN_00451570(0);
     ::FUN_00451520(1);
     ::ClearGlobalObjects();
@@ -976,7 +982,7 @@ void Entry664::FUN_00664cd0(bool partial)
                 {
                     if (((::Obj664 *)(::FUN_00559450((int *)&(p[s])))))
                     {
-                        if (((unsigned int)(reinterpret_cast<::Callees *>((((::Obj664 *)(::FUN_00559450((int *)&(p[s]))))))->FUN_00726070())) <= 1)
+                        if (((unsigned int)(std::uintptr_t)(reinterpret_cast<::Callees *>((((::Obj664 *)(::FUN_00559450((int *)&(p[s]))))))->FUN_00726070())) <= 1)
                             p[s].FUN_0066b0d0(0);
                         else
                             i = false;
@@ -1033,9 +1039,6 @@ struct Pair6658
     float x, y;
 };
 float FUN_0063c600(float);
-namespace std {
-double abs(float);
-}
 void FUN_00bb1390(float, float, float, float);
 struct C6658
 {
@@ -1169,8 +1172,8 @@ FUN_00664440::FUN_00664440()
     m_b1a = false;
     m_b1b = *(*reinterpret_cast<::xGBool *>(&::g_011d5d00)).Bool();
     m_spMat = new xMatProp();
-    reinterpret_cast<::FUN_004534f0_shell *>(((m_spMat).operator->()))->FUN_004534f0((unsigned int)&(const ::RGBColorValue &)(RGBColorValue(1.0f, 1.0f, 1.0f)));
-    reinterpret_cast<::FUN_004534f0_shell *>(((m_spMat).operator->()))->FUN_004534f0((unsigned int)&(const ::RGBColorValue &)(RGBColorValue(1.0f, 1.0f, 1.0f)));
+    reinterpret_cast<::FUN_004534f0_shell *>(((m_spMat).operator->()))->FUN_004534f0((std::uintptr_t)&(const ::RGBColorValue &)(RGBColorValue(1.0f, 1.0f, 1.0f)));
+    reinterpret_cast<::FUN_004534f0_shell *>(((m_spMat).operator->()))->FUN_004534f0((std::uintptr_t)&(const ::RGBColorValue &)(RGBColorValue(1.0f, 1.0f, 1.0f)));
     reinterpret_cast<::fnv_004bc450::FUN_004bc450_S *>(((m_spMat).operator->()))->FUN_004bc450((const ::fnv_004bc450::C3 *)&(const ::RGBColorValue &)(RGBColorValue(1.0f, 1.0f, 1.0f)));
     m_spAlpha = new xAlphaProp();
     reinterpret_cast<::Flag512Receiver *>(((m_spAlpha).operator->()))->SetFlag512(true);
@@ -1213,4 +1216,93 @@ void* Ref664::FUN_00667120(unsigned int flags)
     return this;
 }
 
+void ClampAndStoreValue(float value);
+
+float FUN_006655a0();
+
+struct NiRenderTargetGroup;
+
+struct NiRenderer
+{
+    virtual void v000();
+    virtual void v001();
+    virtual void v002();
+    virtual void v003();
+    virtual void v004();
+    virtual void v005();
+    virtual void v006();
+    virtual void v007();
+    virtual void v008();
+    virtual void v009();
+    virtual void v010();
+    virtual void v011();
+    virtual void v012();
+    virtual void v013();
+    virtual void v014();
+    virtual void v015();
+    virtual void v016();
+    virtual void v017();
+    virtual void v018();
+    virtual void v019();
+    virtual void v020();
+    virtual void v021();
+    virtual void v022();
+    virtual void v023();
+    virtual void v024();
+    virtual void v025();
+    virtual void v026();
+    virtual void v027();
+    virtual void v028();
+    virtual void v029();
+    virtual void v030();
+    virtual void v031();
+    virtual void v032();
+    virtual void v033();
+    virtual void v034();
+    virtual void v035();
+    virtual void v036();
+    virtual void v037();
+    virtual void v038();
+    virtual void v039();
+    virtual void v040();
+    virtual void v041();
+    virtual void v042();
+    virtual void v043();
+    virtual void v044();
+    virtual void v045();
+    virtual void v046();
+    virtual void v047();
+    virtual void v048();
+    virtual void v049();
+    virtual NiRenderTargetGroup* GetCurrentRenderTargetGroup();
+    static NiRenderer* ms_pRenderer;
+};
+
+struct GraphicsRenderer : public NiRenderer
+{
+    bool BeginUsingRenderTargetGroup(NiRenderTargetGroup* pkTarget, unsigned int uiClone);
+};
+
+// @fnv 0x00b6b7d0
+void FUN_00b6b7d0(NiRenderTargetGroup* pkTarget, unsigned int uiClone)
+{
+    NiRenderer* pkRenderer = NiRenderer::ms_pRenderer;
+    if (pkTarget == 0)
+    {
+        pkTarget = pkRenderer->GetCurrentRenderTargetGroup();
+    }
+    if (*(bool*)((char*)pkRenderer + 0x208))
+    {
+        reinterpret_cast<::B6B330Renderer *>((pkRenderer))->TryUnlock();
+    }
+    NiRenderTargetGroup* pkTarget2 = pkTarget;
+    if (pkTarget2 == 0)
+    {
+        pkTarget2 = NiRenderer::ms_pRenderer->GetCurrentRenderTargetGroup();
+    }
+    ((GraphicsRenderer*)NiRenderer::ms_pRenderer)->BeginUsingRenderTargetGroup(pkTarget2, uiClone);
+    ::PushRefCountedSlot((int *)(pkTarget));
+}
+
 #include "generated/data/fallout_shared/speedtree/bstreemanager.inc"
+#include "generated/data/fallout_shared/speedtree/bstreemanager_o2_variant.inc"

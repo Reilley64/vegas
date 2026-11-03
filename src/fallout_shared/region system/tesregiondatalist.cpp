@@ -40,7 +40,7 @@ void RegionDataList::Clear()
     TESRegionData* pkRegionData = 0;
     while (ItemsInList() != 0)
     {
-        pkRegionData = ((::TESRegionData *)(new ((void *)this) ::Vec3()));
+        pkRegionData = ((::TESRegionData *)((void *)this));
         RemoveHead();
         if (m_bDataFlag)
             delete pkRegionData;
@@ -64,8 +64,8 @@ void Dummy::FUN_004f2480(unsigned char aucArg1, unsigned char aucArg2)
     BSSimpleList<TESRegionData*>* pcurrent = ((::BSSimpleList< ::TESRegionData *> *)(reinterpret_cast<::TESTopicInfoData *>((((SeqObj*)this)))->GetLinkToList()));
     while (pcurrent)
     {
-        if (((::TESRegionData *)(new ((void *)(((NodeTmp*)pcurrent))) ::Vec3())))
-            ::FUN_004f24e0((::TESSound *)(((::TESRegionData *)(new ((void *)(((NodeTmp*)pcurrent))) ::Vec3()))), aucArg1, aucArg2);
+        if (((::TESRegionData *)((void *)(((NodeTmp*)pcurrent)))))
+            ::FUN_004f24e0((::TESSound *)(((::TESRegionData *)((void *)(((NodeTmp*)pcurrent))))), aucArg1, aucArg2);
         pcurrent = ((::BSSimpleList< ::TESRegionData *> *)(reinterpret_cast<::Callees *>((((NodeTmp*)pcurrent)))->FUN_00726070()));
     }
 }
@@ -104,7 +104,7 @@ class FUN_004f33c0_cls
 // @fnv 0x004f33c0
 bool FUN_004f33c0_cls::FUN_004f33c0(ProbeBase* apProbe)
 {
-    if (apProbe == 0 || ((int)(reinterpret_cast<::GList *>(this)->FUN_004f35b0(apProbe->v10()))))
+    if (apProbe == 0 || ((std::intptr_t)(reinterpret_cast<::GList *>(this)->FUN_004f35b0(apProbe->v10()))))
     {
         return false;
     }

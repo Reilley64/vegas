@@ -74,7 +74,6 @@ class Renderer
     static bool CanRender();
 };
 
-extern NiColor DAT_011c74b8;
 extern bool DAT_011c70e9;
 
 #endif

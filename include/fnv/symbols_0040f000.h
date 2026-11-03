@@ -18,6 +18,6 @@ bool FUN_0040f980(int);
 // 0x0040fa40
 namespace s40fa40 { void FUN_0040fa40(::s40fa40::Owner *, ::s40fa40::Entry *); }
 // 0x0040fbe0
-void FUN_0040fbe0();
+void FUN_0040fbe0(...);
 // 0x0040fca0
 void FUN_0040fca0(unsigned long);

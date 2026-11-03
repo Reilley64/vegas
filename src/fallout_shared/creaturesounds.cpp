@@ -82,7 +82,7 @@ void CreatureSoundCollection::AddSoundForType(SoundListEntry* sound, CREATURE_SO
 
         SoundListView* current = (SoundListView*)GetSoundListForType(type);
         SoundListView* previous = 0;
-        while (current && !current->IsEmpty() && ((::SoundListEntry *)(new ((void *)(current)) ::Vec3()))->m_ucSortOrder <= sound->m_ucSortOrder)
+        while (current && !current->IsEmpty() && ((::SoundListEntry *)((void *)(current)))->m_ucSortOrder <= sound->m_ucSortOrder)
         {
             previous = current;
             current = ((::SoundListView *)(reinterpret_cast<::Callees *>((current))->FUN_00726070()));
@@ -174,7 +174,7 @@ void CreatureSounds_shell::ClearSoundList(CREATURE_SOUND_TYPE type)
     SoundListView* list = (SoundListView*)GetSoundListForType(type);
     while (list && !list->IsEmpty())
     {
-        SoundListEntry* item = ((::SoundListEntry *)(new ((void *)(list)) ::Vec3()));
+        SoundListEntry* item = ((::SoundListEntry *)((void *)(list)));
         ::FUN_00401030(item);
         ((SoundListView_helper*)list)->_ref_0063f7b0();
     }
@@ -223,7 +223,7 @@ void FUN_005f0640_shell::CopyCreatureSoundLists(CreatureSoundCollection* apCopy)
             BSSimpleList<SoundListEntry*>* pCurrentElementNext = apCopy->GetSoundListForType((CREATURE_SOUND_TYPE)i);
             while (pCurrentElementNext && !pCurrentElementNext->IsEmpty())
             {
-                SoundListEntry* pdata = ((::SoundListEntry *)(new ((void *)(pCurrentElementNext)) ::Vec3()));
+                SoundListEntry* pdata = (pCurrentElementNext->m_item);
                 SoundListEntry* pnewdata = new SoundListEntry;
                 CopyPointerAndByte(pnewdata, pdata);
                 AddSoundForType(pnewdata, (CREATURE_SOUND_TYPE)i);
@@ -243,13 +243,13 @@ struct FUN_005f0a30_shell : CreatureSoundCollection
 // @fnv 0x005f0a30
 unsigned int FUN_005f0a30_shell::GetRandomCreatureSound(CREATURE_SOUND_TYPE aeSoundType)
 {
-    unsigned int result2 = 0;
+    std::uintptr_t result2 = 0;
     BSSimpleList<SoundListEntry*>* pSoundList = GetSoundListForType(aeSoundType);
     while (pSoundList && !pSoundList->IsEmpty() && !result2)
     {
-        SoundListEntry* sound = ((::SoundListEntry *)(new ((void *)(pSoundList)) ::Vec3()));
+        SoundListEntry* sound = (pSoundList->m_item);
         if (sound->SoundAssetTmp && DialogueRandom() % 100 < sound->m_ucSortOrder)
-            result2 = (unsigned int)sound->SoundAssetTmp;
+            result2 = (std::uintptr_t)sound->SoundAssetTmp;
         pSoundList = ((::BSSimpleList< ::SoundListEntry *> *)(reinterpret_cast<::Callees *>((pSoundList))->FUN_00726070()));
     }
     return result2;
@@ -274,7 +274,7 @@ void FUN_005f03a0_shell::FUN_005f03a0()
 
             while (pSoundList && !pSoundList->IsEmpty())
             {
-                SoundListEntry* SoundAssetTmp = ((::SoundListEntry *)(new ((void *)(pSoundList)) ::Vec3()));
+                SoundListEntry* SoundAssetTmp = (pSoundList->m_item);
                 unsigned int formID = 0;
 
                 if (SoundAssetTmp->SoundAssetTmp)
@@ -310,8 +310,8 @@ bool FUN_005f06f0_shell::IsDifferentFrom(CreatureSoundCollection* apCompare)
 
         while (pCurrentElementNext != 0 && !pCurrentElementNext->IsEmpty() && pOtherList != 0 && !pOtherList->IsEmpty())
         {
-            SoundListEntry* pdata = ((::SoundListEntry *)(new ((void *)(pCurrentElementNext)) ::Vec3()));
-            SoundListEntry* pOtherEntry = ((::SoundListEntry *)(new ((void *)(pOtherList)) ::Vec3()));
+            SoundListEntry* pdata = (pCurrentElementNext->m_item);
+            SoundListEntry* pOtherEntry = (pOtherList->m_item);
 
             if (pdata->m_ucSortOrder != pOtherEntry->m_ucSortOrder)
                 return true;

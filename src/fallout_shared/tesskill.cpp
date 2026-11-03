@@ -2,6 +2,7 @@
 // src/fallout_shared/tesskill.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/tesskill.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <cstring>
 #include <malloc.h>
 #include "fnv/decl/FUN_00401660_Class.h"
@@ -131,7 +132,7 @@ void FUN_00617fc0_shell::FUN_00617fc0()
     reinterpret_cast<::fnv_0048e370::FUN_0048e370_shell *>((((FUN_0048e370_obj*)((char*)this + 0x20))))->FUN_0048e370(0x4e4f4349);
     if ((unsigned char)((int)(::FUN_00401500())))
         ((FUN_006180a0_shell*)((char*)this + 0x2c))->SwapEndian();
-    reinterpret_cast<::SDSaveForm *>((((FUN_00485e00_shell*)this)))->FUN_00485e20((const void *)((int)((char*)this + 0x2c)), 0x14);
+    reinterpret_cast<::SDSaveForm *>((((FUN_00485e00_shell*)this)))->FUN_00485e20((const void *)((std::intptr_t)((char*)this + 0x2c)), 0x14);
     if ((unsigned char)((int)(::FUN_00401500())))
         ((FUN_006180a0_shell*)((char*)this + 0x2c))->SwapEndian();
     ::WriteDescChunk((char*)this + 0x40, 0x4d414e41);

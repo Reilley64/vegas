@@ -1026,7 +1026,7 @@ bool RagDollRefUpdater::FUN_004d9910(TESObjectREFR* apRef)
 // @fnv 0x004da230
 void FUN_004da230_shell::UpdateNodeFromPosition(FUN_004da230_param* object)
 {
-    if (reinterpret_cast<::NiPlane *>((void *)&(const ::Call_439090 &)(reinterpret_cast<Call_439090&>(position)))->operator==((const ::NiPlane &)(reinterpret_cast<Call_439090&>(::NiPoint3::ZERO))))
+    if (reinterpret_cast<::NiPlane *>((void *)&(const ::Call_439090 &)(reinterpret_cast<Call_439090&>(position)))->operator==((const ::NiPlane &)(reinterpret_cast<const Call_439090&>(::NiPoint3::ZERO))))
     {
         FUN_004da230_intermediate* pContainer;
         FUN_004da230_node* pNode;

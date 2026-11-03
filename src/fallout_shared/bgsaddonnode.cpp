@@ -34,6 +34,7 @@
 #include "bgsaddonnode_decls.h"
 #include <malloc.h>
 #include <string.h>
+#include "fnv/symbols_00472000.h"
 
 // @fnv 0x004f8c50
 void BGSAddonNode::ResetFormData()
@@ -52,7 +53,7 @@ void BGSAddonNode::InitItem()
     TESModelTextureSwap::InitItem(this);
     if (SoundAssetTmp)
     {
-        unsigned int formID = reinterpret_cast<unsigned int>(SoundAssetTmp);
+        unsigned int formID = (unsigned int)(std::uintptr_t)(SoundAssetTmp);
         ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
         SoundAssetTmp = dynamic_cast<TESSound*>(::FUN_004839c0(formID));
         if (!SoundAssetTmp)
@@ -189,7 +190,7 @@ void FUN_004f9360()
     {
         BSFadeNode* inner = (*reinterpret_cast<::fnv_004f9360::BSFadeNode * *>(&::DAT_011c8058));
         pFadeNode = inner;
-        pFadeNode ? ((int)(reinterpret_cast<::NiFixedString *>((pFadeNode))->FUN_004b9900(1))) : 0;
+        pFadeNode ? ((std::intptr_t)(reinterpret_cast<::NiFixedString *>((pFadeNode))->FUN_004b9900(1))) : 0;
     }
     (*reinterpret_cast<::fnv_004f9360::BSFadeNode * *>(&::DAT_011c8058)) = 0;
 }
@@ -410,6 +411,41 @@ class FUN_004f91b0 : public ExtraDataBase
 // Constructs an ExtraDataBase-derived object, passing the result of FUN_004f9230() to the base constructor.
 // @fnv 0x004f91b0
 FUN_004f91b0::FUN_004f91b0() : ExtraDataBase(FUN_004f9230())
+{}
+
+// sub ecx,0x30; jmp FUN_004f8b90  ==  MSVC adjustor thunk (multiple inheritance, primary base size 0x30).
+// Derived overrides a virtual that both of its bases declare, so the second base's vtable slot
+// holds a thunk that moves `this` back by the size of the first base (0x30) and tail-jumps to
+// the final overrider. Only the constructor is defined, so the vtables (and the thunk) get emitted.
+struct PrimaryBase
+{
+    virtual void FUN_004f93a0();
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+};
+
+struct SecondaryBase
+{
+    virtual void FUN_004f93a0();
+};
+
+struct Derived : PrimaryBase, SecondaryBase
+{
+    Derived();
+// @fnv 0x004f93a0
+    virtual void FUN_004f93a0();
+};
+
+Derived::Derived()
 {}
 
 #include "generated/data/fallout_shared/bgsaddonnode.inc"

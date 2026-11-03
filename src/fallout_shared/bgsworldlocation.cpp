@@ -170,7 +170,8 @@ float FUN_00527ac0_shell::ComputeWeightedDistance(FUN_00527ac0_shell* apOther, P
 {
     if (*(int*)((char*)this + 0xc) != *(int*)((char*)apOther + 0xc))
         return 3.4028234663852886e+38f;
-    P3 diff = (*(::P3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(((P3*)apOther)))->FUN_00439ef0-((::NiPoint3 *)&(*(P3*)this), *(const ::NiPoint3 *)nullptr)));
+    P3 diff;
+    reinterpret_cast<::FUN_00439ef0_class *>((void *)(((P3*)apOther)))->FUN_00439ef0((::NiPoint3 *)&diff, *(const ::NiPoint3 *)this);
     diff.x = diff.x * apDir->x;
     diff.y = diff.y * apDir->y;
     diff.z = diff.z * apDir->z;

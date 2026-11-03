@@ -44,6 +44,7 @@
 #include "fnv/symbols_00489000.h"
 #include "fnv/symbols_0118c000.h"
 #include "tescaravan_decls.h"
+#include "fnv/symbols_00472000.h"
 class RegionDataEntry
 {
   public:
@@ -521,10 +522,10 @@ struct FUN_00484d60_holder
 };
 struct FUN_0059add0_shell : public FUN_00484d60_holder
 {
-    void ForwardToBase(unsigned int a);
+    void ForwardToBase(std::uintptr_t a);
 };
 // @fnv 0x0059add0
-void FUN_0059add0_shell::ForwardToBase(unsigned int a)
+void FUN_0059add0_shell::ForwardToBase(std::uintptr_t a)
 {
     reinterpret_cast<::FakeForm *>(this)->SaveIfChanged((::BGSSaveFormBuffer *)(a));
 }
@@ -593,14 +594,14 @@ void FUN_0059ba80_shell::FUN_0059ba80()
     reinterpret_cast<::fnv_004855a0::ArrSI *>(this)->FUN_004855a0();
     reinterpret_cast<::FUN_00487010_shell *>((((S_00487010*)((char*)this + 0x18))))->FUN_00487010();
     BSSimpleList<TESCaravanCard*>* current = (BSSimpleList<TESCaravanCard*>*)reinterpret_cast<::ActorMover *>((((BSThread*)this)))->GetCurrentMoveModeType();
-    while (current && ((::TESCaravanCard *)(new ((void *)(current)) ::Vec3())))
+    while (current && (current->m_item))
     {
-        ::FUN_00485910(0x44524143, ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::TESCaravanCard *)(new ((void *)(current)) ::Vec3()))))->FUN_0084e3a0())));
+        ::FUN_00485910(0x44524143, ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(((current->m_item)))->FUN_0084e3a0())));
         current = ((::BSSimpleList< ::TESCaravanCard *> *)(reinterpret_cast<::Callees *>((current))->FUN_00726070()));
     }
     if (((bool)(::FUN_00401500())))
         reinterpret_cast<::fnv_00503210::Unk *>((((BipedModelForm*)((char*)this + 0x28))))->FUN_00503210();
-    reinterpret_cast<::SDSaveForm *>(this)->FUN_00485e20((const void *)((int)((char*)this + 0x28)), 4);
+    reinterpret_cast<::SDSaveForm *>(this)->FUN_00485e20((const void *)((std::intptr_t)((char*)this + 0x28)), 4);
     if (((bool)(::FUN_00401500())))
         reinterpret_cast<::fnv_00503210::Unk *>((((BipedModelForm*)((char*)this + 0x28))))->FUN_00503210();
     reinterpret_cast<::Holder *>((((FUN_00485680*)this)))->FUN_00485680();
@@ -755,11 +756,11 @@ class FUN_0059b680_cls : public FUN_0059b680_base
     char unk90[0x1c];
     FUN_0059b680_sub m_ac;
 
-    void FUN_0059b680(int a1);
+    void FUN_0059b680(std::intptr_t a1);
 };
 
 // @fnv 0x0059b680
-void FUN_0059b680_cls::FUN_0059b680(int a1)
+void FUN_0059b680_cls::FUN_0059b680(std::intptr_t a1)
 {
     void* p = dynamic_cast<::TESCaravanMoney *>(reinterpret_cast<::TESForm *>(a1));
     if (p == 0)
@@ -770,7 +771,7 @@ void FUN_0059b680_cls::FUN_0059b680(int a1)
         reinterpret_cast<::FormCloneOperation *>(this)->FUN_004851b0(p);
         m_8c.V6(((FUN_0059b680_sub*)reinterpret_cast<::FUN_0059b270_shell *>((((FUN_0059b270_shell*)p)))->FUN_0059b270(0))->V5());
         m_ac.V6(((FUN_0059b680_sub*)reinterpret_cast<::FUN_0059b270_shell *>((((FUN_0059b270_shell*)p)))->FUN_0059b270(1))->V5());
-        reinterpret_cast<::FUN_004f15a0_shell *>(this)->FUN_004f15a0((int)(((FUN_00401170_shell*)a1)->FUN_00401170()));
+        reinterpret_cast<::FUN_004f15a0_shell *>(this)->FUN_004f15a0((std::intptr_t)(((FUN_00401170_shell*)a1)->FUN_00401170()));
     }
 }
 }  // namespace fnv_0059b680
@@ -819,7 +820,6 @@ FUN_0059b940::~FUN_0059b940()
     reinterpret_cast<::FUN_0059b9c0_shell *>(this)->ClearListAndData();
 }
 
-extern const char DAT_01183028[];
 extern const char DAT_0118643c[];
 
 struct Itc
@@ -874,9 +874,9 @@ void FUN_0059bd50_cls::LoadDeckData(void* arg)
         while (p24 != 0 && !p24->FUN_008256d0())
             p24->FUN_0063f7b0();
         Itc* it = ((::Itc *)(reinterpret_cast<::ActorMover *>((rec))->GetCurrentMoveModeType()));
-        while (it != 0 && *((void **)(new ((void *)(it)) ::Vec3())) != 0)
+        while (it != 0 && *((void **)((void *)(it))) != 0)
         {
-            void* v = *((void **)(new ((void *)(it)) ::Vec3()));
+            void* v = *((void **)((void *)(it)));
             if (p24 == 0 || p24->FUN_008256d0())
                 p24->FUN_00726c60(v);
             else
@@ -1008,8 +1008,6 @@ void DstF::CopyFrom(FormA* pForm)
 }  // namespace fnv_0059ac20
 
 namespace fnv_0059acd0 {
-extern "C" void* DAT_01183028;
-extern "C" int __cdecl memcmp(const void*, const void*, unsigned int);
 
 struct StrHelper_00408da0
 {
@@ -1036,7 +1034,7 @@ struct Class_0059acd0
 // @fnv 0x0059acd0
 bool Class_0059acd0::IsDifferentFromCard(void* apCard)
 {
-    CardType_0059acd0* card = (CardType_0059acd0*)FNV_DynamicCast(apCard, 0, &DAT_01183028, &DAT_0118c5c4, 0);
+    CardType_0059acd0* card = (CardType_0059acd0*)dynamic_cast<::TESCaravanCard*>(reinterpret_cast<::TESForm*>(apCard));
     if (!card)
         return true;
     if (reinterpret_cast<::FUN_00509540_obj *>((this))->FUN_00485270((::TESForm *)(card)))
@@ -1054,6 +1052,8 @@ bool Class_0059acd0::IsDifferentFromCard(void* apCard)
 #include <string.h>
 struct CardListNode
 {
+    ::TESCaravanCard* m_item;
+    CardListNode* m_pkNext;
     int FUN_005ae380();
 };
 
@@ -1080,9 +1080,9 @@ bool TESCaravanDeckX::FUN_0059be50(TESForm* form)
     if (((::CardListNode *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType()))->FUN_005ae380() != ((::CardListNode *)(reinterpret_cast<::ActorMover *>((((TESCaravanDeckX*)pDeck2)))->GetCurrentMoveModeType()))->FUN_005ae380())
         return true;
     CardListNode* pNode = ((::CardListNode *)(reinterpret_cast<::ActorMover *>((((TESCaravanDeckX*)pDeck2)))->GetCurrentMoveModeType()));
-    while (pNode && ((::TESCaravanCard *)(new ((void *)(pNode)) ::Vec3())))
+    while (pNode && pNode->m_item)
     {
-        if (!reinterpret_cast<::RefList *>((((::CardListNode *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType()))))->FUN_005f65d0((void **)&(((::TESCaravanCard *)(new ((void *)(pNode)) ::Vec3())))))
+        if (!reinterpret_cast<::RefList *>((((::CardListNode *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType()))))->FUN_005f65d0((void **)&pNode->m_item))
             return true;
         pNode = ((::CardListNode *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070()));
     }
@@ -1127,4 +1127,89 @@ bool CaravanMoneyCompare::FUN_0059b740(TESForm* other)
         return true;
 
     return false;
+}
+
+// Adjustor thunk (MSVC this-adjusting thunk for a secondary base sub-object).
+// The secondary base sits at offset 0x3c inside the derived object, so the
+// thunk rewinds 'this' to the start of the derived object and tail-jumps to
+// the overriding implementation.
+class PrimaryBase
+{
+  public:
+    virtual void FUN_0059bf40();
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+};
+
+class SecondaryBase
+{
+  public:
+    virtual void FUN_0059bf40();
+};
+
+class Derived : public PrimaryBase, public SecondaryBase
+{
+  public:
+// @fnv 0x0059bf40
+    virtual void FUN_0059bf40();
+    Derived();
+};
+
+Derived::Derived()
+{}
+
+namespace fnv_0059bf70 {
+// Adjustor (this-adjusting) thunk for FUN_0059bf70: "sub ecx, 0x3c; jmp Release".
+//
+// The thunk is emitted for a virtual function inherited from a secondary base: it moves the
+// secondary-base sub-object pointer back to the derived object pointer (sub ecx, 0x3c) and
+// tail jumps to the final overrider. The subtracted offset is the size of the primary base,
+// so PrimaryBase is laid out as a vtable pointer plus 14 int members (4 + 56 = 0x3c).
+// Both bases declare the same virtual function; the derived class redeclares it and defines
+// only its constructor, which is what makes the compiler emit the vtables and the thunk.
+struct PrimaryBase
+{
+    virtual void FUN_0059bf70();
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+};
+
+struct SecondaryBase
+{
+    virtual void FUN_0059bf70();
+};
+
+struct Derived : PrimaryBase, SecondaryBase
+{
+    Derived();
+// @fnv 0x0059bf70
+    virtual void FUN_0059bf70();
+};
+
+Derived::Derived()
+{}
 }

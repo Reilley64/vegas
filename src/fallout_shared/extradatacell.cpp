@@ -224,7 +224,7 @@ class FUN_0040ed30 : public ED30Base
 // @fnv 0x0040ed00
 void* ExtraCell3D::FUN_0040ed00(unsigned int flags)
 {
-    reinterpret_cast<::FUN_0040ed30 *>((this))->FUN_0040ed30::~FUN_0040ed30();
+    reinterpret_cast<::FUN_0040ed30 *>((this))->::FUN_0040ed30::~FUN_0040ed30();
     if (flags & 1)
         ::FUN_00401030(this);
     return this;
@@ -292,7 +292,7 @@ struct FUN_0040ee70 : FUN_0040ecb0
 // @fnv 0x0040ee40
 void* ExtraHavok::FUN_0040ee40(unsigned int flags)
 {
-    reinterpret_cast<::FUN_0040ee70 *>(this)->FUN_0040ee70::~FUN_0040ee70();
+    reinterpret_cast<::FUN_0040ee70 *>(this)->::FUN_0040ee70::~FUN_0040ee70();
     if (flags & 1)
         ::FUN_00401030(this);
     return this;
@@ -329,7 +329,7 @@ class FUN_0040f210 : public B0F210ExtraData
 // @fnv 0x0040f1e0
 void* ExtraCellImpactSwap::FUN_0040f1e0(unsigned int flags)
 {
-    reinterpret_cast<::FUN_0040f210 *>(this)->FUN_0040f210::~FUN_0040f210();
+    reinterpret_cast<::FUN_0040f210 *>(this)->::FUN_0040f210::~FUN_0040f210();
     if (flags & 1)
         ::FUN_00401030(this);
     return this;
@@ -409,7 +409,7 @@ struct FUN_0040f500_cls : FUN_0040f500_base
 // @fnv 0x0040f4d0
 void* FUN_0040f4d0_shell::FUN_0040f4d0(unsigned int flags)
 {
-    reinterpret_cast<::FUN_0040f500_cls *>(this)->FUN_0040f500_cls::~FUN_0040f500_cls();
+    reinterpret_cast<::FUN_0040f500_cls *>(this)->::FUN_0040f500_cls::~FUN_0040f500_cls();
     if (flags & 1)
         ::FUN_00401030(this);
     return this;

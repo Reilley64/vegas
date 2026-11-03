@@ -54,11 +54,11 @@ void AlchemyItem::InitItem()
     ((MagicItemObject*)this)->MagicItemObject::InitItem();
     ((BGSPickupPutdownSounds*)((char*)this + 0xAC))->InitItem((TESForm*)this);
 
-    unsigned int formID = (unsigned int)FUN_004030b0();
+    unsigned int formID = (unsigned int)(std::uintptr_t)FUN_004030b0();
     if (formID)
     {
         ::ResolveFormID((unsigned int *)&(formID), ((TESForm*)this)->GetFile(-1));
-        reinterpret_cast<::FUN_00874460_cls *>(this)->set((int)(dynamic_cast<SpellItem*>(::FUN_004839c0(formID))));
+        reinterpret_cast<::FUN_00874460_cls *>(this)->set((std::intptr_t)(dynamic_cast<SpellItem*>(::FUN_004839c0(formID))));
         if (!FUN_004030b0())
         {
             ::FUN_005b5e40();
@@ -87,7 +87,7 @@ void AlchemyItem::ClearData()
 // @fnv 0x004030d0
 void AlchemyItem::SetSound(TESSound* sound)
 {
-    unk0C8 = (int)sound;
+    unk0C8 = (std::intptr_t)sound;
 }
 
 // @fnv 0x004030b0
@@ -670,7 +670,7 @@ void FUN_00403280_t::FUN_00403280(TESFile* apFile, int aiChunk)
     case 0x49524353: {
         unsigned int formID = 0;
         ((FUN_004727f0_t*)apFile)->ReadChunkInt(&formID);
-        reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(formID));
+        reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(std::uintptr_t)(formID));
         reinterpret_cast<::TESScriptableForm *>(this)->InitItem((::TESForm *)(::AlchBase00 *)(this));
         break;
     }
@@ -681,19 +681,19 @@ void FUN_00403280_t::FUN_00403280(TESFile* apFile, int aiChunk)
     case 0x50595445: {
         unsigned int formID = 0;
         ((FUN_004727f0_t*)apFile)->ReadChunkInt(&formID);
-        reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(formID));
+        reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(std::uintptr_t)(formID));
         break;
     }
     case 0x4d414e59: {
         unsigned int formID = 0;
         ((FUN_004727f0_t*)apFile)->ReadChunkInt(&formID);
-        reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(formID));
+        reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(std::uintptr_t)(formID));
         break;
     }
     case 0x4d414e5a: {
         unsigned int formID = 0;
         ((FUN_004727f0_t*)apFile)->ReadChunkInt(&formID);
-        reinterpret_cast<::TESRegionGrassObject *>(this)->AssignLandTexture((::TESLandTexture *)(formID));
+        reinterpret_cast<::TESRegionGrassObject *>(this)->AssignLandTexture((::TESLandTexture *)(std::uintptr_t)(formID));
         break;
     }
     case 0x41544144:
@@ -1062,7 +1062,7 @@ struct AlchemySave : AlchPrimBase, AlchSaveBase
 void AlchemySave::FUN_00402f90()
 {
     FormStub* oldItem = ((::FormStub *)(reinterpret_cast<::AlchemyItem *>(this)->FUN_004030b0()));
-    reinterpret_cast<::FUN_00874460_cls *>(this)->set((int)(((::FormStub *)(reinterpret_cast<::AlchemyItem *>(this)->FUN_004030b0())) ? (FormStub*)((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::FormStub *)(reinterpret_cast<::AlchemyItem *>(this)->FUN_004030b0()))))->FUN_0084e3a0())) : 0));
+    reinterpret_cast<::FUN_00874460_cls *>(this)->set((std::intptr_t)(((::FormStub *)(reinterpret_cast<::AlchemyItem *>(this)->FUN_004030b0())) ? (FormStub*)((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::FormStub *)(reinterpret_cast<::AlchemyItem *>(this)->FUN_004030b0()))))->FUN_0084e3a0())) : 0));
     FormStub* pOldSound = ((::FormStub *)(reinterpret_cast<::FUN_009acce0_shell *>(this)->GetFieldC8()));
     reinterpret_cast<::AlchemyItem *>(this)->SetSound((::TESSound *)(::FormStub *)(((::FormStub *)(reinterpret_cast<::FUN_009acce0_shell *>(this)->GetFieldC8())) ? (FormStub*)((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::FormStub *)(reinterpret_cast<::FUN_009acce0_shell *>(this)->GetFieldC8()))))->FUN_0084e3a0())) : 0));
     if (((bool)(::FUN_00401500())))
@@ -1070,7 +1070,7 @@ void AlchemySave::FUN_00402f90()
     ::AppendChunk(s24(), &data, 0x14);
     if (((bool)(::FUN_00401500())))
         reinterpret_cast<::FUN_00403720_shell *>(&(data))->SwapEndian();
-    reinterpret_cast<::FUN_00874460_cls *>(this)->set((int)(oldItem));
+    reinterpret_cast<::FUN_00874460_cls *>(this)->set((std::intptr_t)(oldItem));
     reinterpret_cast<::AlchemyItem *>(this)->SetSound((::TESSound *)(pOldSound));
 }
 
@@ -1165,5 +1165,79 @@ void AlchemyItemMagic::FUN_00403600(MagicItem* source)
     }
     ::__memcpy(GetData(), ((AlchemyItemMagic*)item)->GetData(), 0x14);
 }
+
+// sub ecx,0x30; jmp FUN_004029b0
+// MSVC adjustor thunk: a derived class overrides a virtual declared by two bases;
+// the secondary-base vtable entry is a thunk that moves 'this' back by the primary base size.
+struct PrimaryBase
+{
+    virtual void FUN_00403a50();
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+};
+
+struct SecondaryBase
+{
+    virtual void FUN_00403a50();
+};
+
+struct Derived : PrimaryBase, SecondaryBase
+{
+    Derived();
+// @fnv 0x00403a50
+    virtual void FUN_00403a50();
+};
+
+Derived::Derived()
+{}
+
+// sub ecx,0x4c; jmp target  ==  MSVC adjustor thunk: the derived class overrides a virtual that both
+// bases declare, so the secondary base's vtable gets a thunk that moves `this` back by the primary base size (0x4c).
+struct AdjustPrimaryBase
+{
+    virtual void FUN_00403a60();
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3C;
+    int unk40;
+    int unk44;
+    int unk48;
+};
+
+struct AdjustSecondaryBase
+{
+    virtual void FUN_00403a60();
+};
+
+struct AdjustDerived : AdjustPrimaryBase, AdjustSecondaryBase
+{
+    AdjustDerived();
+// @fnv 0x00403a60
+    virtual void FUN_00403a60();
+};
+
+AdjustDerived::AdjustDerived()
+{}
 
 #include "generated/data/fallout_shared/magic/alchemyitem.inc"

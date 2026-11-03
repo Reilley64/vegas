@@ -169,12 +169,12 @@ struct ExtraListRemover
 
 struct FUN_004197d0_shell : public BaseExtraList
 {
-    void SetExtraDataValue(int value);
+    void SetExtraDataValue(std::intptr_t value);
 };
 
 // Sets the value of extra data type 0x22, removing it when zero or creating and adding it when absent.
 // @fnv 0x004197d0
-void FUN_004197d0_shell::SetExtraDataValue(int value)
+void FUN_004197d0_shell::SetExtraDataValue(std::intptr_t value)
 {
     BSExtraData* extra = reinterpret_cast<::fnv_00410220::FUN_00410220_shell *>(this)->FUN_00410220(0x22);
     if (extra)
@@ -206,8 +206,8 @@ TeleportableReference* FUN_0043a160(TeleportableReference* self)
 {
     NiPoint3 a;
     NiPoint3 b;
-    new ((void *)(((R6815c0*)&self->position.x))) ::Vec3();
-    new ((void *)(((R6815c0*)&self->rotation.x))) ::Vec3();
+    (void *)(((R6815c0*)&self->position.x));
+    (void *)(((R6815c0*)&self->rotation.x));
     *(int*)self = 0;
     (*(char*)&self->cFlags) = 0;
     self->position = *((::NiPoint3 *)(reinterpret_cast<::FUN_00416870_t *>((&a))->FUN_00416870(DAT_01016450, DAT_01016450, DAT_01016450)));
@@ -292,7 +292,7 @@ UnkArg* UnkThis::FUN_0043a390(UnkArg* apArg)
 // @fnv 0x0043a3f0
 int Caller_43a3f0::FUN_0043a3f0()
 {
-    return p ? ((int)(reinterpret_cast<::s575ca0::Owner *>((p))->FUN_00575ca0())) : 0;
+    return p ? ((std::intptr_t)(reinterpret_cast<::s575ca0::Owner *>((p))->FUN_00575ca0())) : 0;
 }
 
 
@@ -342,7 +342,7 @@ void QuantityData::CopyFrom(void* apOther)
 {
     reinterpret_cast<::FUN_00537e90 *>(this)->SetQuantity(((Flt*)apOther)->operator unsigned int());
     reinterpret_cast<::fnv_006f4ed0::PathingLocation *>(this)->FUN_006f4ed0((const ::fnv_006f4ed0::NiPoint3 *)(::ActorPackageContext *)(((BaseProcess*)apOther)->GetCurrentProcessData()));
-    reinterpret_cast<::FUN_0043a280_shell *>(this)->SetVec((*(const ::NiPoint3 *)(((::BSSimpleList< ::TESFile *> *)(::FUN_00460140((int)(((TESForm*)apOther))))))));
+    reinterpret_cast<::FUN_0043a280_shell *>(this)->SetVec((*(const ::NiPoint3 *)(((::BSSimpleList< ::TESFile *> *)(::FUN_00460140((std::intptr_t)(((TESForm*)apOther))))))));
     byte1C = ((QuantityData*)apOther)->byte1C;
 }
 
@@ -371,7 +371,7 @@ bool FUN_0043a860_shell::FUN_0043a860(TeleportableReference* apCompare)
     if (reinterpret_cast<::NiPlane *>((reinterpret_cast<Call_439090*>(reinterpret_cast<BaseProcess*>(this)->GetCurrentProcessData())))->operator==((*(const ::NiPlane *)(reinterpret_cast<BaseProcess*>(apCompare)->GetCurrentProcessData()))))
         return true;
 
-    if (reinterpret_cast<::NiPlane *>((reinterpret_cast<Call_439090*>(((::BSSimpleList< ::TESFile *> *)(::FUN_00460140((int)(reinterpret_cast<TESForm*>(this))))))))->operator==((*(const ::NiPlane *)(((::BSSimpleList< ::TESFile *> *)(::FUN_00460140((int)(reinterpret_cast<TESForm*>(apCompare)))))))))
+    if (reinterpret_cast<::NiPlane *>((reinterpret_cast<Call_439090*>(((::BSSimpleList< ::TESFile *> *)(::FUN_00460140((std::intptr_t)(reinterpret_cast<TESForm*>(this))))))))->operator==((*(const ::NiPlane *)(((::BSSimpleList< ::TESFile *> *)(::FUN_00460140((std::intptr_t)(reinterpret_cast<TESForm*>(apCompare)))))))))
         return true;
 
     if (*(reinterpret_cast<unsigned char*>(this) + 0x1c) != apCompare->cFlags)
@@ -441,7 +441,7 @@ struct RefHandle
 // @fnv 0x00835fe0
 void RefHandle::ResolveRef(void* pvUnused)
 {
-    m_pkRef = m_pkRef ? dynamic_cast<TESObjectREFR*>(FUN_004839c0((unsigned int)m_pkRef)) : 0;
+    m_pkRef = m_pkRef ? dynamic_cast<TESObjectREFR*>(FUN_004839c0((unsigned int)(std::uintptr_t)m_pkRef)) : 0;
 }
 
 }
@@ -495,7 +495,7 @@ struct TeleportFormTypeName
 // @fnv 0x0043a590
 bool FUN_0043a590_shell::FUN_0043a590(TESForm* form)
 {
-    unsigned int formID = (unsigned int)m_pLinkedDoorReference;
+    unsigned int formID = (unsigned int)(std::uintptr_t)m_pLinkedDoorReference;
     ::ResolveFormID(&formID, form->GetFile(-1));
     m_pLinkedDoorReference = dynamic_cast<TESObjectREFR*>(FUN_004839c0(formID));
     if (!m_pLinkedDoorReference)

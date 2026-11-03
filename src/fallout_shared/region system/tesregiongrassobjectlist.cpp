@@ -116,7 +116,7 @@ void FUN_004f5e20::ClearList()
 {
     ListItemBase* cur;
     ListItemBase* item;
-    cur = *((::ListItemBase **)(new ((void *)(((ListHeadStub*)&this->f4))) ::Vec3()));
+    cur = *((::ListItemBase **)((void *)(((ListHeadStub*)&this->f4))));
     while (cur != 0)
     {
         ((ListHeadStub*)&this->f4)->FUN_0063f7b0();
@@ -127,7 +127,7 @@ void FUN_004f5e20::ClearList()
             item = tmp;
             (item != 0) ? item->v2(1) : 0;
         }
-        cur = *((::ListItemBase **)(new ((void *)(((ListHeadStub*)&this->f4))) ::Vec3()));
+        cur = *((::ListItemBase **)((void *)(((ListHeadStub*)&this->f4))));
     }
     *((unsigned int*)((char*)this + 0x10)) = 0;
 }
@@ -161,9 +161,9 @@ FUN_004f5f80_obj* FUN_004f5f80_cls::FUN_004f5f80(int a1, int a2)
     ListNodeX* it9 = (char*)this != 0 ? (ListNodeX*)((char*)this + 4) : 0;
     FUN_004f5f80_obj* result = 0;
     FUN_004f5f80_obj* obj;
-    while (it9 != 0 && *((void **)(new ((void *)(it9)) ::Vec3())) != 0)
+    while (it9 != 0 && *((void **)((void *)(it9))) != 0)
     {
-        obj = (FUN_004f5f80_obj*)*((void **)(new ((void *)(it9)) ::Vec3()));
+        obj = (FUN_004f5f80_obj*)*((void **)((void *)(it9)));
         if (reinterpret_cast<::FUN_0084e3a0_Class *>((((IntOpsX*)(int)obj->unk04())))->FUN_0084e3a0() == a1 &&
             ((a2 >= 0 && obj->unk0c() != 0 && reinterpret_cast<::FUN_0084e3a0_Class *>((((IntOpsX*)(int)obj->unk0c())))->FUN_0084e3a0() == a2) ||
              (a2 < 0 && obj->unk0c() == 0)))
@@ -226,11 +226,11 @@ TargetList* Controller::CopyTargetList(TargetList* apTargetList)
     TargetList* result = apTargetList ? apTargetList : new TargetList(unk0c);
     Actor* actor2 = 0;
 
-    while (iter != 0 && *((void **)(new ((void *)(iter)) ::Vec3())) != 0)
+    while (iter != 0 && *((void **)((void *)(iter))) != 0)
     {
         if (result->unk0c != 0)
         {
-            actor2 = ((VItem*)*((void **)(new ((void *)(iter)) ::Vec3())))->v5(0);
+            actor2 = ((VItem*)*((void **)((void *)(iter))))->v5(0);
             if (!((LH*)result)->AddIfAbsent(actor2))
             {
                 delete (VDel*)actor2;
@@ -238,7 +238,7 @@ TargetList* Controller::CopyTargetList(TargetList* apTargetList)
         }
         else
         {
-            ((LH*)result)->AddIfAbsent((Actor*)*((void **)(new ((void *)(iter)) ::Vec3())));
+            ((LH*)result)->AddIfAbsent((Actor*)*((void **)((void *)(iter))));
         }
         iter = ((::ListNodeX *)(reinterpret_cast<::Callees *>((iter))->FUN_00726070()));
     }

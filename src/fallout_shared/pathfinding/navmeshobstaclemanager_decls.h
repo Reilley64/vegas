@@ -35,8 +35,6 @@ class NavMeshObstacleManager
 {
   public:
     void AddProcessedTask(ObstacleTaskData*);
-    bool ClearBackgroundTasks();
-    void QueueObstacleTasks();
     void ClearObstacles();
     void RemoveObstaclesForReference(unsigned int);
     bool ProcessObstacleTask(ObstacleTaskData*);

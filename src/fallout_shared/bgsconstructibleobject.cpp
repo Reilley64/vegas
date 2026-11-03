@@ -386,7 +386,7 @@ bool FUN_004f96f0_cobj::FUN_004f96f0(TESFile* apFile)
         case 0x49524353: {
             unsigned int tempint = 0;
             apFile->GetChunkData(&tempint);
-            reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(tempint));
+            reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(std::uintptr_t)(tempint));
             TESScriptableForm::InitItem(this);
             break;
         }
@@ -400,13 +400,13 @@ bool FUN_004f96f0_cobj::FUN_004f96f0(TESFile* apFile)
         case 0x4d414e52: {
             unsigned int itempint = 0;
             apFile->GetChunkData(&itempint);
-            m_pCreatedObject = (BGSListForm*)itempint;
+            m_pCreatedObject = (BGSListForm*)(std::uintptr_t)itempint;
             break;
         }
         case 0x4d414e43: {
             unsigned int itempint = 0;
             apFile->GetChunkData(&itempint);
-            m_pWorkbenchKeyword = (TESBoundObject*)itempint;
+            m_pWorkbenchKeyword = (TESBoundObject*)(std::uintptr_t)itempint;
             break;
         }
         }
@@ -637,7 +637,7 @@ void S_004f95a0::LoadFormReferences()
     if (reinterpret_cast<::TESForm *>(this)->GetInitialized())
         return;
     reinterpret_cast<::TESObjectMISC *>(this)->InitItem();
-    unsigned int id = (unsigned int)unkac;
+    unsigned int id = (unsigned int)(std::uintptr_t)unkac;
     if (id)
     {
         ::ResolveFormID(&id, (::TESFile *)(void *)(((void *)(reinterpret_cast<::TESForm *>(this)->GetFile(-1)))));
@@ -645,7 +645,7 @@ void S_004f95a0::LoadFormReferences()
         if (!unkac)
             ::FUN_005b5e40();
     }
-    id = (unsigned int)unkb0;
+    id = (unsigned int)(std::uintptr_t)unkb0;
     if (id)
     {
         ::ResolveFormID(&id, (::TESFile *)(void *)(((void *)(reinterpret_cast<::TESForm *>(this)->GetFile(-1)))));
@@ -794,3 +794,38 @@ FUN_004f94b0_BGSConstructibleObject::~FUN_004f94b0_BGSConstructibleObject()
 {
     reinterpret_cast<::TESForm *>(this)->ClearData();
 }
+
+// sub ecx,0x3c; jmp target: MSVC adjustor thunk from multiple inheritance (Derived overrides a virtual both bases declare).
+struct PrimaryBase
+{
+    virtual void FUN_004f9cb0();
+    unsigned int unk04;
+    unsigned int unk08;
+    unsigned int unk0C;
+    unsigned int unk10;
+    unsigned int unk14;
+    unsigned int unk18;
+    unsigned int unk1C;
+    unsigned int unk20;
+    unsigned int unk24;
+    unsigned int unk28;
+    unsigned int unk2C;
+    unsigned int unk30;
+    unsigned int unk34;
+    unsigned int unk38;
+};
+
+struct SecondaryBase
+{
+    virtual void FUN_004f9cb0();
+};
+
+struct AdjustedDerived : PrimaryBase, SecondaryBase
+{
+    AdjustedDerived();
+// @fnv 0x004f9cb0
+    virtual void FUN_004f9cb0();
+};
+
+AdjustedDerived::AdjustedDerived()
+{}

@@ -1,5 +1,6 @@
 // fallout_shared/tescreature.cpp: TESCreature, DelStandIn, ActorValue, StandIn and more (45 functions)
 
+#include <cstdint>
 #include <new>
 #include <cstring>
 #include <malloc.h>
@@ -122,6 +123,22 @@
 #include "fnv/symbols_011dd000.h"
 #include "fnv/symbols_011df000.h"
 #include "tescreature_decls.h"
+#include "fnv/decl/s428110__Owner.h"
+#include "fnv/decl/ActorBaseInitItemView.h"
+#include "fnv/decl/ActorMover.h"
+#include "fnv/decl/FUN_0047f4c0_shell.h"
+#include "fnv/decl/FUN_00484d40_Host.h"
+#include "fnv/decl/FUN_00565210_shell.h"
+#include "fnv/decl/fnv_00484d00__FUN_00484d00_shell.h"
+#include "fnv/decl/fnv_005f1b30__ActorBaseLoad.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_00505000.h"
+#include "tescreature_decls_rtti2_tescreature.h"
+#include "tescreature_decls_rtti_variant.h"
+#include "fnv/decl/FUN_00509540_obj.h"
+#include "fnv/decl/FUN_005f06f0_shell.h"
+#include "tescreature_decls_rtti_variant_decl_tescreature_rtti_variant.h"
+#include <string.h>
 
 // @fnv 0x005F7900
 TESCreature::~TESCreature()
@@ -180,7 +197,7 @@ CreatureSoundCollection* TESCreature::GetMutableCreatureSounds()
 void TESCreature::LoadGame(BGSLoadFormBuffer* buffer)
 {
     ((TESActorBase*)this)->LoadGame(buffer);
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetChangeFlags(0x200)))->FUN_004280f0())
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetChangeFlags(0x200)))->FUN_004280f0(0x200))
     {
         reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_ucField00), 1);
         reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_ucField01), 1);
@@ -445,11 +462,11 @@ int FUN_0050f760_shell::FUN_0050f760(int a)
 
 struct FUN_0051f4b0_shell
 {
-    void FUN_0051f4b0(int value);
+    void FUN_0051f4b0(std::intptr_t value);
 };
 
 // @fnv 0x0051f4b0
-void FUN_0051f4b0_shell::FUN_0051f4b0(int value)
+void FUN_0051f4b0_shell::FUN_0051f4b0(std::intptr_t value)
 {
     *(int*)((char*)this + 0x118) = value;
 }
@@ -529,7 +546,7 @@ struct FUN_005f90c0_shell : TESActorBaseData
 // @fnv 0x005f90c0
 bool FUN_005f90c0_shell::FUN_005f90c0()
 {
-    return ((TESActorBaseData*)((char*)this + 0x30))->GetFlag((unsigned int)&DAT_01000000);
+    return ((TESActorBaseData*)((char*)this + 0x30))->GetFlag(0x01000000);
 }
 
 struct FUN_005f90e0_shell : TESActorBaseData
@@ -564,13 +581,6 @@ void* FUN_005f9b70_shell::GetOffset12C()
     return (char*)this + 0x12c;
 }
 
-struct ActorValue
-{
-    enum Index
-    {
-        kNone
-    };
-};
 struct FUN_006078e0_s
 {
     virtual void v0();
@@ -596,11 +606,11 @@ struct FUN_006078e0_s
 };
 struct FUN_008126e0_shell
 {
-    void SetWhich(int aiWhich);
+    void SetWhich(std::intptr_t aiWhich);
 };
 
 // @fnv 0x008126e0
-void FUN_008126e0_shell::SetWhich(int aiWhich)
+void FUN_008126e0_shell::SetWhich(std::intptr_t aiWhich)
 {
     *(int*)((char*)this + 0x140) = aiWhich;
 }
@@ -661,11 +671,11 @@ int FUN_005f8e90_shell::FUN_005f8e90()
         short factor = ((short)(reinterpret_cast<::FUN_0047ded0_shell *>((reinterpret_cast<FUN_005f8e90_shell*>(reinterpret_cast<char*>(this) - 0x80)))->FUN_0047ded0()));
         if (factor < 1)
             factor = 1;
-        result = factor * ((int)(reinterpret_cast<::Callees *>(this)->FUN_00726070()));
+        result = factor * ((int)(std::intptr_t)(reinterpret_cast<::Callees *>(this)->FUN_00726070()));
     }
     else
     {
-        result = ((int)(reinterpret_cast<::Callees *>(this)->FUN_00726070()));
+        result = ((int)(std::intptr_t)(reinterpret_cast<::Callees *>(this)->FUN_00726070()));
     }
     return result;
 }
@@ -695,7 +705,7 @@ struct BGSSaveFormBuffer
 struct FUN_005f1f30_shell
 {
 public:
-    void FUN_005f1f30(unsigned int);
+    void FUN_005f1f30(std::uintptr_t);
 };
 struct FUN_005fb330_shell
 {
@@ -705,8 +715,8 @@ struct FUN_005fb330_shell
 // @fnv 0x005fb330
 void FUN_005fb330_shell::FUN_005fb330(BGSSaveFormBuffer* buffer)
 {
-    ((FUN_005f1f30_shell*)this)->FUN_005f1f30((unsigned int)(buffer));
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(((BGSLoadFormBuffer*)buffer)->GetChangeFlags(0x200)))->FUN_004280f0())
+    ((FUN_005f1f30_shell*)this)->FUN_005f1f30((std::uintptr_t)(buffer));
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(((BGSLoadFormBuffer*)buffer)->GetChangeFlags(0x200)))->FUN_004280f0(0x200))
     {
         reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50((char*)this + 0x12d, 1, 0);
         reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50((char*)this + 0x12e, 1, 0);
@@ -1068,13 +1078,6 @@ void FUN_005f12d0_shell::ApplyCommand(int command, int value)
 }
 
 namespace fnv_005fa200 {
-struct ActorValue
-{
-    enum Index
-    {
-        index_0 = 0
-    };
-};
 
 struct P09AV
 {
@@ -1148,7 +1151,7 @@ void FUN_005fa200_shell::FUN_005fa200(ActorValue::Index index, int value)
     {
         switch (index)
         {
-        case static_cast<ActorValue::Index>(0x38):
+        case 0x38:
             if (value < 0)
             {
                 reinterpret_cast<::FUN_0047ff50_class *>((reinterpret_cast<FUN_0047ff50_class*>(reinterpret_cast<char*>(this) + 0x10c)))->FUN_0047ff50(0);
@@ -1181,7 +1184,7 @@ struct PC7d
 
 struct FUN_00484d20_Class
 {
-    void ForwardToSaveLoadGame(int, int);
+    void ForwardToSaveLoadGame(std::intptr_t, int);
 };
 
 
@@ -1198,18 +1201,18 @@ void FUN_005fb1e0_shell::FUN_005fb1e0(unsigned int flags)
     if (flags & 0x200)
     {
         reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>((reinterpret_cast<PC7d*>(this)))->FUN_00484ce0(
-            (void *)(reinterpret_cast<unsigned int>(reinterpret_cast<unsigned char*>(this) + 0x12d)), 1);
+            (void *)(reinterpret_cast<unsigned char*>(this) + 0x12d), 1);
         reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>((reinterpret_cast<PC7d*>(this)))->FUN_00484ce0(
-            (void *)(reinterpret_cast<unsigned int>(reinterpret_cast<unsigned char*>(this) + 0x12e)), 1);
+            (void *)(reinterpret_cast<unsigned char*>(this) + 0x12e), 1);
         reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>((reinterpret_cast<PC7d*>(this)))->FUN_00484ce0(
-            (void *)(reinterpret_cast<unsigned int>(reinterpret_cast<unsigned char*>(this) + 0x12f)), 1);
+            (void *)(reinterpret_cast<unsigned char*>(this) + 0x12f), 1);
     }
 
     if (flags & 0)
     {
         unsigned int result =
             ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((*reinterpret_cast<unsigned int*>(reinterpret_cast<unsigned char*>(this) + 0x140)))->FUN_0084e3a0()));
-        reinterpret_cast<FUN_00484d20_Class*>(this)->ForwardToSaveLoadGame(reinterpret_cast<int>(&result), 4);
+        reinterpret_cast<FUN_00484d20_Class*>(this)->ForwardToSaveLoadGame((std::intptr_t)(&result), 4);
     }
 }
 
@@ -1972,7 +1975,7 @@ bool CreatureRecord::FUN_005f7ec0(CreatureRecordFile* file)
         case 0x49524353: {
             unsigned int scriptID = 0;
             file->ReadChunkInt(&scriptID);
-            reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(scriptID));
+            reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(std::uintptr_t)(scriptID));
             reinterpret_cast<::TESScriptableForm *>(this)->InitItem((::TESForm *)(void *)(this));
             break;
         }
@@ -2002,13 +2005,13 @@ bool CreatureRecord::FUN_005f7ec0(CreatureRecordFile* file)
         case 0x4f4c5053: {
             unsigned int spellID = 0;
             file->ReadChunkInt(&spellID);
-            reinterpret_cast<::fnv_0048d290::FUN_0048d290_shell *>(this)->FUN_0048d290((::TESForm *)(spellID));
+            reinterpret_cast<::fnv_0048d290::FUN_0048d290_shell *>(this)->FUN_0048d290((::TESForm *)(std::uintptr_t)(spellID));
             break;
         }
         case 0x4d544945: {
             unsigned int touchID = 0;
             file->ReadChunkInt(&touchID);
-            reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(touchID));
+            reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(std::uintptr_t)(touchID));
             break;
         }
         case 0x544d4145: {
@@ -2062,7 +2065,7 @@ bool CreatureRecord::FUN_005f7ec0(CreatureRecordFile* file)
         case 0x44494b50: {
             unsigned int packageID = 0;
             file->ReadChunkInt(&packageID);
-            reinterpret_cast<::fnv_0047f500::FUN_0047f500_shell *>(this)->FUN_0047f500((::fnv_0047f500::TESPackage *)(packageID));
+            reinterpret_cast<::fnv_0047f500::FUN_0047f500_shell *>(this)->FUN_0047f500((::fnv_0047f500::TESPackage *)(std::uintptr_t)(packageID));
             break;
         }
         case 0x4d414e53: {
@@ -2071,7 +2074,7 @@ bool CreatureRecord::FUN_005f7ec0(CreatureRecordFile* file)
             reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(void *)(&faction), 8);
             if (reinterpret_cast<::TESFile *>((file))->IsEndianConversionRequired())
                 reinterpret_cast<::fnv_00503210::Unk *>(&(faction))->FUN_00503210();
-            reinterpret_cast<::FUN_0047d800_shell *>(this)->FUN_0047d800((::TESFaction *)(faction.faction), faction.rank);
+            reinterpret_cast<::FUN_0047d800_shell *>(this)->FUN_0047d800((::TESFaction *)(std::uintptr_t)(faction.faction), faction.rank);
             break;
         }
         case 0x4d414e49: {
@@ -2168,7 +2171,7 @@ bool CreatureRecord::FUN_005f7ec0(CreatureRecordFile* file)
         case 0x52435343: {
             unsigned int soundCreature = 0;
             file->ReadChunkInt(&soundCreature);
-            reinterpret_cast<::TESCreature *>(this)->SetCreatureSoundsFrom((::TESCreature *)(soundCreature));
+            reinterpret_cast<::TESCreature *>(this)->SetCreatureSoundsFrom((::TESCreature *)(std::uintptr_t)(soundCreature));
             break;
         }
         case 0x54445343: {
@@ -2199,7 +2202,7 @@ bool CreatureRecord::FUN_005f7ec0(CreatureRecordFile* file)
         case 0x4d414e43: {
             unsigned int impact = 0;
             file->ReadChunkInt(&impact);
-            reinterpret_cast<::FUN_005f8bb0_shell *>(this)->SetImpactDataSet((::BGSImpactDataSet *)(impact));
+            reinterpret_cast<::FUN_005f8bb0_shell *>(this)->SetImpactDataSet((::BGSImpactDataSet *)(std::uintptr_t)(impact));
             break;
         }
         case 0x4d414e4c: {
@@ -2253,7 +2256,7 @@ unsigned short FUN_005f8d70_shell::FUN_005f8d70()
     {
         FUN_005f8d70_record* record = static_cast<FUN_005f8d70_record*>(((void *)(reinterpret_cast<::IdleAnimationManager *>(((*reinterpret_cast<::FUN_005f8d70_runtime * *>(&::DAT_011cb6a0))))->FindIdleArrayEntry(
             (const char *)(void *)(reinterpret_cast<FUN_005f8d70_virtual*>(reinterpret_cast<char*>(this) - 0x30)->v5(1)), {}))));
-        if (record == 0 || *((int *)(new ((void *)(record)) ::Vec3())) == 0)
+        if (record == 0 || *((int *)((void *)(record))) == 0)
             reinterpret_cast<signed char*>(this)[0x50] = 0;
         else
             reinterpret_cast<signed char*>(this)[0x50] = 1;
@@ -2532,15 +2535,15 @@ void CreatureEquipment::FUN_005f9e00(TESObjectREFR* reference, int unused, bool 
     float value = 0.0f;
     if (equip && entry)
         weapon = ((::InventoryEntryData *)(reinterpret_cast<::Target *>((entry))->SelectBestWeapon((::ActorStand *)(::TESCreature *)(this), &value, 6, true)));
-    if (weapon && reinterpret_cast<::B5FA120Checker *>(this)->FUN_005fa120((::B5FA120Form *)(::TESBoundObject *)(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((weapon))->GetName())))) && !reinterpret_cast<::Thing575 *>((reference))->FUN_00575400((int)(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((weapon))->GetName())))))
+    if (weapon && reinterpret_cast<::B5FA120Checker *>(this)->FUN_005fa120((::B5FA120Form *)(::TESBoundObject *)(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((weapon))->GetName())))) && !reinterpret_cast<::Thing575 *>((reference))->FUN_00575400((std::intptr_t)(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((weapon))->GetName())))))
     {
         reference->EquipItem(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((weapon))->GetName())), 1, 0, false);
-        if (aWeapon && !reinterpret_cast<::Thing575 *>((reference))->FUN_00575400((int)(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((aWeapon))->GetName())))))
+        if (aWeapon && !reinterpret_cast<::Thing575 *>((reference))->FUN_00575400((std::intptr_t)(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((aWeapon))->GetName())))))
         {
             ExtraDataList* extra = 0;
             if (((::ExtraDataNode *)(::FUN_00559450((int *)(aWeapon)))))
-                extra = ((::ExtraDataList *)(new ((void *)(((::ExtraDataNode *)(::FUN_00559450((int *)(aWeapon)))))) ::Vec3()));
-            reference->EquipItem(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((aWeapon))->GetName())), ((int)(reinterpret_cast<::Callees *>((aWeapon))->FUN_00726070())), extra, false);
+                extra = ((::ExtraDataList *)((void *)(((::ExtraDataNode *)(::FUN_00559450((int *)(aWeapon)))))));
+            reference->EquipItem(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((aWeapon))->GetName())), ((int)(std::intptr_t)(reinterpret_cast<::Callees *>((aWeapon))->FUN_00726070())), extra, false);
         }
     }
     delete weapon;
@@ -3336,7 +3339,7 @@ void Actor::ApplyEffectToBodyParts(Effect* effect, int type, int part, void* sou
     case 31:
         break;
     default:
-        reinterpret_cast<::FUN_00572fc0_shell *>(this)->FUN_00572fc0(-1, (int)(source), (int)(target), effect ? effect->part : part, false);
+        reinterpret_cast<::FUN_00572fc0_shell *>(this)->FUN_00572fc0(-1, (std::intptr_t)(source), (std::intptr_t)(target), effect ? effect->part : part, false);
         return;
     }
     if (reinterpret_cast<::TESObjectREFR *>(this)->IsLimbMissing(part))
@@ -3401,11 +3404,11 @@ void Actor::ApplyEffectToBodyParts(Effect* effect, int type, int part, void* sou
             a = false;
         if (!reinterpret_cast<::FUN_008b5190_Class *>((c))->FUN_008b5190() && !reinterpret_cast<::FUN_008b4360_Class *>((c))->FUN_008b4360())
             continue;
-        reinterpret_cast<::FUN_00572fc0_shell *>(this)->FUN_00572fc0(ba, (int)(source), (int)(target), ba, a);
+        reinterpret_cast<::FUN_00572fc0_shell *>(this)->FUN_00572fc0(ba, (std::intptr_t)(source), (std::intptr_t)(target), ba, a);
         if (!::FUN_008c7aa0())
             reinterpret_cast<::fnv_008b52a0::ActorView *>(this)->FUN_008b52a0((void *)(type), ba, a, !flag, true, false);
         else
-            reinterpret_cast<::FUN_0087b440_holder *>((((::fnv_008b4d10::Queue *)(::TaskQueueInterface::GetSingleton()))))->FUN_0087b440((int)(this), type, ba, a, !flag);
+            reinterpret_cast<::FUN_0087b440_holder *>((((::fnv_008b4d10::Queue *)(::TaskQueueInterface::GetSingleton()))))->FUN_0087b440((void *)(this), type, ba, a, !flag);
         if (*(*reinterpret_cast<::fnv_008b4d10::GlobalObject_0045cf30 *>(&::g_011df858)).Bool() && ba != -1)
             break;
     }
@@ -3636,7 +3639,7 @@ void C005f9820::CopyFrom(void* apSource)
     }
     *(unsigned int*)((char*)this + 0x154) = reinterpret_cast<::Twin_009c0070 *>((src2))->GetFilePosition();
     reinterpret_cast<::FUN_005f8bb0_shell *>(this)->SetImpactDataSet((::BGSImpactDataSet *)(void *)(((void *)(reinterpret_cast<::FUN_005f9b30_shell *>((src2))->GetImpactDataSet()))));
-    reinterpret_cast<::FUN_005f8bd0_Helper *>(this)->Set((int)(((void *)(::GetField158((int)(src2))))));
+    reinterpret_cast<::FUN_005f8bd0_Helper *>(this)->Set((std::intptr_t)(::GetField158((std::intptr_t)(src2))));
     v99(src2->v98());
     v97(src2->v96());
 }
@@ -3912,6 +3915,867 @@ void CreatureHost_5fa0a0::FUN_005fa0a0(TESObjectREFR* ref)
             process->Apply(mobile);
         }
     }
+}
+
+// sub ecx,0x7c; jmp target  ==  MSVC adjustor thunk (multiple inheritance, shared virtual).
+// PrimaryBase = vptr + 30 named int fields = 0x7c bytes; Derived redeclares the claimed virtual and defines only its ctor.
+struct PrimaryBase
+{
+    virtual void FUN_005fbf80();
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3C;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4C;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5C;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6C;
+    int unk70;
+    int unk74;
+    int unk78;
+};
+
+struct SecondaryBase
+{
+    virtual void FUN_005fbf80();
+};
+
+struct Derived : PrimaryBase, SecondaryBase
+{
+    Derived();
+// @fnv 0x005fbf80
+    virtual void FUN_005fbf80();
+};
+
+Derived::Derived()
+{}
+
+namespace fnv_005fbfb0 {
+// MSVC adjustor thunk: the primary base occupies 0x7c bytes; both bases declare the virtual,
+// the derived class defines only its constructor, so the compiler emits the this-adjusting thunk.
+struct PrimaryBase
+{
+    virtual void FUN_005fbfb0();
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3C;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4C;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5C;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6C;
+    int unk70;
+    int unk74;
+    int unk78;
+};
+
+struct SecondaryBase
+{
+    virtual void FUN_005fbfb0();
+};
+
+struct Derived : PrimaryBase, SecondaryBase
+{
+    Derived();
+// @fnv 0x005fbfb0
+    virtual void FUN_005fbfb0();
+};
+
+Derived::Derived()
+{}
+}
+
+// namespace fnv_005fbfb0
+
+namespace fnv_005fbfd0 {
+// MSVC adjustor thunk: the primary base occupies 0x90 bytes; both bases declare the virtual,
+// the derived class defines only its constructor, so the compiler emits the this-adjusting thunk.
+struct PrimaryBase
+{
+    virtual void FUN_005fbfd0();
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3C;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4C;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5C;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6C;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7C;
+    int unk80;
+    int unk84;
+    int unk88;
+    int unk8C;
+};
+
+struct SecondaryBase
+{
+    virtual void FUN_005fbfd0();
+};
+
+struct Derived : PrimaryBase, SecondaryBase
+{
+    Derived();
+// @fnv 0x005fbfd0
+    virtual void FUN_005fbfd0();
+};
+
+Derived::Derived()
+{}
+}
+
+// namespace fnv_005fbfd0
+
+namespace fnv_005fbff0 {
+// Adjustor (this-adjusting) thunk for FUN_005fbff0:
+//     sub ecx, 0xdc ; jmp FUN_005f75b0
+// MSVC emits such a thunk in the vftable of a class that inherits the same
+// virtual from two bases: the thunk converts the secondary base sub-object
+// pointer back to the primary base pointer by subtracting the size of the
+// primary base (0xdc = 4 byte vptr + 54 int members) and tail jumps to the
+// implementation.  Both bases declare the virtual, the derived class
+// redeclares it and defines only its constructor, which makes the compiler
+// emit the vtables and the adjusting thunk.
+struct PrimaryBase
+{
+    virtual void FUN_005fbff0();
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3C;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4C;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5C;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6C;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7C;
+    int unk80;
+    int unk84;
+    int unk88;
+    int unk8C;
+    int unk90;
+    int unk94;
+    int unk98;
+    int unk9C;
+    int unkA0;
+    int unkA4;
+    int unkA8;
+    int unkAC;
+    int unkB0;
+    int unkB4;
+    int unkB8;
+    int unkBC;
+    int unkC0;
+    int unkC4;
+    int unkC8;
+    int unkCC;
+    int unkD0;
+    int unkD4;
+    int unkD8;
+};
+
+struct SecondaryBase
+{
+    virtual void FUN_005fbff0();
+};
+
+struct Derived : PrimaryBase, SecondaryBase
+{
+    Derived();
+// @fnv 0x005fbff0
+    virtual void FUN_005fbff0();
+};
+
+Derived::Derived()
+{}
+}
+
+// namespace fnv_005fbff0
+
+// Adjustor thunk: the secondary-base (+0x90) vtable entry for an override defined on the derived class.
+
+class FC010Primary
+{
+  public:
+    virtual void FUN_005fc010(unsigned int uiA, unsigned int uiB);
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3C;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4C;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5C;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6C;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7C;
+    int unk80;
+    int unk84;
+    int unk88;
+    int unk8C;
+};
+
+class FC010Secondary
+{
+  public:
+    virtual void FUN_005fc010(unsigned int uiA, unsigned int uiB);
+};
+
+class FC010Derived : public FC010Primary, public FC010Secondary
+{
+  public:
+    FC010Derived();
+// @fnv 0x005fc010
+    virtual void FUN_005fc010(unsigned int uiA, unsigned int uiB);
+};
+
+FC010Derived::FC010Derived()
+{}
+
+namespace fnv_005fc030 {
+struct PrimaryBase
+{
+    virtual void FUN_005fc030();
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3C;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4C;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5C;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6C;
+    int unk70;
+    int unk74;
+    int unk78;
+};
+
+struct SecondaryBase
+{
+    virtual void FUN_005fc030();
+};
+
+struct TESCreatureAdjust : PrimaryBase, SecondaryBase
+{
+    TESCreatureAdjust();
+// @fnv 0x005fc030
+    virtual void FUN_005fc030();
+};
+
+TESCreatureAdjust::TESCreatureAdjust()
+{}
+}
+
+// namespace fnv_005fc030
+
+namespace fnv_005fc040 {
+// Adjustor thunk for FUN_005fc040: sub ecx,0x90; jmp FUN_005fb1e0
+// Primary base = vptr + 35 int fields (0x90 bytes).
+struct PrimaryBase
+{
+    virtual void FUN_005fc040();
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3C;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4C;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5C;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6C;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7C;
+    int unk80;
+    int unk84;
+    int unk88;
+    int unk8C;
+};
+
+struct SecondaryBase
+{
+    virtual void FUN_005fc040();
+};
+
+struct Derived : PrimaryBase, SecondaryBase
+{
+    Derived();
+// @fnv 0x005fc040
+    virtual void FUN_005fc040();
+};
+
+Derived::Derived()
+{}
+}
+
+class TESForm;
+
+class TESCreature;
+
+class BGSBodyPartData;
+
+class TESCombatStyle;
+
+class BGSImpactDataSet;
+
+class BGSListForm;
+
+struct FormObj_CreatureInit;
+
+struct Host_CreatureInit;
+
+struct FormObj_CreatureInit
+{
+    unsigned int FUN_0084e3a0();
+};
+
+struct Sub30_CreatureInit
+{
+    int u00, u04, u08, u0c, u10, u14, u18, u1c, u20, u24, u28, u2c, u30;
+};
+
+struct Sub64_CreatureInit
+{
+    int u00, u04, u08;
+};
+
+struct Sub70_CreatureInit
+{
+    int u00, u04, u08;
+};
+
+struct Sub7c_CreatureInit
+{
+    int u00, u04, u08, u0c, u10;
+};
+
+struct AIList_CreatureInit
+{
+    virtual void v0();
+    virtual void v1();
+    virtual void v2();
+    virtual void v3();
+    virtual unsigned int Size();
+    int u04;
+};
+
+struct Sub90_CreatureInit
+{
+    int u00, u04, u08, u0c, u10, u14, u18, u1c;
+    AIList_CreatureInit packages;
+    int u28, u2c, u30;
+    int u34, u38, u3c;
+};
+
+struct Subd0_CreatureInit
+{
+    int u00, u04, u08;
+};
+
+struct Subdc_CreatureInit
+{
+    int u00, u04, u08, u0c, u10, u14;
+    struct ScriptInit
+    {
+        int u00, u04, u08;
+    } script;
+    int u24;
+};
+
+struct Sub104_CreatureInit
+{
+    int u00, u04;
+    int u08, u0c;
+};
+
+struct Sub114_CreatureInit
+{
+    int u00, u04, u08, u0c, u10;
+};
+
+struct Sub12c_CreatureInit
+{
+    int u00;
+};
+
+struct Host_CreatureInit
+{
+    virtual void v00();
+    virtual void v01();
+    virtual void v02();
+    virtual void v03();
+    virtual void v04();
+    virtual void v05();
+    virtual void v06();
+    virtual void v07();
+    virtual void v08();
+    virtual void v09();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual void v20();
+    virtual void v21();
+    virtual void v22();
+    virtual void v23();
+    virtual void v24();
+    virtual void v25();
+    virtual void v26();
+    virtual void v27();
+    virtual void v28();
+    virtual void v29();
+    virtual void v30();
+    virtual void v31();
+    virtual void v32();
+    virtual void v33();
+    virtual void v34();
+    virtual void v35();
+    virtual void v36();
+    virtual void v37();
+    virtual void v38();
+    virtual void v39();
+    virtual void v40();
+    virtual void v41();
+    virtual void v42();
+    virtual void v43();
+    virtual void v44();
+    virtual void v45();
+    virtual void v46();
+    virtual void v47();
+    virtual void v48();
+    virtual void v49();
+    virtual void v50();
+    virtual void v51();
+    virtual void v52();
+    virtual void v53();
+    virtual void v54();
+    virtual void v55();
+    virtual void v56();
+    virtual void v57();
+    virtual void v58();
+    virtual void v59();
+    virtual void v60();
+    virtual void v61();
+    virtual void v62();
+    virtual void v63();
+    virtual void v64();
+    virtual void v65();
+    virtual void v66();
+    virtual void v67();
+    virtual void v68();
+    virtual void v69();
+    virtual void v70();
+    virtual void v71();
+    virtual void v72();
+    virtual void v73();
+    virtual void v74();
+    virtual void v75();
+    virtual const char* v76();
+    virtual void v77();
+    virtual void v78();
+    virtual void v79();
+    virtual void v80();
+    virtual void v81();
+    virtual void v82();
+    virtual void v83();
+    virtual void v84();
+    virtual void v85();
+    virtual void v86();
+    virtual void v87();
+    virtual void v88();
+    virtual void v89();
+    virtual void v90();
+    virtual void v91();
+    virtual void v92();
+    virtual void v93();
+    virtual void v94();
+    virtual void v95();
+    virtual struct FormObj_CreatureInit* v96();
+    virtual void v97();
+    virtual TESCombatStyle* v98();
+    virtual void v99(TESCombatStyle*);
+
+    int u04, u08, u0c, u10, u14, u18, u1c, u20, u24, u28, u2c;
+    Sub30_CreatureInit m_30;
+    Sub64_CreatureInit m_64;
+    Sub70_CreatureInit m_70;
+    Sub7c_CreatureInit m_7c;
+    Sub90_CreatureInit m_90;
+    Subd0_CreatureInit m_d0;
+    Subdc_CreatureInit m_dc;
+    Sub104_CreatureInit m_104;
+    Sub114_CreatureInit m_114;
+    struct Host_CreatureInit* m_128;
+    Sub12c_CreatureInit m_12c;
+    unsigned char m_130;
+    unsigned char m_131;
+    unsigned char m_132;
+    unsigned char m_133;
+    float m_134;
+    float m_138;
+    float m_13c;
+    TESCombatStyle* m_140;
+    BGSBodyPartData* m_144;
+    int m_148;
+    BGSImpactDataSet* m_14c;
+    int m_150;
+    int m_154;
+    BGSListForm* m_158;
+
+    unsigned int FUN_0084e3a0();
+    void FUN_005f9340();
+};
+
+class TESCreature;
+
+class BGSBodyPartData;
+
+extern "C" const char DAT_010495e0[], DAT_01049598[], DAT_01049548[], DAT_010494f8[], DAT_0102c740[], DAT_010494bc[];
+
+class TESCombatStyle
+{
+};
+
+class BGSImpactDataSet
+{
+};
+
+class BGSListForm
+{
+};
+
+// @fnv 0x005f9340
+void Host_CreatureInit::FUN_005f9340()
+{
+    unsigned int formId;
+    if (reinterpret_cast<::TESForm *>((void *)this)->GetInitialized())
+        return;
+    reinterpret_cast<::TESScriptableForm *>(&(m_dc.script))->InitItem((::TESForm *)(void *)(this));
+    reinterpret_cast<::TESContainer *>(&(m_64))->InitItem((::TESForm *)(void *)(this));
+    reinterpret_cast<::TESSpellList *>(&(m_7c))->InitItem((::TESForm *)(void *)(this));
+    reinterpret_cast<::BGSTouchSpellForm *>(&(m_70))->InitItem((::TESForm *)(void *)(this));
+    reinterpret_cast<::FUN_0047f4c0_shell *>(&(m_90))->FUN_0047f4c0((::TESForm *)(void *)(this));
+    reinterpret_cast<::ActorBaseInitItemView *>(&(m_30))->FUN_0047d8b0((::TESForm *)(void *)(this));
+    reinterpret_cast<::BGSDestructibleObjectForm *>(&(m_104))->InitItem((::TESForm *)(void *)(this));
+    if (m_30.u04 & 1)
+    {
+        m_30.u04 &= ~0x40;
+        m_30.u04 &= ~0x10;
+        m_30.u04 &= ~0x20;
+        m_30.u04 &= ~0x40000;
+        m_30.u04 &= ~0x800000;
+    }
+    if (!reinterpret_cast<::TESActorBaseData *>((void *)&(m_30))->GetFlag(0x100))
+    {
+        unsigned int soundId = (unsigned int)(std::uintptr_t)m_128;
+        if (soundId)
+        {
+            ::ResolveFormID(&soundId, (::TESFile *)(void *)(((void *)(reinterpret_cast<::TESForm *>(this)->GetFile(-1)))));
+            m_128 = (struct Host_CreatureInit*)dynamic_cast<TESCreature*>(::FUN_004839c0(soundId));
+            if (!m_128)
+            {
+                ::FUN_005b5e40();
+            }
+            else if (m_128 == this || reinterpret_cast<::ActorMover *>(&(m_128->m_30))->GetCurrentMoveModeType())
+            {
+                ::FUN_005b5e40();
+                m_128 = 0;
+            }
+        }
+    }
+    if (m_140)
+    {
+        unsigned int combatId = (unsigned int)(std::uintptr_t)v98();
+        if (combatId)
+        {
+            ::ResolveFormID(&combatId, (::TESFile *)(void *)(((void *)(reinterpret_cast<::TESForm *>(this)->GetFile(-1)))));
+            m_140 = dynamic_cast<TESCombatStyle*>(::FUN_004839c0(combatId));
+            if (!m_140)
+            {
+                ::FUN_005b5e40();
+            }
+        }
+    }
+    if (!v98())
+        v99(((::TESCombatStyle *)(::FUN_00505000())));
+    if (m_144)
+    {
+        unsigned int bodyId = (unsigned int)(std::uintptr_t)m_144;
+        if (bodyId)
+        {
+            ::ResolveFormID(&bodyId, (::TESFile *)(void *)(((void *)(reinterpret_cast<::TESForm *>(this)->GetFile(-1)))));
+            m_144 = dynamic_cast<BGSBodyPartData*>(::FUN_004839c0(bodyId));
+            if (!m_144)
+            {
+                ::FUN_005b5e40();
+            }
+        }
+    }
+    formId = (unsigned int)(std::uintptr_t)m_14c;
+    if (formId)
+    {
+        ::ResolveFormID(&formId, (::TESFile *)(void *)(((void *)(reinterpret_cast<::TESForm *>(this)->GetFile(-1)))));
+        m_14c = dynamic_cast<BGSImpactDataSet*>(::FUN_004839c0(formId));
+        if (!m_14c)
+            ::FUN_005b5e40();
+    }
+    formId = (unsigned int)(std::uintptr_t)m_158;
+    if (formId)
+    {
+        ::ResolveFormID(&formId, (::TESFile *)(void *)(((void *)(reinterpret_cast<::TESForm *>(this)->GetFile(-1)))));
+        m_158 = dynamic_cast<BGSListForm*>(::FUN_004839c0(formId));
+        if (!m_158)
+            ::FUN_005b5e40();
+    }
+    if (m_90.packages.Size() <= 0)
+        reinterpret_cast<::FUN_00565210_shell *>(this)->FUN_00565210(true);
+    reinterpret_cast<::TESForm *>(this)->SetInitializationState(1);
+}
+
+namespace fnv_005fb270 {
+__if_not_exists(::TESCombatStyle::SetFormType)
+{
+    class TESCombatStyle : public ::TESForm
+    {
+    };
+}
+
+
+struct TESCreatureCall_1b30
+{
+};
+
+struct TESCreatureCall_0d00
+{
+};
+
+__if_exists(::TESCreature::m_ucField00)
+{
+    struct TESCreatureLoad : ::TESCreature
+    {
+        void FUN_005fb270(int a1, int a2);
+    };
+}
+
+// @fnv 0x005fb270
+void TESCreatureLoad::FUN_005fb270(int a1, int a2)
+{
+    reinterpret_cast<::fnv_005f1b30::ActorBaseLoad *>((((TESCreatureCall_1b30*)this)))->FUN_005f1b30(a1, a2);
+    if (a1 & 0x200)
+    {
+        reinterpret_cast<::fnv_00484d00::FUN_00484d00_shell *>((((TESCreatureCall_0d00*)this)))->FUN_00484d00(&m_ucField00, 1);
+        reinterpret_cast<::fnv_00484d00::FUN_00484d00_shell *>((((TESCreatureCall_0d00*)this)))->FUN_00484d00(&m_ucField01, 1);
+        reinterpret_cast<::fnv_00484d00::FUN_00484d00_shell *>((((TESCreatureCall_0d00*)this)))->FUN_00484d00(&m_ucField02, 1);
+    }
+    if (a1 & 0)
+    {
+        unsigned int formId;
+        reinterpret_cast<::FUN_00484d40_Host *>((((TESCreatureCall_0d00*)this)))->FUN_00484d40(&formId, 4);
+        ::TESCombatStyle* style = dynamic_cast< ::TESCombatStyle*>(::FUN_004839c0(formId));
+        if (style)
+        {
+            m_pCombatStyle = style;
+        }
+    }
+}
+}
+
+
+
+// @fnv 0x005f9b90
+bool TESCreature::FUN_005f9b90(TESForm* otherForm)
+{
+    TESCreature* other = dynamic_cast<TESCreature*>(otherForm);
+    if (!other)
+        return true;
+    if (reinterpret_cast<::FUN_00509540_obj *>(this)->FUN_00485270((::TESForm *)(other)))
+        return true;
+    if (memcmp(&dataPadding, reinterpret_cast<::FUN_005f9b70_shell *>((other))->GetOffset12C(), 4))
+        return true;
+    if (((bool)(reinterpret_cast<::FUN_005f9ad0_shell *>(this)->FUN_005f9ad0())) != ((bool)(reinterpret_cast<::FUN_005f9ad0_shell *>((other))->FUN_005f9ad0())))
+        return true;
+    if (reinterpret_cast<::FUN_00821640_shell *>(this)->FUN_00821640() != reinterpret_cast<::FUN_00821640_shell *>((other))->FUN_00821640())
+        return true;
+    if (::FUN_00567470((char *)this) != ::FUN_00567470((char *)(other)))
+        return true;
+    if (reinterpret_cast<::FUN_00821660_shell *>(this)->FUN_00821660() != reinterpret_cast<::FUN_00821660_shell *>((other))->FUN_00821660())
+        return true;
+    if (GetBloodImpactMaterial() != other->GetBloodImpactMaterial())
+        return true;
+    if (GetCombatStyle() != other->GetCombatStyle())
+        return true;
+    if (GetBodyPartData() != other->GetBodyPartData())
+        return true;
+    if (((int)(reinterpret_cast<::Twin_009c0070 *>(this)->GetFilePosition())) != ((int)(reinterpret_cast<::Twin_009c0070 *>((other))->GetFilePosition())))
+        return true;
+    if (reinterpret_cast<::TESActorBaseData *>(this)->GetFlag(0x100))
+    {
+        CreatureSoundCollection* sounds = reinterpret_cast<::FUN_005f91d0_shell *>(this)->FUN_005f91d0();
+        CreatureSoundCollection* otherSounds5 = reinterpret_cast<::FUN_005f91d0_shell *>((other))->FUN_005f91d0();
+        if (sounds)
+        {
+            if (!otherSounds5)
+                return true;
+            if (reinterpret_cast<::FUN_005f06f0_shell *>((sounds))->IsDifferentFrom(otherSounds5))
+                return true;
+        }
+        else if (otherSounds5)
+            return true;
+    }
+    else
+    {
+        if (reinterpret_cast<::FUN_005f9100_shell *>(this)->FUN_005f9100() != reinterpret_cast<::FUN_005f9100_shell *>((other))->FUN_005f9100())
+            return true;
+    }
+    if (((int)(std::intptr_t)(reinterpret_cast<::FUN_005f9b30_shell *>(this)->GetImpactDataSet())) != ((std::intptr_t)(reinterpret_cast<::FUN_005f9b30_shell *>((other))->GetImpactDataSet())))
+        return true;
+    if (::GetField158((std::intptr_t)this) != ::GetField158((std::intptr_t)(other)))
+        return true;
+    return false;
 }
 
 #include "generated/data/fallout_shared/tescreature.inc"

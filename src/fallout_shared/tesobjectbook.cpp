@@ -311,7 +311,7 @@ void FUN_00515340_shell::FUN_00515340(BGSSaveFormBuffer* buffer)
 {
     reinterpret_cast<::FakeForm *>((reinterpret_cast<FUN_00484d60_holder*>(this)))->SaveIfChanged(buffer);
     reinterpret_cast<::fnv_0048ea40::TESValueForm *>((reinterpret_cast<FUN_0048ea40_holder*>(reinterpret_cast<char*>(this) + 0x84)))->FUN_0048ea40((::fnv_0048ea40::BGSSaveFormBuffer *)(buffer));
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(reinterpret_cast<BGSLoadFormBuffer*>(buffer)->GetChangeFlags(0x20)))->FUN_004280f0())
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(reinterpret_cast<BGSLoadFormBuffer*>(buffer)->GetChangeFlags(0x20)))->FUN_004280f0(0x20))
         reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(reinterpret_cast<char*>(this) + 0xc1, 1, 0);
 }
 
@@ -612,7 +612,7 @@ void Book307::CopyBookData(TESForm* source)
     if (!book)
         return;
     reinterpret_cast<::FormCloneOperation *>(this)->FUN_004851b0(source);
-    Data = *((::BookData *)(::FUN_00514f30((int)(reinterpret_cast<BookDataAccessor307*>(book)))));
+    Data = *((::BookData *)(::FUN_00514f30((std::intptr_t)(reinterpret_cast<BookDataAccessor307*>(book)))));
 }
 
 #include <stdio.h>
@@ -1246,7 +1246,7 @@ bool BookComparison::FUN_00514f50(TESForm* other)
         return true;
     if (reinterpret_cast<::FUN_00509540_obj *>(this)->FUN_00485270(book))
         return true;
-    if (std::memcmp(&Data, ((::BookData *)(::FUN_00514f30((int)(static_cast<BookComparison*>(book))))), sizeof(BookData)))
+    if (std::memcmp(&Data, ((::BookData *)(::FUN_00514f30((std::intptr_t)(static_cast<BookComparison*>(book))))), sizeof(BookData)))
         return true;
     return false;
 }

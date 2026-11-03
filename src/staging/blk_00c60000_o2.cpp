@@ -16148,7 +16148,7 @@ extern "C" unsigned int DAT_011afeb8;
 
 // Unless param_4 is set, requires bit 2 of the extra-data flags, then calls the DAT_011afeb8 callback on param_1 with a context built from param_2 and param_3.
 // @fnv 0x00c6a270
-bool __cdecl FUN_00c6a270(int param_1, unsigned char param_2, unsigned char param_3, char abForce)
+bool __cdecl FUN_00c6a270(std::intptr_t param_1, unsigned char param_2, unsigned char param_3, char abForce)
 {
     bool result = false;
     if (param_1 != 0)

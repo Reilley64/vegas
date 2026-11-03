@@ -1,6 +1,8 @@
 // fallout_shared/tesfile.cpp: TESFile, TgtOps, TESFile_Standin, GroupWriter and more (87 functions)
 
+#include <cstdint>
 #include <windows.h>
+#include <string.h>
 #include <new>
 #include <cerrno>
 #include <cstdio>
@@ -89,7 +91,7 @@ TESFile* TESFile::GetParentTESFile()
     {
         file = file->GetThreadSafeRootFile();
     }
-    if (file && gm_GetCurrentThreadId() == ((unsigned int)(reinterpret_cast<::MagicCaster_shell *>((g_osGlobals))->FUN_0044edb0())))
+    if (file && gm_GetCurrentThreadId() == ((unsigned int)(std::uintptr_t)(reinterpret_cast<::MagicCaster_shell *>((g_osGlobals))->FUN_0044edb0())))
     {
         return file;
     }
@@ -143,7 +145,7 @@ TESFile* TESFile::GetFileForThread(unsigned int threadID)
         {
             m_pThreadSafeFileMap = new NiTPointerMap<unsigned int, TESFile*>(kThreadSafeFileMapBuckets);
         }
-        reinterpret_cast<::FUN_00844700_Class *>((m_pThreadSafeFileMap))->FUN_00844700(threadID, (unsigned int)(file));
+        reinterpret_cast<::FUN_00844700_Class *>((m_pThreadSafeFileMap))->FUN_00844700(threadID, (std::uintptr_t)(file));
         file->InitializeComponent();
     }
     return file;
@@ -309,7 +311,7 @@ struct GlobalObject_00680890;
 void FUN_00408df0()
 {
     VTable_00408df0* pItem;
-    for (GlobalObject_00680890* pNode = &::g_011c3400; pNode && (pItem = *((::VTable_00408df0 **)(new ((void *)(pNode)) ::Vec3())));
+    for (GlobalObject_00680890* pNode = &::g_011c3400; pNode && (pItem = *((::VTable_00408df0 **)((void *)(pNode))));
          pNode = ((::GlobalObject_00680890 *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070())))
     {
         pItem->v88();
@@ -454,7 +456,6 @@ FUN_00470710::FUN_00470710(const char* ppath, const char* pfilename, NiFile::Ope
         ::FUN_005b5e40();
 }
 
-int __cdecl strcat_s(char*, unsigned int, const char*);
 void __cdecl FUN_00461300();
 
 struct VirtualDeletable
@@ -481,7 +482,7 @@ struct FUN_00471a10_shell : public TESFile
 
 struct FUN_00471ad0_shell : public TESFile
 {
-    unsigned int FUN_00471ad0();
+    std::uintptr_t FUN_00471ad0();
 };
 
 
@@ -532,7 +533,7 @@ bool FUN_00472150_shell::FUN_00472150(bool abSkipIgnored)
 }
 
 // @fnv 0x00472380
-int FUN_00472380(int param_1)
+int FUN_00472380(std::intptr_t param_1)
 {
     return *(int*)(param_1 + 0x150);
 }
@@ -799,7 +800,7 @@ void __cdecl RegisterTempFileID(unsigned int aiID, TESFile* apFile)
     {
         (*reinterpret_cast<::NiTPointerMap<unsigned int, unsigned int> * *>(&::DAT_011c40b0)) = (NiTPointerMap<unsigned int, unsigned int>*)(new TempMap_00473f20(1001));
     }
-    reinterpret_cast<::FUN_00844700_Class *>(((*reinterpret_cast<::NiTPointerMap<unsigned int, unsigned int> * *>(&::DAT_011c40b0))))->FUN_00844700(aiID, (unsigned int)apFile);
+    reinterpret_cast<::FUN_00844700_Class *>(((*reinterpret_cast<::NiTPointerMap<unsigned int, unsigned int> * *>(&::DAT_011c40b0))))->FUN_00844700(aiID, (std::uintptr_t)apFile);
     if (!apFile->GetTempIDOwner())
     {
         apFile->SetTempIDOwner(true);
@@ -949,8 +950,8 @@ struct TgtOps
 // @fnv 0x00460110
 void TgtOps::ClearSourceFiles()
 {
-    if (((::List_009e03e0 *)(::FUN_00460140((int)(this)))))
-        reinterpret_cast<::FileMatchList *>((((::List_009e03e0 *)(::FUN_00460140((int)(this))))))->RemoveAll();
+    if (((::List_009e03e0 *)(::FUN_00460140((std::intptr_t)(this)))))
+        reinterpret_cast<::FileMatchList *>((((::List_009e03e0 *)(::FUN_00460140((std::intptr_t)(this))))))->RemoveAll();
 }
 
 
@@ -972,7 +973,7 @@ struct FUN_00471850_Class
 // @fnv 0x00471a10
 TESFile* FUN_00471a10_shell::GetFileByIndex(unsigned int index)
 {
-    if (index < 0 || index > ((unsigned int)(reinterpret_cast<::FUN_00471850_Class *>((this))->GetFieldAt3FC())))
+    if (index < 0 || index > ((unsigned int)(std::uintptr_t)(reinterpret_cast<::FUN_00471850_Class *>((this))->GetFieldAt3FC())))
     {
         return 0;
     }
@@ -987,9 +988,9 @@ TESFile* FUN_00471a10_shell::GetFileByIndex(unsigned int index)
     return (this->m_ppTESFiles)[index - 1];
 }
 // @fnv 0x00471ad0
-unsigned int FUN_00471ad0_shell::FUN_00471ad0()
+std::uintptr_t FUN_00471ad0_shell::FUN_00471ad0()
 {
-    return ((unsigned int)(reinterpret_cast<::FUN_00471850_Class *>((this))->GetFieldAt3FC()));
+    return ((std::uintptr_t)(reinterpret_cast<::FUN_00471850_Class *>((this))->GetFieldAt3FC()));
 }
 
 // @fnv 0x00471850
@@ -1130,14 +1131,14 @@ struct FUN_00464df0_shell
 // @fnv 0x00470bc0
 void FUN_00470bc0_shell::ClearFileLists()
 {
-    while (((char *)(new ((void *)(((::BSSimpleList<char *> *)(reinterpret_cast<::FUN_00464df0_shell *>((this))->FUN_00464df0())))) ::Vec3())))
+    while (((((::BSSimpleList<char *> *)(reinterpret_cast<::FUN_00464df0_shell *>((this))->FUN_00464df0())))->m_item))
     {
-        delete ((char *)(new ((void *)(((::BSSimpleList<char *> *)(reinterpret_cast<::FUN_00464df0_shell *>((this))->FUN_00464df0())))) ::Vec3()));
+        delete ((((::BSSimpleList<char *> *)(reinterpret_cast<::FUN_00464df0_shell *>((this))->FUN_00464df0())))->m_item);
         ((::BSSimpleList<char *> *)(reinterpret_cast<::FUN_00464df0_shell *>((this))->FUN_00464df0()))->RemoveHead();
     }
-    while (((::_ULARGE_INTEGER *)(new ((void *)(GetMasterDataList())) ::Vec3())))
+    while (((GetMasterDataList())->m_item))
     {
-        delete ((::_ULARGE_INTEGER *)(new ((void *)(GetMasterDataList())) ::Vec3()));
+        delete ((GetMasterDataList())->m_item);
         GetMasterDataList()->RemoveHead();
     }
     m_uiTESFileCount = 0;
@@ -1158,7 +1159,7 @@ bool FUN_00471870_shell::MatchMasterFiles(void* pFileList, bool showerror)
     TESFile* pcheckfile;
     pFList = (BSSimpleList<TESFile*>*)pFileList;
     pMList = (BSSimpleList<char*>*)((FUN_00464df0_shell*)this)->FUN_00464df0();
-    size = ((unsigned int)(reinterpret_cast<::FUN_00471850_Class *>((this))->GetFieldAt3FC()));
+    size = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::FUN_00471850_Class *>((this))->GetFieldAt3FC()));
     if (this->m_ppTESFiles)
         delete[] this->m_ppTESFiles;
     this->m_ppTESFiles = 0;
@@ -1168,19 +1169,19 @@ bool FUN_00471870_shell::MatchMasterFiles(void* pFileList, bool showerror)
     pfile = this->m_ppTESFiles;
     size = 0;
     foundall = true;
-    while (pMList && *((void **)(new ((void *)(((LItem_006815c0*)pMList))) ::Vec3())))
+    while (pMList && *((void **)((void *)(((LItem_006815c0*)pMList)))))
     {
         pFList = (BSSimpleList<TESFile*>*)pFileList;
-        while (pFList && *((void **)(new ((void *)(((LItem_006815c0*)pFList))) ::Vec3())))
+        while (pFList && *((void **)((void *)(((LItem_006815c0*)pFList)))))
         {
-            pcheckfile = (TESFile*)*((void **)(new ((void *)(((LItem_006815c0*)pFList))) ::Vec3()));
-            if (!::FUN_00404dc0((const char*)*((void **)(new ((void *)(((LItem_006815c0*)pMList))) ::Vec3())), ((const char *)(reinterpret_cast<::BGSCameraPath *>((pcheckfile))->GetShotList()))))
+            pcheckfile = (TESFile*)*((void **)((void *)(((LItem_006815c0*)pFList))));
+            if (!::FUN_00404dc0((const char*)*((void **)((void *)(((LItem_006815c0*)pMList)))), ((const char *)(reinterpret_cast<::BGSCameraPath *>((pcheckfile))->GetShotList()))))
             {
                 pfile[size] = pcheckfile;
                 break;
             }
             pFList = ((::BSSimpleList< ::TESFile *> *)(reinterpret_cast<::Callees *>((pFList))->FUN_00726070()));
-            if (!pFList || !*((void **)(new ((void *)(((LItem_006815c0*)pFList))) ::Vec3())))
+            if (!pFList || !*((void **)((void *)(((LItem_006815c0*)pFList)))))
             {
                 pfile[size] = 0;
                 if (showerror)
@@ -1214,7 +1215,6 @@ struct FUN_00485d50_file
 {
 };
 bool FUN_00484b40(unsigned int formID);
-extern "C" void* __cdecl memset(void*, int, unsigned int);
 
 struct FUN_00472bc0_view
 {
@@ -1349,7 +1349,7 @@ struct BSStr
 struct S7010
 {
 };
-extern int DAT_011c5490;
+extern std::intptr_t DAT_011c5490;
 struct FormTypeInfo
 {
     unsigned char cType;
@@ -1387,7 +1387,6 @@ struct FUN_00471400_shell : public TESFile
     int FUN_00471400();
 };
 
-extern "C" void* __cdecl _alloca(unsigned int);
 template <int N> struct EndianSizeTag
 {
 };
@@ -1531,7 +1530,6 @@ struct FUN_004721d0_shell : public TESFile
     bool FUN_004721d0();
 };
 
-extern "C" void* __cdecl memset(void*, int, unsigned int);
 struct FUN_00472620_shell
 {
 };
@@ -1599,10 +1597,10 @@ bool FUN_004721d0_shell::FUN_004721d0()
         return false;
     }
     currentoffset = ((TESFileView*)this)->m_uiRecordSize;
-    if (::FUN_00472380((int)((TESFileView*)this)->m_pFile) != currentoffset)
+    if (::FUN_00472380((std::intptr_t)((TESFileView*)this)->m_pFile) != currentoffset)
     {
         ((TESFileView*)this)->m_pFile->Seek(currentoffset, ::DAT_010a2480);
-        ((TESFileView*)this)->m_uiRecordSize = ::FUN_00472380((int)((TESFileView*)this)->m_pFile);
+        ((TESFileView*)this)->m_uiRecordSize = ::FUN_00472380((std::intptr_t)((TESFileView*)this)->m_pFile);
     }
     if (((TESFileView*)this)->m_uiRecordSize == -1)
     {
@@ -1639,7 +1637,7 @@ struct FUN_00471a60 : FUN_00464df0_shell
 BGSPerk* FUN_00471a60::GetPerk(unsigned int count)
 {
     BSSimpleList<BGSPerk*>* list = static_cast<BSSimpleList<BGSPerk*>*>(reinterpret_cast<::FUN_00464df0_shell *>(this)->FUN_00464df0());
-    if (((::BGSPerk *)(new ((void *)(list)) ::Vec3())) == 0)
+    if ((list->m_item) == 0)
         return 0;
     unsigned int index = 1;
     for (; index < count; index++)
@@ -1648,7 +1646,7 @@ BGSPerk* FUN_00471a60::GetPerk(unsigned int count)
         if (list == 0)
             return 0;
     }
-    return ((::BGSPerk *)(new ((void *)(list)) ::Vec3()));
+    return (list->m_item);
 }
 }  // namespace fnv_00471a60
 
@@ -1771,8 +1769,8 @@ int TESFile_Standin::FUN_00472e60(TESForm* apForm)
 {
     this->FUN_004736c0(apForm);
 
-    *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x278) =
-        ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(apForm)))->GetName()));
+    *reinterpret_cast<std::uintptr_t*>(reinterpret_cast<char*>(this) + 0x278) =
+        ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(apForm)))->GetName()));
     *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x278) =
         *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x278) & 0x30032FE0;
 
@@ -1807,7 +1805,7 @@ struct FUN_004732d0
 // @fnv 0x004732d0
 BGSPerk* FUN_004732d0::FUN_004732d0_impl()
 {
-    return ((::BGSPerk *)(new ((void *)&(list)) ::Vec3()));
+    return (list.m_item);
 }
 
 namespace fnv_00473490 {
@@ -1917,7 +1915,7 @@ struct FUN_00472f60_arg
     virtual void v11c();
     virtual void v120();
     virtual void v124();
-    virtual void v128(int);
+    virtual void v128(std::intptr_t);
 };
 
 struct FUN_00472f60_cls : public TESFile
@@ -1931,13 +1929,13 @@ void FUN_00472f60_cls::FUN_00472f60(FUN_00472f60_arg* apTarget)
     reinterpret_cast<::FUN_004f15a0_shell *>((apTarget))->FUN_004f15a0(reinterpret_cast<::FUN_00472660_shell *>(this)->FUN_00472660());
     if (reinterpret_cast<::FUN_004077c0_shell *>((apTarget))->FUN_004077c0())
     {
-        reinterpret_cast<::TESRegionGrassObject *>((apTarget))->AssignLandTexture((::TESLandTexture *)(((int)(reinterpret_cast<::MiddleHighProcess *>(this)->GetFacialAnimationNode())) | 0x4000));
+        reinterpret_cast<::TESRegionGrassObject *>((apTarget))->AssignLandTexture((::TESLandTexture *)(((std::intptr_t)(reinterpret_cast<::MiddleHighProcess *>(this)->GetFacialAnimationNode())) | 0x4000));
     }
     else
     {
-        reinterpret_cast<::TESRegionGrassObject *>((apTarget))->AssignLandTexture((::TESLandTexture *)(((int)(reinterpret_cast<::MiddleHighProcess *>(this)->GetFacialAnimationNode()))));
+        reinterpret_cast<::TESRegionGrassObject *>((apTarget))->AssignLandTexture((::TESLandTexture *)(((std::intptr_t)(reinterpret_cast<::MiddleHighProcess *>(this)->GetFacialAnimationNode()))));
     }
-    apTarget->v128(((int)(reinterpret_cast<::MiddleHighProcess *>(this)->GetFaceGenHeadNode())));
+    apTarget->v128(((std::intptr_t)(reinterpret_cast<::MiddleHighProcess *>(this)->GetFaceGenHeadNode())));
     reinterpret_cast<::TESForm *>((apTarget))->SetFile(this);
 }
 
@@ -2528,12 +2526,12 @@ class FUN_00473310_cls
     int unk3DC;
     unsigned int m_3e0;
 
-    void SpawnObject(unsigned int arg);
+    void SpawnObject(std::uintptr_t arg);
 };
 
 // If arg is non-zero, calls CalleeA(arg); when m_10 is set, spawns an object via CalleeB, copies m_10's value into its m_18, calls CalleeD, and increments m_3e0.
 // @fnv 0x00473310
-void FUN_00473310_cls::SpawnObject(unsigned int arg)
+void FUN_00473310_cls::SpawnObject(std::uintptr_t arg)
 {
     if (arg != 0)
     {
@@ -2807,7 +2805,7 @@ void GroupWriter::FUN_004736c0(LoadForm* form)
         GroupNode* node2 = ((::GroupNode *)(reinterpret_cast<::FUN_004732f0_StandIn *>(this)->FUN_004732f0()));
         while (node2)
         {
-            group = *((::GroupForm **)(new ((void *)(node2)) ::Vec3()));
+            group = *((::GroupForm **)((void *)(node2)));
             if (group && !form->IsInGroup(group, true, true))
             {
                 last = group;
@@ -2837,7 +2835,7 @@ void GroupWriter::FUN_004736c0(LoadForm* form)
             form->BuildGroupHeader(&header, group);
             if (header.type == ::fnv_00543df0::kGroupFormType)
             {
-                reinterpret_cast<::FUN_00473310_cls *>(this)->SpawnObject((unsigned int)(&header));
+                reinterpret_cast<::FUN_00473310_cls *>(this)->SpawnObject((std::uintptr_t)(&header));
                 group = ((::GroupForm *)(reinterpret_cast<::FUN_004732d0 *>(this)->FUN_004732d0_impl()));
             }
             else
@@ -3073,13 +3071,6 @@ void* FUN_004601a0Class::DestroyIfFlagged(unsigned int flags)
     return this;
 }
 
-class _ULARGE_INTEGER
-{
-  public:
-    unsigned int LowPart;
-    unsigned int HighPart;
-};
-
 
 struct FUN_00471af0_shell : public TESFile
 {
@@ -3094,12 +3085,12 @@ bool FUN_00471af0_shell::HasMasterFileChanged()
     BSSimpleList<char*>* pMasters = (BSSimpleList<char*>*)((::BSSimpleList<char *> *)(reinterpret_cast<::FUN_00464df0_shell *>((this))->FUN_00464df0()));
     BSSimpleList<_ULARGE_INTEGER*>* pMastersData = GetMasterDataList();
     bool bChanged_ = false;
-    while (pMasters && ((char *)(new ((void *)(pMasters)) ::Vec3())) && pMastersData && ((::_ULARGE_INTEGER *)(new ((void *)(pMastersData)) ::Vec3())))
+    while (pMasters && (pMasters->m_item) && pMastersData && (pMastersData->m_item))
     {
         char filePathX[260];
         _WIN32_FIND_DATAA findData;
-        ::FUN_00406d00(filePathX, 260, "%s", ((char *)(new ((void *)(pMasters)) ::Vec3())));
-        pSize4 = ((::_ULARGE_INTEGER *)(new ((void *)(pMastersData)) ::Vec3()));
+        ::FUN_00406d00(filePathX, 260, "%s", (pMasters->m_item));
+        pSize4 = (pMastersData->m_item);
         hFind6 = FindFirstFileA(filePathX, &findData);
         if (hFind6 != (void*)-1)
         {
@@ -3159,9 +3150,9 @@ void __cdecl FUN_00473270(void* pObject)
     while (!((Probe_A*)pObject)->FUN_008256d0())
     {
         void* r;
-        unsigned int a = *((unsigned int *)(new ((void *)(((Probe_B*)pObject))) ::Vec3()));
+        unsigned int a = *((unsigned int *)((void *)(((Probe_B*)pObject))));
         unsigned int b = a;
-        unsigned int c2 = b;
+        std::uintptr_t c2 = b;
         if (c2 != 0)
         {
             r = ((FUN_004601a0Class*)c2)->DestroyIfFlagged(1);
@@ -3245,7 +3236,7 @@ FUN_004709f0::~FUN_004709f0()
     BSSimpleList<char*>* pMaster = ((::BSSimpleList<char *> *)(reinterpret_cast<::FUN_00464df0_shell *>(this)->FUN_00464df0()));
     while (pMaster)
     {
-        char* pName7 = ((char *)(new ((void *)(pMaster)) ::Vec3()));
+        char* pName7 = (pMaster->m_item);
         if (pName7)
             delete pName7;
         pMaster = ((::BSSimpleList<char *> *)(reinterpret_cast<::Callees *>((pMaster))->FUN_00726070()));
@@ -3254,7 +3245,7 @@ FUN_004709f0::~FUN_004709f0()
     BSSimpleList<_ULARGE_INTEGER*>* pData8 = reinterpret_cast<::TESFile *>(this)->GetMasterDataList();
     while (pData8)
     {
-        _ULARGE_INTEGER* pSize = ((::_ULARGE_INTEGER *)(new ((void *)(pData8)) ::Vec3()));
+        _ULARGE_INTEGER* pSize = (pData8->m_item);
         if (pSize)
             delete pSize;
         pData8 = ((::BSSimpleList< ::_ULARGE_INTEGER *> *)(reinterpret_cast<::Callees *>((pData8))->FUN_00726070()));
@@ -3482,7 +3473,7 @@ class B473180Stream
 unsigned int B473180Stream::FUN_00473180(void* pvBuffer, unsigned int uiBytes)
 {
     unsigned int uiElemSize = 1;
-    unsigned int uiRead = ((unsigned int)(reinterpret_cast<::FUN_0044e120_Class *>(this)->CallAndAccumulate((int)(pvBuffer), uiBytes, (int)(&uiElemSize), 1)));
+    unsigned int uiRead = ((unsigned int)(reinterpret_cast<::FUN_0044e120_Class *>(this)->CallAndAccumulate((std::intptr_t)(pvBuffer), uiBytes, (std::intptr_t)(&uiElemSize), 1)));
     return uiRead;
 }
 
@@ -3498,9 +3489,9 @@ void FUN_00482f40_t::FUN_00482f40(TESForm* apForm, unsigned int auiChunk)
     bool bFound;
     if (!apForm)
         return;
-    if (DAT_011c5490 == (int)this && ((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((((S7010*)&(*reinterpret_cast<::BSStringT<char> *>(&::g_011c5498)))))->FUN_004048e0())))
+    if (DAT_011c5490 == (int)(std::uintptr_t)this && ((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((((S7010*)&(*reinterpret_cast<::BSStringT<char> *>(&::g_011c5498)))))->FUN_004048e0())))
         return;
-    DAT_011c5490 = (int)this;
+    DAT_011c5490 = (std::intptr_t)this;
     reinterpret_cast<::TextString *>((((BSStr*)&(*reinterpret_cast<::BSStringT<char> *>(&::g_011c5498)))))->FUN_004037f0(0, 0);
     {
         TESFile* pFile = apForm->GetFile(-1);

@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 struct FUN_004759a0_First;
 
@@ -9,6 +10,6 @@ namespace fnv_004753d0 { bool FUN_004753d0(void *); }
 // 0x00475400
 ::FUN_004759a0_First *FUN_00475400(void *);
 // 0x00475920
-int FindIndexByValue(void *, unsigned int);
+int FindIndexByValue(void *, std::uintptr_t);
 // 0x004759a0
 int GetElementValue(void *, int);

@@ -1,7 +1,8 @@
 #pragma once
+#include <cstdint>
 
 struct S006a1460 {
 public:
     // 0x006a1460
-    bool FUN_006a1460(int);
+    bool FUN_006a1460(std::intptr_t);
 };

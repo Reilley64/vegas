@@ -601,16 +601,16 @@ float __cdecl FUN_00648c80(float afConditionMult, int b)
 
 struct FUN_0087aa40_Holder
 {
-    void FUN_0087aa40(int, int);
+    void FUN_0087aa40(void*, void*);
 };
 // @fnv 0x0087aa40
-void FUN_0087aa40_Holder::FUN_0087aa40(int aiArg0, int aiArg1)
+void FUN_0087aa40_Holder::FUN_0087aa40(void* apArg0, void* apArg1)
 {
-    char buf[32];
-    ((int*)buf)[0] = 0x20;
-    ((int*)buf)[1] = aiArg0;
-    ((int*)buf)[2] = aiArg1;
-    ((TaskQueueInterface*)this)->ProcessPackedTask(*(BSPackedTask*)buf);
+    BSPackedTask task;
+    task.m_akPackedTaskVariantData[0].iData = 0x20;
+    task.m_akPackedTaskVariantData[1].pData = apArg0;
+    task.m_akPackedTaskVariantData[2].pData = apArg1;
+    ((TaskQueueInterface*)this)->ProcessPackedTask(task);
 }
 
 struct FUN_0087aa90_shell : TaskQueueInterface
@@ -1178,51 +1178,51 @@ void FUN_0087b230_Holder::FUN_0087b230(int aiValue)
 
 struct FUN_0087b440_holder
 {
-    void FUN_0087b440(int, int, int, bool, bool);
+    void FUN_0087b440(void*, int, int, bool, bool);
 };
 // @fnv 0x0087b440
-void FUN_0087b440_holder::FUN_0087b440(int aiArg0, int aiArg1, int aiArg2, bool abFlag0, bool abFlag1)
+void FUN_0087b440_holder::FUN_0087b440(void* apArg0, int aiArg1, int aiArg2, bool abFlag0, bool abFlag1)
 {
-    char buf[32];
-    ((int*)buf)[0] = 0x18;
-    ((int*)buf)[1] = aiArg0;
-    ((int*)buf)[2] = aiArg1;
-    ((int*)buf)[3] = aiArg2;
-    buf[16] = abFlag0;
-    buf[20] = abFlag1;
-    reinterpret_cast<TaskQueueInterface*>(this)->ProcessPackedTask(*reinterpret_cast<BSPackedTask*>(buf));
+    BSPackedTask task;
+    task.m_akPackedTaskVariantData[0].iData = 0x18;
+    task.m_akPackedTaskVariantData[1].pData = apArg0;
+    task.m_akPackedTaskVariantData[2].iData = aiArg1;
+    task.m_akPackedTaskVariantData[3].iData = aiArg2;
+    task.m_akPackedTaskVariantData[4].bData = abFlag0;
+    task.m_akPackedTaskVariantData[5].bData = abFlag1;
+    reinterpret_cast<TaskQueueInterface*>(this)->ProcessPackedTask(task);
 }
 
 struct FakeTaskQueue
 {
-    void FUN_0087b4a0(int a, int b, float c);
+    void FUN_0087b4a0(void* a, void* b, float c);
 };
 // Builds a 32-byte task with opcode 0x19 and the three arguments, then passes it to the queue interface.
 // @fnv 0x0087b4a0
-void FakeTaskQueue::FUN_0087b4a0(int aiArg1, int aiArg2, float afArg3)
+void FakeTaskQueue::FUN_0087b4a0(void* apArg1, void* apArg2, float afArg3)
 {
-    char task[32];
-    ((int*)task)[0] = 0x19;
-    ((int*)task)[1] = aiArg1;
-    ((int*)task)[2] = aiArg2;
-    ((float*)task)[3] = afArg3;
-    ((TaskQueueInterface*)this)->ProcessPackedTask(*(BSPackedTask*)task);
+    BSPackedTask task;
+    task.m_akPackedTaskVariantData[0].iData = 0x19;
+    task.m_akPackedTaskVariantData[1].pData = apArg1;
+    task.m_akPackedTaskVariantData[2].pData = apArg2;
+    task.m_akPackedTaskVariantData[3].fData = afArg3;
+    ((TaskQueueInterface*)this)->ProcessPackedTask(task);
 }
 
 struct Holder0087b4f0
 {
-    void FUN_0087b4f0(int a, int b, float c);
+    void FUN_0087b4f0(void* a, void* b, float c);
 };
 // Builds a BSPackedTask with id 26 and the three arguments, then queues it via TaskQueueInterface.
 // @fnv 0x0087b4f0
-void Holder0087b4f0::FUN_0087b4f0(int aiArg0, int aiArg1, float afArg2)
+void Holder0087b4f0::FUN_0087b4f0(void* apArg0, void* apArg1, float afArg2)
 {
-    char task[32];
-    ((BSPackedTask*)task)->m_akPackedTaskVariantData[0].iData = 26;
-    ((BSPackedTask*)task)->m_akPackedTaskVariantData[1].iData = aiArg0;
-    ((BSPackedTask*)task)->m_akPackedTaskVariantData[2].iData = aiArg1;
-    ((BSPackedTask*)task)->m_akPackedTaskVariantData[3].fData = afArg2;
-    ((TaskQueueInterface*)this)->ProcessPackedTask(*(BSPackedTask*)task);
+    BSPackedTask task;
+    task.m_akPackedTaskVariantData[0].iData = 26;
+    task.m_akPackedTaskVariantData[1].pData = apArg0;
+    task.m_akPackedTaskVariantData[2].pData = apArg1;
+    task.m_akPackedTaskVariantData[3].fData = afArg2;
+    ((TaskQueueInterface*)this)->ProcessPackedTask(task);
 }
 
 struct FUN_0087b540_Holder : public TaskQueueInterface
@@ -1260,15 +1260,15 @@ void Holder87b580::FUN_0087b580(int aiValue)
 
 struct Unnamed_0087b5c0 : TaskQueueInterface
 {
-    void FUN_0087b5c0(int);
+    void FUN_0087b5c0(void*);
 };
 // @fnv 0x0087b5c0
-void Unnamed_0087b5c0::FUN_0087b5c0(int aiArg)
+void Unnamed_0087b5c0::FUN_0087b5c0(void* apArg)
 {
-    char task[32];
-    *(int*)&task[0] = 29;
-    *(int*)&task[4] = aiArg;
-    ProcessPackedTask(*(const BSPackedTask*)task);
+    BSPackedTask task;
+    task.m_akPackedTaskVariantData[0].iData = 29;
+    task.m_akPackedTaskVariantData[1].pData = apArg;
+    ProcessPackedTask(task);
 }
 
 struct FUN_0087b600_Holder : TaskQueueInterface

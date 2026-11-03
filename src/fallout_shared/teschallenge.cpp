@@ -73,7 +73,7 @@ void TESChallenge::InitItem()
     if (GetInitialized())
         return;
     TESScriptableForm::InitItem(this);
-    unsigned int formID = reinterpret_cast<unsigned int>(m_pPrimaryForm);
+    unsigned int formID = (unsigned int)(std::uintptr_t)(m_pPrimaryForm);
     if (formID)
     {
         ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
@@ -81,7 +81,7 @@ void TESChallenge::InitItem()
         if (!m_pPrimaryForm)
             ::FUN_005b5e40();
     }
-    formID = reinterpret_cast<unsigned int>(m_pSecondaryForm);
+    formID = (unsigned int)(std::uintptr_t)(m_pSecondaryForm);
     if (formID)
     {
         ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
@@ -108,7 +108,7 @@ void ChallengeManager::CheckCompletedChallenges()
     TESChallenge* challenge = 0;
     while (list)
     {
-        challenge = ((::TESChallenge *)(new ((void *)(list)) ::Vec3()));
+        challenge = (list->m_item);
         if (challenge && !((int)(::FUN_005a6150((const unsigned char *)(challenge)))) && (!challenge->GetStartsLocked() || ((int)(::FUN_005a60d0((const char *)(challenge))))))
             (*reinterpret_cast<BSSimpleList<TESChallenge *> (*)[14]>(&::DAT_011cb3e0))[(*(::CHALLENGE_TYPE *)(reinterpret_cast<::FUN_006a1b60_Class *>((challenge))->GetField54()))].AddHead(challenge);
         else if (challenge)
@@ -209,7 +209,7 @@ bool ChallengeManager::UpdateChallengeProgress(CHALLENGE_TYPE type, int count, T
     TESChallenge* challenge = 0;
     while (list)
     {
-        challenge = ((::TESChallenge *)(new ((void *)(list)) ::Vec3()));
+        challenge = (list->m_item);
         bool applicable = true;
         if (challenge)
         {
@@ -331,7 +331,7 @@ bool ChallengeManager::UpdateChallengeProgress(CHALLENGE_TYPE type, int count, T
                 continue;
             }
             challenge->FUN_005f60e0(count);
-            if (((int)(reinterpret_cast<::DialogueItem *>((challenge))->SelectDefaultResponseList())) >= reinterpret_cast<::LowProcess *>((challenge))->GetPackageObjectType())
+            if (challenge->progress.iProgress >= reinterpret_cast<::LowProcess *>((challenge))->GetPackageObjectType())
             {
                 if (((::Script *)(reinterpret_cast<::Callees *>((challenge))->FUN_00726070())))
                     reinterpret_cast<::FUN_005ac340_t *>((((::Script *)(reinterpret_cast<::Callees *>((challenge))->FUN_00726070()))))->RunScriptOnTarget(reinterpret_cast<TESObjectREFR*>(::_g_thePlayer), 0);
@@ -351,7 +351,7 @@ bool ChallengeManager::UpdateChallengeProgress(CHALLENGE_TYPE type, int count, T
                 }
                 if (reinterpret_cast<::FUN_005f5f60_class *>((challenge))->FUN_005f5f60() && !reinterpret_cast<::FUN_005f60c0_Class *>((challenge))->HasFlag8())
                 {
-                    int excess = ((int)(reinterpret_cast<::DialogueItem *>((challenge))->SelectDefaultResponseList())) - reinterpret_cast<::LowProcess *>((challenge))->GetPackageObjectType();
+                    int excess = challenge->progress.iProgress - reinterpret_cast<::LowProcess *>((challenge))->GetPackageObjectType();
                     reinterpret_cast<::FUN_005f5820_shell *>((challenge))->ClearField6C();
                     reinterpret_cast<::FUN_005f6060_class *>((challenge))->FUN_005f6060(true);
                     challenge->FUN_005f60e0(excess);
@@ -369,8 +369,8 @@ bool ChallengeManager::UpdateChallengeProgress(CHALLENGE_TYPE type, int count, T
                     int interval;
                     int progress;
                 } values;
-                values.progress = ((int)(reinterpret_cast<::DialogueItem *>((challenge))->SelectDefaultResponseList()));
-                values.interval = ((int)(reinterpret_cast<::fnv_005f5f80::FUN_005f5f80_shell *>((challenge))->FUN_005f5f80())) ? ((int)(reinterpret_cast<::fnv_005f5f80::FUN_005f5f80_shell *>((challenge))->FUN_005f5f80())) : 100;
+                values.progress = challenge->progress.iProgress;
+                values.interval = ((std::intptr_t)(reinterpret_cast<::fnv_005f5f80::FUN_005f5f80_shell *>((challenge))->FUN_005f5f80())) ? ((std::intptr_t)(reinterpret_cast<::fnv_005f5f80::FUN_005f5f80_shell *>((challenge))->FUN_005f5f80())) : 100;
                 for (int value = values.progress; value >= 0; value -= values.interval)
                 {
                     if (value == 0)
@@ -380,7 +380,7 @@ bool ChallengeManager::UpdateChallengeProgress(CHALLENGE_TYPE type, int count, T
                         {
                             char message[512];
                             ::FUN_00406d00(message, sizeof(message), "%s   %d\\%d\n%s", ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((challenge))->FUN_00408da0())),
-                                      ((int)(reinterpret_cast<::DialogueItem *>((challenge))->SelectDefaultResponseList())), reinterpret_cast<::LowProcess *>((challenge))->GetPackageObjectType(),
+                                      challenge->progress.iProgress, reinterpret_cast<::LowProcess *>((challenge))->GetPackageObjectType(),
                                       challenge->GetDescription(0, (CHUNK_ID)0x43534544));
                             ::DispatchMessageToSink((const char *)(message), 0, (const char *)(::FUN_0048e730(challenge, (int)(0))),
                                                    (const char *)(0), ::DAT_010162c0, false);
@@ -647,7 +647,7 @@ void FUN_005f5540_shell::Initialize()
     ((FUN_00482cb0_shell*)((char*)this + 0x24))->FUN_00482cb0();
     if (((bool)(::FUN_00401500())))
         reinterpret_cast<::FUN_005f5480_shell *>((((ChallengeData*)((char*)this + 0x54))))->SwapEndianFields();
-    reinterpret_cast<::SDSaveForm *>((((FUN_00485e00_shell*)this)))->FUN_00485e20((const void *)((int)((char*)this + 0x54)), 0x18);
+    reinterpret_cast<::SDSaveForm *>((((FUN_00485e00_shell*)this)))->FUN_00485e20((const void *)((std::intptr_t)((char*)this + 0x54)), 0x18);
     if (((bool)(::FUN_00401500())))
         reinterpret_cast<::FUN_005f5480_shell *>((((ChallengeData*)((char*)this + 0x54))))->SwapEndianFields();
     if (*(unsigned int*)((char*)this + 0x74))

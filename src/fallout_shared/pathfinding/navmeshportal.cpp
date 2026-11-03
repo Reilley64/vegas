@@ -46,7 +46,7 @@ void DFD0Data::LoadFormRef(void* pUnused, DFD0File* pkFile, const char* pBuffer)
         ::FUN_00401080(&iFormID);
     ::ResolveFormID((unsigned int *)(int *)(&iFormID), (::TESFile *)(pkFile));
     if (iFormID)
-        m_pBase = ((void *)(reinterpret_cast<::Pathing *>((((::DFD0Form *)(reinterpret_cast<::Owner45A *>(((*reinterpret_cast<::DFD0TES * *>(&::g_TES))))->FUN_0045af00()))))->FindReferenceByFormId({})));
+        m_pBase = ((void *)(reinterpret_cast<::Pathing *>((((::DFD0Form *)(reinterpret_cast<::Owner45A *>((((::DFD0TES *)::g_TES)))->FUN_0045af00()))))->FindReferenceByFormId({})));
     else
         m_pBase = 0;
     pBuffer += 4;

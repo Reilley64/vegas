@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 class FUN_004b6ce0_cls;
 class FUN_00b668b0;

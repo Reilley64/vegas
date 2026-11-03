@@ -25,7 +25,7 @@ float GetObjectMass(::WorldObject62b3 *);
 // 0x0062b520
 float FUN_0062b520(float, ::bhkWorldObject *, bool);
 // 0x0062b660
-void SetCollisionScale(::SceneNode *, unsigned int, float, ::MaterialSelector *);
+void SetCollisionScale(::SceneNode *, std::uintptr_t, float, ::MaterialSelector *);
 // 0x0062b8d0
 void FUN_0062b8d0(void *, const void *, unsigned char);
 // 0x0062b930

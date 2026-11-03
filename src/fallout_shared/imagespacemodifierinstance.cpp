@@ -34,6 +34,15 @@
 #include "imagespacemodifierinstance_calls.h"
 #include "NiObject.h"
 #include "TESForm.h"
+
+class NiNode;
+template <> class NiPointer<NiNode>
+{
+  public:
+    NiNode* m_pObject;
+    ~NiPointer();
+    NiPointer<NiNode>& operator=(NiNode*);
+};
 // Source unit: fallout_shared/imagespacemodifierinstance.cpp
 //
 // which are not canonical source. Only call-protocol member declarations
@@ -585,7 +594,7 @@ void ImageSpaceModifierInstanceForm::Stop(TESImageSpaceModifier* modifier)
     BSSimpleList<NiPointer<ImageSpaceModifierInstance> >* node = ((::BSSimpleList< ::NiPointer< ::ImageSpaceModifierInstance>> *)(reinterpret_cast<::TESObjectTREE *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->GetData()));
     while (node)
     {
-        ImageSpaceModifierInstance* instance = (*(::NiPointer< ::ImageSpaceModifierInstance> *)(new ((void *)(node)) ::Vec3()));
+        ImageSpaceModifierInstance* instance = (node->m_item);
         if (instance && instance->GetInstanceForm() && ((::TESImageSpaceModifier *)(reinterpret_cast<::BGSTerrainManager *>((instance->GetInstanceForm()))->GetMinLevel())) == modifier)
         {
             reinterpret_cast<::ListReader *>((node))->FUN_00631620((const ::NodeValue &)((const ::NiPointer< ::ImageSpaceModifierInstance> &)(instance)));
@@ -697,7 +706,7 @@ void __cdecl FUN_005293f0(ImageSpaceModifierInstance* apInstance)
     BSSimpleList<NiPointer<ImageSpaceModifierInstance> >* pkList = ((::BSSimpleList< ::NiPointer< ::ImageSpaceModifierInstance>> *)(reinterpret_cast<::TESObjectTREE *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->GetData()));
     while (pkList)
     {
-        ImageSpaceModifierInstance* pinstance = (*(::NiPointer< ::ImageSpaceModifierInstance> *)(new ((void *)(pkList)) ::Vec3()));
+        ImageSpaceModifierInstance* pinstance = (pkList->m_item);
         if (pinstance == apInstance)
         {
             reinterpret_cast<::ListReader *>((pkList))->FUN_00631620((const ::NodeValue &)((const ::NiPointer< ::ImageSpaceModifierInstance> &)(pinstance)));
@@ -715,14 +724,6 @@ struct FUN_00529660_view : public ImageSpaceModifierInstanceForm
     void* Destroy(unsigned int flags);
 };
 
-class NiNode;
-template <> class NiPointer<NiNode>
-{
-  public:
-    NiNode* m_pObject;
-    ~NiPointer();
-    NiPointer<NiNode>& operator=(NiNode*);
-};
 
 struct FUN_00529690_dtor : public ImageSpaceModifierInstance
 {
@@ -760,7 +761,7 @@ struct _Call_a5d3a0
 struct GO
 {
     void* m_pObject;
-    GO(int);
+    GO(std::intptr_t);
 };
 struct FUN_00529540 : public _Call_a5d3a0
 {
@@ -775,7 +776,7 @@ struct FUN_00529540 : public _Call_a5d3a0
 
 // @fnv 0x00529540
 FUN_00529540::FUN_00529540(float afStrength, float afStartTime, NiAVObject* apTarget)
-    : fWaterLevelItem((m_ppVirtualMethodTable = DAT_0102d1cc, afStrength)), m_spTargetObject((int)apTarget)
+    : fWaterLevelItem((m_ppVirtualMethodTable = DAT_0102d1cc, afStrength)), m_spTargetObject((std::intptr_t)apTarget)
 {
     m_fStartTime = afStartTime;
 }
@@ -866,7 +867,7 @@ void* FUN_0052a620_shell::FUN_0052a620(unsigned int flags)
 }  // namespace fnv_0052a620
 
 namespace fnv_0052a8f0 {
-extern "C" void* __cdecl _delete(void* ptr, unsigned int size);
+extern "C" void _delete(void* ptr, unsigned int size);
 
 struct ImageSpaceModifierInstanceTempDestructionView
 {
@@ -1085,7 +1086,7 @@ void ImageSpaceModifierInstanceRB::FUN_0052a330()
 
             reinterpret_cast<::FUN_00b8b760_cls *>((reinterpret_cast<ImageSpaceManagerAccess*>(pmanager)))->FUN_00b8b760(
                 fWaterLevelItem, m_fRampUp, fStart, m_fRampDown, m_fRampDownStart,
-                (int)&((*(const ::NiBound *)(reinterpret_cast<::FUN_0043d450_Owner *>((void *)(reinterpret_cast<NiAVObject*>(m_spTargetObject.operator unsigned int())))->FUN_0043d450()))));
+                (std::intptr_t)&((*(const ::NiBound *)(reinterpret_cast<::FUN_0043d450_Owner *>((void *)(reinterpret_cast<NiAVObject*>(m_spTargetObject.operator unsigned int())))->FUN_0043d450()))));
         }
         else
         {
@@ -1108,7 +1109,7 @@ ImageSpaceModifierInstanceForm* __cdecl CreateImageSpaceModifierInstance(TESImag
         BSSimpleList<NiPointer<ImageSpaceModifierInstance> >* pIter = ((::BSSimpleList< ::NiPointer< ::ImageSpaceModifierInstance>> *)(reinterpret_cast<::TESObjectTREE *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->GetData()));
         while (pIter)
         {
-            ImageSpaceModifierInstance* pCurrent = (*(::NiPointer< ::ImageSpaceModifierInstance> *)(new ((void *)(pIter)) ::Vec3()));
+            ImageSpaceModifierInstance* pCurrent = (pIter->m_item);
             if (pCurrent && pCurrent->GetInstanceForm() &&
                 pCurrent->GetInstanceForm()->m_pPreviousImageSpaceModifier == apModifier)
             {

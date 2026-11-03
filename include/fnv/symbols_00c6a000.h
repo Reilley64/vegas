@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdint>
+
 class C6A2E0AVObject;
 class NiAVObject;
 
@@ -14,7 +16,7 @@ bool ApplyCollisionObjectCount(::NiAVObject *, float, bool, bool);
 // 0x00c6a200
 bool FUN_00c6a200(void *, unsigned char, unsigned char, unsigned char);
 // 0x00c6a270
-bool FUN_00c6a270(int, unsigned char, unsigned char, char);
+bool FUN_00c6a270(std::intptr_t, unsigned char, unsigned char, char);
 // 0x00c6a2e0
 bool FUN_00c6a2e0(::C6A2E0AVObject *, bool, bool);
 // 0x00c6a350

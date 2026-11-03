@@ -92,10 +92,10 @@ struct BGSTESTexture
 };
 struct FUN_0047a240_shell
 {
-    void FUN_0047a240(unsigned int);
+    void FUN_0047a240(std::uintptr_t);
 };
 // @fnv 0x0047a240
-void FUN_0047a240_shell::FUN_0047a240(unsigned int a1)
+void FUN_0047a240_shell::FUN_0047a240(std::uintptr_t a1)
 {
     if (((BGSTESTexture*)((char*)this + 4))->GetModelLength())
         ::FUN_004856f0((void *)(a1), (void*)((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((void *)(((FNStub*)((char*)this + 4))))->FUN_00408da0())),

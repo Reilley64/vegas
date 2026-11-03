@@ -61,10 +61,10 @@ void TESReactionForm::ClearComponent()
 // @fnv 0x0048bb10
 void TESReactionForm::ClearReactionList()
 {
-    while (((::InventoryStackRecord *)(new ((void *)(reinterpret_cast<BSSimpleList<InventoryStackRecord*>*>(reinterpret_cast<BaseProcess*>(this)->GetCurrentProcessData()))) ::Vec3())) != 0)
+    while (((reinterpret_cast<BSSimpleList<InventoryStackRecord*>*>(reinterpret_cast<BaseProcess*>(this)->GetCurrentProcessData()))->m_item) != 0)
     {
         InventoryStackRecord* pToFree =
-            ((::InventoryStackRecord *)(new ((void *)(reinterpret_cast<BSSimpleList<InventoryStackRecord*>*>(reinterpret_cast<BaseProcess*>(this)->GetCurrentProcessData()))) ::Vec3()));
+            ((reinterpret_cast<BSSimpleList<InventoryStackRecord*>*>(reinterpret_cast<BaseProcess*>(this)->GetCurrentProcessData()))->m_item);
         InventoryStackRecord* pItem = pToFree;
         ::FUN_00401030(pItem);
         reinterpret_cast<BSSimpleList<InventoryStackRecord*>*>(reinterpret_cast<BaseProcess*>(this)->GetCurrentProcessData())
@@ -82,13 +82,13 @@ template <> BSMapBase<int, DistantTreeTextureInfo*>::BSMapBase(unsigned int size
 // @fnv 0x0048cb40
 void TESReactionForm::InitLoadGame(BGSLoadFormBuffer* buffer)
 {
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetChangeFlags(4)))->FUN_004280f0())
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetChangeFlags(4)))->FUN_004280f0(4))
     {
         BSSimpleList<BGSCameraShot*>* current = reinterpret_cast<BSSimpleList<BGSCameraShot*>*>(&m_kReactionList);
         BSSimpleList<BGSCameraShot*>* previous = 0;
         while (current && !current->IsEmpty())
         {
-            ReactionInfo* reaction = reinterpret_cast<ReactionInfo*>(((::BGSCameraShot *)(new ((void *)(current)) ::Vec3())));
+            ReactionInfo* reaction = reinterpret_cast<ReactionInfo*>((current->item));
             bool remove = false;
             if (reaction)
             {
@@ -109,7 +109,7 @@ void TESReactionForm::InitLoadGame(BGSLoadFormBuffer* buffer)
             {
                 if (previous)
                 {
-                    reinterpret_cast<::ItemChangeListNode *>((previous))->FUN_00905330((::InventoryStackRecord *const &)(((::BGSCameraShot *)(new ((void *)(current)) ::Vec3()))));
+                    reinterpret_cast<::ItemChangeListNode *>((previous))->FUN_00905330((::InventoryStackRecord *const &)((current->item)));
                     current = ((::BSSimpleList< ::BGSCameraShot *> *)(reinterpret_cast<::Callees *>((previous))->FUN_00726070()));
                 }
                 else
@@ -136,12 +136,12 @@ void TESReactionForm::InitItem(TESForm* form)
         reinterpret_cast<BSSimpleList<BGSCameraShot*>*>(reinterpret_cast<BaseProcess*>(this)->GetCurrentProcessData());
     BSSimpleList<BGSCameraShot*>* pFile = 0;
     pPrev = form ? form->GetFile(-1) : 0;
-    while (pList && ((::BGSCameraShot *)(new ((void *)(pList)) ::Vec3())))
+    while (pList && (pList->item))
     {
-        ReactionInfo* reaction = reinterpret_cast<ReactionInfo*>(((::BGSCameraShot *)(new ((void *)(pList)) ::Vec3())));
+        ReactionInfo* reaction = reinterpret_cast<ReactionInfo*>((pList->item));
         unsigned int formID = reaction->formID;
         ::ResolveFormID((unsigned int *)&(formID), pPrev);
-        reaction->formID = reinterpret_cast<unsigned int>(::FUN_004839c0(formID));
+        reaction->formID = (unsigned int)(std::uintptr_t)(::FUN_004839c0(formID));
         if (reaction->formID)
         {
             pList = ((::BSSimpleList< ::BGSCameraShot *> *)(reinterpret_cast<::Callees *>((pList))->FUN_00726070()));
@@ -183,9 +183,9 @@ int FUN_0048c1b0_shell::FUN_0048c1b0(TESForm* apForm)
     if (apForm != 0)
     {
         void* pList = reinterpret_cast<BaseProcess*>(this)->GetCurrentProcessData();
-        while (pList != 0 && *((::GROUP_REACTION_dummy **)(new ((void *)(pList)) ::Vec3())) != 0)
+        while (pList != 0 && *((::GROUP_REACTION_dummy **)((void *)(pList))) != 0)
         {
-            GROUP_REACTION_dummy* fr = *((::GROUP_REACTION_dummy **)(new ((void *)(pList)) ::Vec3()));
+            GROUP_REACTION_dummy* fr = *((::GROUP_REACTION_dummy **)((void *)(pList)));
             if (fr->pForm == apForm)
                 return fr->eFightReaction;
             pList = reinterpret_cast<::Callees *>((pList))->FUN_00726070();
@@ -217,9 +217,9 @@ void FUN_0048bfc0(BaseProcess* self, Args_0048bfc0 args)
         return;
     bool bFound = false;
     void* pList = self->GetCurrentProcessData();
-    while (pList && *((::GROUP_REACTION_dummy **)(new ((void *)(pList)) ::Vec3())))
+    while (pList && *((::GROUP_REACTION_dummy **)((void *)(pList))))
     {
-        GROUP_REACTION_dummy* fr = *((::GROUP_REACTION_dummy **)(new ((void *)(pList)) ::Vec3()));
+        GROUP_REACTION_dummy* fr = *((::GROUP_REACTION_dummy **)((void *)(pList)));
         if (fr->pForm == args.apForm)
         {
             if (args.aiReaction == 0 && fr->eFightReaction == 0)
@@ -304,7 +304,7 @@ struct FUN_0048ca90 : TESReactionForm
 // @fnv 0x0048ca90
 void FUN_0048ca90::LoadReaction(BGSLoadFormBuffer* buffer)
 {
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetChangeFlags(4)))->FUN_004280f0())
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetChangeFlags(4)))->FUN_004280f0(4))
     {
         ClearReactionList();
         unsigned int count = reinterpret_cast<::fnv_00864a60::FUN_00864a60_cls *>((((BGSLoadFormBufferA*)buffer)))->FUN_00864a60();
@@ -343,9 +343,9 @@ void FUN_0048bb70_shell::WriteCameraShotList()
     BGSCameraShot* shot;
     ContainerItemExtraFileData data;
 
-    while (current && ((::BGSCameraShot *)(new ((void *)(current)) ::Vec3())))
+    while (current && (current->item))
     {
-        shot = ((::BGSCameraShot *)(new ((void *)(current)) ::Vec3()));
+        shot = (current->item);
 
         if (!reinterpret_cast<::FUN_00440d80_shell *>((void *)((*reinterpret_cast<RefH**>(shot))))->FUN_00440d80())
         {
@@ -397,9 +397,9 @@ void FUN_0048bd50_shell::CopyReactionList(TESForm* form)
     ReactionListOps_bd50* dst;
     dst = ((::ReactionListOps_bd50 *)(reinterpret_cast<::BaseProcess *>((((ReactionListOps_bd50*)this)))->GetCurrentProcessData()));
     cur5 = ((::ReactionListOps_bd50 *)(reinterpret_cast<::BaseProcess *>((p))->GetCurrentProcessData()));
-    while (cur5 != 0 && *((::GROUP_REACTION_bd50 **)(new ((void *)(cur5)) ::Vec3())) != 0)
+    while (cur5 != 0 && *((::GROUP_REACTION_bd50 **)((void *)(cur5))) != 0)
     {
-        GROUP_REACTION_bd50* src2 = *((::GROUP_REACTION_bd50 **)(new ((void *)(cur5)) ::Vec3()));
+        GROUP_REACTION_bd50* src2 = *((::GROUP_REACTION_bd50 **)((void *)(cur5)));
         GROUP_REACTION_bd50* item = new GROUP_REACTION_bd50;
         item->pForm = src2->pForm;
         item->iOffset = src2->iOffset;
@@ -443,8 +443,8 @@ bool ReactionCompare::FUN_0048be40(BaseFormComponent* component)
     {
         if (!left)
             return true;
-        ReactionData* rhs = *((::ReactionData **)(new ((void *)(other)) ::Vec3()));
-        ReactionData* lhs = *((::ReactionData **)(new ((void *)(left)) ::Vec3()));
+        ReactionData* rhs = *((::ReactionData **)((void *)(other)));
+        ReactionData* lhs = *((::ReactionData **)((void *)(left)));
         if (rhs && lhs)
         {
             if (rhs->form != lhs->form)
@@ -500,9 +500,9 @@ void C0B0Owner::FUN_0048c0b0(C0B0Form* pkForm, int iDelta)
     C0B0Entry* pkEntry = 0;
     C0B0Node* pkIter = ((::C0B0List *)(reinterpret_cast<::BaseProcess *>(this)->GetCurrentProcessData()));
     bool bFound = false;
-    while (pkIter && *((::C0B0Entry **)(new ((void *)(pkIter)) ::Vec3())))
+    while (pkIter && *((::C0B0Entry **)((void *)(pkIter))))
     {
-        pkEntry = *((::C0B0Entry **)(new ((void *)(pkIter)) ::Vec3()));
+        pkEntry = *((::C0B0Entry **)((void *)(pkIter)));
         if (pkEntry->m_pkForm == pkForm)
         {
             bFound = true;
@@ -543,9 +543,9 @@ void FUN_0048c220_shell::FUN_0048c220(TESForm* apForm, int aiReaction)
     }
     bool bFound = false;
     void* pNode = ((void *)(reinterpret_cast<::BaseProcess *>(this)->GetCurrentProcessData()));
-    while (pNode != 0 && *((::GROUP_REACTION_dummy **)(new ((void *)(pNode)) ::Vec3())) != 0)
+    while (pNode != 0 && *((::GROUP_REACTION_dummy **)((void *)(pNode))) != 0)
     {
-        GROUP_REACTION_dummy* pItem = *((::GROUP_REACTION_dummy **)(new ((void *)(pNode)) ::Vec3()));
+        GROUP_REACTION_dummy* pItem = *((::GROUP_REACTION_dummy **)((void *)(pNode)));
         if (pItem->pForm == apForm)
         {
             pItem->eFightReaction = aiReaction;
@@ -640,7 +640,7 @@ void S24::WriteReactionList(unsigned int auiFlags)
     if (auiFlags & 4)
     {
         unsigned short sizeWord = 0;
-        unsigned int posSize4 = 0;
+        std::uintptr_t posSize4 = 0;
         unsigned int startPos = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::SaveC400 * *>(&::g_TESSaveLoadGame))))->FUN_00825c00();
         if (*::g_011de4e8.Bool())
         {
@@ -659,7 +659,7 @@ void S24::WriteReactionList(unsigned int auiFlags)
         ReactionListOps_bd50* node = ((::ReactionListOps_bd50 *)(reinterpret_cast<::BaseProcess *>((((ReactionListOps_bd50*)this)))->GetCurrentProcessData()));
         while (node)
         {
-            GROUP_REACTION_bd50* item = *((::GROUP_REACTION_bd50 **)(new ((void *)(node)) ::Vec3()));
+            GROUP_REACTION_bd50* item = *((::GROUP_REACTION_bd50 **)((void *)(node)));
             if (item)
             {
                 unsigned int formID = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((item->pForm))->FUN_0084e3a0()));
@@ -669,7 +669,7 @@ void S24::WriteReactionList(unsigned int auiFlags)
             }
             node = ((::ReactionListOps_bd50 *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
         }
-        *(unsigned short*)posCountC = kCount;
+        *(unsigned short*)(std::uintptr_t)posCountC = kCount;
         if (*::g_011de4e8.Bool())
         {
             unsigned int endPos2 = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::SaveC400 * *>(&::g_TESSaveLoadGame))))->FUN_00825c00();
@@ -757,7 +757,7 @@ void TESReactionFormLoad::LoadReactions(unsigned int auiChangeFlags, BGSLoadForm
             reinterpret_cast<::FUN_00857aa0 *>(((*reinterpret_cast<::SaveLoadGameStub * *>(&::g_TESSaveLoadGame))))->ValidateFormIDArray(&auiFormId, 4);
             int iFactionReaction;
             reinterpret_cast<::FUN_008579e0_shell *>(((*reinterpret_cast<::SaveLoadGameStub * *>(&::g_TESSaveLoadGame))))->FUN_008579e0(&iFactionReaction, 4);
-            ::FUN_0048bfc0((::BaseProcess *)this, (::Args_0048bfc0)(auiFormId));
+            ::FUN_0048bfc0((::BaseProcess *)this, ::Args_0048bfc0{(TESForm*)(std::uintptr_t)auiFormId, iFactionReaction});
         }
         if (reinterpret_cast<::FUN_00862110_cls *>(((*reinterpret_cast<::SaveLoadGameStub * *>(&::g_TESSaveLoadGame))))->FUN_00862110())
         {
@@ -811,11 +811,11 @@ void FUN_0048c930_shell::ResolveGroupReactionForms(unsigned int flags, unsigned 
         int count = 0;
         while (iter != 0)
         {
-            GROUP_REACTION_dummy* entry = *((::GROUP_REACTION_dummy **)(new ((void *)(iter)) ::Vec3()));
+            GROUP_REACTION_dummy* entry = *((::GROUP_REACTION_dummy **)((void *)(iter)));
             if (entry != 0)
             {
-                unsigned int formID = (unsigned int)entry->pForm;
-                entry->pForm = (TESForm*)((unsigned int)(::FUN_004839c0(formID)));
+                unsigned int formID = (unsigned int)(std::uintptr_t)entry->pForm;
+                entry->pForm = (TESForm*)((std::uintptr_t)(::FUN_004839c0(formID)));
                 if (entry->pForm == 0)
                 {
                     _ref_0063f7b0(iter);
@@ -876,10 +876,10 @@ void FUN_0048c9d0_Class::FUN_0048c9d0(FUN_0048c9d0_SaveBuffer* buffer)
             cursor = &list;
             while (cursor != 0)
             {
-                item = ((::FUN_0048c9d0_ListNode *)(new ((void *)(cursor)) ::Vec3()))->item;
+                item = ((::FUN_0048c9d0_ListNode *)((void *)(cursor)))->item;
                 if (item != 0)
                 {
-                    reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((buffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(*(int*)item), 0);
+                    reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((buffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(*(std::intptr_t*)item), 0);
                     reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50((char*)item + 4, 4, 0);
                     reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50((char*)item + 8, 4, 0);
                     count = count + 1;

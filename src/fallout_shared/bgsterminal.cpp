@@ -182,7 +182,7 @@ bool BGSTerminal::Load(TESFile* file)
             unsigned int formID;
             ScriptReferencedObject* reference = new ScriptReferencedObject;
             file->GetChunkData(&formID);
-            reference->form = (TESForm*)formID;
+            reference->form = (TESForm*)(std::uintptr_t)formID;
             reinterpret_cast<::Callees *>((((::BSSimpleList< ::ScriptReferencedObject *> *)(reinterpret_cast<::FUN_005d43c0_ *>(&(current->m_kScript))->FUN_005d43c0()))))->FUN_00905820((void *)&(reference));
             break;
         }
@@ -272,7 +272,7 @@ void BGSTerminal::InitItem()
     if (reinterpret_cast<::TESForm *>((void *)this)->GetInitialized())
         return;
     reinterpret_cast<::FUN_00510770_shell *>(this)->FUN_00510770();
-    unsigned int formID = (unsigned int)pPassword;
+    unsigned int formID = (unsigned int)(std::uintptr_t)pPassword;
     if (formID)
     {
         ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
@@ -284,11 +284,11 @@ void BGSTerminal::InitItem()
     BSSimpleList<TerminalMenuItem*>* pList = ((::BSSimpleList< ::TerminalMenuItem *> *)(reinterpret_cast<::FUN_00461150_shell *>(this)->FUN_00461150()));
     while (pList && !pList->IsEmpty())
     {
-        TerminalMenuItem* item = ((::TerminalMenuItem *)(new ((void *)(pList)) ::Vec3()));
+        TerminalMenuItem* item = (pList->item);
         pList = ((::BSSimpleList< ::TerminalMenuItem *> *)(reinterpret_cast<::Callees *>((pList))->FUN_00726070()));
         if (item->m_pNote)
         {
-            formID = (unsigned int)item->m_pNote;
+            formID = (unsigned int)(std::uintptr_t)item->m_pNote;
             ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
             item->m_pNote = dynamic_cast<BGSNote*>(::FUN_004839c0(formID));
             if (!item->m_pNote)
@@ -296,7 +296,7 @@ void BGSTerminal::InitItem()
         }
         if (item->m_pTerminal)
         {
-            formID = (unsigned int)item->m_pTerminal;
+            formID = (unsigned int)(std::uintptr_t)item->m_pTerminal;
             ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
             item->m_pTerminal = dynamic_cast<BGSTerminal*>(::FUN_004839c0(formID));
             if (!item->m_pTerminal)
@@ -569,7 +569,7 @@ void Host501bb0::FUN_00501bb0(BGSLoadFormBuffer* apLoadGameBuffer)
 {
     unsigned char ucTempData;
     reinterpret_cast<::S_005118c0 *>(this)->FUN_005118c0((::FUN_00428110_cls *)(apLoadGameBuffer));
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(apLoadGameBuffer->GetChangeFlags(0x80000000)))->FUN_004280f0())
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(apLoadGameBuffer->GetChangeFlags(0x80000000)))->FUN_004280f0(0x80000000))
     {
         if (apLoadGameBuffer->GetVersion() < 13)
         {
@@ -821,8 +821,8 @@ bool TerminalCompare::IsDifferentFrom(TESForm* apForm)
 
     while (pOtherIter && !pOtherIter->IsEmpty() && pThisIter5 && !pThisIter5->IsEmpty())
     {
-        TerminalMenuItem* pOtherItem = ((::TerminalMenuItem *)(new ((void *)(pOtherIter)) ::Vec3()));
-        TerminalMenuItem* pThisItem5 = ((::TerminalMenuItem *)(new ((void *)(pThisIter5)) ::Vec3()));
+        TerminalMenuItem* pOtherItem = (pOtherIter->item);
+        TerminalMenuItem* pThisItem5 = (pThisIter5->item);
         if (reinterpret_cast<::Dummy00501c30 *>((((TerminalStringCmp*)&pThisItem5->ResponseText)))->FUN_00501c30((const char *)(const ::BSStringT<char> *)(&pOtherItem->ResponseText)))
             return true;
         if (reinterpret_cast<::Dummy00501c30 *>((((TerminalStringCmp*)&pThisItem5->m_kMenuText)))->FUN_00501c30((const char *)(const ::BSStringT<char> *)(&pOtherItem->m_kMenuText)))
@@ -882,11 +882,11 @@ void BGSTerminalEx::CopyFromTerminal(TESForm* apForm)
     pIter = ((::BSSimpleList< ::TerminalMenuItem *> *)(reinterpret_cast<::FUN_00461150_shell *>((pTerminal))->FUN_00461150()));
     while (pIter && !pIter->IsEmpty())
     {
-        TerminalMenuItem* pSrc = ((::TerminalMenuItem *)(new ((void *)(pIter)) ::Vec3()));
+        TerminalMenuItem* pSrc = (pIter->item);
         pIter = ((::BSSimpleList< ::TerminalMenuItem *> *)(reinterpret_cast<::Callees *>((pIter))->FUN_00726070()));
         TerminalMenuItem* pItem = new TerminalMenuItem;
-        reinterpret_cast<::FUN_00501c10_cls *>((void *)&(const ::BSStringCopy &)(*(BSStringCopy*)&pItem->ResponseText))->CallAndReturnSelf((int)&(*(BSStringCopy*)&pSrc->ResponseText));
-        reinterpret_cast<::FUN_00501c10_cls *>((void *)&(const ::BSStringCopy &)(*(BSStringCopy*)&pItem->m_kMenuText))->CallAndReturnSelf((int)&(*(BSStringCopy*)&pSrc->m_kMenuText));
+        reinterpret_cast<::FUN_00501c10_cls *>((void *)&(const ::BSStringCopy &)(*(BSStringCopy*)&pItem->ResponseText))->CallAndReturnSelf((std::intptr_t)&(*(BSStringCopy*)&pSrc->ResponseText));
+        reinterpret_cast<::FUN_00501c10_cls *>((void *)&(const ::BSStringCopy &)(*(BSStringCopy*)&pItem->m_kMenuText))->CallAndReturnSelf((std::intptr_t)&(*(BSStringCopy*)&pSrc->m_kMenuText));
         pItem->m_pNote = pSrc->m_pNote;
         pItem->m_pTerminal = pSrc->m_pTerminal;
         pItem->cFlags = pSrc->cFlags;
@@ -902,11 +902,11 @@ void FUN_00501050_cls::FUN_00501050()
 {
     while (sub.FUN_008256d0() == 0)
     {
-        FUN_00501050_ref* a = *((::FUN_00501050_ref **)(new ((void *)&(sub)) ::Vec3()));
+        FUN_00501050_ref* a = *((::FUN_00501050_ref **)((void *)&(sub)));
         sub.FUN_0063f7b0();
         FUN_00501050_ref* tmp = a;
         FUN_00501050_ref* b2 = tmp;
-        (b2 != 0 ? ((int)(reinterpret_cast<::FUN_005010c0_class *>((b2))->FUN_005010c0(1))) : 0);
+        (b2 != 0 ? ((std::intptr_t)(reinterpret_cast<::FUN_005010c0_class *>((b2))->FUN_005010c0(1))) : 0);
     }
 }
 
@@ -996,7 +996,7 @@ void TerminalSave::FUN_00500a40()
     BSSimpleList<TerminalMenuItem*>* pMenuNode = ((::BSSimpleList< ::TerminalMenuItem *> *)(reinterpret_cast<::FUN_00461150_shell *>(this)->FUN_00461150()));
     while (pMenuNode && !pMenuNode->IsEmpty())
     {
-        TerminalMenuItem* item = ((::TerminalMenuItem *)(new ((void *)(pMenuNode)) ::Vec3()));
+        TerminalMenuItem* item = (pMenuNode->item);
         pMenuNode = ((::BSSimpleList< ::TerminalMenuItem *> *)(reinterpret_cast<::Callees *>((pMenuNode))->FUN_00726070()));
         if (static_cast<const char*>(*reinterpret_cast<SaveGameString*>(&item->ResponseText)))
             ::FUN_004856f0(
@@ -1194,7 +1194,7 @@ bool Terminal::ActivateTerminal(Ref* target, Ref* user, int arg3, int arg4, int 
     {
         Text message;
         ::FUN_00406f60((::FUN_00406f90_this *)(::Text *)(&message), ((const char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Setting *>(&::g_011c8394))))->IsDLCAvailable())), ::ActorValue::GetActorValueName((::ActorValue::Index)(40)), (int)::InventoryStackRecord::RoundToNearestStep(reinterpret_cast<::TermHack *>(this)->FUN_005017a0((::TESObjectREFR *)(target)), 1.0f));
-        ::DispatchMessageToSink((const char *)(message), 0, (const char *)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_angry.dds"), (const char *)(0), 2.0f, false);
+        ::DispatchMessageToSink((const char *)(message.data), 0, (const char *)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_angry.dds"), (const char *)(0), 2.0f, false);
         reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::Sound &)(((::Audio *)(::FUN_00453a70()))->GetSoundHandleByEditorID("UIPopUpMessageGeneral", 0x121)))->FUN_00ad8830(false);
     }
     else if (user == (Ref*)(*reinterpret_cast<::Player * *>(&::_g_thePlayer)) && ::FUN_005012c0((::TESObjectREFR *)(target)))

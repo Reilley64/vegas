@@ -37,7 +37,7 @@ void Clouds::Initialize(NiNode* parent)
 {
     reinterpret_cast<::F940Owner *>(this)->CreateSortAdjustNode((::F940Parent *)(parent));
     BSStream stream;
-    if (reinterpret_cast<::FUN_00c3a8a0_cls *>(&(stream))->FUN_00c3a8a0((unsigned int)("Meshes\\Sky\\Clouds.nif"), false))
+    if (reinterpret_cast<::FUN_00c3a8a0_cls *>(&(stream))->FUN_00c3a8a0((std::uintptr_t)("Meshes\\Sky\\Clouds.nif"), false))
     {
         Model kModel("Meshes\\Sky\\Clouds.nif", &stream, false, false);
         struct LayerBuild
@@ -118,7 +118,7 @@ struct FUN_009c8680_shell : public SkyShaderProperty
 // @fnv 0x00634110
 void Clouds::Update(Sky* sky, float time)
 {
-    reinterpret_cast<::FUN_008d0600_s *>(this)->FUN_008d0600((int)(sky), time);
+    reinterpret_cast<::FUN_008d0600_s *>(this)->FUN_008d0600((std::intptr_t)(sky), time);
     TESWeather* m_pWeatherObject = ((::TESWeather *)(reinterpret_cast<::MagicCaster_shell *>((sky))->FUN_0044edb0()));
     TESWeather* m_pPreviousWeather = ((::TESWeather *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((sky))->FUN_00825c00()));
     if (!m_pWeatherObject)

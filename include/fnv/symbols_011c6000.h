@@ -76,6 +76,6 @@ extern char DAT_011c6fb8;
 // 0x011c6fba
 namespace fnv_004da670 { extern unsigned char DAT_011c6fba; }
 // 0x011c6fbc
-extern int DAT_011c6fbc;
+extern void *DAT_011c6fbc;
 // 0x011c6fc8
 extern char DAT_011c6fc8;

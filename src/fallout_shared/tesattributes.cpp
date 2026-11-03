@@ -160,17 +160,13 @@ struct FUN_00480000_shell : public TESAttributes
     void CopyAttributesFromComponent(BaseFormComponent*);
 };
 
-struct ActorValue
+namespace ActorValue
 {
-    enum Section
-    {
-        ATTRIBUTE = 0
-    };
-    enum Index
-    {
-        None = 0
-    };
+enum Section
+{
+    ATTRIBUTE = 0
 };
+}
 
 struct AVH
 {

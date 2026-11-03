@@ -2,6 +2,7 @@
 // src/fallout_shared/havok/tesarrowtargetlistener.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/havok/tesarrowtargetlistener.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/BaseProcess.h"
 #include "fnv/decl/FUN_00444d00_Class.h"
@@ -167,14 +168,14 @@ struct Obj
     int unk10;
     int unk14;
     int unk18;
-    int unk1c;
+    void* unk1c;
     int FUN_00401170();
 };
 
 
 struct FUN_0062a510_cls
 {
-    void FUN_0062a510(int a1);
+    void FUN_0062a510(void* a1);
 };
 
 struct UnknownBlock
@@ -200,15 +201,15 @@ struct Owner_0062a670
     void* GetNodeItem();
 };
 // @fnv 0x0062a510
-void FUN_0062a510_cls::FUN_0062a510(int a1)
+void FUN_0062a510_cls::FUN_0062a510(void* a1)
 {
-    Obj* o_tmp = ((::Obj *)(::FUN_004b5a80((const void *)(a1))));
+    Obj* o_tmp = ((::Obj *)(::FUN_004b5a80(a1)));
     Obj* p = ((::Obj *)(::FUN_00653270((const ::NiRTTI *)(int *)(&(*reinterpret_cast<int *>(&::g_012681c0))), (::NiObject *)(o_tmp))));
     if (p != 0 && reinterpret_cast<::FUN_00563200_Struct *>((p))->MaskWithField(0x100) != 0)
     {
         Obj* m_tmp = ((::Obj *)(::bhkCollisionObject::GetFromRigidBody((const ::hkpRigidBody *)(::Obj *)(((::Obj *)(::FUN_004ae750((void *)(p))))))));
         Obj* r = (m_tmp != 0) ? ((::Obj *)(reinterpret_cast<::Twin_0044ddc0 *>((m_tmp))->GetName())) : 0;
-        int g_tmp = ((int)(::FUN_0056f930((::NiAVObject *)(r))));
+        std::intptr_t g_tmp = ((std::intptr_t)(::FUN_0056f930((::NiAVObject *)(r))));
         Obj* t = ((::Obj *)(reinterpret_cast<::BaseProcess *>(&((*reinterpret_cast<::Obj *>(&::g_011e0e80))))->GetCurrentProcessData()));
         for (unsigned int i = 0; i < reinterpret_cast<::FUN_005be5c0_shell *>((t))->FUN_005be5c0(0); ++i)
         {
@@ -224,12 +225,12 @@ void FUN_0062a510_cls::FUN_0062a510(int a1)
                         {
                             if (u->FUN_00401170() == 0x3d)
                             {
-                                if (((int)((::Obj *)(reinterpret_cast<::Twin_0044ddc0 *>((u))->GetName())) & 0x20) == 0)
+                                if (((int)(std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((u))->GetName()) & 0x20) == 0)
                                 {
                                     Obj* v = ((::Obj *)(reinterpret_cast<::Owner_0062a670 *>((u))->GetNodeItem()));
                                     if (v->unk1c == a1)
                                     {
-                                        if (::FUN_00472380((int)(u)) == 4)
+                                        if (::FUN_00472380((std::intptr_t)(u)) == 4)
                                         {
                                             reinterpret_cast<::Projectile *>((u))->FUN_009bc8f0();
                                         }
@@ -246,7 +247,7 @@ void FUN_0062a510_cls::FUN_0062a510(int a1)
 // @fnv 0x0062a670
 void* Owner_0062a670::GetNodeItem()
 {
-    return *((void **)(new ((void *)&(node)) ::Vec3()));
+    return *((void **)&(node));
 }
 
 namespace fnv_0062a690 {
@@ -259,7 +260,7 @@ struct S_0062a690_Extra
     int unk10;
     int unk14;
     int unk18;
-    int unk1c;
+    void* unk1c;
 };
 
 struct S_0062a690_Actor
@@ -426,13 +427,13 @@ struct S_0062a690_B
 
 struct S_0062a690_Class
 {
-    void FUN_0062a690(int arg0);
+    void FUN_0062a690(void* arg0);
 };
 
 // @fnv 0x0062a690
-void S_0062a690_Class::FUN_0062a690(int arg0)
+void S_0062a690_Class::FUN_0062a690(void* arg0)
 {
-    void* v_08 = ::FUN_004b5a80((const void *)(arg0));
+    void* v_08 = ::FUN_004b5a80(arg0);
     S_0062a690_A* v_04 = ((::fnv_0062a690::S_0062a690_A *)(::FUN_00653270((const ::NiRTTI *)(void *)(&(*reinterpret_cast<int *>(&::g_012681c0))), (::NiObject *)(v_08))));
     if (v_04 && reinterpret_cast<::FUN_00563200_Struct *>((v_04))->MaskWithField(0x100))
     {
@@ -450,7 +451,7 @@ void S_0062a690_Class::FUN_0062a690(int arg0)
                 if (v_24 && reinterpret_cast<::FUN_00444d00_Class *>((v_24))->FUN_00444d00(0x80) && v_24->FUN_00401170() == 0x3d)
                 {
                     S_0062a690_Extra* v_28 = ((::fnv_0062a690::S_0062a690_Extra *)(reinterpret_cast<::Owner_0062a670 *>((v_24))->GetNodeItem()));
-                    if (v_28->unk1c == arg0 && ::FUN_00472380((int)(v_24)) == 4)
+                    if (v_28->unk1c == arg0 && ::FUN_00472380((std::intptr_t)(v_24)) == 4)
                     {
                         reinterpret_cast<::Projectile *>((v_24))->FUN_009bc8f0();
                     }

@@ -289,12 +289,12 @@ void FUN_00640020_shell::UpdateStars(Sky* apSky, float afSecondsPassed)
     float fhour = ::GetFieldEC((const char *)(apSky));
     *(float*)((char*)this + 0xc) = 0.0f;
     static NiPoint3Ex lastColor(0.0f, 0.0f, 0.0f);
-    reinterpret_cast<::FUN_008d0600_s *>((((SkyObjectS*)this)))->FUN_008d0600((int)(apSky), afSecondsPassed);
+    reinterpret_cast<::FUN_008d0600_s *>((((SkyObjectS*)this)))->FUN_008d0600((std::intptr_t)(apSky), afSecondsPassed);
     if (((int)(reinterpret_cast<::FUN_00476c90_Class *>((apSky))->FUN_00476c90())) == 3 || ((int)(reinterpret_cast<::FUN_00476c90_Class *>((apSky))->FUN_00476c90())) == 2)
     {
-        if (!reinterpret_cast<::FUN_006366b0_shell *>((((FUN_006366b0_shell*)(unsigned int)*(const Flt*)((char*)this + 4))))->FUN_006366b0())
+        if (!reinterpret_cast<::FUN_006366b0_shell *>(((*(FUN_006366b0_shell**)((char*)this + 4))))->FUN_006366b0())
         {
-            reinterpret_cast<::TaskQueueInterface *>((((NiAVObject*)(unsigned int)*(const Flt*)((char*)this + 4))))->QueueActorDisarm(true);
+            reinterpret_cast<::TaskQueueInterface *>(((*(NiAVObject**)((char*)this + 4))))->QueueActorDisarm(true);
             return;
         }
         float fSunsetBegin = ::fnv_00595fc0::FUN_00595fc0((char *)(((FUN_00595fc0_shell*)apSky)));
@@ -313,16 +313,16 @@ void FUN_00640020_shell::UpdateStars(Sky* apSky, float afSecondsPassed)
             *(float*)((char*)this + 0xc) = 1.0f;
         if (*(float*)((char*)this + 0xc) > 0.0)
         {
-            reinterpret_cast<::TaskQueueInterface *>((((NiAVObject*)(unsigned int)*(const Flt*)((char*)this + 4))))->QueueActorDisarm(false);
+            reinterpret_cast<::TaskQueueInterface *>(((*(NiAVObject**)((char*)this + 4))))->QueueActorDisarm(false);
             NiPoint3Ex colorThisFrame = *(NiPoint3Ex*)((::fnv_00640020::WaterShaderSettings *)(reinterpret_cast<::FUN_0057eef0_shell *>((((TESWaterForm*)apSky)))->FUN_0057eef0()));
             NiGeometry* pstarsgeo = 0;
             NiAVObject* pchild = 0;
             unsigned int icount = (unsigned int)*(const Flt*)((char*)this + 8)
-                                      ? reinterpret_cast<::FUN_00453470_shell *>((((NiNode*)(unsigned int)*(const Flt*)((char*)this + 8))))->FUN_00453470()
+                                      ? reinterpret_cast<::FUN_00453470_shell *>(((*(NiNode**)((char*)this + 8))))->FUN_00453470()
                                       : 0;
             for (unsigned int i = 0; i < icount; i++)
             {
-                pchild = ((NiNode*)(unsigned int)*(const Flt*)((char*)this + 8))->GetAt(i);
+                pchild = (*(NiNode**)((char*)this + 8))->GetAt(i);
                 if (pchild)
                 {
                     pstarsgeo = pchild->IsGeometry();
@@ -354,11 +354,11 @@ void FUN_00640020_shell::UpdateStars(Sky* apSky, float afSecondsPassed)
             NiPoint3Ex axis(((::fnv_00640020::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00640020::GlobalObject_0040e0b0 *>(&::g_011ccdc4))))))->f, ((::fnv_00640020::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00640020::GlobalObject_0040e0b0 *>(&::g_011cce30))))))->f, ((::fnv_00640020::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00640020::GlobalObject_0040e0b0 *>(&::g_011ccddc))))))->f);
             reinterpret_cast<::FUN_004a0c10_s *>(&(axis))->FUN_004a0c10();
             if ((unsigned int)*(const Flt*)((char*)this + 8))
-                reinterpret_cast<::NiAVObject *>((((NiNode*)(unsigned int)*(const Flt*)((char*)this + 8))))->SetLocalRotation(fangle, axis.x, axis.y, axis.z);
+                reinterpret_cast<::NiAVObject *>(((*(NiNode**)((char*)this + 8))))->SetLocalRotation(fangle, axis.x, axis.y, axis.z);
         }
         else
         {
-            reinterpret_cast<::TaskQueueInterface *>((((NiAVObject*)(unsigned int)*(const Flt*)((char*)this + 4))))->QueueActorDisarm(true);
+            reinterpret_cast<::TaskQueueInterface *>(((*(NiAVObject**)((char*)this + 4))))->QueueActorDisarm(true);
         }
     }
 }
@@ -844,7 +844,7 @@ void StarsLoader::FUN_0063fdb0(const char* path)
     ::FUN_00406f60((::FUN_00406f90_this *)(::BSStringT<char> *)(&fileName), "%s%s%s", "Meshes", "\\", path);
     {
         BSStream stream;
-        if (!reinterpret_cast<::FUN_00c3a8a0_cls *>(&(stream))->FUN_00c3a8a0((unsigned int)(fileName), false) || ((unsigned int)(::GetRefAt21C((const char *)&(stream)))) != 1 ||
+        if (!reinterpret_cast<::FUN_00c3a8a0_cls *>(&(stream))->FUN_00c3a8a0((std::uintptr_t)(fileName.data), false) || ((unsigned int)(::GetRefAt21C((const char *)&(stream)))) != 1 ||
             !::FUN_0043b300((const ::NiRTTI *)(const void *)(&(*reinterpret_cast<const char *const *>(&::g_011f4428))), (::NiAVObject *)(::NiNode *)(((::NiNode *)(reinterpret_cast<::MLx *>(&(stream))->GetStringAt(0))))))
         {
             ::FUN_005b5e40();

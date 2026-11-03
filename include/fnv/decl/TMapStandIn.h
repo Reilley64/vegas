@@ -1,6 +1,8 @@
 #pragma once
 #include <cstdint>
 
+#include <cstdint>
+
 struct TMapStandIn {
 public:
     // 0x00470200

@@ -11,15 +11,13 @@
 #include "fnv/decl/s4a5200__Owner.h"
 #include "fnv/symbols_00549000.h"
 #include "fnv/symbols_00a5b000.h"
-namespace std {
-float abs(float);
-}
+#include <cmath>
 class NiPoint3
 {
   public:
     float x, y, z;
     NiPoint3(float, float, float);
-    float& operator[](unsigned int);
+    float& operator[](unsigned int i) { return (&x)[i]; }
     static const NiPoint3 ZERO;
 public:
     float ComputeMagnitude() const;

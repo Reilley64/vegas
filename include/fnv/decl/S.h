@@ -19,7 +19,7 @@ public:
     // 0x004ed140
     ::R FUN_004ed140(int);
     // 0x00540540
-    unsigned int GetElement(int);
+    std::uintptr_t GetElement(int);
     // 0x00546890
     ::S *InitBound(unsigned short, unsigned short);
     // 0x00561690

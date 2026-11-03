@@ -73,7 +73,10 @@ class DifferentialArray
 {
   public:
     DifferentialEntry* FUN_00662860(unsigned int);
-    unsigned int data[6];
+    unsigned int pad[3];
+    char* first;
+    char* last;
+    char* end;
 };
 class StatisticalArray
 {

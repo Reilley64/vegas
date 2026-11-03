@@ -93,7 +93,6 @@ enum LANGUAGE
 int FUN_004b71a0();
 LANGUAGE GetConfiguredLanguage();
 template <class T> unsigned int BSStringLength(const T*);
-int strcat_s(char*, unsigned int, const char*);
 extern "C" int memcpy_s(void*, unsigned int, const void*, unsigned int);
 extern const char* DAT_01189038[4];
 extern const char* DAT_01188f84[5];

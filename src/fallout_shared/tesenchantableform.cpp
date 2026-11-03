@@ -26,7 +26,7 @@ void TESEnchantableForm::InitItem(TESForm* owner)
 {
     if (m_pEnchantment)
     {
-        unsigned int formID = reinterpret_cast<unsigned int>(m_pEnchantment);
+        unsigned int formID = (unsigned int)(std::uintptr_t)(m_pEnchantment);
         if (owner)
             ::ResolveFormID((unsigned int *)&(formID), owner->GetFile(-1));
 

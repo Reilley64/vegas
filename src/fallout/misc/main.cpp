@@ -10928,7 +10928,7 @@ void FrameRenderer::FUN_00875fd0(void* unused, void* renderer, void* scene, void
         ::DAT_011add08 = renderScale;
     }
     (*reinterpret_cast<void * *>(&::DAT_011f917c)) = ((::BSFaceGenNiNode *)(::FUN_0045c670()))->GetAnimationData();
-    ::FUN_00b55ac0((int)(scene), (int)(renderer), (int)(target));
+    ::FUN_00b55ac0(scene, renderer, target);
     if ((*reinterpret_cast<::fnv_00875fd0::AccumulatorPointer *>(&::g_011deb38)).FUN_00559450())
     {
         reinterpret_cast<::FOVATSEffectManager_008019d0 *>((((::fnv_00875fd0::RenderEffectManager *)(::fnv_00705910::FUN_00705910()))))->FUN_008019d0();

@@ -294,7 +294,7 @@ struct FUN_00b58570_Class
     NodePoolView pool;
     void* FUN_00b58570(void* source);
 };
-// Allocates a node from the pool at this+8, links it after the current tail (this+4) or as the first node, and returns it.
+// Allocates a node from the pool, links it after the current tail or as the first node, and returns it.
 // @fnv 0x00b58570
 void* FUN_00b58570_Class::FUN_00b58570(void* source)
 {

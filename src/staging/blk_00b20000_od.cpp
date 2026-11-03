@@ -456,15 +456,16 @@ FUN_00b3c470_class::FUN_00b3c470_class()
 struct FUN_00b3f030_Class
 {
     int* vtbl;
+    float m_afTranslation[3];
     FUN_00b3f030_Class();
 };
 
-// Constructor: sets vtbl to DAT_010a5890 and zeroes three floats stored after the object.
+// Constructor: sets vtbl to DAT_010a5890 and zeroes the translation.
 // @fnv 0x00b3f030
 FUN_00b3f030_Class::FUN_00b3f030_Class()
 {
     vtbl = &DAT_010a5890;
-    float* p = (float*)(this + 1);
+    float* p = m_afTranslation;
     p[0] = 0.0f;
     p[1] = 0.0f;
     p[2] = 0.0f;

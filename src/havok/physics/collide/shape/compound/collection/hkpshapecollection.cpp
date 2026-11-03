@@ -470,7 +470,8 @@ class hkShape_StandIn : public hkpShape
     virtual float GetMaxProjection(int arg);
 };
 
-class hkPackedNiTriStripsShape_StandIn : public hkpShapeCollection
+// The hkpShapeCollection layout: the shape, then the shape container interface (+0x10 in the 32-bit build).
+class hkPackedNiTriStripsShape_StandIn : public hkpShape, public ShapeIterator
 {
   public:
     virtual ~hkPackedNiTriStripsShape_StandIn();
@@ -490,7 +491,7 @@ float hkPackedNiTriStripsShape_StandIn::FUN_00d216e0(int arg)
 
     S00d216e0_timer(str_010ce228);
 
-    ShapeIterator* iter = reinterpret_cast<ShapeIterator*>(reinterpret_cast<char*>(this) + 0x10);
+    ShapeIterator* iter = this;
 
     maxProj = ::DAT_0104e148;
     int idx = iter->First();

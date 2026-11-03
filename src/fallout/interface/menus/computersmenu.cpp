@@ -182,6 +182,7 @@ unsigned char FUN_00757e80_shell::IsFlagBitSet()
 
 struct FUN_00758390_shell
 {
+    char pad00[0x74];
     signed char m_74;
     bool FUN_00758390();
 };
@@ -189,7 +190,7 @@ struct FUN_00758390_shell
 // @fnv 0x00758390
 bool FUN_00758390_shell::FUN_00758390()
 {
-    return (((signed char*)this)[0x74 / sizeof(signed char)] & 2) != 0;
+    return (this->m_74 & 2) != 0;
 }
 
 struct FUN_00758a60_shell

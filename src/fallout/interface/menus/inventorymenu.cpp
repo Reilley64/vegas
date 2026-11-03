@@ -365,7 +365,8 @@ bool InventoryMenu::FUN_0077ff90()
 struct StatsMenu
 {
     static StatsMenu* ms_pInventoryMenu;
-    unsigned char m_bHealingMode;  // +0x2a0
+    char pad00[0x2a0];
+    unsigned char m_bHealingMode;
 };
 
 // @fnv 0x00704390
@@ -373,7 +374,7 @@ void __cdecl FUN_00704390()
 {
     if (StatsMenu::ms_pInventoryMenu != 0)
     {
-        if (*(reinterpret_cast<unsigned char*>(StatsMenu::ms_pInventoryMenu) + 0x2a0) != 0)
+        if (StatsMenu::ms_pInventoryMenu->m_bHealingMode != 0)
         {
             reinterpret_cast<::FUN_007e0230 *>((StatsMenu::ms_pInventoryMenu))->RefreshHealingOptions();
         }

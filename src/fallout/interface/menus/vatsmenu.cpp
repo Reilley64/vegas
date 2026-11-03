@@ -257,6 +257,8 @@ struct ItemListContainer
     char pad[8];
     ItemList items;
     ~ItemListContainer();
+    char pad9[0x17];
+    int unk20;
 };
 struct TargetList
 {
@@ -1928,7 +1930,7 @@ void __cdecl FUN_007f3b40(int a1)
         {
             if (*((TargetList*)cur)->FUN_006815c0() != 0)
             {
-                if (*(int*)((char*)*((TargetList*)cur)->FUN_006815c0() + 0x20) == a1)
+                if ((*((TargetList*)cur)->FUN_006815c0())->unk20 == a1)
                 {
                     *(ItemListContainer**)((char*)DAT_011db0d4 + 0x100) = *((TargetList*)cur)->FUN_006815c0();
                     break;
@@ -4531,7 +4533,7 @@ BSSimpleList<ItemListContainer*>* FUN_007f3d60_cls::FindListEntryByValue(int aiV
         BSSimpleList<ItemListContainer*>* cur = (BSSimpleList<ItemListContainer*>*)(head + 8);
         while (cur != 0 && !cur->FUN_008256d0())
         {
-            if ((int)this->FUN_007f3bf0(*(int*)((std::intptr_t)*cur->FUN_006815c0() + 0x20)) == aiValue)
+            if ((int)this->FUN_007f3bf0((*cur->FUN_006815c0())->unk20) == aiValue)
             {
                 return cur;
             }
@@ -7226,7 +7228,7 @@ void TargetSelectHelper::SelectTarget(bool abReverse)
             while (itemIter2 && !itemIter2->FUN_008256d0())
             {
                 if (reinterpret_cast<int*>(*((::ItemListContainer **)(&reinterpret_cast<::SimpleListNodeView*>(iter)->m_item)))[1] == 1 &&
-                    reinterpret_cast<int*>(*((::ItemListContainer **)(&reinterpret_cast<::SimpleListNodeView*>(itemIter2)->m_item)))[8] == 1)
+                    (*((::ItemListContainer **)(&reinterpret_cast<::SimpleListNodeView*>(itemIter2)->m_item)))->unk20 == 1)
                 {
                     reinterpret_cast<VATSMenu*>(DAT_011db0d4)->m_pTargetChance = *((::ItemListContainer **)(&reinterpret_cast<::SimpleListNodeView*>(itemIter2)->m_item));
                 }

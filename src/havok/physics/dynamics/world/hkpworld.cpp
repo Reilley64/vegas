@@ -6532,17 +6532,7 @@ __forceinline void memCpyOneAlignedXc937a0(void* dst, const void* src)
     } while (++i < SIZE / 4);
 }
 
-struct hkMemoryRouterXc937a0 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    void* m_pStreamAllocator;
-};
 
-namespace hkRouterXc937a0 {
-    
-}
 void __cdecl ResizeAudioStream(void* m_pPoolBase, void* pArray, int iSizeElem);
 
 template <class T>
@@ -6555,9 +6545,9 @@ public:
     int getCapacity() const { return m_iCapacityState & 0x3fffffff; }
     __forceinline void AddBack(const T& e)
     {
-        hkMemoryRouterXc937a0& router = (*static_cast<hkMemoryRouterXc937a0*>(::FUN_00c85750()));
+        hkMemoryRouter& router = hkMemoryRouter::getInstance();
         if (m_iElementCount == getCapacity())
-            ResizeAudioStream(router.m_pStreamAllocator, this, sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(router.m_heap), (::AudioStream *)(void *)(this), sizeof(T));
         memCpyOneAlignedXc937a0<sizeof(T)>(m_data + m_iElementCount, &e);
         m_iElementCount++;
     }
@@ -7664,17 +7654,7 @@ __forceinline void memCpyOneAlignedXc99ce0(void* dst, const void* src)
     } while (++i < SIZE / 4);
 }
 
-struct hkMemoryRouterXc99ce0 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    void* m_pStreamAllocator;
-};
 
-namespace hkRouterXc99ce0 {
-    
-}
 void __cdecl ResizeAudioStream(void* m_pPoolBase, void* pArray, int iSizeElem);
 
 template <class T>
@@ -7687,9 +7667,9 @@ public:
     int getCapacity() const { return m_iCapacityState & 0x3fffffff; }
     __forceinline void AddBack(const T& e)
     {
-        hkMemoryRouterXc99ce0& router = (*static_cast<hkMemoryRouterXc99ce0*>(::FUN_00c85750()));
+        hkMemoryRouter& router = hkMemoryRouter::getInstance();
         if (m_iElementCount == getCapacity())
-            ResizeAudioStream(router.m_pStreamAllocator, this, sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(router.m_heap), (::AudioStream *)(void *)(this), sizeof(T));
         memCpyOneAlignedXc99ce0<sizeof(T)>(m_data + m_iElementCount, &e);
         m_iElementCount++;
     }
@@ -9743,7 +9723,6 @@ extern "C" unsigned __int64 __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
 
 
-inline void* getMemoryRouter() throw() { return &(*static_cast<hkMemoryRouterXc937a0*>(::FUN_00c85750())); }
 extern "C" void __cdecl FUN_00c908c0(void* inst, void* arr, int num, int elemSize) throw();
 
 struct MyPendingQueue {
@@ -9793,14 +9772,6 @@ public:
     virtual void DispatchCollisionPairs(void* array, void* pairs) throw();
 };
 
-class hkMemory_00c951b0 {
-public:
-    virtual ~hkMemory_00c951b0() throw();
-    virtual void slot04() throw();
-    virtual void slot08() throw();
-    virtual void slot0c() throw();
-    virtual void deallocate(void* p, int numBytes) throw();
-};
 
 struct DummyCollidable_00c951b0 {
     void* m_pCollisionShape;
@@ -9879,13 +9850,6 @@ struct hkMonitorStream_00c951b0 {
     inline void timerEndList(const char* name) throw() { timerSplitList(name); }
 };
 
-struct LocalMemoryRouter {
-    char* stack;
-    void* unk04;
-    void* unk08;
-    hkMemory_00c951b0* temporary;
-    hkMemory_00c951b0* heap;
-};
 
 template <class T>
 struct MyArrayBase {
@@ -9902,17 +9866,16 @@ struct MyArray {
     inline MyArray(hkArray<T>& b) throw() : base(b) { base.m_data=0; base.m_iElementCount=0; base.m_iCapacityState=0x80000000; }
 
     inline ~MyArray() throw() {
-        LocalMemoryRouter* tm = (LocalMemoryRouter*)getMemoryRouter();
-        hkMemory_00c951b0* memory = tm->temporary;
+        hkMemoryAllocator* memory = hkMemoryRouter::getInstance().m_temp;
         base.m_iElementCount = 0;
         if ((base.m_iCapacityState & 0x80000000) == 0) {
-            memory->deallocate(base.m_data, (base.m_iCapacityState & 0x3fffffff) * sizeof(T));
+            memory->bufFree(base.m_data, (base.m_iCapacityState & 0x3fffffff) * sizeof(T));
         }
     }
 
-    inline void reserve(void* tm, int num) throw() {
+    inline void reserve(hkMemoryRouter* tm, int num) throw() {
         if ((base.m_iCapacityState & 0x3fffffff) < num) {
-            FUN_00c908c0(((LocalMemoryRouter*)tm)->temporary, &base, num, sizeof(T));
+            FUN_00c908c0(tm->m_temp, &base, num, sizeof(T));
         }
     }
 
@@ -9930,11 +9893,9 @@ struct MyLocalArray : public MyArrayBase<Pair_00c951b0> {
     Pair_00c951b0* m_savedStack;
 
     inline MyLocalArray(int capacity) throw() {
-        LocalMemoryRouter* tm = (LocalMemoryRouter*)getMemoryRouter();
-        char* cur = tm->stack;
-        tm->stack = cur + ((capacity * sizeof(Pair_00c951b0) + 127) & ~127);
-        this->m_data = (Pair_00c951b0*)cur;
-        this->m_savedStack = (Pair_00c951b0*)cur;
+        void* cur = hkMemoryRouter::getInstance().allocateStack((capacity * int(sizeof(Pair_00c951b0)) + 127) & ~127);
+        this->m_data = static_cast<Pair_00c951b0*>(cur);
+        this->m_savedStack = static_cast<Pair_00c951b0*>(cur);
         this->m_iCapacityState = capacity | 0x80000000;
     }
 
@@ -9943,13 +9904,11 @@ struct MyLocalArray : public MyArrayBase<Pair_00c951b0> {
         if (savedStack == this->m_data) {
             this->m_iElementCount = 0;
         }
-        LocalMemoryRouter* stackRouter = (LocalMemoryRouter*)getMemoryRouter();
-        stackRouter->stack = (char*)savedStack;
-        LocalMemoryRouter* tm = (LocalMemoryRouter*)getMemoryRouter();
-        hkMemory_00c951b0* memory = tm->heap;
+        hkMemoryRouter::getInstance().deallocateStack(savedStack);
+        hkMemoryAllocator* memory = hkMemoryRouter::getInstance().m_heap;
         this->m_iElementCount = 0;
         if ((this->m_iCapacityState & 0x80000000) == 0) {
-            memory->deallocate(this->m_data, (this->m_iCapacityState & 0x3fffffff) * sizeof(Pair_00c951b0));
+            memory->bufFree(this->m_data, (this->m_iCapacityState & 0x3fffffff) * sizeof(Pair_00c951b0));
         }
     }
 };
@@ -10022,7 +9981,7 @@ void HostWorld_00c951b0::RemoveEntities(void* const* entityBatch, int numEntitie
 
     {
         MyArray<void*> array(pendingOrHandles.handles);
-        array.reserve(getMemoryRouter(), numEntities);
+        array.reserve(&hkMemoryRouter::getInstance(), numEntities);
         it = entityBatch;
         timerOrEnd.end = entityBatch + numEntities;
 

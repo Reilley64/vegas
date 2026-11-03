@@ -9,7 +9,6 @@
 #include "fnv/decl/CA92A0Object.h"
 #include "fnv/decl/FUN_00ca94c0_Class.h"
 #include "fnv/decl/FUN_00d07cf0_cls.h"
-#include "fnv/decl/LcPhantom.h"
 #include "fnv/decl/fnv_00d1f780__FUN_00d1f780.h"
 #include "fnv/symbols_00c90000.h"
 #include "fnv/symbols_00c9e000.h"
@@ -309,13 +308,13 @@ void hkpSimpleShapePhantomD1F5::FUN_00d1f5a0(hkpCollidableD1F5* pkCollidable) th
         {
             if (m_kCollisionDetails[i].m_kCollidable == pkCollidable)
             {
-                reinterpret_cast<::C *>(this)->NotifyAll((int)(pkCollidable), (*(char *)&(const ::hkBoolD1F5 &)(true)));
+                reinterpret_cast<::C *>(this)->NotifyAll((intptr_t)(pkCollidable), (*(char *)&(const ::hkBoolD1F5 &)(true)));
                 m_kCollisionDetails.removeAt(i);
                 m_bOrderDirty = true;
                 return;
             }
         }
-        reinterpret_cast<::C *>(this)->NotifyAll((int)(pkCollidable), (*(char *)&(const ::hkBoolD1F5 &)(false)));
+        reinterpret_cast<::C *>(this)->NotifyAll((intptr_t)(pkCollidable), (*(char *)&(const ::hkBoolD1F5 &)(false)));
     }
 }
 
@@ -366,15 +365,6 @@ class hkStatisticsCollectorD1F6
         }
     }
 public:
-    template <class T> void addArray(const char* pcName, const hkArrayD1F6<T>& kArray)
-    {
-        if ((kArray.m_iCapacityState & 0x80000000) == 0 || m_countDontDeallocate)
-        {
-            const T* pData = kArray.m_data;
-            int iAllocated = FUN_00d06f80(pData, kArray.getCapacity() * sizeof(T));
-            AddMemoryChunk(3, pcName, kArray.m_data, kArray.GetLogicalSize() * sizeof(T), iAllocated);
-        }
-    }
 };
 
 class hkOverlapD1F6;
@@ -484,7 +474,7 @@ class hkObjD1F6 : public hkpShapeD1F6
 // @fnv 0x00d1f620
 void hkObjD1F6::CollectStatistics(hkStatisticsCollectorD1F6* pkCollector, const hkClassD1F6* pkClass) const throw()
 {
-    reinterpret_cast<::FUN_00d07cf0_cls *>((void *)this)->WritePhantomLists((::PhArchive *)(pkCollector), (int)(&(*reinterpret_cast<const ::hkClassD1F6 *>(&::g_0126902c))));
+    reinterpret_cast<::FUN_00d07cf0_cls *>((void *)this)->WritePhantomLists((::PhArchive *)(pkCollector), &::g_0126902c);
     pkCollector->addArray("OverlapPtr", m_overlaps);
 }
 
@@ -1571,22 +1561,9 @@ void FUN_00d1f520_Phantom::QueryPenetrations(FUN_00d1f520_Collector& collector, 
 #include <xmmintrin.h>
 struct FUN_00d1f450_Obj
 {
-    void FUN_00d1f450(int* source, int a, int b, int c);
+    void FUN_00d1f450(int* source, const void* a, void* b, void* c);
 };
 
-// Copies 12 floats from source to this at float index 0x2C using SSE, then calls FUN_00d1f270 with source plus 0x30 bytes and a, b, c.
-// @fnv 0x00d1f450
-void FUN_00d1f450_Obj::FUN_00d1f450(int* source, int a, int b, int c)
-{
-    float* destination = reinterpret_cast<float*>(this) + 0x2C;
-    float* vectors = reinterpret_cast<float*>(source);
-
-    _mm_store_ps(destination + 0, _mm_load_ps(vectors + 0));
-    _mm_store_ps(destination + 4, _mm_load_ps(vectors + 4));
-    _mm_store_ps(destination + 8, _mm_load_ps(vectors + 8));
-
-    reinterpret_cast<::LcPhantom *>((this))->FUN_00d1f270((*(const ::LcVec4 *)(reinterpret_cast<int*>(reinterpret_cast<char*>(source) + 0x30))), (*(const ::LcCastIn *)(a)), (void *)(b), (void *)(c));
-}
 
 namespace fnv_00d1f960 {
 // @fnv 0x00d1f960
@@ -2276,4 +2253,18 @@ void LcPhantom::FUN_00d1f270(const LcVec4& position, const LcCastIn& input, void
             dispatcher->unk9ac[dispatcher->unk1a0[collidable->unk00->unk0c][collidableB->unk00->unk0c]].unk00;
         func(*collidable, *collidableB, lcInput, castCollector, startCollector);
     }
+}
+
+// Copies 12 floats from source to this at float index 0x2C using SSE, then calls FUN_00d1f270 with source plus 0x30 bytes and a, b, c.
+// @fnv 0x00d1f450
+void FUN_00d1f450_Obj::FUN_00d1f450(int* source, const void* a, void* b, void* c)
+{
+    float* destination = reinterpret_cast<float*>(this) + 0x2C;
+    float* vectors = reinterpret_cast<float*>(source);
+
+    _mm_store_ps(destination + 0, _mm_load_ps(vectors + 0));
+    _mm_store_ps(destination + 4, _mm_load_ps(vectors + 4));
+    _mm_store_ps(destination + 8, _mm_load_ps(vectors + 8));
+
+    reinterpret_cast<::LcPhantom *>((this))->FUN_00d1f270((*(const ::LcVec4 *)(reinterpret_cast<int*>(reinterpret_cast<char*>(source) + 0x30))), (*(const ::LcCastIn *)(a)), (void *)(b), (void *)(c));
 }

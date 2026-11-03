@@ -148,7 +148,7 @@ void FUN_00cf2a60_t::FUN_00cf2a60(hkpCollidable* collidable)
     }
     index = -1;
 search_done:
-    reinterpret_cast<::C *>(this)->NotifyAll((int)(collidable), (*(char *)&(const ::PresentFlag &)(PresentFlag(index >= 0))));
+    reinterpret_cast<::C *>(this)->NotifyAll((intptr_t)(collidable), (*(char *)&(const ::PresentFlag &)(PresentFlag(index >= 0))));
     if (index >= 0)
     {
         --m_ppOverlappingCollidables.m_iElementCount;
@@ -205,14 +205,6 @@ class hkStatisticsCollectorCF2A
         }
     }
 public:
-    template <class T> void addArray(const char* pcName, const hkArrayCF2A<T>& kArray)
-    {
-        if ((kArray.m_iCapacityState & 0x80000000) == 0 || m_countDontDeallocate)
-        {
-            int iAllocated = FUN_00d06f80(kArray.m_data, kArray.getCapacity() * sizeof(T));
-            AddMemoryChunk(3, pcName, kArray.m_data, kArray.GetLogicalSize() * sizeof(T), iAllocated);
-        }
-    }
 };
 
 class hkpCollidableCF2A;
@@ -254,7 +246,7 @@ void hkpAabbPhantomCF2A::AddToStatisticsCollector(hkStatisticsCollectorCF2A* pkC
                                                   const hkClassCF2A* pkClass) const throw()
 {
     pkCollector->addArray("OvrlpCollPtr", m_ppOverlappingCollidables);
-    reinterpret_cast<::FUN_00d07cf0_cls *>((void *)this)->WritePhantomLists((::PhArchive *)(pkCollector), (int)(&(*reinterpret_cast<const ::hkClassCF2A *>(&::g_0126902c))));
+    reinterpret_cast<::FUN_00d07cf0_cls *>((void *)this)->WritePhantomLists((::PhArchive *)(pkCollector), &::g_0126902c);
 }
 
 class hkMemoryAllocatorCF2C;
@@ -365,7 +357,7 @@ class hkPhantomCF2C
 // @fnv 0x00cf2b50
 void hkPhantomCF2C::AddOverlap(void* pOverlap)
 {
-    if (reinterpret_cast<::FUN_00ca94c0_Class *>(this)->FUN_00ca94c0((unsigned int)(pOverlap)) == 0)
+    if (reinterpret_cast<::FUN_00ca94c0_Class *>(this)->FUN_00ca94c0((pOverlap)) == 0)
     {
         m_overlaps.AddBack(pOverlap);
         m_dirty = true;
@@ -1229,7 +1221,7 @@ struct Collidable_cf2c
     BroadPhaseHandle_cf2c m_kBroadPhaseHandle;
     void SetOwnerPointer(void* pvOwner)
     {
-        m_iOwnerOffset = (char)((unsigned int)pvOwner - (unsigned int)this);
+        m_iOwnerOffset = (char)((char*)pvOwner - (char*)this);
     }
 };
 
@@ -1284,26 +1276,6 @@ FUN_00cf2cb0::FUN_00cf2cb0(const Aabb_cf2c& kAabb, unsigned int uiCollisionFilte
 int __cdecl FUN_00cf2460();
 int __cdecl FUN_00d06f80(const void* pvChunk, int iNumBytes) throw();
 void __cdecl ResizeAudioStream(void* pvAlloc, void* apvArray, int iElemSize);
-template <class T> class hkArrayCF2C
-{
-  public:
-    T* m_data;
-    int m_iElementCount;
-    int m_iCapacityState;
-
-    int getCapacity() const
-    {
-        return m_iCapacityState & 0x3fffffff;
-    }
-    void AddBack(const T& t)
-    {
-        hkMemoryAllocatorCF2C& kAlloc = (*static_cast<hkMemoryRouterCF2C*>(::FUN_00c85750())).heap();
-        if (m_iElementCount == getCapacity())
-            ResizeAudioStream(&kAlloc, this, sizeof(T));
-        constructWithCopyCF2C(m_data + m_iElementCount, 1, t);
-        m_iElementCount++;
-    }
-};
 
 typedef unsigned long DWORD;
 

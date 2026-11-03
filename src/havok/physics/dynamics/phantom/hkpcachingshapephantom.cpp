@@ -439,7 +439,7 @@ class hkpCachingShapePhantomD4CD : public FUN_00d08130
 void hkpCachingShapePhantomD4CD::AddToCollector(hkStatisticsCollectorD4CD* pkCollector,
                                                 const hkClassD4CD* pkClass) const throw()
 {
-    reinterpret_cast<::FUN_00d07cf0_cls *>((void *)this)->WritePhantomLists((::PhArchive *)(pkCollector), (int)(&(*reinterpret_cast<const ::hkClassD4CD *>(&::g_0126902c))));
+    reinterpret_cast<::FUN_00d07cf0_cls *>((void *)this)->WritePhantomLists((::PhArchive *)(pkCollector), &::g_0126902c);
     pkCollector->addArray("AgentPtr", m_kCollisionDetails);
     pkCollector->beginObject("agents");
     for (int i = 0; i < m_kCollisionDetails.GetLogicalSize(); i++)
@@ -751,7 +751,7 @@ struct FUN_00d4cc50_cls
     __m128 output0;
     __m128 output1;
     __m128 output2;
-    void CopyFrom(const Aligned_00d4cc50* source, int a, int b, int c);
+    void CopyFrom(const Aligned_00d4cc50* source, const void* a, void* b, void* c);
 };
 extern int DAT_010ccebc;
 
@@ -930,7 +930,7 @@ void World_d4cc::FUN_00d4cca0(Owned_d4cc* apOwned)
     {
         if (m_entries[i].m_object == apOwned)
         {
-            reinterpret_cast<::C *>(this)->NotifyAll((int)(apOwned), (*(char *)&(const ::hkBool_d4cc &)(hkBool_d4cc(true))));
+            reinterpret_cast<::C *>(this)->NotifyAll((intptr_t)(apOwned), (*(char *)&(const ::hkBool_d4cc &)(hkBool_d4cc(true))));
             if (m_entries[i].m_kListener)
                 m_entries[i].m_kListener->visit(&visitor);
             m_entries.removeAt(i);
@@ -938,7 +938,7 @@ void World_d4cc::FUN_00d4cca0(Owned_d4cc* apOwned)
             return;
         }
     }
-    reinterpret_cast<::C *>(this)->NotifyAll((int)(apOwned), (*(char *)&(const ::hkBool_d4cc &)(hkBool_d4cc(false))));
+    reinterpret_cast<::C *>(this)->NotifyAll((intptr_t)(apOwned), (*(char *)&(const ::hkBool_d4cc &)(hkBool_d4cc(false))));
 }
 
 class hkpCollidable;
@@ -1108,7 +1108,7 @@ class hkpCachingShapePhantomD4CF : public hkpShapePhantom
 // @fnv 0x00d4cf10
 void hkpCachingShapePhantomD4CF::FUN_00d4cf10(hkpCollidable* pkCollidable) throw()
 {
-    if (pkCollidable->m_pCollisionShape != 0 && reinterpret_cast<::FUN_00ca94c0_Class *>(this)->FUN_00ca94c0((unsigned int)(pkCollidable)) == 0)
+    if (pkCollidable->m_pCollisionShape != 0 && reinterpret_cast<::FUN_00ca94c0_Class *>(this)->FUN_00ca94c0((pkCollidable)) == 0)
     {
         hkpCollisionDetailD4CF& kDetail = m_kCollisionDetails.AllocatePair();
         hkpProcessCollisionInputD4CF kInput = *((hkpWorldD4CF*)m_pOwningWorld)->m_pCollisionInput;
@@ -1145,7 +1145,7 @@ struct PairDC4A30
 
 __declspec(align(8)) struct QueryDC4A30
 {
-    int m_pOwningWorld;
+    const void* m_pOwningWorld;
     hkUint16 m_unk04;
     hkUint16 m_type;
     hkUint64 m_unk08;
@@ -1169,7 +1169,7 @@ void Ca30Derived::QueryCollisionDetails()
     memcpy(buffer, src, 0x50);
 
     query.m_type = 1;
-    query.m_pOwningWorld = (int)&DAT_010ccebc;
+    query.m_pOwningWorld = &DAT_010ccebc;
 
     for (int i = 0; i < m_collisionDetailsSize; ++i)
     {
@@ -1345,7 +1345,7 @@ struct hkpCachingShapePhantomLocal : public hkpCachingShapePhantom
 };
 // Copies source's three __m128 columns into output0..2, then calls FUN_00d4cab0 with source + 0x30 and a, b, c.
 // @fnv 0x00d4cc50
-void FUN_00d4cc50_cls::CopyFrom(const Aligned_00d4cc50* source, int a, int b, int c)
+void FUN_00d4cc50_cls::CopyFrom(const Aligned_00d4cc50* source, const void* a, void* b, void* c)
 {
     output0 = source->column0;
     output1 = source->column1;

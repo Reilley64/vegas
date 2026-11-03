@@ -30,15 +30,15 @@
 #include "fnv/symbols_010c7000.h"
 struct FUN_00ca86c0_class
 {
-    unsigned int FUN_00ca86c0();
+    void* FUN_00ca86c0();
 };
 // @fnv 0x00ca86c0
-unsigned int FUN_00ca86c0_class::FUN_00ca86c0()
+void* FUN_00ca86c0_class::FUN_00ca86c0()
 {
     unsigned char m_0xe8 = *(unsigned char*)((char*)this + 0xe8);
     if (m_0xe8 != 4 && m_0xe8 != 5)
         return 0;
-    return *(unsigned int*)((char*)this + 0x1f8);
+    return *(void**)((char*)this + 0x1f8);
 }
 
 struct FUN_00ca88c0_Class

@@ -128,11 +128,11 @@ public:
 struct PhTag;
 class FUN_00d07cf0_cls : public hkpPhantom {
 public:
-    void WritePhantomLists(PhArchive* a, int unused);
+    void WritePhantomLists(PhArchive* a, const void* unused);
 };
 // Writes the overlap and phantom lists to the archive via Write, after calling WriteToStream with DAT_01268808.
 // @fnv 0x00d07cf0
-void FUN_00d07cf0_cls::WritePhantomLists(PhArchive* pArchive, int unused)
+void FUN_00d07cf0_cls::WritePhantomLists(PhArchive* pArchive, const void* unused)
 {
     reinterpret_cast<::FNVWorldObject *>(this)->WriteToStream((::hkStreamWriter *)(pArchive), &::g_01268808);
     if (!(m_kPhantomOverlapListeners.m_iCapacityState & 0x80000000) || pArchive->m_flag) {

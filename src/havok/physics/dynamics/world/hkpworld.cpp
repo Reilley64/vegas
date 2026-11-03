@@ -4817,7 +4817,7 @@ void hkpEntityCA8A::FUN_00ca8a80(const hkVector3CA8A& akVelocity)
 
 struct FUN_00ca94c0_Ctx {
     void* self;
-    unsigned int arg;
+    const void* arg;
     unsigned int result;
 };
 struct FUN_00ca94c0_Elem {
@@ -4861,11 +4861,11 @@ struct FUN_00ca94c0_Class {
     int unk88;
     FUN_00ca94c0_Elem** m_pElements;
     int m_uiItemCount;
-    int FUN_00ca94c0(unsigned int arg);
+    int FUN_00ca94c0(const void* arg);
 };
 // Iterates the element array backwards, calling Visit on each non-null element with a context holding self and arg, and returns the accumulated result.
 // @fnv 0x00ca94c0
-int FUN_00ca94c0_Class::FUN_00ca94c0(unsigned int arg) {
+int FUN_00ca94c0_Class::FUN_00ca94c0(const void* arg) {
     FUN_00ca94c0_Ctx ctx;
     ctx.self = this;
     ctx.arg = arg;

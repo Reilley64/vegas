@@ -1062,6 +1062,16 @@ class TESObjectWEAP : public TESBoundObject
   public:
 };
 
+// The TESObjectWEAP sound slots the impact mixer plays.
+struct WeaponSoundSlots
+{
+    char pad00[0x230];
+    TESSound* blockSound;
+    TESSound* idleSound;
+    TESSound* equipSound;
+    TESSound* unequipSound;
+};
+
 struct S_0083a930_EntryData
 {
 };
@@ -1316,10 +1326,10 @@ void PlayWeaponImpactSound(TESObjectREFR* ref, int type)
             switch (type)
             {
             case 9:
-                snd = ((::TESSound *)(reinterpret_cast<::FUN_00522520_shell *>((weapon))->GetField238()));
+                snd = reinterpret_cast<::WeaponSoundSlots *>(weapon)->equipSound;
                 break;
             case 10:
-                snd = ((::TESSound *)(reinterpret_cast<::FUN_00522540_shell *>((weapon))->GetField23C()));
+                snd = reinterpret_cast<::WeaponSoundSlots *>(weapon)->unequipSound;
                 break;
             }
             if (!snd || !::SoundPlaybackManager::CanPlaySoundAt(snd, (*(::NiPoint3 *)&(const ::S_0083a930_Point3 &)(pos)), 1.0f))
@@ -2023,7 +2033,7 @@ struct BSSoundHandleEx
 class BSAudio
 {
   public:
-    BSSoundHandleEx FUN_00ad7480(const char* path, unsigned int flags, unsigned int sound);
+    BSSoundHandleEx FUN_00ad7480(const char* path, unsigned int flags, TESSound* sound);
     BSSoundHandleEx GetSoundHandleByEditorID(const char* name, unsigned int flags);
 };
 
@@ -2048,10 +2058,10 @@ void PlayBlockSound(int aUnused, FUN_00522df0_shell* pObject, float x0, float y0
                     float z1)
 {
     GlobalObject_0041a250 p;
-    if (pObject != 0 && pObject->GetField230() != 0)
+    TESSound* blockSound = pObject ? reinterpret_cast<::WeaponSoundSlots *>(pObject)->blockSound : 0;
+    if (blockSound)
     {
-        BSSoundHandleEx sound = ::FUN_00453a70()->FUN_00ad7480(::FUN_00511840((char *)(((TESSound*)pObject->GetField230()))), 0x182,
-                                                                pObject->GetField230());
+        BSSoundHandleEx sound = ::FUN_00453a70()->FUN_00ad7480(::FUN_00511840((char *)(blockSound)), 0x182, blockSound);
         p.FUN_copy(&sound);
     }
     else

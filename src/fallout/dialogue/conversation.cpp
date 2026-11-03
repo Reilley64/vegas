@@ -1,5 +1,6 @@
 // fallout/dialogue/conversation.cpp: ConversationLoad, DialogueItem, ListNode, Conversation and more (11 functions)
 
+#include "fnv/save_load_game_view.h"
 #include "fnv/simple_list_node_view.h"
 #include <new>
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -616,11 +617,11 @@ void CVConv::SaveConversation()
     {
         unsigned int uiBlok9 = 0x424c4f4b;  // slot -0x20
         reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::CVSaveLoad * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&uiBlok9, 4);
-        pSizeTmp = (short*)reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::CVSaveLoad * *>(&::g_TESSaveLoadGame))))->FUN_00825c00();
+        pSizeTmp = (short*)reinterpret_cast<::SaveLoadGameView *>(::g_TESSaveLoadGame)->pBufferCursor;
         reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::CVSaveLoad * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&sCount_, 2);
     }
     short sIndex5 = 0;                                  // slot -0x1c
-    short* sVer7 = (short*)reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::CVSaveLoad * *>(&::g_TESSaveLoadGame))))->FUN_00825c00();  // slot -0x0c
+    short* sVer7 = (short*)reinterpret_cast<::SaveLoadGameView *>(::g_TESSaveLoadGame)->pBufferCursor;  // slot -0x0c
     reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::CVSaveLoad * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&sIndex5, 2);
     CVNode* uiStartTime4 = this;  // slot -0x18
     while (uiStartTime4 && !uiStartTime4->IsEmpty())

@@ -1,5 +1,8 @@
 // fallout/magic/magicmodelhiteffect.cpp: MagicModelHitEffect, Candidate (22 functions)
 
+#include "fnv/effect_item_fields.h"
+#include "fnv/active_effect_fields.h"
+#include "fnv/save_load_game_view.h"
 #include <cstdint>
 #include <new>
 #include "fnv/decl/ActorMover.h"
@@ -553,7 +556,13 @@ struct SNode
     virtual void v55();
     virtual void v56();
     virtual void v57();
-    virtual void InsertChild(unsigned int);
+    virtual void InsertChild(void*);
+};
+// The parent of a scene graph object (NiAVObject::m_pkParent).
+struct AVObjectParentView
+{
+    char pad00[0x18];
+    NiNode* m_pkParent;
 };
 void __cdecl _Deallocate(void*);
 struct FUN_0081c810 : FUN_0081b6d0_s
@@ -568,11 +577,11 @@ struct FUN_0081c810 : FUN_0081b6d0_s
 // @fnv 0x0081c810
 FUN_0081c810::~FUN_0081c810()
 {
-    if (*(Flt*)&m_pRenderedNodeEntry)
+    if (m_pRenderedNodeEntry.p)
     {
-        NiNode* pparent = ((::NiNode *)(reinterpret_cast<::FUN_009611e0_shell *>((((NiAVObject*)(unsigned int)*(Flt*)&m_pRenderedNodeEntry)))->FUN_009611e0()));
+        NiNode* pparent = reinterpret_cast<AVObjectParentView*>(m_pRenderedNodeEntry.p)->m_pkParent;
         if (pparent)
-            ((SNode*)pparent)->InsertChild(*(Flt*)&m_pRenderedNodeEntry);
+            ((SNode*)pparent)->InsertChild(m_pRenderedNodeEntry.p);
         m_pRenderedNodeEntry = 0;
     }
     spAttach = 0;
@@ -1086,8 +1095,8 @@ void FUN_0081d920_cls::FUN_0081d920(B81D920LoadBuffer* pkBuffer)
     m_pcName = reinterpret_cast<::fnv_008649a0::FUN_008649a0_shell *>((pkBuffer))->FUN_008649a0(0);
     m_bLoadComplete = true;
     reinterpret_cast<::BGSLoadGameSubBuffer *>(&(m_kSubBuffer))->LoadGame((::BGSLoadGameBuffer *)(pkBuffer));
-    if (m_pkRef && ((::B81D920Object *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((::B81D920Handle *)(reinterpret_cast<::FUN_0084e3a0_Class *>((m_pkRef))->FUN_0084e3a0()))))->FUN_00825c00()))->m_kLoadable.GetModelFilePath())
-        reinterpret_cast<::QueueHelper *>(((*reinterpret_cast<::B81D920ModelLoader * *>(&::g_modelLoader))))->FUN_00444040((int)(((::B81D920Object *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((::B81D920Handle *)(reinterpret_cast<::FUN_0084e3a0_Class *>((m_pkRef))->FUN_0084e3a0()))))->FUN_00825c00()))->m_kLoadable.GetModelFilePath()),
+    if (m_pkRef && ((::B81D920Object *)(reinterpret_cast<::EffectItemFields *>(reinterpret_cast<::ActiveEffectFields *>(m_pkRef)->effect)->setting))->m_kLoadable.GetModelFilePath())
+        reinterpret_cast<::QueueHelper *>(((*reinterpret_cast<::B81D920ModelLoader * *>(&::g_modelLoader))))->FUN_00444040((int)(((::B81D920Object *)(reinterpret_cast<::EffectItemFields *>(reinterpret_cast<::ActiveEffectFields *>(m_pkRef)->effect)->setting))->m_kLoadable.GetModelFilePath()),
                                                     5, 0, 0, 1, 0, 0);
 }
 
@@ -1612,7 +1621,7 @@ void Candidate::SetFilenameAndInit(EffectLocal* effect, TESObjectREFR* target, c
     const char* previous = pFilename;
     if (effect)
     {
-        pFilename = reinterpret_cast<const char*>(((::ES_0081c630 *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((::EffectItemLocal *)(reinterpret_cast<::FUN_0084e3a0_Class *>((effect))->FUN_0084e3a0()))))->FUN_00825c00()))->sub.v5());
+        pFilename = reinterpret_cast<const char*>(((::ES_0081c630 *)(reinterpret_cast<::EffectItemFields *>(reinterpret_cast<::ActiveEffectFields *>(effect)->effect)->setting))->sub.v5());
     }
     else
     {
@@ -1623,7 +1632,7 @@ void Candidate::SetFilenameAndInit(EffectLocal* effect, TESObjectREFR* target, c
     Init();
     MagicHitEffect::m_fFirstFloatValue = age;
     bWasPlaying = finished;
-    const char* saved = ((const char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::SaveManagerLocal * *>(&::g_TESSaveLoadGame))))->FUN_00825c00()));
+    const char* saved = ((const char *)(reinterpret_cast<::SaveLoadGameView *>(::g_TESSaveLoadGame)->pBufferCursor));
     reinterpret_cast<::FUN_00600ab0_shell *>(((*reinterpret_cast<::SaveManagerLocal * *>(&::g_TESSaveLoadGame))))->FUN_00600ab0((int)(previous));
     unsigned short version3;
     reinterpret_cast<::FUN_008579e0_shell *>(((*reinterpret_cast<::SaveManagerLocal * *>(&::g_TESSaveLoadGame))))->FUN_008579e0(&version3, 2);
@@ -1967,9 +1976,9 @@ void FUN_0081d2a0_t::FUN_0081d2a0(ActiveEffect* apEffect, TESObjectREFR* apTarge
     char* pbuffer;
     reinterpret_cast<::fnv_0081bde0::FUN_0081bde0_shell *>(this)->SaveLoad(apEffect, apTarget);
     if (apEffect &&
-        ((TESModel*)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((TimeGlobal*)((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((TESForm*)apEffect)))->FUN_0084e3a0())))))->FUN_00825c00() + 0x18))->GetModelFilePath())
+        ((TESModel*)(reinterpret_cast<char *>(reinterpret_cast<::EffectItemFields *>(reinterpret_cast<::ActiveEffectFields *>(apEffect)->effect)->setting) + 0x18))->GetModelFilePath())
     {
-        reinterpret_cast<::QueueHelper *>((((QueueHelper*)g_modelLoader)))->FUN_00444040((int)((TESModel*)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((TimeGlobal*)((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((TESForm*)apEffect)))->FUN_0084e3a0())))))->FUN_00825c00() + 0x18))
+        reinterpret_cast<::QueueHelper *>((((QueueHelper*)g_modelLoader)))->FUN_00444040((int)((TESModel*)(reinterpret_cast<char *>(reinterpret_cast<::EffectItemFields *>(reinterpret_cast<::ActiveEffectFields *>(apEffect)->effect)->setting) + 0x18))
                                ->GetModelFilePath(),
                            5, 0, 0, true, false, false);
     }

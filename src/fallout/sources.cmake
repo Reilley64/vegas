@@ -20,6 +20,7 @@ set(VEGAS19_FALLOUT_SOURCES
   src/fallout/ai/playercharacter_h_unit.cpp
   src/fallout/ai/procedure.cpp
   src/fallout/ai/searchpackage.cpp
+  src/fallout/dialogue/dialogueitem.cpp
   src/fallout/interface/bgsmenupacker.cpp
   src/fallout/interface/fadermanager.cpp
   src/fallout/interface/fopipboymanager.cpp
@@ -34,6 +35,7 @@ set(VEGAS19_FALLOUT_SOURCES
   src/fallout/interface/menus/recipemenu_h_unit.cpp
   src/fallout/interface/menus/repairmenu_h_unit.cpp
   src/fallout/interface/menus/statsmenu_h_unit.cpp
+  src/fallout/magic/associateditemeffect.cpp
   src/fallout/magic/calmeffect.cpp
   src/fallout/magic/commandcreatureeffect.cpp
   src/fallout/magic/commandhumanoideffect.cpp
@@ -49,6 +51,7 @@ set(VEGAS19_FALLOUT_SOURCES
   src/fallout/magic/nonactormagiccaster.cpp
   src/fallout/magic/nonactormagictarget.cpp
   src/fallout/magic/openeffect.cpp
+  src/fallout/magic/shieldeffect.cpp
   src/fallout/magic/valueandconditionseffect.cpp
   src/fallout/magic/valuemodifiereffect_h_unit.cpp
   src/fallout/magic/vampirismeffect.cpp
@@ -154,7 +157,6 @@ set(VEGAS19_FALLOUT_NARROWING_SOURCES
   src/fallout/audio/falloutradio.cpp
   src/fallout/audio/impactmixer.cpp
   src/fallout/dialogue/conversation.cpp
-  src/fallout/dialogue/dialogueitem.cpp
   src/fallout/dialogue/dialogueresponse.cpp
   src/fallout/dialogue/menutopic.cpp
   src/fallout/interface/animatingtext.cpp
@@ -206,7 +208,6 @@ set(VEGAS19_FALLOUT_NARROWING_SOURCES
   src/fallout/interface/menus/vatsmenu.cpp
   src/fallout/magic/absorbeffect.cpp
   src/fallout/magic/activeeffect.cpp
-  src/fallout/magic/associateditemeffect.cpp
   src/fallout/magic/bhkcharacterlistenerspell.cpp
   src/fallout/magic/bhktelekinesislistener.cpp
   src/fallout/magic/bounditemeffect.cpp
@@ -230,7 +231,6 @@ set(VEGAS19_FALLOUT_NARROWING_SOURCES
   src/fallout/magic/paralysiseffect.cpp
   src/fallout/magic/reanimateeffect.cpp
   src/fallout/magic/scripteffect.cpp
-  src/fallout/magic/shieldeffect.cpp
   src/fallout/magic/summoncreatureeffect.cpp
   src/fallout/magic/sundamageeffect.cpp
   src/fallout/magic/telekinesiseffect.cpp

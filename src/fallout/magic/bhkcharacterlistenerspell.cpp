@@ -2,6 +2,7 @@
 // src/fallout/magic/bhkcharacterlistenerspell.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/bhkcharacterlistenerspell.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/magic_projectile_fields.h"
 #include <new>
 #include "fnv/decl/AlignedVector.h"
 #include "fnv/decl/FUN_0043b4d0_shell.h"
@@ -1884,7 +1885,7 @@ void Listener807::FUN_008070d0(Event807* pkEvent)
         reinterpret_cast<::FUN_00440460_S *>((pkMarker))->FUN_00440460((const ::V3 *)&(kPos));
         reinterpret_cast<::FUN_00458e20_shell *>(((*reinterpret_cast<::Debug807 * *>(&::g_TES))))->FUN_00458e20((::NiAVObject *)(pkMarker), 50.0f);
     }
-    Caster807* pkCaster = ((::Caster807 *)(reinterpret_cast<::PlayerMover *>((pkProjectile))->GetActorStateFlags()));
+    Caster807* pkCaster = ((::Caster807 *)(reinterpret_cast<::MagicProjectileFields *>(pkProjectile)->caster));
     bool bActorHit = false;
     TESObjectREFR* pkHitActor = 0;
     if (pkHit && pkHit->IsActor())

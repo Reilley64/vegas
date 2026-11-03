@@ -64,6 +64,9 @@ class TESForm
 {
   public:
     virtual void Destroy();
+    unsigned char m_ucFormType;
+    unsigned int m_uiFormFlags;
+    unsigned int iFormID;
 };
 class TESSound;
 class BGSAcousticSpace;

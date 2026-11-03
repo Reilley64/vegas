@@ -2,6 +2,7 @@
 // src/fallout/magic/magicballprojectile.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/magicballprojectile.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/magic_projectile_fields.h"
 #include "fnv/simple_list_node_view.h"
 #include <cstdint>
 #include <new>
@@ -2041,9 +2042,9 @@ void Cls::FUN_008115c0(int aiArg1, int aiArg2)
     if (ctrl4)
     {
         unsigned int _result;
-        if (((::Refr *)(reinterpret_cast<::PlayerMover *>(this)->GetActorStateFlags())) && ((::Refr *)(reinterpret_cast<::PlayerMover *>(this)->GetActorStateFlags()))->tv11())
+        if (((::Refr *)(reinterpret_cast<::MagicProjectileFields *>(this)->caster)) && ((::Refr *)(reinterpret_cast<::MagicProjectileFields *>(this)->caster))->tv11())
         {
-            Refr2* obj4 = ((::Refr *)(reinterpret_cast<::PlayerMover *>(this)->GetActorStateFlags()))->tv11();
+            Refr2* obj4 = ((::Refr *)(reinterpret_cast<::MagicProjectileFields *>(this)->caster))->tv11();
             Refr2* filtered = obj4->tv64() ? obj4 : 0;
             if (filtered)
             {
@@ -2070,7 +2071,7 @@ void Cls::FUN_008115c0(int aiArg1, int aiArg2)
         reinterpret_cast<::fnv_00810ff0::Ths810 *>((ctrl4))->FUN_00810ff0(retObjTmp.f0);
     }
     Refr2* tailObjVal;
-    tailObjVal = ((::Refr *)(reinterpret_cast<::PlayerMover *>(this)->GetActorStateFlags())) ? ((::Refr *)(reinterpret_cast<::PlayerMover *>(this)->GetActorStateFlags()))->tv11() : 0;
+    tailObjVal = ((::Refr *)(reinterpret_cast<::MagicProjectileFields *>(this)->caster)) ? ((::Refr *)(reinterpret_cast<::MagicProjectileFields *>(this)->caster))->tv11() : 0;
     if (tailObjVal != (*reinterpret_cast<::Refr2 * *>(&::_g_thePlayer)))
     {
         FUN_0080fae0(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingObj *>(&::g_011d1c28)))))));
@@ -3192,7 +3193,7 @@ void FUN_0081a320_class::FUN_0081a320(float afDeltaTime)
                 if (::_DAT_01012060 < ratio)
                 {
 
-                    reinterpret_cast<::P142Caster *>((((::fnv_0081a320::FUN_00817160_shell *)(reinterpret_cast<::PlayerMover *>(this)->GetActorStateFlags()))))->ApplySpellEffects({}, {}, {}, {}, {}, {}, {}, {});
+                    reinterpret_cast<::P142Caster *>(reinterpret_cast<::MagicProjectileFields *>(this)->caster)->ApplySpellEffects((::P142Spell *)(reinterpret_cast<::MagicProjectileFields *>(this)->spell), (int)(((void *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))), *(::NiPoint3 *)(v125()), (::P142Ref *)(void *)(this), 0, 0, ratio, 1.0f);
                 }
             }
         }
@@ -4019,6 +4020,8 @@ struct Mid;
 struct Node;
 struct FlagObj
 {
+    char pad00[8];
+    void* pObject;
 };
 struct Node
 {
@@ -4114,7 +4117,7 @@ struct Mid
     int u20;
     int u24;
     Node* f28;
-    int f2c;
+    std::uintptr_t f2c;
 };
 struct Mgr85
 {
@@ -4273,7 +4276,7 @@ void Cls::FUN_008cf440(int a1, int a2)
                     result = (int)((::fnv_008cf440::FlagObj *)(::FUN_004b6980((::NiAVObject *)(void *)(((void *)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((f88->f28))->FUN_0043fcd0()))), (void *)(lo_), _flag, _flag, 1)));
                     if (result != 0)
                     {
-                        f88->f2c = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((FlagObj*)result)))->GetName()));
+                        f88->f2c = reinterpret_cast<std::uintptr_t>(((FlagObj*)result)->pObject);
                     }
                 }
             }
@@ -4917,7 +4920,7 @@ void ProjectileImpact::TriggerImpact(int aiUnused1, int aiUnused2, int aiUnused3
     float b = (duration - elapsed) / duration;
     if (!abSuppress && b > 0.0)
     {
-        reinterpret_cast<::P142Caster *>((((::ProjectileEvent *)(reinterpret_cast<::PlayerMover *>(this)->GetActorStateFlags()))))->ApplySpellEffects((::P142Spell *)(reinterpret_cast<::EffectSetting *>(this)->GetArchetype()), (int)(((void *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))), (*(::NiPoint3 *)&(const ::ImpactPoint &)(position())), (::P142Ref *)(void *)(this), (::P142Ref *)(aiEventArg), 0, b, 1.0f);
+        reinterpret_cast<::P142Caster *>(reinterpret_cast<::MagicProjectileFields *>(this)->caster)->ApplySpellEffects((::P142Spell *)(reinterpret_cast<::MagicProjectileFields *>(this)->spell), (int)(((void *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))), (*(::NiPoint3 *)&(const ::ImpactPoint &)(position())), (::P142Ref *)(void *)(this), (::P142Ref *)(aiEventArg), 0, b, 1.0f);
     }
     if (((::AreaSound *)(reinterpret_cast<::FUN_008ce390_shell *>((((::ProjectileEffect *)(reinterpret_cast<::MagicProjectile *>(this)->FUN_004fd400()))))->FUN_008ce390())) && !abSuppress)
     {
@@ -5497,7 +5500,7 @@ void ContinuousBeamProjectile::ApplyAreaEffect(NiPoint3 point, unsigned int vari
     this->unkac = 2;
     if (!silent)
     {
-        reinterpret_cast<::P142Caster *>((((::ProjectileEvent *)(reinterpret_cast<::PlayerMover *>((this))->GetActorStateFlags()))))->ApplySpellEffects((::P142Spell *)(reinterpret_cast<::EffectSetting *>((this))->GetArchetype()), (int)(((void *)(reinterpret_cast<::LowProcess *>((this))->GetTarget()))),
+        reinterpret_cast<::P142Caster *>(reinterpret_cast<::MagicProjectileFields *>(this)->caster)->ApplySpellEffects((::P142Spell *)(reinterpret_cast<::MagicProjectileFields *>(this)->spell), (int)(((void *)(reinterpret_cast<::LowProcess *>((this))->GetTarget()))),
                                                 (*(::NiPoint3 *)&(const ::ImpactPoint &)(*(ImpactPoint*)this->Position())), (::P142Ref *)(void *)(this), (::P142Ref *)(target), 0, 1.0f, 1.0f);
     }
 
@@ -7748,6 +7751,9 @@ struct DialoguePackage : TESPackage
     int unk78;
     int unk7c;
     Sound sound;
+    char pad8c[0xb0 - 0x8c];
+    DialogueActor* pFirstSpeaker;
+    DialogueActor* pSecondSpeaker;
 };
 struct DialogueProcess
 {
@@ -8542,7 +8548,7 @@ void DialogueActor::FUN_00933d20()
             if (reinterpret_cast<::SoundPlaybackHandle *>(&(dialogueB->sound))->IsValid())
                 reinterpret_cast<::fnv_009ef530::FUN_009ef530_cls *>((dialogueB))->FUN_009ef530();
             DialogueActor* first7 = ((::DialogueActor *)(::FUN_009ee040((char *)(dialogueB))));
-            DialogueActor* second = ((::DialogueActor *)(reinterpret_cast<::MiddleLowProcess *>((dialogueB))->GetProcessInteger()));
+            DialogueActor* second = dialogueB->pSecondSpeaker;
             if (first7)
             {
                 if (first7->IsActor())

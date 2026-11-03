@@ -1,5 +1,6 @@
 // fallout/magic/magiccaster.cpp: MagicCaster, Caster, ScriptLocalsX, CastingCheck and more (34 functions)
 
+#include "fnv/magic_projectile_fields.h"
 #include "fnv/effect_item_fields.h"
 #include "fnv/simple_list_node_view.h"
 #include <new>
@@ -3619,7 +3620,7 @@ void P142Caster::ApplySpellEffects(P142Spell* spell, int flags, NiPoint3 positio
                 bool added = reinterpret_cast<::MagicCaster *>(this)->AddEffectToTarget(target->GetMagicTarget(), position, (::MagicItem *)(spell), effect, false);
                 if (added)
                 {
-                    P142Caster* caster = ((::P142Caster *)(reinterpret_cast<::PlayerMover *>((source))->GetActorStateFlags()));
+                    P142Caster* caster = ((::P142Caster *)(reinterpret_cast<::MagicProjectileFields *>(source)->caster));
                     P142Ref* ref = caster ? ((::P142Ref *)(reinterpret_cast<::MagicCaster *>((caster))->GetCasterActor())) : 0;
                     if ((ref && !modifier && spell->GetSpellType() == 0) || spell->GetSpellType() == 5)
                     {
@@ -4862,6 +4863,9 @@ struct PhantomShape
 };
 struct ListEntries
 {
+    void** data;
+    int size;
+    int capacity;
 };
 typedef bool(* TargetAvailable)(TargetInterface*);
 typedef int(* TargetActive)(TargetInterface*);
@@ -4896,14 +4900,14 @@ extern void* __cdecl FUN_00416870(float, float, float);
 void Master::FUN_00817b90(Vec3 center, ListHandle* item, void* filter, RangeManager* source, TargetInterface* first,
                           float scale, float strength)
 {
-    if (reinterpret_cast<::S3e60 *>((((::TimeObject *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((source))->FUN_00825c00()))))->FUN_00403e60(0x20000000))
+    if (reinterpret_cast<::S3e60 *>((((::TimeObject *)(reinterpret_cast<::EffectItemFields *>(source)->setting))))->FUN_00403e60(0x20000000))
     {
         float range = (double)reinterpret_cast<::FUN_00404420_shell *>((source))->FUN_00404420() * *originalRuntimeFloatSetting1112.FUN_00403e20() * strength;
         if (range > ::_DAT_01012060)
         {
-            float attenuation = CalcEffectCost(reinterpret_cast<::TESGrass *>((((::TimeObject *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((source))->FUN_00825c00()))))->GetLowestAllowedSlope(), reinterpret_cast<::FUN_00404420_shell *>((source))->FUN_00404420(),
+            float attenuation = CalcEffectCost(reinterpret_cast<::TESGrass *>((((::TimeObject *)(reinterpret_cast<::EffectItemFields *>(source)->setting))))->GetLowestAllowedSlope(), reinterpret_cast<::FUN_00404420_shell *>((source))->FUN_00404420(),
                                                (int)(reinterpret_cast<::FUN_004044d0_shell *>((source))->FUN_004044d0() * scale),
-                                               (int)(reinterpret_cast<::FUN_00404390_shell *>((source))->FUN_00404390() * scale), reinterpret_cast<::FUN_0084e3a0_Class *>((source))->FUN_0084e3a0() == 2);
+                                               (int)(reinterpret_cast<::FUN_00404390_shell *>((source))->FUN_00404390() * scale), reinterpret_cast<::EffectItemFields *>(source)->range == 2);
             float size = (float)(range * ::DAT_01011588);
             BoundShape space;
             ::fnv_004a3e00::FUN_004a3e00((*(::fnv_004a3e00::bhkCharacterController *)((Vec3*)&space.low)), (*(const ::fnv_004a3e00::NiPoint3 *)(&(*(::Vec3 *)(reinterpret_cast<::Point3Offset *>(&(center))->ProjectileLaunched((::NiPoint3 *)&(const ::Vec3 &)(Vec3(-size, -size, -size)), {}))))));
@@ -4914,9 +4918,9 @@ void Master::FUN_00817b90(Vec3 center, ListHandle* item, void* filter, RangeMana
             void* world = reinterpret_cast<::FUN_004543c0_cls *>((item))->FUN_004543c0();
             reinterpret_cast<::Obj *>(&(results))->FUN_00c85810((::Obj *)(world));
             ListEntries* entries = ((::ListEntries *)(reinterpret_cast<::ScriptLocalsX *>(&(results))->FUN_00818110()));
-            for (int i = 0; i < ((int)(reinterpret_cast<::Callees *>((entries))->FUN_00726070())); ++i)
+            for (int i = 0; i < entries->size; ++i)
             {
-                int target = ((int)(::FUN_004b59f0((const void *)(*((int *)&(reinterpret_cast<::FUN_00629ab0_shell *>((entries))->FUN_00629ab0(i)))))));
+                int target = ((int)(::FUN_004b59f0((const void *)(entries->data[i]))));
                 if (target)
                 {
                     FUN_00818150((TargetInterface*)target, center, source, attenuation);

@@ -8,20 +8,17 @@
 #include "havok/hkpFixedRigidMotion.h"
 
 extern int DAT_010c6cdc;
-struct FUN_00d1e160_t
+struct FUN_00d1e160_t : hkpFixedRigidMotion
 {
-    int* vtbl;
-    unsigned char m_auiShapeKeys[7];
-    unsigned char m_type;
-    void* InitFixedRigidMotion(int a, int b);
+    void* InitFixedRigidMotion(const ::hkVector4D1DF& a, const ::hkQuaternionD1DF& b);
 };
-// Calls FUN_00d1dfa0, sets vtbl to &DAT_010c6cdc, writes 5 to byte offset 8, and returns this.
+// Calls FUN_00d1dfa0, sets the vtable to &DAT_010c6cdc, sets the motion type to 5, and returns this.
 // @fnv 0x00d1e160
-void* FUN_00d1e160_t::InitFixedRigidMotion(int a, int b)
+void* FUN_00d1e160_t::InitFixedRigidMotion(const ::hkVector4D1DF& a, const ::hkQuaternionD1DF& b)
 {
-    new ((void *)this) ::FUN_00d1dfa0((*(const ::hkVector4D1DF *)(a)), (*(const ::hkQuaternionD1DF *)(b)));
-    vtbl = &DAT_010c6cdc;
-    this->m_auiShapeKeys[4] = 5;
+    new ((void *)this) ::FUN_00d1dfa0(a, b);
+    *(void**)this = &DAT_010c6cdc;
+    m_type = 5;
     return this;
 }
 

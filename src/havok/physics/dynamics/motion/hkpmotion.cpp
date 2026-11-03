@@ -75,7 +75,7 @@ void FUN_00c863a0_Class::FUN_00c863a0(void* a)
 }
 
 
-struct FUN_00c863c0_Class
+struct FUN_00c863c0_Class : hkpMotion
 {
     void FUN_00c863c0(void* a);
 };
@@ -83,7 +83,7 @@ struct FUN_00c863c0_Class
 // @fnv 0x00c863c0
 void FUN_00c863c0_Class::FUN_00c863c0(void* a)
 {
-    ::FUN_00cf2160((unsigned int)(a), (unsigned int)((char*)this + 0x10));
+    ::FUN_00cf2160((uintptr_t)(a), (uintptr_t)(&m_kMotionState));
 }
 
 extern void __cdecl FUN_00cf1f80(void*, void*, void*);

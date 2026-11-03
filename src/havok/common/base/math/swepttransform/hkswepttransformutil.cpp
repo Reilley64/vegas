@@ -658,7 +658,7 @@ int __cdecl ReadBlobObject(BlobStream* stream, BlobObject** ppOut)
 
 int __cdecl FUN_00cf1f80(int, int, int);
 // @fnv 0x00cf2160
-int __cdecl FUN_00cf2160(unsigned int uiValue, unsigned int arg1)
+int __cdecl FUN_00cf2160(uintptr_t uiValue, uintptr_t arg1)
 {
     unsigned int callResult0 = (unsigned int)FUN_00cf1f80((int)(arg1 + 48u), (int)uiValue, (int)arg1);
     return (int)callResult0;

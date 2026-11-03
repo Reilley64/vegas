@@ -257,12 +257,12 @@ struct Cdf7c0Self
     int unk14;
     int unk18;
     float m_fSpringStrength;
-    void FUN_00cdf7c0(const Cdf7c0Buf& src, int param2);
+    void FUN_00cdf7c0(const Cdf7c0Buf& src, void* param2);
 };
 
 // Copies src, scales the copy's unk24 by m_fSpringStrength, then calls FUN_00d72190 for a contact atom or FUN_00d6f460 otherwise.
 // @fnv 0x00cdf7c0
-void Cdf7c0Self::FUN_00cdf7c0(const Cdf7c0Buf& src, int param2)
+void Cdf7c0Self::FUN_00cdf7c0(const Cdf7c0Buf& src, void* param2)
 {
     Cdf7c0Buf buf = src;
     buf.unk24 *= m_fSpringStrength;
@@ -273,11 +273,11 @@ void Cdf7c0Self::FUN_00cdf7c0(const Cdf7c0Buf& src, int param2)
     if (atom->m_type == hkpConstraintAtom::TYPE_CONTACT)
     {
         flag.v = true;
-        ::FUN_00d72190((::Node *)(atom), (::Buffer *)(::Cdf7c0Buf *)(&buf), (*(int *)&(const ::Cdf7c0Flag &)(flag)), (int *)(param2));
+        ::FUN_00d72190((::Node *)(atom), (::Buffer *)(::Cdf7c0Buf *)(&buf), (*(int *)&(const ::Cdf7c0Flag &)(flag)), static_cast<int *>(param2));
     }
     else
     {
-        ::FUN_00d6f460((const ::Atom *)(atom), info.unk14, (const ::QueryIn *)(::Cdf7c0Buf *)(&buf), (::QueryOut *)(param2));
+        ::FUN_00d6f460((const ::Atom *)(atom), info.unk14, (const ::QueryIn *)(::Cdf7c0Buf *)(&buf), static_cast<::QueryOut *>(param2));
     }
 }
 

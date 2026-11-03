@@ -1,6 +1,7 @@
 
 // src/havok/physics/dynamics/motion/rigid/hkpboxmotion.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/motion/rigid/hkpboxmotion.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/symbols_01012000.h"
 
 #include <cstddef>
 #include <xmmintrin.h>
@@ -368,7 +369,7 @@ void BoxMotion::FUN_00d1e8c0(Mat3& out)
     V4 inv;
     inv.q = _mm_max_ps(m_kInertiaAndMassInv.q, DAT_010c7200);
     out.setDiagonal(1.0f / inv(0), 1.0f / inv(1), 1.0f / inv(2));
-    reinterpret_cast<::FUN_00cd5880_cls *>(&(out))->FUN_00cd5880((unsigned int)(&m_kMotionTransform));
+    reinterpret_cast<::FUN_00cd5880_cls *>(&(out))->FUN_00cd5880((uintptr_t)(&m_kMotionTransform));
 }
 
 
@@ -532,7 +533,6 @@ inline void* operator new(size_t, void* p)
     return p;
 }
 
-extern const float DAT_01012068;
 
 struct FUN_00c86530_Obj
 {

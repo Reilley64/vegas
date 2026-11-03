@@ -1688,7 +1688,6 @@ struct HPList
     char data[8];
 };
 float __cdecl FUN_00652440(void*, int, int);
-int __cdecl strcat_s(char*, unsigned int, const char*);
 void __cdecl AppendNormalMapSuffix(const char*, char*);
 int __cdecl FUN_00653880(void*, int, char, const char*);
 
@@ -2138,7 +2137,8 @@ FUN_00650ea0_BSFaceGenManager::FUN_00650ea0_BSFaceGenManager()
     memset(pbasepixels, 128, 4096);
     reinterpret_cast<::NiGlobalStringTable *>((pbasepixeldata))->AddString();
     pbasepixeldata->FUN_006516c0(true);
-    m_spBaseTexture = ((::NiTexture *)(::fnv_00a5ff10::FUN_00a5ff10((::fnv_00a5ff10::RefCounted *)(pbasepixeldata), (void *)(NiFixedString("DefaultBaseModFaceGenTexture")), (const ::fnv_00a5ff10::OwnerTriple *)&((*reinterpret_cast<::fnv_00650ea0::TextureFormatPreferences *>(&::DAT_011a9598))))));
+    NiFixedString kBaseName("DefaultBaseModFaceGenTexture");
+    m_spBaseTexture = ((::NiTexture *)(::fnv_00a5ff10::FUN_00a5ff10((::fnv_00a5ff10::RefCounted *)(pbasepixeldata), &kBaseName, (const ::fnv_00a5ff10::OwnerTriple *)&((*reinterpret_cast<::fnv_00650ea0::TextureFormatPreferences *>(&::DAT_011a9598))))));
 
     pdetailpixeldata = new NiPixelData(32, 32, (*reinterpret_cast<const ::fnv_00650ea0::NiPixelFormat *>(&::gNiPoint3StartupSrc)), 1, 1);
     pdecalpixels = ((unsigned char *)(reinterpret_cast<::S_0064dac0 *>((pdetailpixeldata))->FUN_0064dac0(0, 0)));
@@ -2151,7 +2151,8 @@ FUN_00650ea0_BSFaceGenManager::FUN_00650ea0_BSFaceGenManager()
     }
     reinterpret_cast<::NiGlobalStringTable *>((pdetailpixeldata))->AddString();
     pdetailpixeldata->FUN_006516c0(true);
-    m_spDetailTexture = ((::NiTexture *)(::fnv_00a5ff10::FUN_00a5ff10((::fnv_00a5ff10::RefCounted *)(pdetailpixeldata), (void *)(NiFixedString("DefaultDetailModFaceGenTexture")), (const ::fnv_00a5ff10::OwnerTriple *)&((*reinterpret_cast<::fnv_00650ea0::TextureFormatPreferences *>(&::DAT_011a9598))))));
+    NiFixedString kDetailName("DefaultDetailModFaceGenTexture");
+    m_spDetailTexture = ((::NiTexture *)(::fnv_00a5ff10::FUN_00a5ff10((::fnv_00a5ff10::RefCounted *)(pdetailpixeldata), &kDetailName, (const ::fnv_00a5ff10::OwnerTriple *)&((*reinterpret_cast<::fnv_00650ea0::TextureFormatPreferences *>(&::DAT_011a9598))))));
 
     (*reinterpret_cast<bool *>(&::DAT_011d59e0)) = true;
 }
@@ -2521,24 +2522,26 @@ template <class T> class BSStringT
     unsigned short sLen;
     unsigned short sMaxLen;
 };
-template <> class NiPointer<NiSourceTexture>
+}  // namespace fnv_00655320
+template <> class NiPointer<fnv_00655320::NiSourceTexture>
 {
   public:
-    NiPointer(NiSourceTexture* apObject);
+    NiPointer(fnv_00655320::NiSourceTexture* apObject);
     ~NiPointer();
-    operator NiSourceTexture*() const;
-    NiPointer<NiSourceTexture>& operator=(NiSourceTexture* apObject);
-    NiSourceTexture* m_pObject;
+    operator fnv_00655320::NiSourceTexture*() const;
+    NiPointer<fnv_00655320::NiSourceTexture>& operator=(fnv_00655320::NiSourceTexture* apObject);
+    fnv_00655320::NiSourceTexture* m_pObject;
 };
-template <> class NiPointer<NiTriBasedGeom>
+template <> class NiPointer<fnv_00655320::NiTriBasedGeom>
 {
   public:
-    NiPointer(NiTriBasedGeom* apObject);
+    NiPointer(fnv_00655320::NiTriBasedGeom* apObject);
     ~NiPointer();
-    operator NiTriBasedGeom*() const;
-    NiPointer<NiTriBasedGeom>& operator=(NiTriBasedGeom* apObject);
-    NiTriBasedGeom* m_pObject;
+    operator fnv_00655320::NiTriBasedGeom*() const;
+    NiPointer<fnv_00655320::NiTriBasedGeom>& operator=(fnv_00655320::NiTriBasedGeom* apObject);
+    fnv_00655320::NiTriBasedGeom* m_pObject;
 };
+namespace fnv_00655320 {
 namespace lc1 {
 struct AutoMemContext
 {
@@ -3020,25 +3023,27 @@ class NiTriBasedGeom : public NiAVObject
 {
   public:
 };
-template <> class NiPointer<NiSourceTexture>
+}  // namespace fnv_006558b0
+template <> class NiPointer<fnv_006558b0::NiSourceTexture>
 {
   public:
-    NiSourceTexture* m_pObject;
-    NiPointer(NiSourceTexture*);
+    fnv_006558b0::NiSourceTexture* m_pObject;
+    NiPointer(fnv_006558b0::NiSourceTexture*);
     ~NiPointer();
-    NiPointer& operator=(NiSourceTexture*);
-    operator NiSourceTexture*() const;
+    NiPointer& operator=(fnv_006558b0::NiSourceTexture*);
+    operator fnv_006558b0::NiSourceTexture*() const;
 };
-template <> class NiPointer<NiTriBasedGeom>
+template <> class NiPointer<fnv_006558b0::NiTriBasedGeom>
 {
   public:
-    NiTriBasedGeom* m_pObject;
-    NiPointer(NiTriBasedGeom*);
+    fnv_006558b0::NiTriBasedGeom* m_pObject;
+    NiPointer(fnv_006558b0::NiTriBasedGeom*);
     ~NiPointer();
-    NiPointer& operator=(NiTriBasedGeom*);
-    operator NiTriBasedGeom*() const;
-    NiTriBasedGeom* operator->() const;
+    NiPointer& operator=(fnv_006558b0::NiTriBasedGeom*);
+    operator fnv_006558b0::NiTriBasedGeom*() const;
+    fnv_006558b0::NiTriBasedGeom* operator->() const;
 };
+namespace fnv_006558b0 {
 struct TESModel
 {
     virtual void v00();
@@ -3503,7 +3508,6 @@ struct FGModelMap
 struct TaskQueueInterface
 {
 };
-int __cdecl strcat_s(char*, unsigned int, const char*);
 void FUN_00652140();
 void FUN_00652190();
 
@@ -3536,7 +3540,7 @@ bool BSFaceGenModelMap_t::FUN_00650780(const char* apKey)
     }
     if ((Flt&)spentry)
     {
-        reinterpret_cast<::fnv_0065c400::FUN_0065c400_t *>((*(Flt*)((unsigned int)(Flt&)spentry + 8)))->FUN_0065c400();
+        reinterpret_cast<::fnv_0065c400::FUN_0065c400_t *>(*(void**)(*(char**)&spentry + 8))->FUN_0065c400();
         bres = true;
     }
     FUN_00652190();
@@ -3578,7 +3582,7 @@ void BSFaceGenModelMap_t::FUN_00650ba0(void* aspNewEntry)
             switch (cnt)
             {
             case 0:
-                if (reinterpret_cast<::FUN_0065c110_t *>((*(Flt*)((char*)aspNewEntry + 8)))->GetEGMSize() > 0)
+                if (reinterpret_cast<::FUN_0065c110_t *>(*(void**)((char*)aspNewEntry + 8))->GetEGMSize() > 0)
                     continue;
                 size = 10;
                 break;
@@ -4814,7 +4818,7 @@ FgMatrixVT FgMatrixVT::FUN_00658500(const FgMatrixVT& other) const
     MatIter a2 = (*(::MatIter *)(reinterpret_cast<::FUN_0065fd10_class *>((void *)this)->FUN_0065fd10({})));
     MatIter b = (*(::MatIter *)(reinterpret_cast<::FUN_0065fd10_class *>((void *)&(other))->FUN_0065fd10({})));
     for (; reinterpret_cast<::FUN_0065dfd0_class *>((void *)&(const ::MatIter &)(a2))->FUN_0065dfd0((int)&(const ::MatIter &)((*(::MatIter *)(reinterpret_cast<::fnv_0065fd40::FUN_0065fd40_class *>((void *)this)->FUN_0065fd40({}))))); a2++, b++, out4++)
-        reinterpret_cast<::FUN_0064dbd0_Class *>((void *)&(const ::MatView &)(out4))->FUN_0064dbd0() = reinterpret_cast<::FUN_0064dda0_cls *>((void *)&(const ::MatIter &)(a2))->FUN_0064dda0() + reinterpret_cast<::FUN_0064dda0_cls *>((void *)&(const ::MatIter &)(b))->FUN_0064dda0();
+        *(float *)reinterpret_cast<::FUN_0064dbd0_Class *>(&out4)->FUN_0064dbd0() = *(const float *)reinterpret_cast<::FUN_0064dda0_cls *>(&a2)->FUN_0064dda0() + *(const float *)reinterpret_cast<::FUN_0064dda0_cls *>(&b)->FUN_0064dda0();
     return result;
 }
 
@@ -5780,7 +5784,7 @@ FUN_006586c0_cls* FUN_006586c0_cls::AddMatrix(FUN_006586c0_cls* other)
     MxConstIter b5 = (*(::MxConstIter *)(reinterpret_cast<::FUN_0065fd10_class *>((void *)(other))->FUN_0065fd10({})));
     for (; reinterpret_cast<::FUN_0065dfd0_class *>((void *)&(const ::MxIter &)(a))->FUN_0065dfd0((int)&(const ::MxIter &)((*(::MxIter *)(reinterpret_cast<::fnv_0065f550::FUN_0065f550_Class *>(this)->CallWithSelf({}))))) && reinterpret_cast<::FUN_0065dfd0_class *>((void *)&(const ::MxConstIter &)(b5))->FUN_0065dfd0((int)&(const ::MxConstIter &)((*(::MxConstIter *)(reinterpret_cast<::fnv_0065fd40::FUN_0065fd40_class *>((void *)(other))->FUN_0065fd40({}))))); a++, (*(::MxConstIter *)(reinterpret_cast<::FG_00659100_cls *>(&(b5))->FUN_00659100((::FG_00659100_pair *)(0), {}))))
     {
-        reinterpret_cast<::FUN_0064dbd0_Class *>((void *)&(const ::MxIter &)(a))->FUN_0064dbd0() += double(((const float)(reinterpret_cast<::FUN_0064dda0_cls *>((void *)&(b5))->FUN_0064dda0())));
+        *(float *)reinterpret_cast<::FUN_0064dbd0_Class *>(&a)->FUN_0064dbd0() += double(*(const float *)reinterpret_cast<::FUN_0064dda0_cls *>(&b5)->FUN_0064dda0());
     }
     return this;
 }

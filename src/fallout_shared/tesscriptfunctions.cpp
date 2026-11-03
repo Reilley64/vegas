@@ -2116,7 +2116,7 @@ bool __cdecl FUN_005b59f0(const ScriptParameter* apParameters, const char* apCom
 }
 
 // @fnv 0x005b5e40
-int __cdecl FUN_005b5e40()
+int __cdecl FUN_005b5e40(...)
 {
     int ret = 0;
     return ret;

@@ -4116,18 +4116,6 @@ hkListenerPairC983* hkListenerPairC983::FUN_00c98370(unsigned int uiFlags) throw
 }  // namespace fnv_00c98370
 
 namespace fnv_00c983b0 {
-struct FnvCpu_FUN_00c983b0_CpuAllocator {
-    virtual void slot00();
-    virtual void slot04();
-    virtual void Invoke(void* block, unsigned int size);
-};
-struct FnvCpu_FUN_00c983b0_CpuAllocatorHolder {
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0c;
-    FnvCpu_FUN_00c983b0_CpuAllocator* allocator;
-};
 
 struct FnvCpu_FUN_00c983b0_CpuObject {
     unsigned int unk00;
@@ -4140,8 +4128,7 @@ FnvCpu_FUN_00c983b0_CpuObject* FnvCpu_FUN_00c983b0_CpuObject::FUN_00c983b0(unsig
 {
     FUN_00c93e50();
     if (flags & 1) {
-        FnvCpu_FUN_00c983b0_CpuAllocatorHolder* holder = static_cast<FnvCpu_FUN_00c983b0_CpuAllocatorHolder*>(::FUN_00c85750());
-        holder->allocator->Invoke(this, size);
+        hkMemoryRouter::getInstance().heap().blockFree(this, size);
     }
     return this;
 }
@@ -4518,17 +4505,6 @@ struct __declspec(align(16)) AlignedRotation : hkRotation {
 };
 
 namespace fnv_00c99eb0 {
-struct FNV_Allocator {
-    virtual void reserved();
-    virtual void* allocate(unsigned int bytes);
-};
-struct FNV_AllocatorContext {
-    void* unk00;
-    void* unk04;
-    void* unk08;
-    void* unk0C;
-    FNV_Allocator* allocator;
-};
 
 struct FNV_Subobject {
 };
@@ -4551,8 +4527,7 @@ FUN_00c99eb0::FUN_00c99eb0() {
     m_08 = 0;
     m_0C = 0;
     m_10 = 0x80000000u;
-    FNV_AllocatorContext* context = static_cast<FNV_AllocatorContext*>(::FUN_00c85750());
-    void* memory = context->allocator->allocate(0x18);
+    void* memory = hkMemoryRouter::getInstance().heap().blockAlloc(0x18);
     void* pSubobject = memory
         ? ((void *)(reinterpret_cast<::FUN_00cf6da0_cls *>((static_cast<FNV_Subobject*>(memory)))->FUN_00cf6da0(1000)))
         : 0;
@@ -5753,19 +5728,6 @@ void hkWorldXc91ac0::FUN_00c91ac0(void* entry)
     m_entries.m_data[m_entries.indexOf(entry)] = 0;
 }
 
-struct Allocator {
-    virtual void v00();
-    virtual void* Allocate(int size);
-    virtual void Deallocate(void* p, int size);
-};
-
-struct ThreadStorage {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    Allocator* m_pThreadAllocator;
-};
 
 
 
@@ -5881,8 +5843,7 @@ struct hkpWorldHelper : hkpWorld {
 // Splits the commands into jobs of numCommandsPerJob queued on jobQueue, runs the thread pool, then calls FUN_00d04380 on semaphore.
 // @fnv 0x00c92110
 void hkpWorldHelper::ExecuteRayCastJobs(RayCastCommand* commandArray, int numCommands, JobQueue* jobQueue, ThreadPool* threadPool, void* semaphore, int numCommandsPerJob) {
-    ThreadStorage* ts = (ThreadStorage*)::FUN_00c85750();
-    JobDoneHeader* jobHeader = (JobDoneHeader*)ts->m_pThreadAllocator->Allocate(sizeof(JobDoneHeader));
+    JobDoneHeader* jobHeader = static_cast<JobDoneHeader*>(hkMemoryRouter::getInstance().heap().blockAlloc(sizeof(JobDoneHeader)));
 
     Job job(m_pCollisionInput, jobHeader, commandArray, numCommands, m_pJobSemaphore, semaphore);
 
@@ -5906,24 +5867,10 @@ void hkpWorldHelper::ExecuteRayCastJobs(RayCastCommand* commandArray, int numCom
 
     ::FUN_00d04380(semaphore, {});
 
-    ts = (ThreadStorage*)::FUN_00c85750();
-    ts->m_pThreadAllocator->Deallocate(jobHeader, sizeof(JobDoneHeader));
+    hkMemoryRouter::getInstance().heap().blockFree(jobHeader, sizeof(JobDoneHeader));
 }
 
 namespace fnv_00c92290 {
-struct Allocator {
-    virtual void v00();
-    virtual void* Allocate(int size);
-    virtual void Deallocate(void* p, int size);
-};
-
-struct ThreadStorage {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    Allocator* m_pThreadAllocator;
-};
 
 
 
@@ -6037,8 +5984,7 @@ struct hkpWorldHelper : hkpWorld {
 // Splits commandArray into ClosestPointsJob batches, queues them on jobQueue, runs threadPool, calls FUN_00d04380(semaphore), and frees the job header.
 // @fnv 0x00c92290
 void hkpWorldHelper::SubmitClosestPointsJobs(ClosestPointsCommand* commandArray, int numCommands, JobQueue* jobQueue, ThreadPool* threadPool, void* semaphore, int numCommandsPerJob) {
-    ThreadStorage* ts = (ThreadStorage*)::FUN_00c85750();
-    JobDoneHeader* jobHeader = (JobDoneHeader*)ts->m_pThreadAllocator->Allocate(sizeof(JobDoneHeader));
+    JobDoneHeader* jobHeader = static_cast<JobDoneHeader*>(hkMemoryRouter::getInstance().heap().blockAlloc(sizeof(JobDoneHeader)));
 
     CollisionInput* input = (CollisionInput*)m_pCollisionInput;
     ClosestPointsJob job(input, jobHeader, commandArray, numCommands, m_pJobSemaphore, input->m_fScalar, semaphore);
@@ -6064,8 +6010,7 @@ void hkpWorldHelper::SubmitClosestPointsJobs(ClosestPointsCommand* commandArray,
 
     ::FUN_00d04380(semaphore, {});
 
-    ts = (ThreadStorage*)::FUN_00c85750();
-    ts->m_pThreadAllocator->Deallocate(jobHeader, sizeof(JobDoneHeader));
+    hkMemoryRouter::getInstance().heap().blockFree(jobHeader, sizeof(JobDoneHeader));
 }
 }  // namespace fnv_00c92290
 
@@ -6184,19 +6129,6 @@ void WorldQuery::FUN_00c92430(void* a,void* b,void* c,void* d) {
 }
 
 namespace fnv_00c92540 {
-struct Allocator {
-    virtual void v00();
-    virtual void* Allocate(int size);
-    virtual void Deallocate(void* p, int size);
-};
-
-struct ThreadStorage {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    Allocator* m_pThreadAllocator;
-};
 
 
 
@@ -6301,8 +6233,7 @@ struct hkpWorldHelper : hkpWorld {
 // Splits the commands into jobs of numCommandsPerJob queued on jobQueue, runs the thread pool, then calls FUN_00d04380 on semaphore.
 // @fnv 0x00c92540
 void hkpWorldHelper::ExecuteLinearCastCommands(LinearCastCommand* commandArray, int numCommands, JobQueue* jobQueue, ThreadPool* threadPool, void* semaphore, int numCommandsPerJob) {
-    ThreadStorage* ts = (ThreadStorage*)::FUN_00c85750();
-    JobDoneHeader* jobHeader = (JobDoneHeader*)ts->m_pThreadAllocator->Allocate(sizeof(JobDoneHeader));
+    JobDoneHeader* jobHeader = static_cast<JobDoneHeader*>(hkMemoryRouter::getInstance().heap().blockAlloc(sizeof(JobDoneHeader)));
 
     Job job(m_pCollisionInput, jobHeader, commandArray, numCommands, m_pJobSemaphore, semaphore);
 
@@ -6327,8 +6258,7 @@ void hkpWorldHelper::ExecuteLinearCastCommands(LinearCastCommand* commandArray, 
 
     ::FUN_00d04380(semaphore, {});
 
-    ts = (ThreadStorage*)::FUN_00c85750();
-    ts->m_pThreadAllocator->Deallocate(jobHeader, sizeof(JobDoneHeader));
+    hkMemoryRouter::getInstance().heap().blockFree(jobHeader, sizeof(JobDoneHeader));
 }
 }  // namespace fnv_00c92540
 

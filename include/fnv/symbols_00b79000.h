@@ -9,11 +9,11 @@ struct NiD3DPass;
 struct Params;
 
 // 0x00b79050
-void ResetTransform(int);
+void ResetTransform(const void *);
 // 0x00b790d0
 void UpdateScaledValue(const char *);
 // 0x00b79100
-void FUN_00b79100(std::intptr_t);
+void FUN_00b79100(const void *);
 // 0x00b79180
 void FUN_00b79180(void *);
 // 0x00b791f0

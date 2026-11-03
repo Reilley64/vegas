@@ -729,7 +729,7 @@ struct BatchStub
 struct AccumStub
 {
     char pad[8];
-    int m_i8;
+    void* m_i8;
     char pad2[0x25];
     unsigned char m_c31;
     char pad3[0x142];
@@ -741,7 +741,7 @@ struct AccumStub
 void FUN_00b63a50(AccumStub* pAccum)
 {
     for (unsigned int i = 0; i < pAccum->m_uiCount; ++i)
-        ::FUN_00b99a10((char *)(pAccum->m_pBatchRenderer[i]), pAccum->m_i8, pAccum->m_c31, {});
+        ::FUN_00b99a10((char *)(pAccum->m_pBatchRenderer[i]), 0, (std::intptr_t)(pAccum->m_i8), pAccum->m_c31);
 }
 }  // namespace fnv_00b63a50
 

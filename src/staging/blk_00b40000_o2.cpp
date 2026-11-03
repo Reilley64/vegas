@@ -1844,9 +1844,9 @@ void FunSceneManager::FUN_00b5f150(void* pTarget, int flag)
 
 
 // @fnv 0x00b4f5d0
-int FUN_00b4f5d0()
+void* FUN_00b4f5d0()
 {
-    return (*reinterpret_cast<int *>(&::g_spCurrentAccumulator));
+    return (*reinterpret_cast<void **>(&::g_spCurrentAccumulator));
 }
 
 struct FUN_00b54280

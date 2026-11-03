@@ -700,7 +700,7 @@ struct FUN_00b7b930_Ctx
 
 // If the entry is enabled, the target is valid and the context value is nonzero, writes a world or identity-offset matrix into DAT_011fd968.
 // @fnv 0x00b7b930
-void UpdateWorldMatrix(FUN_00b7b930_Arg* pkArg, int iIdentity, const FUN_00b7b930_Transform* pkWorld)
+void UpdateWorldMatrix(FUN_00b7b930_Arg* pkArg, const void* iIdentity, const FUN_00b7b930_Transform* pkWorld)
 {
     if (!(*reinterpret_cast<::FUN_00b7b930_Entry * *>(&::DAT_011febe4))->bEnabled)
         return;

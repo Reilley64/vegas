@@ -10749,7 +10749,7 @@ struct S00c02c30_ColorA
 };
 
 // @fnv 0x00c02c30
-void FUN_00c02c30(std::uintptr_t uiUnused, int param_2, FUN_00c02c30_Obj* apObj, int iIndex)
+void FUN_00c02c30(void* uiUnused, int param_2, FUN_00c02c30_Obj* apObj, int iIndex)
 {
     S00c02c30_ColorA kColor = *reinterpret_cast<S00c02c30_ColorA*>(&(*reinterpret_cast<unsigned int *>(&::DAT_011a9bd0)));
     kColor.r = 1.0f;

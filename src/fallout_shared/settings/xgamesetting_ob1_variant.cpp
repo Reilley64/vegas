@@ -228,7 +228,7 @@ inline void Dead21()
     int d21;
 }
 // @fnv 0x00c4c2d0
-void __cdecl FUN_00c4c2d0(NiAVObject* pObj, int bInverse, Mat4* pOut)
+void __cdecl FUN_00c4c2d0(NiAVObject* pObj, const void* bInverse, Mat4* pOut)
 {
     if (!bInverse)
     {

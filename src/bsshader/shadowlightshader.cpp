@@ -258,7 +258,7 @@ struct __declspec(align(16)) Mat16
 
 // If the global at DAT_011fec08 has a nonzero byte at offset 8 and param_1 is nonzero, copies an identity 4x4 matrix into DAT_011fec88.
 // @fnv 0x00b79050
-void ResetTransform(std::intptr_t param_1)
+void ResetTransform(const void* param_1)
 {
     if ((*(char**)&DAT_011fec08)[8] != 0 && param_1 != 0)
     {
@@ -428,7 +428,7 @@ void FUN_00b78a40(void** self)
     {
         reinterpret_cast<Fn128*>(*self)[0x128 / 4](self, *p);
         ++p;
-    } while (reinterpret_cast<int>(p) < reinterpret_cast<int>(&DAT_011febd4));
+    } while (p < &DAT_011febd4);
 }
 
 extern float DAT_011fd958;
@@ -451,7 +451,7 @@ struct FUN_00b79100_quad
 };
 
 // @fnv 0x00b79100
-void FUN_00b79100(std::intptr_t unused)
+void FUN_00b79100(const void* unused)
 {
     if ((*reinterpret_cast<char**>(&DAT_011fec18))[8])
     {
@@ -864,7 +864,7 @@ void ShaderS::ApplyFogAndAlpha(unsigned int uiPass, void* pArg2, GeomS* pGeom, v
     if (!(*(char**)&DAT_011fec40)[8])
         return;
     if (uiPass - 0x1f7 <= 0x37)
-        ::FUN_00c02c30((std::uintptr_t)this, (int)(pArg2), (::FUN_00c02c30_Obj *)(0), (int)(pGeom));
+        ::FUN_00c02c30(pArg2, 0, (::FUN_00c02c30_Obj *)(pGeom), 0);
     else
         SetFog(pArg2, ::FUN_00b55520(DAT_011f91c4), pArg4);
     if (pProp && !pProp->bFlag)
@@ -3709,6 +3709,7 @@ struct RefSlot
         return *this;
     }
 };
+struct BfRenderer;
 struct GraphicsSystem
 {
     unsigned int unk00, unk04, unk08, unk0c, unk10;
@@ -3718,7 +3719,9 @@ struct GraphicsSystem
     {
         return version18;
     }
-    unsigned int unk1c, unk20, unk24, unk28, unk2c;
+    unsigned int unk1c, unk20;
+    BfRenderer* renderer24;
+    unsigned int unk28, unk2c;
     GraphicsManager* manager30;
     unsigned int unk34, unk38, unk3c, unk40;
     RefSlot material44;
@@ -7646,9 +7649,9 @@ void __cdecl SetupRenderPasses()
         reinterpret_cast<::StageSet *>(((p).operator->()))->FUN_00e802b0(7, (::Stage321 *)(t.ptr));
     }
     if (DAT_011f91b0 == 1 || DAT_011f91b0 == 2)
-        reinterpret_cast<::E7DEF0TextureStage *>((((BfRenderer*)p->unk24)->state18))->FUN_00e7def0(0);
+        reinterpret_cast<::E7DEF0TextureStage *>((p->renderer24->state18))->FUN_00e7def0(0);
     else
-        reinterpret_cast<::E7DEF0TextureStage *>((((BfRenderer*)p->unk24)->state18))->FUN_00e7def0(1);
+        reinterpret_cast<::E7DEF0TextureStage *>((p->renderer24->state18))->FUN_00e7def0(1);
     ::FUN_00b79950((char *)(((BfPass*)p.ptr)), 0, (::NiRefObject *)(DAT_011fdfc0));
     if (DAT_011f91b0 == 3)
         reinterpret_cast<::BSShaderBloodSplatter *>((((BfPass*)p.ptr)))->FUN_00b80600((::NiRefObject *)(::GraphicsResource *)(DAT_011fdd68[(*reinterpret_cast<unsigned int *>(&::DAT_011f948c))].First()));
@@ -7702,9 +7705,9 @@ void __cdecl SetupRenderPasses()
         reinterpret_cast<::StageSet *>(((p).operator->()))->FUN_00e802b0(7, (::Stage321 *)(t.ptr));
     }
     if (DAT_011f91b0 == 1 || DAT_011f91b0 == 2)
-        reinterpret_cast<::E7DEF0TextureStage *>((((BfRenderer*)p->unk24)->state18))->FUN_00e7def0(0);
+        reinterpret_cast<::E7DEF0TextureStage *>((p->renderer24->state18))->FUN_00e7def0(0);
     else
-        reinterpret_cast<::E7DEF0TextureStage *>((((BfRenderer*)p->unk24)->state18))->FUN_00e7def0(1);
+        reinterpret_cast<::E7DEF0TextureStage *>((p->renderer24->state18))->FUN_00e7def0(1);
     ::FUN_00b79950((char *)(((BfPass*)p.ptr)), 0, (::NiRefObject *)(DAT_011fdfc4));
     if (DAT_011f91b0 == 3)
         reinterpret_cast<::BSShaderBloodSplatter *>((((BfPass*)p.ptr)))->FUN_00b80600((::NiRefObject *)(::GraphicsResource *)(DAT_011fdd68[(*reinterpret_cast<unsigned int *>(&::DAT_011f948c))].First()));
@@ -7759,9 +7762,9 @@ void __cdecl SetupRenderPasses()
         reinterpret_cast<::StageSet *>(((p).operator->()))->FUN_00e802b0(7, (::Stage321 *)(t.ptr));
     }
     if (DAT_011f91b0 == 1 || DAT_011f91b0 == 2)
-        reinterpret_cast<::E7DEF0TextureStage *>((((BfRenderer*)p->unk24)->state18))->FUN_00e7def0(0);
+        reinterpret_cast<::E7DEF0TextureStage *>((p->renderer24->state18))->FUN_00e7def0(0);
     else
-        reinterpret_cast<::E7DEF0TextureStage *>((((BfRenderer*)p->unk24)->state18))->FUN_00e7def0(1);
+        reinterpret_cast<::E7DEF0TextureStage *>((p->renderer24->state18))->FUN_00e7def0(1);
     ::FUN_00b79950((char *)(((BfPass*)p.ptr)), 0, (::NiRefObject *)(DAT_011fdfc8));
     if (DAT_011f91b0 == 3)
         reinterpret_cast<::BSShaderBloodSplatter *>((((BfPass*)p.ptr)))->FUN_00b80600((::NiRefObject *)(::GraphicsResource *)(DAT_011fdd68[(*reinterpret_cast<unsigned int *>(&::DAT_011f948c))].First()));
@@ -11781,7 +11784,7 @@ static inline Quad119 QMul(const Quad119& v, float f)
 // Updates shader light constants for a pass: writes light positions/radii or directions, adjusts diffuse color, and handles the id 0x24b case.
 // @fnv 0x00b78a90
 void UpdateLightPass(Property119* pProperty, Pass119* pass, M_bbb890 matrix, Scale119* scale, unsigned int id,
-                               unsigned int world)
+                               const void* world)
 {
     float time = pProperty->time;
     if (DAT_011f91b8 == 15)
@@ -12457,19 +12460,20 @@ typedef void(* ApplyConstantDataFn)(void*, void*, void*, unsigned short, int, vo
 
 struct ShaderAdapter : ShadowLightShader
 {
-    int ApplyShaderConstants(int a1, void* geometry, void* constantData, int a4, int a5, int a6, int transform, int a8);
+    int ApplyShaderConstants(void* a1, void* geometry, void* constantData, void* a4, void* a5, void* a6, ::Xf* transform,
+                             void* a8);
 };
 
 // Applies shader constants to a geometry pass using fog or second shader constant maps when specific layout and object conditions are met.
 // @fnv 0x00b7a2c0
-int ShaderAdapter::ApplyShaderConstants(int a1, void* geometry, void* constantData, int a4, int a5, int a6,
-                                        int transform, int a8)
+int ShaderAdapter::ApplyShaderConstants(void* a1, void* geometry, void* constantData, void* a4, void* a5, void* a6,
+                                        ::Xf* transform, void* a8)
 {
     if ((constantData && *reinterpret_cast<int*>(layoutPadding38) == 0 && DAT_011fec00.m_pObject &&
          *reinterpret_cast<char*>(&DAT_011fec00.m_pObject->active)) ||
         m_spSecondShaderConstantMap.m_pObject == m_spFogConstantMap.m_pObject)
     {
-        reinterpret_cast<::BoneHost *>(((*reinterpret_cast<::LightManager * *>(&::DAT_011f9508))))->FUN_00e6fe30((::SkinMatrixBlock *)(geometry), (::Xf *)(transform), 0, 3, 1);
+        reinterpret_cast<::BoneHost *>(((*reinterpret_cast<::LightManager * *>(&::DAT_011f9508))))->FUN_00e6fe30((::SkinMatrixBlock *)(geometry), transform, 0, 3, 1);
         void* geometryData = *reinterpret_cast<void**>(reinterpret_cast<char*>(geometry) + 0x28);
         if (m_spSecondShaderConstantMap.m_pObject == m_spFogConstantMap.m_pObject)
         {
@@ -12562,7 +12566,7 @@ class Pass : public NiMemObject
     int unk08;
     int unk0C;
     int unk10;
-    void* unk14;
+    unsigned int unk14;
     unsigned int unk18;
     int unk1C;
     int unk20;
@@ -12660,10 +12664,10 @@ void ConfigureBeamPasses()
     {
         AssignStageFromPool(stageReturn.m_pObject);
         ConfigureBeamStage(stageReturn.m_pObject, 0, 1, 2, 1);
-        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0((unsigned int)(spRenderPass->unk14), (::Stage321 *)(stageReturn.m_pObject));
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(spRenderPass->unk14, (::Stage321 *)(stageReturn.m_pObject));
         AssignStageFromPool(stageReturn.m_pObject);
         ConfigureBeamStage(stageReturn.m_pObject, 1, 1, 2, 1);
-        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0((unsigned int)(spRenderPass->unk14), (::Stage321 *)(stageReturn.m_pObject));
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(spRenderPass->unk14, (::Stage321 *)(stageReturn.m_pObject));
     }
 
     spRenderPass->unk5c = DAT_011fde00;
@@ -12720,10 +12724,10 @@ void ConfigureBeamPasses()
     {
         AssignStageFromPool(stageReturn.m_pObject);
         ConfigureBeamStage(stageReturn.m_pObject, 0, 1, 2, 1);
-        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0((unsigned int)(spRenderPass->unk14), (::Stage321 *)(stageReturn.m_pObject));
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(spRenderPass->unk14, (::Stage321 *)(stageReturn.m_pObject));
         AssignStageFromPool(stageReturn.m_pObject);
         ConfigureBeamStage(stageReturn.m_pObject, 1, 1, 2, 1);
-        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0((unsigned int)(spRenderPass->unk14), (::Stage321 *)(stageReturn.m_pObject));
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(spRenderPass->unk14, (::Stage321 *)(stageReturn.m_pObject));
     }
 
     spRenderPass->unk5c = DAT_011fde58;
@@ -15614,7 +15618,7 @@ struct ArgX
 {
     Flg* m0;
     int m4;
-    int m8;
+    void* m8;
     PropX* mC;
     Flg* m10;
 };
@@ -15754,7 +15758,7 @@ void RX::UpdateRenderPass(ArgX* apArg)
     int c18 = g->mB8->m34;
     void* q = g->mBC;
     PropX* p = apArg->mC;
-    int c = apArg->m8;
+    void* c = apArg->m8;
     Flg* f = apArg->m0;
     if ((type == 6 || type == 8) && (p->m20 & 0x40000) > 0 && (f->f & 1))
     {
@@ -15762,9 +15766,9 @@ void RX::UpdateRenderPass(ArgX* apArg)
         ::BSRenderStateManager::SetColorWriteMask(0, (::BSRENDERSTATE_LOCK)(1));
     }
     MatX m;
-    ::fnv_00c4c2d0::FUN_00c4c2d0((::fnv_00c4c2d0::NiAVObject *)(t), (int)(q), (::fnv_00c4c2d0::Mat4 *)(::fnv_00b7dab0::MatX *)(&m));
+    ::fnv_00c4c2d0::FUN_00c4c2d0((::fnv_00c4c2d0::NiAVObject *)(t), q, (::fnv_00c4c2d0::Mat4 *)(::fnv_00b7dab0::MatX *)(&m));
     if (!q)
-        reinterpret_cast<::FUN_00b7c750_cls *>(this)->FUN_00b7c750((std::uintptr_t)(g), (unsigned int)(t));
+        reinterpret_cast<::FUN_00b7c750_cls *>(this)->FUN_00b7c750((std::uintptr_t)(g), (std::uintptr_t)(t));
     if (type == 0x250 || type == 0x251)
     {
         reinterpret_cast<::fnv_00b7ce90::FUN_00b7ce90_class *>(this)->SetupPass(g, (::fnv_00b7ce90::Geometry *)(p), (::fnv_00b7ce90::PassKey *)(s));
@@ -15775,22 +15779,22 @@ void RX::UpdateRenderPass(ArgX* apArg)
     }
     else
     {
-        ::UpdateLightPass((::Property119 *)this, (::Pass119 *)(p), *(const ::M_bbb890 *)(s), (*(::Scale119 * *)&(const ::fnv_00b7dab0::MatX &)(m)), (unsigned int)(t), type);
-        reinterpret_cast<::S00b7ba70_Updater *>(this)->FUN_00b7ba70((::RenderProperty *)(p), (::ShaderType *)(s), (::ShaderGeometry *)(g), (void *)(c));
-        reinterpret_cast<::Owner132 *>(this)->FUN_00b7b730((::Group132 *)(s), type, (int)(q), (const char *)(t));
-        ::UpdateWorldMatrix((::FUN_00b7b930_Arg *)this, (int)(apArg), (const ::FUN_00b7b930_Transform *)(q));
-        ::fnv_00b78ef0::UpdateEyePosition((unsigned int)this, (char *)(type), *(const ::fnv_00b78ef0::Matrix_b78ef0 *)(t));
-        ::ResetTransform((std::intptr_t)this);
-        ::UpdateScaledValue((const char *)this);
-        ::FUN_00b79180((void *)this);
-        ::FUN_00b79100((std::intptr_t)this);
-        ::FUN_00b791f0((unsigned int)this, (::Params *)(type), (::Params *)(p));
-        ::FUN_00b79410((unsigned int)this, (unsigned char *)(type));
-        reinterpret_cast<::ShaderS *>(this)->ApplyFogAndAlpha(type, g, (::GeomS *)(p), (void *)(c), (::PropS *)(s), (::MatS *)(f));
-        ::FUN_00b796f0((const char *)this);
+        ::UpdateLightPass((::Property119 *)(p), (::Pass119 *)(s), *(const ::M_bbb890 *)(&m), (::Scale119 *)(t), type, q);
+        reinterpret_cast<::S00b7ba70_Updater *>(this)->FUN_00b7ba70((::RenderProperty *)(p), (::ShaderType *)(s), (::ShaderGeometry *)(g), c);
+        reinterpret_cast<::Owner132 *>(this)->FUN_00b7b730((::Group132 *)(s), type, q, (const char *)(t));
+        ::UpdateWorldMatrix((::FUN_00b7b930_Arg *)(apArg), q, (const ::FUN_00b7b930_Transform *)(t));
+        ::fnv_00b78ef0::UpdateEyePosition(type, (char *)(t), *(const ::fnv_00b78ef0::Matrix_b78ef0 *)(&m));
+        ::ResetTransform(q);
+        ::UpdateScaledValue((const char *)(p));
+        ::FUN_00b79180(g);
+        ::FUN_00b79100(g);
+        ::FUN_00b791f0(type, (::Params *)(p), (::Params *)(g));
+        ::FUN_00b79410(type, (unsigned char *)(s));
+        reinterpret_cast<::ShaderS *>(this)->ApplyFogAndAlpha(type, g, (::GeomS *)(p), c, (::PropS *)(s), (::MatS *)(f));
+        ::FUN_00b796f0((const char *)(p));
         ::UpdatePlaneFromPoint();
         reinterpret_cast<::ClipManager *>(this)->FUN_00b7be00(type);
-        ::FUN_00b798c0((const float *)this);
+        ::FUN_00b798c0((const float *)(p));
     }
     LstX* l30 = m30;
     if (l30)

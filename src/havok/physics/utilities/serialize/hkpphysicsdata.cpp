@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/serialize/hkpphysicsdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/serialize/hkpphysicsdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include <new>
@@ -104,11 +105,6 @@ int FUN_00d4c050_obj::FindMatchingEntry(int a)
 }
 
 
-struct hkMemoryAllocator
-{
-    virtual void* vfunc0() throw();
-    virtual void* AllocateMemoryBlock(int numBytes) throw();
-};
 
 class hkThreadMemory
 {
@@ -121,11 +117,10 @@ class hkThreadMemory
 
     __forceinline void* allocateChunk(int size) throw()
     {
-        return m_pMemoryAllocator->AllocateMemoryBlock(size);
+        return m_pMemoryAllocator->blockAlloc(size);
     }
 };
 
-static inline void* getMemoryRouter() { return ::FUN_00c85750(); }
 
 struct FUN_00d1df70
 {
@@ -454,7 +449,7 @@ class hkpWorld
 
     void* operator new(size_t size) throw()
     {
-        void* p = ((hkThreadMemory*)getMemoryRouter())->allocateChunk(size);
+        void* p = ((hkThreadMemory*)&hkMemoryRouter::getInstance())->allocateChunk(size);
         ((unsigned short*)p)[2] = (unsigned short)size;
         return p;
     }
@@ -527,27 +522,7 @@ hkpWorld* PhysicsDataExt::CreateWorld(char bRegisterWithMemoryManager) throw()
 }
 
 namespace fnv_00d4c8e0 {
-class hkMemoryAllocatorD4C8
-{
-  public:
-    virtual ~hkMemoryAllocatorD4C8() throw();
-    virtual void* AllocateMemoryBlock(int iNumBytes) throw();
-    virtual void ReleaseBlock(void* p, int iNumBytes) throw();
-};
 
-struct hkMemoryRouterD4C8
-{
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
-    hkMemoryAllocatorD4C8* m_pStreamAllocator;
-    hkMemoryAllocatorD4C8& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
-static inline hkMemoryRouterD4C8& getMemoryRouter() { return *static_cast<hkMemoryRouterD4C8*>(::FUN_00c85750()); }
 
 class FUN_00dcecc0
 {
@@ -558,7 +533,7 @@ class FUN_00dcecc0
 
     static void operator delete(void* p) throw()
     {
-        getMemoryRouter().heap().ReleaseBlock(p, static_cast<FUN_00dcecc0*>(p)->m_usMemSizeAndFlags);
+        hkMemoryRouter::getInstance().heap().blockFree(p, static_cast<FUN_00dcecc0*>(p)->m_usMemSizeAndFlags);
     }
 
     FUN_00dcecc0* Destroy(unsigned int uiFlags) throw();
@@ -668,7 +643,7 @@ void HostType::FUN_00d4c2d0(ClientType* client, unsigned char ubFlag)
 {
     if (m_08 == 0)
     {
-        HolderType* holder = (HolderType*)getMemoryRouter();
+        HolderType* holder = (HolderType*)&hkMemoryRouter::getInstance();
         BigType* big = (BigType*)holder->m_10->vf04(0xF0);
         big->m_04 = 0xF0;
         m_08 = ((void *)(new ((void *)(big)) ::FUN_00c90b80()));
@@ -689,7 +664,7 @@ void HostType::FUN_00d4c2d0(ClientType* client, unsigned char ubFlag)
         local.m_flag = 0;
         local.m_uiFilterValue = 0;
 
-        HolderType* holder = (HolderType*)getMemoryRouter();
+        HolderType* holder = (HolderType*)&hkMemoryRouter::getInstance();
         SmallType* small = (SmallType*)holder->m_10->vf04(0x50);
         small->m_04 = 0x50;
         new ((void *)(small)) ::FUN_00d065e0();
@@ -701,7 +676,7 @@ void HostType::FUN_00d4c2d0(ClientType* client, unsigned char ubFlag)
 
         small->m_40 = 0;
 
-        holder = (HolderType*)getMemoryRouter();
+        holder = (HolderType*)&hkMemoryRouter::getInstance();
         if (array->m_iElementCount == (array->m_cap & 0x3fffffff))
         {
             ::ResizeAudioStream((::AudioAllocator *)(holder->m_10), (::AudioStream *)(array), 4);
@@ -789,31 +764,6 @@ void probeCaller()
 }
 
 namespace fnv_00d4c250 {
-class hkMemoryAllocatorD4C
-{
-  public:
-    virtual ~hkMemoryAllocatorD4C();
-    virtual void* AllocateMemoryBlock(int numBytes) throw();
-    virtual void ReleaseBlock(void* p, int numBytes) throw();
-    virtual void* AllocateBufferWithSize(int& reqNumBytesInOut) throw();
-    virtual void ReturnMemory(void* p, int numBytes) throw();
-};
-
-struct hkMemoryRouterD4C
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    hkMemoryAllocatorD4C* m_pTemp;
-    hkMemoryAllocatorD4C* m_pStreamAllocator;
-    hkMemoryAllocatorD4C& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
-
-static inline hkMemoryRouterD4C* getMemoryRouter() { return static_cast<hkMemoryRouterD4C*>(::FUN_00c85750()); }
-
 struct hkRefD4C
 {
 };
@@ -827,10 +777,10 @@ template <class T> class hkArrayD4C
 
     ~hkArrayD4C() throw()
     {
-        hkMemoryAllocatorD4C& alloc = getMemoryRouter()->heap();
+        hkMemoryAllocator& alloc = hkMemoryRouter::getInstance().heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
-            alloc.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
+            alloc.bufFree(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
         m_data = 0;
         m_iCapacityState = 0x80000000;
     }
@@ -950,7 +900,7 @@ struct SplitHeap
 {
     inline SplitAllocator& get(const void*)
     {
-        return ((SplitRouter*)getMemoryRouter())->allocator();
+        return ((SplitRouter*)&hkMemoryRouter::getInstance())->allocator();
     }
 };
 template <class T> static __forceinline void copyItems(T* dest, int count, const T& item)
@@ -1067,7 +1017,7 @@ struct SplitSystem : SplitRef
     SplitBool active;
     static __forceinline void* operator new(size_t bytes)
     {
-        SplitRef* p = (SplitRef*)((SplitRouter*)getMemoryRouter())->allocator().alloc(bytes);
+        SplitRef* p = (SplitRef*)((SplitRouter*)&hkMemoryRouter::getInstance())->allocator().alloc(bytes);
         p->m_usMemSizeAndFlags = (unsigned short)bytes;
         return p;
     }

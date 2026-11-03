@@ -9,7 +9,7 @@ struct S_00d3d3e0_P3P;
 struct S_00d3dca0_Obj;
 
 // 0x00d3d040
-void FlipAndDispatchCollector(void *, void *, int, int);
+void FlipAndDispatchCollector(void *, void *, const void *, void *);
 // 0x00d3d1a0
 void *CreateRetObj(int, char **, int, int);
 // 0x00d3d240

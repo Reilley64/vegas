@@ -7,16 +7,15 @@
 #include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
 #include "fnv/decl/FUN_00cfbbe0_cls.h"
-#include "fnv/decl/S00d3c910_SphereBoxAgent.h"
 #include "fnv/symbols_00d3a000.h"
 #include "fnv/symbols_00d3c000.h"
 #include "fnv/symbols_00d3d000.h"
 #include "fnv/symbols_00daf000.h"
 #include "fnv/symbols_0104d000.h"
 #include "fnv/symbols_010ce000.h"
-void ForwardToD3C440(int a, int b, int c, int d)
+void ForwardToD3C440(const void* a, const void* b, const void* c, void* d)
 {
-    ::FUN_00d3c440((const ::S_00d3c440_Body *)(a), (const ::S_00d3c440_Body *)(b), c, (::S_00d3c440_Collector *)(d));
+    ::FUN_00d3c440(static_cast<const ::S_00d3c440_Body *>(a), static_cast<const ::S_00d3c440_Body *>(b), c, static_cast<::S_00d3c440_Collector *>(d));
 }
 
 struct Conversion
@@ -56,16 +55,16 @@ struct hkpSymmetricAgentFlipCollector
 {
     virtual void unk00();
     float unk04;
-    int unk08;
+    void* unk08;
 };
 // Builds a hkpSymmetricAgentFlipCollector from DAT_0104da48 and arg4, then calls FUN_00d3cc00 with arg2, arg1, arg3 and the collector.
 // @fnv 0x00d3d040
-void __cdecl FlipAndDispatchCollector(void* arg1, void* arg2, int arg3, int arg4)
+void __cdecl FlipAndDispatchCollector(void* arg1, void* arg2, const void* arg3, void* arg4)
 {
     hkpSymmetricAgentFlipCollector local;
     local.unk04 = ::DAT_0104da48;
     local.unk08 = arg4;
-    ::FUN_00d3cc00((*(const ::hkpCdBody *)(arg2)), (*(const ::hkpCdBody *)(arg1)), (*(const ::CollisionAgentContext *)(arg3)), (*(::hkpCdPointCollector *)(&local)));
+    ::FUN_00d3cc00((*(const ::hkpCdBody *)(arg2)), (*(const ::hkpCdBody *)(arg1)), (*static_cast<const ::CollisionAgentContext *>(arg3)), (*(::hkpCdPointCollector *)(&local)));
 }
 
 struct S_00d3c3c0_Holder
@@ -115,7 +114,7 @@ struct SmallRecord
     void* m_vptr;
     unsigned short m_w04;
     unsigned short m_w06;
-    int m_i08;
+    void* m_i08;
     unsigned short m_w0C;
 };
 
@@ -123,7 +122,7 @@ extern char DAT_010cf018[];
 
 
 // @fnv 0x00d3c400
-void __cdecl FUN_00d3c400(int aiUnused1, int aiUnused2, int aiUnused3, int d)
+void __cdecl FUN_00d3c400(const void* aiUnused1, const void* aiUnused2, const void* aiUnused3, void* d)
 {
     AllocHolder* pAllocHolder = static_cast<AllocHolder*>(::FUN_00c85750());
     ObjAllocator* allocator = (ObjAllocator*)pAllocHolder->m_pAllocator;
@@ -165,7 +164,7 @@ class D3CF80Agent
 void D3CF80Agent::CollectFilteredEvents(void* pkA, void* pkB, void* pkInput, int iFilter)
 {
     D3CF80Collector kCollector(iFilter);
-    ::ForwardToD3C440((int)this, (int)(pkB), (int)(pkA), (int)(pkInput));
+    ::ForwardToD3C440(this, pkB, pkA, pkInput);
 }
 
 
@@ -173,39 +172,18 @@ struct FlipCollectorLocal
 {
     void* unk00;
     unsigned char unk04;
-    int unk08;
+    void* unk08;
 };
 
 // Builds a FlipCollectorLocal from DAT_010ce81c and a4, then calls FUN_00d3c440 with a2, a1, a3 and the local's address.
 // @fnv 0x00d3cfc0
-void __cdecl FUN_00d3cfc0(int aiArg1, int aiArg2, int aiArg3, int a4)
+void __cdecl FUN_00d3cfc0(const void* aiArg1, const void* aiArg2, const void* aiArg3, void* a4)
 {
     FlipCollectorLocal local;
     local.unk08 = a4;
     local.unk04 = 0;
     local.unk00 = (*reinterpret_cast<char (*)[]>(&::DAT_010ce81c));
-    ::FUN_00d3c440((const ::S_00d3c440_Body *)(aiArg2), (const ::S_00d3c440_Body *)(aiArg1), aiArg3, (::S_00d3c440_Collector *)((int)&local));
-}
-
-struct CpuCallData
-{
-    void* descriptor;
-    float bound;
-    unsigned int value;
-};
-struct CpuObject
-{
-    void FUN_00d3d000(void*, void*, unsigned int, unsigned int);
-};
-// Builds a CpuCallData from fourth, DAT_0104da48 and DAT_010ce7fc, then forwards second, first, third and the data to FUN_00d3c910.
-// @fnv 0x00d3d000
-void CpuObject::FUN_00d3d000(void* first, void* second, unsigned int third, unsigned int fourth)
-{
-    CpuCallData callData;
-    callData.value = fourth;
-    callData.bound = ::DAT_0104da48;
-    callData.descriptor = &DAT_010ce7fc;
-    reinterpret_cast<::S00d3c910_SphereBoxAgent *>(this)->FUN_00d3c910((*(const ::S00d3c910_CdBody *)(second)), (*(const ::S00d3c910_CdBody *)(first)), (*(const ::S00d3c910_CollisionInput *)(third)), (*(::S00d3c910_CdPointCollector *)(&callData)));
+    ::FUN_00d3c440(static_cast<const ::S_00d3c440_Body *>(aiArg2), static_cast<const ::S_00d3c440_Body *>(aiArg1), aiArg3, reinterpret_cast<::S_00d3c440_Collector *>(&local));
 }
 
 #include "fnv/symbols_simd.h"
@@ -251,16 +229,16 @@ struct Simplex
 
 struct AgentBase
 {
-    void FUN_00d3c5b0(int a, int b, int c, Simplex* s);
+    void FUN_00d3c5b0(const void* a, const void* b, const void* c, Simplex* s);
 };
 
 struct Agent : AgentBase
 {
-    void FUN_00d3d080(int a, int b, int c, Simplex* s);
+    void FUN_00d3d080(const void* a, const void* b, const void* c, Simplex* s);
 };
 
 // @fnv 0x00d3d080
-void Agent::FUN_00d3d080(int a, int b, int c, Simplex* s)
+void Agent::FUN_00d3d080(const void* a, const void* b, const void* c, Simplex* s)
 {
     SimplexVertex* v = s->m_kRayEnd;
     float oldDistance = s->m_fClosestPointDistanceSquared;
@@ -461,7 +439,7 @@ template <class T> struct S_00d3c440_Pad
 };
 
 // @fnv 0x00d3c440
-void __cdecl FUN_00d3c440(const S_00d3c440_Body* bodyA, const S_00d3c440_Body* bodyB, int c,
+void __cdecl FUN_00d3c440(const S_00d3c440_Body* bodyA, const S_00d3c440_Body* bodyB, const void* c,
                           S_00d3c440_Collector* collector)
 {
     S_00d3c440_Timer("TtSphereBox");
@@ -884,9 +862,9 @@ __forceinline void S3c5_SphereBoxAgent::processContact(const S3c5_CdBody& bodyA,
 }
 
 // @fnv 0x00d3c5b0
-void AgentBase::FUN_00d3c5b0(int a, int b, int c, Simplex* s)
+void AgentBase::FUN_00d3c5b0(const void* a, const void* b, const void* c, Simplex* s)
 {
-    ((S3c5_SphereBoxAgent*)this)->processContact(*(const S3c5_CdBody*)a, *(const S3c5_CdBody*)b, *(const S3c5_CollisionInput*)c, *(S3c5_ProcessCollisionOutput*)s);
+    ((S3c5_SphereBoxAgent*)this)->processContact(*static_cast<const S3c5_CdBody*>(a), *static_cast<const S3c5_CdBody*>(b), *static_cast<const S3c5_CollisionInput*>(c), *(S3c5_ProcessCollisionOutput*)s);
 }
 
 struct S00d3c910_TimerCommand
@@ -1219,6 +1197,28 @@ void S00d3c910_SphereBoxAgent::FUN_00d3c910(const S00d3c910_CdBody& bodyA, const
 
     S00d3c910_timerBegin(::DAT_010c41f8);
 }
+
+struct CpuCallData
+{
+    void* descriptor;
+    float bound;
+    void* value;
+};
+struct CpuObject
+{
+    void FUN_00d3d000(void*, void*, const void*, void*);
+};
+// Builds a CpuCallData from fourth, DAT_0104da48 and DAT_010ce7fc, then forwards second, first, third and the data to FUN_00d3c910.
+// @fnv 0x00d3d000
+void CpuObject::FUN_00d3d000(void* first, void* second, const void* third, void* fourth)
+{
+    CpuCallData callData;
+    callData.value = fourth;
+    callData.bound = ::DAT_0104da48;
+    callData.descriptor = &DAT_010ce7fc;
+    reinterpret_cast<::S00d3c910_SphereBoxAgent *>(this)->FUN_00d3c910((*(const ::S00d3c910_CdBody *)(second)), (*(const ::S00d3c910_CdBody *)(first)), (*static_cast<const ::S00d3c910_CollisionInput *>(third)), (*(::S00d3c910_CdPointCollector *)(&callData)));
+}
+
 
 extern "C" unsigned __int64 __rdtsc();
 extern "C" void _ReadWriteBarrier();

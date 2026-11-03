@@ -321,20 +321,23 @@ struct FUN_00ba2590_struct
 {
 };
 
-struct ISTex
+struct ISTexture
 {
+    bool b0;
+    bool b1;
+    bool b2;
+    void* pTileTexture;
+    int i8;
+    int iC;
+    ISTexture() : b0(false), b1(false), b2(false), pTileTexture(0), i8(0), iC(0)
+    {}
+    ~ISTexture();
 };
 
 struct FUN_00ba26f0_struct
 {
     char _0[0x58];
-    ISTex a;
-    char _70[0x8];
-    ISTex b;
-    char _88[0x8];
-    ISTex c;
-    char _a0[0x8];
-    ISTex d;
+    ISTexture m_akTextures[4];
     void FUN_00ba26f0();
 };
 
@@ -350,14 +353,14 @@ struct FUN_00ba3780_struct
 // @fnv 0x00ba26f0
 void FUN_00ba26f0_struct::FUN_00ba26f0()
 {
-    if (!((void *)(reinterpret_cast<::FUN_00ba3780_struct *>((((ISTex*)((char*)this + 0x88))))->FUN_00ba3780())))
-        reinterpret_cast<::H_00ba3840 *>((((ISTex*)((char*)this + 0x88))))->FUN_00ba3840(0xd);
-    if (!((void *)(reinterpret_cast<::FUN_00ba3780_struct *>((((ISTex*)((char*)this + 0x78))))->FUN_00ba3780())))
-        reinterpret_cast<::H_00ba3840 *>((((ISTex*)((char*)this + 0x78))))->FUN_00ba3840(0xe);
-    if (!((void *)(reinterpret_cast<::FUN_00ba3780_struct *>(((&this->a)))->FUN_00ba3780())))
-        reinterpret_cast<::H_00ba3840 *>(((&this->a)))->FUN_00ba3840(0xf);
-    if (!((void *)(reinterpret_cast<::FUN_00ba3780_struct *>((((ISTex*)&this->_88[6])))->FUN_00ba3780())))
-        reinterpret_cast<::H_00ba3840 *>((((ISTex*)&this->_88[6])))->FUN_00ba3840(0x10);
+    if (!((void *)(reinterpret_cast<::FUN_00ba3780_struct *>(&m_akTextures[3])->FUN_00ba3780())))
+        reinterpret_cast<::H_00ba3840 *>(&m_akTextures[3])->FUN_00ba3840(0xd);
+    if (!((void *)(reinterpret_cast<::FUN_00ba3780_struct *>(&m_akTextures[2])->FUN_00ba3780())))
+        reinterpret_cast<::H_00ba3840 *>(&m_akTextures[2])->FUN_00ba3840(0xe);
+    if (!((void *)(reinterpret_cast<::FUN_00ba3780_struct *>(&m_akTextures[0])->FUN_00ba3780())))
+        reinterpret_cast<::H_00ba3840 *>(&m_akTextures[0])->FUN_00ba3840(0xf);
+    if (!((void *)(reinterpret_cast<::FUN_00ba3780_struct *>(&m_akTextures[1])->FUN_00ba3780())))
+        reinterpret_cast<::H_00ba3840 *>(&m_akTextures[1])->FUN_00ba3840(0x10);
     reinterpret_cast<::ISKernelEffect *>((((FUN_00ba2590_struct*)this)))->FUN_00ba2590();
 }
 
@@ -439,19 +442,6 @@ struct TLSTagGuard
     {
         ::currentAllocationContext = uiOld;
     }
-};
-
-struct ISTexture
-{
-    bool b0;
-    bool b1;
-    bool b2;
-    void* pTileTexture;
-    int i8;
-    int iC;
-    ISTexture() : b0(false), b1(false), b2(false), pTileTexture(0), i8(0), iC(0)
-    {}
-    ~ISTexture();
 };
 
 struct ISEffectShader

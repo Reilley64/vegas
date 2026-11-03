@@ -4,6 +4,7 @@
 
 
 #include "havok/hkMemoryRouter.h"
+#include "havok/hkpCollisionDispatcher.h"
 #include <new>
 #include <xmmintrin.h>
 #include "fnv/decl/FUN_00cfbd60_cls.h"
@@ -94,9 +95,9 @@ struct __declspec(align(16)) D36270Data {
     unsigned char flag1;
     unsigned char flag2;
 };
-struct D362Script {
-};
 extern unsigned char DAT_01268ad5;
+struct D362Script : public hkpCollisionDispatcher {
+};
 // @fnv 0x00d362c0
 void FUN_00d362c0(D362Script* script) {
     D36270Data data;
@@ -108,7 +109,7 @@ void FUN_00d362c0(D362Script* script) {
     reinterpret_cast<::FUN_00cfbd60_cls *>((script))->AddEntry((::SrcRec *)(::D36270Data *)(&data), 7, 8);
     reinterpret_cast<::FUN_00cfbd60_cls *>((script))->AddEntry((::SrcRec *)(::D36270Data *)(&data), 8, 7);
     reinterpret_cast<::FUN_00cfbd60_cls *>((script))->AddEntry((::SrcRec *)(::D36270Data *)(&data), 7, 7);
-    *(unsigned char*)((char*)script + 0x1e22) = 1;
+    script->m_1e22 = 1;
     DAT_01268ad5 = 1;
 }
 
@@ -1503,7 +1504,7 @@ return m_parent;
 struct GskAgentInput;
 class hkpContactMgr;
 struct WorldOperationEntry;
-class hkpCollisionDispatcher;
+struct hkpCollisionDispatcher;
 class hkpConstraintOwner;
 struct CollisionAgentContext;
 class hkpCollisionAgent;
@@ -1563,88 +1564,6 @@ hkVector4 m_kAabbScale;
 };
 AabbBoundsAndScale m_aiValues;};
 class hkpContactMgrFactory;
-class hkpCollisionDispatcher:public hkReferencedObject
-{
-public:
-enum{
-HK_MAX_RESPONSE_TYPE=8,
-HK_MAX_SHAPE_TYPE=32,
-HK_MAX_AGENT2_TYPES=64,
-HK_MAX_AGENT3_TYPES=16,
-HK_MAX_COLLISION_QUALITIES=8
-};
-public:
-__forceinline void*__cdecl operator new(std::size_t nbytes){;hkReferencedObject*b=static_cast<hkReferencedObject*>(hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes)));b->m_usMemSizeAndFlags=static_cast<hkUint16>(nbytes);;return b;}
-typedef hkpCollisionAgent*(__cdecl*CreateFunc)(const hkpCdBody&collA,const hkpCdBody&collB,const CollisionAgentContext&env,hkpContactMgr*mgr);
-struct Agent3FunctionTable
-{
-__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));;return obj;}__forceinline void __cdecl operator delete(void*p){if(p){;hkMemoryRouter::getInstance().heap().blockFree(p,sizeof(Agent3FunctionTable));}}__forceinline void*__cdecl operator new(std::size_t n,void*p){;return p;}__forceinline void*__cdecl operator new[](std::size_t,void*p){return p;}__forceinline void __cdecl operator delete(void*,void*){}__forceinline void __cdecl operator delete[](void*,void*){}class CommandArgument;
-Agent3FunctionTable():m_bIsPredictive(false),m_bAgentFlag1(false),m_bAgentFlag2(false)
-{
-m_pUpdateFilterFunc=0;
-m_pCalcStats=0;
-m_pAgentFunction10=0;
-m_pAgentFunction11=0;
-m_pAgentFunction7=0;
-}
-__declspec(align(16))hkAgent3::CreateFunc m_pCreateFunc;
-hkAgent3::DestroyFunc m_pAgent3DestroyFuncs;
-hkAgent3::CleanupFunc m_pAgentFunction3;
-hkAgent3::RemovePointFunc m_pAgentFunction4;
-hkAgent3::CommitPotentialFunc m_pAgentFunction5;
-hkAgent3::CreateZombieFunc m_pCreateZombieFunc;
-hkAgent3::UpdateFilterFunc m_pUpdateFilterFunc;
-hkAgent3::CalcStatisticsFunc m_pCalcStats;
-hkAgent3::InvalidateTimFunc m_pAgentFunction10;
-hkAgent3::WarpTimeFunc m_pAgentFunction11;
-hkAgent3::SepNormalFunc m_pAgentFunction7;
-hkAgent3::ProcessFunc m_pAgentFunction8;
-hkBool m_bIsPredictive;
-hkBool m_bAgentFlag1;
-hkBool m_bAgentFlag2;
-};
-public:
-hkpCollisionDispatcher(CreateFunc defaultCreationFunction,hkpContactMgrFactory*defaultContactMgrFactory);
-inline hkBool32 hasAlternateType(CollisionShapeType type,CollisionShapeType alternateType);
-public:
-struct IntegerPair
-{
-__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));;return obj;}__forceinline void __cdecl operator delete(void*p){if(p){;hkMemoryRouter::getInstance().heap().blockFree(p,sizeof(IntegerPair));}}__forceinline void*__cdecl operator new(std::size_t n,void*p){;return p;}__forceinline void*__cdecl operator new[](std::size_t,void*p){return p;}__forceinline void __cdecl operator delete(void*,void*){}__forceinline void __cdecl operator delete[](void*,void*){}class CommandArgument;
-CollisionShapeType m_iSecond;
-CollisionShapeType m_iFirst;
-};
-struct AgentTypePairPriority
-{
-__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));;return obj;}__forceinline void __cdecl operator delete(void*p){if(p){;hkMemoryRouter::getInstance().heap().blockFree(p,sizeof(AgentTypePairPriority));}}__forceinline void*__cdecl operator new(std::size_t n,void*p){;return p;}__forceinline void*__cdecl operator new[](std::size_t,void*p){return p;}__forceinline void __cdecl operator delete(void*,void*){}__forceinline void __cdecl operator delete[](void*,void*){}class CommandArgument;
-char m_iAgentTypeA;
-char m_iAgentTypeB;
-char m_priority;
-};
-typedef AgentTypePairPriority DebugTable[HK_MAX_SHAPE_TYPE][HK_MAX_SHAPE_TYPE];
-protected:
-void internalRegisterCollisionAgent(hkUchar agentTypesTable[HK_MAX_SHAPE_TYPE][HK_MAX_SHAPE_TYPE],int agentType,CollisionShapeType typeA,CollisionShapeType typeB,CollisionShapeType origA,CollisionShapeType origB,DebugTable*debugTable,int recursionDepth);
-public:
-enum CollisionQualityLevel
-{
-COLLISION_QUALITY_INVALID,
-COLLISION_QUALITY_PSI,
-COLLISION_QUALITY_SIMPLIFIED_TOI,
-COLLISION_QUALITY_TOI,
-COLLISION_QUALITY_TOI_HIGHER,
-COLLISION_QUALITY_TOI_FORCED,
-COLLISION_QUALITY_CHARACTER,
-COLLISION_QUALITY_TMP_EXPAND_MANIFOLD
-};
-hkpContactMgrFactory*m_apContactMgrFactoriesByResponsePair[HK_MAX_RESPONSE_TYPE][HK_MAX_RESPONSE_TYPE];
-__declspec(align(16))hkUint32_S m_auiAlternateTypeFlags[HK_MAX_SHAPE_TYPE];
-public:
-hkReal m_fExpectedMaxLinearVelocity;};
-hkBool32 hkpCollisionDispatcher::hasAlternateType(CollisionShapeType type,CollisionShapeType alternateType)
-{
-;
-;
-return(m_auiAlternateTypeFlags[type]&(1<<alternateType));
-}
 class hkpBroadPhaseHandle
 {
 public:
@@ -1720,7 +1639,7 @@ namespace hkpCollectionCollectionAgent3
 {
 hkpAgentData*__cdecl FUN_00d35770(const AgentSubtypeMarker&input,FourByteState*entry,hkpAgentData*agentData,hkVector4*separatingNormal,WorldOperationEntry&result);
 void __cdecl RegisterAgentFunctions(hkpCollisionDispatcher*dispatcher);
-void __cdecl InitAgentFunc(hkpCollisionDispatcher::Agent3FunctionTable&f);
+void __cdecl InitAgentFunc(hkpCollisionDispatcher::Agent3Funcs&f);
 void __cdecl CleanupAgent(FourByteState*entry,hkpAgentData*agentData,const hkpCdBody&bodyA,const hkpCdBody&bodyB,const CollisionAgentContext&input,hkpContactMgr*mgr,hkpConstraintOwner&constraintOwner);
 void __cdecl AddStat(FourByteState*entry,hkpAgentData*agentData,const CollisionAgentContext&input,hkStatisticsCollector*collector);
 void __cdecl RemovePoint(FourByteState*entry,hkpAgentData*agentData,const CollisionAgentContext&input);
@@ -1752,7 +1671,7 @@ namespace hkBvTreeAgent3
 {
 hkpAgentData*__cdecl FUN_00d35770(const AgentSubtypeMarker&input,FourByteState*entry,hkpAgentData*agentData,hkVector4*separatingNormal,WorldOperationEntry&result);
 void __cdecl RegisterAgentFunctions(hkpCollisionDispatcher*dispatcher);
-void __cdecl InitAgentFunc(hkpCollisionDispatcher::Agent3FunctionTable&f);
+void __cdecl InitAgentFunc(hkpCollisionDispatcher::Agent3Funcs&f);
 void __cdecl CleanupAgent(FourByteState*entry,hkpAgentData*agentData,const hkpCdBody&bodyA,const hkpCdBody&bodyB,const CollisionAgentContext&input,hkpContactMgr*mgr,hkpConstraintOwner&constraintOwner);
 void __cdecl AddStat(FourByteState*entry,hkpAgentData*agentData,const CollisionAgentContext&input,hkStatisticsCollector*collector);
 void __cdecl RemovePoint(FourByteState*entry,hkpAgentData*agentData,const CollisionAgentContext&input);

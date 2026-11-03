@@ -96,6 +96,11 @@ struct hkpCollisionDispatcher
     CollisionAgentEntry (*m_debugAgent3Table)[32];          // +0x1e38
     CollisionAgentEntry (*m_debugAgent3TablePred)[32];      // +0x1e3c
 
+    unsigned int hasAlternateType(int type, int alternateType) const
+    {
+        return m_hasAlternateType[type] & (1u << alternateType);
+    }
+
     void RegisterAgentType(signed char (*table)[32], signed char agentType, int typeA, int typeB, signed char origA,
                            signed char origB, CollisionAgentEntry (*entries)[32], int depth);
 };

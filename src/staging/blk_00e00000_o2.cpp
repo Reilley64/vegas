@@ -3,6 +3,7 @@
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
 #include <xmmintrin.h>
+#include <utility>
 #include "fnv/symbols_00c90000.h"
 #include "fnv/symbols_00c85000.h"
 #include <cstdint>
@@ -1332,7 +1333,6 @@ struct AudioHolder
 
 struct BSAudio;
 
-extern int DAT_0102e388;
 
 struct FUN_00e00000_cls
 {
@@ -1889,7 +1889,7 @@ struct S_00e00830_Ref
     void* m_ptr;
     ~S_00e00830_Ref() throw()
     {
-        ::FUN_00cb0c00((int)this);
+        ::FUN_00cb0c00((intptr_t)this);
     }
 };
 
@@ -3813,14 +3813,6 @@ void __cdecl SwapHeaderBytesAndAdvance(unsigned char* pBuffer)
     ReverseBytesInGroupsOfFour(pBuffer);
 }
 
-namespace std {
-template <class T> inline void swap(T& a, T& b)
-{
-    T temp = a;
-    a = b;
-    b = temp;
-}
-}
 
 void __cdecl ReverseBytesInGroupsOfFour(unsigned char* p);
 
@@ -4115,7 +4107,7 @@ class FUN_00e114f0_cls
     int m_f8;
     int m_fc;
     unsigned char m_100;
-    void FUN_00e114f0(int a1, int a2, int a3);
+    void FUN_00e114f0(intptr_t a1, intptr_t a2, intptr_t a3);
 };
 
 // @fnv 0x00e114f0
@@ -4196,7 +4188,7 @@ struct FlagObjectPad
 class FUN_00e11500_cls : public FlagObjectPad
 {
   public:
-    void FUN_00e11500(int a1, int a2);
+    void FUN_00e11500(intptr_t a1, intptr_t a2);
 };
 
 // @fnv 0x00e11500
@@ -4207,7 +4199,7 @@ void FUN_00e11500_cls::FUN_00e11500(intptr_t a1, intptr_t a2)
 
 struct FUN_00e11510_obj
 {
-    void FUN_00e11510(int a, int b);
+    void FUN_00e11510(intptr_t a, intptr_t b);
 };
 
 // @fnv 0x00e11510
@@ -4283,7 +4275,7 @@ struct FUN_00e11520_class
     int unkf8;
     int unkfc;
     char flag100;
-    void FUN_00e11520(int a, int b);
+    void FUN_00e11520(intptr_t a, intptr_t b);
 };
 // @fnv 0x00e11520
 void FUN_00e11520_class::FUN_00e11520(intptr_t a, intptr_t b)
@@ -7343,7 +7335,7 @@ class ParserE030
     const char* m_pcBegin;
     const char* m_pcEnd;
 
-    void FUN_00e03010(int iOffset, hkArrayE030<RangeE030>& kOut);
+    void FUN_00e03010(intptr_t iOffset, hkArrayE030<RangeE030>& kOut);
 };
 
 // Reads offset/padded-string pairs from m_pcBegin+iOffset until -1 or the end, appending one RangeE030 per pair to kOut.
@@ -7852,7 +7844,7 @@ template <class T> struct PoolList : PoolBase
 
     __forceinline void* allocateItem()
     {
-        PoolBlock<T>* block = (m_iBlockCount && m_kBlocks[0]->m_free) ? m_kBlocks[0] : (PoolBlock<T>*)(*(<dependent type> *)(reinterpret_cast<::fnv_00e23530::FUN_00e23530_cls *>(this)->FUN_00e23530()));
+        PoolBlock<T>* block = (m_iBlockCount && m_kBlocks[0]->m_free) ? m_kBlocks[0] : (PoolBlock<T>*)(reinterpret_cast<::fnv_00e23530::FUN_00e23530_cls *>(this)->FUN_00e23530());
         T* element = block->m_free;
         block->m_free = *(T**)element;
         ++block->m_iAllocatedCount;
@@ -8280,23 +8272,18 @@ void SortedList::FUN_00e09670(SortItem* apItem)
     iCount++;
 }
 
-extern int DAT_010305a8;
 
 void __cdecl FUN_00e00570(int* a, int b);
 
-extern int DAT_010305a8;
 
 void FUN_00e007b0(int* p, int flag);
 
-extern int DAT_010305a8;
 
 void FUN_00e00b00(int* p, int flag);
 
-extern int DAT_010305a8;
 
 void FUN_00e01340(int* a, int b);
 
-extern int DAT_010305a8;
 
 extern int DAT_010c70b4;
 
@@ -8304,7 +8291,6 @@ void __cdecl FUN_00e01410(int* p, int a);
 
 void FUN_00e01c30(void* b, void* c);
 
-extern int DAT_010c9314;
 
 void FUN_00e02780(void* p);
 
@@ -8330,7 +8316,6 @@ void __cdecl FUN_00e00350(int* a);
 
 void __cdecl FUN_00e00720(void* p);
 
-extern int DAT_010305a8;
 
 extern int DAT_010c6fd0;
 
@@ -8350,25 +8335,21 @@ int __cdecl FUN_00e00d30(int* p);
 
 void __cdecl FUN_00e00db0(int* a);
 
-extern int DAT_010305a8;
 
 extern int DAT_010c6fd0;
 
 void __cdecl FUN_00e00e90(int* a, int b);
 
-extern int DAT_010305a8;
 
 extern int DAT_010c6fd0;
 
 void __cdecl FUN_00e00f00(int** a, int b);
 
-extern int DAT_010305a8;
 
 void __cdecl FUN_00e010e0(int* p, int a);
 
 void __cdecl FUN_00e011f0(void* a);
 
-extern int DAT_010305a8;
 
 extern int DAT_010c6fd0;
 
@@ -8592,30 +8573,6 @@ extern CpuOpaque DAT_0126ddd8;
 
 int* FUN_00e00820();
 
-// VEGAS17-CONFLICT: S_00e00830_Ref (variant definition below differs from the one above)
-struct S_00e00830_Ref
-{
-    void* m_ptr;
-    void FUN_00cb0c00() throw();
-    ~S_00e00830_Ref() throw()
-    {
-        FUN_00cb0c00();
-    }
-};
-
-
-// VEGAS17-CONFLICT: S_00e00830_Ptr (variant definition below differs from the one above)
-struct S_00e00830_Ptr
-{
-    S_00e00830_Target* m_p;
-    ~S_00e00830_Ptr() throw()
-    {
-        if (m_p)
-            m_p->FUN_00c905b0();
-        m_p = 0;
-    }
-};
-
 // FUN_00e00940 : a one-line function - getter
 extern int g_target_00e00940;
 
@@ -8669,17 +8626,12 @@ extern int DAT_0126e138;
 
 void __cdecl FUN_00e00f70(FUN_00e00f70_cls* pObject, int value);
 
-extern int DAT_010305a8;
 
 extern int DAT_010c6fb0;
 
-extern int DAT_010cc364;
 
-extern int DAT_010cc344;
 
-extern int DAT_010e8e94;
 
-extern int DAT_010e8e74;
 
 void __cdecl FUN_00e01050(VirtualSlotObject* p);
 
@@ -8810,11 +8762,9 @@ int* FUN_00e026f0();
 
 void __cdecl FUN_00e02700(E02700Object* pkObject, void* pvData);
 
-extern int g_0126eb58;
 
 extern int DAT_0126eba0;
 
-extern int DAT_010c9314;
 
 int __cdecl ReadIntAtOffset(int index, int* data);
 

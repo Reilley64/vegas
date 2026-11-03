@@ -1587,7 +1587,7 @@ HkRayBundle __cdecl FUN_00d1bb50(const HkVec4& from0, const HkVec4& to0, const H
     return HkRayBundle(bundleFrom, bundleTo, mask);
 }
 
-typedef void*(* S00d1b9b0_TlsGet)(unsigned long dwTlsIndex);
+using S00d1b9b0_TlsGet = decltype(&TlsGetValue);
 
 // Records a TtqueryAabb timer, calls FUN_00d1b4d0 with the query AABB and count, then records an Et timer.
 // @fnv 0x00d1b9b0

@@ -24465,7 +24465,7 @@ void __cdecl FUN_00cdfbd0(FUN_00cdfe00_Object* a1, int aiUnk2, int aiUnk3, Const
     }
     apConstraintInput->disable();
 
-    void* (*pfnTls)(unsigned long) = TlsGetValue;
+    decltype(&TlsGetValue) pfnTls = &TlsGetValue;
     ProfBuf* pBuf = (ProfBuf*)pfnTls(DAT_0126835c);
     if (pBuf->m_pCur < pBuf->m_pRecordEnd)
     {
@@ -24523,7 +24523,7 @@ void __cdecl FUN_00cdfe90(FUN_00cdfe00_Object* pNode, ConstraintInput* pObj)
     if (h != 0)
     {
         pObj->disable();
-        void* (*pfnTls)(unsigned long) = TlsGetValue;
+        decltype(&TlsGetValue) pfnTls = &TlsGetValue;
         ProfBuf* pBuf = (ProfBuf*)pfnTls(DAT_0126835c);
         if (pBuf->m_pCur < pBuf->m_pRecordEnd)
         {

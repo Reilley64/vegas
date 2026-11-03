@@ -1,6 +1,7 @@
 
 // src/havok/physics/dynamics/world/hkpworld.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/hkpworld.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "havok/hkUlong.h"
 #include "fnv/symbols_01272000.h"
 #include <new>
 
@@ -126,7 +127,7 @@ struct FUN_00c98820_Class
     FUN_00c98820_ArrayObject** m_08;
     int m_0c;
 
-    void FUN_00c98820(void* first, void* second, int third, int fourth, int fifth);
+    void FUN_00c98820(void* first, void* second, int color, hkUlong id, int tag);
 };
 class C91World : public hkpWorld {
 public:
@@ -764,18 +765,18 @@ struct LockedListenerList {
     CRITICAL_SECTION* m_cs;
 };
 struct FUN_00c983e0_Class : LockedListenerList {
-    void ForEachCall(int a, int b, int c, int d, int e);
+    void ForEachCall(const void* geometries, const void* transform, hkUlong id, int tag, hkUlong shapeIdHint);
 };
 
 // Locks the critical section, calls the second virtual method of each object in the array with the five arguments, then unlocks.
 // @fnv 0x00c983e0
-void FUN_00c983e0_Class::ForEachCall(int aiArg1, int aiArg2, int aiArg3, int aiArg4, int aiArg5)
+void FUN_00c983e0_Class::ForEachCall(const void* aiArg1, const void* aiArg2, hkUlong aiArg3, int aiArg4, hkUlong aiArg5)
 {
     EnterCriticalSection(m_cs);
     for (int i = 0; i < m_size; ++i) {
         void* obj = m_data[i];
         void** vtbl = *(void***)obj;
-        typedef void (* Fn)(void*, int, int, int, int, int);
+        typedef void (* Fn)(void*, const void*, const void*, hkUlong, int, hkUlong);
         ((Fn)vtbl[1])(obj, aiArg1, aiArg2, aiArg3, aiArg4, aiArg5);
     }
     LeaveCriticalSection(m_cs);
@@ -789,29 +790,29 @@ struct FUN_00c984a0_Class {
     int unk0C;
     unsigned int unk10;
     CRITICAL_SECTION* unk14;
-    void FUN_00c984a0(int a1, int a2, int a3);
+    void FUN_00c984a0(int color, hkUlong id, int tag);
 };
 
 // Locks the critical section, calls virtual method slot 3 on each of unk0C objects in the unk08 array with a1, a2, a3, then unlocks.
 // @fnv 0x00c984a0
-void FUN_00c984a0_Class::FUN_00c984a0(int aiArg1, int aiArg2, int aiArg3)
+void FUN_00c984a0_Class::FUN_00c984a0(int aiArg1, hkUlong aiArg2, int aiArg3)
 {
     EnterCriticalSection(unk14);
     for (int i = 0; i < unk0C; ++i) {
         void* obj = unk08[i];
         void** vtbl = *(void***)obj;
-        ((void (*)(void*, int, int, int))vtbl[3])(obj, aiArg1, aiArg2, aiArg3);
+        ((void (*)(void*, int, hkUlong, int))vtbl[3])(obj, aiArg1, aiArg2, aiArg3);
     }
     LeaveCriticalSection(unk14);
 }
 
 struct FUN_00c98540_Class : LockedListenerList {
-    void CallAllWithArgs(int a, int b, int c);
+    void CallAllWithArgs(hkUlong id, int tag, hkUlong shapeIdHint);
 };
 
 
 // @fnv 0x00c98540
-void FUN_00c98540_Class::CallAllWithArgs(int aiArg1, int aiArg2, int aiArg3)
+void FUN_00c98540_Class::CallAllWithArgs(hkUlong aiArg1, int aiArg2, hkUlong aiArg3)
 {
     CRITICAL_SECTION* pLock = m_cs;
     EnterCriticalSection(pLock);
@@ -820,7 +821,7 @@ void FUN_00c98540_Class::CallAllWithArgs(int aiArg1, int aiArg2, int aiArg3)
         do {
             void* obj = m_data[i];
             void** vtbl = *(void***)obj;
-            void (* fn)(void*, int, int, int) = (void (*)(void*, int, int, int))vtbl[5];
+            void (* fn)(void*, hkUlong, int, hkUlong) = (void (*)(void*, hkUlong, int, hkUlong))vtbl[5];
             fn(obj, aiArg1, aiArg2, aiArg3);
             ++i;
         } while (i < m_size);
@@ -837,18 +838,18 @@ struct FUN_00c98600_Class {
     int m_uiItemCount;        // +0x0C
     unsigned int unk10;
     CRITICAL_SECTION* m_cs;         // +0x14
-    void CallVirtualOnAll(int a, int b, int c, int d, int e, int f, int g, int h);
+    void CallVirtualOnAll(const void* a, const void* b, const void* c, const void* d, const void* e, const void* f, const void* g, const void* h);
 };
 
 // @fnv 0x00c98600
-void FUN_00c98600_Class::CallVirtualOnAll(int aiArg0, int aiArg1, int aiArg2, int aiArg3, int aiArg4, int aiArg5, int aiArg6, int aiArg7)
+void FUN_00c98600_Class::CallVirtualOnAll(const void* aiArg0, const void* aiArg1, const void* aiArg2, const void* aiArg3, const void* aiArg4, const void* aiArg5, const void* aiArg6, const void* aiArg7)
 {
     EnterCriticalSection(m_cs);
     for (int i = 0; i < m_uiItemCount; ++i) {
         void** arr = (void**)m_ppData;
         void* obj = arr[i];
         void** vtbl = *(void***)obj;
-        typedef void (* Fn)(void*, int, int, int, int, int, int, int, int);
+        typedef void (* Fn)(void*, const void*, const void*, const void*, const void*, const void*, const void*, const void*, const void*);
         Fn fn = (Fn)vtbl[7];
         fn(obj, aiArg0, aiArg1, aiArg2, aiArg3, aiArg4, aiArg5, aiArg6, aiArg7);
     }
@@ -856,13 +857,13 @@ void FUN_00c98600_Class::CallVirtualOnAll(int aiArg0, int aiArg1, int aiArg2, in
 }
 
 struct FUN_00c990b0_Class : LockedListenerList {
-    void FUN_00c990b0(int a, int b, int c, int d);
+    void FUN_00c990b0(const char* text, int color, hkUlong id, int tag);
 };
 
 
 // Locks the critical section, calls virtual method at vtable offset 0x2c on each element of the array, then unlocks.
 // @fnv 0x00c990b0
-void FUN_00c990b0_Class::FUN_00c990b0(int aiArg1, int aiArg2, int aiArg3, int aiArg4)
+void FUN_00c990b0_Class::FUN_00c990b0(const char* aiArg1, int aiArg2, hkUlong aiArg3, int aiArg4)
 {
     EnterCriticalSection(m_cs);
     int i = 0;
@@ -870,7 +871,7 @@ void FUN_00c990b0_Class::FUN_00c990b0(int aiArg1, int aiArg2, int aiArg3, int ai
         do {
             void* obj = m_data[i];
             void** ppVtable = *(void***)obj;
-            void (* fn)(void*, int, int, int, int) = (void (*)(void*, int, int, int, int))ppVtable[0x2c / 4];
+            void (* fn)(void*, const char*, int, hkUlong, int) = (void (*)(void*, const char*, int, hkUlong, int))ppVtable[0x2c / 4];
             fn(obj, aiArg1, aiArg2, aiArg3, aiArg4);
             ++i;
         } while (i < m_size);
@@ -4306,7 +4307,7 @@ class hkListenerC984 {
 public:
     virtual void v00();
     virtual void v04();
-    virtual void onEvent(int a, int b, int c, int d, int e);
+    virtual void onEvent(hkUlong originalGeomId, const void* transform, hkUlong id, int tag, hkUlong shapeIdHint);
 };
 
 class hkDispatcherC984 {
@@ -4318,12 +4319,12 @@ public:
     int unk10;
     CRITICAL_SECTION* m_kCriticalSection;
 
-    void DispatchEvent(int a, int b, int c, int d, int e);
+    void DispatchEvent(hkUlong originalGeomId, const void* transform, hkUlong id, int tag, hkUlong shapeIdHint);
 };
 
 // Locks the critical section, calls onEvent on every registered listener with the five arguments, then unlocks it.
 // @fnv 0x00c98440
-void hkDispatcherC984::DispatchEvent(int aiArg0, int aiArg1, int aiArg2, int aiArg3, int aiArg4)
+void hkDispatcherC984::DispatchEvent(hkUlong aiArg0, const void* aiArg1, hkUlong aiArg2, int aiArg3, hkUlong aiArg4)
 {
     EnterCriticalSection(m_kCriticalSection);
     for (int i = 0; i < m_numListeners; i++)
@@ -4421,7 +4422,7 @@ public:
     virtual void V5() throw();
     virtual void V6() throw();
     virtual void V7() throw();
-    virtual void notify(int a, int b, int c, int d) throw();
+    virtual void notify(const void* position, int color, hkUlong id, int tag) throw();
 };
 
 class hkpListenerListC986 {
@@ -4433,11 +4434,11 @@ public:
     int unk10;
     CRITICAL_SECTION* m_pWorldLock;
 
-    void FUN_00c98670(int a, int b, int c, int d);
+    void FUN_00c98670(const void* position, int color, hkUlong id, int tag);
 };
 
 // @fnv 0x00c98670
-void hkpListenerListC986::FUN_00c98670(int aiArg0, int aiArg1, int aiArg2, int aiArg3)
+void hkpListenerListC986::FUN_00c98670(const void* aiArg0, int aiArg1, hkUlong aiArg2, int aiArg3)
 {
     EnterCriticalSection(m_pWorldLock);
     for (int i = 0; i < m_iElementCount; i++)
@@ -4456,7 +4457,7 @@ public:
     virtual void V6() throw();
     virtual void V7() throw();
     virtual void V8() throw();
-    virtual void notify(const void* a, const void* b, int c, int d, int e) throw();
+    virtual void notify(const void* start, const void* end, int color, hkUlong id, int tag) throw();
 };
 
 class hkpListenerListC98B : public hkReferencedObject {
@@ -4466,11 +4467,11 @@ public:
     int m_iCapacityAndFlags;
     CRITICAL_SECTION* m_pWorldLock;
 
-    void FUN_00c986c0(const void* a, const void* b, int c, int d, int e);
+    void FUN_00c986c0(const void* start, const void* end, int color, hkUlong id, int tag);
 };
 
 // @fnv 0x00c986c0
-void hkpListenerListC98B::FUN_00c986c0(const void* aiArg0, const void* aiArg1, int aiArg2, int aiArg3, int aiArg4)
+void hkpListenerListC98B::FUN_00c986c0(const void* aiArg0, const void* aiArg1, int aiArg2, hkUlong aiArg3, int aiArg4)
 {
     EnterCriticalSection(m_pWorldLock);
     for (int i = 0; i < m_iElementCount; i++)
@@ -4493,7 +4494,7 @@ struct Listener00c98720 {
     virtual void s1c();
     virtual void s20();
     virtual void s24();
-    virtual void s28(const void*, const void*, const void*, int, int, int);
+    virtual void s28(const void*, const void*, const void*, int color, hkUlong id, int tag);
 };
 
 struct C00c98720 {
@@ -4503,12 +4504,12 @@ struct C00c98720 {
     char pad10[0x4];
     CRITICAL_SECTION* pCS14;
 
-    void FUN_00c98720(const void* a, const void* b, const void* c, int d, int e, int f);
+    void FUN_00c98720(const void* a, const void* b, const void* c, int color, hkUlong id, int tag);
 };
 
 // Locks the critical section, calls s28 with the six arguments on each listener in arr08, then unlocks it.
 // @fnv 0x00c98720
-void C00c98720::FUN_00c98720(const void* aiArg0, const void* aiArg1, const void* aiArg2, int aiArg3, int aiArg4, int aiArg5) {
+void C00c98720::FUN_00c98720(const void* aiArg0, const void* aiArg1, const void* aiArg2, int aiArg3, hkUlong aiArg4, int aiArg5) {
     EnterCriticalSection(pCS14);
     for (int i = 0; i < count0c; ++i) {
         arr08[i]->s28(aiArg0, aiArg1, aiArg2, aiArg3, aiArg4, aiArg5);
@@ -4522,12 +4523,12 @@ struct FUN_00c986c0_Obj {
 };
 
 struct FUN_00c98b60_Class {
-    void FUN_00c98b60(__m128* v, float f, int c, int d, int e);
+    void FUN_00c98b60(__m128* v, float f, int color, hkUlong id, int tag);
 };
 
 // For each of the first three axes, builds a vector with f on that axis and calls FUN_00c986c0 with the sum and difference against *v.
 // @fnv 0x00c98b60
-void FUN_00c98b60_Class::FUN_00c98b60(__m128* v, float f, int c, int d, int e)
+void FUN_00c98b60_Class::FUN_00c98b60(__m128* v, float f, int c, hkUlong d, int e)
 {
     int i = 0;
     __m128 vecZero = _mm_setzero_ps();
@@ -4596,7 +4597,7 @@ struct FUN_00c99160_Dispatch {
     virtual void fn30();
     virtual void fn34();
     virtual void fn38();
-    virtual void fn3c(int a, int b, int c, int d, int e);
+    virtual void fn3c(const void* geometries, const void* transform, int color, hkUlong id, int tag);
 };
 struct FUN_00c99160_Owner {
     int unk00;
@@ -4605,10 +4606,10 @@ struct FUN_00c99160_Owner {
     int listenerCount;
     int unk10;
     CRITICAL_SECTION* mutex;
-    void DispatchToListeners(int a, int b, int c, int d, int e);
+    void DispatchToListeners(const void* geometries, const void* transform, int color, hkUlong id, int tag);
 };
 // @fnv 0x00c99160
-void FUN_00c99160_Owner::DispatchToListeners(int aiArg0, int aiArg1, int aiArg2, int aiArg3, int aiArg4) {
+void FUN_00c99160_Owner::DispatchToListeners(const void* aiArg0, const void* aiArg1, int aiArg2, hkUlong aiArg3, int aiArg4) {
     EnterCriticalSection(mutex);
     for(int i = 0; i < listenerCount; ++i) {
         listeners[i]->fn3c(aiArg0, aiArg1, aiArg2, aiArg3, aiArg4);
@@ -4631,7 +4632,7 @@ struct FUN_00c991c0_Interface {
     virtual void vf2c();
     virtual void vf30();
     virtual void vf34();
-    virtual void slot38(int, int, int, int);
+    virtual void slot38(const void* geometries, int color, hkUlong id, int tag);
 };
 
 struct FUN_00c991c0_Class {
@@ -4642,14 +4643,14 @@ struct FUN_00c991c0_Class {
     void* m_10;
     void* m_14;
 
-    void DispatchToSlots(int, int, int, int);
+    void DispatchToSlots(const void* geometries, int color, hkUlong id, int tag);
 };
 
 extern void (*DAT_00fdf05c)(void*);
 extern void (*DAT_00fdf100)(void*);
 
 // @fnv 0x00c991c0
-void FUN_00c991c0_Class::DispatchToSlots(int aiArg1, int aiArg2, int aiArg3, int aiArg4) {
+void FUN_00c991c0_Class::DispatchToSlots(const void* aiArg1, int aiArg2, hkUlong aiArg3, int aiArg4) {
     FUN_00c991c0_Class* self = this;
 
     DAT_00fdf05c(self->m_14);
@@ -4665,7 +4666,7 @@ void FUN_00c991c0_Class::DispatchToSlots(int aiArg1, int aiArg2, int aiArg3, int
 }
 
 struct HavokHelper {
-    void FUN_00c99870(const hkQuaternion& a1, float a2, int a3, int a4);
+    void FUN_00c99870(const hkQuaternion& a1, float a2, hkUlong id, int tag);
 };
 
 struct __declspec(align(16)) AlignedRotation : hkRotation {
@@ -7836,7 +7837,7 @@ struct __declspec(align(16)) FUN_00c987e0_Pose {
 struct FUN_00c98780_Obj {
 };
 struct FUN_00c987e0_Cls {
-    void FUN_00c987e0(const void* a1,const void* a2,const void* a3,int a4,int a5,int a6);
+    void FUN_00c987e0(const void* a1,const void* a2,const void* a3,int color,hkUlong id,int tag);
 };
 struct __declspec(align(16)) EC98BE0Vector {
     float x;
@@ -7845,12 +7846,12 @@ struct __declspec(align(16)) EC98BE0Vector {
     float w;
 };
 struct EC98BE0Owner {
-    void FUN_00c98b60(EC98BE0Vector* position, float scalar, int a, int b, int c);
-    void FUN_00c98be0(const void* x, const void* y, float scalar, int a, int b, int c);
+    void FUN_00c98b60(EC98BE0Vector* position, float scalar, int color, hkUlong id, int tag);
+    void FUN_00c98be0(const void* x, const void* y, float scalar, int color, hkUlong id, int tag);
 };
 // Constructs a position vector from x and y, then calls FUN_00c98b60 with that position, scalar, and the remaining arguments.
 // @fnv 0x00c98be0
-void EC98BE0Owner::FUN_00c98be0(const void* x, const void* y, float scalar, int a, int b, int c)
+void EC98BE0Owner::FUN_00c98be0(const void* x, const void* y, float scalar, int a, hkUlong b, int c)
 {
     EC98BE0Vector position;
     reinterpret_cast<::TransformedPosDAD *>(&(position))->FUN_00c7f7a0((*(const ::hkQsTransformDAD *)(x)), (*(const ::hkVector4DAD *)(y)));
@@ -7862,13 +7863,13 @@ struct __declspec(align(16)) FUN_00c7f640_Class {
 };
 
 struct FUN_00c98c30_Class {
-    void FUN_00c98b60(const void* p, float c, int d, int e, int f);
-    void FUN_00c98c30(const void* a, const void* b, float c, int d, int e, int f);
+    void FUN_00c98b60(const void* p, float c, int color, hkUlong id, int tag);
+    void FUN_00c98c30(const void* a, const void* b, float c, int color, hkUlong id, int tag);
 };
 
 // Builds a temporary via FUN_00c7f640(a, b), then calls FUN_00c98b60 with its address and c, d, e, f.
 // @fnv 0x00c98c30
-void FUN_00c98c30_Class::FUN_00c98c30(const void* a, const void* b, float c, int d, int e, int f)
+void FUN_00c98c30_Class::FUN_00c98c30(const void* a, const void* b, float c, int d, hkUlong e, int f)
 {
     FUN_00c7f640_Class v;
     v.FUN_00c7f640(a, b);
@@ -9102,12 +9103,12 @@ struct VectorTemporary {
     union { __m128 value; float components[4]; };
 };
 struct RotationOwner {
-    void ApplyRotation(const RotationInput*, const __m128*, const __m128*, int, int, int);
+    void ApplyRotation(const RotationInput*, const __m128*, const __m128*, int color, hkUlong id, int tag);
 };
 // Transforms position via FUN_00c7f7a0, rotates direction by the transform's quaternion, then calls FUN_00c98820 with both plus a, b and c.
 // @fnv 0x00c99610
 void RotationOwner::ApplyRotation(const RotationInput* transform, const __m128* position,
-    const __m128* direction, int a, int b, int c)
+    const __m128* direction, int a, hkUlong b, int c)
 {
     VectorTemporary worldPosition;
     __m128 worldDirection;
@@ -9147,11 +9148,11 @@ struct __declspec(align(16)) hkVector4C997 {
 
 class hkDebugDisplayHandlerC997 {
 public:
-    void DrawAxes(const hkTransformC997& kWorldFromLocal, float fSize, int aiSoundId, int aiAllocationTag) throw();
+    void DrawAxes(const hkTransformC997& kWorldFromLocal, float fSize, hkUlong aiId, int aiAllocationTag) throw();
 };
 // Builds an aligned rotation from the quaternion a1 and forwards it with a2, a3 and a4 to DrawAxes.
 // @fnv 0x00c99870
-void HavokHelper::FUN_00c99870(const hkQuaternion& aQuat, float afValue, int aiArg3, int aiArg4) {
+void HavokHelper::FUN_00c99870(const hkQuaternion& aQuat, float afValue, hkUlong aiArg3, int aiArg4) {
     AlignedRotation rot;
     reinterpret_cast<::Ce52e0Helper *>(&(rot))->FUN_00ce52e0(&(aQuat));
     reinterpret_cast<::hkDebugDisplayHandlerC997 *>(this)->DrawAxes((const ::hkTransformC997 &)(rot), afValue, aiArg3, aiArg4);
@@ -9159,7 +9160,7 @@ void HavokHelper::FUN_00c99870(const hkQuaternion& aQuat, float afValue, int aiA
 
 // Transforms a local origin and three axis vectors by kWorldFromLocal, then draws red, green, and blue debug lines from the origin along each axis.
 // @fnv 0x00c99720
-void hkDebugDisplayHandlerC997::DrawAxes(const hkTransformC997& kWorldFromLocal, float afLength, int aiSoundId, int aiAllocationTag) throw()
+void hkDebugDisplayHandlerC997::DrawAxes(const hkTransformC997& kWorldFromLocal, float afLength, hkUlong aiId, int aiAllocationTag) throw()
 {
     hkVector4C997 kTemp;
     kTemp.setZero4();
@@ -9179,9 +9180,9 @@ void hkDebugDisplayHandlerC997::DrawAxes(const hkTransformC997& kWorldFromLocal,
     akDirs[1].setSub4(akAxes[1], akStart);
     akDirs[2].setSub4(akAxes[2], akStart);
 
-    reinterpret_cast<::DebugArrowEntry *>(this)->FUN_00c98880((const ::hkVector4_S &)(akStart), (const ::hkVector4_S &)(akDirs[0]), 0xffff0000, aiSoundId, aiAllocationTag);
-    reinterpret_cast<::DebugArrowEntry *>(this)->FUN_00c98880((const ::hkVector4_S &)(akStart), (const ::hkVector4_S &)(akDirs[1]), 0xff008000, aiSoundId, aiAllocationTag);
-    reinterpret_cast<::DebugArrowEntry *>(this)->FUN_00c98880((const ::hkVector4_S &)(akStart), (const ::hkVector4_S &)(akDirs[2]), 0xff0000ff, aiSoundId, aiAllocationTag);
+    reinterpret_cast<::DebugArrowEntry *>(this)->FUN_00c98880((const ::hkVector4_S &)(akStart), (const ::hkVector4_S &)(akDirs[0]), 0xffff0000, aiId, aiAllocationTag);
+    reinterpret_cast<::DebugArrowEntry *>(this)->FUN_00c98880((const ::hkVector4_S &)(akStart), (const ::hkVector4_S &)(akDirs[1]), 0xff008000, aiId, aiAllocationTag);
+    reinterpret_cast<::DebugArrowEntry *>(this)->FUN_00c98880((const ::hkVector4_S &)(akStart), (const ::hkVector4_S &)(akDirs[2]), 0xff0000ff, aiId, aiAllocationTag);
 }
 
 #include <stdarg.h>
@@ -12585,7 +12586,7 @@ void hkpWorldC977::FUN_00c977c0(FUN_00cbfba0* filter, hkBoolC977 runUpdate, int 
 typedef float hkReal_S;
 typedef signed short hkInt16_S;
 typedef unsigned short hkUint16_S;
-typedef unsigned long __w64 hkUlong_S;
+typedef hkUlong hkUlong_S;
 typedef size_t hk_size_t;class FinishingFlag
 {
 public:
@@ -12975,27 +12976,27 @@ void RemoveGeometry(hkUlong_S id,int tag,hkUlong_S shapeIdHint);
 void DisplayCamera(const hkVector4_S&from,const hkVector4_S&to,const hkVector4_S&up,hkReal_S nearPlane,hkReal_S farPlane,hkReal_S fov,const char*name);
 void DisplayBehaviorGraph(hkArray_S<int>&wordVarIdx,hkArray_S<int>&wordStack,hkArray_S<int>&quadVarIdx,hkArray_S<hkVector4_S>&quadStack,
 hkArray_S<char*>&activeNodes,hkArray_S<int>&activeStateIds,hkArray_S<int>&activeTransitions,hkArray_S<hkQsTransform_S>&transforms);
-void DisplayPoint(const hkVector4_S&position,int color,int id,int tag);
-void DisplayTriangle(const hkVector4_S&a,const hkVector4_S&b,const hkVector4_S&c,int color,int id,int tag);
-void displayLineModelSpace(const hkQsTransform_S&worldFromModel,const hkVector4_S&start,const hkVector4_S&end,int color,int id,int tag);
-void displayLineModelSpace(const hkTransform_S&worldFromModel,const hkVector4_S&start,const hkVector4_S&end,int color,int id,int tag);
-void displayRay(const hkVector4_S&start,const hkVector4_S&direction,int color,int id,int tag);
-void displayRayModelSpace(const hkQsTransform_S&worldFromModel,const hkVector4_S&start,const hkVector4_S&direction,int color,int id,int tag);
-void displayRayModelSpace(const hkTransform_S&worldFromModel,const hkVector4_S&start,const hkVector4_S&direction,int color,int id,int tag);
-void RenderLine(const hkVector4_S&start,const hkVector4_S&dir,int color,int id,int tag);
-void displayStar(const hkVector4_S&position,hkReal_S scale,int color,int id,int tag);
-void displayStarModelSpace(const hkQsTransform_S&worldFromModel,const hkVector4_S&position,hkReal_S scale,int color,int id,int tag);
-void displayStarModelSpace(const hkTransform_S&worldFromModel,const hkVector4_S&position,hkReal_S scale,int color,int id,int tag);
-void DisplayPlane(const hkVector4_S&plane,const hkVector4_S&offset,hkReal_S scale,int color,int id,int tag);
-void FUN_00c998b0(int numTransforms,const hkInt16_S*parentIndices,const hkQsTransform_S*modelSpacePose,const hkQsTransform_S&worldFromModel,int id,int tag,int color=0x7fffffff,hkReal_S boneAxisSize=0.25f,hkBool_S showRootTranslation=false);
-void displayLocalSpacePose(int numTransforms,const hkInt16_S*parentIndices,const hkQsTransform_S*localSpacePose,const hkQsTransform_S&worldFromModel,int id,int tag,int color=0x7fffffff,hkReal_S boneAxisSize=0.25f,hkBool_S showRootTranslation=false);
-void displayText(const char*text,int color,int id,int tag);
-void Display3DText(const char*text,const hkVector4_S&pos,int color,int id,int tag);
-void displayFrame(const hkQsTransform_S&worldFromLocal,hkReal_S size,int id,int tag);
-void displayFrame(const hkTransform_S&worldFromLocal,hkReal_S size,int id,int tag);
-void DisplayGeometryList(const HavokElementArray<hkDisplayGeometry*>&geometries,const hkTransform_S&transform,int color,int id,int tag);
-void DisplayGeometryList(const HavokElementArray<hkDisplayGeometry*>&geometries,int color,int id,int tag);
-void displayAabb(const class hkAabb&aabb,int color,int id,int tag);
+void DisplayPoint(const hkVector4_S&position,int color,hkUlong_S id,int tag);
+void DisplayTriangle(const hkVector4_S&a,const hkVector4_S&b,const hkVector4_S&c,int color,hkUlong_S id,int tag);
+void displayLineModelSpace(const hkQsTransform_S&worldFromModel,const hkVector4_S&start,const hkVector4_S&end,int color,hkUlong_S id,int tag);
+void displayLineModelSpace(const hkTransform_S&worldFromModel,const hkVector4_S&start,const hkVector4_S&end,int color,hkUlong_S id,int tag);
+void displayRay(const hkVector4_S&start,const hkVector4_S&direction,int color,hkUlong_S id,int tag);
+void displayRayModelSpace(const hkQsTransform_S&worldFromModel,const hkVector4_S&start,const hkVector4_S&direction,int color,hkUlong_S id,int tag);
+void displayRayModelSpace(const hkTransform_S&worldFromModel,const hkVector4_S&start,const hkVector4_S&direction,int color,hkUlong_S id,int tag);
+void RenderLine(const hkVector4_S&start,const hkVector4_S&dir,int color,hkUlong_S id,int tag);
+void displayStar(const hkVector4_S&position,hkReal_S scale,int color,hkUlong_S id,int tag);
+void displayStarModelSpace(const hkQsTransform_S&worldFromModel,const hkVector4_S&position,hkReal_S scale,int color,hkUlong_S id,int tag);
+void displayStarModelSpace(const hkTransform_S&worldFromModel,const hkVector4_S&position,hkReal_S scale,int color,hkUlong_S id,int tag);
+void DisplayPlane(const hkVector4_S&plane,const hkVector4_S&offset,hkReal_S scale,int color,hkUlong_S id,int tag);
+void FUN_00c998b0(int numTransforms,const hkInt16_S*parentIndices,const hkQsTransform_S*modelSpacePose,const hkQsTransform_S&worldFromModel,hkUlong_S id,int tag,int color=0x7fffffff,hkReal_S boneAxisSize=0.25f,hkBool_S showRootTranslation=false);
+void displayLocalSpacePose(int numTransforms,const hkInt16_S*parentIndices,const hkQsTransform_S*localSpacePose,const hkQsTransform_S&worldFromModel,hkUlong_S id,int tag,int color=0x7fffffff,hkReal_S boneAxisSize=0.25f,hkBool_S showRootTranslation=false);
+void displayText(const char*text,int color,hkUlong_S id,int tag);
+void Display3DText(const char*text,const hkVector4_S&pos,int color,hkUlong_S id,int tag);
+void displayFrame(const hkQsTransform_S&worldFromLocal,hkReal_S size,hkUlong_S id,int tag);
+void displayFrame(const hkTransform_S&worldFromLocal,hkReal_S size,hkUlong_S id,int tag);
+void DisplayGeometryList(const HavokElementArray<hkDisplayGeometry*>&geometries,const hkTransform_S&transform,int color,hkUlong_S id,int tag);
+void DisplayGeometryList(const HavokElementArray<hkDisplayGeometry*>&geometries,int color,hkUlong_S id,int tag);
+void displayAabb(const class hkAabb&aabb,int color,hkUlong_S id,int tag);
 void displayLitTriangle(const hkVector4_S&a,const hkVector4_S&b,const hkVector4_S&c,int color);
 protected:
 hkArray_S<hkDebugDisplayHandler*>m_kDebugDisplayHandlers;
@@ -13003,7 +13004,7 @@ mutable class PhysicsSimulationContext*m_pPhysicsSimulationContext;
 };
 // Renders bone hierarchy lines and local axis frames for a skeleton pose by transforming model-space positions and rotations into world space.
 // @fnv 0x00c998b0
-void hkDebugDisplay::FUN_00c998b0(int numTransforms,const hkInt16_S*parentIndices,const hkQsTransform_S*modelSpacePose,const hkQsTransform_S&worldFromModel,int id,int tag,int color,hkReal_S boneAxisSize,hkBool_S showRootTranslation)
+void hkDebugDisplay::FUN_00c998b0(int numTransforms,const hkInt16_S*parentIndices,const hkQsTransform_S*modelSpacePose,const hkQsTransform_S&worldFromModel,hkUlong_S id,int tag,int color,hkReal_S boneAxisSize,hkBool_S showRootTranslation)
 {
 const hkInt16_S numBones=static_cast<hkInt16_S>(numTransforms);
 for(hkInt16_S i=0;i<numBones;i++)
@@ -13142,12 +13143,12 @@ __forceinline void transformLocalPoseToModelPoseDAD(int numTransforms, const sho
 
 class PoseUserDAD {
 public:
-    void FUN_00c99d40(int numBones, const short* parents, const hkQsTransformDAD* poseLocal, const void* a4, int a5, int a6, int a7, float a8, int a9);
+    void FUN_00c99d40(int numBones, const short* parents, const hkQsTransformDAD* poseLocal, const void* a4, hkUlong a5, int a6, int a7, float a8, int a9);
 };
 
 // Converts local bone poses to model space on the stack and forwards them to FUN_00c998b0.
 // @fnv 0x00c99d40
-void PoseUserDAD::FUN_00c99d40(int numBones, const short* parents, const hkQsTransformDAD* poseLocal, const void* a4, int a5, int a6, int a7, float a8, int a9)
+void PoseUserDAD::FUN_00c99d40(int numBones, const short* parents, const hkQsTransformDAD* poseLocal, const void* a4, hkUlong a5, int a6, int a7, float a8, int a9)
 {
     hkStackDAD* stack = static_cast<hkStackDAD*>(::FUN_00c85750());
     hkQsTransformDAD* poseModel = (hkQsTransformDAD*)stack->m_cur;
@@ -13898,11 +13899,11 @@ struct __declspec(align(16)) Vec_00c98780 {
 };
 
 struct Cls_00c98780 {
-    void FUN_00c98780(const hkTransform& tr, const hkVector4& a, const hkVector4& b, int x, int y, int z);
+    void FUN_00c98780(const hkTransform& tr, const hkVector4& a, const hkVector4& b, int color, hkUlong id, int tag);
 };
 // Builds a pose via FUN_00ce52e0(a1) and passes its address with a2 through a6 to FUN_00c98780 on this.
 // @fnv 0x00c987e0
-void FUN_00c987e0_Cls::FUN_00c987e0(const void* a1,const void* a2,const void* a3,int a4,int a5,int a6)
+void FUN_00c987e0_Cls::FUN_00c987e0(const void* a1,const void* a2,const void* a3,int a4,hkUlong a5,int a6)
 {
     FUN_00c987e0_Pose pose;
     reinterpret_cast<::Ce52e0Helper *>(&(pose))->FUN_00ce52e0(a1);
@@ -13911,7 +13912,7 @@ void FUN_00c987e0_Cls::FUN_00c987e0(const void* a1,const void* a2,const void* a3
 
 // Builds two vectors from a and b with tr via FUN_00c7f7a0, then passes them with x, y and z to FUN_00c986c0.
 // @fnv 0x00c98780
-void Cls_00c98780::FUN_00c98780(const hkTransform& tr, const hkVector4& a, const hkVector4& b, int x, int y, int z)
+void Cls_00c98780::FUN_00c98780(const hkTransform& tr, const hkVector4& a, const hkVector4& b, int x, hkUlong y, int z)
 {
     Vec_00c98780 pa;
     reinterpret_cast<::TransformedPosDAD *>(&(pa))->FUN_00c7f7a0((const ::hkQsTransformDAD &)(tr), (const ::hkVector4DAD &)(a));
@@ -13940,12 +13941,12 @@ struct Line_00c98c80 {
 };
 
 struct Disp_00c98c80 {
-    void FUN_00c98c80(const Aabb_00c98c80* box, int p2, int p3, int p4);
+    void FUN_00c98c80(const Aabb_00c98c80* box, int color, hkUlong id, int tag);
 };
 
 // Builds the 12 edge lines of the AABB box and draws each with FUN_00c986c0.
 // @fnv 0x00c98c80
-void Disp_00c98c80::FUN_00c98c80(const Aabb_00c98c80* box, int p2, int p3, int p4)
+void Disp_00c98c80::FUN_00c98c80(const Aabb_00c98c80* box, int p2, hkUlong p3, int p4)
 {
     const float* pMin = reinterpret_cast<const float*>(&box->m_kMinimumCorner.m_vComponents);
     const float* pMax = reinterpret_cast<const float*>(&box->m_kMaximumCorner.m_vComponents);
@@ -14789,12 +14790,12 @@ struct FUN_00c98820_ArrayObject
     virtual void vf18();
     virtual void vf1c();
     virtual void vf20();
-    virtual void vf24(void* first, void* second, int third, int fourth, int fifth);
+    virtual void vf24(void* first, void* second, int color, hkUlong id, int tag);
 };
 
 
 // @fnv 0x00c98820
-void FUN_00c98820_Class::FUN_00c98820(void* first, void* second, int third, int fourth, int fifth)
+void FUN_00c98820_Class::FUN_00c98820(void* first, void* second, int third, hkUlong fourth, int fifth)
 {
     __m128 sum = _mm_add_ps(*(__m128*)second, *(__m128*)first);
 
@@ -14945,7 +14946,7 @@ __forceinline void V4::normalize()
 }
 
 struct PlaneDraw {
-    void FUN_00c98e60(const V4& plane, const V4& offset, float scale, int color, int id, int tag) throw();
+    void FUN_00c98e60(const V4& plane, const V4& offset, float scale, int color, hkUlong id, int tag) throw();
 };
 
 struct TierQuotientCtor { double denominator; float threshold; __forceinline float value() const { return denominator/threshold; } };
@@ -15803,7 +15804,7 @@ __forceinline void arrowCross(ArrowVectorView& out,const ArrowVectorView& left,c
     ::hkQuadReal second=_mm_mul_ps(_mm_shuffle_ps(left.q,left.q,0xd2),_mm_shuffle_ps(right.q,right.q,0xc9));
     out.q=_mm_sub_ps(first,second);
 }
-__forceinline void drawDebugArrow(::FUN_00c986c0_Obj* drawer, ArrowVectorView* a, ArrowVectorView* v, int a3, int a4, int a5)
+__forceinline void drawDebugArrow(::FUN_00c986c0_Obj* drawer, ArrowVectorView* a, ArrowVectorView* v, int a3, hkUlong a4, int a5)
 {
     if (arrowScalar(arrowDot3(v->q,v->q)) < ::DAT_0104da4c) return;
     ArrowVectorView sum;
@@ -15845,7 +15846,7 @@ __forceinline void drawDebugArrow(::FUN_00c986c0_Obj* drawer, ArrowVectorView* a
     reinterpret_cast<::hkpListenerListC98B *>((drawer))->FUN_00c986c0((&sum.q), (&o4.q), a3, a4, a5);
 }
 // @fnv 0x00c98e60
-void PlaneDraw::FUN_00c98e60(const V4& plane, const V4& offset, float scale, int color, int id, int tag) throw()
+void PlaneDraw::FUN_00c98e60(const V4& plane, const V4& offset, float scale, int color, hkUlong id, int tag) throw()
 {
     float negW = -plane.f[3];
     V4 base;
@@ -15897,9 +15898,9 @@ void PlaneDraw::FUN_00c98e60(const V4& plane, const V4& offset, float scale, int
     reinterpret_cast<::DebugArrowEntry *>(this)->FUN_00c98880((const ::hkVector4_S &)(base), (const ::hkVector4_S &)((const ::V4 &)(V4(_mm_mul_ps(_mm_shuffle_ps(_mm_load_ss(&scale), _mm_load_ss(&scale), 0), plane.q)))), color, id, tag);
 }
 // @fnv 0x00c98880
-void DebugArrowEntry::FUN_00c98880(const ::hkVector4_S& kFrom, const ::hkVector4_S& kWorldPosition, int uiColor, int aiSoundId, int aiAllocationTag)
+void DebugArrowEntry::FUN_00c98880(const ::hkVector4_S& kFrom, const ::hkVector4_S& kWorldPosition, int uiColor, hkUlong aiId, int aiAllocationTag)
 {
-    drawDebugArrow((::FUN_00c986c0_Obj*)this, (ArrowVectorView*)&kFrom, (ArrowVectorView*)&kWorldPosition, uiColor, aiSoundId, aiAllocationTag);
+    drawDebugArrow((::FUN_00c986c0_Obj*)this, (ArrowVectorView*)&kFrom, (ArrowVectorView*)&kWorldPosition, uiColor, aiId, aiAllocationTag);
 }
 
 struct ScalarC992 {

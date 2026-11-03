@@ -10158,21 +10158,7 @@ extern "C" unsigned __int64 __rdtsc() throw();
 extern "C" void _ReadWriteBarrier();
 
 
-struct MemoryManager {
-    virtual void slot00() throw();
-    virtual void slot04() throw();
-    virtual void slot08() throw();
-    virtual void slot0c() throw();
-    virtual void deallocateChunk(void* ptr, int numBytes) throw();
-};
 
-struct ThreadMemory {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    MemoryManager* m_pMemoryAllocator;
-};
 
 struct BroadPhaseHandle {
     int m_iOwnerObjectOffset;
@@ -10199,12 +10185,11 @@ struct InplaceArray {
     }
 
     ~InplaceArray() throw() {
-        ThreadMemory* tm = (ThreadMemory*)::FUN_00c85750();
-        MemoryManager* mem = tm->m_pMemoryAllocator;
+        hkMemoryAllocator* mem = hkMemoryRouter::getInstance().m_heap;
         int cap = m_iCapacityState;
         m_iElementCount = 0;
         if ((cap & 0x80000000) == 0) {
-            mem->deallocateChunk(m_data, (cap & 0x3fffffff) * sizeof(T));
+            mem->bufFree(m_data, (cap & 0x3fffffff) * sizeof(T));
         }
     }
 };
@@ -10532,8 +10517,6 @@ struct S96_BoolResult {char value;};
 extern const char str_010c6908[];
 struct S96_TimerEntry {const char* name; unsigned tick; unsigned unk08;};
 struct S96_Timer {int unk00; S96_TimerEntry* unk04; int unk08; S96_TimerEntry* unk0C;};
-struct S96_Allocator {virtual void slot0(); virtual void slot1(); virtual void slot2(); virtual void slot3(); virtual void Free(void*,int);};
-struct S96_AllocatorHolder {int unk00,unk04,unk08,unk0C; S96_Allocator* unk10;};
 struct S96_Collidable {int unk00,unk04,unk08,unk0C,unk10,unk14; short unk18; signed char unk1A;};
 struct S96_Constraint {unsigned char unk00,unk01,unk02,unk03; int unk04,unk08,unk0C; S96_Collidable* unk10; S96_Collidable* unk14;};
 struct S96_EntityArray {void** data; int size; int capacity;};
@@ -10619,8 +10602,8 @@ void S96_WorldShell::FUN_00c96ff0(int mode,int update) {
      S96_Constraint* end=(j==island->unk60)?(S96_Constraint*)((char*)current+island->unk58):(S96_Constraint*)((char*)current+kS96BlockBytes);
      for(;current<end;current=(S96_Constraint*)((char*)current+current->unk03)) {
       if(!S96_enabled(current)) {
-       S96_AllocatorHolder* holder=(S96_AllocatorHolder*)::FUN_00c85750();
-       if(removed.size==(removed.capacity&0x3fffffff)) ResizeAudioStream(holder->unk10,&removed,4);
+       hkMemoryRouter* holder=&hkMemoryRouter::getInstance();
+       if(removed.size==(removed.capacity&0x3fffffff)) ::ResizeAudioStream((::AudioAllocator *)(holder->m_heap),(::AudioStream *)(void *)(&removed),4);
        removed.data[removed.size++]=current;
        island->unk25=(island->unk25&~2)|1;
       } else if(update==1) ::FUN_00cfeba0((::FUN_00cfeba0_Obj *)(current),(void **)(void *)((void*)m_pCollisionInput),island);
@@ -10632,10 +10615,9 @@ void S96_WorldShell::FUN_00c96ff0(int mode,int update) {
      ::FUN_00cc1160((::Owner *)(c));
     }
    }
-   S96_AllocatorHolder* holder=(S96_AllocatorHolder*)::FUN_00c85750();
-   S96_Allocator* alloc=holder->unk10;
+   hkMemoryAllocator* alloc=hkMemoryRouter::getInstance().m_heap;
    removed.size=0;
-   if((removed.capacity&0x80000000)==0) alloc->Free(removed.data,(removed.capacity&0x3fffffff)*4);
+   if((removed.capacity&0x80000000)==0) alloc->bufFree(removed.data,(removed.capacity&0x3fffffff)*4);
   }
   --m_iCriticalOperationsLockCount;
  }
@@ -10720,24 +10702,8 @@ static __forceinline void S97_timer(const char* name)
     }
 }
 
-struct S97_MemoryAllocator {
-    virtual ~S97_MemoryAllocator();
-    virtual void* AllocateMemoryBlock(int numBytes);
-    virtual void ReleaseBlock(void* p, int numBytes);
-    virtual void* AllocateBufferWithSize(int& reqNumBytesInOut);
-    virtual void ReturnMemory(void* p, int numBytes);
-    template <typename T> inline void _bufFree(void* p, int numElem) { ReturnMemory(p, numElem * (int)sizeof(T)); }
-};
-struct S97_MemoryRouter {
-    int unk00; int unk04; int unk08;
-    S97_MemoryAllocator* m_pTemp;
-    S97_MemoryAllocator* m_pStreamAllocator;
-    static __forceinline S97_MemoryRouter& GetMonitorStream() { return *(S97_MemoryRouter*)::FUN_00c85750(); }
-    __forceinline S97_MemoryAllocator& temp() { return *m_pTemp; }
-    __forceinline S97_MemoryAllocator& heap() { return *m_pStreamAllocator; }
-};
-struct S97_HeapAllocator { __forceinline S97_MemoryAllocator& get(const void*) { return S97_MemoryRouter::GetMonitorStream().heap(); } };
-struct S97_TempAllocator { __forceinline S97_MemoryAllocator& get(void*) { return S97_MemoryRouter::GetMonitorStream().temp(); } };
+struct S97_HeapAllocator { __forceinline hkMemoryAllocator& get(const void*) { return hkMemoryRouter::getInstance().heap(); } };
+struct S97_TempAllocator { __forceinline hkMemoryAllocator& get(void*) { return hkMemoryRouter::getInstance().temp(); } };
 
 template <typename T> struct S97_ArrayBase {
     T* m_data;
@@ -10750,7 +10716,7 @@ template <typename T> struct S97_ArrayBase {
     __forceinline T& operator[](int i) { return m_data[i]; }
     __forceinline T* begin() { return m_data; }
     __forceinline void clear() { m_iElementCount = 0; }
-    __forceinline void _clearAndDeallocate(S97_MemoryAllocator& alloc)
+    __forceinline void _clearAndDeallocate(hkMemoryAllocator& alloc)
     {
         clear();
         if ((m_iCapacityState & 0x80000000) == 0) {

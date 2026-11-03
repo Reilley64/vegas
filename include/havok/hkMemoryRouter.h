@@ -10,6 +10,12 @@ class hkMemoryAllocator
   public:
     struct MemoryStatistics;
 
+    enum MemoryState
+    {
+        MEMORY_STATE_OK,
+        MEMORY_STATE_OUT_OF_MEMORY
+    };
+
     virtual ~hkMemoryAllocator();                                                     // +0x0
     virtual void* blockAlloc(int numBytes);                                           // +0x4
     virtual void blockFree(void* p, int numBytes);                                    // +0x8

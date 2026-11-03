@@ -191,12 +191,12 @@ void FUN_00bb0360_t::CreatePrecipitationPixelShaders()
     PrecipShaderDef ShaderDefs[2];
     ShaderDefs[0].pFile = "precipitation\\precipitation.p.hlsl";
     ShaderDefs[0].Macros[0].Name = 0;
-    std::memset(&ShaderDefs[0].Macros[0].Definition, 0, 0x44);
+    std::memset(&ShaderDefs[0].Macros[0].Definition, 0, 17 * sizeof(const char*));
     ShaderDefs[1].pFile = "precipitation\\precipitation.p.hlsl";
     ShaderDefs[1].Macros[0].Name = "SNOW";
     ShaderDefs[1].Macros[0].Definition = 0;
     ShaderDefs[1].Macros[1].Name = 0;
-    std::memset(&ShaderDefs[1].Macros[1].Definition, 0, 0x3c);
+    std::memset(&ShaderDefs[1].Macros[1].Definition, 0, 15 * sizeof(const char*));
     char acName[260];
     char acPath[260];
     for (int i = 0; i < 2; i++)
@@ -242,26 +242,26 @@ void FUN_00bb01c0_t::CreatePrecipitationVertexShaders()
     shaderDefs[0].Macros[0].Name = "BILLBOARD_UP";
     shaderDefs[0].Macros[0].Definition = 0;
     shaderDefs[0].Macros[1].Name = 0;
-    std::memset(&shaderDefs[0].Macros[1].Definition, 0, 0x3c);
+    std::memset(&shaderDefs[0].Macros[1].Definition, 0, 15 * sizeof(const char*));
     shaderDefs[1].pFile = "precipitation\\precipitation.v.hlsl";
     shaderDefs[1].Macros[0].Name = "BILLBOARD_FACE";
     shaderDefs[1].Macros[0].Definition = 0;
     shaderDefs[1].Macros[1].Name = 0;
-    std::memset(&shaderDefs[1].Macros[1].Definition, 0, 0x3c);
+    std::memset(&shaderDefs[1].Macros[1].Definition, 0, 15 * sizeof(const char*));
     shaderDefs[2].pFile = "precipitation\\precipitation.v.hlsl";
     shaderDefs[2].Macros[0].Name = "BILLBOARD_UP";
     shaderDefs[2].Macros[0].Definition = 0;
     shaderDefs[2].Macros[1].Name = "SNOW";
     shaderDefs[2].Macros[1].Definition = 0;
     shaderDefs[2].Macros[2].Name = 0;
-    std::memset(&shaderDefs[2].Macros[2].Definition, 0, 0x34);
+    std::memset(&shaderDefs[2].Macros[2].Definition, 0, 13 * sizeof(const char*));
     shaderDefs[3].pFile = "precipitation\\precipitation.v.hlsl";
     shaderDefs[3].Macros[0].Name = "BILLBOARD_FACE";
     shaderDefs[3].Macros[0].Definition = 0;
     shaderDefs[3].Macros[1].Name = "SNOW";
     shaderDefs[3].Macros[1].Definition = 0;
     shaderDefs[3].Macros[2].Name = 0;
-    std::memset(&shaderDefs[3].Macros[2].Definition, 0, 0x34);
+    std::memset(&shaderDefs[3].Macros[2].Definition, 0, 13 * sizeof(const char*));
     for (int i = 0; i < 4; i++)
     {
         char shaderName[260];

@@ -80,10 +80,10 @@ struct SelfStub
 {
 };
 // @fnv 0x00b67610
-NewObj* FUN_00b67610(SelfStub* self, int edx, int arg)
+NewObj* FUN_00b67610(SelfStub* self, int edx, void* arg)
 {
     NewObj* pObj = new NewObj();
-    reinterpret_cast<::FUN_00b702b0_shell *>((self))->FUN_00b702b0((char *)(pObj), (void *)(arg));
+    reinterpret_cast<::FUN_00b702b0_shell *>((self))->FUN_00b702b0((char *)(pObj), arg);
     (*(void(***)(SelfStub*, NewObj*))self)[0x34](self, pObj);
     return pObj;
 }
@@ -333,7 +333,7 @@ struct TargetClass_00b683e0
     virtual void V37();
     virtual void V38();
     virtual void V39();
-    virtual void V40(void* arg1, void* ebx, void* pLocal, int zero1, int val, int zero2);
+    virtual void V40(void* arg1, void* ebx, void* pLocal, int zero1, void* val, int zero2);
 };
 
 // Selects a renderer pointer based on particle shader settings, calls V40 with it, and returns the low 16 bits of the resulting local value.
@@ -1625,7 +1625,7 @@ inline float NiClamp_b68(float fValue, float fMin, float fScaledValue)
 void ShaderProp_b68::FUN_00b68fe0(ShaderProp_b68* apOther)
 {
     ::FUN_00ba8be0((::BSSP_stub *)this, 0, (std::intptr_t)((apOther)));
-    if (!((m_uiValue1 & (unsigned int)&DAT_01000000) > 0))
+    if (!((m_uiValue1 & 0x1000000u) > 0))
     {
         if (!m_spTextureSet)
             m_spTextureSet = new BSShaderTextureSet;

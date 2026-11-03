@@ -1,3 +1,4 @@
+#include <cstdint>
 #include <cstddef>
 // bsshader/imagespacemanager.cpp: ImageSpaceManager, Derived, Host, ImageSpaceManager_b8b and more (60 functions)
 
@@ -107,7 +108,7 @@ void ImageSpaceManager::CreateMenuBackgroundGeometry()
     update.c = false;
     update.d = false;
     update.e = false;
-    reinterpret_cast<::FUN_00a59c60_cls *>(((m_pMenuBackgroundScreenGeometry).operator->()))->FUN_00a59c60((int)&(update));
+    reinterpret_cast<::FUN_00a59c60_cls *>(((m_pMenuBackgroundScreenGeometry).operator->()))->FUN_00a59c60((std::intptr_t)&(update));
 }
 
 // @fnv 0x00b8b200
@@ -544,8 +545,8 @@ void FUN_00b8bfe0(char* pThis, int)
 struct ShaderInitBlock_00b8c0e0
 {
     const char* name;
-    int zero;
-    int pad[17];
+    const char* zero;
+    const char* pad[17];
 };
 
 struct Vtable_00b8c0e0
@@ -572,18 +573,18 @@ void InitTVShader(Obj_00b8c0e0* pObj, int)
     ShaderInitBlock_00b8c0e0 psBlock;
     vsBlock.name = "imagespace\\1x\\v\\base.v.hlsl";
     vsBlock.zero = 0;
-    std::memset(vsBlock.pad, 0, 0x44);
+    std::memset(vsBlock.pad, 0, sizeof(vsBlock.pad));
     psBlock.name = "imagespace\\2x\\p\\tv.p.hlsl";
     psBlock.zero = 0;
-    std::memset(psBlock.pad, 0, 0x44);
+    std::memset(psBlock.pad, 0, sizeof(psBlock.pad));
     pObj->vt->fn_13c(pObj, &vsBlock, &psBlock, "TV", "vs_1_1", "ps_2_0");
     pObj->vt->fn_14c(pObj);
 }
 
 // @fnv 0x00b8b1c0
-int FUN_00b8b1c0(int a, int b)
+std::intptr_t FUN_00b8b1c0(std::intptr_t a, std::intptr_t b)
 {
-    return ((int)(::FUN_00b59d30((::Vec4 *)(a), (::NiPoint2 *)(b), (float *)(int *)(&b))));
+    return ((std::intptr_t)(::FUN_00b59d30((::Vec4 *)(a), (::NiPoint2 *)(b), (float *)(&b))));
 }
 
 extern float DAT_012023f4;
@@ -782,8 +783,8 @@ struct S_00b8bd50
 // @fnv 0x00b8bd50
 void* S_00b8bd50::FUN_00b8bd50(unsigned int flags)
 {
-    *(int*)this = (int)&DAT_010affc0;
-    *(int*)((char*)this + 0x6c) = (int)&DAT_010affa0;
+    *(void**)this = &DAT_010affc0;
+    *(void**)((char*)this + 0x6c) = &DAT_010affa0;
     reinterpret_cast<::FUN_00c03a20_cls *>((((H_00c03a20*)this)))->FUN_00c03a20_cls::~FUN_00c03a20_cls();
     if (flags & 1)
         _delete(this, 0xd0);
@@ -1441,17 +1442,17 @@ struct FUN_00b8bdb0_cls
 // @fnv 0x00b8bdb0
 void FUN_00b8bdb0_cls::InitScanBlendPass()
 {
-    unsigned int f[0x26];
-    f[0x13] = (unsigned int)"imagespace\\1x\\v\\base.v.hlsl";
+    const char* f[0x26];
+    f[0x13] = "imagespace\\1x\\v\\base.v.hlsl";
     f[0x14] = 0;
-    std::memset(&f[0x15], 0, 0x44);
-    f[0] = (unsigned int)"imagespace\\2x\\p\\scanlines_blend.p.hlsl";
-    f[1] = (unsigned int)"BLURSRC1";
+    std::memset(&f[0x15], 0, 17 * sizeof(f[0]));
+    f[0] = "imagespace\\2x\\p\\scanlines_blend.p.hlsl";
+    f[1] = "BLURSRC1";
     f[2] = 0;
-    f[3] = (unsigned int)"VATS";
+    f[3] = "VATS";
     f[4] = 0;
     f[5] = 0;
-    std::memset(&f[6], 0, 0x34);
+    std::memset(&f[6], 0, 13 * sizeof(f[0]));
     this->v13c((void*)&f[0x13], (void*)&f[0], "IFVATSSCANBLEND", "vs_1_1", "ps_2_0");
     this->v14c();
     ISPassHolder* a = (ISPassHolder*)this->m_5c;
@@ -2286,15 +2287,16 @@ class FUN_00b8b760_cls
 {
   public:
     int unk00;
-    void FUN_00b8b760(float a1, float a2, float a3, float a4, float a5, int a6);
+    void FUN_00b8b760(float a1, float a2, float a3, float a4, float a5, std::intptr_t a6);
 };
-// Calls FUN_00b59d30 with a6 and local, then passes a3 and a5 adjusted by a6's float bits to FUN_00b8b000.
+// Calls FUN_00b59d30 with the bound a6 and local, then passes a3 and a5 offset by the returned radius to SetRadialBlurParameters.
 // @fnv 0x00b8b760
-void FUN_00b8b760_cls::FUN_00b8b760(float a1, float a2, float a3, float a4, float a5, int a6)
+void FUN_00b8b760_cls::FUN_00b8b760(float a1, float a2, float a3, float a4, float a5, std::intptr_t a6)
 {
     int local[2];
-    ::FUN_00b59d30((::Vec4 *)(a6), (::NiPoint2 *)(local), &a5 + 1);
-    reinterpret_cast<::ImageSpaceManager *>(this)->SetRadialBlurParameters(a1, a2, *(float*)&a6 + a3, a4, *(float*)&a6 + a5, (*(const ::NiPoint2 *)(local)));
+    float radius;
+    ::FUN_00b59d30((::Vec4 *)(a6), (::NiPoint2 *)(local), &radius);
+    reinterpret_cast<::ImageSpaceManager *>(this)->SetRadialBlurParameters(a1, a2, radius + a3, a4, radius + a5, (*(const ::NiPoint2 *)(local)));
 }
 
 namespace fnv_00b8b8d0 {
@@ -2775,7 +2777,7 @@ void PartialScreenGeometryReceiver::FUN_00b8c3b0(float afWidth, float afHeight,
     this->m_pMenuBackgroundScreenElements->GetData()->SetRectangleBounds(0, 0, 0.0f, 0.0f, afWidth, afHeight);
     reinterpret_cast<::FUN_00a5a040_Class *>(((this->m_pMenuBackgroundScreenElements).operator->()))->FUN_00a5a040();
     NiUpdateData updateData = {0.0f, false, false, false, false, false};
-    reinterpret_cast<::FUN_00a59c60_cls *>(((this->m_pMenuBackgroundScreenElements).operator->()))->FUN_00a59c60((int)&(updateData));
+    reinterpret_cast<::FUN_00a59c60_cls *>(((this->m_pMenuBackgroundScreenElements).operator->()))->FUN_00a59c60((std::intptr_t)&(updateData));
     ::AssignFixedString((char *)((this->m_pMenuBackgroundScreenElements).operator->()), 0, (char **)&(const ::NiFixedString &)(GeometryString("Interface Effect Partial Screen Trishape")));
     apScreenElements = this->m_pMenuBackgroundScreenElements;
 }

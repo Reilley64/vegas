@@ -1,3 +1,4 @@
+#include <cstdint>
 #include <cstddef>
 // bsshader/particleshader.cpp: ParticleShader, ShaderState (12 functions)
 
@@ -817,7 +818,7 @@ NiProperty* __cdecl FUN_00ba68d0(NiAVObject* apObject, ArgObj* apArg)
             updateData.c6 = 0;
             updateData.c7 = 0;
             updateData.c8 = 0;
-            reinterpret_cast<::FUN_00a59c60_cls *>((obj))->FUN_00a59c60((int)&(updateData));
+            reinterpret_cast<::FUN_00a59c60_cls *>((obj))->FUN_00a59c60((std::intptr_t)&(updateData));
             ::BSShaderManager::UpdateObjectTypeRecurse((::NiAVObject *)(clone), 0, 0);
             NiProperty* pProperty = ((::NiProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((clone))->FUN_00a59d30(3)));
             int bValidType = 0;

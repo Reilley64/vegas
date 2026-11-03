@@ -1,6 +1,7 @@
 // src/bsshader/bscubemapcamera.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/bsshader/bscubemapcamera.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <windows.h>
 #include <math.h>
 #include "fnv/decl/BSRenderStateManager.h"
@@ -698,7 +699,7 @@ void Camera::FUN_00bd7bb0(int aiFace)
             updateData.flag2 = false;
             updateData.flag3 = false;
             updateData.flag4 = false;
-            reinterpret_cast<::FUN_00a59c60_cls *>(this)->FUN_00a59c60((int)&(updateData));
+            reinterpret_cast<::FUN_00a59c60_cls *>(this)->FUN_00a59c60((std::intptr_t)&(updateData));
             if (DAT_011f91b8 != 7)
             {
                 if (sceneData)

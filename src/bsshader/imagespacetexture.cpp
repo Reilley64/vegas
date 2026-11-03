@@ -121,16 +121,9 @@ void FUN_0041fd00_shell::FUN_0041fd00(int aeCastingType)
 
 struct FUN_00ba3770_struct
 {
-    int FUN_00ba3770();
+    void* FUN_00ba3770();
 };
 
-// @fnv 0x00ba3770
-int FUN_00ba3770_struct::FUN_00ba3770()
-{
-    if (reinterpret_cast<char*>(this)[1])
-        return *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 4);
-    return 0;
-}
 
 
 
@@ -235,6 +228,15 @@ struct OwnerStandIn
     RefBase* ptr;
     void FUN_00ba37a0(RefBase* p);
 };
+
+// @fnv 0x00ba3770
+void* FUN_00ba3770_struct::FUN_00ba3770()
+{
+    OwnerStandIn* texture = reinterpret_cast<OwnerStandIn*>(this);
+    if (texture->flag)
+        return texture->ptr;
+    return 0;
+}
 
 // @fnv 0x00ba37a0
 void OwnerStandIn::FUN_00ba37a0(RefBase* p)
@@ -937,11 +939,11 @@ struct TextureOwnerB63
     int unk08c;
     int unk090;
     TextureContainerB63 container;
-    int FUN_00b63c60();
+    void* FUN_00b63c60();
 };
 
 // @fnv 0x00b63c60
-int TextureOwnerB63::FUN_00b63c60()
+void* TextureOwnerB63::FUN_00b63c60()
 {
     if (!container.node->receiver)
     {
@@ -1028,7 +1030,7 @@ void TextureOwnerB63D::FUN_00b63d10()
         return;
     ReturnManagerB63D* manager = reinterpret_cast<ReturnManagerB63D*>(DAT_011f91a8);
     OwnerStandIn** slot = &node->texture;
-    int rendered = reinterpret_cast<::FUN_00ba3770_struct *>((reinterpret_cast<RenderedGetterB63D*>(*slot)))->FUN_00ba3770();
+    void* rendered = reinterpret_cast<::FUN_00ba3770_struct *>((reinterpret_cast<RenderedGetterB63D*>(*slot)))->FUN_00ba3770();
     reinterpret_cast<::Manager *>((manager))->FUN_00b6da10((::Item *)(rendered));
     node->texture->FUN_00ba37a0(0);
 }

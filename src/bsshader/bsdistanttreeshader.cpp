@@ -148,19 +148,19 @@ void FUN_00bb6060_shell::FUN_00bb6060()
     vertexShaderParams.macros[0].Name = "DTTEST";
     vertexShaderParams.macros[0].Definition = "";
     vertexShaderParams.macros[1].Name = 0;
-    std::memset(&vertexShaderParams.macros[1].Definition, 0, 0x3c);
+    std::memset(&vertexShaderParams.macros[1].Definition, 0, 15 * sizeof(const char*));
     pixelShaderParams.pFile = "distanttree\\DistantTree.p.hlsl";
     pixelShaderParams.macros[0].Name = "DTTEST";
     pixelShaderParams.macros[0].Definition = "";
     pixelShaderParams.macros[1].Name = 0;
-    std::memset(&pixelShaderParams.macros[1].Definition, 0, 0x3c);
+    std::memset(&pixelShaderParams.macros[1].Definition, 0, 15 * sizeof(const char*));
     pixelShaderParamsSilhouette.pFile = "distanttree\\DistantTree.p.hlsl";
     pixelShaderParamsSilhouette.macros[0].Name = "DTTEST";
     pixelShaderParamsSilhouette.macros[0].Definition = "";
     pixelShaderParamsSilhouette.macros[1].Name = "SILHOUETTE";
     pixelShaderParamsSilhouette.macros[1].Definition = "";
     pixelShaderParamsSilhouette.macros[2].Name = 0;
-    std::memset(&pixelShaderParamsSilhouette.macros[2].Definition, 0, 0x34);
+    std::memset(&pixelShaderParamsSilhouette.macros[2].Definition, 0, 13 * sizeof(const char*));
 
     char* pThis = (char*)this;
     FUN_00be0c00(vertexShaderParams.pFile, cacheName);

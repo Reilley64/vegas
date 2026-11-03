@@ -106,7 +106,7 @@ void BSBatchRenderer::ReleaseGeometryGroups()
     {
         if (!m_pAlphaGeometryGroups[0]->m_usPassCountLocal)
         {
-            reinterpret_cast<::AlphaList *>((reinterpret_cast<BSBatchRenderer__AlphaList*>(&AlphaGeometryList[0])))->FUN_00e7db70((unsigned int *)&(m_pAlphaGeometryGroups[0]));
+            reinterpret_cast<::AlphaList *>((reinterpret_cast<BSBatchRenderer__AlphaList*>(&AlphaGeometryList[0])))->FUN_00e7db70((void *const *)&(m_pAlphaGeometryGroups[0]));
             BSBatchRenderer__GeometryGroup* group = m_pAlphaGeometryGroups[0];
             if (group)
             {
@@ -117,7 +117,7 @@ void BSBatchRenderer::ReleaseGeometryGroups()
         m_pAlphaGeometryGroups[0] = 0;
         if (!m_pAlphaGeometryGroups[1]->m_usPassCountLocal)
         {
-            reinterpret_cast<::AlphaList *>((reinterpret_cast<BSBatchRenderer__AlphaList*>(&AlphaGeometryList[1])))->FUN_00e7db70((unsigned int *)&(m_pAlphaGeometryGroups[1]));
+            reinterpret_cast<::AlphaList *>((reinterpret_cast<BSBatchRenderer__AlphaList*>(&AlphaGeometryList[1])))->FUN_00e7db70((void *const *)&(m_pAlphaGeometryGroups[1]));
             BSBatchRenderer__GeometryGroup* group = m_pAlphaGeometryGroups[1];
             if (group)
             {

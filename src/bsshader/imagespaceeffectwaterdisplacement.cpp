@@ -532,7 +532,7 @@ void GameObject::FUN_00ba0900(void* arg1, void* arg2, int arg3, int arg4)
                     reinterpret_cast<::FUN_00a5a040_Class *>(((widget).operator->()))->FUN_00a5a040();
 
                     NiUpdateData kData(0.0f);
-                    reinterpret_cast<::FUN_00a59c60_cls *>(((widget).operator->()))->FUN_00a59c60((int)(&kData));
+                    reinterpret_cast<::FUN_00a59c60_cls *>(((widget).operator->()))->FUN_00a59c60((std::intptr_t)(&kData));
 
                     ::AssignFixedString((char *)((widget).operator->()), 0, (char **)&(const ::NiFixedString &)(NiFixedString("Partial Screen Trishape")));
                 }
@@ -609,7 +609,7 @@ void GameObject::FUN_00ba0900(void* arg1, void* arg2, int arg3, int arg4)
     {
         void* renderer = (*reinterpret_cast<void * *>(&::DAT_011f9508));
         ImageSpaceManager* pManager = DAT_011f91ac;
-        reinterpret_cast<::BB97550Shader *>((pManager))->FUN_00b97550(0x22, (std::intptr_t)(renderer), (int)(((::BSRenderedTexture *)(reinterpret_cast<::FUN_00ba3770_struct *>(&(tex54))->FUN_00ba3770()))), (int)(((::BSRenderedTexture *)(reinterpret_cast<::FUN_00ba3770_struct *>(&(tex34))->FUN_00ba3770()))), 0, 1);
+        reinterpret_cast<::BB97550Shader *>((pManager))->FUN_00b97550(0x22, (std::intptr_t)(renderer), (std::intptr_t)(((::BSRenderedTexture *)(reinterpret_cast<::FUN_00ba3770_struct *>(&(tex54))->FUN_00ba3770()))), (std::intptr_t)(((::BSRenderedTexture *)(reinterpret_cast<::FUN_00ba3770_struct *>(&(tex34))->FUN_00ba3770()))), 0, 1);
     }
 
     if (((void *)(reinterpret_cast<::FUN_00ba3780_struct *>(&(tex64))->FUN_00ba3780())))
@@ -846,120 +846,120 @@ class ImageSpaceShaderParam : public ImageSpaceEffectParam
 };
 struct Sub
 {
-    int f000;
-    int f004;
-    int f008;
-    int f00c;
-    int f010;
-    int f014;
-    int f018;
-    int f01c;
-    int f020;
-    int f024;
-    int f028;
-    int f02c;
-    int f030;
-    int f034;
-    int f038;
-    int f03c;
-    int f040;
-    int f044;
-    int f048;
-    int f04c;
-    int f050;
-    int f054;
-    int f058;
-    int f05c;
-    int f060;
-    int f064;
-    int f068;
-    int f06c;
-    int f070;
-    int f074;
-    int f078;
-    int f07c;
-    int f080;
-    int f084;
-    int f088;
-    int f08c;
-    int f090;
-    int f094;
-    int f098;
-    int f09c;
-    int f0a0;
-    int f0a4;
-    int f0a8;
-    int f0ac;
-    int f0b0;
-    int f0b4;
-    int f0b8;
-    int f0bc;
-    int f0c0;
-    int f0c4;
-    int f0c8;
-    int f0cc;
-    int f0d0;
-    int f0d4;
-    int f0d8;
-    int f0dc;
-    int f0e0;
-    int f0e4;
-    int f0e8;
-    int f0ec;
-    int f0f0;
-    int f0f4;
-    int f0f8;
-    int f0fc;
-    int f100;
-    int f104;
-    int f108;
-    int f10c;
-    int f110;
-    int f114;
-    int f118;
-    int f11c;
-    int f120;
-    int f124;
-    int f128;
-    int f12c;
-    int f130;
-    int f134;
-    int f138;
-    int f13c;
-    int f140;
-    int f144;
-    int f148;
-    int f14c;
-    int f150;
-    int f154;
-    int f158;
-    int f15c;
-    int f160;
-    int f164;
-    int f168;
-    int f16c;
-    int f170;
-    int f174;
-    int f178;
-    int f17c;
-    int f180;
-    int f184;
-    int f188;
-    int f18c;
-    int f190;
-    int f194;
-    int f198;
-    int f19c;
-    int f1a0;
-    int f1a4;
-    int f1a8;
-    int f1ac;
-    int f1b0;
-    int f1b4;
-    int f1b8;
-    int f1bc;
-    int f1c0;
-    int f1c4;
+    void* f000;
+    void* f004;
+    void* f008;
+    void* f00c;
+    void* f010;
+    void* f014;
+    void* f018;
+    void* f01c;
+    void* f020;
+    void* f024;
+    void* f028;
+    void* f02c;
+    void* f030;
+    void* f034;
+    void* f038;
+    void* f03c;
+    void* f040;
+    void* f044;
+    void* f048;
+    void* f04c;
+    void* f050;
+    void* f054;
+    void* f058;
+    void* f05c;
+    void* f060;
+    void* f064;
+    void* f068;
+    void* f06c;
+    void* f070;
+    void* f074;
+    void* f078;
+    void* f07c;
+    void* f080;
+    void* f084;
+    void* f088;
+    void* f08c;
+    void* f090;
+    void* f094;
+    void* f098;
+    void* f09c;
+    void* f0a0;
+    void* f0a4;
+    void* f0a8;
+    void* f0ac;
+    void* f0b0;
+    void* f0b4;
+    void* f0b8;
+    void* f0bc;
+    void* f0c0;
+    void* f0c4;
+    void* f0c8;
+    void* f0cc;
+    void* f0d0;
+    void* f0d4;
+    void* f0d8;
+    void* f0dc;
+    void* f0e0;
+    void* f0e4;
+    void* f0e8;
+    void* f0ec;
+    void* f0f0;
+    void* f0f4;
+    void* f0f8;
+    void* f0fc;
+    void* f100;
+    void* f104;
+    void* f108;
+    void* f10c;
+    void* f110;
+    void* f114;
+    void* f118;
+    void* f11c;
+    void* f120;
+    void* f124;
+    void* f128;
+    void* f12c;
+    void* f130;
+    void* f134;
+    void* f138;
+    void* f13c;
+    void* f140;
+    void* f144;
+    void* f148;
+    void* f14c;
+    void* f150;
+    void* f154;
+    void* f158;
+    void* f15c;
+    void* f160;
+    void* f164;
+    void* f168;
+    void* f16c;
+    void* f170;
+    void* f174;
+    void* f178;
+    void* f17c;
+    void* f180;
+    void* f184;
+    void* f188;
+    void* f18c;
+    void* f190;
+    void* f194;
+    void* f198;
+    void* f19c;
+    void* f1a0;
+    void* f1a4;
+    void* f1a8;
+    void* f1ac;
+    void* f1b0;
+    void* f1b4;
+    void* f1b8;
+    void* f1bc;
+    void* f1c0;
+    void* f1c4;
 };
 struct Src
 {
@@ -1009,7 +1009,7 @@ void ImageSpaceEffect::InitFromConfig(Src* config, int unused)
         param->m_55 = 0;
         reinterpret_cast<::ImageSpaceShaderParam *>((param))->FUN_00b8a7c0();
         reinterpret_cast<::FUN_00a41520_cls *>(&(m_18))->FUN_00ba3aa0(0, (::KeyPair **)&(param));
-        int value = config->m_08->f1a4;
+        void* value = config->m_08->f1a4;
         reinterpret_cast<::FUN_00ba3c70_shell *>(this)->SetEffectAt(0, (::ImageSpaceEffect *)(value), (::ImageSpaceEffectParam *)(param), 0);
     }
     {
@@ -1019,7 +1019,7 @@ void ImageSpaceEffect::InitFromConfig(Src* config, int unused)
         param->m_55 = 0;
         reinterpret_cast<::ImageSpaceShaderParam *>((param))->FUN_00b8a7c0();
         reinterpret_cast<::FUN_00a41520_cls *>(&(m_18))->FUN_00ba3aa0(1, (::KeyPair **)&(param));
-        int value = config->m_08->f1a8;
+        void* value = config->m_08->f1a8;
         reinterpret_cast<::FUN_00ba3c70_shell *>(this)->SetEffectAt(1, (::ImageSpaceEffect *)(value), (::ImageSpaceEffectParam *)(param), 0);
     }
     {
@@ -1029,7 +1029,7 @@ void ImageSpaceEffect::InitFromConfig(Src* config, int unused)
         param->m_55 = 0;
 
         reinterpret_cast<::FUN_00a41520_cls *>(&(m_18))->FUN_00ba3aa0(2, (::KeyPair **)&(param));
-        int value = config->m_08->f1ac;
+        void* value = config->m_08->f1ac;
         reinterpret_cast<::FUN_00ba3c70_shell *>(this)->SetEffectAt(2, (::ImageSpaceEffect *)(value), (::ImageSpaceEffectParam *)(param), 0);
     }
     {
@@ -1039,7 +1039,7 @@ void ImageSpaceEffect::InitFromConfig(Src* config, int unused)
         param->m_55 = 0;
 
         reinterpret_cast<::FUN_00a41520_cls *>(&(m_18))->FUN_00ba3aa0(3, (::KeyPair **)&(param));
-        int value = config->m_08->f1b0;
+        void* value = config->m_08->f1b0;
         reinterpret_cast<::FUN_00ba3c70_shell *>(this)->SetEffectAt(3, (::ImageSpaceEffect *)(value), (::ImageSpaceEffectParam *)(param), 0);
     }
     {
@@ -1049,7 +1049,7 @@ void ImageSpaceEffect::InitFromConfig(Src* config, int unused)
         param->m_55 = 0;
 
         reinterpret_cast<::FUN_00a41520_cls *>(&(m_18))->FUN_00ba3aa0(4, (::KeyPair **)&(param));
-        int value = config->m_08->f1b4;
+        void* value = config->m_08->f1b4;
         reinterpret_cast<::FUN_00ba3c70_shell *>(this)->SetEffectAt(4, (::ImageSpaceEffect *)(value), (::ImageSpaceEffectParam *)(param), 0);
     }
     {
@@ -1059,7 +1059,7 @@ void ImageSpaceEffect::InitFromConfig(Src* config, int unused)
         param->m_55 = 0;
 
         reinterpret_cast<::FUN_00a41520_cls *>(&(m_18))->FUN_00ba3aa0(5, (::KeyPair **)&(param));
-        int value = config->m_08->f1b8;
+        void* value = config->m_08->f1b8;
         reinterpret_cast<::FUN_00ba3c70_shell *>(this)->SetEffectAt(5, (::ImageSpaceEffect *)(value), (::ImageSpaceEffectParam *)(param), 0);
     }
     {
@@ -1069,7 +1069,7 @@ void ImageSpaceEffect::InitFromConfig(Src* config, int unused)
         param->m_55 = 0;
         reinterpret_cast<::ImageSpaceShaderParam *>((param))->FUN_00b8a7c0();
         reinterpret_cast<::FUN_00a41520_cls *>(&(m_18))->FUN_00ba3aa0(6, (::KeyPair **)&(param));
-        int value = config->m_08->f1bc;
+        void* value = config->m_08->f1bc;
         reinterpret_cast<::FUN_00ba3c70_shell *>(this)->SetEffectAt(6, (::ImageSpaceEffect *)(value), (::ImageSpaceEffectParam *)(param), 0);
     }
     {
@@ -1079,7 +1079,7 @@ void ImageSpaceEffect::InitFromConfig(Src* config, int unused)
         param->m_55 = 0;
         reinterpret_cast<::ImageSpaceShaderParam *>((param))->FUN_00b8a7c0();
         reinterpret_cast<::FUN_00a41520_cls *>(&(m_18))->FUN_00ba3aa0(7, (::KeyPair **)&(param));
-        int value = config->m_08->f1c0;
+        void* value = config->m_08->f1c0;
         reinterpret_cast<::FUN_00ba3c70_shell *>(this)->SetEffectAt(7, (::ImageSpaceEffect *)(value), (::ImageSpaceEffectParam *)(param), 0);
     }
     {
@@ -1089,7 +1089,7 @@ void ImageSpaceEffect::InitFromConfig(Src* config, int unused)
         param->m_55 = 0;
         reinterpret_cast<::ImageSpaceShaderParam *>((param))->FUN_00b8a7c0();
         reinterpret_cast<::FUN_00a41520_cls *>(&(m_18))->FUN_00ba3aa0(8, (::KeyPair **)&(param));
-        int value = config->m_08->f1c4;
+        void* value = config->m_08->f1c4;
         reinterpret_cast<::FUN_00ba3c70_shell *>(this)->SetEffectAt(8, (::ImageSpaceEffect *)(value), (::ImageSpaceEffectParam *)(param), 0);
     }
 }

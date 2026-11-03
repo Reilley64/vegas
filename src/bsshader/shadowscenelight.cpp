@@ -1101,7 +1101,7 @@ void LightView::RenderFaces()
         if (!(unsigned short)(uiFaceBit & uiFaceMask))
         {
             UpdateView updateView;
-            reinterpret_cast<::FUN_00a59c60_cls *>(this)->FUN_00a59c60((int)&(updateView));
+            reinterpret_cast<::FUN_00a59c60_cls *>(this)->FUN_00a59c60((std::intptr_t)&(updateView));
             if (DAT_011f91b8 != 7)
             {
                 if (unk138)
@@ -1780,7 +1780,7 @@ void ShadowSceneLightDecompile::UpdateShadow(void* unused, unsigned char* render
             a.initialUpdate.updateGeomorphs = false;
             a.initialUpdate.updateBounds = false;
             a.initialUpdate.updateTransforms = false;
-            reinterpret_cast<::FUN_00a59c60_cls *>((reinterpret_cast<FUN_00a712f0*>(GetShadowCamera())))->FUN_00a59c60((int)&(a.initialUpdate));
+            reinterpret_cast<::FUN_00a59c60_cls *>((reinterpret_cast<FUN_00a712f0*>(GetShadowCamera())))->FUN_00a59c60((std::intptr_t)&(a.initialUpdate));
             memcpy(&b.position, &reinterpret_cast<ShadowObject*>(m_pLightNode.m_pObject)->world.translation,
                    sizeof(b.position));
             pExtraData = ((::fnv_00b9dfc0::ShadowExtraData *)(reinterpret_cast<::NiAVObject *>((reinterpret_cast<ShadowObject*>(m_pLightNode.m_pObject)))->GetExtraData((*(const ::NiFixedString *)(::g_pkString_c55)))));
@@ -1810,7 +1810,7 @@ void ShadowSceneLightDecompile::UpdateShadow(void* unused, unsigned char* render
             d.finalUpdate.updateGeomorphs = false;
             d.finalUpdate.updateBounds = false;
             d.finalUpdate.updateTransforms = false;
-            reinterpret_cast<::FUN_00a59c60_cls *>((reinterpret_cast<FUN_00a712f0*>(GetShadowCamera())))->FUN_00a59c60((int)&(d.finalUpdate));
+            reinterpret_cast<::FUN_00a59c60_cls *>((reinterpret_cast<FUN_00a712f0*>(GetShadowCamera())))->FUN_00a59c60((std::intptr_t)&(d.finalUpdate));
             float nearPlane = frustum.nearPlane;
             float farPlane = frustum.farPlane;
             ShadowObject* __restrict boundSource = reinterpret_cast<ShadowObject*>(m_pLightNode.m_pObject);

@@ -316,7 +316,7 @@ struct Thing_b9704
     unsigned int unkFC;
     unsigned int unk100;
     unsigned int unk104;
-    Thing_b9704(unsigned int a1, unsigned int a2, Thing_b9704* a3);
+    Thing_b9704(std::uintptr_t a1, std::uintptr_t a2, unsigned int a3);
 };
 
 struct S00b7fd90_cls
@@ -327,19 +327,19 @@ struct S00b7fd90_cls
     unsigned short m_usSize;
     unsigned short m_usESize;
     unsigned short m_usGrowBy;
-    void FUN_00b7fd90(std::uintptr_t a1, unsigned int a2, Thing_b9704* a3);
+    void FUN_00b7fd90(std::uintptr_t a1, std::uintptr_t a2, unsigned int a3);
 };
 
 // @fnv 0x00b7fd90
-void S00b7fd90_cls::FUN_00b7fd90(std::uintptr_t a1, unsigned int a2, Thing_b9704* a3)
+void S00b7fd90_cls::FUN_00b7fd90(std::uintptr_t a1, std::uintptr_t a2, unsigned int a3)
 {
-    a3 = new Thing_b9704(a1, a2, a3);
+    Thing_b9704* entry = new Thing_b9704(a1, a2, a3);
     unsigned int index = m_usSize;
     if (index >= m_usMaxSize)
     {
         reinterpret_cast<::FUN_00a41520_cls *>(this)->FUN_00a90180(m_usGrowBy + index);
     }
-    reinterpret_cast<::FUN_00a41520_cls *>(this)->FUN_00ba3aa0(index, (::KeyPair **)&(a3));
+    reinterpret_cast<::FUN_00a41520_cls *>(this)->FUN_00ba3aa0(index, (::KeyPair **)&(entry));
 }
 
 #include "generated/data/bsshader/shaderbuffer.inc"

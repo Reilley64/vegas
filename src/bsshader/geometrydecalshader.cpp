@@ -150,7 +150,7 @@ void FUN_00bcb4d0_shell::CreateDecalShaders()
     VSbaseParam.macros[4] = "MAXDECALS";
     VSbaseParam.macros[5] = DAT_01063f48;
     VSbaseParam.macros[6] = 0;
-    std::memset(&VSbaseParam.macros[7], 0, 0x2c);
+    std::memset(&VSbaseParam.macros[7], 0, 11 * sizeof(const char*));
     ::FUN_00be0c00(VSbaseParam.path, pCacheFileName);
     ::FUN_00406d00(pTempFileName, 0x104, "GDECAL.vso");
     pShaderPasses[0] =
@@ -174,7 +174,7 @@ void FUN_00bcb4d0_shell::CreateDecalShaders()
     PSbaseParam.macros[4] = "MAXDECALS";
     PSbaseParam.macros[5] = DAT_01063f48;
     PSbaseParam.macros[6] = 0;
-    std::memset(&PSbaseParam.macros[7], 0, 0x2c);
+    std::memset(&PSbaseParam.macros[7], 0, 11 * sizeof(const char*));
     ::FUN_00be0c00(PSbaseParam.path, pCacheFileName);
     ::FUN_00406d00(pTempFileName, 0x104, "GDECAL.pso");
     pShaderPasses[2] =

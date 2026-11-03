@@ -11,7 +11,7 @@ void FUN_00b4f510();
 // 0x00b4f540
 void FUN_00b4f540(unsigned int, unsigned int, unsigned int, unsigned int);
 // 0x00b4f5c0
-int FUN_00b4f5c0();
+void *FUN_00b4f5c0();
 // 0x00b4f5d0
 int FUN_00b4f5d0();
 // 0x00b4f710

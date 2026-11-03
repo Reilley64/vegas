@@ -148,7 +148,7 @@ void __cdecl FUN_00b97d90(int, int, int);
 // @fnv 0x00be0eb0
 void FUN_00be0eb0(int)
 {
-    int ecx_val = *(int*)(DAT_0126f74c + 0x30);
+    std::intptr_t ecx_val = *(std::intptr_t*)(DAT_0126f74c + 0x30);
     Node_00be0eb0* pNode = *(Node_00be0eb0**)(ecx_val + 0x10);
     while (pNode)
     {
@@ -170,7 +170,7 @@ void __cdecl FUN_00b98610(int, int);
 // @fnv 0x00be0ee0
 void FUN_00be0ee0(int)
 {
-    int p1 = *(int*)(DAT_0126f74c + 0x30);
+    std::intptr_t p1 = *(std::intptr_t*)(DAT_0126f74c + 0x30);
     Node_00be0ee0* node = *(Node_00be0ee0**)(p1 + 0x10);
     while (node)
     {
@@ -352,11 +352,11 @@ struct NiD3DPass_Ex : NiD3DPass
 // @fnv 0x00be2170
 void __cdecl FUN_00be2170()
 {
-    int p = DAT_0126f74c;
+    std::intptr_t p = DAT_0126f74c;
     unsigned int count = *(unsigned int*)(p + 0x18);
     for (unsigned int i = 0; i < count; ++i)
     {
-        NiD3DPass_Ex* pass = ((NiD3DPass_Ex**)*(int*)(p + 0x24))[i];
+        NiD3DPass_Ex* pass = ((NiD3DPass_Ex**)*(std::intptr_t*)(p + 0x24))[i];
         if (!pass)
             break;
         if (*(bool*)&pass->m_uiRefCount && *(int*)((char*)pass + 8))
@@ -373,14 +373,14 @@ struct NiD3DPass_Ext : public NiD3DPass
 // @fnv 0x00be21b0
 void __cdecl FUN_00be21b0()
 {
-    int p = DAT_0126f74c;
+    std::intptr_t p = DAT_0126f74c;
     unsigned int count = *(unsigned int*)(p + 0x18);
     int mask = *(char*)(p + 0x4c);
     for (unsigned int i = 0; i < count; ++i)
     {
         if (DAT_011ae640[i] & mask)
         {
-            NiD3DPass_Ext* pass = ((NiD3DPass_Ext**)*(int*)(p + 0x24))[i];
+            NiD3DPass_Ext* pass = ((NiD3DPass_Ext**)*(std::intptr_t*)(p + 0x24))[i];
             if (!pass)
                 break;
             if (*(int*)((char*)pass + 8) != 0)
@@ -495,7 +495,7 @@ void __cdecl ConfigureBeamStage(BeamStage* stage, unsigned int uiValue, unsigned
                                 bool bFlag)
 {
     stage->m_arg2 = uiValue;
-    reinterpret_cast<::fnv_00e88fc0::E88FC0StageSet *>((stage->m_pTextureState))->SetStageValue(11, (void *)(uiValue), false);
+    reinterpret_cast<::fnv_00e88fc0::E88FC0StageSet *>((stage->m_pTextureState))->SetStageValue(11, (void *)(std::uintptr_t)(uiValue), false);
     reinterpret_cast<::fnv_00e88fc0::E88FC0StageSet *>((stage->m_pTextureState))->SetStageValue(1, (void *)(1), false);
     reinterpret_cast<::fnv_00e88fc0::E88FC0StageSet *>((stage->m_pTextureState))->SetStageValue(2, (void *)(2), false);
     reinterpret_cast<::fnv_00e88fc0::E88FC0StageSet *>((stage->m_pTextureState))->SetStageValue(4, (void *)(1), false);
@@ -1199,7 +1199,7 @@ NiD3DPixelShader* FUN_00be1750_shell::FUN_00be1750(char* apFilename, void* apMac
     {
         if (DAT_011f9494)
         {
-            reinterpret_cast<::S00b7fd90_cls *>((DAT_011f9494))->FUN_00b7fd90((std::uintptr_t)(apCacheName), (unsigned int)((char*)pshaderbuffer), (::Thing_b9704 *)(uiShaderSize));
+            reinterpret_cast<::S00b7fd90_cls *>((DAT_011f9494))->FUN_00b7fd90((std::uintptr_t)(apCacheName), (std::uintptr_t)(pshaderbuffer), uiShaderSize);
         }
         else
         {
@@ -2222,7 +2222,7 @@ FUN_00be0b30* FUN_00be0fe0(const char* source, _D3DXMACRO* macros, const char* p
     if (bytecode)
     {
         if (DAT_011f9494)
-            reinterpret_cast<::S00b7fd90_cls *>((DAT_011f9494))->FUN_00b7fd90((std::uintptr_t)(shaderName), (unsigned int)(bytecode), (::Thing_b9704 *)(bytecodeSize));
+            reinterpret_cast<::S00b7fd90_cls *>((DAT_011f9494))->FUN_00b7fd90((std::uintptr_t)(shaderName), (std::uintptr_t)(bytecode), bytecodeSize);
         else
         {
             VertexDevice* device = ((VertexRendererView*)(*reinterpret_cast<::GraphicsRenderer * *>(&::DAT_011f9508)))->GetDevice();

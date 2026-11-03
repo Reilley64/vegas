@@ -3192,7 +3192,7 @@ void WatchSet::AddWatcher(Watcher* pkWatcher)
     Watcher* light = pkWatcher;
     if (!m_iLocked)
     {
-        reinterpret_cast<::AlphaList *>(&(m_kWatchers))->FUN_00e7db70((unsigned int *)&(pkWatcher));
+        reinterpret_cast<::AlphaList *>(&(m_kWatchers))->FUN_00e7db70((void *const *)&(pkWatcher));
         m_bValueAt0C = true;
         if (light->m_bHasAccumulation)
             m_iTimer = 0;
@@ -3283,7 +3283,7 @@ struct S
 void S::FUN_00b718b0()
 {
     void* key = &(*reinterpret_cast<char *>(&::g_011fa310));
-    reinterpret_cast<::AlphaList *>(&(list60))->FUN_00e7db70((unsigned int *)&(key));
+    reinterpret_cast<::AlphaList *>(&(list60))->FUN_00e7db70((void *const *)&(key));
     list60.AddHead(&(*reinterpret_cast<char *>(&::g_011fa310)));
     unk78 = list60.GetHeadPos();
 }

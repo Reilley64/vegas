@@ -1002,7 +1002,7 @@ inline void InitWaterVertexBase(WaterShaderDesc& desc)
     desc.kMacros[0].Definition = 0;
     desc.kMacros[1].Name = 0;
     desc.kMacros[1].Definition = 0;
-    std::memset(&desc.kMacros[2], 0, 56);
+    std::memset(&desc.kMacros[2], 0, 14 * sizeof(const char*));
 }
 
 inline void InitWaterVertexVariant(WaterShaderDesc& desc, const char* macro)
@@ -1011,7 +1011,7 @@ inline void InitWaterVertexVariant(WaterShaderDesc& desc, const char* macro)
     desc.kMacros[0].Name = macro;
     desc.kMacros[0].Definition = "";
     desc.kMacros[1].Name = 0;
-    std::memset(&desc.kMacros[1].Definition, 0, 60);
+    std::memset(&desc.kMacros[1].Definition, 0, 15 * sizeof(const char*));
 }
 
 class WaterShaderMemScope

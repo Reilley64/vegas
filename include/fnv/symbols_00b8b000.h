@@ -1,9 +1,11 @@
 #pragma once
 
+#include <cstdint>
+
 namespace fnv_00b8bb70 { class NiPoint3; }
 
 // 0x00b8b1c0
-int FUN_00b8b1c0(int, int);
+std::intptr_t FUN_00b8b1c0(std::intptr_t, std::intptr_t);
 // 0x00b8b1e0
 void FUN_00b8b1e0(const int *);
 // 0x00b8b200

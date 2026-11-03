@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include "havok/hkMemoryRouter.h"
+#include "havok/hkpCollisionDispatcher.h"
 #include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include <new>
@@ -491,125 +492,8 @@ struct CollisionAgent;
 typedef CollisionAgent*(__cdecl* CreateFunc)(const CdBody& a, const CdBody& b, const CollisionInput& input,
                                              ContactMgr* mgr);
 
-struct CollisionAgentFunctionTable
+struct CollisionDispatcher : ::hkpCollisionDispatcher
 {
-    CreateFunc m_pCreateFunc;
-    void* unk04;
-    void* unk08;
-    void* unk0c;
-    void* unk10;
-};
-
-struct CollisionDispatcher
-{
-    int unk000;
-    int unk004;
-    int unk008;
-    int unk00c;
-    int unk010;
-    int unk014;
-    int unk018;
-    int unk01c;
-    int unk020;
-    int unk024;
-    int unk028;
-    int unk02c;
-    int unk030;
-    int unk034;
-    int unk038;
-    int unk03c;
-    int unk040;
-    int unk044;
-    int unk048;
-    int unk04c;
-    int unk050;
-    int unk054;
-    int unk058;
-    int unk05c;
-    int unk060;
-    int unk064;
-    int unk068;
-    int unk06c;
-    int unk070;
-    int unk074;
-    int unk078;
-    int unk07c;
-    int unk080;
-    int unk084;
-    int unk088;
-    int unk08c;
-    int unk090;
-    int unk094;
-    int unk098;
-    int unk09c;
-    int unk0a0;
-    int unk0a4;
-    int unk0a8;
-    int unk0ac;
-    int unk0b0;
-    int unk0b4;
-    int unk0b8;
-    int unk0bc;
-    int unk0c0;
-    int unk0c4;
-    int unk0c8;
-    int unk0cc;
-    int unk0d0;
-    int unk0d4;
-    int unk0d8;
-    int unk0dc;
-    int unk0e0;
-    int unk0e4;
-    int unk0e8;
-    int unk0ec;
-    int unk0f0;
-    int unk0f4;
-    int unk0f8;
-    int unk0fc;
-    int unk100;
-    int unk104;
-    int unk108;
-    int unk10c;
-    int unk110;
-    int unk114;
-    int unk118;
-    int unk11c;
-    int unk120;
-    int unk124;
-    int unk128;
-    int unk12c;
-    int unk130;
-    int unk134;
-    int unk138;
-    int unk13c;
-    int unk140;
-    int unk144;
-    int unk148;
-    int unk14c;
-    int unk150;
-    int unk154;
-    int unk158;
-    int unk15c;
-    int unk160;
-    int unk164;
-    int unk168;
-    int unk16c;
-    int unk170;
-    int unk174;
-    int unk178;
-    int unk17c;
-    int unk180;
-    int unk184;
-    int unk188;
-    int unk18c;
-    int unk190;
-    int unk194;
-    int unk198;
-    int unk19c;
-    unsigned char m_ucAgent2TypeTable[32][32];
-    unsigned char m_ucAgent3TypeTable[32][32];
-    CollisionAgentFunctionTable m_kAgent3FunctionTable[32];
-
     CollisionAgent* getNewCollisionAgent(const CdBody& bodyA, const CdBody& bodyB, const CollisionInput& input,
                                          ContactMgr* mgr) const;
 };
@@ -629,10 +513,9 @@ inline CollisionAgent* CollisionDispatcher::getNewCollisionAgent(const CdBody& b
 {
     int typeA = bodyA.getShape()->m_type;
     int typeB = bodyB.getShape()->m_type;
-    const unsigned char* agentTypeTablePtr =
-        (input.m_bCreatePredictiveAgents) ? &m_ucAgent3TypeTable[0][0] : &m_ucAgent2TypeTable[0][0];
-    int agentType = agentTypeTablePtr[typeA * 32 + typeB];
-    CreateFunc f = m_kAgent3FunctionTable[agentType].m_pCreateFunc;
+    const signed char(*agentTypeTable)[32] = (input.m_bCreatePredictiveAgents) ? m_agent2TypesPred : m_agent2Types;
+    int agentType = agentTypeTable[typeA][typeB];
+    CreateFunc f = reinterpret_cast<CreateFunc>(m_agent2Func[agentType].m_createFunc);
     return f(bodyA, bodyB, input, mgr);
 }
 
@@ -761,8 +644,8 @@ struct S_00d2f980_Array
 };
 struct S_00d2f980_Mid : S_00d2f980_Base
 {
-    int m8;
-    S_00d2f980_Mid(int p) : m8(p)
+    void* m8;  // the contact manager
+    S_00d2f980_Mid(void* p) : m8(p)
     {}
 };
 struct FUN_00d2f980 : S_00d2f980_Mid
@@ -772,30 +655,23 @@ struct FUN_00d2f980 : S_00d2f980_Mid
     int unk1C;
     __declspec(align(16)) S_00d2f980_Vec m20;
     S_00d2f980_Vec m30;
-    FUN_00d2f980(int p);
+    FUN_00d2f980(void* p);
 };
 // Initializes m30 and m20 to FLT_MAX, delegating to the S_00d2f980_Mid base constructor with p.
 // @fnv 0x00d2f980
-FUN_00d2f980::FUN_00d2f980(int p) : S_00d2f980_Mid(p)
+FUN_00d2f980::FUN_00d2f980(void* p) : S_00d2f980_Mid(p)
 {
     m30.SetAllComponents(3.40282e+38f);
     m20 = m30;
 }
 
-struct Built
-{
-    int field00;
-    short field04;
-    int field08;
-    void FUN_00d2f980(int);
-};
-// Allocates a FUN_00d2f980-sized Built from the global allocator, records its size in field04, and calls FUN_00d2f980 with arg4.
+// Allocates a FUN_00d2f980 from the heap, constructs it with the contact manager arg4, and records its size.
 // @fnv 0x00d2f9d0
-void __cdecl FUN_00d2f9d0(int aiUnused1, int aiUnused2, int aiUnused3, int arg4)
+void __cdecl FUN_00d2f9d0(void* aiUnused1, void* aiUnused2, void* aiUnused3, void* arg4)
 {
-    Built* pBuilt = static_cast<Built*>(hkMemoryRouter::getInstance().heap().blockAlloc(sizeof(::FUN_00d2f980)));
-    pBuilt->field04 = sizeof(::FUN_00d2f980);
-    pBuilt->FUN_00d2f980(arg4);
+    void* mem = hkMemoryRouter::getInstance().heap().blockAlloc(sizeof(::FUN_00d2f980));
+    ::FUN_00d2f980* agent = new (mem) ::FUN_00d2f980(arg4);
+    agent->m_usMemSizeAndFlags = sizeof(::FUN_00d2f980);
 }
 
 extern "C" void _ReadWriteBarrier(void);
@@ -999,129 +875,12 @@ typedef void(__cdecl* S_00d30f50_LinearCastFunc)(const S_00d30f50_CdBody& bodyA,
                                                  S_00d30f50_CdPointCollector& collector,
                                                  S_00d30f50_CdPointCollector* startCollector);
 
-struct S_00d30f50_Agent2Funcs
+struct S_00d30f50_Dispatcher : ::hkpCollisionDispatcher
 {
-    void* m_pCreateFunc;
-    void* m_pQueryPenetrationsFunc;
-    void* m_getClosestPointsFunc;
-    S_00d30f50_LinearCastFunc m_pLinearCastFunc;
-    void* unk10;
-};
-
-struct S_00d30f50_Dispatcher
-{
-    int unk000;
-    int unk004;
-    int unk008;
-    int unk00C;
-    int unk010;
-    int unk014;
-    int unk018;
-    int unk01C;
-    int unk020;
-    int unk024;
-    int unk028;
-    int unk02C;
-    int unk030;
-    int unk034;
-    int unk038;
-    int unk03C;
-    int unk040;
-    int unk044;
-    int unk048;
-    int unk04C;
-    int unk050;
-    int unk054;
-    int unk058;
-    int unk05C;
-    int unk060;
-    int unk064;
-    int unk068;
-    int unk06C;
-    int unk070;
-    int unk074;
-    int unk078;
-    int unk07C;
-    int unk080;
-    int unk084;
-    int unk088;
-    int unk08C;
-    int unk090;
-    int unk094;
-    int unk098;
-    int unk09C;
-    int unk0A0;
-    int unk0A4;
-    int unk0A8;
-    int unk0AC;
-    int unk0B0;
-    int unk0B4;
-    int unk0B8;
-    int unk0BC;
-    int unk0C0;
-    int unk0C4;
-    int unk0C8;
-    int unk0CC;
-    int unk0D0;
-    int unk0D4;
-    int unk0D8;
-    int unk0DC;
-    int unk0E0;
-    int unk0E4;
-    int unk0E8;
-    int unk0EC;
-    int unk0F0;
-    int unk0F4;
-    int unk0F8;
-    int unk0FC;
-    int unk100;
-    int unk104;
-    int unk108;
-    int unk10C;
-    int unk110;
-    int unk114;
-    int unk118;
-    int unk11C;
-    int unk120;
-    int unk124;
-    int unk128;
-    int unk12C;
-    int unk130;
-    int unk134;
-    int unk138;
-    int unk13C;
-    int unk140;
-    int unk144;
-    int unk148;
-    int unk14C;
-    int unk150;
-    int unk154;
-    int unk158;
-    int unk15C;
-    int unk160;
-    int unk164;
-    int unk168;
-    int unk16C;
-    int unk170;
-    int unk174;
-    int unk178;
-    int unk17C;
-    int unk180;
-    int unk184;
-    int unk188;
-    int unk18C;
-    int unk190;
-    int unk194;
-    int unk198;
-    int unk19C;
-    unsigned char m_agent2TypeMap[32][32];
-    unsigned char m_agent3TypeMap[32][32];
-    S_00d30f50_Agent2Funcs m_agent2Funcs[32];
-
     S_00d30f50_LinearCastFunc getLinearCastFunc(int typeA, int typeB) const
     {
-        int idx = m_agent2TypeMap[typeA][typeB];
-        return m_agent2Funcs[idx].m_pLinearCastFunc;
+        int idx = m_agent2Types[typeA][typeB];
+        return reinterpret_cast<S_00d30f50_LinearCastFunc>(m_agent2Func[idx].m_linearCastFunc);
     }
 };
 
@@ -1233,13 +992,12 @@ struct SpawnedObject
     virtual ~SpawnedObject()
     {}
     unsigned short m_04;
-    SpawnedObject* FUN_00d2f980(int arg);
 };
 
 
 // Allocates a FUN_00d2f980-sized object and calls FUN_00d2f980 with a4; unless the first m_a0 is less than the second, it then calls the destructor; returns the object.
 // @fnv 0x00d2fa40
-SpawnedObject* FUN_00d2fa40(FloatOwner* apFirstOwner, FloatOwner* apSecondOwner, int aiUnused, int a4)
+SpawnedObject* FUN_00d2fa40(FloatOwner* apFirstOwner, FloatOwner* apSecondOwner, int aiUnused, void* a4)
 {
     FloatSub* pFirstSub = apFirstOwner->m_08;
     FloatSub* pSecondSub = apSecondOwner->m_08;
@@ -1397,19 +1155,9 @@ struct S00d31110_FilterHolder : S00d31110_RefObj, S00d31110_Filter
 
 typedef void(__cdecl* S00d31110_Func)(S00d31110_Body* a, S00d31110_Body* b, void* input, void* collector);
 
-struct S00d31110_FuncEntry
-{
-    S00d31110_Func m_func;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-};
 
-struct S00d31110_Dispatcher
+struct S00d31110_Dispatcher : ::hkpCollisionDispatcher
 {
-    unsigned char m_types[0x9a8];
-    S00d31110_FuncEntry m_entries[1];
 };
 
 struct S00d31110_Input
@@ -1491,9 +1239,9 @@ extern "C" void __cdecl FUN_00d31110(void* apBodyA, void* apBodyB, void* apInput
             {
                 S00d31110_Shape* childShape = container->GetShapeForKey(*it, childBuffer);
                 child.SetCollisionShapeAndKey(childShape, *it);
-                unsigned char t = input->m_pCollisionDispatcher->m_types[(typeA + 13) * 32 + childShape->m_type];
-                input->m_pCollisionDispatcher->m_entries[t].m_func((S00d31110_Body*)apBodyA, &child, input,
-                                                                   apCollector);
+                unsigned char t = input->m_pCollisionDispatcher->m_agent2Types[typeA][childShape->m_type];
+                reinterpret_cast<S00d31110_Func>(input->m_pCollisionDispatcher->m_agent2Func[t].m_getClosestPointsFunc)(
+                    (S00d31110_Body*)apBodyA, &child, input, apCollector);
             }
         }
     }
@@ -1650,7 +1398,7 @@ struct S312_FilterHolder
 typedef void(__cdecl* S312_Func)(S312_Body*, S312_Body*, S312_Input*, void*);
 struct S312_Input
 {
-    unsigned char* m_pCollisionDispatcher;
+    const ::hkpCollisionDispatcher* m_pCollisionDispatcher;
     DWORD unk04, unk08;
     S312_FilterHolder* m_iFilter;
 };
@@ -1721,9 +1469,9 @@ void __cdecl FUN_00d312f0(void* apA, void* apB, void* apC, void* apD)
             {
                 S312_Shape* shape = shapeContainer->GetShapeForKey(*itr, shapeBuffer);
                 modifiedBodyB.SetCollisionShapeAndKey(shape, *itr);
-                unsigned char* d = input.m_pCollisionDispatcher;
-                unsigned char idx = d[(typeA + 0xd) * 32 + shape->m_type];
-                S312_Func f = *(S312_Func*)(d + idx * 20 + 0x9a4);
+                const ::hkpCollisionDispatcher* d = input.m_pCollisionDispatcher;
+                unsigned char idx = d->m_agent2Types[typeA][shape->m_type];
+                S312_Func f = reinterpret_cast<S312_Func>(d->m_agent2Func[idx].m_getPenetrationsFunc);
                 f(&bodyA, &modifiedBodyB, &input, &collector);
                 if (collector.m_fHitDistance)
                     break;
@@ -2027,14 +1775,6 @@ struct SolAgent
     SolManager* m_pContactManager;
 };
 typedef SolAgent*(__cdecl* SolFactory)(const SolBody&, const SolBody&, const SolInput&, SolManager*);
-struct SolFactoryRecord
-{
-    SolFactory create;
-    void* u04;
-    void* u08;
-    void* u0c;
-    void* u10;
-};
 struct SolDispatcher;
 struct SolInput
 {
@@ -2049,116 +1789,8 @@ struct SolInput
         return tolerance;
     }
 };
-struct SolDispatcher
+struct SolDispatcher : ::hkpCollisionDispatcher
 {
-    int unk000;
-    int unk004;
-    int unk008;
-    int unk00c;
-    int unk010;
-    int unk014;
-    int unk018;
-    int unk01c;
-    int unk020;
-    int unk024;
-    int unk028;
-    int unk02c;
-    int unk030;
-    int unk034;
-    int unk038;
-    int unk03c;
-    int unk040;
-    int unk044;
-    int unk048;
-    int unk04c;
-    int unk050;
-    int unk054;
-    int unk058;
-    int unk05c;
-    int unk060;
-    int unk064;
-    int unk068;
-    int unk06c;
-    int unk070;
-    int unk074;
-    int unk078;
-    int unk07c;
-    int unk080;
-    int unk084;
-    int unk088;
-    int unk08c;
-    int unk090;
-    int unk094;
-    int unk098;
-    int unk09c;
-    int unk0a0;
-    int unk0a4;
-    int unk0a8;
-    int unk0ac;
-    int unk0b0;
-    int unk0b4;
-    int unk0b8;
-    int unk0bc;
-    int unk0c0;
-    int unk0c4;
-    int unk0c8;
-    int unk0cc;
-    int unk0d0;
-    int unk0d4;
-    int unk0d8;
-    int unk0dc;
-    int unk0e0;
-    int unk0e4;
-    int unk0e8;
-    int unk0ec;
-    int unk0f0;
-    int unk0f4;
-    int unk0f8;
-    int unk0fc;
-    int unk100;
-    int unk104;
-    int unk108;
-    int unk10c;
-    int unk110;
-    int unk114;
-    int unk118;
-    int unk11c;
-    int unk120;
-    int unk124;
-    int unk128;
-    int unk12c;
-    int unk130;
-    int unk134;
-    int unk138;
-    int unk13c;
-    int unk140;
-    int unk144;
-    int unk148;
-    int unk14c;
-    int unk150;
-    int unk154;
-    int unk158;
-    int unk15c;
-    int unk160;
-    int unk164;
-    int unk168;
-    int unk16c;
-    int unk170;
-    int unk174;
-    int unk178;
-    int unk17c;
-    int unk180;
-    int unk184;
-    int unk188;
-    int unk18c;
-    int unk190;
-    int unk194;
-    int unk198;
-    int unk19c;
-
-    unsigned char regular[32][32];
-    unsigned char predictive[32][32];
-    SolFactoryRecord functions[32];
     enum Prediction
     {
         NoPrediction,
@@ -2166,8 +1798,8 @@ struct SolDispatcher
     };
     __forceinline SolFactory find(SolKind a, SolKind b, const Prediction& predictiveFlag) const
     {
-        int kind = (predictiveFlag ? predictive : regular)[a][b];
-        return functions[kind].create;
+        int kind = (predictiveFlag ? m_agent2TypesPred : m_agent2Types)[a][b];
+        return reinterpret_cast<SolFactory>(m_agent2Func[kind].m_createFunc);
     }
     __forceinline SolAgent* getNewCollisionAgent(const SolBody& a, const SolBody& b, const SolInput& input,
                                                  SolManager* mgr) const

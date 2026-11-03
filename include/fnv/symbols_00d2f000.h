@@ -25,8 +25,8 @@ void FUN_00d2f690(::SlotRef *, ::SlotRef *, ::SlotParam *, ::SlotBox *);
 // 0x00d2f710
 void ApplyTransformToTarget(::Holder *, ::Holder *, ::ValueSource *, void *);
 // 0x00d2f9d0
-void FUN_00d2f9d0(int, int, int, int);
+void FUN_00d2f9d0(void *, void *, void *, void *);
 // 0x00d2fa00
 ::D2FA00Agent *FUN_00d2fa00(const void *, const void *, const void *, void *);
 // 0x00d2fa40
-namespace fnv_00d2fa40 { ::fnv_00d2fa40::SpawnedObject *FUN_00d2fa40(::fnv_00d2fa40::FloatOwner *, ::fnv_00d2fa40::FloatOwner *, int, int); }
+namespace fnv_00d2fa40 { ::fnv_00d2fa40::SpawnedObject *FUN_00d2fa40(::fnv_00d2fa40::FloatOwner *, ::fnv_00d2fa40::FloatOwner *, int, void *); }

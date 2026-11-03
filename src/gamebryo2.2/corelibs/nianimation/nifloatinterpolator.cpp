@@ -657,7 +657,7 @@ class A3C8D0_Object : public FUN_00a3ca10
     int m_10;
     NiPointer<NiObject> m_14;
 
-    static void* operator new(unsigned int size)
+    static void* operator new(size_t size)
     {
         return FUN_00aa13e0(size);
     }

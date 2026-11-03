@@ -77,7 +77,7 @@ struct RendererPacketEntry
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int);
+    static void* operator new(size_t);
 };
 class GraphicsRenderer : public NiMemObject
 {
@@ -2223,7 +2223,7 @@ class NiRefObject
 class NiPixelData : public NiRefObject
 {
   public:
-    static void* operator new(unsigned int);
+    static void* operator new(size_t);
     NiPixelData(unsigned int, unsigned int, const NiPixelFormat&, unsigned int, unsigned int) throw();
     int unk08;
     int unk0c;
@@ -4853,7 +4853,7 @@ class E6EC20Cache
   public:
     ~E6EC20Cache();
 
-    static void operator delete(void* pvMem, unsigned int uiSize)
+    static void operator delete(void* pvMem, size_t uiSize)
     {
         operator_delete_sized(pvMem, uiSize);
     }
@@ -9397,7 +9397,7 @@ struct ShaderD3DDevice
 struct ShaderMemMgr
 {
 };
-inline void* operator new[](unsigned int size)
+inline void* operator new[](size_t size)
 {
     return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::ShaderMemMgr *>(&::g_memoryManager))))->FUN_00aa3e40(size);
 }
@@ -9665,7 +9665,7 @@ class E7A6A0Bucket
         m_kEntries.RemoveAll();
     }
 
-    static void operator delete(void* pvMem, unsigned int uiSize)
+    static void operator delete(void* pvMem, size_t uiSize)
     {
         operator_delete_sized(pvMem, uiSize);
     }
@@ -13791,7 +13791,7 @@ struct Node
 
     Node* m_next;
 
-    static void operator delete(void* pvMem, unsigned int uiSize)
+    static void operator delete(void* pvMem, size_t uiSize)
     {
 
         operator_delete_sized(pvMem, uiSize);
@@ -14969,7 +14969,7 @@ struct ShaderProgram;
 
 struct ShaderEntry
 {
-    static void* operator new(unsigned int size)
+    static void* operator new(size_t size)
     {
         return FUN_00aa13e0(size);
     }

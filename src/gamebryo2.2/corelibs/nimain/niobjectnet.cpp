@@ -746,7 +746,7 @@ class C7B0ObjectNET : public C7B0Object
         reinterpret_cast<::FUN_00a5bfa0_shell *>(this)->ClearExtraData();
     }
 
-    static void operator delete(void* pvMem, unsigned int uiSize);
+    static void operator delete(void* pvMem, size_t uiSize);
 
     C7B0ObjectNET* DestroyObject(unsigned int uiFlags);
 

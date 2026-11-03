@@ -59,7 +59,7 @@ class NiQuatTransform
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int) throw();
+    static void* operator new(size_t) throw();
 };
 class NiTransformInterpolator : public NiMemObject
 {
@@ -267,7 +267,7 @@ void FUN_00a2fb70(void* pThis);
 
 struct NiMemObject_Del : public NiMemObject
 {
-    static void operator delete(void*, unsigned int) throw();
+    static void operator delete(void*, size_t) throw();
 };
 
 // Calls FUN_00a2fb70 on pThis, then deletes pThis with size 0x40 when flags has bit 1 set, and returns pThis.
@@ -470,7 +470,7 @@ struct FUN_00a30070_shell
 };
 struct BSFadeNode
 {
-    static void* operator new(unsigned int);
+    static void* operator new(size_t);
 };
 struct __declspec(novtable) CloneBase : BSFadeNode
 {
@@ -504,7 +504,7 @@ NiObject* FUN_00a302d0_shell::FUN_00a302d0(CloningProcess* kCloning)
 namespace fnv_00a30330 {
 struct BSFadeNode
 {
-    static void* operator new(unsigned int);
+    static void* operator new(size_t);
 };
 struct __declspec(novtable) Base : BSFadeNode
 {

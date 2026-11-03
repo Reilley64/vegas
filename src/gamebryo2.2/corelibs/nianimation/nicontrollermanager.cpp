@@ -498,7 +498,7 @@ struct FUN_00a2f850_shell : public NiControllerManager
 
 struct BSFadeNode
 {
-    static void* operator new(unsigned int);
+    static void* operator new(size_t);
 };
 struct FUN_00a2eed0_tgt
 {
@@ -631,7 +631,7 @@ void* FUN_00a2e510_Stub::DestroyNiTMapBase(unsigned int auiFlags)
 
 struct BSFadeNode
 {
-    void* operator new(unsigned int);
+    void* operator new(size_t);
     void* FUN_00a2eed0();
 };
 // @fnv 0x00a2f6c0
@@ -674,7 +674,7 @@ extern void* DAT_01096258;
 extern void* DAT_01096260;
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
+    static void* __cdecl operator new(size_t);
 };
 struct P03MM
 {
@@ -1981,7 +1981,7 @@ class S00a2f170_Seq : public NiObject
     bool m_bHasAnimNotes;
 
     static void* FUN_00aa13e0(unsigned int);
-    static void* operator new(unsigned int n) throw()
+    static void* operator new(size_t n) throw()
     {
         return FUN_00aa13e0(n);
     }
@@ -2197,7 +2197,7 @@ bool FUN_00a2f800(NiControllerSequence* seq, float a, float b, int c, int key)
 struct FUN_00a2e1f0 : NiRefObject
 {
     virtual ~FUN_00a2e1f0();
-    static void operator delete(void*, unsigned int);
+    static void operator delete(void*, size_t);
 };
 // The destructor body is empty.
 // @fnv 0x00a2e1f0

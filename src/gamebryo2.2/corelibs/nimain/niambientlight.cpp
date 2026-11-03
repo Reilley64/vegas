@@ -67,7 +67,7 @@ class CloningProcessA9B3;
 class TESObjectDoorController
 {
   public:
-    static void* operator new(unsigned int n);
+    static void* operator new(size_t n);
 };
 
 class FUN_00a71f60
@@ -89,7 +89,7 @@ class CloneA9B3 : public FUN_00a71f60
     }
     virtual ~CloneA9B3() throw();
 
-    static void* operator new(unsigned int n)
+    static void* operator new(size_t n)
     {
         return TESObjectDoorController::operator new(n);
     }

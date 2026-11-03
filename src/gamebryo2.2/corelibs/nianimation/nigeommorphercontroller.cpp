@@ -139,7 +139,7 @@ void FUN_00a3a8b0(NiGeomMorpherController* self, int, NiInterpolator* pkInterpol
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
+    static void* __cdecl operator new(size_t);
 };
 struct NiFloatInterpolator
 {
@@ -348,7 +348,7 @@ struct P03MM
 struct MorphPoint3
 {
     float x, y, z;
-    static void* operator new[](unsigned int uiSize)
+    static void* operator new[](size_t uiSize)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize);
     }
@@ -1886,7 +1886,7 @@ struct Obj_b10413 : public Base_b10413
     bool m_bUpdateBounds;
 
     Obj_b10413(MorphData_b10413* pkData) throw();
-    static void* operator new(unsigned int size) throw()
+    static void* operator new(size_t size) throw()
     {
         return FUN_00aa13e0(size);
     }
@@ -2041,7 +2041,7 @@ int* C00a41590::FUN_00a41590()
 class TESObjectDoorController
 {
   public:
-    static void* operator new(unsigned int n);
+    static void* operator new(size_t n);
 };
 class NiMorphDataA3B
 {
@@ -2083,7 +2083,7 @@ class NiGeomMorpherControllerA3B : public a3bb::FUN_00a2f8c0
         m_bUpdateBounds = false;
     }
     virtual ~NiGeomMorpherControllerA3B() throw();
-    static void* operator new(unsigned int n)
+    static void* operator new(size_t n)
     {
         return TESObjectDoorController::operator new(n);
     }

@@ -176,13 +176,13 @@ void* FUN_00a463e0_Holder::GetElementAt(unsigned int index)
 struct CloningProcess;
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
+    static void* __cdecl operator new(size_t);
 };
 struct NiAlphaController
 {
     void CopyMemberData(NiAlphaController*, CloningProcess&);
 };
-inline void* __cdecl operator new(unsigned int, void* p)
+inline void* __cdecl operator new(size_t, void* p)
 {
     return p;
 }
@@ -370,7 +370,7 @@ struct TextureTransformOwner : InterpolationControllerBase
         controllerID = 0;
     }
     void* FUN_00a46890(unsigned int flags);
-    static void operator delete(void* memory, unsigned int size)
+    static void operator delete(void* memory, size_t size)
     {
         FUN_00aa1460(memory, size);
     }

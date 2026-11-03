@@ -35,7 +35,7 @@ void* __cdecl FUN_00a485b0()
 }
 
 struct BSFadeNode {
-    static void* __cdecl operator new(unsigned int);
+    static void* __cdecl operator new(size_t);
 };
 
 extern int DAT_01098634;
@@ -91,7 +91,7 @@ void NiRollController::FUN_00a48790(StrArr* pStrArr)
     reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pStrArr))->SetAt(uiSize, pkString);
 }
 
-typedef unsigned int A486F0size_t;
+typedef size_t A486F0size_t;
 
 struct A486F0CloningProcess;
 

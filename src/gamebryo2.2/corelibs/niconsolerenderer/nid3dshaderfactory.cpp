@@ -554,7 +554,7 @@ bool IsDefaultShader(class NiShader* pkShader)
     return false;
 }
 
-void __cdecl operator delete(void* p, unsigned int);
+void __cdecl operator delete(void* p, size_t);
 
 
 struct FUN_00e92e30_shell : public NiD3DShaderFactory

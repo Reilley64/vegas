@@ -138,7 +138,7 @@ bool FUN_00a55a60(NiBlendPoint3Interpolator* p)
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
+    static void* __cdecl operator new(size_t);
 };
 extern int DAT_0109a49c;
 // @fnv 0x00a55a80

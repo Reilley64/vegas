@@ -60,7 +60,7 @@ struct BlendItem
     float m_fLastEvaluationTime;
     BlendItem() throw();
     ~BlendItem() throw();
-    static void* operator new[](unsigned int size)
+    static void* operator new[](size_t size)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::S_00a370b0_Allocator *>(&::g_memoryManager))))->FUN_00aa3e40(size);
     }

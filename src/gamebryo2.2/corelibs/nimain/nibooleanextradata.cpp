@@ -31,7 +31,7 @@ public:
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
+    static void* __cdecl operator new(size_t);
 };
 
 
@@ -104,7 +104,7 @@ struct S_00a9af40 : NiExtraData
     int unk8;
     bool unkC;
 
-    static void* operator new(unsigned int n)
+    static void* operator new(size_t n)
     {
         return BSFadeNode::operator new(n);
     }

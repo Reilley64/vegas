@@ -121,7 +121,7 @@ class NiShaderConstantMap
             m_kConstantName = other.m_kConstantName;
             return *this;
         }
-        static void* operator new[](unsigned int size) throw()
+        static void* operator new[](size_t size) throw()
         {
             return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(size);
         }

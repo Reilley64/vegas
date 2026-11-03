@@ -139,16 +139,12 @@ void FUN_00a7b330_shell::FUN_00a7b330(NiBinaryExtraData* pkDest, CloningProcess*
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
+    static void* __cdecl operator new(size_t);
 };
 struct _Call_a5d3a0
 {
     _Call_a5d3a0();
 };
-inline void* __cdecl operator new(unsigned int, void* p)
-{
-    return p;
-}
 // Allocates a 12-byte NiExtraData, constructs it, sets its vtable and copies a stored int into offset 8, returning the object or null.
 // @fnv 0x00a7b380
 NiExtraData* FUN_00a7b380()

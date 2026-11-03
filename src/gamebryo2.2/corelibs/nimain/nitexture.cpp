@@ -53,7 +53,7 @@ extern int DAT_010983bc;
 class BSFadeNode
 {
   public:
-    static void* __cdecl operator new(unsigned int);
+    static void* __cdecl operator new(size_t);
 };
 
 class NiProperty : public BSFadeNode

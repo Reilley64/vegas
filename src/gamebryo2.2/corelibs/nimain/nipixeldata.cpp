@@ -106,7 +106,7 @@ NiPixelData::NiPixelData(unsigned int width, unsigned int height, const NiPixelF
 class NiMemObject
 {
   public:
-    static void __cdecl operator delete(void*, unsigned int);
+    static void __cdecl operator delete(void*, size_t);
 };
 
 void ReleaseSpawnedRefs(void*);
@@ -231,7 +231,7 @@ struct SpawnedPixelData : NiObject
         unk64 = 0;
         unk68 = 1;
     }
-    static void* operator new(unsigned int size)
+    static void* operator new(size_t size)
     {
         return FUN_00aa13e0(size);
     }
@@ -837,7 +837,7 @@ class NiPalette : public NiObject
     unsigned int unk1C;
     unsigned int unk20;
     NiPalette(const NiPalette& src) throw();
-    static void* __cdecl operator new(unsigned int size);
+    static void* __cdecl operator new(size_t size);
     void IncRefCount()
     {
         InterlockedIncrement((LONG*)&m_uiRefCount);

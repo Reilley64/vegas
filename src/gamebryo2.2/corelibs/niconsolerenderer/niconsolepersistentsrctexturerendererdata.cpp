@@ -71,7 +71,7 @@ struct NiD3DShaderProgramCreator;
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
+    static void* __cdecl operator new(size_t);
 };
 
 struct NiD3DShaderProgramFactory
@@ -85,7 +85,7 @@ struct CreatorHLSL
 {
     int vtbl;
     int field4;
-    static void* operator new(unsigned int sz)
+    static void* operator new(size_t sz)
     {
         return BSFadeNode::operator new(sz);
     }
@@ -319,7 +319,7 @@ struct BooleanKey
     int _0;
     int _4;
     ~BooleanKey();
-    void* operator new[](unsigned int s)
+    void* operator new[](size_t s)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00a2cdc0::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(s);
     }
@@ -856,7 +856,7 @@ void FUN_00e91190_Holder::SetFlag(bool b)
 namespace fnv_00e916d0 {
 struct BSFadeNode
 {
-    static void* operator new(unsigned int);
+    static void* operator new(size_t);
 };
 
 // @fnv 0x00e916d0
@@ -1456,7 +1456,7 @@ struct ScriptX
 };
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
+    static void* __cdecl operator new(size_t);
 };
 struct FUN_00e8a260 : BSFadeNode
 {
@@ -2029,10 +2029,6 @@ struct TexRecord
     unsigned char m_70;
 };
 
-inline void* operator new(unsigned int, void* p)
-{
-    return p;
-}
 
 void* __cdecl FUN_00aa13e0(unsigned int size);
 
@@ -3703,7 +3699,7 @@ struct Renderer_e91590 : RendererBase
         m_b1114 = false;
         std::memmove(&m_kCreateDesc, desc, sizeof(CreateDesc));
     }
-    static void* operator new(unsigned int sz)
+    static void* operator new(size_t sz)
     {
         return BSFadeNode::operator new(sz);
     }

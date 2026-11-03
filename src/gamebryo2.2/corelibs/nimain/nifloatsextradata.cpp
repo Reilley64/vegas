@@ -27,7 +27,7 @@ public:
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
+    static void* __cdecl operator new(size_t);
 };
 
 // @fnv 0x00a89190
@@ -102,7 +102,7 @@ public:
     void FUN_00a7b300();
 };
 extern int DAT_0109ec0c;
-void __cdecl operator delete(void*, unsigned int);
+void __cdecl operator delete(void*, size_t);
 struct FUN_00a891d0_shell
 {
     void* DestroyNiFloatsExtraData(unsigned int);

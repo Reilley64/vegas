@@ -602,8 +602,8 @@ void A43600Controller::FUN_00a43600(A43600Stream& kStream)
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int stSize);
-    static void operator delete(void* pvMem, unsigned int stElementSize);
+    static void* operator new(size_t stSize);
+    static void operator delete(void* pvMem, size_t stElementSize);
 };
 
 class NiKeyBasedInterpolator : public NiMemObject

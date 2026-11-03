@@ -335,7 +335,7 @@ class BSFixedString
 class ShaderEntry
 {
   public:
-    static void* operator new(unsigned int uiSize) throw()
+    static void* operator new(size_t uiSize) throw()
     {
         return FUN_00aa13e0(uiSize);
     }

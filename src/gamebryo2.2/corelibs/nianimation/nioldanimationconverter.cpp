@@ -136,7 +136,7 @@ struct LcObject
     }
 };
 
-inline void* operator new(unsigned int, void* pv, int)
+inline void* operator new(size_t, void* pv, int)
 {
     return pv;
 }

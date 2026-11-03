@@ -187,7 +187,7 @@ struct FUN_00a4eaa0_shell : public NiFloatsExtraDataPoint3Controller
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
+    static void* __cdecl operator new(size_t);
 };
 struct BlendPoint3Stub
 {
@@ -206,7 +206,7 @@ NiBlendInterpolator* FUN_00a4eaa0_shell::FUN_00a4eaa0(unsigned short usIndex, bo
 namespace fnv_00a4e040 {
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
+    static void* __cdecl operator new(size_t);
 };
 
 struct _Call_a5d3a0 : BSFadeNode

@@ -204,7 +204,7 @@ struct C25990Elem
     C25990Elem();
     ~C25990Elem()
     {}
-    static void* operator new[](unsigned int size, unsigned int count)
+    static void* operator new[](size_t size, unsigned int count)
     {
         if (count == 0)
             return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::PoolAlloc_00c25b30 *>(&::g_memoryManager))))->FUN_00aa3e40(4);

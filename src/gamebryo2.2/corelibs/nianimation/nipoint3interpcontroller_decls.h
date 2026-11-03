@@ -15,7 +15,7 @@ class NiBoolInterpController
 };
 extern unsigned int DAT_0109a0b4;
 
-inline void* operator new(unsigned int, NiBoolInterpController& p)
+inline void* operator new(size_t, NiBoolInterpController& p)
 {
     return &p;
 }

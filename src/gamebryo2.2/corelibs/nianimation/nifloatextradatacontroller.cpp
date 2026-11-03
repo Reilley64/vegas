@@ -90,7 +90,7 @@ const GlobalObjectO2_00a7b610* __cdecl FUN_00a41230()
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
+    static void* __cdecl operator new(size_t);
 };
 struct FUN_00a3c390 : BSFadeNode
 {
@@ -118,7 +118,7 @@ void* CreateFadeNodeFromFloatSource(void* self, int edx, unsigned short usIndex)
 namespace fnv_00a41280 {
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
+    static void* __cdecl operator new(size_t);
 };
 struct CopyHelper
 {
@@ -175,13 +175,13 @@ struct NiPSysModifierCtlr
 };
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
+    static void* __cdecl operator new(size_t);
 };
 struct NiColorData;
 struct NiColorInterpolator : NiRefObject
 {
     char pad[0x1c];
-    static void* operator new(unsigned int n)
+    static void* operator new(size_t n)
     {
         return BSFadeNode::operator new(n);
     }

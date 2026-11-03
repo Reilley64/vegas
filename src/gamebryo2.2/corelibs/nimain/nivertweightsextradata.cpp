@@ -39,7 +39,7 @@ public:
 
 struct BSFadeNode
 {
-    static void* operator new(unsigned int);
+    static void* operator new(size_t);
 };
 
 extern void* DAT_0109ee9c;

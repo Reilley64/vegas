@@ -63,7 +63,7 @@ bool NiPSysFieldAttenuationCtlr::FUN_00c2b290(NiObjectNET* pkTarget)
 // The game's operator new (0xaa13e0), declared under a stand-in name: the
 // shared symbol map binds the global ??2@YAPAXI@Z to a placeholder address.
 void* NiMemAlloc(unsigned int uiSize);
-inline void* operator new(unsigned int, void* pvWhere)
+inline void* operator new(size_t, void* pvWhere)
 {
     return pvWhere;
 }

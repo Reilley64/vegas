@@ -33,7 +33,7 @@ void* __cdecl FUN_00a4b570()
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
+    static void* __cdecl operator new(size_t);
 };
 
 void __cdecl FUN_00a57c80(void*);
@@ -250,7 +250,7 @@ struct Thing
     int m_i18;
     int m_i1c;
 
-    static void* operator new(unsigned int auiSize) throw();
+    static void* operator new(size_t auiSize) throw();
 
     Thing(Source* apSource) throw();
 };

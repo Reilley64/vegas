@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/nimain/niparticlemeshesdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/niparticlemeshesdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
 #include <windows.h>
 #include <cmath>
 #include "fnv/decl/Candidate.h"
@@ -309,7 +310,7 @@ class A98B10Node
   public:
     A98B10Node(unsigned int uiChildren) throw();
 
-    static void* operator new(unsigned int uiSize) throw();
+    static void* operator new(size_t uiSize) throw();
     static void operator delete(void* pvMem) throw();
 
     virtual void vfn00();
@@ -721,12 +722,8 @@ void FUN_00a98c90_shell::UpdateParticleMeshes()
 
 struct NiMemObject
 {
-    static void* __cdecl operator new(unsigned int size);
+    static void* __cdecl operator new(size_t size);
 };
-inline void* __cdecl operator new(unsigned int, void* where)
-{
-    return where;
-}
 // Allocates a 0x78-byte object, constructs it, sets the bool at offset 0x40 to true, and returns it.
 // @fnv 0x00a98d30
 FUN_00a98b10* __cdecl FUN_00a98d30()

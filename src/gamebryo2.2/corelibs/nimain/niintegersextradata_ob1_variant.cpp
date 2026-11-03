@@ -104,7 +104,7 @@ struct NiExtraDataSaveHelperShell : NiExtraDataSaveHelper
 };
 struct A51BF0Base
 {
-    static void* __cdecl operator new(unsigned int size);
+    static void* __cdecl operator new(size_t size);
 };
 struct FUN_00c53f10 : A51BF0Base
 {
@@ -415,7 +415,7 @@ struct StreamHeap
 {
 };
 
-inline void* operator new[](unsigned int size)
+inline void* operator new[](size_t size)
 {
     return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::StreamHeap *>(&::g_memoryManager))))->FUN_00aa3e40(size);
 }
@@ -469,7 +469,7 @@ struct IntegerEntry
         m_0c = 0;
         m_0e = 0xff;
     }
-    static void* operator new[](unsigned int size)
+    static void* operator new[](size_t size)
     {
         return g_memoryManagerShell.Allocate(size);
     }
@@ -536,7 +536,7 @@ struct NiFS
 {
     int handle;
 
-    __forceinline void* operator new(unsigned int size)
+    __forceinline void* operator new(size_t size)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00c546c0::DynamicMemoryAllocator *>(&::g_memoryManager))))->FUN_00aa3e40(size);
     }
@@ -594,7 +594,7 @@ struct NiIntStreamEntryC
     {
         return !((FUN_00c54cc0_cls*)this)->FUN_00c54cc0((FUN_00c54cc0_cls*)&kOther);
     }
-    static void* operator new[](unsigned int stSize)
+    static void* operator new[](size_t stSize)
     {
         return ((NiIntStreamMemoryC*)&(*reinterpret_cast<::MM *>(&::g_memoryManager)))->Allocate(stSize);
     }

@@ -377,11 +377,11 @@ template <class T> class NiPointer
     ~NiPointer()
     {}
 
-    static void* operator new[](unsigned int uiSize)
+    static void* operator new[](size_t uiSize)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::sc1d790::MemoryHeap *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize);
     }
-    static void operator delete[](void* pvMem, unsigned int uiSize)
+    static void operator delete[](void* pvMem, size_t uiSize)
     {
         (*reinterpret_cast<::sc1d790::MemoryHeap *>(&::g_memoryManager)).FUN_00aa4060(pvMem);
     }

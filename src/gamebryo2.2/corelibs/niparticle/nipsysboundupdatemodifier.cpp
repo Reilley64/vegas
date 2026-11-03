@@ -73,7 +73,7 @@ struct NiObject
 struct BSFadeNode
 {
     char _pad[0x18];
-    static void* __cdecl operator new(unsigned int);
+    static void* __cdecl operator new(size_t);
 };
 struct NiPSysModifier : BSFadeNode
 {

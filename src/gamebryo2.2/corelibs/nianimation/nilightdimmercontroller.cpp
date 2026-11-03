@@ -55,14 +55,14 @@ GlobalObjectO2_00a7b610* __cdecl FUN_00a4cf90()
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
+    static void* __cdecl operator new(size_t);
 };
 struct NiFloatInterpController
 {
     NiFloatInterpController();
 };
 extern int DAT_01098ccc;
-inline void* __cdecl operator new(unsigned int, void* p)
+inline void* __cdecl operator new(size_t, void* p)
 {
     return p;
 }

@@ -390,8 +390,8 @@ template <> NiPointer<NiAVObject>& NiPointer<NiAVObject>::operator=(NiAVObject*)
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int) throw();
-    static void* operator new(unsigned int, void* memory) throw()
+    static void* operator new(size_t) throw();
+    static void* operator new(size_t, void* memory) throw()
     {
         return memory;
     }

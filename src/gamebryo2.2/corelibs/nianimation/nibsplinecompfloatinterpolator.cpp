@@ -189,7 +189,7 @@ bool FUN_00a51530_cls::EvaluateAtTime(float afTime, unsigned int unused, float* 
 }
 
 void* __cdecl FUN_00aa13e0(unsigned int size);
-inline void* operator new(unsigned int, void* q)
+inline void* operator new(size_t, void* q)
 {
     return q;
 }
@@ -253,7 +253,7 @@ class Base51620
   public:
     Base51620(int iA, int iB, int iC) throw();
     virtual ~Base51620();
-    static void* operator new(unsigned int uiSize);
+    static void* operator new(size_t uiSize);
     int unk04;
     int unk08;
     int unk0C;

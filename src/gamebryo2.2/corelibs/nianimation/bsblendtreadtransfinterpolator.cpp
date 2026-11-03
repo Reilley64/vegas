@@ -22,7 +22,7 @@ GlobalObjectO2_00a7b610* __cdecl FUN_00a42fe0()
 
 struct BSFadeNode
 {
-    void* operator new(unsigned int);
+    void* operator new(size_t);
 };
 extern int DAT_01097904;
 void FUN_00a36890(void*);

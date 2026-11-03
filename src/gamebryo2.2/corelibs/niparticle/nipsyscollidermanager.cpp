@@ -27,7 +27,7 @@ struct NiPSysPositionModifier
     void* vfn[6];
     int m_0x18;
     NiPSysPositionModifier();
-    static void* __cdecl operator new(unsigned int);
+    static void* __cdecl operator new(size_t);
 };
 
 extern int DAT_010c008c;

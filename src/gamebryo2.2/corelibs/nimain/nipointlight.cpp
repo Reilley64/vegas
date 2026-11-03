@@ -88,7 +88,7 @@ const void* __cdecl FUN_00a9b390()
 
 struct NiMemObject
 {
-    static void* operator new(unsigned int size);
+    static void* operator new(size_t size);
 };
 struct FUN_00a71ec0_helper
 {

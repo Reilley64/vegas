@@ -265,7 +265,7 @@ struct BA50F00Range
 class BA50F00Interpolator
 {
   public:
-    static void* operator new(unsigned int uiSize);
+    static void* operator new(size_t uiSize);
 
     BA50F00Interpolator(int iFlags, unsigned short usA, unsigned short usB, unsigned short usC, int iD);
     virtual ~BA50F00Interpolator();
@@ -315,7 +315,7 @@ class A50E70Base
   public:
     A50E70Base(int iA, unsigned short usB, unsigned short usC, unsigned short usD, int iE) throw();
     virtual ~A50E70Base();
-    static void* operator new(unsigned int uiSize) throw();
+    static void* operator new(size_t uiSize) throw();
     static void operator delete(void* pvMem);
 
     void CopyMemberData(A50E70Base* pkDest, A50E70CloningProcess& kCloning);

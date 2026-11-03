@@ -92,7 +92,7 @@ struct SdmBase
     }
     virtual ~SdmBase()
     {}
-    static void* operator new(unsigned int, void* p)
+    static void* operator new(size_t, void* p)
     {
         return p;
     }
@@ -122,7 +122,7 @@ void CreateSdmDerived()
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
+    static void* __cdecl operator new(size_t);
 };
 struct NiPropertyCtorStub
 {
@@ -158,7 +158,7 @@ void FUN_00a5cef0()
 
 struct A51BF0Base
 {
-    static void* __cdecl operator new(unsigned int);
+    static void* __cdecl operator new(size_t);
 };
 
 // @fnv 0x00a5ceb0

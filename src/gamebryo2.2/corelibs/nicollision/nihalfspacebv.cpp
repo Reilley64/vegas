@@ -344,7 +344,7 @@ struct CloneNode : NiBoundingVolume
     virtual ~CloneNode();
     FUN_00a69940_Member member;
     NiPoint3 point;
-    void* operator new(unsigned int size)
+    void* operator new(size_t size)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(size);
     }

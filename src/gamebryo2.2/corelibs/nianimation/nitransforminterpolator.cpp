@@ -374,13 +374,13 @@ struct FUN_00a40460_shell : public NiTransformInterpolator
     NiObject* FUN_00a40460(CloningProcess*);
 };
 
-inline void* operator new(unsigned int, void* pkMem)
+inline void* operator new(size_t, void* pkMem)
 {
     return pkMem;
 }
 struct BSFadeNode
 {
-    static void* operator new(unsigned int);
+    static void* operator new(size_t);
 };
 struct FUN_00a3fa30 : public NiTransformInterpolator
 {
@@ -1119,7 +1119,7 @@ void NiTransformInterpolatorCopy::FUN_00a40360(NiTransformInterpolator* pkDest, 
 
 namespace fnv_00a403f0 {
 void* __cdecl FUN_00aa13e0(unsigned int size);
-inline void* __cdecl operator new(unsigned int, void* address)
+inline void* __cdecl operator new(size_t, void* address)
 {
     return address;
 }

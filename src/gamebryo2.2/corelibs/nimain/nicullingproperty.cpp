@@ -23,7 +23,7 @@ GlobalObjectO2_00a7b610* __cdecl FUN_00a8f520()
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
+    static void* __cdecl operator new(size_t);
 };
 
 struct FUN_00a8fce0_shell
@@ -337,10 +337,6 @@ void BA8F690Property::GetViewerStrings(BA8F690StringArray* pkStrings)
 }
 
 extern int DAT_0109f68c;
-inline void* __cdecl operator new(unsigned int, void* p)
-{
-    return p;
-}
 // Allocates a NiProperty, clears the low bit of the 0x18 field, sets the vtable to DAT_0109f68c, and returns it.
 // @fnv 0x00a8f580
 NiProperty* __cdecl CreateProperty()

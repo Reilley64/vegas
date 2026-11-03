@@ -578,7 +578,7 @@ void FUN_00a5e3a0(NiAVObject* pThis, int, NiPropertyState*& pkState)
 
 struct NiMemObject
 {
-    static void __cdecl operator delete(void*, unsigned int);
+    static void __cdecl operator delete(void*, size_t);
 };
 
 // Calls FUN_00a5e930 on pThis, then frees pThis with NiMemObject::operator delete when flags has bit 0 set, and returns pThis.
@@ -1648,7 +1648,7 @@ class BA5EFA0ObjectArray : public BA5EFA0ChildArray
 class BA5EFA0AVObject
 {
   public:
-    static void* operator new(unsigned int uiSize);
+    static void* operator new(size_t uiSize);
 
     BA5EFA0AVObject() throw();
     virtual ~BA5EFA0AVObject();

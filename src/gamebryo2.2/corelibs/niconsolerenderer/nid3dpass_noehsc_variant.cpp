@@ -56,7 +56,7 @@ class SpawnedObject
     unsigned int unk5C;
     unsigned int unk60;
     unsigned int unk64;
-    static void* operator new[](unsigned int bytes) throw();
+    static void* operator new[](size_t bytes) throw();
     SpawnedObject() throw();
     ~SpawnedObject()
     {}

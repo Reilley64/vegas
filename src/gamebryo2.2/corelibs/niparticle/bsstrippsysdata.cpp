@@ -1122,7 +1122,7 @@ struct StripCloneC263 : S_00c26000_Strip
         unk7c = 0;
     }
 
-    static void* operator new(unsigned int size)
+    static void* operator new(size_t size)
     {
         return FUN_00aa13e0(size);
     }

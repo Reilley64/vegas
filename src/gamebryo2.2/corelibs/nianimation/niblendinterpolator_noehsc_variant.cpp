@@ -105,7 +105,7 @@ class FUN_00a370a0 : public NiBlendInterpolator__InterpArrayItem
 {
   public:
     __declspec(nothrow) FUN_00a370a0();
-    static void* operator new[](unsigned int uiSize)
+    static void* operator new[](size_t uiSize)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>((((MemoryManager*)&(*reinterpret_cast<::MM *>(&::g_memoryManager)))))->FUN_00aa3e40(uiSize);
     }
@@ -159,7 +159,7 @@ struct FUN_00a370a0
     __declspec(nothrow) FUN_00a370a0();
     ~FUN_00a370a0()
     {}
-    static void* operator new[](unsigned int n) throw()
+    static void* operator new[](size_t n) throw()
     {
         return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00a37980::Memory100 *>(&::g_memoryManager))))->FUN_00aa3e40(n);
     }

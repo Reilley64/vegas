@@ -221,7 +221,7 @@ struct NiMemorySystem
 {
 };
 
-inline void* __cdecl operator new[](unsigned int n)
+inline void* __cdecl operator new[](size_t n)
 {
     return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::NiMemorySystem *>(&::g_memoryManager))))->FUN_00aa3e40(n);
 }

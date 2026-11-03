@@ -352,7 +352,7 @@ struct PaletteObject : PaletteBase
 {
     PaletteHash hash;
     void* scene;
-    static __forceinline void* operator new(unsigned int size) throw()
+    static __forceinline void* operator new(size_t size) throw()
     {
         return FUN_00aa13e0(size);
     }

@@ -2135,7 +2135,7 @@ struct ReaderAllocator
 };
 struct ReaderStorage
 {
-    static void* operator new(unsigned int size) throw()
+    static void* operator new(size_t size) throw()
     {
         return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::ReaderAllocator *>(&::g_memoryManager))))->FUN_00aa3e40(size);
     }
@@ -3378,7 +3378,7 @@ MipPixelData* MipImageConverter::FUN_00a7ae60(const char** ppcFileNames, unsigne
     return pkDest;
 }
 
-inline void* __cdecl operator new(unsigned int, void* memory) throw()
+inline void* __cdecl operator new(size_t, void* memory) throw()
 {
     return memory;
 }
@@ -3425,7 +3425,7 @@ struct Format
 
 struct NiMemObject
 {
-    static void* operator new(unsigned int);
+    static void* operator new(size_t);
 };
 
 struct Image : NiMemObject

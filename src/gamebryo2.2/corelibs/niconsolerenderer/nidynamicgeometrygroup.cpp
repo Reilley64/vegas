@@ -68,7 +68,7 @@ void FUN_00e951e0(NiGeometryBufferData* pkBuffData, unsigned int uiStream)
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
+    static void* __cdecl operator new(size_t);
 };
 
 
@@ -117,7 +117,7 @@ void* FUN_00e95780_shell::FUN_00e95780(unsigned int auiFlags)
     return this;
 }
 
-void __cdecl operator delete(void*, unsigned int);
+void __cdecl operator delete(void*, size_t);
 struct FUN_00e95b40_shell
 {
     virtual ~FUN_00e95b40_shell();
@@ -306,7 +306,7 @@ inline bool IsKindOfInline(const RttiStub* pkRTTI, GeomDataStub* pkObject)
 struct BuffDataStub
 {
     BuffDataStub() throw();
-    static void* operator new(unsigned int uiSize)
+    static void* operator new(size_t uiSize)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::MemMgrStub *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize);
     }
@@ -458,9 +458,9 @@ struct Group
 };
 struct NiMemObject
 {
-    static void* __cdecl operator new(unsigned int uiSize);
+    static void* __cdecl operator new(size_t uiSize);
 };
-inline void* __cdecl operator new(unsigned int, void* pvMem) throw()
+inline void* __cdecl operator new(size_t, void* pvMem) throw()
 {
     return pvMem;
 }
@@ -495,7 +495,7 @@ struct BufferSetData
 
     BufferSetData() : unk00(0), unk04(0), size(0), buffer(0), unk10(0)
     {}
-    static void* operator new(unsigned int bytes)
+    static void* operator new(size_t bytes)
     {
         return FUN_00aa13e0(bytes);
     }
@@ -783,7 +783,7 @@ struct DynamicSetData
 };
 struct DynamicChipData
 {
-    static void operator delete(void*, unsigned int);
+    static void operator delete(void*, size_t);
     ~DynamicChipData()
     {
         buffer = 0;

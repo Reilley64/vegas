@@ -115,11 +115,11 @@ struct S_00c2b580_TargetObj : S_00c2b580_Base
     int unk34;
     int unk38;
     int unk3C;
-    static void* operator new(unsigned int size) throw()
+    static void* operator new(size_t size) throw()
     {
         return FUN_00aa13e0(size);
     }
-    static void operator delete(void*, unsigned int) throw()
+    static void operator delete(void*, size_t) throw()
     {}
     S_00c2b580_TargetObj() throw()
     {}

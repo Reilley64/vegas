@@ -301,7 +301,7 @@ class NamedC318 : public FUN_00a5d3d0
     virtual ~NamedC318()
     {}
 
-    static void operator delete(void* pvMem, unsigned int uiSize)
+    static void operator delete(void* pvMem, size_t uiSize)
     {
         FUN_00aa1460(pvMem, uiSize);
     }

@@ -218,7 +218,7 @@ void* __cdecl FUN_00aa13e0(unsigned int size);
 
 struct RadialFieldObject_00c285d0 : FUN_00c31ff0
 {
-    static void* operator new(unsigned int, void* where) throw()
+    static void* operator new(size_t, void* where) throw()
     {
         return where;
     }

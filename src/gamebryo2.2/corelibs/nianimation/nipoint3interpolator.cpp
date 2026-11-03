@@ -629,7 +629,7 @@ class A49B30KeyBasedInterpolator
     A49B30KeyBasedInterpolator() throw();
     virtual ~A49B30KeyBasedInterpolator();
 
-    static void* operator new(unsigned int uiSize);
+    static void* operator new(size_t uiSize);
     static void operator delete(void* pvMem);
 
     int unk04;

@@ -12,9 +12,9 @@ char const* const* __cdecl FUN_00be0ae0()
     return &(*reinterpret_cast<const char *const *>(&::g_0126f9ac));
 }
 
-void __cdecl operator delete(void* p, unsigned int flags);
-void* __cdecl operator new(unsigned int size, unsigned int flags);
-void* __cdecl operator new(unsigned int size);
+void __cdecl operator delete(void* p, size_t flags);
+void* __cdecl operator new(size_t size, unsigned int flags);
+void* __cdecl operator new(size_t size);
 
 struct FUN_00eea750_shell
 {

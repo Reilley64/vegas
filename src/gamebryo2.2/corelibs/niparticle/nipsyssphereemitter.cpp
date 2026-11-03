@@ -37,7 +37,7 @@ GlobalObjectO2_00a7b610* __cdecl FUN_00c1fe10()
 extern int DAT_010bd974;
 struct BSFadeNode
 {
-    void* operator new(unsigned int size);
+    void* operator new(size_t size);
     void FUN_00c31af0();
     void* m_pvt;
     char m_auiShapeKeys[0x54];

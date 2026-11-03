@@ -126,7 +126,7 @@ struct NiD3DShaderProgramStub
 {
     NiD3DShaderProgramStub(void* pkRenderer, int eType) throw();
     virtual ~NiD3DShaderProgramStub();
-    static void* operator new(unsigned int uiSize);
+    static void* operator new(size_t uiSize);
     int unk04;
     int unk08;
     int unk0C;
@@ -256,7 +256,7 @@ struct ShaderCreatorAsmStub;
 
 struct NiMemObjectStub
 {
-    static void* operator new(unsigned int uiSize);
+    static void* operator new(size_t uiSize);
 };
 
 struct NiD3DShaderProgramStub : NiMemObjectStub
@@ -373,7 +373,7 @@ NiD3DPixelShaderStub* ShaderCreatorAsmStub::FUN_00e97c60(const char* pcFileName,
 
 struct NiMemObject
 {
-    static void* operator new(unsigned int) throw();
+    static void* operator new(size_t) throw();
 };
 struct PixelBase : NiMemObject
 {

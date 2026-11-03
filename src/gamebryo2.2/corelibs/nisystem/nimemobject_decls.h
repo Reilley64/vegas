@@ -17,7 +17,7 @@ class NiPoint2
 class SNAEntry
 {
   public:
-    static void* operator new[](unsigned int size);
+    static void* operator new[](size_t size);
 };
 
 // Declarations for the constructor/getter span.

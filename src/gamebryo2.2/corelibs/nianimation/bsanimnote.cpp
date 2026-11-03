@@ -49,7 +49,7 @@ extern int DAT_01097dd4;
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int size);
+    static void* __cdecl operator new(size_t size);
 };
 
 struct _Call_a5d3a0
@@ -291,7 +291,7 @@ class A4AF0MemoryManager
   public:
 };
 
-inline void* __cdecl operator new[](unsigned int uiSize)
+inline void* __cdecl operator new[](size_t uiSize)
 {
     return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::A4AF0MemoryManager *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize);
 }

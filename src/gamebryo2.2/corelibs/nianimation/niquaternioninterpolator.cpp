@@ -92,7 +92,7 @@ const void* __cdecl FUN_00a48ab0()
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
+    static void* __cdecl operator new(size_t);
 };
 
 extern int DAT_010986f4;
@@ -738,7 +738,7 @@ struct A48E20_Object : A48E20_Base
     int m_1C;
     int m_20;
 
-    static void* operator new(unsigned int size)
+    static void* operator new(size_t size)
     {
         return FUN_00aa13e0(size);
     }

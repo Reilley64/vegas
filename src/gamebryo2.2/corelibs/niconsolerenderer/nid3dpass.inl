@@ -5,7 +5,7 @@
 class NiMemObject
 {
 public:
-    static void operator delete(void*, unsigned int);
+    static void operator delete(void*, size_t);
 };
 
 class D3DRenderStateGroup : public NiMemObject

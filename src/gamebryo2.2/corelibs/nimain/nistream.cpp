@@ -373,7 +373,7 @@ class hkMemorySystemC68
 class hkFreeListMemorySystemC68 : public hkMemorySystemC68
 {
   public:
-    void* operator new(unsigned int, void* pvWhere)
+    void* operator new(size_t, void* pvWhere)
     {
         return pvWhere;
     }
@@ -395,14 +395,14 @@ class hkBaseSystemC68
 class hkReferencedObjectC68
 {
   public:
-    void* operator new(unsigned int uiBytes)
+    void* operator new(size_t uiBytes)
     {
         hkReferencedObjectC68* b =
             static_cast<hkReferencedObjectC68*>(GetMemoryRouterC68()->heap().AllocateMemoryBlock(uiBytes));
         b->m_usMemSizeAndFlags = static_cast<unsigned short>(uiBytes);
         return b;
     }
-    void operator delete(void* p, unsigned int)
+    void operator delete(void* p, size_t)
     {
         hkReferencedObjectC68* b = static_cast<hkReferencedObjectC68*>(p);
         GetMemoryRouterC68()->heap().ReleaseBlock(p, b->m_usMemSizeAndFlags);
@@ -465,7 +465,7 @@ struct MemoryManagerC68
 class bhkSingletonC68
 {
   public:
-    void* operator new(unsigned int uiSize)
+    void* operator new(size_t uiSize)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::MemoryManagerC68 *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize);
     }
@@ -1052,7 +1052,7 @@ void CreateOrReleaseRef(const char* apPath, int p2, S_00a48070_Ref** ppRef, void
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
+    static void* __cdecl operator new(size_t);
 };
 extern int DAT_010984ec;
 struct Obj
@@ -3292,7 +3292,7 @@ struct FUN_00a647f0_shell : public NiStream
 
 struct BSFadeNode
 {
-    static void* operator new(unsigned int);
+    static void* operator new(size_t);
 };
 struct NiTPrimitiveArray_ImageSpaceTexture___
 {
@@ -5504,7 +5504,7 @@ class A660A0Heap
 class A660A0Object
 {
   public:
-    static void* operator new(unsigned int uiSize)
+    static void* operator new(size_t uiSize)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00a660a0::A660A0Heap *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize);
     }

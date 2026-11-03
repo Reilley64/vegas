@@ -19,7 +19,7 @@ char const* const* __cdecl FUN_00c320f0()
     return &(*reinterpret_cast<const char *const *>(&::g_012027e0));
 }
 
-extern "C" void __cdecl operator delete(void*, unsigned int);
+extern "C" void __cdecl operator delete(void*, size_t);
 
 struct NiPSysFieldModifier
 {

@@ -23,7 +23,7 @@ public:
 
 struct BSFadeNode
 {
-    static void* operator new(unsigned int);
+    static void* operator new(size_t);
 };
 
 extern int DAT_0109b72c;
@@ -135,7 +135,7 @@ struct NodeBase_b9855
 
 struct NodeObj_b9855 : NodeBase_b9855
 {
-    static void* operator new(unsigned int size) throw()
+    static void* operator new(size_t size) throw()
     {
         return FUN_00aa13e0(size);
     }

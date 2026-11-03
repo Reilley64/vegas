@@ -126,7 +126,7 @@ class TextureMapTransform
     float rotate;
     NiPoint2 scale;
     char pad[52];
-    static void* operator new(unsigned int, void* p) throw()
+    static void* operator new(size_t, void* p) throw()
     {
         return p;
     }

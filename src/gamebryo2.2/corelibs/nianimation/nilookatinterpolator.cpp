@@ -192,7 +192,7 @@ bool MyInterp::FUN_00a4bbe0(NiStream* kStream)
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
+    static void* __cdecl operator new(size_t);
     void* FUN_00a4bcf0(unsigned int a, unsigned int b, unsigned int c);
 };
 // @fnv 0x00a4c5a0

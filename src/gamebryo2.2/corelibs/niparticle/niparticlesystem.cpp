@@ -517,7 +517,7 @@ Object* __cdecl FUN_00c1b7f0()
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int size);
+    static void* __cdecl operator new(size_t size);
 };
 struct CloneSource
 {

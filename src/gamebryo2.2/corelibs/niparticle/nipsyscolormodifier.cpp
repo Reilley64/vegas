@@ -291,7 +291,7 @@ struct PSysModifierBase
 
 struct PSysColorModifierStandIn : PSysModifierBase
 {
-    static void* __cdecl operator new(unsigned int uiSize);
+    static void* __cdecl operator new(size_t uiSize);
     PSysColorModifierStandIn() throw() : m_spColorData(0), m_fLoKeyTime(0.0f), m_fHiKeyTime(0.0f)
     {}
     virtual ~PSysColorModifierStandIn();

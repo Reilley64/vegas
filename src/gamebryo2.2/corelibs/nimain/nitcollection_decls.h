@@ -16,7 +16,7 @@ template <class T> class NiPointer
     NiPointer();
     ~NiPointer()
     {}
-    static void* operator new[](unsigned int size)
+    static void* operator new[](size_t size)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(size);
     }

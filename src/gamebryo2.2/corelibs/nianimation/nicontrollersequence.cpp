@@ -303,7 +303,7 @@ void FUN_00a30900_shell::FUN_00a30900(char cDefaultPriority)
 
 struct A51BF0Base
 {
-    static void* __cdecl operator new(unsigned int);
+    static void* __cdecl operator new(size_t);
 };
 
 struct FUN_00a316a0_shell
@@ -2975,10 +2975,6 @@ struct NiMultiTargetTransformController : Controller31910
         reinterpret_cast<::Controller *>(this)->FUN_00a2feb0(n);
     }
 };
-void* __cdecl operator new(unsigned int, void* p)
-{
-    return p;
-}
 static bool IsKind31910(Node31910* node, Rtti31910* type)
 {
     Rtti31910* rtti = node->GetRTTI();
@@ -4792,9 +4788,9 @@ struct OldSequence
 struct NewSequence : SeqRefObject
 {
 
-    static void* __cdecl operator new(unsigned int);
+    static void* __cdecl operator new(size_t);
 
-    static void* __cdecl operator new(unsigned int, void* p)
+    static void* __cdecl operator new(size_t, void* p)
     {
         return p;
     }

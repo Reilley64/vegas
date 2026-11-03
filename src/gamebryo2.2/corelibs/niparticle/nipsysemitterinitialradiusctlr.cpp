@@ -75,7 +75,7 @@ class NiPSysBaseC2B
     NiPSysBaseC2B() throw();
     virtual ~NiPSysBaseC2B();
 
-    static void* operator new(unsigned int uiSize);
+    static void* operator new(size_t uiSize);
     static void operator delete(void* pvMem);
 
     int unk04, unk08, unk0C, unk10, unk14, unk18, unk1C;

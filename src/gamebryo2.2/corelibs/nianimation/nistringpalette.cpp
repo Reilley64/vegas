@@ -166,7 +166,7 @@ struct S_00a47150_Obj : S_00a47150_Base
     void* m_08;
     int m_0C;
     int m_10;
-    static void* operator new(unsigned int n);
+    static void* operator new(size_t n);
     S_00a47150_Obj() throw()
     {
         m_08 = 0;

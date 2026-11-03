@@ -660,7 +660,7 @@ struct S00c25340_Pt3
     float x, y, z;
     S00c25340_Pt3()
     {}
-    static void* operator new[](unsigned int size, MemoryManager& mm)
+    static void* operator new[](size_t size, MemoryManager& mm)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>(&(mm))->FUN_00aa3e40(size);
     }
@@ -668,7 +668,7 @@ struct S00c25340_Pt3
 
 struct S00c25340_Info : Point3ParameterData
 {
-    static void* operator new[](unsigned int size, MemoryManager& mm)
+    static void* operator new[](size_t size, MemoryManager& mm)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>(&(mm))->FUN_00aa3e40(size);
     }
@@ -767,7 +767,7 @@ struct PSysDataClone
     unsigned short m_78;
     unsigned short m_7a;
 
-    static void* operator new(unsigned int);
+    static void* operator new(size_t);
     void FUN_00a963f0() throw();
     PSysDataClone()
     {

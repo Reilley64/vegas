@@ -1119,7 +1119,7 @@ struct LBMemoryManager
 };
 
 
-inline void* __cdecl operator new[](unsigned int auiSize)
+inline void* __cdecl operator new[](size_t auiSize)
 {
     return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::LBMemoryManager *>(&::g_memoryManager))))->FUN_00aa3e40(auiSize);
 }

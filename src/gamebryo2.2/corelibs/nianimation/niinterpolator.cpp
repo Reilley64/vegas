@@ -161,7 +161,7 @@ char FUN_00a57020(int a, int b, int c)
     return 0;
 }
 
-void __cdecl operator delete(void*, unsigned int);
+void __cdecl operator delete(void*, size_t);
 struct FUN_00a57080_Owner
 {
     void* Destroy(unsigned int);

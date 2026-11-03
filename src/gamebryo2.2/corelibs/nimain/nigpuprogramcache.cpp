@@ -75,7 +75,7 @@ void* SomeClass::FUN_00ee90b0(unsigned int uiFlags)
 }
 
 void __cdecl FUN_00ee9a60();
-void __cdecl operator delete(void*, unsigned int);
+void __cdecl operator delete(void*, size_t);
 struct FUN_00ee9ca0_shell
 {
     void* FUN_00ee9ca0(unsigned int flags);
@@ -145,10 +145,10 @@ struct FUN_00a5e3a0_Helper
 };
 struct NiStandardAllocator
 {
-    static void* __cdecl operator new(unsigned int);
+    static void* __cdecl operator new(size_t);
     virtual void func();
 };
-void* __cdecl NiStandardAllocator::operator new(unsigned int n)
+void* __cdecl NiStandardAllocator::operator new(size_t n)
 {
     return reinterpret_cast<::MemoryManagerStandIn *>((((FUN_00a5e3a0_Helper*)&g_memoryManager)))->FUN_00aa3e40(n);
 }

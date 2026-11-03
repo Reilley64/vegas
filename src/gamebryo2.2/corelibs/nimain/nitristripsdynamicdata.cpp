@@ -78,7 +78,7 @@ void FUN_00a92480_shell::FUN_00a92480(short value)
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
+    static void* __cdecl operator new(size_t);
 };
 
 struct FUN_00a75e20_shell

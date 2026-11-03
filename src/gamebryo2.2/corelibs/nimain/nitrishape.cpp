@@ -99,7 +99,7 @@ FUN_00a744a0::FUN_00a744a0()
 namespace fnv_00a744d0 {
 struct BSFadeNode
 {
-    static void* operator new(unsigned int);
+    static void* operator new(size_t);
 };
 struct NiTriStrips : BSFadeNode
 {
@@ -222,7 +222,7 @@ void FUN_00a74560_shell::GetTriangleVertices(unsigned short ausTriangleIndex, Ni
 namespace fnv_00a74640 {
 struct BSFadeNode
 {
-    static void* operator new(unsigned int);
+    static void* operator new(size_t);
 };
 struct NiTriStrips : BSFadeNode
 {

@@ -25,7 +25,7 @@
 #include "fnv/symbols_011bf000.h"
 #include "fnv/symbols_011f3000.h"
 struct BSFadeNode {
-    static void* __cdecl operator new(unsigned int);
+    static void* __cdecl operator new(size_t);
 };
 
 

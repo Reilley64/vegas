@@ -58,7 +58,7 @@ struct NiPSysFieldModifier
 };
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
+    static void* __cdecl operator new(size_t);
 };
 struct AirTmp : NiPSysFieldModifier
 {
@@ -67,7 +67,7 @@ struct AirTmp : NiPSysFieldModifier
 };
 struct A51BF0Base
 {
-    static void* __cdecl operator new(unsigned int);
+    static void* __cdecl operator new(size_t);
 };
 
 // @fnv 0x00c2f630
@@ -776,10 +776,6 @@ struct Cls_00c2f650
     void UpdateParticleAirFriction(float fTime, NiPSysData* pkData);
 };
 
-inline void* operator new(unsigned int, void* pv)
-{
-    return pv;
-}
 
 // For particles within the squared distance limit, adds an air-friction-scaled field velocity over elapsed time when relative velocity points against it.
 // @fnv 0x00c2f650

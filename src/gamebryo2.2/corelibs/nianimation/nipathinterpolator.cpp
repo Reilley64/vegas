@@ -217,7 +217,7 @@ void* FUN_00a3ddf0_shell::FUN_00a3ddf0(void* pData, int aiIndexA, int aiIndexB, 
 }
 
 void __cdecl FUN_00a3dd40();
-void __cdecl operator delete(void*, unsigned int);
+void __cdecl operator delete(void*, size_t);
 
 struct FUN_00a3e980_shell
 {
@@ -376,7 +376,7 @@ bool FUN_00a3dcc0_cls::FUN_00a3dcc0(void* pkStream)
 
 struct A51BF0Base
 {
-    static void* __cdecl operator new(unsigned int);
+    static void* __cdecl operator new(size_t);
 };
 
 struct FUN_00a3f060_shell
@@ -980,7 +980,7 @@ class NiObjectA3F
     NiObjectA3F(void* pvFirst, void* pvSecond) throw();
     virtual ~NiObjectA3F();
 
-    static void* operator new(unsigned int uiSize);
+    static void* operator new(size_t uiSize);
 
     int unk04;
     int unk08;

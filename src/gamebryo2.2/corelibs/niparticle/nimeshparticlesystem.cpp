@@ -31,7 +31,7 @@ void* __cdecl FUN_00c21e10()
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
+    static void* __cdecl operator new(size_t);
     void FUN_00c1b5c0();
 };
 extern int DAT_010bdd84;
@@ -311,7 +311,7 @@ RgbaColor* NiMeshParticleSystem::GetParticleColor(unsigned short ausBlockIndex, 
 struct CloningProcess;
 struct NiMeshParticleSystemClone : NiMeshParticleSystem
 {
-    static void* __cdecl operator new(unsigned int);
+    static void* __cdecl operator new(size_t);
     NiMeshParticleSystemClone* FUN_00c21e20(CloningProcess&);
     unsigned char unk114;
     char pad115[0x3];

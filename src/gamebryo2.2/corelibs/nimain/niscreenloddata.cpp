@@ -155,7 +155,7 @@ void FUN_00a95d60_shell::SetProportionCount(unsigned int count)
 
 struct A51BF0Base
 {
-    static void* __cdecl operator new(unsigned int size);
+    static void* __cdecl operator new(size_t size);
 };
 
 struct FUN_00a95cc0_shell

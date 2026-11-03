@@ -19,8 +19,8 @@ class ColorAnimationKey;
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
+    static void* operator new(size_t);
+    static void operator delete(void*, size_t);
 };
 class NiColorData : public NiMemObject
 {

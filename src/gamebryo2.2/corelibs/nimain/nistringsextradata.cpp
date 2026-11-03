@@ -32,7 +32,7 @@ public:
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
+    static void* __cdecl operator new(size_t);
 };
 
 extern int DAT_010a0134;
@@ -75,7 +75,7 @@ void NiStringsExtraData::FreeStrings()
 }
 
 namespace fnv_00a94970 {
-void __cdecl operator delete(void*, unsigned int);
+void __cdecl operator delete(void*, size_t);
 struct NiStringsExtraData : NiExtraData
 {
     ~NiStringsExtraData();
@@ -286,7 +286,7 @@ struct CloneObject
     unsigned int m_uiItemCount;
     void** m_ppData;
 
-    static void* operator new(unsigned int size)
+    static void* operator new(size_t size)
     {
         return FUN_00aa13e0(size);
     }

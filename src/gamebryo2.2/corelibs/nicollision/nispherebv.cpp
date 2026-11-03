@@ -685,7 +685,7 @@ struct ObjB0
     void* vf;
     NiPoint3 m_iThirdValue;
     float m_r;
-    static void* operator new(unsigned int n)
+    static void* operator new(size_t n)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(n);
     }

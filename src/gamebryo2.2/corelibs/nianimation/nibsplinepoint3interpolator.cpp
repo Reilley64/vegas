@@ -85,7 +85,7 @@ void FUN_00a50660_shell::SetPoint3ControlHandle(unsigned int kControlHandle, uns
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
+    static void* __cdecl operator new(size_t);
 };
 extern int DAT_010996dc;
 struct FUN_00a57f20_shell

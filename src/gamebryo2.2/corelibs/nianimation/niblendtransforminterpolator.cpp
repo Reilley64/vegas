@@ -77,7 +77,7 @@ struct NiBlendObject_b9169
 struct NiBlendObjectDerived_b9169 : NiBlendObject_b9169
 {
     virtual void Update();
-    static void* operator new(unsigned int size) throw()
+    static void* operator new(size_t size) throw()
     {
         return FUN_00aa13e0(size);
     }

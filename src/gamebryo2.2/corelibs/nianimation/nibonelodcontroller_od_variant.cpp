@@ -118,7 +118,7 @@ void CloneableObj::FUN_00c533f0(NiControllerManager* a, CloningProcess* b)
     a->m38 = m38;
 }
 
-void operator delete(void*, unsigned int);
+void operator delete(void*, size_t);
 struct S_00c53e10
 {
     void* FUN_00c53e10(unsigned int);

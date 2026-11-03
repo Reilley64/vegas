@@ -144,7 +144,7 @@ struct NiParticleMeshes
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
+    static void* __cdecl operator new(size_t);
 };
 
 // Allocates 0xc4 bytes, constructs a NiGeometry in place, sets its vtable to NiParticleMeshes::vftable, and returns the pointer or 0 on failure.
@@ -243,7 +243,7 @@ void* __cdecl FUN_00aa13e0(unsigned int size);
 struct NiTriStripsObject
 {
     void* vtable;
-    static void* operator new(unsigned int size, unsigned int extraBytes)
+    static void* operator new(size_t size, unsigned int extraBytes)
     {
         return FUN_00aa13e0(size + extraBytes);
     }

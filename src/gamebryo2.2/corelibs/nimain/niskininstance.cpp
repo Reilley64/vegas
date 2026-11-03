@@ -199,7 +199,7 @@ struct NiSkinInstanceStub : NiObjectBaseStub
           PopulateViewerStrings(0), unk20(0), unk24(0), unk28(0), unk30(0)
     {}
     virtual ~NiSkinInstanceStub();
-    static void* operator new(unsigned int uiSize);
+    static void* operator new(size_t uiSize);
 
     NiSkinDataStub* m_pkSkinData;
     void* m_pkSkinPartition;

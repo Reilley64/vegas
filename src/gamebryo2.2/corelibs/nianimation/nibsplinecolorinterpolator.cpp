@@ -40,7 +40,7 @@ char const* const* __cdecl FUN_00a51aa0()
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
+    static void* __cdecl operator new(size_t);
 };
 struct BaseHolder
 {
@@ -82,7 +82,7 @@ int S_a50a40::GetChannelResult(unsigned short usChannel)
     return 0 == usChannel ? 3 : 0;
 }
 
-typedef unsigned int A51BF0size_t;
+typedef size_t A51BF0size_t;
 
 struct A51BF0CloningProcess;
 

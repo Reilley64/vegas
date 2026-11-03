@@ -76,7 +76,7 @@ void NiColorDataHack::FUN_00a3d0e0(float afValue1, float afValue2)
 namespace fnv_00a3d150 {
 struct A51BF0Base
 {
-    static void* __cdecl operator new(unsigned int);
+    static void* __cdecl operator new(size_t);
 };
 
 struct FUN_00a5d3a0_standin

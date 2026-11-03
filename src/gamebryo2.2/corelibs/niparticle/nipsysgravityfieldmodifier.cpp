@@ -89,7 +89,7 @@ public:
 };
 struct BSFadeNode
 {
-    void* __cdecl operator new(unsigned int);
+    void* __cdecl operator new(size_t);
 };
 struct CtorHelper
 {
@@ -120,7 +120,7 @@ NiObject* CloneHelper::Clone(CloningProcess& kCloning)
 
 struct A51BF0Base
 {
-    static void* __cdecl operator new(unsigned int size);
+    static void* __cdecl operator new(size_t size);
 };
 
 // @fnv 0x00c2aa50

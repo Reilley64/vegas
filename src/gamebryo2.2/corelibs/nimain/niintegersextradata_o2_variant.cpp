@@ -89,7 +89,7 @@ ST_00a99980* ST_00a99980::FUN_00a99980(int a, int b)
 
 struct BSFadeNode
 {
-    static void* operator new(unsigned int);
+    static void* operator new(size_t);
 };
 struct NiExtraDataShell : NiExtraData
 {
@@ -120,7 +120,7 @@ struct FUN_00a99a50_shell
     int d;
     void FUN_00a7b300();
     FUN_00a99a50_shell* FUN_00a99a50(int);
-    void __cdecl operator delete(void* p, unsigned int);
+    void __cdecl operator delete(void* p, size_t);
 };
 // @fnv 0x00a99a50
 FUN_00a99a50_shell* FUN_00a99a50_shell::FUN_00a99a50(int flag)
@@ -258,7 +258,7 @@ class NiPSysBaseA99
     NiPSysBaseA99() throw();
     virtual ~NiPSysBaseA99();
 
-    static void* operator new(unsigned int uiSize);
+    static void* operator new(size_t uiSize);
     static void operator delete(void* pvMem);
 
     int unk04, unk08;

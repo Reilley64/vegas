@@ -40,14 +40,14 @@ int* __cdecl FUN_00a56a80()
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
+    static void* __cdecl operator new(size_t);
 };
 struct NiFloatInterpController
 {
     NiFloatInterpController();
 };
 extern int DAT_0109a76c;
-inline void* __cdecl operator new(unsigned int, void* p)
+inline void* __cdecl operator new(size_t, void* p)
 {
     return p;
 }
@@ -124,7 +124,7 @@ struct NiNew
 {
     int* vt;
     int f[13];
-    static void* __cdecl operator new(unsigned int) throw();
+    static void* __cdecl operator new(size_t) throw();
 };
 struct Holder
 {

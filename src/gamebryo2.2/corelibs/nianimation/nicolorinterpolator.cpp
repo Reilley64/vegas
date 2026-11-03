@@ -247,7 +247,7 @@ struct NiKeyBasedInterpolatorHelper : public NiKeyBasedInterpolator
 };
 struct BSFadeNode : public NiKeyBasedInterpolatorHelper
 {
-    static void* operator new(unsigned int);
+    static void* operator new(size_t);
     const void* m_ppVirtualMethodTable;
     RgbaColor m_kColorValue;
     NiPointer<NiColorData> m_spColorData;
@@ -555,7 +555,7 @@ void FUN_00a3c270_cls::AppendColorProperties(ViewerArray* out)
 }
 
 extern "C" void* __cdecl FUN_00aa13e0(unsigned int);
-inline void* __cdecl operator new(unsigned int, void* p) throw()
+inline void* __cdecl operator new(size_t, void* p) throw()
 {
     return p;
 }

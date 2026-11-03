@@ -101,7 +101,7 @@ void FUN_00c28520(StrArr* pkStrings)
 
 struct NiMemObject
 {
-    static void* operator new(unsigned int size);
+    static void* operator new(size_t size);
 };
 extern int DAT_010be8e4;
 

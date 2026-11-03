@@ -80,7 +80,7 @@ struct NiGeometryData_SetConsistency_View
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int uiSize);
+    static void* __cdecl operator new(size_t uiSize);
 };
 
 extern char DAT_010a05e4[];
@@ -216,7 +216,7 @@ struct ParticleViewFrame
     unsigned int unk_60;
     NiPoint3 axisX, axisY, axisZ;
 };
-inline void* operator new[](unsigned int bytes, MemoryManager& manager)
+inline void* operator new[](size_t bytes, MemoryManager& manager)
 {
     return reinterpret_cast<::MemoryManagerStandIn *>(&(manager))->FUN_00aa3e40(bytes);
 }
@@ -225,7 +225,7 @@ struct ParticleViewData : NiParticlesData
     void FUN_00a96910(ParticleViewFrame*);
 };
 void* __cdecl FUN_00aa13e0(unsigned int uiSize);
-inline void* __cdecl operator new(unsigned int, void* pv) throw()
+inline void* __cdecl operator new(size_t, void* pv) throw()
 {
     return pv;
 }
@@ -928,7 +928,7 @@ struct AllocSvc
 };
 struct ArrNew
 {
-    static void* operator new[](unsigned int n)
+    static void* operator new[](size_t n)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::AllocSvc *>(&::g_memoryManager))))->FUN_00aa3e40(n);
     }

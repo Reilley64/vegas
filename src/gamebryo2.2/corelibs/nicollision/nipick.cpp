@@ -401,7 +401,7 @@ class ImageSpaceTextureE993
         reinterpret_cast<::S_00e98aa0_Holder *>(this)->SetObject((::S_00e98aa0_RefObj *)(iParam));
     }
 
-    static void* operator new(unsigned int uiSize)
+    static void* operator new(size_t uiSize)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>((((FUN_00a5e3a0_Helper*)&::g_memoryManager)))->FUN_00aa3e40(uiSize);
     }

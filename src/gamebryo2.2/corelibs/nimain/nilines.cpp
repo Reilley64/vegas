@@ -197,7 +197,7 @@ struct __declspec(novtable) LinesCloneObject : NiLinesBaseCtor
 {
     int unkBC;
     int unkC0;
-    static void* operator new(unsigned int size) throw()
+    static void* operator new(size_t size) throw()
     {
         return NiAllocBlock(size);
     }

@@ -111,7 +111,7 @@ public:
 };
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
+    static void* __cdecl operator new(size_t);
 };
 extern int DAT_010997f4;
 struct FUN_00a50c20Cls

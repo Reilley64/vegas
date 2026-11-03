@@ -923,7 +923,7 @@ static inline unsigned int* InitTexProp(unsigned int* p) throw()
 
 struct ScreenTextureClone : ScreenTextureBase
 {
-    static void* operator new(unsigned int size)
+    static void* operator new(size_t size)
     {
         return FUN_00aa13e0(size);
     }

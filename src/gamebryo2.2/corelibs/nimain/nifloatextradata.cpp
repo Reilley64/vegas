@@ -30,7 +30,7 @@ struct NiFloatExtraData
 };
 
 extern void* DAT_010a0ec4;
-extern void __cdecl operator delete(void*, unsigned int);
+extern void __cdecl operator delete(void*, size_t);
 
 // @fnv 0x00a9a4b0
 void* NiFloatExtraData::Destroy(unsigned int flags)
@@ -65,7 +65,7 @@ bool FUN_00a9a3f0_Class::MatchesFloatValue(NiObject* pObject)
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
+    static void* __cdecl operator new(size_t);
 };
 struct NiExtraData
 {
@@ -98,7 +98,7 @@ struct NiExtraData
 
 struct BSFadeNode
 {
-    static void* operator new(unsigned int size);
+    static void* operator new(size_t size);
 };
 
 // @fnv 0x00a9a480

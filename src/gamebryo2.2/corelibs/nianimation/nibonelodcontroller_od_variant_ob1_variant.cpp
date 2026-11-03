@@ -80,7 +80,7 @@ class CloneableObj
     int m38;
     void FUN_00c533f0(NiControllerManager*, CloningProcess*);
 };
-void operator delete(void*, unsigned int);
+void operator delete(void*, size_t);
 struct S_00c53e10
 {
     void FUN_00c53e40();
@@ -314,7 +314,7 @@ struct ArrW
     void** m_pBase;
     unsigned int m_uiMax;
     unsigned int m_uiSize;
-    static void* operator new(unsigned int n)
+    static void* operator new(size_t n)
     {
         int aiD[2];
         return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::PoolW *>(&::g_memoryManager))))->FUN_00aa3e40(n);
@@ -697,7 +697,7 @@ class BoneLODController;
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int uiSize)
+    static void* operator new(size_t uiSize)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(uiSize);
     }
@@ -875,7 +875,7 @@ extern Manager_c53360* DAT_011f6080;
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int size)
+    static void* operator new(size_t size)
     {
         unsigned int requested = size ? size : 1;
         unsigned int alignment = 4;
@@ -926,7 +926,7 @@ struct FUN_00c53d70
     int unk40;
     int unk44;
     int unk48;
-    static void* operator new(unsigned int size)
+    static void* operator new(size_t size)
     {
         int unused[2];
         (void)unused;

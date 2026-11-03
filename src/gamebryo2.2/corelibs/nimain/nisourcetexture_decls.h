@@ -20,7 +20,7 @@ bool __cdecl FUN_00aa1a30(const char*, int);
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int);
+    static void* operator new(size_t);
 };
 
 class NiRenderer

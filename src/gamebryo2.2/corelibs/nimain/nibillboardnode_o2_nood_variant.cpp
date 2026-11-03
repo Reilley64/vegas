@@ -71,7 +71,7 @@ class BillboardNode : public FUN_00a5ecb0
     {
         mode = 9;
     }
-    static void* operator new(unsigned int size)
+    static void* operator new(size_t size)
     {
         return FUN_00aa13e0(size);
     }

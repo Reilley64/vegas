@@ -68,7 +68,7 @@ void FUN_00c2b4d0(StrArr* pkStrings)
 
 struct NiMemObject
 {
-    static void* __cdecl operator new(unsigned int);
+    static void* __cdecl operator new(size_t);
 };
 struct CloneShell;
 struct FUN_00c32d80
@@ -80,7 +80,7 @@ struct CloneShell : FUN_00c32d80
 {
     virtual ~CloneShell() throw();
 };
-inline void* __cdecl operator new(unsigned int, void* memory)
+inline void* __cdecl operator new(size_t, void* memory)
 {
     return memory;
 }

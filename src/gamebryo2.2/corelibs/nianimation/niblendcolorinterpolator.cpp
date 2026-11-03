@@ -57,7 +57,7 @@ void* __cdecl FUN_00a56060()
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
+    static void* __cdecl operator new(size_t);
 };
 extern int DAT_011a9434;
 extern int DAT_011a9438;

@@ -140,7 +140,7 @@ struct NiObject
 };
 struct BSFadeNode
 {
-    static void* operator new(unsigned int);
+    static void* operator new(size_t);
 };
 struct NiBoneLODController : public NiObject
 {
@@ -276,7 +276,7 @@ void NiBoneLODController::UpdateLOD(NiUpdateData& UpdateData)
 
 struct A51BF0Base
 {
-    static void* __cdecl operator new(unsigned int);
+    static void* __cdecl operator new(size_t);
 };
 
 // @fnv 0x00a55300
@@ -1120,7 +1120,7 @@ template <class T> struct LinkGroup
     T* data;
     unsigned int capacity;
     unsigned int count;
-    static void* operator new(unsigned int size)
+    static void* operator new(size_t size)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::LODPool *>(&::g_memoryManager))))->FUN_00aa3e40(size);
     }
@@ -1156,7 +1156,7 @@ struct LinkSkinInfo
 {
     void* object;
     void* skin;
-    static void* operator new(unsigned int size)
+    static void* operator new(size_t size)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::LODPool *>(&::g_memoryManager))))->FUN_00aa3e40(size);
     }
@@ -1672,7 +1672,7 @@ struct A54440Heap : MemoryAllocator
 };
 struct A54440PointerGroup
 {
-    static void* operator new(unsigned int bytes)
+    static void* operator new(size_t bytes)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>((((A54440Heap*)&(*reinterpret_cast<::MemoryAllocator *>(&::g_memoryManager)))))->FUN_00aa3e40(bytes);
     }
@@ -1726,7 +1726,7 @@ struct A54440GrowGroup
 };
 struct A54440LinkGroup
 {
-    static void* operator new(unsigned int bytes)
+    static void* operator new(size_t bytes)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>((((A54440Heap*)&(*reinterpret_cast<::MemoryAllocator *>(&::g_memoryManager)))))->FUN_00aa3e40(bytes);
     }
@@ -1842,7 +1842,7 @@ static void* A54440Map(A54440Hash* hash, void* key)
 }
 struct A54440SourceLink
 {
-    static void* operator new(unsigned int bytes)
+    static void* operator new(size_t bytes)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>((((A54440Heap*)&(*reinterpret_cast<::MemoryAllocator *>(&::g_memoryManager)))))->FUN_00aa3e40(bytes);
     }

@@ -346,7 +346,7 @@ void ImpactTask::FUN_004a2d50()
                     decal.width = radius;
                     decal.height = radius;
                     decal.depth = DAT_0101e574;
-                    decal.lifetime = ((float)(::FUN_004a4240()));
+                    decal.lifetime = ::FUN_004a4240();
                     decal.rotation = (unsigned char)(int)FUN_00406cc0(::RandomFloat(0, DAT_0101e570));
                     decal.reference = target;
                     decal.texture = texture;

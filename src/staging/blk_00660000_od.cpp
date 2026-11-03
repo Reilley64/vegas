@@ -69,10 +69,7 @@
 #include "fnv/symbols_011de000.h"
 #include "fnv/symbols_01268000.h"
 #include "../../include/layout_support.h"
-#include "fnv/decl/ArrD9E0.h"
-#include "fnv/decl/FUN_004a4840_class.h"
 #include "fnv/decl/FUN_005ca4f0_shell.h"
-#include "fnv/decl/fnv_0066df40__B6DF40Owner.h"
 #include "fnv/symbols_00661000.h"
 #include "fnv/symbols_0066b000.h"
 #include "fnv/symbols_0066e000.h"
@@ -251,7 +248,7 @@ void FUN_0067ad70_Class::FUN_0067ad70()
     *reinterpret_cast<int*>(this) = reinterpret_cast<int>(&DAT_01068884);
 }
 
-extern int DAT_01068aa4;
+extern "C" int DAT_01068aa4;
 
 struct ActorPackageData
 {
@@ -268,8 +265,6 @@ ActorPackageData* ActorPackageData::FUN_0067d920()
     *(int**)this = &DAT_01068aa4;
     return this;
 }
-
-extern "C" int DAT_01068aa4;
 
 struct FUN_0067d970_Class
 {
@@ -2039,24 +2034,6 @@ S_0067caa0_Foo* S_0067caa0_Foo::FUN_0067caa0()
 }
 
 unsigned int __cdecl FUN_00ec7c56();
-
-// VEGAS17-CONFLICT: FUN_0067b170 (variant definition below differs from the one above)
-struct FUN_0067b170
-{
-    int pad[4];
-    unsigned char flag;
-    int pad2[3];
-    FUN_0067b170();
-};
-
-// @fnv 0x006603a0
-extern "C" void __cdecl FUN_006603a0(void* a, void* b, void* c, void* d)
-{
-    SpawnedFlagBox flagA3 = {};
-    bool flagB;
-    flagB = ((bool)(::FUN_0065e750(&a, &c)));
-    ::std6605::CopyConstructRange((::Elem6605 *)(void *)(((void *)(::CallWithFlag((int *)(void *)(&a))))), (::Elem6605 *)(void *)(((void *)(::CallWithFlag((int *)(void *)(&b))))), (::Elem6605 *)(c), (*(::Alloc6605 *)(d)), (::NonscalarTag6605)(flagB), (::CheckedTag6605)(flagA3.v));
-}
 
 struct DetectionEntry
 {

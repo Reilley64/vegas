@@ -385,7 +385,7 @@ void FUN_00622780_Class::FUN_00622780()
 struct FUN_006228e0_shell
 {
     unsigned int FUN_006228e0(unsigned int, void*);
-    unsigned int FUN_006227b0(unsigned int arg);
+    unsigned int FUN_006227b0(uintptr_t arg);
 };
 
 // Calls FUN_006228e0 with the 16-bit value at offset 0xa of this object and the given argument, returning its result.
@@ -3885,9 +3885,9 @@ void A3B0Controller::SetFilter(int iLayer, const A3B0Filter& kFilter)
 
 
 // @fnv 0x0062aad0
-int __cdecl FUN_0062aad0()
+void* __cdecl FUN_0062aad0()
 {
-    return (int)&(*reinterpret_cast<int *>(&::DAT_012683b0));
+    return &::DAT_012683b0;
 }
 
 struct NiTriBasedGeom;
@@ -7160,7 +7160,7 @@ void Mover628::MoveToDestination(Body628* body, Group628* moved)
                 reinterpret_cast<::FUN_00629560_Class *>(&(bounds))->FUN_00629560((int)(&itemBounds.max));
                 reinterpret_cast<::FUN_00629560_Class *>(&(bounds))->FUN_00629560((int)(&itemBounds.min));
             }
-            ((float)(reinterpret_cast<::FUN_004a51b0_shell *>(&(delta))->FUN_004a51b0(2))) += reinterpret_cast<::bhkCharacterController *>(&(bounds.max))->GetVectorElement(2) - reinterpret_cast<::bhkCharacterController *>(&(bounds.min))->GetVectorElement(2);
+            *(float *)(reinterpret_cast<::FUN_004a51b0_shell *>(&(delta))->FUN_004a51b0(2)) += reinterpret_cast<::bhkCharacterController *>(&(bounds.max))->GetVectorElement(2) - reinterpret_cast<::bhkCharacterController *>(&(bounds.min))->GetVectorElement(2);
             for (int moveIndex = 0; moveIndex < ((int)(reinterpret_cast<::Callees *>(&(group))->FUN_00726070())); ++moveIndex)
             {
                 Point628 position;
@@ -7175,7 +7175,7 @@ void Mover628::MoveToDestination(Body628* body, Group628* moved)
                 position = *((::Point628 *)(reinterpret_cast<::Point3Offset *>((void *)&(bodyTransform.position))->ProjectileLaunched((::NiPoint3 *)(::Point628 *)(&additionResult), (::NiPoint3 *)(&delta))));
                 Body628* member = ((::Body628 *)(::FUN_004b5a80(((::Handle628 *)&(reinterpret_cast<::FUN_00629ab0_shell *>(&(group))->FUN_00629ab0(moveIndex))))));
                 if (body != member)
-                    reinterpret_cast<::FUN_006299c0_cls *>((moved))->FUN_006299c0((int)(&((::Handle628 *)&(reinterpret_cast<::FUN_00629ab0_shell *>(&(group))->FUN_00629ab0(moveIndex)))));
+                    reinterpret_cast<::FUN_006299c0_cls *>((moved))->FUN_006299c0((int)(&(reinterpret_cast<::FUN_00629ab0_shell *>(&(group))->FUN_00629ab0(moveIndex))));
                 reinterpret_cast<::FUN_005610f0_cls *>((member))->FUN_005610f0((int)(&position));
                 Vec628 rotation;
                 reinterpret_cast<::FUN_005532a0_cls *>(&(rotation))->FUN_005532a0(0.0f, 0.0f, 0.01f, 0.0f);
@@ -7201,7 +7201,7 @@ void Mover628::MoveToDestination(Body628* body, Group628* moved)
             reinterpret_cast<::WorldObject_c8d3 *>((body))->GetAabb((*(::Aabb_c8d3 *)(&soloBounds)));
             float height = FUN_004587d0(reinterpret_cast<::bhkCharacterController *>(&(soloBounds.max))->GetVectorElement(2)) +
                            FUN_00408840(FUN_004587d0(reinterpret_cast<::bhkCharacterController *>(&(soloBounds.min))->GetVectorElement(2)));
-            ((float)(reinterpret_cast<::FUN_004a51b0_shell *>(&(destination))->FUN_004a51b0(2))) += height;
+            *(float *)(reinterpret_cast<::FUN_004a51b0_shell *>(&(destination))->FUN_004a51b0(2)) += height;
             reinterpret_cast<::FUN_005610f0_cls *>((body))->FUN_005610f0((int)(&destination));
             Vec628 rotation;
             reinterpret_cast<::FUN_005532a0_cls *>(&(rotation))->FUN_005532a0(0.0f, 0.0f, 0.01f, 0.0f);

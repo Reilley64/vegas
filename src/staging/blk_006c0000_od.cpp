@@ -130,6 +130,7 @@
 #include "fnv/symbols_01025000.h"
 #include "fnv/symbols_0106c000.h"
 #include "../../include/layout_support.h"
+#undef SearchPath
 
 
 struct FUN_006c8bd0_Class
@@ -2274,7 +2275,7 @@ struct LocS
 
 struct FUN_00691240_shell
 {
-    unsigned int ForwardToInner(int location);
+    unsigned int ForwardToInner(::NiPoint3* location);
 };
 
 struct GO
@@ -3907,7 +3908,8 @@ bool __cdecl FUN_006d4570(LocationView* location, float radius, LocationView* re
         if (!reinterpret_cast<::PathingLocation *>((location))->FindNavMeshTriangle((*(::NavMeshPtr *)(&i)), (*(unsigned short *)(&f))))
             return false;
         TriangleHandle h;
-        h.FUN_0069a690(&MeshTriangle(i.FUN_00458b50(), f));
+        MeshTriangle kTriangle(i.FUN_00458b50(), f);
+        h.FUN_0069a690(&kTriangle);
         for (int edge = 0; edge < 3; ++edge)
         {
             Point q;
@@ -3978,7 +3980,7 @@ bool __cdecl FUN_006d4570(LocationView* location, float radius, LocationView* re
                 {
                     p = s;
                     h = f;
-                    reinterpret_cast<::FUN_006bc870_shell *>(&(eb))->CopyFromNavMeshEdge=((void *)&(*a.FUN_006a1440(j)));
+                    reinterpret_cast<::FUN_006bc870_shell *>(&(eb))->CopyFromNavMeshEdge((void *)&(*a.FUN_006a1440(j)));
                 }
             }
             result->meshInfo = reinterpret_cast<::FUN_0068efb0_shell *>((eb.mesh))->FUN_0068efb0();
@@ -4377,7 +4379,7 @@ bool FUN_006dfdc0_Class::FUN_006dfdc0(PathingLocation* path)
     {
         NiPoint3 location;
         unsigned int index = reinterpret_cast<GO*>(&navMesh)->operator FUN_00691240_shell*()->ForwardToInner(
-            ((int)(reinterpret_cast<::TaskQueueInterface *>((reinterpret_cast<LocS*>(path)))->QueueActorAnimationTask((*(::NiPoint3 *)(&location))))));
+            &reinterpret_cast<::TaskQueueInterface *>((reinterpret_cast<LocS*>(path)))->QueueActorAnimationTask(location));
 
         if (index < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(this)))->GetName())))
         {
@@ -5168,8 +5170,8 @@ void FUN_006dffc0_Class::WriteToBuffer(FUN_00865db0_shell* buffer)
     reinterpret_cast<::BGSSaveGameBuffer *>((((FUN_00865f60_shell*)buffer)))->FUN_00865f60(count);
     for (unsigned int index = 0; index < count; ++index)
     {
-        unsigned int* item = &((unsigned int)(reinterpret_cast<::S3e60 *>((((FUN_006a7ad0_shell*)this)))->FUN_006a7ad0(index)));
-        ((FUN_006df9c0_shell*)*item)->FUN_006df9c0((::BGSSaveGameBuffer *)(buffer));
+        unsigned int item = (unsigned int)(reinterpret_cast<::S3e60 *>((((FUN_006a7ad0_shell*)this)))->FUN_006a7ad0(index));
+        ((FUN_006df9c0_shell*)item)->FUN_006df9c0((::BGSSaveGameBuffer *)(buffer));
     }
 }
 
@@ -5270,7 +5272,7 @@ FUN_006dd220_Class* FUN_006dd220_Class::ConstructFromSource(void* source)
     int a = 0;
     reinterpret_cast<FUN_00527990_shell*>(source)->FUN_00527990(&b, &a);
     reinterpret_cast<::SetupPathingLocation *>((reinterpret_cast<FUN_006dd280_shell*>(this)))->FUN_006dd280(
-        (*(const ::NiPoint3 *)(&((::BGSPerk *)(new ((void *)(reinterpret_cast<BSSimpleList<BGSPerk*>*>(source))) ::Vec3())))), (::TESObjectCELL *)(b), (::TESWorldSpace *)(void *)(reinterpret_cast<void*>(a)));
+        (*(const ::NiPoint3 *)(new ((void *)(reinterpret_cast<BSSimpleList<BGSPerk*>*>(source))) ::Vec3())), (::TESObjectCELL *)(b), (::TESWorldSpace *)(void *)(reinterpret_cast<void*>(a)));
     return this;
 }
 extern float DAT_0106cb30;

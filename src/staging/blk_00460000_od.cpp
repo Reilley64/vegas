@@ -152,15 +152,10 @@
 #include "fnv/symbols_01272000.h"
 #include "../../include/layout_support.h"
 #include "fnv/decl/FUN_00401660_Class.h"
-#include "fnv/decl/FUN_004726b0_class.h"
-#include "fnv/decl/FUN_004746d0.h"
 #include "fnv/decl/NiObjectNET.h"
 #include "fnv/decl/WorldData.h"
 #include "fnv/decl/fnv_0043b1b0__FUN_0043b1b0_shell.h"
-#include "fnv/decl/fnv_00470550__FUN_00470550_t.h"
 #include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
-#include "fnv/decl/fnv_00474880__FUN_00474880.h"
-#include "fnv/decl/fnv_00474a40__FUN_00474a40_shell.h"
 #include "fnv/decl/s428110__Owner.h"
 #include "fnv/symbols_00404000.h"
 #include "fnv/symbols_00460000.h"
@@ -1808,7 +1803,6 @@ void FUN_0045d950_Class::FUN_00470070()
     ::FUN_004ede70(*(ActorCombatGroup**)((char*)this + 4));
 }
 
-extern int DAT_0101a644;
 struct Date
 {
     virtual ~Date();
@@ -5112,8 +5106,6 @@ void __cdecl BSEndian(unsigned char*, EndianSizeTag<0>);
 
 void __cdecl BSEndian(unsigned int*, EndianSizeTag<3>);
 
-__declspec(thread) unsigned int TLS_PAD[166];
-
 enum ENUM_FORM_ID;
 
 Twin_008d0360* __cdecl FUN_00471f70();
@@ -5130,21 +5122,6 @@ struct TESRecordHeader
     unsigned int f4;
     unsigned int f8;
     unsigned int fC;
-};
-
-class TESFile
-{
-  public:
-    bool GetOptimizedFile();
-    TESRecordHeader* GetRecordHeader();
-    bool FUN_00470c70(int, int);
-    bool IsEndianConversionRequired();
-public:
-    bool NextChunk();
-public:
-    unsigned char GetFileCompileIndex();
-public:
-    bool IsGroupOpen();
 };
 
 // XCLC chunk payload: two dwords swapped by the endian pass plus a trailing bool.

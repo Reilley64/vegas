@@ -7,6 +7,8 @@
 #include <new>
 #include <cstdlib>
 #include <cstring>
+#include <math.h>
+#include <cstddef>
 #include "runtime/crt.h"
 #include "fnv/decl/BGSReconstructFormsInAllFilesMap.h"
 #include "fnv/decl/BSFaceGenEyeData.h"
@@ -104,6 +106,17 @@
 #include "fnv/symbols_011d5000.h"
 #include "fnv/symbols_01200000.h"
 #include "../../include/layout_support.h"
+#include "fnv/decl/FUN_006c63e0_Class.h"
+#include "fnv/decl/FloatInsertVector.h"
+#include "fnv/decl/InsertVector.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_004ad000.h"
+#include "fnv/symbols_00642000.h"
+#include "fnv/symbols_00643000.h"
+#include "fnv/symbols_00644000.h"
+#include "fnv/symbols_00646000.h"
+#include "fnv/symbols_00649000.h"
+#include "fnv/symbols_00660000.h"
 
 struct FUN_006427a0_Class
 {
@@ -587,7 +600,6 @@ unsigned int FUN_00658930_class::GetShortAtOffsetA() const
     return *(const unsigned short*)((const char*)this + 0xa);
 }
 
-extern "C" void __cdecl FUN_00659230(int, int);
 extern int DAT_01065870;
 
 struct FUN_00658aa0_class
@@ -1921,7 +1933,6 @@ struct FUN_0065cc70_Holder
     int m_8;
     int m_C;
     intptr_t FUN_0065cc70(unsigned int param);
-    int FUN_0065cc70(unsigned int param);
 };
 // Bounds-checks param against the holder's count, then returns the int stored at offset 0xc plus param.
 // @fnv 0x0065cc70
@@ -1941,7 +1952,6 @@ struct TextureBasis
 struct Holder : TextureBasis
 {
     intptr_t FUN_0065cec0(unsigned int);
-    int FUN_0065cec0(unsigned int);
 };
 // @fnv 0x0065cec0
 intptr_t Holder::FUN_0065cec0(unsigned int auiIndex)
@@ -3300,7 +3310,7 @@ struct FUN_00559450
 struct FUN_006427c0_Class
 {
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20, unk24;
-    FUN_00559450 unk28;
+    struct FUN_00559450 unk28;
     float FUN_006427c0();
 };
 // Returns the value from the object obtained via unk28, or 0.0f if that object is null.
@@ -4107,18 +4117,6 @@ S_0064ddf0_Iter* S_0064ddf0_Iter::Increment()
     return this;
 }
 
-namespace std {
-struct exception
-{
-    virtual ~exception() throw();
-    const char* message;
-    bool ownsMessage;
-};
-struct bad_alloc : public exception
-{
-    bad_alloc(const char* = 0) throw();
-};
-}
 // @fnv 0x0064e430
 extern "C" void __cdecl FUN_0064e430(int count, int unused)
 {
@@ -4228,12 +4226,18 @@ struct FlagBox5317
     unsigned char v;
 };
 
+struct NonscalarTag64e9
+{
+};
+struct CheckedTag64e9
+{
+};
 // @fnv 0x0064e920
 extern "C" void __cdecl FUN_0064e920(int a, int b, int c, int iFourth)
 {
     FlagBox5317 flag1 = {};
     unsigned char flag2 = FUN_0065e750((void*)&a, (void*)&c);
-    ::FUN_0064e9c0((::Elem64e9 *)(CallWithFlag((int*)&a)), (::Elem64e9 *)(CallWithFlag((int*)&b)), (::Elem64e9 *)(c), (*(::Alloc64e9 *)(iFourth)), (::NonscalarTag64e9)(flag2), (::CheckedTag64e9)(flag1.v));
+    ::FUN_0064e9c0((::Elem64e9 *)(CallWithFlag((int*)&a)), (::Elem64e9 *)(CallWithFlag((int*)&b)), (::Elem64e9 *)(c), (*(::Alloc64e9 *)(iFourth)), ::NonscalarTag64e9{}, ::CheckedTag64e9{});
 }
 
 struct FUN_0064fcd0_Other
@@ -4721,8 +4725,8 @@ struct Hldr0044
     int m_8;
 };
 
-extern "C" void __cdecl FUN_00401000(int scaled);
 extern "C" int DAT_01140ef8;
+extern "C" void FUN_00ec7894(void* obj, void* dat);
 
 class Base_b9895
 {
@@ -4974,7 +4978,7 @@ FUN_0065ca30::~FUN_0065ca30()
 
 struct FUN_006815c0
 {
-    int unk00;
+    void* object;
     FUN_006815c0();
     FUN_006815c0(const FUN_006815c0&);
 };
@@ -5746,8 +5750,6 @@ struct FUN_0065e310_cls
 };
 
 extern "C" void FUN_00ec7894(void* obj, void* dtor);
-extern "C" void* __cdecl FUN_00401000(unsigned int size);
-extern int DAT_01140ef8;
 
 // @fnv 0x0065e310
 extern "C" void __cdecl FUN_0065e310(int count, int)
@@ -5854,9 +5856,6 @@ struct FUN_0065e5e0_Hldr
     void Init(int code);
 };
 
-extern "C" void FUN_00ec7894(FUN_0065e5e0_Hldr* p, void* dat);
-extern "C" void* __cdecl FUN_00401000(unsigned int size);
-extern "C" int DAT_01140ef8;
 
 // @fnv 0x0065e5e0
 void* __cdecl FUN_0065e5e0(unsigned int n)
@@ -5890,8 +5889,6 @@ class FUN_0065e670_cls
     unsigned int unk0c;
 };
 
-extern "C" char DAT_01140ef8;
-int __cdecl FUN_00401000(unsigned int size);
 
 // @fnv 0x0065e670
 void __cdecl FUN_0065e670(unsigned int count, int unused)
@@ -6688,7 +6685,8 @@ class Ref653
 // @fnv 0x00653180
 Obj653* Ref653::GetHandleObject()
 {
-    return ((::Obj653 *)(::FUN_00559450((int *)&((m_pkOwnerManager ? m_pkOwnerManager->m_kHandle : Handle653(0))))));
+    Handle653 kHandle = m_pkOwnerManager ? m_pkOwnerManager->m_kHandle : Handle653(0);
+    return ((::Obj653 *)(::FUN_00559450((int *)&kHandle)));
 }
 
 struct FUN_00657a80 : FUN_0065d3a0
@@ -7202,13 +7200,6 @@ struct Alloc64e9
 {
     void FUN_0065e9a0(Elem64e9* pElem);
 };
-struct NonscalarTag64e9
-{
-};
-struct CheckedTag64e9
-{
-};
-
 // Copy-constructs each element of [_First, _Last) into _Dest via _Al, destroying already-built elements and rethrowing on exception.
 // @fnv 0x0064e9c0
 Elem64e9* __cdecl FUN_0064e9c0(Elem64e9* _First, Elem64e9* _Last, Elem64e9* _Dest, Alloc64e9& _Al, NonscalarTag64e9,
@@ -7797,30 +7788,6 @@ bool VecF380::FUN_0065f380(unsigned int _Capacity)
     return true;
 }
 
-#include <math.h>
-#include <cstddef>
-#include "fnv/decl/FUN_006c63e0_Class.h"
-#include "fnv/decl/FloatInsertVector.h"
-#include "fnv/decl/InsertVector.h"
-#include "fnv/decl/fnv_006505d0__FUN_006505d0_class.h"
-#include "fnv/decl/fnv_00659310__FUN_00659310_Class.h"
-#include "fnv/decl/fnv_00659440__FUN_00659440.h"
-#include "fnv/decl/fnv_0065d740__FUN_0065d740_cls.h"
-#include "fnv/decl/fnv_0065ec10__FUN_0065ec10_class.h"
-#include "fnv/decl/fnv_0065ec40__FUN_0065ec40_Class.h"
-#include "fnv/decl/fnv_0065ec70__FUN_0065ec70_class.h"
-#include "fnv/decl/fnv_0065edd0__FUN_0065edd0_class.h"
-#include "fnv/decl/fnv_0065f4f0__FUN_0065f4f0_cls.h"
-#include "fnv/decl/fnv_0065f550__FUN_0065f550_Class.h"
-#include "fnv/decl/fnv_0065f5a0__FUN_0065f5a0_cls.h"
-#include "fnv/symbols_00401000.h"
-#include "fnv/symbols_004ad000.h"
-#include "fnv/symbols_00642000.h"
-#include "fnv/symbols_00643000.h"
-#include "fnv/symbols_00644000.h"
-#include "fnv/symbols_00646000.h"
-#include "fnv/symbols_00649000.h"
-#include "fnv/symbols_00660000.h"
 template <class Collection> class SettingT
 {
   public:
@@ -8009,13 +7976,6 @@ FUN_00658f30::FUN_00658f30(const FUN_00658f30& other) : rows(other.rows), column
 
 unsigned int __cdecl FUN_00ec7c56(void);
 
-// @fnv 0x0064e3f0
-extern "C" void __cdecl FUN_0064e3f0(int a, int b, int c)
-{
-    char v = ((char)(::FUN_0065e750(&a, &b)));
-    ::FUN_0064e600((int *)(a), (int *)(b), (::FUN_0065e9a0_holder *)(c));
-}
-
 void FUN_00658bd0(int a1, int a2, int a3);
 
 unsigned int __cdecl FUN_00ec7c56(void);
@@ -8043,52 +8003,6 @@ unsigned int __cdecl FUN_00ec7c56(void);
 
 unsigned int __cdecl FUN_00ec7c56(void);
 
-// @fnv 0x0064e430
-extern "C" void __cdecl FUN_0064e430(int count, int unused)
-{
-    if ((unsigned int)count <= 0u)
-        count = 0;
-    else if (0xffffffffu / (unsigned int)count < 16u)
-        throw std::bad_alloc();
-    ::FUN_00401000((unsigned int)count * 16u);
-}
-
-// @fnv 0x0064e630
-extern "C" void __cdecl FUN_0064e630(void* a, void* b, void* c, void* d)
-{
-    FUN_0064e630_flag aa = {};
-    unsigned char zz = ::FUN_0065e750(&c, {});
-    ::ForwardToHandler(CallWithFlag((int*)&a), CallWithFlag((int*)&b), (int)(c), (int)(d));
-}
-
-// @fnv 0x0064e920
-extern "C" void __cdecl FUN_0064e920(int a, int b, int c, int d)
-{
-    FlagBox5317 flag1 = {};
-    unsigned char flag2 = FUN_0065e750((void*)&a, (void*)&c);
-    ::FUN_0064e9c0((::Elem64e9 *)(CallWithFlag((int*)&a)), (::Elem64e9 *)(CallWithFlag((int*)&b)), (::Elem64e9 *)(c), (*(::Alloc64e9 *)(d)), (::NonscalarTag64e9)(flag2), (::CheckedTag64e9)(flag1.v));
-}
-
-extern "C" void FUN_00ec7894(Hldr0044* p, void* dat);
-
-// VEGAS17-CONFLICT: FUN_0065be60 (variant definition below differs from the one above)
-class FUN_0065be60 : public OwnerBase
-{
-  public:
-    SubMember m_iThirdValue;
-
-    FUN_0065be60(int a);
-    virtual ~FUN_0065be60();
-};
-
-// VEGAS17-CONFLICT: FUN_006815c0 (variant definition below differs from the one above)
-struct FUN_006815c0
-{
-    void* object;
-    FUN_006815c0();
-    ~FUN_006815c0();
-};
-
 struct FUN_0065de30
 {
     unsigned int value;
@@ -8115,79 +8029,6 @@ unsigned int __cdecl FUN_00ec7c56(void);
 
 void FUN_00ecaebb(void* dst, void* src, unsigned int size, unsigned int count, void (*copyCtor)(),
                             void (*dtor)());
-
-// @fnv 0x00658c10
-extern "C" void __cdecl FUN_00658c10(int a, int b)
-{
-    Hldr0044 h;
-
-    if ((unsigned)a <= 0)
-    {
-        a = 0;
-    }
-    else
-    {
-        if (0xFFFFFFFFu / (unsigned)a < 60)
-        {
-            reinterpret_cast<::FUN_0044d6c0_class *>(&(h))->FUN_0044d6c0((void **)(0));
-            FUN_00ec7894(&h, &DAT_01140ef8);
-        }
-    }
-
-    ::FUN_00401000(a * 60);
-}
-
-namespace c820 {
-struct RCTag
-{
-};
-struct InTag
-{
-};
-struct FwdTag : InTag
-{
-};
-struct BiTag : FwdTag
-{
-};
-struct RaTag : BiTag
-{
-};
-struct PtrCat
-{
-};
-typedef Elem_65eed0* It;
-}
-Elem_65eed0* __cdecl FUN_0065f820(Elem_65eed0* first, Elem_65eed0* last, Elem_65eed0* dest);
-
-namespace de {
-struct RCTag
-{
-};
-struct PtrCat
-{
-};
-PtrCat __cdecl FUN_0065e750(int& a, int& b);
-}
-
-// @fnv 0x0065fde0
-extern "C" void __cdecl FUN_0065fde0(int first, int last, int dest, int al)
-{
-    using namespace de;
-    ::CopyRange(CallWithFlag(&first), CallWithFlag(&last), dest, (::FUN_00660070_cls *)(al));
-}
-
-// @fnv 0x0064e380
-extern "C" int __cdecl FUN_0064e380(int arg1, int arg2, int arg3)
-{
-    TagA flag1 = {};
-    char flag2 = ((char)(::FUN_0065e750(&arg1, &arg3)));
-    TagA flag3;
-
-    return ::FUN_0064e5a0(CallWithFlag(&arg1), CallWithFlag(&arg2), arg3);
-}
-
-void* __cdecl operator new(std::size_t size, unsigned int allocation);
 
 // @fnv 0x0065dc90
 FUN_0065dc90::FUN_0065dc90(FUN_0065de30 argument) : FUN_006815c0(), member(argument)

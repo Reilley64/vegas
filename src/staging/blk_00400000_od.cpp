@@ -118,7 +118,6 @@ struct FUN_00405230_Class
 };
 
 extern int DAT_01012298;
-void __cdecl FUN_004055d0(int, char);
 
 struct FUN_00405570_cls
 {

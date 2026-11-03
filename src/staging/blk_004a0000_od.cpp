@@ -6,6 +6,8 @@
 #include <windows.h>
 #include <new>
 #include <cmath>
+#include <cstring>
+#include <xmmintrin.h>
 #include <cstdio>
 #include <cstring>
 #include "fnv/decl/BGSTerrainManager.h"
@@ -49,7 +51,6 @@
 #include "fnv/decl/ListStandIn.h"
 #include "fnv/decl/MagicCaster_shell.h"
 #include "fnv/decl/NiAdditionalGeometryData.h"
-#include "fnv/decl/NiTPointerListBase.h"
 #include "fnv/decl/ObsList.h"
 #include "fnv/decl/Ref664.h"
 #include "fnv/decl/S_004b0aa0_Self.h"
@@ -275,16 +276,19 @@ unsigned short FUN_004a4200_class::FUN_004a4200()
     return ((unsigned char*)this)[0x1c];
 }
 
+struct BSRandomHelper
+{
+    float FUN_004a4260();
+};
 struct MersenneTwister
 {
     static MersenneTwister* GetRandomGenerator();
-    void* FUN_004a4260();
 };
 
 // @fnv 0x004a4240
-void* FUN_004a4240()
+float FUN_004a4240()
 {
-    return MersenneTwister::GetRandomGenerator()->FUN_004a4260();
+    return reinterpret_cast<BSRandomHelper*>(MersenneTwister::GetRandomGenerator())->FUN_004a4260();
 }
 
 struct FUN_004a4440_Class
@@ -564,14 +568,15 @@ int __cdecl FUN_004b4a10(unsigned short a1, int a2, int a3, int a4)
     return ((int(__cdecl*)(unsigned short, int, int, int)) * (&(*reinterpret_cast<int *>(&::DAT_011aa050))))(a1, a2, a3, a4);
 }
 
+struct FUN_004b4cf0_shell;
 struct FUN_004b4ab0_Class
 {
-    void FUN_004b4ab0(int a, int b);
-    void FUN_004b4ad0(int a, int b);
+    void FUN_004b4ab0(FUN_004b4cf0_shell* a, __m128* b);
+    void FUN_004b4ad0(FUN_004b4cf0_shell* matrix, __m128* vector);
 };
 
 // @fnv 0x004b4ab0
-void FUN_004b4ab0_Class::FUN_004b4ab0(intptr_t a, intptr_t b)
+void FUN_004b4ab0_Class::FUN_004b4ab0(FUN_004b4cf0_shell* a, __m128* b)
 {
     FUN_004b4ad0(a, b);
 }
@@ -941,7 +946,6 @@ struct FUN_004b0850_Class
 {
     FUN_004b0850_Class* FUN_004b0850(unsigned int flags);
 };
-void __cdecl FUN_004b0cf0();
 struct FUN_004b08e0_Class
 {
     void FUN_004b0cf0();
@@ -961,8 +965,6 @@ void* NiFixedString::FUN_004b9900(unsigned int flags)
         ::FUN_00401030(this);
     return this;
 }
-
-void __cdecl FUN_004b9cd0();
 
 struct FUN_004b9980_Class
 {
@@ -1017,10 +1019,6 @@ FUN_004a3cc0_Class* FUN_004a3cc0_Class::FUN_004a3cc0()
 
 struct UnsignedIntHelper
 {
-};
-struct BSRandomHelper
-{
-    float FUN_004a4260();
 };
 // @fnv 0x004a4260
 float BSRandomHelper::FUN_004a4260()
@@ -1314,7 +1312,6 @@ void FUN_004a9fc0_Class::FUN_004a9fc0()
 }
 
 namespace fnv_004aa210 {
-extern "C" void* __cdecl memset(void* dst, int value, unsigned int count);
 struct FUN_004aa210_class
 {
     int* vtbl;
@@ -2220,7 +2217,7 @@ void __cdecl FUN_004a42a0()
             r = 0;
         }
     }
-    reinterpret_cast<::NiTPointerListBase *>((((FUN_004ed900_cls*)kObj)))->FUN_004ed900();
+    reinterpret_cast<::NiTPointerListBase<::NiTPointerAllocator<unsigned int>, void*> *>((((FUN_004ed900_cls*)kObj)))->RemoveAll();
 }
 
 struct FUN_004a4650_ListBase;
@@ -4138,7 +4135,7 @@ class FUN_004a47b0 : public ListBase4A47B0
 // @fnv 0x004a47b0
 FUN_004a47b0::~FUN_004a47b0()
 {
-    reinterpret_cast<::NiTPointerListBase *>(this)->FUN_004ed900();
+    reinterpret_cast<::NiTPointerListBase<::NiTPointerAllocator<unsigned int>, void*> *>(this)->RemoveAll();
 }
 
 struct PointerMapBase4aa0f0

@@ -51,7 +51,6 @@
 #include "fnv/decl/FUN_00626da0_Class.h"
 #include "fnv/decl/FUN_006286a0_Holder.h"
 #include "fnv/decl/FUN_006288a0_Class.h"
-#include "fnv/decl/FUN_00628d10_cls.h"
 #include "fnv/decl/FUN_00628df0_class.h"
 #include "fnv/decl/FUN_00629560_Class.h"
 #include "fnv/decl/FUN_006295a0_shell.h"
@@ -85,7 +84,6 @@
 #include "fnv/decl/S.h"
 #include "fnv/decl/S004586d0_Obj.h"
 #include "fnv/decl/S00458a10_Vector.h"
-#include "fnv/decl/S0062aea0_Vector.h"
 #include "fnv/decl/S219c0.h"
 #include "fnv/decl/S6281a0.h"
 #include "fnv/decl/S_00538f40.h"
@@ -146,10 +144,15 @@
 #include "fnv/decl/FUN_00621ad0_Class.h"
 #include "fnv/decl/NiObjectNET.h"
 #include "fnv/decl/S00561240_Vector.h"
-#include "fnv/decl/S00628640_Vector.h"
 #include "fnv/decl/S0062b0a0_Vector.h"
 #include "fnv/symbols_00458000.h"
 #include "fnv/symbols_0062a000.h"
+
+struct S0062aea0_Vector
+{
+    __m128 m_vComponents;
+    void FUN_0062aea0();
+};
 
 struct Vec16
 {
@@ -275,16 +278,6 @@ void CollisionPair::FUN_00620930(float radius, unsigned int filter)
     reinterpret_cast<::FUN_0056e120_shell *>(&(secondInfo.transform))->FUN_0056e120();
     second = new FUN_0056e2d0(&secondInfo);
 }
-
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-    __int8 m128_i8[16];
-    __int16 m128_i16[8];
-    __int32 m128_i32[4];
-    unsigned __int32 m128_u32[4];
-} __m128;
 
 struct xMemObj
 {
@@ -440,12 +433,6 @@ struct VMin_006286f0 : Vec_006286f0
 };
 
 namespace fnv_00631370 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-    signed char m128_i8[16];
-};
 struct __declspec(align(16)) FUN_00437c10
 {
     __m128 minimum, maximum;
@@ -1648,12 +1635,6 @@ void S006230f0_Object::FUN_006230f0(const S006230f0_Source* pSource)
 }
 
 namespace fnv_006271b0 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-    signed char m128_i8[16];
-};
 struct __declspec(align(16)) FUN_00437c10
 {
     __m128 minimum, maximum;
@@ -1894,7 +1875,7 @@ void Owner::FUN_006271b0(Cell* next, int flag)
                             ObjArray more;
                             reinterpret_cast<::Mover628 *>(this)->MoveToDestination((::Body628 *)(other), (::Group628 *)(::fnv_006271b0::ObjArray *)(&more));
                             for (int k = 0; k < ((int)(reinterpret_cast<::Callees *>(&(more))->FUN_00726070())); k++)
-                                reinterpret_cast<::FUN_006299c0_cls *>(&(seen))->FUN_006299c0((int)(&((::fnv_006271b0::Node *)&(reinterpret_cast<::FUN_00629ab0_shell *>(&(more))->FUN_00629ab0(k)))));
+                                reinterpret_cast<::FUN_006299c0_cls *>(&(seen))->FUN_006299c0((int)(&(reinterpret_cast<::FUN_00629ab0_shell *>(&(more))->FUN_00629ab0(k))));
                         }
                     }
                 }
@@ -2151,7 +2132,6 @@ struct S006288c0_Vector
     __m128 m_vComponents;
 };
 
-const S006288c0_Vector& FUN_00458b20();
 
 // shared zero vector
 
@@ -2190,7 +2170,7 @@ void S006288c0_Object::FUN_006288c0(S006288c0_Bounds* bounds)
     }
     else
     {
-        reinterpret_cast<::S6281a0 *>((bounds))->FUN_006281a0((const ::S6281a0 &)((const ::S006288c0_Aabb &)(S006288c0_Aabb(FUN_00458b20(), FUN_00458b20()))));
+        reinterpret_cast<::S6281a0 *>((bounds))->FUN_006281a0((const ::S6281a0 &)((const ::S006288c0_Aabb &)(S006288c0_Aabb(*(const S006288c0_Vector*)::FUN_00458b20(), *(const S006288c0_Vector*)::FUN_00458b20()))));
     }
 }
 
@@ -2303,13 +2283,13 @@ void Owner628980::FUN_00628980(Filter628980* filter, List628980* input)
     List628980 visited;
     for (int k = 0; k < ((int)(reinterpret_cast<::Callees *>(&(collected))->FUN_00726070())); ++k)
     {
-        if (reinterpret_cast<::FUN_00629f10_Class *>(&(visited))->FUN_00629f10((int *)(void **)(&((void *)&(reinterpret_cast<::FUN_00629ab0_shell *>(&(collected))->FUN_00629ab0(k)))), 0, -1) == -1)
+        if (reinterpret_cast<::FUN_00629f10_Class *>(&(visited))->FUN_00629f10((int *)(&(reinterpret_cast<::FUN_00629ab0_shell *>(&(collected))->FUN_00629ab0(k))), 0, -1) == -1)
         {
             void* item = FUN_004b5a80(((void *)&(reinterpret_cast<::FUN_00629ab0_shell *>(&(collected))->FUN_00629ab0(k))));
             List628980 expanded;
             reinterpret_cast<::Mover628 *>(this)->MoveToDestination((::Body628 *)(item), (::Group628 *)(::List628980 *)(&expanded));
             for (int n = 0; n < ((int)(reinterpret_cast<::Callees *>(&(expanded))->FUN_00726070())); ++n)
-                reinterpret_cast<::FUN_006299c0_cls *>(&(visited))->FUN_006299c0((int)(&((void *)&(reinterpret_cast<::FUN_00629ab0_shell *>(&(expanded))->FUN_00629ab0(n)))));
+                reinterpret_cast<::FUN_006299c0_cls *>(&(visited))->FUN_006299c0((int)(&(reinterpret_cast<::FUN_00629ab0_shell *>(&(expanded))->FUN_00629ab0(n))));
         }
     }
 }
@@ -2680,7 +2660,6 @@ class hkQuaternionV
     __m128 m_vec;
 };
 
-const hkQuaternionV& __cdecl FUN_0062aad0();
 
 class hkTransformV
 {
@@ -2825,7 +2804,7 @@ void __cdecl FUN_0062a7e0(const hkVector4V& kTarget, void* pvRef)
     float fTime = pkEntry->m_fTime;
     hkTransformV kBodyTransform;
     hkTransformV kInverse;
-    hkTransformV kTargetTransform(FUN_0062aad0(), kTarget);
+    hkTransformV kTargetTransform(*(const hkQuaternionV*)::FUN_0062aad0(), kTarget);
     hkTransformV kDelta;
     pkBody->GetTransform(kBodyTransform);
     reinterpret_cast<::FUN_00cb21e0_shell *>(&(kInverse))->FUN_00cb21e0((const ::Matrix44 *)&(kBodyTransform));
@@ -2869,7 +2848,6 @@ class hkQuaternionV
   public:
     __m128 m_vec;
 };
-const hkQuaternionV& __cdecl FUN_0062aad0();
 
 class hkTransformV
 {
@@ -3008,7 +2986,7 @@ void __cdecl FUN_0062ab60(const hkVector4V& kTarget, void* pvRef)
     float fTime = pkEntry->m_fTime;
     hkTransformV kBodyTransform;
     hkTransformV kInverse;
-    hkTransformV kTargetTransform(FUN_0062aad0(), kTarget);
+    hkTransformV kTargetTransform(*(const hkQuaternionV*)::FUN_0062aad0(), kTarget);
     hkTransformV kDelta;
     pkBody->GetTransform(kBodyTransform);
     reinterpret_cast<::FUN_00cb21e0_shell *>(&(kInverse))->FUN_00cb21e0((const ::Matrix44 *)&(kBodyTransform));
@@ -3606,8 +3584,6 @@ bool ShapeCaster::FUN_00626b30(const NiPoint3& kFrom, const NiPoint3& kWorldPosi
     return false;
 }
 
-extern "C" __m128 _mm_min_ps(__m128, __m128);
-
 struct VecHolder
 {
     __m128 m_uiFilterValue;
@@ -3620,18 +3596,6 @@ void VecHolder::FUN_006285e0(const void* a, const void* b)
 {
     m_uiFilterValue = _mm_min_ps(*((const ::__m128 *)(new ((void *)(a)) ::Vec3())), *((const ::__m128 *)(new ((void *)(b)) ::Vec3())));
 }
-
-extern "C" __m128 __cdecl _mm_set_ss(float);
-
-extern "C" __m128 __cdecl _mm_cmpeq_ss(__m128, __m128);
-
-extern "C" __m128 __cdecl _mm_rsqrt_ss(__m128);
-
-extern "C" __m128 __cdecl _mm_mul_ss(__m128, __m128);
-
-extern "C" __m128 __cdecl _mm_sub_ss(__m128, __m128);
-
-extern "C" __m128 __cdecl _mm_andnot_ps(__m128, __m128);
 
 struct Vec
 {
@@ -3653,11 +3617,10 @@ Vec* Vec::FUN_0062af00(Vec* target)
     __m128 reciprocal = _mm_rsqrt_ss(value);
     __m128 multiply = _mm_mul_ss(_mm_mul_ss(first, reciprocal),
                                  _mm_sub_ss(second, _mm_mul_ss(_mm_mul_ss(value, reciprocal), reciprocal)));
-    new ((void *)(target)) ::FUN_004a3c90((*(const ::FUN_004a3c90 *)((const Vec*)&_mm_andnot_ps(mask, multiply))));
+    __m128 result = _mm_andnot_ps(mask, multiply);
+    new ((void *)(target)) ::FUN_004a3c90((*(const ::FUN_004a3c90 *)((const Vec*)&result)));
     return target;
 }
-
-extern "C" __m128 _mm_max_ps(__m128, __m128);
 
 class S00628640_Source
 {
@@ -3782,67 +3745,25 @@ void S00628640_Vector::FUN_00628640(const S00628640_Source* a, const S00628640_S
     m_vComponents = _mm_max_ps(*((const ::__m128 *)(new ((void *)(a)) ::Vec3())), *((const ::__m128 *)(new ((void *)(b)) ::Vec3())));
 }
 
-namespace N {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-    __int8 m128_i8[16];
-    __int16 m128_i16[8];
-    __int32 m128_i32[4];
-    unsigned __int32 m128_u32[4];
-};
-extern "C"
-{
-    __m128 _mm_and_ps(__m128, __m128);
-}
-}
-
 struct S_00628cc0_Class
 {
-    N::__m128 unk00;
+    __m128 unk00;
 
-    void FUN_00628cc0(N::__m128* arg1, N::__m128* arg2);
+    void FUN_00628cc0(__m128* arg1, __m128* arg2);
 };
 
 // @fnv 0x00628cc0
-void S_00628cc0_Class::FUN_00628cc0(N::__m128* arg1, N::__m128* arg2)
+void S_00628cc0_Class::FUN_00628cc0(__m128* arg1, __m128* arg2)
 {
-    unk00 = N::_mm_and_ps(*arg1, *arg2);
+    unk00 = _mm_and_ps(*arg1, *arg2);
 }
 
-struct __declspec(align(16)) xVec4
-{
-    xM128 m_vComponents;
-    xVec4();
-};
-
-namespace N {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-    __int8 m128_i8[16];
-    __int16 m128_i16[8];
-    __int32 m128_i32[4];
-    unsigned __int32 m128_u32[4];
-};
-extern "C"
-{
-    __m128 _mm_mul_ps(__m128, __m128);
-}
-}
 
 class S0062aea0_Result
 {
   public:
 };
 
-struct S0062aea0_Vector
-{
-    N::__m128 m_vComponents;
-    void FUN_0062aea0();
-};
 
 // @fnv 0x0062aea0
 void S0062aea0_Vector::FUN_0062aea0()
@@ -3850,5 +3771,5 @@ void S0062aea0_Vector::FUN_0062aea0()
     S0062aea0_Vector kScale;
     S0062aea0_Vector kTemp;
     reinterpret_cast<::S00561240_Vector *>((((::S0062aea0_Result *)(reinterpret_cast<::Vec *>((void *)this)->FUN_0062af00((::Vec *)(::S0062aea0_Vector *)(&kTemp))))))->FUN_00561240({});
-    m_vComponents = N::_mm_mul_ps(kScale.m_vComponents, m_vComponents);
+    m_vComponents = _mm_mul_ps(kScale.m_vComponents, m_vComponents);
 }

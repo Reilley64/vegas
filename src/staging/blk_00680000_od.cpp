@@ -6,6 +6,7 @@
 #include <new>
 #include <cstdlib>
 #include <cstring>
+#include <cmath>
 #include "runtime/crt.h"
 #include "fnv/decl/BSShaderManager.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -958,7 +959,6 @@ void* Holder_0068eb50::FUN_0068eb50(unsigned int flags)
     return this;
 }
 
-void __cdecl FUN_006919a0();
 struct FUN_00691770_class
 {
     void FUN_006919a0();
@@ -1983,11 +1983,6 @@ struct P3
     P3 operator-(const P3& rhs) const;
 };
 
-struct std
-{
-    static float __cdecl abs(float value);
-};
-
 struct FUN_004941c0_shell
 {
     void ScaleByInverse(float value);
@@ -2864,6 +2859,8 @@ void FUN_0069d050_cls::CopyRecordsTo(int apTarget)
     }
 }
 
+extern "C" void FUN_00ec5fce(void*, unsigned int, unsigned int, const void*);
+
 namespace fnv_0069d9a0 {
 struct S_0069d9a0_cls
 {
@@ -2877,7 +2874,7 @@ void* S_0069d9a0_cls::FUN_0069d9a0(unsigned int flags)
 {
     if (flags & 2)
     {
-        FUN_00ec5fce(this, 0x10, reinterpret_cast<int*>(this)[-1], &((void (&)())::FUN_00691800));
+        ::FUN_00ec5fce(this, 0x10, reinterpret_cast<int*>(this)[-1], (const void *)&((void (&)())::FUN_00691800));
 
         if (flags & 1)
         {

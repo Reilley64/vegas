@@ -4,6 +4,8 @@
 
 #include <new>
 #include <cstring>
+#include <cmath>
+#include <intrin.h>
 #include "fnv/decl/BSFaceGenNiNode.h"
 #include "fnv/decl/BSShaderNoLightingProperty.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -95,9 +97,6 @@
 #include "fnv/symbols_011e0000.h"
 #include "../../include/layout_support.h"
 #include "fnv/decl/TESActorBase.h"
-#include "fnv/decl/fnv_004385f0__FUN_004385f0_Class.h"
-#include "fnv/decl/fnv_00438780__NiTPointerMap_00438780.h"
-#include "fnv/decl/fnv_00439390__NiObjectNET.h"
 #include "fnv/decl/fnv_0043b1b0__FUN_0043b1b0_shell.h"
 #include "fnv/decl/fnv_00575700__RefrV.h"
 #include "fnv/symbols_00439000.h"
@@ -181,13 +180,13 @@ struct FUN_0042f4e0_class
 
 struct FUN_0042ff10_cls
 {
-    void FUN_0042ff30(int);
+    bool FUN_0042ff30(const void** apOther);
 };
 
 // @fnv 0x0042ff10
-void FUN_0042ff10(FUN_0042ff10_cls* pTarget, int b)
+bool FUN_0042ff10(FUN_0042ff10_cls* pTarget, const void** apOther)
 {
-    pTarget->FUN_0042ff30(b);
+    return pTarget->FUN_0042ff30(apOther);
 }
 
 extern int DAT_01015a08;
@@ -586,7 +585,6 @@ FUN_00436ac0::FUN_00436ac0() : BE(0x55)
 }
 
 namespace fnv_00438780 {
-extern "C" void __cdecl _NiFreeAlias(void*);
 
 struct NiTPointerMap_00438780
 {
@@ -764,7 +762,6 @@ void* FUN_004366f0_class::FUN_004366f0(unsigned int flags)
     return this;
 }
 
-void FUN_00436bb0();
 struct FUN_00436af0_Class
 {
     void FUN_00436bb0();
@@ -1756,14 +1753,10 @@ void AC_0042f730::FUN_0042f760()
         reinterpret_cast<::S_0066e2b0_Class *>((((AC_0042f730*)vtbl)))->FUN_0066e2b0();
 }
 
-struct NiPointerStandIn
-{
-    bool operator==(int) const;
-};
 // @fnv 0x0042ff30
-void FUN_0042ff10_cls::FUN_0042ff30(int aiValue)
+bool FUN_0042ff10_cls::FUN_0042ff30(const void** apOther)
 {
-    reinterpret_cast<::FUN_004b0460_class *>((void *)(((NiPointerStandIn*)this)))->FUN_004b0460==((const void **)(aiValue));
+    return reinterpret_cast<::FUN_004b0460_class *>(this)->FUN_004b0460(apOther);
 }
 
 struct BSExtraDataHelper
@@ -3167,9 +3160,6 @@ struct FUN_00439260 : public NiPropertyBase
 FUN_00439260::FUN_00439260()
 {}
 
-namespace std {
-double __cdecl abs(float);
-}
 struct Matrix
 {
     float m00, m01, m02, m10, m11, m12, m20, m21, m22;
@@ -3409,16 +3399,19 @@ int __cdecl FUN_0043b290()
     return (int)11u;
 }
 
-extern "C" long InterlockedCompareExchange(long volatile* Destination, long Exchange, long Comparand);
+static long InterlockedCompareExchangeImport(long volatile* Destination, long Exchange, long Comparand)
+{
+    return _InterlockedCompareExchange(Destination, Exchange, Comparand);
+}
 
 typedef long(* InterlockedCompareExchange_t)(long volatile*, long, long);
 
-InterlockedCompareExchange_t DAT_00fdf1bc = InterlockedCompareExchange;
+InterlockedCompareExchange_t DAT_00fdf1bc = InterlockedCompareExchangeImport;
 
 // @fnv 0x0043b460
-void __cdecl FUN_0043b460(void* apDestination, void* pSrc, unsigned int n)
+long __cdecl FUN_0043b460(long volatile* apDestination, long aiComparand, long aiExchange)
 {
-    DAT_00fdf1bc(static_cast<long volatile*>(apDestination), n, reinterpret_cast<long>(pSrc));
+    return DAT_00fdf1bc(apDestination, aiExchange, aiComparand);
 }
 
 struct ObjB4037

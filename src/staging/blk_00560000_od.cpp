@@ -1025,10 +1025,6 @@ void FUN_0057c590_Class::FUN_0057c590(Node* apNode)
 struct NiPointerListStandIn
 {
 };
-struct NiPointerStandIn
-{
-    bool operator==(void*) const;
-};
 struct FUN_0057c6a0Class
 {
     void* FUN_0057c6a0(void* a, void* b);
@@ -1042,7 +1038,8 @@ void* FUN_0057c6a0Class::FUN_0057c6a0(void* apTarget, void* apStart)
     while (apStart)
     {
         void* c = apStart;
-        if (reinterpret_cast<::FUN_004b0460_class *>((void *)(((NiPointerStandIn*)apTarget)))->FUN_004b0460==((const void **)(void *)(((void *)(reinterpret_cast<::ListStandIn *>((((NiPointerListStandIn*)this)))->FUN_0057cbe0((int **)&(apStart)))))))
+        const void* pElement = reinterpret_cast<::ListStandIn *>(this)->FUN_0057cbe0((int **)&(apStart));
+        if (reinterpret_cast<::FUN_004b0460_class *>(apTarget)->FUN_004b0460(&pElement))
             return c;
     }
     return 0;
@@ -1818,7 +1815,7 @@ bool Ref563530::FUN_00563530()
         NiControllerSequence* pForwardSequence = reinterpret_cast<::fnv_00495d20::FUN_00495d20_shell *>((pManager))->FUN_00495d20(i);
         if (((int)(reinterpret_cast<::LowProcess *>((pForwardSequence))->GetActiveCombatTarget())))
         {
-            if (::FUN_00404dc0((*(::NiFixedString *)(reinterpret_cast<::TESTopicInfoData *>((pForwardSequence))->GetLinkToList())), (*reinterpret_cast<const char * *>(&::DAT_011977d8))) && ::FUN_00404dc0((*(::NiFixedString *)(reinterpret_cast<::TESTopicInfoData *>((pForwardSequence))->GetLinkToList())), (*reinterpret_cast<const char * *>(&::DAT_01197820))))
+            if (::FUN_00404dc0((*(::NiFixedString *)(reinterpret_cast<::TESTopicInfoData *>((pForwardSequence))->GetLinkToList())), ((const char *)::DAT_011977d8)) && ::FUN_00404dc0((*(::NiFixedString *)(reinterpret_cast<::TESTopicInfoData *>((pForwardSequence))->GetLinkToList())), ((const char *)::DAT_01197820)))
                 return true;
         }
     }

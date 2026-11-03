@@ -353,7 +353,7 @@ FUN_006dc440_class* FUN_006dc440_class::FUN_006a2880()
     return this;
 }
 
-extern "C" void* __cdecl Reallocate(void* p, int size);
+extern "C" void* __cdecl Reallocate(void* p, size_t size);
 
 struct FUN_006a28b0_Class
 {
@@ -1944,7 +1944,9 @@ struct S006bb540
 // @fnv 0x006bb540
 NiPoint3Ex S006bb540::SubtractFromC()
 {
-    return (*(::NiPoint3Ex *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(((NiPoint3Ex*)&m_C)))->FUN_00439ef0-((::NiPoint3 *)&(m_iWordAt00), *(const ::NiPoint3 *)nullptr)));
+    NiPoint3Ex kResult;
+    reinterpret_cast<::FUN_00439ef0_class *>(&m_C)->FUN_00439ef0((::NiPoint3 *)&kResult, *(const ::NiPoint3 *)&m_iWordAt00);
+    return kResult;
 }
 
 struct NiBound
@@ -2341,7 +2343,6 @@ void FUN_006a2470_class::FUN_006a2470(unsigned int requested, unsigned int saved
 }
 
 namespace fnv_006a64e0 {
-extern "C" void* __cdecl memset(void*, int, unsigned int);
 struct FUN_006a64e0_class
 {
     int* m_p;
@@ -6814,10 +6815,6 @@ void __cdecl FUN_006b9940(FUN_006b9940_cls* a1, FUN_006b9940_cls* a2, FUN_006b99
     reinterpret_cast<::Point3Offset *>((a2))->ProjectileLaunched((::NiPoint3 *)(::FUN_006b9940_cls *)(&v0c2), (::NiPoint3 *)(::FUN_006b9940_cls *)(((::FUN_006b9940_cls *)(::NiPosData::ComputePositionAtTime((::NiPoint3 *)(::FUN_006b9940_cls *)(&v48), scaleTmp, (const ::NiPoint3 *)(::FUN_006b9940_cls *)(&v2))))));
     reinterpret_cast<::FUN_00439ef0_class *>((a1))->FUN_00439ef0((::NiPoint3 *)(::FUN_006b9940_cls *)(&v3c4), (*(const ::NiPoint3 *)(&v0c2)));
     ::FUN_004019b0(reinterpret_cast<::FUN_004b6190_shell *>(&(v3c4))->DotProduct(&v3c4));
-}
-
-namespace std {
-float abs(float);
 }
 
 struct NiPoint2
@@ -13740,12 +13737,16 @@ bool Host::FUN_006ac8b0(NiPoint3* a1, NiPoint3* a2, NavMesh* apNavMesh, NiPoint3
     FUN_006dd0d0 o138(&s, &this->m_20a4);
     if (!FUN_006d7350(plA, *(PathingLocation*)&o138, 0, 0))
         return false;
-    FUN_006dd0d0 o110(&(((PtOp&)this->m_20e4) - ptr), &plA);
-    FUN_006dd0d0 odc(&(((PtOp&)s) - ptr), (PathingLocation*)&o138);
+    NiPoint3 kBackA = ((PtOp&)this->m_20e4) - ptr;
+    FUN_006dd0d0 o110(&kBackA, &plA);
+    NiPoint3 kBackB = ((PtOp&)s) - ptr;
+    FUN_006dd0d0 odc(&kBackB, (PathingLocation*)&o138);
     if (!FUN_006d7350(*(PathingLocation*)&o110, *(PathingLocation*)&odc, 0, 0))
         return false;
-    FUN_006dd0d0 o6c(&(((PtOp&)this->m_20e4) + ptr), &plA);
-    FUN_006dd0d0 dst6(&(((PtOp&)s) + ptr), (PathingLocation*)&o138);
+    NiPoint3 kForwardA = ((PtOp&)this->m_20e4) + ptr;
+    FUN_006dd0d0 o6c(&kForwardA, &plA);
+    NiPoint3 kForwardB = ((PtOp&)s) + ptr;
+    FUN_006dd0d0 dst6(&kForwardB, (PathingLocation*)&o138);
     if (!FUN_006d7350(*(PathingLocation*)&o6c, *(PathingLocation*)&dst6, 0, 0))
         return false;
     {

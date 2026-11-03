@@ -59,8 +59,6 @@
 #include "fnv/symbols_011c3000.h"
 #include "../../include/layout_support.h"
 
-extern "C" void __cdecl FUN_00600fd0(int, int);
-
 struct FUN_00600ad0_cls
 {
     const char* v;
@@ -782,7 +780,6 @@ struct FUN_0061fa40_class
 };
 
 namespace fnv_0061fa70 {
-extern "C" void* __cdecl memset(void* dst, int c, unsigned int n);
 struct FUN_0061fa70_class
 {
     int FUN_0061fa70(int a);

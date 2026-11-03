@@ -16,7 +16,6 @@
 #include "fnv/decl/FUN_004f15a0_shell.h"
 #include "fnv/decl/FUN_00509540_obj.h"
 #include "fnv/decl/FUN_00537e90.h"
-#include "fnv/decl/FUN_005a7d40.h"
 #include "fnv/decl/FUN_005d43c0_.h"
 #include "fnv/decl/FUN_0061cc40_shell.h"
 #include "fnv/decl/FUN_00680910_shell.h"
@@ -684,15 +683,6 @@ struct DeletingObject
     void* Destroy(unsigned int flags);
     void FUN_005a7d40();
 };
-// Calls FUN_005a7d40, then frees this via operator delete when the low bit of flags is set, and returns this.
-// @fnv 0x005a7d10
-void* DeletingObject::Destroy(unsigned int flags)
-{
-    reinterpret_cast<::FUN_005a7d40 *>(this)->FUN_005a7d40::~FUN_005a7d40();
-    if (flags & 1)
-        ::FUN_00401030(this);
-    return this;
-}
 
 namespace fnv_005a8490 {
 class BaseFormComponent
@@ -846,16 +836,6 @@ struct FUN_00680890_r005a7d40
     ~FUN_00680890_r005a7d40();
 };
 
-// VEGAS17-CONFLICT: FUN_005a7c50 (variant definition below differs from the one above)
-struct FUN_005a7c50 : FUN_00483370, FUN_00402d00
-{
-    FUN_00680890_r005a7d40 member34;
-    FUN_0096a2d0 member3c;
-    FUN_0096a2d0 member44;
-    FUN_0096a2d0 member4c;
-    FUN_005a7c50();
-};
-
 // Generated address-based names identify the native TESForm base destructor
 // and TESRecipe destructor to this checker; layouts/ownership follow native RTTI.
 class BaseFormComponent
@@ -902,6 +882,16 @@ class FUN_005a7d40 : public FUN_00483630_holder, public TESFullName
 FUN_005a7d40::~FUN_005a7d40()
 {
     reinterpret_cast<::TESRecipe *>(this)->ClearData();
+}
+
+// Calls FUN_005a7d40, then frees this via operator delete when the low bit of flags is set, and returns this.
+// @fnv 0x005a7d10
+void* DeletingObject::Destroy(unsigned int flags)
+{
+    reinterpret_cast<::FUN_005a7d40 *>(this)->FUN_005a7d40::~FUN_005a7d40();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
 }
 
 #include "generated/data/staging/blk_005a0000_od.inc"

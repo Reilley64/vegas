@@ -2235,8 +2235,8 @@ void __cdecl FUN_007ca960(void* apSelf)
         if (iCount > 1)
         {
             GlobalObject_0041a250 kSound;
-            reinterpret_cast<::SoundPlaybackHandle *>(&(kSound))->operator=(
-                (*(const ::SoundPlaybackHandle *)(&((FUN_00ad7550_shell*)::FUN_00453a70())->FUN_00ad7550("OBJBookSpecialNumber", 0x121))));
+            BSSoundHandleEx kNewSound = ((FUN_00ad7550_shell*)::FUN_00453a70())->FUN_00ad7550("OBJBookSpecialNumber", 0x121);
+            reinterpret_cast<::SoundPlaybackHandle *>(&(kSound))->operator=((*(const ::SoundPlaybackHandle *)(&kNewSound)));
             reinterpret_cast<::FUN_00ad8830_shell *>(&(kSound))->FUN_00ad8830(false);
         }
         reinterpret_cast<::FUN_0093a7c0_Owner *>((((FUN_007ca960_Owner*)(*reinterpret_cast<char * *>(&::_g_thePlayer)))))->FUN_0093a7c0((void *)(m_uiSoundID), FUN_00647b70(iCount - 1, 1));

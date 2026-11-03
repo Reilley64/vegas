@@ -365,6 +365,23 @@ struct Tile
 };
 struct Menu
 {
+    virtual ~Menu();  // the original class is polymorphic (rtti_variants.py)
+    virtual void M01();
+    virtual void M02();
+    virtual void M03();
+    virtual void M04();
+    virtual void M05();
+    virtual void M06();
+    virtual void M07();
+    virtual void M08();
+    virtual void M09();
+    virtual void M10();
+    virtual void M11();
+    virtual void M12();
+    virtual int GetID();
+    char menuData[0x24];
+public:
+    void SetMenuVisibility(bool);
 };
 struct SimpleList
 {
@@ -1761,27 +1778,6 @@ void __cdecl FUN_007f7a50(float a, float b);
 
 struct Menu;
 
-// VEGAS17-CONFLICT: Menu (variant definition below differs from the one above)
-struct Menu
-{
-    virtual ~Menu();  // the original class is polymorphic (rtti_variants.py)
-    virtual void M01();
-    virtual void M02();
-    virtual void M03();
-    virtual void M04();
-    virtual void M05();
-    virtual void M06();
-    virtual void M07();
-    virtual void M08();
-    virtual void M09();
-    virtual void M10();
-    virtual void M11();
-    virtual void M12();
-    virtual int GetID();
-    char menuData[0x24];
-public:
-    void SetMenuVisibility(bool);
-};
 
 void FUN_007e65b0();
 

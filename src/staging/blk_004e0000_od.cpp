@@ -78,7 +78,6 @@
 #include "fnv/decl/ListReader.h"
 #include "fnv/decl/Manager.h"
 #include "fnv/decl/NiCamera.h"
-#include "fnv/decl/NiTPointerListBase.h"
 #include "fnv/decl/Obj43c.h"
 #include "fnv/decl/ObsList.h"
 #include "fnv/decl/PatrolActorPackageData.h"
@@ -142,6 +141,7 @@
 #include "fnv/symbols_011f9000.h"
 #include "fnv/symbols_011ff000.h"
 #include "../../include/layout_support.h"
+#include "NiRefObject.h"
 
 // Returns the smaller of the two arguments: a if a is less than b, otherwise b.
 // @fnv 0x004e2050
@@ -815,7 +815,6 @@ bool FUN_004f02e0_This::FUN_004f02e0()
     return reinterpret_cast<::TimeoutTimer *>(&(mod))->FUN_006b9130() != -DAT_01023900;
 }
 
-extern "C" float DAT_01023900;
 struct FUN_004f0320_class
 {
     bool FUN_004f0320();
@@ -2607,11 +2606,6 @@ void FUN_004ff0e0_cls::FUN_004ff0e0(FUN_004ff0e0_arg* a1)
     }
 }
 
-class NiMemObject
-{
-  public:
-};
-
 class AnimIdle : public NiMemObject
 {
   public:
@@ -2929,16 +2923,16 @@ FUN_004e19c0::~FUN_004e19c0()
     (*reinterpret_cast<::fnv_004e19c0::TexName_4e19c0 *>(&::g_011c7be8)) = 0;
     (*reinterpret_cast<::fnv_004e19c0::TexName_4e19c0 *>(&::g_011c7cb8)) = 0;
     if ((*reinterpret_cast<::fnv_004e19c0::TexName_4e19c0 *>(&::g_011c7c2c)))
-        reinterpret_cast<::Manager *>((((::fnv_004e19c0::BSTextureManager *)(::FUN_004a0ea0()))))->FUN_00b6da10((::Item *)((*reinterpret_cast<::fnv_004e19c0::TexName_4e19c0 *>(&::g_011c7c2c))));
+        reinterpret_cast<::Manager *>((((::fnv_004e19c0::BSTextureManager *)(::FUN_004a0ea0()))))->FUN_00b6da10((::Item *)(const char *)((*reinterpret_cast<::fnv_004e19c0::TexName_4e19c0 *>(&::g_011c7c2c))));
     (*reinterpret_cast<::fnv_004e19c0::TexName_4e19c0 *>(&::g_011c7c2c)) = 0;
     if ((*reinterpret_cast<::fnv_004e19c0::TexName_4e19c0 *>(&::g_011c7ad4)))
-        reinterpret_cast<::Manager *>((((::fnv_004e19c0::BSTextureManager *)(::FUN_004a0ea0()))))->FUN_00b6da10((::Item *)((*reinterpret_cast<::fnv_004e19c0::TexName_4e19c0 *>(&::g_011c7ad4))));
+        reinterpret_cast<::Manager *>((((::fnv_004e19c0::BSTextureManager *)(::FUN_004a0ea0()))))->FUN_00b6da10((::Item *)(const char *)((*reinterpret_cast<::fnv_004e19c0::TexName_4e19c0 *>(&::g_011c7ad4))));
     (*reinterpret_cast<::fnv_004e19c0::TexName_4e19c0 *>(&::g_011c7ad4)) = 0;
     (*reinterpret_cast<::fnv_004e19c0::TexName_4e19c0 *>(&::g_011c7b68)) = 0;
-    reinterpret_cast<::NiTPointerListBase *>(&((*reinterpret_cast<::fnv_004e19c0::TexList_4e19c0 *>(&::g_011c7bcc))))->FUN_004ed900();
-    reinterpret_cast<::NiTPointerListBase *>(&((*reinterpret_cast<::fnv_004e19c0::TexList_4e19c0 *>(&::g_011c7c30))))->FUN_004ed900();
-    reinterpret_cast<::NiTPointerListBase *>(&((*reinterpret_cast<::fnv_004e19c0::TexList_4e19c0 *>(&::g_011c7ce4))))->FUN_004ed900();
-    reinterpret_cast<::NiTPointerListBase *>(&((*reinterpret_cast<::fnv_004e19c0::TexList_4e19c0 *>(&::g_011c7b80))))->FUN_004ed900();
+    reinterpret_cast<::NiTPointerListBase<::NiTPointerAllocator<unsigned int>, void*> *>(&((*reinterpret_cast<::fnv_004e19c0::TexList_4e19c0 *>(&::g_011c7bcc))))->RemoveAll();
+    reinterpret_cast<::NiTPointerListBase<::NiTPointerAllocator<unsigned int>, void*> *>(&((*reinterpret_cast<::fnv_004e19c0::TexList_4e19c0 *>(&::g_011c7c30))))->RemoveAll();
+    reinterpret_cast<::NiTPointerListBase<::NiTPointerAllocator<unsigned int>, void*> *>(&((*reinterpret_cast<::fnv_004e19c0::TexList_4e19c0 *>(&::g_011c7ce4))))->RemoveAll();
+    reinterpret_cast<::NiTPointerListBase<::NiTPointerAllocator<unsigned int>, void*> *>(&((*reinterpret_cast<::fnv_004e19c0::TexList_4e19c0 *>(&::g_011c7b80))))->RemoveAll();
     delete (*reinterpret_cast<::fnv_004e19c0::Owned_4e19c0 * *>(&::DAT_011c7a54));
     (*reinterpret_cast<::fnv_004e19c0::Owned_4e19c0 * *>(&::DAT_011c7a54)) = 0;
 }
@@ -3065,8 +3059,8 @@ FUN_004ed3e0::~FUN_004ed3e0()
         reinterpret_cast<::Manager *>((((::fnv_004ed3e0::CleanupObject *)(::FUN_004a0ea0()))))->FUN_00b6da10({});
         owner->node.FUN_0066b0d0(0);
     }
-    reinterpret_cast<::NiTPointerListBase *>(&(list30))->FUN_004ed900();
-    reinterpret_cast<::NiTPointerListBase *>(&(list3c))->FUN_004ed900();
+    reinterpret_cast<::NiTPointerListBase<::NiTPointerAllocator<unsigned int>, void*> *>(&(list30))->RemoveAll();
+    reinterpret_cast<::NiTPointerListBase<::NiTPointerAllocator<unsigned int>, void*> *>(&(list3c))->RemoveAll();
     if (((::fnv_004ed3e0::CleanupObject *)(::FUN_00559450((int *)&(ptr58)))))
     {
         ((CleanupManager*)FUN_004e7ff0())->Release(((::fnv_004ed3e0::CleanupObject *)(::FUN_00559450((int *)&(ptr58)))));
@@ -3395,7 +3389,7 @@ RDLItem* FUN_004f6850_Class::FUN_004f6850(int arg0, int arg1, int arg2)
             node2C = ((::RDLNode *)(reinterpret_cast<::BGSTerrainManager *>((((RDLItemX*)curB)))->GetMinLevel()));
             while (node2C != 0 && *((::RDLItem **)(new ((void *)(node2C)) ::Vec3())) != 0)
             {
-                if (reinterpret_cast<::Polygon *>((((RDLItemX*)*((::RDLItem **)(new ((void *)(node2C)) ::Vec3())))))->FUN_004f8360((::PolygonPoint *)(arg1)))
+                if (reinterpret_cast<struct ::Polygon *>((((RDLItemX*)*((::RDLItem **)(new ((void *)(node2C)) ::Vec3())))))->FUN_004f8360((::PolygonPoint *)(arg1)))
                 {
                     reinterpret_cast<::TESRegionList *>((collH))->AddRegion((::TESRegion *)(curB));
                     break;
@@ -3592,7 +3586,7 @@ float RegionMatch::ComputeRegionValue(RegionPointMatch* point, float range)
     d = false;
     if (cache && reinterpret_cast<::PointObject *>((cache))->IsInRegion((::RegionNode *)(point), range))
         return cache->value;
-    h = reinterpret_cast<::Polygon *>(this)->FUN_004f8360((::PolygonPoint *)(point));
+    h = reinterpret_cast<struct ::Polygon *>(this)->FUN_004f8360((::PolygonPoint *)(point));
     if (!point || !h)
         return 0.0f;
     if (range < 1.0 && h)
@@ -4369,9 +4363,9 @@ void Self::FUN_004e3d60(ParamObj* param)
                                     DAT_011ffe8c = ::FUN_00567470((char *)(obj));
                                     DAT_011ffe90 = reinterpret_cast<::FUN_00821680_Class *>((obj))->FUN_00821680();
                                     DAT_011ffe94 = reinterpret_cast<::FUN_008133b0_class *>((obj))->GetFloatAt144();
-                                    reinterpret_cast<::EffectManager975 *>((((::ImgMgr *)(::ImageSpaceManager::FUN_004e3270()))))->FUN_00b975f0(0x21, (int)(((void *)(::FUN_004a0e90()))),
-                                                                         (int)(((::VObj *)(::FUN_00559450((int *)&(pprop->m_134))))),
-                                                                         (int)(((void *)(::FUN_00559450((int *)&(obj->m_30))))), 0, 1);
+                                    reinterpret_cast<::EffectManager975 *>((((::ImgMgr *)(::ImageSpaceManager::FUN_004e3270()))))->FUN_00b975f0(0x21, (void *)(::FUN_004a0e90()),
+                                                                         (void *)(::FUN_00559450((int *)&(pprop->m_134))),
+                                                                         (void *)(::FUN_00559450((int *)&(obj->m_30))), nullptr, (void *)(std::uintptr_t)1);
                                 }
                                 reinterpret_cast<::FUN_0084d310_class *>(&(m_6c))->FUN_0084d310((int)(obj), true);
                             }
@@ -4384,4 +4378,7 @@ void Self::FUN_004e3d60(ParamObj* param)
     }
 }
 
+class NiTexture : public NiRefObject
+{
+};
 #include "generated/data/staging/blk_004e0000_od.inc"

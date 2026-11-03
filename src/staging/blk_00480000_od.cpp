@@ -58,7 +58,6 @@
 #include "fnv/decl/NiObjectNET.h"
 #include "fnv/decl/NiTMapBase.h"
 #include "fnv/decl/NiTMapBase_StandIn.h"
-#include "fnv/decl/NiTPointerListBase.h"
 #include "fnv/decl/OwnerLookupView.h"
 #include "fnv/decl/ResetAnimation.h"
 #include "fnv/decl/S00546fb0_Cell.h"
@@ -961,9 +960,6 @@ void FUN_0049fc80_Holder::CallVirtualOnEach(FUN_0049fc80_Elem* apElem, unsigned 
         apElem[i].Foo(0);
 }
 
-struct bsrandom_singleton
-{
-};
 // Calls FUN_0049ffc0(1) on the singleton at DAT_011c57f8 if it exists, then clears DAT_011c57f8.
 // @fnv 0x0049ff80
 void FUN_0049ff80()
@@ -1638,7 +1634,7 @@ class FormListPair
 // @fnv 0x0048e040
 void FormListPair::FUN_0048e040(SaveFormBuf0048* buffer)
 {
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::ChangeFlags0048 &)(buffer->GetChangeFlags(0x10)))->FUN_004280f0())
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::ChangeFlags0048 &)(buffer->GetChangeFlags(0x10)))->FUN_004280f0(0x10))
     {
         {
             int i = 0;
@@ -3974,7 +3970,7 @@ FUN_0049fe20_Object::~FUN_0049fe20_Object()
     FUN_00622bc0();
     (*reinterpret_cast<::FNV_Handle *>(&::g_011c58e0)) = 0;
     ::FUN_004a4650((::FUN_004a4650_ListBase *)&(m_08));
-    reinterpret_cast<::NiTPointerListBase *>(&(m_14))->FUN_004ed900();
+    reinterpret_cast<::NiTPointerListBase<::NiTPointerAllocator<unsigned int>, void*> *>(&(m_14))->RemoveAll();
     m_20 = 0;
     m_24 = 0;
 }

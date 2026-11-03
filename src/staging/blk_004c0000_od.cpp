@@ -4,6 +4,8 @@
 
 #include <cstdint>
 #include <windows.h>
+#include <d3d9.h>
+#include <commctrl.h>
 #include <new>
 #include <cmath>
 #include <cstdio>
@@ -43,7 +45,6 @@
 #include "fnv/decl/Vec3.h"
 #include "fnv/decl/fnv_00495d00__FUN_00495d00_shell.h"
 #include "fnv/decl/fnv_00495d20__FUN_00495d20_shell.h"
-#include "fnv/decl/fnv_004d66d0__ObjectTree.h"
 #include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
 #include "fnv/decl/fnv_00a640b0__NiStreamLoadStandIn.h"
 #include "fnv/decl/fnv_00c5ac00__ArrObj.h"
@@ -97,6 +98,19 @@
 #include "fnv/symbols_01268000.h"
 #include "fnv/symbols_0126f000.h"
 #include "../../include/layout_support.h"
+#include "fnv/decl/FUN_00456630_helper.h"
+#include "fnv/decl/FUN_0076b610_Class.h"
+#include "fnv/decl/FUN_00844700_Class.h"
+#include "fnv/decl/FUN_009cdae0_shell.h"
+#include "fnv/decl/NiNode.h"
+#include "fnv/decl/TESRecipe.h"
+#include "fnv/decl/fnv_006838b0__FUN_006838b0_shell.h"
+#include "fnv/symbols_0043b000.h"
+#include "fnv/symbols_0043f000.h"
+#include "fnv/symbols_004a8000.h"
+#include "fnv/symbols_004d5000.h"
+#include "fnv/symbols_004d6000.h"
+#include "fnv/symbols_004de000.h"
 
 struct FUN_004dfdd0_StandIn
 {
@@ -1428,26 +1442,6 @@ struct Owner64
     const char* defaultText;
     void FUN_004d64c0(int value, const char* text);
 };
-// @fnv 0x004d64c0
-void Owner64::FUN_004d64c0(int value, const char* text)
-{
-    reinterpret_cast<::FUN_00438af0_Class *>(&(messageMap))->FUN_00438af0();
-    DAT_00fdf28c(dialog, 0x1109, 0, hwndContext);
-    Header64 header;
-    header.secondary = 0xffff0002;
-    header.tertiary = 0x27;
-    header.primary = 0xffff0000;
-    Params64 params;
-    params.message = text ? ((const char *)(::FUN_00464f30((int)(text)))) : defaultText;
-    params.flags = 0;
-    params.flagsCopy = params.flags;
-    params.number = value;
-    result = ((SendMessageResult64)DAT_00fdf28c)(dialog, 0x1100, 0, (int)&header);
-    reinterpret_cast<::fnv_004d66d0::ObjectTree *>(this)->FUN_004d66d0((void *)(result), (::fnv_004d66d0::NiAVObject *)(value));
-    DAT_00fdf288(window, 10);
-    DAT_00fdf284(window);
-}
-
 extern void(* DAT_00fdf01c)(void*);
 struct FUN_004d7470_StandIn
 {
@@ -3585,40 +3579,6 @@ void* FUN_004d85a0_Class::GetLocalSubValue(int a)
 }
 
 namespace fnv_004dc710 {
-#include <windows.h>
-#include <d3d9.h>
-#include "fnv/decl/FUN_00456630_helper.h"
-#include "fnv/decl/FUN_0076b610_Class.h"
-#include "fnv/decl/FUN_00844700_Class.h"
-#include "fnv/decl/FUN_009cdae0_shell.h"
-#include "fnv/decl/NiNode.h"
-#include "fnv/decl/TESRecipe.h"
-#include "fnv/decl/fnv_004d80b0__FUN_004d80b0_Class.h"
-#include "fnv/decl/fnv_004d8a40__TreeCtrl4d8a.h"
-#include "fnv/decl/fnv_006838b0__FUN_006838b0_shell.h"
-#include "fnv/symbols_0043b000.h"
-#include "fnv/symbols_0043f000.h"
-#include "fnv/symbols_004a8000.h"
-#include "fnv/symbols_004d5000.h"
-#include "fnv/symbols_004d6000.h"
-#include "fnv/symbols_004de000.h"
-#include "fnv/symbols_0096a000.h"
-#include "fnv/decl/fnv_004d80b0__FUN_004d80b0_Class.h"
-#include "fnv/decl/fnv_004d8a40__TreeCtrl4d8a.h"
-#include "fnv/symbols_004d5000.h"
-#include "fnv/symbols_004d6000.h"
-#include "fnv/symbols_004de000.h"
-#include "fnv/symbols_0096a000.h"
-#include <commctrl.h>
-#include "fnv/decl/FUN_004d4eb0.h"
-#include "fnv/decl/FUN_004d91b0_Class.h"
-#include "fnv/decl/Owner.h"
-#include "fnv/decl/fnv_004d80b0__FUN_004d80b0_Class.h"
-#include "fnv/decl/fnv_004d8a40__TreeCtrl4d8a.h"
-#include "fnv/symbols_004d5000.h"
-#include "fnv/symbols_004d6000.h"
-#include "fnv/symbols_004de000.h"
-#include "fnv/symbols_0096a000.h"
 bool FUN_004dcda0_Result();
 int __cdecl FUN_004dc2b0_Result();
 
@@ -3663,7 +3623,7 @@ unsigned char __cdecl FUN_004dc710()
                 unsigned int selectedHeight = 0;
                 while (indexInfo-- && !success)
                 {
-                    D3DDISPLAYMODE* mode = ((::fnv_004dc710::_D3DDISPLAYMODE *)(reinterpret_cast<::fnv_004dcd00::FUN_004dcd00_Class *>((adapter))->GetElementAt(indexInfo)));
+                    D3DDISPLAYMODE* mode = ((::_D3DDISPLAYMODE *)(reinterpret_cast<::fnv_004dcd00::FUN_004dcd00_Class *>((adapter))->GetElementAt(indexInfo)));
                     if (mode->RefreshRate >= 32 && mode->Format == MapIndexToValue(::FUN_004dc270()))
                     {
                         if (!::FUN_00446e10())
@@ -3705,8 +3665,8 @@ unsigned char __cdecl FUN_004dc710()
                 }
                 else if (!success && selectedPos <= adapter->FUN_004dcce0())
                 {
-                    ::DAT_0118947c = ((::fnv_004dc710::_D3DDISPLAYMODE *)(reinterpret_cast<::fnv_004dcd00::FUN_004dcd00_Class *>((adapter))->GetElementAt(selectedPos)))->Width;
-                    (*reinterpret_cast<unsigned int *>(&::DAT_01189480)) = ((::fnv_004dc710::_D3DDISPLAYMODE *)(reinterpret_cast<::fnv_004dcd00::FUN_004dcd00_Class *>((adapter))->GetElementAt(selectedPos)))->Height;
+                    ::DAT_0118947c = ((::_D3DDISPLAYMODE *)(reinterpret_cast<::fnv_004dcd00::FUN_004dcd00_Class *>((adapter))->GetElementAt(selectedPos)))->Width;
+                    (*reinterpret_cast<unsigned int *>(&::DAT_01189480)) = ((::_D3DDISPLAYMODE *)(reinterpret_cast<::fnv_004dcd00::FUN_004dcd00_Class *>((adapter))->GetElementAt(selectedPos)))->Height;
                     success = 1;
                     ::fnv_004da670::DAT_011c70ec = 1;
                 }
@@ -3714,7 +3674,7 @@ unsigned char __cdecl FUN_004dc710()
             if (success)
             {
                 success = 0;
-                D3DCAPS9* caps = ((::fnv_004dc710::_D3DCAPS9 *)(reinterpret_cast<::FUN_004dc120_StandIn *>((adapter))->FUN_004dc120(1)));
+                D3DCAPS9* caps = ((::_D3DCAPS9 *)(reinterpret_cast<::FUN_004dc120_StandIn *>((adapter))->FUN_004dc120(1)));
                 if (caps && FUN_004dcda0_Result())
                 {
                     success = (caps->DevCaps & 0x10000) ? 1 : 0;
@@ -4020,7 +3980,7 @@ void ClearAndFreePointer(void* pointer);
 int FUN_004dd2c0(int iDisplayIndex, EFEyefinityInfo* pkEyefinityInfo, int* piNumDisplaysInfo,
                  EFDisplayInfo** ppkDisplaysInfo)
 {
-    void* hDLL;
+    HMODULE hDLL;
     EFMainControlCreate pfnCreateRef = 0;
     EFMainControlDestroy pfnDestroyPtr = 0;
     EFNumberOfAdaptersGet pfnNumAdaptersCount = 0;
@@ -4753,6 +4713,26 @@ void ObjectTree::FUN_004d66d0(void* parent, NiAVObject* object)
 }
 }
 
+// @fnv 0x004d64c0
+void Owner64::FUN_004d64c0(int value, const char* text)
+{
+    reinterpret_cast<::FUN_00438af0_Class *>(&(messageMap))->FUN_00438af0();
+    DAT_00fdf28c(dialog, 0x1109, 0, hwndContext);
+    Header64 header;
+    header.secondary = 0xffff0002;
+    header.tertiary = 0x27;
+    header.primary = 0xffff0000;
+    Params64 params;
+    params.message = text ? ((const char *)(::FUN_00464f30((int)(text)))) : defaultText;
+    params.flags = 0;
+    params.flagsCopy = params.flags;
+    params.number = value;
+    result = ((SendMessageResult64)DAT_00fdf28c)(dialog, 0x1100, 0, (int)&header);
+    reinterpret_cast<::fnv_004d66d0::ObjectTree *>(this)->FUN_004d66d0((void *)(result), (::fnv_004d66d0::NiAVObject *)(value));
+    DAT_00fdf288(window, 10);
+    DAT_00fdf284(window);
+}
+
 int __cdecl FUN_004d7890(int aiArg1, int aiArg2, int aiArg3, int aiArg4);
 
 void ClearAndFreePointer(void* apPointer);
@@ -4818,7 +4798,7 @@ LRESULT FUN_004d75b0(HWND window, UINT message, WPARAM wParam, LPARAM lParam)
         break;
     case 0x4e:
         pHeader = (NMHDR*)lParam;
-        switch (pHeader->code)
+        switch ((int)pHeader->code)
         {
         case -402:
             if (DAT_011c6f18)

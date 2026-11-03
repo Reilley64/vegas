@@ -31,7 +31,6 @@
 #include "fnv/decl/FUN_00c74760.h"
 #include "fnv/decl/LowProcess.h"
 #include "fnv/decl/MemoryManagerStandIn.h"
-#include "fnv/decl/NiTPointerListBase.h"
 #include "fnv/decl/Range62A.h"
 #include "fnv/decl/SeenData_S.h"
 #include "fnv/decl/TESContainer.h"
@@ -946,7 +945,6 @@ void FUN_00559c90_Class::FUN_00559c90(void* a1)
 }
 
 namespace fnv_00559d20 {
-extern "C" void* __cdecl memset(void* dest, int value, unsigned int count);
 
 struct FUN_00559d20_Class
 {
@@ -2211,7 +2209,7 @@ struct FUN_00559810 : CleanupBase559810
 // @fnv 0x00559810
 FUN_00559810::~FUN_00559810()
 {
-    reinterpret_cast<::NiTPointerListBase *>(this)->FUN_00559c30();
+    reinterpret_cast<::NiTPointerListBase<::NiTPointerAllocator<unsigned int>, void*> *>(this)->RemoveAll();
 }
 
 struct FUN_00559eb0

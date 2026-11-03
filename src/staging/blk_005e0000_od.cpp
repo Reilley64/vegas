@@ -13,7 +13,6 @@
 #include "fnv/decl/BaseProcess.h"
 #include "fnv/decl/Callees.h"
 #include "fnv/decl/ChallengeManager.h"
-#include "fnv/decl/DialogueItem.h"
 #include "fnv/decl/FUN_0045c650_shell.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
 #include "fnv/decl/FUN_0046e8c0_class.h"
@@ -141,8 +140,6 @@
 #include "fnv/decl/SoundWrapper.h"
 #include "fnv/decl/TESAnimGroup.h"
 #include "fnv/decl/fnv_0043b1b0__FUN_0043b1b0_shell.h"
-#include "fnv/decl/fnv_005eeff0__GlobalObject_00869f00.h"
-#include "fnv/decl/fnv_005ef1d0__FUN_005ef1d0.h"
 #include "fnv/symbols_00458000.h"
 #include "fnv/symbols_004aa000.h"
 #include "fnv/symbols_005e4000.h"
@@ -152,6 +149,14 @@
 #include "fnv/symbols_0096a000.h"
 #include "fnv/symbols_00c85000.h"
 #include "fnv/symbols_011f4000.h"
+
+class TESObjectREFR;
+// The shared fnv/decl/DialogueItem.h declares SelectDefaultResponseList twice (0x005e3fa0 and 0x0083c7b0, which differ
+// only in the return type); this unit calls the 0x005e3fa0 one.
+class DialogueItem {
+public:
+    ::TESObjectREFR *SelectDefaultResponseList();
+};
 
 struct GlobalObject_0045cf30
 {
@@ -3256,21 +3261,19 @@ bool B5FA120Checker::FUN_005fa120(B5FA120Form* pkForm)
 
 struct FUN_005fbdd0_cls
 {
-    void FUN_005fbdd0(int a1);
+    void FUN_005fbdd0(::NiAVObject* apRoot);
     int FUN_00401170();
 };
 
-int __cdecl FUN_004aae30(int a, int b);
-
 // @fnv 0x005fbdd0
-void FUN_005fbdd0_cls::FUN_005fbdd0(int a1)
+void FUN_005fbdd0_cls::FUN_005fbdd0(::NiAVObject* apRoot)
 {
     void* node2;
     void* ptr;
     void* tmp;
     unsigned char flag_;
 
-    if (*(unsigned char*)((char*)this + 0x150) != 0 || a1 == 0)
+    if (*(unsigned char*)((char*)this + 0x150) != 0 || apRoot == 0)
     {
         return;
     }
@@ -3283,7 +3286,7 @@ void FUN_005fbdd0_cls::FUN_005fbdd0(int a1)
         {
             tmp = ((void**)ptr)[1];
             if (((unsigned char)(reinterpret_cast<::FUN_0046e8c0_class *>((((FUN_005fbdd0_cls*)tmp)))->FUN_0046e8c0())) &&
-                FUN_004aae30(a1, ((int)(reinterpret_cast<::fnv_00522c00::FUN_00522c00_shell *>((((FUN_005fbdd0_cls*)tmp)))->FUN_00522c00()))) == 0)
+                ::FUN_004aae30(apRoot, (::NiFixedString *)(std::uintptr_t)(reinterpret_cast<::fnv_00522c00::FUN_00522c00_shell *>(tmp)->FUN_00522c00())) == 0)
             {
                 reinterpret_cast<::FUN_00481790_t *>((((FUN_005fbdd0_cls*)((char*)this + 0x64))))->FUN_00481790((::BGSPerkEntry *)(ptr));
                 node2 = ((void *)(reinterpret_cast<::BaseProcess *>((((FUN_005fbdd0_cls*)((char*)this + 0x64))))->GetCurrentProcessData()));
@@ -3601,7 +3604,6 @@ struct SkinPartObj_S
 };
 
 SkinPartObj_S* NiDynamicCast(const NiRTTI_S* rtti, SkinInst_S* obj);
-extern const NiRTTI_S g_011f49d8;
 
 // @fnv 0x005e4970
 void SetPartitionVisibility(int partition, AVObj_S* root)
@@ -3613,7 +3615,7 @@ void SetPartitionVisibility(int partition, AVObj_S* root)
         TriGeom_S* geom8 = ((::AVObj_S *)(reinterpret_cast<::NiNode *>((nodeB))->GetAt(i))) ? ((::AVObj_S *)(reinterpret_cast<::NiNode *>((nodeB))->GetAt(i)))->IsTriBasedGeom() : root->IsTriBasedGeom();
         i++;
         SkinInst_S* aSkin = geom8 ? ((::SkinInst_S *)(::fnv_0043fad0::FUN_0043fad0((const char *)(geom8)))) : 0;
-        SkinPartObj_S* part = NiDynamicCast(&g_011f49d8, aSkin);
+        SkinPartObj_S* part = NiDynamicCast(reinterpret_cast<const NiRTTI_S*>(&g_011f49d8), aSkin);
         if (part)
         {
             for (int j = 0; j < 15; j++)
@@ -4251,7 +4253,6 @@ TESSound* __cdecl FUN_005e3570(char const* filename)
     return result;
 }
 
-int strcat_s(char* dst, unsigned int size, const char* src);
 
 bool __cdecl FUN_005e39a0();
 
@@ -4680,8 +4681,8 @@ bool Runner::RunScript(A8* apScript, void* apObject, SLoc* a3, int a4, bool a5, 
     if (vf)
     {
         if (DAT_011caec8 == 0)
-            QueryPerformanceFrequency(&DAT_011caec8);
-        QueryPerformanceCounter(&ve);
+            QueryPerformanceFrequency(reinterpret_cast<LARGE_INTEGER*>(&DAT_011caec8));
+        QueryPerformanceCounter(reinterpret_cast<LARGE_INTEGER*>(&ve));
     }
 
     this->m_a1 = false;
@@ -4769,7 +4770,7 @@ bool Runner::RunScript(A8* apScript, void* apObject, SLoc* a3, int a4, bool a5, 
 
     if (vf)
     {
-        QueryPerformanceCounter(&vo);
+        QueryPerformanceCounter(reinterpret_cast<LARGE_INTEGER*>(&vo));
         float elapsed = (float)((double)(vo - ve) / (double)DAT_011caec8);
         reinterpret_cast<::FUN_005e1140_Class *>((apScript))->FUN_005e1140(elapsed);
     }
@@ -4994,8 +4995,6 @@ struct Name55
     const char* FUN_007fa950();
 };
 extern const NiRTTI_S DAT_011f4acc;
-extern "C" void* __cdecl FUN_00653270(const NiRTTI_S*, BaseObject55*);
-extern "C" Object55* __cdecl FUN_004aae30(Object55*, const char*);
 struct Body55
 {
     int unk00;
@@ -5024,7 +5023,7 @@ void Body55::HidePartitionsUnderAncestor(Object55* ancestor, Object55* root, int
     {
         if (i == excluded || !names[i])
             continue;
-        Object55* found7 = FUN_004aae30(root, reinterpret_cast<::StrOwner *>((names[i]))->FUN_007fa950());
+        Object55* found7 = (Object55*)::FUN_004aae30((::NiAVObject *)root, (::NiFixedString *)reinterpret_cast<::StrOwner *>((names[i]))->FUN_007fa950());
         if (!found7)
             continue;
         while (found7 != root)
@@ -5036,10 +5035,10 @@ void Body55::HidePartitionsUnderAncestor(Object55* ancestor, Object55* root, int
                 {
                     Skin55* skin5;
                     Geometry55* geometry = node2
-                                               ? (Geometry55*)FUN_00653270(&DAT_011f4acc, ((::Object55 *)(reinterpret_cast<::NiNode *>((node2))->GetAt(index++))))
-                                               : (Geometry55*)FUN_00653270(&DAT_011f4acc, object);
+                                               ? (Geometry55*)::FUN_00653270((const ::NiRTTI *)&DAT_011f4acc, (::NiObject *)((::Object55 *)(reinterpret_cast<::NiNode *>((node2))->GetAt(index++))))
+                                               : (Geometry55*)::FUN_00653270((const ::NiRTTI *)&DAT_011f4acc, (::NiObject *)object);
                     skin5 = geometry ? ((::Skin55 *)(::fnv_0043fad0::FUN_0043fad0((const char *)(geometry)))) : 0;
-                    Part55* partition2 = (Part55*)FUN_00653270(&g_011f49d8, skin5);
+                    Part55* partition2 = (Part55*)::FUN_00653270((const ::NiRTTI *)&g_011f49d8, (::NiObject *)skin5);
                     if (partition2)
                         reinterpret_cast<::SomeClass *>((partition2))->SetEntryStateByKey((unsigned short)i, false);
                 } while (node2 && index < node2->FUN_0043b480());
@@ -5077,9 +5076,6 @@ struct ObjectName
 {
     const char* FUN_007fa950();
 };
-extern "C" SceneObject* __cdecl FUN_004aae30(SceneObject*, const char*);
-extern "C" void* __cdecl FUN_00653270(const NiRTTI_S*, SceneBase*);
-extern const NiRTTI_S DAT_011f4acc;
 struct PartitionOwner
 {
     int unk00;
@@ -5107,7 +5103,7 @@ void PartitionOwner::ApplyPartitionState(SceneObject* target, SceneObject* root,
     {
         if (i == excluded || !names[i])
             continue;
-        SceneObject* found = FUN_004aae30(root, names[i]->FUN_007fa950());
+        SceneObject* found = (SceneObject*)::FUN_004aae30((::NiAVObject *)root, (::NiFixedString *)names[i]->FUN_007fa950());
         if (!found)
             continue;
         while (found != root)
@@ -5118,10 +5114,10 @@ void PartitionOwner::ApplyPartitionState(SceneObject* target, SceneObject* root,
                 SkinInst_S* skin;
                 do
                 {
-                    Geometry* geom = node ? (Geometry*)FUN_00653270(&DAT_011f4acc, node->FUN_0045bc00(childIndex++))
-                                          : (Geometry*)FUN_00653270(&DAT_011f4acc, source);
+                    Geometry* geom = node ? (Geometry*)::FUN_00653270((const ::NiRTTI *)&DAT_011f4acc, (::NiObject *)node->FUN_0045bc00(childIndex++))
+                                          : (Geometry*)::FUN_00653270((const ::NiRTTI *)&DAT_011f4acc, (::NiObject *)source);
                     skin = geom ? ((::SkinInst_S *)(::fnv_0043fad0::FUN_0043fad0((const char *)(geom)))) : 0;
-                    PartitionSkin* partitions = (PartitionSkin*)FUN_00653270(&g_011f49d8, (SceneBase*)skin);
+                    PartitionSkin* partitions = (PartitionSkin*)::FUN_00653270((const ::NiRTTI *)&g_011f49d8, (::NiObject *)(SceneBase*)skin);
                     if (partitions)
                     {
                         for (int j = 0; j < 15; ++j)

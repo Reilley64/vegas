@@ -2,6 +2,7 @@
 // src/staging/blk_006e0000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include <stdio.h>
 #include <new>
 #include <cstring>
 #include "fnv/decl/BSFaceGenNiNode.h"
@@ -171,6 +172,16 @@
 #include "fnv/symbols_011de000.h"
 #include "fnv/symbols_01202000.h"
 #include "../../include/layout_support.h"
+#include "fnv/decl/FUN_0045bb20_cls.h"
+#include "fnv/decl/FUN_006fda10_shell.h"
+#include "fnv/decl/GarbageCollector.h"
+#include "fnv/symbols_0043b000.h"
+#include "fnv/symbols_00449000.h"
+#include "fnv/symbols_006ba000.h"
+#include "fnv/symbols_006e7000.h"
+#include "fnv/symbols_006f3000.h"
+#include "fnv/symbols_006ff000.h"
+#include "fnv/symbols_00c85000.h"
 
 struct Interface
 {
@@ -1672,6 +1683,7 @@ template <class T> struct BSTFreeList
 };
 // Calls FUN_006ecce0 on the node then passes it to PushFront.
 // @fnv 0x006ecb10
+template <>
 void BSTFreeList<QueuedMessage>::FUN_006ecb10(BSTFreeListElement<QueuedMessage>*& pNode)
 {
     pNode->FUN_006ecce0();
@@ -3763,10 +3775,6 @@ struct NavMeshTriangleReference
     unsigned short m_flags;
 };
 
-template <> struct BSSimpleArray<NavMeshTriangleReference, 1024>
-{
-    const NavMeshTriangleReference& GetLastElement() const;
-};
 
 struct FUN_006f2270
 {
@@ -3805,7 +3813,7 @@ struct FUN_006ee5d0_Class
 {
     unsigned char m_pad00[0x14];
     FUN_006ee5d0_Position m_vContactPosition;
-    BSSimpleArray<NavMeshTriangleReference, 1024>* m_pSearchArray;
+    const ::BSSimpleArray< ::NavMeshTriangleReference, 1024>* m_pSearchArray;
 
     void CreateNavMeshEdges();
 };
@@ -3819,7 +3827,7 @@ void FUN_006ee5d0_Class::CreateNavMeshEdges()
         {
             void* q;
             {
-                const NavMeshTriangleReference& node = m_pSearchArray->GetLastElement();
+                const NavMeshTriangleReference& node = *(const NavMeshTriangleReference*)&::GetLastElement(m_pSearchArray);
 
                 reinterpret_cast<FUN_006ee5d0_Edge*>(p)->m_navMesh = ((void *)(reinterpret_cast<::FUN_0068efb0_shell *>((node.m_pNavMesh))->FUN_0068efb0()));
                 reinterpret_cast<FUN_006ee5d0_Edge*>(p)->m_navFlags = node.m_flags;
@@ -4033,7 +4041,7 @@ struct Position3
 struct FUN_006e1370 : FUN_004968b0
 {
     FUN_006e2080 items;
-    FUN_0042f800 range;
+    struct FUN_0042f800 range;
     int value2c;
     int value30;
     int value34;
@@ -5034,7 +5042,6 @@ struct Edge
     Edge* left;
     Edge* right;
 };
-bool __cdecl FUN_00696540(const NiPoint3*, const NiPoint3*, const NiPoint3*, const NiPoint3*);
 struct FUN_006ee740_Class
 {
     int unk0, unk4, unk8, unkC, unk10, unk14, unk18, unk1C, unk20, unk24, unk28, unk2C, unk30, unk34, unk38, unk3C;
@@ -5270,7 +5277,6 @@ struct S_00aa42e0_Mgr
 {
     void* FUN_00aa42e0();
 };
-S_00aa42e0_Mgr* __cdecl FUN_00401020();
 
 struct S_006f2510_Base
 {
@@ -5364,7 +5370,6 @@ void LOSArray6f29e0::RemoveRange(unsigned int index, unsigned int count, bool sh
 namespace fnv_006f2ca0 {
 extern int DAT_0106c990;
 
-void* __cdecl FUN_00401020();
 
 struct FUN_00aa42e0_Obj
 {
@@ -5405,7 +5410,6 @@ struct ObjCls
 {
     void* FUN_00aa42e0();
 };
-extern ObjCls* __cdecl FUN_00401020();
 extern int DAT_0106d878;
 struct B31c0
 {
@@ -6075,7 +6079,6 @@ struct Helper_00401020
 {
     int FUN_00aa42e0();
 };
-extern "C" Helper_00401020* __cdecl FUN_00401020();
 // Sets the vtable pointer, stores the result of FUN_00401020()->FUN_00aa42e0() in value10, then calls FUN_006b3eb0(0, 0) on this.
 // @fnv 0x006f45c0
 FUN_006f45c0::FUN_006f45c0() : FUN_006f4880()
@@ -6729,7 +6732,8 @@ float FnvOwner::ComputeDistanceSquaredToRect(FnvPt2 aCenter, float afSize, float
     float gapX;
     float gapY;
     FnvVec2 res;
-    aCenter.Subtract(&res, FnvPt2(afSize * 0.5, afSize * 0.5));
+    FnvPt2 kHalfSize(afSize * 0.5, afSize * 0.5);
+    aCenter.Subtract(&res, kHalfSize);
     gapX = 0.0f;
     if (afPointX > res.x)
     {
@@ -8823,7 +8827,7 @@ struct FUN_006240d0
 struct FUN_006f2d80
 {
     void* table;
-    FUN_006240d0* data;
+    struct FUN_006240d0* data;
     unsigned int size, capacity;
     void* allocator;
     FUN_006f2d80();
@@ -8924,7 +8928,7 @@ void AvoidPath::ClipPathAgainstObstacles()
             bool include = true;
             if (include)
             {
-                FUN_006240d0 sphere;
+                struct FUN_006240d0 sphere;
                 sphere.center = *((const class ::FUN_006815c0 *)(new ((void *)&(object)) ::Vec3()));
                 sphere.radius = reinterpret_cast<::BSMultiBoundSphere *>(&(object))->GetRadius();
                 reinterpret_cast<::Arr16 *>(&(obstacles))->AppendElement((const ::Elem16 *)&(sphere));
@@ -8934,20 +8938,20 @@ void AvoidPath::ClipPathAgainstObstacles()
         {
             for (unsigned int j = 0; j < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(points))->GetName())) - 1; ++j)
             {
-                if (!FUN_006ba9e0((*(class class ::FUN_006815c0 *)&(reinterpret_cast<::TaskQueueInterface *>((points.FUN_00691750(j)))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr))), (*(class class ::FUN_006815c0 *)&(reinterpret_cast<::TaskQueueInterface *>((points.FUN_00691750(j + 1)))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr))),
+                if (!FUN_006ba9e0((*(class ::FUN_006815c0 *)&(reinterpret_cast<::TaskQueueInterface *>((points.FUN_00691750(j)))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr))), (*(class ::FUN_006815c0 *)&(reinterpret_cast<::TaskQueueInterface *>((points.FUN_00691750(j + 1)))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr))),
                                   ((struct ::FUN_006240d0 *)(reinterpret_cast<::FUN_00558dd0_class *>(&(obstacles))->FUN_00558dd0(i)))->center, ((struct ::FUN_006240d0 *)(reinterpret_cast<::FUN_00558dd0_class *>(&(obstacles))->FUN_00558dd0(i)))->radius))
                     continue;
                 FUN_006815c0 entry29[2];
                 if (!ComputeCircleTangents(((struct ::FUN_006240d0 *)(reinterpret_cast<::FUN_00558dd0_class *>(&(obstacles))->FUN_00558dd0(i)))->center, ((struct ::FUN_006240d0 *)(reinterpret_cast<::FUN_00558dd0_class *>(&(obstacles))->FUN_00558dd0(i)))->radius,
-                                           (*(class class ::FUN_006815c0 *)&(reinterpret_cast<::TaskQueueInterface *>((points.FUN_00691750(j)))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr))), &entry29[0], &entry29[1]))
-                    entry29[0] = entry29[1] = (*(class class ::FUN_006815c0 *)&(reinterpret_cast<::TaskQueueInterface *>((points.FUN_00691750(j)))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)));
+                                           (*(class ::FUN_006815c0 *)&(reinterpret_cast<::TaskQueueInterface *>((points.FUN_00691750(j)))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr))), &entry29[0], &entry29[1]))
+                    entry29[0] = entry29[1] = (*(class ::FUN_006815c0 *)&(reinterpret_cast<::TaskQueueInterface *>((points.FUN_00691750(j)))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)));
                 bool entryValid2[2];
-                entryValid2[0] = reinterpret_cast<::S006F1E90 *>(this)->FUN_006f1e90((int)&(const class class ::FUN_006815c0 &)((*(class class ::FUN_006815c0 *)&(reinterpret_cast<::TaskQueueInterface *>((points.FUN_00691750(j)))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)))), (int)&(entry29[0]));
-                entryValid2[1] = reinterpret_cast<::S006F1E90 *>(this)->FUN_006f1e90((int)&(const class class ::FUN_006815c0 &)((*(class class ::FUN_006815c0 *)&(reinterpret_cast<::TaskQueueInterface *>((points.FUN_00691750(j)))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)))), (int)&(entry29[1]));
+                entryValid2[0] = reinterpret_cast<::S006F1E90 *>(this)->FUN_006f1e90((int)&(const class ::FUN_006815c0 &)((*(class ::FUN_006815c0 *)&(reinterpret_cast<::TaskQueueInterface *>((points.FUN_00691750(j)))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)))), (int)&(entry29[0]));
+                entryValid2[1] = reinterpret_cast<::S006F1E90 *>(this)->FUN_006f1e90((int)&(const class ::FUN_006815c0 &)((*(class ::FUN_006815c0 *)&(reinterpret_cast<::TaskQueueInterface *>((points.FUN_00691750(j)))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)))), (int)&(entry29[1]));
                 unsigned int end14 = j + 1;
                 while (end14 < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(points))->GetName())))
                 {
-                    if (!reinterpret_cast<::C6F1BC0Sphere *>((((struct ::FUN_006240d0 *)(reinterpret_cast<::FUN_00558dd0_class *>(&(obstacles))->FUN_00558dd0(i)))))->FUN_006f1bc0((const ::NiPoint3 &)((const class class ::FUN_006815c0 &)((*(class class ::FUN_006815c0 *)&(reinterpret_cast<::TaskQueueInterface *>((points.FUN_00691750(end14)))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)))))))
+                    if (!reinterpret_cast<::C6F1BC0Sphere *>((((struct ::FUN_006240d0 *)(reinterpret_cast<::FUN_00558dd0_class *>(&(obstacles))->FUN_00558dd0(i)))))->FUN_006f1bc0((const ::NiPoint3 &)((const class ::FUN_006815c0 &)((*(class ::FUN_006815c0 *)&(reinterpret_cast<::TaskQueueInterface *>((points.FUN_00691750(end14)))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)))))))
                         break;
                     ++end14;
                 }
@@ -8955,11 +8959,11 @@ void AvoidPath::ClipPathAgainstObstacles()
                 {
                     FUN_006815c0 exit[2];
                     if (ComputeCircleTangents(((struct ::FUN_006240d0 *)(reinterpret_cast<::FUN_00558dd0_class *>(&(obstacles))->FUN_00558dd0(i)))->center, ((struct ::FUN_006240d0 *)(reinterpret_cast<::FUN_00558dd0_class *>(&(obstacles))->FUN_00558dd0(i)))->radius,
-                                              (*(class class ::FUN_006815c0 *)&(reinterpret_cast<::TaskQueueInterface *>((points.FUN_00691750(end14)))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr))), &exit[0], &exit[1]))
+                                              (*(class ::FUN_006815c0 *)&(reinterpret_cast<::TaskQueueInterface *>((points.FUN_00691750(end14)))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr))), &exit[0], &exit[1]))
                     {
                         bool exitValid21[2];
-                        exitValid21[0] = reinterpret_cast<::S006F1E90 *>(this)->FUN_006f1e90((int)&(const class class ::FUN_006815c0 &)((*(class class ::FUN_006815c0 *)&(reinterpret_cast<::TaskQueueInterface *>((points.FUN_00691750(end14)))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)))), (int)&(exit[0]));
-                        exitValid21[1] = reinterpret_cast<::S006F1E90 *>(this)->FUN_006f1e90((int)&(const class class ::FUN_006815c0 &)((*(class class ::FUN_006815c0 *)&(reinterpret_cast<::TaskQueueInterface *>((points.FUN_00691750(end14)))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)))), (int)&(exit[1]));
+                        exitValid21[0] = reinterpret_cast<::S006F1E90 *>(this)->FUN_006f1e90((int)&(const class ::FUN_006815c0 &)((*(class ::FUN_006815c0 *)&(reinterpret_cast<::TaskQueueInterface *>((points.FUN_00691750(end14)))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)))), (int)&(exit[0]));
+                        exitValid21[1] = reinterpret_cast<::S006F1E90 *>(this)->FUN_006f1e90((int)&(const class ::FUN_006815c0 &)((*(class ::FUN_006815c0 *)&(reinterpret_cast<::TaskQueueInterface *>((points.FUN_00691750(end14)))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)))), (int)&(exit[1]));
                         bool available2[2];
                         available2[0] = entryValid2[0] && exitValid21[1];
                         available2[1] = entryValid2[1] && exitValid21[0];
@@ -8979,8 +8983,8 @@ void AvoidPath::ClipPathAgainstObstacles()
                         }
                         else if (available2[0] && available2[1])
                         {
-                            float first = reinterpret_cast<::TESCombatStyle *>((void *)(void *)&(const class ::FUN_006815c0 &)((*(class class ::FUN_006815c0 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(entry29[0]))->FUN_00439ef0((::NiPoint3 *)&(exit[1]), *(const ::NiPoint3 *)nullptr)))))->UpdateCombatStyle();
-                            float second = reinterpret_cast<::TESCombatStyle *>((void *)(void *)&(const class ::FUN_006815c0 &)((*(class class ::FUN_006815c0 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(entry29[1]))->FUN_00439ef0((::NiPoint3 *)&(exit[0]), *(const ::NiPoint3 *)nullptr)))))->UpdateCombatStyle();
+                            float first = reinterpret_cast<::TESCombatStyle *>((void *)(void *)&(const class ::FUN_006815c0 &)((*(class ::FUN_006815c0 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(entry29[0]))->FUN_00439ef0((::NiPoint3 *)&(exit[1]), *(const ::NiPoint3 *)nullptr)))))->UpdateCombatStyle();
+                            float second = reinterpret_cast<::TESCombatStyle *>((void *)(void *)&(const class ::FUN_006815c0 &)((*(class ::FUN_006815c0 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(entry29[1]))->FUN_00439ef0((::NiPoint3 *)&(exit[0]), *(const ::NiPoint3 *)nullptr)))))->UpdateCombatStyle();
                             if (first < second)
                             {
                                 from8 = 0;
@@ -9017,7 +9021,8 @@ void AvoidPath::ClipPathAgainstObstacles()
 // @fnv 0x006f1bc0
 bool C6F1BC0Sphere::FUN_006f1bc0(const NiPoint3& akPoint)
 {
-    return ((const C6F1BC0Vector&)(akPoint - m_kCenter)).SqrLength() < m_fBoundRadius * m_fBoundRadius;
+    NiPoint3 kDelta = akPoint - m_kCenter;
+    return ((const C6F1BC0Vector&)kDelta).SqrLength() < m_fBoundRadius * m_fBoundRadius;
 }
 
 struct PathPoint3
@@ -9323,7 +9328,6 @@ FUN_006f2630::FUN_006f2630(unsigned int uiA, unsigned int uiB, Heap6F2* pkHeap)
 }
 
 namespace fnv_006f2b30 {
-extern "C" void* __cdecl FUN_00401020(void);
 
 struct FUN_006cf180
 {
@@ -11442,30 +11446,6 @@ FUN_006f9940::~FUN_006f9940()
     reinterpret_cast<::FUN_00438af0_Class *>(this)->FUN_00438af0();
 }
 
-#include <stdio.h>
-#include "fnv/decl/FUN_0045bb20_cls.h"
-#include "fnv/decl/FUN_006fda10_shell.h"
-#include "fnv/decl/GarbageCollector.h"
-#include "fnv/decl/fnv_006e10a0__FUN_006e10a0_Class.h"
-#include "fnv/decl/fnv_006e21b0__FUN_006e21b0_Class.h"
-#include "fnv/decl/fnv_006ecb70__FUN_006ecb70_Class.h"
-#include "fnv/decl/fnv_006ee5d0__FUN_006ee5d0_Class.h"
-#include "fnv/decl/fnv_006ef0c0__HostP059.h"
-#include "fnv/decl/fnv_006f28a0__FUN_006f28a0_Class.h"
-#include "fnv/decl/fnv_006f7780__FUN_006f7780_Class.h"
-#include "fnv/decl/fnv_006f9770__GlobalObject_00869f00.h"
-#include "fnv/decl/fnv_006fa6a0__S006FA6A0.h"
-#include "fnv/decl/fnv_006faa50__FUN_006faa50_Class.h"
-#include "fnv/decl/fnv_006ff660__FUN_006ff660_Class.h"
-#include "fnv/decl/fnv_anon_tile__NiPoint2_Sub.h"
-#include "fnv/symbols_0043b000.h"
-#include "fnv/symbols_00449000.h"
-#include "fnv/symbols_00696000.h"
-#include "fnv/symbols_006ba000.h"
-#include "fnv/symbols_006e7000.h"
-#include "fnv/symbols_006f3000.h"
-#include "fnv/symbols_006ff000.h"
-#include "fnv/symbols_00c85000.h"
 namespace fnv_006fc490 {
 struct NiNode
 {
@@ -12023,11 +12003,6 @@ void* QueueDeletingView::FUN_006ec230(unsigned int flags)
 void* __cdecl FUN_00ec7230(char* dst, const char* src, unsigned int size);
 
 void* __cdecl _fnv_zlib_memset(void* p, int c, unsigned int n);
-
-FUN_006f4640::~FUN_006f4640()
-{
-    reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(this)->Clear(true);
-}
 
 struct SteamUserObj
 {

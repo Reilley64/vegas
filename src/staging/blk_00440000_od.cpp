@@ -4,6 +4,8 @@
 
 #include <windows.h>
 #include <new>
+#include <stdexcept>
+#include <string>
 #include "fnv/decl/A5D2C0Object.h"
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/BGSCameraShot.h"
@@ -333,7 +335,7 @@ extern int DAT_010173dc;
 struct FUN_0044a9a0_Class
 {
     void FUN_0044a450(int a);
-    int FUN_0044a9a0(int a);
+    void* FUN_0044a9a0(const struct FUN_0044a450* apOther);
 };
 void __cdecl FUN_0044d670(int, int);
 struct FUN_0044abd0_Class
@@ -382,7 +384,6 @@ void FUN_0044cac0_class::SetIntValue(int aiValue, int* piOut)
     *piOut = aiValue;
 }
 
-extern void* __cdecl DAT_010176f8;
 struct FUN_0044d6c0_class
 {
     void* FUN_00ec78f1(void***);
@@ -396,8 +397,6 @@ void* FUN_0044d6c0_class::FUN_0044d6c0(void** p)
     m_field = &DAT_010176f8;
     return this;
 }
-
-extern "C" void* DAT_010176f8;
 
 struct FUN_0044d6f0_This
 {
@@ -953,7 +952,7 @@ struct FUN_0045a1c0_cls
 // @fnv 0x0045a1c0
 QueuedFile* FUN_0045a1c0_cls::ClearQueuedFile()
 {
-    return ((::QueuedFile *)(reinterpret_cast<::FUN_006f74f0_cls *>((((QIdlePtr*)((char*)this + 0xa4))))->FUN_006f74f0=((::ObjA *)(::QueuedFile *)(0))));
+    return ((::QueuedFile *)(reinterpret_cast<::FUN_006f74f0_cls *>((((QIdlePtr*)((char*)this + 0xa4))))->FUN_006f74f0((::ObjA *)nullptr)));
 }
 
 namespace fnv_0045a350 {
@@ -1228,7 +1227,6 @@ struct FUN_0044d740_Class
 {
     void* FUN_0044d740(unsigned int flags);
 };
-void __cdecl FUN_0044d840(void*);
 struct FUN_0044d810_class
 {
     void FUN_0044d840();
@@ -1485,7 +1483,6 @@ void* FUN_0045df40_class::FUN_0045df40(unsigned int flags)
     return this;
 }
 
-void __cdecl FUN_0058b7d0();
 struct FUN_0045df70_class
 {
     void FUN_0058b7d0();
@@ -1657,25 +1654,6 @@ bool S_00447040::CallVirtWithLocal(int aiArg, int aiValue)
     return v;
 }
 
-namespace std {
-template <class _E> struct char_traits;
-template <class _T> class allocator;
-template <class _E, class _Tr, class _Al> class basic_string;
-template <> struct char_traits<char>
-{
-};
-template <> class allocator<char>
-{
-};
-template <> class basic_string<char, char_traits<char>, allocator<char> >
-{
-};
-struct logic_error
-{
-    int _x;
-    logic_error(basic_string<char, char_traits<char>, allocator<char> > const&);
-};
-}
 struct FUN_0044a2e0 : public std::logic_error
 {
     FUN_0044a2e0(std::basic_string<char, std::char_traits<char>, std::allocator<char> > const& a);
@@ -1685,7 +1663,7 @@ struct FUN_0044a2e0 : public std::logic_error
 FUN_0044a2e0::FUN_0044a2e0(std::basic_string<char, std::char_traits<char>, std::allocator<char> > const& strMessage)
     : std::logic_error(strMessage)
 {
-    *(int*)this = (int)&DAT_010173dc;
+    *(void**)this = &DAT_010173dc;
 }
 
 struct NarrowString
@@ -1776,28 +1754,15 @@ unsigned int FUN_0044a9d0_Class::FUN_0044a9d0()
 }
 
 namespace fnv_0044ab90 {
-namespace std {
-template <class _Elem> struct char_traits
+struct VC9String : ::FUN_0044a970_Cls
 {
-};
-template <class _Ty> class allocator
-{
-};
-template <class _Elem, class _Traits, class _Ax> class basic_string
-{
-    char _Fill[20];
-    int _Mysize;
-
-  public:
-    char* _Myptr();
     bool ContainsPointer(char* _Ptr);
 };
-}
 // Returns true if _Ptr lies within the string's character buffer, i.e. _Myptr() <= _Ptr < _Myptr() + _Mysize.
 // @fnv 0x0044ab90
-bool std::basic_string<char, std::char_traits<char>, std::allocator<char> >::ContainsPointer(char* _Ptr)
+bool VC9String::ContainsPointer(char* _Ptr)
 {
-    if (_Ptr == 0 || _Ptr < reinterpret_cast<::FUN_0044a970_Cls *>(this)->FUN_0044a970() || reinterpret_cast<::FUN_0044a970_Cls *>(this)->FUN_0044a970() + _Mysize <= _Ptr)
+    if (_Ptr == 0 || _Ptr < FUN_0044a970() || FUN_0044a970() + _Mysize <= _Ptr)
         return false;
     else
         return true;
@@ -2977,7 +2942,7 @@ struct FUN_004538e0_Class
 // @fnv 0x004538e0
 void FUN_004538e0_Class::FUN_004538e0(int)
 {
-    EnterCriticalSection(this);
+    EnterCriticalSection(reinterpret_cast<CRITICAL_SECTION*>(this));
 }
 
 struct FUN_00454420_Class
@@ -3150,11 +3115,11 @@ struct FUN_0044a450 : FUN_00ec7944
 };
 // Calls FUN_0044a450 with a, stores the address of DAT_010173dc at this, and returns this.
 // @fnv 0x0044a9a0
-int FUN_0044a9a0_Class::FUN_0044a9a0(int aiValue)
+void* FUN_0044a9a0_Class::FUN_0044a9a0(const struct FUN_0044a450* apOther)
 {
-    new ((void *)this) struct ::FUN_0044a450((*(const struct struct ::FUN_0044a450 *)(aiValue)));
-    *reinterpret_cast<int*>(this) = reinterpret_cast<int>(&DAT_010173dc);
-    return reinterpret_cast<int>(this);
+    new ((void *)this) ::FUN_0044a450(*apOther);
+    *reinterpret_cast<void**>(this) = &DAT_010173dc;
+    return this;
 }
 // Copy constructor: copies the base FUN_00ec7944 subobject and the value member from other.
 // @fnv 0x0044a450
@@ -3365,15 +3330,20 @@ struct Value
 {
     int value;
 };
+struct C44E4A0ScalarTag
+{
+};
+struct C44E4A0RangeTag
+{
+};
 // Calls FUN_0044e4a0 with the results of CallWithFlag on p1 and p2, p3, a char from FUN_0065fd70, and the bool from FUN_0065e750.
 // @fnv 0x0044d600
 void __cdecl FUN_0044d600(Value aValue1, Value aValue2, int aiArg)
 {
     Flag zero = {};
     bool result = ((bool)(::FUN_0065e750(&aValue1, &aiArg)));
-    char temporary4;
-    ::FUN_0044e4a0((void **)(::CallWithFlag((int *)(::Value *)(&aValue1))), (void **)(::CallWithFlag((int *)(::Value *)(&aValue2))), (void **)(aiArg), (::C44E4A0ScalarTag)(*((char *)(::FUN_0065fd70((int)(&temporary4))))),
-                 (::C44E4A0RangeTag)(result));
+    (void)result;
+    ::FUN_0044e4a0((void **)(::CallWithFlag((int *)(::Value *)(&aValue1))), (void **)(::CallWithFlag((int *)(::Value *)(&aValue2))), (void **)(aiArg), ::C44E4A0ScalarTag{}, ::C44E4A0RangeTag{});
 }
 
 
@@ -3536,14 +3506,6 @@ unsigned int __cdecl FUN_0044e330()
 }
 
 int C44E4A0MemMoveS(void* pvDest, unsigned int uiDestSize, const void* pvSrc, unsigned int ItemUpdateArray);
-
-struct C44E4A0ScalarTag
-{
-};
-
-struct C44E4A0RangeTag
-{
-};
 
 // std::_Copy_opt for pointer-sized scalars
 // Moves _Off elements from [_First,_Last) to _Dest via C44E4A0MemMoveS and returns _Dest + _Off.
@@ -6514,7 +6476,6 @@ FUN_00450770::~FUN_00450770()
     FUN_00625fb0();
     reinterpret_cast<::ListX *>(&(collection))->FUN_004ee920();
 }
-extern "C" void* __cdecl memcpy(void*, const void*, unsigned);
 struct OwnerX
 {
     ListX* m0;

@@ -505,7 +505,6 @@ void FUN_00589290_Class::FUN_00589290()
 }
 
 namespace fnv_005892c0 {
-extern "C" void* memset(void*, int, unsigned int);
 struct FUN_005892c0_t
 {
     void* InitArray(unsigned int count);

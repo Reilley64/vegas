@@ -468,7 +468,8 @@ struct FUN_0051cfe0_Class
 // @fnv 0x0051cfe0
 unsigned int FUN_0051cfe0_Class::FUN_0051cfe0()
 {
-    return reinterpret_cast<class ::FUN_00a5e930 *>((((Unk_00a5e930*)this)))->FUN_00a5e930::~FUN_00a5e930();
+    reinterpret_cast<class ::FUN_00a5e930 *>(this)->FUN_00a5e930::~FUN_00a5e930();
+    return 0;
 }
 
 struct FUN_0051f4d0_class
@@ -523,7 +524,6 @@ void FUN_00519c50_class::FUN_00519c50()
     ::FUN_00aa10f0(_0x8);
 }
 
-void __cdecl FUN_005010f0();
 struct FUN_005010c0_class
 {
     void FUN_005010f0();
@@ -1034,9 +1034,196 @@ struct ActorVTable
     virtual bool V63();
 };
 
-struct Actor : public ActorVTable
+class ActorValueOwner
+{
+  public:
+    virtual void AVO00();
+    virtual void AVO01();
+    virtual void AVO02();
+    virtual void AVO03();
+    virtual void AVO04();
+    virtual void AVO05();
+    virtual void AVO06();
+    virtual int GetBaseActorValue(ActorValue::Index index);
+};
+
+struct ActorPad04 : public ActorVTable
+{
+    char pad04[0xa0];
+};
+
+struct Actor : public ActorPad04, public ActorValueOwner
 {
     virtual bool ActorCheck();
+    virtual void V65();
+    virtual void V66();
+    virtual void V67();
+    virtual void V68();
+    virtual void V69();
+    virtual void V70();
+    virtual void V71();
+    virtual void V72();
+    virtual void V73();
+    virtual void V74();
+    virtual void V75();
+    virtual void V76();
+    virtual void V77();
+    virtual void V78();
+    virtual void V79();
+    virtual void V80();
+    virtual void V81();
+    virtual void V82();
+    virtual void V83();
+    virtual void V84();
+    virtual void V85();
+    virtual void V86();
+    virtual void V87();
+    virtual void V88();
+    virtual void V89();
+    virtual void V90();
+    virtual void V91();
+    virtual void V92();
+    virtual void V93();
+    virtual void V94();
+    virtual void V95();
+    virtual void V96();
+    virtual void V97();
+    virtual void V98();
+    virtual void V99();
+    virtual void V100();
+    virtual void V101();
+    virtual void V102();
+    virtual void V103();
+    virtual void V104();
+    virtual void V105();
+    virtual void V106();
+    virtual void V107();
+    virtual void V108();
+    virtual void V109();
+    virtual void V110();
+    virtual void V111();
+    virtual void V112();
+    virtual void V113();
+    virtual void V114();
+    virtual void V115();
+    virtual void V116();
+    virtual void V117();
+    virtual void V118();
+    virtual void V119();
+    virtual void V120();
+    virtual void V121();
+    virtual void V122();
+    virtual void V123();
+    virtual void V124();
+    virtual void V125();
+    virtual void V126();
+    virtual void V127();
+    virtual void V128();
+    virtual void V129();
+    virtual void V130();
+    virtual void V131();
+    virtual void V132();
+    virtual void V133();
+    virtual void V134();
+    virtual void V135();
+    virtual void V136();
+    virtual void V137();
+    virtual void V138();
+    virtual void V139();
+    virtual void V140();
+    virtual void V141();
+    virtual void V142();
+    virtual void V143();
+    virtual void V144();
+    virtual void V145();
+    virtual void V146();
+    virtual void V147();
+    virtual void V148();
+    virtual void V149();
+    virtual void V150();
+    virtual void V151();
+    virtual void V152();
+    virtual void V153();
+    virtual void V154();
+    virtual void V155();
+    virtual void V156();
+    virtual void V157();
+    virtual void V158();
+    virtual void V159();
+    virtual void V160();
+    virtual void V161();
+    virtual void V162();
+    virtual void V163();
+    virtual void V164();
+    virtual void V165();
+    virtual void V166();
+    virtual void V167();
+    virtual void V168();
+    virtual void V169();
+    virtual void V170();
+    virtual void V171();
+    virtual void V172();
+    virtual void V173();
+    virtual void V174();
+    virtual void V175();
+    virtual void V176();
+    virtual void V177();
+    virtual void V178();
+    virtual void V179();
+    virtual void V180();
+    virtual void V181();
+    virtual void V182();
+    virtual void V183();
+    virtual void V184();
+    virtual void V185();
+    virtual void V186();
+    virtual void V187();
+    virtual void V188();
+    virtual void V189();
+    virtual void V190();
+    virtual void V191();
+    virtual void V192();
+    virtual void V193();
+    virtual void V194();
+    virtual void V195();
+    virtual void V196();
+    virtual void V197();
+    virtual void V198();
+    virtual void V199();
+    virtual void V200();
+    virtual void V201();
+    virtual void V202();
+    virtual void V203();
+    virtual void V204();
+    virtual void V205();
+    virtual void V206();
+    virtual void V207();
+    virtual void V208();
+    virtual void V209();
+    virtual void V210();
+    virtual void V211();
+    virtual void V212();
+    virtual void V213();
+    virtual void V214();
+    virtual void V215();
+    virtual bool CanUseSkillBook();
+    virtual void V217();
+    virtual void V218();
+    virtual void V219();
+    virtual void V220();
+    virtual void V221();
+    virtual void V222();
+    virtual void V223();
+    virtual void V224();
+    virtual void V225();
+    virtual void V226();
+    virtual void V227();
+    virtual void V228();
+    virtual void V229();
+    virtual void V230();
+    virtual void V231();
+    virtual void V232();
+    virtual void ModActorValue(ActorValue::Index index, float amount, int unk);
 };
 
 
@@ -1285,9 +1472,6 @@ float C508240Ref::FUN_00508240(float afValue)
         return 1.0f;
 }
 
-namespace std {
-float abs(float);
-}
 struct Envelope
 {
     float UpdateEnvelope(float current, float rate, float elapsed, unsigned char releasing, float attack, float decay,
@@ -1303,7 +1487,7 @@ void FUN_00508090_shell::FUN_00508090(float a, float b, float c, unsigned char d
 // @fnv 0x00507da0
 void FUN_00507da0_cls::FUN_00507da0(float a, float b, float c, unsigned char flag)
 {
-    reinterpret_cast<::Envelope *>(this)->UpdateEnvelope(a, b, c, flag, reinterpret_cast<::PathingRequest *>(this)->GetGoalZDelta(::GetField90Float((char *)thisreinterpret_cast<::FUN_00507e10_shell *>(this)->FUN_00507e10(reinterpret_cast<::FUN_00644930_shell *>(this)->FUN_00644930(reinterpret_cast<::FUN_008d01e0_Class *>(this)->FUN_008d01e0())))), {}, {}, {}, {});
+    reinterpret_cast<::Envelope *>(this)->UpdateEnvelope(a, b, c, flag, reinterpret_cast<::PathingRequest *>(this)->GetGoalZDelta(), ::GetField90Float((char *)this), reinterpret_cast<::FUN_00507e10_shell *>(this)->FUN_00507e10(), reinterpret_cast<::FUN_00644930_shell *>(this)->FUN_00644930(), reinterpret_cast<::FUN_008d01e0_Class *>(this)->FUN_008d01e0());
 }
 // @fnv 0x005082b0
 float Envelope::UpdateEnvelope(float current, float rate, float elapsed, unsigned char releasing, float attack,
@@ -2635,18 +2819,6 @@ void __cdecl FUN_00519810(DoorRef* apDoorA, DoorRef* apDoorB)
     }
 }
 
-class TESForm
-{
-  public:
-    unsigned int FNV_GetFormType();
-    virtual ~TESForm();
-public:
-    void ClearData();
-public:
-    void SetInitializationState(bool);
-public:
-    void MarkAsModified(unsigned int);
-};
 // @fnv 0x0050a5a0
 FUN_0050a5a0::FUN_0050a5a0()
 {
@@ -2708,10 +2880,10 @@ bool FUN_00519570(TESForm* apForm)
     bool result = false;
     if (apForm)
     {
-        switch (apForm->FNV_GetFormType())
+        switch ((unsigned int)apForm->GetFormType())
         {
         case 0x39: {
-            TESObjectCELL* cell = dynamic_cast<TESObjectCELL*>(apForm);
+            TESObjectCELL* cell = reinterpret_cast<TESObjectCELL*>(apForm);
             if (cell && reinterpret_cast<::TESObjectCELL *>((((TESObjectCELL_Ext*)cell)))->IsCellInterior())
                 result = true;
         }
@@ -2730,198 +2902,6 @@ extern "C" void* __cdecl FUN_00eca2e0(void* p, int c, size_t n);
 
 bool __cdecl InitSettingsDefaults();
 
-class ActorValueOwner
-{
-  public:
-    virtual void AVO00();
-    virtual void AVO01();
-    virtual void AVO02();
-    virtual void AVO03();
-    virtual void AVO04();
-    virtual void AVO05();
-    virtual void AVO06();
-    virtual int GetBaseActorValue(ActorValue::Index index);
-};
-
-struct ActorPad04 : public ActorVTable
-{
-    char pad04[0xa0];
-};
-
-// VEGAS17-CONFLICT: Actor (variant definition below differs from the one above)
-struct Actor : public ActorPad04, public ActorValueOwner
-{
-    virtual bool ActorCheck();
-    virtual void V65();
-    virtual void V66();
-    virtual void V67();
-    virtual void V68();
-    virtual void V69();
-    virtual void V70();
-    virtual void V71();
-    virtual void V72();
-    virtual void V73();
-    virtual void V74();
-    virtual void V75();
-    virtual void V76();
-    virtual void V77();
-    virtual void V78();
-    virtual void V79();
-    virtual void V80();
-    virtual void V81();
-    virtual void V82();
-    virtual void V83();
-    virtual void V84();
-    virtual void V85();
-    virtual void V86();
-    virtual void V87();
-    virtual void V88();
-    virtual void V89();
-    virtual void V90();
-    virtual void V91();
-    virtual void V92();
-    virtual void V93();
-    virtual void V94();
-    virtual void V95();
-    virtual void V96();
-    virtual void V97();
-    virtual void V98();
-    virtual void V99();
-    virtual void V100();
-    virtual void V101();
-    virtual void V102();
-    virtual void V103();
-    virtual void V104();
-    virtual void V105();
-    virtual void V106();
-    virtual void V107();
-    virtual void V108();
-    virtual void V109();
-    virtual void V110();
-    virtual void V111();
-    virtual void V112();
-    virtual void V113();
-    virtual void V114();
-    virtual void V115();
-    virtual void V116();
-    virtual void V117();
-    virtual void V118();
-    virtual void V119();
-    virtual void V120();
-    virtual void V121();
-    virtual void V122();
-    virtual void V123();
-    virtual void V124();
-    virtual void V125();
-    virtual void V126();
-    virtual void V127();
-    virtual void V128();
-    virtual void V129();
-    virtual void V130();
-    virtual void V131();
-    virtual void V132();
-    virtual void V133();
-    virtual void V134();
-    virtual void V135();
-    virtual void V136();
-    virtual void V137();
-    virtual void V138();
-    virtual void V139();
-    virtual void V140();
-    virtual void V141();
-    virtual void V142();
-    virtual void V143();
-    virtual void V144();
-    virtual void V145();
-    virtual void V146();
-    virtual void V147();
-    virtual void V148();
-    virtual void V149();
-    virtual void V150();
-    virtual void V151();
-    virtual void V152();
-    virtual void V153();
-    virtual void V154();
-    virtual void V155();
-    virtual void V156();
-    virtual void V157();
-    virtual void V158();
-    virtual void V159();
-    virtual void V160();
-    virtual void V161();
-    virtual void V162();
-    virtual void V163();
-    virtual void V164();
-    virtual void V165();
-    virtual void V166();
-    virtual void V167();
-    virtual void V168();
-    virtual void V169();
-    virtual void V170();
-    virtual void V171();
-    virtual void V172();
-    virtual void V173();
-    virtual void V174();
-    virtual void V175();
-    virtual void V176();
-    virtual void V177();
-    virtual void V178();
-    virtual void V179();
-    virtual void V180();
-    virtual void V181();
-    virtual void V182();
-    virtual void V183();
-    virtual void V184();
-    virtual void V185();
-    virtual void V186();
-    virtual void V187();
-    virtual void V188();
-    virtual void V189();
-    virtual void V190();
-    virtual void V191();
-    virtual void V192();
-    virtual void V193();
-    virtual void V194();
-    virtual void V195();
-    virtual void V196();
-    virtual void V197();
-    virtual void V198();
-    virtual void V199();
-    virtual void V200();
-    virtual void V201();
-    virtual void V202();
-    virtual void V203();
-    virtual void V204();
-    virtual void V205();
-    virtual void V206();
-    virtual void V207();
-    virtual void V208();
-    virtual void V209();
-    virtual void V210();
-    virtual void V211();
-    virtual void V212();
-    virtual void V213();
-    virtual void V214();
-    virtual void V215();
-    virtual bool CanUseSkillBook();
-    virtual void V217();
-    virtual void V218();
-    virtual void V219();
-    virtual void V220();
-    virtual void V221();
-    virtual void V222();
-    virtual void V223();
-    virtual void V224();
-    virtual void V225();
-    virtual void V226();
-    virtual void V227();
-    virtual void V228();
-    virtual void V229();
-    virtual void V230();
-    virtual void V231();
-    virtual void V232();
-    virtual void ModActorValue(ActorValue::Index index, float amount, int unk);
-};
 
 struct StrMem
 {

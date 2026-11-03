@@ -659,7 +659,7 @@ extern char vftable_TileMenu;
 // @fnv 0x00709810
 TileMenu* TileMenu::TileMenuConstructor(int aiUnused1, int aiUnused2)
 {
-    ::FUN_00709840((void *)(((FUN_00709840*)this)));
+    ::FUN_00709840((void *)this);
     *(void**)this = (void*)&vftable_TileMenu;
     *(int*)((char*)this + 0x3c) = 0;
     return this;
@@ -908,7 +908,7 @@ struct S71df20
 void S71df20::AssignString(const BSStringTCharAssign& aString)
 {
     void* tmp = ((A71e0d0*)this)->FUN_0071e0d0();
-    reinterpret_cast<::FUN_00501c10_cls *>((((BSStringTCharAssign*)((char*)tmp + 8))))->CallAndReturnSelf=((int)&(aString));
+    reinterpret_cast<::FUN_00501c10_cls *>((((BSStringTCharAssign*)((char*)tmp + 8))))->CallAndReturnSelf((int)&(aString));
     reinterpret_cast<::FUN_0049fa20_List *>((((B49fa20*)this)))->FUN_0049fa20((::FUN_0049fa20_Node *)(tmp));
 }
 

@@ -3,11 +3,10 @@
 #include <xmmintrin.h>
 
 class FnvHolder;
-namespace fnv_00c66320 { union __m128; }
 namespace fnv_00cb94a0 { struct MyHost; }
 namespace fnv_00dd62e0 { struct VectorArray; }
-namespace fnv_00dd62e0 { union __m128; }
-namespace fnv_00e2ab00 { union __m128; }
+namespace fnv_00dd62e0 { using ::__m128; }
+namespace fnv_00e2ab00 { using ::__m128; }
 struct AvgSrc;
 struct BodyPair;
 struct ClosestPointResult;
@@ -38,7 +37,7 @@ struct Vector4f;
 struct VertexRecord;
 
 // 0x00c66320
-namespace fnv_00c66320 { void FUN_00c66320(::fnv_00c66320::__m128 *, void *, const ::fnv_00c66320::__m128 *, const ::fnv_00c66320::__m128 *); }
+namespace fnv_00c66320 { void FUN_00c66320(::__m128 *, void *, const ::__m128 *, const ::__m128 *); }
 // 0x00c6ccc0
 extern "C" void SubtractScalarFloat(::__m128 *, const ::__m128 *, const ::__m128 *);
 // 0x00c6cce0

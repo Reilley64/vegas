@@ -1,6 +1,7 @@
 // bsmenu/tileimage_private_decl_tileimage.h: declares NiTexture, TextureFormatPreferences, Tile, TileImage, TextureReceiver and more
 #ifndef FNV_TILEIMAGE_PRIVATE_H
 #define FNV_TILEIMAGE_PRIVATE_H
+#include <cstddef>
 
 #include <windows.h>
 #include <stddef.h>
@@ -150,7 +151,7 @@ class GlobalObject_00633c90
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int);
+    static void* operator new(std::size_t);
     static void operator delete(void*);
 };
 class BSTextureSet : public NiMemObject

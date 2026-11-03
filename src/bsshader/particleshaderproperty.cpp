@@ -1,3 +1,4 @@
+#include <cstddef>
 
 // src/bsshader/particleshaderproperty.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/bsshader/particleshaderproperty.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
@@ -160,7 +161,7 @@ struct PrimArray : GlobalObject_004aff00
 struct BoundDataBlock
 {
     char data[0x30];
-    static void* operator new[](unsigned int size)
+    static void* operator new[](std::size_t size)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>(&(g_memoryManager))->FUN_00aa3e40(size);
     }
@@ -368,7 +369,7 @@ struct FloatQuad
 {
     float v;
 
-    static void* operator new[](unsigned int uiSize)
+    static void* operator new[](std::size_t uiSize)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>((reinterpret_cast<TableAllocator*>(&(*reinterpret_cast<int *>(&::g_memoryManager)))))->FUN_00aa3e40(uiSize);
     }

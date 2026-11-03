@@ -1,6 +1,7 @@
 // Names of nested/template specializations use the canonical generator identifier mapping.
 #ifndef FNV_NID3DSHADERCONSTANTMAP_H
 #define FNV_NID3DSHADERCONSTANTMAP_H
+#include <cstddef>
 
 #include "layout_support.h"
 #include "NiRefObject.h"
@@ -43,7 +44,7 @@ class NiD3DShaderConstantMap : public NiShaderConstantMap
   public:
     // base NiShaderConstantMap at +0x0, size 12
     NiD3DShaderConstantMap(GraphicsRenderer*, unsigned int);
-    static void* operator new(unsigned int);
+    static void* operator new(std::size_t);
     NiTObjectArray<NiPointer<NiShaderConstantMapEntry> > m_kEntries;         // +0xC, 16 bytes
     NiTObjectArray<NiPointer<NiShaderConstantMapEntry> > m_kDefinedEntries;  // +0x1C, 16 bytes
     bool m_bHasChanges;                                                      // +0x2C, 1 bytes

@@ -1,3 +1,4 @@
+#include <cstddef>
 
 // src/bsshader/bsshaderbloodsplatterproperty.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/bsshader/bsshaderbloodsplatterproperty.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
@@ -226,7 +227,7 @@ void Self::ForEachChild(Callback apCallback, int arg)
 
 struct Item
 {
-    static void* operator new(unsigned int size);
+    static void* operator new(std::size_t size);
     static void operator delete(void* p);
     Item();
     int unk00;

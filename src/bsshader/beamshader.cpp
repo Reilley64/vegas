@@ -1,3 +1,4 @@
+#include <cstddef>
 // bsshader/beamshader.cpp: BeamPassShader, BloodSplatterBeamShader, DistantLODShader (6 functions)
 
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -57,7 +58,7 @@ class BeamShaderSlots
 class BloodSplatterBeamShader : public BeamShader
 {
   public:
-    static void* operator new(unsigned int) throw();
+    static void* operator new(std::size_t) throw();
     BloodSplatterBeamShader(NiD3DVertexDeclaration*);
     static BSShader* CreateShader();
 };

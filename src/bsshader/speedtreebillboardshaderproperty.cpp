@@ -1,3 +1,4 @@
+#include <cstddef>
 
 // src/bsshader/speedtreebillboardshaderproperty.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/bsshader/speedtreebillboardshaderproperty.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
@@ -12,7 +13,7 @@
 #include "fnv/symbols_00b66000.h"
 #include "fnv/symbols_01200000.h"
 extern int DAT_010b8330;
-void __cdecl operator delete(void*, unsigned int);
+void __cdecl operator delete(void*, std::size_t);
 
 struct FUN_00ba8690
 {
@@ -157,7 +158,7 @@ int BA86C0Owner::FUN_00ba86c0(A5A040Cls* pArg, int arg2, int arg3)
 
 extern int DAT_010b8330;
 void* __cdecl FUN_00aa13e0(unsigned int size);
-void __cdecl operator delete(void*, unsigned int);
+void __cdecl operator delete(void*, std::size_t);
 
 struct SpawnedBase
 {
@@ -231,7 +232,7 @@ struct SpawnedObject : SpawnedBase
     int unkF8;
     int unkFC;
     int unk100;
-    static void* operator new(unsigned int size) throw()
+    static void* operator new(std::size_t size) throw()
     {
         return FUN_00aa13e0(size);
     }

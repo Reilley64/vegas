@@ -311,7 +311,7 @@ struct FUN_00ec78f1_t
     int m4;
     void* FUN_00ec78f1(int* out);
 };
-void* __cdecl operator new(unsigned int);
+void* __cdecl operator new(std::size_t);
 void* __cdecl FUN_00b23980(unsigned int n);
 void __cdecl CopyObjects(CopyableStateBlock* dst, unsigned int n, const CopyableStateBlock* src);
 
@@ -660,7 +660,7 @@ class bad_alloc : public exception
 {
 };
 }
-void* __cdecl operator new(unsigned int);
+void* __cdecl operator new(std::size_t);
 
 // @fnv 0x00b23b50
 void* __cdecl FUN_00b23b50(unsigned int n)
@@ -679,7 +679,7 @@ void* __cdecl FUN_00b23b50(unsigned int n)
     return ::FUN_00401000(n * 44);
 }
 
-inline void* __cdecl operator new(unsigned int, void* _Where) throw()
+inline void* __cdecl operator new(std::size_t, void* _Where) throw()
 {
     return (_Where);
 }
@@ -24620,7 +24620,7 @@ template <class _Ty> class vectorS : public _Vector_valS<_Ty>
 };
 extern "C" unsigned int __cdecl strlen(const char* pcString);
 extern "C" int __cdecl memcpy_s(void* pvDst, unsigned int uiDstSize, const void* pvSrc, unsigned int ItemUpdateArray);
-void* __cdecl operator new(unsigned int uiSize);
+void* __cdecl operator new(std::size_t uiSize);
 namespace std {
 class bad_alloc
 {
@@ -25144,7 +25144,7 @@ SA4830* __cdecl FUN_00b23b00(SA4830* _First, SA4830* _Last, SA4830* _Dest)
 }  // namespace fnv_00b23b00
 
 namespace fnv_00b24180 {
-inline void* operator new(unsigned int, void* p)
+inline void* operator new(std::size_t, void* p)
 {
     return p;
 }
@@ -25205,7 +25205,7 @@ void FUN_00b24180(ElemQ* first, unsigned int n, const ElemQ& val)
 }  // namespace fnv_00b24180
 
 namespace fnv_00b243a0 {
-inline void* operator new(unsigned int, void* p)
+inline void* operator new(std::size_t, void* p)
 {
     return p;
 }
@@ -25256,7 +25256,7 @@ void FUN_00b243a0(FUN_00b22f80* first, unsigned int n, const FUN_00b22f80& val)
 }  // namespace fnv_00b243a0
 
 namespace fnv_00b24580 {
-inline void* operator new(unsigned int, void* p)
+inline void* operator new(std::size_t, void* p)
 {
     return p;
 }
@@ -25750,7 +25750,7 @@ template <class _Ty> class vectorS : public _Vector_valS<_Ty>
 };
 extern "C" unsigned int __cdecl strlen(const char* pcString);
 extern "C" int __cdecl memcpy_s(void* pvDst, unsigned int uiDstSize, const void* pvSrc, unsigned int ItemUpdateArray);
-void* __cdecl operator new(unsigned int uiSize);
+void* __cdecl operator new(std::size_t uiSize);
 namespace std {
 class bad_alloc
 {
@@ -26623,7 +26623,7 @@ template <class _Ty> class vectorS : public _Vector_valS<_Ty>
 };
 extern "C" unsigned int __cdecl strlen(const char* pcString);
 extern "C" int __cdecl memcpy_s(void* pvDst, unsigned int uiDstSize, const void* pvSrc, unsigned int ItemUpdateArray);
-void* __cdecl operator new(unsigned int uiSize);
+void* __cdecl operator new(std::size_t uiSize);
 namespace std {
 class bad_alloc
 {
@@ -27061,7 +27061,7 @@ E48C0* __cdecl FUN_00b248c0(E48C0* _First, E48C0* _Last, E48C0* _Dest, random_ac
 }  // namespace fnv_00b248c0
 
 namespace fnv_00b25ba0 {
-inline void* operator new(unsigned int, void* p)
+inline void* operator new(std::size_t, void* p)
 {
     return p;
 }
@@ -27113,7 +27113,7 @@ FUN_00b22f80* FUN_00b25ba0(FUN_00b22f80* first, FUN_00b22f80* last, FUN_00b22f80
 }  // namespace fnv_00b25ba0
 
 namespace fnv_00b25ca0 {
-inline void* operator new(unsigned int, void* p)
+inline void* operator new(std::size_t, void* p)
 {
     return p;
 }
@@ -27190,7 +27190,7 @@ ElemQ* FUN_00b25ca0(ElemQ* first, ElemQ* last, ElemQ* dest)
 }  // namespace fnv_00b25ca0
 
 namespace fnv_00b25e20 {
-inline void* operator new(unsigned int, void* p)
+inline void* operator new(std::size_t, void* p)
 {
     return p;
 }
@@ -27266,7 +27266,7 @@ ElemQ* FUN_00b25e20(ElemQ* first, ElemQ* last, ElemQ* dest)
 }  // namespace fnv_00b25e20
 
 namespace fnv_00b25fa0 {
-inline void* operator new(unsigned int, void* p)
+inline void* operator new(std::size_t, void* p)
 {
     return p;
 }
@@ -30096,7 +30096,7 @@ namespace FrondComputeCrt {
 extern "C" unsigned __cdecl strlen(const char*);
 }
 void __cdecl operator delete(void*);
-void* __cdecl operator new(unsigned);
+void* __cdecl operator new(std::size_t);
 namespace std {
 template <class T> struct char_traits
 {

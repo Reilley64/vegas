@@ -1,3 +1,4 @@
+#include <cstddef>
 // bsmenu/tile.cpp: Tile, Tile__FloatAction, LoadingMenu, TileListBoxCalls and more (86 functions)
 
 #include <windows.h>
@@ -161,7 +162,7 @@ NiPoint2* NiPoint2_Sub::Subtract(NiPoint2* pResult, const NiPoint2& aPoint) cons
     return pResult;
 }
 
-void* __cdecl operator new(unsigned int);
+void* __cdecl operator new(std::size_t);
 void __cdecl operator delete(void*);
 
 extern "C" void* FUN_00718c90(void*);
@@ -2480,6 +2481,9 @@ unsigned int FUN_00a0d1b0_cls::HashKey(const char* key) {
 }
 
 #include "fnv_asm_helpers.h"   // project x87 helpers (fnv_SinCos, fnv_FloatToInt), kept last so earlier code is unchanged
+#include "fnv/decl/Bound88.h"
+#include "fnv/decl/FUN_00a00f30_shell.h"
+#include "fnv/decl/FUN_00a8a670_shell.h"
 
 extern int DAT_011d8e64;
 extern int DAT_011d8e68;
@@ -2728,6 +2732,133 @@ void FUN_00a04510()
     }
 
     }
+}
+
+struct FUN_00bb79d0_class
+{
+    void FUN_00bb79d0(bool value);
+};
+
+// @fnv 0x00bb79d0
+void FUN_00bb79d0_class::FUN_00bb79d0(bool value)
+{
+    *(char*)((char*)this + 0xac) = value;
+}
+
+void operator delete(void*, std::size_t);
+
+struct NiPoint3;
+
+struct NiPoint2;
+
+struct NiBound
+{
+    float m_fCenter[3];
+    float m_fBoundRadius;
+};
+
+struct SharedData_S
+{
+    char pad[0xc];
+    int m_uiRefCount;
+    void DecRefCount()
+    {
+        if (--m_uiRefCount == 0)
+        {
+            reinterpret_cast<::FUN_00a8a670_shell *>(this)->FUN_00a8a670();
+            ::FUN_00aa1460(this, 0x10);
+        }
+    }
+};
+
+struct GeomData_S
+{
+    virtual void v00();
+    virtual void v01();
+    virtual void v02();
+    virtual void v03();
+    virtual void v04();
+    virtual void v05();
+    virtual void v06();
+    virtual void v07();
+    virtual void v08();
+    virtual void v09();
+    virtual void v0a();
+    virtual void v0b();
+    virtual void v0c();
+    virtual void v0d();
+    virtual void v0e();
+    virtual void v0f();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual void v1a();
+    virtual void v1b();
+    virtual void v1c();
+    virtual void v1d();
+    virtual void v1e();
+    virtual void v1f();
+    virtual SharedData_S* GetShared();
+    virtual void v21();
+    virtual void v22();
+    virtual void v23();
+    virtual unsigned short GetActiveVertexQuantity();
+    int pad04;
+    unsigned short m_usVertices;
+    unsigned short pad0a;
+    unsigned short m_usTrianglePoints;
+    unsigned short pad0e;
+    NiBound m_kBound;
+    NiPoint3* m_pkVertex;
+    NiPoint3* m_pkNormal;
+    RgbaColor* m_pkColor;
+    NiPoint2* m_pkTexture;
+    void FUN_00a670c0(unsigned short usVertices, NiPoint3* pkVertex, NiPoint3* pkNormal, RgbaColor* pkColor,
+                      NiPoint2* pkTexture, unsigned short usNumTextureSets, unsigned short eNBTMethod);
+};
+
+// @fnv 0x00a670c0
+void GeomData_S::FUN_00a670c0(unsigned short usVertices, NiPoint3* pkVertex, NiPoint3* pkNormal, RgbaColor* pkColor,
+                              NiPoint2* pkTexture, unsigned short usNumTextureSets, unsigned short eNBTMethod)
+{
+    if (GetShared())
+    {
+        if (pkVertex != m_pkVertex)
+            GetShared()->DecRefCount();
+        if (pkNormal != m_pkNormal)
+            GetShared()->DecRefCount();
+        if (pkColor != m_pkColor)
+            GetShared()->DecRefCount();
+        if (pkTexture != m_pkTexture)
+            GetShared()->DecRefCount();
+    }
+    else
+    {
+        if (pkVertex != m_pkVertex)
+            reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(m_pkVertex);
+        if (pkNormal != m_pkNormal)
+            reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(m_pkNormal);
+        if (pkColor != m_pkColor)
+            reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(m_pkColor);
+        if (pkTexture != m_pkTexture)
+            reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(m_pkTexture);
+    }
+    m_usVertices = usVertices;
+    m_pkVertex = pkVertex;
+    m_pkNormal = pkNormal;
+    unsigned short usActive = GetActiveVertexQuantity();
+    if (usActive && m_pkVertex)
+        reinterpret_cast<::Bound88 *>(&(m_kBound))->ComputeBoundingSphere(usActive, (const ::Vec88 *)(m_pkVertex));
+    m_pkColor = pkColor;
+    m_pkTexture = pkTexture;
+    m_usTrianglePoints = (m_usTrianglePoints & 0xffe) | (usNumTextureSets & 1) | eNBTMethod;
 }
 
 #include "generated/data/bsmenu/tile.inc"

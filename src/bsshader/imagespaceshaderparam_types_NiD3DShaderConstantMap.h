@@ -1,6 +1,7 @@
 // Names of nested/template specializations use the canonical generator identifier mapping.
 #ifndef FNV_NID3DSHADERCONSTANTMAP_H
 #define FNV_NID3DSHADERCONSTANTMAP_H
+#include <cstddef>
 
 #include "layout_support.h"
 #include "NiRefObject.h"
@@ -53,7 +54,7 @@ class NiD3DShaderConstantMap : public NiShaderConstantMap
     ShaderPassRenderer* m_pRenderState;     // +0x40, 4 bytes
     // IsExactKindOf
     // DynamicCast
-    static void* operator new(unsigned int size);
+    static void* operator new(std::size_t size);
     NiD3DShaderConstantMap(GraphicsRenderer* renderer, unsigned int type);
     virtual unsigned int AddConstant(const char*, unsigned int, unsigned int, unsigned int, unsigned int, const char*,
                                      unsigned int, unsigned int, const void*, bool);

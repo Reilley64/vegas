@@ -1,3 +1,4 @@
+#include <cstddef>
 
 // src/speedtree/indexedgeometry_ob1_variant.cpp - flag-variant unit created 2026-10-25 by flag_proofs.py: contributor code for these functions matched byte for
 // byte only under /MT /Od /Oy- /GS /EHsc /Gy /Ob1 (unit src/speedtree/indexedgeometry.cpp lists /MT /Od /Oy- /GS /EHsc /Gy). Declarations copied from that unit's skeleton; move the functions
@@ -329,9 +330,9 @@ struct TargetClass
 
 // Based on another contributor's triangle-strip reconstruction supplied in packet.json.
 
-void* __cdecl operator new(unsigned int);
+void* __cdecl operator new(std::size_t);
 void __cdecl operator delete(void*);
-inline void* __cdecl operator new(unsigned int, void* p)
+inline void* __cdecl operator new(std::size_t, void* p)
 {
     return p;
 }
@@ -389,7 +390,7 @@ struct FUN_00b39460
 
 extern "C" void* __cdecl memcpy(void*, const void*, unsigned int);
 
-void* __cdecl operator new[](unsigned int);
+void* __cdecl operator new[](std::size_t);
 
 template <class T> struct ValueBase : FUN_00b39460
 {
@@ -4223,7 +4224,7 @@ void Target::FUN_00b2af80(float elapsed)
 namespace fnv_00b2c890 {
 #include <string.h>
 
-void* operator new(unsigned int);
+void* operator new(std::size_t);
 namespace std {
 class exception
 {

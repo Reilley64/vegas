@@ -594,7 +594,7 @@ struct SpawnedMgr
 struct SpawnedObject
 {
     SpawnedObject();
-    void* operator new(unsigned int sz)
+    void* operator new(std::size_t sz)
     {
         return FUN_00aa13e0(sz);
     }
@@ -1488,7 +1488,7 @@ bool ShaderPassBuilder::InitPasses()
 struct NiD3DShaderConstantMap : NiRefObject
 {
     NiD3DShaderConstantMap(void*, int);
-    void* operator new(unsigned int size)
+    void* operator new(std::size_t size)
     {
         return FUN_00aa13e0(size);
     }
@@ -1616,7 +1616,7 @@ struct Pool_b899a0
 {
     void FUN_00aa3e90(void* p);
 };
-inline void* operator new[](unsigned int size, Pool_b899a0& pool)
+inline void* operator new[](std::size_t size, Pool_b899a0& pool)
 {
     return reinterpret_cast<::MemoryManagerStandIn *>(&(pool))->FUN_00aa3e40(size);
 }
@@ -1655,7 +1655,7 @@ struct Shape_b899a0 : NiRefObject
 {
     Shape_b899a0(unsigned short a1, Pt3_b899a0* points, void* a3, Col_b899a0* colors, void* a5, unsigned short a6,
                  unsigned int a7, unsigned short a8, unsigned short* indices);
-    void* operator new(unsigned int size)
+    void* operator new(std::size_t size)
     {
         return FUN_00aa13e0(size);
     }

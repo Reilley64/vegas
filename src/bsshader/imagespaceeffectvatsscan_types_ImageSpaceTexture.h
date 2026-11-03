@@ -1,6 +1,7 @@
 // Names of nested/template specializations use the canonical generator identifier mapping.
 #ifndef FNV_IMAGESPACETEXTURE_H
 #define FNV_IMAGESPACETEXTURE_H
+#include <cstddef>
 
 #include "fnv/decl/Holder00ba37f0.h"
 #include "fnv/decl/MemoryManagerStandIn.h"
@@ -43,7 +44,7 @@ class ImageSpaceTexture
     NiPointer<NiObject> pTexture;                          // +0x4, 4 bytes
     NiTexturingProperty__FilterMode m_eTextureFilterMode;  // +0x8, 4 bytes
     NiTexturingProperty__ClampMode m_eClampMode;           // +0xC, 4 bytes
-    static void* operator new(unsigned int size)
+    static void* operator new(std::size_t size)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(size);
     }

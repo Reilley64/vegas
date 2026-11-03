@@ -1,3 +1,4 @@
+#include <cstddef>
 
 // src/bsshader/tileshaderproperty.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/bsshader/tileshaderproperty.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
@@ -15,6 +16,7 @@
 #include "fnv/symbols_00ba8000.h"
 #include "fnv/symbols_011f6000.h"
 #include "fnv/symbols_01200000.h"
+#include "fnv/symbols_0106e000.h"
 void* __cdecl FUN_00bb7d60()
 {
     return &(*reinterpret_cast<void * *>(&::g_012007d8));
@@ -188,7 +190,7 @@ void FnvTileShaderProperty::CopyTileShaderProperty(FnvTileShaderProperty* dst, i
 
 struct NiMemObjectAllocation
 {
-    static void* operator new(unsigned int);
+    static void* operator new(std::size_t);
     static void operator delete(void*);
 };
 struct TilePropertyClone : NiMemObjectAllocation, FnvTileShaderProperty
@@ -891,4 +893,12 @@ class FUN_00bb7d70 : public ShaderBase_bb7d
 FUN_00bb7d70::~FUN_00bb7d70()
 {
     m_spTexture0 = 0;
+}
+
+void* __cdecl FUN_00bb7d60();
+
+// @fnv 0x00706e80
+float FUN_00706e80()
+{
+    return ::DAT_0106ec38;
 }

@@ -1,3 +1,4 @@
+#include <cstddef>
 // bsshader/imagespaceshaderhdr_h_unit.cpp: Derived, StandIn, Candidate, Target and more (26 functions)
 
 #include "fnv/decl/FUN_00a41520_cls.h"
@@ -503,7 +504,7 @@ Derived::Derived()
 
 struct NiMemObject
 {
-    static void operator delete(void* p, unsigned int size);
+    static void operator delete(void* p, std::size_t size);
 };
 struct FUN_00b90ca0_BaseA : NiMemObject
 {
@@ -846,13 +847,13 @@ class FUN_00b91160 : public B91160Primary, public B91160Secondary
     virtual ~FUN_00b91160()
     {}
 
-    static void* operator new(unsigned int, void* p)
+    static void* operator new(std::size_t, void* p)
     {
         return p;
     }
     static void operator delete(void*, void*)
     {}
-    static void operator delete(void* pvMem, unsigned int uiSize)
+    static void operator delete(void* pvMem, std::size_t uiSize)
     {
         ::FUN_00aa1460(pvMem, uiSize);
     }

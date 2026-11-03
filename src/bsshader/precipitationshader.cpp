@@ -1,3 +1,4 @@
+#include <cstddef>
 
 // src/bsshader/precipitationshader.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/bsshader/precipitationshader.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
@@ -53,7 +54,7 @@ void FUN_00bb0d30_shell::FUN_00bb0d30(int value)
 }
 
 void* __cdecl FUN_00bb0550();
-extern "C" void __cdecl operator delete(void*, unsigned int);
+extern "C" void __cdecl operator delete(void*, std::size_t);
 struct FUN_00bb0a50_shell
 {
     void* DestroyIfFlagged(int flags);
@@ -233,7 +234,7 @@ struct SpawnedBase
 struct SpawnedObject : SpawnedBase
 {
     SpawnedObject();
-    static void* operator new(unsigned int size);
+    static void* operator new(std::size_t size);
     unsigned int unk04;
     unsigned int unk08;
     unsigned int unk0C;
@@ -431,7 +432,7 @@ struct ConstantMap
     int unk08[0x44 / 4 - 2];
 
     ConstantMap(void* pkRenderer, int iType);
-    static void* operator new(unsigned int uiSize)
+    static void* operator new(std::size_t uiSize)
     {
         return FUN_00aa13e0(uiSize);
     }

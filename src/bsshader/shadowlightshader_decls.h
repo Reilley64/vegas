@@ -1,6 +1,7 @@
 // bsshader/shadowlightshader_decls.h: declares NiD3DShaderConstantMap, ShadowLightShader
 #ifndef SHADOWLIGHTSHADER_DECLS_H
 #define SHADOWLIGHTSHADER_DECLS_H
+#include <cstddef>
 
 #include "fnv/symbols_01011000.h"
 #include "fnv/symbols_010a1000.h"
@@ -64,7 +65,7 @@ template <> class NiPointer<NiShaderConstantMapEntry>
 class NiD3DShaderConstantMap : public NiRefObject
 {
   public:
-    static void* operator new(unsigned int size);
+    static void* operator new(std::size_t size);
     NiD3DShaderConstantMap(GraphicsRenderer* renderer, unsigned int type);
     unsigned char layoutPadding8[60];
     virtual unsigned int AddEntry(const char*, unsigned int, unsigned int, unsigned int, unsigned int, const char*,

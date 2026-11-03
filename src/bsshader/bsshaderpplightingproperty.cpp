@@ -1,3 +1,4 @@
+#include <cstddef>
 // bsshader/bsshaderpplightingproperty.cpp: BSShaderPPLightingProperty, CopyProperty, Target, OwnerX and more (34 functions)
 
 #include <windows.h>
@@ -68,13 +69,13 @@ int FUN_00b67260(char* pThis, int, int idx1, int idx2)
 
 struct BSFadeNode
 {
-    static void* operator new(unsigned int);
+    static void* operator new(std::size_t);
 };
 struct NewObj
 {
     char pad[0x104];
     NewObj();
-    static void* operator new(unsigned int n)
+    static void* operator new(std::size_t n)
     {
         return BSFadeNode::operator new(n);
     }
@@ -901,7 +902,7 @@ void S_00b68ed0_Obj::ReadFromStream(S_00b68ed0_Stream* apStream)
 struct CopyAllocator
 {
 };
-inline void* operator new[](unsigned int size)
+inline void* operator new[](std::size_t size)
 {
     return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::CopyAllocator *>(&::g_memoryManager))))->FUN_00aa3e40(size);
 }
@@ -1391,7 +1392,7 @@ struct PropObj
 };
 struct NiMemObject
 {
-    static void* operator new(unsigned int);
+    static void* operator new(std::size_t);
 };
 struct FUN_00bb4540 : NiMemObject
 {
@@ -1524,7 +1525,7 @@ NewObj* __cdecl CreateNewObj()
 class BSFaceGenMorphData
 {
   public:
-    static void* operator new(unsigned int auiSize);
+    static void* operator new(std::size_t auiSize);
     static void operator delete(void* apMem);
 };
 
@@ -2156,7 +2157,7 @@ template <class T> class NiPointer
         }
         return *this;
     }
-    static void* operator new[](unsigned int size)
+    static void* operator new[](std::size_t size)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::MemoryManagerAllocHelper *>(&::g_memoryManager))))->FUN_00aa3e40(size);
     }
@@ -2317,7 +2318,7 @@ struct NiPtrX
         }
         return *this;
     }
-    static void* operator new[](unsigned int s)
+    static void* operator new[](std::size_t s)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::Pool *>(&::g_memoryManager))))->FUN_00aa3e40(s);
     }

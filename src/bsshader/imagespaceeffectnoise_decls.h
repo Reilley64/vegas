@@ -1,3 +1,4 @@
+#include <cstddef>
 // bsshader/imagespaceeffectnoise_decls.h: declares MemoryManager, ImageSpaceShaderParam, ImageSpaceManager, Effects
 
 #include "fnv/decl/FNV_MemoryManager.h"
@@ -20,7 +21,7 @@ class ImageSpaceShaderParam : public ImageSpaceEffectParam
   public:
     ImageSpaceShaderParam();
     void AllocateShaderConstants(int, int);
-    static void* operator new(unsigned int n)
+    static void* operator new(std::size_t n)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(n);
     }

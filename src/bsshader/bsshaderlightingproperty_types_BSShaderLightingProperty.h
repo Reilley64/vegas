@@ -1,6 +1,7 @@
 // Names of nested/template specializations use the canonical generator identifier mapping.
 #ifndef FNV_BSSHADERLIGHTINGPROPERTY_H
 #define FNV_BSSHADERLIGHTINGPROPERTY_H
+#include <cstddef>
 
 #include "fnv/decl/FUN_0043a010_shell.h"
 #include "layout_support.h"
@@ -9,7 +10,7 @@
 class NiMemObjectAllocation
 {
   public:
-    static void* operator new(unsigned int);
+    static void* operator new(std::size_t);
     static void operator delete(void*);
 };
 class ShadowSceneLight;

@@ -1,5 +1,6 @@
 #ifndef VOLUMETRICFOGSHADER_DECLS_H
 #define VOLUMETRICFOGSHADER_DECLS_H
+#include <cstddef>
 
 
 #include <windows.h>
@@ -12,7 +13,7 @@
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int size);
+    static void* operator new(std::size_t size);
     static void operator delete(void* pointer);
 };
 

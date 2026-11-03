@@ -1,3 +1,4 @@
+#include <cstddef>
 // bsshader/shadowscenelight.cpp: ShadowSceneLight, RemovalList, NiRefObject, LightView and more (22 functions)
 
 #include <cmath>
@@ -394,7 +395,7 @@ struct NiGlobalStringTable
 };
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
+    static void* __cdecl operator new(std::size_t);
     static void __cdecl operator delete(void*);
     unsigned char pad[0xc4];
 };
@@ -1490,6 +1491,9 @@ RefPtr_b9fcc0 RemovalList::FUN_00b9efa0(void*& position)
 
 extern "C" void _ReadWriteBarrier(void);
 #include <string.h>
+#include "fnv/decl/FUN_00c4a070.h"
+#include "fnv/decl/FUN_00c4a1e0.h"
+#include "fnv/decl/ShadowSceneLight_b9f480.h"
 namespace fnv_00b9dfc0 {
 // Views extend the pack's intentionally abbreviated object declarations.
 struct ShadowVector : NiPoint3
@@ -1563,7 +1567,7 @@ struct ShadowObject : NiAVObject
 };
 struct NiMemObjectAllocation
 {
-    static void* operator new(unsigned int);
+    static void* operator new(std::size_t);
     static void operator delete(void*);
 };
 struct ShadowLight : ShadowObject
@@ -3604,4 +3608,64 @@ cullDone:
     m_fShadowParameter5 = shadow;
 }
 
+extern "C" void* __cdecl fnv_zlib_memset(void*, int, unsigned int);
+
+extern "C" const NiPoint3 NiPoint3_ZERO;
+
+extern const float runtimeFloatSettingDefault100;
+
+class FUN_00c49fe0
+{
+  public:
+    FUN_00c49fe0();
+    ~FUN_00c49fe0();
+    void* m_p0;
+    int m_iWordAt04;
+    int m_8;
+    int m_iThirdValue;
+};
+
+class FUN_00c4a1b0
+{
+  public:
+    FUN_00c4a1b0();
+    ~FUN_00c4a1b0();
+    void* m_p0;
+    int m_iWordAt04;
+    int m_8;
+    int m_iThirdValue;
+};
+
+class FUN_00c47660
+{
+  public:
+    FUN_00c47660();
+    bool m_b0;
+    FUN_00c49fe0 m_kList4;
+    FUN_00c4a1b0 m_kList14;
+    int m_24;
+    int m_28;
+    int m_2c;
+    NiFrustumPlanes m_kFrustumPlanes;
+    NiPoint3 m_kPoint;
+    bool m_bA0;
+};
+
+// @fnv 0x00c47660
+FUN_00c47660::FUN_00c47660()
+{
+    NiPoint3 kA;
+    NiPoint3 kB;
+    NiPoint3 kC;
+    m_24 = 0;
+    m_28 = 0;
+    m_kPoint = NiPoint3::ZERO;
+    reinterpret_cast<::FUN_00c4a070 *>(&(m_kList4))->SetSize(4, 1);
+    reinterpret_cast<::FUN_00c4a1e0 *>(&(m_kList14))->SetSize(10, 1);
+    m_b0 = false;
+    m_2c = 0;
+    m_bA0 = false;
+}
+
 #include "generated/data/bsshader/shadowscenelight.inc"
+#include "generated/data/bsshader/shadowscenelight_od_variant_ob1_variant.inc"

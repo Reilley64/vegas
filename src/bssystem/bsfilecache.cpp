@@ -289,4 +289,59 @@ void FUN_00b010d0_cls::FUN_00b010d0()
     }
 }
 
+inline bool IsCacheFinished(BSFileCache* m_pAabbCache)
+{
+    return m_pAabbCache->m_eCacheState == FILE_CACHING_FINISHED;
+}
+
+inline bool IsCachePaused(BSFileCache* m_pAabbCache)
+{
+    return m_pAabbCache->m_eCacheState == FILE_CACHING_PAUSED ||
+           m_pAabbCache->m_eCacheState == FILE_CACHING_FORCE_PAUSED;
+}
+
+struct Cls00b01220
+{
+    unsigned char unk00;
+    Cls00b01220* FUN_00b01220(int unused);
+};
+
+// @fnv 0x00b01220
+Cls00b01220* Cls00b01220::FUN_00b01220(int unused)
+{
+    BSFileCache* pCache1 = ((::BSFileCache *)&(::BSFileCache::GetRandomGenerator()));
+    if (!IsCacheFinished(pCache1))
+    {
+        BSFileCache* pCache2 = ((::BSFileCache *)&(::BSFileCache::GetRandomGenerator()));
+        this->unk00 = IsCachePaused(pCache2);
+
+        BSFileCache* pCache3 = ((::BSFileCache *)&(::BSFileCache::GetRandomGenerator()));
+        if (pCache3->m_eCacheState == FILE_CACHING_IN_PROGRESS)
+        {
+            pCache3->m_eCacheState = FILE_CACHING_PAUSED;
+        }
+    }
+
+    return this;
+}
+
+class FUN_00b012a0_cls
+{
+  public:
+    unsigned char m_00;
+    void FUN_00b012a0();
+};
+
+// @fnv 0x00b012a0
+void FUN_00b012a0_cls::FUN_00b012a0()
+{
+    BSFileCache* cache = ((::BSFileCache *)&(::BSFileCache::GetRandomGenerator()));
+    if (!IsCacheFinished(cache) && m_00 == 0)
+    {
+        BSFileCache* cache2 = ((::BSFileCache *)&(::BSFileCache::GetRandomGenerator()));
+        if (cache2->m_eCacheState == FILE_CACHING_PAUSED)
+            cache2->m_eCacheState = FILE_CACHING_IN_PROGRESS;
+    }
+}
+
 #include "generated/data/bssystem/bsfilecache.inc"

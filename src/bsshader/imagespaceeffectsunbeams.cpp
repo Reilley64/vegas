@@ -1,3 +1,4 @@
+#include <cstddef>
 
 // src/bsshader/imagespaceeffectsunbeams.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/bsshader/imagespaceeffectsunbeams.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
@@ -57,7 +58,7 @@ struct Node_cls
     int unk80;
     int unk84;
     Node_cls();
-    static void* operator new(unsigned int size) throw()
+    static void* operator new(std::size_t size) throw()
     {
         return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::MemMgr_cls *>(&::g_memoryManager))))->FUN_00aa3e40(size);
     }

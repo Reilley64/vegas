@@ -1,6 +1,7 @@
 // bsshader/imagespaceeffectbloom_decls.h: declares MemoryManager, RgbaColor, ImageSpaceShaderParam, RenderStateMap, ImageSpaceManager
 #ifndef FNV_IMAGESPACEEFFECTBLOOM_DECLS_H
 #define FNV_IMAGESPACEEFFECTBLOOM_DECLS_H
+#include <cstddef>
 
 
 // the allocation entry points use the canonical MemoryManager signatures.
@@ -86,7 +87,7 @@ class ImageSpaceShaderParam : public ImageSpaceEffectParam
     ImageSpaceShaderParam();
     void AllocateShaderConstants(int vertexCount, int pixelCount);
     void SetShaderConstantVector4(int index, float x, float y, float z, float w);
-    static void* operator new(unsigned int size) throw()
+    static void* operator new(std::size_t size) throw()
     {
         return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(size);
     }

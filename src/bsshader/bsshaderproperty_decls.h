@@ -1,6 +1,7 @@
 // bsshader/bsshaderproperty_decls.h: declares BSShaderPropertyLightSlot, BSShaderProperty
 #ifndef FNV_BSSHADERPROPERTY_DECLS_H
 #define FNV_BSSHADERPROPERTY_DECLS_H
+#include <cstddef>
 
 #include "fnv/decl/FUN_00a41520_cls.h"
 #include "fnv/decl/MemoryManagerStandIn.h"
@@ -16,7 +17,7 @@ class ShadowSceneLight;
 struct BSShaderPropertyLightSlot
 {
     ShadowSceneLight* light;
-    static void* operator new[](unsigned int size)
+    static void* operator new[](std::size_t size)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(size);
     }
@@ -56,7 +57,7 @@ class BSShaderProperty::ShaderPassEntry
     {
         m_pShaderGeometry = value;
     }
-    static void* operator new(unsigned int size)
+    static void* operator new(std::size_t size)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(size);
     }

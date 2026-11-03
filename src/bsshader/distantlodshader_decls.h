@@ -1,6 +1,7 @@
 // bsshader/distantlodshader_decls.h: declares NiMemObject, NiRefObject, NiD3DShaderConstantMap, DistantLODShader, NiD3DShader
 #ifndef DISTANTLODSHADER_DECLS_H
 #define DISTANTLODSHADER_DECLS_H
+#include <cstddef>
 
 #include <windows.h>
 #include "fnv/symbols_011fa000.h"
@@ -8,7 +9,7 @@
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int size);
+    static void* operator new(std::size_t size);
 };
 
 class NiRefObject : public NiMemObject

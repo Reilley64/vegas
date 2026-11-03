@@ -1,3 +1,4 @@
+#include <cstddef>
 // bsshader/bsshaderutil.cpp: BSShaderRenderUtility (7 functions)
 
 #include <cstring>
@@ -238,6 +239,8 @@ void __cdecl FUN_00b6bfc0(void* pkCamera, PointerList6b& kList, Accumulator6b* p
 
 namespace fnv_00b6bbd0 {
 #include <d3d9.h>
+#include "fnv/symbols_01272000.h"
+#include "bsshaderutil_decls_decl_bsshaderutil.h"
 
 
 class NiPixelFormat
@@ -264,7 +267,7 @@ class NiPixelFormat
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int);
+    static void* operator new(std::size_t);
     static void operator delete(void*);
 };
 class NiPixelData : public NiRefObject, public NiMemObject
@@ -506,4 +509,37 @@ NiTexture* FUN_00b6bbd0(NiTexture* texture, const NiPixelFormat* pixelFormat)
 }
 }  // namespace fnv_00b6bbd0
 
+struct AccumulatorContext
+{
+    int unk00, unk04;
+    NiRefObject* object;
+};
+
+struct NiNodeHolder
+{
+    NiRefObject* value;
+    NiNodeHolder(NiRefObject* p) : value(p)
+    {
+        if (value)
+            value->IncRefCount();
+    }
+    ~NiNodeHolder();
+};
+
+// @fnv 0x00b6bee0
+void FUN_00b6bee0(void* first, void* second, BSShaderAccumulator* accumulator)
+{
+    if ((*reinterpret_cast<::AccumulatorContext * *>(&::NiRenderer::ms_pRenderer)) && first && second)
+    {
+        if (!DAT_012722bc)
+        {
+            NiNodeHolder guard((*reinterpret_cast<::AccumulatorContext * *>(&::NiRenderer::ms_pRenderer))->object);
+            reinterpret_cast<::FUN_004dc540_shell *>(((*reinterpret_cast<::AccumulatorContext * *>(&::NiRenderer::ms_pRenderer))))->FUN_004dc540((::NiAVObject *)(::NiRefObject *)(accumulator->texture));
+        }
+        ::FUN_00b54ac0((::NiTexture *)(::NiRefObject *)(accumulator->texture));
+        accumulator->vfn_48(first, second, 0);
+    }
+}
+
 #include "generated/data/bsshader/bsshaderutil.inc"
+#include "generated/data/bsshader/bsshaderutil_decl_variant.inc"

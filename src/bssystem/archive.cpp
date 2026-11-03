@@ -1,3 +1,4 @@
+#include <cstddef>
 // bssystem/archive.cpp: S_af9, NP_afc, ArchiveStand, CompressedArchiveFile and more (114 functions)
 
 #include <windows.h>
@@ -2295,7 +2296,7 @@ struct ArchiveStand;
 struct FUN_00afb300 : public ArchiveFile
 {
     FUN_00afb300(const char*, ArchiveStand*, unsigned int, unsigned int, int);
-    static void* operator new(unsigned int uiSize)
+    static void* operator new(std::size_t uiSize)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00afa550::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize);
     }
@@ -2304,7 +2305,7 @@ struct FUN_00afb300 : public ArchiveFile
 struct FUN_00afc430 : public CompressedArchiveFile
 {
     FUN_00afc430(const char*, ArchiveStand*, unsigned int, unsigned int, int);
-    static void* operator new(unsigned int uiSize)
+    static void* operator new(std::size_t uiSize)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00afa550::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize);
     }
@@ -2371,7 +2372,7 @@ struct ArchiveStand;
 struct FUN_00afb300 : ArchiveFile
 {
     FUN_00afb300(unsigned int, ArchiveStand*, unsigned int, unsigned int, unsigned int);
-    __forceinline static void* operator new(unsigned int s)
+    __forceinline static void* operator new(std::size_t s)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00afa750::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(s);
     }
@@ -2379,7 +2380,7 @@ struct FUN_00afb300 : ArchiveFile
 struct FUN_00afc430 : CompressedArchiveFile
 {
     FUN_00afc430(unsigned int, ArchiveStand*, unsigned int, unsigned int, unsigned int);
-    __forceinline static void* operator new(unsigned int s)
+    __forceinline static void* operator new(std::size_t s)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00afa750::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(s);
     }
@@ -2806,7 +2807,7 @@ struct DeallocMM_00affd80
 };
 extern MemMgr_00affd80 _g_memoryManager;
 extern unsigned int DAT_011acff8;
-__forceinline void* operator new[](unsigned int auiSize)
+__forceinline void* operator new[](std::size_t auiSize)
 {
     return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::MemMgr_00affd80 *>(&::g_memoryManager))))->FUN_00aa3e40(auiSize);
 }
@@ -2876,7 +2877,7 @@ struct MemMgrStand
 extern MemMgrStand g_arcMemMgr;
 extern int DAT_011ace04;
 
-inline void* operator new[](unsigned int auiSize)
+inline void* operator new[](std::size_t auiSize)
 {
     return g_arcMemMgr.Allocate(auiSize);
 }
@@ -6362,7 +6363,7 @@ struct PluginFile
     int unk1c8;
     int unk1cc;
 
-    static void* operator new(unsigned int);
+    static void* operator new(std::size_t);
     static void operator delete(void*);
     PluginFile(const char*, unsigned int, int, bool);
     bool IsGood()
@@ -6407,7 +6408,7 @@ struct OpenNode
 {
     OpenPtr item;
     OpenNode* next;
-    static void* operator new(unsigned int size)
+    static void* operator new(std::size_t size)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>((((MemoryManagerAllocHelper*)&(*reinterpret_cast<::fnv_00af4be0::MemoryManagerAllocHelper *>(&::g_memoryManager)))))->FUN_00aa3e40(size);
     }
@@ -6694,7 +6695,7 @@ struct MemoryManager
     void* Allocate(unsigned int);
 };
 extern MemoryManager _g_memoryManager;
-inline void* __cdecl operator new[](unsigned int n)
+inline void* __cdecl operator new[](std::size_t n)
 {
     return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00af7060::MemoryManager *>(&::g_memoryManager))))->FUN_00aa3e40(n);
 }
@@ -6730,7 +6731,7 @@ struct HashKey
         return order;
     }
     HashKey(const char*, int);
-    void* operator new(unsigned int n)
+    void* operator new(std::size_t n)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00af7060::MemoryManager *>(&::g_memoryManager))))->FUN_00aa3e40(n);
     }
@@ -6748,7 +6749,7 @@ inline void AppendPath(char* dest, unsigned int size, const char* src)
 {
     fnv::crt::strcat_s(dest, size, src);
 }
-void* __cdecl operator new(unsigned int);
+void* __cdecl operator new(std::size_t);
 struct PathNode
 {
     const char* path;
@@ -6973,11 +6974,11 @@ struct MemoryManager
     void Deallocate(void*);
 };
 extern MemoryManager _g_memoryManager;
-inline void* __cdecl operator new[](unsigned int n)
+inline void* __cdecl operator new[](std::size_t n)
 {
     return _g_memoryManager.Allocate(n);
 }
-inline void* __cdecl operator new(unsigned int n)
+inline void* __cdecl operator new(std::size_t n)
 {
     return _g_memoryManager.Allocate(n);
 }
@@ -8479,7 +8480,7 @@ __if_not_exists(MemMgrStand)
 }
 extern MemMgrStand g_arcMemMgr;
 struct ArchiveArray;
-inline void* operator new(unsigned int, void* memory)
+inline void* operator new(std::size_t, void* memory)
 {
     return memory;
 }
@@ -8490,7 +8491,7 @@ struct FUN_00afd390
     unsigned int low;
     unsigned int high;
     FUN_00afd390(const char*, int);
-    inline void* operator new(unsigned int size)
+    inline void* operator new(std::size_t size)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::MemMgrStand *>(&::g_memoryManager))))->FUN_00aa3e40(size);
     }
@@ -8507,7 +8508,7 @@ struct FUN_00afcce0
     unsigned int count;
     unsigned int capacity;
     FUN_00afcce0();
-    inline void* operator new(unsigned int size)
+    inline void* operator new(std::size_t size)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::MemMgrStand *>(&::g_memoryManager))))->FUN_00aa3e40(size);
     }

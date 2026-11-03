@@ -1,6 +1,7 @@
 // bsshader/imagespaceeffectmenubg_decls.h: declares NiTexture, NiTexturingProperty, RgbaColor, NiD3DShaderConstantMap, ImageSpaceShaderParam and more
 #ifndef FNV_IMAGESPACEEFFECTMENUBG_DECLS_H
 #define FNV_IMAGESPACEEFFECTMENUBG_DECLS_H
+#include <cstddef>
 
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_00a41520_cls.h"
@@ -112,7 +113,7 @@ class ImageSpaceShaderParam : public ImageSpaceEffectParam
     ImageSpaceShaderParam();
     void AllocateShaderConstants(int vertexCount, int pixelCount);
     void SetShaderConstantVector4(int index, float x, float y, float z, float w);
-    static void* operator new(unsigned int size)
+    static void* operator new(std::size_t size)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(size);
     }
@@ -132,7 +133,7 @@ class ImageSpaceTexture
         : m_bTextureFlag1(false), m_bTextureFlag2(false), m_bTextureFlag3(false),
           m_eTextureFilterMode(NiTexturingProperty::FILTER_NEAREST), m_eClampMode(NiTexturingProperty::CLAMP_S_CLAMP_T)
     {}
-    static void* operator new(unsigned int size)
+    static void* operator new(std::size_t size)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(size);
     }

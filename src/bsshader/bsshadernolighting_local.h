@@ -3,6 +3,7 @@
 // layout-neutral SelectVertexDeclaration member declaration added to BSShaderNoLighting.
 #ifndef FNV_BSSHADERNOLIGHTING_LOCAL_H
 #define FNV_BSSHADERNOLIGHTING_LOCAL_H
+#include <cstddef>
 
 #include <cstring>
 #include "fnv/decl/FUN_00be1750_shell.h"
@@ -24,7 +25,7 @@
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int);
+    static void* operator new(std::size_t);
     static void operator delete(void*);
 };
 #endif

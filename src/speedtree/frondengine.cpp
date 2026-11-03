@@ -567,7 +567,7 @@ struct FUN_00ec78f1_t
     int m4;
     void* FUN_00ec78f1(int* out);
 };
-void* __cdecl operator new(unsigned int);
+void* __cdecl operator new(std::size_t);
 
 // Clamps n to 0 when not positive, reports an error if n exceeds the max element count, then allocates n*0x38 bytes.
 // @fnv 0x00b23980
@@ -909,7 +909,7 @@ bool Pool_00b1f920::FUN_00b1f920(unsigned int aiNodeCount)
     return true;
 }
 
-void* __cdecl operator new(unsigned int);
+void* __cdecl operator new(std::size_t);
 void __cdecl operator delete(void*);
 struct FUN_0044d6c0_class
 {

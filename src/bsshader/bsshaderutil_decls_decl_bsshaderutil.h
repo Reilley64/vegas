@@ -1,6 +1,7 @@
 // bsshader/bsshaderutil_decls_decl_bsshaderutil.h: declares FourComponentFloatVector, FadeState, FadeProperties, NiAVObject, NiNode and more
 #ifndef BSSHADERUTIL_DECLS_H
 #define BSSHADERUTIL_DECLS_H
+#include <cstddef>
 
 #include "fnv/decl/CameraState4E9.h"
 #include "fnv/decl/FNV_MemoryManager.h"
@@ -155,7 +156,7 @@ struct BSShaderUtilTextureName
     char* value;
     BSShaderUtilTextureName(const char* name) : value(NiGlobalStringTable::AddString(name))
     {}
-    static void* operator new(unsigned int size)
+    static void* operator new(std::size_t size)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(size);
     }

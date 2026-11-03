@@ -1,3 +1,4 @@
+#include <cstddef>
 
 // src/bsshader/imagespaceeffect.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/bsshader/imagespaceeffect.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
@@ -144,7 +145,7 @@ struct BBA3C00Range
 
 struct BBA3C00Entry
 {
-    static void* operator new(unsigned int uiSize)
+    static void* operator new(std::size_t uiSize)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::BBA3C00Heap *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize);
     }

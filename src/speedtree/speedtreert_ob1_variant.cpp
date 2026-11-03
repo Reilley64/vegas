@@ -1165,11 +1165,11 @@ struct MemoryManagerAllocHelper
     void Deallocate(void* p);
 };
 extern MemoryManagerAllocHelper DAT_011f6238;
-inline void* operator new(unsigned int n)
+inline void* operator new(std::size_t n)
 {
     return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::MemoryManagerAllocHelper *>(&::g_memoryManager))))->FUN_00aa3e40(n);
 }
-inline void* operator new[](unsigned int n)
+inline void* operator new[](std::size_t n)
 {
     return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::MemoryManagerAllocHelper *>(&::g_memoryManager))))->FUN_00aa3e40(n);
 }
@@ -1825,7 +1825,7 @@ struct MemoryManagerB05210
 };
 struct SpeedTreeRTB05210
 {
-    static void* operator new(unsigned int uiSize)
+    static void* operator new(std::size_t uiSize)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00b05210::MemoryManagerB05210 *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize);
     }
@@ -2024,7 +2024,7 @@ struct TreeHeapQ
     void FUN_00aa4060(void*);
 };
 extern TreeHeapQ DAT_011f6238;
-inline void* operator new[](unsigned n)
+inline void* operator new[](std::size_t n)
 {
     return DAT_011f6238.FUN_00aa3e40(n);
 }
@@ -4955,7 +4955,7 @@ class MemoryManagerB07
 };
 extern MemoryManagerB07 g_kMemoryManagerB07;
 
-inline void* operator new[](unsigned int uiSize)
+inline void* operator new[](std::size_t uiSize)
 {
     return g_kMemoryManagerB07.Allocate(uiSize);
 }
@@ -6291,7 +6291,7 @@ void S00b092a0_cls::FUN_00b092a0(S00b092a0_Reader* r)
 unsigned int __cdecl _strlen(const char* s);
 int __cdecl memcpy_s(void*, unsigned int, const void*, unsigned int);
 int __cdecl memmove_s(void*, unsigned int, const void*, unsigned int);
-void* __cdecl operator new(unsigned int);
+void* __cdecl operator new(std::size_t);
 void __cdecl operator delete(void*);
 struct SpdCharTraits
 {
@@ -6699,7 +6699,7 @@ void SpdWindReader::FUN_00b097e0(SpdParser* pParser)
 
 extern "C" int __cdecl memcpy_s(void* pvDst, unsigned int uiDstSize, const void* pvSrc, unsigned int ItemUpdateArray);
 extern "C" int __cdecl memmove_s(void* pvDst, unsigned int uiDstSize, const void* pvSrc, unsigned int ItemUpdateArray);
-void* __cdecl operator new(unsigned int uiSize);
+void* __cdecl operator new(std::size_t uiSize);
 namespace std {
 class bad_alloc
 {
@@ -6988,7 +6988,7 @@ namespace fnv_00b09f90 {
 extern "C" unsigned int __cdecl strlen(const char* pcString);
 extern "C" int __cdecl memcpy_s(void* pvDst, unsigned int uiDstSize, const void* pvSrc, unsigned int ItemUpdateArray);
 extern "C" int __cdecl memmove_s(void* pvDst, unsigned int uiDstSize, const void* pvSrc, unsigned int ItemUpdateArray);
-void* __cdecl operator new(unsigned int uiSize);
+void* __cdecl operator new(std::size_t uiSize);
 void __cdecl FUN_00ec7c56();
 namespace std {
 class bad_alloc
@@ -9628,7 +9628,7 @@ struct Pool
     void* FUN_00aa3e40(unsigned n);
 };
 extern Pool DAT_011f6238;
-inline void* __cdecl operator new[](unsigned n)
+inline void* __cdecl operator new[](std::size_t n)
 {
     return DAT_011f6238.FUN_00aa3e40(n);
 }
@@ -9676,7 +9676,7 @@ class Track_b0cd
 {
   public:
     Track_b0cd();
-    static void* operator new(unsigned int uiSize)
+    static void* operator new(std::size_t uiSize)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::Pool_b0cd *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize);
     }
@@ -10644,7 +10644,7 @@ ElemEBB0& FUN_00b0ebb0_Iterator::FUN_00b0ebb0() const
 }
 }  // namespace fnv_00b0ebb0
 
-inline void* operator new(unsigned int, void* p)
+inline void* operator new(std::size_t, void* p)
 {
     return p;
 }
@@ -12113,7 +12113,7 @@ struct FUN_00b0dfb0
         Init();
     }
     void Init();
-    static void* operator new(unsigned n)
+    static void* operator new(std::size_t n)
     {
         int aiA[41];
         aiA[0] = 0;
@@ -14496,7 +14496,7 @@ struct InnerQ
 struct FUN_00b036d0;
 struct WrapQ
 {
-    static void* operator new(unsigned int n, MemoryManagerAllocHelper& h)
+    static void* operator new(std::size_t n, MemoryManagerAllocHelper& h)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>(&(h))->FUN_00aa3e40(n);
     }
@@ -14752,7 +14752,7 @@ class MemoryManagerD04
 };
 extern MemoryManagerD04 g_kMemoryManagerD04;
 
-inline void* operator new[](unsigned int uiSize)
+inline void* operator new[](std::size_t uiSize)
 {
     return g_kMemoryManagerD04.Allocate(uiSize);
 }

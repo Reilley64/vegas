@@ -1,6 +1,7 @@
 // bsshader/imagespacemanager_decls.h: declares NiUpdateData, ImageSpaceManagerNameString, NiAVObject, NiScreenElements, ImageSpaceManagerScreenGeometry
 #ifndef FNV_IMAGESPACEMANAGER_DECLS_H
 #define FNV_IMAGESPACEMANAGER_DECLS_H
+#include <cstddef>
 
 #include <windows.h>
 #include "NiFixedString.h"
@@ -59,7 +60,7 @@ class ImageSpaceManagerScreenGeometry
     unsigned char padding[0xb8];
     NiScreenElementsData* m_spGeometryData;
     unsigned char tail_padding[8];
-    static void* __cdecl operator new(unsigned int size) throw();
+    static void* __cdecl operator new(std::size_t size) throw();
     ImageSpaceManagerScreenGeometry(NiScreenElementsData* data)
     {
         FUN_00a87810(data);

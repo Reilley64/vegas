@@ -4,6 +4,7 @@
 // inlined from worker header tilerect_decls.h
 #ifndef FNV_TILERECT_H
 #define FNV_TILERECT_H
+#include <cstddef>
 
 #include <windows.h>
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -41,7 +42,7 @@ template <> class NiPointer<NiAVObject>
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int);
+    static void* operator new(std::size_t);
     void IncRefCount();
     void DecRefCount();
 };

@@ -1,3 +1,4 @@
+#include <cstddef>
 
 // src/bsshader/imagespaceshadermenuunpack.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/bsshader/imagespaceshadermenuunpack.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
@@ -23,7 +24,7 @@ struct NiRefObject
     volatile long refCount;
     NiRefObject() : refCount(0)
     {}
-    static void* operator new(unsigned int size);
+    static void* operator new(std::size_t size);
     void IncRefCount()
     {
         InterlockedIncrement(&refCount);
@@ -109,7 +110,7 @@ struct ImageSpaceTexture
 
 struct NiScreenElementsData
 {
-    static void* operator new(unsigned int size);
+    static void* operator new(std::size_t size);
     int unk00;
     int unk04;
     int unk08;

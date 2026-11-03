@@ -1,3 +1,4 @@
+#include <cstddef>
 // bsshader/imagespaceeffectgethit.cpp: Standin (4 functions)
 
 #include "fnv/decl/AA4610Allocator.h"
@@ -78,7 +79,7 @@ struct ImageSpaceParamArrayX
 struct ImageSpaceShaderParamX : ImageSpaceShaderParam
 {
     ImageSpaceShaderParamX();
-    static void* operator new(unsigned int size)
+    static void* operator new(std::size_t size)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(size);
     }

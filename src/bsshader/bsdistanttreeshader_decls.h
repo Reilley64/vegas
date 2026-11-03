@@ -1,5 +1,6 @@
 #ifndef BSDISTANTTREESHADER_DECLS_H
 #define BSDISTANTTREESHADER_DECLS_H
+#include <cstddef>
 
 
 #include "fnv/decl/E7DEF0TextureStage.h"
@@ -22,7 +23,7 @@ extern "C" void* fnv_zlib_memset(void*, int, unsigned long);
 class NiMemObjectAllocation
 {
   public:
-    static void* operator new(unsigned int size);
+    static void* operator new(std::size_t size);
 };
 
 class NiD3DShaderConstantMapCalls

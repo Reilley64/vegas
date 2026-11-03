@@ -1,3 +1,4 @@
+#include <cstddef>
 // src/bsmenu/tile_ob1_variant_helpers_variant.cpp - helper variant unit created 2026-11-01 by helper_variants.py: the reworked code of these functions uses the
 // approved helpers of fnv_asm_helpers.h, which src/bsmenu/tile_ob1_variant.cpp cannot include without changing its accepted functions.
 // Same flags (/MT /Od /Oy- /GS /EHsc /Gy /Ob1); declarations copied from that unit's skeleton.
@@ -660,14 +661,14 @@ public:
         }
         m_pOwnerObject = apOwner;
     }
-    static void* operator new(unsigned int auiSize) { return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::MM *>(&::g_memoryManager))))->FUN_00aa3e40(auiSize); }
+    static void* operator new(std::size_t auiSize) { return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::MM *>(&::g_memoryManager))))->FUN_00aa3e40(auiSize); }
 };
 struct TemplateList_00a0ae70 {
     TileTemplate_00a0ae70* m_item;
     TemplateList_00a0ae70* m_pkNext;
 
     TemplateList_00a0ae70(TileTemplate_00a0ae70* apItem) : m_item(apItem), m_pkNext(0) {}
-    static void* operator new(unsigned int auiSize) { return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::MM *>(&::g_memoryManager))))->FUN_00aa3e40(auiSize); }
+    static void* operator new(std::size_t auiSize) { return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::MM *>(&::g_memoryManager))))->FUN_00aa3e40(auiSize); }
 
     void AddTail(TileTemplate_00a0ae70** apItem) {
         if (*apItem == 0) return;
@@ -792,7 +793,7 @@ struct TileTemplateNew_ac80 {
         m_kName = apName;
         m_pkOwnerManager = apOwner;
     }
-    static void* operator new(unsigned int auiSize) { return reinterpret_cast<::MemoryManagerStandIn *>((((TilePool_ac80*)&(*reinterpret_cast<::FUN_00a0d220_pool *>(&::g_memoryManager)))))->FUN_00aa3e40(auiSize); }
+    static void* operator new(std::size_t auiSize) { return reinterpret_cast<::MemoryManagerStandIn *>((((TilePool_ac80*)&(*reinterpret_cast<::FUN_00a0d220_pool *>(&::g_memoryManager)))))->FUN_00aa3e40(auiSize); }
     static void operator delete(void* apMem) { reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::FUN_00a0d220_pool *>(&::g_memoryManager))))->FUN_00aa4060(apMem); }
 };
 struct FUN_00a0ac80 {
@@ -917,7 +918,7 @@ struct TileWork {
  void FUN_00a0b520();
 };
 inline unsigned int BSStringCapacityMaximum(unsigned int a, unsigned int b) { return a > b ? a : b; }
-void* operator new(unsigned int size);
+void* operator new(std::size_t size);
 void operator delete(void* memory);
 struct ReuseString {
     char* pString;
@@ -977,7 +978,7 @@ struct ReuseNode {
         owner = c;
     }
 };
-inline void* operator new(unsigned int size) { return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::MM *>(&::g_memoryManager))))->FUN_00aa3e40(size); }
+inline void* operator new(std::size_t size) { return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::MM *>(&::g_memoryManager))))->FUN_00aa3e40(size); }
 void operator delete(void* memory);
 struct Sub_00a0c020 {
     int unk00;
@@ -1618,7 +1619,7 @@ struct S_00a04150_Class {
 
 #include <math.h>
 namespace fnv_00a09410 {
-void* __cdecl operator new(unsigned,void*);
+void* __cdecl operator new(std::size_t,void*);
 struct P03MM { void* Allocate(unsigned int); void Deallocate(void*); };
 __forceinline int GetMemoryContext() { return (*reinterpret_cast<int *>(&::currentAllocationContext)); }
 __forceinline void SetMemoryContext(int value) { (*reinterpret_cast<int *>(&::currentAllocationContext))=value; }
@@ -1803,7 +1804,7 @@ void EvalValue::FUN_00a09410(bool update) {
 struct Input02D40 { unsigned int m00; char* m04; };
 typedef unsigned short U16_02D40;
 extern char str_01094a64[], str_01094a4c[];
-__forceinline void* __cdecl operator new[](unsigned size) { return reinterpret_cast<::MemoryManagerStandIn *>((((TilePool_ac80*)&(*reinterpret_cast<::FUN_00a0d220_pool *>(&::g_memoryManager)))))->FUN_00aa3e40(size); }
+__forceinline void* __cdecl operator new[](std::size_t size) { return reinterpret_cast<::MemoryManagerStandIn *>((((TilePool_ac80*)&(*reinterpret_cast<::FUN_00a0d220_pool *>(&::g_memoryManager)))))->FUN_00aa3e40(size); }
 __forceinline void __cdecl operator delete[](void* data) { reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::FUN_00a0d220_pool *>(&::g_memoryManager))))->FUN_00aa4060(data); }
 __forceinline int RenderCopyData(char* dest, unsigned capacity, const char* source) { return fnv::crt::strcpy_s(dest, capacity, source); }
 __forceinline void CopyPrefix(char* dest, const char* source, const char* begin) {

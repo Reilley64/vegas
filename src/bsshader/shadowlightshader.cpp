@@ -1,3 +1,4 @@
+#include <cstddef>
 // bsshader/shadowlightshader.cpp: ShadowLightShader, ShaderS, ShaderAdapter, ObjectArray and more (59 functions)
 
 #include <windows.h>
@@ -515,7 +516,7 @@ struct GO
     void* p;
     GO();
     ~GO();
-    static void* operator new[](unsigned int n)
+    static void* operator new[](std::size_t n)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>(&(g_memoryManager))->FUN_00aa3e40(n);
     }
@@ -4081,7 +4082,7 @@ namespace fnv_00b7a380 {
 class BSFaceGenMorphData
 {
   public:
-    static void* operator new(unsigned int auiSize);
+    static void* operator new(std::size_t auiSize);
 };
 
 struct FUN_00e76700_desc

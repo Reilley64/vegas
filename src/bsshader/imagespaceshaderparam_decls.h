@@ -1,6 +1,7 @@
 // bsshader/imagespaceshaderparam_decls.h: declares ImageSpaceShaderParamFloat
 #ifndef IMAGESPACESHADERPARAM_DECLS_H
 #define IMAGESPACESHADERPARAM_DECLS_H
+#include <cstddef>
 
 #include <cstring>
 #include "fnv/decl/MemoryManagerStandIn.h"
@@ -34,7 +35,7 @@ template <> class NiPointer<NiD3DShaderConstantMap>
 struct ImageSpaceShaderParamFloat
 {
     float value;
-    static void* operator new[](unsigned int size)
+    static void* operator new[](std::size_t size)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(size);
     }

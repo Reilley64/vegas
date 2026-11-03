@@ -1,3 +1,4 @@
+#include <cstddef>
 // bsmenu/tiletext.cpp: TileText, FontManager, TextNode, TextTile (4 functions)
 
 #include <cstring>
@@ -539,7 +540,7 @@ struct NewTextNode
     int unkA8;
 
     NewTextNode(unsigned);
-    static void* operator new(unsigned);
+    static void* operator new(std::size_t);
     static void operator delete(void*);
 };
 
@@ -618,7 +619,7 @@ struct TileExtra
         NameString extraName("Tileptr");
         AssignFixedString(extraName);
     }
-    static void* operator new(unsigned);
+    static void* operator new(std::size_t);
     static void operator delete(void*);
 };
 

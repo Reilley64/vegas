@@ -1,6 +1,7 @@
 // bsmain/setting_declarations.h: declares INISettingCollection, INIPrefSettingCollection
 #ifndef FNV_SETTING_PRIVATE_DECLARATIONS_H
 #define FNV_SETTING_PRIVATE_DECLARATIONS_H
+#include <cstddef>
 
 
 #include "../../include/Setting.h"
@@ -80,7 +81,7 @@ template <class Collection> class SettingT : public Setting
 };
 
 // These are declarations only. The pack identifies the real global allocator.
-void* __cdecl operator new(unsigned int size);
+void* __cdecl operator new(std::size_t size);
 void __cdecl operator delete(void* pointer);
 
 

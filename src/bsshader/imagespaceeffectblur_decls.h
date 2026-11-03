@@ -1,6 +1,7 @@
 // bsshader/imagespaceeffectblur_decls.h: declares MemoryManager, ImageSpaceManager, NiTexturingProperty, ImageSpaceShaderParam
 #ifndef IMAGESPACEEFFECTBLUR_DECLS_H
 #define IMAGESPACEEFFECTBLUR_DECLS_H
+#include <cstddef>
 
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_00ba3b50_t.h"
@@ -71,7 +72,7 @@ class ImageSpaceShaderParam : public ImageSpaceEffectParam
     unsigned char unk56;
     char pad57[0x31];
     ImageSpaceShaderParam();
-    static __forceinline void* operator new(unsigned int n)
+    static __forceinline void* operator new(std::size_t n)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(n);
     }

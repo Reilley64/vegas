@@ -1,3 +1,4 @@
+#include <cstddef>
 
 // src/bsshader/speedtreefrondshader.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/bsshader/speedtreefrondshader.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
@@ -19,7 +20,7 @@
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
+    static void* __cdecl operator new(std::size_t);
 };
 struct NiRefObject_s
 {

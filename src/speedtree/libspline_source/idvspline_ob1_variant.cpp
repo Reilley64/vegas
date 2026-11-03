@@ -1,3 +1,4 @@
+#include <cstddef>
 
 // src/speedtree/libspline_source/idvspline_ob1_variant.cpp - flag-variant unit created 2026-10-25 by flag_proofs.py: contributor code for these functions matched byte for
 // byte only under /MT /Od /Oy- /GS /EHsc /Gy /GF /Ob1 (unit src/speedtree/libspline_source/idvspline.cpp lists /MT /Od /Oy- /GS /EHsc /Gy /GF). Declarations copied from that unit's skeleton; move the functions
@@ -623,7 +624,7 @@ struct FUN_00449fd0
 struct FUN_00b37660;
 struct FUN_00b377c0
 {
-    static void* operator new(unsigned int size)
+    static void* operator new(std::size_t size)
     {
         return FUN_00401000(size);
     }
@@ -3196,7 +3197,7 @@ ElemB5A0* __cdecl FUN_00b3b5a0(ElemB5A0* _First, ElemB5A0* _Last, ElemB5A0* _Des
 }
 }  // namespace fnv_00b3b5a0
 
-inline void* operator new(unsigned int, void* p)
+inline void* operator new(std::size_t, void* p)
 {
     return p;
 }
@@ -3620,7 +3621,7 @@ ElemMOVE* __cdecl FUN_00b3b6f0(ElemMOVE* _First, ElemMOVE* _Last, ElemMOVE* _Des
 }  // namespace fnv_00b3b6f0
 
 namespace fnv_00b3b880 {
-inline void* __cdecl operator new(unsigned int, void* where)
+inline void* __cdecl operator new(std::size_t, void* where)
 {
     return where;
 }

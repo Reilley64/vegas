@@ -2377,3 +2377,44 @@ int AA7D00Saver::FUN_00aa7d00(AA7D00Stream* pkStream, bool bFlag)
     }
     return iResult;
 }
+
+void FUN_00aa9d10(void* this_ptr);
+
+struct BlockHeader
+{
+    unsigned int size;
+    unsigned int flags;
+
+    static __forceinline const BlockHeader* FromMemory(const void* pointer)
+    {
+        return (const BlockHeader*)((const char*)pointer - sizeof(BlockHeader));
+    }
+
+    __forceinline bool IsFree() const
+    {
+        return (flags & 0x40000000u) != 0;
+    }
+
+    __forceinline bool GuardIntact() const
+    {
+        return true;
+    }
+};
+
+class HeapValidator
+{
+  public:
+    virtual void slot0();
+    virtual void slot1();
+    virtual void slot2();
+    virtual void slot3();
+    virtual bool Contains(const void* pointer);
+    bool FUN_00aa7b70(const void* pointer);
+};
+
+// @fnv 0x00aa7b70
+bool HeapValidator::FUN_00aa7b70(const void* pointer)
+{
+    const BlockHeader* header = BlockHeader::FromMemory(pointer);
+    return Contains(pointer) && !header->IsFree() && header->GuardIntact();
+}

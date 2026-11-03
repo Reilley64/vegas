@@ -1,3 +1,4 @@
+#include <cstddef>
 // bsshader/particleshader.cpp: ParticleShader, ShaderState (12 functions)
 
 #include <windows.h>
@@ -286,7 +287,7 @@ FUN_00ba5740::~FUN_00ba5740()
 namespace fnv_00ba69f0 {
 struct ConstantMap
 {
-    static void* operator new(unsigned int) throw();
+    static void* operator new(std::size_t) throw();
     static void operator delete(void*);
     ConstantMap(void*, int);
     virtual void ReportDiagnostic();
@@ -848,7 +849,7 @@ struct Q64_Pt2
 
 void* __cdecl FUN_00aa13e0(unsigned int size);
 
-inline void* operator new[](unsigned int n, Q64_Pool& p)
+inline void* operator new[](std::size_t n, Q64_Pool& p)
 {
     return reinterpret_cast<::MemoryManagerStandIn *>(&(p))->FUN_00aa3e40(n);
 }
@@ -868,7 +869,7 @@ inline Q64_Pt2* Q64_allocUv(unsigned short n)
 
 struct Q64_Obj
 {
-    static void* operator new(unsigned int n)
+    static void* operator new(std::size_t n)
     {
         return FUN_00aa13e0(n);
     }
@@ -1273,7 +1274,7 @@ struct FourFloatVector
 struct Particle
 {
     float x, y, z, w, a, b, c, d, e, f, g, h;
-    static void* operator new[](unsigned int size)
+    static void* operator new[](std::size_t size)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::ParticleMemoryManager *>(&::g_memoryManager))))->FUN_00aa3e40(size);
     }

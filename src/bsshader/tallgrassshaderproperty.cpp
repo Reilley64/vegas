@@ -1,3 +1,4 @@
+#include <cstddef>
 // bsshader/tallgrassshaderproperty.cpp: TallGrassShaderProperty, Holder, PointerMap (9 functions)
 
 #include <windows.h>
@@ -185,7 +186,7 @@ struct FUN_00b617f0
     unsigned int m_38;
     unsigned int m_3c;
     FUN_00b617f0();
-    static void* operator new(unsigned int s)
+    static void* operator new(std::size_t s)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>((((P03MM*)&::g_memoryManager)))->FUN_00aa3e40(s);
     }
@@ -280,7 +281,7 @@ struct FUN_00bd8f90
     {
         return m_usFirstValue - m_usSecondValue;
     }
-    static void* operator new(unsigned int s)
+    static void* operator new(std::size_t s)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>((((P03MM*)&::g_memoryManager)))->FUN_00aa3e40(s);
     }
@@ -350,7 +351,7 @@ unsigned short __cdecl GetOrCreateGrassGroup(IntegerDataBlock* apGrassParam, int
 
 struct BSFadeNode
 {
-    static void* operator new(unsigned int);
+    static void* operator new(std::size_t);
     static void operator delete(void*);
     BSFadeNode();
 };

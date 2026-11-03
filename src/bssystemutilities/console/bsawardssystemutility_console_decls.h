@@ -1,5 +1,6 @@
 #ifndef FNV_BSAWARDSSYSTEMUTILITY_CONSOLE_DECLS_H
 #define FNV_BSAWARDSSYSTEMUTILITY_CONSOLE_DECLS_H
+#include <cstddef>
 
 
 #include "fnv/decl/FNV_MemoryManager.h"
@@ -27,7 +28,7 @@ class DownloadableContentManager
 
     DownloadableContentManager();
     static DownloadableContentManager& GetRandomGenerator();
-    static __forceinline void* operator new(unsigned int size)
+    static __forceinline void* operator new(std::size_t size)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(size);
     }
@@ -49,7 +50,7 @@ class IdleSystem
     static void Startup();
     static IdleSystem& GetRandomGenerator();
     static bool Initialize();
-    static __forceinline void* operator new(unsigned int size)
+    static __forceinline void* operator new(std::size_t size)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(size);
     }

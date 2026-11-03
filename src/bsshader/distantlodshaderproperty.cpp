@@ -1,3 +1,4 @@
+#include <cstddef>
 
 // src/bsshader/distantlodshaderproperty.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/bsshader/distantlodshaderproperty.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
@@ -146,7 +147,7 @@ struct S_A
         reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::S_Pool *>(&::g_memoryManager))))->FUN_00aa4060(this);
     }
     void FUN_00b6f0b0();
-    static void* operator new(unsigned int n)
+    static void* operator new(std::size_t n)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::S_Pool *>(&::g_memoryManager))))->FUN_00aa3e40(n);
     }
@@ -359,7 +360,7 @@ struct S_B
         reinterpret_cast<::FUN_00b97690 *>(this)->FUN_00b97690::~FUN_00b97690();
         reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::S_Pool *>(&::g_memoryManager))))->FUN_00aa4060(this);
     }
-    static void* operator new(unsigned int n)
+    static void* operator new(std::size_t n)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::S_Pool *>(&::g_memoryManager))))->FUN_00aa3e40(n);
     }
@@ -757,7 +758,7 @@ struct MemoryManager
 {
 };
 
-inline void* operator new[](unsigned int n)
+inline void* operator new[](std::size_t n)
 {
     MemoryManager* manager = ((MemoryManager*)&(*reinterpret_cast<::S_Pool *>(&::g_memoryManager)));
     void* result = reinterpret_cast<::MemoryManagerStandIn *>((manager))->FUN_00aa3e40(n);
@@ -769,7 +770,7 @@ struct NiPoint3
     NiPoint3()
     {}
     float x, y, z;
-    static void* operator new[](unsigned int n)
+    static void* operator new[](std::size_t n)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>((((MemoryManager*)&(*reinterpret_cast<::S_Pool *>(&::g_memoryManager)))))->FUN_00aa3e40(n);
     }
@@ -780,7 +781,7 @@ struct NiPoint2
     NiPoint2()
     {}
     float x, y;
-    static void* operator new[](unsigned int n)
+    static void* operator new[](std::size_t n)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>((((MemoryManager*)&(*reinterpret_cast<::S_Pool *>(&::g_memoryManager)))))->FUN_00aa3e40(n);
     }
@@ -792,7 +793,7 @@ struct RgbaColor
     RgbaColor(float red = 0.0f, float green = 0.0f, float blue = 0.0f, float alpha = 0.0f)
         : r(red), g(green), b(blue), a(alpha)
     {}
-    static void* operator new[](unsigned int n)
+    static void* operator new[](std::size_t n)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>((((MemoryManager*)&(*reinterpret_cast<::S_Pool *>(&::g_memoryManager)))))->FUN_00aa3e40(n);
     }
@@ -1024,7 +1025,7 @@ struct NiProperty : NiObject
 
     NiProperty();
 
-    static void* operator new(unsigned int);
+    static void* operator new(std::size_t);
 };
 
 struct ShaderProperty : NiProperty
@@ -1200,7 +1201,7 @@ struct Resource : NiRefObject
 
     virtual void v00();
 
-    static void* operator new(unsigned int);
+    static void* operator new(std::size_t);
 };
 
 struct CacheEntry
@@ -2058,7 +2059,7 @@ struct UnsignedShortBuffer : NiRefObject
                         NiGeometryData__DataFlags, unsigned short, unsigned short, unsigned short*, unsigned short*,
                         unsigned short, unsigned short);
 
-    static void* operator new(unsigned int);
+    static void* operator new(std::size_t);
 };
 
 struct ShapeData
@@ -2073,10 +2074,10 @@ struct ShapeData
         : data(v, p, n, c, t, u, f, tri, ix, count, z)
     {}
 
-    static void* operator new(unsigned int);
+    static void* operator new(std::size_t);
 };
 
-inline void* operator new(unsigned int n)
+inline void* operator new(std::size_t n)
 {
     return Resource::operator new(n);
 }

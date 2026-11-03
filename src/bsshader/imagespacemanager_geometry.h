@@ -1,6 +1,7 @@
 // bsshader/imagespacemanager_geometry.h: declares NiUpdateData, NiGlobalStringTable, NiScreenElementsData, NiAVObject, NiScreenElements and more
 #ifndef IMAGESPACEMANAGER_GEOMETRY_H
 #define IMAGESPACEMANAGER_GEOMETRY_H
+#include <cstddef>
 
 #include "fnv/decl/FUN_00a59c60_cls.h"
 #include "fnv/decl/FUN_00a5a040_Class.h"
@@ -28,7 +29,7 @@ class NiScreenElementsData : public NiObject
 {
   public:
     char padding[0x70 - 8];
-    static void* operator new(unsigned int) throw();
+    static void* operator new(std::size_t) throw();
     static void operator delete(void*);
     NiScreenElementsData(bool, bool, unsigned short, int, int, int, int, int, int);
 public:
@@ -46,7 +47,7 @@ class NiScreenElements : public NiAVObject
     char padding[0xb8 - 8];
     NiScreenElementsData* data;
     char tail[8];
-    static void* operator new(unsigned int) throw();
+    static void* operator new(std::size_t) throw();
     static void operator delete(void*);
     NiScreenElements(NiScreenElementsData*);
     NiScreenElementsData* GetData()

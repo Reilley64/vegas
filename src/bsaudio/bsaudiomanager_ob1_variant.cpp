@@ -889,7 +889,7 @@ struct StrSetX
 struct Ent8
 {
     int a, b;
-    static void* operator new[](unsigned n)
+    static void* operator new[](std::size_t n)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::PoolX *>(&::g_memoryManager))))->FUN_00aa3e40(n);
     }
@@ -898,7 +898,7 @@ struct FUN_00ae8650
 {
     int m[8];
     FUN_00ae8650();
-    static void* operator new(unsigned n)
+    static void* operator new(std::size_t n)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::PoolX *>(&::g_memoryManager))))->FUN_00aa3e40(n);
     }
@@ -907,7 +907,7 @@ struct FUN_00ae77d0
 {
     int m[19];
     FUN_00ae77d0();
-    static void* operator new(unsigned n)
+    static void* operator new(std::size_t n)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::PoolX *>(&::g_memoryManager))))->FUN_00aa3e40(n);
     }
@@ -2710,7 +2710,7 @@ class FUN_00ae6f50 : public BaseObj_b5112
     int m_30;
     unsigned int m_34;
     FUN_00ae6f50(int value);
-    static __forceinline void* operator new(unsigned int size)
+    static __forceinline void* operator new(std::size_t size)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>((((MemoryManagerAllocHelper*)&::g_memoryManager)))->FUN_00aa3e40(size);
     }
@@ -5099,7 +5099,7 @@ struct FUN_00ae8650
         m_fFrequency = 0.0f;
         m_fPan = 0.0f;
     }
-    static void* operator new(unsigned int uiSize)
+    static void* operator new(std::size_t uiSize)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00ae76b0::MemoryManager_ae76b0 *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize);
     }
@@ -5171,7 +5171,7 @@ template <class T> struct BSSimpleList
     {
         reinterpret_cast<::Node185 *>(this)->FUN_00ae83e0();
     }
-    static void* operator new(unsigned int size)
+    static void* operator new(std::size_t size)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00ae81e0::MemoryManagerAllocHelper *>(&::g_memoryManager))))->FUN_00aa3e40(size);
     }
@@ -8080,7 +8080,7 @@ struct Msg_00ae5a50
         Set10(0);
         Set14(0);
     }
-    static inline void* operator new(unsigned int n)
+    static inline void* operator new(std::size_t n)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>((((MemPool_00ae5a50*)&(*reinterpret_cast<char *>(&::g_memoryManager)))))->FUN_00aa3e40(n);
     }
@@ -9194,7 +9194,7 @@ struct BSSoundInfoC
 struct AllocatorAda
 {
 };
-inline void* operator new(unsigned int n)
+inline void* operator new(std::size_t n)
 {
     return reinterpret_cast<::MemoryManagerStandIn *>((((AllocatorAda*)&(*reinterpret_cast<::MemoryManager * *>(&::g_memoryManager)))))->FUN_00aa3e40(n);
 }
@@ -9574,7 +9574,7 @@ struct NodeQ4
     int unk4;
     WrapQ4* pData;
 };
-inline void* operator new(unsigned int, PoolX& kMgr)
+inline void* operator new(std::size_t, PoolX& kMgr)
 {
     return reinterpret_cast<::MemoryManagerStandIn *>(&(kMgr))->FUN_00aa3e40(0x38);
 }
@@ -9857,7 +9857,7 @@ extern char str_010a3524[];
 extern char str_010a352c[];
 extern char str_010a3534[];
 extern char str_01063958[];
-inline void* operator new[](unsigned int size) throw()
+inline void* operator new[](std::size_t size) throw()
 {
     return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::PoolX *>(&::g_memoryManager))))->FUN_00aa3e40(size);
 }
@@ -9866,7 +9866,7 @@ struct DebugList
 {
     SoundNode* item;
     DebugList* next;
-    static void* operator new(unsigned int n)
+    static void* operator new(std::size_t n)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::PoolX *>(&::g_memoryManager))))->FUN_00aa3e40(n);
     }
@@ -10022,7 +10022,7 @@ struct DebugList
 };
 struct SoundNode
 {
-    static void* operator new(unsigned int size) throw()
+    static void* operator new(std::size_t size) throw()
     {
         return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::PoolX *>(&::g_memoryManager))))->FUN_00aa3e40(size);
     }

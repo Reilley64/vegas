@@ -1,6 +1,7 @@
 // bssystem/filefinder_filefinder_decls.h: declares NiFile, FileFinder, MemoryManager, BSFile, ArchiveManager
 #ifndef FNV_FILEFINDER_FILEFINDER_DECLS_H
 #define FNV_FILEFINDER_FILEFINDER_DECLS_H
+#include <cstddef>
 
 #include "runtime/crt.h"
 #include "fnv/decl/MemoryManagerStandIn.h"
@@ -54,7 +55,7 @@ class BSFile : public NiFile
   public:
     char storage[340];
     BSFile(const char*, int, unsigned int, bool);
-    static __forceinline void* operator new(unsigned int size)
+    static __forceinline void* operator new(std::size_t size)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(size);
     }

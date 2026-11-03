@@ -1,3 +1,4 @@
+#include <cstddef>
 // bsshader/bsbatchrenderer.cpp: BSBatchRenderer, BSBatchRenderer__GeometryGroup, Thing, BSBatchRenderer_AlphaDepth and more (43 functions)
 
 #include <cstring>
@@ -832,7 +833,7 @@ GlobalObjectO2_00a7b610* __cdecl FUN_00b9aa70()
 
 struct BSFadeNode
 {
-    static void* operator new(unsigned int);
+    static void* operator new(std::size_t);
     static void operator delete(void*);
 };
 
@@ -2759,7 +2760,7 @@ struct ItemValue
 };
 struct ActivePassNode
 {
-    static void* operator new(unsigned int n)
+    static void* operator new(std::size_t n)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::BSBatchRenderer__ActivePassList_b6359Pool *>(&::g_memoryManager))))->FUN_00aa3e40(n);
     }

@@ -1,3 +1,4 @@
+#include <cstddef>
 
 // src/speedtree/branch_ob1_variant.cpp - flag-variant unit created 2026-10-24 by flag_proofs.py: contributor code for these functions matched byte for
 // byte only under /MT /Od /Oy- /GS /EHsc /Gy /Ob1 (unit src/speedtree/branch.cpp lists /MT /Od /Oy- /GS /EHsc /Gy). Declarations copied from that unit's skeleton; move the functions
@@ -2715,11 +2716,11 @@ struct FUN_00b37660
     int unk7c;
     int unk80;
     FUN_00b37660(const B13970Tmp& t);
-    static void* operator new(unsigned int size)
+    static void* operator new(std::size_t size)
     {
         return FUN_00401000(size);
     }
-    static void* operator new(unsigned int size, void* p)
+    static void* operator new(std::size_t size, void* p)
     {
         return p;
     }

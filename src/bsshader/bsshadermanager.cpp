@@ -1,3 +1,4 @@
+#include <cstddef>
 // bsshader/bsshadermanager.cpp: BSShaderManager, NiFixedString, SkyShaderProperty, StringHashMapBase (31 functions)
 
 #include <windows.h>
@@ -2779,7 +2780,7 @@ struct Material : NiRefObject
     Color3* colorOverride;
     float value38, value3C, value40;
     unsigned int revision, unk48;
-    static void* operator new(unsigned int);
+    static void* operator new(std::size_t);
     Material();
     void SetColor1(const Color3& v)
     {
@@ -3705,7 +3706,7 @@ struct TextureManagerInit
     unsigned int unk0a8;
     unsigned int unk0ac;
     TextureManagerInit();
-    static void* operator new(unsigned int n)
+    static void* operator new(std::size_t n)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(n);
     }
@@ -3725,7 +3726,7 @@ struct TextureLoaderInit
     unsigned int unk018;
     TextureLoaderInit(void*);
     ~TextureLoaderInit();
-    static void* operator new(unsigned int n)
+    static void* operator new(std::size_t n)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(n);
     }
@@ -3936,7 +3937,7 @@ struct ImageManagerInit
     unsigned int unk314;
     unsigned int unk318;
     ImageManagerInit();
-    static void* operator new(unsigned int n)
+    static void* operator new(std::size_t n)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(n);
     }
@@ -3952,7 +3953,7 @@ struct InitString
     {
         handle = ::NiGlobalStringTable::AddString(s);
     }
-    static void* operator new(unsigned int n)
+    static void* operator new(std::size_t n)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(n);
     }
@@ -4133,7 +4134,7 @@ struct AccumulatorInit : NiRefObject
     unsigned int unk278;
     unsigned int unk27c;
     AccumulatorInit(int, unsigned int, unsigned int);
-    static void* operator new(unsigned int);
+    static void* operator new(std::size_t);
     static void operator delete(void*);
 };
 struct AccumPointerInit
@@ -4141,7 +4142,7 @@ struct AccumPointerInit
     AccumulatorInit* object;
     AccumPointerInit();
     ~AccumPointerInit();
-    static void* operator new[](unsigned int n)
+    static void* operator new[](std::size_t n)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(n);
     }
@@ -4308,7 +4309,7 @@ struct NiPoint3
         float sz = p.z;
         z = z + sz;
     }
-    static void* operator new[](unsigned int bytes)
+    static void* operator new[](std::size_t bytes)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(bytes);
     }
@@ -4329,7 +4330,7 @@ struct NativeB66810 : NiRefObject
     unsigned char unk09, unk0a, unk0b;
     NiPoint3* first;
     NiPoint3* second;
-    static void* operator new(unsigned int n)
+    static void* operator new(std::size_t n)
     {
         return FUN_00aa13e0(n);
     }

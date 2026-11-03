@@ -1,3 +1,4 @@
+#include <cstddef>
 // bsshader/geometrydecalshader_decls.h: declares NiMemObject, NiRefObject, NiD3DPixelShader, NiD3DVertexShader, NiD3DPass and more
 
 #include <windows.h>
@@ -9,7 +10,7 @@
 class NiMemObject
 {
   public:
-    void* operator new(unsigned int size);
+    void* operator new(std::size_t size);
 };
 
 class NiRefObject : public NiMemObject

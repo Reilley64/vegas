@@ -1,3 +1,4 @@
+#include <cstddef>
 // bsshader/speedtreeleafshader.cpp: SpeedTreeLeafShader (5 functions)
 
 #include <cstring>
@@ -234,13 +235,13 @@ struct LeafV
 };
 struct BSFadeNode
 {
-    static void* operator new(unsigned int);
+    static void* operator new(std::size_t);
     static void operator delete(void*);
 };
 struct FadeTag
 {
 };
-inline void* operator new(unsigned int sz, FadeTag*)
+inline void* operator new(std::size_t sz, FadeTag*)
 {
     return BSFadeNode::operator new(sz);
 }

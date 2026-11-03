@@ -3,6 +3,7 @@
 // Names of nested/template specializations use the canonical generator identifier mapping.
 #ifndef DEBUGSHADER_LOCAL_H
 #define DEBUGSHADER_LOCAL_H
+#include <cstddef>
 
 #include "fnv/decl/E7DEF0TextureStage.h"
 #include "fnv/decl/FUN_00e7ecd0_cls.h"
@@ -19,7 +20,7 @@
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int);
+    static void* operator new(std::size_t);
     static void operator delete(void*);
 };
 #include "NiRefObject.h"

@@ -1,3 +1,4 @@
+#include <cstddef>
 // bsshader/distantlodshader.cpp: DistantLODShader, BSShaderStandin, RSShader, LodCompiler (13 functions)
 
 #include <windows.h>
@@ -342,7 +343,7 @@ struct NiD3DVertexDeclaration : ShaderVTable
 struct A51BF0Base : ShaderVTable
 {
     char pad[0x100 - sizeof(void*)];
-    static void* __cdecl operator new(unsigned int);
+    static void* __cdecl operator new(std::size_t);
 };
 
 struct FUN_00bd5670 : A51BF0Base
@@ -973,7 +974,7 @@ struct InstanceData_00bd5670
     int unk04;
     int unk08;
     int unk0c;
-    static void* operator new[](unsigned int size)
+    static void* operator new[](std::size_t size)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>((((MemoryManager_Helper*)&(*reinterpret_cast<::MM_011f6238 *>(&::g_memoryManager)))))->FUN_00aa3e40(size);
     }

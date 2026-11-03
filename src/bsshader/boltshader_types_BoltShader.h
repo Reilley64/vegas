@@ -1,6 +1,7 @@
 // Names of nested/template specializations use the canonical generator identifier mapping.
 #ifndef FNV_BOLTSHADER_H
 #define FNV_BOLTSHADER_H
+#include <cstddef>
 
 #include "layout_support.h"
 #include "NiFixedString.h"
@@ -980,7 +981,7 @@ class BoltShader : public BSShader
     BoltShader(NiD3DVertexDeclaration*);
     BSShader* CreateShader();
     void UpdateShaderConstants();
-    static void* operator new(unsigned int);
+    static void* operator new(std::size_t);
     // const NiRTTI* __cdecl BoltShader::*()
     // BoltShader
     // void __cdecl BoltShader::*()

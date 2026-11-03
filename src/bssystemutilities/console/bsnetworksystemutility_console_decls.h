@@ -1,3 +1,4 @@
+#include <cstddef>
 // bssystemutilities/console/bsnetworksystemutility_console_decls.h: declares NetworkSystemUtility, MemoryManager
 
 #include "fnv/decl/FNV_MemoryManager.h"
@@ -15,7 +16,7 @@ class NetworkSystemUtility
     void RegisterCallback(void(__cdecl* callback)(NetEvent, unsigned int));
     static NetworkSystemUtility& GetRandomGenerator();
     NetworkSystemUtility();
-    static void* operator new(unsigned int size);
+    static void* operator new(std::size_t size);
     static void operator delete(void* pointer);
 };
 class MemoryManager
@@ -23,7 +24,7 @@ class MemoryManager
   public:
 };
 extern NetworkSystemUtility* DAT_011f7270;
-__forceinline void* NetworkSystemUtility::operator new(unsigned int size)
+__forceinline void* NetworkSystemUtility::operator new(std::size_t size)
 {
     return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(size);
 }

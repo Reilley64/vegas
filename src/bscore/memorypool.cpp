@@ -1,3 +1,4 @@
+#include <cstddef>
 // bscore/memorypool.cpp: MemoryPool (13 functions)
 
 #include <cstring>
@@ -443,7 +444,7 @@ struct MemoryManager
 struct PageRefCount66a0
 {
     unsigned short iCount;
-    static void* operator new[](unsigned int size)
+    static void* operator new[](std::size_t size)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00aa66a0::MemoryManager *>(&::g_memoryManager))))->FUN_00aa3e40(size);
     }

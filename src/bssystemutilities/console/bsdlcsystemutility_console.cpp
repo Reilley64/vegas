@@ -1,3 +1,4 @@
+#include <cstddef>
 // bssystemutilities/console/bsdlcsystemutility_console.cpp: DownloadableContentManager, BSSystemUtility, OwnQ (11 functions)
 
 #include "fnv/decl/FNV_MemoryManager.h"
@@ -244,7 +245,7 @@ struct DLCEntry_00af2940
 extern DLCEntry_00af2940 DAT_011accb8[];
 struct FUN_00b008b0
 {
-    __forceinline static void* operator new(unsigned int s)
+    __forceinline static void* operator new(std::size_t s)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00af2940::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(s);
     }

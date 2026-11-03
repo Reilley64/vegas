@@ -185,7 +185,7 @@ class NiFixedString
   public:
     char* m_kHandle;
 
-    void* operator new(unsigned int stSize)
+    void* operator new(std::size_t stSize)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>(&(g_memoryManager))->FUN_00aa3e40(stSize);
     }
@@ -1141,7 +1141,7 @@ struct FUN_00a0ac80 : public FUN_00a0ad40
             ++iIndex;
         }
     }
-    static void* operator new(unsigned int auSize)
+    static void* operator new(std::size_t auSize)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>(&(_g_memoryManager))->FUN_00aa3e40(auSize);
     }
@@ -1720,7 +1720,7 @@ struct BSFileX
     unsigned int unk130, unk134, unk138, unk13c, unk140, unk144, unk148, unk14c;
     unsigned int unk150, unk154;
     BSFileX(const char* apName, int aiMode, unsigned int auiBufferSize, bool abFlag);
-    static void* operator new(unsigned int auiSize)
+    static void* operator new(std::size_t auiSize)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>(&(DAT_011f6238))->FUN_00aa3e40(auiSize);
     }

@@ -1,3 +1,4 @@
+#include <cstddef>
 // bscore/scrapheap.cpp: ScrapHeapBuffer, SHStub (21 functions)
 
 #include <windows.h>
@@ -246,7 +247,7 @@ struct FUN_00aa5860
     FUN_00aa5860();
     // Overloaded operator new that forwards the requested size to the memory manager's Allocate method and returns the allocated pointer.
 // @fnv 0x00aa58d0
-    void* operator new(unsigned int uiSize)
+    void* operator new(std::size_t uiSize)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>((((FUN_00aa58d0_Alloc*)&::g_memoryManager)))->FUN_00aa3e40(uiSize);
     }

@@ -1,6 +1,7 @@
 // Names of nested/template specializations use the canonical generator identifier mapping.
 #ifndef FNV_BSSHADERBLOODSPLATTER_H
 #define FNV_BSSHADERBLOODSPLATTER_H
+#include <cstddef>
 
 #include "fnv/decl/FUN_00be1750_shell.h"
 #include "fnv/symbols_00be0000.h"
@@ -989,7 +990,7 @@ class BSShaderBloodSplatter : public BSShader
     NiPointer<NiD3DVertexShader> m_spTreeVertexShader[2];    // +0x74, 8 bytes
     NiPointer<NiD3DPixelShader> m_spPixelShaderVariants[2];  // +0x7C, 8 bytes
     BSShaderBloodSplatter();
-    static void* __cdecl operator new(unsigned int size);
+    static void* __cdecl operator new(std::size_t size);
     BSShader* CreateShader();
     void InitializeShaderData();
     bool ConfigureShaderPass();

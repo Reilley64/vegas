@@ -1,6 +1,7 @@
 // bsshader/particleshader_decls.h: declares NiD3DVertexDeclaration, ParticleShader
 #ifndef PARTICLESHADER_DECLS_H
 #define PARTICLESHADER_DECLS_H
+#include <cstddef>
 
 
 #include "fnv/symbols_00e76000.h"
@@ -152,7 +153,7 @@ class ParticleShader : public BSShader
   public:
     static unsigned int GetShaderParticleCount();
     static BSShader* CreateShader();
-    static void* operator new(unsigned int) throw();
+    static void* operator new(std::size_t) throw();
     static void operator delete(void*);
     char data[0x128];
 };

@@ -1,3 +1,4 @@
+#include <cstddef>
 
 // to their real unit once identified.
 
@@ -128,7 +129,7 @@ struct Spawned_b02010
     unsigned int unk34;
     unsigned int unk38;
     Spawned_b02010();
-    static void* operator new(unsigned int size)
+    static void* operator new(std::size_t size)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::NiMemoryManager_b02010 *>(&::g_memoryManager))))->FUN_00aa3e40(size);
     }

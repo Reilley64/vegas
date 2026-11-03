@@ -1,6 +1,7 @@
 // bsshader/bsshader_compile_decls.h: declares _FILETIME, NiBinaryStream, FileFinder, ShaderBufferCollection, ShaderBufferTableBuilder and more
 #ifndef BSSHADER_COMPILE_DECLS_H
 #define BSSHADER_COMPILE_DECLS_H
+#include <cstddef>
 
 #include <cstdio>
 #include "runtime/crt.h"
@@ -58,7 +59,7 @@ class ID3DXInclude;
 class NiMemObjectAllocation
 {
   public:
-    static void* operator new(unsigned int);
+    static void* operator new(std::size_t);
 };
 class GraphicsRenderer;
 class NiD3DVertexShader

@@ -1,3 +1,4 @@
+#include <cstddef>
 // bscore/bsperformancetimer.cpp: PerformanceTimerManager (3 functions)
 
 #include "fnv/symbols_011d8000.h"
@@ -22,7 +23,7 @@ PerformanceTimerManager* PerformanceTimerManager::BeginFrame()
     return this;
 }
 
-void* __cdecl operator new(unsigned int);
+void* __cdecl operator new(std::size_t);
 
 struct FUN_006ff690
 {

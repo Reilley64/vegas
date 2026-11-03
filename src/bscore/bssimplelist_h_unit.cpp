@@ -782,7 +782,7 @@ FUN_0083dec0::~FUN_0083dec0()
     }
 }
 
-void* __cdecl operator new(unsigned int);
+void* __cdecl operator new(std::size_t);
 
 struct Item_009b1630
 {

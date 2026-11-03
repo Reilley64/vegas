@@ -1,3 +1,4 @@
+#include <cstddef>
 
 // src/bsshader/imagespaceeffectradialblur.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/bsshader/imagespaceeffectradialblur.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
@@ -47,7 +48,7 @@ struct S_00b5a4a0_EffectParam
 struct S_00b5a4a0_Param : S_00b5a4a0_EffectParam
 {
     S_00b5a4a0_Param();
-    static void* operator new(unsigned int size)
+    static void* operator new(std::size_t size)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::S_00b5a4a0_MM *>(&::g_memoryManager))))->FUN_00aa3e40(size);
     }

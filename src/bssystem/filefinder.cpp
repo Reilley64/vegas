@@ -1,3 +1,4 @@
+#include <cstddef>
 // bssystem/filefinder.cpp: FileFinder, Loader_S (12 functions)
 
 #include <windows.h>
@@ -309,7 +310,7 @@ template <class T> class BSSimpleList
     {
         return (m_pkNext == 0 && m_item == 0) ? 1 : 0;
     }
-    static void* operator new(unsigned int size)
+    static void* operator new(std::size_t size)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(size);
     }
@@ -318,7 +319,7 @@ template <class T> class BSSimpleList
         reinterpret_cast<::FNV_MemoryManager *>((((MM*)&::g_memoryManager)))->FUN_00aa4060(p);
     }
 };
-inline void* __cdecl operator new[](unsigned int n)
+inline void* __cdecl operator new[](std::size_t n)
 {
     return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(n);
 }
@@ -398,7 +399,7 @@ struct FileMatchList
     {
         return next == 0 && data == 0;
     }
-    static void* operator new(unsigned int size)
+    static void* operator new(std::size_t size)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(size);
     }

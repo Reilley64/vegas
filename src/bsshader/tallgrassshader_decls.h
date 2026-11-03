@@ -1,3 +1,4 @@
+#include <cstddef>
 // bsshader/tallgrassshader_decls.h: declares MemoryManager, TallGrassShader
 
 #include "fnv/decl/FNV_MemoryManager.h"
@@ -11,7 +12,7 @@ class MemoryManager
 class FUN_00ba94b0
 {
   public:
-    static void* operator new(unsigned int n)
+    static void* operator new(std::size_t n)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(n);
     }

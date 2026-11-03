@@ -1,3 +1,4 @@
+#include <cstddef>
 
 // src/bsshader/imagespaceeffectmap.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/bsshader/imagespaceeffectmap.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
@@ -186,7 +187,7 @@ struct FUN_00b8a9e0
     int unk84;
 
     FUN_00b8a9e0();
-    static void* operator new(unsigned int size) throw()
+    static void* operator new(std::size_t size) throw()
     {
         return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::MemMgr_cls *>(&::g_memoryManager))))->FUN_00aa3e40(size);
     }

@@ -144,6 +144,6 @@ class BoltShaderCalls : public BoltShader
     virtual void vfn_140();
 };
 
-void* __cdecl operator new(unsigned int size);
+void* __cdecl operator new(std::size_t size);
 
 #endif

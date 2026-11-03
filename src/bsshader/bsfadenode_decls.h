@@ -1,6 +1,7 @@
 // bsshader/bsfadenode_decls.h: declares NiMemObject, NiRefObject, NiObject, NiObjectNET, NiProperty and more
 #ifndef FNV_BSFADENODE_DECLS_H
 #define FNV_BSFADENODE_DECLS_H
+#include <cstddef>
 
 
 // Private PC declarations for this translation unit. Opaque storage represents
@@ -14,7 +15,7 @@
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int);
+    static void* operator new(std::size_t);
     static void operator delete(void*);
 };
 class NiRefObject : public NiMemObject
@@ -91,7 +92,7 @@ class NiFixedString
   public:
     char* m_kHandle;
     NiFixedString(const char* s);
-    static void* operator new(unsigned int n)
+    static void* operator new(std::size_t n)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(n);
     }

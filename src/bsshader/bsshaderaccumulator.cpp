@@ -1,3 +1,4 @@
+#include <cstddef>
 // bsshader/bsshaderaccumulator.cpp: BSShaderAccumulator, AccumWIP, AccumS, Candidate and more (38 functions)
 
 #include <windows.h>
@@ -1235,7 +1236,7 @@ struct NiUpdateData
 
 struct A51BF0Base
 {
-    static void* __cdecl operator new(unsigned int);
+    static void* __cdecl operator new(std::size_t);
 };
 
 struct NiAVObject : A51BF0Base
@@ -1300,7 +1301,7 @@ struct QueryLocal
 {
     unsigned int handle;
     QueryLocal();
-    static void* operator new(unsigned int size)
+    static void* operator new(std::size_t size)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(size);
     }
@@ -3810,7 +3811,7 @@ struct LocalCriticalSection
     ~LocalCriticalSection();
 };
 
-inline void* operator new[](unsigned n)
+inline void* operator new[](std::size_t n)
 {
     return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(n);
 }
@@ -3896,7 +3897,7 @@ struct RefPtr
 struct FUN_00bd9120
 {
     void* state;
-    static void* operator new(unsigned n)
+    static void* operator new(std::size_t n)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(n);
     }
@@ -3922,7 +3923,7 @@ struct FUN_00b9a5b0
     void* alphaGroups[2];
     List12 alphaLists[2];
     void* currentGroups[2];
-    static void* operator new(unsigned n)
+    static void* operator new(std::size_t n)
     {
         return FUN_00aa13e0(n);
     }

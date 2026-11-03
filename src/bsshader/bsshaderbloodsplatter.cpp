@@ -1,3 +1,4 @@
+#include <cstddef>
 // bsshader/bsshaderbloodsplatter.cpp: BSShaderBloodSplatter, BloodShader (17 functions)
 
 #include <windows.h>
@@ -75,6 +76,7 @@ BSShaderBloodSplatter::BSShaderBloodSplatter() : BSShader()
 }
 
 #include "bsshaderbloodsplatter_decls.h"
+#include "fnv/decl/FUN_0068ab80_class.h"
 
 // Configures two NiD3DPass objects with two texture stages each, render states, vertex and pixel shaders, and returns true.
 // @fnv 0x00b807d0
@@ -357,7 +359,7 @@ extern float DAT_011feda4;
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
+    static void* __cdecl operator new(std::size_t);
     static void __cdecl operator delete(void*);
     virtual void v0();
     virtual void DeleteThis();
@@ -997,5 +999,18 @@ void BloodShader::ApplyBloodShader(RenderInput* input)
     }
 }
 }  // namespace fnv_00b80c20
+
+int* __cdecl FUN_00b807b0();
+
+struct FUN_0068ab60_shell
+{
+    void FUN_0068ab60();
+};
+
+// @fnv 0x0068ab60
+void FUN_0068ab60_shell::FUN_0068ab60()
+{
+    reinterpret_cast<::FUN_0068ab80_class *>(this)->FUN_0068ab80();
+}
 
 #include "generated/data/bsshader/bsshaderbloodsplatter.inc"

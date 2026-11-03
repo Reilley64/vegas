@@ -1,3 +1,4 @@
+#include <cstddef>
 // bsshader/bsshaderlightingproperty.cpp: BSShaderLightingProperty, NewObj, LList, FalloffProperty and more (45 functions)
 
 #include <windows.h>
@@ -54,6 +55,8 @@
 #include "fnv/symbols_01202000.h"
 #include "bsshaderlightingproperty_types_BSShaderLightingProperty.h"
 #include "bsshaderlightingproperty_globals.h"
+#include "fnv/decl/FUN_00700270_class.h"
+#include "fnv/decl/fnv_00b6f540__FUN_00b6f540_shell.h"
 
 // @fnv 0x00b70490
 ShadowSceneLight* BSShaderLightingProperty::GetFirstAttachedLight(void*& iter)
@@ -981,7 +984,7 @@ struct _Helper_00ba8b10
 };
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
+    static void* __cdecl operator new(std::size_t);
 };
 struct FUN_00ba8e50 : BSFadeNode
 {
@@ -1030,7 +1033,7 @@ NewObj* FUN_00b71800(_Helper_00ba8b10* self, int unused, void* arg)
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
+    static void* __cdecl operator new(std::size_t);
 };
 struct FUN_00b71720 : BSFadeNode
 {
@@ -2083,8 +2086,8 @@ struct S00b700d0_RTTI;
 class S00b700d0_Alpha : public NiProperty
 {
   public:
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
+    static void* operator new(std::size_t);
+    static void operator delete(void*, std::size_t);
     S00b700d0_Alpha();
 
     unsigned short m_usFlags;
@@ -3472,6 +3475,17 @@ Node_b71560* List_b71560::FUN_00b713c0(Node_b71560* pos, Light_b71560* const& it
     pos->prev = node;
     ++pool.count;
     return node;
+}
+
+struct FUN_0076a3d0_Class
+{
+    void FUN_0076a3d0(int);
+};
+
+// @fnv 0x0076a3d0
+void FUN_0076a3d0_Class::FUN_0076a3d0(int a)
+{
+    reinterpret_cast<::FUN_00700270_class *>(this)->operator==(a);
 }
 
 #include "generated/data/bsshader/bsshaderlightingproperty.inc"

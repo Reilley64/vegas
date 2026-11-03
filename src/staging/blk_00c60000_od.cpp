@@ -3,6 +3,7 @@
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
 #include "fnv/symbols_00c85000.h"
+#include "havok/hkMemoryRouter.h"
 #include <cstdint>
 #include <new>
 #include <cstring>
@@ -7680,33 +7681,6 @@ struct T741_Src
 };
 
 
-struct T741_Alloc
-{
-    virtual void v0();
-    virtual void v1();
-    virtual void v2();
-    virtual void* Alloc(int& size);
-    __forceinline void* BufAlloc(int& num)
-    {
-        int sz = num * 112;
-        void* p = Alloc(sz);
-        num = sz / 112;
-        return p;
-    }
-};
-struct T741_Owner
-{
-    int f00;
-    int f04;
-    int f08;
-    int f0c;
-    T741_Alloc* m_alloc;
-    __forceinline T741_Alloc& heap()
-    {
-        return *m_alloc;
-    }
-};
-
 struct T741_B0
 {
     T741_B0();
@@ -8166,7 +8140,9 @@ struct T741_Arr
         m_iElementCount = 0;
         m_cap = 0x80000000;
         int n = 5;
-        void* data = static_cast<T741_Owner*>(::FUN_00c85750())->heap().BufAlloc(n);
+        int bytes = n * 112;
+        void* data = hkMemoryRouter::getInstance().heap().bufAlloc(bytes);
+        n = bytes / 112;
         int cap = n;
         if (!n)
             cap = 0x80000000;
@@ -9112,21 +9088,6 @@ struct StringHeader_c7
     unsigned int length;
 };
 
-struct Alloc_c7
-{
-    virtual void Slot0();
-    virtual void* Alloc(unsigned int size);
-};
-
-struct Heap_c7
-{
-    unsigned char* cursor;
-    unsigned int pad04_000;
-    unsigned int pad04_001;
-    unsigned int pad04_002;
-    Alloc_c7* alloc;
-};
-
 struct Root_c7
 {
     unsigned int pad00_000;
@@ -9233,30 +9194,22 @@ struct FUN_00ce14b0
 
 inline void* FUN_00ce14b0::operator new(std::size_t size)
 {
-    Heap_c7* h = static_cast<Heap_c7*>(::FUN_00c85750());
-    Alloc_c7* a = h->alloc;
-    return a->Alloc(size);
+    return hkMemoryRouter::getInstance().heap().blockAlloc(int(size));
 }
 inline Cursor_c7::Cursor_c7(unsigned int n)
 {
-    Heap_c7* h = static_cast<Heap_c7*>(::FUN_00c85750());
-    unsigned char* base = h->cursor;
     unsigned int bytes = (((n * 3) << 4) + 0x7f) & 0xffffff80;
-    h->cursor += bytes;
-    saved = base;
+    saved = static_cast<unsigned char*>(hkMemoryRouter::getInstance().allocateStack(int(bytes)));
 }
 inline Cursor_c7::Cursor_c7(unsigned int n, const int& c, int& result)
 {
-    Heap_c7* h = static_cast<Heap_c7*>(::FUN_00c85750());
     result = c;
-    unsigned char* base = h->cursor;
     unsigned int bytes = (((n * 3) << 4) + 0x7f) & 0xffffff80;
-    h->cursor += bytes;
-    saved = base;
+    saved = static_cast<unsigned char*>(hkMemoryRouter::getInstance().allocateStack(int(bytes)));
 }
 inline Cursor_c7::~Cursor_c7()
 {
-    static_cast<Heap_c7*>(::FUN_00c85750())->cursor = saved;
+    hkMemoryRouter::getInstance().deallocateStack(saved);
 }
 
 struct Actor_c7
@@ -9555,26 +9508,6 @@ struct NodeBounds
 
 void* __cdecl FUN_00aa13e0(size_t);
 
-struct HeapAllocator
-{
-    virtual void v0();
-    virtual void* Allocate(int);
-    virtual void v8();
-    virtual void vc();
-    virtual void Deallocate(void*, int);
-};
-
-struct HeapContext
-{
-    int unk00, unk04, unk08, unk0c;
-    HeapAllocator* allocator;
-    HeapAllocator* GetAllocator() const
-    {
-        return allocator;
-    }
-};
-
-
 struct RawArray
 {
     void** data;
@@ -9582,17 +9515,17 @@ struct RawArray
     unsigned int capacity;
     __forceinline void Add(void* value)
     {
-        HeapAllocator* allocator = static_cast<HeapContext*>(::FUN_00c85750())->allocator;
+        hkMemoryAllocator* allocator = hkMemoryRouter::getInstance().m_heap;
         if (count == (capacity & 0x3fffffff))
             ::ResizeAudioStream((::AudioAllocator *)(allocator), (::AudioStream *)(void *)(this), 4);
         data[count++] = value;
     }
     void Clear8()
     {
-        HeapAllocator* allocator = static_cast<HeapContext*>(::FUN_00c85750())->GetAllocator();
+        hkMemoryAllocator* allocator = hkMemoryRouter::getInstance().m_heap;
         count = 0;
         if (!(capacity & 0x80000000))
-            allocator->Deallocate(data, (capacity & 0x3fffffff) * 8);
+            allocator->bufFree(data, (capacity & 0x3fffffff) * 8);
     }
 };
 struct ShapePtrArray : RawArray
@@ -9639,8 +9572,7 @@ struct FUN_00cd8160
     int unk14, unk18, unk1c;
     static void* operator new(std::size_t n)
     {
-        HeapContext* ctx = static_cast<HeapContext*>(::FUN_00c85750());
-        FUN_00cd8160* result = (FUN_00cd8160*)ctx->allocator->Allocate(n);
+        FUN_00cd8160* result = (FUN_00cd8160*)hkMemoryRouter::getInstance().heap().blockAlloc(int(n));
         result->size = (unsigned short)n;
         return result;
     }
@@ -10347,7 +10279,7 @@ void ShapeOwner::FUN_00c72410(ShapeInput* input)
     fullHeight = units * total;
     reinterpret_cast<::ControllerShell *>(this)->SetMode(input->GetIndex());
     if (input->flag94)
-        static_cast<HeapContext*>(::FUN_00c85750());
+        hkMemoryRouter::getInstance();
     if (input->flag95)
     {
         NodeBounds* auxNode;
@@ -15265,11 +15197,10 @@ struct PointerArrayC
     {}
     ~PointerArrayC()
     {
-        HeapContext* system = static_cast<HeapContext*>(::FUN_00c85750());
-        HeapAllocator* a = system->allocator;
+        hkMemoryAllocator* a = hkMemoryRouter::getInstance().m_heap;
         count = 0;
         if (!(static_cast<unsigned int>(capacity) & 0x80000000))
-            a->Deallocate(data, (capacity & 0x3fffffff) * 4);
+            a->bufFree(data, (capacity & 0x3fffffff) * 4);
         data = 0;
         capacity = 0x80000000;
     }
@@ -15648,7 +15579,7 @@ void ParentC::FUN_00c711d0(void*, ContactListC* contacts, ResultC* results)
                 PointerArrayC array;
                 NodeC* n = node;
                 BodyC* sourceBody = n->body;
-                HeapAllocator* memoryAllocator = static_cast<HeapContext*>(::FUN_00c85750())->allocator;
+                hkMemoryAllocator* memoryAllocator = hkMemoryRouter::getInstance().m_heap;
                 long pObj;
                 int px = sourceBody->collidableCount;
                 pObj = px > array.count ? array.count : px;

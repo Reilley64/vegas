@@ -74,6 +74,8 @@ public:
 class NavMeshInfo
 {
   public:
+    unsigned char layoutPadding0[0xC];
+    unsigned int uiUnk0C;
     bool ResolveNavMesh(NavMeshPtr&);
 };
 

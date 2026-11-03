@@ -3408,7 +3408,7 @@ struct S_00d0e210_StepInfo {
     int unk6C;
     int unk70;
     int unk74;
-    int unk78;
+    void* unk78;
 };
 
 
@@ -3428,7 +3428,7 @@ struct S_00d0e210_Sim {
     virtual void v30();
     virtual void v34();
     virtual void v38();
-    virtual void activate(S_00d0e210_Entity** entities, int numEntities, int arg, int* out);
+    virtual void activate(S_00d0e210_Entity** entities, int numEntities, void* arg, int* out);
     int unk04;
     int unk08;
     S_00d0e210_World* m_pOwningWorld;
@@ -3471,7 +3471,7 @@ void S_00d0e210_Sim::FUN_00d0e210(S_00d0e210_StepInfo* info, S_00d0e210_ToiEvent
             S_00d0e210_Entity* e = *sh.p;
             if (e->unk2A == 3) {
                 ::UpdateRotationInterpolation(event.m_uiCommandId, (::FUN_008cd6a0_Class *)(::S_00d0e210_Motion *)(&e->unkF0));
-                ::FUN_00cc0ea0((::ItemOwner *)(e), (void *)(info->unk78));
+                ::FUN_00cc0ea0((::ItemOwner *)(e), info->unk78);
                 for (int j = m_kToiEventQueue.m_iElementCount - 1; j >= 0; j--) {
                     S_00d0e210_ToiEvent& te = m_kToiEventQueue[j];
                     if (te.m_kActorEntries[0] == e || te.m_kActorEntries[1] == e) {
@@ -3772,12 +3772,12 @@ inline Se4b0_Step& Se4b0_step(World* w)
 }
 struct Se4b0_Constraint {
     ItemObj* item;
-    unsigned int entityA;
-    unsigned int entityB;
+    uintptr_t entityA;
+    uintptr_t entityB;
     int unk0c, unk10, unk14, unk18, unk1c, unk20, unk24, unk28, unk2c;
     Se4b0_Body* getOther(Se4b0_Body* e)
     {
-        return reinterpret_cast<Se4b0_Body*>(entityB ^ entityA ^ reinterpret_cast<unsigned int>(e));
+        return reinterpret_cast<Se4b0_Body*>(entityB ^ entityA ^ reinterpret_cast<uintptr_t>(e));
     }
 };
 struct Se4b0_Instance {
@@ -4390,7 +4390,7 @@ struct Source {
     unsigned unkc0;
     unsigned unkc4;
     unsigned unkc8;
-    unsigned handle;
+    void* handle;
 };
 struct TraceCmd {
     const char* name;
@@ -4506,16 +4506,16 @@ void FUN_00d0d3f0(Source** sources, int count, RenderParams* context, void* mark
     }
     if(primary.count+secondary.count>0) {
         Trace((unsigned char*)&DAT_010cc5e4);
-        reinterpret_cast<::FUN_00c911d0_Class *>((context))->EnterLock((void *)(sources[0]->handle));
+        reinterpret_cast<::FUN_00c911d0_Class *>((context))->EnterLock(sources[0]->handle);
         reinterpret_cast<::Dispatcher *>((context->sink))->DispatchPairs((::Pair *)(secondary.start),secondary.count);
         int pairs=primary.count;
         if(!S00d0d3f0_router()->heap().Available(pairs<<10)) {
-            reinterpret_cast<::FUN_00c91210_Class *>((context))->FUN_00c91210((void *)(sources[0]->handle));
+            reinterpret_cast<::FUN_00c91210_Class *>((context))->FUN_00c91210(sources[0]->handle);
         } else {
             Trace((unsigned char*)&DAT_010cc5d8);
             Region* region=context->region;
             reinterpret_cast<::DispatcherCF7080 *>((context->sink))->FUN_00cf7080((::PairCF7080 *)(primary.start),primary.count,(const ::FilterCF7080 *)(void *)(region ? &region->data : 0));
-            reinterpret_cast<::FUN_00c91210_Class *>((context))->FUN_00c91210((void *)(sources[0]->handle));
+            reinterpret_cast<::FUN_00c91210_Class *>((context))->FUN_00c91210(sources[0]->handle);
         }
     }
     Trace((unsigned char*)&::str_01076f38);
@@ -4738,7 +4738,7 @@ template<class T> __declspec(nothrow) void ListBase<T>::splice(Heap& a,int at,in
         size=result;
     }
 template<class T> __declspec(noinline) __declspec(nothrow) void ListBase<T>::Search(Heap& a,int at,const T* source,int n) throw() {splice(a,at,0,source,n);}
-template<class T> __declspec(noinline) __declspec(nothrow) void ListBase<T>::CallWithFlag(Heap& a,int at,const T& value) throw() {reinterpret_cast<::SearchObject *>(this)->Search((unsigned int)&(a),at,(unsigned int)(&value),1);}
+template<class T> __declspec(noinline) __declspec(nothrow) void ListBase<T>::CallWithFlag(Heap& a,int at,const T& value) throw() {Search(a,at,&value,1);}
 template<class T> class List : public ListBase<T> {
 public:
     __forceinline __declspec(nothrow) List() throw() {}
@@ -4746,8 +4746,8 @@ public:
     __forceinline __declspec(nothrow) ~List() throw() {ClearAndRelease();}
     __forceinline void ClearAndRelease() {this->drop(SelectHeap().get(this));}
     __forceinline void reserve(int n) {this->reserveWith(SelectHeap().get(this),n);}
-    __forceinline void aiRecipeIndex(int i,const T& t) {reinterpret_cast<::D10710Object *>((this))->CallWithFlag((void *)&(SelectHeap().get(this)),(void *)(i),(void *)&(t));}
-    __forceinline void aiRecipeIndex(int i,const T* p,int n) {reinterpret_cast<::SearchObject *>((this))->Search((unsigned int)&(SelectHeap().get(this)),i,(unsigned int)(p),n);}
+    __forceinline void aiRecipeIndex(int i,const T& t) {this->CallWithFlag(SelectHeap().get(this),i,t);}
+    __forceinline void aiRecipeIndex(int i,const T* p,int n) {this->Search(SelectHeap().get(this),i,p,n);}
 };
 template<class T,int N> class InlineList : public List<T> {
     T storage[N];
@@ -5404,7 +5404,7 @@ struct Stub_d9fb90 {
 };
 
 struct FUN_00d0d020_cls {
-    int m_vptr;
+    const void* m_vptr;
     int unk04;
     int unk08;
     int unk0c;
@@ -5435,7 +5435,7 @@ struct FUN_00d0d020_cls {
 FUN_00d0d020_cls *FUN_00d0d020_cls::FUN_00d0d020(Owner *apOwner) {
     // the base constructor (0x00cf87c0) takes the owner pointer as its argument
     new ((void *)(((Stub_cf87c0 *)this))) ::FUN_00cf87c0(apOwner);
-    m_vptr = (int)&::DAT_010cd45c;
+    m_vptr = &::DAT_010cd45c;
     unsigned int zero = 0;
     // the two {data, ?, capacity} holders; the capacity's top bit is a flag
     unsigned int *arr = (unsigned int *)&m_30;
@@ -5447,7 +5447,7 @@ FUN_00d0d020_cls *FUN_00d0d020_cls::FUN_00d0d020(Owner *apOwner) {
     arrB[1] = zero;
     arrB[2] = 0xffffffffu;
     AllocHolder *h = static_cast<AllocHolder*>(::FUN_00c85750());
-    reinterpret_cast<::FUN_00cb1fe0_t *>((((Stub_cb1fe0 *)&m_3c)))->EnsureCapacity((int)(h->m_pThreadAllocator), 0);
+    reinterpret_cast<::FUN_00cb1fe0_t *>((((Stub_cb1fe0 *)&m_3c)))->EnsureCapacity(reinterpret_cast<intptr_t>(h->m_pThreadAllocator), 0);
     m_10 = 1;
     AllocHolder *h2 = static_cast<AllocHolder*>(::FUN_00c85750());
     Allocator *al = h2->m_pThreadAllocator;
@@ -6143,16 +6143,16 @@ struct AdvanceSimulation {
     DWORD unk00,unk04,unk08,unk0C,unk10;
     float m_f14;
     DWORD unk18,unk1C,unk20,unk24;
-    Res* m_p28;
+    int m_p28;
     DWORD unk2C,unk30;
     DWORD m_34;
-    Res* FUN_00d0ed10();
+    int FUN_00d0ed10();
 };
 // Calls FUN_00d0ed10; once elapsed time reaches the frame marker time, marks entities, returns 3 if the state is 1, else fires post-simulation callbacks.
 // @fnv 0x00d0fe00
 int D0FE00Simulation::FUN_00d0fe00()
 {
-    int result = ((int)(reinterpret_cast<::AdvanceSimulation *>(this)->FUN_00d0ed10()));
+    int result = reinterpret_cast<::AdvanceSimulation *>(this)->FUN_00d0ed10();
     if (m_fElapsedSimulationTime >= m_frameMarkerTime) {
         if (m_iActorEntryCount & 0x7fffffff)
             markEntities(m_pOwningWorld->unk078, &m_entitiesToActivate);
@@ -6167,9 +6167,9 @@ int D0FE00Simulation::FUN_00d0fe00()
     return result;
 }
 
-// Under timers, calls FUN_00cf8820 if m_p28 is set, else FUN_00d0e9c0 when m_34 is set; returns the Res found, or clears m_p28 and returns null.
+// Under timers, calls FUN_00cf8820 if m_p28 is set, else FUN_00d0e9c0 when m_34 is set; returns the step result found, or clears m_p28 and returns 0.
 // @fnv 0x00d0ed10
-Res* AdvanceSimulation::FUN_00d0ed10()
+int AdvanceSimulation::FUN_00d0ed10()
 {
     volatile DWORD ticks;
     union Value { float delta; volatile DWORD lastTick; };
@@ -6177,14 +6177,14 @@ Res* AdvanceSimulation::FUN_00d0ed10()
     OuterTimeSection secPhysics("TtPhysics", ticks);
     if (m_p28) {
         hkTimeSection secCollide("TtreCollideAfterStepFailure", ticks);
-        Res* q = ((::Res *)(reinterpret_cast<::hkpSimulation_Derived *>(this)->FUN_00cf8820()));
+        int q = (int)(reinterpret_cast<::hkpSimulation_Derived *>(this)->FUN_00cf8820());
         if (q) { secPhysics.ordered = true; return q; }
     }
     {
         v.delta = reinterpret_cast<::Sim *>(this)->GetClampedSimulationTime();
         if (m_34) {
             hkTimeSection secTOI("TtTOIs", ticks);
-            Res* p = ((::Res *)(reinterpret_cast<::S_00d0e9c0 *>(this)->FUN_00d0e9c0(v.delta)));
+            int p = reinterpret_cast<::S_00d0e9c0 *>(this)->FUN_00d0e9c0(v.delta);
             if (p) {
                 m_p28 = p;
                 return p;
@@ -6207,7 +6207,7 @@ struct Calc_cls {
 };
 
 struct ArrayRef_cls {
-    int* m_pData;
+    char** m_pData;
     int m_iArrayLength;
     unsigned int m_iFlags;
 };
@@ -6222,23 +6222,33 @@ extern "C" void _ReadWriteBarrier(void);
 
 // For each item of owner calls FUN_00cf1b10(a1), appends it to arr once, copies two 16-byte blocks, and sets sub+0x4c to a1 and sub+0x5c to 1/(Get()-a1).
 // @fnv 0x00d0cde0
+struct D0cde0_Island
+{
+    char unk00[0x18];
+    void* m_world;
+    char unk1c[0x2c];
+    char** m_entities;
+    int m_iEntityCount;
+};
+
 void __cdecl FUN_00d0cde0(float a1, char* owner, Flags_cls* flags, ArrayRef_cls* arr)
 {
+    D0cde0_Island* island = (D0cde0_Island*)owner;
     int i = 0;
-    if (*(int*)(owner + 0x4c) <= 0) {
+    if (island->m_iEntityCount <= 0) {
         return;
     }
     do {
-        char* item = (char*)(*(int**)(owner + 0x48))[i];
+        char* item = island->m_entities[i];
         char* sub = item + 0xf0;
         ::FUN_00cf1b10(a1, (::FUN_008cd6a0_Class *)(sub));
         if (flags->m_pBytes[i] != 0x10) {
             hkMemoryRouter* holder = (&hkMemoryRouter::getInstance());
             if (arr->m_iArrayLength == (int)(arr->m_iFlags & 0x3fffffff)) {
-                ::ResizeAudioStream((::AudioAllocator *)(void *)(holder->m_heap), (::AudioStream *)(arr), 4);
+                ::ResizeAudioStream((::AudioAllocator *)(void *)(holder->m_heap), (::AudioStream *)(arr), int(sizeof(char*)));
             }
-            int* slot = &arr->m_pData[arr->m_iArrayLength];
-            int value = (int)item;
+            char** slot = &arr->m_pData[arr->m_iArrayLength];
+            char* value = item;
             _ReadWriteBarrier();
             *slot = value;
             arr->m_iArrayLength++;
@@ -6247,21 +6257,19 @@ void __cdecl FUN_00d0cde0(float a1, char* owner, Flags_cls* flags, ArrayRef_cls*
         *(__m128*)(sub + 0x40) = *(__m128*)(sub + 0x50);
         *(__m128*)(sub + 0x60) = *(__m128*)(sub + 0x70);
         *(volatile float*)(sub + 0x4c) = a1;
-        float y = reinterpret_cast<::fnv_00c91030::CpuObject *>((((Calc_cls*)*(void**)(owner + 0x18))))->FUN_00c91030();
+        float y = reinterpret_cast<::fnv_00c91030::CpuObject *>(((Calc_cls*)island->m_world))->FUN_00c91030();
         *(float*)(sub + 0x5c) = 1.0f / (y - a1);
         i++;
-    } while (i < *(int*)(owner + 0x4c));
+    } while (i < island->m_iEntityCount);
 }
 
 // Moved from hkpcontinuoussimulation_ehsc_noehsc_variant.cpp (VEGAS-15).
-#include "fnv/decl/AdvanceSimulation.h"
 #include "fnv/decl/C761F0Character.h"
 #include "fnv/decl/FUN_00c90510_class.h"
 #include "fnv/decl/FUN_00cb1930_t.h"
 #include "fnv/decl/FUN_00cb1a60_t.h"
 #include "fnv/decl/FnvCpu_FUN_00d081d0_CpuObject.h"
 #include "fnv/decl/SimulationContext.h"
-#include "fnv/decl/fnv_00d0c3e0__D0C3E0Owner.h"
 #include "fnv/symbols_00d28000.h"
 #include "fnv/symbols_00d88000.h"
 void FUN_00d0c6d0(S_00d0c6d0_EntryArray* aEntries, int* aIndex, S_00d0c6d0_ByteArray* table);
@@ -6274,46 +6282,12 @@ void FUN_00d0bf30(World_b2089* world, EntryList_b2089* pEntries);
 void __cdecl ProcessCollisionEvent(void* context, CollisionEvent* event, float deltaTime, CollisionQueue* queue);
 void UpdateBroadPhasePairs(CollidableD0** collidables, int numCollidables, WorldD0* world, PairArrayD0& newPairs, PairArrayD0& delPairs);
 void ReserveMoreL(HeapL& alloc, void* arr, int elemSize) throw();
-template <class T> struct ArrL {
-    T* m_data;
-    int m_iElementCount;
-    int m_iCapacityState;
-    ArrL() : m_data(0), m_iElementCount(0), m_iCapacityState(0x80000000) {}
-    ~ArrL() { _clearAndDeallocate(GetRouterL()->heap()); }
-    int getCapacity() const { return m_iCapacityState & 0x3fffffff; }
-    void _clearAndDeallocate(HeapL& alloc)
-    {
-        m_iElementCount = 0;
-        if ((m_iCapacityState & 0x80000000) == 0)
-            alloc.ReturnMemory(m_data, getCapacity() * sizeof(T));
-    }
-    void _pushBack(HeapL& alloc, const T& t)
-    {
-        if (m_iElementCount == getCapacity())
-            ReserveMoreL(alloc, this, sizeof(T));
-        ConstructWithCopyL<T>(m_data + m_iElementCount, 1, t);
-        m_iElementCount++;
-    }
-    void AddBack(const T& t) { _pushBack(GetRouterL()->heap(), t); }
-    T& operator[](int i) { return m_data[i]; }
-};
 void CollectUnsaturatedObjects(SrcL* pSource, int level, float fValue, unsigned char** ppFlags, ArrL<ObjL*>* out);
 void FUN_00d0bc50(int, int, int);
 void FUN_00d0bcf0(int a);
 void PartitionMotionPairs(PairEntryArray* apEntryArray, int* apiFixedCount, int index);
 void FUN_00d0ef40(ThisFull* th, void* edx_unused, StepArg arg);
 void FUN_00d0c9c0(ThingX** apEntries, int aiCount, ThingP* apP, const void* aiValue, bool abAlt);
-template<class T> __declspec(noinline) __declspec(nothrow) void ListBase<T>::CallWithFlag(Heap& a,int at,const T& value) throw() {Search(a,at,&value,1);}
-template<class T> class List : public ListBase<T> {
-public:
-    __forceinline __declspec(nothrow) List() throw() {}
-    __forceinline __declspec(nothrow) List(T* p,int n,int cap) throw():ListBase<T>(p,n,cap) {}
-    __forceinline __declspec(nothrow) ~List() throw() {ClearAndRelease();}
-    __forceinline void ClearAndRelease() {this->drop(SelectHeap().get(this));}
-    __forceinline void reserve(int n) {this->reserveWith(SelectHeap().get(this),n);}
-    __forceinline void aiRecipeIndex(int i,const T& t) {this->CallWithFlag(SelectHeap().get(this),i,t);}
-    __forceinline void aiRecipeIndex(int i,const T* p,int n) {this->Search(SelectHeap().get(this),i,p,n);}
-};
 int FUN_00d0f300(const Limits& limits,Resources& resources,PairEvent& event,ResourceManager& callbacks,Scene* world,List<DynamicNode*>& active,StateTable& states,float timeStep) throw();
 
 template<class T> class SolField {
@@ -6651,8 +6625,8 @@ struct S00d0db40_ContactMgr {
     virtual void ProcessAgent(S_00d0d150_Collidable* a, S_00d0d150_Collidable* b, const S00d0db40_Input& input, SolCollisionData& output);
 };
 struct S00d0db40_Pending {
-    __forceinline S00d0db40_Entity* get(unsigned int key, S00d0db40_Entity* def) const { return (S00d0db40_Entity*)((unsigned int)(reinterpret_cast<::FUN_00cb1930_t *>((void *)this)->LookupHashEntry(key, (unsigned int)def))); }
-    __forceinline int insert(unsigned int key, S00d0db40_Entity* value) { return reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(this)->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(&S00d0db40_router()->heap())), key, (unsigned int)value); }
+    __forceinline S00d0db40_Entity* get(unsigned int key, S00d0db40_Entity* def) const { return (S00d0db40_Entity*)(reinterpret_cast<::FUN_00cb1930_t *>((void *)this)->LookupHashEntry(key, (intptr_t)def)); }
+    __forceinline int insert(unsigned int key, S00d0db40_Entity* value) { return reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(this)->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(&S00d0db40_router()->heap())), key, (uintptr_t)value); }
 };
 class SolVector {
     __m128 q;
@@ -6786,7 +6760,7 @@ void S00d0db40_Dyn::FUN_00d0db40(S00d0db40_Entity** entities, int numEntities, c
                 output.reset();
                 input.m_quality = input.m_pCollisionDispatcher->quality(agent->m_cAgentType);
                 input.m_toiEnabled = input.m_quality->m_toiEnabled;
-                FUN_00cfedd0(agent, input, output, (S00d0db40_ContactMgr*)agent->m_pContactManager);
+                ::ProcessAgentCFEDD0::FUN_00cfedd0((::ProcessAgentCFEDD0::hkpAgentNnEntryProcessAgentCFEDD0 *)(agent), (const ::ProcessAgentCFEDD0::hkpProcessCollisionInputProcessAgentCFEDD0 &)(input), (::ProcessAgentCFEDD0::hkpProcessCollisionOutputProcessAgentCFEDD0 &)(output));
                 if (DAT_01269200 == 1) goto done;
                 if (!reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(output.isEmpty()))->FUN_005609f0()) {
                     S_00d0d150_Collidable* a = agent->m_kCollidable[0];
@@ -6948,11 +6922,6 @@ __forceinline T getData()const
 return(T)(hkUlong)TlsGetValue(m_slotID);
 }
 unsigned long m_slotID;};
-enum hkMemoryState
-{
-MEMORY_STATE_OK,
-MEMORY_STATE_OUT_OF_MEMORY
-};
 
 class hkBaseObject
 {
@@ -7199,7 +7168,7 @@ __forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=hkMemoryRo
 RouterAllocatedHashTable(int nelem=0){reserve(nelem);}
 ~RouterAllocatedHashTable(){reinterpret_cast<::CB1A90Owner *>(this)->ProcessArgument((::CB1A90Argument *)&(Allocator().get(this)));}
 __forceinline hkBool32 insert(KEY key,VAL val){return reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(this)->FUN_00cb1870((::fnv_00cb1870::hkMemoryAllocatorCB18 &)(Allocator().get(this)),key,val);}
-__forceinline void reserve(int numElements){return reinterpret_cast<::FUN_00cb1fe0_t *>(this)->EnsureCapacity((int)&(Allocator().get(this)),numElements);}
+__forceinline void reserve(int numElements){return reinterpret_cast<::FUN_00cb1fe0_t *>(this)->EnsureCapacity(reinterpret_cast<intptr_t>(&(Allocator().get(this))),numElements);}
 };
 template<typename KEY,typename VAL,typename OPS>
 inline typename HashEntryTable<KEY,VAL,OPS>::Iterator HashEntryTable<KEY,VAL,OPS>::GetFirstIterator()const
@@ -7888,13 +7857,13 @@ MODE_IDLE,
 MODE_WRITE,
 MODE_COMPARE
 };};
-__forceinline hkMemoryState hkGetOutOfMemoryState()
+__forceinline hkMemoryAllocator::MemoryState hkGetOutOfMemoryState()
 {
-return (*reinterpret_cast<::hkMemoryState *>(&::DAT_01269200));
+return (*reinterpret_cast<::hkMemoryAllocator::MemoryState *>(&::DAT_01269200));
 }
 __forceinline bool hkMemoryStateIsOutOfMemory(int id)
 {
-bool lowOnMem=hkGetOutOfMemoryState()==MEMORY_STATE_OUT_OF_MEMORY;
+bool lowOnMem=hkGetOutOfMemoryState()==hkMemoryAllocator::MEMORY_STATE_OUT_OF_MEMORY;
 return lowOnMem;
 }
 struct GskAgentInput;

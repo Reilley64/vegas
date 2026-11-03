@@ -665,7 +665,7 @@ struct FUN_0099e040_shell : public PathingRequestOptimalLocation
 // @fnv 0x0099e040
 float FUN_0099e040_shell::FUN_0099e040()
 {
-    return *(float*)((char*)this + 0xbc);
+    return fUnkBC;
 }
 
 extern int DAT_0106c9e0;
@@ -728,7 +728,7 @@ void __cdecl FUN_006d1600()
     MersenneTwister::GetRandomGenerator()->FUN_006d1620();
 }
 
-struct FUN_006d6d60_shell
+struct FUN_006d6d60_shell : public PathingRequestOptimalLocation
 {
     NiPoint3& FUN_006d6d60(NiPoint3& akDest);
 };
@@ -737,24 +737,22 @@ struct FUN_006d6d60_shell
 // @fnv 0x006d6d60
 NiPoint3& FUN_006d6d60_shell::FUN_006d6d60(NiPoint3& akDest)
 {
-    akDest = *reinterpret_cast<const NiPoint3*>((char*)this + 0xb0);
+    akDest = *reinterpret_cast<const NiPoint3*>(afTargetPoint);
     return akDest;
 }
 
-struct FUN_006d6d90_shell
+struct FUN_006d6d90_shell : public PathingRequestOptimalLocation
 {
-    char pad_0xc0[0xc0];
-    float f_0xc0;
     float FUN_006d6d90();
 };
 
 // @fnv 0x006d6d90
 float FUN_006d6d90_shell::FUN_006d6d90()
 {
-    return f_0xc0;
+    return fUnkC0;
 }
 
-struct FUN_006d6db0_shell
+struct FUN_006d6db0_shell : public PathingRequestOptimalLocation
 {
     unsigned char GetByteAtOffsetCC();
 };
@@ -762,10 +760,10 @@ struct FUN_006d6db0_shell
 // @fnv 0x006d6db0
 unsigned char FUN_006d6db0_shell::GetByteAtOffsetCC()
 {
-    return *(unsigned char*)((char*)this + 0xcc);
+    return ucUnkCC;
 }
 
-struct FUN_006d6dd0_shell
+struct FUN_006d6dd0_shell : public PathingRequestOptimalLocation
 {
     unsigned char GetByteAtOffsetCD();
 };
@@ -773,22 +771,21 @@ struct FUN_006d6dd0_shell
 // @fnv 0x006d6dd0
 unsigned char FUN_006d6dd0_shell::GetByteAtOffsetCD()
 {
-    return ((unsigned char*)this)[0xcd];
+    return ucUnkCD;
 }
 
-struct FUN_006d6df0_shell
+struct FUN_006d6df0_shell : public PathingRequestOptimalLocation
 {
-    unsigned char m_ce;
     unsigned char FUN_006d6df0();
 };
 
 // @fnv 0x006d6df0
 unsigned char FUN_006d6df0_shell::FUN_006d6df0()
 {
-    return *(reinterpret_cast<unsigned char*>(this) + 0xce);
+    return ucUnkCE;
 }
 
-struct FUN_006d6e10_shell
+struct FUN_006d6e10_shell : public PathingRequestOptimalLocation
 {
     char GetByteAtOffsetCF();
 };
@@ -796,10 +793,10 @@ struct FUN_006d6e10_shell
 // @fnv 0x006d6e10
 char FUN_006d6e10_shell::GetByteAtOffsetCF()
 {
-    return reinterpret_cast<char*>(this)[0xcf];
+    return (char)ucUnkCF;
 }
 
-struct FUN_006d6e30_shell
+struct FUN_006d6e30_shell : public PathingRequestOptimalLocation
 {
     unsigned char GetByteAtOffsetD1();
 };
@@ -807,7 +804,7 @@ struct FUN_006d6e30_shell
 // @fnv 0x006d6e30
 unsigned char FUN_006d6e30_shell::GetByteAtOffsetD1()
 {
-    return reinterpret_cast<unsigned char*>(this)[0xd1];
+    return ucUnkD1;
 }
 
 struct FUN_006d8970_shell

@@ -2423,7 +2423,7 @@ FUN_00431890::~FUN_00431890()
 }  // namespace fnv_00431890
 
 namespace fnv_00431950 {
-struct BE
+struct BE : ::BSExtraData
 {
     BE(unsigned char);
 };
@@ -2440,8 +2440,8 @@ extern const void* vftable_FUN_004319b0;
 // @fnv 0x00431950
 FUN_00431950::FUN_00431950(void* apRef) : BE(0x20)
 {
-    *reinterpret_cast<void**>(this) = &vftable_FUN_004319b0;
-    *(void**)(reinterpret_cast<char*>(this) + 0xc) = apRef;
+    *reinterpret_cast<void**>(this) = (void*)&vftable_FUN_004319b0;
+    m_pWorldReferenceInfo = apRef;
 }
 }  // namespace fnv_00431950
 
@@ -2559,6 +2559,9 @@ FUN_004326c0::FUN_004326c0(TESWorldSpace* apWorld, TESObjectCELL* apIntCell, con
 
 struct ExtraPackageStartLocation : BSExtraData
 {
+    TESForm* pLocation;
+    float afPosition[3];
+    float fAngle;
     ExtraPackageStartLocation(unsigned char aEtype);
     bool FUN_00432770(BSExtraData*);
 };
@@ -2571,14 +2574,14 @@ bool ExtraPackageStartLocation::FUN_00432770(BSExtraData* apCompare)
         return true;
     if (reinterpret_cast<::FUN_0040f700_shell *>(this)->IsDifferentFrom(apCompare))
         return true;
-    if (memcmp((void*)((char*)this + 0xc), (void*)((char*)pComp + 0xc), 0x14) != 0)
+    if (memcmp(&pLocation, &((ExtraPackageStartLocation*)pComp)->pLocation, 0x14) != 0)
         return true;
     return false;
 }
 
 namespace fnv_004327e0 {
 
-class BE
+class BE : public ::BSExtraData
 {
   public:
     BE(unsigned char);
@@ -2595,8 +2598,8 @@ struct FUN_004327e0 : BE
 // @fnv 0x004327e0
 FUN_004327e0::FUN_004327e0(TESObjectREFR* a_refr) : BE(0x1c)
 {
-    *reinterpret_cast<void**>(this) = &::fnv_0042c830::DAT_01015938;
-    *reinterpret_cast<TESObjectREFR**>(reinterpret_cast<char*>(this) + 0xc) = a_refr;
+    *reinterpret_cast<void**>(this) = (void*)&::fnv_0042c830::DAT_01015938;
+    pRef = a_refr;
 }
 }  // namespace fnv_004327e0
 
@@ -3032,6 +3035,8 @@ void* ExtraDismemberedLimbs::FUN_004302a0(unsigned int flags)
 class ExtraStartingPosition : public BSExtraData
 {
   public:
+    float afPosition[3];
+    float afRotation[3];
     ExtraStartingPosition();
     bool FUN_00430850(BSExtraData*);
 };
@@ -3046,7 +3051,7 @@ bool ExtraStartingPosition::FUN_00430850(BSExtraData* apCompare)
         return true;
     if (reinterpret_cast<::FUN_0040f700_shell *>(this)->IsDifferentFrom(apCompare))
         return true;
-    if (std::memcmp((char*)this + 0xC, (char*)pComp + 0xC, 0x18) != 0)
+    if (std::memcmp(afPosition, ((ExtraStartingPosition*)pComp)->afPosition, 0x18) != 0)
         return true;
     return false;
 }
@@ -3181,6 +3186,10 @@ extern int DAT_011841e8;
 
 struct ExtraRadioData : BSExtraData
 {
+    float fRadius;
+    int iRangeType;
+    float fStaticPercentage;
+    TESObjectREFR* pPositionRef;
     ExtraRadioData();
     bool CompareRadioData(BSExtraData*);
 };
@@ -3193,7 +3202,7 @@ bool ExtraRadioData::CompareRadioData(BSExtraData* apCompare)
         return true;
     if (reinterpret_cast<::FUN_0040f700_shell *>(this)->IsDifferentFrom(apCompare))
         return true;
-    if (std::memcmp((char*)this + 0xc, (char*)pComp + 0xc, 0x10) != 0)
+    if (std::memcmp(&fRadius, &((ExtraRadioData*)pComp)->fRadius, 0x10) != 0)
         return true;
     return false;
 }
@@ -3599,9 +3608,8 @@ void FUN_00434800_shell::FUN_00434800(void* target)
 }
 
 namespace fnv_00430200 {
-struct BE
+struct BE : ::BSExtraData
 {
-    unsigned char a;
     BE(unsigned char);
     ~BE();
 };
@@ -3616,19 +3624,20 @@ struct FUN_00430200 : BE
     int f14;
     int f18;
     unsigned char f1c;
+    AX kList20;
     FUN_00430200();
     ~FUN_00430200();
 };
 // @fnv 0x00430200
 FUN_00430200::FUN_00430200() : BE(0x5f)
 {
-    *reinterpret_cast<void**>(this) = &DAT_01015b34;
-    reinterpret_cast<::AX *>((reinterpret_cast<AX*>(reinterpret_cast<char*>(this) + 0x20)))->FUN_00438570();
+    *reinterpret_cast<void**>(this) = (void*)&DAT_01015b34;
+    reinterpret_cast<::AX *>((&kList20))->FUN_00438570();
     *reinterpret_cast<unsigned short*>(&this->f18) = 0;
-    *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x10) = -1;
-    *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x14) = 0;
-    *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x18) = -1;
-    *reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(this) + 0x1c) = 0;
+    f10 = -1;
+    f14 = 0;
+    f18 = -1;
+    f1c = 0;
 }
 }  // namespace fnv_00430200
 
@@ -3853,8 +3862,10 @@ FUN_00432870::FUN_00432870(unsigned int aiData, unsigned int aiFlags, unsigned i
 }
 }  // namespace fnv_00432870
 
+class BGSEncounterZone;
 struct ExtraEncounterZone : BSExtraData
 {
+    BGSEncounterZone* m_pEncounterZone;
     bool FUN_00432e90(BSExtraData*);
 };
 
@@ -3866,7 +3877,7 @@ bool ExtraEncounterZone::FUN_00432e90(BSExtraData* apCompare)
         return true;
     if (reinterpret_cast<::FUN_0040f700_shell *>(this)->IsDifferentFrom(apCompare))
         return true;
-    if (*(void**)((char*)this + 0xc) != *(void**)((char*)pcomp + 0xc))
+    if (m_pEncounterZone != ((ExtraEncounterZone*)pcomp)->m_pEncounterZone)
         return true;
     return false;
 }
@@ -4064,6 +4075,7 @@ FUN_00435bb0::~FUN_00435bb0()
 
 struct ExtraRadiation : BSExtraData
 {
+    float m_fRadiation;
     bool FUN_00436c40(BSExtraData* apCompare);
 };
 // Casts apCompare to ExtraRadiation, returns true if the cast fails, base compare passes, or the float at offset 0xc differs; otherwise false.
@@ -4075,7 +4087,7 @@ bool ExtraRadiation::FUN_00436c40(BSExtraData* apCompare)
         return true;
     if (reinterpret_cast<::FUN_0040f700_shell *>(this)->IsDifferentFrom(apCompare))
         return true;
-    if (*(float*)((char*)this + 0xc) != *(float*)((char*)pComp + 0xc))
+    if (m_fRadiation != ((ExtraRadiation*)pComp)->m_fRadiation)
         return true;
     return false;
 }
@@ -4119,6 +4131,8 @@ bool ExtraCombatStyle::FUN_00437300(BSExtraData* apCompare)
 
 struct ExtraAmmo : BSExtraData
 {
+    TESForm* pAmmo;
+    int iCount;
     bool FUN_004373c0(BSExtraData* apCompare);
 };
 
@@ -4130,9 +4144,9 @@ bool ExtraAmmo::FUN_004373c0(BSExtraData* apCompare)
         return true;
     if (reinterpret_cast<::FUN_0040f700_shell *>(this)->IsDifferentFrom(apCompare))
         return true;
-    if (*(int*)((char*)this + 0x10) != *(int*)((char*)pComp + 0x10))
+    if (iCount != ((ExtraAmmo*)pComp)->iCount)
         return true;
-    if (*(int*)((char*)this + 0xc) != *(int*)((char*)pComp + 0xc))
+    if (pAmmo != ((ExtraAmmo*)pComp)->pAmmo)
         return true;
     return false;
 }
@@ -4411,26 +4425,32 @@ void* ExtraInfoGeneralTopic::FUN_00432440(unsigned int flags)
 
 namespace fnv_00432810 {
 
-struct BE
+struct BE : ::BSExtraData
 {
     BE(unsigned char);
 };
 
 struct FUN_00432810 : BE
 {
+    void* pPackage;
+    int iPackageFlags;
+    void* pTargetRef;
+    unsigned char cA;
+    unsigned char cB;
+    unsigned char cC;
     FUN_00432810();
 };
 
 // @fnv 0x00432810
 FUN_00432810::FUN_00432810() : BE(0x19)
 {
-    *(void**)this = (void*)&(*reinterpret_cast<int *>(&::fnv_00432870::DAT_01015c24));
-    *(int*)((char*)this + 0xc) = 0;
-    *(int*)((char*)this + 0x10) = -1;
-    *(int*)((char*)this + 0x14) = 0;
-    *(char*)((char*)this + 0x18) = 0;
-    *(char*)((char*)this + 0x19) = 0;
-    *(char*)((char*)this + 0x1a) = 0;
+    *reinterpret_cast<void**>(this) = (void*)&(*reinterpret_cast<int *>(&::fnv_00432870::DAT_01015c24));
+    pPackage = 0;
+    iPackageFlags = -1;
+    pTargetRef = 0;
+    cA = 0;
+    cB = 0;
+    cC = 0;
 }
 }  // namespace fnv_00432810
 
@@ -4709,7 +4729,7 @@ void* ExtraFactionChangesStandIn::DestroyAndFree(unsigned int flags)
 }
 
 namespace fnv_004376e0 {
-struct BE
+struct BE : ::BSExtraData
 {
     BE(unsigned char);
 };
@@ -4717,17 +4737,21 @@ struct BE
 
 struct FUN_004376e0 : BE
 {
+    int iUnk0C;
+    void* pTopic;
+    int iUnk14;
+    unsigned char cUnk18;
     FUN_004376e0(int);
 };
 
 // @fnv 0x004376e0
 FUN_004376e0::FUN_004376e0(int arg) : BE(0x75)
 {
-    *(void**)this = (void*)&::DAT_01015f48;
-    *(int*)((char*)this + 0xc) = arg;
-    *(int*)((char*)this + 0x10) = 0;
-    *(int*)((char*)this + 0x14) = 0;
-    *(char*)((char*)this + 0x18) = 0;
+    *reinterpret_cast<void**>(this) = (void*)&::DAT_01015f48;
+    iUnk0C = arg;
+    pTopic = 0;
+    iUnk14 = 0;
+    cUnk18 = 0;
 }
 }  // namespace fnv_004376e0
 

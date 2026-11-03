@@ -50,7 +50,7 @@ struct Record
 bool Record::SetConfigValues(unsigned int uiValueA, unsigned int uiValueB, unsigned int uiValueC, int iValueD,
                              unsigned int uiValueE)
 {
-    EnterCriticalSection(criticalSection);
+    EnterCriticalSection((LPCRITICAL_SECTION)criticalSection);
     if (config)
     {
         ::FUN_00d60960((const float *)(config));
@@ -75,7 +75,7 @@ bool Record::SetConfigValues(unsigned int uiValueA, unsigned int uiValueB, unsig
     }
     else
         hasValue = false;
-    LeaveCriticalSection(criticalSection);
+    LeaveCriticalSection((LPCRITICAL_SECTION)criticalSection);
     return !hasValue;
 }
 
@@ -91,7 +91,7 @@ struct FUN_00dd9ab0_cls
 bool FUN_00dd9ab0_cls::FUN_00dd9ab0(unsigned int a1, unsigned int a2, int a3, unsigned int a4)
 {
     bool ok;
-    EnterCriticalSection(m_pWorldLock);
+    EnterCriticalSection((LPCRITICAL_SECTION)m_pWorldLock);
     if (m_pConfiguration != 0)
     {
         ::FUN_00d60960((const float *)(m_pConfiguration));
@@ -116,7 +116,7 @@ bool FUN_00dd9ab0_cls::FUN_00dd9ab0(unsigned int a1, unsigned int a2, int a3, un
 not_found:
     ok = false;
 done:
-    LeaveCriticalSection(m_pWorldLock);
+    LeaveCriticalSection((LPCRITICAL_SECTION)m_pWorldLock);
     return !ok;
 }
 
@@ -135,7 +135,7 @@ struct FUN_00dd9be0_cls
 // @fnv 0x00dd9be0
 bool FUN_00dd9be0_cls::FUN_00dd9be0(unsigned int auiValue, unsigned int auiParam)
 {
-    EnterCriticalSection(m_cs);
+    EnterCriticalSection((LPCRITICAL_SECTION)m_cs);
     if (m_pConfiguration != 0)
     {
         unsigned int v = auiParam;
@@ -158,7 +158,7 @@ bool FUN_00dd9be0_cls::FUN_00dd9be0(unsigned int auiValue, unsigned int auiParam
 zero:
     result = false;
 done:
-    LeaveCriticalSection(m_cs);
+    LeaveCriticalSection((LPCRITICAL_SECTION)m_cs);
     return !result;
 }
 
@@ -172,7 +172,7 @@ struct S_00dd9c60
 // @fnv 0x00dd9c60
 bool S_00dd9c60::FUN_00dd9c60()
 {
-    EnterCriticalSection(unk08);
+    EnterCriticalSection((LPCRITICAL_SECTION)unk08);
     if (unk04)
     {
         ::FUN_00d60960((const float *)(unk04));
@@ -184,7 +184,7 @@ bool S_00dd9c60::FUN_00dd9c60()
         r = true;
     else
         r = false;
-    LeaveCriticalSection(unk08);
+    LeaveCriticalSection((LPCRITICAL_SECTION)unk08);
     return !r;
 }
 
@@ -222,7 +222,7 @@ class ConfigStub
 
 struct ItemList
 {
-    unsigned int* m_pItems;
+    void** m_pItems;
     int m_iArrayLength;
 };
 
@@ -243,13 +243,13 @@ void FUN_00dd9da0_cls::ApplyItemList(ItemList* pItemList)
 {
     int i;
 
-    EnterCriticalSection(m_pUserData);
+    EnterCriticalSection((LPCRITICAL_SECTION)m_pUserData);
     reinterpret_cast<::hkOArchive_2 *>((m_pConfig))->WriteInt(pItemList->m_iArrayLength);
     for (i = 0; i < pItemList->m_iArrayLength; i++)
     {
         reinterpret_cast<::DDA8C0Writer *>((((ConfigStub*)m_pConfig)))->WriteShape((::Shape *)(pItemList->m_pItems[i]));
     }
-    LeaveCriticalSection(m_pUserData);
+    LeaveCriticalSection((LPCRITICAL_SECTION)m_pUserData);
 }
 
 
@@ -275,7 +275,7 @@ struct FUN_00dd9df0_cls
 // @fnv 0x00dd9df0
 bool FUN_00dd9df0_cls::FUN_00dd9df0(unsigned int a1, uintptr_t a2, unsigned int a3, unsigned int a4, unsigned int a5)
 {
-    EnterCriticalSection(this->criticalSection);
+    EnterCriticalSection((LPCRITICAL_SECTION)this->criticalSection);
     if (this->config != 0)
     {
         uintptr_t uiValue1Copy = a1;
@@ -300,7 +300,7 @@ bool FUN_00dd9df0_cls::FUN_00dd9df0(unsigned int a1, uintptr_t a2, unsigned int 
 notok:
     ok = false;
 done:
-    LeaveCriticalSection(this->criticalSection);
+    LeaveCriticalSection((LPCRITICAL_SECTION)this->criticalSection);
     return !ok;
 }
 
@@ -322,7 +322,7 @@ struct FUN_00dd9f40_cls
 bool FUN_00dd9f40_cls::SetAndCheck(unsigned int uiValue, unsigned int a2, int a3, unsigned int a4)
 {
     bool ok;
-    EnterCriticalSection(m_pWorldLock);
+    EnterCriticalSection((LPCRITICAL_SECTION)m_pWorldLock);
     if (m_pConfiguration != 0)
     {
         uintptr_t v = uiValue;
@@ -348,7 +348,7 @@ bool FUN_00dd9f40_cls::SetAndCheck(unsigned int uiValue, unsigned int a2, int a3
 not_found:
     ok = false;
 done:
-    LeaveCriticalSection(m_pWorldLock);
+    LeaveCriticalSection((LPCRITICAL_SECTION)m_pWorldLock);
     return !ok;
 }
 
@@ -368,7 +368,7 @@ struct FUN_00dda0e0_cls
 // @fnv 0x00dda0e0
 int FUN_00dda0e0_cls::FUN_00dda0e0(volatile unsigned int auiValue, unsigned int b, int c, unsigned int d)
 {
-    EnterCriticalSection(criticalSection);
+    EnterCriticalSection((LPCRITICAL_SECTION)criticalSection);
     if (config != 0)
     {
         uintptr_t v = auiValue;
@@ -383,7 +383,7 @@ int FUN_00dda0e0_cls::FUN_00dda0e0(volatile unsigned int auiValue, unsigned int 
         reinterpret_cast<::hkOArchive_2 *>((config))->WriteInt(d);
     }
     bool ok = (config != 0) && (((const char *)(reinterpret_cast<::FUN_00d607e0_class *>((config))->ForwardValueToObject((intptr_t)((unsigned int*)&auiValue))))[0] != 0);
-    LeaveCriticalSection(criticalSection);
+    LeaveCriticalSection((LPCRITICAL_SECTION)criticalSection);
     return !ok;
 }
 
@@ -405,7 +405,7 @@ struct FUN_00dda1a0_cls
 bool FUN_00dda1a0_cls::WriteConfigEntry(const char* name, const float* vec, unsigned int uiValueA, int iValueB,
                                         unsigned int uiValueC)
 {
-    EnterCriticalSection(criticalSection);
+    EnterCriticalSection((LPCRITICAL_SECTION)criticalSection);
     if (config != 0)
     {
         intptr_t n = ::fnv_00cb10d0::FUN_00cb10d0(name);
@@ -438,7 +438,7 @@ bool FUN_00dda1a0_cls::WriteConfigEntry(const char* name, const float* vec, unsi
 done:
     result = false;
 out:
-    LeaveCriticalSection(criticalSection);
+    LeaveCriticalSection((LPCRITICAL_SECTION)criticalSection);
     return !result;
 }
 
@@ -458,7 +458,7 @@ struct FUN_00dda290_cls
 // @fnv 0x00dda290
 int FUN_00dda290_cls::WriteConfigValue(volatile unsigned int a, int aiValue, unsigned int c)
 {
-    EnterCriticalSection(criticalSection);
+    EnterCriticalSection((LPCRITICAL_SECTION)criticalSection);
     if (config != 0)
     {
         uintptr_t v = a;
@@ -472,7 +472,7 @@ int FUN_00dda290_cls::WriteConfigValue(volatile unsigned int a, int aiValue, uns
         reinterpret_cast<::hkOArchive_2 *>((config))->WriteInt(c);
     }
     bool ok = (config != 0) && (((const char *)(reinterpret_cast<::FUN_00d607e0_class *>((config))->ForwardValueToObject((intptr_t)((unsigned int*)&a))))[0] != 0);
-    LeaveCriticalSection(criticalSection);
+    LeaveCriticalSection((LPCRITICAL_SECTION)criticalSection);
     return !ok;
 }
 
@@ -561,7 +561,7 @@ struct Output
 // @fnv 0x00dd9830
 int Output::WriteRecord(unsigned int first, unsigned int second, unsigned int third)
 {
-    EnterCriticalSection(lock);
+    EnterCriticalSection((LPCRITICAL_SECTION)lock);
     if (stream)
     {
         ::FUN_00d60960((const float *)(stream));
@@ -571,7 +571,7 @@ int Output::WriteRecord(unsigned int first, unsigned int second, unsigned int th
         reinterpret_cast<::hkOArchive_2 *>((((FUN_00d60940_Class*)stream)))->WriteInt(third);
     }
     bool failed = stream && *((char *)(reinterpret_cast<::FUN_00d607e0_class *>((stream))->ForwardValueToObject((intptr_t)(&first))));
-    LeaveCriticalSection(lock);
+    LeaveCriticalSection((LPCRITICAL_SECTION)lock);
     return !failed;
 }
 
@@ -601,7 +601,7 @@ struct S_00dd98c0
 // @fnv 0x00dd98c0
 S_00dd98c0_Result S_00dd98c0::WriteValue(intptr_t a1, int a2, int a3)
 {
-    EnterCriticalSection(unk8);
+    EnterCriticalSection((LPCRITICAL_SECTION)unk8);
     if (unk4)
     {
         ::FUN_00d60960((const float *)(unk4));
@@ -611,7 +611,7 @@ S_00dd98c0_Result S_00dd98c0::WriteValue(intptr_t a1, int a2, int a3)
         reinterpret_cast<::hkOArchive_2 *>((unk4))->WriteInt(a3);
     }
     bool ok = unk4 && unk4->ForwardValueToObject().m_cBooleanValue;
-    LeaveCriticalSection(unk8);
+    LeaveCriticalSection((LPCRITICAL_SECTION)unk8);
     return ok ? S_00dd98c0_SUCCESS : S_00dd98c0_FAILURE;
 }
 
@@ -940,7 +940,7 @@ bool Writer_dda340::Write(const ArrayRef_dda340<unsigned int>& a1, const ArrayRe
                           const ArrayRef_dda340<const char*>& a5, const ArrayRef_dda340<unsigned int>& a6,
                           const ArrayRef_dda340<unsigned int>& a7, const ArrayRef_dda340<QsTransform_dda340>& a8)
 {
-    EnterCriticalSection(this->criticalSection);
+    EnterCriticalSection((LPCRITICAL_SECTION)this->criticalSection);
     if (this->config)
     {
         int size2 = a2.m_iElementCount;
@@ -1021,7 +1021,7 @@ bool Writer_dda340::Write(const ArrayRef_dda340<unsigned int>& a1, const ArrayRe
     char status;
     bool failed = (this->config != 0 && *((const char *)(reinterpret_cast<::FUN_00d607e0_class *>((this->config))->ForwardValueToObject((intptr_t)((unsigned int*)&status)))) != 0);
 
-    LeaveCriticalSection(this->criticalSection);
+    LeaveCriticalSection((LPCRITICAL_SECTION)this->criticalSection);
     return !failed;
 }
 
@@ -1121,7 +1121,7 @@ struct SecondaryDisplay
 // @fnv 0x00dd9e90
 bool SecondaryDisplay::FUN_00dd9e90(unsigned int a, uintptr_t b, unsigned int c, int d, unsigned int e)
 {
-    EnterCriticalSection(criticalSection);
+    EnterCriticalSection((LPCRITICAL_SECTION)criticalSection);
     if (config)
     {
         uintptr_t a2 = a;
@@ -1134,6 +1134,6 @@ bool SecondaryDisplay::FUN_00dd9e90(unsigned int a, uintptr_t b, unsigned int c,
         reinterpret_cast<::hkOArchive_2 *>((config))->WriteInt(e);
     }
     bool ok = config != 0 && ((const char *)(reinterpret_cast<::FUN_00d607e0_class *>((config))->ForwardValueToObject((intptr_t)(&a))))[0] != 0;
-    LeaveCriticalSection(criticalSection);
+    LeaveCriticalSection((LPCRITICAL_SECTION)criticalSection);
     return !ok;
 }

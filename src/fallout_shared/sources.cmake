@@ -222,6 +222,7 @@ set(VEGAS18_FALLOUT_SHARED_SOURCES
   src/fallout_shared/tesloadscreentype.cpp
   src/fallout_shared/tesmodellist.cpp
   src/fallout_shared/tesmodeltextureswap.cpp
+  src/fallout_shared/tesnpc.cpp
   src/fallout_shared/tesnpc_h_unit.cpp
   src/fallout_shared/tesobjectanio.cpp
   src/fallout_shared/tesobjectarma.cpp
@@ -346,7 +347,6 @@ set(VEGAS18_FALLOUT_SHARED_NARROWING_SOURCES
   src/fallout_shared/teslevspell.cpp
   src/fallout_shared/teslight.cpp
   src/fallout_shared/tesmodel.cpp
-  src/fallout_shared/tesnpc.cpp
   src/fallout_shared/tesobject.cpp
   src/fallout_shared/tesobjectacti.cpp
   src/fallout_shared/tesobjectcell.cpp

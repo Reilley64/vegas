@@ -75,13 +75,15 @@ TESSound* FUN_007624d0()
 
 struct FUN_0076b610_Class
 {
+    char pad00[0x8];
+    int unk08;
     bool FUN_0076b610();
 };
 
 // @fnv 0x0076b610
 bool FUN_0076b610_Class::FUN_0076b610()
 {
-    return *(int*)((char*)this + 8) == 0;
+    return this->unk08 == 0;
 }
 
 struct Flt
@@ -111,17 +113,22 @@ FUN_0076bda0_class* FUN_0076bda0_class::FUN_0076bda0()
 
 struct FUN_00778950_Class
 {
+    char pad00[0x188];
+    unsigned int unk188;
     unsigned int GetField188();
 };
 
 // @fnv 0x00778950
 unsigned int FUN_00778950_Class::GetField188()
 {
-    return *(unsigned int*)((char*)this + 0x188);
+    return this->unk188;
 }
 
 struct FUN_0077a450_class
 {
+    char pad00[0x7c];
+    float unk7c;
+    float unk80;
     void SetFloats(float a, float b);
 };
 
@@ -129,8 +136,8 @@ struct FUN_0077a450_class
 // @fnv 0x0077a450
 void FUN_0077a450_class::SetFloats(float afValue1, float afValue2)
 {
-    *(float*)((char*)this + 0x7c) = afValue1;
-    *(float*)((char*)this + 0x80) = afValue2;
+    this->unk7c = afValue1;
+    this->unk80 = afValue2;
 }
 
 extern int DAT_010738cc;
@@ -306,12 +313,18 @@ void __cdecl FUN_0076baa0(WeatherEntry* apEntry)
 }
 
 // Compares the int at offset 0x214 of two objects, returning 1 if the first is greater, -1 if less, else 0.
+struct FUN_0076bb00_Item
+{
+    char pad00[0x214];
+    int unk214;
+};
+
 // @fnv 0x0076bb00
 int __cdecl FUN_0076bb00(void* pLeft, void* pRight)
 {
-    if (*((int*)((char*)pLeft + 0x214)) > *((int*)((char*)pRight + 0x214)))
+    if (((FUN_0076bb00_Item*)pLeft)->unk214 > ((FUN_0076bb00_Item*)pRight)->unk214)
         return 1;
-    else if (*((int*)((char*)pLeft + 0x214)) < *((int*)((char*)pRight + 0x214)))
+    else if (((FUN_0076bb00_Item*)pLeft)->unk214 < ((FUN_0076bb00_Item*)pRight)->unk214)
         return -1;
     else
         return 0;
@@ -319,12 +332,19 @@ int __cdecl FUN_0076bb00(void* pLeft, void* pRight)
 
 
 // If _pme is set and its field at offset 0x1b8 equals param_1, clears that field to 0 and returns true; otherwise returns false.
+// The HUDMainMenu field this unit uses (include/HUDMainMenu.h can't be included here: its Menu clashes with the unit's Menu stand-ins).
+struct ClearPmeIfMatches_HudView
+{
+    char pad00[0x1b8];
+    void* m_pCrosshairReference;
+};
+
 // @fnv 0x00778b40
 bool __cdecl ClearPmeIfMatches(int aiValue)
 {
-    if ((*reinterpret_cast<void * *>(&::g_pHudMainMenuInstance)) && *(int*)((char*)(*reinterpret_cast<void * *>(&::g_pHudMainMenuInstance)) + 0x1b8) == aiValue)
+    if (::g_pHudMainMenuInstance && (intptr_t)reinterpret_cast<ClearPmeIfMatches_HudView*>(::g_pHudMainMenuInstance)->m_pCrosshairReference == aiValue)
     {
-        *(int*)((char*)(*reinterpret_cast<void * *>(&::g_pHudMainMenuInstance)) + 0x1b8) = 0;
+        reinterpret_cast<ClearPmeIfMatches_HudView*>(::g_pHudMainMenuInstance)->m_pCrosshairReference = nullptr;
         return true;
     }
     return false;

@@ -142,8 +142,8 @@ const char* const* __cdecl FUN_00c1c2f0()
     return &(*reinterpret_cast<const char *const *>(&::g_012024e8));
 }
 
-extern int DAT_011ae754;
-extern int DAT_011ae758;
+extern intptr_t DAT_011ae754;
+extern intptr_t DAT_011ae758;
 
 // @fnv 0x00c1ba50
 const char* const* FUN_00c1ba50(unsigned short usIndex)

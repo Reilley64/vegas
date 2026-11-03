@@ -263,7 +263,7 @@ struct BSFadeNode {
     static void* __cdecl operator new(unsigned int);
 };
 // @fnv 0x00e978a0
-int __cdecl FUN_00e978a0(int a, intptr_t b)
+intptr_t __cdecl FUN_00e978a0(int a, intptr_t b)
 {
     void* p = BSFadeNode::operator new(0x8c);
     if (p)
@@ -1687,14 +1687,14 @@ struct FUN_00e81b60_Class {
     unsigned int m_uiEdgeIndex[3];
     FUN_00e81b60_Entry* m_entries[3];
 
-    int LookupEntry(unsigned int a, unsigned int b, int c, int d);
+    intptr_t LookupEntry(unsigned int a, unsigned int b, int c, int d);
 };
 
 extern int DAT_01101294;
 
 // Builds a key from a and b, checks the entry at the current index in slot c, and if it matches advances the index and returns the entry's value.
 // @fnv 0x00e81b60
-int FUN_00e81b60_Class::LookupEntry(unsigned int auiLowKey, unsigned int auiHighKey, int aiSlot, int aiUnused)
+intptr_t FUN_00e81b60_Class::LookupEntry(unsigned int auiLowKey, unsigned int auiHighKey, int aiSlot, int aiUnused)
 {
     unsigned int key = (auiHighKey << DAT_01101294) | auiLowKey;
     unsigned int index = m_uiEdgeIndex[aiSlot];
@@ -12094,14 +12094,14 @@ struct BlockAllocator {
     unsigned int unk24;
     unsigned int unk28;
     FUN_00a64330_Obj unk2C;
-    unsigned int FUN_00e98660(unsigned int size);
+    uintptr_t FUN_00e98660(unsigned int size);
 };
 
 
 void AllocateNodeList();
 
 // @fnv 0x00e98660
-unsigned int BlockAllocator::FUN_00e98660(unsigned int size) {
+uintptr_t BlockAllocator::FUN_00e98660(unsigned int size) {
     if (unk24 < size) {
         return 0;
     }

@@ -60,7 +60,7 @@ bool BSFaceGenModel::ApplyTextureCoordinate(FaceGenCoordinates* coord, NiPointer
                 ::fnv_00652190::FUN_00652190();
                 return false;
             }
-            m_kTextureSlots->m_pTextureData = FUN_00659780(((const char *)(::FUN_00559450((int *)&(m_kTextureSlots->m_kEGTFileName)))));
+            m_kTextureSlots->m_pTextureData = FUN_00659780((*(const char **)&(m_kTextureSlots->m_kEGTFileName)));
         }
         if (!m_kTextureSlots->m_pTextureData) {
             ::fnv_00652190::FUN_00652190();

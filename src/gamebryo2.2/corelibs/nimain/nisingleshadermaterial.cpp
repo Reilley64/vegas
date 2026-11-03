@@ -275,7 +275,7 @@ struct FUN_00aa0870_cls
 // @fnv 0x00aa0870
 FUN_00aa0870_cls* FUN_00aa0870_cls::Destroy(unsigned char acFlags)
 {
-    long(* pfnRelease)(long volatile*) = InterlockedDecrement;
+    long(* pfnRelease)(long volatile*) = [](volatile long* p) { return InterlockedDecrement(p); };
     *(intptr_t volatile*)&m_vptr = (intptr_t)&DAT_010a21dc;
     ShaderForUnload* sp = *(ShaderForUnload* volatile*)&m_sp;
     if (sp != 0)

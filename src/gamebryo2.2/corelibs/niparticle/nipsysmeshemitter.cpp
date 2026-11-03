@@ -2475,7 +2475,7 @@ struct FUN_00c1d660_cls
 // @fnv 0x00c1d660
 FUN_00c1d660_cls* FUN_00c1d660_cls::Release(unsigned char acFlags)
 {
-    LONG(* pDecrement)(LONG volatile*) = &InterlockedDecrement;
+    LONG(* pDecrement)(LONG volatile*) = [](volatile long* p) { return InterlockedDecrement(p); };
     FUN_00c1d660_cls* self = this;
     NiRefObject* obj = self->m_08;
     if (obj != 0)

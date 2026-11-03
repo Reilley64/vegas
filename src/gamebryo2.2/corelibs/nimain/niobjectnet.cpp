@@ -981,8 +981,8 @@ struct LinkObjectA5 : LinkBaseA5
     unsigned short m_pRayCursor;
     void RemoveExtraDataByName(unsigned short index)
     {
-        void(* leaveLock)(void*) = LeaveCriticalSection;
-        void(* enterLock)(void*) = EnterCriticalSection;
+        void(* leaveLock)(void*) = [](void* p) { LeaveCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(p)); };
+        void(* enterLock)(void*) = [](void* p) { EnterCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(p)); };
         enterLock(&(*reinterpret_cast<char *>(&::DAT_011f4380)));
         if (index < m_iElementCount)
             reinterpret_cast<::NiObjectNET *>(this)->DeleteExtraData(index);

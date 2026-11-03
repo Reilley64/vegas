@@ -1,5 +1,6 @@
 // fallout_shared/extradatalist.cpp: ExtraDataList, Owner, DelStandIn, ExtraPatrolRefData and more (578 functions)
 
+#include <cstdint>
 #include <new>
 #include <cmath>
 #include <cstring>
@@ -5944,11 +5945,11 @@ void FUN_0087fd20(FUN_0087fd20_Class* pThis)
 
 struct FUN_009611e0_shell : public TESPackage
 {
-    int FUN_009611e0();
+    intptr_t FUN_009611e0();
 };
 
 // @fnv 0x009611e0
-int FUN_009611e0_shell::FUN_009611e0()
+intptr_t FUN_009611e0_shell::FUN_009611e0()
 {
     return *(int*)((char*)this + 0x18);
 }

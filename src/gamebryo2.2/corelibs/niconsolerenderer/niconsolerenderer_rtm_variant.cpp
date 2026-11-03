@@ -26562,7 +26562,7 @@ struct ResetRenderer {
 bool ResetRenderer::FUN_00e736b0() {
  reinterpret_cast<::ControllerMapE8B *>((manager3))->FUN_00e8be20(); reinterpret_cast<::Owner8F6D0 *>((manager2))->FUN_00e8f6d0(); reinterpret_cast<::This_cd60 *>((manager1))->FUN_00e8cd60();
  FUN_00e7cc50((int*)device,1); FUN_00e7cc50((int*)device,2); FUN_00e7cc50((int*)device,3);
- long (*decrement)(long volatile*)=InterlockedDecrement;
+ long (*decrement)(long volatile*)= [](volatile long* p) { return InterlockedDecrement(p); };
  ResetNode* pos=geometry.First();
  while(pos) { const char* key; ResetObject* obj=0; reinterpret_cast<::FUN_00e6e630_cls *>(&(geometry))->AdvanceIterator((::MapItemNode **)&(pos),(unsigned int *)&(key),(::MapValueObject **)&(obj)); ResetObject* object=obj;
  object->Buffer(0)->data->Cast(&(*reinterpret_cast<::ResetRTTI *>(&::g_0126f5d8)))->Lost();

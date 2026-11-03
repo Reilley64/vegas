@@ -16,4 +16,4 @@ namespace fnv_00cbbb10 { int FUN_00cbbb10(intptr_t, uintptr_t, unsigned int); }
 // 0x00cbbfb0
 void FUN_00cbbfb0(uintptr_t);
 // 0x00cbbfc0
-int FUN_00cbbfc0();
+intptr_t FUN_00cbbfc0();

@@ -84,9 +84,9 @@ int* __cdecl FUN_00a927d0()
     return &(*reinterpret_cast<int *>(&::g_011f5e94));
 }
 
-extern long DAT_011f5ea0;
-extern long DAT_011f5ea4;
-extern long DAT_011f5ea8;
+extern intptr_t DAT_011f5ea0;
+extern intptr_t DAT_011f5ea4;
+extern intptr_t DAT_011f5ea8;
 
 struct FUN_00a928b0_shell : NiTextureEffect
 {

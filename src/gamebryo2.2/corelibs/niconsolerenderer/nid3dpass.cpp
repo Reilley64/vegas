@@ -465,7 +465,7 @@ void* FUN_00e7f900(void* self, int edx, unsigned int flags)
 }  // namespace fnv_00e7f900
 
 extern int DAT_0126f720;
-extern int DAT_0126f724;
+extern intptr_t DAT_0126f724;
 
 // @fnv 0x00e7f920
 void __cdecl FUN_00e7f920(intptr_t pObject)

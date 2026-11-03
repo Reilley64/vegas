@@ -1560,11 +1560,11 @@ struct FUN_00a66960_cls
     int m_24;
     int m_28;
     int m_2C;
-    int FUN_00a66960(int a1);
+    intptr_t FUN_00a66960(int a1);
 };
 
 // @fnv 0x00a66960
-int FUN_00a66960_cls::FUN_00a66960(int a1)
+intptr_t FUN_00a66960_cls::FUN_00a66960(int a1)
 {
     return m_2C;
 }

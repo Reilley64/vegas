@@ -480,7 +480,7 @@ bool FUN_00a4bae0_cls::FUN_00a4bae0()
     if (p != 0)
     {
         void* pNewHandle = ((void *)(::NiGlobalStringTable::AddString((const char *)(p))));
-        long(* pfnDecrement)(volatile long*) = InterlockedDecrement;
+        long(* pfnDecrement)(volatile long*) = [](volatile long* p) { return InterlockedDecrement(p); };
         if (m_hCur != pNewHandle)
         {
             if (pNewHandle != (*reinterpret_cast<void * *>(&::DAT_0109b220)))

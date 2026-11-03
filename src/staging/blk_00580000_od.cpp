@@ -2,6 +2,7 @@
 // src/staging/blk_00580000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstdint>
 #include <new>
 #include <cstring>
 #include "fnv/decl/BGSCameraShot.h"
@@ -1009,11 +1010,11 @@ struct Flt
 struct FUN_0058cb00_Class
 {
     char _pad[0x2c];
-    int FUN_0058cb00(unsigned int* a, int* b, unsigned char* c);
+    intptr_t FUN_0058cb00(unsigned int* a, int* b, unsigned char* c);
 };
 // If the field at offset 0x2c is nonzero, forwards a, b and c to FUN_0058cb60 on that object; otherwise zeroes all three outputs and returns 0.
 // @fnv 0x0058cb00
-int FUN_0058cb00_Class::FUN_0058cb00(unsigned int* puiValue, int* piValue, unsigned char* pbValue)
+intptr_t FUN_0058cb00_Class::FUN_0058cb00(unsigned int* puiValue, int* piValue, unsigned char* pbValue)
 {
     if ((unsigned int)*(Flt*)((char*)this + 0x2c))
         return ((FUN_0058cb60_Class*)(unsigned int)*(Flt*)((char*)this + 0x2c))

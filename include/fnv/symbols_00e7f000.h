@@ -20,7 +20,7 @@ namespace fnv_00e7f2b0 { void FUN_00e7f2b0(); }
 // 0x00e7f610
 void DestroyGlobalQueues();
 // 0x00e7f7c0
-int FUN_00e7f7c0();
+intptr_t FUN_00e7f7c0();
 // 0x00e7f900
 namespace fnv_00e7f900 { void *FUN_00e7f900(void *, int, unsigned int); }
 // 0x00e7f920

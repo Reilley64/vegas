@@ -20728,7 +20728,7 @@ void RendererPacketMap::FUN_00e72cf0(unsigned int key, ReferencePtr value) {
     for (; entry; entry=entry->next) {
         if (!Equal(key, entry->key)) continue;
         ReferenceObject* previous = entry->resource.object;
-        long (*pDecrement)(volatile long*) = &InterlockedDecrement;
+        long (*pDecrement)(volatile long*) = [](volatile long* p) { return InterlockedDecrement(p); };
         if (previous != value.object) {
             if (previous && !pDecrement(&previous->referenceCount))
                 previous->DeleteThis();

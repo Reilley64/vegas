@@ -1591,8 +1591,8 @@ void FUN_00a5edc0_cls::FUN_00a5edc0(NiRefObject* apArg, NiRefObject* apRefObject
 {
     if (apRefObject)
     {
-        long(* pfnIncRef)(volatile long*) = InterlockedIncrement;
-        long(* pfnDecRef)(volatile long*) = InterlockedDecrement;
+        long(* pfnIncRef)(volatile long*) = [](volatile long* p) { return InterlockedIncrement(p); };
+        long(* pfnDecRef)(volatile long*) = [](volatile long* p) { return InterlockedDecrement(p); };
         volatile long* rc = (volatile long*)&apRefObject->m_uiRefCount;
         pfnIncRef(rc);
         reinterpret_cast<::FUN_00a59d00_shell *>((apRefObject))->SetParent((::NiNode *)(void *)(this));
@@ -2219,7 +2219,7 @@ void S00a5e690_Obj::GetChild(uintptr_t index, NiRefA** out)
     {
         unsigned int iIndex = index;
         NiRefA* n = m_children[iIndex];
-        long(* incFn)(volatile long*) = InterlockedIncrement;
+        long(* incFn)(volatile long*) = [](volatile long* p) { return InterlockedIncrement(p); };
         if (n != 0)
         {
             incFn(&n->m_uiRefCount);

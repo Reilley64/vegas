@@ -20,7 +20,7 @@ void *FUN_00a8f440(void *);
 // 0x00a8f870
 void RunRegistryHandlers();
 // 0x00a8fe20
-unsigned int FUN_00a8fe20(unsigned int *);
+uintptr_t FUN_00a8fe20(unsigned int *);
 // 0x00a8ff80
 void *FUN_00a8ff80();
 // 0x00a8ffc0

@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 // @fnv 0x00cbc440
+#include <cstdint>
 #include "fnv/decl/Target.h"
 #include "fnv/symbols_00cc0000.h"
 #include "fnv/symbols_01268000.h"
@@ -13,7 +14,7 @@ int FUN_00cbc440(int a, int b)
 
 
 // @fnv 0x00cbbfc0
-int FUN_00cbbfc0()
+intptr_t FUN_00cbbfc0()
 {
     return (*reinterpret_cast<int *>(&::DAT_01268418));
 }

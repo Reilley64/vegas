@@ -408,9 +408,9 @@ void FUN_00e937f0_shell::AddShader(ShaderArg* pkShader)
         m_pTaskMap->SetAt(pkShader->GetKey(), (NiShader*)pkShader);
 }
 
-extern int DAT_0126fa18;
-extern int DAT_0126fa1c;
-extern int DAT_0126fa20;
+extern intptr_t DAT_0126fa18;
+extern intptr_t DAT_0126fa1c;
+extern intptr_t DAT_0126fa20;
 
 // @fnv 0x00e92f70
 void FUN_00e92f70(intptr_t param_1)

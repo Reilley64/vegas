@@ -4948,7 +4948,7 @@ void __cdecl DestroyGlobalQueues()
 
 
 // @fnv 0x00e7f7c0
-int __cdecl FUN_00e7f7c0()
+intptr_t __cdecl FUN_00e7f7c0()
 {
     return DAT_0126f728;
 }
@@ -9116,11 +9116,11 @@ class DepthStencilSearch
     int unk00;
     int unk04;
     SearchIndex m_08;
-    int FindBestFullscreenFormat(unsigned int p1, int p2, int p3);
+    intptr_t FindBestFullscreenFormat(unsigned int p1, int p2, int p3);
 };
 // Returns the DAT_011bf140 value of the enabled fullscreen entry whose two values from FUN_00e7a8b0 are closest to p2 and p3, or 0.
 // @fnv 0x00e7ade0
-int DepthStencilSearch::FindBestFullscreenFormat(unsigned int p1, int aiDepth, int aiStencil)
+intptr_t DepthStencilSearch::FindBestFullscreenFormat(unsigned int p1, int aiDepth, int aiStencil)
 {
     NiDX9RenderTargetInfo* pRenderTargetInfo = 0;
     int result = 0;

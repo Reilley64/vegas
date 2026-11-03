@@ -1924,11 +1924,11 @@ struct FUN_0065cc70_Holder
     int m_iWordAt04;
     int m_8;
     int m_C;
-    int FUN_0065cc70(unsigned int param);
+    intptr_t FUN_0065cc70(unsigned int param);
 };
 // Bounds-checks param against the holder's count, then returns the int stored at offset 0xc plus param.
 // @fnv 0x0065cc70
-int FUN_0065cc70_Holder::FUN_0065cc70(unsigned int uiIndex)
+intptr_t FUN_0065cc70_Holder::FUN_0065cc70(unsigned int uiIndex)
 {
     if (uiIndex >= ((FUN_0065cc50_Class*)this)->FUN_0065cc50())
         std::abort();
@@ -1943,10 +1943,10 @@ struct TextureBasis
 };
 struct Holder : TextureBasis
 {
-    int FUN_0065cec0(unsigned int);
+    intptr_t FUN_0065cec0(unsigned int);
 };
 // @fnv 0x0065cec0
-int Holder::FUN_0065cec0(unsigned int auiIndex)
+intptr_t Holder::FUN_0065cec0(unsigned int auiIndex)
 {
     if (auiIndex >= ((unsigned int)(reinterpret_cast<::FUN_0065cea0_class *>(this)->FUN_0065cea0())))
         std::abort();

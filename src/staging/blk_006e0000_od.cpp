@@ -1373,7 +1373,7 @@ S006e7620_R1* __cdecl _FUN_00c85750();
 void __cdecl FUN_006e7620(int aiSize, const char* what)
 {
     S006e7620_R1* mem = _FUN_00c85750();
-    reinterpret_cast<::S_005e0ad0 *>((((::S006e7620_R2 *)(new ((void *)(mem)) ::Vec3()))))->FUN_005e0ad0({}, {});
+    reinterpret_cast<::S_005e0ad0 *>((((::S006e7620_R2 *)(new ((void *)(mem)) ::Vec3()))))->FUN_005e0ad0((aiSize + 0x7f) & 0xffffff80, (int)(intptr_t)(what));
 }
 
 struct FUN_006e9000_Class
@@ -6696,7 +6696,7 @@ bool FE550Area::FUN_006fe550(const FE550Point3* pkPos)
 
     FE550Point2 kTestPoint(pkPos->x, pkPos->y);
     FE550Point2 kTargetCenter(m_fCenterX, m_fCenterY);
-    float fValue = reinterpret_cast<::FnvOwner *>(this)->ComputeDistanceSquaredToRect((*(::FnvPt2 *)&(const ::FE550Point2 &)(kTargetCenter)), m_uiCount * 4096.0, (*(float *)&(const ::FE550Point2 &)(kTestPoint)), {});
+    float fValue = reinterpret_cast<::FnvOwner *>(this)->ComputeDistanceSquaredToRect((*(::FnvPt2 *)&(const ::FE550Point2 &)(kTargetCenter)), m_uiCount * 4096.0, kTestPoint.x, kTestPoint.y);
     if (fValue < m_fThreshold)
         return true;
     return false;
@@ -6706,7 +6706,7 @@ bool FUN_006fe620_cls::FUN_006fe620(Vec2* pPoint)
 {
     Vec2 a(pPoint->x, pPoint->y);
     Vec2 b(m_34, m_38);
-    float r2 = reinterpret_cast<::FnvOwner *>(this)->ComputeDistanceSquaredToRect((*(::FnvPt2 *)&(const ::Vec2 &)(b)), (float)((double)m_04 * DAT_01017a10), (*(float *)&(const ::Vec2 &)(a)), {});
+    float r2 = reinterpret_cast<::FnvOwner *>(this)->ComputeDistanceSquaredToRect((*(::FnvPt2 *)&(const ::Vec2 &)(b)), (float)((double)m_04 * DAT_01017a10), a.x, a.y);
     if (r2 < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::GameSettingRef *>(&::g_011d877c)))))))
     {
         return true;
@@ -6718,7 +6718,7 @@ bool S_006fe6d0::FUN_006fe6d0(const S_006fe6d0_Vec2* pPoint)
 {
     S_006fe6d0_Vec2 a(pPoint->x, pPoint->y);
     S_006fe6d0_Vec2 b(unk34, unk38);
-    float r2 = reinterpret_cast<::FnvOwner *>(this)->ComputeDistanceSquaredToRect((*(::FnvPt2 *)&(const ::S_006fe6d0_Vec2 &)(b)), (float)(unk4 * DAT_01017a10), (*(float *)&(const ::S_006fe6d0_Vec2 &)(a)), {});
+    float r2 = reinterpret_cast<::FnvOwner *>(this)->ComputeDistanceSquaredToRect((*(::FnvPt2 *)&(const ::S_006fe6d0_Vec2 &)(b)), (float)(unk4 * DAT_01017a10), a.x, a.y);
     if (r2 < *((float *)&(::FUN_00403e20((float *)&(DAT_011d8724)))))
         return true;
     return false;
@@ -6730,7 +6730,7 @@ bool S_006fe780_Foo::FUN_006fe780(const FUN_00452dc0* pPoint)
     FUN_00452dc0 a(pPoint->x, pPoint->y);
     float r2;
     FUN_00452dc0 b(unk34, unk38);
-    r2 = reinterpret_cast<::FnvOwner *>(this)->ComputeDistanceSquaredToRect((*(::FnvPt2 *)&(const ::FUN_00452dc0 &)(b)), (float)(DAT_01017a10 * (double)unk04), (*(float *)&(const ::FUN_00452dc0 &)(a)), {});
+    r2 = reinterpret_cast<::FnvOwner *>(this)->ComputeDistanceSquaredToRect((*(::FnvPt2 *)&(const ::FUN_00452dc0 &)(b)), (float)(DAT_01017a10 * (double)unk04), a.x, a.y);
     if (r2 < *((float *)&(::FUN_00403e20((float *)&(DAT_011d8788)))))
         return true;
     return false;
@@ -6912,7 +6912,7 @@ float FnvScaleNode::GetScaleAtPoint(NiPoint2* pPoint)
 {
     NiPoint2 aPt(pPoint->x, pPoint->y);
     NiPoint2 inPt(this->m34, this->m38);
-    float res = reinterpret_cast<::FnvOwner *>((this))->ComputeDistanceSquaredToRect((*(::FnvPt2 *)&(const ::NiPoint2 &)(inPt)), (float)((double)this->m04 * 4096.0), (*(float *)&(const ::NiPoint2 &)(aPt)), {});
+    float res = reinterpret_cast<::FnvOwner *>((this))->ComputeDistanceSquaredToRect((*(::FnvPt2 *)&(const ::NiPoint2 &)(inPt)), (float)((double)this->m04 * 4096.0), aPt.x, aPt.y);
     if (res < this->m4c)
     {
         return 1.0f;

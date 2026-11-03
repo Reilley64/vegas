@@ -800,11 +800,11 @@ void __cdecl FUN_007ca700(void* pObject)
     int iValue = *(int*)((char*)pObject + 0x24);
     if (((FUN_007ca700_Virt*)((*reinterpret_cast<char * *>(&::_g_thePlayer)) + 0xa4))->v07(iValue) > 1)
     {
-        reinterpret_cast<::TaskQueueInterface *>((((::FUN_00450f90_Obj *)(::FUN_00559450((int *)(((FUN_00559450_Owner*)((char*)pObject + 8))))))))->QueueActorDisarm({});
+        reinterpret_cast<::TaskQueueInterface *>((((::FUN_00450f90_Obj *)(::FUN_00559450((int *)(((FUN_00559450_Owner*)((char*)pObject + 8))))))))->QueueActorDisarm(false);
     }
     else
     {
-        reinterpret_cast<::TaskQueueInterface *>((((::FUN_00450f90_Obj *)(::FUN_00559450((int *)(((FUN_00559450_Owner*)((char*)pObject + 8))))))))->QueueActorDisarm({});
+        reinterpret_cast<::TaskQueueInterface *>((((::FUN_00450f90_Obj *)(::FUN_00559450((int *)(((FUN_00559450_Owner*)((char*)pObject + 8))))))))->QueueActorDisarm(true);
     }
     if (FUN_004b71d0())
     {
@@ -812,7 +812,7 @@ void __cdecl FUN_007ca700(void* pObject)
         {
             if (iValue != *(int*)((char*)DAT_011daa38 + 0x4c) + 4)
             {
-                reinterpret_cast<::TaskQueueInterface *>((((::FUN_00450f90_Obj *)(::FUN_00559450((int *)(((FUN_00559450_Owner*)((char*)pObject + 8))))))))->QueueActorDisarm({});
+                reinterpret_cast<::TaskQueueInterface *>((((::FUN_00450f90_Obj *)(::FUN_00559450((int *)(((FUN_00559450_Owner*)((char*)pObject + 8))))))))->QueueActorDisarm(true);
             }
         }
     }
@@ -1746,18 +1746,18 @@ void __cdecl FUN_007ca7a0(CsParam* param_1)
     if (((CsVObj*)((*reinterpret_cast<char * *>(&::_g_thePlayer)) + 0xa4))->vf07(iValue) < 10 &&
         (DAT_011daa38 == 0 || FUN_00794d80(DAT_011daa38) < *(int*)((char*)DAT_011daa38 + 0x58)))
     {
-        reinterpret_cast<::TaskQueueInterface *>((((::CsTarget *)(::FUN_00559450((int *)&(param_1->sub08))))))->QueueActorDisarm({});
+        reinterpret_cast<::TaskQueueInterface *>((((::CsTarget *)(::FUN_00559450((int *)&(param_1->sub08))))))->QueueActorDisarm(false);
     }
     else
     {
-        reinterpret_cast<::TaskQueueInterface *>((((::CsTarget *)(::FUN_00559450((int *)&(param_1->sub08))))))->QueueActorDisarm({});
+        reinterpret_cast<::TaskQueueInterface *>((((::CsTarget *)(::FUN_00559450((int *)&(param_1->sub08))))))->QueueActorDisarm(true);
     }
 
     if (FUN_004b71d0() && *(int*)((char*)DAT_011daa38 + 0x48) == 8)
     {
         if (iValue != *(int*)((char*)DAT_011daa38 + 0x4c) + 4)
         {
-            reinterpret_cast<::TaskQueueInterface *>((((::CsTarget *)(::FUN_00559450((int *)&(param_1->sub08))))))->QueueActorDisarm({});
+            reinterpret_cast<::TaskQueueInterface *>((((::CsTarget *)(::FUN_00559450((int *)&(param_1->sub08))))))->QueueActorDisarm(true);
         }
     }
 }

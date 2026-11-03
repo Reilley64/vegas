@@ -2328,8 +2328,8 @@ void MenuState::UpdateMenuSelection()
                         reinterpret_cast<::AlphaInterface *>(this)->SetNodeAlpha((::AlphaNode *)(::MenuComponent *)(((::MenuComponent *)(uintptr_t)(reinterpret_cast<::fnv_0056c7f0::Tile *>((((::MenuComponent *)(reinterpret_cast<::Callees *>((actor))->FUN_00726070()))))->FUN_0056c7f0()))), 0.0f, 0.0f);
                         if (shouldUpdate)
                         {
-                            reinterpret_cast<::FUN_007123f0_shell *>((((::MenuComponent *)(::ImageSpaceManager::FUN_004e3270()))))->FUN_007123f0({});
-                            reinterpret_cast<::S4 *>((((::MenuComponent *)(::ImageSpaceManager::FUN_004e3270()))))->FUN_007123a0({});
+                            reinterpret_cast<::FUN_007123f0_shell *>((((::MenuComponent *)(::ImageSpaceManager::FUN_004e3270()))))->FUN_007123f0(0.0f);
+                            reinterpret_cast<::S4 *>((((::MenuComponent *)(::ImageSpaceManager::FUN_004e3270()))))->FUN_007123a0(0);
                         }
                     }
                 }
@@ -2339,7 +2339,7 @@ void MenuState::UpdateMenuSelection()
                     reinterpret_cast<::Tile *>((((::MenuComponent *)(reinterpret_cast<::Callees *>((actor))->FUN_00726070()))))->Set(0xfa3, 1);
                     reinterpret_cast<::AlphaInterface *>(this)->SetNodeAlpha((::AlphaNode *)(::MenuComponent *)(((::MenuComponent *)(uintptr_t)(reinterpret_cast<::fnv_0056c7f0::Tile *>((((::MenuComponent *)(reinterpret_cast<::Callees *>((actor))->FUN_00726070()))))->FUN_0056c7f0()))), 1.0f - amount, 0.0f);
                     if (shouldUpdate)
-                        reinterpret_cast<::FUN_007123f0_shell *>((((::MenuComponent *)(::ImageSpaceManager::FUN_004e3270()))))->FUN_007123f0({});
+                        reinterpret_cast<::FUN_007123f0_shell *>((((::MenuComponent *)(::ImageSpaceManager::FUN_004e3270()))))->FUN_007123f0(1.0f - amount);
                 }
             }
             else if (selection == 8)
@@ -2353,8 +2353,8 @@ void MenuState::UpdateMenuSelection()
                     reinterpret_cast<::TESRecipe *>((actor))->SetRequiredSkill((::ActorValue::Index)(1));
                     if (shouldUpdate)
                     {
-                        reinterpret_cast<::FUN_007123f0_shell *>((((::MenuComponent *)(::ImageSpaceManager::FUN_004e3270()))))->FUN_007123f0({});
-                        reinterpret_cast<::S4 *>((((::MenuComponent *)(::ImageSpaceManager::FUN_004e3270()))))->FUN_007123a0({});
+                        reinterpret_cast<::FUN_007123f0_shell *>((((::MenuComponent *)(::ImageSpaceManager::FUN_004e3270()))))->FUN_007123f0(1.0f);
+                        reinterpret_cast<::S4 *>((((::MenuComponent *)(::ImageSpaceManager::FUN_004e3270()))))->FUN_007123a0(0);
                     }
                 }
                 else
@@ -2363,7 +2363,7 @@ void MenuState::UpdateMenuSelection()
                     reinterpret_cast<::Tile *>((((::MenuComponent *)(reinterpret_cast<::Callees *>((actor))->FUN_00726070()))))->Set(0xfa3, 1);
                     reinterpret_cast<::AlphaInterface *>(this)->SetNodeAlpha((::AlphaNode *)(::MenuComponent *)(((::MenuComponent *)(uintptr_t)(reinterpret_cast<::fnv_0056c7f0::Tile *>((((::MenuComponent *)(reinterpret_cast<::Callees *>((actor))->FUN_00726070()))))->FUN_0056c7f0()))), amount, 0.0f);
                     if (shouldUpdate)
-                        reinterpret_cast<::FUN_007123f0_shell *>((((::MenuComponent *)(::ImageSpaceManager::FUN_004e3270()))))->FUN_007123f0({});
+                        reinterpret_cast<::FUN_007123f0_shell *>((((::MenuComponent *)(::ImageSpaceManager::FUN_004e3270()))))->FUN_007123f0(amount);
                 }
             }
         }

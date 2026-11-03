@@ -961,50 +961,6 @@ class hkProcessorE0A5
 #include <math.h>
 #include "fnv/symbols_simd.h"
 
-struct FUN_00e0a6c0_Parameters
-{
-    int m_00;
-    int m_04;
-    char m_08[0x0c];
-    int m_14;
-    char m_18[0x04];
-    float m_1c;
-    char m_20[0x14];
-    int m_34;
-};
-
-struct FUN_00e0a6c0_Class
-{
-    char m_00[0x10];
-    float m_10;
-
-    float FUN_00e0a6c0(const FUN_00e0a6c0_Parameters* parameters);
-};
-
-// Scales |m_14 - m_34| by m_1c, adjusts it by m_00 < m_04 (returning 0 if negative), takes the 4th power and returns it times m_10.
-// @fnv 0x00e0a6c0
-float FUN_00e0a6c0_Class::FUN_00e0a6c0(const FUN_00e0a6c0_Parameters* parameters)
-{
-    int difference = parameters->m_14 - parameters->m_34;
-    double absoluteDifference = fabs(static_cast<double>(difference));
-    float value = static_cast<float>(absoluteDifference) * parameters->m_1c;
-
-    if (parameters->m_00 < parameters->m_04)
-    {
-        value = static_cast<float>(static_cast<double>(value) - DAT_0101de30);
-        value = static_cast<float>(static_cast<double>(value) * DAT_01034208);
-        if (value < 0.0f)
-            return 0.0f;
-    }
-    else
-    {
-        value = value * value;
-    }
-
-    value = value * value * value * value;
-    return value * m_10;
-}
-
 struct S00e098b0_Elem
 {
     int unk00;
@@ -1371,7 +1327,7 @@ struct ScorerObj
     int unk00, unk04;
     float f08, f0c, f10, f14, f18, f1c;
     float FUN_00e0a850(SearchCtx* ctx);
-    float FUN_00e0a6c0(SearchCtx* ctx);
+    float FUN_00e0a6c0(const SearchCtx* ctx);
 };
 struct SeqOwner
 {
@@ -1507,7 +1463,7 @@ void SeqOwner::FUN_00e09be0(OutRec* out, ObjRef* obj, ItemSpan* span, float* ran
         ctx.pick = indices.j;
         ctx.pos = rem + indices.j;
         ctx.s850 = scorer->FUN_00e0a850(&ctx);
-        ctx.s6c0 = reinterpret_cast<::FUN_00e0a6c0_Class *>((scorer))->FUN_00e0a6c0((const ::FUN_00e0a6c0_Parameters *)(::SearchCtx *)(&ctx));
+        ctx.s6c0 = scorer->FUN_00e0a6c0(&ctx);
 
         float jScaled = (float)indices.j * ctx.countF;
         ctx.termA = jScaled * 5.0 * scorer->f08;
@@ -1547,52 +1503,62 @@ void SeqOwner::FUN_00e09be0(OutRec* out, ObjRef* obj, ItemSpan* span, float* ran
     tail->last = 0;
     tail->count = 0;
 }
-__declspec(noinline) float ScorerObj::FUN_00e0a850(SearchCtx* c)
+// Returns 0 if scale*phase is positive, otherwise an even polynomial in scale*phase times f14, with scale from the
+// context's range and f1c.
+// @fnv 0x00e0a850
+float ScorerObj::FUN_00e0a850(SearchCtx* c)
 {
-    float center = (c->range0 + c->range1) * 0.5;
-    float diff = c->cand - center;
-    float inv;
+    float phase = c->cand - (float)((c->range1 + c->range0) * ::DAT_01011588);
+    float scale;
     if (c->tag < c->copied38)
     {
-        float span = c->range1 - c->range0;
-        float cap = this->f1c;
-        float v = cap < span ? cap : span;
-        float denom = span + v;
-        if (denom > 0.0f)
-            inv = 1.0f / denom;
+        float width = c->range1 - c->range0;
+        float bound = f1c;
+        float selected;
+        if (bound < width)
+            selected = bound;
         else
-            inv = DAT_010ea608;
+            selected = width;
+        if (width + selected > 0.0f)
+            scale = 1.0f / (width + selected);
+        else
+            scale = ::DAT_010ea608;
     }
     else
-        inv = c->inv;
-    float scaled = inv * diff;
-    if (scaled > 0.0f)
+        scale = c->inv;
+    float x = scale * phase;
+    if (x > 0.0f)
         return 0.0f;
-    float square = scaled * scaled;
-    float fourth = square * square;
-    float eighth = fourth * fourth;
-    float poly = fourth * 3.0 + square * DAT_010ea600 + eighth * DAT_010737c8;
-    float result = poly * f14;
-    return result;
+    float x2 = x * x;
+    float x4 = x2 * x2;
+    float x8 = x4 * x4;
+    float poly = (x2 * ::DAT_010ea600 + x4 * ::DAT_01021928) + x8 * ::DAT_010737c8;
+    return poly * f14;
 }
 
-__declspec(noinline) float ScorerObj::FUN_00e0a6c0(SearchCtx* c)
+// Scales |index - pos| by countF, adjusts it when tag < copied38 (returning 0 if negative), takes the 4th power and
+// returns it times f10.
+// @fnv 0x00e0a6c0
+float ScorerObj::FUN_00e0a6c0(const SearchCtx* c)
 {
-    float d = (float)(c->index - c->pos);
-    d = (float)fabs(d);
-    d = d * c->countF;
+    int difference = c->index - c->pos;
+    double absoluteDifference = fabs(static_cast<double>(difference));
+    float value = static_cast<float>(absoluteDifference) * c->countF;
+
     if (c->tag < c->copied38)
     {
-        d = d - 0.75;
-        d = d * 6.0;
-        if (d < 0.0f)
-            d = 0.0f;
+        value = static_cast<float>(static_cast<double>(value) - DAT_0101de30);
+        value = static_cast<float>(static_cast<double>(value) * DAT_01034208);
+        if (value < 0.0f)
+            return 0.0f;
     }
     else
-        d = d * d;
-    d = d * d * d * d;
-    d = d * f10;
-    return d;
+    {
+        value = value * value;
+    }
+
+    value = value * value * value * value;
+    return value * f10;
 }
 
 struct QuadExtent
@@ -1816,53 +1782,5 @@ void QuadSplitter::FUN_00e0a0b0(QuadRange* in, QuadCenter* center, int context, 
     }
 }
 
-namespace fnv_00e0a850 {
-struct FnParams
-{
-    int first, last;
-    float lower, upper, default_scale;
-    int unknown14, unknown18, unknown1c, unknown20, unknown24, unknown28, unknown2c, unknown30, unknown34;
-    float displacement;
-};
-struct FnvCurve
-{
-    int unknown00, unknown04, unknown08, unknown0c, unknown10;
-    float coefficient;
-    int unknown18;
-    float threshold;
-    float FUN_00e0a850(FnParams* p);
-};
-// Returns 0 if scale*phase is positive, otherwise an even polynomial in scale*phase times coefficient, with scale from p's bounds and threshold.
-// @fnv 0x00e0a850
-float FnvCurve::FUN_00e0a850(FnParams* apParams)
-{
-    float phase = apParams->displacement - (float)((apParams->upper + apParams->lower) * ::DAT_01011588);
-    float scale;
-    if (apParams->first < apParams->last)
-    {
-        float width = apParams->upper - apParams->lower;
-        float bound = threshold;
-        float selected;
-        if (bound < width)
-            selected = bound;
-        else
-            selected = width;
-        if (width + selected > 0.0f)
-            scale = 1.0f / (width + selected);
-        else
-            scale = ::DAT_010ea608;
-    }
-    else
-        scale = apParams->default_scale;
-    float x = scale * phase;
-    if (x > 0.0f)
-        return 0.0f;
-    float x2 = x * x;
-    float x4 = x2 * x2;
-    float x8 = x4 * x4;
-    float poly = (x2 * ::DAT_010ea600 + x4 * ::DAT_01021928) + x8 * ::DAT_010737c8;
-    return poly * coefficient;
-}
-}  // namespace fnv_00e0a850
 
 #include "generated/data/havok/physics/internal/collide/mopp/builder/splitter/hkpmoppdefaultsplitter.inc"

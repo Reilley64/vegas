@@ -533988,7 +533988,7 @@
     },
     {
      "address": "0x00c74f50",
-     "symbol": "?FUN_00c74f50@fnv_00c74f50@@YAXH@Z",
+     "symbol": "?FUN_00c74f50@fnv_00c74f50@@YAXPAX@Z",
      "size": 29
     },
     {
@@ -540637,7 +540637,7 @@
     "__ehhandler$?CreateSpawnedObject20@@YAPAUSpawnedObject20_b9537@@XZ": "0x00f3462f",
     "?SaveSerializeData@BC87850RefObject@@QAEXAAVBC87850Stream@@@Z": "0x00c87850",
     "__ehhandler$?CreateObject@FUN_00cac250_cls@fnv_00cac250@@QAEPAUFUN_00cac250_obj@2@H@Z": "0x00f3330a",
-    "?AllocateWithHeader@fnv_00cb0ad0@@YAPADPAUCB0AD0Allocator@1@H@Z": "0x00c85690",
+    "?AllocateWithHeader@fnv_00cb0ad0@@YAPADPAVhkMemoryAllocator@@H@Z": "0x00c85690",
     "?CopyIfNonEmpty@@YAXPADPBDH@Z": "0x00cb10b0",
     "?ResizeBuffer@@YAXPAUSpawnedBuffer@@H@Z": "0x00cb0e50",
     "__ehhandler$?CreateFUN_00cbc550@fnv_00cbc5e0@@YAPAUFUN_00cbc550@1@XZ": "0x00f337af",

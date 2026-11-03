@@ -2083,7 +2083,7 @@ void __cdecl FUN_00477d10(ReferenceView* reference)
     if (reinterpret_cast<TESForm*>(reference)->GetDisabled())
         reinterpret_cast<::fnv_00573f40::R *>((reference))->FUN_00573f40();
     reinterpret_cast<::NiTMap_S *>((reinterpret_cast<GlobalView*>(&g_011c4104)))->RemoveKey((std::uintptr_t)(reference));
-    reinterpret_cast<::EntryMap9A5 *>((((::FinalView *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::ManagerView * *>(&::BGSSaveLoadGlobalDataWorldspacePtr))))->FUN_00825c00()))))->RemoveEntryForRef({});
+    reinterpret_cast<::EntryMap9A5 *>((((::FinalView *)(std::uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::ManagerView * *>(&::BGSSaveLoadGlobalDataWorldspacePtr))))->FUN_00825c00()))))->RemoveEntryForRef({});
 }
 
 

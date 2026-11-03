@@ -481,7 +481,7 @@ void FUN_005ec280_shell::FUN_005ec280()
 {
     ::FUN_00485910(0x4a424f51, (int)(std::uintptr_t)(((::BSSimpleList< ::RegionObjectEntry *> *)(reinterpret_cast<::Callees *>((((BSSimpleList<RegionObjectEntry*>*)this)))->FUN_00726070()))));
     ::FUN_004856f0((void *)(0x4d414e4e), (void *)(reinterpret_cast<::FUN_005ec330_shell *>((((FUN_005ec330_shell*)this)))->GetPromptText()),
-                                     (void *)(reinterpret_cast<::FUN_005ec310_shell *>((((FUN_005ec310_shell*)this)))->GetLength() + 1));
+                                     (void *)(std::uintptr_t)(reinterpret_cast<::FUN_005ec310_shell *>((((FUN_005ec310_shell*)this)))->GetLength() + 1));
     BSSimpleList<RegionObjectEntry*>* list = ((::BSSimpleList< ::RegionObjectEntry *> *)(reinterpret_cast<::NonActorMagicTarget *>((((BGSQuestObjective*)this)))->GetActiveEffectList()));
     while (list && !list->IsEmpty())
     {

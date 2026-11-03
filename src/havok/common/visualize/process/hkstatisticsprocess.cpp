@@ -2,6 +2,7 @@
 // src/havok/common/visualize/process/hkstatisticsprocess.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/visualize/process/hkstatisticsprocess.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstdint>
 #include <new>
 #include "fnv/decl/CB1A90Owner.h"
@@ -47,7 +48,6 @@ struct AudioHolder
     AudioAllocator* m_pAllocator;
 };
 
-AudioHolder* __cdecl FUN_00c85750() throw();
 
 struct ArrayMember
 {
@@ -57,7 +57,7 @@ struct ArrayMember
 
     ~ArrayMember() throw()
     {
-        AudioHolder* pHolder = FUN_00c85750();
+        AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
         AudioAllocator* pAllocator = pHolder->m_pAllocator;
         unsigned int uCapacity = m_uCapacity;
         m_iArrayLength = 0;
@@ -76,7 +76,7 @@ struct PtrArrayMember
 
     ~PtrArrayMember() throw()
     {
-        AudioHolder* pHolder = FUN_00c85750();
+        AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
         AudioAllocator* pAllocator = pHolder->m_pAllocator;
         unsigned int uCapacity = m_uCapacity;
         m_iArrayLength = 0;
@@ -154,7 +154,7 @@ struct Singleton
 };
 __forceinline Singleton* GetSingleton()
 {
-    return reinterpret_cast<Singleton*>(FUN_00c85750());
+    return reinterpret_cast<Singleton*>(static_cast<AudioHolder*>(::FUN_00c85750()));
 }
 struct IntVec
 {
@@ -573,7 +573,6 @@ struct AudioHolder
     AudioAllocator* m_pAllocator;
 };
 
-AudioHolder* __cdecl FUN_00c85750();
 
 struct FUN_00ddc840
 {
@@ -583,7 +582,7 @@ struct FUN_00ddc840
     virtual ~FUN_00ddc840();
     static void operator delete(void* apMemory)
     {
-        AudioHolder* pHolder = FUN_00c85750();
+        AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
         unsigned int uiSize = ((FUN_00ddc840*)apMemory)->m_u04;
         AudioAllocator* pAllocator = pHolder->m_pAllocator;
         pAllocator->Free(apMemory, uiSize);
@@ -632,7 +631,7 @@ struct Sbf00_Arr24
     unsigned int m_uCapacity;
     void Free()
     {
-        AudioHolder* pHolder = FUN_00c85750();
+        AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
         AudioAllocator* pAllocator = pHolder->m_pAllocator;
         unsigned int uCapacity = m_uCapacity;
         m_iArrayLength = 0;
@@ -734,7 +733,7 @@ FUN_00ddbf00::FUN_00ddbf00(PtrArrayMember* pSource)
     }
     reinterpret_cast<::FUN_00cc0780 *>(&(kCtx))->FUN_00cc0780::~FUN_00cc0780();
     kArr.Free();
-    Sbf00_Alloc* pAlloc = (Sbf00_Alloc*)FUN_00c85750()->m_pAllocator;
+    Sbf00_Alloc* pAlloc = (Sbf00_Alloc*)static_cast<AudioHolder*>(::FUN_00c85750())->m_pAllocator;
     unsigned int uCap = pThis->m_kFirst.m_uCapacity;
     int iCap = uCap & 0x3fffffff;
     if (iCap < pSource->m_iArrayLength)
@@ -772,7 +771,6 @@ struct AllocHolder
     FixedAllocator* m_pAllocator;
 };
 
-AllocHolder* FUN_00c85750();
 
 struct ElemSub
 {
@@ -799,7 +797,7 @@ struct FUN_00ddc870_cls
 // @fnv 0x00ddc870
 void FUN_00ddc870_cls::FUN_00ddc870()
 {
-    AllocHolder* holder = FUN_00c85750();
+    AllocHolder* holder = static_cast<AllocHolder*>(::FUN_00c85750());
     FixedAllocator* alloc = holder->m_pAllocator;
     int iCount = m_iArrayLength;
     Elem* pItems = *(Elem* volatile*)&m_pItems;

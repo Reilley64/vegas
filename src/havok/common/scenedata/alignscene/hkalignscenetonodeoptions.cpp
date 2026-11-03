@@ -2,6 +2,7 @@
 // src/havok/common/scenedata/alignscene/hkalignscenetonodeoptions.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/scenedata/alignscene/hkalignscenetonodeoptions.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstdint>
 #include <xmmintrin.h>
 #include "fnv/decl/S_00e3ed00_Foo.h"
@@ -49,7 +50,6 @@ struct hkMemoryRouterE4AF
         return *m_pStreamAllocator;
     }
 };
-extern "C" hkMemoryRouterE4AF& __cdecl FUN_00c85750();
 
 class FUN_00cb0c00_class
 {
@@ -72,7 +72,7 @@ class hkReferencedObjectE4AF
 
     static void operator delete(void* p) throw()
     {
-        FUN_00c85750().heap().ReleaseBlock(p, static_cast<hkReferencedObjectE4AF*>(p)->m_usMemSizeAndFlags);
+        (*static_cast<hkMemoryRouterE4AF*>(::FUN_00c85750())).heap().ReleaseBlock(p, static_cast<hkReferencedObjectE4AF*>(p)->m_usMemSizeAndFlags);
     }
 };
 
@@ -187,7 +187,7 @@ template <class T, int N> struct InplaceArrE4
     }
     __forceinline void release() throw()
     {
-        HeapAllocE4& h = ((RouterE4*)&FUN_00c85750())->heap();
+        HeapAllocE4& h = ((RouterE4*)&(*static_cast<hkMemoryRouterE4AF*>(::FUN_00c85750())))->heap();
         m_iElementCount = 0;
         if (!(m_iCapacityState & 0x80000000))
             h.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));

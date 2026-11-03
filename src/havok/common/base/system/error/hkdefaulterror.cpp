@@ -2,6 +2,7 @@
 // src/havok/common/base/system/error/hkdefaulterror.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/system/error/hkdefaulterror.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstdint>
 #include "fnv/decl/CB1A90Owner.h"
 #include "fnv/decl/FUN_00c903b0_class.h"
@@ -64,7 +65,6 @@ struct FUN_00c85750_return
     int unk0c;
     intptr_t unk10;
 };
-FUN_00c85750_return* __cdecl FUN_00c85750();
 struct FUN_00d2b5c0_class
 {
     int unk00;
@@ -81,7 +81,7 @@ void FUN_00d2b5c0_class::FUN_00d2b5c0(int value, char flag)
         sub.FUN_00cb1fb0(value);
         return;
     }
-    FUN_00c85750_return* manager = FUN_00c85750();
+    FUN_00c85750_return* manager = static_cast<FUN_00c85750_return*>(::FUN_00c85750());
     reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(sub))->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(manager->unk10)), value, 1);
 }
 
@@ -111,7 +111,6 @@ struct Widget : Base
     int unk06;
     void* GetSelfWithNotify(unsigned char flags);
 };
-extern AudioState* __cdecl FUN_00c85750();
 // Calls the base function, and if bit 0 of flags is set, notifies the audio manager's vtable with this object and unk04, then returns this.
 // @fnv 0x00d2b710
 void* Widget::GetSelfWithNotify(unsigned char flags)
@@ -119,7 +118,7 @@ void* Widget::GetSelfWithNotify(unsigned char flags)
     ClearAndReset();
     if (flags & 1)
     {
-        AudioState* state = FUN_00c85750();
+        AudioState* state = static_cast<AudioState*>(::FUN_00c85750());
         state->unk10->notify(this, unk04);
     }
     return this;
@@ -229,7 +228,7 @@ D2B640Object* D2B640Object::Initialize(int a1, int a2)
     *(unsigned int volatile*)&sub->m_00 = 0;
     *(unsigned int volatile*)&sub->m_04 = 0;
     *(unsigned int volatile*)&sub->m_08 = 0xffffffffu;
-    FUN_00c85750_return* pResult = FUN_00c85750();
+    FUN_00c85750_return* pResult = static_cast<FUN_00c85750_return*>(::FUN_00c85750());
     reinterpret_cast<::FUN_00cb1fe0_t *>((sub))->EnsureCapacity(pResult->unk10, 0);
     *(unsigned int volatile*)&m_14 = 0;
     *(unsigned int volatile*)&m_18 = 0;
@@ -273,7 +272,7 @@ struct FUN_00d2b6b0_cls
 // @fnv 0x00d2b6b0
 void FUN_00d2b6b0_cls::ClearAndReset()
 {
-    FUN_00c85750_return* pHolder = FUN_00c85750();
+    FUN_00c85750_return* pHolder = static_cast<FUN_00c85750_return*>(::FUN_00c85750());
     D2B6Allocator* pAllocator = (D2B6Allocator*)pHolder->unk10;
     m_iArrayLength = 0;
     unsigned int uCapacityFlags = m_uCapBits;
@@ -284,7 +283,7 @@ void FUN_00d2b6b0_cls::ClearAndReset()
     m_pData = 0;
     m_uCapBits = 0x80000000u;
     D2B6Sub* pSub = &m_sub;
-    reinterpret_cast<::CB1A90Owner *>((pSub))->ProcessArgument((::CB1A90Argument *)(FUN_00c85750()->unk10));
+    reinterpret_cast<::CB1A90Owner *>((pSub))->ProcessArgument((::CB1A90Argument *)(static_cast<FUN_00c85750_return*>(::FUN_00c85750())->unk10));
     ::FUN_00a29680();
     m_vptr00 = (intptr_t)&(*reinterpret_cast<int *>(&::DAT_0102e388));
 }

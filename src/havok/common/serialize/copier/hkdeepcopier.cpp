@@ -1,3 +1,4 @@
+#include "fnv/symbols_00c85000.h"
 #include <new>
 #include <cstdint>
 #include "fnv/decl/CB1A90Owner.h"
@@ -35,7 +36,6 @@ struct hkMemRouter
     }
 };
 
-void* FUN_00c85750();
 void ResizeAudioStream(void* alloc, void* arr, int elemSize);
 void* AllocateWithHeader(hkMemAlloc& alloc, intptr_t numBytes);
 

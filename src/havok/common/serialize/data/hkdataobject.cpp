@@ -2,6 +2,7 @@
 // src/havok/common/serialize/data/hkdataobject.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/serialize/data/hkdataobject.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstdint>
 #include <new>
 #include "fnv/decl/FUN_00dc72e0_class.h"
@@ -2241,7 +2242,6 @@ struct S_Router
         return *m10;
     }
 };
-S_Router* FUN_00c85750();
 
 struct S_Obj
 {
@@ -2316,7 +2316,7 @@ struct S_Arr
     }
     void SetSizeAndGrow(int n)
     {
-        reserve(FUN_00c85750()->heap(), n);
+        reserve(static_cast<S_Router*>(::FUN_00c85750())->heap(), n);
         size = n;
     }
 };
@@ -2496,7 +2496,7 @@ struct DB8000_PtrArray
 
     void ClearAndRelease()
     {
-        DB8000_Alloc& alloc = ((DB8000_Router*)FUN_00c85750())->heap();
+        DB8000_Alloc& alloc = ((DB8000_Router*)static_cast<S_Router*>(::FUN_00c85750()))->heap();
         int cap = m_iCapacityState;
         m_iElementCount = 0;
         if ((cap & 0x80000000) == 0)
@@ -2529,7 +2529,7 @@ struct DB8000_Out
 
     void ClearAndRelease()
     {
-        DB8000_Alloc& alloc = ((DB8000_Router*)FUN_00c85750())->heap();
+        DB8000_Alloc& alloc = ((DB8000_Router*)static_cast<S_Router*>(::FUN_00c85750()))->heap();
         int cap = m_iCapacityState;
         m_iElementCount = 0;
         if ((cap & 0x80000000) == 0)

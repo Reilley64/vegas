@@ -2,6 +2,7 @@
 // src/havok/unplaced/havokstream.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/havok/havokstream.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstdint>
 #include <cstddef>
 #include <new>
@@ -188,12 +189,11 @@ void FUN_00626320::Method(const void* data, unsigned int size)
 struct BSAudio
 {
 };
-extern "C" BSAudio* __cdecl FUN_00c85750();
 void __cdecl FUN_00c856c0(void* a, void* b);
 // @fnv 0x00626760
 void __cdecl FUN_00626760(void* a)
 {
-    BSAudio* p = FUN_00c85750();
+    BSAudio* p = static_cast<BSAudio*>(::FUN_00c85750());
     FUN_00c856c0(((void *)(reinterpret_cast<::MagicCaster_shell *>((p))->FUN_0044edb0())), a);
 }
 

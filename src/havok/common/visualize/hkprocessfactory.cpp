@@ -2,6 +2,7 @@
 // src/havok/common/visualize/hkprocessfactory.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/visualize/hkprocessfactory.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstdint>
 #include <new>
 #include "fnv/decl/FUN_00cb0a60.h"
@@ -23,7 +24,6 @@ struct FUN_00dd9580_Service
     int unk0c;
     FUN_00dd9580_Interface* unk10;
 };
-FUN_00dd9580_Service* __cdecl FUN_00c85750();
 struct FUN_00dd9580_Class
 {
     void* vtable;
@@ -66,7 +66,7 @@ FUN_00dd9460_cls* FUN_00dd9460_cls::Initialize()
     unk0c = 0;
     unk10 = 0;
     unk14 = 0x80000000u;
-    FUN_00dd9580_Service* svc = FUN_00c85750();
+    FUN_00dd9580_Service* svc = static_cast<FUN_00dd9580_Service*>(::FUN_00c85750());
     FUN_00dd9460_Factory* f = reinterpret_cast<FUN_00dd9460_Factory*>(svc->unk10);
     void* pBuffer = f->CreateBuffer(0x18);
     if (pBuffer != 0)
@@ -100,7 +100,7 @@ struct MyInterface
 // @fnv 0x00dd9550
 MyFactory* CreateFactory()
 {
-    FUN_00dd9580_Service* service = FUN_00c85750();
+    FUN_00dd9580_Service* service = static_cast<FUN_00dd9580_Service*>(::FUN_00c85750());
     MyInterface* iface = (MyInterface*)service->unk10;
     MyFactory* factory = iface->v04(0x1c);
     factory->unk04 = 0x1c;
@@ -118,7 +118,7 @@ struct S_00dd94c0_Heap
 };
 inline S_00dd94c0_Heap& S_00dd94c0_GetHeap()
 {
-    return *(S_00dd94c0_Heap*)FUN_00c85750()->unk10;
+    return *(S_00dd94c0_Heap*)static_cast<FUN_00dd9580_Service*>(::FUN_00c85750())->unk10;
 }
 
 struct S_00dd94c0_Entry
@@ -169,7 +169,7 @@ FUN_00dd9580_Class* FUN_00dd9580_Class::FUN_00dd9580(char flags)
     reinterpret_cast<::FUN_00dd94c0 *>(this)->FUN_00dd94c0::~FUN_00dd94c0();
     if (flags & 1)
     {
-        FUN_00dd9580_Service* service = FUN_00c85750();
+        FUN_00dd9580_Service* service = static_cast<FUN_00dd9580_Service*>(::FUN_00c85750());
         service->unk10->notify(this, unk04);
     }
     return this;
@@ -183,7 +183,7 @@ FUN_00dd94c0::~FUN_00dd94c0() throw()
     if (lock)
     {
         DeleteCriticalSection(lock);
-        FUN_00dd9580_Service* sv = FUN_00c85750();
+        FUN_00dd9580_Service* sv = static_cast<FUN_00dd9580_Service*>(::FUN_00c85750());
         sv->unk10->notify(lock, 0x18);
     }
     m_entries.clear();
@@ -263,7 +263,7 @@ struct S_00dd9380_Array
     }
     S_00dd9380_Entry& AllocatePair()
     {
-        return _expandOne(((S_00dd9380_Router*)FUN_00c85750())->heap());
+        return _expandOne(((S_00dd9380_Router*)static_cast<FUN_00dd9580_Service*>(::FUN_00c85750()))->heap());
     }
 };
 

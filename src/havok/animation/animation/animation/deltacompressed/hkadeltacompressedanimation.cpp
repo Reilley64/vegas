@@ -668,7 +668,6 @@ struct SampleScratch {
     RecomposeParameters m_kRecomposeParameters;
 };
 struct ScratchAllocator { char* current; };
-extern "C" ScratchAllocator* FUN_00c85750();
 void __cdecl DecodeQuantizedBlock(const hkUint8*, const Quantization*, float*, int);
 void __cdecl PrefixSum(float*, int);
 int __cdecl FUN_00e51da0(int, const Quantization*);
@@ -745,12 +744,12 @@ void __cdecl FUN_00e354b0(unsigned int frame, float delta, unsigned int numTrans
     float& inverseDelta = blend.inverseDelta;
     inverseDelta = 1.0f - delta;
     unsigned int bufferValues = r->m_iDofCount * numDOFs;
-    ScratchAllocator* c = FUN_00c85750();
+    ScratchAllocator* c = static_cast<ScratchAllocator*>(::FUN_00c85750());
     float* decompressed;
     decompressed = reinterpret_cast<float*>(c->current);
     int iAlignMask = ~127;
     c->current += (bufferValues * sizeof(float) + 127) & iAlignMask;
-    c = FUN_00c85750();
+    c = static_cast<ScratchAllocator*>(::FUN_00c85750());
     float* interpolated = reinterpret_cast<float*>(c->current);
     int tmp1 = ~127;
     c->current = c->current + ((numDOFs * sizeof(float) + 127) & tmp1);
@@ -838,8 +837,8 @@ void __cdecl FUN_00e354b0(unsigned int frame, float delta, unsigned int numTrans
     const hkInt32 iNumTransformTracks = resultAnimation->m_iNumTransformTracks;
     m_kRecomposeParameters.floatMasks = (masks + iNumTransformTracks);
     ::fnv_00e4f640::FUN_00e4f640((const ::fnv_00e4f640::TrackData *)(const ::RecomposeParameters *)(&m_kRecomposeParameters), (float *)(transforms), floats);
-    FUN_00c85750()->current = reinterpret_cast<char*>(interpolated);
-    FUN_00c85750()->current = reinterpret_cast<char*>(decompressed);
+    static_cast<ScratchAllocator*>(::FUN_00c85750())->current = reinterpret_cast<char*>(interpolated);
+    static_cast<ScratchAllocator*>(::FUN_00c85750())->current = reinterpret_cast<char*>(decompressed);
     pStream = static_cast<ProfileStream*>(TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c))));
     if (pStream->current < pStream->end) {
         volatile ProfileRecord* record = reinterpret_cast<volatile ProfileRecord*>(pStream->current);
@@ -923,7 +922,6 @@ struct ThreadMemory {
     int unk0c;
     HeapAllocator* m_pStreamAllocator;
 };
-ThreadMemory* __cdecl FUN_00c85750();
 
 struct LocalFloatArray {
     float* m_data;
@@ -933,7 +931,7 @@ struct LocalFloatArray {
 
     __forceinline LocalFloatArray(int n) : m_data(0), m_iElementCount(0), m_iCapacityState(0x80000000)
     {
-        ThreadMemory* r = FUN_00c85750();
+        ThreadMemory* r = static_cast<ThreadMemory*>(::FUN_00c85750());
         char* p = r->m_stackCur;
         r->m_stackCur = p + ((n * 4 + 0x7f) & ~0x7f);
         m_data = (float*)p;
@@ -950,7 +948,7 @@ struct LocalFloatArray {
     }
     __forceinline void SetSizeAndGrow(int n)
     {
-        ThreadMemory* r = FUN_00c85750();
+        ThreadMemory* r = static_cast<ThreadMemory*>(::FUN_00c85750());
         reserve(r->m_pStreamAllocator, n);
         m_iElementCount = n;
     }
@@ -967,8 +965,8 @@ struct LocalFloatArray {
         float* mem = m_pStackAllocation;
         if (mem == m_data)
             m_iElementCount = 0;
-        FUN_00c85750()->m_stackCur = (char*)mem;
-        ThreadMemory* r = FUN_00c85750();
+        static_cast<ThreadMemory*>(::FUN_00c85750())->m_stackCur = (char*)mem;
+        ThreadMemory* r = static_cast<ThreadMemory*>(::FUN_00c85750());
         destroy(r->m_pStreamAllocator);
     }
 };

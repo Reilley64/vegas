@@ -4,6 +4,7 @@
 
 
 // @fnv 0x00cbb950
+#include "fnv/symbols_00c85000.h"
 #include <cstdint>
 #include <cstddef>
 #include <windows.h>
@@ -57,7 +58,6 @@ int __cdecl ShutdownIfInitialized()
     return 0;
 }
 
-extern "C" void __cdecl SetThreadLocalValue(void* value);
 
 // @fnv 0x00cbb930
 int __cdecl FUN_00cbb930(void* value)
@@ -116,10 +116,9 @@ struct AudioMgr
 };
 
 struct BSAudio;
-BSAudio* __cdecl FUN_00c85750();
 inline AudioMgr* audio()
 {
-    return (AudioMgr*)FUN_00c85750();
+    return (AudioMgr*)static_cast<BSAudio*>(::FUN_00c85750());
 }
 
 struct LocalBuf
@@ -425,7 +424,6 @@ struct SpawnedHolder
     SpawnedAllocator* m_pAllocator;
 };
 
-SpawnedHolder* __cdecl FUN_00c85750();
 
 struct SpawnedObject
 {
@@ -442,7 +440,7 @@ struct SpawnedObject
 // @fnv 0x00cbb9c0
 void __cdecl FUN_00cbb9c0()
 {
-    SpawnedHolder* pHolder = FUN_00c85750();
+    SpawnedHolder* pHolder = static_cast<SpawnedHolder*>(::FUN_00c85750());
     SpawnedAllocator* pAllocator = pHolder->m_pAllocator;
     SpawnedObject* pSpawnedObject = (SpawnedObject*)pAllocator->Alloc(8);
     pSpawnedObject->m_w04 = 8;
@@ -491,7 +489,6 @@ struct VirtualIface
     virtual void v3();
 };
 
-AllocHolder* __cdecl FUN_00c85750();
 
 // Allocates and initializes two spawned objects, stores them in global pointers, and sets the initialization flag.
 // @fnv 0x00cbbb10
@@ -502,7 +499,7 @@ int __cdecl FUN_00cbbb10(intptr_t a1, uintptr_t auParam1, unsigned int auParam2)
         return 0;
     }
     ::FUN_00cbb930((void *)(a1));
-    AllocHolder* holder = FUN_00c85750();
+    AllocHolder* holder = static_cast<AllocHolder*>(::FUN_00c85750());
     SpawnedObject8* obj8 = (SpawnedObject8*)holder->m_pAllocator->Alloc(8);
     obj8->m_size04 = 8;
     obj8->m_flags06 = 1;
@@ -513,7 +510,7 @@ int __cdecl FUN_00cbbb10(intptr_t a1, uintptr_t auParam1, unsigned int auParam2)
     }
     (*reinterpret_cast<int *>(&::DAT_01268364)) = (intptr_t)obj8;
 
-    holder = FUN_00c85750();
+    holder = static_cast<AllocHolder*>(::FUN_00c85750());
     SpawnedObject28* obj28 = (SpawnedObject28*)holder->m_pAllocator->Alloc(0x28);
     obj28->m_size04 = 0x28;
     obj28 = ((::fnv_00cbbb10::SpawnedObject28 *)(reinterpret_cast<::D2B640Object *>((obj28))->Initialize(auParam1, auParam2)));
@@ -556,7 +553,6 @@ struct S_00cbbde0_Router
     }
 };
 
-S_00cbbde0_Router* FUN_00c85750() throw();
 
 struct S_00cbbde0_Bool
 {
@@ -580,7 +576,7 @@ struct S_00cbbde0_StringBuf
     S_00cbbde0_StringBuf() throw();
     ~S_00cbbde0_StringBuf() throw()
     {
-        S_00cbbde0_Allocator& a = FUN_00c85750()->temp();
+        S_00cbbde0_Allocator& a = static_cast<S_00cbbde0_Router*>(::FUN_00c85750())->temp();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
             a.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(char));
@@ -595,7 +591,7 @@ struct S_00cbbde0_RefObject
     virtual ~S_00cbbde0_RefObject() throw();
     void* operator new(std::size_t n)
     {
-        S_00cbbde0_RefObject* b = static_cast<S_00cbbde0_RefObject*>(FUN_00c85750()->heap().AllocateMemoryBlock(n));
+        S_00cbbde0_RefObject* b = static_cast<S_00cbbde0_RefObject*>(static_cast<S_00cbbde0_Router*>(::FUN_00c85750())->heap().AllocateMemoryBlock(n));
         b->m_usMemSizeAndFlags = (unsigned short)n;
         return b;
     }

@@ -2,6 +2,7 @@
 // src/havok/common/base/system/io/oarchive/hkoarchive.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/system/io/oarchive/hkoarchive.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstdint>
 #include "fnv/decl/CB1BC0Map.h"
 #include "fnv/decl/FUN_00c90510_class.h"
@@ -454,7 +455,6 @@ struct hkMemoryRouterDBA
     }
 };
 
-extern "C" hkMemoryRouterDBA* __cdecl FUN_00c85750();
 
 class hkMap64DBA
 {
@@ -491,6 +491,6 @@ void ListMapDBA::Insert(unsigned __int64 key, const int& value)
     EntryDBA& e = m_entries[iSlot];
     e.m_uiFilterValue = value;
     e.m_next = next;
-    hkMemoryAllocatorDBA& alloc = *FUN_00c85750()->m_pStreamAllocator;
+    hkMemoryAllocatorDBA& alloc = *static_cast<hkMemoryRouterDBA*>(::FUN_00c85750())->m_pStreamAllocator;
     reinterpret_cast<::CB1BC0Map *>(&(m_map))->InsertKeyValue((::CB1BC0Allocator &)(alloc), key, iSlot);
 }

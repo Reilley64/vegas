@@ -2,6 +2,7 @@
 // src/havok/common/visualize/shape/hkdisplaysphere.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/visualize/shape/hkdisplaysphere.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstdint>
 #include <xmmintrin.h>
 #include "fnv_simd.h"
@@ -104,7 +105,6 @@ void FUN_00e0af40(int a, int b)
 {}
 
 
-void* FUN_00c85750(void);
 
 struct AllocatorHolder
 {
@@ -275,7 +275,6 @@ struct SphereBuildMemory
     SphereBuildAllocator* m_10;
 };
 
-SphereBuildMemory* __cdecl FUN_00c85750();
 
 struct SphereBuildVertex
 {
@@ -359,7 +358,7 @@ struct SphereMeshBuilder
 // @fnv 0x00e0b360
 __declspec(noinline) void SphereMeshBuilder::FUN_00e0b360()
 {
-    SphereBuildMemory* holder = FUN_00c85750();
+    SphereBuildMemory* holder = static_cast<SphereBuildMemory*>(::FUN_00c85750());
     SphereBuildGeometry* raw = (SphereBuildGeometry*)holder->m_10->Alloc(0x18);
     SphereBuildGeometry* geo;
     SphereBuildVertex* zero;
@@ -385,7 +384,7 @@ __declspec(noinline) void SphereMeshBuilder::FUN_00e0b360()
     float s = (float)(v * DAT_010ea650);
     float t = (float)(v * DAT_010ea648);
     _ReadWriteBarrier();
-    SphereBuildMemory* vertexHolder = FUN_00c85750();
+    SphereBuildMemory* vertexHolder = static_cast<SphereBuildMemory*>(::FUN_00c85750());
     SphereBuildAllocator* va = vertexHolder->m_10;
     _ReadWriteBarrier();
     if ((geo->verts.m_iCap & 0x3fffffff) < 12)
@@ -413,7 +412,7 @@ __declspec(noinline) void SphereMeshBuilder::FUN_00e0b360()
     ((SphereBuildVertex* const&)geo->verts.m_pData)[10].set(t, -s, 0.0f, 0.0f);
     geo->verts.m_pData[11].q = _mm_setr_ps(-t, -s, 0.0f, 0.0f);
     SphereBuildFaces* fv = &((SphereBuildGeometry*)m_08)->faces;
-    SphereBuildMemory* faceHolder = FUN_00c85750();
+    SphereBuildMemory* faceHolder = static_cast<SphereBuildMemory*>(::FUN_00c85750());
     SphereBuildAllocator* fa = faceHolder->m_10;
     _ReadWriteBarrier();
     if ((fv->m_iCap & 0x3fffffff) < 20)

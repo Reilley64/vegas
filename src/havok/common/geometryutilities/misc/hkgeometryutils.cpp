@@ -1,3 +1,4 @@
+#include "fnv/symbols_00c85000.h"
 #include <new>
 #include <cstdint>
 #include <xmmintrin.h>
@@ -26,7 +27,6 @@ struct hkThreadMemory
     int pad0c;
     hkMemory* m_pMemoryAllocator;
 };
-void* __cdecl FUN_00c85750() throw();
 __forceinline hkThreadMemory* getThreadMemory() throw()
 {
     return (hkThreadMemory*)FUN_00c85750();

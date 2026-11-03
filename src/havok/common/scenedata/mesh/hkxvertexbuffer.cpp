@@ -2,6 +2,7 @@
 // src/havok/common/scenedata/mesh/hkxvertexbuffer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/scenedata/mesh/hkxvertexbuffer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstdint>
 #include <cstddef>
 #include <new>
@@ -53,7 +54,6 @@ struct hkMemoryRouterE3E2
         return *m_pkHeap;
     }
 };
-extern "C" hkMemoryRouterE3E2* __cdecl FUN_00c85750() throw();
 
 
 template <typename T> struct hkArrayE3E2
@@ -78,7 +78,7 @@ template <typename T> struct hkArrayE3E2
     }
     void SetSizeAndGrow(int n)
     {
-        GrowArrayCapacity(FUN_00c85750()->heap(), n);
+        GrowArrayCapacity(static_cast<hkMemoryRouterE3E2*>(::FUN_00c85750())->heap(), n);
         m_iElementCount = n;
     }
 };
@@ -261,7 +261,6 @@ struct FUN_00e3e760_Holder
     FUN_00e3e760_VirtualTarget* unk10;
 };
 
-void* __cdecl FUN_00c85750();
 
 struct FUN_00e3e760_Base
 {
@@ -356,7 +355,6 @@ struct hkMemoryRouterXe3e7b0
     }
 };
 
-extern "C" hkMemoryRouterXe3e7b0& __cdecl FUN_00c85750() throw();
 
 class hkObje3e7b0 : public FUN_00e3e760
 {
@@ -365,7 +363,7 @@ class hkObje3e7b0 : public FUN_00e3e760
 
     static void operator delete(void* p) throw()
     {
-        FUN_00c85750().heap().ReleaseBlock(p, static_cast<hkObje3e7b0*>(p)->GetAllocationSize());
+        (*static_cast<hkMemoryRouterXe3e7b0*>(::FUN_00c85750())).heap().ReleaseBlock(p, static_cast<hkObje3e7b0*>(p)->GetAllocationSize());
     }
     int GetAllocationSize() const
     {
@@ -532,7 +530,7 @@ struct DescriptionMatch
     }
     VertexDeclMatch& AllocatePair()
     {
-        hkAllocatorE3E2* alloc = &FUN_00c85750()->heap();
+        hkAllocatorE3E2* alloc = &static_cast<hkMemoryRouterE3E2*>(::FUN_00c85750())->heap();
         if (size == (capacity & 0x3fffffff))
             ::ResizeAudioStream((::AudioAllocator *)(alloc), (::AudioStream *)(void *)(this), sizeof(VertexDeclMatch));
         new (data + size) VertexDeclMatch;

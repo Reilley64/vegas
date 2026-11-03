@@ -2,6 +2,7 @@
 // src/havok/animation/animation/animation/splinecompressed/hkasplinecompressedanimationctor.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/animation/animation/splinecompressed/hkasplinecompressedanimationctor.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstdint>
 #include <xmmintrin.h>
 #include <cstddef>
@@ -109,7 +110,6 @@ struct S_00e31ca0_Router
         return *m_pStreamAllocator;
     }
 };
-S_00e31ca0_Router* FUN_00c85750();
 template <typename T> inline void S_00e31ca0_constructWithCopy(T* p, int n, const T& t)
 {
     for (int i = 0; i < n; i++)
@@ -133,7 +133,7 @@ struct S_00e31ca0_ByteArray
     }
     void AddBack(const unsigned char& t)
     {
-        _pushBack(FUN_00c85750()->heap(), t);
+        _pushBack(static_cast<S_00e31ca0_Router*>(::FUN_00c85750())->heap(), t);
     }
 };
 struct S_00e31ca0_FloatArray
@@ -206,7 +206,6 @@ struct E317C0MemoryRouter
 };
 
 namespace fnvc_adapt {
-extern "C" E317C0MemoryRouter& __cdecl FUN_00c85750();
 }
 
 struct E317C0CharArray
@@ -228,7 +227,7 @@ struct E317C0CharArray
 
     void AddBack(char const& e)
     {
-        E317C0Allocator& alloc = fnvc_adapt::FUN_00c85750().heap();
+        E317C0Allocator& alloc = (*static_cast<E317C0MemoryRouter*>(::FUN_00c85750())).heap();
         if (m_iElementCount == getCapacity())
             ::ResizeAudioStream((::AudioAllocator *)(void *)(&alloc), (::AudioStream *)(void *)(this), sizeof(char));
         construct(m_data + m_iElementCount, 1, e);
@@ -335,7 +334,7 @@ template <typename T> struct hkArray
 
     ~hkArray() throw()
     {
-        hkThreadMemory* tm = (hkThreadMemory*)FUN_00c85750();
+        hkThreadMemory* tm = (hkThreadMemory*)static_cast<S_00e31ca0_Router*>(::FUN_00c85750());
         hkMemory* mem = tm->m_pMemoryAllocator;
         m_iElementCount = 0;
         if (!(m_iCapacityState & (int)0x80000000))
@@ -635,7 +634,6 @@ struct Buf
 
 extern "C" void _ReadWriteBarrier(void);
 
-Holder* __cdecl FUN_00c85750();
 
 // Appends count zero bytes to buf, calling FUN_00c90940 when its length equals the masked capacity.
 // @fnv 0x00e31800
@@ -645,7 +643,7 @@ void __cdecl FUN_00e31800(int count, Buf* buf)
     {
         do
         {
-            Holder* h = FUN_00c85750();
+            Holder* h = static_cast<Holder*>(::FUN_00c85750());
             if (buf->m_len == (buf->m_cap & 0x3fffffff))
             {
                 ::ResizeAudioStream((::AudioAllocator *)(h->m_pAllocator), (::AudioStream *)(buf), 1);
@@ -673,7 +671,6 @@ struct FourIntegerPointerRecord
     int unk00, unk04, unk08, unk0C;
     void* unk10;
 };
-extern FourIntegerPointerRecord* __cdecl FUN_00c85750();
 // Appends zero bytes until no bits selected by alignment minus one remain set in the buffer length.
 // @fnv 0x00e31850
 void __cdecl FUN_00e31850(unsigned int alignment, BufferInfo* buffer)
@@ -681,7 +678,7 @@ void __cdecl FUN_00e31850(unsigned int alignment, BufferInfo* buffer)
     unsigned int mask = alignment - 1;
     while (buffer->length & mask)
     {
-        FourIntegerPointerRecord* alloc = FUN_00c85750();
+        FourIntegerPointerRecord* alloc = static_cast<FourIntegerPointerRecord*>(::FUN_00c85750());
         if (buffer->length == (buffer->capacity & 0x3fffffff))
             ::ResizeAudioStream((::AudioAllocator *)(alloc->unk10), (::AudioStream *)(buffer), 1);
         memset(buffer->data + buffer->length, 0, 1);
@@ -709,7 +706,6 @@ struct FUN_00e318a0_holder
     void* m_pAllocator;
 };
 
-extern FUN_00e318a0_holder* __cdecl FUN_00c85750();
 
 // @fnv 0x00e318a0
 void __cdecl FUN_00e318a0(unsigned int auBit, FUN_00e318a0_buf* apBuf)
@@ -719,7 +715,7 @@ void __cdecl FUN_00e318a0(unsigned int auBit, FUN_00e318a0_buf* apBuf)
     {
         do
         {
-            FUN_00e318a0_holder* holder = FUN_00c85750();
+            FUN_00e318a0_holder* holder = static_cast<FUN_00e318a0_holder*>(::FUN_00c85750());
             if (apBuf->m_uLength == (apBuf->m_uCapacityFlags & 0x3fffffff))
             {
                 ::ResizeAudioStream((::AudioAllocator *)(holder->m_pAllocator), (::AudioStream *)(apBuf), 1);
@@ -778,14 +774,13 @@ struct Se31d50_Router
     {
         return *m_pStreamAllocator;
     }
-    static Se31d50_Router& FUN_00c85750();
 };
 
 struct Se31d50_ContainerHeap
 {
     __forceinline Se31d50_Alloc& get(const void*)
     {
-        return Se31d50_Router::FUN_00c85750().heap();
+        return (*static_cast<Se31d50_Router*>(::FUN_00c85750())).heap();
     }
 };
 template <bool B> struct Se31d50_Trait

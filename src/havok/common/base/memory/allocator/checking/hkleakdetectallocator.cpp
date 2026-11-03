@@ -2,6 +2,7 @@
 // src/havok/common/base/memory/allocator/checking/hkleakdetectallocator.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/memory/allocator/checking/hkleakdetectallocator.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstdint>
 #include <windows.h>
 #include "fnv/decl/DC3980Map.h"
@@ -714,7 +715,6 @@ struct RouterD5
         return *m_pStreamAllocator;
     }
 };
-RouterD5* FUN_00c85750();
 
 struct PointerInfoD5
 {
@@ -825,12 +825,12 @@ int FUN_00d5ef20_Class::Snapshot(SnapshotD5* out)
         return 0;
     }
     out->m_num = n;
-    out->m_entries = (SnapshotEntryD5*)FUN_00c85750()->heap().AllocateMemoryBlock(n * sizeof(SnapshotEntryD5));
+    out->m_entries = (SnapshotEntryD5*)static_cast<RouterD5*>(::FUN_00c85750())->heap().AllocateMemoryBlock(n * sizeof(SnapshotEntryD5));
     ::FUN_00d2cab0();
-    out->m_keys = (int*)FUN_00c85750()->heap().AllocateMemoryBlock(n * sizeof(int));
+    out->m_keys = (int*)static_cast<RouterD5*>(::FUN_00c85750())->heap().AllocateMemoryBlock(n * sizeof(int));
     SnapshotEntryD5* entry = out->m_entries;
     int* keys = out->m_keys;
-    RouterD5* router = FUN_00c85750();
+    RouterD5* router = static_cast<RouterD5*>(::FUN_00c85750());
     for (int it = map->GetFirstIterator(); map->isValid(it); it = map->getNext(it))
     {
         PointerInfoD5 info = map->getValue(it);

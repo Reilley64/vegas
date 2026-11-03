@@ -449,11 +449,10 @@ struct Mgr
         return m_alloc->Allocate(n);
     }
 };
-Mgr* FUN_00c85750();
 // @fnv 0x00c903e0
 void CreateAndInitObj()
 {
-    Obj* o = FUN_00c85750()->New(0x30);
+    Obj* o = static_cast<Mgr*>(::FUN_00c85750())->New(0x30);
     o->w = 0x30;
     o->Init();
 }
@@ -918,7 +917,6 @@ struct hkMemoryRouterC904
 };
 
 namespace hkRouterC904 {
-extern "C" hkMemoryRouterC904& __cdecl FUN_00c85750() throw();
 }
 
 class hkRefObjC904
@@ -935,7 +933,7 @@ class hkRefObjC904
 
     static void* operator new(std::size_t nbytes)
     {
-        hkRefObjC904* b = static_cast<hkRefObjC904*>(hkRouterC904::FUN_00c85750().heap().AllocateMemoryBlock(nbytes));
+        hkRefObjC904* b = static_cast<hkRefObjC904*>((*static_cast<hkMemoryRouterC904*>(::FUN_00c85750())).heap().AllocateMemoryBlock(nbytes));
         b->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return b;
     }

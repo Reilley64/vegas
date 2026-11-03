@@ -2,6 +2,7 @@
 // src/havok/common/base/memory/system/freelist/hkfreelistmemorysystem.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/memory/system/freelist/hkfreelistmemorysystem.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstdint>
 #include "fnv/decl/FNVArray.h"
 #include "fnv/decl/FUN_00cbbfe0_This.h"
@@ -161,7 +162,6 @@ struct AudioHolder
     AudioAllocator* m_pAllocator;
 };
 
-AudioHolder* __cdecl FUN_00c85750() throw();
 
 struct PtrArrayMember
 {
@@ -171,7 +171,7 @@ struct PtrArrayMember
 
     ~PtrArrayMember() throw()
     {
-        AudioHolder* pHolder = FUN_00c85750();
+        AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
         AudioAllocator* pAllocator = pHolder->m_pAllocator;
         unsigned int uCapacity = m_uCapacity;
         m_iArrayLength = 0;
@@ -1611,7 +1611,6 @@ struct AudioHolderStub
     void* m_pAllocator;
 };
 
-AudioHolderStub* __cdecl FUN_00c85750();
 
 struct Target_cc01
 {
@@ -1688,7 +1687,7 @@ void FUN_00cd0b30_cls::FUN_00cd0b30(intptr_t apTarget)
     {
         if (*(p - 8) != 0)
         {
-            AudioHolderStub* holder = FUN_00c85750();
+            AudioHolderStub* holder = static_cast<AudioHolderStub*>(::FUN_00c85750());
             if (localData.m_nCallbackId == (localData.m_cA & 0x3fffffffu))
             {
                 ::ResizeAudioStream((::AudioAllocator *)(holder->m_pAllocator), (::AudioStream *)(void *)(&localData.m_ppA), 4);
@@ -1696,7 +1695,7 @@ void FUN_00cd0b30_cls::FUN_00cd0b30(intptr_t apTarget)
             localData.m_ppA[localData.m_nCallbackId] = (void*)(p - 0x134);
             localData.m_nCallbackId++;
 
-            holder = FUN_00c85750();
+            holder = static_cast<AudioHolderStub*>(::FUN_00c85750());
             if (localData.m_nB == (localData.m_cB & 0x3fffffffu))
             {
                 ::ResizeAudioStream((::AudioAllocator *)(holder->m_pAllocator), (::AudioStream *)(void *)(&localData.m_pB), 4);

@@ -2,6 +2,7 @@
 // src/havok/common/visualize/shape/hkdisplayplane.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/visualize/shape/hkdisplayplane.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstdint>
 #include <xmmintrin.h>
 #include <cstddef>
@@ -195,7 +196,6 @@ struct S_00de5110_Router
     }
 };
 
-S_00de5110_Router& FUN_00c85750() throw();
 
 template <typename T> struct S_00de5110_Array
 {
@@ -243,11 +243,11 @@ template <typename T> struct S_00de5110_Array
     }
     __forceinline void SetSizeAndGrow(int n) throw()
     {
-        _setSize(FUN_00c85750().heap(), n);
+        _setSize((*static_cast<S_00de5110_Router*>(::FUN_00c85750())).heap(), n);
     }
     __forceinline T* expandBy(int n) throw()
     {
-        return _expandBy(FUN_00c85750().heap(), n);
+        return _expandBy((*static_cast<S_00de5110_Router*>(::FUN_00c85750())).heap(), n);
     }
 };
 
@@ -284,7 +284,7 @@ struct S_00de5110_Geometry
     {}
     static void* operator new(std::size_t n) throw()
     {
-        return FUN_00c85750().heap().AllocateMemoryBlock(n);
+        return (*static_cast<S_00de5110_Router*>(::FUN_00c85750())).heap().AllocateMemoryBlock(n);
     }
     static void operator delete(void*) throw()
     {}

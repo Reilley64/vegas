@@ -1,6 +1,7 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstdint>
 #include "fnv/decl/ProbeMap64.h"
 #include "fnv/symbols_00a29000.h"
@@ -507,7 +508,6 @@ struct Manager
         return *unk10;
     }
 };
-Manager* __cdecl FUN_00c85750();
 struct Target
 {
     int unk00, unk04;
@@ -522,7 +522,7 @@ struct Target
 bool* Target::FUN_00e48e80(bool* apResult)
 {
     EdgeMap edgeMap = {0, 0, -1};
-    Allocator& allocator = FUN_00c85750()->heap();
+    Allocator& allocator = static_cast<Manager*>(::FUN_00c85750())->heap();
     reinterpret_cast<::FUN_00cb1fe0_t *>(&(edgeMap))->EnsureCapacity((intptr_t)&(allocator), 0);
     int count = unk18;
     int iVertexOffset = 0;
@@ -548,7 +548,7 @@ bool* Target::FUN_00e48e80(bool* apResult)
                 if (value & iOrientation)
                 {
                     *apResult = false;
-                    reinterpret_cast<::CB1A90Owner *>(&(edgeMap))->ProcessArgument((::CB1A90Argument *)&(FUN_00c85750()->heap()));
+                    reinterpret_cast<::CB1A90Owner *>(&(edgeMap))->ProcessArgument((::CB1A90Argument *)&(static_cast<Manager*>(::FUN_00c85750())->heap()));
                     ::FUN_00a29680();
                     return apResult;
                 }
@@ -556,7 +556,7 @@ bool* Target::FUN_00e48e80(bool* apResult)
             }
             else
             {
-                Allocator& allocator = FUN_00c85750()->heap();
+                Allocator& allocator = static_cast<Manager*>(::FUN_00c85750())->heap();
                 reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(edgeMap))->FUN_00cb1870((::fnv_00cb1870::hkMemoryAllocatorCB18 &)(allocator), keyPlus, iOrientation);
             }
             iPrevVertex = iCurrVertex;
@@ -568,13 +568,13 @@ bool* Target::FUN_00e48e80(bool* apResult)
         if (edgeMap.unk00[index].value != 3)
         {
             *apResult = false;
-            reinterpret_cast<::CB1A90Owner *>(&(edgeMap))->ProcessArgument((::CB1A90Argument *)&(FUN_00c85750()->heap()));
+            reinterpret_cast<::CB1A90Owner *>(&(edgeMap))->ProcessArgument((::CB1A90Argument *)&(static_cast<Manager*>(::FUN_00c85750())->heap()));
             ::FUN_00a29680();
             return apResult;
         }
     }
     *apResult = true;
-    reinterpret_cast<::CB1A90Owner *>(&(edgeMap))->ProcessArgument((::CB1A90Argument *)&(FUN_00c85750()->heap()));
+    reinterpret_cast<::CB1A90Owner *>(&(edgeMap))->ProcessArgument((::CB1A90Argument *)&(static_cast<Manager*>(::FUN_00c85750())->heap()));
     ::FUN_00a29680();
     return apResult;
 }

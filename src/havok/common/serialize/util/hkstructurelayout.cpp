@@ -2,6 +2,7 @@
 // src/havok/common/serialize/util/hkstructurelayout.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/serialize/util/hkstructurelayout.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstdint>
 #include <new>
 #include "fnv/decl/ClassMember_d869.h"
@@ -355,7 +356,6 @@ struct Manager
     Allocator* allocator;
     void* unk10;
 };
-extern "C" Manager* __cdecl FUN_00c85750();
 struct NodeListEx;
 struct NodeEx
 {
@@ -417,7 +417,7 @@ struct Array
     int m_pRayCursor;
     void Free()
     {
-        Manager* mgr = FUN_00c85750();
+        Manager* mgr = static_cast<Manager*>(::FUN_00c85750());
         Allocator* alloc = mgr->allocator;
         int cap = m_pRayCursor;
         m_iElementCount = 0;
@@ -431,7 +431,7 @@ struct Array
 // @fnv 0x00dc1960
 void __cdecl FUN_00dc1960(NodeListEx& root, const LayoutOptions& options, Arg2& visited, int arg3)
 {
-    Manager* i = FUN_00c85750();
+    Manager* i = static_cast<Manager*>(::FUN_00c85750());
     reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(visited))->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(i->unk10)), (uintptr_t)((&root)), 0);
     if (0 != arg3)
     {
@@ -463,7 +463,7 @@ void __cdecl FUN_00dc1960(NodeListEx& root, const LayoutOptions& options, Arg2& 
     while (pNodeList)
     {
         NodeListEx* pCurrent = pNodeList;
-        Manager* m = FUN_00c85750();
+        Manager* m = static_cast<Manager*>(::FUN_00c85750());
         reinterpret_cast<::D10710Object *>(&(nodeArray))->CallWithFlag(m->allocator, (void *)(0), (void *)&(pCurrent));
         pNodeList = const_cast<NodeListEx*>(((const ::NodeListEx *)(reinterpret_cast<::ReflectObj *>((void *)(pNodeList))->FUN_00d46d50())));
     }

@@ -2,6 +2,7 @@
 // src/havok/common/visualize/hkversionreporter.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/visualize/hkversionreporter.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstdint>
 #include <new>
 #include "fnv/decl/BufferOwner.h"
@@ -38,7 +39,6 @@ struct S_Router
         return *m10;
     }
 };
-S_Router* FUN_00c85750();
 
 struct S_Arr
 {
@@ -139,9 +139,9 @@ int WriteCompilerInfo(const char* name)
     reinterpret_cast<::hkOArchive_2 *>(&(f))->WriteInt(buffer.size);
     reinterpret_cast<::FUN_00d607b0_class *>(&(f))->FUN_00d607b0((intptr_t)(buffer.data));
     reinterpret_cast<::D60590Object *>(&(f))->FUN_00d60590();
-    versionStr.clear(FUN_00c85750()->temp());
+    versionStr.clear(static_cast<S_Router*>(::FUN_00c85750())->temp());
     reinterpret_cast<::D60590Object *>(&(outStream))->FUN_00d60590();
-    buffer.clear(FUN_00c85750()->heap());
+    buffer.clear(static_cast<S_Router*>(::FUN_00c85750())->heap());
     return 0;
 }
 

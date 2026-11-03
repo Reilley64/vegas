@@ -1,3 +1,4 @@
+#include "fnv/symbols_00c85000.h"
 #include <cstdint>
 #include "fnv/symbols_00e2f000.h"
 #include "fnv/symbols_00e51000.h"
@@ -293,7 +294,6 @@ struct WaveState {
 };
 
 int __cdecl FUN_00e51da0(int a, const char* b);
-void* __cdecl FUN_00c85750(void);
 int __cdecl DecodeBlock(unsigned char* data, int* qp, unsigned char* block, int nbytes);
 void __cdecl DecodeQuantizedBlock(unsigned char* block, BitDesc* desc, float* out, int n);
 void __cdecl FUN_00e51140(float* out, int n);
@@ -1014,7 +1014,6 @@ class hkStackAllocator {public:char* m_pTileTemplate;};
 
 class NineIntegerRecord {public:hkStackAllocator m_aiEntries;};
 
-extern "C" NineIntegerRecord* __cdecl FUN_00c85750();
 
 struct Chunk {const hkUint8* data;unsigned int size;hkUint8 offset;const hkUint8* bytes() const {return data+offset;}};
 
@@ -1108,7 +1107,7 @@ static void FUN_00e300b0(WaveletParameters parameters,float* output) {
 
  unsigned int bytes=FUN_00e51da0(parameters.blockSize,&quantization);
 
- NineIntegerRecord* router=FUN_00c85750();float* temporary=reinterpret_cast<float*>(router->m_aiEntries.m_pTileTemplate);router->m_aiEntries.m_pTileTemplate+=(bytes+127)&~127u;
+ NineIntegerRecord* router=static_cast<NineIntegerRecord*>(::FUN_00c85750());float* temporary=reinterpret_cast<float*>(router->m_aiEntries.m_pTileTemplate);router->m_aiEntries.m_pTileTemplate+=(bytes+127)&~127u;
 
  const hkUint8* data=parameters.data;
 
@@ -1128,7 +1127,7 @@ static void FUN_00e300b0(WaveletParameters parameters,float* output) {
 
  }
 
- FUN_00c85750()->m_aiEntries.m_pTileTemplate=reinterpret_cast<char*>(temporary);
+ static_cast<NineIntegerRecord*>(::FUN_00c85750())->m_aiEntries.m_pTileTemplate=reinterpret_cast<char*>(temporary);
 
 }
 
@@ -1168,9 +1167,9 @@ void __cdecl FUN_00e30200(unsigned int frame,float weight,unsigned int numTransf
  float inverseWeight=1.0f-weight;
 
  total=count*animation->m_iDofCount;
- NineIntegerRecord* router=FUN_00c85750();float* decoded=reinterpret_cast<float*>(router->m_aiEntries.m_pTileTemplate);router->m_aiEntries.m_pTileTemplate+=(total*4+127)&~127u;
+ NineIntegerRecord* router=static_cast<NineIntegerRecord*>(::FUN_00c85750());float* decoded=reinterpret_cast<float*>(router->m_aiEntries.m_pTileTemplate);router->m_aiEntries.m_pTileTemplate+=(total*4+127)&~127u;
 
- router=FUN_00c85750();float* __restrict output=reinterpret_cast<float*>(router->m_aiEntries.m_pTileTemplate);router->m_aiEntries.m_pTileTemplate+=(count*4+127)&~127u;
+ router=static_cast<NineIntegerRecord*>(::FUN_00c85750());float* __restrict output=reinterpret_cast<float*>(router->m_aiEntries.m_pTileTemplate);router->m_aiEntries.m_pTileTemplate+=(count*4+127)&~127u;
 
  {
 
@@ -1199,7 +1198,7 @@ void __cdecl FUN_00e30200(unsigned int frame,float weight,unsigned int numTransf
 
  ::fnv_00e4f640::FUN_00e4f640((const ::fnv_00e4f640::TrackData *)(const ::RecomposeParameters *)(&m_kRecomposeParameters),(float *)(transforms),floats);
 
- FUN_00c85750()->m_aiEntries.m_pTileTemplate=reinterpret_cast<char*>(output);FUN_00c85750()->m_aiEntries.m_pTileTemplate=reinterpret_cast<char*>(decoded);monitorSplit("lt");
+ static_cast<NineIntegerRecord*>(::FUN_00c85750())->m_aiEntries.m_pTileTemplate=reinterpret_cast<char*>(output);static_cast<NineIntegerRecord*>(::FUN_00c85750())->m_aiEntries.m_pTileTemplate=reinterpret_cast<char*>(decoded);monitorSplit("lt");
 
 }
 
@@ -1373,10 +1372,10 @@ void WaveletSamplerE30::FUN_00e30980(float time, unsigned int transformCount, hk
     FUN_00e2f7c0(time, &frame, &frac);
     float inverseDelta = (float)(1.0f - frac);
     int blockDOFs = m_iDofCount * dynamicDOFs;
-    NineIntegerRecord* a = FUN_00c85750();
+    NineIntegerRecord* a = static_cast<NineIntegerRecord*>(::FUN_00c85750());
     float* block = (float*)a->m_aiEntries.m_pTileTemplate;
     a->m_aiEntries.m_pTileTemplate = (char*)block + ((blockDOFs * 4 + 127) & ~127);
-    a = FUN_00c85750();
+    a = static_cast<NineIntegerRecord*>(::FUN_00c85750());
     float* interpolated = (float*)a->m_aiEntries.m_pTileTemplate;
     a->m_aiEntries.m_pTileTemplate = (char*)interpolated + ((dynamicDOFs * 4 + 127) & ~127);
     float* decompressed = block;
@@ -1432,8 +1431,8 @@ void WaveletSamplerE30::FUN_00e30980(float time, unsigned int transformCount, hk
     ::fnv_00e4f640::FUN_00e4f640((const ::fnv_00e4f640::TrackData *)(const ::RecomposeParameters *)(&params), (float *)(transforms), floats);
     }
     MonSplitE30(::str_01076f38);
-    FUN_00c85750()->m_aiEntries.m_pTileTemplate = (char*)interpolated;
-    FUN_00c85750()->m_aiEntries.m_pTileTemplate = (char*)block;
+    static_cast<NineIntegerRecord*>(::FUN_00c85750())->m_aiEntries.m_pTileTemplate = (char*)interpolated;
+    static_cast<NineIntegerRecord*>(::FUN_00c85750())->m_aiEntries.m_pTileTemplate = (char*)block;
 }
 int __cdecl FUN_00e51da0(int aiValue, const char* apBytes);
 void __cdecl DecodeQuantizedBlock(const unsigned char* __restrict in, const QParam_00e51660* qParam, float* out,

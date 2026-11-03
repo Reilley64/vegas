@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 // @fnv 0x00cbc440
+#include "fnv/symbols_00c85000.h"
 #include <cstdint>
 #include "fnv/decl/FUN_00537e90.h"
 #include "fnv/symbols_00cbb000.h"
@@ -235,7 +236,6 @@ struct AllocatorHolder
         return *m_pSolverAllocator;
     }
 };
-AllocatorHolder* __cdecl FUN_00c85750();
 
 namespace MathUtilities {
 template <typename T> inline T max2(T x, T y)
@@ -317,13 +317,13 @@ void FUN_00cbc220(hkOstream* ostr, MemSystemInfo* info)
     }
     ::FUN_00cc0410(ostr, "            = total %i\n\n", stackTotal);
 
-    FUN_00c85750()->solverAllocator().FillMemoryStatistics(stats);
+    static_cast<AllocatorHolder*>(::FUN_00c85750())->solverAllocator().FillMemoryStatistics(stats);
     ::FUN_00cc0410(ostr, "\t%s:\n", "Solver");
     ::FUN_00cc0410(ostr, "            totalSize:   %10i\n", stats.m_uiFirstValue);
     ::FUN_00cc0410(ostr, "              peak:      %10i (%4.1f%%)\n\n", stats.m_uiThirdValue,
                  (float)stats.m_uiThirdValue * 100.0 / (float)stats.m_uiFirstValue);
 
-    FUN_00c85750()->debugAllocator().FillMemoryStatistics(stats);
+    static_cast<AllocatorHolder*>(::FUN_00c85750())->debugAllocator().FillMemoryStatistics(stats);
     if (heapInUse == stats.m_pAllocationMap)
     {
         ::FUN_00cc0410(ostr, "\tDebugMem: Not used.\n\n");

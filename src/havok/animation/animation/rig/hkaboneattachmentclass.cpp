@@ -1,6 +1,7 @@
 // src/havok/animation/animation/rig/hkaboneattachmentclass.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/animation/rig/hkaboneattachmentclass.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstdint>
 #include "fnv/decl/hkReferencedObjectC905.h"
 #include "fnv/symbols_00cb0000.h"
@@ -26,7 +27,6 @@ struct CallbackManager
     int unk0c;
     Callback* callback;
 };
-CallbackManager* FUN_00c85750();
 struct Owner
 {
     void* vtable;
@@ -65,7 +65,7 @@ Owner* Owner::FUN_00dfe620(unsigned int flags)
     vtable = &(*reinterpret_cast<int *>(&::DAT_0102e388));
     if (flags & 1)
     {
-        CallbackManager* manager = FUN_00c85750();
+        CallbackManager* manager = static_cast<CallbackManager*>(::FUN_00c85750());
         manager->callback->Invoke(this, unk04);
     }
     return this;

@@ -5,6 +5,7 @@
 
 // Calls Vsnprintf with a and b and a formatted Havok version string (7.1.0-r1).
 // @fnv 0x00dbda20
+#include "fnv/symbols_00c85000.h"
 #include <cstdint>
 #include "fnv/decl/AttributeFormatter.h"
 #include "fnv/decl/FUN_00ce2510.h"
@@ -152,7 +153,6 @@ struct FUN_00c85750_s
     void* m08;
     void* m0c;
     void* allocator;
-    static FUN_00c85750_s* __cdecl FUN_00c85750();
 };
 struct TrackedElement
 {
@@ -183,10 +183,10 @@ void FUN_00dbda80_s::FUN_00dbda80(void* key, int value)
     if (index >= 0)
         entries[index].state = -2;
 
-    FUN_00c85750_s* router = FUN_00c85750_s::FUN_00c85750();
+    FUN_00c85750_s* router = static_cast<FUN_00c85750_s*>(::FUN_00c85750());
     reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>((((DepthLimit*)&entryIndex)))->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(router->allocator)), (uintptr_t)(key), -2);
 
-    FUN_00c85750_s* router2 = FUN_00c85750_s::FUN_00c85750();
+    FUN_00c85750_s* router2 = static_cast<FUN_00c85750_s*>(::FUN_00c85750());
     reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(firstDepth))->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(router2->allocator)), (uintptr_t)(key), value);
 }
 
@@ -428,7 +428,6 @@ struct hkMemoryRouterXdbdd40
 };
 
 namespace hkRouterXdbdd40 {
-extern "C" hkMemoryRouterXdbdd40& __cdecl FUN_00c85750() throw();
 }
 
 template <class T> class hkArrayXdbdd40
@@ -444,7 +443,7 @@ template <class T> class hkArrayXdbdd40
     }
     __forceinline void AddBack(const T& e)
     {
-        hkMemoryRouterXdbdd40& router = hkRouterXdbdd40::FUN_00c85750();
+        hkMemoryRouterXdbdd40& router = (*static_cast<hkMemoryRouterXdbdd40*>(::FUN_00c85750()));
         if (m_iElementCount == getCapacity())
             ::ResizeAudioStream((::AudioAllocator *)(router.m_pStreamAllocator), (::AudioStream *)(void *)(this), sizeof(T));
         memCpyOneAlignedXdbdd40<sizeof(T)>(m_data + m_iElementCount, &e);
@@ -554,7 +553,6 @@ struct S00dbde40_Obj : public S00dbde40_Base
     void FUN_00dbde40(intptr_t a, intptr_t b, intptr_t c, intptr_t d, intptr_t e);
 };
 
-void* __cdecl FUN_00c85750(void);
 
 class hkMemoryAllocatorDF6
 {

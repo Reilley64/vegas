@@ -4,6 +4,7 @@
 
 
 // @fnv 0x00d48640
+#include "fnv/symbols_00c85000.h"
 #include <cstdint>
 #include "fnv/decl/DbbOwner.h"
 #include "fnv/decl/FUN_00dba680_cls.h"
@@ -697,7 +698,6 @@ struct S00d48680_Sys
     }
 };
 
-extern "C" S00d48680_Sys* __cdecl FUN_00c85750();
 
 struct S00d48680_Obj
 {
@@ -724,7 +724,7 @@ static __declspec(noinline) void FUN_00d48680(S00d48680_Obj* apReader, S00d48680
     {
         apReader->v10(0, 2);
         int iNeeded = apReader->v11();
-        S00d48680_Alloc& heap = FUN_00c85750()->getHeap();
+        S00d48680_Alloc& heap = static_cast<S00d48680_Sys*>(::FUN_00c85750())->getHeap();
         unsigned int cap = apBuffer->m_capFlags & 0x3fffffff;
         if ((int)cap < iNeeded)
         {
@@ -745,7 +745,7 @@ static __declspec(noinline) void FUN_00d48680(S00d48680_Obj* apReader, S00d48680
     do
     {
         int iNeeded = apBuffer->m_iElementCount + 0x20000;
-        S00d48680_Alloc& heap = FUN_00c85750()->getHeap();
+        S00d48680_Alloc& heap = static_cast<S00d48680_Sys*>(::FUN_00c85750())->getHeap();
         unsigned int cap = apBuffer->m_capFlags & 0x3fffffff;
         if ((int)cap < iNeeded)
         {
@@ -963,7 +963,7 @@ static __declspec(noinline) __declspec(nothrow) Resource* FUN_00d48760(LoadStrea
                 buffer.capacity = 0x80000000;
                 FUN_00d48680(input, buffer);
                 Resource* result = ((::Resource *)(::CreateResourceFromArray((void *)(buffer.data), (void *)(buffer.size), (void *)(&types))));
-                LoadMemory* memory = (LoadMemory*)FUN_00c85750();
+                LoadMemory* memory = (LoadMemory*)static_cast<S00d48680_Sys*>(::FUN_00c85750());
                 buffer.size = 0;
                 if ((int)buffer.capacity >= 0)
                     memory->heap->freeBlock(buffer.data, buffer.capacity & 0x3fffffff);
@@ -1116,14 +1116,14 @@ static __declspec(noinline) int FUN_00d48950(S00d48950_Result* result, S00d48950
         {
             result->m_pMoppCode = 4;
             reinterpret_cast<::hkStringPtr *>((result->m_message))->FUN_00cb0c70(str_010cf9f4, key, version);
-            S00d48950_Heap& heap = *((S00d48950_Sys*)FUN_00c85750())->m_pStreamAllocator;
+            S00d48950_Heap& heap = *((S00d48950_Sys*)static_cast<S00d48680_Sys*>(::FUN_00c85750()))->m_pStreamAllocator;
             items.m_iElementCount = 0;
             if ((items.m_iCapacityState & 0x80000000) == 0)
                 heap.ReturnMemory(items.m_data, (items.m_iCapacityState & 0x3fffffff) * 4);
             return 0;
         }
     }
-    S00d48950_Heap& heap = ((S00d48950_Sys*)FUN_00c85750())->heap();
+    S00d48950_Heap& heap = ((S00d48950_Sys*)static_cast<S00d48680_Sys*>(::FUN_00c85750()))->heap();
     items.m_iElementCount = 0;
     if ((items.m_iCapacityState & 0x80000000) == 0)
         heap.ReturnMemory(items.m_data, (items.m_iCapacityState & 0x3fffffff) * 4);
@@ -1241,7 +1241,7 @@ struct TemporaryAllocator
 {
     __forceinline BufferAllocator& get(void*)
     {
-        return *(BufferAllocator*)FUN_00c85750()->heap;
+        return *(BufferAllocator*)static_cast<S00d48680_Sys*>(::FUN_00c85750())->heap;
     }
 };
 struct BufferBase : S00d48680_Arr
@@ -1394,7 +1394,7 @@ struct TempAllocator
 {
     HeapApi& get(void*)
     {
-        return reinterpret_cast<HeapView*>(FUN_00c85750())->temp();
+        return reinterpret_cast<HeapView*>(static_cast<S00d48680_Sys*>(::FUN_00c85750()))->temp();
     }
 };
 struct CharArrayBase

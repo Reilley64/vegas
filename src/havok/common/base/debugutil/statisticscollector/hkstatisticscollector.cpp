@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 
+#include "fnv/symbols_00c85000.h"
 #include <cstdint>
 #include <cstring>
 #include "fnv/decl/FnvCpu_FUN_00d470d0_CpuObject.h"
@@ -90,7 +91,6 @@ struct AllocHolder
     SlotAllocator* m_pAllocator;
 };
 
-AllocHolder* __cdecl FUN_00c85750();
 
 struct GrowBuf
 {
@@ -112,7 +112,7 @@ void __cdecl FUN_00d06cb0(GrowBuf* buf, unsigned int elemSize)
         newCount = 1;
     }
 
-    AllocHolder* holder = FUN_00c85750();
+    AllocHolder* holder = static_cast<AllocHolder*>(::FUN_00c85750());
     void* newData = holder->m_pAllocator->Alloc(newCount * elemSize);
     std::memmove(newData, buf->m_pData, (unsigned int)buf->m_uCap * elemSize);
 
@@ -120,7 +120,7 @@ void __cdecl FUN_00d06cb0(GrowBuf* buf, unsigned int elemSize)
     {
         void* oldData = buf->m_pData;
         unsigned int oldBytes = (buf->m_uiObjectFlags & 0x3fffu) * elemSize;
-        AllocHolder* pAllocHolder2 = FUN_00c85750();
+        AllocHolder* pAllocHolder2 = static_cast<AllocHolder*>(::FUN_00c85750());
         pAllocHolder2->m_pAllocator->Free(oldData, oldBytes);
     }
 
@@ -252,7 +252,6 @@ struct S_00d06dd0_Router
     }
 };
 
-S_00d06dd0_Router* FUN_00c85750();
 
 struct S_00d06dd0_Obj
 {
@@ -272,7 +271,7 @@ void S_00d06dd0_Obj::DispatchIfNotFlagged(intptr_t a, unsigned int flags)
     if ((flags & 1) == 0)
     {
         int b = reinterpret_cast<::FUN_00d06d90_cls *>(this)->GetFlagsOrProcess((::Rec *)(a));
-        int r = FUN_00c85750()->heap().vfn2c(a, b);
+        int r = static_cast<S_00d06dd0_Router*>(::FUN_00c85750())->heap().vfn2c(a, b);
         slot14(0, 0, a, b, r);
     }
 }
@@ -308,7 +307,6 @@ struct FUN_00d06e10_holder
     FUN_00d06e10_obj* m_10;
 };
 
-FUN_00d06e10_holder* __cdecl FUN_00c85750();
 
 class FUN_00d06e10_cls
 {
@@ -330,7 +328,7 @@ void FUN_00d06e10_cls::FUN_00d06e10(intptr_t pSource, intptr_t pData, unsigned c
     if ((flag & 1) == 0)
     {
         int len = reinterpret_cast<::FnvCpu_FUN_00d470d0_CpuObject *>((((FUN_00d06e10_src*)pSource)))->FUN_00d470d0();
-        FUN_00d06e10_holder* holder = FUN_00c85750();
+        FUN_00d06e10_holder* holder = static_cast<FUN_00d06e10_holder*>(::FUN_00c85750());
         int hash = holder->m_10->v2c(pData, len);
         Emit(0, 0, (const char*)pData, len, hash);
     }
@@ -389,7 +387,6 @@ struct Holder
     Target* unk10;
 };
 
-extern void* __cdecl FUN_00c85750();
 
 // If s is non-null, gets a Holder via FUN_00c85750 and returns holder->unk10->v11(s, len); otherwise returns len.
 // @fnv 0x00d06f80

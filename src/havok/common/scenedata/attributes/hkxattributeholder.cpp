@@ -2,6 +2,7 @@
 // src/havok/common/scenedata/attributes/hkxattributeholder.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/scenedata/attributes/hkxattributeholder.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include <new>
 #include "fnv/decl/FUN_00dfb720.h"
@@ -28,7 +29,6 @@ struct S_00e3eaa0_Router
         return *m_pStreamAllocator;
     }
 };
-S_00e3eaa0_Router* FUN_00c85750();
 template <class T> __forceinline void destruct(T* t, int n)
 {
     for (int i = 0; i < n; ++i)
@@ -50,7 +50,7 @@ template <class T> struct S_00e3eaa0_Array
     }
     __forceinline ~S_00e3eaa0_Array() throw()
     {
-        _clearAndDeallocate(FUN_00c85750()->heap());
+        _clearAndDeallocate(static_cast<S_00e3eaa0_Router*>(::FUN_00c85750())->heap());
     }
 };
 struct S_00e3eaa0_Elem
@@ -93,7 +93,6 @@ struct S_00e3e950_Router
     }
 };
 namespace fnvc_adapt {
-S_00e3e950_Router& FUN_00c85750();
 }
 
 struct S_00e3e950_Str
@@ -190,7 +189,7 @@ template <typename T> struct S_00e3e950_Array
 
     __forceinline S_00e3e950_Array& operator=(const S_00e3e950_Array& a)
     {
-        _copyFromArray(fnvc_adapt::FUN_00c85750().heap(), a);
+        _copyFromArray((*static_cast<S_00e3e950_Router*>(::FUN_00c85750())).heap(), a);
         return *this;
     }
 };
@@ -239,7 +238,6 @@ struct AudioHolder
     AudioAllocator* m_pAllocator;
 };
 
-AudioHolder* __cdecl FUN_00c85750() throw();
 
 struct FUN_00dfe360_cls
 {
@@ -266,7 +264,7 @@ struct FUN_00dfe360_cls
 // @fnv 0x00dfe360
 void FUN_00dfe360_cls::FUN_00dfe360()
 {
-    AudioHolder* pHolder = FUN_00c85750();
+    AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
     AudioAllocator* pAllocator = pHolder->m_pAllocator;
     unsigned int uCapBits1 = m_uCapBits1;
     m_iCount1 = 0;
@@ -277,7 +275,7 @@ void FUN_00dfe360_cls::FUN_00dfe360()
     m_pData1 = 0;
     m_uCapBits1 = 0x80000000u;
 
-    AudioHolder* pHolder2 = FUN_00c85750();
+    AudioHolder* pHolder2 = static_cast<AudioHolder*>(::FUN_00c85750());
     AudioAllocator* pAllocator2 = pHolder2->m_pAllocator;
     unsigned int uCapBits2 = m_uCapBits2;
     m_iCount2 = 0;

@@ -1,3 +1,4 @@
+#include "fnv/symbols_00c85000.h"
 #include <cstdint>
 
 // src/havok/common/base/memory/allocator/freelist/hkfreelist.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/memory/allocator/freelist/hkfreelist.cpp).
@@ -512,11 +513,10 @@ struct hkStackDD7B
 {
     char* m_pcCur;
 };
-extern "C" hkStackDD7B* __cdecl FUN_00c85750();
 
 template <class T> inline T* hkAllocateStackDD7B(int iCount)
 {
-    hkStackDD7B* pkStack = FUN_00c85750();
+    hkStackDD7B* pkStack = static_cast<hkStackDD7B*>(::FUN_00c85750());
     T* pResult = (T*)pkStack->m_pcCur;
     pkStack->m_pcCur = (char*)pResult + ((iCount * sizeof(T) + 127) & ~127);
     return pResult;
@@ -524,7 +524,7 @@ template <class T> inline T* hkAllocateStackDD7B(int iCount)
 
 template <class T> inline void hkDeallocateStackDD7B(T* p)
 {
-    FUN_00c85750()->m_pcCur = (char*)p;
+    static_cast<hkStackDD7B*>(::FUN_00c85750())->m_pcCur = (char*)p;
 }
 
 bool __cdecl CompareLessThan(const hkFreeListNode* pkA, const hkFreeListNode* pkB);

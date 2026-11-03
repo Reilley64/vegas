@@ -1,6 +1,7 @@
 // src/havok/common/scenedata/material/hkxtexturefileclass.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/scenedata/material/hkxtexturefileclass.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstdint>
 #include "fnv/symbols_00cb0000.h"
 #include "fnv/symbols_0102e000.h"
@@ -34,7 +35,6 @@ struct FUN_00e01870_Class
     FUN_00e01870_Class* FUN_00e01870(unsigned int);
 };
 void* DAT_0102e388;
-UnkRet* FUN_00c85750();
 // Calls FUN_00cb0c00 on part10, part0c and part08, sets vptr to DAT_0102e388, and if flags bit 0 is set releases this with refCount via object->part10.
 // @fnv 0x00e01870
 FUN_00e01870_Class* FUN_00e01870_Class::FUN_00e01870(unsigned int flags)
@@ -45,7 +45,7 @@ FUN_00e01870_Class* FUN_00e01870_Class::FUN_00e01870(unsigned int flags)
     vptr = &DAT_0102e388;
     if (flags & 1)
     {
-        UnkRet* object = FUN_00c85750();
+        UnkRet* object = static_cast<UnkRet*>(::FUN_00c85750());
         unsigned int count = refCount;
         RetPart* part = object->part10;
         part->Release(this, count);

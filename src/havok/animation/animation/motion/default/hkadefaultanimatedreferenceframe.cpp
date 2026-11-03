@@ -28,6 +28,7 @@ float FUN_00e41080_Obj::GetUnk30()
     return unk30;
 }
 
+#include "fnv/symbols_00c85000.h"
 #include <cstdint>
 #include "fnv_simd.h"
 #include "fnv/symbols_simd.h"
@@ -683,7 +684,6 @@ struct MemoryRouter
         return *m_pStreamAllocator;
     }
 };
-extern "C" MemoryRouter* __cdecl FUN_00c85750() throw();
 extern "C" void __cdecl FUN_00c908c0(hkMemoryAllocator* mem, void* arr, intptr_t newCap, int elemSize) throw();
 struct QuatHelper
 {
@@ -779,7 +779,7 @@ FUN_00e41830::FUN_00e41830(const Config& config) throw() : m_ppVirtualMethodTabl
             }
         }
     }
-    hkMemoryAllocator& mem = FUN_00c85750()->heap();
+    hkMemoryAllocator& mem = static_cast<MemoryRouter*>(::FUN_00c85750())->heap();
     const int cap = samples.m_iCapacityState & 0x3fffffff;
     if (cap < numSamples)
     {

@@ -186,7 +186,6 @@ struct hkMemoryRouterDDB6
         return *m_pStreamAllocator;
     }
 };
-extern "C" hkMemoryRouterDDB6& __cdecl FUN_00c85750();
 
 template <class T> __forceinline void destructDDB6(T* t, int n)
 {
@@ -208,7 +207,7 @@ template <class T> class hkArrayDDB6
 
     ~hkArrayDDB6() throw()
     {
-        ClearAndRelease(FUN_00c85750().heap());
+        ClearAndRelease((*static_cast<hkMemoryRouterDDB6*>(::FUN_00c85750())).heap());
     }
     __forceinline void clear()
     {
@@ -314,7 +313,6 @@ struct FnvCpu_FUN_00ddb710_CpuHolder
     unsigned int unk0c;
     FnvCpu_FUN_00ddb710_CpuAllocator* allocator;
 };
-void* __cdecl FUN_00c85750();
 struct FnvCpu_FUN_00ddb710_CpuBlock
 {
     unsigned int unk00;
@@ -350,7 +348,6 @@ struct ThreadMemory
     MemoryManager* memoryManager;
 };
 
-void* __cdecl FUN_00c85750();
 
 class hkClass;
 struct TestClass
@@ -1327,7 +1324,6 @@ struct Router_ddba
     {
         return *m_pStreamAllocator;
     }
-    static Router_ddba& __cdecl FUN_00c85750() throw();
 };
 
 struct hkBool_ddba
@@ -1346,14 +1342,14 @@ template <class T> struct hkArray_ddba
     {}
     __forceinline ~hkArray_ddba() throw()
     {
-        Heap_ddba& heap = Router_ddba::FUN_00c85750().heap();
+        Heap_ddba& heap = (*static_cast<Router_ddba*>(::FUN_00c85750())).heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
             heap.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
     }
     __forceinline void SetSizeAndGrow(int n) throw()
     {
-        Heap_ddba& heap = Router_ddba::FUN_00c85750().heap();
+        Heap_ddba& heap = (*static_cast<Router_ddba*>(::FUN_00c85750())).heap();
         int cap = m_iCapacityState & 0x3fffffff;
         if (cap < n)
         {

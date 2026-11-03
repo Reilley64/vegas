@@ -2,6 +2,7 @@
 // src/havok/common/serialize/packfile/binary/hkbinarypackfilewriter.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/serialize/packfile/binary/hkbinarypackfilewriter.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstdint>
 #include <cstddef>
 #include <new>
@@ -354,7 +355,6 @@ struct FUN_00dbd820_cls
     void AppendPair(FUN_00dbd820_pair p);
 };
 
-extern void* FUN_00c85750();
 
 // @fnv 0x00dbd820
 void FUN_00dbd820_cls::AppendPair(FUN_00dbd820_pair aPair)
@@ -709,7 +709,6 @@ struct S_00db8670_Router
     }
 };
 
-extern void* __cdecl FUN_00c85750();
 __forceinline S_00db8670_Router& S_GetRouter() throw()
 {
     return *(S_00db8670_Router*)FUN_00c85750();
@@ -1270,7 +1269,6 @@ struct S_00dbd7f0_Router
         return *m_pStreamAllocator;
     }
 };
-S_00dbd7f0_Router* FUN_00c85750();
 
 struct S_00dbd7f0_RefObj
 {
@@ -1280,7 +1278,7 @@ struct S_00dbd7f0_RefObj
     void operator delete(void* p)
     {
         S_00dbd7f0_RefObj* b = static_cast<S_00dbd7f0_RefObj*>(p);
-        FUN_00c85750()->heap().ReleaseBlock(p, b->m_usMemSizeAndFlags);
+        static_cast<S_00dbd7f0_Router*>(::FUN_00c85750())->heap().ReleaseBlock(p, b->m_usMemSizeAndFlags);
     }
 };
 
@@ -2070,7 +2068,6 @@ struct ThisCls
     void FUN_00dbcea0(Src* arg);
 };
 extern intptr_t DAT_011b7aec;
-void* FUN_00c85750();
 extern int __cdecl FUN_00cb10d0(void* p);
 struct Router
 {

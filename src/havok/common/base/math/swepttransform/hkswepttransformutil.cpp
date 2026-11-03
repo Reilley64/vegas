@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 // @fnv 0x00cf1480
+#include "fnv/symbols_00c85000.h"
 #include <cstdint>
 #include "fnv_simd.h"
 #include "fnv/decl/C74C20Quat.h"
@@ -422,7 +423,6 @@ struct S_00cf10f0_Router
         return *m10;
     }
 };
-S_00cf10f0_Router* FUN_00c85750() throw();
 
 struct S_00cf10f0_Arr4;
 
@@ -433,7 +433,7 @@ struct S_00cf10f0_Arr4
     int m_cap;
     __forceinline void reserve(int n) throw()
     {
-        S_00cf10f0_Heap& h = FUN_00c85750()->heap();
+        S_00cf10f0_Heap& h = static_cast<S_00cf10f0_Router*>(::FUN_00c85750())->heap();
         int cap = m_cap & 0x3fffffff;
         if (cap < n)
             ::FUN_00c908c0((::SpawnedObject *)(::S_00cf10f0_Heap *)(&h), (::SpawnedArray *)(::S_00cf10f0_Arr4 *)(this), (n < cap * 2) ? cap * 2 : n, 4);
@@ -461,7 +461,7 @@ int __cdecl LoadIntArray(S_00cf10f0_Stream* kStream, S_00cf10f0_Arr4* pArray)
     S_00cf10f0_Ctx guard(0x10);
     int n = 0;
     S_00cf10f0_BinaryStreamLoad(*kStream->unk24c, &n, 1);
-    pArray->_clearAndDeallocate(FUN_00c85750()->heap());
+    pArray->_clearAndDeallocate(static_cast<S_00cf10f0_Router*>(::FUN_00c85750())->heap());
     pArray->SetSizeAndGrow(n);
     int bytes = n * 4;
     for (int iIndex = 0; iIndex < n; iIndex++)
@@ -510,10 +510,9 @@ struct AudioMgr
 };
 
 struct BSAudio;
-__declspec(nothrow) BSAudio* __cdecl FUN_00c85750();
 inline AudioMgr* audio()
 {
-    return (AudioMgr*)FUN_00c85750();
+    return (AudioMgr*)static_cast<BSAudio*>(::FUN_00c85750());
 }
 
 

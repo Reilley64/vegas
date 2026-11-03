@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 // @fnv 0x00dbb610
+#include "fnv/symbols_00c85000.h"
 #include <cstdint>
 #include <cstddef>
 #include "fnv/decl/TargetClass.h"
@@ -703,7 +704,6 @@ struct hkMemoryRouterDBB5
 };
 
 namespace hkRouterDBB5 {
-extern "C" hkMemoryRouterDBB5& __cdecl FUN_00c85750() throw();
 }
 
 class hkRefObjDBB5
@@ -720,7 +720,7 @@ class hkRefObjDBB5
 
     static void* operator new(std::size_t nbytes)
     {
-        hkRefObjDBB5* b = static_cast<hkRefObjDBB5*>(hkRouterDBB5::FUN_00c85750().heap().AllocateMemoryBlock(nbytes));
+        hkRefObjDBB5* b = static_cast<hkRefObjDBB5*>((*static_cast<hkMemoryRouterDBB5*>(::FUN_00c85750())).heap().AllocateMemoryBlock(nbytes));
         b->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return b;
     }
@@ -1053,7 +1053,6 @@ struct hkMemoryRouterDBBD
         return *m_pStreamAllocator;
     }
 };
-extern "C" hkMemoryRouterDBBD& __cdecl FUN_00c85750();
 
 struct hkClassMemberTypeDBBD
 {
@@ -1078,7 +1077,7 @@ class FUN_00dbbb90
 
     void* operator new(std::size_t nbytes)
     {
-        FUN_00dbbb90* b = static_cast<FUN_00dbbb90*>(FUN_00c85750().heap().AllocateMemoryBlock(nbytes));
+        FUN_00dbbb90* b = static_cast<FUN_00dbbb90*>((*static_cast<hkMemoryRouterDBBD*>(::FUN_00c85750())).heap().AllocateMemoryBlock(nbytes));
         b->m_usMemSizeAndFlags = static_cast<unsigned short>(nbytes);
         return b;
     }
@@ -1178,7 +1177,6 @@ struct hkMemoryRouterXdbbe50
     }
 };
 
-extern "C" hkMemoryRouterXdbbe50& __cdecl FUN_00c85750() throw();
 
 class hkObjdbbe50 : public hkBaseDBBE
 {
@@ -1187,7 +1185,7 @@ class hkObjdbbe50 : public hkBaseDBBE
 
     static void operator delete(void* p) throw()
     {
-        FUN_00c85750().heap().ReleaseBlock(p, static_cast<hkObjdbbe50*>(p)->GetAllocationSize());
+        (*static_cast<hkMemoryRouterXdbbe50*>(::FUN_00c85750())).heap().ReleaseBlock(p, static_cast<hkObjdbbe50*>(p)->GetAllocationSize());
     }
     int GetAllocationSize() const
     {
@@ -1572,7 +1570,6 @@ struct hkMemoryRouterDBB6
 };
 
 namespace hkRouterDBB6 {
-extern "C" hkMemoryRouterDBB6& __cdecl FUN_00c85750() throw();
 }
 
 class hkRefObjDBB6
@@ -1589,7 +1586,7 @@ class hkRefObjDBB6
 
     static void* operator new(std::size_t nbytes)
     {
-        hkRefObjDBB6* b = static_cast<hkRefObjDBB6*>(hkRouterDBB6::FUN_00c85750().heap().AllocateMemoryBlock(nbytes));
+        hkRefObjDBB6* b = static_cast<hkRefObjDBB6*>((*static_cast<hkMemoryRouterDBB6*>(::FUN_00c85750())).heap().AllocateMemoryBlock(nbytes));
         b->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return b;
     }
@@ -1929,7 +1926,7 @@ static __declspec(noinline) Node680* FUN_00dbb260(Pair680* p, Dispatch680* o)
             p->b = 0;
         }
     }
-    Node680* e = (Node680*)hkRouterDBB6::FUN_00c85750().heap().AllocateMemoryBlock(24);
+    Node680* e = (Node680*)(*static_cast<hkMemoryRouterDBB6*>(::FUN_00c85750())).heap().AllocateMemoryBlock(24);
     e->refs = 0;
     e->unk08 = 0;
     e->size = 24;
@@ -1964,7 +1961,7 @@ void Owner680::FUN_00dbb680(Input680* input)
     DispatchFn680* firstSlot = &pRawDispatch->table->v4;
     void* r2 = (*firstSlot)(pRawDispatch, input->FUN_00dba680());
     int size = reinterpret_cast<::FnvCpu_FUN_00d470d0_CpuObject *>((((Size680*)r2)))->FUN_00d470d0();
-    p.a = hkRouterDBB6::FUN_00c85750().heap().AllocateMemoryBlock(size);
+    p.a = (*static_cast<hkMemoryRouterDBB6*>(::FUN_00c85750())).heap().AllocateMemoryBlock(size);
     p.b = (FUN_00d46d40_s*)r2;
     if (p.a)
     {
@@ -2591,7 +2588,6 @@ struct Router
     int a, b, c, d;
     Allocator* allocator;
 };
-Router* __cdecl FUN_00c85750();
 struct Index
 {
 };
@@ -2626,7 +2622,7 @@ Record* Object::FUN_00dbb520(void* key)
     }
     else
         reference = 0;
-    Router* router = FUN_00c85750();
+    Router* router = static_cast<Router*>(::FUN_00c85750());
     Record* record = (Record*)router->allocator->allocate(20);
     record->byteSize = 20;
     record->flags = 0;
@@ -2747,7 +2743,7 @@ static __declspec(noinline) S00dbb260_Result* FUN_00dbb260(S00dbb260_Args* args,
         }
     }
     S00dbb260_Result* rec;
-    rec = (S00dbb260_Result*)FUN_00c85750().heap().AllocateMemoryBlock(0x18);
+    rec = (S00dbb260_Result*)(*static_cast<hkMemoryRouterDBBD*>(::FUN_00c85750())).heap().AllocateMemoryBlock(0x18);
     rec->size = 0x18;
     rec->unk06 = 0;
     rec->unk08 = 0;

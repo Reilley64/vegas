@@ -2,6 +2,7 @@
 // src/havok/animation/animation/deform/skinning/hkameshbinding.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/animation/deform/skinning/hkameshbinding.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include "fnv/decl/hkReferencedObjectC905.h"
 #include "havok/hkaMeshBinding.h"
 
@@ -75,7 +76,6 @@ struct hkMemoryRouterE348
     }
 };
 
-extern "C" hkMemoryRouterE348& __cdecl FUN_00c85750() throw();
 
 namespace hkE348 {
 class hkBaseObject
@@ -119,7 +119,7 @@ template <class T> class hkArray
 
     __forceinline ~hkArray() throw()
     {
-        hkMemoryAllocatorE348& kAlloc = FUN_00c85750().heap();
+        hkMemoryAllocatorE348& kAlloc = (*static_cast<hkMemoryRouterE348*>(::FUN_00c85750())).heap();
         destruct(m_data, m_iElementCount);
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)

@@ -2,6 +2,7 @@
 // src/havok/common/base/system/io/socket/hksocket.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/system/io/socket/hksocket.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include "fnv/decl/FUN_00da30a0_cls.h"
 #include "fnv/symbols_0102e000.h"
 #include "fnv/symbols_01268000.h"
@@ -78,11 +79,10 @@ struct FUN_00c85750_context
         virtual FUN_00da30a0_class* allocate(unsigned int);
     }* unk10;
 };
-FUN_00c85750_context* __cdecl FUN_00c85750();
 // @fnv 0x00d2b820
 void __cdecl CreateAllocatedValue()
 {
-    FUN_00c85750_context* context = FUN_00c85750();
+    FUN_00c85750_context* context = static_cast<FUN_00c85750_context*>(::FUN_00c85750());
     FUN_00da30a0_class* value = context->unk10->allocate(0x24);
     value->unk04 = 0x24;
     reinterpret_cast<::FUN_00da30a0_cls *>((value))->InitWithParam(-1);
@@ -122,7 +122,6 @@ struct FUN_00d2b8c0_Class
     FUN_00d2b8c0_Class* FUN_00d2b8c0(unsigned int flags);
 };
 void* DAT_0102e388;
-UnkRet* FUN_00c85750();
 // @fnv 0x00d2b8c0
 FUN_00d2b8c0_Class* FUN_00d2b8c0_Class::FUN_00d2b8c0(unsigned int flags)
 {
@@ -131,7 +130,7 @@ FUN_00d2b8c0_Class* FUN_00d2b8c0_Class::FUN_00d2b8c0(unsigned int flags)
     vptr00 = &::DAT_0102e388;
     if (flags & 1)
     {
-        UnkRet* object = FUN_00c85750();
+        UnkRet* object = static_cast<UnkRet*>(::FUN_00c85750());
         unsigned int count = refCount;
         RetPart* part = object->part10;
         part->Release(this, count);

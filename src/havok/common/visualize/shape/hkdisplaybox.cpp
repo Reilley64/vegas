@@ -2,6 +2,7 @@
 // src/havok/common/visualize/shape/hkdisplaybox.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/visualize/shape/hkdisplaybox.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
 #include "fnv/symbols_01011000.h"
 #include "fnv/symbols_00c90000.h"
@@ -209,7 +210,6 @@ struct BoxBuild2190Router
         return *reinterpret_cast<hkMemoryAllocator*>(m_10);
     }
 };
-BoxBuild2190Router* FUN_00c85750();
 
 struct BoxBuild2190Tri
 {
@@ -271,7 +271,7 @@ struct BoxBuild2190BoxShell
 // @fnv 0x00de2190
 void BoxBuild2190BoxShell::FUN_00de2190()
 {
-    BoxBuild2190Router* router = FUN_00c85750();
+    BoxBuild2190Router* router = static_cast<BoxBuild2190Router*>(::FUN_00c85750());
     BoxBuild2190Geom* mem = (BoxBuild2190Geom*)router->m_10->alloc(sizeof(BoxBuild2190Geom));
     BoxBuild2190Geom* geom;
     if (mem)
@@ -292,7 +292,7 @@ void BoxBuild2190BoxShell::FUN_00de2190()
 
     {
         BoxBuild2190MatchArray<hkVector4>* arr = &m_08->m_verts;
-        hkMemoryAllocator* allocp = &FUN_00c85750()->heap();
+        hkMemoryAllocator* allocp = &static_cast<BoxBuild2190Router*>(::FUN_00c85750())->heap();
         _ReadWriteBarrier();
         hkVector4* dst = arr->append(*allocp);
         *reinterpret_cast<__m128*>(dst) =
@@ -300,7 +300,7 @@ void BoxBuild2190BoxShell::FUN_00de2190()
     }
     {
         BoxBuild2190MatchArray<hkVector4>* arr = &m_08->m_verts;
-        hkMemoryAllocator* allocp = &FUN_00c85750()->heap();
+        hkMemoryAllocator* allocp = &static_cast<BoxBuild2190Router*>(::FUN_00c85750())->heap();
         _ReadWriteBarrier();
         hkVector4* dst = arr->append(*allocp);
         *reinterpret_cast<__m128*>(dst) =
@@ -308,7 +308,7 @@ void BoxBuild2190BoxShell::FUN_00de2190()
     }
     {
         BoxBuild2190MatchArray<hkVector4>* arr = &m_08->m_verts;
-        hkMemoryAllocator* allocp = &FUN_00c85750()->heap();
+        hkMemoryAllocator* allocp = &static_cast<BoxBuild2190Router*>(::FUN_00c85750())->heap();
         _ReadWriteBarrier();
         hkVector4* dst = arr->append(*allocp);
         *reinterpret_cast<__m128*>(dst) =
@@ -316,7 +316,7 @@ void BoxBuild2190BoxShell::FUN_00de2190()
     }
     {
         BoxBuild2190MatchArray<hkVector4>* arr = &m_08->m_verts;
-        hkMemoryAllocator* allocp = &FUN_00c85750()->heap();
+        hkMemoryAllocator* allocp = &static_cast<BoxBuild2190Router*>(::FUN_00c85750())->heap();
         _ReadWriteBarrier();
         hkVector4* dst = arr->append(*allocp);
         *reinterpret_cast<__m128*>(dst) =
@@ -324,7 +324,7 @@ void BoxBuild2190BoxShell::FUN_00de2190()
     }
     {
         BoxBuild2190MatchArray<hkVector4>* arr = &m_08->m_verts;
-        hkMemoryAllocator* allocp = &FUN_00c85750()->heap();
+        hkMemoryAllocator* allocp = &static_cast<BoxBuild2190Router*>(::FUN_00c85750())->heap();
         _ReadWriteBarrier();
         hkVector4* dst = arr->append(*allocp);
         *reinterpret_cast<__m128*>(dst) =
@@ -332,7 +332,7 @@ void BoxBuild2190BoxShell::FUN_00de2190()
     }
     {
         BoxBuild2190MatchArray<hkVector4>* arr = &m_08->m_verts;
-        hkMemoryAllocator* allocp = &FUN_00c85750()->heap();
+        hkMemoryAllocator* allocp = &static_cast<BoxBuild2190Router*>(::FUN_00c85750())->heap();
         _ReadWriteBarrier();
         hkVector4* dst = arr->append(*allocp);
         *reinterpret_cast<__m128*>(dst) =
@@ -340,7 +340,7 @@ void BoxBuild2190BoxShell::FUN_00de2190()
     }
     {
         BoxBuild2190MatchArray<hkVector4>* arr = &m_08->m_verts;
-        hkMemoryAllocator* allocp = &FUN_00c85750()->heap();
+        hkMemoryAllocator* allocp = &static_cast<BoxBuild2190Router*>(::FUN_00c85750())->heap();
         _ReadWriteBarrier();
         hkVector4* dst = arr->append(*allocp);
         *reinterpret_cast<__m128*>(dst) =
@@ -348,7 +348,7 @@ void BoxBuild2190BoxShell::FUN_00de2190()
     }
     {
         BoxBuild2190MatchArray<hkVector4>* arr = &m_08->m_verts;
-        hkMemoryAllocator* allocp = &FUN_00c85750()->heap();
+        hkMemoryAllocator* allocp = &static_cast<BoxBuild2190Router*>(::FUN_00c85750())->heap();
         _ReadWriteBarrier();
         hkVector4* dst = arr->append(*allocp);
         *reinterpret_cast<__m128*>(dst) =
@@ -360,7 +360,7 @@ void BoxBuild2190BoxShell::FUN_00de2190()
 
     {
         BoxBuild2190MatchArray<BoxBuild2190Tri>* arr = &m_08->m_tris;
-        hkMemoryAllocator* allocp = &FUN_00c85750()->heap();
+        hkMemoryAllocator* allocp = &static_cast<BoxBuild2190Router*>(::FUN_00c85750())->heap();
         _ReadWriteBarrier();
         BoxBuild2190Tri* t = arr->append(*allocp);
         t->m_kPointA = 3;
@@ -370,7 +370,7 @@ void BoxBuild2190BoxShell::FUN_00de2190()
     }
     {
         BoxBuild2190MatchArray<BoxBuild2190Tri>* arr = &m_08->m_tris;
-        hkMemoryAllocator* allocp = &FUN_00c85750()->heap();
+        hkMemoryAllocator* allocp = &static_cast<BoxBuild2190Router*>(::FUN_00c85750())->heap();
         _ReadWriteBarrier();
         BoxBuild2190Tri* t = arr->append(*allocp);
         t->m_kPointA = 3;
@@ -380,7 +380,7 @@ void BoxBuild2190BoxShell::FUN_00de2190()
     }
     {
         BoxBuild2190MatchArray<BoxBuild2190Tri>* arr = &m_08->m_tris;
-        hkMemoryAllocator* allocp = &FUN_00c85750()->heap();
+        hkMemoryAllocator* allocp = &static_cast<BoxBuild2190Router*>(::FUN_00c85750())->heap();
         _ReadWriteBarrier();
         BoxBuild2190Tri* t = arr->append(*allocp);
         t->m_kPointA = 6;
@@ -390,7 +390,7 @@ void BoxBuild2190BoxShell::FUN_00de2190()
     }
     {
         BoxBuild2190MatchArray<BoxBuild2190Tri>* arr = &m_08->m_tris;
-        hkMemoryAllocator* allocp = &FUN_00c85750()->heap();
+        hkMemoryAllocator* allocp = &static_cast<BoxBuild2190Router*>(::FUN_00c85750())->heap();
         _ReadWriteBarrier();
         BoxBuild2190Tri* t = arr->append(*allocp);
         t->m_kPointA = 6;
@@ -400,7 +400,7 @@ void BoxBuild2190BoxShell::FUN_00de2190()
     }
     {
         BoxBuild2190MatchArray<BoxBuild2190Tri>* arr = &m_08->m_tris;
-        hkMemoryAllocator* allocp = &FUN_00c85750()->heap();
+        hkMemoryAllocator* allocp = &static_cast<BoxBuild2190Router*>(::FUN_00c85750())->heap();
         _ReadWriteBarrier();
         BoxBuild2190Tri* t = arr->append(*allocp);
         t->m_kPointA = 4;
@@ -410,7 +410,7 @@ void BoxBuild2190BoxShell::FUN_00de2190()
     }
     {
         BoxBuild2190MatchArray<BoxBuild2190Tri>* arr = &m_08->m_tris;
-        hkMemoryAllocator* allocp = &FUN_00c85750()->heap();
+        hkMemoryAllocator* allocp = &static_cast<BoxBuild2190Router*>(::FUN_00c85750())->heap();
         _ReadWriteBarrier();
         BoxBuild2190Tri* t = arr->append(*allocp);
         t->m_kPointA = 4;
@@ -420,7 +420,7 @@ void BoxBuild2190BoxShell::FUN_00de2190()
     }
     {
         BoxBuild2190MatchArray<BoxBuild2190Tri>* arr = &m_08->m_tris;
-        hkMemoryAllocator* allocp = &FUN_00c85750()->heap();
+        hkMemoryAllocator* allocp = &static_cast<BoxBuild2190Router*>(::FUN_00c85750())->heap();
         _ReadWriteBarrier();
         BoxBuild2190Tri* t = arr->append(*allocp);
         t->m_kPointA = 2;
@@ -430,7 +430,7 @@ void BoxBuild2190BoxShell::FUN_00de2190()
     }
     {
         BoxBuild2190MatchArray<BoxBuild2190Tri>* arr = &m_08->m_tris;
-        hkMemoryAllocator* allocp = &FUN_00c85750()->heap();
+        hkMemoryAllocator* allocp = &static_cast<BoxBuild2190Router*>(::FUN_00c85750())->heap();
         _ReadWriteBarrier();
         BoxBuild2190Tri* t = arr->append(*allocp);
         t->m_kPointA = 2;
@@ -440,7 +440,7 @@ void BoxBuild2190BoxShell::FUN_00de2190()
     }
     {
         BoxBuild2190MatchArray<BoxBuild2190Tri>* arr = &m_08->m_tris;
-        hkMemoryAllocator* allocp = &FUN_00c85750()->heap();
+        hkMemoryAllocator* allocp = &static_cast<BoxBuild2190Router*>(::FUN_00c85750())->heap();
         _ReadWriteBarrier();
         BoxBuild2190Tri* t = arr->append(*allocp);
         t->m_kPointA = 7;
@@ -450,7 +450,7 @@ void BoxBuild2190BoxShell::FUN_00de2190()
     }
     {
         BoxBuild2190MatchArray<BoxBuild2190Tri>* arr = &m_08->m_tris;
-        hkMemoryAllocator* allocp = &FUN_00c85750()->heap();
+        hkMemoryAllocator* allocp = &static_cast<BoxBuild2190Router*>(::FUN_00c85750())->heap();
         _ReadWriteBarrier();
         BoxBuild2190Tri* t = arr->append(*allocp);
         t->m_kPointA = 7;
@@ -460,7 +460,7 @@ void BoxBuild2190BoxShell::FUN_00de2190()
     }
     {
         BoxBuild2190MatchArray<BoxBuild2190Tri>* arr = &m_08->m_tris;
-        hkMemoryAllocator* allocp = &FUN_00c85750()->heap();
+        hkMemoryAllocator* allocp = &static_cast<BoxBuild2190Router*>(::FUN_00c85750())->heap();
         _ReadWriteBarrier();
         BoxBuild2190Tri* t = arr->append(*allocp);
         t->m_kPointA = 1;
@@ -470,7 +470,7 @@ void BoxBuild2190BoxShell::FUN_00de2190()
     }
     {
         BoxBuild2190MatchArray<BoxBuild2190Tri>* arr = &m_08->m_tris;
-        hkMemoryAllocator* allocp = &FUN_00c85750()->heap();
+        hkMemoryAllocator* allocp = &static_cast<BoxBuild2190Router*>(::FUN_00c85750())->heap();
         _ReadWriteBarrier();
         BoxBuild2190Tri* t = arr->append(*allocp);
         t->m_kPointA = 1;

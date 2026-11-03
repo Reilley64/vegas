@@ -2,6 +2,7 @@
 // src/havok/common/scenedata/environment/hkxenvironment.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/scenedata/environment/hkxenvironment.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstdint>
 #include <cstddef>
 #include "fnv/decl/FUN_00d619d0.h"
@@ -92,7 +93,6 @@ struct HavokAllocator
     virtual void* AllocateBufferWithSize(int&);
     virtual void ReturnMemory(void*, int);
 };
-HKXMemoryRouter* __cdecl FUN_00c85750();
 struct EnvironmentArray
 {
     EnvironmentVariable* data;
@@ -101,7 +101,7 @@ struct EnvironmentArray
 
     __forceinline void release()
     {
-        HavokAllocator* allocator = reinterpret_cast<HavokAllocator*>(FUN_00c85750()->manager);
+        HavokAllocator* allocator = reinterpret_cast<HavokAllocator*>(static_cast<HKXMemoryRouter*>(::FUN_00c85750())->manager);
         EnvironmentVariable* entry = data;
         if (size > 0)
         {
@@ -214,7 +214,7 @@ template <typename T> struct hkArrayE3F3
     }
     __forceinline void AddBack(const T& kElem)
     {
-        HKXMemoryRouter* pRouter = FUN_00c85750();
+        HKXMemoryRouter* pRouter = static_cast<HKXMemoryRouter*>(::FUN_00c85750());
         HavokAllocator* pAlloc = reinterpret_cast<HavokAllocator*>(pRouter->manager);
         if (m_iElementCount == getCapacity())
             ::ResizeAudioStream((::AudioAllocator *)(pAlloc), (::AudioStream *)(void *)(this), sizeof(T));

@@ -2,6 +2,7 @@
 // src/havok/common/internal/kdtree/build/hkkdtreebuildingutils.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/common/internal/kdtree/build/hkkdtreebuildingutils.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstdint>
 #include <new>
 #include "fnv/decl/FUN_00df3110.h"
@@ -24,7 +25,6 @@ struct AudioHolder
     AudioAllocator* m_pAllocator;
 };
 
-AudioHolder* __cdecl FUN_00c85750();
 
 struct BufferPair
 {
@@ -40,12 +40,12 @@ void __cdecl FreeBufferPair(BufferPair* apPair, int aiCount)
         return;
 
     void* pSecond = apPair->m_pSecond;
-    AudioHolder* pHolder = FUN_00c85750();
+    AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
     AudioAllocator* pAllocator = pHolder->m_pAllocator;
     pAllocator->Free(pSecond, aiCount * 16);
 
     void* pFirst = apPair->m_pFirst;
-    AudioHolder* pHolder2 = FUN_00c85750();
+    AudioHolder* pHolder2 = static_cast<AudioHolder*>(::FUN_00c85750());
     AudioAllocator* pAllocator2 = pHolder2->m_pAllocator;
     pAllocator2->Free(pFirst, aiCount * 16);
 }

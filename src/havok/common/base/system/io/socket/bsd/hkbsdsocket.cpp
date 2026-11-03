@@ -2,6 +2,7 @@
 // src/havok/common/base/system/io/socket/bsd/hkbsdsocket.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/system/io/socket/bsd/hkbsdsocket.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include "fnv/decl/FUN_00d2b850.h"
 #include "fnv/decl/StringBuf.h"
 #include <winsock2.h>
@@ -225,7 +226,6 @@ struct FUN_00cbbd40_holder
     int unk8;
     FUN_00cbbd40_router* unkC;
 };
-extern "C" FUN_00cbbd40_holder* __cdecl FUN_00c85750(void);
 struct FUN_00cbbd40_cls
 {
     int m_iWordAt00;
@@ -236,7 +236,7 @@ struct FUN_00cbbd40_cls
 // @fnv 0x00cbbd40
 void FUN_00cbbd40_cls::FUN_00cbbd40()
 {
-    FUN_00cbbd40_holder* pHolder = FUN_00c85750();
+    FUN_00cbbd40_holder* pHolder = static_cast<FUN_00cbbd40_holder*>(::FUN_00c85750());
     FUN_00cbbd40_router* r = pHolder->unkC;
     int iOldValue = m_8;
     m_iWordAt04 = 0;
@@ -545,7 +545,7 @@ FUN_00da33d0_cls* FUN_00da33d0_cls::FUN_00da33d0(bool flag)
     reinterpret_cast<::hkBsdSocket *>((this))->Destroy();
     if (flag & 1)
     {
-        FUN_00da33d0_router* router = (FUN_00da33d0_router*)FUN_00c85750();
+        FUN_00da33d0_router* router = (FUN_00da33d0_router*)static_cast<FUN_00cbbd40_holder*>(::FUN_00c85750());
         router->m_client->FUN_00da33d0_c(this, m_kPointB);
     }
     return this;
@@ -616,7 +616,6 @@ struct RouterD32
     }
 };
 namespace hkRouterD32 {
-extern "C" RouterD32& __cdecl FUN_00c85750() throw();
 }
 
 struct SockD32
@@ -704,7 +703,7 @@ void* SockD32::FUN_00da3230()
             }
             int iNoDelay = 1;
             FUN_00ee6d9e(s, 6, 1, (const char*)&iNoDelay, 4);
-            void* p = hkRouterD32::FUN_00c85750().heap().AllocateMemoryBlock(0x24);
+            void* p = (*static_cast<RouterD32*>(::FUN_00c85750())).heap().AllocateMemoryBlock(0x24);
             ((unsigned short*)p)[2] = 0x24;
             void* pkSocket = ((FUN_00da30a0_cls*)p)->InitWithParam(s);
             reinterpret_cast<::FUN_00cbbd40_cls *>(&(kMsg))->FUN_00cbbd40();

@@ -2,6 +2,7 @@
 // src/havok/common/serialize/util/hkbuiltintyperegistry.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/serialize/util/hkbuiltintyperegistry.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstdint>
 #include "fnv/symbols_00401000.h"
 #include <new>
@@ -391,7 +392,6 @@ struct HavokRouter
     int unk00, unk04, unk08, unk0c;
     HavokHeap* heap;
 };
-extern "C" HavokRouter* __cdecl FUN_00c85750();
 struct EmbeddedRegistry
 {
     ~EmbeddedRegistry()
@@ -420,7 +420,7 @@ RegistryImpl* RegistryImpl::DestroyRegistry(unsigned int flags)
     RegistryBase::~RegistryBase();
     if (flags & 1)
     {
-        HavokRouter* router = FUN_00c85750();
+        HavokRouter* router = static_cast<HavokRouter*>(::FUN_00c85750());
         router->heap->release(this, allocatedSize);
     }
     return this;
@@ -441,7 +441,6 @@ struct D47Router
     int field0c;
     void* heap;
 };
-D47Router* __cdecl FUN_00c85750();
 
 struct D47Map
 {
@@ -464,7 +463,7 @@ void D47Owner::AppendEntryValues(D47Array* values)
     while (hasItem)
     {
         intptr_t value = reinterpret_cast<::FUN_00d87440_Class *>(&(entries))->FUN_00d87440(iterator);
-        D47Router* router = FUN_00c85750();
+        D47Router* router = static_cast<D47Router*>(::FUN_00c85750());
         if (values->count == (values->capacityAndFlags & 0x3fffffff))
         {
             ::ResizeAudioStream((::AudioAllocator *)(router->heap), (::AudioStream *)(values), 4);
@@ -490,7 +489,6 @@ struct Holder
     int a, b, c, d;
     Alloc* alloc;
 };
-Holder* __cdecl FUN_00c85750() throw();
 struct Sub
 {
     int q;
@@ -506,13 +504,13 @@ struct FUN_00d47c90_cls
 // @fnv 0x00d47c90
 FUN_00d47c90_cls* FUN_00d47c90_cls::Destroy(unsigned char flags)
 {
-    reinterpret_cast<::CB1A90Owner *>(&(sub))->ProcessArgument((::CB1A90Argument *)(FUN_00c85750()->alloc));
+    reinterpret_cast<::CB1A90Owner *>(&(sub))->ProcessArgument((::CB1A90Argument *)(static_cast<Holder*>(::FUN_00c85750())->alloc));
     ::FUN_00a29680();
     vptr = &(*reinterpret_cast<int *>(&::DAT_0102e388));
     Holder* h;
     if (flags & 1)
     {
-        h = FUN_00c85750();
+        h = static_cast<Holder*>(::FUN_00c85750());
         Alloc* a = h->alloc;
         a->Free(this, size);
     }
@@ -535,7 +533,6 @@ struct hkMemoryRouterD47C
         return *m_pStreamAllocator;
     }
 };
-extern "C" hkMemoryRouterD47C& __cdecl FUN_00c85750();
 
 
 template <class T> __forceinline void constructWithCopyD47C(T* p, int n, const T& t)
@@ -557,7 +554,7 @@ template <class T> class hkArrayD47C
     }
     void AddBack(const T& t)
     {
-        hkMemoryAllocatorD47C& kAlloc = FUN_00c85750().heap();
+        hkMemoryAllocatorD47C& kAlloc = (*static_cast<hkMemoryRouterD47C*>(::FUN_00c85750())).heap();
         if (m_iElementCount == getCapacity())
             ::ResizeAudioStream((::AudioAllocator *)(void *)(&kAlloc), (::AudioStream *)(void *)(this), sizeof(T));
         constructWithCopyD47C(m_data + m_iElementCount, 1, t);
@@ -648,7 +645,6 @@ struct MyRouter
     }
 };
 
-extern "C" MyRouter* FUN_00c85750();
 
 struct MapHelper
 {
@@ -702,7 +698,7 @@ void FUN_00d47d70_class::InitGlobalObjects()
     } u;
 
     Obj1* p;
-    p = (Obj1*)FUN_00c85750()->alloc(0x20);
+    p = (Obj1*)static_cast<MyRouter*>(::FUN_00c85750())->alloc(0x20);
     p->GetAllocationSize = 0x20;
     p->refCount = 1;
     p->vtable = &::DAT_010cf7d4;
@@ -718,7 +714,7 @@ void FUN_00d47d70_class::InitGlobalObjects()
     DAT_01269b14 = (intptr_t)p;
 
     Obj2* n;
-    n = (Obj2*)FUN_00c85750()->alloc(0x1c);
+    n = (Obj2*)static_cast<MyRouter*>(::FUN_00c85750())->alloc(0x1c);
     n->GetAllocationSize = 0x1c;
     n->refCount = 1;
     u.c = 0;
@@ -733,7 +729,7 @@ void FUN_00d47d70_class::InitGlobalObjects()
     DAT_01269b18 = (intptr_t)n;
 
     Obj3* kIter;
-    kIter = (Obj3*)FUN_00c85750()->alloc(0x14);
+    kIter = (Obj3*)static_cast<MyRouter*>(::FUN_00c85750())->alloc(0x14);
     kIter->GetAllocationSize = 0x14;
     kIter->refCount = 1;
     kIter->vtable = &DAT_010cf844;
@@ -742,7 +738,7 @@ void FUN_00d47d70_class::InitGlobalObjects()
     pDepth->d0 = 0;
     pDepth->d1 = 0;
     pDepth->d2 = -1;
-    MyRouter* r = FUN_00c85750();
+    MyRouter* r = static_cast<MyRouter*>(::FUN_00c85750());
     reinterpret_cast<::FUN_00cb1fe0_t *>((pDepth))->EnsureCapacity((intptr_t)(r->heap), 0);
 
     if (DAT_01269b10)
@@ -783,7 +779,6 @@ struct hkMemoryRouterD47E
         return *m_pStreamAllocator;
     }
 };
-extern "C" hkMemoryRouterD47E& __cdecl FUN_00c85750();
 
 template <class T> __forceinline void destructD47E(T* t, int n)
 {
@@ -807,7 +802,7 @@ template <class T> class hkArrayD47E
 
     ~hkArrayD47E() throw()
     {
-        ClearAndRelease(FUN_00c85750().heap());
+        ClearAndRelease((*static_cast<hkMemoryRouterD47E*>(::FUN_00c85750())).heap());
     }
     __forceinline void clear()
     {
@@ -885,7 +880,6 @@ struct hkMemoryRouterD47B
 };
 
 namespace hkRouterD47B {
-extern "C" hkMemoryRouterD47B& __cdecl FUN_00c85750() throw();
 }
 
 class hkReferencedObjectD47B
@@ -898,7 +892,7 @@ class hkReferencedObjectD47B
 
     static void operator delete(void* p) throw()
     {
-        hkRouterD47B::FUN_00c85750().heap().ReleaseBlock(p,
+        (*static_cast<hkMemoryRouterD47B*>(::FUN_00c85750())).heap().ReleaseBlock(p,
                                                          static_cast<hkReferencedObjectD47B*>(p)->m_usMemSizeAndFlags);
     }
 };

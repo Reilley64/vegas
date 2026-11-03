@@ -453,7 +453,6 @@ struct hkMemoryRouterD274
     }
 };
 namespace hkRouterD274 {
-extern "C" hkMemoryRouterD274& __cdecl FUN_00c85750() throw();
 }
 class hkBaseObjectD274
 {
@@ -497,7 +496,7 @@ hkBufStreamWriterD274::hkBufStreamWriterD274(hkStreamWriterD274* apStream, int a
 {
     if (m_stream)
         reinterpret_cast<::FUN_00c90510_class *>((m_stream))->FUN_00c90510();
-    m_buf = (char*)::FUN_00c85620((::FUN_00c85620_heap *)&(hkRouterD274::FUN_00c85750().heap()), aiBufferSize, 0x40);
+    m_buf = (char*)::FUN_00c85620((::FUN_00c85620_heap *)&((*static_cast<hkMemoryRouterD274*>(::FUN_00c85750())).heap()), aiBufferSize, 0x40);
     m_bufSize = aiBufferSize;
     m_iBufferPosition = 0;
 }

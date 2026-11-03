@@ -2,6 +2,7 @@
 // src/havok/common/serialize/version/hkversionpatchmanager.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/serialize/version/hkversionpatchmanager.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstdint>
 #include <cstddef>
 #include <new>
@@ -111,7 +112,6 @@ struct AudioHolder
     void* m_pAllocator;
 };
 
-AudioHolder* __cdecl FUN_00c85750();
 
 struct GraphEntry
 {
@@ -138,7 +138,7 @@ int __cdecl FUN_00db7e70(void* apTarget, void* apItem, GraphTable* apTable, Dept
 {
     if (reinterpret_cast<::FUN_00cb18f0_t *>((apDepth))->FindSlot((intptr_t)(apItem)) > apDepth->m_iLimit)
     {
-        AudioHolder* pHolder = FUN_00c85750();
+        AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
         void* pAllocator = pHolder->m_pAllocator;
         reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>((apDepth))->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(pAllocator)), (uintptr_t)(apItem), 0);
 
@@ -172,7 +172,6 @@ struct AudioHolder
     AudioAllocator* m_pAllocator;
 };
 
-AudioHolder* __cdecl FUN_00c85750();
 
 struct ByteTag
 {
@@ -239,11 +238,11 @@ struct FUN_00db8540
 // @fnv 0x00db8540
 FUN_00db8540::FUN_00db8540() : m_u06(1)
 {
-    AudioHolder* pHolder = FUN_00c85750();
+    AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
     AudioAllocator* pAllocator = pHolder->m_pAllocator;
     reinterpret_cast<::CB1BC0Map *>(&(m_kEntryPool))->ResizeToFit((*(::CB1BC0Allocator *)(pAllocator)), 0);
 
-    AudioHolder* pHolder2 = FUN_00c85750();
+    AudioHolder* pHolder2 = static_cast<AudioHolder*>(::FUN_00c85750());
     AudioAllocator* pAllocator2 = pHolder2->m_pAllocator;
     CreatedObject* pNew = (CreatedObject*)pAllocator2->Allocate(sizeof(CreatedObject));
     if (pNew)
@@ -309,7 +308,6 @@ struct S_00dbe710_Router
         return *m_pStreamAllocator;
     }
 };
-S_00dbe710_Router* FUN_00c85750();
 
 struct S_00dbe710_Elem
 {
@@ -339,7 +337,7 @@ int S_00dbe710::AllocateSlot()
         return idx;
     }
     int n = m_iElementCount;
-    S_00dbe710_Router* r = FUN_00c85750();
+    S_00dbe710_Router* r = static_cast<S_00dbe710_Router*>(::FUN_00c85750());
     if (m_iElementCount == (m_iCapacityState & 0x3fffffff))
         ::ResizeAudioStream((::AudioAllocator *)(::fnv_00dbe710::S_00dbe710_Allocator *)(&r->heap()), (::AudioStream *)(void *)(this), 8);
     m_iElementCount++;
@@ -599,7 +597,6 @@ struct DB7F50MemoryRouter
 };
 
 namespace fnvc_adapt {
-extern "C" DB7F50MemoryRouter& __cdecl FUN_00c85750() throw();
 }
 void __cdecl FUN_00c856c0(DB7F50Allocator* pkAllocator, void* pvMem) throw();
 
@@ -616,7 +613,7 @@ template <class T> struct DB7F50Array
 
     ~DB7F50Array() throw()
     {
-        DB7F50Allocator& alloc = fnvc_adapt::FUN_00c85750().heap();
+        DB7F50Allocator& alloc = (*static_cast<DB7F50MemoryRouter*>(::FUN_00c85750())).heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
             alloc.ReturnMemory(m_data, getCapacity() * sizeof(T));
@@ -658,7 +655,7 @@ FUN_00db7f50::~FUN_00db7f50() throw()
         do
         {
             void* pvValue = ((void *)(reinterpret_cast<::FUN_00d87440_Class *>((pkValues))->FUN_00d87440(it)));
-            FUN_00c856c0(&fnvc_adapt::FUN_00c85750().heap(), pvValue);
+            FUN_00c856c0(&(*static_cast<DB7F50MemoryRouter*>(::FUN_00c85750())).heap(), pvValue);
             it = reinterpret_cast<::SlotBitmap *>((pkValues))->FindNextUsedSlot(it);
             reinterpret_cast<::FUN_00d874b0_class *>((pkValues))->SetBoolFromThreshold((char *)(bool *)(&bValid), it);
         } while (bValid);
@@ -692,11 +689,10 @@ struct AudioMgr
 
 struct BSAudio;
 namespace fnvc_adapt {
-__declspec(nothrow) BSAudio* __cdecl FUN_00c85750();
 }
 inline AudioMgr* audio()
 {
-    return (AudioMgr*)fnvc_adapt::FUN_00c85750();
+    return (AudioMgr*)static_cast<BSAudio*>(::FUN_00c85750());
 }
 
 
@@ -802,7 +798,6 @@ struct DB85E0MemoryRouter
 };
 
 namespace fnvc_adapt {
-extern "C" DB85E0MemoryRouter& __cdecl FUN_00c85750();
 }
 
 struct DB85E0Impl
@@ -811,7 +806,7 @@ struct DB85E0Impl
 
     static void operator delete(void* p, std::size_t nbytes)
     {
-        fnvc_adapt::FUN_00c85750().heap().ReleaseBlock(p, nbytes);
+        (*static_cast<DB85E0MemoryRouter*>(::FUN_00c85750())).heap().ReleaseBlock(p, nbytes);
     }
 
     int unk00;
@@ -840,7 +835,7 @@ struct DB85E0Map : DB85E0MapBase
 {
     __forceinline ~DB85E0Map()
     {
-        reinterpret_cast<::FUN_00cb1e40_t *>(this)->FUN_00cb1e40(fnvc_adapt::(::FUN_00cb1e40_arg_t *)&(const <dependent type> &)(FUN_00c85750().heap()));
+        reinterpret_cast<::FUN_00cb1e40_t *>(this)->FUN_00cb1e40(fnvc_adapt::(::FUN_00cb1e40_arg_t *)&(const <dependent type> &)(static_cast<AudioHolder*>(::FUN_00c85750()).heap()));
     }
 };
 
@@ -852,7 +847,7 @@ struct DB85E0IntArray
 
     ~DB85E0IntArray()
     {
-        DB85E0Allocator& alloc = fnvc_adapt::FUN_00c85750().heap();
+        DB85E0Allocator& alloc = (*static_cast<DB85E0MemoryRouter*>(::FUN_00c85750())).heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
             alloc.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(int));
@@ -911,7 +906,6 @@ struct DBA1E0MemoryRouter
 };
 
 namespace fnvc_adapt {
-extern "C" DBA1E0MemoryRouter& __cdecl FUN_00c85750();
 }
 
 class DBA1E0ReferencedObject
@@ -920,7 +914,7 @@ class DBA1E0ReferencedObject
     static void* operator new(std::size_t nbytes)
     {
         DBA1E0ReferencedObject* b =
-            static_cast<DBA1E0ReferencedObject*>(fnvc_adapt::FUN_00c85750().heap().AllocateMemoryBlock(nbytes));
+            static_cast<DBA1E0ReferencedObject*>((*static_cast<DBA1E0MemoryRouter*>(::FUN_00c85750())).heap().AllocateMemoryBlock(nbytes));
         b->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return b;
     }
@@ -979,7 +973,7 @@ struct VecP
 
     ~VecP() throw()
     {
-        DB7F50Allocator& alloc = fnvc_adapt::FUN_00c85750().heap();
+        DB7F50Allocator& alloc = (*static_cast<DB7F50MemoryRouter*>(::FUN_00c85750())).heap();
         m_iArrayLength = 0;
         if ((m_iCapacity & 0x80000000) == 0)
             alloc.ReturnMemory(m_pData, (m_iCapacity & 0x3fffffff) * 4);
@@ -1001,7 +995,7 @@ struct VecPair
 
     ~VecPair() throw()
     {
-        DB7F50Allocator& alloc = fnvc_adapt::FUN_00c85750().heap();
+        DB7F50Allocator& alloc = (*static_cast<DB7F50MemoryRouter*>(::FUN_00c85750())).heap();
         m_iArrayLength = 0;
         if ((m_iCapacity & 0x80000000) == 0)
             alloc.ReturnMemory(m_pData, (m_iCapacity & 0x3fffffff) * 8);
@@ -1034,7 +1028,7 @@ struct Vec16
 
     ~Vec16() throw()
     {
-        DB7F50Allocator& alloc = fnvc_adapt::FUN_00c85750().heap();
+        DB7F50Allocator& alloc = (*static_cast<DB7F50MemoryRouter*>(::FUN_00c85750())).heap();
         m_iArrayLength = 0;
         if ((m_iCapacity & 0x80000000) == 0)
             alloc.ReturnMemory(m_pData, (m_iCapacity & 0x3fffffff) * 16);
@@ -1062,7 +1056,7 @@ struct IndexedMemberArray
     }
     ~IndexedMemberArray() throw()
     {
-        DB7F50Allocator& alloc = fnvc_adapt::FUN_00c85750().heap();
+        DB7F50Allocator& alloc = (*static_cast<DB7F50MemoryRouter*>(::FUN_00c85750())).heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
             alloc.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(ClassMember));
@@ -1227,12 +1221,12 @@ struct PointerMap : ObjCB
         m_pData = 0;
         m_iArrayLength = 0;
         m_iCapacity = -1;
-        AudioHolder* holder = (AudioHolder*)&fnvc_adapt::FUN_00c85750();
+        AudioHolder* holder = (AudioHolder*)&(*static_cast<DB7F50MemoryRouter*>(::FUN_00c85750()));
         reinterpret_cast<::CB1BC0Map *>(this)->ResizeToFit((*(::CB1BC0Allocator *)((AllocObj*)holder->m_pAllocator)), 0);
     }
     ~PointerMap() throw()
     {
-        reinterpret_cast<::FUN_00cb1e40_t *>(this)->FUN_00cb1e40((::FUN_00cb1e40_arg_t *)(::fnv_00db95c0::AllocObj *)((AllocObj*)fnvc_adapt::FUN_00c85750().m_pStreamAllocator));
+        reinterpret_cast<::FUN_00cb1e40_t *>(this)->FUN_00cb1e40((::FUN_00cb1e40_arg_t *)(::fnv_00db95c0::AllocObj *)((AllocObj*)(*static_cast<DB7F50MemoryRouter*>(::FUN_00c85750())).m_pStreamAllocator));
         ::FUN_00a29680();
     }
 };
@@ -1250,7 +1244,7 @@ int This::ProcessVersionPatches(ArgA* apSource, ArgA* argB, VecP* apOutput)
     pairs.m_iArrayLength = 0;
     pairs.m_iCapacity = (int)0x80000000;
     int initialCount = pSource.m_iArrayLength;
-    AudioHolder* initialHolder = ((AudioHolder*)&fnvc_adapt::FUN_00c85750());
+    AudioHolder* initialHolder = ((AudioHolder*)&(*static_cast<DB7F50MemoryRouter*>(::FUN_00c85750())));
     if ((pairs.m_iCapacity & 0x3fffffff) < initialCount)
         ::FUN_00c908c0((::SpawnedObject *)(::fnv_00db95c0::AllocObj *)(((AllocObj*)initialHolder->m_pAllocator)), (::SpawnedArray *)(void *)(&pairs), initialCount, 8);
     int i;
@@ -1284,7 +1278,7 @@ int This::ProcessVersionPatches(ArgA* apSource, ArgA* argB, VecP* apOutput)
         int idx = reinterpret_cast<::ProbeMap64 *>(&(oPending))->FUN_00cb1c60(id);
         if (idx <= oPending.m_iCapacity)
             return 1;
-        AudioHolder* mapHolder = ((AudioHolder*)&fnvc_adapt::FUN_00c85750());
+        AudioHolder* mapHolder = ((AudioHolder*)&(*static_cast<DB7F50MemoryRouter*>(::FUN_00c85750())));
         reinterpret_cast<::CB1BC0Map *>(&(oPending))->InsertKeyValue((*(::CB1BC0Allocator *)((AllocObj*)mapHolder->m_pAllocator)), id, (__int64)p);
     }
     apOutput->m_iArrayLength = 0;
@@ -1322,18 +1316,18 @@ int This::ProcessVersionPatches(ArgA* apSource, ArgA* argB, VecP* apOutput)
             }
             if (iIndex != -1 && m_0c[iIndex]->m_08 == -1)
             {
-                AudioHolder* holder = ((AudioHolder*)&fnvc_adapt::FUN_00c85750());
+                AudioHolder* holder = ((AudioHolder*)&(*static_cast<DB7F50MemoryRouter*>(::FUN_00c85750())));
                 reinterpret_cast<::CB1BC0Map *>(&(oDone))->InsertKeyValue((*(::CB1BC0Allocator *)((AllocObj*)holder->m_pAllocator)), uiKey, 1);
             }
             else
             {
-                AudioHolder* holder = ((AudioHolder*)&fnvc_adapt::FUN_00c85750());
+                AudioHolder* holder = ((AudioHolder*)&(*static_cast<DB7F50MemoryRouter*>(::FUN_00c85750())));
                 reinterpret_cast<::CB1BC0Map *>(&(oDone))->InsertKeyValue((*(::CB1BC0Allocator *)((AllocObj*)holder->m_pAllocator)), uiKey, 2);
             }
             if (iIndex >= 0)
             {
                 Elem* pElem = m_0c[iIndex];
-                DB7F50Allocator& oAppendAlloc = fnvc_adapt::FUN_00c85750().heap();
+                DB7F50Allocator& oAppendAlloc = (*static_cast<DB7F50MemoryRouter*>(::FUN_00c85750())).heap();
                 if (apOutput->m_iArrayLength == (apOutput->m_iCapacity & 0x3fffffff))
                     ::ResizeAudioStream((::AudioAllocator *)(::fnv_00db95c0::AllocObj *)((AllocObj*)&oAppendAlloc), (::AudioStream *)(apOutput), 4);
                 constructArray(apOutput->m_pData + apOutput->m_iArrayLength, 1, (void*)pElem);
@@ -1605,7 +1599,7 @@ int PatchManager::FUN_00dba0d0(intptr_t apWorld, intptr_t param3)
 
     reinterpret_cast<::hkReferencedObjectC905 *>((reinterpret_cast<FUN_00c905b0_Object*>(param3)))->FUN_00c905b0();
 
-    AudioHolder* holder = FUN_00c85750();
+    AudioHolder* holder = static_cast<AudioHolder*>(::FUN_00c85750());
     PatchAllocator* audio = reinterpret_cast<PatchAllocator*>(holder->m_pAllocator);
 
     patchResult.unk04 = 0;
@@ -1687,7 +1681,6 @@ struct SortedEntry
     int m_iFourthElementInteger;
 };
 
-AllocHolder* __cdecl FUN_00c85750();
 
 struct FUN_00dba4d0_cls
 {
@@ -1706,13 +1699,13 @@ void FUN_00dba4d0_cls::FUN_00dba4d0(const SortedEntry* apValue)
         SortedEntry cur = m_pData[i];
         if (apValue->m_key < cur.m_key)
         {
-            AllocHolder* pHolder = FUN_00c85750();
+            AllocHolder* pHolder = static_cast<AllocHolder*>(::FUN_00c85750());
             reinterpret_cast<::DBA340Object *>(this)->FUN_00dba340(pHolder->m_pAllocator, (void *)(i), (void *)(apValue));
             return;
         }
     }
 
-    AllocHolder* pHolder = FUN_00c85750();
+    AllocHolder* pHolder = static_cast<AllocHolder*>(::FUN_00c85750());
     if (m_iArrayLength == (int)(m_uCapBits & 0x3fffffffu))
     {
         ::ResizeAudioStream((::AudioAllocator *)(pHolder->m_pAllocator), (::AudioStream *)(void *)(this), sizeof(SortedEntry));
@@ -1745,7 +1738,6 @@ struct CpuAllocatorHolder
     unsigned int unk0c;
     CpuAllocator* allocator;
 };
-CpuAllocatorHolder* __cdecl FUN_00c85750();
 struct CpuObject
 {
     unsigned int unk00;
@@ -1760,7 +1752,7 @@ CpuObject* CpuObject::FUN_00dba580(unsigned int flags)
     reinterpret_cast<::fnv_00db85e0::FUN_00db85e0 *>(this)->fnv_00db85e0::FUN_00db85e0::~FUN_00db85e0();
     if (flags & 1)
     {
-        CpuAllocatorHolder* holder = FUN_00c85750();
+        CpuAllocatorHolder* holder = static_cast<CpuAllocatorHolder*>(::FUN_00c85750());
         holder->allocator->Invoke(this, size);
     }
     return this;
@@ -1809,7 +1801,7 @@ void FUN_00db7ef0_cls::FUN_00db7ef0(uintptr_t auiValue)
     }
 
     FUN_00db7ef0_list* pList = &m_kNode;
-    AudioHolder* pHolder = FUN_00c85750();
+    AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
     unsigned int uCap = pList->m_capFlags & 0x3fffffffu;
     if (pList->m_uiItemCount == (int)uCap)
     {
@@ -1960,7 +1952,7 @@ unsigned __int64 VersionUidCache::FUN_00db7d60(unsigned int a1, int a2)
     if (r == m_vec.m_uiItemCount)
     {
         ItemVec* v = &m_vec;
-        AudioHolder* holder = FUN_00c85750();
+        AudioHolder* holder = static_cast<AudioHolder*>(::FUN_00c85750());
         if (v->m_uiItemCount == (v->m_cap & 0x3fffffffu))
         {
             ::ResizeAudioStream((::AudioAllocator *)(holder->m_pAllocator), (::AudioStream *)(v), 4);

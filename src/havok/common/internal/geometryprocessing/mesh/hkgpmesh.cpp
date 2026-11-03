@@ -1,5 +1,6 @@
 // havok/common/internal/geometryprocessing/mesh/hkgpmesh.cpp: QhkVector4, BigSolver, BoundsMesh, TriangleChecker and more (160 functions)
 
+#include "fnv/symbols_00c85000.h"
 #include <cstdint>
 #include <xmmintrin.h>
 #include "fnv_simd.h"
@@ -298,7 +299,6 @@ E122D0Edge E122D0Mesh::FindEdge(int vertexA, int vertexB)
 
 struct Allocator { virtual void v00(); virtual void* allocate(int); virtual void v08(); virtual void v0c(); __declspec(nothrow) virtual void freeBlock(void*,int); };
 struct Router {int unk00,unk04,unk08,unk0c; Allocator* heap; Allocator& getHeap() {return *heap;} };
-__declspec(nothrow) Router& __cdecl FUN_00c85750();
 struct FourFloatVector {float x,y,z,w;};
 struct VectorArray {FourFloatVector* data; int size; int capacity;
  VectorArray():data(0),size(0),capacity(0x80000000) {}
@@ -309,7 +309,7 @@ struct Options {unsigned int unk00,unk04; unsigned char flag08,flag09,flag0a,fla
 struct FUN_00d76ca0 {__declspec(nothrow) virtual ~FUN_00d76ca0(); unsigned short memorySize,referenceCount; int unk08,unk0c,unk10;
  __declspec(nothrow) FUN_00d76ca0();
  static void* allocate(Allocator& heap,unsigned int bytes) { void* memory=heap.allocate(bytes); ((FUN_00d76ca0*)memory)->memorySize=(unsigned short)bytes; return memory;}
- static void* operator new(std::size_t bytes) {return allocate(FUN_00c85750().getHeap(),bytes);}
+ static void* operator new(std::size_t bytes) {return allocate((*static_cast<Router*>(::FUN_00c85750())).getHeap(),bytes);}
 };
 struct Hull {
 unsigned int unk00;
@@ -386,10 +386,10 @@ bool Hull::BuildHull() {
   if(reinterpret_cast<::FUN_00d74e10_cls *>((builder))->FUN_00d74e10()!=3) {
    delete builder;
    builder=0;
-   vertices.release(FUN_00c85750().getHeap());
+   vertices.release((*static_cast<Router*>(::FUN_00c85750())).getHeap());
    return false;
   }
-  vertices.release(FUN_00c85750().getHeap());
+  vertices.release((*static_cast<Router*>(::FUN_00c85750())).getHeap());
  }
  return true;
 }
@@ -754,7 +754,6 @@ struct AudioHolder {
     AudioAllocator* m_pAllocator;
 };
 
-AudioHolder* __cdecl FUN_00c85750();
 
 struct FUN_00e234e0_cls {
     void** m_ppItems;
@@ -770,7 +769,7 @@ void FUN_00e234e0_cls::FreeAllItems()
 {
     for (int i = 0; i < m_iArrayLength; i++) {
         void* pItem = m_ppItems[i];
-        AudioHolder* pHolder = FUN_00c85750();
+        AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
         AudioAllocator* pAllocator = pHolder->m_pAllocator;
         pAllocator->Free(pItem, 0xa08);
     }
@@ -790,7 +789,6 @@ struct S_e23670_Router {
     S_e23670_Alloc* m_pStreamAllocator;
     S_e23670_Alloc& heap() { return *m_pStreamAllocator; }
 };
-S_e23670_Router* __cdecl FUN_00c85750();
 
 struct S_e23670_Elem {
     S_e23670_Elem* m_next;
@@ -812,7 +810,7 @@ struct S_e23670 {
 // @fnv 0x00e23670
 S_e23670_Block* S_e23670::FUN_00e23670()
 {
-    S_e23670_Alloc& heap = FUN_00c85750()->heap();
+    S_e23670_Alloc& heap = static_cast<S_e23670_Router*>(::FUN_00c85750())->heap();
     S_e23670_Elem* next = 0;
     S_e23670_Block* b = (S_e23670_Block*)heap.AllocateMemoryBlock(sizeof(S_e23670_Block));
     S_e23670_Elem* e;
@@ -823,7 +821,7 @@ S_e23670_Block* S_e23670::FUN_00e23670()
     }
     b->m_iAllocatedCount = 0;
     b->m_free = e;
-    S_e23670_Alloc& alloc = FUN_00c85750()->heap();
+    S_e23670_Alloc& alloc = static_cast<S_e23670_Router*>(::FUN_00c85750())->heap();
     if (m_iElementCount == (m_iCapacityState & 0x3fffffff))
         ::ResizeAudioStream((::AudioAllocator *)(::fnv_00e23670::S_e23670_Alloc *)(&alloc), (::AudioStream *)(void *)(this), sizeof(S_e23670_Block*));
     S_e23670_Block** p = m_data + m_iElementCount;
@@ -854,11 +852,10 @@ struct BSAudio {
     hkMemoryAllocator& heap() { return *unk10; }
 };
 
-BSAudio* FUN_00c85750();
 
 inline void freeBlock(void* p)
 {
-    FUN_00c85750()->heap().ReleaseBlock(p, 0xa08);
+    static_cast<BSAudio*>(::FUN_00c85750())->heap().ReleaseBlock(p, 0xa08);
 }
 
 struct hkArrayPtr {
@@ -870,7 +867,7 @@ struct hkArrayPtr {
     void clear() { m_iElementCount = 0; }
     void ClearAndRelease()
     {
-        hkMemoryAllocator& alloc = FUN_00c85750()->heap();
+        hkMemoryAllocator& alloc = static_cast<BSAudio*>(::FUN_00c85750())->heap();
         clear();
         if ((m_iCapacityState & 0x80000000) == 0) {
             alloc.ReturnMemory(m_data, getCapacity() * sizeof(void*));
@@ -909,7 +906,6 @@ struct EntryHandlerRecord
     int unk0c;
     EntryHandler* handler;
 };
-EntryHandlerRecord* __cdecl FUN_00c85750();
 
 struct EntryListNode
 {
@@ -928,7 +924,7 @@ void EntryListNode::ProcessEntries()
     while (i < count)
     {
         void* entry = entries[i];
-        EntryHandlerRecord* context = FUN_00c85750();
+        EntryHandlerRecord* context = static_cast<EntryHandlerRecord*>(::FUN_00c85750());
         context->handler->Process(entry, 0x288);
         ++i;
     }
@@ -952,7 +948,6 @@ struct BSAudio {
     hkMemoryAllocator* unk10;
 };
 
-BSAudio* FUN_00c85750();
 
 inline void copyPtrs(void** dst, void* const* src, int n)
 {
@@ -975,7 +970,7 @@ struct hkArrayPtr {
 // @fnv 0x00e23a60
 hkArrayPtr& hkArrayPtr::Assign(const hkArrayPtr& aSource)
 {
-    hkMemoryAllocator& alloc = *FUN_00c85750()->unk10;
+    hkMemoryAllocator& alloc = *static_cast<BSAudio*>(::FUN_00c85750())->unk10;
     if (getCapacity() < aSource.m_iElementCount) {
         if ((m_iCapacityState & 0x80000000) == 0) {
             alloc.ReturnMemory(m_data, getCapacity() * sizeof(void*));
@@ -1007,7 +1002,6 @@ struct AudioHolder {
     AudioAllocator* m_pAllocator;
 };
 
-AudioHolder* __cdecl FUN_00c85750() throw();
 
 struct PtrArrayBase {
     void** m_ppData;
@@ -1016,7 +1010,7 @@ struct PtrArrayBase {
 
     ~PtrArrayBase() throw()
     {
-        AudioHolder* pHolder = FUN_00c85750();
+        AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
         AudioAllocator* pAllocator = pHolder->m_pAllocator;
         unsigned int uCapacity = m_uCapacity;
         m_iArrayLength = 0;
@@ -1037,7 +1031,7 @@ FUN_00e23c70::~FUN_00e23c70() throw()
 {
     for (int i = 0; i < m_iArrayLength; i++) {
         void* pItem = m_ppData[i];
-        AudioHolder* pHolder = FUN_00c85750();
+        AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
         AudioAllocator* pAllocator = pHolder->m_pAllocator;
         pAllocator->Free(pItem, 0x388);
     }
@@ -1059,7 +1053,6 @@ struct S_00e23d70_Router {
     S_00e23d70_Heap* m_pStreamAllocator;
     S_00e23d70_Heap& heap() { return *m_pStreamAllocator; }
 };
-S_00e23d70_Router* FUN_00c85750();
 
 struct S_00e23d70_Array {
     void** m_data;
@@ -1084,10 +1077,10 @@ void S_00e23d70_Array::FUN_00e23d70()
 {
     for (int i = 0; i < m_iElementCount; i++) {
         void* block = m_data[i];
-        FUN_00c85750()->heap().ReleaseBlock(block, 0x488);
+        static_cast<S_00e23d70_Router*>(::FUN_00c85750())->heap().ReleaseBlock(block, 0x488);
     }
     m_iElementCount = 0;
-    _clearAndDeallocate(FUN_00c85750()->heap());
+    _clearAndDeallocate(static_cast<S_00e23d70_Router*>(::FUN_00c85750())->heap());
 }
 }  // namespace fnv_00e23d70
 
@@ -1364,7 +1357,6 @@ struct CpuAllocatorHolder {
     unsigned int unk0c;
     CpuAllocator* allocator;
 };
-CpuAllocatorHolder* __cdecl FUN_00c85750();
 struct CpuObject {
     unsigned int unk00;
     unsigned short size;
@@ -1376,7 +1368,7 @@ CpuObject* CpuObject::FUN_00e24f70(unsigned int flags)
 {
     FUN_00e18a50();
     if (flags & 1) {
-        CpuAllocatorHolder* holder = FUN_00c85750();
+        CpuAllocatorHolder* holder = static_cast<CpuAllocatorHolder*>(::FUN_00c85750());
         holder->allocator->Invoke(this, size);
     }
     return this;
@@ -3302,7 +3294,6 @@ struct AudioHolder {
 };
 
 struct BSAudio;
-namespace fnvc_adapt { BSAudio* __cdecl FUN_00c85750(); }
 
 struct FUN_00d9be30_cls { intptr_t m_vptr;  };
 struct FUN_00d9c010_cls {  };
@@ -3380,7 +3371,7 @@ void FUN_00e18a50_cls::FUN_00e18a50()
     m_vptr00 = (intptr_t)&DAT_010eb000;
     ResetState();
 
-    AudioHolder* pHolder = (AudioHolder*)fnvc_adapt::FUN_00c85750();
+    AudioHolder* pHolder = (AudioHolder*)static_cast<BSAudio*>(::FUN_00c85750());
     AudioAllocator* pAllocator = pHolder->m_pAllocator;
     unsigned int uCap = m_cap1;
     m_cnt1 = 0;
@@ -3390,7 +3381,7 @@ void FUN_00e18a50_cls::FUN_00e18a50()
     m_data1 = 0;
     m_cap1 = 0x80000000u;
 
-    pHolder = (AudioHolder*)fnvc_adapt::FUN_00c85750();
+    pHolder = (AudioHolder*)static_cast<BSAudio*>(::FUN_00c85750());
     pAllocator = pHolder->m_pAllocator;
     uCap = m_cap2;
     m_cnt2 = 0;
@@ -3400,7 +3391,7 @@ void FUN_00e18a50_cls::FUN_00e18a50()
     m_data2 = 0;
     m_cap2 = 0x80000000u;
 
-    pHolder = (AudioHolder*)fnvc_adapt::FUN_00c85750();
+    pHolder = (AudioHolder*)static_cast<BSAudio*>(::FUN_00c85750());
     pAllocator = pHolder->m_pAllocator;
     uCap = m_cap3;
     m_cnt3 = 0;
@@ -3444,7 +3435,6 @@ struct AudioHolder {
     AudioAllocator* m_pAllocator;
 };
 
-namespace fnvc_adapt { AudioHolder* __cdecl FUN_00c85750() throw(); }
 
 struct FUN_00e21e00_cls {
     intptr_t m_vptr;
@@ -3458,7 +3448,7 @@ FUN_00e21e00_cls* FUN_00e21e00_cls::FUN_00e21e00(unsigned char acFlags)
 {
     m_vptr = (intptr_t)&DAT_010eacf4;
     if (acFlags & 1) {
-        AudioHolder* pHolder = fnvc_adapt::FUN_00c85750();
+        AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
         AudioAllocator* pAllocator = pHolder->m_pAllocator;
         pAllocator->Free(this, 0x30);
     }
@@ -3482,7 +3472,6 @@ struct AudioHolder {
     AudioAllocator* m_pAllocator;
 };
 
-namespace fnvc_adapt { AudioHolder* __cdecl FUN_00c85750() throw(); }
 
 struct FUN_00e22d80_cls {
     intptr_t m_vptr;
@@ -3496,7 +3485,7 @@ FUN_00e22d80_cls* FUN_00e22d80_cls::FUN_00e22d80(unsigned char acFlags)
 {
     m_vptr = (intptr_t)&::DAT_010cd664;
     if (acFlags & 1) {
-        AudioHolder* pHolder = fnvc_adapt::FUN_00c85750();
+        AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
         AudioAllocator* pAllocator = pHolder->m_pAllocator;
         pAllocator->Free(this, 0x14);
     }
@@ -3514,7 +3503,6 @@ struct S_00e23710_Router {
     S_00e23710_Heap* m_pStreamAllocator;
     S_00e23710_Heap& heap() { return *m_pStreamAllocator; }
 };
-namespace fnvc_adapt { S_00e23710_Router* FUN_00c85750(); }
 
 struct S_00e23710_Elem {
     S_00e23710_Elem* next;
@@ -3537,7 +3525,7 @@ struct S_00e23710_Array {
 // @fnv 0x00e23710
 S_00e23710_Block* S_00e23710_Array::FUN_00e23710()
 {
-    S_00e23710_Heap& heap = fnvc_adapt::FUN_00c85750()->heap();
+    S_00e23710_Heap& heap = static_cast<S_00e23710_Router*>(::FUN_00c85750())->heap();
     S_00e23710_Elem* prev = 0;
     S_00e23710_Block* block = (S_00e23710_Block*)heap.AllocateMemoryBlock(sizeof(S_00e23710_Block));
     for (int i = 31; i >= 0; i--) {
@@ -3548,7 +3536,7 @@ S_00e23710_Block* S_00e23710_Array::FUN_00e23710()
     block->used = 0;
     block->freeList = prev;
 
-    S_00e23710_Router* r = fnvc_adapt::FUN_00c85750();
+    S_00e23710_Router* r = static_cast<S_00e23710_Router*>(::FUN_00c85750());
     if (m_iElementCount == (m_cap & 0x3fffffff))
         ::ResizeAudioStream((::AudioAllocator *)&(r->heap()), (::AudioStream *)(void *)(this), 4);
     S_00e23710_Block** p = m_data + m_iElementCount;
@@ -3580,7 +3568,6 @@ struct AudioHolder {
     AudioAllocator* m_pAllocator;
 };
 
-namespace fnvc_adapt { AudioHolder* __cdecl FUN_00c85750() throw(); }
 
 struct FUN_00e23af0_cls {
     void* m_pData;
@@ -3593,7 +3580,7 @@ struct FUN_00e23af0_cls {
 // @fnv 0x00e23af0
 FUN_00e23af0_cls* FUN_00e23af0_cls::ClearAndFree(unsigned char acFlags)
 {
-    AudioHolder* pHolder = fnvc_adapt::FUN_00c85750();
+    AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
     AudioAllocator* pAllocator = pHolder->m_pAllocator;
     unsigned int uFlags = m_uiObjectFlags;
     m_uCount = 0;
@@ -3604,7 +3591,7 @@ FUN_00e23af0_cls* FUN_00e23af0_cls::ClearAndFree(unsigned char acFlags)
     m_pData = 0;
     m_uiObjectFlags = 0x80000000u;
     if (acFlags & 1) {
-        AudioHolder* pHolder2 = fnvc_adapt::FUN_00c85750();
+        AudioHolder* pHolder2 = static_cast<AudioHolder*>(::FUN_00c85750());
         AudioAllocator* pAllocator2 = pHolder2->m_pAllocator;
         pAllocator2->Free(this, 12);
     }
@@ -3628,7 +3615,6 @@ struct AudioHolder {
     AudioAllocator* m_pAllocator;
 };
 
-namespace fnvc_adapt { AudioHolder* __cdecl FUN_00c85750() throw(); }
 
 struct SpawnedSub {
     void** m_ppItems;
@@ -3671,7 +3657,7 @@ SpawnedObject* SpawnedObject::DestroySpawnedObject(unsigned char acFlags)
     reinterpret_cast<::fnv_00e23860::hkArrayPtr *>(&(m_sub08))->FreeAllBlocks();
     m_vptr = (intptr_t)&::DAT_0102e388;
     if (acFlags & 1) {
-        AudioHolder* pHolder = fnvc_adapt::FUN_00c85750();
+        AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
         AudioAllocator* pAllocator = pHolder->m_pAllocator;
         pAllocator->Free(this, m_uSize);
     }
@@ -3696,7 +3682,6 @@ struct AllocHolder {
     FixedAllocator* m_pAllocator;
 };
 
-namespace fnvc_adapt { AllocHolder* FUN_00c85750(); }
 
 struct FUN_00e23cf0_cls {
     void** m_pItems;
@@ -3714,14 +3699,14 @@ void FUN_00e23cf0_cls::ClearAndFreeItems()
     if (i < m_iArrayLength) {
         do {
             void* item = m_pItems[i];
-            AllocHolder* holder = fnvc_adapt::FUN_00c85750();
+            AllocHolder* holder = static_cast<AllocHolder*>(::FUN_00c85750());
             holder->m_pAllocator->FreeBlock(item, 0x288);
             i++;
         } while (i < m_iArrayLength);
     }
 
     m_iArrayLength = 0;
-    AllocHolder* holder = fnvc_adapt::FUN_00c85750();
+    AllocHolder* holder = static_cast<AllocHolder*>(::FUN_00c85750());
     FixedAllocator* alloc = holder->m_pAllocator;
     unsigned int cap = m_uCapBits;
     m_iArrayLength = 0;
@@ -3750,7 +3735,6 @@ struct AllocHolder {
     SpawnedAllocator* m_pAllocator;
 };
 
-namespace fnvc_adapt { AllocHolder* FUN_00c85750(); }
 
 struct FUN_00e24760_cls {
     int unk00;
@@ -3764,7 +3748,7 @@ struct FUN_00e24760_cls {
 // @fnv 0x00e24760
 void FUN_00e24760_cls::ClearAndFreeBuffer()
 {
-    AllocHolder* holder = fnvc_adapt::FUN_00c85750();
+    AllocHolder* holder = static_cast<AllocHolder*>(::FUN_00c85750());
     SpawnedAllocator* alloc = holder->m_pAllocator;
     unsigned int flags = m_0C;
     m_08 = 0;
@@ -3793,7 +3777,6 @@ struct AudioHolder {
     AudioAllocator* m_pAllocator;
 };
 
-namespace fnvc_adapt { AudioHolder* __cdecl FUN_00c85750() throw(); }
 
 struct FUN_00e27df0_sub10 {
     int unk00;
@@ -3974,7 +3957,7 @@ FUN_00e27df0_cls* FUN_00e27df0_cls::FUN_00e27df0(unsigned char acFlags)
     m_vptr00 = (intptr_t)&::DAT_010eb0e0;
     FUN_00e275d0(1);
     reinterpret_cast<::fnv_00e23c70::FUN_00e23c70 *>(&(m_sub250))->fnv_00e23c70::FUN_00e23c70::~FUN_00e23c70();
-    AudioHolder* pHolder = fnvc_adapt::FUN_00c85750();
+    AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
     AudioAllocator* pAllocator = pHolder->m_pAllocator;
     m_iArrayLength = 0;
     unsigned int uCap = m_uCapBits;
@@ -3992,7 +3975,7 @@ FUN_00e27df0_cls* FUN_00e27df0_cls::FUN_00e27df0(unsigned char acFlags)
     m_vptr08 = (intptr_t)&(*reinterpret_cast<int *>(&::DAT_0102e388));
     m_vptr00 = (intptr_t)&(*reinterpret_cast<int *>(&::DAT_0102e388));
     if (acFlags & 1) {
-        AudioHolder* pHolder2 = fnvc_adapt::FUN_00c85750();
+        AudioHolder* pHolder2 = static_cast<AudioHolder*>(::FUN_00c85750());
         AudioAllocator* pAllocator2 = pHolder2->m_pAllocator;
         pAllocator2->Free(this, m_uSize);
     }
@@ -4401,7 +4384,6 @@ struct E12640MemoryRouter {
     E12640Allocator& heap() { return *m_pStreamAllocator; }
 };
 
-extern "C" E12640MemoryRouter& __cdecl FUN_00c85750();
 
 struct E12640Vector4 {
     __m128 m_vComponents;
@@ -4457,7 +4439,7 @@ struct E12640Mesh {
 int E12640Mesh::FUN_00e12640(E12640VectorArray& out)
 {
     int numVertices = m_iStridedVertexCount;
-    E12640Vector4* dst = out._expandBy(FUN_00c85750().heap(), numVertices);
+    E12640Vector4* dst = out._expandBy((*static_cast<E12640MemoryRouter*>(::FUN_00c85750())).heap(), numVertices);
     for (E12640Vertex* v = m_kVertices; v; v = v->m_next) {
         *dst++ = v->m_vContactPosition;
     }
@@ -4981,7 +4963,7 @@ void FUN_00e22f90_cls::FUN_00e22f90(PoolItemAB* item)
                 if (--m_kBlocks[i]->m_iAllocatedCount == 0)
                 {
                     PoolBlockAB* pBlock = m_kBlocks[i];
-                    ((BlockAllocAB&)FUN_00c85750().getHeap()).ReleaseBlock(pBlock, sizeof(PoolBlockAB));
+                    ((BlockAllocAB&)(*static_cast<Router*>(::FUN_00c85750())).getHeap()).ReleaseBlock(pBlock, sizeof(PoolBlockAB));
                     m_kBlocks.removeAt(i);
                 }
                 return;
@@ -5611,7 +5593,7 @@ inline void HullFloodStack::release(Allocator& heap) {
     if (!(m_cap & 0x80000000)) heap.freeBlock(m_data, (m_cap & 0x3fffffff) * 8);
 }
 inline void HullFloodStack::AddBack(const HullFloodEdge& edge) {
-    Router& mgr = FUN_00c85750();
+    Router& mgr = (*static_cast<Router*>(::FUN_00c85750()));
     if (m_iElementCount == (int)(m_cap & 0x3fffffff)) ::ResizeAudioStream((::AudioAllocator *)(mgr.heap), (::AudioStream *)(void *)(this), sizeof(HullFloodEdge));
     ::new (static_cast<void*>(m_data + m_iElementCount)) HullFloodEdge(edge);
     m_iElementCount++;
@@ -5655,7 +5637,7 @@ int HullConnectivity::FUN_00e12960() {
             stack.AddBack(HullFloodEdge(e.m_node, b));
         } while (stack.m_iElementCount != 0);
     }
-    stack.release(FUN_00c85750().getHeap());
+    stack.release((*static_cast<Router*>(::FUN_00c85750())).getHeap());
     return counter;
 }
 
@@ -5699,7 +5681,7 @@ struct hkArray {
     hkArray() : m_data(0), m_iElementCount(0), m_iCapacityState(0x80000000) {}
     void ClearAndRelease()
     {
-        Allocator& heap = FUN_00c85750().getHeap();
+        Allocator& heap = (*static_cast<Router*>(::FUN_00c85750())).getHeap();
         int cap = m_iCapacityState;
         m_iElementCount = 0;
         if ((cap & 0x80000000) == 0) heap.freeBlock(m_data, (cap & 0x3fffffff) * sizeof(T));
@@ -5708,7 +5690,7 @@ struct hkArray {
     T& operator[](int i) { return m_data[i]; }
     void AddBack(const T& t)
     {
-        Router& router = FUN_00c85750();
+        Router& router = (*static_cast<Router*>(::FUN_00c85750()));
         if (m_iElementCount == (m_iCapacityState & 0x3fffffff)) ::ResizeAudioStream((::AudioAllocator *)(router.heap), (::AudioStream *)(void *)(this), sizeof(T));
         m_data[m_iElementCount] = t;
         m_iElementCount++;
@@ -6100,7 +6082,7 @@ void EdgeMeshFlip::FUN_00e150e0(int a1) {
                 __m128 sc = _mm_shuffle_ps(tsc, tsc, 0);
                 n->m_20 = _mm_mul_ps(n->m_20, sc);
                 for (int i = 0; i < 3; ++i) {
-                    Router& r = FUN_00c85750();
+                    Router& r = (*static_cast<Router*>(::FUN_00c85750()));
                     if (arr.m_iElementCount == (int)(arr.m_cap & 0x3fffffff)) {
                         ::ResizeAudioStream((::AudioAllocator *)(r.heap), (::AudioStream *)(void *)((int*)&arr.m_data), 8);
                     }
@@ -6130,7 +6112,7 @@ void EdgeMeshFlip::FUN_00e150e0(int a1) {
     ::FUN_00e124d0((::S00e124d0_Table *)(this));
     this->m_101 = 0;
 
-    Router& r2 = FUN_00c85750();
+    Router& r2 = (*static_cast<Router*>(::FUN_00c85750()));
     Allocator* alloc = r2.heap;
     int cap = arr.m_cap;
     arr.m_iElementCount = 0;
@@ -6171,7 +6153,7 @@ struct E153F0Points
     int getCapacity() const { return m_iCapacityState & 0x3fffffff; }
     void reserve(int n)
     {
-        Allocator& alloc = FUN_00c85750().getHeap();
+        Allocator& alloc = (*static_cast<Router*>(::FUN_00c85750())).getHeap();
         int cap = getCapacity();
         if (cap < n)
         {
@@ -6181,7 +6163,7 @@ struct E153F0Points
     }
     void AddBack(const E153F0Vector4& t)
     {
-        Allocator& alloc = FUN_00c85750().getHeap();
+        Allocator& alloc = (*static_cast<Router*>(::FUN_00c85750())).getHeap();
         if (m_iElementCount == getCapacity())
             ::ResizeAudioStream((::AudioAllocator *)(void *)(&alloc), (::AudioStream *)(void *)(this), sizeof(E153F0Vector4));
         E153F0ConstructWithCopy(m_data + m_iElementCount, 1, t);
@@ -6247,7 +6229,7 @@ float __cdecl FUN_00e153f0(const E153F0Edges* edges)
         float result;
         _mm_store_ss(&result, _mm_add_ss(_mm_shuffle_ps(extent, extent, 0xaa), _mm_add_ss(_mm_shuffle_ps(extent, extent, 0x55), extent)));
 
-        points.ClearAndRelease(FUN_00c85750().getHeap());
+        points.ClearAndRelease((*static_cast<Router*>(::FUN_00c85750())).getHeap());
         return result;
     }
     return 0.0f;
@@ -6611,7 +6593,7 @@ struct FUN_00e25ba0_cls {
 // Allocates a table, initializes its slot array to 0x407 entries, and stores the pointer in m_pTable.
 // @fnv 0x00e25ba0
 void FUN_00e25ba0_cls::FUN_00e25ba0() {
-    BSAudio* audio1 = (BSAudio*)&FUN_00c85750();
+    BSAudio* audio1 = (BSAudio*)&(*static_cast<Router*>(::FUN_00c85750()));
     FUN_00e25ba0_Table* t = (FUN_00e25ba0_Table*)audio1->m_pAllocator->Alloc(0x10);
     if (t != 0) {
     t->m_pSlots = 0;
@@ -6619,7 +6601,7 @@ void FUN_00e25ba0_cls::FUN_00e25ba0() {
     t->m_uiItemCount = 0;
     t->m_unk0C = 0;
 
-    BSAudio* audio2 = (BSAudio*)&FUN_00c85750();
+    BSAudio* audio2 = (BSAudio*)&(*static_cast<Router*>(::FUN_00c85750()));
     MemAllocator* alloc = audio2->m_pAllocator;
     int cap = t->m_cap & 0x3fffffff;
     if (cap < 0x407) {
@@ -6637,7 +6619,7 @@ void FUN_00e25ba0_cls::FUN_00e25ba0() {
         int* w = base + 2;
         int k = n;
         do {
-            BSAudio* audio3 = (BSAudio*)&FUN_00c85750();
+            BSAudio* audio3 = (BSAudio*)&(*static_cast<Router*>(::FUN_00c85750()));
             MemAllocator* a3 = audio3->m_pAllocator;
             w[-1] = 0;
             if ((w[0] & 0x80000000) == 0) {
@@ -6925,7 +6907,7 @@ struct hkArray {
         m_iElementCount += n;
         return m_data + oldSize;
     }
-    __forceinline T* expandBy(int n) { return _expandBy(FUN_00c85750().getHeap(), n); }
+    __forceinline T* expandBy(int n) { return _expandBy((*static_cast<Router*>(::FUN_00c85750())).getHeap(), n); }
 };
 
 struct hkGeometryTriangle {
@@ -6969,7 +6951,7 @@ struct HashEntryTable {
     int m_iCapacityFlags;
     int m_iPairCount;
 
-    HashEntryTable() : m_kPrimitiveElement(0), m_iCapacityFlags(0), m_iPairCount(-1) { reinterpret_cast<::FUN_00cb1fe0_t *>(this)->EnsureCapacity((intptr_t)&(FUN_00c85750().getHeap()), 0); }
+    HashEntryTable() : m_kPrimitiveElement(0), m_iCapacityFlags(0), m_iPairCount(-1) { reinterpret_cast<::FUN_00cb1fe0_t *>(this)->EnsureCapacity((intptr_t)&((*static_cast<Router*>(::FUN_00c85750())).getHeap()), 0); }
     ~HashEntryTable() throw();
     int GetLogicalSize() const { return m_iCapacityFlags & 0x7fffffff; }
     void reserve(Allocator& alloc, int n) throw();
@@ -6981,11 +6963,11 @@ struct HashEntryTable {
 struct PointerKeyIntegerMap {
     HashEntryTable m_map;
 
-    void reserve(int n) { reinterpret_cast<::FUN_00cb1fe0_t *>(&(m_map))->EnsureCapacity((intptr_t)&(FUN_00c85750().getHeap()), n); }
-    void insert(const void* key, int val) { reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(m_map))->FUN_00cb1870((::fnv_00cb1870::hkMemoryAllocatorCB18 &)(FUN_00c85750().getHeap()), (uintptr_t)(key), val); }
+    void reserve(int n) { reinterpret_cast<::FUN_00cb1fe0_t *>(&(m_map))->EnsureCapacity((intptr_t)&((*static_cast<Router*>(::FUN_00c85750())).getHeap()), n); }
+    void insert(const void* key, int val) { reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(m_map))->FUN_00cb1870((::fnv_00cb1870::hkMemoryAllocatorCB18 &)((*static_cast<Router*>(::FUN_00c85750())).getHeap()), (uintptr_t)(key), val); }
     intptr_t FindValueForKey(const void* key, int def) const { return reinterpret_cast<::FUN_00cb1930_t *>((void *)&(m_map))->LookupHashEntry((intptr_t)(key), def); }
     int GetLogicalSize() const { return m_map.GetLogicalSize(); }
-    ~PointerKeyIntegerMap() { reinterpret_cast<::CB1A90Owner *>(&(m_map))->ProcessArgument((::CB1A90Argument *)&(FUN_00c85750().getHeap())); }
+    ~PointerKeyIntegerMap() { reinterpret_cast<::CB1A90Owner *>(&(m_map))->ProcessArgument((::CB1A90Argument *)&((*static_cast<Router*>(::FUN_00c85750())).getHeap())); }
 };
 
 template <class T> __forceinline void hkSwap(T& a, T& b) { T t = a; a = b; b = t; }
@@ -7191,13 +7173,13 @@ template<class T> struct CellArray {
     T* data; int size, capacity;
     CellArray() throw() : data(0), size(0), capacity(0x80000000) {}
     __forceinline T& expand() throw() {
-        Router& router = FUN_00c85750();
+        Router& router = (*static_cast<Router*>(::FUN_00c85750()));
         if (size == (capacity & 0x3fffffff))
             ::ResizeAudioStream((::AudioAllocator *)(router.heap), (::AudioStream *)(void *)(this), sizeof(T));
         return data[size++];
     }
     __forceinline void push(const T& value) throw() {
-        Router& router = FUN_00c85750();
+        Router& router = (*static_cast<Router*>(::FUN_00c85750()));
         if (size == (capacity & 0x3fffffff))
             ::ResizeAudioStream((::AudioAllocator *)(router.heap), (::AudioStream *)(void *)(this), sizeof(T));
         T* p = data + size;
@@ -7205,7 +7187,7 @@ template<class T> struct CellArray {
         ++size;
     }
     __forceinline void pushVector(const T& value) throw() {
-        Router& router = FUN_00c85750();
+        Router& router = (*static_cast<Router*>(::FUN_00c85750()));
         if (size == (capacity & 0x3fffffff))
             ::ResizeAudioStream((::AudioAllocator *)(router.heap), (::AudioStream *)(void *)(this), sizeof(T));
         T* p = data + size;
@@ -7213,7 +7195,7 @@ template<class T> struct CellArray {
         ++size;
     }
     __forceinline void release() throw() {
-        Allocator& heap = FUN_00c85750().getHeap();
+        Allocator& heap = (*static_cast<Router*>(::FUN_00c85750())).getHeap();
         int cap = capacity;
         size = 0;
         if (!(cap & 0x80000000)) heap.freeBlock(data, (cap & 0x3fffffff)*sizeof(T));
@@ -7729,7 +7711,7 @@ void EMesh::FUN_00e17010(EParams* apParams,EArray* out) {
             float r=FUN_00e16e50(apParams->value,&point,apParams->filter);
             if(r>tolerance) {
                 point.w=(float)fabs(r);
-                Router& router=FUN_00c85750();
+                Router& router=(*static_cast<Router*>(::FUN_00c85750()));
                 if(out->size==(int)(out->capacity&0x3fffffff)) ::ResizeAudioStream((::AudioAllocator *)(router.heap),(::AudioStream *)(out),16);
                 store(EAppend(out),load(point));
 
@@ -7798,7 +7780,7 @@ void EMesh::FUN_00e17010(EParams* apParams,EArray* out) {
                         float delta=r-apParams->value;
                         if((float)fabs(delta)<tolerance) {
                             point.w=(float)fabs(r);
-                            Router& router=FUN_00c85750();
+                            Router& router=(*static_cast<Router*>(::FUN_00c85750()));
                             if(out->size==(int)(out->capacity&0x3fffffff)) ::ResizeAudioStream((::AudioAllocator *)(router.heap),(::AudioStream *)(out),16);
                             store(EAppend(out),load(point));
 
@@ -7820,7 +7802,6 @@ struct S_00e21e30_Alloc {
 struct S_00e21e30_Router {
     int unk0; int unk4; int unk8; int unkc;
     S_00e21e30_Alloc* m_pStreamAllocator;
-    static S_00e21e30_Router& FUN_00c85750();
     S_00e21e30_Alloc& heap() { return *m_pStreamAllocator; }
 };
 
@@ -7831,7 +7812,7 @@ struct FUN_00e21e30 {
 // @fnv 0x00e21e30
     virtual ~FUN_00e21e30() {}
     void operator delete(void* p, std::size_t nbytes) {
-        S_00e21e30_Router::FUN_00c85750().heap().ReleaseBlock(p, static_cast<int>(nbytes));
+        (*static_cast<S_00e21e30_Router*>(::FUN_00c85750())).heap().ReleaseBlock(p, static_cast<int>(nbytes));
     }
 };
 
@@ -7868,7 +7849,6 @@ struct S_00e22db0_Service {
     int unk0c;
     S_00e22db0_Iface* unk10;
 };
-namespace fnvc_adapt { S_00e22db0_Service* __cdecl FUN_00c85750(); }
 
 struct FUN_00e22db0 {
     int unk04;
@@ -7900,7 +7880,7 @@ struct FUN_00e22db0 {
     virtual ~FUN_00e22db0() {}
     static void operator delete(void* p, std::size_t size)
     {
-        S_00e22db0_Service* sv = fnvc_adapt::FUN_00c85750();
+        S_00e22db0_Service* sv = static_cast<S_00e22db0_Service*>(::FUN_00c85750());
         sv->unk10->release(p, 0x60);
     }
 };
@@ -8390,7 +8370,7 @@ struct NakedArray
     }
     void append(const NakedEdgeRef& edge)
     {
-        Allocator& heap = FUN_00c85750().getHeap();
+        Allocator& heap = (*static_cast<Router*>(::FUN_00c85750())).getHeap();
         if (size == (int)(cap & 0x3fffffff))
             ::ResizeAudioStream((::AudioAllocator *)(void *)(&heap), (::AudioStream *)(void *)(this), 8);
         new (data + size) NakedEdgeRef(edge);
@@ -8486,7 +8466,7 @@ void MeshEdgeRepair::FUN_00e14d10()
     arr.cap = 0x80000000;
 
     int fixed = 0;
-    arr.reserve(FUN_00c85750().getHeap(), 0x400);
+    arr.reserve((*static_cast<Router*>(::FUN_00c85750())).getHeap(), 0x400);
 
     for (NakedFace* face = m_pHead2c; face != 0; face = (NakedFace*)face->m_unk00)
     {
@@ -8536,7 +8516,7 @@ void MeshEdgeRepair::FUN_00e14d10()
     }
 
     m_b101 = 0;
-    arr.release(FUN_00c85750().getHeap());
+    arr.release((*static_cast<Router*>(::FUN_00c85750())).getHeap());
 }
 
 struct hkMemoryAllocator {
@@ -8554,17 +8534,16 @@ struct NineIntegerRecord {
     hkMemoryAllocator* heap;
     hkMemoryAllocator& getHeap() { return *heap; }
 };
-namespace hkRouter { __declspec(nothrow) NineIntegerRecord& __cdecl FUN_00c85750() throw(); }
 template<class T> struct HullArray {
  T* data; int size; int capacityAndFlags;
  __declspec(nothrow) __forceinline HullArray():data(0),size(0),capacityAndFlags(0x80000000) {}
  __declspec(nothrow) __forceinline ~HullArray() {
-  hkMemoryAllocator& heap=hkRouter::FUN_00c85750().getHeap();
+  hkMemoryAllocator& heap=(*static_cast<NineIntegerRecord*>(::FUN_00c85750())).getHeap();
   size=0;
   if((capacityAndFlags&0x80000000u)==0) heap.ReleaseBlock(data,(capacityAndFlags&0x3fffffff)*sizeof(T));
  }
  __forceinline void AddBack(const T& value) {
-  NineIntegerRecord& router=hkRouter::FUN_00c85750();
+  NineIntegerRecord& router=(*static_cast<NineIntegerRecord*>(::FUN_00c85750()));
   if(size==(capacityAndFlags&0x3fffffff)) ::ResizeAudioStream((::AudioAllocator *)(router.heap),(::AudioStream *)(void *)(this),sizeof(T));
   data[size]=value; ++size;
  }
@@ -8576,7 +8555,7 @@ template<class T> struct HullArray {
 template<class T> struct HullLocalArray : HullArray<T> {
  T* localMemory;
  __declspec(nothrow) __forceinline HullLocalArray(int capacity) {
-  NineIntegerRecord& router=hkRouter::FUN_00c85750();
+  NineIntegerRecord& router=(*static_cast<NineIntegerRecord*>(::FUN_00c85750()));
   T* memory=static_cast<T*>(static_cast<void*>(router.m_stackCurrent));
   router.m_stackCurrent+=((capacity*sizeof(T)+127)&~127);
   this->data=memory;
@@ -8587,7 +8566,7 @@ template<class T> struct HullLocalArray : HullArray<T> {
   if(!wasReallocated()) this->size=0; deallocateStack(localMemory);
  }
  __forceinline bool wasReallocated() const { return localMemory!=this->data; }
- static __forceinline void deallocateStack(void* p) { hkRouter::FUN_00c85750().m_stackCurrent=static_cast<char*>(p);
+ static __forceinline void deallocateStack(void* p) { (*static_cast<NineIntegerRecord*>(::FUN_00c85750())).m_stackCurrent=static_cast<char*>(p);
  }
 };
 struct HullDescriptor {
@@ -8660,13 +8639,13 @@ template<class T> struct ZArray {
     ZArray():data(0),size(0),capacity(0x80000000) {
     }
     void append(const T& item) {
-        Allocator& a=FUN_00c85750().getHeap();
+        Allocator& a=(*static_cast<Router*>(::FUN_00c85750())).getHeap();
         if(size==(capacity&0x3fffffff)) ::ResizeAudioStream((::AudioAllocator *)(::Allocator *)(&a),(::AudioStream *)(void *)(this),sizeof(T));
         new(data+size) T(item);
         ++size;
     }
     void release() {
-        Allocator& a=FUN_00c85750().getHeap();
+        Allocator& a=(*static_cast<Router*>(::FUN_00c85750())).getHeap();
         size=0;
         if(!(capacity&0x80000000)) a.freeBlock(data,(capacity&0x3fffffff)*sizeof(T));
         data=0;
@@ -8687,7 +8666,7 @@ struct ZNode {
 }
 ;
 template<> void ZArray<ZNode*>::append(ZNode* const& item) {
-    Allocator& a=FUN_00c85750().getHeap();
+    Allocator& a=(*static_cast<Router*>(::FUN_00c85750())).getHeap();
     if(size==(capacity&0x3fffffff)) ::ResizeAudioStream((::AudioAllocator *)(::Allocator *)(&a),(::AudioStream *)(void *)(this),4);
     data[size++]=item;
 }
@@ -8757,7 +8736,7 @@ struct E1D960Array {
     E1D960Array() throw() : m_data(0), m_iElementCount(0), m_iCapacityState(0x80000000) {}
     ~E1D960Array() throw()
     {
-        Allocator& alloc = FUN_00c85750().getHeap();
+        Allocator& alloc = (*static_cast<Router*>(::FUN_00c85750())).getHeap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
             alloc.freeBlock(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
@@ -8772,7 +8751,7 @@ struct E1D960Array {
     }
     void AddBack(const T& t) throw()
     {
-        Allocator& alloc = FUN_00c85750().getHeap();
+        Allocator& alloc = (*static_cast<Router*>(::FUN_00c85750())).getHeap();
         if (m_iElementCount == (m_iCapacityState & 0x3fffffff))
             ::ResizeAudioStream((::AudioAllocator *)(::Allocator *)(&alloc), (::AudioStream *)(void *)(this), sizeof(T));
         E153F0ConstructWithCopy(m_data + m_iElementCount, 1, t);
@@ -8809,7 +8788,7 @@ struct MeshMerge960 {
 FUN_00e1b750* MeshMerge960::FUN_00e1d960(Builder* apBuilder)
 {
     bool phaseFlag = false;
-    FUN_00e1b750* obj = new (FUN_00d76ca0::allocate(FUN_00c85750().getHeap(), 0x110)) FUN_00e1b750();
+    FUN_00e1b750* obj = new (FUN_00d76ca0::allocate((*static_cast<Router*>(::FUN_00c85750())).getHeap(), 0x110)) FUN_00e1b750();
     ((FUN_00e1d900_cls*)obj)->FUN_00e1d900(apBuilder);
     {
         unsigned int buf[0x80];
@@ -8935,7 +8914,7 @@ int* Factory360::FUN_00e1f360(int* result, int input, Pieces* output, float low,
         if (*out == 0) {
             for (int i = 0; i < pieces.GetLogicalSize(); ++i) {
                 Piece** item = &pieces[i];
-                Router& router = FUN_00c85750();
+                Router& router = (*static_cast<Router*>(::FUN_00c85750()));
                 if (output->size == (output->capacity & 0x3fffffff))
                     ::ResizeAudioStream((::AudioAllocator *)(router.heap), (::AudioStream *)(output), 4);
                 Piece** slot = &output->data[output->size];
@@ -8949,7 +8928,7 @@ int* Factory360::FUN_00e1f360(int* result, int input, Pieces* output, float low,
                 _ReadWriteBarrier();
             }
         }
-        Allocator& heap = FUN_00c85750().getHeap();
+        Allocator& heap = (*static_cast<Router*>(::FUN_00c85750())).getHeap();
         pieces.size = 0;
         if ((pieces.capacity & 0x80000000u) == 0) heap.freeBlock(pieces.data, (pieces.capacity & 0x3fffffff)*4);
     }
@@ -9222,7 +9201,7 @@ struct S_00e248b0_Arr {
     int m_iElementCount;
     int m_cap;
     S_00e248b0_Arr() : m_data(0), m_iElementCount(0), m_cap(0x80000000) {}
-    static void* operator new(std::size_t size) { return S_00e248b0_heap(FUN_00c85750())->AllocateMemoryBlock(size); }
+    static void* operator new(std::size_t size) { return S_00e248b0_heap((*static_cast<Router*>(::FUN_00c85750())))->AllocateMemoryBlock(size); }
 };
 
 static __forceinline S_00e248b0_Arr* BoundaryCore(S_00e248b0_Edge& cur, S_00e248b0_Edge start) { S_00e248b0_Arr* arr=0;
@@ -9230,7 +9209,7 @@ static __forceinline S_00e248b0_Arr* BoundaryCore(S_00e248b0_Edge& cur, S_00e248
         arr = new S_00e248b0_Arr;
         do
         {
-            Router& r = FUN_00c85750();
+            Router& r = (*static_cast<Router*>(::FUN_00c85750()));
             if (arr->m_iElementCount == (arr->m_cap & 0x3fffffff))
                 ::ResizeAudioStream((::AudioAllocator *)(r.heap), (::AudioStream *)(arr), 0x40);
             S_00e248b0_Elem* el = &arr->m_data[arr->m_iElementCount++];
@@ -9268,14 +9247,14 @@ static __forceinline S_00e248b0_Arr* BoundaryCore(S_00e248b0_Edge& cur, S_00e248
                         goto done;
                 }
             }
-            S_00e248b0_Heap* heap = S_00e248b0_heap(FUN_00c85750());
+            S_00e248b0_Heap* heap = S_00e248b0_heap((*static_cast<Router*>(::FUN_00c85750())));
             int cap = arr->m_cap;
             arr->m_iElementCount = 0;
             if ((cap & 0x80000000) == 0)
                 heap->ReturnMemory(arr->m_data, (cap & 0x3fffffff) * sizeof(S_00e248b0_Elem));
             arr->m_data = 0;
             arr->m_cap = 0x80000000;
-            S_00e248b0_heap(FUN_00c85750())->ReleaseBlock(arr, 12);
+            S_00e248b0_heap((*static_cast<Router*>(::FUN_00c85750())))->ReleaseBlock(arr, 12);
             return 0;
         }
 done:
@@ -9910,7 +9889,7 @@ struct E17Mem
     virtual void freeBlock(void* p, int size);
 };
 
-__forceinline E17Mem& e17Heap() { return *(E17Mem*)&FUN_00c85750().getHeap(); }
+__forceinline E17Mem& e17Heap() { return *(E17Mem*)&(*static_cast<Router*>(::FUN_00c85750())).getHeap(); }
 
 
 struct E17Face
@@ -10259,9 +10238,9 @@ struct PartsMap {
     int data,size,mask;
     __forceinline PartsMap():data(0),size(0),mask(-1) {reserve(0);}
     static void* operator new(std::size_t n,Allocator* heap){return heap->allocate(n);}
-    __forceinline void reserve(int n){reinterpret_cast<::FUN_00cb1fe0_t *>(this)->EnsureCapacity((intptr_t)(&FUN_00c85750().getHeap()),n);}
+    __forceinline void reserve(int n){reinterpret_cast<::FUN_00cb1fe0_t *>(this)->EnsureCapacity((intptr_t)(&(*static_cast<Router*>(::FUN_00c85750())).getHeap()),n);}
     __forceinline uintptr_t lookup(uintptr_t k)const{return ((unsigned long)(reinterpret_cast<::FUN_00cb1930_t *>((void *)this)->LookupHashEntry(k,0)));}
-    __forceinline void insert(uintptr_t k,uintptr_t v){reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(this)->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(&FUN_00c85750().getHeap())),k,v);}
+    __forceinline void insert(uintptr_t k,uintptr_t v){reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(this)->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(&(*static_cast<Router*>(::FUN_00c85750())).getHeap())),k,v);}
     __forceinline void record(Allocator& a,uintptr_t k,uintptr_t v){reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(this)->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(&a)),k,v);}
 };
 template<class T> struct PartArray {
@@ -10291,25 +10270,25 @@ int PartMesh::FUN_00e1b820(PartArray<PartMesh*>& output,bool simplify,bool conve
     if(!parts)return 0;
     PartArray<PartsMap*> maps;
     PartsMap edgeMap;
-    PartMesh** destinations=output.expand(FUN_00c85750().getHeap(),parts);
+    PartMesh** destinations=output.expand((*static_cast<Router*>(::FUN_00c85750())).getHeap(),parts);
     int edgeCount=triangles.count;
-    Allocator* edgeHeap=&FUN_00c85750().getHeap();
+    Allocator* edgeHeap=&(*static_cast<Router*>(::FUN_00c85750())).getHeap();
     reinterpret_cast<::FUN_00cb1fe0_t *>(&(edgeMap))->EnsureCapacity((intptr_t)(edgeHeap),edgeCount*3);
     {
-        Allocator& heap=FUN_00c85750().getHeap();
+        Allocator& heap=(*static_cast<Router*>(::FUN_00c85750())).getHeap();
         int c=maps.capacity&0x3fffffff;
         if(c<parts){int n=c+c;if(parts>=n)n=parts;::FUN_00c908c0((::SpawnedObject *)((intptr_t)&heap),(::SpawnedArray *)(void *)(&maps),n,4);}
     }
     maps.size=parts;
     for(int i=0;i<parts;++i){
         destinations[i]=0;
-        maps[i]=new (&FUN_00c85750().getHeap()) PartsMap;
+        maps[i]=new (&(*static_cast<Router*>(::FUN_00c85750())).getHeap()) PartsMap;
     }
     for(const TriangleCopy* source=triangles.head;source;source=source->next){
         int group=source->part;
         if(group!=-1){
             if(!destinations[group]){
-                PartMesh* mesh=(PartMesh*)FUN_00c85750().getHeap().allocate(0x110);
+                PartMesh* mesh=(PartMesh*)(*static_cast<Router*>(::FUN_00c85750())).getHeap().allocate(0x110);
                 mesh->memorySize=0x110;
                 mesh=(PartMesh*)new (mesh) FUN_00e1b750;
                 destinations[group]=mesh;
@@ -10324,7 +10303,7 @@ int PartMesh::FUN_00e1b820(PartArray<PartMesh*>& output,bool simplify,bool conve
                 VertexCopy* vertex=(VertexCopy*)map->lookup((uintptr_t)old);
                 if(!vertex){
                     vertex=destinations[group]->vertices.clone(*old);
-                    map->record(FUN_00c85750().getHeap(),(uintptr_t)old,(uintptr_t)vertex);
+                    map->record((*static_cast<Router*>(::FUN_00c85750())).getHeap(),(uintptr_t)old,(uintptr_t)vertex);
                 }
                 CornerStore* destination=(CornerStore*)to; destination->vertex=vertex; destination->link=0;
             }
@@ -10351,9 +10330,9 @@ int PartMesh::FUN_00e1b820(PartArray<PartMesh*>& output,bool simplify,bool conve
     for(int i=0;i<result;++i){
         PartsMap* map=maps[i];
         if(map){
-            reinterpret_cast<::CB1A90Owner *>((map))->ProcessArgument((::CB1A90Argument *)(::Allocator *)(&FUN_00c85750().getHeap()));
+            reinterpret_cast<::CB1A90Owner *>((map))->ProcessArgument((::CB1A90Argument *)(::Allocator *)(&(*static_cast<Router*>(::FUN_00c85750())).getHeap()));
             ::FUN_00a29680();
-            ((S_00e25f00_Alloc*)&FUN_00c85750().getHeap())->ReleaseBlock(map,12);
+            ((S_00e25f00_Alloc*)&(*static_cast<Router*>(::FUN_00c85750())).getHeap())->ReleaseBlock(map,12);
         }
         if(simplify){
             struct Pair{float a,b;} tolerance;
@@ -10363,10 +10342,10 @@ int PartMesh::FUN_00e1b820(PartArray<PartMesh*>& output,bool simplify,bool conve
         }
         if(convex)reinterpret_cast<::Hull *>((destinations[i]))->BuildHull();
     }
-    FUN_00c85750();FUN_00c85750();
-    reinterpret_cast<::CB1A90Owner *>(&(edgeMap))->ProcessArgument((::CB1A90Argument *)(::Allocator *)(&FUN_00c85750().getHeap()));
+    (*static_cast<Router*>(::FUN_00c85750()));(*static_cast<Router*>(::FUN_00c85750()));
+    reinterpret_cast<::CB1A90Owner *>(&(edgeMap))->ProcessArgument((::CB1A90Argument *)(::Allocator *)(&(*static_cast<Router*>(::FUN_00c85750())).getHeap()));
     ::FUN_00a29680();
-    Allocator& heap=FUN_00c85750().getHeap();
+    Allocator& heap=(*static_cast<Router*>(::FUN_00c85750())).getHeap();
     maps.size=0;
     if(!(maps.capacity&0x80000000u))heap.freeBlock(maps.data,(maps.capacity&0x3fffffff)*4);
     return result;
@@ -10644,7 +10623,7 @@ int* CutMesh::FUN_00e1bd30(int* result,const CutVec& p,bool splitSides) {
         for(int j=0;j<3;++j) distances[j]=((CutVertex*)face->m_kVertices[j])->distance.component(0);
         float sum=distances[0]+distances[1]+distances[2];
         if(sum==0.0f) {
-            Router& r=FUN_00c85750();
+            Router& r=(*static_cast<Router*>(::FUN_00c85750()));
             if(remove.size==(remove.capacity&0x3fffffff)) ::ResizeAudioStream((::AudioAllocator *)(r.heap),(::AudioStream *)(void *)(&remove),4);
             remove.data[remove.size++]=face;
         } else face->side=sum>=0.0f?0:1;
@@ -10667,7 +10646,7 @@ int* CutMesh::FUN_00e1bd30(int* result,const CutVec& p,bool splitSides) {
         reinterpret_cast<::fnv_00e18b70::Target *>(this)->ResolveLinkNodes();
     }
     *result=0;
-    Router& r=FUN_00c85750();
+    Router& r=(*static_cast<Router*>(::FUN_00c85750()));
     Allocator* allocator=r.heap;
     remove.size=0;
     if((remove.capacity&0x80000000)==0) allocator->freeBlock(remove.data,(remove.capacity&0x3fffffff)*4);
@@ -10887,7 +10866,7 @@ struct EdgeArray {
     void clear() { m_iElementCount = 0; }
 
     void AddBack(const T& val) throw() {
-        Router& router = FUN_00c85750();
+        Router& router = (*static_cast<Router*>(::FUN_00c85750()));
         if (m_iElementCount == (m_iCapacityState & 0x3fffffff)) {
             ::ResizeAudioStream((::AudioAllocator *)(router.heap), (::AudioStream *)(void *)(this), sizeof(T));
         }
@@ -10907,7 +10886,7 @@ struct InplaceEdgeArray : public EdgeArray<T> {
     }
 
     ~InplaceEdgeArray() throw() {
-        Allocator& heap = FUN_00c85750().getHeap();
+        Allocator& heap = (*static_cast<Router*>(::FUN_00c85750())).getHeap();
         this->m_iElementCount = 0;
         if ((this->m_iCapacityState & 0x80000000) == 0) {
             heap.freeBlock(this->m_data, (this->m_iCapacityState & 0x3fffffff) * sizeof(T));
@@ -10998,13 +10977,13 @@ template<class T> struct S00e25cd0_Array {
         return -1;
     }
     __forceinline T& AllocatePair() {
-        Router& router = FUN_00c85750();
+        Router& router = (*static_cast<Router*>(::FUN_00c85750()));
         if(m_iElementCount == (m_iCapacityState & 0x3fffffff)) ::ResizeAudioStream((::AudioAllocator *)(router.heap), (::AudioStream *)(void *)(this), sizeof(T));
         for(int i=0; i<1; ++i) new(m_data+m_iElementCount+i) T;
         return m_data[m_iElementCount++];
     }
     __forceinline void AddBack(const T& t) {
-        Router& router = FUN_00c85750();
+        Router& router = (*static_cast<Router*>(::FUN_00c85750()));
         if(m_iElementCount == (m_iCapacityState & 0x3fffffff)) ::ResizeAudioStream((::AudioAllocator *)(router.heap), (::AudioStream *)(void *)(this), sizeof(T));
         S00e25cd0_constructWithCopy(m_data + m_iElementCount, 1, t);
         m_iElementCount++;
@@ -11561,14 +11540,14 @@ void Mesh::FUN_00e275d0(bool abBuildRoots)
     m_08.Do();
     for (int i=0;i<256;i++) grid[i]=0;
     if (m_24c) {
-        AllocOps* pAllocOps = (AllocOps*)FUN_00c85750().heap;
+        AllocOps* pAllocOps = (AllocOps*)(*static_cast<Router*>(::FUN_00c85750())).heap;
         reinterpret_cast<::S_00e25f00 *>((m_24c))->FUN_00e25f00(0);
         pAllocOps->Free(m_24c, 0x10);
         m_24c = 0;
     }
     for (int i = 0; i < m_254; i++) {
         int* p = m_250[i];
-        Router& r = FUN_00c85750();
+        Router& r = (*static_cast<Router*>(::FUN_00c85750()));
         AllocOps* pAllocOps = (AllocOps*)r.heap;
         pAllocOps->Free(p, 0x388);
     }
@@ -12115,14 +12094,13 @@ struct FUN_00e12890_cls {
     void FUN_00e12890(FUN_00e12890_List* out, int flag);
 };
 
-FUN_00e12890_Holder* __cdecl FUN_00c85750();
 
 // Appends each node in the m_2c chain to out (setting node->m_34 to -1 when flag is set), then calls FUN_00e22a50 on out's items if there is more than one.
 // @fnv 0x00e12890
 void FUN_00e12890_cls::FUN_00e12890(FUN_00e12890_List* apList, int flag) {
     apList->m_04 = 0;
     int need = m_30;
-    FUN_00e12890_Holder* holder = (FUN_00e12890_Holder*)FUN_00c85750();
+    FUN_00e12890_Holder* holder = (FUN_00e12890_Holder*)static_cast<FUN_00e12890_Holder*>(::FUN_00c85750());
     if ((int)(apList->m_08 & 0x3fffffff) < need) {
         ::FUN_00c908c0((::SpawnedObject *)(holder->m_10), (::SpawnedArray *)(apList), need, 4);
     }
@@ -12168,7 +12146,6 @@ struct S_00e15830_Router {
     S_00e15830_Heap& heap() throw() { return *m_pStreamAllocator; }
 };
 
-S_00e15830_Router& FUN_00c85750() throw();
 
 template <typename T>
 struct S_00e15830_Array {
@@ -12177,7 +12154,7 @@ struct S_00e15830_Array {
     int m_iCapacityState;
 
     S_00e15830_Array() throw() : m_data(0), m_iElementCount(0), m_iCapacityState(0x80000000) {}
-    ~S_00e15830_Array() throw() { _clearAndDeallocate(FUN_00c85750().heap()); }
+    ~S_00e15830_Array() throw() { _clearAndDeallocate((*static_cast<S_00e15830_Router*>(::FUN_00c85750())).heap()); }
 
     int getCapacity() const throw() { return m_iCapacityState & 0x3fffffff; }
     int GetLogicalSize() const throw() { return m_iElementCount; }
@@ -12192,7 +12169,7 @@ struct S_00e15830_Array {
         new (m_data + m_iElementCount) T(t);
         m_iElementCount++;
     }
-    void AddBack(const T& t) throw() { _pushBack(FUN_00c85750().heap(), t); }
+    void AddBack(const T& t) throw() { _pushBack((*static_cast<S_00e15830_Router*>(::FUN_00c85750())).heap(), t); }
 
     void _clearAndDeallocate(S_00e15830_Heap& alloc) throw()
     {
@@ -12322,7 +12299,6 @@ private:
 TYPE m_kStorage;};
 template<typename T>struct QhkSizeOfTypeOrVoid{enum{val=sizeof(T)};};
 class Qmemrouter;
-namespace Qr{Qmemrouter&__cdecl FUN_00c85750() throw();}
 class Qmemalloc
 {
 public:
@@ -12352,7 +12328,7 @@ class Qmemrouter
 {
 public:
 typedef Qmemalloc Allocator;
-static Qmemrouter&__cdecl GetMonitorStream(){return Qr::FUN_00c85750();}inline Allocator&heap(){return*m_pStreamAllocator;}
+static Qmemrouter&__cdecl GetMonitorStream(){return (*static_cast<Qmemrouter*>(::FUN_00c85750()));}inline Allocator&heap(){return*m_pStreamAllocator;}
 protected:
 QhkStackMemory m_aiEntries;
 Allocator*m_pTemp;
@@ -12964,7 +12940,6 @@ struct S_00e1a7a0_Router {
     S_00e1a7a0_Heap& heap() throw() { return *m_pStreamAllocator; }
 };
 
-S_00e1a7a0_Router& FUN_00c85750() throw();
 
 template <typename T>
 struct S_00e1a7a0_Array {
@@ -12972,7 +12947,7 @@ struct S_00e1a7a0_Array {
     int m_iElementCount;
     int m_iCapacityState;
 
-    ~S_00e1a7a0_Array() throw() { _clearAndDeallocate(FUN_00c85750().heap()); }
+    ~S_00e1a7a0_Array() throw() { _clearAndDeallocate((*static_cast<S_00e1a7a0_Router*>(::FUN_00c85750())).heap()); }
 
     int getCapacity() const throw() { return m_iCapacityState & 0x3fffffff; }
     int GetLogicalSize() const throw() { return m_iElementCount; }
@@ -12985,7 +12960,7 @@ struct S_00e1a7a0_Array {
         new (m_data + m_iElementCount) T(t);
         m_iElementCount++;
     }
-    void AddBack(const T& t) throw() { _pushBack(FUN_00c85750().heap(), t); }
+    void AddBack(const T& t) throw() { _pushBack((*static_cast<S_00e1a7a0_Router*>(::FUN_00c85750())).heap(), t); }
 
     void _clearAndDeallocate(S_00e1a7a0_Heap& alloc) throw()
     {
@@ -13256,7 +13231,7 @@ template <class T> struct S_e1ce10_Array {
     int m_iElementCount;
     int m_iCapacityState;
     S_e1ce10_Array() throw() : m_data(0), m_iElementCount(0), m_iCapacityState((int)0x80000000) {}
-    __forceinline ~S_e1ce10_Array() throw() { _clearAndDeallocate(FUN_00c85750().getHeap()); }
+    __forceinline ~S_e1ce10_Array() throw() { _clearAndDeallocate((*static_cast<Router*>(::FUN_00c85750())).getHeap()); }
     int GetLogicalSize() const { return m_iElementCount; }
     int getCapacity() const { return m_iCapacityState & 0x3fffffff; }
     T& operator[](int i) { return m_data[i]; }
@@ -13297,8 +13272,8 @@ template <class T> struct S_e1ce10_Array {
         S_e1ce10_ArrayUtil::constructWithCopy(m_data + m_iElementCount, n - m_iElementCount, fill, typename S_e1ce10_IsPod<T>::type());
         m_iElementCount = n;
     }
-    __forceinline void SetSizeAndGrow(int n) throw() { _setSize(FUN_00c85750().getHeap(), n); }
-    __forceinline void SetSizeAndGrow(int n, const T& fill) throw() { _setSize(FUN_00c85750().getHeap(), n, fill); }
+    __forceinline void SetSizeAndGrow(int n) throw() { _setSize((*static_cast<Router*>(::FUN_00c85750())).getHeap(), n); }
+    __forceinline void SetSizeAndGrow(int n, const T& fill) throw() { _setSize((*static_cast<Router*>(::FUN_00c85750())).getHeap(), n, fill); }
     __forceinline T& _expandOne(Allocator& alloc) throw()
     {
         if (m_iElementCount == getCapacity())
@@ -13306,7 +13281,7 @@ template <class T> struct S_e1ce10_Array {
         S_e1ce10_ArrayUtil::construct(m_data + m_iElementCount, 1, typename S_e1ce10_IsPod<T>::type());
         return m_data[m_iElementCount++];
     }
-    __forceinline T& AllocatePair() throw() { return _expandOne(FUN_00c85750().getHeap()); }
+    __forceinline T& AllocatePair() throw() { return _expandOne((*static_cast<Router*>(::FUN_00c85750())).getHeap()); }
     __forceinline void _pushBack(Allocator& alloc, const T& t) throw()
     {
         if (m_iElementCount == getCapacity())
@@ -13314,7 +13289,7 @@ template <class T> struct S_e1ce10_Array {
         S_e1ce10_ArrayUtil::constructWithCopy(m_data + m_iElementCount, 1, t, typename S_e1ce10_IsPod<T>::type());
         m_iElementCount++;
     }
-    __forceinline void AddBack(const T& t) throw() { _pushBack(FUN_00c85750().getHeap(), t); }
+    __forceinline void AddBack(const T& t) throw() { _pushBack((*static_cast<Router*>(::FUN_00c85750())).getHeap(), t); }
     __forceinline int indexOf(const T& t, int startIdx = 0, int endIdx = -1) const throw()
     {
         if (endIdx < 0)
@@ -13745,7 +13720,7 @@ struct AllocSvc {
 };
 
 
-__forceinline AllocSvc* capMemory() {return (AllocSvc*)&FUN_00c85750();}
+__forceinline AllocSvc* capMemory() {return (AllocSvc*)&(*static_cast<Router*>(::FUN_00c85750()));}
 
 struct SubArr {
     void *m_pData;
@@ -13812,7 +13787,7 @@ struct Obj470 {
 struct PartsMap {
     int data,size,mask;
     __forceinline PartsMap():data(0),size(0),mask(-1) {reserve(0);}
-    __forceinline void reserve(int n) {reinterpret_cast<::FUN_00cb1fe0_t *>(this)->EnsureCapacity((intptr_t)(&FUN_00c85750().getHeap()),n);}
+    __forceinline void reserve(int n) {reinterpret_cast<::FUN_00cb1fe0_t *>(this)->EnsureCapacity((intptr_t)(&(*static_cast<Router*>(::FUN_00c85750())).getHeap()),n);}
 };
 struct PoolObj {
     int unk_00_000;     int unk_00_004;     int unk_00_008;     int unk_00_00c;     int unk_00_010;     int unk_00_014;
@@ -14182,13 +14157,13 @@ template<class T> struct MeshArray {
  MeshArray() throw():data(0),size(0),capacity(0x80000000){}
  __forceinline void clear() throw() { destroyRange(data,size);size=0; }
  __forceinline void release(Allocator& heap) throw() { clear(); if(!(capacity&0x80000000)) heap.freeBlock(data,(capacity&0x3fffffff)*sizeof(T)); data=0; capacity=0x80000000; }
- __forceinline ~MeshArray() throw(){release(FUN_00c85750().getHeap());}
+ __forceinline ~MeshArray() throw(){release((*static_cast<Router*>(::FUN_00c85750())).getHeap());}
  __forceinline void reserve(Allocator& heap,int count) throw() {
   int cap=capacity&0x3fffffff;
   if(cap<count) {int grown=2*cap; if(count>=grown)grown=count; ::FUN_00c908c0((::SpawnedObject *)&(heap),(::SpawnedArray *)(void *)(this),grown,sizeof(T));}
  }
  __forceinline void resize(int count) throw() {
-  reserve(FUN_00c85750().getHeap(),count);
+  reserve((*static_cast<Router*>(::FUN_00c85750())).getHeap(),count);
   int removeCount=size-count;
   T* begin=data+count;
   destroyRange(begin,removeCount);
@@ -14198,12 +14173,12 @@ template<class T> struct MeshArray {
   size=count;
  }
  __forceinline void resize(int count,const T& value) throw() {
-  reserve(FUN_00c85750().getHeap(),count);
+  reserve((*static_cast<Router*>(::FUN_00c85750())).getHeap(),count);
   fillRange(data+size,count-size,value);
   size=count;
  }
  __forceinline void push(const T& value) throw() {
-  Allocator& heap=FUN_00c85750().getHeap();
+  Allocator& heap=(*static_cast<Router*>(::FUN_00c85750())).getHeap();
   if(size==(capacity&0x3fffffff)) ::ResizeAudioStream((::AudioAllocator *)&(heap),(::AudioStream *)(void *)(this),sizeof(T));
   new(data+size) T(value); ++size;
  }
@@ -14241,7 +14216,7 @@ template<> __forceinline void destroyRange<MeshEdge*>(MeshEdge**,int)throw(){}
 template<> __forceinline void constructRange<MeshEdge*>(MeshEdge**,int)throw(){}
 
 template<> __forceinline void MeshArray<MeshEdge*>::push(MeshEdge* const& value) throw() {
- Allocator& heap=FUN_00c85750().getHeap();
+ Allocator& heap=(*static_cast<Router*>(::FUN_00c85750())).getHeap();
  if(size==(capacity&0x3fffffff)) ::ResizeAudioStream((::AudioAllocator *)&(heap),(::AudioStream *)(void *)(this),sizeof(MeshEdge*));
  data[size++]=value;
 }
@@ -14344,7 +14319,6 @@ struct PoolHolder {
     DynamicMemoryAllocator* m_pAllocator;
 };
 
-PoolHolder* __cdecl FUN_00c85750();
 
 struct FUN_00e23530_cls {
     void** m_ppData;
@@ -14358,7 +14332,7 @@ struct FUN_00e23530_cls {
 // @fnv 0x00e23530
 void* FUN_00e23530_cls::FUN_00e23530()
 {
-    PoolHolder* pHolder = FUN_00c85750();
+    PoolHolder* pHolder = static_cast<PoolHolder*>(::FUN_00c85750());
     DynamicMemoryAllocator* pAllocator = pHolder->m_pAllocator;
     void* pPrev = 0;
     char* pBlock = (char*)pAllocator->Alloc(0xa08);
@@ -14377,7 +14351,7 @@ void* FUN_00e23530_cls::FUN_00e23530()
     *(int*)(pBlock + 0xa04) = 0;
     *(char**)(pBlock + 0xa00) = pHead;
 
-    PoolHolder* pHolder2 = FUN_00c85750();
+    PoolHolder* pHolder2 = static_cast<PoolHolder*>(::FUN_00c85750());
     if (m_iArrayLength == (int)(m_uCapFlags & 0x3fffffffu)) {
         ::ResizeAudioStream((::AudioAllocator *)(pHolder2->m_pAllocator), (::AudioStream *)(void *)(this), 4);
     }
@@ -14413,7 +14387,6 @@ struct PoolHolder {
     DynamicMemoryAllocator* m_pAllocator;
 };
 
-PoolHolder* __cdecl FUN_00c85750();
 
 struct FUN_00e235d0_cls {
     void** m_ppData;
@@ -14427,7 +14400,7 @@ struct FUN_00e235d0_cls {
 // @fnv 0x00e235d0
 void* FUN_00e235d0_cls::FUN_00e235d0()
 {
-    PoolHolder* pHolder = FUN_00c85750();
+    PoolHolder* pHolder = static_cast<PoolHolder*>(::FUN_00c85750());
     DynamicMemoryAllocator* pAllocator = pHolder->m_pAllocator;
     void* pPrev = 0;
     char* pBlock = (char*)pAllocator->Alloc(0x388);
@@ -14446,7 +14419,7 @@ void* FUN_00e235d0_cls::FUN_00e235d0()
     *(int*)(pBlock + 0x384) = 0;
     *(char**)(pBlock + 0x380) = pHead;
 
-    PoolHolder* pHolder2 = FUN_00c85750();
+    PoolHolder* pHolder2 = static_cast<PoolHolder*>(::FUN_00c85750());
     if (m_iArrayLength == (int)(m_uCapFlags & 0x3fffffffu)) {
         ::ResizeAudioStream((::AudioAllocator *)(pHolder2->m_pAllocator), (::AudioStream *)(void *)(this), 4);
     }
@@ -14477,7 +14450,6 @@ struct FUN_00e237b0_List {
     unsigned int size;
     unsigned int capacityAndFlags;
 };
-extern "C" FUN_00e237b0_Allocation* __cdecl FUN_00c85750();
 struct FUN_00e237b0_Owner {
     void* unk00;
     FUN_00e237b0_List list;
@@ -14488,7 +14460,7 @@ struct FUN_00e237b0_Owner {
 double FUN_00e237b0_Owner::FUN_00e237b0(FUN_00e237b0_Input* input) {
     void* entry = input->entry;
     FUN_00e237b0_List* values = &list;
-    FUN_00e237b0_Allocation* alloc = FUN_00c85750();
+    FUN_00e237b0_Allocation* alloc = static_cast<FUN_00e237b0_Allocation*>(::FUN_00c85750());
     if (values->size == (values->capacityAndFlags & 0x3fffffff))
         ::ResizeAudioStream((::AudioAllocator *)(alloc->allocator), (::AudioStream *)(values), 4);
     void** destination = values->data + values->size;
@@ -14500,7 +14472,6 @@ double FUN_00e237b0_Owner::FUN_00e237b0(FUN_00e237b0_Input* input) {
 }  // namespace fnv_00e237b0
 
 namespace fnv_00e23800 {
-extern void* __cdecl FUN_00c85750();
 
 struct FUN_00e23800_Vtbl {
     void* v0;
@@ -14539,7 +14510,7 @@ struct FUN_00e23800_Class {
 // @fnv 0x00e23800
 void* FUN_00e23800_Class::FUN_00e23800(int flags)
 {
-    TlsHolder* holder = (TlsHolder*)FUN_00c85750();
+    TlsHolder* holder = (TlsHolder*)(*static_cast<Router*>(::FUN_00c85750()));
     Holder* h = holder->unk10;
     int c = this->unk0c;
 
@@ -14576,7 +14547,6 @@ struct E23A10MemoryRouter {
     E23A10Allocator& heap() { return *m_pStreamAllocator; }
 };
 
-extern "C" E23A10MemoryRouter& __cdecl FUN_00c85750();
 
 struct E23A10Element {
     E23A10Element* m_next;
@@ -14612,7 +14582,7 @@ void E23A10List::FUN_00e23a10()
 {
     for (int i = 0; i < m_iBlockCount; i++) {
         E23A10Block* block = m_kBlocks[i];
-        FUN_00c85750().heap().ReleaseBlock(block, sizeof(E23A10Block));
+        (*static_cast<E23A10MemoryRouter*>(::FUN_00c85750())).heap().ReleaseBlock(block, sizeof(E23A10Block));
     }
     m_iBlockCount = 0;
     m_pFirstNode = 0;
@@ -14635,7 +14605,6 @@ struct AudioHolder {
     AudioAllocator* m_pAllocator;
 };
 
-AudioHolder* __cdecl FUN_00c85750() throw();
 
 struct SpawnedBase {
     unsigned short m_uSize;
@@ -14679,7 +14648,7 @@ SpawnedObject* SpawnedObject::FUN_00e24de0(unsigned char acFlags) throw()
 {
     this->SpawnedObject::~SpawnedObject();
     if (acFlags & 1) {
-        AudioHolder* pHolder = FUN_00c85750();
+        AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
         AudioAllocator* pAllocator = pHolder->m_pAllocator;
         pAllocator->Free(this, m_uSize);
     }
@@ -14988,7 +14957,7 @@ struct StackSol {
     __forceinline EdgeSol& back() { return data[size-1]; }
     __forceinline void popBack() { --size; }
     __forceinline void push(const EdgeSol& value) {
-        Router& r=FUN_00c85750();
+        Router& r=(*static_cast<Router*>(::FUN_00c85750()));
         if(size==(cap&0x3fffffff)) ::ResizeAudioStream((::AudioAllocator *)(r.heap),(::AudioStream *)(void *)(this),8);
         new(data+size) EdgeSol(value);
         ++size;
@@ -15031,7 +15000,6 @@ struct FUN_00e27400_holder : FUN_00e27400_interface {
     FUN_00e27400_interface* unk010;
 };
 
-extern FUN_00e27400_holder* FUN_00c85750();
 
 struct FUN_00e27400_layout {
     int unk000;
@@ -15193,7 +15161,7 @@ struct FUN_00e27400_ : FUN_00e27400_layout {
 void FUN_00e27400_::FUN_00e27400()
 {
     if (this->unk24c != 0) {
-        FUN_00e27400_interface* object = FUN_00c85750()->unk010;
+        FUN_00e27400_interface* object = static_cast<FUN_00e27400_holder*>(::FUN_00c85750())->unk010;
         reinterpret_cast<::S_00e25f00 *>((this->unk24c))->FUN_00e25f00(0);
         object->FUN_00e27400_virtual_2(this->unk24c, 0x10);
         this->unk24c = 0;
@@ -15364,7 +15332,7 @@ static __forceinline __m128 Intersection160(const ClipVertex160& a,const ClipVer
     return _mm_add_ps(_mm_mul_ps(_mm_sub_ps(::DAT_010ec7f0,t),a.get()),_mm_mul_ps(t,b.get()));
 }
 template<class T> static __forceinline void Reserve160(Buffer<T>& b,int count,int elementSize) {
-    Allocator& allocator=FUN_00c85750().getHeap();
+    Allocator& allocator=(*static_cast<Router*>(::FUN_00c85750())).getHeap();
     int cap=b.capacity&0x3fffffff;
     if(cap<count) {
         int next=cap*2;
@@ -15373,14 +15341,14 @@ template<class T> static __forceinline void Reserve160(Buffer<T>& b,int count,in
     }
 }
 static __forceinline void AppendTriangle160(Buffer<ClipTriangle160>& b,const ClipTriangle160& value) {
-    Router& router=FUN_00c85750();
+    Router& router=(*static_cast<Router*>(::FUN_00c85750()));
     if(b.count==(int)(b.capacity&0x3fffffff)) ::ResizeAudioStream((::AudioAllocator *)(router.heap),(::AudioStream *)(void *)(&b),48);
     ClipTriangle160* destination=((ClipTriangle160*)b.data)+b.count;
     if(destination) *destination=value;
     ++b.count;
 }
 template<class T> static __forceinline void Release160(Buffer<T>& b,int elementSize) {
-    Allocator& allocator=FUN_00c85750().getHeap();
+    Allocator& allocator=(*static_cast<Router*>(::FUN_00c85750())).getHeap();
     b.count=0;
     if(!(b.capacity&0x80000000u)) allocator.freeBlock(b.data,(b.capacity&0x3fffffff)*elementSize);
     b.data=0;b.capacity=0x80000000u;
@@ -15485,7 +15453,7 @@ void CollisionWorld::FUN_00e160f0(const void* inputTransform,SourceMesh* apSourc
             }
             int generatedCount=generated.count;
             const ClipTriangle160* generatedData=(const ClipTriangle160*)generated.data;
-            Allocator& heap=FUN_00c85750().getHeap();
+            Allocator& heap=(*static_cast<Router*>(::FUN_00c85750())).getHeap();
             reinterpret_cast<::FUN_00e22970_Cls *>(&(original))->AppendItems(&heap,(const ::FUN_00e22970_Item *)(generatedData),generatedCount);
             generated.count=0;
         }
@@ -15496,7 +15464,7 @@ void CollisionWorld::FUN_00e160f0(const void* inputTransform,SourceMesh* apSourc
         int iVertexOffset=0;
         do {
             unsigned long base=apOutputMesh->vertices.count;
-            Allocator& vertexHeap=FUN_00c85750().getHeap();
+            Allocator& vertexHeap=(*static_cast<Router*>(::FUN_00c85750())).getHeap();
             int oldCount=apOutputMesh->vertices.count;
             long needed=oldCount+3;
             int capacity=apOutputMesh->vertices.capacity&0x3fffffff;
@@ -15510,7 +15478,7 @@ void CollisionWorld::FUN_00e160f0(const void* inputTransform,SourceMesh* apSourc
             destination[0].FUN_00c7f640(outputTransform,&((ClipVertex160*)((char*)original.data+iVertexOffset))[0]);
             destination[1].FUN_00c7f640(outputTransform,&((ClipVertex160*)((char*)original.data+iVertexOffset))[1]);
             destination[2].FUN_00c7f640(outputTransform,&((ClipVertex160*)((char*)original.data+iVertexOffset))[2]);
-            Router& router=FUN_00c85750();
+            Router& router=(*static_cast<Router*>(::FUN_00c85750()));
             Buffer<TriangleIndex>& outputTriangles=apOutputMesh->triangles;
             if(outputTriangles.count==(int)(outputTriangles.capacity&0x3fffffff))
                 ::ResizeAudioStream((::AudioAllocator *)(router.heap),(::AudioStream *)(void *)(&outputTriangles),16);
@@ -15520,7 +15488,7 @@ void CollisionWorld::FUN_00e160f0(const void* inputTransform,SourceMesh* apSourc
         } while(i<original.size());
         }
     }
-    Allocator& allocator=FUN_00c85750().getHeap();
+    Allocator& allocator=(*static_cast<Router*>(::FUN_00c85750())).getHeap();
     contacts.count=0;
     if(!(contacts.capacity&0x80000000u)) allocator.freeBlock(contacts.data,(contacts.capacity&0x3fffffff)*4);
     contacts.data=0;contacts.capacity=0x80000000u;contacts.vtable=(*reinterpret_cast<void * (*)[]>(&::DAT_010cd664));
@@ -15571,7 +15539,7 @@ float S_00e16e50::FUN_00e16e50(float scale, S_00e16e50_Vec* v, int n)
     S_00e16e50_Vec tmp0;
     S_00e16e50_Vec tmp = tmp0;
     S_00e16e50_Local loc;
-    loc.reserve(FUN_00c85750().getHeap(), n);
+    loc.reserve((*static_cast<Router*>(::FUN_00c85750())).getHeap(), n);
     for (int i = 0; i < n; i++) {
         float r0 = (float)sqrt(FUN_00e13660(v, &tmp, &flag));
         float s; (volatile float&)s = r0;
@@ -15594,7 +15562,7 @@ float S_00e16e50::FUN_00e16e50(float scale, S_00e16e50_Vec* v, int n)
     float r0 = (float)sqrt(FUN_00e13660(v, &tmp, &flag));
         float s; (volatile float&)s = r0;
         if (flag) s = -s;
-    loc.ClearAndRelease(FUN_00c85750().getHeap());
+    loc.ClearAndRelease((*static_cast<Router*>(::FUN_00c85750())).getHeap());
     return s;
 }
 
@@ -15755,7 +15723,7 @@ void SplitHull::FUN_00e1aec0(int firstTag, int secondTag) {
         }
     }
     flag101=0;
-    Allocator& allocator=FUN_00c85750().getHeap();
+    Allocator& allocator=(*static_cast<Router*>(::FUN_00c85750())).getHeap();
     pairs.size=0;
     if(!(pairs.capacity & 0x80000000u)) allocator.freeBlock(pairs.data,(pairs.capacity&0x3fffffff)*8);
 }
@@ -16024,7 +15992,7 @@ struct ConstraintEdges {
 
     __forceinline void push(const ConstraintEdge& edge) {
 
-        Allocator& heap=FUN_00c85750().getHeap();
+        Allocator& heap=(*static_cast<Router*>(::FUN_00c85750())).getHeap();
 
         if(size==(capacity&0x3fffffff)) ::ResizeAudioStream((::AudioAllocator *)(::Allocator *)(&heap),(::AudioStream *)(void *)(this),8);
 
@@ -17038,7 +17006,7 @@ __declspec(noinline) void ConstraintMesh::FUN_00e25cd0(ConstraintEdge* edge,cons
 
         ++links->size;
 
-        if(bucket.size==(bucket.capacity&0x3fffffff)) ::ResizeAudioStream((::AudioAllocator *)(FUN_00c85750().heap),(::AudioStream *)(void *)(&bucket),12);
+        if(bucket.size==(bucket.capacity&0x3fffffff)) ::ResizeAudioStream((::AudioAllocator *)((*static_cast<Router*>(::FUN_00c85750())).heap),(::AudioStream *)(void *)(&bucket),12);
 
         new(bucket.data+bucket.size) ConstraintHashEntry();
 
@@ -17068,7 +17036,7 @@ __declspec(noinline) void ConstraintMesh::FUN_00e25cd0(ConstraintEdge* edge,cons
 
             const int* value=&source->data[i];
 
-            if(dest->size==(dest->capacity&0x3fffffff)) ::ResizeAudioStream((::AudioAllocator *)(FUN_00c85750().heap),(::AudioStream *)(dest),4);
+            if(dest->size==(dest->capacity&0x3fffffff)) ::ResizeAudioStream((::AudioAllocator *)((*static_cast<Router*>(::FUN_00c85750())).heap),(::AudioStream *)(dest),4);
 
             dest->data[dest->size]=*value;
 
@@ -17179,7 +17147,7 @@ void RebuildMesh::FUN_00e21100() {
      face->vertices[0]=outputVertices[0];face->vertices[1]=outputVertices[1];face->vertices[2]=outputVertices[2];
     }
    }
-   FUN_00c85750();
+   (*static_cast<Router*>(::FUN_00c85750()));
   }
  }while(++group<edges.size);
  }
@@ -17295,7 +17263,7 @@ struct EdgeSelection { Pair first,second; };
 struct PairArrRaw {
     Pair *m_pData; int m_iArrayLength; int m_iCap;
     __forceinline void append(const Pair& value) throw() {
-        Allocator& heap=FUN_00c85750().getHeap();
+        Allocator& heap=(*static_cast<Router*>(::FUN_00c85750())).getHeap();
         if(m_iArrayLength==(m_iCap&0x3fffffff)) ::ResizeAudioStream((::AudioAllocator *)(::Allocator *)(&heap),(::AudioStream *)(void *)(this),8);
         new(m_pData+m_iArrayLength) Pair(value);
         ++m_iArrayLength;
@@ -17422,7 +17390,7 @@ __forceinline void initializeMap() throw() {edgeMap=0;}
         vtable=&DAT_010eb0e0;
         reinterpret_cast<::fnv_00e275d0::Mesh *>(this)->FUN_00e275d0(1);
         reinterpret_cast<::fnv_00e23c70::FUN_00e23c70 *>(&(tail))->fnv_00e23c70::FUN_00e23c70::~FUN_00e23c70();
-        Allocator& ctx=FUN_00c85750().getHeap();
+        Allocator& ctx=(*static_cast<Router*>(::FUN_00c85750())).getHeap();
         int cap=m_40arr.m_iCap;
         m_40arr.m_iArrayLength=0;
         if((cap&0x80000000)==0) ctx.freeBlock(m_40arr.m_pData,(cap&0x3fffffff)*8);
@@ -17446,7 +17414,7 @@ initializeMap();
     __forceinline HArr() throw() : m_pData(0), m_iArrayLength(0), m_iCap((int)0x80000000) {}
     __forceinline ~HArr() throw()
     {
-        Router *svc = ((Router*)&FUN_00c85750());
+        Router *svc = ((Router*)&(*static_cast<Router*>(::FUN_00c85750())));
         Allocator *ctx = svc->heap;
         int cap = m_iCap;
         m_iArrayLength = 0;
@@ -17458,7 +17426,7 @@ initializeMap();
 };
 struct PairArr : HArr<Pair> {
     __forceinline void append(const Pair& value) throw() {
-        Allocator& heap=FUN_00c85750().getHeap();
+        Allocator& heap=(*static_cast<Router*>(::FUN_00c85750())).getHeap();
         if(m_iArrayLength==(m_iCap&0x3fffffff)) ::ResizeAudioStream((::AudioAllocator *)(::Allocator *)(&heap),(::AudioStream *)(void *)(this),8);
         new(m_pData+m_iArrayLength) Pair(value);
         ++m_iArrayLength;
@@ -17467,7 +17435,7 @@ struct PairArr : HArr<Pair> {
 
 __forceinline void SubArrInt::append(const int &value) throw()
 {
-    Router *svc = ((Router*)&FUN_00c85750());
+    Router *svc = ((Router*)&(*static_cast<Router*>(::FUN_00c85750())));
     if (m_iArrayLength == (m_iCap & 0x3fffffff))
         ::ResizeAudioStream((::AudioAllocator *)(svc->heap), (::AudioStream *)(void *)(this), 4);
     m_pData[m_iArrayLength] = value;
@@ -17725,7 +17693,7 @@ static __forceinline void buildGrid(HArr<OptVec4>& arr,OptVec4& akGridVector) th
         pt.y = (float)(i / ::runtimeInitializationDouble6);
         for (int sv = 0; sv < 8; sv++) {
             pt.x = (float)(sv / ::runtimeInitializationDouble6);
-            Router *svc = ((Router*)&FUN_00c85750());
+            Router *svc = ((Router*)&(*static_cast<Router*>(::FUN_00c85750())));
             if (arr.m_iArrayLength == (arr.m_iCap & 0x3fffffff))
                 ::ResizeAudioStream((::AudioAllocator *)(svc->heap), (::AudioStream *)(void *)(&arr), 0x10);
             OptVec4 *elem = &((OptVec4*)arr.m_pData)[arr.m_iArrayLength];
@@ -17943,7 +17911,7 @@ void FillHolesMesh::FUN_00e1f4e0(ParameterHandle param)
         pt.y = (float)(i / ::runtimeInitializationDouble6);
         for (int sv = 0; sv < 8; sv++) {
             pt.x = (float)(sv / ::runtimeInitializationDouble6);
-            Router *svc = ((Router*)&FUN_00c85750());
+            Router *svc = ((Router*)&(*static_cast<Router*>(::FUN_00c85750())));
             if (arr.m_iArrayLength == (arr.m_iCap & 0x3fffffff))
                 ::ResizeAudioStream((::AudioAllocator *)(svc->heap), (::AudioStream *)(void *)(&arr), 0x10);
             OptVec4 *elem = &((OptVec4*)arr.m_pData)[arr.m_iArrayLength];
@@ -17982,7 +17950,7 @@ void FillHolesMesh::FUN_00e1f4e0(ParameterHandle param)
             HArr<OptVec4> aPositions;
             {
                 int need = arr2.m_iArrayLength;
-                Router& router = FUN_00c85750();
+                Router& router = (*static_cast<Router*>(::FUN_00c85750()));
                 Allocator *ctx=(Allocator*)router.heap;
                 int capMask = aPositions.m_iCap & 0x3fffffff;
                 if (capMask < need) {
@@ -18044,7 +18012,7 @@ void FillHolesMesh::FUN_00e1f4e0(ParameterHandle param)
                     for (int iConstraint = 0; iConstraint < res->m_04; iConstraint++) {
                         {
                             const Pair &source = res->m_00[iConstraint].edge;
-                            Router *svc = ((Router*)&FUN_00c85750());
+                            Router *svc = ((Router*)&(*static_cast<Router*>(::FUN_00c85750())));
                             if (pairs.m_iArrayLength == (pairs.m_iCap & 0x3fffffff))
                                 ::ResizeAudioStream((::AudioAllocator *)(svc->heap), (::AudioStream *)(void *)(&pairs), 8);
                             new(pairs.m_pData + pairs.m_iArrayLength) Pair(source);
@@ -18056,7 +18024,7 @@ void FillHolesMesh::FUN_00e1f4e0(ParameterHandle param)
                             value.b = (9 >> (source->b << 1)) & 3;
                             value.a = source->a;
                             Router *svc;
-                            svc = ((Router*)&FUN_00c85750());
+                            svc = ((Router*)&(*static_cast<Router*>(::FUN_00c85750())));
                             if (pairs.m_iArrayLength == (pairs.m_iCap & 0x3fffffff))
                                 ::ResizeAudioStream((::AudioAllocator *)(svc->heap), (::AudioStream *)(void *)(&pairs), 8);
                             new(pairs.m_pData + pairs.m_iArrayLength) Pair(value);
@@ -18068,7 +18036,7 @@ void FillHolesMesh::FUN_00e1f4e0(ParameterHandle param)
                             value.b = (0x12 >> (source->b << 1)) & 3;
                             value.a = source->a;
                             Router *svc;
-                            svc = ((Router*)&FUN_00c85750());
+                            svc = ((Router*)&(*static_cast<Router*>(::FUN_00c85750())));
                             if (pairs.m_iArrayLength == (pairs.m_iCap & 0x3fffffff))
                                 ::ResizeAudioStream((::AudioAllocator *)(svc->heap), (::AudioStream *)(void *)(&pairs), 8);
                             new(pairs.m_pData + pairs.m_iArrayLength) Pair(value);
@@ -18080,7 +18048,7 @@ void FillHolesMesh::FUN_00e1f4e0(ParameterHandle param)
                         intArr.m_iCap = (int)0x80000004;
                         {
                             Router *svc;
-                            svc = ((Router*)&FUN_00c85750());
+                            svc = ((Router*)&(*static_cast<Router*>(::FUN_00c85750())));
                             if (intArr.m_iArrayLength == (intArr.m_iCap & 0x3fffffff))
                                 ::ResizeAudioStream((::AudioAllocator *)(svc->heap), (::AudioStream *)(void *)(&intArr), 4);
                             intArr.m_pData[intArr.m_iArrayLength] = iConstraint;
@@ -18096,7 +18064,7 @@ void FillHolesMesh::FUN_00e1f4e0(ParameterHandle param)
                         if (0 != out26010.status)
                             flag = false;
                         {
-                            Router *svc = ((Router*)&FUN_00c85750());
+                            Router *svc = ((Router*)&(*static_cast<Router*>(::FUN_00c85750())));
                             Allocator *ctx = svc->heap;
                             int cap = intArr.m_iCap;
                             intArr.m_iArrayLength = 0;
@@ -18159,7 +18127,7 @@ if(orientation) exchangeValues(vtx[1],vtx[2]);
                         }
                         {
                             Router *svc;
-                            svc = ((Router*)&FUN_00c85750());
+                            svc = ((Router*)&(*static_cast<Router*>(::FUN_00c85750())));
                             if (aNewNodes.m_iArrayLength == (aNewNodes.m_iCap & 0x3fffffff))
                                 ::ResizeAudioStream((::AudioAllocator *)(svc->heap), (::AudioStream *)(void *)(&aNewNodes), 4);
                             aNewNodes.m_pData[aNewNodes.m_iArrayLength] = (intptr_t)pNewNode;
@@ -18180,7 +18148,7 @@ if(orientation) exchangeValues(vtx[1],vtx[2]);
                             m_kVertices.removeVertex((VertexRecord *)arr2.m_pData[ui]);
                         }
                         {
-                            Router *svc = ((Router*)&FUN_00c85750());
+                            Router *svc = ((Router*)&(*static_cast<Router*>(::FUN_00c85750())));
                             Allocator *ctx = svc->heap;
                             int cap = arr2.m_iCap;
                             int capacity;
@@ -18205,7 +18173,7 @@ if(orientation) exchangeValues(vtx[1],vtx[2]);
     }
     } while (counterC4);
     {
-        Router *svc = ((Router*)&FUN_00c85750());
+        Router *svc = ((Router*)&(*static_cast<Router*>(::FUN_00c85750())));
         Allocator *ctx = svc->heap;
         int cap = arr2.m_iCap;
         arr2.m_iArrayLength = 0;
@@ -18444,7 +18412,7 @@ struct TriPtrArr {
 };
 __forceinline void VecArr::AddBack(const Vec4A& v)
 {
-    Router& r = FUN_00c85750();
+    Router& r = (*static_cast<Router*>(::FUN_00c85750()));
     if (size == (int)(cap & 0x3fffffff))
         ::ResizeAudioStream((::AudioAllocator *)(r.heap), (::AudioStream *)(void *)(this), 16);
     data[size].set(v);
@@ -18452,7 +18420,7 @@ __forceinline void VecArr::AddBack(const Vec4A& v)
 }
 __forceinline void TriPtrArr::AddBack(PTri* t)
 {
-    Router& r = FUN_00c85750();
+    Router& r = (*static_cast<Router*>(::FUN_00c85750()));
     if (size == (int)(cap & 0x3fffffff))
         ::ResizeAudioStream((::AudioAllocator *)(r.heap), (::AudioStream *)(void *)(this), 4);
     PTri** dst = data + size;
@@ -18464,7 +18432,7 @@ __forceinline void TriPtrArr::AddBack(PTri* t)
 
 static __forceinline void PushEdge(EdgeArr& arr, const PEdge& e)
 {
-    Router& r = FUN_00c85750();
+    Router& r = (*static_cast<Router*>(::FUN_00c85750()));
     if (arr.size == (int)(arr.cap & 0x3fffffff))
         ::ResizeAudioStream((::AudioAllocator *)(r.heap), (::AudioStream *)(void *)(&arr), 8);
     PEdge* dst = arr.data + arr.size;
@@ -18475,7 +18443,7 @@ static __forceinline void PushEdge(EdgeArr& arr, const PEdge& e)
 }
 static __forceinline void FreeEdgeArr(EdgeArr& arr, int elem)
 {
-    Router& r = FUN_00c85750();
+    Router& r = (*static_cast<Router*>(::FUN_00c85750()));
     Allocator* ao = r.heap;
     int cap = (int)arr.cap;
     arr.size = 0;
@@ -18486,7 +18454,7 @@ static __forceinline void FreeEdgeArr(EdgeArr& arr, int elem)
 }
 static __forceinline void FreePtrArr(PtrArr& arr, int elem)
 {
-    Router& r = FUN_00c85750();
+    Router& r = (*static_cast<Router*>(::FUN_00c85750()));
     Allocator* ao = r.heap;
     int cap = (int)arr.cap;
     arr.size = 0;
@@ -18681,13 +18649,13 @@ struct CollapseEdgeArray {
     Slot storage[16];
     __forceinline CollapseEdgeArray() throw(): data(reinterpret_cast<CollapseEdge*>(storage)),size(0),capacity(0x80000010) {}
     __forceinline void append(const CollapseEdge& e) throw() {
-        Allocator& heap=FUN_00c85750().getHeap();
+        Allocator& heap=(*static_cast<Router*>(::FUN_00c85750())).getHeap();
         if (size == (capacity & 0x3fffffff)) ::ResizeAudioStream((::AudioAllocator *)(::Allocator *)(&heap),(::AudioStream *)(void *)(this),8);
         new(data+size) CollapseEdge(e); ++size;
     }
     __forceinline void operator()(const CollapseEdge& e) throw() {append(e);}
     __forceinline ~CollapseEdgeArray() throw() {
-        Allocator& heap=FUN_00c85750().getHeap();
+        Allocator& heap=(*static_cast<Router*>(::FUN_00c85750())).getHeap();
         size=0;
         if (!(capacity & 0x80000000)) heap.freeBlock(data,(capacity & 0x3fffffff)*8);
         data=0; capacity=0x80000000;
@@ -19125,18 +19093,18 @@ struct S00e1c5e0_Map : S00e1c5e0_MapBase
 {
     S00e1c5e0_Map(int nelem = 0)
     {
-        reinterpret_cast<::FUN_00cb1fe0_t *>(this)->EnsureCapacity((intptr_t)(&FUN_00c85750().getHeap()), nelem);
+        reinterpret_cast<::FUN_00cb1fe0_t *>(this)->EnsureCapacity((intptr_t)(&(*static_cast<Router*>(::FUN_00c85750())).getHeap()), nelem);
     }
     ~S00e1c5e0_Map()
     {
-        reinterpret_cast<::CB1A90Owner *>(this)->ProcessArgument((::CB1A90Argument *)(::Allocator *)(&FUN_00c85750().getHeap()));
+        reinterpret_cast<::CB1A90Owner *>(this)->ProcessArgument((::CB1A90Argument *)(::Allocator *)(&(*static_cast<Router*>(::FUN_00c85750())).getHeap()));
     }
 };
 template <typename K, typename V> struct S00e1c5e0_PointerMap
 {
     __forceinline int insert(K key, V val)
     {
-        return reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(m_map))->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(&FUN_00c85750().getHeap())), S00e1c5e0_Ulong(key), S00e1c5e0_Ulong(val));
+        return reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(m_map))->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(&(*static_cast<Router*>(::FUN_00c85750())).getHeap())), S00e1c5e0_Ulong(key), S00e1c5e0_Ulong(val));
     }
     __forceinline V FindValueForKey(K key, V def) const
     {
@@ -19165,7 +19133,7 @@ struct S00e1c5e0_Mesh
 // @fnv 0x00e1c5e0
 S00e1c5e0_Mesh* S00e1c5e0_Mesh::FUN_00e1c5e0() const
 {
-    void* memory = FUN_00c85750().getHeap().allocate(0x110);
+    void* memory = (*static_cast<Router*>(::FUN_00c85750())).getHeap().allocate(0x110);
     static_cast<S00e1c5e0_Mesh*>(memory)->m_usMemSizeAndFlags = 0x110;
     S00e1c5e0_Mesh* m = reinterpret_cast<S00e1c5e0_Mesh*>(new (memory) FUN_00e1b750());
     S00e1c5e0_PointerMap<Vertex*, Vertex*> vmap;
@@ -19242,15 +19210,15 @@ struct LocalMap : MapBase
     }
     ~LocalMap()
     {
-        reinterpret_cast<::CB1A90Owner *>(this)->ProcessArgument((::CB1A90Argument *)&(FUN_00c85750().getHeap()));
+        reinterpret_cast<::CB1A90Owner *>(this)->ProcessArgument((::CB1A90Argument *)&((*static_cast<Router*>(::FUN_00c85750())).getHeap()));
     }
     __forceinline void reserve(int n)
     {
-        reinterpret_cast<::FUN_00cb1fe0_t *>(this)->EnsureCapacity((intptr_t)&(FUN_00c85750().getHeap()), n);
+        reinterpret_cast<::FUN_00cb1fe0_t *>(this)->EnsureCapacity((intptr_t)&((*static_cast<Router*>(::FUN_00c85750())).getHeap()), n);
     }
     __forceinline int insert(uintptr_t key, uintptr_t value)
     {
-        return reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(this)->FUN_00cb1870((::fnv_00cb1870::hkMemoryAllocatorCB18 &)(FUN_00c85750().getHeap()), key, value);
+        return reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(this)->FUN_00cb1870((::fnv_00cb1870::hkMemoryAllocatorCB18 &)((*static_cast<Router*>(::FUN_00c85750())).getHeap()), key, value);
     }
 };
 template <class T> struct PointerKeyMap
@@ -19753,7 +19721,7 @@ struct ProbeHeapPolicy
 {
     __forceinline Allocator& get(const void*) const
     {
-        return FUN_00c85750().getHeap();
+        return (*static_cast<Router*>(::FUN_00c85750())).getHeap();
     }
 };
 template <class T> struct ProbeArrayBase
@@ -20198,7 +20166,7 @@ struct ArrayHeap56
 {
     __forceinline Allocator& get(void*)
     {
-        return FUN_00c85750().getHeap();
+        return (*static_cast<Router*>(::FUN_00c85750())).getHeap();
     }
 };
 template <class T, class A> struct PointerArray56 : PointerArrayBase56<T>
@@ -20489,7 +20457,7 @@ __declspec(noinline) Obj* FUN_00e1c940(ThisCls* self, void*, float a, int n)
                 *(int*)&rec[5].f3 = 0x3f000005;
                 FUN_00cbeb70(rec, 6, ws.buf);
                 {
-                    Router* h = &FUN_00c85750();
+                    Router* h = &(*static_cast<Router*>(::FUN_00c85750()));
                     if (v2.m_04 == (v2.m_08 & 0x3fffffff))
                         ResizeAudioStream(h->heap, &v2, 0x20);
                     char* dst = (char*)v2.m_00 + v2.m_04 * 32;
@@ -20498,7 +20466,7 @@ __declspec(noinline) Obj* FUN_00e1c940(ThisCls* self, void*, float a, int n)
                     v2.m_04 += 1;
                 }
                 {
-                    Router* h = &FUN_00c85750();
+                    Router* h = &(*static_cast<Router*>(::FUN_00c85750()));
                     if (v1.m_04 == (v1.m_08 & 0x3fffffff))
                         ResizeAudioStream(h->heap, &v1, 4);
                     ((Node1**)v1.m_00)[v1.m_04] = node;
@@ -20584,7 +20552,7 @@ struct GpIntArray
     }
     __forceinline void ClearAndRelease()
     {
-        _clearAndDeallocate(FUN_00c85750().getHeap());
+        _clearAndDeallocate((*static_cast<Router*>(::FUN_00c85750())).getHeap());
     }
 };
 
@@ -20605,7 +20573,7 @@ struct GpPool
 
     static void operator delete(void* p, std::size_t size)
     {
-        ((BlockAllocAB*)&FUN_00c85750().getHeap())->ReleaseBlock(p, size);
+        ((BlockAllocAB*)&(*static_cast<Router*>(::FUN_00c85750())).getHeap())->ReleaseBlock(p, size);
     }
 };
 struct GpPoolItem;

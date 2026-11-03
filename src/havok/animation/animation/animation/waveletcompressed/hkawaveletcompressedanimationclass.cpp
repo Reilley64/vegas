@@ -2,6 +2,7 @@
 // src/havok/animation/animation/animation/waveletcompressed/hkawaveletcompressedanimationclass.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/animation/animation/waveletcompressed/hkawaveletcompressedanimationclass.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include "fnv/decl/FUN_00cc00e0.h"
 #include "fnv/decl/FUN_00dfb5a0_cls.h"
 #include "fnv/decl/SinkOwner.h"
@@ -106,7 +107,6 @@ struct S_00dfb720_Router
         return *m_pStreamAllocator;
     }
 };
-S_00dfb720_Router* FUN_00c85750();
 template <class T> __forceinline void destruct(T* t, int n)
 {
     for (int i = 0; i < n; ++i)
@@ -128,7 +128,7 @@ template <class T> struct S_00dfb720_Array
     }
     __forceinline ~S_00dfb720_Array() throw()
     {
-        _clearAndDeallocate(FUN_00c85750()->heap());
+        _clearAndDeallocate(static_cast<S_00dfb720_Router*>(::FUN_00c85750())->heap());
     }
 };
 struct S_00dfb720_Elem
@@ -190,7 +190,6 @@ struct Manager
     int unk0c;
     Callback* callback;
 };
-Manager* FUN_00c85750();
 struct Container
 {
     int unk00;
@@ -231,7 +230,7 @@ struct Record : Container
 // @fnv 0x00dfb7e0
 Record* Record::ClearAndNotify(unsigned int flags)
 {
-    Manager* manager = FUN_00c85750();
+    Manager* manager = static_cast<Manager*>(::FUN_00c85750());
     Callback* callback = manager->callback;
     int size = state6c;
     unk68 = 0;
@@ -242,7 +241,7 @@ Record* Record::ClearAndNotify(unsigned int flags)
     reinterpret_cast<::FUN_00dfb720 *>(this)->FUN_00dfb720::~FUN_00dfb720();
     if (flags & 1)
     {
-        manager = FUN_00c85750();
+        manager = static_cast<Manager*>(::FUN_00c85750());
         manager->callback->Notify(this, *(unsigned short*)&this->unk04);
     }
     return this;
@@ -315,7 +314,6 @@ struct BSAudio
     unsigned int unk00, unk04, unk08, unk0c;
     Allocator* allocator;
 };
-BSAudio* FUN_00c85750();
 struct Owner
 {
     unsigned int unk00;
@@ -330,7 +328,7 @@ Owner* Owner::FUN_00dfb7b0(unsigned int flags)
     reinterpret_cast<::FUN_00dfb720 *>(this)->FUN_00dfb720::~FUN_00dfb720();
     if (flags & 1u)
     {
-        BSAudio* audio = FUN_00c85750();
+        BSAudio* audio = static_cast<BSAudio*>(::FUN_00c85750());
         unsigned int bytes = size4;
         audio->allocator->Release(this, bytes);
     }

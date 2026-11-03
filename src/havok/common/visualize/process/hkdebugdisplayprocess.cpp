@@ -2,6 +2,7 @@
 // src/havok/common/visualize/process/hkdebugdisplayprocess.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/visualize/process/hkdebugdisplayprocess.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstdint>
 #include <cstddef>
 #include <new>
@@ -140,7 +141,6 @@ struct S_00ddcb90_Router
     }
 };
 
-S_00ddcb90_Router* FUN_00c85750();
 
 struct S_00ddcb90_RefObj
 {
@@ -150,7 +150,7 @@ struct S_00ddcb90_RefObj
     {}
     void* operator new(std::size_t nbytes)
     {
-        S_00ddcb90_RefObj* b = static_cast<S_00ddcb90_RefObj*>(FUN_00c85750()->heap().AllocateMemoryBlock(nbytes));
+        S_00ddcb90_RefObj* b = static_cast<S_00ddcb90_RefObj*>(static_cast<S_00ddcb90_Router*>(::FUN_00c85750())->heap().AllocateMemoryBlock(nbytes));
         b->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return b;
     }
@@ -202,7 +202,6 @@ struct ProcessServices
     int a, b, c, d;
     Allocator* allocator;
 };
-ProcessServices* __cdecl FUN_00c85750();
 struct Process
 {
     int unk00;
@@ -218,7 +217,7 @@ Process* Process::FUN_00ddcc10(unsigned char flags)
     reinterpret_cast<::Process *>(this)->FUN_00ddcb50();
     if (flags & 1)
     {
-        ProcessServices* services = FUN_00c85750();
+        ProcessServices* services = static_cast<ProcessServices*>(::FUN_00c85750());
         unsigned short size = unk04;
         Allocator* allocator = services->allocator;
         allocator->Release(this, size);

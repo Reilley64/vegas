@@ -2,6 +2,7 @@
 // src/havok/common/base/memory/system/util/hkdebugmemorysnapshot.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/memory/system/util/hkdebugmemorysnapshot.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include "fnv/symbols_00dd6000.h"
 #include "fnv/symbols_00dd7000.h"
 struct hkMemoryBlock
@@ -38,12 +39,11 @@ struct hkMemoryRouterDD6E
 };
 
 namespace hkRouterDD6E {
-extern "C" hkMemoryRouterDD6E& __cdecl FUN_00c85750() throw();
 }
 
 template <typename T> inline void hkDeallocateChunkDD6E(T* p, int n)
 {
-    hkRouterDD6E::FUN_00c85750().solver().ReleaseBlock(p, n * sizeof(T));
+    (*static_cast<hkMemoryRouterDD6E*>(::FUN_00c85750())).solver().ReleaseBlock(p, n * sizeof(T));
 }
 
 struct hkEntryDD6E
@@ -96,16 +96,15 @@ struct hkMemoryRouterQ
     }
 };
 
-hkMemoryRouterQ* __cdecl FUN_00c85750();
 
 template <typename T> inline T* hkAllocateDebug(int n)
 {
-    return (T*)FUN_00c85750()->debug().AllocateMemoryBlock(n * sizeof(T));
+    return (T*)static_cast<hkMemoryRouterQ*>(::FUN_00c85750())->debug().AllocateMemoryBlock(n * sizeof(T));
 }
 
 template <typename T> inline void hkDeallocateDebug(T* p, int n)
 {
-    FUN_00c85750()->debug().ReleaseBlock(p, n * sizeof(T));
+    static_cast<hkMemoryRouterQ*>(::FUN_00c85750())->debug().ReleaseBlock(p, n * sizeof(T));
 }
 
 typedef unsigned int hkSnapshotAddress;

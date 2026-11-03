@@ -2,6 +2,7 @@
 // src/havok/common/serialize/tagfile/binary/hkbinarytagfilewriter.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/serialize/tagfile/binary/hkbinarytagfilewriter.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstdint>
 #include <cstddef>
 #include "fnv/decl/DBAFB0Handle.h"
@@ -88,7 +89,6 @@ struct BSAudio
     int y;
     int z;
 };
-BSAudio* __cdecl FUN_00c85750();
 struct UnkRet
 {
     int a;
@@ -142,7 +142,7 @@ FUN_00dc0380::FUN_00dc0380(BSAudio* pAudio)
     h->a = 0;
     h->b = 0;
     h->c = -1;
-    BSAudio* r = FUN_00c85750();
+    BSAudio* r = static_cast<BSAudio*>(::FUN_00c85750());
     h->FUN_00dbedb0(reinterpret_cast<UnkRet*>(*(reinterpret_cast<int**>(r) + 4)), 0);
     a = 0;
     b = 0;
@@ -251,7 +251,7 @@ struct AudioMgr
 
 inline AudioMgr* audio()
 {
-    return (AudioMgr*)FUN_00c85750();
+    return (AudioMgr*)static_cast<BSAudio*>(::FUN_00c85750());
 }
 
 
@@ -384,10 +384,9 @@ struct AudioMgr
 };
 
 struct BSAudio;
-BSAudio* __cdecl FUN_00c85750();
 inline AudioMgr* audio()
 {
-    return (AudioMgr*)FUN_00c85750();
+    return (AudioMgr*)static_cast<BSAudio*>(::FUN_00c85750());
 }
 
 struct Elem24
@@ -675,13 +674,13 @@ void FUN_00dc03d0_cls::ClearArray()
         if (pElement)
         {
             reinterpret_cast<::DBA7F0Ref *>((pElement))->FUN_00dba7f0();
-            AudioHolder* pAllocHolder = (AudioHolder*)FUN_00c85750();
+            AudioHolder* pAllocHolder = (AudioHolder*)static_cast<BSAudio*>(::FUN_00c85750());
             AudioAllocator* pAllocator = pAllocHolder->m_pAllocator;
             pAllocator->Free(pElement, 4);
         }
     }
 
-    AudioHolder* pArrayHolder = (AudioHolder*)FUN_00c85750();
+    AudioHolder* pArrayHolder = (AudioHolder*)static_cast<BSAudio*>(::FUN_00c85750());
     ArrayDeallocator* pDealloc = pArrayHolder->m_pArrayDealloc;
     unsigned int uCapacity = m_uCapacity;
     m_iArrayLength = 0;
@@ -691,7 +690,7 @@ void FUN_00dc03d0_cls::ClearArray()
     m_ppArray = 0;
     m_uCapacity = 0x80000000;
 
-    AudioHolder* pSubHolder = (AudioHolder*)FUN_00c85750();
+    AudioHolder* pSubHolder = (AudioHolder*)static_cast<BSAudio*>(::FUN_00c85750());
     AudioAllocator* pSubAllocator = pSubHolder->m_pAllocator;
     reinterpret_cast<::FUN_00dbe950_cls *>(&(m_kSub))->AllocBufferIfNotFlagged((::AudioIface *)(pSubAllocator));
 }
@@ -798,7 +797,7 @@ struct S_dbefc0_Router
 
 static __forceinline S_dbefc0_Heap& S_dbefc0_GetHeap()
 {
-    return ((S_dbefc0_Router*)FUN_00c85750())->heap();
+    return ((S_dbefc0_Router*)static_cast<BSAudio*>(::FUN_00c85750()))->heap();
 }
 
 struct S_dbefc0_Bytes
@@ -887,7 +886,7 @@ void Rec_00dbf0d0::PackBitsToBytes(unsigned char* dest)
 
     // make sure the buffer can hold the padded size
     {
-        BSAudio* audio = FUN_00c85750();
+        BSAudio* audio = static_cast<BSAudio*>(::FUN_00c85750());
         intptr_t audioD = audio->d;
         int cap = this->unk08 & 0x3fffffff;
         if (cap < newSize)
@@ -931,7 +930,7 @@ void Rec_00dbf0d0::PackBitsToBytes(unsigned char* dest)
 
     // give the memory back
     {
-        BSAudio* audio = FUN_00c85750();
+        BSAudio* audio = static_cast<BSAudio*>(::FUN_00c85750());
         intptr_t audioD = audio->d;
         int cap = this->unk08 & 0x3fffffff;
         if (cap < oldSize)
@@ -985,7 +984,7 @@ struct S_00dc0500_Holder : UnkHolder
         a = 0;
         b = 0;
         c = -1;
-        BSAudio* p = FUN_00c85750();
+        BSAudio* p = static_cast<BSAudio*>(::FUN_00c85750());
         FUN_00dbedb0((UnkRet*)p->e, 0);
     }
 };
@@ -1097,7 +1096,7 @@ template <typename T> struct S_dbf1a0_Array
 
     __forceinline S_dbf1a0_Array(int n) throw() : m_data(0), m_iElementCount(0), m_iCapacityState(0x80000000)
     {
-        hkTempAlloc& alloc = ((S_dbf1a0_Router*)FUN_00c85750())->heap();
+        hkTempAlloc& alloc = ((S_dbf1a0_Router*)static_cast<BSAudio*>(::FUN_00c85750()))->heap();
         T* p = n ? alloc._bufAlloc<T>(n) : 0;
         int cap = n ? n : 0x80000000;
         m_data = p;
@@ -1116,7 +1115,7 @@ template <typename T> struct S_dbf1a0_Array
 
     __forceinline ~S_dbf1a0_Array() throw()
     {
-        hkTempAlloc& alloc = ((S_dbf1a0_Router*)FUN_00c85750())->heap();
+        hkTempAlloc& alloc = ((S_dbf1a0_Router*)static_cast<BSAudio*>(::FUN_00c85750()))->heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
             alloc._bufFree<T>(m_data, m_iCapacityState & 0x3fffffff);
@@ -1388,7 +1387,7 @@ __forceinline Arr::Arr(int n)
     m_data = 0;
     m_iElementCount = 0;
     m_cap = (int)0x80000000;
-    BSAudio* router = FUN_00c85750();
+    BSAudio* router = static_cast<BSAudio*>(::FUN_00c85750());
     AllocV* allocator = (AllocV*)router->d;
     Rec* data = allocateRecords(allocator, capacity);
     int flags = capacity ? capacity : (int)0x80000000;
@@ -1781,7 +1780,7 @@ void Host::WriteArray(const Wrap& arg0, int count)
         reinterpret_cast<::Rec_00dbf0d0 *>(&(packedBits))->PackBitsToBytes((unsigned char *)(m.m_data));
         reinterpret_cast<::FUN_00d607b0_class *>(this)->FUN_00d607b0((intptr_t)(m.m_data));
         {
-            BSAudio* pRouter = FUN_00c85750();
+            BSAudio* pRouter = static_cast<BSAudio*>(::FUN_00c85750());
             AllocV* pAllocator = (AllocV*)(void*)pRouter->d;
             long cap2 = m.m_iCapacityState;
             m.m_iElementCount = 0;
@@ -1802,7 +1801,7 @@ void Host::WriteArray(const Wrap& arg0, int count)
             }
         }
         {
-            BSAudio* sn = FUN_00c85750();
+            BSAudio* sn = static_cast<BSAudio*>(::FUN_00c85750());
             AllocV* mn = (AllocV*)(void*)sn->d;
             int cap = packedBits.m_08;
             packedBits.m_04 = 0;
@@ -1812,7 +1811,7 @@ void Host::WriteArray(const Wrap& arg0, int count)
             packedBits.m_08 = (int)0x80000000;
         }
         {
-            BSAudio* s4 = FUN_00c85750();
+            BSAudio* s4 = static_cast<BSAudio*>(::FUN_00c85750());
             AllocV* mgr4 = (AllocV*)(void*)s4->d;
             long cap1 = items.m_cap;
             items.m_iElementCount = 0;
@@ -2079,7 +2078,7 @@ struct ScanMask : hkCharArray
     }
     __forceinline ~ScanMask()
     {
-        hkTempAlloc& heap = ((S_dbf1a0_Router*)FUN_00c85750())->heap();
+        hkTempAlloc& heap = ((S_dbf1a0_Router*)static_cast<BSAudio*>(::FUN_00c85750()))->heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000u) == 0)
             heap.ReturnMemory(m_data, m_iCapacityState & 0x3fffffff);
@@ -2115,7 +2114,7 @@ void ScanWriter::FUN_00dbf450(const ScanObject& source, int supplemental)
         if (!supplemental)
         {
             index = map.size & 0x7fffffff;
-            map.insert(reinterpret_cast<AllocOwner*>(FUN_00c85750()->e), object.GetSourcePair(), index);
+            map.insert(reinterpret_cast<AllocOwner*>(static_cast<BSAudio*>(::FUN_00c85750())->e), object.GetSourcePair(), index);
             references.append(DAT_010d6848);
             ScanRecord& record = references.back();
             record.key = object.GetSourcePair();
@@ -2250,7 +2249,7 @@ struct MemRouter
 };
 __forceinline MemRouter& router()
 {
-    return *(MemRouter*)FUN_00c85750();
+    return *(MemRouter*)static_cast<BSAudio*>(::FUN_00c85750());
 }
 struct HandleMap
 {

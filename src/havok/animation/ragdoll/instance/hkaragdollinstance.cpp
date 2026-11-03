@@ -2,6 +2,7 @@
 // src/havok/animation/ragdoll/instance/hkaragdollinstance.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/ragdoll/instance/hkaragdollinstance.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <new>
 #include <cstdint>
 #include "fnv/decl/FUN_005611c0_t.h"
@@ -144,7 +145,6 @@ struct ArrayRouter
     void* unk0c;
     ArrayAllocator* m_pStreamAllocator;
 };
-ArrayRouter* __cdecl FUN_00c85750();
 template <class T> struct ObjectArray
 {
     T* m_data;
@@ -156,7 +156,7 @@ template <class T> struct ObjectArray
     }
     __forceinline void assign(const ObjectArray& source)
     {
-        ArrayAllocator* heap = FUN_00c85750()->m_pStreamAllocator;
+        ArrayAllocator* heap = static_cast<ArrayRouter*>(::FUN_00c85750())->m_pStreamAllocator;
         int capacity = m_iCapacityState & 0x3fffffff;
         if (capacity < source.m_iElementCount)
         {
@@ -223,7 +223,6 @@ struct FnvRouter
     void* d;
     FnvMemoryManager* manager;
 };
-FnvRouter* FUN_00c85750();
 struct FnvArray
 {
     void** data;
@@ -231,7 +230,7 @@ struct FnvArray
     unsigned int capacityAndFlags;
     ~FnvArray() throw()
     {
-        FnvRouter* router = FUN_00c85750();
+        FnvRouter* router = static_cast<FnvRouter*>(::FUN_00c85750());
         FnvMemoryManager* mgr = router->manager;
         unsigned int cap = capacityAndFlags;
         size = 0;
@@ -604,7 +603,6 @@ struct RouterRef_ce24
     {
         return *m_pStreamAllocator;
     }
-    static RouterRef_ce24& __cdecl FUN_00c85750() throw();
 };
 
 template <class T> struct hkArray_ce24
@@ -624,7 +622,7 @@ template <class T> struct hkArray_ce24
     }
     void SetSizeAndGrow(int n)
     {
-        ArrayAllocator& heap = RouterRef_ce24::FUN_00c85750().heap();
+        ArrayAllocator& heap = (*static_cast<RouterRef_ce24*>(::FUN_00c85750())).heap();
         int cap = m_iCapacityState & 0x3fffffff;
         if (cap < n)
         {
@@ -690,7 +688,7 @@ struct Vec4x3
 // @fnv 0x00ce2f40
 void __cdecl FUN_00ce2f40(unsigned int arg0, uintptr_t arg1, unsigned int arg2, int count, unsigned int arg4)
 {
-    void** cursor = (void**)FUN_00c85750();
+    void** cursor = (void**)static_cast<ArrayRouter*>(::FUN_00c85750());
     unsigned char* pMatBase = (unsigned char*)*cursor;
     unsigned int size = (unsigned int)((count * 3) << 4) + 0x7f;
     size &= 0xffffff80u;
@@ -741,7 +739,7 @@ void __cdecl FUN_00ce2f40(unsigned int arg0, uintptr_t arg1, unsigned int arg2, 
     }
 
     FUN_00ce2d10(arg0, (void*)pMatBase, arg2, count, arg4);
-    void** cursor2 = (void**)FUN_00c85750();
+    void** cursor2 = (void**)static_cast<ArrayRouter*>(::FUN_00c85750());
     *cursor2 = pMatBase;
 }
 
@@ -1095,7 +1093,7 @@ int Owner::FUN_00ce1420(void* pose, int arg2, float time)
     poseData.unk10 = arg2;
     ::FUN_00ce0d30((::ThisX *)this, pose, (const ::Elem *)(::Pose32 *)(&poseData), {});
     FUN_00ce0ff0(&sub, &poseData);
-    ArrayRouter* router = FUN_00c85750();
+    ArrayRouter* router = static_cast<ArrayRouter*>(::FUN_00c85750());
     if (count == (capacity & 0x3FFFFFFF))
         ::ResizeAudioStream((::AudioAllocator *)(router->m_pStreamAllocator), (::AudioStream *)(void *)(this), 0x20);
     Pose32* destination = data + count;

@@ -2,6 +2,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 
+#include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
 #include <cstddef>
 #include <new>
@@ -99,7 +100,6 @@ struct FNV_Ctx
     FNV_MemObj* obj;  // +0x10
 };
 
-extern "C" FNV_Ctx* FUN_00c85750() throw();
 extern "C" bool FUN_00e29920(FNV_Vec4*, FNV_Vec4*, FNV_Vec4*, FNV_Vec4*, FNV_Vec4*, FNV_Vec4*, float, float) throw();
 
 static __forceinline __m128 dot3(__m128 a, __m128 b)
@@ -144,7 +144,7 @@ void FUN_00e2a010(int corner, FNV_Vec4* A, FNV_Vec4* B, int n, float angle, floa
     float thresh = (float)fabs((float)cos((double)angle));
     E29SrcList list;
     list.count = 0;
-    FNV_Ctx* ctx = FUN_00c85750();
+    FNV_Ctx* ctx = static_cast<FNV_Ctx*>(::FUN_00c85750());
     E29Src* recs = (E29Src*)ctx->cur;
     ctx->cur = (char*)recs + ((n * 5 * 4 + 0x7f) & ~0x7f);
     int cap = n | 0x80000000;
@@ -210,8 +210,8 @@ void FUN_00e2a010(int corner, FNV_Vec4* A, FNV_Vec4* B, int n, float angle, floa
         } while (i < n);
     }
     ::FUN_00e29a10(&list, (const __m128*)A, (const __m128*)B, a7, a8, a9, a10, a11);
-    FUN_00c85750()->cur = recs;
-    FNV_Ctx* holder = FUN_00c85750();
+    static_cast<FNV_Ctx*>(::FUN_00c85750())->cur = recs;
+    FNV_Ctx* holder = static_cast<FNV_Ctx*>(::FUN_00c85750());
     FNV_MemObj* allocator = holder->obj;
     if ((list.cap & 0x80000000) == 0)
         allocator->Release(recs, (list.cap & 0x3fffffff) * 5 * 4);
@@ -352,23 +352,22 @@ class S29cd0_hkMemoryRouter
     S29cd0_hkMemoryAllocator* m_pTemp;
     S29cd0_hkMemoryAllocator* m_pStreamAllocator;
 };
-extern "C" S29cd0_hkMemoryRouter* __cdecl FUN_00c85750();
 
 template <typename TYPE> __forceinline TYPE* S29cd0_hkAllocateStack(int n, const char* what = 0)
 {
-    S29cd0_hkMemoryRouter& mem = *FUN_00c85750();
+    S29cd0_hkMemoryRouter& mem = *static_cast<S29cd0_hkMemoryRouter*>(::FUN_00c85750());
     return static_cast<TYPE*>(mem.stack().allocateStack((n * sizeof(TYPE) + 127) & ~127, what));
 }
 template <typename TYPE> __forceinline void S29cd0_hkDeallocateStack(TYPE* ptr)
 {
-    FUN_00c85750()->stack().deallocateStack(static_cast<void*>(ptr));
+    static_cast<S29cd0_hkMemoryRouter*>(::FUN_00c85750())->stack().deallocateStack(static_cast<void*>(ptr));
 }
 
 struct S29cd0_hkContainerHeapAllocator
 {
     __forceinline S29cd0_hkMemoryAllocator& get(const void*)
     {
-        return FUN_00c85750()->heap();
+        return static_cast<S29cd0_hkMemoryRouter*>(::FUN_00c85750())->heap();
     }
 };
 

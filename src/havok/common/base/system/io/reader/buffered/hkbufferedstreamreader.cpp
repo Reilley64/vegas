@@ -2,6 +2,7 @@
 // src/havok/common/base/system/io/reader/buffered/hkbufferedstreamreader.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/system/io/reader/buffered/hkbufferedstreamreader.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstdint>
 #include "fnv/decl/FUN_00c90510_class.h"
 #include "fnv/decl/hkReferencedObjectC905.h"
@@ -214,7 +215,6 @@ struct MemoryManager
     void* m_0c;
     void* m_10;
 };
-MemoryManager* FUN_00c85750();
 void* FUN_00c85620(void*, void*, unsigned int);
 struct FUN_00d2bbd0_cls
 {
@@ -229,7 +229,7 @@ struct FUN_00d2bbd0_cls
 // @fnv 0x00d2bbd0
 FUN_00d2bbd0_cls* FUN_00d2bbd0_cls::Init(intptr_t p)
 {
-    void* a = (MemoryManager*)FUN_00c85750()->m_10;
+    void* a = (MemoryManager*)static_cast<MemoryManager*>(::FUN_00c85750())->m_10;
     m_00 = FUN_00c85620(a, (void*)p, 0x40);
     m_04 = 0;
     m_08 = 0;
@@ -483,7 +483,7 @@ hkBufferedStreamReader* BufferedReaderDeletionView::FUN_00d2bca0(unsigned int fl
     reinterpret_cast<::hkBufferedStreamReader *>(this)->Destroy();
     if (flags & 1)
     {
-        MemoryManager* router = FUN_00c85750();
+        MemoryManager* router = static_cast<MemoryManager*>(::FUN_00c85750());
         unsigned short size = static_cast<unsigned short>(m_uiStandInValue);
         static_cast<BufferedReaderHeap*>(router->m_10)->ReleaseBlock(this, size);
     }
@@ -496,6 +496,6 @@ void __cdecl FUN_00c85660(void* allocator, void* buffer);
 __declspec(noinline) void hkBufferedStreamReader::FUN_00d2bc10()
 {
     void* buffer = m_pVTable;
-    MemoryManager* memory = FUN_00c85750();
+    MemoryManager* memory = static_cast<MemoryManager*>(::FUN_00c85750());
     FUN_00c85660(memory->m_10, buffer);
 }

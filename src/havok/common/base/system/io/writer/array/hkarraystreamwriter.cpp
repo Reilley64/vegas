@@ -2,6 +2,7 @@
 // src/havok/common/base/system/io/writer/array/hkarraystreamwriter.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/system/io/writer/array/hkarraystreamwriter.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstdint>
 #include <cstring>
 #include "fnv/decl/FUN_00c90510_class.h"
@@ -154,7 +155,6 @@ struct hkMemoryRouterD469
     }
 };
 namespace hkRouterD469 {
-extern "C" hkMemoryRouterD469& __cdecl FUN_00c85750() throw();
 }
 
 template <class T> class hkArrayD469
@@ -166,7 +166,7 @@ template <class T> class hkArrayD469
 
     void ClearAndRelease() throw()
     {
-        hkMemoryAllocatorD469& kAlloc = hkRouterD469::FUN_00c85750().heap();
+        hkMemoryAllocatorD469& kAlloc = (*static_cast<hkMemoryRouterD469*>(::FUN_00c85750())).heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
             kAlloc.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
@@ -177,7 +177,7 @@ template <class T> class hkArrayD469
 
 inline void hkDeallocateChunkD469(void* p, int iNumBytes)
 {
-    hkRouterD469::FUN_00c85750().heap().ReleaseBlock(p, iNumBytes);
+    (*static_cast<hkMemoryRouterD469*>(::FUN_00c85750())).heap().ReleaseBlock(p, iNumBytes);
 }
 
 class hkBlockPoolD469
@@ -223,7 +223,6 @@ struct FUN_00d46be0_Res
     int unk0C;
     FUN_00d46be0_Inner* inner;
 };
-void* __cdecl FUN_00c85750();
 struct FUN_00d46be0_Cls
 {
     int m00;
@@ -270,7 +269,6 @@ struct hkMemoryRouterD46C
     }
 };
 namespace hkRouterD46C {
-extern "C" hkMemoryRouterD46C& __cdecl FUN_00c85750();
 }
 
 class FUN_00d46be0_class
@@ -288,7 +286,7 @@ class FUN_00d46be0_class
     }
     static void operator delete(void* p) throw()
     {
-        hkRouterD46C::FUN_00c85750().heap().ReleaseBlock(p, sizeof(FUN_00d46be0_class));
+        (*static_cast<hkMemoryRouterD46C*>(::FUN_00c85750())).heap().ReleaseBlock(p, sizeof(FUN_00d46be0_class));
     }
 };
 
@@ -306,7 +304,7 @@ class hkReferencedObjectD46C
 
     static void operator delete(void* p) throw()
     {
-        hkRouterD46C::FUN_00c85750().heap().ReleaseBlock(p,
+        (*static_cast<hkMemoryRouterD46C*>(::FUN_00c85750())).heap().ReleaseBlock(p,
                                                          static_cast<hkReferencedObjectD46C*>(p)->m_usMemSizeAndFlags);
     }
 };
@@ -372,7 +370,6 @@ struct FnvCpu_FUN_00d46cc0_CpuAllocatorHolder
     unsigned int unk0c;
     FnvCpu_FUN_00d46cc0_CpuAllocator* allocator;
 };
-FnvCpu_FUN_00d46cc0_CpuAllocatorHolder* __cdecl FUN_00c85750();
 struct FnvCpu_FUN_00d46cc0_CpuObject
 {
     unsigned int unk00;
@@ -386,7 +383,7 @@ FnvCpu_FUN_00d46cc0_CpuObject* FnvCpu_FUN_00d46cc0_CpuObject::Destroy(unsigned i
     reinterpret_cast<::FUN_00d46c30 *>(this)->FUN_00d46c30::~FUN_00d46c30();
     if (flags & 1)
     {
-        FnvCpu_FUN_00d46cc0_CpuAllocatorHolder* holder = FUN_00c85750();
+        FnvCpu_FUN_00d46cc0_CpuAllocatorHolder* holder = static_cast<FnvCpu_FUN_00d46cc0_CpuAllocatorHolder*>(::FUN_00c85750());
         holder->allocator->Invoke(this, size);
     }
     return this;
@@ -500,7 +497,6 @@ struct hkMemoryRouterD468
     }
 };
 
-extern "C" hkMemoryRouterD468& __cdecl FUN_00c85750() throw();
 void __cdecl FUN_00c908c0(hkMemoryAllocatorD468& kAlloc, void* apvArray, int aiNumElements, int iSizeElem) throw();
 void __cdecl FUN_00cb1260(void* pvDst, const void* pvSrc, int iNumBytes) throw();
 
@@ -527,11 +523,11 @@ template <class T> class hkArrayD468
     }
     __forceinline void reserve(int n)
     {
-        reserve(FUN_00c85750().heap(), n);
+        reserve((*static_cast<hkMemoryRouterD468*>(::FUN_00c85750())).heap(), n);
     }
     __forceinline void SetSizeAndGrow(int n)
     {
-        reserve(FUN_00c85750().heap(), n);
+        reserve((*static_cast<hkMemoryRouterD468*>(::FUN_00c85750())).heap(), n);
         m_iElementCount = n;
     }
 };
@@ -571,7 +567,6 @@ struct hkMemoryRouterD46B
 };
 
 namespace fnvc_adapt {
-extern "C" hkMemoryRouterD46B& __cdecl FUN_00c85750() throw();
 }
 void __cdecl FUN_00c908c0(hkMemoryAllocatorD46B& kAlloc, void* apvArray, intptr_t aiNumElements, int iSizeElem) throw();
 
@@ -602,7 +597,7 @@ class hkArrayD46B
     }
     __forceinline void SetSizeAndGrow(int n, const char& fill)
     {
-        reserve(fnvc_adapt::FUN_00c85750().heap(), n);
+        reserve((*static_cast<hkMemoryRouterD46B*>(::FUN_00c85750())).heap(), n);
         char* pDst = m_data + m_iElementCount;
         int iEntryIndex = n - m_iElementCount;
         if (iEntryIndex <= 0)
@@ -781,7 +776,7 @@ template <class T> struct hkArray_d469
     }
     void reserve(int n)
     {
-        hkMemoryAllocatorD469& heap = hkRouterD469::FUN_00c85750().heap();
+        hkMemoryAllocatorD469& heap = (*static_cast<hkMemoryRouterD469*>(::FUN_00c85750())).heap();
         int cap = getCapacity();
         if (cap < n)
         {
@@ -842,7 +837,6 @@ struct V46a50Router
         return *m_alloc;
     }
 };
-V46a50Router* __cdecl FUN_00c85750();
 
 struct V46a50Elem
 {
@@ -870,16 +864,16 @@ void V46a50Owner::FUN_00d46a50(V46a50List* apList)
         V46a50Elem* e = apList->m_data[i];
         reinterpret_cast<::Stream_d467 *>(this)->FUN_00d467c0((const char *)(e), apList->m0);
         int k = apList->m0;
-        FUN_00c85750()->heap().v08(e, k);
+        static_cast<V46a50Router*>(::FUN_00c85750())->heap().v08(e, k);
     }
     if (n != 0)
     {
         V46a50Elem* e = apList->m_data[n - 1];
         reinterpret_cast<::Stream_d467 *>(this)->FUN_00d467c0((const char *)(e), apList->m4);
         int k = apList->m0;
-        FUN_00c85750()->heap().v08(e, k);
+        static_cast<V46a50Router*>(::FUN_00c85750())->heap().v08(e, k);
     }
-    V46a50Alloc& a = FUN_00c85750()->heap();
+    V46a50Alloc& a = static_cast<V46a50Router*>(::FUN_00c85750())->heap();
     apList->m_iElementCount = 0;
     if ((apList->m_capFlags & 0x80000000) == 0)
         a.ReturnMemory(apList->m_data, (apList->m_capFlags & 0x3fffffff) * sizeof(V46a50Elem*));

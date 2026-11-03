@@ -2,6 +2,7 @@
 // src/havok/common/base/thread/jobqueue/hkjobqueue.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/thread/jobqueue/hkjobqueue.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstdint>
 #include <cstddef>
 #include <new>
@@ -301,7 +302,6 @@ struct S_00d056a0_Router
     }
 };
 
-S_00d056a0_Router* FUN_00c85750();
 
 struct S_00d056a0_Elem
 {
@@ -325,7 +325,7 @@ void S_00d056a0::FUN_00d056a0()
     if (n)
     {
         S_00d056a0_Elem* pData = m_data;
-        FUN_00c85750()->heap()->ReleaseBlock(pData, n * sizeof(S_00d056a0_Elem));
+        static_cast<S_00d056a0_Router*>(::FUN_00c85750())->heap()->ReleaseBlock(pData, n * sizeof(S_00d056a0_Elem));
     }
 }
 
@@ -1029,7 +1029,6 @@ struct D04A20MemoryRouter
 };
 
 namespace fnvc_adapt {
-extern "C" D04A20MemoryRouter& __cdecl FUN_00c85750();
 }
 
 struct D04A20Operation
@@ -1052,7 +1051,7 @@ struct D04A20OperationArray
 
     D04A20Operation& AllocatePair()
     {
-        D04A20Allocator& alloc = fnvc_adapt::FUN_00c85750().heap();
+        D04A20Allocator& alloc = (*static_cast<D04A20MemoryRouter*>(::FUN_00c85750())).heap();
         if (m_iElementCount == getCapacity())
             ::ResizeAudioStream((::AudioAllocator *)(void *)(&alloc), (::AudioStream *)(void *)(this), sizeof(D04A20Operation));
         return m_data[m_iElementCount++];
@@ -1229,7 +1228,7 @@ struct PoolTable
 {
     static void* operator new(std::size_t nbytes) throw()
     {
-        return FUN_00c85750()->heap()->AllocateMemoryBlock(nbytes);
+        return static_cast<S_00d056a0_Router*>(::FUN_00c85750())->heap()->AllocateMemoryBlock(nbytes);
     }
 
     unsigned short m_counts[12];
@@ -1341,12 +1340,12 @@ int __cdecl FUN_00d04550(void* context, void* argument, void* item)
 
 template <typename T> inline T* hkAllocateChunk(int n)
 {
-    return static_cast<T*>(FUN_00c85750()->heap()->AllocateMemoryBlock(n * sizeof(T)));
+    return static_cast<T*>(static_cast<S_00d056a0_Router*>(::FUN_00c85750())->heap()->AllocateMemoryBlock(n * sizeof(T)));
 }
 
 template <typename T> inline void hkDeallocateChunk(T* p, int n)
 {
-    FUN_00c85750()->heap()->ReleaseBlock(p, n * sizeof(T));
+    static_cast<S_00d056a0_Router*>(::FUN_00c85750())->heap()->ReleaseBlock(p, n * sizeof(T));
 }
 
 struct hkQueue128
@@ -1818,7 +1817,6 @@ struct S_00d055c0_Router
         return *m10;
     }
 };
-S_00d055c0_Router* FUN_00c85750() throw();
 
 struct S_00d055c0_Elem
 {
@@ -1988,7 +1986,7 @@ void S_00d055c0_Obj::FUN_00d055c0()
             p--;
             reinterpret_cast<::S_00d056a0 *>((p))->FUN_00d056a0();
         } while (--n >= 0);
-        FUN_00c85750()->heap().ReleaseBlock(pool, 0x170);
+        static_cast<S_00d055c0_Router*>(::FUN_00c85750())->heap().ReleaseBlock(pool, 0x170);
     }
     if (unk74)
     {
@@ -1998,12 +1996,12 @@ void S_00d055c0_Obj::FUN_00d055c0()
             if (h)
             {
                 reinterpret_cast<::FUN_00d04370_cls *>((h))->FUN_00d04370();
-                FUN_00c85750()->heap().ReleaseBlock(h, 4);
+                static_cast<S_00d055c0_Router*>(::FUN_00c85750())->heap().ReleaseBlock(h, 4);
             }
         }
     }
     {
-        S_00d055c0_Heap& heap = FUN_00c85750()->heap();
+        S_00d055c0_Heap& heap = static_cast<S_00d055c0_Router*>(::FUN_00c85750())->heap();
         unk1a0._clearAndDeallocate(heap);
     }
     reinterpret_cast<::CBF490Lists *>(&(unk58))->ClearLists();
@@ -2066,7 +2064,6 @@ struct AllocHolder
     SlotAllocator* m_pAllocator;
 };
 
-AllocHolder* FUN_00c85750();
 
 // Initializes fields of a local ScratchBlock, passes it to FUN_00d883c0, then conditionally calls vSlot10 on m_pAllocator.
 // @fnv 0x00d889f0
@@ -2088,7 +2085,7 @@ void* __cdecl FUN_00d889f0(void* a1)
     s.unk64 = 0x80000000u;
     s.unk7C = 0;
     void* obj = ((void *)(::FUN_00d883c0((*(const ::S883_Island *)(a1)), (char *)(0), 0, (*(::S883_TaskHeader *)(&s)))));
-    AllocHolder* pAllocHolder = FUN_00c85750();
+    AllocHolder* pAllocHolder = static_cast<AllocHolder*>(::FUN_00c85750());
     SlotAllocator* alloc = pAllocHolder->m_pAllocator;
     unsigned int flag = s.unk64;
     if ((flag & 0x80000000u) == 0)

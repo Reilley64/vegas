@@ -242,7 +242,6 @@ class FUN_00e402e0 : public BaseAnimX
     FloatArrayX m_kFloats;
 };
 
-void* FUN_00c85750();
 extern int DAT_010e5474;
 
 // Copies transform and float track arrays from src into m_kTransforms and m_kFloats, resizing via the audio service heap manager when capacity is insufficient.

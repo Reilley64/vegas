@@ -2,6 +2,7 @@
 // src/havok/common/serialize/tagfile/binary/hkbinarytagfilereader.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/serialize/tagfile/binary/hkbinarytagfilereader.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstdint>
 #include <cstddef>
 #include "fnv/decl/S00dc5f30_Obj.h"
@@ -168,7 +169,6 @@ struct hkMemoryRouterDC5D
         return *m_pStreamAllocator;
     }
 };
-extern "C" hkMemoryRouterDC5D& __cdecl FUN_00c85750();
 
 
 template <class T> __forceinline void constructWithCopyDC5D(T* p, int n, const T& t)
@@ -190,7 +190,7 @@ template <class T> class hkArrayDC5D
     }
     void AddBack(const T& t)
     {
-        hkMemoryAllocatorDC5D& kAlloc = FUN_00c85750().heap();
+        hkMemoryAllocatorDC5D& kAlloc = (*static_cast<hkMemoryRouterDC5D*>(::FUN_00c85750())).heap();
         if (m_iElementCount == getCapacity())
             ::ResizeAudioStream((::AudioAllocator *)(void *)(&kAlloc), (::AudioStream *)(void *)(this), sizeof(T));
         constructWithCopyDC5D(m_data + m_iElementCount, 1, t);
@@ -232,7 +232,6 @@ struct hkMemoryRouterDC5E
         return *m_pkHeap;
     }
 };
-extern "C" hkMemoryRouterDC5E* __cdecl FUN_00c85750() throw();
 
 
 template <typename T> struct hkArrayDC5E
@@ -261,7 +260,7 @@ template <typename T> struct hkArrayDC5E
     }
     void SetSizeAndGrow(int n)
     {
-        GrowArrayCapacity(FUN_00c85750()->heap(), n);
+        GrowArrayCapacity(static_cast<hkMemoryRouterDC5E*>(::FUN_00c85750())->heap(), n);
         m_iElementCount = n;
     }
 };
@@ -408,7 +407,7 @@ char* hkBinaryReaderDC5D::ReadString()
     int iLen = reinterpret_cast<::ReaderDC5BD0 *>(this)->FUN_00dc5bd0();
     if (iLen > 0)
     {
-        char* pcString = AllocateWithHeader(&FUN_00c85750().heap(), iLen + 1);
+        char* pcString = AllocateWithHeader(&(*static_cast<hkMemoryRouterDC5D*>(::FUN_00c85750())).heap(), iLen + 1);
         reinterpret_cast<::FUN_00dd90d0_cls *>(this)->FUN_00dd90d0((intptr_t)(pcString));
         pcString[iLen] = 0;
         m_pStringFunctions.AddBack(pcString);
@@ -640,7 +639,7 @@ S00dc5f30_Obj* S00dc5f30_Obj::FUN_00dc5f30(intptr_t a0, int a1)
     m_hl30.m_uiValueCount = 0;
     m_hl30.m_flags = 0x80000000;
 
-    hkMemoryRouterDC5D& r = FUN_00c85750();
+    hkMemoryRouterDC5D& r = (*static_cast<hkMemoryRouterDC5D*>(::FUN_00c85750()));
     if (pFirstList->m_uiValueCount == (pFirstList->m_flags & 0x3fffffff))
     {
         ::ResizeAudioStream((::AudioAllocator *)(r.m_pStreamAllocator), (::AudioStream *)(pFirstList), 4);
@@ -650,7 +649,7 @@ S00dc5f30_Obj* S00dc5f30_Obj::FUN_00dc5f30(intptr_t a0, int a1)
     new (pSlot) void * (0);
     ++pFirstList->m_uiValueCount;
 
-    hkMemoryRouterDC5D& r2 = FUN_00c85750();
+    hkMemoryRouterDC5D& r2 = (*static_cast<hkMemoryRouterDC5D*>(::FUN_00c85750()));
     if (pSecondList->m_uiValueCount == (pSecondList->m_flags & 0x3fffffff))
     {
         ::ResizeAudioStream((::AudioAllocator *)(r2.m_pStreamAllocator), (::AudioStream *)(pSecondList), 4);
@@ -660,7 +659,7 @@ S00dc5f30_Obj* S00dc5f30_Obj::FUN_00dc5f30(intptr_t a0, int a1)
     new (pSlot2) void*(&(*reinterpret_cast<char *>((void *)&::DAT_01011584)));
     pSecondList->m_uiValueCount += 1;
 
-    hkMemoryRouterDC5D& r3 = FUN_00c85750();
+    hkMemoryRouterDC5D& r3 = (*static_cast<hkMemoryRouterDC5D*>(::FUN_00c85750()));
     if (pSecondList->m_uiValueCount == (pSecondList->m_flags & 0x3fffffff))
     {
         ::ResizeAudioStream((::AudioAllocator *)(r3.m_pStreamAllocator), (::AudioStream *)(pSecondList), 4);
@@ -698,7 +697,7 @@ template <typename T> struct hkArrayTF
     {}
     __forceinline void clearStorage()
     {
-        hkMemoryAllocatorDC5D& kAlloc = FUN_00c85750().heap();
+        hkMemoryAllocatorDC5D& kAlloc = (*static_cast<hkMemoryRouterDC5D*>(::FUN_00c85750())).heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
             kAlloc.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
@@ -719,7 +718,7 @@ template <typename T> struct hkArrayTF
     }
     __forceinline void AddBack(const T& t)
     {
-        hkMemoryAllocatorDC5D& kAlloc = FUN_00c85750().heap();
+        hkMemoryAllocatorDC5D& kAlloc = (*static_cast<hkMemoryRouterDC5D*>(::FUN_00c85750())).heap();
         if (m_iElementCount == getCapacity())
             ::ResizeAudioStream((::AudioAllocator *)(void *)(&kAlloc), (::AudioStream *)(void *)(this), sizeof(T));
         ConstructWithCopyTF(m_data + m_iElementCount, 1, t);
@@ -738,7 +737,7 @@ template <typename T> struct hkLocalArrayTF : public hkArrayTF<T>
 {
     __forceinline hkLocalArrayTF(int n)
     {
-        hkMemoryRouterDC5D& kRouter = FUN_00c85750();
+        hkMemoryRouterDC5D& kRouter = (*static_cast<hkMemoryRouterDC5D*>(::FUN_00c85750()));
         T* pLocal = (T*)kRouter.m_00;
         kRouter.m_00 = (intptr_t)((char*)pLocal + ((n * sizeof(T) + 0x7f) & ~0x7f));
         this->m_data = pLocal;
@@ -750,7 +749,7 @@ template <typename T> struct hkLocalArrayTF : public hkArrayTF<T>
         T* pLocal = m_pStackAllocation;
         if (pLocal == this->m_data)
             this->m_iElementCount = 0;
-        FUN_00c85750().m_00 = (intptr_t)pLocal;
+        (*static_cast<hkMemoryRouterDC5D*>(::FUN_00c85750())).m_00 = (intptr_t)pLocal;
     }
     T* m_pStackAllocation;
 };
@@ -907,7 +906,7 @@ struct TagRouter
 };
 __forceinline TagRouter* getTagRouter()
 {
-    return reinterpret_cast<TagRouter*>(&FUN_00c85750());
+    return reinterpret_cast<TagRouter*>(&(*static_cast<hkMemoryRouterDC5D*>(::FUN_00c85750())));
 }
 template <class T> struct TagArray
 {

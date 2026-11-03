@@ -88,7 +88,6 @@ struct AudioHolder
     AudioAllocator* m_pAllocator;
 };
 
-AudioHolder* __cdecl FUN_00c85750() throw();
 
 struct FUN_00dee6c0_cls
 {
@@ -104,7 +103,7 @@ FUN_00dee6c0_cls* FUN_00dee6c0_cls::FUN_00dee6c0(unsigned char acFlags)
     m_vptr = (intptr_t)&DAT_010cd664;
     if (acFlags & 1)
     {
-        AudioHolder* pHolder = FUN_00c85750();
+        AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
         AudioAllocator* pAllocator = pHolder->m_pAllocator;
         pAllocator->Free(this, 0x40);
     }
@@ -1827,7 +1826,7 @@ void __cdecl FUN_00dedcf0(const VertexArray& vertices, FourPointArray& output)
     Point4 points[4];
     int used = 0;
     int count = (vertices.size + 3) >> 2;
-    AudioHolder* holder = FUN_00c85750();
+    AudioHolder* holder = static_cast<AudioHolder*>(::FUN_00c85750());
     AudioAllocator* allocator = holder->m_pAllocator;
     int start = output.size;
     int required = start + count;
@@ -2227,7 +2226,7 @@ bool __cdecl FUN_00dedbb0(Owner* self, intptr_t count, Vec4Array* out, Obj* obj)
         if (flag != 0)
         {
             cur.w = 1.0f;
-            AudioHolder* holder = FUN_00c85750();
+            AudioHolder* holder = static_cast<AudioHolder*>(::FUN_00c85750());
             if (out->m_04 == (int)(out->m_08 & 0x3fffffff))
             {
                 ::ResizeAudioStream((::AudioAllocator *)(holder->m_pAllocator), (::AudioStream *)(out), 0x10);

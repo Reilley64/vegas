@@ -2,6 +2,7 @@
 // src/havok/common/scenedata/attributes/hkxattributegroup.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/scenedata/attributes/hkxattributegroup.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstdint>
 #include <cstddef>
 #include "fnv/symbols_00e5c000.h"
@@ -258,7 +259,6 @@ struct S00e5cce0_Class
     S00e5cce0_Class& FUN_00e5cce0(const S00e5cce0_Class& o);
 };
 
-Allocator* __cdecl FUN_00c85750(void);
 
 static __forceinline void destructElems(Elem* data, int n)
 {
@@ -291,7 +291,7 @@ S00e5cce0_Class& S00e5cce0_Class::FUN_00e5cce0(const S00e5cce0_Class& aOther)
 {
     reinterpret_cast<::Cb0StringCopy *>(this)->FUN_00cb0c30((const ::CB0StringPtr &)(aOther));
     ElemArray& s = arr;
-    Allocator* pAllocator = FUN_00c85750();
+    Allocator* pAllocator = static_cast<Allocator*>(::FUN_00c85750());
     intptr_t alloc = pAllocator->unk10;
     int n = 0;
     int iCapacity = s.capacityAndFlags & 0x3fffffff;
@@ -309,7 +309,7 @@ S00e5cce0_Class& S00e5cce0_Class::FUN_00e5cce0(const S00e5cce0_Class& aOther)
     if (iCount != 0)
     {
         Elem* src = aOther.arr.data;
-        int a = FUN_00c85750()->unk10;
+        int a = static_cast<Allocator*>(::FUN_00c85750())->unk10;
         reinterpret_cast<::FUN_00e5cdb0_class *>(&(s))->FUN_00e5cec0(a, 0, (intptr_t)(src), iCount);
     }
     return *this;

@@ -2,6 +2,7 @@
 // src/havok/unplaced/cellmopp.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/havok/cellmopp.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstdint>
 #include <cstddef>
 #include <windows.h>
@@ -1035,7 +1036,6 @@ struct FUN_00cb0780_Manager
     int unk0c;
     FUN_00cb0780_Allocator* allocator;
 };
-void* __cdecl FUN_00c85750();
 
 struct FUN_00cb0780_class
 {

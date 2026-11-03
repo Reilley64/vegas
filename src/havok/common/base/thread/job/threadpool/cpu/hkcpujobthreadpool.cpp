@@ -2,6 +2,7 @@
 // src/havok/common/base/thread/job/threadpool/cpu/hkcpujobthreadpool.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/thread/job/threadpool/cpu/hkcpujobthreadpool.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstdint>
 #include "fnv/decl/WorkerThreadPoolViewD2.h"
 #include "fnv/decl/fnv_00d2d240__hkCpuJobThreadPoolD2D.h"
@@ -148,7 +149,6 @@ struct hkMemoryRouterXd2d3b0
     }
 };
 
-extern "C" hkMemoryRouterXd2d3b0& __cdecl FUN_00c85750() throw();
 
 class hkObjd2d3b0 : public FUN_00d2cf00
 {
@@ -157,7 +157,7 @@ class hkObjd2d3b0 : public FUN_00d2cf00
 
     static void operator delete(void* p) throw()
     {
-        FUN_00c85750().heap().ReleaseBlock(p, static_cast<hkObjd2d3b0*>(p)->GetAllocationSize());
+        (*static_cast<hkMemoryRouterXd2d3b0*>(::FUN_00c85750())).heap().ReleaseBlock(p, static_cast<hkObjd2d3b0*>(p)->GetAllocationSize());
     }
     int GetAllocationSize() const
     {

@@ -2,6 +2,7 @@
 // src/havok/common/scenedata/mesh/hkxmeshsection.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/scenedata/mesh/hkxmeshsection.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include <new>
 #include "fnv/decl/SinkOwner.h"
@@ -313,7 +314,6 @@ struct hkContainerAllocHolder
     void* unk10;
 };
 
-hkContainerAllocHolder* FUN_00c85750();
 void ResizeAudioStream(void* alloc, void* array, int elemSize);
 
 class hkErrStreamData
@@ -339,7 +339,7 @@ class hkErrorData
 
 static inline void PushBackTriangle(hkArray<hkGeometryTriangle>& arr, const hkGeometryTriangle& t)
 {
-    hkContainerAllocHolder* holder = FUN_00c85750();
+    hkContainerAllocHolder* holder = static_cast<hkContainerAllocHolder*>(::FUN_00c85750());
     if (arr.m_iElementCount == (arr.m_iCapacityState & 0x3fffffff))
         ResizeAudioStream(holder->unk10, &arr, sizeof(hkGeometryTriangle));
     arr.m_data[arr.m_iElementCount++] = t;

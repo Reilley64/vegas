@@ -2,6 +2,7 @@
 // src/havok/animation/ragdoll/penetration/hkadetectragdollpenetration.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/ragdoll/penetration/hkadetectragdollpenetration.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstdint>
 #include <xmmintrin.h>
 #include <cstddef>
@@ -28,10 +29,9 @@ struct AudioMgr
 };
 
 struct BSAudio;
-__declspec(nothrow) BSAudio* __cdecl FUN_00c85750();
 inline AudioMgr* audio()
 {
-    return (AudioMgr*)FUN_00c85750();
+    return (AudioMgr*)static_cast<BSAudio*>(::FUN_00c85750());
 }
 
 
@@ -351,7 +351,6 @@ struct AudioHolder
     AudioAllocator* m_pAllocator;
 };
 
-AudioHolder* __cdecl FUN_00c85750() throw();
 
 struct FUN_00d1fe70_cls
 {
@@ -373,7 +372,7 @@ struct FUN_00d1fe70_cls
 // @fnv 0x00d1fe70
 FUN_00d1fe70_cls* FUN_00d1fe70_cls::FUN_00d1fe70(unsigned char acFlags)
 {
-    AudioHolder* pHolder = FUN_00c85750();
+    AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
     AudioAllocator* pAllocator = pHolder->m_pAllocator;
     int count = m_20;
     m_1c = 0;
@@ -386,7 +385,7 @@ FUN_00d1fe70_cls* FUN_00d1fe70_cls::FUN_00d1fe70(unsigned char acFlags)
     m_vptr = (intptr_t)&(*reinterpret_cast<int *>(&::DAT_0102e388));
     if (acFlags & 1)
     {
-        AudioHolder* pHolder2 = FUN_00c85750();
+        AudioHolder* pHolder2 = static_cast<AudioHolder*>(::FUN_00c85750());
         AudioAllocator* pAllocator2 = pHolder2->m_pAllocator;
         pAllocator2->Free(this, m_uSize);
     }

@@ -220,7 +220,6 @@ struct hkMemoryRouterCC06
 };
 
 namespace hkRouterCC06 {
-extern "C" hkMemoryRouterCC06& __cdecl FUN_00c85750() throw();
 }
 
 class hkRefObjCC06
@@ -237,7 +236,7 @@ class hkRefObjCC06
 
     static void* operator new(std::size_t nbytes) throw()
     {
-        hkRefObjCC06* b = static_cast<hkRefObjCC06*>(hkRouterCC06::FUN_00c85750().heap().AllocateMemoryBlock(nbytes));
+        hkRefObjCC06* b = static_cast<hkRefObjCC06*>((*static_cast<hkMemoryRouterCC06*>(::FUN_00c85750())).heap().AllocateMemoryBlock(nbytes));
         b->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return b;
     }
@@ -291,7 +290,6 @@ struct hkMemoryRouterCC06
     }
 };
 namespace hkRouterCC06 {
-extern "C" hkMemoryRouterCC06& __cdecl FUN_00c85750();
 }
 
 class FUN_00d46be0_class
@@ -309,7 +307,7 @@ class FUN_00d46be0_class
     }
     static void operator delete(void* p) throw()
     {
-        hkRouterCC06::FUN_00c85750().heap().ReleaseBlock(p, sizeof(FUN_00d46be0_class));
+        (*static_cast<hkMemoryRouterCC06*>(::FUN_00c85750())).heap().ReleaseBlock(p, sizeof(FUN_00d46be0_class));
     }
 };
 
@@ -329,7 +327,7 @@ class hkReferencedObjectCC06
 
     static void operator delete(void* p) throw()
     {
-        hkRouterCC06::FUN_00c85750().heap().ReleaseBlock(p,
+        (*static_cast<hkMemoryRouterCC06*>(::FUN_00c85750())).heap().ReleaseBlock(p,
                                                          static_cast<hkReferencedObjectCC06*>(p)->m_usMemSizeAndFlags);
     }
 };
@@ -376,7 +374,6 @@ struct hkMemoryRouterCC06
 };
 
 namespace hkRouterCC06 {
-extern "C" hkMemoryRouterCC06& __cdecl FUN_00c85750() throw();
 }
 void __cdecl FUN_00c908c0(hkMemoryAllocatorCC06& kAlloc, void* apvArray, int aiNumElements, int iSizeElem) throw();
 
@@ -403,11 +400,11 @@ template <class T> class hkArrayCC06
     }
     __forceinline void reserve(int n)
     {
-        reserve(hkRouterCC06::FUN_00c85750().heap(), n);
+        reserve((*static_cast<hkMemoryRouterCC06*>(::FUN_00c85750())).heap(), n);
     }
     __forceinline void SetSizeAndGrow(int n)
     {
-        reserve(hkRouterCC06::FUN_00c85750().heap(), n);
+        reserve((*static_cast<hkMemoryRouterCC06*>(::FUN_00c85750())).heap(), n);
         m_iElementCount = n;
     }
 };
@@ -468,7 +465,6 @@ struct hkMemoryRouterCC07
     }
 };
 namespace hkRouterCC07 {
-extern "C" hkMemoryRouterCC07& __cdecl FUN_00c85750() throw();
 }
 
 template <class T> class hkArrayCC07
@@ -480,11 +476,11 @@ template <class T> class hkArrayCC07
 
     static void operator delete(void* p, std::size_t nbytes)
     {
-        hkRouterCC07::FUN_00c85750().heap().ReleaseBlock(p, nbytes);
+        (*static_cast<hkMemoryRouterCC07*>(::FUN_00c85750())).heap().ReleaseBlock(p, nbytes);
     }
     ~hkArrayCC07() throw()
     {
-        hkMemoryAllocatorCC07& kAlloc = hkRouterCC07::FUN_00c85750().heap();
+        hkMemoryAllocatorCC07& kAlloc = (*static_cast<hkMemoryRouterCC07*>(::FUN_00c85750())).heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
             kAlloc.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
@@ -573,7 +569,6 @@ struct hkMemoryRouterD60B
 };
 
 namespace hkRouterD60B {
-extern "C" hkMemoryRouterD60B& __cdecl FUN_00c85750() throw();
 }
 
 class hkRefObjD60B
@@ -590,7 +585,7 @@ class hkRefObjD60B
 
     static void* operator new(std::size_t nbytes)
     {
-        hkRefObjD60B* b = static_cast<hkRefObjD60B*>(hkRouterD60B::FUN_00c85750().heap().AllocateMemoryBlock(nbytes));
+        hkRefObjD60B* b = static_cast<hkRefObjD60B*>((*static_cast<hkMemoryRouterD60B*>(::FUN_00c85750())).heap().AllocateMemoryBlock(nbytes));
         b->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return b;
     }

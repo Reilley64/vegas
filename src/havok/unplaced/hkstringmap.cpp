@@ -1,6 +1,7 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstdint>
 #include <cstddef>
 #include <new>
@@ -249,7 +250,6 @@ struct MemoryRouter
     Allocator* m_pThreadAllocator;
 };
 
-MemoryRouter* FUN_00c85750();
 
 struct FUN_00d87790
 {
@@ -263,7 +263,7 @@ struct FUN_00d87790
 // @fnv 0x00d87790
 FUN_00d87790::FUN_00d87790(int a)
 {
-    MemoryRouter* router = FUN_00c85750();
+    MemoryRouter* router = static_cast<MemoryRouter*>(::FUN_00c85750());
     void* p = router->m_pThreadAllocator->alloc(0xc0);
     m_kPrimitiveElement = p;
     ::FUN_00cb1280(p, 0xff, 0x40);
@@ -362,7 +362,6 @@ struct hkMemoryRouterD878
 };
 
 namespace fnvc_adapt {
-extern "C" hkMemoryRouterD878& __cdecl FUN_00c85750() throw();
 }
 
 class FUN_00d874d0_s
@@ -476,7 +475,7 @@ void FUN_00d874d0_s::FUN_00d87860(int iNewCap)
 {
     int iOldCap = m_iPairCount + 1;
     unsigned int* puiOldElements = m_kPrimitiveElement;
-    hkMemoryAllocatorD878& kAlloc = fnvc_adapt::FUN_00c85750().heap();
+    hkMemoryAllocatorD878& kAlloc = (*static_cast<hkMemoryRouterD878*>(::FUN_00c85750())).heap();
     m_kPrimitiveElement = (unsigned int*)kAlloc.AllocateMemoryBlock(iNewCap * 3 * sizeof(unsigned int));
     ::FUN_00cb1280(m_kPrimitiveElement, 0xff, iNewCap * sizeof(unsigned int));
     m_iCapacityFlags = 0;
@@ -539,7 +538,6 @@ struct RouterE028
 };
 
 namespace hkRouterE028 {
-extern "C" RouterE028& __cdecl FUN_00c85750() throw();
 }
 
 char* __cdecl FUN_00cb1160(const char* pcString, AllocatorE028& kAlloc);
@@ -565,7 +563,7 @@ class FUN_00d87790
 
     static void* operator new(std::size_t uiSize)
     {
-        return hkRouterE028::FUN_00c85750().heap().AllocateMemoryBlock(uiSize);
+        return (*static_cast<RouterE028*>(::FUN_00c85750())).heap().AllocateMemoryBlock(uiSize);
     }
     static void operator delete(void* p);
 
@@ -618,7 +616,7 @@ template <class T> class hkArrayE028
     }
     void AddBack(const T& t)
     {
-        _pushBack(hkRouterE028::FUN_00c85750(), t);
+        _pushBack((*static_cast<RouterE028*>(::FUN_00c85750())), t);
     }
 };
 
@@ -643,7 +641,7 @@ void NamedObjectsE028::FUN_00e02800(void* pkObject, const char* pcName)
     const char* pcPooled;
     if (!pkPool->isValid(iIt))
     {
-        pcPooled = FUN_00cb1160(pcName, hkRouterE028::FUN_00c85750().heap());
+        pcPooled = FUN_00cb1160(pcName, (*static_cast<RouterE028*>(::FUN_00c85750())).heap());
         reinterpret_cast<::hkStringMapD874 *>((pkPool))->FUN_00d874d0(pcPooled, 0);
     }
     else

@@ -972,7 +972,6 @@ struct S_00d7a010_Alloc {
 struct S_00d7a010_Router {
     int unk0; int unk4; int unk8; int unkc;
     S_00d7a010_Alloc* m_pStreamAllocator;
-    static S_00d7a010_Router& FUN_00c85750() throw();
     S_00d7a010_Alloc& heap() throw() { return *m_pStreamAllocator; }
 };
 
@@ -1007,7 +1006,7 @@ void __cdecl DeleteCollectedObjects(int a, int b, int c, float f)
     FUN_00d79f90(a, b, objs, c, f);
     for (int i = 0; i < objs.GetLogicalSize(); i++)
         delete objs[i];
-    objs._clearAndDeallocate(S_00d7a010_Router::FUN_00c85750().heap());
+    objs._clearAndDeallocate((*static_cast<S_00d7a010_Router*>(::FUN_00c85750())).heap());
 }
 
 struct S_00d7c200_Heap {
@@ -1061,7 +1060,6 @@ struct S_00d7c340_Router {
     S_00d7c340_Allocator* unk10;
     S_00d7c340_Allocator* heap() { return unk10; }
 };
-S_00d7c340_Router* FUN_00c85750();
 
 struct S_00d7c340_Elem {
     S_00d7c340_Elem* next;
@@ -1085,7 +1083,7 @@ struct S_00d7c340 {
 // @fnv 0x00d7c340
 S_00d7c340_Block* S_00d7c340::AllocateBlock()
 {
-    S_00d7c340_Allocator* heap = FUN_00c85750()->heap();
+    S_00d7c340_Allocator* heap = static_cast<S_00d7c340_Router*>(::FUN_00c85750())->heap();
     S_00d7c340_Elem* next = 0;
     S_00d7c340_Block* block = (S_00d7c340_Block*)heap->AllocateMemoryBlock(sizeof(S_00d7c340_Block));
     S_00d7c340_Elem* head;
@@ -1098,7 +1096,7 @@ S_00d7c340_Block* S_00d7c340::AllocateBlock()
     block->numUsed = 0;
     block->freeList = head;
 
-    S_00d7c340_Allocator* alloc = FUN_00c85750()->heap();
+    S_00d7c340_Allocator* alloc = static_cast<S_00d7c340_Router*>(::FUN_00c85750())->heap();
     if (m_iElementCount == (m_iCapacityState & 0x3fffffff))
         ::ResizeAudioStream((::AudioAllocator *)(alloc), (::AudioStream *)(void *)(this), sizeof(S_00d7c340_Block*));
     S_00d7c340_Block** p = m_data + m_iElementCount;
@@ -1131,7 +1129,6 @@ struct AudioHolder {
     AudioAllocator* m_pAllocator;
 };
 
-AudioHolder* __cdecl FUN_00c85750() throw();
 
 struct PtrArrayBase {
     void** m_ppData;
@@ -1140,7 +1137,7 @@ struct PtrArrayBase {
 
     ~PtrArrayBase() throw()
     {
-        AudioHolder* pHolder = FUN_00c85750();
+        AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
         AudioAllocator* pAllocator = pHolder->m_pAllocator;
         unsigned int uCapacity = m_uCapacity;
         m_iArrayLength = 0;
@@ -1161,7 +1158,7 @@ FUN_00d7c8d0::~FUN_00d7c8d0() throw()
 {
     for (int i = 0; i < m_iArrayLength; i++) {
         void* pItem = m_ppData[i];
-        AudioHolder* pHolder = FUN_00c85750();
+        AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
         AudioAllocator* pAllocator = pHolder->m_pAllocator;
         pAllocator->Free(pItem, 0x908);
     }
@@ -1185,7 +1182,6 @@ struct S_00d7ce20_Router {
     S_00d7ce20_Allocator* unk10;
     S_00d7ce20_Allocator* heap() { return unk10; }
 };
-S_00d7ce20_Router* FUN_00c85750() throw();
 
 template <typename T>
 struct S_00d7ce20_Array {
@@ -1195,7 +1191,7 @@ struct S_00d7ce20_Array {
 
     __forceinline ~S_00d7ce20_Array() throw()
     {
-        S_00d7ce20_Allocator* a = FUN_00c85750()->heap();
+        S_00d7ce20_Allocator* a = static_cast<S_00d7ce20_Router*>(::FUN_00c85750())->heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
             a->ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
@@ -1315,7 +1311,6 @@ struct BSAudio {
     int unk00; int unk04; int unk08; int unk0C;
     D7f060AudioService* service;
 };
-BSAudio* __cdecl FUN_00c85750();
 struct D7f060Owner {
     int unk00;
     unsigned short soundId;
@@ -1327,7 +1322,7 @@ D7f060Owner* D7f060Owner::FUN_00d7f060(unsigned int flags)
 {
     ((D76940Shell*)this)->FUN_00d76940();
     if (flags & 1) {
-        BSAudio* audio = FUN_00c85750();
+        BSAudio* audio = static_cast<BSAudio*>(::FUN_00c85750());
         audio->service->Release(this, soundId);
     }
     return this;
@@ -2080,7 +2075,7 @@ void FUN_00d7c250_cls::FlushQueuedElements()
     QueuedElements* self = (QueuedElements*)this;
     for (int i = 0; i < self->m_04; i++) {
         void* element = self->m_00[i];
-        AudioSystem* audio = (AudioSystem*)FUN_00c85750();
+        AudioSystem* audio = (AudioSystem*)static_cast<S_00d7c340_Router*>(::FUN_00c85750());
         audio->m_10->v02(element, 0x908);
     }
     self->m_04 = 0;
@@ -2161,7 +2156,7 @@ Node *PoolList::CloneNode(Node *source) {
 // @fnv 0x00d7c2a0
 void* FUN_00d7c2a0_cls::FUN_00d7c2a0()
 {
-    GlobalManager* pManager = (GlobalManager*)FUN_00c85750();
+    GlobalManager* pManager = (GlobalManager*)static_cast<S_00d7c340_Router*>(::FUN_00c85750());
     void* prev = 0;
     unsigned char* pObject = (unsigned char*)((CreateIface*)pManager->m_10)->v1(0x808);
 
@@ -2181,7 +2176,7 @@ void* FUN_00d7c2a0_cls::FUN_00d7c2a0()
     *(void**)(pObject + 0x800) = cur;
 
     // Grow the item array when it is full.
-    GlobalManager* pManager2 = (GlobalManager*)FUN_00c85750();
+    GlobalManager* pManager2 = (GlobalManager*)static_cast<S_00d7c340_Router*>(::FUN_00c85750());
     if (m_04 == (m_08 & 0x3fffffff)) {
         ::ResizeAudioStream((::AudioAllocator *)(pManager2->m_10), (::AudioStream *)(void *)(this), 4);
     }
@@ -2244,11 +2239,11 @@ void D7C850_Class::ClearAndFlush()
 {
     for (int i = 0; i < m_04; i++) {
         void* element = m_00[i];
-        D7C850_Holder* service = (D7C850_Holder*)FUN_00c85750();
+        D7C850_Holder* service = (D7C850_Holder*)static_cast<S_00d7c340_Router*>(::FUN_00c85750());
         service->m_10->v1(element, 0x808);
     }
     m_04 = 0;
-    D7C850_Holder* service = (D7C850_Holder*)FUN_00c85750();
+    D7C850_Holder* service = (D7C850_Holder*)static_cast<S_00d7c340_Router*>(::FUN_00c85750());
     D7C850_Target* target = service->m_10;
     unsigned int flags = m_08;
     m_04 = 0;
@@ -2362,7 +2357,6 @@ struct D76250MemoryRouter {
     D76250Allocator& heap() { return *m_pStreamAllocator; }
 };
 
-namespace fnvc_adapt { extern "C" D76250MemoryRouter& __cdecl FUN_00c85750(); }
 
 struct D76250Vector4 {
     __m128 m_vComponents;
@@ -2389,7 +2383,7 @@ struct D76250VectorArray {
 
     D76250Vector4* expandBy(int n)
     {
-        D76250Allocator& alloc = fnvc_adapt::FUN_00c85750().heap();
+        D76250Allocator& alloc = (*static_cast<D76250MemoryRouter*>(::FUN_00c85750())).heap();
         int oldSize = m_iElementCount;
         reserve(alloc, oldSize + n);
         m_iElementCount += n;
@@ -2917,7 +2911,7 @@ S00d7d1c0_Derived* S00d7d1c0_Derived::FUN_00d7d1c0(int flags)
     this->~S00d7d1c0_Derived();
     new (static_cast<S00d7d1c0_Base*>(this)) S00d7d1c0_Base();
     if (flags & 1) {
-        S00d7d1c0_Router* r = (S00d7d1c0_Router*)FUN_00c85750();
+        S00d7d1c0_Router* r = (S00d7d1c0_Router*)static_cast<S_00d7c340_Router*>(::FUN_00c85750());
         r->m10->s2(this, m04);
     }
     return this;
@@ -3254,7 +3248,7 @@ struct S00d79250_Objs {
     int m_iElementCount;
     int m_iCapacityState;
     __forceinline void AddBack(S00d79250_Obj* e) {
-        S_00d7c340_Router* r = FUN_00c85750();
+        S_00d7c340_Router* r = static_cast<S_00d7c340_Router*>(::FUN_00c85750());
         if (m_iElementCount == (m_iCapacityState & 0x3fffffff))
             ::ResizeAudioStream((::AudioAllocator *)(r->unk10), (::AudioStream *)(void *)(this), sizeof(S00d79250_Obj*));
         S00d79250_Obj** p = m_data + m_iElementCount;
@@ -3273,7 +3267,7 @@ struct S00d79250_Indices : S_00d7a010_Array<int> {
         }
     }
     __forceinline void SetSizeAndGrow(int n) {
-        S_00d7a010_Alloc& a = S_00d7a010_Router::FUN_00c85750().heap();
+        S_00d7a010_Alloc& a = (*static_cast<S_00d7a010_Router*>(::FUN_00c85750())).heap();
         reserve(a, n);
         m_iElementCount = n;
     }
@@ -3327,7 +3321,7 @@ void __cdecl FUN_00d79250(S00d79250_World* world, S00d79250_Shape* shape,
     }
     if (output) *output = current;
     else if (current) delete current;
-    indices._clearAndDeallocate(S_00d7a010_Router::FUN_00c85750().heap());
+    indices._clearAndDeallocate((*static_cast<S_00d7a010_Router*>(::FUN_00c85750())).heap());
 }
 
 struct __declspec(align(16)) Vector333 {int x,y,z,w; Vector333(){} Vector333(const Vector333&o){*reinterpret_cast<__m128*>(this)=*reinterpret_cast<const __m128*>(&o);} Vector333& operator=(const Vector333&o){*reinterpret_cast<__m128*>(this)=*reinterpret_cast<const __m128*>(&o);return *this;}};
@@ -3911,7 +3905,7 @@ void S76320_Cls::FUN_00d76320(intptr_t a1, intptr_t a2)
             *dst++ = node->m_uiFilterValue;
         }
         ::FUN_00dedcf0((*(const ::VertexArray *)(&points)), (*(::FourPointArray *)(&owner->m_sorter)));
-        D76250Allocator& alloc = fnvc_adapt::FUN_00c85750().heap();
+        D76250Allocator& alloc = (*static_cast<D76250MemoryRouter*>(::FUN_00c85750())).heap();
         points.m_iElementCount = 0;
         if ((points.m_iCapacityState & 0x80000000) == 0)
             alloc.ReturnMemory(points.m_data, (points.m_iCapacityState & 0x3fffffff) * sizeof(D76250Vector4));
@@ -4156,7 +4150,7 @@ struct S_00d790d0_Arr {
     int m_iElementCount;
     int m_cap;
     __forceinline void AddBack(S_00d790d0_Item* v) {
-        S_00d7c340_Router* r = FUN_00c85750();
+        S_00d7c340_Router* r = static_cast<S_00d7c340_Router*>(::FUN_00c85750());
         if (m_iElementCount == (m_cap & 0x3fffffff))
             ::ResizeAudioStream((::AudioAllocator *)(r->unk10), (::AudioStream *)(void *)(this), 4);
         S_00d790d0_Item** p = m_data + m_iElementCount;
@@ -4165,7 +4159,7 @@ struct S_00d790d0_Arr {
         m_iElementCount++;
     }
     __forceinline void pushBackRef(S_00d790d0_Item*& v) {
-        S_00d7c340_Router* r = FUN_00c85750();
+        S_00d7c340_Router* r = static_cast<S_00d7c340_Router*>(::FUN_00c85750());
         if (m_iElementCount == (m_cap & 0x3fffffff))
             ::ResizeAudioStream((::AudioAllocator *)(r->unk10), (::AudioStream *)(void *)(this), 4);
         S_00d790d0_Item** p = m_data + m_iElementCount;
@@ -4628,7 +4622,6 @@ struct AudioHolder {
     AudioAllocator* m_pAllocator;
 };
 
-AudioHolder* __cdecl FUN_00c85750() throw();
 
 struct FUN_00d7ce20_cls {
     void FUN_00d7ce20();
@@ -4656,7 +4649,7 @@ void FUN_00d76940_cls::FUN_00d76940()
     FUN_00d7ce20_cls* pObj = m_08;
     if (pObj != 0) {
         reinterpret_cast<::fnv_00d7ce20::FUN_00d7ce20 *>((pObj))->fnv_00d7ce20::FUN_00d7ce20::~FUN_00d7ce20();
-        AudioHolder* pHolder = FUN_00c85750();
+        AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
         AudioAllocator* pAllocator = pHolder->m_pAllocator;
         pAllocator->Free(pObj, 0x1c0);
     }
@@ -4682,7 +4675,6 @@ struct S_00d76ca0_Router {
     S_00d76ca0_Alloc* m_pStreamAllocator;
     S_00d76ca0_Alloc& heap() { return *m_pStreamAllocator; }
 };
-S_00d76ca0_Router* FUN_00c85750();
 
 struct S_00d76ca0_Inner {
     S_00d76ca0_Inner* FUN_00d7f6a0();
@@ -4705,7 +4697,7 @@ struct FUN_00d76ca0 : S_00d76ca0_Base {
 // Requests a 0x1c0-byte block from the router heap, stores the result of FUN_00d7f6a0() when nonnull, and zeros m0c and m10.
 // @fnv 0x00d76ca0
 FUN_00d76ca0::FUN_00d76ca0() {
-    S_00d76ca0_Alloc& h = FUN_00c85750()->heap();
+    S_00d76ca0_Alloc& h = static_cast<S_00d76ca0_Router*>(::FUN_00c85750())->heap();
     void* p = h.AllocateMemoryBlock(0x1c0);
     m08 = p ? ((::fnv_00d76ca0::S_00d76ca0_Inner *)(new ((void *)(((S_00d76ca0_Inner*)p))) ::FUN_00d7f6a0())) : 0;
     m0c = 0;
@@ -4722,7 +4714,6 @@ struct FUN_00c85750_return {
     void* unk10;
 };
 
-FUN_00c85750_return* __cdecl FUN_00c85750();
 
 struct D76Allocator {
     virtual void v00();
@@ -4767,7 +4758,7 @@ struct FUN_00d76cf0_cls {
 // @fnv 0x00d76cf0
 D76Child* FUN_00d76cf0_cls::FUN_00d76cf0()
 {
-    FUN_00c85750_return* pHolder = FUN_00c85750();
+    FUN_00c85750_return* pHolder = static_cast<FUN_00c85750_return*>(::FUN_00c85750());
     D76Allocator* pAllocator = (D76Allocator*)pHolder->unk10;
     D76Child* pNew = (D76Child*)pAllocator->Alloc(0x14);
     pNew->m_04 = 0x14;
@@ -4775,7 +4766,7 @@ D76Child* FUN_00d76cf0_cls::FUN_00d76cf0()
     D76Old* pOld = (D76Old*)pNew->m_08;
     if (pOld != 0) {
         reinterpret_cast<::fnv_00d7ce20::FUN_00d7ce20 *>((pOld))->fnv_00d7ce20::FUN_00d7ce20::~FUN_00d7ce20();
-        FUN_00c85750_return* pHolder2 = FUN_00c85750();
+        FUN_00c85750_return* pHolder2 = static_cast<FUN_00c85750_return*>(::FUN_00c85750());
         D76Allocator* pAllocator2 = (D76Allocator*)pHolder2->unk10;
         pAllocator2->FreeArray(pOld, 0x1c0);
     }
@@ -4822,7 +4813,7 @@ struct hkArray {
 
     __forceinline hkArray() throw() : m_data(0), m_iElementCount(0), m_iCapacityState(0x80000000) {}
     __forceinline ~hkArray() throw() {
-        ClearAndRelease(S_00d7a010_Router::FUN_00c85750().heap());
+        ClearAndRelease((*static_cast<S_00d7a010_Router*>(::FUN_00c85750())).heap());
     }
 
     __forceinline void clear() throw() {
@@ -4862,7 +4853,7 @@ struct hkArray {
     }
 
     __forceinline void reserve(int n) throw() {
-        reserve(S_00d7a010_Router::FUN_00c85750().heap(), n);
+        reserve((*static_cast<S_00d7a010_Router*>(::FUN_00c85750())).heap(), n);
     }
 
     __forceinline void SetSizeAndGrow(int n) throw() {
@@ -4873,7 +4864,7 @@ struct hkArray {
     }
 
     __forceinline void AddBack(const T& t) throw() {
-        S_00d7c340_Router* router = FUN_00c85750();
+        S_00d7c340_Router* router = static_cast<S_00d7c340_Router*>(::FUN_00c85750());
         if (m_iElementCount == (m_iCapacityState & 0x3fffffff)) {
             ::ResizeAudioStream((::AudioAllocator *)(router->unk10), (::AudioStream *)(void *)(this), sizeof(T));
         }
@@ -4945,14 +4936,14 @@ void HkHull::FUN_00d80f90(hkArray<int>& indices, hkArray<int>& offsets) {
 
 struct D79580_Array : S_00d7a010_Array<S_00d79f90_Result*> {
     __forceinline void AddBack(S_00d79f90_Result* const& item) {
-        S_00d7c340_Router* router = FUN_00c85750();
+        S_00d7c340_Router* router = static_cast<S_00d7c340_Router*>(::FUN_00c85750());
         if (m_iElementCount == (m_iCapacityState & 0x3fffffff))
             ::ResizeAudioStream((::AudioAllocator *)(router->unk10), (::AudioStream *)(void *)(this), 4);
         MakeSlot((void**)m_data, m_iElementCount) = item;
         ++m_iElementCount;
     }
     __forceinline void clearAndFree() {
-        _clearAndDeallocate(S_00d7a010_Router::FUN_00c85750().heap());
+        _clearAndDeallocate((*static_cast<S_00d7a010_Router*>(::FUN_00c85750())).heap());
     }
 };
 bool __cdecl FUN_00d79510(S_00d79f90_Result*, S_00d79f90_Result*, D79580_Array*, float);
@@ -5914,7 +5905,7 @@ struct D78ea0Arr
     {}
     void clear()
     {
-        D76250Allocator& allocator = fnvc_adapt::FUN_00c85750().heap();
+        D76250Allocator& allocator = (*static_cast<D76250MemoryRouter*>(::FUN_00c85750())).heap();
         m_iElementCount = 0;
         if ((m_pRayCursor & 0x80000000) == 0)
             allocator.ReturnMemory(m_data, (m_pRayCursor & 0x3fffffff) * 16);
@@ -5971,7 +5962,7 @@ struct FUN_00d76ca0
     FUN_00d76ca0() throw();
     static void* operator new(std::size_t bytes)
     {
-        FUN_00d76ca0* p = (FUN_00d76ca0*)fnvc_adapt::FUN_00c85750().heap().AllocateMemoryBlock(bytes);
+        FUN_00d76ca0* p = (FUN_00d76ca0*)(*static_cast<D76250MemoryRouter*>(::FUN_00c85750())).heap().AllocateMemoryBlock(bytes);
         p->m_iElementCount = (unsigned short)bytes;
         return p;
     }
@@ -6021,7 +6012,7 @@ void* __cdecl FUN_00d78ea0(int first, ArgPair* apPairs, int count)
             listener = firstChild->v04();
         }
 
-        D76250Allocator& alloc = fnvc_adapt::FUN_00c85750().heap();
+        D76250Allocator& alloc = (*static_cast<D76250MemoryRouter*>(::FUN_00c85750())).heap();
         if ((arr.m_pRayCursor & 0x3fffffff) < sum)
         {
             int cap = arr.m_pRayCursor & 0x3fffffff;
@@ -6516,7 +6507,7 @@ template <class T> struct CloneArray
     }
     __forceinline void SetSizeAndGrow(int n)
     {
-        Singleton* s = reinterpret_cast<Singleton*>(FUN_00c85750());
+        Singleton* s = reinterpret_cast<Singleton*>(static_cast<S_00d7c340_Router*>(::FUN_00c85750()));
         reserve(*s->m_10, n);
         int extra = n - m_iArrayLength;
         T* start = m_pData + m_iArrayLength;
@@ -6640,17 +6631,17 @@ struct CloneHeapMap : CloneMapBase
     }
     __forceinline void reserve(int n)
     {
-        Singleton* s = (Singleton*)FUN_00c85750();
+        Singleton* s = (Singleton*)static_cast<S_00d7c340_Router*>(::FUN_00c85750());
         reinterpret_cast<::FUN_00cb1fe0_t *>(this)->EnsureCapacity((intptr_t)(s->m_10), n);
     }
     __forceinline int insert(unsigned long k, unsigned long v)
     {
-        Singleton* s = (Singleton*)FUN_00c85750();
+        Singleton* s = (Singleton*)static_cast<S_00d7c340_Router*>(::FUN_00c85750());
         return reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(this)->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(s->m_10)), k, v);
     }
     void clear()
     {
-        Singleton* s = (Singleton*)FUN_00c85750();
+        Singleton* s = (Singleton*)static_cast<S_00d7c340_Router*>(::FUN_00c85750());
         reinterpret_cast<::CB1A90Owner *>(this)->ProcessArgument((::CB1A90Argument *)(s->m_10));
     }
 };
@@ -6757,7 +6748,7 @@ public:
 // @fnv 0x00d7f720
 ThisCls* ThisCls::FUN_00d7f720()
 {
-    Singleton* s = reinterpret_cast<Singleton*>(FUN_00c85750());
+    Singleton* s = reinterpret_cast<Singleton*>(static_cast<S_00d7c340_Router*>(::FUN_00c85750()));
     Allocator* alloc = s->m_10;
     ThisCls* dst;
     void* fields2 = alloc->Alloc(0x1c0);
@@ -7398,7 +7389,7 @@ struct S00d76120_Arr {
 
     __forceinline D76250Vector4* expandBy(int n)
     {
-        D76250Allocator& alloc = fnvc_adapt::FUN_00c85750().heap();
+        D76250Allocator& alloc = (*static_cast<D76250MemoryRouter*>(::FUN_00c85750())).heap();
         int oldSize = m_iElementCount;
         reserve(alloc, oldSize + n);
         m_iElementCount += n;
@@ -7407,7 +7398,7 @@ struct S00d76120_Arr {
 
     __forceinline D76250Vector4* expandBy2(int n)
     {
-        D76250Allocator& alloc = *(D76250Allocator*)FUN_00c85750()->heap();
+        D76250Allocator& alloc = *(D76250Allocator*)static_cast<S_00d7c340_Router*>(::FUN_00c85750())->heap();
         int oldSize = m_iElementCount;
         int want = oldSize + n;
         int cap = getCapacity();
@@ -7476,7 +7467,7 @@ struct S_00d76410_Router {
     S_00d76410_Alloc& heap() { return *m_pStreamAllocator; }
 };
 void __cdecl FUN_00c908c0(S_00d76410_Alloc* alloc, void* array, intptr_t numElements, int elemSize);
-static __forceinline S_00d76410_Router& getRouter() { return *reinterpret_cast<S_00d76410_Router*>(FUN_00c85750()); }
+static __forceinline S_00d76410_Router& getRouter() { return *reinterpret_cast<S_00d76410_Router*>(static_cast<S_00d7c340_Router*>(::FUN_00c85750())); }
 template <typename T>
 struct S_00d76410_Array {
     T* m_data;
@@ -7762,7 +7753,6 @@ struct S_00d77380_Router {
     S_00d77380_Allocator* m_pStreamAllocator;
     S_00d77380_Allocator& heap() { return *m_pStreamAllocator; }
 };
-namespace fnvc_adapt2 { extern "C" S_00d77380_Router& __cdecl FUN_00c85750(); }
 void __cdecl FUN_00c908c0(S_00d77380_Allocator* alloc, void* array, intptr_t numElements, int sizeElem);
 
 struct S_00d77380_Vec4 {
@@ -7778,7 +7768,7 @@ struct S_00d77380_Array {
     S_00d77380_Array() : m_data(0), m_iElementCount(0), m_iCapacityState(0x80000000) {}
     ~S_00d77380_Array()
     {
-        S_00d77380_Allocator& alloc = fnvc_adapt2::FUN_00c85750().heap();
+        S_00d77380_Allocator& alloc = (*static_cast<S_00d77380_Router*>(::FUN_00c85750())).heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
             alloc.ReleaseBlock(m_data, getCapacity() * sizeof(S_00d77380_Vec4));
@@ -7786,7 +7776,7 @@ struct S_00d77380_Array {
     int getCapacity() const { return m_iCapacityState & 0x3fffffff; }
     void reserve(int n)
     {
-        S_00d77380_Allocator& alloc = fnvc_adapt2::FUN_00c85750().heap();
+        S_00d77380_Allocator& alloc = (*static_cast<S_00d77380_Router*>(::FUN_00c85750())).heap();
         const int cap = getCapacity();
         if (cap < n) {
             int cap2 = 2 * cap;
@@ -7831,18 +7821,18 @@ struct OffsetArray {
     int capacity;
     __forceinline void init() { data=0; size=0; capacity=0x80000000; }
     __forceinline void reserve(int n) {
-        S_00d7a010_Router& router=S_00d7a010_Router::FUN_00c85750();
+        S_00d7a010_Router& router=(*static_cast<S_00d7a010_Router*>(::FUN_00c85750()));
         if((capacity&0x3fffffff)<n) FUN_00c908c0(router.m_pStreamAllocator,this,n,16);
     }
     __forceinline void AddBack(const __m128& value) {
-        S_00d7a010_Router& router=S_00d7a010_Router::FUN_00c85750();
+        S_00d7a010_Router& router=(*static_cast<S_00d7a010_Router*>(::FUN_00c85750()));
         if(size==(capacity&0x3fffffff)) ResizeAudioStream(router.m_pStreamAllocator,this,16);
                 __m128* dest=data+size;
         for(int j=0;j<1;++j) dest[j]=value;
         ++size;
     }
     __forceinline void clearAndFree() {
-        S_00d7a010_Alloc& a=S_00d7a010_Router::FUN_00c85750().heap();
+        S_00d7a010_Alloc& a=(*static_cast<S_00d7a010_Router*>(::FUN_00c85750())).heap();
         size=0;
         if((capacity&0x80000000)==0) a.ReturnMemory(data,(capacity&0x3fffffff)*16);
     }
@@ -7885,7 +7875,7 @@ struct BlendRouter {
     BlendHeap* heap;
     BlendFactory* factory;
 };
-static __forceinline BlendRouter* router() { return (BlendRouter*)FUN_00c85750(); }
+static __forceinline BlendRouter* router() { return (BlendRouter*)static_cast<S_00d7c340_Router*>(::FUN_00c85750()); }
 struct BlendInput {
     const float* data;
     int count;
@@ -8118,7 +8108,7 @@ struct PoolBlock40
 
     static void operator delete(void* p, std::size_t size)
     {
-        ((BlockAllocAB*)FUN_00c85750()->heap())->ReleaseBlock(p, size);
+        ((BlockAllocAB*)static_cast<S_00d7c340_Router*>(::FUN_00c85750())->heap())->ReleaseBlock(p, size);
     }
 };
 struct PoolItem40;
@@ -8211,7 +8201,7 @@ struct PoolBlock48
 
     static void operator delete(void* p, std::size_t size)
     {
-        ((BlockAllocAB*)FUN_00c85750()->heap())->ReleaseBlock(p, size);
+        ((BlockAllocAB*)static_cast<S_00d7c340_Router*>(::FUN_00c85750())->heap())->ReleaseBlock(p, size);
     }
 };
 
@@ -8258,7 +8248,7 @@ struct ProjectionAllocator {
 struct ProjectionArray: D76250VectorArray {
     __forceinline ProjectionArray() { m_data=0; m_iElementCount=0; m_iCapacityState=0x80000000; }
     __forceinline ~ProjectionArray() {
-        ProjectionAllocator& a=(ProjectionAllocator&)fnvc_adapt::FUN_00c85750().heap();
+        ProjectionAllocator& a=(ProjectionAllocator&)(*static_cast<D76250MemoryRouter*>(::FUN_00c85750())).heap();
         m_iElementCount=0;
         if((m_iCapacityState&0x80000000)==0) a.ReturnMemory(m_data,getCapacity()*sizeof(D76250Vector4));
     }
@@ -8269,7 +8259,7 @@ struct ProjectionArray: D76250VectorArray {
         return m_data+oldSize;
     }
     __forceinline D76250Vector4* expandBy(int n) {
-        return _expandBy(fnvc_adapt::FUN_00c85750().heap(),n);
+        return _expandBy((*static_cast<D76250MemoryRouter*>(::FUN_00c85750())).heap(),n);
     }
 };
 struct ProjectionVertex {
@@ -8330,7 +8320,7 @@ template<class T> struct ExportArray {
     __forceinline void init(T* p,int n) { data=p; size=0; capacity=0x80000000|n; }
     __forceinline int getCapacity() const { return capacity & 0x3fffffff; }
     __forceinline void reserve(int n) {
-        D76250Allocator& a=fnvc_adapt::FUN_00c85750().heap();
+        D76250Allocator& a=(*static_cast<D76250MemoryRouter*>(::FUN_00c85750())).heap();
         if(getCapacity()<n) {
             int cap2=getCapacity()*2;
             int newcap=n<cap2?cap2:n;
@@ -8338,14 +8328,14 @@ template<class T> struct ExportArray {
         }
     }
     __forceinline void AddBack(const T& v) {
-        D76250Allocator& a=fnvc_adapt::FUN_00c85750().heap();
+        D76250Allocator& a=(*static_cast<D76250MemoryRouter*>(::FUN_00c85750())).heap();
         if(size==getCapacity()) ResizeAudioStream((void*)&a,this,sizeof(T));
         T* p=data+size;
         for(int i=0;i<1;++i) p[i]=v;
         ++size;
     }
     __forceinline void clearAndFree() {
-        ExportAllocator& a=(ExportAllocator&)fnvc_adapt::FUN_00c85750().heap();
+        ExportAllocator& a=(ExportAllocator&)(*static_cast<D76250MemoryRouter*>(::FUN_00c85750())).heap();
         size=0;
         if((capacity & 0x80000000)==0) a.ReturnMemory(data,getCapacity()*sizeof(T));
     }
@@ -8656,7 +8646,7 @@ template<class T> struct PolygonArray {
         }
     }
     __forceinline void reserve(int n) {
-        reserve(fnvc_adapt::FUN_00c85750().heap(), n);
+        reserve((*static_cast<D76250MemoryRouter*>(::FUN_00c85750())).heap(), n);
     }
     __forceinline static void construct(T* p, int n, const T& value) {
         for (int i = 0; i < n; ++i) p[i] = value;
@@ -8666,7 +8656,7 @@ template<class T> struct PolygonArray {
         ++size;
     }
     __forceinline void AddBack(const T& value) {
-        D76250MemoryRouter& router = fnvc_adapt::FUN_00c85750();
+        D76250MemoryRouter& router = (*static_cast<D76250MemoryRouter*>(::FUN_00c85750()));
         if (size == capacity()) ResizeAudioStream((void*)&router.heap(), this, sizeof(T));
         pushBackUnchecked(value);
     }
@@ -8674,7 +8664,7 @@ template<class T> struct PolygonArray {
         size = 0;
         if ((capacityAndFlags & 0x80000000) == 0) a.ReturnMemory(data, capacity() * sizeof(T));
     }
-    __forceinline void release() { ClearAndRelease(fnvc_adapt::FUN_00c85750().heap()); }
+    __forceinline void release() { ClearAndRelease((*static_cast<D76250MemoryRouter*>(::FUN_00c85750())).heap()); }
 };
 template<class T, int N> struct PolygonInplaceArray : PolygonArray<T> {
     T storage[N];
@@ -9214,13 +9204,13 @@ void S_00d79f90_Result::FUN_00d78720(float f,const S_00d79f90_Opts& opts)
                 if(radius<opts.value) radius=opts.value;
                 radius/=length;
                 __m128 value=_mm_add_ps(_mm_mul_ps(_mm_load_ps1(&radius),delta),c);
-                S_00d7a010_Router& router=S_00d7a010_Router::FUN_00c85750();
+                S_00d7a010_Router& router=(*static_cast<S_00d7a010_Router*>(::FUN_00c85750()));
                 if(array.size==(array.capacity&0x3fffffff)) ResizeAudioStream(router.m_pStreamAllocator,&array,16);
                 __m128* dest=array.data+array.size;
                 for(int j=0;j<1;++j) dest[j]=value;
                 ++array.size;
             } else {
-                S_00d7a010_Router& router=S_00d7a010_Router::FUN_00c85750();
+                S_00d7a010_Router& router=(*static_cast<S_00d7a010_Router*>(::FUN_00c85750()));
                 if(array.size==(array.capacity&0x3fffffff)) ResizeAudioStream(router.m_pStreamAllocator,&array,16);
                 __m128* dest=array.data+array.size;
                 for(int j=0;j<1;++j) dest[j]=*point;
@@ -9244,7 +9234,7 @@ void S_00d79f90_Result::FUN_00d78720(float f,const S_00d79f90_Opts& opts)
 
 static __forceinline void release_out(D76250VectorArray& out)
 {
-    D76250Allocator& a3 = fnvc_adapt::FUN_00c85750().heap();
+    D76250Allocator& a3 = (*static_cast<D76250MemoryRouter*>(::FUN_00c85750())).heap();
     int cap = out.m_iCapacityState;
     out.m_iElementCount = 0;
     if ((cap & 0x80000000) == 0) {
@@ -9276,7 +9266,7 @@ int S_00d77840::FUN_00d77840(const D76250Vector4* pts, int n, const D76250Vector
     }
 
     int need = 3 * n;
-    D76250Allocator& alloc = fnvc_adapt::FUN_00c85750().heap();
+    D76250Allocator& alloc = (*static_cast<D76250MemoryRouter*>(::FUN_00c85750())).heap();
     out.reserve(alloc, need);
 
     const Tt_V4* planes = (const Tt_V4*)pts;
@@ -9300,7 +9290,7 @@ int S_00d77840::FUN_00d77840(const D76250Vector4* pts, int n, const D76250Vector
                     }
                 }
                 if (ok) {
-                    D76250Allocator& a2 = fnvc_adapt::FUN_00c85750().heap();
+                    D76250Allocator& a2 = (*static_cast<D76250MemoryRouter*>(::FUN_00c85750())).heap();
                     if (out.m_iElementCount == out.getCapacity())
                         ResizeAudioStream(&a2, &out, 0x10);
                     _mm_store_ps((float*)(out.m_data + out.m_iElementCount), x.m_vComponents);
@@ -9407,7 +9397,7 @@ template <typename T>
 static __forceinline void S00d79ab0_bufFree(S_00d7a010_Alloc& a, void* p, int numElem) { a.ReturnMemory(p, numElem * (int)sizeof(T)); }
 
 struct S00d79ab0_ContainerHeapAllocator {
-    __forceinline S_00d7a010_Alloc& get(const void*) { return S_00d7a010_Router::FUN_00c85750().heap(); }
+    __forceinline S_00d7a010_Alloc& get(const void*) { return (*static_cast<S_00d7a010_Router*>(::FUN_00c85750())).heap(); }
 };
 
 template <typename T>
@@ -9697,7 +9687,7 @@ class S00d7cf00_Array {
 public:
     __forceinline S00d7cf00_Array() : m_data(0), m_iElementCount(0), m_iCapacityState(0x80000000) {}
     __forceinline ~S00d7cf00_Array() { ClearAndRelease(); }
-    __forceinline D76250Allocator& alloc() { return fnvc_adapt::FUN_00c85750().heap(); }
+    __forceinline D76250Allocator& alloc() { return (*static_cast<D76250MemoryRouter*>(::FUN_00c85750())).heap(); }
     __forceinline int GetLogicalSize() const { return m_iElementCount; }
     __forceinline int getCapacity() const { return m_iCapacityState & 0x3fffffff; }
     __forceinline S00d7cf00_Vector4& operator[](int i) { return m_data[i]; }
@@ -10098,7 +10088,7 @@ struct S00d82ad0_Router {
 
 static __forceinline S00d82ad0_Router* S00d82ad0_router()
 {
-    return (S00d82ad0_Router*)FUN_00c85750();
+    return (S00d82ad0_Router*)static_cast<S_00d7c340_Router*>(::FUN_00c85750());
 }
 
 struct S00d82ad0_VecArr {
@@ -10438,7 +10428,7 @@ struct VecArrayBase {
     __forceinline int GetSize() const { return m_uiLogicalSize; }
     __forceinline void Clear() throw()
     {
-        HullMemory* pMem = ((HullMemory*)&fnvc_adapt::FUN_00c85750());
+        HullMemory* pMem = ((HullMemory*)&(*static_cast<D76250MemoryRouter*>(::FUN_00c85750())));
         HullAllocator* pAlloc = pMem->m_pAllocator;
         int iCap = m_iCapAndFlags;
         m_uiLogicalSize = 0;
@@ -10450,7 +10440,7 @@ struct VecArrayBase {
     }
     __forceinline void Reserve(int n) throw()
     {
-        HullMemory* pMem = ((HullMemory*)&fnvc_adapt::FUN_00c85750());
+        HullMemory* pMem = ((HullMemory*)&(*static_cast<D76250MemoryRouter*>(::FUN_00c85750())));
         HullAllocator* pAlloc = pMem->m_pAllocator;
         int iCap = m_iCapAndFlags & 0x3fffffff;
         if (iCap < n) {
@@ -10460,7 +10450,7 @@ struct VecArrayBase {
     }
     __forceinline void PushBack(const HullVec& v) throw()
     {
-        HullMemory* pMem = ((HullMemory*)&fnvc_adapt::FUN_00c85750());
+        HullMemory* pMem = ((HullMemory*)&(*static_cast<D76250MemoryRouter*>(::FUN_00c85750())));
         if (m_uiLogicalSize == (m_iCapAndFlags & 0x3fffffff)) {
             ResizeAudioStream((D76250Allocator*)pMem->m_pAllocator, this, 16);
         }
@@ -10689,7 +10679,7 @@ struct SampleStream {
 struct SampleTrivialVector { __m128 m_vComponents; };
 union SampleWorkspace { SampleTrivialVector extents; SampleStream stream; __forceinline SampleWorkspace(const D76250Vector4& v):extents((const SampleTrivialVector&)v) {} };
 static __forceinline void appendSample(D76250VectorArray& out,const D76250Vector4& value) {
-    D76250Allocator& alloc=fnvc_adapt::FUN_00c85750().heap();
+    D76250Allocator& alloc=(*static_cast<D76250MemoryRouter*>(::FUN_00c85750())).heap();
     if(out.m_iElementCount==out.getCapacity()) ResizeAudioStream((void*)&alloc,&out,16);
     D76250Vector4* dest=out.m_data+out.m_iElementCount;
     for(int i=0;i<1;++i) dest[i]=value;
@@ -10821,16 +10811,16 @@ static __forceinline void markEnumeration(const char* tag) {
 struct PlanePointArray: D76250VectorArray {
     __forceinline PlanePointArray() {m_data=0;m_iElementCount=0;m_iCapacityState=0x80000000;}
     __forceinline ~PlanePointArray() {
-        S_00d7a010_Alloc& heap=S_00d7a010_Router::FUN_00c85750().heap();
+        S_00d7a010_Alloc& heap=(*static_cast<S_00d7a010_Router*>(::FUN_00c85750())).heap();
         m_iElementCount=0;
         if((m_iCapacityState&0x80000000)==0) heap.ReturnMemory(m_data,getCapacity()*sizeof(PlaneVector));
     }
     __forceinline void reserve(int n) {
-        D76250Allocator& heap=fnvc_adapt::FUN_00c85750().heap();
+        D76250Allocator& heap=(*static_cast<D76250MemoryRouter*>(::FUN_00c85750())).heap();
         D76250VectorArray::reserve(heap,n);
     }
     __forceinline void append(const PlaneVector& v) {
-        D76250Allocator& heap=fnvc_adapt::FUN_00c85750().heap();
+        D76250Allocator& heap=(*static_cast<D76250MemoryRouter*>(::FUN_00c85750())).heap();
         if(m_iElementCount==getCapacity()) ResizeAudioStream((void*)&heap,this,sizeof(PlaneVector));
         PlaneVector* dst=(PlaneVector*)m_data+m_iElementCount;
         for(int n=0;n<1;++n) dst[n]=v;
@@ -10892,7 +10882,7 @@ struct AllocHolder {
     HullAllocator* m_pHeap;
     HullAllocator* m_pTemp;
 };
-inline AllocHolder* Holder() { return (AllocHolder*)FUN_00c85750(); }
+inline AllocHolder* Holder() { return (AllocHolder*)static_cast<S_00d7c340_Router*>(::FUN_00c85750()); }
 
 void __cdecl FUN_00c909d0(HullAllocator* alloc, void* arr, int elemSize, int unused, int n);
 struct IndexVertex {
@@ -11759,7 +11749,7 @@ struct BevelArray {
     BevelVector* m_data; int m_iElementCount,m_cap;
     __forceinline const BevelVector& operator[](int i) const { return m_data[i]; }
     __forceinline void append(const BevelVector& v) {
-        S_00d7c340_Router* r=FUN_00c85750();
+        S_00d7c340_Router* r=static_cast<S_00d7c340_Router*>(::FUN_00c85750());
         if(m_iElementCount==(m_cap&0x3fffffff)) ResizeAudioStream(r->unk10,this,16);
         BevelVector* dst=m_data+m_iElementCount;
         for(int k=0;k<1;k++) dst[k]=v;
@@ -12425,7 +12415,7 @@ public:
     int m_iCapacityState;
 };
 struct S00d81510_ContainerHeapAllocator {
-    __forceinline S00d81510_Allocator& get(const void*) { return reinterpret_cast<S00d81510_Router&>(*FUN_00c85750()).heap(); }
+    __forceinline S00d81510_Allocator& get(const void*) { return reinterpret_cast<S00d81510_Router&>(*static_cast<S_00d7c340_Router*>(::FUN_00c85750())).heap(); }
 };
 template <typename T, typename Tag>
 class S00d81510_Array : public S00d81510_ArrayBase<T, Tag> {
@@ -12612,7 +12602,7 @@ void S_00d827b0_Owner::FUN_00d827b0(S_00d827b0_Param* param)
             arr.m_data = 0;
             arr.m_iElementCount = 0;
             arr.m_iCapacityState = 0x80000000;
-            D76250Allocator& alloc = fnvc_adapt::FUN_00c85750().heap();
+            D76250Allocator& alloc = (*static_cast<D76250MemoryRouter*>(::FUN_00c85750())).heap();
             int oldSize = arr.m_iElementCount;
             int need = oldSize + extra;
             int cap = arr.m_iCapacityState & 0x3fffffff;
@@ -12650,7 +12640,7 @@ void S_00d827b0_Owner::FUN_00d827b0(S_00d827b0_Param* param)
             if (b4.value)
                 reinterpret_cast<::hkgpConvexHullImpl *>(this)->FUN_00d7b600();
 
-            S_00d7a010_Alloc& heap = (S_00d7a010_Alloc&)fnvc_adapt::FUN_00c85750().heap();
+            S_00d7a010_Alloc& heap = (S_00d7a010_Alloc&)(*static_cast<D76250MemoryRouter*>(::FUN_00c85750())).heap();
             arr.m_iElementCount = 0;
             if ((arr.m_iCapacityState & 0x80000000) == 0)
                 heap.ReturnMemory(arr.m_data, (arr.m_iCapacityState & 0x3fffffff) * sizeof(D76250Vector4));
@@ -13105,7 +13095,7 @@ struct S83_Alloc {
     template<class T> __forceinline void freeElements(void* p,int count) { ReturnMemory(p,count*sizeof(T)); }
 
 };
-static __forceinline S83_Alloc& S83_heap() { return *reinterpret_cast<S83_Alloc*>(FUN_00c85750()->heap()); }
+static __forceinline S83_Alloc& S83_heap() { return *reinterpret_cast<S83_Alloc*>(static_cast<S_00d7c340_Router*>(::FUN_00c85750())->heap()); }
 struct S83_PlainElement {};
 struct S83_ElementOps {
     template<class T> static __forceinline void create(T*,int,S83_PlainElement) {}
@@ -13601,7 +13591,7 @@ public:
     int m_iCapacityState;
 };
 struct S00d7fb80_ContainerHeapAllocator {
-    __forceinline S00d7fb80_Allocator& get(const void*) { return reinterpret_cast<S00d7fb80_Router&>(*FUN_00c85750()).heap(); }
+    __forceinline S00d7fb80_Allocator& get(const void*) { return reinterpret_cast<S00d7fb80_Router&>(*static_cast<S_00d7c340_Router*>(::FUN_00c85750())).heap(); }
 };
 template <typename T>
 class S00d7fb80_Array : public S00d7fb80_ArrayBase<T> {
@@ -14174,12 +14164,12 @@ struct ExpandArray {
     int capacity;
     __forceinline void init() {data=0;size=0;capacity=0x80000000;}
     __forceinline void clearAndFree() {
-        ExpandHeap& heap=(ExpandHeap&)fnvc_adapt::FUN_00c85750().heap();
+        ExpandHeap& heap=(ExpandHeap&)(*static_cast<D76250MemoryRouter*>(::FUN_00c85750())).heap();
         size=0;
         if ((capacity&0x80000000)==0) heap.ReturnMemory(data,(capacity&0x3fffffff)*sizeof(ExpandVector));
     }
     __forceinline void reserve(int n) {
-        D76250Allocator& heap=fnvc_adapt::FUN_00c85750().heap();
+        D76250Allocator& heap=(*static_cast<D76250MemoryRouter*>(::FUN_00c85750())).heap();
         const int cap=capacity&0x3fffffff;
         if (cap<n) {
             int twice=cap*2;
@@ -14195,12 +14185,12 @@ struct ExpandArray {
         size=n;
     }
     __forceinline ExpandVector& AllocatePair() {
-        D76250MemoryRouter& router=fnvc_adapt::FUN_00c85750();
+        D76250MemoryRouter& router=(*static_cast<D76250MemoryRouter*>(::FUN_00c85750()));
         if (size==(capacity&0x3fffffff)) ResizeAudioStream((void*)&router.heap(),this,sizeof(ExpandVector));
         return data[size++];
     }
     __forceinline void AddBack(const ExpandVector& value) {
-        D76250MemoryRouter& router=fnvc_adapt::FUN_00c85750();
+        D76250MemoryRouter& router=(*static_cast<D76250MemoryRouter*>(::FUN_00c85750()));
         if (size==(capacity&0x3fffffff)) ResizeAudioStream((void*)&router.heap(),this,sizeof(ExpandVector));
         ExpandVector* p=data+size;
         for(int i=0;i<1;++i) p[i].assign(value);
@@ -14493,7 +14483,6 @@ struct H77MemoryRouter
     int unk0C;
     H77Allocator* m_pStreamAllocator;
 
-    static H77MemoryRouter& FUN_00c85750() throw();
     H77Allocator& heap()
     {
         return *m_pStreamAllocator;
@@ -14521,7 +14510,7 @@ struct H77VectorArray
     {}
     ~H77VectorArray()
     {
-        H77Allocator& alloc = H77MemoryRouter::FUN_00c85750().heap();
+        H77Allocator& alloc = (*static_cast<H77MemoryRouter*>(::FUN_00c85750())).heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
             alloc.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(H77Vector4));
@@ -14542,7 +14531,7 @@ struct H77VectorArray
 
     void SetSizeAndGrow(int n)
     {
-        H77Allocator& alloc = H77MemoryRouter::FUN_00c85750().heap();
+        H77Allocator& alloc = (*static_cast<H77MemoryRouter*>(::FUN_00c85750())).heap();
         int cap = m_iCapacityState & 0x3fffffff;
         if (cap < n)
         {

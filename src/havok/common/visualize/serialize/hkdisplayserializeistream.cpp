@@ -1,6 +1,7 @@
 // src/havok/common/visualize/serialize/hkdisplayserializeistream.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/visualize/serialize/hkdisplayserializeistream.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include "fnv_simd.h"
 #include <cstddef>
 #include <new>
@@ -66,7 +67,6 @@ struct ArrayPair
 struct BSAudio
 {
 };
-BSAudio* __cdecl FUN_00c85750();
 struct FUN_00ddacd0_shell
 {
     void FUN_00ddac00(void* output);
@@ -82,7 +82,7 @@ void FUN_00ddacd0_shell::FUN_00ddacd0(ArrayPair* arrays)
         {
             for (int remaining = firstCount; remaining != 0; --remaining)
             {
-                BSAudio* allocator = FUN_00c85750();
+                BSAudio* allocator = static_cast<BSAudio*>(::FUN_00c85750());
                 void* growFunction = *(void**)((char*)allocator + 0x10);
                 ArrayRecord* array = &arrays->first;
                 int size = array->size;
@@ -109,7 +109,7 @@ void FUN_00ddacd0_shell::FUN_00ddacd0(ArrayPair* arrays)
             ArrayRecord* array = &arrays->second;
             for (int remaining = secondCount; remaining != 0; --remaining)
             {
-                BSAudio* allocator = FUN_00c85750();
+                BSAudio* allocator = static_cast<BSAudio*>(::FUN_00c85750());
                 void* growFunction = *(void**)((char*)allocator + 0x10);
                 int size = array->size;
                 int needed = size + 1;
@@ -162,7 +162,7 @@ FUN_00dd9210_cls* FUN_00dd9210_cls::FUN_00dd9210(unsigned char acFlags)
     reinterpret_cast<::hkLargeBlockAllocator *>(this)->FUN_00dd91f0();
     if (acFlags & 1)
     {
-        AudioHolder* pHolder = reinterpret_cast<AudioHolder*>(FUN_00c85750());
+        AudioHolder* pHolder = reinterpret_cast<AudioHolder*>(static_cast<BSAudio*>(::FUN_00c85750()));
         AudioAllocator* pAllocator = pHolder->m_pAllocator;
         pAllocator->Free(this, m_uSize);
     }
@@ -291,7 +291,7 @@ struct hkMemoryRouterQ
 
 __forceinline hkMemoryRouterQ* getRouterQ()
 {
-    return (hkMemoryRouterQ*)FUN_00c85750();
+    return (hkMemoryRouterQ*)static_cast<BSAudio*>(::FUN_00c85750());
 }
 
 struct hkGeometryQ

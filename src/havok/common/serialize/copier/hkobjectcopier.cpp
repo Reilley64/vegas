@@ -1,5 +1,6 @@
 // havok/common/serialize/copier/hkobjectcopier.cpp: Object, Host (12 functions)
 
+#include "fnv/symbols_00c85000.h"
 #include <cstdint>
 #include "fnv/decl/Owner.h"
 #include "fnv/decl/TestClass.h"
@@ -80,7 +81,6 @@ struct E04A00MemoryRouter {
     E04A00Allocator& heap() { return *m_pStreamAllocator; }
 };
 
-extern "C" E04A00MemoryRouter& __cdecl FUN_00c85750();
 
 struct E04A00Entry {
     void* m_kPointA;
@@ -102,7 +102,7 @@ struct E04A00EntryArray {
         m_iElementCount++;
     }
 
-    void AddBack(const E04A00Entry& e) { _pushBack(FUN_00c85750().heap(), e); }
+    void AddBack(const E04A00Entry& e) { _pushBack((*static_cast<E04A00MemoryRouter*>(::FUN_00c85750())).heap(), e); }
 };
 
 struct E04A00Registry {
@@ -277,7 +277,7 @@ static int AppendListEntry(Ctx* ctx, List* list, intptr_t a, intptr_t b)
     VObj* value = ((::VObj *)(reinterpret_cast<::FUN_00d60800_class *>((ctx))->FUN_00d60800()));
     FUN_00e03360(value, 2);
     value = ((::VObj *)(reinterpret_cast<::FUN_00d60800_class *>((ctx))->FUN_00d60800()))->v20();
-    E04A00MemoryRouter& router = FUN_00c85750();
+    E04A00MemoryRouter& router = (*static_cast<E04A00MemoryRouter*>(::FUN_00c85750()));
     if (list->m_uiItemCount == (int)(list->m_iCapacityState & 0x3fffffffu))
     {
         ::ResizeAudioStream((::AudioAllocator *)(router.m_pStreamAllocator), (::AudioStream *)(list), 8);
@@ -354,7 +354,7 @@ struct MemRouter
     HeapAlloc* m_pStreamAllocator;
 };
 
-inline MemRouter& Router() { return reinterpret_cast<MemRouter&>(FUN_00c85750()); }
+inline MemRouter& Router() { return reinterpret_cast<MemRouter&>((*static_cast<E04A00MemoryRouter*>(::FUN_00c85750()))); }
 extern "C" void* __cdecl FUN_00ec61c0(void* dst, int val, int n);
 
 static __forceinline void Construct(char* p, int c)
@@ -854,7 +854,7 @@ int Host::FUN_00e036b0(StreamObj* apSourceStream, StreamObj* apLookupStream, Str
                     }
                     cur += state1.flagq;
                     {
-                        HeapAlloc& heap = *reinterpret_cast<HeapAlloc*>(&FUN_00c85750().heap());
+                        HeapAlloc& heap = *reinterpret_cast<HeapAlloc*>(&(*static_cast<E04A00MemoryRouter*>(::FUN_00c85750())).heap());
                         work.values.size = 0;
                         if ((work.values.capacity & 0x80000000) == 0)
                             heap.ReleaseBlock(work.values.data, (work.values.capacity & 0x3fffffff) * 4);
@@ -954,7 +954,7 @@ struct S00e03ea0_PairArray {
         m_iElementCount++;
     }
 
-    void AddBack(const RootPair& e) { _pushBack(FUN_00c85750().heap(), e); }
+    void AddBack(const RootPair& e) { _pushBack((*static_cast<E04A00MemoryRouter*>(::FUN_00c85750())).heap(), e); }
 };
 
 struct S00e03ea0_Out {

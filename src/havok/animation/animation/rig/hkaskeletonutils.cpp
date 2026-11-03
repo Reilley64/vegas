@@ -296,7 +296,6 @@ struct ScanObj
 {
 };
 
-HolderRec* FUN_00c85750();
 
 // @fnv 0x00cde3d0
 unsigned char* WalkChainUntilLimit(unsigned char* pabResult, ScanRec* rec, short asLimit, short asStart, ScanObj* obj)
@@ -311,7 +310,7 @@ unsigned char* WalkChainUntilLimit(unsigned char* pabResult, ScanRec* rec, short
         {
             if ((short)idx == sLimit)
                 break;
-            HolderRec* h = FUN_00c85750();
+            HolderRec* h = static_cast<HolderRec*>(::FUN_00c85750());
             reinterpret_cast<::FUN_00cde940_cls *>((obj))->FUN_00cde940(h->m_10, 0, (intptr_t)(&iCurrent));
             idx = rec->m_0c[(short)idx];
             iCurrent = idx;
@@ -319,7 +318,7 @@ unsigned char* WalkChainUntilLimit(unsigned char* pabResult, ScanRec* rec, short
     }
     {
         int out;
-        HolderRec* h = FUN_00c85750();
+        HolderRec* h = static_cast<HolderRec*>(::FUN_00c85750());
         reinterpret_cast<::FUN_00cde940_cls *>((obj))->FUN_00cde940(h->m_10, 0, (intptr_t)(&out));
     }
     *pabResult = ((short)idx >= 0);
@@ -349,7 +348,6 @@ struct S_00cde450_Router
     }
 };
 
-S_00cde450_Router* __cdecl FUN_00c85750();
 
 struct S_00cde450_ByteArr;
 struct S_00cde450_UShortArr;
@@ -362,7 +360,7 @@ struct S_00cde450_UShortArr
 
     void AddBack(unsigned short v)
     {
-        S_00cde450_Heap& h = FUN_00c85750()->heap();
+        S_00cde450_Heap& h = static_cast<S_00cde450_Router*>(::FUN_00c85750())->heap();
         if (m_iElementCount == (m_cap & 0x3fffffff))
             ::ResizeAudioStream((::AudioAllocator *)&(h), (::AudioStream *)(::fnv_00cde450::S_00cde450_UShortArr *)(this), 2);
         unsigned short* p = m_data + m_iElementCount;
@@ -415,7 +413,7 @@ void __cdecl CollectReachableNodes(S_00cde450_Graph* g, short asStartIndex, S_00
     bits.m_iElementCount = 0;
     bits.m_cap = 0x80000000;
     {
-        S_00cde450_Router* r = FUN_00c85750();
+        S_00cde450_Router* r = static_cast<S_00cde450_Router*>(::FUN_00c85750());
         char* top = r->m_fMinimumV;
         r->m_fMinimumV = top + ((iNodeCount + 0x7f) & ~0x7f);
         bits.m_cap = iNodeCount | 0x80000000;
@@ -424,7 +422,7 @@ void __cdecl CollectReachableNodes(S_00cde450_Graph* g, short asStartIndex, S_00
     }
     int n = g->count;
     {
-        S_00cde450_Heap& h = FUN_00c85750()->heap();
+        S_00cde450_Heap& h = static_cast<S_00cde450_Router*>(::FUN_00c85750())->heap();
         int c = bits.m_cap & 0x3fffffff;
         if (c < n)
             ::FUN_00c908c0((::SpawnedObject *)&(h), (::SpawnedArray *)(::fnv_00cde450::S_00cde450_ByteArr *)(&bits), (n < c * 2) ? c * 2 : n, 1);
@@ -448,8 +446,8 @@ void __cdecl CollectReachableNodes(S_00cde450_Graph* g, short asStartIndex, S_00
     char* pAllocBase = bits.m_pTrailingData;
     if (pAllocBase == bits.m_data)
         bits.m_iElementCount = 0;
-    FUN_00c85750()->m_fMinimumV = pAllocBase;
-    S_00cde450_Heap& h2 = FUN_00c85750()->heap();
+    static_cast<S_00cde450_Router*>(::FUN_00c85750())->m_fMinimumV = pAllocBase;
+    S_00cde450_Heap& h2 = static_cast<S_00cde450_Router*>(::FUN_00c85750())->heap();
     bits.m_iElementCount = 0;
     if ((bits.m_cap & 0x80000000) == 0)
         h2.ReturnMemory(bits.m_data, bits.m_cap & 0x3fffffff);
@@ -695,7 +693,7 @@ struct Property
     __m128 vector;
     static void* operator new(std::size_t bytes)
     {
-        AllocationService* service = reinterpret_cast<AllocationService*>(FUN_00c85750());
+        AllocationService* service = reinterpret_cast<AllocationService*>(static_cast<HolderRec*>(::FUN_00c85750()));
         return service->allocator->Allocate(bytes);
     }
     Property()

@@ -2,6 +2,7 @@
 // src/havok/common/base/system/error/hkerror.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/system/error/hkerror.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include <new>
 #include "fnv/decl/CC0280Writer.h"
@@ -129,7 +130,6 @@ struct S_00cb17b0_Router
         return *m_pStreamAllocator;
     }
 };
-S_00cb17b0_Router* FUN_00c85750();
 struct S_00cb17b0_RefObj
 {
     virtual ~S_00cb17b0_RefObj();
@@ -138,7 +138,7 @@ struct S_00cb17b0_RefObj
     void operator delete(void* p)
     {
         S_00cb17b0_RefObj* b = static_cast<S_00cb17b0_RefObj*>(p);
-        FUN_00c85750()->heap().ReleaseBlock(p, b->m_usMemSizeAndFlags);
+        static_cast<S_00cb17b0_Router*>(::FUN_00c85750())->heap().ReleaseBlock(p, b->m_usMemSizeAndFlags);
     }
 };
 struct FUN_00cb17b0 : S_00cb17b0_RefObj

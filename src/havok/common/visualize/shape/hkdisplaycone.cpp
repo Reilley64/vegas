@@ -2,6 +2,7 @@
 // src/havok/common/visualize/shape/hkdisplaycone.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/visualize/shape/hkdisplaycone.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include <new>
 #include <math.h>
@@ -41,7 +42,6 @@ struct GlobalContext
     int unk00, unk04, unk08, unk0c;
     Allocator* allocator;
 };
-extern "C" GlobalContext* __cdecl FUN_00c85750();
 struct ForwardArg
 {
     GeometryBuffers* value;
@@ -83,7 +83,7 @@ struct MeshBuilder
 // @fnv 0x00de57a0
 void MeshBuilder::InitializeGeometry()
 {
-    GlobalContext* context = FUN_00c85750();
+    GlobalContext* context = static_cast<GlobalContext*>(::FUN_00c85750());
     Allocator* resourceAllocator = context->allocator;
     GeometryBuffers* raw = static_cast<GeometryBuffers*>(resourceAllocator->Allocate(sizeof(GeometryBuffers)));
     GeometryBuffers* buffers = raw ? new (raw) GeometryBuffers() : 0;
@@ -92,7 +92,7 @@ void MeshBuilder::InitializeGeometry()
     arg.value = buffers;
     FUN_00de54b0(this, arg);
     DynamicArray<Vertex>& vertices = geometry->vertices;
-    GlobalContext* manager = FUN_00c85750();
+    GlobalContext* manager = static_cast<GlobalContext*>(::FUN_00c85750());
     if (vertices.size == (vertices.capacityAndFlags & 0x3fffffffu))
     {
         ::ResizeAudioStream((::AudioAllocator *)(manager->allocator), (::AudioStream *)(::DynamicArray< ::Vertex> *)(&vertices), sizeof(Vertex));
@@ -102,7 +102,7 @@ void MeshBuilder::InitializeGeometry()
     ++vertices.size;
     DynamicArray<Edge>& edges = geometry->edges;
     int required = segmentCount;
-    GlobalContext* manager2 = FUN_00c85750();
+    GlobalContext* manager2 = static_cast<GlobalContext*>(::FUN_00c85750());
     Allocator* edgeAllocator = manager2->allocator;
     int capacity = edges.capacityAndFlags & 0x3fffffffu;
     if (capacity < required)
@@ -181,7 +181,6 @@ struct S_00de58c0_Local
 };
 
 struct S_00de58c0_Alloc;
-S_00de58c0_Router* __cdecl FUN_00c85750();
 
 struct S_00de58c0_Obj
 {
@@ -250,7 +249,7 @@ void S_00de58c0_Obj::FUN_00de58c0(S_00de58c0_Arr* out, S_00de58c0_Alloc* alloc)
         iRead++;
         Q(out->m_data[iWrite++]) = Q(tmp.m_data[iRead % m_80]);
     }
-    S_00de58c0_Heap& h = FUN_00c85750()->heap();
+    S_00de58c0_Heap& h = static_cast<S_00de58c0_Router*>(::FUN_00c85750())->heap();
     tmp.m_iElementCount = 0;
     if ((tmp.m_cap & 0x80000000) == 0)
         h.ReturnMemory(tmp.m_data, (tmp.m_cap & 0x3fffffff) * 16);
@@ -380,7 +379,7 @@ __forceinline void Q::SetRotatedDirection(const Q& quaternion, const Q& vector)
 void Cls::FUN_00de54b0(ArrayRef output)
 {
     int count = m_uiItemCount;
-    ::GlobalContext* context = ::FUN_00c85750();
+    ::GlobalContext* context = static_cast<::GlobalContext*>(::FUN_00c85750());
     ::Allocator* ctx = context->allocator;
     _ReadWriteBarrier();
     HArr* arr = output.value;

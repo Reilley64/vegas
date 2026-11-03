@@ -2,6 +2,7 @@
 // src/havok/common/serialize/resourcedatabase/hkresourcehandle.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/serialize/resourcedatabase/hkresourcehandle.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstdint>
 #include <cstddef>
 #include "fnv/decl/AttributeFormatter.h"
@@ -379,7 +380,6 @@ struct EntryArray
     int capacityAndFlags;
 };
 void FUN_00e2e2e0(EntryArray*);
-MemoryRouter* __cdecl FUN_00c85750();
 // @fnv 0x00e2e960
 void FUN_00e2e960(int aiValue)
 {
@@ -390,7 +390,7 @@ void FUN_00e2e960(int aiValue)
     FUN_00e2e2e0(&a);
     for (int i = 0; i < a.size; ++i)
         a.data[i]->process(aiValue);
-    MemoryRouter* pRouter = FUN_00c85750();
+    MemoryRouter* pRouter = static_cast<MemoryRouter*>(::FUN_00c85750());
     int cap = a.capacityAndFlags;
     {
         MemoryManager* m = pRouter->manager;
@@ -417,7 +417,6 @@ struct MemoryRouter
     int m_00, m_04, m_08, m_0c;
     MemoryAllocator* m_pThreadAllocator;
 };
-void* FUN_00c85750() throw();
 struct HandleState
 {
     int m_uiFilterValue;
@@ -510,7 +509,6 @@ struct hkMemoryRouterE2F0
         return *m_pkHeap;
     }
 };
-extern "C" hkMemoryRouterE2F0* __cdecl FUN_00c85750() throw();
 
 void __cdecl FUN_00c908c0(hkAllocatorE2F0& kAlloc, void* apvArray, int aiNumElements, int iSizeElem) throw();
 
@@ -524,7 +522,7 @@ template <typename T> struct hkArrayE2F0
     {}
     ~hkArrayE2F0() throw()
     {
-        hkAllocatorE2F0& kAlloc = FUN_00c85750()->heap();
+        hkAllocatorE2F0& kAlloc = static_cast<hkMemoryRouterE2F0*>(::FUN_00c85750())->heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
             kAlloc.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
@@ -552,7 +550,7 @@ template <typename T, int N> struct hkInplaceArrayE2F0
     {}
     ~hkInplaceArrayE2F0() throw()
     {
-        hkAllocatorE2F0& kAlloc = FUN_00c85750()->temp();
+        hkAllocatorE2F0& kAlloc = static_cast<hkMemoryRouterE2F0*>(::FUN_00c85750())->temp();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
             kAlloc.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
@@ -579,7 +577,7 @@ template <typename T, int N> struct hkInplaceArrayE2F0
     }
     void SetSizeAndGrow(int n)
     {
-        GrowArrayCapacity(FUN_00c85750()->temp(), n);
+        GrowArrayCapacity(static_cast<hkMemoryRouterE2F0*>(::FUN_00c85750())->temp(), n);
         m_iElementCount = n;
     }
 };
@@ -686,7 +684,6 @@ struct hkMemoryRouterE2E2
 };
 
 namespace hkRouterE2E2 {
-extern "C" hkMemoryRouterE2E2& __cdecl FUN_00c85750() throw();
 }
 void __cdecl ResizeAudioStream(void* alloc, void* arr, int elemSize) throw();
 
@@ -715,7 +712,7 @@ template <class T> struct hkArrayE2E2
 
     void AddBack(const T& e)
     {
-        hkMemoryRouterE2E2& router = hkRouterE2E2::FUN_00c85750();
+        hkMemoryRouterE2E2& router = (*static_cast<hkMemoryRouterE2E2*>(::FUN_00c85750()));
         if (m_iElementCount == (m_iCapacityState & 0x3fffffff))
             ResizeAudioStream(router.m_pStreamAllocator, this, sizeof(T));
         constructWithCopyE2E2<T>(m_data + m_iElementCount, 1, e);
@@ -766,7 +763,6 @@ struct hkMemoryRouterE2E3
 };
 
 namespace hkRouterE2E3 {
-extern "C" hkMemoryRouterE2E3& __cdecl FUN_00c85750() throw();
 }
 void __cdecl ResizeAudioStream(void* alloc, void* arr, int elemSize) throw();
 
@@ -795,7 +791,7 @@ template <class T> struct hkArrayE2E3
 
     void AddBack(const T& e)
     {
-        hkMemoryRouterE2E3& router = hkRouterE2E3::FUN_00c85750();
+        hkMemoryRouterE2E3& router = (*static_cast<hkMemoryRouterE2E3*>(::FUN_00c85750()));
         if (m_iElementCount == (m_iCapacityState & 0x3fffffff))
             ResizeAudioStream(router.m_pStreamAllocator, this, sizeof(T));
         constructWithCopyE2E3<T>(m_data + m_iElementCount, 1, e);
@@ -1168,7 +1164,6 @@ struct Router_e2ef
     {
         return *m_pStreamAllocator;
     }
-    static Router_e2ef& __cdecl FUN_00c85750() throw();
 };
 struct RouterPtr_e2ef
 {
@@ -1188,7 +1183,7 @@ struct Resource_e2ef
     Container_e2ef* m_parent;
     static void* operator new(std::size_t nbytes) throw()
     {
-        Resource_e2ef* p = (Resource_e2ef*)Router_e2ef::FUN_00c85750().heap().AllocateMemoryBlock(nbytes);
+        Resource_e2ef* p = (Resource_e2ef*)(*static_cast<Router_e2ef*>(::FUN_00c85750())).heap().AllocateMemoryBlock(nbytes);
         p->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return p;
     }
@@ -1224,7 +1219,7 @@ template <class T> struct hkArray_e2ef
     int m_iCapacityState;
     __forceinline void AddBack(const T& t) throw()
     {
-        RouterPtr_e2ef* router = (RouterPtr_e2ef*)FUN_00c85750();
+        RouterPtr_e2ef* router = (RouterPtr_e2ef*)static_cast<MemoryRouter*>(::FUN_00c85750());
         if (m_iElementCount == (m_iCapacityState & 0x3fffffff))
             ResizeAudioStream(router->m_pStreamAllocator, this, sizeof(T));
         new (&m_data[m_iElementCount]) T(t);
@@ -1290,7 +1285,6 @@ struct hkMemoryRouterE2EA
 };
 
 namespace fnvc_adapt {
-extern "C" hkMemoryRouterE2EA& __cdecl FUN_00c85750() throw();
 }
 
 namespace FUN_00cb0c00 {
@@ -1344,7 +1338,7 @@ template <class T> class hkArray
 
     __forceinline ~hkArray() throw()
     {
-        hkMemoryAllocatorE2EA& kAlloc = fnvc_adapt::FUN_00c85750().heap();
+        hkMemoryAllocatorE2EA& kAlloc = (*static_cast<hkMemoryRouterE2EA*>(::FUN_00c85750())).heap();
         destruct(m_data, m_iElementCount);
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
@@ -1462,7 +1456,6 @@ struct FUN_00c85750_Owner
 };
 
 
-FUN_00c85750_Owner* __cdecl FUN_00c85750();
 
 // Calls vf24 and vf10, sends two values to the object at param, then conditionally calls allocator->vf10.
 // @fnv 0x00e2eae0
@@ -1483,7 +1476,7 @@ void FUN_00e2eae0_class::FUN_00e2eae0(int* apTarget)
     reinterpret_cast<::FUN_00d61df0_cls *>((target))->FUN_00d61df0((intptr_t)(&(*reinterpret_cast<int *>((void *)&::DAT_01063cbc))));
     reinterpret_cast<::FUN_00d61df0_cls *>((target))->FUN_00d61df0((intptr_t)(value));
 
-    FUN_00c85750_Object* allocator = FUN_00c85750()->unk0c;
+    FUN_00c85750_Object* allocator = static_cast<FUN_00c85750_Owner*>(::FUN_00c85750())->unk0c;
     int handle = local.unk08;
     local.unk04 = 0;
     if ((handle & 0x80000000u) == 0)
@@ -1523,7 +1516,7 @@ struct ExternalLinkHandle : hkResourceHandle
 void ExternalLinkHandle::FUN_00e2e040(const char* memberName, const char* externalId)
 {
     hkArray<ExternalLinkPair>* links = &references;
-    MemoryRouter* router = FUN_00c85750();
+    MemoryRouter* router = static_cast<MemoryRouter*>(::FUN_00c85750());
     if (links->m_iElementCount == (links->m_iCapacityState & 0x3fffffff))
         ResizeAudioStream(router->manager, links, sizeof(ExternalLinkPair));
     ExternalLinkPair* link = &links->m_data[links->m_iElementCount];
@@ -1568,14 +1561,14 @@ struct FUN_00e2ed00_class
 // @fnv 0x00e2ed00
 ObjQ_e2e9e0* FUN_00e2ed00_class::FUN_00e2ed00(void* p0, void* apArg1, void* apArg2)
 {
-    ObjQ_e2e9e0* obj = (ObjQ_e2e9e0*)Router_e2ef::FUN_00c85750().heap().AllocateMemoryBlock(0x1c);
+    ObjQ_e2e9e0* obj = (ObjQ_e2e9e0*)(*static_cast<Router_e2ef*>(::FUN_00c85750())).heap().AllocateMemoryBlock(0x1c);
     obj->m_usMemSizeAndFlags = 0x1c;
     obj = (ObjQ_e2e9e0*)reinterpret_cast<::FUN_00e2e9e0_class *>((obj))->Ctor();
     obj->FUN_00e2e9e0_v14(p0);
     obj->FUN_00e2e9e0_v20(apArg1, apArg2);
     reinterpret_cast<::FUN_00c90510_class *>((((Resource_e2ef*)obj)))->FUN_00c90510();
     ArrQ_e2ed00* arr = &this->unk10;
-    Router_e2ef& audio2 = Router_e2ef::FUN_00c85750();
+    Router_e2ef& audio2 = (*static_cast<Router_e2ef*>(::FUN_00c85750()));
     if (arr->m_iElementCount == (arr->m_iCapacityState & 0x3fffffff))
         ResizeAudioStream(audio2.m_pStreamAllocator, arr, 4);
     ObjQ_e2e9e0** slot = arr->m_data + arr->m_iElementCount;
@@ -1717,7 +1710,7 @@ void S00e2e0b0_Viewer::FUN_00e2e0b0(S00e2e0b0_Array* array)
 {
     array->unk04 = 0;
     int count = unk14;
-    array->reserve(S00e2e0b0_heap(FUN_00c85750()), count);
+    array->reserve(S00e2e0b0_heap(static_cast<MemoryRouter*>(::FUN_00c85750())), count);
     for (int i = 0; i < unk14; ++i)
     {
         const char* name;
@@ -1806,7 +1799,7 @@ struct LinkArray
     {}
     ~LinkArray()
     {
-        _clearAndDeallocate(heapOf(FUN_00c85750()));
+        _clearAndDeallocate(heapOf(static_cast<MemoryRouter*>(::FUN_00c85750())));
     }
     void _clearAndDeallocate(MemoryManager& a)
     {
@@ -1949,7 +1942,7 @@ struct hkStringBufE2
         m_data = m_kStorage;
         m_iElementCount = 0;
         m_iCapacityState = (int)0x80000080;
-        hkMemAllocatorE2& heap = ((hkMemRouterE2*)FUN_00c85750())->heap();
+        hkMemAllocatorE2& heap = ((hkMemRouterE2*)static_cast<MemoryRouter*>(::FUN_00c85750()))->heap();
         int cap = m_iCapacityState & 0x3fffffff;
         if (cap < 1)
         {
@@ -1967,7 +1960,7 @@ struct hkStringBufE2
 
     ~hkStringBufE2()
     {
-        hkMemAllocatorE2& heap = ((hkMemRouterE2*)FUN_00c85750())->heap();
+        hkMemAllocatorE2& heap = ((hkMemRouterE2*)static_cast<MemoryRouter*>(::FUN_00c85750()))->heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
         {

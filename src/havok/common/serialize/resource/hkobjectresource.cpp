@@ -2,6 +2,7 @@
 // src/havok/common/serialize/resource/hkobjectresource.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/serialize/resource/hkobjectresource.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstdint>
 #include "fnv/decl/FUN_00c90510_class.h"
 #include "fnv/decl/FnvClassNameNode.h"
@@ -267,7 +268,6 @@ struct Registry_00e04f80
     char* FUN_00d46d80(char* status, Resource_00e04f80* resource);
 };
 
-extern Router_00e04f80* __cdecl FUN_00c85750();
 
 struct FUN_00e04f80_class
 {
@@ -307,7 +307,7 @@ void FUN_00e04f80_class::ReleaseResource()
 
             unsigned int uiResourceId = ((unsigned int)(reinterpret_cast<::FnvCpu_FUN_00d470d0_CpuObject *>((resource))->FUN_00d470d0()));
             Referenced_00e04f80* savedOwner = owner;
-            Router_00e04f80* router = FUN_00c85750();
+            Router_00e04f80* router = static_cast<Router_00e04f80*>(::FUN_00c85750());
             router->manager->removeResource(savedOwner, uiResourceId);
         }
     }

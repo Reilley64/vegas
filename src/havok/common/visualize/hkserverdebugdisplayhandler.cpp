@@ -2,6 +2,7 @@
 // src/havok/common/visualize/hkserverdebugdisplayhandler.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/visualize/hkserverdebugdisplayhandler.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstdint>
 #include <cstddef>
 #include <new>
@@ -875,7 +876,6 @@ struct ThreadMemory_dda340
     MemoryAllocator_dda340* m_pMemoryAllocator;
 };
 
-ThreadMemory_dda340* FUN_00c85750();
 
 template <typename T> struct ArrayRef_dda340
 {
@@ -896,7 +896,7 @@ class Array_dda340
 
     void ClearAndRelease()
     {
-        ThreadMemory_dda340* mem = FUN_00c85750();
+        ThreadMemory_dda340* mem = static_cast<ThreadMemory_dda340*>(::FUN_00c85750());
         MemoryAllocator_dda340* alloc = mem->m_pMemoryAllocator;
         int cap = m_iCapacityState;
         m_iElementCount = 0;
@@ -908,7 +908,7 @@ class Array_dda340
 
     void AddBack(intptr_t val)
     {
-        ThreadMemory_dda340* mem = FUN_00c85750();
+        ThreadMemory_dda340* mem = static_cast<ThreadMemory_dda340*>(::FUN_00c85750());
         if (m_iElementCount == (m_iCapacityState & 0x3fffffff))
         {
             ::ResizeAudioStream((::AudioAllocator *)(mem->m_pMemoryAllocator), (::AudioStream *)(void *)(this), sizeof(int));
@@ -1076,7 +1076,6 @@ struct FUN_00dda660_MemoryRouter
     }
 };
 
-extern "C" FUN_00dda660_MemoryRouter& __cdecl FUN_00c85750();
 
 struct FUN_00dda660
 {
@@ -1089,7 +1088,7 @@ struct FUN_00dda660
     static void operator delete(void* p, std::size_t nbytes)
     {
         FUN_00dda660* b = static_cast<FUN_00dda660*>(p);
-        FUN_00c85750().heap().ReleaseBlock(p, b->m_usMemSizeAndFlags);
+        (*static_cast<FUN_00dda660_MemoryRouter*>(::FUN_00c85750())).heap().ReleaseBlock(p, b->m_usMemSizeAndFlags);
     }
 };
 

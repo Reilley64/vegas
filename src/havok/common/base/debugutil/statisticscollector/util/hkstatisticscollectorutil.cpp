@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 
+#include "fnv/symbols_00c85000.h"
 #include <cstdint>
 #include "fnv/decl/D06D50Finder.h"
 #include "fnv/decl/FUN_005609f0_shell.h"
@@ -47,7 +48,6 @@ struct Audio
     }
 };
 
-extern "C" Audio* __cdecl FUN_00c85750();
 
 class Handler
 {
@@ -69,7 +69,7 @@ extern "C" void __cdecl EmitStringWithHash(int* pValue, const char* pString, Han
     if (pString)
     {
         intptr_t len = ::fnv_00cb10d0::FUN_00cb10d0(pString) + 1;
-        int hash = FUN_00c85750()->GetHasher().Hash(pString, len);
+        int hash = static_cast<Audio*>(::FUN_00c85750())->GetHasher().Hash(pString, len);
         pHandler->Emit(1, *pValue, pString, len, hash);
     }
 }
@@ -127,7 +127,6 @@ struct S_00cf6080_Router
         return unk10;
     }
 };
-S_00cf6080_Router* FUN_00c85750();
 
 struct S_00cf6080_Listener
 {
@@ -142,7 +141,7 @@ struct S_00cf6080_Listener
 // @fnv 0x00cf6080
 void FUN_00cf6080(int a, void* p, int aiOldCount, int newCount, int elemSize, S_00cf6080_Listener* listener)
 {
-    void* result = FUN_00c85750()->heap()->vfn_2C(p, newCount * elemSize);
+    void* result = static_cast<S_00cf6080_Router*>(::FUN_00c85750())->heap()->vfn_2C(p, newCount * elemSize);
     listener->vfn_14(3, a, p, aiOldCount * elemSize, result);
 }
 }  // namespace fnv_00cf6080

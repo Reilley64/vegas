@@ -170,7 +170,6 @@ struct SpawnedGlobal
     SpawnedAllocator* m_pAllocator;
 };
 
-SpawnedGlobal* __cdecl FUN_00c85750() throw();
 
 struct SpawnedObject
 {
@@ -198,7 +197,7 @@ struct SourceRecord
 // @fnv 0x00ce9ff0
 intptr_t __cdecl SpawnObjectFromRecord(SourceRecord* pSourceRecord)
 {
-    SpawnedGlobal* holder = FUN_00c85750();
+    SpawnedGlobal* holder = static_cast<SpawnedGlobal*>(::FUN_00c85750());
     SpawnedAllocator* pAllocator = holder->m_pAllocator;
     SpawnedObject* obj = (SpawnedObject*)pAllocator->allocate(0x30);
     obj->m_size04 = 0x30;
@@ -494,7 +493,7 @@ struct ScratchAllocator
 };
 static ScratchAllocator* scratchState() throw()
 {
-    return reinterpret_cast<ScratchAllocator*>(FUN_00c85750());
+    return reinterpret_cast<ScratchAllocator*>(static_cast<SpawnedGlobal*>(::FUN_00c85750()));
 }
 template <class T> static __forceinline T* allocateBuffer(HeapAllocator* allocator, int& count) throw()
 {
@@ -1078,7 +1077,7 @@ static __declspec(noinline) int FUN_00ce9880(const hkQsXform& t, Body* body)
         {
             void* shape = body->m_pCollisionShape;
             reinterpret_cast<::FUN_00ce50b0_cls *>((void *)&(inv))->FUN_00ce50b0((::CB2FC0Object *)(void *)(&kXform));
-            ShapeObj* pShapeObj = (ShapeObj*)((MemoryRouter*)FUN_00c85750())->heap().allocate(0x70);
+            ShapeObj* pShapeObj = (ShapeObj*)((MemoryRouter*)static_cast<SpawnedGlobal*>(::FUN_00c85750()))->heap().allocate(0x70);
             pShapeObj->m_usMemSizeAndFlags = 0x70;
             ShapeObj* pTransformedShape = ((::ShapeObj *)(reinterpret_cast<::cf5990_TransformShape *>((pShapeObj))->FUN_00cf5990((::hkpShape *)(shape), (const ::hkTransform &)(kXform))));
             body->SetCollisionShapeAndKey(pTransformedShape);
@@ -1304,7 +1303,7 @@ template <class T> struct Array
     }
     void reserve(int count) throw()
     {
-        SpawnedGlobal* holder = FUN_00c85750();
+        SpawnedGlobal* holder = static_cast<SpawnedGlobal*>(::FUN_00c85750());
         reserve(holder->m_pAllocator, count);
     }
     void resize(int count) throw()
@@ -1362,7 +1361,7 @@ struct Skeleton : SkeletonHeader
     {}
     __forceinline void* operator new(std::size_t bytes)
     {
-        SpawnedGlobal* holder = FUN_00c85750();
+        SpawnedGlobal* holder = static_cast<SpawnedGlobal*>(::FUN_00c85750());
         SpawnedAllocator* allocator = holder->m_pAllocator;
         Skeleton* result = static_cast<Skeleton*>(allocator->allocate(bytes));
         result->memorySize = static_cast<unsigned short>(bytes);

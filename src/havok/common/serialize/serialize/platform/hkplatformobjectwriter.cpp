@@ -2,6 +2,7 @@
 // src/havok/common/serialize/serialize/platform/hkplatformobjectwriter.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/serialize/serialize/platform/hkplatformobjectwriter.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstdint>
 #include <cstddef>
 #include <new>
@@ -70,7 +71,6 @@ struct FUN_00e02c70_audio_holder
     int unk0c;
     FUN_00e02c70_audio_iface* unk10;
 };
-void* __cdecl FUN_00c85750();
 struct BaseE02c70
 {
     int unk04;
@@ -338,7 +338,6 @@ struct E02DE0MemoryRouter
 };
 
 namespace fnvc_adapt {
-extern "C" E02DE0MemoryRouter& __cdecl FUN_00c85750();
 }
 
 struct E02DE0Map
@@ -349,7 +348,7 @@ struct E02DE0Map
 
     E02DE0Map() : m_kPrimitiveElement(0), m_iCapacityFlags(0), m_iPairCount(-1)
     {
-        reinterpret_cast<::FUN_00cb1fe0_t *>(this)->EnsureCapacity((intptr_t)&(fnvc_adapt::FUN_00c85750().heap()), 0);
+        reinterpret_cast<::FUN_00cb1fe0_t *>(this)->EnsureCapacity((intptr_t)&((*static_cast<E02DE0MemoryRouter*>(::FUN_00c85750())).heap()), 0);
     }
 
 };
@@ -424,7 +423,6 @@ struct E02E40MemoryRouter
     }
 };
 
-extern "C" E02E40MemoryRouter& __cdecl FUN_00c85750();
 
 struct FUN_00e02e40
 {
@@ -437,7 +435,7 @@ struct FUN_00e02e40
     static void operator delete(void* p, std::size_t nbytes)
     {
         FUN_00e02e40* b = static_cast<FUN_00e02e40*>(p);
-        FUN_00c85750().heap().ReleaseBlock(p, b->m_usMemSizeAndFlags);
+        (*static_cast<E02E40MemoryRouter*>(::FUN_00c85750())).heap().ReleaseBlock(p, b->m_usMemSizeAndFlags);
     }
 };
 

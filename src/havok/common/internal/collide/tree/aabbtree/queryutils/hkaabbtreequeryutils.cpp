@@ -2,6 +2,7 @@
 // src/havok/common/internal/collide/tree/aabbtree/queryutils/hkaabbtreequeryutils.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/common/internal/collide/tree/aabbtree/queryutils/hkaabbtreequeryutils.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstdint>
 #include <cstddef>
 #include <new>
@@ -52,7 +53,6 @@ struct S_00d1bcb0_Router
     }
 };
 
-S_00d1bcb0_Router* FUN_00c85750();
 
 struct S_00d1bcb0_Entry
 {
@@ -79,7 +79,7 @@ struct S_00d1bcb0_Array
     }
     void AddBack(const S_00d1bcb0_Entry& e)
     {
-        _pushBack(FUN_00c85750()->heap(), e);
+        _pushBack(static_cast<S_00d1bcb0_Router*>(::FUN_00c85750())->heap(), e);
     }
 };
 
@@ -221,7 +221,7 @@ struct DIntArray
     }
     __forceinline void AddBack(int e)
     {
-        _pushBack(FUN_00c85750()->heap(), e);
+        _pushBack(static_cast<S_00d1bcb0_Router*>(::FUN_00c85750())->heap(), e);
     }
 };
 
@@ -411,7 +411,7 @@ struct TreePairStack
     }
     __forceinline void SetSizeAndGrow(int n)
     {
-        GrowArrayCapacity(FUN_00c85750()->heap(), n);
+        GrowArrayCapacity(static_cast<S_00d1bcb0_Router*>(::FUN_00c85750())->heap(), n);
         m_iElementCount = n;
     }
     __forceinline void _clearAndDeallocate(S_00d1bcb0_Allocator& alloc)
@@ -441,7 +441,7 @@ struct TreePairArray
     }
     __forceinline void AddBack(const TreePair& e)
     {
-        _pushBack(FUN_00c85750()->heap(), e);
+        _pushBack(static_cast<S_00d1bcb0_Router*>(::FUN_00c85750())->heap(), e);
     }
 };
 
@@ -549,7 +549,7 @@ int FUN_00d1d5a0(AabbTree* treeA, AabbTree* treeB, TreePairArray* pairsOut)
         }
     } while (top);
 
-    pairStack._clearAndDeallocate(FUN_00c85750()->heap());
+    pairStack._clearAndDeallocate(static_cast<S_00d1bcb0_Router*>(::FUN_00c85750())->heap());
     return numPairs;
 }
 }  // namespace fnv_00d1d5a0
@@ -1594,7 +1594,7 @@ struct VoidArray
     }
     __forceinline void AddBack(void* const& e)
     {
-        _pushBack(FUN_00c85750()->heap(), e);
+        _pushBack(static_cast<S_00d1bcb0_Router*>(::FUN_00c85750())->heap(), e);
     }
 };
 
@@ -2229,7 +2229,7 @@ struct NodeStack
     }
     __forceinline ~NodeStack()
     {
-        _clearAndDeallocate(FUN_00c85750()->heap());
+        _clearAndDeallocate(static_cast<S_00d1bcb0_Router*>(::FUN_00c85750())->heap());
     }
 
     __forceinline int getCapacity() const
@@ -2253,7 +2253,7 @@ struct NodeStack
     }
     __forceinline void AddBack(TreeNode* const& t)
     {
-        _pushBack(FUN_00c85750()->heap(), t);
+        _pushBack(static_cast<S_00d1bcb0_Router*>(::FUN_00c85750())->heap(), t);
     }
 };
 
@@ -2380,7 +2380,7 @@ struct hkArrayIntD1C
     }
     void AddBack(int e)
     {
-        S_00d1bcb0_Allocator& alloc = FUN_00c85750()->heap();
+        S_00d1bcb0_Allocator& alloc = static_cast<S_00d1bcb0_Router*>(::FUN_00c85750())->heap();
         if (m_iElementCount == getCapacity())
             ::ResizeAudioStream((::AudioAllocator *)&(alloc), (::AudioStream *)(void *)(this), sizeof(int));
         construct(m_data + m_iElementCount, 1, e);
@@ -2561,7 +2561,7 @@ struct Stack
 
     __forceinline void SetSizeAndGrow(int n)
     {
-        S_00d1bcb0_Router* router = FUN_00c85750();
+        S_00d1bcb0_Router* router = static_cast<S_00d1bcb0_Router*>(::FUN_00c85750());
         S_00d1bcb0_Allocator* alloc = router->m_pStreamAllocator;
         int cap = m_iCapacityState & 0x3fffffff;
         if (cap < n)
@@ -2576,7 +2576,7 @@ struct Stack
 
     __forceinline void release()
     {
-        S_00d1bcb0_Router* router = FUN_00c85750();
+        S_00d1bcb0_Router* router = static_cast<S_00d1bcb0_Router*>(::FUN_00c85750());
         HkAllocator* alloc = (HkAllocator*)router->m_pStreamAllocator;
         int flags = m_iCapacityState;
         m_iElementCount = 0;

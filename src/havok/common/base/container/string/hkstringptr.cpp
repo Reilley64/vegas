@@ -2,6 +2,7 @@
 // src/havok/common/base/container/string/hkstringptr.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/container/string/hkstringptr.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstdint>
 #include "fnv/decl/SStringPtr.h"
 #include "fnv/symbols_00c90000.h"
@@ -132,7 +133,6 @@ struct hkMemoryRouterq
     }
 };
 
-void* __cdecl FUN_00c85750() throw();
 
 static __forceinline hkMemoryRouterq& hkGetMemoryRouter()
 {

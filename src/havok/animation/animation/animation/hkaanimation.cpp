@@ -2,6 +2,7 @@
 // src/havok/animation/animation/animation/hkaanimation.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/animation/animation/hkaanimation.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include <new>
 #include "fnv/decl/Cb0StringCopy.h"
@@ -95,7 +96,6 @@ struct hkMemoryRouterE2F
 };
 
 namespace hkRouterE2F {
-extern "C" hkMemoryRouterE2F& __cdecl FUN_00c85750() throw();
 }
 
 
@@ -157,7 +157,7 @@ template <class T> class hkArrayE2F
 
     __forceinline hkArrayE2F& operator=(const hkArrayE2F& a)
     {
-        hkMemoryAllocatorE2F& kAlloc = hkRouterE2F::FUN_00c85750().heap();
+        hkMemoryAllocatorE2F& kAlloc = (*static_cast<hkMemoryRouterE2F*>(::FUN_00c85750())).heap();
         const int iOldSize = m_iElementCount;
         const int iNewSize = a.m_iElementCount;
         int iCopiedSize = (iNewSize > iOldSize) ? iOldSize : iNewSize;

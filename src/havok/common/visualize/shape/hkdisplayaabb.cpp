@@ -2,6 +2,7 @@
 // src/havok/common/visualize/shape/hkdisplayaabb.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/visualize/shape/hkdisplayaabb.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include "fnv/symbols_00c90000.h"
 #include <cstdint>
 #include <xmmintrin.h>
@@ -121,7 +122,6 @@ struct Singleton
     AllocObj* m_10;
 };
 
-extern "C" Singleton* FUN_00c85750();
 static void StorePs(Vec4f* dst, __m128 v)
 {
     dst->v = v;
@@ -198,7 +198,7 @@ struct ThisCls
 // @fnv 0x00de15c0
 void ThisCls::InitBoxMesh()
 {
-    Singleton* s = FUN_00c85750();
+    Singleton* s = static_cast<Singleton*>(::FUN_00c85750());
     AllocObj* ao = s->m_10;
     Pair* p = (Pair*)ao->vt->allocFn(ao, 24);
     Pair* result;
@@ -223,7 +223,7 @@ void ThisCls::InitBoxMesh()
     // 8 box corners into verts
     {
         VertArr* a = &m_08->verts;
-        Singleton* sg = FUN_00c85750();
+        Singleton* sg = static_cast<Singleton*>(::FUN_00c85750());
         void* ctx = sg->m_10;
         int sz = a->size;
         int newSize = sz + 1;
@@ -239,7 +239,7 @@ void ThisCls::InitBoxMesh()
     }
     {
         VertArr* a = &m_08->verts;
-        Singleton* sg = FUN_00c85750();
+        Singleton* sg = static_cast<Singleton*>(::FUN_00c85750());
         void* ctx = sg->m_10;
         int sz = a->size;
         int newSize = sz + 1;
@@ -255,7 +255,7 @@ void ThisCls::InitBoxMesh()
     }
     {
         VertArr* a = &m_08->verts;
-        Singleton* sg = FUN_00c85750();
+        Singleton* sg = static_cast<Singleton*>(::FUN_00c85750());
         void* ctx = sg->m_10;
         int sz = a->size;
         int newSize = sz + 1;
@@ -271,7 +271,7 @@ void ThisCls::InitBoxMesh()
     }
     {
         VertArr* a = &m_08->verts;
-        Singleton* sg = FUN_00c85750();
+        Singleton* sg = static_cast<Singleton*>(::FUN_00c85750());
         void* ctx = sg->m_10;
         int sz = a->size;
         int newSize = sz + 1;
@@ -287,7 +287,7 @@ void ThisCls::InitBoxMesh()
     }
     {
         VertArr* a = &m_08->verts;
-        Singleton* sg = FUN_00c85750();
+        Singleton* sg = static_cast<Singleton*>(::FUN_00c85750());
         void* ctx = sg->m_10;
         int sz = a->size;
         int newSize = sz + 1;
@@ -303,7 +303,7 @@ void ThisCls::InitBoxMesh()
     }
     {
         VertArr* a = &m_08->verts;
-        Singleton* sg = FUN_00c85750();
+        Singleton* sg = static_cast<Singleton*>(::FUN_00c85750());
         void* ctx = sg->m_10;
         int sz = a->size;
         int newSize = sz + 1;
@@ -319,7 +319,7 @@ void ThisCls::InitBoxMesh()
     }
     {
         VertArr* a = &m_08->verts;
-        Singleton* sg = FUN_00c85750();
+        Singleton* sg = static_cast<Singleton*>(::FUN_00c85750());
         void* ctx = sg->m_10;
         int sz = a->size;
         int newSize = sz + 1;
@@ -335,7 +335,7 @@ void ThisCls::InitBoxMesh()
     }
     {
         VertArr* a = &m_08->verts;
-        Singleton* sg = FUN_00c85750();
+        Singleton* sg = static_cast<Singleton*>(::FUN_00c85750());
         void* ctx = sg->m_10;
         int sz = a->size;
         int newSize = sz + 1;
@@ -353,7 +353,7 @@ void ThisCls::InitBoxMesh()
     // 12 index triples into faces
     {
         FaceArr* a = &m_08->faces;
-        Singleton* sg = FUN_00c85750();
+        Singleton* sg = static_cast<Singleton*>(::FUN_00c85750());
         void* ctx = sg->m_10;
         int sz = a->size;
         int newSize = sz + 1;
@@ -373,7 +373,7 @@ void ThisCls::InitBoxMesh()
     }
     {
         FaceArr* a = &m_08->faces;
-        Singleton* sg = FUN_00c85750();
+        Singleton* sg = static_cast<Singleton*>(::FUN_00c85750());
         void* ctx = sg->m_10;
         int sz = a->size;
         int newSize = sz + 1;
@@ -393,7 +393,7 @@ void ThisCls::InitBoxMesh()
     }
     {
         FaceArr* a = &m_08->faces;
-        Singleton* sg = FUN_00c85750();
+        Singleton* sg = static_cast<Singleton*>(::FUN_00c85750());
         void* ctx = sg->m_10;
         int sz = a->size;
         int newSize = sz + 1;
@@ -413,7 +413,7 @@ void ThisCls::InitBoxMesh()
     }
     {
         FaceArr* a = &m_08->faces;
-        Singleton* sg = FUN_00c85750();
+        Singleton* sg = static_cast<Singleton*>(::FUN_00c85750());
         void* ctx = sg->m_10;
         int sz = a->size;
         int newSize = sz + 1;
@@ -433,7 +433,7 @@ void ThisCls::InitBoxMesh()
     }
     {
         FaceArr* a = &m_08->faces;
-        Singleton* sg = FUN_00c85750();
+        Singleton* sg = static_cast<Singleton*>(::FUN_00c85750());
         void* ctx = sg->m_10;
         int sz = a->size;
         int newSize = sz + 1;
@@ -453,7 +453,7 @@ void ThisCls::InitBoxMesh()
     }
     {
         FaceArr* a = &m_08->faces;
-        Singleton* sg = FUN_00c85750();
+        Singleton* sg = static_cast<Singleton*>(::FUN_00c85750());
         void* ctx = sg->m_10;
         int sz = a->size;
         int newSize = sz + 1;
@@ -473,7 +473,7 @@ void ThisCls::InitBoxMesh()
     }
     {
         FaceArr* a = &m_08->faces;
-        Singleton* sg = FUN_00c85750();
+        Singleton* sg = static_cast<Singleton*>(::FUN_00c85750());
         void* ctx = sg->m_10;
         int sz = a->size;
         int newSize = sz + 1;
@@ -493,7 +493,7 @@ void ThisCls::InitBoxMesh()
     }
     {
         FaceArr* a = &m_08->faces;
-        Singleton* sg = FUN_00c85750();
+        Singleton* sg = static_cast<Singleton*>(::FUN_00c85750());
         void* ctx = sg->m_10;
         int sz = a->size;
         int newSize = sz + 1;
@@ -513,7 +513,7 @@ void ThisCls::InitBoxMesh()
     }
     {
         FaceArr* a = &m_08->faces;
-        Singleton* sg = FUN_00c85750();
+        Singleton* sg = static_cast<Singleton*>(::FUN_00c85750());
         void* ctx = sg->m_10;
         int sz = a->size;
         int newSize = sz + 1;
@@ -533,7 +533,7 @@ void ThisCls::InitBoxMesh()
     }
     {
         FaceArr* a = &m_08->faces;
-        Singleton* sg = FUN_00c85750();
+        Singleton* sg = static_cast<Singleton*>(::FUN_00c85750());
         void* ctx = sg->m_10;
         int sz = a->size;
         int newSize = sz + 1;
@@ -553,7 +553,7 @@ void ThisCls::InitBoxMesh()
     }
     {
         FaceArr* a = &m_08->faces;
-        Singleton* sg = FUN_00c85750();
+        Singleton* sg = static_cast<Singleton*>(::FUN_00c85750());
         void* ctx = sg->m_10;
         int sz = a->size;
         int newSize = sz + 1;
@@ -573,7 +573,7 @@ void ThisCls::InitBoxMesh()
     }
     {
         FaceArr* a = &m_08->faces;
-        Singleton* sg = FUN_00c85750();
+        Singleton* sg = static_cast<Singleton*>(::FUN_00c85750());
         void* ctx = sg->m_10;
         int sz = a->size;
         int newSize = sz + 1;

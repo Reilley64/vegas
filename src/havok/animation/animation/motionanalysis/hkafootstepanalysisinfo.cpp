@@ -2,6 +2,7 @@
 // src/havok/animation/animation/motionanalysis/hkafootstepanalysisinfo.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/animation/motionanalysis/hkafootstepanalysisinfo.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstdint>
 #include <cstddef>
 #include <new>
@@ -28,10 +29,9 @@ struct AudioMgr
 };
 
 struct BSAudio;
-__declspec(nothrow) BSAudio* __cdecl FUN_00c85750();
 inline AudioMgr* audio()
 {
-    return (AudioMgr*)FUN_00c85750();
+    return (AudioMgr*)static_cast<BSAudio*>(::FUN_00c85750());
 }
 
 
@@ -164,7 +164,6 @@ FUN_00e40fa0::FUN_00e40fa0()
 {}
 
 namespace fnv_00e40fd0 {
-void* __cdecl FUN_00c85750();
 struct hkReferencedObject
 {
 };
@@ -203,7 +202,7 @@ struct Owner
 void Owner::ClearItems()
 {
     vtable = &::DAT_010e56d4;
-    Allocator* allocator = ((HolderLayout*)FUN_00c85750())->allocator;
+    Allocator* allocator = ((HolderLayout*)static_cast<BSAudio*>(::FUN_00c85750()))->allocator;
     hkReferencedObject** pItems = items;
     int n = count;
     for (int i = 0; i < n; ++i)
@@ -317,7 +316,6 @@ struct S_00e40800_Router
     }
 };
 
-S_00e40800_Router* FUN_00c85750() throw();
 
 template <typename T> struct S_00e40800_Array
 {
@@ -330,7 +328,7 @@ template <typename T> struct S_00e40800_Array
 
     __forceinline S_00e40800_Array(int size, const T& fill) throw() : m_data(0), m_iElementCount(0), m_iCapacityState(0x80000000)
     {
-        S_00e40800_Allocator& a = FUN_00c85750()->heap();
+        S_00e40800_Allocator& a = static_cast<S_00e40800_Router*>(::FUN_00c85750())->heap();
         T* p = size ? a._bufAlloc<T>(size) : 0;
         int cap = size ? size : 0x80000000;
         m_data = p;
@@ -367,7 +365,7 @@ template <typename T> struct S_00e40800_Array
 
     __forceinline void SetSizeAndGrow(int n) throw()
     {
-        _setSize(FUN_00c85750()->heap(), n);
+        _setSize(static_cast<S_00e40800_Router*>(::FUN_00c85750())->heap(), n);
     }
 };
 
@@ -463,7 +461,6 @@ struct CpuAllocatorHolder
     unsigned int unk0c;
     CpuAllocator* allocator;
 };
-CpuAllocatorHolder* __cdecl FUN_00c85750();
 struct CpuObject
 {
     unsigned int unk00;
@@ -478,7 +475,7 @@ CpuObject* CpuObject::FUN_00e41050(unsigned int flags)
     reinterpret_cast<::FUN_00e40cb0 *>(this)->FUN_00e40cb0::~FUN_00e40cb0();
     if (flags & 1)
     {
-        CpuAllocatorHolder* holder = FUN_00c85750();
+        CpuAllocatorHolder* holder = static_cast<CpuAllocatorHolder*>(::FUN_00c85750());
         holder->allocator->Invoke(this, size);
     }
     return this;
@@ -504,7 +501,6 @@ struct AudioHolder
     AudioAllocator* m_pAllocator;
 };
 
-AudioHolder* __cdecl FUN_00c85750() throw();
 
 struct FUN_00e41e20_cls
 {
@@ -522,7 +518,7 @@ struct FUN_00e41e20_cls
 void FUN_00e41e20_cls::FUN_00e41e20()
 {
     m_vptr00 = (intptr_t)&::DAT_010e58c8;
-    AudioHolder* pHolder = FUN_00c85750();
+    AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
     AudioAllocator* pAllocator = pHolder->m_pAllocator;
     unsigned int uCapBits = m_uCapBits;
     m_iArrayLength = 0;

@@ -2,6 +2,7 @@
 // src/havok/common/base/container/array/hkarrayutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/container/array/hkarrayutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstdint>
 #include <cstddef>
 #include <new>
@@ -257,7 +258,6 @@ struct Holder
     void* m_pAllocator;
 };
 
-Holder* __cdecl FUN_00c85750();
 extern "C" void _ReadWriteBarrier(void);
 
 struct FUN_00e108b0_cls
@@ -277,7 +277,7 @@ FUN_00e108b0_cls* FUN_00e108b0_cls::FUN_00e108b0()
     m_len = 0;
     m_cap = 0x80000000u;
 
-    Holder* h = FUN_00c85750();
+    Holder* h = static_cast<Holder*>(::FUN_00c85750());
     void* alloc = h->m_pAllocator;
     int cap = (int)(m_cap & 0x3fffffffu);
     if (cap < 0x40)
@@ -290,7 +290,7 @@ FUN_00e108b0_cls* FUN_00e108b0_cls::FUN_00e108b0()
         ::FUN_00c908c0((::SpawnedObject *)(alloc), (::SpawnedArray *)(void *)(this), newCap, 1);
     }
 
-    h = FUN_00c85750();
+    h = static_cast<Holder*>(::FUN_00c85750());
     if ((unsigned int)m_len == (m_cap & 0x3fffffffu))
     {
         ::ResizeAudioStream((::AudioAllocator *)(h->m_pAllocator), (::AudioStream *)(void *)(this), 1);
@@ -533,7 +533,7 @@ struct MeshAllocator
 
 static __forceinline MeshAllocator* getMeshAllocator()
 {
-    Holder* holder = FUN_00c85750();
+    Holder* holder = static_cast<Holder*>(::FUN_00c85750());
     return (MeshAllocator*)holder->unk10;
 }
 
@@ -846,7 +846,7 @@ struct __declspec(align(16)) FNVRec_0f10
 void __cdecl FUN_00da0f10(FNVCloud_0f10* cloud, AudioStream* out, AudioStream* idx, float radius)
 {
     int n = cloud->m_uiItemCount;
-    FNVRouter_0f10* r = (FNVRouter_0f10*)FUN_00c85750();
+    FNVRouter_0f10* r = (FNVRouter_0f10*)static_cast<Holder*>(::FUN_00c85750());
     FNVScratchAlloc_0f10* alloc = r->heap;
     int cap = idx->m_uCapacity & 0x3fffffff;
     if (cap < n)
@@ -857,7 +857,7 @@ void __cdecl FUN_00da0f10(FNVCloud_0f10* cloud, AudioStream* out, AudioStream* i
     idx->m_iArrayLength = n;
 
     int scratchCap = n + 4;
-    FNVRouter_0f10* router2 = (FNVRouter_0f10*)FUN_00c85750();
+    FNVRouter_0f10* router2 = (FNVRouter_0f10*)static_cast<Holder*>(::FUN_00c85750());
     FNVScratchAlloc_0f10* alloc2 = router2->heap;
     FNVRec_0f10* scratch;
     if (scratchCap)
@@ -924,7 +924,7 @@ void __cdecl FUN_00da0f10(FNVCloud_0f10* cloud, AudioStream* out, AudioStream* i
             {
                 FNVVector_0f10 p = cloud->m_pPts[ci];
                 ((int*)idx->m_pData)[ci] = out->m_iArrayLength;
-                FNVRouter_0f10* router3 = (FNVRouter_0f10*)FUN_00c85750();
+                FNVRouter_0f10* router3 = (FNVRouter_0f10*)static_cast<Holder*>(::FUN_00c85750());
                 if (out->m_iArrayLength == (out->m_uCapacity & 0x3fffffff))
                 {
                     (::ResizeAudioStream)((::AudioAllocator *)(void *)((void*)router3->heap), (::AudioStream *)(void *)((void*)out), 0x10);
@@ -965,7 +965,7 @@ void __cdecl FUN_00da0f10(FNVCloud_0f10* cloud, AudioStream* out, AudioStream* i
             }
         }
     }
-    FNVRouter_0f10* router4 = (FNVRouter_0f10*)FUN_00c85750();
+    FNVRouter_0f10* router4 = (FNVRouter_0f10*)static_cast<Holder*>(::FUN_00c85750());
     FNVScratchAlloc_0f10* a4 = router4->heap;
     if ((scratchCap & 0x80000000) == 0)
         a4->freeArray(scratch, scratchCap & 0x3fffffff);

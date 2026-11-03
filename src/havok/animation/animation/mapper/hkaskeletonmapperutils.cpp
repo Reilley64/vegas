@@ -2,6 +2,7 @@
 // src/havok/animation/animation/mapper/hkaskeletonmapperutils.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/animation/mapper/hkaskeletonmapperutils.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstdint>
 #include <cstddef>
 #include <new>
@@ -420,7 +421,6 @@ struct hkMemoryRouterStub
     hkMemoryAllocator* m_pStreamAllocator;
 };
 
-hkMemoryRouterStub* __cdecl FUN_00c85750();
 
 struct HkElem8
 {
@@ -482,7 +482,7 @@ template <typename T> struct HkArray
 
     __forceinline HkArray& operator=(const HkArray& other)
     {
-        copyFromArray(FUN_00c85750()->heap(), other);
+        copyFromArray(static_cast<hkMemoryRouterStub*>(::FUN_00c85750())->heap(), other);
         return *this;
     }
 };
@@ -1158,7 +1158,6 @@ void HkStack::deallocateStack(void* p)
 class HkRouter
 {
   public:
-    __declspec(nothrow) static HkRouter& __cdecl FUN_00c85750() throw();
     inline HkStack& stack()
     {
         return m_aiEntries;
@@ -1180,21 +1179,21 @@ class HkRouter
 
 template <typename TYPE> __forceinline TYPE* __cdecl hkAllocStack(int n, const char* what = 0)
 {
-    HkRouter& mem = HkRouter::FUN_00c85750();
+    HkRouter& mem = (*static_cast<HkRouter*>(::FUN_00c85750()));
     return static_cast<TYPE*>(
         mem.stack().allocateStack((((n * HkSizeOf<TYPE>::val) + ((128) - 1)) & (~((128) - 1))), what));
 }
 
 template <typename TYPE> __forceinline void __cdecl hkFreeStack(TYPE* ptr)
 {
-    HkRouter::FUN_00c85750().stack().deallocateStack(static_cast<void*>(ptr));
+    (*static_cast<HkRouter*>(::FUN_00c85750())).stack().deallocateStack(static_cast<void*>(ptr));
 }
 
 struct HkHeapAllocator
 {
     HkHeap& get(const void*)
     {
-        return HkRouter::FUN_00c85750().heap();
+        return (*static_cast<HkRouter*>(::FUN_00c85750())).heap();
     }
 };
 

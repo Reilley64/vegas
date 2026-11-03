@@ -2,6 +2,7 @@
 // src/havok/common/scenedata/attributes/hkxsparselyanimatedstringclass.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/scenedata/attributes/hkxsparselyanimatedstringclass.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstdint>
 #include "fnv/symbols_00cb0000.h"
 struct S_00e01900_Allocator
@@ -20,7 +21,6 @@ struct S_00e01900_Router
     int unk8;
     int unkC;
     S_00e01900_Allocator* m_pStreamAllocator;
-    static S_00e01900_Router& FUN_00c85750();
     S_00e01900_Allocator& heap()
     {
         return *m_pStreamAllocator;
@@ -60,7 +60,7 @@ template <typename T> struct S_00e01900_Array
     }
     __forceinline ~S_00e01900_Array() throw()
     {
-        _clearAndDeallocate(S_00e01900_Router::FUN_00c85750().heap());
+        _clearAndDeallocate((*static_cast<S_00e01900_Router*>(::FUN_00c85750())).heap());
     }
 };
 
@@ -97,7 +97,6 @@ struct CpuAllocatorHolder
     unsigned int unk0c;
     CpuAllocator* allocator;
 };
-CpuAllocatorHolder* __cdecl FUN_00c85750();
 struct CpuObject
 {
     unsigned int unk00;
@@ -112,7 +111,7 @@ CpuObject* CpuObject::FUN_00e019a0(unsigned int flags)
     reinterpret_cast<::FUN_00e01900 *>(this)->FUN_00e01900::~FUN_00e01900();
     if (flags & 1)
     {
-        CpuAllocatorHolder* holder = FUN_00c85750();
+        CpuAllocatorHolder* holder = static_cast<CpuAllocatorHolder*>(::FUN_00c85750());
         holder->allocator->Invoke(this, size);
     }
     return this;

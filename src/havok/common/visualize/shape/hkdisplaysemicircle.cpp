@@ -1,6 +1,7 @@
 // src/havok/common/visualize/shape/hkdisplaysemicircle.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/visualize/shape/hkdisplaysemicircle.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include <new>
 #include "fnv/decl/FUN_00cb2e30_cls.h"
@@ -30,7 +31,6 @@ struct GlobalContext
         return heap;
     }
 };
-extern GlobalContext* __cdecl FUN_00c85750();
 struct Geometry
 {
     int unk00;
@@ -97,7 +97,7 @@ void Geometry::FUN_00de4c40(VectorArray* destination, void* allocator)
         destination->data[outputIndex++] = temporary.data[i];
         destination->data[outputIndex++] = temporary.data[i + 1];
     }
-    Heap* heap = FUN_00c85750()->getHeap();
+    Heap* heap = static_cast<GlobalContext*>(::FUN_00c85750())->getHeap();
     temporary.size = 0;
     if ((temporary.capacityAndFlags & 0x80000000u) == 0)
     {
@@ -129,7 +129,6 @@ struct S_de4d20_Holder
     }
 };
 
-S_de4d20_Holder* FUN_00c85750() throw();
 
 struct __declspec(align(16)) S_de4d20_Vec
 {
@@ -158,7 +157,7 @@ struct S_de4d20_Grid
 
     static void* operator new(std::size_t n)
     {
-        return FUN_00c85750()->heap().AllocateMemoryBlock(n);
+        return static_cast<S_de4d20_Holder*>(::FUN_00c85750())->heap().AllocateMemoryBlock(n);
     }
 
     static void operator delete(void*)
@@ -229,7 +228,7 @@ void S_de4d20_Context::FUN_00de4d20() throw()
     reinterpret_cast<::ArcPointsPrivate::ArcSamples_de4af0 *>(this)->FUN_00de4af0((::ArcPointsPrivate::VecArr_de4af0 *)(g));
 
     S_de4d20_Grid* arr = m8;
-    S_de4d20_Holder* r = FUN_00c85750();
+    S_de4d20_Holder* r = static_cast<S_de4d20_Holder*>(::FUN_00c85750());
 
     if (arr->size == (int)(arr->cap & 0x3fffffff))
         ::ResizeAudioStream((::AudioAllocator *)&(r->heap()), (::AudioStream *)(arr), 0x10);
@@ -308,7 +307,6 @@ struct VecArr_de4af0
     int m_iArrayLength;         // +0x04
     unsigned int m_uCap;  // +0x08
 };
-Holder_de4af0* FUN_00c85750();
 struct ArcSamples_de4af0
 {
     int unk00;         // +0x00
@@ -358,7 +356,7 @@ void ArcSamples_de4af0::FUN_00de4af0(VecArr_de4af0* arr)
     x.add(origin, x);
     reinterpret_cast<::FUN_00cb2e30_cls *>(&(local))->SpawnSnap((int)(&m_v60), step);
     int n = m_i9c + 2;
-    Holder_de4af0* h = FUN_00c85750();
+    Holder_de4af0* h = static_cast<Holder_de4af0*>(::FUN_00c85750());
     _ReadWriteBarrier();
     void* alloc = h->m_pAllocator;
     unsigned int cap = arr->m_uCap & 0x3fffffffu;

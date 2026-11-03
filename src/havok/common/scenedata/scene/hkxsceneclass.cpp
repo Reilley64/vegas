@@ -2,6 +2,7 @@
 // src/havok/common/scenedata/scene/hkxsceneclass.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/scenedata/scene/hkxsceneclass.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include "fnv/decl/Scene.h"
 struct Allocator
 {
@@ -17,7 +18,6 @@ struct AudioManager
     int unk0c;
     Allocator* allocator;
 };
-AudioManager* FUN_00c85750();
 struct AudioObject
 {
     void* vtable;
@@ -31,7 +31,7 @@ AudioObject* AudioObject::Release(unsigned int flags)
     reinterpret_cast<::Scene *>(this)->ClearScene();
     if (flags & 1)
     {
-        AudioManager* manager = FUN_00c85750();
+        AudioManager* manager = static_cast<AudioManager*>(::FUN_00c85750());
         manager->allocator->Free(this, allocationSize);
     }
     return this;

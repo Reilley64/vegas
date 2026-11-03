@@ -2,6 +2,7 @@
 // src/havok/common/base/debugutil/statisticscollector/stream/hkstreamstatisticscollector.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/debugutil/statisticscollector/stream/hkstreamstatisticscollector.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstdint>
 #include <cstddef>
 #include "fnv/symbols_01063000.h"
@@ -60,10 +61,9 @@ struct AudioMgr
 };
 
 struct BSAudio;
-BSAudio* __cdecl FUN_00c85750();
 inline AudioMgr* audio()
 {
-    return (AudioMgr*)FUN_00c85750();
+    return (AudioMgr*)static_cast<BSAudio*>(::FUN_00c85750());
 }
 
 
@@ -161,7 +161,6 @@ struct AllocatorHolder
     int unk0c;
     MemoryAllocator* allocator;
 };
-extern AllocatorHolder* __cdecl FUN_00c85750();
 struct StreamStatisticsCollector
 {
     int unk00;
@@ -175,7 +174,7 @@ void* StreamStatisticsCollector::FreeIfFlagged(unsigned int flags)
     FUN_00ddf240();
     if (flags & 1)
     {
-        AllocatorHolder* holder = FUN_00c85750();
+        AllocatorHolder* holder = static_cast<AllocatorHolder*>(::FUN_00c85750());
         holder->allocator->Free(this, (unsigned int)unk04);
     }
     return this;
@@ -348,7 +347,6 @@ struct hkMemoryRouterDDF9
 };
 
 namespace hkRouterDDF9 {
-extern "C" hkMemoryRouterDDF9& __cdecl FUN_00c85750() throw();
 }
 
 template <class T> class hkArrayDDF9
@@ -358,7 +356,7 @@ template <class T> class hkArrayDDF9
     {}
     ~hkArrayDDF9()
     {
-        _clearAndDeallocate(hkRouterDDF9::FUN_00c85750().heap());
+        _clearAndDeallocate((*static_cast<hkMemoryRouterDDF9*>(::FUN_00c85750())).heap());
     }
     void _clearAndDeallocate(hkMemoryAllocatorDDF9& alloc)
     {
@@ -382,7 +380,7 @@ class ObjDDF9
     }
     static void operator delete(void* p, std::size_t nbytes)
     {
-        hkRouterDDF9::FUN_00c85750().heap().ReleaseBlock(p, nbytes);
+        (*static_cast<hkMemoryRouterDDF9*>(::FUN_00c85750())).heap().ReleaseBlock(p, nbytes);
     }
     int unk00, unk04, unk08, unk0C, unk10, unk14, unk18, unk1C, unk20, unk24, unk28, unk2C;
     int unk30, unk34, unk38, unk3C, unk40, unk44, unk48, unk4C, unk50, unk54;
@@ -426,7 +424,7 @@ struct AudioHolder
 
 inline AudioHolder* holderGet()
 {
-    return (AudioHolder*)FUN_00c85750();
+    return (AudioHolder*)static_cast<BSAudio*>(::FUN_00c85750());
 }
 
 struct SpawnedHandle
@@ -444,7 +442,7 @@ struct SpawnedHandle
     }
     void SetSizeAndGrow(int n)
     {
-        hkMemoryAllocatorDDF9& alloc = hkRouterDDF9::FUN_00c85750().heap();
+        hkMemoryAllocatorDDF9& alloc = (*static_cast<hkMemoryRouterDDF9*>(::FUN_00c85750())).heap();
         if (getCap() < n)
         {
             int cap = 2 * getCap();
@@ -479,7 +477,7 @@ FUN_00ddf170_cls* FUN_00ddf170_cls::FUN_00ddf170(intptr_t a1, int aiBufferSize)
     pHandle->m_uiFilterValue = 0;
     pHandle->m_flags = 0x80000000u;
 
-    hkMemoryAllocatorDDF9& alloc = hkRouterDDF9::FUN_00c85750().heap();
+    hkMemoryAllocatorDDF9& alloc = (*static_cast<hkMemoryRouterDDF9*>(::FUN_00c85750())).heap();
     void* p;
     if (value)
     {
@@ -556,7 +554,6 @@ struct S_00ddeff0_Router
     int unk8;
     int unkC;
     S_00ddeff0_Heap* m_pStreamAllocator;
-    static S_00ddeff0_Router* FUN_00c85750();
     S_00ddeff0_Heap& heap()
     {
         return *m_pStreamAllocator;
@@ -571,7 +568,7 @@ struct FUN_00ddeff0
     void operator delete(void* p, std::size_t nbytes)
     {
         if (p)
-            S_00ddeff0_Router::FUN_00c85750()->heap().ReleaseBlock(p, nbytes);
+            static_cast<S_00ddeff0_Router*>(::FUN_00c85750())->heap().ReleaseBlock(p, nbytes);
     }
     int unk8;
     int unkC;
@@ -638,7 +635,6 @@ struct AudioHolder
     AudioAllocator* m_pAllocator;
 };
 
-AudioHolder* __cdecl FUN_00c85750() throw();
 
 struct SpawnedSub
 {
@@ -667,10 +663,10 @@ struct FUN_00ddf240_cls : SpawnedRoot
 FUN_00ddf240_cls::~FUN_00ddf240_cls() throw()
 {
     SpawnedSub* pSub = &m_sub;
-    AudioHolder* pHolder = FUN_00c85750();
+    AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
     reinterpret_cast<::CB1A90Owner *>((pSub))->ProcessArgument((::CB1A90Argument *)(pHolder->m_pAllocator));
     ::FUN_00a29680();
-    AudioHolder* pHolder2 = FUN_00c85750();
+    AudioHolder* pHolder2 = static_cast<AudioHolder*>(::FUN_00c85750());
     AudioAllocator* pAllocator = pHolder2->m_pAllocator;
     unsigned int uFlags = m_uiObjectFlags;
     m_iUnk18 = 0;
@@ -693,7 +689,6 @@ struct SpawnHolder
     intptr_t m_10;
 };
 
-SpawnHolder* FUN_00c85750();
 
 struct Sub20_cls
 {
@@ -729,7 +724,7 @@ void FUN_00ddfa10_cls::FUN_00ddfa10(int a1, intptr_t a2, unsigned char aiFlags)
     Sub20_cls* sub = &m_20;
     if (reinterpret_cast<::FUN_00cb1930_t *>((sub))->LookupHashEntry(a2, 0))
         return;
-    SpawnHolder* holder = FUN_00c85750();
+    SpawnHolder* holder = static_cast<SpawnHolder*>(::FUN_00c85750());
     reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>((sub))->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(holder->m_10)), a2, 1);
     if ((aiFlags & 1) == 0)
     {
@@ -766,7 +761,6 @@ struct Sub20
 {
 };
 
-AudioHolder* __cdecl FUN_00c85750() throw();
 
 struct FUN_00ddfab0_cls
 {
@@ -802,7 +796,7 @@ void FUN_00ddfab0_cls::FUN_00ddfab0(Param1* a1, int a2, intptr_t a3, int aiFlags
     {
         return;
     }
-    AudioHolder* holder = FUN_00c85750();
+    AudioHolder* holder = static_cast<AudioHolder*>(::FUN_00c85750());
     reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(m_20))->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(holder->m_10)), a3, 1);
     if ((aiFlags & 1) == 0)
     {

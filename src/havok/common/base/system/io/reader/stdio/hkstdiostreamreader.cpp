@@ -2,6 +2,7 @@
 // src/havok/common/base/system/io/reader/stdio/hkstdiostreamreader.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/system/io/reader/stdio/hkstdiostreamreader.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstdint>
 #include <cstdio>
 #include "fnv/symbols_0102e000.h"
@@ -224,7 +225,6 @@ struct CpuAllocatorHolder
     unsigned int unk0c;
     CpuAllocator* allocator;
 };
-CpuAllocatorHolder* __cdecl FUN_00c85750();
 struct CpuObject
 {
     unsigned int unk00;
@@ -237,7 +237,7 @@ CpuObject* CpuObject::FUN_00d2be00(unsigned int flags)
     reinterpret_cast<::FUN_00d2bda0_cls *>(this)->DestroyFileHandle();
     if (flags & 1)
     {
-        CpuAllocatorHolder* holder = FUN_00c85750();
+        CpuAllocatorHolder* holder = static_cast<CpuAllocatorHolder*>(::FUN_00c85750());
         holder->allocator->Invoke(this, size);
     }
     return this;

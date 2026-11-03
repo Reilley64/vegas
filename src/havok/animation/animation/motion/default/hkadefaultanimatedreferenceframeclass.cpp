@@ -2,6 +2,7 @@
 // src/havok/animation/animation/motion/default/hkadefaultanimatedreferenceframeclass.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/animation/motion/default/hkadefaultanimatedreferenceframeclass.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstdint>
 #include "fnv/symbols_0102e000.h"
 struct AudioAllocator
@@ -22,7 +23,6 @@ struct AudioHolder
     AudioAllocator* m_pAllocator;
 };
 
-AudioHolder* __cdecl FUN_00c85750() throw();
 
 struct FUN_00dfe520_cls
 {
@@ -50,7 +50,7 @@ struct FUN_00dfe520_cls
 // @fnv 0x00dfe520
 FUN_00dfe520_cls* FUN_00dfe520_cls::Destroy(unsigned char acFlags)
 {
-    AudioHolder* pAudioHolder = FUN_00c85750();
+    AudioHolder* pAudioHolder = static_cast<AudioHolder*>(::FUN_00c85750());
     AudioAllocator* pAllocator = pAudioHolder->m_pAllocator;
     unsigned int uCapacityFlags = m_uCapBits;
     m_iArrayLength = 0;
@@ -63,7 +63,7 @@ FUN_00dfe520_cls* FUN_00dfe520_cls::Destroy(unsigned char acFlags)
     m_vptr00 = (intptr_t)&(*reinterpret_cast<int *>(&::DAT_0102e388));
     if (acFlags & 1)
     {
-        AudioHolder* pHolder2 = FUN_00c85750();
+        AudioHolder* pHolder2 = static_cast<AudioHolder*>(::FUN_00c85750());
         AudioAllocator* pAllocator2 = pHolder2->m_pAllocator;
         pAllocator2->Free(this, m_uSize);
     }

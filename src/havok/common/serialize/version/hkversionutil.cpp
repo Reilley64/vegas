@@ -2,6 +2,7 @@
 // src/havok/common/serialize/version/hkversionutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/serialize/version/hkversionutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstdint>
 #include <new>
 #include "fnv/decl/FUN_00cc00e0.h"
@@ -217,7 +218,6 @@ struct hkMemoryRouterDC12
         return *m_pStreamAllocator;
     }
 };
-extern "C" hkMemoryRouterDC12& __cdecl FUN_00c85750();
 
 
 class hkPointerMapDC12
@@ -254,10 +254,10 @@ extern "C" void __cdecl VisitObjectList(intptr_t apvList, int iFlags)
     ::ProcessObjectArray((::BE04D90Object **)(ppvList), iFlags);
     hkVisitorDC12 kVisitor;
     hkPointerMapDC12 kDone;
-    reinterpret_cast<::FUN_00cb1fe0_t *>(&(kDone))->EnsureCapacity((intptr_t)&(FUN_00c85750().heap()), 0);
+    reinterpret_cast<::FUN_00cb1fe0_t *>(&(kDone))->EnsureCapacity((intptr_t)&((*static_cast<hkMemoryRouterDC12*>(::FUN_00c85750())).heap()), 0);
     for (int i = 0; ppvList[i]; i++)
         reinterpret_cast<::FUN_00dc1bb0_Class *>(&(kVisitor))->FUN_00dc1bb0((uintptr_t)(ppvList[i]), (uintptr_t)&(kDone), 1);
-    reinterpret_cast<::CB1A90Owner *>(&(kDone))->ProcessArgument((::CB1A90Argument *)&(FUN_00c85750().heap()));
+    reinterpret_cast<::CB1A90Owner *>(&(kDone))->ProcessArgument((::CB1A90Argument *)&((*static_cast<hkMemoryRouterDC12*>(::FUN_00c85750())).heap()));
 }
 
 class hkBoolDC10
@@ -361,7 +361,6 @@ struct S00dc15a0_Array
 };
 
 namespace fnvc_adapt {
-extern "C" S00dc15a0_AudioSystem* __cdecl FUN_00c85750();
 }
 
 static __declspec(noinline) int FUN_00dc12c0(S00dc15a0_Params* params, int value, int flags, S00dc15a0_Array* arr)
@@ -380,7 +379,7 @@ int __cdecl FUN_00dc15a0(S00dc15a0_Params* params, int value, int flags)
     arr.m_iElementCount = 0;
     arr.m_capFlags = 0x80000000;
 
-    S00dc15a0_AudioSystem* pAudioSystem = fnvc_adapt::FUN_00c85750();
+    S00dc15a0_AudioSystem* pAudioSystem = static_cast<S00dc15a0_AudioSystem*>(::FUN_00c85750());
     S00dc15a0_Buffer* heap = pAudioSystem->unk0C;
     int iCurrentCap = arr.m_capFlags & 0x3fffffff;
     if (iCurrentCap < count)
@@ -404,7 +403,7 @@ int __cdecl FUN_00dc15a0(S00dc15a0_Params* params, int value, int flags)
 
     int result = FUN_00dc12c0(params, value, flags, &arr);
 
-    pAudioSystem = fnvc_adapt::FUN_00c85750();
+    pAudioSystem = static_cast<S00dc15a0_AudioSystem*>(::FUN_00c85750());
     S00dc15a0_Buffer* heap2 = pAudioSystem->unk0C;
     arr.m_iElementCount = 0;
     if ((arr.m_capFlags & 0x80000000) == 0)
@@ -514,7 +513,7 @@ struct OffsetMap
     int capacity;
     ~OffsetMap()
     {
-        reinterpret_cast<::CB1A90Owner *>(this)->ProcessArgument((::CB1A90Argument *)(((CopyRouter*)&FUN_00c85750())->allocator));
+        reinterpret_cast<::CB1A90Owner *>(this)->ProcessArgument((::CB1A90Argument *)(((CopyRouter*)&(*static_cast<hkMemoryRouterDC12*>(::FUN_00c85750())))->allocator));
         ::FUN_00a29680();
     }
 };
@@ -628,7 +627,7 @@ static __declspec(noinline) char* FUN_00dc12c0(IndexArray* indices, ObjectInput 
     map.entries = 0;
     map.size = 0;
     map.capacity = -1;
-    CopyRouter* mapRouter = (CopyRouter*)&FUN_00c85750();
+    CopyRouter* mapRouter = (CopyRouter*)&(*static_cast<hkMemoryRouterDC12*>(::FUN_00c85750()));
     _ReadWriteBarrier();
     reinterpret_cast<::FUN_00cb1fe0_t *>(&(map))->EnsureCapacity((intptr_t)(mapRouter->allocator), 0);
     int i;
@@ -646,7 +645,7 @@ static __declspec(noinline) char* FUN_00dc12c0(IndexArray* indices, ObjectInput 
         offsetInput.p->data[index].offset = buffer.size;
         int entryOffset = buffer.size;
         void* entryObject = object->object;
-        CopyRouter* entryRouter = (CopyRouter*)&FUN_00c85750();
+        CopyRouter* entryRouter = (CopyRouter*)&(*static_cast<hkMemoryRouterDC12*>(::FUN_00c85750()));
         _ReadWriteBarrier();
         reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(map))->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(entryRouter->allocator)), (uintptr_t)(entryObject), entryOffset);
         reinterpret_cast<::FUN_00e04920_cls *>(&(writer))->FUN_00e04920((uintptr_t)(object->object), object->type, (intptr_t)stream.writer, type, (uintptr_t)(&fixups));
@@ -654,7 +653,7 @@ static __declspec(noinline) char* FUN_00dc12c0(IndexArray* indices, ObjectInput 
     int size = buffer.size;
     if (size)
     {
-        CopyRouter* allocationRouter = (CopyRouter*)&FUN_00c85750();
+        CopyRouter* allocationRouter = (CopyRouter*)&(*static_cast<hkMemoryRouterDC12*>(::FUN_00c85750()));
         _ReadWriteBarrier();
         char* result = allocationRouter->allocator->allocate(size);
         listener->AddMemoryChunk(result, buffer.size, 5);
@@ -679,7 +678,7 @@ static __declspec(noinline) char* FUN_00dc12c0(IndexArray* indices, ObjectInput 
 
 inline ByteBuffer::~ByteBuffer()
 {
-    CopyAllocator* allocator = ((CopyRouter*)&FUN_00c85750())->allocator;
+    CopyAllocator* allocator = ((CopyRouter*)&(*static_cast<hkMemoryRouterDC12*>(::FUN_00c85750())))->allocator;
     size = 0;
     if ((capacity & (int)0x80000000u) == 0)
         allocator->release(data, capacity & 0x3fffffff);

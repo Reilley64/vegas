@@ -2,6 +2,7 @@
 // src/havok/common/base/types/geometry/localframe/hklocalframe.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/types/geometry/localframe/hklocalframe.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstdint>
 #include <xmmintrin.h>
 #include "fnv/decl/FUN_00c7f690_cls.h"
@@ -381,7 +382,6 @@ struct hkMemoryRouterDF6
     }
 };
 
-extern "C" hkMemoryRouterDF6* __cdecl FUN_00c85750() throw();
 
 struct hkRefDF6
 {
@@ -396,7 +396,7 @@ template <class T> class hkArrayDF6
 
     ~hkArrayDF6() throw()
     {
-        hkMemoryAllocatorDF6& alloc = FUN_00c85750()->heap();
+        hkMemoryAllocatorDF6& alloc = static_cast<hkMemoryRouterDF6*>(::FUN_00c85750())->heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
             alloc.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));

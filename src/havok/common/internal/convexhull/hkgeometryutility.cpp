@@ -2,6 +2,7 @@
 // src/havok/common/internal/convexhull/hkgeometryutility.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/common/internal/convexhull/hkgeometryutility.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstdint>
 #include "fnv_simd.h"
 #include "fnv/decl/FUN_00d5d660_cls.h"
@@ -153,7 +154,6 @@ struct D5C110MemoryRouter
     }
 };
 
-extern "C" D5C110MemoryRouter& __cdecl FUN_00c85750();
 
 struct D5C110Vector4
 {
@@ -175,7 +175,7 @@ struct D5C110VertexArray
 
     void ClearAndRelease()
     {
-        D5C110Allocator& alloc = FUN_00c85750().heap();
+        D5C110Allocator& alloc = (*static_cast<D5C110MemoryRouter*>(::FUN_00c85750())).heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
             alloc.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(D5C110Vector4));
@@ -312,7 +312,7 @@ S00d5c060_Result FUN_00d5c060(const S00d5c060_Src* src, float scale)
 {
     S00d5c060_Result result;
     int count = src->m_uiItemCount;
-    char* data = AllocateWithHeader(&FUN_00c85750().heap(), count * 16);
+    char* data = AllocateWithHeader(&(*static_cast<D5C110MemoryRouter*>(::FUN_00c85750())).heap(), count * 16);
     int quad = src->m_iElementIndex / 4;
     S00d5c060_Vec3* d = (S00d5c060_Vec3*)data;
     for (int i = 0; i < src->m_uiItemCount; ++i)
@@ -322,7 +322,7 @@ S00d5c060_Result FUN_00d5c060(const S00d5c060_Src* src, float scale)
         d[i].m_uiZ = ((const float*)src->m_pData)[i * quad + 2];
     }
     ::FUN_00d5beb0((::__m128 *)(::S00d5c060_Result *)(&result), (::MyPoint *)(data), src->m_uiItemCount, 0, scale);
-    FUN_00c856c0(&FUN_00c85750().heap(), data);
+    FUN_00c856c0(&(*static_cast<D5C110MemoryRouter*>(::FUN_00c85750())).heap(), data);
     return result;
 }
 
@@ -462,7 +462,7 @@ void FUN_00d5d270(const void* shape, ObbVec* outExt, ObbXf* outXf, int mode)
 
     int nStack = geom.numTris * 3;
     ObbArr arr;
-    D5C110MemoryRouter& router = FUN_00c85750();
+    D5C110MemoryRouter& router = (*static_cast<D5C110MemoryRouter*>(::FUN_00c85750()));
     char* start = (char*)router.unk00;
     router.unk00 = (intptr_t)(start + ((nStack * 16 + 0x7f) & ~0x7f));
     arr.m_cap = nStack | 0x80000000;
@@ -470,7 +470,7 @@ void FUN_00d5d270(const void* shape, ObbVec* outExt, ObbXf* outXf, int mode)
     arr.m_pTrailingData = start;
 
     int total = geom.numTris * 3;
-    D5C110Allocator& heap = FUN_00c85750().heap();
+    D5C110Allocator& heap = (*static_cast<D5C110MemoryRouter*>(::FUN_00c85750())).heap();
     if ((arr.m_cap & 0x3fffffff) < total)
     {
         int cap = (arr.m_cap & 0x3fffffff) * 2;
@@ -492,8 +492,8 @@ void FUN_00d5d270(const void* shape, ObbVec* outExt, ObbXf* outXf, int mode)
         char* saved = arr.m_pTrailingData;
         if (saved == (char*)arr.m_data)
             arr.m_iElementCount = 0;
-        FUN_00c85750().unk00 = (intptr_t)saved;
-        D5C110Allocator& alloc = FUN_00c85750().heap();
+        (*static_cast<D5C110MemoryRouter*>(::FUN_00c85750())).unk00 = (intptr_t)saved;
+        D5C110Allocator& alloc = (*static_cast<D5C110MemoryRouter*>(::FUN_00c85750())).heap();
         arr.m_iElementCount = 0;
         if ((arr.m_cap & 0x80000000) == 0)
             alloc.ReturnMemory(arr.m_data, (arr.m_cap & 0x3fffffff) * 16);
@@ -555,8 +555,8 @@ void FUN_00d5d270(const void* shape, ObbVec* outExt, ObbXf* outXf, int mode)
     char* saved = arr.m_pTrailingData;
     if (saved == (char*)arr.m_data)
         arr.m_iElementCount = 0;
-    FUN_00c85750().unk00 = (intptr_t)saved;
-    D5C110Allocator& alloc2 = FUN_00c85750().heap();
+    (*static_cast<D5C110MemoryRouter*>(::FUN_00c85750())).unk00 = (intptr_t)saved;
+    D5C110Allocator& alloc2 = (*static_cast<D5C110MemoryRouter*>(::FUN_00c85750())).heap();
     arr.m_iElementCount = 0;
     if ((arr.m_cap & 0x80000000) == 0)
         alloc2.ReturnMemory(arr.m_data, (arr.m_cap & 0x3fffffff) * 16);
@@ -1388,7 +1388,7 @@ struct MeanCovArrayHeap
 {
     __forceinline D5C110Allocator& get(const void*)
     {
-        return FUN_00c85750().heap();
+        return (*static_cast<D5C110MemoryRouter*>(::FUN_00c85750())).heap();
     }
 };
 template <class T> class MeanCovArrayBase
@@ -2277,7 +2277,6 @@ struct Router
     }
 };
 
-Router& FUN_00c85750() throw();
 
 }
 
@@ -2297,7 +2296,7 @@ struct ObbArray
     ~ObbArray() throw()
     {
 
-        ObbAllocator& a = FitMemory::FUN_00c85750().heap();
+        ObbAllocator& a = (*static_cast<FitMemory::Router*>(::FUN_00c85750())).heap();
 
         size = 0;
 
@@ -2311,7 +2310,7 @@ struct ObbArray
     void push(const ObbVec& v) throw()
     {
 
-        ObbAllocator& a = FitMemory::FUN_00c85750().heap();
+        ObbAllocator& a = (*static_cast<FitMemory::Router*>(::FUN_00c85750())).heap();
 
         if (size == (cap & 0x3fffffff))
             ::ResizeAudioStream((::AudioAllocator *)(void *)(&a), (::AudioStream *)(void *)(this), 16);
@@ -2331,11 +2330,11 @@ struct ObbScratch
     ObbScratch(int count, int& capacityOut) throw() : cap(capacityOut)
     {
 
-        FitMemory::FUN_00c85750();
+        (*static_cast<FitMemory::Router*>(::FUN_00c85750()));
 
-        FitMemory::FUN_00c85750();
+        (*static_cast<FitMemory::Router*>(::FUN_00c85750()));
 
-        ObbAllocator& a = FitMemory::FUN_00c85750().heap();
+        ObbAllocator& a = (*static_cast<FitMemory::Router*>(::FUN_00c85750())).heap();
 
         if (count > 0)
         {
@@ -2357,7 +2356,7 @@ struct ObbScratch
     ~ObbScratch() throw()
     {
 
-        ObbAllocator& a = FitMemory::FUN_00c85750().heap();
+        ObbAllocator& a = (*static_cast<FitMemory::Router*>(::FUN_00c85750())).heap();
 
         if ((cap & 0x80000000) == 0)
             a.free(data, (cap & 0x3fffffff) * 16);

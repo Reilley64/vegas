@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 // @fnv 0x00dda830
+#include "fnv/symbols_00c85000.h"
 #include <cstdint>
 #include <cstddef>
 #include <new>
@@ -58,10 +59,9 @@ struct AudioMgr
 };
 
 struct BSAudio;
-__declspec(nothrow) BSAudio* __cdecl FUN_00c85750();
 inline AudioMgr* audio()
 {
-    return (AudioMgr*)FUN_00c85750();
+    return (AudioMgr*)static_cast<BSAudio*>(::FUN_00c85750());
 }
 
 struct hkBool
@@ -182,7 +182,6 @@ struct AllocatorHolder
     unsigned int unk0c;
     Allocator* allocator;
 };
-AllocatorHolder* __cdecl FUN_00c85750();
 struct FUN_00ddabb0_shell
 {
     void* unk00;
@@ -196,7 +195,7 @@ FUN_00ddabb0_shell* FUN_00ddabb0_shell::FUN_00ddabb0(unsigned int flags)
     reinterpret_cast<::D60590Object *>(this)->FUN_00d60590();
     if (flags & 1)
     {
-        AllocatorHolder* holder = FUN_00c85750();
+        AllocatorHolder* holder = static_cast<AllocatorHolder*>(::FUN_00c85750());
         holder->allocator->Free(this, size);
     }
     return this;

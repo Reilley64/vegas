@@ -2,6 +2,7 @@
 // src/havok/common/serialize/util/hknativepackfileutils.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/serialize/util/hknativepackfileutils.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstdint>
 #include <cstddef>
 #include <new>
@@ -120,7 +121,6 @@ struct S_00dc0de0_Router
     }
 };
 
-S_00dc0de0_Router* FUN_00c85750();
 
 struct S_00dc0de0_Value
 {
@@ -222,8 +222,8 @@ void FUN_00dc0de0(S_00dc0de0* s)
         if (pValue->m_callback)
             pValue->m_callback(map.GetIteratorKey(it));
     }
-    s->m_ppData._clearAndDeallocate(FUN_00c85750()->heap());
-    reinterpret_cast<::CB1A90Owner *>(&(map))->ProcessArgument((::CB1A90Argument *)&(FUN_00c85750()->heap()));
+    s->m_ppData._clearAndDeallocate(static_cast<S_00dc0de0_Router*>(::FUN_00c85750())->heap());
+    reinterpret_cast<::CB1A90Owner *>(&(map))->ProcessArgument((::CB1A90Argument *)&(static_cast<S_00dc0de0_Router*>(::FUN_00c85750())->heap()));
     ::FUN_00a29680();
 }
 
@@ -277,7 +277,7 @@ struct S_00dc0cd0_Router
     }
     static S_00dc0cd0_Router& GetMonitorStream() throw()
     {
-        return *(S_00dc0cd0_Router*)FUN_00c85750();
+        return *(S_00dc0cd0_Router*)static_cast<S_00dc0de0_Router*>(::FUN_00c85750());
     }
 };
 
@@ -443,7 +443,7 @@ void FUN_00dc0f20_cls::FUN_00dc0f20()
         m_14 = 0;
         m_18 = 0;
     }
-    AudioHolder* pAudioHolder = (AudioHolder*)FUN_00c85750();
+    AudioHolder* pAudioHolder = (AudioHolder*)static_cast<S_00dc0de0_Router*>(::FUN_00c85750());
     AudioAllocator* pAllocator = pAudioHolder->m_pAllocator;
     m_0c = 0;
     unsigned int uCapBits = m_10;
@@ -733,7 +733,7 @@ extern "C" void* __cdecl UnpackPackfile(void* packfileData, void* dataSize, void
                 const void* typeInfo = registry->RegisterLoadedObject(obj, className);
                 if (typeInfo)
                 {
-                    S_00dc0de0_Allocator& heap = FUN_00c85750()->heap();
+                    S_00dc0de0_Allocator& heap = static_cast<S_00dc0de0_Router*>(::FUN_00c85750())->heap();
                     reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(out->m_pTracker))->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(&heap)), (uintptr_t)(obj), (uintptr_t)(typeInfo));
                 }
             }
@@ -844,7 +844,6 @@ struct Manager
     unsigned flags, state, count, capacity;
     Allocator* allocator;
 };
-Manager* FUN_00c85750();
 struct FUN_00dc0f80
 {
     unsigned short allocationSize;
@@ -852,7 +851,7 @@ struct FUN_00dc0f80
     virtual ~FUN_00dc0f80();
     void operator delete(void* ptr)
     {
-        Manager* manager = FUN_00c85750();
+        Manager* manager = static_cast<Manager*>(::FUN_00c85750());
         manager->allocator->Free(ptr, static_cast<FUN_00dc0f80*>(ptr)->allocationSize);
     }
 };

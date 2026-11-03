@@ -2,6 +2,7 @@
 // src/havok/common/serialize/packfile/hkpackfiledata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/serialize/packfile/hkpackfiledata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstdint>
 #include <cstddef>
 #include <new>
@@ -98,7 +99,6 @@ int FUN_00e05950_class::FindFirstNonEmptySlot()
     return count;
 }
 
-void* FUN_00c85750();
 struct UnkRet
 {
     intptr_t a;
@@ -520,7 +520,6 @@ fail:
 
 extern "C" const void* DAT_010ea51c;
 
-void* FUN_00c85750();
 void __cdecl FUN_00c856c0(void* heap, void* ptr);
 
 struct hkMemoryAllocator
@@ -679,7 +678,6 @@ struct Crux53_HkRouter
     int unk00, unk04, unk08, unk0c;
     void* heap;
 };
-void* FUN_00c85750();
 void __cdecl FUN_00c856c0(void* heap, void* ptr);
 char* __cdecl FUN_00cb1410(const char* src);
 inline void Crux53_FreeName(char* existing)

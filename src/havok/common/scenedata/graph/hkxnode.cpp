@@ -2,6 +2,7 @@
 // src/havok/common/scenedata/graph/hkxnode.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/scenedata/graph/hkxnode.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include "fnv/decl/hkReferencedObjectC905.h"
 #include "havok/hkxNode.h"
 
@@ -26,7 +27,6 @@ struct hkMemoryRouterDFF6
     }
 };
 
-extern "C" hkMemoryRouterDFF6& __cdecl FUN_00c85750() throw();
 
 namespace hkDFF6 {
 class hkBaseObject
@@ -70,7 +70,7 @@ template <class T> class hkArray
 
     __forceinline ~hkArray() throw()
     {
-        hkMemoryAllocatorDFF6& kAlloc = FUN_00c85750().heap();
+        hkMemoryAllocatorDFF6& kAlloc = (*static_cast<hkMemoryRouterDFF6*>(::FUN_00c85750())).heap();
         destruct(m_data, m_iElementCount);
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)

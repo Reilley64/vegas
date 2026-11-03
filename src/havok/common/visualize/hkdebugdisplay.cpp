@@ -1,3 +1,4 @@
+#include "fnv/symbols_00c85000.h"
 // src/havok/common/visualize/hkdebugdisplay.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/visualize/hkdebugdisplay.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
@@ -17,7 +18,6 @@ struct FUN_00c99fb0_Manager
     int unk0c;
     FUN_00c99fb0_Interface* allocator;
 };
-extern FUN_00c99fb0_Manager* __cdecl FUN_00c85750();
 extern "C" void DeleteCriticalSection(void* section);
 struct FUN_00c99fb0
 {
@@ -36,10 +36,10 @@ FUN_00c99fb0::~FUN_00c99fb0()
     if (field14)
     {
         DeleteCriticalSection(field14);
-        FUN_00c85750()->allocator->FreeObject(field14, 0x18);
+        static_cast<FUN_00c99fb0_Manager*>(::FUN_00c85750())->allocator->FreeObject(field14, 0x18);
     }
     int count = field10;
-    FUN_00c99fb0_Manager* manager = FUN_00c85750();
+    FUN_00c99fb0_Manager* manager = static_cast<FUN_00c99fb0_Manager*>(::FUN_00c85750());
     field0c = 0;
     if (count >= 0)
         manager->allocator->FreeBuffer(field08, (count & 0x3fffffff) * 4);
@@ -49,7 +49,7 @@ FUN_00c99fb0::~FUN_00c99fb0()
 void FUN_00c99fb0::operator delete(void* object)
 {
     FUN_00c99fb0* self = (FUN_00c99fb0*)object;
-    FUN_00c99fb0_Manager* manager = FUN_00c85750();
+    FUN_00c99fb0_Manager* manager = static_cast<FUN_00c99fb0_Manager*>(::FUN_00c85750());
     unsigned short size = self->unk04;
     manager->allocator->FreeObject(object, size);
 }

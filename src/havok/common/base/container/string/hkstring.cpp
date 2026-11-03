@@ -34,12 +34,11 @@ struct UnkHolder
 {
     UnkRet* FUN_00c85750();
 };
-extern "C" BSAudio* __cdecl FUN_00c85750();
 
 // @fnv 0x00cb13c0
 void __cdecl FUN_00cb13c0(intptr_t aiAudio)
 {
-    ::CallSwappedArgs((uintptr_t)((BSAudio*)aiAudio), *(int*)((char*)FUN_00c85750() + 0x10));
+    ::CallSwappedArgs((uintptr_t)((BSAudio*)aiAudio), *(int*)((char*)static_cast<BSAudio*>(::FUN_00c85750()) + 0x10));
 }
 
 // @fnv 0x00cb1110
@@ -110,14 +109,13 @@ struct BSAudio
     int unk10;
 };
 
-BSAudio* FUN_00c85750();
 
 // Reads unk10 from the BSAudio returned by FUN_00c85750 and passes it with a and b to FUN_00cb11b0.
 // @fnv 0x00cb13e0
 void __cdecl FUN_00cb13e0(intptr_t aiArg1, int aiArg2)
 {
     NineIntegerRecord router;
-    intptr_t c = FUN_00c85750()->unk10;
+    intptr_t c = static_cast<BSAudio*>(::FUN_00c85750())->unk10;
     ::fnv_00cb11b0::FUN_00cb11b0((void *)(aiArg1), aiArg2, (void *)(c));
 }
 
@@ -203,7 +201,7 @@ struct S_00cb1410_Buf
 void __cdecl FUN_00cb1410(intptr_t aiValue)
 {
     S_00cb1410_Buf buf;
-    intptr_t r = FUN_00c85750()->unk10;
+    intptr_t r = static_cast<BSAudio*>(::FUN_00c85750())->unk10;
     ::FUN_00cb1160((const char *)(aiValue), (void *)(r));
 }
 

@@ -2,6 +2,7 @@
 // src/havok/animation/animation/animation/util/hkaanimationpreviewcolorclass.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/animation/animation/util/hkaanimationpreviewcolorclass.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include "fnv/decl/fnv_00e41e20__FUN_00e41e20_cls.h"
 struct Allocator
 {
@@ -17,7 +18,6 @@ struct Holder
     unsigned int unk0c;
     Allocator* allocator;
 };
-Holder* FUN_00c85750();
 struct hkaAnimationPreviewColorContainer
 {
     unsigned int unk00;
@@ -31,7 +31,7 @@ hkaAnimationPreviewColorContainer* hkaAnimationPreviewColorContainer::Destroy(un
     reinterpret_cast<::fnv_00e41e20::FUN_00e41e20_cls *>(this)->FUN_00e41e20();
     if (flags & 1)
     {
-        Holder* holder = FUN_00c85750();
+        Holder* holder = static_cast<Holder*>(::FUN_00c85750());
         Allocator* allocator = holder->allocator;
         unsigned short size = allocationSize;
         allocator->Free(this, size);

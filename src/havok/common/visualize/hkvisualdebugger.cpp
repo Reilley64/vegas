@@ -406,7 +406,6 @@ struct FUN_00cd12e0_router
     unsigned int m_iThirdValue;
     void* heap;
 };
-FUN_00cd12e0_router* FUN_00c85750();
 struct FUN_00cd12e0_owner
 {
     void FUN_00cd12e0();
@@ -415,7 +414,7 @@ struct FUN_00cd12e0_owner
 void FUN_00cd12e0_owner::FUN_00cd12e0()
 {
     FUN_00cd12e0_array* array = reinterpret_cast<FUN_00cd12e0_array*>(reinterpret_cast<char*>(this) + 0x50);
-    FUN_00cd12e0_router* router = FUN_00c85750();
+    FUN_00cd12e0_router* router = static_cast<FUN_00cd12e0_router*>(::FUN_00c85750());
     if (array->size == (array->capacityFlags & 0x3fffffff))
     {
         ::ResizeAudioStream((::AudioAllocator *)(router->heap), (::AudioStream *)(array), 4);
@@ -430,7 +429,6 @@ void FUN_00cd12e0_owner::FUN_00cd12e0()
 }
 
 namespace fnv_00cd1330 {
-void* FUN_00c85750();
 
 struct Router
 {
@@ -456,7 +454,7 @@ template <typename T> struct hkArray
 
     T& AllocatePair()
     {
-        void* heap = ((Router*)FUN_00c85750())->m_10;
+        void* heap = ((Router*)static_cast<FUN_00cd12e0_router*>(::FUN_00c85750()))->m_10;
         if (m_iElementCount == (m_iCapacityState & 0x3FFFFFFF))
         {
             ::ResizeAudioStream((::AudioAllocator *)(heap), (::AudioStream *)(void *)(this), sizeof(T));
@@ -546,7 +544,6 @@ struct hkMemoryRouterXcd13c0
 };
 
 namespace hkRouterXcd13c0 {
-extern "C" hkMemoryRouterXcd13c0& __cdecl FUN_00c85750() throw();
 }
 
 template <class T> class hkArrayXcd13c0
@@ -562,7 +559,7 @@ template <class T> class hkArrayXcd13c0
     }
     __forceinline void AddBack(const T& e)
     {
-        hkMemoryRouterXcd13c0& router = hkRouterXcd13c0::FUN_00c85750();
+        hkMemoryRouterXcd13c0& router = (*static_cast<hkMemoryRouterXcd13c0*>(::FUN_00c85750()));
         if (m_iElementCount == getCapacity())
             ::ResizeAudioStream((::AudioAllocator *)(router.m_pStreamAllocator), (::AudioStream *)(void *)(this), sizeof(T));
         memCpyOneAlignedXcd13c0<sizeof(T)>(m_data + m_iElementCount, &e);
@@ -604,7 +601,6 @@ struct hkMemoryRouterCD17
 };
 
 namespace fnvc_adapt {
-extern "C" hkMemoryRouterCD17& __cdecl FUN_00c85750() throw();
 }
 
 struct ItemCD17
@@ -654,7 +650,7 @@ void FUN_00cd1710_C::FUN_00cd1710(SinkCD17* pkSink)
             int iB = pItem->m_i3C;
             int iA = pItem->m_i38;
             int iValue = pkSink->m_i04;
-            reinterpret_cast<::SearchObject *>((pkSink))->Search(fnvc_adapt::(unsigned int)&(const <dependent type> &)(FUN_00c85750().heap()), iValue, iA, iB);
+            reinterpret_cast<::SearchObject *>((pkSink))->Search(fnvc_adapt::(unsigned int)&(const <dependent type> &)(static_cast<FUN_00cd12e0_router*>(::FUN_00c85750()).heap()), iValue, iA, iB);
         }
     }
 }
@@ -1138,7 +1134,6 @@ struct Router_cd14
     {
         return *m_pStreamAllocator;
     }
-    static Router_cd14& __cdecl FUN_00c85750() throw();
 };
 
 template <class T> struct hkArray_cd14
@@ -1148,7 +1143,7 @@ template <class T> struct hkArray_cd14
     int m_iCapacityState;
     __forceinline T& AllocatePair() throw()
     {
-        Heap_cd14& heap = Router_cd14::FUN_00c85750().heap();
+        Heap_cd14& heap = (*static_cast<Router_cd14*>(::FUN_00c85750())).heap();
         int n = m_iElementCount;
         int newSize = n + 1;
         int cap = m_iCapacityState & 0x3fffffff;
@@ -1196,7 +1191,7 @@ struct Process_cd14
     int unk4C;
     static void* operator new(std::size_t nbytes) throw()
     {
-        Process_cd14* p = (Process_cd14*)Router_cd14::FUN_00c85750().heap().AllocateMemoryBlock(nbytes);
+        Process_cd14* p = (Process_cd14*)(*static_cast<Router_cd14*>(::FUN_00c85750())).heap().AllocateMemoryBlock(nbytes);
         p->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return p;
     }

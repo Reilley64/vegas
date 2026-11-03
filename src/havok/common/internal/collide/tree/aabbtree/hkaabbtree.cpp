@@ -1,5 +1,6 @@
 // havok/common/internal/collide/tree/aabbtree/hkaabbtree.cpp: ElemPool, Owner, RecordPool, MapD9 and more (24 functions)
 
+#include "fnv/symbols_00c85000.h"
 #include <cstdint>
 #include "fnv_simd.h"
 #include <cstddef>
@@ -173,7 +174,6 @@ struct AllocHolder {
     Allocator* m_pThreadAllocator;
 };
 
-AllocHolder* __cdecl FUN_00c85750();
 
 struct S_d9bf30_Rec {
     int unk0; int unk4; int unk8; int unkc;
@@ -190,7 +190,7 @@ struct S_d9bf30_Words {
         m_uiItemCount++;
     }
     __forceinline void refill(unsigned short newSize, int oldCount) {
-        AllocHolder* holder = FUN_00c85750();
+        AllocHolder* holder = static_cast<AllocHolder*>(::FUN_00c85750());
         Allocator* alloc = holder->m_pThreadAllocator;
 
         unsigned int cap = m_capFlags & 0x3fffffffu;
@@ -223,7 +223,7 @@ void FUN_00d9bf30_cls::AllocateRecords(unsigned short newSize, S_d9bf30_Rec** ap
     int oldCount = m_uiItemCount;
     int n = newSize;
 
-    AllocHolder* holder = FUN_00c85750();
+    AllocHolder* holder = static_cast<AllocHolder*>(::FUN_00c85750());
     Allocator* alloc;
     alloc = holder->m_pThreadAllocator;
 
@@ -296,7 +296,6 @@ struct BSAudio {
 
 // The thread local getter of the audio system (it is declared, not defined,
 // because it lives in another translation unit).
-BSAudio* __cdecl FUN_00c85750();
 
 // The object that owns the two buffers: items of 48 bytes and items of 4
 // bytes, each with its own data pointer, item count and capacity.
@@ -314,7 +313,7 @@ struct FUN_00d9c010_cls {
 void FUN_00d9c010_cls::ClearBuffers()
 {
     {
-        BSAudio* audio = FUN_00c85750();
+        BSAudio* audio = static_cast<BSAudio*>(::FUN_00c85750());
         AudioSink* sink = audio->m_sink;
         int capacity = m_capacity1;
         m_count1 = 0;
@@ -324,7 +323,7 @@ void FUN_00d9c010_cls::ClearBuffers()
         m_capacity1 = 0x80000000;
     }
     {
-        BSAudio* audio = FUN_00c85750();
+        BSAudio* audio = static_cast<BSAudio*>(::FUN_00c85750());
         AudioSink* sink = audio->m_sink;
         int capacity = m_capacity0;
         m_count0 = 0;
@@ -353,7 +352,6 @@ struct AudioHolder {
     AudioAllocator* m_pAllocator;
 };
 
-AudioHolder* __cdecl FUN_00c85750() throw();
 
 struct FUN_00d9c090_cls {
     void* m_pData2;
@@ -369,7 +367,7 @@ struct FUN_00d9c090_cls {
 // @fnv 0x00d9c090
 void FUN_00d9c090_cls::ClearArrays()
 {
-    AudioHolder* pHolder = FUN_00c85750();
+    AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
     AudioAllocator* pAllocator = pHolder->m_pAllocator;
     unsigned int uCapBits1 = m_uCapBits1;
     m_iCount1 = 0;
@@ -379,7 +377,7 @@ void FUN_00d9c090_cls::ClearArrays()
     m_pData1 = 0;
     m_uCapBits1 = 0x80000000u;
 
-    AudioHolder* pHolder2 = FUN_00c85750();
+    AudioHolder* pHolder2 = static_cast<AudioHolder*>(::FUN_00c85750());
     AudioAllocator* pAllocator2 = pHolder2->m_pAllocator;
     unsigned int uCapBits2 = m_uCapBits2;
     m_iCount2 = 0;
@@ -476,7 +474,6 @@ struct AudioHolder {
     AudioAllocator* m_pAllocator;
 };
 
-AudioHolder* __cdecl FUN_00c85750() throw();
 
 struct SubObject_b3483 {
     int unk00;
@@ -503,7 +500,7 @@ FUN_00d9c320_cls* FUN_00d9c320_cls::Destroy(unsigned char acFlags)
     reinterpret_cast<::FUN_00d9bed0_cls *>(this)->FUN_00d9bed0();
     reinterpret_cast<::fnv_00d9c090::FUN_00d9c090_cls *>(&(m_sub))->ClearArrays();
     if (acFlags & 1) {
-        AudioHolder* pHolder = FUN_00c85750();
+        AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
         AudioAllocator* pAllocator = pHolder->m_pAllocator;
         pAllocator->Free(this, 0x80);
     }
@@ -530,7 +527,6 @@ struct D9C360MemoryRouter {
     D9C360Allocator& heap() { return *m_pStreamAllocator; }
 };
 
-extern "C" D9C360MemoryRouter& __cdecl FUN_00c85750();
 
 struct D9C360Node {
     int unk00;
@@ -563,7 +559,7 @@ struct D9C360NodeStack {
 
     void AddBack(D9C360Node* n)
     {
-        D9C360Allocator& alloc = FUN_00c85750().heap();
+        D9C360Allocator& alloc = (*static_cast<D9C360MemoryRouter*>(::FUN_00c85750())).heap();
         if (m_iElementCount == getCapacity())
             ::ResizeAudioStream((::AudioAllocator *)(void *)(&alloc), (::AudioStream *)(void *)(this), sizeof(D9C360Node*));
         m_data[m_iElementCount++] = n;
@@ -571,7 +567,7 @@ struct D9C360NodeStack {
 
     void release()
     {
-        D9C360Allocator& alloc = FUN_00c85750().heap();
+        D9C360Allocator& alloc = (*static_cast<D9C360MemoryRouter*>(::FUN_00c85750())).heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
             alloc.ReturnMemory(m_data, getCapacity() * sizeof(D9C360Node*));
@@ -654,7 +650,6 @@ struct S_00d9d650_Router
     S_00d9d650_Heap& heap() { return *m_pStreamAllocator; }
 };
 
-namespace fnvc_adapt { S_00d9d650_Router& __cdecl FUN_00c85750(); }
 
 template <typename T>
 struct S_00d9d650_Array
@@ -664,7 +659,7 @@ struct S_00d9d650_Array
     int m_iCapacityState;
 
     S_00d9d650_Array() : m_data(0), m_iElementCount(0), m_iCapacityState(0x80000000) {}
-    ~S_00d9d650_Array() throw() { _clearAndDeallocate(fnvc_adapt::FUN_00c85750().heap()); }
+    ~S_00d9d650_Array() throw() { _clearAndDeallocate((*static_cast<S_00d9d650_Router*>(::FUN_00c85750())).heap()); }
 
     int getCapacity() const { return m_iCapacityState & 0x3fffffff; }
     T& operator[](int i) { return m_data[i]; }
@@ -694,7 +689,7 @@ struct S_00d9d650_Array
         GrowArrayCapacity(alloc, n);
         m_iElementCount = n;
     }
-    void SetSizeAndGrow(int n) { _setSize(fnvc_adapt::FUN_00c85750().heap(), n); }
+    void SetSizeAndGrow(int n) { _setSize((*static_cast<S_00d9d650_Router*>(::FUN_00c85750())).heap(), n); }
 };
 
 struct S_00d9d650_Vector4
@@ -839,14 +834,14 @@ void Pool_d9c520::TraverseNodeTree(Node_d9c520* node, int second)
             {
                 node = ((::Node_d9c520 *)(reinterpret_cast<::FUN_00d9a4d0_Class *>(&(resolver))->GetEntryOffset(node->unk0C)));
                 Node_d9c520* child = node->unk12 != 0x7fff ? ((::Node_d9c520 *)(reinterpret_cast<::FUN_00d9a4d0_Class *>(&(resolver))->GetEntryOffset(node->unk12))) : 0;
-                AllocHolder* holder = FUN_00c85750();
+                AllocHolder* holder = static_cast<AllocHolder*>(::FUN_00c85750());
                 if (nodeStack.count == (nodeStack.capacity & 0x3fffffff))
                     ::ResizeAudioStream((::AudioAllocator *)(holder->m_pThreadAllocator), (::AudioStream *)(::UnsignedShortArray *)((UnsignedShortArray*)&nodeStack), 4);
                 nodeStack.elements[nodeStack.count] = child;
                 nodeStack.count = nodeStack.count + 1;
             }
         }
-        AllocHolder* holder = FUN_00c85750();
+        AllocHolder* holder = static_cast<AllocHolder*>(::FUN_00c85750());
         Allocator* allocator = holder->m_pThreadAllocator;
         int capacity = nodeStack.capacity;
         nodeStack.count = 0;
@@ -957,7 +952,7 @@ template <class T> struct hkArray_d9c4 {
     int m_iCapacityState;
     __forceinline void reserve(int n)
     {
-        S_00d9d650_Heap& heap = fnvc_adapt::FUN_00c85750().heap();
+        S_00d9d650_Heap& heap = (*static_cast<S_00d9d650_Router*>(::FUN_00c85750())).heap();
         int cap = m_iCapacityState & 0x3fffffff;
         if (cap < n) {
             int cap2 = 2 * cap;
@@ -1163,7 +1158,7 @@ TreeDeleteD9C2* TreeDeleteD9C2::FUN_00d9c2e0(unsigned char flags)
     reinterpret_cast<::FUN_00d9be30_class *>(this)->FUN_00d9be30();
     reinterpret_cast<::fnv_00d9c010::FUN_00d9c010_cls *>(&(m_kNodeCollection))->ClearBuffers();
     if (flags & 1) {
-        AllocHolder* holder = FUN_00c85750();
+        AllocHolder* holder = static_cast<AllocHolder*>(::FUN_00c85750());
         reinterpret_cast<TreeDeleteAllocatorD9C2*>(holder->m_pThreadAllocator)->Deallocate(this, 0x80);
     }
     return this;
@@ -1561,7 +1556,7 @@ struct TreeRouter {
 };
 
 
-__forceinline TreeRouter& GetTreeRouter() { return *(TreeRouter*)FUN_00c85750(); }
+__forceinline TreeRouter& GetTreeRouter() { return *(TreeRouter*)static_cast<AllocHolder*>(::FUN_00c85750()); }
 
 template <typename T>
 struct TreeArray {
@@ -1775,7 +1770,7 @@ void Tree840::FUN_00d9c840(const Source840* source,const int* keys,int count,Nod
     indices.data=0;
     indices.count=0;
     indices.capacity=0x80000000;
-    AllocHolder* holder=FUN_00c85750();
+    AllocHolder* holder=static_cast<AllocHolder*>(::FUN_00c85750());
     Allocator* heap=holder->m_pThreadAllocator;
     int capacity=indices.capacity&0x3fffffff;
     if(capacity<count) {
@@ -1872,7 +1867,7 @@ void Tree840::FUN_00d9c840(const Source840* source,const int* keys,int count,Nod
             }
             for(int i=1;i>=0;--i) {
                 if(sizes[i]>1) {
-                    AllocHolder* holder=FUN_00c85750();
+                    AllocHolder* holder=static_cast<AllocHolder*>(::FUN_00c85750());
                     Allocator* allocator=holder->m_pThreadAllocator;
                     if(tasks.count==(int)(tasks.capacity&0x3fffffff))
                         ::ResizeAudioStream((::AudioAllocator *)(allocator),(::AudioStream *)(::UnsignedShortArray *)((UnsignedShortArray*)&tasks),48);
@@ -1883,13 +1878,13 @@ void Tree840::FUN_00d9c840(const Source840* source,const int* keys,int count,Nod
             }
         }
     } while(tasks.count);
-    AllocHolder* taskHolder=FUN_00c85750();
+    AllocHolder* taskHolder=static_cast<AllocHolder*>(::FUN_00c85750());
     Allocator* taskHeap=taskHolder->m_pThreadAllocator;
     tasks.count=0;
     if((tasks.capacity&0x80000000)==0) taskHeap->Free(tasks.data,(tasks.capacity&0x3fffffff)*48);
     tasks.data=0;
     tasks.capacity=0x80000000;
-    AllocHolder* wordHolder=FUN_00c85750();
+    AllocHolder* wordHolder=static_cast<AllocHolder*>(::FUN_00c85750());
     Allocator* wordHeap=wordHolder->m_pThreadAllocator;
     indices.count=0;
     if((indices.capacity&0x80000000)==0) wordHeap->Free(indices.data,(indices.capacity&0x3fffffff)*2);
@@ -2180,7 +2175,7 @@ struct BuildArray
 
     BuildArray() : m_data(0), m_iElementCount(0), m_iCapacityState(0x80000000) {}
     BuildArray(T* data, int flags) : m_data(data), m_iCapacityState(flags) {}
-    __forceinline ~BuildArray() { _clearAndDeallocate(fnvc_adapt::FUN_00c85750().heap()); }
+    __forceinline ~BuildArray() { _clearAndDeallocate((*static_cast<S_00d9d650_Router*>(::FUN_00c85750())).heap()); }
 
     int GetLogicalSize() const { return m_iElementCount; }
     int getCapacity() const { return m_iCapacityState & 0x3fffffff; }
@@ -2210,7 +2205,7 @@ struct BuildArray
     }
     __forceinline void SetSizeAndGrow(int n)
     {
-        GrowArrayCapacity(fnvc_adapt::FUN_00c85750().heap(), n);
+        GrowArrayCapacity((*static_cast<S_00d9d650_Router*>(::FUN_00c85750())).heap(), n);
         m_iElementCount = n;
     }
     __forceinline T& expandOneUnchecked()
@@ -2219,7 +2214,7 @@ struct BuildArray
     }
     __forceinline void AddBack(const T& t)
     {
-        S_00d9d650_Heap& alloc = fnvc_adapt::FUN_00c85750().heap();
+        S_00d9d650_Heap& alloc = (*static_cast<S_00d9d650_Router*>(::FUN_00c85750())).heap();
         if (m_iElementCount == getCapacity())
         {
             ResizeAudioStream(&alloc, this, sizeof(T));

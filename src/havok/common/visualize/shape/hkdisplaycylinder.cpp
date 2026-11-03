@@ -6,6 +6,7 @@
 void FUN_00d58500(int, int)
 {}
 
+#include "fnv/symbols_00c85000.h"
 #include "fnv_simd.h"
 #include <cstddef>
 #include <new>
@@ -106,7 +107,6 @@ struct Mgr
     int unk00, unk04, unk08, unk0c;
     AllocObj* m_10;
 };
-Mgr* FUN_00c85750();
 struct Quaternion;
 class LaneScalar
 {
@@ -296,7 +296,7 @@ template <class T> struct List
     {}
     __forceinline T* expandBy(int amount)
     {
-        Mgr* mgr = FUN_00c85750();
+        Mgr* mgr = static_cast<Mgr*>(::FUN_00c85750());
         void* allocator = mgr->m_10;
         int old = size;
         int need = old + amount;
@@ -381,7 +381,7 @@ __declspec(noinline) void FUN_00d58590(CylinderMeshBuilder* self)
         Quaternion& delta = pair.delta;
         delta.FUN_00cb2450(unit, float(double(6.28318548f) / sectors));
         Quaternion rotation(unit, 0.0f);
-        Mgr* mgr = FUN_00c85750();
+        Mgr* mgr = static_cast<Mgr*>(::FUN_00c85750());
         void* allocation = mgr->m_10->v04(24);
         self->m_08 = allocation ? new (allocation) Geometry : 0;
         *self->m_08->vertices.expandBy(1) = origin;

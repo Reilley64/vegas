@@ -2,6 +2,7 @@
 // src/havok/common/scenedata/scene/hkxscene.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/scenedata/scene/hkxscene.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstdint>
 #include <xmmintrin.h>
 #include "fnv/decl/hkReferencedObjectC905.h"
@@ -26,7 +27,6 @@ struct Router
     int unk00, unk04, unk08, unk0c;
     Alloc* unk10;
 };
-void* __cdecl FUN_00c85750();
 struct FUN_00cb0c00_class
 {
     char* value;
@@ -322,7 +322,6 @@ struct Router_e4a4
     {
         return *m_pStreamAllocator;
     }
-    static Router_e4a4& __cdecl FUN_00c85750() throw();
 };
 
 template <class T> struct hkArray_e4a4
@@ -340,7 +339,7 @@ template <class T> struct hkArray_e4a4
     }
     __forceinline void ClearAndRelease() throw()
     {
-        Heap_e4a4& heap = Router_e4a4::FUN_00c85750().heap();
+        Heap_e4a4& heap = (*static_cast<Router_e4a4*>(::FUN_00c85750())).heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
             heap.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));

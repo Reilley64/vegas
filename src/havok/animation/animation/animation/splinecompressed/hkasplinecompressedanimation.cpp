@@ -668,7 +668,6 @@ void hkaSplineCompressedAnimationE344::FUN_00e34490(hkReal time, const hkInt16* 
     }
 }
 
-extern void* __cdecl FUN_00c85750(void);
 extern void __cdecl FUN_00dfb5a0(int value);
 
 extern int DAT_010de0ec;

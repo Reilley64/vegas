@@ -2,6 +2,7 @@
 // src/havok/common/base/reflection/hkclassenum.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/reflection/hkclassenum.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include <cstdint>
 #include "havok/hkClassEnum_decl_hkclassenum.h"
 #include "fnv/decl/FUN_00d607b0_class.h"
@@ -99,7 +100,6 @@ struct hkMemoryRouterXdb76f0
 };
 
 namespace hkRouterXdb76f0 {
-extern "C" hkMemoryRouterXdb76f0& __cdecl FUN_00c85750() throw();
 }
 
 template <class T> class hkArrayXdb76f0
@@ -115,7 +115,7 @@ template <class T> class hkArrayXdb76f0
     }
     __forceinline void AddBack(const T& e)
     {
-        hkMemoryRouterXdb76f0& router = hkRouterXdb76f0::FUN_00c85750();
+        hkMemoryRouterXdb76f0& router = (*static_cast<hkMemoryRouterXdb76f0*>(::FUN_00c85750()));
         if (m_iElementCount == getCapacity())
             ::ResizeAudioStream((::AudioAllocator *)(router.m_pStreamAllocator), (::AudioStream *)(void *)(this), sizeof(T));
         memCpyOneAlignedXdb76f0<sizeof(T)>(m_data + m_iElementCount, &e);

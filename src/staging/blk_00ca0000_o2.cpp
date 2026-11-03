@@ -287,7 +287,7 @@ FUN_00ca9a80::FUN_00ca9a80()
     c = 1;
     d = 0;
     e = 0;
-    a = (intptr_t)&DAT_010c8288;
+    a = (int)&DAT_010c8288;
 }
 
 
@@ -359,7 +359,7 @@ struct NiTMapBase
 // @fnv 0x00cbc720
 void NiTMapBase::FUN_00cbc720()
 {
-    m_data = (intptr_t)&DAT_010c91a8;
+    m_data = (int)&DAT_010c91a8;
     reinterpret_cast<::S_00b601a0_Map *>((((NiTMapBaseStub*)this)))->FUN_00b601a0();
     NiFreeAlias(m_alloc);
 }
@@ -485,7 +485,7 @@ int bhkCapsuleShape::InitializeCapsuleShape()
     ++DAT_01268250;
     *reinterpret_cast<int**>(this) = &DAT_01066e2c;
     ++DAT_01268324;
-    return (intptr_t)this;
+    return (int)this;
 }
 
 namespace fnv_00cbc550 {
@@ -521,16 +521,16 @@ struct FUN_00cbc550_cls : public bhkRefObject
 FUN_00cbc550_cls* FUN_00cbc550_cls::FUN_00cbc550()
 {
     reinterpret_cast<::FUN_00c87c30_t *>(this)->FUN_00c87c30();
-    m_vtbl = (intptr_t)&::DAT_0102016c;
+    m_vtbl = (int)&::DAT_0102016c;
     m_iThirdValue = 0;
     ++::DAT_01268154;
-    m_vtbl = (intptr_t)&::DAT_0102009c;
+    m_vtbl = (int)&::DAT_0102009c;
     ++::DAT_01268118;
     m_f14 = 0.0f;
     m_f18 = 0.0f;
     m_10 = 0;
     m_f1c = 0.0f;
-    m_vtbl = (intptr_t)&DAT_0108f1bc;
+    m_vtbl = (int)&DAT_0108f1bc;
     m_f20 = 0.0f;
     m_24 = _NiPoint3_ZERO;
     m_28 = ::_DAT_011f4270;
@@ -644,7 +644,7 @@ struct FUN_00cba080_class
 FUN_00cba080_class* FUN_00cba080_class::FUN_00cba080(int flag)
 {
     void* old = m_data;
-    m_vtbl = (intptr_t)&DAT_010c8d14;
+    m_vtbl = (int)&DAT_010c8d14;
     if (old)
     {
         ((void(*)(void*)) * (void**)((char*)&DAT_010c8d14 + 8))(old);
@@ -672,7 +672,7 @@ struct FUN_00cba030_class
 // @fnv 0x00cba030
 FUN_00cba030_class* FUN_00cba030_class::FUN_00cba030(int flag)
 {
-    m_vtbl = (intptr_t)&DAT_010c8d00;
+    m_vtbl = (int)&DAT_010c8d00;
     if (m_iWordAt04)
     {
         ((void(*)(void*))DAT_010c8d08)(m_iWordAt04);
@@ -857,7 +857,7 @@ float __cdecl FUN_00ca98e0()
 // @fnv 0x00ca9900
 void FUN_00ca9900(int* p)
 {
-    *p = (intptr_t)&(*reinterpret_cast<int *>(&::DAT_0102e388));
+    *p = (int)&(*reinterpret_cast<int *>(&::DAT_0102e388));
 }
 
 void __cdecl _delete(void* p, int size);
@@ -1033,7 +1033,7 @@ FUN_00cb9c30_class::FUN_00cb9c30_class()
     m_8 = 1;
     m_iThirdValue = 0;
     m_10 = 0;
-    m_vtbl = (intptr_t)&DAT_010c8cc8;
+    m_vtbl = (int)&DAT_010c8cc8;
 }
 
 extern int DAT_010c8ce4;
@@ -1053,7 +1053,7 @@ FUN_00cb9c50_class::FUN_00cb9c50_class()
     m_8 = 1;
     m_iThirdValue = 0;
     m_10 = 0;
-    m_vtbl = (intptr_t)&DAT_010c8ce4;
+    m_vtbl = (int)&DAT_010c8ce4;
 }
 
 struct MemoryManagerReallocateHelper
@@ -1099,7 +1099,7 @@ extern void(* DAT_010c8d1c)(void*);
 // @fnv 0x00cba000
 FUN_00cba000_class::~FUN_00cba000_class()
 {
-    m_vtbl = (intptr_t)&DAT_010c8d14;
+    m_vtbl = (int)&DAT_010c8d14;
     if (m_data)
     {
         DAT_010c8d1c(m_data);
@@ -1231,7 +1231,7 @@ struct FUN_00ca0d70_Class
 void* FUN_00ca0d70_Class::FUN_00ca0d70(unsigned char flag)
 {
     void* v = m_iWordAt04;
-    m_vtbl = (intptr_t)&DAT_010c7310;
+    m_vtbl = (int)&DAT_010c7310;
     if (v != 0)
     {
         DAT_010c7318(v);
@@ -4143,7 +4143,7 @@ void FUN_00ca8240(int type, const void* position, const void* rotation, float ma
         motion = storage ? ((::MotionInstance *)(reinterpret_cast<::S00d1e690_cls *>((storage))->FUN_00d1e690((int)(position), (int)(rotation)))) : 0;
         break;
     case 6:
-        motion = storage ? ((::MotionInstance *)(new ((void *)(storage)) ::FUN_00d21930((intptr_t)(position), (intptr_t)(rotation)))) : 0;
+        motion = storage ? ((::MotionInstance *)(new ((void *)(storage)) ::FUN_00d21930((int)(position), (int)(rotation)))) : 0;
         break;
     case 1: {
         float x = inertia[0], y = inertia[5], z = inertia[10];
@@ -4159,7 +4159,7 @@ void FUN_00ca8240(int type, const void* position, const void* rotation, float ma
         motion = storage ? ((::MotionInstance *)(new ((void *)(storage)) ::FUN_00d1dfa0((*(const ::hkVector4D1DF *)(position)), (*(const ::hkQuaternionD1DF *)(rotation))))) : 0;
         break;
     case 7:
-        motion = storage ? ((::MotionInstance *)(new ((void *)(storage)) ::FUN_00ca9240((intptr_t)(position), (intptr_t)(rotation)))) : 0;
+        motion = storage ? ((::MotionInstance *)(new ((void *)(storage)) ::FUN_00ca9240((int)(position), (int)(rotation)))) : 0;
         break;
     default:
         motion = storage ? ((::MotionInstance *)(reinterpret_cast<::FUN_00d1e160_t *>((storage))->InitFixedRigidMotion((int)(position), (int)(rotation)))) : 0;
@@ -4246,7 +4246,7 @@ FUN_00ca9860_cls::~FUN_00ca9860_cls()
 // @fnv 0x00ca9910
 int __cdecl FUN_00ca9910()
 {
-    return reinterpret_cast<intptr_t>(&(*reinterpret_cast<int *>(&::g_01268310)));
+    return reinterpret_cast<int>(&(*reinterpret_cast<int *>(&::g_01268310)));
 }
 
 struct S_00ca9940_Child
@@ -4867,7 +4867,7 @@ int FUN_00ca9da0_cls::EnsureSpawnedObject()
     if (this->m_04 == 0)
     {
         SpawnedObject* p = new SpawnedObject();
-        this->m_04 = (intptr_t)p;
+        this->m_04 = (int)p;
     }
     return 0x20;
 }
@@ -6168,7 +6168,7 @@ struct FUN_00cb99a0 : FUN_00c87c30
 FUN_00cb9b30_class::FUN_00cb9b30_class(int aiValue)
 {
     new ((void *)this) ::FUN_00cb99a0((char *)(aiValue));
-    m_vtbl = (intptr_t)&DAT_010c8b0c;
+    m_vtbl = (int)&DAT_010c8b0c;
     DAT_01268648++;
 }
 // Sets the vtable, initializes unk0c, calls SpawnAndAttach with source+4 (or null), and increments DAT_01268188.
@@ -11665,7 +11665,7 @@ struct FUN_00cb9260_Class
 int FUN_00cb9260_Class::FUN_00cb9260(unsigned char flags)
 {
     unsigned char* object = reinterpret_cast<unsigned char*>(this);
-    int result = reinterpret_cast<intptr_t>(this);
+    int result = reinterpret_cast<int>(this);
 
     FUN_00a6d290();
 
@@ -11789,7 +11789,7 @@ unsigned int FUN_00cbb130_Class::FUN_00cbb130(unsigned char flag)
     {
         FUN_00aa1460(this, 0x1c);
     }
-    return reinterpret_cast<uintptr_t>(this);
+    return reinterpret_cast<unsigned int>(this);
 }
 
 // Destructor that releases all items in m_kArray by calling RemoveAll.
@@ -12817,7 +12817,7 @@ struct CloneSpec : public CloneableObj
     __forceinline CloneSpec()
     {
         new ((void *)(this)) class ::FUN_00a6d220();
-        m_vtbl = (uintptr_t)&(*reinterpret_cast<unsigned int *>(&::DAT_010c8a2c));
+        m_vtbl = (unsigned int)&(*reinterpret_cast<unsigned int *>(&::DAT_010c8a2c));
         m_u40 = *(const __m128*)&::DAT_01267e30;
         m_f50 = 0.0f;
     }
@@ -15527,7 +15527,7 @@ struct ExtraArray
         m_uiESize = 0;
         m_uiCount = 0;
         m_pBase = 0;
-        unk00 = (intptr_t)&DAT_010c7600;
+        unk00 = (int)&DAT_010c7600;
     }
     __declspec(noinline) void Resize(unsigned int capacity)
     {
@@ -15712,7 +15712,7 @@ void ExtraSerializer::FUN_00ca77f0(S_00ca59d0_Stream* stream)
     S_00ca59d0_Save(*stream->unk250, &count, 1);
     for (int i = 0; i < count; ++i)
     {
-        int link = (intptr_t)entries.m_pBase[i].obj.m_p;
+        int link = (int)entries.m_pBase[i].obj.m_p;
         stream->v12(link);
     }
     S_00ca59d0_Save(*stream->unk250, &count, 1);

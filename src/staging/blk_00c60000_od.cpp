@@ -671,7 +671,7 @@ struct FUN_00c64fc0_class
 // @fnv 0x00c64fc0
 int FUN_00c64fc0_class::GetThisAddress(int)
 {
-    return (intptr_t)this;
+    return (int)this;
 }
 
 struct NiStream;
@@ -956,7 +956,7 @@ struct FUN_00c60240 : NiPSysPositionModifier
 // @fnv 0x00c60240
 FUN_00c60240::FUN_00c60240()
 {
-    m_vt = (intptr_t)&DAT_010c3384;
+    m_vt = (int)&DAT_010c3384;
     {
         float* p = &this->m_v[1];
         p[0] = 0.0f;
@@ -1169,7 +1169,7 @@ struct FUN_00c63330 : NiPSysPositionModifier
 // @fnv 0x00c63330
 FUN_00c63330::FUN_00c63330()
 {
-    ((int*)this)[0] = (intptr_t)&DAT_010c37fc;
+    ((int*)this)[0] = (int)&DAT_010c37fc;
     ((int*)this)[3] = 0xbb8;
     *(NiPoint3_ZERO*)((char*)this + 0x24) = (*reinterpret_cast<struct ::NiPoint3_ZERO *>((void *)&::NiPoint3::ZERO));
     *(NiPoint3_ZERO*)((char*)this + 0x30) = (*reinterpret_cast<struct ::NiPoint3_ZERO *>((void *)&::NiPoint3::ZERO));
@@ -1988,9 +1988,9 @@ void FUN_00c63a00_cls::FUN_00c63a00(ArgObj* a1)
     Pad32 pad;
     reinterpret_cast<::FUN_00c319e0_cls *>(this)->FUN_00c319e0((::StrArr *)(a1));
     g = *(unsigned int*)&::g_012043c8;
-    r1 = ((uintptr_t)(::FUN_00a7d330((const char *)(g))));
+    r1 = ((unsigned int)(::FUN_00a7d330((const char *)(g))));
     reinterpret_cast<::S_0060ba10 *>((a1))->FUN_0096a610((intptr_t)(&r1));
-    r2 = ((uintptr_t)(::FUN_00a7d550("Damping", *(float*)((char*)this + 0x20))));
+    r2 = ((unsigned int)(::FUN_00a7d550("Damping", *(float*)((char*)this + 0x20))));
     reinterpret_cast<::S_0060ba10 *>((a1))->FUN_0096a610((intptr_t)(&r2));
 }
 
@@ -2412,9 +2412,9 @@ void FUN_00c615a0_class::AppendGlobalAndFormatValues(NiTPrimitiveArray_unsigned_
 {
     FUN_00a99b20(values);
     void* global_ptr = (*reinterpret_cast<void * *>(&::g_012043a4));
-    unsigned int first = (uintptr_t)::FUN_00a7d330((const char *)(::GlobalObject_00a7b610 *)((GlobalObject_00a7b610*)global_ptr));
+    unsigned int first = (unsigned int)::FUN_00a7d330((const char *)(::GlobalObject_00a7b610 *)((GlobalObject_00a7b610*)global_ptr));
     reinterpret_cast<::S_0060ba10 *>((values))->FUN_0096a610((intptr_t)&(first));
-    unsigned int second = (uintptr_t)FUN_00a7d510(str_0109df4c, unk0c);
+    unsigned int second = (unsigned int)FUN_00a7d510(str_0109df4c, unk0c);
     reinterpret_cast<::S_0060ba10 *>((values))->FUN_0096a610((intptr_t)&(second));
     Unused20 tmp;
 }
@@ -2522,7 +2522,7 @@ void FUN_00c61fc0_cls::Serialize(void* apTarget)
         if (!!x)
         {
             ra = x->unk08;
-            cur = ((intptr_t)(::fnv_00a7d5e0::FUN_00a7d5e0((const char *)(int *)(&DAT_01063e84), (const char *)(ra))));
+            cur = ((int)(::fnv_00a7d5e0::FUN_00a7d5e0((const char *)(int *)(&DAT_01063e84), (const char *)(ra))));
             reinterpret_cast<::S_0060ba10 *>((((FUN_0096a610_Target*)apTarget)))->FUN_0096a610((intptr_t)(&cur));
         }
     }
@@ -2577,10 +2577,10 @@ void Mod600::FUN_00c60050(StrArr* pkStrings)
     reinterpret_cast<::FUN_00c319e0_cls *>(this)->FUN_00c319e0(pkStrings);
 
     GlobalObject_00a7b610* obj = (GlobalObject_00a7b610*)(*reinterpret_cast<void * *>(&::g_01204388));
-    unsigned int uiName = (uintptr_t)::FUN_00a7d330((const char *)(obj));
+    unsigned int uiName = (unsigned int)::FUN_00a7d330((const char *)(obj));
     reinterpret_cast<::S_0060ba10 *>((((NiTPrimitiveArray_unsigned_int_*)pkStrings)))->FUN_0096a610((intptr_t)&(uiName));
 
-    unsigned int uiValue = ((uintptr_t)(::FUN_00a7d550("fUpdateDeltaTime", m_fValue)));
+    unsigned int uiValue = ((unsigned int)(::FUN_00a7d550("fUpdateDeltaTime", m_fValue)));
     reinterpret_cast<::S_0060ba10 *>((((NiTPrimitiveArray_unsigned_int_*)pkStrings)))->FUN_0096a610((intptr_t)&(uiValue));
 
     {
@@ -3142,7 +3142,7 @@ void S_00c648a0::FUN_00c648a0(S_00c648a0_Stream* apStream)
     void* pObject;
     {
         S_00c648a0_Stream* pStream = apStream;
-        unsigned int uiLinkID = (uintptr_t)unk08;
+        unsigned int uiLinkID = (unsigned int)unk08;
         void* pFound = 0;
         if (pStream->unk5c4 && uiLinkID)
             reinterpret_cast<::fnv_00853130::NiTMapBase *>((pStream->unk5c4))->FUN_00853130(uiLinkID, (*(::fnv_00853130::CombatThreatRecord * *)(&pFound)));
@@ -3673,7 +3673,7 @@ inline unsigned int __cdecl FUN_00a7d550(const char* label, float value)
     unsigned int length = strlen(label) + 20;
     char* result = static_cast<char*>(FUN_00aa1070(length));
     FUN_00a305b0(result, length, str_0109dcec, value);
-    return reinterpret_cast<uintptr_t>(result);
+    return reinterpret_cast<unsigned int>(result);
 }
 
 extern const char str_0109dca0[];
@@ -5438,7 +5438,7 @@ bool __cdecl FUN_00c63c30(ObjC63* obj, ObjC63* root)
     if (obj->v0c())
     {
         if (!DAT_012043d0)
-            DAT_012043d0 = (intptr_t)new NameHolder("DVPG");
+            DAT_012043d0 = (int)new NameHolder("DVPG");
         ExtraX* extra = ((::fnv_00c63c30::ExtraX *)(reinterpret_cast<::NiAVObject *>((root))->GetExtraData((*(const ::NiFixedString *)(DAT_012043d0)))));
         ObjC63* p = obj;
         if (p->GetMesh() && ((intptr_t)(::FUN_004b75a0((const char *)(void *)(p->GetMesh()), "DecalPlacementVectorGroup"))))
@@ -5798,7 +5798,7 @@ void DispatchStub_c64::DispatchToItems(int pTarget, int cc)
     unsigned int count = m18;
     for (unsigned int i = 0; i < count; i++)
     {
-        int item = (intptr_t)m10[i];
+        int item = (int)m10[i];
         reinterpret_cast<::fnv_00c65490::C65490_Owner *>((reinterpret_cast<ItemCallee_c64*>(pTarget)))->FUN_00c65490(item, item + 4);
     }
 }
@@ -5818,7 +5818,7 @@ struct AtpRef
         if (s == 0)
             m_uiFilterValue = (*reinterpret_cast<int *>(&::DAT_0109b220));
         else
-            m_uiFilterValue = ((intptr_t)(::NiGlobalStringTable::AddString(s)));
+            m_uiFilterValue = ((int)(::NiGlobalStringTable::AddString(s)));
     }
 };
 

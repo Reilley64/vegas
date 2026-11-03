@@ -295,7 +295,7 @@ int FUN_00c66540_class::InitVtableAndCall(int aiUnused)
 {
     *(void**)this = (void*)&DAT_010c3af8;
     static_cast<::FUN_00cbf1a0_cls *>(nullptr)->FUN_00cbf1a0();
-    return (intptr_t)this;
+    return (int)this;
 }
 
 namespace fnv_00c66600 {
@@ -594,7 +594,7 @@ struct FUN_00c75e00
 // @fnv 0x00c75e00
 void FUN_00c75e00::Init()
 {
-    m_iWordAt00 = (intptr_t)&::DAT_010c4ca4;
+    m_iWordAt00 = (int)&::DAT_010c4ca4;
     reinterpret_cast<::S_00b601a0_Map *>((((NiTMapBaseStub*)this)))->FUN_00b601a0();
     ::FUN_00aa10f0(m_8);
 }
@@ -1060,7 +1060,7 @@ int FUN_00c66420::Init(int aiFlags)
     vtbl = &DAT_010c3b80;
     if (aiFlags & 1)
         reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(this);
-    return (intptr_t)this;
+    return (int)this;
 }
 
 
@@ -1884,7 +1884,7 @@ struct FUN_00c66510_cls
 // @fnv 0x00c66510
 FUN_00c66510_cls* FUN_00c66510_cls::FUN_00c66510(unsigned char acFlags)
 {
-    m_vptr = (intptr_t)&DAT_010c3bc4;
+    m_vptr = (int)&DAT_010c3bc4;
     reinterpret_cast<::FUN_00c93e50 *>(this)->FUN_00c93e50::~FUN_00c93e50();
     if (acFlags & 1)
     {
@@ -1940,7 +1940,7 @@ struct FUN_00c665f0_cls
 // @fnv 0x00c665f0
 void FUN_00c665f0_cls::FUN_00c665f0()
 {
-    m_vptr00 = (intptr_t)&DAT_010c3bb8;
+    m_vptr00 = (int)&DAT_010c3bb8;
 }
 
 class FUN_00c66de0_cls;
@@ -5705,7 +5705,7 @@ struct FUN_00c6c830_cls
 // @fnv 0x00c6c830
 void FUN_00c6c830_cls::FUN_00c6c830()
 {
-    m_vptr00 = (intptr_t)&DAT_010c446c;
+    m_vptr00 = (int)&DAT_010c446c;
 }
 
 struct S_00c6c840_Param
@@ -7146,7 +7146,7 @@ FUN_00c6d010_Class* FUN_00c6d010_Class::FUN_00c6d010(unsigned char flags)
 // @fnv 0x00c6d0e0
 int __cdecl FUN_00c6d0e0()
 {
-    return reinterpret_cast<intptr_t>(&(*reinterpret_cast<int *>(&::g_012685a4)));
+    return reinterpret_cast<int>(&(*reinterpret_cast<int *>(&::g_012685a4)));
 }
 
 // @fnv 0x00c6d0f0
@@ -10504,7 +10504,7 @@ struct FUN_00c760b0_cls
 // @fnv 0x00c760b0
 FUN_00c760b0_cls* FUN_00c760b0_cls::FUN_00c760b0(unsigned int acFlags)
 {
-    m_vptr = (intptr_t)&::fnv_00c75f80::DAT_010c4cf8;
+    m_vptr = (int)&::fnv_00c75f80::DAT_010c4cf8;
     reinterpret_cast<::S_00b601a0_Map *>(this)->FUN_00b601a0();
     ::FUN_00aa10f0((void *)(m_08));
     if (acFlags & 1)
@@ -16956,7 +16956,7 @@ struct S00c6d040_A : public bhkRefInitBase
     {
         m_0c = 0;
         m_10 = 0;
-        m_vft = (uintptr_t)&(*reinterpret_cast<unsigned int *>(&::DAT_01030394));
+        m_vft = (unsigned int)&(*reinterpret_cast<unsigned int *>(&::DAT_01030394));
         (*reinterpret_cast<unsigned int *>(&::DAT_0126810c)) += 1;
     }
 };
@@ -16965,7 +16965,7 @@ struct S00c6d040_B : public S00c6d040_A
 {
     S00c6d040_B()
     {
-        m_vft = (uintptr_t)&(*reinterpret_cast<unsigned int *>(&::DAT_0103078c));
+        m_vft = (unsigned int)&(*reinterpret_cast<unsigned int *>(&::DAT_0103078c));
         DAT_01268238 += 1;
     }
 };
@@ -16975,7 +16975,7 @@ struct S00c6d040_C : public S00c6d040_B
     unsigned char m_14;
     S00c6d040_C()
     {
-        m_vft = (uintptr_t)&(*reinterpret_cast<unsigned int *>(&::DAT_010306b4));
+        m_vft = (unsigned int)&(*reinterpret_cast<unsigned int *>(&::DAT_010306b4));
         (*reinterpret_cast<unsigned int *>(&::DAT_01268208)) += 1;
         m_14 = 0;
     }
@@ -16990,7 +16990,7 @@ struct FUN_00c6d040 : public S00c6d040_C
 // @fnv 0x00c6d040
 FUN_00c6d040::FUN_00c6d040(unsigned int a)
 {
-    m_vft = (uintptr_t)&(*reinterpret_cast<unsigned int *>(&::DAT_010c4694));
+    m_vft = (unsigned int)&(*reinterpret_cast<unsigned int *>(&::DAT_010c4694));
     reinterpret_cast<::S00cc2530_Owner306 *>(this)->FUN_00cc2530((::S00cc2530_Source306 *)(a));
     (*reinterpret_cast<unsigned int *>(&::DAT_012685a0)) += 1;
     m_14 = 0;
@@ -20117,7 +20117,7 @@ int FUN_00c74780_StandIn::FUN_00c74780(unsigned char param_2)
     if (param_2 & 1)
         reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::FUN_00aa4060_cls *>(&::g_memoryManager))))->FUN_00aa4060(reinterpret_cast<FUN_00c68f50_cls*>(this));
 
-    return reinterpret_cast<intptr_t>(this);
+    return reinterpret_cast<int>(this);
 }
 
 struct QuatResult
@@ -29002,7 +29002,7 @@ bool Host::FUN_00c69960(C69960Arg* apSource, C69960Arg* apTarget)
             ctx.m_10 = 0;
             ctx.m_14 = 0;
             ctx.m_18 = 1;
-            int cb = (intptr_t)(*reinterpret_cast<void (**)(NiCollisionObject *, CollisionObjectCountContext *)>(&::DAT_011afe88));
+            int cb = (int)(*reinterpret_cast<void (**)(NiCollisionObject *, CollisionObjectCountContext *)>(&::DAT_011afe88));
             if (cb)
                 ::FUN_00c68900((::S_00c68900_Node *)(apTarget), (::S_00c68900_Context *)(void *)(&ctx), (void (*)(void *, S_00c68900_Context *))(cb));
         }

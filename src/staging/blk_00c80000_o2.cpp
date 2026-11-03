@@ -11779,7 +11779,7 @@ void* __cdecl FUN_00c85620(FUN_00c85620_heap* pkHeap, unsigned int uiSize, unsig
 
     unsigned int* puiBlock = (unsigned int*)uiAligned;
     puiBlock[-3] = uiEnd;
-    puiBlock[-4] = (uintptr_t)pkHeap;
+    puiBlock[-4] = (unsigned int)pkHeap;
     puiBlock[-2] = uiAligned - (uintptr_t)pvRaw;
 
     return (void*)uiAligned;
@@ -11949,7 +11949,7 @@ unsigned int FUN_00c87dc0_class::FUN_00c87dc0(unsigned char param_2)
     {
         ::operator delete(this, 0xC);
     }
-    return reinterpret_cast<uintptr_t>(this);
+    return reinterpret_cast<unsigned int>(this);
 }
 
 namespace fnv_00c87de0 {
@@ -12709,7 +12709,7 @@ int C8B540Group::GetSelectedResult(int iArg)
 // @fnv 0x00c8ff70
 int __cdecl FUN_00c8ff70()
 {
-    return reinterpret_cast<intptr_t>(&(*reinterpret_cast<int *>(&::g_012681cc)));
+    return reinterpret_cast<int>(&(*reinterpret_cast<int *>(&::g_012681cc)));
 }
 
 

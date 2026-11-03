@@ -1,7 +1,10 @@
 # Second half of the staging blocks (blk_00c40000 to blk_00f20000) that compile for x64 without narrowing a pointer (VEGAS-21).
 set(VEGAS21_STAGING_SOURCES
   src/staging/blk_00c60000_o2.cpp
+  src/staging/blk_00c60000_od.cpp
+  src/staging/blk_00c80000_o2.cpp
   src/staging/blk_00c80000_od.cpp
+  src/staging/blk_00ca0000_o2.cpp
   src/staging/blk_00ca0000_od.cpp
   src/staging/blk_00cc0000_o2.cpp
   src/staging/blk_00cc0000_od.cpp

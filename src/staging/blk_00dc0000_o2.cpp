@@ -208,7 +208,7 @@ void FUN_00dd4b70_class::FUN_00dd4b70(unsigned char value)
 
 struct FUN_00dd51d0_class
 {
-    int m_00;
+    void* m_00;
     int m_04;
     int m_08;
     void FUN_00dd51d0();
@@ -218,7 +218,7 @@ struct FUN_00dd51d0_class
 void FUN_00dd51d0_class::FUN_00dd51d0()
 {
     m_08 = 0;
-    m_00 = (int)&(*reinterpret_cast<int *>(&::DAT_0102e388));
+    m_00 = &(*reinterpret_cast<int *>(&::DAT_0102e388));
 }
 
 struct FUN_00ddfb70_cls
@@ -248,9 +248,9 @@ void FUN_00dccb70_Class::SetTableValue(int uiKey, unsigned short value)
     unsigned int shift = *(unsigned int*)(p + 0x30);
     unsigned int mask = 0xFFFFFFFFu >> shift;
     unsigned int uiIndex = (unsigned int)uiKey >> (32 - shift);
-    unsigned int base = *(unsigned int*)(*(unsigned int*)(p + 0x34) + uiIndex * 56 + 0x34);
+    unsigned int base = *(unsigned int*)(*(char**)(p + 0x34) + uiIndex * 56 + 0x34);
     unsigned int slot = (mask & (unsigned int)uiKey) + base;
-    unsigned short* table = (unsigned short*)*(unsigned int*)(p + 0x40);
+    unsigned short* table = *(unsigned short**)(p + 0x40);
     table[slot] = value;
 }
 
@@ -462,7 +462,8 @@ struct ArrayBlock
 };
 struct AllocatorState
 {
-    int unk00, unk04, unk08, unk0C;
+    int unk00, unk04, unk08;
+    void* unk0C;
     void* pool;
     void* GetPool() const
     {
@@ -1126,7 +1127,7 @@ struct S_00dd8cf0_Ret
 };
 struct S_00dd8cf0
 {
-    S_00dd8cf0_Ret AllMatch(const int* arr, int n);
+    S_00dd8cf0_Ret AllMatch(const void* const* arr, int n);
 };
 extern int DAT_010d7c34;
 
@@ -1275,7 +1276,7 @@ void AppendToRecArray(unsigned int uiValue, unsigned int uiUnused, RecArray* pAr
         ::ResizeAudioStream((::AudioAllocator *)(void *)(pHolder->m_pAllocator), (::AudioStream *)(void *)(pArray), 4);
     }
 
-    unsigned int* pSlot = (unsigned int*)((unsigned int)pArray->m_pData + *(volatile int*)&pArray->m_uiCount * 4);
+    unsigned int* pSlot = (unsigned int*)((char*)pArray->m_pData + *(volatile int*)&pArray->m_uiCount * 4);
     *pSlot = uiValue;
     pArray->m_uiCount++;
 }
@@ -1527,7 +1528,7 @@ struct FUN_00dcc130_Class
     int* m_vtbl;
     unsigned short unk04;
     unsigned short enabled06;
-    int unk08;
+    int* unk08;
     int* FUN_00dcc130(int* value);
 };
 
@@ -1537,7 +1538,7 @@ int* FUN_00dcc130_Class::FUN_00dcc130(int* value)
 {
     enabled06 = 1;
     m_vtbl = &DAT_010d7540;
-    unk08 = (int)value;
+    unk08 = value;
     static_cast<::FUN_00c90510_class *>(nullptr)->FUN_00c90510();
     return (int*)this;
 }
@@ -1821,7 +1822,7 @@ Bool388 Allocator388::ValidateBlock(Block388* block)
 {
     Bool388 result;
     unsigned char one = 1;
-    if ((reinterpret_cast<unsigned int>(block) & 15) != 0)
+    if ((reinterpret_cast<uintptr_t>(block) & 15) != 0)
     {
         result.value = 0;
         return result;
@@ -1832,7 +1833,7 @@ Bool388 Allocator388::ValidateBlock(Block388* block)
         result.value = 0;
         return result;
     }
-    if (reinterpret_cast<unsigned int>(block) < reinterpret_cast<unsigned int>(lower))
+    if (reinterpret_cast<uintptr_t>(block) < reinterpret_cast<uintptr_t>(lower))
     {
         result.value = 0;
         return result;
@@ -2276,12 +2277,12 @@ class hkLargeBlockAllocatorDD8
 };
 // Returns true only if IsValidChunk accepts every element of arr; stops at the first element it rejects.
 // @fnv 0x00dd8cf0
-S_00dd8cf0_Ret S_00dd8cf0::AllMatch(const int* pValues, int iCount)
+S_00dd8cf0_Ret S_00dd8cf0::AllMatch(const void* const* pValues, int iCount)
 {
     S_00dd8cf0_Ret r;
     for (int i = 0; i < iCount; i++)
     {
-        if (!reinterpret_cast<::hkLargeBlockAllocatorDD8 *>(this)->IsValidChunk((const void *)(pValues[i])))
+        if (!reinterpret_cast<::hkLargeBlockAllocatorDD8 *>(this)->IsValidChunk(pValues[i]))
         {
             r.v = false;
             return r;
@@ -2295,7 +2296,7 @@ S_00dd8cf0_Ret S_00dd8cf0::AllMatch(const int* pValues, int iCount)
 bool hkLargeBlockAllocatorDD8::IsValidChunk(const void* in) const
 {
     const MemChunkDD8* p = MemChunkDD8::toChunk(in);
-    if (((unsigned int)in & 15) != 0)
+    if (((uintptr_t)in & 15) != 0)
         return false;
     if (p < m_pMemoryChunk)
         return false;
@@ -2618,7 +2619,10 @@ static __declspec(noinline) int FUN_00dd3120(const __m128* self, OW other, const
     b = _mm_add_ps(b, b);
     return _mm_movemask_ps(_mm_cmple_ps(c, b));
 }
-volatile int g_s, g_a, g_o, g_r;
+volatile intptr_t g_o;
+volatile intptr_t g_s;
+volatile intptr_t g_a;
+volatile int g_r;
 void mask_test_caller()
 {
     OW o((const __m128*)g_o);
@@ -2802,8 +2806,15 @@ class DD470Derived : public DD470Primary, public DD470Secondary
 DD470Derived::DD470Derived()
 {}
 
+struct DD9270Entry
+{
+    uintptr_t m_uiTaggedName;
+    int m_04;
+    int m_08;
+};
+
 // Stand-in for the class owning this function.
-//   +0x0c : int*   array of packed triples
+//   +0x0c : DD9270Entry* array of records (first field = flagged pointer)
 //   +0x18 : CRITICAL_SECTION*  shared lock
 class FUN_00dd9240_cls
 {
@@ -2811,27 +2822,27 @@ class FUN_00dd9240_cls
     int m_unk00;
     int m_unk04;
     int m_unk08;
-    int* m_pEntryData;
+    DD9270Entry* m_pEntryData;
     int m_unk10;
     int m_unk14;
     CRITICAL_SECTION* m_pCrit;
 
-    int FUN_00dd9240(int index);
+    uintptr_t FUN_00dd9240(int index);
 };
 
 // Reads the entry at index from m_pEntryData under m_pCrit, clears the lowest bit, and returns the result.
 // @fnv 0x00dd9240
-int FUN_00dd9240_cls::FUN_00dd9240(int index)
+uintptr_t FUN_00dd9240_cls::FUN_00dd9240(int index)
 {
     EnterCriticalSection(this->m_pCrit);
-    int value = this->m_pEntryData[index * 3] & 0xfffffffe;
+    uintptr_t value = this->m_pEntryData[index].m_uiTaggedName & ~(uintptr_t)1;
     LeaveCriticalSection(this->m_pCrit);
     return value;
 }
 
 
 // Stand-in for the class owning this function.
-//   +0x0c : int*   array of 12-byte records (first dword = flagged pointer)
+//   +0x0c : DD9270Entry* array of records (first field = flagged pointer)
 //   +0x10 : int    record count
 //   +0x18 : CRITICAL_SECTION*  shared lock
 class FUN_00dd9270_cls
@@ -2840,7 +2851,7 @@ class FUN_00dd9270_cls
     int m_unk00;
     int m_unk04;
     int m_unk08;
-    int* m_pEntryData;
+    DD9270Entry* m_pEntryData;
     int m_uiItemCount;
     int m_unk14;
     CRITICAL_SECTION* m_pCrit;
@@ -2858,7 +2869,7 @@ int FUN_00dd9270_cls::FindEntry(uintptr_t flag)
     {
         for (;;)
         {
-            unsigned int entry = (unsigned int)this->m_pEntryData[index * 3] & 0xfffffffe;
+            uintptr_t entry = this->m_pEntryData[index].m_uiTaggedName & ~(uintptr_t)1;
             int result;
             if (entry != 0)
             {
@@ -3310,10 +3321,10 @@ static __declspec(noinline) void FactorTridiagonal(int numConstraints, float cfm
 
 volatile int g_S00dd0ff0_n;
 volatile float g_S00dd0ff0_cfm;
-volatile int g_S00dd0ff0_jac;
-volatile int g_S00dd0ff0_offs;
-volatile int g_S00dd0ff0_base;
-volatile int g_S00dd0ff0_triple;
+volatile intptr_t g_S00dd0ff0_jac;
+volatile intptr_t g_S00dd0ff0_offs;
+volatile intptr_t g_S00dd0ff0_base;
+volatile intptr_t g_S00dd0ff0_triple;
 volatile int g_S00dd0ff0_size;
 void S00dd0ff0_Caller()
 {
@@ -3808,7 +3819,8 @@ static __declspec(noinline) bool FUN_00dd2fb0(const __m128* a, const __m128* b)
     return _mm_movemask_ps(r) == 15;
 }
 
-volatile int g_in0, g_in1;
+volatile intptr_t g_in1;
+volatile intptr_t g_in0;
 
 volatile int g_out;
 

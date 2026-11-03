@@ -1,6 +1,7 @@
 
 // src/havok/physics/dynamics/world/hkpworld.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/hkpworld.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/symbols_01272000.h"
 #include <new>
 
 #include "fnv/symbols_00c85000.h"
@@ -11,7 +12,6 @@
 #include <windows.h>
 #include <cstring>
 #include "fnv/decl/C66A00This.h"
-#include "fnv/decl/C91World.h"
 #include "fnv/decl/CbfOwner.h"
 #include "fnv/decl/D04B90World.h"
 #include "fnv/decl/DebugArrowEntry.h"
@@ -23,7 +23,6 @@
 #include "fnv/decl/FUN_00c89c80_obj.h"
 #include "fnv/decl/FUN_00c90510_class.h"
 #include "fnv/decl/FUN_00c93580_Class.h"
-#include "fnv/decl/FUN_00c98820_Class.h"
 #include "fnv/decl/FUN_00cac980_class.h"
 #include "fnv/decl/FUN_00cb8ac0_class.h"
 #include "fnv/decl/FUN_00cbf6b0_class.h"
@@ -54,7 +53,6 @@
 #include "fnv/decl/TransformedPosDAD.h"
 #include "fnv/decl/ViewerConstraint.h"
 #include "fnv/decl/ViewerStrings.h"
-#include "fnv/decl/WorldFinishEntryC91C.h"
 #include "fnv/decl/WorldView.h"
 #include "fnv/decl/fnv_00b5c7d0__StrArr.h"
 #include "fnv/decl/fnv_00c67df0__PendingWorld.h"
@@ -114,6 +112,27 @@
 #include "fnv/symbols_01267000.h"
 #include "fnv/symbols_01268000.h"
 #include "havok/hkpWorld.h"
+#include "fnv/symbols_simd.h"
+class hkWorldCFD4;
+struct hkpWorldQ;
+
+struct FUN_00c98820_ArrayObject;
+struct FUN_00c98820_Class
+{
+    int m_00;
+    int m_04;
+    FUN_00c98820_ArrayObject** m_08;
+    int m_0c;
+
+    void FUN_00c98820(void* first, void* second, void* third, void* fourth, void* fifth);
+};
+class C91World : public hkpWorld {
+public:
+    int FUN_00c91b10(float delta);
+};
+struct WorldFinishEntryC91C : hkpWorld {
+    int FUN_00c91c00(void* queue, void* pool);
+};
 
 struct FUN_00cf7c10 {
 };
@@ -4883,29 +4902,16 @@ int FUN_00ca94c0_Class::FUN_00ca94c0(const void* arg) {
 }
 
 struct Allocator9 {  };
-extern __declspec(thread) unsigned char threadContext9;
 struct Guard9 {
-    int previous;
-    Guard9() {
-        int* flag = (int*)((char*)&threadContext9 + 0x2b4);
-        previous = *flag;
-        *flag = 16;
-    }
-    ~Guard9() {
-        int* flag = (int*)((char*)&threadContext9 + 0x2b4);
-        *flag = previous;
-    }
-public:
+    unsigned int previous;
     Guard9()
     {
-        int* flag = (int*)((char*)&(*reinterpret_cast<unsigned char *>(&::g_tlsBlock)) + 0x2b4);
-        previous = *flag;
-        *flag = 16;
+        previous = ::currentAllocationContext;
+        ::currentAllocationContext = 16;
     }
     ~Guard9()
     {
-        int* flag = (int*)((char*)&(*reinterpret_cast<unsigned char *>(&::g_tlsBlock)) + 0x2b4);
-        *flag = previous;
+        ::currentAllocationContext = previous;
     }
 };
 struct Node9 { void* vtable; int value; int references; int previous; int next; };
@@ -5237,12 +5243,12 @@ struct MemoryScope {
 public:
     MemoryScope()
     {
-        previous = (*reinterpret_cast<::AudioTlsState *>(&::g_tlsBlock)).unk2B4;
-        (*reinterpret_cast<::AudioTlsState *>(&::g_tlsBlock)).unk2B4 = 16;
+        previous = ::currentAllocationContext;
+        ::currentAllocationContext = 16;
     }
     ~MemoryScope()
     {
-        (*reinterpret_cast<::AudioTlsState *>(&::g_tlsBlock)).unk2B4 = previous;
+        ::currentAllocationContext = previous;
     }
 };
 struct Point3 { float x,y,z;  };
@@ -5488,12 +5494,12 @@ struct Guard676 {
 public:
     Guard676()
     {
-        m_saved = (*reinterpret_cast<::Tls676 *>(&::g_tlsBlock)).m_2b4;
-        (*reinterpret_cast<::Tls676 *>(&::g_tlsBlock)).m_2b4 = 0x10;
+        m_saved = ::currentAllocationContext;
+        ::currentAllocationContext = 0x10;
     }
     ~Guard676()
     {
-        (*reinterpret_cast<::Tls676 *>(&::g_tlsBlock)).m_2b4 = m_saved;
+        ::currentAllocationContext = m_saved;
     }
 };
 
@@ -6359,7 +6365,6 @@ void hkpWorldHelper::SubmitClosestPointsJobs(ClosestPointsCommand* commandArray,
 
 extern "C" void _ReadWriteBarrier();
 extern "C" unsigned __int64 __rdtsc();
-extern unsigned int DAT_0126835c;
 extern const char str_010c64b8[];
 extern const char str_010c41f8[];
 extern void* DAT_010c6488;
@@ -9918,7 +9923,6 @@ void MatchWorld::AddPhysicsSystem(hkArrayXc937a0<FUN_00d065e0*>* systems)
 
 extern "C" unsigned __int64 __rdtsc();
 extern "C" void _ReadWriteBarrier();
-extern unsigned int DAT_0126835c;
 extern const char str_010c6758[];
 extern const char str_010c6734[];
 extern const char str_010c6720[];
@@ -11578,7 +11582,6 @@ struct S00c92040_Obj {
 void S00c92040_Obj::FUN_00c92040(int a, int b)
 {
     extern void* DAT_00fdf044;
-    extern unsigned long DAT_0126835c;
     extern const char str_010c64a8[];
     extern const char str_010c41f8[];
     extern const char DAT_010c647c[];
@@ -13277,7 +13280,6 @@ public:
     hkVector4DAD m_vScale;
 };
 
-extern const hkQsTransformDAD DAT_01268700;
 
 struct hkStackDAD {
     char* m_cur;
@@ -13310,7 +13312,7 @@ void PoseUserDAD::FUN_00c99d40(int numBones, const short* parents, const hkQsTra
     hkQsTransformDAD* poseModel = (hkQsTransformDAD*)stack->m_cur;
     stack->m_cur += (numBones * sizeof(hkQsTransformDAD) + 0x7f) & ~0x7f;
 
-    transformLocalPoseToModelPoseDAD(numBones, parents, DAT_01268700, poseLocal, poseModel);
+    transformLocalPoseToModelPoseDAD(numBones, parents, reinterpret_cast<const hkQsTransformDAD&>(::DAT_01268700), poseLocal, poseModel);
     reinterpret_cast<::hkDebugDisplay *>(this)->FUN_00c998b0(numBones, parents, (const ::hkQsTransform_S *)(poseModel), (*(const ::hkQsTransform_S *)(a4)), a5, a6, a7, a8, (::hkBool_S)(a9));
 
     static_cast<hkStackDAD*>(::FUN_00c85750())->m_cur = (char*)poseModel;
@@ -13541,189 +13543,13 @@ extern int DAT_01268188;
 extern int DAT_01268318;
 void* FUN_00aa13e0(unsigned int size);
 
-struct TlsBlk_caa4a0 {
-    unsigned int m_0000;
-    unsigned int m_0004;
-    unsigned int m_0008;
-    unsigned int m_000c;
-    unsigned int m_0010;
-    unsigned int m_0014;
-    unsigned int m_0018;
-    unsigned int m_001c;
-    unsigned int m_0020;
-    unsigned int m_0024;
-    unsigned int m_0028;
-    unsigned int m_002c;
-    unsigned int m_0030;
-    unsigned int m_0034;
-    unsigned int m_0038;
-    unsigned int m_003c;
-    unsigned int m_0040;
-    unsigned int m_0044;
-    unsigned int m_0048;
-    unsigned int m_004c;
-    unsigned int m_0050;
-    unsigned int m_0054;
-    unsigned int m_0058;
-    unsigned int m_005c;
-    unsigned int m_0060;
-    unsigned int m_0064;
-    unsigned int m_0068;
-    unsigned int m_006c;
-    unsigned int m_0070;
-    unsigned int m_0074;
-    unsigned int m_0078;
-    unsigned int m_007c;
-    unsigned int m_0080;
-    unsigned int m_0084;
-    unsigned int m_0088;
-    unsigned int m_008c;
-    unsigned int m_0090;
-    unsigned int m_0094;
-    unsigned int m_0098;
-    unsigned int m_009c;
-    unsigned int m_00a0;
-    unsigned int m_00a4;
-    unsigned int m_00a8;
-    unsigned int m_00ac;
-    unsigned int m_00b0;
-    unsigned int m_00b4;
-    unsigned int m_00b8;
-    unsigned int m_00bc;
-    unsigned int m_00c0;
-    unsigned int m_00c4;
-    unsigned int m_00c8;
-    unsigned int m_00cc;
-    unsigned int m_00d0;
-    unsigned int m_00d4;
-    unsigned int m_00d8;
-    unsigned int m_00dc;
-    unsigned int m_00e0;
-    unsigned int m_00e4;
-    unsigned int m_00e8;
-    unsigned int m_00ec;
-    unsigned int m_00f0;
-    unsigned int m_00f4;
-    unsigned int m_00f8;
-    unsigned int m_00fc;
-    unsigned int m_0100;
-    unsigned int m_0104;
-    unsigned int m_0108;
-    unsigned int m_010c;
-    unsigned int m_0110;
-    unsigned int m_0114;
-    unsigned int m_0118;
-    unsigned int m_011c;
-    unsigned int m_0120;
-    unsigned int m_0124;
-    unsigned int m_0128;
-    unsigned int m_012c;
-    unsigned int m_0130;
-    unsigned int m_0134;
-    unsigned int m_0138;
-    unsigned int m_013c;
-    unsigned int m_0140;
-    unsigned int m_0144;
-    unsigned int m_0148;
-    unsigned int m_014c;
-    unsigned int m_0150;
-    unsigned int m_0154;
-    unsigned int m_0158;
-    unsigned int m_015c;
-    unsigned int m_0160;
-    unsigned int m_0164;
-    unsigned int m_0168;
-    unsigned int m_016c;
-    unsigned int m_0170;
-    unsigned int m_0174;
-    unsigned int m_0178;
-    unsigned int m_017c;
-    unsigned int m_0180;
-    unsigned int m_0184;
-    unsigned int m_0188;
-    unsigned int m_018c;
-    unsigned int m_0190;
-    unsigned int m_0194;
-    unsigned int m_0198;
-    unsigned int m_019c;
-    unsigned int m_01a0;
-    unsigned int m_01a4;
-    unsigned int m_01a8;
-    unsigned int m_01ac;
-    unsigned int m_01b0;
-    unsigned int m_01b4;
-    unsigned int m_01b8;
-    unsigned int m_01bc;
-    unsigned int m_01c0;
-    unsigned int m_01c4;
-    unsigned int m_01c8;
-    unsigned int m_01cc;
-    unsigned int m_01d0;
-    unsigned int m_01d4;
-    unsigned int m_01d8;
-    unsigned int m_01dc;
-    unsigned int m_01e0;
-    unsigned int m_01e4;
-    unsigned int m_01e8;
-    unsigned int m_01ec;
-    unsigned int m_01f0;
-    unsigned int m_01f4;
-    unsigned int m_01f8;
-    unsigned int m_01fc;
-    unsigned int m_0200;
-    unsigned int m_0204;
-    unsigned int m_0208;
-    unsigned int m_020c;
-    unsigned int m_0210;
-    unsigned int m_0214;
-    unsigned int m_0218;
-    unsigned int m_021c;
-    unsigned int m_0220;
-    unsigned int m_0224;
-    unsigned int m_0228;
-    unsigned int m_022c;
-    unsigned int m_0230;
-    unsigned int m_0234;
-    unsigned int m_0238;
-    unsigned int m_023c;
-    unsigned int m_0240;
-    unsigned int m_0244;
-    unsigned int m_0248;
-    unsigned int m_024c;
-    unsigned int m_0250;
-    unsigned int m_0254;
-    unsigned int m_0258;
-    unsigned int m_025c;
-    unsigned int m_0260;
-    unsigned int m_0264;
-    unsigned int m_0268;
-    unsigned int m_026c;
-    unsigned int m_0270;
-    unsigned int m_0274;
-    unsigned int m_0278;
-    unsigned int m_027c;
-    unsigned int m_0280;
-    unsigned int m_0284;
-    unsigned int m_0288;
-    unsigned int m_028c;
-    unsigned int m_0290;
-    unsigned int m_0294;
-    unsigned int m_0298;
-    unsigned int m_029c;
-    unsigned int m_02a0;
-    unsigned int m_02a4;
-    unsigned int m_02a8;
-    unsigned int m_02ac;
-    unsigned int m_02b0;
-    int m_02b4;
-};
-__declspec(thread) TlsBlk_caa4a0 g_tlsBlock;
+
 
 class TlsGuard_caa4a0 {
 public:
     int m_saved;
-    TlsGuard_caa4a0() { m_saved = g_tlsBlock.m_02b4; g_tlsBlock.m_02b4 = 0x10; }
-    ~TlsGuard_caa4a0() { g_tlsBlock.m_02b4 = m_saved; }
+    TlsGuard_caa4a0() { m_saved = ::currentAllocationContext; ::currentAllocationContext = 0x10; }
+    ~TlsGuard_caa4a0() { ::currentAllocationContext = m_saved; }
 };
 
 class bhkRefObject {
@@ -15100,89 +14926,16 @@ int WorldAdvanceEntry::FUN_00c91bd0()
 }
 
 // Moved from hkpworld_gs_nogs_variant.cpp (VEGAS-15).
-#include "fnv/decl/BatchAdd__WorldHelper.h"
-#include "fnv/decl/Cls_00c98780.h"
-#include "fnv/decl/FlagState.h"
-#include "fnv/decl/HostWorld_00c951b0.h"
-#include "fnv/decl/Mgr.h"
 #include "fnv/decl/S_00ce5290.h"
-#include "fnv/decl/TW.h"
-#include "fnv/decl/WorldAdvanceEntry.h"
-#include "fnv/decl/World_RemovePhantomBatch.h"
-#include "fnv/decl/fnv_00c91030__CpuObject.h"
-#include "fnv/decl/hkDebugDisplayHandlerC997.h"
-#include "fnv/decl/hkpWorldDecomp.h"
 #include "fnv/symbols_00c98000.h"
-#include "fnv/symbols_01272000.h"
 void FUN_00c90e40(void* self, int arg);
 void FUN_00c982a0(char* pFlag, int a2, int a3, int a4, int a5, int a6);
 void FUN_00c982b0(unsigned char* flag, int a2, int a3, int a4, int a5, int a6, int a7, int a8);
 void* __cdecl FUN_00d06f80(void* array, unsigned int bytes);
-static __forceinline void SaveArray(ObjectWriter* writer, hkArrayRaw& array, char* name, unsigned int stride)
-{
-    if ((array.m_iCapacityState & 0x80000000u) == 0 || writer->m_writeAll10)
-    {
-        void* ptr = array.m_data;
-        unsigned int capacity = (array.m_iCapacityState & 0x3fffffff);
-        void* bounded = FUN_00d06f80(ptr, capacity * stride);
-        writer->WriteArray(3, name, array.m_data, array.m_iElementCount * stride, bounded);
-    }
-}
 extern void* FUN_00ec61c0(void* dst, int value, unsigned int size);
 static void InvokeOnAllOwners(FUN_00c928c0_Context* ctx, zzVal_c92860 value);
 void zz_call_c92860(void);
 void __cdecl FUN_00d06cb0(void* apvArray, int iSizeElem);
-template <class T> struct hkSmallArrayC92B
-{
-    T* m_data;
-    unsigned short m_iElementCount;
-    unsigned short m_iCapacityState;
-
-    int getCapacity() const
-    {
-        return m_iCapacityState & 0x3fff;
-    }
-    void AddBack(const T& e)
-    {
-        if (m_iElementCount == getCapacity())
-            FUN_00d06cb0(this, sizeof(T));
-        m_data[m_iElementCount++] = e;
-    }
-};
-template <typename T> struct hkRefPtrC93
-{
-    __forceinline ~hkRefPtrC93() throw()
-    {
-        if (m_pRetainedObject)
-            m_pRetainedObject->removeReference();
-        m_pRetainedObject = 0;
-    }
-    __forceinline void operator=(T* e) throw()
-    {
-        if (e)
-            e->RetainReference();
-        if (m_pRetainedObject)
-            m_pRetainedObject->removeReference();
-        m_pRetainedObject = e;
-    }
-    T* m_pRetainedObject;
-};
-template <typename T> struct hkSmallArrayC97
-{
-    int getCapacity() const
-    {
-        return m_iCapacityState & 0x3fff;
-    }
-    void AddBack(const T& t) throw()
-    {
-        if (m_iElementCount == getCapacity())
-            hkSmallArrayUtilC97::GrowArray(this, sizeof(T));
-        m_data[m_iElementCount++] = t;
-    }
-    T* m_data;
-    unsigned short m_iElementCount;
-    unsigned short m_iCapacityState;
-};
 void __cdecl ReleaseSharedObject(hkpWorldD0AD* pkWorld);
 
 struct FUN_00c98820_ArrayObject
@@ -15199,15 +14952,6 @@ struct FUN_00c98820_ArrayObject
     virtual void vf24(void* first, void* second, void* third, void* fourth, void* fifth);
 };
 
-struct FUN_00c98820_Class
-{
-    int m_00;
-    int m_04;
-    FUN_00c98820_ArrayObject** m_08;
-    int m_0c;
-
-    void FUN_00c98820(void* first, void* second, void* third, void* fourth, void* fifth);
-};
 
 // @fnv 0x00c98820
 void FUN_00c98820_Class::FUN_00c98820(void* first, void* second, void* third, void* fourth, void* fifth)
@@ -15261,27 +15005,12 @@ static void RegisterContactMgrFactories(CFB240Dispatcher* dispatcher, void* worl
 void c912e0_caller(CFB240Dispatcher* d, void* w);
 static void FUN_00c92950(PhantomWorld* world, PhantomSink* out);
 void invokePhantomCopy();
-__forceinline void timer(const char* name, const char* first = 0) {
-    MonitorStream* stream = (MonitorStream*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
-    char* current = stream->current;
-    if (current < stream->end) {
-        volatile MonitorRecord* record = (volatile MonitorRecord*)current;
-        record->name = name;
-        if (first) *(const char* volatile*)(current + sizeof(MonitorRecord)) = first;
-        _ReadWriteBarrier();
-        volatile unsigned int stamp = (unsigned int)__rdtsc();
-        record->time = stamp;
-        stream->current = current + (first ? 16 : 12);
-    }
-}
 void probeOverlapCaller();
 static BoolResult AddBodiesToSystem(Context_s* a2, ...);
 void retryCaller();
 static unsigned char FUN_00c927c0(MatchWorld* world, FUN_00d065e0* system);
 void CallMatchSystem();
 void FUN_00c982d0(unsigned char* out, int a2, int a3);
-const TA2<FUN_00d07830*>&TW::getActiveSimulationIslands()const throw(){ return vaSI;
-}
 struct hkpWorldQ;
 static __forceinline void doShift(Sbp_World* self,const __m128& rawShift, __m128& rawEffective, int update);
 
@@ -15294,10 +15023,6 @@ public:
     virtual int SimulateForDeltaTime(float delta);
 };
 
-class C91World : public hkpWorld {
-public:
-    int FUN_00c91b10(float delta);
-};
 
 // @fnv 0x00c91b10
 int C91World::FUN_00c91b10(float delta)
@@ -15321,9 +15046,6 @@ struct StepSimulationEntryC91C {
 struct TreeUpdateEntryC91C {
 };
 
-struct WorldFinishEntryC91C : hkpWorld {
-    int FUN_00c91c00(void* queue, void* pool);
-};
 
 // @fnv 0x00c91c00
 int WorldFinishEntryC91C::FUN_00c91c00(void* queue, void* pool)
@@ -16282,9 +16004,6 @@ __forceinline void drawDebugArrow(::FUN_00c986c0_Obj* drawer, ArrowVectorView* a
     reinterpret_cast<::hkpListenerListC98B *>((drawer))->FUN_00c986c0((&sum.q), (&o3.q), a3, a4, a5);
     reinterpret_cast<::hkpListenerListC98B *>((drawer))->FUN_00c986c0((&sum.q), (&o4.q), a3, a4, a5);
 }
-struct DebugArrowEntry : ::hkDebugDisplay {
-    void FUN_00c98880(const ::hkVector4_S&, const ::hkVector4_S&, int, int, int);
-};
 // @fnv 0x00c98e60
 void PlaneDraw::FUN_00c98e60(const V4& plane, const V4& offset, float scale, int color, int id, int tag) throw()
 {

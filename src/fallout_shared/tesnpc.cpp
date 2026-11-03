@@ -1011,7 +1011,7 @@ void TESNPC::Revert(BGSLoadFormBuffer* buffer)
     bool keepHeight = false;
     if (m_fGlyphExtent == GetDefaultHeight())
         keepHeight = true;
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetOldChangeFlags(0x2000000)))->FUN_004280f0() && !reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetChangeFlags(0x2000000)))->FUN_004280f0() && m_pAssignedRace)
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetOldChangeFlags(0x2000000)))->FUN_004280f0(0x2000000) && !reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetChangeFlags(0x2000000)))->FUN_004280f0(0x2000000) && m_pAssignedRace)
     {
         reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(m_pAssignedRace));
         m_pAssignedRace = 0;
@@ -1019,14 +1019,14 @@ void TESNPC::Revert(BGSLoadFormBuffer* buffer)
     }
     if (keepHeight)
         m_fGlyphExtent = GetDefaultHeight();
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetOldChangeFlags(0x800)))->FUN_004280f0() && !reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetChangeFlags(0x800)))->FUN_004280f0())
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetOldChangeFlags(0x800)))->FUN_004280f0(0x800) && !reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetChangeFlags(0x800)))->FUN_004280f0(0x800))
     {
         delete[] m_pOffsetFaceCoordinates;
         m_pOffsetFaceCoordinates = 0;
         modified |= 8;
         reinterpret_cast<::FileMatchList *>(&(m_kHeadPartList))->RemoveAll();
     }
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetOldChangeFlags(0x1000000)))->FUN_004280f0() && !reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetChangeFlags(0x1000000)))->FUN_004280f0())
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetOldChangeFlags(0x1000000)))->FUN_004280f0(0x1000000) && !reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetChangeFlags(0x1000000)))->FUN_004280f0(0x1000000))
     {
         reinterpret_cast<::FlagSet *>(this)->FUN_0047dd50(1, !TESActorBaseData::GetFlag(1), true);
         modified |= 0x1b;
@@ -1767,7 +1767,7 @@ void FUN_006099f0_shell::LoadGamePostProcess(BGSLoadFormBuffer* apLoadGameBuffer
     bool bfixHeight = false;
     if (m_fGlyphExtent == GetDefaultHeight())
         bfixHeight = true;
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(apLoadGameBuffer->GetOldChangeFlags(0x2000000)))->FUN_004280f0() && !reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(apLoadGameBuffer->GetChangeFlags(0x2000000)))->FUN_004280f0() &&
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(apLoadGameBuffer->GetOldChangeFlags(0x2000000)))->FUN_004280f0(0x2000000) && !reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(apLoadGameBuffer->GetChangeFlags(0x2000000)))->FUN_004280f0(0x2000000) &&
         m_pAssignedRace)
     {
         reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(reinterpret_cast<unsigned int>(m_pAssignedRace)));
@@ -1776,14 +1776,14 @@ void FUN_006099f0_shell::LoadGamePostProcess(BGSLoadFormBuffer* apLoadGameBuffer
     }
     if (bfixHeight)
         m_fGlyphExtent = GetDefaultHeight();
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(apLoadGameBuffer->GetOldChangeFlags(0x800)))->FUN_004280f0() && !reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(apLoadGameBuffer->GetChangeFlags(0x800)))->FUN_004280f0())
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(apLoadGameBuffer->GetOldChangeFlags(0x800)))->FUN_004280f0(0x800) && !reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(apLoadGameBuffer->GetChangeFlags(0x800)))->FUN_004280f0(0x800))
     {
         delete[] m_pOffsetFaceCoordinates;
         m_pOffsetFaceCoordinates = 0;
         cresetFlags |= 8;
         reinterpret_cast<::FileMatchList *>((reinterpret_cast<BSSimpleList<int>*>(&m_kHeadPartList)))->RemoveAll();
     }
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(apLoadGameBuffer->GetOldChangeFlags(0x1000000)))->FUN_004280f0() && !reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(apLoadGameBuffer->GetChangeFlags(0x1000000)))->FUN_004280f0())
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(apLoadGameBuffer->GetOldChangeFlags(0x1000000)))->FUN_004280f0(0x1000000) && !reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(apLoadGameBuffer->GetChangeFlags(0x1000000)))->FUN_004280f0(0x1000000))
     {
         reinterpret_cast<::FlagSet *>(this)->FUN_0047dd50(1, !GetFlag(1), true);
         cresetFlags |= 0x1b;
@@ -1959,7 +1959,8 @@ extern BSFaceGenManager* DAT_011d59e8;
 // @fnv 0x006045f0
 intptr_t __cdecl GetFaceGenManagerValue()
 {
-    return ::FUN_00559450((int *)&((DAT_011d59e8 ? *(NP*)((char*)DAT_011d59e8 + 0x119c) : NP(0))));
+    NP kPointer = DAT_011d59e8 ? *(NP*)((char*)DAT_011d59e8 + 0x119c) : NP(0);
+    return ::FUN_00559450((int *)&kPointer);
 }
 
 struct FUN_006055f0_shell : public TESNPC
@@ -5044,7 +5045,7 @@ struct CopyData
 
     int unk020;
 
-    int unk024;
+    CopyNpc* pTemplateForm;
 
     int unk028;
 
@@ -5321,7 +5322,7 @@ void CopyData::FUN_00604ba0(CopyPrefix* apSource)
 
             if (templateForm)
             {
-                reinterpret_cast<::TESRecipe *>(this)->SetRequiredSkill((::ActorValue::Index)(templateForm));
+                pTemplateForm = templateForm;
                 reinterpret_cast<::FUN_0047cd90_shell *>(this)->FUN_0047cd90(flags);
             }
 
@@ -6667,25 +6668,25 @@ BSSimpleList<const char*>* NPCModelView::CollectModelPaths(bool armorModels, boo
 
 struct IterPair
 {
-    unsigned int v0;
-    unsigned int v1;
+    void* v0;
+    float* v1;
 };
 
 struct FoundPair
 {
-    unsigned int v0;
-    unsigned int v1;
+    void* v0;
+    float* v1;
 };
 
 struct Facade410
 {
-    unsigned int v0;
-    unsigned int v1;
+    void* v0;
+    float* v1;
 };
 
 struct Vec410
 {
-    FoundPair FUN_0044a1a0(int, int, int, int);
+    FoundPair FUN_0044a1a0(void*, float*, void*, float*);
     void FUN_0060b410(unsigned int level, float value);
 };
 // @fnv 0x0060b340
@@ -7260,14 +7261,16 @@ void Vec410::FUN_0060b410(unsigned int level, float value)
     {
         IterPair beg;
         IterPair it = (*(::IterPair *)(reinterpret_cast<::fnv_0065f550::FUN_0065f550_Class *>(this)->CallWithSelf((::fnv_0065f550::_Out_0044a170 *)(::IterPair *)(&beg))));
-        reinterpret_cast<::FloatInsertVector *>(this)->Insert((::FloatInsertIterator)(it.v0), it.v1, (*(const float *)(level - ((unsigned int)(reinterpret_cast<::FUN_00662820_shell *>((void *)this)->FUN_00662820())))));
+        reinterpret_cast<::FloatInsertVector *>(this)->Insert({it.v0, it.v1}, level - ((unsigned int)(reinterpret_cast<::FUN_00662820_shell *>((void *)this)->FUN_00662820())), value);
     }
     else if (level < ((unsigned int)(reinterpret_cast<::FUN_00662820_shell *>((void *)this)->FUN_00662820())))
     {
         IterPair seek;
         IterPair res = (*(::IterPair *)(reinterpret_cast<::fnv_0065f550::FUN_0065f550_Class *>(this)->CallWithSelf((::fnv_0065f550::_Out_0044a170 *)(::IterPair *)(&seek))));
         FoundPair target;
-        target = (*(::FoundPair *)(reinterpret_cast<::S8 *>((void *)&(const ::Facade410 &)((*(::Facade410 *)(reinterpret_cast<::_Dummy_0044a170 *>(this)->FUN_0044a170({})))))->FUN_0060b820((::S8 *)(level), {})));
+        Facade410 begin;
+        reinterpret_cast<::_Dummy_0044a170 *>(this)->FUN_0044a170((::_Out_0044a170 *)&begin);
+        reinterpret_cast<::S8 *>(&begin)->FUN_0060b820((::S8 *)&target, level);
         FUN_0044a1a0(target.v0, target.v1, res.v0, res.v1);
     }
 }
@@ -7859,7 +7862,7 @@ void Shell_00608f00_NPC::FUN_00608f00(BGSSaveFormBuffer* apFile)
             while (pIter)
             {
                 BGSHeadPart* pHeadPart =
-                    *(BGSHeadPart**)&(void *)(((Shell_00608f00_Item*)pIter));
+                    *(BGSHeadPart**)pIter;
                 if (pHeadPart)
                 {
                     reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((((Shell_00608f00_Buf*)apFile)))->FUN_00865df0((::fnv_00865df0::TESForm *)(pHeadPart), 0);
@@ -9036,7 +9039,7 @@ void TESNPC::FUN_006047c0(TESObjectREFR* a2, bool a3, bool a4, bool a5, bool a6)
             bool val = true;
             TESBoundObject* p;
             p = ((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((item))->GetName()));
-            if ((!res || !res->HasBipedModel(i, false, NULL)) && !reinterpret_cast<::Thing575 *>((a2))->FUN_00575400((int)(p)))
+            if ((!res || !res->HasBipedModel((::BIPED_OBJECT)i, false, NULL)) && !reinterpret_cast<::Thing575 *>((a2))->FUN_00575400((int)(p)))
             {
                 if (((::BSSimpleList< ::ExtraDataList *> *)(::FUN_00559450((int *)(item)))))
                 {
@@ -9054,7 +9057,7 @@ void TESNPC::FUN_006047c0(TESObjectREFR* a2, bool a3, bool a4, bool a5, bool a6)
                 {
                     TESBipedModelForm* pInv;
                     pInv = ::TESBipedModelForm::GetFormAsBipedModel(p);
-                    if (pInv->HasBipedModel(2, false, NULL))
+                    if (pInv->HasBipedModel((::BIPED_OBJECT)2, false, NULL))
                     {
                         val = false;
                     }

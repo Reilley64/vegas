@@ -272,7 +272,7 @@ bool BSFaceGenModel::LoadModelMesh(const char* egmPath, const char* nifPath, con
                 child = m_pGeometryModel->m_spModelRoot->FUN_0043b480();
                 for (count = 0; count < child; count++)
                 {
-                    i = m_pGeometryModel->m_spModelRoot->->GetAt(count);
+                    i = m_pGeometryModel->m_spModelRoot->GetAt(count);
                     if (i)
                     {
                         switch (part)
@@ -812,7 +812,6 @@ FUN_00659a20::~FUN_00659a20()
         delete m_pTextureData;
 }
 
-int __cdecl strcat_s(char*, unsigned int, const char*);
 struct FUN_0065a840_t : public BSFaceGenModel
 {
     void FUN_0065a840();
@@ -1053,19 +1052,19 @@ namespace fnv_00657c20 {
 struct EGMMorphList
 {
     char _pad[12];
-    int _base;
-    int GetMorphEntry(unsigned int);
+    ::FaceGenMorphTarget* _base;
+    ::FaceGenMorphTarget& GetMorphEntry(unsigned int);
 };
 // Bounds-checks idx against the morph count, then returns the address of the entry at idx (stride 0x1c) from _base.
 // @fnv 0x00657c20
-int EGMMorphList::GetMorphEntry(unsigned int idx)
+::FaceGenMorphTarget& EGMMorphList::GetMorphEntry(unsigned int idx)
 {
     if (idx >= ((unsigned int)(reinterpret_cast<::FUN_00657c00_shell *>(this)->GetCount())))
         std::abort();
     do
     {
     } while (0);
-    return idx * 0x1c + _base;
+    return _base[idx];
 }
 }  // namespace fnv_00657c20
 
@@ -1373,13 +1372,13 @@ bool FUN_0065a970_shell::ApplyMorphs(FaceGenCoordinate* apCoordinate, NiTriBased
                     reinterpret_cast<::FUN_00534570_shell *>(&(kIteratorNum))->FUN_00534570(j + 2, kP2Tmp);
                     reinterpret_cast<::FUN_00534570_shell *>(&(kIteratorNum))->FUN_00534570(j + 3, kP3Tmp);
                 }
-                ThreeComponentVector<short> kD0Tmp = reinterpret_cast<::FUN_0064dda0_cls *>((void *)&(const ::FaceGenIterator< ::ThreeComponentVector<short>> &)(kDelta))->FUN_0064dda0();
+                ThreeComponentVector<short> kD0Tmp = *(::ThreeComponentVector<short> *)reinterpret_cast<::FUN_0064dda0_cls *>(&kDelta)->FUN_0064dda0();
                 kDelta++;
-                ThreeComponentVector<short> kD1Cur = reinterpret_cast<::FUN_0064dda0_cls *>((void *)&(const ::FaceGenIterator< ::ThreeComponentVector<short>> &)(kDelta))->FUN_0064dda0();
+                ThreeComponentVector<short> kD1Cur = *(::ThreeComponentVector<short> *)reinterpret_cast<::FUN_0064dda0_cls *>(&kDelta)->FUN_0064dda0();
                 kDelta++;
-                ThreeComponentVector<short> kD2 = reinterpret_cast<::FUN_0064dda0_cls *>((void *)&(const ::FaceGenIterator< ::ThreeComponentVector<short>> &)(kDelta))->FUN_0064dda0();
+                ThreeComponentVector<short> kD2 = *(::ThreeComponentVector<short> *)reinterpret_cast<::FUN_0064dda0_cls *>(&kDelta)->FUN_0064dda0();
                 kDelta++;
-                ThreeComponentVector<short> kD3 = reinterpret_cast<::FUN_0064dda0_cls *>((void *)&(const ::FaceGenIterator< ::ThreeComponentVector<short>> &)(kDelta))->FUN_0064dda0();
+                ThreeComponentVector<short> kD3 = *(::ThreeComponentVector<short> *)reinterpret_cast<::FUN_0064dda0_cls *>(&kDelta)->FUN_0064dda0();
                 kDelta++;
 
                 kP0.x += kD0Tmp.x * fWeightCur;
@@ -1415,9 +1414,9 @@ bool FUN_0065a970_shell::ApplyMorphs(FaceGenCoordinate* apCoordinate, NiTriBased
                     kVertexDelta = *pExtra;
                 else
                     reinterpret_cast<::FUN_00534570_shell *>(&(kIteratorNum))->FUN_00534570(j, kVertexDelta);
-                kVertexDelta.x += (reinterpret_cast<::FUN_0064dda0_cls *>((void *)&(const ::FaceGenIterator< ::ThreeComponentVector<short>> &)(kDelta))->FUN_0064dda0()).x * fWeightCur;
-                kVertexDelta.y += (reinterpret_cast<::FUN_0064dda0_cls *>((void *)&(const ::FaceGenIterator< ::ThreeComponentVector<short>> &)(kDelta))->FUN_0064dda0()).y * fWeightCur;
-                kVertexDelta.z += (reinterpret_cast<::FUN_0064dda0_cls *>((void *)&(const ::FaceGenIterator< ::ThreeComponentVector<short>> &)(kDelta))->FUN_0064dda0()).z * fWeightCur;
+                kVertexDelta.x += (*(::ThreeComponentVector<short> *)reinterpret_cast<::FUN_0064dda0_cls *>(&kDelta)->FUN_0064dda0()).x * fWeightCur;
+                kVertexDelta.y += (*(::ThreeComponentVector<short> *)reinterpret_cast<::FUN_0064dda0_cls *>(&kDelta)->FUN_0064dda0()).y * fWeightCur;
+                kVertexDelta.z += (*(::ThreeComponentVector<short> *)reinterpret_cast<::FUN_0064dda0_cls *>(&kDelta)->FUN_0064dda0()).z * fWeightCur;
                 reinterpret_cast<::GeometryVertexBuffer *>(&(kIteratorNum))->SetVertex(j, kVertexDelta);
                 if (pExtra)
                 {
@@ -1430,9 +1429,9 @@ bool FUN_0065a970_shell::ApplyMorphs(FaceGenCoordinate* apCoordinate, NiTriBased
                 unsigned int uiTotal = ((unsigned int)(reinterpret_cast<::FUN_0065b3e0_Holder *>((pLastMorphExtra))->GetPointerByFlag(0)));
                 for (unsigned int k = uiNumVertices; k < uiTotal; k++, kDelta++)
                 {
-                    pExtra->x = (reinterpret_cast<::FUN_0064dda0_cls *>((void *)&(const ::FaceGenIterator< ::ThreeComponentVector<short>> &)(kDelta))->FUN_0064dda0()).x * fWeightCur + pExtra->x;
-                    pExtra->y = (reinterpret_cast<::FUN_0064dda0_cls *>((void *)&(const ::FaceGenIterator< ::ThreeComponentVector<short>> &)(kDelta))->FUN_0064dda0()).y * fWeightCur + pExtra->y;
-                    pExtra->z = (reinterpret_cast<::FUN_0064dda0_cls *>((void *)&(const ::FaceGenIterator< ::ThreeComponentVector<short>> &)(kDelta))->FUN_0064dda0()).z * fWeightCur + pExtra->z;
+                    pExtra->x = (*(::ThreeComponentVector<short> *)reinterpret_cast<::FUN_0064dda0_cls *>(&kDelta)->FUN_0064dda0()).x * fWeightCur + pExtra->x;
+                    pExtra->y = (*(::ThreeComponentVector<short> *)reinterpret_cast<::FUN_0064dda0_cls *>(&kDelta)->FUN_0064dda0()).y * fWeightCur + pExtra->y;
+                    pExtra->z = (*(::ThreeComponentVector<short> *)reinterpret_cast<::FUN_0064dda0_cls *>(&kDelta)->FUN_0064dda0()).z * fWeightCur + pExtra->z;
                     pExtra++;
                 }
             }
@@ -1880,7 +1879,6 @@ void __cdecl FUN_00ac0b00()
 }
 
 namespace xlenb0f {
-extern "C" unsigned int __cdecl strlen(const char* _Str);
 int FUN_00ec7c66(void* _Dst, unsigned int _Size, const void* _Src, unsigned int _Count);
 int FUN_00ec7c6b(void* _Dst, unsigned int _Size, const void* _Src, unsigned int _Count);
 struct BxSecureTag
@@ -1969,7 +1967,7 @@ template <class T> struct BxAllocT
     }
     void deallocate(pointer _Ptr, unsigned int)
     {
-        ::FUN_00401030 delete(_Ptr);
+        ::FUN_00401030(_Ptr);
     }
     unsigned int max_size() const
     {

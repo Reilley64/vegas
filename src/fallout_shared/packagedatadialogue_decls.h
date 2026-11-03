@@ -11,12 +11,19 @@ class TESTopicInfo;
 class DialogueItem;
 #include "TESForm.h"
 #include "TESTopic.h"
+struct TargetLocation;
 class TESDialoguePackageData
 {
   public:
-    void* vtable;
+    virtual ~TESDialoguePackageData();
     float m_fFirstFloat;
     TESTopic* pMenuTopicEntry;
+    TargetLocation* m_pTargetLocation;
+    bool m_bFirstFlag;
+    bool m_bFollowingFlag;
+    float m_fFloatValue;
+    bool m_bThirdFlag;
+    int m_iTrailingValue;
     void InitItem(TESForm*);
 };
 #endif

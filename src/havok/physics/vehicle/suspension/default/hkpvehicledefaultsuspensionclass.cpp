@@ -93,7 +93,7 @@ struct FUN_00dfbff0
     FUN_00dfbff0();
     virtual ~FUN_00dfbff0();
 
-    static void operator delete(void* p, unsigned int nbytes)
+    static void operator delete(void* p, size_t nbytes)
     {
         FUN_00dfbff0* b = static_cast<FUN_00dfbff0*>(p);
         (*static_cast<DFBFF0MemoryRouter*>(::FUN_00c85750())).heap().ReleaseBlock(p, b->m_usMemSizeAndFlags);

@@ -112,7 +112,7 @@ struct FUN_00dfc330
     FUN_00dfc330();
     virtual ~FUN_00dfc330();
 
-    static void operator delete(void* p, unsigned int nbytes)
+    static void operator delete(void* p, size_t nbytes)
     {
         FUN_00dfc330* b = static_cast<FUN_00dfc330*>(p);
         (*static_cast<DFC330MemoryRouter*>(::FUN_00c85750())).heap().ReleaseBlock(p, b->m_usMemSizeAndFlags);

@@ -134,7 +134,7 @@ public:
 // @fnv 0x00d07cf0
 void FUN_00d07cf0_cls::WritePhantomLists(PhArchive* pArchive, int unused)
 {
-    reinterpret_cast<::FNVWorldObject *>(this)->WriteToStream((::hkStreamWriter *)(pArchive), (int)(&(*reinterpret_cast<::PhTag *>(&::g_01268808))));
+    reinterpret_cast<::FNVWorldObject *>(this)->WriteToStream((::hkStreamWriter *)(pArchive), &::g_01268808);
     if (!(m_kPhantomOverlapListeners.m_iCapacityState & 0x80000000) || pArchive->m_flag) {
         void* base = m_kPhantomOverlapListeners.m_data;
         int e = ::fnv_00d06f80::FUN_00d06f80((const char *)(base), (m_kPhantomOverlapListeners.m_iCapacityState & 0x3fffffff) * 4);

@@ -453,7 +453,7 @@ void hkpEntityStats::CollectStats(hkStatisticsCollector* collector, const hkClas
         }
     }
     collector->addChildObject("SavedMotion", m_pMotionState.m_pSavedMotion, 0);
-    reinterpret_cast<::FNVWorldObject *>((void *)this)->WriteToStream((::hkStreamWriter *)(collector), (int)(&g_01268808));
+    reinterpret_cast<::FNVWorldObject *>((void *)this)->WriteToStream((::hkStreamWriter *)(collector), &g_01268808);
 }
 
 
@@ -3152,7 +3152,7 @@ class FUN_00c9d340
 {
   public:
     ~FUN_00c9d340() throw();
-    static void operator delete(void* p, unsigned int uiNumBytes)
+    static void operator delete(void* p, size_t uiNumBytes)
     {
         static_cast<hkMemoryRouterC9CF*>(::FUN_00c85750())->heap().ReleaseBlock(p, uiNumBytes);
     }

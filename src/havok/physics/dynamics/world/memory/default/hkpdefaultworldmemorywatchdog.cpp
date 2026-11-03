@@ -44,13 +44,13 @@ struct WatchdogState
     void* unk3c;
     void* unk40;
     void* unk44;
-    int* value48;
+    ::FUN_00c91620_Target** value48;
 };
 
 // @fnv 0x00e48270
 void NotifyWatchdogCallback(WatchdogState* pState, int unused)
 {
-    reinterpret_cast<::FUN_00c91620_Class *>((pState->callback18))->ProcessTarget((unsigned char *)(void **)(reinterpret_cast<void**>(&pState)), (::FUN_00c91620_Target *)(*pState->value48));
+    reinterpret_cast<::FUN_00c91620_Class *>((pState->callback18))->ProcessTarget((unsigned char *)(void **)(reinterpret_cast<void**>(&pState)), *pState->value48);
 }
 
 class hkMemoryAllocatorE482

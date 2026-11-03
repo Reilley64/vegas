@@ -371,7 +371,6 @@ hkReal AnalogDriverInput::GetOutput(hkReal deltaTime, const void* vehicle, const
 
 
 extern const float DAT_01011d78 = 0.0f;
-extern const float DAT_01016248 = 0.5f;
 extern const float DAT_01017718 = 3.0f;
 extern const float DAT_0104da4c = 1.1920928955078125e-07f;
 extern const float DAT_010ebf10 = 1.38888896f;

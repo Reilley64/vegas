@@ -3696,7 +3696,7 @@ struct FUN_00d10730 {
     FUN_00d10730();
     virtual ~FUN_00d10730();
 
-    static void operator delete(void* p, unsigned int nbytes)
+    static void operator delete(void* p, size_t nbytes)
     {
         FUN_00d10730* b = static_cast<FUN_00d10730*>(p);
         (*static_cast<D10730MemoryRouter*>(::FUN_00c85750())).heap().ReleaseBlock(p, b->m_usMemSizeAndFlags);

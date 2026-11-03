@@ -113,12 +113,12 @@ struct hkStreamWriter
 
 struct FNVWorldObject : hkpWorldObject
 {
-    void WriteToStream(hkStreamWriter* writer, int unused);
+    void WriteToStream(hkStreamWriter* writer, const void* unused);
 };
 
 // Writes collision shape, collision entries, properties, and bounding volume child shape data to the stream writer.
 // @fnv 0x00cd2b00
-void FNVWorldObject::WriteToStream(hkStreamWriter* writer, int unused)
+void FNVWorldObject::WriteToStream(hkStreamWriter* writer, const void* unused)
 {
     writer->WriteField(&(*reinterpret_cast<char *>((void *)&::g_011d26d0_arg1)), m_kCollidable.m_pCollisionShape, 0);
 

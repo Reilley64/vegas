@@ -14394,7 +14394,7 @@ public:
         return b;
     }
 
-    void operator delete(void* p, unsigned int nbytes)
+    void operator delete(void* p, size_t nbytes)
     {
         ((hkMemoryRouterCAA*)::FUN_00c85750())->heap().ReleaseBlock(p, nbytes);
     }

@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include "havok/hkMemoryRouter.h"
+#include "havok/hkReferencedObject.h"
 #include "fnv/symbols_00c85000.h"
 #include <windows.h>
 #include "fnv/decl/Dispatcher.h"
@@ -473,11 +474,8 @@ class hkObjD0AD : public FUN_00d0a4f0
 
     static void operator delete(void* p) throw()
     {
-        hkMemoryRouter::getInstance().heap().blockFree(p, static_cast<hkObjD0AD*>(p)->GetAllocationSize());
-    }
-    int GetAllocationSize() const
-    {
-        return reinterpret_cast<const unsigned short*>(this)[2];
+        // The object is an hkReferencedObject; its memory size sits in the header.
+        hkMemoryRouter::getInstance().heap().blockFree(p, static_cast<::hkReferencedObject*>(p)->m_usMemSizeAndFlags);
     }
 };
 

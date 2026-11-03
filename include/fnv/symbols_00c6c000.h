@@ -1,6 +1,8 @@
 #pragma once
 #include <cstdint>
 
+#include <cstdint>
+
 class C6C0E0AVObject;
 class C6C210AVObject;
 class Node_c6c1;

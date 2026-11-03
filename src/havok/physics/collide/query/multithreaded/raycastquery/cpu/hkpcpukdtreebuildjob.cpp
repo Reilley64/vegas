@@ -222,7 +222,7 @@ int __cdecl BuildKdTreeDistributed(ContextHandle ctx, ArgStruct* input, ...)
     int result;
     if (8 > arg->m_38)
     {
-        ::MixChannels(&head, (int *)(arg->m_28), arg->m_2c, (void *)(intptr_t)arg->m_3c, arg->m_38, (int *)(intptr_t)arg->m_40, (int *)(unsigned long *)(&scratch.value));
+        ::MixChannels(&head, (int *)(arg->m_28), arg->m_2c, arg->m_3c, arg->m_38, arg->m_40, (int *)(unsigned long *)(&scratch.value));
         result = 0;
         int* p30 = arg->m_30;
         if (p30 != 0)

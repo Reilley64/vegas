@@ -1,6 +1,8 @@
 #pragma once
 #include <cstdint>
 
+#include <cstdint>
+
 struct FUN_009ba320_shell {
 public:
     // 0x009ba320

@@ -9151,7 +9151,7 @@ void __cdecl FUN_00552390(SceneNode* root)
                 if (candidate->controller != 0 && ::FUN_00552490((bool *)(candidate->controller)) &&
                     !((bool)(reinterpret_cast<::FUN_005524b0_class *>((candidate->controller))->GetByteAtOffset8C())) && !child->FUN_00552470() && !reinterpret_cast<::MobileObject *>((candidate))->IsInDialogueWithPlayer())
                 {
-                    ::SetTlsValueAndReset((int)(child), 2);
+                    ::SetTlsValueAndReset((std::intptr_t)(child), 2);
                 }
             }
         }

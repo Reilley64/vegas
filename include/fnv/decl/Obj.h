@@ -2,6 +2,8 @@
 #include "havok/hkUlong.h"
 #include <cstdint>
 
+#include <cstdint>
+
 struct Body;
 struct Buffers;
 struct ChainInstance;

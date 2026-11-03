@@ -176,12 +176,12 @@ struct FNVRegion
     float axis44;
     float axis48;
     float axis4c;
-    FNVRegion* InitRegion(void* owner, FNVVectorParameter* bounds, float x, float y, float z, void* userdata);
+    FNVRegion* InitRegion(void* owner, FNVVectorParameter* bounds, float x, float y, float z, int flags);
 };
 // @fnv 0x00eb3c40
-FNVRegion* FNVRegion::InitRegion(void* owner, FNVVectorParameter* bounds, float x, float y, float z, void* userdata)
+FNVRegion* FNVRegion::InitRegion(void* owner, FNVVectorParameter* bounds, float x, float y, float z, int flags)
 {
-    new ((void *)this) class ::FUN_00eae720(x, y, z, (int)(userdata));
+    new ((void *)this) class ::FUN_00eae720(x, y, z, flags);
     bounds3c = bounds;
     vtable = &FUN_00eb3c40_VTable;
     owner38 = owner;

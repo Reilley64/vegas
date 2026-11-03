@@ -1,6 +1,8 @@
 #pragma once
 #include <cstdint>
 
+#include <cstdint>
+
 class NiNode;
 struct Input134;
 struct SavedNodeArray;

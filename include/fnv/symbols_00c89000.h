@@ -1,6 +1,8 @@
 #pragma once
 #include <cstdint>
 
+#include <cstdint>
+
 namespace fnv_00c89540 { struct FUN_00c894d0; }
 struct AttachInfo;
 struct SceneNode;

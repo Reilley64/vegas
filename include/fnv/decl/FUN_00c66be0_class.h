@@ -1,6 +1,8 @@
 #pragma once
 #include <cstdint>
 
+#include <cstdint>
+
 struct FUN_00c66be0_class {
 public:
     // 0x00c66be0

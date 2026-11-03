@@ -4604,10 +4604,10 @@ void PRef::UpdateNodePlacement()
         PNode* node7 = GetNode3D();
         if (node7)
         {
-            ::FUN_00c6a040((int)(std::uintptr_t)(node7), 0, 1, 1);
+            ::FUN_00c6a040((intptr_t)(node7), 0, 1, 1);
             PUpdateData updateData3(0.0f, false, false);
             node7->Update(updateData3);
-            ::FUN_00c6a040((int)(std::uintptr_t)(node7), 1, 1, 1);
+            ::FUN_00c6a040((intptr_t)(node7), 1, 1, 1);
             PPoint3 pt;
             reinterpret_cast<::FUN_00439f50_class *>((((::PTransformHolder *)(::FUN_00461130((std::intptr_t)(node7))))))->FUN_00439f50(1, (::NiPoint3 *)&(pt));
             reinterpret_cast<::MyPoint439180 *>((void *)&(const ::PPoint3 &)(pt))->FUN_00439180(reinterpret_cast<::FUN_009669c0_Class *>(this)->FUN_009669c0());

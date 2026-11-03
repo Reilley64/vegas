@@ -1,6 +1,8 @@
 #pragma once
 #include <cstdint>
 
+#include <cstdint>
+
 struct TaskQueueShell {
 public:
     // 0x00c44c90

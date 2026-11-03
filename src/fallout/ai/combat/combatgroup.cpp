@@ -6828,7 +6828,7 @@ void DebugGroup::RebuildDebugVisuals(bool clearOnly)
                     reinterpret_cast<::FUN_004bc1f0_S *>((circle))->FUN_004bc1f0(position.x, position.y, k * 25.0 + position.z);
                     ((::DebugNode *)(::FUN_00559450((int *)&(debug))))->Attach(circle, true);
                 }
-                DebugNode* marker = ((::DebugNode *)(::FUN_00c58d30(16.0f, 16.0f, 400.0f, 10, 10, (intptr_t)(&color))));
+                DebugNode* marker = ((::DebugNode *)(::FUN_00c58d30(16.0f, 16.0f, 400.0f, 10, 10, (::fnv_00c584a0::MeshColor *)(&color))));
                 reinterpret_cast<::FUN_00440460_S *>((marker))->FUN_00440460((const ::V3 *)&(position));
                 ((::DebugNode *)(::FUN_00559450((int *)&(debug))))->Attach(marker, true);
             }
@@ -6847,7 +6847,7 @@ void DebugGroup::RebuildDebugVisuals(bool clearOnly)
             float radius = memberActor3->FUN_008be1b0() * 1.5;
             DebugColor memberColor = *(const DebugColor*)FUN_005d8550((unsigned int)id);
             memberColor.a = 0.5f;
-            DebugNode* cylinder2 = ((::DebugNode *)(::FUN_00c58d30(radius, radius, 16.0f, 10, 10, (intptr_t)(&memberColor))));
+            DebugNode* cylinder2 = ((::DebugNode *)(::FUN_00c58d30(radius, radius, 16.0f, 10, 10, (::fnv_00c584a0::MeshColor *)(&memberColor))));
             reinterpret_cast<::FUN_00440460_S *>((cylinder2))->FUN_00440460((const ::V3 *)&(memberActor3->Position()));
             ((::DebugNode *)(::FUN_00559450((int *)&(debug))))->Attach(cylinder2, true);
         }
@@ -6886,7 +6886,7 @@ void DebugGroup::RebuildDebugVisuals(bool clearOnly)
             else
                 pairColor_ = DebugColor(1.0f, 1.0f, 0.0f, 0.5f);
             DebugPoint pairPosition = pairActor->Position();
-            DebugNode* pillarX = ((::DebugNode *)(::FUN_00c58d30(32.0f, 32.0f, 256.0f, 10, 10, (intptr_t)(&pairColor_))));
+            DebugNode* pillarX = ((::DebugNode *)(::FUN_00c58d30(32.0f, 32.0f, 256.0f, 10, 10, (::fnv_00c584a0::MeshColor *)(&pairColor_))));
             reinterpret_cast<::FUN_00440460_S *>((pillarX))->FUN_00440460((const ::V3 *)&(pairPosition));
             ((::DebugNode *)(::FUN_00559450((int *)&(debug))))->Attach(pillarX, true);
         }

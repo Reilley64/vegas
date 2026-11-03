@@ -14,4 +14,4 @@ void FUN_00d49580(::FUN_00d49580_vtbl *);
 // 0x00d495a0
 void FUN_00d495a0(int *, int);
 // 0x00d495f0
-int FUN_00d495f0();
+void *FUN_00d495f0();

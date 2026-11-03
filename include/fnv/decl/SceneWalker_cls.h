@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdint>
+
 struct SceneNode_cls;
 
 struct SceneWalker_cls {

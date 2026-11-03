@@ -1,6 +1,8 @@
 #pragma once
 #include <cstdint>
 
+#include <cstdint>
+
 class FUN_00c4b470_owner;
 class NiObjectC4BB;
 class NiPoint3;

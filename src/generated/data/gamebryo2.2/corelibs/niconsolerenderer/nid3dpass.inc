@@ -36,4 +36,4 @@ intptr_t DAT_0126f728;
 namespace fnv_00e7fb80 { StagePtr DAT_0126f730; }
 namespace fnv_00e7fb80 { unsigned int DAT_0126f734; }
 unsigned short DAT_0126f958[34];
-int DAT_0126f9a0;
+void* DAT_0126f9a0;

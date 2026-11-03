@@ -8,7 +8,7 @@ void FUN_00cb1090(char *, const char *);
 // 0x00cb10b0
 void CopyIfNonEmpty(char *, const char *, intptr_t);
 // 0x00cb10d0
-namespace fnv_00cb10d0 { intptr_t FUN_00cb10d0(const char *); }
+namespace fnv_00cb10d0 { int FUN_00cb10d0(const char *); }
 // 0x00cb10f0
 void CallWithZeroMiddleArg(intptr_t, int);
 // 0x00cb1130

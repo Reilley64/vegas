@@ -1,6 +1,8 @@
 #pragma once
 #include <cstdint>
 
+#include <cstdint>
+
 struct FUN_00c86800_Table;
 
 struct FUN_00c86800_Class {

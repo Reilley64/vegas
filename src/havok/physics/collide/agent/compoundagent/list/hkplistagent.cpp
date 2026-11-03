@@ -63,7 +63,7 @@ void FUN_00d36940(void* apArg1, void* apArg2, void* apArg3, void* apArg4)
 
 // Forwards all five arguments to FUN_00d36930.
 // @fnv 0x00d36960
-void FUN_00d36960(int aiArg1, int aiArg2, int aiArg3, int aiArg4, int aiArg5)
+void FUN_00d36960(intptr_t aiArg1, intptr_t aiArg2, intptr_t aiArg3, intptr_t aiArg4, intptr_t aiArg5)
 {
     ::FUN_00d36930();
 }

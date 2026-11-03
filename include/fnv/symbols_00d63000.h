@@ -3,7 +3,7 @@
 struct Base2_d632c0;
 
 // 0x00d632c0
-::Base2_d632c0 *FUN_00d632c0(int);
+::Base2_d632c0 *FUN_00d632c0(const void *);
 // 0x00d63400
 namespace fnv_00d63400 { void InitWorldMemory(); }
 // 0x00d63d60

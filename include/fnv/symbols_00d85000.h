@@ -1,6 +1,8 @@
 #pragma once
 #include <cstdint>
 
+#include <cstdint>
+
 class D85660Object;
 namespace fnv_00d853a0 { struct FUN_00d853a0_cls; }
 namespace fnv_00d853f0 { struct ObjD853; }

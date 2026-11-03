@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdint>
+
 struct FNVOwner {
 public:
     // 0x00c9c5b0

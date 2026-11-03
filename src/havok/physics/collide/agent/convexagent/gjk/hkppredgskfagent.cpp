@@ -8,18 +8,18 @@
 #include "fnv/symbols_00d41000.h"
 struct __declspec(align(16)) FUN_00d41f00_Local
 {
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0C;
-    unsigned int unk10;
-    unsigned int unk14;
-    unsigned int unk18;
-    unsigned int unk1C;
-    unsigned int unk20;
-    unsigned int unk24;
-    unsigned int unk28;
-    unsigned int unk2C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
+    void* unk10;
+    void* unk14;
+    void* unk18;
+    void* unk1C;
+    void* unk20;
+    void* unk24;
+    void* unk28;
+    void* unk2C;
     unsigned char unk30;
     unsigned char unk31;
     unsigned char unk32;
@@ -44,7 +44,7 @@ void __cdecl FUN_00d41f00(SpawnedObject* self, int aiArg1, int aiArg2)
     local.unk20 = 0;
     local.unk24 = 0;
     local.unk28 = 0;
-    ::FUN_00d41ec0((int *)(::FUN_00d41f00_Local *)(&local));
+    ::FUN_00d41ec0((void **)(::FUN_00d41f00_Local *)(&local));
     reinterpret_cast<::FUN_00cfbd60_cls *>((self))->AddEntry((::SrcRec *)(::FUN_00d41f00_Local *)(&local), aiArg1, aiArg2);
 }
 

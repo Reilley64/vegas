@@ -12,7 +12,7 @@ namespace fnv_00d9d800 { void GetAudioPair(void **, int); }
 // 0x00d9d840
 void FreeBufferPair(::BufferPair *, int);
 // 0x00d9d880
-void MixChannels(void *, int *, int, void *, int, int *, int *);
+void MixChannels(void *, int *, intptr_t, int, int, int, int *);
 // 0x00d9d950
 void FUN_00d9d950(::S9d950_Owner *, int, const ::S9d950_Box *, const int *);
 // 0x00d9dab0

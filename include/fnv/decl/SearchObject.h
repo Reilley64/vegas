@@ -8,11 +8,11 @@ public:
     // 0x00cd1e20
     int Search(uintptr_t, unsigned int, uintptr_t, unsigned int);
     // 0x00cde920
-    int FUN_00cde920(unsigned int, unsigned int, unsigned int, unsigned int);
+    void FUN_00cde920(void *, int, const unsigned short *, int);
     // 0x00d5a4c0
     int FUN_00d5a4c0(uintptr_t, unsigned int, uintptr_t, unsigned int);
     // 0x00d5ed80
-    int Search_00d5ed80(unsigned int, unsigned int, unsigned int, unsigned int);
+    int Search_00d5ed80(uintptr_t, unsigned int, uintptr_t, unsigned int);
     // 0x00d5eda0
     int FUN_00d5eda0(unsigned int, unsigned int, uintptr_t);
     // 0x00dba320

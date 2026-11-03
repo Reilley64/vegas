@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdint>
+
 struct FUN_00daad40_solver;
 struct GskNode;
 struct hkpGskBaseAgent;

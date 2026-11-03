@@ -27,7 +27,7 @@ int FUN_00d1b4d0(::S00d1b4d0_Node *, ::S00d1b4d0_Entry *, const ::RealVec &, con
 // 0x00d1b850
 void FUN_00d1b850(::QueryObj *, void *, void *);
 // 0x00d1b930
-void FUN_00d1b930(::S00d1b7f0_Input *, int, int, intptr_t);
+int FUN_00d1b930(::S00d1b7f0_Input *, intptr_t, intptr_t, int);
 // 0x00d1b9b0
 void FUN_00d1b9b0(::QueryObj *, const void *, void *);
 // 0x00d1bad0

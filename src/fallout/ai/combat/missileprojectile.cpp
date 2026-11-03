@@ -286,7 +286,7 @@ struct FUN_009b7a20_holder
 struct FUN_009ba320_shell
 {
     void FUN_009ba320(uintptr_t a, uintptr_t b);
-    void FUN_009ba390(unsigned int);
+    void FUN_009ba390(uintptr_t);
 };
 struct ScriptLocalsX
 {

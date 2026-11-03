@@ -799,7 +799,7 @@ bool AddShaderConstant(unsigned int uiFlags, unsigned int* puiIndex, const char*
 
     ShaderConstantEntryE8D* pkEntry = 0;
     ::AssignStageFromPool((*(::StageReturn * *)(&pkEntry)));
-    if (reinterpret_cast<::StageSet *>((pkMap))->FUN_00e802b0((uintptr_t)(pkMap->m_pvEntries), (::Stage321 *)(pkEntry)))
+    if (reinterpret_cast<::StageSet *>((pkMap))->FUN_00e802b0((unsigned int)(uintptr_t)(pkMap->m_pvEntries), (::Stage321 *)(pkEntry)))
     {
         ReleaseEntryE8D(pkEntry);
         return false;

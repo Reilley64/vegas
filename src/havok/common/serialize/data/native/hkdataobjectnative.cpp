@@ -178,11 +178,11 @@ int FUN_00dbbc60_Class::FUN_00dbbc60(int aiIndex)
 struct FUN_00d873b0_t
 {
     intptr_t a;
-    int b;
-    FUN_00d873b0_t(intptr_t x, int y);
+    intptr_t b;
+    FUN_00d873b0_t(intptr_t x, intptr_t y);
 };
 // @fnv 0x00d873b0
-FUN_00d873b0_t::FUN_00d873b0_t(intptr_t aiFirst, int aiSecond)
+FUN_00d873b0_t::FUN_00d873b0_t(intptr_t aiFirst, intptr_t aiSecond)
 {
     a = aiFirst;
     b = aiSecond;

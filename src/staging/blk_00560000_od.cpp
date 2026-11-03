@@ -901,7 +901,7 @@ struct ScriptX
 };
 struct FUN_00c9e910_Class
 {
-    void FUN_00c9e910(int a);
+    void FUN_00c9e910(intptr_t a);
 };
 struct FUN_0056e050_Class
 {

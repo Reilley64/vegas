@@ -10,7 +10,7 @@ struct S_00d5ac50_V;
 struct hkBool;
 
 // 0x00d5a510
-void LoadIntoArray(const ::InputBuffer *, unsigned int, ::ArrayData *);
+void LoadIntoArray(const ::InputBuffer *, uintptr_t, ::ArrayData *);
 // 0x00d5a5e0
 void InitAndSetB(void *, intptr_t);
 // 0x00d5a630

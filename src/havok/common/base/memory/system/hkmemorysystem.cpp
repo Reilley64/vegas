@@ -19,7 +19,7 @@ int FUN_00cbc440(int a, int b)
 // @fnv 0x00cbbfc0
 intptr_t FUN_00cbbfc0()
 {
-    return (*reinterpret_cast<int *>(&::DAT_01268418));
+    return (intptr_t)::DAT_01268418;
 }
 
 

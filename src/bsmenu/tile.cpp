@@ -1,3 +1,4 @@
+#include "global_string_header.h"
 #include <new>
 #include <cstddef>
 // bsmenu/tile.cpp: Tile, Tile__FloatAction, LoadingMenu, TileListBoxCalls and more (86 functions)
@@ -63,6 +64,37 @@ float Tile__FloatAction::GetStoredFloatValue()
 }
 
 #include "tile_packet_decls.h"
+
+// Layout views for objects tile.cpp reaches through other types; the pads stand for members not named here.
+struct DListNodeView
+{
+    DListNodeView* m_pNext;
+    DListNodeView* m_pPrev;
+    void* m_pItem;
+};
+struct NiNodeChildArrayView
+{
+    void* m_pVtbl;
+    void** m_ppBase;
+    unsigned short m_usMaxSize;
+    unsigned short m_usSize;
+};
+struct NiNodeChildrenView
+{
+    char pad00[0x9c];
+    NiNodeChildArrayView m_kChildren;
+};
+struct TileShaderPropertyView
+{
+    char pad00[0x68];
+    float m_afColor[4];
+    float m_fAlpha;
+};
+struct TileTemplateView
+{
+    char pad00[0x8];
+    DListNodeView* m_pItemHead;
+};
 
 #include "fnv/decl/FUN_00a7b300_shell.h"
 
@@ -333,14 +365,14 @@ struct FUN_00a013d0_shell : public Tile {
 float FUN_00a013d0_shell::GetTotalFloat()
 {
     float fTotal = reinterpret_cast<::TileListBoxCalls *>(this)->GetFloat(0xfa1);
-    Tile* ptile = *(Tile**)((char*)this + 0x28);
+    Tile* ptile = ((Tile*)this)->m_pParent;
     while (ptile)
     {
         if (reinterpret_cast<::TileListBoxCalls *>((ptile))->GetFloat(0xfa8) != 0.0)
         {
             fTotal += reinterpret_cast<::TileListBoxCalls *>((ptile))->GetFloat(0xfa1);
         }
-        ptile = *(Tile**)((char*)ptile + 0x28);
+        ptile = ((Tile*)ptile)->m_pParent;
     }
     return fTotal;
 }
@@ -355,14 +387,14 @@ struct FUN_00a01440_shell : public Tile {
 float FUN_00a01440_shell::GetAccumulatedFloat()
 {
     float fTotal = reinterpret_cast<::TileListBoxCalls *>(this)->GetFloat(0xfa2);
-    Tile* ptile = *(Tile**)((char*)this + 0x28);
+    Tile* ptile = ((Tile*)this)->m_pParent;
     while (ptile != 0)
     {
         if (reinterpret_cast<::TileListBoxCalls *>((ptile))->GetFloat(0xfa8) != ::_DAT_01012060)
         {
             fTotal = reinterpret_cast<::TileListBoxCalls *>((ptile))->GetFloat(0xfa2) + fTotal;
         }
-        ptile = *(Tile**)((char*)ptile + 0x28);
+        ptile = ((Tile*)ptile)->m_pParent;
     }
     return fTotal;
 }
@@ -447,10 +479,10 @@ void FUN_00a074d0_shell::FUN_00a074d0(int aiFlag)
     if ((unsigned int)aiFlag > 0x3ff) {
         return;
     }
-    unsigned int iold = *(unsigned int*)((char*)this + 0x30);
-    *(unsigned int*)((char*)this + 0x30) &= 0xfffffc00;
-    *(unsigned int*)((char*)this + 0x30) |= aiFlag;
-    if (*(unsigned int*)((char*)this + 0x30) != iold) {
+    unsigned int iold = ((Tile*)this)->m_uiFlags;
+    ((Tile*)this)->m_uiFlags &= 0xfffffc00;
+    ((Tile*)this)->m_uiFlags |= aiFlag;
+    if (((Tile*)this)->m_uiFlags != iold) {
         ::FUN_00a07690((::FlaggedTile *)(::Tile *)(this));
     }
 }
@@ -466,9 +498,9 @@ void FUN_00a07530_shell::FUN_00a07530(int aiFlag)
 {
     if ((unsigned int)aiFlag > 0x3ff)
         return;
-    unsigned int iold = *(unsigned int*)((char*)this + 0x30);
-    *(unsigned int*)((char*)this + 0x30) |= aiFlag;
-    if (*(unsigned int*)((char*)this + 0x30) != iold)
+    unsigned int iold = ((Tile*)this)->m_uiFlags;
+    ((Tile*)this)->m_uiFlags |= aiFlag;
+    if (((Tile*)this)->m_uiFlags != iold)
         ::FUN_00a07690((::FlaggedTile *)(::Tile *)(this));
 }
 
@@ -661,11 +693,11 @@ void FUN_00a078e0()
 {
     void* xelem = (*reinterpret_cast<::XL *>(&::DAT_011f3324)).head;
     while (xelem) {
-        Tile* ptile = *(Tile**)((char*)xelem + 8);
+        Tile* ptile = (Tile*)((DListNodeView*)xelem)->m_pItem;
         char pad[0x20];
         if (((TV*)ptile)->IsVisible()) {
-            0 ? (*(unsigned int*)((char*)ptile + 0x30) |= 0x800) : (*(unsigned int*)((char*)ptile + 0x30) &= ~0x800);
-            0 ? (*(unsigned int*)((char*)ptile + 0x30) |= 0x1000) : (*(unsigned int*)((char*)ptile + 0x30) &= ~0x1000);
+            0 ? (((Tile*)ptile)->m_uiFlags |= 0x800) : (((Tile*)ptile)->m_uiFlags &= ~0x800);
+            0 ? (((Tile*)ptile)->m_uiFlags |= 0x1000) : (((Tile*)ptile)->m_uiFlags &= ~0x1000);
             ::FUN_00a07690((::FlaggedTile *)(ptile));
             (*reinterpret_cast<::XL *>(&::DAT_011f3324)).RemovePos(xelem);
         } else {
@@ -691,7 +723,7 @@ void FUN_00a079d0_shell::UpdateTileChildren()
     ListNode_00a079d0* kPos;
     Tile* pitem;
     {
-        ListNode_00a079d0* head = *(ListNode_00a079d0**)((char*)this + 4);
+        ListNode_00a079d0* head = *(ListNode_00a079d0**)(&((Tile*)this)->m_kChildren);
         kPos = head;
     }
     while (kPos) {
@@ -738,21 +770,21 @@ struct TileStandIn_009ff600 {  };
 // @fnv 0x009ff600
 void FUN_009ff600_shell::InitTile(Tile* apParent, char* apName, Tile* apReplacedTile)
 {
-    *(Tile**)((char*)this + 0x28) = 0;
-    ((NP_0081c630*)&this->tileFields[44])->operator=(0);
+    ((Tile*)this)->m_pParent = 0;
+    ((NP_0081c630*)&this->m_spNode)->operator=(0);
     {
         int aiPad1[10];
-        StrMem* pName = (StrMem*)&this->tileFields[32];
+        StrMem* pName = (StrMem*)&this->m_kName;
         reinterpret_cast<::TextString *>((pName))->FUN_004037f0("", 0);
     }
     *((char*)&this->m_bSpeechChallengeFailure) = 0;
-    *(unsigned int*)((char*)this + 0x30) = 0;
+    ((Tile*)this)->m_uiFlags = 0;
     if (apParent)
         reinterpret_cast<::FUN_00a087d0_shell *>((((TileStandIn_009ff600*)this)))->FUN_00a087d0(apParent, apReplacedTile);
     if (apName)
     {
         int aiPad1[8];
-        StrMem* pName = (StrMem*)&this->tileFields[32];
+        StrMem* pName = (StrMem*)&this->m_kName;
         reinterpret_cast<::TextString *>((pName))->FUN_004037f0(apName, 0);
     }
 }
@@ -774,12 +806,12 @@ void* FUN_00a00e90_shell::FindTraitValue(int aiTrait)
     pFoundValue = 0;
     uiIndex = 0;
     EnterCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&::DAT_011f3330));
-    while ((uiSizeA = *(unsigned int*)((char*)this + 0x18), uiIndex < uiSizeA)
-           && (*(Tile::Value***)((char*)this + 0x14))[uiIndex]->m_iValueId < aiTrait)
+    while ((uiSizeA = ((Tile*)this)->m_kValues.m_uiSize, uiIndex < uiSizeA)
+           && ((Tile::Value**)((Tile*)this)->m_kValues.m_ppData)[uiIndex]->m_iValueId < aiTrait)
         uiIndex++;
-    if ((uiSizeB = *(unsigned int*)((char*)this + 0x18), uiIndex < uiSizeB)
-        && (*(Tile::Value***)((char*)this + 0x14))[uiIndex]->m_iValueId == aiTrait)
-        pFoundValue = (*(Tile::Value***)((char*)this + 0x14))[uiIndex];
+    if ((uiSizeB = ((Tile*)this)->m_kValues.m_uiSize, uiIndex < uiSizeB)
+        && ((Tile::Value**)((Tile*)this)->m_kValues.m_ppData)[uiIndex]->m_iValueId == aiTrait)
+        pFoundValue = ((Tile::Value**)((Tile*)this)->m_kValues.m_ppData)[uiIndex];
     LeaveCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&::DAT_011f3330));
     return pFoundValue;
  }
@@ -824,10 +856,10 @@ void* FUN_00a01000_shell::GetOrCreateTraitValue(int aiTrait)
     DAT_011f338c = aiTrait;
     {
         P09Value* pSearchKey = (P09Value*)&DAT_011f338c;
-        uifoundIndex = ((P09Traits*)&this->tileFields[16])->BinarySearch(pSearchKey, ((int (&)(const void *, const void *))::FUN_00a01160));
+        uifoundIndex = ((P09Traits*)&this->m_kValues)->BinarySearch(pSearchKey, ((int (&)(const void *, const void *))::FUN_00a01160));
     }
     if (uifoundIndex != (unsigned int)-1) {
-        preturnVal = (*(P09Value***)((char*)this + 0x14))[uifoundIndex];
+        preturnVal = ((P09Value**)((Tile*)this)->m_kValues.m_ppData)[uifoundIndex];
     } else {
         P09Value* pNew = (P09Value*)reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00a01000::MemoryManager *>(&::g_memoryManager))))->FUN_00aa3e40(0x14);
         P09Value* pInitValue = pNew ? (pNew->m_uiSoundID = 0x80000000, pNew->pParent = 0, pNew->fValue = 0.0f,
@@ -835,7 +867,7 @@ void* FUN_00a01000_shell::GetOrCreateTraitValue(int aiTrait)
         preturnVal = pInitValue;
         preturnVal->m_uiSoundID = aiTrait;
         preturnVal->pParent = this;
-        ((P09Traits*)&this->tileFields[16])->InsertInSortedOrder(preturnVal, ((int (&)(const void *, const void *))::FUN_00a01160));
+        ((P09Traits*)&this->m_kValues)->InsertInSortedOrder(preturnVal, ((int (&)(const void *, const void *))::FUN_00a01160));
     }
     LeaveCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&::DAT_011f3330));
     return preturnVal;
@@ -866,13 +898,13 @@ Tile* FUN_00a031b0_shell::CreateMenuTiles(void* apTemplate)
     pparent = this;
     pfirst_tile = 0;
     {
-        char* pHead = *(char**)((char*)apTemplate + 8);
+        char* pHead = (char*)((TileTemplateView*)apTemplate)->m_pItemHead;
         xelem = pHead;
     }
     pitem = 0;
     while (xelem) {
         {
-            P09Item** ppData = (P09Item**)(xelem + 8);
+            P09Item** ppData = (P09Item**)&((DListNodeView*)xelem)->m_pItem;
             xelem = *(char**)xelem;
             pitem = *ppData;
         }
@@ -903,7 +935,7 @@ Tile* FUN_00a031b0_shell::CreateMenuTiles(void* apTemplate)
             pitem->pTile = ptile;
             pparent = ptile;
         } else if (pitem->eType == 7) {
-            pparent = *(Tile**)((char*)pparent + 0x28);
+            pparent = ((Tile*)pparent)->m_pParent;
         }
     }
     return pfirst_tile;
@@ -935,9 +967,9 @@ Tile* FUN_00a03d40_shell::FUN_00a03d40()
         Tile* a;
         Tile* b;
         Tile* c;
-        while (ptile && (a = *(Tile**)((char*)ptile + 0x28)) != 0
-               && (c = *(Tile**)((char*)(b = *(Tile**)((char*)ptile + 0x28)) + 0x28)) != 0)
-            ptile = *(Tile**)((char*)ptile + 0x28);
+        while (ptile && (a = ((Tile*)ptile)->m_pParent) != 0
+               && (c = ((Tile*)(b = ((Tile*)ptile)->m_pParent))->m_pParent) != 0)
+            ptile = ((Tile*)ptile)->m_pParent;
     }
     r = ptile;
     fnv_00a04500::FUN_00a04500();
@@ -965,34 +997,34 @@ void FUN_00a077c0(Tile* apTile)
     unsigned int uiFlags1;
     {
     unsigned int uiFlags2;
-    if (apTile && !(bool)(int)((*(unsigned int*)((char*)apTile + 0x30) & 0x800) != 0)
+    if (apTile && !(bool)(int)((((Tile*)apTile)->m_uiFlags & 0x800) != 0)
         && ((bool)(int)(DAT_011f332c.iVal == 0) || apTile != DAT_011f3328[2]))
     {
         ::DAT_011f32d8++;
         pNode = ((void *)(reinterpret_cast<::FUN_0043a010_shell *>(&(DAT_011f332c))->FUN_0043a010()));
-        ((void**)pNode)[2] = apTile;
+        ((DListNodeView*)pNode)->m_pItem = apTile;
         reinterpret_cast<::FUN_00559a70_Class *>(&((*reinterpret_cast<::fnv_00a077c0::FUN_004ed8c0_shell_00a077c0 *>(&::DAT_011f3324))))->FUN_00559a70(pNode);
         pTile1 = apTile;
         if (1)
         {
-            *(unsigned int*)((char*)pTile1 + 0x30) |= 0x800;
-            uiFlags1 = *(unsigned int*)((char*)pTile1 + 0x30);
+            ((Tile*)pTile1)->m_uiFlags |= 0x800;
+            uiFlags1 = ((Tile*)pTile1)->m_uiFlags;
         }
         else
         {
-            *(unsigned int*)((char*)pTile1 + 0x30) &= ~0x800;
-            uiFlags1 = *(unsigned int*)((char*)pTile1 + 0x30);
+            ((Tile*)pTile1)->m_uiFlags &= ~0x800;
+            uiFlags1 = ((Tile*)pTile1)->m_uiFlags;
         }
         pTile2 = apTile;
         if (0)
         {
-            *(unsigned int*)((char*)pTile2 + 0x30) |= 0x1000;
-            uiFlags2 = *(unsigned int*)((char*)pTile2 + 0x30);
+            ((Tile*)pTile2)->m_uiFlags |= 0x1000;
+            uiFlags2 = ((Tile*)pTile2)->m_uiFlags;
         }
         else
         {
-            *(unsigned int*)((char*)pTile2 + 0x30) &= ~0x1000;
-            uiFlags2 = *(unsigned int*)((char*)pTile2 + 0x30);
+            ((Tile*)pTile2)->m_uiFlags &= ~0x1000;
+            uiFlags2 = ((Tile*)pTile2)->m_uiFlags;
         }
     }
     }
@@ -1097,15 +1129,15 @@ Tile* __cdecl FindTileByName(Tile* apTarget, const char* apName)
     if (!apTarget)
         return 0;
     {
-        const char* pTileName = *(const char**)((char*)apTarget + 0x20);
+        const char* pTileName = apTarget->m_kName.m_pString;
         if (pTileName) {
-            const char* pTileName2 = *(const char**)((char*)apTarget + 0x20);
+            const char* pTileName2 = apTarget->m_kName.m_pString;
             if (!fnv::crt::stricmp(pTileName2, apName))
                 return apTarget;
         }
     }
     {
-        P03Node* pHead = *(P03Node**)((char*)apTarget + 4);
+        P03Node* pHead = (P03Node*)apTarget->m_kChildren.m_pHead;
         pitem = pHead;
     }
     while (pitem) {
@@ -1126,7 +1158,7 @@ struct P03Value { void AppendFloatAction(int aiActionType, float afValue); };
 // @fnv 0x00a09080
 void P03Value::AppendFloatAction(int aiActionType, float afValue)
 {
-    Tile__Action* pNew = *(Tile__Action**)((char*)this + 0x10);
+    Tile__Action* pNew = (Tile__Action*)((Tile::Value*)this)->pAction;
     Tile__FloatAction* pMem;
     void* ptail = reinterpret_cast<::MemoryManagerStandIn *>((((P03MM*)&g_memoryManager)))->FUN_00aa3e40(0x10);
     Tile__FloatAction* pnewAction = ptail ? (((Tile__Action*)ptail)->m_ppVirtualMethodTable = (void**)&DAT_01094c38,
@@ -1142,7 +1174,7 @@ void P03Value::AppendFloatAction(int aiActionType, float afValue)
             pNew = pNew->m_pActionSuccessor;
         pNew->m_pActionSuccessor = pMem;
     } else {
-        *(Tile__Action**)((char*)this + 0x10) = pMem;
+        ((Tile::Value*)this)->pAction = pMem;
     }
 }
 
@@ -1186,7 +1218,7 @@ void Value_00a09200::RemoveFromReactions()
     int aiPad[8];
     {
     int iActionIndex;
-    ppcurrAction = (Action_00a09200**)((char*)this + 0x10);
+    ppcurrAction = (Action_00a09200**)&((Tile::Value*)this)->pAction;
     while ((pcurrAction = *ppcurrAction) != 0)
     {
         if (pcurrAction->GetRef())
@@ -1276,11 +1308,12 @@ struct TemplateList_00a0af10 { TileTemplate_00a0af10* pItem; TemplateList_00a0af
 
 struct BuildStorage_00a0af10
 {
-    char pad[4];
+    void* m_pVtbl;
+    TemplateList_00a0af10 m_kTemplates;
     TileTemplate_00a0af10* FindTemplateByName(const char* pName);
 };
 
-// Looks up a template in the list at this+4 by name, comparing interned strings, and returns the matching template or null.
+// Looks up a template in m_kTemplates by name, comparing interned strings, and returns the matching template or null.
 // @fnv 0x00a0af10
 TileTemplate_00a0af10* BuildStorage_00a0af10::FindTemplateByName(const char* pName)
 {
@@ -1301,7 +1334,7 @@ TileTemplate_00a0af10* BuildStorage_00a0af10::FindTemplateByName(const char* pNa
     long* pRef1;
     {
     long* pRef2;
-    pNode = (TemplateList_00a0af10*)((char*)this + 4);
+    pNode = &m_kTemplates;
     if (!pName)
         nm = ::DAT_0109b220;
     else
@@ -1324,7 +1357,7 @@ TileTemplate_00a0af10* BuildStorage_00a0af10::FindTemplateByName(const char* pNa
             }
             else
             {
-                pRef1 = (long*)(nm - 8);
+                pRef1 = &((StringHeader*)nm - 1)->refs;
                 InterlockedDecrement(pRef1);
             }
             return pResult;
@@ -1337,7 +1370,7 @@ TileTemplate_00a0af10* BuildStorage_00a0af10::FindTemplateByName(const char* pNa
     }
     else
     {
-        pRef2 = (long*)(nm - 8);
+        pRef2 = &((StringHeader*)nm - 1)->refs;
         InterlockedDecrement(pRef2);
     }
     return pZero;
@@ -1372,14 +1405,14 @@ void FUN_00a0b280_shell::ApplyAlphaAndColorToChildren(NiNode* apNode, float afAl
 {
     if (!apNode)
         return;
-    for (unsigned int ui = 0; ui < *(unsigned short*)((char*)apNode + 0xa6); ui++) {
+    for (unsigned int ui = 0; ui < ((NiNodeChildrenView*)apNode)->m_kChildren.m_usSize; ui++) {
         OH3Child* pchild;
         PropHelper* pgeom;
         {
             void* pprop;
             char* ptsp;
             {
-                OH3Child** pa = &(*(OH3Child***)((char*)apNode + 0xa0))[ui];
+                OH3Child** pa = &((OH3Child**)((NiNodeChildrenView*)apNode)->m_kChildren.m_ppBase)[ui];
                 {
                     OH3Child* pv = *pa;
                     pchild = pv;
@@ -1389,8 +1422,8 @@ void FUN_00a0b280_shell::ApplyAlphaAndColorToChildren(NiNode* apNode, float afAl
             if (pgeom) {
                 pprop = ((void *)(reinterpret_cast<::FUN_00a59d30_C *>((pgeom))->FUN_00a59d30(3)));
                 ptsp = (char*)pprop;
-                *(float*)(ptsp + 0x78) = afAlpha;
-                *(OH3Color*)(ptsp + 0x68) = *(OH3Color*)apColor;
+                ((TileShaderPropertyView*)ptsp)->m_fAlpha = afAlpha;
+                *(OH3Color*)((TileShaderPropertyView*)ptsp)->m_afColor = *(OH3Color*)apColor;
             }
         }
     }
@@ -1411,7 +1444,7 @@ float TileListBoxCalls::GetFloat(int trait)
 char* FUN_00a011f0_shell::FUN_00a011f0(int trait) {
     Tile::Value* pvalue = ((::Tile::Value *)(reinterpret_cast<::FUN_00a00f30_shell *>(this)->FUN_00a00f30(trait)));
     if (pvalue) {
-        char* result = *reinterpret_cast<char**>(reinterpret_cast<char*>(pvalue) + 0xc);
+        char* result = pvalue->pcValue;
         return result;
     }
     return 0;
@@ -1473,10 +1506,10 @@ void* FUN_00a00f30_shell::FUN_00a00f30(int aiTrait)
     DAT_011f3374 = aiTrait;
     {
         Tile::Value* pkey = (Tile::Value*)&DAT_011f3374;
-        uifoundIndex = ((BSSimpleArray<Tile::Value*,8>*)((char*)this + 0x10))->BinarySearch(pkey, ((int (&)(const void *, const void *))::FUN_00a01160));
+        uifoundIndex = ((BSSimpleArray<Tile::Value*,8>*)&((Tile*)this)->m_kValues)->BinarySearch(pkey, ((int (&)(const void *, const void *))::FUN_00a01160));
     }
     if (uifoundIndex != 0xffffffff)
-        preturnVal = (*(Tile::Value***)((char*)this + 0x14))[uifoundIndex];
+        preturnVal = ((Tile::Value**)((Tile*)this)->m_kValues.m_ppData)[uifoundIndex];
     DAT_00fdf100(&(*reinterpret_cast<int *>(&::DAT_011f3330)));
     return preturnVal;
 }
@@ -1581,6 +1614,8 @@ struct FUN_007000d0_shell {
     void FUN_007000d0();
 };
 struct FUN_007000f0_shell {
+    char pad00[0x28];
+    unsigned char m_ucFlags;
     bool HasFlag(int mask);
 };
 // @fnv 0x007000b0
@@ -1596,10 +1631,12 @@ void FUN_007000d0_shell::FUN_007000d0()
 // @fnv 0x007000f0
 bool FUN_007000f0_shell::HasFlag(int mask)
 {
-    return (*(unsigned char*)((char*)this + 0x28) & mask) != 0;
+    return (m_ucFlags & mask) != 0;
 }
 
 struct VATSMenu {
+    char pad00[0xc];
+    Tile* m_pTile;
     int FUN_007267c0();
 };
 
@@ -1607,7 +1644,7 @@ struct VATSMenu {
 int VATSMenu::FUN_007267c0()
 {
     static int iNumFilteredTrait = ::FUN_00a00940("_num_filtered", -1);
-    return ::GetRaceCount((char *)this) - (unsigned int)reinterpret_cast<::TileListBoxCalls *>(((*(Tile**)((char*)this + 0xc))))->GetFloat(iNumFilteredTrait);
+    return ::GetRaceCount((char *)this) - (unsigned int)reinterpret_cast<::TileListBoxCalls *>(m_pTile)->GetFloat(iNumFilteredTrait);
 }
 
 // @fnv 0x00a01160
@@ -1656,12 +1693,14 @@ const char* Tile3D::FUN_00a0bdd0()
 }
 
 struct FUN_00a0c060_shell {
+    char pad00[0xc];
+    int m_i0c;
     int GetField0C();
 };
 // @fnv 0x00a0c060
 int FUN_00a0c060_shell::GetField0C()
 {
-    return *(int*)((char*)this + 0xc);
+    return m_i0c;
 }
 
 struct FUN_00a0c080_shell {
@@ -1711,7 +1750,7 @@ bool FUN_00a04100_shell::FUN_00a04100()
     Tile* t = pTile;
     while (t) {
         if (reinterpret_cast<::TileListBoxCalls *>((t))->GetFloat(0xfaa) == 110.0)
-            t = *(Tile**)((char*)t + 0x28);
+            t = ((Tile*)t)->m_pParent;
     }
     return false;
 }
@@ -2708,7 +2747,9 @@ public:
 
 class NiNode : public NiAVObject {
 public:
-    ChildArray<ChildPtr<NiAVObject> >& GetChildren() { return *(ChildArray<ChildPtr<NiAVObject> >*)((char*)this + 0xa0); }
+    char pad04[0x9c];
+    ChildArray<ChildPtr<NiAVObject> > m_kChildren;
+    ChildArray<ChildPtr<NiAVObject> >& GetChildren() { return m_kChildren; }
 };
 
 struct NiAVObject;
@@ -2856,12 +2897,12 @@ float S00a014b0_Tile::FUN_00a014b0()
 {
     Tile* pChild;
     float fTotal = reinterpret_cast<::TileListBoxCalls *>(this)->GetFloat(0xfad);
-    pChild = *(Tile**)((char*)this + 0x28);
+    pChild = ((Tile*)this)->m_pParent;
     while (pChild) {
         Tile* pNext2;
-        if (reinterpret_cast<::TileListBoxCalls *>((pChild))->GetFloat(0xfa8) != ::_DAT_01012060 || (pNext2 = *(Tile**)((char*)pChild + 0x28), pNext2 == ::Interface::GetPrimaryInterfaceTile()))
+        if (reinterpret_cast<::TileListBoxCalls *>((pChild))->GetFloat(0xfa8) != ::_DAT_01012060 || (pNext2 = ((Tile*)pChild)->m_pParent, pNext2 == ::Interface::GetPrimaryInterfaceTile()))
             fTotal += reinterpret_cast<::TileListBoxCalls *>((pChild))->GetFloat(0xfad);
-        pChild = *(Tile**)((char*)pChild + 0x28);
+        pChild = ((Tile*)pChild)->m_pParent;
     }
     return fTotal;
 }
@@ -2944,28 +2985,28 @@ void FUN_00a04510()
     xelem = *(void**)&(*reinterpret_cast<::XL *>(&::DAT_011f3324));
     while (xelem && iCount)
     {
-        ptile = *(Tile**)((char*)xelem + 8);
+        ptile = (Tile*)((DListNodeView*)xelem)->m_pItem;
         if (ptile)
         {
             if (0)
             {
-                *(unsigned int*)((char*)ptile + 0x30) |= 0x800;
-                uiFlags1 = *(unsigned int*)((char*)ptile + 0x30);
+                ((Tile*)ptile)->m_uiFlags |= 0x800;
+                uiFlags1 = ((Tile*)ptile)->m_uiFlags;
             }
             else
             {
-                *(unsigned int*)((char*)ptile + 0x30) &= ~0x800;
-                uiFlags1 = *(unsigned int*)((char*)ptile + 0x30);
+                ((Tile*)ptile)->m_uiFlags &= ~0x800;
+                uiFlags1 = ((Tile*)ptile)->m_uiFlags;
             }
             if (1)
             {
-                *(unsigned int*)((char*)ptile + 0x30) |= 0x1000;
-                uiFlags2 = *(unsigned int*)((char*)ptile + 0x30);
+                ((Tile*)ptile)->m_uiFlags |= 0x1000;
+                uiFlags2 = ((Tile*)ptile)->m_uiFlags;
             }
             else
             {
-                *(unsigned int*)((char*)ptile + 0x30) &= ~0x1000;
-                uiFlags2 = *(unsigned int*)((char*)ptile + 0x30);
+                ((Tile*)ptile)->m_uiFlags &= ~0x1000;
+                uiFlags2 = ((Tile*)ptile)->m_uiFlags;
             }
             ::FUN_00a07690((::FlaggedTile *)(ptile));
         }
@@ -2990,13 +3031,15 @@ void FUN_00a04510()
 
 struct FUN_00bb79d0_class
 {
+    char pad00[0xac];
+    bool m_bAc;
     void FUN_00bb79d0(bool value);
 };
 
 // @fnv 0x00bb79d0
 void FUN_00bb79d0_class::FUN_00bb79d0(bool value)
 {
-    *(char*)((char*)this + 0xac) = value;
+    m_bAc = value;
 }
 
 
@@ -3143,12 +3186,12 @@ void FUN_00a08720_t::FUN_00a08720(NiAVObject* apObject, float afPct)
     if (!apObject)
         return;
     pnode2 = apObject->IsSceneNode();
-    for (i = 0; pnode2 && i < ((ChildArray<ChildPtr<NiAVObject> >*)((char*)pnode2 + 0xa0))->m_usSize; i++)
-        FUN_00a08720(((ChildArray<ChildPtr<NiAVObject> >*)((char*)pnode2 + 0xa0))->GetAt(i), afPct);
+    for (i = 0; pnode2 && i < (&pnode2->GetChildren())->m_usSize; i++)
+        FUN_00a08720((&pnode2->GetChildren())->GetAt(i), afPct);
     if (apObject->IsGeometry()) {
         ptsp = ((::TileShaderProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((((PropHelper*)apObject)))->FUN_00a59d30(3)));
         if (ptsp)
-            *(float*)((char*)ptsp + 0x78) = afPct;
+            ((TileShaderPropertyView*)ptsp)->m_fAlpha = afPct;
     }
 }
 
@@ -3259,7 +3302,7 @@ void FUN_00a0b110_shell::FUN_00a0b110(int aiSoundType) {
     const char* strSoundName = reinterpret_cast<FUN_00a011f0_shell*>(this)->FUN_00a011f0(aiSoundType);
     Menu* pmenu = reinterpret_cast<::FUN_00a03c90_shell *>(this)->FUN_00a03c90();
 
-    if (pmenu && *(int*)((char*)pmenu + 0x24) == 1 && strSoundName && *strSoundName) {
+    if (pmenu && pmenu->m_iMenuState == 1 && strSoundName && *strSoundName) {
         reinterpret_cast<::SoundPlaybackHandle *>((void *)&(const ::BSSoundHandleEx &)(soundHand))->operator=((const ::SoundPlaybackHandle &)((const ::BSSoundHandleEx &)(GetAudio()->GetSoundHandleByEditorID(strSoundName, 0x121))));
         reinterpret_cast<::FUN_00ad8830_shell *>(&(soundHand))->FUN_00ad8830(false);
     }
@@ -3338,7 +3381,7 @@ struct BSFixedString_Local {
     ~BSFixedString_Local() {
         if (m_str == ::DAT_0109b220) {
         } else {
-            long* p = (long*)(m_str - 8);
+            long* p = &((StringHeader*)m_str - 1)->refs;
             InterlockedDecrement(p);
         }
     }
@@ -3482,11 +3525,11 @@ struct TileNameString {
 Tile* FUN_00a03da0_shell::FUN_00a03da0(char* apName)
 {
     AutoTileLock_Local __my_auto_tile_lock;
-    TileChildNode* xelem = ((TileChildList*)((char*)this + 4))->GetHeadPos();
+    TileChildNode* xelem = ((TileChildList*)(&((Tile*)this)->m_kChildren))->GetHeadPos();
     while (xelem && apName) {
-        Tile* ptile = ((TileChildList*)((char*)this + 4))->GetNext(xelem);
-        if (((TileNameString*)((char*)ptile + 0x20))->c_str() &&
-            !::std::strcmp(((TileNameString*)((char*)ptile + 0x20))->c_str(), apName)) {
+        Tile* ptile = ((TileChildList*)(&((Tile*)this)->m_kChildren))->GetNext(xelem);
+        if (((TileNameString*)&ptile->m_kName)->c_str() &&
+            !::std::strcmp(((TileNameString*)&ptile->m_kName)->c_str(), apName)) {
             return ptile;
         } else {
             Tile* pchild = ((FUN_00a03da0_shell*)ptile)->FUN_00a03da0(apName);
@@ -3529,7 +3572,7 @@ Tile* FUN_00a03f70_shell::FUN_00a03f70(int aiTrait, int* aiType)
     Tile::Value* pvalue = ((::Tile::Value *)(reinterpret_cast<::FUN_00a00f30_shell *>(this)->FUN_00a00f30(aiTrait)));
     Tile* preturnTile = 0;
     if (pvalue) {
-        TileAction_00a03f70* pcurrAction = *(TileAction_00a03f70**)((char*)pvalue + 0x10);
+        TileAction_00a03f70* pcurrAction = (TileAction_00a03f70*)pvalue->pAction;
         bool bfound = false;
         while (pcurrAction && !bfound) {
             if (pcurrAction->m_iValueId == 0x7e7 && pcurrAction->GetValue()) {
@@ -3637,33 +3680,33 @@ typedef NiTPointerListBase<NiTPointerAllocator<unsigned int>, Script*> ScriptLis
 // @fnv 0x00a087d0
 void FUN_00a087d0_shell::FUN_00a087d0(Tile* apParent, Tile* apReplacedTile)
 {
-    if (*(Tile**)((char*)this + 0x28) && !((TileFlags_00a087d0*)*(Tile**)((char*)this + 0x28))->GetFlag(0x2000)) {
-        reinterpret_cast<::FUN_00a012d0_t *>(((*(Tile**)((char*)this + 0x28))))->FUN_00a012d0(0xfb6, (float)(reinterpret_cast<::TileListBoxCalls *>(((*(Tile**)((char*)this + 0x28))))->GetFloat(0xfb6) - 1.0), true);
-        ((ScriptList_00a087d0*)((char*)*(Tile**)((char*)this + 0x28) + 4))->Remove(const_cast<Script*&>(static_cast<Script* const&>((Script*)(Tile*)this)));
+    if (((Tile*)this)->m_pParent && !((TileFlags_00a087d0*)((Tile*)this)->m_pParent)->GetFlag(0x2000)) {
+        reinterpret_cast<::FUN_00a012d0_t *>(((((Tile*)this)->m_pParent)))->FUN_00a012d0(0xfb6, (float)(reinterpret_cast<::TileListBoxCalls *>(((((Tile*)this)->m_pParent)))->GetFloat(0xfb6) - 1.0), true);
+        ((ScriptList_00a087d0*)(&((Tile*)this)->m_pParent->m_kChildren))->Remove(const_cast<Script*&>(static_cast<Script* const&>((Script*)(Tile*)this)));
     }
-    *(Tile**)((char*)this + 0x28) = apParent;
-    if (*(Tile**)((char*)this + 0x28)) {
-        reinterpret_cast<::FUN_00a012d0_t *>(((*(Tile**)((char*)this + 0x28))))->FUN_00a012d0(0xfb6, (float)(reinterpret_cast<::TileListBoxCalls *>(((*(Tile**)((char*)this + 0x28))))->GetFloat(0xfb6) + 1.0), true);
+    ((Tile*)this)->m_pParent = apParent;
+    if (((Tile*)this)->m_pParent) {
+        reinterpret_cast<::FUN_00a012d0_t *>(((((Tile*)this)->m_pParent)))->FUN_00a012d0(0xfb6, (float)(reinterpret_cast<::TileListBoxCalls *>(((((Tile*)this)->m_pParent)))->GetFloat(0xfb6) + 1.0), true);
         if (apReplacedTile) {
             void* xelem;
             void* xlast_elem;
             bool got_it = false;
             xlast_elem = 0;
-            xelem = ((TileChildList_00a087d0*)((char*)*(Tile**)((char*)this + 0x28) + 4))->GetHeadPos();
+            xelem = ((TileChildList_00a087d0*)(&((Tile*)this)->m_pParent->m_kChildren))->GetHeadPos();
             while (xelem) {
                 xlast_elem = xelem;
-                Tile* pitem = ((TileChildList_00a087d0*)((char*)*(Tile**)((char*)this + 0x28) + 4))->GetNext(xelem);
+                Tile* pitem = ((TileChildList_00a087d0*)(&((Tile*)this)->m_pParent->m_kChildren))->GetNext(xelem);
                 if (pitem == apReplacedTile) {
-                    ((ScriptList_00a087d0*)((char*)*(Tile**)((char*)this + 0x28) + 4))->Remove(const_cast<Script*&>(static_cast<Script* const&>((Script*)(Tile*)this)));
-                    reinterpret_cast<::S00a0ca70_List *>((((TileChildList_00a087d0*)((char*)*(Tile**)((char*)this + 0x28) + 4))))->FUN_00a0ca70((::S00a0ca70_Node **)(xlast_elem), (const unsigned int *)&(const ::Tile *const &)(this));
+                    ((ScriptList_00a087d0*)(&((Tile*)this)->m_pParent->m_kChildren))->Remove(const_cast<Script*&>(static_cast<Script* const&>((Script*)(Tile*)this)));
+                    reinterpret_cast<::S00a0ca70_List *>((((TileChildList_00a087d0*)(&((Tile*)this)->m_pParent->m_kChildren))))->FUN_00a0ca70((::S00a0ca70_Node **)(xlast_elem), (const unsigned int *)&(const ::Tile *const &)(this));
                     got_it = true;
                     break;
                 }
             }
             if (!got_it)
-                reinterpret_cast<::S_00a0c9f0 *>((((TileChildList_00a087d0*)((char*)*(Tile**)((char*)this + 0x28) + 4))))->FUN_00a0c9f0((int *)&(const ::Tile *const &)(this));
+                reinterpret_cast<::S_00a0c9f0 *>((((TileChildList_00a087d0*)(&((Tile*)this)->m_pParent->m_kChildren))))->FUN_00a0c9f0((int *)&(const ::Tile *const &)(this));
         } else {
-            reinterpret_cast<::S_00a0c9f0 *>((((TileChildList_00a087d0*)((char*)*(Tile**)((char*)this + 0x28) + 4))))->FUN_00a0c9f0((int *)&(const ::Tile *const &)(this));
+            reinterpret_cast<::S_00a0c9f0 *>((((TileChildList_00a087d0*)(&((Tile*)this)->m_pParent->m_kChildren))))->FUN_00a0c9f0((int *)&(const ::Tile *const &)(this));
         }
     }
 }
@@ -4120,7 +4163,7 @@ public:
             const char* pOld = m_name;
             m_name = NiGlobalStringTable::AddString(apName);
             if (pOld != ::DAT_0109b220) {
-                InterlockedDecrement((long*)(pOld - 8));
+                InterlockedDecrement(&((StringHeader*)pOld - 1)->refs);
             }
         }
         m_pOwnerObject = apOwner;
@@ -4310,7 +4353,7 @@ struct FixedString_ac80 {
             m_str = NiGlobalStringTable::AddString(apString);
             if (iOld == ::DAT_0109b220) {
             } else {
-                long* p = (long*)(iOld - 8);
+                long* p = &((StringHeader*)iOld - 1)->refs;
                 InterlockedDecrement(p);
             }
         }
@@ -6449,7 +6492,7 @@ inline A0C0C0_String& A0C0C0_String::operator=(const char* text)
         m_handle = ::NiGlobalStringTable::AddString(text);
         if (old == (*reinterpret_cast<::fnv_00a0c0c0::A0C0C0_String *>(&::DAT_0109b220)).m_handle)
             return *this;
-        long* header = (long*)(old - 8);
+        long* header = &((StringHeader*)old - 1)->refs;
         InterlockedDecrement(header);
     }
     return *this;
@@ -6629,7 +6672,6 @@ struct AutoMemContext {
 
 
 struct FUN_00a1dd80_Class : public Menu {
-    bool bUnk1d;
 };
 
 struct TileLoader : public FUN_00a031b0_shell {

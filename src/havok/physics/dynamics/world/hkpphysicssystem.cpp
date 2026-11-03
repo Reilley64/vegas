@@ -1031,11 +1031,6 @@ namespace fnv_00d06720 {
 
 
 
-struct hkArrayUtilD
-{
-    static void __cdecl FUN_00c908c0(hkMemoryAllocator& kAlloc, void* apvArray, int iNumElements,
-                                     int iSizeElement) throw();
-};
 
 template <typename T> class hkArrayBaseD
 {
@@ -1076,7 +1071,7 @@ template <typename T> class hkArrayBaseD
         {
             int iCapCur = 2 * iCap;
             int iNewSize = (n < iCapCur) ? iCapCur : n;
-            hkArrayUtilD::FUN_00c908c0(kAlloc, this, iNewSize, sizeof(T));
+            ::FUN_00c908c0((::SpawnedObject *)(&kAlloc), (::SpawnedArray *)(void *)(this), iNewSize, sizeof(T));
         }
     }
     void _setSize(hkMemoryAllocator& kAlloc, int n) throw()

@@ -3940,7 +3940,6 @@ bool FUN_00c6a0b0(NiAVObject* pkObject, bool bValue, bool bRecurse, bool bForce)
 
 extern __declspec(thread) TlsBlock_t g_tlsBlock;
 
-#include "generated/data/fallout/ai/combat/missileprojectile_o2_variant.inc"
 
 namespace fnv_009b90b0 {
 // @fnv 0x009b90b0
@@ -4231,3 +4230,4 @@ void Actor::FUN_009b90b0()
 }
 }  // namespace fnv_009b90b0
 #include "generated/data/fallout/ai/combat/missileprojectile.inc"
+#include "generated/data/fallout/ai/combat/missileprojectile_o2_variant.inc"

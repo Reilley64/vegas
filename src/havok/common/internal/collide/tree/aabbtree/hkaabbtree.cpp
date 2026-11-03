@@ -4,8 +4,6 @@
 #include "fnv_simd.h"
 #include <cstddef>
 #include <new>
-#include "fnv/decl/HandlePool_d9c4.h"
-#include "fnv/decl/S_00d9af30.h"
 #include "fnv/decl/fnv_00d9c280__FUN_00d9c280_cls.h"
 #include "fnv/decl/fnv_00d9c360__D9C360Tree.h"
 #include "fnv/symbols_00d9a000.h"

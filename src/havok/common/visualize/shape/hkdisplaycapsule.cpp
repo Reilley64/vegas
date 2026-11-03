@@ -513,7 +513,6 @@ inline __m128 distances3(float a, float b, float c)
 
 extern void __cdecl FUN_00d234e0(IntersectionContext*, PlaneRecord*, const __m128*);
 
-extern const double DAT_01011588 = 0.5;
 
 struct PairPlane
 {

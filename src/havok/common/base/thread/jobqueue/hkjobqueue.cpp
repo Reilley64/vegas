@@ -5,9 +5,7 @@
 #include <cstdint>
 #include <cstddef>
 #include <new>
-#include "fnv/decl/CriticalSectionOwner.h"
 #include "fnv/decl/FUN_005609f0_shell.h"
-#include "fnv/decl/QueueLockView.h"
 #include "fnv/decl/fnv_00d04b50__Owner.h"
 #include "fnv/decl/fnv_00d057f0__ItemPool.h"
 #include "fnv/symbols_00d2c000.h"

@@ -313,7 +313,7 @@ int FUN_00dd6510(const hkVector4* direction, PlaneSet* set, int first, int secon
         if (i == first || i == second)
             continue;
         PointResult p;
-        if (FUN_00dd6380(set, first, second, i, &p) != 0)
+        if (FUN_00dd6380((S00dd6380_PlaneSet*)set, first, second, i, (S00dd6380_PointResult*)&p) != 0)
             continue;
         if (!initialized)
         {

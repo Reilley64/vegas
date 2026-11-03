@@ -111,7 +111,6 @@ struct FUN_00cce530
 FUN_00cce530::~FUN_00cce530()
 {}
 
-extern "C" int DAT_010ec1dc;
 struct FNV_00e4ad10_Ref
 {
 };

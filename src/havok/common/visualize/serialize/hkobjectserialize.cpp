@@ -2,6 +2,7 @@
 // src/havok/common/visualize/serialize/hkobjectserialize.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/visualize/serialize/hkobjectserialize.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
 #include <cstdint>
 #include <new>
 #include "fnv/decl/D60590Object.h"
@@ -18,7 +19,7 @@
 #include "fnv/symbols_00c90000.h"
 #include "fnv/symbols_00d60000.h"
 #include "fnv/symbols_01268000.h"
-typedef unsigned int C68E30size_t;
+typedef std::size_t C68E30size_t;
 
 struct C68E30Allocator;
 

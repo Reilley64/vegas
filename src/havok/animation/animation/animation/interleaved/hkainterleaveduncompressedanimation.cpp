@@ -4,7 +4,6 @@
 
 #include <cstdint>
 #include "fnv/symbols_simd.h"
-#include "fnv/decl/FUN_005611c0_t.h"
 #include "fnv/symbols_00c85000.h"
 #include <windows.h>
 #include "fnv/decl/FUN_00e2f7c0_Class.h"
@@ -778,6 +777,9 @@ struct FUN_005611c0_t
 {
     float x, y, z, w;
     void FUN_005611c0();
+public:
+    // 0x00cb2830
+    void FUN_00cb2830(float *);
 };
 
 

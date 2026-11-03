@@ -2604,7 +2604,7 @@ void SpawnPlacerP::FUN_006296d0(TESObjectREFRP* pkRef, const NiPoint3P* pkPos, N
     }
     else if (!pkActor && pkRef && pkRef->PickPoint(&kPos, &kNormal, &iCell, 0))
     {
-        RegionP* pkRegion = ((::RegionP *)(reinterpret_cast<::FnCls *>(((*reinterpret_cast<::RegionListP * *>(&::g_TES))))->FUN_004519d0((*(float *)&(const ::NiPoint3P &)(kPos)), {}, {})));
+        RegionP* pkRegion = ((::RegionP *)(reinterpret_cast<::FnCls *>(((*reinterpret_cast<::RegionListP * *>(&::g_TES))))->FUN_004519d0(kPos.x, kPos.y, *(const int *)&(kPos.z))));
         if (pkRegion && ((int)(reinterpret_cast<::FUN_00450fd0_class *>((pkRegion))->GetByteAtOffset38())) == 6)
         {
             *pkOut = kPos;
@@ -3241,7 +3241,9 @@ bool xCaster::FUN_006214d0(xRef* apRef, const xP3& akPos, float afA, float afB)
     if (apRef == ((void *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>(((*reinterpret_cast<::xPlayer * *>(&::_g_thePlayer))))->FUN_009306d0())))
     {
         BODY = ((::xBody *)(::FUN_00559450((int *)&(m_iWordAt00))));
-        if (reinterpret_cast<::S004586d0_Obj *>((void *)(void *)&(const ::xVec4 &)((*(::xVec4 *)(reinterpret_cast<::Holder *>((void *)&(POSV))->FUN_00458700((::Holder *)(2), {})))))->FUN_004586d0() > reinterpret_cast<::S004586d0_Obj *>((void *)(void *)&(const ::xVec4 &)((*(::xVec4 *)(reinterpret_cast<::Holder *>((void *)&(DIRV))->FUN_00458700((::Holder *)(2), {})))))->FUN_004586d0())
+        xVec4 POSZ;
+        xVec4 DIRZ;
+        if (reinterpret_cast<::S004586d0_Obj *>((void *)(void *)&(const ::xVec4 &)((*(::xVec4 *)(reinterpret_cast<::Holder *>((void *)&(POSV))->FUN_00458700((::Holder *)(void *)(&POSZ), 2)))))->FUN_004586d0() > reinterpret_cast<::S004586d0_Obj *>((void *)(void *)&(const ::xVec4 &)((*(::xVec4 *)(reinterpret_cast<::Holder *>((void *)&(DIRV))->FUN_00458700((::Holder *)(void *)(&DIRZ), 2)))))->FUN_004586d0())
         {
             reinterpret_cast<::bhkCharacterController *>(&(POSV))->GetVectorElement(2) -= ::FUN_004a3e90(afB);
             reinterpret_cast<::bhkCharacterController *>(&(DIRV))->GetVectorElement(2) -= ::FUN_004a3e90(afB);
@@ -3275,7 +3277,8 @@ bool xCaster::FUN_006214d0(xRef* apRef, const xP3& akPos, float afA, float afB)
                 float SAVED = reinterpret_cast<::FUN_00621b00_shell *>((MOTION))->FUN_00621b00();
                 reinterpret_cast<::FUN_00621b20_Class *>((MOTION))->FUN_00621b20(afA);
                 FN(WMODEL, SMODEL, &EV, &COL);
-                RESULT = reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::xTag &)((*(::xTag *)(reinterpret_cast<::Hld621210 *>(&(COL))->FUN_00621210({})))))->FUN_005609f0();
+                bool tag;
+                RESULT = reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::xTag &)((*(::xTag *)(reinterpret_cast<::Hld621210 *>(&(COL))->FUN_00621210((::Rcv621210 *)&(tag))))))->FUN_005609f0();
                 reinterpret_cast<::FUN_00621b20_Class *>((MOTION))->FUN_00621b20(SAVED);
             }
         }
@@ -3770,6 +3773,6 @@ void S0062aea0_Vector::FUN_0062aea0()
 {
     S0062aea0_Vector kScale;
     S0062aea0_Vector kTemp;
-    reinterpret_cast<::S00561240_Vector *>((((::S0062aea0_Result *)(reinterpret_cast<::Vec *>((void *)this)->FUN_0062af00((::Vec *)(::S0062aea0_Vector *)(&kTemp))))))->FUN_00561240({});
+    reinterpret_cast<::S00561240_Vector *>((((::S0062aea0_Result *)(reinterpret_cast<::Vec *>((void *)this)->FUN_0062af00((::Vec *)(::S0062aea0_Vector *)(&kTemp))))))->FUN_00561240((::S00561240_Vector *)(void *)(&kScale));
     m_vComponents = _mm_mul_ps(kScale.m_vComponents, m_vComponents);
 }

@@ -30,5 +30,6 @@ void Vec4::FUN_0066c930()
     ScalarValue dot = Dot(*this);
     __m128 d = (*(const ::__m128 *)(new ((void *)&dot) ::Vec3()));
     ScalarValue s(_mm_rsqrt_ss(d));
-    value = _mm_mul_ps(value, (*(::__m128 *)(reinterpret_cast<::S00561240_Vector *>((void *)&(s))->FUN_00561240({}))));
+    __m128 broadcast;
+    value = _mm_mul_ps(value, (*(::__m128 *)(reinterpret_cast<::S00561240_Vector *>((void *)&(s))->FUN_00561240((::S00561240_Vector *)(void *)(&broadcast)))));
 }

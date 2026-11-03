@@ -1694,7 +1694,8 @@ void HKMenu::UpdateHighlight()
         unsigned int ItemUpdateArray = FUN_0044a670(acWordNext);
         while (ItemUpdateArray--)
         {
-            HKSoundHandle kSound = (*(::HKSoundHandle *)(reinterpret_cast<::AudioClass_ae5680 *>((((::HKAudio *)(::FUN_00ad9060()))))->ResolveAudioHandle((::Handle_ae5680 *)("UIHackingCharSingle"), 0x121, {})));
+            HKSoundHandle kSound;
+            reinterpret_cast<::AudioClass_ae5680 *>((((::HKAudio *)(::FUN_00ad9060()))))->ResolveAudioHandle((::Handle_ae5680 *)(void *)(&kSound), (int)(intptr_t)("UIHackingCharSingle"), 0x121);
             reinterpret_cast<::Owner *>(&((*reinterpret_cast<::HKSoundList *>(&::g_011d9604))))->FUN_0076b6a0((::Flt *)&(kSound));
             if (ItemUpdateArray)
                 reinterpret_cast<::SoundPlaybackHandle *>(&(kSound))->SchedulePlayback((int)(((unsigned int)(uintptr_t)(reinterpret_cast<::MagicCaster_shell *>(&(m_kGuessed))->FUN_0044edb0())) * ItemUpdateArray * 1.5), {});

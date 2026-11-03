@@ -2487,7 +2487,7 @@ void FUN_00458840_Class::FUN_00458840()
 // @fnv 0x004588d0
 bool FUN_004588d0_Class::IsSubCallZero()
 {
-    return ((int)(reinterpret_cast<::S00458900_Vector *>(&(sub))->FUN_00458900((const ::S00458900_Vector *)(void *)(::FUN_00458b20()), {}))) == 0;
+    return ((int)(reinterpret_cast<::S00458900_Vector *>(&(sub))->FUN_00458900((const ::S00458900_Vector *)(void *)(::FUN_00458b20()), 0.001f))) == 0;
 }
 
 struct FUN_0045a160_Cls
@@ -5256,7 +5256,7 @@ void World::FUN_0045b070(View* view)
             if (!((::SceneUpdate::Entity *)(::FUN_00559450((int *)&(chosen))))->Contains(point3))
                 chosen.FUN_0066b0d0(0);
             else
-                reinterpret_cast<::Traversal *>((renderer))->UpdateVisibility((::Region *)(::SceneUpdate::Entity *)(((::SceneUpdate::Entity *)(::FUN_00559450((int *)&(chosen))))), (::View *)(reinterpret_cast<::FUN_0084e3a0_Class *>(&(query))->FUN_0084e3a0()), ((unsigned int)(uintptr_t)(reinterpret_cast<::TESRegion *>(&(query))->GetDiffuseColor())), {});
+                reinterpret_cast<::Traversal *>((renderer))->UpdateVisibility((::Region *)(::SceneUpdate::Entity *)(((::SceneUpdate::Entity *)(::FUN_00559450((int *)&(chosen))))), (::View *)(reinterpret_cast<::FUN_0084e3a0_Class *>(&(query))->FUN_0084e3a0()), ((unsigned int)(uintptr_t)(reinterpret_cast<::TESRegion *>(&(query))->GetDiffuseColor())), true);
         }
         bool firstB = true;
         if (!((::SceneUpdate::Entity *)(::FUN_00559450((int *)&(chosen)))))
@@ -5270,7 +5270,7 @@ void World::FUN_0045b070(View* view)
                     Entity* entity = ((::SceneUpdate::Entity *)(::FUN_00559450((int *)(((::SceneUpdate::Handle *)(reinterpret_cast<::ListStandIn *>((list))->FUN_0057cbe0((int **)(void **)(&p))))))));
                     if (entity && entity->Contains(point3))
                     {
-                        reinterpret_cast<::Traversal *>((renderer))->UpdateVisibility((::Region *)(entity), (::View *)(reinterpret_cast<::FUN_0084e3a0_Class *>(&(query))->FUN_0084e3a0()), ((unsigned int)(uintptr_t)(reinterpret_cast<::TESRegion *>(&(query))->GetDiffuseColor())), {});
+                        reinterpret_cast<::Traversal *>((renderer))->UpdateVisibility((::Region *)(entity), (::View *)(reinterpret_cast<::FUN_0084e3a0_Class *>(&(query))->FUN_0084e3a0()), ((unsigned int)(uintptr_t)(reinterpret_cast<::TESRegion *>(&(query))->GetDiffuseColor())), firstB);
                         if (!((::SceneUpdate::Entity *)(::FUN_00559450((int *)&(chosen)))))
                         {
                             chosen.FUN_0066b0d0(entity);
@@ -5281,7 +5281,7 @@ void World::FUN_0045b070(View* view)
             }
         }
         if (!((::SceneUpdate::Entity *)(::FUN_00559450((int *)&(chosen)))))
-            reinterpret_cast<::Traversal *>((renderer))->UpdateVisibility((::Region *)(::SceneUpdate::Entity *)(0), (::View *)(reinterpret_cast<::FUN_0084e3a0_Class *>(&(query))->FUN_0084e3a0()), ((unsigned int)(uintptr_t)(reinterpret_cast<::TESRegion *>(&(query))->GetDiffuseColor())), {});
+            reinterpret_cast<::Traversal *>((renderer))->UpdateVisibility((::Region *)(::SceneUpdate::Entity *)(0), (::View *)(reinterpret_cast<::FUN_0084e3a0_Class *>(&(query))->FUN_0084e3a0()), ((unsigned int)(uintptr_t)(reinterpret_cast<::TESRegion *>(&(query))->GetDiffuseColor())), firstB);
         reinterpret_cast<::FUN_0045bc40_Class *>((((::SceneUpdate::State *)(reinterpret_cast<::FUN_00454b30_class *>((renderer))->FUN_00454b30()))))->FUN_0045bc40(((::SceneUpdate::Entity *)(::FUN_00559450((int *)&(chosen)))));
     }
     reinterpret_cast<::TESForm *>(&((*reinterpret_cast<::SceneUpdate::Marker *>(&::g_011c3c0f))))->ClearData();

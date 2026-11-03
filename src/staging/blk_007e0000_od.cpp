@@ -1828,7 +1828,7 @@ bool __cdecl FUN_007e6320(const char* titleText, const char* initialText, void(_
 
     RemoveInterface* interfaceManager = ((::RemoveInterface *)(::fnv_004b7210::FUN_004b7210()));
     float depthA = ::Tile::GetInterfaceScale();
-    Tile* root2 = reinterpret_cast<::fnv_00a01b00::TileLoader *>((reinterpret_cast<::InterfaceManager *>((interfaceManager))->FUN_00586150()))->FUN_00a01b00({});
+    Tile* root2 = reinterpret_cast<::fnv_00a01b00::TileLoader *>((reinterpret_cast<::InterfaceManager *>((interfaceManager))->FUN_00586150()))->FUN_00a01b00((void *)("Data\\Menus\\Dialog\\TextEditMenu.xml"));
     Menu* menu = reinterpret_cast<::FUN_00a03c90_shell *>((root2))->FUN_00a03c90();
     if (menu && menu->GetID() == FUN_007e65a0())
     {

@@ -349,7 +349,7 @@ void ImpactTask::FUN_004a2d50()
                     void* object = ((void *)(::FUN_0056f930((::NiAVObject *)(target))));
                     if (!landscape && (!object || !::IsAcousticSpaceFormTypeAllowed((::Refr_C *)(object), true)))
                         continue;
-                    Ref* owner = ((::Ref *)(reinterpret_cast<::FnCls *>(((*reinterpret_cast<::TESView * *>(&::g_TES))))->FUN_004519d0((*(float *)&(const ::NiPoint3 &)(position)), {}, {})));
+                    Ref* owner = ((::Ref *)(reinterpret_cast<::FnCls *>(((*reinterpret_cast<::TESView * *>(&::g_TES))))->FUN_004519d0(position.x, position.y, *(const int *)&(position.z))));
                     FUN_004a37b0 decal;
                     decal.position = position;
                     decal.normal = normal;

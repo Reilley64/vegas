@@ -1,6 +1,7 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/decl/FG_00659100_cls.h"
 #include "fnv/decl/FUN_00629ab0_shell.h"
 #include "fnv/decl/FUN_0064dda0_cls.h"
@@ -87,7 +88,7 @@ S_00658260_A S_00658260_Owner::BuildScaledValues(float scale)
     S_00658260_A a(m18, m1c);
     S_00658260_G aa;
     S_00658260_C it;
-    for (reinterpret_cast<::FUN_0065fd10_class *>(this)->FUN_0065fd10((::FUN_0065e000_class *)(::S_00658260_B *)(&x)), reinterpret_cast<::_Dummy_0044a170 *>(&(a))->FUN_0044a170((::_Out_0044a170 *)(void *)(&it)); reinterpret_cast<::FUN_0065dfd0_class *>(&(x))->FUN_0065dfd0((int)(((::S_00658260_F *)(reinterpret_cast<::fnv_0065fd40::FUN_0065fd40_class *>(this)->FUN_0065fd40((::fnv_0065fd40::FUN_0065e000_class *)(::S_00658260_F *)(&info)))))); reinterpret_cast<::FG_00659100_cls *>(&(x))->FUN_00659100((::FG_00659100_pair *)(::S_00658260_D *)(&ent), 0), reinterpret_cast<::S_006590c0 *>(&(it))->CopyPairTo(&arr, 0))
+    for (reinterpret_cast<::FUN_0065fd10_class *>(this)->FUN_0065fd10((::FUN_0065e000_class *)(::S_00658260_B *)(&x)), reinterpret_cast<::_Dummy_0044a170 *>(&(a))->FUN_0044a170((::_Out_0044a170 *)(void *)(&it)); reinterpret_cast<::FUN_0065dfd0_class *>(&(x))->FUN_0065dfd0(reinterpret_cast<std::intptr_t>(reinterpret_cast<::fnv_0065fd40::FUN_0065fd40_class *>(this)->FUN_0065fd40((::fnv_0065fd40::FUN_0065e000_class *)(::S_00658260_F *)(&info)))); reinterpret_cast<::FG_00659100_cls *>(&(x))->FUN_00659100((::FG_00659100_pair *)(::S_00658260_D *)(&ent), 0), reinterpret_cast<::S_006590c0 *>(&(it))->CopyPairTo(&arr, 0))
     {
         *it.Slot() = (float)(*((float *)(reinterpret_cast<::FUN_0064dda0_cls *>(&(x))->FUN_0064dda0())) * scale);
     }
@@ -120,7 +121,7 @@ Mgr* Mgr::ScaleAll(float scale)
     Iterator iter;
     Cursor key;
     Cursor currentPos;
-    for (reinterpret_cast<::_Dummy_0044a170 *>((this))->FUN_0044a170((::_Out_0044a170 *)(::Iterator *)(&iter)); reinterpret_cast<::FUN_0065dfd0_class *>(&(iter))->FUN_0065dfd0((int)(((void *)(reinterpret_cast<::fnv_0065f550::FUN_0065f550_Class *>((this))->CallWithSelf((::fnv_0065f550::_Out_0044a170 *)(::Cursor *)(&key)))))); reinterpret_cast<::S_006590c0 *>(&(iter))->CopyPairTo(&currentPos, 0))
+    for (reinterpret_cast<::_Dummy_0044a170 *>((this))->FUN_0044a170((::_Out_0044a170 *)(::Iterator *)(&iter)); reinterpret_cast<::FUN_0065dfd0_class *>(&(iter))->FUN_0065dfd0(reinterpret_cast<std::intptr_t>(reinterpret_cast<::fnv_0065f550::FUN_0065f550_Class *>((this))->CallWithSelf((::fnv_0065f550::_Out_0044a170 *)(::Cursor *)(&key)))); reinterpret_cast<::S_006590c0 *>(&(iter))->CopyPairTo(&currentPos, 0))
     {
         *iter.FUN_0064dbd0() *= scale;
     }
@@ -132,6 +133,11 @@ struct A87A0Element
     void* m_pMatrix;
     unsigned int m_uiPosition;
 
+    // m_pMatrix points at the matrix; 0x00629ab0 indexes the float array in its first word.
+    __forceinline float& Ref()
+    {
+        return reinterpret_cast<::FUN_00629ab0_shell*>(m_pMatrix)->FUN_00629ab0(m_uiPosition);
+    }
 };
 
 class A87A0Matrix
@@ -163,7 +169,7 @@ A87A0Matrix A87A0Matrix::Transpose()
     for (unsigned int i = 0; i < m_uiRows; i++)
     {
         for (unsigned int j = 0; j < m_uiCols; j++)
-            reinterpret_cast<::FUN_00629ab0_shell *>((void *)&(const ::A87A0Element &)(kResult.At(j, i)))->FUN_00629ab0({}) = reinterpret_cast<::FUN_00629ab0_shell *>((void *)&(const ::A87A0Element &)(At(i, j)))->FUN_00629ab0({});
+            kResult.At(j, i).Ref() = At(i, j).Ref();
     }
     return kResult;
 }

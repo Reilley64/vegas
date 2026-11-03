@@ -12320,7 +12320,7 @@ V* TESPackageExt::FUN_006780e0(V* targetObj, bool option)
                 reinterpret_cast<::fnv_00962620::FUN_00962620_cls *>(((*reinterpret_cast<::fnv_006780e0::V * *>(&::_g_thePlayer))))->FUN_00962620() > *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_006780e0::NumberSingleton *>(&::g_011cdad0)))))))
             {
                 ((::fnv_006780e0::V *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((BSShaderNoLightingProperty*)targetObj)))->GetBaseTexture()))->f0a2(targetObj, -1);
-                ::DispatchMessageToSink(((std::intptr_t)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_006780e0::MessageSetting *>(&::g_011d3d54))))->GetMenuTitle())), 0, 0, 0, ::DAT_010162c0, 0);
+                ::DispatchMessageToSink(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_006780e0::MessageSetting *>(&::g_011d3d54))))->GetMenuTitle())), 0, 0, 0, ::DAT_010162c0, 0);
             }
             else
                 reinterpret_cast<::FUN_008bc790_shell *>((saved3))->FUN_008bc790((::Actor *)(targetObj));

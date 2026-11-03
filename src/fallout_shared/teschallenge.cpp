@@ -345,7 +345,7 @@ bool ChallengeManager::UpdateChallengeProgress(CHALLENGE_TYPE type, int count, T
                     ::FUN_00406d00(message, sizeof(message), "%s   %d\\%d\n%s", ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((challenge))->FUN_00408da0())),
                               reinterpret_cast<::LowProcess *>((challenge))->GetPackageObjectType(), reinterpret_cast<::LowProcess *>((challenge))->GetPackageObjectType(),
                               challenge->GetDescription(0, (CHUNK_ID)0x43534544));
-                    ::DispatchMessageToSink((std::intptr_t)(message), 0, (std::intptr_t)(::FUN_0048e730(challenge, (int)(0))), (std::intptr_t)(0),
+                    ::DispatchMessageToSink((const char *)(message), 0, (const char *)(::FUN_0048e730(challenge, (int)(0))), (const char *)(0),
                                            ::DAT_010162c0, false);
                     ::FUN_00706f30(21);
                 }
@@ -382,8 +382,8 @@ bool ChallengeManager::UpdateChallengeProgress(CHALLENGE_TYPE type, int count, T
                             ::FUN_00406d00(message, sizeof(message), "%s   %d\\%d\n%s", ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((challenge))->FUN_00408da0())),
                                       challenge->progress.iProgress, reinterpret_cast<::LowProcess *>((challenge))->GetPackageObjectType(),
                                       challenge->GetDescription(0, (CHUNK_ID)0x43534544));
-                            ::DispatchMessageToSink((std::intptr_t)(message), 0, (std::intptr_t)(::FUN_0048e730(challenge, (int)(0))),
-                                                   (std::intptr_t)(0), ::DAT_010162c0, false);
+                            ::DispatchMessageToSink((const char *)(message), 0, (const char *)(::FUN_0048e730(challenge, (int)(0))),
+                                                   (const char *)(0), ::DAT_010162c0, false);
                         }
                     }
                 }

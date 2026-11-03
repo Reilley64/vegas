@@ -1330,12 +1330,12 @@ void ContainerOperation::FUN_004821a0(TESObjectREFR* target, bool silent)
             case 108:
             case 115:
             case 116:
-                ::DispatchMessageToSink((std::intptr_t)(((const char *)(::FUN_00559450((int *)&(text))))), 0, (std::intptr_t)("Interface\\Icons\\Message Icons\\glow_message_giftbox.dds"),
-                               (std::intptr_t)(silent ? 0 : reinterpret_cast<::PickupSoundActorView *>(((*reinterpret_cast<::Actor * *>(&::_g_thePlayer))))->FUN_008adcf0((::TESBoundObject *)(actor->form), 1, 0)), 2.0f, false);
+                ::DispatchMessageToSink((const char *)(((const char *)(::FUN_00559450((int *)&(text))))), 0, (const char *)("Interface\\Icons\\Message Icons\\glow_message_giftbox.dds"),
+                               (const char *)(silent ? 0 : reinterpret_cast<::PickupSoundActorView *>(((*reinterpret_cast<::Actor * *>(&::_g_thePlayer))))->FUN_008adcf0((::TESBoundObject *)(actor->form), 1, 0)), 2.0f, false);
                 break;
             case 24:
-                ::DispatchMessageToSink((std::intptr_t)(((const char *)(::FUN_00559450((int *)&(text))))), 0, (std::intptr_t)("Interface\\Icons\\Message Icons\\glow_message_giftbox.dds"),
-                               (std::intptr_t)(silent ? 0 : reinterpret_cast<::PickupSoundActorView *>(((*reinterpret_cast<::Actor * *>(&::_g_thePlayer))))->FUN_008adcf0((::TESBoundObject *)(actor->form), 1, 0)), 2.0f, false);
+                ::DispatchMessageToSink((const char *)(((const char *)(::FUN_00559450((int *)&(text))))), 0, (const char *)("Interface\\Icons\\Message Icons\\glow_message_giftbox.dds"),
+                               (const char *)(silent ? 0 : reinterpret_cast<::PickupSoundActorView *>(((*reinterpret_cast<::Actor * *>(&::_g_thePlayer))))->FUN_008adcf0((::TESBoundObject *)(actor->form), 1, 0)), 2.0f, false);
                 break;
             }
         }
@@ -1984,8 +1984,8 @@ void CraftRecipe(int count)
                                     ::FUN_00406f60((::FUN_00406f90_this *)(::BSStringT<char> *)(&msgStr), ::DAT_01012058, ::FUN_00482720((::TESForm *)(itemForm)),
                                                  ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SettingString *>(&::g_011d4e7c))))->GetMenuTitle())));
                                 }
-                                ::DispatchMessageToSink((std::intptr_t)(((const char *)(::FUN_00559450((int *)(((RecipeStringOps*)&msgStr)))))), 0, (std::intptr_t)(str_0101c140),
-                                               (std::intptr_t)(reinterpret_cast<::PickupSoundActorView *>(((*reinterpret_cast<::FUN_004f2770_Class * *>(&::_g_thePlayer))))->FUN_008adcf0((::TESBoundObject *)(itemForm), 1, 0)), DAT_010162c0, 0);
+                                ::DispatchMessageToSink((const char *)(((const char *)(::FUN_00559450((int *)(((RecipeStringOps*)&msgStr)))))), 0, (const char *)(str_0101c140),
+                                               (const char *)(reinterpret_cast<::PickupSoundActorView *>(((*reinterpret_cast<::FUN_004f2770_Class * *>(&::_g_thePlayer))))->FUN_008adcf0((::TESBoundObject *)(itemForm), 1, 0)), DAT_010162c0, 0);
                             }
                             node = ((::RecipeComponentNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
                         }

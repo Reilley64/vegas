@@ -471,41 +471,41 @@ intptr_t FUN_0084e3a0_Class::FUN_0084e3a0()
 struct BGSSaveLoadFileEntry
 {
     void ReadTypedData();
-    void* FUN_00851ef0();
+    unsigned int FUN_00851ef0();
 };
 
 // @fnv 0x00851ef0
-void* BGSSaveLoadFileEntry::FUN_00851ef0()
+unsigned int BGSSaveLoadFileEntry::FUN_00851ef0()
 {
     ReadTypedData();
-    return *(void**)((char*)this + 0x20);
+    return *(unsigned int*)((char*)this + 0x20);
 }
 
 namespace fnv_00851f10 {
 struct BGSSaveLoadFileEntry
 {
-    void* FUN_00851f10();
+    unsigned int FUN_00851f10();
 };
 
 // @fnv 0x00851f10
-void* BGSSaveLoadFileEntry::FUN_00851f10()
+unsigned int BGSSaveLoadFileEntry::FUN_00851f10()
 {
     reinterpret_cast<::BGSSaveLoadFileEntry *>(this)->ReadTypedData();
-    return *(void**)((char*)this + 0x24);
+    return *(unsigned int*)((char*)this + 0x24);
 }
 }  // namespace fnv_00851f10
 
 namespace fnv_00851f30 {
 struct BGSSaveLoadFileEntry
 {
-    void* FUN_00851f30();
+    unsigned int FUN_00851f30();
 };
 
 // @fnv 0x00851f30
-void* BGSSaveLoadFileEntry::FUN_00851f30()
+unsigned int BGSSaveLoadFileEntry::FUN_00851f30()
 {
     reinterpret_cast<::BGSSaveLoadFileEntry *>(this)->ReadTypedData();
-    return *(void**)((char*)this + 0x28);
+    return *(unsigned int*)((char*)this + 0x28);
 }
 }  // namespace fnv_00851f30
 
@@ -528,13 +528,13 @@ struct TaskQueueInterface
 
 struct FUN_00851f60_Class
 {
-    void FUN_00851f60(unsigned int a);
+    void FUN_00851f60(const char* a);
 };
 
 // @fnv 0x00851f60
-void FUN_00851f60_Class::FUN_00851f60(unsigned int apSource)
+void FUN_00851f60_Class::FUN_00851f60(const char* apSource)
 {
-    ::TaskQueueInterface::CopyStringToBuffer((char*)this + 0x164, 0x100, (const char*)apSource);
+    ::TaskQueueInterface::CopyStringToBuffer((char*)this + 0x164, 0x100, apSource);
 }
 }  // namespace fnv_00851f60
 
@@ -545,13 +545,13 @@ struct TaskQueueInterface
 
 struct FUN_00851f90_class
 {
-    void FUN_00851f90(unsigned int a);
+    void FUN_00851f90(const char* a);
 };
 
 // @fnv 0x00851f90
-void FUN_00851f90_class::FUN_00851f90(unsigned int apSource)
+void FUN_00851f90_class::FUN_00851f90(const char* apSource)
 {
-    ::TaskQueueInterface::CopyStringToBuffer((char*)this + 0x265, 0x80, (const char*)apSource);
+    ::TaskQueueInterface::CopyStringToBuffer((char*)this + 0x265, 0x80, apSource);
 }
 }  // namespace fnv_00851f90
 
@@ -562,25 +562,25 @@ struct TaskQueueInterface
 
 struct FUN_00852030_Class
 {
-    void FUN_00852030(int a);
+    void FUN_00852030(const char* a);
 };
 
 // @fnv 0x00852030
-void FUN_00852030_Class::FUN_00852030(int apSource)
+void FUN_00852030_Class::FUN_00852030(const char* apSource)
 {
-    ::TaskQueueInterface::CopyStringToBuffer((char*)this + 0x8f4, 0x100, (const char*)apSource);
+    ::TaskQueueInterface::CopyStringToBuffer((char*)this + 0x8f4, 0x100, apSource);
 }
 }  // namespace fnv_00852030
 
 struct FUN_00852060_Class
 {
-    void SetValue(int value);
+    void SetValue(void (*value)(int, int));
 };
 
 // @fnv 0x00852060
-void FUN_00852060_Class::SetValue(int value)
+void FUN_00852060_Class::SetValue(void (*value)(int, int))
 {
-    *(int*)((char*)this + 0x9f4) = value;
+    *(void (**)(int, int))((char*)this + 0x9f4) = value;
 }
 
 
@@ -2113,12 +2113,12 @@ void __cdecl FUN_00850720()
 
 struct FUN_00851fc0_shell
 {
-    void FUN_00851fc0(unsigned int a);
+    void FUN_00851fc0(const char* a);
 };
 // @fnv 0x00851fc0
-void FUN_00851fc0_shell::FUN_00851fc0(unsigned int pData)
+void FUN_00851fc0_shell::FUN_00851fc0(const char* pData)
 {
-    TaskQueueInterface::CopyStringToBuffer((char*)((char*)this + 0x2e5), 0x400, (const char*)pData);
+    TaskQueueInterface::CopyStringToBuffer((char*)((char*)this + 0x2e5), 0x400, pData);
 }
 
 struct FUN_00853470 : FUN_00853210_cls

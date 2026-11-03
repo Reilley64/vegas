@@ -2377,16 +2377,16 @@ unsigned int FormArray::AddElement(void** element)
 struct MapItem
 {
     MapItem* m_pkNext;
-    unsigned int m_key;
+    std::uintptr_t m_key;
     void* m_val;
 };
 struct MapNewItemHelper;
 struct TMapStandIn
 {
     virtual void Reserved0();
-    virtual unsigned int KeyToHashIndex(unsigned int key);
-    virtual bool IsKeysEqual(unsigned int a, unsigned int b);
-    virtual void SetValue(MapItem* item, unsigned int key, void* val);
+    virtual unsigned int KeyToHashIndex(std::uintptr_t key);
+    virtual bool IsKeysEqual(std::uintptr_t a, std::uintptr_t b);
+    virtual void SetValue(MapItem* item, std::uintptr_t key, void* val);
     virtual void ClearValue(MapItem* item);
     unsigned int m_uiHashSize;
     MapItem** m_ppkHashTable;

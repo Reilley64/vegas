@@ -5,7 +5,6 @@
 #include <new>
 #include <cstring>
 #include "fnv/decl/Array6cff.h"
-#include "fnv/decl/ArrayStub.h"
 #include "fnv/decl/B49F8F0Allocator.h"
 #include "fnv/decl/BSSimpleArray_PathingNode_1024.h"
 #include "fnv/decl/FUN_0042fc00_shell.h"
@@ -42,6 +41,28 @@
 #include "fnv/symbols_0106b000.h"
 #include "fnv/symbols_0106c000.h"
 #include "fnv/symbols_010a2000.h"
+#include <cstddef>
+#include <cstdint>
+#include "fnv/decl/fnv_006e2280__FUN_006e2280_Class.h"
+#include "fnv/decl/FUN_00a1c1f0_shell.h"
+#include "fnv/symbols_006a1000.h"
+#include "fnv/symbols_006b3000.h"
+struct ArrayStub
+{
+    virtual ~ArrayStub();
+    virtual void* Allocate(unsigned int auiCount);
+    virtual void Free(void* apItems);
+    virtual void* Reallocate(void* apItems, unsigned int auiCount);
+
+    void* pBuffer;
+    unsigned int iSize;
+    unsigned int iAllocSize;
+
+    void FUN_00a0cf60(char* dest, char* src, unsigned int count);
+
+    // The sizes arrive in pointer-typed parameters (the declaration other units share).
+    void FUN_00a0d0c0(void* newValue, void* key);
+};
 struct FUN_006cf9d0
 {
     int* vfptr;
@@ -219,7 +240,7 @@ bool NiPoint3::FUN_004390c0(const NiPoint3& aPoint)
 
 struct FUN_00692290_class
 {
-    void FUN_005ef650(unsigned int count, unsigned int growBy);
+    void FUN_005ef650(unsigned short* pItems, unsigned int growBy);
 };
 struct FUN_00691820_arr
 {
@@ -266,7 +287,7 @@ struct NavMeshSearchLOSArray
 {
     void FUN_006a8500();
 };
-template <class T, int N> struct BSSimpleArray
+template <class T, unsigned int N> struct BSSimpleArray
 {
     int m_00;
     T* pBuffer;
@@ -276,7 +297,7 @@ template <class T, int N> struct BSSimpleArray
     void FUN_006cf120(bool bFreeStorage);
 };
 // @fnv 0x006cf120
-void BSSimpleArray<PathingGraphNode, 1024>::FUN_006cf120(bool bFreeStorage)
+template <> void BSSimpleArray<PathingGraphNode, 1024>::FUN_006cf120(bool bFreeStorage)
 {
     if (pBuffer)
     {
@@ -378,7 +399,7 @@ public:
 unsigned int FUN_00691820_arr::Append(const unsigned short* aValue)
 {
     unsigned int iElementIndex = ((unsigned int)(reinterpret_cast<::S5460 *>(this)->GetNextPosition()));
-    ((FUN_00692290_class*)this)->FUN_005ef650((unsigned int)pBuffer + iElementIndex * 2, 1);
+    ((FUN_00692290_class*)this)->FUN_005ef650(pBuffer + iElementIndex, 1);
     pBuffer[iElementIndex] = *aValue;
     return iElementIndex;
 }
@@ -419,20 +440,22 @@ struct ScrapHeapBuffer
 {
     void* Allocate(unsigned int, unsigned int);
 };
-struct ArrSI
-{
-};
 struct FUN_006cf6a0_Class
 {
+    void* vfptr;
+    void* pBuffer;
+    unsigned int iSize;
+    unsigned int iAllocSize;
+    ScrapHeapBuffer* m_pAllocator;
     void* CopyAndFreeBuffer(void* src, unsigned int size);
 };
-// Allocates size bytes from the allocator at this+0x10, copies GetFlags() bytes from src into it, frees src, and returns the new buffer.
+// Allocates size bytes from the scrap heap allocator, copies iSize bytes from src into it, frees src, and returns the new buffer.
 // @fnv 0x006cf6a0
 void* FUN_006cf6a0_Class::CopyAndFreeBuffer(void* src, unsigned int size)
 {
-    void* result = reinterpret_cast<::FUN_00aa54a0_s *>((reinterpret_cast<ScrapHeapBuffer*>(*(void**)((char*)this + 0x10))))->FUN_00aa54a0(size, DAT_010a2720);
-    __memcpy(result, src, ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(this)))->GetName())));
-    reinterpret_cast<::SHStub *>((reinterpret_cast<ScrapHeapBuffer*>(*(void**)((char*)this + 0x10))))->FUN_00aa5610(src);
+    void* result = reinterpret_cast<::FUN_00aa54a0_s *>(m_pAllocator)->FUN_00aa54a0(size, DAT_010a2720);
+    __memcpy(result, src, iSize);
+    reinterpret_cast<::SHStub *>(m_pAllocator)->FUN_00aa5610(src);
     return result;
 }
 
@@ -441,20 +464,22 @@ struct ScrapHeapBuffer
 {
     void* Allocate(unsigned int size, unsigned int align);
 };
-struct ArrSI
-{
-};
 struct BSScrapArray_006cfc20
 {
+    void* vfptr;
+    void* pBuffer;
+    unsigned int iSize;
+    unsigned int iAllocSize;
+    ScrapHeapBuffer* m_pAllocator;
     void* ReallocateCopy(const void* src, unsigned int count);
 };
-// Allocates count*4 bytes, copies GetFlags()*4 bytes from src, frees src, and returns the new buffer.
+// Allocates count*4 bytes, copies iSize*4 bytes from src, frees src, and returns the new buffer.
 // @fnv 0x006cfc20
 void* BSScrapArray_006cfc20::ReallocateCopy(const void* src, unsigned int count)
 {
-    void* p = reinterpret_cast<::FUN_00aa54a0_s *>((((ScrapHeapBuffer*)*(void**)((char*)this + 0x10))))->FUN_00aa54a0(count * 4, ::DAT_010a2720);
-    ::__memcpy(p, src, ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)this)))->GetName())) * 4);
-    reinterpret_cast<::SHStub *>((((ScrapHeapBuffer*)*(void**)((char*)this + 0x10))))->FUN_00aa5610((void*)src);
+    void* p = reinterpret_cast<::FUN_00aa54a0_s *>(m_pAllocator)->FUN_00aa54a0(count * 4, ::DAT_010a2720);
+    ::__memcpy(p, src, iSize * 4);
+    reinterpret_cast<::SHStub *>(m_pAllocator)->FUN_00aa5610((void*)src);
     return p;
 }
 }  // namespace fnv_006cfc20
@@ -550,10 +575,14 @@ struct FUN_006e9410_shell
 };
 struct FUN_006e9530_shell
 {
-    void FUN_006e9530();
+    char data[0x30];
+    FUN_006e9530_shell& FUN_006e9530(const FUN_006e9530_shell& aOther);
 };
 struct FUN_006e9410_class
 {
+    void* vfptr;
+    void* pBuffer;
+    unsigned int iSize;
     void FUN_006e9410(void* arg);
 };
 namespace fnv_007a1c30 {
@@ -679,7 +708,11 @@ struct FUN_006c8a30_Class
 };
 struct FUN_006dc590
 {
-    int* vfptr;
+    virtual ~FUN_006dc590();
+    virtual TypeValueCount* Allocate(unsigned int auiCount);
+    virtual void Free(TypeValueCount* apItems);
+    virtual TypeValueCount* Reallocate(TypeValueCount* apItems, unsigned int auiCount);
+
     TypeValueCount* pBuffer;
     unsigned int iSize;
     unsigned int SimpleArrayStorage;
@@ -692,13 +725,11 @@ void FUN_006dc590::FUN_006dc590_(unsigned int aiNewSize, unsigned int aiCopyCoun
     {
         if (aiCopyCount == SimpleArrayStorage)
         {
-            pBuffer = (TypeValueCount*)((void*(*)(void*, TypeValueCount*, unsigned int))vfptr[3])(
-                this, pBuffer, aiNewSize);
+            pBuffer = Reallocate(pBuffer, aiNewSize);
         }
         else
         {
-            TypeValueCount* pnewBuffer =
-                (TypeValueCount*)((void*(*)(void*, unsigned int))vfptr[1])(this, aiNewSize);
+            TypeValueCount* pnewBuffer = Allocate(aiNewSize);
             ((FUN_006dc6e0_Class*)this)->FUN_006dc6e0((char*)pnewBuffer, (char*)pBuffer, aiCopyCount);
             ::FUN_006a8500((::DummyClass_006a8500 *)(((FUN_006c8a30_Class*)this)));
             pBuffer = pnewBuffer;
@@ -706,7 +737,7 @@ void FUN_006dc590::FUN_006dc590_(unsigned int aiNewSize, unsigned int aiCopyCoun
     }
     else
     {
-        pBuffer = (TypeValueCount*)((void*(*)(void*, unsigned int))vfptr[1])(this, aiNewSize);
+        pBuffer = Allocate(aiNewSize);
         SimpleArrayStorage = aiNewSize;
     }
 }
@@ -774,7 +805,7 @@ void FUN_0084b5c0_Array::FUN_0084b5c0(unsigned int aiReserveSize)
         reinterpret_cast<::FUN_0072ba80_shell *>((((FUN_0072ba80_shell*)this)))->FUN_0072ba80(pBuffer + aiReserveSize, iSize - aiReserveSize);
         iSize = aiReserveSize;
     }
-    reinterpret_cast<::FUN_0042fc00_shell *>((((FUN_0042fc00_shell*)this)))->FUN_0042fc00((void *)(aiReserveSize), iSize);
+    reinterpret_cast<::FUN_0042fc00_shell *>((((FUN_0042fc00_shell*)this)))->FUN_0042fc00(reinterpret_cast<void*>(static_cast<std::uintptr_t>(aiReserveSize)), iSize);
     SimpleArrayStorage = aiReserveSize;
 }
 }  // namespace fnv_0084b5c0
@@ -821,7 +852,7 @@ struct FUN_009f6540_Class
     virtual void* FUN_009f6540_0();
     virtual void* FUN_009f6540_1(unsigned int);
     virtual void FUN_009f6540_2();
-    virtual void* FUN_009f6540_3(unsigned int, unsigned int);
+    virtual void* FUN_009f6540_3(void*, unsigned int);
     void* pBuffer;
     unsigned int iSize;
     unsigned int SimpleArrayStorage;
@@ -834,14 +865,14 @@ void FUN_009f6540_Class::FUN_009f6540(unsigned int aiNewSize, unsigned int aiCop
     {
         if (aiCopyCount == SimpleArrayStorage)
         {
-            pBuffer = FUN_009f6540_3((unsigned int)pBuffer, aiNewSize);
+            pBuffer = FUN_009f6540_3(pBuffer, aiNewSize);
         }
         else
         {
-            unsigned int pnewBuffer = (unsigned int)FUN_009f6540_1(aiNewSize);
+            void* pnewBuffer = FUN_009f6540_1(aiNewSize);
             reinterpret_cast<::FUN_006c8bd0_Class *>((((FUN_006c8bd0_Class*)this)))->FUN_006c8bd0((const char*)pnewBuffer, (const char*)pBuffer, aiCopyCount);
             ::FUN_006a8500((::DummyClass_006a8500 *)(((FUN_006c8a30_Class*)this)));
-            pBuffer = (void*)pnewBuffer;
+            pBuffer = pnewBuffer;
         }
     }
     else
@@ -859,6 +890,10 @@ struct FUN_006e1280_Class
 
 struct FUN_006cf520_Class
 {
+    void* vfptr;
+    unsigned char* pBuffer;
+    unsigned int iSize;
+    unsigned int SimpleArrayStorage;
     int FUN_006cf520(const unsigned char* aValue);
 };
 
@@ -871,8 +906,8 @@ int FUN_006cf520_Class::FUN_006cf520(const unsigned char* aValue)
 {
     int iVar1;
     iVar1 = ((int)(reinterpret_cast<::fnv_006d0450::S5460 *>((((FUN_006d0450_Class*)this)))->GetNextIndex()));
-    ((FUN_006e1280_Class*)this)->FUN_006e1280((char*)(*(int*)((char*)this + 4) + iVar1), 1);
-    *(unsigned char*)(*(int*)((char*)this + 4) + iVar1) = *aValue;
+    ((FUN_006e1280_Class*)this)->FUN_006e1280((char*)(pBuffer + iVar1), 1);
+    pBuffer[iVar1] = *aValue;
     return iVar1;
 }
 
@@ -914,7 +949,7 @@ void BSSimpleArrayActor::FUN_005eee80(unsigned int aiNewSize, bool abFreeMemory)
             SimpleArrayStorage = aiNewSize;
         }
 
-        ((FUN_00692290_class*)this)->FUN_005ef650((int)(pBuffer + iSize), aiNewSize - iSize);
+        ((FUN_00692290_class*)this)->FUN_005ef650(pBuffer + iSize, aiNewSize - iSize);
         iSize = aiNewSize;
     }
     else if (aiNewSize < iSize)
@@ -930,20 +965,20 @@ void BSSimpleArrayActor::FUN_005eee80(unsigned int aiNewSize, bool abFreeMemory)
     }
     else
     {
-        ((FUN_00692290_class*)this)->FUN_005ef650((int)(pBuffer + iSize), aiNewSize - iSize);
+        ((FUN_00692290_class*)this)->FUN_005ef650(pBuffer + iSize, aiNewSize - iSize);
         iSize = aiNewSize;
     }
 }
 
 
 // @fnv 0x005ef650
-void FUN_00692290_class::FUN_005ef650(unsigned int count, unsigned int growBy)
+void FUN_00692290_class::FUN_005ef650(unsigned short* pItems, unsigned int growBy)
 {
     unsigned int i;
     void* p2;
     for (i = 0; i < growBy; ++i)
     {
-        p2 = ::FUN_006e6da0(2, (void*)(count + i * 2));
+        p2 = ::FUN_006e6da0(2, pItems + i);
     }
 }
 
@@ -1065,7 +1100,7 @@ void FUN_0069cea0_class::FUN_0069cea0(unsigned int aiNewSize, bool abFreeMemory)
             SimpleArrayStorage = aiNewSize;
         }
 
-        reinterpret_cast<::B49F8F0Allocator *>((((FUN_0049f8f0_class*)this)))->ConstructEntries((::B49F8F0Entry *)((int)((char*)pBuffer + iSize * sizeof(CombatSearchDoor))), aiNewSize - iSize);
+        reinterpret_cast<::B49F8F0Allocator *>((((FUN_0049f8f0_class*)this)))->ConstructEntries((::B49F8F0Entry *)((char*)pBuffer + iSize * sizeof(CombatSearchDoor)), aiNewSize - iSize);
         iSize = aiNewSize;
     }
     else if (aiNewSize < iSize)
@@ -1081,7 +1116,7 @@ void FUN_0069cea0_class::FUN_0069cea0(unsigned int aiNewSize, bool abFreeMemory)
     }
     else
     {
-        reinterpret_cast<::B49F8F0Allocator *>((((FUN_0049f8f0_class*)this)))->ConstructEntries((::B49F8F0Entry *)((int)((char*)pBuffer + iSize * sizeof(CombatSearchDoor))), aiNewSize - iSize);
+        reinterpret_cast<::B49F8F0Allocator *>((((FUN_0049f8f0_class*)this)))->ConstructEntries((::B49F8F0Entry *)((char*)pBuffer + iSize * sizeof(CombatSearchDoor)), aiNewSize - iSize);
         iSize = aiNewSize;
     }
 }
@@ -1133,7 +1168,7 @@ void FUN_006a69b0_Class::FUN_006a6660(unsigned int newSize, bool freeMemory)
             SimpleArrayStorage = newSize;
         }
 
-        reinterpret_cast<::FUN_006a69b0_Class *>(this)->ConstructParams(static_cast<int>(reinterpret_cast<unsigned int>(pBuffer + iSize)),
+        reinterpret_cast<::FUN_006a69b0_Class *>(this)->ConstructParams(pBuffer + iSize,
                         static_cast<int>(newSize - iSize));
         iSize = newSize;
     }
@@ -1151,7 +1186,7 @@ void FUN_006a69b0_Class::FUN_006a6660(unsigned int newSize, bool freeMemory)
     }
     else
     {
-        reinterpret_cast<::FUN_006a69b0_Class *>(this)->ConstructParams(static_cast<int>(reinterpret_cast<unsigned int>(pBuffer + iSize)),
+        reinterpret_cast<::FUN_006a69b0_Class *>(this)->ConstructParams(pBuffer + iSize,
                         static_cast<int>(newSize - iSize));
         iSize = newSize;
     }
@@ -1267,10 +1302,10 @@ struct FUN_006e90a0_class
 // @fnv 0x006e9410
 void FUN_006e9410_class::FUN_006e9410(void* arg)
 {
-    reinterpret_cast<::FUN_006e90a0_class *>((((FUN_006e9410_shell*)arg)))->FUN_006e90a0(*(int*)((char*)this + 8), 1);
-    for (unsigned int i = 0; i < *(unsigned int*)((char*)this + 8); ++i)
+    reinterpret_cast<::FUN_006e90a0_class *>((((FUN_006e9410_shell*)arg)))->FUN_006e90a0(iSize, 1);
+    for (unsigned int i = 0; i < iSize; ++i)
         ((FUN_006e9530_shell*)((void *)(reinterpret_cast<::FUN_006e8f40_shell *>((((FUN_006e9410_shell*)arg)))->FUN_006e8f40(i))))
-            ->FUN_006e9530();
+            ->FUN_006e9530(static_cast<const FUN_006e9530_shell*>(pBuffer)[i]);
 }
 
 struct FUN_006e9080
@@ -1348,7 +1383,7 @@ void BSSimpleArrayActor::FUN_006f2290(unsigned int aiNewSize, bool abFreeMemory)
         }
         else
         {
-            reinterpret_cast<::FUN_0042fc00_shell *>(this)->FUN_0042fc00((void*)aiNewSize, iSize);
+            reinterpret_cast<::FUN_0042fc00_shell *>(this)->FUN_0042fc00(reinterpret_cast<void*>(static_cast<std::uintptr_t>(aiNewSize)), iSize);
             SimpleArrayStorage = aiNewSize;
         }
 
@@ -1362,7 +1397,7 @@ void BSSimpleArrayActor::FUN_006f2290(unsigned int aiNewSize, bool abFreeMemory)
 
         if (abFreeMemory && aiNewSize <= SimpleArrayStorage / 4)
         {
-            reinterpret_cast<::FUN_0042fc00_shell *>(this)->FUN_0042fc00((void*)aiNewSize, aiNewSize);
+            reinterpret_cast<::FUN_0042fc00_shell *>(this)->FUN_0042fc00(reinterpret_cast<void*>(static_cast<std::uintptr_t>(aiNewSize)), aiNewSize);
             SimpleArrayStorage = aiNewSize;
         }
     }
@@ -1503,7 +1538,7 @@ class PathingGraphNode
     unsigned char m_data[0x3c];
 };
 
-template <class T, unsigned int Capacity> struct BSSimpleArray
+template <class T, int Capacity> struct BSSimpleArray
 {
     void ReleaseElements(T* pItems, unsigned int ItemUpdateArray);
 };
@@ -1590,7 +1625,7 @@ struct FUN_009f6540_Helper
 
 struct Host9f6340
 {
-    void FUN_009f6460(int, int);
+    void FUN_009f6460(std::intptr_t, int);
 };
 
 struct FUN_009f6200_Class
@@ -1627,7 +1662,7 @@ void FUN_009f6200_Class::FUN_009f6200(unsigned int aiNewSize, bool abFreeMemory)
             SimpleArrayStorage = aiNewSize;
         }
 
-        reinterpret_cast<Host9f6340*>(this)->FUN_009f6460(reinterpret_cast<int>(pBuffer + iSize * 16),
+        reinterpret_cast<Host9f6340*>(this)->FUN_009f6460(reinterpret_cast<std::intptr_t>(pBuffer + iSize * 16),
                                                           static_cast<int>(aiNewSize - iSize));
         iSize = aiNewSize;
     }
@@ -1644,7 +1679,7 @@ void FUN_009f6200_Class::FUN_009f6200(unsigned int aiNewSize, bool abFreeMemory)
     }
     else
     {
-        reinterpret_cast<Host9f6340*>(this)->FUN_009f6460(reinterpret_cast<int>(pBuffer + iSize * 16),
+        reinterpret_cast<Host9f6340*>(this)->FUN_009f6460(reinterpret_cast<std::intptr_t>(pBuffer + iSize * 16),
                                                           static_cast<int>(aiNewSize - iSize));
         iSize = aiNewSize;
     }
@@ -1794,14 +1829,14 @@ struct FUN_006cf8a0_cls
     void ProcessItems(ParamHost* p);
 };
 
-// Calls Prepare with iCount and 1, then for each item calls ProcessItem and invokes FUN_006cf900 on the result.
+// Resizes pHost to iCount, then copies each item into the slot FUN_006cee10 returns for it.
 // @fnv 0x006cf8a0
 void FUN_006cf8a0_cls::ProcessItems(ParamHost* pHost)
 {
     reinterpret_cast<::FUN_006d01d0_Class *>((pHost))->FUN_006d01d0(iCount, 1);
     for (unsigned int i = 0; i < iCount; i++)
     {
-        reinterpret_cast<::FUN_006cf900_Class *>((((ItemFinish*)((void *)(reinterpret_cast<::FUN_006cee10_shell *>((pHost))->FUN_006cee10(i))))))->FUN_006cf900({});
+        reinterpret_cast<::FUN_006cf900_Class *>((((ItemFinish*)((void *)(reinterpret_cast<::FUN_006cee10_shell *>((pHost))->FUN_006cee10(i))))))->FUN_006cf900((const ::FUN_006cf900_Class *)&pItems[i]);
     }
 }
 
@@ -1857,17 +1892,16 @@ struct FUN_00aa42e0_cls
 class FUN_006cfa00 : public FUN_006cfa00_base
 {
   public:
-    int m_10;
+    void* m_pAllocator;
 
-
-    FUN_006cfa00(int a1, int a2, int a3);
+    FUN_006cfa00(int a1, int a2, void* apAllocator);
 };
 
-// Sets m_10 to a3, or to the result of FUN_00aa42e0 when a3 is zero, then calls FUN_006dc440 with a1 and a2.
+// Sets m_pAllocator to apAllocator, or to the general allocator when apAllocator is null, then calls FUN_006dc440 with a1 and a2.
 // @fnv 0x006cfa00
-FUN_006cfa00::FUN_006cfa00(int aiFirst, int aiSecond, int aiValue)
+FUN_006cfa00::FUN_006cfa00(int aiFirst, int aiSecond, void* apAllocator)
 {
-    m_10 = (aiValue != 0) ? aiValue : ((int)(reinterpret_cast<::MemoryManager *>((((FUN_00aa42e0_cls*)((void *)(::FUN_00401020())))))->GetGeneralAllocator()));
+    m_pAllocator = (apAllocator != 0) ? apAllocator : ((void*)(reinterpret_cast<::MemoryManager *>((((FUN_00aa42e0_cls*)((void *)(::FUN_00401020())))))->GetGeneralAllocator()));
     reinterpret_cast<::FUN_006dc440_Class *>(this)->FUN_006dc440(aiFirst, aiSecond);
 }
 }  // namespace fnv_006cfa00
@@ -1967,7 +2001,7 @@ void FUN_006e90a0_class::FUN_006e90a0(unsigned int aiNewSize, bool abFreeMemory)
         }
 
         reinterpret_cast<::FUN_006e95d0_Class *>((reinterpret_cast<SaveGameSizeState*>(this)))->FUN_006e95d0(
-            (::FUN_006f4cd0 *)(reinterpret_cast<unsigned int>(this->pBuffer + this->iSize * 0x30)), aiNewSize - this->iSize);
+            (::FUN_006f4cd0 *)(this->pBuffer + this->iSize * 0x30), aiNewSize - this->iSize);
         this->iSize = aiNewSize;
     }
     else if (aiNewSize < this->iSize)
@@ -1985,7 +2019,7 @@ void FUN_006e90a0_class::FUN_006e90a0(unsigned int aiNewSize, bool abFreeMemory)
     else
     {
         reinterpret_cast<::FUN_006e95d0_Class *>((reinterpret_cast<SaveGameSizeState*>(this)))->FUN_006e95d0(
-            (::FUN_006f4cd0 *)(reinterpret_cast<unsigned int>(this->pBuffer + this->iSize * 0x30)), aiNewSize - this->iSize);
+            (::FUN_006f4cd0 *)(this->pBuffer + this->iSize * 0x30), aiNewSize - this->iSize);
         this->iSize = aiNewSize;
     }
 }
@@ -2148,7 +2182,7 @@ unsigned int S_00a0d000_Class::FUN_00a0d000()
         else
         {
             newCapacity = (this->m_uiReservedSize > 8) ? this->m_uiReservedSize + 8 : this->m_uiReservedSize << 1;
-            reinterpret_cast<::ArrayStub *>((this))->FUN_00a0d0c0((void *)(newCapacity), (void *)(this->m_uiSize));
+            reinterpret_cast<::ArrayStub *>((this))->FUN_00a0d0c0(reinterpret_cast<void*>(static_cast<std::uintptr_t>(newCapacity)), reinterpret_cast<void*>(static_cast<std::uintptr_t>(this->m_uiSize)));
             this->m_uiReservedSize = newCapacity;
         }
     }
@@ -2256,7 +2290,7 @@ void FUN_006e9470_cls::FUN_006e9470(FUN_006e9470_Helper* pHelper)
     reinterpret_cast<::FUN_006e9280_shell *>((pHelper))->FUN_006e9280(m_08, 1);
     for (unsigned int i = 0; i < m_08; i++)
     {
-        reinterpret_cast<::FUN_006e9570_cls *>((((FUN_006e9470_Obj*)((void *)(reinterpret_cast<::BSSimpleArray_PathingNode_1024 *>((pHelper))->FUN_006e8f80(i))))))->operator=(*(const ::FUN_006e9570_cls *)nullptr);
+        reinterpret_cast<::FUN_006e9570_cls *>((((FUN_006e9470_Obj*)((void *)(reinterpret_cast<::BSSimpleArray_PathingNode_1024 *>((pHelper))->FUN_006e8f80(i))))))->operator=(*(const ::FUN_006e9570_cls *)(m_04 + i * 60));
     }
 }
 
@@ -2279,7 +2313,7 @@ void FUN_006e9280_shell::FUN_006e9280(unsigned int uiNewSize, bool bShrink)
             reinterpret_cast<::FUN_006a21c0_class *>(this)->FUN_006a21c0(uiNewSize, m_uiSize);
             m_uiCapacity = uiNewSize;
         }
-        reinterpret_cast<::FUN_006e9700_Class *>(this)->ConstructArray((int)(&m_pBuffer[m_uiSize]), uiNewSize - m_uiSize);
+        reinterpret_cast<::FUN_006e9700_Class *>(this)->ConstructArray(&m_pBuffer[m_uiSize], uiNewSize - m_uiSize);
         m_uiSize = uiNewSize;
     }
     else if (uiNewSize < m_uiSize)
@@ -2294,7 +2328,7 @@ void FUN_006e9280_shell::FUN_006e9280(unsigned int uiNewSize, bool bShrink)
     }
     else
     {
-        reinterpret_cast<::FUN_006e9700_Class *>(this)->ConstructArray((int)(&m_pBuffer[m_uiSize]), uiNewSize - m_uiSize);
+        reinterpret_cast<::FUN_006e9700_Class *>(this)->ConstructArray(&m_pBuffer[m_uiSize], uiNewSize - m_uiSize);
         m_uiSize = uiNewSize;
     }
 }
@@ -2323,26 +2357,20 @@ FUN_006cf570::FUN_006cf570(unsigned int initialSize, unsigned int growth, void* 
 struct FUN_0069f920_Sub
 {
 };
-struct FUN_006e2280
-{
-    int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
-    int unk20, unk24, unk28, unk2c, unk30, unk34, unk38;
-    FUN_006e2280(int, int);
-};
 struct FUN_0069f920_cls
 {
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
     FUN_0069f920_Sub unk20;
-    void* FUN_0069f920(int, int);
+    void* FUN_0069f920(std::intptr_t, std::intptr_t);
 };
-// Calls unk20.FUN_006a1920 for a node, constructs FUN_006e2280(a, b) at the address FUN_006e8f80 returns for it, and returns the node.
+// Appends a node to unk20 (FUN_006a1920 returns its index), constructs FUN_006e2280_Class(a, *b) in the slot FUN_006e8f80 returns for it, and returns the index.
 // @fnv 0x0069f920
-void* FUN_0069f920_cls::FUN_0069f920(int aiArg1, int aiArg2)
+void* FUN_0069f920_cls::FUN_0069f920(std::intptr_t aiArg1, std::intptr_t aiArg2)
 {
-    void* pNode = ((void *)(reinterpret_cast<::FUN_006a1920_cls *>(&(unk20))->FUN_006a1920()));
-    void* pPlace = ((void *)(reinterpret_cast<::BSSimpleArray_PathingNode_1024 *>(&(unk20))->FUN_006e8f80((unsigned int)pNode)));
-    new (pPlace) FUN_006e2280(aiArg1, aiArg2);
-    return pNode;
+    int iIndex = reinterpret_cast<::FUN_006a1920_cls *>(&(unk20))->FUN_006a1920();
+    void* pPlace = ((void *)(reinterpret_cast<::BSSimpleArray_PathingNode_1024 *>(&(unk20))->FUN_006e8f80(iIndex)));
+    new (pPlace) ::fnv_006e2280::FUN_006e2280_Class(reinterpret_cast<void*>(aiArg1), *reinterpret_cast<const ::fnv_006e2280::NiPoint3*>(aiArg2));
+    return reinterpret_cast<void*>(static_cast<std::intptr_t>(iIndex));
 }
 
 struct FUN_009f6500
@@ -2353,10 +2381,202 @@ struct FUN_009f6500
 
 // Calls the FUN_009f6500 placement constructor on each 16-byte element of the arr array, count times.
 // @fnv 0x009f6460
-void Host9f6340::FUN_009f6460(int arr, int count)
+void Host9f6340::FUN_009f6460(std::intptr_t arr, int count)
 {
     for (unsigned int i = 0; i < (unsigned int)count; ++i)
     {
         new ((void*)(arr + i * 16)) FUN_009f6500();
     }
+}
+
+bool AreBytesEqual(const unsigned char* a, const unsigned char* b);
+
+void* __cdecl FUN_00ec7230(char* dst, const char* src, unsigned int size);
+
+
+// @fnv 0x00a0d0c0
+void ArrayStub::FUN_00a0d0c0(void* newValue, void* key)
+{
+    unsigned int uiNewSize = static_cast<unsigned int>(reinterpret_cast<std::uintptr_t>(newValue));
+    unsigned int uiCopyCount = static_cast<unsigned int>(reinterpret_cast<std::uintptr_t>(key));
+    if (pBuffer != 0)
+    {
+        if (uiCopyCount == iAllocSize)
+        {
+            pBuffer = Reallocate(pBuffer, uiNewSize);
+        }
+        else
+        {
+            void* tmp = Allocate(uiNewSize);
+            FUN_00a0cf60((char*)tmp, (char*)pBuffer, uiCopyCount);
+            Free(pBuffer);
+            pBuffer = 0;
+            pBuffer = tmp;
+        }
+    }
+    else
+    {
+        pBuffer = Allocate(uiNewSize);
+        iAllocSize = uiNewSize;
+    }
+}
+
+inline void DeadQ1()
+{
+    int a[1];
+}
+
+inline void DeadQ2()
+{
+    int a[2];
+}
+
+inline void DeadQ3()
+{
+    int a[3];
+}
+
+inline void DeadQ4()
+{
+    int a[4];
+}
+
+inline void DeadQ5()
+{
+    int a[5];
+}
+
+inline void DeadQ6()
+{
+    int a[6];
+}
+
+struct PNQ0cd50
+{
+};
+
+inline void* __cdecl operator new(std::size_t, void* p, PNQ0cd50*)
+{
+    return p;
+}
+
+struct ArrQ0cd50
+{
+    virtual ~ArrQ0cd50();
+    virtual void** Allocate(unsigned int count);
+    virtual void Free(void** p);
+    void** m_pBuffer;
+    unsigned int m_iElementCount;
+    unsigned int m_alloc;
+    void FUN_00a0cf00(void* const& item);
+    bool IsFull()
+    {
+        if (m_iElementCount == m_alloc)
+            return true;
+        return false;
+    }
+    unsigned int GetNewSize()
+    {
+        return m_alloc > 8 ? m_alloc + 8 : m_alloc * 2;
+    }
+    void ConstructItems(void** p, unsigned int n)
+    {
+        for (unsigned int i = 0; i < n; i++)
+            new (&p[i], (PNQ0cd50*)0) void*;
+    }
+    void FUN_00a0cd50(unsigned int index, void* const& item);
+};
+
+// @fnv 0x00a0cd50
+void ArrQ0cd50::FUN_00a0cd50(unsigned int index, void* const& item)
+{
+    DeadQ3();
+    if (index == m_iElementCount)
+    {
+        FUN_00a0cf00(item);
+        return;
+    }
+    if (IsFull())
+    {
+        DeadQ2();
+        unsigned int newSize = GetNewSize();
+        void** p = Allocate(newSize);
+        reinterpret_cast<::ArrayStub *>(this)->FUN_00a0cf60((char *)(p), (char *)(m_pBuffer), index);
+        ConstructItems(p + index, 1);
+        reinterpret_cast<::ArrayStub *>(this)->FUN_00a0cf60((char *)(void **)(p + index + 1), (char *)(void **)(m_pBuffer + index), m_iElementCount - index);
+        Free(m_pBuffer);
+        m_pBuffer = 0;
+        m_pBuffer = p;
+        m_alloc = newSize;
+    }
+    else
+    {
+        DeadQ4();
+        reinterpret_cast<::ArrayStub *>(this)->FUN_00a0cf60((char *)(void **)(m_pBuffer + index + 1), (char *)(void **)(m_pBuffer + index), m_iElementCount - index);
+        ConstructItems(m_pBuffer + index, 1);
+    }
+    m_iElementCount++;
+    m_pBuffer[index] = item;
+}
+
+extern int DAT_0109527c;
+
+struct ArrayVector
+{
+    float x, y, z, w;
+    ArrayVector() : x(0), y(0), z(0), w(0)
+    {}
+};
+
+struct ArrayElement
+{
+    unsigned int unk00, unk04, unk08, unk0c;
+    ArrayVector value;
+};
+
+struct ArrayConstructor;
+
+typedef void*(* ArrayAllocate)(ArrayConstructor*, unsigned int);
+
+struct ArrayConstructor
+{
+    void* const* vfptr;
+    ArrayElement* data;
+    unsigned int size;
+    unsigned int capacity;
+
+    void ConstructElements(ArrayElement* items, unsigned int count)
+    {
+        for (unsigned int i = 0; i < count; ++i)
+            new (items + i) ArrayElement;
+    }
+
+    __forceinline void Initialize(unsigned int count, unsigned int initial)
+    {
+        data = 0;
+        size = 0;
+        capacity = 0;
+        if (count < initial)
+            count = initial;
+        if (count > 0)
+        {
+            data = (ArrayElement*)reinterpret_cast<ArrayAllocate>(vfptr[1])(this, count);
+            capacity = count;
+        }
+        if (initial > 0)
+        {
+            reinterpret_cast<::FUN_00a1c1f0_shell *>(this)->ConstructElements((::FUN_00a1c1f0_elem *)(data), initial);
+            size = initial;
+        }
+    }
+
+    ArrayConstructor* FUN_00a1bef0();
+};
+
+// @fnv 0x00a1bef0
+ArrayConstructor* ArrayConstructor::FUN_00a1bef0()
+{
+    vfptr = reinterpret_cast<void* const*>(&DAT_0109527c);
+    Initialize(0, 0);
+    return this;
 }

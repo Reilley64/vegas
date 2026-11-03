@@ -1781,9 +1781,9 @@ void NegateCharacterControllerValue()
 
 
 // @fnv 0x009aa140
-int FUN_009aa140(int index)
+const char* FUN_009aa140(int index)
 {
-    return *(int*)((char*)DAT_011a55b0 + index * 8);
+    return *(const char**)((char*)DAT_011a55b0 + index * 8);
 }
 
 // If a equals the value stored at this, forwards b to FUN_009aa280 and returns its result; otherwise returns false.
@@ -7579,22 +7579,22 @@ extern const char* DAT_011a5700[];
 extern const char* DAT_0118a8a8[];
 extern const char* DAT_011a5768[];
 // @fnv 0x009aa1b0
-int __cdecl FUN_009aa1b0(int a, int iIndex)
+const char* __cdecl FUN_009aa1b0(int a, int iIndex)
 {
     switch (a)
     {
     case 1:
     case 2:
     case 13:
-        return (int)DAT_011a5700[iIndex];
+        return DAT_011a5700[iIndex];
     case 10:
     case 11:
     case 12:
-        return (int)DAT_0118a8a8[iIndex];
+        return DAT_0118a8a8[iIndex];
     case 18:
-        return (int)DAT_011a5768[iIndex];
+        return DAT_011a5768[iIndex];
     default:
-        return (int)(iIndex ? "True" : "False");
+        return iIndex ? "True" : "False";
     }
 }
 

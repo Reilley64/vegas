@@ -1,5 +1,6 @@
 // fallout_shared/tesquest.cpp: TESQuest, PlayerQuestData, FakeQuest, QuestSaveSize and more (39 functions)
 
+#include <cstdint>
 #include <new>
 #include <malloc.h>
 #include "fnv/decl/B408A80String.h"
@@ -1157,7 +1158,7 @@ unsigned short QuestSaveSize::FUN_0060dba0(unsigned int changedFlags)
 
 struct FUN_004534f0_shell
 {
-    void FUN_004534f0(unsigned int auiFlags);
+    void FUN_004534f0(std::uintptr_t auiFlags);
 };
 // @fnv 0x0060EE40
 void TESQuest::Revert(BGSLoadFormBuffer* buffer)

@@ -18829,10 +18829,10 @@ struct WorldReference
     virtual void v75();
     virtual void v76();
     virtual void v77();
-    virtual bool v78(WorldPoint*, WorldPoint*, void**, int);
+    virtual bool v78(WorldPoint*, WorldPoint*, void**, void*);
     void FUN_00575700(WorldPoint);
     void FUN_00562020();
-    bool FUN_00561ef0(int);
+    bool FUN_00561ef0(void*);
 };
 
 struct SettingsHolder
@@ -31893,7 +31893,7 @@ bool ActRef::FUN_00573170(ActRef* apActivator, bool abFlag, ActForm* apObject, i
             return false;
         else if (g_pActPlayer->IsInCombatOrSneaking(0) && !reinterpret_cast<::FUN_008859e0_Class *>((g_pActPlayer))->FUN_008859e0((::TESObject *)(::fnv_00573170::ActRef *)(this)))
         {
-            ::DispatchMessageToSink((std::intptr_t)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_00573170::ActSetting *>(&::g_011d4f84))))->GetMenuTitle()))), 0, (int)(0), (int)(0), ::DAT_010162c0, 0);
+            ::DispatchMessageToSink((const char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_00573170::ActSetting *>(&::g_011d4f84))))->GetMenuTitle()))), 0, (const char *)(0), (const char *)(0), ::DAT_010162c0, 0);
             return true;
         }
     }
@@ -31915,8 +31915,8 @@ bool ActRef::FUN_00573170(ActRef* apActivator, bool abFlag, ActForm* apObject, i
     if (reinterpret_cast<::FUN_0041eb60_shell *>((GetExtraList()))->FUN_0041eb60() && !reinterpret_cast<::fnv_0041e7b0::FUN_0041e7b0_cls *>((GetExtraList()))->FUN_0041e7b0(apActivator))
     {
         if (apActivator == g_pActPlayer)
-            ::DispatchMessageToSink((std::intptr_t)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_00573170::ActSetting *>(&::g_011d2bf8))))->GetMenuTitle()))), 0,
-                              (int)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_thinking.dds"), (int)(0),
+            ::DispatchMessageToSink((const char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_00573170::ActSetting *>(&::g_011d2bf8))))->GetMenuTitle()))), 0,
+                              (const char *)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_thinking.dds"), (const char *)(0),
                               ::DAT_010162c0, 0);
         return false;
     }
@@ -37462,12 +37462,12 @@ NiPoint3* TESRecipe::FUN_00572500(NiPoint3* result, float angle)
     return result;
 }
 // @fnv 0x00561ef0
-bool WorldReference::FUN_00561ef0(int flags)
+bool WorldReference::FUN_00561ef0(void* apCell)
 {
     WorldPoint start;
     WorldPoint end;
     void* result = 0;
-    if (v78(&start, &end, &result, flags))
+    if (v78(&start, &end, &result, apCell))
     {
         ReferenceObject* object = 0;
         SecondaryObject* secondary = 0;
@@ -57086,7 +57086,7 @@ struct CollisionHandler
     virtual void v15();
     virtual void v16();
     virtual void v17();
-    virtual CollisionValue* Find(int target);
+    virtual CollisionValue* Find(std::intptr_t target);
     virtual void v19();
     virtual void v20();
     virtual void v21();
@@ -57120,7 +57120,7 @@ struct CollisionHandler
     virtual void v49();
     virtual void v50();
     virtual void v51();
-    virtual bool IsAllowed(int target);
+    virtual bool IsAllowed(std::intptr_t target);
 };
 
 struct ScopedMode
@@ -57184,11 +57184,11 @@ struct WorldObjectView
     virtual void v43();
     virtual void v44();
     virtual CollisionResult* GetResult(unsigned char* used);
-    void FUN_00c85900(std::intptr_t a, int b);
+    void FUN_00c85900(std::intptr_t a, std::intptr_t b);
 };
 
 // @fnv 0x00c85900
-void WorldObjectView::FUN_00c85900(std::intptr_t a, int b)
+void WorldObjectView::FUN_00c85900(std::intptr_t a, std::intptr_t b)
 {
     ScopedMode mode;
     unsigned char used;
@@ -63144,7 +63144,7 @@ struct CollisionHandler_o2_od_noo2
     virtual void v15();
     virtual void v16();
     virtual void v17();
-    virtual CollisionValue_o2_od_noo2* Find(int target);
+    virtual CollisionValue_o2_od_noo2* Find(std::intptr_t target);
     virtual void v19();
     virtual void v20();
     virtual void v21();
@@ -63178,7 +63178,7 @@ struct CollisionHandler_o2_od_noo2
     virtual void v49();
     virtual void v50();
     virtual void v51();
-    virtual bool IsAllowed(int target);
+    virtual bool IsAllowed(std::intptr_t target);
 };
 
 struct ScopedMode_o2_od_noo2
@@ -63242,7 +63242,7 @@ struct WorldObjectView_o2_od_noo2
     virtual void v43();
     virtual void v44();
     virtual CollisionResult_o2_od_noo2* GetResult(unsigned char* used);
-    void FUN_00c85900(int a, int b);
+    void FUN_00c85900(std::intptr_t a, std::intptr_t b);
 };
 
 struct NiRTTI_o2_od_noo2
@@ -65460,7 +65460,7 @@ struct CollisionHandler_o2_od_oy_noo2
     virtual void v15();
     virtual void v16();
     virtual void v17();
-    virtual CollisionValue_o2_od_oy_noo2* Find(int target);
+    virtual CollisionValue_o2_od_oy_noo2* Find(std::intptr_t target);
     virtual void v19();
     virtual void v20();
     virtual void v21();
@@ -65494,7 +65494,7 @@ struct CollisionHandler_o2_od_oy_noo2
     virtual void v49();
     virtual void v50();
     virtual void v51();
-    virtual bool IsAllowed(int target);
+    virtual bool IsAllowed(std::intptr_t target);
 };
 
 struct ScopedMode_o2_od_oy_noo2
@@ -65558,7 +65558,7 @@ struct WorldObjectView_o2_od_oy_noo2
     virtual void v43();
     virtual void v44();
     virtual CollisionResult_o2_od_oy_noo2* GetResult(unsigned char* used);
-    void FUN_00c85900(int a, int b);
+    void FUN_00c85900(std::intptr_t a, std::intptr_t b);
 };
 
 struct NiRTTI_o2_od_oy_noo2

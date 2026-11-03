@@ -5892,7 +5892,7 @@ namespace fnv_00558ba0 {
 struct BGSPerkEntry
 {
     virtual ~BGSPerkEntry();
-    int GetInnerValue();
+    std::intptr_t GetInnerValue();
 };
 struct FUN_00558ba0_shell : public TESObjectCELL
 {

@@ -2,6 +2,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <windows.h>
+#include <cstdint>
 #include "fnv/decl/FUN_00aff000_tbl.h"
 #include "fnv/decl/O.h"
 #include "fnv/decl/SystemFileWriter.h"
@@ -9,11 +10,11 @@
 struct FUN_008526d0_shell
 {
     int m_iWordAt00;
-    int SetFromCall(int a, int b, int c, int d);
+    int SetFromCall(std::intptr_t a, int b, int c, std::intptr_t d);
 };
 
 // @fnv 0x008526d0
-int FUN_008526d0_shell::SetFromCall(int a, int b, int c, int d)
+int FUN_008526d0_shell::SetFromCall(std::intptr_t a, int b, int c, std::intptr_t d)
 {
     m_iWordAt00 = (int)((void *)(reinterpret_cast<::Win32ReadFile *>(this)->Read((void *)(a), b, c, (unsigned long long *)(d))));
     return m_iWordAt00;

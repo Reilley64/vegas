@@ -3,5 +3,5 @@
 struct WorldReference {
 public:
     // 0x00561ef0
-    bool FUN_00561ef0(int);
+    bool FUN_00561ef0(void *);
 };

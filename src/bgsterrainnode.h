@@ -40,6 +40,7 @@ public:
 class BGSTerrainManager
 {
   public:
+    void* m_pWorldSpace;
     unsigned int GetMinLevel();
 };
 

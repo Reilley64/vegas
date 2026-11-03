@@ -3224,6 +3224,8 @@ FUN_007577f0::FUN_007577f0()
     unkc0 = false;
 }
 
+bool DispatchMessageToSink(const char *, int, const char *, const char *, float, unsigned char);
+
 namespace fnv_00757f70 {
 struct TileF;
 struct Value
@@ -3280,7 +3282,6 @@ struct TickObj
 {
 };
 extern unsigned char DAT_011d93c0;
-bool __cdecl DispatchMessageToSink(const char*, int, const char*, const char*, float, bool);
 struct HostF
 {
     void* m_pFirstNode[10];
@@ -3382,7 +3383,7 @@ void HostF::FUN_00757f70(int aiTileIndex, TileF* apTile)
                         {
                             BStr str;
                             ::FUN_00406f60((::FUN_00406f90_this *)(::fnv_00757f70::BStr *)(&str), (*reinterpret_cast<::fnv_00757f70::SettingObj *>(&::g_011d3ca0)).FUN_00403df0(), ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&(obj->m_note->m_name))->FUN_00408da0())));
-                            DispatchMessageToSink(((const char *)(::FUN_00559450((int *)&(str)))), 0,
+                            ::DispatchMessageToSink(((const char *)(::FUN_00559450((int *)&(str)))), 0,
                                                   "Interface\\Icons\\Message Icons\\glow_message_giftbox.dds", 0, 2.0f,
                                                   false);
                         }

@@ -3109,7 +3109,7 @@ Tile129* FUN_00733630(SetMgr* casino, int minimum, int maximum, int required)
         char message[260];
         ::FUN_00406d00(message, 260, DAT_01070c58, (*reinterpret_cast<::Settings129 *>(&::g_011d451c)).FUN_00403df0(),
                      ((int)(reinterpret_cast<::TimeCounter *>((((Player129*)(*reinterpret_cast<::SetMgrB * *>(&::_g_thePlayer)))))->FUN_00969b40())));
-        ::DispatchMessageToSink((int)(message), 0, (int)(DAT_01049638), 0, ::DAT_010162c0, 0);
+        ::DispatchMessageToSink((const char *)(message), 0, (const char *)(DAT_01049638), 0, ::DAT_010162c0, 0);
         reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::BSSoundHandleEx &)(((::Audio129 *)(::FUN_00453a70()))->FUN_00ad7550(DAT_01025cc4, 0x121)))->FUN_00ad8830(false);
         return 0;
     }
@@ -3117,7 +3117,7 @@ Tile129* FUN_00733630(SetMgr* casino, int minimum, int maximum, int required)
     {
         char message[260];
         ::FUN_00406d00(message, 260, (*reinterpret_cast<::Settings129 *>(&::g_011d3abc)).FUN_00403df0());
-        ::DispatchMessageToSink((int)(message), 0, (int)(DAT_01049638), 0, ::DAT_010162c0, 0);
+        ::DispatchMessageToSink((const char *)(message), 0, (const char *)(DAT_01049638), 0, ::DAT_010162c0, 0);
         reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::BSSoundHandleEx &)(((::Audio129 *)(::FUN_00453a70()))->FUN_00ad7550(DAT_01025cc4, 0x121)))->FUN_00ad8830(false);
         return 0;
     }
@@ -3125,7 +3125,7 @@ Tile129* FUN_00733630(SetMgr* casino, int minimum, int maximum, int required)
     {
         char message[260];
         ::FUN_00406d00(message, 260, (*reinterpret_cast<::Settings129 *>(&::g_011d2424)).FUN_00403df0());
-        ::DispatchMessageToSink((int)(message), 0, (int)(DAT_01049638), 0, ::DAT_010162c0, 0);
+        ::DispatchMessageToSink((const char *)(message), 0, (const char *)(DAT_01049638), 0, ::DAT_010162c0, 0);
         reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::BSSoundHandleEx &)(((::Audio129 *)(::FUN_00453a70()))->FUN_00ad7550(DAT_01025cc4, 0x121)))->FUN_00ad8830(false);
         return 0;
     }
@@ -3133,7 +3133,7 @@ Tile129* FUN_00733630(SetMgr* casino, int minimum, int maximum, int required)
     {
         char message[260];
         ::FUN_00406d00(message, 260, (*reinterpret_cast<::Settings129 *>(&::g_011d3594)).FUN_00403df0());
-        ::DispatchMessageToSink((int)(message), 0, (int)(DAT_01049638), 0, ::DAT_010162c0, 0);
+        ::DispatchMessageToSink((const char *)(message), 0, (const char *)(DAT_01049638), 0, ::DAT_010162c0, 0);
         reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::BSSoundHandleEx &)(((::Audio129 *)(::FUN_00453a70()))->FUN_00ad7550(DAT_01025cc4, 0x121)))->FUN_00ad8830(false);
         return 0;
     }

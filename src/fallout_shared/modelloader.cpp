@@ -2309,11 +2309,11 @@ struct C_00449210
     virtual void v0();
     virtual void v1();
     E_00449210** arr;
-    void FUN_00449210(int idx, std::intptr_t val);
+    void FUN_00449210(int idx, void* val);
 };
 // Calls FUN_00449240 on the element at idx with val, then calls v1().
 // @fnv 0x00449210
-void C_00449210::FUN_00449210(int aiIndex, std::intptr_t val)
+void C_00449210::FUN_00449210(int aiIndex, void* val)
 {
     ::FUN_00449240((::LockedReceiver *)(arr[aiIndex]), ::ReceiverArgument{(void *)(val)});
     v1();
@@ -4467,13 +4467,13 @@ struct QueueObj
 };
 struct QueueModelHolder
 {
-    void FUN_00443dc0(int, QueueObj*, int, int, int, bool, bool, bool, float);
-    void FUN_00443d30(int apModel, int a, int b, int c, bool d, bool e, bool f);
+    void FUN_00443dc0(std::uintptr_t, QueueObj*, int, std::uintptr_t, int, bool, bool, bool, float);
+    void FUN_00443d30(std::uintptr_t apModel, int a, std::uintptr_t b, int c, bool d, bool e, bool f);
 };
 
 // Constructs a QueueObj with state 0 and forwards it with the model and flags to FUN_00443dc0 using a zero float.
 // @fnv 0x00443d30
-void QueueModelHolder::FUN_00443d30(int apModel, int aiArg1, int aiArg2, int aiArg3, bool abFlag1, bool abFlag2,
+void QueueModelHolder::FUN_00443d30(std::uintptr_t apModel, int aiArg1, std::uintptr_t aiArg2, int aiArg3, bool abFlag1, bool abFlag2,
                                     bool abFlag3)
 {
     QueueObj spqueuedModel(0);
@@ -6215,10 +6215,11 @@ FUN_0044cc10::FUN_0044cc10()
     m_iThirdValue = 0;
 }
 
+// Reads a tagged pointer-sized word and returns it with the low tag bit cleared.
 // @fnv 0x0044dec0
-int ClearLowBit(int* piValue)
+std::intptr_t ClearLowBit(void* pValue)
 {
-    return *piValue & 0xfffffffe;
+    return *static_cast<std::intptr_t*>(pValue) & ~std::intptr_t(1);
 }
 
 struct FUN_0044df00Class
@@ -8892,7 +8893,7 @@ struct QHeadPtrDest
 };
 struct QueueModelHolder
 {
-    void FUN_00443dc0(int, QueueObj*, int, int, int, bool, bool, bool, float);
+    void FUN_00443dc0(std::uintptr_t, QueueObj*, int, std::uintptr_t, int, bool, bool, bool, float);
 };
 struct FUN_00444dc0_ref
 {
@@ -9222,7 +9223,7 @@ S0044afe0* S0044afe0::FUN_0044afe0(KFModel* apModel)
 }  // namespace fnv_0044afe0
 
 namespace fnv_00528ce0 {
-int ClearLowBit(int*);
+std::intptr_t ClearLowBit(void*);
 struct FUN_0044df00Class
 {
     char* FUN_0044df00();
@@ -10482,7 +10483,7 @@ struct FUN_00529000_Class
     void FUN_00529000();
 };
 
-int ClearLowBit(int*);
+std::intptr_t ClearLowBit(void*);
 
 struct FUN_009066d0_Class : public FUN_00529000_Class
 {
@@ -16154,7 +16155,7 @@ struct FUN_00445570_obj
 {
     virtual void v0();
     virtual void v1();
-    virtual bool v2(unsigned int a1, void* pGuard);
+    virtual bool v2(std::uintptr_t a1, void* pGuard);
 };
 
 struct FUN_00445570_obj2
@@ -16164,7 +16165,7 @@ struct FUN_00445570_obj2
     virtual void v2();
     virtual void v3();
     virtual void v4();
-    virtual void v5(unsigned int a1);
+    virtual void v5(std::uintptr_t a1);
 };
 
 struct LoadScopeGuard : public S_0042f730
@@ -16185,7 +16186,7 @@ struct FUN_00445570_cls
     int unk10;
     int unk14;
     FUN_00445570_obj* m_18;
-    void FUN_00445570(unsigned int a1);
+    void FUN_00445570(std::uintptr_t a1);
 };
 
 struct FUN_0044ac40_s
@@ -16198,7 +16199,7 @@ LoadScopeGuard::~LoadScopeGuard()
 }
 
 // @fnv 0x00445570
-void FUN_00445570_cls::FUN_00445570(unsigned int a1)
+void FUN_00445570_cls::FUN_00445570(std::uintptr_t a1)
 {
     LoadScopeGuard guardA(0);
     if (m_08->v2(a1, &guardA))
@@ -19176,11 +19177,11 @@ class QueueModelHolder
 {
   public:
     QHolderObj* m_pHolder;
-    void FUN_00443dc0(int a1, QueueObj* a2, int a3, int a4, int a5, bool a6, bool a7, bool a8, float a9);
+    void FUN_00443dc0(std::uintptr_t a1, QueueObj* a2, int a3, std::uintptr_t a4, int a5, bool a6, bool a7, bool a8, float a9);
 };
 
 // @fnv 0x00443dc0
-void QueueModelHolder::FUN_00443dc0(int pQueueObj, QueueObj* a2, int a3, int pParent, int a5, bool bFlag1, bool bFlag2,
+void QueueModelHolder::FUN_00443dc0(std::uintptr_t pQueueObj, QueueObj* a2, int a3, std::uintptr_t pParent, int a5, bool bFlag1, bool bFlag2,
                                     bool bFlag3, float fValue)
 {
     QHeadLocal* pHead = 0;
@@ -19523,11 +19524,11 @@ class FUN_0043d540 : public QIdle
 class OwnerX
 {
   public:
-    void RunIdleTask(int a, int c);
+    void RunIdleTask(std::uintptr_t a, std::uintptr_t c);
 };
 // Creates a FUN_0043d540 idle task with the given parameters and immediately runs it via QIdle::Run.
 // @fnv 0x00447980
-void OwnerX::RunIdleTask(int aiParam1, int aiParam3)
+void OwnerX::RunIdleTask(std::uintptr_t aiParam1, std::uintptr_t aiParam3)
 {
     QIdlePtr spIdle(new FUN_0043d540(aiParam1, 4, aiParam3));
     ((QIdle*)spIdle)->Run();

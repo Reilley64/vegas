@@ -80,6 +80,7 @@
 #include "fnv/symbols_01202000.h"
 #include "fnv/symbols_01203000.h"
 #include "fnv/symbols_01204000.h"
+#include "fnv/symbols_00aa2000.h"
 #include "original_global_object_initializers.h"
 
 // @fnv 0x00f35420
@@ -9714,16 +9715,6 @@ GlobalObject_00a7b610 g_012043dc(g_012043dc_arg0, (*reinterpret_cast<const char 
 // @fnv 0x00fbc9a0
 GlobalObject_00a7b610 g_012043e4(g_012043e4_arg0, (*reinterpret_cast<const char (*)[]>(&::g_011f4418)));
 
-extern void __cdecl FUN_00632e30();
-extern int DAT_011cc694;
-
-// @fnv 0x00632e20
-int __cdecl FUN_00632e20()
-{
-    FUN_00632e30();
-    return DAT_011cc694;
-}
-
 struct FUN_006ffc90_shell
 {
     int m_kPointA;
@@ -9758,7 +9749,7 @@ void* FUN_008699c0_shell::FUN_008699c0(unsigned int maxSize, unsigned int growBy
 struct FUN_00869b10_shell
 {
     void* m_vft;
-    void* FUN_00869b10(void* a, void* b);
+    void* FUN_00869b10(unsigned int a, unsigned int b);
 };
 
 struct FUN_00869bf0_holder
@@ -9770,7 +9761,7 @@ void FUN_00869bf0_holder::FUN_00869bf0(void* a, void* b)
 {}
 
 // @fnv 0x00869b10
-void* FUN_00869b10_shell::FUN_00869b10(void* a, void* b)
+void* FUN_00869b10_shell::FUN_00869b10(unsigned int a, unsigned int b)
 {
     extern void* DAT_010827f8;
     new ((void *)(((FUN_00869bf0_holder*)this))) ::FUN_00869bf0((unsigned short)(a), (unsigned short)(b));
@@ -9799,24 +9790,10 @@ void* FUN_00869f00_shell::FUN_00869f00(unsigned int a, unsigned int b)
     return this;
 }
 
-struct FUN_0045cfb0
-{
-    virtual void Dummy();
-    unsigned char f4;
-    unsigned int f8;
-    FUN_0045cfb0(unsigned int a, unsigned char b);
-};
-// @fnv 0x0045cfb0
-FUN_0045cfb0::FUN_0045cfb0(unsigned int a, unsigned char b)
-{
-    f8 = a;
-    f4 = b;
-}
-
 extern int DAT_0102f408;
 struct StandIn_00559cc0
 {
-    int m0;
+    const void* m_vtbl;
     void InitArray(int);
     StandIn_00559cc0* FUN_00559cc0(int);
 };
@@ -9824,7 +9801,7 @@ struct StandIn_00559cc0
 StandIn_00559cc0* StandIn_00559cc0::FUN_00559cc0(int a)
 {
     InitArray(a);
-    m0 = (int)&DAT_0102f408;
+    m_vtbl = &DAT_0102f408;
     return this;
 }
 
@@ -9874,291 +9851,25 @@ struct FUN_00869db0 : FUN_00869e90
 FUN_00869db0::FUN_00869db0(unsigned int a, unsigned int b) : FUN_00869e90(a, b)
 {}
 
-class B45CF30Setting;
+extern int DAT_012024d4;
+void __cdecl RegisterParticleSystems();
+void __cdecl FUN_00c1a7d0();
 
-class B45CF30Collection
+struct FUN_00c1ad50_class
 {
-  public:
-    virtual void vfunc00();
-    virtual void AddSetting(B45CF30Setting* pkSetting);
+    void* FUN_00c1ad50();
 };
 
-class B45CF30Setting
+// @fnv 0x00c1ad50
+void* FUN_00c1ad50_class::FUN_00c1ad50()
 {
-  public:
-    unsigned int m_uiCurrentValue;
-    const char* m_pcName;
-
-    B45CF30Setting(unsigned int uiValue, unsigned char ucType);
-    virtual ~B45CF30Setting();
-};
-
-class B45CF30SettingT
-{
-  public:
-    static B45CF30Collection* GetCollection();
-};
-
-class FUN_0045cf30 : public B45CF30Setting
-{
-  public:
-    FUN_0045cf30(unsigned int uiValue, unsigned char ucType);
-    virtual ~FUN_0045cf30();
-};
-
-// @fnv 0x0045cf30
-FUN_0045cf30::FUN_0045cf30(unsigned int uiValue, unsigned char ucType) : B45CF30Setting(uiValue, ucType)
-{
-    B45CF30SettingT::GetCollection()->AddSetting(this);
+    int count = DAT_012024d4;
+    ++DAT_012024d4;
+    if (!count)
+        ::FUN_00aa2080((void (*)())(void *)((void*)&RegisterParticleSystems), (intptr_t)((void*)&FUN_00c1a7d0));
+    return this;
 }
 
-class FUN_0045d060;
-
-
-class FloatNamedBase
-{
-  public:
-    FloatNamedBase(const char* name, float value);
-    virtual ~FloatNamedBase();
-};
-
-class FloatObjectRegistry
-{
-  public:
-    virtual void Reset();
-    virtual void Register(FUN_0045d060* object);
-};
-
-class FUN_0045d060 : public FloatNamedBase
-{
-  public:
-    FUN_0045d060(const char* name, float value);
-    virtual ~FUN_0045d060();
-    virtual void Reset();
-};
-
-// @fnv 0x0045d060
-FUN_0045d060::FUN_0045d060(const char* name, float value) : FloatNamedBase(name, value)
-{
-    ((FloatObjectRegistry*)((void *)(::FUN_0045d180())))->Register(this);
-}
-
-class FUN_004a4a40;
-
-
-class NamedBase
-{
-  public:
-    NamedBase(const char* name, int value);
-    virtual ~NamedBase();
-};
-
-class ObjectRegistry
-{
-  public:
-    virtual void Reset();
-    virtual void Register(FUN_004a4a40* object);
-};
-
-class FUN_004a4a40 : public NamedBase
-{
-  public:
-    FUN_004a4a40(const char* name, int value);
-    virtual ~FUN_004a4a40();
-    virtual void Reset();
-};
-
-// @fnv 0x004a4a40
-FUN_004a4a40::FUN_004a4a40(const char* name, int value) : NamedBase(name, value)
-{
-    ((ObjectRegistry*)((void *)(::FUN_0045d180())))->Register(this);
-}
-
-struct FUN_004de2f0_base
-{
-    virtual ~FUN_004de2f0_base();
-    FUN_004de2f0_base(unsigned int a, unsigned char flag);
-};
-
-struct FUN_004de2f0_mgr
-{
-    virtual void Dummy();
-    virtual void Notify(void* obj);
-};
-
-
-struct FUN_004de2f0 : FUN_004de2f0_base
-{
-    FUN_004de2f0(unsigned int a, unsigned char flag);
-    virtual ~FUN_004de2f0();
-};
-
-// @fnv 0x004de2f0
-FUN_004de2f0::FUN_004de2f0(unsigned int a, unsigned char flag) : FUN_004de2f0_base(a, flag)
-{
-    ((::FUN_004de2f0_mgr *)(::FUN_0045d180()))->Notify(this);
-}
-
-struct ConstructorBase
-{
-    ConstructorBase(int setting, float value);
-    ~ConstructorBase();
-    virtual void BaseAction();
-};
-
-struct ConstructorObserver
-{
-    virtual void OnDestructed();
-    virtual void OnConstructed(ConstructorBase* instance);
-};
-
-ConstructorObserver* __cdecl FUN_004de490();
-
-struct FUN_004de370 : ConstructorBase
-{
-    FUN_004de370(int setting, float value);
-    virtual void Update();
-};
-
-// @fnv 0x004de370
-FUN_004de370::FUN_004de370(int setting, float value) : ConstructorBase(setting, value)
-{
-    FUN_004de490()->OnConstructed(this);
-}
-
-namespace fnv_00632ee0 {
-class FUN_00632ee0;
-
-class NamedBase
-{
-  public:
-    NamedBase(const char* name, float value);
-    virtual ~NamedBase();
-};
-
-class ObjectRegistry
-{
-  public:
-    virtual void Reset();
-    virtual void Register(FUN_00632ee0* object);
-};
-
-class FUN_00632ee0 : public NamedBase
-{
-  public:
-    FUN_00632ee0(const char* name, float value);
-    virtual ~FUN_00632ee0();
-    virtual void Reset();
-};
-
-// @fnv 0x00632ee0
-FUN_00632ee0::FUN_00632ee0(const char* name, float value) : NamedBase(name, value)
-{
-    ((ObjectRegistry*)FUN_00632e20())->Register(this);
-}
-}  // namespace fnv_00632ee0
-
-namespace fnv_00719c00 {
-class FUN_00719c00;
-
-void* FUN_004de490();
-
-class NamedBase
-{
-  public:
-    NamedBase(const char* name, int value);
-    virtual ~NamedBase();
-};
-
-class ObjectRegistry
-{
-  public:
-    virtual void Reset();
-    virtual void Register(FUN_00719c00* object);
-};
-
-class FUN_00719c00 : public NamedBase
-{
-  public:
-    FUN_00719c00(const char* name, int value);
-    virtual ~FUN_00719c00();
-    virtual void Reset();
-};
-
-// @fnv 0x00719c00
-FUN_00719c00::FUN_00719c00(const char* name, int value) : NamedBase(name, value)
-{
-    ((ObjectRegistry*)FUN_004de490())->Register(this);
-}
-}  // namespace fnv_00719c00
-
-class C633000Base
-{
-  public:
-    C633000Base(int iArg1, int iArg2);
-    virtual ~C633000Base();
-};
-
-class C633000Registry
-{
-  public:
-    virtual void VFunc00();
-    virtual void Register(C633000Base* pkObject);
-};
-
-
-class FUN_00633000 : public C633000Base
-{
-  public:
-    FUN_00633000(int iArg1, int iArg2);
-    virtual ~FUN_00633000();
-};
-
-// @fnv 0x00633000
-FUN_00633000::FUN_00633000(int iArg1, int iArg2) : C633000Base(iArg1, iArg2)
-{
-    ((::C633000Registry *)(::FUN_00632e20()))->Register(this);
-}
-
-class INIPrefSettingCollection;
-
-template <class T> class SettingT
-{
-  public:
-    static T* GetCollection();
-};
-
-class INIPrefSettingCollection
-{
-  public:
-    virtual void V0();
-    virtual void AddSetting(void* pkSetting);
-};
-
-namespace S709F {
-
-class FUN_0045cfb0
-{
-  public:
-    FUN_0045cfb0(unsigned int uiValue, unsigned char ucType);
-    virtual ~FUN_0045cfb0();
-    unsigned char m_type;
-    unsigned int m_uiFilterValue;
-};
-
-class FUN_00709f00 : public FUN_0045cfb0
-{
-  public:
-    FUN_00709f00(unsigned int uiValue, unsigned char ucType);
-    virtual ~FUN_00709f00();
-};
-
-// @fnv 0x00709f00
-FUN_00709f00::FUN_00709f00(unsigned int uiValue, unsigned char ucType) : FUN_0045cfb0(uiValue, ucType)
-{
-    SettingT<INIPrefSettingCollection>::GetCollection()->AddSetting(this);
-}
-
-}
 
 #include "generated/data/generated/global_object_initializers.inc"
+#include "generated/data/generated/global_object_initializers_o2_variant.inc"

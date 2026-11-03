@@ -10721,7 +10721,7 @@ bool TravelObject::FUN_0093d660()
     if (reinterpret_cast<::DetectionList *>(&((*reinterpret_cast<::fnv_0093d660::TravelProcesses *>(&::g_011e0e80))))->HasNearbyDetectedActor(reinterpret_cast<::fnv_00575d10::FUN_00575d10_shell *>(((*reinterpret_cast<::fnv_0093d660::TravelObject * *>(&::_g_thePlayer))))->FUN_00575d10()))
     {
         ::FUN_00406d00(message2, 500, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_0093d660::TravelSetting *>(&::g_011d3dd8))))->GetMenuTitle())));
-        ::DispatchMessageToSink((int)(message2), 0, (int)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds"), (int)(0), ::DAT_010162c0,
+        ::DispatchMessageToSink((const char *)(message2), 0, (const char *)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds"), (const char *)(0), ::DAT_010162c0,
                        false);
         return false;
     }
@@ -10729,7 +10729,7 @@ bool TravelObject::FUN_0093d660()
     if (found7 && !found7->Empty())
     {
         ::FUN_00406d00(message2, 500, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_0093d660::TravelSetting *>(&::g_011d4114))))->GetMenuTitle())));
-        ::DispatchMessageToSink((int)(message2), 0, (int)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds"), (int)(0), ::DAT_010162c0,
+        ::DispatchMessageToSink((const char *)(message2), 0, (const char *)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds"), (const char *)(0), ::DAT_010162c0,
                        false);
         reinterpret_cast<::FileMatchList *>((found7))->RemoveAll();
         delete found7;
@@ -10745,7 +10745,7 @@ bool TravelObject::FUN_0093d660()
             if (itemB && itemB->BlocksTravel())
             {
                 ::FUN_00406d00(message2, 500, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_0093d660::TravelSetting *>(&::g_011d255c))))->GetMenuTitle())));
-                ::DispatchMessageToSink((int)(message2), 0, (int)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds"), (int)(0),
+                ::DispatchMessageToSink((const char *)(message2), 0, (const char *)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds"), (const char *)(0),
                                ::DAT_010162c0, false);
                 return false;
             }
@@ -10755,7 +10755,7 @@ bool TravelObject::FUN_0093d660()
     if (!(*reinterpret_cast<::fnv_0093d660::TravelObject * *>(&::_g_thePlayer))->Allowed())
     {
         ::FUN_00406d00(message2, 500, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_0093d660::TravelSetting *>(&::g_011d3630))))->GetMenuTitle())));
-        ::DispatchMessageToSink((int)(message2), 0, (int)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds"), (int)(0), ::DAT_010162c0,
+        ::DispatchMessageToSink((const char *)(message2), 0, (const char *)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds"), (const char *)(0), ::DAT_010162c0,
                        false);
         return false;
     }
@@ -10766,21 +10766,21 @@ bool TravelObject::FUN_0093d660()
         if (modifier2 < 1.0)
         {
             ::FUN_00406d00(message2, 500, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_0093d660::TravelSetting *>(&::g_011d50c8))))->GetMenuTitle())));
-            ::DispatchMessageToSink((int)(message2), 0, (int)(0), (int)(0), ::DAT_010162c0, false);
+            ::DispatchMessageToSink((const char *)(message2), 0, (const char *)(0), (const char *)(0), ::DAT_010162c0, false);
             return false;
         }
     }
     if ((*reinterpret_cast<::fnv_0093d660::TravelObject * *>(&::_g_thePlayer))->values.Value(22) < 1 || (*reinterpret_cast<::fnv_0093d660::TravelObject * *>(&::_g_thePlayer))->values.Value(16) < 1)
     {
         ::FUN_00406d00(message2, 500, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_0093d660::TravelSetting *>(&::g_011d255c))))->GetMenuTitle())));
-        ::DispatchMessageToSink((int)(message2), 0, (int)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds"), (int)(0), ::DAT_010162c0,
+        ::DispatchMessageToSink((const char *)(message2), 0, (const char *)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds"), (const char *)(0), ::DAT_010162c0,
                        false);
         return false;
     }
     if (reinterpret_cast<::FUN_008849c0_cls *>(((*reinterpret_cast<::fnv_0093d660::TravelObject * *>(&::_g_thePlayer))))->FUN_008849c0())
     {
         ::FUN_00406d00(message2, 500, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_0093d660::TravelSetting *>(&::g_011d4120))))->GetMenuTitle())));
-        ::DispatchMessageToSink((int)(message2), 0, (int)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds"), (int)(0), ::DAT_010162c0,
+        ::DispatchMessageToSink((const char *)(message2), 0, (const char *)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds"), (const char *)(0), ::DAT_010162c0,
                        false);
         return false;
     }
@@ -10795,7 +10795,7 @@ bool TravelObject::FUN_0093d660()
     if (!allowed3)
     {
         ::FUN_00406d00(message2, 500, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_0093d660::TravelSetting *>(&::g_011d4738))))->GetMenuTitle())));
-        ::DispatchMessageToSink((int)(message2), 0, (int)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds"), (int)(0), ::DAT_010162c0,
+        ::DispatchMessageToSink((const char *)(message2), 0, (const char *)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds"), (const char *)(0), ::DAT_010162c0,
                        false);
     }
     return allowed3;
@@ -23430,9 +23430,9 @@ void KarmaActor::FUN_0094fd30(int aiKarmaChange)
         if (current + aiKarmaChange < *((int *)&(::FUN_0043d4d0((int *)&(::g_011cdd6c)))))
             aiKarmaChange = *((int *)&(::FUN_0043d4d0((int *)&(::g_011cdd6c)))) - current;
         if (aiKarmaChange < -*((int *)&(::FUN_0043d4d0((int *)&(::g_011d26ac)))))
-            ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::StartMenu *>(&(::g_011d4a14))->GetMenuTitle()))), 0, (int)(((const char *)(reinterpret_cast<::StartMenu *>(&(::g_011d42c4))->GetMenuTitle()))), (int)(0), 2.0f, false);
+            ::DispatchMessageToSink((const char *)(((const char *)(reinterpret_cast<::StartMenu *>(&(::g_011d4a14))->GetMenuTitle()))), 0, (const char *)(((const char *)(reinterpret_cast<::StartMenu *>(&(::g_011d42c4))->GetMenuTitle()))), (const char *)(0), 2.0f, false);
         else
-            ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::StartMenu *>(&(::g_011d3420))->GetMenuTitle()))), 0, (int)(((const char *)(reinterpret_cast<::StartMenu *>(&(::g_011d2cd0))->GetMenuTitle()))), (int)(0), 2.0f, false);
+            ::DispatchMessageToSink((const char *)(((const char *)(reinterpret_cast<::StartMenu *>(&(::g_011d3420))->GetMenuTitle()))), 0, (const char *)(((const char *)(reinterpret_cast<::StartMenu *>(&(::g_011d2cd0))->GetMenuTitle()))), (const char *)(0), 2.0f, false);
         GlobalObject_0041a250 sound;
         sound.FUN_copy(&::FUN_00453a70()->GetSoundHandleByEditorID("UIKarmaDown", 0x121));
         reinterpret_cast<FUN_00ad8830_shell*>(&sound)->FUN_00ad8830(false);
@@ -23442,9 +23442,9 @@ void KarmaActor::FUN_0094fd30(int aiKarmaChange)
         if (current + aiKarmaChange > *((int *)&(::FUN_0043d4d0((int *)&(::g_011cd644)))))
             aiKarmaChange = *((int *)&(::FUN_0043d4d0((int *)&(::g_011cd644)))) - current;
         if (aiKarmaChange < *((int *)&(::FUN_0043d4d0((int *)&(::g_011d26ac)))))
-            ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::StartMenu *>(&(::g_011d1fb0))->GetMenuTitle()))), 0, (int)(((const char *)(reinterpret_cast<::StartMenu *>(&(::g_011d3e38))->GetMenuTitle()))), (int)(0), 2.0f, false);
+            ::DispatchMessageToSink((const char *)(((const char *)(reinterpret_cast<::StartMenu *>(&(::g_011d1fb0))->GetMenuTitle()))), 0, (const char *)(((const char *)(reinterpret_cast<::StartMenu *>(&(::g_011d3e38))->GetMenuTitle()))), (const char *)(0), 2.0f, false);
         else
-            ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::StartMenu *>(&(::g_011d3c70))->GetMenuTitle()))), 0, (int)(((const char *)(reinterpret_cast<::StartMenu *>(&(::g_011d3b14))->GetMenuTitle()))), (int)(0), 2.0f, false);
+            ::DispatchMessageToSink((const char *)(((const char *)(reinterpret_cast<::StartMenu *>(&(::g_011d3c70))->GetMenuTitle()))), 0, (const char *)(((const char *)(reinterpret_cast<::StartMenu *>(&(::g_011d3b14))->GetMenuTitle()))), (const char *)(0), 2.0f, false);
         GlobalObject_0041a250 sound;
         sound.FUN_copy(&::FUN_00453a70()->GetSoundHandleByEditorID("UIKarmaUp", 0x121));
         reinterpret_cast<FUN_00ad8830_shell*>(&sound)->FUN_00ad8830(false);
@@ -46781,7 +46781,7 @@ void PlayerNoteStub::FUN_00966a70(NoteStub* note, bool abAdd)
             ::FUN_00703c00(text, {});
         }
     }
-    ::DispatchMessageToSink((int)(text), 0, (int)(0), (int)("UIItemGenericUp"), 2.0f, 0);
+    ::DispatchMessageToSink((const char *)(text), 0, (const char *)(0), (const char *)("UIItemGenericUp"), 2.0f, 0);
 }
 
 class BGSNote;

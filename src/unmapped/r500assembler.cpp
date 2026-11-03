@@ -1,6 +1,7 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <windows.h>
 #include <new>
 #include "fnv/decl/Callees.h"
@@ -188,7 +189,7 @@ extern "C" char DAT_01081a5c;
 
 struct SpawnedObject
 {
-    unsigned int unk00;
+    void* volatile vfptr;
     unsigned int unk04;
     unsigned int unk08;
     unsigned int unk0C;
@@ -275,14 +276,14 @@ struct SpawnedObject
     unsigned int unk150;
     unsigned int unk154;
     unsigned char m_158;
-    SpawnedObject* FUN_0085fb40(int a1, int a2, int a3);
+    SpawnedObject* FUN_0085fb40(const char* a1, int a2, int a3);
 };
 
 // @fnv 0x0085fb40
-SpawnedObject* SpawnedObject::FUN_0085fb40(int a1, int a2, int a3)
+SpawnedObject* SpawnedObject::FUN_0085fb40(const char* a1, int a2, int a3)
 {
-    new ((void *)(this)) ::FUN_00b00260((const char *)(a1), a2, a3, 0);
-    *(void* volatile*)this = &DAT_01081a5c;
+    new ((void *)(this)) ::FUN_00b00260(a1, a2, a3, 0);
+    vfptr = &DAT_01081a5c;
     this->m_158 = 0;
     return this;
 }
@@ -294,6 +295,8 @@ struct Item
 
 struct ListNode
 {
+    Item* m_item;
+    ListNode* m_pkNext;
 };
 
 struct List
@@ -324,7 +327,7 @@ void SaveLoadList::LoadSaveFiles()
                         reinterpret_cast<::FUN_0085fbd0_class *>(this)->DeleteAllItems();
                     list = new SL;
                     lstrcpyA(path, ((char *)(::FUN_004dc110())));
-                    lstrcatA(path, ((const char *)(::FUN_00464f30((int)((*reinterpret_cast<::StartMenu *>(&::g_011c3f74)).GetMenuTitle())))));
+                    lstrcatA(path, ((const char *)(::FUN_00464f30(reinterpret_cast<std::intptr_t>((*reinterpret_cast<::StartMenu *>(&::g_011c3f74)).GetMenuTitle())))));
                     lstrcatA(path, "*.ess");
                     handle = FindFirstFileA(path, (_WIN32_FIND_DATAA*)&findData);
                     if (handle != (void*)-1)
@@ -334,7 +337,7 @@ void SaveLoadList::LoadSaveFiles()
                             if (findData.nFileSizeHigh || findData.nFileSizeLow)
                             {
                                 ::FUN_00406d00(fullPath, 260, "%s%s%s", ((char *)(::FUN_004dc110())),
-                                           ((const char *)(::FUN_00464f30((int)((*reinterpret_cast<::StartMenu *>(&::g_011c3f74)).GetMenuTitle())))), findData.cFileName);
+                                           ((const char *)(::FUN_00464f30(reinterpret_cast<std::intptr_t>((*reinterpret_cast<::StartMenu *>(&::g_011c3f74)).GetMenuTitle())))), findData.cFileName);
                                 file = new FUN_0085fb40(fullPath, 0, 0x20000);
                                 reinterpret_cast<::FUN_00470440 *>((((AEList*)list)))->FUN_007a7eb0((::BGSPerkEntry *)(::DebrisData *)((DebrisData*)file), (int (*)(BGSPerkEntry *, BGSPerkEntry *))(((int (&)(DebrisData *, DebrisData *))::CompareFileWriteTimes)));
                             }
@@ -356,7 +359,7 @@ void FUN_0085fbd0_class::DeleteAllItems()
         ListNode* node = (ListNode*)m_kNode;
         while (node)
         {
-            Item* item = *((::Item **)(new ((void *)(node)) ::Vec3()));
+            Item* item = node->m_item;
             if (item)
             {
                 delete item;

@@ -2559,7 +2559,7 @@ FUN_0062a460_Class::FUN_0062a460_Class()
     m_vtbl = (int*)&DAT_0104e228;
 }
 
-extern int DAT_011cc694;
+extern void* DAT_011cc694;
 
 struct FUN_00632ec0
 {
@@ -2575,7 +2575,7 @@ FUN_00632ec0::FUN_00632ec0()
 void FUN_00632e30()
 {
     if (!DAT_011cc694)
-        DAT_011cc694 = (int)new FUN_00632ec0;
+        DAT_011cc694 = new FUN_00632ec0;
 }
 
 // @fnv 0x006397b0

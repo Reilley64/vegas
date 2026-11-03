@@ -15540,18 +15540,18 @@ struct S00c859e0_holder
     void* m_04;
 };
 
-typedef S00c859e0_holder*(* S00c859e0_slot45)(void*, unsigned int*);
+typedef S00c859e0_holder*(* S00c859e0_slot45)(void*, void**);
 
 struct S00c859e0_cls
 {
-    void FUN_00c859e0(unsigned int value);
+    void FUN_00c859e0(void* value);
 };
 
 // Calls vtable slot 45 for a holder, sets its m_04 from FUN_00a63430's result (or a new FUN_00cca4e0's m_08 under type checks), then calls FUN_00c87670.
 // @fnv 0x00c859e0
-void S00c859e0_cls::FUN_00c859e0(unsigned int value)
+void S00c859e0_cls::FUN_00c859e0(void* value)
 {
-    unsigned int id = value;
+    void* id = value;
     _ReadWriteBarrier();
     void* found = ((void *)(reinterpret_cast<::NiStream *>((reinterpret_cast<FUN_00a63430_class*>(id)))->GetLoadedObject()));
     void** table = *reinterpret_cast<void***>(this);

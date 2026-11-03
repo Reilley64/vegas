@@ -1,5 +1,6 @@
 // fallout_shared/bgstalkingactivator.cpp: BGSTalkingActivator, Pathing, TalkingActivatorComparison, TESObjectACTI and more (23 functions)
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/ACTIView.h"
 #include "fnv/decl/ActiV511.h"
@@ -646,7 +647,7 @@ class Actor : public TESObjectREFR
 struct FUN_004534f0_shell
 {
 public:
-    void FUN_004534f0(unsigned int);
+    void FUN_004534f0(std::uintptr_t);
 };
 struct FUN_004280f0_shell
 {

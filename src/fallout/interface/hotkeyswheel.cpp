@@ -863,7 +863,7 @@ void Wheel::FUN_00701e80()
     if (((::Form *)(reinterpret_cast<::Twin_0044ddc0 *>((entry5))->GetName())) == ((::Form *)(::BGSDefaultObjectManager::GetDefaultObjectByIndex((::DEFAULT_OBJECT)(0)))) && ((ActorValues*)((char*)(*reinterpret_cast<::Player * *>(&::_g_thePlayer)) + 0xa4))->v08(0x10) ==
                                                          ((ActorValues*)((char*)(*reinterpret_cast<::Player * *>(&::_g_thePlayer)) + 0xa4))->v1c(0x10))
     {
-        ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Setting *>(&::g_011d2af0))))->IsDLCAvailable()))), 0, (int)(0), (int)(0), DAT_010162c0, false);
+        ::DispatchMessageToSink((const char *)(((const char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Setting *>(&::g_011d2af0))))->IsDLCAvailable()))), 0, (const char *)(0), (const char *)(0), DAT_010162c0, false);
         return;
     }
     else

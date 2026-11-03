@@ -15199,15 +15199,15 @@ float InventoryMove::FUN_004ce380(MoveOwner* owner, MoveOwner* destination, bool
                                 case 115:
                                 case 116:
                                     ::DispatchMessageToSink(
-                                        (int)(((const char *)(::FUN_00559450((int *)&(messageScope1))))), 0,
-                                        (int)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_neutral.dds"),
-                                        false ? 0 : ((unsigned int)(reinterpret_cast<::PickupSoundActorView *>(((*reinterpret_cast<::MoveOwner * *>(&::_g_thePlayer))))->FUN_008adcf0(form3, true, false))), DAT_010162c0, 0);
+                                        (const char *)(((const char *)(::FUN_00559450((int *)&(messageScope1))))), 0,
+                                        (const char *)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_neutral.dds"),
+                                        false ? 0 : ((const char *)(reinterpret_cast<::PickupSoundActorView *>(((*reinterpret_cast<::MoveOwner * *>(&::_g_thePlayer))))->FUN_008adcf0(form3, true, false))), DAT_010162c0, 0);
                                     break;
                                 case 24:
                                     ::DispatchMessageToSink(
-                                        (int)(((const char *)(::FUN_00559450((int *)&(messageScope1))))), 0,
-                                        (int)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_neutral.dds"),
-                                        false ? 0 : ((unsigned int)(reinterpret_cast<::PickupSoundActorView *>(((*reinterpret_cast<::MoveOwner * *>(&::_g_thePlayer))))->FUN_008adcf0(form3, true, false))), DAT_010162c0, 0);
+                                        (const char *)(((const char *)(::FUN_00559450((int *)&(messageScope1))))), 0,
+                                        (const char *)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_neutral.dds"),
+                                        false ? 0 : ((const char *)(reinterpret_cast<::PickupSoundActorView *>(((*reinterpret_cast<::MoveOwner * *>(&::_g_thePlayer))))->FUN_008adcf0(form3, true, false))), DAT_010162c0, 0);
                                     break;
                                 }
                             }
@@ -15304,16 +15304,16 @@ float InventoryMove::FUN_004ce380(MoveOwner* owner, MoveOwner* destination, bool
                                             case 115:
                                             case 116:
                                                 ::DispatchMessageToSink(
-                                                    (int)(((const char *)(::FUN_00559450((int *)&(messageScope2))))), 0,
-                                                    (int)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_neutral.dds"),
-                                                    false ? 0 : ((unsigned int)(reinterpret_cast<::PickupSoundActorView *>(((*reinterpret_cast<::MoveOwner * *>(&::_g_thePlayer))))->FUN_008adcf0(form3, true, false))),
+                                                    (const char *)(((const char *)(::FUN_00559450((int *)&(messageScope2))))), 0,
+                                                    (const char *)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_neutral.dds"),
+                                                    false ? 0 : ((const char *)(reinterpret_cast<::PickupSoundActorView *>(((*reinterpret_cast<::MoveOwner * *>(&::_g_thePlayer))))->FUN_008adcf0(form3, true, false))),
                                                     DAT_010162c0, 0);
                                                 break;
                                             case 24:
                                                 ::DispatchMessageToSink(
-                                                    (int)(((const char *)(::FUN_00559450((int *)&(messageScope2))))), 0,
-                                                    (int)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_neutral.dds"),
-                                                    false ? 0 : ((unsigned int)(reinterpret_cast<::PickupSoundActorView *>(((*reinterpret_cast<::MoveOwner * *>(&::_g_thePlayer))))->FUN_008adcf0(form3, true, false))),
+                                                    (const char *)(((const char *)(::FUN_00559450((int *)&(messageScope2))))), 0,
+                                                    (const char *)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_neutral.dds"),
+                                                    false ? 0 : ((const char *)(reinterpret_cast<::PickupSoundActorView *>(((*reinterpret_cast<::MoveOwner * *>(&::_g_thePlayer))))->FUN_008adcf0(form3, true, false))),
                                                     DAT_010162c0, 0);
                                                 break;
                                             }
@@ -15405,16 +15405,16 @@ float InventoryMove::FUN_004ce380(MoveOwner* owner, MoveOwner* destination, bool
                                             case 115:
                                             case 116:
                                                 ::DispatchMessageToSink(
-                                                    (int)(((const char *)(::FUN_00559450((int *)&(messageScope3))))), 0,
-                                                    (int)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_neutral.dds"),
-                                                    false ? 0 : ((unsigned int)(reinterpret_cast<::PickupSoundActorView *>(((*reinterpret_cast<::MoveOwner * *>(&::_g_thePlayer))))->FUN_008adcf0(form3, true, false))),
+                                                    (const char *)(((const char *)(::FUN_00559450((int *)&(messageScope3))))), 0,
+                                                    (const char *)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_neutral.dds"),
+                                                    false ? 0 : ((const char *)(reinterpret_cast<::PickupSoundActorView *>(((*reinterpret_cast<::MoveOwner * *>(&::_g_thePlayer))))->FUN_008adcf0(form3, true, false))),
                                                     DAT_010162c0, 0);
                                                 break;
                                             case 24:
                                                 ::DispatchMessageToSink(
-                                                    (int)(((const char *)(::FUN_00559450((int *)&(messageScope3))))), 0,
-                                                    (int)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_neutral.dds"),
-                                                    false ? 0 : ((unsigned int)(reinterpret_cast<::PickupSoundActorView *>(((*reinterpret_cast<::MoveOwner * *>(&::_g_thePlayer))))->FUN_008adcf0(form3, true, false))),
+                                                    (const char *)(((const char *)(::FUN_00559450((int *)&(messageScope3))))), 0,
+                                                    (const char *)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_neutral.dds"),
+                                                    false ? 0 : ((const char *)(reinterpret_cast<::PickupSoundActorView *>(((*reinterpret_cast<::MoveOwner * *>(&::_g_thePlayer))))->FUN_008adcf0(form3, true, false))),
                                                     DAT_010162c0, 0);
                                                 break;
                                             }
@@ -15464,16 +15464,16 @@ float InventoryMove::FUN_004ce380(MoveOwner* owner, MoveOwner* destination, bool
                                     case 115:
                                     case 116:
                                         ::DispatchMessageToSink(
-                                            (int)(((const char *)(::FUN_00559450((int *)&(messageScope4))))), 0,
-                                            (int)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_neutral.dds"),
-                                            false ? 0 : ((unsigned int)(reinterpret_cast<::PickupSoundActorView *>(((*reinterpret_cast<::MoveOwner * *>(&::_g_thePlayer))))->FUN_008adcf0(form3, true, false))), DAT_010162c0,
+                                            (const char *)(((const char *)(::FUN_00559450((int *)&(messageScope4))))), 0,
+                                            (const char *)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_neutral.dds"),
+                                            false ? 0 : ((const char *)(reinterpret_cast<::PickupSoundActorView *>(((*reinterpret_cast<::MoveOwner * *>(&::_g_thePlayer))))->FUN_008adcf0(form3, true, false))), DAT_010162c0,
                                             0);
                                         break;
                                     case 24:
                                         ::DispatchMessageToSink(
-                                            (int)(((const char *)(::FUN_00559450((int *)&(messageScope4))))), 0,
-                                            (int)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_neutral.dds"),
-                                            false ? 0 : ((unsigned int)(reinterpret_cast<::PickupSoundActorView *>(((*reinterpret_cast<::MoveOwner * *>(&::_g_thePlayer))))->FUN_008adcf0(form3, true, false))), DAT_010162c0,
+                                            (const char *)(((const char *)(::FUN_00559450((int *)&(messageScope4))))), 0,
+                                            (const char *)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_neutral.dds"),
+                                            false ? 0 : ((const char *)(reinterpret_cast<::PickupSoundActorView *>(((*reinterpret_cast<::MoveOwner * *>(&::_g_thePlayer))))->FUN_008adcf0(form3, true, false))), DAT_010162c0,
                                             0);
                                         break;
                                     }
@@ -15529,15 +15529,15 @@ float InventoryMove::FUN_004ce380(MoveOwner* owner, MoveOwner* destination, bool
                                 case 115:
                                 case 116:
                                     ::DispatchMessageToSink(
-                                        (int)(((const char *)(::FUN_00559450((int *)&(messageScope5))))), 0,
-                                        (int)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_neutral.dds"),
-                                        false ? 0 : ((unsigned int)(reinterpret_cast<::PickupSoundActorView *>(((*reinterpret_cast<::MoveOwner * *>(&::_g_thePlayer))))->FUN_008adcf0(form3, true, false))), DAT_010162c0, 0);
+                                        (const char *)(((const char *)(::FUN_00559450((int *)&(messageScope5))))), 0,
+                                        (const char *)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_neutral.dds"),
+                                        false ? 0 : ((const char *)(reinterpret_cast<::PickupSoundActorView *>(((*reinterpret_cast<::MoveOwner * *>(&::_g_thePlayer))))->FUN_008adcf0(form3, true, false))), DAT_010162c0, 0);
                                     break;
                                 case 24:
                                     ::DispatchMessageToSink(
-                                        (int)(((const char *)(::FUN_00559450((int *)&(messageScope5))))), 0,
-                                        (int)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_neutral.dds"),
-                                        false ? 0 : ((unsigned int)(reinterpret_cast<::PickupSoundActorView *>(((*reinterpret_cast<::MoveOwner * *>(&::_g_thePlayer))))->FUN_008adcf0(form3, true, false))), DAT_010162c0, 0);
+                                        (const char *)(((const char *)(::FUN_00559450((int *)&(messageScope5))))), 0,
+                                        (const char *)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_neutral.dds"),
+                                        false ? 0 : ((const char *)(reinterpret_cast<::PickupSoundActorView *>(((*reinterpret_cast<::MoveOwner * *>(&::_g_thePlayer))))->FUN_008adcf0(form3, true, false))), DAT_010162c0, 0);
                                     break;
                                 }
                             }
@@ -16090,16 +16090,16 @@ bool FUN_005b4e90(ScriptParameter* paramInfo, char* scriptData, TESObjectREFR* t
                             case 0x73:
                             case 0x74:
                                 ::DispatchMessageToSink(
-                                    (std::intptr_t)(const char *)(sMessage), 0, (std::intptr_t)(g_011cba4c_arg1),
-                                    (int)(iNoMessage
+                                    (const char *)(sMessage), 0, (const char *)(g_011cba4c_arg1),
+                                    (const char *)(iNoMessage
                                         ? 0
                                         : reinterpret_cast<::PickupSoundActorView *>((reinterpret_cast<Player_5b4e90*>((*reinterpret_cast<::W20Ref * *>(&::_g_thePlayer)))))->FUN_008adcf0(pObject, 0, 0)),
                                     2.0f, false);
                                 break;
                             case 0x18:
                                 ::DispatchMessageToSink(
-                                    (std::intptr_t)(const char *)(sMessage), 0, (std::intptr_t)(g_011cba4c_arg1),
-                                    (int)(iNoMessage
+                                    (const char *)(sMessage), 0, (const char *)(g_011cba4c_arg1),
+                                    (const char *)(iNoMessage
                                         ? 0
                                         : reinterpret_cast<::PickupSoundActorView *>((reinterpret_cast<Player_5b4e90*>((*reinterpret_cast<::W20Ref * *>(&::_g_thePlayer)))))->FUN_008adcf0(pObject, 0, 0)),
                                     2.0f, false);
@@ -17386,8 +17386,8 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, int p1, unsi
                         }
                         else
                         {
-                            ::DispatchMessageToSink((std::intptr_t)(((const char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Transfer4c37LogObj *>(&::g_011d31f8))))->IsDLCAvailable()))), 0,
-                                                  (int)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds"), 0,
+                            ::DispatchMessageToSink((const char *)(((const char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Transfer4c37LogObj *>(&::g_011d31f8))))->IsDLCAvailable()))), 0,
+                                                  (const char *)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds"), 0,
                                                   DAT_010162c0, 0);
                         }
                         {
@@ -20191,8 +20191,8 @@ void InventoryMoveTarget::FUN_004cb5f0(MoveOwner* source, MoveOwner* destination
                                 char message4[260];
                                 ::FUN_00406d00(message4, 260, (*reinterpret_cast<const char (*)[]>(&::fnv_004965d0::DAT_0101dcc4)), DAT_010207c0,
                                              ::FUN_0048e730((::TESForm *)(form), (std::intptr_t)((*reinterpret_cast<::MoveOwner * *>(&::_g_thePlayer)))));
-                                ::DispatchMessageToSink((std::intptr_t)(((const char *)(::FUN_00559450((int *)&(formattedItem))))), 0, (int)(::g_011cba4c_arg1),
-                                                      ((unsigned int)(reinterpret_cast<::PickupSoundActorView *>(((*reinterpret_cast<::MoveOwner * *>(&::_g_thePlayer))))->FUN_008adcf0(form, false, false))), DAT_010162c0,
+                                ::DispatchMessageToSink((const char *)(((const char *)(::FUN_00559450((int *)&(formattedItem))))), 0, (const char *)(::g_011cba4c_arg1),
+                                                      ((const char *)(reinterpret_cast<::PickupSoundActorView *>(((*reinterpret_cast<::MoveOwner * *>(&::_g_thePlayer))))->FUN_008adcf0(form, false, false))), DAT_010162c0,
                                                       0);
                             }
                             reinterpret_cast<::Transfer4c37C37This *>(this)->FUN_004c37d0((::Transfer4c37C37Obj *)(source), (int)(form), false, reinterpret_cast<::FUN_00418770_shell *>((extra))->FUN_00418770(), (::Transfer4c37Form4 *)(extra), 0, (::Transfer4c37C37Form *)(destination), 0, 0, true,

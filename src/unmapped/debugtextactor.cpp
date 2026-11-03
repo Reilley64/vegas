@@ -17,13 +17,15 @@ int __cdecl FUN_00406d50(char* dst, unsigned int size, const char* src);
 
 struct S_009aae70
 {
+    // One flag mask per type, indexed by type; the number of types is not known.
+    unsigned int m_auiFlags[1];
     void FormatFlagsString(char* buf, unsigned int size, int type);
 };
 
 // @fnv 0x009aae70
 void S_009aae70::FormatFlagsString(char* pBuffer, unsigned int size, int type)
 {
-    unsigned int mask = ((unsigned int)(reinterpret_cast<::fnv_005bd5c0::FUN_005bd5c0_shell *>(this)->FUN_005bd5c0(type)));
+    unsigned int mask = m_auiFlags[type];
     if (DAT_011a55b4[type].flag)
     {
         bool any = false;
@@ -33,22 +35,22 @@ void S_009aae70::FormatFlagsString(char* pBuffer, unsigned int size, int type)
             {
                 if (!any)
                 {
-                    FUN_00406d00(pBuffer, size, "%s: %s", ((const char *)(::FUN_009aa140(type))), ((const char *)(::FUN_009aa1b0(type, uiBit))));
+                    FUN_00406d00(pBuffer, size, "%s: %s", ::FUN_009aa140(type), ::FUN_009aa1b0(type, uiBit));
                 }
                 else
                 {
                     char acTemp[260];
-                    FUN_00406d00(acTemp, 0x104, ", %s", ((const char *)(::FUN_009aa1b0(type, uiBit))));
+                    FUN_00406d00(acTemp, 0x104, ", %s", ::FUN_009aa1b0(type, uiBit));
                     FUN_00406d50(pBuffer, size - FUN_0044a670(pBuffer), acTemp);
                 }
                 any = true;
             }
         }
         if (!any)
-            FUN_00406d00(pBuffer, size, "%s: None", ((const char *)(::FUN_009aa140(type))));
+            FUN_00406d00(pBuffer, size, "%s: None", ::FUN_009aa140(type));
     }
     else
     {
-        FUN_00406d00(pBuffer, size, "%s: %s", ((const char *)(::FUN_009aa140(type))), ((const char *)(::FUN_009aa1b0(type, mask))));
+        FUN_00406d00(pBuffer, size, "%s: %s", ::FUN_009aa140(type), ::FUN_009aa1b0(type, mask));
     }
 }

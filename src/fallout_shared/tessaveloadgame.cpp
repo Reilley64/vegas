@@ -8645,7 +8645,7 @@ bool Cls56::FUN_00856ca0(int aiFileHandle, int apSavePath, unsigned char p2)
     {
         if (apSavePath == 0 || FUN_00408b20((const char*)apSavePath, DAT_0107fae0) != 0)
         {
-            ::DispatchMessageToSink((std::intptr_t)(((const char *)(reinterpret_cast<::DownloadableContentManager *>((((SettingString*)&g_011d2364)))->IsDLCAvailable()))), 0, (std::intptr_t)(::g_011cba18_arg1), (std::intptr_t)(0), 2.0f, false);
+            ::DispatchMessageToSink((const char *)(((const char *)(reinterpret_cast<::DownloadableContentManager *>((((SettingString*)&g_011d2364)))->IsDLCAvailable()))), 0, (const char *)(::g_011cba18_arg1), (const char *)(0), 2.0f, false);
             return false;
         }
     }

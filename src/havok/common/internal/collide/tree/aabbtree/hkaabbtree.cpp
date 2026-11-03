@@ -5,13 +5,12 @@
 #include "fnv_simd.h"
 #include <cstddef>
 #include <new>
-#include "fnv/decl/fnv_00d9c280__FUN_00d9c280_cls.h"
-#include "fnv/decl/fnv_00d9c360__D9C360Tree.h"
+namespace fnv_00d9c280 { struct Glyph20; }
+namespace fnv_00d9c360 { struct D9C360Node; }
 #include "fnv/symbols_00d9a000.h"
 #include "fnv/symbols_01016000.h"
 #include "fnv/symbols_0104d000.h"
 #include "fnv/symbols_0104e000.h"
-#include "fnv/decl/Sd9_Tree.h"
 #include <xmmintrin.h>
 // src/havok/common/internal/collide/tree/aabbtree/hkaabbtree.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/common/internal/collide/tree/aabbtree/hkaabbtree.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.

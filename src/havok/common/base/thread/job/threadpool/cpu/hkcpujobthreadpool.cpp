@@ -4,8 +4,6 @@
 
 #include "fnv/symbols_00c85000.h"
 #include <cstdint>
-#include "fnv/decl/WorkerThreadPoolViewD2.h"
-#include "fnv/decl/fnv_00d2d240__hkCpuJobThreadPoolD2D.h"
 #include <windows.h>
 #include "fnv/decl/Dispatcher.h"
 #include "fnv/decl/FUN_00d04370_cls.h"

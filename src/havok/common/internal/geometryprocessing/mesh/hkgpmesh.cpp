@@ -6,30 +6,25 @@
 #include "fnv_simd.h"
 #include <cstddef>
 #include "fnv/decl/FUN_00d76100_cls.h"
-#include "fnv/decl/MeshSol.h"
-#include "fnv/decl/S00e25cd0_Tri.h"
-#include "fnv/decl/S_00e16e50.h"
-#include "fnv/decl/S_e1ce10_Mesh.h"
+struct S00e25cd0_Edge;
+template <class> struct S00e25cd0_Array;
+struct S_00e16e50_Vec;
+struct S_e1ce10_Geometry;
+struct S_e1ce10_Transform;
 #include "fnv/decl/TriangleChecker.h"
-#include "fnv/decl/fnv_00e11a60__FUN_00e11a60_cls.h"
-#include "fnv/decl/fnv_00e12640__E12640Mesh.h"
-#include "fnv/decl/fnv_00e157f0__TargetClass.h"
-#include "fnv/decl/fnv_00e234e0__FUN_00e234e0_cls.h"
-#include "fnv/decl/fnv_00e23530__FUN_00e23530_cls.h"
-#include "fnv/decl/fnv_00e23710__S_00e23710_Array.h"
-#include "fnv/decl/fnv_00e23860__hkArrayPtr.h"
-#include "fnv/decl/fnv_00e239c0__EntryListNode.h"
-#include "fnv/decl/fnv_00e23a10__E23A10List.h"
-#include "fnv/decl/fnv_00e247c0__SelfCls.h"
-#include "fnv/decl/fnv_00e27450__EdgeOwner.h"
+namespace fnv_00e12640 { struct E12640VectorArray; }
+namespace fnv_00e23710 { struct S_00e23710_Block; }
+namespace fnv_00e247c0 { struct Node; }
+namespace fnv_00e27450 { struct EdgeRef; }
 #include "fnv/decl/hkVector4_c7f5.h"
-#include "fnv/decl/hkgpMeshStub.h"
+struct MeshPoint;
+struct MeshResult;
 #include "fnv/symbols_00cbe000.h"
 #include "fnv/symbols_00e13000.h"
-#include "fnv/decl/EdgeWalker.h"
+#include <cstdint>
+struct S00e24650_Edge;
+struct S00e24650_Vtx;
 #include "fnv/decl/FUN_00e11d80_class.h"
-#include "fnv/decl/MeshEdgeRepair.h"
-#include "fnv/decl/Z_E15E50.h"
 #include <string.h>
 #include "fnv/symbols_010d3000.h"
 #include "fnv/decl/FloatArgStream.h"

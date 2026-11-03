@@ -5,7 +5,7 @@
 #include "fnv_simd.h"
 #include <cstddef>
 #include <new>
-#include "fnv/decl/hkDisplaySerializeIStream.h"
+struct FUN_008cd6a0_Class;
 #include "fnv/decl/hkMatrix4CD60.h"
 #include "fnv/decl/DD8FE0_Stream.h"
 #include "fnv/decl/RotationRows.h"

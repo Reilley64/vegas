@@ -6,7 +6,7 @@
 #include <intrin.h>
 #include <windows.h>
 #include "fnv/decl/FUN_00e2f7c0_Class.h"
-#include "fnv/decl/fnv_00e33e90__hkaSplineCompressedAnimationE33E.h"
+namespace fnv_00e33e90 { struct hkVector4E33E; }
 #include "fnv/symbols_00c85000.h"
 #include "fnv/symbols_00e34000.h"
 #include "fnv/decl/SinkOwner.h"

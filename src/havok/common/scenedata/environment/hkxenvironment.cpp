@@ -8,7 +8,6 @@
 #include "fnv/decl/FUN_00d619d0.h"
 #include "fnv/decl/FUN_00d61df0_cls.h"
 #include "fnv/decl/SinkOwner.h"
-#include "fnv/decl/hkxAttributeMapE3F3.h"
 #include "fnv/symbols_00cb1000.h"
 #include "fnv/symbols_01268000.h"
 #include <new>

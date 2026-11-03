@@ -17,9 +17,9 @@
 #include "fnv/decl/FUN_00dbac70_cls.h"
 #include "fnv/decl/MemberArrayValue.h"
 #include "fnv/decl/Outer_dbac40.h"
-#include "fnv/decl/ResourceWriter.h"
+struct MyDesc;
 #include "fnv/decl/S_00dbac90.h"
-#include "fnv/decl/ScanWriter.h"
+struct ScanObject;
 #include "fnv/decl/This_2.h"
 #include "fnv/decl/Wrapper.h"
 #include "fnv/decl/fnv_00dba9a0__FUN_00dba9a0_cls.h"
@@ -27,7 +27,6 @@
 #include "fnv/decl/fnv_00dbac00__Wrapper.h"
 #include "fnv/decl/fnv_00dbac10__CpuObject.h"
 #include "fnv/decl/fnv_00dbac80__Wrapper.h"
-#include "fnv/decl/fnv_00dc0460__Obj.h"
 #include <new>
 #include <cstring>
 #include "fnv/decl/D60590Object.h"

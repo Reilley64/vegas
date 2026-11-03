@@ -16,7 +16,7 @@
 #include "fnv/decl/FUN_004a3fb0_shell.h"
 #include "fnv/decl/FUN_004a46b0_class.h"
 #include "fnv/decl/FUN_005609f0_shell.h"
-#include "fnv/decl/FUN_00621440_cls.h"
+#include <cstdint>
 #include "fnv/decl/FUN_0062a2d0_Class.h"
 #include "fnv/decl/FUN_00632c30_Class.h"
 #include "fnv/decl/FUN_00632c60_Class.h"

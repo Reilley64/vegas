@@ -7,7 +7,7 @@
 #include <new>
 #include "fnv/decl/FUN_00cc00e0.h"
 #include "fnv/decl/FUN_00cc0630.h"
-#include "fnv/decl/FUN_00dc1040__PackfileObjectCopier.h"
+struct hkStructureLayoutDC10;
 #include "fnv/decl/FUN_00dc1680.h"
 #include "fnv/decl/FUN_00e028e0.h"
 #include "fnv/decl/FUN_00e04920_cls.h"

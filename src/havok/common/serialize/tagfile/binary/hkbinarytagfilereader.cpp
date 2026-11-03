@@ -5,7 +5,7 @@
 #include "fnv/symbols_00c85000.h"
 #include <cstdint>
 #include <cstddef>
-#include "fnv/decl/S00dc5f30_Obj.h"
+#include <cstdint>
 #include <new>
 #include <cstring>
 #include "fnv/decl/AudioHandle.h"

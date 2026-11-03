@@ -6,7 +6,6 @@
 #include <cstdint>
 #include <cstddef>
 #include <windows.h>
-#include "fnv/decl/FUN_00622490.h"
 #include "fnv/decl/FUN_00a645b0_cls.h"
 #include "fnv/decl/FUN_00c84d00_cls.h"
 #include "fnv/decl/FUN_00c84d50_cls.h"
@@ -32,13 +31,10 @@
 #include "fnv/decl/FUN_005076c0Class.h"
 #include "fnv/decl/FUN_0056d360_Class.h"
 #include "fnv/decl/FUN_00620b80_shell.h"
-#include "fnv/decl/FUN_006222f0_Class.h"
-#include "fnv/decl/FUN_00622470.h"
 #include "fnv/decl/FUN_006228e0_shell.h"
-#include "fnv/decl/FUN_00ca5080_cls.h"
 #include "fnv/decl/S00cafef0_Obj.h"
 #include "fnv/decl/S_00c85c10.h"
-#include "fnv/decl/StringBuilder_ca5190.h"
+struct NiStringArray;
 #include "fnv/symbols_00403000.h"
 #include "fnv/symbols_004a3000.h"
 #include "fnv/symbols_011cc000.h"

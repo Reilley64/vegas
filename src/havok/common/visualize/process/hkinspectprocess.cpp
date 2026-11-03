@@ -7,8 +7,6 @@
 #include "fnv/decl/DD8FE0_Stream.h"
 #include "fnv/decl/FUN_00d46f60_Class.h"
 #include "fnv/decl/FUN_00dd90d0_cls.h"
-#include "fnv/decl/fnv_00ddb550__FUN_00ddb550_cls.h"
-#include "fnv/decl/fnv_00ddb670__FUN_00ddb670.h"
 #include "fnv/symbols_00cb1000.h"
 #include "fnv/symbols_00c85000.h"
 #include <new>

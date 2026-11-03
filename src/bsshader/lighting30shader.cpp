@@ -1,3 +1,4 @@
+#include <cstdint>
 #include <cstddef>
 // bsshader/lighting30shader.cpp: SM3ShaderLoader, Shadow, Lighting, MapOwner and more (36 functions)
 

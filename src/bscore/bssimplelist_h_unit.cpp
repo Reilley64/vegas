@@ -1,5 +1,6 @@
 // bscore/bssimplelist_h_unit.cpp: RangeConsumer, CopyOwner, Thing (41 functions)
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/BaseProcess.h"
 #include "fnv/decl/Callees.h"

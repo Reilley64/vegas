@@ -1,3 +1,4 @@
+#include <cstdint>
 #include <cstddef>
 // bsshader/tileshader.cpp: TileShader, TileStandin, TileShaderS, PassShader (18 functions)
 

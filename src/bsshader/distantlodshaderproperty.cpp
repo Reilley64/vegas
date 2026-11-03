@@ -1,3 +1,4 @@
+#include <cstdint>
 #include <cstddef>
 
 // src/bsshader/distantlodshaderproperty.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/bsshader/distantlodshaderproperty.cpp).

@@ -1,3 +1,5 @@
+#include <cstring>
+#include <cstdint>
 #include <cstddef>
 // bsshader/bsshaderlightingproperty.cpp: BSShaderLightingProperty, NewObj, LList, FalloffProperty and more (45 functions)
 

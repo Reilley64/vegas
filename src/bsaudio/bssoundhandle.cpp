@@ -1,5 +1,6 @@
 // bsaudio/bssoundhandle.cpp: BSAudio, SystemColorManager, HUDMainMenu, SoundHandleX (37 functions)
 
+#include <cstdint>
 #include "fnv/decl/BADC7D0Cache.h"
 #include "fnv/decl/C_00adc830.h"
 #include "fnv/decl/Cache_adc910.h"

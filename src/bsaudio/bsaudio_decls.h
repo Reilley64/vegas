@@ -3,6 +3,7 @@
 #define FNV_BSAUDIO_WORKER_DECLS_H
 
 
+#include <cstdint>
 #include "fnv/decl/AudioManagerD570.h"
 #include "fnv/decl/AudioThreadHost_00ad9f30.h"
 #include "fnv/decl/BSAudioManager_.h"

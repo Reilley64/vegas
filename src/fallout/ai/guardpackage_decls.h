@@ -7,6 +7,9 @@
 #include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
 #include "fnv/symbols_00408000.h"
 #include "fnv/symbols_00483000.h"
+namespace std {
+double abs(float);
+}
 class TESForm
 {
   public:

@@ -1290,8 +1290,10 @@ namespace fnv_00d68e00 {
 
 struct TargetAgent
 {
-    char pad[4];
+    void* m_vtable;
     short m_usMemSizeAndFlags;
+    short m_referenceCount;
+    void* m_processVtable;
     TargetAgent* FUN_00d68b90(void* arg1);
 };
 
@@ -1302,7 +1304,7 @@ void* __cdecl FUN_00d68e00(void* arg1)
     TargetAgent* agent = static_cast<TargetAgent*>(hkMemoryRouter::getInstance().heap().blockAlloc(0x44));
     agent->m_usMemSizeAndFlags = 0x44;
     TargetAgent* res = ((::fnv_00d68e00::TargetAgent *)(new ((void *)(agent)) ::FUN_00d68b90(arg1)));
-    return res ? (char*)res + 8 : 0;
+    return res ? &res->m_processVtable : nullptr;
 }
 }  // namespace fnv_00d68e00
 

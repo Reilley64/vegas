@@ -919,7 +919,7 @@ void* __cdecl FUN_004b5950(const void* collidable)
 {
     if (::FUN_004b5980((int)(collidable)) == 2)
     {
-        return ::FUN_004b59c0((const char *)(collidable));
+        return (void *)::FUN_004b59c0((const char *)(collidable));
     }
     return 0;
 }
@@ -937,7 +937,7 @@ void* __cdecl FUN_004b59f0(const void* collidable)
 {
     if (::FUN_004b5980((int)(collidable)) == 1)
     {
-        return ::FUN_004b59c0((const char *)(collidable));
+        return (void *)::FUN_004b59c0((const char *)(collidable));
     }
     return 0;
 }
@@ -1091,13 +1091,6 @@ void FUN_0063f790_shell::FUN_0063f790(float afRadius)
     *(float*)((char*)this + 0xc) = afRadius;
 }
 
-struct tagRECT
-{
-    long left;
-    long top;
-    long right;
-    long bottom;
-};
 
 struct NiPoint3Ex : public NiPoint3
 {
@@ -2441,7 +2434,7 @@ void FUN_004b6630(NiAVObject*);
 // @fnv 0x004b6630
 void FUN_004b6630(NiAVObject* object)
 {
-    PropHelper* result = (PropHelper*)((::_UseSaveGameBlocks *)(::FUN_00653270((const ::NiRTTI *)(const char *const *)(&(*reinterpret_cast<const char *const *>(&::g_011fa010))), (::NiObject *)(void *)(((::NiProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((object))->FUN_00a59d30(3)))))));
+    PropHelper* result = (PropHelper*)((struct _UseSaveGameBlocks *)(::FUN_00653270((const ::NiRTTI *)(const char *const *)(&(*reinterpret_cast<const char *const *>(&::g_011fa010))), (::NiObject *)(void *)(((::NiProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((object))->FUN_00a59d30(3)))))));
     if (result)
         reinterpret_cast<::fnv_00b675c0::FUN_00b675c0_shell *>((result))->AssignRefObj((::fnv_00b675c0::RefObj *)(0));
     NiNode* node = object->GetAsNiNode();
@@ -3903,7 +3896,6 @@ struct hkMemoryRouterStub
     }
 };
 
-hkMemoryRouterStub* FUN_00c85750();
 
 struct hkVector4
 {
@@ -3944,7 +3936,7 @@ struct MouseSpringAction
 
     static void* operator new(std::size_t nbytes)
     {
-        MouseSpringAction* p = (MouseSpringAction*)FUN_00c85750()->heap().allocateChunk(nbytes);
+        MouseSpringAction* p = (MouseSpringAction*)((hkMemoryRouterStub*)FUN_00c85750())->heap().allocateChunk(nbytes);
         p->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return p;
     }
@@ -5393,8 +5385,8 @@ void BeamPassShader::FUN_00ba59e0()
     if (spRenderPass->GetStageCount() < 1)
     {
         AssignStageFromPool(spStage);
-        ::ConfigureBeamStage((::BeamStage *)(spStage), 0, 1, 2, 1);
-        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(spRenderPass->m_uiStageMask, (::Stage321 *)(spStage));
+        ::ConfigureBeamStage((::BeamStage *)(StageReturn*)(spStage), 0, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(spRenderPass->m_uiStageMask, (::Stage321 *)(StageReturn*)(spStage));
     }
     spRenderPass->m_spPixelShaderObject = m_spPixelShaderObject;
     spRenderPass->m_spVertexShaderObject = m_spVertexShaderObject;
@@ -5412,8 +5404,8 @@ void BeamPassShader::FUN_00ba59e0()
     if (spRenderPass->GetStageCount() < 1)
     {
         AssignStageFromPool(spStage);
-        ::ConfigureBeamStage((::BeamStage *)(spStage), 0, 1, 2, 1);
-        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(spRenderPass->m_uiStageMask, (::Stage321 *)(spStage));
+        ::ConfigureBeamStage((::BeamStage *)(StageReturn*)(spStage), 0, 1, 2, 1);
+        reinterpret_cast<::StageSet *>(((spRenderPass).operator->()))->FUN_00e802b0(spRenderPass->m_uiStageMask, (::Stage321 *)(StageReturn*)(spStage));
     }
     spRenderPass->m_spPixelShaderObject = m_spPixelShaderObject;
     spRenderPass->m_spVertexShaderObject = m_spVertexShaderObject;
@@ -7402,10 +7394,15 @@ class S004b4db0_Quaternion_o2_od_oy_noo2
 // @fnv 0x004b4db0
 S004b4db0_Quaternion_o2_od_oy_noo2& S004b4db0_Quaternion_o2_od_oy_noo2::FUN_004b4db0(const S004b4db0_Vector4& v)
 {
-    m_fVectorY = (*(::S004b4db0_SimdReal *)(reinterpret_cast<::S004586d0_Obj *>((void *)&(const ::S004b4db0_SimdReal &)(reinterpret_cast<::Holder *>((void *)&(v))->FUN_00458700((::Holder *)(0), {})))->FUN_004586d0()));
-    m_fVectorZ = (*(::S004b4db0_SimdReal *)(reinterpret_cast<::S004586d0_Obj *>((void *)&(const ::S004b4db0_SimdReal &)(reinterpret_cast<::Holder *>((void *)&(v))->FUN_00458700((::Holder *)(1), {})))->FUN_004586d0()));
-    m_fScalarPart = (*(::S004b4db0_SimdReal *)(reinterpret_cast<::S004586d0_Obj *>((void *)&(const ::S004b4db0_SimdReal &)(reinterpret_cast<::Holder *>((void *)&(v))->FUN_00458700((::Holder *)(2), {})))->FUN_004586d0()));
-    m_fVectorX = (*(::S004b4db0_SimdReal *)(reinterpret_cast<::S004586d0_Obj *>((void *)&(const ::S004b4db0_SimdReal &)(reinterpret_cast<::Holder *>((void *)&(v))->FUN_00458700((::Holder *)(3), {})))->FUN_004586d0()));
+    S004b4db0_SimdReal kComponent;
+    reinterpret_cast<::Holder *>((void *)&(v))->FUN_00458700((::Holder *)&kComponent, 0);
+    m_fVectorY = reinterpret_cast<::S004586d0_Obj *>(&kComponent)->FUN_004586d0();
+    reinterpret_cast<::Holder *>((void *)&(v))->FUN_00458700((::Holder *)&kComponent, 1);
+    m_fVectorZ = reinterpret_cast<::S004586d0_Obj *>(&kComponent)->FUN_004586d0();
+    reinterpret_cast<::Holder *>((void *)&(v))->FUN_00458700((::Holder *)&kComponent, 2);
+    m_fScalarPart = reinterpret_cast<::S004586d0_Obj *>(&kComponent)->FUN_004586d0();
+    reinterpret_cast<::Holder *>((void *)&(v))->FUN_00458700((::Holder *)&kComponent, 3);
+    m_fVectorX = reinterpret_cast<::S004586d0_Obj *>(&kComponent)->FUN_004586d0();
     return *this;
 }
 

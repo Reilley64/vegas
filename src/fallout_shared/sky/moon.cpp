@@ -90,6 +90,7 @@ float Moon::GetMoonShadowVisibility()
 class TaskQueueInterface
 {
   public:
+    void FUN_004902f0(bool);
     void FUN_00635fe0(bool bDisplay);
 public:
     void QueueActorDisarm(bool);
@@ -946,14 +947,14 @@ void MoonInit::FUN_00634e20(NiNode_ctx* root, const char* name)
         reinterpret_cast<::TaskQueueInterface *>((((NiTriShape*)m_pMoonShadowShape)))->FUN_00635fe0(shader != 0);
         m_eUpdateStatus = US_INITIALIZE;
     }
-    m_pMoonNode = new NiNode_ctx(0);
-    m_pMoonShadowNode = new NiNode_ctx(0);
-    reinterpret_cast<::TaskQueueInterface *>((((NiNode_ctx*)m_pMoonNode)))->FUN_004902f0(true);
-    reinterpret_cast<::TaskQueueInterface *>((((NiNode_ctx*)m_pMoonShadowNode)))->FUN_004902f0(true);
-    ((NiNode_ctx*)m_pMoonNode)->AttachChildInAvailableSlot(m_pMoonShape, true);
-    ((NiNode_ctx*)m_pMoonShadowNode)->AttachChildInAvailableSlot(m_pMoonShadowShape, true);
-    ((NiNode_ctx*)m_pRootNode)->AttachChildInAvailableSlot((NiObject*)(NiNode_ctx*)m_pMoonShadowNode, true);
-    ((NiNode_ctx*)m_pRootNode)->AttachChildInAvailableSlot((NiObject*)(NiNode_ctx*)m_pMoonNode, true);
+    m_pMoonNode = (NiNode*)new NiNode_ctx(0);
+    m_pMoonShadowNode = (NiNode*)new NiNode_ctx(0);
+    reinterpret_cast<::TaskQueueInterface *>((((NiNode_ctx*)(NiNode*)m_pMoonNode)))->FUN_004902f0(true);
+    reinterpret_cast<::TaskQueueInterface *>((((NiNode_ctx*)(NiNode*)m_pMoonShadowNode)))->FUN_004902f0(true);
+    ((NiNode_ctx*)(NiNode*)m_pMoonNode)->AttachChildInAvailableSlot(m_pMoonShape, true);
+    ((NiNode_ctx*)(NiNode*)m_pMoonShadowNode)->AttachChildInAvailableSlot(m_pMoonShadowShape, true);
+    ((NiNode_ctx*)(NiNode*)m_pRootNode)->AttachChildInAvailableSlot((NiObject*)(NiNode_ctx*)(NiNode*)m_pMoonShadowNode, true);
+    ((NiNode_ctx*)(NiNode*)m_pRootNode)->AttachChildInAvailableSlot((NiObject*)(NiNode_ctx*)(NiNode*)m_pMoonNode, true);
     {
         B006815c0 rotation;
         reinterpret_cast<::FUN_00524ac0_shell *>(&(rotation))->FUN_00524ac0(-1.5707963705062866f);
@@ -961,7 +962,7 @@ void MoonInit::FUN_00634e20(NiNode_ctx* root, const char* name)
         reinterpret_cast<::FUN_0043fa80_s *>((((NiTriShape*)m_pMoonShape)))->FUN_0043fa80((*(const ::ThreeByThreeMatrix *)(&rotation)));
         reinterpret_cast<::FUN_004bc1f0_S *>((((NiTriShape*)m_pMoonShadowShape)))->FUN_004bc1f0(0, 512, 0);
         reinterpret_cast<::FUN_0043fa80_s *>((((NiTriShape*)m_pMoonShadowShape)))->FUN_0043fa80((*(const ::ThreeByThreeMatrix *)(&rotation)));
-        ::BSShaderManager_ctx::UpdateObjectTypeRecurse((::NiAVObject *)(::NiNode_ctx *)(m_pRootNode), 0, 0);
+        ::BSShaderManager_ctx::UpdateObjectTypeRecurse((::NiAVObject *)(::NiNode_ctx *)(NiNode*)(m_pRootNode), 0, 0);
     }
 }
 

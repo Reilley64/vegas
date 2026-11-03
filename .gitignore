@@ -7,7 +7,5 @@
 *.bsa
 *.esm
 *.esp
-results*.json
 /out/
 /obj/
-__pycache__/

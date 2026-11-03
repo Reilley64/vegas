@@ -36,7 +36,7 @@ BSFileCache::BSFileCache()
 
 struct FUN_00b011b0_shell : public BSFileCache
 {
-    bool FUN_00b011b0(int);
+    bool FUN_00b011b0(const char*);
 };
 
 struct VT_00b011b0
@@ -46,7 +46,7 @@ struct VT_00b011b0
     virtual void v2();
     virtual void v3();
     virtual void v4();
-    virtual int v5(int);
+    virtual int v5(const char*);
 };
 struct ST_00b011b0
 {
@@ -115,7 +115,7 @@ struct C00b011e0
 };
 // Calls v5 on the argument, then forwards the result to FUN_00b011e0 and returns its bool result.
 // @fnv 0x00b011b0
-bool FUN_00b011b0_shell::FUN_00b011b0(int a)
+bool FUN_00b011b0_shell::FUN_00b011b0(const char* a)
 {
     return reinterpret_cast<::C00b011e0 *>((((ST_00b011b0*)this)))->FUN_00b011e0(((VT_00b011b0*)this)->v5(a));
 }

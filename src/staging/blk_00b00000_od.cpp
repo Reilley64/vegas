@@ -1920,7 +1920,7 @@ int DirectoryArchive::FUN_00b01590(const char* root, const char* directory, cons
         data2[result - 1] = 0;
     meshName3.FUN_00afd390(data2, 2);
     value = false;
-    if (reinterpret_cast<::S_af9 *>(this)->FindHashEntry((int)(&meshName3), &countB, 0))
+    if (reinterpret_cast<::S_af9 *>(this)->FindHashEntry(reinterpret_cast<::FileNameHash *>(&meshName3), &countB, 0))
         value = true;
     while (current)
     {
@@ -1937,7 +1937,7 @@ int DirectoryArchive::FUN_00b01590(const char* root, const char* directory, cons
             {
                 FUN_00afd390_class fileName;
                 fileName.FUN_00afd390(data5.cFileName, 0);
-                if (reinterpret_cast<::fnv_00afac90::S_af9 *>(this)->FUN_00afac90(countB, (int)(&fileName), 0))
+                if (reinterpret_cast<::fnv_00afac90::S_af9 *>(this)->FUN_00afac90(countB, reinterpret_cast<::FileNameHash *>(&fileName), 0))
                     count3++;
             }
         }

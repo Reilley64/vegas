@@ -565,34 +565,44 @@ int __cdecl FUN_00af7d80(const char* pcString)
     return ((int)(::fnv_00af7db0::LookupExtensionType(pcString + len - 3)));
 }
 
+struct FileNameHash;
 struct S_af9
 {
-    bool FindHashEntry(int, int*, int);
-    bool FUN_00afa120(int, int, int, int, int);
-    bool FUN_00af9bf0(int, int, int*, int, int);
+    bool FindHashEntry(FileNameHash*, int*, const char*);
+    bool FUN_00afa120(int, FileNameHash*, int*, const char*, bool);
+    bool FUN_00af9bf0(FileNameHash*, FileNameHash*, int*, int*, const char*);
 };
 // Returns true if FindHashEntry(a, c, e) succeeds and FUN_00afa120 then succeeds on *c with b, d, e and 0.
 // @fnv 0x00af9bf0
-bool S_af9::FUN_00af9bf0(int a, int b, int* c, int d, int e)
+bool S_af9::FUN_00af9bf0(FileNameHash* a, FileNameHash* b, int* c, int* d, const char* e)
 {
-    if (FindHashEntry(a, c, e) && FUN_00afa120(*c, b, d, e, 0))
+    if (FindHashEntry(a, c, e) && FUN_00afa120(*c, b, d, e, false))
         return true;
     return false;
 }
 
+struct Owner25Entry
+{
+    unsigned int hash0, hash1, size, offset;
+};
+struct Owner25Group
+{
+    unsigned int hash0, hash1, count;
+    Owner25Entry* entries;
+};
 struct Owner25
 {
-    bool FUN_00afa120(int a, int b, int* out, int c, int d);
-    int FUN_00afa6e0(int a, int b, int c);
+    bool FUN_00afa120(int a, FileNameHash* b, int* out, const char* c, bool d);
+    Owner25Entry* FUN_00afa6e0(FileNameHash* a, FileNameHash* b, const char* c);
 };
 // @fnv 0x00afa6e0
-int Owner25::FUN_00afa6e0(int a, int b, int c)
+Owner25Entry* Owner25::FUN_00afa6e0(FileNameHash* a, FileNameHash* b, const char* c)
 {
     int index1;
     int index2;
-    if (reinterpret_cast<::S_af9 *>(this)->FindHashEntry(a, &index1, c) && FUN_00afa120(index1, b, &index2, c, 1))
+    if (reinterpret_cast<::S_af9 *>(this)->FindHashEntry(a, &index1, c) && FUN_00afa120(index1, b, &index2, c, true))
     {
-        return *(int*)(*(int*)((char*)this + 0x184) + index1 * 16 + 0xc) + index2 * 16;
+        return &(*(Owner25Group**)((char*)this + 0x184))[index1].entries[index2];
     }
     return 0;
 }
@@ -685,9 +695,9 @@ struct Dummy_00afbbf0
 };
 
 // @fnv 0x00afbf80
-int __cdecl FUN_00afbf80(Dummy_00afbbf0* pTarget, int b, int c)
+int __cdecl FUN_00afbf80(Dummy_00afbbf0* pTarget, void* b, int c)
 {
-    return reinterpret_cast<::S_afbb *>((pTarget))->FUN_00afbbf0((void *)(b), c);
+    return reinterpret_cast<::S_afbb *>((pTarget))->FUN_00afbbf0(b, c);
 }
 
 struct ZlibStreamPeer;
@@ -1418,11 +1428,11 @@ extern "C" int DAT_011f8160;
 
 // Returns false if DAT_011f8160 or arg is zero; otherwise calls RemoveArchiveFile with arg and returns true.
 // @fnv 0x00af56d0
-bool __cdecl FUN_00af56d0(int aiValue)
+bool __cdecl FUN_00af56d0(::fnv_00af5550::MyArchiveFile* aiValue)
 {
     if (DAT_011f8160 == 0 || aiValue == 0)
         return false;
-    ::fnv_00af5550::RemoveArchiveFile((::fnv_00af5550::MyArchiveFile *)(aiValue));
+    ::fnv_00af5550::RemoveArchiveFile(aiValue);
     return true;
 }
 }  // namespace fnv_00af56d0
@@ -1432,37 +1442,37 @@ struct Entry16
     int a;
     int b;
     int c;
-    unsigned int d;
+    char* d;
 };
 struct FUN_00af9b60_shell
 {
     char pad[0x184];
     Entry16* entries;
-    unsigned int FUN_00af9b60(unsigned int index, unsigned int value);
+    unsigned int FUN_00af9b60(unsigned int index, const void* value);
 };
 // Computes the difference between value and the entry's d field at index, shifted right by 4.
 // @fnv 0x00af9b60
-unsigned int FUN_00af9b60_shell::FUN_00af9b60(unsigned int index, unsigned int value)
+unsigned int FUN_00af9b60_shell::FUN_00af9b60(unsigned int index, const void* value)
 {
-    unsigned int tmp;
-    unsigned int start;
-    unsigned int endPos;
+    const char* tmp;
+    const char* start;
+    const char* endPos;
     Entry16* pEntry;
     pEntry = entries + index;
-    tmp = value;
+    tmp = (const char*)value;
     endPos = pEntry->d;
     start = endPos;
-    return (tmp - start) >> 4;
+    return (unsigned int)((tmp - start) >> 4);
 }
 
 struct FUN_00af9ba0_shell
 {
-    int FindEntryIndex(unsigned int key);
-    int FUN_00af96d0(int index, unsigned int value);
-    int FUN_00af9ba0(unsigned int key);
+    int FindEntryIndex(const void* key);
+    char* FUN_00af96d0(int index, unsigned int value);
+    char* FUN_00af9ba0(const void* key);
 };
 // @fnv 0x00af9ba0
-int FUN_00af9ba0_shell::FUN_00af9ba0(unsigned int key)
+char* FUN_00af9ba0_shell::FUN_00af9ba0(const void* key)
 {
     int index = FindEntryIndex(key);
     if (index == -1)
@@ -1492,15 +1502,15 @@ struct FUN_00afac20_group
 };
 struct S_af9
 {
-    bool FUN_00afac20(int a, int b, int c);
+    bool FUN_00afac20(::FileNameHash* a, ::FileNameHash* b, const char* c);
 };
 // Looks up an entry via FUN_00af9bf0 and, if found, sets its size to 0 and returns true; otherwise returns false.
 // @fnv 0x00afac20
-bool S_af9::FUN_00afac20(int a, int b, int c)
+bool S_af9::FUN_00afac20(::FileNameHash* a, ::FileNameHash* b, const char* c)
 {
     int iGroupIndex;
     int idx;
-    if (reinterpret_cast<::S_af9 *>(this)->FUN_00af9bf0(a, b, &iGroupIndex, (int)(&idx), 0))
+    if (reinterpret_cast<::S_af9 *>(this)->FUN_00af9bf0(a, b, &iGroupIndex, &idx, 0))
     {
         FUN_00afac20_entry* e =
             (FUN_00afac20_entry*)((char*)((FUN_00afac20_group*)*(char**)((char*)this + 0x184) + iGroupIndex)->entries +
@@ -1533,14 +1543,14 @@ struct FUN_00afac90_group
 };
 struct S_af9
 {
-    bool FUN_00afa120(int, int, int*, int, int);
-    bool FUN_00afac90(int a, int b, int c);
+    bool FUN_00afa120(int, ::FileNameHash*, int*, const char*, bool);
+    bool FUN_00afac90(int a, ::FileNameHash* b, int c);
 };
 // @fnv 0x00afac90
-bool S_af9::FUN_00afac90(int aiGroupIndex, int b, int aiUnused)
+bool S_af9::FUN_00afac90(int aiGroupIndex, ::FileNameHash* b, int aiUnused)
 {
     int idx;
-    if (FUN_00afa120(aiGroupIndex, b, &idx, 0, 0))
+    if (FUN_00afa120(aiGroupIndex, b, &idx, 0, false))
     {
         FUN_00afac90_entry* e =
             (FUN_00afac90_entry*)((char*)((FUN_00afac90_group*)*(char**)((char*)this + 0x184) + aiGroupIndex)->entries +
@@ -1810,8 +1820,8 @@ void* LoadFileFromArchives(const char* apFileName, unsigned int auiBufferSize, u
     {
         NiPointer<Archive> sparchive(pCurrentElementNext->m_item);
         if (sparchive && sparchive->HasArchiveTypeFlags(aeArchiveTypeFlags) &&
-            reinterpret_cast<::S_af9 *>(((sparchive).operator->()))->FUN_00af9bf0((int)&kDirectoryNameHash, (int)&kFileNameHash, (int*)&uiFolderIndex,
-                                    (int)&uiFileIndex, (int)apFileName))
+            reinterpret_cast<::S_af9 *>(((sparchive).operator->()))->FUN_00af9bf0(reinterpret_cast<::FileNameHash*>(&kDirectoryNameHash), reinterpret_cast<::FileNameHash*>(&kFileNameHash), (int*)&uiFolderIndex,
+                                    (int*)&uiFileIndex, apFileName))
         {
             return sparchive->OpenFile(uiFolderIndex, uiFileIndex, auiBufferSize, apFileName);
         }
@@ -1913,8 +1923,8 @@ Archive* FindArchiveForFile(const char* apFileName, unsigned int aeArchiveTypeFl
     {
         NiPointer<Archive> sparchive(pCurrentElementNext->m_item);
         if (sparchive && sparchive->HasArchiveTypeFlags(aeArchiveTypeFlags) &&
-            reinterpret_cast<::S_af9 *>(((sparchive).operator->()))->FUN_00af9bf0((int)&kDirectoryNameHash, (int)&kFileNameHash, (int*)&uiFolderIndex,
-                                    (int)&uiFileIndex, (int)apFileName))
+            reinterpret_cast<::S_af9 *>(((sparchive).operator->()))->FUN_00af9bf0(reinterpret_cast<::FileNameHash*>(&kDirectoryNameHash), reinterpret_cast<::FileNameHash*>(&kFileNameHash), (int*)&uiFolderIndex,
+                                    (int*)&uiFileIndex, apFileName))
         {
             LeaveCriticalSection(&DAT_011f8170);
             return sparchive;
@@ -2149,17 +2159,17 @@ struct S_af9
     {
         return count;
     }
-    int FindEntryIndex(unsigned int addr);
+    int FindEntryIndex(const void* addr);
 };
 // Scans the entries array and returns the index whose base..base+size<<4 range contains addr, or -1 if none does.
 // @fnv 0x00af9ad0
-int S_af9::FindEntryIndex(unsigned int uiAddress)
+int S_af9::FindEntryIndex(const void* uiAddress)
 {
     for (unsigned int i = 0; i < GetCount(); i++)
     {
         FUN_00af9ad0_entry* a = entries + i;
-        unsigned int base = uiAddress;
-        unsigned int e = (unsigned int)a->GetBase();
+        const char* base = (const char*)uiAddress;
+        const char* e = (const char*)a->GetBase();
         unsigned int size = a->GetSize() << 4;
         if (base >= e && base < e + size)
             return i;
@@ -2767,7 +2777,7 @@ BSFileEntry* FindFileEntryInArchives(int aeArchiveTypeIndex, FileNameHash& arDir
         if (sparchive && sparchive->HasArchiveType(aeArchiveTypeIndex))
         {
             pReturn =
-                (BSFileEntry*)reinterpret_cast<::Owner25 *>(((sparchive).operator->()))->FUN_00afa6e0((int)&arDirectoryHash, (int)&arFileNameHash, (int)apFileName);
+                (BSFileEntry*)reinterpret_cast<::Owner25 *>(((sparchive).operator->()))->FUN_00afa6e0(reinterpret_cast<::FileNameHash*>(&arDirectoryHash), reinterpret_cast<::FileNameHash*>(&arFileNameHash), apFileName);
             if (pReturn)
                 return pReturn;
         }
@@ -3213,7 +3223,7 @@ struct ArchiveStub
     int unk178;
     int unk17c;
     int unk180;
-    int unk184;
+    Entry16* unk184;
     int unk188;
     int unk18c;
     int unk190;
@@ -3727,7 +3737,7 @@ bool __cdecl HasFileInArchives(const char* apName)
     while (pNode)
     {
         ArcPtr_af5<ArchiveRef_af5> spArchive3(pNode->item);
-        if (spArchive3 && reinterpret_cast<::fnv_00afac20::S_af9 *>(((spArchive3).operator->()))->FUN_00afac20((int)(&kDirHash6), (int)(&kFileHash), (int)(apName)))
+        if (spArchive3 && reinterpret_cast<::fnv_00afac20::S_af9 *>(((spArchive3).operator->()))->FUN_00afac20(&kDirHash6, &kFileHash, apName))
             return true;
         pNode = pNode->next;
     }
@@ -3803,7 +3813,7 @@ extern ArchiveNode* g_pArchiveList;
 
 // Walks the archive list and returns the first FindEntry result from an archive whose types match auiTypes, or 0.
 // @fnv 0x00af6690
-int __cdecl FindEntryInArchives(unsigned int auiTypes, int aiArg1, int aiArg2, int aiArg3)
+void* __cdecl FindEntryInArchives(unsigned int auiTypes, ::FileNameHash* aiArg1, ::FileNameHash* aiArg2, const char* aiArg3)
 {
     ArchiveNode* pNode = g_pArchiveList;
     while (pNode)
@@ -3811,7 +3821,7 @@ int __cdecl FindEntryInArchives(unsigned int auiTypes, int aiArg1, int aiArg2, i
         ArchivePtr<ArchiveStub> m_pArchive(pNode->spItem);
         if (m_pArchive && m_pArchive->HasType(auiTypes))
         {
-            int iResult = reinterpret_cast<::Owner25 *>(((m_pArchive).operator->()))->FUN_00afa6e0(aiArg1, aiArg2, aiArg3);
+            void* iResult = reinterpret_cast<::Owner25 *>(((m_pArchive).operator->()))->FUN_00afa6e0(aiArg1, aiArg2, aiArg3);
             if (iResult)
                 return iResult;
         }
@@ -3989,7 +3999,7 @@ void __cdecl FUN_00af6ba0(LNode* entries, const char* path, const char* director
     {
         ArchiveOwner owner(*(const ArchiveOwner*)&archive->item);
         if (owner && (unsigned short)(owner->GetTypes() & types))
-            value = ((void **)(::fnv_00af7060::FUN_00af7060((::fnv_00af7060::ArchiveSearch *)(::ArchiveView *)(owner), count_2, (::fnv_00af7060::HashKey **)(value), (int)(&bound), (::fnv_00af7060::Filter *)(::FileNameHash *)(&n), (::fnv_00af7060::PathNode *)(entries), buffer)));
+            value = ((void **)(::fnv_00af7060::FUN_00af7060((::fnv_00af7060::ArchiveSearch *)(::ArchiveView *)(owner), count_2, (::fnv_00af7060::HashKey **)(value), &bound, (::fnv_00af7060::Filter *)(::FileNameHash *)(&n), (::fnv_00af7060::PathNode *)(entries), buffer)));
         archive = archive->next;
     }
     if (value)
@@ -4214,7 +4224,7 @@ extern long g_ArchiveListLock_af7;
 
 // Locks the archive list, calls ProcessFiles_afac20 on every archive whose file types match auiType, then unlocks.
 // @fnv 0x00af7c40
-void __cdecl ProcessFilesByType(int aiArg1, int aiArg2, unsigned int auiType)
+void __cdecl ProcessFilesByType(::FileNameHash* aiArg1, ::FileNameHash* aiArg2, unsigned int auiType)
 {
     EnterCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&g_ArchiveListLock_af7));
     ArchiveNode_af7* pNode = g_pArchiveList_af7;
@@ -4536,7 +4546,7 @@ struct ArchiveSearch : ArchiveStub
     }
     FileNameHash* GetHash(unsigned int i)
     {
-        return (FileNameHash*)(((Entry16*)unk184) + i);
+        return (FileNameHash*)(unk184 + i);
     }
     const char* GetString(unsigned int);
 };
@@ -4561,7 +4571,7 @@ inline void LowerText(char* dst, unsigned int size)
     fnv::crt::strlwr_s(dst, size);
 }
 // @fnv 0x00af9c50
-bool S_af9::FindHashEntry(int pKey, int* piIndex, int pPath)
+bool S_af9::FindHashEntry(FileNameHash* pKey, int* piIndex, const char* pPath)
 {
     if (((ArchiveSearch*)this)->Disabled())
         return false;
@@ -4569,7 +4579,7 @@ bool S_af9::FindHashEntry(int pKey, int* piIndex, int pPath)
     unsigned int index = ((ArchiveSearch*)this)->unk194;
     if (index < ((ArchiveSearch*)this)->Count())
     {
-        if (((FileNameHash*)pKey)->Compare(((ArchiveSearch*)this)->GetHash(index)) == 0)
+        if (pKey->Compare(((ArchiveSearch*)this)->GetHash(index)) == 0)
         {
             *piIndex = index;
             result = true;
@@ -4589,7 +4599,7 @@ bool S_af9::FindHashEntry(int pKey, int* piIndex, int pPath)
             {
                 f = (i - value) >> 1;
                 x = value + f;
-                s = ((FileNameHash*)pKey)->Compare(((ArchiveSearch*)this)->GetHash(x));
+                s = pKey->Compare(((ArchiveSearch*)this)->GetHash(x));
                 if (s > 0)
                     value = x;
                 else if (s < 0)
@@ -4605,7 +4615,7 @@ bool S_af9::FindHashEntry(int pKey, int* piIndex, int pPath)
                 if (pPath && DAT_011f8154 && ((ArchiveSearch*)this)->HasNames())
                 {
                     char path[260];
-                    fnv::crt::splitpath_s((const char*)pPath, 0, 0, path, 260, 0, 0, 0, 0);
+                    fnv::crt::splitpath_s(pPath, 0, 0, path, 260, 0, 0, 0, 0);
                     const char* y = ((ArchiveSearch*)this)->GetString(x);
                     char* w = new char[TextLength(y) + 1];
                     char* v = new char[TextLength(path) + 1];
@@ -5178,7 +5188,7 @@ class FUN_00afb520_cls : public FUN_00afb520_base
     int unk14C;
     int unk150;
     int unk154;
-    int m_spArchive;
+    char* m_spArchive;
 };
 // Sets the vtable, ends and frees the zlib stream at offset 0x160, frees the buffer at 0x164, then calls FUN_00afb520.
 // @fnv 0x00afbfe0
@@ -5214,10 +5224,10 @@ FUN_00afb520_cls::~FUN_00afb520_cls()
     {
         FUN_00afb520_sub* sub;
         {
-            int* pSp = &m_spArchive;
+            char** pSp = &m_spArchive;
             if (*pSp != 0)
             {
-                sub = (FUN_00afb520_sub*)((char*)(*pSp) + 0x158);
+                sub = (FUN_00afb520_sub*)(*pSp + 0x158);
                 if (InterlockedDecrement(&sub->unk08) == 0)
                 {
                     sub->Slot1();
@@ -6444,7 +6454,7 @@ PluginFile* __cdecl FUN_00af4be0(const char* path, unsigned short types, bool op
     fnv::crt::strcpy_s(found3, 260, path);
     if (!(g_fileFinder ? g_fileFinder->Find(path, found3, 1, -1) : 0))
         return 0;
-    if (reinterpret_cast<::FUN_00b011b0_shell *>((GetOpenPaths()))->FUN_00b011b0((int)found3))
+    if (reinterpret_cast<::FUN_00b011b0_shell *>((GetOpenPaths()))->FUN_00b011b0(found3))
         GetOpenPaths()->Resolve(found3, resolved2);
     else
         fnv::crt::strcpy_s(resolved2, 260, found3);
@@ -6618,7 +6628,7 @@ bool __cdecl FUN_00af67d0(unsigned int uiIndex, ArchiveFileEntry* pkEntry, char*
     if (spCurrent)
     {
         spCurrent->Lock();
-        const char* pcSource = ((const char *)(reinterpret_cast<::FUN_00af9ba0_shell *>(((spCurrent).operator->()))->FUN_00af9ba0((unsigned int)(pkEntry))));
+        const char* pcSource = reinterpret_cast<::FUN_00af9ba0_shell *>(((spCurrent).operator->()))->FUN_00af9ba0(pkEntry);
         if (pcSource)
         {
             fnv::crt::strcpy_s(pcOutput, 260, pcSource);
@@ -6819,7 +6829,7 @@ struct ArchiveSearch
     ArcCS lock;
 };
 // @fnv 0x00af7060
-HashKey** __cdecl FUN_00af7060(ArchiveSearch* archive, unsigned int count, HashKey** keys, int directory,
+HashKey** __cdecl FUN_00af7060(ArchiveSearch* archive, unsigned int count, HashKey** keys, ::FileNameHash* directory,
                                Filter* filter, PathNode* paths, const char* prefix)
 {
     EnterCriticalSection(&archive->lock);
@@ -7206,7 +7216,7 @@ FUN_00af7eb0::FUN_00af7eb0(const char* path, int mode, bool headerOnly, bool pre
             for (unsigned int i = 0; i < Count(); ++i)
             {
                 for (unsigned int j = 0; j < FileCount(i); ++j)
-                    ::ProcessFilesByType((int)(entries + i), (int)(entries[i].files + j), types);
+                    ::ProcessFilesByType(reinterpret_cast<::FileNameHash*>(entries + i), reinterpret_cast<::FileNameHash*>(entries[i].files + j), types);
             }
         }
     }
@@ -7356,11 +7366,11 @@ struct ArcY
     {
         return (m_uiValue1 & 2) != 0;
     }
-    const char* GetPathComponent(int a1, int a2, const char* pPath);
+    const char* GetPathComponent(::FileNameHash* a1, ::FileNameHash* a2, const char* pPath);
 };
 // Splits pPath into directory and file, resolves a1/a2 via FUN_00af9bf0, and returns the matching directory or file name after case-insensitive comparison.
 // @fnv 0x00afa8e0
-const char* ArcY::GetPathComponent(int a1, int a2, const char* pPath)
+const char* ArcY::GetPathComponent(::FileNameHash* a1, ::FileNameHash* a2, const char* pPath)
 {
     if (DAT_011f8154 && Flag1() && Flag2())
     {
@@ -7368,7 +7378,7 @@ const char* ArcY::GetPathComponent(int a1, int a2, const char* pPath)
         char szFile7[0x104];
         fnv::crt::splitpath_s(pPath, 0, 0, szDirX, 0x104, szFile7, 0x104, 0, 0);
         int iA4, iB3;
-        if (reinterpret_cast<::S_af9 *>(this)->FUN_00af9bf0(a1, a2, &iA4, (int)(&iB3), 0))
+        if (reinterpret_cast<::S_af9 *>(this)->FUN_00af9bf0(a1, a2, &iA4, &iB3, 0))
         {
             char* pDirCopyX_lvyahv;
             char* pFileCopyTmp_lun;
@@ -7681,8 +7691,8 @@ __forceinline const char* ResolveNameInline(ArchiveEntry& entry, NP_afc& archive
 {
     int id = entry.unk08;
     static FUN_00aa5140 s_obj;
-    const char* name = ((const char *)(reinterpret_cast<::MersenneTwister *>(&(s_obj))->GetRandomUInt(id)));
-    return (const char*)((int)(reinterpret_cast<::fnv_00af96d0::ArcStand *>((((FUN_00af9ba0_shell*)(Archive*)archive)))->FUN_00af96d0(index, (unsigned int)name)));
+    unsigned int name = reinterpret_cast<::MersenneTwister *>(&(s_obj))->GetRandomUInt(id);
+    return reinterpret_cast<::fnv_00af96d0::ArcStand *>((((FUN_00af9ba0_shell*)(Archive*)archive)))->FUN_00af96d0(index, name);
 }
 
 // Resolves a data path to an archive entry name, copying the result into dest and returning success.
@@ -7709,7 +7719,7 @@ bool __cdecl ResolveArchivePath(const char* path, char* dest, unsigned int flags
         {
             NP_afc spArchiveB = pNode->item;
             if (spArchiveB && (unsigned short)(((Archive*)spArchiveB)->GetFlags() & flags) &&
-                reinterpret_cast<::S_af9 *>((((Owner25*)(Archive*)spArchiveB)))->FindHashEntry((int)&key, &index, 0))
+                reinterpret_cast<::S_af9 *>((((Owner25*)(Archive*)spArchiveB)))->FindHashEntry(reinterpret_cast<::FileNameHash*>(&key), &index, 0))
             {
                 reinterpret_cast<::NP_afc *>(&(pEntry))->FUN_00afc770((::NP_afc *)(::fnv_00af7400::NP_afc *)(&spArchiveB));
                 spFoundArchive2 = ((Archive*)pEntry)->GetEntry(index);
@@ -8286,7 +8296,7 @@ bool FUN_00af7800(const char* path, char* output, unsigned mask)
             PathArchivePointer entry3(node9->value);
 
             if (entry3 && (unsigned short)(entry3->Types() & mask) &&
-                reinterpret_cast<::S_af9 *>(((entry3).operator->()))->FindHashEntry((int)(&key), (int *)(unsigned int *)(&directoryIndex), false))
+                reinterpret_cast<::S_af9 *>(((entry3).operator->()))->FindHashEntry(reinterpret_cast<::FileNameHash*>(&key), (int *)(unsigned int *)(&directoryIndex), 0))
             {
 
                 reinterpret_cast<::NP_afc *>(&(archiveTmp))->FUN_00afc770((::NP_afc *)&(entry3));
@@ -8636,9 +8646,9 @@ inline Archive* SelectMaster(int index)
 }
 // Selects an archive using kind and calls its FUN_00afa6e0 method with directory, file, and name.
 // @fnv 0x00af6430
-int __cdecl FUN_00af6430(int aiMasterIndex, int directory, int file, int name)
+void* __cdecl FUN_00af6430(int aiMasterIndex, ::FileNameHash* directory, ::FileNameHash* file, const char* name)
 {
-    int result = 0;
+    void* result = 0;
     ArchiveHandle archive(SelectMaster(aiMasterIndex));
     if (archive)
         result = reinterpret_cast<::Owner25 *>((reinterpret_cast<Owner25*>(archive.operator->())))->FUN_00afa6e0(directory, file, name);

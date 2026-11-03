@@ -759,28 +759,6 @@ const ::vc_attributes::YesNoMaybe SA_Yes = ::vc_attributes::Yes;
 const ::vc_attributes::YesNoMaybe SA_No = ::vc_attributes::No;
 const ::vc_attributes::AccessType SA_Read = ::vc_attributes::Read;
 typedef ::vc_attributes::PreAttribute SA_Pre;
-struct StringPointerTriple
-{
-  public:
-    __forceinline StringPointerTriple();
-
-  protected:
-    ValueWrapper<void*> m_next;
-};
-class NineIntegerRecord
-{
-  public:
-    typedef hkMemoryAllocator Allocator;
-    static NineIntegerRecord& __cdecl GetMonitorStream();
-    inline Allocator& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-
-  protected:
-    StringPointerTriple m_aiEntries;
-    Allocator* m_pStreamAllocator;
-};
 typedef __m128 hkQuadReal;
 class hkVector4;
 typedef const hkVector4& hkVector4Parameter;
@@ -820,7 +798,7 @@ class hkVector4
     __forceinline void* __cdecl operator new(std::size_t nbytes)
     {
         ;
-        void* obj = NineIntegerRecord::GetMonitorStream().heap().blockAlloc(static_cast<int>(nbytes));
+        void* obj = hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));
         ;
         return obj;
     }
@@ -849,7 +827,7 @@ class hkMatrix3
     __forceinline void* __cdecl operator new(std::size_t nbytes)
     {
         ;
-        void* obj = NineIntegerRecord::GetMonitorStream().heap().blockAlloc(static_cast<int>(nbytes));
+        void* obj = hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));
         ;
         return obj;
     }
@@ -869,7 +847,7 @@ class __declspec(align(16)) hkRotation : public hkMatrix3
     __forceinline void* __cdecl operator new(std::size_t nbytes)
     {
         ;
-        void* obj = NineIntegerRecord::GetMonitorStream().heap().blockAlloc(static_cast<int>(nbytes));
+        void* obj = hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));
         ;
         return obj;
     }
@@ -919,7 +897,7 @@ class QuantizedBoundsData
     __forceinline void* __cdecl operator new(std::size_t nbytes)
     {
         ;
-        void* obj = NineIntegerRecord::GetMonitorStream().heap().blockAlloc(static_cast<int>(nbytes));
+        void* obj = hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));
         ;
         return obj;
     }
@@ -1005,7 +983,7 @@ struct ConstraintSolverInfo
         __forceinline void* __cdecl operator new(std::size_t nbytes)
         {
             ;
-            void* obj = NineIntegerRecord::GetMonitorStream().heap().blockAlloc(static_cast<int>(nbytes));
+            void* obj = hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));
             ;
             return obj;
         }
@@ -1014,7 +992,7 @@ struct ConstraintSolverInfo
             if (p)
             {
                 ;
-                NineIntegerRecord::GetMonitorStream().heap().blockFree(
+                hkMemoryRouter::getInstance().heap().blockFree(
                     p, sizeof(ConstraintSolverInfo::FloatAndHalfRecord));
             }
         }
@@ -1085,7 +1063,7 @@ struct ConstraintInstanceBuffer
     __forceinline void* __cdecl operator new(std::size_t nbytes)
     {
         ;
-        void* obj = NineIntegerRecord::GetMonitorStream().heap().blockAlloc(static_cast<int>(nbytes));
+        void* obj = hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));
         ;
         return obj;
     }
@@ -1108,7 +1086,7 @@ class ContactImpulseInfo
     __forceinline void* __cdecl operator new(std::size_t nbytes)
     {
         ;
-        void* obj = NineIntegerRecord::GetMonitorStream().heap().blockAlloc(static_cast<int>(nbytes));
+        void* obj = hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));
         ;
         return obj;
     }

@@ -344,6 +344,9 @@ char FUN_00982bc0_Class::GetByte15()
 
 struct FUN_00982f10
 {
+    char pad[0x14];
+    char unk14;
+    char unk15;
     void Set(const char* src);
 };
 
@@ -351,8 +354,8 @@ struct FUN_00982f10
 // @fnv 0x00982f10
 void FUN_00982f10::Set(const char* src)
 {
-    *(char*)((char*)this + 0x14) = src[0];
-    *(char*)((char*)this + 0x15) = src[1];
+    unk14 = src[0];
+    unk15 = src[1];
 }
 
 extern int DAT_0108d104;
@@ -420,13 +423,15 @@ void __cdecl FreeGlobalPointer()
 
 struct FUN_00984270_Class
 {
+    char pad[0x608];
+    unsigned char unk608;
     unsigned char GetByteAt608();
 };
 
 // @fnv 0x00984270
 unsigned char FUN_00984270_Class::GetByteAt608()
 {
-    return reinterpret_cast<unsigned char*>(this)[0x608];
+    return unk608;
 }
 
 typedef unsigned int(__cdecl* FUN_009a3830_t)(const int*, const int*);
@@ -436,13 +441,15 @@ struct LS3de0
 };
 struct FUN_0098de30_class
 {
+    char pad[0x138];
+    char unk138;
     unsigned int FUN_0098de30(unsigned int*);
 };
 // Calls Find on the LS3de0 sub-object at offset 0x138 with out, 0 and FUN_009a3830, returning its result.
 // @fnv 0x0098de30
 unsigned int FUN_0098de30_class::FUN_0098de30(unsigned int* out)
 {
-    return ((LS3de0*)((char*)this + 0x138))->Find(out, 0, ((unsigned int (&)(const int *, const int *))::FUN_009a3830));
+    return ((LS3de0*)&unk138)->Find(out, 0, ((unsigned int (&)(const int *, const int *))::FUN_009a3830));
 }
 
 
@@ -593,6 +600,8 @@ struct Inner097
 struct CombatTargetTimestamp;
 struct FUN_0098fda0_Class
 {
+    char pad[0x10];
+    char unk10;
     Inner097* FUN_0098fda0();
 };
 // Calls FUN_0097ede0 on this, then FUN_004300a0 on the object at this+0x10, and returns this.
@@ -600,7 +609,7 @@ struct FUN_0098fda0_Class
 Inner097* FUN_0098fda0_Class::FUN_0098fda0()
 {
     reinterpret_cast<::FUN_0097ede0_cls *>((((Inner097*)this)))->FUN_0097ede0();
-    FUN_004300a0((CombatTargetTimestamp*)((char*)this + 0x10));
+    FUN_004300a0((CombatTargetTimestamp*)&unk10);
     return (Inner097*)this;
 }
 
@@ -714,6 +723,8 @@ FUN_00990ef0_class* FUN_00990ef0_class::InitializeVtable()
 
 struct FUN_00991130_class
 {
+    char pad[0x4];
+    void* unk04;
     void FUN_00993880();
     void FUN_00991130();
 };
@@ -754,6 +765,8 @@ struct FUN_00993960
 };
 struct FUN_00993bf0_class
 {
+    char pad[0xc];
+    char unk0c;
     void FUN_00993cd0();
     void FUN_00993bf0();
 };
@@ -766,7 +779,7 @@ struct FUN_00993cd0
 // @fnv 0x00993bf0
 void FUN_00993bf0_class::FUN_00993bf0()
 {
-    reinterpret_cast<::FUN_00993cd0 *>((reinterpret_cast<FUN_00993bf0_class*>(reinterpret_cast<char*>(this) + 0xc)))->GetPtr();
+    reinterpret_cast<::FUN_00993cd0 *>((((FUN_00993bf0_class*)&unk0c)))->GetPtr();
 }
 
 // @fnv 0x00993cd0
@@ -795,13 +808,15 @@ struct FUN_00aa62e0_shell
 
 struct FUN_00995890_shell
 {
+    char pad[0x14];
+    char unk14;
     void FUN_00995890();
 };
 
 // @fnv 0x00995890
 void FUN_00995890_shell::FUN_00995890()
 {
-    ((FUN_00aa62e0_shell*)((char*)this + 0x14))->FUN_00aa62e0();
+    ((FUN_00aa62e0_shell*)&unk14)->FUN_00aa62e0();
 }
 
 struct QuantityData
@@ -809,36 +824,42 @@ struct QuantityData
 };
 struct FUN_009959c0Class
 {
+    char pad[0x60];
+    char unk60;
     void FUN_009959c0(int a, int b);
 };
 // Stores b into the int array at offset 0x60 indexed by a, then calls SetQuantity(a) on the object pointed to by the second pointer field.
 // @fnv 0x009959c0
 void FUN_009959c0Class::FUN_009959c0(int iIndex, int iValue)
 {
-    reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x60)[iIndex] = iValue;
+    ((int*)&unk60)[iIndex] = iValue;
     reinterpret_cast<::FUN_00537e90 *>((reinterpret_cast<QuantityData*>(*(reinterpret_cast<int**>(this) + 1))))->SetQuantity(iIndex);
 }
 
 struct FUN_00995db0_Class
 {
+    char pad[0x205c];
+    char unk205c;
     void* GetOffset205C();
 };
 
 // @fnv 0x00995db0
 void* FUN_00995db0_Class::GetOffset205C()
 {
-    return reinterpret_cast<char*>(this) + 0x205C;
+    return &unk205c;
 }
 
 struct FUN_009962d0_class
 {
+    char pad[0x2050];
+    unsigned int* unk2050;
     unsigned int* GetFieldAt2050();
 };
 
 // @fnv 0x009962d0
 unsigned int* FUN_009962d0_class::GetFieldAt2050()
 {
-    return *reinterpret_cast<unsigned int**>(reinterpret_cast<unsigned char*>(this) + 0x2050);
+    return unk2050;
 }
 
 namespace fnv_00996540 {
@@ -987,13 +1008,15 @@ public:
 };
 struct FUN_0099e010_Class
 {
+    char pad[0xe0];
+    char unke0;
     void FUN_0099e010(const NiPoint3& akPoint);
 };
 // Stores akPoint into the NiPoint3 located at offset 0xe0 of this object.
 // @fnv 0x0099e010
 void FUN_0099e010_Class::FUN_0099e010(const NiPoint3& akPoint)
 {
-    *reinterpret_cast<NiPoint3*>(reinterpret_cast<char*>(this) + 0xe0) = akPoint;
+    *((NiPoint3*)&unke0) = akPoint;
 }
 
 extern int DAT_0108d138;
@@ -1016,6 +1039,8 @@ void NiTPointerMap_00983880::FUN_00983880()
 struct CombatSearchDoor;
 struct FUN_0098c590_shell
 {
+    char pad[0x120];
+    char unk120;
     CombatSearchDoor* FindParentSpaceNode(std::intptr_t);
 };
 struct FUN_0098c6e0_class
@@ -1185,9 +1210,9 @@ struct CombatSearchDoor
 // @fnv 0x0098c590
 CombatSearchDoor* FUN_0098c590_shell::FindParentSpaceNode(std::intptr_t formID)
 {
-    for (unsigned int i = 0; i < ((uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((BSSimpleArray_ParentSpaceNode*)((char*)this + 0x120))))->GetName())); ++i)
+    for (unsigned int i = 0; i < ((uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((BSSimpleArray_ParentSpaceNode*)&unk120)))->GetName())); ++i)
     {
-        ParentSpaceNode* node = &((BSSimpleArray_ParentSpaceNode*)((char*)this + 0x120))->GetAt(i);
+        ParentSpaceNode* node = &((BSSimpleArray_ParentSpaceNode*)&unk120)->GetAt(i);
         if (node->a == formID || node->b == formID)
             return (CombatSearchDoor*)node;
     }
@@ -1452,15 +1477,21 @@ CombatStateArray* FUN_00994e60_class::ResetState(CombatStateArray* a)
 
 struct FUN_00994ea0_class
 {
+    char pad[0x5c];
+    char unk5c;
+    char pad5d[0x3];
+    char unk60;
+    char pad61[0x7b];
+    unsigned int unkdc;
     void AppendPair(int a, int b);
 };
 // Stores a and b into the two int slots at this+0x5c/0x60 indexed by the counter at this+0xdc, then increments that counter.
 // @fnv 0x00994ea0
 void FUN_00994ea0_class::AppendPair(int aiFirst, int aiSecond)
 {
-    *(int*)((char*)this + 0x5c + *(unsigned int*)((char*)this + 0xdc) * 8) = aiFirst;
-    *(int*)((char*)this + 0x60 + *(unsigned int*)((char*)this + 0xdc) * 8) = aiSecond;
-    *(unsigned int*)((char*)this + 0xdc) += 1;
+    *(int*)(&unk5c + unkdc * 8) = aiFirst;
+    *(int*)(&unk60 + unkdc * 8) = aiSecond;
+    unkdc += 1;
 }
 
 
@@ -1714,22 +1745,42 @@ FUN_0098f5f0::FUN_0098f5f0(int a, int b, void* c)
 
 struct FUN_0098f8e0_Class : FUN_0098fda0_Class
 {
+    char pad[0x8];
+    Inner097 unk08;
+    char pad09[0xf];
+    Inner097 unk18;
+    char pad19[0xf];
+    Inner097 unk28;
+    char pad29[0xf];
+    Inner097 unk38;
+    char pad39[0x13];
+    char unk4c;
+    char pad4d[0x3];
+    char unk50;
+    char pad51[0x3];
+    char unk54;
+    char pad55[0x3];
+    char unk58;
+    char pad59[0x3];
+    char unk5c;
+    char pad5d[0x3];
+    char unk60;
     FUN_0098f8e0_Class* FUN_0098f8e0();
 };
 // Calls FUN_0097ede0 on four embedded Inner097 members and FUN_004300a0 on six members at offsets 0x4c-0x60, then returns this.
 // @fnv 0x0098f8e0
 FUN_0098f8e0_Class* FUN_0098f8e0_Class::FUN_0098f8e0()
 {
-    reinterpret_cast<::FUN_0097ede0_cls *>((((Inner097*)((char*)this + 8))))->FUN_0097ede0();
-    reinterpret_cast<::FUN_0097ede0_cls *>((((Inner097*)((char*)this + 0x18))))->FUN_0097ede0();
-    reinterpret_cast<::FUN_0097ede0_cls *>((((Inner097*)((char*)this + 0x28))))->FUN_0097ede0();
-    reinterpret_cast<::FUN_0097ede0_cls *>((((Inner097*)((char*)this + 0x38))))->FUN_0097ede0();
-    FUN_004300a0((CombatTargetTimestamp*)((char*)this + 0x4c));
-    FUN_004300a0((CombatTargetTimestamp*)((char*)this + 0x50));
-    FUN_004300a0((CombatTargetTimestamp*)((char*)this + 0x54));
-    FUN_004300a0((CombatTargetTimestamp*)((char*)this + 0x58));
-    FUN_004300a0((CombatTargetTimestamp*)((char*)this + 0x5c));
-    FUN_004300a0((CombatTargetTimestamp*)((char*)this + 0x60));
+    reinterpret_cast<::FUN_0097ede0_cls *>(((&unk08)))->FUN_0097ede0();
+    reinterpret_cast<::FUN_0097ede0_cls *>(((&unk18)))->FUN_0097ede0();
+    reinterpret_cast<::FUN_0097ede0_cls *>(((&unk28)))->FUN_0097ede0();
+    reinterpret_cast<::FUN_0097ede0_cls *>(((&unk38)))->FUN_0097ede0();
+    FUN_004300a0((CombatTargetTimestamp*)&unk4c);
+    FUN_004300a0((CombatTargetTimestamp*)&unk50);
+    FUN_004300a0((CombatTargetTimestamp*)&unk54);
+    FUN_004300a0((CombatTargetTimestamp*)&unk58);
+    FUN_004300a0((CombatTargetTimestamp*)&unk5c);
+    FUN_004300a0((CombatTargetTimestamp*)&unk60);
     return this;
 }
 
@@ -2015,12 +2066,14 @@ struct TESPackage
 };
 struct FUN_00981920_Class
 {
+    char pad[0x9c];
+    unsigned int* unk9c;
     unsigned int GetPackageRefCount();
 };
 // @fnv 0x00981920
 unsigned int FUN_00981920_Class::GetPackageRefCount()
 {
-    return ((TESPackage*)*(unsigned int**)((char*)this + 0x9c))->GetRefCount();
+    return ((TESPackage*)unk9c)->GetRefCount();
 }
 
 struct FUN_00982430 : public AX
@@ -2203,31 +2256,33 @@ struct FUN_0098bfb0_Record
 
 struct FUN_0098bfb0_Class
 {
+    char pad[0x110];
+    char unk110;
     void StoreRecord(void* header, float value, int extra);
 };
 
 // @fnv 0x0098bfb0
 void FUN_0098bfb0_Class::StoreRecord(void* header, float value, int extra)
 {
-    unsigned int index = reinterpret_cast<::FUN_006bfd40_cls *>((reinterpret_cast<S006bfd40*>(reinterpret_cast<char*>(this) + 0x110)))->FUN_006bfd40();
+    unsigned int index = reinterpret_cast<::FUN_006bfd40_cls *>((((S006bfd40*)&unk110)))->FUN_006bfd40();
 
     reinterpret_cast<FUN_0098bfb0_Record*>(
-        reinterpret_cast<FUN_006bf670_Class*>(reinterpret_cast<char*>(this) + 0x110)->FUN_006bf670(index))
+        ((FUN_006bf670_Class*)&unk110)->FUN_006bf670(index))
         ->m_kHeader = *reinterpret_cast<const FUN_0098bfb0_Header*>(header);
 
     {
         CombatTargetTimestamp timestamp(::FUN_00435dd0());
 
         reinterpret_cast<FUN_0098bfb0_Record*>(
-            reinterpret_cast<FUN_006bf670_Class*>(reinterpret_cast<char*>(this) + 0x110)->FUN_006bf670(index))
+            ((FUN_006bf670_Class*)&unk110)->FUN_006bf670(index))
             ->m_timestamp = timestamp.m_uiFilterValue;
 
         reinterpret_cast<FUN_0098bfb0_Record*>(
-            reinterpret_cast<FUN_006bf670_Class*>(reinterpret_cast<char*>(this) + 0x110)->FUN_006bf670(index))
+            ((FUN_006bf670_Class*)&unk110)->FUN_006bf670(index))
             ->m_uiFilterValue = extra;
 
         reinterpret_cast<FUN_0098bfb0_Record*>(
-            reinterpret_cast<FUN_006bf670_Class*>(reinterpret_cast<char*>(this) + 0x110)->FUN_006bf670(index))
+            ((FUN_006bf670_Class*)&unk110)->FUN_006bf670(index))
             ->m_float = value;
     }
 }
@@ -2270,6 +2325,8 @@ struct S5460_helper
 
 struct FUN_0098c600_class
 {
+    char pad[0x120];
+    char unk120;
     void AddRadioReference(TESObjectREFR* arg);
 };
 
@@ -2288,26 +2345,26 @@ void FUN_0098c600_class::AddRadioReference(TESObjectREFR* pRef)
     }
 
     unsigned int index =
-        reinterpret_cast<::S5460 *>((reinterpret_cast<S5460_helper*>(reinterpret_cast<unsigned char*>(this) + 0x120)))->FUN_00978bc0();
+        reinterpret_cast<::S5460 *>((((S5460_helper*)&unk120)))->FUN_00978bc0();
 
     reinterpret_cast<EdgeRecord*>(
-        &reinterpret_cast<EdgeArr*>(reinterpret_cast<unsigned char*>(this) + 0x120)->FUN_006a1440(index))
+        &((EdgeArr*)&unk120)->FUN_006a1440(index))
         ->m_0000 = reinterpret_cast<std::intptr_t>(pRef);
 
     reinterpret_cast<EdgeRecord*>(
-        &reinterpret_cast<EdgeArr*>(reinterpret_cast<unsigned char*>(this) + 0x120)->FUN_006a1440(index))
+        &((EdgeArr*)&unk120)->FUN_006a1440(index))
         ->m_0004 = radioData->operator unsigned int();
 
     reinterpret_cast<EdgeRecord*>(
-        &reinterpret_cast<EdgeArr*>(reinterpret_cast<unsigned char*>(this) + 0x120)->FUN_006a1440(index))
+        &((EdgeArr*)&unk120)->FUN_006a1440(index))
         ->m_0008 = 0;
 
     reinterpret_cast<EdgeRecord*>(
-        &reinterpret_cast<EdgeArr*>(reinterpret_cast<unsigned char*>(this) + 0x120)->FUN_006a1440(index))
+        &((EdgeArr*)&unk120)->FUN_006a1440(index))
         ->m_000a = 0;
 
     reinterpret_cast<EdgeRecord*>(
-        &reinterpret_cast<EdgeArr*>(reinterpret_cast<unsigned char*>(this) + 0x120)->FUN_006a1440(index))
+        &((EdgeArr*)&unk120)->FUN_006a1440(index))
         ->m_0009 = 0;
 }
 
@@ -2770,13 +2827,15 @@ struct FUN_009aa3b0_Class
 };
 struct FUN_009957c0_Class
 {
+    char pad[0x14];
+    FUN_009aa3b0_Class unk14;
     bool FUN_009957c0(BSSimpleList<int>* arg);
 };
 // Calls HasMatchingEntry on the list's first value and its next value, returning the result.
 // @fnv 0x009957c0
 bool FUN_009957c0_Class::FUN_009957c0(BSSimpleList<int>* pList)
 {
-    return reinterpret_cast<::FUN_009aa3b0_Class *>((((FUN_009aa3b0_Class*)((char*)this + 0x14))))->HasMatchingEntry((unsigned int)*(GO*)pList, (unsigned int)(std::uintptr_t)((::BSSimpleList<int> *)(reinterpret_cast<::Callees *>((pList))->FUN_00726070())));
+    return reinterpret_cast<::FUN_009aa3b0_Class *>(((&unk14)))->HasMatchingEntry((unsigned int)*(GO*)pList, (unsigned int)(std::uintptr_t)((::BSSimpleList<int> *)(reinterpret_cast<::Callees *>((pList))->FUN_00726070())));
 }
 }  // namespace fnv_009957c0
 
@@ -3415,6 +3474,10 @@ struct FUN_00982e70_Temporary
 };
 struct FUN_00982e70_Class
 {
+    char pad[0x10];
+    unsigned int unk10;
+    char pad14[0x1];
+    unsigned char unk15;
     void AddItem(int item, void* context);
 };
 // @fnv 0x00982e70
@@ -3428,12 +3491,12 @@ void FUN_00982e70_Class::AddItem(int item, void* context)
             return;
         }
     }
-    if (!*((unsigned char*)this + 0x15))
+    if (!*(&unk15))
     {
         ((FUN_00982f10*)this)->Set((const char*)context + 0x70);
     }
     unsigned int flags = ((FUN_00982b90_class*)((char*)context + 0x70))->ComputeBitMask();
-    *((unsigned int*)((char*)this + 0x10)) |= flags;
+    unk10 |= flags;
     {
         FUN_00982e70_Temporary temporary;
         reinterpret_cast<::fnv_006db840::BSSimpleArray *>(this)->InsertAtEnd((*(const ::NiPoint2 *)(temporary.FUN_004b0680(item, context))));
@@ -5019,7 +5082,7 @@ extern int DAT_0108db4c;
 void FUN_00991130_class::FUN_00993880()
 {
     *(const void**)this = &DAT_0108db4c;
-    FUN_004ede70(*(void**)((char*)this + 4));
+    FUN_004ede70(unk04);
 }
 
 struct TargetData

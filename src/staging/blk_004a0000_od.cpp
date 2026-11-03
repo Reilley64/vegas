@@ -133,9 +133,7 @@ NiPoint3& FUN_004a0d60_Class::FUN_004a0d60(NiPoint3& arDest)
 
 struct FUN_004a0d90_Class
 {
-
     char pad[0x11c];
-
     float unk11c;
     float GetField11C();
 };
@@ -148,9 +146,7 @@ float FUN_004a0d90_Class::GetField11C()
 
 struct FUN_004a0db0_class
 {
-
     char pad[0x120];
-
     float unk120;
     float GetFloatAt120();
 };
@@ -204,13 +200,9 @@ void FUN_004a3d60_class::FUN_004a3d60()
 
 struct FUN_004a3d80_Class
 {
-
     char pad[0x20];
-
     int unk20;
-
     char pad24[0x1c];
-
     int unk40;
     void FUN_004a3d80();
 };
@@ -236,9 +228,7 @@ struct RegionPoint
 
 struct FUN_004a40a0_Class
 {
-
     char pad[0x54];
-
     RegionPoint unk54;
     float FUN_004a40a0();
 };
@@ -266,9 +256,7 @@ float FUN_004a40c0_Class::GetModifierValue()
 
 struct FUN_004a4120_class
 {
-
     char pad[0x1d];
-
     unsigned char unk1d;
     char FUN_004a4120();
 };
@@ -281,9 +269,7 @@ char FUN_004a4120_class::FUN_004a4120()
 
 struct FUN_004a4160_Class
 {
-
     char pad[0x1d];
-
     unsigned char unk1d;
     bool FUN_004a4160();
 };
@@ -296,9 +282,7 @@ bool FUN_004a4160_Class::FUN_004a4160()
 
 struct FUN_004a41a0_Class
 {
-
     char pad[0x1d];
-
     unsigned char unk1d;
     bool FUN_004a41a0();
 };
@@ -310,9 +294,7 @@ bool FUN_004a41a0_Class::FUN_004a41a0()
 
 struct FUN_004a4200_class
 {
-
     char pad[0x1c];
-
     unsigned char unk1c;
     unsigned short FUN_004a4200();
 };
@@ -366,9 +348,7 @@ struct FUN_004a49e0_Item
 
 struct FUN_004a49e0_shell
 {
-
     char pad[0x8];
-
     ::FUN_0045cee0_shell unk08;
     void FUN_004a49e0(void* item);
 };
@@ -535,9 +515,7 @@ struct RecursiveSpinLock
 
 struct FUN_004afba0_class
 {
-
     char pad[0x20];
-
     RecursiveSpinLock unk20;
     void UnlockAtOffset();
 };
@@ -699,9 +677,7 @@ struct FUN_004b9de0_class
 
 struct FUN_004b9d60_class
 {
-
     char pad[0xc];
-
     FUN_004b9de0_class unk0c;
     void FUN_004b9d60();
 };
@@ -722,9 +698,7 @@ struct FUN_004b9d80_Object
 
 struct FUN_004b9d80_Class
 {
-
     char pad[0xc];
-
     Unk6b unk0c;
     void FUN_004b9d80(void* param);
 };
@@ -773,11 +747,7 @@ void* FUN_004b9e00_cls::FUN_004b9e00()
 
 struct FUN_004be080_Class
 {
-
-
     char pad[0x178];
-
-
     unsigned short unk178;
     float FUN_004be080();
 };
@@ -791,9 +761,7 @@ float FUN_004be080_Class::FUN_004be080()
 
 struct FUN_004be580_class
 {
-
     char pad[0x240];
-
     unsigned char unk240;
     unsigned char GetByteAt240();
 };
@@ -1076,9 +1044,7 @@ struct FUN_004b9980_Class
 
 struct FUN_004a0e50_Class
 {
-
     char pad[0x200];
-
     int unk200;
     bool FUN_004a0e50();
 };
@@ -1183,11 +1149,8 @@ void FUN_004a4930_class::FUN_004a4930(void* apObject)
 
 struct FUN_004a4960_class
 {
-
     void* unk00;
-
     void* unk04;
-
     unsigned int unk08;
     void* FUN_004a4960(void* a, void* b, unsigned int c);
 };
@@ -1809,9 +1772,7 @@ struct TESForm
 
 struct FUN_004be1a0_Class
 {
-
     char pad[0x8];
-
     TESForm* unk08;
     unsigned int GetFormTypeCategory();
 };
@@ -2538,7 +2499,6 @@ class C4A9A60Array
   public:
     int unk00;
     C4A9A60Entry* m_pUserData;
-
     int AddEntry(const C4A9A60Entry& kEntry);
 };
 
@@ -2568,7 +2528,6 @@ struct ScanItem64
 struct FUN_004a9ab0_cls
 {
     int unk00;
-
     void ConstructScanItems(intptr_t base, unsigned int count);
 };
 // Sets the vtable to DAT_0101edac, calls FUN_004a9e00 with 0, 0, and returns this.
@@ -2815,7 +2774,6 @@ class FUN_004b0480_cls : public Base_b9135
   public:
     virtual ~FUN_004b0480_cls();
     virtual void FUN_004b0480_vslot();
-
     char unk04[4];
     Guard_b9135 m_08;
 };

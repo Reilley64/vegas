@@ -124,9 +124,7 @@
 
 struct FUN_00505c20_class
 {
-
     char pad[0x9a];
-
     unsigned char unk9a;
     unsigned char GetByteAtOffset9A();
 };
@@ -156,9 +154,7 @@ void FUN_00507550_Class::FUN_00507550(void* p)
 
 struct FUN_00507570_Class
 {
-
     char pad[0x80];
-
     float unk80;
     void FUN_00507570(float value);
 };
@@ -171,9 +167,7 @@ void FUN_00507570_Class::FUN_00507570(float value)
 
 struct FUN_00507610_Class
 {
-
     char pad[0xb0];
-
     float unkb0;
     void FUN_00507610(float value);
 };
@@ -186,9 +180,7 @@ void FUN_00507610_Class::FUN_00507610(float value)
 
 struct FUN_005076c0Class
 {
-
     char pad[0xc0];
-
     float unkc0;
     void FUN_005076c0(float value);
 };
@@ -201,9 +193,7 @@ void FUN_005076c0Class::FUN_005076c0(float value)
 
 struct FUN_005076e0_Class
 {
-
     char pad[0xf4];
-
     float unkf4;
     void FUN_005076e0(float value);
 };
@@ -216,9 +206,7 @@ void FUN_005076e0_Class::FUN_005076e0(float value)
 
 struct FUN_00507720_Class
 {
-
     char pad[0x100];
-
     float unk100;
     void FUN_00507720(float value);
 };
@@ -230,9 +218,7 @@ void FUN_00507720_Class::FUN_00507720(float value)
 
 struct FUN_00507740_Class
 {
-
     char pad[0x110];
-
     int unk110;
     void FUN_00507740(int value);
 };
@@ -245,9 +231,7 @@ void FUN_00507740_Class::FUN_00507740(int value)
 
 struct FUN_00507760_Class
 {
-
     char pad[0x114];
-
     int unk114;
     void FUN_00507760(int value);
 };
@@ -260,9 +244,7 @@ void FUN_00507760_Class::FUN_00507760(int value)
 
 struct FUN_00507780
 {
-
     char pad[0x134];
-
     float unk134;
     void SetBoltsRadiusStrength(float value);
 };
@@ -275,9 +257,7 @@ void FUN_00507780::SetBoltsRadiusStrength(float afStrength)
 
 struct FUN_005077a0_Class
 {
-
     char pad[0x148];
-
     float unk148;
     void FUN_005077a0(float value);
 };
@@ -295,9 +275,7 @@ struct Flt
 
 struct FUN_00507d80_Class
 {
-
     char pad[0xdc];
-
     Flt unkdc;
     unsigned int FUN_00507d80();
 };
@@ -310,9 +288,7 @@ unsigned int FUN_00507d80_Class::FUN_00507d80()
 
 struct FUN_00508050_Class
 {
-
     char pad[0x44];
-
     float unk44;
     float FUN_00508050();
 };
@@ -325,9 +301,7 @@ float FUN_00508050_Class::FUN_00508050()
 
 struct FUN_00508070_class
 {
-
     char pad[0x110];
-
     float unk110;
     float FUN_00508070();
 };
@@ -341,14 +315,8 @@ float FUN_00508070_class::FUN_00508070()
 
 struct FUN_00509890_class
 {
-
-
     char pad[0xc];
-
-
     short unk0c;
-
-
     char unk0e;
     void* FUN_00509890(bool);
 };
@@ -365,9 +333,7 @@ void* FUN_00509890_class::FUN_00509890(bool flag)
 
 struct FUN_0050d1d0_class
 {
-
     char pad[0xa8];
-
     int unka8;
     bool IsFlag8Set() const;
 };
@@ -380,9 +346,7 @@ bool FUN_0050d1d0_class::IsFlag8Set() const
 
 struct FUN_0050d1f0_Class
 {
-
     char pad[0xa8];
-
     unsigned int unka8;
     bool FUN_0050d1f0() const;
 };
@@ -395,9 +359,7 @@ bool FUN_0050d1f0_Class::FUN_0050d1f0() const
 
 struct FUN_0050d210_Class
 {
-
     char pad[0xa8];
-
     int unka8;
     bool IsFlag80Set() const;
 };
@@ -410,9 +372,7 @@ bool FUN_0050d210_Class::IsFlag80Set() const
 
 struct FUN_0050d230_class
 {
-
     char pad[0xa8];
-
     unsigned int unka8;
     bool FUN_0050d230() const;
 };
@@ -487,9 +447,7 @@ unsigned int ArrSI::HasFlag10000000()
 
 struct FUN_00519020_Class
 {
-
     char pad[0x688];
-
     int unk688;
     void SetField688(int value);
 };
@@ -507,9 +465,7 @@ struct FUN_008256d0_list
 
 struct FUN_005194d0_shell_base
 {
-
     char pad[0x88];
-
     FUN_008256d0_list unk88;
     bool FUN_005194d0();
 };
@@ -566,9 +522,7 @@ unsigned int FUN_0051cfe0_Class::FUN_0051cfe0()
 
 struct FUN_0051f4d0_class
 {
-
     char pad[0x1cc];
-
     unsigned int unk1cc;
     unsigned int GetField1CC();
 };
@@ -581,9 +535,7 @@ unsigned int FUN_0051f4d0_class::GetField1CC()
 
 struct FUN_0051f4f0_Class
 {
-
     char pad[0x1cc];
-
     int unk1cc;
     void FUN_0051f4f0(int value);
 };
@@ -596,9 +548,7 @@ void FUN_0051f4f0_Class::FUN_0051f4f0(int value)
 
 struct FUN_0051f530_class
 {
-
     char pad[0x370];
-
     int unk370;
     void FUN_0051f530(int value);
 };
@@ -643,9 +593,7 @@ struct NiPoint4
 
 struct FUN_00507660_class
 {
-
     char pad[0xd4];
-
     NiPoint4 unkd4;
     void FUN_00507660(NiPoint4 p);
 };
@@ -865,13 +813,9 @@ bool FUN_00519500_class::HasEntry(intptr_t aiValue)
 
 struct FUN_00519b20
 {
-
     void* vtbl;
-
     unsigned int count;
-
     void* data;
-
     unsigned int unk0c;
     void* ConstructArray(unsigned int n);
 };
@@ -1555,7 +1499,6 @@ class FUN_00505c40 : public ThisBase_c40
     ThisMemberD_c40 m_14c;
     ThisMemberD_c40 m_158;
     ThisMemberD_c40 m_164;
-
     FUN_00505c40();
     virtual ~FUN_00505c40();
     virtual void unk00();
@@ -1774,9 +1717,7 @@ class B0B8F0Form
   public:
     B0B8F0Form();
     virtual ~B0B8F0Form();
-
     void SetFormType(int eType);
-
     int unk04;
     int unk08;
     int unk0C;
@@ -1850,7 +1791,6 @@ class Obj50DDB0
     int unk0A0;
     int unk0A4;
     unsigned int m_uiValue1;
-
     void FUN_0050ddb0(bool bSet);
 };
 
@@ -2216,7 +2156,6 @@ class ListPart508
 {
   public:
     virtual void GetList();
-
     int unk04;
     int unk08;
 };
@@ -2612,7 +2551,6 @@ struct FUN_005010f0
     int unk5c;
     int unk60;
     S_5010f0_Cond m64;
-
     ~FUN_005010f0();
 };
 // Calls FUN_005010f0, then deallocates this if flags has bit 0 set, and returns this.
@@ -2721,7 +2659,6 @@ struct FUN_005098e0_Object
     unsigned int unk158;
     unsigned char unk15C;
     unsigned char unk15D;
-
     bool IsFlagged() const;
 };
 

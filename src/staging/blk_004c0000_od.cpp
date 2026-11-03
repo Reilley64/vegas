@@ -164,9 +164,7 @@ extern void(* DAT_00fdf28c)(void*, int, int, int);
 
 struct FUN_004d7490_Class
 {
-
     char pad[0xc];
-
     void* unk0c;
     void FUN_004d7490();
 };
@@ -219,9 +217,7 @@ void* FUN_004d85a0_Class::FUN_004d85a0(int a)
 
 struct FUN_004d8670_Class
 {
-
     char pad[0x10];
-
     BSSimpleList<int> unk10;
     BSSimpleList<int>* GetListNext();
 };
@@ -234,9 +230,7 @@ BSSimpleList<int>* FUN_004d8670_Class::GetListNext()
 
 struct FUN_004d8a00_Class
 {
-
     char pad[0x3c];
-
     unsigned short unk3c;
     unsigned short GetField3C();
 };
@@ -355,9 +349,7 @@ unsigned int FUN_004dcd00_Class::GetElementAt(int aiIndex)
 
 struct FUN_004dcd60_Class
 {
-
     char pad[0x140];
-
     unsigned char unk140;
     unsigned char GetByteAt140();
 };
@@ -370,9 +362,7 @@ unsigned char FUN_004dcd60_Class::GetByteAt140()
 
 struct FUN_004dd220_Class
 {
-
     char pad[0x5c8];
-
     unsigned int unk5c8;
     unsigned int GetField5C8();
 };
@@ -419,9 +409,7 @@ FUN_004de290_StandIn* FUN_004de290_StandIn::SetValue(float value)
 
 struct FUN_004de2b0_StandIn
 {
-
     char pad[0x4];
-
     char unk04;
     FUN_004de2b0_StandIn* SetCharAtOffset4(char c);
 };
@@ -452,9 +440,7 @@ struct GlobalObject_004aff00
 
 struct FUN_004def90_Class
 {
-
     char pad[0x9c];
-
     GlobalObject_004aff00 unk9c;
     void FUN_004def90();
 };
@@ -1160,7 +1146,6 @@ struct FUN_004d5080_Class
     void* unk04;
     void* unk08;
     void* unk0C;
-
     void FUN_004d5080();
 };
 
@@ -2831,8 +2816,6 @@ class C4DF040Property : public C4DF040Object
 {
   public:
     C4DF040Property();
-
-
     int unk00;
     int unk04;
     int unk08;
@@ -2869,8 +2852,6 @@ class C4DF040TriShape : public C4DF040Object
     C4DF040TriShape(unsigned short usVertices, C4DF040Point3* pkVertex, C4DF040Point3* pkNormal, void* pkColor,
                     C4DF040Point2* pkTexture, unsigned short usNumTextureSets, unsigned int eNBTMethod,
                     unsigned short usTriangles, unsigned short* pusTriList);
-
-
     int unk00;
     int unk04;
     int unk08;
@@ -2926,7 +2907,6 @@ class C4DF040Node : public C4DF040Object
 {
   public:
     C4DF040Node(unsigned int uiMode);
-
     virtual void VFunc000();
     virtual void VFunc004();
     virtual void VFunc008();
@@ -2983,7 +2963,6 @@ class C4DF040Node : public C4DF040Object
     virtual void VFunc0D4();
     virtual void VFunc0D8();
     virtual void AttachChildInAvailableSlot(C4DF040TriShape* pkChild, bool abFirstAvailableSlot);
-
     int unk04;
     int unk08;
     int unk0C;

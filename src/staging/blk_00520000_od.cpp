@@ -74,9 +74,7 @@
 
 struct FUN_005224c0_Class
 {
-
     char pad[0x22c];
-
     unsigned int unk22c;
     unsigned int GetField22C();
 };
@@ -89,9 +87,7 @@ unsigned int FUN_005224c0_Class::GetField22C()
 
 struct FUN_005224e0_class
 {
-
     char pad[0x230];
-
     unsigned int unk230;
     unsigned int GetField230();
 };
@@ -104,9 +100,7 @@ unsigned int FUN_005224e0_class::GetField230()
 
 struct FUN_00524b40_class
 {
-
     char pad[0x100];
-
     unsigned char unk100;
     bool FUN_00524b40();
 };
@@ -119,9 +113,7 @@ bool FUN_00524b40_class::FUN_00524b40()
 
 struct FUN_00526ae0_class
 {
-
     char pad[0x28];
-
     float unk28;
     float FUN_00526ae0() const;
 };
@@ -134,13 +126,9 @@ float FUN_00526ae0_class::FUN_00526ae0() const
 
 struct FUN_00527740_class
 {
-
     char pad[0xc];
-
     int unk0c;
-
     int unk10;
-
     char unk14;
     void FUN_00527740();
 };
@@ -680,14 +668,8 @@ template <int N> struct EndianSizeTag
 
 struct FUN_00535aa0_Class
 {
-
-
     unsigned short unk00;
-
-
     char pad02[0x2];
-
-
     unsigned int unk04;
     void FUN_00535aa0();
 };
@@ -883,7 +865,6 @@ struct C5271F0Change
     int unk0C;
     int unk10;
     unsigned char unk14;
-
     C5271F0Change();
     ~C5271F0Change();
 };
@@ -898,7 +879,6 @@ struct FUN_005271f0
     int unk14;
     int unk18;
     C5271F0Change m_kChange;
-
     FUN_005271f0(int owner, int type);
 };
 
@@ -1261,7 +1241,6 @@ struct QueuedMap
     int count;
     int unk1C;
     RecursiveSpinLock lock;
-
     void FUN_00528e40(bool abFreeNodes);
 };
 
@@ -1431,7 +1410,6 @@ struct C90List
 {
     C90List();
     ~C90List();
-
     int unk00;
     int unk04;
     int unk08;

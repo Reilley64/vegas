@@ -252,9 +252,7 @@ void FUN_00620110_Class::FUN_00620110()
 
 struct FUN_006205a0_Class
 {
-
     char pad[0x10];
-
     int unk10;
     int FUN_006205a0();
 };
@@ -270,9 +268,7 @@ struct T_
 
 struct FUN_006205c0_Class
 {
-
     char pad[0x20];
-
     T_ unk20;
     void ForwardToMember(void* arg);
 };
@@ -306,9 +302,7 @@ struct AlphaColor
 
 struct FUN_006218d0_Class
 {
-
     char pad[0x8];
-
     AlphaColor unk08;
     void FUN_006218d0(float);
 };
@@ -396,9 +390,7 @@ void FUN_00622780_Class::FUN_00622780()
 
 struct FUN_006228e0_shell
 {
-
     char pad[0xa];
-
     unsigned short unk0a;
     unsigned int FUN_006228e0(unsigned int, void*);
     unsigned int FUN_006227b0(uintptr_t arg);
@@ -641,9 +633,7 @@ void FUN_00626d00_Class::SetObjectFlags(uintptr_t flags)
 
 struct FUN_006288a0_Class
 {
-
     char pad[0x110];
-
     int unk110;
     int* GetOffset110();
 };
@@ -878,9 +868,7 @@ void FUN_00631780_Class::FUN_00631780()
 
 struct FUN_00632ce0_Class
 {
-
     char pad[0xac];
-
     unsigned char unkac;
     unsigned char FUN_00632ce0();
 };
@@ -893,9 +881,7 @@ unsigned char FUN_00632ce0_Class::FUN_00632ce0()
 
 struct FUN_00632d00_Class
 {
-
     char pad[0x600];
-
     int* unk600;
     int* GetField600();
 };
@@ -907,9 +893,7 @@ int* FUN_00632d00_Class::GetField600()
 
 struct FUN_00633bf0_Class
 {
-
     char pad[0x20];
-
     NiPoint3 unk20;
     void FUN_00633bf0(const NiPoint3* p);
 };
@@ -923,11 +907,8 @@ void FUN_00633bf0_Class::FUN_00633bf0(const NiPoint3* apPoint)
 
 struct FUN_00633c20_Class
 {
-
     char pad[0x34];
-
     float unk34;
-
     float unk38;
     void FUN_00633c20(float a, float b);
 };
@@ -940,9 +921,7 @@ void FUN_00633c20_Class::FUN_00633c20(float a, float b)
 
 struct FUN_00633c40_Class
 {
-
     char pad[0x50];
-
     float unk50;
     void FUN_00633c40(float value);
 };
@@ -1033,9 +1012,7 @@ int* FUN_006347a0_Class::FUN_006347a0(int index)
 
 struct FUN_00634850_Class
 {
-
     char pad[0x28];
-
     NiPoint3 unk28[1];
     NiPoint3* GetPointAt(int index);
 };
@@ -1079,9 +1056,7 @@ unsigned short FUN_00639a30_Class::GetFlagBits(unsigned short mask, unsigned sho
 
 struct FUN_00639b00_Class
 {
-
     char pad[0x54];
-
     unsigned short unk54;
     int FUN_00639b00();
 };
@@ -1112,9 +1087,7 @@ int FUN_00639ce0_Class::FUN_00639ce0()
 
 struct FUN_0063ef00_Class
 {
-
     char pad[0x244];
-
     int unk244;
     bool FUN_0063ef00();
 };
@@ -1144,9 +1117,7 @@ FUN_00626630_Class* FUN_00626630_Class::FUN_00626630()
 
 struct Holder
 {
-
     char unk00[0x10];
-
     char unk10[0x10];
     Holder* FUN_00628950(Holder* a, Holder* b);
 };
@@ -2191,9 +2162,7 @@ void ShadowLightData::CallWithConstant()
 
 struct FUN_00633ba0_Class
 {
-
     char pad[0x18];
-
     unsigned short unk18;
     void FUN_00633ba0(bool set, unsigned short mask);
 };
@@ -2446,9 +2415,7 @@ FUN_00622870_Class* FUN_00622870_Class::FUN_00622870(unsigned short count, unsig
 
 struct FUN_00624d70_Class
 {
-
     char pad[0x20];
-
     char unk20[1];
     void ExtractTes4Prefix(char* path);
 };
@@ -2634,21 +2601,13 @@ struct FUN_0056df00_class
 
 struct FUN_00621930_Class
 {
-
     void* unk00;
-
     void* unk04;
-
     void* unk08;
-
     void* unk0c;
-
     void* unk10;
-
     void* unk14;
-
     char pad18[0x8];
-
     FUN_0056df00_class unk20;
     void* FUN_00621930(void);
 };
@@ -2988,7 +2947,6 @@ class Owner623
 {
   public:
     void FUN_006231a0(NiNode623* pkNode);
-
     int unk000, unk004, unk008, unk00C, unk010, unk014, unk018, unk01C;
     int unk020, unk024, unk028, unk02C, unk030, unk034, unk038, unk03C;
     int unk040, unk044, unk048, unk04C, unk050, unk054, unk058, unk05C;
@@ -3786,10 +3744,8 @@ class FUN_00629cf0_cls
     virtual void v00();
     virtual int v01(int a);
     virtual bool v02(int a, FUN_00629cf0_item* item);
-
     unsigned int unk04;
     FUN_00629cf0_node** m_ppBuckets;
-
     bool LookupValue(intptr_t a, unsigned short* out);
 };
 
@@ -3923,7 +3879,6 @@ class SpawnedBase_b7276
     int m_04;
     int m_08;
     int m_0c;
-
     SpawnedBase_b7276();
     ~SpawnedBase_b7276();
 };
@@ -3940,7 +3895,6 @@ class FUN_0062a220_cls : public SpawnedBase_b7276
 {
   public:
     SpawnedMember_b7276 m_10;
-
     FUN_0062a220_cls();
     virtual void unk00();
 };
@@ -3991,7 +3945,6 @@ struct A3B0Controller
     int unk6C;
     A3B0Filter m_kFilter;
     float m_fTimer;
-
     void SetFilter(intptr_t iLayer, const A3B0Filter& kFilter);
 };
 // Initializes m_70 to 0 and, if aParam is non-null, fetches a temp value from it and passes it to Method_62a190 with aArg.
@@ -4326,7 +4279,6 @@ struct FUN_00633080 : ObjBaseA
     SubObjectA m_10;
     SubObjectA m_14;
     unsigned char m_18;
-
     FUN_00633080();
     virtual void unk00();
 };
@@ -5061,7 +5013,6 @@ class NodeList620
 {
   public:
     void RemoveNode(Node620* pkNode);
-
     int unk00;
     Node620* m_pkHead;
 };
@@ -6270,7 +6221,6 @@ struct FUN_00628f30_shell
     int unk08;
     int unk0c;
     unsigned int unk10;
-
     void FUN_00628f70(int mask);
 };
 

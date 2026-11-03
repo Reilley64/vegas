@@ -118,9 +118,7 @@ template <class T> T& BigSlot(BigResult&& r) { return *reinterpret_cast<T*>(&r);
 
 struct FUN_00560cf0_Class
 {
-
     char pad[0x8];
-
     float unk08;
     void FUN_00560cf0(float value);
 };
@@ -138,9 +136,7 @@ struct BSFlags
 
 struct FormChangeRecord
 {
-
     char pad[0x17];
-
     BSFlags unk17;
     void FUN_005621f0(unsigned int);
 };
@@ -163,9 +159,7 @@ void FUN_00565670(uintptr_t index)
 
 struct FUN_00566910_Class
 {
-
     char pad[0x68];
-
     unsigned char unk68;
     unsigned char FUN_00566910();
 };
@@ -218,9 +212,7 @@ bool ABD_005f92d0::GetFlag8()
 
 struct FUN_0056af20_Class
 {
-
     char pad[0x98];
-
     char unk98;
     bool IsFlag2Set();
 };
@@ -313,9 +305,7 @@ struct FUN_0057c530Class
 
 struct FUN_0056d7a0Class
 {
-
     char pad[0xc];
-
     FUN_0057c530Class unk0c;
     void FUN_0056d7a0();
 };
@@ -421,9 +411,7 @@ void FUN_00570ee0_class::FUN_00570ee0()
 
 struct FUN_00570f40_Class
 {
-
     char pad[0x244];
-
     unsigned int unk244;
     bool FUN_00570f40() const;
 };
@@ -509,11 +497,8 @@ extern void* DAT_01030fd4;
 
 struct FUN_0057ca30_Class
 {
-
     void* vtbl;
-
     unsigned int unk04;
-
     void* unk08;
     void FUN_0057ca30();
 };
@@ -571,11 +556,8 @@ void* FUN_0057ca60_Class::FUN_0057ca60(unsigned int flags)
 
 struct FUN_0057c930_class
 {
-
     void* vtbl;
-
     unsigned int unk04;
-
     void* unk08;
     void FUN_0057c930();
 };
@@ -2162,7 +2144,6 @@ struct Base_57c9d0
     int unk04;
     int unk08;
     int unk0C;
-
     ~Base_57c9d0();
 };
 

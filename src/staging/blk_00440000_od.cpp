@@ -180,9 +180,7 @@ template <class T> T& PointSlot(PointResult&& r) { return *reinterpret_cast<T*>(
 
 struct FUN_004410d0_Class
 {
-
     char pad[0x38];
-
     unsigned char unk38;
     void SetByteAtOffset38(unsigned char a);
 };
@@ -195,9 +193,7 @@ void FUN_004410d0_Class::SetByteAtOffset38(unsigned char aucValue)
 
 struct FUN_00444020_Class
 {
-
     char pad[0x40];
-
     float unk40;
     void FUN_00444020(float fInitialRadius);
 };
@@ -277,9 +273,7 @@ struct FUN_00446fc0_class
 
 struct FUN_00446fa0_class
 {
-
     char pad[0x28];
-
     void* unk28;
     void CallMemberAtOffset28();
 };
@@ -321,9 +315,7 @@ struct FUN_0044abf0
 
 struct FUN_0044a2c0_class
 {
-
     char pad[0x8];
-
     FUN_0044abf0 unk08;
     void FUN_0044a2c0();
 };
@@ -571,9 +563,7 @@ void __cdecl SetGlobalInt(int aiIndex, int aiValue)
 
 struct FUN_00450b40_Class
 {
-
     char pad[0x61d];
-
     unsigned char unk61d;
     void FUN_00450b40(unsigned char b);
 };
@@ -591,9 +581,7 @@ struct List_009e03e0
 
 struct FUN_00450b60_Class
 {
-
     char pad[0x94];
-
     List_009e03e0 unk94;
     void ClearList();
 };
@@ -614,9 +602,7 @@ bool FUN_00450fb0(void* pThis)
 
 struct FUN_00450fd0_class
 {
-
     char pad[0x26];
-
     unsigned char unk26;
     unsigned int GetByteAtOffset38() const;
 };
@@ -637,9 +623,7 @@ bool FUN_00450ff0(void* self)
 
 struct FUN_004524f0_Class
 {
-
     char pad[0xb5];
-
     unsigned char unkb5;
     unsigned char GetByteB5();
 };
@@ -665,9 +649,7 @@ void LockSpinLock()
 
 struct FUN_00452e50_class
 {
-
     char pad[0x7d];
-
     char unk7d;
     void FUN_00452e50();
 };
@@ -700,9 +682,7 @@ bool FUN_00452e90_Class::IsFlag20Set() const
 
 struct FUN_004536e0_Class
 {
-
     char pad[0xcc];
-
     float unkcc;
     float GetFieldCC();
 };
@@ -715,9 +695,7 @@ float FUN_004536e0_Class::GetFieldCC()
 
 struct FUN_00454380_Class
 {
-
     char pad[0x15];
-
     unsigned char unk15;
     void FUN_00454380(bool abTF);
 };
@@ -757,9 +735,7 @@ unsigned char GlobalObject_0045cf30::GetBoolValue()
 
 struct FUN_00454b30_class
 {
-
     char pad[0x1e0];
-
     unsigned int* unk1e0;
     unsigned int* FUN_00454b30();
 };
@@ -804,9 +780,7 @@ struct FUN_00456630_helper
 
 struct FUN_004567e0_Class
 {
-
     char pad[0x40];
-
     unsigned short unk40;
     unsigned short GetShortAtOffset40();
 };
@@ -858,9 +832,7 @@ float __cdecl FUN_004579e0(float value)
 
 struct FUN_00457b80_class
 {
-
     char pad[0xe];
-
     unsigned short unk0e;
     int FUN_00457b80();
 };
@@ -873,9 +845,7 @@ int FUN_00457b80_class::FUN_00457b80()
 
 struct FUN_00457ff0_class
 {
-
     char pad[0x5c];
-
     int unk5c;
     void FUN_00457ff0();
 };
@@ -889,9 +859,7 @@ void FUN_00457ff0_class::FUN_00457ff0()
 
 struct FUN_00458010_class
 {
-
     char pad[0x5c];
-
     int unk5c;
     void FUN_00458010();
 };
@@ -947,9 +915,7 @@ unsigned char* FUN_004581e0_Class::FUN_004581e0(int)
 
 struct FUN_00458400_cls
 {
-
     char pad[0xd0];
-
     unsigned int unkd0;
     unsigned int GetFieldD0();
 };
@@ -979,9 +945,7 @@ float FUN_004587d0(float afValue)
 
 struct FUN_00458b30_class
 {
-
     char pad[0x11];
-
     unsigned char unk11;
     void SetByteAtOffset17(unsigned char value);
 };
@@ -1007,9 +971,7 @@ int FUN_00459470_Class::FUN_00459470(int index)
 
 struct FUN_0045a140_Class
 {
-
     char pad[0xbc];
-
     short unkbc;
     void SetShortAtOffsetBC(short value);
 };
@@ -1022,9 +984,7 @@ void FUN_0045a140_Class::SetShortAtOffsetBC(short value)
 
 struct FUN_0045a1a0_Class
 {
-
     char pad[0x58];
-
     unsigned short unk58;
     unsigned short GetShortAtOffset58();
 };
@@ -1060,9 +1020,7 @@ struct QIdlePtr
 
 struct FUN_0045a350_cls
 {
-
     char pad[0xac];
-
     QIdlePtr unkac;
     void ClearIdlePointer();
 };
@@ -1110,9 +1068,7 @@ struct FUN_004a4650_class
 
 struct FUN_0045bc60_class
 {
-
     char pad[0x30];
-
     FUN_004a4650_class unk30;
     void FUN_0045bc60();
 };
@@ -1125,9 +1081,7 @@ void FUN_0045bc60_class::FUN_0045bc60()
 
 struct FUN_0045c4a0_class
 {
-
     char pad[0x40];
-
     int unk40;
     void ClearField40();
 };
@@ -1145,9 +1099,7 @@ struct Flt
 
 struct FUN_0045c4c0_cls
 {
-
     char pad[0x104];
-
     Flt unk104;
     unsigned int FUN_0045c4c0();
 };
@@ -1218,9 +1170,7 @@ void FUN_0045ce40_class::FUN_0045ce40()
 
 struct FUN_0045ce60_Class
 {
-
     char pad[0xb8];
-
     int unkb8;
     void FUN_0045ce60();
 };
@@ -1234,9 +1184,7 @@ void FUN_0045ce60_Class::FUN_0045ce60()
 
 struct FUN_0045cea0_Class
 {
-
     char pad[0x4];
-
     int unk04;
     void* SetValueAndGetSelf(int);
 };
@@ -2448,9 +2396,7 @@ void FUN_00453900_Class::FUN_00453900()
 
 struct FUN_004567b0_Owner
 {
-
     char pad[0xb8];
-
     Flt unkb8;
     unsigned short FUN_004567b0();
 };
@@ -2859,9 +2805,7 @@ bool FUN_006ec9b0_Class::FUN_0044eb80(int a, int* pKey, int* pOut)
 
 struct FUN_00452df0_class
 {
-
     float unk00;
-
     float unk04;
     bool FUN_00452df0(float* a);
 };
@@ -2930,9 +2874,7 @@ void FUN_0045d190()
 
 struct FUN_00446dc0_Class
 {
-
     char pad[0x28];
-
     void* unk28;
     int FUN_00446dc0();
 };
@@ -2944,9 +2886,7 @@ int FUN_00446dc0_Class::FUN_00446dc0()
 
 struct FUN_0044e0d0_Class
 {
-
     char pad[0x10];
-
     unsigned long long unk10;
     unsigned long long GetValue64();
 };
@@ -3019,9 +2959,7 @@ int FUN_0044e3a0_Class::FUN_0044e3a0(FUN_0044e3a0_Arg* arg)
 
 struct FUN_0044f420_class
 {
-
     char pad[0x20];
-
     int unk20;
     void FUN_0044f070();
     void FUN_0044f420();
@@ -3064,9 +3002,7 @@ struct FUN_004e1650
 
 struct FUN_00450c50_Class
 {
-
     char pad[0x64];
-
     void* unk64;
     void FUN_00450c50();
 };
@@ -3580,7 +3516,6 @@ class FUN_0044da70_cls : public FUN_0044da70_base
     void* m_04;
     int unk08;
     void* m_0c;
-
     virtual ~FUN_0044da70_cls();
 };
 
@@ -3935,7 +3870,6 @@ class B456AA0TES
 {
   public:
     void FUN_00456aa0();
-
     int unk00;
     int unk04;
     B456AA0Sky* m_pkSky;
@@ -4308,7 +4242,6 @@ struct TSMap
     int unk0C;
     int aiNumVertices;
     TSMapList kList;
-
     bool InsertOrReplace(int aiKey, int aiHash, const QHeadPtr& arValue, bool abReplace);
 };
 
@@ -4359,7 +4292,6 @@ class MapBase44D
 {
   public:
     virtual ~MapBase44D();
-
     int unk04;
     int unk08;
     int unk0C;
@@ -4402,7 +4334,6 @@ class FUN_0044d8f0 : public MapBase44D
   public:
     virtual ~FUN_0044d8f0();
     void Clear(bool bFree);
-
     Bucket44D* m_pkEntryArray;
     int unk08;
     Bucket44D* m_pkBuckets;
@@ -5489,7 +5420,6 @@ struct S_0045c520
     int unkC4;
     int unkC8;
     FUN_0045c5f0_class* unkCC;
-
     void FUN_0045c520();
 };
 // If fieldCC is set and differs from a, calls FUN_0045c520, then stores a into fieldCC.
@@ -6422,9 +6352,7 @@ class List44b
     virtual void v04();
     virtual void v05();
     virtual bool Visit(unsigned int uiIndex, FUN_0044e370 pSceneObject);
-
     bool FUN_0044bdb0(FUN_0044e370 pSceneObject);
-
     int m_04;
     unsigned int m_uiCount;
     char pad0c[0x14];
@@ -6741,9 +6669,7 @@ FUN_0044f4c0::~FUN_0044f4c0()
 
 struct FUN_00456630_Class
 {
-
     char pad[0x30];
-
     int unk30;
     int FUN_00456630(int aFlag);
 };

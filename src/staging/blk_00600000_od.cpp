@@ -103,9 +103,7 @@ struct FUN_006010d0_Class
 
 struct FUN_006053f0_class
 {
-
     char pad[0x1f8];
-
     float unk1f8;
     void FUN_006053f0(float value);
 };
@@ -144,11 +142,7 @@ void GlobalObject_00869f00::Reset()
 
 struct FUN_0060bb40_class
 {
-
-
     char pad[0x8];
-
-
     char unk08;
     void FUN_0060bb40(void* a, void* b, void* c);
 };
@@ -198,13 +192,9 @@ void __cdecl FUN_0060c270(intptr_t aiArg1, intptr_t aiArg2, intptr_t aiArg3, int
 
 struct FUN_0060c5c0_class
 {
-
     char unk00;
-
     char unk01;
-
     char pad02[0x2];
-
     float unk04;
     FUN_0060c5c0_class* FUN_0060c5c0();
 };
@@ -255,9 +245,7 @@ void* FUN_006130c0_Class::FUN_006130c0(int index)
 
 struct FUN_00613870_Class
 {
-
     char pad[0x94];
-
     int unk94[1];
     int FUN_00613870(int index);
 };
@@ -270,9 +258,7 @@ int FUN_00613870_Class::FUN_00613870(int index)
 
 struct FUN_00613890_Class
 {
-
     char pad[0x94];
-
     int unk94[1];
     void SetIndexedInt(int index, int value);
 };
@@ -1257,7 +1243,6 @@ class B616A20Meter
     int unk3C;
     float m_fMaximum;
     float m_fCurrent;
-
     float FUN_00616a20();
 };
 
@@ -1581,7 +1566,6 @@ class F4D0Base
 struct F4D0List
 {
     F4D0List();
-
     int unk00;
     int unk04;
 };
@@ -1907,7 +1891,6 @@ struct VFForm
     int unk28;
     int unk2C;
     VFBaseData kBaseData;
-
     int GetFormType();
 };
 
@@ -1985,7 +1968,6 @@ class StringHashTable
   public:
     int unk00;
     unsigned int m_uiBuckets;
-
     unsigned int HashKey(const char* pcKey);
 };
 

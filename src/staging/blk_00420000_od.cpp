@@ -1982,14 +1982,12 @@ struct FUN_0042f780
     int unk00;
     int unk04;
     int unk08;
-
     ~FUN_0042f780();
 };
 
 struct FUN_0042cb30 : public FUN_0040ecb0
 {
     FUN_0042f780 unk0c;
-
     virtual ~FUN_0042cb30();
 };
 
@@ -2063,7 +2061,6 @@ void FUN_0042e060_class::FUN_0042e060(uintptr_t a, uintptr_t b)
 struct B42FA60Entry
 {
     int unk00;
-
     B42FA60Entry();
 };
 
@@ -2170,7 +2167,6 @@ class FUN_00435d40_cls
     int unk04;
     int unk08;
     FloatList m_0c;
-
     void FUN_00435d40();
 };
 
@@ -2393,7 +2389,6 @@ struct Base4f
     virtual void Tick();
     int unk04;
     int unk08;
-
     Base4f(int flags);
     ~Base4f();
 };
@@ -2424,7 +2419,6 @@ struct Base_004361e0
     virtual void v00();
     int unk04;
     int unk08;
-
     Base_004361e0(int aValue);
     ~Base_004361e0();
 };
@@ -2434,7 +2428,6 @@ struct Arg12_004361e0
     int unk00;
     int unk04;
     int unk08;
-
     ~Arg12_004361e0();
 };
 
@@ -2444,7 +2437,6 @@ struct Member_004361e0
     int unk04;
     int unk08;
     int unk0C;
-
     Member_004361e0();
     ~Member_004361e0();
     void Add(Arg12_004361e0* pArg);
@@ -2526,7 +2518,6 @@ struct CloneSource
 {
     char pad00[0x18];
     CloneChildCell kChildCell;
-
 };
 
 struct CloneProcess
@@ -2674,7 +2665,6 @@ struct CloneRef
     virtual void vfunc220();
     virtual void vfunc224();
     virtual void SetParentCell(CloneCell* pCell);
-
     int unk004;
     int unk008;
     int unk00C;
@@ -2708,7 +2698,6 @@ struct CloneRef
     int unk07C;
     int unk080;
     int unk084;
-
     CloneRef();
     void FUN_00575700(NiPoint3 kAngle);
 };
@@ -3882,7 +3871,6 @@ class NamedObjectLoader
     int unk00;
     NamedObjectPtr m_pReferencedObject;  // +0x04
     AttachedNodePtr m_spNode;            // +0x08
-
     void FUN_0043b7e0(const char* pcName);
 };
 
@@ -4046,7 +4034,6 @@ struct C42CE30
     int unk24;
     int unk28;
     Val42CE30 m_kValue;
-
     Val42CE30 FUN_0042ce30();
 };
 

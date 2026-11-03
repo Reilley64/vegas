@@ -157,9 +157,7 @@ double FUN_004e2050(float afValue, double b)
 
 struct FUN_004e2100_Class
 {
-
     char pad[0x166];
-
     unsigned char unk166;
     void SetByteAtOffset166(int value);
 };
@@ -208,9 +206,7 @@ void ClearField();
 
 struct FUN_004e3c00_Class
 {
-
     char pad[0x3c];
-
     int unk3c;
     void FUN_004e3c00();
 };
@@ -227,9 +223,7 @@ void FUN_004e3c00_Class::FUN_004e3c00()
 
 struct FUN_004e3c20_class
 {
-
     char pad[0x10];
-
     int unk10;
     void ClearField();
 };
@@ -290,9 +284,7 @@ void BGSPlaceableWater::FUN_004e3ca0()
 
 struct FUN_004e3cc0_Class
 {
-
     char pad[0x9c];
-
     float unk9c;
     float GetFloatAtOffset9C();
 };
@@ -305,9 +297,7 @@ float FUN_004e3cc0_Class::GetFloatAtOffset9C()
 
 struct FUN_004e3ce0_class
 {
-
     char pad[0x108];
-
     float unk108;
     float FUN_004e3ce0() const;
 };
@@ -320,9 +310,7 @@ float FUN_004e3ce0_class::FUN_004e3ce0() const
 
 struct FUN_004e3d20_class
 {
-
     char pad[0x128];
-
     float unk128;
     float GetFloatAtOffset128();
 };
@@ -335,9 +323,7 @@ float FUN_004e3d20_class::GetFloatAtOffset128()
 
 struct FUN_004e3d40_Class
 {
-
     char pad[0x12c];
-
     float unk12c;
     float GetFloatAtOffset12C();
 };
@@ -438,9 +424,7 @@ struct FUN_0043ba10_shell
 
 struct FUN_004eeae0_shell
 {
-
     char pad[0x5c];
-
     FUN_0043ba10_shell unk5c;
     void FUN_004eeae0(intptr_t arg);
 };
@@ -468,9 +452,7 @@ bool FUN_004f0140_class::FUN_004f0140()
 
 struct FUN_004f0360_class
 {
-
     char pad[0x8];
-
     unsigned short unk08;
     bool HasFlag(unsigned short mask);
 };
@@ -508,9 +490,7 @@ void TaskQueueInterface::FUN_004f2620(bool enabled)
 
 struct FUN_004f2770_Class
 {
-
     char pad[0x764];
-
     char unk764;
     void* FUN_004f2770();
 };
@@ -577,11 +557,8 @@ FUN_004f6fc0_shell* FUN_004f6fc0_shell::FUN_004f87e0()
 
 struct FUN_004f8a60_class
 {
-
     char pad[0x4];
-
     char unk04[0x104];
-
     int unk108;
     void FUN_004f8ac0(intptr_t);
     void SetField108(int);
@@ -602,9 +579,7 @@ struct DummyPointerMap
 
 struct FUN_004f8a90_Class
 {
-
     char pad[0x10c];
-
     DummyPointerMap unk10c;
     void FUN_004f8a90(unsigned int key, unsigned int& value);
 };
@@ -636,9 +611,7 @@ void FUN_004f9ef0_shell::CallInnerMethod()
 
 struct FUN_004fb970_class
 {
-
     char pad[0xd9];
-
     unsigned char unkd9;
     unsigned char GetByteAtOffsetD9() const;
 };
@@ -651,9 +624,7 @@ unsigned char FUN_004fb970_class::GetByteAtOffsetD9() const
 
 struct MagicProjectile
 {
-
     char pad[0xa0];
-
     EffectSetting* unka0;
     EffectSetting* FUN_004fd400();
 };
@@ -666,9 +637,7 @@ EffectSetting* MagicProjectile::FUN_004fd400()
 
 struct FUN_004fd4f0_Class
 {
-
     char pad[0x60];
-
     int unk60;
     int FUN_004fd4f0();
 };
@@ -879,9 +848,7 @@ bool FUN_004f02e0_This::FUN_004f02e0()
 
 struct FUN_004f0320_class
 {
-
     char pad[0x1c];
-
     float unk1c;
     bool FUN_004f0320();
 };
@@ -894,9 +861,7 @@ bool FUN_004f0320_class::FUN_004f0320()
 
 struct FUN_004f32e0_class
 {
-
     char pad[0x4];
-
     unsigned short unk04;
     void SetMaskedBits(unsigned short set, unsigned short clear, unsigned short shift);
 };
@@ -1273,41 +1238,23 @@ struct TESObjectMISC
 
 struct FUN_004f93b0 : public TESObjectMISC
 {
-
     char pad[0x30];
-
     void* unk30;
-
     char pad34[0x8];
-
     void* unk3c;
-
     char pad40[0x1c];
-
     void* unk5c;
-
     char pad60[0x8];
-
     void* unk68;
-
     char pad6c[0x8];
-
     void* unk74;
-
     char pad78[0x4];
-
     void* unk7c;
-
     char pad80[0x4];
-
     void* unk84;
-
     char pad88[0x4];
-
     void* unk8c;
-
     char pad90[0xc];
-
     void* unk9c;
     FUN_004f93b0();
 };
@@ -2241,7 +2188,6 @@ struct FUN_004f1730 : FUN_004f1730_base
 {
     int unk04;
     FUN_004f1730_obj* m_08;
-
     virtual ~FUN_004f1730();
 };
 
@@ -2541,7 +2487,6 @@ class FUN_004f6f70_cls
   public:
     unsigned int unk00;
     TESForm* m_04;
-
     unsigned char IsLandTexture();
 };
 // Returns whether m_04 is non-null and casts to TESLandTexture.
@@ -3200,7 +3145,6 @@ class CopyInfo4EE
   public:
     CopyInfo4EE(unsigned int uiFlags);
     ~CopyInfo4EE();
-
     int unk00;
     int unk04;
     int unk08;
@@ -3220,8 +3164,6 @@ class Base4EE
   public:
     Base4EE(void* pvList, int iFirst, int iSecond);
     virtual ~Base4EE();
-
-
     int unk04;
     int unk08;
     int unk0C;
@@ -3315,7 +3257,6 @@ class Base4F4
   public:
     Base4F4();
     virtual ~Base4F4();
-
     int unk04;
 };
 
@@ -3324,7 +3265,6 @@ class Data4F4
   public:
     Data4F4();
     ~Data4F4();
-
     int m_iFirst;
     int unk04;
     int unk08;
@@ -3785,7 +3725,6 @@ class Ref4FF
     virtual void unk40();
     virtual void unk44();
     virtual void SetFlag(unsigned int uiFlag);
-
 };
 
 class Owner4FF

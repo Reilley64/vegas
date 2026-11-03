@@ -1007,7 +1007,6 @@ class FUN_00483370
   public:
     FUN_00483370();
     virtual ~FUN_00483370();
-
     int unk04;
     int unk08;
     int unk0C;

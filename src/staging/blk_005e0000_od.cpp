@@ -265,9 +265,7 @@ void QuantityData::FUN_005e0b80(uintptr_t quantity)
 
 struct FUN_005e1140_Class
 {
-
     char pad[0x34];
-
     float unk34;
     void FUN_005e1140(float value);
 };
@@ -280,9 +278,7 @@ void FUN_005e1140_Class::FUN_005e1140(float value)
 
 struct FUN_005e2850_class
 {
-
     char pad[0x14];
-
     int unk14;
     bool FUN_005e2850();
 };
@@ -654,11 +650,8 @@ void TESAttributes::FUN_005f1570(unsigned char index)
 
 struct FUN_005f3710_Class
 {
-
     char pad[0x34];
-
     unsigned int unk34;
-
     intptr_t unk38;
     intptr_t GetEntryAt(int index);
 };
@@ -675,9 +668,7 @@ intptr_t FUN_005f3710_Class::GetEntryAt(int index)
 
 struct FUN_005f4b70_Class
 {
-
     char pad[0x29];
-
     unsigned char unk29;
     void FUN_005f4b70(unsigned char aucLevel);
 };
@@ -690,9 +681,7 @@ void FUN_005f4b70_Class::FUN_005f4b70(unsigned char aucLevel)
 
 struct FUN_005f4b90_Class
 {
-
     char pad[0x2b];
-
     unsigned char unk2b;
     void SetByteAtOffset2B(unsigned char v);
 };
@@ -704,9 +693,7 @@ void FUN_005f4b90_Class::SetByteAtOffset2B(unsigned char aucValue)
 
 struct FUN_005f5f60_class
 {
-
     char pad[0x5c];
-
     unsigned short unk5c;
     int FUN_005f5f60();
 };
@@ -719,9 +706,7 @@ int FUN_005f5f60_class::FUN_005f5f60()
 
 struct FUN_005f5fa0_cls
 {
-
     char pad[0x64];
-
     unsigned short unk64;
     unsigned int GetShortAtOffset64();
 };
@@ -734,9 +719,7 @@ unsigned int FUN_005f5fa0_cls::GetShortAtOffset64()
 
 struct FUN_005f5fc0_class
 {
-
     char pad[0x66];
-
     unsigned short unk66;
     unsigned int GetShortAtOffset66();
 };
@@ -749,9 +732,7 @@ unsigned int FUN_005f5fc0_class::GetShortAtOffset66()
 
 struct FUN_005f5fe0_class
 {
-
     char pad[0x68];
-
     unsigned short unk68;
     unsigned int GetShortAtOffset68();
 };
@@ -764,9 +745,7 @@ unsigned int FUN_005f5fe0_class::GetShortAtOffset68()
 
 struct FUN_005f60c0_Class
 {
-
     char pad[0x70];
-
     int unk70;
     int HasFlag8();
 };
@@ -779,11 +758,8 @@ int FUN_005f60c0_Class::HasFlag8()
 
 struct TESChallenge
 {
-
     char pad[0x6c];
-
     int unk6c;
-
     int unk70;
     void MarkForSave();
     void FUN_005f60e0(int amount);
@@ -1274,11 +1250,8 @@ struct FUN_005f29f0_Entry
 };
 struct FUN_005f29f0_Class
 {
-
     char pad[0x34];
-
     unsigned int unk34;
-
     void* unk38;
     void SetValueAtIndex(unsigned int index, float value);
 };
@@ -1842,17 +1815,11 @@ struct TESSaveLoadGame
 
 struct FUN_005f6f70_Class
 {
-
     char pad[0x18];
-
     FNStub unk18;
-
     char pad19[0x13];
-
     FNStub unk2c;
-
     char pad2d[0x17];
-
     char unk44[0x1c];
     void FUN_005f6f70();
 };
@@ -2137,33 +2104,19 @@ void FUN_005e0b60(void* p)
 
 struct FUN_005e3fe0_class
 {
-
     int unk00;
-
     char pad04[0x10];
-
     int unk14;
-
     int unk18;
-
     char pad1c[0xc];
-
     int unk28;
-
     int unk2c;
-
     int unk30;
-
     int unk34;
-
     int unk38;
-
     int unk3c;
-
     int unk40;
-
     char pad44[0xc];
-
     int unk50;
     void SwapEndianFields();
 };
@@ -2435,7 +2388,6 @@ struct LightingDataCmp
     float f2C;
     float f30;
     float f34;
-
     bool FUN_005ec760(const LightingDataCmp* other);
 };
 // Returns the logical negation of FUN_005ec760(a).
@@ -2732,7 +2684,6 @@ struct RootCls_b9637
     int unk0c;
     int unk10;
     int unk14;
-
     RootCls_b9637();
     ~RootCls_b9637();
 };
@@ -2751,7 +2702,6 @@ class FUN_005f21c0_cls : public RootCls_b9637
     int unk30;
     int unk34;
     int unk38;
-
     FUN_005f21c0_cls(unsigned short a);
     void SetAnimGroupType(unsigned short a);
 };
@@ -2800,7 +2750,6 @@ class FUN_005f2a70_cls
     unsigned int unk30;
     unsigned int m_uiItemCount;
     PairRecord16* m_pRecords;
-
     void SetRecordFlagAndValue(unsigned int index, unsigned char flag, unsigned int value);
 };
 
@@ -3475,7 +3424,6 @@ class C5FDB90Form
 {
   public:
     virtual ~C5FDB90Form();
-
     int unk04;
     int unk08;
     int unk0C;
@@ -3487,7 +3435,6 @@ class C5FDB90FullName
 {
   public:
     virtual ~C5FDB90FullName();
-
     int unk04;
     int unk08;
 };
@@ -3496,7 +3443,6 @@ class C5FDB90Model
 {
   public:
     virtual ~C5FDB90Model();
-
     int unk04;
     int unk08;
     int unk0C;
@@ -3508,7 +3454,6 @@ class C5FDB90Texture
 {
   public:
     virtual ~C5FDB90Texture();
-
     int unk04;
     int unk08;
 };
@@ -3910,7 +3855,6 @@ struct E5EF9A0Entry
     int unk1C;
     int unk20;
     int unk24;
-
     E5EF9A0Entry();
 };
 
@@ -4262,8 +4206,6 @@ class TESSound : public TESForm
     int unk40;
     SoundData soundData;
     unsigned char unk68;
-
-
     void CopyFromSound(TESForm* form);
 };
 
@@ -4320,7 +4262,6 @@ struct FUN_005e2fa0_standin
     int unk40;
     FUN_005e2fa0_SoundData unk44;
     unsigned char unk68;
-
     void WriteToStream();
 };
 
@@ -4528,9 +4469,7 @@ std::intptr_t FUN_005e50f0_Obj::GetValueByIndex(int index)
 
 struct FUN_005e5190_Class
 {
-
     char pad[0x63];
-
     unsigned char unk63;
     unsigned char GetByte63();
 };
@@ -4548,7 +4487,6 @@ struct Obj5e5300
     int unk40, unk44, unk48, unk4C, unk50, unk54, unk58, unk5C;
     unsigned char unk60;
     unsigned char unk61;
-
     unsigned int GetByte61();
 };
 
@@ -4641,7 +4579,6 @@ struct FUN_005e5380_Class
     int unk58;
     int unk5C;
     unsigned char unk60;
-
     bool IsFlag2Set();
 };
 // @fnv 0x005e5320
@@ -4803,7 +4740,6 @@ struct Runner
     int m24;
     char pad28[0xa1 - 0x28];
     bool m_a1;
-
     bool RunScript(A8* a1, void* a2, SLoc* a3, int a4, bool a5, char a6, char a7, float a8);
 };
 
@@ -5025,7 +4961,6 @@ struct Data5E35
     int m_04;
     short m_08;
     short m_0A;
-
     void FUN_005e3510();
 };
 
@@ -5047,7 +4982,6 @@ class FUN_00483630_holder
 {
   public:
     virtual ~FUN_00483630_holder();
-
     int unk04;
     int unk08;
     int unk0C;
@@ -5059,7 +4993,6 @@ class TESModel
 {
   public:
     virtual ~TESModel();
-
     int unk04;
     int unk08;
     int unk0C;

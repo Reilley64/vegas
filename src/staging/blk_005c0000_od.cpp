@@ -89,9 +89,7 @@ float FUN_005dc460(float value)
 
 struct FUN_005dd520_class
 {
-
     char pad[0xd4];
-
     char unkd4;
     void SetByteAtOffsetD4(char v);
 };
@@ -104,9 +102,7 @@ void FUN_005dd520_class::SetByteAtOffsetD4(char acValue)
 
 struct FUN_005dd540_Class
 {
-
     char pad[0xe3];
-
     unsigned char unke3;
     void SetByteAtOffsetE3(unsigned char value);
 };

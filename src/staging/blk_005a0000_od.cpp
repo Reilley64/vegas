@@ -57,9 +57,7 @@
 
 struct FUN_005a3740_cls
 {
-
     char pad[0x14c];
-
     unsigned char unk14c;
     unsigned char GetByteAt14C();
 };
@@ -87,9 +85,7 @@ bool __cdecl FUN_005a3760(void* reference, void* b, void* c, double& result)
 
 struct FUN_005a7840_Class
 {
-
     char pad[0x24];
-
     unsigned char unk24;
     void ClearFlag(unsigned char bFlag);
 };
@@ -103,9 +99,7 @@ void FUN_005a7840_Class::ClearFlag(unsigned char bFlag)
 
 struct FUN_005a8040_class
 {
-
     char pad[0x54];
-
     int unk54;
     void SetField54(int param_2);
 };
@@ -118,9 +112,7 @@ void FUN_005a8040_class::SetField54(int aiValue)
 
 struct FUN_005a8080
 {
-
     char pad[0x3c];
-
     char unk3c;
     void* GetField();
 };
@@ -166,9 +158,7 @@ char __cdecl FUN_005b9240()
 
 struct FUN_005b92e0_class
 {
-
     char pad[0x59c];
-
     int unk59c;
     int GetField59C();
 };
@@ -688,7 +678,6 @@ class FUN_005a7b60_cls
   public:
     int unk00, unk04, unk08, unk0C, unk10, unk14, unk18, unk1C, unk20;
     unsigned char m_data;
-
     bool FUN_005a7b60(TESForm* pkForm);
 };
 

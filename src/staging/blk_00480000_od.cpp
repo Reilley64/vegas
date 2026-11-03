@@ -136,11 +136,7 @@ void FUN_00484d20_Class::ForwardToSaveLoadGame(intptr_t a, int b)
 
 struct FUN_00485bc0_class
 {
-
-
     char pad[0xc];
-
-
     int unk0c;
     int FUN_00485bc0();
 };
@@ -235,9 +231,7 @@ FUN_00487620::~FUN_00487620()
 
 struct FUN_004893c0_class
 {
-
     char pad[0x14];
-
     unsigned char unk14;
     void FUN_004893c0(unsigned char acFlags);
 };
@@ -294,9 +288,7 @@ FUN_0048e7a0::FUN_0048e7a0()
 
 struct FUN_0048ee50_Class
 {
-
     char pad[0xb8];
-
     float unkb8;
     float GetFieldB8Float();
 };
@@ -309,9 +301,7 @@ float FUN_0048ee50_Class::GetFieldB8Float()
 
 struct FUN_004938c0_class
 {
-
     char pad[0x384];
-
     unsigned char unk384;
     unsigned char GetByteAt384();
 };
@@ -2007,7 +1997,6 @@ class FUN_0049f7d0_cls
     int unk00;
     FUN_0049f7d0_elem* m_04;
     unsigned int m_08;
-
     int FindIndexIf(intptr_t a1, unsigned int start, bool(__cdecl* pred)(FUN_0049f7d0_elem*, int));
 };
 // Returns whether the plane is found by searching with FindIndexIf using FUN_0049f830, i.e. the result is not -1.
@@ -2041,7 +2030,6 @@ struct B49F8F0Entry
     int unk00;
     int unk04;
     int unk08;
-
     B49F8F0Entry();
 };
 
@@ -3507,7 +3495,6 @@ struct AnimDataN
     SeqPtrN m_spSeq128;
     int unk12c, unk130;
     ListN m_kList;
-
     void SaveAnimData(SaveBufN* pBuffer);
 };
 

@@ -214,9 +214,7 @@ bool FUN_0058cba0_class::FUN_0058cba0(Flag flag)
 
 struct FUN_0058ccd0_class
 {
-
     char pad[0x44];
-
     int unk44;
     bool IsFlagSet() const;
 };
@@ -229,9 +227,7 @@ bool FUN_0058ccd0_class::IsFlagSet() const
 
 struct FUN_0058ce30_Class
 {
-
     char pad[0x44];
-
     unsigned int unk44;
     bool IsFlag2Set() const;
 };
@@ -265,9 +261,7 @@ char* FUN_00591a00_Class::CopyString(const char* apSource)
 
 struct FUN_00591a20_Class
 {
-
     char pad[0x4];
-
     int unk04;
     int IsFlagBit4Set();
 };
@@ -280,9 +274,7 @@ int FUN_00591a20_Class::IsFlagBit4Set()
 
 struct FUN_00594d20_Class
 {
-
     char pad[0x200];
-
     int unk200;
     int FUN_00594d20();
 };
@@ -295,9 +287,7 @@ int FUN_00594d20_Class::FUN_00594d20()
 
 struct FUN_00594d40_class
 {
-
     char pad[0x200];
-
     int unk200;
     void ResetField();
 };
@@ -310,9 +300,7 @@ void FUN_00594d40_class::ResetField()
 
 struct FUN_00598020_Class
 {
-
     char pad[0x37];
-
     unsigned char unk37;
     unsigned char GetByteAtOffset55();
 };
@@ -525,11 +513,8 @@ FUN_005891c0_Class::FUN_005891c0_Class(int aiCount)
 
 struct FUN_00589290_Class
 {
-
     void* vtbl;
-
     unsigned int unk04;
-
     void* unk08;
     void FUN_00589290();
 };
@@ -571,11 +556,8 @@ void* FUN_005892c0_t::InitArray(unsigned int count)
 
 struct FUN_00589390_Holder
 {
-
     void* vtbl;
-
     unsigned int unk04;
-
     void* unk08;
     void FUN_00589390();
 };
@@ -820,9 +802,7 @@ int FUN_0058cb60_Class::FUN_0058cb60(unsigned int* a, int* piValue, unsigned cha
 
 struct FUN_0058f7f0_Class
 {
-
     char pad[0x30];
-
     char unk30[1][0x1e];
     int* FUN_0058f7f0(int a);
 };
@@ -1269,7 +1249,6 @@ class FUN_00589500 : public FUN_00591300
     int unk24;
     int unk28;
     FUN_0046ffb0 member2c;
-
     ~FUN_00589500();
 };
 
@@ -1295,7 +1274,6 @@ struct S_00589770_Class
     int unk20;
     int unk24;
     unsigned char unk28;
-
     void CopyFrom(S_00589770_Class* arg);
 };
 
@@ -1326,7 +1304,6 @@ struct FUN_0058b7d0 : FUN_0058b450
     int unk10;
     int unk14;
     FUN_0058bc00_obj m_18;
-
     ~FUN_0058b7d0();
 };
 
@@ -1468,7 +1445,6 @@ struct Owner_58cbc0
     NodePtr_58cbc0 m_pController;
     int unk64;
     Source_58cbc0* pSource;
-
     void SetNode(Node_58cbc0* pNode);
 };
 

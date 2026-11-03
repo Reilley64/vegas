@@ -121,9 +121,7 @@ struct GO
 
 struct FUN_00549610_Class
 {
-
     char pad[0x104];
-
     GO unk104;
     void FUN_00549610(void* arg);
 };
@@ -239,9 +237,7 @@ void FUN_0055a2b0_Class::FUN_0055a2b0()
 
 struct FUN_0055b9a0_class
 {
-
     char pad[0x2a];
-
     char unk2a;
     char GetByteAtOffset42();
 };
@@ -1047,9 +1043,7 @@ FUN_0055a0c0::FUN_0055a0c0(int)
 
 struct FUN_0055a240_Obj
 {
-
     char pad[0x8];
-
     FUN_00559900_Struct unk08;
 };
 struct FUN_0055a1e0_Class
@@ -1298,9 +1292,7 @@ void __cdecl FUN_005516a0(bool value)
 
 struct FUN_00556850_Class
 {
-
     char pad[0x25];
-
     unsigned char unk25;
     bool IsFlagSet();
 };
@@ -1942,7 +1934,6 @@ struct FUN_0055a2d0_Class
 {
     void* unk00;
     void* m_pSecondPointer;
-
     void FUN_0055a2d0();
 };
 

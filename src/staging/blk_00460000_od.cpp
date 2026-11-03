@@ -171,9 +171,7 @@
 
 struct FUN_004600f0_class
 {
-
     char pad[0x618];
-
     unsigned char unk618;
     unsigned char GetByteAt618();
 };
@@ -186,9 +184,7 @@ unsigned char FUN_004600f0_class::GetByteAt618()
 
 struct FUN_00460fb0_class
 {
-
     char pad[0x178];
-
     char unk178;
     void* FUN_00460fb0();
 };
@@ -201,9 +197,7 @@ void* FUN_00460fb0_class::FUN_00460fb0()
 
 struct FUN_00460fd0_class
 {
-
     char pad[0x170];
-
     char unk170;
     void* FUN_00460fd0();
 };
@@ -216,9 +210,7 @@ void* FUN_00460fd0_class::FUN_00460fd0()
 
 struct FUN_004610f0_Class
 {
-
     char pad[0x70];
-
     char unk70;
     void* GetOffset70Ptr();
 };
@@ -230,9 +222,7 @@ void* FUN_004610f0_Class::GetOffset70Ptr()
 
 struct FUN_00462e60_Class
 {
-
     char pad[0x428];
-
     unsigned char unk428;
     void SetByteAt428(unsigned char value);
 };
@@ -269,9 +259,7 @@ NavMesh* NavMesh::FUN_00464ff0(intptr_t a)
 
 struct FUN_0046dcc0_class
 {
-
     char pad[0xf4];
-
     unsigned char unkf4;
     void SetByteAtOffsetF4(unsigned char param);
 };
@@ -284,9 +272,7 @@ void FUN_0046dcc0_class::SetByteAtOffsetF4(unsigned char param)
 
 struct FUN_0046dce0_class
 {
-
     char pad[0x24];
-
     float unk24;
     void FUN_0046dce0(float value);
 };
@@ -307,9 +293,7 @@ void __cdecl FUN_0046e850(char* p, unsigned int a, char const* b, char const* c,
 
 struct FUN_0046e880_Class
 {
-
     char pad[0x61f];
-
     char unk61f;
     void SetByteField(int value);
 };
@@ -321,9 +305,7 @@ void FUN_0046e880_Class::SetByteField(int value)
 
 struct FUN_0046e8c0_class
 {
-
     char pad[0x100];
-
     unsigned char unk100;
     bool FUN_0046e8c0();
 };
@@ -341,9 +323,7 @@ struct Arr
 
 struct FUN_0046eb00_Class
 {
-
     char pad[0x1c];
-
     Arr unk1c;
     std::uintptr_t GetSecondElement();
 };
@@ -427,9 +407,7 @@ std::uintptr_t FUN_0046eba0_class::GetElementAtOffset(int aiIndex)
 
 struct FUN_0046ebf0_Class
 {
-
     char pad[0x18];
-
     unsigned short unk18;
     unsigned short GetMaskedShifted(unsigned short a, unsigned short b);
 };
@@ -500,9 +478,7 @@ void* FUN_004705c0_cls::FUN_004705c0()
 
 struct FUN_00471110_Class
 {
-
     char pad[0x3dc];
-
     float unk3dc;
     void SetField3DC(float value);
 };
@@ -515,9 +491,7 @@ void FUN_00471110_Class::SetField3DC(float value)
 
 struct FUN_00471de0_class
 {
-
     char pad[0x3e8];
-
     int unk3e8;
     bool FUN_00471de0();
 };
@@ -625,9 +599,7 @@ FUN_004750b0::FUN_004750b0()
 
 struct FUN_00475a90_cls
 {
-
     char pad[0x2];
-
     unsigned char unk02;
     bool IsFlag2Set();
 };
@@ -640,9 +612,7 @@ bool FUN_00475a90_cls::IsFlag2Set()
 
 struct FUN_00476a00_cls
 {
-
     char pad[0x2];
-
     unsigned char unk02;
     bool FUN_00476a00();
 };
@@ -655,9 +625,7 @@ bool FUN_00476a00_cls::FUN_00476a00()
 
 struct FUN_00476a20_Class
 {
-
     char pad[0x2];
-
     unsigned char unk02;
     bool IsFlag4Set();
 };
@@ -711,9 +679,7 @@ unsigned int FUN_00476be0_Class::FUN_00476be0()
 
 struct FUN_00476c70_Class
 {
-
     char pad[0xe0];
-
     int unke0;
     void FUN_00476c70(int value);
 };
@@ -726,9 +692,7 @@ void FUN_00476c70_Class::FUN_00476c70(int value)
 
 struct FUN_00476c90_Class
 {
-
     char pad[0xf8];
-
     unsigned int unkf8;
     unsigned int FUN_00476c90();
 };
@@ -756,9 +720,7 @@ struct FUN_00573eb0_Class
 
 struct FUN_0047b4d0_Class
 {
-
     char pad[0xc];
-
     unsigned short unk0c;
     bool FUN_0047b4d0(unsigned short flags);
 };
@@ -777,9 +739,7 @@ bool FUN_0047b4d0_Class::FUN_0047b4d0(unsigned short flags)
 
 struct S47
 {
-
     char pad[0x18];
-
     short unk18;
     void FUN_0047dea0(short);
 };
@@ -816,9 +776,7 @@ void FUN_0047ebd0_Class::FUN_0047ebd0(bool value)
 
 struct FUN_0047ff50_class
 {
-
     char pad[0x4];
-
     unsigned short unk04;
     void FUN_0047ff50(unsigned short value);
 };
@@ -883,9 +841,7 @@ void FUN_004792c0_Class::FUN_004792c0()
 
 struct FUN_0045d930_class
 {
-
     void* vtbl;
-
     void** unk04;
     void FUN_0046ffd0();
     void* FUN_00470320(unsigned int flags);
@@ -920,9 +876,7 @@ void* FUN_0045d930_class::FUN_00470350(unsigned int flags)
 
 struct FUN_0045d950_Class
 {
-
     void* vtbl;
-
     ActorCombatGroup* unk04;
     void FUN_00470070();
     void* FUN_00470380(unsigned int flags);
@@ -1198,9 +1152,7 @@ void FUN_00471d90_class::FUN_00471d90(bool enabled)
 
 struct FUN_00471e10_class
 {
-
     char pad[0x3e8];
-
     unsigned int unk3e8;
     void SetFlag40(bool set);
 };
@@ -1542,9 +1494,7 @@ void* FUN_004791f0_holder2::InitArrayHolder(int aiCount)
 
 struct FUN_0047b470_This
 {
-
     char pad[0xc];
-
     unsigned short unk0c;
     bool FUN_0047b470();
 };
@@ -1680,15 +1630,10 @@ void __cdecl FUN_00476ec0(NiAVObject* object, int flag)
 
 struct FUN_00478130_class
 {
-
     char pad[0x4];
-
     int unk04;
-
     int unk08;
-
     int unk0c;
-
     int unk10;
     void FUN_00478130();
 };
@@ -1954,9 +1899,7 @@ void FUN_00479140_class::FUN_00479140()
 
 struct FUN_0047bcf0_class
 {
-
     char pad[0x100];
-
     unsigned char unk100;
     bool IsFlag80Clear();
 };
@@ -2118,7 +2061,6 @@ class FUN_00475310_cls
     int unk0C;
     int unk10;
     FUN_00475310_obj* m_14;
-
     void FUN_00475310();
 };
 // Calls FUN_00475310, then deletes this object if bit 0 of flags is set, and returns this.
@@ -2697,7 +2639,6 @@ class TESActorBaseData47E
 {
   public:
     void FUN_0047ea70(BGSLoadFormBuffer47E* pkBuffer);
-
     int unk00;
     int m_iFlags;
 };
@@ -5091,7 +5032,6 @@ struct FUN_004726b0_class
     int unk250;
     int unk254;
     int unk258;
-
     int FUN_004726b0();
 };
 

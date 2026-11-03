@@ -21,6 +21,19 @@ class hkMemoryAllocator
     virtual void getMemoryStatistics(MemoryStatistics& u);                            // +0x20
     virtual int getAllocatedSize(const void* obj, int numBytes);                      // +0x24
     virtual void resetPeakMemoryStatistics();                                         // +0x28
+
+    template <typename T> T* _bufAlloc(int& reqNumInOut)
+    {
+        int n = reqNumInOut * int(sizeof(T));
+        void* p = bufAlloc(n);
+        reqNumInOut = n / int(sizeof(T));
+        return static_cast<T*>(p);
+    }
+
+    template <typename T> void _bufFree(void* p, int numElem)
+    {
+        bufFree(p, numElem * int(sizeof(T)));
+    }
 };
 
 // Offsets are the 32-bit release's.

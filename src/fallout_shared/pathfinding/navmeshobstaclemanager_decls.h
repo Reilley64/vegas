@@ -38,14 +38,30 @@ class NavMeshObstacleManager
   public:
     unsigned char layoutPadding0[0x1C];
     NiTPointerMap<void*, NiPointer<ObstacleData> > m_kObstacleMap;     // +0x1C
-    unsigned char layoutPadding2C[0x8];
+    BSSimpleList<TESObjectREFR*> m_kAddedReferences;                    // +0x2C
     BSSimpleList<void*> m_kPendingList;                                 // +0x34
     BSSimpleList<NiPointer<ObstacleData> > m_kActivatedObstacles;      // +0x3C
-    unsigned char layoutPadding44[0xE8];
+    unsigned char layoutPadding44[0x1C];
+    unsigned char m_kQueue60[0x40];                                     // +0x60
+    unsigned char m_kQueueA0[0x40];                                     // +0xA0
+    NiTPointerMap<void*, NiPointer<ObstacleData> > m_kObstaclesByKind; // +0xE0
+    BSSimpleList<TESObjectREFR*> m_kOpenDoors;                          // +0xF0
+    BSSimpleList<TESObjectREFR*> m_kChangedDoors;                       // +0xF8
+    NiTPointerMap<unsigned int, NiPointer<ObstacleData> > m_kDoorObstacles;  // +0x100
+    NiTPointerMap<unsigned int, void*> m_kDoorObstacleArrays;           // +0x110
+    void* m_pTaskList120;                                               // +0x120
+    void* m_pTaskList124;                                               // +0x124
+    unsigned int m_uiTasklet;                                           // +0x128
     NiTPointerMap<unsigned int, ObstacleTaskData*> m_kTaskMap;          // +0x12C
     BSSimpleArray<ObstacleTaskData*, 1024> m_kBackgroundTasks;         // +0x13C
     BSSimpleArray<ObstacleTaskData*, 1024> m_kProcessedTasks;          // +0x14C
     FNV_ALIGN(32) RecursiveSpinLock m_kTaskLock;                       // +0x160
+    unsigned char layoutPadding168[0x18];
+    BSSimpleList<void*> m_kList180;                                     // +0x180
+    BSSimpleList<void*> m_kList188;                                     // +0x188
+    int m_iUpdateCount;                                                 // +0x190
+    float m_fUpdateTimer;                                               // +0x194
+    bool m_bEnabled;                                                    // +0x198
     void AddProcessedTask(ObstacleTaskData*);
     void ClearObstacles();
     void RemoveObstaclesForReference(unsigned int);

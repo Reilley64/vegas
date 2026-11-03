@@ -39353,7 +39353,7 @@
    "functions": [
     {
      "address": "0x0047b200",
-     "symbol": "?FUN_0047b200@@YAHXZ",
+     "symbol": "?FUN_0047b200@@YAPAVTESObjectREFR@@XZ",
      "size": 26
     },
     {
@@ -127732,7 +127732,8 @@
     "?FUN_00b5b1c0@@YAXPAVShadowSceneNode@@HPAVNiAVObject@@@Z": "0x00b5b1c0",
     "?FUN_00491040@FUN_00491040_shell@@QAEPAVBSAnimGroupSequence@@H@Z": "0x00491040",
     "?FUN_00950bb0@FUN_00950bb0_shell@@QAEPAVNiNode@@_N@Z": "0x00950bb0",
-    "?FUN_00718d90@@YAPAVInventoryStackRecord@@PAV1@@Z": "0x00718d90"
+    "?FUN_00718d90@@YAPAVInventoryStackRecord@@PAV1@@Z": "0x00718d90",
+    "?FUN_0047b200@@YAPAVTESObjectREFR@@XZ": "0x0047b200"
    },
    "eh_tails": [
     {
@@ -134852,7 +134853,8 @@
     "?SetLinkedReference@FUN_0041e690@@QAEXPAVTESObjectREFR@@@Z": "0x0041e690",
     "?GetActiveCombatTarget@LowProcess@@QAEPAVTESObjectREFR@@XZ": "0x008041a0",
     "?StopSequence@NiControllerManager@@QAE_NPAVNiControllerSequence@@M@Z": "0x0047b220",
-    "?FUN_0047b200@@YAHXZ": "0x0047b200"
+    "?FUN_0047b200@@YAHXZ": "0x0047b200",
+    "?FUN_0047b200@@YAPAVTESObjectREFR@@XZ": "0x0047b200"
    }
   },
   {
@@ -161102,7 +161104,8 @@
     "?GetNext@?$BSSimpleList@PAVInventoryStackRecord@@@@QAEPAV1@XZ": "0x00726070",
     "?AddTail@?$BSSimpleList@PAVInventoryStackRecord@@@@QAEXAAPAVInventoryStackRecord@@@Z": "0x00905820",
     "?FUN_008a1710@FUN_008a1710_shell@@QAEPAVTESObjectWEAP@@XZ": "0x008a1710",
-    "?DispatchMessageToSink@@YA_NPBDH00ME@Z": "0x007052f0"
+    "?DispatchMessageToSink@@YA_NPBDH00ME@Z": "0x007052f0",
+    "?FUN_0047b200@@YAPAVTESObjectREFR@@XZ": "0x0047b200"
    },
    "eh_tails": [
     {
@@ -226639,7 +226642,8 @@
     "FUN_00703150": "0x00703150",
     "?FUN_0070ec90@@YAIPAD@Z": "0x0070ec90",
     "?DispatchMessageToSink@@YA_NPBDH00ME@Z": "0x007052f0",
-    "?FUN_00962cd0@FUN_00962cd0_Class@@QAEXPAUTESObjectREFR@@@Z": "0x00962cd0"
+    "?FUN_00962cd0@FUN_00962cd0_Class@@QAEXPAUTESObjectREFR@@@Z": "0x00962cd0",
+    "?FUN_0047b200@@YAPAVTESObjectREFR@@XZ": "0x0047b200"
    },
    "eh_tails": [
     {

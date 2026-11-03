@@ -252,12 +252,14 @@ struct RefH
 struct FUN_00811030_shell
 {
     bool FUN_00811030();
+    unsigned int pad00[0x2b];
+    int unkac;
 };
 // Returns true when the int at offset 0xac is not 2 and the object is not deleted.
 // @fnv 0x00811030
 bool FUN_00811030_shell::FUN_00811030()
 {
-    return *reinterpret_cast<const int*>(reinterpret_cast<const char*>(this) + 0xac) != 2 &&
+    return this->unkac != 2 &&
            !reinterpret_cast<::FUN_00440d80_shell *>((void *)(reinterpret_cast<const RefH*>(this)))->FUN_00440d80();
 }
 
@@ -583,6 +585,10 @@ struct FUN_0081e8c0_shell_standin
 struct FUN_00811110_shell
 {
     void FUN_00811110(unsigned int);
+    unsigned int pad00[0x2b];
+    unsigned int unkac;
+    unsigned int padb0[0x4];
+    void* unkc0;
 };
 
 
@@ -599,19 +605,19 @@ void FUN_00811110_shell::FUN_00811110(unsigned int aiFlags)
         reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>((reinterpret_cast<PC7d*>(this)))->FUN_00484ce0(reinterpret_cast<char*>(this) + 0x8c, 4);
     }
 
-    reinterpret_cast<::FUN_008579b0_shell *>((reinterpret_cast<TESSaveLoadGameHelper*>(g_TESSaveLoadGame)))->FUN_008579b0(reinterpret_cast<char*>(this) + 0xac, 4);
+    reinterpret_cast<::FUN_008579b0_shell *>((reinterpret_cast<TESSaveLoadGameHelper*>(g_TESSaveLoadGame)))->FUN_008579b0(reinterpret_cast<char*>(&this->unkac), 4);
 
     reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>((reinterpret_cast<PC7d*>(this)))->FUN_00484ce0(reinterpret_cast<char*>(this) + 0xb0, 4);
 
-    if (*reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0xac) == 2)
+    if (this->unkac == 2)
     {
         float ffadeTimer;
         ffadeTimer = 0.0f;
 
-        if (*reinterpret_cast<ActorPackageContext**>(reinterpret_cast<char*>(this) + 0xc0))
+        if (*reinterpret_cast<ActorPackageContext**>(&this->unkc0))
         {
             ffadeTimer =
-                reinterpret_cast<::FUN_00621b00_shell *>((reinterpret_cast<ActorPackageContext*>(*reinterpret_cast<ActorPackageContext**>(reinterpret_cast<char*>(this) + 0xc0))))->FUN_00621b00();
+                reinterpret_cast<::FUN_00621b00_shell *>((reinterpret_cast<ActorPackageContext*>(*reinterpret_cast<ActorPackageContext**>(&this->unkc0))))->FUN_00621b00();
         }
 
         reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>((reinterpret_cast<PC7d*>(this)))->FUN_00484ce0(&ffadeTimer, 4);
@@ -3274,6 +3280,9 @@ struct FUN_008ce610_owner : PC7d
 
 
     void FUN_008ce610(int);
+    char pad01[0xc0];
+    unsigned char unkc0;
+    char padc1[0x6];
 };
 
 namespace fnv_008ceb50 {
@@ -5047,7 +5056,7 @@ void FUN_008ce610_owner::FUN_008ce610(int arg)
                 (*reinterpret_cast<MotionStateRecord**>(reinterpret_cast<char*>(this) + 0x88))->packed)
             {
 
-                if (*reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(this) + 0xc0) == 0)
+                if (this->unkc0 == 0)
                 {
 
                     bool invert =

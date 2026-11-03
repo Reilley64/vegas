@@ -134,6 +134,9 @@ struct FUN_0080dd30_shell : ValueModifierEffect
     Actor* GetOwnerActor() const;
     Actor* GetCasterActor();
     void FUN_0080dd30();
+    char pad01[0x4c];
+    char unk4c;
+    char pad4d[0x2];
 };
 // Calls FUN_0082c000, resolves target and caster, and sets byte at offset 0x4c to 1 when both exist and the target check passes.
 // @fnv 0x0080dd30
@@ -143,7 +146,7 @@ void FUN_0080dd30_shell::FUN_0080dd30()
     Actor* target = reinterpret_cast<::ActiveEffectFields *>(this)->target ? ((MagicTarget*)(void*)reinterpret_cast<::ActiveEffectFields *>(this)->target)->GetOwnerActor() : 0;
     Actor* caster = ((void *)(reinterpret_cast<::FUN_0045cd60_shell *>((((Proc_S*)this)))->FUN_0045cd60())) ? ((MagicCaster*)((void *)(reinterpret_cast<::FUN_0045cd60_shell *>((((Proc_S*)this)))->FUN_0045cd60())))->GetCasterActor() : 0;
     if (target && caster && ((bool)(reinterpret_cast<::FUN_00493bb0_Class *>((((PCH*)target)))->FUN_00493bb0())))
-        ((char*)this)[0x4c] = 1;
+        this->unk4c = 1;
 }
 
 struct FrenzyEffectCopy : FrenzyEffectShell

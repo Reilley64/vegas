@@ -188,6 +188,8 @@ struct ActiveEffect;
 struct FUN_0081be50_s
 {
     void SetTargetCell(ActiveEffect* apEffect, TESObjectREFR* apTarget);
+    unsigned int pad00[0x3];
+    void* unk0c;
 };
 
 // If apTarget is non-null, stores the cell returned by apTarget->GetTarget() at offset 0xc of this object.
@@ -195,7 +197,7 @@ struct FUN_0081be50_s
 void FUN_0081be50_s::SetTargetCell(ActiveEffect* apEffect, TESObjectREFR* apTarget)
 {
     if (apTarget)
-        *(TESObjectCELL**)((char*)this + 0xc) = ((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>((apTarget))->GetTarget()));
+        *(TESObjectCELL**)&this->unk0c = ((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>((apTarget))->GetTarget()));
 }
 
 struct BGSSaveFormBuffer

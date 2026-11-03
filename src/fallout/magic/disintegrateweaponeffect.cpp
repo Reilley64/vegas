@@ -25,13 +25,18 @@ struct FUN_0080d6b0 : ActiveEffect
 struct FUN_0080d710_shell : ActiveEffect
 {
     FUN_0080d6b0* CreateEffectCopy();
+    unsigned int pad04[0x1];
+    int unk08;
+    int unk0c;
+    unsigned int pad10[0x6];
+    int unk28;
 };
 // Allocates a new FUN_0080d6b0 from three fields of this object, copies this object's data into it, and returns the new object.
 // @fnv 0x0080d710
 FUN_0080d6b0* FUN_0080d710_shell::CreateEffectCopy()
 {
     FUN_0080d6b0* pNewEffect =
-        new FUN_0080d6b0(*(int*)((char*)this + 0x28), *(int*)((char*)this + 8), *(int*)((char*)this + 0xc));
+        new FUN_0080d6b0(this->unk28, this->unk08, this->unk0c);
     this->CopyData(pNewEffect);
     return pNewEffect;
 }

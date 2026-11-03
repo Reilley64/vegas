@@ -119,6 +119,12 @@ extern int DAT_010795e4;
 struct FUN_00806eb0
 {
     FUN_00806eb0(intptr_t a1, int a2);
+    unsigned int pad00[0xf8];
+    void* unk3e0;
+    unsigned int pad3e4[0xb];
+    void* unk410;
+    unsigned int pad414[0x8f];
+    int unk650;
 };
 // Calls FUN_00c741e0 with a1, installs three vtable pointers at offsets 0x0, 0x3E0 and 0x410, and stores a2 at offset 0x650.
 // @fnv 0x00806eb0
@@ -126,9 +132,9 @@ FUN_00806eb0::FUN_00806eb0(intptr_t aiArg, int aiValue)
 {
     new ((void *)(((Call741e0*)this))) ::fnv_00c741e0::FUN_00c741e0((::fnv_00c741e0::T741_Src *)(aiArg));
     *(void**)this = (void*)&DAT_010795e4;
-    *(void**)((char*)this + 0x3E0) = (void*)&DAT_010795d4;
-    *(void**)((char*)this + 0x410) = (void*)&DAT_010795b8;
-    *(int*)((char*)this + 0x650) = aiValue;
+    this->unk3e0 = (void*)&DAT_010795d4;
+    this->unk410 = (void*)&DAT_010795b8;
+    this->unk650 = aiValue;
 }
 
 struct TESSaveLoadGame
@@ -208,6 +214,10 @@ struct FUN_00484d40_Host
 struct FUN_0081e980_shell
 {
     void FUN_0081e980(uintptr_t, uintptr_t);
+    unsigned int pad00[0x25];
+    unsigned int unk94;
+    unsigned int unk98;
+    unsigned int pad9c[0x3];
 };
 // @fnv 0x0081e980
 void FUN_0081e980_shell::FUN_0081e980(uintptr_t a, uintptr_t b)
@@ -215,10 +225,10 @@ void FUN_0081e980_shell::FUN_0081e980(uintptr_t a, uintptr_t b)
     reinterpret_cast<::fnv_009320e0::FUN_009320e0_class *>(this)->SetProcessLevel((void *)(a), (void *)(b));
     unsigned int icasterID;
     ((FUN_00484d40_Host*)this)->FUN_00484d40(&icasterID, 4);
-    *(unsigned int*)((char*)this + 0x94) = icasterID;
+    this->unk94 = icasterID;
     unsigned int ispellID;
     ((FUN_00484d40_Host*)this)->FUN_00484d40(&ispellID, 4);
-    *(unsigned int*)((char*)this + 0x98) = ispellID;
+    this->unk98 = ispellID;
     reinterpret_cast<::fnv_00484d00::FUN_00484d00_shell *>((((STR00*)this)))->FUN_00484d00((char*)this + 0xa4, 4);
     if (reinterpret_cast<::FUN_008df040_shell *>((g_TESSaveLoadGame))->FUN_008df040() >= 0x48)
         reinterpret_cast<::fnv_00484d00::FUN_00484d00_shell *>((((STR00*)this)))->FUN_00484d00((char*)this + 0x90, 4);

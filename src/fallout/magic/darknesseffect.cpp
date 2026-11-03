@@ -122,12 +122,14 @@ struct FUN_0080c4c0_shell
     void* d;
 
     ActiveEffect* FUN_0080c4c0();
+    unsigned int pad14[0x5];
+    void* unk28;
 };
 
 // @fnv 0x0080c4c0
 ActiveEffect* FUN_0080c4c0_shell::FUN_0080c4c0()
 {
-    ActiveEffect* presult = new FUN_0080c730_shell(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x28),
+    ActiveEffect* presult = new FUN_0080c730_shell(this->unk28,
                                                    this->b,
                                                    this->c);
 
@@ -287,6 +289,8 @@ struct FUN_0080c570_Inner : public FUN_0080c570_InnerBase
 struct FUN_0080c570_shell : public DarknessEffect
 {
     void UpdateDarkness();
+    unsigned int pad04[0x11];
+    unsigned int unk48;
 };
 
 // Gets the target actor, calls FUN_0082c000, and if the actor has a value, computes a clamped darkness from its inner value and applies it via FUN_00b55b00.
@@ -307,7 +311,7 @@ void FUN_0080c570_shell::UpdateDarkness()
     {
         fnewDarkness = static_cast<float>(
             1.0 - reinterpret_cast<FUN_0080c570_Inner*>(reinterpret_cast<char*>(ptargetActor) + 0xa4)
-                          ->GetValue(*reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x48)) /
+                          ->GetValue(this->unk48) /
                       g_d100);
 
         if (fnewDarkness < _DAT_01012060)
@@ -596,6 +600,8 @@ struct FUN_0080c650_Nested
 struct FUN_0080c650_shell : public DarknessEffect
 {
     void UpdateDarknessEffect();
+    unsigned int pad04[0x11];
+    int unk48;
 };
 
 // @fnv 0x0080c650
@@ -612,7 +618,7 @@ void FUN_0080c650_shell::UpdateDarknessEffect()
     if (ptargetActor && reinterpret_cast<FUN_0080c650_ActorVTable*>(ptargetActor)->v116())
     {
         fnewDarkness = 1.0 - reinterpret_cast<FUN_0080c650_Nested*>(reinterpret_cast<char*>(ptargetActor) + 0xa4)
-                                     ->v003(*reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x48)) /
+                                     ->v003(this->unk48) /
                                  ::g_d100;
 
         if (fnewDarkness < ::_DAT_01012060)
@@ -654,6 +660,8 @@ struct FUN_0080c7b0_helper
 struct FUN_0080c7b0_shell : public DarknessEffect
 {
     void FUN_0080c7b0(Actor*);
+    unsigned int pad04[0x11];
+    int unk48;
 };
 
 void FUN_0080c7b0_shell::FUN_0080c7b0(Actor* apActor)
@@ -661,7 +669,7 @@ void FUN_0080c7b0_shell::FUN_0080c7b0(Actor* apActor)
     reinterpret_cast<::LoadedValueEffect *>((reinterpret_cast<InvisibilityEffect*>(this)))->FUN_0082cd10(apActor);
 
     float fnewDarkness = 1.0 - (reinterpret_cast<FUN_0080c7b0_helper*>(reinterpret_cast<char*>(apActor) + 0xa4))
-                                       ->GetValue(*reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x48)) /
+                                       ->GetValue(this->unk48) /
                                    g_d100;
 
     if (fnewDarkness < 0.0)

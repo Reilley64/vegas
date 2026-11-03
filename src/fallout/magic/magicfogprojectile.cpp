@@ -114,6 +114,10 @@ struct TESSaveLoadGame
 struct MagicFogProjectile
 {
     unsigned short FUN_0081ad00(unsigned int flags);
+    unsigned int pad00[0x2d];
+    int unkb4;
+    unsigned int padb8[0x4];
+    void* unkc8;
 };
 // @fnv 0x0081ad00
 unsigned short MagicFogProjectile::FUN_0081ad00(unsigned int flags)
@@ -121,6 +125,8 @@ unsigned short MagicFogProjectile::FUN_0081ad00(unsigned int flags)
     struct VirtualInterface
     {
         VirtualInterface* next;
+        unsigned int pad04[0x1];
+        void* unk08;
     };
     unsigned short isize = 0;
     isize += reinterpret_cast<::FUN_0081e830_shell *>(this)->GetSaveRecordSize(flags);
@@ -129,18 +135,18 @@ unsigned short MagicFogProjectile::FUN_0081ad00(unsigned int flags)
     isize += 4;
     isize += 4;
     isize += 4;
-    if (*(int*)((char*)this + 0xb4) == 1)
+    if (this->unkb4 == 1)
         isize += 4;
     if (reinterpret_cast<::FUN_008df040_shell *>(((*reinterpret_cast<::fnv_0081ad00::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008df040() >= 0x71)
     {
         isize += 4;
         isize += 2;
-        VirtualInterface* pNode = *(VirtualInterface**)((char*)this + 0xc8);
+        VirtualInterface* pNode = *(VirtualInterface**)&this->unkc8;
         while (pNode)
         {
             isize += 4;
             isize += 1;
-            pNode = *(VirtualInterface**)((char*)pNode + 8);
+            pNode = *(VirtualInterface**)&pNode->unk08;
         }
     }
     return isize;

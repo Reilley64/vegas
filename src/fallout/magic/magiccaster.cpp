@@ -291,12 +291,13 @@ struct MagicCaster_shell : MagicCaster
 {
     MagicTarget* pTarget;
     MagicTarget* FUN_0044edb0();
+    void* unk10;
 };
 
 // @fnv 0x0044edb0
 MagicTarget* MagicCaster_shell::FUN_0044edb0()
 {
-    return *(MagicTarget**)((char*)this + 0x10);
+    return *(MagicTarget**)&this->unk10;
 }
 
 struct FUN_008153a0_shell

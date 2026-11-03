@@ -73,16 +73,18 @@ struct FUN_0082b970_shell : ValueModifierEffect
 {
     ActorValue::Index m_eModifiedActorValue;
     void ApplyValueModifier(Actor* actor, float modifier, ActorValue::Index index);
+    unsigned int pad04[0x12];
+    int unk4c;
 };
 // Applies the modifier to the stored actor value (or none) and, scaled by a runtime setting, to kActorValueNone or actor values 25-31.
 // @fnv 0x0082b970
 void FUN_0082b970_shell::ApplyValueModifier(Actor* actor, float modifier, ActorValue::Index index)
 {
-    if (*reinterpret_cast<ActorValue::Index*>(reinterpret_cast<char*>(this) + 0x4c) != ActorValue::kActorValueNone)
+    if (*reinterpret_cast<ActorValue::Index*>(&this->unk4c) != ActorValue::kActorValueNone)
     {
         float fScaledMagnitude = modifier * ((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting1213))))))[0];
         reinterpret_cast<::ValueModifierEffect *>((reinterpret_cast<ValueModifierEffectHelper*>(this)))->ApplyActorValueModifier(
-            actor, modifier, *reinterpret_cast<ActorValue::Index*>(reinterpret_cast<char*>(this) + 0x4c));
+            actor, modifier, *reinterpret_cast<ActorValue::Index*>(&this->unk4c));
         reinterpret_cast<::ValueModifierEffect *>((reinterpret_cast<ValueModifierEffectHelper*>(this)))->ApplyActorValueModifier(actor, fScaledMagnitude,
                                                                                     ActorValue::kActorValueNone);
     }

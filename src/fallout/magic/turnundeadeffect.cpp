@@ -333,6 +333,9 @@ struct C
 {
     int FUN_0045cd60();
     void FUN_0082b530();
+    char pad00[0x48];
+    char unk48;
+    char pad49[0x3];
 };
 
 struct D
@@ -354,7 +357,7 @@ void C::FUN_0082b530()
     if (b != 0 && a != 0 && (*(void*(**)(intptr_t))(*(void***)b + 266))(b) != 0)
     {
         reinterpret_cast<::FUN_008d0600_s *>((*(void*(**)(intptr_t))(*(void***)b + 266))(b))->FUN_008d0600(a, 0);
-        *(char*)((char*)this + 72) = 1;
+        this->unk48 = 1;
     }
 }
 

@@ -208,11 +208,12 @@ FUN_0080a900::FUN_0080a900(void* apArg1, void* apArg2, void* apArg3) : ValueModi
 struct FUN_0082ccb0_Cls : ActiveEffect
 {
     bool FUN_0082ccb0();
+    int unk48;
 };
 // @fnv 0x0082ccb0
 bool FUN_0082ccb0_Cls::FUN_0082ccb0()
 {
-    return *(int*)((char*)this + 0x48) == 16 && reinterpret_cast<::S3e60 *>((reinterpret_cast<::ActiveEffect *>(this)->GetEffectSetting()))->FUN_00403e60(4) && !reinterpret_cast<::S3e60 *>((reinterpret_cast<::ActiveEffect *>(this)->GetEffectSetting()))->FUN_00403e60(2);
+    return this->unk48 == 16 && reinterpret_cast<::S3e60 *>((reinterpret_cast<::ActiveEffect *>(this)->GetEffectSetting()))->FUN_00403e60(4) && !reinterpret_cast<::S3e60 *>((reinterpret_cast<::ActiveEffect *>(this)->GetEffectSetting()))->FUN_00403e60(2);
 }
 
 extern int DAT_0107c68c;

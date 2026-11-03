@@ -316,6 +316,8 @@ void* FUN_00820b50_shell::GetFieldAt11C()
 struct FUN_00820bf0_shell
 {
     int GetField6A4();
+    unsigned int pad00[0x1a9];
+    int unk6a4;
 };
 
 // The player's magic shader hit effect, the field 0x00820bf0 returns.
@@ -401,7 +403,7 @@ void MagicShaderHitEffect::GetSceneGraphData(bool& isActor, bool& isWeapon, floa
 // @fnv 0x00820bf0
 int FUN_00820bf0_shell::GetField6A4()
 {
-    return *(int*)((char*)this + 0x6a4);
+    return this->unk6a4;
 }
 
 struct FUN_0081bd30_s
@@ -615,12 +617,15 @@ FUN_0087d230::~FUN_0087d230()
 struct FUN_00820bd0_shell
 {
     void SetByteAtOffset6C(unsigned char a);
+    char pad00[0x6c];
+    unsigned char unk6c;
+    char pad6d[0x3];
 };
 
 // @fnv 0x00820bd0
 void FUN_00820bd0_shell::SetByteAtOffset6C(unsigned char aucValue)
 {
-    *reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(this) + 0x6c) = aucValue;
+    this->unk6c = aucValue;
 }
 
 struct BGSSaveFormBuffer
@@ -633,6 +638,10 @@ struct FUN_0081be80_s
 struct FUN_00822250_shell
 {
     void FUN_00822250(BGSSaveFormBuffer*);
+    unsigned int pad00[0xb];
+    int unk2c;
+    int unk30;
+    unsigned int pad34[0xd];
 };
 // @fnv 0x00822250
 void FUN_00822250_shell::FUN_00822250(BGSSaveFormBuffer* pBuffer)
@@ -643,8 +652,8 @@ void FUN_00822250_shell::FUN_00822250(BGSSaveFormBuffer* pBuffer)
     reinterpret_cast<::FUN_00865e50_shell *>((pBuffer))->FUN_00865e50(reinterpret_cast<char*>(this) + 0x60, 4, 0);
     reinterpret_cast<::FUN_00865e50_shell *>((pBuffer))->FUN_00865e50(reinterpret_cast<char*>(this) + 0x64, 4, 0);
     reinterpret_cast<::FUN_00865e50_shell *>((pBuffer))->FUN_00865e50(reinterpret_cast<char*>(this) + 0x4c, 1, 0);
-    reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((pBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(void *)(reinterpret_cast<void*>(reinterpret_cast<int*>(this)[0x2c / 4])), 0);
-    reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((pBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(void *)(reinterpret_cast<void*>(reinterpret_cast<int*>(this)[0x30 / 4])), 0);
+    reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((pBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(void *)(reinterpret_cast<void*>(this->unk2c)), 0);
+    reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((pBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(void *)(reinterpret_cast<void*>(this->unk30)), 0);
 }
 
 struct Shell00822060

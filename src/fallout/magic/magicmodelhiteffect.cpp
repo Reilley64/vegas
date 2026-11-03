@@ -740,13 +740,16 @@ struct Flt
 struct FUN_0081d800_t
 {
     void FUN_0081d800(BGSSaveGameBuffer* apSaveGameBuffer);
+    unsigned int pad00[0xb];
+    const char* unk2c;
+    unsigned int pad30[0x1];
 };
 // @fnv 0x0081d800
 void FUN_0081d800_t::FUN_0081d800(BGSSaveGameBuffer* apSaveGameBuffer)
 {
     NiControllerManager* pmanager;
     reinterpret_cast<::FUN_0081be80_s *>((((FUN_0081be80_s*)this)))->FUN_0081be80((::BGSSaveFormBuffer *)(::fnv_0081d800::BGSSaveFormBuffer *)((BGSSaveFormBuffer*)apSaveGameBuffer));
-    reinterpret_cast<::FUN_00865e70_shell *>((apSaveGameBuffer))->FUN_00865e70(*(const char**)((char*)this + 0x2c), 0);
+    reinterpret_cast<::FUN_00865e70_shell *>((apSaveGameBuffer))->FUN_00865e70(this->unk2c, 0);
     pmanager = 0;
     if (*(Flt*)((char*)this + 0x30))
         pmanager = (NiControllerManager*)((::SkyShaderProperty *)(::FUN_00653270(
@@ -1962,6 +1965,8 @@ struct TESSaveLoadGame
 struct FUN_0081d2a0_t
 {
     void FUN_0081d2a0(ActiveEffect* apEffect, TESObjectREFR* apTarget);
+    unsigned int pad00[0xb];
+    char* unk2c;
 };
 // Calls SaveLoad, queues the effect model for loading if present, and reads a size-prefixed buffer from the save stream into the object.
 // @fnv 0x0081d2a0
@@ -1983,7 +1988,7 @@ void FUN_0081d2a0_t::FUN_0081d2a0(ActiveEffect* apEffect, TESObjectREFR* apTarge
         pbuffer = (char*)::FUN_00401000(isize + 2);
         memcpy(pbuffer, &isize, 2);
         reinterpret_cast<::FUN_008579e0_shell *>(((*reinterpret_cast<::fnv_0081d2a0::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579e0(pbuffer + 2, isize);
-        *(char**)((char*)this + 0x2c) = pbuffer;
+        this->unk2c = pbuffer;
     }
 }
 }  // namespace fnv_0081d2a0

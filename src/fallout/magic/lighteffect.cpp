@@ -251,6 +251,11 @@ struct FUN_0080e730_shell
     virtual void v17(ActiveEffect*);
 
     ActiveEffect* CreateActiveEffect();
+    unsigned int pad04[0x1];
+    void* unk08;
+    void* unk0c;
+    unsigned int pad10[0x6];
+    void* unk28;
 };
 
 // Allocates a new FUN_0080e610 ActiveEffect from three fields of this object, passes it to v17, and returns it.
@@ -258,7 +263,7 @@ struct FUN_0080e730_shell
 ActiveEffect* FUN_0080e730_shell::CreateActiveEffect()
 {
     ActiveEffect* presult =
-        new FUN_0080e610(*(void**)((char*)this + 0x28), *(void**)((char*)this + 0x8), *(void**)((char*)this + 0xc));
+        new FUN_0080e610(this->unk28, this->unk08, this->unk0c);
 
     this->v17(presult);
     return presult;

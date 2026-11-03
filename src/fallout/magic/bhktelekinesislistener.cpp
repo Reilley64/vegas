@@ -24,12 +24,14 @@ struct FUN_00807da0_shell
 {
     unsigned short m_0006;
     int FUN_00807da0();
+    char pad02[0x4];
+    unsigned short unk06;
 };
 
 // @fnv 0x00807da0
 int FUN_00807da0_shell::FUN_00807da0()
 {
-    return *(unsigned short*)((char*)this + 6) & 0x3fff;
+    return this->unk06 & 0x3fff;
 }
 
 struct DelVirt
@@ -56,12 +58,15 @@ struct FUN_008079e0_shell
 {
     void FUN_00807a10(hkpEntity*);
     void FUN_008079e0(hkpEntity* entity);
+    char pad00[0x10];
+    unsigned char unk10;
+    char pad11[0x3];
 };
 // If the byte at offset 0x10 of this is set, calls FUN_00807a10 on the object at this-8 with entity.
 // @fnv 0x008079e0
 void FUN_008079e0_shell::FUN_008079e0(hkpEntity* entity)
 {
-    if (*(unsigned char*)((char*)this + 0x10))
+    if (this->unk10)
         ((FUN_008079e0_shell*)((char*)this - 8))->FUN_00807a10(entity);
 }
 

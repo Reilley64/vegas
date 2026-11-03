@@ -70,24 +70,28 @@ struct FUN_0082a510_shell
 struct FUN_0082aab0_shell
 {
     void SetField644(float value);
+    unsigned int pad00[0x191];
+    float unk644;
 };
 
 // @fnv 0x0082aab0
 void FUN_0082aab0_shell::SetField644(float value)
 {
-    *(float*)((char*)this + 0x644) = value;
+    this->unk644 = value;
 }
 
 struct FUN_0082af40_shell
 {
     float fTelekinesisStrength;  // +0x644
     float GetTelekinesisStrength();
+    unsigned int pad04[0x190];
+    float unk644;
 };
 
 // @fnv 0x0082af40
 float FUN_0082af40_shell::GetTelekinesisStrength()
 {
-    return *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x644);
+    return this->unk644;
 }
 
 struct Actor
@@ -161,6 +165,9 @@ void TelekinesisEffect::LoadFromSave(Actor* apActor)
 struct FUN_0082a670_shell
 {
     void FUN_0082a670();
+    char pad00[0x5d];
+    char unk5d;
+    char pad5e[0x2];
 };
 
 
@@ -241,11 +248,13 @@ uintptr_t FUN_0082aee0_shell::FUN_0082aee0()
 struct FUN_0082af20_shell
 {
     unsigned int GetField63C();
+    unsigned int pad00[0x18f];
+    unsigned int unk63c;
 };
 // @fnv 0x0082af20
 unsigned int FUN_0082af20_shell::GetField63C()
 {
-    return *(unsigned int*)((char*)this + 0x63c);
+    return this->unk63c;
 }
 
 struct TESChallenge
@@ -269,6 +278,8 @@ struct FUN_00974a50_shell
 struct FUN_0082af60_shell
 {
     void FUN_0082af60();
+    unsigned int pad00[0x16];
+    void* unk58;
 };
 class TelekinesisEffectT
 {
@@ -304,7 +315,7 @@ class TelekinesisEffectT
 void FUN_0082af60_shell::FUN_0082af60()
 {
     reinterpret_cast<::TelekinesisEffectT *>((((FUN_0082afa0_shell*)this)))->FUN_0082afa0();
-    reinterpret_cast<::fnv_00974a50::FUN_00974a50_shell *>((((FUN_00974a50_shell*)(&(*reinterpret_cast<int *>(&::g_011e0e80))))))->FUN_00974a50((::TESObjectREFR *)(*(void**)((char*)this + 0x58)), ((void *)(reinterpret_cast<::FUN_00407820_shell *>((((::TESChallenge *)(((ActiveEffect*)this)->GetEffectSetting()))))->FUN_00407820())));
+    reinterpret_cast<::fnv_00974a50::FUN_00974a50_shell *>((((FUN_00974a50_shell*)(&(*reinterpret_cast<int *>(&::g_011e0e80))))))->FUN_00974a50((::TESObjectREFR *)(this->unk58), ((void *)(reinterpret_cast<::FUN_00407820_shell *>((((::TESChallenge *)(((ActiveEffect*)this)->GetEffectSetting()))))->FUN_00407820())));
     reinterpret_cast<::Cls *>((((FUN_0082c810_shell*)this)))->ApplyEffect();
 }
 
@@ -363,6 +374,9 @@ struct InvisibilityEffect
 struct FUN_0082b300_shell : InvisibilityEffect
 {
     void FUN_0082b300(Actor* apActor);
+    char pad01[0x5d];
+    unsigned char unk5d;
+    char pad5e[0x1];
 };
 
 struct FUN_0082a5a0_shell
@@ -404,15 +418,20 @@ struct FUN_0082a5a0_shell
     virtual void CopyFrom(ActiveEffect* copy)
     {}
     ActiveEffect* CreateCopy();
+    unsigned int pad04[0x1];
+    unsigned int unk08;
+    unsigned int unk0c;
+    unsigned int pad10[0x6];
+    unsigned int unk28;
 };
 
 // @fnv 0x0082a5a0
 ActiveEffect* FUN_0082a5a0_shell::CreateCopy()
 {
     ActiveEffect* copy = reinterpret_cast<ActiveEffect*>(
-        new FUN_0082a460(*reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x28),
-                         *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x08),
-                         *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x0C)));
+        new FUN_0082a460(this->unk28,
+                         this->unk08,
+                         this->unk0c));
 
     CopyFrom(copy);
     return copy;
@@ -619,7 +638,7 @@ void FUN_0082a670_shell::FUN_0082a670()
     reinterpret_cast<::FUN_0082c000_shell *>(this)->FUN_0082c000();
     *(void**)((char*)this + 0x58) = ::fnv_00703390::FUN_00703390();
     reinterpret_cast<::TelekinesisStartEffect *>(this)->StartTelekinesisEffect();
-    *(char*)((char*)this + 0x5d) = 0;
+    this->unk5d = 0;
 }
 // @fnv 0x0082b300
 void FUN_0082b300_shell::FUN_0082b300(Actor* apActor)
@@ -631,7 +650,7 @@ void FUN_0082b300_shell::FUN_0082b300(Actor* apActor)
             dynamic_cast<TESObjectREFR*>(::FUN_004839c0((unsigned int)reinterpret_cast<std::uintptr_t>(pRef)));
     if (*reinterpret_cast<TESObjectREFR**>(reinterpret_cast<unsigned char*>(this) + 0x58))
         reinterpret_cast<::TelekinesisStartEffect *>(this)->StartTelekinesisEffect();
-    *reinterpret_cast<unsigned char*>(reinterpret_cast<unsigned char*>(this) + 0x5d) = 1;
+    this->unk5d = 1;
 }
 struct TelekinesisConstraint
 {

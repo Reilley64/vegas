@@ -84,44 +84,53 @@ struct FUN_00803a50_shell
 {
     unsigned char bFlag;  // +0x177
     void FUN_00803a50(unsigned char flag);
+    char pad01[0x176];
+    unsigned char unk177;
 };
 
 // @fnv 0x00803a50
 void FUN_00803a50_shell::FUN_00803a50(unsigned char flag)
 {
-    ((unsigned char*)this)[0x177] = flag;
+    this->unk177 = flag;
 }
 
 struct FUN_00803a90_shell
 {
     void SetBoltGrowWidth(float afBoltGrowWidth);
+    unsigned int pad00[0x4f];
+    float unk13c;
 };
 
 // @fnv 0x00803a90
 void FUN_00803a90_shell::SetBoltGrowWidth(float afBoltGrowWidth)
 {
-    *(float*)((char*)this + 0x13c) = afBoltGrowWidth;
+    this->unk13c = afBoltGrowWidth;
 }
 
 struct FUN_00803b10_shell
 {
     void SetByteAtOffset175(unsigned char value);
+    char pad00[0x175];
+    unsigned char unk175;
+    char pad176[0x2];
 };
 
 // @fnv 0x00803b10
 void FUN_00803b10_shell::SetByteAtOffset175(unsigned char value)
 {
-    reinterpret_cast<unsigned char*>(this)[0x175] = value;
+    this->unk175 = value;
 }
 
 struct FUN_00803b50_shell
 {
     void FUN_00803b50(float value);
+    unsigned int pad00[0x54];
+    float unk150;
 };
 // @fnv 0x00803b50
 void FUN_00803b50_shell::FUN_00803b50(float value)
 {
-    *(float*)((char*)this + 0x150) = value;
+    this->unk150 = value;
 }
 
 namespace fnv_00803d00 {
@@ -189,23 +198,27 @@ struct AbsorbEffect
 struct FUN_00803a70_shell
 {
     void FUN_00803a70(unsigned int value);
+    unsigned int pad00[0x4a];
+    unsigned int unk128;
 };
 
 // @fnv 0x00803a70
 void FUN_00803a70_shell::FUN_00803a70(unsigned int value)
 {
-    *(unsigned int*)((char*)this + 0x128) = value;
+    this->unk128 = value;
 }
 
 struct FUN_00803b30_shell
 {
     void FUN_00803b30(float value);
+    unsigned int pad00[0x51];
+    float unk144;
 };
 
 // @fnv 0x00803b30
 void FUN_00803b30_shell::FUN_00803b30(float value)
 {
-    *(float*)((char*)this + 0x144) = value;
+    this->unk144 = value;
 }
 
 struct ActiveEffect_GetSaveSize_Helper

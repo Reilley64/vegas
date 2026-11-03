@@ -118,6 +118,13 @@ public:
 struct FUN_00807e10 : AssociatedItemEffect
 {
     FUN_00807e10(MagicCaster* apCaster, MagicItem* apSpell, EffectItem* apEffect);
+    char pad01[0xa4];
+    char unka4;
+    char unka5;
+    char unka6;
+    char unka7;
+    char unka8;
+    char pada9[0x2];
 };
 
 extern void* DAT_0107979c;
@@ -133,11 +140,11 @@ FUN_00807e10::FUN_00807e10(MagicCaster* apCaster, MagicItem* apSpell, EffectItem
     for (i = 0; i < 0x14; i++)
         *(InventoryStackRecord**)((char*)this + 0x50 + i * 4) = 0;
     *(float*)((char*)this + 0xa0) = 0.0f;
-    *((char*)this + 0xa4) = 0;
-    *((char*)this + 0xa5) = 0;
-    *((char*)this + 0xa6) = 0;
-    *((char*)this + 0xa7) = 0;
-    *((char*)this + 0xa8) = 0;
+    this->unka4 = 0;
+    this->unka5 = 0;
+    this->unka6 = 0;
+    this->unka7 = 0;
+    this->unka8 = 0;
 }
 
 struct TESBoundObject

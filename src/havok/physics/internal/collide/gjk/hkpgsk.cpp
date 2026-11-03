@@ -529,10 +529,6 @@ static __declspec(noinline) int __cdecl FUN_00da8390(const S00da8390_Vec* apVert
     return -1;
 }
 
-int S00da8390_Call(const S00da8390_Vec* p, float* dist, const S00da8390_Vec* v)
-{
-    return FUN_00da8390(v, p, dist);
-}
 
 
 extern const __m128 DAT_010c44d0;
@@ -825,64 +821,8 @@ static __forceinline int sign(__m128 v)
 }
 extern const __m128 DAT_01017d10;
 extern const double DAT_010290f8;
-extern int __cdecl FUN_00da8390(const Collision_vector*, const Collision_vector*);
-static int FUN_00da8fb0(const Collision_vector* vertices, const Collision_vector* point, float orientation)
-{
-    __m128 v0 = vertices[0].simd(), v1 = vertices[1].simd(), v2 = vertices[2].simd(), v3 = vertices[3].simd();
-    Collision_vector normals[3];
-    normals[0].simd() = cross(_mm_sub_ps(v2, v1), _mm_sub_ps(v3, v1));
-    normals[1].simd() = cross(_mm_sub_ps(v0, v2), _mm_sub_ps(v3, v2));
-    normals[2].simd() = cross(_mm_sub_ps(v1, v0), _mm_sub_ps(v3, v0));
-    __m128 rel = _mm_mul_ps(broadcast(&orientation), _mm_sub_ps(point->simd(), vertices[3].simd()));
-    __m128 lo = _mm_unpacklo_ps(normals[0].simd(), normals[1].simd());
-    __m128 hi = _mm_unpackhi_ps(normals[0].simd(), normals[1].simd());
-    __m128 cx = _mm_movelh_ps(lo, normals[2].simd());
-    __m128 cy = _mm_shuffle_ps(_mm_movehl_ps(cx, lo), normals[2].simd(), 0xd4);
-    __m128 cz = _mm_shuffle_ps(hi, normals[2].simd(), 0xe4);
-    Collision_vector dots;
-    dots.simd() = _mm_add_ps(
-        _mm_add_ps(_mm_mul_ps(_mm_shuffle_ps(rel, rel, 0x55), cy), _mm_mul_ps(_mm_shuffle_ps(rel, rel, 0), cx)),
-        _mm_mul_ps(_mm_shuffle_ps(rel, rel, 0xaa), cz));
-    Collision_vector weighted;
-    weighted.simd() = _mm_mul_ps(_mm_and_ps(dots.simd(), DAT_01017d10), dots.simd());
-    float dist[3];
-    for (int i = 0; i < 3; i++)
-    {
-        float lengthSquared = real(dot(normals[i].simd(), normals[i].simd()));
-        if (lengthSquared != 0.0f)
-            dist[i] = (&weighted.x)[i] / lengthSquared;
-        else
-            dist[i] = DAT_0104da48;
-    }
-    int index = 1;
-    if (dist[1] < dist[0])
-    {
-        float t = dist[0];
-        dist[0] = dist[1];
-        dist[1] = t;
-        index = 0;
-    }
-    if (dist[2] < dist[1])
-    {
-        float t = dist[1];
-        dist[1] = dist[2];
-        dist[2] = t;
-        if (dist[1] < dist[0])
-        {
-            float u = dist[0];
-            dist[0] = dist[1];
-            dist[1] = u;
-        }
-    }
-    else
-        index = 2;
-    if (dist[2] < ::fnv_00c8e160::DAT_010c6090)
-        return -1;
-    if (dist[1] * DAT_010290f8 < dist[2])
-        return index;
-    Collision_vector projected = dots;
-    return FUN_00da8390(point, &projected);
-}
+struct hkVector4;
+static __declspec(noinline) int FUN_00da8fb0(const hkVector4* vertices, const hkVector4* point, float orient);
 __forceinline void Collision_vector::normalize3(const __m128& zero, const __m128& three, const __m128& half)
 {
     __m128 v = simd();
@@ -959,7 +899,7 @@ redispatch:
         goto redispatch;
     }
     case 12: {
-        int index = FUN_00da8fb0(b, a, 1.0f);
+        int index = FUN_00da8fb0(reinterpret_cast<const hkVector4*>(b), reinterpret_cast<const hkVector4*>(a), 1.0f);
         if (index < 0)
             goto finish;
         countB--;
@@ -1041,7 +981,7 @@ redispatch:
         return 0;
     }
     case 33: {
-        int index = FUN_00da8fb0(a, b, DAT_01012054);
+        int index = FUN_00da8fb0(reinterpret_cast<const hkVector4*>(a), reinterpret_cast<const hkVector4*>(b), DAT_01012054);
         if (index < 0)
             goto finish;
         countA--;
@@ -1671,16 +1611,6 @@ static __declspec(noinline) int FUN_00da8fb0(const hkVector4* vertices, const hk
     return FUN_00da8390((const S00da8390_Vec*)vertices, (const S00da8390_Vec*)point, dist);
 }
 
-hkVector4* g_v;
-hkVector4* g_p;
-float g_f;
-int g_out;
-
-void dummy()
-{
-    g_out = FUN_00da8fb0(g_v, g_p, g_f);
-}
-
 extern const float DAT_010d51c4;
 
 class GapScalar
@@ -2006,88 +1936,6 @@ class GapSolver
     GapStatus FUN_00daad40(const GapShape*, const GapShape*, const GapTransform&, GapVector&);
 };
 
-static __declspec(noinline) int FUN_00da8390(const GapVector& point, const GapVector* tetra, GapVector& weights)
-{
-    for (int i = 0; i < 3; ++i)
-    {
-        int next = DAT_010cb440[i + 2], prev = DAT_010cb440[i];
-        if (weights(next) >= 0.0f && weights(prev) >= 0.0f)
-        {
-            GapVector e0, e1, d0, d3;
-            e0.subtract(tetra[next], tetra[i]);
-            e1.subtract(tetra[prev], tetra[i]);
-            d0.subtract(point, tetra[i]);
-            d3.subtract(tetra[3], tetra[i]);
-            float a = d0.dot(e0), b = d0.dot(e1), c = d3.dot(e0), d = d3.dot(e1);
-            if (GapMath::negative(a * d - b * c))
-                weights(prev) = -1.0f;
-            else
-                weights(next) = -1.0f;
-        }
-    }
-    if (weights(0) > 0.0f)
-        return 0;
-    if (weights(1) > 0.0f)
-        return 1;
-    if (weights(2) > 0.0f)
-        return 2;
-    return -1;
-}
-static __declspec(noinline) int FUN_00da8fb0(const GapVector& point, const GapVector* tetra, float sign)
-{
-    GapRotation normals;
-    GapVector e0, e1, e2;
-    e0.subtract(tetra[2], tetra[1]);
-    e1.subtract(tetra[0], tetra[2]);
-    e2.subtract(tetra[3], tetra[2]);
-    GapVector n0, n1, n2;
-    n0.cross(e0, e2);
-    n1.cross(e1, e2);
-    e0.subtract(tetra[1], tetra[0]);
-    e1.subtract(tetra[3], tetra[0]);
-    n2.cross(e0, e1);
-    normals.column(0) = n0;
-    normals.column(1) = n1;
-    normals.column(2) = n2;
-    GapVector relative;
-    relative.subtract(point, tetra[3]);
-    relative.scale(sign);
-    GapVector distances;
-    distances.inverseDirection(normals, relative);
-    GapVector squared;
-    squared.bits() = _mm_mul_ps(_mm_and_ps(distances.bits(), DAT_01017d10), distances.bits());
-    float scores[3];
-    for (int i = 0; i < 3; ++i)
-    {
-        float denominator = normals.column(i).squaredLength();
-        scores[i] = denominator != 0.0f ? squared(i) / denominator : DAT_0104da48;
-    }
-    int selected = 1;
-    if (scores[1] >= scores[0])
-    {
-        float t = scores[0];
-        scores[0] = scores[1];
-        scores[1] = t;
-        selected = 0;
-    }
-    if (scores[2] >= scores[1])
-    {
-        float t = scores[1];
-        scores[1] = scores[2];
-        scores[2] = t;
-        if (scores[1] >= scores[0])
-        {
-            scores[1] = scores[0];
-            selected = 2;
-        }
-    }
-    if (::fnv_00c8e160::DAT_010c6090 > scores[0])
-        return -1;
-    if (scores[1] * DAT_010290f8 >= scores[0])
-        return selected;
-    GapVector fallback = distances;
-    return FUN_00da8390(point, tetra, fallback);
-}
 static __forceinline void process_point_edge(GapVector* __restrict vertexA, GapVector* __restrict vertexB,
                                              GapValue<int>& dimB, GapVector& support, GapSolver::SupportTypes stype)
 {
@@ -2365,7 +2213,7 @@ __forceinline GapSolver::ReduceDimensionResult GapSolver::reduce()
             continue;
         }
         case GSK_POINT_TETRA: {
-            int maxIndex = FUN_00da8fb0(verticesA[0], verticesB, 1.0f);
+            int maxIndex = FUN_00da8fb0(reinterpret_cast<const hkVector4*>(verticesB), reinterpret_cast<const hkVector4*>(&verticesA[0]), 1.0f);
             if (maxIndex >= 0)
             {
                 ;
@@ -2377,7 +2225,7 @@ __forceinline GapSolver::ReduceDimensionResult GapSolver::reduce()
             goto penetration;
         }
         case GSK_TETRA_POINT: {
-            int maxIndex = FUN_00da8fb0(verticesB[0], verticesA, -1.0f);
+            int maxIndex = FUN_00da8fb0(reinterpret_cast<const hkVector4*>(verticesA), reinterpret_cast<const hkVector4*>(&verticesB[0]), -1.0f);
             if (maxIndex >= 0)
             {
                 ;

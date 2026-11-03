@@ -1090,6 +1090,7 @@ class ExtraFollowerSwimBreadcrumbs : public BSExtraDataEx
 class ExtraWeaponModFlags : public BSExtraDataEx
 {
   public:
+    unsigned char cFlags;
 };
 
 class ExtraSpecialRenderFlags
@@ -1277,6 +1278,13 @@ class ExtraWeaponIdleSound : public BSExtraDataEx
 {
   public:
     SoundPlaybackHandle kSound;
+};
+
+class ExtraTerminalState : public BSExtraDataEx
+{
+  public:
+    unsigned char cLockedOut;
+    signed char cLockLevel;
 };
 
 class ExtraAshPileRef : public BSExtraDataEx
@@ -8889,9 +8897,8 @@ void FUN_0041d490_shell::UpdateRagDoll(TESObjectREFR* apRef)
 }
 }  // namespace fnv_0041d490
 
-struct FUN_0041db80_Class
+struct FUN_0041db80_Class : ExtraEnableStateParent
 {
-    unsigned char bFlag;
     void SetFlag(bool value);
 };
 
@@ -8899,47 +8906,29 @@ struct FUN_0041db80_Class
 // @fnv 0x0041db80
 void FUN_0041db80_Class::SetFlag(bool abSet)
 {
-    abSet ? ((unsigned char*)this)[0x10] |= 1 : ((unsigned char*)this)[0x10] &= ~1;
+    abSet ? cFlags |= 1 : cFlags &= ~1;
 }
 
-struct FUN_0041dc00_Class
+struct FUN_0041dc00_Class : ExtraEnableStateParent
 {
-    char _0x00;
-    char _0x01;
-    char _0x02;
-    char _0x03;
-    char _0x04;
-    char _0x05;
-    char _0x06;
-    char _0x07;
-    char _0x08;
-    char _0x09;
-    char _0x0A;
-    char _0x0B;
-    char _0x0C;
-    char _0x0D;
-    char _0x0E;
-    char _0x0F;
-    unsigned char _0x10;
     bool IsFlag2Set();
 };
 
 // @fnv 0x0041dc00
 bool FUN_0041dc00_Class::IsFlag2Set()
 {
-    return _0x10 & 2;
+    return cFlags & 2;
 }
 
-struct FUN_0041dc50_class
+struct FUN_0041dc50_class : ExtraEnableStateParent
 {
-    unsigned char b16;  // +0x10
     bool IsFlag4Set();
 };
 
 // @fnv 0x0041dc50
 bool FUN_0041dc50_class::IsFlag4Set()
 {
-    return ((unsigned char*)this)[0x10] & 0x4;
+    return cFlags & 0x4;
 }
 
 struct FUN_0041e220_StandIn : BaseExtraList
@@ -9167,13 +9156,14 @@ int FUN_00421f00_Class::FUN_00421f00()
 
 namespace fnv_00422420 {
 
-struct BE
+struct BE : ::BSExtraData
 {
     BE(unsigned char);
 };
 
 struct FUN_00422420 : BE
 {
+    float m_fRadiation;
     FUN_00422420(float fValue);
 };
 
@@ -9181,8 +9171,8 @@ struct FUN_00422420 : BE
 // @fnv 0x00422420
 FUN_00422420::FUN_00422420(float fValue) : BE(0x5d)
 {
-    *(int**)this = (int*)&DAT_01015214;
-    *(float*)((char*)this + 0xc) = fValue;
+    m_ppVirtualMethodTable = (void**)&DAT_01015214;
+    m_fRadiation = fValue;
 }
 }  // namespace fnv_00422420
 
@@ -9349,15 +9339,16 @@ template <class T> struct NiPointer
     NiPointer& operator=(T* p);
 };
 
-struct FUN_0042ea00Class
+struct FUN_0042ea00Class : BSExtraData
 {
+    NiPointer<ActorCause> spActorCause;
     void FUN_0042ea00(ActorCause* cause);
 };
 
 // @fnv 0x0042ea00
 void FUN_0042ea00Class::FUN_0042ea00(ActorCause* cause)
 {
-    reinterpret_cast<::Holder0042f780 *>((((NiPointer<ActorCause>*)((char*)this + 0x0c))))->FUN_0042f780((::AC_0042f730 *)(cause));
+    reinterpret_cast<::Holder0042f780 *>((&spActorCause))->FUN_0042f780((::AC_0042f730 *)(cause));
 }
 }  // namespace fnv_0042ea00
 
@@ -9638,10 +9629,8 @@ void FUN_0041b7c0_cls::RemoveExtraType86()
     RemoveExtra(0x56);
 }
 
-struct FUN_0041bf20_Class
+struct FUN_0041bf20_Class : ExtraTerminalState
 {
-    unsigned char b0C;
-    signed char b0D;
     bool FUN_0041bf20();
 };
 
@@ -9649,7 +9638,7 @@ struct FUN_0041bf20_Class
 // @fnv 0x0041bf20
 bool FUN_0041bf20_Class::FUN_0041bf20()
 {
-    if (((unsigned char*)this)[0x0C] == 0 && (signed char)((unsigned char*)this)[0x0D] == -1)
+    if (cLockedOut == 0 && cLockLevel == -1)
         return true;
     return false;
 }
@@ -10006,7 +9995,7 @@ char FUN_00418b40_Class::FUN_00418b40()
     return static_cast<::ExtraSeed*>(extra)->cSeed;
 }
 
-struct FUN_00418be0_Class
+struct FUN_00418be0_Class : ExtraWeaponModFlags
 {
     int FUN_00418be0() const;
 };
@@ -10028,7 +10017,7 @@ bool FUN_00418ba0_shell::FUN_00418ba0()
 // @fnv 0x00418be0
 int FUN_00418be0_Class::FUN_00418be0() const
 {
-    return (reinterpret_cast<const unsigned char*>(this)[0xc]) != 0;
+    return cFlags != 0;
 }
 
 namespace fnv_0041a220 {
@@ -10100,6 +10089,7 @@ void FUN_0041aed0_shell::FUN_0041aed0()
 namespace fnv_0041afa0 {
 struct ExtraScript : BSExtraData
 {
+    void* m_pScript;
     void* m_pLocals;
 };
 
@@ -10114,7 +10104,7 @@ void FUN_0041afa0_Class::FUN_0041afa0()
 {
     ExtraScript* extra = (ExtraScript*)reinterpret_cast<::fnv_00410220::FUN_00410220_shell *>(this)->FUN_00410220(0xd);
     if (extra)
-        *(void**)((char*)extra + 0x10) = 0;
+        extra->m_pLocals = 0;
 }
 }  // namespace fnv_0041afa0
 
@@ -10244,11 +10234,6 @@ FUN_0041bef0::FUN_0041bef0() : BE(0x50)
 }
 }  // namespace fnv_0041bef0
 
-struct ExtraTerminalState : BSExtraData
-{
-    unsigned char pProcessData;
-};
-
 struct FUN_0041bf50_class : BaseExtraList
 {
     unsigned char FUN_0041bf50();
@@ -10261,7 +10246,7 @@ unsigned char FUN_0041bf50_class::FUN_0041bf50()
     ExtraTerminalState* pextra = (ExtraTerminalState*)reinterpret_cast<::fnv_00410220::FUN_00410220_shell *>(this)->FUN_00410220(0x50);
     if (!pextra)
         return 0;
-    return pextra->pProcessData;
+    return pextra->cLockedOut;
 }
 
 struct FUN_0041c360_class
@@ -10320,7 +10305,7 @@ void FUN_0041d330_Class::SetExtraDataByte(unsigned char value)
         static_cast<::ExtraLeveledItem*>(extra)->bFlag = value;
 }
 
-struct FUN_0041db30_class
+struct FUN_0041db30_class : ExtraEnableStateParent
 {
     bool IsFlagSet();
 };
@@ -10328,7 +10313,7 @@ struct FUN_0041db30_class
 // @fnv 0x0041db30
 bool FUN_0041db30_class::IsFlagSet()
 {
-    return (reinterpret_cast<const unsigned char*>(this)[0x10] & 1) ? true : false;
+    return (cFlags & 1) ? true : false;
 }
 
 struct FUN_0041dca0_class : public BaseExtraList
@@ -10612,7 +10597,7 @@ FUN_0042c730::FUN_0042c730() : BE(0x28)
 }  // namespace fnv_0042c730
 
 namespace fnv_0042c830 {
-struct BE
+struct BE : ::BSExtraData
 {
     BE(unsigned char);
     BE()
@@ -10620,15 +10605,15 @@ struct BE
 };
 struct FUN_0042c830 : BE
 {
-    int m_p;
+    TESObjectREFR* pRef;
     FUN_0042c830();
 };
 // Initializes the object: sets the vtable pointer at offset 0 and clears the int at offset 0xc.
 // @fnv 0x0042c830
 FUN_0042c830::FUN_0042c830() : BE(0x1c)
 {
-    *(int**)((char*)this + 0) = &DAT_01015938;
-    *(int*)((char*)this + 0xc) = 0;
+    m_ppVirtualMethodTable = (void**)&DAT_01015938;
+    pRef = 0;
 }
 }  // namespace fnv_0042c830
 
@@ -10879,21 +10864,22 @@ FUN_0041b790::FUN_0041b790(float value) : BE(0x56)
 
 namespace fnv_0042c640 {
 
-struct BE
+struct BE : ::BSExtraData
 {
     BE(unsigned char);
 };
 
 struct FUN_0042c640 : BE
 {
+    int iRank;
     FUN_0042c640();
 };
 
 // @fnv 0x0042c640
 FUN_0042c640::FUN_0042c640() : BE(0x23)
 {
-    *(int**)(this) = &DAT_010158cc;
-    *(int*)((char*)this + 0xc) = 0;
+    m_ppVirtualMethodTable = (void**)&DAT_010158cc;
+    iRank = 0;
 }
 }  // namespace fnv_0042c640
 
@@ -11749,19 +11735,20 @@ FUN_0042ca30::FUN_0042ca30() : BE(0x5c)
 }  // namespace fnv_0042ca30
 
 namespace fnv_0042ca60 {
-struct BE
+struct BE : ::BSExtraData
 {
     BE(unsigned char);
 };
 struct FUN_0042ca60 : BE
 {
+    float m_fRadiation;
     FUN_0042ca60();
 };
 // @fnv 0x0042ca60
 FUN_0042ca60::FUN_0042ca60() : BE(0x5D)
 {
-    *(void**)this = (void*)&::fnv_00422420::DAT_01015214;
-    *(float*)((char*)this + 0xC) = 0.0f;
+    m_ppVirtualMethodTable = (void**)&::fnv_00422420::DAT_01015214;
+    m_fRadiation = 0.0f;
 }
 }  // namespace fnv_0042ca60
 
@@ -12937,8 +12924,8 @@ void FUN_0041e0d0_shell::FUN_0041e0d0(void* apItem)
         ExtraDroppedItemList* pextra = (ExtraDroppedItemList*)reinterpret_cast<::fnv_00410220::FUN_00410220_shell *>(this)->FUN_00410220(0x3a);
         if (pextra)
         {
-            reinterpret_cast<::ItemChangeListNode *>((((DroppedItemNode*)((char*)pextra + 0xc))))->FUN_00905330((*(::InventoryStackRecord *const *)(&apItem)));
-            if (((DroppedItemNode*)((char*)pextra + 0xc))->FUN_008256d0())
+            reinterpret_cast<::ItemChangeListNode *>((((DroppedItemNode*)&pextra->m_pInventoryEntryData)))->FUN_00905330((*(::InventoryStackRecord *const *)(&apItem)));
+            if (((DroppedItemNode*)&pextra->m_pInventoryEntryData)->FUN_008256d0())
                 ((Dummy_00410020*)this)->FUN_00410020(pextra, true);
         }
     }
@@ -13022,6 +13009,7 @@ void FUN_0041e960_shell::FUN_0041e960(void* value)
 namespace fnv_0041e9e0 {
 struct FUN_00433a00_t
 {
+    void* pRef;
     float fValue;
     void* FUN_00433a00(void*);
 };
@@ -13038,7 +13026,7 @@ float FUN_0041e9e0_t::GetExtraFloat(void* apRef)
     {
         FUN_00433a00_t* pdata = (FUN_00433a00_t*)((FUN_00433a00_t*)pextra)->FUN_00433a00(apRef);
         if (pdata)
-            return *(float*)((char*)pdata + 4);
+            return pdata->fValue;
     }
     return 0.0f;
 }
@@ -13605,6 +13593,9 @@ struct ExtraStartingPosition : BSExtraData
     float x;  // +0xc
     float y;  // +0x10
     float z;  // +0x14
+    float fRotX;
+    float fRotY;
+    float fRotZ;
 };
 
 struct FUN_00418d50_shell
@@ -13626,7 +13617,7 @@ NiPoint3 FUN_0041b080_shell::FUN_0041b080(TESObjectREFR* apObject)
     {
         pExtra = ((::fnv_0041b080::ExtraStartingPosition *)(reinterpret_cast<::FUN_00418d50_shell *>((((FUN_00418d50_shell*)this)))->GetOrCreateStartingPosition(apObject)));
     }
-    return *(NiPoint3*)((char*)pExtra + 0x18);
+    return *(NiPoint3*)&pExtra->fRotX;
 }
 }  // namespace fnv_0041b080
 
@@ -14183,7 +14174,7 @@ void FUN_0041ea30_cls::FUN_0041ea30(TESObjectREFR* apRef, float fTime)
 }  // namespace fnv_0041ea30
 
 namespace fnv_0041faf0 {
-struct BE
+struct BE : ::BSExtraData
 {
     BE(unsigned char);
 };
@@ -14192,14 +14183,15 @@ extern int DAT_010151b4;
 
 struct FUN_0041faf0 : BE
 {
+    void* pPrimitive;
     FUN_0041faf0(void* arg);
 };
 
 // @fnv 0x0041faf0
 FUN_0041faf0::FUN_0041faf0(void* arg) : BE(0x6b)
 {
-    *(void**)this = (void*)&DAT_010151b4;
-    *(void**)((char*)this + 0xc) = arg;
+    m_ppVirtualMethodTable = (void**)&DAT_010151b4;
+    pPrimitive = arg;
 }
 }  // namespace fnv_0041faf0
 
@@ -14489,7 +14481,7 @@ void* ExtraTresPassPackage::FUN_0042c890(unsigned int flags)
 }  // namespace fnv_0042c890
 
 namespace fnv_0042c9f0 {
-struct BE
+struct BE : ::BSExtraData
 {
     BE(unsigned char a);
 };
@@ -14497,6 +14489,8 @@ struct BE
 
 struct FUN_0042c9f0 : BE
 {
+    TESModel* pModel;
+    int iUnk10;
     FUN_0042c9f0();
 };
 
@@ -14504,9 +14498,9 @@ struct FUN_0042c9f0 : BE
 // @fnv 0x0042c9f0
 FUN_0042c9f0::FUN_0042c9f0() : BE(0x5B)
 {
-    *(void**)this = (void*)&::DAT_01015980;
-    *(int*)((char*)this + 0xC) = 0;
-    *(int*)((char*)this + 0x10) = 0;
+    m_ppVirtualMethodTable = (void**)&::DAT_01015980;
+    pModel = 0;
+    iUnk10 = 0;
 }
 }  // namespace fnv_0042c9f0
 
@@ -14661,7 +14655,7 @@ void FUN_0042ea50_cls::FUN_0042ea50(void* value)
 }
 
 namespace fnv_0042eb10 {
-struct BE
+struct BE : ::BSExtraData
 {
     BE(unsigned char);
 };
@@ -14670,6 +14664,7 @@ extern int DAT_010159c8;
 
 struct FUN_0042eb10 : BE
 {
+    void* pCombatStyle;
     FUN_0042eb10(void* arg);
 };
 
@@ -14677,8 +14672,8 @@ struct FUN_0042eb10 : BE
 // @fnv 0x0042eb10
 FUN_0042eb10::FUN_0042eb10(void* arg) : BE(0x69)
 {
-    *(void**)this = &DAT_010159c8;
-    *(void**)((char*)this + 0xc) = arg;
+    m_ppVirtualMethodTable = (void**)&DAT_010159c8;
+    pCombatStyle = arg;
 }
 }  // namespace fnv_0042eb10
 

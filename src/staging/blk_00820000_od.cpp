@@ -2613,7 +2613,7 @@ void FUN_008216c0_shell::UpdateEffectTimes()
     else
         time = reinterpret_cast<::FUN_00759450_shell *>((spell))->FUN_00759450();
     for (unsigned int i = 0; i < ((uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(effects))->GetName())); ++i)
-        reinterpret_cast<::ParticleEmitter *>((((::EffectTime *)(::FUN_00559450((int *)((((::EffectHandle *)&SimpleArrayItem<unsigned int>(&(effects), i)))))))))->AdvanceParticleTimes(time);
+        reinterpret_cast<::ParticleEmitter *>((((::EffectTime *)(::FUN_00559450((int *)&SimpleArrayItem<void*>(&(effects), i))))))->AdvanceParticleTimes(time);
 }
 
 // Minimal declarations for the process list and its polymorphic entries.

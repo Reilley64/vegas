@@ -99,14 +99,6 @@ struct S_00d112c0 {
 #include "fnv/symbols_00d9f000.h"
 #include "fnv/symbols_010cd000.h"
 #include "fnv/symbols_011b3000.h"
-struct hkp3AxisSweep {
-    int FUN_00d11630();
-};
-// @fnv 0x00d11630
-int hkp3AxisSweep::FUN_00d11630()
-{
-    return 8 * (3 * (*(int*)((char*)this + 0xa4) - *(int*)((char*)this + 0xd0))) + 0x24;
-}
 
 // @fnv 0x00d19d70
 unsigned short MaxUnsignedShort(unsigned short ausLeft, unsigned short ausRight)
@@ -1185,7 +1177,7 @@ __forceinline void addArray(hkStatisticsCollector* collector, const char* name, 
     }
 }
 
-struct S_00d119e0 {
+struct hkp3AxisSweep {
     int unk00; int unk04; int unk08; int unk0C;
     int unk10; int unk14; int unk18; int unk1C;
     int unk20; int unk24; int unk28; int unk2C;
@@ -1206,11 +1198,18 @@ struct S_00d119e0 {
     OverlappingMarkerInfo* m_pOverlappingMarkerInfo;
 
     void ReportStatistics(hkStatisticsCollector* collector, const void* cls);
+    int FUN_00d11630();
 };
+
+// @fnv 0x00d11630
+int hkp3AxisSweep::FUN_00d11630()
+{
+    return 8 * (3 * (m_kNodeCollection.m_iElementCount - m_iMarkerCount)) + 0x24;
+}
 
 // Reports the sizes of the node, axis and marker arrays to the statistics collector, including each marker's overlapping markers.
 // @fnv 0x00d119e0
-void S_00d119e0::ReportStatistics(hkStatisticsCollector* collector, const void* cls)
+void hkp3AxisSweep::ReportStatistics(hkStatisticsCollector* collector, const void* cls)
 {
     addArray(collector, "Nodes", m_kNodeCollection);
     addArray(collector, "Axis", m_axis0);

@@ -701,7 +701,7 @@ struct FUN_0069dee0_class
 // @fnv 0x0069dee0
 bool FUN_0069dee0_class::Contains(const unsigned short& ausValue)
 {
-    return reinterpret_cast<::FUN_0069b240_Holder *>((reinterpret_cast<NavMeshTriList*>(this)))->FindMatchingIndex((int)&(ausValue), 0, (bool (*)(unsigned short *, int))(((bool (&)(const unsigned short &, const unsigned short &))::AreWideCharsEqual))) != -1;
+    return reinterpret_cast<::FUN_0069b240_Holder *>((reinterpret_cast<NavMeshTriList*>(this)))->FindMatchingIndex((intptr_t)&(ausValue), 0, (bool (*)(unsigned short *, intptr_t))(((bool (&)(const unsigned short &, const unsigned short &))::AreWideCharsEqual))) != -1;
 }
 
 struct FUN_0069dfb0_class

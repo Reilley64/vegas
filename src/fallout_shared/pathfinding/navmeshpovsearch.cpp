@@ -5674,7 +5674,7 @@ bool Owner::BuildGroups(Input* input, Groups* output)
                     {
                         if (reinterpret_cast<::TESCombatStyle *>((void *)(void *)&(const ::Vec &)((((::Records *)(reinterpret_cast<::FUN_00558dd0_class *>((output))->FUN_00558dd0(group)))->At(index)->position - ((::Records *)(reinterpret_cast<::FUN_00558dd0_class *>((output))->FUN_00558dd0(other)))->At(next)->position)))->UpdateCombatStyle() < threshold9)
                         {
-                            if (reinterpret_cast<::FUN_006a1aa0_class *>(&(removalsTmp))->FindMatchingEntry((int)&(const ::Pair &)(Pair(group, index)), 0, (unsigned char (*)(int, int))(((bool (&)(const Pair &, const Pair &))::CallMethodOnObject))) == -1)
+                            if (reinterpret_cast<::FUN_006a1aa0_class *>(&(removalsTmp))->FindMatchingEntry((intptr_t)&(const ::Pair &)(Pair(group, index)), 0, (unsigned char (*)(intptr_t, intptr_t))(((bool (&)(const Pair &, const Pair &))::CallMethodOnObject))) == -1)
                                 reinterpret_cast<::FUN_006a1a50_cls *>(&(removalsTmp))->FUN_006a1a50((const ::FUN_006a1a50_pair *)&(const ::Pair &)(Pair(group, index)));
                         }
                     }
@@ -5685,7 +5685,7 @@ bool Owner::BuildGroups(Input* input, Groups* output)
                     {
                         if (reinterpret_cast<::TESCombatStyle *>((void *)(void *)&(const ::Vec &)((((::Records *)(reinterpret_cast<::FUN_00558dd0_class *>((output))->FUN_00558dd0(group)))->At(index)->position - ((::Records *)(reinterpret_cast<::FUN_00558dd0_class *>((output))->FUN_00558dd0(other)))->At(nextOther)->position)))->UpdateCombatStyle() < threshold9)
                         {
-                            if (reinterpret_cast<::FUN_006a1aa0_class *>(&(removalsTmp))->FindMatchingEntry((int)&(const ::Pair &)(Pair(group, index)), 0, (unsigned char (*)(int, int))(((bool (&)(const Pair &, const Pair &))::CallMethodOnObject))) == -1)
+                            if (reinterpret_cast<::FUN_006a1aa0_class *>(&(removalsTmp))->FindMatchingEntry((intptr_t)&(const ::Pair &)(Pair(group, index)), 0, (unsigned char (*)(intptr_t, intptr_t))(((bool (&)(const Pair &, const Pair &))::CallMethodOnObject))) == -1)
                                 reinterpret_cast<::FUN_006a1a50_cls *>(&(removalsTmp))->FUN_006a1a50((const ::FUN_006a1a50_pair *)&(const ::Pair &)(Pair(group, index)));
                         }
                     }

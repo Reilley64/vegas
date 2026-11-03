@@ -268,14 +268,14 @@ bool IsThresholdDifferent(TESChallenge* apChallenge)
 struct FUN_00729970_shell
 {
     int m_kPointA;
-    int m_kPointB;
+    void* m_kPointB;
     int m_iThirdValue;
-    void FUN_00729970(int aiParam);
+    void FUN_00729970(intptr_t aiParam);
 };
 // @fnv 0x00729970
-void FUN_00729970_shell::FUN_00729970(int aiParam)
+void FUN_00729970_shell::FUN_00729970(intptr_t aiParam)
 {
-    std::qsort((void *)(m_kPointB), m_iThirdValue, 4, (int (*)(const void *, const void *))(aiParam));
+    std::qsort(m_kPointB, m_iThirdValue, 4, (int (*)(const void *, const void *))(aiParam));
 }
 
 struct FUN_00729fb0_shell
@@ -1280,7 +1280,7 @@ void CMMenu::PopulateChallengeList(int aiUnused, int aiType)
         }
     }
     kList.Sort(((int (&)(void *, void *))::CompareRecipes));
-    reinterpret_cast<::FUN_00729970_shell *>(&(g_kCMSorter))->FUN_00729970((int)(((int (&)(void *, void *))::CompareWeatherEntryNames)));
+    reinterpret_cast<::FUN_00729970_shell *>(&(g_kCMSorter))->FUN_00729970((intptr_t)(((int (&)(void *, void *))::CompareWeatherEntryNames)));
 }
 
 extern char DAT_010705d4;

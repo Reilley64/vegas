@@ -841,7 +841,7 @@ struct FUN_006e2b50_shell
 struct FUN_00729970_shell
 {
 public:
-    void FUN_00729970(int);
+    void FUN_00729970(intptr_t);
 };
 
 
@@ -889,7 +889,7 @@ bool FUN_0073ced0_shell::RebuildCardLists()
         }
     }
 
-    reinterpret_cast<FUN_00729970_shell*>(reinterpret_cast<char*>(this) + 0xa6c)->FUN_00729970((int)(((void (&)())::FUN_0059ae10)));
+    reinterpret_cast<FUN_00729970_shell*>(reinterpret_cast<char*>(this) + 0xa6c)->FUN_00729970((intptr_t)(((void (&)())::FUN_0059ae10)));
 
     *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0xaf4) =
         (*reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0xaf0) / 10 > 10)

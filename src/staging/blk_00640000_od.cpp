@@ -844,7 +844,7 @@ void FUN_0065dc20_class::FUN_0065dc20(int a)
     FUN_0065e3a0(a, 0);
 }
 
-extern "C" void __cdecl FUN_0065e3f0(int a, int b, int c);
+extern "C" void __cdecl FUN_0065e3f0(intptr_t a, intptr_t b, intptr_t c);
 
 struct FUN_0065dc60Class
 {
@@ -1074,11 +1074,11 @@ extern "C" void __cdecl FUN_0065eb00(intptr_t);
 
 struct FUN_0065e9c0_class
 {
-    void FUN_0065e9c0(int arg);
+    void FUN_0065e9c0(intptr_t arg);
 };
 
 // @fnv 0x0065e9c0
-void FUN_0065e9c0_class::FUN_0065e9c0(int aiValue)
+void FUN_0065e9c0_class::FUN_0065e9c0(intptr_t aiValue)
 {
     FUN_0065eb00(aiValue);
 }
@@ -2173,11 +2173,11 @@ void __cdecl FUN_0065e360(int aiFirst, int aiSecond, intptr_t aiThird)
 }  // namespace fnv_0065e360
 
 namespace fnv_0065e3f0 {
-bool __cdecl FUN_0065e750(int*, int*);
-void __cdecl FUN_0065e880(int, int, int, bool);
+bool __cdecl FUN_0065e750(void*, void*);
+void __cdecl FUN_0065e880(intptr_t, intptr_t, intptr_t, bool);
 // Calls FUN_0065e750 on a and b, then passes a, b, c and the returned bool to FUN_0065e880.
 // @fnv 0x0065e3f0
-void __cdecl FUN_0065e3f0(int aiValueA, int aiValueB, intptr_t aiValueC)
+void __cdecl FUN_0065e3f0(intptr_t aiValueA, intptr_t aiValueB, intptr_t aiValueC)
 {
     bool tmp = FUN_0065e750(&aiValueA, &aiValueB);
     FUN_0065e880(aiValueA, aiValueB, aiValueC, tmp);
@@ -2245,7 +2245,7 @@ void __cdecl CallWithByteResult(int aiValue1, int aiValue2, intptr_t aiValue3)
 
 // Iterates over 0x20-byte entries from a1 up to a2, calling a3->FUN_0065e9c0 on each entry.
 // @fnv 0x0065e880
-void __cdecl FUN_0065e880(int a1, int a2, FUN_0065e9c0_class* a3)
+void __cdecl FUN_0065e880(intptr_t a1, intptr_t a2, FUN_0065e9c0_class* a3)
 {
     for (; a1 != a2; a1 += 0x20)
         a3->FUN_0065e9c0(a1);

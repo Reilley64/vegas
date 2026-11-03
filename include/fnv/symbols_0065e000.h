@@ -24,7 +24,7 @@ namespace fnv_0065e360 { void FUN_0065e360(int, int, intptr_t); }
 // 0x0065e3a0
 extern "C" void FUN_0065e3a0(int, int);
 // 0x0065e3f0
-namespace fnv_0065e3f0 { void FUN_0065e3f0(int, int, intptr_t); }
+namespace fnv_0065e3f0 { void FUN_0065e3f0(intptr_t, intptr_t, intptr_t); }
 // 0x0065e430
 namespace fnv_0065e430 { void *FUN_0065e430(unsigned int); }
 // 0x0065e480
@@ -54,7 +54,7 @@ void FUN_0065e820(void *, void *, ::FUN_0065e9a0 *);
 // 0x0065e850
 void FUN_0065e850(void *, void *, void *);
 // 0x0065e880
-void FUN_0065e880(int, int, ::FUN_0065e9c0_class *);
+void FUN_0065e880(intptr_t, intptr_t, ::FUN_0065e9c0_class *);
 // 0x0065e8b0
 void FUN_0065e8b0(char *, char *, ::FUN_0065e9e0_Class *);
 // 0x0065e8e0

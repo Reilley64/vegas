@@ -4762,7 +4762,7 @@ void ArrayProxy::FUN_009a32a0(unsigned int count, bool shrink)
         }
         else
         {
-            reinterpret_cast<::FUN_006dbfc0_Class *>(this)->FUN_006dbfc0((char *)(count), size);
+            reinterpret_cast<::FUN_006dbfc0_Class *>(this)->FUN_006dbfc0(count, size);
             capacity = count;
         }
         reinterpret_cast<::fnv_006dbe40::FUN_006dbe40_Class *>(this)->ConstructInPlace((::fnv_006dbe40::FUN_006d3200 *)(::ElementProxy *)(data + size), count - size);
@@ -4774,7 +4774,7 @@ void ArrayProxy::FUN_009a32a0(unsigned int count, bool shrink)
         size = count;
         if (shrink && count <= (capacity >> 2))
         {
-            reinterpret_cast<::FUN_006dbfc0_Class *>(this)->FUN_006dbfc0((char *)(count), count);
+            reinterpret_cast<::FUN_006dbfc0_Class *>(this)->FUN_006dbfc0(count, count);
             capacity = count;
         }
     }

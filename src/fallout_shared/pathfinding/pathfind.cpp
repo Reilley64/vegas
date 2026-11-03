@@ -2766,11 +2766,11 @@ bool __cdecl FUN_006d5490(RouteLocation* start, RouteLocation* end, void* option
                 FUN_006815c0 newLeft12, newRight5;
                 reinterpret_cast<::fnv_0068f0c0::FUN_0068f0c0_shell *>((nextEdge20->mesh))->FUN_0068f0c0(nextEdge20->triangle, nextEdge20->index, (::NiPoint3 *)(class ::FUN_006815c0 *)(&newLeft12), (::NiPoint3 *)(class ::FUN_006815c0 *)(&newRight5));
                 FUN_006815c0 intersection30;
-                if (::FUN_006ba7e0((unsigned int)(&newLeft12), (::FUN_006ba7e0_cls *)(class ::FUN_006815c0 *)(&newRight5), (unsigned int)(&origin520), (::FUN_006ba7e0_cls *)(class ::FUN_006815c0 *)(&left938), (::NiPoint3 *)(class ::FUN_006815c0 *)(&intersection30)))
+                if (::FUN_006ba7e0((uintptr_t)(&newLeft12), (::FUN_006ba7e0_cls *)(class ::FUN_006815c0 *)(&newRight5), (uintptr_t)(&origin520), (::FUN_006ba7e0_cls *)(class ::FUN_006815c0 *)(&left938), (::NiPoint3 *)(class ::FUN_006815c0 *)(&intersection30)))
                     left938 = intersection30;
                 else
                     left938 = newLeft12;
-                if (::FUN_006ba7e0((unsigned int)(&newLeft12), (::FUN_006ba7e0_cls *)(class ::FUN_006815c0 *)(&newRight5), (unsigned int)(&origin520), (::FUN_006ba7e0_cls *)(class ::FUN_006815c0 *)(&right314), (::NiPoint3 *)(class ::FUN_006815c0 *)(&intersection30)))
+                if (::FUN_006ba7e0((uintptr_t)(&newLeft12), (::FUN_006ba7e0_cls *)(class ::FUN_006815c0 *)(&newRight5), (uintptr_t)(&origin520), (::FUN_006ba7e0_cls *)(class ::FUN_006815c0 *)(&right314), (::NiPoint3 *)(class ::FUN_006815c0 *)(&intersection30)))
                     right314 = intersection30;
                 else
                     right314 = newRight5;

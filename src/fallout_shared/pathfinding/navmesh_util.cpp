@@ -1219,7 +1219,7 @@ struct S006997b0
 {
     char _pad[0xE0];
     S0069afb0* p;
-    int FUN_006997b0(unsigned short, int);
+    int FUN_006997b0(unsigned short, intptr_t);
 };
 struct ArrSI
 {
@@ -1333,7 +1333,7 @@ struct FUN_0069b240_Holder
     int field_0;
     unsigned short* field_4;
     unsigned int field_8;
-    int FindMatchingIndex(int, unsigned int, bool(__cdecl*)(unsigned short*, int));
+    int FindMatchingIndex(intptr_t, unsigned int, bool(__cdecl*)(unsigned short*, intptr_t));
 };
 // @fnv 0x006987d0
 void NavMeshOverlap::FUN_006987d0(const ObstacleDataPtr& apObstacle, const NiPoint3& afFudge,
@@ -1368,7 +1368,7 @@ void NavMeshOverlap::FUN_006987d0(const ObstacleDataPtr& apObstacle, const NiPoi
             {
                 for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((void *)(parray))->GetName())); i++)
                 {
-                    if (reinterpret_cast<::FUN_0069b240_Holder *>((apRetTriangles))->FindMatchingIndex((int)&(reinterpret_cast<::FUN_0069dec0_class *>((void *)(parray))->FUN_0069dec0(i)), 0, (bool (*)(unsigned short *, int))(((bool (&)(const unsigned short &, const unsigned short &))::AreWideCharsEqual))) != -1)
+                    if (reinterpret_cast<::FUN_0069b240_Holder *>((apRetTriangles))->FindMatchingIndex((intptr_t)&(reinterpret_cast<::FUN_0069dec0_class *>((void *)(parray))->FUN_0069dec0(i)), 0, (bool (*)(unsigned short *, intptr_t))(((bool (&)(const unsigned short &, const unsigned short &))::AreWideCharsEqual))) != -1)
                         continue;
                     NavMeshTriangleEx* ptri = (NavMeshTriangleEx*)GetTriangle(reinterpret_cast<::FUN_0069dec0_class *>((void *)(parray))->FUN_0069dec0(i));
                     if (reinterpret_cast<::FUN_00691140_shell *>((ptri))->FUN_00691140(0x20))
@@ -1443,7 +1443,7 @@ void NavMeshOverlap::FUN_006987d0(const ObstacleDataPtr& apObstacle, const NiPoi
 }
 // Scans field_4 from start to field_8, calling func on each element with a, and returns the first matching index or -1.
 // @fnv 0x0069b240
-int FUN_0069b240_Holder::FindMatchingIndex(int aiValue, unsigned int start, bool(__cdecl* func)(unsigned short*, int))
+int FUN_0069b240_Holder::FindMatchingIndex(intptr_t aiValue, unsigned int start, bool(__cdecl* func)(unsigned short*, intptr_t))
 {
     unsigned int i;
     for (i = start; i < field_8; ++i)
@@ -1935,7 +1935,7 @@ struct FUN_0069afb0_shell
     bool FUN_0069afb0(unsigned short a, Helper62d0& out);
 };
 // @fnv 0x006997b0
-int S006997b0::FUN_006997b0(unsigned short a, int b)
+int S006997b0::FUN_006997b0(unsigned short a, intptr_t b)
 {
     return ((int)(reinterpret_cast<::FUN_0069afb0_shell *>((p))->FUN_0069afb0(a, (*(::Helper62d0 *)(b)))));
 }
@@ -1976,8 +1976,8 @@ void FUN_006be6f0_shell::MarkNavMeshTriangles()
 {
     for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)*(unsigned int**)((char*)this + 8) + 0x60))))->GetName())); i++)
     {
-        int idx = reinterpret_cast<::FUN_0069b240_Holder *>((((NavMeshTriList*)((char*)*(unsigned int**)((char*)this + 0) + 0xe4))))->FindMatchingIndex((int)&(reinterpret_cast<::FUN_005eeda0_this *>((((DA00694f80*)((char*)*(unsigned int**)((char*)this + 8) + 0x60))))->GetBufferEntry(i)),
-                                          0, (bool (*)(unsigned short *, int))(((bool (&)(const unsigned short &, const unsigned short &))::AreWideCharsEqual)));
+        int idx = reinterpret_cast<::FUN_0069b240_Holder *>((((NavMeshTriList*)((char*)*(unsigned int**)((char*)this + 0) + 0xe4))))->FindMatchingIndex((intptr_t)&(reinterpret_cast<::FUN_005eeda0_this *>((((DA00694f80*)((char*)*(unsigned int**)((char*)this + 8) + 0x60))))->GetBufferEntry(i)),
+                                          0, (bool (*)(unsigned short *, intptr_t))(((bool (&)(const unsigned short &, const unsigned short &))::AreWideCharsEqual)));
         if (idx != -1)
             reinterpret_cast<::FUN_0069add0_class *>((((NavMeshTriList*)((char*)*(unsigned int**)((char*)this + 0) + 0xe4))))->FUN_0069add0(idx, true);
     }
@@ -3034,7 +3034,7 @@ bool Ov2::FUN_006967f0(unsigned short ausStart, unsigned short ausEnd)
             {
                 int idx;
                 TriList2* pList = (TriList2*)((::NavMeshTriList *)(reinterpret_cast<::FUN_006967c0_shell *>(&(Grid))->FUN_006967c0(c, r)));
-                idx = reinterpret_cast<::FUN_0069b240_Holder *>((pList))->FindMatchingIndex((int)&(*(unsigned short*)&i), 0, (bool (*)(unsigned short *, int))(((bool (&)(const unsigned short &, const unsigned short &))::FUN_0069b2a0)));
+                idx = reinterpret_cast<::FUN_0069b240_Holder *>((pList))->FindMatchingIndex((intptr_t)&(*(unsigned short*)&i), 0, (bool (*)(unsigned short *, intptr_t))(((bool (&)(const unsigned short &, const unsigned short &))::FUN_0069b2a0)));
                 reinterpret_cast<::FUN_0069add0_class *>((pList))->FUN_0069add0(idx, 1);
             }
         }

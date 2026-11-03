@@ -2468,7 +2468,7 @@ CaravanDecision CaravanOwner::FUN_0074fdc0()
                 }
             }
         }
-        reinterpret_cast<::FUN_00729970_shell *>((((PointerArray*)(choicesValue1))))->FUN_00729970((int)(((int (&)(const void *, const void *))::CompareCalendarDays)));
+        reinterpret_cast<::FUN_00729970_shell *>((((PointerArray*)(choicesValue1))))->FUN_00729970((intptr_t)(((int (&)(const void *, const void *))::CompareCalendarDays)));
 
         local_3cValue39 = reinterpret_cast<::FUN_009611e0_shell *>((((CaravanDecision*)(*(((void **)(reinterpret_cast<::S3e60 *>((((PointerArray*)(choicesValue1))))->FUN_006a7ad0(0))))))))->FUN_009611e0();
         local_38Value22 = 0;

@@ -941,8 +941,8 @@ void* FUN_00d2e5a0(void* a1, void* a2, void* a3, void* a4)
         {
         case 0:
         case 2: {
-            SpawnedObject* obj = static_cast<SpawnedObject*>(hkMemoryRouter::getInstance().heap().blockAlloc(0x40));
-            obj->m_iElementCount = 0x40;
+            SpawnedObject* obj = static_cast<SpawnedObject*>(hkMemoryRouter::getInstance().heap().blockAlloc(sizeof(::FUN_00d2def0_cls)));
+            obj->m_iElementCount = sizeof(::FUN_00d2def0_cls);
             return ((void *)(reinterpret_cast<::FUN_00d2def0_cls *>((((FUN_00d2def0_cls*)obj)))->FUN_00d2def0(a1, a2, (int *)(a3), a4)));
         }
         case 1: {
@@ -955,8 +955,8 @@ void* FUN_00d2e5a0(void* a1, void* a2, void* a3, void* a4)
         }
     }
 
-    SpawnedObject* obj = static_cast<SpawnedObject*>(hkMemoryRouter::getInstance().heap().blockAlloc(0x40));
-    obj->m_iElementCount = 0x40;
+    SpawnedObject* obj = static_cast<SpawnedObject*>(hkMemoryRouter::getInstance().heap().blockAlloc(sizeof(::FUN_00d2def0_cls)));
+    obj->m_iElementCount = sizeof(::FUN_00d2def0_cls);
     reinterpret_cast<::FUN_00d2def0_cls *>((((FUN_00d2def0_cls*)obj)))->FUN_00d2def0(a2, a1, (int *)(a3), (int)(0));
     obj->SpawnedObject::~SpawnedObject();
     return obj;
@@ -1119,8 +1119,8 @@ static __forceinline Obj56* Create56(void* second, void* first, StreamDispatchIn
 }
 static __forceinline Obj64* Create64(void* second, void* first, StreamDispatchInput* context, void* flags)
 {
-    Obj64* obj = static_cast<Obj64*>(hkMemoryRouter::getInstance().heap().blockAlloc(0x40));
-    obj->size = 0x40;
+    Obj64* obj = static_cast<Obj64*>(hkMemoryRouter::getInstance().heap().blockAlloc(sizeof(::FUN_00d2def0_cls)));
+    obj->size = sizeof(::FUN_00d2def0_cls);
     reinterpret_cast<::FUN_00d2def0_cls *>((obj))->FUN_00d2def0(second, first, (int *)(context), flags);
     obj->vtable = g_010ce874;
     return obj;

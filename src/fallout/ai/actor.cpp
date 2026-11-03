@@ -698,7 +698,17 @@
 #include "fnv/decl/TESHealthForm.h"
 #include "fnv/decl/TESLeveledList.h"
 #include "fnv/decl/TESObjectARMO.h"
-#include "fnv/decl/TESObjectWEAP.h"
+// fnv/decl/TESObjectWEAP.h is not included: its `enum ActorValue__Index` clashes with the
+// typedef in layout_support.h. These are the TESObjectWEAP methods this unit calls.
+class Actor;
+class TESObjectWEAP
+{
+  public:
+    float GetWeightForForm(bool);
+    int GetReloadAnim(bool);
+    unsigned char GetDamageForActor(bool, bool, ::Actor *);
+    float FUN_00709430(bool);
+};
 #include "fnv/decl/TESPackageShell.h"
 #include "fnv/decl/TESRecipe.h"
 #include "fnv/decl/TESRegionDataMap.h"

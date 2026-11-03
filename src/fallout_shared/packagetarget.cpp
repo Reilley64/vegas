@@ -211,14 +211,15 @@ void PackageTargetRecord::InitItem(TESForm* owner)
     }
 }
 
-// Sets the byte at pThis to 2 and zeroes the int, int and float fields at offsets 4, 8 and 12, then returns pThis.
+// Initialises the package target at pThis to type 2 with no object, value or target value, then returns pThis.
 // @fnv 0x0067ff70
 void* FUN_0067ff70(void* pThis)
 {
-    *(unsigned char*)pThis = 2;
-    *((int*)pThis + 1) = 0;
-    *((int*)pThis + 2) = 0;
-    *((float*)pThis + 3) = 0.0f;
+    PackageTargetRecord* ptarget = static_cast<PackageTargetRecord*>(pThis);
+    ptarget->m_uiTargetType = 2;
+    ptarget->pObject = 0;
+    ptarget->iValue = 0;
+    ptarget->m_fTargetValue = 0.0f;
     return pThis;
 }
 

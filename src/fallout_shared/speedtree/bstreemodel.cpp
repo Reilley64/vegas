@@ -210,6 +210,9 @@ float FUN_00666f80()
 
 struct FUN_006684d0_shell
 {
+    char pad[8];
+    std::intptr_t iUnk08;
+    unsigned short usUnk0c;
     void FUN_006684d0(std::intptr_t param1, unsigned short param2);
 };
 
@@ -217,8 +220,8 @@ struct FUN_006684d0_shell
 // @fnv 0x006684d0
 void FUN_006684d0_shell::FUN_006684d0(std::intptr_t param1, unsigned short param2)
 {
-    *(int*)((char*)this + 8) = param1;
-    *(unsigned short*)((char*)this + 0xC) = param2;
+    iUnk08 = param1;
+    usUnk0c = param2;
 }
 
 struct FUN_006694c0_shell
@@ -281,10 +284,16 @@ unsigned short FUN_006699d0_shell::GetUnsignedShort()
 
 extern "C" unsigned char __cdecl GetByteAtOffset1B();
 
+// The tree manager byte this getter reads.
+struct TreeManagerByteView
+{
+    char pad[0x1b];
+    unsigned char ucUnk1b;
+};
 // @fnv 0x00669fb0
 unsigned char __cdecl GetByteAtOffset1B()
 {
-    return ((unsigned char*)::FUN_00664840(true))[0x1B];
+    return static_cast<TreeManagerByteView*>(::FUN_00664840(true))->ucUnk1b;
 }
 
 struct Flt

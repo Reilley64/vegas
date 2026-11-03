@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/niconsolerenderer/nid3drenderstategroup.cpp: D3DRenderStateGroup, RenderOwner, StateGroup, StateGroupE7F5 (12 functions)
 
+#include <cstdint>
 #include <cstring>
 #include "fnv/decl/ActiveArray.h"
 #include "fnv/decl/FUN_00e7ef80_List.h"
@@ -299,7 +300,7 @@ void RenderOwner::ApplyRenderState()
 void StateGroup::SetNodeValue(unsigned int key, unsigned int value, bool target)
 {
     bool foundType = false;
-    StateNode* node = ((::StateNode *)(::FindNodeByKey((::Self_00e7f000 *)this, key, (int)&(foundType), *(bool *)nullptr)));
+    StateNode* node = ((::StateNode *)(::FindNodeByKey((::Self_00e7f000 *)this, key, (intptr_t)&(foundType), *(bool *)nullptr)));
     if (node)
     {
         bool currentType = foundType;
@@ -418,7 +419,7 @@ struct StateGroupE7F5 : public StateGroup
 void StateGroupE7F5::RemoveNodeByKey(unsigned int uiKey)
 {
     bool bInB = false;
-    StateNode* pkNode = ((::StateNode *)(::FindNodeByKey((::Self_00e7f000 *)this, uiKey, (int)&(bInB), *(bool *)nullptr)));
+    StateNode* pkNode = ((::StateNode *)(::FindNodeByKey((::Self_00e7f000 *)this, uiKey, (intptr_t)&(bInB), *(bool *)nullptr)));
     if (pkNode)
     {
         if (bInB)

@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nimain/niddsreader.cpp: NiDDSReader, DDSReader, NiBMPReader, ClsReader and more (23 functions)
 
+#include <cstdint>
 #include <windows.h>
 #include <new>
 #include "fnv/decl/A62190PixelFormat.h"
@@ -83,7 +84,7 @@ bool FUN_00a8c0e0(const char* extension)
 }
 
 // @fnv 0x00a8c100
-bool IsValidBitDepth(int a, int b, int c, int d, unsigned int bits)
+bool IsValidBitDepth(intptr_t a, int b, int c, int d, unsigned int bits)
 {
     if (bits == 16 || bits == 24 || bits == 32)
         return true;
@@ -290,11 +291,11 @@ struct FUN_00a8d850_cls : NiImageReader
 FUN_00a8d850_cls* FUN_00a8d850_cls::DestroyImageReader(unsigned char acFlags)
 {
     void* pFirst = m_p164;
-    *(int*)this = (int)&DAT_0109f4b0;
+    *(intptr_t*)this = (intptr_t)&DAT_0109f4b0;
     FUN_00aa10f0(pFirst);
     void* pSecond = m_p16c;
     reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::FUN_00a8d850_pool *>(&::g_memoryManager))))->FUN_00aa4060(pSecond);
-    *(int*)this = (int)&(*reinterpret_cast<int *>(&::DAT_0109f3d0));
+    *(intptr_t*)this = (intptr_t)&(*reinterpret_cast<int *>(&::DAT_0109f3d0));
     DAT_00fdf058(lock);
     if (acFlags & 1)
     {
@@ -325,7 +326,7 @@ struct ClsImage
     int i60;
     int m_64;
 };
-extern void* __cdecl FUN_00aa13e0(unsigned int size);
+
 extern void __cdecl FUN_00aa10f0(void* p);
 extern void* __cdecl FUN_00aa1070(unsigned int size);
 extern void(* DAT_00fdf05c)(void*);
@@ -359,7 +360,7 @@ struct ClsReader : NiImageReader
     unsigned int m_pRayCursor;
     unsigned char* m_buffer;
     int d168;
-    int d16c;
+    intptr_t d16c;
     void (ClsReader::*m_fn170)(unsigned char*, int);
     int d174;
     virtual void Slot1();
@@ -675,14 +676,14 @@ bool NiDDSReader::FUN_00a8c1e0(NiBinaryStream& kIst, unsigned int& uiWidth, unsi
         unsigned int uiGBitMask;
         unsigned int uiBBitMask;
         unsigned int uiABitMask;
-        ::FUN_00a575b0((::FUN_00a575b0_Object *)&(kIst), (int)&(uiRGBBitCount));
-        ::FUN_00a575b0((::FUN_00a575b0_Object *)&(kIst), (int)&(uiRBitMask));
-        ::FUN_00a575b0((::FUN_00a575b0_Object *)&(kIst), (int)&(uiGBitMask));
-        ::FUN_00a575b0((::FUN_00a575b0_Object *)&(kIst), (int)&(uiBBitMask));
-        ::FUN_00a575b0((::FUN_00a575b0_Object *)&(kIst), (int)&(uiABitMask));
+        ::FUN_00a575b0((::FUN_00a575b0_Object *)&(kIst), (intptr_t)&(uiRGBBitCount));
+        ::FUN_00a575b0((::FUN_00a575b0_Object *)&(kIst), (intptr_t)&(uiRBitMask));
+        ::FUN_00a575b0((::FUN_00a575b0_Object *)&(kIst), (intptr_t)&(uiGBitMask));
+        ::FUN_00a575b0((::FUN_00a575b0_Object *)&(kIst), (intptr_t)&(uiBBitMask));
+        ::FUN_00a575b0((::FUN_00a575b0_Object *)&(kIst), (intptr_t)&(uiABitMask));
         if (!(uiPFFlags & 0x1))
             uiABitMask = 0;
-        if (!::IsValidBitDepth((int)this, uiRBitMask, uiGBitMask, uiBBitMask, uiABitMask))
+        if (!::IsValidBitDepth((intptr_t)this, uiRBitMask, uiGBitMask, uiBBitMask, uiABitMask))
         {
             Unlock();
             return false;
@@ -698,7 +699,7 @@ bool NiDDSReader::FUN_00a8c1e0(NiBinaryStream& kIst, unsigned int& uiWidth, unsi
     }
 
     unsigned int uiCaps1;
-    ::FUN_00a575b0((::FUN_00a575b0_Object *)&(kIst), (int)&(uiCaps1));
+    ::FUN_00a575b0((::FUN_00a575b0_Object *)&(kIst), (intptr_t)&(uiCaps1));
     if (!(uiCaps1 & 0x8) && !(uiCaps1 & 0x401000))
     {
         Unlock();
@@ -706,7 +707,7 @@ bool NiDDSReader::FUN_00a8c1e0(NiBinaryStream& kIst, unsigned int& uiWidth, unsi
     }
 
     unsigned int uiCaps2;
-    ::FUN_00a575b0((::FUN_00a575b0_Object *)&(kIst), (int)&(uiCaps2));
+    ::FUN_00a575b0((::FUN_00a575b0_Object *)&(kIst), (intptr_t)&(uiCaps2));
     if (uiCaps2 & 0x200000)
     {
         Unlock();
@@ -1235,7 +1236,7 @@ struct FUN_00a8e480 : NiImageReader
 // @fnv 0x00a8e480
 FUN_00a8e480::~FUN_00a8e480()
 {
-    DeleteCriticalSection((char*)&this->lock);
+    DeleteCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>((char*)&this->lock));
 }
 
 namespace fnv_00a8cc40 {

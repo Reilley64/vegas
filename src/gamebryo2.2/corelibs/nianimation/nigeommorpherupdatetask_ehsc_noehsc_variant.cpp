@@ -7,6 +7,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 #include <cstddef>
 #include <windows.h>
+#include "fnv/symbols_00aa1000.h"
 #include "fnv/decl/ActiveArray.h"
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_00a311e0_s.h"
@@ -150,8 +151,6 @@ struct S_00a56c60 : S_00a56c10
 {
     void SetRefObjects(NiRefObject* nextFirst, NiRefObject* nextSecond);
 };
-extern "C" void __cdecl FUN_00aa1460(void* apMemory, unsigned int aiSize);
-extern "C" void __cdecl FUN_00aa1490(void* apMemory, unsigned int aiSize);
 class NiObject_00a56d40
 {
   public:
@@ -257,7 +256,7 @@ class NiStreamLinkIDSet
 struct S_00a56ce0_HeapX
 {
 };
-extern "C" void* __cdecl FUN_00aa1420(unsigned int n);
+
 
 struct MorphTaskArr
 {

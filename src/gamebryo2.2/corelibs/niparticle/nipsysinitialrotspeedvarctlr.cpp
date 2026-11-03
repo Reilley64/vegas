@@ -4,6 +4,8 @@
 
 
 // @fnv 0x00c29e90
+#include <cstdint>
+#include "fnv/symbols_00aa1000.h"
 #include <new>
 #include "fnv/decl/CtlrStandin.h"
 #include "fnv/decl/NiPSysAirFieldAirFrictionCtlr.h"
@@ -28,7 +30,7 @@ struct FUN_00c32d80
 FUN_00c32d80::FUN_00c32d80()
 {
     static_cast<::CtlrStandin *>(nullptr)->FUN_00c31260();
-    *(int*)this = (int)&DAT_010c0e44;
+    *(intptr_t*)this = (intptr_t)&DAT_010c0e44;
 }
 
 
@@ -55,7 +57,7 @@ void FUN_00c29f00(FUN_00c29f00_Array* arr)
 }
 
 extern "C" char DAT_010becbc;
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int size);
+
 
 struct SpawnedCtlr
 {
@@ -86,7 +88,7 @@ SpawnedCtlr* SpawnedHost::CreateSpawnedCtlr(void* a1)
     return obj;
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 
 struct SpawnedFloat
 {

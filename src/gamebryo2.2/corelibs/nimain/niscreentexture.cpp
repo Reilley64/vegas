@@ -4,6 +4,7 @@
 
 
 // @fnv 0x00a955f0
+#include <cstdint>
 #include <windows.h>
 #include <new>
 #include "fnv/decl/A5d470Class.h"
@@ -375,7 +376,7 @@ struct ScreenTex_shell
 // @fnv 0x00a95a90
 void ScreenTex_shell::FUN_00a95a90(NiStream& kStream)
 {
-    ::FUN_00a89af0((int)(((RendererDataBase_s*)this)));
+    ::FUN_00a89af0((intptr_t)(((RendererDataBase_s*)this)));
     unsigned int uiNumRects = m_uiAllocatedCapacity;
     SerializeValue(kStream, uiNumRects);
     for (unsigned int i = 0; i < uiNumRects; i++)
@@ -470,7 +471,7 @@ struct ScreenCopy
 // @fnv 0x00a95760
 void ScreenCopy::CopyTo(ScreenCopy* dest, void* cloning)
 {
-    reinterpret_cast<::FUN_00a5d450_class *>((((CopyBase*)this)))->CreateVertexBufferSet((unsigned int)(dest), cloning);
+    reinterpret_cast<::FUN_00a5d450_class *>((((CopyBase*)this)))->CreateVertexBufferSet((uintptr_t)(dest), cloning);
     for (unsigned int i = 0; i < rects.used; i++)
     {
         RectCopy rect(rects.base[i]);
@@ -489,7 +490,7 @@ void ScreenCopy::CopyTo(ScreenCopy* dest, void* cloning)
 }
 
 extern int DAT_010a048c;
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 
 struct SpawnedObject
 {
@@ -573,7 +574,7 @@ struct NiScreenTexture : NiObject
 // @fnv 0x00a95600
 void NiScreenTexture::LinkTexturingProperty(NiStream& kStream)
 {
-    ::FUN_00a89af0((int)this);
+    ::FUN_00a89af0((intptr_t)this);
 
     NiTexturingProperty* pkProp = (NiTexturingProperty*)((::fnv_00a95600::NiObject *)(reinterpret_cast<::NiStream *>(&(kStream))->GetLoadedObject()));
     if (m_pTexturingProperty.m_pObject != pkProp)

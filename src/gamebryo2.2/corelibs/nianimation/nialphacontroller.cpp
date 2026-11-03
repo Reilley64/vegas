@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nianimation/nialphacontroller.cpp: NiAlphaController, Holder, FloatCtlr (9 functions)
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/FUN_00a38ef0_Class.h"
 #include "fnv/decl/FUN_00a57640_shell.h"
@@ -108,7 +109,7 @@ template <class T, class Alloc> struct NiTPrimitiveArray
 void FUN_00a56b60(NiTPrimitiveArray<char*, NiTMallocInterface<char*> >* pkStrings)
 {
     ::FUN_00a576c0(pkStrings);
-    char* pszStr = ::FUN_00a7d330((const char*)(*reinterpret_cast<int *>(&::g_011f4084)));
+    char* pszStr = ::FUN_00a7d330((const char*)(*reinterpret_cast<intptr_t *>(&::g_011f4084)));
     unsigned int uiSize = pkStrings->m_usSize;
     if (uiSize >= pkStrings->m_usMaxSize)
         reinterpret_cast<::ViewerStrings *>((pkStrings))->SetSize(uiSize + pkStrings->m_usGrowBy);

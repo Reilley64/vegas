@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nimain/nicollisionobject.cpp: NiCollisionObject, MyColl, ClaimCls (10 functions)
 
+#include <cstdint>
 #include "fnv/decl/A5D6E0This.h"
 #include "fnv/decl/A5d470Class.h"
 #include "fnv/decl/FUN_00a5d610_Object.h"
@@ -20,7 +21,7 @@ void NiCollisionObject::LoadBinary(NiStream& stream)
 // @fnv 0x00a80ff0
 void NiCollisionObject::LinkObject(NiStream& stream)
 {
-    ::FUN_00a89af0((int)this);
+    ::FUN_00a89af0((intptr_t)this);
     m_pkSceneObject = static_cast<NiAVObject*>(stream.GetLoadedObject());
 }
 // @fnv 0x00a810b0
@@ -151,7 +152,7 @@ struct FakeThis00a81040 : NiObject
 // @fnv 0x00a81040
 void FakeThis00a81040::FUN_00a81040(NiStream& kStream)
 {
-    ::FUN_00a89af0((int)this);
+    ::FUN_00a89af0((intptr_t)this);
     ((FakeStream00a81040*)&kStream)->f12(unk08);
 }
 

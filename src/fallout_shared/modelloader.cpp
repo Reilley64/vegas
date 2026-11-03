@@ -2662,7 +2662,7 @@ class MiddleHighProcess
 
 
 // @fnv 0x0044adf0
-void __cdecl FUN_0044adf0(MiddleHighProcess* pProcess, int a2)
+void __cdecl FUN_0044adf0(MiddleHighProcess* pProcess, intptr_t a2)
 {
     ::CallWithScaledArg((::FUN_0044e120_Cls *)(::NiAVObject *)(pProcess->GetAnimationObject()), a2, 1);
 }
@@ -12354,11 +12354,11 @@ class FUN_00445370_cls
     int m_24;
     int m_28;
     unsigned char m_2c;
-    void FUN_00445370(unsigned int a1, bool flag);
+    void FUN_00445370(uintptr_t a1, bool flag);
 };
 
 // @fnv 0x00445370
-void FUN_00445370_cls::FUN_00445370(unsigned int a1, bool flag)
+void FUN_00445370_cls::FUN_00445370(uintptr_t a1, bool flag)
 {
     TargetObj* p = 0;
     if (this->m_04->v08(a1, &p))

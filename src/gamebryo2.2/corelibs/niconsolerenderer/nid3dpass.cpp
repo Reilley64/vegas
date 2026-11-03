@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/niconsolerenderer/nid3dpass.cpp: NiD3DPass, Node, MyCls, Shader and more (53 functions)
 
+#include <cstdint>
 #include <new>
 #include <windows.h>
 #include <cstdlib>
@@ -349,7 +350,7 @@ struct NiTexture
 };
 // Returns the NiTexture at index idx from the array at obj+0xb0, falling back to a default texture based on the flag at obj+0x20.
 // @fnv 0x00c03230
-NiTexture* GetTextureByIndex(char* apObject, int aiIndex)
+NiTexture* GetTextureByIndex(char* apObject, intptr_t aiIndex)
 {
     NiTexture* pTexture = (*(NiTexture***)(apObject + 0xb0))[aiIndex];
     if (!pTexture)
@@ -464,10 +465,10 @@ void* FUN_00e7f900(void* self, int edx, unsigned int flags)
 }  // namespace fnv_00e7f900
 
 extern int DAT_0126f720;
-extern int DAT_0126f724;
+extern intptr_t DAT_0126f724;
 
 // @fnv 0x00e7f920
-void __cdecl FUN_00e7f920(int pObject)
+void __cdecl FUN_00e7f920(intptr_t pObject)
 {
     DAT_0126f724 = pObject;
     if (pObject)
@@ -475,17 +476,17 @@ void __cdecl FUN_00e7f920(int pObject)
         int state = *(int*)((char*)pObject + 0x288);
         if (DAT_0126f720)
         {
-            int obj = DAT_0126f720;
-            int vtbl = *(int*)obj;
-            void(* release)(int) = (void(*)(int)) * ((int*)vtbl + 2);
+            intptr_t obj = DAT_0126f720;
+            intptr_t vtbl = *(int*)obj;
+            void(* release)(int) = (void(*)(int)) * ((void**)vtbl + 2);
             release(obj);
         }
         DAT_0126f720 = state;
         if (state)
         {
-            int obj = state;
-            int vtbl = *(int*)obj;
-            void(* addRef)(int) = (void(*)(int)) * ((int*)vtbl + 1);
+            intptr_t obj = state;
+            intptr_t vtbl = *(int*)obj;
+            void(* addRef)(int) = (void(*)(int)) * ((void**)vtbl + 1);
             addRef(obj);
         }
         DAT_0126f728 = *(int*)((char*)DAT_0126f724 + 0x8b8);
@@ -494,9 +495,9 @@ void __cdecl FUN_00e7f920(int pObject)
     {
         if (DAT_0126f720)
         {
-            int obj = DAT_0126f720;
-            int vtbl = *(int*)obj;
-            void(* release)(int) = (void(*)(int)) * ((int*)vtbl + 2);
+            intptr_t obj = DAT_0126f720;
+            intptr_t vtbl = *(int*)obj;
+            void(* release)(int) = (void(*)(int)) * ((void**)vtbl + 2);
             release(obj);
         }
         DAT_0126f720 = 0;
@@ -554,7 +555,7 @@ struct FUN_00e7dc60_struct
     int m_04;
     int m_08;
     int m_0c;
-    int m_10;
+    intptr_t m_10;
     int m_14;
     int m_18;
     int m_1c;
@@ -617,7 +618,7 @@ FUN_00e7dc60_struct* FUN_00e7dc60_struct::Initialize()
     m_5f = 0;
     m_60 = 0;
     m_64 = 1;
-    m_10 = ((int)(::AllocatePoolItem()));
+    m_10 = ((intptr_t)(::AllocatePoolItem()));
     return this;
 }
 
@@ -716,7 +717,7 @@ struct MemoryManager
 };
 struct S
 {
-    int vfptr;
+    intptr_t vfptr;
     void* ptr;
     void* FUN_00e7fe70(unsigned int);
 };
@@ -724,7 +725,7 @@ struct S
 void* S::FUN_00e7fe70(unsigned int auiFlags)
 {
     void* tmp = ptr;
-    vfptr = (int)&::DAT_010ef35c;
+    vfptr = (intptr_t)&::DAT_010ef35c;
     ::FreePointerArray((::NiPointer< ::BeamStage> *)(tmp));
     if (auiFlags & 1)
         reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00e7fe70::MemoryManager *>(&::g_memoryManager))))->FUN_00aa4060(this);
@@ -927,16 +928,16 @@ void TexArray_e7fd20::FUN_00e7fd20(unsigned int uiMaxSize)
 
 
 // @fnv 0x00e7e8d0
-void FUN_00e7e8d0(int pObject)
+void FUN_00e7e8d0(intptr_t pObject)
 {
     (*reinterpret_cast<int *>(&::fnv_00e7dc90::DAT_0126f6c4)) = pObject;
     if (pObject)
     {
-        int pNewObject = *(int*)(pObject + 0x288);
+        intptr_t pNewObject = *(int*)(pObject + 0x288);
         if (DAT_0126f6c0)
         {
             typedef void(* ReleaseFunction)(int);
-            ReleaseFunction release = (ReleaseFunction) * (int**)(*(int**)DAT_0126f6c0 + 2);
+            ReleaseFunction release = (ReleaseFunction) * (int**)(*(void***)DAT_0126f6c0 + 2);
             release(DAT_0126f6c0);
         }
         DAT_0126f6c0 = pNewObject;
@@ -946,14 +947,14 @@ void FUN_00e7e8d0(int pObject)
             AddRefFunction addRef = (AddRefFunction) * (int**)(*(int**)pNewObject + 1);
             addRef(pNewObject);
         }
-        (*reinterpret_cast<int *>(&::fnv_00e7dc90::DAT_0126f6c8)) = *(int*)((*reinterpret_cast<int *>(&::fnv_00e7dc90::DAT_0126f6c4)) + 0x8b8);
+        (*reinterpret_cast<int *>(&::fnv_00e7dc90::DAT_0126f6c8)) = *(int*)((*reinterpret_cast<intptr_t *>(&::fnv_00e7dc90::DAT_0126f6c4)) + 0x8b8);
     }
     else
     {
         if (DAT_0126f6c0)
         {
             typedef void(* ReleaseFunction)(int);
-            ReleaseFunction release = (ReleaseFunction) * (int**)(*(int**)DAT_0126f6c0 + 2);
+            ReleaseFunction release = (ReleaseFunction) * (int**)(*(void***)DAT_0126f6c0 + 2);
             release(DAT_0126f6c0);
         }
         DAT_0126f6c0 = 0;
@@ -1240,7 +1241,7 @@ void* NiDSBObject::InitializeAndRegister()
     m_14 = 0;
     m_vtbl = &DAT_010ef184;
     m_20 = 0;
-    EnterCriticalSection(&(*reinterpret_cast<int *>(&::DAT_0126f600)));
+    EnterCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&(*reinterpret_cast<int *>(&::DAT_0126f600))));
     NiDSBListNode* pNode = ((::NiDSBListNode *)(reinterpret_cast<::FUN_0043a010_shell *>((&DAT_0126f5d4))->FUN_0043a010()));
     pNode->m_pOwnerObject = this;
     pNode->m_next = 0;
@@ -1251,7 +1252,7 @@ void* NiDSBObject::InitializeAndRegister()
         DAT_0126f5d0 = pNode;
     DAT_0126f5d4 = DAT_0126f5d4 + 1;
     (*reinterpret_cast<::NiDSBListNode * *>(&::fnv_00e7dbc0::DAT_0126f5cc)) = pNode;
-    LeaveCriticalSection(&(*reinterpret_cast<int *>(&::DAT_0126f600)));
+    LeaveCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&(*reinterpret_cast<int *>(&::DAT_0126f600))));
     return this;
 }
 
@@ -1326,19 +1327,19 @@ void __cdecl FUN_00e7dd50(int start)
     {
         do
         {
-            DispatchObject* obj = (DispatchObject*)(*reinterpret_cast<int *>(&::fnv_00e7dc90::DAT_0126f6c8));
+            DispatchObject* obj = (DispatchObject*)(*reinterpret_cast<intptr_t *>(&::fnv_00e7dc90::DAT_0126f6c8));
             obj->v_dc((int)i, 0);
-            obj = (DispatchObject*)(*reinterpret_cast<int *>(&::fnv_00e7dc90::DAT_0126f6c8));
+            obj = (DispatchObject*)(*reinterpret_cast<intptr_t *>(&::fnv_00e7dc90::DAT_0126f6c8));
             obj->v30((int)i, 1, 1, 0);
-            obj = (DispatchObject*)(*reinterpret_cast<int *>(&::fnv_00e7dc90::DAT_0126f6c8));
+            obj = (DispatchObject*)(*reinterpret_cast<intptr_t *>(&::fnv_00e7dc90::DAT_0126f6c8));
             obj->v30((int)i, 4, 1, 0);
-            obj = (DispatchObject*)(*reinterpret_cast<int *>(&::fnv_00e7dc90::DAT_0126f6c8));
+            obj = (DispatchObject*)(*reinterpret_cast<intptr_t *>(&::fnv_00e7dc90::DAT_0126f6c8));
             obj->v30((int)i, 0x18, 0, 0);
         } while (++i < (unsigned int)(*reinterpret_cast<int *>(&::DAT_011bf558)));
     }
     while (i < (unsigned int)(*reinterpret_cast<int *>(&::DAT_011bf560)))
     {
-        DispatchObject* obj = (DispatchObject*)(*reinterpret_cast<int *>(&::fnv_00e7dc90::DAT_0126f6c8));
+        DispatchObject* obj = (DispatchObject*)(*reinterpret_cast<intptr_t *>(&::fnv_00e7dc90::DAT_0126f6c8));
         obj->v_dc((int)i, 0);
         ++i;
     }
@@ -1364,7 +1365,7 @@ class E7DE90Owner
     int unk0C;
     E7DE90State* m_pkState;
 
-    void ApplyPairToState(unsigned int uiIndex);
+    void ApplyPairToState(uintptr_t uiIndex);
 };
 // Assigns textures to both texture stages from the geometry, builds a matrix from DAT_011f91e0[0]'s transform, and draws the pass target through the device.
 // @fnv 0x00b7ded0
@@ -1375,7 +1376,7 @@ void Shader::SetupTextureStages(Arg* arg)
     stage->texture = geometry->texture->value;
     reinterpret_cast<::E7DE90Owner *>((stage))->ApplyPairToState(geometry->v56());
     stage = (*reinterpret_cast<::Pass * *>(&::DAT_0126f74c))->stages[1];
-    stage->texture = ((::Texture *)(::GetTextureByIndex((char *)this, (int)(geometry))));
+    stage->texture = ((::Texture *)(::GetTextureByIndex((char *)this, (intptr_t)(geometry))));
     reinterpret_cast<::E7DE90Owner *>((stage))->ApplyPairToState(geometry->v56());
     reinterpret_cast<::NiD3DPass *>(((*reinterpret_cast<::Pass * *>(&::DAT_0126f74c))->stages[0]))->ApplyRenderStateChanges(0);
     reinterpret_cast<::NiD3DPass *>(((*reinterpret_cast<::Pass * *>(&::DAT_0126f74c))->stages[1]))->ApplyRenderStateChanges(0);
@@ -1383,7 +1384,7 @@ void Shader::SetupTextureStages(Arg* arg)
     Transform* transform = &source->transform;
     Matrix4 matrix;
     ::fnv_00c4c2d0::FUN_00c4c2d0((::fnv_00c4c2d0::NiAVObject *)(transform), 0, (::fnv_00c4c2d0::Mat4 *)(::Matrix4 *)(&matrix));
-    reinterpret_cast<::FUN_00b7c750_cls *>(this)->FUN_00b7c750((unsigned int)(source), (unsigned int)(transform));
+    reinterpret_cast<::FUN_00b7c750_cls *>(this)->FUN_00b7c750((uintptr_t)(source), (uintptr_t)(transform));
     ::UpdateLightShaderConstants((const ::Matrix *)this, (float)(&matrix));
     Bound bound;
     Transform output;
@@ -1394,7 +1395,7 @@ void Shader::SetupTextureStages(Arg* arg)
 
 // Looks up the pair at uiIndex and passes its first and second values to the state object as stages 1 and 2.
 // @fnv 0x00e7de90
-void E7DE90Owner::ApplyPairToState(unsigned int uiPairIndex)
+void E7DE90Owner::ApplyPairToState(uintptr_t uiPairIndex)
 {
     E7DE90Pair kPair = (*reinterpret_cast<E7DE90Pair (*)[]>(&::DAT_0126f0b0))[uiPairIndex];
     reinterpret_cast<::LightSlots *>((m_pkState))->FUN_00e890c0(1, kPair.uiFirst, 0, false);
@@ -1446,7 +1447,7 @@ void E7DEF0TextureStage::FUN_00e7def0(int eMode)
 struct PassState
 {
     int status;
-    unsigned int handle;
+    uintptr_t handle;
     void* texture;
     int reserved;
     Holder_00e89060* holder;
@@ -1461,7 +1462,7 @@ bool NiD3DPass::ApplyRenderStateChanges(bool force)
     if (!force && record->state == DAT_0126f680[record->poolIndex])
         return true;
     DAT_0126f680[record->poolIndex] = record->state;
-    if (((unsigned int)(reinterpret_cast<::FUN_00e89410_Class *>((record->pool))->GetItemByIndex(record->poolIndex))))
+    if (((uintptr_t)(reinterpret_cast<::FUN_00e89410_Class *>((record->pool))->GetItemByIndex(record->poolIndex))))
         return false;
     reinterpret_cast<::PassState *>(this)->ApplyPassState();
     return true;
@@ -1485,26 +1486,26 @@ void PassState::ApplyPassState()
         needsStage = false;
         bool valid = reinterpret_cast<::FUN_00e89060_shell *>((holder))->GetSlotValue(11, (int *)&(replacement), (bool *)&(needsStage));
         void* chosen = valid ? replacement : (void*)handle;
-        void* d = (void*)(*reinterpret_cast<int *>(&::fnv_00e7dc90::DAT_0126f6c8));
+        void* d = (void*)(*reinterpret_cast<intptr_t *>(&::fnv_00e7dc90::DAT_0126f6c8));
         ((DeviceStageFn)(*(void***)d)[48])(d, handle, 11, chosen, 0);
     }
     int queryResult = 0;
     char byteB;
-    int resultInfo;
+    intptr_t resultInfo;
     if (texture)
     {
-        void* service = ((void**)(*reinterpret_cast<int *>(&::fnv_00e7dc90::DAT_0126f6c4)))[0x8c4 / 4];
+        void* service = ((void**)(*reinterpret_cast<intptr_t *>(&::fnv_00e7dc90::DAT_0126f6c4)))[0x8c4 / 4];
         queryResult = ((ObjectQueryFn)(*(void***)service)[3])(service, texture, &byteA, &byteB, &resultInfo);
     }
     {
-        void* d = (void*)(*reinterpret_cast<int *>(&::fnv_00e7dc90::DAT_0126f6c8));
+        void* d = (void*)(*reinterpret_cast<intptr_t *>(&::fnv_00e7dc90::DAT_0126f6c8));
         ((DeviceStateFn)(*(void***)d)[55])(d, handle, queryResult);
     }
     if (queryResult)
     {
         if (!byteB)
         {
-            void* d = (void*)(*reinterpret_cast<int *>(&::fnv_00e7dc90::DAT_0126f6c8));
+            void* d = (void*)(*reinterpret_cast<intptr_t *>(&::fnv_00e7dc90::DAT_0126f6c8));
             ((DeviceDisableFn)(*(void***)d)[51])(d, handle, 7, 0, 0);
         }
         SendDeviceCommands((void*)resultInfo);
@@ -1961,7 +1962,7 @@ struct BloodSplatterHubStub
 
 
 // @fnv 0x00b7c7b0
-void FUN_00b7c7b0(unsigned int param)
+void FUN_00b7c7b0(uintptr_t param)
 {
     void* owner = (*reinterpret_cast<::fnv_00b7c7b0::RendererStub * *>(&::DAT_011f91e0))->unk0C;
     void** ownerVt = *(void***)owner;
@@ -2134,10 +2135,10 @@ void BSShader::SetupShaderPasses(BSShaderParam* apParam)
     BSGeom* pGeom = apParam->pGeom;
     BSPass* pPass = (*reinterpret_cast<::fnv_00b7dfe0::S * *>(&::DAT_0126f74c))->ppPasses[0];
     pPass->pTexture = pGeom->pProperty->pTexture;
-    reinterpret_cast<::E7DE90Owner *>((pPass))->ApplyPairToState((unsigned int)(pGeom->GetModelData()));
+    reinterpret_cast<::E7DE90Owner *>((pPass))->ApplyPairToState((uintptr_t)(pGeom->GetModelData()));
     pPass = (*reinterpret_cast<::fnv_00b7dfe0::S * *>(&::DAT_0126f74c))->ppPasses[1];
-    pPass->pTexture = ((::fnv_00b7dfe0::BSTexture *)(::GetTextureByIndex((char *)this, (int)(pGeom))));
-    reinterpret_cast<::E7DE90Owner *>((pPass))->ApplyPairToState((unsigned int)(pGeom->GetModelData()));
+    pPass->pTexture = ((::fnv_00b7dfe0::BSTexture *)(::GetTextureByIndex((char *)this, (intptr_t)(pGeom))));
+    reinterpret_cast<::E7DE90Owner *>((pPass))->ApplyPairToState((uintptr_t)(pGeom->GetModelData()));
     reinterpret_cast<::NiD3DPass *>(((*reinterpret_cast<::fnv_00b7dfe0::S * *>(&::DAT_0126f74c))->ppPasses[0]))->ApplyRenderStateChanges(false);
     reinterpret_cast<::NiD3DPass *>(((*reinterpret_cast<::fnv_00b7dfe0::S * *>(&::DAT_0126f74c))->ppPasses[1]))->ApplyRenderStateChanges(false);
 
@@ -2146,7 +2147,7 @@ void BSShader::SetupShaderPasses(BSShaderParam* apParam)
     BSTransform* pTransform = &pCamera->kWorld;
     SwizzledMatrix kMatrix;
     ::fnv_00c4c2d0::FUN_00c4c2d0((::fnv_00c4c2d0::NiAVObject *)(pTransform), 0, (::fnv_00c4c2d0::Mat4 *)(::fnv_00b7dfe0::SwizzledMatrix *)(&kMatrix));
-    reinterpret_cast<::FUN_00b7c750_cls *>(this)->FUN_00b7c750((unsigned int)(pCamera), (unsigned int)(pTransform));
+    reinterpret_cast<::FUN_00b7c750_cls *>(this)->FUN_00b7c750((uintptr_t)(pCamera), (uintptr_t)(pTransform));
     SetupMatrix(&kMatrix, pTransform->fScale, apParam->iUnk08);
 
     BSVec4 kPos;
@@ -2399,7 +2400,7 @@ void SamplerStandIn::BindTexture()
         return;
     }
 
-    unsigned int flags = m_14;
+    uintptr_t flags = m_14;
     switch (flags & 0xf0000000)
     {
     case 0:
@@ -2413,14 +2414,14 @@ void SamplerStandIn::BindTexture()
         else
         {
             void* p = m_18->m_14;
-            if (::FUN_00e7df90((int)this, (float *)(flags & 0xfffffff)))
+            if (::FUN_00e7df90((intptr_t)this, (float *)(flags & 0xfffffff)))
                 (*reinterpret_cast<::fnv_00e7e940::DeviceStandIn * *>(&::DAT_0126f6c0))->SetTexture(m_04 + 0x10, &(*reinterpret_cast<int *>(&::DAT_0126f6d0)));
         }
         break;
     case 0x20000000:
         if (flags & 0xfffffff)
         {
-            if (::FUN_00e7df90((int)this, (float *)(flags & 0xfffffff)))
+            if (::FUN_00e7df90((intptr_t)this, (float *)(flags & 0xfffffff)))
                 (*reinterpret_cast<::fnv_00e7e940::DeviceStandIn * *>(&::DAT_0126f6c0))->SetTexture(m_04 + 0x10, &(*reinterpret_cast<int *>(&::DAT_0126f6d0)));
         }
         else
@@ -2442,7 +2443,7 @@ struct Holder
 {
     int unk00;
     int unk04;
-    int name;
+    intptr_t name;
 };
 
 struct HolderRef
@@ -2455,7 +2456,7 @@ struct HolderRef
         {
             if (h->name != (*reinterpret_cast<int *>(&::DAT_0109b220)))
                 DAT_00fdf1c0((void*)(h->name - 8));
-            int value = h->name;
+            intptr_t value = h->name;
             ::RemoveGlobalConstant((const ::NiFixedString *)(int *)(&value));
             if (value != (*reinterpret_cast<int *>(&::DAT_0109b220)))
                 DAT_00fdf1c4((void*)(value - 8));
@@ -2636,13 +2637,13 @@ extern float DAT_0126f708;
 extern float DAT_0126f70c;
 // For modes 1–6, combines indexed floats from m and the block at DAT_0126f6c4, writes to DAT_0126f6d0–DAT_0126f70c, and returns false otherwise.
 // @fnv 0x00e7df90
-bool FUN_00e7df90(int mode, float* m)
+bool FUN_00e7df90(intptr_t mode, float* m)
 {
     bool result = true;
     switch (mode)
     {
     case 1: {
-        float* pMatrix = (float*)(*reinterpret_cast<int *>(&::fnv_00e7dc90::DAT_0126f6c4));
+        float* pMatrix = (float*)(*reinterpret_cast<intptr_t *>(&::fnv_00e7dc90::DAT_0126f6c4));
         {
             double term0 = pMatrix[0x291] * m[4];
             double term1 = ((volatile float*)pMatrix)[0x290];
@@ -2763,7 +2764,7 @@ bool FUN_00e7df90(int mode, float* m)
         break;
     }
     case 2: {
-        float* pMatrix = (float*)(*reinterpret_cast<int *>(&::fnv_00e7dc90::DAT_0126f6c4));
+        float* pMatrix = (float*)(*reinterpret_cast<intptr_t *>(&::fnv_00e7dc90::DAT_0126f6c4));
         {
             double term0 = m[4] * pMatrix[0x291];
             double term1 = ((volatile float*)pMatrix)[0x290];
@@ -2884,7 +2885,7 @@ bool FUN_00e7df90(int mode, float* m)
         break;
     }
     case 3: {
-        float* pMatrix = (float*)(*reinterpret_cast<int *>(&::fnv_00e7dc90::DAT_0126f6c4));
+        float* pMatrix = (float*)(*reinterpret_cast<intptr_t *>(&::fnv_00e7dc90::DAT_0126f6c4));
         {
             double term0 = m[4] * pMatrix[0x291];
             double term1 = ((volatile float*)pMatrix)[0x290];
@@ -2983,7 +2984,7 @@ bool FUN_00e7df90(int mode, float* m)
         break;
     }
     case 5: {
-        float* pMatrix = (float*)(*reinterpret_cast<int *>(&::fnv_00e7dc90::DAT_0126f6c4));
+        float* pMatrix = (float*)(*reinterpret_cast<intptr_t *>(&::fnv_00e7dc90::DAT_0126f6c4));
         {
             double term0 = pMatrix[0x291] * m[4];
             double term1 = ((volatile float*)m)[0];
@@ -3074,7 +3075,7 @@ bool FUN_00e7df90(int mode, float* m)
         break;
     }
     case 6: {
-        float* pMatrix = (float*)(*reinterpret_cast<int *>(&::fnv_00e7dc90::DAT_0126f6c4));
+        float* pMatrix = (float*)(*reinterpret_cast<intptr_t *>(&::fnv_00e7dc90::DAT_0126f6c4));
         {
             double term0 = m[4] * pMatrix[0x291];
             double term1 = ((volatile float*)m)[0];
@@ -3312,12 +3313,12 @@ struct TextureStageParameter
 };
 struct PassUpdate : NiD3DPass
 {
-    unsigned int FUN_00e7f990(unsigned int p1, unsigned int p2, unsigned int p3, unsigned int p4, unsigned int p5,
+    unsigned int FUN_00e7f990(uintptr_t p1, unsigned int p2, uintptr_t p3, uintptr_t p4, unsigned int p5,
                               unsigned int p6, unsigned int p7, unsigned int p8, unsigned int p9);
 };
 // Sets pixel and vertex shader programs and constants, configures texture stage states, and falls back to render entry or value when no vertex shader is present.
 // @fnv 0x00e7f990
-unsigned int PassUpdate::FUN_00e7f990(unsigned int apContext, unsigned int p2, unsigned int ap3, unsigned int ap4,
+unsigned int PassUpdate::FUN_00e7f990(uintptr_t apContext, unsigned int p2, uintptr_t ap3, uintptr_t ap4,
                                       unsigned int p5, unsigned int p6, unsigned int p7, unsigned int p8,
                                       unsigned int p9)
 {
@@ -3372,11 +3373,11 @@ unsigned int PassUpdate::FUN_00e7f990(unsigned int apContext, unsigned int p2, u
         if (!context)
         {
             if (ap3)
-                context = reinterpret_cast<unsigned int*>(*reinterpret_cast<unsigned int*>(ap3 + 0x28));
+                context = reinterpret_cast<unsigned int*>(*reinterpret_cast<uintptr_t*>(ap3 + 0x28));
             else
             {
-                unsigned int ctx = *reinterpret_cast<unsigned int*>(apContext + 0xb8);
-                context = reinterpret_cast<unsigned int*>(*reinterpret_cast<unsigned int*>(ctx + 0x34));
+                uintptr_t ctx = *reinterpret_cast<unsigned int*>(apContext + 0xb8);
+                context = reinterpret_cast<unsigned int*>(*reinterpret_cast<uintptr_t*>(ctx + 0x34));
             }
         }
         if (context[3])
@@ -4331,10 +4332,10 @@ void Shell_b7e1::FUN_00b7e150(DrawArg* apDrawArg)
     GeometryData* geom = apDrawArg->geom;
     StageState* stage = (*reinterpret_cast<::rw_b7e1::RendererStageContext * *>(&::DAT_0126f74c))->stages[0];
     stage->texture = geom->material->texture;
-    reinterpret_cast<::E7DE90Owner *>((stage))->ApplyPairToState((unsigned int)(geom->GetTextureState()));
+    reinterpret_cast<::E7DE90Owner *>((stage))->ApplyPairToState((uintptr_t)(geom->GetTextureState()));
     stage = (*reinterpret_cast<::rw_b7e1::RendererStageContext * *>(&::DAT_0126f74c))->stages[1];
-    stage->texture = ((void *)(::GetTextureByIndex((char *)this, (int)(geom))));
-    reinterpret_cast<::E7DE90Owner *>((stage))->ApplyPairToState((unsigned int)(geom->GetTextureState()));
+    stage->texture = ((void *)(::GetTextureByIndex((char *)this, (intptr_t)(geom))));
+    reinterpret_cast<::E7DE90Owner *>((stage))->ApplyPairToState((uintptr_t)(geom->GetTextureState()));
     stage = (*reinterpret_cast<::rw_b7e1::RendererStageContext * *>(&::DAT_0126f74c))->stages[3];
     if (geom->GetTexture(3, 0))
         stage->texture = geom->GetTexture(3, 0);
@@ -4347,8 +4348,8 @@ void Shell_b7e1::FUN_00b7e150(DrawArg* apDrawArg)
     GeometryData* world = *(*reinterpret_cast<::rw_b7e1::GeometryData ** *>(&::DAT_011f91e0));
     TransformData* transform = &world->world;
     ::fnv_00c4c2d0::FUN_00c4c2d0((::fnv_00c4c2d0::NiAVObject *)(transform), 0, (::fnv_00c4c2d0::Mat4 *)(::rw_b7e1::Matrix4 *)(&matrix));
-    reinterpret_cast<::FUN_00b7c750_cls *>(this)->FUN_00b7c750((unsigned int)(world), (unsigned int)(transform));
-    ::fnv_00b7c7b0::FUN_00b7c7b0((unsigned int)this);
+    reinterpret_cast<::FUN_00b7c750_cls *>(this)->FUN_00b7c750((uintptr_t)(world), (uintptr_t)(transform));
+    ::fnv_00b7c7b0::FUN_00b7c7b0((uintptr_t)this);
     float scale = transform->scale;
     FourFloatVector data;
     ::FUN_00ee6df8(&data, &(*reinterpret_cast<::rw_b7e1::Vector3 *>(&::DAT_011fa2a0)), &matrix);

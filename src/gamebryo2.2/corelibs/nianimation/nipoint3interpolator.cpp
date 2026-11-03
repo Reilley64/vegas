@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nianimation/nipoint3interpolator.cpp: NiPoint3Interpolator, NiPoint3InterpolatorRange, PosInterpEq (24 functions)
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/B5Owner.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -198,7 +199,7 @@ void NiPoint3Interpolator::CreateObject(int state, bool force)
     case 0:
         if (((::LightTarget *)(reinterpret_cast<::FUN_005d8710_shell *>((reinterpret_cast<VATS*>(&g_011f2250)))->FUN_005d8710())))
         {
-            reinterpret_cast<::B5Owner *>((reinterpret_cast<ExtraDataList*>(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0))))->FUN_00b5eed0((unsigned int)(((::NiAVObject *)(::fnv_004e6540::FUN_004e6540((char *)(((::LightTarget *)(reinterpret_cast<::FUN_005d8710_shell *>((reinterpret_cast<VATS*>(&g_011f2250)))->FUN_005d8710()))))))));
+            reinterpret_cast<::B5Owner *>((reinterpret_cast<ExtraDataList*>(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0))))->FUN_00b5eed0((uintptr_t)(((::NiAVObject *)(::fnv_004e6540::FUN_004e6540((char *)(((::LightTarget *)(reinterpret_cast<::FUN_005d8710_shell *>((reinterpret_cast<VATS*>(&g_011f2250)))->FUN_005d8710()))))))));
             ::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0)->vfn_e8(((::NiAVObject *)(::fnv_004e6540::FUN_004e6540((char *)(((::LightTarget *)(reinterpret_cast<::FUN_005d8710_shell *>((reinterpret_cast<VATS*>(&g_011f2250)))->FUN_005d8710())))))));
             reinterpret_cast<::FUN_009c9a50_shell *>((reinterpret_cast<VATS*>(&g_011f2250)))->SetLight((::NiLight *)(::NiPointLight *)(0), true);
         }
@@ -690,10 +691,10 @@ class FUN_00a49bb0_cls
 // @fnv 0x00a49bb0
 void FUN_00a49bb0_cls::AppendPoint3Fields(StrArrList* list)
 {
-    unsigned int value;
+    uintptr_t value;
 
     reinterpret_cast<::fnv_00a3cbf0::NiKeyBasedInterpolator *>(this)->FUN_00a3cbf0((::fnv_00a3cbf0::StrArr *)(list));
-    value = ((unsigned int)(::FUN_00a7d330((const char *)((*reinterpret_cast<unsigned int *>(&::g_011f3f70))))));
+    value = ((uintptr_t)(::FUN_00a7d330((const char *)((*reinterpret_cast<uintptr_t *>(&::g_011f3f70))))));
     {
         unsigned int count = list->count;
         if (count >= list->cap)
@@ -703,7 +704,7 @@ void FUN_00a49bb0_cls::AppendPoint3Fields(StrArrList* list)
         reinterpret_cast<::fnv_00b5c7d0::StrArr *>((list))->SetAt(count, (*(char * *)(&value)));
     }
 
-    value = ((unsigned int)(reinterpret_cast<::NiPoint3 *>(&(m_sub0c))->FUN_00a59af0("m_kPoint3Value")));
+    value = ((uintptr_t)(reinterpret_cast<::NiPoint3 *>(&(m_sub0c))->FUN_00a59af0("m_kPoint3Value")));
     {
         unsigned int count = list->count;
         if (count >= list->cap)
@@ -713,8 +714,8 @@ void FUN_00a49bb0_cls::AppendPoint3Fields(StrArrList* list)
         reinterpret_cast<::fnv_00b5c7d0::StrArr *>((list))->SetAt(count, (*(char * *)(&value)));
     }
 
-    unsigned int v18 = m_val18;
-    value = ((unsigned int)(::FUN_00a7d5a0("m_spPoint3Data", (void *)(v18))));
+    uintptr_t v18 = m_val18;
+    value = ((uintptr_t)(::FUN_00a7d5a0("m_spPoint3Data", (void *)(v18))));
     {
         unsigned int count = list->count;
         if (count >= list->cap)

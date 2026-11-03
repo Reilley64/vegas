@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/nimain/nistream_od_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/gamebryo2.2/corelibs/nimain/nistream.cpp functions whose prologue its flags cannot
 // produce (ebp frame in an /O2 unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
+#include <cstdint>
 #include "fnv/decl/FUN_00a2ceb0_cls.h"
 #include "fnv/decl/FUN_00a63460_shell.h"
 #include "fnv/decl/FUN_00c4c920_class.h"
@@ -104,7 +105,7 @@ struct S_Class
 // @fnv 0x00c64ad0
 void S_Class::FUN_00c64ad0(S_Stream* stream)
 {
-    ::FUN_00a89af0((int)this);
+    ::FUN_00a89af0((intptr_t)this);
     unsigned int count = reinterpret_cast<::FUN_00a63460_shell *>((stream))->FUN_00a63460();
     if (count)
     {

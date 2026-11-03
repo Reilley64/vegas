@@ -16,7 +16,7 @@ public:
 // @fnv 0x00a5bdd0
 NiExtraData* NiAVObject::GetExtraData(const NiFixedString& key) {
  if (key.value == (*reinterpret_cast<::NiFixedString *>(&::DAT_0109b220)).value) return 0;
- EnterCriticalSection(&(*reinterpret_cast<char *>(&::DAT_011f4380)));
+ EnterCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&(*reinterpret_cast<char *>(&::DAT_011f4380))));
  short low = 0;
  short high = count - 1;
  short mid;
@@ -25,12 +25,12 @@ NiExtraData* NiAVObject::GetExtraData(const NiFixedString& key) {
   int diff = key.value;
   diff -= (*(const ::NiFixedString *)&(reinterpret_cast<::FUN_00a62660_cls *>((data[mid]))->FUN_00a62660())).value;
   if (diff == 0) {
-   LeaveCriticalSection(&(*reinterpret_cast<char *>(&::DAT_011f4380)));
+   LeaveCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&(*reinterpret_cast<char *>(&::DAT_011f4380))));
    return data[mid];
   }
   if (diff > 0) low = mid + 1;
   else high = mid - 1;
  }
- LeaveCriticalSection(&(*reinterpret_cast<char *>(&::DAT_011f4380)));
+ LeaveCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&(*reinterpret_cast<char *>(&::DAT_011f4380))));
  return 0;
 }

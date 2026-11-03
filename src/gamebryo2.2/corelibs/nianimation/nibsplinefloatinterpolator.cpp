@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nianimation/nibsplinefloatinterpolator.cpp: NiBSplineFloatInterpolator (12 functions)
 
+#include <cstdint>
 #include "fnv/decl/A57E90Controller.h"
 #include "fnv/decl/BA58200Sequence.h"
 #include "fnv/decl/FUN_00a57f20_cls.h"
@@ -79,7 +80,7 @@ bool IsInterpEqual(FInterpX* self, int, FInterpX* other)
 
 struct GlobalObjX
 {
-    int x;
+    intptr_t x;
 };
 // @fnv 0x00a50b70
 GlobalObjX* FUN_00a50b70()
@@ -161,7 +162,7 @@ struct Base
 struct FUN_00a50d30_shell : Base
 {
     float m_fFloatValue;
-    unsigned int m_kFloatCPHandle;
+    uintptr_t m_kFloatCPHandle;
 
     void SerializeToStrings(StrArr* strings);
 };
@@ -187,7 +188,7 @@ void FUN_00a50d30_shell::SerializeToStrings(StrArr* strings)
 
     reinterpret_cast<::fnv_00b5c7d0::StrArr *>((strings))->SetAt(index, value);
 
-    value = ::FUN_00a7d510("m_kFloatCPHandle", (unsigned int)(reinterpret_cast<char const*>(m_kFloatCPHandle)));
+    value = ::FUN_00a7d510("m_kFloatCPHandle", (uintptr_t)(reinterpret_cast<char const*>(m_kFloatCPHandle)));
 
     index = strings->m_usElementCount;
     if (index >= strings->m_usSize)
@@ -208,7 +209,7 @@ struct FUN_00a50ba0_cls
     float m0c;
     float m10;
     NiBSplineEvalTarget* m14;
-    unsigned int m18;
+    uintptr_t m18;
     float m1c;
     unsigned int m20;
     bool EvaluateAt(float v, unsigned int unused, float* out);

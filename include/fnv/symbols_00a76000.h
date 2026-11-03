@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 class NiImageConverter;
 struct Fmt;
@@ -16,7 +17,7 @@ namespace fnv_00a76b30 { void FUN_00a76b30(); }
 // 0x00a76b60
 namespace fnv_00a76b60 { void AssignImageConverter(::NiImageConverter *); }
 // 0x00a76d70
-void FUN_00a76d70(unsigned int, unsigned int, unsigned int, unsigned char *, unsigned int, const ::Fmt *, const unsigned char *, const ::Fmt *);
+void FUN_00a76d70(unsigned int, unsigned int, unsigned int, unsigned char *, uintptr_t, const ::Fmt *, const unsigned char *, const ::Fmt *);
 // 0x00a76e90
 void FUN_00a76e90(unsigned int, unsigned int, unsigned int, unsigned char *, const ::NiPalette *, const ::PixelFormatBitLayout &, const unsigned char *, const ::PixelFormatBitLayout &);
 // 0x00a76ea0

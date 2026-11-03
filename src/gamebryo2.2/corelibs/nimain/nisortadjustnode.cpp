@@ -6,6 +6,7 @@
 // @fnv 0x00a95310
 #include <new>
 #include "fnv/decl/FUN_00a5dbe0_shell.h"
+#include "fnv/symbols_00aa1000.h"
 #include "fnv/decl/FUN_00a5e930.h"
 #include "fnv/decl/FUN_00a645b0_cls.h"
 #include "fnv/decl/NiNodeEq.h"
@@ -141,7 +142,7 @@ unsigned char MyOther::FUN_00a952e0(MyOther* other)
     return (unsigned char)(*(int*)((char*)this + 0xac) == *(int*)((char*)other + 0xac));
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int);
+
 
 struct S_00a953b0_Node
 {

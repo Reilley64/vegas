@@ -153,10 +153,10 @@ struct SharedAccumulatorState
 bool SharedAccumulatorState::FUN_00b63b10(NiObject* object)
 {
     bool value = false;
-    EnterCriticalSection(&sharedLock);
+    EnterCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&sharedLock));
     const bool bFound = sharedObjects.GetAt(object, value);
     if (!bFound)
         sharedObjects.SetAt(object, true);
-    LeaveCriticalSection(&sharedLock);
+    LeaveCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&sharedLock));
     return !bFound;
 }

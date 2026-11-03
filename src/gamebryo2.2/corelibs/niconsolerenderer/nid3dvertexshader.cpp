@@ -1,6 +1,7 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <cstring>
 #include "fnv/decl/FUN_00e69970_shell.h"
 #include "fnv/symbols_00e92000.h"
@@ -19,7 +20,7 @@ struct FUN_00e89ac0_Class
     int unk18;
     int unk1c;
     int unk20;
-    int unk24;
+    intptr_t unk24;
     int unk28;
     int unk2c;
     int unk30;
@@ -37,7 +38,7 @@ void FUN_00e89ac0_Class::FUN_00e89ac0()
 
 
 // @fnv 0x00e89ad0
-void FUN_00e89ad0(int value)
+void FUN_00e89ad0(intptr_t value)
 {
     ::fnv_00e92ee0::FUN_00e92ee0((::fnv_00e92ee0::NiD3DVertexShader *)(value));
 }

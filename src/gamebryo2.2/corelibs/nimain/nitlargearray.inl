@@ -1,4 +1,5 @@
 
+#include <cstdint>
 #include "fnv/symbols_004ed000.h"
 #include "fnv/symbols_0096a000.h"
 #include "nitlargearray_decls.h"
@@ -21,13 +22,13 @@ TESTopicInfo* NiTLargeArray<TESTopicInfo*, NiTMallocInterface<TESTopicInfo*> >::
 // @fnv 0x00a64250
 void NiTLargeArray<unsigned int, NiTMallocInterface<unsigned int> >::RemoveAll()
 {
-    register NiTLargeArray<unsigned int, NiTMallocInterface<unsigned int> >* array = this;
-    register unsigned int index = 0;
+    NiTLargeArray<unsigned int, NiTMallocInterface<unsigned int> >* array = this;
+    unsigned int index = 0;
     if (array->m_uiSize > 0)
     do
     {
         unsigned int* slot = &array->m_pBase[index];
-        unsigned int value = *slot;
+        uintptr_t value = *slot;
         if (value)
         {
             NiRefObject* object = reinterpret_cast<NiRefObject*>(value);

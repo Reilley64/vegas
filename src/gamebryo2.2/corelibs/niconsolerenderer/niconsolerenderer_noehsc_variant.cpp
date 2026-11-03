@@ -4,6 +4,7 @@
 #include <cstdint>
 #include <new>
 #include <windows.h>
+#include "fnv/symbols_00aa1000.h"
 #include <cstring>
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/C_00e8f010.h"
@@ -690,7 +691,7 @@ struct S_00e69a20
     DepthDevice* dev;
     bool CreateDepthStencilBuffer(Ni2DBuffer* a, NiPixelFormat const* b, unsigned int c);
 };
-extern "C" char* __cdecl strcat_s(char* dest, unsigned int size, const char* src);
+
 struct FUN_00e69c00_shell
 {
     char pad[0x5cc];
@@ -2190,7 +2191,7 @@ struct FUN_00e69a60_obj20
 struct FUN_00e69a60_obj14
 {
 };
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 struct RendererListNode
 {
     void* m_pListObject;
@@ -4889,7 +4890,7 @@ struct ResourceParameters
     unsigned int unk08;
 };
 extern const char DAT_010edbb8[];
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 struct RendererBridge
 {
     RendererStateSlot* State(unsigned int idx)
@@ -14925,7 +14926,7 @@ struct FUN_00e759c0_cls
 extern "C" const char* FUN_00ee6e2e(void* pDevice);
 extern "C" const char* FUN_00ee6e28(void* pDevice);
 int __cdecl GetGlobalDataPtr() throw();
-void* __cdecl FUN_00aa13e0(unsigned int size) throw();
+
 
 struct ShaderName
 {

@@ -2,6 +2,7 @@
 // src/staging/blk_00c60000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstdint>
 #include <cstddef>
 #include <windows.h>
 #include <new>
@@ -10033,12 +10034,12 @@ class FUN_00c74990_cls
     unsigned int m_uiHashSize;
     FUN_00c74990_node** m_ppkHashTable;
     unsigned int m_uiCount;
-    bool LookupValue(unsigned int key, unsigned short* out);
+    bool LookupValue(uintptr_t key, unsigned short* out);
 };
 
 // Hashes the key, walks the bucket chain comparing keys, and writes the matching node's value to out, returning whether a match was found.
 // @fnv 0x00c74990
-bool FUN_00c74990_cls::LookupValue(unsigned int key, unsigned short* pusValue)
+bool FUN_00c74990_cls::LookupValue(uintptr_t key, unsigned short* pusValue)
 {
     unsigned int idx = KeyToHashIndex(key);
     FUN_00c74990_node* cur = m_ppkHashTable[idx];

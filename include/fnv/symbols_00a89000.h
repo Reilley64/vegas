@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 #include <cstdint>
 
@@ -16,6 +17,6 @@ void FUN_00a897c0(::TriGeomViewerDetail::EntryArray *);
 // 0x00a89890
 namespace fnv_00a89890 { void ReleaseAllRefs(::fnv_00a89890::ArrStub *); }
 // 0x00a89af0
-void FUN_00a89af0(std::intptr_t);
+void FUN_00a89af0(intptr_t);
 // 0x00a89b80
 void *CreateNiExtraData();

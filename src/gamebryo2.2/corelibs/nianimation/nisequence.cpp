@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nianimation/nisequence.cpp: AHSeqOwner (5 functions)
 
+#include <cstdint>
 #include <windows.h>
 // src/gamebryo2.2/corelibs/nianimation/nisequence.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/nisequence.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
@@ -120,7 +121,7 @@ struct FUN_00a47470_cls
 // @fnv 0x00a47ae0
 void S_00a47ae0_Obj::CopyFromSource(S_00a47ae0_Src* pSource) throw()
 {
-    ::FUN_00a89af0((int)this);
+    ::FUN_00a89af0((intptr_t)this);
     ptr = ((::S_00a47ae0_Rc *)(reinterpret_cast<::NiStream *>((pSource))->GetLoadedObject()));
     unsigned int n = count;
     reinterpret_cast<::NiTObjectArrayA47 *>(&(arr))->FUN_00a47770(n);

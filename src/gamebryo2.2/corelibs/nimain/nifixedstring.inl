@@ -1,4 +1,5 @@
 
+#include <cstdint>
 #include "fnv/decl/FGOwner.h"
 #include "fnv/decl/FUN_004048e0_cls.h"
 #include "fnv/decl/FUN_0061cc40_shell.h"
@@ -53,13 +54,13 @@ bool BSFaceGenModel::ApplyTextureCoordinate(FaceGenCoordinates* coord, NiPointer
     if (!coord)
         return false;
     FUN_00652140();
-    if (!::fnv_00652040::FUN_00652040((int)(this))) {
+    if (!::fnv_00652040::FUN_00652040((intptr_t)(this))) {
         if (!m_kTextureSlots->m_pTextureData) {
             if (!((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((m_kTextureSlots))->FUN_004048e0()))) {
                 ::fnv_00652190::FUN_00652190();
                 return false;
             }
-            m_kTextureSlots->m_pTextureData = FUN_00659780(((const char *)(::FUN_00559450((int *)&(m_kTextureSlots->m_kEGTFileName)))));
+            m_kTextureSlots->m_pTextureData = FUN_00659780((*(const char **)&(m_kTextureSlots->m_kEGTFileName)));
         }
         if (!m_kTextureSlots->m_pTextureData) {
             ::fnv_00652190::FUN_00652190();
@@ -82,7 +83,7 @@ bool BSFaceGenModel::ApplyTextureCoordinate(FaceGenCoordinates* coord, NiPointer
     }
     unsigned int uiBasis;
     for (uiBasis = 0; uiBasis < 2; ++uiBasis) {
-        if (reinterpret_cast<unsigned int>(((::NiNode *)(reinterpret_cast<::FUN_009611e0_shell *>((reinterpret_cast<NiAVObject*>(&coord->basis[uiBasis])))->FUN_009611e0()))) < ((unsigned int)(reinterpret_cast<::FUN_0065cea0_class *>(&(m_kTextureSlots->m_pTextureData->basis[uiBasis]))->FUN_0065cea0()))) {
+        if (reinterpret_cast<uintptr_t>(((::NiNode *)(reinterpret_cast<::FUN_009611e0_shell *>((reinterpret_cast<NiAVObject*>(&coord->basis[uiBasis])))->FUN_009611e0()))) < ((unsigned int)(reinterpret_cast<::FUN_0065cea0_class *>(&(m_kTextureSlots->m_pTextureData->basis[uiBasis]))->FUN_0065cea0()))) {
             ::FUN_005b5e40();
             ::fnv_00652190::FUN_00652190();
             return false;
@@ -98,7 +99,7 @@ bool BSFaceGenModel::ApplyTextureCoordinate(FaceGenCoordinates* coord, NiPointer
     // These scalar accessors were linker-folded with the canonical TESRecipe
     // setters. Their established decorated bindings must be retained.
     FaceGenImage* uiOutHeight = ((::FaceGenImage *)(reinterpret_cast<::FGOwner *>((reinterpret_cast<FaceGenImage*>(static_cast<NiTexture*>(spTexture))))->GetOrConvertImage()));
-    reinterpret_cast<::FUN_0064db50_class *>((uiOutHeight))->FUN_0064db50(kColor * uiHeight, (int)(&kView));
+    reinterpret_cast<::FUN_0064db50_class *>((uiOutHeight))->FUN_0064db50(kColor * uiHeight, (intptr_t)(&kView));
     unsigned int uiRenderPassIndex = kColor; // output width
     unsigned int piAccum = uiHeight; // output height
     int* uiOutWidth = new int[kColor * uiHeight * 3]; // RGB accumulation buffer

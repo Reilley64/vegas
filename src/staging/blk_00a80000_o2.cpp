@@ -2537,7 +2537,7 @@ struct SdmBase {
 
 // Looks up pKey's value in the global hash table's bucket chain and returns the matching node's stored value, or 0 if not found.
 // @fnv 0x00a8fe20
-unsigned int __cdecl FUN_00a8fe20(unsigned int* pKey)
+uintptr_t __cdecl FUN_00a8fe20(unsigned int* pKey)
 {
     unsigned int key = *pKey;
     if (key == (unsigned int)(*reinterpret_cast<void * *>(&::DAT_0109b220))) goto zero;
@@ -2957,7 +2957,7 @@ void __cdecl FUN_00a88a40()
 
 // 0x00a89af0  ret 4
 // @fnv 0x00a89af0
-void FUN_00a89af0(int) {
+void FUN_00a89af0(intptr_t) {
 }
 
 struct S_00a8d8b0;

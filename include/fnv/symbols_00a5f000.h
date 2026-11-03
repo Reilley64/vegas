@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 namespace fnv_00a5ff10 { struct OwnerTriple; }
 namespace fnv_00a5ff10 { struct RefCounted; }
@@ -15,7 +16,7 @@ char *BuildSourceString(const char *, int);
 // 0x00a5f280
 ::NiProperty *FUN_00a5f280();
 // 0x00a5f7b0
-void FUN_00a5f7b0(int);
+void FUN_00a5f7b0(intptr_t);
 // 0x00a5f800
 void FUN_00a5f800(::TextureListView *);
 // 0x00a5fe30

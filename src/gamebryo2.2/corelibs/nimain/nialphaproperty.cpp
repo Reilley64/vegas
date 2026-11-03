@@ -1,6 +1,7 @@
 // gamebryo2.2/corelibs/nimain/nialphaproperty.cpp: NiAlphaProperty (12 functions)
 
 #include <windows.h>
+#include "fnv/symbols_00aa1000.h"
 #include <new>
 #include <cstring>
 #include "fnv/decl/FUN_00a5c200.h"
@@ -478,7 +479,7 @@ void __cdecl FUN_00a99e40()
     ::FUN_00a62130({}, {}, {});
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 
 struct S00a5ce30_cls
 {

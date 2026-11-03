@@ -1,6 +1,7 @@
 // src/gamebryo2.2/corelibs/niparticle/nipsysfieldmagnitudectlr.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/niparticle/nipsysfieldmagnitudectlr.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/decl/NiPSysAirFieldAirFrictionCtlr.h"
 #include "fnv/decl/ViewerStrings.h"
 #include "fnv/decl/fnv_00b5c7d0__StrArr.h"
@@ -37,7 +38,7 @@ struct NiPSysFieldMagnitudeCtlr_shell : NiPSysFieldMagnitudeCtlr
 // @fnv 0x00c2b150
 void NiPSysFieldMagnitudeCtlr_shell::FUN_00c2b150(float value)
 {
-    ((float*)*(int*)((char*)this + 0x3c))[7] = value;
+    ((float*)*(intptr_t*)((char*)this + 0x3c))[7] = value;
 }
 
 struct StrArr
@@ -78,11 +79,11 @@ struct Node : Base
 
 struct Owner
 {
-    Node* FUN_00c2b160(int arg);
+    Node* FUN_00c2b160(intptr_t arg);
 };
 
 // @fnv 0x00c2b160
-Node* Owner::FUN_00c2b160(int arg)
+Node* Owner::FUN_00c2b160(intptr_t arg)
 {
     Node* node = new Node();
     reinterpret_cast<::NiPSysAirFieldAirFrictionCtlr *>(this)->CopyMemberData((::NiPSysAirFieldAirFrictionCtlr *)(node), (*(::CloningProcess *)(arg)));

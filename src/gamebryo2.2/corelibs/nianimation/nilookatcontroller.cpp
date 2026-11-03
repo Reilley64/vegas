@@ -4,6 +4,7 @@
 
 
 // @fnv 0x00a4cd30
+#include <cstdint>
 #include <new>
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/FUN_004a0c10_s.h"
@@ -153,7 +154,7 @@ struct S00a4c860
 // @fnv 0x00a4c860
 bool S00a4c860::FUN_00a4c860(NiStream& s)
 {
-    if (!::FUN_00a6d0f0((::TCReg *)(((TCReg*)this)), (int)&(s), *(::NiStream *)nullptr))
+    if (!::FUN_00a6d0f0((::TCReg *)(((TCReg*)this)), (intptr_t)&(s), *(::NiStream *)nullptr))
         return false;
     if (m)
         m->v21(s);
@@ -831,7 +832,7 @@ struct Eq4c
 // @fnv 0x00a4c890
 bool Eq4c::FUN_00a4c890(Eq4c* other)
 {
-    if (!::FUN_00a6cc80((::TCEq *)this, (int)(other), {}))
+    if (!::FUN_00a6cc80((::TCEq *)this, (intptr_t)(other), {}))
         return false;
     if ((m_spObj && !other->m_spObj) || (!m_spObj && other->m_spObj))
         return false;

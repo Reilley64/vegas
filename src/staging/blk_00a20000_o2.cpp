@@ -2,6 +2,7 @@
 // src/staging/blk_00a20000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstdint>
 #include <cstddef>
 #include <windows.h>
 #include <new>
@@ -1436,11 +1437,11 @@ struct FUN_00a29550_owner {
 };
 
 // @fnv 0x00a29550
-int __cdecl FUN_00a29550(int apOwner, int a2) {
+int __cdecl FUN_00a29550(intptr_t apOwner, intptr_t a2) {
     FUN_00a29550_stream* s = reinterpret_cast<FUN_00a29550_owner*>(apOwner)->m_250;
     FUN_00a29550_fn fn = s->m_0c;
-    apOwner = 1;
-    int r = fn(s, a2, 1, &apOwner, 1);
+    int count = 1;
+    int r = fn(s, a2, 1, &count, 1);
     s->m_04 += r;
     return r;
 }
@@ -4118,7 +4119,7 @@ struct AnimSink {
 
 class FUN_00a3da20_cls {
 public:
-    void AccumulateAnimSink(int a1);
+    void AccumulateAnimSink(intptr_t a1);
 };
 // @fnv 0x00a27430
 void FUN_00a27430_T::FUN_00a27430(NiStream& stream)
@@ -4129,12 +4130,12 @@ void FUN_00a27430_T::FUN_00a27430(NiStream& stream)
 
 // Calls the sink's callback with count 4 and adds its return value to the sink's m_04 counter.
 // @fnv 0x00a3da20
-void FUN_00a3da20_cls::AccumulateAnimSink(int a1)
+void FUN_00a3da20_cls::AccumulateAnimSink(intptr_t a1)
 {
     AnimSink* sink = *(AnimSink**)((char*)a1 + 0x24c);
     int (__cdecl *fn)(AnimSink*, void*, int, int*, int) = sink->m_08;
-    a1 = 4;
-    sink->m_04 += fn(sink, this, 4, &a1, 1);
+    int count = 4;
+    sink->m_04 += fn(sink, this, 4, &count, 1);
 }
 
 struct FUN_00a3da50_Anim {
@@ -4297,7 +4298,7 @@ struct FUN_00a3da50_Owner {
 };
 
 // @fnv 0x00a3da50
-int __cdecl CallAnimCallback(FUN_00a3da50_Owner *pOwner, int iIndex)
+int __cdecl CallAnimCallback(FUN_00a3da50_Owner *pOwner, intptr_t iIndex)
 {
     int iOut;
     FUN_00a3da50_Anim *pAnim = pOwner->m_pAnim;

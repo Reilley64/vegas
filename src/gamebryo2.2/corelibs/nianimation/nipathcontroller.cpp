@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/nianimation/nipathcontroller.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/nipathcontroller.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <windows.h>
 #include <new>
 #include <cmath>
@@ -70,7 +71,7 @@ void* FUN_00a49e10_shell::InvokeIndexedCallback(void* a1, int iIndexA, int iInde
         base = 0;
         sz = 0;
     }
-    (*reinterpret_cast<void (**[])(float, const AnimationKey *, const AnimationKey *, void *)>(&::DAT_011f3ca8))[idx](fValue, (AnimationKey const*)((char const*)base + (unsigned)sz * (unsigned)iIndexA),
+    (*reinterpret_cast<void (*(*)[])(float, const AnimationKey *, const AnimationKey *, void *)>(&::DAT_011f3ca8))[idx](fValue, (AnimationKey const*)((char const*)base + (unsigned)sz * (unsigned)iIndexA),
                       (AnimationKey const*)((char const*)base + (unsigned)sz * (unsigned)iIndexB), a1);
     return a1;
 }
@@ -222,7 +223,7 @@ struct NiPathController : public Base40
 // @fnv 0x00a49cc0
 bool NiPathController::FUN_00a49cc0(NiStream& kStream)
 {
-    if (!::FUN_00a6d0f0((::TCReg *)this, (int)&(kStream), *(::NiStream *)nullptr))
+    if (!::FUN_00a6d0f0((::TCReg *)this, (intptr_t)&(kStream), *(::NiStream *)nullptr))
         return false;
     FakeObj* pkPath = m_pPathObject;
     if (pkPath)
@@ -310,7 +311,7 @@ void S_00a4aeb0_Controller::LoadFromStream(S_00a4aeb0_Stream& kStream)
     kStream.FUN_00a4aeb0_v12(*reinterpret_cast<int*>(controller + 0x44));
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int size) throw();
+
 extern int DAT_0109893c;
 
 struct SpawnedObject
@@ -702,7 +703,7 @@ float FUN_00a4a610_shell::GetKeyDerivativeLength(unsigned int uiKey1, unsigned i
     }
 
     NiPoint3A4A6 kDeriv;
-    (*reinterpret_cast<void (**[])(float, const AnimationKey *, const AnimationKey *, void *)>(&::DAT_011f3c18))[uiRequestType](fTime, (AnimationKey*)((char*)pkKeys + uiKey1 * ucSize),
+    (*reinterpret_cast<void (*(*)[])(float, const AnimationKey *, const AnimationKey *, void *)>(&::DAT_011f3c18))[uiRequestType](fTime, (AnimationKey*)((char*)pkKeys + uiKey1 * ucSize),
                                 (AnimationKey*)((char*)pkKeys + uiKey2 * ucSize), &kDeriv);
     float fLengthSquared = kDeriv.x * kDeriv.x + kDeriv.y * kDeriv.y + kDeriv.z * kDeriv.z;
     return (float)sqrt(fLengthSquared);
@@ -778,7 +779,7 @@ struct PathObject : PathBase
 };
 struct PathShell
 {
-    PathObject* CreatePathObject(int value);
+    PathObject* CreatePathObject(intptr_t value);
 };
 #include <string.h>
 struct NiObject
@@ -866,7 +867,7 @@ struct NiPathControllerStub : NiTimeControllerStub
 // @fnv 0x00a4a710
 bool NiPathControllerStub::FUN_00a4a710(NiObject* pkObject)
 {
-    if (!::FUN_00a6cc80((::TCEq *)this, (int)(pkObject), {}))
+    if (!::FUN_00a6cc80((::TCEq *)this, (intptr_t)(pkObject), {}))
         return false;
 
     NiPathControllerStub* pkOther = (NiPathControllerStub*)pkObject;
@@ -888,7 +889,7 @@ bool NiPathControllerStub::FUN_00a4a710(NiObject* pkObject)
         unsigned int ItemUpdateArray;
         int c;
         unsigned char d;
-        ::fnv_00a49d00::GetRotKeyData((::NiRotData *)this, (int)(&a), (::fnv_00a49d00::TimedRotationKey **)(unsigned int *)(&ItemUpdateArray), &c, (int *)(unsigned char *)(&d), {});
+        ::fnv_00a49d00::GetRotKeyData((::NiRotData *)this, (intptr_t)(&a), (::fnv_00a49d00::TimedRotationKey **)(unsigned int *)(&ItemUpdateArray), &c, (int *)(unsigned char *)(&d), {});
         if (memcmp(pkLengths, pkOther->m_pkPartLengths, ItemUpdateArray * sizeof(unsigned int)) != 0)
             return false;
     }
@@ -1017,7 +1018,7 @@ void FUN_00a4adc0_cls::SetSpawnedArgs(SpawnedArg* apSpawnedArg)
         SampleData sample = {t->m_10, t->m_0c};
         if (count > 0)
         {
-            float(__cdecl * pfnSample)(const void*, unsigned int) = (*reinterpret_cast<float (**[])(const void *, unsigned int)>(&::DAT_011f3d38))[sample.index];
+            float(__cdecl * pfnSample)(const void*, unsigned int) = (*reinterpret_cast<float (*(*)[])(const void *, unsigned int)>(&::DAT_011f3d38))[sample.index];
             m_5c = pfnSample(sample.value, count);
         }
     }
@@ -1143,7 +1144,7 @@ struct PathCtl : CloneableObj
 };
 // Allocates and initializes a PathObject, then calls FUN_00a4b0b0 with the given value and returns the new object or null.
 // @fnv 0x00a4b330
-PathObject* PathShell::CreatePathObject(int value)
+PathObject* PathShell::CreatePathObject(intptr_t value)
 {
     PathObject* object = (PathObject*)FUN_00aa13e0(0x64);
     PathObject* result;

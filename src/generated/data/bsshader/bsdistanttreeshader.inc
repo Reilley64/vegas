@@ -7,4 +7,4 @@
 unsigned char DAT_011f91c4;
 ::NiGeometry **DAT_011f91e0;
 unsigned int DAT_012007b8;
-int DAT_0126f74c;
+intptr_t DAT_0126f74c;

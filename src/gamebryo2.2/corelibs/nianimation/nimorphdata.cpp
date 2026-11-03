@@ -5,6 +5,7 @@
 
 // Returns the address of the global g_011f3e74.
 // @fnv 0x00a415e0
+#include <cstdint>
 #include <windows.h>
 #include "fnv/decl/A5D6E0This.h"
 #include "fnv/decl/A5d470Class.h"
@@ -165,7 +166,7 @@ typedef int(* ReleaseFn_b9415)(int p);
 class FUN_00a41610_cls
 {
   public:
-    int m_00;
+    intptr_t m_00;
     int m_04;
     int m_08;
     RefItem_b9415* m_0c;
@@ -180,7 +181,7 @@ void FUN_00a41610_cls::ReleaseResources()
     RefItem_b9415* pRefItem = m_0c;
     if (pRefItem != 0)
     {
-        if (pfnRelease((int)&pRefItem->m_refs) == 0)
+        if (pfnRelease((intptr_t)&pRefItem->m_refs) == 0)
             pRefItem->Delete();
     }
     if (m_04 != (*reinterpret_cast<int *>(&::DAT_0109b220)))
@@ -476,7 +477,7 @@ struct NiStreamM
     int unk240;
     int unk244;
     int unk248;
-    int unk24C;
+    intptr_t unk24C;
     NiBinaryStream* m_pBackingStream;
 
 };
@@ -540,7 +541,7 @@ struct NiMorphDataX : NiObjBase
 // @fnv 0x00a41d90
 void NiMorphDataX::FUN_00a41d90(NiStreamM& kStream)
 {
-    ::FUN_00a89af0((int)this);
+    ::FUN_00a89af0((intptr_t)this);
     SerializeValue(kStream, m_uiNumTargets);
     SerializeValue(kStream, m_uiNumVertsPerTarget);
     char cRelative = m_bTargetsAreRelative;
@@ -633,10 +634,10 @@ struct NiMorphDataV : NiObjectBase
 void NiMorphDataV::AppendToStrings(ViewerStrings* pkStrings)
 {
     reinterpret_cast<::A5D6E0This *>(this)->AppendCameraPathEntries((::NiTArray< ::BGSCameraPath *, ::NiTMallocInterface< ::BGSCameraPath *>> *)(pkStrings));
-    reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((int)&(const char *const &)(FUN_00a7d330((const char*)(*reinterpret_cast<void * *>(&::g_011f3e74)))));
-    reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((int)&(const char *const &)(FUN_00a7d510("m_uiNumTargets", m_uiNumTargets)));
-    reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((int)&(const char *const &)(FUN_00a7d510("m_uiNumVertsPerTarget", m_uiNumVertsPerTarget)));
-    reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((int)&(const char *const &)(FUN_00a7d330("MorphTargets")));
+    reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((intptr_t)&(const char *const &)(FUN_00a7d330((const char*)(*reinterpret_cast<void * *>(&::g_011f3e74)))));
+    reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((intptr_t)&(const char *const &)(FUN_00a7d510("m_uiNumTargets", m_uiNumTargets)));
+    reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((intptr_t)&(const char *const &)(FUN_00a7d510("m_uiNumVertsPerTarget", m_uiNumVertsPerTarget)));
+    reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((intptr_t)&(const char *const &)(FUN_00a7d330("MorphTargets")));
     for (unsigned int i = 0; i < m_uiNumTargets; i++)
         pkStrings->AddInl(::fnv_00a7d5e0::FUN_00a7d5e0("m_pcName", GetTarget(i)->GetName()));
 }

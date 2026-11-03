@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nimain/nitribasedgeomdata.cpp: NiTriBasedGeomData (12 functions)
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/FUN_00a67c00.h"
 #include "fnv/decl/GeomData.h"
@@ -210,7 +211,7 @@ unsigned char S_00a8a9c0::MatchesTriangleCount(const S_00a8a9c0_Base* pkObject)
 
 struct FUN_00a8aa00_cls
 {
-    int m_vptr;
+    intptr_t m_vptr;
     int unk04;
     unsigned int unk08;
     unsigned int unk0c;
@@ -236,7 +237,7 @@ struct FUN_00a8aa00_cls
 // @fnv 0x00a8aa00
 FUN_00a8aa00_cls* FUN_00a8aa00_cls::Destroy(unsigned char acFlags)
 {
-    m_vptr = (int)&DAT_0109f2f4;
+    m_vptr = (intptr_t)&DAT_0109f2f4;
     reinterpret_cast<::fnv_00a67c70::FUN_00a67c70_shell *>(this)->DestroyGeometryData();
     if (acFlags & 1)
     {

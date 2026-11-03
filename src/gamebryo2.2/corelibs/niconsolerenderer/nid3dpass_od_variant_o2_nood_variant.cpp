@@ -808,11 +808,11 @@ class FUN_00b7c750_cls
     unsigned int unk14;
     S00b7c750_Camera* m_pkAccumulationCamera;
 
-    long FUN_00b7c750(std::uintptr_t uiUnused, unsigned int auiCameraValue);
+    long FUN_00b7c750(uintptr_t uiUnused, uintptr_t auiCameraValue);
 };
 
 // @fnv 0x00b7c750
-long FUN_00b7c750_cls::FUN_00b7c750(std::uintptr_t uiUnused, unsigned int auiCameraValue)
+long FUN_00b7c750_cls::FUN_00b7c750(uintptr_t uiUnused, uintptr_t auiCameraValue)
 {
     reinterpret_cast<::XRenderer *>((m_pkAccumulationCamera))->FUN_00e6fbb0((*(const ::XTransform *)(auiCameraValue)), 0);
     S00b7c750_Matrix kViewProj;

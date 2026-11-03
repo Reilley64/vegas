@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/nisystem/bsniallocator.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nisystem/bsniallocator.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <cstring>
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_00aa4200_Helper.h"
@@ -92,7 +93,7 @@ char* ResizeHeapBlock(char* pBlock, int* pSize, unsigned char* pAdjust, int eTyp
             unsigned char ucHeader = (unsigned char)pBlock[-1];
             char* base = pBlock - ucHeader;
             char* r = ((char *)(reinterpret_cast<::MemoryManager *>((heap))->Reallocate(base, ucAdjust + sz)));
-            unsigned char adj = ucAdjust - (unsigned char)((ucAdjust - 1) & (unsigned char)(unsigned long)r);
+            unsigned char adj = ucAdjust - (unsigned char)((ucAdjust - 1) & (unsigned char)(uintptr_t)r);
             r += adj;
             r[-1] = (char)adj;
             return r;
@@ -110,22 +111,22 @@ struct NiAllocGlobal
 
 
 // @fnv 0x00aa2370
-unsigned int AllocateAlignedBuffer(unsigned int* puiSize, unsigned char* pucAlignByte, int aiAlignMode,
-                                             int aiUnused, int a5, int a6, int a7)
+uintptr_t AllocateAlignedBuffer(unsigned int* puiSize, unsigned char* pucAlignByte, int aiAlignMode,
+                                             int aiUnused, intptr_t a5, int a6, intptr_t a7)
 {
-    unsigned int r;
+    uintptr_t r;
     if (aiAlignMode == 0xd)
     {
         unsigned int uiSize = *puiSize;
         unsigned char ucAlignByte = *pucAlignByte;
-        unsigned int base = ((unsigned int)(reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::NiAllocGlobal *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize + ucAlignByte)));
+        uintptr_t base = ((uintptr_t)(reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::NiAllocGlobal *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize + ucAlignByte)));
         unsigned char adj = (unsigned char)(ucAlignByte - ((ucAlignByte - 1) & (unsigned char)base));
         *(unsigned char*)(base + adj - 1) = adj;
         r = base + adj;
     }
     else
     {
-        r = ((unsigned int)(reinterpret_cast<::MemoryManager *>(&((*reinterpret_cast<::NiAllocGlobal *>(&::g_memoryManager))))->Allocate(*puiSize, (const char *)(a5), a6, (const char *)(a7))));
+        r = ((uintptr_t)(reinterpret_cast<::MemoryManager *>(&((*reinterpret_cast<::NiAllocGlobal *>(&::g_memoryManager))))->Allocate(*puiSize, (const char *)(a5), a6, (const char *)(a7))));
     }
     std::memset((void *)(r), 0, *puiSize);
     return r;
@@ -162,7 +163,7 @@ void* AllocateZeroedMemory(unsigned int& stSizeInBytes, unsigned int& stAlignmen
         unsigned int stSize = stSizeInBytes;
         unsigned char ucAlignment = (unsigned char)stAlignment;
         char* pcMem = (char*)reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::MemoryManagerAA2 *>(&::g_memoryManager))))->FUN_00aa3e40(stSize + ucAlignment);
-        unsigned char ucOffset = ucAlignment - ((ucAlignment - 1) & (unsigned char)(unsigned int)pcMem);
+        unsigned char ucOffset = ucAlignment - ((ucAlignment - 1) & (unsigned char)(uintptr_t)pcMem);
         pcMem += ucOffset;
         pcMem[-1] = ucOffset;
         pvMem = pcMem;
@@ -194,12 +195,12 @@ void* FUN_00aa2420(void* pvMem, unsigned int& uiSize, unsigned char& ucAlignment
         {
             char* pcBase = (char*)pvMem - ((unsigned char*)pvMem)[-1];
             char* pcNew = (char*)reinterpret_cast<::MemoryManager *>(&((*reinterpret_cast<::BAA2420MemoryManager *>(&::g_memoryManager))))->Reallocate(pcBase, ucAlign + uiNewSize);
-            unsigned char ucOffset = ucAlign - ((ucAlign - 1) & (unsigned char)(unsigned int)pcNew);
+            unsigned char ucOffset = ucAlign - ((ucAlign - 1) & (unsigned char)(uintptr_t)pcNew);
             pcNew += ucOffset;
             pcNew[-1] = ucOffset;
             return pcNew;
         }
         return 0;
     }
-    return reinterpret_cast<::FUN_00aa4200_Helper *>(&((*reinterpret_cast<::BAA2420MemoryManager *>(&::g_memoryManager))))->FUN_00aa4200(pvMem, uiSize, (unsigned int)(pcFile), iLine, (unsigned int)(pcFunction));
+    return reinterpret_cast<::FUN_00aa4200_Helper *>(&((*reinterpret_cast<::BAA2420MemoryManager *>(&::g_memoryManager))))->FUN_00aa4200(pvMem, uiSize, (uintptr_t)(pcFile), iLine, (uintptr_t)(pcFunction));
 }

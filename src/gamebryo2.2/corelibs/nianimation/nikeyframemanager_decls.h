@@ -2,6 +2,7 @@
 #ifndef NIKEYFRAMEMANAGER_DECLS_H
 #define NIKEYFRAMEMANAGER_DECLS_H
 
+#include <cstdint>
 #include "fnv/decl/Twin_0044ddc0.h"
 class GlobalObject_00869f00
 {
@@ -19,7 +20,7 @@ template <class T> class NiPointer
 class NiGeomMorpherController
 {
   public:
-    unsigned int GetNumTargets() const;
+    uintptr_t GetNumTargets() const;
 
   private:
     unsigned char m_controllerData[0x38];

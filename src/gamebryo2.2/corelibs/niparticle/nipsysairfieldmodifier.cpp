@@ -4,6 +4,7 @@
 
 
 // @fnv 0x00c2f590
+#include <cstdint>
 #include <new>
 #include "fnv/decl/C32060EmitterModifier.h"
 #include "fnv/decl/FUN_004a0c10_s.h"
@@ -289,7 +290,7 @@ struct NiStream
     int unk240;
     int unk244;
     int unk248;
-    int unk24C;
+    intptr_t unk24C;
     NiBinaryStream* m_pBackingStream;
 };
 

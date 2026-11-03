@@ -2,6 +2,7 @@
 // src/havok/common/base/memory/system/freelist/hkfreelistmemorysystem.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/memory/system/freelist/hkfreelistmemorysystem.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/FUN_00cbbfa0_class.h"
 #include "fnv/decl/FUN_00cbf1a0_cls.h"
@@ -24,10 +25,10 @@
 #include "fnv/symbols_010ca000.h"
 struct FUN_00cd06c0_t
 {
-    void FUN_00cd06c0(int v);
+    void FUN_00cd06c0(intptr_t v);
 };
 // @fnv 0x00cd06c0
-void FUN_00cd06c0_t::FUN_00cd06c0(int v)
+void FUN_00cd06c0_t::FUN_00cd06c0(intptr_t v)
 {
     *(int*)((char*)this + 4) = v;
     *(int*)((char*)this + 0x18) = v;

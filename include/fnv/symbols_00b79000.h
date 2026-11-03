@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 #include <cstdint>
 
@@ -28,7 +29,7 @@ void FUN_00b798c0(const float *);
 // 0x00b79930
 void FUN_00b79930(::NiD3DPass **);
 // 0x00b79950
-void FUN_00b79950(char *, int, ::NiRefObject *);
+void FUN_00b79950(char *, intptr_t, ::NiRefObject *);
 // 0x00b799a0
 void FUN_00b799a0(float *, const char *);
 // 0x00b79a60

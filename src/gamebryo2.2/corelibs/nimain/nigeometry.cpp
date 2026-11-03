@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nimain/nigeometry.cpp: NiGeometry, NiAVObject, GeomStub, ViewerGeometry and more (23 functions)
 
+#include <cstdint>
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/A5a260Object.h"
 #include "fnv/decl/AVObjectA5A4.h"
@@ -100,7 +101,7 @@ void NiGeometry::ReplaceModelData(NiGeometryData* data)
 // @fnv 0x00a80820
 void NiGeometry::UpdatePropertiesDownwardPass(NiPropertyState* state)
 {
-    reinterpret_cast<::FUN_00a5a140_cls *>(this)->FUN_00a5a140((int)(state));
+    reinterpret_cast<::FUN_00a5a140_cls *>(this)->FUN_00a5a140((intptr_t)(state));
     reinterpret_cast<::FUN_0040fbf0_shell *>((((RecursiveSpinLock*)0x011f42a0)))->FUN_0040fbf0((char *)(0));
     NiPropertyState* propertyState = (NiPropertyState*)((char*)this + 0x9c);
     *propertyState = *state;
@@ -164,7 +165,7 @@ void NiGeometry::UpdateWorldBound()
         unsigned int savedFlags = flags;
         if ((unsigned char)(savedFlags >> 22) & 1)
         {
-            if (((bool)(::FUN_00a92660((const float *)(m_worldBound), (int)&(previous), {}))))
+            if (((bool)(::FUN_00a92660((const float *)(m_worldBound), (intptr_t)&(previous), {}))))
                 savedFlags |= 0x400000;
             else
                 savedFlags &= ~0x400000;
@@ -193,16 +194,16 @@ void NiGeometry::ProcessClone(CloningProcess& process)
         }
     }
     NiD3DShaderInterface* shader = 0;
-    if ((unsigned int)m_shader != (unsigned int)shader)
+    if ((uintptr_t)m_shader != (uintptr_t)shader)
     {
         unsigned char exactType = NiIsExactKindOf(&(*reinterpret_cast<::NiRTTI *>(&::g_011f5d08)), m_shader);
-        if (exactType != (unsigned char)(unsigned int)shader)
+        if (exactType != (unsigned char)(uintptr_t)shader)
         {
             void* memory = ::operator new(sizeof(NiD3DShaderInterface));
-            if ((unsigned int)memory != (unsigned int)shader)
+            if ((uintptr_t)memory != (uintptr_t)shader)
                 shader = new (memory) NiD3DShaderInterface;
-            ::AssignFixedString((char *)(((NiAVObject*)shader)), (int)&((*(const ::NiFixedString *)&(reinterpret_cast<::FUN_00a62660_cls *>((((NiTexture*)m_shader)))->FUN_00a62660()))), {});
-            reinterpret_cast<::BA3760Object *>((((NonActorMagicCaster*)shader)))->FUN_00ba3760((int)((MagicItem*)((const char *)(reinterpret_cast<::Dummy_00cc0760 *>((((NiD3DShaderProgram*)m_shader)))->FUN_00cc0760()))));
+            ::AssignFixedString((char *)(((NiAVObject*)shader)), (intptr_t)&((*(const ::NiFixedString *)&(reinterpret_cast<::FUN_00a62660_cls *>((((NiTexture*)m_shader)))->FUN_00a62660()))), {});
+            reinterpret_cast<::BA3760Object *>((((NonActorMagicCaster*)shader)))->FUN_00ba3760((intptr_t)((MagicItem*)((const char *)(reinterpret_cast<::Dummy_00cc0760 *>((((NiD3DShaderProgram*)m_shader)))->FUN_00cc0760()))));
             geometryClone->m_shader = shader;
         }
         else
@@ -212,7 +213,7 @@ void NiGeometry::ProcessClone(CloningProcess& process)
             reinterpret_cast<::FUN_0040fbf0_shell *>((((RecursiveSpinLock*)0x011f42a0)))->FUN_0040fbf0((char *)((const char*)shader));
             geometryClone->ApplyPropertyState(*(NiPropertyState*)((char*)this + 0x9c));
             if (--DAT_011f42a4 == 0)
-                DAT_011f42a0 = (unsigned int)shader;
+                DAT_011f42a0 = (uintptr_t)shader;
         }
     }
 }
@@ -235,7 +236,7 @@ struct DummyController
     {
         for (DummyController* pkCtrl = this; pkCtrl != 0; pkCtrl = *(DummyController**)((char*)pkCtrl + 0x30))
         {
-            (*(void(**)(DummyController*))(*(int*)pkCtrl + 0xa8))(pkCtrl);
+            (*(void(**)(DummyController*))(*(intptr_t*)pkCtrl + 0xa8))(pkCtrl);
         }
     }
 };
@@ -277,7 +278,7 @@ void FUN_00a80650_shell::FUN_00a80650(NiRenderer* pkRenderer)
     void* pNode = this->unk0c;
     while (pNode)
     {
-        (*(void(**)(void*))(*(int*)pNode + 0xA8))(pNode);
+        (*(void(**)(void*))(*(intptr_t*)pNode + 0xA8))(pNode);
         pNode = *(void**)((char*)pNode + 0x30);
     }
 }
@@ -1429,11 +1430,11 @@ void GeometryStub::FUN_00a80db0(StreamStub& stream)
 class NiObjectNET_stub
 {
   public:
-    void FUN_00a7fdc0(int);
+    void FUN_00a7fdc0(intptr_t);
 };
 
 // @fnv 0x00a7fdc0
-void NiObjectNET_stub::FUN_00a7fdc0(int a1)
+void NiObjectNET_stub::FUN_00a7fdc0(intptr_t a1)
 {
     reinterpret_cast<::LinkObjectA5 *>(this)->FUN_00a5c6a0((*(::NiStream *)(a1)));
 }

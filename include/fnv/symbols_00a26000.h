@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 struct AnimationKey;
 struct FloatRecord_b5532;
@@ -10,7 +11,7 @@ struct SStream;
 // 0x00a26b00
 bool AreRecordsEqual(::FloatRecord_b5532 *, ::FloatRecord_b5532 *);
 // 0x00a26b40
-float InterpolateKey(float, const ::S00a26b40_Key *, unsigned int, unsigned int, unsigned int *, unsigned char);
+float InterpolateKey(float, const ::S00a26b40_Key *, uintptr_t, unsigned int, unsigned int *, unsigned char);
 // 0x00a26df0
 void FUN_00a26df0(::MyStream *, void *);
 // 0x00a26e20

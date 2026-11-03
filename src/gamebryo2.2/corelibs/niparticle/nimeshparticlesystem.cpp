@@ -4,6 +4,7 @@
 
 
 // @fnv 0x00c21e10
+#include <cstdint>
 #include <new>
 #include <cstdio>
 #include "fnv/decl/BSMultiBoundNode.h"
@@ -807,7 +808,7 @@ struct NiObject
     {
         return *(NiObject * * const*)((const char*)this + 0x1c);
     }
-    void FUN_00c21cb0(unsigned int);
+    void FUN_00c21cb0(uintptr_t);
 };
 struct NiObjectNode
 {
@@ -822,7 +823,7 @@ struct NiObjectNode
     }
 };
 // @fnv 0x00c21cb0
-void NiObject::FUN_00c21cb0(unsigned int value)
+void NiObject::FUN_00c21cb0(uintptr_t value)
 {
     reinterpret_cast<::GeomStub *>(this)->FUN_00a809b0((::NiRenderer *)(value));
     NiObject* pLinkedObject = *(NiObject**)((char*)this + 0xb8);
@@ -971,7 +972,7 @@ NiMeshParticleSystemClone* NiMeshParticleSystemClone::FUN_00c21e20(CloningProces
     {
         new ((void *)(((BSFadeNode*)result))) ::FUN_00c1b5c0();
         result->m_f110 = 0.0f;
-        *(unsigned int*)result = (unsigned int)&DAT_010bdd84;
+        *(uintptr_t*)result = (uintptr_t)&DAT_010bdd84;
         result->unk114 = 1;
     }
     else
@@ -1328,12 +1329,12 @@ struct Ps21Node
     char _pad9c[0x1c];
     Ps21Owner* m_b8;
 
-    void CopyFromNode(unsigned int a1);
+    void CopyFromNode(uintptr_t a1);
 };
 
 // Copies several fields and the absolute value of m_98 to the owner's target, then calls its virtual method.
 // @fnv 0x00c21bf0
-void Ps21Node::CopyFromNode(unsigned int a1)
+void Ps21Node::CopyFromNode(uintptr_t a1)
 {
     reinterpret_cast<::FUN_00c1add0_cls *>(this)->FUN_00c1add0((void *)(a1));
     Ps21Owner* owner = m_b8;

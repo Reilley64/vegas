@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nianimation/bsmultitargettreadtransfcontroller.cpp: Holder, BSMultiTargetTreadTransfController, TreadController (20 functions)
 
+#include <cstdint>
 #include <windows.h>
 #include "fnv/decl/CloneableObj.h"
 #include "fnv/decl/FNV_MemoryManager.h"
@@ -25,7 +26,7 @@ NiInterpolator* BSMultiTargetTreadTransfController::GetInterpolator(unsigned sho
 GlobalObject_00a2e180::GlobalObject_00a2e180()
 {
     if (DAT_011f36a0++ == 0)
-        ::FUN_00aa2080((void (*)())(void *)(&(*reinterpret_cast<char *>(&::FUN_00a2d8a0))), (int)(&(*reinterpret_cast<char *>(&::ShutdownAnimationClasses))));
+        ::FUN_00aa2080((void (*)())(void *)(&(*reinterpret_cast<char *>(&::FUN_00a2d8a0))), (intptr_t)(&(*reinterpret_cast<char *>(&::ShutdownAnimationClasses))));
 }
 
 struct FUN_00a35950_shell : public BSMultiTargetTreadTransfController
@@ -320,7 +321,7 @@ TreadEntry* FUN_00a35900_cls::FUN_00a35900(unsigned short usIndex, int aParam1, 
     return &m_pEntries[usIndex];
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int size) throw();
+
 
 struct FUN_00a2f8c0
 {
@@ -361,11 +362,11 @@ struct TreadInterpolator : FUN_00a2f8c0
 
 struct TreadController
 {
-    TreadInterpolator* CreateInterpolator(unsigned int index);
+    TreadInterpolator* CreateInterpolator(uintptr_t index);
 };
 
 // @fnv 0x00a35a10
-TreadInterpolator* TreadController::CreateInterpolator(unsigned int index)
+TreadInterpolator* TreadController::CreateInterpolator(uintptr_t index)
 {
     TreadInterpolator* interp = new TreadInterpolator;
     reinterpret_cast<::CloneableObj *>(this)->FUN_00a2f8a0((::CloneableObj *)(interp), (void *)(index));

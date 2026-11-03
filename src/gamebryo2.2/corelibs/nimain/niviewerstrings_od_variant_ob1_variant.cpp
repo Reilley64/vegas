@@ -9,6 +9,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 
+#include <cstdint>
 #include "fnv/decl/FUN_00a5ea70_t.h"
 #include "fnv/decl/S_0060ba10.h"
 #include "fnv/decl/fnv_00b5c7d0__StrArr.h"
@@ -217,14 +218,14 @@ struct MeshEmitter : EmitterBase
 void MeshEmitter::FUN_00c5e9f0(ViewerStrings* pkStrings)
 {
     reinterpret_cast<::FUN_00a5ea70_t *>(this)->FUN_00a5ea70((::StrArr *)(pkStrings));
-    reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((int)&(const char *const &)(FUN_00a7d330((*reinterpret_cast<::RTTI_Stub *>(&::g_0120436c)).GetName())));
-    reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((int)&(const char *const &)(FUN_00a7d510("Index", m_uiMax)));
-    reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((int)&(const char *const &)(FUN_00a7d490("Max Emitter Objs", m_usIndex)));
-    reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((int)&(const char *const &)(FUN_00a7d330("Emitter Objs")));
+    reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((intptr_t)&(const char *const &)(FUN_00a7d330((*reinterpret_cast<::RTTI_Stub *>(&::g_0120436c)).GetName())));
+    reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((intptr_t)&(const char *const &)(FUN_00a7d510("Index", m_uiMax)));
+    reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((intptr_t)&(const char *const &)(FUN_00a7d490("Max Emitter Objs", m_usIndex)));
+    reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((intptr_t)&(const char *const &)(FUN_00a7d330("Emitter Objs")));
     ListItem* kPos = m_kThirdFollowingStreamField.GetHeadPos();
     while (kPos)
     {
         NamedObject* pkObj = m_kThirdFollowingStreamField.GetNext(kPos);
-        reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((int)&(const char *const &)(FUN_00a7d5a0(pkObj->GetName() ? pkObj->GetName() : "No Name", pkObj)));
+        reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((intptr_t)&(const char *const &)(FUN_00a7d5a0(pkObj->GetName() ? pkObj->GetName() : "No Name", pkObj)));
     }
 }

@@ -1,6 +1,7 @@
 // gamebryo2.2/corelibs/nimain/nidirectionallight.cpp: NiDirectionalLight, NiDirectionalLightShell, LightDerived (8 functions)
 
 #include <new>
+#include "fnv/symbols_00aa1000.h"
 #include "fnv/decl/FUN_00a71f60_cls.h"
 #include "fnv/decl/FUN_00a72010_owner.h"
 #include "fnv/decl/FUN_00a721e0_shell.h"
@@ -148,7 +149,6 @@ void LightDerived::FUN_00a75d70(NiTPrimitiveArray<char*, NiTMallocInterface<char
 }
 }  // namespace fnv_00a75d70
 
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int size);
 // @fnv 0x00a75d50
 NiDirectionalLight* __cdecl CreateNiDirectionalLight()
 {
@@ -157,7 +157,7 @@ NiDirectionalLight* __cdecl CreateNiDirectionalLight()
 
 class NiObject;
 
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int size);
+
 void* FUN_00a75c20(char* pObject);
 
 struct FUN_00a75cf0_impl : public NiDirectionalLight

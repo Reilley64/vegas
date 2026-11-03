@@ -2,6 +2,7 @@
 
 #include <cstddef>
 #include <new>
+#include "fnv/symbols_00aa1000.h"
 #include "fnv/decl/FUN_00416870_t.h"
 #include "fnv/decl/FUN_004a0c10_s.h"
 #include "fnv/decl/LineLoadEntry__LineReceiver.h"
@@ -239,7 +240,7 @@ void FUN_00a71d30_shell::FUN_00a71d30(NiRenderer* apkRenderer)
 }
 }  // namespace fnv_00a71d30
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 struct NiTriStripsObject
 {
     void* vtable;

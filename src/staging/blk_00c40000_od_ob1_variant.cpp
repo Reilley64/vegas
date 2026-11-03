@@ -13429,10 +13429,10 @@ struct Q52Obj
     Q52Arr** m_arrs;
     char pad44[2];
     unsigned short m_arrCount;
-    bool FUN_00c52960(unsigned idx);
+    bool FUN_00c52960(uintptr_t idx);
 };
 // @fnv 0x00c52960
-bool Q52Obj::FUN_00c52960(unsigned idx)
+bool Q52Obj::FUN_00c52960(uintptr_t idx)
 {
     if (m_num > 0 && m_cur != idx)
     {

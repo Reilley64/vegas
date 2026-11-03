@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 // Swaps two adjacent ints at a and b when the pointers differ.
+#include <cstdint>
 #include <cstring>
 // @fnv 0x00aa3530
 #include "fnv/decl/FNV_MemoryManager.h"
@@ -61,7 +62,7 @@ void __cdecl AllocateStandardAllocator()
     void* p = reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00aa3430::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(0x10080);
     if (p)
     {
-        DAT_011f622c = (int)((void *)(reinterpret_cast<::FUN_00aa3760_cls *>((((NiStandardAllocator*)p)))->InitEntries(0x6400)));
+        DAT_011f622c = (intptr_t)((void *)(reinterpret_cast<::FUN_00aa3760_cls *>((((NiStandardAllocator*)p)))->InitEntries(0x6400)));
     }
     else
     {
@@ -443,7 +444,7 @@ void* FUN_00aa33a0(void* pvMem, unsigned int* puiSize, unsigned char* pucAlign, 
         {
             pvMem = (char*)pvMem - ((unsigned char*)pvMem)[-1];
             pNewMem = reinterpret_cast<::MemoryManager *>(&((*reinterpret_cast<::MM *>(&::g_memoryManager))))->Reallocate(pvMem, ucAlign + uiSize);
-            unsigned char ucOffset = ucAlign - ((ucAlign - 1) & (unsigned char)(unsigned int)pNewMem);
+            unsigned char ucOffset = ucAlign - ((ucAlign - 1) & (unsigned char)(uintptr_t)pNewMem);
             pNewMem = (char*)pNewMem + ucOffset;
             ((unsigned char*)pNewMem)[-1] = ucOffset;
         }
@@ -486,7 +487,7 @@ struct MMHeap
 
 // Allocates and zeroes a block, applying the requested alignment when iType is 0xd.
 // @fnv 0x00aa3300
-void* FUN_00aa3300(unsigned int puiSize, unsigned char* pucAlign, int iType, int iUnk, int iUnkCur,
+void* FUN_00aa3300(uintptr_t puiSize, unsigned char* pucAlign, int iType, int iUnk, int iUnkCur,
                              int iUnkValue, int iNewUnk)
 {
     MMHeap* pkHeap = (MMHeap*)&(*reinterpret_cast<::MM *>(&::g_memoryManager));
@@ -501,7 +502,7 @@ void* FUN_00aa3300(unsigned int puiSize, unsigned char* pucAlign, int iType, int
         unsigned int uiSize = *(unsigned int*)puiSize;
         unsigned char ucAlign = *pucAlign;
         pvNew = reinterpret_cast<::MemoryManagerStandIn *>((pkHeap))->FUN_00aa3e40(ucAlign + uiSize);
-        unsigned char ucOffset = ucAlign - ((ucAlign - 1) & (unsigned char)(unsigned int)pvNew);
+        unsigned char ucOffset = ucAlign - ((ucAlign - 1) & (unsigned char)(uintptr_t)pvNew);
         pvNew = (char*)pvNew + ucOffset;
         ((unsigned char*)pvNew)[-1] = ucOffset;
     }

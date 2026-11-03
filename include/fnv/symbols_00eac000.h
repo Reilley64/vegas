@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 struct NiStream;
 struct ObjB0;
@@ -14,6 +15,6 @@ bool SphereTriangleCollision(float, const ::Sphere &, const ::Pt3 &, const ::Pt3
 // 0x00eacb00
 ::ObjB0 *ReadObjB0(::NiStream &);
 // 0x00eacef0
-char *FUN_00eacef0(const char *, unsigned int);
+char *FUN_00eacef0(const char *, uintptr_t);
 // 0x00eacfd0
-char *FormatName(const char *, int);
+char *FormatName(const char *, intptr_t);

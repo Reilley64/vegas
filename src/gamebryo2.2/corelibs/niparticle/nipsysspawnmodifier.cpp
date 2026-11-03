@@ -1,4 +1,6 @@
 
+#include <cstdint>
+#include "fnv/symbols_00aa1000.h"
 #include <new>
 #include <cstdlib>
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -226,7 +228,7 @@ void FUN_00c24a50_shell::AppendSpawnSettingsStrings(StrArr* strings)
     }
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 extern int DAT_010be124;
 
 struct FUN_00c23d10_cls
@@ -247,11 +249,11 @@ struct FUN_00c23d10_cls
     float m_2C;
     float m_30;
 
-    FUN_00c23d10_cls* Clone(int a1);
+    FUN_00c23d10_cls* Clone(intptr_t a1);
 };
 
 // @fnv 0x00c23d10
-FUN_00c23d10_cls* FUN_00c23d10_cls::Clone(int aiArg)
+FUN_00c23d10_cls* FUN_00c23d10_cls::Clone(intptr_t aiArg)
 {
     FUN_00c23d10_cls* pkNew = (FUN_00c23d10_cls*)FUN_00aa13e0(0x34);
     if (pkNew != 0)
@@ -260,7 +262,7 @@ FUN_00c23d10_cls* FUN_00c23d10_cls::Clone(int aiArg)
         pkNew->m_1C = 1.0f;
         pkNew->m_24 = 0.0f;
         pkNew->m_28 = 0.0f;
-        *(int*)pkNew = (int)&DAT_010be124;
+        *(intptr_t*)pkNew = (intptr_t)&DAT_010be124;
         pkNew->m_2C = 0.0f;
         pkNew->m_18 = 1;
         pkNew->m_30 = 0.0f;

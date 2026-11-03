@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <new>
+#include "fnv/symbols_00aa1000.h"
 #include "fnv/decl/FUN_00a5e930.h"
 #include "fnv/decl/FUN_00a5ea70_t.h"
 #include "fnv/decl/FUN_00a5ecb0.h"
@@ -407,7 +408,7 @@ bool A9ACB0Node::IsEqualWithBound(A9ACB0Object* pkObject)
     return true;
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int bytes);
+
 struct ObjBase
 {
 };

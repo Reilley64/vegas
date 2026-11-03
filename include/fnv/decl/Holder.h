@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 class FUN_008515f0;
 class NiFixedString;
@@ -44,7 +45,7 @@ public:
     // 0x00628950
     ::Holder *FUN_00628950(::Holder *, ::Holder *);
     // 0x0065cec0
-    int FUN_0065cec0(unsigned int);
+    intptr_t FUN_0065cec0(unsigned int);
     // 0x006834e0
     void FUN_006834e0(int *);
     // 0x00696ca0

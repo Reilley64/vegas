@@ -2,6 +2,8 @@
 // src/gamebryo2.2/corelibs/nianimation/nioldanimationconverter.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/nioldanimationconverter.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
+#include "fnv/symbols_00aa1000.h"
 #include <cstddef>
 #include <windows.h>
 #include <new>
@@ -20,7 +22,7 @@
 #include "fnv/symbols_01097000.h"
 #include "fnv/symbols_011f3000.h"
 #include "fnv/symbols_011f4000.h"
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int);
+
 
 struct FUN_00a5d3a0_cls
 {
@@ -55,11 +57,11 @@ struct FUN_00a42460_cls
     unsigned int unk14;
     void* m_18;
     unsigned int m_1c;
-    void FUN_00a42460(unsigned int a1, unsigned int a2, unsigned int a3);
+    void FUN_00a42460(uintptr_t a1, unsigned int a2, unsigned int a3);
 };
 
 // @fnv 0x00a42460
-void FUN_00a42460_cls::FUN_00a42460(unsigned int auiArg1, unsigned int auiArg2, unsigned int auiArg3)
+void FUN_00a42460_cls::FUN_00a42460(uintptr_t auiArg1, unsigned int auiArg2, unsigned int auiArg3)
 {
     if (auiArg2 > 0)
     {
@@ -94,7 +96,7 @@ void FUN_00a42460_cls::FUN_00a42460(unsigned int auiArg1, unsigned int auiArg2, 
 }
 
 
-void* __cdecl FUN_00aa13e0(unsigned int uiSize);
+
 
 struct LcRTTI
 {
@@ -310,7 +312,7 @@ extern "C" void __cdecl CreateInterpolator(LcOld* pkOld)
                 int eType;
                 unsigned char ucSize;
                 void* pvKeyBuffer = ((void *)(reinterpret_cast<::FUN_00a3f990_shell *>((pkData))->FUN_00a3f990((unsigned int *)&(uiElementCount), (int *)&(eType), (unsigned char *)&(ucSize))));
-                reinterpret_cast<::FUN_00a42460_cls *>((pkKeys))->FUN_00a42460((unsigned int)(pvKeyBuffer), uiElementCount, eType);
+                reinterpret_cast<::FUN_00a42460_cls *>((pkKeys))->FUN_00a42460((uintptr_t)(pvKeyBuffer), uiElementCount, eType);
                 reinterpret_cast<::FUN_00a4e0b0_Holder *>((pkData->m_pUserData))->FUN_00a4e0b0(0, 0, (char *)(0));
                 reinterpret_cast<::fnv_00a42310::FUN_00a42310_cls *>((pkInterp))->FUN_00a42310((::fnv_00a42310::NiRefObject *)(pkKeys));
             }

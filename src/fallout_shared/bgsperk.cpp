@@ -97,7 +97,7 @@ void BGSPerk::InitItem()
     locals.list = &m_kEntryList;
     while (locals.list)
     {
-        locals.entry = ((::BGSPerkEntry *)(new ((void *)(locals.list)) ::Vec3()));
+        locals.entry = (locals.list->m_item);
         if (locals.entry)
             locals.entry->InitItem(reinterpret_cast<TESForm*>(this));
         locals.list = ((::BSSimpleList< ::BGSPerkEntry *> *)(reinterpret_cast<::Callees *>((locals.list))->FUN_00726070()));
@@ -118,7 +118,7 @@ void BGSPerk::ApplyPerkEntries(Actor* actor, unsigned char rank, bool alternate)
     locals.list = &m_kEntryList;
     while (locals.list)
     {
-        locals.entry = ((::BGSPerkEntry *)(new ((void *)(locals.list)) ::Vec3()));
+        locals.entry = (locals.list->m_item);
         if (locals.entry && reinterpret_cast<PatrolActorPackageData*>(locals.entry)->IsPatrolling() + 1 == rank &&
             reinterpret_cast<PerkEntryFunctionType*>(locals.entry)->GetFunctionType() == 2)
         {
@@ -692,10 +692,10 @@ bool FUN_005eb5e0_t::CheckPlayerConditions()
     bresult = *(reinterpret_cast<bool*>(this) + 0x3b);
     if (bresult)
     {
-        pCurrentElementNext = ((const ::ConditionList_t *)(new ((void *)(reinterpret_cast<Conditions_t*>(reinterpret_cast<char*>(this) + 0x40))) ::Vec3()));
+        pCurrentElementNext = ((const ::ConditionList_t *)((void *)(reinterpret_cast<Conditions_t*>(reinterpret_cast<char*>(this) + 0x40))));
         while (bresult && pCurrentElementNext && !pCurrentElementNext->FUN_008256d0())
         {
-            TESConditionItem* pConditionItem = *((::TESConditionItem *const *)(new ((void *)(pCurrentElementNext)) ::Vec3()));
+            TESConditionItem* pConditionItem = *((::TESConditionItem *const *)((void *)(pCurrentElementNext)));
             if (pConditionItem && pConditionItem->FUN_005eb680() == 0x46)
             {
                 bool bignore;
@@ -1534,7 +1534,7 @@ void FUN_005eb0e0_shell::FUN_005eb0e0()
     BSSimpleList<BGSPerkEntry*>* pCurrentElementNext = (BSSimpleList<BGSPerkEntry*>*)((char*)this + 0x48);
     while (pCurrentElementNext)
     {
-        BGSPerkEntry* pPerkEntry = ((::BGSPerkEntry *)(new ((void *)(pCurrentElementNext)) ::Vec3()));
+        BGSPerkEntry* pPerkEntry = (pCurrentElementNext->m_item);
         if (pPerkEntry)
             ((TESForm*)pPerkEntry)->vfn_28();
         pCurrentElementNext = ((::BSSimpleList< ::BGSPerkEntry *> *)(reinterpret_cast<::Callees *>((pCurrentElementNext))->FUN_00726070()));
@@ -1758,7 +1758,7 @@ void FUN_005eb6a0_Class::FUN_005eb6a0(void* data, unsigned char value1, unsigned
 
     while (list)
     {
-        PatrolActorPackageData* item = *reinterpret_cast<PatrolActorPackageData**>(&(*(::PatrolActorPackageData *)(new ((void *)(list)) ::Vec3())));
+        PatrolActorPackageData* item = *reinterpret_cast<PatrolActorPackageData**>(&(list->m_item));
 
         if (item)
         {
@@ -1785,7 +1785,7 @@ void FUN_005eb6a0_Class::FUN_005eb6a0(void* data, unsigned char value1, unsigned
                     while (m_kList)
                     {
                         PatrolActorPackageData* playerItem =
-                            *reinterpret_cast<PatrolActorPackageData**>(&(*(::PatrolActorPackageData *)(new ((void *)(m_kList)) ::Vec3())));
+                            *reinterpret_cast<PatrolActorPackageData**>(&(m_kList->m_item));
 
                         if (reinterpret_cast<FUN_005eb6a0_VTable*>(item)->FUN_005eb6a0_10() == 2)
                         {
@@ -1842,7 +1842,7 @@ void FUN_005eb800_shell::FUN_005eb800(BGSPerk* perk, bool flag)
 
     while (perkList)
     {
-        BGSPerk* currentPerk = ((::BGSPerk *)(new ((void *)(perkList)) ::Vec3()));
+        BGSPerk* currentPerk = (perkList->m_item);
 
         if (currentPerk)
         {
@@ -1861,7 +1861,7 @@ void FUN_005eb800_shell::FUN_005eb800(BGSPerk* perk, bool flag)
 
                     while (playerPerkList)
                     {
-                        BGSPerk* playerPerk = ((::BGSPerk *)(new ((void *)(playerPerkList)) ::Vec3()));
+                        BGSPerk* playerPerk = (playerPerkList->m_item);
 
                         if (reinterpret_cast<FUN_005eb800_perk_vtable*>(currentPerk)->FUN_10() == 2)
                         {
@@ -2017,7 +2017,7 @@ void FUN_005eb1b0_cls::FUN_005eb1b0(int a1)
     node2 = &_copy->list48;
     while (node2 != 0)
     {
-        entry2 = (FUN_005eb1b0_entry*)((void *)(new ((void *)(node2)) ::Vec3()));
+        entry2 = (FUN_005eb1b0_entry*)((void *)((void *)(node2)));
         if (entry2 != 0)
         {
             result = entry2->v1c();
@@ -2088,8 +2088,8 @@ bool PerkCompare_t::FUN_005eb280(TESForm* apForm)
     PerkList_t<PerkEntry_t*>* pOtherEntryIter = reinterpret_cast<PerkList_t<PerkEntry_t*>*>(&pOtherPerk->m_kEntryList);
     while (pEntryIter)
     {
-        PerkEntry_t* pEntry = ((::PerkEntry_t *)(new ((void *)(pEntryIter)) ::Vec3()));
-        PerkEntry_t* pOtherEntry = ((::PerkEntry_t *)(new ((void *)(pOtherEntryIter)) ::Vec3()));
+        PerkEntry_t* pEntry = ((::PerkEntry_t *)((void *)(pEntryIter)));
+        PerkEntry_t* pOtherEntry = ((::PerkEntry_t *)((void *)(pOtherEntryIter)));
         if ((pEntry && !pOtherEntry) || (!pEntry && pOtherEntry))
             return true;
         if (pEntry && pOtherEntry && pEntry->IsDifferent(pOtherEntry))
@@ -2146,10 +2146,10 @@ class EB900Owner
 EB900Entry* EB900Owner::FindEntryByLevel(unsigned char ucLevel)
 {
     EB900Entry* pkFound = 0;
-    for (EB900Node* pkIter = &m_kEntries; !pkFound && pkIter && *((::EB900Entry **)(new ((void *)(pkIter)) ::Vec3())); pkIter = ((::EB900Node *)(reinterpret_cast<::Callees *>((pkIter))->FUN_00726070())))
+    for (EB900Node* pkIter = &m_kEntries; !pkFound && pkIter && *((::EB900Entry **)((void *)(pkIter))); pkIter = ((::EB900Node *)(reinterpret_cast<::Callees *>((pkIter))->FUN_00726070())))
     {
-        if (((unsigned char)(reinterpret_cast<::PatrolActorPackageData *>(((*((::EB900Entry **)(new ((void *)(pkIter)) ::Vec3())))))->IsPatrolling())) + 1 == ucLevel)
-            pkFound = *((::EB900Entry **)(new ((void *)(pkIter)) ::Vec3()));
+        if (((unsigned char)(reinterpret_cast<::PatrolActorPackageData *>(((*((::EB900Entry **)((void *)(pkIter))))))->IsPatrolling())) + 1 == ucLevel)
+            pkFound = *((::EB900Entry **)((void *)(pkIter)));
     }
     return pkFound;
 }
@@ -2312,7 +2312,7 @@ void FUN_005eabb0::ClearConditions()
     const ConditionList_t* cursor = reinterpret_cast<const ConditionList_t*>(&m_kNode);
     while (cursor != 0)
     {
-        delete reinterpret_cast<VirtualListItem*>(*((::TESConditionItem *const *)(new ((void *)(cursor)) ::Vec3())));
+        delete reinterpret_cast<VirtualListItem*>(*((::TESConditionItem *const *)((void *)(cursor))));
         cursor = ((const ::ConditionList_t *)(reinterpret_cast<::Callees *>((void *)(cursor))->FUN_00726070()));
     }
     reinterpret_cast<::FileMatchList *>((reinterpret_cast<ListCleanup*>(&m_kNode)))->RemoveAll();

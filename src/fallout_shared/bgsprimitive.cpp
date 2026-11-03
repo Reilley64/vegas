@@ -255,7 +255,7 @@ void* FUN_004a5250_shell::AssignFromBound(void* aRhs)
 // @fnv 0x006240d0
 void* FUN_006240d0(void* pThis)
 {
-    new ((void *)(pThis)) ::Vec3();
+    (void *)(pThis);
     return pThis;
 }
 
@@ -1742,10 +1742,9 @@ extern int _data_011c16bc;
 // @fnv 0x004a6150
 BSPortal* FUN_004a6150_shell::CreateBSPortal()
 {
-    return new BSPortal(::NiPoint3::ZERO,
-                        &NiPoint2(*reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x18),
-                                  *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x20)),
-                        &(*reinterpret_cast<char *>(&::DAT_011a9448)));
+    NiPoint2 kSize(*reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x18),
+                   *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x20));
+    return new BSPortal(::NiPoint3::ZERO, &kSize, &(*reinterpret_cast<char *>(&::DAT_011a9448)));
 }
 }  // namespace fnv_004a6150
 

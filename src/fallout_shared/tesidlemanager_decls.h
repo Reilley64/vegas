@@ -37,6 +37,8 @@ enum ANIM_GROUP_WEAPON_ENUM
 
 template <class T> class BSSimpleList
 {
+    T m_item;
+    BSSimpleList<T>* m_pkNext;
     void* first;
     void* last;
 

@@ -436,8 +436,8 @@ struct _dummy_476a80
 // @fnv 0x00476a80
 _dummy_476a80* _dummy_476a80::FUN_00476a80()
 {
-    new ((void *)(this)) ::Vec3();
-    new ((void *)((char*)this + 0x24)) ::Vec3();
+    (void *)(this);
+    (void *)((char*)this + 0x24);
     return this;
 }
 

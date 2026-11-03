@@ -99,14 +99,14 @@ void BGSCameraPath::InitItem()
     } shotEntry;
     while (pShotNode && !pShotNode->IsEmpty())
     {
-        shotEntry.formID = (unsigned int)((::BGSCameraShot *)(new ((void *)(pShotNode)) ::Vec3()));
+        shotEntry.formID = (unsigned int)(pShotNode->m_item);
         ::ResolveFormID((unsigned int *)&(shotEntry.formID), GetFile(-1));
         shotEntry.cameraShot = dynamic_cast<BGSCameraShot*>(::FUN_004839c0(shotEntry.formID));
         if (!shotEntry.cameraShot)
         {
             if (previous)
             {
-                reinterpret_cast<::ItemChangeListNode *>((previous))->FUN_00905330((::InventoryStackRecord *const &)(((::BGSCameraShot *)(new ((void *)(pShotNode)) ::Vec3()))));
+                reinterpret_cast<::ItemChangeListNode *>((previous))->FUN_00905330((::InventoryStackRecord *const &)((pShotNode->m_item)));
                 pShotNode = ((::BSSimpleList< ::BGSCameraShot *> *)(reinterpret_cast<::Callees *>((previous))->FUN_00726070()));
             }
             else
@@ -208,7 +208,7 @@ bool BGSCameraPath::Load(TESFile* file)
             unsigned int index;
             NiFormArray* paths;
         } removalInfo;
-        removalInfo.paths = ((::NiFormArray *)(new ((void *)(DAT_011ca700)) ::Vec3()));
+        removalInfo.paths = ((::NiFormArray *)((void *)(DAT_011ca700)));
         removalInfo.index = removalInfo.paths->GetIndexOfForm(this);
         if (removalInfo.index != 0xffffffff)
         {
@@ -314,7 +314,7 @@ bool BGSCameraPath::HasMissingPathArray()
     if (locals.parent)
         locals.paths = locals.parent->GetEntryObject();
     else
-        locals.paths = ((::NiFormArray *)(new ((void *)(DAT_011ca700)) ::Vec3()));
+        locals.paths = ((::NiFormArray *)((void *)(DAT_011ca700)));
     if (locals.paths)
     {
         if (locals.previous)
@@ -548,7 +548,7 @@ void FUN_0058ac10_shell::FUN_0058ac10()
 
         while (pShotList && !pShotList->_ref_008256d0())
         {
-            pshot = reinterpret_cast<BGSCameraShot*>(((void **)(new ((void *)(pShotList)) ::Vec3()))[0]);
+            pshot = reinterpret_cast<BGSCameraShot*>(((void **)((void *)(pShotList)))[0]);
             pShotList = ((::BSSimpleList_shell *)(reinterpret_cast<::Callees *>((pShotList))->FUN_00726070()));
             shotFormID = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pshot))->FUN_0084e3a0()));
             ::FUN_00485910(0x4d414e53, shotFormID);
@@ -583,7 +583,7 @@ void CameraPath_58a680::CopyFromForm(TESForm* apForm)
     h = p->GetShotList();
     while (h && !h->IsEmpty())
     {
-        BGSCameraShot* e = ((::BGSCameraShot *)(new ((void *)(h)) ::Vec3()));
+        BGSCameraShot* e = (h->m_item);
         h = ((::BSSimpleList< ::BGSCameraShot *> *)(reinterpret_cast<::Callees *>((h))->FUN_00726070()));
         reinterpret_cast<::Callees *>(&(m_kCameraShotList))->FUN_00905820((void *)&(e));
     }
@@ -618,7 +618,7 @@ bool CameraPathCompare::FUN_0058a750(TESForm* form)
     BSSimpleList<BGSCameraShot*>* pOtherShotNode = pathForm->GetShotList();
     while (pOtherShotNode && !pOtherShotNode->IsEmpty())
     {
-        if (!pShotNode || ((::BGSCameraShot *)(new ((void *)(pShotNode)) ::Vec3())) != ((::BGSCameraShot *)(new ((void *)(pOtherShotNode)) ::Vec3())))
+        if (!pShotNode || (pShotNode->m_item) != (pOtherShotNode->m_item))
             return true;
         pOtherShotNode = ((::BSSimpleList< ::BGSCameraShot *> *)(reinterpret_cast<::Callees *>((pOtherShotNode))->FUN_00726070()));
         pShotNode = ((::BSSimpleList< ::BGSCameraShot *> *)(reinterpret_cast<::Callees *>((pShotNode))->FUN_00726070()));
@@ -688,7 +688,7 @@ FUN_0058a450::~FUN_0058a450()
         }
         else
         {
-            PathFormArray* pArray = (PathFormArray*)((::NiFormArray *)(new ((void *)(DAT_011ca700)) ::Vec3()));
+            PathFormArray* pArray = (PathFormArray*)((::NiFormArray *)((void *)(DAT_011ca700)));
             if (pArray)
             {
                 unsigned int uiPathIndex = reinterpret_cast<::NiFormArray *>((pArray))->GetIndexOfForm(this);

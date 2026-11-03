@@ -35,7 +35,6 @@
 #include "tesbipedmodelform_types_BIPED_OBJECT.h"
 #include "tesbipedmodelform_types_SEX.h"
 #include "tesbipedmodelform_types_BGSBipedModelList.h"
-#include "fnv/decl/FUN_00480570_cls.h"
 #include "fnv/decl/TESActorBase.h"
 
 // @fnv 0x00480d10
@@ -78,7 +77,7 @@ bool TESBipedModelForm::HasBipedModel(BIPED_OBJECT slot, bool hair, BGSBipedMode
                     TESBipedModelForm* bipedForm;
                     TESForm* form;
                 } locals;
-                locals.form = ((::TESForm *)(new ((void *)(itemList)) ::Vec3()));
+                locals.form = (itemList->m_item);
                 locals.bipedForm = ::TESBipedModelForm::GetFormAsBipedModel(locals.form);
                 if (locals.bipedForm)
                     fillsSlot = locals.bipedForm->HasBipedModel(slot, hair, 0);

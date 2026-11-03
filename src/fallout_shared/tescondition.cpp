@@ -28,7 +28,7 @@ void PerkEntryConditionSet::InitItem(TESForm* form)
     BSSimpleList<TESConditionItem*>* current = (BSSimpleList<TESConditionItem*>*)&((::TESConditionItem *)(new ((void *)&(m_kConditionItems)) ::Vec3()));
     while (current && !current->IsEmpty())
     {
-        ((::TESConditionItem *)(new ((void *)(current)) ::Vec3()))->InitItem(form);
+        (current->m_item)->InitItem(form);
         current = ((::BSSimpleList< ::TESConditionItem *> *)(reinterpret_cast<::Callees *>((current))->FUN_00726070()));
     }
 }
@@ -40,7 +40,7 @@ void PerkEntryConditionSet::InitializeConditionItems()
     BSSimpleList<TESConditionItem*>* current = (BSSimpleList<TESConditionItem*>*)&((::TESConditionItem *)(new ((void *)&(m_kConditionItems)) ::Vec3()));
     while (current && !current->IsEmpty())
     {
-        delete ((::TESConditionItem *)(new ((void *)(current)) ::Vec3()));
+        delete (current->m_item);
         current->RemoveHead();
     }
 }
@@ -76,8 +76,8 @@ bool PerkEntryConditionSet::Compare(PerkEntryConditionSet* other)
     {
         if (!left || left->IsEmpty())
             return true;
-        items.leftItem = ((::TESConditionItem *)(new ((void *)(left)) ::Vec3()));
-        items.rightItem = ((::TESConditionItem *)(new ((void *)(right)) ::Vec3()));
+        items.leftItem = (left->m_item);
+        items.rightItem = (right->m_item);
         if (reinterpret_cast<::S_006815d0 *>((items.leftItem))->IsDifferentFrom(items.rightItem))
             return true;
         left = ((::BSSimpleList< ::TESConditionItem *> *)(reinterpret_cast<::Callees *>((left))->FUN_00726070()));
@@ -129,7 +129,7 @@ bool PerkEntryConditionSet::ContainsTrait(TESObjectREFR* subject, TESObjectREFR*
     }
     while (state.current && !state.current->IsEmpty())
     {
-        state.item = ((::TESConditionItem *)(new ((void *)(state.current)) ::Vec3()));
+        state.item = (state.current->m_item);
         state.skip = false;
         if (filter)
         {
@@ -292,10 +292,10 @@ struct FUN_00680910_shell : ListNode_680910
 // @fnv 0x00680910
 void FUN_00680910_shell::ProcessItems()
 {
-    ListNode_680910* pNode = ((::ListNode_680910 *)(new ((void *)(this)) ::Vec3()));
+    ListNode_680910* pNode = ((::ListNode_680910 *)((void *)(this)));
     while (pNode != 0 && !pNode->_ref_008256d0())
     {
-        reinterpret_cast<::ConditionSerializer *>((((::ListNode_680910 *)(new ((void *)(pNode)) ::Vec3()))->item))->SerializeCondition();
+        reinterpret_cast<::ConditionSerializer *>((((::ListNode_680910 *)((void *)(pNode)))->item))->SerializeCondition();
         pNode = ((::ListNode_680910 *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070()));
     }
 }
@@ -365,12 +365,12 @@ struct ListOps_680a70
 void FUN_00680a70_shell::CopyConditions(PerkEntryConditionSet* apSourceList, PerkEntryConditionSet* a2)
 {
     reinterpret_cast<::PerkEntryConditionSet *>((((ListOps_680a70*)this)))->InitializeConditionItems();
-    ListOps_680a70* dst = ((::ListOps_680a70 *)(new ((void *)(((ListOps_680a70*)this))) ::Vec3()));
-    ListOps_680a70* src3 = ((::ListOps_680a70 *)(new ((void *)(((ListOps_680a70*)apSourceList))) ::Vec3()));
+    ListOps_680a70* dst = ((::ListOps_680a70 *)((void *)(((ListOps_680a70*)this))));
+    ListOps_680a70* src3 = ((::ListOps_680a70 *)((void *)(((ListOps_680a70*)apSourceList))));
     while (src3 != 0 && !src3->FUN_008256d0())
     {
         TESConditionItem* item = new TESConditionItem();
-        reinterpret_cast<::S00681590 *>((((ListOps_680a70*)item)))->CopyFromRefObj((::RefObj *)(*((::TESForm **)(new ((void *)(src3)) ::Vec3()))), {});
+        reinterpret_cast<::S00681590 *>((((ListOps_680a70*)item)))->CopyFromRefObj((::RefObj *)(*((::TESForm **)((void *)(src3)))), {});
         reinterpret_cast<::Callees *>((dst))->FUN_00905820(&item);
         if (((::ListOps_680a70 *)(reinterpret_cast<::Callees *>((dst))->FUN_00726070())) != 0)
         {
@@ -395,7 +395,7 @@ TESItem_680910* FUN_00680f70_cls::GetItemByIndex(int index)
     {
         if (iCurrent == index)
         {
-            return *(TESItem_680910**)((::ListNode_680910 *)(new ((void *)(pNode)) ::Vec3()));
+            return *(TESItem_680910**)((::ListNode_680910 *)((void *)(pNode)));
         }
         iCurrent = iCurrent + 1;
         pNode = ((::ListNode_680910 *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070()));

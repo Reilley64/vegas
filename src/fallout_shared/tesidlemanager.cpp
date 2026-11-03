@@ -171,7 +171,7 @@ void IdleAnimationDirectoryEntry::SetWeaponFiles(BSSimpleList<const char*>* file
         return;
     while (!files->IsEmpty())
     {
-        const char* filename = ((const char *)(new ((void *)(files)) ::Vec3()));
+        const char* filename = (files->m_item);
         {
             ANIM_GROUP_MOVE_ENUM move;
             bool flag;
@@ -275,7 +275,7 @@ void FUN_006003c0(void* thisPtr)
                 {
                     while (!_ref_008256d0(root->m_ppFileListsByWeapon[i]))
                     {
-                        const char* pString = *((const char **)(new ((void *)(root->m_ppFileListsByWeapon[i])) ::Vec3()));
+                        const char* pString = (root->m_ppFileListsByWeapon[i])->m_item;
                         delete pString;
                         _ref_0063f7b0(root->m_ppFileListsByWeapon[i]);
                     }
@@ -532,7 +532,7 @@ void IdleCleanup::DeleteAllOwnedForms()
                 {
                     while (!root->files[listIndex]->Empty())
                     {
-                        const char* filename = ((const char *)(new ((void *)(root->files[listIndex])) ::Vec3()));
+                        const char* filename = ((const char *)((void *)(root->files[listIndex])));
                         delete filename;
                         root->files[listIndex]->Pop();
                     }

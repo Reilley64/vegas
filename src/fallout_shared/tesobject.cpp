@@ -123,10 +123,6 @@
 #include "fnv/symbols_01203000.h"
 #include "tesobject_decls.h"
 #include "fnv/decl/FNV_MemoryManager.h"
-#include "fnv/decl/FUN_0050e8b0_shell.h"
-#include "fnv/decl/FUN_0050ed30_class.h"
-#include "fnv/decl/FUN_005102b0_shell.h"
-#include "fnv/decl/Holder.h"
 #include "fnv/decl/TESActorBase.h"
 #include "fnv/symbols_011f6000.h"
 #include <string>
@@ -134,8 +130,6 @@
 #include <memory>
 #include <stdexcept>
 #include <cstdio>
-#include "fnv/decl/FUN_00ac5430_cls.h"
-#include "fnv/decl/fnv_0044a730__FUN_0044a730_cls.h"
 #include "fnv/decl/FNV_ad0470_class.h"
 #include "fnv/decl/FUN_00658f30.h"
 #include "fnv/decl/FUN_0065dc60Class.h"
@@ -521,8 +515,8 @@ const TESBoundPoint& GetActorValueShortVector()
 // @fnv 0x0050e9c0
 void* FUN_0050e9c0(char* pThis)
 {
-    new ((void *)(pThis)) ::Vec3();
-    new ((void *)(pThis + 6)) ::Vec3();
+    (void *)(pThis);
+    (void *)(pThis + 6);
     return pThis;
 }
 
@@ -2210,7 +2204,7 @@ void FUN_005f8c70_cls::FUN_005f8c70(int arg)
     {
         ::TaskQueueInterface::CopyStringToBuffer(acBuffer, 0x104, (const char *)(m_dc.s5()));
         pcInsert = ::FUN_0040ab30(acBuffer, 0x5c);
-        ::TaskQueueInterface::CopyStringToBuffer(pcInsert + 1, 0x104 - (pcInsert - acBuffer) - 1, (const char *)(*((int *)(new ((void *)(p)) ::Vec3()))));
+        ::TaskQueueInterface::CopyStringToBuffer(pcInsert + 1, 0x104 - (pcInsert - acBuffer) - 1, (const char *)(*((int *)((void *)(p)))));
         reinterpret_cast<::FUN_0045a5e0_shell *>(((*reinterpret_cast<::fnv_005f8c70::MgrLike * *>(&::g_modelLoader))))->FUN_0045a5e0(acBuffer);
         p = ((::fnv_005f8c70::NodeLike *)(reinterpret_cast<::Callees *>((p))->FUN_00726070()));
     }

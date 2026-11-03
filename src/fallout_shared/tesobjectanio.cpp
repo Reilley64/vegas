@@ -19,7 +19,6 @@
 #include "fnv/decl/FUN_00509540_obj.h"
 #include "fnv/decl/FormCloneOperation.h"
 #include "fnv/symbols_00472000.h"
-#include "fnv/decl/FUN_00511a10_cls.h"
 
 // @fnv 0x00511a90
 void TESObjectANIO::InitItem()

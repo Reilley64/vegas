@@ -557,7 +557,7 @@ bool TexUseMap::FUN_004aa900(const char* apFileName)
                 BSSimpleList<TESRegionData*>* listA = (BSSimpleList<TESRegionData*>*)((char*)value9 + 8);
                 while (listA && !listA->FUN_008256d0())
                 {
-                    TESRegionData* elem9 = ((::TESRegionData *)(new ((void *)(listA)) ::Vec3()));
+                    TESRegionData* elem9 = (listA->m_item);
                     listA = ((::BSSimpleList< ::TESRegionData *> *)(reinterpret_cast<::Callees *>((listA))->FUN_00726070()));
                     ::FUN_00406f60((::FUN_00406f90_this *)(::StrMem *)(&str5), str_0101f524, ((const char *)(reinterpret_cast<::FUN_00440e30_This *>((((TESForm_Proxy40e30*)elem9)))->FUN_00440e30())),
                                  ((ElemObj*)elem9)->vt_130(), ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((RefObj*)elem9)))->FUN_0084e3a0())));

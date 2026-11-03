@@ -85,7 +85,7 @@ bool FUN_0047fcb0_cls::ContainsName(const char* apName)
     ListNodeStub* pNode = &list;
     while (pNode)
     {
-        const char* pcName = *((const char **)(new ((void *)(pNode)) ::Vec3()));
+        const char* pcName = *((const char **)((void *)(pNode)));
         if (!::FUN_00404dc0(pcName, apName))
             return true;
         pNode = ((::ListNodeStub *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070()));
@@ -210,7 +210,7 @@ void FUN_0047fb50_shell::FUN_0047fb50(BaseFormComponent* apCopyFC)
     BSSimpleList<const char*>* pkfFileList = &pcopy->m_kKFFileList;
     while (pkfFileList != 0)
     {
-        const char* pkfFilename = ((const char *)(new ((void *)(pkfFileList)) ::Vec3()));
+        const char* pkfFilename = (pkfFileList->m_item);
         if (pkfFilename != 0)
             reinterpret_cast<::FUN_0047fd20_cls *>(this)->AddPathToList(pkfFilename);
         pkfFileList = ((::BSSimpleList<const char *> *)(reinterpret_cast<::Callees *>((void *)(pkfFileList))->FUN_00726070()));
@@ -245,8 +245,8 @@ bool FUN_0047fbd0_cls::IsAnimationDifferent(BaseFormComponent* component)
     BSSimpleList<const char*>* b8 = &other_2->m_kKFFileList;
     while (a != 0 && b8 != 0)
     {
-        x = ((const char *)(new ((void *)(a)) ::Vec3()));
-        y = ((const char *)(new ((void *)(b8)) ::Vec3()));
+        x = (a->m_item);
+        y = (b8->m_item);
         if ((x == 0 && y != 0) || (x != 0 && y == 0))
         {
             return true;

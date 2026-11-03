@@ -35,10 +35,6 @@
 #include "fnv/symbols_005b5000.h"
 #include "bgsnote_decls.h"
 #include "fnv/decl/FUN_00472660_shell.h"
-#include "fnv/decl/FUN_005e8d40_shell.h"
-#include "fnv/decl/FUN_005e9130_shell.h"
-#include "fnv/decl/FUN_005e9270_shell.h"
-#include "fnv/decl/FUN_005e92d0_shell.h"
 #include "fnv/symbols_00472000.h"
 // @fnv 0x005e8240
 void BGSNote::ResetFormData()
@@ -180,7 +176,7 @@ void BGSNote::InitItem()
     while (current && !current->IsEmpty())
     {
         BGSNoteReference<TESQuest> noteRef;
-        noteRef.id = (unsigned int)((::TESQuest *)(new ((void *)(current)) ::Vec3()));
+        noteRef.id = (unsigned int)(current->item);
         ::ResolveFormID((unsigned int *)&(noteRef.id), GetFile(-1));
         noteRef.form = dynamic_cast<TESQuest*>(::FUN_004839c0(noteRef.id));
         if (noteRef.form)
@@ -194,7 +190,7 @@ void BGSNote::InitItem()
             ::FUN_005b5e40();
             if (previous)
             {
-                reinterpret_cast<::ItemChangeListNode *>((previous))->FUN_00905330((::InventoryStackRecord *const &)(((::TESQuest *)(new ((void *)(current)) ::Vec3()))));
+                reinterpret_cast<::ItemChangeListNode *>((previous))->FUN_00905330((::InventoryStackRecord *const &)((current->item)));
                 current = ((::BSSimpleList< ::TESQuest *> *)(reinterpret_cast<::Callees *>((previous))->FUN_00726070()));
             }
             else
@@ -623,7 +619,7 @@ void BGSNoteSave::SaveNote()
     SaveQuestList* pNode = ((::SaveQuestList *)(reinterpret_cast<::BGSExplosion *>(this)->FUN_004fadc0()));
     while (pNode && !pNode->IsListEmpty())
     {
-        TESQuest* pOwner = ((::TESQuest *)(new ((void *)(pNode)) ::Vec3()));
+        TESQuest* pOwner = ((::TESQuest *)((void *)(pNode)));
         unsigned int uiOwnerQuestID = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((SaveForm*)pOwner)))->FUN_0084e3a0()));
         ::FUN_00485910(0x4d414e4f, uiOwnerQuestID);
         pNode = ((::SaveQuestList *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070()));
@@ -714,7 +710,7 @@ void BGSNoteCopy::CopyFromNote(TESForm* apForm)
     pIter = ((::BSSimpleList< ::TESQuest *> *)(reinterpret_cast<::BGSExplosion *>((pSource))->FUN_004fadc0()));
     while (pIter && !pIter->IsEmpty())
     {
-        ownerQuests.AddHead(((::TESQuest *)(new ((void *)(pIter)) ::Vec3())));
+        ownerQuests.AddHead((pIter->item));
         pIter = ((::BSSimpleList< ::TESQuest *> *)(reinterpret_cast<::Callees *>((pIter))->FUN_00726070()));
     }
     m_bIsRead = pSource->m_bIsRead;
@@ -800,7 +796,7 @@ bool NoteCompare::FUN_005e8d60(TESForm* apForm)
     NoteQuestList* pNode = ((::fnv_005e8d60::NoteQuestList *)(reinterpret_cast<::BGSExplosion *>(this)->FUN_004fadc0()));
     while (pNode && !pNode->IsEmpty())
     {
-        TESQuest* pQuest = ((::TESQuest *)(new ((void *)(pNode)) ::Vec3()));
+        TESQuest* pQuest = ((::TESQuest *)((void *)(pNode)));
         if (!reinterpret_cast<::RefList *>((((::fnv_005e8d60::NoteQuestList *)(reinterpret_cast<::BGSExplosion *>((((NoteCompare*)pNote)))->FUN_004fadc0()))))->FUN_005f65d0((void **)&(pQuest)))
             return true;
         pNode = ((::fnv_005e8d60::NoteQuestList *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070()));

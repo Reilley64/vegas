@@ -67,7 +67,7 @@ void BGSBipedModelList::InitItem(TESForm* owner)
             while (iter && !((BSSimpleList<BGSCameraShot*>*)iter)->IsEmpty())
             {
                 TESBipedModelForm* model;
-                entry = (TESForm*)((::BGSPerkEntry *)(new ((void *)(iter)) ::Vec3()));
+                entry = (TESForm*)(iter->m_item);
                 model = ::TESBipedModelForm::GetFormAsBipedModel(entry);
                 if (!model)
                 {

@@ -52,8 +52,6 @@
 #include "fnv/symbols_011c3000.h"
 #include "fnv/symbols_011cb000.h"
 #include "tesidleform_match_decls.h"
-#include "fnv/decl/FUN_005ff4d0_shell.h"
-#include "fnv/decl/IdleFormDetach.h"
 class TESObjectREFR;
 class LowProcess
 {
@@ -449,7 +447,7 @@ TESIdleForm* TESIdleForm::FindIdleFormForObject(TESObjectREFR* actionRef, TESObj
             while (pDelayIter && !delayed && !reinterpret_cast<BSSimpleList<BGSCameraShot*>*>(pDelayIter)->IsEmpty())
             {
                 IdleReplayDelayEntry* pDelayEntry = reinterpret_cast<IdleReplayDelayEntry*>(
-                    ((::BGSPerkEntry *)(new ((void *)(reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(pDelayIter))) ::Vec3())));
+                    ((reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(pDelayIter))->m_item));
                 if (*reinterpret_cast<TESIdleForm**>(pDelayEntry) == this)
                     delayed = true;
                 pDelayIter = reinterpret_cast<BSSimpleList<IdleReplayDelayEntry*>*>(

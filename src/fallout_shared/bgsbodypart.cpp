@@ -246,8 +246,8 @@ TESModel* FUN_005e3be0(TESModel* pThis)
 // @fnv 0x005e3c00
 void* FUN_005e3c00(char* pObject)
 {
-    new ((void *)(pObject + 0x2c)) ::Vec3();
-    new ((void *)(pObject + 0x38)) ::Vec3();
+    (void *)(pObject + 0x2c);
+    (void *)(pObject + 0x38);
     return pObject;
 }
 

@@ -98,7 +98,6 @@
 #include "fnv/symbols_011d8000.h"
 #include "fnv/symbols_011de000.h"
 #include "tesobjectdoor_decls.h"
-#include "fnv/decl/FUN_005bb4d0_shell.h"
 #include "fnv/symbols_00472000.h"
 #include "tesobjectdoor_decls_decl_tesobjectdoor.h"
 // Loads a TESObjectDOOR record from a TESFile, dispatching each chunk to the matching sub-record loader and returning false if the form type is not 28.
@@ -211,7 +210,7 @@ void TESObjectDOOR::InitItem()
             unsigned int id;
             TESForm* value;
         } resolvedForm;
-        resolvedForm.id = reinterpret_cast<unsigned int>(((::TESForm *)(new ((void *)(current)) ::Vec3())));
+        resolvedForm.id = reinterpret_cast<unsigned int>((current->item));
         ::ResolveFormID((unsigned int *)&(resolvedForm.id), GetFile(-1));
         resolvedForm.value = ::FUN_004839c0(resolvedForm.id);
         if (resolvedForm.value)
@@ -686,7 +685,7 @@ void DoorSave_shell::WriteSaveData()
     pCurrentElementNext = ((::DoorFormNode *)(::FUN_00871a30((int)this)));
     while (pCurrentElementNext && !pCurrentElementNext->FUN_008256d0())
     {
-        itempint = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(((*((::TESForm **)(new ((void *)(pCurrentElementNext)) ::Vec3())))))->FUN_0084e3a0()));
+        itempint = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(((*((::TESForm **)((void *)(pCurrentElementNext))))))->FUN_0084e3a0()));
         ::FUN_00485910(0x4d414e54, itempint);
         pCurrentElementNext = ((::DoorFormNode *)(reinterpret_cast<::Callees *>((pCurrentElementNext))->FUN_00726070()));
     }
@@ -726,7 +725,7 @@ bool DoorCompare_shell::CompareDoor(TESForm* form)
         return true;
     while (node2 && !node2->IsEmpty())
     {
-        if (!reinterpret_cast<::RefList *>((((::DoorTeleportNode *)(::FUN_00871a30((int)this)))))->FUN_005f65d0((void **)&(((::TESForm *)(new ((void *)(node2)) ::Vec3())))))
+        if (!reinterpret_cast<::RefList *>((((::DoorTeleportNode *)(::FUN_00871a30((int)this)))))->FUN_005f65d0((void **)&(((::TESForm *)((void *)(node2))))))
             return true;
         node2 = ((::DoorTeleportNode *)(reinterpret_cast<::Callees *>((node2))->FUN_00726070()));
     }
@@ -820,7 +819,7 @@ void DoorCopy::CopyFromDoor(TESForm* form)
     destination = ((::DoorCopyNode *)(::FUN_00871a30((int)this)));
     while (node2 && !node2->FUN_008256d0())
     {
-        reinterpret_cast<::Callees *>((destination))->FUN_00905820(((::TESForm **)(new ((void *)(node2)) ::Vec3())));
+        reinterpret_cast<::Callees *>((destination))->FUN_00905820(((::TESForm **)((void *)(node2))));
         if (((::DoorCopyNode *)(reinterpret_cast<::Callees *>((destination))->FUN_00726070())))
             destination = ((::DoorCopyNode *)(reinterpret_cast<::Callees *>((destination))->FUN_00726070()));
         node2 = ((::DoorCopyNode *)(reinterpret_cast<::Callees *>((node2))->FUN_00726070()));
@@ -2376,14 +2375,14 @@ void __cdecl FUN_00519290()
         BSSimpleList<Actor*>* removed = new BSSimpleList<Actor*>;
         BSSimpleList<Actor*>* source = new BSSimpleList<Actor*>;
         BSSimpleList<Actor*>* current = followers->followers;
-        while (current && ((::Actor *)(new ((void *)(current)) ::Vec3())))
+        while (current && (current->item))
         {
-            reinterpret_cast<::Callees *>((reinterpret_cast<FollowerListOps*>(source)))->FUN_00905820((void *)&(((::Actor *)(new ((void *)(current)) ::Vec3()))));
+            reinterpret_cast<::Callees *>((reinterpret_cast<FollowerListOps*>(source)))->FUN_00905820((void *)&((current->item)));
             current = ((::BSSimpleList< ::Actor *> *)(reinterpret_cast<::Callees *>((current))->FUN_00726070()));
         }
-        while (source && ((::Actor *)(new ((void *)(source)) ::Vec3())))
+        while (source && (source->item))
         {
-            Actor* actor = ((::Actor *)(new ((void *)(source)) ::Vec3()));
+            Actor* actor = (source->item);
             if (actor)
             {
                 if (!reinterpret_cast<::fnv_008bc860::FUN_008bc860_StandIn *>((static_cast<FollowerActor*>(actor)))->FUN_008bc860((::Actor *)(::_g_thePlayer)))
@@ -2400,9 +2399,9 @@ void __cdecl FUN_00519290()
             source = ((::BSSimpleList< ::Actor *> *)(reinterpret_cast<::Callees *>((source))->FUN_00726070()));
         }
         source = removed;
-        while (source && ((::Actor *)(new ((void *)(source)) ::Vec3())))
+        while (source && (source->item))
         {
-            Actor* actorToRemove = ((::Actor *)(new ((void *)(source)) ::Vec3()));
+            Actor* actorToRemove = (source->item);
             reinterpret_cast<::fnv_00422690::FUN_00422690_shell *>((((::FollowerExtraData *)(reinterpret_cast<::FUN_005d43c0_ *>((static_cast<FollowerPlayer*>(::_g_thePlayer)))->FUN_005d43c0()))))->FUN_00422690((::fnv_00422690::Actor *)(actorToRemove));
             source = ((::BSSimpleList< ::Actor *> *)(reinterpret_cast<::Callees *>((source))->FUN_00726070()));
         }

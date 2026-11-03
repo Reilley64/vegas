@@ -405,7 +405,7 @@ bool TESTopicInfo::LoadForm(TESFile* file)
                     SetTopicInfoData(0);
                 unsigned int topicID = 0;
                 file->GetChunkData(&topicID);
-                reinterpret_cast<::Callees *>((((::BSSimpleList< ::TESTopic *> *)(new ((void *)(((::TESTopicInfoData *)(::GetField38((char *)this))))) ::Vec3()))))->FUN_00905820((void *)&(const ::TESTopic *const &)(reinterpret_cast<TESTopic*>(topicID)));
+                reinterpret_cast<::Callees *>((((::BSSimpleList< ::TESTopic *> *)((void *)(((::TESTopicInfoData *)(::GetField38((char *)this))))))))->FUN_00905820((void *)&(const ::TESTopic *const &)(reinterpret_cast<TESTopic*>(topicID)));
                 break;
             }
             case kConversationFollowUpChunk: {
@@ -890,9 +890,9 @@ void TESTopicInfo::InitItem()
         TESResponse* pResponse;
         {
             BSSimpleList<TESTopic*>* pTopics = GetAddTopicList();
-            while (pTopics && ((::TESTopic *)(new ((void *)(pTopics)) ::Vec3())))
+            while (pTopics && (pTopics->m_item))
             {
-                unsigned int formID = reinterpret_cast<unsigned int>(((::TESTopic *)(new ((void *)(pTopics)) ::Vec3())));
+                unsigned int formID = reinterpret_cast<unsigned int>((pTopics->m_item));
                 ::ResolveFormID((unsigned int *)&(formID), pFile);
                 TESTopic* topic = dynamic_cast<TESTopic*>(::FUN_004839c0(formID));
                 if (!topic)
@@ -981,7 +981,7 @@ void TESTopicInfoData::InitItem(TESForm* owner)
             BSSimpleList<TESTopicInfo*>* previous;
         } infoCursor;
 
-        while (pTopicList && ((::TESTopic *)(new ((void *)(pTopicList)) ::Vec3())))
+        while (pTopicList && (pTopicList->m_item))
         {
             struct TopicResolution
             {
@@ -989,7 +989,7 @@ void TESTopicInfoData::InitItem(TESForm* owner)
                 unsigned int formID;
                 TESForm* form;
             } resolved;
-            resolved.formID = reinterpret_cast<unsigned int>(((::TESTopic *)(new ((void *)(pTopicList)) ::Vec3())));
+            resolved.formID = reinterpret_cast<unsigned int>((pTopicList->m_item));
             ::ResolveFormID((unsigned int *)&(resolved.formID), pFile);
             resolved.topic = 0;
             resolved.form = ::FUN_004839c0(resolved.formID);
@@ -1042,7 +1042,7 @@ void TESTopicInfoData::InitItem(TESForm* owner)
 
         pPreviousTopic = 0;
         pTopicList = ((::BSSimpleList< ::TESTopic *> *)(new ((void *)this) ::Vec3()));
-        while (pTopicList && ((::TESTopic *)(new ((void *)(pTopicList)) ::Vec3())))
+        while (pTopicList && (pTopicList->m_item))
         {
             struct TopicResolution
             {
@@ -1050,7 +1050,7 @@ void TESTopicInfoData::InitItem(TESForm* owner)
                 unsigned int formID;
                 TESForm* form;
             } resolved;
-            resolved.formID = reinterpret_cast<unsigned int>(((::TESTopic *)(new ((void *)(pTopicList)) ::Vec3())));
+            resolved.formID = reinterpret_cast<unsigned int>((pTopicList->m_item));
             ::ResolveFormID((unsigned int *)&(resolved.formID), pFile);
             resolved.topic = 0;
             resolved.form = ::FUN_004839c0(resolved.formID);
@@ -1103,7 +1103,7 @@ void TESTopicInfoData::InitItem(TESForm* owner)
 
         infoCursor.current = ((::BSSimpleList< ::TESTopicInfo *> *)(::FUN_00460140((int)this)));
         infoCursor.previous = 0;
-        while (infoCursor.current && ((::TESTopicInfo *)(new ((void *)(infoCursor.current)) ::Vec3())))
+        while (infoCursor.current && (infoCursor.current->m_item))
         {
             struct InfoResolution
             {
@@ -1111,7 +1111,7 @@ void TESTopicInfoData::InitItem(TESForm* owner)
                 unsigned int formID;
                 TESForm* form;
             } resolved;
-            resolved.formID = reinterpret_cast<unsigned int>(((::TESTopicInfo *)(new ((void *)(infoCursor.current)) ::Vec3())));
+            resolved.formID = reinterpret_cast<unsigned int>((infoCursor.current->m_item));
             ::ResolveFormID((unsigned int *)&(resolved.formID), pFile);
             resolved.followUp = 0;
             resolved.form = ::FUN_004839c0(resolved.formID);
@@ -1505,24 +1505,24 @@ void TopicLinkLists::CopyLinksFrom(int unused, TopicLinkLists* source)
     {
         BSSimpleList<int>* iter = 0;
         item9 = 0;
-        for (iter = ((::BSSimpleList<int> *)(reinterpret_cast<::TESTopicInfoData *>((source))->GetLinkToList())); iter && ((int)(new ((void *)(iter)) ::Vec3()));)
+        for (iter = ((::BSSimpleList<int> *)(reinterpret_cast<::TESTopicInfoData *>((source))->GetLinkToList())); iter && (iter->m_item);)
         {
-            item9 = ((int)(new ((void *)(iter)) ::Vec3()));
+            item9 = (iter->m_item);
             iter = ((::BSSimpleList<int> *)(reinterpret_cast<::Callees *>((iter))->FUN_00726070()));
             reinterpret_cast<::Callees *>((((::BSSimpleList<int> *)(reinterpret_cast<::TESTopicInfoData *>(this)->GetLinkToList()))))->FUN_00905820((void *)&(item9));
         }
-        iter = ((::BSSimpleList<int> *)(new ((void *)(source)) ::Vec3()));
+        iter = ((::BSSimpleList<int> *)((void *)(source)));
         item9 = 0;
-        for (; iter && ((int)(new ((void *)(iter)) ::Vec3()));)
+        for (; iter && (iter->m_item);)
         {
-            item9 = ((int)(new ((void *)(iter)) ::Vec3()));
+            item9 = (iter->m_item);
             iter = ((::BSSimpleList<int> *)(reinterpret_cast<::Callees *>((iter))->FUN_00726070()));
             reinterpret_cast<::Callees *>((((::BSSimpleList<int> *)(new ((void *)this) ::Vec3()))))->FUN_00905820((void *)&(item9));
         }
     }
     BSSimpleList<int>* follow2 = ((::BSSimpleList<int> *)(::FUN_00460140((int)(source))));
     int followItem4;
-    while (follow2 && (followItem4 = ((int)(new ((void *)(follow2)) ::Vec3()))) != 0)
+    while (follow2 && (followItem4 = (follow2->m_item)) != 0)
     {
         follow2 = ((::BSSimpleList<int> *)(reinterpret_cast<::Callees *>((follow2))->FUN_00726070()));
         reinterpret_cast<::Callees *>((((::BSSimpleList<int> *)(::FUN_00460140((int)this)))))->FUN_00905820((void *)&(followItem4));
@@ -1717,9 +1717,9 @@ void TopicInfoCopy::FUN_0061e330(TESForm* form)
     m_Data = ((::TopicInfoData *)(reinterpret_cast<::FUN_0061e5e0_shell *>((static_cast<TopicInfoCopy*>(topic)))->GetFieldPtr()))[0];
     reinterpret_cast<::TESTopicInfo *>(this)->ResetResponseList();
     source = topic->GetAddTopicList();
-    while (source && ((::TESTopic *)(new ((void *)(source)) ::Vec3())))
+    while (source && (source->m_item))
     {
-        node = ((::TESTopic *)(new ((void *)(source)) ::Vec3()));
+        node = (source->m_item);
         source = ((::BSSimpleList< ::TESTopic *> *)(reinterpret_cast<::Callees *>((source))->FUN_00726070()));
         reinterpret_cast<::Callees *>((GetAddTopicList()))->FUN_00905820((void *)&(node));
     }

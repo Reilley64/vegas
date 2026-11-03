@@ -358,7 +358,7 @@ FUN_0096a2d0* SpellSelector::FUN_0050c000(void* actor, unsigned short level)
         SpellEntryNode* node = ((::SpellEntryNode *)(reinterpret_cast<::BaseProcess *>(&(choices))->GetCurrentProcessData()));
         while (node)
         {
-            SpellEntry* entry = *((::SpellEntry **)(new ((void *)(node)) ::Vec3()));
+            SpellEntry* entry = *((::SpellEntry **)((void *)(node)));
             if (entry)
             {
                 if (!result)
@@ -435,7 +435,7 @@ FUN_0096a2d0* FUN_0050c1d0_shell::CollectHeadParts(SpellOwner* pkOwner)
         List_009e03e0* pkListCur = pkIter;
         while (pkIter)
         {
-            BGSHeadPart* pkItem = ((::fnv_0050c1d0::BGSHeadPart *)(new ((void *)(pkIter)) ::Vec3()));
+            BGSHeadPart* pkItem = ((::fnv_0050c1d0::BGSHeadPart *)((void *)(pkIter)));
             if (pkItem)
             {
                 bool bAppend = true;
@@ -534,9 +534,9 @@ void LeveledSpellList::SelectLeveledSpell(void* desiredForm, unsigned short leve
     maxLevel = 0;
     best = 0;
     node = ((::ListNode *)(reinterpret_cast<::BaseProcess *>(&(((FieldLayout*)this)->list30))->GetCurrentProcessData()));
-    while (node != 0 && *((::Entry **)(new ((void *)(node)) ::Vec3())) != 0)
+    while (node != 0 && *((::Entry **)((void *)(node))) != 0)
     {
-        Entry* entryLevel = *((::Entry **)(new ((void *)(node)) ::Vec3()));
+        Entry* entryLevel = *((::Entry **)((void *)(node)));
         FUN_0050bf90_cls* mapped =
             (FUN_0050bf90_cls*)FUN_00ec43fb(entryLevel->form, 0, &DAT_01183028, &DAT_01183140, 0);
         int entry = entryLevel->level;
@@ -566,7 +566,7 @@ void LeveledSpellList::SelectLeveledSpell(void* desiredForm, unsigned short leve
                 return;
         }
         unsigned short nestedRecord;
-        Entry* chosen = *((::Entry **)(new ((void *)(node)) ::Vec3()));
+        Entry* chosen = *((::Entry **)((void *)(node)));
         unsigned int foundForm = chosen->form;
         nestedRecord = chosen->count;
         FUN_0050bf90_cls* selectedEntry =

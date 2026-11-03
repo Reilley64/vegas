@@ -51,14 +51,9 @@
 #include <cstring>
 #include "fnv/decl/C42CE30.h"
 #include "fnv/decl/FUN_004214f0_shell.h"
-#include "fnv/decl/FUN_00487790_shell.h"
-#include "fnv/decl/FUN_00487980_shell.h"
-#include "fnv/decl/FUN_00488350_shell.h"
-#include "fnv/decl/FUN_00526ac0_shell.h"
 #include "fnv/decl/FUN_00c4fab0_shell.h"
 #include "fnv/decl/Owner487a60.h"
 #include "fnv/decl/S_0060ba10.h"
-#include "fnv/decl/fnv_00487840__FUN_00487840_shell.h"
 #include "fnv/decl/s428110__Owner.h"
 #include "fnv/symbols_00a30000.h"
 #include "fnv/symbols_00a7d000.h"
@@ -961,7 +956,7 @@ void TESLeveledList::PopulateContainerWithLeveledItems(unsigned short level, uns
                 ((::PerkEntryConditionSet *)(reinterpret_cast<::BaseProcess *>((reinterpret_cast<PlayerQuestData*>(this)))->GetCurrentProcessData())));
             while (scan.node && !reinterpret_cast<BSSimpleList<BGSCameraShot*>*>(scan.node)->IsEmpty())
             {
-                unsigned short entryLevel = ((::BGSPerkEntry *)(new ((void *)(scan.node)) ::Vec3()))->level;
+                unsigned short entryLevel = (scan.node->m_item)->level;
                 if (entryLevel > scan.maxLevel)
                     scan.maxLevel = entryLevel;
                 scan.node = ((::BSSimpleList< ::BGSPerkEntry *> *)(reinterpret_cast<::Callees *>((scan.node))->FUN_00726070()));
@@ -1026,7 +1021,7 @@ void TESLeveledList::PopulateContainerWithLeveledItems(unsigned short level, uns
                                 ((::PerkEntryConditionSet *)(reinterpret_cast<::BaseProcess *>((reinterpret_cast<PlayerQuestData*>(this)))->GetCurrentProcessData())));
                             while (node && !reinterpret_cast<BSSimpleList<BGSCameraShot*>*>(node)->IsEmpty())
                             {
-                                BGSPerkEntry* entry = ((::BGSPerkEntry *)(new ((void *)(node)) ::Vec3()));
+                                BGSPerkEntry* entry = (node->m_item);
                                 node = ((::BSSimpleList< ::BGSPerkEntry *> *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
                                 result.form = entry->form;
                                 result.quantity = entry->count;
@@ -1112,7 +1107,7 @@ void TESLeveledList::SelectLeveledObject(unsigned short level, TESForm*& form, u
         foundRange = false;
         while (node)
         {
-            BGSPerkEntry* entry = ((::BGSPerkEntry *)(new ((void *)(node)) ::Vec3()));
+            BGSPerkEntry* entry = (node->m_item);
             if (entry)
             {
                 int entryLevel = entry->level;
@@ -1150,7 +1145,7 @@ void TESLeveledList::SelectLeveledObject(unsigned short level, TESForm*& form, u
                     if (!node)
                         return;
                 }
-                result.entry = ((::BGSPerkEntry *)(new ((void *)(node)) ::Vec3()));
+                result.entry = (node->m_item);
                 result.form = result.entry->form;
                 result.count = result.entry->count;
                 result.extra = result.entry->extra;
@@ -1200,7 +1195,7 @@ void TESLeveledList::InitItem(TESForm* owner)
         resolveState.entry = 0;
         resolveState.file = owner ? owner->GetFile(-1) : 0;
         unsigned int formID, globalID;
-        while (resolveState.node && (resolveState.entry = ((::BGSPerkEntry *)(new ((void *)(resolveState.node)) ::Vec3()))) != 0)
+        while (resolveState.node && (resolveState.entry = (resolveState.node->m_item)) != 0)
         {
             formID = reinterpret_cast<unsigned int>(resolveState.entry->form);
             ::ResolveFormID((unsigned int *)&(formID), resolveState.file);
@@ -1262,7 +1257,7 @@ void TESLeveledList::InitializeLeveledList()
         reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(((::PerkEntryConditionSet *)(reinterpret_cast<::BaseProcess *>((reinterpret_cast<PlayerQuestData*>(this)))->GetCurrentProcessData())));
     while (node)
     {
-        BGSPerkEntry* entry = ((::BGSPerkEntry *)(new ((void *)(node)) ::Vec3()));
+        BGSPerkEntry* entry = (node->m_item);
         if (entry)
         {
             struct DeletedEntry
@@ -1396,7 +1391,7 @@ void FUN_00487980_shell::FUN_00487980()
 {
     while (!reinterpret_cast<ScriptAddedEntries*>(m_kLeveledObjects)->FUN_008256d0())
     {
-        BGSPerkEntry* entryToDestroy = ((::BGSPerkEntry *)(new ((void *)(reinterpret_cast<ScriptAddedEntries*>(m_kLeveledObjects))) ::Vec3()));
+        BGSPerkEntry* entryToDestroy = ((::BGSPerkEntry *)((void *)(reinterpret_cast<ScriptAddedEntries*>(m_kLeveledObjects))));
         reinterpret_cast<ScriptAddedEntries*>(m_kLeveledObjects)->FUN_0063f7b0();
         reinterpret_cast<::ItemChangeListNode *>((reinterpret_cast<CurrentLeveledEntries*>(leveledList)))->FUN_00905330((::InventoryStackRecord *const &)(entryToDestroy));
 
@@ -1432,7 +1427,7 @@ void FUN_00488400_shell::SaveLeveledList()
     }
     LevelNode_00488400* pEntryNode = ((::LevelNode_00488400 *)(reinterpret_cast<::BaseProcess *>(this)->GetCurrentProcessData()));
     LeveledObject* entry;
-    while (pEntryNode && (entry = *((::LeveledObject **)(new ((void *)(pEntryNode)) ::Vec3()))) != 0)
+    while (pEntryNode && (entry = *((::LeveledObject **)((void *)(pEntryNode)))) != 0)
     {
         TmpEndian levelEntryData;
         levelEntryData.f1 = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((entry->pForm))->FUN_0084e3a0()));
@@ -1609,8 +1604,8 @@ bool LeveledComparison::FUN_004889d0(BaseFormComponent* component)
     {
         while (first && pSecondNode)
         {
-            LeveledEntry* a = ((::LeveledEntry *)(new ((void *)(first)) ::Vec3()));
-            LeveledEntry* b = ((::LeveledEntry *)(new ((void *)(pSecondNode)) ::Vec3()));
+            LeveledEntry* a = ((::LeveledEntry *)((void *)(first)));
+            LeveledEntry* b = ((::LeveledEntry *)((void *)(pSecondNode)));
             if (a && b)
             {
                 if (a->form != b->form)
@@ -1716,7 +1711,7 @@ void FUN_004887a0_cls::FUN_004887a0(void* apSource)
     LLNode_cls* it = ((::LLNode_cls *)(reinterpret_cast<::BaseProcess *>((static_cast<FUN_004887a0_cls*>(src3)))->GetCurrentProcessData()));
     LevObjX* cell5;
     LLNode_cls* dst = ((::LLNode_cls *)(reinterpret_cast<::BaseProcess *>(this)->GetCurrentProcessData()));
-    while (it != 0 && (cell5 = *((::LevObjX **)(new ((void *)(it)) ::Vec3()))) != 0)
+    while (it != 0 && (cell5 = *((::LevObjX **)((void *)(it)))) != 0)
     {
         LevObjX* newObj = new LevObjX();
         newObj->form = cell5->form;

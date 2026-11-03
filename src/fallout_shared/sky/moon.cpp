@@ -39,9 +39,7 @@
 #include "fnv/decl/FUN_0049ed90_shell.h"
 #include "fnv/decl/FUN_004bc1f0_S.h"
 #include "fnv/decl/FUN_00bb0180_shell.h"
-#include "fnv/decl/Flag512Receiver.h"
 #include "fnv/decl/NiObjectNET.h"
-#include "fnv/decl/TaskQueueInterface.h"
 #include "fnv/decl/fnv_00439390__NiObjectNET.h"
 #include "fnv/symbols_00aa1000.h"
 

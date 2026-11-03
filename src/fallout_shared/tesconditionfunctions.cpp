@@ -214,10 +214,8 @@
 #include "tesconditionfunctions_conditionfn_BGSQuestObjective.h"
 #include "tesconditionfunctions_packet.h"
 #include "tesconditionfunctions_conditionfn_dep_TESObjectREFR.h"
-#include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/FUN_00414220_shell.h"
 #include "fnv/decl/FUN_00458400_cls.h"
-#include "fnv/decl/TESFaction_RankDataView.h"
 #include "tesconditionfunctions_conditionfn_MobileObject_decl_tesconditionfunctions.h"
 #include "tesconditionfunctions_conditionfn_dep_TESObjectREFR_decl_tesconditionfunctions.h"
 
@@ -5784,7 +5782,7 @@ bool FUN_0059d8e0(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, do
             FUN_008256d0_list* pCurrentElementNext = (FUN_008256d0_list*)((Script*)pformlist)->GetHeader();
             while (pCurrentElementNext && !pCurrentElementNext->FUN_008256d0())
             {
-                TESForm* pEntryForm = *((::TESForm **)(new ((void *)(pCurrentElementNext)) ::Vec3()));
+                TESForm* pEntryForm = *((::TESForm **)((void *)(pCurrentElementNext)));
                 pCurrentElementNext = ((::fnv_0059d8e0::FUN_008256d0_list *)(reinterpret_cast<::Callees *>((pCurrentElementNext))->FUN_00726070()));
                 if (pEntryForm->IsActor_InEditor())
                     *afReturnValue += std::abs(reinterpret_cast<::FUN_004c8f30_shell *>((pchange))->FUN_004c8f30((int)pEntryForm));
@@ -5953,7 +5951,7 @@ bool __cdecl FUN_0059da90(TESObjectREFR* apRefObject, void* apParam1, void* apPa
         {
             BGSListForm* plistform = (BGSListForm*)pform;
             pCurrentElementNext = (FUN_0059da90_List*)((Script*)plistform)->GetHeader();
-            pform = *((::TESForm **)(new ((void *)(pCurrentElementNext)) ::Vec3()));
+            pform = *((::TESForm **)((void *)(pCurrentElementNext)));
         }
         while (pform)
         {
@@ -5973,7 +5971,7 @@ bool __cdecl FUN_0059da90(TESObjectREFR* apRefObject, void* apParam1, void* apPa
             if (pCurrentElementNext)
                 pCurrentElementNext = ((::FUN_0059da90_List *)(reinterpret_cast<::Callees *>((pCurrentElementNext))->FUN_00726070()));
             if (pCurrentElementNext)
-                pform = *((::TESForm **)(new ((void *)(pCurrentElementNext)) ::Vec3()));
+                pform = *((::TESForm **)((void *)(pCurrentElementNext)));
             else
                 pform = 0;
         }
@@ -6534,7 +6532,7 @@ bool FUN_0059d400(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, do
         ContNode* pCurrentElementNext = (ContNode*)((::fnv_0059d400::NiColor *)(reinterpret_cast<::TESRegion *>((((TESRegion*)((char*)pactorbase1 + 0x30))))->GetDiffuseColor()));
         while (pCurrentElementNext && !FUN_008256d0(pCurrentElementNext) && afReturnValue != 1.0)
         {
-            pfac1 = (*((::fnv_0059d400::FactionReaction **)(new ((void *)(pCurrentElementNext)) ::Vec3())))->pFaction;
+            pfac1 = (*((::fnv_0059d400::FactionReaction **)((void *)(pCurrentElementNext))))->pFaction;
             if (pfac1 && reinterpret_cast<::fnv_0047d680::FUN_0047d680_shell *>((((TESActorBaseData*)((char*)pactorbase2 + 0x30))))->GetFactionRank((::fnv_0047d680::TESFaction *)(pfac1), pacttar == (XActor*)::_g_thePlayer) != -1)
                 afReturnValue = 1.0;
             pCurrentElementNext = ((::fnv_0059d400::ContNode *)(reinterpret_cast<::Callees *>((pCurrentElementNext))->FUN_00726070()));
@@ -17572,14 +17570,14 @@ bool __cdecl FUN_005a6170(int unused, void* subject, int unused2, double* result
     if (target != 0)
     {
         void* current = (void*)FUN_005a6260((*reinterpret_cast<char * *>(&::_g_thePlayer)));
-        while (current != 0 && ((EntryHolder*)((void *)(new ((void *)(current)) ::Vec3())))->record != 0)
+        while (current != 0 && ((EntryHolder*)((void *)((void *)(current))))->record != 0)
         {
-            if (((EntryHolder*)((void *)(new ((void *)(current)) ::Vec3())))->record->formId == ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((target))->FUN_0084e3a0())))
+            if (((EntryHolder*)((void *)((void *)(current))))->record->formId == ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((target))->FUN_0084e3a0())))
             {
                 int limit;
                 {
                     int multiplier = ((SpellData*)((void *)(reinterpret_cast<::FUN_00504e60_shell *>((target))->FUN_00504e60())))->multiplier;
-                    limit = ((EntryHolder*)((void *)(new ((void *)(current)) ::Vec3())))->record->threshold;
+                    limit = ((EntryHolder*)((void *)((void *)(current))))->record->threshold;
                     *result = 0.0;
                     for (int i = 0; i < 4; i++)
                     {
@@ -19249,7 +19247,7 @@ bool FUN_005a25f0(void* reference, void* arg1, void* arg2, double& afHeight)
                 if (!f)
                 {
                     if (p3D)
-                        kPos = (*(::fnv_005a25f0::Pt *)(new ((void *)(((::fnv_005a25f0::Pt *)(reinterpret_cast<::FUN_0043d450_Owner *>((p3D))->FUN_0043d450())))) ::Vec3()));
+                        kPos = (*(::fnv_005a25f0::Pt *)((void *)(((::fnv_005a25f0::Pt *)(reinterpret_cast<::FUN_0043d450_Owner *>((p3D))->FUN_0043d450())))));
                     else
                         kPos = *dst->GetPos();
                 }

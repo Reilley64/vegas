@@ -321,7 +321,7 @@ struct S_006815d0
 // @fnv 0x006815d0
 bool S_006815d0::IsDifferentFrom(TESConditionItem* apCompare)
 {
-    if (std::memcmp(((void *)(new ((void *)(((S_006815c0*)apCompare))) ::Vec3())), this, 0x1C))
+    if (std::memcmp(((void *)((void *)(((S_006815c0*)apCompare)))), this, 0x1C))
         return true;
     return false;
 }

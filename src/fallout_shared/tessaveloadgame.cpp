@@ -188,10 +188,8 @@
 #include "tessaveloadgame_decls.h"
 #include <cstddef>
 #include "fnv/decl/FUN_0040fbf0_shell.h"
-#include "fnv/decl/FUN_00855220_shell.h"
 #include "fnv/decl/MemoryManagerStandIn.h"
 #include "fnv/decl/TaskThreadResume.h"
-#include "fnv/decl/Worker.h"
 #include "fnv/symbols_01272000.h"
 // Looks up the TESObjectREFR stored in this pointer map under the given id and returns it, or null if absent.
 // @fnv 0x00855100
@@ -1823,7 +1821,7 @@ void TESSaveLoadGame::FUN_00858480(BSFile* apFile)
             unsigned int iglobalID2;
             float fvalue6;
 
-            pglobal = *((::fnv_anon_00858480::TESGlobal **)(new ((void *)(pglobals4)) ::Vec3()));
+            pglobal = *((::fnv_anon_00858480::TESGlobal **)((void *)(pglobals4)));
             if (pglobal)
             {
                 iglobalID2 = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pglobal))->FUN_0084e3a0()));
@@ -3117,7 +3115,7 @@ FUN_00855440::~FUN_00855440()
         {
             while (node)
             {
-                RefItem* item = ((::RefItem *)(new ((void *)(node)) ::Vec3()));
+                RefItem* item = ((::RefItem *)((void *)(node)));
                 if (item)
                     delete item;
                 node = ((::RefListNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
@@ -3210,7 +3208,7 @@ void FUN_00855730_shell::DestroyMapAndLists()
         {
             while (pIter_)
             {
-                CellItem* pItem = (CellItem*)((void *)(new ((void *)(pIter_)) ::Vec3()));
+                CellItem* pItem = (CellItem*)((void *)((void *)(pIter_)));
                 pIter_ = ((::List_009e03e0 *)(reinterpret_cast<::Callees *>((pIter_))->FUN_00726070()));
                 if (pItem)
                     delete pItem;
@@ -3225,7 +3223,7 @@ void FUN_00855730_shell::DestroyMapAndLists()
     {
         while (pIter)
         {
-            OwnedBuffer* pBuf = (OwnedBuffer*)((void *)(new ((void *)(pIter)) ::Vec3()));
+            OwnedBuffer* pBuf = (OwnedBuffer*)((void *)((void *)(pIter)));
             if (pBuf)
             {
                 ::FUN_00401030(pBuf->m_pBuffer);
@@ -3648,7 +3646,7 @@ FUN_00856870::~FUN_00856870()
     {
         while (!field70->FUN_008256d0())
         {
-            OwnedObject856870* item = *((::fnv_00856870::OwnedObject856870 **)(new ((void *)(field70)) ::Vec3()));
+            OwnedObject856870* item = *((::fnv_00856870::OwnedObject856870 **)((void *)(field70)));
             reinterpret_cast<::ItemChangeListNode *>((field70))->FUN_00905330((*(::InventoryStackRecord *const *)(&item)));
             delete item;
         }
@@ -6356,7 +6354,7 @@ int* Stub8622Self::InitMaxValue()
     unsigned int nValue;
     while (apTargetLight && !FUN_008256d0(apTargetLight))
     {
-        reinterpret_cast<::FUN_0085fed0_Class *>((((Stub8622Ext*)this)))->FUN_0085fed0((::FUN_0085fed0_Object *)(*(int*)((void *)(new ((void *)(((Stub8622Lt*)apTargetLight))) ::Vec3()))), (int)(&nValue), (char *)(0), (const char *)(0), 0);
+        reinterpret_cast<::FUN_0085fed0_Class *>((((Stub8622Ext*)this)))->FUN_0085fed0((::FUN_0085fed0_Object *)(*(int*)((void *)((void *)(((Stub8622Lt*)apTargetLight))))), (int)(&nValue), (char *)(0), (const char *)(0), 0);
         if (nValue > nMax)
         {
             nMax = nValue;
@@ -6968,7 +6966,7 @@ void* Own61::RemoveCommand(const char* key, int a, int b)
         it = list;
         while (it)
         {
-            Cmd61* cmd = *((::Cmd61 **)(new ((void *)(it)) ::Vec3()));
+            Cmd61* cmd = *((::Cmd61 **)((void *)(it)));
             if (cmd && a == cmd->m_iWordAt04 && b == cmd->m_8)
             {
                 void* r = cmd->m_iWordAt00;
@@ -7232,7 +7230,7 @@ void SelfX::FUN_00861820(BufX* pBuf)
     NodeX* pkNode_dhyats = &m2c;
     while (pkNode_dhyats)
     {
-        unsigned int uiID = *((unsigned int *)(new ((void *)(pkNode_dhyats)) ::Vec3()));
+        unsigned int uiID = *((unsigned int *)((void *)(pkNode_dhyats)));
         FormX* pkForm = ((::fnv_00861820::FormX *)(::FUN_004839c0(uiID)));
         if (pkForm)
         {
@@ -7258,7 +7256,7 @@ void SelfX::FUN_00861820(BufX* pBuf)
     pkNode_dhyats = &m2c;
     while (pkNode_dhyats)
     {
-        unsigned int uiFormID_wk = *((unsigned int *)(new ((void *)(pkNode_dhyats)) ::Vec3()));
+        unsigned int uiFormID_wk = *((unsigned int *)((void *)(pkNode_dhyats)));
         FormX* pkObj = ((::fnv_00861820::FormX *)(::FUN_004839c0(uiFormID_wk)));
         if (pkObj)
         {
@@ -8267,9 +8265,9 @@ void ExpiredSaveLoadGame::PurgeExpiredCellChanges()
                 }
                 else
                 {
-                    while (cells && *((::ExpiredCellCoordinates **)(new ((void *)(cells)) ::Vec3())))
+                    while (cells && *((::ExpiredCellCoordinates **)((void *)(cells))))
                     {
-                        ExpiredCellCoordinates* coordinates = *((::ExpiredCellCoordinates **)(new ((void *)(cells)) ::Vec3()));
+                        ExpiredCellCoordinates* coordinates = *((::ExpiredCellCoordinates **)((void *)(cells)));
                         if (coordinates && coordinates->x == q && coordinates->y == i)
                         {
                             reset = true;
@@ -8362,9 +8360,9 @@ void ExpiredSaveLoadGame::PurgeExpiredCellChanges()
         if (p)
         {
             ExpiredCellList* node = p;
-            while (node && *((::ExpiredCellCoordinates **)(new ((void *)(node)) ::Vec3())))
+            while (node && *((::ExpiredCellCoordinates **)((void *)(node))))
             {
-                delete *((::ExpiredCellCoordinates **)(new ((void *)(node)) ::Vec3()));
+                delete *((::ExpiredCellCoordinates **)((void *)(node)));
                 node->FUN_0063f7b0();
             }
             delete p;
@@ -9472,7 +9470,7 @@ void Main::FUN_00855ba0(const char* filename)
 
         while (node)
         {
-            Entry* entry = *((::ChangeReport::Entry **)(new ((void *)(node)) ::Vec3()));
+            Entry* entry = *((::ChangeReport::Entry **)((void *)(node)));
             if (entry)
             {
                 Form* formSlot19 = ((::ChangeReport::Form *)(::FUN_004839c0(entry->id)));
@@ -9530,7 +9528,7 @@ void Main::FUN_00855ba0(const char* filename)
     UnknownNode* unknownNodeSlot24 = others;
     while (unknownNodeSlot24)
     {
-        Unknown* unknown = *((::ChangeReport::Unknown **)(new ((void *)(unknownNodeSlot24)) ::Vec3()));
+        Unknown* unknown = *((::ChangeReport::Unknown **)((void *)(unknownNodeSlot24)));
         if (unknown)
         {
             ::FUN_00406d00(buffer, 520, &DAT_01080254, unknown->size, unknown->value);

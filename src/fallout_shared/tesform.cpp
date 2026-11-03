@@ -112,7 +112,7 @@ TESFile* TESForm::GetFile(int fileIndex)
     selected = 0;
     while (fileList)
     {
-        sourceFile = ((::TESFile *)(new ((void *)(fileList)) ::Vec3()));
+        sourceFile = (fileList->m_item);
         fileList = ((::BSSimpleList< ::TESFile *> *)(reinterpret_cast<::Callees *>((fileList))->FUN_00726070()));
         if (sourceFile)
         {
@@ -296,7 +296,7 @@ TESFile* TESForm::GetOwnerMaster()
     TESFile* pOwnerMaster = 0;
     while (pFileNode && !pFileNode->IsEmpty())
     {
-        TESFile* file = ((::TESFile *)(new ((void *)(pFileNode)) ::Vec3()));
+        TESFile* file = (pFileNode->m_item);
         pFileNode = ((::BSSimpleList< ::TESFile *> *)(reinterpret_cast<::Callees *>((pFileNode))->FUN_00726070()));
         if (file->IsMasterFile())
             pOwnerMaster = file;
@@ -351,7 +351,7 @@ void TESForm::SetFile(TESFile* file)
         BSSimpleList<TESFile*>* lastSource = 0;
         while (source)
         {
-            if (((::TESFile *)(new ((void *)(source)) ::Vec3())))
+            if ((source->m_item))
             {
                 lastSource = source;
             }
@@ -372,7 +372,7 @@ void TESForm::SetFile(TESFile* file)
         BSSimpleList<TESFile*>* lastMaster = 0;
         while (source && !source->IsEmpty())
         {
-            TESFile* sourceFile = ((::TESFile *)(new ((void *)(source)) ::Vec3()));
+            TESFile* sourceFile = (source->m_item);
             if (sourceFile->IsMasterFile())
             {
                 lastMaster = source;
@@ -399,7 +399,7 @@ void TESForm::SetFile(TESFile* file)
         BSSimpleList<TESFile*>* lastSource = 0;
         while (source)
         {
-            TESFile* sourceFile = ((::TESFile *)(new ((void *)(source)) ::Vec3()));
+            TESFile* sourceFile = (source->m_item);
             if (sourceFile)
             {
                 lastSource = source;

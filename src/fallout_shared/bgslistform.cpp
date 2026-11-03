@@ -115,7 +115,7 @@ void BGSListForm::InitItem()
     TESForm* form;
     while (current != 0 && !current->IsEmpty())
     {
-        unsigned int formID = (unsigned int)((::BGSPerkEntry *)(new ((void *)(reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(current))) ::Vec3()));
+        unsigned int formID = (unsigned int)((reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(current))->m_item);
         ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
         form = ::FUN_004839c0(formID);
         if (form != 0)
@@ -217,7 +217,7 @@ void FUN_0058fcc0_shell::FUN_0058fcc0()
     PerkEntryConditionSet* pCondition = ((BGSCameraPath*)this)->GetConditions();
     while (pCondition && !(((_ref_008256d0_shell*)pCondition)->_ref_008256d0()))
     {
-        TESForm* pForm = *((::TESForm **)(new ((void *)(((_ref_006815c0_shell*)pCondition))) ::Vec3()));
+        TESForm* pForm = *((::TESForm **)((void *)(((_ref_006815c0_shell*)pCondition))));
         unsigned int formID6 = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pForm))->FUN_0084e3a0()));
         ::FUN_00485910(0x4d414e4c, formID6);
         pCondition = ((::PerkEntryConditionSet *)(reinterpret_cast<::Callees *>((((_ref_00726070_shell*)pCondition)))->FUN_00726070()));
@@ -261,7 +261,7 @@ bool FUN_0058fbc0_shell::IsNotEqual(TESForm* apCompare)
     while (pCurrentElementNext && !((_ref_008256d0_shell2*)pCurrentElementNext)->FUN_008256d0() && pcomplist &&
            !((_ref_008256d0_shell2*)pcomplist)->FUN_008256d0())
     {
-        if (*((::TESForm **)(new ((void *)(((_ref_006815c0_shell2*)pCurrentElementNext))) ::Vec3())) != *((::TESForm **)(new ((void *)(((_ref_006815c0_shell2*)pcomplist))) ::Vec3())))
+        if (*((::TESForm **)((void *)(((_ref_006815c0_shell2*)pCurrentElementNext)))) != *((::TESForm **)((void *)(((_ref_006815c0_shell2*)pcomplist)))))
             return true;
         pCurrentElementNext = ((::BSSimpleList< ::TESForm *> *)(reinterpret_cast<::Callees *>((((BSSimpleListGetNext*)pCurrentElementNext)))->FUN_00726070()));
         pcomplist = ((::BSSimpleList< ::TESForm *> *)(reinterpret_cast<::Callees *>((((BSSimpleListGetNext*)pcomplist)))->FUN_00726070()));
@@ -292,7 +292,7 @@ void FUN_0058fb30_shell::CopyConditionsFromListForm(TESForm* apCopy)
         reinterpret_cast<BSSimpleList<TESForm*>*>(reinterpret_cast<BGSCameraPath*>(pListForm)->GetConditions());
     while (pCurrentElementNext && !reinterpret_cast<_ref_008256d0_shell2*>(pCurrentElementNext)->FUN_008256d0())
     {
-        TESForm* pform = ((::TESForm **)(new ((void *)(reinterpret_cast<_ref_006815c0_shell2*>(pCurrentElementNext))) ::Vec3()))[0];
+        TESForm* pform = ((::TESForm **)((void *)(reinterpret_cast<_ref_006815c0_shell2*>(pCurrentElementNext))))[0];
         reinterpret_cast<::Callees *>((reinterpret_cast<SoundListView*>(GetConditions())))->FUN_00905820((void *)&(reinterpret_cast<char* const&>(pform)));
         pCurrentElementNext = reinterpret_cast<BSSimpleList<TESForm*>*>(((::BSSimpleList< ::TESForm *> *)(reinterpret_cast<::Callees *>((reinterpret_cast<BSSimpleListGetNext*>(pCurrentElementNext)))->FUN_00726070())));
     }
@@ -311,7 +311,7 @@ int FUN_0058ff60_shell::GetConditionIndex(TESForm* apForm)
     BSSimpleList<TESForm*>* pCurrentElementNext = reinterpret_cast<BSSimpleList<TESForm*>*>(GetConditions());
     while (pCurrentElementNext && !reinterpret_cast<_ref_008256d0_shell*>(pCurrentElementNext)->_ref_008256d0())
     {
-        if (((::TESForm **)(new ((void *)(reinterpret_cast<_ref_006815c0_shell*>(pCurrentElementNext))) ::Vec3()))[0] == apForm)
+        if (((::TESForm **)((void *)(reinterpret_cast<_ref_006815c0_shell*>(pCurrentElementNext))))[0] == apForm)
             break;
         iElementIndex++;
         pCurrentElementNext = reinterpret_cast<BSSimpleList<TESForm*>*>(((::BSSimpleList< ::TESForm *> *)(reinterpret_cast<::Callees *>((reinterpret_cast<BSSimpleListGetNext*>(pCurrentElementNext)))->FUN_00726070())));
@@ -346,7 +346,7 @@ void FUN_00590080_shell::SaveFormList(BGSSaveFormBuffer* apSaveGameBuffer)
         reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(reinterpret_cast<void*>(reinterpret_cast<unsigned char*>(&this->m_uiFormCount)), 4, 0);
         for (unsigned int i = 0; i < m_uiFormCount; ++i)
         {
-            TESForm* pform = ((::TESForm **)(new ((void *)(reinterpret_cast<_ref_006815c0_shell*>(pCurrentElementNext))) ::Vec3()))[0];
+            TESForm* pform = ((::TESForm **)((void *)(reinterpret_cast<_ref_006815c0_shell*>(pCurrentElementNext))))[0];
             pCurrentElementNext = ((::BSSimpleList< ::TESForm *> *)(reinterpret_cast<::Callees *>((reinterpret_cast<BSSimpleListGetNext*>(pCurrentElementNext)))->FUN_00726070()));
             reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((reinterpret_cast<SaveFormIDHelper*>(apSaveGameBuffer)))->FUN_00865df0((::fnv_00865df0::TESForm *)(pform), 0);
         }

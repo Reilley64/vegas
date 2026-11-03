@@ -34,7 +34,6 @@
 #include "fnv/symbols_0047a000.h"
 #include "fnv/symbols_00487000.h"
 #include "tesobjectimod_decls.h"
-#include "fnv/decl/FUN_00519e70.h"
 #include "fnv/symbols_00472000.h"
 
 class TESFormInitFlag : public TESObjectIMODVirtuals

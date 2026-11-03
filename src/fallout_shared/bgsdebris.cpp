@@ -301,7 +301,7 @@ void BGSDebris::ClearData()
     BSSimpleList<DebrisModelEntry*>* list = &DataList;
     while (!DataList.IsEmpty())
     {
-        DebrisModelEntry* data = ((::DebrisModelEntry *)(new ((void *)(list)) ::Vec3()));
+        DebrisModelEntry* data = (list->m_item);
         if (data)
         {
             char* path = data->path;
@@ -318,7 +318,7 @@ void BGSDebris::Preload(int priority, void* file)
     BSSimpleList<DebrisModelEntry*>* list = GetDataList();
     while (list)
     {
-        DebrisModelEntry* data = ((::DebrisModelEntry *)(new ((void *)(list)) ::Vec3()));
+        DebrisModelEntry* data = (list->m_item);
         if (data && data->path && ::FUN_0044a670(data->path))
             reinterpret_cast<::C4442C0Queue *>((g_modelLoader))->QueueFullWithNullResult((int)(data->path), (int)(&data->model), priority, (int)(file), 1, 1, 0, 0);
         list = ((::BSSimpleList< ::DebrisModelEntry *> *)(reinterpret_cast<::Callees *>((list))->FUN_00726070()));
@@ -335,7 +335,7 @@ void BGSDebris_shell::CopyFromDebris(TESForm* source)
     BSSimpleList<DebrisModelEntry*>* list = debris2->GetDataList();
     while (list)
     {
-        DebrisModelEntry* data = ((::DebrisModelEntry *)(new ((void *)(list)) ::Vec3()));
+        DebrisModelEntry* data = (list->m_item);
         if (data)
             AddDebrisModel(data->chance, data->path, data->flags);
         list = ((::BSSimpleList< ::DebrisModelEntry *> *)(reinterpret_cast<::Callees *>((list))->FUN_00726070()));
@@ -377,7 +377,7 @@ void BGSDebris_shell2::FUN_004fa6f0(void* a1, Vec3* apPosition, unsigned int cou
     DNode* node_ = ((::DNode *)(reinterpret_cast<::BGSDebris *>((((DList*)this)))->GetDataList()));
     while (node_)
     {
-        DItem* d9 = (DItem*)*((void **)(new ((void *)(node_)) ::Vec3()));
+        DItem* d9 = (DItem*)*((void **)((void *)(node_)));
         if (d9 && d9->model && d9->chance)
         {
             unsigned int n = d9->chance * count / 100;
@@ -434,7 +434,7 @@ void FUN_004fa1a0_shell::WriteDebrisEntries()
     DNode* pkNode = ((::DNode *)(reinterpret_cast<::BGSDebris *>(this)->GetDataList()));
     while (pkNode)
     {
-        DebrisEntry4fa* pkData = (DebrisEntry4fa*)*((void **)(new ((void *)(pkNode)) ::Vec3()));
+        DebrisEntry4fa* pkData = (DebrisEntry4fa*)*((void **)((void *)(pkNode)));
         if (pkData && pkData->pcPath && ::FUN_0044a670(pkData->pcPath))
         {
             unsigned int uiSize = ::FUN_0044a670(pkData->pcPath) + 3;
@@ -479,8 +479,8 @@ bool BGSDebris_cmp::FUN_004fa390(TESForm* form)
     DebrisListNode* iter = (DebrisListNode*)&DataList;
     while (otherIter2)
     {
-        DebrisModelEntry* srcData = *((::DebrisModelEntry **)(new ((void *)(otherIter2)) ::Vec3()));
-        DebrisModelEntry* dstData = *((::DebrisModelEntry **)(new ((void *)(iter)) ::Vec3()));
+        DebrisModelEntry* srcData = *((::DebrisModelEntry **)((void *)(otherIter2)));
+        DebrisModelEntry* dstData = *((::DebrisModelEntry **)((void *)(iter)));
         if ((!srcData && dstData) || (srcData && !dstData))
             return true;
         if (srcData && dstData)

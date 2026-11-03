@@ -103,7 +103,7 @@ void TESFaction::ClearReactions()
     FactionRankPresentation* rankData;
     while (!((::BSSimpleList< ::FactionRankPresentation *> *)(reinterpret_cast<struct ::FUN_005a8080 *>(this)->GetField()))->IsEmpty())
     {
-        rankData = ((::FactionRankPresentation *)(new ((void *)(((::BSSimpleList< ::FactionRankPresentation *> *)(reinterpret_cast<struct ::FUN_005a8080 *>(this)->GetField())))) ::Vec3()));
+        rankData = ((((::BSSimpleList< ::FactionRankPresentation *> *)(reinterpret_cast<struct ::FUN_005a8080 *>(this)->GetField())))->m_item);
         delete rankData;
         ((::BSSimpleList< ::FactionRankPresentation *> *)(reinterpret_cast<struct ::FUN_005a8080 *>(this)->GetField()))->RemoveHead();
     }
@@ -162,7 +162,7 @@ void FUN_005fc860_shell::FUN_005fc860()
 {
     while (!((::BSSimpleList< ::FactionRankPresentation *> *)(reinterpret_cast<struct ::FUN_005a8080 *>(this)->GetField()))->IsEmpty())
     {
-        FactionRankPresentation* rankData = ((::FactionRankPresentation *)(new ((void *)(((::BSSimpleList< ::FactionRankPresentation *> *)(reinterpret_cast<struct ::FUN_005a8080 *>(this)->GetField())))) ::Vec3()));
+        FactionRankPresentation* rankData = ((((::BSSimpleList< ::FactionRankPresentation *> *)(reinterpret_cast<struct ::FUN_005a8080 *>(this)->GetField())))->m_item);
         delete rankData;
         ((::BSSimpleList< ::FactionRankPresentation *> *)(reinterpret_cast<struct ::FUN_005a8080 *>(this)->GetField()))->RemoveHead();
     }
@@ -753,9 +753,9 @@ void FUN_005fd210_shell::FUN_005fd210(TESForm* apCopy)
             while (pSourceRankList && !pSourceRankList->IsEmpty())
             {
                 FactionRankPresentation* pdata = new FactionRankPresentation;
-                reinterpret_cast<::TextString *>((((BSStr*)&pdata->m_kMaleRankName)))->FUN_004037f0((const char*)(unsigned int)*(Flt*)&((::FactionRankPresentation *)(new ((void *)(pSourceRankList)) ::Vec3()))->m_kMaleRankName, 0);
-                reinterpret_cast<::TextString *>((((BSStr*)&pdata->m_kFemaleRankName)))->FUN_004037f0((const char*)(unsigned int)*(Flt*)&((::FactionRankPresentation *)(new ((void *)(pSourceRankList)) ::Vec3()))->m_kFemaleRankName, 0);
-                pdata->m_kRankTexture.CopyFromBase(&((::FactionRankPresentation *)(new ((void *)(pSourceRankList)) ::Vec3()))->m_kRankTexture);
+                reinterpret_cast<::TextString *>((((BSStr*)&pdata->m_kMaleRankName)))->FUN_004037f0((const char*)(unsigned int)*(Flt*)&(pSourceRankList->m_item)->m_kMaleRankName, 0);
+                reinterpret_cast<::TextString *>((((BSStr*)&pdata->m_kFemaleRankName)))->FUN_004037f0((const char*)(unsigned int)*(Flt*)&(pSourceRankList->m_item)->m_kFemaleRankName, 0);
+                pdata->m_kRankTexture.CopyFromBase(&(pSourceRankList->m_item)->m_kRankTexture);
                 reinterpret_cast<::Callees *>((pDestRankList))->FUN_00905820((void *)&(pdata));
                 if (((::BSSimpleList< ::FactionRankPresentation *> *)(reinterpret_cast<::Callees *>((pDestRankList))->FUN_00726070())))
                     pDestRankList = (BSSimpleList<FactionRankPresentation*>*)((::BSSimpleList< ::FactionRankPresentation *> *)(reinterpret_cast<::Callees *>((pDestRankList))->FUN_00726070()));
@@ -814,14 +814,14 @@ void ValidateFactionReactions()
     BSSimpleList<TESFaction*>* pIter = (BSSimpleList<TESFaction*>*)::FUN_00871a30((int)(*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler)));
     while (pIter)
     {
-        TESFaction* pFaction = (TESFaction*)*((void **)(new ((void *)(((Node_006815c0*)pIter))) ::Vec3()));
+        TESFaction* pFaction = (TESFaction*)*((void **)((void *)(((Node_006815c0*)pIter))));
         if (pFaction)
         {
             BSSimpleList<Reaction_5fd850*>* pRIter =
                 (BSSimpleList<Reaction_5fd850*>*)((void *)(reinterpret_cast<::BaseProcess *>((((TgtOps*)static_cast<TESReactionForm *>(pFaction))))->GetCurrentProcessData()));
             while (pRIter)
             {
-                Reaction_5fd850* pReaction = (Reaction_5fd850*)*((void **)(new ((void *)(((Node_006815c0*)pRIter))) ::Vec3()));
+                Reaction_5fd850* pReaction = (Reaction_5fd850*)*((void **)((void *)(((Node_006815c0*)pRIter))));
                 if (pReaction && pReaction->pFaction && FNV_GetFormType((TESForm*)pReaction->pFaction) == 8 &&
                     (pReaction->eReaction == 3 || pReaction->eReaction == 2))
                 {
@@ -923,7 +923,7 @@ void TESFactionSaveShell::SaveFactionData()
     BSSimpleList<FactionRankPresentation*>* pNode = ((::BSSimpleList< ::FactionRankPresentation *> *)(reinterpret_cast<struct ::FUN_005a8080 *>(this)->GetField()));
     while (pNode && !pNode->IsEmpty())
     {
-        FactionRankPresentation* pRank = ((::FactionRankPresentation *)(new ((void *)(pNode)) ::Vec3()));
+        FactionRankPresentation* pRank = (pNode->m_item);
         ::FUN_00485910(0x4d414e52, iRankIndex);
         if (((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>(&(static_cast<RankTitle&>(pRank->m_kMaleRankName)))->FUN_004048e0())))
             ::FUN_004856f0((void *)(0x4d414e4d), (void *)((const char*)static_cast<RankTitle&>(pRank->m_kMaleRankName)),
@@ -1082,10 +1082,10 @@ bool FactionCompareAccess::IsDifferentFrom(TESForm* other)
     BSSimpleList<FactionRankPresentation*>* node2 = ((::BSSimpleList< ::FactionRankPresentation *> *)(reinterpret_cast<struct ::FUN_005a8080 *>((faction2))->GetField()));
     while (node1 && !node1->IsEmpty())
     {
-        if (!node2 || !((::FactionRankPresentation *)(new ((void *)(node2)) ::Vec3())))
+        if (!node2 || !(node2->m_item))
             return true;
-        FactionRankPresentation* current2 = ((::FactionRankPresentation *)(new ((void *)(node1)) ::Vec3()));
-        FactionRankPresentation* current = ((::FactionRankPresentation *)(new ((void *)(node2)) ::Vec3()));
+        FactionRankPresentation* current2 = (node1->m_item);
+        FactionRankPresentation* current = (node2->m_item);
         if (((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((void *)&(static_cast<RankStringAccess&>(current2->m_kMaleRankName)))->FUN_004048e0())) ||
             ((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((void *)&(static_cast<RankStringAccess&>(current->m_kMaleRankName)))->FUN_004048e0())))
         {

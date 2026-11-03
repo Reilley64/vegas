@@ -68,7 +68,7 @@ void MagicItem::LoadEffectsFromForm(TESForm* apForm)
     m_iEffectCount = 0;
     while (pIter)
     {
-        if (EffectItem* pItem = ((::EffectItem *)(new ((void *)(pIter)) ::Vec3())))
+        if (EffectItem* pItem = ((::EffectItem *)((void *)(pIter))))
         {
             reinterpret_cast<::FUN_00403db0_shell *>((pItem))->FUN_00403db0(apForm);
             if (pItem->IsHostile())
@@ -90,7 +90,7 @@ bool MagicItem::IsLoaded()
     {
         while (pIter)
         {
-            EffectItem* pItem = ((::EffectItem *)(new ((void *)(pIter)) ::Vec3()));
+            EffectItem* pItem = ((::EffectItem *)((void *)(pIter)));
             EffectSetting* pEffect = pItem ? ((::EffectSetting *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((pItem))->FUN_00825c00())) : 0;
             if (pEffect && ::IsArchetypeFlagSet((::EffectSetting *)(pEffect)) && !pEffect->HasEffectID())
                 return false;
@@ -125,7 +125,7 @@ EffectSetting* MagicItem::GetEffectSettingForRange(MagicSystem::Range aeRange)
             int cost;
             MagicSystem::Range range;
         } current;
-        current.item = ((::EffectItem *)(new ((void *)(pIter)) ::Vec3()));
+        current.item = ((::EffectItem *)((void *)(pIter)));
         current.cost = static_cast<int>(reinterpret_cast<::FUN_00403f80_shell *>((current.item))->GetModifiedCost(0));
         current.range = current.item->GetRange();
         if (!current.item->IsDetrimental() &&
@@ -157,7 +157,7 @@ bool MagicItem::IsLoading()
         {
             while (pIter)
             {
-                EffectItem* pItem = ((::EffectItem *)(new ((void *)(pIter)) ::Vec3()));
+                EffectItem* pItem = ((::EffectItem *)((void *)(pIter)));
                 EffectSetting* pEffect = pItem ? ((::EffectSetting *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((pItem))->FUN_00825c00())) : 0;
                 if (pEffect && ::IsArchetypeFlagSet((::EffectSetting *)(pEffect)) && !pEffect->HasEffectID())
                 {
@@ -211,7 +211,7 @@ void MagicItem::Preload(bool immediate)
                 EffectItem* item;
                 EffectSetting* effect;
             } current;
-            current.item = ((::EffectItem *)(new ((void *)(pIter)) ::Vec3()));
+            current.item = ((::EffectItem *)((void *)(pIter)));
             current.effect = ((::EffectSetting *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((current.item))->FUN_00825c00()));
             if (::IsArchetypeFlagSet((::EffectSetting *)(current.effect)))
             {
@@ -247,7 +247,7 @@ void MagicItem::Preload(bool immediate)
                             modelFiles.iter = modelFiles.list;
                             while (modelFiles.iter && !modelFiles.iter->IsEmpty())
                             {
-                                const char* filename = ((const char *)(new ((void *)(modelFiles.iter)) ::Vec3()));
+                                const char* filename = (modelFiles.iter->m_item);
                                 reinterpret_cast<::fnv_00447080::FUN_00447080_shell *>((g_modelLoader))->FUN_00447080((char *)(filename), 0, true, false, false, false);
                                 modelFiles.iter = ((::BSSimpleList<const char *> *)(reinterpret_cast<::Callees *>((void *)(modelFiles.iter))->FUN_00726070()));
                             }
@@ -275,7 +275,7 @@ void MagicItem::Preload(bool immediate)
                             while (modelPaths.slash && modelPaths.node)
                             {
                                 modelPaths.slash[1] = 0;
-                                const char* name = ((const char *)(new ((void *)(modelPaths.node)) ::Vec3()));
+                                const char* name = (modelPaths.node->m_item);
                                 if (name)
                                 {
                                     strcat_s(path, 260, name);
@@ -291,7 +291,7 @@ void MagicItem::Preload(bool immediate)
                                 BSSimpleList<const char*>* node = files;
                                 while (node)
                                 {
-                                    const char* name = ((const char *)(new ((void *)(node)) ::Vec3()));
+                                    const char* name = (node->m_item);
                                     if (name)
                                         reinterpret_cast<::fnv_004471c0::FUN_004471c0_shell *>((g_modelLoader))->LoadKFModel((char *)(name));
                                     delete[] name;
@@ -310,7 +310,7 @@ void MagicItem::Preload(bool immediate)
                                 while (anim)
                                 {
                                     modelPaths.slash[1] = 0;
-                                    const char* name = ((const char *)(new ((void *)(anim)) ::Vec3()));
+                                    const char* name = (anim->m_item);
                                     if (name)
                                     {
                                         strcat_s(path, 260, name);
@@ -440,7 +440,7 @@ bool MagicStatus::FUN_0040b580()
     {
         while (primary)
         {
-            EffectItem* item = ((::EffectItem *)(new ((void *)(primary)) ::Vec3()));
+            EffectItem* item = ((::EffectItem *)((void *)(primary)));
             EffectSetting* setting = item ? ((::EffectSetting *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((item))->FUN_00825c00())) : 0;
             if (setting && ::IsArchetypeFlagSet((::EffectSetting *)(setting)) && !reinterpret_cast<::EffectSetting *>((((EffectStatus*)setting)))->HasEffectID() &&
                 !reinterpret_cast<::EffectSetting *>((((EffectStatus*)setting)))->UsesAssociatedActorValue())
@@ -518,7 +518,7 @@ void FUN_0040ab70_shell::PreloadModels()
     {
         while (pCurrentElementNext)
         {
-            EffectItem* pitem = ((::EffectItem *)(new ((void *)(pCurrentElementNext)) ::Vec3()));
+            EffectItem* pitem = ((::EffectItem *)((void *)(pCurrentElementNext)));
             EffectSetting* pes = ((::EffectSetting *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((pitem))->FUN_00825c00()));
             TESForm* pform = reinterpret_cast<::fnv_005f5f80::FUN_005f5f80_shell *>((pes))->FUN_005f5f80();
             int icount = 0;
@@ -562,7 +562,7 @@ void FUN_0040ab70_shell::PreloadModels()
                         BSSimpleList<const char*>* pCurrentElementNext = modelList;
                         while (pCurrentElementNext && !pCurrentElementNext->IsEmpty())
                         {
-                            const char* pfilename = ((const char *)(new ((void *)(pCurrentElementNext)) ::Vec3()));
+                            const char* pfilename = (pCurrentElementNext->m_item);
                             NiPointer<Model> spmodel(0);
                             reinterpret_cast<::FUN_004472a0_shell *>((g_modelLoader))->FUN_004472a0((char *)(pfilename), (void *)&(spmodel));
                             if (spmodel)
@@ -596,7 +596,7 @@ void FUN_0040ab70_shell::PreloadModels()
                             while (plastSlash && pcreatureFileList)
                             {
                                 plastSlash[1] = 0;
-                                const char* pitem = ((const char *)(new ((void *)(pcreatureFileList)) ::Vec3()));
+                                const char* pitem = (pcreatureFileList->m_item);
                                 if (pitem)
                                 {
                                     strcat_s(path, 260, pitem);
@@ -616,7 +616,7 @@ void FUN_0040ab70_shell::PreloadModels()
                                     BSSimpleList<const char*>* pFilenameList = pkfList;
                                     while (pFilenameList)
                                     {
-                                        const char* pitem = ((const char *)(new ((void *)(pFilenameList)) ::Vec3()));
+                                        const char* pitem = (pFilenameList->m_item);
                                         if (pitem)
                                         {
                                             for (int i = 0; i < icount; i++)
@@ -640,7 +640,7 @@ void FUN_0040ab70_shell::PreloadModels()
                                 while (pspecialList)
                                 {
                                     plastSlash[1] = 0;
-                                    const char* pitem = ((const char *)(new ((void *)(pspecialList)) ::Vec3()));
+                                    const char* pitem = (pspecialList->m_item);
                                     if (pitem)
                                     {
                                         strcat_s(path, 260, pitem);
@@ -678,7 +678,7 @@ void UnloadMagic::FUN_0040b800(bool immediate)
     {
         while (effects)
         {
-            EffectItem* item = ((::EffectItem *)(new ((void *)(effects)) ::Vec3()));
+            EffectItem* item = ((::EffectItem *)((void *)(effects)));
             UnloadEffect* effect = (UnloadEffect*)((::EffectSetting *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((item))->FUN_00825c00()));
             if (::IsArchetypeFlagSet((::EffectSetting *)(effect)))
             {
@@ -709,7 +709,7 @@ void UnloadMagic::FUN_0040b800(bool immediate)
                             BSSimpleList<const char*>* model15 = models71;
                             while (model15 && !model15->IsEmpty())
                             {
-                                const char* path = ((const char *)(new ((void *)(model15)) ::Vec3()));
+                                const char* path = (model15->m_item);
                                 reinterpret_cast<::FUN_00445300_shell *>(((*reinterpret_cast<::UnloadLoader * *>(&::g_modelLoader))))->FUN_00445300((char *)(path), immediate, true);
                                 model15 = ((::BSSimpleList<const char *> *)(reinterpret_cast<::Callees *>((void *)(model15))->FUN_00726070()));
                             }
@@ -731,7 +731,7 @@ void UnloadMagic::FUN_0040b800(bool immediate)
                             while (separator10 && modelNode29)
                             {
                                 separator10[1] = 0;
-                                const char* path = ((const char *)(new ((void *)(modelNode29)) ::Vec3()));
+                                const char* path = (modelNode29->m_item);
                                 if (path)
                                 {
                                     strcat_s(buffer4, 260, path);
@@ -747,7 +747,7 @@ void UnloadMagic::FUN_0040b800(bool immediate)
                                 BSSimpleList<const char*>* file = files;
                                 while (file)
                                 {
-                                    const char* path = ((const char *)(new ((void *)(file)) ::Vec3()));
+                                    const char* path = (file->m_item);
                                     if (path)
                                         reinterpret_cast<::fnv_00445370::FUN_00445370_cls *>(((*reinterpret_cast<::UnloadLoader * *>(&::g_modelLoader))))->FUN_00445370((unsigned int)(path), immediate);
                                     delete[] path;
@@ -766,7 +766,7 @@ void UnloadMagic::FUN_0040b800(bool immediate)
                                 while (animation)
                                 {
                                     separator10[1] = 0;
-                                    const char* path = ((const char *)(new ((void *)(animation)) ::Vec3()));
+                                    const char* path = (animation->m_item);
                                     if (path)
                                     {
                                         strcat_s(buffer4, 260, path);

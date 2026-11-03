@@ -30,7 +30,6 @@
 #include "fnv/symbols_00489000.h"
 #include "fnv/symbols_005b5000.h"
 #include "tesobjectarma_load.h"
-#include "fnv/decl/FUN_00512810_holder.h"
 #include "fnv/symbols_00472000.h"
 class TESForm;
 

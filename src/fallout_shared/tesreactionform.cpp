@@ -61,10 +61,10 @@ void TESReactionForm::ClearComponent()
 // @fnv 0x0048bb10
 void TESReactionForm::ClearReactionList()
 {
-    while (((::InventoryStackRecord *)(new ((void *)(reinterpret_cast<BSSimpleList<InventoryStackRecord*>*>(reinterpret_cast<BaseProcess*>(this)->GetCurrentProcessData()))) ::Vec3())) != 0)
+    while (((reinterpret_cast<BSSimpleList<InventoryStackRecord*>*>(reinterpret_cast<BaseProcess*>(this)->GetCurrentProcessData()))->m_item) != 0)
     {
         InventoryStackRecord* pToFree =
-            ((::InventoryStackRecord *)(new ((void *)(reinterpret_cast<BSSimpleList<InventoryStackRecord*>*>(reinterpret_cast<BaseProcess*>(this)->GetCurrentProcessData()))) ::Vec3()));
+            ((reinterpret_cast<BSSimpleList<InventoryStackRecord*>*>(reinterpret_cast<BaseProcess*>(this)->GetCurrentProcessData()))->m_item);
         InventoryStackRecord* pItem = pToFree;
         ::FUN_00401030(pItem);
         reinterpret_cast<BSSimpleList<InventoryStackRecord*>*>(reinterpret_cast<BaseProcess*>(this)->GetCurrentProcessData())
@@ -88,7 +88,7 @@ void TESReactionForm::InitLoadGame(BGSLoadFormBuffer* buffer)
         BSSimpleList<BGSCameraShot*>* previous = 0;
         while (current && !current->IsEmpty())
         {
-            ReactionInfo* reaction = reinterpret_cast<ReactionInfo*>(((::BGSCameraShot *)(new ((void *)(current)) ::Vec3())));
+            ReactionInfo* reaction = reinterpret_cast<ReactionInfo*>((current->m_item));
             bool remove = false;
             if (reaction)
             {
@@ -109,7 +109,7 @@ void TESReactionForm::InitLoadGame(BGSLoadFormBuffer* buffer)
             {
                 if (previous)
                 {
-                    reinterpret_cast<::ItemChangeListNode *>((previous))->FUN_00905330((::InventoryStackRecord *const &)(((::BGSCameraShot *)(new ((void *)(current)) ::Vec3()))));
+                    reinterpret_cast<::ItemChangeListNode *>((previous))->FUN_00905330((::InventoryStackRecord *const &)((current->m_item)));
                     current = ((::BSSimpleList< ::BGSCameraShot *> *)(reinterpret_cast<::Callees *>((previous))->FUN_00726070()));
                 }
                 else
@@ -136,9 +136,9 @@ void TESReactionForm::InitItem(TESForm* form)
         reinterpret_cast<BSSimpleList<BGSCameraShot*>*>(reinterpret_cast<BaseProcess*>(this)->GetCurrentProcessData());
     BSSimpleList<BGSCameraShot*>* pFile = 0;
     pPrev = form ? form->GetFile(-1) : 0;
-    while (pList && ((::BGSCameraShot *)(new ((void *)(pList)) ::Vec3())))
+    while (pList && (pList->m_item))
     {
-        ReactionInfo* reaction = reinterpret_cast<ReactionInfo*>(((::BGSCameraShot *)(new ((void *)(pList)) ::Vec3())));
+        ReactionInfo* reaction = reinterpret_cast<ReactionInfo*>((pList->m_item));
         unsigned int formID = reaction->formID;
         ::ResolveFormID((unsigned int *)&(formID), pPrev);
         reaction->formID = reinterpret_cast<unsigned int>(::FUN_004839c0(formID));
@@ -183,9 +183,9 @@ int FUN_0048c1b0_shell::FUN_0048c1b0(TESForm* apForm)
     if (apForm != 0)
     {
         void* pList = reinterpret_cast<BaseProcess*>(this)->GetCurrentProcessData();
-        while (pList != 0 && *((::GROUP_REACTION_dummy **)(new ((void *)(pList)) ::Vec3())) != 0)
+        while (pList != 0 && *((::GROUP_REACTION_dummy **)((void *)(pList))) != 0)
         {
-            GROUP_REACTION_dummy* fr = *((::GROUP_REACTION_dummy **)(new ((void *)(pList)) ::Vec3()));
+            GROUP_REACTION_dummy* fr = *((::GROUP_REACTION_dummy **)((void *)(pList)));
             if (fr->pForm == apForm)
                 return fr->eFightReaction;
             pList = reinterpret_cast<::Callees *>((pList))->FUN_00726070();
@@ -217,9 +217,9 @@ void FUN_0048bfc0(BaseProcess* self, Args_0048bfc0 args)
         return;
     bool bFound = false;
     void* pList = self->GetCurrentProcessData();
-    while (pList && *((::GROUP_REACTION_dummy **)(new ((void *)(pList)) ::Vec3())))
+    while (pList && *((::GROUP_REACTION_dummy **)((void *)(pList))))
     {
-        GROUP_REACTION_dummy* fr = *((::GROUP_REACTION_dummy **)(new ((void *)(pList)) ::Vec3()));
+        GROUP_REACTION_dummy* fr = *((::GROUP_REACTION_dummy **)((void *)(pList)));
         if (fr->pForm == args.apForm)
         {
             if (args.aiReaction == 0 && fr->eFightReaction == 0)
@@ -343,9 +343,9 @@ void FUN_0048bb70_shell::WriteCameraShotList()
     BGSCameraShot* shot;
     ContainerItemExtraFileData data;
 
-    while (current && ((::BGSCameraShot *)(new ((void *)(current)) ::Vec3())))
+    while (current && (current->m_item))
     {
-        shot = ((::BGSCameraShot *)(new ((void *)(current)) ::Vec3()));
+        shot = (current->m_item);
 
         if (!reinterpret_cast<::FUN_00440d80_shell *>((void *)((*reinterpret_cast<RefH**>(shot))))->FUN_00440d80())
         {
@@ -397,9 +397,9 @@ void FUN_0048bd50_shell::CopyReactionList(TESForm* form)
     ReactionListOps_bd50* dst;
     dst = ((::ReactionListOps_bd50 *)(reinterpret_cast<::BaseProcess *>((((ReactionListOps_bd50*)this)))->GetCurrentProcessData()));
     cur5 = ((::ReactionListOps_bd50 *)(reinterpret_cast<::BaseProcess *>((p))->GetCurrentProcessData()));
-    while (cur5 != 0 && *((::GROUP_REACTION_bd50 **)(new ((void *)(cur5)) ::Vec3())) != 0)
+    while (cur5 != 0 && *((::GROUP_REACTION_bd50 **)((void *)(cur5))) != 0)
     {
-        GROUP_REACTION_bd50* src2 = *((::GROUP_REACTION_bd50 **)(new ((void *)(cur5)) ::Vec3()));
+        GROUP_REACTION_bd50* src2 = *((::GROUP_REACTION_bd50 **)((void *)(cur5)));
         GROUP_REACTION_bd50* item = new GROUP_REACTION_bd50;
         item->pForm = src2->pForm;
         item->iOffset = src2->iOffset;
@@ -443,8 +443,8 @@ bool ReactionCompare::FUN_0048be40(BaseFormComponent* component)
     {
         if (!left)
             return true;
-        ReactionData* rhs = *((::ReactionData **)(new ((void *)(other)) ::Vec3()));
-        ReactionData* lhs = *((::ReactionData **)(new ((void *)(left)) ::Vec3()));
+        ReactionData* rhs = *((::ReactionData **)((void *)(other)));
+        ReactionData* lhs = *((::ReactionData **)((void *)(left)));
         if (rhs && lhs)
         {
             if (rhs->form != lhs->form)
@@ -500,9 +500,9 @@ void C0B0Owner::FUN_0048c0b0(C0B0Form* pkForm, int iDelta)
     C0B0Entry* pkEntry = 0;
     C0B0Node* pkIter = ((::C0B0List *)(reinterpret_cast<::BaseProcess *>(this)->GetCurrentProcessData()));
     bool bFound = false;
-    while (pkIter && *((::C0B0Entry **)(new ((void *)(pkIter)) ::Vec3())))
+    while (pkIter && *((::C0B0Entry **)((void *)(pkIter))))
     {
-        pkEntry = *((::C0B0Entry **)(new ((void *)(pkIter)) ::Vec3()));
+        pkEntry = *((::C0B0Entry **)((void *)(pkIter)));
         if (pkEntry->m_pkForm == pkForm)
         {
             bFound = true;
@@ -543,9 +543,9 @@ void FUN_0048c220_shell::FUN_0048c220(TESForm* apForm, int aiReaction)
     }
     bool bFound = false;
     void* pNode = ((void *)(reinterpret_cast<::BaseProcess *>(this)->GetCurrentProcessData()));
-    while (pNode != 0 && *((::GROUP_REACTION_dummy **)(new ((void *)(pNode)) ::Vec3())) != 0)
+    while (pNode != 0 && *((::GROUP_REACTION_dummy **)((void *)(pNode))) != 0)
     {
-        GROUP_REACTION_dummy* pItem = *((::GROUP_REACTION_dummy **)(new ((void *)(pNode)) ::Vec3()));
+        GROUP_REACTION_dummy* pItem = *((::GROUP_REACTION_dummy **)((void *)(pNode)));
         if (pItem->pForm == apForm)
         {
             pItem->eFightReaction = aiReaction;
@@ -659,7 +659,7 @@ void S24::WriteReactionList(unsigned int auiFlags)
         ReactionListOps_bd50* node = ((::ReactionListOps_bd50 *)(reinterpret_cast<::BaseProcess *>((((ReactionListOps_bd50*)this)))->GetCurrentProcessData()));
         while (node)
         {
-            GROUP_REACTION_bd50* item = *((::GROUP_REACTION_bd50 **)(new ((void *)(node)) ::Vec3()));
+            GROUP_REACTION_bd50* item = *((::GROUP_REACTION_bd50 **)((void *)(node)));
             if (item)
             {
                 unsigned int formID = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((item->pForm))->FUN_0084e3a0()));
@@ -811,7 +811,7 @@ void FUN_0048c930_shell::ResolveGroupReactionForms(unsigned int flags, unsigned 
         int count = 0;
         while (iter != 0)
         {
-            GROUP_REACTION_dummy* entry = *((::GROUP_REACTION_dummy **)(new ((void *)(iter)) ::Vec3()));
+            GROUP_REACTION_dummy* entry = *((::GROUP_REACTION_dummy **)((void *)(iter)));
             if (entry != 0)
             {
                 unsigned int formID = (unsigned int)entry->pForm;
@@ -876,7 +876,7 @@ void FUN_0048c9d0_Class::FUN_0048c9d0(FUN_0048c9d0_SaveBuffer* buffer)
             cursor = &list;
             while (cursor != 0)
             {
-                item = ((::FUN_0048c9d0_ListNode *)(new ((void *)(cursor)) ::Vec3()))->item;
+                item = ((::FUN_0048c9d0_ListNode *)((void *)(cursor)))->item;
                 if (item != 0)
                 {
                     reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((buffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(*(int*)item), 0);

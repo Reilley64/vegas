@@ -309,45 +309,24 @@
 #include "fnv/symbols_01202000.h"
 #include "fnv/symbols_01272000.h"
 #include "modelloader_verified_packet.h"
-#include "fnv/decl/FUN_0043caa0_shell.h"
-#include "fnv/decl/FUN_0043caf0_shell.h"
-#include "fnv/decl/FUN_0043cc60_shell.h"
-#include "fnv/decl/FUN_0043e810_shell.h"
-#include "fnv/decl/FUN_00442550_shell.h"
-#include "fnv/decl/FUN_00448a20_class.h"
-#include "fnv/decl/FUN_00448a60_struct.h"
-#include "fnv/decl/FUN_00c3cff0_shell.h"
-#include "fnv/decl/Loader_S.h"
-#include "fnv/decl/ParentByteQuery.h"
-#include "fnv/decl/RecursiveModelLoader.h"
-#include "fnv/decl/ThisS.h"
-#include "fnv/decl/fnv_00440ba0__FUN_00440ba0_shell.h"
-#include "fnv/decl/fnv_004414f0__FUN_004414f0.h"
-#include "fnv/decl/fnv_004446a0__FUN_004446a0_shell.h"
-#include "fnv/decl/fnv_0062a100__FUN_0062a100_shell.h"
 #include "fnv/symbols_00a5f000.h"
 #include "fnv/symbols_011a9000.h"
 #include "fnv/symbols_0109b000.h"
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/FG_00659100_cls.h"
 #include "fnv/decl/FUN_0064dda0_cls.h"
-#include "fnv/decl/FUN_00c3b970_cls.h"
 #include "fnv/decl/FUN_00c64780_Class.h"
 #include "fnv/decl/FUN_00c64c40_cls.h"
 #include "fnv/decl/FUN_00ec2f00_cls.h"
 #include "fnv/decl/HashTableBase.h"
 #include "fnv/decl/Map40.h"
-#include "fnv/decl/NiObject_b.h"
-#include "fnv/decl/NiStream.h"
 #include "fnv/decl/NiStreamLs.h"
 #include "fnv/decl/NiTMap_S.h"
 #include "fnv/decl/Receiver.h"
 #include "fnv/decl/S_00a64fe0_LargeArray.h"
 #include "fnv/decl/StreamHack.h"
 #include "fnv/decl/StreamMatch.h"
-#include "fnv/decl/TaskProcessor.h"
 #include "fnv/decl/Vec410.h"
-#include "fnv/decl/VecStandIn.h"
 #include "fnv/decl/fnv_0068ac40__FUN_0068ac40_class.h"
 #include "fnv/decl/fnv_00853130__NiTMapBase.h"
 #include "fnv/decl/fnv_00a647f0__FUN_00a647f0_shell.h"
@@ -402,7 +381,7 @@ void ModelLoader::QueueFileList(BSSimpleList<const char*>* pFileList, IO_TASK_PR
     BSSimpleList<const char*>* current = pFileList;
     while (current)
     {
-        const char* fileName = ((const char *)(new ((void *)(current)) ::Vec3()));
+        const char* fileName = (current->m_item);
         if (fileName)
         {
             QueueKFListLocals locals;
@@ -3082,7 +3061,7 @@ Item* TESDataHandler::FindNthMatchingItem(void* a, int aiSkipCount)
 {
     Item* item = 0;
     LNode* node = ((::LNode *)(reinterpret_cast<::FUN_00461090_shell *>(this)->FUN_00461090()));
-    while (node && (item = *((::Item **)(new ((void *)(node)) ::Vec3()))))
+    while (node && (item = *((::Item **)((void *)(node)))))
     {
         if (((bool)(reinterpret_cast<::FUN_0046fdd0_Class *>((item))->IsFieldEqual((int)(a)))))
         {
@@ -5174,7 +5153,7 @@ void* FUN_00447850_shell::FUN_00447850(void* apList, void* apDestList)
         pBaseList = new StrList;
     while (pList)
     {
-        const char* pfilename = *((const char **)(new ((void *)(pList)) ::Vec3()));
+        const char* pfilename = *((const char **)((void *)(pList)));
         int ifilenameLen = ::FUN_0044a670(pfilename) + 1;
         char* ptmpFilename = new char[ifilenameLen];
         TaskQueueInterface::CopyStringToBuffer(ptmpFilename, ifilenameLen, pfilename);
@@ -6891,7 +6870,7 @@ void FUN_0043cb50_shell::QueueTextureFiles(FileEntryList* apTextureList)
             SwapNode_0043cb50* pSwapNode = ((::fnv_0043cb50::SwapNode_0043cb50 *)(reinterpret_cast<::BGSCameraPath *>((ptextureSwap))->GetConditions()));
             while (pSwapNode)
             {
-                DistantTreeTextureInfo* pswap = *((::fnv_0043cb50::DistantTreeTextureInfo **)(new ((void *)(pSwapNode)) ::Vec3()));
+                DistantTreeTextureInfo* pswap = *((::fnv_0043cb50::DistantTreeTextureInfo **)((void *)(pSwapNode)));
                 if (pswap && pswap->m_pTextureSet)
                     reinterpret_cast<::BGSTextureSet *>((pswap->m_pTextureSet))->LoadTextures(FUN_0043cc60(), this, false);
                 pSwapNode = ((::fnv_0043cb50::SwapNode_0043cb50 *)(reinterpret_cast<::Callees *>((pSwapNode))->FUN_00726070()));
@@ -7243,7 +7222,7 @@ void FUN_0043fed0_shell::FUN_0043fed0()
         pdecallist = ((::fnv_0043fed0::DecalList *)(reinterpret_cast<::FUN_0041f050_shell *>((((FUN_0041f050_shell*)reinterpret_cast<::FUN_005d43c0_ *>(((*(RefV**)((char*)this + 0x28))))->FUN_005d43c0())))->FUN_0041f050()));
         while (pdecallist && !pdecallist->FUN_008256d0())
         {
-            ReferenceIntersectionData* pdata = *((::fnv_0043fed0::ReferenceIntersectionData **)(new ((void *)(pdecallist)) ::Vec3()));
+            ReferenceIntersectionData* pdata = *((::fnv_0043fed0::ReferenceIntersectionData **)((void *)(pdecallist)));
             pdecallist = ((::fnv_0043fed0::DecalList *)(reinterpret_cast<::Callees *>((pdecallist))->FUN_00726070()));
             if (pdata->m_pHitReference && ((::fnv_0043fed0::FUN_00475120_shell *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((ScriptS*)pdata->m_pHitReference)))->FUN_007af430()))->GetFormType() == 4)
             {
@@ -12652,7 +12631,7 @@ void ModelLoaderKFList::QueueKFPathsFromList(BSSimpleList<const char*>* apNames,
     int index = 0;
     while (iter)
     {
-        const char* name = ((const char *)(new ((void *)(iter)) ::Vec3()));
+        const char* name = (iter->m_item);
         if (name)
         {
             char path[260];
@@ -14375,7 +14354,7 @@ void Main::UpdateModels()
     if (!iterator->FUN_008256d0())
         while (iterator)
         {
-            Entry* entry = *((::ModelResources::Entry **)(new ((void *)(iterator)) ::Vec3()));
+            Entry* entry = *((::ModelResources::Entry **)((void *)(iterator)));
             Reference* reference = ((::ModelResources::Reference *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((entry))->FUN_00825c00()));
             if (::IsArchetypeFlagSet((::EffectSetting *)(reference)) && (!loaded || !reinterpret_cast<::EffectSetting *>((reference))->UsesAssociatedActorValue()))
             {
@@ -16525,7 +16504,7 @@ void AnimLoader445::QueueModelAnimations(TESModel* model, int priority, int queu
                 {
                     unsigned long ptr;
                     const char* animationFile;
-                    animationFile = ((char *)(new ((void *)(race)) ::Vec3()));
+                    animationFile = ((char *)((void *)(race)));
                     ptr = ::FUN_0044a670(animationFile) + 1;
                     char* copy;
                     copy = new char[ptr];
@@ -16644,14 +16623,14 @@ void Loader::LoadFiles(Paths* apPaths, Owner* owner, int priority, Task* parent,
     if (!apPaths || !owner)
         return;
     Paths* node = apPaths;
-    if (node && *((const char **)(new ((void *)(node)) ::Vec3())))
+    if (node && *((const char **)((void *)(node))))
     {
         AutoMemContext_1 memory((MEM_CONTEXT)0x33, true,
                                 "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\ModelLoader.cpp", 0xe9f);
         Ptr group(0);
         while (node)
         {
-            const char* entry = *((const char **)(new ((void *)(node)) ::Vec3()));
+            const char* entry = *((const char **)((void *)(node)));
             if (entry)
             {
                 const char* h = entry;
@@ -16791,7 +16770,7 @@ void* FUN_00447330_shell::FUN_00447330(char* apPath, bool abLoadLocomotion, bool
                 reinterpret_cast<::IdleAnimationManager *>(((*reinterpret_cast<::fnv_00447330::KFGlobal447330 * *>(&::DAT_011cb6a0))))->ClearIdleData(buf3, (::BSSimpleList<const char *> *)(res4), 1);
                 while (!res4->_ref_008256d0())
                 {
-                    char* head = *((char **)(new ((void *)(res4)) ::Vec3()));
+                    char* head = *((char **)((void *)(res4)));
                     delete head;
                     res4->_ref_0063f7b0();
                 }
@@ -17236,7 +17215,7 @@ int B44F890Collection::FUN_0044f890(int iArg)
     int iCount = 0;
     while (pkNode)
     {
-        reinterpret_cast<::FUN_00c33280_Class *>(((*((::B44F890Setting **)(new ((void *)(pkNode)) ::Vec3())))))->FUN_00c33280((::NiTPrimitiveArray_unsigned_int_ *)(iArg));
+        reinterpret_cast<::FUN_00c33280_Class *>(((*((::B44F890Setting **)((void *)(pkNode))))))->FUN_00c33280((::NiTPrimitiveArray_unsigned_int_ *)(iArg));
         pkNode = GetNextNode(pkNode);
         iCount++;
     }
@@ -19692,7 +19671,7 @@ bool Owner44F950::CheckAllItems()
         Node44F950* pkNode = ((::Node44F950 *)(::FUN_0044faa0((char *)this)));
         while (pkNode)
         {
-            bResult &= CheckItem(((::Item44F950 *)(new ((void *)(pkNode)) ::Vec3())));
+            bResult &= CheckItem(((::Item44F950 *)((void *)(pkNode))));
             pkNode = GetNext(pkNode);
         }
     }

@@ -585,7 +585,7 @@ void ImageSpaceModifierInstanceForm::Stop(TESImageSpaceModifier* modifier)
     BSSimpleList<NiPointer<ImageSpaceModifierInstance> >* node = ((::BSSimpleList< ::NiPointer< ::ImageSpaceModifierInstance>> *)(reinterpret_cast<::TESObjectTREE *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->GetData()));
     while (node)
     {
-        ImageSpaceModifierInstance* instance = (*(::NiPointer< ::ImageSpaceModifierInstance> *)(new ((void *)(node)) ::Vec3()));
+        ImageSpaceModifierInstance* instance = (node->m_item);
         if (instance && instance->GetInstanceForm() && ((::TESImageSpaceModifier *)(reinterpret_cast<::BGSTerrainManager *>((instance->GetInstanceForm()))->GetMinLevel())) == modifier)
         {
             reinterpret_cast<::ListReader *>((node))->FUN_00631620((const ::NodeValue &)((const ::NiPointer< ::ImageSpaceModifierInstance> &)(instance)));
@@ -697,7 +697,7 @@ void __cdecl FUN_005293f0(ImageSpaceModifierInstance* apInstance)
     BSSimpleList<NiPointer<ImageSpaceModifierInstance> >* pkList = ((::BSSimpleList< ::NiPointer< ::ImageSpaceModifierInstance>> *)(reinterpret_cast<::TESObjectTREE *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->GetData()));
     while (pkList)
     {
-        ImageSpaceModifierInstance* pinstance = (*(::NiPointer< ::ImageSpaceModifierInstance> *)(new ((void *)(pkList)) ::Vec3()));
+        ImageSpaceModifierInstance* pinstance = (pkList->m_item);
         if (pinstance == apInstance)
         {
             reinterpret_cast<::ListReader *>((pkList))->FUN_00631620((const ::NodeValue &)((const ::NiPointer< ::ImageSpaceModifierInstance> &)(pinstance)));
@@ -1108,7 +1108,7 @@ ImageSpaceModifierInstanceForm* __cdecl CreateImageSpaceModifierInstance(TESImag
         BSSimpleList<NiPointer<ImageSpaceModifierInstance> >* pIter = ((::BSSimpleList< ::NiPointer< ::ImageSpaceModifierInstance>> *)(reinterpret_cast<::TESObjectTREE *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->GetData()));
         while (pIter)
         {
-            ImageSpaceModifierInstance* pCurrent = (*(::NiPointer< ::ImageSpaceModifierInstance> *)(new ((void *)(pIter)) ::Vec3()));
+            ImageSpaceModifierInstance* pCurrent = (pIter->m_item);
             if (pCurrent && pCurrent->GetInstanceForm() &&
                 pCurrent->GetInstanceForm()->m_pPreviousImageSpaceModifier == apModifier)
             {

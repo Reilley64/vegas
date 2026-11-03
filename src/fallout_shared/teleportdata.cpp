@@ -206,8 +206,8 @@ TeleportableReference* FUN_0043a160(TeleportableReference* self)
 {
     NiPoint3 a;
     NiPoint3 b;
-    new ((void *)(((R6815c0*)&self->position.x))) ::Vec3();
-    new ((void *)(((R6815c0*)&self->rotation.x))) ::Vec3();
+    (void *)(((R6815c0*)&self->position.x));
+    (void *)(((R6815c0*)&self->rotation.x));
     *(int*)self = 0;
     (*(char*)&self->cFlags) = 0;
     self->position = *((::NiPoint3 *)(reinterpret_cast<::FUN_00416870_t *>((&a))->FUN_00416870(DAT_01016450, DAT_01016450, DAT_01016450)));

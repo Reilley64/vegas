@@ -49,7 +49,7 @@ void BGSQuestObjective::InitItem(TESQuest* quest)
     BSSimpleList<RegionObjectEntry*>* targets = ((::BSSimpleList< ::RegionObjectEntry *> *)(reinterpret_cast<::NonActorMagicTarget *>(this)->GetActiveEffectList()));
     while (targets && !reinterpret_cast<BSSimpleList<const char*>*>(targets)->IsEmpty())
     {
-        reinterpret_cast<RegionObjectEntry*>(((::BGSPerkEntry *)(new ((void *)(reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(targets))) ::Vec3())))
+        reinterpret_cast<RegionObjectEntry*>(((reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(targets))->m_item))
             ->InitItem(reinterpret_cast<TESForm*>(quest));
         targets = reinterpret_cast<BSSimpleList<RegionObjectEntry*>*>(
             ((::BSSimpleList< ::BGSPerkEntry *> *)(reinterpret_cast<::Callees *>((reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(targets)))->FUN_00726070())));
@@ -357,9 +357,9 @@ void FUN_005ec500_shell::AddMatchingTargetsToList(void* apListToFill)
         return;
     ListOps* pMasterList = (ListOps*)((::BSSimpleList< ::RegionObjectEntry *> *)(reinterpret_cast<::NonActorMagicTarget *>((((BGSQuestObjective*)this)))->GetActiveEffectList()));
     RegionObjectEntry* pTarget = 0;
-    while (pMasterList && *((::RegionObjectEntry **)(new ((void *)(pMasterList)) ::Vec3())))
+    while (pMasterList && *((::RegionObjectEntry **)((void *)(pMasterList))))
     {
-        pTarget = *((::RegionObjectEntry **)(new ((void *)(pMasterList)) ::Vec3()));
+        pTarget = *((::RegionObjectEntry **)((void *)(pMasterList)));
         pMasterList = ((::ListOps *)(reinterpret_cast<::Callees *>((pMasterList))->FUN_00726070()));
         if (reinterpret_cast<::PerkEntryConditionSet *>((((CondOps*)((void *)(reinterpret_cast<::BaseProcess *>((((TgtOps*)pTarget)))->GetCurrentProcessData())))))->ContainsTrait((::TESObjectREFR *)(void *)(((void *)(reinterpret_cast<::RegionObjectEntry *>((((TgtOps*)pTarget)))->GetReference(0)))), (::TESObjectREFR *)(0)))
         {
@@ -485,7 +485,7 @@ void FUN_005ec280_shell::FUN_005ec280()
     BSSimpleList<RegionObjectEntry*>* list = ((::BSSimpleList< ::RegionObjectEntry *> *)(reinterpret_cast<::NonActorMagicTarget *>((((BGSQuestObjective*)this)))->GetActiveEffectList()));
     while (list && !list->IsEmpty())
     {
-        reinterpret_cast<::TESForm *>((((Date*)((::RegionObjectEntry *)(new ((void *)(list)) ::Vec3())))))->ClearData();
+        reinterpret_cast<::TESForm *>((((Date*)(list->m_item))))->ClearData();
         list = ((::BSSimpleList< ::RegionObjectEntry *> *)(reinterpret_cast<::Callees *>((list))->FUN_00726070()));
     }
 }
@@ -660,7 +660,7 @@ void FUN_005ec460_Owner::FUN_005ec460()
     FUN_005ec460_List* list = ((::FUN_005ec460_List *)(reinterpret_cast<::NonActorMagicTarget *>(this)->GetActiveEffectList()));
     while (list && !list->FUN_008256d0())
     {
-        StandIn* target = *((::StandIn **)(new ((void *)(list)) ::Vec3()));
+        StandIn* target = *((::StandIn **)((void *)(list)));
         StandIn* deletionTarget = target;
         deletionTarget ? deletionTarget->FUN_005ec4d0(1) : 0;
         list->FUN_0063f7b0();

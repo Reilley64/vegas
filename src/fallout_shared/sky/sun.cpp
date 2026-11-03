@@ -927,7 +927,7 @@ void FUN_00641830_shell::UpdateSun(Sky* apSky, float afSecondsPassed)
         if (pcell)
         {
             H::ThreeByThreeMatrix rotmat;
-            new ((void *)(&rotmat)) ::Vec3();
+            (void *)(&rotmat);
             reinterpret_cast<::FUN_004a0c90_shell *>((((FUN_004a0c90_shell*)&lightDir)))->FUN_004a0c90(reinterpret_cast<::fnv_00544910::FUN_00544910_shell *>((((Cell_S*)pcell)))->FUN_00544910() * ::DAT_01023128);
             reinterpret_cast<::ThreeByThreeMatrix *>(&(rotmat))->SetYRotation(reinterpret_cast<::fnv_00544970::FUN_00544970_shell *>((((Cell_S*)pcell)))->FUN_00544970() * ::DAT_01023128);
             lightDir = lightDir * rotmat;
@@ -950,7 +950,7 @@ void FUN_00641830_shell::UpdateSun(Sky* apSky, float afSecondsPassed)
         if (pcell)
         {
             H::ThreeByThreeMatrix rotmat;
-            new ((void *)(&rotmat)) ::Vec3();
+            (void *)(&rotmat);
             reinterpret_cast<::FUN_004a0c90_shell *>((((FUN_004a0c90_shell*)&lightDir)))->FUN_004a0c90(reinterpret_cast<::fnv_00544910::FUN_00544910_shell *>((((Cell_S*)pcell)))->FUN_00544910() * ::DAT_01023128);
             reinterpret_cast<::ThreeByThreeMatrix *>(&(rotmat))->SetYRotation(reinterpret_cast<::fnv_00544970::FUN_00544970_shell *>((((Cell_S*)pcell)))->FUN_00544970() * ::DAT_01023128);
             lightDir = lightDir * rotmat;

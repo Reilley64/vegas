@@ -81,7 +81,7 @@ bool FUN_00474a80_Class::FUN_00474a80()
 {
     if (((::GroupHolder *)(reinterpret_cast<::fnv_00474a40::FUN_00474a40_shell *>(this)->FUN_00474a40())))
     {
-        int value = *((int *)(new ((void *)(((::RangeHolder *)(reinterpret_cast<::BGSCameraPath *>((((::GroupHolder *)(reinterpret_cast<::fnv_00474a40::FUN_00474a40_shell *>(this)->FUN_00474a40()))))->GetConditions())))) ::Vec3()));
+        int value = *((int *)((void *)(((::RangeHolder *)(reinterpret_cast<::BGSCameraPath *>((((::GroupHolder *)(reinterpret_cast<::fnv_00474a40::FUN_00474a40_shell *>(this)->FUN_00474a40()))))->GetConditions())))));
         if (value != 0)
         {
             int result = FUN_00ec43fb(value, 0, &(*reinterpret_cast<char *>(&::DAT_01183028)), &DAT_011840c4, 0);

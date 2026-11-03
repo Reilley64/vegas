@@ -99,7 +99,7 @@ void BGSTalkingActivator::FindRadioStations(TESObjectREFR* ref, BSSimpleList<TES
     BSSimpleList<TESObjectREFR*>* pCurrent = &(*reinterpret_cast<::BSSimpleList< ::TESObjectREFR *> *>(&::g_011c8264));
     while (pCurrent && !pCurrent->IsEmpty())
     {
-        TESObjectREFR* pCurrentRadioStation = ((::TESObjectREFR *)(new ((void *)(pCurrent)) ::Vec3()));
+        TESObjectREFR* pCurrentRadioStation = (pCurrent->m_item);
         bReferencePresent = false;
         fDistance = FLT_MAX;
         if (!pCurrentRadioStation->GetDisabled() || !m_pContainingWorldspace)

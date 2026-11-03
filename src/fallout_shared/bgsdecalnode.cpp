@@ -421,7 +421,7 @@ void FUN_004ee610_cls::FUN_004ee610(int a1)
         while (node != 0 && !reinterpret_cast<::ObsList *>((node))->FUN_004a4460())
         {
             {
-                GO local((int)((::BSTempEffect *)(::FUN_00559450((int *)(((::FUN_004ee610_view *)(new ((void *)(node)) ::Vec3()))))))->v38());
+                GO local((int)((::BSTempEffect *)(::FUN_00559450((int *)(((::FUN_004ee610_view *)((void *)(node)))))))->v38());
                 if (((::BSTempEffect *)(::FUN_00559450((int *)(reinterpret_cast<FUN_004ee610_view*>(&local))))))
                 {
                     reinterpret_cast<::S_00a59e00 *>((reinterpret_cast<FUN_004ee610_view*>(((::BSTempEffect *)(::FUN_00559450((int *)(reinterpret_cast<FUN_004ee610_view*>(&local))))))))->FUN_00a59e00((::S_00a59e00_Arg *)(a1));

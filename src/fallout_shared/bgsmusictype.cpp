@@ -39,6 +39,8 @@
 
 template <class T> struct BSSimpleList
 {
+    T m_item;
+    BSSimpleList<T>* m_pkNext;
     bool IsEmpty();
     unsigned int ItemsInList();
 };

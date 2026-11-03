@@ -258,14 +258,8 @@
 #include "fnv/decl/FUN_005285a0_Class.h"
 #include "fnv/decl/FUN_00a5a390_shell.h"
 #include "fnv/decl/MemoryManagerStandIn.h"
-#include "fnv/decl/Vec3.h"
-#include "fnv/decl/s4e5e50__Owner.h"
 #include "fnv/symbols_011f6000.h"
 #include "fnv/decl/FUN_004b6190_shell.h"
-#include "fnv/decl/FUN_004ed110_shell.h"
-#include "fnv/decl/FUN_004ed1f0_shell.h"
-#include "fnv/decl/FUN_004ed210_shell.h"
-#include "fnv/decl/Host_4ed190.h"
 #include "fnv/decl/FUN_00450410_Class.h"
 #include "fnv/decl/S_004ed780.h"
 #include "fnv/symbols_00aa1000.h"
@@ -3384,7 +3378,7 @@ int TES::FindCellAtPosition(const NiPoint3* location, bool updatePhysics)
         if ((*reinterpret_cast<::SettingT< ::INISettingCollection> *>(&::g_011c3d40)).Bool()->b && reinterpret_cast<::fnv_00454d50::FUN_00454d50_shell *>(this)->FUN_00454d50(true))
             reinterpret_cast<::fnv_00452490::FUN_00452490_shell *>(this)->FUN_00452490(false);
         if (!((::TESWorldSpace *)(reinterpret_cast<::EffectSetting *>(this)->GetHitSound())))
-            reinterpret_cast<::WS458200_Shell *>(this)->FUN_00458200((::WS458200_World *)(((::TESWorldSpace *)(new ((void *)(((::BSSimpleList< ::TESWorldSpace *> *)(::FUN_00460140((int)((*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler)))))))) ::Vec3()))));
+            reinterpret_cast<::WS458200_Shell *>(this)->FUN_00458200((::WS458200_World *)(((((::BSSimpleList< ::TESWorldSpace *> *)(::FUN_00460140((int)((*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler)))))))->item)));
         bool bMovedFar = false;
         if (::std::abs(iGridDeltaX) > 1 || ::std::abs(iDeltaY) > 1)
             bMovedFar = true;
@@ -3497,7 +3491,7 @@ WaterSurface* WaterZoneManager::GetWaterZone(TESObjectREFR* apWaterRef, TESObjec
 R S::FUN_004ed140(int a)
 {
     R tmp;
-    new ((void *)(((NiPlane*)&tmp))) ::Vec3();
+    (void *)(((NiPlane*)&tmp));
     ::FUN_00ee6de0(&tmp, this, (const void *)(a));
     return tmp;
 }
@@ -8728,9 +8722,9 @@ void Target::FUN_004e9d40(void* input, State* state, bool special)
                                     RefList* list = ((::fnv_004e9d40::RefList *)(reinterpret_cast<::fnv_0041f140::Holder *>((((::fnv_004e9d40::Extra *)(reinterpret_cast<::FUN_005d43c0_ *>((ref))->FUN_005d43c0()))))->FUN_0041f140()));
                                     while (list && !list->FUN_008256d0())
                                     {
-                                        if (((::fnv_004e9d40::ListEntry *)(new ((void *)(list)) ::Vec3()))->flags & 1)
+                                        if (((::fnv_004e9d40::ListEntry *)((void *)(list)))->flags & 1)
                                         {
-                                            RefActor* item = ((::fnv_004e9d40::ListEntry *)(new ((void *)(list)) ::Vec3()))->ref;
+                                            RefActor* item = ((::fnv_004e9d40::ListEntry *)((void *)(list)))->ref;
                                             if (item->v1d0() && !reinterpret_cast<::fnv_00853130::NiTMapBase *>(&(map))->FUN_00853130((unsigned int)(item), (*(::fnv_00853130::CombatThreatRecord * *)(&item))) &&
                                                 (((int)(reinterpret_cast<::BGSCameraPath *>(((*reinterpret_cast<::fnv_004e9d40::RefActor * *>(&::g_TES))))->GetPrevPath())) ||
                                                  (!((int)(reinterpret_cast<::BGSCameraPath *>(((*reinterpret_cast<::fnv_004e9d40::RefActor * *>(&::g_TES))))->GetPrevPath())) && !reinterpret_cast<::FUN_00564e60_shell *>((item))->FUN_00564e60())))
@@ -8747,7 +8741,7 @@ void Target::FUN_004e9d40(void* input, State* state, bool special)
                                     RefList2* list = (RefList2*)::FUN_004e3260();
                                     while (list && !list->FUN_008256d0())
                                     {
-                                        RefActor* item = ((::fnv_004e9d40::RefActor *)(new ((void *)(list)) ::Vec3()));
+                                        RefActor* item = ((::fnv_004e9d40::RefActor *)((void *)(list)));
                                         if (item && item->v1d0() && !reinterpret_cast<::fnv_00853130::NiTMapBase *>(&(map))->FUN_00853130((unsigned int)(item), (*(::fnv_00853130::CombatThreatRecord * *)(&item))) &&
                                             !reinterpret_cast<::FUN_00564e60_shell *>((item))->FUN_00564e60())
                                         {
@@ -10964,9 +10958,9 @@ void Owner074::RenderWaterRefs(Camera074* camera, State074* state)
                                 Link074* link = ((::fnv_004ebef0::Link074 *)(reinterpret_cast<::fnv_0041f140::Holder *>((((::fnv_004ebef0::Extra074 *)(reinterpret_cast<::FUN_005d43c0_ *>((ref))->FUN_005d43c0()))))->FUN_0041f140()));
                                 while (link && !link->FUN_008256d0())
                                 {
-                                    if ((*((::fnv_004ebef0::LinkData074 **)(new ((void *)(link)) ::Vec3())))->flags & 2)
+                                    if ((*((::fnv_004ebef0::LinkData074 **)((void *)(link))))->flags & 2)
                                     {
-                                        Ref074* linked = (*((::fnv_004ebef0::LinkData074 **)(new ((void *)(link)) ::Vec3())))->ref;
+                                        Ref074* linked = (*((::fnv_004ebef0::LinkData074 **)((void *)(link))))->ref;
                                         if (linked->Get3D() && !reinterpret_cast<::fnv_00853130::NiTMapBase *>(&(seen))->FUN_00853130((unsigned int)(linked), (::fnv_00853130::CombatThreatRecord *&)(linked)))
                                         {
                                             reinterpret_cast<::ScriptList *>(&(state->nodes))->FUN_0076b660((unsigned int *)&(const void *const &)(linked->Get3D()));
@@ -10998,7 +10992,7 @@ void Owner074::RenderWaterRefs(Camera074* camera, State074* state)
                                     Link074* special = (Link074*)FUN_004ec7b0();
                                     while (special && !special->FUN_008256d0())
                                     {
-                                        Ref074* entry = (Ref074*)*((::fnv_004ebef0::LinkData074 **)(new ((void *)(special)) ::Vec3()));
+                                        Ref074* entry = (Ref074*)*((::fnv_004ebef0::LinkData074 **)((void *)(special)));
                                         if (entry && entry->Get3D() && !reinterpret_cast<::fnv_00853130::NiTMapBase *>(&(seen))->FUN_00853130((unsigned int)(entry), (::fnv_00853130::CombatThreatRecord *&)(entry)))
                                         {
                                             reinterpret_cast<::ScriptList *>(&(state->nodes))->FUN_0076b660((unsigned int *)&(const void *const &)(entry->Get3D()));

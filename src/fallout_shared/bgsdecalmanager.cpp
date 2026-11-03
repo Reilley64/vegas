@@ -115,11 +115,7 @@
 #include "bgsdecalmanager_decls.h"
 #include "bgsdecalmanager_types_BGSDecalManager.h"
 #include "bgsdecalmanager_types_BSTempEffectSimpleDecal.h"
-#include "fnv/decl/CameraPass__Camera.h"
-#include "fnv/decl/FUN_004a0350_shell.h"
 #include "fnv/decl/fnv_0043b1b0__FUN_0043b1b0_shell.h"
-#include "fnv/decl/fnv_004a0330__FUN_004a0330_shell.h"
-#include "fnv/decl/fnv_004a03c0__DD.h"
 #include <xmmintrin.h>
 #include "fnv/decl/FUN_00c46270_Class.h"
 #include "fnv/decl/NavEntryOwner.h"
@@ -2554,7 +2550,7 @@ bool XMgr::FUN_004a1a70(XRef* ref)
                 list = hit2->m_ac;
                 while (list != 0 && !reinterpret_cast<::ObsList *>((list))->FUN_004a4460())
                 {
-                    a5 = ((::XObj *)(::FUN_00559450((int *)(((::XItem *)(new ((void *)(list)) ::Vec3()))))));
+                    a5 = ((::XObj *)(::FUN_00559450((int *)(((::XItem *)((void *)(list)))))));
                     b_ = a5;
                     list = ((::XList *)(reinterpret_cast<::Callees *>((list))->FUN_00726070()));
                     NiPoint3 pt9;

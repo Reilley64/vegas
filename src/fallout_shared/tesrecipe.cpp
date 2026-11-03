@@ -91,18 +91,18 @@ void TESRecipe::InitItem()
     }
     compList = ((::BSSimpleList< ::QuantityData *> *)(reinterpret_cast<struct ::FUN_005a8080 *>(this)->GetField()));
     component = 0;
-    while (compList && ((::QuantityData *)(new ((void *)(compList)) ::Vec3())))
+    while (compList && (compList->m_item))
     {
-        component = ((::QuantityData *)(new ((void *)(compList)) ::Vec3()));
+        component = (compList->m_item);
         compList = ((::BSSimpleList< ::QuantityData *> *)(reinterpret_cast<::Callees *>((compList))->FUN_00726070()));
         form = ::FUN_004839c0(reinterpret_cast<unsigned int>(((::TESForm *)(reinterpret_cast<::Callees *>((component))->FUN_00726070()))));
         reinterpret_cast<::CombatProcedure *>((component))->Initialize((::CombatController *)(form));
     }
     compList = ((::BSSimpleList< ::QuantityData *> *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()));
     component = 0;
-    while (compList && ((::QuantityData *)(new ((void *)(compList)) ::Vec3())))
+    while (compList && (compList->m_item))
     {
-        component = ((::QuantityData *)(new ((void *)(compList)) ::Vec3()));
+        component = (compList->m_item);
         compList = ((::BSSimpleList< ::QuantityData *> *)(reinterpret_cast<::Callees *>((compList))->FUN_00726070()));
         item = ::FUN_004839c0(reinterpret_cast<unsigned int>(((::TESForm *)(reinterpret_cast<::Callees *>((component))->FUN_00726070()))));
         reinterpret_cast<::CombatProcedure *>((component))->Initialize((::CombatController *)(item));

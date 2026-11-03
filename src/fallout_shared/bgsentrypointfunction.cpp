@@ -1471,9 +1471,9 @@ void __cdecl FUN_005e5f50(void* apPerkOwner, int aeFunctionType, unsigned char a
     ListNode5e5f50* pCurrentElementNext = ((::ListNode5e5f50 *)(reinterpret_cast<::BaseProcess *>(&(tempcont))->GetCurrentProcessData()));
     if (pinventory)
     {
-        while (pCurrentElementNext && !pCurrentElementNext->FUN_008256d0() && *((::InventoryItemEntry **)(new ((void *)(pCurrentElementNext)) ::Vec3())))
+        while (pCurrentElementNext && !pCurrentElementNext->FUN_008256d0() && *((::InventoryItemEntry **)((void *)(pCurrentElementNext))))
         {
-            InventoryItemEntry* pdata = *((::InventoryItemEntry **)(new ((void *)(pCurrentElementNext)) ::Vec3()));
+            InventoryItemEntry* pdata = *((::InventoryItemEntry **)((void *)(pCurrentElementNext)));
             BoundObj5e5f50* pboundObject = 0;
             if (pdata->pObj && pdata->pObj->IsLeveledOrPlayable())
                 pboundObject = pdata->pObj;

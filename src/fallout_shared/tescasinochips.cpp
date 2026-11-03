@@ -41,7 +41,6 @@
 #include "fnv/symbols_00559000.h"
 #include "tescasinochips_packet.h"
 #include <malloc.h>
-#include "fnv/decl/IntFieldContainer.h"
 #include "fnv/symbols_00472000.h"
 
 // Constructor: sets the form type to ENUM_FORM_ID_CHIP_ID and clears the object's data.

@@ -19,8 +19,6 @@
 #include "fnv/symbols_011c5000.h"
 #include "fnv/symbols_011de000.h"
 #include "tesaiform_decls.h"
-#include "fnv/decl/FUN_0062f2f0_shell.h"
-#include "fnv/decl/MyInner.h"
 
 // @fnv 0x0047ede0
 void TESAIForm::FreeDataComponent()

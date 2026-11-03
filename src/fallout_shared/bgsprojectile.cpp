@@ -55,8 +55,6 @@
 #include "fnv/symbols_011c3000.h"
 #include "fnv/symbols_011dd000.h"
 #include "bgsprojectile_decls.h"
-#include "fnv/decl/FUN_004fcc20_shell.h"
-#include "fnv/decl/FUN_004fccf0_shell.h"
 #include "fnv/symbols_00472000.h"
 
 // @fnv 0x004fd090

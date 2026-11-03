@@ -133,7 +133,7 @@ void TESWaterForm::InitItem()
             EffectItem* health = 0;
             while (node && (!radiation || !health))
             {
-                EffectItem* effect = ((::EffectItem *)(new ((void *)(node)) ::Vec3()));
+                EffectItem* effect = ((::EffectItem *)((void *)(node)));
                 if (effect->GetAffectedActorValue() == 54 && reinterpret_cast<::S3e60 *>((((::EffectSetting *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((effect))->FUN_00825c00()))))->FUN_00403e60(4))
                 {
                     radiation = effect;

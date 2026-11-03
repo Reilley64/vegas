@@ -308,7 +308,7 @@ void TESModelList::ClearComponent()
     {
         const char* filenameToDelete;
         const char* filename;
-        filenameToDelete = ((const char *)(new ((void *)((&this->m_kModelPaths))) ::Vec3()));
+        filenameToDelete = (((&this->m_kModelPaths))->m_item);
         this->m_kModelPaths.RemoveHead();
         filename = filenameToDelete;
         ::operator delete((void*)filename);
@@ -410,7 +410,7 @@ void FUN_00489db0_shell::CopyModelListFromComponent(BaseFormComponent* component
     BSSimpleList<char const*>* list = &source->m_kModelPaths;
     while (list)
     {
-        const char* filename = ((const char *)(new ((void *)(list)) ::Vec3()));
+        const char* filename = (list->m_item);
         if (filename)
             ((S00489ce0*)this)->FUN_00489fa0(filename);
         list = ((::BSSimpleList<const char *> *)(reinterpret_cast<::Callees *>((void *)(list))->FUN_00726070()));
@@ -476,8 +476,8 @@ bool FUN_00489e40_cls::HasAnyMismatchedEntry(unsigned int arg)
     int x3;
     while (a != 0 && b != 0)
     {
-        x3 = *((int *)(new ((void *)(a)) ::Vec3()));
-        y4 = *((int *)(new ((void *)(b)) ::Vec3()));
+        x3 = *((int *)((void *)(a)));
+        y4 = *((int *)((void *)(b)));
         if ((x3 == 0 && y4 != 0) || (x3 != 0 && y4 == 0))
         {
             return true;
@@ -515,7 +515,7 @@ bool FUN_00489f20_shell::ContainsFile(const char* filename)
     BSSimpleList<const char*>* entry = &m_kModelPaths;
     while (entry != 0)
     {
-        const char* value = ((const char *)(new ((void *)(entry)) ::Vec3()));
+        const char* value = (entry->m_item);
         if (value && FUN_00404dc0(value, filename) == 0)
             return true;
         entry = ((::BSSimpleList<const char *> *)(reinterpret_cast<::Callees *>((void *)(entry))->FUN_00726070()));
@@ -549,7 +549,7 @@ void FUN_00489ba0_shell::CopyModelListToBuffer(void* destination, unsigned int f
 
         while (iStack7 != 0)
         {
-            piVar4 = ((const char *)(new ((void *)(iStack7)) ::Vec3()));
+            piVar4 = (iStack7->m_item);
             if (piVar4 != 0)
                 iStack_8 = iStack_8 + FUN_0044a670(piVar4) + 1;
             iStack7 = ((::BSSimpleList<const char *> *)(reinterpret_cast<::Callees *>((void *)(iStack7))->FUN_00726070()));
@@ -562,7 +562,7 @@ void FUN_00489ba0_shell::CopyModelListToBuffer(void* destination, unsigned int f
         iStack_c = iStack_8;
         while (iStack7 != 0)
         {
-            iVarTmp = ((const char *)(new ((void *)(iStack7)) ::Vec3()));
+            iVarTmp = (iStack7->m_item);
             if (iVarTmp != 0)
             {
                 ::TaskQueueInterface::CopyStringToBuffer(puStack_18, iStack_c, iVarTmp);

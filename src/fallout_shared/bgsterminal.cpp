@@ -284,7 +284,7 @@ void BGSTerminal::InitItem()
     BSSimpleList<TerminalMenuItem*>* pList = ((::BSSimpleList< ::TerminalMenuItem *> *)(reinterpret_cast<::FUN_00461150_shell *>(this)->FUN_00461150()));
     while (pList && !pList->IsEmpty())
     {
-        TerminalMenuItem* item = ((::TerminalMenuItem *)(new ((void *)(pList)) ::Vec3()));
+        TerminalMenuItem* item = (pList->item);
         pList = ((::BSSimpleList< ::TerminalMenuItem *> *)(reinterpret_cast<::Callees *>((pList))->FUN_00726070()));
         if (item->m_pNote)
         {
@@ -821,8 +821,8 @@ bool TerminalCompare::IsDifferentFrom(TESForm* apForm)
 
     while (pOtherIter && !pOtherIter->IsEmpty() && pThisIter5 && !pThisIter5->IsEmpty())
     {
-        TerminalMenuItem* pOtherItem = ((::TerminalMenuItem *)(new ((void *)(pOtherIter)) ::Vec3()));
-        TerminalMenuItem* pThisItem5 = ((::TerminalMenuItem *)(new ((void *)(pThisIter5)) ::Vec3()));
+        TerminalMenuItem* pOtherItem = (pOtherIter->item);
+        TerminalMenuItem* pThisItem5 = (pThisIter5->item);
         if (reinterpret_cast<::Dummy00501c30 *>((((TerminalStringCmp*)&pThisItem5->ResponseText)))->FUN_00501c30((const char *)(const ::BSStringT<char> *)(&pOtherItem->ResponseText)))
             return true;
         if (reinterpret_cast<::Dummy00501c30 *>((((TerminalStringCmp*)&pThisItem5->m_kMenuText)))->FUN_00501c30((const char *)(const ::BSStringT<char> *)(&pOtherItem->m_kMenuText)))
@@ -882,7 +882,7 @@ void BGSTerminalEx::CopyFromTerminal(TESForm* apForm)
     pIter = ((::BSSimpleList< ::TerminalMenuItem *> *)(reinterpret_cast<::FUN_00461150_shell *>((pTerminal))->FUN_00461150()));
     while (pIter && !pIter->IsEmpty())
     {
-        TerminalMenuItem* pSrc = ((::TerminalMenuItem *)(new ((void *)(pIter)) ::Vec3()));
+        TerminalMenuItem* pSrc = (pIter->item);
         pIter = ((::BSSimpleList< ::TerminalMenuItem *> *)(reinterpret_cast<::Callees *>((pIter))->FUN_00726070()));
         TerminalMenuItem* pItem = new TerminalMenuItem;
         reinterpret_cast<::FUN_00501c10_cls *>((void *)&(const ::BSStringCopy &)(*(BSStringCopy*)&pItem->ResponseText))->CallAndReturnSelf((int)&(*(BSStringCopy*)&pSrc->ResponseText));
@@ -996,7 +996,7 @@ void TerminalSave::FUN_00500a40()
     BSSimpleList<TerminalMenuItem*>* pMenuNode = ((::BSSimpleList< ::TerminalMenuItem *> *)(reinterpret_cast<::FUN_00461150_shell *>(this)->FUN_00461150()));
     while (pMenuNode && !pMenuNode->IsEmpty())
     {
-        TerminalMenuItem* item = ((::TerminalMenuItem *)(new ((void *)(pMenuNode)) ::Vec3()));
+        TerminalMenuItem* item = (pMenuNode->item);
         pMenuNode = ((::BSSimpleList< ::TerminalMenuItem *> *)(reinterpret_cast<::Callees *>((pMenuNode))->FUN_00726070()));
         if (static_cast<const char*>(*reinterpret_cast<SaveGameString*>(&item->ResponseText)))
             ::FUN_004856f0(

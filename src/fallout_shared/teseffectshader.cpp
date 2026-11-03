@@ -409,8 +409,8 @@ struct FUN_005064d0
 // @fnv 0x005064d0
 FUN_005064d0* FUN_005064d0::Init()
 {
-    new ((void *)(((BSSimpleListT*)((char*)this + 0x94)))) ::Vec3();
-    new ((void *)(((BSSimpleListT*)((char*)this + 0xa0)))) ::Vec3();
+    (void *)(((BSSimpleListT*)((char*)this + 0x94)));
+    (void *)(((BSSimpleListT*)((char*)this + 0xa0)));
     ((EffectShaderData*)this)->Initialize();
     return this;
 }

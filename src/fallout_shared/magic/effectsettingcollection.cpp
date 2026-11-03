@@ -186,7 +186,7 @@ unsigned int FUN_00408c30()
     }
     size += 4;
     for (BSSimpleList<EffectSetting*>* node = (BSSimpleList<EffectSetting*>*)&::g_011c3400;
-         node && (mgef = ((::EffectSetting *)(new ((void *)(node)) ::Vec3()))) != 0; node = ((::BSSimpleList< ::EffectSetting *> *)(reinterpret_cast<::Callees *>((node))->FUN_00726070())))
+         node && (mgef = (node->m_item)) != 0; node = ((::BSSimpleList< ::EffectSetting *> *)(reinterpret_cast<::Callees *>((node))->FUN_00726070())))
     {
         if (reinterpret_cast<::S3e60 *>((((EffectSettingFlags*)mgef)))->FUN_00403e60(0x200000))
             size += 4;

@@ -42,7 +42,6 @@
 #include "fnv/symbols_01011000.h"
 #include "tesobjectacti_load.h"
 #include <malloc.h>
-#include "fnv/decl/FloatValueProvider.h"
 #include "fnv/symbols_00472000.h"
 
 template <> BSStringT<char>::~BSStringT()

@@ -2091,7 +2091,7 @@ int ClipPolygonToPlane(Plane* plane, int count, const int* indices, const Point*
                 Point start4 = positions[previous];
                 Point _end = positions[current];
                 Point edgeTmp = (*(::DecalClipping::Point *)(reinterpret_cast<::FUN_00439ef0_class *>(&(start4))->FUN_00439ef0((::NiPoint3 *)&(_end), *(const ::NiPoint3 *)nullptr)));
-                Point normal = (*(const ::DecalClipping::Point *)(new ((void *)(plane)) ::Vec3()));
+                Point normal = (*(const ::DecalClipping::Point *)((void *)(plane)));
                 float fraction = (((double)(reinterpret_cast<::FUN_004b6190_shell *>(&(normal))->DotProduct((void *)&(start4)))) + -((double)(reinterpret_cast<::Twin_0084d030 *>((plane))->GetStoredFloatValue()))) / ((double)(reinterpret_cast<::FUN_004b6190_shell *>(&(normal))->DotProduct((void *)&(edgeTmp))));
                 if (fraction > ::g_01012070 && fraction <= DAT_01069ff0)
                     fraction = 1.0f;
@@ -2121,7 +2121,7 @@ int ClipPolygonToPlane(Plane* plane, int count, const int* indices, const Point*
                 Point start_ = positions[current];
                 Point end2 = positions[previous];
                 Point edge_ = (*(::DecalClipping::Point *)(reinterpret_cast<::FUN_00439ef0_class *>(&(start_))->FUN_00439ef0((::NiPoint3 *)&(end2), *(const ::NiPoint3 *)nullptr)));
-                Point normal3 = (*(const ::DecalClipping::Point *)(new ((void *)(plane)) ::Vec3()));
+                Point normal3 = (*(const ::DecalClipping::Point *)((void *)(plane)));
                 float fraction2 = (((double)(reinterpret_cast<::FUN_004b6190_shell *>(&(normal3))->DotProduct((void *)&(start_)))) + -((double)(reinterpret_cast<::Twin_0084d030 *>((plane))->GetStoredFloatValue()))) / ((double)(reinterpret_cast<::FUN_004b6190_shell *>(&(normal3))->DotProduct((void *)&(edge_))));
                 if (fraction2 < ::_DAT_01012060)
                 {

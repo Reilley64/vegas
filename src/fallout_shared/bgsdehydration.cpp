@@ -3354,7 +3354,7 @@ void FUN_009f2220_obj::ResolveReferences()
     BSSimpleList<TESObjectREFR*>* aPrev = 0;
     while (iter5 && !iter5->IsEmpty())
     {
-        TESObjectREFR* ref = ((::TESObjectREFR *)(new ((void *)(iter5)) ::Vec3()));
+        TESObjectREFR* ref = (iter5->m_item);
         unsigned int formID3 = (unsigned int)ref;
         if (formID3)
             ref = dynamic_cast<TESObjectREFR*>(FUN_004839c0(formID3));

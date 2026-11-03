@@ -41,9 +41,7 @@
 #include "fnv/decl/FUN_0048a7b0_shell.h"
 #include "fnv/decl/ManagedSceneHolder.h"
 #include "fnv/decl/fnv_00403570__FUN_00403570_shell.h"
-#include "fnv/decl/fnv_00489620__FUN_00489620_shell.h"
 #include "fnv/decl/fnv_00503210__Unk.h"
-#include "fnv/decl/fnv_00489940__FUN_00489940_shell.h"
 struct BSFileEntry;
 struct FileFormCollection;
 struct TESFile;

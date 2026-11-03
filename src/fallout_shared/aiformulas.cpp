@@ -110,14 +110,6 @@ void FUN_006c8980_stand::FUN_006c8980(int fn)
     std::qsort((void *)(a), b, 0x10, (int (*)(const void *, const void *))(fn));
 }
 
-struct ActorValue
-{
-    enum Index
-    {
-    };
-};
-
-
 struct VObj
 {
     virtual float m0(int);
@@ -1126,7 +1118,7 @@ float __cdecl GetFollowerOffset(Actor* actor, Actor* leader)
             FollowerNode* node = pExtraFollower->followers;
             while (node)
             {
-                Actor* follower = *((::fnv_00643ff0::Actor **)(new ((void *)(node)) ::Vec3()));
+                Actor* follower = *((::fnv_00643ff0::Actor **)((void *)(node)));
                 TESPackage* package = ((::fnv_00643ff0::TESPackage *)(reinterpret_cast<::FUN_009344a0_shell *>((follower))->FUN_009344a0()));
                 if (package && reinterpret_cast<struct ::FUN_0041ca90 *>((package))->get() == 1)
                     ++count;
@@ -1140,7 +1132,7 @@ float __cdecl GetFollowerOffset(Actor* actor, Actor* leader)
             FollowerNode* followers = pExtraFollower->followers;
             while (followers)
             {
-                Actor* follower = *((::fnv_00643ff0::Actor **)(new ((void *)(followers)) ::Vec3()));
+                Actor* follower = *((::fnv_00643ff0::Actor **)((void *)(followers)));
                 TESPackage* package = ((::fnv_00643ff0::TESPackage *)(reinterpret_cast<::FUN_009344a0_shell *>((follower))->FUN_009344a0()));
                 if (package && reinterpret_cast<struct ::FUN_0041ca90 *>((package))->get() == 1)
                 {

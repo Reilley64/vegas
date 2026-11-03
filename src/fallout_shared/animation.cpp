@@ -4626,7 +4626,7 @@ bool Animation::Init(BSSimpleList<const char*>* files, NiNode* root, TESObjectRE
     bool bQueue = IsAnimationLoaded();
     while (!files->IsEmpty())
     {
-        const char* file = ((const char *)(new ((void *)(files)) ::Vec3()));
+        const char* file = (files->m_item);
         KFModel* model = ((::KFModel *)(reinterpret_cast<::fnv_004471c0::FUN_004471c0_shell *>((g_modelLoader))->LoadKFModel((char *)(file))));
         if (model && ((void *)(reinterpret_cast<::TESRegionDataMap *>((model))->GetRegionMapName())))
             reinterpret_cast<::Anim490 *>(this)->AddModel((::Model490 *)(model), bQueue);
@@ -4664,7 +4664,7 @@ void FUN_00490330_t::FUN_00490330(BSSimpleList<const char*>* apFileList, const c
         char message[260];
         const char* pfilename;
         bool bqueueAnims;
-        pfilename = *((const char **)(new ((void *)(((FileListNode*)pfileList))) ::Vec3()));
+        pfilename = *((const char **)((void *)(((FileListNode*)pfileList))));
         ::FUN_00406d00(message, 260, "%s\\%s\\%s", apPath, "SpecialAnims", pfilename);
         pkfModel = ((::KFModel *)(reinterpret_cast<::fnv_004471c0::FUN_004471c0_shell *>((g_modelLoader))->LoadKFModel((char *)(message))));
         bqueueAnims = IsAnimationLoaded();
@@ -4685,7 +4685,7 @@ void S_00490400_Anim::FUN_00490400(BSSimpleList<const char*>* apFileList)
         bool bFlag = reinterpret_cast<::fnv_00490e60::FUN_00490e60_shell *>((this))->ShouldQueueAnimations();
         while (!apFileList->IsEmpty())
         {
-            const char* pcPath7 = ((const char *)(new ((void *)(apFileList)) ::Vec3()));
+            const char* pcPath7 = (apFileList->m_item);
             KFModel* m_kModelObjectsItem = ((::KFModel *)(reinterpret_cast<::fnv_004471c0::FUN_004471c0_shell *>((g_modelLoader))->LoadKFModel((char *)(pcPath7))));
             reinterpret_cast<::Anim490 *>((this))->AddModel((::Model490 *)(m_kModelObjectsItem), bFlag);
             delete pcPath7;
@@ -7390,7 +7390,7 @@ void FUN_0049bb70_shell::FUN_0049bb70(int aiUnused)
     ReplayDelayNode* pIter = (ReplayDelayNode*)&m_acTrailingData;
     while (pIter)
     {
-        IdleReplayDelayEntry* pDelay = *((::fnv_0049bb70::IdleReplayDelayEntry **)(new ((void *)(pIter)) ::Vec3()));
+        IdleReplayDelayEntry* pDelay = *((::fnv_0049bb70::IdleReplayDelayEntry **)((void *)(pIter)));
         delete pDelay;
         pIter = ((::fnv_0049bb70::ReplayDelayNode *)(reinterpret_cast<::Callees *>((pIter))->FUN_00726070()));
     }
@@ -8194,7 +8194,7 @@ void FUN_00491180_shell::FUN_00491180(TESObjectREFR* apRef, float afDelta, float
         BSSimpleList<IdleReplayDelayEntry*>* pNode = &m_acTrailingData;
         while (pNode)
         {
-            IdleReplayDelayEntry* pDelay = ((::IdleReplayDelayEntry *)(new ((void *)(pNode)) ::Vec3()));
+            IdleReplayDelayEntry* pDelay = (pNode->m_item);
             pDelay->m_fDelay = pDelay->m_fDelay - afDelta;
             if (pDelay->m_fDelay <= 0.0)
             {

@@ -36,7 +36,6 @@
 #include "fnv/symbols_011c3000.h"
 #include "tesgrass_decls.h"
 #include <malloc.h>
-#include "fnv/decl/FUN_00509cc0.h"
 
 // Checks the form type is 0x24, clears Data, loads the record header and iterates chunks (EDID, OBND, MODL/MODT, DATA) until none remain, returning true.
 // @fnv 0x00509f80

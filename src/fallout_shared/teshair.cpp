@@ -30,8 +30,6 @@
 #include "teshair_types_TESHair.h"
 #include "teshair_decls.h"
 #include <malloc.h>
-#include "fnv/decl/FUN_005fdf60_shell.h"
-#include "fnv/decl/FUN_005fdf80_shell.h"
 
 // @fnv 0x005fdaa0
 TESHair::TESHair() : TESForm(), TESFullName(), TESModel(), TESTexture()

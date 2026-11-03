@@ -83,7 +83,6 @@
 #include "fnv/symbols_011de000.h"
 #include "fnv/symbols_011f4000.h"
 #include "fnv/symbols_01202000.h"
-#include "fnv/decl/FUN_004a95d0_shell.h"
 struct FUN_004a7cf0_shell
 {
     int m_0000;
@@ -874,9 +873,9 @@ void SceneCounter::AccumulateSceneStats(SceneOwner* owner)
         ba = l;
     }
     MeshNode* c = ((::MeshNode *)(::FUN_00545710((int)(owner))));
-    while (c && *((::MeshObject **)(new ((void *)(c)) ::Vec3())))
+    while (c && *((::MeshObject **)((void *)(c))))
     {
-        MeshObject* h = *((::MeshObject **)(new ((void *)(c)) ::Vec3()));
+        MeshObject* h = *((::MeshObject **)((void *)(c)));
         MeshGroup* p = h->v116();
         if (p && p->v4())
         {
@@ -1085,7 +1084,7 @@ void SceneStatistics::AccumulateSceneStatistics(StatObject* object, int* output,
                     }
                 }
                 StatNodeLink* link = (StatNodeLink*)((::fnv_004a82d0::StatForm *)(reinterpret_cast<::FUN_0041f050_shell *>((((::fnv_004a82d0::StatLink *)(reinterpret_cast<::FUN_005d43c0_ *>((reference))->FUN_005d43c0()))))->FUN_0041f050()));
-                while (link && *((int *)(new ((void *)(link)) ::Vec3())))
+                while (link && *((int *)((void *)(link))))
                 {
                     counts[14]++;
                     link = ((::fnv_004a82d0::StatNodeLink *)(reinterpret_cast<::Callees *>((link))->FUN_00726070()));

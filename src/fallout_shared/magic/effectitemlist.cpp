@@ -39,8 +39,6 @@
 #include "fnv/symbols_011d6000.h"
 #include "fnv/symbols_011de000.h"
 #include "effectitemlist.h"
-#include "fnv/decl/EffectItem.h"
-#include "fnv/decl/EffectItemList.h"
 #include "fnv/decl/FUN_004046b0_cls.h"
 #include "fnv/decl/FUN_004726b0_class.h"
 #include "fnv/decl/InterfaceManager.h"
@@ -192,7 +190,7 @@ EI* HX::FUN_00406ee0(unsigned char aiIndex)
     while (pCurrentElementNext)
     {
         if (uiCurrentIndex == aiIndex)
-            return *((::EI **)(new ((void *)(pCurrentElementNext)) ::Vec3()));
+            return *((::EI **)((void *)(pCurrentElementNext)));
         uiCurrentIndex++;
         pCurrentElementNext = ((::LN *)(reinterpret_cast<::Callees *>((pCurrentElementNext))->FUN_00726070()));
     }
@@ -278,7 +276,7 @@ bool EILStandIn::HasNonDetrimentalEffect()
     bool bfound = false;
     while (pCurrentElementNext && !bfound)
     {
-        EffectItem* pitem = *((::EffectItem **)(new ((void *)(pCurrentElementNext)) ::Vec3()));
+        EffectItem* pitem = *((::EffectItem **)((void *)(pCurrentElementNext)));
         if (pitem && reinterpret_cast<::FUN_0084e3a0_Class *>((((EIHelper*)pitem)))->FUN_0084e3a0() == 2 && !reinterpret_cast<::EffectItem *>((((EIHelper*)pitem)))->IsDetrimental())
             bfound = true;
         pCurrentElementNext = (EILStandIn*)((::fnv_00405f30::LN *)(reinterpret_cast<::Callees *>((pCurrentElementNext))->FUN_00726070()));
@@ -317,7 +315,7 @@ bool EffectItemList::FUN_00405da0()
         return false;
     while (pCurrentElementNext)
     {
-        EffectItem* pitem = *((::EffectItem **)(new ((void *)(pCurrentElementNext)) ::Vec3()));
+        EffectItem* pitem = *((::EffectItem **)((void *)(pCurrentElementNext)));
         if (pitem && !reinterpret_cast<::EffectItem *>((((EffectItemDetrimental*)pitem)))->IsDetrimental() && !pitem->IsHostile())
             return false;
         pCurrentElementNext = static_cast<EffectItemList*>(((::EffectItemNode *)(reinterpret_cast<::Callees *>((pCurrentElementNext))->FUN_00726070())));
@@ -352,7 +350,7 @@ void EffectItemList::FUN_00406340()
     EffectItemList* pCurrentElementNext = this;
     while (pCurrentElementNext)
     {
-        EffectItem* pitem = *((::EffectItem **)(new ((void *)(pCurrentElementNext)) ::Vec3()));
+        EffectItem* pitem = *((::EffectItem **)((void *)(pCurrentElementNext)));
         if (pitem)
         {
             delete (EffectItemDeleter*)pitem;
@@ -433,7 +431,7 @@ bool EffectItemList::HasDetrimentalEffect()
         return false;
     while (pCurrentElementNext && !bDetrimental)
     {
-        EffectItem* pitem = *((::fnv_004062a0::EffectItem **)(new ((void *)(pCurrentElementNext)) ::Vec3()));
+        EffectItem* pitem = *((::fnv_004062a0::EffectItem **)((void *)(pCurrentElementNext)));
         if (pitem && reinterpret_cast<::EffectItem *>((reinterpret_cast<EffectItemDetrimental*>(pitem)))->IsDetrimental())
             bDetrimental = true;
         pCurrentElementNext = static_cast<EffectItemList*>(((::fnv_004062a0::EffectItemNode *)(reinterpret_cast<::Callees *>((pCurrentElementNext))->FUN_00726070())));
@@ -478,7 +476,7 @@ EffectItem* EffectItemList::FindCostliestEffectItem(int aeRange, bool abAreaOnly
     {
         EffectItem* pitem;
         int iItemCost;
-        pitem = *((::EffectItem **)(new ((void *)(pCurrentElementNext)) ::Vec3()));
+        pitem = *((::EffectItem **)((void *)(pCurrentElementNext)));
         iItemCost = (int)reinterpret_cast<::FUN_00403f80_shell *>((pitem))->GetModifiedCost(0);
         if (!reinterpret_cast<::EffectItem *>((reinterpret_cast<EffectItemDetrimental*>(pitem)))->IsDetrimental() && iItemCost > imaxCost)
         {
@@ -560,7 +558,7 @@ bool EffectItemList::FUN_00405fe0()
     bool bfound = false;
     while (pCurrentElementNext && !bfound)
     {
-        EffectItem* pitem = *((::EffectItem **)(new ((void *)(pCurrentElementNext)) ::Vec3()));
+        EffectItem* pitem = *((::EffectItem **)((void *)(pCurrentElementNext)));
         if (pitem && reinterpret_cast<::FUN_0084e3a0_Class *>((((EffectItem_acc*)pitem)))->FUN_0084e3a0() == 1 && !reinterpret_cast<::EffectItem *>((((EffectItem_acc*)pitem)))->IsDetrimental())
             bfound = true;
 
@@ -611,7 +609,7 @@ bool EffectItemList::FUN_00406090()
     {
         EffectItem* pitem;
 
-        pitem = *((::fnv_00406090::EffectItem **)(new ((void *)(pCurrentElementNext)) ::Vec3()));
+        pitem = *((::fnv_00406090::EffectItem **)((void *)(pCurrentElementNext)));
 
         if (pitem && !reinterpret_cast<::FUN_0084e3a0_Class *>((pitem))->FUN_0084e3a0() && !reinterpret_cast<::EffectItem *>((pitem))->IsDetrimental())
             bfound = true;
@@ -656,8 +654,8 @@ bool EffectListCmp::FUN_00405a00(EffectListCmp* apOther)
         EffectListCmp* pNodeB = apOther;
         while (pNodeA)
         {
-            EffectItemCmp* pItemB = *((::EffectItemCmp **)(new ((void *)(pNodeA)) ::Vec3()));
-            EffectItemCmp* pElement = *((::EffectItemCmp **)(new ((void *)(pNodeB)) ::Vec3()));
+            EffectItemCmp* pItemB = *((::EffectItemCmp **)((void *)(pNodeA)));
+            EffectItemCmp* pElement = *((::EffectItemCmp **)((void *)(pNodeB)));
             if (pItemB && pElement && reinterpret_cast<::FUN_004042a0_shell *>((pItemB))->IsDifferentFrom((::EffectItem *)(pElement)))
                 return true;
             pNodeA = static_cast<EffectListCmp*>(((::EffectListNode *)(reinterpret_cast<::Callees *>((pNodeA))->FUN_00726070())));
@@ -699,7 +697,7 @@ void B5B10Owner::CopyItemsFromList(EffectItemList* pkList)
     EffectItemList* pkNode = pkList;
     while (pkNode)
     {
-        EffectItem* pkItem = *((::EffectItem **)(new ((void *)(pkNode)) ::Vec3()));
+        EffectItem* pkItem = *((::EffectItem **)((void *)(pkNode)));
         if (pkItem)
         {
             B5B10ItemCopy* pkCopy = new B5B10ItemCopy(pkItem);
@@ -738,7 +736,7 @@ bool EffectItemList_6140::HasNonDetrimentalEffectWithFlag(unsigned int auiFlag)
     bool bResultTmp = false;
     while (pNode2 && !bResultTmp)
     {
-        EffectItem_6140* pItem = *((::EffectItem_6140 **)(new ((void *)(pNode2)) ::Vec3()));
+        EffectItem_6140* pItem = *((::EffectItem_6140 **)((void *)(pNode2)));
         if (pItem && reinterpret_cast<::S3e60 *>((((::EffectSetting_6140 *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((pItem))->FUN_00825c00()))))->FUN_00403e60(auiFlag) && !reinterpret_cast<::EffectItem *>((pItem))->IsDetrimental())
         {
             bResultTmp = true;
@@ -780,7 +778,7 @@ Entry406* Node406::FindEntryByTimeStamp()
     Node406* pkNode = this;
     while (pkNode && !pkNode->IsEmpty() && !pkResult)
     {
-        Entry406* pkEntry = *((::Entry406 **)(new ((void *)(pkNode)) ::Vec3()));
+        Entry406* pkEntry = *((::Entry406 **)((void *)(pkNode)));
         if (reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((pkEntry))->FUN_00825c00() == ((unsigned int)(::FUN_00408b50())))
             pkResult = pkEntry;
         else
@@ -803,7 +801,7 @@ float S_004063e0::GetTotalCost(Actor* actor)
     total = 0.0f;
     while (p5)
     {
-        EffectItem* item = *((::EffectItem **)(new ((void *)(p5)) ::Vec3()));
+        EffectItem* item = *((::EffectItem **)((void *)(p5)));
         if (!reinterpret_cast<::EffectItem *>((reinterpret_cast<EffectItemDetrimental*>(item)))->IsDetrimental())
             total += reinterpret_cast<::FUN_00403f80_shell *>((item))->GetModifiedCost(actor);
         p5 = static_cast<EffectItemList*>(((::EffectItemNode *)(reinterpret_cast<::Callees *>((p5))->FUN_00726070())));
@@ -825,7 +823,7 @@ unsigned char EffectItemListFind::FindEffectItemIndex(int aiFormID)
     EffectItemNode* cur = this ? &node : 0;
     while (cur != 0)
     {
-        if (aiFormID == (int)*((::EffectItem **)(new ((void *)(cur)) ::Vec3())))
+        if (aiFormID == (int)*((::EffectItem **)((void *)(cur))))
         {
             return idx3;
         }
@@ -984,16 +982,16 @@ void Description::BuildDescription(char* acBuffer, unsigned int size)
         bool aA = false;
         *acBuffer = 0;
         bufferA[0] = 0;
-        for (Node* nodeB = this ? &head : 0; nodeB && *((::EI **)(new ((void *)(nodeB)) ::Vec3())); nodeB = ((::Node *)(reinterpret_cast<::Callees *>((nodeB))->FUN_00726070())))
+        for (Node* nodeB = this ? &head : 0; nodeB && *((::EI **)((void *)(nodeB))); nodeB = ((::Node *)(reinterpret_cast<::Callees *>((nodeB))->FUN_00726070())))
         {
-            if (reinterpret_cast<::EffectItem *>(((*((::EI **)(new ((void *)(nodeB)) ::Vec3())))))->IsScriptBasedEffect())
+            if (reinterpret_cast<::EffectItem *>(((*((::EI **)((void *)(nodeB))))))->IsScriptBasedEffect())
                 continue;
-            if (!((::Condition *)(reinterpret_cast<::BGSDebris *>(((*((::EI **)(new ((void *)(nodeB)) ::Vec3())))))->GetDataList())) ||
-                reinterpret_cast<::PerkEntryConditionSet *>((((::Condition *)(reinterpret_cast<::BGSDebris *>(((*((::EI **)(new ((void *)(nodeB)) ::Vec3())))))->GetDataList()))))->ContainsTrait((::TESObjectREFR *)((*reinterpret_cast<::Player * *>(&::_g_thePlayer))), (::TESObjectREFR *)(0), (*(bool *)(&s)), 0))
+            if (!((::Condition *)(reinterpret_cast<::BGSDebris *>(((*((::EI **)((void *)(nodeB))))))->GetDataList())) ||
+                reinterpret_cast<::PerkEntryConditionSet *>((((::Condition *)(reinterpret_cast<::BGSDebris *>(((*((::EI **)((void *)(nodeB))))))->GetDataList()))))->ContainsTrait((::TESObjectREFR *)((*reinterpret_cast<::Player * *>(&::_g_thePlayer))), (::TESObjectREFR *)(0), (*(bool *)(&s)), 0))
             {
-                if (reinterpret_cast<::S3e60 *>((((::Setting *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*((::EI **)(new ((void *)(nodeB)) ::Vec3())))))->FUN_00825c00()))))->FUN_00403e60(0x2000))
+                if (reinterpret_cast<::S3e60 *>((((::Setting *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*((::EI **)((void *)(nodeB))))))->FUN_00825c00()))))->FUN_00403e60(0x2000))
                 {
-                    ::TaskQueueInterface::CopyStringToBuffer(bufferA, 128, (*((::EI **)(new ((void *)(nodeB)) ::Vec3())))->EffectName());
+                    ::TaskQueueInterface::CopyStringToBuffer(bufferA, 128, (*((::EI **)((void *)(nodeB))))->EffectName());
                     if (aA)
                     {
                         strcat_s(acBuffer, size, "\n");
@@ -1006,17 +1004,17 @@ void Description::BuildDescription(char* acBuffer, unsigned int size)
                     }
                 }
                 else
-                    reinterpret_cast<::fnv_007e0b20::FUN_007e0b20_shell *>(&(p9))->AddEffectItem((::EffectItem *)(*((::EI **)(new ((void *)(nodeB)) ::Vec3()))));
+                    reinterpret_cast<::fnv_007e0b20::FUN_007e0b20_shell *>(&(p9))->AddEffectItem((::EffectItem *)(*((::EI **)((void *)(nodeB)))));
             }
         }
-        for (Node* current5 = (Node*)(ListBase*)&p9; current5 && *((::EI **)(new ((void *)(current5)) ::Vec3()));
+        for (Node* current5 = (Node*)(ListBase*)&p9; current5 && *((::EI **)((void *)(current5)));
              current5 = ((::Node *)(reinterpret_cast<::Callees *>((current5))->FUN_00726070())))
         {
-            if ((*((::EI **)(new ((void *)(current5)) ::Vec3())))->magnitude && (*((::EI **)(new ((void *)(current5)) ::Vec3())))->actorValue != -1)
+            if ((*((::EI **)((void *)(current5))))->magnitude && (*((::EI **)((void *)(current5))))->actorValue != -1)
             {
-                int iValueVal = (*((::EI **)(new ((void *)(current5)) ::Vec3())))->actorValue;
-                int kAMagnitude = (*((::EI **)(new ((void *)(current5)) ::Vec3())))->magnitude;
-                float pDuration2 = (float)(*((::EI **)(new ((void *)(current5)) ::Vec3())))->duration;
+                int iValueVal = (*((::EI **)((void *)(current5))))->actorValue;
+                int kAMagnitude = (*((::EI **)((void *)(current5))))->magnitude;
+                float pDuration2 = (float)(*((::EI **)((void *)(current5))))->duration;
                 char hUnit4 = 's';
                 if (pDuration2 >= 3600.0)
                 {
@@ -1056,7 +1054,7 @@ void Description::BuildDescription(char* acBuffer, unsigned int size)
                     kAMagnitude = 1;
                 if (*acBuffer)
                     strcat_s(acBuffer, 128, ", ");
-                if ((*((::EI **)(new ((void *)(current5)) ::Vec3())))->duration)
+                if ((*((::EI **)((void *)(current5))))->duration)
                 {
                     if (pDuration2 != floor(pDuration2))
                         ::FUN_00406d00(bufferA, 128, kDurationFormat, ::FUN_0066eb00((::ActorValue::Index)(iValueVal)), kAMagnitude, pDuration2,

@@ -210,7 +210,7 @@ void FUN_0047c9d0_shell::DeleteRegionColorEntries()
     void* pList = ((TESRegion*)this)->GetDiffuseColor();
     while (pList && !_ref_008256d0(pList))
     {
-        void* item = *((void **)(new ((void *)(pList)) ::Vec3()));
+        void* item = *((void **)((void *)(pList)));
         ::FUN_00401030(item);
         _ref_0063f7b0(pList);
     }
@@ -646,9 +646,9 @@ bool HasFactionFlag8(TESFaction*);
 int FUN_0047d680_shell::GetFactionRank(TESFaction* apFaction, bool abPC)
 {
     void* pList = ((TESRegion*)this)->GetDiffuseColor();
-    while (pList && *((::fnv_0047d680::FACTION_RANK_local **)(new ((void *)(pList)) ::Vec3())))
+    while (pList && *((::fnv_0047d680::FACTION_RANK_local **)((void *)(pList))))
     {
-        FACTION_RANK_local* prank = *((::fnv_0047d680::FACTION_RANK_local **)(new ((void *)(pList)) ::Vec3()));
+        FACTION_RANK_local* prank = *((::fnv_0047d680::FACTION_RANK_local **)((void *)(pList)));
         if (abPC)
         {
             if (prank && !HasFactionFlag8(prank->faction) && prank->faction == apFaction)
@@ -971,7 +971,7 @@ void FUN_0047ca20_shell::CopyFactionRanks(TESActorBaseData* apCopy)
     SoundListView* pCopyList = (SoundListView*)((TESRegion*)apCopy)->GetDiffuseColor();
     while (pCopyList)
     {
-        FactionReaction* prank = *(FactionReaction**)((void **)(new ((void *)(pCopyList)) ::Vec3()));
+        FactionReaction* prank = *(FactionReaction**)((void **)((void *)(pCopyList)));
         if (prank)
         {
             FactionReaction* pFacRank = new FactionReaction;
@@ -1469,7 +1469,7 @@ bool FormNode::CheckFactionLinks()
     }
     while (p != 0 && bValid)
     {
-        FactionLink* x = *((::FactionLink **)(new ((void *)(p)) ::Vec3()));
+        FactionLink* x = *((::FactionLink **)((void *)(p)));
         if (x != 0)
         {
             if (!reinterpret_cast<::FUN_0047d7c0_Class *>((x->pFaction))->FUN_0047d7c0())
@@ -1708,7 +1708,7 @@ bool FUN_0047d410_cls::IsDifferentFrom(BaseFormComponent* component)
     FUN_0047d410_link* link;
     while (node2 != 0)
     {
-        link = *((::FUN_0047d410_link **)(new ((void *)(node2)) ::Vec3()));
+        link = *((::FUN_0047d410_link **)((void *)(node2)));
         if (link != 0)
         {
             if (reinterpret_cast<::fnv_0047d680::FUN_0047d680_shell *>((other))->GetFactionRank((::fnv_0047d680::TESFaction *)(link->pFaction), 0) != link->rank)
@@ -1933,7 +1933,7 @@ void OwnerShell::FUN_0047ce10(RefShell* ref)
     {
         TESContainer container;
         reinterpret_cast<::FUN_00488350_shell *>((level))->AddLeveledItemsToContainer((::TESObjectREFR *)(ref), (::TESContainer *)(::fnv_0047ce10::TESContainer *)(&container));
-        void* base6 = (*((::fnv_0047ce10::ItemShell **)(new ((void *)(((::fnv_0047ce10::ListShell *)(reinterpret_cast<::BaseProcess *>(&(container))->GetCurrentProcessData())))) ::Vec3())))->value;
+        void* base6 = (*((::fnv_0047ce10::ItemShell **)((void *)(((::fnv_0047ce10::ListShell *)(reinterpret_cast<::BaseProcess *>(&(container))->GetCurrentProcessData()))))))->value;
         if (!*(GlobalShell**)&(*reinterpret_cast<char *>(&::g_BGSSaveLoadGame)) || !reinterpret_cast<::FUN_004121b0_shell *>(((*(GlobalShell**)&(*reinterpret_cast<char *>(&::g_BGSSaveLoadGame)))))->FUN_004121b0())
         {
             if (ref->isActor())
@@ -2135,7 +2135,7 @@ void FUN_0047e4a0_cls::SaveFactionData(int flags)
     nodeV = GetFactionHead();
     while (nodeV)
     {
-        itemL = ((::FactionReaction *)(new ((void *)(nodeV)) ::Vec3()));
+        itemL = (nodeV->m_item);
         if (itemL)
         {
             formIdQ = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((itemL->pFaction))->FUN_0084e3a0()));
@@ -2205,7 +2205,7 @@ void FUN_0047d800_shell::FUN_0047d800(TESFaction* faction, signed char rank)
     FactionNode* pNode = FUN_005d8a70();
     while (pNode != 0)
     {
-        FACTION_RANK_Data* rankData = ((::FACTION_RANK_Data *)(new ((void *)(pNode)) ::Vec3()));
+        FACTION_RANK_Data* rankData = ((::FACTION_RANK_Data *)((void *)(pNode)));
         if (rankData != 0 && rankData->m_pFaction == faction)
         {
             if (rank == -1)
@@ -2674,7 +2674,7 @@ void ActorBaseInitItemView::FUN_0047d8b0(TESForm* param)
     while (node2 != 0)
     {
 
-        link5 = *((::FactionLink **)(new ((void *)(node2)) ::Vec3()));
+        link5 = *((::FactionLink **)((void *)(node2)));
 
         if (link5 != 0)
         {

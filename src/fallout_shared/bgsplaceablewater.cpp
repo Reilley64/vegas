@@ -33,14 +33,6 @@
 #include "bgsplaceablewater_decls.h"
 #include "bgsplaceablewater_types_BGSPlaceableWater.h"
 #include <malloc.h>
-#include "fnv/decl/FUN_004fc360_shell.h"
-#include "fnv/decl/FUN_004fc3a0_shell.h"
-#include "fnv/decl/FUN_004fc3c0_shell.h"
-#include "fnv/decl/FUN_004fc3e0_shell.h"
-#include "fnv/decl/FUN_004fc400_shell.h"
-#include "fnv/decl/FUN_004fc470_shell.h"
-#include "fnv/decl/FUN_004fc490_shell.h"
-#include "fnv/decl/fnv_004fc450__FUN_004fc450_shell.h"
 
 // @fnv 0x004fc1b0
 BGSPlaceableWater::BGSPlaceableWater() : TESBoundObject(), TESModel()

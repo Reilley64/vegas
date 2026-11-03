@@ -108,7 +108,7 @@ void ChallengeManager::CheckCompletedChallenges()
     TESChallenge* challenge = 0;
     while (list)
     {
-        challenge = ((::TESChallenge *)(new ((void *)(list)) ::Vec3()));
+        challenge = (list->m_item);
         if (challenge && !((int)(::FUN_005a6150((const unsigned char *)(challenge)))) && (!challenge->GetStartsLocked() || ((int)(::FUN_005a60d0((const char *)(challenge))))))
             (*reinterpret_cast<BSSimpleList<TESChallenge *> (*)[14]>(&::DAT_011cb3e0))[(*(::CHALLENGE_TYPE *)(reinterpret_cast<::FUN_006a1b60_Class *>((challenge))->GetField54()))].AddHead(challenge);
         else if (challenge)
@@ -209,7 +209,7 @@ bool ChallengeManager::UpdateChallengeProgress(CHALLENGE_TYPE type, int count, T
     TESChallenge* challenge = 0;
     while (list)
     {
-        challenge = ((::TESChallenge *)(new ((void *)(list)) ::Vec3()));
+        challenge = (list->m_item);
         bool applicable = true;
         if (challenge)
         {

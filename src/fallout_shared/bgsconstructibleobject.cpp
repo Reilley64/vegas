@@ -30,7 +30,6 @@
 #include "fnv/symbols_005b5000.h"
 #include "fnv/symbols_009ee000.h"
 #include "fnv/symbols_01183000.h"
-#include "fnv/decl/FUN_004f94b0_BGSConstructibleObject.h"
 struct FUN_004f9bf0_shell
 {
     unsigned int FUN_004f9bf0();

@@ -1331,9 +1331,9 @@ void SaveRace611e50::SaveRace()
         unsigned int hairposition7 = 0;
         unsigned int haircount2 = hairlist7->FUN_005ae380();
         unsigned int* hairdata1 = new unsigned int[haircount2];
-        while (hairlist7 && *((::SaveForm611e50 **)(new ((void *)(hairlist7)) ::Vec3())))
+        while (hairlist7 && *((::SaveForm611e50 **)((void *)(hairlist7))))
         {
-            hairdata1[hairposition7] = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(((*((::SaveForm611e50 **)(new ((void *)(hairlist7)) ::Vec3())))))->FUN_0084e3a0()));
+            hairdata1[hairposition7] = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(((*((::SaveForm611e50 **)((void *)(hairlist7))))))->FUN_0084e3a0()));
             hairposition7++;
             hairlist7 = ((::SaveList611e50 *)(reinterpret_cast<::Callees *>((hairlist7))->FUN_00726070()));
         }
@@ -1345,9 +1345,9 @@ void SaveRace611e50::SaveRace()
         unsigned int eyeposition15 = 0;
         unsigned int eyecount20 = eyelist45->FUN_005ae380();
         unsigned int* eyedata3 = new unsigned int[eyecount20];
-        while (eyelist45 && *((::SaveForm611e50 **)(new ((void *)(eyelist45)) ::Vec3())))
+        while (eyelist45 && *((::SaveForm611e50 **)((void *)(eyelist45))))
         {
-            eyedata3[eyeposition15] = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(((*((::SaveForm611e50 **)(new ((void *)(eyelist45)) ::Vec3())))))->FUN_0084e3a0()));
+            eyedata3[eyeposition15] = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(((*((::SaveForm611e50 **)((void *)(eyelist45))))))->FUN_0084e3a0()));
             eyeposition15++;
             eyelist45 = ((::SaveList611e50 *)(reinterpret_cast<::Callees *>((eyelist45))->FUN_00726070()));
         }
@@ -1504,9 +1504,9 @@ bool RaceComparer::IsDifferentFrom(TESForm* form)
         RaceList* hair = ((::RaceList *)(::FUN_0045bb80((int)(pOtherRace))));
         if (((::RaceList *)(::FUN_0045bb80((int)this)))->FUN_005ae380() != hair->FUN_005ae380())
             return true;
-        while (hair && ((::RaceListItem *)(new ((void *)(hair)) ::Vec3())))
+        while (hair && ((::RaceListItem *)((void *)(hair))))
         {
-            if (!((int)(reinterpret_cast<::FUN_006137b0_shell *>(this)->FindByKey((int)(((const char *)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::RaceListItem *)(new ((void *)(hair)) ::Vec3()))))->FUN_0084e3a0())))))))
+            if (!((int)(reinterpret_cast<::FUN_006137b0_shell *>(this)->FindByKey((int)(((const char *)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::RaceListItem *)((void *)(hair)))))->FUN_0084e3a0())))))))
                 return true;
             hair = ((::RaceList *)(reinterpret_cast<::Callees *>((hair))->FUN_00726070()));
         }
@@ -1515,9 +1515,9 @@ bool RaceComparer::IsDifferentFrom(TESForm* form)
         RaceList* pEyesList = ((::RaceList *)(reinterpret_cast<::FUN_00503650_shell *>((pOtherRace))->FUN_00503650()));
         if (((::RaceList *)(reinterpret_cast<::FUN_00503650_shell *>(this)->FUN_00503650()))->FUN_005ae380() != pEyesList->FUN_005ae380())
             return true;
-        while (pEyesList && ((::RaceListItem *)(new ((void *)(pEyesList)) ::Vec3())))
+        while (pEyesList && ((::RaceListItem *)((void *)(pEyesList))))
         {
-            if (!((int)(reinterpret_cast<::FUN_006138b0_shell *>(this)->FindRecipeCategoryById((int)(((const char *)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::RaceListItem *)(new ((void *)(pEyesList)) ::Vec3()))))->FUN_0084e3a0())))))))
+            if (!((int)(reinterpret_cast<::FUN_006138b0_shell *>(this)->FindRecipeCategoryById((int)(((const char *)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::RaceListItem *)((void *)(pEyesList)))))->FUN_0084e3a0())))))))
                 return true;
             pEyesList = ((::RaceList *)(reinterpret_cast<::Callees *>((pEyesList))->FUN_00726070()));
         }
@@ -1835,9 +1835,9 @@ void FUN_00612c90_cls::CopyFromRace(TESForm* apSource)
     }
     _pHair = ((::BSSimpleList< ::TESHair *> *)(::FUN_0045bb80((int)(pRace3))));
     reinterpret_cast<::FUN_00613850_shell *>(this)->FUN_00613850();
-    while (_pHair != 0 && ((::TESHair *)(new ((void *)(_pHair)) ::Vec3())) != 0)
+    while (_pHair != 0 && (_pHair->m_item) != 0)
     {
-        reinterpret_cast<::Callees *>((((::BSSimpleList< ::TESHair *> *)(::FUN_0045bb80((int)this)))))->FUN_00905820((void *)&(((::TESHair *)(new ((void *)(_pHair)) ::Vec3()))));
+        reinterpret_cast<::Callees *>((((::BSSimpleList< ::TESHair *> *)(::FUN_0045bb80((int)this)))))->FUN_00905820((void *)&((_pHair->m_item)));
         _pHair = ((::BSSimpleList< ::TESHair *> *)(reinterpret_cast<::Callees *>((_pHair))->FUN_00726070()));
     }
     pEyes = pRace3->GetEyeList();
@@ -2029,13 +2029,13 @@ void Race::BuildAppearance(NPC* npc, Output* apOutput, int sex, bool skip)
         List* parts = ((::RaceAppearance::List *)(reinterpret_cast<::FUN_00602170_shell *>((npc))->FUN_00602170()));
         while (parts && !parts->FUN_008256d0())
         {
-            Part* part = *((::RaceAppearance::Part **)(new ((void *)(parts)) ::Vec3()));
+            Part* part = *((::RaceAppearance::Part **)((void *)(parts)));
             parts = ((::RaceAppearance::List *)(reinterpret_cast<::Callees *>((parts))->FUN_00726070()));
             apOutput->parts.FUN_005ae3d0(part);
             List* children = ((::RaceAppearance::List *)(reinterpret_cast<::FUN_00624700_shell *>((part))->FUN_00624700()));
             while (children && !children->FUN_008256d0())
             {
-                Part* child = *((::RaceAppearance::Part **)(new ((void *)(children)) ::Vec3()));
+                Part* child = *((::RaceAppearance::Part **)((void *)(children)));
                 children = ((::RaceAppearance::List *)(reinterpret_cast<::Callees *>((children))->FUN_00726070()));
                 apOutput->parts.FUN_005ae3d0(child);
             }
@@ -2049,7 +2049,7 @@ void Race::BuildAppearance(NPC* npc, Output* apOutput, int sex, bool skip)
         Part* pEyeSlot = 0;
         if (eyes && !eyes->FUN_008256d0())
         {
-            pEyeSlot = *((::RaceAppearance::Part **)(new ((void *)(eyes)) ::Vec3()));
+            pEyeSlot = *((::RaceAppearance::Part **)((void *)(eyes)));
             apOutput->eyes = pEyeSlot;
         }
         else
@@ -2057,7 +2057,7 @@ void Race::BuildAppearance(NPC* npc, Output* apOutput, int sex, bool skip)
             eyes = ((::RaceAppearance::List *)&(reinterpret_cast<::NiAVObject *>(((*reinterpret_cast<::RaceAppearance::Data * *>(&::g_dataHandler))))->FUN_0043c490()));
             while (eyes)
             {
-                pEyeSlot = *((::RaceAppearance::Part **)(new ((void *)(eyes)) ::Vec3()));
+                pEyeSlot = *((::RaceAppearance::Part **)((void *)(eyes)));
                 if (pEyeSlot && !::FUN_00404dc0(((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&(pEyeSlot->name))->FUN_00408da0())), DAT_0104b8a0))
                 {
                     apOutput->eyes = pEyeSlot;

@@ -54,8 +54,6 @@
 #include "fnv/symbols_01047000.h"
 #include "bgsragdoll_types_BGSRagdoll.h"
 #include <malloc.h>
-#include "fnv/decl/FUN_005ee380_Data.h"
-#include "fnv/decl/FUN_005ee580_Data.h"
 #include "fnv/symbols_00472000.h"
 
 template <int N> struct EndianSizeTag

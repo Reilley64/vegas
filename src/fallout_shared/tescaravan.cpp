@@ -594,9 +594,9 @@ void FUN_0059ba80_shell::FUN_0059ba80()
     reinterpret_cast<::fnv_004855a0::ArrSI *>(this)->FUN_004855a0();
     reinterpret_cast<::FUN_00487010_shell *>((((S_00487010*)((char*)this + 0x18))))->FUN_00487010();
     BSSimpleList<TESCaravanCard*>* current = (BSSimpleList<TESCaravanCard*>*)reinterpret_cast<::ActorMover *>((((BSThread*)this)))->GetCurrentMoveModeType();
-    while (current && ((::TESCaravanCard *)(new ((void *)(current)) ::Vec3())))
+    while (current && (current->m_item))
     {
-        ::FUN_00485910(0x44524143, ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::TESCaravanCard *)(new ((void *)(current)) ::Vec3()))))->FUN_0084e3a0())));
+        ::FUN_00485910(0x44524143, ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(((current->m_item)))->FUN_0084e3a0())));
         current = ((::BSSimpleList< ::TESCaravanCard *> *)(reinterpret_cast<::Callees *>((current))->FUN_00726070()));
     }
     if (((bool)(::FUN_00401500())))
@@ -875,9 +875,9 @@ void FUN_0059bd50_cls::LoadDeckData(void* arg)
         while (p24 != 0 && !p24->FUN_008256d0())
             p24->FUN_0063f7b0();
         Itc* it = ((::Itc *)(reinterpret_cast<::ActorMover *>((rec))->GetCurrentMoveModeType()));
-        while (it != 0 && *((void **)(new ((void *)(it)) ::Vec3())) != 0)
+        while (it != 0 && *((void **)((void *)(it))) != 0)
         {
-            void* v = *((void **)(new ((void *)(it)) ::Vec3()));
+            void* v = *((void **)((void *)(it)));
             if (p24 == 0 || p24->FUN_008256d0())
                 p24->FUN_00726c60(v);
             else
@@ -1081,9 +1081,9 @@ bool TESCaravanDeckX::FUN_0059be50(TESForm* form)
     if (((::CardListNode *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType()))->FUN_005ae380() != ((::CardListNode *)(reinterpret_cast<::ActorMover *>((((TESCaravanDeckX*)pDeck2)))->GetCurrentMoveModeType()))->FUN_005ae380())
         return true;
     CardListNode* pNode = ((::CardListNode *)(reinterpret_cast<::ActorMover *>((((TESCaravanDeckX*)pDeck2)))->GetCurrentMoveModeType()));
-    while (pNode && ((::TESCaravanCard *)(new ((void *)(pNode)) ::Vec3())))
+    while (pNode && ((::TESCaravanCard *)((void *)(pNode))))
     {
-        if (!reinterpret_cast<::RefList *>((((::CardListNode *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType()))))->FUN_005f65d0((void **)&(((::TESCaravanCard *)(new ((void *)(pNode)) ::Vec3())))))
+        if (!reinterpret_cast<::RefList *>((((::CardListNode *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType()))))->FUN_005f65d0((void **)&(((::TESCaravanCard *)((void *)(pNode))))))
             return true;
         pNode = ((::CardListNode *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070()));
     }

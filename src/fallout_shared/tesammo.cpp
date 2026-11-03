@@ -58,9 +58,6 @@
 #include "tesammo_load.h"
 #include <malloc.h>
 #include <string.h>
-#include "fnv/decl/FUN_00502cb0_shell.h"
-#include "fnv/decl/FUN_00503240_shell.h"
-#include "fnv/decl/fnv_00503210__Unk.h"
 #include "fnv/symbols_00472000.h"
 
 // @fnv 0x005026b0
@@ -127,9 +124,9 @@ void TESAmmo::InitItem()
 
     locals.node = (BSSimpleList<TESAmmoEffect*>*)((TESAmmoInitCalls*)this)->FUN_00923000();
     locals.resolved = 0;
-    while (locals.node && ((::TESAmmoEffect *)(new ((void *)(locals.node)) ::Vec3())))
+    while (locals.node && (locals.node->m_item))
     {
-        locals.formID = (unsigned int)((::TESAmmoEffect *)(new ((void *)(locals.node)) ::Vec3()));
+        locals.formID = (unsigned int)(locals.node->m_item);
         if (locals.formID)
         {
             ::ResolveFormID((unsigned int *)&(locals.formID), GetFile(-1));
@@ -138,7 +135,7 @@ void TESAmmo::InitItem()
             {
                 ::FUN_005b5e40();
             }
-            ((::TESAmmoEffect *)(new ((void *)(locals.node)) ::Vec3())) = (TESAmmoEffect*)locals.resolved;
+            (locals.node->m_item) = (TESAmmoEffect*)locals.resolved;
         }
         locals.node = ((::BSSimpleList< ::TESAmmoEffect *> *)(reinterpret_cast<::Callees *>((locals.node))->FUN_00726070()));
     }
@@ -561,8 +558,8 @@ bool AmmoMethods::FUN_00503670(TESForm* form)
     {
         if (!a || a->IsEmpty())
             return true;
-        f = ((::TESAmmoEffect *)(new ((void *)(a)) ::Vec3()));
-        s = ((::TESAmmoEffect *)(new ((void *)(p)) ::Vec3()));
+        f = (a->m_item);
+        s = (p->m_item);
         if (f->Compare(s))
             return true;
         p = ((::BSSimpleList< ::TESAmmoEffect *> *)(reinterpret_cast<::Callees *>((p))->FUN_00726070()));
@@ -634,9 +631,9 @@ void AmmoSave::Save()
     BSSimpleList<TESAmmoEffect*>* effect =
         reinterpret_cast<BSSimpleList<TESAmmoEffect*>*>(reinterpret_cast<TESAmmoInitCalls*>(this)->FUN_00923000());
     TESAmmoEffect* consumed = 0;
-    while (effect && ((::TESAmmoEffect *)(new ((void *)(effect)) ::Vec3())))
+    while (effect && (effect->m_item))
     {
-        consumed = ((::TESAmmoEffect *)(new ((void *)(effect)) ::Vec3()));
+        consumed = (effect->m_item);
         effect = ((::BSSimpleList< ::TESAmmoEffect *> *)(reinterpret_cast<::Callees *>((effect))->FUN_00726070()));
         unsigned int formID = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((consumed))->FUN_0084e3a0()));
         ::FUN_00485910(0x4c494352, formID);
@@ -682,7 +679,7 @@ void FUN_00503510_shell::CopyFromAmmo(TESForm* pkForm)
     AmmoEffectNode503* pkNodeCur = ((::AmmoEffectNode503 *)(reinterpret_cast<::TESAmmoInitCalls *>((pSourceAmmo))->FUN_00923000()));
     while (pkNodeCur && !FUN_008256d0(pkNodeCur))
     {
-        TESAmmoEffect* pkEffect = ((::TESAmmoEffect *)(new ((void *)(pkNodeCur)) ::Vec3()));
+        TESAmmoEffect* pkEffect = ((::TESAmmoEffect *)((void *)(pkNodeCur)));
         reinterpret_cast<::Callees *>((((::AmmoEffectNode503 *)(reinterpret_cast<::TESAmmoInitCalls *>(this)->FUN_00923000()))))->FUN_00905820((void *)&(pkEffect));
         pkNodeCur = ((::AmmoEffectNode503 *)(reinterpret_cast<::Callees *>((pkNodeCur))->FUN_00726070()));
     }
@@ -714,10 +711,10 @@ void AmmoEffectList503::FUN_00503a70(char* pcOutBuffer, unsigned int uiBufferSiz
     acName[0] = 0;
 
     AmmoEffectNode503* pkNode = (AmmoEffectNode503*)FUN_00923000();
-    while (pkNode && *((::fnv_00503a70::AmmoEffect503 **)(new ((void *)(pkNode)) ::Vec3())))
+    while (pkNode && *((::fnv_00503a70::AmmoEffect503 **)((void *)(pkNode))))
     {
-        reinterpret_cast<::AmmoEffectDesc *>(((*((::fnv_00503a70::AmmoEffect503 **)(new ((void *)(pkNode)) ::Vec3())))))->FormatDescription(acName, 0x100);
-        AmmoEffect503* pkEffect = *((::fnv_00503a70::AmmoEffect503 **)(new ((void *)(pkNode)) ::Vec3()));
+        reinterpret_cast<::AmmoEffectDesc *>(((*((::fnv_00503a70::AmmoEffect503 **)((void *)(pkNode))))))->FormatDescription(acName, 0x100);
+        AmmoEffect503* pkEffect = *((::fnv_00503a70::AmmoEffect503 **)((void *)(pkNode)));
         pkNode = ((::fnv_00503a70::AmmoEffectNode503 *)(reinterpret_cast<::Callees *>((pkNode))->FUN_00726070()));
         reinterpret_cast<::AmmoEffectDesc *>((pkEffect))->FormatDescription(acName, 0x100);
         if (::FUN_0044a670(acName) > 0)

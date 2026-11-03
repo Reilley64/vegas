@@ -995,9 +995,9 @@ int FUN_004bcc30_List::FUN_004bcc30()
 {
     LinkedEntry* pEntry = first;
     int total = 0;
-    while (pEntry && *((::InventoryItem **)(new ((void *)(pEntry)) ::Vec3())))
+    while (pEntry && *((::InventoryItem **)((void *)(pEntry))))
     {
-        InventoryItem* item = *((::InventoryItem **)(new ((void *)(pEntry)) ::Vec3()));
+        InventoryItem* item = *((::InventoryItem **)((void *)(pEntry)));
         if (item && reinterpret_cast<::ExtraDataList *>((item))->HasExtraDataType0x2F())
         {
             total += reinterpret_cast<::FUN_00418770_shell *>((item))->FUN_00418770();
@@ -1046,9 +1046,9 @@ float FUN_004bcdb0_shell::FUN_004bcdb0(bool bPercent)
         if (pkWeapon5)
             m_uiHealthValue = reinterpret_cast<::FUN_004bcf00_stand *>((pkWeapon5))->GetModdedValue(reinterpret_cast<::fnv_004bda70::FUN_004bda70_shell *>(this)->HasEffect(10));
         HealthList4bcdb0* pkList2 = m_pkExtendData;
-        if (pkList2 && ((::HealthExtra4bcdb0 *)(new ((void *)(pkList2)) ::Vec3())))
+        if (pkList2 && ((::HealthExtra4bcdb0 *)((void *)(pkList2))))
         {
-            HealthExtra4bcdb0* pkExtra = ((::HealthExtra4bcdb0 *)(new ((void *)(pkList2)) ::Vec3()));
+            HealthExtra4bcdb0* pkExtra = ((::HealthExtra4bcdb0 *)((void *)(pkList2)));
             if (pkExtra && reinterpret_cast<::FUN_004186f0_shell *>((pkExtra))->FUN_004186f0() != -1.0)
             {
                 if (!bPercent)

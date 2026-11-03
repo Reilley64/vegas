@@ -309,7 +309,7 @@ struct GlobalObject_00680890;
 void FUN_00408df0()
 {
     VTable_00408df0* pItem;
-    for (GlobalObject_00680890* pNode = &::g_011c3400; pNode && (pItem = *((::VTable_00408df0 **)(new ((void *)(pNode)) ::Vec3())));
+    for (GlobalObject_00680890* pNode = &::g_011c3400; pNode && (pItem = *((::VTable_00408df0 **)((void *)(pNode))));
          pNode = ((::GlobalObject_00680890 *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070())))
     {
         pItem->v88();
@@ -1130,14 +1130,14 @@ struct FUN_00464df0_shell
 // @fnv 0x00470bc0
 void FUN_00470bc0_shell::ClearFileLists()
 {
-    while (((char *)(new ((void *)(((::BSSimpleList<char *> *)(reinterpret_cast<::FUN_00464df0_shell *>((this))->FUN_00464df0())))) ::Vec3())))
+    while (((((::BSSimpleList<char *> *)(reinterpret_cast<::FUN_00464df0_shell *>((this))->FUN_00464df0())))->m_item))
     {
-        delete ((char *)(new ((void *)(((::BSSimpleList<char *> *)(reinterpret_cast<::FUN_00464df0_shell *>((this))->FUN_00464df0())))) ::Vec3()));
+        delete ((((::BSSimpleList<char *> *)(reinterpret_cast<::FUN_00464df0_shell *>((this))->FUN_00464df0())))->m_item);
         ((::BSSimpleList<char *> *)(reinterpret_cast<::FUN_00464df0_shell *>((this))->FUN_00464df0()))->RemoveHead();
     }
-    while (((::_ULARGE_INTEGER *)(new ((void *)(GetMasterDataList())) ::Vec3())))
+    while (((GetMasterDataList())->m_item))
     {
-        delete ((::_ULARGE_INTEGER *)(new ((void *)(GetMasterDataList())) ::Vec3()));
+        delete ((GetMasterDataList())->m_item);
         GetMasterDataList()->RemoveHead();
     }
     m_uiTESFileCount = 0;
@@ -1168,19 +1168,19 @@ bool FUN_00471870_shell::MatchMasterFiles(void* pFileList, bool showerror)
     pfile = this->m_ppTESFiles;
     size = 0;
     foundall = true;
-    while (pMList && *((void **)(new ((void *)(((LItem_006815c0*)pMList))) ::Vec3())))
+    while (pMList && *((void **)((void *)(((LItem_006815c0*)pMList)))))
     {
         pFList = (BSSimpleList<TESFile*>*)pFileList;
-        while (pFList && *((void **)(new ((void *)(((LItem_006815c0*)pFList))) ::Vec3())))
+        while (pFList && *((void **)((void *)(((LItem_006815c0*)pFList)))))
         {
-            pcheckfile = (TESFile*)*((void **)(new ((void *)(((LItem_006815c0*)pFList))) ::Vec3()));
-            if (!::FUN_00404dc0((const char*)*((void **)(new ((void *)(((LItem_006815c0*)pMList))) ::Vec3())), ((const char *)(reinterpret_cast<::BGSCameraPath *>((pcheckfile))->GetShotList()))))
+            pcheckfile = (TESFile*)*((void **)((void *)(((LItem_006815c0*)pFList))));
+            if (!::FUN_00404dc0((const char*)*((void **)((void *)(((LItem_006815c0*)pMList)))), ((const char *)(reinterpret_cast<::BGSCameraPath *>((pcheckfile))->GetShotList()))))
             {
                 pfile[size] = pcheckfile;
                 break;
             }
             pFList = ((::BSSimpleList< ::TESFile *> *)(reinterpret_cast<::Callees *>((pFList))->FUN_00726070()));
-            if (!pFList || !*((void **)(new ((void *)(((LItem_006815c0*)pFList))) ::Vec3())))
+            if (!pFList || !*((void **)((void *)(((LItem_006815c0*)pFList)))))
             {
                 pfile[size] = 0;
                 if (showerror)
@@ -1639,7 +1639,7 @@ struct FUN_00471a60 : FUN_00464df0_shell
 BGSPerk* FUN_00471a60::GetPerk(unsigned int count)
 {
     BSSimpleList<BGSPerk*>* list = static_cast<BSSimpleList<BGSPerk*>*>(reinterpret_cast<::FUN_00464df0_shell *>(this)->FUN_00464df0());
-    if (((::BGSPerk *)(new ((void *)(list)) ::Vec3())) == 0)
+    if ((list->m_item) == 0)
         return 0;
     unsigned int index = 1;
     for (; index < count; index++)
@@ -1648,7 +1648,7 @@ BGSPerk* FUN_00471a60::GetPerk(unsigned int count)
         if (list == 0)
             return 0;
     }
-    return ((::BGSPerk *)(new ((void *)(list)) ::Vec3()));
+    return (list->m_item);
 }
 }  // namespace fnv_00471a60
 
@@ -2807,7 +2807,7 @@ void GroupWriter::FUN_004736c0(LoadForm* form)
         GroupNode* node2 = ((::GroupNode *)(reinterpret_cast<::FUN_004732f0_StandIn *>(this)->FUN_004732f0()));
         while (node2)
         {
-            group = *((::GroupForm **)(new ((void *)(node2)) ::Vec3()));
+            group = *((::GroupForm **)((void *)(node2)));
             if (group && !form->IsInGroup(group, true, true))
             {
                 last = group;
@@ -3094,12 +3094,12 @@ bool FUN_00471af0_shell::HasMasterFileChanged()
     BSSimpleList<char*>* pMasters = (BSSimpleList<char*>*)((::BSSimpleList<char *> *)(reinterpret_cast<::FUN_00464df0_shell *>((this))->FUN_00464df0()));
     BSSimpleList<_ULARGE_INTEGER*>* pMastersData = GetMasterDataList();
     bool bChanged_ = false;
-    while (pMasters && ((char *)(new ((void *)(pMasters)) ::Vec3())) && pMastersData && ((::_ULARGE_INTEGER *)(new ((void *)(pMastersData)) ::Vec3())))
+    while (pMasters && (pMasters->m_item) && pMastersData && (pMastersData->m_item))
     {
         char filePathX[260];
         _WIN32_FIND_DATAA findData;
-        ::FUN_00406d00(filePathX, 260, "%s", ((char *)(new ((void *)(pMasters)) ::Vec3())));
-        pSize4 = ((::_ULARGE_INTEGER *)(new ((void *)(pMastersData)) ::Vec3()));
+        ::FUN_00406d00(filePathX, 260, "%s", (pMasters->m_item));
+        pSize4 = (pMastersData->m_item);
         hFind6 = FindFirstFileA(filePathX, &findData);
         if (hFind6 != (void*)-1)
         {
@@ -3159,7 +3159,7 @@ void __cdecl FUN_00473270(void* pObject)
     while (!((Probe_A*)pObject)->FUN_008256d0())
     {
         void* r;
-        unsigned int a = *((unsigned int *)(new ((void *)(((Probe_B*)pObject))) ::Vec3()));
+        unsigned int a = *((unsigned int *)((void *)(((Probe_B*)pObject))));
         unsigned int b = a;
         unsigned int c2 = b;
         if (c2 != 0)
@@ -3245,7 +3245,7 @@ FUN_004709f0::~FUN_004709f0()
     BSSimpleList<char*>* pMaster = ((::BSSimpleList<char *> *)(reinterpret_cast<::FUN_00464df0_shell *>(this)->FUN_00464df0()));
     while (pMaster)
     {
-        char* pName7 = ((char *)(new ((void *)(pMaster)) ::Vec3()));
+        char* pName7 = (pMaster->m_item);
         if (pName7)
             delete pName7;
         pMaster = ((::BSSimpleList<char *> *)(reinterpret_cast<::Callees *>((pMaster))->FUN_00726070()));
@@ -3254,7 +3254,7 @@ FUN_004709f0::~FUN_004709f0()
     BSSimpleList<_ULARGE_INTEGER*>* pData8 = reinterpret_cast<::TESFile *>(this)->GetMasterDataList();
     while (pData8)
     {
-        _ULARGE_INTEGER* pSize = ((::_ULARGE_INTEGER *)(new ((void *)(pData8)) ::Vec3()));
+        _ULARGE_INTEGER* pSize = (pData8->m_item);
         if (pSize)
             delete pSize;
         pData8 = ((::BSSimpleList< ::_ULARGE_INTEGER *> *)(reinterpret_cast<::Callees *>((pData8))->FUN_00726070()));

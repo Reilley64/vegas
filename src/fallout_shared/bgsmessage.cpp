@@ -104,7 +104,7 @@ void BGSMessage::InitItem()
     locals.buttonIndex = 0;
     while (locals.buttonList && !locals.buttonList->IsEmpty())
     {
-        locals.button = ((::PerkButtonEntry *)(new ((void *)(locals.buttonList)) ::Vec3()));
+        locals.button = (locals.buttonList->m_item);
         locals.buttonList = ((::BSSimpleList< ::PerkButtonEntry *> *)(reinterpret_cast<::Callees *>((locals.buttonList))->FUN_00726070()));
         locals.button->Conditions.InitItem(this);
         locals.warningState = ::FUN_0046e8a0();
@@ -378,7 +378,7 @@ void MessageCopyAccess::CopyFromMessage(TESForm* form)
     node = ((::BSSimpleList< ::PerkButtonEntry *> *)(reinterpret_cast<::TESTopicInfo *>((src))->GetAddTopicList()));
     while (node && !node->IsEmpty())
     {
-        PerkButtonEntry* item = ((::PerkButtonEntry *)(new ((void *)(node)) ::Vec3()));
+        PerkButtonEntry* item = (node->m_item);
         node = ((::BSSimpleList< ::PerkButtonEntry *> *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
         PerkButtonEntry* button = new PerkButtonEntry;
         reinterpret_cast<::FUN_00501c10_cls *>((((ButtonTextAccess*)&button->cButtonText)))->CallAndReturnSelf((int)&(item->cButtonText));
@@ -439,7 +439,7 @@ void Target0bc0::WriteToStream()
     List0bc0* node = ((::List0bc0 *)(reinterpret_cast<::TESTopicInfo *>(this)->GetAddTopicList()));
     while (node && !node->FUN_008256d0())
     {
-        Button0bc0* button = ((::Button0bc0 *)(new ((void *)(node)) ::Vec3()));
+        Button0bc0* button = ((::Button0bc0 *)((void *)(node)));
         node = ((::List0bc0 *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
         if (((const char *)(::FUN_00559450((int *)&(button->text)))))
             ::FUN_004856f0((void *)(0x54585449), (void *)(((const char *)(::FUN_00559450((int *)&(button->text))))), (void *)(((int)(::FUN_0044a670(((const char *)(::FUN_00559450((int *)&(button->text))))))) + 1));
@@ -487,8 +487,8 @@ bool MessageCompare::IsNotEqual(TESForm* form)
         return true;
     while (other && !other->FUN_008256d0() && left && !left->FUN_008256d0())
     {
-        ButtonView* rhs = *((::ButtonView **)(new ((void *)(other)) ::Vec3()));
-        ButtonView* lhs = *((::ButtonView **)(new ((void *)(left)) ::Vec3()));
+        ButtonView* rhs = *((::ButtonView **)((void *)(other)));
+        ButtonView* lhs = *((::ButtonView **)((void *)(left)));
         if (reinterpret_cast<::Dummy00501c30 *>((lhs))->FUN_00501c30((const char *)(rhs)))
             return true;
         if (reinterpret_cast<::PerkEntryConditionSet *>(&(lhs->conditions))->Compare((::PerkEntryConditionSet *)(::ButtonConditionView *)(&rhs->conditions)))

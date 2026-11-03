@@ -51,7 +51,7 @@ unsigned char BSAnimGroupSequence::GetPriority(const char* objectName, unsigned 
     for (unsigned int i = 0; i < m_uiNumControlledBlocks; ++i)
     {
         const char* name =
-            reinterpret_cast<NiFixedString*>(&((::BGSPerkEntry *)(new ((void *)(reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(&m_pkIDTags[i]))) ::Vec3())))
+            reinterpret_cast<NiFixedString*>(&((reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(&m_pkIDTags[i]))->m_item))
                 ->
                 operator const char*();
         if (!name)
@@ -592,9 +592,9 @@ void FUN_004eecb0_Class::FUN_004eecb0()
     for (unsigned int index = 0; index < count; index++)
     {
         TagECB* tag = &tags[index];
-        if (!object->v098()->v09C(((::NameECB *)(new ((void *)(tag)) ::Vec3()))))
+        if (!object->v098()->v09C(((::NameECB *)((void *)(tag)))))
         {
-            root->v090(((::NameECB *)(new ((void *)(tag)) ::Vec3())), false);
+            root->v090(((::NameECB *)((void *)(tag))), false);
             items[index].pointer = 0;
             items[index].unk08 = 0;
             items[index].priority = DAT_01096968;
@@ -707,8 +707,8 @@ void S004eee_Owner::UpdateEntryStates()
     for (unsigned int i = 0; i < m_uiItemCount; ++i)
     {
         S004eee_Entry20* entry = &m_pObservedSource[i];
-        int active = ((::S004eee_Anim *)(new ((void *)(entry)) ::Vec3()))->FUN_0043b1b0();
-        if (active == 0 || cachedManager->Find(((::S004eee_Anim *)(new ((void *)(entry)) ::Vec3()))) == 0)
+        int active = ((::S004eee_Anim *)((void *)(entry)))->FUN_0043b1b0();
+        if (active == 0 || cachedManager->Find(((::S004eee_Anim *)((void *)(entry)))) == 0)
         {
             m_dest[i].m_sub04.FUN_0066b0d0(0);
             m_dest[i].unk08 = 0;

@@ -203,7 +203,7 @@ void __cdecl UpdateOrRemoveItems(int iArg)
     B66E810Node* pkPrev = 0;
     while (pkNode && !pkNode->IsEmpty())
     {
-        B66E810Item* pkItem = *((::B66E810Item **)(new ((void *)(pkNode)) ::Vec3()));
+        B66E810Item* pkItem = *((::B66E810Item **)((void *)(pkNode)));
         bool bRemove = false;
         if (pkItem)
         {
@@ -226,7 +226,7 @@ void __cdecl UpdateOrRemoveItems(int iArg)
         {
             if (pkPrev)
             {
-                reinterpret_cast<::ItemChangeListNode *>((pkPrev))->FUN_00905330((*(::InventoryStackRecord *const *)(((::B66E810Item **)(new ((void *)(pkNode)) ::Vec3())))));
+                reinterpret_cast<::ItemChangeListNode *>((pkPrev))->FUN_00905330((*(::InventoryStackRecord *const *)(((::B66E810Item **)((void *)(pkNode))))));
                 pkNode = ((::B66E810Node *)(reinterpret_cast<::Callees *>((pkPrev))->FUN_00726070()));
             }
             else

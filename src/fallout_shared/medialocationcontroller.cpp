@@ -44,12 +44,7 @@
 #include "medialocationcontroller.h"
 #include "mediaset.h"
 #include "fnv/decl/FORenderedMenu.h"
-#include "fnv/decl/FUN_00595c80_shell.h"
-#include "fnv/decl/FUN_00595cb0_shell.h"
-#include "fnv/decl/FUN_00595cf0_shell.h"
-#include "fnv/decl/FUN_00595d10_shell.h"
 #include "fnv/decl/FUN_005fd3b0_shell.h"
-#include "fnv/decl/ThisT.h"
 #include "fnv/symbols_00472000.h"
 #include "medialocationcontroller_update_decls_decl_medialocationcontroller.h"
 
@@ -127,7 +122,7 @@ void MediaLocationController::ProcessMediaSetList(BSSimpleList<MediaSet*>* apLis
     BSSimpleList<MediaSet*>* pPrevNode = 0;
     while (apList && !apList->IsEmpty())
     {
-        unsigned int auiFormId = reinterpret_cast<unsigned int>(((::MediaSet *)(new ((void *)(apList)) ::Vec3())));
+        unsigned int auiFormId = reinterpret_cast<unsigned int>((apList->m_item));
         ::ResolveFormID((unsigned int *)&(auiFormId), GetFile(-1));
         MediaSet* pMediaSet = dynamic_cast<MediaSet*>(::FUN_004839c0(auiFormId));
         if (!pMediaSet)
@@ -253,13 +248,13 @@ MediaSet* MediaLocationController::GetMediaSetFromList(BSSimpleList<MediaSet*>* 
 {
     BSSimpleList<MediaSet*>* pList = apList;
     MediaSet* pResult = 0;
-    if (pList && ((::MediaSet *)(new ((void *)(pList)) ::Vec3())))
+    if (pList && (pList->m_item))
     {
-        while (pList && ((::MediaSet *)(new ((void *)(pList)) ::Vec3())))
+        while (pList && (pList->m_item))
         {
             unsigned int uiRandom = GetRandomNumberInRange(0, 4);
             if (uiRandom == 0 || !pResult)
-                pResult = ((::MediaSet *)(new ((void *)(pList)) ::Vec3()));
+                pResult = (pList->m_item);
             pList = ((::BSSimpleList< ::MediaSet *> *)(reinterpret_cast<::Callees *>((pList))->FUN_00726070()));
         }
     }
@@ -658,7 +653,7 @@ void MLCSaver::SaveToStream()
     if (!pIter->IsEmpty())
     {
         MediaSet* pMediaSet;
-        while (pIter && (pMediaSet = ((::MediaSet *)(new ((void *)(pIter)) ::Vec3()))) != 0)
+        while (pIter && (pMediaSet = (pIter->m_item)) != 0)
         {
             unsigned int auiFormId = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((MLCFormID*)pMediaSet)))->FUN_0084e3a0()));
             ::FUN_00485910(CHUNK_ID_HNAM_ID, auiFormId);
@@ -669,7 +664,7 @@ void MLCSaver::SaveToStream()
     if (!pIter->IsEmpty())
     {
         MediaSet* pMediaSet;
-        while (pIter && (pMediaSet = ((::MediaSet *)(new ((void *)(pIter)) ::Vec3()))) != 0)
+        while (pIter && (pMediaSet = (pIter->m_item)) != 0)
         {
             unsigned int auiFormId = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((MLCFormID*)pMediaSet)))->FUN_0084e3a0()));
             ::FUN_00485910(CHUNK_ID_ZNAM_ID, auiFormId);
@@ -680,7 +675,7 @@ void MLCSaver::SaveToStream()
     if (!pIter->IsEmpty())
     {
         MediaSet* pMediaSet;
-        while (pIter && (pMediaSet = ((::MediaSet *)(new ((void *)(pIter)) ::Vec3()))) != 0)
+        while (pIter && (pMediaSet = (pIter->m_item)) != 0)
         {
             unsigned int auiFormId = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((MLCFormID*)pMediaSet)))->FUN_0084e3a0()));
             ::FUN_00485910(CHUNK_ID_XNAM_ID, auiFormId);
@@ -691,7 +686,7 @@ void MLCSaver::SaveToStream()
     if (!pIter->IsEmpty())
     {
         MediaSet* pMediaSet;
-        while (pIter && (pMediaSet = ((::MediaSet *)(new ((void *)(pIter)) ::Vec3()))) != 0)
+        while (pIter && (pMediaSet = (pIter->m_item)) != 0)
         {
             unsigned int auiFormId = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((MLCFormID*)pMediaSet)))->FUN_0084e3a0()));
             ::FUN_00485910(CHUNK_ID_YNAM_ID, auiFormId);
@@ -702,7 +697,7 @@ void MLCSaver::SaveToStream()
     if (!pIter->IsEmpty())
     {
         MediaSet* pMediaSet;
-        while (pIter && (pMediaSet = ((::MediaSet *)(new ((void *)(pIter)) ::Vec3()))) != 0)
+        while (pIter && (pMediaSet = (pIter->m_item)) != 0)
         {
             unsigned int auiFormId = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((MLCFormID*)pMediaSet)))->FUN_0084e3a0()));
             ::FUN_00485910(CHUNK_ID_LNAM_ID, auiFormId);
@@ -713,7 +708,7 @@ void MLCSaver::SaveToStream()
     if (!pIter->IsEmpty())
     {
         MediaSet* pMediaSet;
-        while (pIter && (pMediaSet = ((::MediaSet *)(new ((void *)(pIter)) ::Vec3()))) != 0)
+        while (pIter && (pMediaSet = (pIter->m_item)) != 0)
         {
             unsigned int auiFormId = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((MLCFormID*)pMediaSet)))->FUN_0084e3a0()));
             ::FUN_00485910(CHUNK_ID_GNAM_ID, auiFormId);
@@ -774,14 +769,14 @@ bool FUN_00596d70_shell::FUN_00596d70(TESForm* apForm)
             reinterpret_cast<ListOps*>(&m_kMediaSetList1)->FUN_005ae380())
     {
         BSSimpleList<MediaSet*>* pIter = &m_kMediaSetList1;
-        while (pIter && ((::MediaSet *)(new ((void *)(pIter)) ::Vec3())))
+        while (pIter && (pIter->m_item))
         {
             BSSimpleList<MediaSet*>* pOtherIter;
             bool bFound = false;
             pOtherIter = &pOther->m_kMediaSetList1;
-            while (pOtherIter && ((::MediaSet *)(new ((void *)(pOtherIter)) ::Vec3())))
+            while (pOtherIter && (pOtherIter->m_item))
             {
-                if (!((::MediaSet *)(new ((void *)(pIter)) ::Vec3()))->Compare(((::MediaSet *)(new ((void *)(pOtherIter)) ::Vec3()))))
+                if (!(pIter->m_item)->Compare((pOtherIter->m_item)))
                 {
                     bFound = true;
                     break;
@@ -802,14 +797,14 @@ bool FUN_00596d70_shell::FUN_00596d70(TESForm* apForm)
             reinterpret_cast<ListOps*>(&m_kMediaSetList2)->FUN_005ae380())
     {
         BSSimpleList<MediaSet*>* pIter = &m_kMediaSetList2;
-        while (pIter && ((::MediaSet *)(new ((void *)(pIter)) ::Vec3())))
+        while (pIter && (pIter->m_item))
         {
             BSSimpleList<MediaSet*>* pOtherIter;
             bool bFound = false;
             pOtherIter = &pOther->m_kMediaSetList2;
-            while (pOtherIter && ((::MediaSet *)(new ((void *)(pOtherIter)) ::Vec3())))
+            while (pOtherIter && (pOtherIter->m_item))
             {
-                if (!((::MediaSet *)(new ((void *)(pIter)) ::Vec3()))->Compare(((::MediaSet *)(new ((void *)(pOtherIter)) ::Vec3()))))
+                if (!(pIter->m_item)->Compare((pOtherIter->m_item)))
                 {
                     bFound = true;
                     break;
@@ -830,14 +825,14 @@ bool FUN_00596d70_shell::FUN_00596d70(TESForm* apForm)
             reinterpret_cast<ListOps*>(&m_kMediaSetList3)->FUN_005ae380())
     {
         BSSimpleList<MediaSet*>* pIter = &m_kMediaSetList3;
-        while (pIter && ((::MediaSet *)(new ((void *)(pIter)) ::Vec3())))
+        while (pIter && (pIter->m_item))
         {
             BSSimpleList<MediaSet*>* pOtherIter;
             bool bFound = false;
             pOtherIter = &pOther->m_kMediaSetList3;
-            while (pOtherIter && ((::MediaSet *)(new ((void *)(pOtherIter)) ::Vec3())))
+            while (pOtherIter && (pOtherIter->m_item))
             {
-                if (!((::MediaSet *)(new ((void *)(pIter)) ::Vec3()))->Compare(((::MediaSet *)(new ((void *)(pOtherIter)) ::Vec3()))))
+                if (!(pIter->m_item)->Compare((pOtherIter->m_item)))
                 {
                     bFound = true;
                     break;
@@ -858,14 +853,14 @@ bool FUN_00596d70_shell::FUN_00596d70(TESForm* apForm)
             reinterpret_cast<ListOps*>(&m_kMediaSetList4)->FUN_005ae380())
     {
         BSSimpleList<MediaSet*>* pIter = &m_kMediaSetList4;
-        while (pIter && ((::MediaSet *)(new ((void *)(pIter)) ::Vec3())))
+        while (pIter && (pIter->m_item))
         {
             BSSimpleList<MediaSet*>* pOtherIter;
             bool bFound = false;
             pOtherIter = &pOther->m_kMediaSetList4;
-            while (pOtherIter && ((::MediaSet *)(new ((void *)(pOtherIter)) ::Vec3())))
+            while (pOtherIter && (pOtherIter->m_item))
             {
-                if (!((::MediaSet *)(new ((void *)(pIter)) ::Vec3()))->Compare(((::MediaSet *)(new ((void *)(pOtherIter)) ::Vec3()))))
+                if (!(pIter->m_item)->Compare((pOtherIter->m_item)))
                 {
                     bFound = true;
                     break;
@@ -886,14 +881,14 @@ bool FUN_00596d70_shell::FUN_00596d70(TESForm* apForm)
             reinterpret_cast<ListOps*>(&m_kMediaSetList5)->FUN_005ae380())
     {
         BSSimpleList<MediaSet*>* pIter = &m_kMediaSetList5;
-        while (pIter && ((::MediaSet *)(new ((void *)(pIter)) ::Vec3())))
+        while (pIter && (pIter->m_item))
         {
             BSSimpleList<MediaSet*>* pOtherIter;
             bool bFound = false;
             pOtherIter = &pOther->m_kMediaSetList5;
-            while (pOtherIter && ((::MediaSet *)(new ((void *)(pOtherIter)) ::Vec3())))
+            while (pOtherIter && (pOtherIter->m_item))
             {
-                if (!((::MediaSet *)(new ((void *)(pIter)) ::Vec3()))->Compare(((::MediaSet *)(new ((void *)(pOtherIter)) ::Vec3()))))
+                if (!(pIter->m_item)->Compare((pOtherIter->m_item)))
                 {
                     bFound = true;
                     break;
@@ -914,14 +909,14 @@ bool FUN_00596d70_shell::FUN_00596d70(TESForm* apForm)
             reinterpret_cast<ListOps*>(&m_kMediaSetList6)->FUN_005ae380())
     {
         BSSimpleList<MediaSet*>* pIter = &m_kMediaSetList6;
-        while (pIter && ((::MediaSet *)(new ((void *)(pIter)) ::Vec3())))
+        while (pIter && (pIter->m_item))
         {
             BSSimpleList<MediaSet*>* pOtherIter;
             bool bFound = false;
             pOtherIter = &pOther->m_kMediaSetList6;
-            while (pOtherIter && ((::MediaSet *)(new ((void *)(pOtherIter)) ::Vec3())))
+            while (pOtherIter && (pOtherIter->m_item))
             {
-                if (!((::MediaSet *)(new ((void *)(pIter)) ::Vec3()))->Compare(((::MediaSet *)(new ((void *)(pOtherIter)) ::Vec3()))))
+                if (!(pIter->m_item)->Compare((pOtherIter->m_item)))
                 {
                     bFound = true;
                     break;
@@ -1047,7 +1042,7 @@ bool MediaLocationController::Update(bool abInCombat)
     m_uiPerceivedActorCount = 0;
     while (o && !o->IsEmpty())
     {
-        ActorCombatEntry* s = ((::ActorCombatEntry *)(new ((void *)(o)) ::Vec3()));  // perceived actor record
+        ActorCombatEntry* s = (o->m_item);  // perceived actor record
         if (s && s->pActor)
         {
             if (pFaction && reinterpret_cast<::fnv_008b8e90::FUN_008b8e90_shell *>((s->pActor))->FUN_008b8e90((::fnv_008b8e90::TESFaction *)(pFaction)))
@@ -1245,44 +1240,44 @@ void ThisCls::CopyFromMediaLocationController(TESForm* apForm)
     m_pReference = pSrc->m_pReference;
     reinterpret_cast<::FileMatchList *>(&(m_kMediaSetList1))->RemoveAll();
     pNode = &pSrc->m_kMediaSetList1;
-    while (pNode && ((::MediaSet *)(new ((void *)(pNode)) ::Vec3())))
+    while (pNode && (pNode->m_item))
     {
-        m_kMediaSetList1.AddHead(((::MediaSet *)(new ((void *)(pNode)) ::Vec3())));
+        m_kMediaSetList1.AddHead((pNode->m_item));
         pNode = ((::BSSimpleList< ::MediaSet *> *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070()));
     }
     reinterpret_cast<::FileMatchList *>(&(m_kMediaSetList2))->RemoveAll();
     pNode = &pSrc->m_kMediaSetList2;
-    while (pNode && ((::MediaSet *)(new ((void *)(pNode)) ::Vec3())))
+    while (pNode && (pNode->m_item))
     {
-        m_kMediaSetList2.AddHead(((::MediaSet *)(new ((void *)(pNode)) ::Vec3())));
+        m_kMediaSetList2.AddHead((pNode->m_item));
         pNode = ((::BSSimpleList< ::MediaSet *> *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070()));
     }
     reinterpret_cast<::FileMatchList *>(&(m_kMediaSetList3))->RemoveAll();
     pNode = &pSrc->m_kMediaSetList3;
-    while (pNode && ((::MediaSet *)(new ((void *)(pNode)) ::Vec3())))
+    while (pNode && (pNode->m_item))
     {
-        m_kMediaSetList3.AddHead(((::MediaSet *)(new ((void *)(pNode)) ::Vec3())));
+        m_kMediaSetList3.AddHead((pNode->m_item));
         pNode = ((::BSSimpleList< ::MediaSet *> *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070()));
     }
     reinterpret_cast<::FileMatchList *>(&(m_kMediaSetList4))->RemoveAll();
     pNode = &pSrc->m_kMediaSetList4;
-    while (pNode && ((::MediaSet *)(new ((void *)(pNode)) ::Vec3())))
+    while (pNode && (pNode->m_item))
     {
-        m_kMediaSetList4.AddHead(((::MediaSet *)(new ((void *)(pNode)) ::Vec3())));
+        m_kMediaSetList4.AddHead((pNode->m_item));
         pNode = ((::BSSimpleList< ::MediaSet *> *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070()));
     }
     reinterpret_cast<::FileMatchList *>(&(m_kMediaSetList5))->RemoveAll();
     pNode = &pSrc->m_kMediaSetList5;
-    while (pNode && ((::MediaSet *)(new ((void *)(pNode)) ::Vec3())))
+    while (pNode && (pNode->m_item))
     {
-        m_kMediaSetList5.AddHead(((::MediaSet *)(new ((void *)(pNode)) ::Vec3())));
+        m_kMediaSetList5.AddHead((pNode->m_item));
         pNode = ((::BSSimpleList< ::MediaSet *> *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070()));
     }
     reinterpret_cast<::FileMatchList *>(&(m_kMediaSetList6))->RemoveAll();
     pNode = &pSrc->m_kMediaSetList6;
-    while (pNode && ((::MediaSet *)(new ((void *)(pNode)) ::Vec3())))
+    while (pNode && (pNode->m_item))
     {
-        m_kMediaSetList6.AddHead(((::MediaSet *)(new ((void *)(pNode)) ::Vec3())));
+        m_kMediaSetList6.AddHead((pNode->m_item));
         pNode = ((::BSSimpleList< ::MediaSet *> *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070()));
     }
 }

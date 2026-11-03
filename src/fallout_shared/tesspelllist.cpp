@@ -27,7 +27,6 @@
 #include "fnv/symbols_011c3000.h"
 #include "fnv/symbols_011de000.h"
 #include "tesspelllist.h"
-#include "fnv/decl/SpellListTask.h"
 
 // @fnv 0x0048d0d0
 void TESSpellList::ClearComponent()
@@ -42,11 +41,11 @@ void TESSpellList::ClearSpells()
     BSSimpleList<InventoryStackRecord*>* pFirstList =
         reinterpret_cast<BSSimpleList<InventoryStackRecord*>*>(reinterpret_cast<BaseProcess*>(this)->GetCurrentProcessData());
     BSSimpleList<InventoryStackRecord*>* pSecondList;
-    while (pFirstList && ((::InventoryStackRecord *)(new ((void *)(pFirstList)) ::Vec3())))
+    while (pFirstList && (pFirstList->m_item))
         pFirstList->RemoveHead();
 
     pSecondList = ((::BSSimpleList< ::InventoryStackRecord *> *)(::GetOffsetC((int)this)));
-    while (pSecondList && ((::InventoryStackRecord *)(new ((void *)(pSecondList)) ::Vec3())))
+    while (pSecondList && (pSecondList->m_item))
         pSecondList->RemoveHead();
 }
 
@@ -164,7 +163,7 @@ bool Holder_0048d830::ContainsPackage(ActorPackageContext* package)
     ListNode* node = reinterpret_cast<ListNode*>(GetCurrentProcessData());
     while (node)
     {
-        ActorPackageContext* entry = ((::ActorPackageContext *)(new ((void *)(node)) ::Vec3()));
+        ActorPackageContext* entry = ((::ActorPackageContext *)((void *)(node)));
         if (entry == package)
             return true;
         node = ((::ListNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
@@ -184,7 +183,7 @@ bool FUN_0048d880_shell::FUN_0048d880(void* item)
     BSSimpleList<void*>* node = ((::BSSimpleList<void *> *)(::GetOffsetC((int)this)));
     while (node)
     {
-        void* entry = ((void *)(new ((void *)(node)) ::Vec3()));
+        void* entry = (node->m_item);
         if (entry == item)
             return true;
         node = ((::BSSimpleList<void *> *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
@@ -226,14 +225,14 @@ void TESSpellList::InitItem(TESForm* owner)
     listCursor.current =
         reinterpret_cast<BSSimpleList<InventoryStackRecord*>*>(reinterpret_cast<BaseProcess*>(this)->GetCurrentProcessData());
     listCursor.file = owner ? owner->GetFile(-1) : 0;
-    while (listCursor.current && ((::InventoryStackRecord *)(new ((void *)(listCursor.current)) ::Vec3())))
+    while (listCursor.current && (listCursor.current->m_item))
     {
         struct ResolvedForm
         {
             unsigned int id;
             TESForm* form;
         } resolvedForm;
-        resolvedForm.id = reinterpret_cast<unsigned int>(((::InventoryStackRecord *)(new ((void *)(listCursor.current)) ::Vec3())));
+        resolvedForm.id = reinterpret_cast<unsigned int>((listCursor.current->m_item));
         ::ResolveFormID((unsigned int *)&(resolvedForm.id), listCursor.file);
         resolvedForm.form = ::FUN_004839c0(resolvedForm.id);
         {
@@ -375,7 +374,7 @@ bool SpellListView::DiffersFrom(BaseFormComponent* apOther)
     SpellNode* pSpellNode = ((::SpellNode *)(reinterpret_cast<::BaseProcess *>(this)->GetCurrentProcessData()));
     while (pSpellNode)
     {
-        void* pSpell = ((void *)(new ((void *)(pSpellNode)) ::Vec3()));
+        void* pSpell = ((void *)((void *)(pSpellNode)));
         if (pSpell)
         {
             if (!reinterpret_cast<::Holder_0048d830 *>((pOtherList))->ContainsPackage((::ActorPackageContext *)(pSpell)))
@@ -391,10 +390,10 @@ bool SpellListView::DiffersFrom(BaseFormComponent* apOther)
         SpellNode* pLevSpellNode = ((::SpellNode *)(::GetOffsetC((int)this)));
         while (pLevSpellNode)
         {
-            void* pLevSpell = ((void *)(new ((void *)(pLevSpellNode)) ::Vec3()));
+            void* pLevSpell = ((void *)((void *)(pLevSpellNode)));
             if (pLevSpell)
             {
-                if (!reinterpret_cast<::FUN_0048d880_shell *>((pOtherList))->FUN_0048d880(((void *)(new ((void *)(pLevSpellNode)) ::Vec3()))))
+                if (!reinterpret_cast<::FUN_0048d880_shell *>((pOtherList))->FUN_0048d880(((void *)((void *)(pLevSpellNode)))))
                     return true;
                 iLevSpellCount++;
             }
@@ -537,7 +536,7 @@ void TESSpellListShell::FUN_0048d330()
     ListNode* currentLeveledSpell = ((::ListNode *)(reinterpret_cast<::BaseProcess *>(this)->GetCurrentProcessData()));
     unsigned int currentSpell;
     ActorPackageContext* spell;
-    while (currentLeveledSpell != 0 && (spell = ((::ActorPackageContext *)(new ((void *)(currentLeveledSpell)) ::Vec3()))) != 0)
+    while (currentLeveledSpell != 0 && (spell = ((::ActorPackageContext *)((void *)(currentLeveledSpell)))) != 0)
     {
         if (!reinterpret_cast<::FUN_00440d80_shell *>((spell))->FUN_00440d80())
         {
@@ -549,7 +548,7 @@ void TESSpellListShell::FUN_0048d330()
     ListNode* leveledSpell = (ListNode*)((::BSSimpleList< ::InventoryStackRecord *> *)(::GetOffsetC((int)this)));
     {
         ActorPackageContext* formId;
-        while (leveledSpell != 0 && (formId = ((::ActorPackageContext *)(new ((void *)(leveledSpell)) ::Vec3()))) != 0)
+        while (leveledSpell != 0 && (formId = ((::ActorPackageContext *)((void *)(leveledSpell)))) != 0)
         {
             if (!reinterpret_cast<::FUN_00440d80_shell *>((formId))->FUN_00440d80())
             {
@@ -646,7 +645,7 @@ void TESSpellList_Target::SaveSpellList(unsigned int flags)
         curNodePtr = ((::BSSimpleList< ::SpellItem *> *)(reinterpret_cast<::BaseProcess *>((reinterpret_cast<ActorMagicSpellList*>(this)))->GetCurrentProcessData()));
         while (curNodePtr)
         {
-            spell3 = ((::SpellItem *)(new ((void *)(curNodePtr)) ::Vec3()));
+            spell3 = (curNodePtr->m_item);
             if (spell3)
             {
                 spellID1 = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((spell3))->FUN_0084e3a0()));
@@ -660,7 +659,7 @@ void TESSpellList_Target::SaveSpellList(unsigned int flags)
             reinterpret_cast<BSSimpleList<SpellItem*>*>(((::BSSimpleList<void *> *)(::GetOffsetC((int)(reinterpret_cast<FUN_0048d880_shell*>(this))))));
         while (levNode2)
         {
-            levSpell2 = ((::SpellItem *)(new ((void *)(levNode2)) ::Vec3()));
+            levSpell2 = (levNode2->m_item);
             if (levSpell2)
             {
                 leveledID = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((levSpell2))->FUN_0084e3a0()));
@@ -727,7 +726,7 @@ void SpellListAccess::FUN_0048d630(BaseFormComponent* source)
     void* d;
     while (f != 0)
     {
-        d = ((void *)(new ((void *)(f)) ::Vec3()));
+        d = ((void *)((void *)(f)));
         if (d != 0)
             b->FUN_005ae3d0(d);
         f = ((::fnv_0048d630::SpellNode *)(reinterpret_cast<::Callees *>((f))->FUN_00726070()));
@@ -738,7 +737,7 @@ void SpellListAccess::FUN_0048d630(BaseFormComponent* source)
         SpellNode* c = reinterpret_cast<SpellNode*>(((::BSSimpleList< ::InventoryStackRecord *> *)(::GetOffsetC((int)this))));
         while (e != 0)
         {
-            void* g = ((void *)(new ((void *)(e)) ::Vec3()));
+            void* g = ((void *)((void *)(e)));
             if (g != 0)
                 c->FUN_005ae3d0(g);
             e = ((::fnv_0048d630::SpellNode *)(reinterpret_cast<::Callees *>((e))->FUN_00726070()));

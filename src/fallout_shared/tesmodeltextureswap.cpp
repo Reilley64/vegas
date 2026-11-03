@@ -43,7 +43,7 @@ void TESModelTextureSwap::ClearTextureSwaps()
     BGSPerkEntry* pItem;
     while (!TextureSwapNodeAccessor.IsEmpty())
     {
-        pItem = ((::BGSPerkEntry *)(new ((void *)(reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(&TextureSwapNodeAccessor))) ::Vec3()));
+        pItem = ((reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(&TextureSwapNodeAccessor))->m_item);
         TextureSwapNodeAccessor.RemoveHead();
         pDelete = pItem;
         ::FUN_00401030(pDelete);
@@ -69,7 +69,7 @@ void TESModelTextureSwap::InitItem(TESForm* form)
     while (locals.list && !locals.list->IsEmpty())
     {
         locals.swap = reinterpret_cast<DistantTreeTextureInfo*>(
-            ((::BGSPerkEntry *)(new ((void *)(reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(locals.list))) ::Vec3())));
+            ((reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(locals.list))->m_item));
         locals.formID = locals.swap->formID;
         ::ResolveFormID((unsigned int *)&(locals.formID), form->GetFile(-1));
         locals.swap->formID =
@@ -113,7 +113,7 @@ void TESModelTextureSwap::ApplyTextureSwaps(NiAVObject* object)
             while (list && !list->IsEmpty())
             {
                 DistantTreeTextureInfo* swap = reinterpret_cast<DistantTreeTextureInfo*>(
-                    ((::BGSPerkEntry *)(new ((void *)(reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(list))) ::Vec3())));
+                    ((reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(list))->m_item));
                 list = reinterpret_cast<BSSimpleList<PerkButtonEntry*>*>(
                     ((::BSSimpleList< ::BGSPerkEntry *> *)(reinterpret_cast<::Callees *>((reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(list)))->FUN_00726070())));
                 if (swap->index != -1)
@@ -195,11 +195,11 @@ DistantTreeTextureInfo* TESModelTextureSwap::GetTexSwap(int index)
         while (list && !list->IsEmpty())
         {
             if (index == reinterpret_cast<DistantTreeTextureInfo*>(
-                             ((::BGSPerkEntry *)(new ((void *)(reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(list))) ::Vec3())))
+                             ((reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(list))->m_item))
                              ->index)
             {
                 result = reinterpret_cast<DistantTreeTextureInfo*>(
-                    ((::BGSPerkEntry *)(new ((void *)(reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(list))) ::Vec3())));
+                    ((reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(list))->m_item));
                 break;
             }
             list = reinterpret_cast<BSSimpleList<PerkButtonEntry*>*>(
@@ -695,7 +695,7 @@ void FUN_0048aba0_Class::ApplyTextureSwapOverrides(unsigned int formID)
     TextureSwapNode* node = ((::TextureSwapNode *)(reinterpret_cast<::BGSCameraPath *>((list))->GetConditions()));
     while (node && !node->FUN_008256d0())
     {
-        TextureSwapRecord* record = *((::TextureSwapRecord **)(new ((void *)(node)) ::Vec3()));
+        TextureSwapRecord* record = *((::TextureSwapRecord **)((void *)(node)));
         reinterpret_cast<::TESModelTextureSwap *>(this)->AddTexSwap(record->objectName, record->index, (::BGSTextureSet *)(record->formID));
         node = ((::TextureSwapNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
     }
@@ -728,7 +728,7 @@ bool FUN_0048ac40_shell::CompareTextureSwaps(BaseFormComponent* other)
     TextureSwapNode* pNode = ((::TextureSwapNode *)(reinterpret_cast<::BGSCameraPath *>((((TextureSwapListHead*)pOther)))->GetConditions()));
     while (pNode && !pNode->FUN_008256d0())
     {
-        TextureSwapRecord* pSwap = *((::TextureSwapRecord **)(new ((void *)(pNode)) ::Vec3()));
+        TextureSwapRecord* pSwap = *((::TextureSwapRecord **)((void *)(pNode)));
         TextureSwapRecord* pMine = ((::TextureSwapRecord *)(reinterpret_cast<::TESModelTextureSwap *>(this)->GetTexSwap(pSwap->index)));
         if (!pMine)
             return true;
@@ -795,7 +795,7 @@ bool FUN_0048a590_cls::SerializeList(char** apBuffer, unsigned int* auiSize)
         *auiSize = 4;
         while (iT != 0 && !iT->FUN_008256d0())
         {
-            v = *((unsigned int *)(new ((void *)(iT)) ::Vec3()));
+            v = *((unsigned int *)((void *)(iT)));
             *auiSize += 4;
             *auiSize += ::FUN_0044a670((const char *)(v + 8));
             *auiSize += 4;
@@ -815,7 +815,7 @@ bool FUN_0048a590_cls::SerializeList(char** apBuffer, unsigned int* auiSize)
         iT = ((::ListNode *)(reinterpret_cast<::BGSCameraPath *>(this)->GetConditions()));
         while (iT != 0 && !iT->FUN_008256d0())
         {
-            P = *((unsigned int *)(new ((void *)(iT)) ::Vec3()));
+            P = *((unsigned int *)((void *)(iT)));
             r = ::FUN_0044a670((const char *)(P + 8));
             if (((bool)(::FUN_00401500())))
             {

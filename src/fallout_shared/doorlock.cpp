@@ -42,9 +42,6 @@
 #include "fnv/symbols_011de000.h"
 #include "layout_support.h"
 #include "doorlock_decls.h"
-#include "fnv/decl/Copy9.h"
-#include "fnv/decl/FUN_00501e80_shell.h"
-#include "fnv/decl/TeleportableReference.h"
 #include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
 
 class TESObjectCELL;

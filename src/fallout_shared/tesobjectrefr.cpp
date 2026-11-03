@@ -998,7 +998,7 @@ GarbageCollectorUpdateState* FUN_00446ef0()
 }
 
 // @fnv 0x00546a90
-BGSEncounterZone* TESObjectREFR::FindEncounterZone()
+BGSEncounterZone* TESObjectREFR::GetDefaultEncounterZone()
 {
     return DAT_011c9520;
 }
@@ -39667,7 +39667,7 @@ int Owner::FUN_005679f0()
     if (iResult == -1)
     {
         Faction* pkFaction = FUN_00567d20();
-        if (pkFaction && pkFaction != ((::s5679f0::Faction *)(::TESObjectREFR::FindEncounterZone())))
+        if (pkFaction && pkFaction != ((::s5679f0::Faction *)(::TESObjectREFR::GetDefaultEncounterZone())))
             iResult = ::FUN_00567ab0((char *)(pkFaction));
         if (iResult == -1 && ((::s5679f0::Class *)(reinterpret_cast<::LowProcess *>(this)->GetTarget())))
             iResult = reinterpret_cast<::FUN_00546ac0_shell *>((((::s5679f0::Class *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))))->FUN_00546ac0();
@@ -39713,7 +39713,7 @@ unsigned int FUN_00567e10_shell::FUN_00567e10(bool abUseOffset)
     unsigned int result = 0;
     LevelObj* object = FUN_00567d20();
 
-    if (object != 0 && object != (LevelObj*)((void *)(::TESObjectREFR::FindEncounterZone())))
+    if (object != 0 && object != (LevelObj*)((void *)(::TESObjectREFR::GetDefaultEncounterZone())))
         result = ::fnv_00567ec0::FUN_00567ec0((::fnv_00567ec0::BGSEncounterZone *)(object));
     else
         result = reinterpret_cast<::fnv_0087f9f0::FUN_0087f9f0_shell *>((g_thePlayer))->FUN_0087f9f0();
@@ -49278,7 +49278,7 @@ TESForm* OwnerLookupView::FUN_00567790()
         FNV_GetFormType(((::TESForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((this))->FUN_007af430()))) != 0x1c && FNV_GetFormType(((::TESForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((this))->FUN_007af430()))) != 0x15)
     {
         BGSEncounterZone* pzone = (BGSEncounterZone*)((FUN_00881c90_cls*)this)->FindEncounterZone();
-        if (pzone && pzone != TESObjectREFR::FindEncounterZone())
+        if (pzone && pzone != TESObjectREFR::GetDefaultEncounterZone())
             powner = (TESForm*)(std::uintptr_t)((unsigned int)(reinterpret_cast<::FUN_009611e0_shell *>((((Calendar*)pzone)))->FUN_009611e0()));
         if (!powner && ((std::uintptr_t)(reinterpret_cast<::LowProcess *>((void *)(((BSOcclusionPlane*)this)))->GetTarget())))
             powner = ((DoorCell*)((reinterpret_cast<::LowProcess *>((void *)(((BSOcclusionPlane*)this)))->GetTarget())))->GetOwner();

@@ -4286,7 +4286,7 @@ FUN_00938180::FUN_00938180() : f634(0), f694(0), f69c(0), f764(1), f854(0x25), f
     fd6c = 0.f;
     fd70 = 0.f;
     fdec.FUN_0066b0d0(0);
-    reinterpret_cast<::fnv_00567dd0::FUN_00567dd0_shell *>(this)->FUN_00567dd0((::fnv_00567dd0::BGSEncounterZone *)(void *)(((void *)(reinterpret_cast<::TESObjectREFR *>(this)->FindEncounterZone()))));
+    reinterpret_cast<::fnv_00567dd0::FUN_00567dd0_shell *>(this)->FUN_00567dd0((::fnv_00567dd0::BGSEncounterZone *)(void *)(((void *)(::TESObjectREFR::GetDefaultEncounterZone()))));
     reinterpret_cast<::FUN_005dadd0_Class *>(this)->FUN_005dadd0(0);
     (*reinterpret_cast<::Allocated122 * *>(&::DAT_011e0774)) = new Allocated122;
     (*reinterpret_cast<::Allocated122 * *>(&::DAT_011e0760)) = new Allocated122;

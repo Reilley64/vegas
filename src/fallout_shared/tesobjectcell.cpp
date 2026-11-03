@@ -762,7 +762,7 @@ TESForm* DoorCell::GetOwner()
     if (!owner)
     {
         BGSEncounterZone* zone = reinterpret_cast<TESObjectCELL*>(this)->FindEncounterZone();
-        if (zone && zone != TESObjectREFR::FindEncounterZone())
+        if (zone && zone != TESObjectREFR::GetDefaultEncounterZone())
             owner = reinterpret_cast<TESForm*>(((::NiNode *)(reinterpret_cast<::FUN_009611e0_shell *>((reinterpret_cast<NiAVObject*>(zone)))->FUN_009611e0())));
     }
     return owner;
@@ -17677,7 +17677,7 @@ void Cell::FUN_0054ca90(Ref* ref)
         if (((void *)(reinterpret_cast<::TESObjectCELL *>(this)->FindEncounterZone())))
             reinterpret_cast<::fnv_00567dd0::FUN_00567dd0_shell *>((ref))->FUN_00567dd0((::fnv_00567dd0::BGSEncounterZone *)(void *)(((void *)(reinterpret_cast<::TESObjectCELL *>(this)->FindEncounterZone()))));
         else
-            reinterpret_cast<::fnv_00567dd0::FUN_00567dd0_shell *>((ref))->FUN_00567dd0((::fnv_00567dd0::BGSEncounterZone *)(void *)(((void *)(::TESObjectREFR::FindEncounterZone()))));
+            reinterpret_cast<::fnv_00567dd0::FUN_00567dd0_shell *>((ref))->FUN_00567dd0((::fnv_00567dd0::BGSEncounterZone *)(void *)(((void *)(::TESObjectREFR::GetDefaultEncounterZone()))));
     }
     reinterpret_cast<::TESObjectCELL *>(this)->CellRefLockEnter();
     reinterpret_cast<::ItemChangeListNode *>((((::fnv_0054ca90::List *)(reinterpret_cast<::FUN_009604f0_shell *>(this)->FUN_009604f0()))))->FUN_00905330((*(::InventoryStackRecord *const *)(&ref)));

@@ -53,7 +53,6 @@
 #include "fnv/symbols_00472000.h"
 #include "fnv/symbols_00482000.h"
 #include "fnv/symbols_00487000.h"
-#include "BGSEntryPointFunction.h"
 #include "fnv/decl/FUN_00414220_shell.h"
 #include "fnv/decl/TextString.h"
 
@@ -1601,7 +1600,7 @@ bool ActivateChoice::FUN_005e6ee0(TESFile* file)
         {
             DAT_011cb0fc = new ScriptVariableInfo();
             reinterpret_cast<::ScriptVariableInfo *>((reinterpret_cast<FUN_005e2a20_shell*>(DAT_011cb0fc)))->Load(file);
-            reinterpret_cast<::Callees *>((reinterpret_cast<BSSimpleList<Actor*>*>(reinterpret_cast<FUN_005d43e0_shell*>(formStorage)->FUN_005d43e0())))->FUN_00905820((void *)&(reinterpret_cast<Actor*&>(DAT_011cb0fc)));
+            reinterpret_cast<::Callees *>((reinterpret_cast<BSSimpleList<Actor*>*>(reinterpret_cast<FUN_005d43e0_shell*>((&unk08))->FUN_005d43e0())))->FUN_00905820((void *)&(reinterpret_cast<Actor*&>(DAT_011cb0fc)));
         }
         else if (DAT_011cb0fc)
         {
@@ -1612,10 +1611,10 @@ bool ActivateChoice::FUN_005e6ee0(TESFile* file)
         break;
 
     case 0x52484353:  // 'SCHR'
-        reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(void *)(((::ScriptHeader *)(reinterpret_cast<::BGSCameraPath *>((reinterpret_cast<Script_ctx*>(formStorage)))->GetConditions()))), 0);
+        reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(void *)(((::ScriptHeader *)(reinterpret_cast<::BGSCameraPath *>((reinterpret_cast<Script_ctx*>((&unk08))))->GetConditions()))), 0);
         if (file->IsEndianConversionRequired())
         {
-            reinterpret_cast<::FUN_00414220_shell *>((((::ScriptHeader *)(reinterpret_cast<::BGSCameraPath *>((reinterpret_cast<Script_ctx*>(formStorage)))->GetConditions()))))->FUN_00414220();
+            reinterpret_cast<::FUN_00414220_shell *>((((::ScriptHeader *)(reinterpret_cast<::BGSCameraPath *>((reinterpret_cast<Script_ctx*>((&unk08))))->GetConditions()))))->FUN_00414220();
         }
         break;
 
@@ -1624,21 +1623,21 @@ bool ActivateChoice::FUN_005e6ee0(TESFile* file)
         scdaData = _alloca(scdaSize4);
         memset(scdaData, 0, scdaSize4);
         reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(scdaData), 0);
-        reinterpret_cast<FUN_005aae70_shell*>(formStorage)->FUN_005aae70(scdaSize4, reinterpret_cast<char*>(scdaData));
+        reinterpret_cast<FUN_005aae70_shell*>((&unk08))->FUN_005aae70(scdaSize4, reinterpret_cast<char*>(scdaData));
         break;
 
     case 0x4f524353:  // 'SCRO'
         scroObjVal = new FUN_00500910();
-        file->GetChunkData(&scroRefID2);
+        reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(&scroRefID2), 0);
         scroObjVal->formID = scroRefID2;
-        reinterpret_cast<::Callees *>((reinterpret_cast<BSSimpleList<Actor*>*>(reinterpret_cast<FUN_005d43c0_*>(formStorage)->FUN_005d43c0())))->FUN_00905820((void *)&(reinterpret_cast<Actor*&>(scroObjVal)));
+        reinterpret_cast<::Callees *>((reinterpret_cast<BSSimpleList<Actor*>*>(reinterpret_cast<FUN_005d43c0_*>((&unk08))->FUN_005d43c0())))->FUN_00905820((void *)&(reinterpret_cast<Actor*&>(scroObjVal)));
         break;
 
     case 0x56524353:  // 'SCRV'
         _scrvObj = new FUN_00500910();
-        file->GetChunkData(&scrvRefID3);
+        reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(&scrvRefID3), 0);
         _scrvObj->variableOrIndex = scrvRefID3;
-        reinterpret_cast<::Callees *>((reinterpret_cast<BSSimpleList<Actor*>*>(reinterpret_cast<FUN_005d43c0_*>(formStorage)->FUN_005d43c0())))->FUN_00905820((void *)&(reinterpret_cast<Actor*&>(_scrvObj)));
+        reinterpret_cast<::Callees *>((reinterpret_cast<BSSimpleList<Actor*>*>(reinterpret_cast<FUN_005d43c0_*>((&unk08))->FUN_005d43c0())))->FUN_00905820((void *)&(reinterpret_cast<Actor*&>(_scrvObj)));
         break;
 
     case 0x32465045:  // 'EPF2'

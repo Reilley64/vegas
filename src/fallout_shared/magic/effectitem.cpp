@@ -1,5 +1,6 @@
 // fallout_shared/magic/effectitem.cpp: EffectItem, EffectItemList, ScriptEffect, Setting and more (52 functions)
 
+#include "fnv/tls.h"
 #include <cstring>
 #include "fnv/decl/BGSDebris.h"
 #include "fnv/decl/BGSReconstructFormsInAllFilesMap.h"
@@ -557,7 +558,6 @@ int __cdecl FUN_00647b70(int iA, int iB)
 
 extern "C" int __tls_index;
 
-__declspec(thread) int DAT_tls_field = 0x3b;
 
 // @fnv 0x00404f50
 int __cdecl GetTlsField()
@@ -622,12 +622,11 @@ bool EffectItem_shell::FUN_00404470(int range)
 
 namespace fnv_00404f30 {
 
-__declspec(thread) int tlsVar[0x2b4 / 4 + 1];
 
 // @fnv 0x00404f30
 void __cdecl FUN_00404f30(int aiValue)
 {
-    (*reinterpret_cast<int (*)[174]>(&::g_tlsBlock))[0x2b4 / 4] = aiValue;
+    ::g_tlsBlock.memoryContext = aiValue;
 }
 }  // namespace fnv_00404f30
 

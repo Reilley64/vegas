@@ -1,5 +1,6 @@
 // fallout_shared/modelloader.cpp: DelStandIn, QueuedTreeModel, ModelLoader, QueuedHelmet and more (493 functions)
 
+#include "fnv/tls.h"
 #include <cstdint>
 #include <string.h>
 #include <windows.h>
@@ -875,13 +876,12 @@ struct TLSData
     bool bLoadTexturesDegraded;
 };
 
-__declspec(thread) TLSData g_tlsData;
 
 // Returns the thread-local flag that indicates whether textures are being loaded in degraded mode.
 // @fnv 0x0043c130
 bool FUN_0043c130_shell::IsLoadTexturesDegraded()
 {
-    return (*reinterpret_cast<::TLSData *>(&::g_tlsBlock)).bLoadTexturesDegraded;
+    return ::g_tlsBlock.loadTexturesDegraded;
 }
 
 struct FUN_0043c3d0_shell : public QueuedTexture
@@ -905,14 +905,13 @@ struct _TLS_0043c3f0
 // @fnv 0x0043c3f0
 void __cdecl FUN_0043c3f0(unsigned int aiLoadMethod)
 {
-    (*reinterpret_cast<::_TLS_0043c3f0 *>(&::g_tlsBlock)).val = aiLoadMethod;
+    ::g_tlsBlock.textureLoadMethod = aiLoadMethod;
 }
 
 // @fnv 0x0043c410
 int FUN_0043c410()
 {
-    static __declspec(thread) int tls_data[0x29c / 4 + 1];
-    return tls_data[0x29c / 4];
+    return ::g_tlsBlock.textureLoadMethod;
 }
 
 class BSFileEntryMap
@@ -1501,8 +1500,6 @@ struct S4411
     void FUN_0043fd40(int, int);
     S4411* FUN_004411d0(int a, int b);
 };
-__declspec(thread) char _tls_pad_00441290[0x25c];
-__declspec(thread) bool _tls_var_00441290;
 
 struct _FUN_00441290_shell
 {
@@ -1513,8 +1510,8 @@ struct _FUN_00441290_shell
 // @fnv 0x00441290
 bool _FUN_00441290_shell::SetTlsFlag(bool abValue)
 {
-    bool bOld = _tls_var_00441290;
-    _tls_var_00441290 = abValue;
+    bool bOld = ::g_tlsBlock.loadTexturesDegraded;
+    ::g_tlsBlock.loadTexturesDegraded = abValue;
     return bOld;
 }
 
@@ -1548,14 +1545,13 @@ struct FUN_00441440 : public FUN_004411d0
 FUN_00441440::FUN_00441440(std::intptr_t a, int b) : FUN_004411d0(a, b), vftable(&DAT_01016cec), m_40(0), m_44(0)
 {}
 
-extern __declspec(thread) void* DAT_00441780_260;
 
-// Stores apRef and ap3D into the thread-local pointers DAT_00441780_264 and DAT_00441780_260.
+// Stores apRef and ap3D as the reference and 3D the current thread is loading.
 // @fnv 0x00441780
 void __cdecl FUN_00441780(void* apRef, void* ap3D)
 {
-    (*reinterpret_cast<void * *>(&::DAT_tls_0264)) = apRef;
-    DAT_00441780_260 = ap3D;
+    ::g_tlsBlock.loading3DRef = static_cast<TESObjectREFR*>(apRef);
+    ::g_tlsBlock.loading3D = static_cast<NiAVObject*>(ap3D);
 }
 
 struct _TLS_Pad_004417c0
@@ -1565,14 +1561,13 @@ struct _TLS_Pad_004417c0
     int v264;
 };
 
-__declspec(thread) _TLS_Pad_004417c0 tls_004417c0;
 
 // Clears the two int fields at offsets 0x260 and 0x264 in the thread-local block.
 // @fnv 0x004417c0
 void FUN_004417c0()
 {
-    (*reinterpret_cast<::_TLS_Pad_004417c0 *>(&::g_tlsBlock)).v264 = 0;
-    (*reinterpret_cast<::_TLS_Pad_004417c0 *>(&::g_tlsBlock)).v260 = 0;
+    ::g_tlsBlock.loading3DRef = 0;
+    ::g_tlsBlock.loading3D = 0;
 }
 
 enum MEM_CONTEXT

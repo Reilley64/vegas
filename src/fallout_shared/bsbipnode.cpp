@@ -1,5 +1,6 @@
 // fallout_shared/bsbipnode.cpp: AnimationInterpolatorNode (5 functions)
 
+#include "fnv/tls.h"
 #include <new>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FUN_00440460_S.h"
@@ -168,10 +169,9 @@ void FUN_004f0040_shell::UpdateControls(float afTime)
     }
 }
 
-__declspec(thread) int DAT_tls_0x2c0;
 
 // @fnv 0x004f0020
 void FUN_004f0020(int value)
 {
-    DAT_tls_0x2c0 = value;
+    ::g_tlsBlock.collisionUpdateMode = value;
 }

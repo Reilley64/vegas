@@ -1,5 +1,6 @@
 // fallout_shared/tessaveloadgame.cpp: TESSaveLoadGame, NiTPointerMap_Standin, Holder, ChangesMap and more (142 functions)
 
+#include "fnv/tls.h"
 #include <windows.h>
 #include <string.h>
 #include <new>
@@ -10540,12 +10541,12 @@ struct ThreadDataC3
 
 inline int GetMemContextC3()
 {
-    return (*reinterpret_cast<::fnv_00c3e8b0::ThreadDataC3 *>(&::g_tlsBlock)).m_iMemContext;
+    return ::g_tlsBlock.memoryContext;
 }
 
 inline void SetMemContextC3(int aiMemoryContext)
 {
-    (*reinterpret_cast<::fnv_00c3e8b0::ThreadDataC3 *>(&::g_tlsBlock)).m_iMemContext = aiMemoryContext;
+    ::g_tlsBlock.memoryContext = aiMemoryContext;
 }
 
 class MemContextScopeC3

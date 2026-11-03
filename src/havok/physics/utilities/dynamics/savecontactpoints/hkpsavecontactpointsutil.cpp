@@ -2011,11 +2011,11 @@ struct LocalContext
 extern int DAT_010d77c0;
 // Sets up a LocalContext with DAT_010d77c0 as its vtable and forwards first, second and third to FUN_00dcea10.
 // @fnv 0x00dce7b0
-void __cdecl RunWithLocalContext(int first, int second, int third)
+void __cdecl RunWithLocalContext(::Resolver* first, ::ListOwner* second, ::Ctx* third)
 {
     LocalContext local;
     local.vtable = &DAT_010d77c0;
-    ::FUN_00dcea10((::Resolver *)(first), (::ListOwner *)(second), (::Ctx *)(third), (::Visitor *)(::LocalContext *)(&local));
+    ::FUN_00dcea10(first, second, third, (::Visitor *)(::LocalContext *)(&local));
 }
 
 struct FUN_00dce7e0_local

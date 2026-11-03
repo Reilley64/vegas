@@ -26,26 +26,44 @@
 #include "fnv/symbols_00dce000.h"
 #include "fnv/symbols_0102f000.h"
 #include "havok/hkpPhysicsData.h"
+#include "havok/hkpWorldObject.h"
 
 
-struct FUN_00d4c000
+struct BoolResult
 {
-    int m_00;
-    int m_04;
-    int m_08;
-    int* m_0c;
-    int m_10;
-    int Method(int a);
+    char val;
+    __forceinline BoolResult() throw()
+    {}
+};
+class hkpConstraintInstance;
+class hkpAction;
+class hkpPhantom;
+class hkpPhysicsSystem : public hkReferencedObject
+{
+  public:
+    virtual void vfunc1() throw();
+    virtual void vfunc2() throw();
+    virtual void vfunc3() throw();
+    virtual BoolResult vfunc4() throw();
+
+    hkArray<hkpWorldObject*> m_ppRigidBodies;
+    hkArray<hkpConstraintInstance*> m_ppConstraints;
+    hkArray<hkpAction*> m_ppActions;
+    hkArray<hkpPhantom*> m_kPhantoms;
+    hkStringPtr m_name;
+    hkUlong m_ulUserData;
+    hkBool m_bSlotEnabled;
 };
 
+// Returns the first physics system whose name matches name (case-insensitive), or null.
 // @fnv 0x00d4c000
-int FUN_00d4c000::Method(int a)
+hkpPhysicsSystem* hkpPhysicsData::findPhysicsSystemByName(const char* name) const
 {
-    for (int i = 0; i < m_10; i++)
+    for (int i = 0; i < m_kPhysicsSystems.m_iElementCount; i++)
     {
-        int v = *reinterpret_cast<int*>(*(reinterpret_cast<char**>(m_0c) + i) + 0x38) & 0xfffffffe;
-        if (v && !::fnv_00cb0fe0::CompareStringsCaseInsensitive((const char *)(v), (const char *)(a)))
-            return m_0c[i];
+        const char* systemName = (const char*)((uintptr_t)m_kPhysicsSystems.m_data[i]->m_name & ~(uintptr_t)1);
+        if (systemName && !::fnv_00cb0fe0::CompareStringsCaseInsensitive(systemName, name))
+            return m_kPhysicsSystems.m_data[i];
     }
     return 0;
 }
@@ -76,29 +94,19 @@ FUN_00d4c220_s::FUN_00d4c220_s()
 }
 
 
-struct FUN_00d4c050_obj
-{
-    int m_00;
-    int m_04;
-    int m_08;
-    int* m_0c;
-    int m_10;
-    int FindMatchingEntry(int a);
-};
-
-// Scans m_10 entries, checks each entry's sub-items via CompareStringsCaseInsensitive on the masked field at offset 0x74, and returns the first matching item or 0.
+// Scans every system's rigid bodies and returns the first whose name matches name (case-insensitive), or null.
 // @fnv 0x00d4c050
-int FUN_00d4c050_obj::FindMatchingEntry(int a)
+hkpWorldObject* hkpPhysicsData::findRigidBodyByName(const char* name) const
 {
-    for (int i = 0; i < m_10; ++i)
+    for (int i = 0; i < m_kPhysicsSystems.m_iElementCount; ++i)
     {
-        int* p = (int*)m_0c[i];
-        for (int jItem = 0; jItem < p[3]; ++jItem)
+        hkpPhysicsSystem* system = m_kPhysicsSystems.m_data[i];
+        for (int jItem = 0; jItem < system->m_ppRigidBodies.m_iElementCount; ++jItem)
         {
-            int v = ((int*)p[2])[jItem];
-            int m = *(int*)((char*)v + 0x74);
-            if ((m & ~1) && !::fnv_00cb0fe0::CompareStringsCaseInsensitive((const char *)(m & ~1), (const char *)(a)))
-                return v;
+            hkpWorldObject* body = system->m_ppRigidBodies.m_data[jItem];
+            const char* bodyName = (const char*)((uintptr_t)body->m_name & ~(uintptr_t)1);
+            if (bodyName && !::fnv_00cb0fe0::CompareStringsCaseInsensitive(bodyName, name))
+                return body;
         }
     }
     return 0;
@@ -141,21 +149,7 @@ template <typename T> struct ReferenceCountedPointer
     }
 };
 
-struct BoolResult
-{
-    char val;
-    __forceinline BoolResult() throw()
-    {}
-};
 
-class hkpPhysicsSystem : public hkReferencedObject
-{
-  public:
-    virtual void vfunc1() throw();
-    virtual void vfunc2() throw();
-    virtual void vfunc3() throw();
-    virtual BoolResult vfunc4() throw();
-};
 
 class __declspec(align(16)) FUN_00553540
 {
@@ -509,7 +503,7 @@ hkpWorld* PhysicsDataExt::CreateWorld(char bRegisterWithMemoryManager) throw()
             opts.m_08 = 1;
             opts.m_09 = 1;
             opts.m_0a = 0;
-            ::RunWithLocalContext((int)(&opts), (int)(this->m_kPhysicsSystems.m_data[i]), (int)(world));
+            ::RunWithLocalContext((::Resolver *)(&opts), (::ListOwner *)(this->m_kPhysicsSystems.m_data[i]), (::Ctx *)(world));
         }
     }
 
@@ -580,7 +574,7 @@ struct ArrayField
 };
 struct SmallType
 {
-    int m_00;
+    const void* m_00;
     unsigned short m_04;
     unsigned short m_06;
     int m_08;
@@ -656,7 +650,7 @@ void HostType::FUN_00d4c2d0(ClientType* client, unsigned char ubFlag)
         small->m_04 = 0x50;
         new ((void *)(small)) ::FUN_00d065e0();
 
-        small->m_00 = (int)&DAT_010d07f4;
+        small->m_00 = &DAT_010d07f4;
         new (&small->m_ppData, D4C2Place()) ArrayField();
 
         ::ProcessCollisionRecords(&local, (::S_00dcda40_World *)(client), (::S_00dcdd80_Listener *)(small));
@@ -722,21 +716,17 @@ template <class T> __forceinline int findValue(T* self, Value* value)
     }
     return -1;
 }
-typedef int Owner::*MemberPtr;
 // If value is in owner's list but not entity's, sets entity->m_40, calls entity->AddShape(value) and owner->FUN_00d06130 with the owner index.
 // @fnv 0x00d4bf70
-static __declspec(noinline) void FUN_00d4bf70(Owner* owner, Entity* volatile apEntity, MemberPtr valueArg)
+static __declspec(noinline) void FUN_00d4bf70(Owner* owner, Entity* volatile apEntity, Value* value)
 {
     Entity* entity = apEntity;
-    Value* pValue;
-    memcpy(&pValue, &valueArg, 4);
-    Value* value = pValue;
     int ownerIndex = findValue(owner, value);
     int entityIndex = findValue(entity, value);
     if (entityIndex == -1 && ownerIndex != -1)
     {
         entity->m_40 = entity->m_40 || (*(::BoolResult *)(reinterpret_cast<::FUN_00c9bff0_Class *>((value))->FUN_00c9bff0({}))).val;
-        reinterpret_cast<::Container64 *>((entity))->AddShape((::Shape64 *)((int)value));
+        reinterpret_cast<::Container64 *>((entity))->AddShape((::Shape64 *)(value));
         reinterpret_cast<::BodyCollection *>((owner))->FUN_00d06130(ownerIndex);
     }
 }
@@ -747,7 +737,7 @@ void probeCaller()
 {
     OwnerArg o = {probeOwner};
     ValueArg v = {probeValue};
-    FUN_00d4bf70(o.p, probeEntity, *(MemberPtr*)&v.p);
+    FUN_00d4bf70(o.p, probeEntity, v.p);
 }
 
 namespace fnv_00d4c250 {
@@ -814,7 +804,7 @@ FUN_00d4c250::~FUN_00d4c250()
 #include "fnv/decl/hkOwnerD064.h"
 #include "fnv/decl/hkOwnerXd06540.h"
 #include "fnv/decl/hkOwnerXd06590.h"
-static void FUN_00d4bf70(Owner* owner, Entity* volatile entityArg, MemberPtr valueArg);
+static void FUN_00d4bf70(Owner* owner, Entity* volatile entityArg, Value* value);
 void probeCaller();
 
 struct SplitPlace
@@ -960,7 +950,7 @@ struct SplitConstraint
     }
     __forceinline SplitEntity* getOtherEntity(const SplitEntity* item) const
     {
-        return (SplitEntity*)((unsigned int)bodyA ^ (unsigned int)bodyB ^ (unsigned int)item);
+        return (SplitEntity*)((uintptr_t)bodyA ^ (uintptr_t)bodyB ^ (uintptr_t)item);
     }
 };
 struct SplitAction
@@ -1034,10 +1024,6 @@ struct SplitOutput
     SplitArray<SplitSystem*> m_kSplitSystemArray;
 };
 
-struct FUN_00d065e0 : SplitSystem
-{
-    FUN_00d065e0();
-};
 
 enum SplitMotionKind
 {
@@ -1167,14 +1153,13 @@ struct SplitBody : SplitEntity
 
 static __forceinline SplitSystem* makeSystem()
 {
-    return new FUN_00d065e0;
+    void* mem = SplitSystem::operator new(sizeof(SplitSystem));
+    new (mem) ::FUN_00d065e0();
+    return static_cast<SplitSystem*>(mem);
 }
-typedef int SplitSystem::*MoveMember;
-static __declspec(noinline) void FUN_00d4bf70(SplitSystem* from, SplitSystem* volatile toArg, MoveMember encoded)
+static __declspec(noinline) void FUN_00d4bf70(SplitSystem* from, SplitSystem* volatile toArg, SplitBody* body)
 {
     SplitSystem* to = toArg;
-    SplitBody* body;
-    memcpy(&body, &encoded, 4);
     int fromIndex = from->getRigidBodies().indexOf(body);
     int toIndex = to->getRigidBodies().indexOf(body);
     if (toIndex == -1 && fromIndex != -1)
@@ -1186,9 +1171,7 @@ static __declspec(noinline) void FUN_00d4bf70(SplitSystem* from, SplitSystem* vo
 }
 static __forceinline void moveConnected(SplitSystem* from, SplitSystem* to, SplitEntity* item)
 {
-    MoveMember encoded;
-    memcpy(&encoded, &item, 4);
-    FUN_00d4bf70(from, to, encoded);
+    FUN_00d4bf70(from, to, static_cast<SplitBody*>(item));
 }
 
 // @fnv 0x00d4c3b0

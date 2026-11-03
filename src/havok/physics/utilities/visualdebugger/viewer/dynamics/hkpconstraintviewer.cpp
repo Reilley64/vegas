@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/visualdebugger/viewer/dynamics/hkpconstraintviewer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/dynamics/hkpconstraintviewer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkUlong.h"
 #include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include <new>
@@ -1197,26 +1198,26 @@ void ConstraintDrawDetail::Viewer::FUN_00d69260(void* aiCollidable, Entity* enti
     case 0: {
         reinterpret_cast<::FUN_00de4470_class *>(&(renderer))->InitializeDefaults();
         reinterpret_cast<::FUN_00de47d0_cls *>(&(renderer))->FUN_00de47d0(DAT_011b6168);
-        reinterpret_cast<::Obj *>(&(renderer))->FireMotionEvent((::Body *)(object), (::Listener *)(context), (int)(position), (int)::g_0126901c);
+        reinterpret_cast<::Obj *>(&(renderer))->FireMotionEvent((::Body *)(object), (::Listener *)(context), reinterpret_cast<hkUlong>(position), (int)::g_0126901c);
         break;
     }
     case 1: {
         reinterpret_cast<::FUN_00de4470_class *>(&(renderer))->InitializeDefaults();
         reinterpret_cast<::FUN_00de47d0_cls *>(&(renderer))->FUN_00de47d0(DAT_011b6168);
-        reinterpret_cast<::Drawer *>(&(renderer))->FUN_00de7f20((const ::hkpConstraintInstanceD *)(object), (::hkDebugDisplayHandlerD *)(context), (int)(position), (int)::g_0126901c);
+        reinterpret_cast<::Drawer *>(&(renderer))->FUN_00de7f20((const ::hkpConstraintInstanceD *)(object), (::hkDebugDisplayHandlerD *)(context), reinterpret_cast<hkUlong>(position), (int)::g_0126901c);
         break;
     }
     case 2: {
         new ((void *)&(renderer)) ::FUN_00d69a20();
         reinterpret_cast<::FUN_00de47d0_cls *>(&(renderer))->FUN_00de47d0(DAT_011b6168);
-        reinterpret_cast<::Viewer *>(&(renderer))->FUN_00de7a70((::Input *)(object), (::Display *)(context), (int)(position), (int)::g_0126901c);
+        reinterpret_cast<::Viewer *>(&(renderer))->FUN_00de7a70((::Input *)(object), (::Display *)(context), reinterpret_cast<hkUlong>(position), (int)::g_0126901c);
         reinterpret_cast<struct ::FUN_00da2560 *>((((Tail*)&renderer.unk0d0)))->FUN_00da2560::~FUN_00da2560();
         break;
     }
     case 6: {
         reinterpret_cast<::FUN_00de4470_class *>(&(renderer))->InitializeDefaults();
         reinterpret_cast<::FUN_00de47d0_cls *>(&(renderer))->FUN_00de47d0(DAT_011b6168);
-        reinterpret_cast<::Simulation *>(&(renderer))->FUN_00de7730((::Input *)(object), (::Draw *)(context), (int)(position), (int)::g_0126901c);
+        reinterpret_cast<::Simulation *>(&(renderer))->FUN_00de7730((::Input *)(object), (::Draw *)(context), reinterpret_cast<hkUlong>(position), (int)::g_0126901c);
         break;
     }
     case 8: {
@@ -1228,25 +1229,25 @@ void ConstraintDrawDetail::Viewer::FUN_00d69260(void* aiCollidable, Entity* enti
     case 9: {
         reinterpret_cast<::FUN_00de4470_class *>(&(renderer))->InitializeDefaults();
         reinterpret_cast<::FUN_00de47d0_cls *>(&(renderer))->FUN_00de47d0(DAT_011b6168);
-        reinterpret_cast<::DrawObject *>(&(renderer))->FUN_00de71d0((::Input *)(object), (::Dbg *)(context), (int)(position), (int)::g_0126901c);
+        reinterpret_cast<::DrawObject *>(&(renderer))->FUN_00de71d0((::Input *)(object), (::Dbg *)(context), reinterpret_cast<hkUlong>(position), (int)::g_0126901c);
         break;
     }
     case 3: {
         reinterpret_cast<::FUN_00de4470_class *>(&(renderer))->InitializeDefaults();
         reinterpret_cast<::FUN_00de47d0_cls *>(&(renderer))->FUN_00de47d0(DAT_011b6168);
-        reinterpret_cast<::Viewer *>(&(renderer))->FUN_00de7020((::Input *)(object), (::LineDrawer *)(context), (int)(position), (int)::g_0126901c);
+        reinterpret_cast<::Viewer *>(&(renderer))->FUN_00de7020((::Input *)(object), (::LineDrawer *)(context), reinterpret_cast<hkUlong>(position), (int)::g_0126901c);
         break;
     }
     case 14: {
         reinterpret_cast<::FUN_00de4470_class *>(&(renderer))->InitializeDefaults();
         reinterpret_cast<::FUN_00de47d0_cls *>(&(renderer))->FUN_00de47d0(DAT_011b6168);
-        reinterpret_cast<::T *>(&(renderer))->FUN_00de6d80((::Src *)(object), (::Visitor *)(context), (int)(position), (int)::g_0126901c);
+        reinterpret_cast<::T *>(&(renderer))->FUN_00de6d80((::Src *)(object), (::Visitor *)(context), reinterpret_cast<hkUlong>(position), (int)::g_0126901c);
         break;
     }
     case 7: {
         new ((void *)&(complexRenderer)) ::FUN_00d69a40();
         reinterpret_cast<::FUN_00de47d0_cls *>(&(complexRenderer))->FUN_00de47d0(DAT_011b6168);
-        reinterpret_cast<::Cls *>(&(complexRenderer))->FUN_00de6730((::Input *)(object), (::Renderer *)(context), (int)(position), (int)::g_0126901c);
+        reinterpret_cast<::Cls *>(&(complexRenderer))->FUN_00de6730((::Input *)(object), (::Renderer *)(context), reinterpret_cast<hkUlong>(position), (int)::g_0126901c);
         reinterpret_cast<::FUN_00d69a80 *>(&(complexRenderer))->FUN_00d69a80::~FUN_00d69a80();
         break;
     }
@@ -1268,7 +1269,7 @@ void ConstraintDrawDetail::Viewer::FUN_00d69260(void* aiCollidable, Entity* enti
     case 15: {
         reinterpret_cast<::FUN_00de4470_class *>(&(renderer))->InitializeDefaults();
         reinterpret_cast<::FUN_00de47d0_cls *>(&(renderer))->FUN_00de47d0(DAT_011b6168);
-        reinterpret_cast<::ConstraintVisualizer *>(&(renderer))->FUN_00de6550((::hkpConstraintInstance *)(object), (::hkDebugDisplayHandler *)(context), (int)(position), (int)::g_0126901c);
+        reinterpret_cast<::ConstraintVisualizer *>(&(renderer))->FUN_00de6550((::hkpConstraintInstance *)(object), (::hkDebugDisplayHandler *)(context), reinterpret_cast<hkUlong>(position), (int)::g_0126901c);
         break;
     }
     case 100:
@@ -1276,7 +1277,7 @@ void ConstraintDrawDetail::Viewer::FUN_00d69260(void* aiCollidable, Entity* enti
     case 102: {
         reinterpret_cast<::FUN_00de4470_class *>(&(renderer))->InitializeDefaults();
         reinterpret_cast<::FUN_00de47d0_cls *>(&(renderer))->FUN_00de47d0(DAT_011b6168);
-        reinterpret_cast<::Obj *>(&(renderer))->FireChainConstraints((::ChainInstance *)(object), (::Listener *)(context), (int)(position), (int)::g_0126901c);
+        reinterpret_cast<::Obj *>(&(renderer))->FireChainConstraints((::ChainInstance *)(object), (::Listener *)(context), reinterpret_cast<hkUlong>(position), (int)::g_0126901c);
         break;
     }
     case 18: {
@@ -1289,7 +1290,7 @@ void ConstraintDrawDetail::Viewer::FUN_00d69260(void* aiCollidable, Entity* enti
     case 19: {
         new ((void *)&(complexRenderer)) ::FUN_00d69a40();
         reinterpret_cast<::FUN_00de47d0_cls *>(&(complexRenderer))->FUN_00de47d0(DAT_011b6168);
-        reinterpret_cast<::This *>(&(complexRenderer))->FUN_00de59f0((::P1 *)(object), (::P2Vtbl *)(context), (int)(position), (int)::g_0126901c);
+        reinterpret_cast<::This *>(&(complexRenderer))->FUN_00de59f0((::P1 *)(object), (::P2Vtbl *)(context), reinterpret_cast<hkUlong>(position), (int)::g_0126901c);
         reinterpret_cast<::FUN_00d69a80 *>((((ComplexCleanup*)&complexRenderer)))->FUN_00d69a80::~FUN_00d69a80();
         break;
     }

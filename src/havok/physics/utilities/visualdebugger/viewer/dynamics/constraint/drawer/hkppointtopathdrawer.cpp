@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkppointtopathdrawer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkppointtopathdrawer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkUlong.h"
 #include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
@@ -191,7 +192,7 @@ struct LineDrawer
     virtual void v18();
     virtual void v1c();
     virtual void v20();
-    virtual void drawLine(const hkVector4& a, const hkVector4& b, int color, int id, int tag);
+    virtual void drawLine(const hkVector4& a, const hkVector4& b, int color, hkUlong id, int tag);
 };
 
 
@@ -246,12 +247,12 @@ struct Viewer
     Processor m_processor;
 
     void FUN_00de47e0(Input* input, hkTransform* transform, hkTransform* extra);
-    void FUN_00de7020(Input* input, LineDrawer* drawer, int id, int tag);
+    void FUN_00de7020(Input* input, LineDrawer* drawer, hkUlong id, int tag);
 };
 
 // Runs several viewer update steps, then draws lines between consecutive points of the scene's point source, transformed to world space, using drawer.
 // @fnv 0x00de7020
-void Viewer::FUN_00de7020(Input* input, LineDrawer* drawer, int id, int tag)
+void Viewer::FUN_00de7020(Input* input, LineDrawer* drawer, hkUlong id, int tag)
 {
     BoneTransformData* scene = input->m_scene;
     hkTransform localTransform;

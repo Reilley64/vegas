@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkplimitedhingedrawer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkplimitedhingedrawer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkUlong.h"
 #include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
@@ -56,12 +57,12 @@ struct Display
     virtual void v6();
     virtual void v7();
     virtual void v8();
-    virtual void line(const Vector*, const Vector*, unsigned, int, int);
+    virtual void line(const Vector*, const Vector*, unsigned, hkUlong, int);
     virtual void v10();
     virtual void v11();
     virtual void v12();
     virtual void v13();
-    virtual void geometry(Array*, unsigned, int, int);
+    virtual void geometry(Array*, unsigned, hkUlong, int);
 };
 struct DisplayContext
 {
@@ -89,7 +90,7 @@ struct Viewer
     DisplayContext context;
     Shape shape;
     void FUN_00de47e0(Input*, Matrix*, Matrix*);
-    void FUN_00de7a70(Input*, Display*, int, int);
+    void FUN_00de7a70(Input*, Display*, hkUlong, int);
 };
 __forceinline __m128 broadcast(float value)
 {
@@ -104,7 +105,7 @@ __forceinline __m128 broadcastScalar(float value)
 }
 // Draws lines via display->line and, when data->enabled and the range is small, a shape via display->geometry, using vectors transformed from input->data.
 // @fnv 0x00de7a70
-void Viewer::FUN_00de7a70(Input* input, Display* display, int id, int tag)
+void Viewer::FUN_00de7a70(Input* input, Display* display, hkUlong id, int tag)
 {
     Data* data = input->data;
     reinterpret_cast<::CpuObject *>(&(context))->FUN_00e10a10((display));

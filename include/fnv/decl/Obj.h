@@ -1,4 +1,5 @@
 #pragma once
+#include "havok/hkUlong.h"
 #include <cstdint>
 
 struct Body;
@@ -33,9 +34,9 @@ public:
     // 0x00dbe790
     void WriteVarint(long long);
     // 0x00de6390
-    void FireChainConstraints(::ChainInstance *, ::Listener *, int, int);
+    void FireChainConstraints(::ChainInstance *, ::Listener *, hkUlong, int);
     // 0x00de8090
-    void FireMotionEvent(::Body *, ::Listener *, int, int);
+    void FireMotionEvent(::Body *, ::Listener *, hkUlong, int);
     // 0x00dfaf80
     void SetEntries(const ::hkVector4 *, const ::hkVector4 *, const ::hkVector4 *);
     // 0x00e09970

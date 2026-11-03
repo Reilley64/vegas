@@ -9,6 +9,7 @@
 // src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkphingelimitsdrawer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkphingelimitsdrawer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkUlong.h"
 #include "havok/hkMemoryRouter.h"
 #include <new>
 #include "fnv/symbols_00c85000.h"
@@ -35,7 +36,16 @@ static __forceinline __m128 splatRounded(double f)
 
 struct Visitor
 {
-    void** vt;
+    virtual void v00();
+    virtual void v01();
+    virtual void v02();
+    virtual void v03();
+    virtual void v04();
+    virtual void v05();
+    virtual void v06();
+    virtual void v07();
+    virtual void v08();
+    virtual void displayLine(void* start, void* end, int color, hkUlong id, int tag); // vtable slot 9
 };
 
 struct Src
@@ -81,14 +91,13 @@ struct T
     Mat3 m90;
     Holder mc;
     void FUN_00de47e0(Src* a, Mat4* b, Mat4* c);
-    void FUN_00de6d80(Src* a1, Visitor* a2, int a3, int a4);
+    void FUN_00de6d80(Src* a1, Visitor* a2, hkUlong a3, int a4);
 };
 
 
-typedef void(* DrawFn)(Visitor*, void*, void*, int, int, int);
 
 // @fnv 0x00de6d80
-void T::FUN_00de6d80(Src* a1, Visitor* a2, int a3, int a4)
+void T::FUN_00de6d80(Src* a1, Visitor* a2, hkUlong a3, int a4)
 {
     struct Work
     {
@@ -133,12 +142,10 @@ void T::FUN_00de6d80(Src* a1, Visitor* a2, int a3, int a4)
     int n = 6;
     do
     {
-        DrawFn* slot = (DrawFn*)&a2->vt[9];
-        (*slot)(a2, q, q + 1, ((int)(::PackColorBigEndian(0.8f, 0.8f, 0.8f, 1.0f))), a3, a4);
+        a2->displayLine(q, q + 1, ((int)(::PackColorBigEndian(0.8f, 0.8f, 0.8f, 1.0f))), a3, a4);
         q += 2;
     } while (--n);
-    DrawFn* slot = (DrawFn*)&a2->vt[9];
-    (*slot)(a2, &m40, &m20, ((int)(::PackColorBigEndian(0.3f, 0.3f, 0.8f, 1.0f))), a3, a4);
+    a2->displayLine(&m40, &m20, ((int)(::PackColorBigEndian(0.3f, 0.3f, 0.8f, 1.0f))), a3, a4);
 }
 
 // Moved from hkphingelimitsdrawer_ehsc_noehsc_variant_rtm_variant.cpp (VEGAS-15).

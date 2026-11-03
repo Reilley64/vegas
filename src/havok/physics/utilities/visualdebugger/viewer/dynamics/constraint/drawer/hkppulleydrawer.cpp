@@ -9,6 +9,7 @@
 // src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkppulleydrawer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkppulleydrawer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkUlong.h"
 #include <xmmintrin.h>
 #include "fnv/decl/CpuObject.h"
 #include "fnv/decl/DE44C0Object.h"
@@ -116,7 +117,7 @@ struct hkDebugDisplayHandler
     virtual void vfn_18();
     virtual void vfn_1c();
     virtual void vfn_20();
-    virtual int DisplayLine(const hkVector4& start, VecAddress end, unsigned int color, int id, int tag);
+    virtual int DisplayLine(const hkVector4& start, VecAddress end, unsigned int color, hkUlong id, int tag);
 };
 
 struct DebugDisplayHandlerHolder
@@ -143,11 +144,11 @@ struct ConstraintVisualizer
     DebugDisplayHandlerHolder m_kDisplayGeometry;
 
     void FUN_00de47e0(hkpConstraintInstance* constraint, hkTransform& refLocalToWorld, hkTransform& attLocalToWorld);
-    void FUN_00de6550(hkpConstraintInstance* constraint, hkDebugDisplayHandler* displayHandler, int id, int tag);
+    void FUN_00de6550(hkpConstraintInstance* constraint, hkDebugDisplayHandler* displayHandler, hkUlong id, int tag);
 };
 
 // @fnv 0x00de6550
-void ConstraintVisualizer::FUN_00de6550(hkpConstraintInstance* constraint, hkDebugDisplayHandler* displayHandler, int id,
+void ConstraintVisualizer::FUN_00de6550(hkpConstraintInstance* constraint, hkDebugDisplayHandler* displayHandler, hkUlong id,
                                    int tag)
 {
     hkpPulleyConstraintData* pulley = constraint->m_data;

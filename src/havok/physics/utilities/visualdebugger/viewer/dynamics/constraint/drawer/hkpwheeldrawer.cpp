@@ -8,6 +8,7 @@
 // src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkpwheeldrawer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkpwheeldrawer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkUlong.h"
 #include <xmmintrin.h>
 #include "fnv/decl/CpuObject.h"
 #include "fnv/decl/DE44C0Object.h"
@@ -28,7 +29,7 @@ struct Dbg
     virtual void v06();
     virtual void v07();
     virtual void v08();
-    virtual void Line(__m128* a, __m128* b, unsigned int c, int d, int e);
+    virtual void Line(__m128* a, __m128* b, unsigned int c, hkUlong d, int e);
 };
 
 struct Sub
@@ -77,7 +78,7 @@ struct DrawObject
     __m128 unka0;
     __m128 unkb0;
     __m128 mc0;
-    void FUN_00de71d0(Input* a, Dbg* dbg, int p3, int p4);
+    void FUN_00de71d0(Input* a, Dbg* dbg, hkUlong p3, int p4);
 };
 
 static inline __m128 bc(const float& s)
@@ -87,7 +88,7 @@ static inline __m128 bc(const float& s)
 }
 
 // @fnv 0x00de71d0
-void DrawObject::FUN_00de71d0(Input* a, Dbg* dbg, int p3, int p4)
+void DrawObject::FUN_00de71d0(Input* a, Dbg* dbg, hkUlong p3, int p4)
 {
     Body* b = a->body;
     Matrix t0, t1;

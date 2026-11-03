@@ -12,6 +12,7 @@
 // src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkphingedrawer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkphingedrawer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkUlong.h"
 #include <xmmintrin.h>
 
 #include "fnv/decl/CpuObject.h"
@@ -100,7 +101,7 @@ struct hkDebugDisplayHandlerD
     virtual void unk18();
     virtual void unk1c();
     virtual void unk20();
-    virtual void DisplayLine(const hkVector4D& start, const hkVector4D& end, unsigned int color, int id, int tag);
+    virtual void DisplayLine(const hkVector4D& start, const hkVector4D& end, unsigned int color, hkUlong id, int tag);
 };
 
 struct DisplayHolderD
@@ -135,12 +136,12 @@ struct Drawer
     void getConstraintTransformsD(const hkpConstraintInstanceD* constraint, hkTransformD& transformB,
                                   hkTransformD& transformA);
 
-    void FUN_00de7f20(const hkpConstraintInstanceD* constraint, hkDebugDisplayHandlerD* displayHandler, int id,
+    void FUN_00de7f20(const hkpConstraintInstanceD* constraint, hkDebugDisplayHandlerD* displayHandler, hkUlong id,
                       int tag);
 };
 
 // @fnv 0x00de7f20
-void Drawer::FUN_00de7f20(const hkpConstraintInstanceD* constraint, hkDebugDisplayHandlerD* displayHandler, int id,
+void Drawer::FUN_00de7f20(const hkpConstraintInstanceD* constraint, hkDebugDisplayHandlerD* displayHandler, hkUlong id,
                           int tag)
 {
     hkpHingeConstraintDataD* data = constraint->m_data;

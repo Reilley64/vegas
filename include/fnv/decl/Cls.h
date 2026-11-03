@@ -1,4 +1,5 @@
 #pragma once
+#include "havok/hkUlong.h"
 
 struct Elem;
 struct Entry;
@@ -31,7 +32,7 @@ public:
     // 0x00dbda50
     void FUN_00dbda50(void *, void *, void *);
     // 0x00de6730
-    void FUN_00de6730(::Input *, ::Renderer *, int, int);
+    void FUN_00de6730(::Input *, ::Renderer *, hkUlong, int);
     // 0x00e5f070
     void FUN_00e5f070(::P1 *, unsigned char *, ::F8 *);
     // 0x00e65040

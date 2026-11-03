@@ -9,6 +9,7 @@
 // src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkpragdolldrawer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkpragdolldrawer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkUlong.h"
 #include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
@@ -231,7 +232,7 @@ struct P2Vtbl
     virtual void Reserved11();
     virtual void Reserved12();
     virtual void Reserved13();
-    virtual void DrawVec(PtrVec* vec, int color, int p3, int p4);
+    virtual void DrawVec(PtrVec* vec, int color, hkUlong p3, int p4);
 };
 struct DrawBasis
 {
@@ -298,10 +299,10 @@ struct This : DrawerBase
     SubReg mD0, m160, m1F0;
     Sub280 m280;
 
-    void FUN_00de59f0(P1*, P2Vtbl*, int, int);
+    void FUN_00de59f0(P1*, P2Vtbl*, hkUlong, int);
 };
 // @fnv 0x00de59f0
-void This::FUN_00de59f0(P1* p1, P2Vtbl* p2, int p3, int p4)
+void This::FUN_00de59f0(P1* p1, P2Vtbl* p2, hkUlong p3, int p4)
 {
     Mat* mat = p1->mat;
     reinterpret_cast<::CpuObject *>(&(mC0))->FUN_00e10a10((p2));

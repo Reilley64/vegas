@@ -1,6 +1,7 @@
 // src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkpprimitivedrawer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkpprimitivedrawer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkUlong.h"
 #include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 struct CpuObject
@@ -60,13 +61,13 @@ struct ArrowDrawTarget
     virtual void slot6();
     virtual void slot7();
     virtual void slot8();
-    virtual void edge(const ArrowDrawVector* a, const ArrowDrawVector* b, int c, int d, int e);
+    virtual void edge(const ArrowDrawVector* a, const ArrowDrawVector* b, int c, hkUlong d, int e);
 };
 
 struct ArrowDrawObject : ::CpuObject
 {
-    void FUN_00e11180(const ArrowDrawVector* p1, int p2, const ArrowDrawVector* p3, int p4, float p5, int p6, int p7);
-    void FUN_00e10d50(const ArrowDrawVector* a0, const ArrowDrawVector* a1, const ArrowDrawVector* a2, int a3, float a4, int a5, int a6);
+    void FUN_00e11180(const ArrowDrawVector* p1, int p2, const ArrowDrawVector* p3, int p4, float p5, hkUlong p6, int p7);
+    void FUN_00e10d50(const ArrowDrawVector* a0, const ArrowDrawVector* a1, const ArrowDrawVector* a2, int a3, float a4, hkUlong a5, int a6);
 };
 
 static __forceinline __m128 Hk_e10d50_splat(float f)
@@ -95,7 +96,7 @@ static __forceinline __m128 Hk_e10d50_rot(const __m128& q, __m128 v)
 
 // @fnv 0x00e10d50
 void ArrowDrawObject::FUN_00e10d50(const ArrowDrawVector* a0, const ArrowDrawVector* a1, const ArrowDrawVector* a2, int a3, float a4,
-                                   int a5, int a6)
+                                   hkUlong a5, int a6)
 {
     ArrowDrawVector p1, p2;
     ArrowDrawQuaternion q1, q2;
@@ -170,18 +171,18 @@ class hkDisplayHandlerE10B
     virtual void v18();
     virtual void v1c();
     virtual void v20();
-    virtual void DisplayLine(const hkVector4& start, const hkVector4& end, int color, int id, int tag);
+    virtual void DisplayLine(const hkVector4& start, const hkVector4& end, int color, hkUlong id, int tag);
 };
 
 class AxisDisplayOwner
 {
   public:
     hkDisplayHandlerE10B* m_handler;
-    void FUN_00e10bf0(const hkVector4& pos, const hkMatrix3& rot, hkReal size, int color, int id, int tag);
+    void FUN_00e10bf0(const hkVector4& pos, const hkMatrix3& rot, hkReal size, int color, hkUlong id, int tag);
 };
 
 // @fnv 0x00e10bf0
-void AxisDisplayOwner::FUN_00e10bf0(const hkVector4& pos, const hkMatrix3& rot, hkReal size, int color, int id, int tag)
+void AxisDisplayOwner::FUN_00e10bf0(const hkVector4& pos, const hkMatrix3& rot, hkReal size, int color, hkUlong id, int tag)
 {
     hkVector4 x = rot.m_kColumn0;
     hkVector4 y = rot.m_kColumn1;
@@ -222,7 +223,7 @@ struct Drawer
     virtual void v6();
     virtual void v7();
     virtual void v8();
-    virtual void Line(void* a, void* b, int c, int d, int e);
+    virtual void Line(void* a, void* b, int c, hkUlong d, int e);
 };
 
 struct VectorArg
@@ -239,7 +240,7 @@ struct VectorArg
 struct CircleDrawer
 {
     Drawer* drawer;
-    void FUN_00e10f60(float angle, __m128* base, __m128* a10, VectorArg a14, int count, int a1c, float a20, int a24,
+    void FUN_00e10f60(float angle, __m128* base, __m128* a10, VectorArg a14, int count, int a1c, float a20, hkUlong a24,
                       int a28);
 };
 
@@ -283,7 +284,7 @@ static __forceinline __m128 Rotate(const Quat& quat, const __m128& vector)
 
 // @fnv 0x00e10f60
 void CircleDrawer::FUN_00e10f60(float angle, __m128* base, __m128* a10, VectorArg a14, int count, int a1c, float a20,
-                                int a24, int a28)
+                                hkUlong a24, int a28)
 {
     hkMemoryRouter* h = &hkMemoryRouter::getInstance();
     hkMemoryAllocator* allocator = h->m_heap;
@@ -346,7 +347,7 @@ struct PlaneDrawTarget
     virtual void slot6();
     virtual void slot7();
     virtual void slot8();
-    virtual void edge(const PlaneDrawVector* a, const PlaneDrawVector* b, int p4, int p6, int p7);
+    virtual void edge(const PlaneDrawVector* a, const PlaneDrawVector* b, int p4, hkUlong p6, int p7);
 };
 
 static inline __m128 PlaneDrawDot3(__m128 t)
@@ -379,12 +380,12 @@ static __forceinline __m128 PlaneDrawRotate(__m128 q, __m128 p)
 
 struct PlaneDrawObject : CpuObject
 {
-    void FUN_00e11180(const PlaneDrawVector* p1, const PlaneDrawVector* p2, const PlaneDrawVector* p3, int p4, float p5, int p6, int p7);
+    void FUN_00e11180(const PlaneDrawVector* p1, const PlaneDrawVector* p2, const PlaneDrawVector* p3, int p4, float p5, hkUlong p6, int p7);
 };
 
 // @fnv 0x00e11180
 void PlaneDrawObject::FUN_00e11180(const PlaneDrawVector* p1, const PlaneDrawVector* p2, const PlaneDrawVector* p3, int p4, float p5,
-                                   int p6, int p7)
+                                   hkUlong p6, int p7)
 {
     float s = (float)((double)p5 * DAT_010eacc0);
     PlaneDrawVector L;
@@ -482,18 +483,18 @@ struct DisplayTarget
     virtual void v18();
     virtual void v1c();
     virtual void v20();
-    virtual void DisplayLine(const hkVector4* a, const hkVector4* b, int c, int d, int e);
+    virtual void DisplayLine(const hkVector4* a, const hkVector4* b, int c, hkUlong d, int e);
 };
 
 struct CpuObjectDerived : CpuObject
 {
     void FUN_00e10a20(const hkVector4* center, hkVector4* axis, hkVector4* perp, float startAngle, float endAngle,
-                      float radius, int numSegments, int a8, int a9, int a10);
+                      float radius, int numSegments, int a8, hkUlong a9, int a10);
 };
 
 // @fnv 0x00e10a20
 void CpuObjectDerived::FUN_00e10a20(const hkVector4* center, hkVector4* axis, hkVector4* perp, float startAngle,
-                                    float endAngle, float radius, int numSegments, int a8, int a9, int a10)
+                                    float endAngle, float radius, int numSegments, int a8, hkUlong a9, int a10)
 {
     perp->normalize3();
     axis->normalize3();

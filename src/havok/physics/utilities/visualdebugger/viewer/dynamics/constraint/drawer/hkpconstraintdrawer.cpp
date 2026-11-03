@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkpconstraintdrawer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkpconstraintdrawer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkUlong.h"
 #include "fnv/decl/ArrowDraw__ArrowDrawObject.h"
 #include "fnv/decl/AxisDisplayOwner.h"
 #include "fnv/decl/FUN_00e10a00_cls.h"
@@ -127,11 +128,11 @@ struct DE44C0Object
     {
         return m_fSphereRadius * m_vScale;
     }
-    void FUN_00de44c0(int id, int tag);
+    void FUN_00de44c0(hkUlong id, int tag);
 };
 
 // @fnv 0x00de44c0
-void DE44C0Object::FUN_00de44c0(int id, int tag)
+void DE44C0Object::FUN_00de44c0(hkUlong id, int tag)
 {
     reinterpret_cast<::AxisDisplayOwner *>(&(m_display))->FUN_00e10bf0((*(const ::hkVector4 *)(&m_vFirstVector)), (*(const ::hkMatrix3 *)(&m_dirA)), getScaledRadius(), 0xffff0000, id, tag);
     reinterpret_cast<::AxisDisplayOwner *>(&(m_display))->FUN_00e10bf0((*(const ::hkVector4 *)(&m_vSecondVector)), (*(const ::hkMatrix3 *)(&m_dirB)), getScaledRadius(), 0xffffffff, id, tag);
@@ -266,12 +267,12 @@ struct FUN_00de4530Owner
     Vec4 unkb0;
     Struct00e10d50 unkc0;
 
-    void FUN_00de4530(int arg1, int arg2);
+    void FUN_00de4530(hkUlong arg1, int arg2);
 };
 
 // Draws two triangles as six lines through unkc0.FUN_00e10d50, with width unk1c * unk0c * 0.2 and fixed or PackColorBigEndian colors.
 // @fnv 0x00de4530
-void FUN_00de4530Owner::FUN_00de4530(int arg1, int arg2)
+void FUN_00de4530Owner::FUN_00de4530(hkUlong arg1, int arg2)
 {
     unsigned int color1 = PackColorBigEndian(1.0f, 1.0f, 0.0f, 1.0f);
     unsigned int color2 = PackColorBigEndian(1.0f, ::fnv_00c88020::DAT_01016248, 0.0f, 1.0f);

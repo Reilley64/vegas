@@ -10,6 +10,7 @@
 // src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkpragdolllimitsdrawer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkpragdolllimitsdrawer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkUlong.h"
 #include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
@@ -133,7 +134,7 @@ struct Renderer
     virtual void slot11();
     virtual void slot12();
     virtual void slot13();
-    virtual void draw(Arr*, int color, int a2, int a3);
+    virtual void draw(Arr*, int color, hkUlong a2, int a3);
 };
 struct Cls
 {
@@ -298,7 +299,7 @@ struct Cls
     int unk278;
     int unk27c;
     int unk280;
-    void FUN_00de6730(Input* a0, Renderer* a1, int a2, int a3);
+    void FUN_00de6730(Input* a0, Renderer* a1, hkUlong a2, int a3);
     void FUN_00de47e0(void* a0, void* b, void* c);
     void FUN_00de5370(float angle, float scale, int flags, void* point, void* source);
     void SetFromVectors(void* a, void* b, void* c, void* d);
@@ -371,7 +372,7 @@ __forceinline void prepareAxes(Cls* self, SourceView* src, Geometry& geometry)
     }
     ((VecObj*)&geometry.v30)->FUN_00c7f700(&self->unk60, (Vec4*)((unsigned int)columnBase2 + (src->indexEF << 4)));
 }
-__forceinline void drawGroups(Cls* self, Renderer* a1, int a2, int a3, Cls* objectD0, Cls* object160, Cls* object280)
+__forceinline void drawGroups(Cls* self, Renderer* a1, hkUlong a2, int a3, Cls* objectD0, Cls* object160, Cls* object280)
 {
     __declspec(align(16)) Arr zeroArray, halfArray, threeArray;
     zeroArray.data = 0;
@@ -480,7 +481,7 @@ __forceinline void drawGroups(Cls* self, Renderer* a1, int a2, int a3, Cls* obje
     }
 }
 // @fnv 0x00de6730
-void Cls::FUN_00de6730(Input* a0, Renderer* a1, int a2, int a3)
+void Cls::FUN_00de6730(Input* a0, Renderer* a1, hkUlong a2, int a3)
 {
     struct ArcPointers
     {

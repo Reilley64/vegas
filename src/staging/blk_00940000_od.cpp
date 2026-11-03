@@ -409,9 +409,9 @@ void FUN_00952a20_shell::FUN_00952a20(BGSQuestObjective* apObjective)
     TESQuest* pObjQuest = ((::TESQuest *)(reinterpret_cast<::MagicCaster_shell *>((apObjective))->FUN_0044edb0()));
     bool bFound = false;
     bool bSameQuest = false;
-    while (pIter && ((::BGSQuestObjective *)(new ((void *)(pIter)) ::Vec3())))
+    while (pIter && (*((::BGSQuestObjective **)(void *)(pIter))))
     {
-        BGSQuestObjective* pObjective = ((::BGSQuestObjective *)(new ((void *)(pIter)) ::Vec3()));
+        BGSQuestObjective* pObjective = (*((::BGSQuestObjective **)(void *)(pIter)));
         if (apObjective == pObjective)
         {
             bSameQuest = true;
@@ -448,9 +448,9 @@ struct FUN_00952b30_Class
 BSAudio* FUN_00952b30_Class::FindAudioEntry()
 {
     FUN_00952b30_BSSimpleList* node = (FUN_00952b30_BSSimpleList*)((char*)this + 0x6bc);
-    while (node && ((::FUN_00952b30_BSSimpleList *)(new ((void *)(node)) ::Vec3()))->m_pInventoryEntryData)
+    while (node && ((::FUN_00952b30_BSSimpleList *)(((::Vec3 *)(void *)(node))))->m_pInventoryEntryData)
     {
-        BSAudio* entry = (BSAudio*)((::FUN_00952b30_BSSimpleList *)(new ((void *)(node)) ::Vec3()))->m_pInventoryEntryData;
+        BSAudio* entry = (BSAudio*)((::FUN_00952b30_BSSimpleList *)(((::Vec3 *)(void *)(node))))->m_pInventoryEntryData;
         if (((void *)(reinterpret_cast<::MagicCaster_shell *>((entry))->FUN_0044edb0())) == *(void**)((char*)this + 0x6b8) && ((unsigned int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((TESObject*)entry)))->FUN_007af430())) == 1)
             return entry;
         node = ((::FUN_00952b30_BSSimpleList *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
@@ -479,10 +479,10 @@ void FUN_009527b0_Class::AddTopics(FUN_00952b30_BSSimpleList* apAddTopicList)
     {
         bool bNeedsResort = false;
         FUN_00952b30_BSSimpleList* pNode = apAddTopicList;
-        while (pNode && ((FUN_00952b30_Class**)((::FUN_00952b30_BSSimpleList *)(new ((void *)(pNode)) ::Vec3())))[0])
+        while (pNode && ((FUN_00952b30_Class**)((::FUN_00952b30_BSSimpleList *)(((::Vec3 *)(void *)(pNode)))))[0])
         {
             if (((FUN_00952830_Class*)this)
-                    ->FUN_00952830((BSAudio*)(((FUN_00952b30_Class**)((::FUN_00952b30_BSSimpleList *)(new ((void *)(pNode)) ::Vec3())))[0]), 0, 1))
+                    ->FUN_00952830((BSAudio*)(((FUN_00952b30_Class**)((::FUN_00952b30_BSSimpleList *)(((::Vec3 *)(void *)(pNode)))))[0]), 0, 1))
                 bNeedsResort = true;
             pNode = ((::FUN_00952b30_BSSimpleList *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070()));
         }
@@ -511,9 +511,9 @@ bool FUN_00952830_Class::FUN_00952830(int aiValue, unsigned char param_3, int pa
     if (aiValue == 0)
         return false;
     pEntry = ((FUN_00464e30_shell*)this)->GetSelfOffset6A8();
-    while (pEntry && *((int *)(new ((void *)(pEntry)) ::Vec3())))
+    while (pEntry && *((int *)(((::Vec3 *)(void *)(pEntry)))))
     {
-        if (*((int *)(new ((void *)(pEntry)) ::Vec3())) == aiValue)
+        if (*((int *)(((::Vec3 *)(void *)(pEntry)))) == aiValue)
             return false;
         pEntry = ((::fnv_00952830::FUN_00952830_BSSimpleList *)(reinterpret_cast<::Callees *>((pEntry))->FUN_00726070()));
     }

@@ -5249,7 +5249,6 @@ FUN_008cab20::FUN_008cab20()
 {
     *(void**)this = &DAT_01085954;
     *(void**)((char*)this + 0x18) = &DAT_01085948;
-    new ((void *)(((B006815c0*)((char*)this + 0xb4)))) ::Vec3();
     reinterpret_cast<::FUN_0046a010_shell *>((((TESObjectREFR*)this)))->FUN_0046a010(1);
     *(HighProcess**)((char*)this + 0x68) = new HighProcess;
     *(int*)((char*)this + 0x88) = 0;
@@ -5263,10 +5262,6 @@ FUN_008cab20::FUN_008cab20()
 // @fnv 0x008cc6f0
 void* FUN_008cc6f0_Class::FUN_008cc6f0()
 {
-    new ((void *)(((BSSimpleList<BGSPerk*>*)((char*)this + 4)))) ::Vec3();
-    new ((void *)(((BSSimpleList<BGSPerk*>*)((char*)this + 0x10)))) ::Vec3();
-    new ((void *)(((BSSimpleList<BGSPerk*>*)((char*)this + 0x1c)))) ::Vec3();
-    new ((void *)(((BSSimpleList<BGSPerk*>*)((char*)this + 0x30)))) ::Vec3();
     return this;
 }
 // If a is nonzero, walks the list nodes while FUN_005ae380 is true and calls v14(a) on the first item of each node.
@@ -5279,9 +5274,9 @@ void S_8c4f10_Cls::FUN_008c4f10(int a)
         pNode = list.v02();
         while (pNode && pNode->FUN_005ae380())
         {
-            if (*((::S_8c4f10_Item **)(new ((void *)(pNode)) ::Vec3())))
+            if (*((::S_8c4f10_Item **)(((::Vec3 *)(void *)(pNode)))))
             {
-                (*((::S_8c4f10_Item **)(new ((void *)(pNode)) ::Vec3())))->v14(a);
+                (*((::S_8c4f10_Item **)(((::Vec3 *)(void *)(pNode)))))->v14(a);
             }
             pNode = ((::S_8c4f10_Node *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070()));
         }
@@ -5297,7 +5292,7 @@ void FUN_008d14e0_cls::FUN_008d14e0(Arg_cls* apArg)
     }
     else
     {
-        ::FUN_008d12e0((::TargetOwner *)(p), (::SourceData *)(apArg->unk0048), ((int)(new ((void *)(apArg)) ::Vec3())), ::FUN_00460140((int)(apArg)));
+        ::FUN_008d12e0((::TargetOwner *)(p), (::SourceData *)(apArg->unk0048), ((int)(((::Vec3 *)(void *)(apArg)))), ::FUN_00460140((int)(apArg)));
     }
 }
 // Calls Handle with the ref's base form and the owner's value, or 0 when there is no owner.
@@ -5330,7 +5325,6 @@ bool MovementController::UpdateAnimation(AnimationOutput* output)
         reinterpret_cast<::FUN_0063c8a0_shell *>((void *)&(const ::NiPoint3 &)(aRotation))->FUN_0063c8a0((void *)&(normal7));
         reinterpret_cast<::Owner5615 *>((output))->FUN_005615d0((int)&(const ::NiPoint3 &)(FUN_004a3760(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FloatSetting *>(&::originalRuntimeFloatSetting650)))))) * speed, aRotation)));
         RotationMatrix matrix9;
-        new ((void *)&(matrix9)) ::Vec3();
         reinterpret_cast<::ThreeByThreeMatrix *>(&(getNode()->FUN_00461130()))->Inverse((::ThreeByThreeMatrix &)(matrix9));
         NiPoint3 normal = matrix9.FUN_004b4500(state->direction);
         if (FUN_00408820(normal.y) > FUN_00408820(normal.z))
@@ -5973,10 +5967,8 @@ void __cdecl FUN_008d12e0(TargetOwner* target, SourceData* source, int arg0, int
     if (owner && owner == ((void *)(reinterpret_cast<::FUN_0089f4e0_shell *>(((*reinterpret_cast<::CurrentState * *>(&::_g_thePlayer))))->FUN_0089f4e0())))
         return;
     ArgumentData first;
-    new ((void *)&(first)) ::Vec3();
     ::SetNiPoint3FromHkVector4((*(::NiPoint3 *)(&first)), (*(const ::hkVector4 *)(arg0)));
     ArgumentData argumentBundle;
-    new ((void *)&(argumentBundle)) ::Vec3();
     ::FUN_004a3970((*(::NiPoint3_local *)(&argumentBundle)), (*(const ::hkVector4 *)(arg1)));
     if (((int)(reinterpret_cast<::fnv_004a3a20::FUN_004a3a20_shell *>(&(state))->FUN_004a3a20())) == 1)
     {

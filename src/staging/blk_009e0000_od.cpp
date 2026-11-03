@@ -655,9 +655,9 @@ bool S_009eb8a0_Cls::FUN_009eb8a0()
         else
         {
             bool bAllValid = true;
-            while (pList && ((::S_009eb8a0_Obj *)(new ((void *)(pList)) ::Vec3())) && bAllValid)
+            while (pList && (((pList))->m_item) && bAllValid)
             {
-                S_009eb8a0_Obj* o = ((::S_009eb8a0_Obj *)(new ((void *)(pList)) ::Vec3()));
+                S_009eb8a0_Obj* o = (((pList))->m_item);
                 if (!o->v8b(0))
                     bAllValid = false;
                 pList = ((::BSSimpleList< ::S_009eb8a0_Obj *> *)(reinterpret_cast<::Callees *>((pList))->FUN_00726070()));
@@ -1510,7 +1510,7 @@ FUN_009eb660::~FUN_009eb660()
         pB6 = m38;
         while (pB6 != 0 && !pB6->FUN_008256d0())
         {
-            node5 = (ItemCls*)*((void **)(new ((void *)(pB6)) ::Vec3()));
+            node5 = (ItemCls*)*((void **)(((::Vec3 *)(void *)(pB6))));
             if (!reinterpret_cast<::FUN_009722e0_shell *>(&((*reinterpret_cast<::GlobalCls *>(&::g_011e0e80))))->IsActorInOtherList((::Actor *)(node5), (::FUN_009722e0_member *)(::FUN_009eb660 *)(this)))
                 reinterpret_cast<::FUN_0047eb90_Class *>((node5))->FUN_0047eb90(0);
             pB6 = ((::ListNode *)(reinterpret_cast<::Callees *>((pB6))->FUN_00726070()));
@@ -1529,7 +1529,7 @@ FUN_009eb660::~FUN_009eb660()
         pA3 = ((::ListNode *)(reinterpret_cast<::ActorQueryOwner *>(&((*reinterpret_cast<::GlobalCls *>(&::g_011e0e80))))->FindDialogueSpeakers((::TESObjectREFR *)(::FUN_009eb660 *)(this), 1)));
         while (pA3 != 0)
         {
-            item6 = (ItemCls*)*((void **)(new ((void *)(pA3)) ::Vec3()));
+            item6 = (ItemCls*)*((void **)(((::Vec3 *)(void *)(pA3))));
             if (reinterpret_cast<::ActorStandIn008a *>((item6))->FUN_008a61b0())
                 reinterpret_cast<::fnv_00881680::FUN_00881680_shell *>((item6))->FUN_00881680(0);
             destB_ = ((::DestCls *)(reinterpret_cast<::FUN_0041cf00_shell *>((((::MidCls *)(reinterpret_cast<::FUN_005d43c0_ *>((item6))->FUN_005d43c0()))))->FUN_0041cf00()));

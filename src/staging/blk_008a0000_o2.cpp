@@ -80,7 +80,6 @@ void* FUN_008b3d70_Picker::FUN_008b3d70(FUN_008b3d70_Vec3 start, FUN_008b3d70_Ve
         FUN_008b3d70_Sphere bound;
         ::FUN_006240d0((void *)&(bound));
         FUN_008b3d70_hkVec center;
-        new ((void *)&(center)) ::Vec3();
         ::fnv_004a3e00::FUN_004a3e00((::fnv_004a3e00::bhkCharacterController &)(center), (const ::fnv_004a3e00::NiPoint3 &)(end));
         reinterpret_cast<::FUN_008a50f0_class *>(&(bound))->FUN_008a50f0((int)&(center));
         reinterpret_cast<::fnv_008a50d0::bhkCharacterController *>(&(bound))->FUN_008a50d0(200.0f);

@@ -1615,7 +1615,7 @@ void SpellActor::FUN_0088fb00(float distance, HitSource* hit, SpellActor* target
                 node2 = reinterpret_cast<::FUN_004eaf60_shell *>(((*reinterpret_cast<::SpellActor * *>(&::_g_thePlayer))))->FUN_004eaf60() ? node2 : bipedNode5;
                 Bound bound = (*(const ::Bound *)(reinterpret_cast<::FUN_0043d450_Owner *>((node2))->FUN_0043d450()));
                 scale = reinterpret_cast<::Twin_0084d030 *>(&(bound))->GetStoredFloatValue() / reinterpret_cast<::FUN_008d01e0_Class *>((node2))->FUN_008d01e0();
-                NiPoint3 origin6 = (*(::NiPoint3 *)(new ((void *)&(bound)) ::Vec3())) - node2->FUN_0045bb80();
+                NiPoint3 origin6 = (*(::NiPoint3 *)(((::Vec3 *)(void *)&(bound)))) - node2->FUN_0045bb80();
                 int h = 0;
                 AnimView* s = ((::AnimView *)(reinterpret_cast<::FUN_00950a10_shell *>(((*reinterpret_cast<::SpellActor * *>(&::_g_thePlayer))))->FUN_00950a10()));
                 if (s)

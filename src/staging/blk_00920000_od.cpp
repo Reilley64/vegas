@@ -717,7 +717,7 @@ void FUN_00937b50_cls::FUN_00937b50(BGSSaveFormBuffer* buf)
     BSSimpleList<Item_00937b50*>* node = (BSSimpleList<Item_00937b50*>*)this;
     while (node)
     {
-        Item_00937b50* item = (Item_00937b50*)*((void **)(new ((void *)(((Node_006815c0*)node))) ::Vec3()));
+        Item_00937b50* item = (Item_00937b50*)*((void **)(((::Vec3 *)(void *)(((Node_006815c0*)node)))));
         if (item)
         {
             reinterpret_cast<::FUN_00865e50_shell *>((buf))->FUN_00865e50(item, 1, 0);
@@ -5086,43 +5086,43 @@ FUN_009398d0::~FUN_009398d0()
     {
         while (m_210 && !m_210->IsEmpty())
         {
-            delete *(xVDel**)((void **)(new ((void *)(m_210)) ::Vec3()));
+            delete *(xVDel**)((void **)(((::Vec3 *)(void *)(m_210))));
             m_210->RemoveHead();
         }
         delete m_210;
     }
     if (m_60c)
     {
-        while (m_60c && *((void **)(new ((void *)(m_60c)) ::Vec3())))
+        while (m_60c && *((void **)(((::Vec3 *)(void *)(m_60c)))))
         {
-            delete *(xPod**)((void **)(new ((void *)(m_60c)) ::Vec3()));
+            delete *(xPod**)((void **)(((::Vec3 *)(void *)(m_60c))));
             m_60c->RemoveHead();
         }
         delete m_60c;
     }
     if (m_610 && !m_610->IsEmpty())
     {
-        while (m_610 && *((void **)(new ((void *)(m_610)) ::Vec3())))
+        while (m_610 && *((void **)(((::Vec3 *)(void *)(m_610)))))
         {
-            delete *(xPod**)((void **)(new ((void *)(m_610)) ::Vec3()));
+            delete *(xPod**)((void **)(((::Vec3 *)(void *)(m_610))));
             m_610->RemoveHead();
         }
         delete m_610;
     }
     if (m_614 && !m_614->IsEmpty())
     {
-        while (m_614 && *((void **)(new ((void *)(m_614)) ::Vec3())))
+        while (m_614 && *((void **)(((::Vec3 *)(void *)(m_614)))))
         {
-            delete *(xVDel4**)((void **)(new ((void *)(m_614)) ::Vec3()));
+            delete *(xVDel4**)((void **)(((::Vec3 *)(void *)(m_614))));
             m_614->RemoveHead();
         }
         delete m_614;
     }
     if (m_618 && !m_618->IsEmpty())
     {
-        while (m_618 && *((void **)(new ((void *)(m_618)) ::Vec3())))
+        while (m_618 && *((void **)(((::Vec3 *)(void *)(m_618)))))
         {
-            delete *(xVDel4**)((void **)(new ((void *)(m_618)) ::Vec3()));
+            delete *(xVDel4**)((void **)(((::Vec3 *)(void *)(m_618))));
             m_618->RemoveHead();
         }
         delete m_618;
@@ -5163,7 +5163,7 @@ FUN_009398d0::~FUN_009398d0()
         NODE = &m_87c;
         while (NODE)
         {
-            xPod* pPod = *(xPod**)((void **)(new ((void *)(NODE)) ::Vec3()));
+            xPod* pPod = *(xPod**)((void **)(((::Vec3 *)(void *)(NODE))));
             delete pPod;
             NODE = ((::xList *)(reinterpret_cast<::Callees *>((NODE))->FUN_00726070()));
         }
@@ -5175,7 +5175,7 @@ FUN_009398d0::~FUN_009398d0()
         NODE = &m_ad4;
         while (NODE)
         {
-            xPod* P2 = *(xPod**)((void **)(new ((void *)(NODE)) ::Vec3()));
+            xPod* P2 = *(xPod**)((void **)(((::Vec3 *)(void *)(NODE))));
             delete P2;
             NODE = ((::xList *)(reinterpret_cast<::Callees *>((NODE))->FUN_00726070()));
         }
@@ -7670,21 +7670,21 @@ axesDone:
             TickRefList* item = ((::TickRefList *)(reinterpret_cast<::FUN_009604f0_shell *>((cell))->FUN_009604f0()));
             if (DAT_011e0ba8 < ((unsigned int)(::FUN_00457fe0())))
             {
-                while (item && *((::TickRef **)(new ((void *)(item)) ::Vec3())))
+                while (item && *((::TickRef **)(((::Vec3 *)(void *)(item)))))
                 {
-                    if ((*((::TickRef **)(new ((void *)(item)) ::Vec3())))->FUN_00401170() == 0x3a)
+                    if ((*((::TickRef **)(((::Vec3 *)(void *)(item)))))->FUN_00401170() == 0x3a)
                     {
                         TESObjectSTAT* stat =
-                            dynamic_cast<TESObjectSTAT*>((TESBoundObject*)((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(((*((::TickRef **)(new ((void *)(item)) ::Vec3())))))->FUN_007af430())));
+                            dynamic_cast<TESObjectSTAT*>((TESBoundObject*)((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(((*((::TickRef **)(((::Vec3 *)(void *)(item)))))))->FUN_007af430())));
                         if (stat && stat->unk50 != -1)
                         {
-                            TickRef* refA = *((::TickRef **)(new ((void *)(item)) ::Vec3()));
+                            TickRef* refA = *((::TickRef **)(((::Vec3 *)(void *)(item))));
                             if (refA->vf1d0())
                             {
-                                TickRef* refB = *((::TickRef **)(new ((void *)(item)) ::Vec3()));
+                                TickRef* refB = *((::TickRef **)(((::Vec3 *)(void *)(item))));
                                 float radius = reinterpret_cast<::FUN_0087ce50_cls *>((refB->vf1d0()))->GetHeadTail();
                                 radius *= radius;
-                                TickRef* refC = *((::TickRef **)(new ((void *)(item)) ::Vec3()));
+                                TickRef* refC = *((::TickRef **)(((::Vec3 *)(void *)(item))));
                                 if ((double)radius > reinterpret_cast<::TESCombatStyle *>((void *)(void *)&(const ::MPt &)((*refC->vf1f4() - *vf1f4())))->UpdateCombatStyle())
                                 {
                                     TickSoundID* ambient = ((::TickSoundID *)(::GetBrushSound((const char *)(stat->unk50))));

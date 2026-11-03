@@ -840,7 +840,6 @@ class FUN_008c5d90_Class
 void FUN_008c5d90_Class::FUN_008c5d90(const NiPoint3Local* source)
 {
     __declspec(align(16)) hkVector4D90 vector;
-    new ((void *)&(vector)) ::Vec3();
     reinterpret_cast<::FUN_008c5df0_Class *>(this)->FUN_008c5df0(((::hkVector4D90 *)&(::fnv_004a3e00::FUN_004a3e00((*(::fnv_004a3e00::bhkCharacterController *)(&vector)), (*(const ::fnv_004a3e00::NiPoint3 *)(source))))));
 }
 

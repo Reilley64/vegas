@@ -5415,7 +5415,7 @@ bool WorldStateNode::FindStateByType(int type, unsigned int* puiOutput)
     WorldStateNode* current = this;
     while (current != 0)
     {
-        UnsignedIdHandle* state = ((::UnsignedIdHandle *)(new ((void *)(current)) ::Vec3()));
+        UnsignedIdHandle* state = (*((::UnsignedIdHandle **)(void *)(current)));
         if (state != 0 && ::FUN_00559450((int *)(state)) == type)
         {
             *puiOutput = ((unsigned int)(reinterpret_cast<::Callees *>((state))->FUN_00726070()));
@@ -6648,7 +6648,7 @@ void Obj082::ProcessHits()
     List082* iter = &hits;
     while (iter && !iter->FUN_008256d0())
     {
-        Entry082* entry = *((::fnv_009b00a0::Entry082 **)(new ((void *)(iter)) ::Vec3()));
+        Entry082* entry = *((::fnv_009b00a0::Entry082 **)(((::Vec3 *)(void *)(iter))));
         iter = ((::fnv_009b00a0::List082 *)(reinterpret_cast<::Callees *>((iter))->FUN_00726070()));
         if (entry && entry->object && !entry->skip && !reinterpret_cast<::FUN_00477ba0_shell *>((entry->object))->FUN_00477ba0() && !reinterpret_cast<::TESForm *>((entry->object))->GetDisabled())
         {
@@ -8189,7 +8189,6 @@ void* FUN_009ae4a0_class::FUN_009ae4a0(void* arg)
 FUN_009ae540_Class* FUN_009ae4d0_Class::FUN_009ae4d0(void* a)
 {
     NiPoint3 l;
-    new ((void *)(((BSSimpleListX*)&l))) ::Vec3();
     reinterpret_cast<::FUN_00439f50_class *>((((M9c10*)a)))->FUN_00439f50(0, (::NiPoint3 *)&(l));
     new ((void *)(this)) ::FUN_009ae540((float *)&(l));
     reinterpret_cast<::FUN_00439f50_class *>((((M9c10*)a)))->FUN_00439f50(1, (::NiPoint3 *)&(l));

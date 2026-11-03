@@ -1505,7 +1505,7 @@ void FUN_00806ba0(void* a1, B9277Node* pNode)
     B9277Node* cur = pNode;
     while (cur != 0)
     {
-        B9277Node* obj5 = ((::B9277Holder *)(new ((void *)(cur)) ::Vec3()))->m_node;
+        B9277Node* obj5 = ((::B9277Holder *)(((::Vec3 *)(void *)(cur))))->m_node;
         if (obj5 != 0)
         {
             obj5->v30(a1);

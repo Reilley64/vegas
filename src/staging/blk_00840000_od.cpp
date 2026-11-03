@@ -3602,7 +3602,7 @@ void B5F750Owner::DetachProjectiles()
     B5F750List* pkNode = &m_kProjectiles;
     while (pkNode)
     {
-        TESForm* pkForm = *((::TESForm **)(new ((void *)(pkNode)) ::Vec3()));
+        TESForm* pkForm = *((::TESForm **)(((::Vec3 *)(void *)(pkNode))));
         if (pkForm)
         {
             ArrowProjectile* pkArrow = dynamic_cast<ArrowProjectile*>(pkForm);
@@ -4915,7 +4915,7 @@ bool Manager859::FUN_00859690(Cell859* cell)
         List859* node2 = list8;
         while (node2)
         {
-            Entry859* entry7 = *((::Entry859 **)(new ((void *)(node2)) ::Vec3()));
+            Entry859* entry7 = *((::Entry859 **)(((::Vec3 *)(void *)(node2))));
             if (entry7)
             {
                 reinterpret_cast<::FUN_008598d0_shell *>(this)->ProcessSourceItem((unsigned)entry7);
@@ -4939,7 +4939,7 @@ bool Manager859::FUN_00859690(Cell859* cell)
         int y7 = reinterpret_cast<::TESObjectCELL *>((cell))->GetCellGridY();
         while (nodeExterior8)
         {
-            Entry859* entryExterior2 = *((::Entry859 **)(new ((void *)(nodeExterior8)) ::Vec3()));
+            Entry859* entryExterior2 = *((::Entry859 **)(((::Vec3 *)(void *)(nodeExterior8))));
             if (entryExterior2 && x7 == entryExterior2->x && y7 == entryExterior2->y)
             {
                 reinterpret_cast<::FUN_008598d0_shell *>(this)->ProcessSourceItem(entryExterior2->key);
@@ -6698,7 +6698,7 @@ void Cls::FUN_00858af0(EntryListNode* list, Entry* ctx, bool reset)
         ActorList* it = &actors.list;
         while (it && !it->FUN_008256d0())
         {
-            Actor* a = *((::Actor **)(new ((void *)(it)) ::Vec3()));
+            Actor* a = *((::Actor **)(((::Vec3 *)(void *)(it))));
             reinterpret_cast<::fnv_00893340::FUN_00893340_shell *>((a))->FUN_00893340(0);
             reinterpret_cast<::FUN_00855010_cls *>((owner))->GetOrCreateNode(a, 2);
             if (!((int)(reinterpret_cast<::LowProcess *>((a))->GetTarget())) && !((int)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((a))->FUN_00575d70())))

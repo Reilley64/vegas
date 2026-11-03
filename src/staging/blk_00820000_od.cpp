@@ -1891,7 +1891,6 @@ public:
 // @fnv 0x00827200
 FUN_00827200_class* FUN_00827200_class::FUN_00827200(int a)
 {
-    new ((void *)this) ::Vec3();
     FUN_00cb26e0(a);
     return this;
 }
@@ -1910,17 +1909,17 @@ void S_00836470::UpdateSoundItems(int)
         m_uiCommandId = ::FUN_00453a70()->GetSynchTime() - m_uiCommandId;
     }
     ContNode* node = &m_kNode;
-    while (node && !FUN_008256d0(node) && *((::SndItem **)(new ((void *)(node)) ::Vec3())))
+    while (node && !FUN_008256d0(node) && *((::SndItem **)(((::Vec3 *)(void *)(node)))))
     {
-        if (!(*((::SndItem **)(new ((void *)(node)) ::Vec3())))->obj || !((unsigned int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(((*((::SndItem **)(new ((void *)(node)) ::Vec3())))->obj))->FUN_007af430())) ||
-            (FNV_GetFormType((TESForm*)((unsigned int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(((*((::SndItem **)(new ((void *)(node)) ::Vec3())))->obj))->FUN_007af430()))) == 0x15 &&
-             !((void *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(((EffectSetting*)((unsigned int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(((*((::SndItem **)(new ((void *)(node)) ::Vec3())))->obj))->FUN_007af430())))))))))
+        if (!(*((::SndItem **)(((::Vec3 *)(void *)(node)))))->obj || !((unsigned int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(((*((::SndItem **)(((::Vec3 *)(void *)(node)))))->obj))->FUN_007af430())) ||
+            (FNV_GetFormType((TESForm*)((unsigned int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(((*((::SndItem **)(((::Vec3 *)(void *)(node)))))->obj))->FUN_007af430()))) == 0x15 &&
+             !((void *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(((EffectSetting*)((unsigned int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(((*((::SndItem **)(((::Vec3 *)(void *)(node)))))->obj))->FUN_007af430())))))))))
         {
-            reinterpret_cast<::fnv_00ad88f0::FUN_00ad88f0_h *>(&((*((::SndItem **)(new ((void *)(node)) ::Vec3())))->first))->FUN_00ad88f0();
-            reinterpret_cast<::SoundPlaybackHandle *>(&((*((::SndItem **)(new ((void *)(node)) ::Vec3())))->first))->Release();
-            reinterpret_cast<::fnv_00ad88f0::FUN_00ad88f0_h *>(&((*((::SndItem **)(new ((void *)(node)) ::Vec3())))->second))->FUN_00ad88f0();
-            reinterpret_cast<::SoundPlaybackHandle *>(&((*((::SndItem **)(new ((void *)(node)) ::Vec3())))->second))->Release();
-            (*((::SndItem **)(new ((void *)(node)) ::Vec3())))->active = false;
+            reinterpret_cast<::fnv_00ad88f0::FUN_00ad88f0_h *>(&((*((::SndItem **)(((::Vec3 *)(void *)(node)))))->first))->FUN_00ad88f0();
+            reinterpret_cast<::SoundPlaybackHandle *>(&((*((::SndItem **)(((::Vec3 *)(void *)(node)))))->first))->Release();
+            reinterpret_cast<::fnv_00ad88f0::FUN_00ad88f0_h *>(&((*((::SndItem **)(((::Vec3 *)(void *)(node)))))->second))->FUN_00ad88f0();
+            reinterpret_cast<::SoundPlaybackHandle *>(&((*((::SndItem **)(((::Vec3 *)(void *)(node)))))->second))->Release();
+            (*((::SndItem **)(((::Vec3 *)(void *)(node)))))->active = false;
         }
         node = ((::ContNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
     }
@@ -2458,11 +2457,11 @@ void S_0083d130_Class::ProcessNodeChain()
     S_0083d130_Node* node = this;
     while (node && !FUN_008256d0(node))
     {
-        if (((const char *)(::FUN_00559450((int *)(((::fnv_0083d130::S_0083d130_Str *)(new ((void *)((*((::fnv_0083d130::S_0083d130_Obj **)(new ((void *)(node)) ::Vec3()))))) ::Vec3())))))))
+        if (((const char *)(::FUN_00559450((int *)(((::fnv_0083d130::S_0083d130_Str *)(((::Vec3 *)(void *)((*((::fnv_0083d130::S_0083d130_Obj **)(((::Vec3 *)(void *)(node))))))))))))))
         {
-            if (::FUN_0044a670(((const char *)(::FUN_00559450((int *)(((::fnv_0083d130::S_0083d130_Str *)(new ((void *)((*((::fnv_0083d130::S_0083d130_Obj **)(new ((void *)(node)) ::Vec3()))))) ::Vec3()))))))) > 1)
+            if (::FUN_0044a670(((const char *)(::FUN_00559450((int *)(((::fnv_0083d130::S_0083d130_Str *)(((::Vec3 *)(void *)((*((::fnv_0083d130::S_0083d130_Obj **)(((::Vec3 *)(void *)(node)))))))))))))) > 1)
             {
-                reinterpret_cast<::fnv_00ad8100::FUN_00ad8100_shell *>((((::fnv_0083d130::S_0083d130_Mgr *)(::FUN_00453a70()))))->FUN_00ad8100((char *)(((const char *)(::FUN_00559450((int *)(((::fnv_0083d130::S_0083d130_Str *)(::FUN_00460140((int)((*((::fnv_0083d130::S_0083d130_Obj **)(new ((void *)(node)) ::Vec3())))))))))))), 0x20100001, (void *)(0));
+                reinterpret_cast<::fnv_00ad8100::FUN_00ad8100_shell *>((((::fnv_0083d130::S_0083d130_Mgr *)(::FUN_00453a70()))))->FUN_00ad8100((char *)(((const char *)(::FUN_00559450((int *)(((::fnv_0083d130::S_0083d130_Str *)(::FUN_00460140((int)((*((::fnv_0083d130::S_0083d130_Obj **)(((::Vec3 *)(void *)(node)))))))))))))), 0x20100001, (void *)(0));
             }
         }
         node = ((::fnv_0083d130::S_0083d130_Node *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
@@ -3873,7 +3872,7 @@ void SoundTimer::FUN_00836110(SaveFormBufferEx* buffer)
     SoundListNode* node3 = &m_kNode;
     while (node3)
     {
-        SoundEntry* entry = *((::SoundEntry **)(new ((void *)(node3)) ::Vec3()));
+        SoundEntry* entry = *((::SoundEntry **)(((::Vec3 *)(void *)(node3))));
         if (entry)
         {
             reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((buffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(entry->form), 0);

@@ -750,9 +750,9 @@ unsigned int FUN_009640b0_Class::FUN_009640b0()
     unsigned int result = 0;
     if (*(void**)((char*)this + 0x60c))
     {
-        if (((::PlayerActionObjectList *)(new ((void *)(((PlayerActionObjectList*)*(void**)((char*)this + 0x60c)))) ::Vec3()))->item)
+        if (((::PlayerActionObjectList *)(((::Vec3 *)(void *)(((PlayerActionObjectList*)*(void**)((char*)this + 0x60c))))))->item)
         {
-            result = (unsigned int)((::PlayerActionObjectList *)(new ((void *)(((PlayerActionObjectList*)*(void**)((char*)this + 0x60c)))) ::Vec3()))->item->m_8;
+            result = (unsigned int)((::PlayerActionObjectList *)(((::Vec3 *)(void *)(((PlayerActionObjectList*)*(void**)((char*)this + 0x60c))))))->item->m_8;
         }
     }
     return result;
@@ -1001,9 +1001,9 @@ void InitCombatActions()
         {
             CombatWorldStateListNode* entry = reinterpret_cast<CombatWorldStateListNode*>(
                 reinterpret_cast<BGSQuestObjective*>(action)->GetTargetList());
-            while (entry && *((int *)(new ((void *)(reinterpret_cast<RegionObjectEntry*>(entry))) ::Vec3())))
+            while (entry && *((int *)(((::Vec3 *)(void *)(reinterpret_cast<RegionObjectEntry*>(entry))))))
             {
-                int ref = *((int *)(new ((void *)(reinterpret_cast<RegionObjectEntry*>(entry))) ::Vec3()));
+                int ref = *((int *)(((::Vec3 *)(void *)(reinterpret_cast<RegionObjectEntry*>(entry)))));
                 CombatActionAttackRangedExplosive::Execute(reinterpret_cast<Flt*>(ref)->operator unsigned int(),
                                                            action);
                 entry = entry->GetNext();
@@ -1071,8 +1071,8 @@ int FUN_00964060_Class::GetActionObjectItemId()
     int result = 0;
     if (*(int*)((char*)this + 0x60c))
     {
-        if (((::PlayerActionObjectList *)(new ((void *)(((PlayerActionObjectList*)*(int*)((char*)this + 0x60c)))) ::Vec3()))->item)
-            result = ((::PlayerActionObjectList *)(new ((void *)(((PlayerActionObjectList*)*(int*)((char*)this + 0x60c)))) ::Vec3()))->item->m_iWordAt00;
+        if (((::PlayerActionObjectList *)(((::Vec3 *)(void *)(((PlayerActionObjectList*)*(int*)((char*)this + 0x60c))))))->item)
+            result = ((::PlayerActionObjectList *)(((::Vec3 *)(void *)(((PlayerActionObjectList*)*(int*)((char*)this + 0x60c))))))->item->m_iWordAt00;
     }
     return result;
 }
@@ -1466,7 +1466,7 @@ struct FUN_0097be80_Class
 // @fnv 0x0097be80
 BGSPerk* FUN_0097be80_Class::FUN_0097be80(BGSPerk* apPerkOut)
 {
-    *apPerkOut = *((::BGSPerk *)(new ((void *)(reinterpret_cast<BSSimpleListPerk*>(reinterpret_cast<char*>(this) + 0x14))) ::Vec3()));
+    *apPerkOut = *((::BGSPerk *)(((::Vec3 *)(void *)(reinterpret_cast<BSSimpleListPerk*>(reinterpret_cast<char*>(this) + 0x14)))));
     return apPerkOut;
 }
 
@@ -1564,10 +1564,10 @@ void PlayerUIManager::ProcessAllActions()
     if (world != 0 && world->actions != 0)
     {
         ActionNode* current = world->actions;
-        while (current && ((::ActionNode *)(new ((void *)(current)) ::Vec3()))->item != 0)
+        while (current && ((::ActionNode *)(((::Vec3 *)(void *)(current))))->item != 0)
         {
             ActionNode* next = ((::ActionNode *)(reinterpret_cast<::Callees *>((current))->FUN_00726070()));
-            ActionItem* item = ((::ActionNode *)(new ((void *)(current)) ::Vec3()))->item;
+            ActionItem* item = ((::ActionNode *)(((::Vec3 *)(void *)(current))))->item;
             if (item != 0 && ((::InteractionHandler *)(reinterpret_cast<::BSShaderNoLightingProperty *>((item))->GetBaseTexture())) != 0)
             {
                 ((::InteractionHandler *)(reinterpret_cast<::BSShaderNoLightingProperty *>((item))->GetBaseTexture()))->Process(item, true);
@@ -2286,9 +2286,9 @@ FUN_00979c80::~FUN_00979c80()
         {
             void *owned1, *owned2, *owned3, *owned4;
 
-            while (list != 0 && ((::ItemNode *)(new ((void *)(list)) ::Vec3()))->value != 0)
+            while (list != 0 && ((::ItemNode *)(((::Vec3 *)(void *)(list))))->value != 0)
             {
-                current4 = ((::ItemNode *)(new ((void *)(list)) ::Vec3()))->value;
+                current4 = ((::ItemNode *)(((::Vec3 *)(void *)(list))))->value;
                 owned3 = current4;
                 ::FUN_00401030(owned3);
                 list->FUN_0063f7b0();
@@ -2296,9 +2296,9 @@ FUN_00979c80::~FUN_00979c80()
 
             list = &actions;
 
-            while (list != 0 && ((::ItemNode *)(new ((void *)(list)) ::Vec3()))->value != 0)
+            while (list != 0 && ((::ItemNode *)(((::Vec3 *)(void *)(list))))->value != 0)
             {
-                current1 = ((::ItemNode *)(new ((void *)(list)) ::Vec3()))->value;
+                current1 = ((::ItemNode *)(((::Vec3 *)(void *)(list))))->value;
                 owned1 = current1;
                 ::FUN_00401030(owned1);
                 list->FUN_0063f7b0();
@@ -2306,9 +2306,9 @@ FUN_00979c80::~FUN_00979c80()
 
             list = &states;
 
-            while (list != 0 && ((::ItemNode *)(new ((void *)(list)) ::Vec3()))->value != 0)
+            while (list != 0 && ((::ItemNode *)(((::Vec3 *)(void *)(list))))->value != 0)
             {
-                current2 = ((::ItemNode *)(new ((void *)(list)) ::Vec3()))->value;
+                current2 = ((::ItemNode *)(((::Vec3 *)(void *)(list))))->value;
                 owned4 = current2;
                 ::FUN_00401030(owned4);
                 list->FUN_0063f7b0();
@@ -2316,9 +2316,9 @@ FUN_00979c80::~FUN_00979c80()
 
             list = &effects;
 
-            while (list != 0 && ((::ItemNode *)(new ((void *)(list)) ::Vec3()))->value != 0)
+            while (list != 0 && ((::ItemNode *)(((::Vec3 *)(void *)(list))))->value != 0)
             {
-                current3 = ((::ItemNode *)(new ((void *)(list)) ::Vec3()))->value;
+                current3 = ((::ItemNode *)(((::Vec3 *)(void *)(list))))->value;
                 owned2 = current3;
                 ::FUN_00401030(owned2);
                 list->FUN_0063f7b0();
@@ -2820,7 +2820,7 @@ void FUN_00962d00_Class::FUN_00962d00()
     while (cur != 0)
     {
         bool flag = false;
-        FUN_00962d00_Ref* ref = ((::FUN_00962d00_Ref *)(new ((void *)(cur)) ::Vec3()));
+        FUN_00962d00_Ref* ref = (*((::FUN_00962d00_Ref **)(void *)(cur)));
         FUN_00962d00_Ref* result = ref->f116();
         if (result == 0)
         {
@@ -4298,9 +4298,9 @@ FUN_0096d290::~FUN_0096d290()
     for (int i = 0; i < 5; i++)
     {
         BSSimpleList<Pathing96d290Item*>* list = lists[i];
-        while (list && ((::Pathing96d290Item *)(new ((void *)(list)) ::Vec3())))
+        while (list && (((list))->m_item))
         {
-            Pathing96d290Item* item = ((::Pathing96d290Item *)(new ((void *)(list)) ::Vec3()));
+            Pathing96d290Item* item = (((list))->m_item);
             delete item;
             list->RemoveHead();
         }
@@ -7874,7 +7874,7 @@ int CombatController::FUN_00967da0()
             CombatActionNode* ba = 0;
             while (k && !k->FUN_008256d0())
             {
-                CombatActor* referenceActor = *((::fnv_00967da0::CombatActor **)(new ((void *)(k)) ::Vec3()));
+                CombatActor* referenceActor = *((::fnv_00967da0::CombatActor **)(((::Vec3 *)(void *)(k))));
                 bool remove = false;
                 if (referenceActor)
                 {
@@ -7893,7 +7893,7 @@ int CombatController::FUN_00967da0()
                 {
                     if (ba)
                     {
-                        reinterpret_cast<::ItemChangeListNode *>((ba))->FUN_00905330((*(::InventoryStackRecord *const *)(((::fnv_00967da0::CombatActor **)(new ((void *)(k)) ::Vec3())))));
+                        reinterpret_cast<::ItemChangeListNode *>((ba))->FUN_00905330((*(::InventoryStackRecord *const *)(((::fnv_00967da0::CombatActor **)(((::Vec3 *)(void *)(k)))))));
                         k = ((::fnv_00967da0::CombatActionNode *)(reinterpret_cast<::Callees *>((ba))->FUN_00726070()));
                     }
                     else
@@ -7928,7 +7928,7 @@ int CombatController::FUN_00967da0()
 
     for (f = ((::fnv_00967da0::CombatActionNode *)(reinterpret_cast<::ProcessLists *>(&((*reinterpret_cast<::fnv_00967da0::ActionEntryList *>(&::g_011e0e80))))->GetAliveActorList())); f; f = ((::fnv_00967da0::CombatActionNode *)(reinterpret_cast<::Callees *>((f))->FUN_00726070())))
     {
-        CombatActor* ref = *((::fnv_00967da0::CombatActor **)(new ((void *)(f)) ::Vec3()));
+        CombatActor* ref = *((::fnv_00967da0::CombatActor **)(((::Vec3 *)(void *)(f))));
         if (ref)
         {
             TargetForm* form = static_cast<TargetForm*>(((void *)(reinterpret_cast<::FUN_009344a0_shell *>((ref))->FUN_009344a0())));
@@ -7959,7 +7959,7 @@ int CombatController::FUN_00967da0()
     b = s;
     while (b)
     {
-        CombatActor* ref = *((::fnv_00967da0::CombatActor **)(new ((void *)(b)) ::Vec3()));
+        CombatActor* ref = *((::fnv_00967da0::CombatActor **)(((::Vec3 *)(void *)(b))));
         if (ref)
         {
             CombatActor* actor = ((::fnv_00967da0::CombatActor *)(reinterpret_cast<::Twin_0044ddc0 *>((ref))->GetName()));
@@ -9272,7 +9272,7 @@ void CombatMove::FUN_0097e4b0()
                 MoveTarget goal;
                 reinterpret_cast<::FUN_0097ee20_shell *>(&(goal))->FUN_0097ee20();
                 reinterpret_cast<::fnv_00997400::CombatAvoidanceSphere *>(&(goal))->FUN_00997400((::TESObjectREFR *)(target));
-                if (reinterpret_cast<::fnv_009a02a0::FUN_009a02a0_struct *>((brain))->FUN_009a02a0((*(const ::fnv_009a02a0::CoordinateTriple *)(((::MovePoint *)(new ((void *)&(goal)) ::Vec3())))), 1, 1))
+                if (reinterpret_cast<::fnv_009a02a0::FUN_009a02a0_struct *>((brain))->FUN_009a02a0((*(const ::fnv_009a02a0::CoordinateTriple *)(((::MovePoint *)(((::Vec3 *)(void *)&(goal)))))), 1, 1))
                     reinterpret_cast<::fnv_009801b0::CombatController *>(this)->FUN_009801b0((::fnv_009801b0::CombatProcedure *)(void *)(new TravelAction(&goal, DAT_011a5654, 0)));
                 break;
             }

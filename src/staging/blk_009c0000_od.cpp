@@ -1780,7 +1780,7 @@ void DialogueCameraX::FUN_009c7240()
         return;
     if (!IsEmpty())
     {
-        qJDuOZ = ((::TopicX *)(new ((void *)this) ::Vec3()));
+        qJDuOZ = ((::TopicX *)(((::Vec3 *)(void *)this)));
         qxQHW = ((::InputX *)(reinterpret_cast<::FUN_00877720_shell *>(((*reinterpret_cast<::OSX * *>(&::g_osGlobals))))->FUN_00877720()));
         qXMUYT = ((::ProcessX *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::RefX * *>(&::DAT_011f21f0))))->GetBaseTexture()));
         qbfQdhM = false;
@@ -1868,7 +1868,7 @@ void DialogueCameraX::FUN_009c7240()
                 }
                 else
                 {
-                    pShot = ((::ShotX *)(new ((void *)(pShots)) ::Vec3()));
+                    pShot = (*((::ShotX **)(void *)(pShots)));
                     if (pShot && reinterpret_cast<::FUN_005081b0_shell *>((pShot))->GetFloatAtOffset58() > fShotDelay)
                         fShotDelay = reinterpret_cast<::FUN_005081b0_shell *>((pShot))->GetFloatAtOffset58();
                     if (pShot && reinterpret_cast<::FUN_009c8600_Class *>((pShot))->FUN_009c8600())

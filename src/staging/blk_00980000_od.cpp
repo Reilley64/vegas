@@ -4558,7 +4558,7 @@ void ClusterWork::UpdateGroups()
             reinterpret_cast<::FUN_00438690 *>(&(groups))->FUN_007cb2e0((unsigned int *)&(pMergedGroup));
             c[n].member->group = pMergedGroup;
             c[c[n].nearest].member->group = pMergedGroup;
-            ClusterVec center = (*(::ClusterVec *)(new ((void *)&(c[n].position)) ::Vec3())) + (*(::ClusterVec *)(new ((void *)&(c[c[n].nearest].position)) ::Vec3()));
+            ClusterVec center = (*(::ClusterVec *)(((::Vec3 *)(void *)&(c[n].position)))) + (*(::ClusterVec *)(((::Vec3 *)(void *)&(c[c[n].nearest].position))));
             reinterpret_cast<::FUN_004941c0_shell *>(&(center))->ScaleByInverse(2.0f);
             reinterpret_cast<::StandIn_00989010 *>((pMergedGroup))->SetTripleAndValue((::ThreeInts_00989010 *)(::ClusterVec *)(&center), ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(&(c[n].position))->FUN_0084e3a0())));
         }
@@ -4622,7 +4622,7 @@ void CombatGroupStub::RecenterClusters()
         CombatMemberStub* member = GetMember(j);
         if (member->cluster)
         {
-            Vec3 pos = *new ((void *)(member->cluster)) ::Vec3();
+            Vec3 pos = *((::Vec3 *)(void *)(member->cluster));
             reinterpret_cast<::FUN_0063c8a0_shell *>((void *)&(const ::Vec3 &)(pos))->FUN_0063c8a0((void *)&(*member->actor->GetSourceVelocity()));
             reinterpret_cast<::fnv_0098ddd0::FUN_0098ddd0_shell *>((member->cluster))->FUN_0098ddd0((void *)&(pos));
             member->cluster->memberCount++;
@@ -4631,7 +4631,7 @@ void CombatGroupStub::RecenterClusters()
     for (unsigned int k = 0; k < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(clusters))->GetName())); k++)
     {
         CombatClusterStub* c = ((::CombatClusterStub *)(reinterpret_cast<::S3e60 *>(&(clusters))->FUN_006a7ad0(k)));
-        Vec3 center = *new ((void *)(c)) ::Vec3();
+        Vec3 center = *((::Vec3 *)(void *)(c));
         reinterpret_cast<::FUN_004941c0_shell *>((void *)&(const ::Vec3 &)(center))->ScaleByInverse((float)c->memberCount);
         reinterpret_cast<::fnv_0098ddd0::FUN_0098ddd0_shell *>((c))->FUN_0098ddd0((void *)&(center));
     }
@@ -5260,14 +5260,14 @@ bool Arr994350::InsertSortedEntry(int aiStartIndex, KeyObj* apKey, int aiValue, 
         if (v0 != apKey)
         {
             ListObj* lst = ((::ListObj *)(reinterpret_cast<::NonActorMagicTarget *>((apKey))->GetActiveEffectList()));
-            while (lst && *((::ItemObj **)(new ((void *)(lst)) ::Vec3())) != 0)
+            while (lst && *((::ItemObj **)(((::Vec3 *)(void *)(lst)))) != 0)
             {
                 bool innerOk = 0;
-                ItemObj* itemX = *((::ItemObj **)(new ((void *)(lst)) ::Vec3()));
+                ItemObj* itemX = *((::ItemObj **)(((::Vec3 *)(void *)(lst))));
                 ListObj* list2 = ((::ListObj *)(reinterpret_cast<::NonActorMagicTarget *>((v0))->GetActiveEffectList()));
-                while (list2 && *((::ItemObj **)(new ((void *)(list2)) ::Vec3())) != 0)
+                while (list2 && *((::ItemObj **)(((::Vec3 *)(void *)(list2)))) != 0)
                 {
-                    ItemObj* item2 = *((::ItemObj **)(new ((void *)(list2)) ::Vec3()));
+                    ItemObj* item2 = *((::ItemObj **)(((::Vec3 *)(void *)(list2))));
                     if (::FUN_00559450((int *)(itemX)) == ::FUN_00559450((int *)(item2)))
                     {
                         innerOk = 1;
@@ -5297,14 +5297,14 @@ bool Arr994350::InsertSortedEntry(int aiStartIndex, KeyObj* apKey, int aiValue, 
         }
         {
             lstA = ((::ListObj *)(reinterpret_cast<::NonActorMagicTarget *>((apKey))->GetActiveEffectList()));
-            while (lstA && *((::ItemObj **)(new ((void *)(lstA)) ::Vec3())) != 0)
+            while (lstA && *((::ItemObj **)(((::Vec3 *)(void *)(lstA)))) != 0)
             {
-                ItemObj* head1 = *((::ItemObj **)(new ((void *)(lstA)) ::Vec3()));
+                ItemObj* head1 = *((::ItemObj **)(((::Vec3 *)(void *)(lstA))));
                 int res1 = reinterpret_cast<::FUN_009947f0_Class *>((apCtx))->FUN_009947f0(((int)(reinterpret_cast<::Callees *>((head1))->FUN_00726070())), {});
                 ListObj* obj34 = ((::ListObj *)(::GetOffsetC((int)(v0))));
-                while (obj34 && *((::ItemObj **)(new ((void *)(obj34)) ::Vec3())) != 0)
+                while (obj34 && *((::ItemObj **)(((::Vec3 *)(void *)(obj34)))) != 0)
                 {
-                    ItemObj* item34 = *((::ItemObj **)(new ((void *)(obj34)) ::Vec3()));
+                    ItemObj* item34 = *((::ItemObj **)(((::Vec3 *)(void *)(obj34))));
                     if (::FUN_00559450((int *)(head1)) == ::FUN_00559450((int *)(item34)))
                     {
                         int resC = reinterpret_cast<::FUN_009947f0_Class *>((apCtx))->FUN_009947f0(((int)(reinterpret_cast<::Callees *>((item34))->FUN_00726070())), {});
@@ -6049,7 +6049,7 @@ bool P029Manager::TryStartDialogue(P029Actor* apSpeaker, void* other, int type, 
                     reinterpret_cast<::FUN_00967ac0_Class *>(((*reinterpret_cast<::P029Actor * *>(&::_g_thePlayer))))->FUN_00967ac0(1);
                     P029Sound sound = ((::P029Actor *)(reinterpret_cast<::BSShaderNoLightingProperty *>((a))->GetBaseTexture()))->GetSoundByEditorID(0);
                     a->Play(((void *)(::FUN_00559450((int *)(void *)(((void *)(::FUN_00460140((int)(ref)))))))), &sound, ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((ref))->GetName())), ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((ref))->FUN_0084e3a0())),
-                            ((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((((void *)(new ((void *)(ref)) ::Vec3()))))->FUN_004048e0())), 0, 0, 0, 0, 0, 0, 0, 1);
+                            ((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((((void *)(((::Vec3 *)(void *)(ref))))))->FUN_004048e0())), 0, 0, 0, 0, 0, 0, 0, 1);
                     reinterpret_cast<::SoundPlaybackHandle *>(&(sound))->SetCompletionCallback((void (*)(void *, bool))(void *)((void*)FUN_00967aa0), 0);
                     reinterpret_cast<::FUN_0083c850 *>((item))->AppendTopicInfo(0);
                 }
@@ -6092,18 +6092,18 @@ FUN_00984290::~FUN_00984290()
     void* secondItem;
 
     list3 = &first;
-    while (list3 != 0 && ((void *)(new ((void *)(list3)) ::Vec3())) != 0)
+    while (list3 != 0 && ((void *)(((::Vec3 *)(void *)(list3)))) != 0)
     {
-        firstCurrent = ((void *)(new ((void *)(list3)) ::Vec3()));
+        firstCurrent = ((void *)(((::Vec3 *)(void *)(list3))));
         firstItem4 = firstCurrent;
         ::FUN_00401030(firstItem4);
         list3->RemoveHead();
     }
 
     list3 = &second;
-    while (list3 != 0 && ((void *)(new ((void *)(list3)) ::Vec3())) != 0)
+    while (list3 != 0 && ((void *)(((::Vec3 *)(void *)(list3)))) != 0)
     {
-        secondCurrent = ((void *)(new ((void *)(list3)) ::Vec3()));
+        secondCurrent = ((void *)(((::Vec3 *)(void *)(list3))));
         secondItem = secondCurrent;
         ::FUN_00401030(secondItem);
         list3->RemoveHead();
@@ -6246,12 +6246,12 @@ void Center::UpdateCenter()
                 if (strongestSlot10->FUN_00527a40(*nearbySlot9) > maximumSlot1 * maximumSlot1)
                     continue;
                 float value = reinterpret_cast<::FUN_00985bb0_Class *>((nearbySlot9))->FUN_00985bb0();
-                reinterpret_cast<::FUN_0063c8a0_shell *>(&(weightedSlot17))->FUN_0063c8a0((void *)&(const ::CombatCenter::Vec &)((*(::CombatCenter::Vec *)(new ((void *)(nearbySlot9)) ::Vec3())).ApplyScaled(value)));
+                reinterpret_cast<::FUN_0063c8a0_shell *>(&(weightedSlot17))->FUN_0063c8a0((void *)&(const ::CombatCenter::Vec &)((*(::CombatCenter::Vec *)(((::Vec3 *)(void *)(nearbySlot9)))).ApplyScaled(value)));
                 total += value;
             }
             reinterpret_cast<::FUN_004941c0_shell *>(&(weightedSlot17))->ScaleByInverse(total);
             reinterpret_cast<::StandIn_00989010 *>(&(center))->SetTripleAndValue((::ThreeInts_00989010 *)&(weightedSlot17), (int)(((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>((strongestSlot10))->FUN_0084e3a0()))));
-            origin = (*(::CombatCenter::Vec *)(new ((void *)(strongestSlot10)) ::Vec3()));
+            origin = (*(::CombatCenter::Vec *)(((::Vec3 *)(void *)(strongestSlot10))));
             float farthestSlot1 = 0.0f;
             for (unsigned int k = 0; k < countSlot11; k++)
             {
@@ -6280,7 +6280,7 @@ void Center::UpdateCenter()
             Threat* only = ForwardToMember(0);
             priority = reinterpret_cast<::FUN_00985bb0_Class *>((only))->FUN_00985bb0();
             center = *only;
-            origin = (*(::CombatCenter::Vec *)(new ((void *)(only)) ::Vec3()));
+            origin = (*(::CombatCenter::Vec *)(((::Vec3 *)(void *)(only))));
             GetParamValues(only, minimum, maximumSlot1);
             radius = minimum;
         }
@@ -6314,12 +6314,12 @@ void Center::UpdateCenter()
                 Position positionB = (*(::CombatCenter::Position *)(reinterpret_cast<::FUN_00575650_Class *>((subjectBSlot11))->FUN_00575650({})));
                 if (seedSlot0.FUN_00527a40(positionB) > maximumSlot1 * maximumSlot1)
                     continue;
-                reinterpret_cast<::FUN_0063c8a0_shell *>(&(sumSlot20))->FUN_0063c8a0((void *)&((*(::CombatCenter::Vec *)(new ((void *)&(positionB)) ::Vec3()))));
+                reinterpret_cast<::FUN_0063c8a0_shell *>(&(sumSlot20))->FUN_0063c8a0((void *)&((*(::CombatCenter::Vec *)(((::Vec3 *)(void *)&(positionB))))));
                 includedSlot1++;
             }
             reinterpret_cast<::FUN_004941c0_shell *>(&(sumSlot20))->ScaleByInverse((float)includedSlot1);
             reinterpret_cast<::StandIn_00989010 *>(&(center))->SetTripleAndValue((::ThreeInts_00989010 *)&(sumSlot20), (int)(((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>(&(seedSlot0))->FUN_0084e3a0()))));
-            origin = (*(::CombatCenter::Vec *)(new ((void *)&(seedSlot0)) ::Vec3()));
+            origin = (*(::CombatCenter::Vec *)(((::Vec3 *)(void *)&(seedSlot0))));
             float extentSlot1 = 0.0f;
             for (unsigned int c = 0; c < actors; c++)
             {
@@ -6348,7 +6348,7 @@ void Center::UpdateCenter()
         {
             Actor* lone = ((::CombatCenter::Actor *)(reinterpret_cast<::Target *>(this)->GetIntAt(0)));
             center = (*(::CombatCenter::Position *)(reinterpret_cast<::FUN_00575650_Class *>((lone))->FUN_00575650({})));
-            origin = (*(::CombatCenter::Vec *)(new ((void *)&(center)) ::Vec3()));
+            origin = (*(::CombatCenter::Vec *)(((::Vec3 *)(void *)&(center))));
             GetParamValues(&center, minimum, maximumSlot1);
             radius = minimum;
         }
@@ -6395,7 +6395,7 @@ void NearbyGroup::CollectNearbyRefs()
                 searchRadius = 0.0f;
                 memberRadius = 0.0f;
                 reinterpret_cast<::FNVHost_b9027 *>(this)->GetParamValues((::FNVParamOwner *)(::NearbyPosition *)(&position), &searchRadius, &memberRadius);
-                ::FUN_006d9350((void *)(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(&(position))->FUN_0084e3a0()))), (int)&((*(::ClusterVec *)(new ((void *)&(position)) ::Vec3()))), radius, (::TESSound *)(::NearbyArray *)(&entries));
+                ::FUN_006d9350((void *)(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(&(position))->FUN_0084e3a0()))), (int)&((*(::ClusterVec *)(((::Vec3 *)(void *)&(position))))), radius, (::TESSound *)(::NearbyArray *)(&entries));
                 count = reinterpret_cast<::FUN_00990890_shell *>(this)->FUN_00990890();
                 for (unsigned int i = 0; i < count; ++i)
                 {
@@ -6403,7 +6403,7 @@ void NearbyGroup::CollectNearbyRefs()
                     NearbyPosition point = (*(::NearbyPosition *)(reinterpret_cast<::FUN_00575650_Class *>((actor))->FUN_00575650({})));
                     if (reinterpret_cast<::FUN_00527a80_shell *>(&(position))->DistanceTo((::FUN_00527a80_shell *)&(point)) < memberRadius * memberRadius)
                         continue;
-                    ::FUN_006d9350((void *)(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(&(point))->FUN_0084e3a0()))), (int)&((*(::ClusterVec *)(new ((void *)&(point)) ::Vec3()))), searchRadius, (::TESSound *)(::NearbyArray *)(&entries));
+                    ::FUN_006d9350((void *)(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(&(point))->FUN_0084e3a0()))), (int)&((*(::ClusterVec *)(((::Vec3 *)(void *)&(point))))), searchRadius, (::TESSound *)(::NearbyArray *)(&entries));
                 }
                 reinterpret_cast<::FUN_00729970_shell *>(&(entries))->FUN_00729970((int)(((int (&)(const void *, const void *))::FUN_006bfb30)));
                 for (unsigned int j = 0; j < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(entries))->GetName())); ++j)
@@ -6643,8 +6643,8 @@ void PositionGroup::UpdateExpiringPositions()
                 }
                 if (closest > 0.0 && ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(&(weight))->FUN_0084e3a0())) == ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(&(currentWeight->current))->FUN_0084e3a0())))
                 {
-                    WeightedVector combinedVector = (*(::WeightedVector *)(new ((void *)&(weight)) ::Vec3())).ApplyScaled(closest);
-                    reinterpret_cast<::FUN_0063c8a0_shell *>(&(combinedVector))->FUN_0063c8a0((void *)&(const ::WeightedVector &)((*(::WeightedVector *)(new ((void *)&(currentWeight->current)) ::Vec3())).ApplyScaled(firstWeight)));
+                    WeightedVector combinedVector = (*(::WeightedVector *)(((::Vec3 *)(void *)&(weight)))).ApplyScaled(closest);
+                    reinterpret_cast<::FUN_0063c8a0_shell *>(&(combinedVector))->FUN_0063c8a0((void *)&(const ::WeightedVector &)((*(::WeightedVector *)(((::Vec3 *)(void *)&(currentWeight->current)))).ApplyScaled(firstWeight)));
                     reinterpret_cast<::FUN_004941c0_shell *>(&(combinedVector))->ScaleByInverse(closest + firstWeight);
                     WeightedPosition position;
                     new ((void *)&(position)) ::FUN_0043a3c0((const ::NiPoint3 &)(combinedVector), (::TESForm *)(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(&(currentWeight->current))->FUN_0084e3a0()))));

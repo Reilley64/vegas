@@ -551,10 +551,8 @@ void ImpactOwner::FUN_0081f000(float x, float y, float z, float dx, float dy, fl
             scale = weight / *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::ImpactValue *>(&::originalRuntimeFloatSetting680)))))) * scale;
         scale *= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::ImpactValue *>(&::g_011ce224))))));
         ImpactVector direction;
-        new ((void *)&(direction)) ::Vec3();
         ::fnv_004a3e00::FUN_004a3e00((*(::fnv_004a3e00::bhkCharacterController *)(&direction)), (*(const ::fnv_004a3e00::NiPoint3 *)(&dx)));
         ImpactVector position;
-        new ((void *)&(position)) ::Vec3();
         ::fnv_004a3e00::FUN_004a3e00((*(::fnv_004a3e00::bhkCharacterController *)(&position)), (*(const ::fnv_004a3e00::NiPoint3 *)(&x)));
         reinterpret_cast<::S0062aea0_Vector *>(&(direction))->FUN_0062aea0();
         ImpactVector amount;

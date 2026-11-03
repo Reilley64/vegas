@@ -48,7 +48,7 @@ int __cdecl FUN_00d22120(void* pNode, void* a, void* b)
 }
 
 // @fnv 0x00d21d00
-void FUN_00d21d00(int, int, int, int, int, int)
+void FUN_00d21d00(const void*, const void*, float, void*, void*, void*)
 {}
 
 struct FUN_00d21de0_cls
@@ -435,7 +435,7 @@ extern __m128 DAT_012689d0;
 
 // Copies two pairs of __m128 values from source1 and source2 into the global DAT_012689a0 through DAT_012689d0.
 // @fnv 0x00d21f10
-void SetGlobalVectors(int, int, const __m128* source1, int, const __m128* source2)
+void SetGlobalVectors(const void*, const void*, const __m128* source1, void*, const __m128* source2)
 {
     DAT_012689a0 = source1[0];
     DAT_012689b0 = source1[1];
@@ -458,11 +458,11 @@ struct Cls_00d21fc0
     int unk18;
     int unk1c;
     FUN_00d21fc0_n m_uiValueCount;
-    void FUN_00d21fc0(__m128* a, int b, int c, int d, int e, __m128* out);
+    void FUN_00d21fc0(__m128* a, float b, void* c, void* d, void* e, __m128* out);
 };
 // Computes d = dot3(a[1], m_uiValueCount), then subtracts (m_uiValueCount - d * m_uiValueCount) from the vector at out.
 // @fnv 0x00d21fc0
-void Cls_00d21fc0::FUN_00d21fc0(__m128* a, int b, int c, int d, int e, __m128* out)
+void Cls_00d21fc0::FUN_00d21fc0(__m128* a, float b, void* c, void* d, void* e, __m128* out)
 {
     __declspec(align(16)) FUN_00d21fc0_n n = m_uiValueCount;
     __m128 nv = _mm_load_ps(&n.x);
@@ -494,10 +494,10 @@ struct SoftContactVelocityBlend
     int unk18;
     int unk1C;
     float m_fWeight;
-    void FUN_00d21d10(int a1, int a2, int a3, __m128* pkA, int a5, __m128* pkB);
+    void FUN_00d21d10(const void* a1, float a2, void* a3, __m128* pkA, void* a5, __m128* pkB);
 };
 // @fnv 0x00d21d10
-void SoftContactVelocityBlend::FUN_00d21d10(int a1, int a2, int a3, __m128* pkA, int a5, __m128* pkB)
+void SoftContactVelocityBlend::FUN_00d21d10(const void* a1, float a2, void* a3, __m128* pkA, void* a5, __m128* pkB)
 {
     float t = m_fWeight;
     pkA[0] = Blend_d21d10(pkA[0], DAT_012689a0, t);

@@ -479,7 +479,7 @@ int hkSimpleContactConstraintDataCFD2::FUN_00cfd200(hkpConstraintOwnerCFD2& kCon
     if (m_pHavokConstraint->m_pConstraintInternal)
         kConstraintOwner.subConstraintInfo(m_pHavokConstraint, kConInfo);
     if (bAtomReallocated) {
-        ::ReplaceEntry((int)(m_pHavokConstraint), (int)(pkOldAtom), (int)(m_pAtom), m_pAtom->m_usSizeOfAllAtoms);
+        ::ReplaceEntry((intptr_t)(m_pHavokConstraint), (intptr_t)(pkOldAtom), (intptr_t)(m_pAtom), m_pAtom->m_usSizeOfAllAtoms);
         m_iAtomSize = m_pAtom->m_usSizeOfAllAtoms;
     }
     pkAtom->m_flags |= 5;

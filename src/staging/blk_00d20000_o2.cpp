@@ -233,36 +233,36 @@ void __cdecl FUN_00d2dc70(Agent* pAgent)
 }
 
 // @fnv 0x00d275a0
-void ReplaceEntry(int pList, int pOldEntry, int pNewEntry, unsigned short usValue)
+void ReplaceEntry(intptr_t pList, intptr_t pOldEntry, intptr_t pNewEntry, unsigned short usValue)
 {
-    int iVar1 = *(int*)(pList + 0x10);
-    int pCached = *(int*)(pList + 0x30);
+    intptr_t iVar1 = *(intptr_t*)(pList + 0x10);
+    intptr_t pCached = *(intptr_t*)(pList + 0x30);
     if (iVar1 == 0)
     {
         if (pCached != 0)
         {
-            *(int*)(pCached + 0xc) = pNewEntry;
+            *(intptr_t*)(pCached + 0xc) = pNewEntry;
             *(unsigned short*)(pCached + 0x10) = usValue;
         }
         return;
     }
     if (iVar1 == pOldEntry)
     {
-        *(int*)(pList + 0x10) = pNewEntry;
+        *(intptr_t*)(pList + 0x10) = pNewEntry;
         if (pCached != 0)
         {
-            *(int*)(pCached + 0xc) = pNewEntry;
+            *(intptr_t*)(pCached + 0xc) = pNewEntry;
             *(unsigned short*)(pCached + 0x10) = usValue;
         }
         return;
     }
-    int pCur = *(int*)(iVar1 + 0x14);
+    intptr_t pCur = *(intptr_t*)(iVar1 + 0x14);
     while (pCur != pOldEntry)
     {
         iVar1 = pCur;
-        pCur = *(int*)(pCur + 0x14);
+        pCur = *(intptr_t*)(pCur + 0x14);
     }
-    *(int*)(iVar1 + 0x14) = pNewEntry;
+    *(intptr_t*)(iVar1 + 0x14) = pNewEntry;
     *(unsigned short*)(iVar1 + 0x12) = usValue;
 }
 
@@ -3740,8 +3740,8 @@ struct D22260_Object
 // Transforms m_quaternion1/2 by the matrices' rows, crosses each result with the vector's second field, and adds the product to its first field.
 // @fnv 0x00d22260
 void D22260_Object::FUN_00d22260(
-    int ReportDiagnostic,
-    int unused1,
+    const void* ReportDiagnostic,
+    float unused1,
     D22260_Matrix* matrix1,
     D22260_Vector* vector1,
     D22260_Matrix* matrix2,

@@ -67,7 +67,7 @@ void FUN_00cf1f80(const ::__m128 &, const ::__m128 &, ::Obj_t *);
 // 0x00d1bd00
 void FUN_00d1bd00(::CompressedTree *, const ::__m128 *, const ::__m128 *, ::LeafCollector *, float);
 // 0x00d21f10
-void SetGlobalVectors(int, int, const ::__m128 *, int, const ::__m128 *);
+void SetGlobalVectors(const void *, const void *, const ::__m128 *, void *, const ::__m128 *);
 // 0x00d231b0
 int FUN_00d231b0(const ::__m128 *, const ::__m128 *, const ::__m128 *, const ::__m128 *, ::ClosestPointResult *);
 // 0x00d39150

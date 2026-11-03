@@ -4,6 +4,7 @@
 
 #include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
+#include "fnv/symbols_simd.h"
 #include "fnv/decl/ComChangerAtom.h"
 #include "fnv/decl/FUN_005609f0_shell.h"
 #include "fnv/decl/Stats.h"
@@ -23,16 +24,6 @@
 #include "fnv/symbols_0104d000.h"
 #include "fnv/symbols_0109c000.h"
 #include "fnv/symbols_010c7000.h"
-struct FUN_00d927b0_class
-{
-    void FUN_00d927b0(unsigned int arg);
-};
-// @fnv 0x00d927b0
-void FUN_00d927b0_class::FUN_00d927b0(unsigned int arg)
-{
-    void* atom = *(void**)((char*)this + 0x28);
-    ::FUN_00d21a60((const ::hkpConstraintAtom *)(atom), *(unsigned short*)((char*)atom + 2), (::GenericConstraintAtomScheme *)(arg));
-}
 
 // @fnv 0x00d927d0
 void FUN_00d927d0(int, int* paiValues)
@@ -189,8 +180,8 @@ struct S_00d92fd0_Atom
     unsigned short unk02;
     int unk04, unk08, unk0c, unk10;
     S_00d92fd0_Atom* next;
-    void FUN_00d21d10(int a, float b, int c, int d, int e, int f);
-    void FUN_00d21fc0(int a, float b, int c, int d, int e, int f);
+    void FUN_00d21d10(const void* a, float b, void* c, void* d, void* e, void* f);
+    void FUN_00d21fc0(const void* a, float b, void* c, void* d, void* e, void* f);
 };
 struct S_00d92fd0_Alloc : S_00d92690_Alloc
 {
@@ -220,12 +211,12 @@ struct S_00d92fd0_This
 {
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20;
     S_00d92fd0_Holder* holder;
-    void DispatchAtomHandlers(int p1, float p2, int p3, int p4, int p5, int p6);
+    void DispatchAtomHandlers(const void* p1, float p2, void* p3, void* p4, void* p5, void* p6);
 };
 
 // Collects atoms from holder->head with type >= 0x17 into a temporary array, then dispatches each in reverse order to a handler chosen by type.
 // @fnv 0x00d92fd0
-void S_00d92fd0_This::DispatchAtomHandlers(int aiArg1, float afArg2, int aiArg3, int aiArg4, int aiArg5, int aiArg6)
+void S_00d92fd0_This::DispatchAtomHandlers(const void* aiArg1, float afArg2, void* aiArg3, void* aiArg4, void* aiArg5, void* aiArg6)
 {
     if (!holder->head)
         return;
@@ -246,7 +237,7 @@ void S_00d92fd0_This::DispatchAtomHandlers(int aiArg1, float afArg2, int aiArg3,
         switch (x->type)
         {
         case 0x18:
-            ::FUN_00d21d00((int)(x), aiArg1, afArg2, aiArg3, aiArg4, aiArg5);
+            ::FUN_00d21d00(x, aiArg1, afArg2, aiArg3, aiArg4, aiArg5);
             break;
         case 0x17:
             x->FUN_00d21d10(aiArg1, afArg2, aiArg3, aiArg4, aiArg5, aiArg6);
@@ -352,12 +343,12 @@ struct hkClsX
     int unk20;
     hkHolderX* unk24;
 
-    void DispatchNodeCallbacks(int a1, int a2, int a3, int a4, int a5);
+    void DispatchNodeCallbacks(const void* a1, void* a2, void* a3, void* a4, void* a5);
 };
 
 // Walks the hkNodeX list from the holder's unk10 while type is at least 0x17, calling a type-specific function for types 0x17, 0x18, 0x1A and 0x1C.
 // @fnv 0x00d92830
-void hkClsX::DispatchNodeCallbacks(int a1, int a2, int a3, int a4, int a5)
+void hkClsX::DispatchNodeCallbacks(const void* a1, void* a2, void* a3, void* a4, void* a5)
 {
     hkHolderX* pHolder = unk24;
     if (pHolder->unk10 == 0)
@@ -371,7 +362,7 @@ void hkClsX::DispatchNodeCallbacks(int a1, int a2, int a3, int a4, int a5)
             reinterpret_cast<::hkpMassChangerModifierConstraintAtomq *>((node))->ScaleInverseInertia((const void *)(a1), (*(::hkpSimpleConstraintInfoInitInputq *)(a2)), (void *)(a3), (*(::hkpSimpleConstraintInfoInitInputq *)(a4)), (void *)(a5));
             break;
         case 0x17:
-            ::SetGlobalVectors((int)(node), a1, (const __m128 *)(a2), a3, (const __m128 *)(a4));
+            ::SetGlobalVectors(node, a1, (const __m128 *)(a2), a3, (const __m128 *)(a4));
             break;
         case 0x1A:
             reinterpret_cast<::fnv_00d21f50::hkpMovingSurfaceModifierConstraintAtomD21F *>((node))->FUN_00d21f50((*(const ::fnv_00d21f50::hkContactPointD21F *)(a1)), (void *)(a2), (void *)(a3), (void *)(a4), (*(::fnv_00d21f50::hkVector4D21F *)(a5)));
@@ -508,6 +499,16 @@ struct hkpSimpleContactConstraintData
     int FUN_00d92df0(hkpConstraintOwner& constraintOwner, hkContactPoint** cpOut, PhysicsMaterial** cpPropsOut);
 };
 
+struct FUN_00d927b0_class : hkpSimpleContactConstraintData
+{
+    void FUN_00d927b0(::GenericConstraintAtomScheme* arg);
+};
+// @fnv 0x00d927b0
+void FUN_00d927b0_class::FUN_00d927b0(::GenericConstraintAtomScheme* arg)
+{
+    ::FUN_00d21a60((const ::hkpConstraintAtom *)(m_pAtom), m_pAtom->m_usSizeOfAllAtoms, arg);
+}
+
 // Adds a contact point at index size, initializes its properties, updates constraint stats, and reallocates the atom if needed.
 // @fnv 0x00d92df0
 int hkpSimpleContactConstraintData::FUN_00d92df0(hkpConstraintOwner& constraintOwner, hkContactPoint** cpOut,
@@ -559,7 +560,7 @@ int hkpSimpleContactConstraintData::FUN_00d92df0(hkpConstraintOwner& constraintO
 
     if (reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(atomReallocated))->FUN_005609f0())
     {
-        ::ReplaceEntry((int)(m_pHavokConstraint), (int)(oldAtom), (int)(m_pAtom), localAtom->m_usSizeOfAllAtoms);
+        ::ReplaceEntry((intptr_t)(m_pHavokConstraint), (intptr_t)(oldAtom), (intptr_t)(m_pAtom), localAtom->m_usSizeOfAllAtoms);
         m_iAtomSize = localAtom->m_usSizeOfAllAtoms;
     }
     return ((int)(reinterpret_cast<::FUN_00d93140_cls *>(&(m_kAtoms))->ReplaceOrAppendByte(size)));

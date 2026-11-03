@@ -198,6 +198,25 @@
 #include "fnv/decl/LandLD.h"
 #include "fnv/decl/Region53.h"
 #include "fnv/decl/S00485110.h"
+
+// Layout of the TESObjectLAND fields the land accessors use: the land flags after TESForm and
+// TESChildCell, the parent cell, and the loaded land data with its cell grid position.
+struct LoadedLandDataView
+{
+    char pad[8];
+    void* unk08;
+    char padc[0x98 - 0xc];
+    int iCellX;
+    int iCellY;
+};
+struct LandFormView
+{
+    char formAndChildCell[0x1c];
+    unsigned int uiLandFlags;
+    void* pParentCell;
+    void* unk24;
+    LoadedLandDataView* pLoadedData;
+};
 #include "fnv/decl/TESFile.h"
 #include "fnv/decl/Vec3.h"
 #include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
@@ -1540,32 +1559,32 @@ struct FUN_00533210_class {
 struct CellH {
 };
 
-struct FUN_00533fd0_Class {
+struct FUN_00533fd0_Class : LandFormView {
     int FUN_00533fd0();
 };
 
 // @fnv 0x00533fd0
 int FUN_00533fd0_Class::FUN_00533fd0()
 {
-    if (reinterpret_cast<void**>(this)[0x28 / 4])
-        return reinterpret_cast<int*>(reinterpret_cast<void**>(this)[0x28 / 4])[0x98 / 4];
-    if (reinterpret_cast<void**>(this)[0x20 / 4])
-        return reinterpret_cast<::TESObjectCELL *>((reinterpret_cast<CellH*>(reinterpret_cast<void**>(this)[0x20 / 4])))->GetCellGridX();
+    if (pLoadedData)
+        return pLoadedData->iCellX;
+    if (pParentCell)
+        return reinterpret_cast<::TESObjectCELL *>(pParentCell)->GetCellGridX();
     return 0;
 }
 
 namespace fnv_00534010 {
 struct CellH {  };
-struct FUN_00534010_od {
+struct FUN_00534010_od : ::LandFormView {
     int GetY();
 };
 // @fnv 0x00534010
 int FUN_00534010_od::GetY()
 {
-    if (*reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x28))
-        return *reinterpret_cast<int*>(*reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x28) + 0x9c);
-    if (*reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x20))
-        return reinterpret_cast<::TESObjectCELL *>((reinterpret_cast<CellH*>(*reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x20))))->GetCellGridY();
+    if (pLoadedData)
+        return pLoadedData->iCellY;
+    if (pParentCell)
+        return reinterpret_cast<::TESObjectCELL *>(pParentCell)->GetCellGridY();
     return 0;
 }
 }
@@ -1620,7 +1639,7 @@ struct TESWorldSpace {
 	enum PARENT_USE_FLAG { PARENT_USE_FLAG_0 = 0 };
 	TESWorldSpace* GetParentWorld(PARENT_USE_FLAG);
 };
-struct TESObjectLAND {
+struct TESObjectLAND : ::LandFormView {
 	void FUN_00534160(int);
 	void FUN_005340e0(TESObjectCELL* apCell);
 };
@@ -1628,9 +1647,9 @@ struct TESObjectLAND {
 void TESObjectLAND::FUN_005340e0(TESObjectCELL* apCell)
 {
 	TESWorldSpace* pworld;
-	*(TESObjectCELL**)((char*)this + 0x20) = apCell;
-	if (*(TESObjectCELL**)((char*)this + 0x20) != 0) {
-		pworld = (TESWorldSpace*)((void *)(reinterpret_cast<::TESObjectCELL *>((((DoorH_od*)*(TESObjectCELL**)((char*)this + 0x20))))->GetParentWorldSpace()));
+	pParentCell = apCell;
+	if (pParentCell != 0) {
+		pworld = (TESWorldSpace*)((void *)(reinterpret_cast<::TESObjectCELL *>(pParentCell)->GetParentWorldSpace()));
 		if (pworld != 0 && pworld->GetParentWorld((TESWorldSpace::PARENT_USE_FLAG)0) != 0)
 			FUN_00534160(1);
 		else
@@ -1641,19 +1660,19 @@ void TESObjectLAND::FUN_005340e0(TESObjectCELL* apCell)
 
 // namespace fnv_005340e0
 
-struct FUN_00534140_Class {
+struct FUN_00534140_Class : LandFormView {
     bool FUN_00534140();
 };
 
 // @fnv 0x00534140
 bool FUN_00534140_Class::FUN_00534140()
 {
-    if (((int*)this)[7] & 0x400)
+    if (uiLandFlags & 0x400)
         return true;
     return false;
 }
 
-struct FUN_00534160_Class {
+struct FUN_00534160_Class : LandFormView {
     void FUN_00534160(bool set);
 };
 
@@ -1661,12 +1680,12 @@ struct FUN_00534160_Class {
 void FUN_00534160_Class::FUN_00534160(bool set)
 {
     if (set)
-        *(int*)((char*)this + 0x1c) |= 0x400;
+        uiLandFlags |= 0x400;
     else
-        *(int*)((char*)this + 0x1c) &= ~0x400;
+        uiLandFlags &= ~0x400;
 }
 
-struct FUN_005341a0_Class {
+struct FUN_005341a0_Class : LandFormView {
     void FUN_005341a0(bool set);
 };
 
@@ -1674,19 +1693,19 @@ struct FUN_005341a0_Class {
 void FUN_005341a0_Class::FUN_005341a0(bool set)
 {
     if (set)
-        *(int*)((char*)this + 0x1c) |= 0x800;
+        uiLandFlags |= 0x800;
     else
-        *(int*)((char*)this + 0x1c) &= ~0x800;
+        uiLandFlags &= ~0x800;
 }
 
-struct FUN_005341e0_Class {
+struct FUN_005341e0_Class : LandFormView {
     bool FUN_005341e0();
 };
 
 // @fnv 0x005341e0
 bool FUN_005341e0_Class::FUN_005341e0()
 {
-    if (reinterpret_cast<const unsigned int*>(this)[7] & 0x10)
+    if (uiLandFlags & 0x10)
         return true;
     return false;
 }
@@ -2146,14 +2165,14 @@ struct Owner
     bool FUN_0053d2e0(std::intptr_t, std::intptr_t, std::intptr_t);
 };
 
-struct FUN_0053df00_Class {
+struct FUN_0053df00_Class : LandFormView {
     std::intptr_t FUN_0053df00();
 };
 
 // @fnv 0x0053df00
 std::intptr_t FUN_0053df00_Class::FUN_0053df00()
 {
-    return *(int*)((char*)this + 0x28) ? *(int*)((char*)*(int*)((char*)this + 0x28) + 8) : 0;
+    return pLoadedData ? reinterpret_cast<std::intptr_t>(pLoadedData->unk08) : 0;
 }
 
 struct Tmp53e210 {
@@ -2422,8 +2441,8 @@ struct TESObjectLAND : TESForm_od {
 void TESObjectLAND::FUN_00539010(bool altered)
 {
     reinterpret_cast<::fnv_00484730::FUN_00484730_shell *>(this)->FUN_00484730(altered);
-    if (altered && *(TESObjectREFR**)((char*)this + 0x20))
-        (*(TESObjectREFR**)((char*)this + 0x20))->SetTargetingState(1);
+    if (altered && reinterpret_cast<::LandFormView*>(this)->pParentCell)
+        reinterpret_cast<TESObjectREFR*>(reinterpret_cast<::LandFormView*>(this)->pParentCell)->SetTargetingState(1);
 }
 }
 

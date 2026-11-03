@@ -59,6 +59,12 @@ void vector_copy_constructor(void* destination, void* source, std::size_t size, 
 void vector_destructor(void* array, std::size_t size, int count, void (*destroy)(void*));
 
 int fopen_s(std::FILE** file, const char* path, const char* mode);
+// Physical stdio offsets, independent of the width of Windows long.
+// fseek returns 0 on success; ftell and file_size return -1 on error.
+// file_size includes buffered writes and preserves the stdio position on success.
+int fseek(std::FILE* file, std::int64_t offset, int origin);
+std::int64_t ftell(std::FILE* file);
+std::int64_t file_size(std::FILE* file);
 // _access: 0 when the path exists (and for mode 2, is writable), otherwise -1.
 int access(const char* path, int mode);
 // _getcwd: the current folder, or null when it does not fit in size.

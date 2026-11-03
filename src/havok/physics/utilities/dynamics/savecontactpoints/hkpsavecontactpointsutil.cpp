@@ -180,7 +180,6 @@ resolve:
 
 struct DCD6A0Context;
 struct DCD6A0Item;
-typedef void(__cdecl* DCD6A0AgentFunc)();
 
 typedef void(__cdecl* DCD6A0Func)(DCD6A0Item* item, void* data, void* a, void* b, DCD6A0Context* context);
 
@@ -196,7 +195,7 @@ struct DCD6A0Entry
     int unk1C;
     int unk20;
     int unk24;
-    DCD6A0AgentFunc m_key;
+    void* m_key;
     int unk2C;
     int unk30;
     int unk34;
@@ -1686,41 +1685,6 @@ struct DCD6A0ItemType4
     unsigned char m_agentData[1];
 };
 
-void __cdecl DCD6A0Agent1();
-void __cdecl DCD6A0Agent2();
-void __cdecl DCD6A0Agent3();
-void __cdecl DCD6A0Agent4();
-void __cdecl DCD6A0Agent5();
-void __cdecl DCD6A0Agent6();
-void __cdecl DCD6A0Agent7();
-void __cdecl DCD6A0Agent8();
-void __cdecl DCD6A0Agent9();
-
-// File-static helper (reconstruction of FUN_00dcd4d0): maps a registered agent function to its id.
-static int DCD6A0GetAgentId(DCD6A0AgentFunc func)
-{
-    if (func == DCD6A0Agent1)
-        return 1;
-    if (func == DCD6A0Agent2)
-        return 2;
-    if (func == DCD6A0Agent3)
-        return 3;
-    if (func == DCD6A0Agent4)
-        return 4;
-    if (func == DCD6A0Agent5)
-        return 5;
-    if (func == DCD6A0Agent6)
-        return 6;
-    if (func == DCD6A0Agent7)
-        return 7;
-    if (func == DCD6A0Agent8)
-        return 8;
-    return (func == DCD6A0Agent9) ? 9 : 0;
-}
-
-// Taking the helper's address keeps its standard stack argument, as the original codegen shows.
-int(__cdecl* g_DCD6A0GetAgentId)(DCD6A0AgentFunc) = DCD6A0GetAgentId;
-
 // @fnv 0x00dcd6a0
 int __cdecl DispatchItemToAgent(int aiExpectedAgentId, DCD6A0Context** contextPtr, void* aiArg1, void* aiArg2,
                                 DCD6A0Item* item)
@@ -1741,7 +1705,7 @@ int __cdecl DispatchItemToAgent(int aiExpectedAgentId, DCD6A0Context** contextPt
     }
     DCD6A0Context* context = *contextPtr;
     int index = item->m_uiEdgeIndex;
-    if (DCD6A0GetAgentId(context->m_entries[index].m_key) != aiExpectedAgentId || !aiExpectedAgentId)
+    if (::FUN_00dcd4d0(context->m_entries[index].m_key) != aiExpectedAgentId || !aiExpectedAgentId)
         return 1;
     context->m_entries[index].m_func(item, data, aiArg1, aiArg2, context);
     return 0;
@@ -1937,28 +1901,6 @@ void FUN_00dcdd80(void* a, S_00dcdd80_Item** items, int count, S_00dcdd80_Listen
 
 namespace fnv_00dcde10 {
 int __cdecl CopyAudioNodeTree(void*, void*, void*);
-int FUN_00dcd4d0(void* p)
-{
-    if (p == reinterpret_cast<void*>(&((void (&)())::fnv_00d3fe90::FUN_00d3fe90)))
-        return 1;
-    if (p == reinterpret_cast<void*>(&((void (&)())::FUN_00d39390)))
-        return 2;
-    if (p == reinterpret_cast<void*>(&((void (&)())::FUN_00d41a30)))
-        return 3;
-    if (p == reinterpret_cast<void*>(&FUN_00d40d80))
-        return 4;
-    if (p == reinterpret_cast<void*>(&((void (&)())::fnv_00d32cd0::FUN_00d32cd0)))
-        return 5;
-    if (p == reinterpret_cast<void*>(&((void (&)())::BuildEventIndex)))
-        return 6;
-    if (p == reinterpret_cast<void*>(&((void (&)(void *, int, void *, int))::FUN_00d2d890)))
-        return 7;
-    if (p == reinterpret_cast<void*>(&((void (&)())::hkpCollectionCollectionAgent3::FUN_00d35770)))
-        return 8;
-    if (p == reinterpret_cast<void*>(&((void (&)())::FUN_00d365d0)))
-        return 9;
-    return 0;
-}
 struct EntryState
 {
     unsigned int count, capacity, flags;
@@ -1990,7 +1932,7 @@ int DispatchInstruction(char* source, int kind, void* context, char** ppRegistry
     default:
         return 1;
     }
-    if (FUN_00dcd4d0(*reinterpret_cast<void**>(*ppRegistry + 0x16dc + instruction[1] * 80)) != kind)
+    if (::FUN_00dcd4d0(*reinterpret_cast<void**>(*ppRegistry + 0x16dc + instruction[1] * 80)) != kind)
         return 1;
     switch (kind)
     {
@@ -3209,26 +3151,6 @@ struct AgentKey
 {
     void* value;
 };
-__declspec(noinline) int __cdecl FUN_00dcd4d0(AgentKey key)
-{
-    if (key.value == (void*)((void (&)())::fnv_00d3fe90::FUN_00d3fe90))
-        return 1;
-    if (key.value == (void*)((void (&)())::FUN_00d39390))
-        return 2;
-    if (key.value == (void*)((void (&)())::FUN_00d41a30))
-        return 3;
-    if (key.value == (void*)FUN_00d40d80)
-        return 4;
-    if (key.value == (void*)((void (&)())::fnv_00d32cd0::FUN_00d32cd0))
-        return 5;
-    if (key.value == (void*)((void (&)())::BuildEventIndex))
-        return 6;
-    if (key.value == (void*)((void (&)(void *, int, void *, int))::FUN_00d2d890))
-        return 7;
-    if (key.value == (void*)((void (&)())::hkpCollectionCollectionAgent3::FUN_00d35770))
-        return 8;
-    return key.value == (void*)((void (&)())::FUN_00d365d0) ? 9 : 0;
-}
 extern "C" int __cdecl FUN_00dcdf70(void*, DCD6A0Context**, int);
 // Resolves the collision data pointer and type for a CollisionRecordHeader entry, writing results to output, size, and type out-parameters.
 // @fnv 0x00dcd550
@@ -3255,7 +3177,7 @@ int __cdecl FUN_00dcd550(CollisionRecordHeader* apRecord, char abOffset, DCD6A0C
         data = (unsigned char*)apRecord + (abOffset ? 32 : 16);
     process: {
         AgentKey key = {(void*)(*context)->m_entries[apRecord->unk01].m_key};
-        int t = FUN_00dcd4d0(key);
+        int t = ::FUN_00dcd4d0(key.value);
         *type = t;
         switch (t)
         {

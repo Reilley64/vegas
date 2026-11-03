@@ -5,6 +5,7 @@
 #include "fnv/symbols_01272000.h"
 #include <new>
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include <xmmintrin.h>
@@ -2530,19 +2531,9 @@ hkpPhantom* FUN_00c936a0_World::FUN_00c936a0(hkpPhantom* phantom)
 }
 
 namespace fnv_00c937e0 {
-class hkMemoryAllocatorXc937e0;
-
-struct hkMemoryRouterXc937e0 {
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
-    hkMemoryAllocatorXc937e0* m_pStreamAllocator;
-    hkMemoryAllocatorXc937e0& heap() { return *m_pStreamAllocator; }
-};
 
 
-void __cdecl ResizeAudioStream(void* pvAlloc, void* apvArray, int iElemSize);
+
 
 template <class T>
 __forceinline void constructWithCopyXc937e0(T* p, int n, const T& t)
@@ -2561,9 +2552,9 @@ public:
     int getCapacity() const { return m_iCapacityState & 0x3fffffff; }
     void AddBack(const T& t)
     {
-        hkMemoryAllocatorXc937e0& kAlloc = (*static_cast<hkMemoryRouterXc937e0*>(::FUN_00c85750())).heap();
+        hkMemoryAllocator& kAlloc = hkMemoryRouter::getInstance().heap();
         if (m_iElementCount == getCapacity())
-            ResizeAudioStream(&kAlloc, this, sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(&kAlloc), (::AudioStream *)(void *)(this), sizeof(T));
         constructWithCopyXc937e0(m_data + m_iElementCount, 1, t);
         m_iElementCount++;
     }
@@ -2667,19 +2658,9 @@ void hkpWorldXc937e0::FUN_00c937e0(hkpEntityListenerXc937e0* pkListener)
 }  // namespace fnv_00c937e0
 
 namespace fnv_00c93820 {
-class hkMemoryAllocatorC938;
-
-struct hkMemoryRouterC938 {
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
-    hkMemoryAllocatorC938* m_pStreamAllocator;
-    hkMemoryAllocatorC938& heap() { return *m_pStreamAllocator; }
-};
 
 
-void __cdecl ResizeAudioStream(void* pvAlloc, void* apvArray, int iElemSize);
+
 
 template <class T>
 __forceinline void constructWithCopyC938(T* p, int n, const T& t)
@@ -2698,9 +2679,9 @@ public:
     int getCapacity() const { return m_iCapacityState & 0x3fffffff; }
     void AddBack(const T& t)
     {
-        hkMemoryAllocatorC938& kAlloc = (*static_cast<hkMemoryRouterC938*>(::FUN_00c85750())).heap();
+        hkMemoryAllocator& kAlloc = hkMemoryRouter::getInstance().heap();
         if (m_iElementCount == getCapacity())
-            ResizeAudioStream(&kAlloc, this, sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(&kAlloc), (::AudioStream *)(void *)(this), sizeof(T));
         constructWithCopyC938(m_data + m_iElementCount, 1, t);
         m_iElementCount++;
     }
@@ -2797,19 +2778,9 @@ void hkpWorldC938::FUN_00c93820(hkpEntityListenerC938* pkListener)
 }  // namespace fnv_00c93820
 
 namespace fnv_00c93860 {
-class hkMemoryAllocatorXc93860;
-
-struct hkMemoryRouterXc93860 {
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
-    hkMemoryAllocatorXc93860* m_pStreamAllocator;
-    hkMemoryAllocatorXc93860& heap() { return *m_pStreamAllocator; }
-};
 
 
-void __cdecl ResizeAudioStream(void* pvAlloc, void* apvArray, int iElemSize);
+
 
 template <class T>
 __forceinline void constructWithCopyXc93860(T* p, int n, const T& t)
@@ -2828,9 +2799,9 @@ public:
     int getCapacity() const { return m_iCapacityState & 0x3fffffff; }
     void AddBack(const T& t)
     {
-        hkMemoryAllocatorXc93860& kAlloc = (*static_cast<hkMemoryRouterXc93860*>(::FUN_00c85750())).heap();
+        hkMemoryAllocator& kAlloc = hkMemoryRouter::getInstance().heap();
         if (m_iElementCount == getCapacity())
-            ResizeAudioStream(&kAlloc, this, sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(&kAlloc), (::AudioStream *)(void *)(this), sizeof(T));
         constructWithCopyXc93860(m_data + m_iElementCount, 1, t);
         m_iElementCount++;
     }
@@ -2930,19 +2901,9 @@ void hkpWorldXc93860::FUN_00c93860(hkpEntityListenerXc93860* pkListener)
 }  // namespace fnv_00c93860
 
 namespace fnv_00c938a0 {
-class hkMemoryAllocatorXc938a0;
-
-struct hkMemoryRouterXc938a0 {
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
-    hkMemoryAllocatorXc938a0* m_pStreamAllocator;
-    hkMemoryAllocatorXc938a0& heap() { return *m_pStreamAllocator; }
-};
 
 
-void __cdecl ResizeAudioStream(void* pvAlloc, void* apvArray, int iElemSize);
+
 
 template <class T>
 __forceinline void constructWithCopyXc938a0(T* p, int n, const T& t)
@@ -2961,9 +2922,9 @@ public:
     int getCapacity() const { return m_iCapacityState & 0x3fffffff; }
     void AddBack(const T& t)
     {
-        hkMemoryAllocatorXc938a0& kAlloc = (*static_cast<hkMemoryRouterXc938a0*>(::FUN_00c85750())).heap();
+        hkMemoryAllocator& kAlloc = hkMemoryRouter::getInstance().heap();
         if (m_iElementCount == getCapacity())
-            ResizeAudioStream(&kAlloc, this, sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(&kAlloc), (::AudioStream *)(void *)(this), sizeof(T));
         constructWithCopyXc938a0(m_data + m_iElementCount, 1, t);
         m_iElementCount++;
     }
@@ -3073,19 +3034,9 @@ void hkpWorldXc938a0::FUN_00c938a0(hkpEntityListenerXc938a0* pkListener)
 }  // namespace fnv_00c938a0
 
 namespace fnv_00c938e0 {
-class hkMemoryAllocatorC938;
-
-struct hkMemoryRouterC938 {
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
-    hkMemoryAllocatorC938* m_pStreamAllocator;
-    hkMemoryAllocatorC938& heap() { return *m_pStreamAllocator; }
-};
 
 
-void __cdecl ResizeAudioStream(void* pvAlloc, void* apvArray, int iElemSize);
+
 
 template <class T>
 __forceinline void constructWithCopyC938(T* p, int n, const T& t)
@@ -3104,9 +3055,9 @@ public:
     int getCapacity() const { return m_iCapacityState & 0x3fffffff; }
     void AddBack(const T& t)
     {
-        hkMemoryAllocatorC938& kAlloc = (*static_cast<hkMemoryRouterC938*>(::FUN_00c85750())).heap();
+        hkMemoryAllocator& kAlloc = hkMemoryRouter::getInstance().heap();
         if (m_iElementCount == getCapacity())
-            ResizeAudioStream(&kAlloc, this, sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(&kAlloc), (::AudioStream *)(void *)(this), sizeof(T));
         constructWithCopyC938(m_data + m_iElementCount, 1, t);
         m_iElementCount++;
     }
@@ -3211,19 +3162,9 @@ void hkpWorldC938::AddPostCollideListener(hkpWorldPostCollideListenerC938* pkLis
 }  // namespace fnv_00c938e0
 
 namespace fnv_00c93920 {
-class hkMemoryAllocatorXc93920;
-
-struct hkMemoryRouterXc93920 {
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
-    hkMemoryAllocatorXc93920* m_pStreamAllocator;
-    hkMemoryAllocatorXc93920& heap() { return *m_pStreamAllocator; }
-};
 
 
-void __cdecl ResizeAudioStream(void* pvAlloc, void* apvArray, int iElemSize);
+
 
 template <class T>
 __forceinline void constructWithCopyXc93920(T* p, int n, const T& t)
@@ -3242,9 +3183,9 @@ public:
     int getCapacity() const { return m_iCapacityState & 0x3fffffff; }
     void AddBack(const T& t)
     {
-        hkMemoryAllocatorXc93920& kAlloc = (*static_cast<hkMemoryRouterXc93920*>(::FUN_00c85750())).heap();
+        hkMemoryAllocator& kAlloc = hkMemoryRouter::getInstance().heap();
         if (m_iElementCount == getCapacity())
-            ResizeAudioStream(&kAlloc, this, sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(&kAlloc), (::AudioStream *)(void *)(this), sizeof(T));
         constructWithCopyXc93920(m_data + m_iElementCount, 1, t);
         m_iElementCount++;
     }
@@ -3357,19 +3298,9 @@ void hkpWorldXc93920::FUN_00c93920(hkpEntityListenerXc93920* pkListener)
 }  // namespace fnv_00c93920
 
 namespace fnv_00c93960 {
-class hkMemoryAllocatorC939;
-
-struct hkMemoryRouterC939 {
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
-    hkMemoryAllocatorC939* m_pStreamAllocator;
-    hkMemoryAllocatorC939& heap() { return *m_pStreamAllocator; }
-};
 
 
-void __cdecl ResizeAudioStream(void* pvAlloc, void* apvArray, int iElemSize);
+
 
 template <class T>
 __forceinline void constructWithCopyC939(T* p, int n, const T& t)
@@ -3388,9 +3319,9 @@ public:
     int getCapacity() const { return m_iCapacityState & 0x3fffffff; }
     void AddBack(const T& t)
     {
-        hkMemoryAllocatorC939& kAlloc = (*static_cast<hkMemoryRouterC939*>(::FUN_00c85750())).heap();
+        hkMemoryAllocator& kAlloc = hkMemoryRouter::getInstance().heap();
         if (m_iElementCount == getCapacity())
-            ResizeAudioStream(&kAlloc, this, sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(&kAlloc), (::AudioStream *)(void *)(this), sizeof(T));
         constructWithCopyC939(m_data + m_iElementCount, 1, t);
         m_iElementCount++;
     }
@@ -3494,19 +3425,9 @@ void hkpWorldC939::FUN_00c93960(hkpWorldPostIntegrateListenerC939* pkListener)
 }  // namespace fnv_00c93960
 
 namespace fnv_00c939e0 {
-class hkMemoryAllocatorC939;
-
-struct hkMemoryRouterC939 {
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
-    hkMemoryAllocatorC939* m_pStreamAllocator;
-    hkMemoryAllocatorC939& heap() { return *m_pStreamAllocator; }
-};
 
 
-void __cdecl ResizeAudioStream(void* pvAlloc, void* apvArray, int iElemSize);
+
 
 template <class T>
 __forceinline void constructWithCopyC939(T* p, int n, const T& t)
@@ -3525,9 +3446,9 @@ public:
     int getCapacity() const { return m_iCapacityState & 0x3fffffff; }
     void AddBack(const T& t)
     {
-        hkMemoryAllocatorC939& kAlloc = (*static_cast<hkMemoryRouterC939*>(::FUN_00c85750())).heap();
+        hkMemoryAllocator& kAlloc = hkMemoryRouter::getInstance().heap();
         if (m_iElementCount == getCapacity())
-            ResizeAudioStream(&kAlloc, this, sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(&kAlloc), (::AudioStream *)(void *)(this), sizeof(T));
         constructWithCopyC939(m_data + m_iElementCount, 1, t);
         m_iElementCount++;
     }
@@ -3633,19 +3554,9 @@ void hkpWorldC939::FUN_00c939e0(hkpIslandPostIntegrateListenerC939* pkListener)
 }  // namespace fnv_00c939e0
 
 namespace fnv_00c93a20 {
-class hkMemoryAllocatorXc93a20;
-
-struct hkMemoryRouterXc93a20 {
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
-    hkMemoryAllocatorXc93a20* m_pStreamAllocator;
-    hkMemoryAllocatorXc93a20& heap() { return *m_pStreamAllocator; }
-};
 
 
-void __cdecl ResizeAudioStream(void* pvAlloc, void* apvArray, int iElemSize);
+
 
 template <class T>
 __forceinline void constructWithCopyXc93a20(T* p, int n, const T& t)
@@ -3664,9 +3575,9 @@ public:
     int getCapacity() const { return m_iCapacityState & 0x3fffffff; }
     void AddBack(const T& t)
     {
-        hkMemoryAllocatorXc93a20& kAlloc = (*static_cast<hkMemoryRouterXc93a20*>(::FUN_00c85750())).heap();
+        hkMemoryAllocator& kAlloc = hkMemoryRouter::getInstance().heap();
         if (m_iElementCount == getCapacity())
-            ResizeAudioStream(&kAlloc, this, sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(&kAlloc), (::AudioStream *)(void *)(this), sizeof(T));
         constructWithCopyXc93a20(m_data + m_iElementCount, 1, t);
         m_iElementCount++;
     }
@@ -12613,30 +12524,6 @@ public:
 __forceinline ValueWrapper(){}
 private:
 TYPE m_kStorage;};
-class hkMemoryAllocator
-{
-public:
-virtual void*AllocateMemoryBlock(int numBytes)=0;
-virtual void ReleaseBlock(void*p,int numBytes)=0;public:
-enum MemoryState
-{
-MEMORY_STATE_OK,
-MEMORY_STATE_OUT_OF_MEMORY
-};};struct StringPointerTriple
-{
-public:
-__forceinline StringPointerTriple();protected:
-ValueWrapper<void*>m_next;};
-class NineIntegerRecord
-{
-public:
-typedef hkMemoryAllocator Allocator_S;
-static NineIntegerRecord&__cdecl GetMonitorStream();inline Allocator_S&heap(){return*m_pStreamAllocator;}
-protected:
-StringPointerTriple m_aiEntries;
-Allocator_S*m_pTemp;
-Allocator_S*m_pStreamAllocator;
-Allocator_S*m_pDebugAllocator;};
 class hkBaseObject_S
 {
 public:
@@ -12646,7 +12533,7 @@ __forceinline hkBaseObject_S(){}
 class hkReferencedObject_S:public hkBaseObject_S
 {
 public:
-__forceinline void*__cdecl operator new(std::size_t nbytes){;hkReferencedObject_S*b=static_cast<hkReferencedObject_S*>(NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes)));b->m_usMemSizeAndFlags=static_cast<hkUint16_S>(nbytes);;return b;}
+__forceinline void*__cdecl operator new(std::size_t nbytes){;hkReferencedObject_S*b=static_cast<hkReferencedObject_S*>(hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes)));b->m_usMemSizeAndFlags=static_cast<hkUint16_S>(nbytes);;return b;}
 public:
 enum
 {
@@ -12665,7 +12552,7 @@ hkSingleton(){}
 typedef BooleanTypeConstant<true>hkTypeIsPod;
 struct RouterHeapAllocatorProvider
 {
-hkMemoryAllocator&get(const void*){return NineIntegerRecord::GetMonitorStream().heap();}
+hkMemoryAllocator&get(const void*){return hkMemoryRouter::getInstance().heap();}
 };
 template<typename T>
 class HavokElementArray
@@ -12733,7 +12620,7 @@ class hkQsTransform_S;
 class hkVector4_S
 {
 public:
-__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));;return obj;}
 __forceinline void operator=(const hkVector4_S&v);
 __forceinline void set(hkReal_S x,hkReal_S y,hkReal_S z,hkReal_S w=0);
 __forceinline void SetAllComponents(hkSimdRealParameter x);
@@ -12765,7 +12652,7 @@ return m_vComponents;
 class hkQuaternion_S
 {
 public:
-__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));;return obj;}
 inline void SetProduct(const hkQuaternion_S&q0,const hkQuaternion_S&q1);
 __forceinline const hkVector4_S&getImag()const;
 public:
@@ -12775,7 +12662,7 @@ void setFlippedRotation(const hkVector4_S&from);};
 class hkQsTransform_S
 {
 public:
-__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));;return obj;}
 __forceinline const hkVector4_S&getTranslation()const;
 __forceinline const hkQuaternion_S&getRotation()const;
 public:
@@ -12961,7 +12848,7 @@ class hkDebugDisplay:public hkReferencedObject_S,public hkSingleton<hkDebugDispl
 {
 friend class hkSingleton<hkDebugDisplay>;
 public:
-__forceinline void*__cdecl operator new(std::size_t nbytes){;hkReferencedObject_S*b=static_cast<hkReferencedObject_S*>(NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes)));b->m_usMemSizeAndFlags=static_cast<hkUint16_S>(nbytes);;return b;}__forceinline void __cdecl operator delete(void*p){hkReferencedObject_S*b=static_cast<hkReferencedObject_S*>(p);;NineIntegerRecord::GetMonitorStream().heap().ReleaseBlock(p,b->m_usMemSizeAndFlags);}__forceinline void*__cdecl operator new(std::size_t,void*p){return p;}__forceinline void*__cdecl operator new[](std::size_t,void*p){return p;}__forceinline void __cdecl operator delete(void*,void*){}__forceinline void __cdecl operator delete[](void*,void*){}class CommandArgument;
+__forceinline void*__cdecl operator new(std::size_t nbytes){;hkReferencedObject_S*b=static_cast<hkReferencedObject_S*>(hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes)));b->m_usMemSizeAndFlags=static_cast<hkUint16_S>(nbytes);;return b;}__forceinline void __cdecl operator delete(void*p){hkReferencedObject_S*b=static_cast<hkReferencedObject_S*>(p);;hkMemoryRouter::getInstance().heap().blockFree(p,b->m_usMemSizeAndFlags);}__forceinline void*__cdecl operator new(std::size_t,void*p){return p;}__forceinline void*__cdecl operator new[](std::size_t,void*p){return p;}__forceinline void __cdecl operator delete(void*,void*){}__forceinline void __cdecl operator delete[](void*,void*){}class CommandArgument;
 hkDebugDisplay();
 ~hkDebugDisplay();
 void addDebugDisplayHandler(hkDebugDisplayHandler*debugDisplay);

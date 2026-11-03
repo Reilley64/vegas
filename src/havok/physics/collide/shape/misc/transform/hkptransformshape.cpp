@@ -10,28 +10,40 @@
 #include "fnv/symbols_01268000.h"
 #include "havok/hkpTransformShape.h"
 
-struct FUN_00cf5900
+struct FUN_00cf5900_ChildShape
 {
-    int calc(int a2, int a3);
+    virtual void v00();
+    virtual void v04();
+    virtual void v08();
+    virtual void v0c();
+    virtual void v10();
+    virtual void v14();
+    virtual int calcSizeForSpu(const void* input, int spuBufferSizeLeft);
+};
+
+struct FUN_00cf5900 : hkpTransformShape
+{
+    int calc(const void* input, int spuBufferSizeLeft);
 };
 
 // @fnv 0x00cf5900
-int FUN_00cf5900::calc(int aiArg, int aiLimit)
+int FUN_00cf5900::calc(const void* input, int aiLimit)
 {
-    int result = (*(int(**)(void*, int, int))(*(int*)(*(int*)((char*)this + 0x14)) + 0x18))(
-        *(void**)((char*)this + 0x14), aiArg, aiLimit - 0x70);
+    hkpShape* child = m_pContainedShape.m_pContainedShape;
+    int result = reinterpret_cast<FUN_00cf5900_ChildShape*>(child)->calcSizeForSpu(input, aiLimit - 0x70);
     if (result < 0)
         return -1;
     if (result > aiLimit - 0x70)
         return -1;
-    if (*(void**)((char*)this + 0x14) == (void*)((char*)this + 0x70))
+    if (child == static_cast<hkpShape*>(static_cast<void*>(static_cast<hkpTransformShape*>(this) + 1)))
     {
-        *(int*)((char*)this + 0x18) = 0;
+        m_iChildShapeSize = 0;
         return result + 0x70;
     }
-    *(int*)((char*)this + 0x18) = result;
+    m_iChildShapeSize = result;
     return 0x70;
 }
+
 
 class hkClassCF58;
 
@@ -179,12 +191,12 @@ struct cf5990_TransformShape
     void* m_childContainerVtbl;        // 0x10
     hkpShape* m_pContainedShape;       // 0x14
 
-    int FUN_00cf5990(hkpShape* child, const hkTransform& transform);
+    intptr_t FUN_00cf5990(hkpShape* child, const hkTransform& transform);
 };
 
 // Initializes the shape with a contained child shape and transform, setting reference count, type, and vtables.
 // @fnv 0x00cf5990
-int cf5990_TransformShape::FUN_00cf5990(hkpShape* apContainedShape, const hkTransform& transform)
+intptr_t cf5990_TransformShape::FUN_00cf5990(hkpShape* apContainedShape, const hkTransform& transform)
 {
     m_sReferenceCount = 1;
     m_ulUserData = 0;
@@ -194,7 +206,7 @@ int cf5990_TransformShape::FUN_00cf5990(hkpShape* apContainedShape, const hkTran
     m_pContainedShape = apContainedShape;
     ((FUN_00c90510_class*)apContainedShape)->FUN_00c90510();
     reinterpret_cast<::FUN_00cf5950_cls *>(this)->CopyBlock((::Block64 *)&(transform));
-    return (int)this;
+    return (intptr_t)this;
 }
 
 struct __declspec(align(16)) Quaternion

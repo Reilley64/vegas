@@ -15,22 +15,6 @@ class hkPackedNiTriStripsShape;
 class hkNiTriStripsShape;
 class hkpListShape;
 
-class hkpShapeCollection_L
-{
-  public:
-    virtual ~hkpShapeCollection_L();
-    virtual int FUN_00d213d0();
-};
-
-// @fnv 0x00d213d0
-int hkpShapeCollection_L::FUN_00d213d0()
-{
-    if (this != 0)
-    {
-        return reinterpret_cast<int>(this) + 0x10;
-    }
-    return 0;
-}
 
 extern char const* const DAT_01268910;
 // @fnv 0x00d213e0
@@ -135,6 +119,19 @@ class hkpShapeContainer
     virtual hkUint32 GetFilterInfoForKey(hkpShapeKey key) const;
     virtual const hkpShape_V* GetShapeForKey(hkpShapeKey key, void* buffer) const;
 };
+
+class hkpShapeCollection_L : public hkpShape, public hkpShapeContainer
+{
+  public:
+    virtual ~hkpShapeCollection_L();
+    virtual hkpShapeContainer* FUN_00d213d0();
+};
+
+// @fnv 0x00d213d0
+hkpShapeContainer* hkpShapeCollection_L::FUN_00d213d0()
+{
+    return static_cast<hkpShapeContainer*>(this);
+}
 
 class FUN_00d21450_Class : public hkpShape
 {
@@ -253,7 +250,6 @@ hkBoolRet FUN_00d21450_Class::FUN_00d21450(const ShapeRayCastQuery& input, Shape
 
 namespace fnv_00d217d0 {
 
-extern "C" unsigned int DAT_0126835c;
 extern "C" char str_010ce1f8[];
 
 class Arg0_L;
@@ -450,11 +446,6 @@ struct S00d216e0_Ctx
     S00d216e0_Rec* cur;
     int unk08;
     S00d216e0_Rec* end;
-    static S00d216e0_Ctx& GetMonitorStream()
-    {
-        return *(S00d216e0_Ctx*)TlsGetValue(DAT_0126835c);
-    }
-public:
     static S00d216e0_Ctx& GetMonitorStream()
     {
         return *(S00d216e0_Ctx*)TlsGetValue(::DAT_0126835c);

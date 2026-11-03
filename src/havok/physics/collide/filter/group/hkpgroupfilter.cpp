@@ -28,7 +28,7 @@ void FUN_00e48a80_struct::InitGroupFilterPointers()
     p0 = &(*reinterpret_cast<int *>(&::DAT_0102e388));
 }
 
-struct FUN_00e48970_struct
+struct FUN_00e48970_struct : hkpGroupFilter
 {
     void ClearMaskedBits(unsigned int, unsigned int);
 };
@@ -36,7 +36,7 @@ struct FUN_00e48970_struct
 // @fnv 0x00e48970
 void FUN_00e48970_struct::ClearMaskedBits(unsigned int auiMaskA, unsigned int auiMaskB)
 {
-    unsigned int* mask = reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x34);
+    unsigned int* mask = m_uiCollisionGroupMasks;
 
     unsigned int bit = 1;
     unsigned int count = 32;
@@ -58,6 +58,13 @@ struct FUN_00e48830_class
 {
 };
 
+struct hkBoolRet
+{
+    char b;
+    hkBoolRet(bool v) : b(v)
+    {}
+};
+
 struct FUN_00e48b60_arg2
 {
     int unknown_00[7];
@@ -72,14 +79,7 @@ struct FUN_00e48b60_arg1
 
 struct FUN_00e48b60_class
 {
-    int* FUN_00e48b60(int* value, FUN_00e48b60_arg1* arg1, FUN_00e48b60_arg2* arg2);
-};
-
-struct hkBoolRet
-{
-    char b;
-    hkBoolRet(bool v) : b(v)
-    {}
+    hkBoolRet* FUN_00e48b60(hkBoolRet* value, FUN_00e48b60_arg1* arg1, FUN_00e48b60_arg2* arg2);
 };
 
 class GroupFilter : public hkpGroupFilter
@@ -89,9 +89,9 @@ class GroupFilter : public hkpGroupFilter
 };
 // Calls ShouldCollide on the object 0x14 bytes before this, passing value, arg1->value_24 and arg2->value_1c, then returns value.
 // @fnv 0x00e48b60
-int* FUN_00e48b60_class::FUN_00e48b60(int* value, FUN_00e48b60_arg1* arg1, FUN_00e48b60_arg2* arg2)
+hkBoolRet* FUN_00e48b60_class::FUN_00e48b60(hkBoolRet* value, FUN_00e48b60_arg1* arg1, FUN_00e48b60_arg2* arg2)
 {
-    reinterpret_cast<::GroupFilter *>((reinterpret_cast<FUN_00e48830_class*>(reinterpret_cast<char*>(this) - 0x14)))->ShouldCollide((unsigned int)(value), arg1->value_24);
+    *value = reinterpret_cast<::GroupFilter *>((reinterpret_cast<FUN_00e48830_class*>(reinterpret_cast<char*>(this) - 0x14)))->ShouldCollide(arg1->value_24, arg2->value_1c);
     return value;
 }
 
@@ -137,18 +137,18 @@ struct FUN_00e488a0_object
 
 struct FUN_00e488a0_class
 {
-    int* CallGetValueAndDispatch(int* value, FUN_00e488a0_data* data, int unused, FUN_00e488a0_object* object,
+    hkBoolRet* CallGetValueAndDispatch(hkBoolRet* value, FUN_00e488a0_data* data, int unused, FUN_00e488a0_object* object,
                                  int input);
 };
 
 // Calls object->getValue(input), then forwards value and data->value20 with the result to ShouldCollide on the owner at this-16, returning value.
 // @fnv 0x00e488a0
-int* FUN_00e488a0_class::CallGetValueAndDispatch(int* value, FUN_00e488a0_data* data, int unused,
+hkBoolRet* FUN_00e488a0_class::CallGetValueAndDispatch(hkBoolRet* value, FUN_00e488a0_data* data, int unused,
                                                  FUN_00e488a0_object* object, int input)
 {
     int result = object->getValue(input);
     FUN_00e48830_class* owner = reinterpret_cast<FUN_00e48830_class*>(reinterpret_cast<char*>(this) - 16);
-    reinterpret_cast<::GroupFilter *>((owner))->ShouldCollide((unsigned int)(value), data->value20);
+    *value = reinterpret_cast<::GroupFilter *>((owner))->ShouldCollide(data->value20, result);
     return value;
 }
 
@@ -189,14 +189,14 @@ struct FUN_00e48ab0_value
 
 struct FUN_00e48ab0_class
 {
-    int* FUN_00e48ab0(int* value, FUN_00e48ab0_value* arg2, FUN_00e48ab0_value* arg3);
+    hkBoolRet* FUN_00e48ab0(hkBoolRet* value, FUN_00e48ab0_value* arg2, FUN_00e48ab0_value* arg3);
 };
 
 // Calls ShouldCollide on the object at this-8, passing value and the value_1c fields of arg2 and arg3, then returns value.
 // @fnv 0x00e48ab0
-int* FUN_00e48ab0_class::FUN_00e48ab0(int* value, FUN_00e48ab0_value* pFirstValue, FUN_00e48ab0_value* pSecondValue)
+hkBoolRet* FUN_00e48ab0_class::FUN_00e48ab0(hkBoolRet* value, FUN_00e48ab0_value* pFirstValue, FUN_00e48ab0_value* pSecondValue)
 {
-    reinterpret_cast<::GroupFilter *>((reinterpret_cast<FUN_00e48830_class*>(reinterpret_cast<char*>(this) - 8)))->ShouldCollide((unsigned int)(value), pFirstValue->value_1c);
+    *value = reinterpret_cast<::GroupFilter *>((reinterpret_cast<FUN_00e48830_class*>(reinterpret_cast<char*>(this) - 8)))->ShouldCollide(pFirstValue->value_1c, pSecondValue->value_1c);
     return value;
 }
 

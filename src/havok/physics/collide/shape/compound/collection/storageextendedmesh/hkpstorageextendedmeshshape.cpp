@@ -105,7 +105,7 @@ extern int DAT_010cfd84;
 
 struct FnvVtObj
 {
-    int m_vptr;
+    const void* m_vptr;
 
     FnvVtObj* FUN_00d4a170(unsigned int unusedArg);
 };
@@ -113,7 +113,7 @@ struct FnvVtObj
 // @fnv 0x00d4a170
 FnvVtObj* FnvVtObj::FUN_00d4a170(unsigned int unusedArg)
 {
-    m_vptr = (int)&DAT_010cfd84;
+    m_vptr = &DAT_010cfd84;
     return this;
 }
 

@@ -4,7 +4,7 @@
 
 #include "fnv/decl/FUN_00d07950_cls.h"
 #include "fnv/symbols_00d1a000.h"
-struct Child { unsigned int unk00; unsigned int unk04; };
+struct Child { unsigned int* unk00; unsigned int unk04; };
 struct Owner { unsigned int unk00; unsigned int unk04; Child* child; unsigned int FUN_00d9e000(); };
 // @fnv 0x00d9e000
 unsigned int Owner::FUN_00d9e000() { return child->unk04; }
@@ -94,7 +94,7 @@ struct CtxRec {
 
 class ListWalker {
 public:
-    int m_vptr;
+    const void* m_vptr;
     unsigned short unk04;
     unsigned short m_06;
     ItemListRec* m_08;
@@ -105,7 +105,7 @@ public:
 ListWalker* ListWalker::InitWalker(ItemListRec* list, CtxRec* ctx)
 {
     m_06 = 1;
-    m_vptr = (int)&DAT_010d40b4;
+    m_vptr = &DAT_010d40b4;
     m_08 = list;
     if (ctx != 0) {
         int iIndex = 0;
@@ -142,7 +142,7 @@ struct FUN_00d9e010_cls {
 // @fnv 0x00d9e010
 unsigned int FUN_00d9e010_cls::FUN_00d9e010(unsigned int index)
 {
-    unsigned int* table = (unsigned int*)child->unk00;
+    unsigned int* table = child->unk00;
     return table[index];
 }
 

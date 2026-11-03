@@ -292,7 +292,7 @@ typedef signed int hkInt32;
 typedef unsigned char hkUint8;
 typedef unsigned short hkUint16;
 typedef unsigned int hkUint32;
-typedef unsigned long __w64 hkUlong;
+typedef uintptr_t hkUlong;
 typedef unsigned __int64 hkUint64;
 typedef __int64 hkInt64;
 typedef size_t hk_size_t;

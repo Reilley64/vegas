@@ -113,7 +113,7 @@ struct AudioHolder
 
 struct FUN_00df8960_cls
 {
-    int m_vptr;
+    const void* m_vptr;
 
     FUN_00df8960_cls* FUN_00df8960(unsigned char acFlags);
 };
@@ -122,7 +122,7 @@ struct FUN_00df8960_cls
 // @fnv 0x00df8960
 FUN_00df8960_cls* FUN_00df8960_cls::FUN_00df8960(unsigned char acFlags)
 {
-    m_vptr = (int)&DAT_0101e594;
+    m_vptr = &DAT_0101e594;
     if (acFlags & 1)
     {
         AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());

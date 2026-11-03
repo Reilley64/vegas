@@ -1817,7 +1817,7 @@ struct Transform
 
 struct TriangleShape
 {
-    int vtable;                             // 0x00
+    const void* vtable;                             // 0x00
     short unk04;                            // 0x04
     short m_iObjectReferenceCount;          // 0x06
     int m_ulUserData;                       // 0x08
@@ -1846,7 +1846,7 @@ struct TriangleShape
         m_fSphereRadius = radius;
         m_ulUserData = 0;
         m_type = 3;
-        vtable = (int)&DAT_010c749c;
+        vtable = &DAT_010c749c;
         m_kWeldingInfo = 0;
         m_eWeldingType = 6;
         *(__m128*)&m_kVertexTransform = _mm_setzero_ps();
@@ -2015,7 +2015,7 @@ const S_00d55bd0_Shape* ExtendedMeshShape::FUN_00d55ce0(unsigned int key, void* 
             {
                 float radius = ((const TriangleShape*)childShape)->m_fSphereRadius;
                 new ((void *)(((HelperC9E340*)buffer))) ::FUN_00c9e340(0xb, radius, (::FUN_00d1df70 *)(childShape), 0);
-                ((TriangleShape*)buffer)->vtable = (int)&DAT_010d0e5c;
+                ((TriangleShape*)buffer)->vtable = &DAT_010d0e5c;
                 __m128 scale = _mm_and_ps(*(__m128*)&pSubpartShape->m_vTranslation, DAT_010c4c10);
                 *(__m128*)&((TriangleShape*)buffer)->m_kVertexA = scale;
                 ((TriangleShape*)buffer)->unk1c = 0;

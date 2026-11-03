@@ -76,7 +76,7 @@ typedef unsigned char hkUchar;
 typedef unsigned char hkUint8;
 typedef unsigned short hkUint16;
 typedef unsigned int hkUint32;
-typedef unsigned long __w64 hkUlong;
+typedef uintptr_t hkUlong;
 typedef size_t hk_size_t;
 typedef hkReal hkTime;
 class FinishingFlag
@@ -1085,7 +1085,7 @@ const hkpConvexShape*shapeA=static_cast<const hkpConvexShape*>(bodyA.getShape())
 const hkpConvexShape*shapeB=static_cast<const hkpConvexShape*>(bodyB.getShape());
 ConvexShapePairCache gsk;
 gsk.init(shapeA,shapeB,m_pAccessManager);
-::FUN_00dac020((const ::hkpCdBodyDAC0 &)(bA),(const ::hkpCdBodyDAC0 &)(bB),(*(const ::hkpCollisionInputDAC0 *)(input.m_pCollisionQualityInfo->m_fMinimumCollisionSeparation)),(::FUN_00daad40_solver *)&(gsk),(::hkVector4DAC0 &)(m_vSeparatingNormal));
+::FUN_00dac020((const ::hkpCdBodyDAC0 &)(bA),(const ::hkpCdBodyDAC0 &)(bB),(const ::hkpCollisionInputDAC0 &)(input),(::FUN_00daad40_solver *)&(gsk),(::hkVector4DAC0 &)(m_vSeparatingNormal));
 gsk.checkForChangesAndUpdateCache(m_pAccessManager);
 }
 m_fFloatValue=input.m_pStepInfo.m_fEndTime;
@@ -1137,6 +1137,6 @@ goto END_OF_FUNCTION;
 }
 }
 PROCESS_AT_T1:
-reinterpret_cast<::Drecv *>(this)->FUN_00daccd0((::Dsrc *)&(bodyA),(::Dsrc *)&(bodyB),(::Dsrc *)&(input),(int)&(output));
+reinterpret_cast<::Drecv *>(this)->FUN_00daccd0((::Dsrc *)&(bodyA),(::Dsrc *)&(bodyB),(::Dsrc *)&(input),&(output));
 END_OF_FUNCTION:;
 }

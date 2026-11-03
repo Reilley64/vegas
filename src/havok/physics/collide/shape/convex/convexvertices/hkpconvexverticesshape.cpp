@@ -162,10 +162,10 @@ char* FnvCpu_FUN_00d58d50_CpuObject::FUN_00d58d50()
 
 struct CallTarget_00d5a410 { int FUN_00d5a410(int, int, int, int, int); };
 struct SearchObject {
-    int FUN_00d5a4c0(unsigned int arg0, unsigned int arg1, unsigned int arg2, unsigned int arg3);
+    int FUN_00d5a4c0(uintptr_t arg0, unsigned int arg1, uintptr_t arg2, unsigned int arg3);
 };
 // @fnv 0x00d5a4c0
-int SearchObject::FUN_00d5a4c0(unsigned int arg0, unsigned int arg1, unsigned int arg2, unsigned int arg3)
+int SearchObject::FUN_00d5a4c0(uintptr_t arg0, unsigned int arg1, uintptr_t arg2, unsigned int arg3)
 {
     unsigned int uiCallResult = (unsigned int)((CallTarget_00d5a410*)this)->FUN_00d5a410((int)arg0, (int)arg1, (int)0u, (int)arg2, (int)arg3);
     return (int)uiCallResult;

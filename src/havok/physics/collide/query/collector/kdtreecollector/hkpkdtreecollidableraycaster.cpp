@@ -185,6 +185,10 @@ class FUN_00d979a0
     }
     static void operator delete(void*, void*)
     {}
+    static void operator delete(void* p)
+    {
+        ::operator delete(p);
+    }
 
     int m_iData;
 };
@@ -606,7 +610,7 @@ struct Helper
     virtual bool* unk04(bool* const out, void* key, Ray* a1);
 };
 
-__declspec(align(16)) struct Vec4
+__declspec(align(16)) struct Vec4f
 {
     float x;
     float y;
@@ -618,8 +622,8 @@ struct Frame
 {
     Frame() : k40(0), k44(0)
     {}
-    Vec4 r0;
-    Vec4 r1;
+    Vec4f r0;
+    Vec4f r1;
     int k40;
     int k44;
 };
@@ -654,7 +658,7 @@ struct Hdr2
     Ray* m_50;
 };
 
-static __forceinline void Xform3(Vec4* out, const __m128& pt, const Mat4* M)
+static __forceinline void Xform3(Vec4f* out, const __m128& pt, const Mat4* M)
 {
     __m128 d = _mm_sub_ps(pt, M->r3);
     __m128 r0 = M->r0;

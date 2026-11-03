@@ -178,7 +178,7 @@ void invoke_transform() { FUN_00d3b8e0(inputFirst, inputSecond, inputParameter, 
 typedef float hkReal;
 typedef unsigned short hkUint16;
 typedef unsigned int hkUint32;
-typedef unsigned long __w64 hkUlong;
+typedef uintptr_t hkUlong;
 enum hkResult
 {
 HK_SUCCESS=0,

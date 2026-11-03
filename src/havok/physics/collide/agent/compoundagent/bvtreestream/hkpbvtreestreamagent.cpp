@@ -581,7 +581,7 @@ extern int DAT_010ce838;
 
 struct FUN_00d2def0_cls
 {
-    int m_vptr;
+    const void* m_vptr;
     unsigned short unk04;
     unsigned short m_06;
     int m_08;
@@ -601,7 +601,7 @@ FUN_00d2def0_cls* FUN_00d2def0_cls::FUN_00d2def0(void* a1, void* apUnused, int* 
 {
     m_06 = 1;
     m_08 = a4;
-    m_vptr = (int)&DAT_010ce838;
+    m_vptr = &DAT_010ce838;
     int* pBlockPool = &m_30;
     *pBlockPool = 0;
     pBlockPool[1] = 0;
@@ -1421,7 +1421,7 @@ typedef signed int hkInt32;
 typedef unsigned char hkUint8;
 typedef unsigned short hkUint16;
 typedef unsigned int hkUint32;
-typedef unsigned long __w64 hkUlong;
+typedef uintptr_t hkUlong;
 enum hkResult
 {
 HK_SUCCESS=0,

@@ -10,6 +10,7 @@
 #include "fnv/symbols_010c4000.h"
 #include "fnv/symbols_01268000.h"
 #include "havok/hkpMultiSphereShape.h"
+#include "fnv/symbols_simd.h"
 
 class FnvShapeGetter : public hkpSphereRepShape
 {
@@ -272,7 +273,7 @@ static __declspec(noinline) void* FUN_00d2a960(RayCtx* outB, RayCtx* in, hkVecto
     return outB;
 }
 
-static __declspec(noinline) int FUN_00d2a610(hkVector4* spheres, RayCtx* keyB, RayCtx* keyA, void* r, RayCtx* in,
+static __declspec(noinline) void* FUN_00d2a610(hkVector4* spheres, RayCtx* keyB, RayCtx* keyA, void* r, RayCtx* in,
                                              void* extra)
 {
     s00d2ab90_addr[4] = (void*)&spheres;
@@ -285,7 +286,7 @@ static __declspec(noinline) int FUN_00d2a610(hkVector4* spheres, RayCtx* keyB, R
         D2abExternCall();
         ((int*)extra)[i] = i;
     }
-    return (int)r;
+    return r;
 }
 
 // Performs a raycast against m_kSpheres using in and p3, storing whether a hit was found in *ok and returning ok.
@@ -294,13 +295,12 @@ char* S00d2ab90_Shape::FUN_00d2ab90(char* ok, RayCtx* in, void* p3)
 {
     RayCtx keys[2];
     void* r = FUN_00d2a960(&keys[0], in, m_kSpheres, m_disp, &keys[1]);
-    int v = FUN_00d2a610(m_kSpheres, &keys[1], &keys[0], r, in, p3);
-    *ok = (v != -1);
+    void* v = FUN_00d2a610(m_kSpheres, &keys[1], &keys[0], r, in, p3);
+    *ok = (v != reinterpret_cast<void*>(-1));
     return ok;
 }
 
 #include <math.h>
-#include "fnv/symbols_simd.h"
 
 extern "C" void _ReadWriteBarrier(void);
 extern "C" unsigned __int64 __rdtsc(void);

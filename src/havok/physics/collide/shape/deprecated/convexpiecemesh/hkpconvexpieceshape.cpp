@@ -76,7 +76,7 @@ struct AudioHolder {
 
 
 struct FUN_00e60c30_cls {
-    int m_vptr;
+    const void* m_vptr;
     unsigned short m_uSize;
     unsigned short m_u06;
     int unk08;
@@ -93,7 +93,7 @@ struct FUN_00e60c30_cls {
 FUN_00e60c30_cls* FUN_00e60c30_cls::Destroy(unsigned char acFlags)
 {
     m_p14 = (void*)&DAT_010c6fb0;
-    m_vptr = (int)&(*reinterpret_cast<int *>(&::DAT_0102e388));
+    m_vptr = &::DAT_0102e388;
     if (acFlags & 1) {
         AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
         AudioAllocator* pAllocator = pHolder->m_pAllocator;
@@ -685,10 +685,7 @@ void FNV_Owner::FUN_00e608d0(FNV_V4* pA, FNV_V4* pOut)
 
 extern "C" void __debugbreak();
 
-inline void* operator new(size_t, void* p)
-{
-    return p;
-}
+#include <new>
 
 class S5fb50_SimdReal
 {

@@ -397,7 +397,7 @@ struct AudioHolder
 
 struct FUN_00d450f0_cls
 {
-    int m_vptr00;
+    const void* m_vptr00;
     unsigned short m_uSize;
     unsigned short m_u06;
     int unk08;
@@ -422,7 +422,7 @@ FUN_00d450f0_cls* FUN_00d450f0_cls::Destroy(unsigned char acFlags)
     }
     m_pData = 0;
     m_uCapBits = 0x80000000u;
-    m_vptr00 = (int)&(*reinterpret_cast<int *>(&::DAT_0102e388));
+    m_vptr00 = &::DAT_0102e388;
     if (acFlags & 1)
     {
         AudioHolder* pHolder2 = static_cast<AudioHolder*>(::FUN_00c85750());

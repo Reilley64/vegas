@@ -10,6 +10,8 @@
 #include "fnv/symbols_010c7000.h"
 #include "fnv/symbols_01268000.h"
 #include "havok/hkpBoxShape.h"
+#include "fnv/decl/fnv_00c9e120__hkAabbUtilC9E1.h"
+#include "fnv/symbols_simd.h"
 
 // @fnv 0x00c9db70
 int __cdecl FUN_00c9db70()
@@ -139,8 +141,6 @@ CenteredPointBounds* CenteredPointBounds::SetExtentsAndRadius(const float* exten
 }
 
 
-extern float DAT_010c44d0[4];
-
 struct S00c9dc40_Box : public hkpBoxShape
 {
     void FUN_00c9dc40(const float* src, float* dst);
@@ -150,7 +150,7 @@ struct S00c9dc40_Box : public hkpBoxShape
 void S00c9dc40_Box::FUN_00c9dc40(const float* src, float* dst)
 {
     hkVector4 e = m_vHalfExtents;
-    __m128 v = _mm_and_ps(_mm_load_ps(src), _mm_load_ps(DAT_010c44d0));
+    __m128 v = _mm_and_ps(_mm_load_ps(src), DAT_010c44d0);
     v = _mm_xor_ps(v, _mm_load_ps(&e.x));
     _mm_store_ps(&e.x, v);
     int m = _mm_movemask_ps(_mm_cmplt_ps(v, _mm_setzero_ps()));
@@ -195,10 +195,6 @@ struct hkTransformC9E1 {
 struct hkAabbC9E1 {
     hkVector4C9E1 m_kMinimumCorner;
     hkVector4C9E1 m_kMaximumCorner;
-};
-
-struct hkAabbUtilC9E1 {
-    static void ComputeAabbFromTransform(const hkTransformC9E1& kLocalToWorld, const hkVector4C9E1& m_kPoint2, float fExtraRadius, hkAabbC9E1& kAabbOut);
 };
 
 // Computes an AABB in world space from a transform, a point, and an extra radius, storing the result in kAabbOut.
@@ -476,13 +472,11 @@ BRBool RayBoxShape::FUN_00c9de40(const BRRayCastInput& input, BRRayCastOutput& r
 }
 
 // Moved from hkpboxshape_gs_ehsc_nogs_noehsc_variant.cpp (VEGAS-15).
-#include "fnv/decl/fnv_00c9e120__hkAabbUtilC9E1.h"
 #include "fnv/symbols_00c85000.h"
 int __cdecl FUN_00c9db70();
 float __cdecl FUN_00c9e0f0(float a, float b);
 int FUN_00c9e1a0(int a1, int a2);
 void __cdecl FUN_00c9db60(int a, int* b);
-#include "fnv/symbols_simd.h"
 
 
 extern "C" const __m128 DAT_010c7030[];

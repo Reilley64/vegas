@@ -167,7 +167,7 @@ void FUN_00d97050_cls::FUN_00d97050()
 
 struct FUN_00d970c0_cls
 {
-    int m_vptr;
+    const void* m_vptr;
     int unk04;
     int unk08;
     int unk0c;
@@ -187,7 +187,7 @@ struct FreeAllocator
 // @fnv 0x00d970c0
 void FUN_00d970c0_cls::FUN_00d970c0()
 {
-    m_vptr = (int)&DAT_010d3f7c;
+    m_vptr = &DAT_010d3f7c;
     void* pCs = m_pCs;
     if (pCs != 0)
     {
@@ -197,5 +197,5 @@ void FUN_00d970c0_cls::FUN_00d970c0()
         pAllocator->Free(pCs, 0x18);
         m_pCs = 0;
     }
-    m_vptr = (int)&(*reinterpret_cast<char (*)[]>(&::DAT_0102e388));
+    m_vptr = &::DAT_0102e388;
 }

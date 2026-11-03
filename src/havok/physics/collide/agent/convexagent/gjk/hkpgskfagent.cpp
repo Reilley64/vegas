@@ -123,24 +123,26 @@ void FUN_00dacb60_class::AddPotential(unsigned short value)
 
 extern int DAT_010d5224;
 
+struct GskNode;
+
 struct FUN_00dabf10
 {
     void* m_pVtbl;
     char m_b0[44];
     int m_i0;
-    FUN_00dabf10(int, int, int);
+    FUN_00dabf10(GskNode*, GskNode*, void*);
     ~FUN_00dabf10();
 };
 
 struct FUN_00dacbd0 : FUN_00dabf10
 {
-    FUN_00dacbd0(int a, int b, int c);
+    FUN_00dacbd0(GskNode* a, GskNode* b, void* c);
     ~FUN_00dacbd0();
 };
 
 // Initializes the derived object: sets its vtable pointer to DAT_010d5224 and clears m_i0 after the base constructor runs.
 // @fnv 0x00dacbd0
-FUN_00dacbd0::FUN_00dacbd0(int a, int b, int c) : FUN_00dabf10(a, b, c)
+FUN_00dacbd0::FUN_00dacbd0(GskNode* a, GskNode* b, void* c) : FUN_00dabf10(a, b, c)
 {
     m_pVtbl = &DAT_010d5224;
     m_i0 = 0;
@@ -237,13 +239,13 @@ struct Drecv
     int unk2c;
     int f30;
 
-    void FUN_00daccd0(Dsrc* a1, Dsrc* a2, Dsrc* a3, int a4);
+    void FUN_00daccd0(Dsrc* a1, Dsrc* a2, Dsrc* a3, void* a4);
 };
 
 
 // Fills a Dtask from a1, a2, a3 and f08, calls FUN_00cb22f0 on its sub with a1->f08 and a2->f08, then ProcessCollision with the task, tmp, f0c, f30, f20 and a4.
 // @fnv 0x00daccd0
-void Drecv::FUN_00daccd0(Dsrc* a1, Dsrc* a2, Dsrc* a3, int a4)
+void Drecv::FUN_00daccd0(Dsrc* a1, Dsrc* a2, Dsrc* a3, void* a4)
 {
     Dctx ctx;
     Dtask res;
@@ -301,11 +303,11 @@ struct GskInitDACC : FUN_00dacbd0
 
 // If c is nonzero, allocates 0x80 bytes and calls FUN_00dacbd0; otherwise allocates 0x30 bytes and calls FUN_00dabf10; returns the constructed object.
 // @fnv 0x00dacc00
-FUN_00dabf10* __cdecl FUN_00dacc00(int a, int b, int unused, int c)
+FUN_00dabf10* __cdecl FUN_00dacc00(GskNode* a, GskNode* b, const void* unused, void* c)
 {
     if (c)
         return ((::FUN_00dabf10 *)(new ((void *)(static_cast<GskInitDACC*>(allocateAgentDACC(0x80)))) ::FUN_00dacbd0(a, b, c)));
-    return ((::FUN_00dabf10 *)(reinterpret_cast<::FUN_00dabf10_cls *>((static_cast<GskInitDACC*>(allocateAgentDACC(0x30))))->FUN_00dabf10((::GskNode *)(a), (::GskNode *)(b), 0)));
+    return ((::FUN_00dabf10 *)(reinterpret_cast<::FUN_00dabf10_cls *>((static_cast<GskInitDACC*>(allocateAgentDACC(0x30))))->FUN_00dabf10(a, b, 0)));
 }
 
 __declspec(noinline) void __cdecl InitVtable(FUN_00dacc70_vt* p);
@@ -566,7 +568,7 @@ void hkGskAgentS::FUN_00dacd50(const hkCdBodyS& a, const hkCdBodyS& b, const hkI
         }
     }
     m_fFloatValue = input.m_fEndTime;
-    reinterpret_cast<::Drecv *>(this)->FUN_00daccd0((::Dsrc *)&(a), (::Dsrc *)&(b), (::Dsrc *)&(input), (int)(result));
+    reinterpret_cast<::Drecv *>(this)->FUN_00daccd0((::Dsrc *)&(a), (::Dsrc *)&(b), (::Dsrc *)&(input), result);
 END: {
     hkMonitorStreamS& s = hkMonitorStreamS::GetMonitorStream();
     if (s.memoryAvailable())

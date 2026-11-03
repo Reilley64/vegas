@@ -857,8 +857,8 @@ typedef unsigned char hkUchar;
 typedef unsigned char hkUint8;
 typedef unsigned short hkUint16;
 typedef unsigned int hkUint32_S;
-typedef unsigned long __w64 hkUlong;
-typedef signed long __w64 hkLong;
+typedef uintptr_t hkUlong;
+typedef intptr_t hkLong;
 typedef size_t hk_size_t;
 typedef hkReal hkTime;
 __forceinline hkLong __cdecl hkGetByteOffset(const void*base,const void*pntr)

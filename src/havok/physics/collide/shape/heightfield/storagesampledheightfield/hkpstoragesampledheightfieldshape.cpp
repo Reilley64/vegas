@@ -65,18 +65,18 @@ struct FUN_00d49700 : public FUN_00d248a0
     int capacity;
     float scale;
     bool initialized;
-    FUN_00d49700(int resolution, int* source, float value);
+    FUN_00d49700(int resolution, int* const* source, float value);
     virtual ~FUN_00d49700();
 };
 // Initializes the base with resolution and mode 0, then stores the source pointer, capacity (zResolution - 1) and scale, clearing the flags.
 // @fnv 0x00d49700
-FUN_00d49700::FUN_00d49700(int resolution, int* source, float value) : FUN_00d248a0(resolution, 0)
+FUN_00d49700::FUN_00d49700(int resolution, int* const* source, float value) : FUN_00d248a0(resolution, 0)
 {
     const int& zResolution = m_zResolution;
     cleared = false;
     double convertedResolution(zResolution);
     initialized = false;
-    int* inputValues = (int*)*source;
+    int* inputValues = *source;
     values = inputValues;
     capacity = static_cast<int>(convertedResolution - 1.0);
     scale = value;

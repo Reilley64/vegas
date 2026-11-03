@@ -164,7 +164,7 @@ void* FUN_00d401d0(void* apFirst, void* apSecond, void* a3, void* a4)
     reinterpret_cast<::FUN_00db0920_cls *>((((SubStub*)((char*)pSpawned + 0x10))))->FUN_00db0920();
     return pSpawned;
 callPath:
-    return ((void *)(::FUN_00dacc00((int)(apFirst), (int)(apSecond), (int)(a3), (int)(a4))));
+    return ((void *)(::FUN_00dacc00(static_cast<GskNode*>(apFirst), static_cast<GskNode*>(apSecond), a3, a4)));
 }
 
 extern "C" void __cdecl FUN_00d40470(void* a, void* b, void* c, void* d);

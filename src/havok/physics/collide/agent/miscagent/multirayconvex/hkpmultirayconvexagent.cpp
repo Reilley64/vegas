@@ -879,7 +879,7 @@ void FUN_00d37010(const RayBody* a, const RayBody* b, void* unused, RayCollector
 typedef float hkReal;
 typedef unsigned short hkUint16;
 typedef unsigned int hkUint32;
-typedef unsigned long __w64 hkUlong;
+typedef uintptr_t hkUlong;
 typedef size_t hk_size_t;
 class FinishingFlag
 {

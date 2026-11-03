@@ -334,11 +334,19 @@ struct GskSub
     int m_08;
 };
 
+struct GskShape
+{
+    void* m_vtbl;
+    int unk04;
+    int unk08;
+    int m_type;
+};
+
 struct GskNode
 {
-    GskNode* m_00;
+    GskShape* m_00;
     int unk04;
-    int m_08;
+    const ::hkTransformCB22* m_08;
     GskNode* m_0c;
     int unk10;
     int unk14;
@@ -363,7 +371,7 @@ struct FUN_00dabf10_cls
     void* m_00;
     short unk04;
     short m_06;
-    int m_08;
+    void* m_08;
     GskSub m_0c;
     float m_18;
     float m_1c;
@@ -372,25 +380,25 @@ struct FUN_00dabf10_cls
     float m_28;
     float m_2c;
 
-    FUN_00dabf10_cls* FUN_00dabf10(GskNode* a1, GskNode* a2, int a3);
+    FUN_00dabf10_cls* FUN_00dabf10(GskNode* a1, GskNode* a2, void* a3);
 };
 
 // Initializes the GskSub at m_0c from the two nodes, sets m_06, m_08 and the vtable, and stores the smaller of the two chain-end nodes' m_4c in m_1c.
 // @fnv 0x00dabf10
-FUN_00dabf10_cls* FUN_00dabf10_cls::FUN_00dabf10(GskNode* apNodeA, GskNode* apNodeB, int a3)
+FUN_00dabf10_cls* FUN_00dabf10_cls::FUN_00dabf10(GskNode* apNodeA, GskNode* apNodeB, void* a3)
 {
     m_06 = 1;
     m_08 = a3;
     m_00 = &g_gskBaseAgentVtbl;
 
-    GskNode* ebx = apNodeB->m_00;
-    int a2k = apNodeB->m_08;
-    int a1k = apNodeA->m_08;
-    GskNode* a1base = apNodeA->m_00;
+    GskShape* ebx = apNodeB->m_00;
+    const ::hkTransformCB22* a2k = apNodeB->m_08;
+    const ::hkTransformCB22* a1k = apNodeA->m_08;
+    GskShape* a1base = apNodeA->m_00;
     GskTmp tmp;
-    reinterpret_cast<::hkTransformCB22 *>(&(tmp))->FUN_00cb22f0((*(const ::hkTransformCB22 *)(a1k)), (*(const ::hkTransformCB22 *)(a2k)));
+    reinterpret_cast<::hkTransformCB22 *>(&(tmp))->FUN_00cb22f0(*a1k, *a2k);
 
-    if ((int)ebx->m_0c == 3)
+    if (ebx->m_type == 3)
     {
         reinterpret_cast<::FUN_00dafe70_cls *>(&(m_0c))->FUN_00dafe70((::Iface *)(a1base), (::Src *)(ebx), (const unsigned int *)(::GskTmp *)(&tmp));
     }
@@ -1029,7 +1037,7 @@ typedef float hkReal;
 typedef unsigned char hkUint8;
 typedef unsigned short hkUint16;
 typedef unsigned int hkUint32;
-typedef unsigned long __w64 hkUlong;
+typedef uintptr_t hkUlong;
 typedef size_t hk_size_t;
 typedef hkReal hkTime;
 class FinishingFlag

@@ -163,17 +163,17 @@ class FUN_00d268f0_Shape
     virtual void vf20();
     virtual void vf24();
     virtual void vf28();
-    virtual void ProcessBuffer(int, int, float, int);
+    virtual void ProcessBuffer(const ::fnv_00c9e120::hkTransformC9E1*, const ::fnv_00c9e120::hkVector4C9E1*, float, int);
     virtual void CollectHits(char*, int);
 };
 
 // Calls ComputeAabbFromTransform(a, b, c, &buffer), then calls CollectHits with that buffer and d.
 // @fnv 0x00d268f0
-void FUN_00d268f0_Shape::ProcessBuffer(int a, int b, float c, int d)
+void FUN_00d268f0_Shape::ProcessBuffer(const ::fnv_00c9e120::hkTransformC9E1* a, const ::fnv_00c9e120::hkVector4C9E1* b, float c, int d)
 {
     __declspec(align(16)) FUN_00d268f0_LocalBuffer buffer;
 
-    ::fnv_00c9e120::hkAabbUtilC9E1::ComputeAabbFromTransform((*(const ::fnv_00c9e120::hkTransformC9E1 *)(a)), (*(const ::fnv_00c9e120::hkVector4C9E1 *)(b)), c, (*(::fnv_00c9e120::hkAabbC9E1 *)(reinterpret_cast<char*>(&buffer))));
+    ::fnv_00c9e120::hkAabbUtilC9E1::ComputeAabbFromTransform(*a, *b, c, (*(::fnv_00c9e120::hkAabbC9E1 *)(reinterpret_cast<char*>(&buffer))));
     CollectHits(reinterpret_cast<char*>(&buffer), d);
 }
 

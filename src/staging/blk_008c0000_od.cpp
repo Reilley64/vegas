@@ -3682,7 +3682,7 @@ struct NiAVObject
 
 
 // @fnv 0x008d6970
-int ComputeRelativeRotation(int index, float time, ThreeByThreeMatrix* pOutRotate)
+intptr_t ComputeRelativeRotation(int index, float time, ThreeByThreeMatrix* pOutRotate)
 {
     if (!DAT_011e0110[index] || !DAT_011e00e0[index])
     {

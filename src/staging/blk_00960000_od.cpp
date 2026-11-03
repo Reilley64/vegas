@@ -1509,7 +1509,7 @@ bool FUN_0097fa50_Class::FUN_0097fa50()
 
 
 // @fnv 0x00960510
-int __cdecl FUN_00960510()
+intptr_t __cdecl FUN_00960510()
 {
     return DAT_011cc5ec;
 }

@@ -167,11 +167,6 @@ struct S_00d92fd0_Atom
     void FUN_00d21d10(const void* a, float b, void* c, void* d, void* e, void* f);
     void FUN_00d21fc0(const void* a, float b, void* c, void* d, void* e, void* f);
 };
-struct S_00d92fd0_Alloc : hkMemoryAllocator
-{
-    virtual void v3();
-    virtual void Free2(void* p, int size);
-};
 struct S_00d92fd0_Arr
 {
     S_00d92fd0_Atom** data;
@@ -234,10 +229,10 @@ void S_00d92fd0_This::DispatchAtomHandlers(const void* aiArg1, float afArg2, voi
             break;
         }
     }
-    S_00d92fd0_Alloc* pAlloc = (S_00d92fd0_Alloc*)hkMemoryRouter::getInstance().m_heap;
+    hkMemoryAllocator* pAlloc = hkMemoryRouter::getInstance().m_heap;
     arr.size = 0;
     if ((arr.cap & 0x80000000) == 0)
-        pAlloc->Free2(arr.data, (arr.cap & 0x3fffffff) * 4);
+        pAlloc->bufFree(arr.data, (arr.cap & 0x3fffffff) * 4);
 }
 
 extern "C" void _ReadWriteBarrier(void);

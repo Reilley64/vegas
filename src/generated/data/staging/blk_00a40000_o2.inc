@@ -12,5 +12,5 @@
 ::NiGlobalStringTable *DAT_011f42c0;
 unsigned int DAT_011f42c4;
 unsigned int DAT_011f42c8;
-int DAT_011f4504;
+intptr_t DAT_011f4504;
 char DAT_011f4580;

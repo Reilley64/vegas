@@ -10,7 +10,7 @@ extern "C" int FUN_009fd080(const unsigned short *);
 // 0x009fd0a0
 long FUN_009fd0a0(const wchar_t *, wchar_t **);
 // 0x009fd180
-int PopAndGetValue(int *);
+intptr_t PopAndGetValue(intptr_t *);
 // 0x009fd3f0
 void InvokeVirtualMethod(void *);
 // 0x009fd410

@@ -5858,7 +5858,7 @@ class A237F0Object
     int unk28;
     void* m_pResource;
 
-    int FUN_00a237f0(int iKey);
+    int FUN_00a237f0(intptr_t iKey);
 };
 
 struct FUN_00a23820_tmp
@@ -5903,7 +5903,7 @@ class FUN_00a23820_cls
     int FUN_00a23820(int* out);
 };
 // @fnv 0x00a237f0
-int A237F0Object::FUN_00a237f0(int iKey)
+int A237F0Object::FUN_00a237f0(intptr_t iKey)
 {
     if (m_pResource && reinterpret_cast<::FUN_00a23820_cls *>(this)->FUN_00a23820((int *)(iKey)) == 1)
         return 1;

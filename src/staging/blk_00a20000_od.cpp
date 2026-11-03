@@ -310,8 +310,8 @@ unsigned int FUN_00a264d0_Class::ComputeScaledRatio(unsigned short* pData, unsig
 struct FUN_00a26310_Class
 {
     int m_00;
-    int m_04;
-    int m_08;
+    intptr_t m_04;
+    intptr_t m_08;
     int m_0c;
     int m_10;
     int m_14;
@@ -334,7 +334,7 @@ void FUN_00a26310_Class::FUN_00a26310(int a, FUN_00a26480_class* b)
         m_1c = 0;
         if (b->m_0c == 0)
             b->m_0c = b->m_08;
-        m_04 = (int)b;
+        m_04 = (intptr_t)b;
         m_0c = b->m_08;
         m_10 = *(int*)((char*)b + 0x14);
         m_14 = *(int*)((char*)b + 0x1c);
@@ -347,7 +347,7 @@ void FUN_00a26310_Class::FUN_00a26310(int a, FUN_00a26480_class* b)
         m_30 = 0;
         if (b->m_0c == 0)
             b->m_0c = b->m_08;
-        m_08 = (int)b;
+        m_08 = (intptr_t)b;
         m_20 = b->m_08;
         m_24 = *(int*)((char*)b + 0x14);
         m_28 = *(int*)((char*)b + 0x1c);
@@ -525,11 +525,11 @@ char FUN_00a25da0_Class::FUN_00a25da0()
 
 struct FUN_00a25e20_Class
 {
-    void FUN_00a25e20(int* a, int* b, void* src);
+    void FUN_00a25e20(intptr_t* a, int* b, void* src);
 };
 
 // @fnv 0x00a25e20
-void FUN_00a25e20_Class::FUN_00a25e20(int* a, int* b, void* src)
+void FUN_00a25e20_Class::FUN_00a25e20(intptr_t* a, int* b, void* src)
 {
     int size = 4;
     int* dst2 = (int*)*a;
@@ -541,11 +541,11 @@ void FUN_00a25e20_Class::FUN_00a25e20(int* a, int* b, void* src)
 
 struct FUN_00a25e70_Class
 {
-    void FUN_00a25e70(int* a, int* b, int src);
+    void FUN_00a25e70(intptr_t* a, int* b, int src);
 };
 
 // @fnv 0x00a25e70
-void FUN_00a25e70_Class::FUN_00a25e70(int* apBufferPtr, int* b, int aiValue)
+void FUN_00a25e70_Class::FUN_00a25e70(intptr_t* apBufferPtr, int* b, int aiValue)
 {
     int count = 1;
     int* dst = (int*)*apBufferPtr;
@@ -557,11 +557,11 @@ void FUN_00a25e70_Class::FUN_00a25e70(int* apBufferPtr, int* b, int aiValue)
 
 struct FUN_00a25ec0_Class
 {
-    void FUN_00a25ec0(int* a, int* b, void* src);
+    void FUN_00a25ec0(intptr_t* a, int* b, void* src);
 };
 
 // @fnv 0x00a25ec0
-void FUN_00a25ec0_Class::FUN_00a25ec0(int* a, int* b, void* src)
+void FUN_00a25ec0_Class::FUN_00a25ec0(intptr_t* a, int* b, void* src)
 {
     int* dst;
     int size_2 = 4;
@@ -574,11 +574,11 @@ void FUN_00a25ec0_Class::FUN_00a25ec0(int* a, int* b, void* src)
 
 struct FUN_00a25f10_Class
 {
-    void CopyBytesToBuffer(int* a, int* b, void* src);
+    void CopyBytesToBuffer(intptr_t* a, int* b, void* src);
 };
 
 // @fnv 0x00a25f10
-void FUN_00a25f10_Class::CopyBytesToBuffer(int* pBufferPtr, int* b, void* src)
+void FUN_00a25f10_Class::CopyBytesToBuffer(intptr_t* pBufferPtr, int* b, void* src)
 {
     int nA = 2;
     void* dst = (void*)*pBufferPtr;
@@ -4535,7 +4535,7 @@ bool InputHandler::HandleInput(int key)
 
     if (key != -1)
         this->m_1b8c = key;
-    reinterpret_cast<::A237F0Object *>((this))->FUN_00a237f0((int)(&v));
+    reinterpret_cast<::A237F0Object *>((this))->FUN_00a237f0((intptr_t)(&v));
     if (v != 0)
     {
         reinterpret_cast<::FUN_00a25180_cls *>((this))->FUN_00a25180(this->m_1b8c, 0, (unsigned char)v);
@@ -4953,13 +4953,13 @@ void FUN_00a25df0_cls::FUN_00a25df0()
 class FUN_00a25f60_cls
 {
   public:
-    void FUN_00a25f60(int* p1, int* p2, int p3, int p4);
+    void FUN_00a25f60(int* p1, int* p2, intptr_t p3, int p4);
 };
 
 // @fnv 0x00a25f60
-void FUN_00a25f60_cls::FUN_00a25f60(int* p1, int* p2, int aiArg, int aiDelta)
+void FUN_00a25f60_cls::FUN_00a25f60(int* p1, int* p2, intptr_t aiArg, int aiDelta)
 {
-    int value = *p1;
+    intptr_t value = *p1;
     std::memmove((void *)(value), (const void *)(aiArg), aiDelta);
     *p2 = *p2 + aiDelta;
     *p1 = *p1 + aiDelta;
@@ -5154,7 +5154,7 @@ struct RumbleEvent
     unsigned int time;
     int value;
     int a;
-    int b;
+    intptr_t b;
     unsigned char state;
     int next;
     int unk18;
@@ -6942,11 +6942,11 @@ struct Controller
     EventQueue* queue;
     int unk1b84;
     unsigned char enabled;
-    void FUN_00a255b0(float left, float right, int a, int b, int value, unsigned char state, bool force);
+    void FUN_00a255b0(float left, float right, int a, intptr_t b, int value, unsigned char state, bool force);
 };
 // If enabled and (when forced or the queue is empty) allocates a RumbleEvent, fills it from the arguments, adds it to the queue twice, and sends the motor speeds.
 // @fnv 0x00a255b0
-void Controller::FUN_00a255b0(float left, float right, int a, int b, int value, unsigned char state, bool force)
+void Controller::FUN_00a255b0(float left, float right, int a, intptr_t b, int value, unsigned char state, bool force)
 {
     if (!enabled)
         return;
@@ -6979,11 +6979,11 @@ void Controller::FUN_00a255b0(float left, float right, int a, int b, int value, 
 class FUN_00a261a0_cls
 {
   public:
-    int FUN_00a261a0(unsigned int a1);
+    int FUN_00a261a0(uintptr_t a1);
 };
 
 // @fnv 0x00a261a0
-int FUN_00a261a0_cls::FUN_00a261a0(unsigned int a1)
+int FUN_00a261a0_cls::FUN_00a261a0(uintptr_t a1)
 {
     const char* names[4];
     names[0] = "Classic";
@@ -7511,7 +7511,7 @@ void FUN_00a26120_cls::FUN_00a26120(unsigned int mask)
     unsigned int u2;
     unsigned int u3;
     {
-        unsigned int out;
+        uintptr_t out;
         ObjA_a26120* obj;
 
         ::FUN_004de4a0();
@@ -7684,7 +7684,7 @@ unsigned char FUN_00a25870();
 
 void* __cdecl _fnv_zlib_memset(void* dst, int val, unsigned int size);
 
-void __cdecl FUN_00ec44d0(int a, int b, int c);
+void __cdecl FUN_00ec44d0(int a, intptr_t b, int c);
 
 double __cdecl FUN_00eca060(double v);
 
@@ -7698,7 +7698,8 @@ struct PoolQ
 
 struct FUN_00a26240
 {
-    int a, b;
+    int a;
+    intptr_t b;
     ~FUN_00a26240();
 };
 
@@ -7835,7 +7836,7 @@ struct Mgr
     unsigned char m1b90;
     unsigned char m1b91;
     unsigned short m1b92;
-    Mgr* FUN_00a22660(int arg);
+    Mgr* FUN_00a22660(intptr_t arg);
 };
 
 __forceinline Elem2* NewZeroedElem2()
@@ -7846,7 +7847,7 @@ __forceinline Elem2* NewZeroedElem2()
 }
 
 // @fnv 0x00a22660
-Mgr* Mgr::FUN_00a22660(int arg)
+Mgr* Mgr::FUN_00a22660(intptr_t arg)
 {
     this->m18f4 = 0;
     this->m04 = 0;
@@ -8006,7 +8007,7 @@ FUN_00a26240::~FUN_00a26240()
 {
     while (b)
     {
-        int next = ((FUN_00a26240*)b)->b;
+        intptr_t next = ((FUN_00a26240*)b)->b;
         ((FUN_00a26240*)b)->b = 0;
         delete (FUN_00a26240*)b;
         b = next;
@@ -8073,8 +8074,8 @@ float __cdecl FUN_00a28060(Spl_a28060_Key* keys, int count)
         {
             float t = j * DAT_011f3658;
             Spl_a28060_Pt d1, d2;
-            ::FUN_00a27d60(t, (::TCBKeyS *)(a), (unsigned int)(b), (::Vec3S *)(::Spl_a28060_Pt *)(&d1));
-            ::fnv_00a27e40::FUN_00a27e40(t, (const float *)(a), (unsigned int)(b), (::fnv_00a27e40::Vec3Output *)(::Spl_a28060_Pt *)(&d2));
+            ::FUN_00a27d60(t, (::TCBKeyS *)(a), (uintptr_t)(b), (::Vec3S *)(::Spl_a28060_Pt *)(&d1));
+            ::fnv_00a27e40::FUN_00a27e40(t, (const float *)(a), (uintptr_t)(b), (::fnv_00a27e40::Vec3Output *)(::Spl_a28060_Pt *)(&d2));
             float v = d1.Cross(d2).Length() / d1.SqrLength();
             if (v > fScaledValue)
                 fScaledValue = v;
@@ -8143,8 +8144,8 @@ float __cdecl FUN_00a2b6d0(Spl_a2b6d0_Key* keys, int count)
         {
             float t = j * DAT_011f3658;
             Spl_a2b6d0_Pt d1, d2;
-            ::ComputeInterpolatedPosition(t, (::S_00a2b050_Obj *)(a), (int)(b), (::S_00a2b050_V3 *)(::Spl_a2b6d0_Pt *)(&d1));
-            ::FUN_00a2b130(t, (const float *)(a), (unsigned int)(b), (::Vector3 *)(::Spl_a2b6d0_Pt *)(&d2));
+            ::ComputeInterpolatedPosition(t, (::S_00a2b050_Obj *)(a), (uintptr_t)(b), (::S_00a2b050_V3 *)(::Spl_a2b6d0_Pt *)(&d1));
+            ::FUN_00a2b130(t, (const float *)(a), (uintptr_t)(b), (::Vector3 *)(::Spl_a2b6d0_Pt *)(&d2));
             float v = d1.Cross(d2).Length() / d1.SqrLength();
             if (v > fScaledValue)
                 fScaledValue = v;

@@ -108,7 +108,7 @@ void FreeGlobalAlias()
 }
 
 extern int DAT_0109df2c;
-extern int DAT_011f4ab4;
+extern intptr_t DAT_011f4ab4;
 
 struct FUN_00a7f820_Class
 {
@@ -118,7 +118,7 @@ struct FUN_00a7f820_Class
 // @fnv 0x00a7f820
 void FUN_00a7f820_Class::FUN_00a7f820()
 {
-    *reinterpret_cast<int*>(this) = (int)&DAT_0109df2c;
+    *reinterpret_cast<uintptr_t*>(this) = (uintptr_t)&DAT_0109df2c;
     DAT_011f4ab4 = 0;
 }
 
@@ -172,7 +172,7 @@ void FUN_00a638c0(void* pNode)
     ((unsigned short*)((char*)pNode + 8))[0] = 0;
     reinterpret_cast<::FUN_0040fbf0_shell *>(&((*reinterpret_cast<::RecursiveSpinLock *>(&::g_011c5f80))))->FUN_0040fbf0((char *)(0));
     *(unsigned int*)((char*)pNode + 4) = 0;
-    *(unsigned int*)pNode = (unsigned int)DAT_011c5f58;
+    *(void**)pNode = DAT_011c5f58;
     --DAT_011c5f84;
     DAT_011c5f58 = pNode;
     if (!DAT_011c5f84)
@@ -209,7 +209,7 @@ struct MemoryManager
 };
 struct FUN_00a652d0_class
 {
-    int m0;
+    intptr_t m0;
     void* m4;
     void* FUN_00a652d0(bool);
 };
@@ -217,7 +217,7 @@ struct FUN_00a652d0_class
 // @fnv 0x00a652d0
 void* FUN_00a652d0_class::FUN_00a652d0(bool abFree)
 {
-    m0 = (int)&::DAT_0109bd98;
+    m0 = (intptr_t)&::DAT_0109bd98;
     ::ReleaseObjectArray((::Obj00a47600 **)(m4));
     if (abFree & 1)
         reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00a652d0::MemoryManager *>(&::g_memoryManager))))->FUN_00aa4060(this);
@@ -241,7 +241,7 @@ void* __cdecl FUN_00a7b790()
         *(int*)(p + 0x4c) = 0;
         *(int*)(p + 0x54) = 0;
         *(short*)(p + 0x50) = 0;
-        *(int*)p = (int)&DAT_0109dac4;
+        *(uintptr_t*)p = (uintptr_t)&DAT_0109dac4;
         return p;
     }
     return 0;
@@ -256,7 +256,7 @@ void* FUN_00a7d670_Class::FUN_00a7d670()
 {
     new ((void *)(this)) ::FUN_00a71f60_cls();
     *(float*)((char*)this + 0xf0) = 0.0f;
-    *(int*)this = (int)&DAT_0109dd0c;
+    *(uintptr_t*)this = (uintptr_t)&DAT_0109dd0c;
     *(float*)((char*)this + 0xf4) = 1.0f;
     *(unsigned char*)((char*)this + 0x9d) = 2;
     *(float*)((char*)this + 0xf8) = 0.0f;
@@ -335,7 +335,7 @@ int FUN_00a72590_Class::FUN_00a72590(unsigned int index, int* out)
     if (index >= count)
         return 0;
     int* array = *(int**)((char*)this + 0x20);
-    int obj = array[index];
+    intptr_t obj = array[index];
     if (!obj)
         return 0;
     *out = *(int*)(obj + 4);
@@ -387,7 +387,7 @@ struct FUN_00a63850_Class
 void FUN_00a63850_Class::DestroyMap()
 {
     char* self = reinterpret_cast<char*>(this);
-    *reinterpret_cast<int*>(self) = (int)&DAT_0109bcc4;
+    *reinterpret_cast<uintptr_t*>(self) = (uintptr_t)&DAT_0109bcc4;
     if (self[0x10])
     {
         unsigned int i = 0;
@@ -406,9 +406,9 @@ void FUN_00a63850_Class::DestroyMap()
             } while (i < *reinterpret_cast<unsigned int*>(self + 4));
         }
     }
-    *reinterpret_cast<int*>(self) = (int)&DAT_0109bca4;
+    *reinterpret_cast<uintptr_t*>(self) = (uintptr_t)&DAT_0109bca4;
     reinterpret_cast<::S_00b601a0_Map *>((reinterpret_cast<NiTMapBaseStub*>(this)))->FUN_00b601a0();
-    *reinterpret_cast<int*>(self) = (int)&DAT_0109bc84;
+    *reinterpret_cast<uintptr_t*>(self) = (uintptr_t)&DAT_0109bc84;
     reinterpret_cast<::S_00b601a0_Map *>((reinterpret_cast<NiTMapBaseStub*>(this)))->FUN_00b601a0();
     _NiFree(*reinterpret_cast<void**>(self + 8));
 }
@@ -654,7 +654,7 @@ void* CreateNiTriStrips()
     if (p)
     {
         p->NiTriStrips::NiTriStrips();
-        *(int*)p = (int)&DAT_0109cd44;
+        *(uintptr_t*)p = (uintptr_t)&DAT_0109cd44;
         return p;
     }
     return 0;
@@ -675,15 +675,15 @@ void FUN_00a72ca0_Class::FUN_00a72ca0(unsigned int size)
 
 struct FUN_00a7f810
 {
-    int m_p;
+    intptr_t m_p;
     FUN_00a7f810();
 };
 
 // @fnv 0x00a7f810
 FUN_00a7f810::FUN_00a7f810()
 {
-    m_p = (int)&DAT_0109df2c;
-    DAT_011f4ab4 = (int)this;
+    m_p = (intptr_t)&DAT_0109df2c;
+    DAT_011f4ab4 = (intptr_t)this;
 }
 
 struct HashValue_00a61670
@@ -988,7 +988,7 @@ bool FUN_00a61920_Class::FindShaderByHash(int iBucketIndex, intptr_t iHashKey, N
         do
         {
             int* hash = node->m_pObject->GetHash();
-            int value = static_cast<int>(node->unk0e) + *hash;
+            intptr_t value = static_cast<int>(node->unk0e) + *hash;
 
             if (::FUN_00a614d0((const char *)(iHashKey), (const char *)(value)))
             {
@@ -1696,7 +1696,7 @@ extern int DAT_0109c28c;
 
 struct FUN_00a693e0_cls
 {
-    int m_vptr00;
+    intptr_t m_vptr00;
 
     void FUN_00a693e0();
 };
@@ -1704,7 +1704,7 @@ struct FUN_00a693e0_cls
 // @fnv 0x00a693e0
 void FUN_00a693e0_cls::FUN_00a693e0()
 {
-    m_vptr00 = (int)&DAT_0109c28c;
+    m_vptr00 = (intptr_t)&DAT_0109c28c;
 }
 
 extern unsigned int DAT_011f4984;
@@ -1930,14 +1930,14 @@ struct FUN_00a71c40_cls
     int* m_vt;
     FUN_00a71c40_cls* ConstructWithAlloc(unsigned int a1, unsigned int a2, unsigned int a3, unsigned int a4,
                                          unsigned int a5, unsigned int a6, unsigned int a7, unsigned int a8,
-                                         unsigned int a9, unsigned int a10, unsigned int a11);
+                                         unsigned int a9, uintptr_t a10, uintptr_t a11);
 };
 
 // @fnv 0x00a71c40
 FUN_00a71c40_cls* FUN_00a71c40_cls::ConstructWithAlloc(unsigned int a1, unsigned int a2, unsigned int a3,
                                                        unsigned int a4, unsigned int a5, unsigned int a6,
                                                        unsigned int a7, unsigned int a8, unsigned int a9,
-                                                       unsigned int a10, unsigned int a11)
+                                                       uintptr_t a10, uintptr_t a11)
 {
     void* obj;
     void* mem = FUN_00aa13e0(0x50);
@@ -1961,11 +1961,11 @@ FUN_00a71c40_cls* FUN_00a71c40_cls::ConstructWithAlloc(unsigned int a1, unsigned
 struct FUN_00a71cc0_cls
 {
     void* m_pVTable;
-    FUN_00a71cc0_cls* FUN_00a71cc0(int arg);
+    FUN_00a71cc0_cls* FUN_00a71cc0(intptr_t arg);
 };
 
 // @fnv 0x00a71cc0
-FUN_00a71cc0_cls* FUN_00a71cc0_cls::FUN_00a71cc0(int arg)
+FUN_00a71cc0_cls* FUN_00a71cc0_cls::FUN_00a71cc0(intptr_t arg)
 {
     new ((void *)this) ::FUN_00a89720((void *)(arg));
     m_pVTable = (void*)&DAT_0109cd44;
@@ -2442,10 +2442,10 @@ SceneFactoryObject* CreateSceneFactoryObject()
     return 0;
 }
 
-extern int DAT_011aa04c;
+extern intptr_t DAT_011aa04c;
 
 // @fnv 0x00a74d80
-void __cdecl FUN_00a74d80(int param_1)
+void __cdecl FUN_00a74d80(intptr_t param_1)
 {
     DAT_011aa04c = param_1;
 }
@@ -2570,7 +2570,7 @@ struct BitPackLayout
 // For each of countB rows and countA pixels, reads a 16-bit source value and writes three bytes extracted with the layout's masks and shifts.
 // @fnv 0x00a772b0
 void UnpackPixels(unsigned int countA, unsigned int uiRowCount, unsigned int uiUnused0C, unsigned char* dst,
-                  unsigned int uiUnused14, unsigned int uiUnused18, unsigned int srcAddr, const BitPackLayout* layout)
+                  unsigned int uiUnused14, unsigned int uiUnused18, uintptr_t srcAddr, const BitPackLayout* layout)
 {
     const unsigned short* src = (const unsigned short*)srcAddr;
     for (srcAddr = 0; srcAddr < uiRowCount; srcAddr++)
@@ -2603,7 +2603,7 @@ struct FnvPixelFormat
 
 // Converts count pixels per row from src into 4 bytes each in dest using fmt masks and shifts, for rows rows.
 // @fnv 0x00a77330
-void ConvertPixelsToBytes(unsigned int count, unsigned int rows, unsigned int auiUnused, char* dest,
+void ConvertPixelsToBytes(unsigned int count, uintptr_t rows, unsigned int auiUnused, char* dest,
                           unsigned int auiUnused2, void* apUnused, unsigned short* src, FnvPixelFormat* fmt)
 {
     unsigned short* s = src;
@@ -4501,7 +4501,7 @@ struct FUN_00a60770_shell : FUN_00a62a40_this
 // @fnv 0x00a60770
 void FUN_00a60770_shell::GetFileStrings(StrArr* pkStrings)
 {
-    ::FUN_00a62a40((::FUN_00a62a40_this *)this, (int)(pkStrings), {});
+    ::FUN_00a62a40((::FUN_00a62a40_this *)this, 0, (::NiTArray< ::ActorCombatGroup *, ::NiTMallocInterface< ::ActorCombatGroup *>> *)(pkStrings));
     char* pcString = ::FUN_00a7d330(*(char**)&g_011f444c);
     pkStrings->Add(pcString);
     const char* pcFile = m_pcFileName;
@@ -5584,7 +5584,7 @@ int A66970Compare(const A66970Keys* pkKeys);
 
 void ReleaseGlobalStrings();
 
-void __cdecl FUN_00a74d80(int param_1);
+void __cdecl FUN_00a74d80(intptr_t param_1);
 
 void FUN_00a7e930();
 

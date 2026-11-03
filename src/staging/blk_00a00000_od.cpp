@@ -70,11 +70,11 @@ void* FUN_00a1c050_Class::FUN_00a1c050(void* p, unsigned int n)
 
 struct FUN_00a1e720_class
 {
-    void FUN_00a1e720(int a, int b, int c);
+    void FUN_00a1e720(intptr_t a, int b, int c);
 };
 
 // @fnv 0x00a1e720
-void FUN_00a1e720_class::FUN_00a1e720(int pObject, int b, int c)
+void FUN_00a1e720_class::FUN_00a1e720(intptr_t pObject, int b, int c)
 {
     *(int*)((char*)pObject + 4) = b;
     *(int*)((char*)pObject + 8) = c;
@@ -83,8 +83,8 @@ void FUN_00a1e720_class::FUN_00a1e720(int pObject, int b, int c)
 
 struct FUN_00a1e1a0_class
 {
-    int m_vtbl;
-    int m_field;
+    intptr_t m_vtbl;
+    intptr_t m_field;
     void FUN_00a1e1a0();
 };
 
@@ -92,7 +92,7 @@ struct FUN_00a1e1a0_class
 // @fnv 0x00a1e1a0
 void FUN_00a1e1a0_class::FUN_00a1e1a0()
 {
-    m_vtbl = (int)&DAT_01095524;
+    m_vtbl = (intptr_t)&DAT_01095524;
     void* p = (void*)m_field;
     ::FUN_00aa10f0(p);
 }
@@ -144,8 +144,8 @@ struct MemoryManager
 
 struct FUN_00a1e400_class
 {
-    int m_vtbl;
-    int m_field;
+    intptr_t m_vtbl;
+    intptr_t m_field;
     FUN_00a1e400_class* FUN_00a1e400(int flags);
 };
 
@@ -154,7 +154,7 @@ struct FUN_00a1e400_class
 FUN_00a1e400_class* FUN_00a1e400_class::FUN_00a1e400(int flags)
 {
     void* old;
-    m_vtbl = (int)&DAT_01095524;
+    m_vtbl = (intptr_t)&DAT_01095524;
     old = (void*)m_field;
     ::FUN_00aa10f0(old);
     if (flags & 1)
@@ -537,12 +537,12 @@ struct FUN_00a0d5c0_Local
 
 struct FUN_00a0d5c0_Class
 {
-    int FUN_00a0d5c0(int arg);
+    intptr_t FUN_00a0d5c0(int arg);
 };
 
 // Calls FUN_00a0d2a0 on this, then if bit 0 of arg is set calls FUN_00aa4060 on this, and returns this as an int.
 // @fnv 0x00a0d5c0
-int FUN_00a0d5c0_Class::FUN_00a0d5c0(int aiFlags)
+intptr_t FUN_00a0d5c0_Class::FUN_00a0d5c0(int aiFlags)
 {
     FUN_00a0d5c0_Local local;
 
@@ -553,7 +553,7 @@ int FUN_00a0d5c0_Class::FUN_00a0d5c0(int aiFlags)
         reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::FUN_00aa4060_Class *>(&::g_memoryManager))))->FUN_00aa4060(this);
     }
 
-    return reinterpret_cast<int>(this);
+    return reinterpret_cast<intptr_t>(this);
 }
 
 struct FUN_00a0d7c0_Arg
@@ -776,11 +776,11 @@ extern int DAT_01094e9c;
 struct FUN_00a0d990_cls : S00a0d390
 {
     void* m_data;
-    int FUN_00a0d990(int arg);
+    intptr_t FUN_00a0d990(int arg);
 };
 
 // @fnv 0x00a0d990
-int FUN_00a0d990_cls::FUN_00a0d990(int aiFlags)
+intptr_t FUN_00a0d990_cls::FUN_00a0d990(int aiFlags)
 {
     int a;
     int b;
@@ -793,7 +793,7 @@ int FUN_00a0d990_cls::FUN_00a0d990(int aiFlags)
     {
         reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::FUN_00aa4060_Class *>(&::g_memoryManager))))->FUN_00aa4060(this);
     }
-    return reinterpret_cast<int>(this);
+    return reinterpret_cast<intptr_t>(this);
 }
 
 struct FUN_00a1ebc0

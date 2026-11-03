@@ -92,7 +92,7 @@ void FUN_00a2a600(void* p)
 
 // Calls SaveKey(a, b) count times, advancing b by 0x4c each iteration.
 // @fnv 0x00a2bb60
-void __cdecl FUN_00a2bb60(int aiArg, int aiBase, unsigned int count)
+void __cdecl FUN_00a2bb60(intptr_t aiArg, intptr_t aiBase, unsigned int count)
 {
     if (count > 0)
     {
@@ -139,7 +139,7 @@ void FUN_00a3ea40_cls::UpdateIfFlagged()
 {
     if ((*(unsigned short*)((char*)this + 0xc) & 1) != 0)
     {
-        *(float*)((char*)this + 0x24) = static_cast<::FUN_00a3e9a0_cls *>(nullptr)->GetAccumulatedValue();
+        *(float*)((char*)this + 0x24) = reinterpret_cast<::FUN_00a3e9a0_cls *>(this)->GetAccumulatedValue();
         *(unsigned short*)((char*)this + 0xc) &= 0xfffe;
     }
 }
@@ -329,17 +329,18 @@ FUN_00a29a70::FUN_00a29a70()
 
 
 // Stores seven function pointers into seven global tables at the slot computed from a and b.
+extern bool (*g_fnv_cb_011f3810[])(float, int*, int*);
 // @fnv 0x00a2baa0
 void __cdecl FUN_00a2baa0(int a, int b)
 {
-    unsigned int idx = (b + a * 6) * 4;
-    *(void**)(0x011f3d20 + idx) = (void*)((void (&)())::FUN_00a2b6d0);
-    *(void**)(0x011f3c90 + idx) = (void*)((void (&)())::FUN_00a2af70);
-    *(void**)(0x011f3c00 + idx) = (void*)((void (&)())::ComputeInterpolatedPosition);
-    *(void**)(0x011f3b70 + idx) = (void*)((void (&)())::FUN_00a2b130);
-    *(void**)(0x011f3ae0 + idx) = (void*)((void (&)())::IsLightEqual);
-    *(void**)(0x011f3780 + idx) = (void*)((void (&)())::FUN_00a2b410);
-    *(void**)(0x011f3810 + idx) = (void*)((void (&)())::InsertBezPosKey);
+    // The tables are [6][6] arrays of function pointers indexed by a and b.
+    (*reinterpret_cast<void* (*)[6][6]>(&::DAT_011f3d20))[a][b] = (void*)((void (&)())::FUN_00a2b6d0);
+    (*reinterpret_cast<void* (*)[6][6]>(&::DAT_011f3c90))[a][b] = (void*)((void (&)())::FUN_00a2af70);
+    (*reinterpret_cast<void* (*)[6][6]>(&::DAT_011f3c00))[a][b] = (void*)((void (&)())::ComputeInterpolatedPosition);
+    (*reinterpret_cast<void* (*)[6][6]>(&::DAT_011f3b70))[a][b] = (void*)((void (&)())::FUN_00a2b130);
+    (*reinterpret_cast<void* (*)[6][6]>(&::DAT_011f3ae0))[a][b] = (void*)((void (&)())::IsLightEqual);
+    (*reinterpret_cast<void* (*)[6][6]>(&::DAT_011f3780))[a][b] = (void*)((void (&)())::FUN_00a2b410);
+    (*reinterpret_cast<void* (*)[6][6]>(&::g_fnv_cb_011f3810))[a][b] = (void*)((void (&)())::InsertBezPosKey);
 }
 
 struct FUN_00a2ceb0_cls {
@@ -452,7 +453,7 @@ void FUN_00a28620(int param_1, int param_2)
     *(void**)((char*)&(*reinterpret_cast<int *>(&::g_fnv_cb_011f3810)) + iVar1) = (void*)FUN_00a282a0;
 }
 
-struct Helper { unsigned int a; char b; };
+struct Helper { uintptr_t a; char b; };
 // Returns false if AreFloatsEqual fails for the two Helpers, otherwise returns whether their b fields are equal.
 // @fnv 0x00a291a0
 bool FUN_00a291a0(const Helper* apFirst, const Helper* apSecond)
@@ -756,7 +757,7 @@ struct AnimTarget
 
 // Calls CallAnimCallback with a and b, then applies animation node in b using a.
 // @fnv 0x00a27450
-void __cdecl ApplyAnimToTarget(int a, AnimTarget* apTarget)
+void __cdecl ApplyAnimToTarget(intptr_t a, AnimTarget* apTarget)
 {
     ::CallAnimCallback((::FUN_00a3da50_Owner *)(a), (intptr_t)(apTarget));
     reinterpret_cast<::NiColor *>(&(apTarget->m_node))->SaveBinary((*(::NiStream *)(a)));
@@ -906,7 +907,7 @@ extern double DAT_01021928;
 extern double DAT_01011590;
 // Scales the key's extra components by t and two constants, sums them into a direction, offsets it by t, adds key->out and stores the result.
 // @fnv 0x00a27d60
-void __cdecl FUN_00a27d60(float afTime, TCBKeyS* key, unsigned int type, Vec3S* result)
+void __cdecl FUN_00a27d60(float afTime, TCBKeyS* key, uintptr_t type, Vec3S* result)
 {
     const float scaled = static_cast<float>(DAT_01021928 * afTime);
     Vec3S fromScaled = {key->extra[3] * scaled, key->extra[4] * scaled, key->extra[5] * scaled};
@@ -922,7 +923,7 @@ void __cdecl FUN_00a27d60(float afTime, TCBKeyS* key, unsigned int type, Vec3S* 
 namespace fnv_00a27e40 {
 struct Vec3Output { float x,y,z; };
 // @fnv 0x00a27e40
-extern "C" void __cdecl FUN_00a27e40(float radians, const float* transform, unsigned int mode, Vec3Output* output) {
+extern "C" void __cdecl FUN_00a27e40(float radians, const float* transform, uintptr_t mode, Vec3Output* output) {
     radians = (float)(radians * ::DAT_01034208);
     Vec3Output offset;
     offset.x = radians * transform[13];
@@ -1109,7 +1110,7 @@ bool __cdecl FUN_00a28a80(Obj_a28* apObjA, Obj_a28* apObjB)
 {
     if (!((bool)(::AreFloatsEqual((const float *)(apObjA), (const float *)(apObjB)))))
         return false;
-    return ((bool)(::FUN_00a92660((const float *)&(apObjA->m_kSub), (intptr_t)(&apObjB->m_kSub), {})));
+    return ((bool)(::FUN_00a92660((const float *)&(apObjA->m_kSub), 0, (const float *)(&apObjB->m_kSub))));
 }
 
 struct Blk16 {
@@ -1225,7 +1226,7 @@ bool CompareBounds(UHelper* pFirst, UHelper* pSecond) {
     if (!::FUN_00a28a80((::Obj_a28 *)(pFirst), (::Obj_a28 *)(pSecond))) {
         return false;
     }
-    return ((bool)(::FUN_00a92660((const float *)&(pFirst->unk14), (intptr_t)&(pSecond->unk14), {})));
+    return ((bool)(::FUN_00a92660((const float *)&(pFirst->unk14), 0, (const float *)&(pSecond->unk14))));
 }
 
 namespace fnv_00a28ed0 {
@@ -2007,7 +2008,7 @@ struct Elem {
 };
 // Allocates an array of n Elem objects and calls Init(x) on each element, returning the array.
 // @fnv 0x00a2a5a0
-Elem* CreateInitializedElems(int x, unsigned auiCount)
+Elem* CreateInitializedElems(intptr_t x, unsigned auiCount)
 {
     Elem* r = new Elem[auiCount];
     for (unsigned i = 0; i < auiCount; i++) reinterpret_cast<::Holder_00a26eb0 *>(&(r[i]))->FUN_00a26eb0((*(::NiStream *)(x)));
@@ -2059,7 +2060,7 @@ struct VertexRecord {
     ~VertexRecord() {}
 };
 // @fnv 0x00a2a8e0
-VertexRecord* __cdecl CreateVertexRecords(int v, unsigned int count)
+VertexRecord* __cdecl CreateVertexRecords(intptr_t v, unsigned int count)
 {
     VertexRecord* items = new VertexRecord[count];
     for (unsigned int i = 0; i < count; ++i)
@@ -2234,7 +2235,7 @@ struct S_00a2b050_Obj {
 };
 // Computes o->pos plus (velA*2 + velB*3*t)*t and stores the result in out, returning out.
 // @fnv 0x00a2b050
-S_00a2b050_V3* __cdecl ComputeInterpolatedPosition(float t, S_00a2b050_Obj* pObj, int unused, S_00a2b050_V3* out)
+S_00a2b050_V3* __cdecl ComputeInterpolatedPosition(float t, S_00a2b050_Obj* pObj, uintptr_t unused, S_00a2b050_V3* out)
 {
     S_00a2b050_V3 r = pObj->pos + (pObj->velA * 2.0f + pObj->velB * (3.0f * t)) * t;
     *out = r;
@@ -2267,7 +2268,7 @@ struct Vector3 {
 };
 // Scales amount by DAT_01034208, then writes the sum of two Vector3s read from transform offsets 13 and 16, weighted by DAT_01011590 and amount, into result.
 // @fnv 0x00a2b130
-void __cdecl FUN_00a2b130(float amount, const float* transform, unsigned int unused, Vector3* result)
+void __cdecl FUN_00a2b130(float amount, const float* transform, uintptr_t unused, Vector3* result)
 {
     amount *= DAT_01034208;
     const Vector3* start = reinterpret_cast<const Vector3*>(transform + 13);
@@ -2566,7 +2567,7 @@ struct Element76 {
 
 // Allocates an array of Element76 objects and calls Init(a1) on each element.
 // @fnv 0x00a2bb00
-void* __cdecl AllocateElement76Array(int a1, unsigned int auiCount)
+void* __cdecl AllocateElement76Array(intptr_t a1, unsigned int auiCount)
 {
     Element76* items = new Element76[auiCount];
     Element76* p;
@@ -2654,7 +2655,7 @@ bool BezRotKeyEqual(const A2BDE0BezRotKey& kA, const A2BDE0BezRotKey& kB)
     if (!::FUN_00a28a80((::Obj_a28 *)&(kA), (::Obj_a28 *)&(kB)))
         return false;
     return kA.m_fValueX == kB.m_fValueX && kA.m_fValueY == kB.m_fValueY && kA.m_fValueZ == kB.m_fValueZ
-        && ((bool)(::FUN_00a92660((const float *)&(kA.m_kInQuat), (intptr_t)&(kB.m_kInQuat), {}))) && ((bool)(::FUN_00a92660((const float *)&(kA.m_kOutQuat), (intptr_t)&(kB.m_kOutQuat), {})));
+        && ((bool)(::FUN_00a92660((const float *)&(kA.m_kInQuat), 0, (const float *)&(kB.m_kInQuat)))) && ((bool)(::FUN_00a92660((const float *)&(kA.m_kOutQuat), 0, (const float *)&(kB.m_kOutQuat))));
 }
 
 struct TQuat {
@@ -2729,7 +2730,7 @@ void __cdecl FUN_00a2c130(Quad64* apQuads, unsigned int count, void* c)
 {
     if (count < 2)
         return;
-    ::FUN_00a28ab0((::TimedRotationKey *)(apQuads), count, (unsigned char)(c));
+    ::FUN_00a28ab0((::TimedRotationKey *)(apQuads), count, (unsigned char)(uintptr_t)(c));
     reinterpret_cast<::TCBRotKey *>(&(apQuads[0]))->ComputeTangents((*(const ::TCBRotKey *)(apQuads)), (*(const ::TCBRotKey *)(&apQuads[1])));
     unsigned int n = count - 1;
     if (n > 1)
@@ -4889,12 +4890,12 @@ NiColorA_K __cdecl FUN_00a298f0(float fTime, NiColorKey_K* pkKeys, unsigned int 
 
 struct RotationChannels {
     int unk00, unk04, unk08, unk0c, unk10;
-    void* keys[3];
-    unsigned int counts[3];
-    unsigned char types[3];
+    unsigned int numKeys[3];
+    unsigned int keyTypes[3];
+    unsigned char keySizes[3];
     unsigned char unk2f;
-    unsigned int strides[3];
-    unsigned int indices[3];
+    void* keys[3];
+    unsigned int lastIndices[3];
 };
 struct EulerQuat {
     float w, x, y, z;
@@ -4918,10 +4919,10 @@ void FUN_00a29b10(float fTime, const void* pkKey0, const void* pkKey1, void* pvR
     RotationChannels* pkEuler = (RotationChannels*)pkKey0;
     float afAngle[3];
     for (unsigned int i = 0; i < 3; ++i) {
-        if (!pkEuler->keys[i])
+        if (!pkEuler->numKeys[i])
             afAngle[i] = 0.0f;
         else
-            afAngle[i] = ::InterpolateKey(fTime, (const ::S00a26b40_Key *)(pkEuler->strides[i]), pkEuler->counts[i], (unsigned int)(pkEuler->keys[i]), &pkEuler->indices[i], pkEuler->types[i]);
+            afAngle[i] = ::InterpolateKey(fTime, (const ::S00a26b40_Key *)(pkEuler->keys[i]), pkEuler->keyTypes[i], pkEuler->numKeys[i], &pkEuler->lastIndices[i], pkEuler->keySizes[i]);
     }
     ((EulerQuat*)pvResult)->FromAngleAxesXYZ(afAngle[0], afAngle[1], afAngle[2]);
 }

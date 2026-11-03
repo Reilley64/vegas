@@ -147,7 +147,7 @@ struct FUN_00a8a5f0_class {
 // @fnv 0x00a8a5f0
 void* FUN_00a8a5f0_class::FUN_00a8a5f0()
 {
-    void* old = (void*)DAT_011f5b84;
+    int old = DAT_011f5b84;
     ++DAT_011f5b84;
     if (!old)
         ::FUN_00aa2060((void (*)())&InitializeGameSystems, (void (*)())&FUN_00a8a280);
@@ -201,12 +201,12 @@ void FUN_00a8f730::Release()
 
 
 // @fnv 0x00a8f750
-int __cdecl GetGlobalDataPtr()
+intptr_t __cdecl GetGlobalDataPtr()
 {
-    return DAT_011f5d30 ? (int)&DAT_011f5d30 : 0;
+    return DAT_011f5d30 ? (intptr_t)&DAT_011f5d30 : 0;
 }
 
-extern int DAT_011f5e44;
+extern intptr_t DAT_011f5e44;
 extern int DAT_011f5e4c;
 
 struct NiStreamLinkIDSet {
@@ -222,7 +222,7 @@ void ResetStreamLinkIDSet()
 extern int DAT_0109f814;
 
 struct FUN_00a8ff50 {
-    int m_p;
+    intptr_t m_p;
     short m_s1;
     short m_s2;
     int m_i1;
@@ -234,7 +234,7 @@ struct FUN_00a8ff50 {
 // @fnv 0x00a8ff50
 FUN_00a8ff50::FUN_00a8ff50()
 {
-    m_p = (int)&DAT_0109f814;
+    m_p = (intptr_t)&DAT_0109f814;
     m_s1 = 0;
     m_s2 = 0;
     m_i1 = 0;
@@ -371,7 +371,7 @@ void* __cdecl FUN_00a91fe0()
     if (p) {
         reinterpret_cast<::ExtraDataObject *>((((NiExtraDataHelper*)p)))->FUN_00a7b2e0();
         *(float*)((char*)p + 0x18) = 0.0f;
-        *(int*)p = (int)&DAT_0109fb94;
+        *(uintptr_t*)p = (uintptr_t)&DAT_0109fb94;
         *(float*)((char*)p + 0x14) = 0.0f;
         *(float*)((char*)p + 0x10) = 0.0f;
         *(float*)((char*)p + 0xc) = 0.0f;
@@ -482,7 +482,7 @@ NiAlphaAccumulator* CreateNiAlphaAccumulator()
     NiAlphaAccumulator* p = static_cast<NiAlphaAccumulator*>(::operator new(0x34));
     if (p) {
         p->NiAlphaAccumulator::NiAlphaAccumulator();
-        *(unsigned int*)p = (unsigned int)&kVtbl_NiAlphaAccumulator;
+        *(uintptr_t*)p = (uintptr_t)&kVtbl_NiAlphaAccumulator;
         *(unsigned char*)(p + 0x30) = 1;
         *( char*)(p + 0x31) = 0;
         *( char*)(p + 0x32) = 0;
@@ -1274,7 +1274,7 @@ SpawnedObject* __cdecl FUN_00a866f0() throw()
     if (p != 0)
     {
         new ((void *)(p)) struct ::FUN_00a5d3a0();
-        *(int volatile*)&p->m_pVTable = (int)&DAT_01069b14;
+        *(void* volatile*)&p->m_pVTable = (void*)&DAT_01069b14;
         *(int volatile*)&p->m08 = 0;
         *(int volatile*)&p->m0c = 0;
         *(int volatile*)&p->m10 = 0;
@@ -1446,11 +1446,11 @@ struct FUN_00a8a680_cls {
     int m_38;
     int m_3c;
     void* m_40;
-    void* InitWithBuffer(int a0, int a1, int a2, int a3, int a4, int a5, int a6);
+    void* InitWithBuffer(int a0, intptr_t a1, intptr_t a2, intptr_t a3, int a4, int a5, intptr_t a6);
 };
 
 // @fnv 0x00a8a680
-void* FUN_00a8a680_cls::InitWithBuffer(int ausLength, int a1, int a2, int a3, int a4, int a5, int apBuffer)
+void* FUN_00a8a680_cls::InitWithBuffer(int ausLength, intptr_t a1, intptr_t a2, intptr_t a3, int a4, int a5, intptr_t apBuffer)
 {
     new ((void *)(((BaseCls*)this))) ::FUN_00a67b20(ausLength, (::NiPoint3 *)(a1), (::NiPoint3 *)(0), (::RgbaColor *)(a2), (::NiPoint2 *)(a3), a4, a5);
     m_vft = (void*)&DAT_0109f23c;
@@ -1938,7 +1938,7 @@ struct FUN_00a9b4a0_Class {
 // @fnv 0x00a9b4a0
 void FUN_00a9b4a0_Class::FUN_00a9b4a0() {
     *reinterpret_cast<void**>(this) = reinterpret_cast<void*>(&(*reinterpret_cast<int *>(&::kVtbl_NiAlphaAccumulator)));
-    static_cast<::C_00aa0dc0 *>(nullptr)->FUN_00aa0dc0();
+    reinterpret_cast<::C_00aa0dc0 *>(this)->FUN_00aa0dc0();
 }
 
 extern unsigned short DAT_011f5f7e;
@@ -2022,7 +2022,7 @@ struct FUN_00a9fda0_holder {
 
 struct FUN_00a9fda0_pair {
     unsigned int m_key;
-    unsigned int m_uiFilterValue;
+    uintptr_t m_uiFilterValue;
 };
 
 
@@ -2037,8 +2037,8 @@ void DestroyPairArrays()
         if (--i >= 0) {
             do {
                 p--;
-                unsigned int value = p->m_uiFilterValue;
-                if (value != (*reinterpret_cast<unsigned int *>(&::DAT_0109b220))) {
+                uintptr_t value = p->m_uiFilterValue;
+                if (value != (uintptr_t)(::DAT_0109b220)) {
                     fp((void*)(value - 8));
                 }
             } while (--i >= 0);
@@ -2053,8 +2053,8 @@ void DestroyPairArrays()
         if (--i >= 0) {
             do {
                 p--;
-                unsigned int value = p->m_uiFilterValue;
-                if (value != (*reinterpret_cast<unsigned int *>(&::DAT_0109b220))) {
+                uintptr_t value = p->m_uiFilterValue;
+                if (value != (uintptr_t)(::DAT_0109b220)) {
                     fp((void*)(value - 8));
                 }
             } while (--i >= 0);
@@ -2122,24 +2122,24 @@ struct FUN_00a9ff00_Obj
     virtual void v34();
     virtual void v35();
     virtual void v36();
-    virtual int v37(int a, int b, int c);
+    virtual const void* v37(int a, int b, int c);
 };
 
 
 // Validates a and b, reads two fields from a->unk10, calls b->v37 and passes the results to FUN_00a9fe90.
 // @fnv 0x00a9ff00
-int __cdecl ProcessArgWithObj(FUN_00a9ff00_Arg* a, FUN_00a9ff00_Obj* pObj)
+NiDepthStencilBuffer* __cdecl ProcessArgWithObj(FUN_00a9ff00_Arg* a, FUN_00a9ff00_Obj* pObj)
 {
     if (a == 0 || pObj == 0)
     {
         return 0;
     }
     int x = a->unk10 != 0 ? a->unk10->unk0C : 0;
-    int r = pObj->v37(x, 0x20, 8);
+    const void* r = pObj->v37(x, 0x20, 8);
     int y = a->unk10 != 0 ? a->unk10->unk10 : 0;
     int w = a->unk0C;
     int u = a->unk08;
-    return ((int)(::NiDepthStencilBuffer::Create(u, w, (::NiRenderer *)(pObj), (*(const ::NiPixelFormat *)(r)), y)));
+    return ::NiDepthStencilBuffer::Create(u, w, (::NiRenderer *)(pObj), (*(const ::NiPixelFormat *)(r)), y);
 }
 
 
@@ -2523,8 +2523,8 @@ void AlphaBlockDecoder::DecodeAlphaBlock(unsigned char* output)
 
 struct HashNode_cls {
     HashNode_cls* m_pNext;
-    unsigned int m_key;
-    unsigned int m_uiFilterValue;
+    uintptr_t m_key;
+    uintptr_t m_uiFilterValue;
 };
 
 struct SdmBase {
@@ -2537,12 +2537,12 @@ struct SdmBase {
 // @fnv 0x00a8fe20
 uintptr_t __cdecl FUN_00a8fe20(unsigned int* pKey)
 {
-    unsigned int key = *pKey;
-    if (key == (uintptr_t)(*reinterpret_cast<void * *>(&::DAT_0109b220))) goto zero;
+    uintptr_t key = *(const uintptr_t*)pKey;
+    if (key == (uintptr_t)(::DAT_0109b220)) goto zero;
     unsigned int tag = *(unsigned int*)(key - 4);
     if (tag == 0) return tag;
     {
-        unsigned int result = 0;
+        uintptr_t result = 0;
         unsigned int idx = key % DAT_011f5e34->m_bucketCount;
         HashNode_cls** buckets = DAT_011f5e34->m_buckets;
         HashNode_cls* node = buckets[idx];
@@ -3845,7 +3845,7 @@ void SkinInstance::FUN_00a855f0(const NiPoint3* positions, const NiPoint3* norma
     }
 }
 
-extern int DAT_011f5e44;
+extern intptr_t DAT_011f5e44;
 extern int DAT_011f5e4c;
 extern int (* DAT_00fdf1c4)(void*);
 
@@ -3853,7 +3853,7 @@ extern int (* DAT_00fdf1c4)(void*);
 struct MaterialLibraryView {
     void* vtbl;
     int m_iWordAt04;
-    int m_8;
+    intptr_t m_8;
     void FUN_00a8fdb0();
 };
 
@@ -3865,7 +3865,7 @@ void MaterialLibraryView::FUN_00a8fdb0()
     unsigned int count = DAT_011f5e4c;
     unsigned int i = 0;
     if (count > 0) {
-        int* arr = (int*)DAT_011f5e44;
+        intptr_t* arr = (intptr_t*)DAT_011f5e44;
         do {
             if (arr[i] == (intptr_t)this) {
                 if ((int)i >= 0) {
@@ -3878,16 +3878,16 @@ void MaterialLibraryView::FUN_00a8fdb0()
             i++;
         } while (i < count);
     }
-    int h = m_8;
+    intptr_t h = m_8;
     int (* fn)(void*) = DAT_00fdf1c4;
-    if (h != (intptr_t)(*reinterpret_cast<void * *>(&::DAT_0109b220))) {
+    if (h != (intptr_t)(::DAT_0109b220)) {
         fn((void*)(h - 8));
     }
     vtbl = (void*)&(*reinterpret_cast<const void * *>(&::DAT_0101dce4));
     fn((void*)&(*reinterpret_cast<volatile long *>(&::NiRefObject::ms_lObjectCount)));
 }
 
-int __cdecl GetGlobalDataPtr();
+intptr_t __cdecl GetGlobalDataPtr();
 
 void ResetStreamLinkIDSet();
 
@@ -4655,7 +4655,7 @@ bool GeometryBuilder::FUN_00a84980(SourceGeometry* source, SkinBuildData* other,
 {
     HolderArray holders = {0, 0, 0};
     void* data;
-    TempRecord* records = ((::TempRecord *)(::FUN_00a84810((unsigned int)this, (::SkinData *)(source->GetCount()))));
+    TempRecord* records = ((::TempRecord *)(::FUN_00a84810((unsigned int)(source->GetCount()), (::SkinData *)(other))));
     if (!records)
     {
         ::FUN_00aa10f0(records);

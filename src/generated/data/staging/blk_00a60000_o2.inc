@@ -2,7 +2,7 @@
 
 // Definitions of the globals this unit refers to that no unit defines.
 
-int DAT_011aa04c = 0;
+intptr_t DAT_011aa04c = 0;
 NiPtr_a62<RefObj_a62> g_aspObjects_11f4514[10];
 ::NiUnionBV *DAT_011f4788;
 unsigned int DAT_011f4984;

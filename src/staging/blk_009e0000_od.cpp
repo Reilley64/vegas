@@ -160,7 +160,7 @@ struct FUN_009e9b20_Class
 {
     virtual void v0();
     virtual int Write(unsigned int size);
-    int m_iWordAt04;
+    intptr_t m_iWordAt04;
     int m_8;
     int m_iThirdValue;
     void InitBuffer(unsigned int requested, unsigned int savedSize);
@@ -231,7 +231,7 @@ void FUN_009f8fa0_Class::CopyElements(char* apDest, char* apSource, unsigned int
 
 struct FUN_009f90f0_Class
 {
-    unsigned int m_iWordAt04;
+    uintptr_t m_iWordAt04;
     unsigned int m_8;
     unsigned int m_iThirdValue;
     virtual ~FUN_009f90f0_Class();
@@ -451,7 +451,7 @@ class FUN_009e99a0_cls
     unsigned int m_uiUnk08;
     unsigned int m_uiUnk0C;
 
-    int FUN_009e99a0(unsigned int value);
+    int FUN_009e99a0(uintptr_t value);
 };
 
 class FUN_009eb620_cls
@@ -2226,7 +2226,7 @@ void FUN_009e9b20_Class::InitBuffer(unsigned int requested, unsigned int savedSi
     }
 }
 // @fnv 0x009e99a0
-int FUN_009e99a0_cls::FUN_009e99a0(unsigned int value)
+int FUN_009e99a0_cls::FUN_009e99a0(uintptr_t value)
 {
     int iIndex = ((int)(reinterpret_cast<::S5460 *>(this)->FUN_00845460()));
     reinterpret_cast<::ArrX *>(this)->ConstructElements_009e9a50((struct ::FUN_006e6da0 *)(::FUN_009e99a0_Entry *)(m_pEntries + iIndex), 1);

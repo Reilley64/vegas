@@ -119,7 +119,7 @@ int* __cdecl FUN_00a411f0()
     if (p)
     {
         ::InitTimeController(p);
-        *p = reinterpret_cast<int>(&DAT_010975fc);
+        *(uintptr_t*)p = reinterpret_cast<uintptr_t>(&DAT_010975fc);
         return p;
     }
     return 0;
@@ -201,7 +201,7 @@ struct NiTMapBaseStub
 void __cdecl NiFreeAlias(void*);
 struct FUN_00a540a0 : NiTMapBaseStub
 {
-    int vtbl;
+    intptr_t vtbl;
     int pad;
     void* p;
     void Init();
@@ -210,9 +210,9 @@ struct FUN_00a540a0 : NiTMapBaseStub
 // @fnv 0x00a540a0
 void FUN_00a540a0::Init()
 {
-    vtbl = (int)&DAT_0109a284;
+    vtbl = (intptr_t)&DAT_0109a284;
     reinterpret_cast<::S_00b601a0_Map *>(this)->FUN_00b601a0();
-    vtbl = (int)&DAT_0109a264;
+    vtbl = (intptr_t)&DAT_0109a264;
     reinterpret_cast<::S_00b601a0_Map *>(this)->FUN_00b601a0();
     NiFreeAlias(p);
 }
@@ -249,7 +249,7 @@ void* __cdecl FUN_00a42f90()
     {
         new ((void *)(p)) class ::FUN_00a36890();
         *(float*)((char*)p + 0x30) = 0.0f;
-        *(int*)p = (int)&DAT_01097904;
+        *(uintptr_t*)p = (uintptr_t)&DAT_01097904;
         return p;
     }
     return 0;
@@ -308,7 +308,7 @@ void* __cdecl FUN_00a50ad0()
     if (p)
     {
         reinterpret_cast<::FUN_00a57f20_cls *>((((BaseHolder*)p)))->FUN_00a57f20((void *)(0), (void *)(0));
-        *(int*)p = (int)&DAT_010997f4;
+        *(uintptr_t*)p = (uintptr_t)&DAT_010997f4;
         *(int*)((char*)p + 0x20) = 0xffff;
         return p;
     }
@@ -329,7 +329,7 @@ void* __cdecl FUN_00a51e10()
         *(int*)((char*)p + 12) = 0;
         *(int*)((char*)p + 16) = 0;
         *(int*)((char*)p + 20) = 0;
-        *(int*)p = (int)&DAT_01099e54;
+        *(uintptr_t*)p = (uintptr_t)&DAT_01099e54;
         return p;
     }
     return 0;
@@ -339,7 +339,7 @@ void* __cdecl NiMalloc(unsigned int);
 
 struct FUN_00a54060_class : NiTMapBaseStub
 {
-    int m_vtbl;
+    intptr_t m_vtbl;
     int m_iElementCount;
     void* m_data;
     void* m_p;
@@ -350,7 +350,7 @@ struct FUN_00a54060_class : NiTMapBaseStub
 void* FUN_00a54060_class::InitBuffer(unsigned int size)
 {
     m_iElementCount = size;
-    m_vtbl = (int)&DAT_0109a264;
+    m_vtbl = (intptr_t)&DAT_0109a264;
     m_p = 0;
     m_data = NiMalloc(size * 4);
     std::memset(m_data, (int)(std::uintptr_t)(0), m_iElementCount * 4);
@@ -721,8 +721,8 @@ void FUN_00a57890_shell::AssignStringRef(const char** apsSource)
     }
 }
 
-extern int DAT_011f4500;
-extern int DAT_011f4504;
+extern intptr_t DAT_011f4500;
+extern intptr_t DAT_011f4504;
 extern char DAT_011f4580;
 
 typedef CRITICAL_SECTION CRITICAL_SECTION_STUB;
@@ -737,15 +737,15 @@ void FUN_00a5f7b0(intptr_t pNode)
     }
     if (DAT_011f4504 != 0)
     {
-        *(int*)(DAT_011f4504 + 0x2c) = pNode;
-        *(int*)(pNode + 0x28) = DAT_011f4504;
+        *(intptr_t*)(DAT_011f4504 + 0x2c) = pNode;
+        *(intptr_t*)(pNode + 0x28) = DAT_011f4504;
     }
     else
     {
-        *(int*)(pNode + 0x28) = 0;
+        *(intptr_t*)(pNode + 0x28) = 0;
     }
     DAT_011f4504 = pNode;
-    *(int*)(pNode + 0x2c) = 0;
+    *(intptr_t*)(pNode + 0x2c) = 0;
     LeaveCriticalSection((CRITICAL_SECTION_STUB*)&DAT_011f4580);
 }
 
@@ -1988,8 +1988,8 @@ struct FUN_00a5fca0_cls
     int unk04, unk08, unk0C, unk10, unk14, unk18, unk1C, unk20;
     CountedRef* m_24;
     int unk28, unk2C;
-    int m_30;
-    int m_34;
+    intptr_t m_30;
+    intptr_t m_34;
     CountedRef* m_38;
     CountedRef* m_3c;
 
@@ -2034,11 +2034,11 @@ void FUN_00a5fca0_cls::FUN_00a5fca0()
             d->DeleteThis();
         }
     }
-    if (m_34 != (*reinterpret_cast<int *>(&::DAT_0109b220)))
+    if (m_34 != (intptr_t)(::DAT_0109b220))
     {
         InterlockedDecrement((long*)(m_34 - 8));
     }
-    if (m_30 != (*reinterpret_cast<int *>(&::DAT_0109b220)))
+    if (m_30 != (intptr_t)(::DAT_0109b220))
     {
         InterlockedDecrement((long*)(m_30 - 8));
     }
@@ -3559,7 +3559,7 @@ void A5D6E0This::AppendCameraPathEntries(NiTArray<BGSCameraPath*, NiTMallocInter
     unsigned int size;
     unsigned int maxSize;
     {
-        BGSCameraPath* firstValue = (BGSCameraPath*)((void *)(::FUN_00a7d330((const char *)((*reinterpret_cast<int *>(&::g_011f4418))))));
+        BGSCameraPath* firstValue = (BGSCameraPath*)((void *)(::FUN_00a7d330((*reinterpret_cast<const char * *>(&::g_011f4418)))));
         entries = apEntries;
         size = entries->m_usSize;
         maxSize = entries->m_usMaxSize;
@@ -3932,15 +3932,15 @@ FnvSourceTexture* __cdecl FUN_00a5fe30(int source, const char* name, const int* 
         char** fixed = &object->filename;
         if (*fixed != value)
         {
-            if (value != (char*)(*reinterpret_cast<int *>(&::DAT_0109b220)))
+            if (value != (char*)(::DAT_0109b220))
                 DAT_00fdf1c0(value - 8);
-            if (*fixed != (char*)(*reinterpret_cast<int *>(&::DAT_0109b220)))
+            if (*fixed != (char*)(::DAT_0109b220))
                 release(*fixed - 8);
             *fixed = value;
         }
         ::FUN_00a57500((::NiFixedString *)(fixed));
         ::fnv_00a76960::FUN_00a76960((char **)(fixed), (char **)(void *)(&object->normalizedName));
-        if (value != (char*)(*reinterpret_cast<int *>(&::DAT_0109b220)))
+        if (value != (char*)(::DAT_0109b220))
             release(value - 8);
     }
     if ((*reinterpret_cast<unsigned char *>(&::DAT_011a9594)) && !object->IsLoaded())
@@ -4065,7 +4065,7 @@ Texture* __cdecl FUN_00a5ff10(RefCounted* parent, void* filename, const OwnerTri
         NiFixedString fixed;
         fixed.m_kHandle = value;
         ((FUN_00a5fba0_class*)object)->FUN_00a5fba0(&fixed);
-        if (value != (const char*)(*reinterpret_cast<int *>(&::DAT_0109b220)))
+        if (value != (const char*)(::DAT_0109b220))
             release((volatile long*)(value - 8));
     }
     if ((*reinterpret_cast<unsigned char *>(&::DAT_011a9594)) && !object->CanPreload())
@@ -4953,7 +4953,7 @@ template <class T> class Pointer
   public:
     T* m_pObject;
 
-    void FUN_00a5f860(unsigned int uiLinkID);
+    void FUN_00a5f860(void* pkObject);
     __forceinline Pointer& operator=(T* pObject)
     {
         if (m_pObject != pObject)
@@ -5060,12 +5060,12 @@ void Controller::Load(Stream* pkStream)
     {
         if (pkStream->m_uiFileVersion >= 0x14020004 && m_bUsePrimary)
         {
-            m_spPrimary.FUN_00a5f860(((unsigned int)(reinterpret_cast<::NiStream *>((pkStream))->GetLoadedObject())));
+            m_spPrimary.FUN_00a5f860(((void *)(reinterpret_cast<::NiStream *>((pkStream))->GetLoadedObject())));
             m_spSecondary = 0;
         }
         else
         {
-            m_spSecondary.FUN_00a5f860(((unsigned int)(reinterpret_cast<::NiStream *>((pkStream))->GetLoadedObject())));
+            m_spSecondary.FUN_00a5f860(((void *)(reinterpret_cast<::NiStream *>((pkStream))->GetLoadedObject())));
             m_spPrimary = 0;
         }
     }
@@ -5255,7 +5255,7 @@ struct Owner
 // @fnv 0x00a5fa90
 bool Owner::AttachToListener(Item* pkItem)
 {
-    if (!::FUN_00a62130((void *)this, (int)(pkItem), {}))
+    if (!::FUN_00a62130((void *)this, 0, (::NiStream *)(pkItem)))
         return false;
     pkItem->SetOwnerData(&m_iData);
     Listener* pkListener = m_pkPrimary;
@@ -5607,7 +5607,7 @@ void ThreadedTable::FUN_00a5b5a0(const char** key, unsigned int flags)
     const unsigned int previousMode = *reinterpret_cast<unsigned int*>(threadData + 0x2b4);
     *reinterpret_cast<unsigned int*>(threadData + 0x2b4) = 8;
 
-    unsigned int index = ::FUN_00a5b270((const char *)this, (unsigned int)(*key));
+    unsigned int index = ::FUN_00a5b270((const char *)(*key), (unsigned int)(flags));
     CRITICAL_SECTION_STUB* criticalSection =
         reinterpret_cast<CRITICAL_SECTION_STUB*>(reinterpret_cast<char*>(this) + 0x2080);
     EnterCriticalSection(criticalSection);
@@ -5735,7 +5735,7 @@ struct StringTable169
 // @fnv 0x00a5b300
 char* StringTable169::FUN_00a5b300(const char* key, unsigned int length)
 {
-    unsigned int uiHash = ::FUN_00a5b270((const char *)this, (unsigned int)(key));
+    unsigned int uiHash = ::FUN_00a5b270((const char *)(key), (unsigned int)(length));
     CRITICAL_SECTION_STUB* bucket = &lock;
     EnterCriticalSection(bucket);
     unsigned int idx = buckets[uiHash].count;
@@ -5957,11 +5957,11 @@ void FUN_00a5f800(TextureListView* texture)
     EnterCriticalSection(reinterpret_cast<CRITICAL_SECTION_STUB*>(&DAT_011f4580));
     if (DAT_011f4500 == reinterpret_cast<intptr_t>(texture))
     {
-        DAT_011f4500 = reinterpret_cast<int>(texture->next);
+        DAT_011f4500 = reinterpret_cast<intptr_t>(texture->next);
     }
     if (DAT_011f4504 == reinterpret_cast<intptr_t>(texture))
     {
-        DAT_011f4504 = reinterpret_cast<int>(texture->previous);
+        DAT_011f4504 = reinterpret_cast<intptr_t>(texture->previous);
     }
     if (texture->previous)
     {

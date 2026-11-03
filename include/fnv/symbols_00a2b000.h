@@ -15,9 +15,9 @@ struct Spl_a2b6d0_Key;
 struct Vector3;
 
 // 0x00a2b050
-::S_00a2b050_V3 *ComputeInterpolatedPosition(float, ::S_00a2b050_Obj *, int, ::S_00a2b050_V3 *);
+::S_00a2b050_V3 *ComputeInterpolatedPosition(float, ::S_00a2b050_Obj *, uintptr_t, ::S_00a2b050_V3 *);
 // 0x00a2b130
-void FUN_00a2b130(float, const float *, unsigned int, ::Vector3 *);
+void FUN_00a2b130(float, const float *, uintptr_t, ::Vector3 *);
 // 0x00a2b410
 void FUN_00a2b410(::PositionSplineKey *, unsigned int);
 // 0x00a2b6d0

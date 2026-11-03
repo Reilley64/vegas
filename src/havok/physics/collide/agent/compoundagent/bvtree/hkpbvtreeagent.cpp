@@ -283,7 +283,7 @@ struct S_00d2f8f0_ArgVtbl
     void* unk08;
     void(* unk0c)(void*, char*, int, int);
     void* unk10;
-    void(* unk14)(void*, int, char*, void*, int, void*);
+    void(* unk14)(void*, int, char*, void*, int, int);
 };
 
 struct S_00d2f8f0_Arg
@@ -315,7 +315,7 @@ void S_00d2f8f0::WriteToStream(S_00d2f8f0_Arg* apStream, int aiUnused)
         unsigned int uiByteCount = (unsigned int)m_iFlags & 0x3fffffffu;
         uiByteCount *= sizeof(S_00d2f8f0_Elem);
 
-        void* pResult = FUN_00d06f80(pEntries, (int)uiByteCount);
+        int pResult = ::fnv_00d06f80::FUN_00d06f80((const char*)pEntries, (int)uiByteCount);
 
         unsigned int uiArrayBytes = (unsigned int)m_aiIndexedValues.m_iArrayLength;
         uiArrayBytes *= sizeof(S_00d2f8f0_Elem);
@@ -1339,7 +1339,6 @@ struct SpawnedObject
 {
 };
 
-extern "C" void FUN_00d31110();
 
 // Sets up three DescRecord entries with function pointers and flags, then passes each to self->FUN_00cfbbe0 with different index pairs.
 // @fnv 0x00d314e0
@@ -1356,7 +1355,7 @@ void FUN_00d314e0(SpawnedObject* self)
 
     desc.fn0 = ((void (&)())::FUN_00d2f9d0);
     desc.fn1 = ((void (&)())::FUN_00d312f0);
-    desc.fn2 = FUN_00d31110;
+    desc.fn2 = ((void (&)())::FUN_00d31110);
     desc.fn3 = ((void (&)())::FUN_00d30f50);
     desc.flagA = 0;
     desc.flagB = 1;
@@ -1364,7 +1363,7 @@ void FUN_00d314e0(SpawnedObject* self)
 
     desc.fn0 = ((void (&)())::fnv_00d2fa40::FUN_00d2fa40);
     desc.fn1 = ((void (&)())::FUN_00d312f0);
-    desc.fn2 = FUN_00d31110;
+    desc.fn2 = ((void (&)())::FUN_00d31110);
     desc.fn3 = ((void (&)())::FUN_00d30f50);
     desc.flagA = 0;
     desc.flagB = 1;
@@ -1374,6 +1373,18 @@ void FUN_00d314e0(SpawnedObject* self)
 
 extern char str_010cea04[];
 extern char str_010ce9f4[];
+
+struct S00d31110_TimerRec
+{
+    const char* m_name;
+    unsigned int m_ticks;
+    unsigned int unk08;
+};
+
+struct S00d31110_TimerRec2 : S00d31110_TimerRec
+{
+    const char* m_name2;
+};
 
 struct S00d31110_Stream
 {
@@ -1501,12 +1512,13 @@ extern "C" void __cdecl FUN_00d31110(void* apBodyA, void* apBodyB, void* apInput
         unsigned int* p = pStream->m_cur;
         if (p < pStream->m_kRayEnd)
         {
-            p[0] = (unsigned int)str_010cea04;
-            p[3] = (unsigned int)::str_010ce7e0;
+            S00d31110_TimerRec2* rec = reinterpret_cast<S00d31110_TimerRec2*>(p);
+            rec->m_name = str_010cea04;
+            rec->m_name2 = ::str_010ce7e0;
             _ReadWriteBarrier();
             tick = (unsigned int)__rdtsc();
-            p[1] = tick;
-            pStream->m_cur = p + 4;
+            rec->m_ticks = tick;
+            pStream->m_cur = reinterpret_cast<unsigned int*>(rec + 1);
         }
     }
 
@@ -1526,11 +1538,12 @@ extern "C" void __cdecl FUN_00d31110(void* apBodyA, void* apBodyB, void* apInput
         unsigned int* p = pStream->m_cur;
         if (p < pStream->m_kRayEnd)
         {
-            p[0] = (unsigned int)str_010ce9f4;
+            S00d31110_TimerRec* rec = reinterpret_cast<S00d31110_TimerRec*>(p);
+            rec->m_name = str_010ce9f4;
             _ReadWriteBarrier();
             tick = (unsigned int)__rdtsc();
-            p[1] = tick;
-            pStream->m_cur = p + 3;
+            rec->m_ticks = tick;
+            pStream->m_cur = reinterpret_cast<unsigned int*>(rec + 1);
         }
     }
 
@@ -1563,11 +1576,12 @@ extern "C" void __cdecl FUN_00d31110(void* apBodyA, void* apBodyB, void* apInput
         unsigned int* p = pStream->m_cur;
         if (p < pStream->m_kRayEnd)
         {
-            p[0] = (unsigned int)::str_01076f38;
+            S00d31110_TimerRec* rec = reinterpret_cast<S00d31110_TimerRec*>(p);
+            rec->m_name = ::str_01076f38;
             _ReadWriteBarrier();
             tick = (unsigned int)__rdtsc();
-            p[1] = tick;
-            pStream->m_cur = p + 3;
+            rec->m_ticks = tick;
+            pStream->m_cur = reinterpret_cast<unsigned int*>(rec + 1);
         }
     }
 
@@ -1580,7 +1594,6 @@ extern "C" void __cdecl FUN_00d31110(void* apBodyA, void* apBodyB, void* apInput
 }
 
 // Moved from hkpbvtreeagent_ehsc_noehsc_variant.cpp (VEGAS-15).
-#include "fnv/decl/FUN_00d2f980.h"
 
 void __cdecl FUN_00d312f0(void* apA, void* apB, void* apC, void* apD);
 unsigned __int64 __cdecl __rdtsc(void);
@@ -1842,7 +1855,7 @@ struct SlotRef
 {
     SlotObj* m_ent;
     unsigned int unk04;
-    unsigned int m_08;
+    const ::hkTransformCB22* m_08;
 };
 
 __declspec(align(16)) struct SlotTemp
@@ -1909,10 +1922,10 @@ void FUN_00d2f690(SlotRef* a, SlotRef* b, SlotParam* p, SlotBox* box)
 {
     SlotTemp t1;
     SlotTemp2 t2;
-    reinterpret_cast<::hkTransformCB22 *>(&(t1))->FUN_00cb22f0((*(const ::hkTransformCB22 *)(b->m_08)), (*(const ::hkTransformCB22 *)(a->m_08)));
+    reinterpret_cast<::hkTransformCB22 *>(&(t1))->FUN_00cb22f0(*b->m_08, *a->m_08);
     SlotObj* obj = a->m_ent;
     obj->Eval(&t1, p->m_08, box);
-    reinterpret_cast<::FUN_004b4ab0_Class *>(&(t2))->FUN_004b4ab0(b->m_08, (int)((char*)&p->unk50));
+    reinterpret_cast<::FUN_004b4ab0_Class *>(&(t2))->FUN_004b4ab0((intptr_t)b->m_08, (intptr_t)&p->unk50);
     __m128 t = _mm_load_ps((float*)&t2);
     __m128 zero = _mm_setzero_ps();
     __m128 lo = _mm_add_ps(_mm_min_ps(zero, t), box->lo);
@@ -2724,12 +2737,12 @@ void SolUpdater::FUN_00d2fac0(const SolBody& first, const SolBody& second, const
 
 // Moved from hkpbvtreeagent_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp (VEGAS-15).
 #include <intrin.h>
-template<class T> struct SolArrayBase {
+template<class T> struct SolArrayBaseV {
     T* data;
     int count;
     int capacity;
-    __forceinline SolArrayBase():data(0),count(0),capacity(0x80000000) {}
-    __forceinline SolArrayBase(T* p,int n,int c):data(p),count(n),capacity(c|0x80000000) {}
+    __forceinline SolArrayBaseV():data(0),count(0),capacity(0x80000000) {}
+    __forceinline SolArrayBaseV(T* p,int n,int c):data(p),count(n),capacity(c|0x80000000) {}
     inline T* begin() {return data;}
     inline T* end() {return data+count;}
     inline int GetLogicalSize() const {return count;}
@@ -2768,7 +2781,7 @@ template<class T> struct SolArrayBase {
         if((capacity&0x80000000)==0) heap.freeBuffer(data,getCapacity()*sizeof(T));
         data=0;capacity=0x80000000;
     }
-    __forceinline void assignWith(SolHeap& heap,const SolArrayBase& rhs,SolClassTag) {
+    __forceinline void assignWith(SolHeap& heap,const SolArrayBaseV& rhs,SolClassTag) {
         int old=count;
         int total=rhs.GetLogicalSize();
         int common=total>old?old:total;
@@ -3089,7 +3102,7 @@ class AllocatorD3
 
 __forceinline long __cdecl byteDiff( const void* base, const void* pntr )
 {
-	return long( pntr ) - long( base );
+	return long( (const char*)pntr - (const char*)base );
 }
 
 template <typename T>
@@ -3432,7 +3445,7 @@ class MonitorD3;
 template <typename T>
 struct TlsSlotD3
 {
-	__forceinline T getData() const { return (T)(unsigned long)TlsGetValue( m_slotID ); }
+	__forceinline T getData() const { return (T)(uintptr_t)TlsGetValue( m_slotID ); }
 	unsigned long m_slotID;
 };
 

@@ -2817,23 +2817,22 @@ struct Item
 
 struct FUN_00980360_shell
 {
-    char pad_00[0x8c];
-    BSSimpleArray<Item*, 1024> targets;
-
     void FUN_00980360();
 };
 
-// Calls Func_0c on each item in targets, deletes it, then clears the array.
+// Stops and deletes each background procedure, then clears the procedure array.
 // @fnv 0x00980360
 void FUN_00980360_shell::FUN_00980360()
 {
-    for (unsigned int i = 0; i < ((unsigned int)(((((ArrSI*)&targets)))->size)); i++)
+    auto* fields = reinterpret_cast<CombatControllerFields*>(this);
+    auto* procedures = &fields->pProcedureArrayVtable;
+    for (unsigned int i = 0; i < fields->uiProcedureArraySize; ++i)
     {
-        Item* item = (SimpleArrayItem<::Item *>(&(targets), i));
+        Item* item = SimpleArrayItem<Item*>(procedures, i);
         item->Func_0c();
         delete item;
     }
-    reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((((GlobalObject_00869f00*)&targets)))->Clear(true);
+    reinterpret_cast<::fnv_008454f0::FUN_008454f0*>(procedures)->Clear(true);
 }
 
 namespace fnv_00980a30 {

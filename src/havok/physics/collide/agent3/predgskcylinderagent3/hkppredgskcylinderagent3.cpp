@@ -75,7 +75,8 @@ struct ExtendedRecord : FNVTypeRecord
     float unk14;
     int unk18;
     int unk1c;
-    int unk20;
+    alignas(16) float m_vertexA[4];  // +0x20, the cylinder's two end points
+    float m_vertexB[4];              // +0x30
 };
 
 struct FNVExtendedObject : FNVObject
@@ -176,7 +177,7 @@ float __cdecl ComputeExtendedResult(LocalSource* source, void* apArg, FNVFlags* 
             node->unk04 = 0x40;
             float v = record->unk10;
             float val = (v + reinterpret_cast<::hkpCylinderShapeGetCylRadius *>((record))->FUN_00d571a0()) + DAT_010cf218;
-            node = ((::Node *)(reinterpret_cast<::FUN_00d22590_Class *>((node))->FUN_00d22590((*(const ::AlignedHKVector4 *)&record->unk20), (*(const ::AlignedHKVector4 *)((char*)record + 0x30)), val)));
+            node = ((::Node *)(reinterpret_cast<::FUN_00d22590_Class *>((node))->FUN_00d22590((*(const ::AlignedHKVector4 *)&record->m_vertexA), (*(const ::AlignedHKVector4 *)&record->m_vertexB), val)));
             if (pTempObject)
             {
                 FNVObject* pOldObject = *slot;

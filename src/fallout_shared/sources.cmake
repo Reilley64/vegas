@@ -56,6 +56,7 @@ set(VEGAS18_FALLOUT_SHARED_SOURCES
   src/fallout_shared/facegen/bsfacegenanimationdata_h_unit.cpp
   src/fallout_shared/facegen/bsfacegenimage.cpp
   src/fallout_shared/facegen/bsfacegenkeyframe.cpp
+  src/fallout_shared/facegen/bsfacegenmanager.cpp
   src/fallout_shared/facegen/bsfacegenmodel.cpp
   src/fallout_shared/facegen/bsfacegenmorph.cpp
   src/fallout_shared/facegen/bsfacegenmorphdata.cpp
@@ -293,7 +294,6 @@ set(VEGAS18_FALLOUT_SHARED_NARROWING_SOURCES
   src/fallout_shared/bipedanim.cpp
   src/fallout_shared/bsanimgroupsequence.cpp
   src/fallout_shared/extradatalist.cpp
-  src/fallout_shared/facegen/bsfacegenmanager.cpp
   src/fallout_shared/globalfunc.cpp
   src/fallout_shared/gridcell.cpp
   src/fallout_shared/inventorychanges.cpp

@@ -633,6 +633,7 @@ struct Inner0040e230_Head
 };
 struct Outer00409100
 {
+    char unk00;
     void FUN_00409100(bool);
 };
 struct Inner0040e230 : Inner0040e230_Head, Outer00409100

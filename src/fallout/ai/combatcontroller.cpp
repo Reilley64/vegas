@@ -2774,20 +2774,22 @@ class CombatController
 // @fnv 0x00980270
 void CombatController::FUN_00980270(CombatProcedure* apBackgroundProcedure)
 {
-    for (unsigned int i = 0; i < ((unsigned int)(((((ArrSI*)((char*)this + 0x8c))))->size)); ++i)
+    auto* fields = reinterpret_cast<CombatControllerFields*>(this);
+    auto* procedures = &fields->pProcedureArrayVtable;
+    for (unsigned int i = 0; i < fields->uiProcedureArraySize; ++i)
     {
-        CombatProcedure* pbackgroundProcedure =
-            (CombatProcedure*)(SimpleArrayItem<void *>(((BSSimpleArray<void*, 1024>*)((char*)this + 0x8c)), i));
+        CombatProcedure* pbackgroundProcedure = static_cast<CombatProcedure*>(SimpleArrayItem<void*>(procedures, i));
         if (pbackgroundProcedure->GetType() == apBackgroundProcedure->GetType())
         {
             pbackgroundProcedure->Unk0c();
             delete pbackgroundProcedure;
-            reinterpret_cast<::fnv_009a4320::FUN_009a4320_arr *>((((LS3de0*)((char*)this + 0x8c))))->FUN_009a4320(i, 1);
+            reinterpret_cast<::fnv_009a4320::FUN_009a4320_arr*>(procedures)->FUN_009a4320(i, 1);
             break;
         }
     }
 
-    reinterpret_cast<::FUN_00438690 *>((((BSSimpleArray<void*, 1024>*)((char*)this + 0x8c))))->FUN_007cb2e0((unsigned int *)&((void*&)apBackgroundProcedure));
+    reinterpret_cast<::FUN_00438690*>(procedures)->FUN_007cb2e0(
+        reinterpret_cast<unsigned int*>(&apBackgroundProcedure));
     apBackgroundProcedure->Unk08(this);
 }
 }  // namespace fnv_00980270

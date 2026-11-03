@@ -1127,7 +1127,7 @@ void FalloutRadio::InitLoadGame(BGSLoadGameBuffer* buffer)
 // @fnv 0x00836660
 void StateStandIn::FUN_00836660(void* apLoadGameBuffer)
 {
-    f0 = f0 ? dynamic_cast<TESObjectREFR*>(::FUN_004839c0((unsigned int)f0)) : 0;
+    f0 = f0 ? dynamic_cast<TESObjectREFR*>(::FUN_004839c0((unsigned int)(std::uintptr_t)f0)) : 0;
     reinterpret_cast<::FUN_008363a0_shell *>(&(f4))->FUN_008363a0((::BGSLoadFormBuffer *)(apLoadGameBuffer));
 }
 

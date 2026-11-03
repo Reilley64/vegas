@@ -626,7 +626,7 @@ void FUN_0082b300_shell::FUN_0082b300(Actor* apActor)
     TESObjectREFR* pRef = *reinterpret_cast<TESObjectREFR**>(reinterpret_cast<unsigned char*>(this) + 0x58);
     if (pRef)
         *reinterpret_cast<TESObjectREFR**>(reinterpret_cast<unsigned char*>(this) + 0x58) =
-            dynamic_cast<TESObjectREFR*>(::FUN_004839c0(reinterpret_cast<unsigned int>(pRef)));
+            dynamic_cast<TESObjectREFR*>(::FUN_004839c0((unsigned int)reinterpret_cast<std::uintptr_t>(pRef)));
     if (*reinterpret_cast<TESObjectREFR**>(reinterpret_cast<unsigned char*>(this) + 0x58))
         reinterpret_cast<::TelekinesisStartEffect *>(this)->StartTelekinesisEffect();
     *reinterpret_cast<unsigned char*>(reinterpret_cast<unsigned char*>(this) + 0x5d) = 1;

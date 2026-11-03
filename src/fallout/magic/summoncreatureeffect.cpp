@@ -252,7 +252,7 @@ bool RecordSelector::SelectRecord(void* context, int flags, SelectedRecord* outp
         return false;
     int index = 0;
     (*reinterpret_cast<void * *>(&::g_011dcc58)) = context;
-    std::qsort((void *)((int)entries), count, sizeof(SelectedRecord), (int (*)(const void *, const void *))((int)&((int (&)(const void *, const void *))::FUN_00828b20)));
+    std::qsort((void *)(entries), count, sizeof(SelectedRecord), (int (*)(const void *, const void *))((int)&((int (&)(const void *, const void *))::FUN_00828b20)));
     index = 0;
     while (index < count && !reinterpret_cast<::SummonCreatureEffectHelper *>((((SelectionPredicate*)this)))->FUN_00828f00(flags, (::NiPoint3 *)(::SelectedRecord *)(&entries[index])))
     {

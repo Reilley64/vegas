@@ -1459,7 +1459,7 @@ void This::FUN_00809e60(Actor* apActor)
 
                 Sound* pForm;
 
-                pForm = ((::Sound *)(::FUN_004839c0((unsigned int)(rec->m_00))));
+                pForm = ((::Sound *)(::FUN_004839c0((unsigned int)(std::uintptr_t)(rec->m_00))));
 
                 ::FUN_005b5e40();
             }
@@ -1537,7 +1537,7 @@ void This::FUN_00809e60(Actor* apActor)
         if (tag != 0)
         {
 
-            Sound* snd2 = ((::Sound *)(::FUN_004839c0((unsigned int)(tag->m_00))));
+            Sound* snd2 = ((::Sound *)(::FUN_004839c0((unsigned int)(std::uintptr_t)(tag->m_00))));
 
             if ((unsigned int)ts > (unsigned int)w18 + (unsigned int)flag)
             {

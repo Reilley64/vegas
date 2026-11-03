@@ -521,7 +521,7 @@ struct FUN_00864790_shell
 int FUN_00864740_shell::ReadAndVerifySize(SaveLoadFile* apFile)
 {
     ::ReadFileIntoBuffer(apFile, &m_uiReadOffset, 4);
-    int result = reinterpret_cast<::FUN_00864790_shell *>((((S_00864540*)this)))->ReadFromFile((::SaveLoadFile *)((int)apFile), m_uiReadOffset);
+    int result = reinterpret_cast<::FUN_00864790_shell *>((((S_00864540*)this)))->ReadFromFile((::SaveLoadFile *)(apFile), m_uiReadOffset);
     if (result != m_uiReadOffset)
         return -1;
     return result;

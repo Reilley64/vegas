@@ -2506,7 +2506,7 @@ void ActiveEffect805670::FUN_00805670(Actor* apActor)
         pTarget = ::MagicTarget::GetMagicTargetByID((unsigned int)(pkTarget));
     source = pSource;
     if (pkTarget)
-        pSource = dynamic_cast<TESBoundObject*>(FUN_004839c0((unsigned int)source));
+        pSource = dynamic_cast<TESBoundObject*>(FUN_004839c0((unsigned int)(std::uintptr_t)source));
     if (reinterpret_cast<::FUN_008df040_shell *>(((*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame))))->FUN_008df040() >= 0x2a)
     {
         BSSimpleList<MagicHitEffect*>* it = pHitEffectList;

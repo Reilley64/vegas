@@ -547,7 +547,7 @@ class BF20RefFormCall : public BF20FormCall
 void BF20RefFormCall::FUN_0081bf20(unsigned int uiFlags)
 {
     reinterpret_cast<::FUN_004534f0_shell *>(this)->FUN_004534f0(uiFlags);
-    m_pkTarget = m_pkTarget ? dynamic_cast<TESObjectREFR*>(::FUN_004839c0((unsigned int)(m_pkTarget))) : 0;
+    m_pkTarget = m_pkTarget ? dynamic_cast<TESObjectREFR*>(::FUN_004839c0((unsigned int)(std::uintptr_t)(m_pkTarget))) : 0;
 }
 
 class TESActorBase

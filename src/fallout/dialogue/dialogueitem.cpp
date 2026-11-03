@@ -285,7 +285,7 @@ class DialogueItemResolver : public DialogueItem
 // @fnv 0x0083cdf0
 void DialogueItemResolver::FUN_0083cdf0()
 {
-    unsigned int loc = reinterpret_cast<unsigned int>(m_pDialogueSpeaker);
+    unsigned int loc = (unsigned int)reinterpret_cast<std::uintptr_t>(m_pDialogueSpeaker);
     if (loc)
     {
         m_pDialogueSpeaker = dynamic_cast<TESObjectREFR*>(::FUN_004839c0(loc));
@@ -392,7 +392,7 @@ FUN_0083c520::FUN_0083c520(TESQuest* apQuest, TESTopic* apTopic, TESTopicInfo* a
         m_pDialogueSpeaker = apSpeaker;
         TESResponseList responseList;
         reinterpret_cast<::FUN_0061e760_shell *>((((FUN_0061e760_shell*)apInfo)))->FUN_0061e760((::TESResponseList *)(::fnv_0083c520::TESResponseList *)(&responseList));
-        TESResponse* presponse = (TESResponse*)(unsigned int)responseList;
+        TESResponse* presponse = responseList.pHead;
         while (presponse)
         {
             DialogueResponse* pResponse = new DialogueResponse(apQuest, apTopic, apInfo, apSpeaker, presponse);
@@ -472,5 +472,5 @@ void DialogueItemLoad::FUN_0083cc10()
     if (iQuestID_2)
         pQuest = reinterpret_cast< ::TESQuest*>(dynamic_cast<TESQuest*>(::FUN_004839c0(iQuestID_2)));
     reinterpret_cast<::FUN_00857aa0 *>((((DialogueLoadGame*)g_TESSaveLoadGame)))->ValidateFormIDArray((unsigned int *)(void *)(&iSpeakerID), 4);
-    m_pDialogueSpeaker = (::TESObjectREFR*)iSpeakerID;
+    m_pDialogueSpeaker = reinterpret_cast<::TESObjectREFR*>(static_cast<std::uintptr_t>(iSpeakerID));
 }

@@ -15,16 +15,16 @@ extern int DAT_0107f494;
 
 struct FUN_0084b4e0_shell
 {
-    int FUN_0084b4e0(void* arg);
+    void* FUN_0084b4e0(int arg);
 };
 
 // Calls FUN_0084b750 with arg, stores the address of DAT_0107f494 into this, and returns this.
 // @fnv 0x0084b4e0
-int FUN_0084b4e0_shell::FUN_0084b4e0(void* arg)
+void* FUN_0084b4e0_shell::FUN_0084b4e0(int arg)
 {
-    new ((void *)this) ::FUN_0084b750((int)(arg));
+    new ((void *)this) ::FUN_0084b750(arg);
     *(void**)this = (void*)&DAT_0107f494;
-    return (int)this;
+    return this;
 }
 
 struct BGSSaveLoadFormInfo

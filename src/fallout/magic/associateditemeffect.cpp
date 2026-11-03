@@ -75,7 +75,7 @@ void AssociatedItemEffect::FUN_00806e70(Actor* apActor)
     reinterpret_cast<::ActiveEffect805670 *>((((InitLoadGameHelper*)this)))->FUN_00805670((::Actor *)(apActor));
     TESForm* form = *(TESForm**)((char*)this + 0x48);
     if (form)
-        *(TESForm**)((char*)this + 0x48) = ((::fnv_00806e70::TESForm *)(::FUN_004839c0((int)form)));
+        *(TESForm**)((char*)this + 0x48) = ((::fnv_00806e70::TESForm *)(::FUN_004839c0((unsigned int)(std::uintptr_t)form)));
 }
 }  // namespace fnv_00806e70
 

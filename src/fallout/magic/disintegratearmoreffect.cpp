@@ -519,7 +519,7 @@ void FUN_0080d340_cls::FUN_0080d340()
             p->FUN_slot242((void*)this->m_48, ::GetFloatAtOffset1C((char *)(this)));
             if (((bool)(::FUN_005b6f70())))
             {
-                ::FUN_00703c00("%s's %s takes %0.2f disintegrate armor damage!", (const char *)(((int)(reinterpret_cast<::FUN_0055d520_shell *>((p))->FUN_0055d520()))));
+                ::FUN_00703c00("%s's %s takes %0.2f disintegrate armor damage!", (const char *)(reinterpret_cast<::FUN_0055d520_shell *>((p))->FUN_0055d520()));
             }
             t = this->m_48;
             u = t;

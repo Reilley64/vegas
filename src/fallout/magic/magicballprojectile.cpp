@@ -5498,7 +5498,7 @@ void ContinuousBeamProjectile::ApplyAreaEffect(NiPoint3 point, unsigned int vari
     if (!silent)
     {
         reinterpret_cast<::P142Caster *>((((::ProjectileEvent *)(reinterpret_cast<::PlayerMover *>((this))->GetActorStateFlags()))))->ApplySpellEffects((::P142Spell *)(reinterpret_cast<::EffectSetting *>((this))->GetArchetype()), (int)(((void *)(reinterpret_cast<::LowProcess *>((this))->GetTarget()))),
-                                                (*(::NiPoint3 *)&(const ::ImpactPoint &)(*(ImpactPoint*)this->Position())), (::P142Ref *)(void *)(this), (::P142Ref *)((int)target), 0, 1.0f, 1.0f);
+                                                (*(::NiPoint3 *)&(const ::ImpactPoint &)(*(ImpactPoint*)this->Position())), (::P142Ref *)(void *)(this), (::P142Ref *)(target), 0, 1.0f, 1.0f);
     }
 
     NiAVObject* pRoot4 = this->Root();

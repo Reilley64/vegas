@@ -708,8 +708,8 @@ void FUN_00827230_shell::FUN_00827230()
     if (reinterpret_cast<::FUN_004226e0_shell *>((g_dataHandler))->FUN_004226e0())
         return;
 
-    Actor* pTarget = ((::MagicTarget *)(reinterpret_cast<::ActorMover *>((reinterpret_cast<BSThread*>(this)))->GetCurrentMoveModeType()))
-                         ? ((::MagicTarget *)(reinterpret_cast<::ActorMover *>((reinterpret_cast<BSThread*>(this)))->GetCurrentMoveModeType()))->GetOwnerActor()
+    Actor* pTarget = (reinterpret_cast<::ActiveEffectFields *>(this)->target)
+                         ? (reinterpret_cast<::ActiveEffectFields *>(this)->target)->GetOwnerActor()
                          : 0;
 
     if (pTarget != 0)

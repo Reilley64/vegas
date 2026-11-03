@@ -3330,12 +3330,12 @@ bool Effect::FUN_00822130()
     bool result2 = true;
     void* firstB;
     reinterpret_cast<::FUN_00857aa0 *>(((*reinterpret_cast<::fnv_00822130::Manager * *>(&::g_TESSaveLoadGame))))->ValidateFormIDArray((unsigned int *)(void **)(&firstB), 4);
-    unk1c = reinterpret_cast<Ref*>(dynamic_cast<TESObjectREFR*>(::FUN_004839c0((unsigned int)(firstB))));
+    unk1c = reinterpret_cast<Ref*>(dynamic_cast<TESObjectREFR*>(::FUN_004839c0((unsigned int)(std::uintptr_t)(firstB))));
     if (!unk1c || !((::fnv_00822130::Node *)(reinterpret_cast<::LowProcess *>((unk1c))->GetTarget())) || !::FUN_00450ff0((void *)(((::fnv_00822130::Node *)(reinterpret_cast<::LowProcess *>((unk1c))->GetTarget())))))
         result2 = false;
     void* second;
     reinterpret_cast<::FUN_00857aa0 *>(((*reinterpret_cast<::fnv_00822130::Manager * *>(&::g_TESSaveLoadGame))))->ValidateFormIDArray((unsigned int *)(void **)(&second), 4);
-    TESEffectShader* other7 = dynamic_cast<TESEffectShader*>(::FUN_004839c0((unsigned int)(second)));
+    TESEffectShader* other7 = dynamic_cast<TESEffectShader*>(::FUN_004839c0((unsigned int)(std::uintptr_t)(second)));
     if (!other7)
         result2 = false;
     vfnd8(0, unk1c);

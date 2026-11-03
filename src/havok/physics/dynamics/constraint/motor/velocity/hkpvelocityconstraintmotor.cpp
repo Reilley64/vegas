@@ -9,10 +9,6 @@
 #include "havok/hkpVelocityConstraintMotor.h"
 
 
-struct Router_d861
-{
-    
-};
 
 
 class hkReferencedObject_d861

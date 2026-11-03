@@ -325,24 +325,6 @@ void FUN_00d07100(char* owner, unsigned char bits)
     sub->m_callbackRequest |= bits;
 }
 
-struct S_00d074c0_Heap
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual void v0C();
-    virtual void ReturnMemory(void* p, int numBytes);
-};
-struct S_00d074c0_Router
-{
-    int unk00, unk04, unk08, unk0C;
-    S_00d074c0_Heap* unk10;
-    static S_00d074c0_Router& GetMonitorStream();
-    S_00d074c0_Heap& heap()
-    {
-        return *unk10;
-    }
-};
 
 template <class T> struct S_00d074c0_Array
 {
@@ -369,19 +351,19 @@ template <class T> struct S_00d074c0_Array
     {
         m_iElementCount = 0;
     }
-    void _clearAndDeallocate(S_00d074c0_Heap& alloc) throw()
+    void _clearAndDeallocate(hkMemoryAllocator& alloc) throw()
     {
         clear();
         if ((m_iCapacityState & 0x80000000) == 0)
         {
-            alloc.ReturnMemory(m_data, getCapacity() * sizeof(T));
+            alloc.bufFree(m_data, getCapacity() * sizeof(T));
         }
         m_data = 0;
         m_iCapacityState = 0x80000000;
     }
     ~S_00d074c0_Array() throw()
     {
-        _clearAndDeallocate(S_00d074c0_Router::GetMonitorStream().heap());
+        _clearAndDeallocate(hkMemoryRouter::getInstance().heap());
     }
 };
 

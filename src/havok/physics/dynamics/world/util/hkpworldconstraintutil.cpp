@@ -26,7 +26,7 @@ struct S_00d27820_Rec
     int unk0c, unk10;
     unsigned short px, py, pz;
     unsigned char idx;
-    int cnt;
+    char* cnt;
     unsigned short sz;
     unsigned short slot;
     int unk24, unk28, unk2c;
@@ -116,9 +116,9 @@ void DetachRecord(S_00d27820_P* p)
     if (pRec->cnt)
     {
         delta = -(int)pRec->sz;
-        int iTotal = pRec->sz + pRec->cnt;
+        char* pTail = pRec->cnt + pRec->sz;
         S_00d27820_Buf* pBuf = &d->buf;
-        ::FUN_00cb1270((char *)(pRec->cnt), (const char *)(iTotal), (int)(pBuf->data + (pBuf->size - iTotal)));
+        ::FUN_00cb1270(pRec->cnt, pTail, (int)(pBuf->data + pBuf->size - pTail));
         pBuf->size -= pRec->sz;
         pRec->cnt = 0;
     }
@@ -613,14 +613,14 @@ ConstraintPointer* FUN_00d27ac0(void* unused, Constraint* constraint)
         if (incomingUid > currentUid)
             continue;
         Entity* other =
-            (Entity*)((unsigned int)current.bodies[0] ^ (unsigned int)current.bodies[1] ^ (unsigned int)master);
+            (Entity*)((uintptr_t)current.bodies[0] ^ (uintptr_t)current.bodies[1] ^ (uintptr_t)master);
         Entity* incoming =
-            (Entity*)((unsigned int)entry.bodies[0] ^ (unsigned int)entry.bodies[1] ^ (unsigned int)master);
+            (Entity*)((uintptr_t)entry.bodies[0] ^ (uintptr_t)entry.bodies[1] ^ (uintptr_t)master);
         if (incoming->uid < other->uid)
             break;
     }
     int firstChanged = count < (array.capacity & 0x3fff) ? index : 0;
-    reinterpret_cast<::FUN_00d27f50_Obj *>(&(array))->FUN_00d27f50(index, (int)(&entry));
+    reinterpret_cast<::FUN_00d27f50_Obj *>(&(array))->FUN_00d27f50(index, &entry);
     for (int i = firstChanged; i < (int)array.size; ++i)
     {
         ConstraintInternal* changed = &array.data[i];

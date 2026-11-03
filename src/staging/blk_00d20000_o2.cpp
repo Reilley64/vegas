@@ -267,7 +267,7 @@ void ReplaceEntry(intptr_t pList, intptr_t pOldEntry, intptr_t pNewEntry, unsign
 }
 
 struct FUN_00d27f50_Obj {
-    void FUN_00d27f50(int param_1, int param_2);
+    void FUN_00d27f50(int param_1, const void* param_2);
 };
 
 struct FUN_00d27f70 {
@@ -2484,7 +2484,7 @@ struct hkSmallArrayE {
     void Insert(int i, const E48* a, int numtoinsert);
 };
 // @fnv 0x00d27f50
-void FUN_00d27f50_Obj::FUN_00d27f50(int aFirst, int aSecond) {
+void FUN_00d27f50_Obj::FUN_00d27f50(int aFirst, const void* aSecond) {
     reinterpret_cast<::hkSmallArrayE *>((this))->Insert(aFirst, (const ::E48 *)(aSecond), 1);
 }
 

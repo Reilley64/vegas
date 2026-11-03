@@ -127817,7 +127817,7 @@ void EActor::FUN_0088e8d0(float elapsed, ERequest* event)
                     if (item && item->data)
                         attached = ((::fnv_0088e8d0::MColObj *)(::FUN_004b5820((::FormLike *)(void *)(((void *)(::FUN_00460140((int)(item->data))))))));
                 }
-                FUN_006890b0(((::fnv_0088e8d0::MDecalMgr *)(reinterpret_cast<::LowProcess *>(this)->GetTarget())), 1.0f, impact->model.GetPath(), (*(::fnv_0088e8d0::MPt *)(reinterpret_cast<::P3 *>((void *)&(normal))->FUN_004a0bd0({}))), position, 1.0f, 7,
+                FUN_006890b0(((::fnv_0088e8d0::MDecalMgr *)(reinterpret_cast<::LowProcess *>(this)->GetTarget())), 1.0f, impact->model.GetPath(), (*(::fnv_0088e8d0::MPt *)(reinterpret_cast<::P3 *>((void *)&(normal))->FUN_004a0bd0((::P3 *)&ResultSlot(::fnv_0088e8d0::MPt())))), position, 1.0f, 7,
                              attached);
             }
             if (madeModel || madeDecals)
@@ -156076,7 +156076,7 @@ void FUN_00c7d630_t::FUN_00c7d630(float)
     }
     if (DAT_01267c28 && *(bool*)(self + 0x41))
     {
-        NiTransform_o2 kWorld = m_pkNode->GetParent()->m_kWorldSpaceTransform * m_pkNode->m_kLocalTransform;
+        NiTransform_o2 kWorld = std::bit_cast<NiTransform_o2>(m_pkNode->GetParent()->m_kWorldSpaceTransform * m_pkNode->m_kLocalTransform);
         kWorld.m_kOrientation = reinterpret_cast<::ThreeByThreeMatrix *>((void *)&(const ::ThreeByThreeMatrix &)(m_kRot))->operator+(kWorld.m_kOrientation);
         kWorld.m_fScale = 1.0f;
         ::FUN_00c74dd0((::C74QsTransform *)(void *)(self + 0x10), (const ::C74Transform *)(::NiTransform_o2 *)(&kWorld));
@@ -159138,46 +159138,23 @@ void P164Actor::FUN_008ab3a0(P164Buffer* buffer)
 class ActiveEffect;
 template <class T> class BSSimpleList;
 class Animation;
-template <> class NiPointer<NiNode>
-{
-  public:
-    NiNode* m_pObject;
-    NiNode* operator->() const;
-};
 class ParentSpaceNode;
 class GameSettingCollection;
 extern GlobalObject_0045d260 g_011df69c;
 enum ACTOR_LIFE_STATE;
-#ifdef _MSC_VER
-__forceinline
-#else
-inline __attribute__((always_inline))
-#endif
-    Actor*
-    ActorValueOwner::GetActorOwner()
-{
-    return static_cast<Actor*>(this);
-}
 
-// Reuse complete component classes when this code is inserted into actor.cpp.
-__if_not_exists(BGSPickupPutdownSounds::BGSPickupPutdownSounds)
+class BGSPickupPutdownSounds : public BaseFormComponent
 {
-    class BGSPickupPutdownSounds : public BaseFormComponent
-    {
-      public:
-        TESSound* m_pPickupSound;
-        TESSound* m_pPutdownSound;
-    };
-}
-__if_not_exists(BGSEquipType::BGSEquipType)
+  public:
+    TESSound* m_pPickupSound;
+    TESSound* m_pPutdownSound;
+};
+class BGSEquipType : public BaseFormComponent
 {
-    class BGSEquipType : public BaseFormComponent
-    {
-      public:
-        static int GetEquipType(TESForm*);
-        int m_eEquipType;
-    };
-}
+  public:
+    static int GetEquipType(TESForm*);
+    int m_eEquipType;
+};
 
 struct PickupSoundActorView : public Actor
 {
@@ -159315,24 +159292,21 @@ char* PickupSoundActorView::FUN_008adcf0(::TESBoundObject* apobjREFR, bool abPic
                     switch (BGSEquipType::GetEquipType((TESForm*)apobjREFR))
                     {
                     case 0:
-                        return abPickUp ? "UIItemGunsBigUp" : "UIItemGunsBigDown";
+                        return (char *)(abPickUp ? "UIItemGunsBigUp" : "UIItemGunsBigDown");
                     case 2:
-                        return abPickUp ? "UIItemGunsSmallUp" : "UIItemGunsSmallDown";
+                        return (char *)(abPickUp ? "UIItemGunsSmallUp" : "UIItemGunsSmallDown");
                     case 3:
-                        return abPickUp ? "UIItemMeleeUp" : "UIItemMeleeDown";
+                        return (char *)(abPickUp ? "UIItemMeleeUp" : "UIItemMeleeDown");
                     }
                     break;
                 }
-                return abPickUp == true ? "UIItemGenericUp" : "UIItemGenericDown";
+                return (char *)(abPickUp == true ? "UIItemGenericUp" : "UIItemGenericDown");
             }
         }
     }
 }
 
 void __cdecl FUN_00c74dd0(void*, const MatrixTransform*);
-__forceinline void CachedScene::ApplyTransform(const MatrixTransform& value) { FUN_00c74dd0(skeleton->transform, &value); }
-__forceinline void CachedScene::ApplyTransformPointer(const MatrixTransform* value) { FUN_00c74dd0(skeleton->transform, value); }
-__forceinline void CachedScene::ApplyFinalTransform(const MatrixTransform& value) { FUN_00c74dd0(GetSkeleton()->GetTransform(), &value); }
 int __cdecl FUN_00ec7750(const char*, const char*);
 extern "C" void* __cdecl FUN_00cb1280(void*,int,unsigned int);
 extern void* __cdecl FUN_00c74ea0(unsigned);
@@ -159351,7 +159325,6 @@ public:
 };
 struct MatrixQuaternion { float w,x,y,z; void FUN_00a6df40(const MatrixNine*); };
 struct NormalizeView { void FUN_005611c0(); };
-extern "C" float DAT_01267c20;
 __declspec(noinline) PoseTransform* FUN_00c74dd0(void* ptr,NiTransform_o2_nood_rtm* source) {
  PoseTransform* output=static_cast<PoseTransform*>(ptr);
  MatrixQuaternion matrixQ; matrixQ.FUN_00a6df40(&source->rotation);
@@ -159600,18 +159573,6 @@ struct NiTransform_o2_gs_nogs
     float m_fScale;
     NiTransform_o2_gs_nogs operator*(const NiTransform_o2_gs_nogs&) const;
 };
-struct RagNode
-{
-    char pad0[0x18];
-    RagNode* m_pParentNode;
-    char pad1c[0x34 - 0x1c];
-    NiTransform_o2_gs_nogs m_kLocalTransform;
-    NiTransform_o2_gs_nogs m_kWorldSpaceTransform;
-    RagNode* GetParent() const
-    {
-        return m_pParentNode;
-    }
-};
 void* __cdecl FUN_00ec7230(char*, char const*, unsigned int);
 void __cdecl FUN_00ce4360(CE4360Context* pkContext, CE4360Iter* pkFrom, CE4360Iter* pkTo, int iValue);
 static unsigned char* FUN_00c7f4a0(unsigned char* out, const float* src, int count);
@@ -159646,7 +159607,7 @@ struct BoneTransform_o2_gs_nogs
     MVec4_o2_gs_nogs rotation;
     MVec4_o2_gs_nogs scale;
 };
-struct SkeletonModel
+struct SkeletonModel_o2_gs_nogs
 {
     int unk00, unk04, unk08;
     short* parents;
@@ -159658,7 +159619,7 @@ struct SkeletonModel
 };
 struct PoseState_o2_gs_nogs
 {
-    SkeletonModel* model;
+    SkeletonModel_o2_gs_nogs* model;
     BoneTransform_o2_gs_nogs* local;
     int unk08, unk0c;
     BoneTransform_o2_gs_nogs* world;
@@ -159760,18 +159721,6 @@ struct NiTransform_o2_od_oy_noo2
     float m_fScale;
     NiTransform_o2_od_oy_noo2 operator*(const NiTransform_o2_od_oy_noo2&) const;
 };
-struct RagNode
-{
-    char pad0[0x18];
-    RagNode* m_pParentNode;
-    char pad1c[0x34 - 0x1c];
-    NiTransform_o2_od_oy_noo2 m_kLocalTransform;
-    NiTransform_o2_od_oy_noo2 m_kWorldSpaceTransform;
-    RagNode* GetParent() const
-    {
-        return m_pParentNode;
-    }
-};
 
 struct __declspec(align(16)) ScratchVec
 {
@@ -159780,11 +159729,69 @@ struct __declspec(align(16)) ScratchVec
 };
 
 
+struct QueryOwnerView
+{
+    virtual void vfn_00();
+    virtual void vfn_04();
+    virtual void vfn_08();
+    virtual void vfn_0c();
+    virtual void vfn_10();
+    virtual void vfn_14();
+    virtual void vfn_18();
+    virtual void vfn_1c();
+    virtual void vfn_20();
+    virtual void vfn_24();
+    virtual void vfn_28();
+    virtual void vfn_2c();
+    virtual void vfn_30();
+    virtual void vfn_34();
+    virtual void vfn_38();
+    virtual void vfn_3c();
+    virtual void vfn_40();
+    virtual void vfn_44();
+    virtual void vfn_48();
+    virtual void vfn_4c();
+    virtual void vfn_50();
+    virtual void vfn_54();
+    virtual void vfn_58();
+    virtual void vfn_5c();
+    virtual void vfn_60();
+    virtual void vfn_64();
+    virtual void vfn_68();
+    virtual void vfn_6c();
+    virtual void vfn_70();
+    virtual void vfn_74();
+    virtual void vfn_78();
+    virtual void vfn_7c();
+    virtual void vfn_80();
+    virtual void vfn_84();
+    virtual void vfn_88();
+    virtual void vfn_8c();
+    virtual void vfn_90();
+    virtual void vfn_94();
+    virtual void vfn_98();
+    virtual void vfn_9c();
+    virtual void vfn_a0();
+    virtual void vfn_a4();
+    virtual void vfn_a8();
+    virtual void vfn_ac();
+    virtual void vfn_b0();
+    virtual void vfn_b4();
+    virtual void vfn_b8();
+    virtual void vfn_bc();
+    virtual void vfn_c0();
+    virtual void vfn_c4();
+    virtual void vfn_c8();
+    virtual void vfn_cc();
+    virtual void vfn_d0();
+    virtual ScratchVec* vfn_d4(ScratchVec* out);
+};
+
 // @fnv 0x00560bc0
 int QueryOwner::FUN_00560bc0(std::intptr_t param)
 {
     ScratchVec v;
-    return ((int)(::SetNiPoint3FromHkVector4((*(::NiPoint3 *)(param)), (*(const ::hkVector4 *)(vfn_d4(&v))))));
+    return ((int)&(::SetNiPoint3FromHkVector4((*(::NiPoint3 *)(param)), (*(const ::hkVector4 *)(reinterpret_cast<QueryOwnerView *>(this)->vfn_d4(&v))))));
 }
 
 class NiPoint3T8
@@ -161352,13 +161359,135 @@ class HitDataH
 
 
 
+struct ActorHView
+{
+    virtual void va000();
+    virtual void va004();
+    virtual void va008();
+    virtual void va00c();
+    virtual void va010();
+    virtual void va014();
+    virtual void va018();
+    virtual void va01c();
+    virtual void va020();
+    virtual void va024();
+    virtual void va028();
+    virtual void va02c();
+    virtual void va030();
+    virtual void va034();
+    virtual void va038();
+    virtual void va03c();
+    virtual void va040();
+    virtual void va044();
+    virtual void va048();
+    virtual void va04c();
+    virtual void va050();
+    virtual void va054();
+    virtual void va058();
+    virtual void va05c();
+    virtual void va060();
+    virtual void va064();
+    virtual void va068();
+    virtual void va06c();
+    virtual void va070();
+    virtual void va074();
+    virtual void va078();
+    virtual void va07c();
+    virtual void va080();
+    virtual void va084();
+    virtual void va088();
+    virtual void va08c();
+    virtual void va090();
+    virtual void va094();
+    virtual void va098();
+    virtual void va09c();
+    virtual void va0a0();
+    virtual void va0a4();
+    virtual void va0a8();
+    virtual void va0ac();
+    virtual void va0b0();
+    virtual void va0b4();
+    virtual void va0b8();
+    virtual void va0bc();
+    virtual void va0c0();
+    virtual void va0c4();
+    virtual void va0c8();
+    virtual void va0cc();
+    virtual void va0d0();
+    virtual void va0d4();
+    virtual void va0d8();
+    virtual void va0dc();
+    virtual void va0e0();
+    virtual void va0e4();
+    virtual void va0e8();
+    virtual void va0ec();
+    virtual void va0f0();
+    virtual void va0f4();
+    virtual void va0f8();
+    virtual void va0fc();
+    virtual void va100();
+    virtual void va104();
+    virtual void va108();
+    virtual void va10c();
+    virtual void va110();
+    virtual void va114();
+    virtual void va118();
+    virtual void va11c();
+    virtual void va120();
+    virtual void va124();
+    virtual void va128();
+    virtual void va12c();
+    virtual void va130();
+    virtual void va134();
+    virtual void va138();
+    virtual void va13c();
+    virtual void va140();
+    virtual void va144();
+    virtual void va148();
+    virtual void va14c();
+    virtual void va150();
+    virtual void va154();
+    virtual void va158();
+    virtual void va15c();
+    virtual void va160();
+    virtual void va164();
+    virtual void va168();
+    virtual void va16c();
+    virtual void va170();
+    virtual void va174();
+    virtual void va178();
+    virtual void va17c();
+    virtual void va180();
+    virtual void va184();
+    virtual void va188();
+    virtual void va18c();
+    virtual void va190();
+    virtual void va194();
+    virtual void va198();
+    virtual void va19c();
+    virtual void va1a0();
+    virtual void va1a4();
+    virtual void va1a8();
+    virtual void va1ac();
+    virtual void va1b0();
+    virtual void va1b4();
+    virtual void va1b8();
+    virtual void va1bc();
+    virtual void va1c0();
+    virtual void va1c4();
+    virtual void va1c8();
+    virtual void va1cc();
+    virtual NiNodeH* Get3D();
+    BSFixedStringH GetTorsoNodeName(int iFlag);
+};
+
 // @fnv 0x008ae000
 void ActorH::FUN_008ae000(HitDataH* pkHit)
 {
     TESObjectREFRH* pkTarget = pkHit->m_pkTarget;
     float fForce = pkHit->m_fForce;
     bool bActorSource = pkHit->m_pkSource && pkHit->m_pkSource->IsActor();
-    NiNodeH* pk3D = Get3D();
+    NiNodeH* pk3D = reinterpret_cast<ActorHView*>(this)->Get3D();
     NiPoint3H kFrom = (*reinterpret_cast<const ::NiPoint3H *>((void *)&::NiPoint3::ZERO));
     NiPoint3H kTo = (*reinterpret_cast<const ::NiPoint3H *>((void *)&::NiPoint3::ZERO));
     if (pk3D)
@@ -161376,7 +161505,7 @@ void ActorH::FUN_008ae000(HitDataH* pkHit)
                 NiPoint3H kWorldPosition = (*reinterpret_cast<const ::NiPoint3H *>((void *)&::NiPoint3::ZERO));
                 if (bActorSource)
                 {
-                    kWorldPosition = (*(::NiPoint3H *)(reinterpret_cast<::P3 *>((void *)&(pkHit->m_kRotationMatrix))->FUN_004a0bd0({})));
+                    kWorldPosition = (*(::NiPoint3H *)(reinterpret_cast<::P3 *>((void *)&(pkHit->m_kRotationMatrix))->FUN_004a0bd0((::P3 *)&ResultSlot(::NiPoint3H()))));
                     reinterpret_cast<::FUN_004a0c10_s *>(&(kWorldPosition))->FUN_004a0c10();
                     reinterpret_cast<::MyPoint439180 *>((void *)&(const ::NiPoint3H &)(kWorldPosition))->FUN_00439180(2048.0f);
                     reinterpret_cast<::FUN_0063c8a0_shell *>((void *)&(const ::NiPoint3H &)(kWorldPosition))->FUN_0063c8a0((void *)&(pkHit->m_kHitPos));
@@ -161384,10 +161513,10 @@ void ActorH::FUN_008ae000(HitDataH* pkHit)
                 else
                 {
                     if (pk3D)
-                        kTo = pk3D->GetObjectByName(GetTorsoNodeName(0)).GetWorldTranslate();
+                        kTo = pk3D->GetObjectByName(reinterpret_cast<ActorHView*>(this)->GetTorsoNodeName(0)).GetWorldTranslate();
                     kWorldPosition = kFrom - kTo;
                     reinterpret_cast<::FUN_004a0c10_s *>(&(kWorldPosition))->FUN_004a0c10();
-                    reinterpret_cast<::FUN_0063c8a0_shell *>((void *)&(const ::NiPoint3H &)(kWorldPosition))->FUN_0063c8a0((void *)&(const ::NiPoint3H &)((*(::NiPoint3H *)(reinterpret_cast<::P3 *>((void *)&(pkHit->m_kRotationMatrix))->FUN_004a0bd0({})))));
+                    reinterpret_cast<::FUN_0063c8a0_shell *>((void *)&(const ::NiPoint3H &)(kWorldPosition))->FUN_0063c8a0((void *)&(const ::NiPoint3H &)((*(::NiPoint3H *)(reinterpret_cast<::P3 *>((void *)&(pkHit->m_kRotationMatrix))->FUN_004a0bd0((::P3 *)&ResultSlot(::NiPoint3H()))))));
                     reinterpret_cast<::MyPoint439180 *>((void *)&(const ::NiPoint3H &)(kWorldPosition))->FUN_00439180(1024.0f);
                     reinterpret_cast<::FUN_0063c8a0_shell *>((void *)&(const ::NiPoint3H &)(kWorldPosition))->FUN_0063c8a0((void *)&(kFrom));
                 }

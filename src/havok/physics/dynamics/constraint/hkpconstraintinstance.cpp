@@ -1,6 +1,7 @@
 
 // src/havok/physics/dynamics/constraint/hkpconstraintinstance.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/hkpconstraintinstance.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstdint>
 
 #include "fnv/symbols_00c85000.h"
 #include <cstddef>
@@ -210,9 +211,9 @@ void FUN_00cf3e60_class::FUN_00cf3e60()
     {
         if (m_kActorEntries[i] == 0)
         {
-            void* other = reinterpret_cast<void*>(reinterpret_cast<unsigned int>(m_kActorEntries[1]) ^
-                                                  reinterpret_cast<unsigned int>(m_kActorEntries[0]) ^
-                                                  reinterpret_cast<unsigned int>(m_kActorEntries[i]));
+            void* other = reinterpret_cast<void*>(reinterpret_cast<uintptr_t>(m_kActorEntries[1]) ^
+                                                  reinterpret_cast<uintptr_t>(m_kActorEntries[0]) ^
+                                                  reinterpret_cast<uintptr_t>(m_kActorEntries[i]));
 
             if (other != 0)
             {
@@ -311,7 +312,7 @@ class FUN_00cf2fe0_cls
 // @fnv 0x00cf2fe0
 hkBoolCF2F FUN_00cf2fe0_cls::FUN_00cf2fe0() const
 {
-    return ((int)(::FindModifierConstraintAtom((::hkpConstraintInstance *)(this), 0x1b))) == 0;
+    return ::FindModifierConstraintAtom((::hkpConstraintInstance *)(this), 0x1b) == 0;
 }
 }  // namespace fnv_00cf2fe0
 
@@ -368,7 +369,7 @@ class hkpEntityCF3D
     int unkC0;
     int unkC4;
     int unkC8;
-    int m_cc;
+    void* m_cc;
     int unkD0;
     int unkD4;
     int unkD8;
@@ -389,11 +390,11 @@ class hkpPairCF3D
     hkpEntityCF3D* m_pEntityA;
     hkpEntityCF3D* m_pEntityB;
 
-    int FUN_00cf3dd0() const;
+    void* FUN_00cf3dd0() const;
 };
 
 // @fnv 0x00cf3dd0
-int hkpPairCF3D::FUN_00cf3dd0() const
+void* hkpPairCF3D::FUN_00cf3dd0() const
 {
     const hkpEntityCF3D* pkEntity = m_pEntityA;
     if (pkEntity->m_bFlag != 5)

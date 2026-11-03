@@ -2,7 +2,7 @@
 // src/havok/physics/vehicle/transmission/default/hkpvehicledefaulttransmission.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/vehicle/transmission/default/hkpvehicledefaulttransmission.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-#include "havok/hkpVehicleDefaultTransmission.h"
+#include "havok/hkpVehicleDefaultTransmission_decl_hkpvehicledefaulttransmission.h"
 
 struct FUN_00e43d00_arg1
 {

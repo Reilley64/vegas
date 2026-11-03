@@ -527,17 +527,25 @@ struct S_00d9ea80_Obj
     virtual S_00d9ea80_Sub* FUN_vfn40();
 };
 
+struct S_Listener;
 struct S_00d9ea80_Src
 {
     S_00d9ea80_Obj* obj;
-    int a;
+    S_Listener* a;
     int b;
     int d;
+};
+struct S_Listener;
+struct ListenerArg
+{
+    S_Listener* p;
+    ListenerArg(S_Listener* v) : p(v)
+    {}
 };
 struct S_00d9ea80_Entry
 {
     S_00d9ea80_Obj* obj;
-    int a;
+    S_Listener* a;
     int b;
 };
 struct S_00d9ea80_SrcArray
@@ -630,9 +638,9 @@ void S_00d9ea80::FUN_00d9ea80(int arg)
         {
             S_00d9ea80_Entry* e = (S_00d9ea80_Entry*)((char*)arr->m_data + off);
             S_00d9ea80_Obj* pObj = e->obj;
-            S_00d9ea80_Info* pInfo = ((::S_00d9ea80_Info *)(reinterpret_cast<::hkpPairCF3D *>((pObj->FUN_vfn40()))->FUN_00cf3dd0()));
+            S_00d9ea80_Info* pInfo = static_cast<::S_00d9ea80_Info *>(reinterpret_cast<::hkpPairCF3D *>((pObj->FUN_vfn40()))->FUN_00cf3dd0());
             if (pInfo->flags26 & 0xc)
-                ::FUN_00d9e2e0((::S_Owner *)(pObj), (::ListenerArg)(e->a), e->b);
+                ::FUN_00d9e2e0((::S_Owner *)(pObj), ::ListenerArg(e->a), e->b);
         }
     }
     unk4 = 0;
@@ -783,12 +791,6 @@ struct S_Owner
     char* block;
 };
 
-struct ListenerArg
-{
-    S_Listener* p;
-    ListenerArg(S_Listener* v) : p(v)
-    {}
-};
 // Iterates block entries in reverse, calling the listener's Notify0 for each entry whose properties flag bit 1 is set or when the resource flags bit 8 is set.
 // @fnv 0x00d9e2e0
 void FUN_00d9e2e0(S_Owner* self, ListenerArg listener, int aiSource)

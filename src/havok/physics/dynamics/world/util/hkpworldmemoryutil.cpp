@@ -275,7 +275,6 @@ void __cdecl ProcessChildLoop(ParamObj* param)
 
 extern "C" void _ReadWriteBarrier(void);
 
-extern DWORD DAT_00fdf044;
 
 typedef LPVOID(WINAPI* PFN_TlsGetValue)(DWORD dwTlsIndex);
 
@@ -303,7 +302,7 @@ class TaskObj
     virtual void vtbl04(void);
     virtual void vtbl08(void);
     virtual DWORD vtbl0C(void);
-    virtual void vtbl10(DWORD arg);
+    virtual void vtbl10(void* arg);
     virtual void vtbl14(void);
     virtual void vtbl18(void);
     virtual void vtbl1C(void);
@@ -340,7 +339,7 @@ void __cdecl FUN_00d01d20(Src* pSrc)
     D01D20Holder* h = (D01D20Holder*)static_cast<S_00d01bc0_Global*>(::FUN_00c85750());
     if (!h->m_pTask->vtbl24(r))
     {
-        pfnTls = (PFN_TlsGetValue)DAT_00fdf044;
+        pfnTls = &TlsGetValue;
         ProfBuf* pBuf = (ProfBuf*)pfnTls(DAT_0126835c);
         if (pBuf->m_pCur < pBuf->m_pRecordEnd)
         {
@@ -352,7 +351,7 @@ void __cdecl FUN_00d01d20(Src* pSrc)
             pBuf->m_pCur = pRec + 1;
         }
         TaskObj* pTask2 = ((::TaskObj *)(reinterpret_cast<::WorldWatchDogHolder *>((pSrc))->FUN_00c93570()));
-        pTask2->vtbl10((DWORD)pSrc);
+        pTask2->vtbl10(pSrc);
         ProfBuf* pBuf2 = (ProfBuf*)pfnTls(DAT_0126835c);
         if (pBuf2->m_pCur < pBuf2->m_pRecordEnd)
         {

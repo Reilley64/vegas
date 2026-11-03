@@ -533,8 +533,8 @@ void TESPackage::ResetFormData()
     flags = 0;
     f24 = 0;
     f22 = 0;
-    f2c = 0;
-    f30 = 0;
+    pPackageLocation = 0;
+    pPackageTarget = 0;
     f34 = 0;
     pCombatStyle = 0;
     data = 0;
@@ -1055,7 +1055,7 @@ struct FUN_00678cc0_shell : public DurationData
 // @fnv 0x00678cc0
 int FUN_00678cc0_shell::GetSecondByte()
 {
-    return *((signed char*)this + 1);
+    return cDayOfWeek;
 }
 
 struct FUN_00678ce0_shell : public DurationData
@@ -1066,7 +1066,7 @@ struct FUN_00678ce0_shell : public DurationData
 // @fnv 0x00678ce0
 char FUN_00678ce0_shell::FUN_00678ce0()
 {
-    return *((char*)this + 2);
+    return cDate;
 }
 
 struct FUN_00678d00_shell : public TESPackage
@@ -1664,16 +1664,17 @@ struct PackageTargetObj
 // @fnv 0x00672fc0
 void FUN_00672fc0_shell::FUN_00672fc0(PackageTargetRecord* apPackTarg)
 {
+    PackageTargetObj*& rpTarget = reinterpret_cast<PackageTargetObj*&>(pPackageTarget);
     if (apPackTarg)
     {
-        if (!*(PackageTargetObj**)((char*)this + 0x30))
-            *(PackageTargetObj**)((char*)this + 0x30) = new PackageTargetObj;
-        ((FUN_006801a0_shell*)*(PackageTargetObj**)((char*)this + 0x30))->FUN_006801a0(apPackTarg);
+        if (!rpTarget)
+            rpTarget = new PackageTargetObj;
+        ((FUN_006801a0_shell*)rpTarget)->FUN_006801a0(apPackTarg);
     }
     else
     {
-        delete *(PackageTargetObj**)((char*)this + 0x30);
-        *(PackageTargetObj**)((char*)this + 0x30) = 0;
+        delete rpTarget;
+        rpTarget = 0;
     }
 }
 
@@ -2458,7 +2459,7 @@ void FUN_006777b0_shell::ComputePackageFlags(TESObjectREFR* apLinkedRef)
     case 0:
         if (!GetTarget())
         {
-            if (f2c && reinterpret_cast<::FUN_00454b70 *>((((BGSTerrainManager*)f2c)))->GetHasLOD())
+            if (pPackageLocation && reinterpret_cast<::FUN_00454b70 *>(pPackageLocation)->GetHasLOD())
                 flags18 = 1;
             else
                 flags18 = 0;
@@ -4058,22 +4059,23 @@ struct FUN_00670b30 : LocationDescriptor
     ~FUN_00670b30();
 };
 
-// Copies apPackLoc into the package's location object at offset 0x2c, allocating it if null, or deletes and clears it when apPackLoc is null.
+// Copies apPackLoc into the package's location object, allocating it if null, or deletes and clears it when apPackLoc is null.
 // @fnv 0x00671d30
 void FUN_00671d30_shell::FUN_00671d30(LocationDescriptor* apPackLoc)
 {
+    LocationDescriptor*& rpLocation = reinterpret_cast<LocationDescriptor*&>(pPackageLocation);
     if (apPackLoc)
     {
-        if (!*(LocationDescriptor**)((char*)this + 0x2c))
+        if (!rpLocation)
         {
-            *(LocationDescriptor**)((char*)this + 0x2c) = new FUN_00670b30;
+            rpLocation = new FUN_00670b30;
         }
-        (*(LocationDescriptor**)((char*)this + 0x2c))->Copy(apPackLoc, false);
+        rpLocation->Copy(apPackLoc, false);
     }
     else
     {
-        delete (FUN_00670b30*)*(LocationDescriptor**)((char*)this + 0x2c);
-        *(LocationDescriptor**)((char*)this + 0x2c) = 0;
+        delete (FUN_00670b30*)rpLocation;
+        rpLocation = 0;
     }
 }
 }  // namespace fnv_00671d30
@@ -4083,14 +4085,19 @@ template <int N> struct EndianSizeTag
 };
 struct S
 {
+    unsigned int flags;
+    unsigned char type;
+    char pad5;
+    unsigned short f22;
+    unsigned short f24;
     void FUN_00670760();
 };
 // @fnv 0x00670760
 void S::FUN_00670760()
 {
-    ::FUN_00401080((int *)(unsigned short *)((unsigned short*)this));
-    ::FUN_00407a90((short *)(unsigned short *)((unsigned short*)((char*)this + 6)));
-    ::FUN_00407a90((short *)(unsigned short *)((unsigned short*)((char*)this + 8)));
+    ::FUN_00401080((int *)&flags);
+    ::FUN_00407a90((short *)&f22);
+    ::FUN_00407a90((short *)&f24);
 }
 
 struct FUN_006708b0
@@ -4439,15 +4446,18 @@ FUN_0067b950::FUN_0067b950()
 namespace fnv_0067bbf0 {
 struct TESEscortPackageData
 {
+    const void* pVtable;
+    unsigned int unk04;
+    int m_iValue;
     TESEscortPackageData* FUN_0067bbf0();
 };
 // @fnv 0x0067bbf0
 TESEscortPackageData* TESEscortPackageData::FUN_0067bbf0()
 {
     new ((void *)this) ::FUN_0067ad20_Class();
-    *reinterpret_cast<unsigned int*>(this) = reinterpret_cast<unsigned int>(&::DAT_01068960);
-    *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 4) = 0;
-    *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 8) = 0xC8;
+    pVtable = &::DAT_01068960;
+    unk04 = 0;
+    m_iValue = 0xC8;
     return this;
 }
 }  // namespace fnv_0067bbf0
@@ -4455,15 +4465,18 @@ TESEscortPackageData* TESEscortPackageData::FUN_0067bbf0()
 extern int DAT_01068988;
 struct S0067bfd0
 {
+    const void* pVtable;
+    unsigned int unk04;
+    float unk08;
     S0067bfd0* FUN_0067bfd0();
 };
 // @fnv 0x0067bfd0
 S0067bfd0* S0067bfd0::FUN_0067bfd0()
 {
     new ((void *)this) ::FUN_0067ad20_Class();
-    *reinterpret_cast<unsigned int*>(this) = reinterpret_cast<unsigned int>(&DAT_01068988);
-    *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 4) = 0;
-    *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 8) = 0.0f;
+    pVtable = &DAT_01068988;
+    unk04 = 0;
+    unk08 = 0.0f;
     return this;
 }
 
@@ -6008,6 +6021,11 @@ struct XActor
 struct _ref_006815c0
 {
 };
+struct ExtraFollowerView
+{
+    char pad[0xc];
+    _ref_006815c0* pFollowers;
+};
 struct FUN_00962720_shell
 {
     bool HasExtraFollowerForm(char* apForm);
@@ -6017,9 +6035,9 @@ struct FUN_00962720_shell
 bool FUN_00962720_shell::HasExtraFollowerForm(char* apForm)
 {
     ExtraFollower* pkFollower = ((FUN_00422700_shell*)((::ShellH *)(reinterpret_cast<::FUN_005d43c0_ *>(((*reinterpret_cast<::XActor * *>(&::_g_thePlayer))))->FUN_005d43c0())))->FUN_00422700();
-    if (pkFollower && *(char**)((char*)pkFollower + 0xc))
+    if (pkFollower && reinterpret_cast<ExtraFollowerView*>(pkFollower)->pFollowers)
     {
-        _ref_006815c0* pkNode = *(_ref_006815c0**)((char*)pkFollower + 0xc);
+        _ref_006815c0* pkNode = reinterpret_cast<ExtraFollowerView*>(pkFollower)->pFollowers;
         while (pkNode && *((char **)((void *)(pkNode))))
         {
             char* pkEntry = *((char **)((void *)(pkNode)));
@@ -6249,28 +6267,32 @@ class PACKAGE_PROCEDURE_TYPE
 };
 
 
-struct FUN_006738b0_shell
+struct PackageEventActionData
 {
-    char pad[0x28];
-    PACKAGE_PROCEDURE_TYPE* m_eProcedureType;
-    char pad2[0x58];
+    unsigned char data[0x10];
+};
+struct FUN_006738b0_shell : public ::TESPackage
+{
+    PackageEventActionData kOnBegin;
+    PackageEventActionData kOnEnd;
+    PackageEventActionData kOnChange;
 
     void FUN_006738b0();
 };
 
-// Calls M, then saves the sub-objects at offsets 0x1C, 0x4C, 0x5C and 0x6C and the script, package, condition and topic data under their chunk tags.
+// Calls M, then saves the package data block, the begin, end and change event actions and the script, package, condition and topic data under their chunk tags.
 // @fnv 0x006738b0
 void FUN_006738b0_shell::FUN_006738b0()
 {
     reinterpret_cast<::fnv_004855a0::ArrSI *>((reinterpret_cast<FUN_004855a0*>(this)))->FUN_004855a0();
 
     if (((bool)(::FUN_00401500())))
-        reinterpret_cast<::S *>((reinterpret_cast<S*>(reinterpret_cast<char*>(this) + 0x1C)))->FUN_00670760();
+        reinterpret_cast<::S *>(&flags)->FUN_00670760();
 
-    ::AppendChunk(0x54444B50, reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x1C), 0x0C);
+    ::AppendChunk(0x54444B50, reinterpret_cast<void*>(&flags), 0x0C);
 
     if (((bool)(::FUN_00401500())))
-        reinterpret_cast<::S *>((reinterpret_cast<S*>(reinterpret_cast<char*>(this) + 0x1C)))->FUN_00670760();
+        reinterpret_cast<::S *>(&flags)->FUN_00670760();
 
     if (reinterpret_cast<Script*>(this)->GetText())
         reinterpret_cast<::fnv_0067f6c0::FUN_0067f6c0_shell *>((reinterpret_cast<LocationDescriptor*>(reinterpret_cast<Script*>(this)->GetText())))->FUN_0067f6c0(0x54444C50);
@@ -6293,12 +6315,12 @@ void FUN_006738b0_shell::FUN_006738b0()
     if (reinterpret_cast<TESTopicInfo*>(this)->GetParentQuest())
         ::FUN_00485910(0x4D414E43, reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<TESTopicInfo*>(this)->GetParentQuest()))->FUN_0084e3a0());
 
-    if (m_eProcedureType)
-        m_eProcedureType->FUN_4();
+    if (data)
+        reinterpret_cast<PACKAGE_PROCEDURE_TYPE*>(data)->FUN_4();
 
-    reinterpret_cast<::FUN_0067dc80 *>((reinterpret_cast<FUN_0067dc80*>(reinterpret_cast<char*>(this) + 0x4C)))->Save(0x41424F50);
-    reinterpret_cast<::FUN_0067dc80 *>((reinterpret_cast<FUN_0067dc80*>(reinterpret_cast<char*>(this) + 0x5C)))->Save(0x41454F50);
-    reinterpret_cast<::FUN_0067dc80 *>((reinterpret_cast<FUN_0067dc80*>(reinterpret_cast<char*>(this) + 0x6C)))->Save(0x41434F50);
+    reinterpret_cast<::FUN_0067dc80 *>(reinterpret_cast<FUN_0067dc80*>(&kOnBegin))->Save(0x41424F50);
+    reinterpret_cast<::FUN_0067dc80 *>(reinterpret_cast<FUN_0067dc80*>(&kOnEnd))->Save(0x41454F50);
+    reinterpret_cast<::FUN_0067dc80 *>(reinterpret_cast<FUN_0067dc80*>(&kOnChange))->Save(0x41434F50);
 
     reinterpret_cast<::Holder *>((reinterpret_cast<FUN_00485680*>(this)))->FUN_00485680();
 }
@@ -7679,45 +7701,45 @@ void PackageEx::SetPackageType(int newType)
         {
         case 9:
             if (!reinterpret_cast<PackageResetOps*>(this)->FUN_0055b980())
-                f2c = reinterpret_cast<unsigned int>(new FUN_0067f030);
+                pPackageLocation = reinterpret_cast<::LocationDescriptor*>(new FUN_0067f030);
             data = reinterpret_cast<TESPatrolPackageData*>(new FUN_0067acf0);
             break;
         case 2:
             if (!((void *)(reinterpret_cast<::Script *>((reinterpret_cast<PackageResetOps*>(this)))->GetData())))
-                f30 = reinterpret_cast<unsigned int>(new PackageTargetObj);
+                pPackageTarget = reinterpret_cast<::PackageTargetRecord*>(new PackageTargetObj);
             if (!reinterpret_cast<PackageResetOps*>(this)->FUN_0055b980())
-                f2c = reinterpret_cast<unsigned int>(new FUN_0067f030);
+                pPackageLocation = reinterpret_cast<::LocationDescriptor*>(new FUN_0067f030);
             data = reinterpret_cast<TESPatrolPackageData*>(new FUN_0067bbf0);
             break;
         case 15:
         case 28:
             if (!((void *)(reinterpret_cast<::Script *>((reinterpret_cast<PackageResetOps*>(this)))->GetData())))
-                f30 = reinterpret_cast<unsigned int>(new PackageTargetObj);
+                pPackageTarget = reinterpret_cast<::PackageTargetRecord*>(new PackageTargetObj);
             data = reinterpret_cast<TESPatrolPackageData*>(new FUN_0067b170);
             break;
         case 1:
             data = reinterpret_cast<TESPatrolPackageData*>(new FUN_0067bfd0);
             if (!((void *)(reinterpret_cast<::Script *>((reinterpret_cast<PackageResetOps*>(this)))->GetData())))
-                f30 = reinterpret_cast<unsigned int>(new PackageTargetObj);
+                pPackageTarget = reinterpret_cast<::PackageTargetRecord*>(new PackageTargetObj);
             break;
         case 0:
         case 7:
         case 14:
         case 17:
             if (!((void *)(reinterpret_cast<::Script *>((reinterpret_cast<PackageResetOps*>(this)))->GetData())))
-                f30 = reinterpret_cast<unsigned int>(new PackageTargetObj);
+                pPackageTarget = reinterpret_cast<::PackageTargetRecord*>(new PackageTargetObj);
             break;
         case 8:
             data = reinterpret_cast<TESPatrolPackageData*>(new FUN_0067c770);
             if (!reinterpret_cast<PackageResetOps*>(this)->FUN_0055b980())
-                f2c = reinterpret_cast<unsigned int>(new FUN_0067f030);
+                pPackageLocation = reinterpret_cast<::LocationDescriptor*>(new FUN_0067f030);
             if (!((void *)(reinterpret_cast<::Script *>((reinterpret_cast<PackageResetOps*>(this)))->GetData())))
-                f30 = reinterpret_cast<unsigned int>(new PackageTargetObj);
+                pPackageTarget = reinterpret_cast<::PackageTargetRecord*>(new PackageTargetObj);
             break;
         case 16:
             reinterpret_cast<::FUN_00671a20_shell *>((reinterpret_cast<PackageResetOps*>(this)))->FUN_00671a20(true);
             if (!((void *)(reinterpret_cast<::Script *>((reinterpret_cast<PackageResetOps*>(this)))->GetData())))
-                f30 = reinterpret_cast<unsigned int>(new PackageTargetObj);
+                pPackageTarget = reinterpret_cast<::PackageTargetRecord*>(new PackageTargetObj);
             data = reinterpret_cast<TESPatrolPackageData*>(new FUN_0067caa0);
             break;
         case 13:
@@ -7725,16 +7747,16 @@ void PackageEx::SetPackageType(int newType)
             break;
         case 3:
             if (!((void *)(reinterpret_cast<::Script *>((reinterpret_cast<PackageResetOps*>(this)))->GetData())))
-                f30 = reinterpret_cast<unsigned int>(new PackageTargetObj);
-            if (!reinterpret_cast<::PackageTargetRecord *>((reinterpret_cast<TargetResetOps*>(f30)))->GetTargetKind())
-                reinterpret_cast<::PackageTargetRecord *>((reinterpret_cast<TargetResetOps*>(f30)))->SetTargetKind((::PACK_TARG_TYPE)(2));
+                pPackageTarget = reinterpret_cast<::PackageTargetRecord*>(new PackageTargetObj);
+            if (!reinterpret_cast<::PackageTargetRecord *>((reinterpret_cast<TargetResetOps*>(pPackageTarget)))->GetTargetKind())
+                reinterpret_cast<::PackageTargetRecord *>((reinterpret_cast<TargetResetOps*>(pPackageTarget)))->SetTargetKind((::PACK_TARG_TYPE)(2));
             data = reinterpret_cast<TESPatrolPackageData*>(new FUN_0067b950);
         case 4:
         case 5:
         case 6:
         case 12:
             if (!reinterpret_cast<PackageResetOps*>(this)->FUN_0055b980())
-                f2c = reinterpret_cast<unsigned int>(new FUN_0067f030);
+                pPackageLocation = reinterpret_cast<::LocationDescriptor*>(new FUN_0067f030);
             break;
         }
         f24 = 0;
@@ -10585,15 +10607,15 @@ void Package679120::SavePackage()
     }
     reinterpret_cast<::FUN_008579b0_shell *>((((SaveStream679120*)(*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame)))))->FUN_008579b0(&flags, 12);
     unsigned char presence = 0;
-    if (f2c)
+    if (pPackageLocation)
         presence |= 1;
-    if (f30)
+    if (pPackageTarget)
         presence |= 2;
     reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>(this)->FUN_00484ce0(&presence, 1);
-    if (f2c)
-        reinterpret_cast<::FUN_0067fa00_shell *>((((Location679120*)f2c)))->FUN_0067fa00();
-    if (f30)
-        reinterpret_cast<::C680590Target *>((((Target679120*)f30)))->SaveLoad();
+    if (pPackageLocation)
+        reinterpret_cast<::FUN_0067fa00_shell *>((((Location679120*)pPackageLocation)))->FUN_0067fa00();
+    if (pPackageTarget)
+        reinterpret_cast<::C680590Target *>((((Target679120*)pPackageTarget)))->SaveLoad();
     reinterpret_cast<::FUN_008579b0_shell *>((((SaveStream679120*)(*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame)))))->FUN_008579b0(&flags18, 4);
     if (*::g_011de4e8.Bool())
     {
@@ -10653,11 +10675,11 @@ void FUN_006797c0_shell::FUN_006797c0(FUN_006797c0_arg* a)
     {
         reinterpret_cast<::FUN_00865e50_shell *>((a))->FUN_00865e50(&flags, 12, 0);
         unsigned char bits = 0;
-        if (f2c != 0)
+        if (pPackageLocation != 0)
         {
             bits |= 1;
         }
-        if (f30 != 0)
+        if (pPackageTarget != 0)
         {
             bits |= 2;
         }
@@ -10666,13 +10688,13 @@ void FUN_006797c0_shell::FUN_006797c0(FUN_006797c0_arg* a)
             bits |= 4;
         }
         reinterpret_cast<::FUN_00865e50_shell *>((a))->FUN_00865e50(&bits, 1, 0);
-        if (f2c != 0)
+        if (pPackageLocation != 0)
         {
-            reinterpret_cast<::FUN_0067fb60_shell *>((((FUN_006797c0_sub*)f2c)))->FUN_0067fb60((::LocationInputStream *)(a));
+            reinterpret_cast<::FUN_0067fb60_shell *>((((FUN_006797c0_sub*)pPackageLocation)))->FUN_0067fb60((::LocationInputStream *)(a));
         }
-        if (f30 != 0)
+        if (pPackageTarget != 0)
         {
-            reinterpret_cast<::C80720Target *>((((FUN_006797c0_sub*)f30)))->SaveToBuffer((::C80720SaveBuffer *)(a));
+            reinterpret_cast<::C80720Target *>((((FUN_006797c0_sub*)pPackageTarget)))->SaveToBuffer((::C80720SaveBuffer *)(a));
         }
         if (data != 0)
         {

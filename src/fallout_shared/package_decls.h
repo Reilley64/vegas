@@ -41,7 +41,15 @@ public:
 class DurationData
 {
   public:
-    unsigned int time, duration;
+    union
+    {
+        unsigned int time;
+        struct
+        {
+            signed char cMonth, cDayOfWeek, cDate, cHour;
+        };
+    };
+    unsigned int duration;
     DurationData();
     ~DurationData();
     void Copy(DurationData*);
@@ -66,7 +74,9 @@ class TESPackage
     unsigned short f22, f24;
     char pad26[2];
     TESPatrolPackageData* data;
-    unsigned int f2c, f30, f34;
+    class LocationDescriptor* pPackageLocation;
+    PackageTargetRecord* pPackageTarget;
+    unsigned int f34;
     DurationData schedule;
     char pad40[8];
     TESCombatStyle* pCombatStyle;

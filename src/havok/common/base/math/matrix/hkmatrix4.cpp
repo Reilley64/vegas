@@ -439,7 +439,6 @@ __forceinline float Dot4(const float* left, const float* right)
 struct MatrixPointerQ
 {
     const Matrix4Q* volatile value;
-    MatrixPointerQ(const MatrixPointerQ& other);
 };
 struct Matrix4V
 {
@@ -951,5 +950,5 @@ void S00de9270_cls::FUN_00de9270(void* dst, const S00de9270_Mat* src)
     FUN_00de8910_Class* row = (FUN_00de8910_Class*)&matTmp.m_r0;
     reinterpret_cast<::S00de9140_Matrix4 *>((row))->FUN_00de8910(::DAT_0104da4c);
 
-    reinterpret_cast<::Matrix4V *>((((FUN_00de8da0_Class*)this)))->FUN_00de8da0((const ::Matrix4Q *)(dst), (::MatrixPointerQ)((const float*)&matTmp.m_r0));
+    reinterpret_cast<::Matrix4V *>((((FUN_00de8da0_Class*)this)))->FUN_00de8da0((const ::Matrix4Q *)(dst), ::MatrixPointerQ{(const ::Matrix4Q*)&matTmp.m_r0});
 }

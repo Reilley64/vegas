@@ -500,32 +500,29 @@ struct S_00d55bd0_TriangleShape : S_00d55bd0_Shape
 S_00d55bd0_Bool IsDegenerateTriangle(const S_00d55bd0_Vector4& a, const S_00d55bd0_Vector4& b,
                                      const S_00d55bd0_Vector4& c, float tolerance);
 
+// hkpExtendedMeshShape::TrianglesSubpart, 0x60 bytes on 32-bit (pointer fields where the generated
+// hkpExtendedMeshShapeTrianglesSubpart.h has them).
 struct S_00d55bd0_TrianglesSubpart
 {
-    int unk0;
-    int unk4;
-    int unk8;
-    int unkc;
-    int unk10;
-    int m_iTriangleCount;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3c;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4c;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5c;
+    signed char m_type;
+    signed char m_materialIndexType;
+    short m_indexStriding;
+    const void* m_vertexBase;            // +0x04
+    unsigned short m_vertexStriding;     // +0x08
+    unsigned short m_numTriangles;       // +0x0a
+    const void* m_indexBase;             // +0x0c
+    const void* m_materialBase;          // +0x10
+    int m_iTriangleCount;                // +0x14
+    const void* m_materialIndexBase;     // +0x18
+    int m_triangleIndexStride;           // +0x1c
+    int m_stridedVertexCount;            // +0x20
+    __m128 m_vertexTransform;            // +0x30
+    const void* m_materialDataBase;      // +0x40
+    int m_materialStriding;              // +0x44
+    signed char m_indexStridingType;     // +0x48
+    signed char m_flipAlternateTriangles;  // +0x49
+    int m_iTriangleOffset;               // +0x4c
+    void* m_userData;                    // +0x50
 };
 
 struct S_00d55bd0_ShapesSubpart
@@ -2091,7 +2088,7 @@ struct FUN_00d56200_cls
     int unka8;
     int unkac;
     int unkb0;
-    char* m_b4;
+    S_00d55bd0_TrianglesSubpart* m_b4;
     int m_b8;
     int unkbc;
     int unkc0;
@@ -2102,7 +2099,7 @@ struct FUN_00d56200_cls
     void FUN_00d56200(int a1);
 };
 
-// Stores a1 in m_d8; if a1 is 6 frees and resets m_cc, else writes running totals into the 0x60-byte records of m_b4 and grows m_cc to the total.
+// Stores a1 in m_d8; if a1 is 6 frees and resets m_cc, else writes running triangle offsets into the triangle subparts of m_b4 and grows m_cc to the total.
 // @fnv 0x00d56200
 void FUN_00d56200_cls::FUN_00d56200(int a1)
 {
@@ -2113,14 +2110,10 @@ void FUN_00d56200_cls::FUN_00d56200(int a1)
         int i = 0;
         if (m_b8 > total)
         {
-            char* base = m_b4;
-            int off = 0;
             do
             {
-                *(int*)(base + off + 0x4c) = total;
-                base = m_b4;
-                total += *(int*)(base + off + 0x14);
-                off += 0x60;
+                m_b4[i].m_iTriangleOffset = total;
+                total += m_b4[i].m_iTriangleCount;
                 ++i;
             } while (i < m_b8);
         }

@@ -23,7 +23,6 @@
 #include "fnv/decl/RefCountedNamedObject.h"
 #include "fnv/decl/S_00b601a0_Map.h"
 #include "fnv/decl/ShaderEntryOwner.h"
-#include "fnv/decl/ShaderStringPointerMap.h"
 #include "fnv/decl/fnv_00e93bb0__NiD3DShaderProgramFactory_Shell.h"
 #include "fnv/symbols_00450000.h"
 #include "fnv/symbols_00a29000.h"
@@ -35,6 +34,7 @@
 #include "fnv/symbols_011f6000.h"
 #include "fnv/symbols_0126f000.h"
 #include "nid3dshaderfactory_decls.h"
+#include "fnv/decl/FUN_0043a010_shell.h"
 
 const char kFailedShaderFactoryMessage[] = "Failed to create shader factory!";
 
@@ -1225,6 +1225,31 @@ struct ShaderFactory_e92a40 : NiD3DShaderFactory
 {
     void FUN_00e92a40(FUN_00d47a30_class* p);
 };
+struct ShaderMapItem
+{
+    ShaderMapItem* m_pkNext;
+    const char* m_key;
+    NiPointer<ShaderRefObject> m_val;
+};
+struct ShaderMapAllocator
+{
+    unsigned int m_uiCount;
+};
+class ShaderStringPointerMap
+{
+  public:
+    virtual ~ShaderStringPointerMap();
+    virtual unsigned int KeyToHashIndex(const char* key) const;
+    virtual bool IsKeysEqual(const char* key1, const char* key2) const;
+    virtual void SetValue(ShaderMapItem* pkItem, const char* key, NiPointer<ShaderRefObject> val);
+
+    unsigned int m_uiHashSize;
+    ShaderMapItem** m_ppkHashTable;
+    ShaderMapAllocator m_kItemCount;
+    bool m_bCopy;
+
+    void FUN_00e927f0(const char* key, NiPointer<ShaderRefObject> val) throw();
+};
 // @fnv 0x00e92a40
 void ShaderFactory_e92a40::FUN_00e92a40(FUN_00d47a30_class* p)
 {
@@ -1884,4 +1909,44 @@ bool FUN_00e92330_cls::FUN_00e92330(uintptr_t apItem)
     return result;
 }
 
+
+
+
+
+// @fnv 0x00e927f0
+void ShaderStringPointerMap::FUN_00e927f0(const char* key, NiPointer<ShaderRefObject> val)
+{
+    unsigned int uiIndex = KeyToHashIndex(key);
+    ShaderMapItem* pkItem = m_ppkHashTable[uiIndex];
+    while (pkItem)
+    {
+        if (IsKeysEqual(key, pkItem->m_key))
+        {
+            if (!m_bCopy)
+                pkItem->m_key = key;
+            pkItem->m_val = val;
+            return;
+        }
+        pkItem = pkItem->m_pkNext;
+    }
+
+    pkItem = (ShaderMapItem*)((void *)(reinterpret_cast<::FUN_0043a010_shell *>(&(m_kItemCount))->FUN_0043a010()));
+    SetValue(pkItem, key, val);
+    pkItem->m_pkNext = m_ppkHashTable[uiIndex];
+    m_ppkHashTable[uiIndex] = pkItem;
+    m_kItemCount.m_uiCount++;
+}
+
+
+
+struct FUN_00a1e740_Class
+{
+    bool FUN_00a1e740(const char*, const char*);
+};
+
+// @fnv 0x00a1e740
+bool FUN_00a1e740_Class::FUN_00a1e740(const char* pcKey1, const char* pcKey2)
+{
+    return NiStricmp(pcKey1, pcKey2) == 0;
+}
 #include "generated/data/gamebryo2.2/corelibs/niconsolerenderer/nid3dshaderfactory.inc"

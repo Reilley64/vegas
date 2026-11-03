@@ -12,6 +12,10 @@
 #include "fnv/symbols_01202000.h"
 #include "fnv/symbols_0126f000.h"
 #include "niglobalstringtable_decls.h"
+#include <new>
+#include "fnv/decl/FUN_00a5b530.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/symbols_011f6000.h"
 
 #pragma optimize("", off)
 // @fnv 0x004f31b0
@@ -122,4 +126,20 @@ bool NiPlaybackFile::FindString(const char* name, bool silent, bool preload, boo
     return local.bSuccess;
 }
 
+
+struct P03MM
+{
+};
+
+// @fnv 0x00a5b630
+void FUN_00a5b630()
+{
+    NiGlobalStringTable* allocatedTable = static_cast<NiGlobalStringTable*>(reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(0x2100));
+    if (allocatedTable)
+    {
+        DAT_011f42c0 = ((::NiGlobalStringTable *)(new ((void *)(allocatedTable)) class ::FUN_00a5b530()));
+        return;
+    }
+    DAT_011f42c0 = 0;
+}
 #include "generated/data/gamebryo2.2/corelibs/nimain/niglobalstringtable.inc"

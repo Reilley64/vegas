@@ -6425,5 +6425,4 @@ unsigned int ConstantMapView::FUN_00e85d10(unsigned int slot, Mapping* apMapping
     return 0;
 }
 }  // namespace fnv_00e85d10
-
 #include "generated/data/gamebryo2.2/corelibs/niconsolerenderer/nid3dshaderconstantmap.inc"

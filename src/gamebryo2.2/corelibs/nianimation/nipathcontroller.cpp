@@ -1616,5 +1616,4 @@ void RetryCtlr::FUN_00a4ab50(float afTime, unsigned int& aiKey0, unsigned int& a
     aiKey0 = idx;
     aiKey1 = next;
 }
-
 #include "generated/data/gamebryo2.2/corelibs/nianimation/nipathcontroller.inc"

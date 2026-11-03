@@ -26,6 +26,7 @@
 #include "fnv/symbols_011f6000.h"
 #include "fnv/symbols_0126f000.h"
 #include "nid3dshaderprogramfactory_packet.h"
+#include "fnv/symbols_00e92000.h"
 // @fnv 0x00e93000
 const char* NiD3DShaderProgramFactory::GetNextName(void*& apPosition)
 {
@@ -1073,4 +1074,36 @@ void* __cdecl FUN_00e932f0(const char* pcFilename)
 }
 }  // namespace fnv_00e932f0
 
+void DestroyProgram();
+extern "C" void* __cdecl _fnv_zlib_memset(void* dst, int value, unsigned int size);
+
+struct RecursiveSpinLock
+{
+public:
+    void FUN_0040fba0();
+};
+template <class T> struct PoolAllocatorBase
+{
+    struct LinkedListEntry
+    {
+        LinkedListEntry* m_pkNext;
+        int m_iData;
+    };
+    static LinkedListEntry* ms_pFreeList;
+};
+struct FUN_0045cee0_shell
+{
+    void FUN_0045cee0(void*);
+};
+// @fnv 0x0045cee0
+void FUN_0045cee0_shell::FUN_0045cee0(void* pkItem)
+{
+    reinterpret_cast<::FUN_0040fbf0_shell *>(&((*reinterpret_cast<::RecursiveSpinLock *>(&::g_011c5f80))))->FUN_0040fbf0((char *)(0));
+    PoolAllocatorBase<unsigned int>::LinkedListEntry* pkNode =
+        (PoolAllocatorBase<unsigned int>::LinkedListEntry*)pkItem;
+    pkNode->m_iData = 0;
+    pkNode->m_pkNext = (*reinterpret_cast<::PoolAllocatorBase<unsigned int>::LinkedListEntry * *>(&::DAT_011c5f58));
+    (*reinterpret_cast<::PoolAllocatorBase<unsigned int>::LinkedListEntry * *>(&::DAT_011c5f58)) = pkNode;
+    reinterpret_cast<::RecursiveSpinLock *>(&((*reinterpret_cast<::RecursiveSpinLock *>(&::g_011c5f80))))->FUN_0040fba0();
+}
 #include "generated/data/gamebryo2.2/corelibs/niconsolerenderer/nid3dshaderprogramfactory.inc"

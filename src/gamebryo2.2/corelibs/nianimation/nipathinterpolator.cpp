@@ -35,6 +35,10 @@
 #include "fnv/symbols_011a9000.h"
 #include "fnv/symbols_011f3000.h"
 #include "fnv/symbols_011f4000.h"
+#include "fnv/decl/FUN_00a3ce20_shell.h"
+#include "fnv/decl/FUN_00a3dd40.h"
+#include "fnv/symbols_00a3f000.h"
+#include "fnv/symbols_00a57000.h"
 void* __cdecl FUN_00a3dab0()
 {
     return &(*reinterpret_cast<void * *>(&::g_011f3f68));
@@ -1920,4 +1924,89 @@ void PathMotion::EvaluateBasis(unsigned int aiFirstKey, unsigned int aiSecondKey
 }
 }  // namespace fnv_00a3de50
 
+void* __cdecl FUN_00a3dab0();
+void* __cdecl FUN_00a3dde0();
+int GetChannelIndex(unsigned short usChannel);
+
+
+class NiRefObjectE6F0
+{
+  public:
+    virtual ~NiRefObjectE6F0();
+    virtual void DeleteThis();
+    void IncRefCount()
+    {
+        InterlockedIncrement(&m_uiRefCount);
+    }
+    void DecRefCount()
+    {
+        if (InterlockedDecrement(&m_uiRefCount) == 0)
+            DeleteThis();
+    }
+    long m_uiRefCount;
+};
+
+template <class T> class NiPointerE6F0
+{
+  public:
+    NiPointerE6F0(T* pObject = 0)
+    {
+        m_pObject = pObject;
+        if (m_pObject)
+            m_pObject->IncRefCount();
+    }
+    ~NiPointerE6F0()
+    {
+        if (m_pObject)
+            m_pObject->DecRefCount();
+    }
+    NiPointerE6F0& operator=(const NiPointerE6F0& ptr)
+    {
+        T* pObject = ptr.m_pObject;
+        if (m_pObject != pObject)
+        {
+            if (m_pObject)
+                m_pObject->DecRefCount();
+            m_pObject = pObject;
+            if (m_pObject)
+                m_pObject->IncRefCount();
+        }
+        return *this;
+    }
+    T* m_pObject;
+};
+
+class InterpolatorE6F0 : public NiRefObjectE6F0
+{
+  public:
+};
+
+class ControllerE6F0
+{
+  public:
+    ControllerE6F0* FUN_00a3e6f0(float fA, float fB);
+
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int m_iFadeIndex;
+    int unk18;
+    NiPointerE6F0<InterpolatorE6F0> m_spInterp;
+};
+
+// @fnv 0x00a3e6f0
+ControllerE6F0* ControllerE6F0::FUN_00a3e6f0(float fA, float fB)
+{
+    ControllerE6F0* pkCopy = ((::ControllerE6F0 *)(::FUN_00a57050((intptr_t)this, fA)));
+    if (m_spInterp.m_pObject)
+    {
+        NiPointerE6F0<InterpolatorE6F0> spInterp;
+        reinterpret_cast<::FUN_00a3ce20_shell *>((m_spInterp.m_pObject))->FUN_00a3ce20(fA, fB, (::NiFloatData **)&(spInterp));
+        pkCopy->m_spInterp = spInterp;
+        pkCopy->m_iFadeIndex = 0;
+    }
+    return pkCopy;
+}
 #include "generated/data/gamebryo2.2/corelibs/nianimation/nipathinterpolator.inc"

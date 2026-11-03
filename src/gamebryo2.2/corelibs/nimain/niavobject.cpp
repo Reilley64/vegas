@@ -42,6 +42,9 @@
 #include "fnv/symbols_011f5000.h"
 #include "fnv/symbols_011f6000.h"
 #include "fnv/symbols_011f9000.h"
+#include "fnv/decl/DummyStruct_00631820.h"
+#include "fnv/symbols_004b0000.h"
+#include "fnv/symbols_005e0000.h"
 struct NiMemObject
 {
     char _pad_0[1];
@@ -2976,4 +2979,110 @@ void FUN_00a5a170_cls::FUN_00a5a170(A170Set* apSource, bool abAllocate, A170Set*
 }
 }  // namespace fnv_00a5a170
 
+char const* const* __cdecl FUN_00a5a420();
+const void* __cdecl FUN_00b4e1d0();
+
+// @fnv 0x00438220
+int __cdecl FUN_00438220()
+{
+    return 3;
+}
+
+struct Flt
+{
+    operator unsigned int() const;
+};
+struct TESActorBaseData
+{
+    unsigned short GetFatigue() const;
+};
+struct FUN_00456650_shell
+{
+    unsigned short FUN_00456650() const;
+};
+// @fnv 0x00456650
+unsigned short FUN_00456650_shell::FUN_00456650() const
+{
+    return ((TESActorBaseData*)((const Flt*)((const char*)this + 0xb8))->operator unsigned int())->GetFatigue();
+}
+
+struct FUN_004a51b0_shell
+{
+    const float* FUN_004a51b0(int i) const;
+};
+
+// @fnv 0x004a51b0
+const float* FUN_004a51b0_shell::FUN_004a51b0(int i) const
+{
+    const float* base = (const float*)this;
+    return base + i;
+}
+
+struct FUN_0094db80_shell
+{
+    void FUN_0094db80(unsigned char ucRef);
+};
+// @fnv 0x0094db80
+void FUN_0094db80_shell::FUN_0094db80(unsigned char ucRef)
+{
+    *reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(this) + 0x1a) = ucRef;
+}
+
+struct NiObjectStub;
+
+struct ObjPtr
+{
+    NiObjectStub* m_pObject;
+    ObjPtr(NiObjectStub* pObject);
+    ~ObjPtr();
+    bool operator!=(const ObjPtr& ptr) const;
+    ObjPtr& operator=(const ObjPtr& ptr);
+};
+
+
+struct ObjPtrArray
+{
+    virtual ~ObjPtrArray();
+    ObjPtr* m_pBase;
+    unsigned short m_usMaxSize;
+    unsigned short m_usSize;
+    unsigned short m_usESize;
+    unsigned short m_usGrowBy;
+
+    void FUN_004afc80();
+};
+
+// @fnv 0x004afc80
+void ObjPtrArray::FUN_004afc80()
+{
+    if (m_usESize == m_usSize)
+        return;
+
+    if (m_usESize)
+    {
+        for (unsigned short i = 0, j = 0; i < m_usSize; i++)
+        {
+            if (reinterpret_cast<::DummyStruct_00631820 *>((void *)&(const ::ObjPtr &)(m_pBase[i]))->IsNotEqual((const ::DummyStruct_00631820 &)((const ::ObjPtr &)(ObjPtr(0)))))
+            {
+                if (reinterpret_cast<::DummyStruct_00631820 *>((void *)&(const ::ObjPtr &)(m_pBase[j]))->IsNotEqual((const ::DummyStruct_00631820 &)(m_pBase[i])))
+                    m_pBase[j] = m_pBase[i];
+                j++;
+            }
+        }
+    }
+
+    ObjPtr* pSaveBase = m_pBase;
+    m_usMaxSize = m_usSize = m_usESize;
+    if (m_usMaxSize > 0)
+    {
+        m_pBase = ((::ObjPtr *)(::FUN_005e0ba0(m_usMaxSize)));
+        for (unsigned short i = 0; i < m_usSize; i++)
+            m_pBase[i] = pSaveBase[i];
+    }
+    else
+    {
+        m_pBase = 0;
+    }
+    ::FUN_004b0220((intptr_t)(pSaveBase));
+}
 #include "generated/data/gamebryo2.2/corelibs/nimain/niavobject.inc"

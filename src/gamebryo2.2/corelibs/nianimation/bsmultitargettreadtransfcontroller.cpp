@@ -16,6 +16,10 @@
 #include "fnv/symbols_011f3000.h"
 #include "fnv/symbols_011f6000.h"
 #include "bsmultitargettreadtransfcontroller_decls.h"
+#include <cstddef>
+#include <cstring>
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/symbols_00401000.h"
 // @fnv 0x00a358a0
 NiInterpolator* BSMultiTargetTreadTransfController::GetInterpolator(unsigned short index)
 {
@@ -64,8 +68,8 @@ struct FUN_00a35fc0_shell
 // @fnv 0x00a35fc0
 void FUN_00a35fc0_shell::SetSlotValue(unsigned short usIndex, void* pValue)
 {
-    void* arr = *(void**)((char*)this + 0x3c);
-    void* slot = *(void**)((char*)arr + usIndex * 4);
+    void** arr = *(void***)((char*)this + 0x3c);
+    void* slot = arr[usIndex];
     *(void**)((char*)slot + 4) = pValue;
     if (pValue)
         *(int*)((char*)pValue + 0x30) |= 0x80;
@@ -79,23 +83,24 @@ public:
     void LoadBinary(::NiStream &);
 };
 
+class NiAVObject;
 struct FUN_00a35910_shell
 {
-    unsigned short FindIndexByValue(unsigned short a);
+    unsigned short FindIndexByValue(NiAVObject* a);
 };
 
 // Scans the array at this+0x3c for an entry whose field at offset 4 equals a, returning its index or INVALID_INDEX.
 // @fnv 0x00a35910
-unsigned short FUN_00a35910_shell::FindIndexByValue(unsigned short a)
+unsigned short FUN_00a35910_shell::FindIndexByValue(NiAVObject* a)
 {
     unsigned short i = 0;
     unsigned short n = *(unsigned short*)((char*)this + 0x40);
     if (i < n)
     {
-        unsigned int* arr = *(unsigned int**)((char*)this + 0x3c);
+        char** arr = *(char***)((char*)this + 0x3c);
         do
         {
-            if (*(unsigned int*)(arr[i] + 4) == *(unsigned int*)&a)
+            if (*(NiAVObject**)(arr[i] + 4) == a)
                 return i;
             ++i;
         } while (i < n);
@@ -913,4 +918,92 @@ unsigned short FUN_00a35eb0_shell::FindByName(const char* name)
     return DAT_01096320;
 }
 
+bool FUN_00a2fac0(InterpStub_00a2fac0* apInterpolator, unsigned short ausIndex);
+void __cdecl FUN_00a35840(NiStream* stream);
+
+struct ArrayCount
+{
+    unsigned int value;
+    ArrayCount(unsigned int count) : value(count)
+    {}
+};
+struct MemoryManagerAllocHelper
+{
+};
+struct SNAEntry
+{
+    static void* operator new(std::size_t n)
+    {
+        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::MemoryManagerAllocHelper *>(&::g_memoryManager))))->FUN_00aa3e40(n);
+    }
+    static void* operator new[](std::size_t s, ArrayCount count)
+    {
+        if (count.value == 0)
+            return ::FUN_00401000(4);
+        return FUN_00aa1420(s);
+    }
+    static void operator delete[](void*, std::size_t);
+};
+struct FUN_00a42f60 : SNAEntry
+{
+    long refs;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    __declspec(nothrow) FUN_00a42f60();
+    virtual ~FUN_00a42f60();
+};
+struct NodeA35
+{
+    int a;
+    int b;
+    int c;
+};
+void* __cdecl FUN_00aa1070(unsigned int);
+struct TargetA35
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    FUN_00a42f60* entries;
+    unsigned short count;
+    NodeA35** nodes;
+    unsigned short nodeCount;
+    void FUN_00a35a80(unsigned short, unsigned short);
+};
+// @fnv 0x00a35a80
+void TargetA35::FUN_00a35a80(unsigned short n, unsigned short m)
+{
+    count = n;
+    nodeCount = m;
+    if (n)
+    {
+        entries = new (ArrayCount(n)) FUN_00a42f60[n];
+        for (unsigned short i = 0; i < n; ++i)
+            InterlockedIncrement(&entries[i].refs);
+        nodes = (NodeA35**)FUN_00aa1070(sizeof(NodeA35*) * m);
+        std::memset(nodes, 0, sizeof(NodeA35*) * m);
+        for (unsigned short i = 0; i < m; ++i)
+            nodes[i] = new NodeA35();
+    }
+}
 #include "generated/data/gamebryo2.2/corelibs/nianimation/bsmultitargettreadtransfcontroller.inc"
+#include "generated/data/gamebryo2.2/corelibs/nianimation/bsmultitargettreadtransfcontroller_ehsc_noehsc_variant.inc"

@@ -67,6 +67,13 @@
 #include "fnv/symbols_011f6000.h"
 #include "fnv/symbols_0126f000.h"
 #include "niconsolepersistentsrctexturerendererdata_decls.h"
+#include "fnv/decl/A5d470Class.h"
+#include "fnv/decl/FUN_00c35eb0.h"
+#include "fnv/symbols_00a89000.h"
+#include "fnv/symbols_01202000.h"
+#include "fnv/decl/A5D6E0This.h"
+#include "fnv/decl/FUN_00a5d450_class.h"
+#include "fnv/symbols_00c36000.h"
 
 struct NiD3DShaderProgramCreator;
 
@@ -8074,4 +8081,423 @@ NiDX9RenderedCubeMapData* __cdecl FUN_00e901a0(NiRenderedCubeMap* pkTexture, NiD
     return pkThis;
 }
 
+
+class NiObject;
+struct NiStream
+{
+public:
+    ::NiObject *GetLoadedObject();
+};
+
+
+struct FUN_00c36040_Class
+{
+    void FUN_00c36040(NiStream* stream);
+};
+
+// @fnv 0x00c36040
+void FUN_00c36040_Class::FUN_00c36040(NiStream* stream)
+{
+    reinterpret_cast<::FUN_00a5d610_Object *>((((NiObject*)this)))->ReadGroup((::NiStream *)&(*stream));
+    reinterpret_cast<::FUN_00a645b0_cls *>((stream))->FUN_00a645b0();
+}
+
+namespace fnv_00c36070 {
+class NiStream;
+class NiObject
+{
+  public:
+    virtual void LinkObject(class NiStream&);
+};
+class NiStream
+{
+  public:
+};
+struct GO
+{
+    GO& operator=(void*);
+};
+struct Holder : public NiObject
+{
+    char _pad[8];
+    GO m_go;
+    void FUN_00c36070(class NiStream&);
+};
+// @fnv 0x00c36070
+void Holder::FUN_00c36070(class NiStream& stream)
+{
+    int _u1;
+    int _u2;
+    ::FUN_00a89af0((intptr_t)this);
+    m_go = ((::fnv_00c36070::NiObject *)(reinterpret_cast<::NiStream *>(&(stream))->GetLoadedObject()));
+}
+}  // namespace fnv_00c36070
+
+struct FUN_00c36220_class
+{
+    void* AppendCameraPathEntries(int);
+    void* FUN_00c36220(int arg);
+};
+
+// @fnv 0x00c36220
+void* FUN_00c36220_class::FUN_00c36220(int arg)
+{
+    return AppendCameraPathEntries(arg);
+}
+
+struct S_00c36290
+{
+    void* FUN_00c36290(unsigned int);
+};
+// @fnv 0x00c36290
+void* S_00c36290::FUN_00c36290(unsigned int flags)
+{
+    reinterpret_cast<::FUN_00c35eb0 *>((this))->FUN_00c35eb0::~FUN_00c35eb0();
+    if (flags & 1)
+        ::FUN_00aa1460(this, 0x10);
+    return this;
+}
+
+struct R_00c362c0
+{
+    virtual void f0();
+    virtual void f1();
+    volatile long ref;
+};
+struct S_00c362c0
+{
+    R_00c362c0* ptr;
+    void FUN_00c362c0();
+};
+// @fnv 0x00c362c0
+void S_00c362c0::FUN_00c362c0()
+{
+    R_00c362c0* p;
+    if (ptr)
+    {
+        p = ptr;
+        if (InterlockedDecrement(&p->ref) == 0)
+            p->f1();
+    }
+}
+
+
+struct FUN_00c36300_Class
+{
+    void* FUN_00c36300();
+};
+
+// @fnv 0x00c36300
+void* FUN_00c36300_Class::FUN_00c36300()
+{
+    return &(*reinterpret_cast<void * *>(&::g_01202810));
+}
+
+struct BSMultiBound
+{
+    void* b[4];
+    BSMultiBound();
+};
+struct FUN_00c35f50_class
+{
+    void FUN_00c35fe0(BSMultiBound*, int);
+    BSMultiBound* FUN_00c35f50(int);
+};
+
+// @fnv 0x00c35f50
+BSMultiBound* FUN_00c35f50_class::FUN_00c35f50(int a)
+{
+    BSMultiBound* t = new BSMultiBound;
+    FUN_00c35fe0(t, a);
+    return t;
+}
+
+extern int _data_011c16bc;
+
+struct A51BF0Base
+{
+};
+
+// @fnv 0x00c361a0
+BSMultiBound* FUN_00c361a0()
+{
+    return new BSMultiBound;
+}
+
+// @fnv 0x00c36130
+struct S_00c36130
+{
+    void* unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    bool FUN_00c36130(S_00c36130*);
+};
+bool S_00c36130::FUN_00c36130(S_00c36130* arg)
+{
+    bool result = reinterpret_cast<::A5d470Class *>(this)->IsSameAs((::A5d470Object *)(arg));
+    S_00c36130* other = arg;
+    {
+        int a;
+        int b;
+        if ((bool)(int)(unk0c == other->unk0c) && ((a = unk08) == (b = other->unk08)))
+        {
+            result = true;
+        }
+        else
+        {
+            result = false;
+        }
+    }
+    return result;
+}
+
+struct FUN_00c360f0_StreamVTable
+{
+    virtual void f0();
+    virtual void f1();
+    virtual void f2();
+    virtual void f3();
+    virtual void f4();
+    virtual void f5();
+    virtual void f6();
+    virtual void f7();
+    virtual void f8();
+    virtual void f9();
+    virtual void f10();
+    virtual void f11();
+    virtual void f12(int);
+};
+
+struct FUN_00c360f0_shell : fnv_00c36070::NiObject
+{
+    int unk04;
+    int unk08;
+    int val;
+    void FUN_00c360f0(fnv_00c36070::NiStream&);
+};
+
+// @fnv 0x00c360f0
+void FUN_00c360f0_shell::FUN_00c360f0(fnv_00c36070::NiStream& s)
+{
+    ::FUN_00a89af0((intptr_t)this);
+    int tmp = val;
+    reinterpret_cast<FUN_00c360f0_StreamVTable&>(s).f12(tmp);
+}
+
+
+struct Obj
+{
+    virtual void v0();
+    virtual void v1();
+    virtual void v2();
+    virtual void v3();
+    virtual void v4();
+    virtual void v5();
+    virtual void v6();
+    virtual void v7();
+    virtual void v8();
+    virtual void v9();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual void v20();
+    virtual void v21();
+    virtual void v22();
+    virtual void v23();
+    virtual void v24();
+    virtual void v25();
+    virtual void v26();
+    virtual void v27();
+    virtual void v28();
+    virtual void v29();
+    virtual void v30();
+    virtual void v31();
+    virtual void v32();
+    virtual void v33();
+    virtual void v34();
+    virtual void v35();
+    virtual void v36();
+    virtual void v37();
+    virtual void v38();
+    virtual void v39();
+    virtual void v40();
+    virtual void v41();
+    virtual void v42();
+    virtual void v43();
+    virtual void v44();
+    virtual unsigned char v45(int a);
+};
+
+struct SP
+{
+    Obj* m_p;
+    operator Obj*() const
+    {
+        return m_p;
+    }
+    Obj* operator->() const
+    {
+        return m_p;
+    }
+};
+
+struct Cls
+{
+    void* m_ppVirtualMethodTable;
+    unsigned int m_u04;
+    unsigned int m_u08;
+    SP m_sp;
+
+    unsigned char FUN_00c36240(int arg);
+};
+
+// @fnv 0x00c36240
+unsigned char Cls::FUN_00c36240(int arg)
+{
+    if (m_sp)
+        return m_sp->v45(arg);
+    return 0;
+}
+
+struct NiNode
+{
+    virtual void v00();
+    virtual void v01();
+    virtual void v02();
+    virtual void v03();
+    virtual void v04();
+    virtual void v05();
+    virtual void v06();
+    virtual void v07();
+    virtual void v08();
+    virtual void v09();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual NiNode* MakeClone(int kCloning);
+};
+
+template <class T> class NiPointer
+{
+  public:
+    T* m_p;
+    operator T*() const
+    {
+        return m_p;
+    }
+    T* operator->() const
+    {
+        return m_p;
+    }
+    NiPointer& operator=(T* pObject)
+    {
+        T* pOld = m_p;
+        m_p = pObject;
+        for (int i = 0; i < 1; ++i)
+        {
+            if (pObject)
+                pObject->v00();
+            if (pOld)
+                pOld->v00();
+        }
+        return *this;
+    }
+};
+
+class NiObjectCM
+{
+  public:
+};
+
+struct BSMbW
+{
+    void* q0;
+    void* q1;
+    void* q2;
+    NiPointer<NiNode> m_spShape;
+};
+
+// @fnv 0x00c35fe0
+void FUN_00c35f50_class::FUN_00c35fe0(BSMultiBound* pkDest, intptr_t kCloning)
+{
+    reinterpret_cast<::FUN_00a5d450_class *>((((NiObjectCM*)this)))->CreateVertexBufferSet((uintptr_t)pkDest, (void*)kCloning);
+    NiNode* pNewInstance = ((BSMbW*)this)->m_spShape->MakeClone(kCloning);
+    ((BSMbW*)pkDest)->m_spShape = pNewInstance;
+}
+
+struct FUN_00c360a0_target_shell
+{
+    virtual void v0();
+    virtual void v1();
+    virtual void v2();
+    virtual void v3();
+    virtual void v4();
+    virtual void v5();
+    virtual void v6();
+    virtual void v7();
+    virtual void v8();
+    virtual void v9();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual void v20();
+    virtual void f21(void* arg);
+};
+
+struct FUN_00c360a0_sp_shell
+{
+    FUN_00c360a0_target_shell* m_p;
+    operator FUN_00c360a0_target_shell*() const
+    {
+        return m_p;
+    }
+    FUN_00c360a0_target_shell* operator->() const
+    {
+        return m_p;
+    }
+};
+
+struct FUN_00a5d2f0_shell
+{
+    bool FUN_00a5d2f0(void* arg);
+};
+
+struct FUN_00c360a0_shell
+{
+    void* unk00;
+    unsigned int unk04;
+    unsigned int unk08;
+    FUN_00c360a0_sp_shell m_sp0c;
+
+    bool FUN_00c360a0(void* arg);
+};
+
+// @fnv 0x00c360a0
+bool FUN_00c360a0_shell::FUN_00c360a0(void* arg)
+{
+    if (!((FUN_00a5d2f0_shell*)this)->FUN_00a5d2f0(arg))
+        return false;
+    m_sp0c->f21(arg);
+    return true;
+}
 #include "generated/data/gamebryo2.2/corelibs/niconsolerenderer/niconsolepersistentsrctexturerendererdata.inc"

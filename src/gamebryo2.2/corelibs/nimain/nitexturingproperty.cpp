@@ -2338,4 +2338,39 @@ void* MapScalarDtorCandidate::FUN_00a6a9f0(unsigned int flags)
     return this;
 }
 
+
+class ObjectBase
+{
+  public:
+    virtual unsigned int Destroy(unsigned int flags);
+};
+
+class ObjectArray_b9713
+{
+  public:
+    ObjectBase** GetAt(unsigned int i);
+    void SetAt(unsigned int i, ObjectBase*& v);
+};
+
+class Owner_b9713
+{
+  public:
+    unsigned int m_u00, m_u04, m_u08, m_u0c, m_u10, m_u14, m_u18;
+    ObjectArray_b9713 m_ppData;
+    void FUN_00533f40(ObjectBase* v);
+};
+
+// @fnv 0x00533f40
+void Owner_b9713::FUN_00533f40(ObjectBase* v)
+{
+    ObjectBase* old = *m_ppData.GetAt(0);
+    if (v != old)
+    {
+        ObjectBase* a = old;
+        ObjectBase* b8 = a;
+        b8 ? b8->Destroy(1) : 0;
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(&(m_ppData))->SetAt(0, (char *&)(v));
+    }
+}
 #include "generated/data/gamebryo2.2/corelibs/nimain/nitexturingproperty.inc"
+#include "generated/data/gamebryo2.2/corelibs/nimain/nitexturingproperty_od_variant.inc"

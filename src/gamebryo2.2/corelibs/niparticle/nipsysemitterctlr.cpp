@@ -21,7 +21,6 @@
 #include "fnv/decl/FUN_00c315b0_cls.h"
 #include "fnv/decl/Host_data.h"
 #include "fnv/decl/NiGlobalStringTable.h"
-#include "fnv/decl/NiPSysEmitterCtlr_StandIn.h"
 #include "fnv/decl/NiTimeControllerA362.h"
 #include "fnv/decl/S_00a53280_Foo.h"
 #include "fnv/decl/S_00c313a0.h"
@@ -53,6 +52,8 @@
 #include "nipsysemitterctlr_types_NiStream.h"
 #include "nipsysemitterctlr_external.h"
 #include <new>
+#include "fnv/decl/fnv_00495d50__Holder_00495d50.h"
+#include "fnv/symbols_00653000.h"
 
 // @fnv 0x00c1bdf0
 void NiPSysEmitterCtlr::LoadBinary(NiStream& stream)
@@ -1624,6 +1625,18 @@ struct C630Ctlr
     }
     void FUN_00c1c630(float* time);
 };
+struct GO
+{
+    operator unsigned int() const;
+};
+struct NiPSysEmitterCtlr_StandIn
+{
+    char pad[0x34];
+    GO m34;
+    NiBoolInterpolator* FUN_00639b60();
+public:
+    void FUN_00c5cb20(::NiPSysEmitterCtlr_StandIn *, void *);
+};
 // Updates the particle controller time and emits particles over the active intervals between the old and new times using the rate interpolator.
 // @fnv 0x00c1c630
 void C630Ctlr::FUN_00c1c630(float* time)
@@ -1850,4 +1863,37 @@ void C630Ctlr::FUN_00c1c630(float* time)
     }
 }
 
+void* __cdecl FUN_00a537e0();
+void FUN_00c1ba30(FUN_00c1ba30* self, int unused);
+const char* const* __cdecl FUN_00c1c2f0();
+const char* const* FUN_00c1ba50(unsigned short usIndex);
+
+
+struct NiBlendBoolInterpolator : NiBoolInterpolator
+{
+};
+
+// @fnv 0x00639b60
+NiBoolInterpolator* NiPSysEmitterCtlr_StandIn::FUN_00639b60()
+{
+    NiBoolInterpolator* pkBoolInterp;
+    NiBlendBoolInterpolator* pkBlendInterp;
+
+    pkBoolInterp = reinterpret_cast<NiBoolInterpolator*>(((void *)(::FUN_00653270((const ::NiRTTI *)(void *)(&(*reinterpret_cast<int *>(&::g_011f3738))), (::NiObject *)(m34.operator unsigned int())))));
+
+    if (pkBoolInterp)
+        return pkBoolInterp;
+
+    pkBlendInterp =
+        reinterpret_cast<NiBlendBoolInterpolator*>(((void *)(::FUN_00653270((const ::NiRTTI *)(void *)(&::g_011f3e58), (::NiObject *)(m34.operator unsigned int())))));
+
+    if (pkBlendInterp)
+    {
+        unsigned char m_ucClipIdentifier = reinterpret_cast<::nsa::FUN_00a368f0_cls *>((pkBlendInterp))->FindHighestWeightIndex();
+        if (m_ucClipIdentifier != DAT_01096968)
+            return ((::NiBoolInterpolator *)(reinterpret_cast<::fnv_00495d50::Holder_00495d50 *>((pkBlendInterp))->GetValueForIndex(m_ucClipIdentifier)));
+    }
+
+    return 0;
+}
 #include "generated/data/gamebryo2.2/corelibs/niparticle/nipsysemitterctlr.inc"

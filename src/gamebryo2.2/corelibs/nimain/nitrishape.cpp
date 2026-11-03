@@ -349,3 +349,24 @@ void __cdecl FUN_00a71d10()
 {
     FUN_00a9b1a0();
 }
+
+
+class NiTriGeom2
+{
+  public:
+    void FUN_0051d000(unsigned short a);
+    void FUN_0051d020(unsigned short a, unsigned short b, unsigned short c);
+};
+
+// @fnv 0x0051d000
+void NiTriGeom2::FUN_0051d000(unsigned short a)
+{
+    reinterpret_cast<::NiTriBasedGeom *>((this))->SetBitfield(a, 7, 0);
+}
+
+void NiTriGeom2::FUN_0051d020(unsigned short a, unsigned short b, unsigned short c)
+{
+    (void)a;
+    (void)b;
+    (void)c;
+}

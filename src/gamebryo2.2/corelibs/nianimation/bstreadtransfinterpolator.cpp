@@ -13,6 +13,10 @@
 #include "fnv/symbols_00aa1000.h"
 #include "fnv/symbols_0109b000.h"
 #include "fnv/symbols_011f6000.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/NiStream.h"
+#include "fnv/decl/fnv_00a64df0__FUN_00a64df0_Stream.h"
+#include "fnv/symbols_00aa0000.h"
 struct FUN_00a43560_shell
 {
     unsigned char m_auiShapeKeys[0x20];
@@ -66,13 +70,6 @@ void* FUN_00a435a0_shell::FUN_00a435a0(short arg1)
     return 0;
 }
 
-struct BSTreadTransfInterpolator
-{
-    ~BSTreadTransfInterpolator();
-    void* FUN_00a43a50(unsigned int flags);
-public:
-    void FUN_00a43690(::BSTreadTransfInterpolator *, void *);
-};
 
 
 struct FUN_00a435c0_shell
@@ -667,6 +664,66 @@ class TreadTransfInterpolator : public NiKeyBasedInterpolator
     unsigned int m_uiSampleIndex;
     NiPointer<NiFloatData> m_spFloatData;
 };
+struct FixedStringHeader
+{
+    volatile long references;
+    unsigned int unk04;
+};
+struct NiFixedString
+{
+    const char* value;
+    static FixedStringHeader* Header(const char* text)
+    {
+        return reinterpret_cast<FixedStringHeader*>(const_cast<char*>(text)) - 1;
+    }
+    ~NiFixedString()
+    {
+        if (value != ::DAT_0109b220)
+            InterlockedDecrement(&Header(value)->references);
+    }
+    NiFixedString& operator=(const NiFixedString& other)
+    {
+        if (value != other.value)
+        {
+            const char* next = other.value;
+            if (next != ::DAT_0109b220)
+                InterlockedIncrement(&Header(next)->references);
+            if (value != ::DAT_0109b220)
+                InterlockedDecrement(&Header(value)->references);
+            value = next;
+        }
+        return *this;
+    }
+};
+struct TreadTransformEntry
+{
+    NiQuatTransform first;
+    NiQuatTransform second;
+    NiFixedString name;
+    TreadTransformEntry();
+};
+class NiObject : public NiRefObject
+{
+};
+class NiInterpolator : public NiObject
+{
+  public:
+    float lastTime;
+};
+class BSTreadTransfInterpolator : public NiInterpolator
+{
+  public:
+    TreadTransformEntry* entries;
+    unsigned int count;
+    float firstValue;
+    float secondValue;
+    unsigned int unk1c;
+    NiPointer<NiObject> reference;
+    void FUN_00a43690(BSTreadTransfInterpolator*, void*);
+public:
+    ~BSTreadTransfInterpolator();
+    void* FUN_00a43a50(unsigned int flags);
+};
 
 // Allocates a new TreadTransfInterpolator, passes it and kCloning to FUN_00a43690, then returns it.
 // @fnv 0x00a439e0
@@ -754,4 +811,347 @@ FUN_00a43840::~FUN_00a43840()
         r->Release();
     }
     reinterpret_cast<::FUN_00a3ca30_shell *>(this)->FUN_00a3ca30();
+}
+
+
+
+struct MemoryManager
+{
+};
+
+class A438D0Object
+{
+  public:
+    virtual void unk00();
+    virtual void DeleteThis();
+    void IncRefCount()
+    {
+        InterlockedIncrement(&m_uiRefCount);
+    }
+    void DecRefCount()
+    {
+        if (InterlockedDecrement(&m_uiRefCount) == 0)
+            DeleteThis();
+    }
+    long m_uiRefCount;
+};
+template <class T> class NiPointerA438
+{
+  public:
+    NiPointerA438& operator=(T* pObject)
+    {
+        if (m_pObject != pObject)
+        {
+            if (m_pObject)
+                m_pObject->DecRefCount();
+            m_pObject = pObject;
+            if (m_pObject)
+                m_pObject->IncRefCount();
+        }
+        return *this;
+    }
+    T* m_pObject;
+};
+
+class A438D0BinaryStream
+{
+  public:
+    void* m_ppVirtualMethodTable;
+    unsigned int m_uiStreamFlags;
+    unsigned int(__cdecl* m_pfnRead)(A438D0BinaryStream*, void*, unsigned int, unsigned int*, unsigned int);
+
+    unsigned int BinaryRead(void* p, unsigned int n, unsigned int* sizes, unsigned int count)
+    {
+        unsigned int read = m_pfnRead(this, p, n, sizes, count);
+        m_uiStreamFlags += read;
+        return read;
+    }
+};
+
+struct A438D0Stream
+{
+    int unk000;
+    int unk004;
+    int unk008;
+    int unk00C;
+    int unk010;
+    int unk014;
+    int unk018;
+    int unk01C;
+    int unk020;
+    int unk024;
+    int unk028;
+    int unk02C;
+    int unk030;
+    int unk034;
+    int unk038;
+    int unk03C;
+    int unk040;
+    int unk044;
+    int unk048;
+    int unk04C;
+    int unk050;
+    int unk054;
+    int unk058;
+    int unk05C;
+    int unk060;
+    int unk064;
+    int unk068;
+    int unk06C;
+    int unk070;
+    int unk074;
+    int unk078;
+    int unk07C;
+    int unk080;
+    int unk084;
+    int unk088;
+    int unk08C;
+    int unk090;
+    int unk094;
+    int unk098;
+    int unk09C;
+    int unk0A0;
+    int unk0A4;
+    int unk0A8;
+    int unk0AC;
+    int unk0B0;
+    int unk0B4;
+    int unk0B8;
+    int unk0BC;
+    int unk0C0;
+    int unk0C4;
+    int unk0C8;
+    int unk0CC;
+    int unk0D0;
+    int unk0D4;
+    int unk0D8;
+    int unk0DC;
+    int unk0E0;
+    int unk0E4;
+    int unk0E8;
+    int unk0EC;
+    int unk0F0;
+    int unk0F4;
+    int unk0F8;
+    int unk0FC;
+    int unk100;
+    int unk104;
+    int unk108;
+    int unk10C;
+    int unk110;
+    int unk114;
+    int unk118;
+    int unk11C;
+    int unk120;
+    int unk124;
+    int unk128;
+    int unk12C;
+    int unk130;
+    int unk134;
+    int unk138;
+    int unk13C;
+    int unk140;
+    int unk144;
+    int unk148;
+    int unk14C;
+    int unk150;
+    int unk154;
+    int unk158;
+    int unk15C;
+    int unk160;
+    int unk164;
+    int unk168;
+    int unk16C;
+    int unk170;
+    int unk174;
+    int unk178;
+    int unk17C;
+    int unk180;
+    int unk184;
+    int unk188;
+    int unk18C;
+    int unk190;
+    int unk194;
+    int unk198;
+    int unk19C;
+    int unk1A0;
+    int unk1A4;
+    int unk1A8;
+    int unk1AC;
+    int unk1B0;
+    int unk1B4;
+    int unk1B8;
+    int unk1BC;
+    int unk1C0;
+    int unk1C4;
+    int unk1C8;
+    int unk1CC;
+    int unk1D0;
+    int unk1D4;
+    int unk1D8;
+    int unk1DC;
+    int unk1E0;
+    int unk1E4;
+    int unk1E8;
+    int unk1EC;
+    int unk1F0;
+    int unk1F4;
+    int unk1F8;
+    int unk1FC;
+    int unk200;
+    int unk204;
+    int unk208;
+    int unk20C;
+    int unk210;
+    int unk214;
+    int unk218;
+    int unk21C;
+    int unk220;
+    int unk224;
+    int unk228;
+    int unk22C;
+    int unk230;
+    int unk234;
+    int unk238;
+    int unk23C;
+    int unk240;
+    int unk244;
+    int unk248;
+    A438D0BinaryStream* m_pUnderlyingStream;
+
+};
+
+struct A438D0Transform
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+};
+
+struct A438D0Name
+{
+    void* m_kHandle;
+    A438D0Name() throw()
+    {
+        m_kHandle = 0;
+    }
+    ~A438D0Name() throw();
+};
+
+struct A438D0MemObject
+{
+};
+
+struct A438D0Entry : A438D0MemObject
+{
+    A438D0Transform m_kTransform0;
+    A438D0Transform m_kTransform1;
+    A438D0Name m_kName;
+    A438D0Entry() throw();
+};
+
+template <class T> inline void NiBinaryStreamLoadA438(A438D0BinaryStream* pkIstr, T* pValue, unsigned int uiNumEls)
+{
+    unsigned int uiComponentSize = sizeof(T);
+    pkIstr->BinaryRead(pValue, uiNumEls * sizeof(T), &uiComponentSize, 1);
+}
+template <class T> inline void NiStreamLoadBinaryA438(A438D0Stream& kStream, T& kValue)
+{
+    NiBinaryStreamLoadA438(kStream.m_pUnderlyingStream, &kValue, 1);
+}
+class A438D0Base
+{
+  public:
+};
+
+class A438D0Interpolator : public A438D0Base
+{
+  public:
+    void FUN_00a438d0(A438D0Stream& kStream);
+
+    int unk00;
+    int unk04;
+    int unk08;
+    A438D0Entry* m_pkEntryArray;
+    unsigned int m_uiNumEntries;
+    int unk14;
+    int unk18;
+    int unk1C;
+    NiPointerA438<A438D0Object> m_spReferencedObject;
+};
+struct NiQuatTransform
+{
+    float x, y, z;
+    float qx, qy, qz, qw;
+    float scale;
+public:
+    NiQuatTransform();
+    void LoadBinary(::NiStream &);
+    bool IsInvalid() const;
+};
+
+// @fnv 0x00a438d0
+void A438D0Interpolator::FUN_00a438d0(A438D0Stream& kStream)
+{
+    ::FUN_00aa0ac0();
+    NiStreamLoadBinaryA438(kStream, m_uiNumEntries);
+    m_pkEntryArray = new A438D0Entry[m_uiNumEntries];
+    for (unsigned int i = 0; i < m_uiNumEntries; i++)
+    {
+        reinterpret_cast<::fnv_00a64df0::FUN_00a64df0_Stream *>(&(kStream))->FUN_00a64df0((*(::fnv_00a64df0::NiFixedString *)(&m_pkEntryArray[i].m_kName)));
+        reinterpret_cast<::NiQuatTransform *>(&(m_pkEntryArray[i].m_kTransform0))->LoadBinary((::NiStream &)(kStream));
+        reinterpret_cast<::NiQuatTransform *>(&(m_pkEntryArray[i].m_kTransform1))->LoadBinary((::NiStream &)(kStream));
+    }
+    m_spReferencedObject = ((::A438D0Object *)(reinterpret_cast<::NiStream *>(&(kStream))->DeserializeObject()));
+}
+
+class NiRefObject_decl_ehsc_noehsc
+{
+  public:
+    virtual ~NiRefObject_decl_ehsc_noehsc();
+    virtual void DeleteThis();
+    volatile long references;
+    void DecRefCount()
+    {
+        if (InterlockedDecrement(&references) == 0)
+            DeleteThis();
+    }
+};
+template <class T> struct NiPointer_decl_ehsc_noehsc
+{
+    T* object;
+    NiPointer_decl_ehsc_noehsc& operator=(const NiPointer_decl_ehsc_noehsc& other)
+    {
+        if (object != other.object)
+        {
+            if (object)
+                object->DecRefCount();
+            object = other.object;
+            if (object)
+                InterlockedIncrement(&object->references);
+        }
+        return *this;
+    }
+};
+// @fnv 0x00a43690
+void BSTreadTransfInterpolator::FUN_00a43690(BSTreadTransfInterpolator* destination, void* context)
+{
+    ::FUN_00aa0ab0();
+    delete[] destination->entries;
+    destination->count = count;
+    destination->entries = new TreadTransformEntry[count];
+    for (unsigned int i = 0; i < count; i++)
+    {
+        destination->entries[i].name = entries[i].name;
+        destination->entries[i].first = entries[i].first;
+        destination->entries[i].second = entries[i].second;
+    }
+    destination->reference = reference;
+    destination->firstValue = firstValue;
+    destination->secondValue = secondValue;
 }

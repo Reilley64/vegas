@@ -7,5 +7,5 @@ public:
     // 0x004f06d0
     void FUN_004f06d0(::NiAVObject *);
     // 0x00a35910
-    unsigned short FindIndexByValue(unsigned short);
+    unsigned short FindIndexByValue(::NiAVObject *);
 };

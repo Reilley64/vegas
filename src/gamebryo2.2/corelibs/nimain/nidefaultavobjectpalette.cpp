@@ -525,7 +525,7 @@ void PaletteShell::FUN_00a6e5b0(CloningProcess& kCloning)
     NiFixedString kName;
     NiObject*& pkClone = reinterpret_cast<NiObject*&>(kName.m_kHandle);
     pkClone = 0;
-    reinterpret_cast<::A54440Hash *>((void *)(kCloning.m_pCloneMap))->FUN_00a53c30((*(::A54440Manager * *)&(const ::NiObject * &)(this)), (::A54440Manager **)&(pkClone));
+    reinterpret_cast<::A54440Hash *>((void *)(kCloning.m_pCloneMap))->FUN_00a53c30(reinterpret_cast<::A54440Manager *>((this)), (::A54440Manager **)&(pkClone));
     PaletteShell* pkDest = (PaletteShell*)pkClone;
 
     if (m_pkScene)

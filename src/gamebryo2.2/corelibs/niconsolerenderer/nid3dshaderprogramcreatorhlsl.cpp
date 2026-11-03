@@ -24,6 +24,7 @@
 #include "fnv/symbols_00ee6000.h"
 #include "fnv/symbols_010f1000.h"
 #include "fnv/symbols_0126f000.h"
+#include "fnv/symbols_00c85000.h"
 struct NiD3DPixelShader
 {
     void* DestroyPixelShader(unsigned int flags);
@@ -1805,4 +1806,20 @@ HLSLPixelShaderObj* BufferPixelShaderCreator::FUN_00e96100(ID3DXBuffer* code, un
     return shader;
 }
 
+void* __cdecl FUN_00e95cc0();
+const void* __cdecl FUN_00e95df0();
+
+struct ID3DXConstantTable;
+struct NiD3DHLSLPixelShader_od
+{
+    char m_auiShapeKeys[0x48];
+    ID3DXConstantTable* m_pShaderConstantTable;
+    ID3DXConstantTable* FUN_00b18300();
+};
+
+// @fnv 0x00b18300
+ID3DXConstantTable* NiD3DHLSLPixelShader_od::FUN_00b18300()
+{
+    return m_pShaderConstantTable;
+}
 #include "generated/data/gamebryo2.2/corelibs/niconsolerenderer/nid3dshaderprogramcreatorhlsl.inc"

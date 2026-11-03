@@ -32,6 +32,18 @@
 #include "fnv/symbols_01101000.h"
 #include "fnv/symbols_011ac000.h"
 #include "fnv/symbols_011f6000.h"
+#include "fnv/decl/CpuObject.h"
+#include "fnv/decl/FUN_00eea550_cls.h"
+#include "fnv/decl/FUN_00eea650_stand_in.h"
+#include "fnv/decl/FixedStringHolder.h"
+#include "fnv/decl/NiD3DShaderProgram.h"
+#include "fnv/decl/fnv_00eea570__CpuObject.h"
+#include "fnv/decl/fnv_00eea6d0__NiLookAtInterpolator.h"
+#include "fnv/decl/fnv_00eea710__FUN_00eea710_class.h"
+#include "fnv/symbols_00a5b000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_0101d000.h"
+#include "fnv/symbols_010f0000.h"
 void __cdecl FUN_00aa1ab0()
 {
     ((void (*)())DAT_11ac230)();
@@ -879,6 +891,7 @@ struct Ee9b10_Map
     unsigned int m_uiHashSize;
     MapItem** m_ppkHashTable;
     bool __declspec(noinline) Lookup(NiFixedString& key, Ee9b10_Value*& val);
+public:
 };
 
 struct Ee9b10_Visitor
@@ -1693,4 +1706,310 @@ bool GpuCacheWriter::FUN_00ee9620()
     return false;
 }
 
+RecordPair* __cdecl CreateRecordPair();
+char* __cdecl FUN_00a5b690(const char*);
+void ClearAndDeleteItem(ItemWithDtor* pItem);
+void* __cdecl FUN_00ec61c0(void*, int, unsigned int);
+bool RemoveMissingKeys(KeyObj* apKeyObj, FUN_00ee90f0_cls* apEntryList);
+
+
+
+struct CacheRefVTable
+{
+    void(* Destroy)(void*);
+    void(* DeleteThis)(void*);
+};
+
+class RefObjBase
+{
+  public:
+    RefObjBase() throw() : m_vtbl(&(*reinterpret_cast<const ::CacheRefVTable *>(&::DAT_0101dce4))), m_uiRefCount(0)
+    {
+        InterlockedIncrement(&(*reinterpret_cast<long *>(&::NiRefObject::ms_lObjectCount)));
+    }
+    void DeleteThis()
+    {
+        m_vtbl->DeleteThis(this);
+    }
+    const CacheRefVTable* m_vtbl;
+    long m_uiRefCount;
+};
+
+struct ShaderPtr
+{
+    void* m_p;
+    ShaderPtr& operator=(void* p);
+};
+
+struct ShaderEntry : RefObjBase
+{
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    ShaderEntry() throw();
+};
+
+struct EntrySet
+{
+    ShaderEntry** m_pBase;
+    unsigned int m_uiElementCount;
+    unsigned int m_uiAllocatedCapacity;
+};
+
+struct ShaderGroup : RefObjBase
+{
+    ShaderPtr m_pGeometryShader;
+    EntrySet m_kEntries;
+    ShaderGroup() throw()
+    {
+        m_vtbl = &(*reinterpret_cast<const ::CacheRefVTable *>(&::fnv_00e8ead0::DAT_010f0134));
+        m_pGeometryShader.m_p = 0;
+        m_kEntries.m_pBase = 0;
+        m_kEntries.m_uiElementCount = 0;
+        m_kEntries.m_uiAllocatedCapacity = 0;
+    }
+};
+
+struct GroupPtrArg
+{
+    ShaderGroup* m_p;
+    GroupPtrArg(ShaderGroup* p) : m_p(p)
+    {
+        if (m_p)
+            InterlockedIncrement(&m_p->m_uiRefCount);
+    }
+    GroupPtrArg(const GroupPtrArg& o) : m_p(o.m_p)
+    {
+        if (m_p)
+            InterlockedIncrement(&m_p->m_uiRefCount);
+    }
+};
+
+struct GroupMap
+{
+    void SetAt(const FixedStr& key, GroupPtrArg val);
+};
+
+static inline unsigned int ReadRaw(S_00a8d8b0* s, void* dst, unsigned int total, unsigned int elem)
+{
+    unsigned int sz = elem;
+    unsigned int result = s->fn(s, dst, total, &sz, 1);
+    s->pos += result;
+    return result;
+}
+
+static inline void ReleaseStr(FixedStr& s)
+{
+    if (s.m_kHandle != ::DAT_0109b220)
+        InterlockedDecrement((long*)(s.m_kHandle - 8));
+}
+
+static __forceinline void ReadStr0(S_00a8d8b0* s, char* buf)
+{
+    unsigned int len = 0;
+    ReadRaw(s, &len, 4, 4);
+    if (len == 0)
+    {
+        buf[0] = 0;
+    }
+    else
+    {
+        AdvancePosition(s, buf, len);
+        buf[len + 1] = 0;
+    }
+}
+static __forceinline void ReadStr(S_00a8d8b0* s, char* buf)
+{
+    unsigned int len = 0;
+    ReadRaw(s, &len, 4, 4);
+    if (len == 0)
+    {
+        buf[0] = 0;
+    }
+    else
+    {
+        ReadRaw(s, buf, len, 1);
+        buf[len + 1] = 0;
+    }
+}
+
+class ShaderLib
+{
+  public:
+    virtual void v00();
+    virtual void v04();
+    virtual void v08();
+    virtual void v0c();
+    virtual void v10();
+    virtual void v14();
+    virtual void v18();
+    virtual void v1c();
+    virtual void v20();
+    virtual void v24();
+    virtual void v28();
+    virtual void v2c();
+    virtual void v30();
+    virtual void v34();
+    virtual void v38();
+    virtual void v3c();
+    virtual void v40();
+    virtual void v44();
+    virtual void v48();
+    virtual void v4c();
+    virtual void v50();
+    virtual void v54();
+    virtual void v58();
+    virtual void v5c();
+    virtual void v60();
+    virtual void v64();
+    virtual void v68();
+    virtual void v6c();
+    virtual void v70();
+    virtual void v74();
+    virtual void v78();
+    virtual void v7c();
+    virtual void v80();
+    virtual void v84();
+    virtual void v88();
+    virtual void v8c();
+    virtual void v90();
+    virtual bool LoadShader(S_00a8d8b0* s, FixedStr& name, void*& out, bool skip);
+
+    int unk04;
+    GroupMap m_kObjectGroups;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int m_iSlotCount;
+
+    bool FUN_00ee9cc0(S_00a8d8b0* s, bool& changed);
+};
+
+// @fnv 0x00ee9cc0
+bool ShaderLib::FUN_00ee9cc0(S_00a8d8b0* s, bool& changed)
+{
+    char buf[0x200];
+    int version;
+    ReadRaw(s, &version, 4, 4);
+    ReadStr0(s, buf);
+    FixedStr name;
+    name.m_kHandle = NiGlobalStringTable::AddString(buf);
+    bool skip = false;
+    if (version != m_iSlotCount)
+    {
+        changed = true;
+        skip = true;
+    }
+    GroupMap* map;
+    {
+        ShaderGroup* found = 0;
+        map = &m_kObjectGroups;
+        if (reinterpret_cast<::fnv_00ee9b10::Ee9b10_Map *>((map))->Lookup((::NiFixedString &)(name), (::fnv_00ee9b10::Ee9b10_Value *&)(found)))
+            skip = true;
+        if (found)
+        {
+            if (InterlockedDecrement(&found->m_uiRefCount) == 0)
+                found->DeleteThis();
+        }
+    }
+    ShaderGroup* group = 0;
+    if (!skip)
+        group = new ShaderGroup;
+
+    void* shader = 0;
+    if (!LoadShader(s, name, shader, skip))
+    {
+        ReleaseStr(name);
+        return false;
+    }
+    if (!skip)
+        group->m_pGeometryShader = shader;
+
+    unsigned int count = 0;
+    ReadRaw(s, &count, 4, 4);
+    for (unsigned int i = 0; i < count; i++)
+    {
+        if (!skip)
+        {
+            ShaderEntry* e = new ShaderEntry;
+            ReadStr(s, buf);
+            FixedStr t1;
+            t1.m_kHandle = NiGlobalStringTable::AddString(buf);
+            ::AssignFixedString((char *)(e), (intptr_t)&(t1), {});
+            ReleaseStr(t1);
+            ReadStr(s, buf);
+            FixedStr t2;
+            t2.m_kHandle = NiGlobalStringTable::AddString(buf);
+            reinterpret_cast<::FUN_00eea650_stand_in *>((e))->FUN_00eea650((const ::FUN_00ee8a10 &)(t2));
+            ReleaseStr(t2);
+            ReadStr(s, buf);
+            FixedStr t3;
+            t3.m_kHandle = NiGlobalStringTable::AddString(buf);
+            reinterpret_cast<::FixedStringHolder *>((e))->FUN_00eea690((const char **)&(t3));
+            ReleaseStr(t3);
+            ReadStr(s, buf);
+            FixedStr t4;
+            t4.m_kHandle = NiGlobalStringTable::AddString(buf);
+            reinterpret_cast<::fnv_00eea6d0::NiLookAtInterpolator *>((e))->FUN_00eea6d0((const ::fnv_00eea6d0::NiFixedString &)(t4));
+            ReleaseStr(t4);
+            ReadStr(s, buf);
+            FixedStr t5;
+            t5.m_kHandle = NiGlobalStringTable::AddString(buf);
+            reinterpret_cast<::fnv_00eea710::FUN_00eea710_class *>((e))->AssignRefCounted((void **)&(t5));
+            ReleaseStr(t5);
+            uintptr_t v;
+            ReadRaw(s, &v, 4, 4);
+            reinterpret_cast<::NiD3DShaderProgram *>((e))->FUN_00eea540((::NiD3DShaderProgramCreator *)(v));
+            ReadRaw(s, &v, 4, 4);
+            reinterpret_cast<::FUN_00eea550_cls *>((e))->FUN_00eea550(v);
+            ReadRaw(s, &v, 4, 4);
+            reinterpret_cast<::CpuObject *>((e))->FUN_00eea560(v);
+            ReadRaw(s, &v, 4, 4);
+            reinterpret_cast<::fnv_00eea570::CpuObject *>((e))->FUN_00eea570(v);
+            {
+                ShaderEntry* sp = e;
+                if (e)
+                    InterlockedIncrement(&e->m_uiRefCount);
+                reinterpret_cast<::fnv_00a2f170::S00a2f170_TmpSet *>(&(group->m_kEntries))->FUN_00e8ea60((const ::fnv_00a2f170::S00a2f170_Ptr< ::fnv_00a2f170::S00a2f170_Seq> &)(sp));
+            }
+            if (e)
+            {
+                if (InterlockedDecrement(&e->m_uiRefCount) == 0)
+                    e->DeleteThis();
+            }
+        }
+        else
+        {
+            ReadStr(s, buf);
+            ReadStr(s, buf);
+            ReadStr(s, buf);
+            ReadStr(s, buf);
+            ReadStr(s, buf);
+            unsigned int v;
+            ReadRaw(s, &v, 4, 4);
+            ReadRaw(s, &v, 4, 4);
+            ReadRaw(s, &v, 4, 4);
+            ReadRaw(s, &v, 4, 4);
+        }
+    }
+    if (!skip && group->m_pGeometryShader.m_p)
+    {
+        map->SetAt(name, group);
+    }
+    ReleaseStr(name);
+    return true;
+}
 #include "generated/data/gamebryo2.2/corelibs/nimain/nigpuprogramcache.inc"

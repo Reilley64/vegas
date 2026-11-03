@@ -20,6 +20,8 @@
 #include "fnv/symbols_00aa1000.h"
 #include "fnv/symbols_00c26000.h"
 #include "fnv/symbols_01202000.h"
+#include <cmath>
+#include "fnv/decl/MyPoint439180.h"
 void* __cdecl FUN_00c26810()
 {
     return &(*reinterpret_cast<void * *>(&::g_01202688));
@@ -123,6 +125,16 @@ struct NiPoint3
     char* FUN_00a59af0(char const*);
 public:
     static const ::NiPoint3 ZERO;
+public:
+    unsigned char ReadFromFile(::FUN_00438fc0_file *);
+    bool FUN_004390c0(const ::NiPoint3 &);
+    ::NiPoint3 &Subtract(const ::NiPoint3 &);
+    float GetLengthSquared();
+    float ComputeMagnitude() const;
+    ::NiPoint3 Cross(const ::NiPoint3 &) const;
+    ::NiPoint3 CrossProduct(const ::NiPoint3 &) const;
+    ::NiPoint3 *ScaleTo(::NiPoint3 *, float);
+    ::NiPoint3 &FUN_00b2a1c0(const ::NiPoint3 &);
 };
 
 
@@ -700,3 +712,214 @@ void AirField::FUN_00c2c170(float time, const AirParticles* apParticles)
     }
 }
 }  // namespace fnv_00c2c170
+
+void* __cdecl FUN_00c26810();
+
+// FUN_00c26de0: NiPSysFieldModifier-style Update with attenuation - per-particle
+// force from FUN_00c26820, scaled by magnitude * dt / dist^attenuation.
+struct TPoint3
+{
+    float x, y, z;
+
+    TPoint3()
+    {}
+    TPoint3(float fX, float fY, float fZ) : x(fX), y(fY), z(fZ)
+    {}
+
+    TPoint3 operator-(const TPoint3& kPt) const
+    {
+        return TPoint3(x - kPt.x, y - kPt.y, z - kPt.z);
+    }
+};
+
+
+struct TMatrix3
+{
+    float m_afEntries[3][3];
+
+    TPoint3 FUN_004b4500(const TPoint3& kPt) const;
+};
+
+struct NiTransform_od_o2_nood
+{
+    TMatrix3 m_kOrientation;
+    TPoint3 m_kTranslation;
+    float m_fScale;
+
+public:
+    void CalculateInverse(::NiTransform_od_o2_nood &);
+public:
+    ::NiTransform_od_o2_nood operator*(const ::NiTransform_od_o2_nood &) const;
+};
+
+struct TAVObject
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3C;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4C;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5C;
+    int unk60;
+    int unk64;
+    NiTransform_od_o2_nood m_kWorldSpaceTransform;
+};
+
+struct TParticleInfo
+{
+    TPoint3 m_kValue;
+    float m_fXValue;
+    float m_fYValue;
+    float m_fZValue;
+    int unk18;
+};
+
+struct TPSysData
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    TPoint3* m_pkVertex;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3C;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4C;
+    unsigned short m_usVertices;
+    unsigned short unk52;
+    int unk54;
+    int unk58;
+    int unk5C;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6C;
+    TParticleInfo* m_pkParticleInfo;
+
+    unsigned short GetShaderParticleCount() const
+    {
+        return m_usVertices;
+    }
+    TPoint3* GetVertices() const
+    {
+        return m_pkVertex;
+    }
+    TParticleInfo* GetParticleInfo() const
+    {
+        return m_pkParticleInfo;
+    }
+};
+
+inline float NiPow(float fBase, float fExp)
+{
+    return (float)pow(fBase, fExp);
+}
+
+struct TFieldModifier
+{
+    void* m_pVtbl;
+    int m_iRefCount;
+    int m_kName;
+    unsigned int m_uiUpdateOrder;
+    TAVObject* m_pkTarget;
+    bool m_bModifierActive;
+    TAVObject* m_pkFieldObject;
+    float m_fInfluence;
+    float m_fFieldAttenuation;
+    bool m_bEnableMaxDistance;
+    float m_fDistanceLimit;
+    float m_fFieldStrength;
+    TPoint3 m_kLightVector;
+
+    void FUN_00c26de0(float fTime, TPSysData* pkData);
+    __declspec(noalias) TPoint3 FUN_00c26820(const TPoint3& kFieldPos, const TPoint3& kFieldDir, const TPoint3& kPos);
+};
+
+// @fnv 0x00c26de0
+void TFieldModifier::FUN_00c26de0(float fTime, TPSysData* pkData)
+{
+    if (m_fInfluence == 0.0f)
+        return;
+    if (pkData->GetShaderParticleCount() == 0)
+        return;
+    if (reinterpret_cast<::NiPoint3 *>((void *)&(m_kLightVector))->FUN_004390c0((const ::NiPoint3 &)((*reinterpret_cast<const ::TPoint3 *>((void *)&::NiPoint3::ZERO)))))
+        return;
+    if (!m_pkFieldObject)
+        return;
+
+    if (m_fFieldAttenuation == 0.0f)
+    {
+        if (m_bEnableMaxDistance)
+            reinterpret_cast<::VortexModifier *>(this)->FUN_00c269b0(fTime, (::PSysData *)(pkData));
+        else
+            reinterpret_cast<::fnv_00c26c00::ForceOwner *>(this)->FUN_00c26c00(fTime, (::fnv_00c26c00::ParticleList *)(pkData));
+        return;
+    }
+
+    NiTransform_od_o2_nood kFieldXform = m_pkFieldObject->m_kWorldSpaceTransform;
+    NiTransform_od_o2_nood kInvPSys;
+    {
+        NiTransform_od_o2_nood kPSysXform = m_pkTarget->m_kWorldSpaceTransform;
+        reinterpret_cast<::NiTransform_od_o2_nood *>((void *)&(kPSysXform))->CalculateInverse(kInvPSys);
+    }
+
+    {
+        NiTransform_od_o2_nood kFieldToPSys = reinterpret_cast<::NiTransform_od_o2_nood *>((void *)&(kInvPSys))->operator*(kFieldXform);
+        TPoint3 kFieldPos = kFieldToPSys.m_kTranslation;
+        TPoint3 kFieldDir = kFieldToPSys.m_kOrientation.FUN_004b4500(m_kLightVector);
+        reinterpret_cast<::FUN_004a0c10_s *>(&(kFieldDir))->FUN_004a0c10();
+
+        for (unsigned short i = 0; i < pkData->GetShaderParticleCount(); i++)
+        {
+            TParticleInfo* pkInfo = &pkData->GetParticleInfo()[i];
+            float fDeltaT = fTime - pkInfo->m_fZValue;
+            if (fDeltaT != 0.0f)
+            {
+                TPoint3 kPos = pkData->GetVertices()[i];
+                TPoint3 kDiff = kPos - kFieldToPSys.m_kTranslation;
+                float fDist = reinterpret_cast<::NiPoint3 *>((void *)&(kDiff))->ComputeMagnitude();
+                if (fDist != 0.0f)
+                {
+                    if (!m_bEnableMaxDistance || fDist <= m_fDistanceLimit)
+                    {
+                        TPoint3 kForce = FUN_00c26820(kFieldPos, kFieldDir, kPos);
+                        if (m_fFieldAttenuation == 0.0f)
+                            reinterpret_cast<::MyPoint439180 *>(&(kForce))->FUN_00439180(fDeltaT * m_fInfluence);
+                        else
+                            reinterpret_cast<::MyPoint439180 *>(&(kForce))->FUN_00439180(fDeltaT * m_fInfluence / NiPow(fDist, m_fFieldAttenuation));
+                        reinterpret_cast<::FUN_0063c8a0_shell *>(&(pkInfo->m_kValue))->FUN_0063c8a0((void *)&(kForce));
+                    }
+                }
+            }
+        }
+    }
+}

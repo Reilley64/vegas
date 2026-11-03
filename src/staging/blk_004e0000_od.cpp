@@ -1427,7 +1427,7 @@ class FUN_00a35910_shell : public FUN_00a35fc0_shell
   public:
     void FUN_004f06d0(NiAVObject* object);
 public:
-    unsigned short FindIndexByValue(unsigned short);
+    unsigned short FindIndexByValue(NiAVObject*);
 };
 
 // @fnv 0x004f06d0
@@ -1439,7 +1439,7 @@ void FUN_00a35910_shell::FUN_004f06d0(NiAVObject* object)
 
         if (object)
         {
-            unsigned short index = self->FindIndexByValue((unsigned short)(object));
+            unsigned short index = self->FindIndexByValue(object);
             if (index != NiInterpController::INVALID_INDEX)
                 self->SetSlotValue(index, 0);
         }

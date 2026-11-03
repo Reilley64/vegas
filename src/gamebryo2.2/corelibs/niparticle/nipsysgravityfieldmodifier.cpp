@@ -4,7 +4,6 @@
 
 #include <new>
 #include "fnv/decl/C32060EmitterModifier.h"
-#include "fnv/decl/FUN_004a0c10_s.h"
 #include "fnv/decl/FUN_00c31ff0.h"
 #include "fnv/decl/FUN_00c32120_cls.h"
 #include "fnv/decl/NiPSysFieldModifierImpl.h"
@@ -19,6 +18,7 @@
 #include "fnv/symbols_00aa1000.h"
 #include "fnv/symbols_011a9000.h"
 #include "fnv/symbols_01202000.h"
+#include "fnv/symbols_01017000.h"
 struct NiStream
 {
     void GetLoadedObject();
@@ -86,6 +86,8 @@ struct NiPoint3
     float z;
 public:
     char *FUN_00a59af0(const char *);
+public:
+    float ComputeMagnitude() const;
 };
 struct BSFadeNode
 {
@@ -100,6 +102,11 @@ struct CopyHelper
 struct CloneHelper
 {
     NiObject* Clone(CloningProcess&);
+};
+struct FUN_004a0c10_s
+{
+    float x, y, z;
+    void FUN_004a0c10();
 };
 // @fnv 0x00c2ac50
 NiObject* CloneHelper::Clone(CloningProcess& kCloning)
@@ -662,4 +669,23 @@ void Field141::ApplyForceToParticles(float time, Data141* data)
     }
 }
 
+
+// @fnv 0x004a0c10
+void FUN_004a0c10_s::FUN_004a0c10()
+{
+    float len = reinterpret_cast<::NiPoint3 *>((void *)(((NiPoint3*)this)))->ComputeMagnitude();
+    if (len > ::DAT_01017cf8)
+    {
+        float inv = 1.0f / len;
+        x *= inv;
+        y *= inv;
+        z *= inv;
+    }
+    else
+    {
+        x = 0.0f;
+        y = 0.0f;
+        z = 0.0f;
+    }
+}
 #include "generated/data/gamebryo2.2/corelibs/niparticle/nipsysgravityfieldmodifier.inc"

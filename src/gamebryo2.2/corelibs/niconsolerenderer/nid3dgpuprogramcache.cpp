@@ -31,6 +31,8 @@
 #include "fnv/symbols_0126f000.h"
 #include "fnv/symbols_01270000.h"
 #include "nid3dgpuprogramcache_decls.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/symbols_00a64000.h"
 // Returns the vertex shader profile string matching fnv_particle_shader_renderer_level, or null for other values.
 // @fnv 0x00b4f3e0
 const char* NiD3DGPUProgramCache::GetVertexShaderProfile()
@@ -1012,4 +1014,40 @@ RefCountedBase* S00e8eb80_Obj::FUN_00e8eb80(const char* name, const char* apSour
         reinterpret_cast<::Holder *>((refs))->ReleaseAll();
     }
     return 0;
+}
+
+const char* __cdecl FUN_00e8dd60();
+void* __cdecl FUN_00e8ea10();
+
+class NiD3DPass;
+
+namespace sc1d790 {
+
+struct MemoryHeap
+{
+    void FUN_00aa4060(void* pvMem);
+};
+
+
+}
+
+template <class T> class NiPointer
+{
+  public:
+    NiPointer() throw();
+    ~NiPointer()
+    {}
+
+
+    T* m_pObject;
+};
+
+namespace sc1d790 {
+
+// @fnv 0x00c1d790
+NiPointer<NiD3DPass>* FUN_00c1d790(unsigned int ItemUpdateArray)
+{
+    return new NiPointer<NiD3DPass>[ItemUpdateArray];
+}
+
 }

@@ -2928,3 +2928,17 @@ bool MeshReconstruction::FUN_00c1e080(NiSkinInstance* apSkinInstance, NiGeometry
     reinterpret_cast<::MeshEmitter_c1cf50 *>(this)->ComputeEmitterParticleTransform((::NiAVObject *)(geometry), (::NiPoint3b &)(position), (::NiPoint3b &)(velocity));
     return true;
 }
+
+int* __cdecl FUN_00c1f4f0();
+void* __cdecl FUN_00c1fa40();
+
+
+// @fnv 0x00639780
+float __cdecl FUN_00639780()
+{
+    int v;
+    float result;
+    v = ::FUN_006397b0();
+    result = (float)v / DAT_01029790;
+    return result;
+}

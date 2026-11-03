@@ -5,6 +5,7 @@
 
 // Returns a divided by the product of FUN_005b9e80(b) and c.
 // @fnv 0x009a7dd0
+#include "fnv/combat_controller_fields.h"
 #include "fnv/vats_camera_data_view.h"
 #include <cstdint>
 #include "fnv/simple_array_item.h"
@@ -3559,7 +3560,7 @@ void FUN_009a9180(S_009a9180_Actor* pActor, S_009a9180_Data* pData, float* pfMin
 {
     *pfMin = 512.0f;
     *pfMax = 1024.0f;
-    S_009a9180_Weapon* pWeapon = ((::S_009a9180_Weapon *)(reinterpret_cast<::FUN_00980070_shell *>((pActor))->FUN_00980070()));
+    S_009a9180_Weapon* pWeapon = ((::S_009a9180_Weapon *)(reinterpret_cast<CombatControllerFields*>((pActor))->pCombatStyle));
     if (pData)
     {
         *pfMin = reinterpret_cast<::FUN_004a0db0_class *>((pData))->GetFloatAt120();
@@ -3570,7 +3571,7 @@ void FUN_009a9180(S_009a9180_Actor* pActor, S_009a9180_Data* pData, float* pfMin
             *pfMax = reinterpret_cast<::FUN_00508050_Class *>((pWeapon))->FUN_00508050() * *pfMax;
         }
         *pfDerived = *pfMax * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::S_009a9180_Setting *>(&::originalRuntimeFloatSetting394))))));
-        S_009a9180_Projectile* pObj = ((::S_009a9180_Projectile *)(reinterpret_cast<::Thing *>((pData))->GetOrFallback(::GetFieldBC((::FUN_0097ae90_Class *)(pActor)))));
+        S_009a9180_Projectile* pObj = ((::S_009a9180_Projectile *)(reinterpret_cast<::Thing *>((pData))->GetOrFallback(reinterpret_cast<std::intptr_t>(reinterpret_cast<CombatControllerFields*>(pActor)->pActor))));
         if (pObj)
         {
             float fValue = FUN_009a7f00(pObj, 0.0f);

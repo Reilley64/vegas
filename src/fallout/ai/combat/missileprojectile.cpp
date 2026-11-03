@@ -4,6 +4,7 @@
 
 
 // @fnv 0x009b7cb0
+#include "fnv/havok_array_view.h"
 #include "fnv/simple_array_item.h"
 #include "fnv/vats_camera_data_view.h"
 #include "fnv/tls.h"
@@ -3710,7 +3711,7 @@ void Actor::FUN_009b90b0()
                                 Res res;
                                 reinterpret_cast<::FUN_004a3fb0_shell *>(&(big))->FUN_004a3fb0((::hkpAllRayHitCollector *)(::fnv_009b90b0::Res *)(&res));
                                 bool ok = ::FUN_009c5ba0((::World9C *)(::fnv_009b90b0::Big *)(&big), (::NiAVObject9C *)(p60), 0, 1);
-                                if (ok && ((int)(reinterpret_cast<::Callees *>((((::fnv_009b90b0::List *)(::FUN_00460140((intptr_t)(((::fnv_009b90b0::ListH *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(big))->FUN_008cdd90()))))))))->FUN_00726070())) > 0)
+                                if (ok && HavokArraySize((((::fnv_009b90b0::List *)(::FUN_00460140((intptr_t)(((::fnv_009b90b0::ListH *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(big))->FUN_008cdd90())))))))) > 0)
                                     p190 = ((int)(::FUN_004b5820((::FormLike *)(((::fnv_009b90b0::Rec *)(reinterpret_cast<::FUN_004a46b0_class *>((((::fnv_009b90b0::List *)(::FUN_00460140((intptr_t)(((::fnv_009b90b0::ListH *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(big))->FUN_008cdd90()))))))))->GetEntryAt(0)))->unk50))));
                             }
                             if (p190)
@@ -3793,7 +3794,7 @@ void Actor::FUN_009b90b0()
                                         intptr_t c24 = ((intptr_t)(::fnv_004b3890::FUN_004b3890((*(const class ::FUN_006815c0 *)(&v83c)), (*(const ::fnv_004b3890::FUN_004a7800 *)(&c)), (*(const class ::FUN_006815c0 *)(((::fnv_009b90b0::V *)(reinterpret_cast<::Point3Offset *>(&(v83c))->ProjectileLaunched((::NiPoint3 *)(::fnv_009b90b0::V *)(&tc20), (::NiPoint3 *)(::fnv_009b90b0::V *)(&v8e0)))))), (*(const ::fnv_004b3890::FUN_004a7800 *)(&c)), 1)));
                                         reinterpret_cast<::FUN_00458e20_shell *>(((*reinterpret_cast<::fnv_009b90b0::Glob * *>(&::g_TES))))->FUN_00458e20((::NiAVObject *)(c24), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009b90b0::Glob *>(&::g_011f210c)))))));
                                     }
-                                    for (int k = 0; !blocked && k < ((int)(reinterpret_cast<::Callees *>((((::fnv_009b90b0::List *)(::FUN_00460140((intptr_t)(((::fnv_009b90b0::ListH *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(big2))->FUN_008cdd90()))))))))->FUN_00726070()));
+                                    for (int k = 0; !blocked && k < HavokArraySize((((::fnv_009b90b0::List *)(::FUN_00460140((intptr_t)(((::fnv_009b90b0::ListH *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(big2))->FUN_008cdd90()))))))));
                                          k++)
                                     {
                                         Rec rec;

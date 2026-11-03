@@ -2,6 +2,7 @@
 // src/fallout/ai/combat/combatprocedurehidefromtarget.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/combat/combatprocedurehidefromtarget.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/combat_controller_fields.h"
 #include <cstdint>
 #include "generated/data/vtables.h"
 #include "fnv/decl/AlchemyItem.h"
@@ -632,7 +633,7 @@ struct HideProcedure
 // @fnv 0x009d6140
 void HideProcedure::Update()
 {
-    ActorStub* actor2 = ((::ActorStub *)(::GetFieldBC((::FUN_0097ae90_Class *)(owner))));
+    ActorStub* actor2 = ((::ActorStub *)(reinterpret_cast<CombatControllerFields*>(owner)->pActor));
     ActorStub* enemy2 = ((::ActorStub *)(reinterpret_cast<::AlchemyItem *>((owner))->FUN_004030b0()));
     StateStub* target7 = ((::StateStub *)(reinterpret_cast<::InterfaceManager *>((owner))->FUN_00586150()));
     switch (state)

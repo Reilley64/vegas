@@ -2,6 +2,7 @@
 // src/fallout/ai/combat/combatproceduremove.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/combat/combatproceduremove.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/combat_controller_fields.h"
 #include <cstdint>
 #include <new>
 #include "fnv/decl/AA10Menu.h"
@@ -247,7 +248,7 @@ struct FUN_009d6c00_shell : CombatProcedureEngageTarget
 // @fnv 0x009d6c00
 void FUN_009d6c00_shell::UpdateCombatMovement()
 {
-    Actor* attacker = ((::Actor *)(::GetFieldBC((::FUN_0097ae90_Class *)(((TESAmmoInitCalls*)*(void**)((char*)this + 4))))));
+    Actor* attacker = ((::Actor *)(reinterpret_cast<CombatControllerFields*>(((TESAmmoInitCalls*)*(void**)((char*)this + 4)))->pActor));
     if (*(int*)((char*)this + 0x10) == 1 || *(int*)((char*)this + 0x10) == 2)
     {
         if (!reinterpret_cast<::FUN_00666f00_shell *>(this)->FUN_00666f00())
@@ -1726,7 +1727,7 @@ void MoveDebug::PrintDebugInfo(DebugDisplay* display, int x, int y)
     }
     DebugPoint position = (*(::DebugPoint *)(((::Vec3 *)(void *)&(destination))));
     DebugReference* cell = ((::DebugReference *)(reinterpret_cast<::FUN_0084e3a0_Class *>(&(destination))->FUN_0084e3a0()));
-    if (cell && cell != ((::DebugReference *)(reinterpret_cast<::s575ca0::Owner *>((((::DebugReference *)(::GetFieldBC((::FUN_0097ae90_Class *)(owner))))))->FUN_00575ca0())))
+    if (cell && cell != ((::DebugReference *)(reinterpret_cast<::s575ca0::Owner *>((((::DebugReference *)(reinterpret_cast<CombatControllerFields*>(owner)->pActor))))->FUN_00575ca0())))
         display->Print(x, y, "Destination: %s (%.02f,%.02f,%.02f)", cell->GetDebugName(), position.x, position.y,
                        position.z);
     else

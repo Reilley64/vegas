@@ -2,6 +2,7 @@
 // src/fallout/ai/combat/explosion.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/combat/explosion.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/havok_array_view.h"
 #include "fnv/tls.h"
 #include <cstdint>
 #include <new>
@@ -6795,7 +6796,7 @@ bool Host810::FUN_009b1810(Vec810 pos, Actor810* actor)
     reinterpret_cast<::FUN_004a3fb0_shell *>(&(query))->FUN_004a3fb0((::hkpAllRayHitCollector *)(::Snapshot810 *)(&snapshot));
     bool blocked = false;
     world->vc8(&query);
-    for (int i = 0; !blocked && i < ((int)(reinterpret_cast<::Callees *>((((::HitArray810 *)(::FUN_00460140((intptr_t)(((::HitContainer810 *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(query))->FUN_008cdd90()))))))))->FUN_00726070())); i++)
+    for (int i = 0; !blocked && i < HavokArraySize((((::HitArray810 *)(::FUN_00460140((intptr_t)(((::HitContainer810 *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(query))->FUN_008cdd90())))))))); i++)
     {
         Hit810 hit(((void *)(reinterpret_cast<::FUN_004a46b0_class *>((((::HitArray810 *)(::FUN_00460140((intptr_t)(((::HitContainer810 *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(query))->FUN_008cdd90()))))))))->GetEntryAt(i))));
         Vec810 dir = points[0] - pos;
@@ -6825,7 +6826,7 @@ bool Host810::FUN_009b1810(Vec810 pos, Actor810* actor)
             reinterpret_cast<::FUN_004a3fb0_shell *>(&(query))->FUN_004a3fb0((::hkpAllRayHitCollector *)(::Snapshot810 *)(&snapshot));
             reinterpret_cast<::FUN_004a3eb0_shell *>(&(query))->FUN_004a3eb0((void *)&(points[i]));
             world->vc8(&query);
-            for (int j = 0; !blocked && j < ((int)(reinterpret_cast<::Callees *>((((::HitArray810 *)(::FUN_00460140((intptr_t)(((::HitContainer810 *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(query))->FUN_008cdd90()))))))))->FUN_00726070())); j++)
+            for (int j = 0; !blocked && j < HavokArraySize((((::HitArray810 *)(::FUN_00460140((intptr_t)(((::HitContainer810 *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(query))->FUN_008cdd90())))))))); j++)
             {
                 Hit810 hit(((void *)(reinterpret_cast<::FUN_004a46b0_class *>((((::HitArray810 *)(::FUN_00460140((intptr_t)(((::HitContainer810 *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(query))->FUN_008cdd90()))))))))->GetEntryAt(j))));
                 Vec810 dir = points[j] - pos;
@@ -7855,7 +7856,7 @@ void ProjCls::FUN_009ae6e0()
                         if (((PickVt*)pk)->Pick(&p))
                         {
                             bool stop = false;
-                            for (int k = 0; !found && !stop && k < ((int)(reinterpret_cast<::Callees *>((((::HitArray *)(::FUN_00460140((intptr_t)(((::HitHolder *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(p))->FUN_008cdd90()))))))))->FUN_00726070()));
+                            for (int k = 0; !found && !stop && k < HavokArraySize((((::HitArray *)(::FUN_00460140((intptr_t)(((::HitHolder *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(p))->FUN_008cdd90()))))))));
                                  k++)
                             {
                                 HitInfo h;

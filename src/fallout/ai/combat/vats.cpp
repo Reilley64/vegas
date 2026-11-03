@@ -1,5 +1,6 @@
 // fallout/ai/combat/vats.cpp: VATS, PlayerCharacter, SoundListView, ListHolder and more (26 functions)
 
+#include "fnv/havok_array_view.h"
 #include "fnv/form_fields.h"
 #include <cstdint>
 #include <new>
@@ -2479,7 +2480,7 @@ bool CheckerL8::FUN_009c8f20(PackageL8* pkPackage)
     reinterpret_cast<::FUN_004a3fb0_shell *>(&(kQuery))->FUN_004a3fb0((::hkpAllRayHitCollector *)(::HitResultsL8 *)(&kResults));
     bool bPickResultFound = false;
     pkWorld->Pick(kQuery);
-    for (int i = 0; !bPickResultFound && i < ((int)(reinterpret_cast<::Callees *>((((::HitListL8 *)(::FUN_00460140((intptr_t)(((::HitArrayL8 *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(kQuery))->FUN_008cdd90()))))))))->FUN_00726070())); i++)
+    for (int i = 0; !bPickResultFound && i < HavokArraySize((((::HitListL8 *)(::FUN_00460140((intptr_t)(((::HitArrayL8 *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(kQuery))->FUN_008cdd90())))))))); i++)
     {
         HitL8 kHit(((void *)(reinterpret_cast<::FUN_004a46b0_class *>((((::HitListL8 *)(::FUN_00460140((intptr_t)(((::HitArrayL8 *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(kQuery))->FUN_008cdd90()))))))))->GetEntryAt(i))));
         void* pvCollidable = ((void *)(::FUN_004b5820((::FormLike *)(kHit.m_pvCollidable))));

@@ -1,5 +1,6 @@
 // fallout/ai/combat/projectile.cpp: Projectile, BGSProjectile, Holder, PlayerCharacter and more (71 functions)
 
+#include "fnv/havok_array_view.h"
 #include "fnv/vats_camera_data_view.h"
 #include <cstdint>
 #include "fnv/tls.h"
@@ -12323,7 +12324,7 @@ int __cdecl FUN_009c0d80(Scene* scene, Controller* player, intptr_t eventOwner, 
         reinterpret_cast<::FUN_009c1a50_shell *>((scene))->FUN_009c1a20((*(const ::hkVector4 *)(&initialDirection)));
         bool partialMatch = false;
         EventEntity* lastReference = 0;
-        for (int i = 0; !picked && i < ((int)(reinterpret_cast<::Callees *>((((::EventCursor *)(::FUN_00460140((intptr_t)(((::EventStream *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>((scene))->FUN_008cdd90()))))))))->FUN_00726070())); ++i)
+        for (int i = 0; !picked && i < HavokArraySize((((::EventCursor *)(::FUN_00460140((intptr_t)(((::EventStream *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>((scene))->FUN_008cdd90())))))))); ++i)
         {
             EventInfo info;
             reinterpret_cast<::S50 *>(&(info))->FUN_00696c30((::S50 *)(::EventInfo *)(((::EventInfo *)(reinterpret_cast<::FUN_004a46b0_class *>((((::EventCursor *)(::FUN_00460140((intptr_t)(((::EventStream *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>((scene))->FUN_008cdd90()))))))))->GetEntryAt(i)))));
@@ -12379,7 +12380,7 @@ int __cdecl FUN_009c0d80(Scene* scene, Controller* player, intptr_t eventOwner, 
                                     bool hit = ::FUN_009c5ba0((::World9C *)(::AnimationPacket *)(&anim), (::NiAVObject9C *)(handle), 0, 1);
                                     if (hit)
                                     {
-                                        if (((int)(reinterpret_cast<::Callees *>((((::EventCursor *)(::FUN_00460140((intptr_t)(((::EventStream *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(anim))->FUN_008cdd90()))))))))->FUN_00726070())) > 0)
+                                        if (HavokArraySize((((::EventCursor *)(::FUN_00460140((intptr_t)(((::EventStream *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(anim))->FUN_008cdd90())))))))) > 0)
                                         {
                                             reinterpret_cast<::FUN_009c1a70_shell *>(&(info))->FUN_009c1a70(((::EventInfo *)(reinterpret_cast<::FUN_004a46b0_class *>((((::EventCursor *)(::FUN_00460140((intptr_t)(((::EventStream *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(anim))->FUN_008cdd90()))))))))->GetEntryAt(0))));
                                             candidate = true;

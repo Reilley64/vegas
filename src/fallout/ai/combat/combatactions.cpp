@@ -1,5 +1,6 @@
 // fallout/ai/combat/combatactions.cpp: CombatAction, CombatActionStandIn, CombatActionAttackRangedExplosive, CombatActionMoveStandIn and more (83 functions)
 
+#include "fnv/combat_controller_fields.h"
 #include <cstdint>
 #include <new>
 #include "fnv/decl/BS9AA340List.h"
@@ -466,8 +467,8 @@ struct FUN_0097b5a0_cls
 // @fnv 0x0097b5a0
 float FUN_0097b5a0_cls::FUN_0097b5a0(CombatController* c, int iValue)
 {
-    if (((::fnv_0097b5a0::Actor *)(::GetFieldBC((::FUN_0097ae90_Class *)(((TESAmmoInitCalls*)c))))) && reinterpret_cast<::MiddleHighProcess *>((((::fnv_0097b5a0::Actor *)(::GetFieldBC((::FUN_0097ae90_Class *)(((TESAmmoInitCalls*)c)))))))->IsActorInCombat() &&
-        ((::fnv_0097b5a0::Weap *)(reinterpret_cast<::FUN_008a1710_shell *>((((ActH2*)((::fnv_0097b5a0::Actor *)(::GetFieldBC((::FUN_0097ae90_Class *)(((TESAmmoInitCalls*)c))))))))->FUN_008a1710())))
+    if (((::fnv_0097b5a0::Actor *)(reinterpret_cast<CombatControllerFields*>(((TESAmmoInitCalls*)c))->pActor)) && reinterpret_cast<::MiddleHighProcess *>((((::fnv_0097b5a0::Actor *)(reinterpret_cast<CombatControllerFields*>(((TESAmmoInitCalls*)c))->pActor))))->IsActorInCombat() &&
+        ((::fnv_0097b5a0::Weap *)(reinterpret_cast<::FUN_008a1710_shell *>((((ActH2*)((::fnv_0097b5a0::Actor *)(reinterpret_cast<CombatControllerFields*>(((TESAmmoInitCalls*)c))->pActor)))))->FUN_008a1710())))
         return ::fnv_0097ae00::DAT_0108cb10;
     return reinterpret_cast<::fnv_00979e40::FUN_00979e40_shell *>(this)->FUN_00979e40((::fnv_00979e40::CombatController *)(c), iValue) + ::GetWeaponDPSDeficit((::CombatController *)(c), 6);
 }
@@ -812,9 +813,9 @@ struct FUN_0097ae00_shell : FUN_0097bcc0_cls
 // @fnv 0x0097ae00
 float FUN_0097ae00_shell::FUN_0097ae00(CombatController* apCombatController, int aiActionValue)
 {
-    if (((unsigned int)(::GetFieldBC((::FUN_0097ae90_Class *)(((TESAmmoInitCalls*)apCombatController))))) &&
-        reinterpret_cast<::MiddleHighProcess *>((((Actor*)((unsigned int)(::GetFieldBC((::FUN_0097ae90_Class *)(((TESAmmoInitCalls*)apCombatController))))))))->IsActorInCombat() &&
-        ((float)(reinterpret_cast<::FUN_008c1740_cls *>((((Actor*)((unsigned int)(::GetFieldBC((::FUN_0097ae90_Class *)(((TESAmmoInitCalls*)apCombatController))))))))->ComputeFromNode((intptr_t)("CombatStyleMelee")))) == 1.0)
+    if ((reinterpret_cast<CombatControllerFields*>(((TESAmmoInitCalls*)apCombatController))->pActor) &&
+        reinterpret_cast<::MiddleHighProcess *>((((Actor*)(reinterpret_cast<CombatControllerFields*>(((TESAmmoInitCalls*)apCombatController))->pActor))))->IsActorInCombat() &&
+        ((float)(reinterpret_cast<::FUN_008c1740_cls *>((((Actor*)(reinterpret_cast<CombatControllerFields*>(((TESAmmoInitCalls*)apCombatController))->pActor))))->ComputeFromNode((intptr_t)("CombatStyleMelee")))) == 1.0)
     {
         return DAT_0108cb10;
     }
@@ -1141,9 +1142,9 @@ float FUN_0097c310_shell::FUN_0097c310(CombatController* apCombatController, int
     {
         return ::fnv_0097ae00::DAT_0108cb10;
     }
-    if (((unsigned int)(::GetFieldBC((::FUN_0097ae90_Class *)(((TESAmmoInitCalls*)apCombatController))))) &&
-        reinterpret_cast<::MiddleHighProcess *>((((Actor*)((unsigned int)(::GetFieldBC((::FUN_0097ae90_Class *)(((TESAmmoInitCalls*)apCombatController))))))))->IsActorInCombat() &&
-        ((float)(reinterpret_cast<::FUN_008c1740_cls *>((((Actor*)((unsigned int)(::GetFieldBC((::FUN_0097ae90_Class *)(((TESAmmoInitCalls*)apCombatController))))))))->ComputeFromNode((intptr_t)("CombatStyleMelee")))) == 1.0)
+    if ((reinterpret_cast<CombatControllerFields*>(((TESAmmoInitCalls*)apCombatController))->pActor) &&
+        reinterpret_cast<::MiddleHighProcess *>((((Actor*)(reinterpret_cast<CombatControllerFields*>(((TESAmmoInitCalls*)apCombatController))->pActor))))->IsActorInCombat() &&
+        ((float)(reinterpret_cast<::FUN_008c1740_cls *>((((Actor*)(reinterpret_cast<CombatControllerFields*>(((TESAmmoInitCalls*)apCombatController))->pActor))))->ComputeFromNode((intptr_t)("CombatStyleMelee")))) == 1.0)
     {
         return ::fnv_0097ae00::DAT_0108cb10;
     }
@@ -1261,9 +1262,9 @@ struct FUN_0097c8e0_shell : FUN_0097bcc0_cls
 // @fnv 0x0097c8e0
 float FUN_0097c8e0_shell::FUN_0097c8e0(CombatController* apCombatController, int aiActionValue)
 {
-    if (((::fnv_0097c8e0::Actor *)(::GetFieldBC((::FUN_0097ae90_Class *)(((TESAmmoInitCalls*)apCombatController))))) &&
-        reinterpret_cast<::MiddleHighProcess *>((((::fnv_0097c8e0::Actor *)(::GetFieldBC((::FUN_0097ae90_Class *)(((TESAmmoInitCalls*)apCombatController)))))))->IsActorInCombat() &&
-        ((float)(reinterpret_cast<::FUN_008c1740_cls *>((((::fnv_0097c8e0::Actor *)(::GetFieldBC((::FUN_0097ae90_Class *)(((TESAmmoInitCalls*)apCombatController)))))))->ComputeFromNode((intptr_t)("CombatStyleMelee")))) == 1.0)
+    if (((::fnv_0097c8e0::Actor *)(reinterpret_cast<CombatControllerFields*>(((TESAmmoInitCalls*)apCombatController))->pActor)) &&
+        reinterpret_cast<::MiddleHighProcess *>((((::fnv_0097c8e0::Actor *)(reinterpret_cast<CombatControllerFields*>(((TESAmmoInitCalls*)apCombatController))->pActor))))->IsActorInCombat() &&
+        ((float)(reinterpret_cast<::FUN_008c1740_cls *>((((::fnv_0097c8e0::Actor *)(reinterpret_cast<CombatControllerFields*>(((TESAmmoInitCalls*)apCombatController))->pActor))))->ComputeFromNode((intptr_t)("CombatStyleMelee")))) == 1.0)
     {
         TESObjectWEAP* pweapon = 0;
         COMBAT_WEAPON_TYPE ecombatWeaponType = (COMBAT_WEAPON_TYPE)aiActionValue;

@@ -1,5 +1,6 @@
 // fallout/ai/dialoguepackage.cpp: DialoguePackage, DelStandIn, This, DialoguePackageState (18 functions)
 
+#include "fnv/save_load_game_view.h"
 #include <cstdint>
 #include <new>
 #include "fnv/decl/A90Cls.h"
@@ -482,22 +483,22 @@ void DialoguePackage::FUN_009f0740(BGSLoadFormBuffer* apLoadGameBuffer)
 
     m_pkMobileObject =
         m_pkMobileObject
-            ? dynamic_cast<MobileObject*>(::FUN_004839c0(reinterpret_cast<unsigned int>(m_pkMobileObject)))
+            ? dynamic_cast<MobileObject*>(::FUN_004839c0((unsigned int)reinterpret_cast<std::uintptr_t>(m_pkMobileObject)))
             : 0;
 
-    pActor = pActor ? dynamic_cast<MobileObject*>(::FUN_004839c0(reinterpret_cast<unsigned int>(pActor))) : 0;
+    pActor = pActor ? dynamic_cast<MobileObject*>(::FUN_004839c0((unsigned int)reinterpret_cast<std::uintptr_t>(pActor))) : 0;
 
     pTargetActor = pTargetActor
-                       ? dynamic_cast<MobileObject*>(::FUN_004839c0(reinterpret_cast<unsigned int>(pTargetActor)))
+                       ? dynamic_cast<MobileObject*>(::FUN_004839c0((unsigned int)reinterpret_cast<std::uintptr_t>(pTargetActor)))
                        : 0;
 
     m_pLinkedReference =
         m_pLinkedReference
-            ? dynamic_cast<MobileObject*>(::FUN_004839c0(reinterpret_cast<unsigned int>(m_pLinkedReference)))
+            ? dynamic_cast<MobileObject*>(::FUN_004839c0((unsigned int)reinterpret_cast<std::uintptr_t>(m_pLinkedReference)))
             : 0;
 
     m_pkReference =
-        m_pkReference ? dynamic_cast<TESObjectREFR*>(::FUN_004839c0(reinterpret_cast<unsigned int>(m_pkReference)))
+        m_pkReference ? dynamic_cast<TESObjectREFR*>(::FUN_004839c0((unsigned int)reinterpret_cast<std::uintptr_t>(m_pkReference)))
                       : 0;
 
     if (m_pkConversation)
@@ -1251,7 +1252,7 @@ void Dialogue114::FUN_009ee0a0(bool process)
                         Obj114* topic21 = ((::Obj114 *)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::Obj114 *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((response))->FUN_007af430()))))->FUN_0084e3a0()));
                         Handle114 handle23 = speaker23->PlaySoundByFormID(topic21, 0, 0x40000102, 1);
                         Manager114* manager3 = ((::Manager114 *)(::FUN_00ad9060()));
-                        reinterpret_cast<::fnv_00adbfd0::FUN_00adbfd0_cls *>((manager3))->FUN_00adbfd0((intptr_t)(((void *)(::FUN_00559450((int *)&(handle23))))), (intptr_t)(((void (&)())::fnv_00935cc0::FUN_00935cc0)), (int)(((::Obj114 *)(reinterpret_cast<::FUN_0084e3a0_Class *>((first))->FUN_0084e3a0()))));
+                        reinterpret_cast<::fnv_00adbfd0::FUN_00adbfd0_cls *>((manager3))->FUN_00adbfd0((intptr_t)(((void *)(::FUN_00559450((int *)&(handle23))))), (intptr_t)(((void (&)())::fnv_00935cc0::FUN_00935cc0)), (std::intptr_t)(reinterpret_cast<::FUN_0084e3a0_Class *>((first))->FUN_0084e3a0()));
                         ready = false;
                         speak13 = false;
                     }
@@ -1293,7 +1294,7 @@ void Dialogue114::FUN_009ee0a0(bool process)
                             else
                             {
                                 Manager114* manager228 = ((::Manager114 *)(::FUN_00ad9060()));
-                                reinterpret_cast<::fnv_00adbfd0::FUN_00adbfd0_cls *>((manager228))->FUN_00adbfd0((intptr_t)(((void *)(::FUN_00559450((int *)&(sound))))), (intptr_t)(((void (&)())::FUN_00936ac0)), (int)(((::Obj114 *)(reinterpret_cast<::FUN_0084e3a0_Class *>((first))->FUN_0084e3a0()))));
+                                reinterpret_cast<::fnv_00adbfd0::FUN_00adbfd0_cls *>((manager228))->FUN_00adbfd0((intptr_t)(((void *)(::FUN_00559450((int *)&(sound))))), (intptr_t)(((void (&)())::FUN_00936ac0)), (std::intptr_t)(reinterpret_cast<::FUN_0084e3a0_Class *>((first))->FUN_0084e3a0()));
                                 if (first != second)
                                     delay = 50.0f;
                                 speaker23->flag80 = 0;
@@ -1335,7 +1336,7 @@ void Dialogue114::FUN_009ee0a0(bool process)
                                     }
                                 }
                                 Manager114* manager334 = ((::Manager114 *)(::FUN_00ad9060()));
-                                reinterpret_cast<::fnv_00adbfd0::FUN_00adbfd0_cls *>((manager334))->FUN_00adbfd0((intptr_t)(((void *)(::FUN_00559450((int *)&(sound))))), (intptr_t)(((void (&)())::FUN_00936ac0)), (int)(((::Obj114 *)(reinterpret_cast<::FUN_0084e3a0_Class *>((first))->FUN_0084e3a0()))));
+                                reinterpret_cast<::fnv_00adbfd0::FUN_00adbfd0_cls *>((manager334))->FUN_00adbfd0((intptr_t)(((void *)(::FUN_00559450((int *)&(sound))))), (intptr_t)(((void (&)())::FUN_00936ac0)), (std::intptr_t)(reinterpret_cast<::FUN_0084e3a0_Class *>((first))->FUN_0084e3a0()));
                                 speaker23->flag80 = 0;
                                 reset26 = false;
                                 current = speaker23;
@@ -1381,7 +1382,7 @@ void Dialogue114::FUN_009ee0a0(bool process)
                                     ((void *)(reinterpret_cast<::FUN_004048e0_cls *>((((::Obj114 *)(((::Vec3 *)(void *)(response))))))->FUN_004048e0())), ((::Obj114 *)(reinterpret_cast<::FUN_009611e0_shell *>((response))->FUN_009611e0())),
                                     ((::Obj114 *)(reinterpret_cast<::BGSTerrainManager *>((response))->GetMinLevel())), second, 0, 0, 0, 1, 1);
                         Manager114* manager45 = ((::Manager114 *)(::FUN_00ad9060()));
-                        reinterpret_cast<::fnv_00adbfd0::FUN_00adbfd0_cls *>((manager45))->FUN_00adbfd0((intptr_t)(((void *)(::FUN_00559450((int *)&(sound))))), (intptr_t)(((void (&)())::FUN_00936ac0)), (int)(((::Obj114 *)(reinterpret_cast<::FUN_0084e3a0_Class *>((third))->FUN_0084e3a0()))));
+                        reinterpret_cast<::fnv_00adbfd0::FUN_00adbfd0_cls *>((manager45))->FUN_00adbfd0((intptr_t)(((void *)(::FUN_00559450((int *)&(sound))))), (intptr_t)(((void (&)())::FUN_00936ac0)), (std::intptr_t)(reinterpret_cast<::FUN_0084e3a0_Class *>((third))->FUN_0084e3a0()));
                         third->flag80 = 0;
                         reset26 = false;
                     }
@@ -1555,7 +1556,7 @@ void This::LoadSaveData()
     reinterpret_cast<::fnv_00679340::Package679 *>(this)->FUN_00679340();
     {
         unsigned short w18 = 0;
-        int flag = 0;
+        uintptr_t flag = 0;
         if (reinterpret_cast<::FUN_00862110_cls *>((::g_TESSaveLoadGame))->FUN_00862110())
         {
             unsigned int i;
@@ -1573,7 +1574,7 @@ void This::LoadSaveData()
                     ::FUN_005b5e40();
                 }
             }
-            flag = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((::g_TESSaveLoadGame))->FUN_00825c00();
+            flag = reinterpret_cast<uintptr_t>(reinterpret_cast<SaveLoadGameView*>((::g_TESSaveLoadGame))->pBufferCursor);
             ::g_TESSaveLoadGame->FUN_008579e0(&w18, 2);
         }
         reinterpret_cast<::fnv_00484d00::FUN_00484d00_shell *>(this)->FUN_00484d00(&f90, 4);
@@ -1646,27 +1647,27 @@ void This::LoadSaveData()
         }
         if (reinterpret_cast<::FUN_00862110_cls *>((::g_TESSaveLoadGame))->FUN_00862110())
         {
-            unsigned int ts = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((::g_TESSaveLoadGame))->FUN_00825c00();
+            uintptr_t ts = reinterpret_cast<uintptr_t>(reinterpret_cast<SaveLoadGameView*>((::g_TESSaveLoadGame))->pBufferCursor);
             TESSound* tag = ((::TESSound *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(::g_TESSaveLoadGame))));
             if (tag != 0)
             {
                 TESForm* snd = ::FUN_004839c0(tag->m_00);
-                if ((unsigned int)ts > (unsigned int)w18 + (unsigned int)flag)
+                if (ts > w18 + flag)
                 {
                     ::FUN_005b5e40();
                 }
-                else if ((unsigned int)ts < (unsigned int)w18 + (unsigned int)flag)
+                else if (ts < w18 + flag)
                 {
                     ::FUN_005b5e40();
                 }
             }
             else
             {
-                if ((unsigned int)ts > (unsigned int)w18 + (unsigned int)flag)
+                if (ts > w18 + flag)
                 {
                     ::FUN_005b5e40();
                 }
-                else if ((unsigned int)ts < (unsigned int)w18 + (unsigned int)flag)
+                else if (ts < w18 + flag)
                 {
                     ::FUN_005b5e40();
                 }
@@ -1873,14 +1874,14 @@ void DialoguePackage::FUN_009ef6e0()
     unsigned short size5 = 0;    // blockSize
     unsigned short* offset = 0;  // blockStart
     // Initial save position.
-    unsigned int saved7 = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((DialogueSaveGameWriter*)(*reinterpret_cast<::fnv_009ef6e0::TESSaveLoadGame * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00();
+    char* saved7 = reinterpret_cast<SaveLoadGameView*>((((DialogueSaveGameWriter*)(*reinterpret_cast<::fnv_009ef6e0::TESSaveLoadGame * *>(&::g_TESSaveLoadGame)))))->pBufferCursor;
     if (*(*reinterpret_cast<::fnv_009ef6e0::GlobalObject_0045cf30 *>(&::g_011de4e8)).Bool())
-        saved7 = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((DialogueSaveGameWriter*)(*reinterpret_cast<::fnv_009ef6e0::TESSaveLoadGame * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00();
+        saved7 = reinterpret_cast<SaveLoadGameView*>((((DialogueSaveGameWriter*)(*reinterpret_cast<::fnv_009ef6e0::TESSaveLoadGame * *>(&::g_TESSaveLoadGame)))))->pBufferCursor;
     if (reinterpret_cast<::FUN_00862110_cls *>((((DialogueSaveGameWriter*)(*reinterpret_cast<::fnv_009ef6e0::TESSaveLoadGame * *>(&::g_TESSaveLoadGame)))))->FUN_00862110())
     {
         unsigned int blockTag = 0x424c4f4b;
         reinterpret_cast<::FUN_008579b0_shell *>((((DialogueSaveGameWriter*)(*reinterpret_cast<::fnv_009ef6e0::TESSaveLoadGame * *>(&::g_TESSaveLoadGame)))))->FUN_008579b0(&blockTag, 4);
-        offset = (unsigned short*)reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((DialogueSaveGameWriter*)(*reinterpret_cast<::fnv_009ef6e0::TESSaveLoadGame * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00();
+        offset = (unsigned short*)reinterpret_cast<SaveLoadGameView*>((((DialogueSaveGameWriter*)(*reinterpret_cast<::fnv_009ef6e0::TESSaveLoadGame * *>(&::g_TESSaveLoadGame)))))->pBufferCursor;
         reinterpret_cast<::FUN_008579b0_shell *>((((DialogueSaveGameWriter*)(*reinterpret_cast<::fnv_009ef6e0::TESSaveLoadGame * *>(&::g_TESSaveLoadGame)))))->FUN_008579b0(&size5, 2);
     }
     reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>(this)->FUN_00484ce0(&state, 4);
@@ -1920,7 +1921,7 @@ void DialoguePackage::FUN_009ef6e0()
     }
     if (*(*reinterpret_cast<::fnv_009ef6e0::GlobalObject_0045cf30 *>(&::g_011de4e8)).Bool())
     {
-        unsigned int end = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((DialogueSaveGameWriter*)(*reinterpret_cast<::fnv_009ef6e0::TESSaveLoadGame * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00();
+        uintptr_t end = reinterpret_cast<uintptr_t>(reinterpret_cast<SaveLoadGameView*>((((DialogueSaveGameWriter*)(*reinterpret_cast<::fnv_009ef6e0::TESSaveLoadGame * *>(&::g_TESSaveLoadGame)))))->pBufferCursor);
         DialogueSaveRecord* record = ((::fnv_009ef6e0::DialogueSaveRecord *)(reinterpret_cast<::EffectSetting *>((((DialogueSaveGameWriter*)(*reinterpret_cast<::fnv_009ef6e0::TESSaveLoadGame * *>(&::g_TESSaveLoadGame)))))->GetHitSound()));
         if (record)
         {
@@ -1934,7 +1935,7 @@ void DialoguePackage::FUN_009ef6e0()
     }
     if (reinterpret_cast<::FUN_00862110_cls *>((((DialogueSaveGameWriter*)(*reinterpret_cast<::fnv_009ef6e0::TESSaveLoadGame * *>(&::g_TESSaveLoadGame)))))->FUN_00862110())
     {
-        unsigned int end = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((DialogueSaveGameWriter*)(*reinterpret_cast<::fnv_009ef6e0::TESSaveLoadGame * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00();
+        uintptr_t end = reinterpret_cast<uintptr_t>(reinterpret_cast<SaveLoadGameView*>((((DialogueSaveGameWriter*)(*reinterpret_cast<::fnv_009ef6e0::TESSaveLoadGame * *>(&::g_TESSaveLoadGame)))))->pBufferCursor);
         uintptr_t offset2 = (uintptr_t)offset;
         if (end > offset2 + 0xffff)
             ::FUN_005b5e40();

@@ -8455,7 +8455,7 @@ struct Inner5b
 
 struct Tag5b
 {
-    unsigned int bits;
+    std::uintptr_t bits;
 };
 
 struct Scratch5b
@@ -8507,12 +8507,12 @@ struct Pad16_5b { unsigned int unk00; unsigned int unk04; unsigned int unk08; un
 struct Lock5b
 {
     Inner5b* m00;
-    unsigned int* m04;
-    unsigned int* m08;
-    unsigned int* m0c;
-    unsigned int* m10;
-    unsigned int m14;
-    unsigned int m18;
+    std::uintptr_t* m04;
+    std::uintptr_t* m08;
+    std::uintptr_t* m0c;
+    std::uintptr_t* m10;
+    std::uintptr_t m14;
+    std::uintptr_t m18;
 
     bool TryAcquireAndFire(unsigned int a, unsigned int b, unsigned int c);
 };
@@ -14530,8 +14530,6 @@ struct C41Object : C41RefObject
 
 extern "C" void(* FUN_00fdf1c0)(void*);
 
-extern "C" U32(* FUN_00fdf1bc)(void*, U32, U32);
-
 struct C41Guard
 {
     C41Object* m_00;
@@ -14554,39 +14552,39 @@ struct C41Node;
 
 struct C41Link
 {
-    U32 m_00;
+    std::uintptr_t m_00;
     C41Link()
     {}
-    C41Link(C41Node* p) : m_00((unsigned int)p)
+    C41Link(C41Node* p) : m_00((std::uintptr_t)p)
     {}
     inline void Initialize(C41Node* p, bool b)
     {
-        m_00 = (unsigned int)p;
+        m_00 = (std::uintptr_t)p;
         Flag(b);
     }
     inline C41Node* Get() volatile
     {
-        return (C41Node*)(m_00 & ~1U);
+        return (C41Node*)(m_00 & ~(std::uintptr_t)1);
     }
-    inline U32 Raw() volatile
+    inline std::uintptr_t Raw() volatile
     {
         return m_00;
     }
     inline U32 Flag()
     {
         C41Link* link = this;
-        return link->m_00 & 1U;
+        return (U32)(link->m_00 & 1);
     }
     inline void Flag(bool b) volatile
     {
         if (b)
             m_00 |= 1;
         else
-            m_00 &= ~1U;
+            m_00 &= ~(std::uintptr_t)1;
     }
-    inline bool Compare(U32 desired, U32 expected) volatile
+    inline bool Compare(std::uintptr_t desired, std::uintptr_t expected) volatile
     {
-        bool success = FUN_00fdf1bc((void*)this, desired, expected) == expected;
+        bool success = (std::uintptr_t)InterlockedCompareExchangePointer((void* volatile*)&m_00, (void*)desired, (void*)expected) == expected;
         return success;
     }
     inline bool Equal(const C41Link& r) const
@@ -14670,26 +14668,26 @@ bool Lock5b::TryAcquireAndFire(unsigned int a, unsigned int b, unsigned int c)
     }
     while (true)
     {
-        unsigned int* aP_m10;
+        std::uintptr_t* aP_m10;
         bool _ok5;
-        unsigned int aNVv;
+        std::uintptr_t aNVv;
         Tag5b* _pt1;
-        unsigned int AEQ;
+        std::uintptr_t AEQ;
         Tag5b* pt3_2;
-        unsigned int node;
+        std::uintptr_t node;
         Tag5b* pt3b;
-        unsigned int* p14b3;
+        std::uintptr_t* p14b3;
         bool aOk5;
-        unsigned int nodeB5;
-        unsigned int* p14bLen;
-        unsigned int inv5;
+        std::uintptr_t nodeB5;
+        std::uintptr_t* p14bLen;
+        std::uintptr_t inv5;
         Tag5b* pt2_2;
-        unsigned int _oldJk;
+        std::uintptr_t _oldJk;
         Tag5b* pt1bPtr;
-        unsigned int _v18;
-        unsigned int* _p18a;
-        unsigned int v18a;
-        unsigned int* p18aP;
+        std::uintptr_t _v18;
+        std::uintptr_t* _p18a;
+        std::uintptr_t v18a;
+        std::uintptr_t* p18aP;
 
         if (!reinterpret_cast<::fnv_00c416a0::QueueSearch *>(this)->FUN_00c416a0(a, (::NodeKey)(b)))
         {
@@ -14698,12 +14696,12 @@ bool Lock5b::TryAcquireAndFire(unsigned int a, unsigned int b, unsigned int c)
         }
 
         p18aP = &m18;
-        v18a = *p18aP & ~1u;
+        v18a = *p18aP & ~(std::uintptr_t)1;
         t1.bits = v18a;
         reinterpret_cast<::FUN_0044e010_class *>(&(t1))->FUN_0044e010(0);
 
         _p18a = &m18;
-        _v18 = *_p18a & ~1u;
+        _v18 = *_p18a & ~(std::uintptr_t)1;
         t2.bits = _v18;
         reinterpret_cast<::FUN_0044e010_class *>(&(t2))->FUN_0044e010(1);
 
@@ -14712,31 +14710,31 @@ bool Lock5b::TryAcquireAndFire(unsigned int a, unsigned int b, unsigned int c)
         pt2_2 = &t2;
         inv5 = pt2_2->bits;
         p14bLen = &m14;
-        nodeB5 = *p14bLen & ~1u;
-        aOk5 = InterlockedCompareExchange((long volatile*)(nodeB5 + 0xc), (long)inv5, (long)_oldJk) == (long)_oldJk;
+        nodeB5 = *p14bLen & ~(std::uintptr_t)1;
+        aOk5 = (std::uintptr_t)InterlockedCompareExchangePointer((void* volatile*)&((C41Node*)nodeB5)->m_0c.m_00, (void*)inv5, (void*)_oldJk) == _oldJk;
         if (!aOk5)
             continue;
 
         p14b3 = &m14;
-        node = *p14b3 & ~1u;
+        node = *p14b3 & ~(std::uintptr_t)1;
         t7.bits = node;
         pt3b = &t7;
         if (0)
-            pt3b->bits |= 1u;
+            pt3b->bits |= 1;
         else
-            pt3b->bits &= ~1u;
+            pt3b->bits &= ~(std::uintptr_t)1;
 
         pt3_2 = &t7;
         AEQ = pt3_2->bits;
         _pt1 = &t1;
         aNVv = _pt1->bits;
         aP_m10 = m10;
-        _ok5 = InterlockedCompareExchange((long volatile*)aP_m10, (long)aNVv, (long)AEQ) == (long)AEQ;
+        _ok5 = (std::uintptr_t)InterlockedCompareExchangePointer((void* volatile*)aP_m10, (void*)aNVv, (void*)AEQ) == AEQ;
         if (_ok5)
         {
             Pad16_5b aOld2;
-            unsigned int* p14c = &m14;
-            reinterpret_cast<::C41Owner *>(this)->FUN_00c41f40((::C41Node *)(*p14c & ~1u));
+            std::uintptr_t* p14c = &m14;
+            reinterpret_cast<::C41Owner *>(this)->FUN_00c41f40((::C41Node *)(*p14c & ~(std::uintptr_t)1));
         }
         else
         {
@@ -24004,11 +24002,6 @@ struct MapItem
     unsigned int key;
     unsigned int value;
 };
-struct MapVTable
-{
-    void(* destroy)(void*);
-    unsigned int(* hash)(const void*, unsigned int);
-};
 struct FUN_00a54060_class
 {
 };
@@ -24016,7 +24009,7 @@ struct ArrA : FUN_00a54060_class
 {
     int* vtable;
     unsigned int count;
-    unsigned int* data;
+    MapItem** data;
     unsigned int cap;
     __forceinline ArrA(unsigned int n)
     {
@@ -24024,38 +24017,19 @@ struct ArrA : FUN_00a54060_class
         vtable = &::DAT_0109a284;
     }
     ~ArrA();
-    __forceinline unsigned int First() const
+    __forceinline MapItem* First() const
     {
         for (unsigned int i = 0; i < count; ++i)
             if (data[i])
                 return data[i];
         return 0;
     }
-    inline void AdvanceToNextEntry(unsigned int* cur, unsigned int* idxOut, unsigned int* valOut)
-    {
-        MapItem* item = (MapItem*)*cur;
-        *idxOut = item->key;
-        *valOut = item->value;
-        if (item->next)
-            *cur = (unsigned int)item->next;
-        else
-        {
-            unsigned int bucket = ((MapVTable*)vtable)->hash(this, item->key) + 1;
-            for (; bucket < count; ++bucket)
-                if (data[bucket])
-                {
-                    *cur = data[bucket];
-                    return;
-                }
-            *cur = 0;
-        }
-    }
 };
 struct FUN_0057c960
 {
     int* vtable;
     unsigned int count;
-    unsigned int* data;
+    MapItem** data;
     unsigned int cap;
     FUN_0057c960(int n);
 };
@@ -24066,31 +24040,12 @@ struct ArrB : FUN_0057c960
         vtable = &DAT_01030f8c;
     }
     ~ArrB();
-    __forceinline unsigned int First() const
+    __forceinline MapItem* First() const
     {
         for (unsigned int i = 0; i < count; ++i)
             if (data[i])
                 return data[i];
         return 0;
-    }
-    inline void GetNextEntry(unsigned int* cur, unsigned int* out, unsigned char* outB)
-    {
-        MapItem* item = (MapItem*)*cur;
-        *out = item->key;
-        *outB = (unsigned char)item->value;
-        if (item->next)
-            *cur = (unsigned int)item->next;
-        else
-        {
-            unsigned int bucket = ((MapVTable*)vtable)->hash(this, item->key) + 1;
-            for (; bucket < count; ++bucket)
-                if (data[bucket])
-                {
-                    *cur = data[bucket];
-                    return;
-                }
-            *cur = 0;
-        }
     }
 };
 struct LinkAllocator
@@ -24164,13 +24119,13 @@ bool NiBSBoneLODController::FUN_00c52d80(Node_cls* arg)
     ArrB b2(0x25);
     FUN_00c53030(arg, &a9, &b2);
     unsigned int maxVal = 0;
-    unsigned int cur5 = b2.First();
+    MapItem* cur5 = b2.First();
     unsigned int i5;
     while (cur5)
     {
         unsigned int kOut1;
         unsigned char outB6;
-        reinterpret_cast<::FUN_00a53c90_cls *>(&(b2))->GetNextEntry((::FUN_00a53c90_Node **)(unsigned int *)(&cur5), &kOut1, &outB6);
+        reinterpret_cast<::FUN_00a53c90_cls *>(&(b2))->GetNextEntry((::FUN_00a53c90_Node **)(&cur5), &kOut1, &outB6);
         if (kOut1 > maxVal)
             maxVal = kOut1;
     }
@@ -24185,7 +24140,7 @@ bool NiBSBoneLODController::FUN_00c52d80(Node_cls* arg)
     {
         unsigned int idxOutVal;
         unsigned int valOut8;
-        reinterpret_cast<::Tbl00b57f20 *>(&(a9))->AdvanceToNextEntry((::Ent00b57f20 **)(unsigned int *)(&cur5), (int *)(unsigned int *)(&idxOutVal), (int *)(unsigned int *)(&valOut8));
+        reinterpret_cast<::Tbl00b57f20 *>(&(a9))->AdvanceToNextEntry((::Ent00b57f20 **)(&cur5), (int *)(unsigned int *)(&idxOutVal), (int *)(unsigned int *)(&valOut8));
         LinkSet* entry = sub.data[valOut8];
         if (!entry)
         {
@@ -25453,18 +25408,18 @@ struct RemovalMapNode;
 
 struct RemovalMapLink
 {
-    long bits;
-    inline long Pointer()
+    std::uintptr_t bits;
+    inline std::uintptr_t Pointer()
     {
         RemovalMapLink* source = this;
-        return source->bits & ~1;
+        return source->bits & ~(std::uintptr_t)1;
     }
-    inline long Value()
+    inline std::uintptr_t Value()
     {
         RemovalMapLink* source = this;
         return source->bits;
     }
-    inline const long& Raw() const
+    inline const std::uintptr_t& Raw() const
     {
         const RemovalMapLink* source = this;
         return source->bits;
@@ -25476,18 +25431,18 @@ struct RemovalMapLink
     }
     RemovalMapLink()
     {}
-    inline RemovalMapLink(long pointer)
+    inline RemovalMapLink(std::uintptr_t pointer)
     {
         bits = pointer;
     }
-    inline RemovalMapLink(long pointer, bool mark)
+    inline RemovalMapLink(std::uintptr_t pointer, bool mark)
     {
         bits = pointer;
         Mark(mark);
     }
-    inline bool Compare(long replacement, long expected)
+    inline bool Compare(std::uintptr_t replacement, std::uintptr_t expected)
     {
-        bool succeeded = InterlockedCompareExchange(&bits, replacement, expected) == expected;
+        bool succeeded = (std::uintptr_t)InterlockedCompareExchangePointer((void* volatile*)&bits, (void*)replacement, (void*)expected) == expected;
         return succeeded;
     }
     inline void Mark(bool mark)
@@ -25496,7 +25451,7 @@ struct RemovalMapLink
         if (mark)
             target->bits |= 1;
         else
-            target->bits &= ~1;
+            target->bits &= ~(std::uintptr_t)1;
     }
 };
 
@@ -25507,25 +25462,10 @@ struct RemovalMapObject
     void FUN_0044dd60();
 };
 
-struct RemovalMapHold
-{
-    RemovalMapObject* object;
-    inline RemovalMapHold(RemovalMapObject* p) : object(p)
-    {
-        if (object)
-            InterlockedIncrement(&object->count);
-    }
-    inline ~RemovalMapHold()
-    {
-        if (object)
-            object->FUN_0044dd60();
-    }
-};
-
 struct RemovalMapHeader
 {
     long unk00, unk04, unk08;
-    volatile long* entries;
+    volatile std::uintptr_t* entries;
     unsigned int threshold;
 };
 
@@ -25534,104 +25474,24 @@ struct RemovalMapNode
     long unk00, unk04;
     RemovalMapObject* object;
     RemovalMapLink next;
-    inline bool CompareNext(long replacement, long expected)
+    inline bool CompareNext(std::uintptr_t replacement, std::uintptr_t expected)
     {
-        bool succeeded = InterlockedCompareExchange(&next.bits, replacement, expected) == expected;
-        return succeeded;
+        return next.Compare(replacement, expected);
     }
 };
 
+// The same object as C41Owner; FUN_00c40680 calls its members through C41Owner.
 struct RemovalMapState
 {
     RemovalMapHeader* owner;
-    long* slot04;
-    long* slot08;
-    long* slot0c;
-    volatile long* head;
+    std::uintptr_t* slot04;
+    std::uintptr_t* slot08;
+    std::uintptr_t* slot0c;
+    volatile std::uintptr_t* head;
     RemovalMapLink current;
     RemovalMapLink next;
     RemovalMapNode* retired;
     unsigned int retiredCount;
-    inline bool FUN_00c41ac0(int index, int value)
-    {
-        volatile long* link = &owner->entries[index];
-        while (true)
-        {
-            bool retry = false;
-            head = link;
-            current.bits = *head;
-            *slot08 = current.Pointer();
-            RemovalMapLink observed(current.Pointer());
-            reinterpret_cast<::FUN_0044e010_class *>(&(observed))->FUN_0044e010(false);
-            if (((RemovalMapLink*)head)->Value() != observed.Raw())
-                continue;
-            while (true)
-            {
-                if (!current.Pointer())
-                    return false;
-                next = ((RemovalMapNode*)current.Pointer())->next;
-                *slot04 = next.Pointer();
-                if (next.Value() != ((RemovalMapNode*)current.Pointer())->next.Raw())
-                {
-                    retry = true;
-                    break;
-                }
-                RemovalMapHold hold(((RemovalMapNode*)current.Pointer())->object);
-                RemovalMapLink previous(current.Pointer());
-                reinterpret_cast<::FUN_0044e010_class *>(&(previous))->FUN_0044e010(false);
-                if (((RemovalMapLink*)head)->Value() != previous.Raw())
-                {
-                    retry = true;
-                    break;
-                }
-                if (!next.IsMarked())
-                {
-                    if (hold.object == *(RemovalMapObject**)value)
-                        return true;
-                    head = &((RemovalMapNode*)current.Pointer())->next.bits;
-                    *slot0c = current.Pointer();
-                }
-                else
-                {
-                    RemovalMapLink replacement(next.Pointer(), false);
-                    if (((RemovalMapLink*)head)->Compare(replacement.Value(), previous.Value()))
-                        reinterpret_cast<::C41Owner *>(this)->FUN_00c41f40((::C41Node *)(::RemovalMapNode *)((RemovalMapNode*)current.Pointer()));
-                    else
-                    {
-                        retry = true;
-                        break;
-                    }
-                }
-                current = next;
-                *slot08 = next.Pointer();
-            }
-            if (retry)
-                continue;
-        }
-    }
-    inline void FUN_00c41f40(RemovalMapNode* node)
-    {
-        RemovalMapObject** object = &node->object;
-        if (*object)
-        {
-            if (*object)
-                (*object)->FUN_0044dd60();
-            *object = 0;
-            if (*object)
-            {
-                RemovalMapObject* incoming = *object;
-                InterlockedIncrement(&incoming->count);
-            }
-        }
-        RemovalMapNode* previous = retired;
-        node->object = (RemovalMapObject*)previous;
-        retired = node;
-        ++retiredCount;
-        unsigned int limit = owner->threshold;
-        if (retiredCount == limit)
-            Collect();
-    }
-    void Collect();
     bool FUN_00c40680(int, intptr_t);
 };
 
@@ -27943,7 +27803,6 @@ typedef unsigned long (*LPTHREAD_START_ROUTINE)(void*);
 
 
 
-extern "C" U32 (*FUN_00fdf1bc)(void*, U32, U32);
 
 
 
@@ -28102,7 +27961,7 @@ public:
 
 // @fnv 0x00c58d30
 BoundingVolumeNode* FUN_00c58d30(float fRadius, float m_fGlyphExtent, float fZ,
-    unsigned short usA, unsigned short usB, int iParam)
+    unsigned short usA, unsigned short usB, ::fnv_00c584a0::MeshColor* pkColor)
 {
     TAVObject* pkShape3;
     BoundingVolumeNode* pkNode;
@@ -28112,13 +27971,13 @@ BoundingVolumeNode* FUN_00c58d30(float fRadius, float m_fGlyphExtent, float fZ,
 
     pkNode = new BoundingVolumeNode(0);
 
-    pkShape3 = ((::TAVObject *)(::fnv_00c584a0::FUN_00c584a0(fRadius, m_fGlyphExtent, fZ, usA, usB, (::fnv_00c584a0::MeshColor *)(iParam))));
+    pkShape3 = ((::TAVObject *)(::fnv_00c584a0::FUN_00c584a0(fRadius, m_fGlyphExtent, fZ, usA, usB, pkColor)));
 
-    pkShape = ((::TAVObject *)(::fnv_00c584a0::FUN_00c584a0(fRadius, 0.0f, 0.0f, usA, 1, (::fnv_00c584a0::MeshColor *)(iParam))));
+    pkShape = ((::TAVObject *)(::fnv_00c584a0::FUN_00c584a0(fRadius, 0.0f, 0.0f, usA, 1, pkColor)));
     kRot.SetXRotation(::DAT_010c2c34);
     pkShape->SetLocalRotation(kRot);
 
-    pkGeomX = ((::TAVObject *)(::fnv_00c584a0::FUN_00c584a0(fRadius, 0.0f, 0.0f, usA, 1, (::fnv_00c584a0::MeshColor *)(iParam))));
+    pkGeomX = ((::TAVObject *)(::fnv_00c584a0::FUN_00c584a0(fRadius, 0.0f, 0.0f, usA, 1, pkColor)));
     pkGeomX->GetTransformScale(0.0f, 0.0f, fZ);
 
     pkNode->AttachChildInAvailableSlot(pkShape3, true);

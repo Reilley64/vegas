@@ -698,7 +698,7 @@ NiSortAdjustNode* ScriptClass::CreateSortAdjustNode()
             ((FUN_004bc1f0_S*)ac)->FUN_004bc1f0(this->f3c, this->f40, (float)((double)m * 25.0 + this->f44));
             p4->AttachChildInAvailableSlot((NiAVObject*)ac, 1);
         }
-        void* ac1 = ((void *)(::FUN_00c58d30(16.0f, 16.0f, 400.0f, 10, 10, (int)(&vec))));
+        void* ac1 = ((void *)(::FUN_00c58d30(16.0f, 16.0f, 400.0f, 10, 10, (::fnv_00c584a0::MeshColor *)(&vec))));
         reinterpret_cast<::FUN_00440460_S *>((((NiSortAdjustNode*)ac1)))->FUN_00440460((const ::V3 *)&(*(const NiPoint3*)&this->f3c));
         p4->AttachChildInAvailableSlot((NiAVObject*)ac1, 1);
         ::fnv_004b6e90::AttachLightingPropertyRecursive((::NiAVObject *)(p4));

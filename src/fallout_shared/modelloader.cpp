@@ -140,7 +140,6 @@
 #include "fnv/decl/IdleAnimationManager.h"
 #include "fnv/decl/ItemChangeListNode.h"
 #include "fnv/decl/KFModelLookup.h"
-#include "fnv/decl/LockFreeQueue.h"
 #include "fnv/decl/LowProcess.h"
 #include "fnv/decl/MagicCaster_shell.h"
 #include "fnv/decl/MagicProjectile.h"
@@ -336,6 +335,11 @@
 #include "fnv/decl/fnv_00a66850__FUN_00a66850_shell.h"
 #include "fnv/symbols_00aaf000.h"
 #include "fnv/symbols_01069000.h"
+
+struct ReceiverArgument
+{
+    void* value;
+};
 
 // @fnv 0x00441800
 void QueuedCharacter::Attach()
@@ -1341,9 +1345,9 @@ struct QK_0043e4b0 : Tile
 void QK_0043e4b0::FUN_0043e4b0()
 {
     if (name && !FUN_0043e530() &&
-        !((unsigned char)(reinterpret_cast<::S_00447040 *>((reinterpret_cast<LoaderStandIn*>(g_modelLoader)))->CallVirtWithLocal((int)(((::fnv_0043e4b0::Tile *)(reinterpret_cast<::FUN_0045cd60_shell *>((void *)this)->FUN_0045cd60()))), (int)(name)))))
+        !((unsigned char)(reinterpret_cast<::S_00447040 *>((reinterpret_cast<LoaderStandIn*>(g_modelLoader)))->CallVirtWithLocal((std::intptr_t)(((::fnv_0043e4b0::Tile *)(reinterpret_cast<::FUN_0045cd60_shell *>((void *)this)->FUN_0045cd60()))), (std::intptr_t)(const char*)(name)))))
     {
-        reinterpret_cast<::NiPointer_KFModel *>((reinterpret_cast<NiPointer<KFModel>*>(&name)))->FUN_0044b070=(
+        reinterpret_cast<::NiPointer_KFModel *>((reinterpret_cast<NiPointer<KFModel>*>(&name)))->FUN_0044b070(
             reinterpret_cast<::KFModelLookup *>((reinterpret_cast<LoaderStandIn*>(g_modelLoader)))->Lookup(reinterpret_cast<const char*>(((::fnv_0043e4b0::Tile *)(reinterpret_cast<::FUN_0045cd60_shell *>((void *)this)->FUN_0045cd60())))));
     }
     reinterpret_cast<::FUN_0043c610_shell *>(this)->RunVirtualMethod28();
@@ -1865,7 +1869,7 @@ void ML2::FUN_00442580(int a)
 {
     {
         GlobalObject_00528cb0 g(a);
-        ::FUN_00449240((::LockedReceiver *)(p), (::ReceiverArgument)(&g));
+        ::FUN_00449240((::LockedReceiver *)(p), ::ReceiverArgument{(void *)(&g)});
     }
     reinterpret_cast<::ModelLoader *>(this)->ProcessQueuedFile();
 }
@@ -2305,13 +2309,13 @@ struct C_00449210
     virtual void v0();
     virtual void v1();
     E_00449210** arr;
-    void FUN_00449210(int idx, int val);
+    void FUN_00449210(int idx, std::intptr_t val);
 };
 // Calls FUN_00449240 on the element at idx with val, then calls v1().
 // @fnv 0x00449210
-void C_00449210::FUN_00449210(int aiIndex, int val)
+void C_00449210::FUN_00449210(int aiIndex, std::intptr_t val)
 {
-    ::FUN_00449240((::LockedReceiver *)(arr[aiIndex]), (::ReceiverArgument)(val));
+    ::FUN_00449240((::LockedReceiver *)(arr[aiIndex]), ::ReceiverArgument{(void *)(val)});
     v1();
 }
 
@@ -3011,7 +3015,7 @@ void FUN_0044fac0_S::FUN_0044fac0(RefT* apRef)
 // @fnv 0x0044fae0
 void* FUN_0044fae0(void* apCriticalSection)
 {
-    InitializeCriticalSection(apCriticalSection);
+    InitializeCriticalSection((LPCRITICAL_SECTION)apCriticalSection);
     return apCriticalSection;
 }
 
@@ -4213,7 +4217,7 @@ struct FUN_0043e210 : public QBase
 FUN_0043e210::FUN_0043e210(KFModel* apKF, int aePriority) : QBase(aePriority), m(0)
 {
     flag = false;
-    reinterpret_cast<::NiPointer_KFModel *>((((NiPointer<KFModel>*)&m)))->FUN_0044b070=(apKF);
+    reinterpret_cast<::NiPointer_KFModel *>((((NiPointer<KFModel>*)&m)))->FUN_0044b070(apKF);
     ::SetFieldCToFive((char*)this);
 }
 }  // namespace fnv_0043e210
@@ -4425,6 +4429,7 @@ template <typename T> struct LockFreeQueue
 {
     char pad[0x40];
     LockFreeQueue(unsigned int, unsigned int);
+    void Enqueue(const T&);
 };
 
 struct BSTaskManagerThread
@@ -6146,7 +6151,6 @@ struct FUN_00449ea0_cls
     void* FUN_00449f20(unsigned int flags);
 };
 
-extern "C" void* __cdecl _Deallocate(void*);
 
 // @fnv 0x00449f20
 void* FUN_00449ea0_cls::FUN_00449f20(unsigned int flags)
@@ -6505,16 +6509,16 @@ struct QBase
 struct FUN_0063fa10
 {
 };
-template <> class NiPointer<LoadedFile>
+class LoadedFilePtr
 {
   public:
-    NiPointer(LoadedFile*);
-    ~NiPointer();
+    LoadedFilePtr(LoadedFile*);
+    ~LoadedFilePtr();
     void* p;
 };
 struct FUN_00441c50 : QBase
 {
-    NiPointer<LoadedFile> sp;
+    LoadedFilePtr sp;
     int m_iLoadPriority;
     FUN_00441c50(char const*, int, int);
 };
@@ -9001,15 +9005,15 @@ struct FUN_00447a40_shell : public ModelLoader
 };
 
 struct LoadedFile;
-template <> class NiPointer<LoadedFile>
+class LoadedFilePtr
 {
   public:
-    NiPointer(LoadedFile* pObject);
+    LoadedFilePtr(LoadedFile* pObject);
     LoadedFile* m_pObject;
 };
-struct FUN_0044b160 : public NiPointer<LoadedFile>
+struct FUN_0044b160 : public LoadedFilePtr
 {
-    FUN_0044b160(LoadedFile* pObject) : NiPointer<LoadedFile>(pObject)
+    FUN_0044b160(LoadedFile* pObject) : LoadedFilePtr(pObject)
     {}
     ~FUN_0044b160();
 };
@@ -9607,7 +9611,7 @@ extern int _data_011c16bc;
 struct QueueObj
 {
     int x;
-    QueueObj(int);
+    QueueObj(std::intptr_t);
     ~QueueObj();
 };
 struct E_00449210
@@ -9617,14 +9621,14 @@ struct FUN_00440710_t
 {
     int p0, p1, p2, p3, p4, p5, p6;
     E_00449210* q;
-    void DispatchToQueue(int a);
+    void DispatchToQueue(std::intptr_t a);
 };
 // Constructs a QueueObj from a and passes its address to q->FUN_00449240.
 // @fnv 0x00440710
-void FUN_00440710_t::DispatchToQueue(int aiValue)
+void FUN_00440710_t::DispatchToQueue(std::intptr_t aiValue)
 {
     QueueObj o(aiValue);
-    ::FUN_00449240((::LockedReceiver *)(q), (::ReceiverArgument)(&o));
+    ::FUN_00449240((::LockedReceiver *)(q), ::ReceiverArgument{(void *)(&o)});
 }
 }  // namespace fnv_00440710
 
@@ -9661,7 +9665,8 @@ struct FUN_00449c50 : S_0044dbc0
 // @fnv 0x00449c30
 int FUN_00449c30_class::CallBaseMethod()
 {
-    return reinterpret_cast<::FUN_00449c50 *>(this)->FUN_00449c50::~FUN_00449c50();
+    reinterpret_cast<::FUN_00449c50 *>(this)->::FUN_00449c50::~FUN_00449c50();
+    return 0;
 }
 // Destructor that calls FUN_0044c480 with argument 1.
 // @fnv 0x00449c50
@@ -9781,7 +9786,7 @@ struct FUN_005292a0 : public BSAudio
 // @fnv 0x005292a0
 void FUN_005292a0::SetRace(unsigned int race)
 {
-    reinterpret_cast<::FUN_006f74f0_cls *>((((QIdlePtr*)(race + 4))))->FUN_006f74f0=((::ObjA *)(void *)(0));
+    reinterpret_cast<::FUN_006f74f0_cls *>((((QIdlePtr*)(race + 4))))->FUN_006f74f0((::ObjA *)(void *)(0));
     reinterpret_cast<::CombatProcedure *>((((TESRaceForm*)race)))->Initialize((::CombatController *)(f1c));
     f1c = race;
     f20++;
@@ -9850,6 +9855,8 @@ class NiBinaryStream;
 struct NiStream
 {
     bool Save(NiFile* apFile);
+    void ClearTopLevelObjects();
+    void InsertObject(NiObject*);
 public:
     bool Load(::NiBinaryStream *);
 public:
@@ -10294,7 +10301,7 @@ FUN_00449c50::~FUN_00449c50()
 // @fnv 0x00449d10
 FUN_00449c50* FUN_00449c50::FUN_00449d10(unsigned int flags)
 {
-    reinterpret_cast<::FUN_00449c50 *>(this)->FUN_00449c50::~FUN_00449c50();
+    this->FUN_00449c50::~FUN_00449c50();
 
     if (flags & 1)
         ::FUN_00401030(this);
@@ -10316,7 +10323,7 @@ void __cdecl _Deallocate(void* ptr);
 // @fnv 0x00449e70
 void* FUN_00449d60::FUN_00449e70(unsigned int flags)
 {
-    reinterpret_cast<::FUN_00449d60 *>((this))->FUN_00449d60::~FUN_00449d60();
+    this->FUN_00449d60::~FUN_00449d60();
     if (flags & 1)
         ::FUN_00401030(this);
     return this;
@@ -13697,7 +13704,6 @@ int GetRefAt21C(const char*);
 void* FUN_0043b1b0(void*);
 void* FUN_0043b230(void*);
 void __cdecl FUN_0043b2b0(bool);
-unsigned int __cdecl FUN_0043b290();
 void* __cdecl FUN_0043b2a0();
 unsigned int __cdecl FUN_00702440();
 void* __cdecl FUN_0043b250();
@@ -15115,14 +15121,14 @@ void FUN_00440310_shell::FUN_00440310(AttachNode* pkNode)
     reinterpret_cast<::FUN_00440490_shell *>((pkNode))->FUN_00440490(reinterpret_cast<::fnv_00567400::FUN_00567400_shell *>((((ActorV_S*)m_pkRef)))->FUN_00567400());
     if (((unsigned int)(reinterpret_cast<::MagicCaster_shell *>((::g_osGlobals))->FUN_0044edb0())) == gm_GetCurrentThreadId())
     {
-        reinterpret_cast<::fnv_00570f70::Obj570 *>((m_pkRef))->FUN_00570f70((int)(pkNode));
+        reinterpret_cast<::fnv_00570f70::Obj570 *>((m_pkRef))->FUN_00570f70((std::intptr_t)(pkNode));
         reinterpret_cast<::AttachmentHandler *>((((AttachTES*)g_TES)))->FUN_00451ef0(m_pkRef, (::AttachCell *)(((int)(reinterpret_cast<::LowProcess *>((void *)(((BSOcclusionPlane*)m_pkRef)))->GetTarget()))), (::AttachRef *)(0), 0);
         reinterpret_cast<::FUN_00565210_shell *>((m_pkRef))->FUN_00565210(true);
     }
     else
     {
         reinterpret_cast<::FUN_006f74f0_cls *>((void *)&(const ::NiPointer< ::QueuedFile> &)(m_spTask))->FUN_006f74f0((::ObjA *)(::QueuedFile *)((QueuedFile*)new FUN_004404c0(m_pkRef, (int)pkNode)));
-        reinterpret_cast<::fnv_00440710::FUN_00440710_t *>((((AttachLoader*)g_modelLoader)))->DispatchToQueue((int)(m_spTask));
+        reinterpret_cast<::fnv_00440710::FUN_00440710_t *>((((AttachLoader*)g_modelLoader)))->DispatchToQueue((std::intptr_t)(QueuedFile*)(m_spTask));
     }
 }
 
@@ -16792,7 +16798,7 @@ struct MeshSource
 struct CacheNode
 {
 };
-struct CacheData
+struct MeshCacheData
 {
     int unk00;
     int unk04;
@@ -16807,11 +16813,11 @@ struct NodeHandle
 };
 struct DataHandle
 {
-    CacheData* value;
-    DataHandle(CacheData*);
+    MeshCacheData* value;
+    DataHandle(MeshCacheData*);
     ~DataHandle();
-    operator CacheData*() const;
-    CacheData* operator->() const;
+    operator MeshCacheData*() const;
+    MeshCacheData* operator->() const;
 };
 struct MeshName
 {
@@ -16853,7 +16859,7 @@ struct MeshTask
     int unk34;
     int unk38;
     int unk3c;
-    MeshTask(CacheNode*, CacheData*);
+    MeshTask(CacheNode*, MeshCacheData*);
 };
 struct TaskHandle
 {
@@ -16898,8 +16904,8 @@ void MeshLoader::LoadMesh(MeshSource* source, int priority, void* parent, int ki
         {
             MeshName name;
             ::fnv_00653520::BuildEgmFilename((::fnv_00653520::StrMem *)(::MeshName *)(&name), path2, index);
-            if (((::MeshCache *)(::BSFaceGenManager::GetModelMap())) && ::fnv_006502f0::LookupModelAndGetFlags((::fnv_006502f0::Map62d0 *)(((::MeshCache *)(::BSFaceGenManager::GetModelMap()))), (::fnv_006502f0::GetAtArgs)(name)) && node2 && data7 &&
-                ((CacheData*)data7)->ready)
+            if (((::MeshCache *)(::BSFaceGenManager::GetModelMap())) && ::fnv_006502f0::LookupModelAndGetFlags((::fnv_006502f0::Map62d0 *)(((::MeshCache *)(::BSFaceGenManager::GetModelMap()))), ::fnv_006502f0::GetAtArgs{(const char *)(name.data), (::fnv_006502f0::Helper62d0 *)(void *)&(node2), (::fnv_006502f0::FlagSink *)(void *)&(data7)}) && node2 && data7 &&
+                ((MeshCacheData*)data7)->ready)
             {
                 if (parent)
                 {
@@ -16909,15 +16915,15 @@ void MeshLoader::LoadMesh(MeshSource* source, int priority, void* parent, int ki
                 }
                 continue;
             }
-            reinterpret_cast<::fnv_00447a40::FUN_00447a40_shell *>(this)->FUN_00447a40((char *)(name), priority, (::QueuedFile *)(parent), 1);
+            reinterpret_cast<::fnv_00447a40::FUN_00447a40_shell *>(this)->FUN_00447a40((char *)(name.data), priority, (::QueuedFile *)(parent), 1);
         }
     }
     else
     {
         MeshName other5;
         ::fnv_00653520::BuildEgmFilename((::fnv_00653520::StrMem *)(::MeshName *)(&other5), path2, -1);
-        if (((::MeshCache *)(::BSFaceGenManager::GetModelMap())) && ::fnv_006502f0::LookupModelAndGetFlags((::fnv_006502f0::Map62d0 *)(((::MeshCache *)(::BSFaceGenManager::GetModelMap()))), (::fnv_006502f0::GetAtArgs)(other5)) && node2 && data7 &&
-            ((CacheData*)data7)->ready)
+        if (((::MeshCache *)(::BSFaceGenManager::GetModelMap())) && ::fnv_006502f0::LookupModelAndGetFlags((::fnv_006502f0::Map62d0 *)(((::MeshCache *)(::BSFaceGenManager::GetModelMap()))), ::fnv_006502f0::GetAtArgs{(const char *)(other5.data), (::fnv_006502f0::Helper62d0 *)(void *)&(node2), (::fnv_006502f0::FlagSink *)(void *)&(data7)}) && node2 && data7 &&
+            ((MeshCacheData*)data7)->ready)
         {
             if (parent)
             {
@@ -16927,7 +16933,7 @@ void MeshLoader::LoadMesh(MeshSource* source, int priority, void* parent, int ki
             }
             return;
         }
-        reinterpret_cast<::fnv_00447a40::FUN_00447a40_shell *>(this)->FUN_00447a40((char *)(other5), priority, (::QueuedFile *)(parent), 1);
+        reinterpret_cast<::fnv_00447a40::FUN_00447a40_shell *>(this)->FUN_00447a40((char *)(other5.data), priority, (::QueuedFile *)(parent), 1);
     }
 }
 
@@ -18403,7 +18409,7 @@ void Ref3::FUN_005702e0(Obj3* replacement, bool warn)
             rotation4 = (*(::Mat3s *)(::FUN_006a9540((char *)(((Obj3*)oldVar)))));
             scale4 = reinterpret_cast<::FUN_009cdae0_shell *>((((Obj3*)oldVar)))->GetFloatAt64();
         }
-        ::FUN_00b5b1c0((::ShadowSceneNode *)(((::Scene3 *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0)))), (int)(oldVar), {});
+        ::FUN_00b5b1c0((::ShadowSceneNode *)(((::Scene3 *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0)))), 0, (::NiAVObject *)(Obj3*)(oldVar));
         if (IsSpecial())
             reinterpret_cast<::MultiBoundManagerB5E *>((((::Scene3 *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0)))))->RemoveBoundByOwner(oldVar);
         if (!replacement)
@@ -18499,7 +18505,7 @@ void Ref3::FUN_005702e0(Obj3* replacement, bool warn)
             ::FUN_00c45830((::MyRef *)(::Obj3 *)(oldVar));
         bool flag = reinterpret_cast<::Holder4523e0 *>(this)->FUN_004523e0(4);
         oldVar = 0;
-        reinterpret_cast<::fnv_00570f70::Obj570 *>(this)->FUN_00570f70((int)(0));
+        reinterpret_cast<::fnv_00570f70::Obj570 *>(this)->FUN_00570f70(0);
         if (!replacement && base)
         {
             if (!reinterpret_cast<::FUN_005651e0_shell *>(this)->FUN_005651e0())
@@ -18515,7 +18521,7 @@ void Ref3::FUN_005702e0(Obj3* replacement, bool warn)
         reinterpret_cast<::fnv_00445570::FUN_00445570_cls *>((((Loader3*)g_modelLoader)))->FUN_00445570((unsigned int)(this));
     if (!replacement)
         reinterpret_cast<::RefObj *>(this)->FUN_00579ac0(false);
-    reinterpret_cast<::fnv_00570f70::Obj570 *>(this)->FUN_00570f70((int)(replacement));
+    reinterpret_cast<::fnv_00570f70::Obj570 *>(this)->FUN_00570f70((std::intptr_t)(replacement));
     if (replacement && parentTmp)
     {
         reinterpret_cast<::FUN_00440460_S *>((replacement))->FUN_00440460((const ::V3 *)&(e));
@@ -18771,10 +18777,9 @@ template <class C> class BSStringT
   public:
     operator const C*() const;
 };
-template <> class NiPointer<NiNode*>
+struct NodePtr_0043fc40
 {
-  public:
-    NiPointer<NiNode>& operator=(NiNode*);
+    NodePtr_0043fc40& operator=(NiNode*);
 };
 class FUN_00565210_shell
 {
@@ -18801,13 +18806,13 @@ void FUN_0043fc40_t::FUN_0043fc40()
 {
     if (!::FUN_00449130((int*)this) && m_pReference && !((::fnv_0043fc40::NiAVObject *)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((((FUN_0043fcd0_t*)m_pReference)))->FUN_0043fcd0())))
     {
-        reinterpret_cast<::fnv_00570f70::Obj570 *>((((FUN_00570f70_t*)m_pReference)))->FUN_00570f70((int)(m_kName));
-        reinterpret_cast<::AttachmentHandler *>((((FUN_00451ef0_t*)::g_TES)))->FUN_00451ef0((::AttachRef *)(m_pReference), (::AttachCell *)(((int)(reinterpret_cast<::LowProcess *>((void *)(((BSOcclusionPlane*)m_pReference)))->GetTarget()))), (::AttachRef *)(0), 0);
+        reinterpret_cast<::fnv_00570f70::Obj570 *>((((FUN_00570f70_t*)m_pReference)))->FUN_00570f70((std::intptr_t)(const char*)(m_kName));
+        reinterpret_cast<::AttachmentHandler *>((((FUN_00451ef0_t*)::g_TES)))->FUN_00451ef0((::AttachRef *)(m_pReference), (::AttachCell *)((reinterpret_cast<::LowProcess *>((void *)(((BSOcclusionPlane*)m_pReference)))->GetTarget())), (::AttachRef *)(0), 0);
         reinterpret_cast<::FUN_00565210_shell *>((((FUN_00565210_shell*)m_pReference)))->FUN_00565210(true);
     }
     else
     {
-        *(NiPointer<NiNode*>*)&m_kName = 0;
+        *(NodePtr_0043fc40*)&m_kName = 0;
     }
 }
 }  // namespace fnv_0043fc40
@@ -18971,7 +18976,6 @@ void Self::DestroyAllStreams()
 }
 
 namespace fnv_0043d180 {
-extern "C" char DAT_01016840;
 struct Guard43
 {
     int x;
@@ -19032,7 +19036,7 @@ struct C43
 // @fnv 0x0043d180
 void C43::FUN_0043d180()
 {
-    Guard43 guard(field18, true, &DAT_01016840, 997);
+    Guard43 guard(field18, true, (char*)DAT_01016840, 997);
     if (((::fnv_0043d180::Model43 *)(::FUN_00559450((int *)&(ptr)))))
     {
         if (reinterpret_cast<::FUN_0043d490_shell *>(this)->FUN_0043d490())
@@ -19267,7 +19271,7 @@ void Owner448::LoadTaskFromPath(Task448* pTask, int x, void* parent, int unused)
     FUN_00406d50(pathX, 260, pTask->v5());
     String448 s3;
     ::fnv_00653520::BuildEgmFilename((::fnv_00653520::StrMem *)(::fnv_00448080::String448 *)(&s3), pathX, -1);
-    if (((::fnv_00448080::Manager448 *)(::BSFaceGenManager::GetModelMap())) && ::fnv_006502f0::LookupModelAndGetFlags((::fnv_006502f0::Map62d0 *)(((::fnv_00448080::Manager448 *)(::BSFaceGenManager::GetModelMap()))), (::fnv_006502f0::GetAtArgs)(((void *)(::FUN_00559450((int *)&(s3)))))) && ((void *)(::FUN_00559450((int *)&(a)))) &&
+    if (((::fnv_00448080::Manager448 *)(::BSFaceGenManager::GetModelMap())) && ::fnv_006502f0::LookupModelAndGetFlags((::fnv_006502f0::Map62d0 *)(((::fnv_00448080::Manager448 *)(::BSFaceGenManager::GetModelMap()))), ::fnv_006502f0::GetAtArgs{(const char *)((void *)(::FUN_00559450((int *)&(s3)))), (::fnv_006502f0::Helper62d0 *)(void *)&(a), (::fnv_006502f0::FlagSink *)(void *)&(b)}) && ((void *)(::FUN_00559450((int *)&(a)))) &&
         ((void *)(::FUN_00559450((int *)&(b)))))
     {
         if (parent)
@@ -20189,17 +20193,13 @@ struct LockedReceiver
     LockedResult* FUN_00449f80(void*);
 };
 
-struct ReceiverArgument
-{
-    void* value;
-};
 
 // Locks the receiver, calls FUN_0044cd40 on the result of FUN_00449f80 with argument.value, then unlocks the receiver.
 // @fnv 0x00449240
 void FUN_00449240(LockedReceiver* receiver, ReceiverArgument argument)
 {
     reinterpret_cast<::FUN_0040fbf0_shell *>(&(receiver->lock))->FUN_0040fbf0((char *)(0));
-    reinterpret_cast<::LockFreeQueue *>((receiver->FUN_00449f80(argument.value)))->Enqueue(*(const ::QHeadPtr *)nullptr);
+    reinterpret_cast<::LockFreeQueue< ::NiPointer< ::QueuedReference> > *>((receiver->FUN_00449f80(argument.value)))->Enqueue(*(const ::NiPointer< ::QueuedReference> *)(argument.value));
     reinterpret_cast<::RecursiveSpinLock *>(&(receiver->lock))->FUN_0040fba0();
 }
 
@@ -20476,7 +20476,7 @@ struct Fg_aaed70_Iter : Fg_aaed70_CIter
         int w2;
         int w3;
         int w4;
-        return (float&)((const float)(reinterpret_cast<::FUN_0064dda0_cls *>((void *)this)->FUN_0064dda0()));
+        return *(float *)(reinterpret_cast<::FUN_0064dda0_cls *>((void *)this)->FUN_0064dda0());
     }
     Fg_aaed70_Iter operator++(int)
     {
@@ -20535,7 +20535,7 @@ Fg_aaed70_Mat Fg_aaed70_Mat::FUN_00aaed70(const Fg_aaed70_Mat& other) const
     Fg_aaed70_CIter it2(other.data._Myfirst, &other.data);
     for (; reinterpret_cast<::FUN_0065dfd0_class *>((void *)&(it9))->FUN_0065dfd0((int)&(const ::Fg_aaed70_CIter &)(data.end())); it9++, it2++, it3++)
     {
-        *it3 = ((const float)(reinterpret_cast<::FUN_0064dda0_cls *>((void *)&(it9))->FUN_0064dda0())) - ((const float)(reinterpret_cast<::FUN_0064dda0_cls *>((void *)&(it2))->FUN_0064dda0()));
+        *it3 = *(const float *)(reinterpret_cast<::FUN_0064dda0_cls *>((void *)&(it9))->FUN_0064dda0()) - *(const float *)(reinterpret_cast<::FUN_0064dda0_cls *>((void *)&(it2))->FUN_0064dda0());
     }
     return ret;
 }
@@ -22568,7 +22568,7 @@ template <class T> class allocator
     {}
     void deallocate(T* pointer, unsigned int)
     {
-        ::FUN_00401030 delete(pointer);
+        ::FUN_00401030(pointer);
     }
 };
 template <class T, class Alloc> class Aade20StringAllocator

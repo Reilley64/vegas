@@ -22,21 +22,30 @@ void FUN_00dee720(int aiUnused, void* apData)
     *(int*)apData = 0x3c;
 }
 
-struct FUN_00dee7f0_class
+class hkpConstraintAtom;
+// hkpConstraintData::ConstraintInfo: solver sizes, then the atoms and their total size.
+struct GenericConstraintAtomScheme
 {
-    void FUN_00dee7f0(void* a);
+    int maxSizeOfSchema, sizeOfSchemas, numSolverResults, numSolverElemTemps;
+    const hkpConstraintAtom* atoms;
+    int sizeOfAllAtoms;
 };
 
-// Fills the struct at a with a pointer to this+0xc and constant fields 0, 0x180, 7, 8, 0xc.
-// @fnv 0x00dee7f0
-void FUN_00dee7f0_class::FUN_00dee7f0(void* a)
+struct FUN_00dee7f0_class : hkpPointToPathConstraintData
 {
-    *(int*)((char*)a + 0x10) = (int)((char*)this + 0xc);
-    *(int*)((char*)a + 0x14) = 0xc;
-    *(int*)((char*)a + 0x0) = 0;
-    *(int*)((char*)a + 0x4) = 0x180;
-    *(int*)((char*)a + 0x8) = 7;
-    *(int*)((char*)a + 0xc) = 8;
+    void FUN_00dee7f0(GenericConstraintAtomScheme* info) const;
+};
+
+// Fills the constraint info with the bridge atoms and the fixed solver sizes 0, 0x180, 7, 8.
+// @fnv 0x00dee7f0
+void FUN_00dee7f0_class::FUN_00dee7f0(GenericConstraintAtomScheme* info) const
+{
+    info->atoms = reinterpret_cast<const hkpConstraintAtom*>(&m_kBridgeAtoms);
+    info->sizeOfAllAtoms = 0xc;
+    info->maxSizeOfSchema = 0;
+    info->sizeOfSchemas = 0x180;
+    info->numSolverResults = 7;
+    info->numSolverElemTemps = 8;
 }
 
 extern int DAT_010da004;
@@ -761,7 +770,7 @@ struct PointToPathData : public hkpPointToPathConstraintData
 // @fnv 0x00deea90
 void PointToPathData::FUN_00deea90(const QueryIn& in, QueryOut& out)
 {
-    ::fnv_00d6f2b0::AppendEventRecord((const ::fnv_00d6f2b0::RecordSource *)&(in), (::fnv_00d6f2b0::EventRecord **)&(out), (volatile unsigned int)(in.m_pByteBuffer), 8);
+    ::fnv_00d6f2b0::AppendEventRecord((const ::fnv_00d6f2b0::RecordSource *)&(in), (::fnv_00d6f2b0::EventRecord **)&(out), in.m_pByteBuffer, 8);
 
     TransformQ pathToWorld;
     pathToWorld.FUN_00cb2240(*in.m_kBodyBLocalFrame, m_kLocalTransforms[1]);

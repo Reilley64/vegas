@@ -34,11 +34,11 @@ int hkObjE42A::GetAlignedSize(int n) const
 }
 
 struct Buffers {char* first;char* second;char* third;char* fourth;};
-struct Obj{int a,b,c,byte_size,d;unsigned short count;void ComputeBufferLayout(char* base,int unused,Buffers* out) const;};
+struct Obj{int a,b,c,byte_size,d;unsigned short count;void ComputeBufferLayout(char* base,intptr_t unused,Buffers* out) const;};
 inline int align16(int n){return (n+15)&~15;}
 // Computes aligned offsets for four buffers from count and byte_size and stores the resulting pointers in out.
 // @fnv 0x00e42b00
-void Obj::ComputeBufferLayout(char* base,int unused,Buffers* out) const {
+void Obj::ComputeBufferLayout(char* base,intptr_t unused,Buffers* out) const {
  int n=count;int iByteSize=byte_size;
  char* p=base+align16(n*80);out->second=p;p+=align16(n*96);char* pThird=p;p+=align16(iByteSize);out->first=base;out->fourth=p;out->third=pThird;
 }
@@ -124,7 +124,7 @@ void RayBatchManager::FUN_00e42da0(void* input, void* world, WheelCommand* comma
  int count = vehicleCount;
  LocalWheelResults results;
  BatchOutputs active;
- reinterpret_cast<::Obj *>(this)->ComputeBufferLayout((char *)(commands), (int)(world), (::Buffers *)(::BatchOutputs *)(&active));
+ reinterpret_cast<::Obj *>(this)->ComputeBufferLayout((char *)(commands), (intptr_t)(world), (::Buffers *)(::BatchOutputs *)(&active));
  WheelCommand* cursor = active.commands;
  results.initialize();
  for (int i = 0; i < count; ++i) {

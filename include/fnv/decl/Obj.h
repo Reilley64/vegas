@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 struct Body;
 struct Buffers;
@@ -40,7 +41,7 @@ public:
     // 0x00e09970
     void FUN_00e09970(::Node *, int *, float *);
     // 0x00e42b00
-    void ComputeBufferLayout(char *, int, ::Buffers *) const;
+    void ComputeBufferLayout(char *, intptr_t, ::Buffers *) const;
     // 0x00ee82b0
     void FUN_00ee82b0();
 };

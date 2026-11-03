@@ -38,26 +38,35 @@ void hkpBallSocketChainData_00d53cf0::GetConstraintSizeInfo(bool abEnabled, S_00
     }
 }
 
-struct hkpBallSocketChainData_00d53ca0
+class hkpConstraintAtom;
+// hkpConstraintData::ConstraintInfo: solver sizes, then the atoms and their total size.
+struct GenericConstraintAtomScheme
 {
-    void InitChainData(char* out);
+    int maxSizeOfSchema, sizeOfSchemas, numSolverResults, numSolverElemTemps;
+    const hkpConstraintAtom* atoms;
+    int sizeOfAllAtoms;
 };
-// Initializes the output chain data: stores a pointer to this+0xc, zeroes fields, and sets sizes from the count at this+0x1c.
-// @fnv 0x00d53ca0
-void hkpBallSocketChainData_00d53ca0::InitChainData(char* out)
+
+struct hkpBallSocketChainData_00d53ca0 : hkpBallSocketChainData
 {
-    *(int*)(out + 0x10) = (int)(this + 0xc);
+    void InitChainData(GenericConstraintAtomScheme* info) const;
+};
+// Fills the constraint info with the bridge atoms and solver sizes computed from the number of chain links.
+// @fnv 0x00d53ca0
+void hkpBallSocketChainData_00d53ca0::InitChainData(GenericConstraintAtomScheme* info) const
+{
+    info->atoms = reinterpret_cast<const hkpConstraintAtom*>(&m_kBridgeAtoms);
     int zero = 0;
-    *(int*)(out + 8) = zero;
-    *(int*)(out + 0xc) = zero;
-    *(int*)out = zero;
-    *(int*)(out + 4) = 0x10;
-    *(int*)(out + 0x14) = 0xc;
-    int iCount = *(int*)((char*)this + 0x1c);
+    info->numSolverResults = zero;
+    info->numSolverElemTemps = zero;
+    info->maxSizeOfSchema = zero;
+    info->sizeOfSchemas = 0x10;
+    info->sizeOfAllAtoms = 0xc;
+    int iCount = m_pConstraintInfo.m_iElementCount;
     int iTripleCount = iCount * 3;
-    *(int*)(out + 4) = (((iCount * 0x134 + 0x33) & 0xfffffff0) + 0x10);
-    *(int*)(out + 8) = iTripleCount;
-    *(int*)(out + 0xc) = iTripleCount;
+    info->sizeOfSchemas = (((iCount * 0x134 + 0x33) & 0xfffffff0) + 0x10);
+    info->numSolverResults = iTripleCount;
+    info->numSolverElemTemps = iTripleCount;
 }
 
 // FUN_00d53c90 : a one-line function - getter
@@ -717,7 +726,7 @@ struct ProbeRoot : public hkpBallSocketChainData
 void ProbeRoot::FUN_00d53e80(const PortQuery& input, QueryResultSchema& output)
 {
     void* solver = input.m_pByteBuffer.val();
-    ::fnv_00d6f2b0::AppendEventRecord((const ::fnv_00d6f2b0::RecordSource *)(const ::PortQuery *)(&input), (::fnv_00d6f2b0::EventRecord **)(::QueryResultSchema *)(&output), (volatile unsigned int)(solver), 8);
+    ::fnv_00d6f2b0::AppendEventRecord((const ::fnv_00d6f2b0::RecordSource *)(const ::PortQuery *)(&input), (::fnv_00d6f2b0::EventRecord **)(::QueryResultSchema *)(&output), solver, 8);
     PortQuery localQuery = input;
     localQuery.m_pConstraintChainInstance = 0;
     localQuery.m_pByteBuffer = 0;

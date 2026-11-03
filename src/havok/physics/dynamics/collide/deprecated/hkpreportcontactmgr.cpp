@@ -486,7 +486,7 @@ void S_Cfca40_Factory::CreateElement(S_Cfca40_AdjustedSource* apFirstSource, S_C
     void* secondData = apSecondSource->GetAdjustedData();
     S_Cfca40_Element* pElement = static_cast<S_Cfca40_Element*>(static_cast<S_Cfca40_Router*>(::FUN_00c85750())->heap().Allocate(28));
     pElement->m_allocatedBytes = 28;
-    new ((void *)(pElement)) ::FUN_00cfc5a0((int)(m_iValueAtOffset0C), (::S_00cfc5a0 *)(firstData), (::S_00cfc5a0 *)(secondData));
+    new ((void *)(pElement)) ::FUN_00cfc5a0((intptr_t)(m_iValueAtOffset0C), (::S_00cfc5a0 *)(firstData), (::S_00cfc5a0 *)(secondData));
 }
 
 
@@ -887,7 +887,7 @@ struct CollisionOwner
 {
     int unk004;
     int unk008;
-    int unk00C;
+    ::S00d01850_Owner* unk00C;
     CollisionBody* unk010;
     CollisionBody* unk014;
 
@@ -917,7 +917,7 @@ int CollisionOwner::FUN_00cfc760(Word a1, int a2, int a3, CollisionStateData* ap
     CollisionPoint pObj(a1.value, a2, a3, apStateData, a5, a6, a7, apBody, apOutState, this);
     CollisionBody* y = this->unk010;
     CollisionBody* pBodyB = this->unk014;
-    ::FUN_00d01850((::S00d01850_Owner *)(this->unk00C), (::S00d01850_Out *)(void *)(&pObj));
+    ::FUN_00d01850(this->unk00C, (::S00d01850_Out *)(void *)(&pObj));
 
     if ((bool)y->unk204)
         ::FUN_00d00110((::ListenerOwner *)(y), (::ListenerEvent *)(void *)(&pObj));

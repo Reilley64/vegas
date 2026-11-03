@@ -2115,12 +2115,12 @@ struct FUN_00cfc5a0
     S_00cfc5a0* unk14;
     unsigned short unk18;
 
-    FUN_00cfc5a0(int a1, S_00cfc5a0* a2, S_00cfc5a0* a3);
+    FUN_00cfc5a0(intptr_t a1, S_00cfc5a0* a2, S_00cfc5a0* a3);
 };
 
 // Sets up the object with a1, stores a2 and a3, and records the smaller of their unkAA values in unk18.
 // @fnv 0x00cfc5a0
-FUN_00cfc5a0::FUN_00cfc5a0(int aiValue, S_00cfc5a0* apFirst, S_00cfc5a0* apSecond)
+FUN_00cfc5a0::FUN_00cfc5a0(intptr_t aiValue, S_00cfc5a0* apFirst, S_00cfc5a0* apSecond)
 {
     unk06 = 1;
     unk08 = 1;

@@ -6,6 +6,7 @@
 #include "fnv/symbols_0102e000.h"
 #include "fnv/symbols_010c9000.h"
 #include "havok/hkpRejectChassisListener.h"
+#include "havok/hkpCollidable.h"
 
 struct FUN_00e360f0
 {
@@ -21,17 +22,28 @@ FUN_00e360f0::~FUN_00e360f0()
     m_pVTable = &::DAT_0102e388;
 }
 
-struct FUN_00e36100_StandIn
+// The phantom overlap event: phantom, collidable, and the accept/reject result.
+struct FUN_00e36100_Event
 {
-    int m_unk0;
-    void FUN_00e36100(int* pArg);
+    void* m_pPhantom;
+    const hkpCollidable* m_pCollidable;
+    int m_iCollidableResult;
 };
 
-// @fnv 0x00e36100
-void FUN_00e36100_StandIn::FUN_00e36100(int* pArg)
+// The listener interface inside hkpRejectChassisListener (its pad8 vtable), followed by the chassis collidable.
+struct FUN_00e36100_StandIn
 {
-    if (*(int*)(pArg + 1) == *(int*)(this + 1) || *((unsigned char*)*(int*)(pArg + 1) + 0x18) != 1)
-        *(int*)(pArg + 2) = 1;
+    void* m_pInterfaceVTable;
+    const void* m_pChassisCollidable;
+    void FUN_00e36100(FUN_00e36100_Event* pArg);
+};
+
+// Rejects the collidable when it is the chassis or is not an entity.
+// @fnv 0x00e36100
+void FUN_00e36100_StandIn::FUN_00e36100(FUN_00e36100_Event* pArg)
+{
+    if (pArg->m_pCollidable == m_pChassisCollidable || pArg->m_pCollidable->m_kBroadPhaseHandle.m_type != 1)
+        pArg->m_iCollidableResult = 1;
 }
 
 // @fnv 0x00e360e0

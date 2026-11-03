@@ -3,7 +3,7 @@
 #include "fnv/result_slot.h"
 #include "fnv/simple_list_node_view.h"
 #include "fallout/interface/menu_fields.h"
-#include "fallout/interface/inventory_fields.h"
+#include "fnv/inventory_entry_fields.h"
 #include <cstdint>
 #include <new>
 #include <cstdio>
@@ -3883,13 +3883,13 @@ void EventMenu::OnButtonClick(int button, int arg)
                             break;
                         case 4:
                             if (((EventMenu*)DAT_011dada4)->entry &&
-                                ((std::intptr_t)(reinterpret_cast<::InventoryEntryFields *>((((EventMenu*)DAT_011dada4)->entry))->m_iCountChange)) > 0)
+                                ((std::intptr_t)(reinterpret_cast<::InventoryEntryFields *>((((EventMenu*)DAT_011dada4)->entry))->iCountDelta)) > 0)
                             {
                                 reinterpret_cast<::FUN_00a012d0_t *>((((::EventTile *)(reinterpret_cast<::MenuFields *>(this)->tile))))->FUN_00a012d0(stimpak, reinterpret_cast<::TileListBoxCalls *>((((::EventTile *)(reinterpret_cast<::MenuFields *>(this)->tile))))->GetFloat(stimpak) - 1.0,
                                                              true);
                                 reinterpret_cast<::FUN_0088c650_shell *>((((EventPlayer*)_g_thePlayer)))->FUN_0088c650(
-                                        (::TESBoundObject *)(void *)(((void *)(reinterpret_cast<::InventoryEntryFields *>((((EventMenu*)DAT_011dada4)->entry))->m_pItemObject))),
-                                        ((int)(reinterpret_cast<::InventoryEntryFields *>((((EventMenu*)DAT_011dada4)->entry))->m_iCountChange)),
+                                        (::TESBoundObject *)(void *)(((void *)(reinterpret_cast<::InventoryEntryFields *>((((EventMenu*)DAT_011dada4)->entry))->pObject))),
+                                        ((int)(reinterpret_cast<::InventoryEntryFields *>((((EventMenu*)DAT_011dada4)->entry))->iCountDelta)),
                                         (::ExtraDataList *)(void *)(((::EventExtraNode *)(::FUN_00559450((int *)(((EventMenu*)DAT_011dada4)->entry))))
                                             ? *(((void **)(&reinterpret_cast<::SimpleListNodeView*>(((::EventExtraNode *)(::FUN_00559450((int *)(((EventMenu*)DAT_011dada4)->entry)))))->m_item)))
                                             : 0),
@@ -3903,7 +3903,7 @@ void EventMenu::OnButtonClick(int button, int arg)
                                 EventEntry* item = ((::EventEntry *)(reinterpret_cast<::fnv_00576260::FUN_00576260_shell *>((((EventPlayer*)_g_thePlayer)))->FUN_00576260((::fnv_00576260::TESBoundObject *)(::EventForm *)(((::EventForm *)(::BGSDefaultObjectManager::GetDefaultObjectByIndex((::DEFAULT_OBJECT)(4))))), 0)));
                                 reinterpret_cast<::FUN_00a012d0_t *>((((::EventTile *)(reinterpret_cast<::MenuFields *>(this)->tile))))->FUN_00a012d0(morphine, reinterpret_cast<::TileListBoxCalls *>((((::EventTile *)(reinterpret_cast<::MenuFields *>(this)->tile))))->GetFloat(morphine) - 1.0,
                                                              true);
-                                reinterpret_cast<::FUN_0088c650_shell *>((((EventPlayer*)_g_thePlayer)))->FUN_0088c650((::TESBoundObject *)(void *)(((::EventForm *)(::BGSDefaultObjectManager::GetDefaultObjectByIndex((::DEFAULT_OBJECT)(4))))), ((int)(reinterpret_cast<::InventoryEntryFields *>((item))->m_iCountChange)),
+                                reinterpret_cast<::FUN_0088c650_shell *>((((EventPlayer*)_g_thePlayer)))->FUN_0088c650((::TESBoundObject *)(void *)(((::EventForm *)(::BGSDefaultObjectManager::GetDefaultObjectByIndex((::DEFAULT_OBJECT)(4))))), ((int)(reinterpret_cast<::InventoryEntryFields *>((item))->iCountDelta)),
                                                    (::ExtraDataList *)(void *)(((::EventExtraNode *)(::FUN_00559450((int *)(item)))) ? *(((void **)(&reinterpret_cast<::SimpleListNodeView*>(((::EventExtraNode *)(::FUN_00559450((int *)(item)))))->m_item))) : 0),
                                                    false, false, true);
                                 delete item;

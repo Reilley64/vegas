@@ -578,7 +578,7 @@ void FUN_008d5300_shell::SetPlayerLevel(int aLevel)
 
     {
         NiNodeBooleanState* prog = ((::fnv_008d5300::NiNodeBooleanState *)(reinterpret_cast<::FUN_00464e10_shell *>((((FUN_00464e10_shell*)(void*)(*reinterpret_cast<::fnv_008d5300::PlayerCharacter * *>(&::_g_thePlayer)))))->FUN_00464e10()));
-        data = (char*)((Flt*)prog)->operator unsigned int();
+        data = *reinterpret_cast<char **>(prog);
     }
 
     currentXP = ((SubA4*)((char*)(*reinterpret_cast<::fnv_008d5300::PlayerCharacter * *>(&::_g_thePlayer)) + 0xa4))->vfunc_8(0x18);
@@ -854,14 +854,14 @@ void FUN_008d53f0(void* apTarget, int a2, int aiUnused, float afValue)
     if (pActor && pActor->vfn_360())
     {
         NiNodeBooleanState* prog = reinterpret_cast<::FUN_00464e10_shell *>((((FUN_00464e10_shell*)(*reinterpret_cast<::fnv_008d53f0::PlayerCharacter * *>(&::_g_thePlayer)))))->FUN_00464e10();
-        if (*(bool*)(((Flt*)prog)->operator unsigned int() + 8))
+        if (*(bool*)(*reinterpret_cast<char **>(prog) + 8))
             return;
         if (a2 == 0x18 && afValue > ::_DAT_01012060)
         {
             if ((int)afValue > 0)
                 ::QueueLevelUpNotification((int)afValue);
             if (reinterpret_cast<::fnv_0087f9f0::FUN_0087f9f0_shell *>(((*reinterpret_cast<::fnv_008d53f0::PlayerCharacter * *>(&::_g_thePlayer))))->FUN_0087f9f0() < *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_008d53f0::GlobalObject2_0040c150 *>(&::g_011d0c60)))))))
-                reinterpret_cast<::FUN_008d55e0_shell *>((((FUN_008d55e0_shell*)((Flt*)prog)->operator unsigned int())))->FUN_008d55e0(reinterpret_cast<::fnv_0087f9f0::FUN_0087f9f0_shell *>(((*reinterpret_cast<::fnv_008d53f0::PlayerCharacter * *>(&::_g_thePlayer))))->FUN_0087f9f0() + 1);
+                reinterpret_cast<::FUN_008d55e0_shell *>((((FUN_008d55e0_shell*)*reinterpret_cast<void **>(prog))))->FUN_008d55e0(reinterpret_cast<::fnv_0087f9f0::FUN_0087f9f0_shell *>(((*reinterpret_cast<::fnv_008d53f0::PlayerCharacter * *>(&::_g_thePlayer))))->FUN_0087f9f0() + 1);
         }
     }
 }

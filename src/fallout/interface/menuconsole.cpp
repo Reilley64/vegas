@@ -1,6 +1,6 @@
 // fallout/interface/menuconsole.cpp: ConsoleManager, ListHead, ConsoleDisplay, DumpConsole (13 functions)
 
-#include "fallout/interface/av_object_fields.h"
+#include "fnv/av_object_fields.h"
 #include <cstdio>
 #include <cstdint>
 #include <cstring>
@@ -636,7 +636,7 @@ bool ConsoleManager::Idle(int aiKeyCode)
                         ::FUN_00406f60((::FUN_00406f90_this *)&(label), "\"%s\" (%08x)", reinterpret_cast<::FUN_0055d520_shell *>((reference))->FUN_0055d520(), ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reference))->FUN_0084e3a0())));
                         void* node = ((void *)(::FUN_00653270((const ::NiRTTI *)(void *)(&(*reinterpret_cast<unsigned char *>(&::g_011f4428))), (::NiObject *)(::NiNode *)(reference->GetNiNode_v()))));
                         if (!node)
-                            node = ((void *)(::FUN_00653270((const ::NiRTTI *)(void *)(&(*reinterpret_cast<unsigned char *>(&::g_011f4428))), (::NiObject *)(::NiNode *)(((::NiNode *)(reinterpret_cast<::AVObjectFields *>((reference->GetNiNode_v()))->m_pkParent))))));
+                            node = ((void *)(::FUN_00653270((const ::NiRTTI *)(void *)(&(*reinterpret_cast<unsigned char *>(&::g_011f4428))), (::NiObject *)(::NiNode *)(((::NiNode *)(reinterpret_cast<::NiAVObjectFields *>((reference->GetNiNode_v()))->m_pkParent))))));
                         ::FUN_00a10c00((::NiObject *)(node), ((const char *)(::FUN_00559450((int *)&(label)))), 0, -1.0f);
                     }
                 }

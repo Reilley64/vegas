@@ -3,7 +3,7 @@
 #include "fallout/interface/tile_fields.h"
 #include "fnv/simple_list_node_view.h"
 #include "fallout/interface/menu_fields.h"
-#include "fallout/interface/inventory_fields.h"
+#include "fnv/inventory_entry_fields.h"
 #include "fallout/interface/rendered_menu_fields.h"
 #include <cstdint>
 #include <windows.h>
@@ -5686,7 +5686,7 @@ void FUN_0070ee80_shell::UpdatePipboyWaiver()
                 if (reinterpret_cast<::FUN_008a16d0_shell *>(((*reinterpret_cast<::fnv_0070ee80::PlayerCharacter * *>(&::_g_thePlayer))))->FUN_008a16d0())
                 {
                     TESObjectWEAP* pweapon = ((::fnv_0070ee80::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::fnv_0070ee80::PlayerCharacter * *>(&::_g_thePlayer))))->GetBaseTexture()))->GetActiveWeapon()
-                                                 ? ((::fnv_0070ee80::TESObjectWEAP *)(reinterpret_cast<::InventoryEntryFields *>((((::fnv_0070ee80::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::fnv_0070ee80::PlayerCharacter * *>(&::_g_thePlayer))))->GetBaseTexture()))->GetActiveWeapon()))->m_pItemObject))
+                                                 ? ((::fnv_0070ee80::TESObjectWEAP *)(reinterpret_cast<::InventoryEntryFields *>((((::fnv_0070ee80::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::fnv_0070ee80::PlayerCharacter * *>(&::_g_thePlayer))))->GetBaseTexture()))->GetActiveWeapon()))->pObject))
                                                  : 0;
                     if (pweapon && ((::fnv_0070ee80::Animation *)(reinterpret_cast<::PlayerCharacter *>(((*reinterpret_cast<::fnv_0070ee80::PlayerCharacter * *>(&::_g_thePlayer))))->GetAnimation(true))) &&
                         ((void *)(reinterpret_cast<::TESRegionDataMap *>((((AnimationHelper*)((::fnv_0070ee80::Animation *)(reinterpret_cast<::PlayerCharacter *>(((*reinterpret_cast<::fnv_0070ee80::PlayerCharacter * *>(&::_g_thePlayer))))->GetAnimation(true))))))->GetRegionMapName())))

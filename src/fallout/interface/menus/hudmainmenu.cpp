@@ -3,7 +3,7 @@
 #include "fallout/interface/tile_fields.h"
 #include "fnv/simple_list_node_view.h"
 #include "fallout/interface/menu_fields.h"
-#include "fallout/interface/inventory_fields.h"
+#include "fnv/inventory_entry_fields.h"
 #include <cstdint>
 #include <windows.h>
 #include <new>
@@ -4722,7 +4722,7 @@ float __cdecl GetActorValueWithPerkModifiers(MobileObject* pMobileObject, Actor*
     uintptr_t result;
     if (target != 0)
     {
-        result = ((uintptr_t)(reinterpret_cast<::InventoryEntryFields *>((target))->m_pItemObject));
+        result = ((uintptr_t)(reinterpret_cast<::InventoryEntryFields *>((target))->pObject));
     }
     else
     {
@@ -10893,7 +10893,7 @@ bool FUN_007e9200()
     if ((*reinterpret_cast<::VATSCreateRefX * *>(&::_g_thePlayer)) && ((::VATSCreateProcX *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::VATSCreateRefX * *>(&::_g_thePlayer))))->GetBaseTexture())))
     {
         qdqWL = ((::VATSCreateProcX *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::VATSCreateRefX * *>(&::_g_thePlayer))))->GetBaseTexture()))->GetEquippedWeapon()
-                    ? ((::VATSCreateWeaponX *)(reinterpret_cast<::InventoryEntryFields *>((((::VATSCreateProcX *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::VATSCreateRefX * *>(&::_g_thePlayer))))->GetBaseTexture()))->GetEquippedWeapon()))->m_pItemObject))
+                    ? ((::VATSCreateWeaponX *)(reinterpret_cast<::InventoryEntryFields *>((((::VATSCreateProcX *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::VATSCreateRefX * *>(&::_g_thePlayer))))->GetBaseTexture()))->GetEquippedWeapon()))->pObject))
                     : 0;
         if (((::VATSCreateProcX *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::VATSCreateRefX * *>(&::_g_thePlayer))))->GetBaseTexture()))->IsInDialogue())
         {
@@ -11374,7 +11374,7 @@ bool FUN_007e9200()
         (*reinterpret_cast<::VATSCreateVATSMenuX * *>(&::DAT_011db0d4))->m_bStateFlag3 = 0;
         (*reinterpret_cast<::VATSCreateVATSMenuX * *>(&::DAT_011db0d4))->m_uiTargetCount = ((int)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::VATSCreateTimerX *>(&::g_timeGlobal))))->FUN_00825c00()));
         qMBds = ((::VATSCreateProcX *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::VATSCreateRefX * *>(&::_g_thePlayer))))->GetBaseTexture()))->GetEquippedWeapon();
-        qYvz = qMBds ? ((::VATSCreateWeaponX *)(reinterpret_cast<::InventoryEntryFields *>((qMBds))->m_pItemObject)) : 0;
+        qYvz = qMBds ? ((::VATSCreateWeaponX *)(reinterpret_cast<::InventoryEntryFields *>((qMBds))->pObject)) : 0;
         if (!qYvz || ::FUN_006450c0((::TESObjectWEAP *)(qYvz)) || qYvz->GetWeaponType() == 10)
         {
             reinterpret_cast<::Tile *>(((*reinterpret_cast<::VATSCreateVATSMenuX * *>(&::DAT_011db0d4))->m_pTiles[5]))->Set(0xfa3, 0);

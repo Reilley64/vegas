@@ -1362,11 +1362,14 @@ struct Ext
 struct ProcData
 {
     int unk00;
+    char pad04[0x4];
+    int iValue;
 };
 
 struct DurInfo
 {
     int unk00;
+    int unk04;
 };
 
 struct BaseObj
@@ -2771,7 +2774,7 @@ void ProcStandIn::FUN_0092d050(Ref* apRef)
                     {
                         if (reinterpret_cast<struct ::FUN_0041ca90 *>((pPkg))->get() == 1)
                         {
-                            float fLimit = (float)((int)(reinterpret_cast<::Twin_0044ddc0 *>((((::fnv_0092d050::ProcData *)(reinterpret_cast<::Script *>((pPkg))->GetData()))))->GetName()));
+                            float fLimit = (float)((int)(((((::fnv_0092d050::ProcData *)(reinterpret_cast<::Script *>((pPkg))->GetData()))))->iValue));
                             if (fLimit >= reinterpret_cast<::RefS *>((pActor))->FUN_005723b0((::RefS *)(m_pFlagTarget), 0, 0))
                             {
                                 Done(pActor, 1);
@@ -2780,7 +2783,7 @@ void ProcStandIn::FUN_0092d050(Ref* apRef)
                         else
                         {
                             float fDist = 0.0f;
-                            int iMaxA = ((int)(reinterpret_cast<::Twin_0044ddc0 *>((((::fnv_0092d050::ProcData *)(reinterpret_cast<::Script *>((GetAssignedPackage()))->GetData()))))->GetName()));
+                            int iMaxA = ((int)(((((::fnv_0092d050::ProcData *)(reinterpret_cast<::Script *>((GetAssignedPackage()))->GetData()))))->iValue));
                             if (iMaxA <= 0)
                             {
                                 iMaxA = 200;
@@ -2852,7 +2855,7 @@ void ProcStandIn::FUN_0092d050(Ref* apRef)
                         delete pItem;
                         reinterpret_cast<::ItemChangeListNode *>(&(m_kUnsortedGeometryList))->FUN_00905330((*(::InventoryStackRecord *const *)(&pItem)));
                     }
-                    if (GetAssignedPackage() != 0 && ((int)(reinterpret_cast<::Callees *>((((::fnv_0092d050::DurInfo *)(reinterpret_cast<::FUN_0041d8a0_shell *>((GetAssignedPackage()))->FUN_0041d8a0()))))->FUN_00726070())) == 0)
+                    if (GetAssignedPackage() != 0 && ((int)(((((::fnv_0092d050::DurInfo *)(reinterpret_cast<::FUN_0041d8a0_shell *>((GetAssignedPackage()))->FUN_0041d8a0()))))->unk04)) == 0)
                     {
                         Pkg* pOld = GetAssignedPackage();
                         Eval(pActor, 1);

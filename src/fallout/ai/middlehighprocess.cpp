@@ -1,6 +1,10 @@
 // fallout/ai/middlehighprocess.cpp: MiddleHighProcess, FurnitureProcess, MiddleHighProcessStandIn, ActorPackage_GetTarget_Helper and more (180 functions)
 
 #include "fnv/simple_list_node_view.h"
+#include "fnv/package_schedule_fields.h"
+#include "fnv/form_fields.h"
+#include "fnv/inventory_entry_fields.h"
+#include "fnv/av_object_fields.h"
 #include "fnv/save_load_game_view.h"
 #include "fnv/package_fields.h"
 #include "fnv/vats_camera_data_view.h"
@@ -715,7 +719,7 @@ void FUN_006801a0_shell::FUN_006801a0(PackageTargetRecord* apCopy)
         SetTargetObjectReference(apCopy->GetReferenceTarget());
         reinterpret_cast<::FUN_00680140_shell *>(this)->SetObjectTarget(apCopy->GetTargetForm());
         reinterpret_cast<::PackageTargetRecord *>(this)->FUN_00680170((void *)(apCopy->GetTargetObjectType()));
-        reinterpret_cast<::TESRegionGrassObject *>(this)->AssignLandTexture((::TESLandTexture *)(((int)(reinterpret_cast<::Twin_0044ddc0 *>((apCopy))->GetName()))));
+        reinterpret_cast<::TESRegionGrassObject *>(this)->AssignLandTexture((::TESLandTexture *)(std::intptr_t)(((apCopy))->iValue));
         reinterpret_cast<::FUN_0063f790_shell *>(this)->FUN_0063f790(reinterpret_cast<::Twin_0084d030 *>((apCopy))->GetStoredFloatValue());
     }
 }
@@ -3919,8 +3923,8 @@ void FUN_0092c120_shell::UpdateHideLimbNodes(Actor* apActor, float afDeltaTime)
     {
         struct FUN_00914ab0* plimb = *((::fnv_0092c120::FUN_00914ab0 **)(((::Vec3 *)(void *)(pCurrentElementNext))));
         bool bremove = false;
-        if (!plimb->spLimbNode || ((unsigned int)(reinterpret_cast<::Callees *>((((LimbNodeRef*)(uintptr_t)plimb->spLimbNode)))->FUN_00726070())) <= 1 ||
-            (plimb->spParentNode && ((unsigned int)(reinterpret_cast<::Callees *>((((LimbNodeRef*)(uintptr_t)plimb->spParentNode)))->FUN_00726070())) <= 1))
+        if (!plimb->spLimbNode || ((unsigned int)(reinterpret_cast<::NiAVObjectFields *>((((LimbNodeRef*)(uintptr_t)plimb->spLimbNode)))->m_uiRefCount)) <= 1 ||
+            (plimb->spParentNode && ((unsigned int)(reinterpret_cast<::NiAVObjectFields *>((((LimbNodeRef*)(uintptr_t)plimb->spParentNode)))->m_uiRefCount)) <= 1))
             bremove = true;
         plimb->m_fPackageValue += afDeltaTime;
         if (!bremove && plimb->m_fPackageValue > fUpdatePeriod)
@@ -4259,6 +4263,8 @@ struct TESObject
 };
 struct TESObjectREFR_GetFlags_Helper
 {
+    char pad00[0x8];
+    void* unk08;
 };
 struct FUN_00891db0_shell
 {
@@ -4450,7 +4456,7 @@ bool FUN_0091efe0_shell::ProcessPackageTarget(FUN_00891db0_shell* apActor, int a
         if (pactorPack)
         {
             TESObjectREFR* pref;
-            pref = (TESObjectREFR*)((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((TESObjectREFR_GetFlags_Helper*)pactorPack)))->GetName()));
+            pref = (TESObjectREFR*)((uintptr_t)(((((TESObjectREFR_GetFlags_Helper*)pactorPack)))->unk08));
             if (pref)
                 bdone = reinterpret_cast<::ActorInventoryQueryViews::ActorQuery *>((apActor))->FUN_00891db0((::TESBoundObject *)(void *)((void*)((uintptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((TESObject*)pref)))->FUN_007af430()))), 0, 1, ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pref))->FUN_0084e3a0())),
                                               (*(int *)((char*)this + 0x108)));
@@ -8275,10 +8281,9 @@ void WeaponDrawProcess::FUN_00915d60(Actor* actor, bool drawn)
 
     if (actor && actor != (*reinterpret_cast<::Actor * *>(&::_g_thePlayer)) && m_bAdditionalActorFlag && pWeapon)
     {
-        typedef void(* WeaponChangeCallback)(Actor*, int);
+        typedef void(* WeaponChangeCallback)(Actor*, void*);
         reinterpret_cast<WeaponChangeCallback>((*reinterpret_cast<void***>(actor))[0xfb])(
-            actor, ((int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<WeaponEquipmentAccess*>(pWeapon)))->GetName(
-                       ))));
+            actor, reinterpret_cast<::InventoryEntryFields *>(pWeapon)->pObject);
     }
 
     reinterpret_cast<::FUN_00884f80_shell *>((reinterpret_cast<ActorWeaponAccess*>(actor)))->FUN_00884f80();
@@ -8614,6 +8619,7 @@ class B91FD90Actor
 class B91FD90Package
 {
   public:
+  public:
 
     int unk00;
     int unk04;
@@ -8652,6 +8658,8 @@ class B91FD90Package
     int unk88;
     int unk8C;
     float m_fTimer;
+    char pad94[0x20];
+    void* unkb4;
 };
 
 class B91FD90TimeGlobal
@@ -8832,7 +8840,7 @@ class B91FD90Owner
 void B91FD90Owner::FUN_0091fd90(B91FD90Actor* pkActor)
 {
     B91FD90Package* pkPackage = GetAssignedPackage();
-    B91FD90Actor* pkOther = ((::B91FD90Actor *)(reinterpret_cast<::MiddleLowProcess *>((pkPackage))->GetProcessInteger()));
+    B91FD90Actor* pkOther = ((::B91FD90Actor *)(((pkPackage))->unkb4));
     B91FD90Actor* pkTarget = ((::B91FD90Actor *)(::FUN_009ee040((char *)(pkPackage))));
     if (pkActor == pkTarget)
         pkTarget = pkOther;
@@ -9593,6 +9601,8 @@ struct CvScopeList
 
 struct CvMgr
 {
+    char pad00[0xe0];
+    void* unke0;
 };
 
 struct CvState
@@ -10254,7 +10264,7 @@ void CvOwner::UpdateLevel(CvActor* target, bool useTarget)
             }
             else
             {
-                CvItem* aRef = ((::CvItem *)(reinterpret_cast<::FUN_009b0900_shell *>((_mgr))->GetFieldE0()));
+                CvItem* aRef = ((::CvItem *)(((_mgr))->unke0));
                 int iEntryIndex = 0;
                 CvPoint3 pos = *target->GetPos();
                 float delta = target->GetHeadPos().z - target->GetFootPos().z - ::g_01012070;
@@ -10455,7 +10465,7 @@ int FUN_00923e40_cls::RunScheduledAction(Actor* actor, RefX* ref, bool flag)
     if (flag)
         s = ((::Sched *)(reinterpret_cast<::FUN_00672dd0_shell *>((r7))->FUN_00672dd0()));
     else
-        s = ((::Sched *)(reinterpret_cast<::BGSMessageInitAccess *>((r7))->GetIconFormID()));
+        s = ((::Sched *)(reinterpret_cast<::PackageFields *>((r7))->pLocation));
     if (s)
     {
         if (!reinterpret_cast<::DurationData *>((s))->FUN_00678ca0())
@@ -15351,7 +15361,7 @@ struct P114ActorView : TESObjectREFR
     virtual void slot240();
     virtual void slot241();
     virtual void slot242();
-    virtual void SetDestination(int, P114RefOps*, int, P114Point*, int);
+    virtual void SetDestination(intptr_t, P114RefOps*, int, P114Point*, int);
 };
 struct P114Settings
 {
@@ -16887,7 +16897,7 @@ void P114Process::FUN_00916df0(Actor* actor)
         a = (*(::P114Point *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(((P114Point*)actor->GetPos())))->FUN_00439ef0((::NiPoint3 *)&(*(P114Point*)pTarget->GetPos()), *(const ::NiPoint3 *)nullptr)));
         f = pTarget;
         p = 0.0f;
-        int count = ((int)(reinterpret_cast<::Twin_0044ddc0 *>((((::P114RefOps *)(reinterpret_cast<::Script *>((i))->GetData()))))->GetName()));
+        int count = ((int)(reinterpret_cast<::PackageTargetFields *>((((::P114RefOps *)(reinterpret_cast<::Script *>((i))->GetData()))))->iValue));
         if (count <= 0)
             count = 200;
         if (pTarget == (*reinterpret_cast<::Actor * *>(&::_g_thePlayer)) && p == 0.0)
@@ -16897,7 +16907,7 @@ void P114Process::FUN_00916df0(Actor* actor)
         else if (p == 0.0)
             p = count * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::P114Settings *>(&::originalRuntimeFloatSetting172))))));
     }
-    if (((::P114RefOps *)(reinterpret_cast<::BGSMessageInitAccess *>((i))->GetIconFormID())) && i->Check(actor, 0, -1.0f, 0))
+    if (((::P114RefOps *)(reinterpret_cast<::PackageFields *>((i))->pLocation)) && i->Check(actor, 0, -1.0f, 0))
     {
         if (!cf)
         {
@@ -16910,19 +16920,19 @@ void P114Process::FUN_00916df0(Actor* actor)
                 unsigned int q = 0;
                 if (c && reinterpret_cast<::FUN_0041c8d0_shell *>((c))->FUN_0041c8d0())
                     q = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((P114RefOps*)reinterpret_cast<::FUN_0041c8d0_shell *>((c))->FUN_0041c8d0())))->FUN_0084e3a0()));
-                TESObjectREFR* ba = reinterpret_cast<::LocationDescriptor *>((((::P114RefOps *)(reinterpret_cast<::BGSMessageInitAccess *>((i))->GetIconFormID()))))->GetLocationReference();
+                TESObjectREFR* ba = reinterpret_cast<::LocationDescriptor *>((((::P114RefOps *)(reinterpret_cast<::PackageFields *>((i))->pLocation))))->GetLocationReference();
                 if (!ba)
                     ba = m_pReference40;
                 if (ba && ((void *)(reinterpret_cast<::s55d310::Owner *>((((P114RefOps*)ba)))->FUN_0055d310())))
                 {
-                    reinterpret_cast<::fnv_00892e90::FUN_00892e90_shell *>((((P114ActorOps*)actor)))->FUN_00892e90((::TESForm *)(((int)(reinterpret_cast<::Twin_0044ddc0 *>((item2))->GetName()))), (intptr_t)(c), ba, reinterpret_cast<::FUN_00672930_cls *>((i))->FUN_00672930(), q);
+                    reinterpret_cast<::fnv_00892e90::FUN_00892e90_shell *>((((P114ActorOps*)actor)))->FUN_00892e90((::TESForm *)(reinterpret_cast<::InventoryEntryFields *>((item2))->pObject), (intptr_t)(c), ba, reinterpret_cast<::FUN_00672930_cls *>((i))->FUN_00672930(), q);
                 }
                 else
                 {
                     if (((::P114RefOps *)(::FUN_00559450((int *)(item2)))))
                         c = *((::P114RefOps **)(((::Vec3 *)(void *)(((::P114RefOps *)(::FUN_00559450((int *)(item2))))))));
                     P114Point* locationPos = 0;
-                    P114RefOps* locationData = ((::P114RefOps *)(reinterpret_cast<::BGSMessageInitAccess *>((i))->GetIconFormID()));
+                    P114RefOps* locationData = ((::P114RefOps *)(reinterpret_cast<::PackageFields *>((i))->pLocation));
                     if (locationData)
                     {
                         TESObjectREFR* location2 = reinterpret_cast<::LocationDescriptor *>((locationData))->GetLocationReference();
@@ -16933,7 +16943,7 @@ void P114Process::FUN_00916df0(Actor* actor)
                             locationPos = (P114Point*)location2->GetPos();
                     }
                     ((P114ActorView*)actor)
-                        ->SetDestination(((int)(reinterpret_cast<::Twin_0044ddc0 *>((item2))->GetName())), c, reinterpret_cast<::FUN_00672930_cls *>((i))->FUN_00672930(), locationPos, 0);
+                        ->SetDestination(((intptr_t)(reinterpret_cast<::InventoryEntryFields *>((item2))->pObject)), c, reinterpret_cast<::FUN_00672930_cls *>((i))->FUN_00672930(), locationPos, 0);
                 }
             }
             delete item2;
@@ -17776,13 +17786,13 @@ void* ThisCls::FUN_0091ae00(P0* apActor, Pkg* apPackage, P2* arg2)
                 if (pB == 0 || 0 == arg2)
                     return 0;
                 linked = 0;
-                if (reinterpret_cast<struct ::FUN_0041ca90 *>((pB))->get() == 2 || ((::TESIdleForm *)(reinterpret_cast<::BGSMessageInitAccess *>((((Script*)pB)))->GetIconFormID())) == 0)
+                if (reinterpret_cast<struct ::FUN_0041ca90 *>((pB))->get() == 2 || ((::TESIdleForm *)(reinterpret_cast<::PackageFields *>((((Script*)pB)))->pLocation)) == 0)
                 {
                     linked = apActor;
                 }
                 else
                 {
-                    linked = ((void *)(reinterpret_cast<::LocationDescriptor *>((((::TESIdleForm *)(reinterpret_cast<::BGSMessageInitAccess *>((((Script*)pB)))->GetIconFormID()))))->GetLocationReference()));
+                    linked = ((void *)(reinterpret_cast<::LocationDescriptor *>((((::TESIdleForm *)(reinterpret_cast<::PackageFields *>((((Script*)pB)))->pLocation))))->GetLocationReference()));
                 }
                 if (0 != arg2)
                 {
@@ -19149,7 +19159,7 @@ void PackageProcess::UpdatePackage(MobileObject* object, float delta)
                         StopMovement(actor_);
                         if (finished && reinterpret_cast<::TESPackage *>((finished))->IsMustReachLocation())
                             actor_->SetPackage(finished, ((bool)(reinterpret_cast<::Calendar *>(&((*reinterpret_cast<::fnv_0091bc60::PackageGameState *>(&::g_011de7b8))))->GetDayOfMonth())));
-                        if (!((int)(reinterpret_cast<::Callees *>((((::fnv_0091bc60::PackageList *)(reinterpret_cast<::FUN_0041d8a0_shell *>((finished))->FUN_0041d8a0()))))->FUN_00726070())))
+                        if (!((int)(reinterpret_cast<::PackageScheduleFields *>((((::fnv_0091bc60::PackageList *)(reinterpret_cast<::FUN_0041d8a0_shell *>((finished))->FUN_0041d8a0()))))->iDuration)))
                         {
                             Clear(0);
                             if (HasAction() && !IsActionDone())
@@ -19826,6 +19836,8 @@ struct AlarmInfo
 };
 struct CrimeEntry
 {
+    char pad00[0x4];
+    int unk04;
 };
 struct ClassInfo
 {
@@ -20227,7 +20239,7 @@ void CrimeProcess::FUN_0091ded0(CrimeActor* actor)
                 if (!accepted9)
                 {
                     int result = 0;
-                    if (((int)(reinterpret_cast<::Callees *>((entry5))->FUN_00726070())) > 2)
+                    if (((int)(((entry5))->unk04)) > 2)
                     {
                         if (criminal4 && reinterpret_cast<::HostActor *>((actor))->IsHostileTo((::HostActor *)(context4), 0, &result, 0))
                             accepted9 = true;
@@ -21746,7 +21758,7 @@ bool ActivateProcess::ActivatePackageTarget(Actor* actor)
         return false;
     }
     PackageAccess* eb = (PackageAccess*)GetOneTimePackage();
-    TESObjectREFR* p = ((::TESObjectREFR *)(reinterpret_cast<::MiddleLowProcess *>((eb))->GetProcessInteger()));
+    TESObjectREFR* p = ((::TESObjectREFR *)(*reinterpret_cast<void **>((char *)(eb) + 0xb4)));
     TESObjectREFR* cf = ((::TESObjectREFR *)(::FUN_009ee040((char *)(eb))));
     if (!((bool)(reinterpret_cast<::FUN_008e95a0_Class *>((eb))->GetByteAtBD())) && ((intptr_t)(reinterpret_cast<::FUN_00672dd0_shell *>((eb))->FUN_00672dd0())))
     {
@@ -23561,6 +23573,8 @@ struct P130Seq
 };
 struct P130Idle
 {
+    char pad00[0x8];
+    int unk08;
 };
 struct P130IdlePtr
 {
@@ -25096,7 +25110,7 @@ struct EquipRef
 struct EquipSoundData
 {
     int flags;
-    const char* name;
+    unsigned int name;
     int unk08, unk0c, unk10, unk14, unk18, unk1c, unk20;
 };
 struct EquipDescriptor
@@ -25104,6 +25118,8 @@ struct EquipDescriptor
 };
 struct EquipWeapon
 {
+    char pad00[0x234];
+    void* unk234;
 };
 struct EquipEntry
 {
@@ -25785,7 +25801,7 @@ void EquipProcess::UpdateEquipVisuals(bool draw, EquipRef* reference, EquipAnim*
     {
         model3->SetVisible(0);
         if (!reinterpret_cast<::FUN_0047c850 *>(((*reinterpret_cast<::fnv_009231d0::EquipState * *>(&::g_TESSaveLoadGame))))->EvaluateCondition())
-            reinterpret_cast<::s88c790::Actor *>((actor))->FUN_0088c790((int)(((::fnv_009231d0::EquipWeapon *)(reinterpret_cast<::Twin_0044ddc0 *>((entry))->GetName()))), 1, 0, 0, 0, 1);
+            reinterpret_cast<::s88c790::Actor *>((actor))->FUN_0088c790((intptr_t)(((::fnv_009231d0::EquipWeapon *)(reinterpret_cast<::InventoryEntryFields *>((entry))->pObject))), 1, 0, 0, 0, 1);
     }
     else if (!model3 && entry && reinterpret_cast<::fnv_0042ce10::FUN_0042ce10_shell *>(((*reinterpret_cast<::fnv_009231d0::EquipSave * *>(&::g_BGSSaveLoadGame))))->FUN_0042ce10())
     {
@@ -25852,7 +25868,7 @@ void EquipProcess::UpdateEquipVisuals(bool draw, EquipRef* reference, EquipAnim*
         reinterpret_cast<::fnv_004189c0::FUN_004189c0_shell *>((((::fnv_009231d0::FUN_0041a250 *)(reinterpret_cast<::FUN_005d43c0_ *>((actor))->FUN_005d43c0()))))->FUN_004189c0((::fnv_004189c0::SoundPlaybackHandle *)(::fnv_009231d0::FUN_0041a250 *)(&sound));
         if (!reinterpret_cast<::SoundPlaybackHandle *>(&(sound))->IsValid())
         {
-            unsigned int flags22 = ((unsigned int)(::GetFlagMask((unsigned int)((*(::fnv_009231d0::EquipSoundData *)(reinterpret_cast<::Holder *>((((::fnv_009231d0::EquipDescriptor *)(reinterpret_cast<::FUN_00522500_shell *>((weapon6))->GetField234()))))->CopyBig({}))).name))));
+            unsigned int flags22 = ((unsigned int)(::GetFlagMask((unsigned int)((*(::fnv_009231d0::EquipSoundData *)(reinterpret_cast<::Holder *>((((::fnv_009231d0::EquipDescriptor *)(((weapon6))->unk234))))->CopyBig({}))).name))));
             unsigned int extra36 = actor == (*reinterpret_cast<::fnv_009231d0::EquipActor * *>(&::_g_thePlayer)) ? 0x240000 : 0;
             extra36 ^= ::FUN_00524d10((bool *)((*reinterpret_cast<::fnv_009231d0::EquipActor * *>(&::_g_thePlayer)))) ? 0x40000 : 0;
             reinterpret_cast<::SoundPlaybackHandle *>(&(sound))->operator=((const ::SoundPlaybackHandle &)((const ::fnv_009231d0::FUN_0041a250 &)(((::fnv_009231d0::EquipAudio *)(::FUN_00453a70()))->FUN_00ad7480(::FUN_00511840((char *)(((::fnv_009231d0::EquipDescriptor *)(reinterpret_cast<::FUN_00522500_shell *>((weapon6))->GetField234())))),
@@ -25910,7 +25926,7 @@ void MiddleHighProcess_00924100::ResetWeaponAndAmmo(MobileObject* apRef)
             reinterpret_cast<::fnv_00571760::Actor *>((((RefStub*)apRef)))->FUN_00571760((::fnv_00571760::TESObjectWEAP *)(::TESForm *)(((::TESForm *)(reinterpret_cast<::Twin_0044ddc0 *>((((ItemChangeStub*)pWeapon)))->GetName()))));
         reinterpret_cast<::TESForm *>((((RefStub*)apRef)))->ClearData();
         if (pAmmo)
-            reinterpret_cast<::FUN_004534f0_shell *>((((RefStub*)apRef)))->FUN_004534f0((unsigned int)(((::TESForm *)(reinterpret_cast<::Twin_0044ddc0 *>((((ItemChangeStub*)pAmmo)))->GetName()))));
+            reinterpret_cast<::FUN_004534f0_shell *>((((RefStub*)apRef)))->FUN_004534f0((std::uintptr_t)(reinterpret_cast<::InventoryEntryFields *>((((ItemChangeStub*)pAmmo)))->pObject));
         reinterpret_cast<::FUN_004534f0_shell *>((((RefStub*)apRef)))->FUN_004534f0((unsigned int)(0));
         reinterpret_cast<::TESForm *>((((RefStub*)apRef)))->ClearData();
         Actor* pActor4 = dynamic_cast<Actor*>(apRef);
@@ -27031,6 +27047,9 @@ public:
 };
 struct SavedPart58
 {
+    char pad00[0x4];
+    unsigned int unk04;
+
     unsigned int RefreshItem();
 public:
     unsigned int FUN_00726070();
@@ -27264,7 +27283,7 @@ void ProcessSave58::FUN_00926a20(SaveBuffer58* buffer)
     reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((buffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(void *)((void*)unk140), 0);
     unsigned int counterValue = 0;
     if (counter)
-        counterValue = ((unsigned int)(reinterpret_cast<::Callees *>((counter))->FUN_00726070()));
+        counterValue = ((unsigned int)(((counter))->unk04));
     reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&counterValue, 4, 0);
     {
         unsigned int count = 0;
@@ -28505,6 +28524,7 @@ struct ObjA9
     int m_04;
     void* FUN_00639b40();
     ObjC9* FUN_0044edb0();
+    unsigned int unk08;
 };
 struct Actor9 : Actor
 {
@@ -28665,7 +28685,7 @@ void Proc9::UpdatePackageState(Actor9* apActor)
     {
     case 0:
         flag->m_04 = 1;
-        reinterpret_cast<::SandboxTargetData *>((flag))->FUN_009f3af0((::SBActor *)(apActor), (::SBPackage *)(((int)(reinterpret_cast<::BGSMessageInitAccess *>((w))->GetIconFormID()))));
+        reinterpret_cast<::SandboxTargetData *>((flag))->FUN_009f3af0((::SBActor *)(apActor), (::SBPackage *)(((intptr_t)(reinterpret_cast<::PackageFields *>((w))->pLocation))));
         // fallthrough
     case 1: {
         if ((int)apActor->Unk_85() == 9 || (int)apActor->Unk_85() == 4)
@@ -28679,7 +28699,7 @@ void Proc9::UpdatePackageState(Actor9* apActor)
         return;
     }
     case 2:
-        switch (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((flag))->GetName())))
+        switch (((unsigned int)(((flag))->unk08)))
         {
         case 0:
             if ((int)apActor->Unk_85() >= 1 && (int)apActor->Unk_85() <= 4)
@@ -28738,10 +28758,10 @@ void Proc9::UpdatePackageState(Actor9* apActor)
         }
         {
             obj110 = ((EP_008c48d0*)flag)->GetEntryPoint();
-            chk = !(obj110 == 0 && ::IsValidSandboxProcedure(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((flag))->GetName()))));
+            chk = !(obj110 == 0 && ::IsValidSandboxProcedure(((unsigned int)(((flag))->unk08))));
             if (chk)
             {
-                switch (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((flag))->GetName())))
+                switch (((unsigned int)(((flag))->unk08)))
                 {
                 case 0:
                     chk = this->vt844(apActor, obj110);
@@ -35613,7 +35633,7 @@ void xProcess::FUN_00927000(xBuf* buf)
                     uintptr_t uiHave = qfTOqo;
                     xInventory* pkInv = ((::xInventory *)(::InventoryChanges::CreateForReference((::TESObjectREFR *)((*reinterpret_cast<::xActor * *>(&::_g_thePlayer))))));
                     if (pkInv)
-                        uiHave = reinterpret_cast<::FUN_004c8f30_shell *>((pkInv))->FUN_004c8f30((int)(((void *)(reinterpret_cast<::Twin_0044ddc0 *>((m_118))->GetName()))));
+                        uiHave = reinterpret_cast<::FUN_004c8f30_shell *>((pkInv))->FUN_004c8f30((intptr_t)(reinterpret_cast<::InventoryEntryFields *>((m_118))->pObject));
                     if (uiHave < qfTOqo)
                     {
                         reinterpret_cast<::CombatProcedure *>((m_118))->Initialize((::CombatController *)(uiHave));
@@ -36139,7 +36159,7 @@ void ProcedureProcess::FUN_00919f60(ProcedureActor* apActor)
                     if (((PackageProcedureAccess*)reinterpret_cast<::FUN_009344a0_shell *>((h))->FUN_009344a0())->FUN_0041ca90() == 1)
                     {
 
-                        float i = (float)((int)(reinterpret_cast<::Twin_0044ddc0 *>((((::fnv_00919f60::ProcedureTarget *)(reinterpret_cast<::Script *>((((PackageProcedureAccess*)GetCurrentPackage())))->GetData()))))->GetName()));
+                        float i = (float)((int)(reinterpret_cast<::PackageTargetFields *>((((::fnv_00919f60::ProcedureTarget *)(reinterpret_cast<::Script *>((((PackageProcedureAccess*)GetCurrentPackage())))->GetData()))))->iValue));
 
                         if (i >= reinterpret_cast<::RefS *>((h))->FUN_005723b0((::RefS *)(pTarget), 0, 0))
                             SetProcessTarget(h, 1);
@@ -36149,7 +36169,7 @@ void ProcedureProcess::FUN_00919f60(ProcedureActor* apActor)
 
                         float s = 0.0f;
 
-                        int f = ((int)(reinterpret_cast<::Twin_0044ddc0 *>((((::fnv_00919f60::ProcedureTarget *)(reinterpret_cast<::Script *>((((PackageProcedureAccess*)p)))->GetData()))))->GetName()));
+                        int f = ((int)(reinterpret_cast<::PackageTargetFields *>((((::fnv_00919f60::ProcedureTarget *)(reinterpret_cast<::Script *>((((PackageProcedureAccess*)p)))->GetData()))))->iValue));
 
                         if (f <= 0)
                             f = 200;
@@ -36324,7 +36344,7 @@ void ProcedureProcess::FUN_00919f60(ProcedureActor* apActor)
 
                     ProcedureDuration* eb = ((::fnv_00919f60::ProcedureDuration *)(reinterpret_cast<::FUN_0041d8a0_shell *>((((PackageProcedureAccess*)p)))->FUN_0041d8a0()));
 
-                    if (!eb || ((int)(reinterpret_cast<::Callees *>((eb))->FUN_00726070())) <= 0.0)
+                    if (!eb || ((int)(reinterpret_cast<::PackageScheduleFields *>((eb))->iDuration)) <= 0.0)
                     {
 
                         ProcedureLocation* cf = ((::fnv_00919f60::ProcedureLocation *)(reinterpret_cast<::TESPackage *>((((PackageProcedureAccess*)p)))->GetPackagePatrolData()));
@@ -36371,7 +36391,7 @@ void ProcedureProcess::FUN_00919f60(ProcedureActor* apActor)
 
                 ::fnv_00703180::FUN_00703180();
 
-                if (!((int)(reinterpret_cast<::Callees *>((((::fnv_00919f60::ProcedureDuration *)(reinterpret_cast<::FUN_0041d8a0_shell *>((((PackageProcedureAccess*)p)))->FUN_0041d8a0()))))->FUN_00726070())))
+                if (!((int)(reinterpret_cast<::PackageScheduleFields *>((((::fnv_00919f60::ProcedureDuration *)(reinterpret_cast<::FUN_0041d8a0_shell *>((((PackageProcedureAccess*)p)))->FUN_0041d8a0()))))->iDuration)))
                 {
 
                     SetTarget(0);
@@ -36594,6 +36614,8 @@ struct ShaderItemChange
 };
 struct ShaderEffectSetting
 {
+    char pad00[0x4];
+    void* pShader;
 };
 struct ShaderEffectList
 {
@@ -36638,15 +36660,15 @@ void ShaderProcess::FUN_00928d90(Actor* actor)
         if (((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture())) && ((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))->GetActiveWeapon())
         {
             ShaderEnchantment* enchantment =
-                ((::fnv_00928d90::ShaderEnchantment *)(::TESEnchantableForm::FindFormEnchantment((::TESForm *)(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ShaderItemChange*>(GetActiveWeapon())))->GetName()))))));
+                ((::fnv_00928d90::ShaderEnchantment *)(::TESEnchantableForm::FindFormEnchantment((::TESForm *)(((uintptr_t)(reinterpret_cast<::InventoryEntryFields *>((reinterpret_cast<ShaderItemChange*>(GetActiveWeapon())))->pObject))))));
             if (enchantment)
             {
                 if (enchantment->cost.GetCost(actor) <= ((double)(reinterpret_cast<::charge4bd::C4Entry *>((((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))->GetActiveWeapon()))->FUN_004bd350())))
                 {
                     ShaderEffectSetting* effect = enchantment->effects.FUN_0040a300(0);
-                    if (effect && ((::TESEffectShader *)(reinterpret_cast<::TESPackage *>((effect))->GetRefCount())))
+                    if (effect && ((::TESEffectShader *)(((effect))->pShader)))
                     {
-                        TESEffectShader* shader = ((::TESEffectShader *)(reinterpret_cast<::TESPackage *>((effect))->GetRefCount()));
+                        TESEffectShader* shader = ((::TESEffectShader *)(((effect))->pShader));
                         AssignEffectShader(shader);
                     }
                 }
@@ -36672,7 +36694,7 @@ void ShaderProcess::FUN_00928d90(Actor* actor)
         if (actor == (*reinterpret_cast<::fnv_00928d90::PlayerCharacter * *>(&::_g_thePlayer)) && ((intptr_t)(::fnv_00490f80::FUN_00490f80((char *)((*reinterpret_cast<::fnv_00928d90::PlayerCharacter * *>(&::_g_thePlayer)))))))
         {
             TESEffectShader* shader = GetCurrentEffectShader();
-            FUN_0081f580* pPlayerShader = ((::fnv_00928d90::FUN_0081f580 *)(reinterpret_cast<::FUN_00820bf0_shell *>(((*reinterpret_cast<::fnv_00928d90::PlayerCharacter * *>(&::_g_thePlayer))))->GetField6A4()));
+            FUN_0081f580* pPlayerShader = ((::fnv_00928d90::FUN_0081f580 *)(*reinterpret_cast<void **>((char *)(*reinterpret_cast<::fnv_00928d90::PlayerCharacter * *>(&::_g_thePlayer)) + 0x6a4)));
             if (shader)
             {
                 if (pPlayerShader && ((::TESEffectShader *)(reinterpret_cast<::Script *>((pPlayerShader))->GetData())) != shader)
@@ -37222,7 +37244,7 @@ bool P130Process::FUN_009213e0(P130Actor* actor)
             reinterpret_cast<::Animation *>((package))->SpecialIdleFree(true, false);
         }
         else if (!((intptr_t)(reinterpret_cast<::fnv_00921e30::StandIn *>((package))->FUN_00921e30())) && ((::P130Idle *)(::FUN_00559450((int *)(((P130IdlePtr*)&package->LocalInput))))) &&
-                 ((int)(reinterpret_cast<::Twin_0044ddc0 *>((((::P130Idle *)(::FUN_00559450((int *)(((P130IdlePtr*)&package->LocalInput)))))))->GetName())) == 3)
+                 ((int)(((((::P130Idle *)(::FUN_00559450((int *)(((P130IdlePtr*)&package->LocalInput)))))))->unk08)) == 3)
         {
             reinterpret_cast<::fnv_0088d640::FUN_0088d640_shell *>((actor))->FUN_0088d640();
             reinterpret_cast<::Animation *>((package))->SpecialIdleFree(true, false);
@@ -37425,18 +37447,18 @@ bool WeaponProcess::FUN_0091e100(InventoryStackRecord* weapon, NiNode* node, boo
         {
             if (pCurrentAnimation == reinterpret_cast<::PlayerCharacter *>((((PlayerAccess*)(*reinterpret_cast<::Actor * *>(&::_g_thePlayer)))))->GetAnimation(false))
             {
-                ::FUN_008d6a80((int)((const char*)DAT_0118a838[((::WeaponBaseAccess *)(reinterpret_cast<::Twin_0044ddc0 *>((((ItemChangeAccess*)pWeapon)))->GetName()))->FUN_00446390()]),
+                ::FUN_008d6a80((DAT_0118a838[((::WeaponBaseAccess *)(reinterpret_cast<::InventoryEntryFields *>((((ItemChangeAccess*)pWeapon)))->pObject))->FUN_00446390()]),
                              ((::NiNode *)(reinterpret_cast<::FUN_00950bb0_shell *>((((PlayerAccess*)(*reinterpret_cast<::Actor * *>(&::_g_thePlayer)))))->FUN_00950bb0(true))));
-                ::FUN_008d6a80((int)((const char*)DAT_0118a838[((::WeaponBaseAccess *)(reinterpret_cast<::Twin_0044ddc0 *>((((ItemChangeAccess*)pWeapon)))->GetName()))->FUN_00446390()]),
+                ::FUN_008d6a80((DAT_0118a838[((::WeaponBaseAccess *)(reinterpret_cast<::InventoryEntryFields *>((((ItemChangeAccess*)pWeapon)))->pObject))->FUN_00446390()]),
                              ((::NiNode *)(reinterpret_cast<::FUN_00950bb0_shell *>((((PlayerAccess*)(*reinterpret_cast<::Actor * *>(&::_g_thePlayer)))))->FUN_00950bb0(false))));
             }
             else if (((::NiNode *)(reinterpret_cast<::TESRegionDataMap *>((((AnimAccess*)pCurrentAnimation)))->GetRegionMapName())))
             {
-                ::FUN_008d6a80((int)((const char*)DAT_0118a838[((::WeaponBaseAccess *)(reinterpret_cast<::Twin_0044ddc0 *>((((ItemChangeAccess*)pWeapon)))->GetName()))->FUN_00446390()]),
+                ::FUN_008d6a80((DAT_0118a838[((::WeaponBaseAccess *)(reinterpret_cast<::InventoryEntryFields *>((((ItemChangeAccess*)pWeapon)))->pObject))->FUN_00446390()]),
                              ((::NiNode *)(reinterpret_cast<::TESRegionDataMap *>((((AnimAccess*)pCurrentAnimation)))->GetRegionMapName())));
             }
             else
-                ::FUN_008d6a80((int)((const char*)DAT_0118a838[((::WeaponBaseAccess *)(reinterpret_cast<::Twin_0044ddc0 *>((((ItemChangeAccess*)pWeapon)))->GetName()))->FUN_00446390()]),
+                ::FUN_008d6a80((DAT_0118a838[((::WeaponBaseAccess *)(reinterpret_cast<::InventoryEntryFields *>((((ItemChangeAccess*)pWeapon)))->pObject))->FUN_00446390()]),
                              node);
         }
         if (pWeapon != weapon)
@@ -38737,6 +38759,8 @@ struct Target70
 
 struct Anim70
 {
+    char pad00[0x8];
+    void* unk08;
 };
 
 struct Package70
@@ -40252,7 +40276,7 @@ void Actor70::FUN_00919320(Actor70* actor, bool checkReach, bool finish, int act
             Anim70* animation = Anim();
 
             if (animation)
-                reinterpret_cast<::s88c790::Actor *>((actor))->FUN_0088c790(((int)(reinterpret_cast<::Twin_0044ddc0 *>((animation))->GetName())), {}, {}, {}, {}, {});
+                reinterpret_cast<::s88c790::Actor *>((actor))->FUN_0088c790(((intptr_t)(((animation))->unk08)), {}, {}, {}, {}, {});
         }
 
         if (objectRef19 && reinterpret_cast<::FUN_00568680_shell *>((objectRef19))->FUN_00568680())
@@ -41617,10 +41641,10 @@ bool UseProcess::FUN_0091c810(UseRef* apActor)
         return false;
     UseEntry* pEntryOut = ((::ProcessUseItem::UseEntry *)(reinterpret_cast<::Actor467 *>((apActor))->FUN_008a2d40()));
     bool bCreatedTmp = false;
-    if (!pEntryOut && (!pTarget || (!pTarget->IsActor() && !reinterpret_cast<::RefInventoryQuery *>((apActor))->FUN_00575450((unsigned int)(((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>((pTarget))->FUN_0084e3a0())))))))
+    if (!pEntryOut && (!pTarget || (!pTarget->IsActor() && !reinterpret_cast<::RefInventoryQuery *>((apActor))->FUN_00575450((reinterpret_cast<::FormFields *>((pTarget))->iFormID)))))
     {
         FindPackageTarget(apActor);
-        if (!pTarget || (!pTarget->IsActor() && !reinterpret_cast<::RefInventoryQuery *>((apActor))->FUN_00575450((unsigned int)(((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>((pTarget))->FUN_0084e3a0()))))))
+        if (!pTarget || (!pTarget->IsActor() && !reinterpret_cast<::RefInventoryQuery *>((apActor))->FUN_00575450((reinterpret_cast<::FormFields *>((pTarget))->iFormID))))
         {
             SetProcessTarget(apActor, 1);
             if (!((bool)(reinterpret_cast<::TeleportableReference *>((apActor))->GetTeleportDestinationForm())))
@@ -41658,7 +41682,7 @@ bool UseProcess::FUN_0091c810(UseRef* apActor)
     {
         pRangeTargetTmp = pTarget;
         fRangeEntry = 0.0f;
-        int iDistance = ((int)(reinterpret_cast<::Twin_0044ddc0 *>((((::ProcessUseItem::UsePackageLocation *)(reinterpret_cast<::Script *>((pPackage))->GetData()))))->GetName()));
+        int iDistance = ((int)(reinterpret_cast<::PackageTargetFields *>((((::ProcessUseItem::UsePackageLocation *)(reinterpret_cast<::Script *>((pPackage))->GetData()))))->iValue));
         if (iDistance <= 0)
             iDistance = 200;
         if (pTarget == (*reinterpret_cast<::ProcessUseItem::UseRef * *>(&::_g_thePlayer)) && fRangeEntry == 0.0)
@@ -41814,6 +41838,9 @@ struct PackageMethods : TESPackage
 };
 struct SpecificPackage : TESPackage
 {
+
+    char pad04[0xb0];
+    void* unkb4;
 };
 struct PackageRuntime
 {
@@ -41844,7 +41871,7 @@ TESObjectREFR* ProcessTarget::FUN_0091ab30(Actor* actor, TESPackage* package)
         break;
     case 28: {
         SpecificPackage* f = (SpecificPackage*)package;
-        h = ((::TESObjectREFR *)(reinterpret_cast<::MiddleLowProcess *>((f))->GetProcessInteger()));
+        h = ((::TESObjectREFR *)(((f))->unkb4));
         break;
     }
     case 1:
@@ -44410,7 +44437,7 @@ void FleeProcedure::FUN_00918600(Actor* actor)
         fRadius = 0.0f;
         if (((::FleeRadius *)(reinterpret_cast<::Script *>((((FleePackageAccess*)pPackage2)))->GetData())))
         {
-            fRadius = (float)((int)(reinterpret_cast<::Twin_0044ddc0 *>((((::FleeRadius *)(reinterpret_cast<::Script *>((((FleePackageAccess*)pPackage2)))->GetData()))))->GetName()));
+            fRadius = (float)((int)(reinterpret_cast<::PackageTargetFields *>((((::FleeRadius *)(reinterpret_cast<::Script *>((((FleePackageAccess*)pPackage2)))->GetData()))))->iValue));
         }
         else
         {
@@ -44507,6 +44534,8 @@ struct Target
 struct ActorData;
 struct Package
 {
+    char pad00[0xa4];
+    void* pActor;
 };
 struct RaceData
 {
@@ -45547,7 +45576,7 @@ void FleeUpdate::Process::FUN_00918860(Actor* actor)
                 threshold = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FleeUpdate::Setting *>(&::originalRuntimeFloatSetting622))))));
             if (distance < threshold && ((bool)(reinterpret_cast<::TeleportableReference *>((actor))->GetTeleportDestinationForm())))
             {
-                Actor* reference = ((::FleeUpdate::Actor *)(reinterpret_cast<::FUN_005e3fc0_shell *>((packageTmp))->Get()));
+                Actor* reference = ((::FleeUpdate::Actor *)(((packageTmp))->pActor));
                 bool expired = false;
                 if (countdown <= 0.0)
                     expired = true;
@@ -45739,7 +45768,7 @@ void SearchFurnitureProcess::FUN_00922670(::Actor* actor, bool flag, ::TESObject
     FurniturePackage* f = reinterpret_cast<FurniturePackage*>(GetOneTimePackage());
     if (!f || !actor)
         return;
-    FurnitureLocation* s = ((::FurnitureSearchDetail::FurnitureLocation *)(reinterpret_cast<::BGSMessageInitAccess *>((f))->GetIconFormID()));
+    FurnitureLocation* s = ((::FurnitureSearchDetail::FurnitureLocation *)(reinterpret_cast<::PackageFields *>((f))->pLocation));
     float i = 0.0f;
     if (reinterpret_cast<struct ::FUN_0041ca90 *>((f))->get() == 3)
     {
@@ -46689,7 +46718,7 @@ void PlayerL::FUN_00928a50(BGSLoadFormBufferL* pkBuffer)
         int iState = pkActor ? pkActor->GetSitSleepState() : 0;
         if (iState == 4 || iState == 9)
         {
-            if (IsInCell(m_iWorldSpace, ((void *)(reinterpret_cast<::FUN_005094b0_shell *>(&(m_kCell))->FUN_005094b0()))))
+            if (IsInCell(m_iWorldSpace, (*reinterpret_cast<void **>(&(m_kCell)))))
                 reinterpret_cast<::FUN_00629670_Class *>(&(pkController->m_kFlags))->FUN_00629670(0x8000000, true);
             reinterpret_cast<::s008e2680::Owner *>((pkController))->FUN_008e2680(false);
             reinterpret_cast<::fnv_0080fb00::FUN_0080fb00_Class *>((pkController))->FUN_0080fb00((intptr_t)(FUN_00458b20()));

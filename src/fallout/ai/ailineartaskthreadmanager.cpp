@@ -488,7 +488,7 @@ struct ArrHelper
 };
 struct Arr
 {
-    unsigned int* GetAt(int);
+    uintptr_t* GetAt(int);
 };
 struct Twin_0084d030
 {

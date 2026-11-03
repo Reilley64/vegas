@@ -96,7 +96,7 @@ namespace fnv_00dd62e0 { void FUN_00dd62e0(::fnv_00dd62e0::VectorArray *, int, i
 // 0x00ddd6f0
 int FUN_00ddd6f0(const ::__m128 *, const ::__m128 *, int, ::__m128 *, int *);
 // 0x00df0870
-void FUN_00df0870(int, ::ObjF *__restrict, int, ::__m128 *, int *);
+void FUN_00df0870(int, ::ObjF *__restrict, unsigned char *, ::__m128 *, void **);
 // 0x00df32d0
 void FUN_00df32d0(::MetaEntry *, ::Vector4f *, ::__m128 *, unsigned int, unsigned int);
 // 0x00df3330

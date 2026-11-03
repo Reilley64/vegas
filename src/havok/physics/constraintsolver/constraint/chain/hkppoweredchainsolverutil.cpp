@@ -500,14 +500,14 @@ struct __declspec(align(16)) BufB
     float f0bc;
 };
 
-extern void __cdecl ResetJacobianRows(int a, int b, void* c, void* d);
-extern void __cdecl FUN_00df07c0(int a, void* b);
+extern void __cdecl ResetJacobianRows(unsigned char* a, int b, void* c, void* d);
+extern void __cdecl FUN_00df07c0(const unsigned char* a, void* b);
 extern void __cdecl FUN_00e29250(void* a, void* b);
-extern void __cdecl FUN_00e29470(void* a, void* b, int c);
+extern void __cdecl FUN_00e29470(void* a, void* b, void* c);
 extern void __cdecl FUN_00e298f0(void* a, void* b);
 
 // @fnv 0x00df0870
-void __cdecl FUN_00df0870(int arg0, ObjF* __restrict obj, int arg2, __m128* arg3, int* arg4)
+void __cdecl FUN_00df0870(int arg0, ObjF* __restrict obj, unsigned char* arg2, __m128* arg3, void** arg4)
 {
     void* p180;
     float fClamped;
@@ -598,14 +598,14 @@ void __cdecl FUN_00df0870(int arg0, ObjF* __restrict obj, int arg2, __m128* arg3
     FUN_00e298f0(dst, &B.f000);
 
     p180 = &obj->f180;
-    FUN_00e29470(p180, dst, (int)(&A.f0c0));
+    FUN_00e29470(p180, dst, &A.f0c0);
 
     arg3[0] = *(__m128*)&obj->f300;
     arg3[1] = *(__m128*)&obj->f310;
     arg3[2] = *(__m128*)&obj->f320;
     CopyHelper(arg3 + 3, &obj->f330);
 
-    *arg4 = (int)p180;
+    *arg4 = p180;
 }
 
 struct hkVector4
@@ -711,25 +711,35 @@ template <class T> inline T largerOf(T x, T y)
     return x > y ? x : y;
 }
 
+class ScalarValue
+{
+    __m128 value;
+
+  public:
+    ScalarValue()
+    {}
+    ScalarValue(const __m128& x) : value(x)
+    {}
+    ScalarValue(float x)
+    {
+        value = _mm_load_ss(&x);
+    }
+    operator float() const
+    {
+        float x;
+        _mm_store_ss(&x, value);
+        return x;
+    }
+    __forceinline __m128 broadcast() const
+    {
+        return _mm_shuffle_ps(value, value, 0);
+    }
+};
 class Vector4f
 {
-  public:
-    __forceinline void setZero4()
-    {
-        m_vComponents = _mm_setzero_ps();
-    }
-    __forceinline void setSub4(const Vector4f& a, const Vector4f& b)
-    {
-        m_vComponents = _mm_sub_ps(a.m_vComponents, b.m_vComponents);
-    }
-    __forceinline float& operator()(int i)
-    {
-        return ((float*)&m_vComponents)[i];
-    }
+    __m128 value;
 
-  private:
-    __m128 m_vComponents;
-public:
+  public:
     __forceinline Vector4f()
     {}
     __forceinline Vector4f(const Vector4f& v) : value(v.value)
@@ -759,6 +769,10 @@ public:
     __forceinline void setZero4()
     {
         value = _mm_setzero_ps();
+    }
+    __forceinline void setSub4(const Vector4f& a, const Vector4f& b)
+    {
+        value = _mm_sub_ps(a.value, b.value);
     }
     __forceinline void setMul4(const Vector4f& a, const Vector4f& b)
     {
@@ -866,19 +880,15 @@ public:
 };
 struct Mat6
 {
-    Mat3 m_00;
-    Mat3 m_01;
-    Mat3 m_10;
-    Mat3 m_11;
-public:
+    Mat3 m_block[2][2];
     __forceinline Mat6()
     {}
     __forceinline void setZero()
     {
-        m_iUnknownValue2[0][0].setZero();
-        m_iUnknownValue2[0][1].setZero();
-        m_iUnknownValue2[1][0].setZero();
-        m_iUnknownValue2[1][1].setZero();
+        m_block[0][0].setZero();
+        m_block[0][1].setZero();
+        m_block[1][0].setZero();
+        m_block[1][1].setZero();
     }
 };
 
@@ -913,7 +923,7 @@ struct MatrixTriple
 {
     Mat6 m_lower;
     Mat6 m_lowerInv;
-    Mat6 m_kMiddle;
+    Mat6 m_diagonal;
     Mat6 m_upper;
     Mat6 m_upperInv;
 };
@@ -945,7 +955,7 @@ extern "C" void __cdecl FUN_00df1260(PoweredChain* chain, int* chosenConstraint,
     for (int i = chain->m_iConstraintCount - 1; i >= 0; i--)
     {
         Quad8 product;
-        ::FUN_00e29510((__m128 *)(void *)(&product), (const __m128 *)(const void *)(&chain->m_kMatrices[i].m_kMiddle), (const __m128 *)(const void *)(&accum));
+        ::FUN_00e29510((__m128 *)(void *)(&product), (const __m128 *)(const void *)(&chain->m_kMatrices[i].m_diagonal), (const __m128 *)(const void *)(&accum));
         accum.setSub8(target[i], product);
         for (int axis = 0; axis < 3; axis++)
         {
@@ -978,39 +988,6 @@ extern "C" void __cdecl FUN_00df1260(PoweredChain* chain, int* chosenConstraint,
 // Moved from hkppoweredchainsolverutil_gs_nogs_variant.cpp (VEGAS-15).
 
 extern "C" void _ReadBarrier(void);
-class ScalarValue
-{
-    __m128 value;
-
-  public:
-    __forceinline ScalarValue(__m128 v) : value(v)
-    {}
-    __forceinline operator float() const
-    {
-        float f;
-        _mm_store_ss(&f, value);
-        return f;
-    }
-public:
-    ScalarValue()
-    {}
-    ScalarValue(const __m128& x) : value(x)
-    {}
-    ScalarValue(float x)
-    {
-        value = _mm_load_ss(&x);
-    }
-    operator float() const
-    {
-        float x;
-        _mm_store_ss(&x, value);
-        return x;
-    }
-    __forceinline __m128 broadcast() const
-    {
-        return _mm_shuffle_ps(value, value, 0);
-    }
-};
 struct CfmRecord
 {
     float linearAdd;
@@ -1158,27 +1135,27 @@ static __forceinline void diagonalAt(int row, const CfmRecord& cfm, const Linear
             for (int c = r; c < 3; c++)
             {
 
-                out.m_iUnknownValue2[0][0](c, r) = out.m_iUnknownValue2[0][0](r, c) =
+                out.m_block[0][0](c, r) = out.m_block[0][0](r, c) =
                     linearSame(fl, fa, fb, p, q, j[index + c]);
-                out.m_iUnknownValue2[1][1](c, r) = out.m_iUnknownValue2[1][1](r, c) =
+                out.m_block[1][1](c, r) = out.m_block[1][1](r, c) =
                     angularSame(aa, ab, p, q, ja[index + c]);
             }
         }
-        out.m_iUnknownValue2[0][0](r, r) *= cfm.linearScale;
-        out.m_iUnknownValue2[1][1](r, r) *= cfm.angularScale;
-        out.m_iUnknownValue2[0][0](r, r) += cfm.linearAdd;
-        out.m_iUnknownValue2[1][1](r, r) += cfm.angularAdd;
+        out.m_block[0][0](r, r) *= cfm.linearScale;
+        out.m_block[1][1](r, r) *= cfm.angularScale;
+        out.m_block[0][0](r, r) += cfm.linearAdd;
+        out.m_block[1][1](r, r) += cfm.angularAdd;
     }
     for (r = 0; r < 3; r++)
     {
         AngularJac fixedA = ja[index + r];
         for (int c = 0; c < 3; c++)
         {
-            out.m_iUnknownValue2[1][0](r, c) = fixedA.same(offsets[row].get(base), offsets[row + 1].get(base),
+            out.m_block[1][0](r, c) = fixedA.same(offsets[row].get(base), offsets[row + 1].get(base),
                                                            const_cast<LinearJac&>(j[index + c]).angular());
         }
     }
-    out.m_iUnknownValue2[0][1]._setTranspose(out.m_iUnknownValue2[1][0]);
+    out.m_block[0][1]._setTranspose(out.m_block[1][0]);
 }
 static __forceinline void innerProducts(const Vector4f* nextPair, AngularJac* nextAngular,
                                         const Vector4f& currentLinear, const Vector4f& jb, const Vector4f& ab,
@@ -1199,19 +1176,19 @@ static __forceinline void innerProducts(const Vector4f* nextPair, AngularJac* ne
         a = _mm_sub_ps(a, lm);
         float linearSum = Vector4f(a).horizontalAdd3();
         Vector4f al = nextAngular->a;
-        out.m_iUnknownValue2[0][0](r, c) = linearSum;
+        out.m_block[0][0](r, c) = linearSum;
         Vector4f aa;
         aa.setMul4(ab, al);
         aa.mul4(q.inertia);
-        out.m_iUnknownValue2[1][1](r, c) = aa.horizontalAdd3();
+        out.m_block[1][1](r, c) = aa.horizontalAdd3();
         Vector4f la;
         la.setMul4(jb, al);
         la.mul4(q.inertia);
-        out.m_iUnknownValue2[0][1](r, c) = la.horizontalAdd3();
+        out.m_block[0][1](r, c) = la.horizontalAdd3();
         Vector4f an;
         an.setMul4(ab, na);
         an.mul4(q.inertia);
-        out.m_iUnknownValue2[1][0](r, c) = an.horizontalAdd3();
+        out.m_block[1][0](r, c) = an.horizontalAdd3();
         ++nextAngular;
         nextPair += 3;
     }
@@ -1240,17 +1217,17 @@ void __cdecl FUN_00df19e0(int count, const CfmRecord& cfm, StepRecord* motors, L
     int row;
     for (row = 0; row < count; row++)
     {
-        diagonalAt(row, cfm, j, ja, offsets, base, triples[row].diagonal);
+        diagonalAt(row, cfm, j, ja, offsets, base, triples[row].m_upper);
         if (row < count - 1)
-            nextAt(row, j, ja, offsets, base, triples[row].upper);
+            nextAt(row, j, ja, offsets, base, triples[row].m_upperInv);
         else
-            triples[row].upper.setZero();
+            triples[row].m_upperInv.setZero();
     }
     for (row = 0; row < count; row++)
     {
         BoolValue more(count - 1 - row != 0);
         StepRecord* local = motors + row;
-        ::FUN_00df0870((*(int *)&(const ::BoolValue &)(more)), (::ObjF *__restrict)(triples + row), (int)(local), (__m128 *)(::Mat6 *)(&previous), (int *)(::Mat6 **)(&upper));
+        ::FUN_00df0870((*(int *)&(const ::BoolValue &)(more)), (::ObjF *__restrict)(triples + row), (unsigned char *)(local), (__m128 *)(::Mat6 *)(&previous), (void **)(&upper));
     }
 }
 
@@ -1366,7 +1343,7 @@ void __cdecl FUN_00df2040(int index, int count, const char* a3, char* a4)
     {
         FUN_00df0870_Flag flag;
         flag.b = (count - 1 - k != 0);
-        ::FUN_00df0870((*(int *)&(const ::FUN_00df0870_Flag &)(flag)), (::ObjF *__restrict)(a4 + k * 0x3c0), (int)(a3 + k * 0x40), (__m128 *)(::FUN_00df2040_Blk *)(&buf), (int *)(char **)(&ptr));
+        ::FUN_00df0870((*(int *)&(const ::FUN_00df0870_Flag &)(flag)), (::ObjF *__restrict)(a4 + k * 0x3c0), (unsigned char *)(a3 + k * 0x40), (__m128 *)(::FUN_00df2040_Blk *)(&buf), (void **)(&ptr));
     }
 }
 
@@ -1458,6 +1435,14 @@ class Vector2
         return ((const float*)&value)[i];
     }
 };
+struct SolverLinearJac
+{
+    Vector2 axis, angularA, angularB;
+};
+struct SolverAngularJac
+{
+    Vector2 angularA, angularB;
+};
 struct Accumulator2
 {
     unsigned char type;
@@ -1499,15 +1484,15 @@ struct ConstraintSolverState
     ObjF* solver;
     Cell<int> count;
     Cell<float> tau, damping;
-    Cell<LinearJac*> linear;
-    Cell<AngularJac*> angular;
+    Cell<SolverLinearJac*> linear;
+    Cell<SolverAngularJac*> angular;
     Cell<AccumOffset*> offsets;
     Cell<Accumulator2*> base;
     int matrices;
     Cell<LinkMotor*> motors;
 };
 
-static __forceinline Scalar linearCustom(const LinearJac& j, const Accumulator2& a, const Accumulator2& b,
+static __forceinline Scalar linearCustom(const SolverLinearJac& j, const Accumulator2& a, const Accumulator2& b,
                                          const ObjF& info, float tau, float damp, float rhs)
 {
     Vector2 velocities;
@@ -1549,12 +1534,12 @@ static __forceinline Scalar linearCustom(const LinearJac& j, const Accumulator2&
     float result = rhs * tau - dot;
     return result;
 }
-static __forceinline Scalar linearDv(const LinearJac& j, const Accumulator2& a, const Accumulator2& b, const ObjF& info,
+static __forceinline Scalar linearDv(const SolverLinearJac& j, const Accumulator2& a, const Accumulator2& b, const ObjF& info,
                                      float tau, float damp)
 {
     return linearCustom(j, a, b, info, tau, damp, j.axis(3));
 }
-static __forceinline Scalar angularDv(const AngularJac& j, const Accumulator2& a, const Accumulator2& b,
+static __forceinline Scalar angularDv(const SolverAngularJac& j, const Accumulator2& a, const Accumulator2& b,
                                       const ObjF& info, float tau, float damp)
 {
     Vector2 velocities;
@@ -1586,8 +1571,8 @@ static __forceinline Scalar angularDv(const AngularJac& j, const Accumulator2& a
 // @fnv 0x00df0d30
 extern "C" void FUN_00df0d30(const ConstraintSolverState& info, VelocityPair* output)
 {
-    LinearJac* j = info.linear;
-    AngularJac* k = info.angular;
+    SolverLinearJac* j = info.linear;
+    SolverAngularJac* k = info.angular;
     for (int link = 0; link < info.count; j += 3, k += 3, link++)
     {
         VelocityPair& dest = output[link];
@@ -1876,12 +1861,12 @@ class hkMat6
     {}
     __forceinline void setIdentity()
     {
-        m_iUnknownValue2[0][0].setIdentity();
-        m_iUnknownValue2[0][1].setZero();
-        m_iUnknownValue2[1][0].setZero();
-        m_iUnknownValue2[1][1].setIdentity();
+        m_block[0][0].setIdentity();
+        m_block[0][1].setZero();
+        m_block[1][0].setZero();
+        m_block[1][1].setIdentity();
     }
-    hkMat3 m_iUnknownValue2[2][2];
+    hkMat3 m_block[2][2];
 };
 template <class T> class hkPad
 {

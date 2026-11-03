@@ -63,6 +63,7 @@
 #include "fnv/symbols_00e42000.h"
 #include "fnv/symbols_00e53000.h"
 #include "fnv/symbols_00e55000.h"
+#include "fnv/symbols_00e59000.h"
 #include "fnv/symbols_00e5d000.h"
 #include "fnv/symbols_00e60000.h"
 #include "fnv/symbols_01012000.h"
@@ -4043,13 +4044,6 @@ void __cdecl PrefixSum(float* afValues, unsigned int n)
         } while (--uiRemaining != 0);
     }
 }
-
-class hkBool
-{
-public:
-    hkBool(bool b) { m_cBooleanValue = (char)b; }
-    char m_cBooleanValue;
-};
 
 // Inverts a 2x2 matrix if its determinant is not near zero (within fEps), writing the result to out and returning whether it succeeded.
 // @fnv 0x00e59340
@@ -8195,6 +8189,8 @@ namespace S00e5d070 {
 typedef float hkReal;
 typedef __m128 hkQuadReal;
 
+class hkMatrix3;
+
 class hkVector4
 {
 public:
@@ -8210,8 +8206,8 @@ public:
     {
         m_vComponents = _mm_and_ps(v.m_vComponents, *(const hkQuadReal*)&(*reinterpret_cast<const unsigned int (*)[4]>((void *)&::DAT_01017d10)));
     }
-    __forceinline void _setMul3(const class hkMatrix3& a, const hkVector4& b);
-    __forceinline void _setMul4(const class hkMatrix3& r, const hkVector4& v) { _setMul3(r, v); }
+    __forceinline void _setMul3(const hkMatrix3& a, const hkVector4& b);
+    __forceinline void _setMul4(const hkMatrix3& r, const hkVector4& v) { _setMul3(r, v); }
 };
 
 class hkMatrix3
@@ -8939,74 +8935,52 @@ inline VectorComponentValue operator-(hkSimdRealParameter r)
     return _mm_sub_ss(::DAT_010c7160, r.getQuad());
 }
 
-class hkVector4
+// hkBase.h's hkVector4 is four plain floats; these helpers do the SSE maths on it.
+static __forceinline hkQuadReal LoadVector4(const hkVector4& v)
 {
-public:
-    hkVector4() {}
-    hkVector4(const hkVector4& v) { m_vComponents = v.m_vComponents; }
-    void operator=(const hkVector4& v) { m_vComponents = v.m_vComponents; }
-    void setInterpolate4(const hkVector4& v0, const hkVector4& v1, hkSimdRealParameter _t)
-    {
-        hkQuadReal t = _t.broadcast();
-        hkQuadReal s = _mm_sub_ps(::DAT_010ec7f0, t);
-        m_vComponents = _mm_add_ps(_mm_mul_ps(s, v0.m_vComponents), _mm_mul_ps(t, v1.m_vComponents));
-    }
-    void setAddMul4(hkSimdRealParameter r, const hkVector4& v1, hkSimdRealParameter q, const hkVector4& v2)
-    {
-        m_vComponents = _mm_add_ps(_mm_mul_ps(r.broadcast(), v1.m_vComponents), _mm_mul_ps(q.broadcast(), v2.m_vComponents));
-    }
-    void setMul4(hkSimdRealParameter r, const hkVector4& v1) { m_vComponents = _mm_mul_ps(r.broadcast(), v1.m_vComponents); }
-    void addMul4(hkSimdRealParameter r, const hkVector4& v1)
-    {
-        m_vComponents = _mm_add_ps(m_vComponents, _mm_mul_ps(r.broadcast(), v1.m_vComponents));
-    }
-    VectorComponentValue dot4(const hkVector4& a) const
-    {
-        hkQuadReal x2 = _mm_mul_ps(m_vComponents, a.m_vComponents);
-        hkQuadReal sum0 = _mm_add_ps(_mm_shuffle_ps(x2, x2, _MM_SHUFFLE(1, 0, 3, 2)), x2);
-        hkQuadReal sum1 = _mm_shuffle_ps(sum0, sum0, _MM_SHUFFLE(2, 3, 0, 1));
-        return _mm_add_ps(sum0, sum1);
-    }
-    hkQuadReal m_vComponents;
-};
+    return _mm_loadu_ps(&v.x);
+}
 
-class hkQuaternion
+static __forceinline void StoreVector4(hkVector4& v, hkQuadReal q)
 {
-public:
-    hkQuaternion() {}
-    void operator=(const hkQuaternion& q) { m_vec = q.m_vec; }
-    hkVector4 m_vec;
-};
+    _mm_storeu_ps(&v.x, q);
+}
 
-class hkQsTransform
+static __forceinline void SetInterpolate4(hkVector4& out, const hkVector4& v0, const hkVector4& v1, hkSimdRealParameter _t)
 {
-public:
-    __forceinline hkQsTransform() {}
-    __forceinline hkQsTransform(const hkQsTransform& t)
-    {
-        m_vTranslation = t.m_vTranslation;
-        m_rotation = t.m_rotation;
-        m_vScale = t.m_vScale;
-    }
-    __forceinline void setInterpolate4(const hkQsTransform& a, const hkQsTransform& b, hkSimdRealParameter t)
-    {
-        m_vScale.setInterpolate4(a.m_vScale, b.m_vScale, t);
-        m_vTranslation.setInterpolate4(a.m_vTranslation, b.m_vTranslation, t);
+    hkQuadReal t = _t.broadcast();
+    hkQuadReal s = _mm_sub_ps(::DAT_010ec7f0, t);
+    StoreVector4(out, _mm_add_ps(_mm_mul_ps(s, LoadVector4(v0)), _mm_mul_ps(t, LoadVector4(v1))));
+}
 
-        const hkReal oneMinusT = 1.0f - hkReal(t);
+static __forceinline void SetAddMul4(hkVector4& out, hkSimdRealParameter r, const hkVector4& v1, hkSimdRealParameter q, const hkVector4& v2)
+{
+    StoreVector4(out, _mm_add_ps(_mm_mul_ps(r.broadcast(), LoadVector4(v1)), _mm_mul_ps(q.broadcast(), LoadVector4(v2))));
+}
 
-        const hkReal signedT = (a.m_rotation.m_vec.dot4(b.m_rotation.m_vec) < 0.0f) ? -t : t;
+static __forceinline VectorComponentValue Dot4(const hkVector4& a, const hkVector4& b)
+{
+    hkQuadReal x2 = _mm_mul_ps(LoadVector4(a), LoadVector4(b));
+    hkQuadReal sum0 = _mm_add_ps(_mm_shuffle_ps(x2, x2, _MM_SHUFFLE(1, 0, 3, 2)), x2);
+    hkQuadReal sum1 = _mm_shuffle_ps(sum0, sum0, _MM_SHUFFLE(2, 3, 0, 1));
+    return _mm_add_ps(sum0, sum1);
+}
 
-        hkQuaternion out;
-        out.m_vec.setAddMul4(VectorComponentValue(oneMinusT), a.m_rotation.m_vec, VectorComponentValue(signedT), b.m_rotation.m_vec);
-        reinterpret_cast<::FUN_005611c0_t *>(&(out))->FUN_005611c0();
+static __forceinline void SetInterpolate4(hkQsTransform& out, const hkQsTransform& a, const hkQsTransform& b, hkSimdRealParameter t)
+{
+    SetInterpolate4(out.m_vScale, a.m_vScale, b.m_vScale, t);
+    SetInterpolate4(out.m_vTranslation, a.m_vTranslation, b.m_vTranslation, t);
 
-        m_rotation = out;
-    }
-    hkVector4 m_vTranslation;
-    hkQuaternion m_rotation;
-    hkVector4 m_vScale;
-};
+    const hkReal oneMinusT = 1.0f - hkReal(t);
+
+    const hkReal signedT = (Dot4(a.m_rotation.m_vec, b.m_rotation.m_vec) < 0.0f) ? -t : t;
+
+    hkQuaternion rotation;
+    SetAddMul4(rotation.m_vec, VectorComponentValue(oneMinusT), a.m_rotation.m_vec, VectorComponentValue(signedT), b.m_rotation.m_vec);
+    reinterpret_cast<::FUN_005611c0_t *>(&(rotation))->FUN_005611c0();
+
+    out.m_rotation = rotation;
+}
 
 // @fnv 0x00e41bf0
 hkQsTransform FUN_00e41bf0(hkReal time, const hkQsTransform* keys, hkUint32 numKeys, hkReal duration)
@@ -9020,7 +8994,7 @@ hkQsTransform FUN_00e41bf0(hkReal time, const hkQsTransform* keys, hkUint32 numK
     }
     const hkReal delta = frame - (hkReal)index;
     hkQsTransform result;
-    result.setInterpolate4(keys[index], keys[index + 1], VectorComponentValue(delta));
+    SetInterpolate4(result, keys[index], keys[index + 1], VectorComponentValue(delta));
     return result;
 }
 

@@ -139,17 +139,17 @@ struct Collector {
     virtual void v08();
     virtual void v0c();
     virtual void v10();
-    virtual int Process(Input* in, int a, int b, int c, int d);
+    virtual int Process(Input* in, const void* a, const void* b, void* c, void* d);
 };
 struct Caster {
     int unk00;
     int unk04;
     int unk08;
     Collector* coll;
-    int ProcessSource(Source* s, int a, int b, int c, int d);
+    int ProcessSource(Source* s, const void* a, const void* b, void* c, void* d);
 };
 // @fnv 0x00d42cf0
-int Caster::ProcessSource(Source* pSource, int aiArg1, int aiArg2, int aiArg3, int aiArg4)
+int Caster::ProcessSource(Source* pSource, const void* aiArg1, const void* aiArg2, void* aiArg3, void* aiArg4)
 {
     Body* body = pSource->body;
     hkTransform xf(pSource->rot, body->unk30);
@@ -251,10 +251,10 @@ struct MatrixOps { void FUN_00cb2240(const Matrix43*, const Matrix43*); };
 struct Object { int unk00,unk04,unk08,unk0c,unk10,unk14,unk18,unk1c,unk20,unk24,unk28,unk2c; Matrix43 transform; };
 struct Input { Object* object; int unk04; Matrix43* transform; };
 struct DispatchData { int unk00; int unk04; Matrix43* unk08; Input* unk0c; };
-struct Handler { virtual int V0(); virtual int V1(); virtual int V2(); virtual int Dispatch(DispatchData*,int,int,int); };
-struct Owner { int a,b,c; Handler* handler; void FUN_00d42ed0(Input*,int,int,int); };
+struct Handler { virtual int V0(); virtual int V1(); virtual int V2(); virtual int Dispatch(DispatchData*,const void*,const void*,void*); };
+struct Owner { int a,b,c; Handler* handler; void FUN_00d42ed0(Input*,const void*,const void*,void*); };
 // @fnv 0x00d42ed0
-void Owner::FUN_00d42ed0(Input* input,int aiArg1,int aiArg2,int aiArg3)
+void Owner::FUN_00d42ed0(Input* input,const void* aiArg1,const void* aiArg2,void* aiArg3)
 {
     Object* object=input->object;
     Matrix43 temp;
@@ -278,11 +278,11 @@ struct DispatchData { int unk00; int unk04; Matrix43* unk08; Input* unk0c; };
 struct Handler {
     virtual int V0(); virtual int V1(); virtual int V2(); virtual int V3();
     virtual int V4(); virtual int V5(); virtual int V6(); virtual int V7();
-    virtual int Dispatch(DispatchData*, int, int, int);
+    virtual int Dispatch(DispatchData*, const void*, const void*, void*);
 };
-struct Owner { int unk00; int unk04; int unk08; Handler* handler; int FUN_00d42fc0(Input*, int, int, int); };
+struct Owner { int unk00; int unk04; int unk08; Handler* handler; int FUN_00d42fc0(Input*, const void*, const void*, void*); };
 // @fnv 0x00d42fc0
-int Owner::FUN_00d42fc0(Input* input, int aiArg1, int aiArg2, int aiArg3)
+int Owner::FUN_00d42fc0(Input* input, const void* aiArg1, const void* aiArg2, void* aiArg3)
 {
     Object* object = input->object;
     Matrix43 temp;
@@ -307,9 +307,9 @@ struct D432F0CollectorBase {
 };
 
 struct D432F0Collector : D432F0CollectorBase {
-    int m_iData;
+    void* m_iData;
 
-    D432F0Collector(int iData) : m_iData(iData) {}
+    D432F0Collector(void* iData) : m_iData(iData) {}
 
     virtual void unk00();
     virtual void unk04();
@@ -318,10 +318,10 @@ struct D432F0Collector : D432F0CollectorBase {
 
 // Constructs a D432F0Collector from d and calls ProcessTransformShapeCollision with b, a, c and the collector.
 // @fnv 0x00d432f0
-void __cdecl RunCollector(int aiArgA, int aiArgB, int aiArgC, int aiData)
+void __cdecl RunCollector(const void* aiArgA, const void* aiArgB, const void* aiArgC, void* aiData)
 {
     D432F0Collector collector(aiData);
-    ::ProcessTransformShapeCollision((const ::CollisionBody_00d42f40 *)(aiArgB), (const ::CollisionBody_00d42f40 *)(aiArgA), (const ::CollisionInput_00d42f40 *)(aiArgC), &collector);
+    ::ProcessTransformShapeCollision(static_cast<const ::CollisionBody_00d42f40 *>(aiArgB), static_cast<const ::CollisionBody_00d42f40 *>(aiArgA), static_cast<const ::CollisionInput_00d42f40 *>(aiArgC), &collector);
 }
 
 
@@ -329,22 +329,22 @@ struct hkpSymmetricAgentFlipCollector
 {
     virtual void unk00();
     float unk04;
-    int unk08;
+    void* unk08;
 };
 
 // Builds a local hkpSymmetricAgentFlipCollector from DAT_0104da48 and arg4, then calls FUN_00d42e50 with arg2, arg1, arg3 and the collector.
 // @fnv 0x00d43330
-void __cdecl RunSymmetricAgentFlipCollector(void* arg1, void* arg2, int arg3, int arg4)
+void __cdecl RunSymmetricAgentFlipCollector(void* arg1, void* arg2, const void* arg3, void* arg4)
 {
     hkpSymmetricAgentFlipCollector local;
     local.unk04 = ::DAT_0104da48;
     local.unk08 = arg4;
-    ::FUN_00d42e50((const ::CollisionBody_00d42f40 *)(arg2), (const ::CollisionBody_00d42f40 *)(arg1), (const ::CollisionInput_00d42f40 *)(arg3), &local);
+    ::FUN_00d42e50((const ::CollisionBody_00d42f40 *)(arg2), (const ::CollisionBody_00d42f40 *)(arg1), static_cast<const ::CollisionInput_00d42f40 *>(arg3), &local);
 }
 
-struct CallData { void* descriptor; float bound; unsigned int value; };
+struct CallData { void* descriptor; float bound; void* value; };
 struct Wrapper {
-    void FUN_00d434a0(void*, void*, unsigned int, unsigned int);
+    void FUN_00d434a0(void*, void*, const void*, void*);
 };
 #include "fnv/symbols_simd.h"
 
@@ -365,9 +365,9 @@ struct Collector_d43620 {
     float m_fHitFraction;
     int m_auiShapeKeys[2];
     Vec4_d43620 m_dir;
-    int m_uiFilterValue;
+    void* m_uiFilterValue;
 
-    Collector_d43620* Init(const __m128& dir, int value)
+    Collector_d43620* Init(const __m128& dir, void* value)
     {
         m_vtbl = (*reinterpret_cast<char (*)[]>(&::UNK_010ce80c));
         m_fHitFraction = 3.40282e+38f;
@@ -378,11 +378,11 @@ struct Collector_d43620 {
 };
 
 struct Caster_d43620 {
-    int FUN_00d43620(int a, int b, const Input_d43620* in, int c, int d);
+    int FUN_00d43620(const void* a, ::Source* b, const Input_d43620* in, void* c, void* d);
 };
 
 // @fnv 0x00d43620
-int Caster_d43620::FUN_00d43620(int aiArg1, int aiArg2, const Input_d43620* apInput, int aiValue1, int aiValue2)
+int Caster_d43620::FUN_00d43620(const void* aiArg1, ::Source* aiArg2, const Input_d43620* apInput, void* aiValue1, void* aiValue2)
 {
     Input_d43620 rev = *apInput;
     rev.m_dir = _mm_xor_ps(apInput->m_dir, DAT_010c44d0);
@@ -390,8 +390,8 @@ int Caster_d43620::FUN_00d43620(int aiArg1, int aiArg2, const Input_d43620* apIn
     Collector_d43620 c1;
     c1.Init(apInput->m_dir, aiValue1);
     Collector_d43620 c2;
-    if (aiValue2) { c2.Init(apInput->m_dir, aiValue2); return reinterpret_cast<::Caster *>(this)->ProcessSource((::Source *)(aiArg2), aiArg1, (int)(&rev), (int)(&c1), (int)(&c2)); }
-    return reinterpret_cast<::Caster *>(this)->ProcessSource((::Source *)(aiArg2), aiArg1, (int)(&rev), (int)(&c1), (int)(0));
+    if (aiValue2) { c2.Init(apInput->m_dir, aiValue2); return reinterpret_cast<::Caster *>(this)->ProcessSource(aiArg2, aiArg1, &rev, &c1, &c2); }
+    return reinterpret_cast<::Caster *>(this)->ProcessSource(aiArg2, aiArg1, &rev, &c1, nullptr);
 }
 
 // FUN_00d429c0: thiscall, one stack argument (callee pops 4).
@@ -673,12 +673,12 @@ void __cdecl ProcessTransformShapeCollision(
 
 struct CallTarget_00d42fc0 {  };
 struct SearchObject {
-    int FUN_00d43600(unsigned int arg0, unsigned int arg1, unsigned int arg2, unsigned int arg3);
+    int FUN_00d43600(const void* arg0, ::fnv_00d42fc0::Input* arg1, const void* arg2, void* arg3);
 };
 // @fnv 0x00d43600
-int SearchObject::FUN_00d43600(unsigned int arg0, unsigned int arg1, unsigned int arg2, unsigned int arg3)
+int SearchObject::FUN_00d43600(const void* arg0, ::fnv_00d42fc0::Input* arg1, const void* arg2, void* arg3)
 {
-    unsigned int uiResult = (unsigned int)reinterpret_cast<::fnv_00d42fc0::Owner *>((((CallTarget_00d42fc0*)this)))->FUN_00d42fc0((::fnv_00d42fc0::Input *)((int)arg1), (int)arg0, (int)arg2, (int)arg3);
+    unsigned int uiResult = (unsigned int)reinterpret_cast<::fnv_00d42fc0::Owner *>((((CallTarget_00d42fc0*)this)))->FUN_00d42fc0(arg1, arg0, arg2, arg3);
     return (int)uiResult;
 }
 
@@ -1354,13 +1354,13 @@ struct Record_d2e9 {
     const unsigned int* m_vtbl;
     float m_fScalar;
     Key_d2e9 m_key;
-    int m_uiFilterValue;
+    void* m_uiFilterValue;
 };
 
 
 // XORs the input vector with DAT_010c44d0, builds a Record_d2e9 with m_fScalar and a4, and calls DispatchClosestPoints with an optional second record using a5.
 // @fnv 0x00d43370
-void __cdecl FUN_00d43370(int a2, int a1, const Input_d2e9* input, int a4, int a5)
+void __cdecl FUN_00d43370(const void* a2, const void* a1, const Input_d2e9* input, void* a4, void* a5)
 {
     Input_d2e9 local = *input;
     local.m_vComponents = _mm_xor_ps(input->m_vComponents, DAT_010c44d0);
@@ -1377,9 +1377,9 @@ void __cdecl FUN_00d43370(int a2, int a1, const Input_d2e9* input, int a4, int a
         rec2.m_fScalar = ::DAT_0104da48;
         rec2.m_key = input->m_key;
         rec2.m_uiFilterValue = a5;
-        ::DispatchClosestPoints((*(const ::S_00d42d60_CdBody *)(a1)), (*(const ::S_00d42d60_CdBody *)(a2)), (*(const ::S_00d42d60_Input *)(&local)), (::S_00d42d60_Collector *)(::Record_d2e9 *)(&rec), (::S_00d42d60_Collector *)(::Record_d2e9 *)(&rec2));
+        ::DispatchClosestPoints((*static_cast<const ::S_00d42d60_CdBody *>(a1)), (*static_cast<const ::S_00d42d60_CdBody *>(a2)), (*(const ::S_00d42d60_Input *)(&local)), (::S_00d42d60_Collector *)(::Record_d2e9 *)(&rec), (::S_00d42d60_Collector *)(::Record_d2e9 *)(&rec2));
     } else {
-        ::DispatchClosestPoints((*(const ::S_00d42d60_CdBody *)(a1)), (*(const ::S_00d42d60_CdBody *)(a2)), (*(const ::S_00d42d60_Input *)(&local)), (::S_00d42d60_Collector *)(::Record_d2e9 *)(&rec), (::S_00d42d60_Collector *)(::Record_d2e9 *)(0));
+        ::DispatchClosestPoints((*static_cast<const ::S_00d42d60_CdBody *>(a1)), (*static_cast<const ::S_00d42d60_CdBody *>(a2)), (*(const ::S_00d42d60_Input *)(&local)), (::S_00d42d60_Collector *)(::Record_d2e9 *)(&rec), (::S_00d42d60_Collector *)(::Record_d2e9 *)(0));
     }
 }
 
@@ -1543,8 +1543,8 @@ void S_00d42b50_Cls::FUN_00d42b50(const S_00d42b50_CdBody& bodyA, const S_00d42b
     const S_00d42b50_Motion* src = bodyA.m_pMotionState;
     _mm_store_ps(&ms.unk40.x, _mm_load_ps(&src->unk40.x));
     _mm_store_ps(&ms.unk50.x, _mm_load_ps(&src->unk50.x));
-    ::fnv_00c66320::FUN_00c66320((__m128 *)&(ms.unk60), (void *)((const S_00d42b50_Vec*)&src->unk60), (const __m128 *)(const ::S_00d42b50_Vec *)(&scratch.shape->m_rotation), {});
-    ::fnv_00c66320::FUN_00c66320((__m128 *)&(ms.unk70), (void *)((const S_00d42b50_Vec*)&src->unk70), (const __m128 *)(const ::S_00d42b50_Vec *)(&scratch.shape->m_rotation), {});
+    ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(ms.unk60), (void *)((const S_00d42b50_Vec*)&src->unk60), (const ::fnv_00c66320::__m128 *)(&scratch.shape->m_rotation), {});
+    ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(ms.unk70), (void *)((const S_00d42b50_Vec*)&src->unk70), (const ::fnv_00c66320::__m128 *)(&scratch.shape->m_rotation), {});
 
     __m128 delta = _mm_sub_ps(_mm_load_ps(&src->unk80.x), _mm_load_ps(&xf.t.x));
     __m128 xcol = _mm_load_ps(&xf.c0.x);
@@ -1593,24 +1593,24 @@ void S_00d42b50_Cls::FUN_00d42b50(const S_00d42b50_CdBody& bodyA, const S_00d42b
 struct SectorDesc {
     void* sectorPtrs;   // +0: table of "SectorPtrs" handlers
     bool  unk04;        // +4
-    int   unk08;        // +8
+    void* unk08;        // +8
 };
 
 struct TtTransform {
 };
 
 struct TtShapeCollection : TtTransform {
-    void FUN_00d43460(int a, int b, int c, int d);
+    void FUN_00d43460(const void* a, ::fnv_00d42ed0::Input* b, const void* c, void* d);
 };
 
 // Builds a SectorDesc from d and the static sectorPtrs, then calls TtTransform::FUN_00d42ed0 with b, a, c and that descriptor.
 // @fnv 0x00d43460
-void TtShapeCollection::FUN_00d43460(int a, int b, int c, int d) {
+void TtShapeCollection::FUN_00d43460(const void* a, ::fnv_00d42ed0::Input* b, const void* c, void* d) {
     SectorDesc s;
     s.unk04 = false;
     s.sectorPtrs = (void*)fnv_vftable_D3CF80Collector;
     s.unk08 = d;
-    reinterpret_cast<::fnv_00d42ed0::Owner *>(this)->FUN_00d42ed0((::fnv_00d42ed0::Input *)(b), a, c, (int)(&s));
+    reinterpret_cast<::fnv_00d42ed0::Owner *>(this)->FUN_00d42ed0(b, a, c, &s);
 }
 
 struct CollisionAgentContext;
@@ -1667,12 +1667,12 @@ struct TransformClosestAgent {
 };
 // Builds a CallData from fourth and DAT_0104da48 with descriptor DAT_010ce7fc, then calls FUN_00d42de0 with second, first and third.
 // @fnv 0x00d434a0
-void Wrapper::FUN_00d434a0(void* first, void* second, unsigned int third, unsigned int fourth) {
+void Wrapper::FUN_00d434a0(void* first, void* second, const void* third, void* fourth) {
     CallData data;
     data.value = fourth;
     data.bound = ::DAT_0104da48;
     data.descriptor = &DAT_010ce7fc;
-    reinterpret_cast<::TransformClosestAgent *>(this)->FUN_00d42de0((*(const ::S_00d42d60_CdBody *)(second)), (*(const ::S_00d42d60_CdBody *)(first)), (*(const ::S_00d42d60_Input *)(third)), (*(::TransformClosestPointCollector *)(&data)));
+    reinterpret_cast<::TransformClosestAgent *>(this)->FUN_00d42de0((*(const ::S_00d42d60_CdBody *)(second)), (*(const ::S_00d42d60_CdBody *)(first)), (*static_cast<const ::S_00d42d60_Input *>(third)), (*(::TransformClosestPointCollector *)(&data)));
 }
 
 // Builds a temporary child body from bodyA's contained shape and motion transform, then delegates to m_pAgent to collect closest points with bodyB.

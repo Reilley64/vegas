@@ -646,9 +646,9 @@ void* DelStandIn::FUN_0065a650(unsigned int flags)
 }
 
 // @fnv 0x00657bc0
-int FUN_00657bc0(int param_1)
+int FUN_00657bc0(intptr_t param_1)
 {
-    return (*(int*)(param_1 + 0x10) - *(int*)(param_1 + 0xc)) / 6;
+    return (int)((*(intptr_t*)(param_1 + 0x10) - *(intptr_t*)(param_1 + 0xc)) / 6);
 }
 
 struct GlobalObject_00a7b610

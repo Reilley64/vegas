@@ -2284,11 +2284,11 @@ S8* S8::FUN_0060b820(S8* out, int arg)
 struct S_0060b980
 {
     int* p;
-    int FUN_0060b980();
+    intptr_t FUN_0060b980();
 };
 // Returns the result of FUN_00559450 on the stored pointer, or 0 when the pointer is null.
 // @fnv 0x0060b980
-int S_0060b980::FUN_0060b980()
+intptr_t S_0060b980::FUN_0060b980()
 {
     return p ? FUN_00559450(p) : 0;
 }

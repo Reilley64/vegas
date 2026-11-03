@@ -64,7 +64,7 @@ void BGSZoneTargetListener::SetFlags(int flags, bool set)
 }  // namespace fnv_00620760
 
 // @fnv 0x0087e9b0
-void CallWithParam(int param)
+void CallWithParam(intptr_t param)
 {
     ::FUN_00553380((void *)(param));
 }
@@ -264,7 +264,7 @@ struct Holder
     Node* node14;
     void FUN_0061ff30(Node* node);
 };
-void CallWithParam(int value);
+void CallWithParam(intptr_t value);
 
 // @fnv 0x0061ff30
 void Holder::FUN_0061ff30(Node* node)

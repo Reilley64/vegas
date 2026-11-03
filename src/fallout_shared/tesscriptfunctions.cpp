@@ -631,6 +631,51 @@ struct ByteFieldsView
     unsigned char ucUnk00;
     unsigned char ucUnk01;
 };
+// Base class subobjects reached by fixed offsets. The offsets are the x86 ones; these views go
+// once the classes have layouts.
+// The first component after TESForm (0x18), such as TESFullName.
+struct FormComponentView
+{
+    char form[0x18];
+    char kFirstComponent[4];
+};
+// The first component after TESBoundObject (0x30), such as TESFullName, TESActorBaseData or TESLeveledList.
+struct BoundObjectComponentView
+{
+    char boundObject[0x30];
+    char kFirstComponent[4];
+};
+struct ActorBaseFullNameView
+{
+    char pad[0xd0];
+    char kFullName[4];
+};
+// BGSNote: TESBoundObject and TESModel come before its TESFullName.
+struct NoteFullNameView
+{
+    char pad[0x48];
+    char kFullName[4];
+};
+struct ActorFieldsView
+{
+    char pad[0x94];
+    char kMagicTarget[0x10];
+    char kActorValueOwner[4];
+    char padA8[0x206 - 0xa8];
+    bool bUnk206;
+    char pad207[0x604 - 0x207];
+    void* pUnk604;
+};
+struct ProcessNodeListView
+{
+    char pad[0x10c];
+    char kNodeList10c[8];
+};
+struct Unk0cOwnerView
+{
+    char pad[0xc];
+    char kUnk0c[4];
+};
 struct Dat011da368View
 {
     char pad[0x128];
@@ -6882,13 +6927,13 @@ bool __cdecl FUN_005d1920(const ScriptParameter* paramInfo, const char* scriptDa
         {
             XActor* pActor = 0;
             pActor = (XActor*)thisObj;
-            reinterpret_cast<::TESFullName *>((((FullNameEx*)((char*)((void *)(reinterpret_cast<::Actor *>((pActor))->GetActorBase())) + 0xd0))))->SetFullName(((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((void *)(((FNStub*)((char*)pName + 0x18))))->FUN_00408da0())));
+            reinterpret_cast<::TESFullName *>((reinterpret_cast<FullNameEx*>(reinterpret_cast<::ActorBaseFullNameView*>(((void *)(reinterpret_cast<::Actor *>((pActor))->GetActorBase())))->kFullName)))->SetFullName(((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((void *)(reinterpret_cast<FNStub*>(reinterpret_cast<::FormComponentView*>(pName)->kFirstComponent)))->FUN_00408da0())));
             ((VBase*)((void *)(reinterpret_cast<::Actor *>((pActor))->GetActorBase())))->MarkChanged(0x20);
         }
         else if (_FNV_GetFormType((void*)((std::uintptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((TESObject*)thisObj)))->FUN_007af430()))) == 0x16)
         {
             VBase* pBase = (VBase*)((reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((TESObject*)thisObj)))->FUN_007af430()));
-            reinterpret_cast<::TESFullName *>((((FullNameEx*)((char*)pBase + 0x30))))->SetFullName(((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((void *)(((FNStub*)((char*)pName + 0x18))))->FUN_00408da0())));
+            reinterpret_cast<::TESFullName *>((reinterpret_cast<FullNameEx*>(reinterpret_cast<::BoundObjectComponentView*>(pBase)->kFirstComponent)))->SetFullName(((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((void *)(reinterpret_cast<FNStub*>(reinterpret_cast<::FormComponentView*>(pName)->kFirstComponent)))->FUN_00408da0())));
             pBase->MarkChanged(4);
         }
     }
@@ -7751,7 +7796,7 @@ bool __cdecl FUN_005c65a0(const ScriptParameter* paramInfo, const char* scriptDa
         }
         else if (iSex_2 == 1)
             aBFemale = 1;
-        reinterpret_cast<::FlagSet *>((((TESActorBaseData*)((char*)pNpc7 + 0x30))))->FUN_0047dd50(1, aBFemale == 1, true);
+        reinterpret_cast<::FlagSet *>((reinterpret_cast<TESActorBaseData*>(reinterpret_cast<::BoundObjectComponentView*>(pNpc7)->kFirstComponent)))->FUN_0047dd50(1, aBFemale == 1, true);
         if (pTarget3->V216() && bResetHead)
         {
             FUN_005e0560 list2;
@@ -7794,8 +7839,8 @@ bool __cdecl FUN_005c7fd0(const ScriptParameter* parameters, const char* scriptD
         result = (double)((FactionReactionHelper*)faction)->GetFactionReaction(target);
     if (g_tlsBlock.conditionFunctionDebug)
         _DebugLog("%.20s reaction to %.20s is %.1f",
-                  ((void *)(reinterpret_cast<::FUN_00408da0_Class *>((((FNStub*)((char*)faction + 0x18))))->FUN_00408da0())),
-                  ((void *)(reinterpret_cast<::FUN_00408da0_Class *>((((FNStub*)((char*)target + 0x18))))->FUN_00408da0())), result);
+                  ((void *)(reinterpret_cast<::FUN_00408da0_Class *>((reinterpret_cast<FNStub*>(reinterpret_cast<::FormComponentView*>(faction)->kFirstComponent)))->FUN_00408da0())),
+                  ((void *)(reinterpret_cast<::FUN_00408da0_Class *>((reinterpret_cast<FNStub*>(reinterpret_cast<::FormComponentView*>(target)->kFirstComponent)))->FUN_00408da0())), result);
     }
     return true;}
 
@@ -8811,8 +8856,8 @@ bool __cdecl FUN_005d1890(const ScriptParameter* parameters, const char* scriptD
                      script, locals, &cell, &reference))
         return false;
     if (cell && reference) {
-        reinterpret_cast<::TESFullName *>((((FullNameEx*)((char*)cell + 0x18))))->SetFullName(
-            (const char*)((void *)(reinterpret_cast<::FUN_00408da0_Class *>((((FNStub*)((char*)reference + 0x18))))->FUN_00408da0())));
+        reinterpret_cast<::TESFullName *>((reinterpret_cast<FullNameEx*>(reinterpret_cast<::FormComponentView*>(cell)->kFirstComponent)))->SetFullName(
+            (const char*)((void *)(reinterpret_cast<::FUN_00408da0_Class *>((reinterpret_cast<FNStub*>(reinterpret_cast<::FormComponentView*>(reference)->kFirstComponent)))->FUN_00408da0())));
         ((void (*)(TESObjectCELL*, unsigned int))(*(*(void***)cell + 0x48 / 4)))(cell, 4);
     }
     return true;
@@ -9096,8 +9141,8 @@ bool __cdecl FUN_005d9810(const ScriptParameter* apParameters, const char* apCom
             pplacedref->SetFlag(0x40000000);
             pplacedref->SetParentCell(((std::intptr_t)(reinterpret_cast<::LowProcess *>((void *)(((BSOcclusionPlane*)apRefObject)))->GetTarget())));
             reinterpret_cast<::Fn575690 *>((((Fn575690*)pplacedref)))->FUN_00575690(pbase);
-            if (reinterpret_cast<::FUN_0047cdb0_shell *>((((FUN_0047cdb0_shell*)((char*)pbase + 0x30))))->FUN_0047cdb0())
-                reinterpret_cast<::fnv_0047ce10::OwnerShell *>((((TESActorBaseDataX*)((char*)pbase + 0x30))))->FUN_0047ce10((::fnv_0047ce10::RefShell *)(::TESObjectREFR *)((TESObjectREFR*)pplacedref));
+            if (reinterpret_cast<::FUN_0047cdb0_shell *>((reinterpret_cast<FUN_0047cdb0_shell*>(reinterpret_cast<::BoundObjectComponentView*>(pbase)->kFirstComponent)))->FUN_0047cdb0())
+                reinterpret_cast<::fnv_0047ce10::OwnerShell *>((reinterpret_cast<TESActorBaseDataX*>(reinterpret_cast<::BoundObjectComponentView*>(pbase)->kFirstComponent)))->FUN_0047ce10((::fnv_0047ce10::RefShell *)(::TESObjectREFR *)((TESObjectREFR*)pplacedref));
             pint = (TESObjectCELL*)((reinterpret_cast<::LowProcess *>((void *)(((BSOcclusionPlane*)apRefObject)))->GetTarget()));
             if (pint && !reinterpret_cast<::TESObjectCELL *>((((TESObjectCELL_Ext*)pint)))->IsCellInterior())
                 pint = 0;
@@ -10299,7 +10344,7 @@ bool __cdecl FUN_005d52a0(const ScriptParameter* apParameters, const char* apCom
     if (pNote)
         reinterpret_cast<::PlayerNoteRemoval *>(((*reinterpret_cast<::fnv_005d52a0::PlayerStub * *>(&::_g_thePlayer))))->FUN_00966b80(pNote);
     if (g_tlsBlock.conditionFunctionDebug)
-        _DebugLog("Removed Note %s from Player ", ((char *)(reinterpret_cast<::FUN_00408da0_Class *>((((FNStub*)((char*)pNote + 0x48))))->FUN_00408da0())));
+        _DebugLog("Removed Note %s from Player ", ((char *)(reinterpret_cast<::FUN_00408da0_Class *>((reinterpret_cast<FNStub*>(reinterpret_cast<::NoteFullNameView*>(pNote)->kFullName)))->FUN_00408da0())));
     return true;
 }
 }  // namespace fnv_005d52a0
@@ -10642,7 +10687,7 @@ bool FUN_005de2d0(const ScriptParameter* parameters, const char* scriptData,
     if (!ExtractArgs(parameters, scriptData, &opcodeOffset, thisObject,
             container, script, locals, &actor))
         return false;
-    *(ActorS**)((char*)(*reinterpret_cast<::fnv_005de2d0::ActorS * *>(&::_g_thePlayer)) + 0x604) = actor;
+    reinterpret_cast<::ActorFieldsView*>(*reinterpret_cast<::fnv_005de2d0::ActorS * *>(&::_g_thePlayer))->pUnk604 = actor;
     if (actor && ((::fnv_005de2d0::TESWorldSpace *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((actor))->FUN_00575d70())))
         ::FUN_00709d20((std::intptr_t)((::fnv_005de2d0::TESWorldSpace *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((actor))->FUN_00575d70())));
     return true;
@@ -14227,8 +14272,7 @@ bool FUN_005de670(ScriptParameter* parameter, const char* name,
 
     if (textureIndex && sourceForm)
     {
-        reinterpret_cast<::FUN_00487a00_shell *>((reinterpret_cast<FileEntryList*>(
-            reinterpret_cast<unsigned char*>(textureIndex) + 0x30)))->FUN_00487a00(textureIndex, destinationForm.textureIndex, 1, sourceForm, 0);
+        reinterpret_cast<::FUN_00487a00_shell *>((reinterpret_cast<FileEntryList*>(reinterpret_cast<::BoundObjectComponentView*>(textureIndex)->kFirstComponent)))->FUN_00487a00(textureIndex, destinationForm.textureIndex, 1, sourceForm, 0);
     }
 
     return true;
@@ -14275,8 +14319,7 @@ bool FUN_005de700(const ScriptParameter* parameter, const char* functionName,
         ContainerItemExtra* extra = new ContainerItemExtra();
         reinterpret_cast<::FUN_0040eb90_shell *>((extra))->FUN_0040eb90(destination);
 
-        reinterpret_cast<::FUN_00487a00_shell *>((reinterpret_cast<FileEntryList*>(
-            reinterpret_cast<unsigned char*>(itemID) + 0x30)))->FUN_00487a00(
+        reinterpret_cast<::FUN_00487a00_shell *>((reinterpret_cast<FileEntryList*>(reinterpret_cast<::BoundObjectComponentView*>(itemID)->kFirstComponent)))->FUN_00487a00(
             itemID,
             static_cast<unsigned short>(chance),
             static_cast<unsigned short>(source),
@@ -15910,6 +15953,8 @@ class Script;
 class ScriptLocals;
 
 struct ToggleTarget {
+    char pad[0xbc];
+    bool bUnkbc;
     const char* GetName() const;
 };
 
@@ -15927,10 +15972,10 @@ bool __cdecl FUN_005bbe10(
     ToggleTarget* target = 0;
     target = ((ToggleTarget *)(dynamic_cast<::Actor *>(reinterpret_cast<::TESObjectREFR *>(thisObject))));
     if (target != 0) {
-        reinterpret_cast<bool*>(target)[0xbc] = !reinterpret_cast<bool*>(target)[0xbc];
+        target->bUnkbc = !target->bUnkbc;
         if (g_tlsBlock.conditionFunctionDebug) {
             const char* state;
-            if (reinterpret_cast<bool*>(target)[0xbc]) {
+            if (target->bUnkbc) {
                 state = DAT_010399bc;
             } else {
                 state = DAT_010399b8;
@@ -16106,7 +16151,7 @@ bool FUN_005bd660(const ScriptParameter* parameters, const char* scriptData, TES
         FUN_00703da0();
         reinterpret_cast<::fnv_0093db60::PlayerCenterOnCell *>(((*reinterpret_cast<::PlayerStandIn5bd * *>(&::_g_thePlayer))))->FUN_0093db60((const char *)(0), (::fnv_0093db60::CellS *)(cell));
     }
-    *((bool*)(*reinterpret_cast<::PlayerStandIn5bd * *>(&::_g_thePlayer)) + 0x206) = true;
+    reinterpret_cast<::ActorFieldsView*>(*reinterpret_cast<::PlayerStandIn5bd * *>(&::_g_thePlayer))->bUnk206 = true;
     return true;
 }
 
@@ -17270,7 +17315,7 @@ unsigned char __cdecl FUN_005c20e0(int a1, int a2, int a3, int a4, int a5, int a
         char* v3 = (char*)dynamic_cast<::Actor *>(reinterpret_cast<::TESObjectREFR *>(a3));
         if (v3 != 0) {
             reinterpret_cast<::MagicTarget *>((((FUN_005c20e0_sub94*)(v3 + 0x94))))->Dispel((::MagicItem *)(v8), (::MagicCaster *)(0), (::ActiveEffect *)(0));
-            if (reinterpret_cast<::NodQ *>((((FUN_005c20e0_sub0c*)((char*)v8 + 0xc))))->FUN_00405e80(a5)) {
+            if (reinterpret_cast<::NodQ *>((reinterpret_cast<FUN_005c20e0_sub0c*>(reinterpret_cast<::Unk0cOwnerView*>(v8)->kUnk0c)))->FUN_00405e80(a5)) {
                 return 0;
             }
         }
@@ -17294,7 +17339,7 @@ bool __cdecl FUN_005c2190(int param_0, int param_1, void* param_2)
     if (param_2 != 0) {
         result = (ScriptLinkBase*)dynamic_cast<::Actor *>(reinterpret_cast<::TESObjectREFR *>(param_2));
         if (result != 0) {
-            reinterpret_cast<::MagicTargetDispel *>((((ScriptLinkBase*)((char*)result + 0x94))))->FUN_008249d0(0);
+            reinterpret_cast<::MagicTargetDispel *>((reinterpret_cast<ScriptLinkBase*>(reinterpret_cast<::ActorFieldsView*>(result)->kMagicTarget)))->FUN_008249d0(0);
         }
     }
     return true;
@@ -18805,7 +18850,7 @@ public:
 bool FUN_005ce9f0()
 {
     if ((*reinterpret_cast<::FNVHolderB5202 * *>(&::_g_thePlayer)) != 0) {
-        reinterpret_cast<::fnv_0047dfe0::TABStub *>((((FNVSubB5202*)((char*)((reinterpret_cast<::Actor *>(((*reinterpret_cast<::FNVHolderB5202 * *>(&::_g_thePlayer))))->GetActorBase())) + 0x30))))->FUN_0047dfe0((int)reinterpret_cast<::fnv_0087f9f0::FUN_0087f9f0_shell *>(((*reinterpret_cast<::FNVHolderB5202 * *>(&::_g_thePlayer))))->FUN_0087f9f0() + 1);
+        reinterpret_cast<::fnv_0047dfe0::TABStub *>(reinterpret_cast<FNVSubB5202*>(reinterpret_cast<::BoundObjectComponentView*>(reinterpret_cast<::Actor *>(((*reinterpret_cast<::FNVHolderB5202 * *>(&::_g_thePlayer))))->GetActorBase())->kFirstComponent))->FUN_0047dfe0((int)reinterpret_cast<::fnv_0087f9f0::FUN_0087f9f0_shell *>(((*reinterpret_cast<::FNVHolderB5202 * *>(&::_g_thePlayer))))->FUN_0087f9f0() + 1);
         ::fnv_00706270::FUN_00706270();
     }
     return true;
@@ -19322,7 +19367,7 @@ bool __cdecl FUN_005d11b0(unsigned int input, unsigned int actor, unsigned int f
         if (!FUN_005accb0(input, actor, value, flags, context, extra, script, &actorValueIndex, &delta))
             return false;
         if (::FUN_005d1260(actorValueIndex)) {
-            int previous = reinterpret_cast<ValueStore*>(reinterpret_cast<char*>((*reinterpret_cast<::fnv_005d11b0::GameManager * *>(&::_g_thePlayer))) + 0xa4)->Read(actorValueIndex);
+            int previous = reinterpret_cast<ValueStore*>(reinterpret_cast<::ActorFieldsView*>(*reinterpret_cast<::fnv_005d11b0::GameManager * *>(&::_g_thePlayer))->kActorValueOwner)->Read(actorValueIndex);
             previous += delta;
             reinterpret_cast<::FUN_0093a7c0_Owner *>(((*reinterpret_cast<::fnv_005d11b0::GameManager * *>(&::_g_thePlayer))))->FUN_0093a7c0((void *)(actorValueIndex), previous);
         }
@@ -24166,7 +24211,7 @@ struct PlayerActor {
 bool __cdecl FUN_005de9f0(const ScriptParameter* parameters, const char* scriptData, TESObjectREFR* reference, TESObjectREFR* container, Script* script, ScriptLocals* locals, double& result, unsigned int& offset) {
     FUN_005accb0(parameters, scriptData, offset, reference, container, script, locals);
     if ((*reinterpret_cast<::fnv_005de9f0::TESObjectREFR * *>(&::_g_thePlayer))) {
-        float currentValue = reinterpret_cast<ActorValueOwner*>(reinterpret_cast<char*>((*reinterpret_cast<::fnv_005de9f0::TESObjectREFR * *>(&::_g_thePlayer))) + 0xa4)->GetActorValue(0x18);
+        float currentValue = reinterpret_cast<ActorValueOwner*>(reinterpret_cast<::ActorFieldsView*>(*reinterpret_cast<::fnv_005de9f0::TESObjectREFR * *>(&::_g_thePlayer))->kActorValueOwner)->GetActorValue(0x18);
         reinterpret_cast<PlayerActor*>((*reinterpret_cast<::fnv_005de9f0::TESObjectREFR * *>(&::_g_thePlayer)))->ChangeActorValue(0x18, -currentValue, 0);
     } else {
         (reinterpret_cast<int (__cdecl*)(const char*)>(::FUN_005b5e40))(str_0103d21c);
@@ -24692,7 +24737,7 @@ bool HelpersB::FUN_005b4be0(void* a, void* b, ObjB* c, unsigned* d, ObjB* e, voi
         default: if (form_->v57()) itemB = form_;
         }
         if (leveled) {
-            reinterpret_cast<::TESLeveledList *>((((ContainerB*)((char*)leveled + 0x30))))->PopulateContainerWithLeveledItems((unsigned short)value4,(unsigned short)count,(::TESContainer *)(::fnv_005b4be0::ContainerB *)(&container),0);
+            reinterpret_cast<::TESLeveledList *>((reinterpret_cast<ContainerB*>(reinterpret_cast<::BoundObjectComponentView*>(leveled)->kFirstComponent)))->PopulateContainerWithLeveledItems((unsigned short)value4,(unsigned short)count,(::TESContainer *)(::fnv_005b4be0::ContainerB *)(&container),0);
         } else if (listform && count) {
             ListB* node6 = ((::fnv_005b4be0::ListB *)(reinterpret_cast<::BGSCameraPath *>((listform))->GetConditions()));
             while (node6 && !node6->FUN_008256d0()) {
@@ -28723,7 +28768,7 @@ bool __cdecl FUN_005be190(const ScriptParameter* parameters, const char* compile
     Actor* pActor = dynamic_cast<Actor*>(reference);
     if (pActor) {
         if (!FUN_00406d70(actorValue, 0x4000)) {
-            float amount = (float)((double)newValue - (double)(reinterpret_cast<ActorValueOwner*>((char*)pActor + 0xa4))->GetValue(actorValue));
+            float amount = (float)((double)newValue - (double)reinterpret_cast<ActorValueOwner*>(reinterpret_cast<::ActorFieldsView*>(pActor)->kActorValueOwner)->GetValue(actorValue));
             ((ActorValueChange)(*(void***)pActor)[0x3a4 / 4])(pActor, actorValue, amount, 0);
         } else if (g_tlsBlock.conditionFunctionDebug) {
             FUN_00703c00(DAT_0103a310, ::FUN_0066eac0((::ActorValue::Index)(actorValue)));
@@ -33489,9 +33534,9 @@ bool __cdecl FUN_005c6b60(void*, void*, FUN_005c6b60_Actor* actor)
 
         FUN_005c6b60_Actor* localActor2 = actor;
 
-        float current = ((FUN_005c6b60_ActorValueOwner*)((char*)localActor2 + 0xa4))->GetActorValue(16);
+        float current = reinterpret_cast<FUN_005c6b60_ActorValueOwner*>(reinterpret_cast<::ActorFieldsView*>(localActor2)->kActorValueOwner)->GetActorValue(16);
 
-        float base = ((FUN_005c6b60_ActorValueOwner*)((char*)localActor2 + 0xa4))->GetBaseActorValue(16);
+        float base = reinterpret_cast<FUN_005c6b60_ActorValueOwner*>(reinterpret_cast<::ActorFieldsView*>(localActor2)->kActorValueOwner)->GetBaseActorValue(16);
 
         float differenceVal = 0.0f;
 
@@ -42449,7 +42494,7 @@ bool __cdecl FUN_005da690(const ScriptParameter* apParams, const char* apData, T
         pProcess = ((::PackageNodeHandler *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((ScriptActor*)apThis)))->FUN_007af430()));
         PackageNode* pStart;
         PackageNode* pNode;
-        pStart = ((::PackageNode *)(reinterpret_cast<::Callees *>((((PackageNodeList*)((char*)pProcess + 0x10c))))->FUN_00726070()));
+        pStart = ((::PackageNode *)(reinterpret_cast<::Callees *>((reinterpret_cast<PackageNodeList*>(reinterpret_cast<::ProcessNodeListView*>(pProcess)->kNodeList10c)))->FUN_00726070()));
         pNode = pStart;
         while (iSteps) {
             if (0 > iSteps) {
@@ -46149,7 +46194,7 @@ bool FUN_005bd780(const ScriptParameter* apParameters,
         reinterpret_cast<::fnv_0093db60::PlayerCenterOnCell *>(((*reinterpret_cast<::fnv_005bd780::LLD_PlayerCharacter * *>(&::_g_thePlayer))))->FUN_0093db60((const char *)(0), (::fnv_0093db60::CellS *)(::fnv_005bd780::LLD_Cell *)(reinterpret_cast<LLD_Cell*>(pcell)));
     }
 
-    *reinterpret_cast<unsigned char*>((*reinterpret_cast<::fnv_005bd780::LLD_PlayerCharacter * *>(&::_g_thePlayer)) + 0x206) = 1;
+    reinterpret_cast<::ActorFieldsView*>(*reinterpret_cast<::fnv_005bd780::LLD_PlayerCharacter * *>(&::_g_thePlayer))->bUnk206 = 1;
     return true;
 }
 }  // namespace fnv_005bd780
@@ -51771,11 +51816,11 @@ bool FUN_005d0d30(int p0, int p1, int p2, int p3, int p4, int p5, int p6, int p7
             if (!FUN_005accb0(p0, p1, p7, p2, p3, p4, p5, (unsigned short*)&wordSlot)) {
                 return false;
             }
-            reinterpret_cast<::S47 *>((((BarterSub_b10016*)((char*)obj2 + 0x30))))->SetValue((unsigned short)wordSlot);
+            reinterpret_cast<::S47 *>((reinterpret_cast<BarterSub_b10016*>(reinterpret_cast<::BoundObjectComponentView*>(obj2)->kFirstComponent)))->SetValue((unsigned short)wordSlot);
         }
         if (g_tlsBlock.conditionFunctionDebug) {
             FUN_00703c00(" Actor's base barter gold is  %d ",
-                reinterpret_cast<::BSShaderPPLightingProperty *>((((BarterSub_b10016*)((char*)obj2 + 0x30))))->GetDiffuseTextureIndex());
+                reinterpret_cast<::BSShaderPPLightingProperty *>((reinterpret_cast<BarterSub_b10016*>(reinterpret_cast<::BoundObjectComponentView*>(obj2)->kFirstComponent)))->GetDiffuseTextureIndex());
         }
     }
     return true;

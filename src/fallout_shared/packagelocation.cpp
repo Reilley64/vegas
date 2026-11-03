@@ -153,13 +153,13 @@ unsigned int BGSMessageInitAccess::GetIconFormID()
     return iconFormID;
 }
 
-// Sets the first byte of the object to 3 and zeroes the two 32-bit fields at offsets 4 and 8, then returns the object.
+// Sets the location type to 3 (PLT_EDITORLOC) and clears the location data and object, then returns the descriptor.
 // @fnv 0x0067f030
 LocationDescriptor* FUN_0067f030(LocationDescriptor* pObject)
 {
-    *(char*)pObject = 3;
+    pObject->m_ucLocationType = 3;
     pObject->m_pLocationData = 0;
-    *(unsigned int*)((char*)pObject + 8) = 0;
+    pObject->pObject = nullptr;
     return pObject;
 }
 
@@ -1091,9 +1091,20 @@ class ActiveEffect
     char pad08[0x1c];
     MagicTarget* pTarget;
     MagicCaster* pCaster;
+    char pad2c[0x1c];
+};
+class NiQuaternion
+{
+  public:
+    float w, x, y, z;
 };
 struct FUN_00826be0_shell : public ActiveEffect
 {
+    bhkRigidBody* pRigidBody;
+    int iState;
+    float fStateStartTime;
+    NiPoint3 kStartPos;
+    NiQuaternion kStartRot;
     void FUN_00826be0(float);
 };
 
@@ -1108,35 +1119,35 @@ void FUN_00826be0_shell::FUN_00826be0(float afSecondsElapsed)
     {
         reinterpret_cast<::fnv_00804210::ActiveEffectUpdateShell *>(this)->FUN_00804210(true);
     }
-    else if (*(bhkRigidBody**)((char*)this + 0x48) && ptarget)
+    else if (pRigidBody && ptarget)
     {
         if (ptarget->Unk_8B(false))
         {
             reinterpret_cast<::fnv_00804210::ActiveEffectUpdateShell *>(this)->FUN_00804210(false);
             return;
         }
-        if (*(int*)((char*)this + 0x4c) == 0)
+        if (iState == 0)
         {
-            *(float*)((char*)this + 0x50) = 0.0f;
-            *(int*)((char*)this + 0x4c) = 10;
+            fStateStartTime = 0.0f;
+            iState = 10;
         }
-        if (*(int*)((char*)this + 0x4c) == 10)
+        if (iState == 10)
         {
             BaseProcess* pprocess = (BaseProcess*)((::Date *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((PlayerQuestData*)ptarget)))->GetBaseTexture()));
             if (!((std::intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((((TESResponse*)pprocess)))->FUN_0045cd60())))
                 ((AIProcess*)pprocess)->Unk_1BE(true);
-            if (this->unk04 - *(float*)((char*)this + 0x50) > DAT_01020998)
-                *(int*)((char*)this + 0x4c) = 20;
-            float fLerp = FUN_0040ebd0(1.0f, (this->unk04 - *(float*)((char*)this + 0x50)) / 4.0);
+            if (this->unk04 - fStateStartTime > DAT_01020998)
+                iState = 20;
+            float fLerp = FUN_0040ebd0(1.0f, (this->unk04 - fStateStartTime) / 4.0);
             hkVector4 endPos;
             hkVector4 startPos;
-            ::fnv_004a3e00::FUN_004a3e00((::fnv_004a3e00::bhkCharacterController &)(endPos), (const ::fnv_004a3e00::NiPoint3 &)(*(NiPoint3*)((char*)this + 0x54)));
-            ::fnv_004a3e00::FUN_004a3e00((::fnv_004a3e00::bhkCharacterController &)(startPos), (const ::fnv_004a3e00::NiPoint3 &)(*(NiPoint3*)((char*)this + 0x54)));
+            ::fnv_004a3e00::FUN_004a3e00((::fnv_004a3e00::bhkCharacterController &)(endPos), (const ::fnv_004a3e00::NiPoint3 &)kStartPos);
+            ::fnv_004a3e00::FUN_004a3e00((::fnv_004a3e00::bhkCharacterController &)(startPos), (const ::fnv_004a3e00::NiPoint3 &)kStartPos);
             ((bhkCharacterController*)&endPos)->GetVectorElement(2) += FUN_004a3e90(100.0f);
             hkVector4 hkpos;
             hkpos.FUN_005dbf70(startPos, endPos, fLerp);
             B006815c0 currentPos;
-            reinterpret_cast<::QueryOwner *>(((*(bhkRigidBody**)((char*)this + 0x48))))->FUN_00560bc0((std::intptr_t)&(currentPos));
+            reinterpret_cast<::QueryOwner *>(((pRigidBody)))->FUN_00560bc0((std::intptr_t)&(currentPos));
             NiPoint3 dirToCaster = *(const NiPoint3_sub*)pcaster->GetPos() - currentPos;
             dirToCaster.z = 0.0f;
             float fx = -FUN_004b5550(dirToCaster.y, dirToCaster.x);
@@ -1147,20 +1158,20 @@ void FUN_00826be0_shell::FUN_00826be0(float afSecondsElapsed)
             hkRotation kHkRotation;
             ::VisitAndFetchThree((::FetcherC *)&(kHkRotation), (::VisitorB *)&(matrix));
             hkQuaternion startRot;
-            ::FUN_00561500((::bhkCharacterController *)(void *)(&startRot), (void *)((const NiQuaternion*)((char*)this + 0x60)));
+            ::FUN_00561500((::bhkCharacterController *)(void *)(&startRot), (void *)&kStartRot);
             hkQuaternion endRot(kHkRotation);
             hkQuaternion hkquat;
             hkquat.FUN_00cb2850(startRot, endRot, fLerp);
-            reinterpret_cast<::KFRigidBody *>(((*(bhkRigidBody**)((char*)this + 0x48))))->FUN_00c8de20((const ::KFVector4 &)(hkpos), (const ::KFQuaternion &)(hkquat), 1.0f / afSecondsElapsed, 1.0f);
+            reinterpret_cast<::KFRigidBody *>(((pRigidBody)))->FUN_00c8de20((const ::KFVector4 &)(hkpos), (const ::KFQuaternion &)(hkquat), 1.0f / afSecondsElapsed, 1.0f);
             ptarget->Unk_B0(((MagicCaster*)((reinterpret_cast<::FUN_0045cd60_shell *>((((TESResponse*)this)))->FUN_0045cd60())))->Unk_0B());
         }
-        else if (*(int*)((char*)this + 0x4c) == 20)
+        else if (iState == 20)
         {
             Animation* panim = ptarget->GetAnimData();
             NiAVObject* pNode = ptarget->GetNiNode();
             if (pNode && panim)
             {
-                *(int*)((char*)this + 0x4c) = 30;
+                iState = 30;
                 reinterpret_cast<::fnv_008b0b00::FUN_008b0b00_cls *>((ptarget))->FUN_008b0b00(true);
                 reinterpret_cast<::fnv_00494740::FUN_00494740_t *>((panim))->FUN_00494740(0, (*(int *)&(const ::ACTION_FLAGS &)((ACTION_FLAGS)0)), -1, (*(int *)&(const ::ANIM_GROUP_SECTION &)((ANIM_GROUP_SECTION)-1)));
                 ::FUN_00c9bdf0((::Obj_c9b *)(pNode), 0.0f);
@@ -1168,15 +1179,15 @@ void FUN_00826be0_shell::FUN_00826be0(float afSecondsElapsed)
                 if (!((std::intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((((TESResponse*)pprocess)))->FUN_0045cd60())))
                     ((AIProcess*)pprocess)->Unk_1BE(false);
                 reinterpret_cast<::fnv_0041d490::FUN_0041d490_shell *>((((ExtraDataList_helper*)((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((((TESObjectREFR*)ptarget)))->FUN_005d43c0())))))->UpdateRagDoll(0);
-                *(float*)((char*)this + 0x50) = this->unk04;
+                fStateStartTime = this->unk04;
             }
         }
-        else if (*(int*)((char*)this + 0x4c) == 30)
+        else if (iState == 30)
         {
-            if (this->unk04 - *(float*)((char*)this + 0x50) > 2.0)
+            if (this->unk04 - fStateStartTime > 2.0)
             {
-                *(float*)((char*)this + 0x50) = this->unk04;
-                *(int*)((char*)this + 0x4c) = 40;
+                fStateStartTime = this->unk04;
+                iState = 40;
                 NiAVObject* pNode = ptarget->GetNiNode();
                 if (pNode)
                     ::FUN_00c6a350(pNode, 4, true, false, true);
@@ -1188,17 +1199,17 @@ void FUN_00826be0_shell::FUN_00826be0(float afSecondsElapsed)
                     pFaceGenAnimData->Unk_36(false, false);
             }
         }
-        else if (*(int*)((char*)this + 0x4c) == 40)
+        else if (iState == 40)
         {
-            if (this->unk04 - *(float*)((char*)this + 0x50) > 1.0)
+            if (this->unk04 - fStateStartTime > 1.0)
             {
-                *(int*)((char*)this + 0x4c) = 50;
+                iState = 50;
                 ptarget->SetActorLifeState((::ACTOR_LIFE_STATE)(4));
                 reinterpret_cast<::fnv_008acf10::GhostActor *>((ptarget))->FUN_008acf10(false);
                 ::StartHostilityAndCombat((::B850Actor *)(ptarget), (::B850Actor *)(pcaster));
             }
         }
-        else if (*(int*)((char*)this + 0x4c) == 50)
+        else if (iState == 50)
         {
             ((AIProcess*)((::Date *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((PlayerQuestData*)ptarget)))->GetBaseTexture())))->Unk_191(false);
             ::FUN_0080b8f0(ptarget, pcaster);

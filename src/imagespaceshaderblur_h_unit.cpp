@@ -35,14 +35,17 @@ extern int DAT_010b17d8;
 
 struct FUN_00b8e5c0_class
 {
+    const void* m_vft;
+    char pad[0x68];
+    const void* m_vft6c;
     void* FUN_00b8e5c0(unsigned int flags);
 };
 
 // @fnv 0x00b8e5c0
 void* FUN_00b8e5c0_class::FUN_00b8e5c0(unsigned int flags)
 {
-    *reinterpret_cast<int**>(this) = &DAT_010b17f8;
-    *reinterpret_cast<int**>(reinterpret_cast<char*>(this) + 0x6c) = &DAT_010b17d8;
+    m_vft = &DAT_010b17f8;
+    m_vft6c = &DAT_010b17d8;
     reinterpret_cast<::FUN_00c03a20_cls *>(this)->FUN_00c03a20_cls::~FUN_00c03a20_cls();
     if (flags & 1)
     {

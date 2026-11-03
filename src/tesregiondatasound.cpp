@@ -210,14 +210,14 @@ struct MediaSet;
 struct C0084e3a0
 {
 };
-struct S004f4350
+struct S004f4350 : TESRegionDataSound
 {
     void SetMediaSet(MediaSet* ms);
 };
 // @fnv 0x004f4350
 void S004f4350::SetMediaSet(MediaSet* pMediaSet)
 {
-    *(unsigned int*)((char*)this + 0x14) = pMediaSet ? ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((C0084e3a0*)pMediaSet)))->FUN_0084e3a0())) : 0;
+    incidental = pMediaSet ? ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((C0084e3a0*)pMediaSet)))->FUN_0084e3a0())) : 0;
 }
 
 struct F4390_standin

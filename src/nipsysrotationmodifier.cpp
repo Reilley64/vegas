@@ -57,6 +57,20 @@ void* FUN_00c206a0_shell::FUN_00c206a0()
     return &(*reinterpret_cast<void * *>(&::g_01202528));
 }
 
+struct RotationParticleData
+{
+    char pad[0x50];
+    unsigned short m_usActive;
+    char pad52[0x22];
+    float* m_pfRotationSpeeds;
+};
+
+struct RotationParticleSystem
+{
+    char pad[0xb8];
+    RotationParticleData* m_spModelData;
+};
+
 struct FUN_00c20a00_shell : public NiPSysRotationModifier
 {
     void FUN_00c20a00(NiStream*);
@@ -71,12 +85,11 @@ void FUN_00c20a00_shell::FUN_00c20a00(NiStream* kStream)
     {
         float* pfRotationSpeeds;
         unsigned short us;
-        pfRotationSpeeds = *(float**)((char*)(*(void**)((char*)(*(void**)&this->m_pkTarget) + 0xB8)) + 0x74);
+        RotationParticleData* pkData = reinterpret_cast<RotationParticleSystem*>(m_pkTarget)->m_spModelData;
+        pfRotationSpeeds = pkData->m_pfRotationSpeeds;
         if (pfRotationSpeeds)
         {
-            for (us = 0;
-                 us < *(unsigned short*)((char*)(*(void**)((char*)(*(void**)&this->m_pkTarget) + 0xB8)) + 0x50);
-                 us++)
+            for (us = 0; us < pkData->m_usActive; us++)
                 pfRotationSpeeds[us] = this->m_fInitialRotationSpeed;
         }
     }

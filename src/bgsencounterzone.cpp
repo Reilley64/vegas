@@ -259,7 +259,7 @@ void FUN_00525e70::Save()
     powner = this->Data.m_pOwnerForm;
     if (powner)
     {
-        *(unsigned int*)((char*)this + 0x18) = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((powner))->FUN_0084e3a0()));
+        Data.m_pOwnerForm = reinterpret_cast<TESForm*>(static_cast<std::uintptr_t>(static_cast<unsigned int>(reinterpret_cast<::FUN_0084e3a0_Class *>((powner))->FUN_0084e3a0())));
     }
     if (((bool)(::FUN_00401500())))
         reinterpret_cast<::fnv_00503210::Unk *>(&(Data))->FUN_00503210();
@@ -270,69 +270,31 @@ void FUN_00525e70::Save()
     reinterpret_cast<::Holder *>((reinterpret_cast<S00485680*>(this)))->FUN_00485680();
 }
 
-struct FUN_00526070_shell
+struct FUN_00526070_shell : BGSEncounterZone
 {
-    virtual void v0();
-    virtual void v1();
-    virtual void v2();
-    virtual void v3();
-    virtual void v4();
-    virtual void v5();
-    virtual void v6();
-    virtual void v7();
-    virtual void v8();
-    virtual void v9();
-    virtual void v10();
-    virtual void v11();
-    virtual void v12();
-    virtual void v13();
-    virtual void v14();
-    virtual void v15();
-    virtual void v16();
-    virtual void v17();
-    virtual void v18(unsigned int f);
     void FUN_00526070(unsigned int arg);
 };
 // @fnv 0x00526070
 void FUN_00526070_shell::FUN_00526070(unsigned int arg)
 {
-    *(unsigned int*)((char*)this + 0x20) = arg;
-    v18(0x80000000);
+    GameData.m_uiDetachTime = arg;
+    MarkAsModified(0x80000000);
 }
 
-struct FUN_005260a0_shell
+struct FUN_005260a0_shell : BGSEncounterZone
 {
-    virtual void v0();
-    virtual void v1();
-    virtual void v2();
-    virtual void v3();
-    virtual void v4();
-    virtual void v5();
-    virtual void v6();
-    virtual void v7();
-    virtual void v8();
-    virtual void v9();
-    virtual void v10();
-    virtual void v11();
-    virtual void v12();
-    virtual void v13();
-    virtual void v14();
-    virtual void v15();
-    virtual void v16();
-    virtual void v17();
-    virtual void v18(unsigned int f);
     void FUN_005260a0(unsigned int arg);
 };
 // @fnv 0x005260a0
 void FUN_005260a0_shell::FUN_005260a0(unsigned int uiValue)
 {
-    *(unsigned int*)((char*)this + 0x24) = uiValue;
-    if (*(unsigned int*)((char*)this + 0x20) != 0)
+    GameData.m_uiFirstValueAfterDetachTime = uiValue;
+    if (GameData.m_uiDetachTime != 0)
     {
-        if (*(unsigned int*)((char*)this + 0x24) - *(unsigned int*)((char*)this + 0x20) > ((unsigned int)(::fnv_00526100::FUN_00526100())))
-            *(unsigned int*)((char*)this + 0x28) = uiValue;
+        if (GameData.m_uiFirstValueAfterDetachTime - GameData.m_uiDetachTime > ((unsigned int)(::fnv_00526100::FUN_00526100())))
+            GameData.DetachTimeRecord = uiValue;
     }
-    v18(0x80000000);
+    MarkAsModified(0x80000000);
 }
 
 namespace fnv_00526100 {
@@ -353,50 +315,31 @@ struct FUN_00546af0_shell
 {
     unsigned int FUN_00546af0();
 };
-struct FUN_00526120_shell
+struct FUN_00526120_shell : BGSEncounterZone
 {
     bool FUN_00526120(FUN_00546af0_shell* other);
 };
-// Returns false if the value at offset 0x28 is zero, otherwise returns whether other's FUN_00546af0() result is below that value.
+// Returns false if the detach time record is zero, otherwise returns whether other's FUN_00546af0() result is below it.
 // @fnv 0x00526120
 bool FUN_00526120_shell::FUN_00526120(FUN_00546af0_shell* other)
 {
-    if (*(unsigned int*)((char*)this + 0x28) == 0)
+    if (GameData.DetachTimeRecord == 0)
         return false;
     unsigned int v = other->FUN_00546af0();
-    if (v < *(unsigned int*)((char*)this + 0x28))
+    if (v < GameData.DetachTimeRecord)
         return true;
     return false;
 }
 
-struct FUN_00526160_shell
+struct FUN_00526160_shell : BGSEncounterZone
 {
-    virtual void v0();
-    virtual void v1();
-    virtual void v2();
-    virtual void v3();
-    virtual void v4();
-    virtual void v5();
-    virtual void v6();
-    virtual void v7();
-    virtual void v8();
-    virtual void v9();
-    virtual void v10();
-    virtual void v11();
-    virtual void v12();
-    virtual void v13();
-    virtual void v14();
-    virtual void v15();
-    virtual void v16();
-    virtual void v17();
-    virtual void v18(unsigned int f);
     void FUN_00526160(unsigned short arg);
 };
 // @fnv 0x00526160
 void FUN_00526160_shell::FUN_00526160(unsigned short arg)
 {
-    *(unsigned short*)((char*)this + 0x2c) = arg;
-    v18(0x80000000);
+    GameData.m_usDetachRecordValue = arg;
+    MarkAsModified(0x80000000);
 }
 
 struct FUN_00526160_s
@@ -452,14 +395,14 @@ bool FUN_005262a0(BGSEncounterZone* apZone)
     return result;
 }
 
-struct FUN_00526320_shell
+struct FUN_00526320_shell : BGSEncounterZone
 {
     bool FUN_00526320();
 };
 // @fnv 0x00526320
 bool FUN_00526320_shell::FUN_00526320()
 {
-    return (*(signed char*)((char*)this + 0x1e) & 1) ? true : false;
+    return (Data.cFlags & 1) ? true : false;
 }
 
 struct FormChangeMask

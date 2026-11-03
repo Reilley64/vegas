@@ -385,16 +385,14 @@ void __cdecl FUN_00407a90(short* psValue)
     *tmp = fnv::crt::byteswap_ushort(*tmp);
 }
 
-struct FUN_00408550_Cls
+struct FUN_00408550_Cls : public EffectSetting
 {
-    char _pad[0x6C];
-    short _v;
     int GetShortValue();
 };
 // @fnv 0x00408550
 int FUN_00408550_Cls::GetShortValue()
 {
-    return _v;
+    return data.m_sCounterEffectCount;
 }
 
 struct S3e60
@@ -411,60 +409,56 @@ int S86a0::FUN_004086a0()
     return (((S3e60*)this)->FUN_00403e60(0x2000000) ? 2 : 0) + (((S3e60*)this)->FUN_00403e60(0x4000000) ? 1 : 0);
 }
 
-struct Unk00408730
+struct Unk00408730 : public EffectSetting
 {
     int ClampCounterTowardZero();
 };
-// Steps the int at offset 0xAC one unit toward zero and returns the resulting value.
+// Steps m_iEffectID one unit toward zero and returns the resulting value.
 // @fnv 0x00408730
 int Unk00408730::ClampCounterTowardZero()
 {
-    if (*(int*)((char*)this + 0xAC) < 0)
-        *(int*)((char*)this + 0xAC) = *(int*)((char*)this + 0xAC) + 1;
-    else if (*(int*)((char*)this + 0xAC) > 0)
-        *(int*)((char*)this + 0xAC) = *(int*)((char*)this + 0xAC) - 1;
-    return *(int*)((char*)this + 0xAC);
+    if (m_iEffectID < 0)
+        m_iEffectID = m_iEffectID + 1;
+    else if (m_iEffectID > 0)
+        m_iEffectID = m_iEffectID - 1;
+    return m_iEffectID;
 }
 
-struct FUN_004087e0_Shell
+struct FUN_004087e0_Shell : public EffectSetting
 {
     int FUN_004087e0();
 };
-// Converts the int at offset 0xac to float, passes it to FUN_00408820, stores the result back at 0xac and returns it.
+// Converts m_iEffectID to float, passes it to FUN_00408820, stores the result back and returns it.
 // @fnv 0x004087e0
 int FUN_004087e0_Shell::FUN_004087e0()
 {
-    *(int*)((char*)this + 0xac) = (int)FUN_00408820((float)*(int*)((char*)this + 0xac));
-    return *(int*)((char*)this + 0xac);
+    m_iEffectID = (int)FUN_00408820((float)m_iEffectID);
+    return m_iEffectID;
 }
 
-struct Holder00408910
+struct Holder00408910 : public EffectSetting
 {
-    char pad[0xA8];
-    int valA8;
     int StepTowardZero();
 };
-// Moves valA8 one step toward zero (increments if negative, decrements if positive) and returns it.
+// Moves m_iActorValue one step toward zero (increments if negative, decrements if positive) and returns it.
 // @fnv 0x00408910
 int Holder00408910::StepTowardZero()
 {
-    if (valA8 < 0)
-        valA8++;
-    else if (valA8 > 0)
-        valA8--;
-    return valA8;
+    if (m_iActorValue < 0)
+        m_iActorValue++;
+    else if (m_iActorValue > 0)
+        m_iActorValue--;
+    return m_iActorValue;
 }
 
-struct FUN_00408a00_Struct
+struct FUN_00408a00_Struct : public EffectSetting
 {
-    int _pad[42];
-    int _val;
     bool IsPositive();
 };
 // @fnv 0x00408a00
 bool FUN_00408a00_Struct::IsPositive()
 {
-    return _val > 0;
+    return m_iActorValue > 0;
 }
 
 struct Dummy00501c30
@@ -638,7 +632,7 @@ void FUN_00407600_class::CopyFromEffectSetting(TESForm* apCopy)
 }
 
 
-struct EndianSwappableData
+struct EndianSwappableData : EffectSetting__EffectSettingData
 {
     void SwapEndianFields();
 };
@@ -713,28 +707,28 @@ bool EffectSetting::Load(TESFile* file)
     return true;
 }
 
-// Byte-swaps the 4-byte fields at offsets 0x00-0x40 and the 2-byte field at 0x14 of this object via BSEndian.
+// Byte-swaps each field of the effect data via BSEndian; for the form fields this swaps the form ID that Load leaves in them.
 // @fnv 0x004078c0
 void EndianSwappableData::SwapEndianFields()
 {
-    ::FUN_00401080((int *)(unsigned int *)((unsigned int*)((unsigned char*)this + 0x00)));
-    ::FUN_00401080((int *)(unsigned int *)((unsigned int*)((unsigned char*)this + 0x04)));
-    ::FUN_00401080((int *)(unsigned int *)((unsigned int*)((unsigned char*)this + 0x44)));
-    ::FUN_00401080((int *)(unsigned int *)((unsigned int*)((unsigned char*)this + 0x08)));
-    ::FUN_00401080((int *)(unsigned int *)((unsigned int*)((unsigned char*)this + 0x0C)));
-    ::FUN_00401080((int *)(unsigned int *)((unsigned int*)((unsigned char*)this + 0x10)));
-    ::FUN_00407a90((short *)(unsigned int *)((unsigned int*)((unsigned char*)this + 0x14)));
-    ::FUN_00401080((int *)(unsigned int *)((unsigned int*)((unsigned char*)this + 0x18)));
-    ::FUN_00401080((int *)(unsigned int *)((unsigned int*)((unsigned char*)this + 0x1C)));
-    ::FUN_00401080((int *)(unsigned int *)((unsigned int*)((unsigned char*)this + 0x20)));
-    ::FUN_00401080((int *)(unsigned int *)((unsigned int*)((unsigned char*)this + 0x24)));
-    ::FUN_00401080((int *)(unsigned int *)((unsigned int*)((unsigned char*)this + 0x28)));
-    ::FUN_00401080((int *)(unsigned int *)((unsigned int*)((unsigned char*)this + 0x2C)));
-    ::FUN_00401080((int *)(unsigned int *)((unsigned int*)((unsigned char*)this + 0x30)));
-    ::FUN_00401080((int *)(unsigned int *)((unsigned int*)((unsigned char*)this + 0x34)));
-    ::FUN_00401080((int *)(unsigned int *)((unsigned int*)((unsigned char*)this + 0x38)));
-    ::FUN_00401080((int *)(unsigned int *)((unsigned int*)((unsigned char*)this + 0x3C)));
-    ::FUN_00401080((int *)(unsigned int *)((unsigned int*)((unsigned char*)this + 0x40)));
+    ::FUN_00401080((int *)&iFlags);
+    ::FUN_00401080((int *)&m_fBaseCost);
+    ::FUN_00401080((int *)&m_iAssociatedActorValue);
+    ::FUN_00401080((int *)&m_pAssociatedForm);
+    ::FUN_00401080((int *)&m_iAssociatedSkill);
+    ::FUN_00401080((int *)&m_iResistanceActorValue);
+    ::FUN_00407a90((short *)&m_sCounterEffectCount);
+    ::FUN_00401080((int *)&apTargetLight);
+    ::FUN_00401080((int *)&fSpeed);
+    ::FUN_00401080((int *)&m_pEffectShader);
+    ::FUN_00401080((int *)&m_pEnchantEffectShader);
+    ::FUN_00401080((int *)&m_pCastSound);
+    ::FUN_00401080((int *)&m_pBoltSound);
+    ::FUN_00401080((int *)&m_pContactSound);
+    ::FUN_00401080((int *)&m_pAreaEffectSound);
+    ::FUN_00401080((int *)&m_fEnchantmentFactor);
+    ::FUN_00401080((int *)&m_fBarterFactor);
+    ::FUN_00401080((int *)&m_eEffectTypeItem);
 }
 
 struct EffectSettingList : public BSSimpleList<EffectSetting*>
@@ -805,10 +799,8 @@ void FUN_00408600_class::CopyValuesFromList(void* pSourceList)
 struct ListT
 {
 };
-struct EffT
+struct EffT : public EffectSetting
 {
-    char pad00[0xa0];
-    ListT m_a0;
     bool IsDifferentFrom(void* param);
 };
 
@@ -829,8 +821,8 @@ bool EffT::IsDifferentFrom(void* pObject)
         (reinterpret_cast<::EffectSetting *>(this)->GetHitSound()) != (reinterpret_cast<::EffectSetting *>((other))->GetHitSound()) || (reinterpret_cast<::FUN_008ce390_shell *>(this)->FUN_008ce390()) != (reinterpret_cast<::FUN_008ce390_shell *>((other))->FUN_008ce390()) ||
         reinterpret_cast<::FUN_00408550_Cls *>(this)->GetShortValue() != reinterpret_cast<::FUN_00408550_Cls *>((other))->GetShortValue() || reinterpret_cast<::EffectSetting *>(this)->GetArchetype() != reinterpret_cast<::EffectSetting *>((other))->GetArchetype())
         return 1;
-    ListT* pa4 = &m_a0;
-    ListT* pbX = &other->m_a0;
+    ListT* pa4 = reinterpret_cast<ListT*>(&counterEffects);
+    ListT* pbX = reinterpret_cast<ListT*>(&other->counterEffects);
     while (pa4 && pbX)
     {
         EffectSetting* av = *((EffectSetting **)(new ((void *)(pa4)) ::Vec3()));

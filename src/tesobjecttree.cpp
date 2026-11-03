@@ -292,17 +292,18 @@ const char* const* FUN_0051d1b0_shell::GetArg1Ptr()
 
 struct FUN_0051d400_shell
 {
+    char pad[0x14];
+    void* m_pSecondBuffer;
+    void* m_pFirstBuffer;
     void FUN_0051d400();
 };
 
-// Frees the two pointers stored at offsets 0x14 and 0x18 of this object via Deallocate.
+// Frees the object's two buffers via Deallocate.
 // @fnv 0x0051d400
 void FUN_0051d400_shell::FUN_0051d400()
 {
-    void* p2 = *(void**)((char*)this + 0x14);
-    ::FUN_00401030(p2);
-    void* p1 = *(void**)((char*)this + 0x18);
-    ::FUN_00401030(p1);
+    ::FUN_00401030(m_pSecondBuffer);
+    ::FUN_00401030(m_pFirstBuffer);
 }
 
 struct ProcessLists
@@ -323,24 +324,28 @@ unsigned char GetFirstProcessListByte()
 
 struct FUN_006447b0_shell
 {
+    char pad[0x84];
+    float m_f84;
     float GetField84Float();
 };
 
 // @fnv 0x006447b0
 float FUN_006447b0_shell::GetField84Float()
 {
-    return *reinterpret_cast<float*>(this + 0x84);
+    return m_f84;
 }
 
 struct BGSImpactData
 {
+    char pad[0x38];
+    float m_fAngleThreshold;
     float FUN_009a9350() const;
 };
 
 // @fnv 0x009a9350
 float BGSImpactData::FUN_009a9350() const
 {
-    return *(const float*)((const char*)this + 0x38);
+    return m_fAngleThreshold;
 }
 
 struct FUN_009acce0_shell
@@ -398,20 +403,20 @@ struct Arr
 };
 
 
-struct FUN_0051c360_shell
+struct FUN_0051c360_shell : TESObjectTREE
 {
     unsigned int FUN_0051c360();
 };
 
-// Returns a random element from the Arr at offset 0x5c, or 0 when that Arr is empty.
+// Returns a random element from the seed array, or 0 when that array is empty.
 // @fnv 0x0051c360
 unsigned int FUN_0051c360_shell::FUN_0051c360()
 {
-    unsigned int index = reinterpret_cast<::FUN_00658930_class *>((reinterpret_cast<Arr*>(reinterpret_cast<char*>(this) + 0x5c)))->GetShortAtOffsetA();
+    unsigned int index = reinterpret_cast<::FUN_00658930_class *>(&m_kSeedArray)->GetShortAtOffsetA();
     if (!index)
         return 0;
     unsigned int size = DialogueRandom() % index;
-    return *reinterpret_cast<Arr*>(reinterpret_cast<char*>(this) + 0x5c)->GetAt(size);
+    return *reinterpret_cast<Arr*>(&m_kSeedArray)->GetAt(size);
 }
 
 namespace fnv_0051d220 {
@@ -439,34 +444,38 @@ void* FUN_0051d220_shell::DestroyAndFree(unsigned int flags)
 
 struct FUN_00821600_shell
 {
+    char pad[0x78];
+    float m_f78;
     void FUN_00821600(float value);
 };
 
 // @fnv 0x00821600
 void FUN_00821600_shell::FUN_00821600(float value)
 {
-    *(float*)((char*)this + 0x78) = value;
+    m_f78 = value;
 }
 
 struct NiMemObject;
 struct FUN_009b0900_shell
 {
+    char pad[0xe0];
+    unsigned int m_uiE0;
     unsigned int GetFieldE0();
 };
 // @fnv 0x009b0900
 unsigned int FUN_009b0900_shell::GetFieldE0()
 {
-    return *(unsigned int*)((char*)this + 0xe0);
+    return m_uiE0;
 }
 
-struct FUN_0051b8a0_shell
+struct FUN_0051b8a0_shell : TESObjectTREE
 {
     void FUN_0051b8a0(float f);
 };
 // @fnv 0x0051b8a0
 void FUN_0051b8a0_shell::FUN_0051b8a0(float afValue)
 {
-    *(int*)((char*)this + 0x80) = (int)afValue;
+    Data.m_iShadowRadius = (int)afValue;
 }
 
 struct S_0051b900
@@ -509,20 +518,18 @@ struct Arr
     unsigned int GetSize();
     unsigned int* GetAt(int);
 };
-struct Holder
+struct Holder : TESObjectTREE
 {
-    char _pad[0x5c];
-    Arr arr;
     unsigned char FindIndex(unsigned int aiIndex);
 };
-// Searches arr for the first element equal to aiIndex and returns its index, or 0xff if not found.
+// Searches the seed array for the first element equal to aiIndex and returns its index, or 0xff if not found.
 // @fnv 0x0051ba90
 unsigned char Holder::FindIndex(unsigned int aiIndex)
 {
     unsigned char idx = 0xff;
-    for (unsigned int uiIndex = 0; uiIndex < reinterpret_cast<::FUN_00658930_class *>(&(arr))->GetShortAtOffsetA(); ++uiIndex)
+    for (unsigned int uiIndex = 0; uiIndex < reinterpret_cast<::FUN_00658930_class *>(&m_kSeedArray)->GetShortAtOffsetA(); ++uiIndex)
     {
-        if (*arr.GetAt(uiIndex) == aiIndex)
+        if (*reinterpret_cast<Arr*>(&m_kSeedArray)->GetAt(uiIndex) == aiIndex)
         {
             idx = uiIndex;
             break;
@@ -713,7 +720,7 @@ struct FUN_0051baf0_shell
     virtual void v61();
     virtual void v62();
     virtual void v63();
-    virtual void v64();
+    virtual unsigned int v64();
     virtual void v65();
     virtual void v66();
     virtual void v67();
@@ -971,15 +978,16 @@ struct FUN_0051baf0_shell
 unsigned int FUN_0051baf0_shell::GetEntryByIndex(unsigned char index)
 {
     unsigned int result;
-    if (index == 0xFF || !reinterpret_cast<::FUN_00658930_class *>((((Arr*)((char*)this + 0x5c))))->GetShortAtOffsetA())
+    Arr* pSeeds = reinterpret_cast<Arr*>(&reinterpret_cast<TESObjectTREE*>(this)->m_kSeedArray);
+    if (index == 0xFF || !reinterpret_cast<::FUN_00658930_class *>(pSeeds)->GetShortAtOffsetA())
     {
-        result = ((unsigned int(*)(void*))(*(void***)(this))[0x190 / 4])(this);
+        result = v64();
     }
     else
     {
-        if (index >= reinterpret_cast<::FUN_00658930_class *>((((Arr*)((char*)this + 0x5c))))->GetShortAtOffsetA())
-            index = index % reinterpret_cast<::FUN_00658930_class *>((((Arr*)((char*)this + 0x5c))))->GetShortAtOffsetA();
-        result = *((Arr*)((char*)this + 0x5c))->GetAt(index);
+        if (index >= reinterpret_cast<::FUN_00658930_class *>(pSeeds)->GetShortAtOffsetA())
+            index = index % reinterpret_cast<::FUN_00658930_class *>(pSeeds)->GetShortAtOffsetA();
+        result = *pSeeds->GetAt(index);
     }
     return result;
 }

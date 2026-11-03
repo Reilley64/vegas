@@ -183,7 +183,7 @@ struct FUN_006fca40
 struct FUN_006fd7b0
 {
 };
-struct FUN_006fd750
+struct FUN_006fd750 : BGSTerrainNode
 {
     void Unload();
 };
@@ -289,10 +289,6 @@ NiObj* FUN_006fe280_shell::GetNiObj(bool abNull)
     return (abNull ? GO(0) : m);
 }
 
-struct FUN_006ff0a0
-{
-    bool Chk(int idx);
-};
 struct Ent
 {
     int a;
@@ -301,11 +297,17 @@ struct Ent
     int d;
     int e;
 };
-// Returns true when the Ent at index idx in the array at this+0xc4 has a null b pointer.
+struct FUN_006ff0a0
+{
+    char pad[0xc4];
+    Ent* m_pEntries;
+    bool Chk(int idx);
+};
+// Returns true when the entry at index idx has a null b pointer.
 // @fnv 0x006ff0a0
 bool FUN_006ff0a0::Chk(int aiIndex)
 {
-    return (*(Ent**)((char*)this + 0xc4))[aiIndex].b == 0;
+    return m_pEntries[aiIndex].b == 0;
 }
 
 struct NiPoint2
@@ -722,14 +724,14 @@ struct FUN_006fd7b0_Owner
 
     void FUN_006fd7b0(unsigned int auiFlags);
 };
-// Calls Go(7), then for each of the four pointers at offset 0x20 calls Del(1) on the non-null ones.
+// Calls Go(7), then calls Del(1) on each non-null child node.
 // @fnv 0x006fd750
 void FUN_006fd750::Unload()
 {
     reinterpret_cast<::FUN_006fd7b0_Owner *>((((FUN_006fd7b0*)this)))->FUN_006fd7b0(7);
     for (int i = 0; i < 4; i++)
     {
-        FUN_006fca40* c = ((FUN_006fca40**)((char*)this + 0x20))[i];
+        FUN_006fca40* c = reinterpret_cast<FUN_006fca40*>(pChildren[i]);
         FUN_006fca40* p = c;
         p ? reinterpret_cast<::FUN_006fca40_Class *>((p))->FUN_006fca40(1) : 0;
     }

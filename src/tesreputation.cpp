@@ -207,7 +207,7 @@ struct BGSLoadFormBuffer
 {
 };
 
-struct FUN_006166a0_shell : public TESForm
+struct FUN_006166a0_shell : public TESReputation
 {
     void FUN_006166a0(BGSLoadFormBuffer* buffer);
 };
@@ -216,50 +216,38 @@ struct FUN_006166a0_shell : public TESForm
 void FUN_006166a0_shell::FUN_006166a0(BGSLoadFormBuffer* buffer)
 {
     TESForm::LoadGame(buffer);
-    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)this + 0x44), 4);
-    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)this + 0x48), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_fFirstReputationValue), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_fSecondReputationValue), 4);
 }
 
 struct FUN_00615480_shell
 {
     void* FUN_00615480(unsigned int);
 };
-struct FUN_004855a0
-{
-};
-struct S_00487010
-{
-};
-struct FUN_0048e370_obj
-{
-};
 struct FUN_0047a240_shell
 {
     void FUN_0047a240(unsigned int);
 };
-struct FUN_00485e00_shell
-{
-};
 struct FUN_00485680
 {
 };
-struct FUN_00616470_shell : public FUN_004855a0
+struct FUN_00616470_shell : public TESReputation
 {
     void FUN_00616470(void);
 };
 // @fnv 0x00616470
 void FUN_00616470_shell::FUN_00616470()
 {
-    reinterpret_cast<::fnv_004855a0::ArrSI *>(this)->FUN_004855a0();
-    reinterpret_cast<::FUN_00487010_shell *>((((S_00487010*)((char*)this + 0x18))))->FUN_00487010();
-    reinterpret_cast<::fnv_0048e370::FUN_0048e370_shell *>((((FUN_0048e370_obj*)((char*)this + 0x24))))->FUN_0048e370(0x4e4f4349);
-    ((FUN_0047a240_shell*)((char*)this + 0x30))->FUN_0047a240(0x4f43494d);
+    reinterpret_cast<::fnv_004855a0::ArrSI *>(static_cast<TESForm*>(this))->FUN_004855a0();
+    reinterpret_cast<::FUN_00487010_shell *>(static_cast<TESFullName*>(this))->FUN_00487010();
+    reinterpret_cast<::fnv_0048e370::FUN_0048e370_shell *>(static_cast<TESIcon*>(this))->FUN_0048e370(0x4e4f4349);
+    reinterpret_cast<FUN_0047a240_shell*>(static_cast<BGSMessageIcon*>(this))->FUN_0047a240(0x4f43494d);
     if (FUN_00401500())
-        reinterpret_cast<::fnv_00503210::Unk *>((((ReputationLimitData*)((char*)this + 0x40))))->FUN_00503210();
-    reinterpret_cast<::SDSaveForm *>((((FUN_00485e00_shell*)this)))->FUN_00485e20((const void *)((char*)this + 0x40), 4);
+        reinterpret_cast<::fnv_00503210::Unk *>(&data)->FUN_00503210();
+    reinterpret_cast<::SDSaveForm *>(static_cast<TESForm*>(this))->FUN_00485e20(&data, 4);
     if (FUN_00401500())
-        reinterpret_cast<::fnv_00503210::Unk *>((((ReputationLimitData*)((char*)this + 0x40))))->FUN_00503210();
-    reinterpret_cast<::Holder *>((((FUN_00485680*)this)))->FUN_00485680();
+        reinterpret_cast<::fnv_00503210::Unk *>(&data)->FUN_00503210();
+    reinterpret_cast<::Holder *>(static_cast<TESForm*>(this))->FUN_00485680();
 }
 
 struct FUN_00615580_shell
@@ -329,9 +317,6 @@ struct StartMenu
     const char* GetMenuTitle(void);
 };
 
-struct TutorialState
-{
-};
 
 struct FUN_006155f0_shell
 {
@@ -790,6 +775,12 @@ class GlobalObject_0040c150 : public SettingT_GameSettingCollection_
 public:
     const char *FUN_006167d0();
 };
+struct InterfaceManagerTutorialView
+{
+    char pad[0x4d4];
+    ::TutorialMessageGate718 m_kTutorialGate;
+};
+
 // @fnv 0x006155f0
 void FUN_006155f0_shell::ShowMessageBox(void)
 {
@@ -797,7 +788,7 @@ void FUN_006155f0_shell::ShowMessageBox(void)
 
     ::FUN_00406d00(buffer, 0x200, "%s\n%s", reinterpret_cast<::TESReputation *>(this)->FUN_00616710(), reinterpret_cast<::B616890Menu *>(this)->GetSelectedSettingString());
 
-    reinterpret_cast<::TutorialMessageGate718 *>((reinterpret_cast<TutorialState*>(reinterpret_cast<unsigned char*>(((unsigned char *)(::fnv_004b7210::FUN_004b7210()))) + 0x4d4)))->FUN_00718630(0x27, 0, 0x1f4);
+    reinterpret_cast<InterfaceManagerTutorialView*>(::fnv_004b7210::FUN_004b7210())->m_kTutorialGate.FUN_00718630(0x27, 0, 0x1f4);
 
     if (mField_4c == 1)
     {

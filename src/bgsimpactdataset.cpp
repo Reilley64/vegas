@@ -226,13 +226,7 @@ void* FUN_0058e890::DeleteThis(unsigned int flags)
 FUN_0058e8c0::~FUN_0058e8c0()
 {}
 
-struct FUN_004855a0
-{
-};
-struct FUN_00485680
-{
-};
-struct FUN_0058ed50
+struct FUN_0058ed50 : BGSImpactDataSet
 {
     void Save();
 };
@@ -241,30 +235,30 @@ void FUN_0058ed50::Save()
 {
     int iIndex;
     unsigned int auiFormIDs[12];
-    reinterpret_cast<::fnv_004855a0::ArrSI *>((((FUN_004855a0*)this)))->FUN_004855a0();
+    reinterpret_cast<::fnv_004855a0::ArrSI *>(static_cast<TESForm*>(this))->FUN_004855a0();
     for (iIndex = 0; iIndex < 12; iIndex++)
     {
-        if (((TESForm**)((char*)this + 0x1c))[iIndex])
-            auiFormIDs[iIndex] = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((TESForm**)((char*)this + 0x1c))[iIndex]))->FUN_0084e3a0()));
+        if (m_apImpactData[iIndex])
+            auiFormIDs[iIndex] = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(m_apImpactData[iIndex])->FUN_0084e3a0()));
         else
             auiFormIDs[iIndex] = 0;
     }
     ::FUN_00485710((void *)(0x41544144), auiFormIDs, (void *)(12));
-    reinterpret_cast<::Holder *>((((FUN_00485680*)this)))->FUN_00485680();
+    reinterpret_cast<::Holder *>(static_cast<TESForm*>(this))->FUN_00485680();
 }
 
 struct FUN_0058efd0
 {
-    char a[0x30];
-    char b[0x12c];
+    void* m_pData[12];
+    unsigned char m_aucIMPFData[300];
     FUN_0058efd0();
 };
-// Zero-initializes the two embedded buffers a and b of the object.
+// Zero-initializes the twelve map slots and the IMPF data of the object.
 // @fnv 0x0058efd0
 FUN_0058efd0::FUN_0058efd0()
 {
-    memset(a, 0, sizeof(a));
-    memset(b, 0, sizeof(b));
+    memset(m_pData, 0, sizeof(m_pData));
+    memset(m_aucIMPFData, 0, sizeof(m_aucIMPFData));
 }
 
 struct FUN_0058f010_Item
@@ -297,6 +291,7 @@ struct MapX
 struct FUN_0058f080
 {
     MapX* m_pData[12];
+    unsigned char m_aucIMPFData[300];
     void Save();
 };
 // @fnv 0x0058f080
@@ -326,7 +321,7 @@ void FUN_0058f080::Save()
             }
         }
     }
-    ::FUN_004856f0((void *)(0x46504d49), (char*)this + 0x30, (void *)(300));
+    ::FUN_004856f0((void *)(0x46504d49), m_aucIMPFData, (void *)(300));
 }
 
 namespace fnv_0058f180 {
@@ -345,9 +340,11 @@ struct FUN_0058f740
 };
 struct FUN_0058f180
 {
+    void* m_pData[12];
+    unsigned char m_aucIMPFData[300];
     void Load(TESFile* apFile);
 };
-// Reads an IMPS chunk into a ContainerItemExtraFileData, byte-swaps it, and adds its three values; an IMPF chunk is read directly into the object at offset 0x30.
+// Reads an IMPS chunk into a ContainerItemExtraFileData, byte-swaps it, and adds its three values; an IMPF chunk is read directly into the IMPF data.
 // @fnv 0x0058f180
 void FUN_0058f180::Load(TESFile* apFile)
 {
@@ -362,7 +359,7 @@ void FUN_0058f180::Load(TESFile* apFile)
         ((FUN_0058f740*)this)->Add(data.a, data.b, data.c);
         break;
     case 0x46504d49:
-        reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((apFile))->FUN_00472890((char *)(void *)((char*)this + 0x30), 300);
+        reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((apFile))->FUN_00472890((char *)(m_aucIMPFData), 300);
         break;
     }
 }
@@ -452,6 +449,8 @@ struct NiTMap
 
 struct FUN_0058f5c0_shell
 {
+    MapX* m_pData[12];
+    unsigned char m_aucIMPFData[300];
     bool IsImpactSwapDifferent(ImpactSwap* apSwap);
 };
 
@@ -463,18 +462,19 @@ bool FUN_0058f5c0_shell::IsImpactSwapDifferent(ImpactSwap* apSwap)
 
     if (!apSwap)
         return true;
+    FUN_0058f5c0_shell* other = reinterpret_cast<FUN_0058f5c0_shell*>(apSwap);
 
     for (i = 0; i < 12; ++i)
     {
-        if (reinterpret_cast<MapX**>(this)[i] && reinterpret_cast<MapX**>(apSwap)[i])
+        if (m_pData[i] && other->m_pData[i])
         {
             void* iter;
 
-            if (((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<TESForm*>(reinterpret_cast<MapX**>(this)[i])))->FUN_0084e3a0())) !=
-                ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<TESForm*>(reinterpret_cast<MapX**>(apSwap)[i])))->FUN_0084e3a0())))
+            if (((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<TESForm*>(m_pData[i])))->FUN_0084e3a0())) !=
+                ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<TESForm*>(other->m_pData[i])))->FUN_0084e3a0())))
                 return true;
 
-            iter = reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>((reinterpret_cast<MapX**>(this)[i]))->GetFirstPos();
+            iter = reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>((m_pData[i]))->GetFirstPos();
             while (iter)
             {
                 BGSImpactData* pnewdata;
@@ -483,21 +483,20 @@ bool FUN_0058f5c0_shell::IsImpactSwapDifferent(ImpactSwap* apSwap)
 
                     pnewdata = 0;
                     polddata = 0;
-                    reinterpret_cast<::C6b7f20_Map *>((reinterpret_cast<NiTMap*>(reinterpret_cast<MapX**>(this)[i])))->FUN_006b7f20((::C6b7f20_Node **)&(iter), (unsigned int *)&(reinterpret_cast<unsigned int&>(pnewdata)), (void **)&(reinterpret_cast<void*&>(polddata)));
+                    reinterpret_cast<::C6b7f20_Map *>((reinterpret_cast<NiTMap*>(m_pData[i])))->FUN_006b7f20((::C6b7f20_Node **)&(iter), (unsigned int *)&(reinterpret_cast<unsigned int&>(pnewdata)), (void **)&(reinterpret_cast<void*&>(polddata)));
 
                     if (reinterpret_cast<::FUN_0058f6f0 *>((apSwap))->Get(i, pnewdata) != polddata)
                         return true;
                 }
             }
         }
-        else if (reinterpret_cast<MapX**>(this)[i] || reinterpret_cast<MapX**>(apSwap)[i])
+        else if (m_pData[i] || other->m_pData[i])
         {
             return true;
         }
     }
 
-    if (std::memcmp(reinterpret_cast<const void*>(reinterpret_cast<const char*>(this) + 0x30),
-                reinterpret_cast<const void*>(reinterpret_cast<const char*>(apSwap) + 0x30), 0x12c) != 0)
+    if (std::memcmp(m_aucIMPFData, other->m_aucIMPFData, sizeof(m_aucIMPFData)) != 0)
         return true;
 
     return false;
@@ -702,9 +701,10 @@ bool BGSImpactDataSet_Cmp::FUN_0058eb90(TESForm* apCompare)
 struct ImpactSwapMaps
 {
     MapX* m_pData[12];
+    unsigned char m_aucIMPFData[300];
     void FUN_0058f4c0(ImpactSwapMaps* apSwap);
 };
-// Deletes this object's 12 map entries, adds entries from apSwap's maps, then copies 300 bytes from offset 0x30.
+// Deletes this object's 12 map entries, adds entries from apSwap's maps, then copies its IMPF data.
 // @fnv 0x0058f4c0
 void ImpactSwapMaps::FUN_0058f4c0(ImpactSwapMaps* apSwap)
 {
@@ -728,7 +728,7 @@ void ImpactSwapMaps::FUN_0058f4c0(ImpactSwapMaps* apSwap)
             }
         }
     }
-    memcpy((char*)this + 0x30, (char*)apSwap + 0x30, 300);
+    memcpy(m_aucIMPFData, apSwap->m_aucIMPFData, sizeof(m_aucIMPFData));
 }
 
 #include "generated/data/bgsimpactdataset.inc"

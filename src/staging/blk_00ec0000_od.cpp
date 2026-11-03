@@ -3,6 +3,11 @@
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
 #include <windows.h>
+#include <windows.h>
+#include "fnv/decl/MapOwnerStandIn.h"
+#include "fnv/symbols_01012000.h"
+#include "fnv/symbols_01063000.h"
+#include "fnv/symbols_01272000.h"
 #include <cstdint>
 #include <cstring>
 #include "runtime/crt.h"
@@ -29,13 +34,23 @@
 #include "fnv/symbols_0126f000.h"
 #include "../../include/layout_support.h"
 
+struct MoviePlayerA;
+class NiTStringMapCopy;
+namespace fnv_00ec15e0 {
+class BSMoviePlayer;
+static void BSMoviePlayer_Destroy(BSMoviePlayer* player);
+}
+static void MoviePlayerA_Load(MoviePlayerA* player, const char* list);
+static void NiTStringMapCopy_Destroy(NiTStringMapCopy* map);
+
+
 struct BGSMoviePlayer
 {
 };
 // @fnv 0x00ec16b0
-int FUN_00ec16b0(int a)
+DWORD WINAPI FUN_00ec16b0(LPVOID a)
 {
-    reinterpret_cast<::MoviePlayerA *>((::DAT_0126fac4))->FUN_00ec2760((const char *)(a));
+    MoviePlayerA_Load(reinterpret_cast<MoviePlayerA*>(::DAT_0126fac4), static_cast<const char*>(a));
     return 0;
 }
 
@@ -185,7 +200,7 @@ struct FUN_00ec19d0_class
 // @fnv 0x00ec19d0
 void* FUN_00ec19d0_class::FUN_00ec19d0(unsigned int flags)
 {
-    reinterpret_cast<::fnv_00ec15e0::BSMoviePlayer *>((((FUN_00ec15e0_shell*)this)))->fnv_00ec15e0::BSMoviePlayer::~BSMoviePlayer();
+    ::fnv_00ec15e0::BSMoviePlayer_Destroy(reinterpret_cast<::fnv_00ec15e0::BSMoviePlayer *>(this));
     if (flags & 1)
         reinterpret_cast<::FNV_MemoryManager *>((((MemoryManager*)&(*reinterpret_cast<::P03MM *>(&::g_memoryManager)))))->FUN_00aa4060(this);
     return this;
@@ -483,7 +498,7 @@ void FUN_00ec1d30_Class::FUN_00ec1d30()
     int f;
     int g;
     m_ppVirtualMethodTable = (int)&DAT_010f1c20;
-    reinterpret_cast<::NiTStringMapCopy *>(this)->NiTStringMapCopy::~NiTStringMapCopy();
+    NiTStringMapCopy_Destroy(reinterpret_cast<::NiTStringMapCopy *>(this));
 }
 
 struct FUN_00ec0460_cls
@@ -818,7 +833,7 @@ void BEC16D0MoviePlayerThread::FUN_00ec16d0(void* pvParam, bool bFlag22, int iPr
                                             float fValue28)
 {
     unsigned long ulThreadId3;
-    m_hThread = CreateThread(0, 0, (unsigned long(*)(void*))FUN_00ec16b0, pvParam, 4, &ulThreadId3);
+    m_hThread = CreateThread(0, 0, FUN_00ec16b0, pvParam, 4, &ulThreadId3);
     ::SetDebuggerThreadName(ulThreadId3, "MoviePlayer");
     m_bFlag22 = bFlag22;
     m_bFlag23 = bFlag23;
@@ -906,7 +921,7 @@ FUN_00ec1ee0_cls* FUN_00ec1ee0_cls::FUN_00ec1ee0(unsigned int auiFlags)
 {
     FUN_00ec1ee0_frame frame;
     m_vptr = (int)&::DAT_010f1c20;
-    reinterpret_cast<::NiTStringMapCopy *>(this)->NiTStringMapCopy::~NiTStringMapCopy();
+    NiTStringMapCopy_Destroy(reinterpret_cast<::NiTStringMapCopy *>(this));
     if (auiFlags & 1)
     {
         reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00ec1ee0::FUN_00ec1ee0_pool *>(&::g_memoryManager))))->FUN_00aa4060(this);
@@ -2319,7 +2334,6 @@ void FUN_00ec2f00_cls::AddOrUpdate(void* apKey, unsigned int uiValue)
     m0c++;
 }
 
-extern "C" int __cdecl _tolower(int c);
 
 struct FUN_00ec1d50_class
 {
@@ -2347,11 +2361,6 @@ unsigned int FUN_00ec1d50_class::HashString(const char* apString)
 }
 
 namespace fnv_00ec1940 {
-#include <windows.h>
-#include "fnv/decl/MapOwnerStandIn.h"
-#include "fnv/symbols_01012000.h"
-#include "fnv/symbols_01063000.h"
-#include "fnv/symbols_01272000.h"
 
 DWORD WINAPI FUN_00ec2ca0(LPVOID param);
 
@@ -2401,15 +2410,8 @@ void MovieSignalState::FUN_00ec1a00()
     signaled = 1;
 }
 
-struct PlaybackMessage
+struct PlaybackMessage : MSG
 {
-    void* window;
-    unsigned int message;
-    unsigned int wParam;
-    long lParam;
-    unsigned long time;
-    long cursorX;
-    long cursorY;
 };
 
 
@@ -2441,7 +2443,7 @@ bool PlaybackContinueState::FUN_00ec1840(bool allowInterruption)
     return true;
 }
 
-int FUN_00ec16b0(int a);
+DWORD WINAPI FUN_00ec16b0(LPVOID a);
 
 extern int __cdecl __stricmp(const char*, const char*);
 
@@ -2453,32 +2455,7 @@ void __cdecl FUN_00ec0550(GridDesc* grid, float startX, float startY, float scal
 unsigned char __cdecl DecodeBinkFrame(FUN_00ec14d0_bink* a1, unsigned int a2, int a3);
 
 // Look up the file name registered under a key and copy it into a MAX_PATH buffer.
-extern "C" int __cdecl strcpy_s(char* pcDest, unsigned int uiSize, const char* pcSrc);
 
-// VEGAS17-CONFLICT: EC2DF0Registry (variant definition below differs from the one above)
-class EC2DF0Registry
-{
-  public:
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2C;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3C;
-    EC2DF0NameMap m_kNames;
-
-    bool GetNameByKey(unsigned int uiKey, char* pcPath);
-};
 
 struct ThreadData2490
 {
@@ -2747,7 +2724,7 @@ int FUN_00ec2ca0(int a1)
 
 struct MovieSemaphore
 {
-    int unk00;
+    long count;
     void* handle;
 };
 
@@ -2826,7 +2803,7 @@ struct MoviePlayerA
     {
         MovieSemaphore* semaphore = &semaphore30;
         ReleaseSemaphore(semaphore->handle, 1, 0);
-        InterlockedIncrement(semaphore);
+        InterlockedIncrement(&semaphore->count);
         unk3c = true;
     }
     void FUN_00ec2760(const char* list);
@@ -3736,7 +3713,6 @@ class MovieSemaphore
 template <class K, class V> class NiTMapItem;
 template <class T> class DFALL;
 void* __cdecl NiMalloc(unsigned int size);
-extern "C" void* __cdecl memset(void* dst, int val, unsigned int size);
 inline void* NiAllocBytes(unsigned int uiBytes)
 {
     return NiMalloc(uiBytes);
@@ -4134,6 +4110,21 @@ unsigned char S0EPlaybackFile::FUN_00ec0e00(const char* pcName, bool b1, bool b2
     if (b7)
         ((S0EMoviePlayer*)::DAT_0126fac4)->EndB();
     return bRet;
+}
+
+static void MoviePlayerA_Load(MoviePlayerA* player, const char* list)
+{
+    player->FUN_00ec2760(list);
+}
+
+static void NiTStringMapCopy_Destroy(NiTStringMapCopy* map)
+{
+    map->NiTStringMapCopy::~NiTStringMapCopy();
+}
+
+static void fnv_00ec15e0::BSMoviePlayer_Destroy(BSMoviePlayer* player)
+{
+    player->BSMoviePlayer::~BSMoviePlayer();
 }
 
 #include "generated/data/staging/blk_00ec0000_od.inc"

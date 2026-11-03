@@ -455,7 +455,7 @@ void UpdateRadioSignals(bool abUpdateSignals)
                             ::FUN_00453a70()->GetSoundHandleByEditorID("UIRadioSignalFound", 0x100121);
                         reinterpret_cast<::FUN_00ad8830_shell *>(&(alertSound))->FUN_00ad8830(false);
                         ::FUN_00406f60((::FUN_00406f90_this *)&(strtemp), ((const char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::SettingString *>(&::g_011d4348))))->IsDLCAvailable())), reinterpret_cast<::FUN_0055d520_shell *>((((::RadioStationRef *)(new ((void *)(pstationObj)) ::Vec3()))))->FUN_0055d520());
-                        ::DispatchMessageToSink((int)(strtemp), 0, (int)("Interface\\Icons\\Message Icons\\glow_message_radio_tower.dds"), (int)(0),
+                        ::DispatchMessageToSink((const char *)(strtemp), 0, (const char *)("Interface\\Icons\\Message Icons\\glow_message_radio_tower.dds"), (const char *)(0),
                                        2.0f, false);
                     }
                     static_cast<BSSimpleListEx<unsigned int>&>((*reinterpret_cast<::BSSimpleList<unsigned int> *>(&::g_011dd59c)))
@@ -526,7 +526,7 @@ void UpdateRadioSignals(bool abUpdateSignals)
                     ::FUN_00453a70()->GetSoundHandleByEditorID("UIRadioSignalFound", 0x100121);
                 reinterpret_cast<::FUN_00ad8830_shell *>(&(alertSound))->FUN_00ad8830(false);
                 ::FUN_00406f60((::FUN_00406f90_this *)&(strtemp), ((const char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::SettingString *>(&::g_011d4348))))->IsDLCAvailable())), reinterpret_cast<::FUN_0055d520_shell *>((((RadioStationRef*)pstation->form)))->FUN_0055d520());
-                ::DispatchMessageToSink((int)(strtemp), 0, (int)("Interface\\Icons\\Message Icons\\glow_message_radio_tower.dds"), (int)(0), 2.0f,
+                ::DispatchMessageToSink((const char *)(strtemp), 0, (const char *)("Interface\\Icons\\Message Icons\\glow_message_radio_tower.dds"), (const char *)(0), 2.0f,
                                false);
                 FalloutRadio::SetRadioEnabled(true);
                 ::fnv_00832240::FUN_00832240((::fnv_00832240::RefView *)(pstation->form), false);

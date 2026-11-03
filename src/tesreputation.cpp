@@ -147,13 +147,15 @@ void __cdecl FUN_00615720(void)
 
 struct FUN_006159e0_shell
 {
-    void SetValue(int value);
+    char pad[0xe0c];
+    TESReputation* m_pLastChangedReputation;
+    void SetValue(TESReputation* apReputation);
 };
 
 // @fnv 0x006159e0
-void FUN_006159e0_shell::SetValue(int value)
+void FUN_006159e0_shell::SetValue(TESReputation* apReputation)
 {
-    *(int*)((char*)this + 0xe0c) = value;
+    m_pLastChangedReputation = apReputation;
 }
 
 struct FNStub
@@ -254,7 +256,7 @@ void FUN_00616470_shell::FUN_00616470()
     ((FUN_0047a240_shell*)((char*)this + 0x30))->FUN_0047a240(0x4f43494d);
     if (FUN_00401500())
         reinterpret_cast<::fnv_00503210::Unk *>((((ReputationLimitData*)((char*)this + 0x40))))->FUN_00503210();
-    reinterpret_cast<::SDSaveForm *>((((FUN_00485e00_shell*)this)))->FUN_00485e20((const void *)((int)((char*)this + 0x40)), 4);
+    reinterpret_cast<::SDSaveForm *>((((FUN_00485e00_shell*)this)))->FUN_00485e20((const void *)((char*)this + 0x40), 4);
     if (FUN_00401500())
         reinterpret_cast<::fnv_00503210::Unk *>((((ReputationLimitData*)((char*)this + 0x40))))->FUN_00503210();
     reinterpret_cast<::Holder *>((((FUN_00485680*)this)))->FUN_00485680();
@@ -317,7 +319,7 @@ struct FUN_00616660_shell
 // @fnv 0x00616660
 void FUN_00616660_shell::SaveToBuffer(BGSSaveFormBuffer* buffer)
 {
-    reinterpret_cast<::FakeForm *>((((FUN_00484d60_holder*)this)))->SaveIfChanged((::BGSSaveFormBuffer *)((unsigned int)buffer));
+    reinterpret_cast<::FakeForm *>((((FUN_00484d60_holder*)this)))->SaveIfChanged((::BGSSaveFormBuffer *)(buffer));
     reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&f0, 4, 0);
     reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&f1, 4, 0);
 }
@@ -594,7 +596,7 @@ void Reputation::FUN_00615a00(int kind, float amount)
             sound = 0;
             changed = true;
         }
-        ::DispatchMessageToSink((int)(message3), 0, (int)((*reinterpret_cast<::Setting *>(&::g_011cbc34)).FUN_00403df0()), (int)(0), 2.0f, false);
+        ::DispatchMessageToSink((const char *)(message3), 0, (const char *)((*reinterpret_cast<::Setting *>(&::g_011cbc34)).FUN_00403df0()), (const char *)(0), 2.0f, false);
     }
     else
     {
@@ -607,12 +609,12 @@ void Reputation::FUN_00615a00(int kind, float amount)
             sound = 1;
             changed = true;
         }
-        ::DispatchMessageToSink((int)(message3), 0, (int)((*reinterpret_cast<::Setting *>(&::g_011cba00)).FUN_00403df0()), (int)(0), 2.0f, false);
+        ::DispatchMessageToSink((const char *)(message3), 0, (const char *)((*reinterpret_cast<::Setting *>(&::g_011cba00)).FUN_00403df0()), (const char *)(0), 2.0f, false);
     }
     if (changed && !((bool)(reinterpret_cast<::FUN_00953c50_Class *>(((*reinterpret_cast<::Player * *>(&::_g_thePlayer))))->FUN_00953c50((char *)(bool *)(0)))) && !::fnv_007050d0::FUN_007050d0())
         reinterpret_cast<::FUN_006155f0_shell *>(this)->ShowMessageBox();
     else if (changed)
-        reinterpret_cast<::FUN_006159e0_shell *>(((*reinterpret_cast<::Player * *>(&::_g_thePlayer))))->SetValue((int)(this));
+        reinterpret_cast<::FUN_006159e0_shell *>(((*reinterpret_cast<::Player * *>(&::_g_thePlayer))))->SetValue(reinterpret_cast<TESReputation*>(this));
     Mark(2);
 }
 
@@ -657,7 +659,7 @@ void ReputationUpdate::ApplyReputationChange(int iReputationType, int amount)
             m_eReputationType = ReputationType_REPUTATION_POSITIVE;
             p = true;
         }
-        ::DispatchMessageToSink((int)(l), 0, (int)((*reinterpret_cast<::ReputationSetting *>(&::g_011cbd5c)).FUN_00403df0()), (int)(0), 2.0f, false);
+        ::DispatchMessageToSink((const char *)(l), 0, (const char *)((*reinterpret_cast<::ReputationSetting *>(&::g_011cbd5c)).FUN_00403df0()), (const char *)(0), 2.0f, false);
     }
     else
     {
@@ -671,12 +673,12 @@ void ReputationUpdate::ApplyReputationChange(int iReputationType, int amount)
             m_eReputationType = ReputationType_REPUTATION_NEGATIVE;
             p = true;
         }
-        ::DispatchMessageToSink((int)(l), 0, (int)((*reinterpret_cast<::ReputationSetting *>(&::g_011cbad0)).FUN_00403df0()), (int)(0), 2.0f, false);
+        ::DispatchMessageToSink((const char *)(l), 0, (const char *)((*reinterpret_cast<::ReputationSetting *>(&::g_011cbad0)).FUN_00403df0()), (const char *)(0), 2.0f, false);
     }
     if (p && !((bool)(reinterpret_cast<::FUN_00953c50_Class *>(((*reinterpret_cast<::ReputationPlayer * *>(&::_g_thePlayer))))->FUN_00953c50((char *)(bool *)(0)))) && !::fnv_007050d0::FUN_007050d0())
         ((FUN_006155f0_shell*)this)->ShowMessageBox();
     else if (p)
-        reinterpret_cast<::FUN_006159e0_shell *>(((*reinterpret_cast<::ReputationPlayer * *>(&::_g_thePlayer))))->SetValue((int)((TESReputation*)this));
+        reinterpret_cast<::FUN_006159e0_shell *>(((*reinterpret_cast<::ReputationPlayer * *>(&::_g_thePlayer))))->SetValue(reinterpret_cast<TESReputation*>(this));
     MarkAsModified(2);
 }
 
@@ -756,7 +758,7 @@ void RepObject::FUN_00615fa0(int kind, int amount)
             sound = 0;
             changed = true;
         }
-        ::DispatchMessageToSink((int)(message3), 0, (int)((*reinterpret_cast<::fnv_00615fa0::RepSetting *>(&::g_011cbc34)).String()), (int)(0), 2.0f, false);
+        ::DispatchMessageToSink((const char *)(message3), 0, (const char *)((*reinterpret_cast<::fnv_00615fa0::RepSetting *>(&::g_011cbc34)).String()), (const char *)(0), 2.0f, false);
     }
     else
     {
@@ -769,12 +771,12 @@ void RepObject::FUN_00615fa0(int kind, int amount)
             sound = 1;
             changed = true;
         }
-        ::DispatchMessageToSink((int)(message3), 0, (int)((*reinterpret_cast<::fnv_00615fa0::RepSetting *>(&::g_011cbad0)).String()), (int)(0), 2.0f, false);
+        ::DispatchMessageToSink((const char *)(message3), 0, (const char *)((*reinterpret_cast<::fnv_00615fa0::RepSetting *>(&::g_011cbad0)).String()), (const char *)(0), 2.0f, false);
     }
     if (changed && !((bool)(reinterpret_cast<::FUN_00953c50_Class *>(((*reinterpret_cast<::fnv_00615fa0::RepPlayer * *>(&::_g_thePlayer))))->FUN_00953c50((char *)(bool *)(0)))) && !::fnv_007050d0::FUN_007050d0())
         reinterpret_cast<::FUN_006155f0_shell *>(this)->ShowMessageBox();
     else if (changed)
-        reinterpret_cast<::FUN_006159e0_shell *>(((*reinterpret_cast<::fnv_00615fa0::RepPlayer * *>(&::_g_thePlayer))))->SetValue((int)(this));
+        reinterpret_cast<::FUN_006159e0_shell *>(((*reinterpret_cast<::fnv_00615fa0::RepPlayer * *>(&::_g_thePlayer))))->SetValue(reinterpret_cast<TESReputation*>(this));
     Update(2);
 }
 }  // namespace fnv_00615fa0
@@ -799,15 +801,15 @@ void FUN_006155f0_shell::ShowMessageBox(void)
 
     if (mField_4c == 1)
     {
-        ::FUN_00703f10((int)(buffer), (int)(reinterpret_cast<::GlobalObject_0040c150 *>(this)->FUN_006167d0()), (int)(((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&(mFNStub))->FUN_00408da0()))),
-                     (int)(reinterpret_cast<StartMenu*>(&(*reinterpret_cast<char *>(&::g_011cbcb0)))->GetMenuTitle()), (int)(FUN_00615720), 1, 0x17, 0.0f, 0.0f,
-                     (int)(reinterpret_cast<StartMenu*>(&(*reinterpret_cast<char *>(&::g_011d38b8)))->GetMenuTitle()), 0);
+        ::FUN_00703f10((const char *)(buffer), (const char *)(reinterpret_cast<::GlobalObject_0040c150 *>(this)->FUN_006167d0()), (const char *)(((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&(mFNStub))->FUN_00408da0()))),
+                     (const char *)(reinterpret_cast<StartMenu*>(&(*reinterpret_cast<char *>(&::g_011cbcb0)))->GetMenuTitle()), (void *)(FUN_00615720), 1, 0x17, 0.0f, 0.0f,
+                     (const char *)(reinterpret_cast<StartMenu*>(&(*reinterpret_cast<char *>(&::g_011d38b8)))->GetMenuTitle()), 0);
     }
     else
     {
-        ::FUN_00703f10((int)(buffer), (int)(reinterpret_cast<::GlobalObject_0040c150 *>(this)->FUN_006167d0()), (int)(((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&(mFNStub))->FUN_00408da0()))),
-                     (int)(reinterpret_cast<StartMenu*>(&(*reinterpret_cast<char *>(&::g_011cba30)))->GetMenuTitle()), (int)(FUN_00615720), 1, 0x17, 0.0f, 0.0f,
-                     (int)(reinterpret_cast<StartMenu*>(&(*reinterpret_cast<char *>(&::g_011d38b8)))->GetMenuTitle()), 0);
+        ::FUN_00703f10((const char *)(buffer), (const char *)(reinterpret_cast<::GlobalObject_0040c150 *>(this)->FUN_006167d0()), (const char *)(((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&(mFNStub))->FUN_00408da0()))),
+                     (const char *)(reinterpret_cast<StartMenu*>(&(*reinterpret_cast<char *>(&::g_011cba30)))->GetMenuTitle()), (void *)(FUN_00615720), 1, 0x17, 0.0f, 0.0f,
+                     (const char *)(reinterpret_cast<StartMenu*>(&(*reinterpret_cast<char *>(&::g_011d38b8)))->GetMenuTitle()), 0);
     }
 }
 struct TESSoundFile
@@ -886,7 +888,7 @@ void Host615730::FUN_00615730(int kind, float delta)
             m_eReputationType = 1;
             changed = true;
         }
-        ::DispatchMessageToSink((int)(i), 0, (int)(g_011cbd5c.String()), (int)(0), 2.0f, false);
+        ::DispatchMessageToSink((const char *)(i), 0, (const char *)(g_011cbd5c.String()), (const char *)(0), 2.0f, false);
     }
     else
     {
@@ -900,7 +902,7 @@ void Host615730::FUN_00615730(int kind, float delta)
             changed = true;
             m_eReputationType = 0;
         }
-        ::DispatchMessageToSink((int)(i), 0, (int)(g_011cbad0.String()), (int)(0), 2.0f, false);
+        ::DispatchMessageToSink((const char *)(i), 0, (const char *)(g_011cbad0.String()), (const char *)(0), 2.0f, false);
     }
     if (changed && !((bool)(reinterpret_cast<::FUN_00953c50_Class *>((::_g_thePlayer))->FUN_00953c50((char *)(bool *)(0)))) && !::fnv_007050d0::FUN_007050d0())
     {
@@ -908,7 +910,7 @@ void Host615730::FUN_00615730(int kind, float delta)
     }
     else if (changed)
     {
-        ((FUN_006159e0_shell*)::_g_thePlayer)->SetValue((int)this);
+        ((FUN_006159e0_shell*)::_g_thePlayer)->SetValue(reinterpret_cast<TESReputation*>(this));
     }
     v18(2);
 }

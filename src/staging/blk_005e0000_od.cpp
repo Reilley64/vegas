@@ -3878,7 +3878,7 @@ bool __cdecl FUN_005f6110(ChallengeView* pSourceChallenge, int amount)
                     char message[512];
                     FUN_00406d00(message, 512, "%s   %d\\%d\n%s", found->name.FUN_00408da0(), reinterpret_cast<::LowProcess *>((found))->GetPackageObjectType(),
                                  reinterpret_cast<::LowProcess *>((found))->GetPackageObjectType(), found->description.GetText(0, 0x43534544));
-                    ::DispatchMessageToSink((int)(message), 0, (int)(::FUN_0048e730((::TESForm *)(found), 0)), (int)(0), 2.0f, false);
+                    ::DispatchMessageToSink((const char *)(message), 0, (const char *)(::FUN_0048e730((::TESForm *)(found), 0)), (const char *)(0), 2.0f, false);
                     FUN_00706f30(21);
                 }
                 if (reinterpret_cast<::FUN_005f5f60_class *>((found))->FUN_005f5f60() && !reinterpret_cast<::FUN_005f60c0_Class *>((found))->HasFlag8())
@@ -3909,7 +3909,7 @@ bool __cdecl FUN_005f6110(ChallengeView* pSourceChallenge, int amount)
                             FUN_00406d00(message, 512, "%s   %d\\%d\n%s", found->name.FUN_00408da0(),
                                          ((int)(reinterpret_cast<::DialogueItem *>((found))->SelectDefaultResponseList())), reinterpret_cast<::LowProcess *>((found))->GetPackageObjectType(),
                                          found->description.GetText(0, 0x43534544));
-                            ::DispatchMessageToSink((int)(message), 0, (int)(::FUN_0048e730((::TESForm *)(found), 0)), (int)(0), 2.0f, false);
+                            ::DispatchMessageToSink((const char *)(message), 0, (const char *)(::FUN_0048e730((::TESForm *)(found), 0)), (const char *)(0), 2.0f, false);
                         }
                     }
                 }

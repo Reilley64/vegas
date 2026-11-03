@@ -31802,7 +31802,7 @@ bool ActRef::FUN_00573170(ActRef* apActivator, bool abFlag, ActForm* apObject, i
             return false;
         else if (g_pActPlayer->IsInCombatOrSneaking(0) && !reinterpret_cast<::FUN_008859e0_Class *>((g_pActPlayer))->FUN_008859e0((::TESObject *)(::fnv_00573170::ActRef *)(this)))
         {
-            ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_00573170::ActSetting *>(&::g_011d4f84))))->GetMenuTitle()))), 0, (int)(0), (int)(0), ::DAT_010162c0, 0);
+            ::DispatchMessageToSink((const char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_00573170::ActSetting *>(&::g_011d4f84))))->GetMenuTitle()))), 0, (const char *)(0), (const char *)(0), ::DAT_010162c0, 0);
             return true;
         }
     }
@@ -31824,8 +31824,8 @@ bool ActRef::FUN_00573170(ActRef* apActivator, bool abFlag, ActForm* apObject, i
     if (reinterpret_cast<::FUN_0041eb60_shell *>((GetExtraList()))->FUN_0041eb60() && !reinterpret_cast<::fnv_0041e7b0::FUN_0041e7b0_cls *>((GetExtraList()))->FUN_0041e7b0(apActivator))
     {
         if (apActivator == g_pActPlayer)
-            ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_00573170::ActSetting *>(&::g_011d2bf8))))->GetMenuTitle()))), 0,
-                              (int)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_thinking.dds"), (int)(0),
+            ::DispatchMessageToSink((const char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_00573170::ActSetting *>(&::g_011d2bf8))))->GetMenuTitle()))), 0,
+                              (const char *)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_thinking.dds"), (const char *)(0),
                               ::DAT_010162c0, 0);
         return false;
     }

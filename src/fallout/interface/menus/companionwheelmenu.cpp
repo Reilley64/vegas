@@ -3508,7 +3508,7 @@ void InteractionMenu::UpdateCompanionInteraction()
         {
             char message[200];
             std::sprintf(message, "%s %s", reinterpret_cast<::FUN_0055d520_shell *>((aTarget))->FUN_0055d520(), ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::MessageSetting *>(&::g_011cf594))))->GetMenuTitle())));
-            ::DispatchMessageToSink((int)(message), 0, 0, 0, ::DAT_010162c0, 0);
+            ::DispatchMessageToSink((const char *)(message), 0, 0, 0, ::DAT_010162c0, 0);
         }
     }
 }

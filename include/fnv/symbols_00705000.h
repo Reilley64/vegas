@@ -25,7 +25,7 @@ void SetDialogMenuActive(bool);
 // 0x00705210
 bool FUN_00705210(int, ::DecompArg12, ::DecompVec3, int, bool);
 // 0x007052f0
-bool DispatchMessageToSink(int, int, int, int, float, unsigned char);
+bool DispatchMessageToSink(const char *, int, const char *, const char *, float, unsigned char);
 // 0x007053b0
 namespace fnv_007053b0 { void FUN_007053b0(); }
 // 0x007053f0

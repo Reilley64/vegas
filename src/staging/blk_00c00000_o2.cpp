@@ -7361,7 +7361,7 @@ void ShaderInitialization::FUN_00c124c0()
         ::ConfigureBeamStage((::BeamStage *)(stage.m_p), 7, 3, 0, 1);
         reinterpret_cast<::StageSet *>(((pass).operator->()))->FUN_00e802b0(7, (::Stage321 *)(stage.m_p));
     }
-    ::FUN_00b79950((char *)(((InitPassView*)pass.m_p)), (intptr_t)(GetTexture094()), {});
+    ::FUN_00b79950((char *)(((InitPassView*)pass.m_p)), 0, (::NiRefObject *)(void *)(GetTexture094()));
     reinterpret_cast<::BSShaderBloodSplatter *>((((InitPassView*)pass.m_p)))->FUN_00b80600((::NiRefObject *)(::RefTex *)(GetTexture0f8()));
     reinterpret_cast<::StateGroup *>((pass->GetRSG()))->SetNodeValue(168, 15, true);
     reinterpret_cast<::StateGroup *>((pass->GetRSG()))->SetNodeValue(27, 0, true);
@@ -7401,7 +7401,7 @@ void ShaderInitialization::FUN_00c124c0()
         ::ConfigureBeamStage((::BeamStage *)(stage.m_p), 7, 3, 0, 1);
         reinterpret_cast<::StageSet *>(((pass).operator->()))->FUN_00e802b0(7, (::Stage321 *)(stage.m_p));
     }
-    ::FUN_00b79950((char *)(((InitPassView*)pass.m_p)), (intptr_t)(GetTexture098()), {});
+    ::FUN_00b79950((char *)(((InitPassView*)pass.m_p)), 0, (::NiRefObject *)(void *)(GetTexture098()));
     reinterpret_cast<::BSShaderBloodSplatter *>((((InitPassView*)pass.m_p)))->FUN_00b80600((::NiRefObject *)(::RefTex *)(GetTexture0f8()));
     reinterpret_cast<::StateGroup *>((pass->GetRSG()))->SetNodeValue(168, 15, true);
     reinterpret_cast<::StateGroup *>((pass->GetRSG()))->SetNodeValue(27, 0, true);
@@ -7441,7 +7441,7 @@ void ShaderInitialization::FUN_00c124c0()
         ::ConfigureBeamStage((::BeamStage *)(stage.m_p), 7, 3, 0, 1);
         reinterpret_cast<::StageSet *>(((pass).operator->()))->FUN_00e802b0(7, (::Stage321 *)(stage.m_p));
     }
-    ::FUN_00b79950((char *)(((InitPassView*)pass.m_p)), (intptr_t)(GetTexture09c()), {});
+    ::FUN_00b79950((char *)(((InitPassView*)pass.m_p)), 0, (::NiRefObject *)(void *)(GetTexture09c()));
     reinterpret_cast<::BSShaderBloodSplatter *>((((InitPassView*)pass.m_p)))->FUN_00b80600((::NiRefObject *)(::RefTex *)(GetTexture0fc()));
     reinterpret_cast<::StateGroup *>((pass->GetRSG()))->SetNodeValue(168, 15, true);
     reinterpret_cast<::StateGroup *>((pass->GetRSG()))->SetNodeValue(27, 0, true);
@@ -7481,7 +7481,7 @@ void ShaderInitialization::FUN_00c124c0()
         ::ConfigureBeamStage((::BeamStage *)(stage.m_p), 7, 3, 0, 1);
         reinterpret_cast<::StageSet *>(((pass).operator->()))->FUN_00e802b0(7, (::Stage321 *)(stage.m_p));
     }
-    ::FUN_00b79950((char *)(((InitPassView*)pass.m_p)), (intptr_t)(GetTexture0a0()), {});
+    ::FUN_00b79950((char *)(((InitPassView*)pass.m_p)), 0, (::NiRefObject *)(void *)(GetTexture0a0()));
     reinterpret_cast<::BSShaderBloodSplatter *>((((InitPassView*)pass.m_p)))->FUN_00b80600((::NiRefObject *)(::RefTex *)(GetTexture0fc()));
     reinterpret_cast<::StateGroup *>((pass->GetRSG()))->SetNodeValue(168, 15, true);
     reinterpret_cast<::StateGroup *>((pass->GetRSG()))->SetNodeValue(27, 0, true);
@@ -7521,7 +7521,7 @@ void ShaderInitialization::FUN_00c124c0()
         ::ConfigureBeamStage((::BeamStage *)(stage.m_p), 7, 3, 0, 1);
         reinterpret_cast<::StageSet *>(((pass).operator->()))->FUN_00e802b0(7, (::Stage321 *)(stage.m_p));
     }
-    ::FUN_00b79950((char *)(((InitPassView*)pass.m_p)), (intptr_t)(GetTexture0a4()), {});
+    ::FUN_00b79950((char *)(((InitPassView*)pass.m_p)), 0, (::NiRefObject *)(void *)(GetTexture0a4()));
     reinterpret_cast<::BSShaderBloodSplatter *>((((InitPassView*)pass.m_p)))->FUN_00b80600((::NiRefObject *)(::RefTex *)(GetTexture100()));
     reinterpret_cast<::StateGroup *>((pass->GetRSG()))->SetNodeValue(168, 15, true);
     reinterpret_cast<::StateGroup *>((pass->GetRSG()))->SetNodeValue(27, 0, true);
@@ -7561,7 +7561,7 @@ void ShaderInitialization::FUN_00c124c0()
         ::ConfigureBeamStage((::BeamStage *)(stage.m_p), 7, 3, 0, 1);
         reinterpret_cast<::StageSet *>(((pass).operator->()))->FUN_00e802b0(7, (::Stage321 *)(stage.m_p));
     }
-    ::FUN_00b79950((char *)(((InitPassView*)pass.m_p)), (intptr_t)(GetTexture0a8()), {});
+    ::FUN_00b79950((char *)(((InitPassView*)pass.m_p)), 0, (::NiRefObject *)(void *)(GetTexture0a8()));
     reinterpret_cast<::BSShaderBloodSplatter *>((((InitPassView*)pass.m_p)))->FUN_00b80600((::NiRefObject *)(::RefTex *)(GetTexture100()));
     reinterpret_cast<::StateGroup *>((pass->GetRSG()))->SetNodeValue(168, 15, true);
     reinterpret_cast<::StateGroup *>((pass->GetRSG()))->SetNodeValue(27, 0, true);
@@ -7592,7 +7592,7 @@ void ShaderInitialization::FUN_00c124c0()
         ::ConfigureBeamStage((::BeamStage *)(stage.m_p), 4, 1, 2, 1);
         reinterpret_cast<::StageSet *>(((pass).operator->()))->FUN_00e802b0(4, (::Stage321 *)(stage.m_p));
     }
-    ::FUN_00b79950((char *)(((InitPassView*)pass.m_p)), (intptr_t)(GetTexture0cc()), {});
+    ::FUN_00b79950((char *)(((InitPassView*)pass.m_p)), 0, (::NiRefObject *)(void *)(GetTexture0cc()));
     reinterpret_cast<::BSShaderBloodSplatter *>((((InitPassView*)pass.m_p)))->FUN_00b80600((::NiRefObject *)(::RefTex *)(GetTexture114()));
     reinterpret_cast<::StateGroup *>((pass->GetRSG()))->SetNodeValue(168, 15, true);
     reinterpret_cast<::NiD3DPass *>((((InitPassView*)pass.m_p)))->SetAlphaBlendMode(2, 2, false);
@@ -7619,7 +7619,7 @@ void ShaderInitialization::FUN_00c124c0()
         ::ConfigureBeamStage((::BeamStage *)(stage.m_p), 4, 1, 2, 1);
         reinterpret_cast<::StageSet *>(((pass).operator->()))->FUN_00e802b0(4, (::Stage321 *)(stage.m_p));
     }
-    ::FUN_00b79950((char *)(((InitPassView*)pass.m_p)), (intptr_t)(GetTexture0d0()), {});
+    ::FUN_00b79950((char *)(((InitPassView*)pass.m_p)), 0, (::NiRefObject *)(void *)(GetTexture0d0()));
     reinterpret_cast<::BSShaderBloodSplatter *>((((InitPassView*)pass.m_p)))->FUN_00b80600((::NiRefObject *)(::RefTex *)(GetTexture114()));
     reinterpret_cast<::StateGroup *>((pass->GetRSG()))->SetNodeValue(168, 15, true);
     reinterpret_cast<::NiD3DPass *>((((InitPassView*)pass.m_p)))->SetAlphaBlendMode(2, 2, false);
@@ -7646,7 +7646,7 @@ void ShaderInitialization::FUN_00c124c0()
         ::ConfigureBeamStage((::BeamStage *)(stage.m_p), 4, 1, 2, 1);
         reinterpret_cast<::StageSet *>(((pass).operator->()))->FUN_00e802b0(4, (::Stage321 *)(stage.m_p));
     }
-    ::FUN_00b79950((char *)(((InitPassView*)pass.m_p)), (intptr_t)(GetTexture0d4()), {});
+    ::FUN_00b79950((char *)(((InitPassView*)pass.m_p)), 0, (::NiRefObject *)(void *)(GetTexture0d4()));
     reinterpret_cast<::BSShaderBloodSplatter *>((((InitPassView*)pass.m_p)))->FUN_00b80600((::NiRefObject *)(::RefTex *)(GetTexture118()));
     reinterpret_cast<::StateGroup *>((pass->GetRSG()))->SetNodeValue(168, 15, true);
     reinterpret_cast<::NiD3DPass *>((((InitPassView*)pass.m_p)))->SetAlphaBlendMode(2, 2, false);
@@ -7673,7 +7673,7 @@ void ShaderInitialization::FUN_00c124c0()
         ::ConfigureBeamStage((::BeamStage *)(stage.m_p), 4, 1, 2, 1);
         reinterpret_cast<::StageSet *>(((pass).operator->()))->FUN_00e802b0(4, (::Stage321 *)(stage.m_p));
     }
-    ::FUN_00b79950((char *)(((InitPassView*)pass.m_p)), (intptr_t)(GetTexture0d8()), {});
+    ::FUN_00b79950((char *)(((InitPassView*)pass.m_p)), 0, (::NiRefObject *)(void *)(GetTexture0d8()));
     reinterpret_cast<::BSShaderBloodSplatter *>((((InitPassView*)pass.m_p)))->FUN_00b80600((::NiRefObject *)(::RefTex *)(GetTexture118()));
     reinterpret_cast<::StateGroup *>((pass->GetRSG()))->SetNodeValue(168, 15, true);
     reinterpret_cast<::NiD3DPass *>((((InitPassView*)pass.m_p)))->SetAlphaBlendMode(2, 2, false);
@@ -7707,7 +7707,7 @@ void ShaderInitialization::FUN_00c124c0()
         ::ConfigureBeamStage((::BeamStage *)(stage.m_p), 7, 3, 0, 1);
         reinterpret_cast<::StageSet *>(((pass).operator->()))->FUN_00e802b0(7, (::Stage321 *)(stage.m_p));
     }
-    ::FUN_00b79950((char *)(((InitPassView*)pass.m_p)), (intptr_t)(GetTexture0dc()), {});
+    ::FUN_00b79950((char *)(((InitPassView*)pass.m_p)), 0, (::NiRefObject *)(void *)(GetTexture0dc()));
     reinterpret_cast<::BSShaderBloodSplatter *>((((InitPassView*)pass.m_p)))->FUN_00b80600((::NiRefObject *)(::RefTex *)(GetTexture11c()));
     reinterpret_cast<::StateGroup *>((pass->GetRSG()))->SetNodeValue(168, 15, true);
     reinterpret_cast<::StateGroup *>((pass->GetRSG()))->SetNodeValue(27, 0, true);
@@ -7746,7 +7746,7 @@ void ShaderInitialization::FUN_00c124c0()
         ::ConfigureBeamStage((::BeamStage *)(stage.m_p), 7, 3, 0, 1);
         reinterpret_cast<::StageSet *>(((pass).operator->()))->FUN_00e802b0(7, (::Stage321 *)(stage.m_p));
     }
-    ::FUN_00b79950((char *)(((InitPassView*)pass.m_p)), (intptr_t)(GetTexture0e0()), {});
+    ::FUN_00b79950((char *)(((InitPassView*)pass.m_p)), 0, (::NiRefObject *)(void *)(GetTexture0e0()));
     reinterpret_cast<::BSShaderBloodSplatter *>((((InitPassView*)pass.m_p)))->FUN_00b80600((::NiRefObject *)(::RefTex *)(GetTexture11c()));
     reinterpret_cast<::StateGroup *>((pass->GetRSG()))->SetNodeValue(168, 15, true);
     reinterpret_cast<::StateGroup *>((pass->GetRSG()))->SetNodeValue(27, 0, true);
@@ -7785,7 +7785,7 @@ void ShaderInitialization::FUN_00c124c0()
         ::ConfigureBeamStage((::BeamStage *)(stage.m_p), 7, 3, 0, 1);
         reinterpret_cast<::StageSet *>(((pass).operator->()))->FUN_00e802b0(7, (::Stage321 *)(stage.m_p));
     }
-    ::FUN_00b79950((char *)(((InitPassView*)pass.m_p)), (intptr_t)(GetTexture0e4()), {});
+    ::FUN_00b79950((char *)(((InitPassView*)pass.m_p)), 0, (::NiRefObject *)(void *)(GetTexture0e4()));
     reinterpret_cast<::BSShaderBloodSplatter *>((((InitPassView*)pass.m_p)))->FUN_00b80600((::NiRefObject *)(::RefTex *)(GetTexture120()));
     reinterpret_cast<::StateGroup *>((pass->GetRSG()))->SetNodeValue(168, 15, true);
     reinterpret_cast<::StateGroup *>((pass->GetRSG()))->SetNodeValue(27, 0, true);
@@ -7824,7 +7824,7 @@ void ShaderInitialization::FUN_00c124c0()
         ::ConfigureBeamStage((::BeamStage *)(stage.m_p), 7, 3, 0, 1);
         reinterpret_cast<::StageSet *>(((pass).operator->()))->FUN_00e802b0(7, (::Stage321 *)(stage.m_p));
     }
-    ::FUN_00b79950((char *)(((InitPassView*)pass.m_p)), (intptr_t)(GetTexture0e8()), {});
+    ::FUN_00b79950((char *)(((InitPassView*)pass.m_p)), 0, (::NiRefObject *)(void *)(GetTexture0e8()));
     reinterpret_cast<::BSShaderBloodSplatter *>((((InitPassView*)pass.m_p)))->FUN_00b80600((::NiRefObject *)(::RefTex *)(GetTexture120()));
     reinterpret_cast<::StateGroup *>((pass->GetRSG()))->SetNodeValue(168, 15, true);
     reinterpret_cast<::StateGroup *>((pass->GetRSG()))->SetNodeValue(27, 0, true);
@@ -7863,7 +7863,7 @@ void ShaderInitialization::FUN_00c124c0()
         ::ConfigureBeamStage((::BeamStage *)(stage.m_p), 7, 3, 0, 1);
         reinterpret_cast<::StageSet *>(((pass).operator->()))->FUN_00e802b0(7, (::Stage321 *)(stage.m_p));
     }
-    ::FUN_00b79950((char *)(((InitPassView*)pass.m_p)), (intptr_t)(GetTexture0ec()), {});
+    ::FUN_00b79950((char *)(((InitPassView*)pass.m_p)), 0, (::NiRefObject *)(void *)(GetTexture0ec()));
     reinterpret_cast<::BSShaderBloodSplatter *>((((InitPassView*)pass.m_p)))->FUN_00b80600((::NiRefObject *)(::RefTex *)(GetTexture124()));
     reinterpret_cast<::StateGroup *>((pass->GetRSG()))->SetNodeValue(168, 15, true);
     reinterpret_cast<::StateGroup *>((pass->GetRSG()))->SetNodeValue(27, 0, true);
@@ -7902,7 +7902,7 @@ void ShaderInitialization::FUN_00c124c0()
         ::ConfigureBeamStage((::BeamStage *)(stage.m_p), 7, 3, 0, 1);
         reinterpret_cast<::StageSet *>(((pass).operator->()))->FUN_00e802b0(7, (::Stage321 *)(stage.m_p));
     }
-    ::FUN_00b79950((char *)(((InitPassView*)pass.m_p)), (intptr_t)(GetTexture0f0()), {});
+    ::FUN_00b79950((char *)(((InitPassView*)pass.m_p)), 0, (::NiRefObject *)(void *)(GetTexture0f0()));
     reinterpret_cast<::BSShaderBloodSplatter *>((((InitPassView*)pass.m_p)))->FUN_00b80600((::NiRefObject *)(::RefTex *)(GetTexture124()));
     reinterpret_cast<::StateGroup *>((pass->GetRSG()))->SetNodeValue(168, 15, true);
     reinterpret_cast<::StateGroup *>((pass->GetRSG()))->SetNodeValue(27, 0, true);
@@ -14100,7 +14100,7 @@ void C17510Shader::FUN_00c17510()
     }
     {
         ShaderHandle handle = {m_e4};
-        ::FUN_00b79950((char *)(static_cast<PassMethods*>(spRenderPass.m_p)), (*(int *)&(const ::ShaderHandle &)(handle)), {});
+        ::FUN_00b79950((char *)(static_cast<PassMethods*>(spRenderPass.m_p)), 0, (::NiRefObject *)(void *)(handle.value));
     }
     reinterpret_cast<::BSShaderBloodSplatter *>((static_cast<PassMethods*>(spRenderPass.m_p)))->FUN_00b80600((::NiRefObject *)(::RefTex *)(reinterpret_cast<RefTex*>(FUN_00c163a0(93))));
     reinterpret_cast<::NiD3DPass *>((static_cast<PassMethods*>(spRenderPass.m_p)))->SetAlphaBlendMode(2, 2, false);
@@ -14130,7 +14130,7 @@ void C17510Shader::FUN_00c17510()
     }
     {
         ShaderHandle handle = {m_e8};
-        ::FUN_00b79950((char *)(static_cast<PassMethods*>(spRenderPass.m_p)), (*(int *)&(const ::ShaderHandle &)(handle)), {});
+        ::FUN_00b79950((char *)(static_cast<PassMethods*>(spRenderPass.m_p)), 0, (::NiRefObject *)(void *)(handle.value));
     }
     reinterpret_cast<::BSShaderBloodSplatter *>((static_cast<PassMethods*>(spRenderPass.m_p)))->FUN_00b80600((::NiRefObject *)(::RefTex *)(reinterpret_cast<RefTex*>(FUN_00c163a0(94))));
     reinterpret_cast<::NiD3DPass *>((static_cast<PassMethods*>(spRenderPass.m_p)))->SetAlphaBlendMode(2, 2, false);
@@ -14166,7 +14166,7 @@ void C17510Shader::FUN_00c17510()
     }
     {
         ShaderHandle handle = {m_ec};
-        ::FUN_00b79950((char *)(static_cast<PassMethods*>(spRenderPass.m_p)), (*(int *)&(const ::ShaderHandle &)(handle)), {});
+        ::FUN_00b79950((char *)(static_cast<PassMethods*>(spRenderPass.m_p)), 0, (::NiRefObject *)(void *)(handle.value));
     }
     reinterpret_cast<::BSShaderBloodSplatter *>((static_cast<PassMethods*>(spRenderPass.m_p)))->FUN_00b80600((::NiRefObject *)(::RefTex *)(reinterpret_cast<RefTex*>(FUN_00c163a0(95))));
     reinterpret_cast<::NiD3DPass *>((static_cast<PassMethods*>(spRenderPass.m_p)))->SetAlphaBlendMode(2, 2, false);
@@ -14202,7 +14202,7 @@ void C17510Shader::FUN_00c17510()
     }
     {
         ShaderHandle handle = {m_f0};
-        ::FUN_00b79950((char *)(static_cast<PassMethods*>(spRenderPass.m_p)), (*(int *)&(const ::ShaderHandle &)(handle)), {});
+        ::FUN_00b79950((char *)(static_cast<PassMethods*>(spRenderPass.m_p)), 0, (::NiRefObject *)(void *)(handle.value));
     }
     reinterpret_cast<::BSShaderBloodSplatter *>((static_cast<PassMethods*>(spRenderPass.m_p)))->FUN_00b80600((::NiRefObject *)(::RefTex *)(reinterpret_cast<RefTex*>(FUN_00c163a0(97))));
     reinterpret_cast<::NiD3DPass *>((static_cast<PassMethods*>(spRenderPass.m_p)))->SetAlphaBlendMode(2, 2, false);
@@ -14238,7 +14238,7 @@ void C17510Shader::FUN_00c17510()
     }
     {
         ShaderHandle handle = {m_f4};
-        ::FUN_00b79950((char *)(static_cast<PassMethods*>(spRenderPass.m_p)), (*(int *)&(const ::ShaderHandle &)(handle)), {});
+        ::FUN_00b79950((char *)(static_cast<PassMethods*>(spRenderPass.m_p)), 0, (::NiRefObject *)(void *)(handle.value));
     }
     reinterpret_cast<::BSShaderBloodSplatter *>((static_cast<PassMethods*>(spRenderPass.m_p)))->FUN_00b80600((::NiRefObject *)(::RefTex *)(reinterpret_cast<RefTex*>(FUN_00c163a0(99))));
     reinterpret_cast<::NiD3DPass *>((static_cast<PassMethods*>(spRenderPass.m_p)))->SetAlphaBlendMode(2, 2, false);
@@ -14272,7 +14272,7 @@ void C17510Shader::FUN_00c17510()
     }
     {
         ShaderHandle handle = {m_f8};
-        ::FUN_00b79950((char *)(static_cast<PassMethods*>(spRenderPass.m_p)), (*(int *)&(const ::ShaderHandle &)(handle)), {});
+        ::FUN_00b79950((char *)(static_cast<PassMethods*>(spRenderPass.m_p)), 0, (::NiRefObject *)(void *)(handle.value));
     }
     reinterpret_cast<::BSShaderBloodSplatter *>((static_cast<PassMethods*>(spRenderPass.m_p)))->FUN_00b80600((::NiRefObject *)(::RefTex *)(reinterpret_cast<RefTex*>(FUN_00c163a0(101))));
     reinterpret_cast<::NiD3DPass *>((static_cast<PassMethods*>(spRenderPass.m_p)))->SetAlphaBlendMode(2, 2, false);
@@ -14306,7 +14306,7 @@ void C17510Shader::FUN_00c17510()
     }
     {
         ShaderHandle handle = {m_fc};
-        ::FUN_00b79950((char *)(static_cast<PassMethods*>(spRenderPass.m_p)), (*(int *)&(const ::ShaderHandle &)(handle)), {});
+        ::FUN_00b79950((char *)(static_cast<PassMethods*>(spRenderPass.m_p)), 0, (::NiRefObject *)(void *)(handle.value));
     }
     reinterpret_cast<::BSShaderBloodSplatter *>((static_cast<PassMethods*>(spRenderPass.m_p)))->FUN_00b80600((::NiRefObject *)(::RefTex *)(reinterpret_cast<RefTex*>(FUN_00c163a0(103))));
     reinterpret_cast<::NiD3DPass *>((static_cast<PassMethods*>(spRenderPass.m_p)))->SetAlphaBlendMode(2, 2, false);
@@ -14346,7 +14346,7 @@ void C17510Shader::FUN_00c17510()
     }
     {
         ShaderHandle handle = {m_100};
-        ::FUN_00b79950((char *)(static_cast<PassMethods*>(spRenderPass.m_p)), (*(int *)&(const ::ShaderHandle &)(handle)), {});
+        ::FUN_00b79950((char *)(static_cast<PassMethods*>(spRenderPass.m_p)), 0, (::NiRefObject *)(void *)(handle.value));
     }
     reinterpret_cast<::BSShaderBloodSplatter *>((static_cast<PassMethods*>(spRenderPass.m_p)))->FUN_00b80600((::NiRefObject *)(::RefTex *)(reinterpret_cast<RefTex*>(FUN_00c163a0(200))));
     reinterpret_cast<::StateGroup *>((spRenderPass->GetRSG()))->SetNodeValue(0x1b, 1, true);

@@ -15743,23 +15743,23 @@ void Shader::FUN_00bb1f60(Geometry* geometry, int unused1, int unused2, PassInfo
         {
             if (useFog)
             {
-                ::FUN_00b79950((char *)(active), (intptr_t)(Get_fogVertex()), {});
+                ::FUN_00b79950((char *)(active), 0, (::NiRefObject *)(void *)(Get_fogVertex()));
                 reinterpret_cast<::BSShaderBloodSplatter *>((pass))->FUN_00b80600((::NiRefObject *)(::ShaderDraw::RefObject *)(Get_fogPixel()));
             }
             else
             {
-                ::FUN_00b79950((char *)(active), (intptr_t)(Get_normalVertex()), {});
+                ::FUN_00b79950((char *)(active), 0, (::NiRefObject *)(void *)(Get_normalVertex()));
                 reinterpret_cast<::BSShaderBloodSplatter *>((pass))->FUN_00b80600((::NiRefObject *)(::ShaderDraw::RefObject *)(Get_normalPixel()));
             }
         }
         else if (useFog)
         {
-            ::FUN_00b79950((char *)(active), (intptr_t)(Get_alternateFogVertex()), {});
+            ::FUN_00b79950((char *)(active), 0, (::NiRefObject *)(void *)(Get_alternateFogVertex()));
             reinterpret_cast<::BSShaderBloodSplatter *>((pass))->FUN_00b80600((::NiRefObject *)(::ShaderDraw::RefObject *)(Get_fogPixel()));
         }
         else
         {
-            ::FUN_00b79950((char *)(active), (intptr_t)(Get_alternateVertex()), {});
+            ::FUN_00b79950((char *)(active), 0, (::NiRefObject *)(void *)(Get_alternateVertex()));
             reinterpret_cast<::BSShaderBloodSplatter *>((pass))->FUN_00b80600((::NiRefObject *)(::ShaderDraw::RefObject *)(Get_normalPixel()));
         }
     }

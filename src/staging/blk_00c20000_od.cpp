@@ -2431,11 +2431,11 @@ bool __cdecl FUN_00c3be50(const char* path, const char* text, bool flush)
     {
         unsigned __int64 written = strlen(text);
         unsigned __int64 length;
-        file.m_00 = reinterpret_cast<::SystemFileWriter *>(&(file))->FUN_00afede0((void *)(text), written, (intptr_t)(&length), {});
+        file.m_00 = reinterpret_cast<::SystemFileWriter *>(&(file))->FUN_00afede0((void *)(text), written, 0, &length);
         if (!DAT_01202d90 && success && (text[written - 2] != '\r' || text[written - 1] != '\n'))
         {
             written = 2;
-            file.m_00 = reinterpret_cast<::SystemFileWriter *>(&(file))->FUN_00afede0((void *)(DAT_0101f520), written, (intptr_t)(&length), {});
+            file.m_00 = reinterpret_cast<::SystemFileWriter *>(&(file))->FUN_00afede0((void *)(DAT_0101f520), written, 0, &length);
         }
         if (flush)
             file.m_00 = reinterpret_cast<::S_00aff060_Class *>(&(file))->FUN_00aff060();
@@ -2655,7 +2655,9 @@ bool FNVClip::FUN_00c35ae0(FNVVec3* begin, FNVVec3* end, FNVPlane* face, FNVPlan
         fraction = (face->GetPlaneConstant() - reinterpret_cast<::FUN_004b6190_shell *>((void *)&(normal))->DotProduct((void *)&(*begin))) / denom;
         if (fraction >= ::_DAT_01012060 && fraction <= ::g_01012070)
         {
-            FNVVec3 result = (*(::FNVVec3 *)(reinterpret_cast<::Point3Offset *>((void *)(begin))->ProjectileLaunched((::NiPoint3 *)&(const ::FNVVec3 &)(direction.ApplyScaled(fraction)), {})));
+            FNVVec3 scaled = direction.ApplyScaled(fraction);
+            FNVVec3 sum(0.0f, 0.0f, 0.0f);
+            FNVVec3 result = (*(::FNVVec3 *)(reinterpret_cast<::Point3Offset *>((void *)(begin))->ProjectileLaunched((::NiPoint3 *)(void *)(&sum), (::NiPoint3 *)(void *)(&scaled))));
             for (int i = 0; i < 6; ++i)
             {
                 if ((bool)((1 << i) & region->enabledFlags))
@@ -6442,7 +6444,7 @@ struct Obj360
 char Obj360::FUN_00c3f360(void* a, Ref360 b)
 {
     reinterpret_cast<::FUN_0040fbf0_shell *>(&(lock))->FUN_0040fbf0((char *)(0));
-    char r = ((char)(reinterpret_cast<::RemovalMapState *>((((Result360*)((void *)(reinterpret_cast<::FUN_00c3f750_Class *>((((Helper360*)this)))->FUN_00c3f750())))))->FUN_00c40680({}, {})));
+    char r = ((char)(reinterpret_cast<::RemovalMapState *>((((Result360*)((void *)(reinterpret_cast<::FUN_00c3f750_Class *>((((Helper360*)this)))->FUN_00c3f750())))))->FUN_00c40680((int)(intptr_t)(a), (int)(intptr_t)(&b))));
     lock.Unlock();
     return r;
 }

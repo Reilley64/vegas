@@ -243,6 +243,12 @@ void FUN_00a57870_Class::ReleaseString()
         InterlockedDecrement((long*)(m_cByteAtOffset1 - 8));
 }
 
+struct FUN_00a42f90_Object
+{
+    char pad00[0x30];
+    float unk30;
+};
+
 // Allocates a 0x34-byte BSFadeNode, runs FUN_00a36890 on it, zeroes the float at offset 0x30, sets its vtable, and returns it (or null).
 // @fnv 0x00a42f90
 void* __cdecl FUN_00a42f90()
@@ -251,7 +257,7 @@ void* __cdecl FUN_00a42f90()
     if (p)
     {
         new ((void *)(p)) class ::FUN_00a36890();
-        *(float*)((char*)p + 0x30) = 0.0f;
+        ((FUN_00a42f90_Object*)p)->unk30 = 0.0f;
         *(uintptr_t*)p = (uintptr_t)&DAT_01097904;
         return p;
     }
@@ -303,6 +309,12 @@ extern int DAT_010997f4;
 struct BaseHolder
 {
 };
+struct FUN_00a50ad0_Object
+{
+    char pad00[0x20];
+    int unk20;
+};
+
 // Allocates a 0x24-byte BSFadeNode, initialises it via FUN_00a57f20, sets its vtable and a 0xffff field, and returns it (or null).
 // @fnv 0x00a50ad0
 void* __cdecl FUN_00a50ad0()
@@ -312,7 +324,7 @@ void* __cdecl FUN_00a50ad0()
     {
         reinterpret_cast<::FUN_00a57f20_cls *>((((BaseHolder*)p)))->FUN_00a57f20((void *)(0), (void *)(0));
         *(uintptr_t*)p = (uintptr_t)&DAT_010997f4;
-        *(int*)((char*)p + 0x20) = 0xffff;
+        ((FUN_00a50ad0_Object*)p)->unk20 = 0xffff;
         return p;
     }
     return 0;
@@ -321,6 +333,15 @@ void* __cdecl FUN_00a50ad0()
 void _Call_a5d3a0(void*);
 extern int DAT_01099e54;
 
+struct FUN_00a51e10_Object
+{
+    char pad00[0x8];
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+};
+
 // @fnv 0x00a51e10
 void* __cdecl FUN_00a51e10()
 {
@@ -328,10 +349,10 @@ void* __cdecl FUN_00a51e10()
     if (p)
     {
         _Call_a5d3a0(p);
-        *(int*)((char*)p + 8) = 0;
-        *(int*)((char*)p + 12) = 0;
-        *(int*)((char*)p + 16) = 0;
-        *(int*)((char*)p + 20) = 0;
+        ((FUN_00a51e10_Object*)p)->unk08 = 0;
+        ((FUN_00a51e10_Object*)p)->unk0c = 0;
+        ((FUN_00a51e10_Object*)p)->unk10 = 0;
+        ((FUN_00a51e10_Object*)p)->unk14 = 0;
         *(uintptr_t*)p = (uintptr_t)&DAT_01099e54;
         return p;
     }
@@ -404,8 +425,18 @@ struct NiFixedString
 {
     const char* m_kHandle;
 };
+// The global string table keeps this header in front of each string.
+struct NiGlobalStringHeader
+{
+    long m_lRefCount;
+    unsigned int m_uiLength;
+};
+
 struct FUN_00a5fba0_class
 {
+    char pad00[0x30];
+    NiFixedString unk30;
+    char unk34;
     void FUN_00a5fba0(const NiFixedString* kFilename);
 };
 // Assigns kFilename's handle to the NiFixedString at this+0x30 with refcount updates, then calls FUN_00a57500 and FUN_00a76960 on it.
@@ -413,17 +444,17 @@ struct FUN_00a5fba0_class
 void FUN_00a5fba0_class::FUN_00a5fba0(const NiFixedString* kFilename)
 {
     const char* kHandle = kFilename->m_kHandle;
-    NiFixedString* pDest = (NiFixedString*)((char*)this + 0x30);
+    NiFixedString* pDest = &this->unk30;
     if (pDest->m_kHandle != kHandle)
     {
         if (kHandle != ::DAT_0109b220)
-            InterlockedIncrement((volatile long*)(kHandle - 8));
+            InterlockedIncrement(&((NiGlobalStringHeader*)kHandle - 1)->m_lRefCount);
         if (pDest->m_kHandle != ::DAT_0109b220)
-            InterlockedDecrement((volatile long*)(pDest->m_kHandle - 8));
+            InterlockedDecrement(&((NiGlobalStringHeader*)pDest->m_kHandle - 1)->m_lRefCount);
         pDest->m_kHandle = kHandle;
     }
     FUN_00a57500(pDest);
-    ::fnv_00a76960::FUN_00a76960((char **)(pDest), (char **)(void *)((char*)this + 0x34));
+    ::fnv_00a76960::FUN_00a76960((char **)(pDest), (char **)(void *)((char*)&this->unk34));
 }
 
 // Hashes the first len&~3 bytes of s four at a time with h*33+c, then hashes remaining chars until NUL, returning h % 513.
@@ -468,7 +499,7 @@ void __cdecl FUN_00a57500(NiFixedString* apString)
     {
         apString->m_kHandle = NiGlobalStringTable::AddString(path);
         if (old != ::DAT_0109b220)
-            InterlockedDecrement((long*)old - 2);
+            InterlockedDecrement(&((NiGlobalStringHeader*)old - 1)->m_lRefCount);
     }
 }
 
@@ -653,6 +684,9 @@ struct A51BF0Base
 };
 struct FUN_00a50aa0_class : A51BF0Base
 {
+    char pad00[0x1c];
+    float unk1c;
+    int unk20;
     void FUN_00a50aa0(void* dst, void* proc);
 };
 // Copies the base part via FUN_00a57fd0, then copies the float at offset 0x1c and the int at offset 0x20 from this into dst.
@@ -660,8 +694,8 @@ struct FUN_00a50aa0_class : A51BF0Base
 void FUN_00a50aa0_class::FUN_00a50aa0(void* apDest, void* proc)
 {
     reinterpret_cast<::FUN_00a50110_obj *>(this)->FUN_00a57fd0((::FUN_00a50110_obj *)(apDest), (*(::FUN_00a50110_proc *)(proc)));
-    *(float*)((char*)apDest + 0x1c) = *(float*)((char*)this + 0x1c);
-    *(int*)((char*)apDest + 0x20) = *(int*)((char*)this + 0x20);
+    ((FUN_00a50aa0_class*)apDest)->unk1c = this->unk1c;
+    ((FUN_00a50aa0_class*)apDest)->unk20 = this->unk20;
 }
 }  // namespace fnv_00a50aa0
 
@@ -1104,10 +1138,22 @@ struct FUN_00a42c80_virtual
 };
 
 
+struct FUN_00a42c80_Stream
+{
+    char pad00[0xd8];
+    unsigned int unkd8;
+};
+
+struct FUN_00a42c80_RTTI
+{
+    const char* m_pcName;
+    FUN_00a42c80_RTTI* m_pkBaseRTTI;
+};
+
 // @fnv 0x00a42c80
 void __cdecl FUN_00a42c80(int* param1, FUN_00a42c80_virtual* pVirtual)
 {
-    if (*(unsigned int*)((char*)param1 + 0xD8) >= 0xA010068u)
+    if (((FUN_00a42c80_Stream*)param1)->unkd8 >= 0xA010068u)
         return;
 
     if (pVirtual == 0)
@@ -1125,7 +1171,7 @@ void __cdecl FUN_00a42c80(int* param1, FUN_00a42c80_virtual* pVirtual)
             break;
         }
 
-        node = *(int**)((char*)node + 4);
+        node = (int*)((FUN_00a42c80_RTTI*)node)->m_pkBaseRTTI;
     }
 }
 
@@ -1890,9 +1936,6 @@ class FUN_00a5d3d0
 
 
 extern int DAT_0109b5ac;
-struct NiObjectBase
-{
-};
 struct ObjectState
 {
     void* reference;
@@ -1902,6 +1945,13 @@ struct ObjectState
     unsigned short third;
     unsigned short enabled;
 };
+
+struct NiObjectBase
+{
+    char pad00[0x9c];
+    ObjectState unk9c;
+};
+
 // @fnv 0x00a5f030
 NiObjectBase* __cdecl FUN_00a5f030()
 {
@@ -1910,7 +1960,7 @@ NiObjectBase* __cdecl FUN_00a5f030()
     {
         new ((void *)(object)) ::FUN_00a5aa20_cls();
         *reinterpret_cast<void**>(object) = &DAT_0109b5ac;
-        ObjectState* state = reinterpret_cast<ObjectState*>(reinterpret_cast<char*>(object) + 0x9c);
+        ObjectState* state = &object->unk9c;
         state->first = 0;
         state->enabled = 1;
         state->second = 0;
@@ -3964,6 +4014,7 @@ struct RefCounted
 {
     virtual void Unused00();
     virtual void DeleteThis();
+    long m_lRefCount;
 };
 
 struct FUN_00a5fc10_class
@@ -4055,12 +4106,12 @@ Texture* __cdecl FUN_00a5ff10(RefCounted* parent, void* filename, const OwnerTri
     {
         if (previous)
         {
-            if (!release((volatile long*)((char*)previous + 4)))
+            if (!release(&previous->m_lRefCount))
                 previous->DeleteThis();
         }
         object->m_pParent = parent;
         if (parent)
-            DAT_00fdf1c0((volatile long*)((char*)parent + 4));
+            DAT_00fdf1c0(&parent->m_lRefCount);
     }
     if (filename)
     {
@@ -5593,10 +5644,15 @@ extern unsigned int DAT_011f42c4;
 
 struct ThreadedTableEntry
 {
+    char pad00[0xc];
+    short unk0c;
+    char pad0e[0x2];
 };
 
 struct ThreadedTable
 {
+    ThreadedTableEntry m_entries[0x208];
+    CRITICAL_SECTION_STUB m_kCriticalSection;
     void FUN_00a5b5a0(const char** key, unsigned int flags);
 };
 
@@ -5608,15 +5664,13 @@ void ThreadedTable::FUN_00a5b5a0(const char** key, unsigned int flags)
     ::g_tlsBlock.memoryContext = 8;
 
     unsigned int index = ::FUN_00a5b270((const char *)(*key), (unsigned int)(flags));
-    CRITICAL_SECTION_STUB* criticalSection =
-        reinterpret_cast<CRITICAL_SECTION_STUB*>(reinterpret_cast<char*>(this) + 0x2080);
+    CRITICAL_SECTION_STUB* criticalSection = &this->m_kCriticalSection;
     EnterCriticalSection(criticalSection);
 
-    const unsigned int entryOffset = index << 4;
-    if (*reinterpret_cast<short*>(reinterpret_cast<char*>(this) + entryOffset + 0x0c) != 0)
+    if (this->m_entries[index].unk0c != 0)
         ++DAT_011f42c8;
 
-    reinterpret_cast<::CharPtrArr *>((reinterpret_cast<ThreadedTableEntry*>(reinterpret_cast<char*>(this) + entryOffset)))->FUN_00a5b4b0((*(char * *)(key)));
+    reinterpret_cast<::CharPtrArr *>(&this->m_entries[index])->FUN_00a5b4b0((*(char * *)(key)));
     ++DAT_011f42c4;
     LeaveCriticalSection(criticalSection);
     ::g_tlsBlock.memoryContext = previousMode;

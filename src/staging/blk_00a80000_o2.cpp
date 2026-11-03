@@ -109,6 +109,8 @@ struct FUN_00a744a0 {  public:
 };
 struct BSFadeNode {
     void* vtbl;
+    char pad04[0x8];
+    int unk0c;
 };
 // Allocates a 0xc4-byte BSFadeNode, runs Init on it, sets its vtbl to DAT_0109e984 and returns it, or returns 0 on allocation failure.
 // @fnv 0x00a877a0
@@ -127,15 +129,23 @@ struct NiBound {
 };
 
 struct FUN_00a87900_class {
+    char pad00[0x8];
+    unsigned short unk08;
+    char pad0a[0x6];
+    NiBound unk10;
+    char pad11[0xf];
+    const NiPoint3* unk20;
+    char pad24[0x4a];
+    unsigned char unk6e;
     void FUN_00a87900();
 };
 
 // @fnv 0x00a87900
 void FUN_00a87900_class::FUN_00a87900()
 {
-    *(unsigned char*)((char*)this + 0x6e) = 0;
-    if (*(unsigned short*)((char*)this + 8) > 0) {
-        reinterpret_cast<::Bound88 *>((((NiBound*)((char*)this + 0x10))))->ComputeBoundingSphere(*(unsigned short*)((char*)this + 8), (const ::Vec88 *)(*(const NiPoint3**)((char*)this + 0x20)));
+    this->unk6e = 0;
+    if (this->unk08 > 0) {
+        reinterpret_cast<::Bound88 *>(((&this->unk10)))->ComputeBoundingSphere(this->unk08, (const ::Vec88 *)(this->unk20));
     }
 }
 
@@ -156,6 +166,11 @@ void* FUN_00a8a5f0_class::FUN_00a8a5f0()
 }
 
 struct FUN_00a8f060_class {
+    char pad00[0x50];
+    void* unk50;
+    int unk54;
+    int unk58;
+    int unk5c;
     void FUN_00a8f060();
 };
 
@@ -164,11 +179,11 @@ extern "C" void NiFreeAlias(void*);
 // @fnv 0x00a8f060
 void FUN_00a8f060_class::FUN_00a8f060()
 {
-    NiFreeAlias(*(void**)((char*)this + 0x50));
-    *(int*)((char*)this + 0x5C) = 0;
-    *(int*)((char*)this + 0x58) = 0;
-    *(int*)((char*)this + 0x54) = 0;
-    *(int*)((char*)this + 0x50) = 0;
+    NiFreeAlias(this->unk50);
+    this->unk5c = 0;
+    this->unk58 = 0;
+    this->unk54 = 0;
+    this->unk50 = nullptr;
 }
 
 struct FUN_00a8f080_Class {
@@ -274,6 +289,7 @@ void FUN_00a96460_class::FUN_00a96460(void* apPointer)
 void NiFreeAlias(void*);
 
 struct FUN_00a96480_Class {
+    char pad00[0x5c];
     void* m_5c;
     void FUN_00a96480(void* p);
 };
@@ -281,21 +297,22 @@ struct FUN_00a96480_Class {
 // @fnv 0x00a96480
 void FUN_00a96480_Class::FUN_00a96480(void* p)
 {
-    NiFreeAlias(*(void**)((char*)this + 0x5c));
-    *(void**)((char*)this + 0x5c) = p;
+    NiFreeAlias(this->m_5c);
+    this->m_5c = p;
 }
 
 extern "C" void __cdecl NiFreeAlias(void*);
 
 struct FUN_00a964a0_Class {
+    char pad00[0x64];
     void* m_p;
     void FUN_00a964a0(void* p);
 };
 
 // @fnv 0x00a964a0
 void FUN_00a964a0_Class::FUN_00a964a0(void* apValue) {
-    NiFreeAlias(*(void**)((char*)this + 0x64));
-    *(void**)((char*)this + 0x64) = apValue;
+    NiFreeAlias(this->m_p);
+    this->m_p = apValue;
 }
 
 namespace fnv_00a982d0 {
@@ -319,13 +336,15 @@ struct NiExtraData {
     void* p;
 };
 struct FUN_00a99c40_shell : public NiExtraData {
+    char pad04[0x8];
+    void* unk0c;
     void FUN_00a99c40(NiBinaryExtraData* dst, CloningProcess* cp);
 };
 // @fnv 0x00a99c40
 void FUN_00a99c40_shell::FUN_00a99c40(NiBinaryExtraData* dst, CloningProcess* cp)
 {
     reinterpret_cast<::FUN_00a7b330_shell *>(this)->FUN_00a7b330((::NiBinaryExtraData *)(dst), cp);
-    *(void**)((char*)dst + 0xc) = *(void**)((char*)this + 0xc);
+    ((FUN_00a99c40_shell*)dst)->unk0c = this->unk0c;
 }
 
 struct NiLODData {
@@ -338,7 +357,7 @@ BSFadeNode* FUN_00a81fb0()
     if (p) {
         new (static_cast<void*>(p)) NiLODData;
         p->vtbl = &(*reinterpret_cast<const void * *>(&::DAT_0109e47c));
-        *(int*)((char*)p + 0xc) = 0;
+        p->unk0c = 0;
         return p;
     }
     return 0;
@@ -365,17 +384,26 @@ unsigned int __cdecl FUN_00a88ac0(unsigned int auiValue)
 struct NiExtraDataHelper {
 };
 extern int DAT_0109fb94;
+struct FUN_00a91fe0_Object
+{
+    char pad00[0xc];
+    float unk0c;
+    float unk10;
+    float unk14;
+    float unk18;
+};
+
 // @fnv 0x00a91fe0
 void* __cdecl FUN_00a91fe0()
 {
     void* p = ::operator new(0x1c);
     if (p) {
         reinterpret_cast<::ExtraDataObject *>((((NiExtraDataHelper*)p)))->FUN_00a7b2e0();
-        *(float*)((char*)p + 0x18) = 0.0f;
+        ((FUN_00a91fe0_Object*)p)->unk18 = 0.0f;
         *(uintptr_t*)p = (uintptr_t)&DAT_0109fb94;
-        *(float*)((char*)p + 0x14) = 0.0f;
-        *(float*)((char*)p + 0x10) = 0.0f;
-        *(float*)((char*)p + 0xc) = 0.0f;
+        ((FUN_00a91fe0_Object*)p)->unk14 = 0.0f;
+        ((FUN_00a91fe0_Object*)p)->unk10 = 0.0f;
+        ((FUN_00a91fe0_Object*)p)->unk0c = 0.0f;
         return p;
     }
     return 0;
@@ -460,6 +488,12 @@ void FUN_00a99800_shell::AssignPointerArray(unsigned int count, const void* src)
 extern const void* DAT_010a12cc;
 
 
+struct FUN_00a9b330_Object
+{
+    char pad00[0x9d];
+    unsigned char unk9d;
+};
+
 // @fnv 0x00a9b330
 void* __cdecl FUN_00a9b330()
 {
@@ -467,7 +501,7 @@ void* __cdecl FUN_00a9b330()
     if (p) {
         new ((void *)(p)) ::FUN_00a71f60_cls();
         *(const void**)p = &DAT_010a12cc;
-        ((unsigned char*)p)[0x9d] = 0;
+        ((FUN_00a9b330_Object*)p)->unk9d = 0;
         return p;
     }
     return 0;
@@ -580,6 +614,15 @@ void __cdecl FUN_00a9b8b0()
 }
 
 struct FUN_00a85520_class {
+    char pad00[0x4];
+    float unk04;
+    float unk08;
+    float unk0c;
+    float unk10;
+    float unk14;
+    float unk18;
+    float unk1c;
+    float unk20;
     void FUN_00a85520(float* dst, float scale);
 };
 
@@ -588,14 +631,14 @@ struct FUN_00a85520_class {
 void FUN_00a85520_class::FUN_00a85520(float* afOut, float scale)
 {
     *afOut = *(float*)this * scale;
-    afOut[1] = ((float*)this)[1] * scale;
-    afOut[2] = ((float*)this)[2] * scale;
-    afOut[3] = ((float*)this)[3] * scale;
-    afOut[4] = ((float*)this)[4] * scale;
-    afOut[5] = ((float*)this)[5] * scale;
-    afOut[6] = ((float*)this)[6] * scale;
-    afOut[7] = ((float*)this)[7] * scale;
-    afOut[8] = ((float*)this)[8] * scale;
+    afOut[1] = this->unk04 * scale;
+    afOut[2] = this->unk08 * scale;
+    afOut[3] = this->unk0c * scale;
+    afOut[4] = this->unk10 * scale;
+    afOut[5] = this->unk14 * scale;
+    afOut[6] = this->unk18 * scale;
+    afOut[7] = this->unk1c * scale;
+    afOut[8] = this->unk20 * scale;
 }
 
 struct FUN_00a87140_class {
@@ -757,19 +800,30 @@ struct Stub {
 extern int DAT_0109f73c;
 extern int (* DAT_00fdf1c4)(void*);
 
+// The global string table keeps this header in front of each string.
+struct NiGlobalStringHeader
+{
+    long m_lRefCount;
+    unsigned int m_uiLength;
+};
+
 struct FUN_00a8f810_class {
+    char pad00[0x8];
+    void* unk08;
     void FUN_00a8f810();
 };
 
 struct CloningProcess;
 struct NiCullingProperty {
+    char pad00[0x18];
+    unsigned short unk18;
     void FUN_00a81430(void* dst, CloningProcess& proc);
 };
 // @fnv 0x00a81430
 void NiCullingProperty::FUN_00a81430(void* dst, CloningProcess& proc)
 {
     reinterpret_cast<::FUN_00a5d7a0_shell *>(this)->FUN_00a5d7a0((::NiObjectNET *)dst, (::fnv_00a5c290::CloningProcess *)&proc);
-    *(unsigned short*)((char*)dst + 0x18) = *(unsigned short*)((char*)this + 0x18);
+    ((NiCullingProperty*)dst)->unk18 = this->unk18;
 }
 
 void __cdecl NiFree(void*);
@@ -1623,11 +1677,11 @@ void FUN_00a8f810_class::FUN_00a8f810()
 {
     *(const void**)this = &DAT_0109f73c;
     Stub* s = (Stub*)DAT_011f5e34;
-    reinterpret_cast<::HashTableBase *>((s))->FUN_00aa0250((const unsigned int *)(void *)((char*)this + 8));
-    void* p = *(void**)((char*)this + 8);
+    reinterpret_cast<::HashTableBase *>((s))->FUN_00aa0250((const unsigned int *)(void *)((char*)&this->unk08));
+    void* p = this->unk08;
     int (* fn)(void*) = DAT_00fdf1c4;
     if (p != (*reinterpret_cast<void * *>(&::DAT_0109b220)))
-        fn((char*)p - 8);
+        fn(&((NiGlobalStringHeader*)p - 1)->m_lRefCount);
     *(const void**)this = &(*reinterpret_cast<const void * *>(&::DAT_0101dce4));
     fn((void*)&(*reinterpret_cast<volatile long *>(&::NiRefObject::ms_lObjectCount)));
 }
@@ -2033,34 +2087,34 @@ void DestroyPairArrays()
     FUN_00a9fda0_pair* arr = DAT_011f602c;
     int (* fp)(void*) = DAT_00fdf1c4;
     if (arr != 0) {
-        int i = ((int*)arr)[-1];
+        int i = (int)((std::size_t*)arr)[-1];
         FUN_00a9fda0_pair* p = arr + i;
         if (--i >= 0) {
             do {
                 p--;
                 uintptr_t value = p->m_uiFilterValue;
                 if (value != (uintptr_t)(::DAT_0109b220)) {
-                    fp((void*)(value - 8));
+                    fp(&((NiGlobalStringHeader*)value - 1)->m_lRefCount);
                 }
             } while (--i >= 0);
         }
-        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00a9fda0::FUN_00a9fda0_holder *>(&::g_memoryManager))))->FUN_00aa4060((void*)((char*)arr - 4));
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00a9fda0::FUN_00a9fda0_holder *>(&::g_memoryManager))))->FUN_00aa4060((void*)((char*)arr - sizeof(std::size_t)));
     }
     FUN_00a9fda0_pair* arr2 = DAT_011f6024;
     DAT_011f602c = 0;
     if (arr2 != 0) {
-        int i = ((int*)arr2)[-1];
+        int i = (int)((std::size_t*)arr2)[-1];
         FUN_00a9fda0_pair* p = arr2 + i;
         if (--i >= 0) {
             do {
                 p--;
                 uintptr_t value = p->m_uiFilterValue;
                 if (value != (uintptr_t)(::DAT_0109b220)) {
-                    fp((void*)(value - 8));
+                    fp(&((NiGlobalStringHeader*)value - 1)->m_lRefCount);
                 }
             } while (--i >= 0);
         }
-        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00a9fda0::FUN_00a9fda0_holder *>(&::g_memoryManager))))->FUN_00aa4060((void*)((char*)arr2 - 4));
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00a9fda0::FUN_00a9fda0_holder *>(&::g_memoryManager))))->FUN_00aa4060((void*)((char*)arr2 - sizeof(std::size_t)));
     }
     DAT_011f6024 = 0;
 }
@@ -2642,7 +2696,7 @@ Pair* Pair::Reset()
     if (old) {
         value = ((void *)(::NiGlobalStringTable::AddString((const char *)(0))));
         if (old != (*reinterpret_cast<void * *>(&::DAT_0109b220)))
-            DAT_00fdf1c4((void*)((char*)old - 8));
+            DAT_00fdf1c4(&((NiGlobalStringHeader*)old - 1)->m_lRefCount);
     }
     return this;
 }
@@ -3188,6 +3242,8 @@ FUN_00a88970_q FUN_00a88970(const FUN_00a88970_v& v)
 }
 
 struct FUN_00a81a40_shell {
+    char pad00[0x8];
+    char unk08;
     int FUN_00a81a40(int ai);
 };
 
@@ -3195,7 +3251,7 @@ struct FUN_00a81a40_shell {
 // @fnv 0x00a81a40
 int FUN_00a81a40_shell::FUN_00a81a40(int ai)
 {
-    char* pSlot = (char*)this + 8 + ai * 16;
+    char* pSlot = (char*)&this->unk08 + ai * 16;
     int value = *(int*)(pSlot + 8);
     return value == -1 ? 0
         : ((unsigned)value >= (unsigned)*(int*)(pSlot + 12)

@@ -525,29 +525,38 @@ void TaskQueueInterface::SetEnabledFlag(bool enabled)
 
 struct FUN_0093a5d0_class
 {
+    char pad[0x798];
+    unsigned char unk798;
     unsigned char GetByteAt798();
 };
 // @fnv 0x0093a5d0
 unsigned char FUN_0093a5d0_class::GetByteAt798()
 {
-    return ((unsigned char*)this)[0x798];
+    return unk798;
 }
 
+struct FUN_0093a640_Object
+{
+    char pad[0x799];
+    char unk799;
+};
 // @fnv 0x0093a640
 char FUN_0093a640(const void* param_1)
 {
-    return *((const char*)param_1 + 0x799);
+    return static_cast<const FUN_0093a640_Object*>(param_1)->unk799;
 }
 
 struct FUN_0093c1e0_Class
 {
+    char pad[0x66d];
+    char unk66d;
     bool IsFlag2Set();
 };
 
 // @fnv 0x0093c1e0
 bool FUN_0093c1e0_Class::IsFlag2Set()
 {
-    return ((signed char)*((char*)this + 0x66d) & 2) != 0;
+    return ((signed char)*(&unk66d) & 2) != 0;
 }
 
 extern float DAT_011ac3a4;
@@ -786,17 +795,22 @@ struct FUN_008e56b0_cls
     void ClearNode();
 };
 
+struct FUN_00930870_Actor
+{
+    char pad[0x68];
+    TESResponse* m_pBaseProcess;
+};
 // @fnv 0x00930870
 bool FUN_00930870(Actor* pActor)
 {
     bool result;
     NiAVObject* anim;
 
-    if (*(TESResponse**)((char*)pActor + 0x68) != 0)
+    if (reinterpret_cast<FUN_00930870_Actor*>(pActor)->m_pBaseProcess != 0)
     {
-        if (((::TESResponse *)(reinterpret_cast<::FUN_0045cd60_shell *>((((TESResponse*)*(void**)((char*)pActor + 0x68))))->FUN_0045cd60())) == 0)
+        if (((::TESResponse *)(reinterpret_cast<::FUN_0045cd60_shell *>((reinterpret_cast<FUN_00930870_Actor*>(pActor)->m_pBaseProcess))->FUN_0045cd60())) == 0)
         {
-            ((FUN_008e56b0_cls*)*(void**)((char*)pActor + 0x68))->ClearNode();
+            ((FUN_008e56b0_cls*)reinterpret_cast<FUN_00930870_Actor*>(pActor)->m_pBaseProcess)->ClearNode();
         }
     }
     result = (*(bool(*)(Actor*))((*(void***)pActor)[0x2a0 / 4]))(pActor);
@@ -814,13 +828,16 @@ struct FUN_00cbc510
 };
 struct FUN_00933810
 {
+    char pad[0x3ec];
+    FUN_00cbc510* unk3ec;
+    int unk3f0;
     void* Method();
 };
 // Calls Call on the object stored at this+0x3ec, passing the value at this+0x3f0, and returns its result.
 // @fnv 0x00933810
 void* FUN_00933810::Method()
 {
-    void* result = reinterpret_cast<::hkpCharacterStateView *>((*(FUN_00cbc510**)((char*)this + 0x3ec)))->FUN_00cbc510(*(int*)((char*)this + 0x3f0));
+    void* result = reinterpret_cast<::hkpCharacterStateView *>((unk3ec))->FUN_00cbc510(unk3f0);
     return result;
 }
 
@@ -832,11 +849,18 @@ enum PTYPE
 
 struct TESPackage
 {
+    char pad[0x90];
+    float unk90;
     PTYPE GetPackType();
 };
 
 struct Actor
 {
+    char pad[0x7c - 4];
+    bool m_bFirstFlag;
+    bool m_bSecondBooleanValue;
+    bool m_bThirdBooleanValue;
+    bool m_bFourthBooleanValue;
     virtual void v0();
     virtual void v1();
     virtual void v2();
@@ -921,11 +945,11 @@ void FUN_00935cc0(int param_1)
 
             if (actor != 0)
             {
-                reinterpret_cast<unsigned char*>(actor)[0x7f] = 1;
+                actor->m_bFourthBooleanValue = 1;
 
-                if (reinterpret_cast<unsigned char*>(actor)[0x7d])
+                if (actor->m_bSecondBooleanValue)
                 {
-                    reinterpret_cast<unsigned char*>(actor)[0x7c] = 1;
+                    actor->m_bFirstFlag = 1;
                 }
 
                 TESPackage* currentPackage = ((::fnv_00935cc0::TESPackage *)(reinterpret_cast<::FUN_009344a0_shell *>((reinterpret_cast<FUN_009344a0_shell*>(actor)))->FUN_009344a0()));
@@ -938,14 +962,14 @@ void FUN_00935cc0(int param_1)
 
                 if (dialoguePackage != 0)
                 {
-                    if (reinterpret_cast<unsigned char*>(actor)[0x7f])
+                    if (actor->m_bFourthBooleanValue)
                     {
-                        *reinterpret_cast<float*>(reinterpret_cast<char*>(dialoguePackage) + 0x90) =
+                        dialoguePackage->unk90 =
                             0.30000001192092896f;
                     }
                     else
                     {
-                        *reinterpret_cast<float*>(reinterpret_cast<char*>(dialoguePackage) + 0x90) = 20.0f;
+                        dialoguePackage->unk90 = 20.0f;
                     }
                 }
             }
@@ -1007,15 +1031,17 @@ struct FUN_00986500_shell
 };
 struct FUN_0093a660_class
 {
+    char pad[0xd64];
+    void* unkd64;
     void FUN_0093a660(std::intptr_t apActor);
 };
 // If the pointer at this+0xd64 is non-null, forwards apActor to its RemoveByTarget method.
 // @fnv 0x0093a660
 void FUN_0093a660_class::FUN_0093a660(std::intptr_t apActor)
 {
-    if (*(void**)((char*)this + 0xd64) == 0)
+    if (unkd64 == 0)
         return;
-    ((FUN_00986500_shell*)*(void**)((char*)this + 0xd64))->RemoveByTarget(apActor);
+    ((FUN_00986500_shell*)unkd64)->RemoveByTarget(apActor);
 }
 
 struct GameTimerRecord

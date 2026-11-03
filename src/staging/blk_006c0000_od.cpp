@@ -2,6 +2,7 @@
 // src/staging/blk_006c0000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include "fnv/simple_array_item.h"
 #include <cstdint>
 #include <new>
 #include <cstring>
@@ -1904,7 +1905,7 @@ bool FUN_006dfe90_S::FUN_006dfe90(PathingLocation* pLocation, bool bFlag)
         bResult = false;
         for (unsigned int i = 0; i < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)&triangles)))->GetName())); i++)
         {
-            unsigned int index = (*(unsigned int*)(reinterpret_cast<::S3e60 *>((((FUN_006a7ad0_shell*)&triangles)))->FUN_006a7ad0(i)));
+            unsigned int index = (SimpleArrayItem<unsigned int>((((FUN_006a7ad0_shell*)&triangles)), i));
             if (index < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)this)))->GetName())))
             {
                 if (reinterpret_cast<::Owner6df780 *>((((FUN_006df780_S*)(uintptr_t)*((Arr*)this)->GetAt(index))))->UpdateNavMeshResults((::FUN_006df760_shell *)(pLocation), bFlag))
@@ -5227,7 +5228,7 @@ void FUN_006dffc0_Class::WriteToBuffer(FUN_00865db0_shell* buffer)
     reinterpret_cast<::BGSSaveGameBuffer *>((((FUN_00865f60_shell*)buffer)))->FUN_00865f60(count);
     for (unsigned int index = 0; index < count; ++index)
     {
-        unsigned int item = *(unsigned int*)(reinterpret_cast<::S3e60 *>((((FUN_006a7ad0_shell*)this)))->FUN_006a7ad0(index));
+        FUN_006df9c0_shell* item = SimpleArrayItem<FUN_006df9c0_shell*>((((FUN_006a7ad0_shell*)this)), index);
         ((FUN_006df9c0_shell*)(uintptr_t)item)->FUN_006df9c0((::BGSSaveGameBuffer *)(buffer));
     }
 }

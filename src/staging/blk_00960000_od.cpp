@@ -175,78 +175,92 @@
 
 struct FUN_00961260_Class
 {
+    char pad[0x608];
+    unsigned int unk608;
     unsigned int GetFieldAt608();
 };
 
 // @fnv 0x00961260
 unsigned int FUN_00961260_Class::GetFieldAt608()
 {
-    return *(unsigned int*)((char*)this + 0x608);
+    return unk608;
 }
 
 struct FUN_00961f30_Class
 {
+    char pad[0x54];
+    unsigned char unk54;
     void SetByteAt54(unsigned char value);
 };
 
 // @fnv 0x00961f30
 void FUN_00961f30_Class::SetByteAt54(unsigned char value)
 {
-    *reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(this) + 0x54) = value;
+    unk54 = value;
 }
 
 struct FUN_00961f50_Class
 {
+    char pad[0x7];
+    unsigned char unk07;
     void SetByteAtOffset7(unsigned char value);
 };
 
 // @fnv 0x00961f50
 void FUN_00961f50_Class::SetByteAtOffset7(unsigned char value)
 {
-    *reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(this) + 7) = value;
+    unk07 = value;
 }
 
 struct FUN_00961f70_Class
 {
+    char pad[0x6];
+    unsigned char unk06;
     void SetByteAtOffset6(unsigned char param);
 };
 
 // @fnv 0x00961f70
 void FUN_00961f70_Class::SetByteAtOffset6(unsigned char param)
 {
-    *reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(this) + 6) = param;
+    unk06 = param;
 }
 
 struct FUN_009627f0_Class
 {
+    char pad[0x86c];
+    char unk86c;
     void FUN_009627f0();
 };
 // @fnv 0x009627f0
 void FUN_009627f0_Class::FUN_009627f0()
 {
-    *reinterpret_cast<char*>(reinterpret_cast<char*>(this) + 0x86c) = 0;
+    unk86c = 0;
 }
 
 struct FUN_00962cb0_Class
 {
+    char pad[0x31];
+    unsigned char unk31;
     void SetByteAtOffset49(unsigned char param);
 };
 
 // @fnv 0x00962cb0
 void FUN_00962cb0_Class::SetByteAtOffset49(unsigned char param)
 {
-    *reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(this) + 0x31) = param;
+    unk31 = param;
 }
 
 struct FUN_00966a00_Class
 {
+    char pad[0xd0];
+    float unkd0;
     void FUN_00966a00(float value);
 };
 
 // @fnv 0x00966a00
 void FUN_00966a00_Class::FUN_00966a00(float value)
 {
-    *(float*)((char*)this + 0xd0) = value;
+    unkd0 = value;
 }
 
 struct BSSimpleListTESRaceSize
@@ -256,13 +270,15 @@ struct BSSimpleListTESRaceSize
 
 struct FUN_00966a50_Class
 {
+    char pad[0x5e4];
+    char unk5e4;
     int FUN_00966a50();
 };
 
 // @fnv 0x00966a50
 int FUN_00966a50_Class::FUN_00966a50()
 {
-    return reinterpret_cast<BSSimpleListTESRaceSize*>(reinterpret_cast<char*>(this) + 0x5e4)->GetSize();
+    return ((BSSimpleListTESRaceSize*)&unk5e4)->GetSize();
 }
 
 struct FUN_0096a2b0_stub
@@ -310,12 +326,14 @@ struct TESForm;
 struct TESRace;
 struct TESRace
 {
+    char pad[0x24];
+    int unk24;
     TESForm* FUN_00969910();
 };
 // @fnv 0x00969910
 TESForm* TESRace::FUN_00969910()
 {
-    return ::FUN_004839c0(*(int*)((char*)this + 0x24));
+    return ::FUN_004839c0(unk24);
 }
 
 extern "C" void* __cdecl DAT_0108b474;
@@ -326,13 +344,15 @@ struct FUN_0096a280_class
 };
 struct FUN_0096a350_class
 {
+    char pad[0x4];
+    unsigned short unk04;
     unsigned int GetShortAtOffset4();
 };
 
 // @fnv 0x0096a350
 unsigned int FUN_0096a350_class::GetShortAtOffset4()
 {
-    return *(unsigned short*)((char*)this + 4);
+    return unk04;
 }
 
 struct FUN_0096a370_Class
@@ -352,15 +372,22 @@ struct Unk6b
 
 struct FUN_0096a540_class
 {
+    char pad[0xc];
+    Unk6b unk0c;
     void FUN_0096a540(void* arg);
 };
 
+struct FUN_0096a540_Item
+{
+    char pad[8];
+    unsigned char unk08;
+};
 // Clears the byte at offset 8 of arg, then calls FreeMemory on the object at this+0xc with arg.
 // @fnv 0x0096a540
 void FUN_0096a540_class::FUN_0096a540(void* arg)
 {
-    *(unsigned char*)((char*)arg + 8) = 0;
-    reinterpret_cast<::FUN_006b8310_class *>((((Unk6b*)((char*)this + 0xc))))->FreeMemory(arg);
+    static_cast<FUN_0096a540_Item*>(arg)->unk08 = 0;
+    reinterpret_cast<::FUN_006b8310_class *>(((&unk0c)))->FreeMemory(arg);
 }
 
 struct AX
@@ -456,6 +483,8 @@ void FUN_0096a730_class::FUN_0096a730()
 
 struct FUN_0096a930_class
 {
+    void* vtbl;
+    void** unk04;
     void FUN_0096ad00();
     void FUN_0096a930();
 };
@@ -517,24 +546,28 @@ void FUN_00977770_Class::FUN_00977770(void* apShooter, void* apProjectile)
 
 struct FUN_00977c70_class
 {
+    char pad[0x43c];
+    float unk43c;
     float GetField43C();
 };
 
 // @fnv 0x00977c70
 float FUN_00977c70_class::GetField43C()
 {
-    return *(float*)((char*)this + 0x43c);
+    return unk43c;
 }
 
 struct FUN_00977c90_class
 {
+    char pad[0x440];
+    float unk440;
     void FUN_00977c90(float value);
 };
 
 // @fnv 0x00977c90
 void FUN_00977c90_class::FUN_00977c90(float value)
 {
-    *(float*)((char*)this + 0x440) = value;
+    unk440 = value;
 }
 
 namespace fnv_00978a60 {
@@ -592,6 +625,8 @@ struct FUN_0097f220_t
 
 struct FUN_0097f200_t
 {
+    char pad[0xb4];
+    FUN_0097f220_t unkb4;
     void FUN_0097f200();
 };
 
@@ -604,7 +639,7 @@ struct FUN_0097f220_Class
 // @fnv 0x0097f200
 void FUN_0097f200_t::FUN_0097f200()
 {
-    reinterpret_cast<::FUN_0097f220_Class *>((((FUN_0097f220_t*)((char*)this + 0xb4))))->FUN_0097f220();
+    reinterpret_cast<::FUN_0097f220_Class *>(((&unkb4)))->FUN_0097f220();
 }
 
 // @fnv 0x0097f220
@@ -642,13 +677,18 @@ struct FUN_00961200_Class
 {
     void ApplyToScriptLocals(void* a);
 };
+struct FUN_00961200_Locals
+{
+    char pad[0x30];
+    char unk30;
+};
 // Gets the script locals object from this and, if present, calls FUN_004a3f10 on a with the locals at offset 0x30.
 // @fnv 0x00961200
 void FUN_00961200_Class::ApplyToScriptLocals(void* pTarget)
 {
     void* p = ((void *)(::FUN_004ae750((void *)(((ScriptLocalsX*)this)))));
     if (p)
-        reinterpret_cast<::AlignedVector *>((((T_*)pTarget)))->FUN_004a3f10((*(const ::AlignedVector *)((char*)p + 0x30)));
+        reinterpret_cast<::AlignedVector *>((((T_*)pTarget)))->FUN_004a3f10((*(const ::AlignedVector *)&static_cast<FUN_00961200_Locals*>(p)->unk30));
 }
 
 namespace fnv_00961230 {
@@ -662,12 +702,17 @@ struct FUN_00961230_Class
 {
     void FUN_00961230(T_* param);
 };
+struct FUN_00961230_Locals
+{
+    char pad[0x20];
+    char unk20;
+};
 // @fnv 0x00961230
 void FUN_00961230_Class::FUN_00961230(T_* pTarget)
 {
     void* result = ((void *)(::FUN_004ae750((void *)(((ScriptLocalsX*)this)))));
     if (result)
-        reinterpret_cast<::AlignedVector *>((pTarget))->FUN_004a3f10((*(const ::AlignedVector *)((char*)result + 0x20)));
+        reinterpret_cast<::AlignedVector *>((pTarget))->FUN_004a3f10((*(const ::AlignedVector *)&static_cast<FUN_00961230_Locals*>(result)->unk20));
 }
 }  // namespace fnv_00961230
 
@@ -677,15 +722,19 @@ struct GO
 };
 struct FUN_00962490_Class
 {
+    char pad[0x864];
+    char unk864;
+    char pad865[0x3];
+    char unk868;
     void FUN_00962490(void* p, unsigned char flag);
 };
 // @fnv 0x00962490
 void FUN_00962490_Class::FUN_00962490(void* p, unsigned char flag)
 {
     if (flag)
-        *(GO*)((char*)this + 0x864) = p;
+        *(GO*)(&unk864) = p;
     else
-        *(GO*)((char*)this + 0x868) = p;
+        *(GO*)(&unk868) = p;
 }
 
 struct StartMenu
@@ -697,15 +746,17 @@ struct GlobalObject_0040c150
 };
 struct FUN_009627a0_Class
 {
+    char pad[0x86c];
+    unsigned char unk86c;
     void ShowStartMenuMessageOnce();
 };
 // If the byte at offset 0x86c is clear, sets it to 1 and queues a UI message using the start menu's string and _DAT_010162c0.
 // @fnv 0x009627a0
 void FUN_009627a0_Class::ShowStartMenuMessageOnce()
 {
-    if (!(*((unsigned char*)this + 0x86c)))
+    if (!(*(&unk86c)))
     {
-        *((char*)this + 0x86c) = 1;
+        *((char*)&unk86c) = 1;
         ::DispatchMessageToSink((const char *)(((StartMenu*)&::g_011d3048)->GetMenuTitle()), 0, (const char *)(0), (const char *)(0), ::DAT_010162c0, false);
     }
 }
@@ -719,6 +770,8 @@ struct FUN_0056aac0_map
 };
 struct FUN_00962850_Class
 {
+    char pad[0x854];
+    FUN_0056aac0_map unk854;
     void FUN_00962850(TESSound* sound, bool flag);
 };
 // If sound is non-null, inserts the reference returned by sound->Deallocate() into the map at this+0x854 with the given flag.
@@ -726,7 +779,7 @@ struct FUN_00962850_Class
 void FUN_00962850_Class::FUN_00962850(TESSound* sound, bool flag)
 {
     if (sound)
-        reinterpret_cast<::FUN_0084d310_class *>((((FUN_0056aac0_map*)((char*)this + 0x854))))->FUN_0084d310((int)(reinterpret_cast<::FUN_0084e3a0_Class *>((sound))->FUN_0084e3a0()), flag);
+        reinterpret_cast<::FUN_0084d310_class *>(((&unk854)))->FUN_0084d310((int)(reinterpret_cast<::FUN_0084e3a0_Class *>((sound))->FUN_0084e3a0()), flag);
 }
 
 struct IntegerPairPointerRecord
@@ -742,18 +795,19 @@ struct PlayerActionObjectList
 };
 struct FUN_009640b0_Class
 {
-    int m_60c;
+    char pad[0x60c];
+    void* m_60c;
     void* FUN_009640b0();
 };
 // @fnv 0x009640b0
 void* FUN_009640b0_Class::FUN_009640b0()
 {
     void* result = 0;
-    if (*(void**)((char*)this + 0x60c))
+    if (m_60c)
     {
-        if (((::PlayerActionObjectList *)(((::Vec3 *)(void *)(((PlayerActionObjectList*)*(void**)((char*)this + 0x60c))))))->item)
+        if (((::PlayerActionObjectList *)(((::Vec3 *)(void *)(((PlayerActionObjectList*)m_60c)))))->item)
         {
-            result = ((::PlayerActionObjectList *)(((::Vec3 *)(void *)(((PlayerActionObjectList*)*(void**)((char*)this + 0x60c))))))->item->m_8;
+            result = ((::PlayerActionObjectList *)(((::Vec3 *)(void *)(((PlayerActionObjectList*)m_60c)))))->item->m_8;
         }
     }
     return result;
@@ -1062,7 +1116,8 @@ void* FUN_0096a7b0_Class::Initialize(unsigned short ausCapacity, unsigned short 
 
 struct FUN_00964060_Class
 {
-    int m_60c;
+    char pad[0x60c];
+    void* m_60c;
     int GetActionObjectItemId();
 };
 
@@ -1070,10 +1125,10 @@ struct FUN_00964060_Class
 int FUN_00964060_Class::GetActionObjectItemId()
 {
     int result = 0;
-    if (*(void**)((char*)this + 0x60c))
+    if (m_60c)
     {
-        if (((::PlayerActionObjectList *)(((::Vec3 *)(void *)(((PlayerActionObjectList*)*(void**)((char*)this + 0x60c))))))->item)
-            result = ((::PlayerActionObjectList *)(((::Vec3 *)(void *)(((PlayerActionObjectList*)*(void**)((char*)this + 0x60c))))))->item->m_iWordAt00;
+        if (((::PlayerActionObjectList *)(((::Vec3 *)(void *)(((PlayerActionObjectList*)m_60c)))))->item)
+            result = ((::PlayerActionObjectList *)(((::Vec3 *)(void *)(((PlayerActionObjectList*)m_60c)))))->item->m_iWordAt00;
     }
     return result;
 }
@@ -1407,8 +1462,8 @@ template <> class NiTMallocInterface<void*>
 // @fnv 0x0096ad00
 void FUN_0096a930_class::FUN_0096ad00()
 {
-    *((void**)this) = &::DAT_0108c0c8;
-    ::FUN_004ede70(*((void***)((char*)this + 4)));
+    vtbl = &::DAT_0108c0c8;
+    ::FUN_004ede70(unk04);
 }
 
 struct FUN_0096af60_Class : public FUN_0096a930_class
@@ -1858,6 +1913,10 @@ struct FUN_00877a30_Class
 
 class FUN_0096abc0_cls
 {
+    char pad[0x10];
+    char unk10;
+    char pad11[0x1b];
+    unsigned int unk2c;
   public:
     int FindKeyIndex(int key, unsigned int start);
 };
@@ -1869,8 +1928,8 @@ int FUN_0096abc0_cls::FindKeyIndex(int key, unsigned int start)
     int found = -1;
     if (key != 0)
     {
-        for (unsigned int i = ((unsigned int*)((char*)this + 0x10))[start];
-             i < *(unsigned int*)((char*)this + 0x2c) && found == -1; i++)
+        for (unsigned int i = ((unsigned int*)&unk10)[start];
+             i < unk2c && found == -1; i++)
         {
             if (key == *((FUN_00877a30_Class*)this)->FUN_00877a30(i))
             {
@@ -8482,6 +8541,8 @@ struct WTHighProcess
 
 struct WTPlayer
 {
+    char pad[0x94];
+    char unk94;
 };
 
 struct WTPlayerBounds
@@ -8818,7 +8879,7 @@ void WTActor::FUN_00969fa0()
         ::DispatchMessageToSink((const char *)((*reinterpret_cast<::WTSetting *>(&::g_011d4b10)).String()), 0, (const char *)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds"), (const char *)(0),
                        ::DAT_010162c0, false);
     }
-    else if (reinterpret_cast<::FUN_00822e00_shell *>((((WTPlayerBounds*)((char*)(*reinterpret_cast<::WTPlayer * *>(&::_g_thePlayer)) + 0x94))))->FUN_00822e00())
+    else if (reinterpret_cast<::FUN_00822e00_shell *>(((WTPlayerBounds*)&(*reinterpret_cast<::WTPlayer * *>(&::_g_thePlayer))->unk94))->FUN_00822e00())
     {
         ::DispatchMessageToSink((const char *)((*reinterpret_cast<::WTSetting *>(&::g_011d47d4)).String()), 0, (const char *)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds"), (const char *)(0),
                        ::DAT_010162c0, false);

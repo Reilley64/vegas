@@ -2,6 +2,7 @@
 // src/staging/blk_00420000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include "fnv/simple_array_item.h"
 #include <cstdint>
 #include <new>
 #include <cstring>
@@ -2197,7 +2198,7 @@ void FUN_00435e40_cls::FUN_00435e40()
     for (unsigned int i = 0; i < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_0c))->GetName())); i++)
     {
         FUN_00435e40_key key;
-        key.m_v = *((unsigned int *)(reinterpret_cast<::S3e60 *>(&(m_0c))->FUN_006a7ad0(i)));
+        key.m_v = SimpleArrayItem<unsigned int>(&(m_0c), i);
         if (((double)(reinterpret_cast<::FUN_00435e00_t *>(&(key))->FUN_00435e00())) > *((float *)&(::FUN_00403e20((float *)(((FUN_00435e40_flt*)&(*reinterpret_cast<char *>(&::originalRuntimeFloatSetting130))))))))
         {
             reinterpret_cast<::fnv_009a4320::FUN_009a4320_arr *>(&(m_0c))->FUN_009a4320(i, 1);
@@ -3120,7 +3121,7 @@ void FUN_00435d40_cls::FUN_00435d40()
     if (n > 0)
     {
         FloatSlot v;
-        v.m_bits = *((unsigned int *)(reinterpret_cast<::S3e60 *>(&(m_0c))->FUN_006a7ad0(n - 1)));
+        v.m_bits = SimpleArrayItem<unsigned int>(&(m_0c), n - 1);
         if (reinterpret_cast<::FUN_00435e00_t *>(&(v))->FUN_00435e00() < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FloatGlobal *>(&::originalRuntimeFloatSetting131)))))))
             return;
     }

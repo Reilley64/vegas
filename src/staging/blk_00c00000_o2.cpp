@@ -211,18 +211,39 @@ struct NiTPrimitiveArray_int___
     void SetAt(unsigned int, int&);
 };
 
-struct FUN_00c04960_class
+struct ImageSpaceEffectArray
+{
+    void* vtbl;
+    void** m_pBase;
+    unsigned short m_usMaxSize;
+    unsigned short m_usSize;
+    unsigned short m_usESize;
+    unsigned short m_usGrowBy;
+};
+struct ImageSpaceEffectBase
+{
+    void* vtbl;
+    bool m_bIsActive;
+    bool m_bParamsChanged;
+    ImageSpaceEffectArray m_kEffectList;
+    ImageSpaceEffectArray m_kEffectParamList;
+    ImageSpaceEffectArray m_kArray28;
+    ImageSpaceEffectArray m_kTextureList;
+    ImageSpaceEffectArray m_kEffectOutput;
+};
+
+struct FUN_00c04960_class : ImageSpaceEffectBase
 {
     void ResetArrayElement();
 };
 
-// Calls FUN_00b4f510, then sets the int array at offset 0x28 to value 0 at index 2.
+// Calls FUN_00b4f510, then clears entry 2 of the array at m_kArray28.
 // @fnv 0x00c04960
 void FUN_00c04960_class::ResetArrayElement()
 {
     ::FUN_00b4f510();
-    int value = 0;
-    reinterpret_cast<::FUN_00a41520_cls *>((((NiTPrimitiveArray_int___*)((char*)this + 0x28))))->FUN_00ba3aa0(2, (::KeyPair **)&(value));
+    void* value = 0;
+    reinterpret_cast<::FUN_00a41520_cls *>(&m_kArray28)->FUN_00ba3aa0(2, (::KeyPair **)&(value));
 }
 
 namespace fnv_00c04a80 {
@@ -425,14 +446,15 @@ struct FUN_00c036e0_class
 {
     char pad[0x5];
     unsigned char unk05;
-    char pad06[0x56];
+    char pad06[0x52];
+    int unk58;
     void FUN_00c036e0(int a);
 };
 // @fnv 0x00c036e0
 void FUN_00c036e0_class::FUN_00c036e0(int a)
 {
     this->unk05 = 1;
-    *(int*)((char*)this + 0x58) = a;
+    this->unk58 = a;
 }
 
 // @fnv 0x00c06dc0
@@ -613,21 +635,18 @@ struct ImageSpaceShaderParam
     void SetShaderConstantVector4(int a, float b, float c, float d, float e);
 };
 
-struct FUN_00c053c0_class
+struct FUN_00c053c0_class : ImageSpaceEffectBase
 {
-    char pad00[0x1c];
-    ImageSpaceShaderParam* m_pParam;
-    char pad20[0x58 - 0x20];
     char* m_p58;
 
     bool UpdateShaderParam(int);
 };
 
-// Reads a shader param from this+0x1c and sets its values from m_p58 offsets 4/8 or two globals, then stores 4.0 to _DAT_012003c4 and returns true.
+// Reads the first shader param and sets its values from m_p58 offsets 4/8 or two globals, then stores 4.0 to _DAT_012003c4 and returns true.
 // @fnv 0x00c053c0
 bool FUN_00c053c0_class::UpdateShaderParam(int)
 {
-    ImageSpaceShaderParam* p = *reinterpret_cast<ImageSpaceShaderParam**>((*reinterpret_cast<int**>(&this->m_pParam)));
+    ImageSpaceShaderParam* p = (ImageSpaceShaderParam*)m_kEffectParamList.m_pBase[0];
     if (m_p58)
     {
         p->SetShaderConstantVector4(0, 0.0f, *(float*)(m_p58 + 4), *(float*)(m_p58 + 8), 0.0f);
@@ -659,11 +678,8 @@ extern float DAT_012023f4;
 extern float DAT_012023f8;
 extern int DAT_011ae680;
 
-struct FUN_00c03350_class
+struct FUN_00c03350_class : ImageSpaceEffectBase
 {
-    char pad00[0x1c];
-    FUN_00c053c0_class* m_pParam;
-    char pad20[0x58 - 0x20];
     char* m_p58;
     bool FUN_00c03350(int);
 };
@@ -672,7 +688,7 @@ struct FUN_00c03350_class
 // @fnv 0x00c03350
 bool FUN_00c03350_class::FUN_00c03350(int)
 {
-    ((ImageSpaceShaderParam*)*((uintptr_t*)(*(uintptr_t*)((char*)this + 0x1c) + 4)))
+    ((ImageSpaceShaderParam*)m_kEffectParamList.m_pBase[1])
         ->SetShaderConstantVector4(0, DAT_012023f4, DAT_012023f8, 0.0f, 0.0f);
     DAT_011ae680 = 0x80;
     return false;
@@ -682,8 +698,9 @@ struct ISTex
 {
 };
 
-struct FUN_00c03390_class
+struct FUN_00c03390_class : ImageSpaceEffectBase
 {
+    ISTex m_kTexture58;
     void FUN_00c03390(int);
 };
 
@@ -691,12 +708,12 @@ struct FUN_00c03390_class
 void FUN_00c03390_class::FUN_00c03390(int)
 {
     ISTex* texture;
-    ISTex* pTexture = reinterpret_cast<ISTex*>(reinterpret_cast<char*>(this) + 0x58);
+    ISTex* pTexture = &m_kTexture58;
 
     reinterpret_cast<::H_00ba3840 *>((pTexture))->FUN_00ba3840(3);
 
     texture = pTexture;
-    reinterpret_cast<::FUN_00a41520_cls *>((reinterpret_cast<NiTPrimitiveArray_int___*>(reinterpret_cast<char*>(this) + 0x28)))->FUN_00ba3aa0(2, (::KeyPair **)&(texture));
+    reinterpret_cast<::FUN_00a41520_cls *>(&m_kArray28)->FUN_00ba3aa0(2, (::KeyPair **)&(texture));
 }
 
 struct BeamStage
@@ -1140,12 +1157,18 @@ void Holder::AppendBoundInfo(StrArr* strings)
 }
 struct FUN_00c1a680_class
 {
+    char pad00[0x20];
+    NiBound* m_pWorldBound;
+    char pad24[0x68 - 0x24];
+    NiTransformDummy m_kWorld;
+    char pad78[0xc8 - 0x78];
+    NiBound m_kLocalBound;
     void FUN_00c1a680();
 };
 // @fnv 0x00c1a680
 void FUN_00c1a680_class::FUN_00c1a680()
 {
-    ((NiBound*)(*(void**)((char*)this + 0x20)))->Update(*((const NiBound*)((char*)this + 0xc8)), (const ::NiTransform &)(*(const NiTransformDummy*)((char*)this + 0x68)));
+    m_pWorldBound->Update(m_kLocalBound, (const ::NiTransform &)m_kWorld);
 }
 
 namespace fnv_00c1a740 {
@@ -1511,7 +1534,10 @@ struct FUN_00c033c0
     unsigned char unk58;
     unsigned char unk59;
     unsigned char unk5a;
-    char pad5b[0xd];
+    char pad5b[0x1];
+    int unk5c;
+    int unk60;
+    int unk64;
     FUN_00c033c0();
 };
 
@@ -1523,9 +1549,9 @@ FUN_00c033c0::FUN_00c033c0()
     this->unk58 = 0;
     this->unk59 = 0;
     this->unk5a = 0;
-    *(volatile int*)((char*)this + 0x5c) = 0;
-    *(volatile int*)((char*)this + 0x60) = 0;
-    *(volatile int*)((char*)this + 0x64) = 0;
+    this->unk5c = 0;
+    this->unk60 = 0;
+    this->unk64 = 0;
 }
 
 struct DestroyableReference
@@ -1674,22 +1700,25 @@ class FUN_00c036f0_sub5c
   public:
 };
 
-class FUN_00c036f0_cls
+class FUN_00c036f0_cls : public ImageSpaceEffectBase
 {
   public:
+    char pad58[0x5c - 0x58];
+    char m_kTexture5C[0x6c - 0x5c];
+    char m_kTexture6C[0x10];
     void InitSubObjects(int aUnused);
 };
 
-// Sets value 0x1b on the sub-objects at offsets 0x5c and 0x6c, then calls the sub-object at 0x28 with modes 2 and 3 passing each pointer.
+// Sets value 0x1b on the two embedded textures, then stores them as entries 2 and 3 of m_kArray28.
 // @fnv 0x00c036f0
 void FUN_00c036f0_cls::InitSubObjects(int aUnused)
 {
-    FUN_00c036f0_sub5c* pSub = (FUN_00c036f0_sub5c*)((char*)this + 0x5c);
+    FUN_00c036f0_sub5c* pSub = (FUN_00c036f0_sub5c*)m_kTexture5C;
     reinterpret_cast<::H_00ba3840 *>((pSub))->FUN_00ba3840(0x1b);
-    reinterpret_cast<::FUN_00a41520_cls *>((((FUN_00c036f0_sub28*)((char*)this + 0x28))))->FUN_00ba3aa0(2, (::KeyPair **)(::FUN_00c036f0_sub5c **)(&pSub));
-    pSub = (FUN_00c036f0_sub5c*)((char*)this + 0x6c);
+    reinterpret_cast<::FUN_00a41520_cls *>(&m_kArray28)->FUN_00ba3aa0(2, (::KeyPair **)(::FUN_00c036f0_sub5c **)(&pSub));
+    pSub = (FUN_00c036f0_sub5c*)m_kTexture6C;
     reinterpret_cast<::H_00ba3840 *>((pSub))->FUN_00ba3840(0x1b);
-    reinterpret_cast<::FUN_00a41520_cls *>((((FUN_00c036f0_sub28*)((char*)this + 0x28))))->FUN_00ba3aa0(3, (::KeyPair **)(::FUN_00c036f0_sub5c **)(&pSub));
+    reinterpret_cast<::FUN_00a41520_cls *>(&m_kArray28)->FUN_00ba3aa0(3, (::KeyPair **)(::FUN_00c036f0_sub5c **)(&pSub));
 }
 
 class NiRefObject
@@ -12153,12 +12182,12 @@ struct C0D170Self
 // @fnv 0x00c0d170
 bool C0D170Self::FUN_00c0d170()
 {
-    void* slot = &DAT_01202230;
+    ::NiPointer< ::NiD3DPass>* slot = (::NiPointer< ::NiD3DPass>*)(void*)&DAT_01202230;
     int n = 0x21;
     do
     {
-        ::NiD3DPass::CreateD3DPass((*(::NiPointer< ::NiD3DPass> *)(slot)));
-        slot = (char*)slot + 4;
+        ::NiD3DPass::CreateD3DPass(*slot);
+        ++slot;
     } while (--n);
     this->at158();
     return true;

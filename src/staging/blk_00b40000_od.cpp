@@ -41,6 +41,17 @@ struct NiPoint3
 };
 struct CIdvCamera
 {
+    int unk00;
+    NiPoint3 m_kTranslation;
+    unsigned char unk10;
+    int unk14;
+    unsigned char unk18;
+    NiPoint3 unk1c;
+    NiPoint3 unk28;
+    NiPoint3 unk34;
+    unsigned char unk40;
+    float unk44;
+    int unk48;
     CIdvCamera& FUN_00b3f0c0(CIdvCamera const&);
     CIdvCamera& FUN_00b402d0(CIdvCamera const& src);
 };
@@ -50,15 +61,15 @@ CIdvCamera& CIdvCamera::FUN_00b402d0(CIdvCamera const& src)
     if (&src != this)
     {
         FUN_00b3f0c0(src);
-        *(unsigned char*)((char*)this + 0x10) = *(unsigned char*)((char*)&src + 0x10);
-        *(int*)((char*)this + 0x14) = *(int*)((char*)&src + 0x14);
-        *(unsigned char*)((char*)this + 0x18) = *(unsigned char*)((char*)&src + 0x18);
-        *(NiPoint3*)((char*)this + 0x1c) = *(NiPoint3*)((char*)&src + 0x1c);
-        *(unsigned char*)((char*)this + 0x40) = *(unsigned char*)((char*)&src + 0x40);
-        *(float*)((char*)this + 0x44) = *(float*)((char*)&src + 0x44);
-        *(int*)((char*)this + 0x48) = *(int*)((char*)&src + 0x48);
-        *(NiPoint3*)((char*)this + 0x28) = *(NiPoint3*)((char*)&src + 0x28);
-        *(NiPoint3*)((char*)this + 0x34) = *(NiPoint3*)((char*)&src + 0x34);
+        unk10 = src.unk10;
+        unk14 = src.unk14;
+        unk18 = src.unk18;
+        unk1c = src.unk1c;
+        unk40 = src.unk40;
+        unk44 = src.unk44;
+        unk48 = src.unk48;
+        unk28 = src.unk28;
+        unk34 = src.unk34;
     }
     return *this;
 }
@@ -110,7 +121,6 @@ FUN_00b42980& FUN_00b42980::Set(void* v, FUN_00b42980 const& src)
 
 struct FUN_00b40150 : CIdvCamera
 {
-    unsigned char data[76];
     FUN_00b40150();
 };
 

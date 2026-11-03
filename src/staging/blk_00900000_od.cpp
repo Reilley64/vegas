@@ -155,13 +155,14 @@ struct QHeadPtr
 };
 struct FUN_009157c0
 {
+    char pad[0x14];
     QHeadPtr m;
     void Method();
 };
 // @fnv 0x009157c0
 void FUN_009157c0::Method()
 {
-    ::FUN_0044cbf0((void **)(((QHeadPtr*)((char*)this + 0x14))));
+    ::FUN_0044cbf0((void **)(&m));
 }
 
 struct PathingAvoidanceNode
@@ -425,14 +426,16 @@ void FUN_009138e0_Class::FUN_009138e0()
 
 struct FUN_00913950_Class
 {
+    int unk00;
+    int unk04;
     void* FUN_00913950(int a);
 };
 
 // @fnv 0x00913950
 void* FUN_00913950_Class::FUN_00913950(int a)
 {
-    ((int*)this)[0] = 0;
-    ((int*)this)[1] = 0;
+    unk00 = 0;
+    unk04 = 0;
     return this;
 }
 

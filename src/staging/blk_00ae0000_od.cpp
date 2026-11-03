@@ -46,6 +46,8 @@
 #include "fnv/symbols_011f8000.h"
 #include "fnv/symbols_01202000.h"
 #include "../../include/layout_support.h"
+#include "../../include/BSAudioListener.h"
+#include "../../include/BSDiscBootSystemUtility.h"
 #include <mmsystem.h>
 #include <cwchar>
 #include "fnv/decl/AudioMgr_adac30.h"
@@ -143,21 +145,15 @@ int* FUN_00aea890_Class::FUN_00aea890()
 }
 
 extern int DAT_010a3bb4;
-struct FUN_00aeaab0_Class
+struct FUN_00aeaab0_Class : ::BSAudioListener
 {
-    void* vtbl;
-    char m_acCharacterBuffer[64];
-    void* m_pObjectAt84;
-    void* m_pObjectAt88;
-    char bVisible;
-    int m_iValueAt90;
     void FUN_00aeaab0();
 };
 // @fnv 0x00aeaab0
 void FUN_00aeaab0_Class::FUN_00aeaab0()
 {
-    vtbl = &DAT_010a3bb4;
-    *(int*)((char*)this + 0x44) = 0;
+    m_ppVirtualMethodTable = (void**)&DAT_010a3bb4;
+    m_uiListenerFlags = 0;
 }
 
 
@@ -346,7 +342,11 @@ struct FUN_00ad6f40_Class
 struct FUN_00aea1b0_Class
 {
     void* vtbl;
-    int x;
+    char pad04[0x34];
+    void* m_pDirectSound;
+    void* m_pPrimaryBuffer;
+    char m_acCaps[0x60];
+    HWND m_hWindow;
     void* FUN_00ad6f40();
     FUN_00aea1b0_Class();
 };
@@ -356,29 +356,27 @@ FUN_00aea1b0_Class::FUN_00aea1b0_Class()
 {
     new ((void *)this) ::FUN_00ad6f40();
     vtbl = (void*)&DAT_010a39d8;
-    *(int*)((char*)this + 0x38) = 0;
-    *(int*)((char*)this + 0x3c) = 0;
-    *(int*)((char*)this + 0xa0) = 0;
-    std::memset((char*)this + 0x40, 0, 0x60);
+    m_pDirectSound = 0;
+    m_pPrimaryBuffer = 0;
+    m_hWindow = 0;
+    std::memset(m_acCaps, 0, sizeof(m_acCaps));
 }
 
 extern int DAT_010a3b7c;
-struct FUN_00aea730_Class
+struct FUN_00aea730_Class : ::BSAudioListener
 {
-    void* vtbl;
-    int m_kPointA;
-    int m_kPointB;
+    void* m_pListener3D;
     FUN_00aea730_Class* FUN_00aea730(int v);
 };
 // Sets the vtbl pointers, zeroes the field at 0x48 and the float at 0x3c, then stores v at 0x48 and returns this.
 // @fnv 0x00aea730
 FUN_00aea730_Class* FUN_00aea730_Class::FUN_00aea730(int aiValue)
 {
-    vtbl = (void*)&DAT_010a3bb4;
-    vtbl = (void*)&DAT_010a3b7c;
-    *(int*)((char*)this + 0x48) = 0;
-    *(float*)((char*)this + 0x3c) = 0.0f;
-    *(int*)((char*)this + 0x48) = aiValue;
+    m_ppVirtualMethodTable = (void**)&DAT_010a3bb4;
+    m_ppVirtualMethodTable = (void**)&DAT_010a3b7c;
+    m_pListener3D = 0;
+    m_fDopplerScale = 0.0f;
+    m_pListener3D = (void*)(std::intptr_t)aiValue;
     return this;
 }
 
@@ -407,17 +405,22 @@ void FUN_00aefcf0_Class::FUN_00aefcf0(float a, float b, float c)
 
 struct FUN_00af1d20_Class
 {
+    char m_acData[0x2d0];
+    int unk2d0;
+    int unk2d4;
+    int unk2d8;
+    char unk2dc;
     void* FUN_00af1d20();
 };
 // Zeroes the object's first 0x2d0 bytes and clears the int fields at 0x2d0, 0x2d4, 0x2d8 and the byte at 0x2dc, then returns this.
 // @fnv 0x00af1d20
 void* FUN_00af1d20_Class::FUN_00af1d20()
 {
-    *(int*)((char*)this + 0x2d4) = 0;
-    *(int*)((char*)this + 0x2d8) = 0;
+    unk2d4 = 0;
+    unk2d8 = 0;
     std::memset(this, 0, 0x2d0);
-    *(char*)((char*)this + 0x2dc) = 0;
-    *(int*)((char*)this + 0x2d0) = 0;
+    unk2dc = 0;
+    unk2d0 = 0;
     return this;
 }
 
@@ -763,29 +766,19 @@ FUN_00af3980_Class::FUN_00af3980_Class()
     iField084c = 0;
 }
 
-struct FUN_00af3a40_Class
+struct FUN_00af3a40_Class : ::BSDiscBootSystemUtility
 {
-    void* vtbl;
-    char bVisible;
-    void* m_pObjectAt84;
-    void* m_pObjectAt88;
-    char m_cValueAt94;
-    char m_cValueAt95;
-    char pad[0x44 - 0x11];
-    int m_iValueAt90;
-    char c48;
-    int i4c;
     void* ResetState();
 };
 // Sets the vtable pointer and clears the fields at offsets 0x44, 0x48, 0x4c and bVisible, then returns this.
 // @fnv 0x00af3a40
 void* FUN_00af3a40_Class::ResetState()
 {
-    vtbl = &DAT_010a4318;
-    *(int*)((char*)this + 0x44) = 0;
-    *((char*)&this->m_iValueAt90) = 0;
-    *(int*)((char*)this + 0x4c) = 0;
-    bVisible = 0;
+    m_ppVirtualMethodTable = (void**)&DAT_010a4318;
+    m_uiParentalLevel = 0;
+    m_bNotificationActive = 0;
+    m_pNotificationCallback = 0;
+    m_acTitleID[0] = 0;
     return this;
 }
 
@@ -1456,17 +1449,6 @@ void S_00aeaa10_Cls::FUN_00aeaa10(const S_00aeaa10_P3* pPos)
 struct MMStub
 {
 };
-class NiPoint3
-{
-  public:
-    float x;
-    float y;
-    float z;
-public:
-    static const ::NiPoint3 ZERO;
-    float ComputeMagnitude() const;
-};
-
 struct Stub1A4
 {
     int unk00;

@@ -90,24 +90,28 @@ public:
 
 struct FUN_008a0250_class
 {
+    char pad[0xc4];
+    bool unkc4;
     void FUN_008a0250();
 };
 
 // @fnv 0x008a0250
 void FUN_008a0250_class::FUN_008a0250()
 {
-    *reinterpret_cast<bool*>(reinterpret_cast<char*>(this) + 0xc4) = true;
+    unkc4 = true;
 }
 
 struct FUN_008a08c0_Class
 {
+    char pad[0x7c4];
+    char unk7c4;
     char GetByteAt7C4();
 };
 
 // @fnv 0x008a08c0
 char FUN_008a08c0_Class::GetByteAt7C4()
 {
-    return ((char*)this)[0x7c4];
+    return unk7c4;
 }
 
 class TESActorBase;
@@ -118,35 +122,41 @@ public:
 };
 struct FUN_008a1a40_shell : Actor
 {
+    char pad[0x10c];
+    Actor* unk10c;
     void FUN_008a1a40(Actor* p);
 };
 // @fnv 0x008a1a40
 void FUN_008a1a40_shell::FUN_008a1a40(Actor* apActor)
 {
-    *(Actor**)((char*)this + 0x10c) = apActor;
+    unk10c = apActor;
     reinterpret_cast<::FUN_008a1a70_shell *>(this)->FUN_008a1a70();
 }
 
 struct FUN_008ae480_Class
 {
+    char pad[0x1a8];
+    float unk1a8;
     float GetField1A8();
 };
 
 // @fnv 0x008ae480
 float FUN_008ae480_Class::GetField1A8()
 {
-    return *(float*)((char*)this + 0x1a8);
+    return unk1a8;
 }
 
 struct FUN_008ae4a0_Class
 {
+    char pad[0x1b8];
+    float unk1b8;
     float GetField1B8();
 };
 
 // @fnv 0x008ae4a0
 float FUN_008ae4a0_Class::GetField1B8()
 {
-    return *(float*)((char*)this + 0x1b8);
+    return unk1b8;
 }
 
 struct FUN_008b3b10_Class
@@ -262,6 +272,8 @@ struct FUN_008b3af0_Class
 
 struct FUN_008b3b10_class
 {
+    char pad[0x72];
+    char unk72;
     void FUN_008b3b10();
 };
 // @fnv 0x008b3af0
@@ -273,29 +285,33 @@ void FUN_008b3af0_Class::FUN_008b3af0()
 // @fnv 0x008b3b10
 void FUN_008b3b10_class::FUN_008b3b10()
 {
-    *(char*)((char*)this + 0x72) = 0;
+    unk72 = 0;
 }
 
 struct FUN_008b4cd0_class
 {
+    char pad[0x60];
+    unsigned char unk60;
     bool IsFlag40Set();
 };
 
 // @fnv 0x008b4cd0
 bool FUN_008b4cd0_class::IsFlag40Set()
 {
-    return ((unsigned char*)this)[0x60] & 0x40;
+    return unk60 & 0x40;
 }
 
 struct FUN_008b4cf0_class
 {
+    char pad[0x65];
+    unsigned char unk65;
     unsigned char GetByte65();
 };
 
 // @fnv 0x008b4cf0
 unsigned char FUN_008b4cf0_class::GetByte65()
 {
-    return ((const unsigned char*)this)[0x65];
+    return unk65;
 }
 
 struct FUN_00884920_holder
@@ -320,6 +336,10 @@ struct FUN_008beae0_vt
 };
 struct FUN_008beae0 : FUN_008beae0_vt
 {
+    char pad[0x68];
+    FUN_00884920_holder* unk68;
+    char pad6c[0x3c];
+    char unka8;
     void ProcessCoverLOSResult();
 };
 struct FUN_008a88b0_ListBase
@@ -437,24 +457,28 @@ struct FUN_008b3a80_vt
 };
 struct FUN_008b3a80_Class
 {
+    char pad[0x190];
+    void* unk190;
     void ForwardToVtSlot(void* arg);
 };
 // Calls virtual method v2 on the object stored at this+0x190, passing arg through.
 // @fnv 0x008b3a80
 void FUN_008b3a80_Class::ForwardToVtSlot(void* arg)
 {
-    ((FUN_008b3a80_vt*)*(void**)((char*)this + 0x190))->v2(arg);
+    ((FUN_008b3a80_vt*)unk190)->v2(arg);
 }
 
 struct FUN_008b5190_Class
 {
+    char pad[0x60];
+    unsigned char unk60;
     bool FUN_008b5190();
 };
 
 // @fnv 0x008b5190
 bool FUN_008b5190_Class::FUN_008b5190()
 {
-    return ((unsigned char*)((char*)this + 0x60))[0] & 1 ? true : false;
+    return unk60 & 1 ? true : false;
 }
 
 struct FUN_008a81e0_Result
@@ -1055,10 +1079,10 @@ class C8BEB50Holder
 // @fnv 0x008beae0
 void FUN_008beae0::ProcessCoverLOSResult()
 {
-    if (*(FUN_00884920_holder**)((char*)this + 0x68) && ::FUN_00884920((int *)((*(FUN_00884920_holder**)((char*)this + 0x68)))))
-        reinterpret_cast<::C8BEB50Holder *>(((*(FUN_00884920_holder**)((char*)this + 0x68))))->FUN_008beb50((::C8BEB50Source *)(void *)(this ? (char*)this + 0xa8 : 0));
+    if (unk68 && ::FUN_00884920((int *)((unk68))))
+        reinterpret_cast<::C8BEB50Holder *>(((unk68)))->FUN_008beb50((::C8BEB50Source *)(void *)(this ? &unka8 : 0));
     else
-        ((FUN_008beae0_vt*)((char*)this + 0xa8))->v13();
+        ((FUN_008beae0_vt*)&unka8)->v13();
 }
 
 // Returns 0 if the data pointer is null, the data's m_iValue if flag 0x800 is clear, otherwise the source's GetValue().

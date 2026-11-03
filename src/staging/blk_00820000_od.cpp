@@ -2,6 +2,7 @@
 // src/staging/blk_00820000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include "fnv/simple_array_item.h"
 #include <cstdint>
 #include <windows.h>
 #include <objbase.h>
@@ -2612,7 +2613,7 @@ void FUN_008216c0_shell::UpdateEffectTimes()
     else
         time = reinterpret_cast<::FUN_00759450_shell *>((spell))->FUN_00759450();
     for (unsigned int i = 0; i < ((uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(effects))->GetName())); ++i)
-        reinterpret_cast<::ParticleEmitter *>((((::EffectTime *)(::FUN_00559450((int *)(((::EffectHandle *)(reinterpret_cast<::S3e60 *>(&(effects))->FUN_006a7ad0(i)))))))))->AdvanceParticleTimes(time);
+        reinterpret_cast<::ParticleEmitter *>((((::EffectTime *)(::FUN_00559450((int *)&SimpleArrayItem<void*>(&(effects), i))))))->AdvanceParticleTimes(time);
 }
 
 // Minimal declarations for the process list and its polymorphic entries.

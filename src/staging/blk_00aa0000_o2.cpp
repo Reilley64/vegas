@@ -90,6 +90,7 @@ void __cdecl FUN_00aa3050()
 
 struct FUN_00aa1010_s
 {
+    char pad00[0x10];
     unsigned int m_uiSize;
     void* m_pData;
     void ResizeAndCopy(unsigned int uiNewSize, const void* pData);
@@ -97,16 +98,16 @@ struct FUN_00aa1010_s
 // @fnv 0x00aa1010
 void FUN_00aa1010_s::ResizeAndCopy(unsigned int uiNewSize, const void* pData)
 {
-    if (*(unsigned int*)((char*)this + 0x10) < uiNewSize)
+    if (this->m_uiSize < uiNewSize)
     {
-        ::FUN_00aa10f0(*(void**)((char*)this + 0x14));
-        *(void**)((char*)this + 0x14) = 0;
-        *(unsigned int*)((char*)this + 0x10) = uiNewSize;
+        ::FUN_00aa10f0(this->m_pData);
+        this->m_pData = 0;
+        this->m_uiSize = uiNewSize;
     }
-    if (!*(void**)((char*)this + 0x14))
-        *(void**)((char*)this + 0x14) = ::FUN_00aa1070(*(unsigned int*)((char*)this + 0x10));
+    if (!this->m_pData)
+        this->m_pData = ::FUN_00aa1070(this->m_uiSize);
     if (pData)
-        std::memmove(*(void**)((char*)this + 0x14), pData, uiNewSize);
+        std::memmove(this->m_pData, pData, uiNewSize);
 }
 
 // Placeholder declarations

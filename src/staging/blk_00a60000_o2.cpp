@@ -66,6 +66,8 @@
 
 struct FUN_00a61590_class
 {
+    char pad00[0xb24];
+    int unkb24;
     void* ClearAndReset();
 };
 
@@ -74,7 +76,7 @@ struct FUN_00a61590_class
 void* FUN_00a61590_class::ClearAndReset()
 {
     std::memset(this, 0, 0xb24);
-    *(int*)((char*)this + 0xb24) = 0;
+    this->unkb24 = 0;
     return this;
 }
 
@@ -143,7 +145,21 @@ struct MemoryManager
 
 struct FUN_00a615c0_Class
 {
+    char pad00[0xfa4];
+    void* unkfa4;
     void ClearAllBuckets();
+};
+
+struct FUN_00a615c0_Owner
+{
+    void* unk00;
+    void* unk04;
+};
+
+struct FUN_00a615c0_Node
+{
+    FUN_00a615c0_Owner* owner;
+    FUN_00a615c0_Node* next;
 };
 
 // Walks each of 0x3e9 bucket lists, freeing every node via g_memoryManager.Deallocate, then clears the buckets and the pointer at offset 0xfa4.
@@ -156,26 +172,34 @@ void FUN_00a615c0_Class::ClearAllBuckets()
         void* current = p[i];
         while (current != 0)
         {
-            void* node = current;
-            current = ((void**)node)[1];
-            ((void**)((void**)node)[0])[1] = 0;
+            FUN_00a615c0_Node* node = (FUN_00a615c0_Node*)current;
+            current = node->next;
+            node->owner->unk04 = 0;
             reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(node);
         }
         p[i] = 0;
     }
-    *(void**)((char*)this + 0xfa4) = 0;
+    this->unkfa4 = 0;
 }
 
 struct RecursiveSpinLock
 {
 };
+struct FUN_00a638c0_Node
+{
+    void* next;
+    unsigned int unk04;
+    unsigned short unk08;
+};
+
 // @fnv 0x00a638c0
 void FUN_00a638c0(void* pNode)
 {
-    ((unsigned short*)((char*)pNode + 8))[0] = 0;
+    FUN_00a638c0_Node* node = (FUN_00a638c0_Node*)pNode;
+    node->unk08 = 0;
     reinterpret_cast<::FUN_0040fbf0_shell *>(&((*reinterpret_cast<::RecursiveSpinLock *>(&::g_011c5f80))))->FUN_0040fbf0((char *)(0));
-    *(unsigned int*)((char*)pNode + 4) = 0;
-    *(void**)pNode = DAT_011c5f58;
+    node->unk04 = 0;
+    node->next = DAT_011c5f58;
     --DAT_011c5f84;
     DAT_011c5f58 = pNode;
     if (!DAT_011c5f84)
@@ -191,13 +215,15 @@ struct MemoryManager
 
 struct FUN_00a63b30_Class
 {
+    char pad00[0x4];
+    void* unk04;
     void* FUN_00a63b30(bool);
 };
 
 // @fnv 0x00a63b30
 void* FUN_00a63b30_Class::FUN_00a63b30(bool abFree)
 {
-    void* p = *(void**)((char*)this + 4);
+    void* p = this->unk04;
     *(int**)((char*)this) = &::DAT_0109bc3c;
     NiFree(p);
     if (abFree & 1)
@@ -252,23 +278,33 @@ void* __cdecl FUN_00a7b790()
 
 struct FUN_00a7d670_Class
 {
+    char pad00[0x9d];
+    unsigned char unk9d;
+    char pad9e[0x52];
+    float unkf0;
+    float unkf4;
+    float unkf8;
     void* FUN_00a7d670();
 };
 // @fnv 0x00a7d670
 void* FUN_00a7d670_Class::FUN_00a7d670()
 {
     new ((void *)(this)) ::FUN_00a71f60_cls();
-    *(float*)((char*)this + 0xf0) = 0.0f;
+    this->unkf0 = 0.0f;
     *(uintptr_t*)this = (uintptr_t)&DAT_0109dd0c;
-    *(float*)((char*)this + 0xf4) = 1.0f;
-    *(unsigned char*)((char*)this + 0x9d) = 2;
-    *(float*)((char*)this + 0xf8) = 0.0f;
+    this->unkf4 = 1.0f;
+    this->unk9d = 2;
+    this->unkf8 = 0.0f;
     return this;
 }
 
 struct CloningProcess;
 struct NiDirectionalLight
 {
+    char pad00[0xf0];
+    float unkf0;
+    float unkf4;
+    float unkf8;
     void CopyMemberData(NiDirectionalLight* dst, CloningProcess& proc);
     void FUN_00a7d6a0(NiDirectionalLight* dst, CloningProcess& proc);
 };
@@ -276,12 +312,12 @@ struct NiDirectionalLight
 void NiDirectionalLight::FUN_00a7d6a0(NiDirectionalLight* dst, CloningProcess& proc)
 {
     CopyMemberData(dst, proc);
-    *reinterpret_cast<float*>(reinterpret_cast<char*>(dst) + 0xf0) =
-        *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0xf0);
-    *reinterpret_cast<float*>(reinterpret_cast<char*>(dst) + 0xf4) =
-        *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0xf4);
-    *reinterpret_cast<float*>(reinterpret_cast<char*>(dst) + 0xf8) =
-        *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0xf8);
+    dst->unkf0 =
+        this->unkf0;
+    dst->unkf4 =
+        this->unkf4;
+    dst->unkf8 =
+        this->unkf8;
 }
 
 // Hashes the lowercased characters of str (stopping before a trailing 3-character extension after a dot) and returns the hash modulo 713.
@@ -327,6 +363,10 @@ void FUN_00a755f0_Class::CopyCullingData(void* dst, CloningProcess& proc)
 
 struct FUN_00a72590_Class
 {
+    char pad00[0x20];
+    int* unk20;
+    char pad24[0x2];
+    unsigned short unk26;
     int FUN_00a72590(unsigned int index, int* out);
 };
 
@@ -334,10 +374,10 @@ struct FUN_00a72590_Class
 int FUN_00a72590_Class::FUN_00a72590(unsigned int index, int* out)
 {
     *out = 0;
-    unsigned short count = *(unsigned short*)((char*)this + 0x26);
+    unsigned short count = this->unk26;
     if (index >= count)
         return 0;
-    int* array = *(int**)((char*)this + 0x20);
+    int* array = this->unk20;
     intptr_t obj = array[index];
     if (!obj)
         return 0;
@@ -354,6 +394,12 @@ struct A51BF0Base
 
 struct FUN_00a7d6e0_Class
 {
+    char pad00[0x9d];
+    unsigned char unk9d;
+    char pad9e[0x52];
+    float unkf0;
+    float unkf4;
+    float unkf8;
 };
 
 // @fnv 0x00a7d6e0
@@ -363,11 +409,11 @@ void* FUN_00a7d6e0()
     if (obj)
     {
         new ((void *)(obj)) ::FUN_00a71f60_cls();
-        *(float*)((char*)obj + 0xf0) = 0.0f;
+        obj->unkf0 = 0.0f;
         *(void**)obj = (void*)&DAT_0109dd0c;
-        *(float*)((char*)obj + 0xf4) = 1.0f;
-        *(unsigned char*)((char*)obj + 0x9d) = 2;
-        *(float*)((char*)obj + 0xf8) = 0.0f;
+        obj->unkf4 = 1.0f;
+        obj->unk9d = 2;
+        obj->unkf8 = 0.0f;
         return obj;
     }
     return 0;
@@ -454,6 +500,9 @@ void* FUN_00a63a20_Class::FUN_00a63a20(int flags)
 namespace fnv_00a63a60 {
 struct NiTMapBaseStub
 {
+    void* vtbl;
+    unsigned int unk04;
+    void* unk08;
     void RemoveAll();
     void* FUN_00a63a60(unsigned char);
 };
@@ -465,7 +514,7 @@ void* NiTMapBaseStub::FUN_00a63a60(unsigned char flag)
 {
     *reinterpret_cast<void**>(this) = reinterpret_cast<void*>(&DAT_0109bcec);
     reinterpret_cast<::S_00b601a0_Map *>(this)->FUN_00b601a0();
-    _NiFree(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 8));
+    _NiFree(this->unk08);
     if (flag & 1)
         reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(this);
     return this;
@@ -668,12 +717,15 @@ struct NiTPrimitiveArray_ImageSpaceTexture___
 };
 struct FUN_00a72ca0_Class
 {
+    char pad00[0x1c];
+    NiTPrimitiveArray_ImageSpaceTexture___ unk1c;
+    char pad1d[0x3];
     void FUN_00a72ca0(unsigned int size);
 };
 // @fnv 0x00a72ca0
 void FUN_00a72ca0_Class::FUN_00a72ca0(unsigned int size)
 {
-    reinterpret_cast<::FUN_00a41520_cls *>((((NiTPrimitiveArray_ImageSpaceTexture___*)((char*)this + 0x1c))))->FUN_00a90180(size);
+    reinterpret_cast<::FUN_00a41520_cls *>(((&this->unk1c)))->FUN_00a90180(size);
 }
 
 struct FUN_00a7f810
@@ -1553,6 +1605,12 @@ FUN_00a69b00::FUN_00a69b00()
 
 struct FUN_00a69b40_Class
 {
+    char pad00[0x18];
+    unsigned short unk18;
+    char pad1a[0x6];
+    int* unk20;
+    char pad24[0x2];
+    unsigned short unk26;
     void FUN_00a69b40(intptr_t param_2);
     void FUN_00a69b40(int param_2);
 };
@@ -1564,11 +1622,11 @@ void FUN_00a69b40_Class::FUN_00a69b40(intptr_t param_2)
     bool found = param_2 != 0;
     if (!found)
     {
-        unsigned int count = *(unsigned short*)((char*)this + 0x26);
+        unsigned int count = this->unk26;
         unsigned int index = 1;
         if (index < count)
         {
-            int* value = *(int**)((char*)this + 0x20) + 1;
+            int* value = this->unk20 + 1;
             do
             {
                 if (*value != 0)
@@ -1584,11 +1642,11 @@ void FUN_00a69b40_Class::FUN_00a69b40(intptr_t param_2)
 
     if (found)
     {
-        *(unsigned short*)((char*)this + 0x18) |= 1;
+        this->unk18 |= 1;
     }
     else
     {
-        *(unsigned short*)((char*)this + 0x18) &= 0xfffe;
+        this->unk18 &= 0xfffe;
     }
 }
 
@@ -1974,9 +2032,12 @@ struct ObjectWriter
 
 struct BinaryStream
 {
+    char pad00[0x24c];
+    ObjectWriter* m_pkWriter;
+
     ObjectWriter* Writer()
     {
-        return *reinterpret_cast<ObjectWriter**>(reinterpret_cast<char*>(this) + 0x24c);
+        return m_pkWriter;
     }
 };
 
@@ -3881,13 +3942,15 @@ ColorAStandIn ColorAStandIn::Subtract(const ColorAStandIn& c) const
 
 struct FUN_00a727b0_Class
 {
+    char pad00[0x26];
+    unsigned short unk26;
     unsigned int FUN_00a727b0();
 };
 
 // @fnv 0x00a727b0
 unsigned int FUN_00a727b0_Class::FUN_00a727b0()
 {
-    return *(unsigned short*)((char*)this + 0x26);
+    return this->unk26;
 }
 
 

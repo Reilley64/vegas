@@ -558,20 +558,27 @@ void* FUN_00c3d950_Class::FUN_00c3d950(unsigned int flags)
 }
 }  // namespace fnv_00c3d950
 
-struct InputValues;
+struct InputValues
+{
+    void* vtbl;
+    unsigned int unk04;
+    unsigned int unk08;
+    int m_iState;
+};
 struct FUN_00c3fca0_Class
 {
     void FUN_00c3fca0(void* p);
 public:
     bool FUN_0044e050(::InputValues *);
 };
-// Sets the field at offset 0xc to 4, calls the object's virtual method at vtable index 2, then sets the field to 5 and calls FUN_0044e050.
+// Sets the task's state to 4, calls the task's virtual method at vtable index 2, then sets the state to 5 and calls FUN_0044e050.
 // @fnv 0x00c3fca0
 void FUN_00c3fca0_Class::FUN_00c3fca0(void* apObject)
 {
-    *(int*)((char*)apObject + 0xc) = 4;
+    InputValues* pTask = (InputValues*)apObject;
+    pTask->m_iState = 4;
     ((void(*)(void*))(*(void***)apObject)[2])(apObject);
-    *(int*)((char*)apObject + 0xc) = 5;
+    pTask->m_iState = 5;
     reinterpret_cast<::FUN_00c3fca0_Class *>(this)->FUN_0044e050((::InputValues *)(apObject));
 }
 
@@ -7452,7 +7459,7 @@ bool FUN_00c347d0_cls::FUN_00c347d0(FUN_00c347d0_Obj* obj)
     FUN_00c347d0_Elem* g1 = res;
     while (--tt >= 0)
     {
-        g1 = (FUN_00c347d0_Elem*)((char*)g1 + 12);
+        ++g1;
     }
     int lst;
     int val;

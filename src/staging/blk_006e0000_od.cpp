@@ -2,6 +2,7 @@
 // src/staging/blk_006e0000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include "fnv/simple_array_item.h"
 #include <stdio.h>
 #include <new>
 #include <cstring>
@@ -8307,12 +8308,12 @@ unsigned int HostP059::UpdateNodeDirection(unsigned int index, float radius, boo
     ArrayP059<EdgeP059*>* g = side ? &edgesA : &edgesB;
     PointP059 f;
     PointP059 b;
-    f = *((::fnv_006ef0c0::NodeP059 *)(reinterpret_cast<::S3e60 *>((l))->FUN_006a7ad0(index - 1))) - *((::fnv_006ef0c0::NodeP059 *)(reinterpret_cast<::S3e60 *>((l))->FUN_006a7ad0(index)));
-    b = *((::fnv_006ef0c0::NodeP059 *)(reinterpret_cast<::S3e60 *>((l))->FUN_006a7ad0(index + 1))) - *((::fnv_006ef0c0::NodeP059 *)(reinterpret_cast<::S3e60 *>((l))->FUN_006a7ad0(index)));
+    f = *(SimpleArrayItem<::fnv_006ef0c0::NodeP059*>((l), index - 1)) - *(SimpleArrayItem<::fnv_006ef0c0::NodeP059*>((l), index));
+    b = *(SimpleArrayItem<::fnv_006ef0c0::NodeP059*>((l), index + 1)) - *(SimpleArrayItem<::fnv_006ef0c0::NodeP059*>((l), index));
     if (reinterpret_cast<::NiPoint3 *>(&(f))->FUN_004390c0((const ::NiPoint3 &)((*reinterpret_cast<const ::fnv_006ef0c0::PointP059 *>((void *)&::NiPoint3::ZERO)))) && index > 1)
-        f = *((::fnv_006ef0c0::NodeP059 *)(reinterpret_cast<::S3e60 *>((l))->FUN_006a7ad0(index - 2))) - *((::fnv_006ef0c0::NodeP059 *)(reinterpret_cast<::S3e60 *>((l))->FUN_006a7ad0(index)));
+        f = *(SimpleArrayItem<::fnv_006ef0c0::NodeP059*>((l), index - 2)) - *(SimpleArrayItem<::fnv_006ef0c0::NodeP059*>((l), index));
     if (reinterpret_cast<::NiPoint3 *>(&(b))->FUN_004390c0((const ::NiPoint3 &)((*reinterpret_cast<const ::fnv_006ef0c0::PointP059 *>((void *)&::NiPoint3::ZERO)))) && index < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((l))->GetName())) - 2)
-        b = *((::fnv_006ef0c0::NodeP059 *)(reinterpret_cast<::S3e60 *>((l))->FUN_006a7ad0(index + 2))) - *((::fnv_006ef0c0::NodeP059 *)(reinterpret_cast<::S3e60 *>((l))->FUN_006a7ad0(index)));
+        b = *(SimpleArrayItem<::fnv_006ef0c0::NodeP059*>((l), index + 2)) - *(SimpleArrayItem<::fnv_006ef0c0::NodeP059*>((l), index));
     f.z = 0.0f;
     b.z = 0.0f;
     reinterpret_cast<::FUN_004a0c10_s *>(&(f))->FUN_004a0c10();
@@ -8323,7 +8324,7 @@ unsigned int HostP059::UpdateNodeDirection(unsigned int index, float radius, boo
     float a = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(f))->DotProduct((void *)&(b));
     float h = (3.1415927410125732 - ::FUN_004b5570(i, a)) * 0.5;
     float d = ::FUN_0057dd70(h) * radius;
-    NodeP059* c = ((::fnv_006ef0c0::NodeP059 *)(reinterpret_cast<::S3e60 *>((l))->FUN_006a7ad0(index)));
+    NodeP059* c = (SimpleArrayItem<::fnv_006ef0c0::NodeP059*>((l), index));
     PointP059 j;
     if (side)
         j = *c->edges.FUN_00877a30(0)->second - *c->edges.FUN_00877a30(0)->first;
@@ -8353,21 +8354,21 @@ unsigned int HostP059::UpdateNodeDirection(unsigned int index, float radius, boo
         else
             c->direction = b.FUN_004a0bd0() * d - k * radius;
         bool o = false;
-        if (((::fnv_006ef0c0::EdgeP059 *)(reinterpret_cast<::S3e60 *>((g))->FUN_006a7ad0(index - 1)))->active && ((::fnv_006ef0c0::EdgeP059 *)(reinterpret_cast<::S3e60 *>((g))->FUN_006a7ad0(index)))->active)
-            o = FUN_006f0050(*c, c->position, c->info, c->direction, ((::fnv_006ef0c0::NodeP059 *)(reinterpret_cast<::S3e60 *>((l))->FUN_006a7ad0(index - 1)))->position,
-                             *((::fnv_006ef0c0::NodeP059 *)(reinterpret_cast<::S3e60 *>((l))->FUN_006a7ad0(index + 1))));
+        if ((SimpleArrayItem<::fnv_006ef0c0::EdgeP059*>((g), index - 1))->active && (SimpleArrayItem<::fnv_006ef0c0::EdgeP059*>((g), index))->active)
+            o = FUN_006f0050(*c, c->position, c->info, c->direction, (SimpleArrayItem<::fnv_006ef0c0::NodeP059*>((l), index - 1))->position,
+                             *(SimpleArrayItem<::fnv_006ef0c0::NodeP059*>((l), index + 1)));
         else
         {
             c->position = *c + c->direction;
             o = true;
         }
-        if (o && FUN_00696540(&((::fnv_006ef0c0::NodeP059 *)(reinterpret_cast<::S3e60 *>((l))->FUN_006a7ad0(index - 1)))->position, ((::fnv_006ef0c0::NodeP059 *)(reinterpret_cast<::S3e60 *>((l))->FUN_006a7ad0(index - 1))),
-                              &((::fnv_006ef0c0::NodeP059 *)(reinterpret_cast<::S3e60 *>((l))->FUN_006a7ad0(index)))->position, ((::fnv_006ef0c0::NodeP059 *)(reinterpret_cast<::S3e60 *>((l))->FUN_006a7ad0(index)))))
+        if (o && FUN_00696540(&(SimpleArrayItem<::fnv_006ef0c0::NodeP059*>((l), index - 1))->position, (SimpleArrayItem<::fnv_006ef0c0::NodeP059*>((l), index - 1)),
+                              &(SimpleArrayItem<::fnv_006ef0c0::NodeP059*>((l), index))->position, (SimpleArrayItem<::fnv_006ef0c0::NodeP059*>((l), index))))
         {
-            PointP059 q = ((::fnv_006ef0c0::NodeP059 *)(reinterpret_cast<::S3e60 *>((l))->FUN_006a7ad0(index)))->position - ((::fnv_006ef0c0::NodeP059 *)(reinterpret_cast<::S3e60 *>((l))->FUN_006a7ad0(index - 1)))->position;
-            PointP059 p = (((::fnv_006ef0c0::NodeP059 *)(reinterpret_cast<::S3e60 *>((l))->FUN_006a7ad0(index - 1)))->position + ((::fnv_006ef0c0::NodeP059 *)(reinterpret_cast<::S3e60 *>((l))->FUN_006a7ad0(index)))->position) * 0.5f;
-            ((::fnv_006ef0c0::NodeP059 *)(reinterpret_cast<::S3e60 *>((l))->FUN_006a7ad0(index - 1)))->position = p + q * 0.01f;
-            ((::fnv_006ef0c0::NodeP059 *)(reinterpret_cast<::S3e60 *>((l))->FUN_006a7ad0(index)))->position = p - q * 0.01f;
+            PointP059 q = (SimpleArrayItem<::fnv_006ef0c0::NodeP059*>((l), index))->position - (SimpleArrayItem<::fnv_006ef0c0::NodeP059*>((l), index - 1))->position;
+            PointP059 p = ((SimpleArrayItem<::fnv_006ef0c0::NodeP059*>((l), index - 1))->position + (SimpleArrayItem<::fnv_006ef0c0::NodeP059*>((l), index))->position) * 0.5f;
+            (SimpleArrayItem<::fnv_006ef0c0::NodeP059*>((l), index - 1))->position = p + q * 0.01f;
+            (SimpleArrayItem<::fnv_006ef0c0::NodeP059*>((l), index))->position = p - q * 0.01f;
         }
         return index + 1;
     }
@@ -10990,7 +10991,7 @@ void Builder390::AddPathFromEdge(const Vec390* position, int index)
 NodeS* HostS::SplitEdge(unsigned int index, bool side)
 {
     ArrE* arr3 = side ? &edgesA : &edgesB;
-    EdgeS* cur3 = ((::EdgeS *)(reinterpret_cast<::S3e60 *>((arr3))->FUN_006a7ad0(index)));
+    EdgeS* cur3 = (SimpleArrayItem<::EdgeS*>((arr3), index));
     NodeS* first7 = cur3->first;
     NodeS* second6 = cur3->second;
     EdgeS* exist = reinterpret_cast<::FUN_0076b610_Class *>(&(first7->edges))->FUN_0076b610() ? ((::EdgeS *)&(::GetFirstForm((::NiFormArray *)&(second6->edges)))) : ((::EdgeS *)(reinterpret_cast<::FUN_006f2270 *>(&(first7->edges))->GetLast()));
@@ -11004,9 +11005,9 @@ NodeS* HostS::SplitEdge(unsigned int index, bool side)
     EdgeS* e6 = ((::EdgeS *)(reinterpret_cast<::FUN_006edfc0_Host *>(this)->CreateSize28()));
     e6->first = first7;
     e6->second = nn;
-    reinterpret_cast<::FUN_006bc870_shell *>((void *)&(const ::EH &)(e6->info))->CopyFromNavMeshEdge((void *)&(((::EdgeS *)(reinterpret_cast<::S3e60 *>((arr3))->FUN_006a7ad0(index)))->info));
-    e6->flag = ((::EdgeS *)(reinterpret_cast<::S3e60 *>((arr3))->FUN_006a7ad0(index)))->flag;
-    ((::EdgeS *)(reinterpret_cast<::S3e60 *>((arr3))->FUN_006a7ad0(index)))->first = nn;
+    reinterpret_cast<::FUN_006bc870_shell *>((void *)&(const ::EH &)(e6->info))->CopyFromNavMeshEdge((void *)&((SimpleArrayItem<::EdgeS*>((arr3), index))->info));
+    e6->flag = (SimpleArrayItem<::EdgeS*>((arr3), index))->flag;
+    (SimpleArrayItem<::EdgeS*>((arr3), index))->first = nn;
     reinterpret_cast<::FUN_006eec00_Class *>(this)->SetEntry(index, e6, side);
     EdgeS* e9 = ((::EdgeS *)(reinterpret_cast<::FUN_006ee070_cls *>(this)->CreateObject()));
     e9->weight = 1.0f;

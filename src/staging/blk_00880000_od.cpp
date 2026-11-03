@@ -92,17 +92,22 @@ void Actor::FUN_00884c60()
 
 struct FUN_00885a30_Class
 {
+    char pad[0x8];
+    int unk08;
     bool IsFlag20000000Set();
 };
 
 // @fnv 0x00885a30
 bool FUN_00885a30_Class::IsFlag20000000Set()
 {
-    return ((*(int*)((char*)this + 8)) & 0x20000000) ? true : false;
+    return ((unk08) & 0x20000000) ? true : false;
 }
 
 struct FUN_00888a20_Class
 {
+    char pad[0x150];
+    float unk150;
+    float unk154;
     void SetFloats(float a, float b);
 };
 
@@ -110,12 +115,15 @@ struct FUN_00888a20_Class
 // @fnv 0x00888a20
 void FUN_00888a20_Class::SetFloats(float afFirst, float afSecond)
 {
-    *(float*)((char*)this + 0x150) = afFirst;
-    *(float*)((char*)this + 0x154) = afSecond;
+    unk150 = afFirst;
+    unk154 = afSecond;
 }
 
 struct FUN_00888a70_class
 {
+    char pad[0x19c];
+    float unk19c;
+    float unk1a0;
     void FUN_00888a70(float* a, float* b);
 };
 
@@ -123,19 +131,21 @@ struct FUN_00888a70_class
 // @fnv 0x00888a70
 void FUN_00888a70_class::FUN_00888a70(float* a, float* b)
 {
-    *a = *(float*)((char*)this + 0x19c);
-    *b = *(float*)((char*)this + 0x1a0);
+    *a = unk19c;
+    *b = unk1a0;
 }
 
 struct FUN_00888aa0_Class
 {
+    char pad[0x23c];
+    float unk23c;
     void ClearField23C();
 };
 
 // @fnv 0x00888aa0
 void FUN_00888aa0_Class::ClearField23C()
 {
-    *(float*)((char*)this + 0x23c) = 0.0f;
+    unk23c = 0.0f;
 }
 
 struct FUN_00620760_class
@@ -144,13 +154,15 @@ struct FUN_00620760_class
 
 struct FUN_00891130_class
 {
+    char pad[0x10];
+    FUN_00620760_class unk10;
     void FUN_00891130(unsigned char a);
 };
 
 // @fnv 0x00891130
 void FUN_00891130_class::FUN_00891130(unsigned char aValue)
 {
-    reinterpret_cast<::fnv_00620760::BGSZoneTargetListener *>((((FUN_00620760_class*)((char*)this + 0x10))))->SetFlags(1, (int)aValue);
+    reinterpret_cast<::fnv_00620760::BGSZoneTargetListener *>(((&unk10)))->SetFlags(1, (int)aValue);
 }
 
 struct TESObject
@@ -185,12 +197,14 @@ struct FUN_008c1be0_Class
 };
 struct FUN_00891150_Class
 {
+    char pad[0x10];
+    char unk10;
     bool FUN_00891150();
 };
 // @fnv 0x00891150
 bool FUN_00891150_Class::FUN_00891150()
 {
-    return ((FUN_008c1be0_Class*)((char*)this + 0x10))->FUN_008c1be0(1) != 0;
+    return ((FUN_008c1be0_Class*)&unk10)->FUN_008c1be0(1) != 0;
 }
 
 
@@ -1000,6 +1014,8 @@ struct AnimView
 };
 struct NodeView
 {
+    char pad[0xa4];
+    char unka4;
     const NiPoint3& FUN_0045bb80();
 };
 struct BipedView
@@ -1586,7 +1602,7 @@ void SpellActor::FUN_0088fb00(float distance, HitSource* hit, SpellActor* target
     TESCreature* creature5 = dynamic_cast<TESCreature*>(reinterpret_cast<::Actor *>(this)->GetActorBase());
     if (((creature5 && creature5->FUN_005fbf20()) || isCreature()) && *(*reinterpret_cast<::BoolSetting *>(&::g_011df7f8)).FUN_00408d60())
         return;
-    bool specialTmp = hit->node && ((ValueView*)((char*)hit->node + 0xa4))->get(55) > 0 ? true : false;
+    bool specialTmp = hit->node && ((ValueView*)&hit->node->unka4)->get(55) > 0 ? true : false;
     int index7 = -1;
     ProcessView* process = ((::ProcessView *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()));
     bool alternateVal = hit && (hit->kind == 1 || hit->kind == 2);

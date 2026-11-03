@@ -2,6 +2,7 @@
 // src/staging/blk_00460000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include "fnv/simple_array_item.h"
 #include "fnv/tls.h"
 #include <cstdint>
 #include <new>
@@ -4110,7 +4111,7 @@ void Destruction::FUN_00475b20(DRef* ref, float damage, unsigned int flags)
                 DTransform j;
                 reinterpret_cast<::FUN_00477230_cls *>(this)->FUN_00477230((::FUN_00477230_node *)(::DNode *)(ref->GetNode()), (::FUN_00477230_arg *)(::DArray *)(&branch));
                 if (((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(branch))->GetName())))
-                    j = ((::DNode *)(reinterpret_cast<::S3e60 *>(&(branch))->FUN_006a7ad0(0)))->Transform();
+                    j = (SimpleArrayItem<::DNode*>(&(branch), 0))->Transform();
                 bool total;
                 total = false;
                 if ((void*)data->string)
@@ -4144,14 +4145,14 @@ void Destruction::FUN_00475b20(DRef* ref, float damage, unsigned int flags)
                         reinterpret_cast<::FUN_00477230_cls *>(this)->FUN_00477230((::FUN_00477230_node *)(q), (::FUN_00477230_arg *)(::DArray *)(&bound));
                         if (((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(bound))->GetName())))
                         {
-                            DTransform found = ((::DNode *)(reinterpret_cast<::S3e60 *>(&(bound))->FUN_006a7ad0(0)))->Transform();
+                            DTransform found = (SimpleArrayItem<::DNode*>(&(bound), 0))->Transform();
                             DMatrix i = found.InverseRotation();
                             DMatrix changes = j.rotation;
                             DMatrix newNodes = ref->GetRotation();
                             DMatrix res = changes * i * newNodes;
                             reinterpret_cast<::fnv_0056fa90::Holder *>((ref))->FUN_0056fa90(res.m00, res.m01, res.m02, res.m10, res.m11, res.m12, res.m20, res.m21, res.m22);
                             ::fnv_00562020::FUN_00562020((::TESObjectREFR *)(ref));
-                            found = ((::DNode *)(reinterpret_cast<::S3e60 *>(&(bound))->FUN_006a7ad0(0)))->Transform();
+                            found = (SimpleArrayItem<::DNode*>(&(bound), 0))->Transform();
                             DPoint pForm = j.translation - found.translation;
                             reinterpret_cast<::FUN_0063c8a0_shell *>((void *)&(const ::DPoint &)(pForm))->FUN_0063c8a0((void *)&(ref->GetPosition()));
                             reinterpret_cast<::Reference *>((ref))->FUN_00575830((::Position *)&(pForm));

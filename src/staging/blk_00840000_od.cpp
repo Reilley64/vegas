@@ -2,6 +2,7 @@
 // src/staging/blk_00840000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include "fnv/simple_array_item.h"
 #include <cstdint>
 #include "generated/data/vtables.h"
 #include <windows.h>
@@ -215,10 +216,15 @@ struct FUN_00702220_Class
 {
 };
 
+struct FUN_008456c0_Object
+{
+    char pad[4];
+    FUN_00702220_Class unk04;
+};
 // @fnv 0x008456c0
 void FUN_008456c0(void* self)
 {
-    reinterpret_cast<::FUN_00702220 *>((((FUN_00702220_Class*)((char*)self + 4))))->FUN_00702220::~FUN_00702220();
+    reinterpret_cast<::FUN_00702220 *>((&static_cast<FUN_008456c0_Object*>(self)->unk04))->FUN_00702220::~FUN_00702220();
 }
 
 
@@ -239,13 +245,15 @@ void __cdecl FUN_00847d90(void* a)
 
 struct FUN_00848cf0_Class
 {
+    char pad[0x244];
+    int unk244;
     bool IsFlag80Set() const;
 };
 
 // @fnv 0x00848cf0
 bool FUN_00848cf0_Class::IsFlag80Set() const
 {
-    return (*(const int*)((const char*)this + 0x244) & 0x80) ? true : false;
+    return (unk244 & 0x80) ? true : false;
 }
 
 void __cdecl FUN_0084bfb0(unsigned int, unsigned int);
@@ -276,13 +284,14 @@ void FUN_00848e40(unsigned char arg)
 
 struct FUN_0084b450_Class
 {
+    unsigned char* unk00;
     unsigned char FUN_0084b450();
 };
 
 // @fnv 0x0084b450
 unsigned char FUN_0084b450_Class::FUN_0084b450()
 {
-    return *(unsigned char*)((char*)*(void**)this + 1);
+    return unk00[1];
 }
 
 struct MapH
@@ -303,6 +312,8 @@ struct FUN_00852a10_shell
 
 struct FUN_0084b490_class
 {
+    char pad[0x10];
+    char unk10;
     void FUN_0084b490(unsigned int a, unsigned int b);
 };
 
@@ -310,7 +321,7 @@ struct FUN_0084b490_class
 // @fnv 0x0084b490
 void FUN_0084b490_class::FUN_0084b490(unsigned int a, unsigned int b)
 {
-    ((FUN_00852a10_shell*)((char*)this + 0x10))->RemoveReference(a, b);
+    ((FUN_00852a10_shell*)&unk10)->RemoveReference(a, b);
 }
 
 extern int DAT_0107f474;
@@ -366,6 +377,8 @@ void* FUN_0084b630::Reallocate(void* p, int aiCount)
 
 struct FUN_0084ba50_Class
 {
+    char pad[0xc];
+    char unk0c;
     void FUN_0084ba50();
 };
 struct Unk6b
@@ -374,15 +387,22 @@ struct Unk6b
 
 struct FUN_0084ba70_Cls
 {
+    char pad[0xc];
+    Unk6b unk0c;
     void FUN_0084ba70(void* arg);
 };
 
+struct FUN_0084ba70_Item
+{
+    char pad[0x10];
+    int unk10;
+};
 // Sets the int at offset 0x10 of arg to 0, then calls FreeMemory on the object at this+0xc with arg.
 // @fnv 0x0084ba70
 void FUN_0084ba70_Cls::FUN_0084ba70(void* arg)
 {
-    *reinterpret_cast<int*>(reinterpret_cast<char*>(arg) + 0x10) = 0;
-    reinterpret_cast<::FUN_006b8310_class *>((reinterpret_cast<Unk6b*>(reinterpret_cast<char*>(this) + 0xc)))->FreeMemory(arg);
+    static_cast<FUN_0084ba70_Item*>(arg)->unk10 = 0;
+    reinterpret_cast<::FUN_006b8310_class *>(((&unk0c)))->FreeMemory(arg);
 }
 
 
@@ -393,7 +413,7 @@ struct FUN_0084bb30_class
 // @fnv 0x0084ba50
 void FUN_0084ba50_Class::FUN_0084ba50()
 {
-    reinterpret_cast<::FUN_0084bb30_class *>((((FUN_0084ba50_Class*)((char*)this + 0xc))))->AllocateObject();
+    reinterpret_cast<::FUN_0084bb30_class *>((((FUN_0084ba50_Class*)&unk0c)))->AllocateObject();
 }
 
 // @fnv 0x0084bb30
@@ -432,13 +452,15 @@ struct TaskQueueInterface
 
 struct WeaponQueue
 {
+    char pad[0x3c];
+    char unk3c;
     void QueueWeapon(std::uintptr_t);
 };
 
 // @fnv 0x0084dd70
 void WeaponQueue::QueueWeapon(std::uintptr_t param_2)
 {
-    TaskQueueInterface::CopyStringToBuffer((char*)this + 0x3c, 0x40, (const char*)param_2);
+    TaskQueueInterface::CopyStringToBuffer(&unk3c, 0x40, (const char*)param_2);
 }
 
 struct FUN_0084e320_Class
@@ -450,7 +472,7 @@ struct FUN_0084e320_Class
 // @fnv 0x0084e320
 uintptr_t FUN_0084e320_Class::GetArrayElement(int index)
 {
-    return (*(unsigned int*)(reinterpret_cast<::S3e60 *>(&(m_Array))->FUN_006a7ad0(index)));
+    return SimpleArrayItem<uintptr_t>(&(m_Array), index);
 }
 
 struct FUN_0084e3a0_Class
@@ -470,6 +492,8 @@ intptr_t FUN_0084e3a0_Class::FUN_0084e3a0()
 
 struct BGSSaveLoadFileEntry
 {
+    char pad[0x20];
+    unsigned int unk20;
     void ReadTypedData();
     unsigned int FUN_00851ef0();
 };
@@ -478,12 +502,14 @@ struct BGSSaveLoadFileEntry
 unsigned int BGSSaveLoadFileEntry::FUN_00851ef0()
 {
     ReadTypedData();
-    return *(unsigned int*)((char*)this + 0x20);
+    return unk20;
 }
 
 namespace fnv_00851f10 {
 struct BGSSaveLoadFileEntry
 {
+    char pad[0x24];
+    unsigned int unk24;
     unsigned int FUN_00851f10();
 };
 
@@ -491,13 +517,15 @@ struct BGSSaveLoadFileEntry
 unsigned int BGSSaveLoadFileEntry::FUN_00851f10()
 {
     reinterpret_cast<::BGSSaveLoadFileEntry *>(this)->ReadTypedData();
-    return *(unsigned int*)((char*)this + 0x24);
+    return unk24;
 }
 }  // namespace fnv_00851f10
 
 namespace fnv_00851f30 {
 struct BGSSaveLoadFileEntry
 {
+    char pad[0x28];
+    unsigned int unk28;
     unsigned int FUN_00851f30();
 };
 
@@ -505,7 +533,7 @@ struct BGSSaveLoadFileEntry
 unsigned int BGSSaveLoadFileEntry::FUN_00851f30()
 {
     reinterpret_cast<::BGSSaveLoadFileEntry *>(this)->ReadTypedData();
-    return *(unsigned int*)((char*)this + 0x28);
+    return unk28;
 }
 }  // namespace fnv_00851f30
 
@@ -528,13 +556,15 @@ struct TaskQueueInterface
 
 struct FUN_00851f60_Class
 {
+    char pad[0x164];
+    char unk164;
     void FUN_00851f60(const char* a);
 };
 
 // @fnv 0x00851f60
 void FUN_00851f60_Class::FUN_00851f60(const char* apSource)
 {
-    ::TaskQueueInterface::CopyStringToBuffer((char*)this + 0x164, 0x100, apSource);
+    ::TaskQueueInterface::CopyStringToBuffer(&unk164, 0x100, apSource);
 }
 }  // namespace fnv_00851f60
 
@@ -545,13 +575,15 @@ struct TaskQueueInterface
 
 struct FUN_00851f90_class
 {
+    char pad[0x265];
+    char unk265;
     void FUN_00851f90(const char* a);
 };
 
 // @fnv 0x00851f90
 void FUN_00851f90_class::FUN_00851f90(const char* apSource)
 {
-    ::TaskQueueInterface::CopyStringToBuffer((char*)this + 0x265, 0x80, apSource);
+    ::TaskQueueInterface::CopyStringToBuffer(&unk265, 0x80, apSource);
 }
 }  // namespace fnv_00851f90
 
@@ -562,25 +594,29 @@ struct TaskQueueInterface
 
 struct FUN_00852030_Class
 {
+    char pad[0x8f4];
+    char unk8f4;
     void FUN_00852030(const char* a);
 };
 
 // @fnv 0x00852030
 void FUN_00852030_Class::FUN_00852030(const char* apSource)
 {
-    ::TaskQueueInterface::CopyStringToBuffer((char*)this + 0x8f4, 0x100, apSource);
+    ::TaskQueueInterface::CopyStringToBuffer(&unk8f4, 0x100, apSource);
 }
 }  // namespace fnv_00852030
 
 struct FUN_00852060_Class
 {
+    char pad[0x9f4];
+    char unk9f4;
     void SetValue(void (*value)(int, int));
 };
 
 // @fnv 0x00852060
 void FUN_00852060_Class::SetValue(void (*value)(int, int))
 {
-    *(void (**)(int, int))((char*)this + 0x9f4) = value;
+    *(void (**)(int, int))(&unk9f4) = value;
 }
 
 
@@ -638,15 +674,22 @@ struct FUN_00853240_Class
 {
     int a;
     int b;
+    int unk08;
     Unk6b c;
     void FUN_00853240(void* p);
+};
+struct FUN_00853240_Item
+{
+    int unk00;
+    int unk04;
+    int unk08;
 };
 // Clears the third int of p, then calls FreeMemory on this+0xc with p.
 // @fnv 0x00853240
 void FUN_00853240_Class::FUN_00853240(void* pTarget)
 {
-    ((int*)pTarget)[2] = 0;
-    reinterpret_cast<::FUN_006b8310_class *>((((Unk6b*)((char*)this + 0xc))))->FreeMemory(pTarget);
+    static_cast<FUN_00853240_Item*>(pTarget)->unk08 = 0;
+    reinterpret_cast<::FUN_006b8310_class *>((&c))->FreeMemory(pTarget);
 }
 }  // namespace fnv_00853240
 
@@ -770,6 +813,8 @@ struct TESSound
 struct DummyPointerMap;
 struct Holder
 {
+    char pad[0x5c];
+    struct DummyPointerMap* unk5c;
     void FUN_0085f2b0(TESSound* sound, unsigned short flag);
 };
 namespace fnv_0085f420 {
@@ -786,25 +831,29 @@ struct Holder
 };
 struct FUN_0085f420Class : Holder
 {
+    char pad[0x60];
+    DummyPointerMap* unk60;
     void FUN_0085f420(TESSound* SoundAssetTmp, unsigned short wParam);
 };
 // Calls FUN_0085efc0 with the pointer at this+0x60, the result of TESSound::Deallocate, and wParam.
 // @fnv 0x0085f420
 void FUN_0085f420Class::FUN_0085f420(TESSound* SoundAssetTmp, unsigned short wParam)
 {
-    FUN_0085efc0(*(DummyPointerMap**)((char*)this + 0x60), ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((SoundAssetTmp))->FUN_0084e3a0())), wParam);
+    FUN_0085efc0(unk60, ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((SoundAssetTmp))->FUN_0084e3a0())), wParam);
 }
 }  // namespace fnv_0085f420
 
 struct FUN_0085feb0_class
 {
+    char pad[0x158];
+    char unk158;
     char GetByteAt158();
 };
 
 // @fnv 0x0085feb0
 char FUN_0085feb0_class::GetByteAt158()
 {
-    return *(char*)((char*)this + 0x158);
+    return unk158;
 }
 
 extern "C" void __cdecl _NiFreeAlias(void*);
@@ -1194,6 +1243,8 @@ void* FUN_00865220_class::FUN_00847420(unsigned int flags)
 
 struct FUN_00849240_class
 {
+    char pad[0x28];
+    unsigned int unk28;
     void SetFlag4(bool b);
 };
 
@@ -1201,9 +1252,9 @@ struct FUN_00849240_class
 void FUN_00849240_class::SetFlag4(bool abSet)
 {
     if (abSet)
-        *(unsigned int*)((char*)this + 0x28) |= 4;
+        unk28 |= 4;
     else
-        *(unsigned int*)((char*)this + 0x28) &= ~4;
+        unk28 &= ~4;
 }
 
 struct FUN_0084b510_class
@@ -1401,6 +1452,10 @@ void* FUN_008515f0_class::FUN_008515f0(unsigned int flags)
 
 struct FUN_00851ff0_class
 {
+    char pad[0x7e8];
+    int unk7e8;
+    int unk7ec;
+    int unk7f0;
     void FUN_00851ff0(int a, int b, int c);
 };
 
@@ -1408,9 +1463,9 @@ struct FUN_00851ff0_class
 // @fnv 0x00851ff0
 void FUN_00851ff0_class::FUN_00851ff0(int a, int b, int c)
 {
-    *(int*)((char*)this + 0x7e8) = a;
-    *(int*)((char*)this + 0x7ec) = b;
-    *(int*)((char*)this + 0x7f0) = c;
+    unk7e8 = a;
+    unk7ec = b;
+    unk7f0 = c;
 }
 
 struct FUN_00852700_Class
@@ -1523,13 +1578,15 @@ struct BSFile
 };
 struct FUN_00854b80_class
 {
+    char pad[0x18];
+    BSFile* unk18;
     void FUN_00854b80(const char* p);
 };
 // @fnv 0x00854b80
 void FUN_00854b80_class::FUN_00854b80(const char* pcString)
 {
-    if (*(BSFile**)((char*)this + 0x18))
-        reinterpret_cast<::FUN_00473180_shell *>((*(BSFile**)((char*)this + 0x18)))->FUN_00473180((void *)(pcString), ((int)(::FUN_0044a670(pcString))));
+    if (unk18)
+        reinterpret_cast<::FUN_00473180_shell *>((unk18))->FUN_00473180((void *)(pcString), ((int)(::FUN_0044a670(pcString))));
 }
 
 void FUN_00854d50(void* self);
@@ -1679,6 +1736,18 @@ struct FUN_0084e580_t
     unsigned char h;
 };
 
+#pragma pack(push, 1)
+struct FUN_0084e580_Record
+{
+    unsigned char unk00[3];
+    NiPoint3 unk03;
+    NiPoint3 unk0f;
+    unsigned char unk1b[3];
+    short unk1e;
+    short unk20;
+};
+#pragma pack(pop)
+
 struct FUN_0084e580_class
 {
     void FUN_0084e580(void* p);
@@ -1690,11 +1759,12 @@ void FUN_0084e580_class::FUN_0084e580(void* p)
 {
     ((FUN_0084e580_t*)this)->a = reinterpret_cast<::FUN_00853500_shell *>((p))->FUN_00853500();
     ((FUN_0084e580_t*)this)->b = 0;
-    ((FUN_0084e580_t*)this)->c = reinterpret_cast<::FUN_00853500_shell *>(((char*)p + 0x1b))->FUN_00853500();
-    ((FUN_0084e580_t*)this)->d = *(short*)((char*)p + 0x1e);
-    ((FUN_0084e580_t*)this)->e = *(short*)((char*)p + 0x20);
-    ((FUN_0084e580_t*)this)->f = *(NiPoint3*)((char*)p + 3);
-    ((FUN_0084e580_t*)this)->g = *(NiPoint3*)((char*)p + 0xf);
+    FUN_0084e580_Record* record = static_cast<FUN_0084e580_Record*>(p);
+    ((FUN_0084e580_t*)this)->c = reinterpret_cast<::FUN_00853500_shell *>((record->unk1b))->FUN_00853500();
+    ((FUN_0084e580_t*)this)->d = record->unk1e;
+    ((FUN_0084e580_t*)this)->e = record->unk20;
+    ((FUN_0084e580_t*)this)->f = record->unk03;
+    ((FUN_0084e580_t*)this)->g = record->unk0f;
     ((FUN_0084e580_t*)this)->h = 0;
 }
 
@@ -1772,8 +1842,9 @@ int __cdecl DAT_00ffffff;
 
 struct FUN_00857bf0_Class
 {
+    char pad[0x4c];
     unsigned char m_4c;
-    void* m_50;
+    unsigned char* m_50;
     int FUN_00857bf0(int a);
 };
 
@@ -1781,12 +1852,12 @@ struct FUN_00857bf0_Class
 int FUN_00857bf0_Class::FUN_00857bf0(int auiPacked)
 {
     unsigned char b = (auiPacked & 0xff000000) >> 24;
-    if (!*(void**)((char*)this + 0x50) || b == 0xff)
+    if (!m_50 || b == 0xff)
         return auiPacked;
     unsigned char c = 0;
-    if (b < *(unsigned char*)((char*)this + 0x4c))
+    if (b < m_4c)
     {
-        c = ((unsigned char*)*(void**)((char*)this + 0x50))[b];
+        c = m_50[b];
         if (c != 0xff)
             return (auiPacked & 0x00ffffff) + (c << 24);
     }
@@ -1819,6 +1890,8 @@ struct TESObjectREFR : TESForm
 };
 struct FUN_0085f070_shell
 {
+    char pad[0x58];
+    void* unk58;
     void FUN_0085f070();
 };
 namespace fnv_0085f3d0 {
@@ -2076,7 +2149,7 @@ void InitAcousticSpace()
 {
     (*reinterpret_cast<void * *>(&::DAT_011de134)) = new FUN_0084fda0;
 
-    reinterpret_cast<unsigned char*>((*reinterpret_cast<void * *>(&::DAT_011de134)))[0x1C] = ((::BGSAcousticSpace *)(::FUN_00af2e50()))->Check("-SAVE-", 0, 0) > 0;
+    reinterpret_cast<FUN_0084fda0*>((*reinterpret_cast<void * *>(&::DAT_011de134)))->m_Flag = ((::BGSAcousticSpace *)(::FUN_00af2e50()))->Check("-SAVE-", 0, 0) > 0;
 
     reinterpret_cast<::LowProcess *>((((::BGSAcousticSpace *)(::FUN_00af2e50()))))->SetCurrentCombatTarget((::TESObjectREFR *)(::TESSound *)(reinterpret_cast<TESSound*>(&UpdateHasSaves)));
 }
@@ -2112,12 +2185,14 @@ void __cdecl FUN_00850720()
 
 struct FUN_00851fc0_shell
 {
+    char pad[0x2e5];
+    char unk2e5;
     void FUN_00851fc0(const char* a);
 };
 // @fnv 0x00851fc0
 void FUN_00851fc0_shell::FUN_00851fc0(const char* pData)
 {
-    TaskQueueInterface::CopyStringToBuffer((char*)((char*)this + 0x2e5), 0x400, pData);
+    TaskQueueInterface::CopyStringToBuffer((char*)(&unk2e5), 0x400, pData);
 }
 
 struct FUN_00853470 : FUN_00853210_cls
@@ -2220,7 +2295,7 @@ struct FUN_0085ef80_class
 // @fnv 0x0085f2b0
 void Holder::FUN_0085f2b0(TESSound* sound, unsigned short flag)
 {
-    reinterpret_cast<::FUN_0085efc0_Class *>(this)->FUN_0085efc0(*(DummyPointerMap**)((char*)this + 0x5c), ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((sound))->FUN_0084e3a0())), flag);
+    reinterpret_cast<::FUN_0085efc0_Class *>(this)->FUN_0085efc0(unk5c, ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((sound))->FUN_0084e3a0())), flag);
 }
 // @fnv 0x0085efc0
 void FUN_0085efc0_Class::FUN_0085efc0(DummyPointerMap* pMap, unsigned int uiKey, unsigned short usIndex)
@@ -2268,7 +2343,7 @@ struct FUN_0085f5a0_Class : public Holder
     int m_58;
     int m_5c;
     void* m_60;
-    int m_64;
+    void* m_64;
     void FUN_0085f5a0(TESSound* sound, unsigned short flag);
 };
 
@@ -2276,7 +2351,7 @@ struct FUN_0085f5a0_Class : public Holder
 // @fnv 0x0085f5a0
 void FUN_0085f5a0_Class::FUN_0085f5a0(TESSound* sound, unsigned short flag)
 {
-    reinterpret_cast<::FUN_0085efc0_Class *>(this)->FUN_0085efc0(reinterpret_cast<DummyPointerMap*>(*(void**)((char*)this + 0x64)), ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((sound))->FUN_0084e3a0())), flag);
+    reinterpret_cast<::FUN_0085efc0_Class *>(this)->FUN_0085efc0(reinterpret_cast<DummyPointerMap*>(m_64), ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((sound))->FUN_0084e3a0())), flag);
 }
 
 
@@ -2304,13 +2379,19 @@ void FUN_0085f6c0_Class::FUN_0085f6c0(void* apTarget, void* aiValue)
 
 struct FUN_0085f810_shell
 {
+    char pad[0x88];
+    struct Target88
+    {
+        char pad[0x28];
+        void* unk28;
+    }* unk88;
     void* FUN_0085f810();
 };
 // Returns the pointer at offset 0x28 of the object stored at offset 0x88, or null if that object is absent.
 // @fnv 0x0085f810
 void* FUN_0085f810_shell::FUN_0085f810()
 {
-    return *(void**)((char*)this + 0x88) ? *(void**)((char*)*(void**)((char*)this + 0x88) + 0x28) : 0;
+    return unk88 ? unk88->unk28 : 0;
 }
 
 struct FUN_0085f2e0_class
@@ -2725,18 +2806,29 @@ class FUN_0084e4f0_cls
     void FUN_0084e4f0(void* src);
 };
 
+#pragma pack(push, 1)
+struct FUN_0084e4f0_Record
+{
+    unsigned char unk00[3];
+    FUN_0084e4f0_triple unk03;
+    FUN_0084e4f0_triple unk0f;
+    unsigned char unk1b;
+    unsigned char unk1c[3];
+};
+#pragma pack(pop)
 // Reads two values via FUN_00853500 from src and src+0x1c, zeroes m_08/m_0c/m_10, copies two triples from src+3 and src+0xf, and stores the byte at src+0x1b.
 // @fnv 0x0084e4f0
 void FUN_0084e4f0_cls::FUN_0084e4f0(void* pSource)
 {
     m_00 = reinterpret_cast<::FUN_00853500_shell *>((pSource))->FUN_00853500();
-    m_04 = reinterpret_cast<::FUN_00853500_shell *>(((char*)pSource + 0x1c))->FUN_00853500();
+    FUN_0084e4f0_Record* record = static_cast<FUN_0084e4f0_Record*>(pSource);
+    m_04 = reinterpret_cast<::FUN_00853500_shell *>((record->unk1c))->FUN_00853500();
     m_08 = 0;
     m_0c = 0;
     m_10 = 0;
-    m_14 = *(FUN_0084e4f0_triple*)((char*)pSource + 3);
-    m_20 = *(FUN_0084e4f0_triple*)((char*)pSource + 0xf);
-    m_2c = *((unsigned char*)pSource + 0x1b);
+    m_14 = record->unk03;
+    m_20 = record->unk0f;
+    m_2c = record->unk1b;
 }
 
 struct FNVU64Pair
@@ -3410,13 +3502,13 @@ struct ReferenceSaveContext
 // @fnv 0x0085f070
 void FUN_0085f070_shell::FUN_0085f070()
 {
-    void* pos2 = reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>((reinterpret_cast<MapX*>(*(void**)((char*)this + 0x58))))->GetFirstPos();
+    void* pos2 = reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>((reinterpret_cast<MapX*>(unk58)))->GetFirstPos();
     while (pos2)
     {
         TESObjectREFR* ref;
         unsigned int key;
         void* value2;
-        reinterpret_cast<::C6b7f20_Map *>((reinterpret_cast<NiTMap*>(*(void**)((char*)this + 0x58))))->FUN_006b7f20((::C6b7f20_Node **)&(pos2), (unsigned int *)&(key), (void **)&(value2));
+        reinterpret_cast<::C6b7f20_Map *>((reinterpret_cast<NiTMap*>(unk58)))->FUN_006b7f20((::C6b7f20_Node **)&(pos2), (unsigned int *)&(key), (void **)&(value2));
         if (key)
             ref = dynamic_cast<TESObjectREFR*>(::FUN_004839c0(key));
         else
@@ -3426,13 +3518,13 @@ void FUN_0085f070_shell::FUN_0085f070()
             if (!((intptr_t)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((reinterpret_cast<P09H*>(ref)))->FUN_0043fcd0())))
             {
                 ::FUN_00401030(value2);
-                reinterpret_cast<::NiTMap_S *>((reinterpret_cast<MapH*>(*(void**)((char*)this + 0x58))))->RemoveKey(key);
+                reinterpret_cast<::NiTMap_S *>((reinterpret_cast<MapH*>(unk58)))->RemoveKey(key);
                 continue;
             }
             reinterpret_cast<::ReferenceSaveContext *>(this)->SaveReferenceState(ref, key, value2);
         }
         ::FUN_00401030(value2);
-        reinterpret_cast<::NiTMap_S *>((reinterpret_cast<MapH*>(*(void**)((char*)this + 0x58))))->RemoveKey(key);
+        reinterpret_cast<::NiTMap_S *>((reinterpret_cast<MapH*>(unk58)))->RemoveKey(key);
     }
 }
 // Saves the reference's data, temporarily sets mode, and restores the high process saved state and token for first-person references.
@@ -5427,8 +5519,19 @@ FUN_00854d50::~FUN_00854d50()
     reinterpret_cast<::FUN_00438af0_Class *>((((NiTPointerMap<int, int>*)this)))->FUN_00438af0();
 }
 
+struct FUN_00858aa0_Source
+{
+    unsigned short unk00;
+    unsigned char unk02;
+    unsigned char unk03;
+};
 struct FUN_00858aa0_shell
 {
+    char pad[0x4];
+    unsigned char unk04;
+    unsigned int unk05;
+    unsigned char unk09;
+    unsigned short unk0a;
     void* FUN_00858aa0(unsigned short*, unsigned int, unsigned int);
 };
 // Stores b and c into the object and copies bytes from a into offsets 4, 9 and 10, returning this.
@@ -5436,10 +5539,10 @@ struct FUN_00858aa0_shell
 void* FUN_00858aa0_shell::FUN_00858aa0(unsigned short* a, unsigned int b, unsigned int c)
 {
     *(unsigned int*)this = b;
-    *(unsigned int*)((char*)this + 5) = c;
-    *(unsigned char*)((char*)this + 4) = ((unsigned char*)a)[2];
-    *(unsigned char*)((char*)this + 9) = ((unsigned char*)a)[3];
-    *(unsigned short*)((char*)this + 10) = *(unsigned short*)a;
+    unk05 = c;
+    unk04 = reinterpret_cast<FUN_00858aa0_Source*>(a)->unk02;
+    unk09 = reinterpret_cast<FUN_00858aa0_Source*>(a)->unk03;
+    unk0a = *(unsigned short*)a;
     return this;
 }
 

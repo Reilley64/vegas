@@ -630,13 +630,15 @@ void __cdecl FUN_00beb830()
 
 struct C0
 {
+    char pad00[0x2c];
+    int unk2c;
     int FUN_00be0b10();
 };
 
 // @fnv 0x00be0b10
 int C0::FUN_00be0b10()
 {
-    return *(int*)((char*)this + 0x2c);
+    return unk2c;
 }
 
 #include "generated/data/staging/blk_00be0000_o2.inc"

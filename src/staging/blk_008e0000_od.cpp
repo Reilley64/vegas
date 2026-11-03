@@ -10,35 +10,41 @@
 
 struct FUN_008e95a0_Class
 {
+    char pad[0xbd];
+    char unkbd;
     char GetByteAtBD();
 };
 
 // @fnv 0x008e95a0
 char FUN_008e95a0_Class::GetByteAtBD()
 {
-    return *(char*)((char*)this + 0xbd);
+    return unkbd;
 }
 
 struct FUN_008e95e0_Class
 {
+    char pad[0xc0];
+    unsigned char unkc0;
     unsigned char GetByteAtOffsetC0();
 };
 
 // @fnv 0x008e95e0
 unsigned char FUN_008e95e0_Class::GetByteAtOffsetC0()
 {
-    return *(unsigned char*)((char*)this + 0xc0);
+    return unkc0;
 }
 
 struct FUN_008e9600_Class
 {
+    char pad[0xc2];
+    char unkc2;
     void SetByteAtOffsetC2(char value);
 };
 
 // @fnv 0x008e9600
 void FUN_008e9600_Class::SetByteAtOffsetC2(char value)
 {
-    ((char*)this)[0xc2] = value;
+    unkc2 = value;
 }
 
 class SlotHost;

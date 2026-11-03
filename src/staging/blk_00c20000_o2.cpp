@@ -308,6 +308,15 @@ void* __cdecl FUN_00c30600()
 }  // namespace fnv_00c30600
 
 
+struct FUN_00c270f0_Object
+{
+    int* vtbl;
+    char pad04[0x14 - 0x4];
+    float unk14;
+    float unk18;
+    char pad1c[0x34 - 0x1c];
+};
+
 // @fnv 0x00c270f0
 BSFadeNode* __cdecl FUN_00c270f0()
 {
@@ -315,15 +324,23 @@ BSFadeNode* __cdecl FUN_00c270f0()
     if (node)
     {
         new ((void *)(node)) class ::FUN_00a6d220();
-        *(float*)((char*)node + 0x18) = 0.0f;
-        *(int**)((char*)node + 0) = &(*reinterpret_cast<int *>(&::DAT_010be6b4));
-        *(float*)((char*)node + 0x14) = 0.0f;
+        FUN_00c270f0_Object* pObject = (FUN_00c270f0_Object*)(void*)node;
+        pObject->unk18 = 0.0f;
+        pObject->vtbl = &(*reinterpret_cast<int *>(&::DAT_010be6b4));
+        pObject->unk14 = 0.0f;
         return node;
     }
     return 0;
 }
 
 extern int DAT_010be8e4;
+
+struct FUN_00c283b0_Object
+{
+    void* vtbl;
+    char pad04[0x34 - 0x4];
+    float unk34;
+};
 
 // @fnv 0x00c283b0
 BSFadeNode* __cdecl FUN_00c283b0()
@@ -332,8 +349,9 @@ BSFadeNode* __cdecl FUN_00c283b0()
     if (p)
     {
         new ((void *)(p)) class ::FUN_00a6d220();
-        *(float*)((char*)p + 0x34) = ::DAT_01015f5c;
-        *(void**)p = (void*)&DAT_010be8e4;
+        FUN_00c283b0_Object* pObject = (FUN_00c283b0_Object*)(void*)p;
+        pObject->unk34 = ::DAT_01015f5c;
+        pObject->vtbl = (void*)&DAT_010be8e4;
         return p;
     }
     return 0;
@@ -344,6 +362,19 @@ struct NiLODData
 {
     NiLODData();
 };
+struct FUN_00c2ba60_Object
+{
+    void* vtbl;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+};
 // @fnv 0x00c2ba60
 BSFadeNode* __cdecl FUN_00c2ba60()
 {
@@ -352,13 +383,14 @@ BSFadeNode* __cdecl FUN_00c2ba60()
     {
         NiLODData* pLodData = (NiLODData*)p;
         new ((void *)(pLodData)) struct ::FUN_00a5d3a0();
-        *(int*)((char*)p + 8) = 0;
-        *(int*)((char*)p + 12) = 0;
-        *(int*)((char*)p + 16) = 0;
-        *(int*)((char*)p + 24) = 0;
-        *(int*)((char*)p + 28) = 0;
-        *(int*)((char*)p + 32) = 0;
-        *(void**)p = (void*)&DAT_010bfd54;
+        FUN_00c2ba60_Object* pObject = (FUN_00c2ba60_Object*)(void*)p;
+        pObject->unk08 = 0;
+        pObject->unk0c = 0;
+        pObject->unk10 = 0;
+        pObject->unk18 = 0;
+        pObject->unk1c = 0;
+        pObject->unk20 = 0;
+        pObject->vtbl = (void*)&DAT_010bfd54;
     }
     else
     {
@@ -416,6 +448,12 @@ FUN_00c31ff0* __cdecl FUN_00c2c7b0()
 struct CloningProcess;
 struct NiPSysModifier
 {
+    void* m_pVtbl;
+    unsigned int m_uiRefCount;
+    char* m_kName;
+    unsigned int m_uiOrder;
+    void* m_pkTarget;
+    bool m_bActive;
     void CopyMemberData(NiPSysModifier*, CloningProcess&);
 };
 struct NiPSysParticle
@@ -510,8 +548,19 @@ FUN_00c31ff0* __cdecl FUN_00c26790()
     return 0;
 }
 
-struct NiPSysBoxEmitter
+struct NiPSysBoxEmitter : NiPSysModifier
 {
+    float m_fSpeed;
+    float m_fSpeedVar;
+    float m_fDeclination;
+    float m_fDeclinationVar;
+    float m_fPlanarAngle;
+    float m_fPlanarAngleVar;
+    int m_kInitialColor[4];
+    float m_fInitialRadius;
+    float m_fRadiusVar;
+    float m_fLifeSpan;
+    float m_fLifeSpanVar;
     void CopyMemberData(NiPSysModifier* pkDest, CloningProcess& kProcess);
     void CopyTo(NiPSysModifier* pkDest, CloningProcess& kProcess);
 };
@@ -520,22 +569,21 @@ struct NiPSysBoxEmitter
 void NiPSysBoxEmitter::CopyTo(NiPSysModifier* pkDest, CloningProcess& kProcess)
 {
     CopyMemberData(pkDest, kProcess);
-    float* pSrc = (float*)((char*)this + 0x18);
-    float* pDst = (float*)((char*)pkDest + 0x18);
-    pDst[0] = pSrc[0];
-    pDst[1] = pSrc[1];
-    pDst[2] = pSrc[2];
-    pDst[3] = pSrc[3];
-    pDst[4] = pSrc[4];
-    pDst[5] = pSrc[5];
-    *(int*)((char*)pkDest + 0x30) = *(int*)((char*)this + 0x30);
-    *(int*)((char*)pkDest + 0x34) = *(int*)((char*)this + 0x34);
-    *(int*)((char*)pkDest + 0x38) = *(int*)((char*)this + 0x38);
-    *(int*)((char*)pkDest + 0x3c) = *(int*)((char*)this + 0x3c);
-    *(float*)((char*)pkDest + 0x40) = *(float*)((char*)this + 0x40);
-    *(float*)((char*)pkDest + 0x48) = *(float*)((char*)this + 0x48);
-    *(float*)((char*)pkDest + 0x4c) = *(float*)((char*)this + 0x4c);
-    *(float*)((char*)pkDest + 0x44) = *(float*)((char*)this + 0x44);
+    NiPSysBoxEmitter* pkEmitter = static_cast<NiPSysBoxEmitter*>(pkDest);
+    pkEmitter->m_fSpeed = m_fSpeed;
+    pkEmitter->m_fSpeedVar = m_fSpeedVar;
+    pkEmitter->m_fDeclination = m_fDeclination;
+    pkEmitter->m_fDeclinationVar = m_fDeclinationVar;
+    pkEmitter->m_fPlanarAngle = m_fPlanarAngle;
+    pkEmitter->m_fPlanarAngleVar = m_fPlanarAngleVar;
+    pkEmitter->m_kInitialColor[0] = m_kInitialColor[0];
+    pkEmitter->m_kInitialColor[1] = m_kInitialColor[1];
+    pkEmitter->m_kInitialColor[2] = m_kInitialColor[2];
+    pkEmitter->m_kInitialColor[3] = m_kInitialColor[3];
+    pkEmitter->m_fInitialRadius = m_fInitialRadius;
+    pkEmitter->m_fLifeSpan = m_fLifeSpan;
+    pkEmitter->m_fLifeSpanVar = m_fLifeSpanVar;
+    pkEmitter->m_fRadiusVar = m_fRadiusVar;
 }
 
 struct FUN_00c22ad0_object : A51BF0Base
@@ -876,6 +924,16 @@ ParticleObjectFactoryType* CreateParticleObjectFactory()
 struct FUN_00c31720_This
 {
 };
+struct FUN_00c2a2b0_Object
+{
+    void* vtbl;
+    char pad04[0x18 - 0x4];
+    float unk18;
+    short unk1c;
+    float unk20;
+    short unk24;
+    float unk28;
+};
 
 // @fnv 0x00c2a2b0
 void* __cdecl FUN_00c2a2b0()
@@ -885,12 +943,13 @@ void* __cdecl FUN_00c2a2b0()
     {
         new ((void *)(((FUN_00c31720_This*)pObject))) ::NiPSysPositionModifier();
         float zero = 0.0f;
-        *(float*)((char*)pObject + 0x18) = zero;
-        *(float*)((char*)pObject + 0x20) = zero;
-        *(short*)((char*)pObject + 0x1c) = 0;
-        *(float*)((char*)pObject + 0x28) = zero;
-        *(void**)pObject = fnv_vftable_A4b0Cls;
-        *(short*)((char*)pObject + 0x24) = 0;
+        FUN_00c2a2b0_Object* pModifier = (FUN_00c2a2b0_Object*)pObject;
+        pModifier->unk18 = zero;
+        pModifier->unk20 = zero;
+        pModifier->unk1c = 0;
+        pModifier->unk28 = zero;
+        pModifier->vtbl = fnv_vftable_A4b0Cls;
+        pModifier->unk24 = 0;
         return pObject;
     }
     return NULL;
@@ -1280,6 +1339,12 @@ Host* Host::DestroyIfRequested(bool bFree)
     return this;
 }
 
+struct NiGlobalStringHeader
+{
+    long m_lRefCount;
+    unsigned int m_uiLength;
+};
+
 // Sets m_vptr, releases m_pData's header (unless DAT_0109b220), drops m_pEntryObject's refcount and destroys it at zero, then calls FUN_00a6d290.
 // @fnv 0x00c312a0
 void Host_data::FUN_00c312a0()
@@ -1290,7 +1355,7 @@ void Host_data::FUN_00c312a0()
     void* data = *(void* volatile*)&self->m_pData;
     if (data != ::DAT_0109b220)
     {
-        release((char*)data - 8);
+        release((NiGlobalStringHeader*)data - 1);
     }
     Host_refobj* obj = self->m_pEntryObject;
     if (obj != 0)

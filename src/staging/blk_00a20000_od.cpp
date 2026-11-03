@@ -38,13 +38,15 @@
 
 struct FUN_00a23a30_Class
 {
+    char pad00[0x1b08];
+    unsigned int unk1b08;
     unsigned int GetField1B08();
 };
 
 // @fnv 0x00a23a30
 unsigned int FUN_00a23a30_Class::GetField1B08()
 {
-    return *(unsigned int*)((char*)this + 0x1b08);
+    return this->unk1b08;
 }
 
 struct FUN_00a25bf0_class
@@ -88,13 +90,15 @@ char FUN_00a25bf0_class::FUN_00a25bf0(int aiUnused)
 
 struct FUN_00a25d50_Class
 {
+    char pad00[0x14278];
+    unsigned int unk14278;
     unsigned int GetField14278();
 };
 
 // @fnv 0x00a25d50
 unsigned int FUN_00a25d50_Class::GetField14278()
 {
-    return *(unsigned int*)((char*)this + 0x14278);
+    return this->unk14278;
 }
 
 
@@ -135,6 +139,14 @@ void FUN_00a24f60_Class::FUN_00a24f60(int aiIndex, unsigned int b)
 
 struct InputManager
 {
+    char pad00[0x54];
+    unsigned int unk54;
+    char pad58[0xc];
+    unsigned char unk64[0x20];
+    char pad84[0x1874];
+    unsigned char unk18f8[0x238];
+    unsigned char unk1b30[0x64];
+    unsigned char unk1b94[4][28];
     void FUN_00a25410(int);
     void FUN_00a253d0();
 };
@@ -162,22 +174,35 @@ struct FUN_00a269f0_Class
 };
 struct FUN_00a257c0_Class
 {
+    char pad00[0x1b80];
+    FUN_00a269f0_Class* unk1b80;
+    char pad1b84[0x4];
+    unsigned char unk1b88;
     void FUN_00a257c0(float v);
 };
 // @fnv 0x00a257c0
 void FUN_00a257c0_Class::FUN_00a257c0(float afValue)
 {
-    if (DAT_011f35c8 && *(unsigned char*)((char*)this + 0x1b88))
+    if (DAT_011f35c8 && this->unk1b88)
     {
         int i = (int)(afValue * 1000.0);
-        ((FUN_00a269f0_Class**)((char*)this + 0x1b80))[0]->ReadTwoShorts(i);
+        (&this->unk1b80)[0]->ReadTwoShorts(i);
     }
 }
+
+struct FUN_00a26010_Entry
+{
+    int m_i00;
+    int m_i04;
+};
 
 struct FUN_00a26010_Class
 {
     unsigned char FUN_00a26010();
+    char pad00[0x28];
+    FUN_00a26010_Entry m_entries[5];
     int m_50;
+    char pad54[0x14];
     int m_68;
     void AddEntry(int a);
 };
@@ -187,9 +212,9 @@ void FUN_00a26010_Class::AddEntry(int aiValue)
 {
     if (FUN_00a26010() && aiValue)
     {
-        *(int*)((char*)this + 0x2c + *(int*)((char*)this + 0x50) * 8) = aiValue;
-        *(int*)((char*)this + 0x28 + *(int*)((char*)this + 0x50) * 8) = *(int*)((char*)this + 0x68);
-        *(int*)((char*)this + 0x50) = *(int*)((char*)this + 0x50) + 1;
+        m_entries[m_50].m_i04 = aiValue;
+        m_entries[m_50].m_i00 = m_68;
+        m_50 = m_50 + 1;
     }
 }
 
@@ -228,8 +253,16 @@ struct FUN_00a25fb0_Class
 void FUN_00a25fb0_Class::FUN_00a25fb0(int a, int b)
 {}
 
+struct FUN_00a232d0_Entry
+{
+    unsigned int flags;
+    unsigned int unk04;
+};
+
 struct FUN_00a232d0_Class
 {
+    char pad00[0x18b4];
+    FUN_00a232d0_Entry unk18b4[1];
     unsigned int GetFlag(int a, int b);
 };
 // Reads the 32-bit flags word at this+0x18b4 indexed by a and returns the bit selected by b (1-6), or 0 for other b.
@@ -239,17 +272,17 @@ unsigned int FUN_00a232d0_Class::GetFlag(int aiIndex, int aiBit)
     switch (aiBit)
     {
     case 1:
-        return (*(unsigned int*)((char*)this + 0x18b4 + aiIndex * 8)) & 1;
+        return this->unk18b4[aiIndex].flags & 1;
     case 2:
-        return (*(unsigned int*)((char*)this + 0x18b4 + aiIndex * 8)) & 2;
+        return this->unk18b4[aiIndex].flags & 2;
     case 3:
-        return (*(unsigned int*)((char*)this + 0x18b4 + aiIndex * 8)) & 4;
+        return this->unk18b4[aiIndex].flags & 4;
     case 4:
-        return (*(unsigned int*)((char*)this + 0x18b4 + aiIndex * 8)) & 8;
+        return this->unk18b4[aiIndex].flags & 8;
     case 5:
-        return (*(unsigned int*)((char*)this + 0x18b4 + aiIndex * 8)) & 16;
+        return this->unk18b4[aiIndex].flags & 16;
     case 6:
-        return (*(unsigned int*)((char*)this + 0x18b4 + aiIndex * 8)) & 32;
+        return this->unk18b4[aiIndex].flags & 32;
     default:
         return 0;
     }
@@ -268,6 +301,13 @@ void FUN_00a24eb0_Class::FUN_00a24eb0(int aiBlockIndex, int b)
             ((unsigned char*)this)[aiBlockIndex * 0x1c + i + 0x1b94] = 0xff;
 }
 
+struct FUN_00a26480_Channel
+{
+    int m_i00;
+    unsigned short m_us04;
+    unsigned short m_us06;
+};
+
 struct FUN_00a26480_class
 {
     int m_00;
@@ -275,10 +315,7 @@ struct FUN_00a26480_class
     int m_08;
     int m_0c;
     int m_10;
-    unsigned short m_14;
-    unsigned short m_16;
-    unsigned short m_18;
-    unsigned short m_1a;
+    FUN_00a26480_Channel m_akChannel[2];
     unsigned int FUN_00a26480(FUN_00a26480_class* p, unsigned short n);
 };
 
@@ -286,9 +323,9 @@ struct FUN_00a26480_class
 unsigned int FUN_00a26480_class::FUN_00a26480(FUN_00a26480_class* pData, unsigned short usMultiplier)
 {
     unsigned short q;
-    if (!*(int*)((char*)pData + 0x14))
+    if (!pData->m_akChannel[0].m_i00)
         return 0;
-    q = (unsigned short)((pData->m_1a - pData->m_18) / pData->m_14);
+    q = (unsigned short)((pData->m_akChannel[0].m_us06 - pData->m_akChannel[0].m_us04) / (unsigned short)pData->m_akChannel[0].m_i00);
     return q * usMultiplier;
 }
 
@@ -300,10 +337,11 @@ struct FUN_00a264d0_Class
 // @fnv 0x00a264d0
 unsigned int FUN_00a264d0_Class::ComputeScaledRatio(unsigned short* pData, unsigned short usValue)
 {
-    if (!*(int*)((char*)pData + 0x1c))
+    const FUN_00a26480_class* data = (const FUN_00a26480_class*)pData;
+    if (!data->m_akChannel[1].m_i00)
         return 0;
-    unsigned short r = (*(unsigned short*)((char*)pData + 0x22) - *(unsigned short*)((char*)pData + 0x20)) /
-                       *(unsigned short*)((char*)pData + 0x1c);
+    unsigned short r = (data->m_akChannel[1].m_us06 - data->m_akChannel[1].m_us04) /
+                       (unsigned short)data->m_akChannel[1].m_i00;
     return r * usValue;
 }
 
@@ -336,10 +374,10 @@ void FUN_00a26310_Class::FUN_00a26310(int a, FUN_00a26480_class* b)
             b->m_0c = b->m_08;
         m_04 = (intptr_t)b;
         m_0c = b->m_08;
-        m_10 = *(int*)((char*)b + 0x14);
-        m_14 = *(int*)((char*)b + 0x1c);
-        b->m_1a = b->m_00;
-        *(unsigned short*)((char*)b + 0x20) = b->m_00;
+        m_10 = b->m_akChannel[0].m_i00;
+        m_14 = b->m_akChannel[1].m_i00;
+        b->m_akChannel[0].m_us06 = b->m_00;
+        b->m_akChannel[1].m_us04 = b->m_00;
     }
     else
     {
@@ -349,10 +387,10 @@ void FUN_00a26310_Class::FUN_00a26310(int a, FUN_00a26480_class* b)
             b->m_0c = b->m_08;
         m_08 = (intptr_t)b;
         m_20 = b->m_08;
-        m_24 = *(int*)((char*)b + 0x14);
-        m_28 = *(int*)((char*)b + 0x1c);
-        b->m_1a = b->m_00;
-        *(unsigned short*)((char*)b + 0x20) = b->m_00;
+        m_24 = b->m_akChannel[0].m_i00;
+        m_28 = b->m_akChannel[1].m_i00;
+        b->m_akChannel[0].m_us06 = b->m_00;
+        b->m_akChannel[1].m_us04 = b->m_00;
     }
 }
 
@@ -670,6 +708,8 @@ struct InputManagerClose
     unsigned int unk28;
     InputDevice* keyboard;
     InputDevice* mouse;
+    char pad34[0x1b50];
+    void* unk1b84;
     void ShutdownInput();
 };
 
@@ -4601,9 +4641,9 @@ void InputManagerClose::ShutdownInput()
         mouse->Release();
     }
     directInput->Release();
-    if (*(void**)((char*)this + 0x1b84))
+    if (this->unk1b84)
     {
-        void* buffer = *(void**)((char*)this + 0x1b84);
+        void* buffer = this->unk1b84;
         reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::NiAllocator *>(&::g_memoryManager))))->FUN_00aa4060(buffer);
     }
 }
@@ -4647,6 +4687,10 @@ struct FUN_00a25810_Target
 
 struct FUN_00a25810_Class
 {
+    char pad00[0x1b80];
+    FUN_00a25810_Target* unk1b80;
+    char pad1b84[0x4];
+    unsigned char unk1b88;
     void ResetTargetState();
 };
 
@@ -4655,7 +4699,7 @@ struct FUN_00a25810_Class
 // @fnv 0x00a25810
 void FUN_00a25810_Class::ResetTargetState()
 {
-    if (*reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(this) + 0x1b88))
+    if (this->unk1b88)
     {
         struct Values
         {
@@ -4667,7 +4711,7 @@ void FUN_00a25810_Class::ResetTargetState()
         zeroValues.m_00 = 0;
         zeroValues.m_04 = 0;
 
-        FUN_00a25810_Target* target = *reinterpret_cast<FUN_00a25810_Target**>(reinterpret_cast<char*>(this) + 0x1b80);
+        FUN_00a25810_Target* target = this->unk1b80;
 
         target->m_0c = 0;
         target->m_20 = 0;
@@ -7502,6 +7546,12 @@ struct FUN_00a26120_cls
     void FUN_00a26120(unsigned int mask);
 };
 
+struct FUN_00a26120_Value
+{
+    void* vtbl;
+    unsigned int unk04;
+};
+
 // Looks up uiRedeemedContent:GamePlay and clears, in its second word, the bits returned by FUN_00a261a0(mask).
 // @fnv 0x00a26120
 void FUN_00a26120_cls::FUN_00a26120(unsigned int mask)
@@ -7527,7 +7577,7 @@ void FUN_00a26120_cls::FUN_00a26120(unsigned int mask)
     }
     {
         unsigned int* volatile t =
-            (p != 0) ? (unsigned int*)((char*)p + 4) : (::DAT_01202800 = 0, (unsigned int*)&::DAT_01202800);
+            (p != 0) ? &((FUN_00a26120_Value*)p)->unk04 : (::DAT_01202800 = 0, (unsigned int*)&::DAT_01202800);
         *t &= ~((unsigned int)(reinterpret_cast<::FUN_00a261a0_cls *>((this))->FUN_00a261a0(mask)));
     }
 }
@@ -7628,31 +7678,27 @@ void InputManager::FUN_00a25410(int offset)
 {
     for (int i = 0; i < 4; ++i)
     {
-        if (reinterpret_cast<unsigned char*>(this)[i * 28 + offset + 0x1b94] == 0xff)
+        if (this->unk1b94[i][offset] == 0xff)
         {
             continue;
         }
         switch (i)
         {
         case 0:
-            reinterpret_cast<unsigned char*>(
-                this)[0x18f8 + reinterpret_cast<unsigned char*>(this)[i * 28 + offset + 0x1b94]] = 0;
+            this->unk18f8[this->unk1b94[i][offset]] = 0;
             break;
         case 1:
-            reinterpret_cast<unsigned char*>(
-                this)[0x1b30 + reinterpret_cast<unsigned char*>(this)[i * 28 + offset + 0x1b94]] = 0;
+            this->unk1b30[this->unk1b94[i][offset]] = 0;
             break;
         case 2:
-            if (reinterpret_cast<unsigned char*>(this)[i * 28 + offset + 0x1b94] < 32)
+            if (this->unk1b94[i][offset] < 32)
             {
-                reinterpret_cast<unsigned char*>(
-                    this)[0x64 + reinterpret_cast<unsigned char*>(this)[i * 28 + offset + 0x1b94]] = 0;
+                this->unk64[this->unk1b94[i][offset]] = 0;
             }
             else
             {
-                reinterpret_cast<unsigned int*>(reinterpret_cast<unsigned char*>(this) +
-                                                0x54)[static_cast<unsigned short>(
-                    (static_cast<unsigned int>(reinterpret_cast<unsigned char*>(this)[i * 28 + offset + 0x1b94]) >>
+                (&this->unk54)[static_cast<unsigned short>(
+                    (static_cast<unsigned int>(this->unk1b94[i][offset]) >>
                      16) &
                     0xffff)] = 0;
             }

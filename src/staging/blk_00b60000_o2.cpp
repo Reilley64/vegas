@@ -280,11 +280,19 @@ void* FUN_00b61220_class::DestroyIfFlagged(int aiFlags)
     return this;
 }
 
+struct FUN_00b63bd0_Object
+{
+    void* vtbl;
+    int unk04;
+    char unk08;
+};
+
 // @fnv 0x00b63bd0
 void FUN_00b63bd0(void* apObject, int aiValue, char c)
 {
-    *(int*)((char*)apObject + 4) = aiValue;
-    *(char*)((char*)apObject + 8) = c;
+    FUN_00b63bd0_Object* pObject = (FUN_00b63bd0_Object*)apObject;
+    pObject->unk04 = aiValue;
+    pObject->unk08 = c;
 }
 
 namespace fnv_00b63d60 {
@@ -332,6 +340,10 @@ struct NiAccumulator
 };
 struct NiRenderer
 {
+    void* vtbl;
+    unsigned int m_uiRefCount;
+    void* unk08;
+    void* unk0c;
     static NiRenderer* ms_pRenderer;
 };
 struct FUN_00b66570_class
@@ -345,7 +357,7 @@ void FUN_00b66570_class::FUN_00b66570()
 {
     if (!this->unk19c)
         ::fnv_00b65c60::FUN_00b65c60((::AccumWIP *)(void *)(this));
-    *(int*)((char*)NiRenderer::ms_pRenderer + 0xc) = 0;
+    NiRenderer::ms_pRenderer->unk0c = 0;
     ((NiAccumulator*)this)->ClearCamera();
 }
 
@@ -420,6 +432,7 @@ float FUN_00b719e0_class::ComputeWeightedSum()
 
 struct StageReturn
 {
+    char pad00[0x60];
     int m_iObjectReferenceCount;
 };
 
@@ -435,18 +448,30 @@ void FUN_00b71b70_class::ReleaseStage()
     StageReturn* stage = m_stage;
     if (stage)
     {
-        if (--(*(int*)((char*)stage + 0x60)) == 0)
+        if (--stage->m_iObjectReferenceCount == 0)
             reinterpret_cast<::FUN_00e7ecd0_cls *>((stage))->FUN_00e7ecd0();
     }
 }
 
 
+struct SetEntryField_Entry
+{
+    void* vtbl;
+    int unk04;
+    int unk08;
+};
+struct SetEntryField_Owner
+{
+    char pad00[0x24];
+    SetEntryField_Entry** m_ppEntries;
+};
+
 // @fnv 0x00b7c150
 void SetEntryField(int aiIndex)
 {
-    uintptr_t* base = (uintptr_t*)DAT_0126f74c;
-    uintptr_t* p = (uintptr_t*)base[0x24 / 4];
-    *(int*)((char*)p[aiIndex] + 8) = DAT_011f95e4;
+    SetEntryField_Owner* base = (SetEntryField_Owner*)DAT_0126f74c;
+    SetEntryField_Entry** p = base->m_ppEntries;
+    p[aiIndex]->unk08 = DAT_011f95e4;
 }
 
 void __cdecl UpdateFogShaderConstants();
@@ -544,10 +569,16 @@ FUN_00b605a0_class* FUN_00b605a0_class::FUN_00b605a0(int flags)
     return this;
 }
 
+struct FUN_00b60d70_Object
+{
+    char pad00[0x90];
+    int unk90;
+};
+
 // @fnv 0x00b60d70
 void FUN_00b60d70(void* self, int, int value)
 {
-    *(int*)((char*)self + 0x90) = value;
+    ((FUN_00b60d70_Object*)self)->unk90 = value;
 }
 
 struct RecursiveSpinLock
@@ -589,11 +620,14 @@ public:
 };
 struct AccumWIP
 {
+    void* vtbl;
+    unsigned int m_uiRefCount;
+    void* unk08;
 };
 // @fnv 0x00b64530
 void __cdecl FUN_00b64530(AccumWIP* self)
 {
-    if (reinterpret_cast<int*>(self)[2])
+    if (self->unk08)
     {
         ::BSRenderStateManager::SetDepthBufferEnabled(false, (::BSRENDERSTATE_LOCK)(1));
         reinterpret_cast<::RenderAccumulator *>((self))->FUN_00b63770(0x2d8, 0x2ef, false, -1);
@@ -657,19 +691,22 @@ struct FUN_00b6f460_class
 };
 struct FUN_00b71ad0_class
 {
+    char pad00[0x1a8];
+    char m_acSource[0x60];
+    char m_bHasSource;
     void CopySourceData(const void* src);
 };
-// Copies 0x60 bytes from src into this+0x1a8 and sets the flag at this+0x208 to 1, or clears that flag when src is null.
+// Copies 0x60 bytes from src into m_acSource and sets m_bHasSource, or clears that flag when src is null.
 // @fnv 0x00b71ad0
 void FUN_00b71ad0_class::CopySourceData(const void* src)
 {
     if (src)
     {
-        memmove((char*)this + 0x1a8, src, 0x60);
-        ((char*)this)[0x208] = 1;
+        memmove(m_acSource, src, 0x60);
+        m_bHasSource = 1;
     }
     else
-        ((char*)this)[0x208] = 0;
+        m_bHasSource = 0;
 }
 
 struct FUN_00b7b930_Matrix
@@ -782,19 +819,25 @@ struct FUN_00b606f0_class : _Base_00441d20
 FUN_00b606f0_class::~FUN_00b606f0_class()
 {}
 
-struct BSShaderAccumulator
+struct BSShaderAccumulatorRenderers
+{
+    char pad000[0x174];
+    void* m_apkBatchRenderer[6];
+    unsigned int m_uiBatchRendererCount;
+};
+struct BSShaderAccumulator : BSShaderAccumulatorRenderers
 {
     void FUN_00b63120(unsigned int a, int b);
 };
-// Iterates the shader entries at this+0x174 up to the count at this+0x18c, calling HasListedItemInRange on each until one returns true.
+// Iterates the batch renderers, calling HasListedItemInRange on each until one returns true.
 // @fnv 0x00b63120
 void BSShaderAccumulator::FUN_00b63120(unsigned int auiArg, int aiArg)
 {
     unsigned int i = 0;
     bool cVar1 = false;
-    if (*(unsigned int*)((char*)this + 0x18c) > i)
+    if (m_uiBatchRendererCount > i)
     {
-        BSShaderAccumulator** ppEntry = (BSShaderAccumulator**)((char*)this + 0x174);
+        BSShaderAccumulator** ppEntry = (BSShaderAccumulator**)m_apkBatchRenderer;
         do
         {
             if (cVar1)
@@ -802,7 +845,7 @@ void BSShaderAccumulator::FUN_00b63120(unsigned int auiArg, int aiArg)
             cVar1 = reinterpret_cast<::FUN_00b98970_shell *>(((*ppEntry)))->HasListedItemInRange(auiArg, aiArg);
             ++i;
             ++ppEntry;
-        } while (i < *(unsigned int*)((char*)this + 0x18c));
+        } while (i < m_uiBatchRendererCount);
     }
 }
 
@@ -886,18 +929,18 @@ FUN_00b60f30_class* FUN_00b60f30_class::FUN_00b60f30(int flags)
 struct BSBatchRenderer
 {
 };
-struct FUN_00b630c0_class
+struct FUN_00b630c0_class : BSShaderAccumulatorRenderers
 {
     void FUN_00b630c0();
 };
-// Iterates the renderer pointers stored at this+0x174 up to the count at this+0x18c and calls ClearAllGroups(0) on each.
+// Iterates the batch renderers and calls ClearAllGroups(0) on each.
 // @fnv 0x00b630c0
 void FUN_00b630c0_class::FUN_00b630c0()
 {
     unsigned int i;
-    for (i = 0; i < *(unsigned int*)((char*)this + 0x18c); i++)
+    for (i = 0; i < m_uiBatchRendererCount; i++)
     {
-        ::ClearAllGroups((::BSBatchRenderer_View_00b99bc0 *)(((BSBatchRenderer*)*(void**)((char*)this + 0x174 + i * 4))), 0, {});
+        ::ClearAllGroups((::BSBatchRenderer_View_00b99bc0 *)(((BSBatchRenderer*)m_apkBatchRenderer[i])), 0, {});
     }
 }
 
@@ -941,10 +984,16 @@ struct FUN_00b63e70_class : FUN_00b63d80_base
     FUN_00b63e70_class* FUN_00b63e70(bool bDelete);
 };
 
+struct FUN_00b64490_Response
+{
+    char pad00[0x68];
+    int unk68;
+};
+
 // @fnv 0x00b64490
 bool __cdecl FUN_00b64490(void* a, void* b, void* c, void* d, void* e)
 {
-    if (*(int*)((char*)e + 0x68) == 0x16)
+    if (((FUN_00b64490_Response*)e)->unk68 == 0x16)
         return true;
     ::ProcessCommands((::RSSettings *)(a), b, c, (::RSPacket *)(d), (::RSResponse *)(e));
 }
@@ -971,16 +1020,22 @@ void FUN_00b6a670(StrArr* pStrArr)
 {
     reinterpret_cast<::ShaderPropertyRecord *>((pStrArr))->WriteToSettingArray({});
     char* p = ::FUN_00a7d330((const char *)((*reinterpret_cast<void * *>(&::g_011fa018))));
-    unsigned int idx = *(unsigned short*)((char*)pStrArr + 0xa);
-    unsigned int uiCapacity = *(unsigned short*)((char*)pStrArr + 8);
+    unsigned int idx = pStrArr->m_usSize;
+    unsigned int uiCapacity = pStrArr->m_usMaxSize;
     if (idx >= uiCapacity)
     {
-        unsigned int grow = *(unsigned short*)((char*)pStrArr + 0xe);
+        unsigned int grow = pStrArr->m_usGrowBy;
         reinterpret_cast<::ViewerStrings *>((pStrArr))->SetSize(grow + idx);
     }
     reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pStrArr))->SetAt(idx, p);
 }
 
+
+struct PushRefCountedSlot_Ref
+{
+    void** vtbl;
+    long m_lRefCount;
+};
 
 // @fnv 0x00b6b050
 void PushRefCountedSlot(int* pObject)
@@ -993,15 +1048,15 @@ void PushRefCountedSlot(int* pObject)
         {
             if (old != 0)
             {
-                if (InterlockedDecrement((long*)old + 1) == 0)
+                if (InterlockedDecrement(&((PushRefCountedSlot_Ref*)old)->m_lRefCount) == 0)
                 {
-                    (*(void(**)(int*))(*(uintptr_t*)old + 4))(old);
+                    ((void(*)(int*))((PushRefCountedSlot_Ref*)old)->vtbl[1])(old);
                 }
             }
             *slot = pObject;
             if (pObject != 0)
             {
-                InterlockedIncrement((long*)pObject + 1);
+                InterlockedIncrement(&((PushRefCountedSlot_Ref*)pObject)->m_lRefCount);
             }
         }
         DAT_011fa020++;
@@ -1489,7 +1544,13 @@ struct FUN_00b60750_owner
 
 extern void(* DAT_00fdf1c0)(void*);
 
-// Stores the block pointer from unk250 (or null if unk258 is zero) into pOut and calls DAT_00fdf1c0 on block+4 when non-null.
+struct FUN_00b60750_Block
+{
+    void* vtbl;
+    long m_lRefCount;
+};
+
+// Stores the block pointer from unk250 (or null if unk258 is zero) into pOut and calls DAT_00fdf1c0 on the block's reference count when non-null.
 // @fnv 0x00b60750
 void* FUN_00b60750_owner::FUN_00b60750(void* pOut)
 {
@@ -1514,7 +1575,7 @@ void* FUN_00b60750_owner::FUN_00b60750(void* pOut)
     *(void**)pOut = block;
     if (block)
     {
-        DAT_00fdf1c0((char*)block + 4);
+        DAT_00fdf1c0(&((FUN_00b60750_Block*)block)->m_lRefCount);
     }
     return pOut;
 }
@@ -3360,13 +3421,18 @@ struct RendererSurface
     virtual void v93();
     virtual void v94();
     virtual bool CheckFeature();
+
+    char pad004[0x200 - 0x4];
+    int unk200;
+    char pad204[0x288 - 0x204];
+    void* m_pkD3DDevice;
 };
 extern "C" RendererSurface* DAT_011f4748;
-// If the flag at DAT_011f4748+0x200 is unset, sets it when CheckFeature succeeds, then calls FUN_00b6b7d0 with b and a swapped.
+// If DAT_011f4748's unk200 flag is unset, sets it when CheckFeature succeeds, then calls FUN_00b6b7d0 with b and a swapped.
 // @fnv 0x00b6b890
 void __cdecl FUN_00b6b890(int a, intptr_t b)
 {
-    int* initialized = reinterpret_cast<int*>(reinterpret_cast<char*>(DAT_011f4748) + 0x200);
+    int* initialized = &DAT_011f4748->unk200;
     if (*initialized == 0)
     {
         if (DAT_011f4748->CheckFeature())
@@ -4294,11 +4360,19 @@ class ObjOwner
 
 void __cdecl FUN_00aa10f0(void* apMemory);
 
+struct NiBinaryStreamView
+{
+    void* vtbl;
+    unsigned int m_uiAbsoluteCurrentPos;
+    StreamReadFn m_pfnRead;
+};
+
 static unsigned int ReadRaw(NiStream* stream, void* buf, unsigned int size)
 {
+    NiBinaryStreamView* pBinary = (NiBinaryStreamView*)stream;
     unsigned int io = size;
-    unsigned int r = (*(StreamReadFn*)((char*)stream + 8))(stream, buf, size, &io, 1);
-    *(unsigned int*)((char*)stream + 4) += r;
+    unsigned int r = pBinary->m_pfnRead(stream, buf, size, &io, 1);
+    pBinary->m_uiAbsoluteCurrentPos += r;
     return r;
 }
 
@@ -4486,14 +4560,15 @@ struct Vector3Words
 };
 struct FUN_00b71b40_shell
 {
+    char pad000[0x1e4];
+    Vector3Words m_kPosition;
     Vector3Words FUN_00b71b40() const;
 };
-// Returns the Vector3Words stored at offset 0x1e4 of this object.
+// Returns the Vector3Words stored in m_kPosition.
 // @fnv 0x00b71b40
 Vector3Words FUN_00b71b40_shell::FUN_00b71b40() const
 {
-    const Vector3Words& position =
-        *reinterpret_cast<const Vector3Words*>(reinterpret_cast<const unsigned char*>(this) + 0x1e4);
+    const Vector3Words& position = m_kPosition;
     return position;
 }
 
@@ -5795,8 +5870,8 @@ void FUN_00b7e300_cls::DestroyDataArray()
     m_pVTable = &(*reinterpret_cast<char *>(&::DAT_010ef53c));
     if (pData != 0)
     {
-        int count = ((int*)pData)[-1];  // element count stored in the block header
-        fnv::crt::vector_destructor(pData, 4, count, FUN_0045cec0);
+        int count = (int)((std::size_t*)pData)[-1];  // element count stored in the block header
+        fnv::crt::vector_destructor(pData, sizeof(int*), count, FUN_0045cec0);
         reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00b7e300::FUN_00b7e300_pool *>(&::g_memoryManager))))->FUN_00aa4060(pData - 1);
     }
 }
@@ -8220,7 +8295,7 @@ void UpdateSlotFromGlobal(int index)
     if (DAT_011f9425)
         reinterpret_cast<::E7DEF0TextureStage *>((7))->FUN_00e7def0({});
 
-    void* object = *(void**)((char*)DAT_011f4748 + 0x288);
+    void* object = DAT_011f4748->m_pkD3DDevice;
     void** vtable = *(void***)object;
     ((FUN_00b7c190_VFn)vtable[69])(object, index, 8, (*reinterpret_cast<int *>(&::fnv_004da670::DAT_011f9428)));
 }
@@ -15525,16 +15600,20 @@ bool __cdecl FUN_00b64440(RSSettings* apSettings, B64440A2* a2, void* a3, RSPack
 
 struct FUN_00b63b60_class
 {
+    char pad000[0x1b4];
+    NiTMapBaseStub m_kMap;
+    char pad1b5[0x200 - 0x1b5];
+    CRITICAL_SECTION m_kLock;
     void FUN_00b63b60();
 };
 
-// Removes all entries from the NiTMapBaseStub at offset 0x1b4 while holding the critical section at offset 0x200.
+// Removes all entries from m_kMap while holding m_kLock.
 // @fnv 0x00b63b60
 void FUN_00b63b60_class::FUN_00b63b60()
 {
-    EnterCriticalSection((CRITICAL_SECTION*)((char*)this + 0x200));
-    reinterpret_cast<::S_00b601a0_Map *>((((NiTMapBaseStub*)((char*)this + 0x1b4))))->FUN_00b601a0();
-    LeaveCriticalSection((CRITICAL_SECTION*)((char*)this + 0x200));
+    EnterCriticalSection(&m_kLock);
+    reinterpret_cast<::S_00b601a0_Map *>(&m_kMap)->FUN_00b601a0();
+    LeaveCriticalSection(&m_kLock);
 }
 
 #include "generated/data/staging/blk_00b60000_o2.inc"

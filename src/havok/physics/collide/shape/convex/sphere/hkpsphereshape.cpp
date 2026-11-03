@@ -19,7 +19,7 @@ void __cdecl FUN_00cd8040(char const* const* a1, char const* const* a2)
 
 extern int DAT_010cb5ac;
 
-struct FUN_00cd8160
+struct FUN_00cd8160 : hkpSphereShape
 {
     FUN_00cd8160(float radius);
 };
@@ -27,10 +27,10 @@ struct FUN_00cd8160
 // @fnv 0x00cd8160
 FUN_00cd8160::FUN_00cd8160(float radius)
 {
-    *(float*)((char*)this + 0x10) = radius;
-    *(unsigned short*)((char*)this + 6) = 1;
-    *(int*)((char*)this + 8) = 0;
-    *(int*)((char*)this + 0xc) = 1;
+    m_fSphereRadius = radius;
+    m_sReferenceCount = 1;
+    m_ulUserData = 0;
+    m_type = 1;
     *reinterpret_cast<const void**>(this) = &DAT_010cb5ac;
 }
 

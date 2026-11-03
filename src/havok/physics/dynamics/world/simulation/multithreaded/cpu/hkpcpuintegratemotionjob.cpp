@@ -322,5 +322,5 @@ void __cdecl FUN_00d943d0(S_00d943d0_Ctx* ctx, S_00d943d0_Obj* obj, S_00d943d0_I
 
     S_00d943d0_Timer("lt");
 
-    reinterpret_cast<::LunaOwner *>((obj))->ProcessCallback((int)(item), (int)(item), 0);
+    reinterpret_cast<::LunaOwner *>((obj))->ProcessCallback((intptr_t)(item), (intptr_t)(item), 0);
 }

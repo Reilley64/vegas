@@ -724,7 +724,7 @@ initNext(job,dev,param,count,cap,pitch);
         return ((void *)(reinterpret_cast<::S_00d05020_JobQueue *>((output))->FUN_00d05020(0, 1, (*(::S_00d05020_Job *)(job)), 0)));
     } else {
         S93ba0_timer( ::DAT_010c41f8);
-        return ((void *)(reinterpret_cast<::LunaOwner *>((output))->ProcessCallback((int)(job), (int)(job), 0)));
+        return ((void *)(reinterpret_cast<::LunaOwner *>((output))->ProcessCallback((intptr_t)(job), (intptr_t)(job), 0)));
     }
 
 }

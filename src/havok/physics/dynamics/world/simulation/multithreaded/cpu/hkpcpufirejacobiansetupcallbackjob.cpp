@@ -371,5 +371,5 @@ void __cdecl ExecuteConstraintCallbacks(S_00d94c40_Context* context, S_00d94c40_
         taskData->m_numCallbacks = 0;
         S_00d94c40_Timer("lt");
     }
-    reinterpret_cast<::LunaOwner *>((jobQueue))->ProcessCallback((int)(job), (int)&(*job), 0);
+    reinterpret_cast<::LunaOwner *>((jobQueue))->ProcessCallback((intptr_t)(job), (intptr_t)&(*job), 0);
 }

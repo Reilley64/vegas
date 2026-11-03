@@ -162,7 +162,7 @@ int __cdecl AccumulateShapes(Worker** a1, TargetClass* apTarget, Caller* apCalle
 
     if (apTarget)
     {
-        return reinterpret_cast<::LunaOwner *>((apTarget))->ProcessCallback((int)(apCaller), (int)(apCaller), 0);
+        return reinterpret_cast<::LunaOwner *>((apTarget))->ProcessCallback((intptr_t)(apCaller), (intptr_t)(apCaller), 0);
     }
     else
     {

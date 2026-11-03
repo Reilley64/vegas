@@ -2376,7 +2376,7 @@ struct QueueLockView : Owner
 };
 // When param_2 is nonzero, invokes the owner callback and inserts its payload; repeats FUN_00d05840 until it returns a value other than -1.
 // @fnv 0x00d04e80
-int LunaOwner::ProcessCallback(int param_2, int param_3, int param_4)
+int LunaOwner::ProcessCallback(intptr_t param_2, intptr_t param_3, int param_4)
 {
     union Phase212
     {

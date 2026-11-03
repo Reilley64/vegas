@@ -55,7 +55,7 @@ struct E426F0Allocator;
 
 struct E426F0MemoryRouter
 {
-    int unk00;
+    char* unk00;
     int unk04;
     int unk08;
     int unk0C;
@@ -275,7 +275,7 @@ void FUN_00e427b0_cls::ProcessItems(ParamObj* p)
     buffer.m_iElementCount = 0;
     buffer.m_iCapacityState = 0x80000000;
     E426F0MemoryRouter& router = (*static_cast<E426F0MemoryRouter*>(::FUN_00c85750()));
-    void* initial = (void*)router.unk00;
+    void* initial = router.unk00;
     router.unk00 += 0x600;
     buffer.m_data = initial;
     buffer.m_iCapacityState = 0x80000010;
@@ -315,7 +315,7 @@ void FUN_00e427b0_cls::ProcessItems(ParamObj* p)
     }
     void* last = buffer.m_initialBuffer;
     E426F0MemoryRouter& h3 = (*static_cast<E426F0MemoryRouter*>(::FUN_00c85750()));
-    h3.unk00 = (int)last;
+    h3.unk00 = (char*)last;
     E426F0MemoryRouter& h4 = (*static_cast<E426F0MemoryRouter*>(::FUN_00c85750()));
     E426F0Allocator* alloc = h4.m_pStreamAllocator;
     unsigned int flags = buffer.m_iCapacityState;

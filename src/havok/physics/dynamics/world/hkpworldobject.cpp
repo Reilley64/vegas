@@ -102,7 +102,7 @@ struct hkStreamWriter
     virtual void v08();
     virtual void WriteField(const void* field, const void* data, int flags);
     virtual void v10();
-    virtual void WriteArray(int kind, const void* field, const void* data, int bytes, void* allocation);
+    virtual void WriteArray(int kind, const void* field, const void* data, int bytes, int allocatedBytes);
 
     int unk04;
     int unk08;
@@ -127,16 +127,16 @@ void FNVWorldObject::WriteToStream(hkStreamWriter* writer, const void* unused)
     if ((entryCap & 0x80000000) == 0 || writer->m_includeOwned)
     {
         void* entryData = collisionEntries.m_data;
-        void* copy = ((void *)(::fnv_00d06f80::FUN_00d06f80((const char *)(entryData), (entryCap & 0x3fffffff) * 8)));
-        writer->WriteArray(3, &DAT_010cb2d8, collisionEntries.m_data, collisionEntries.m_iElementCount * 8, copy);
+        int allocatedBytes = ::fnv_00d06f80::FUN_00d06f80((const char *)(entryData), (entryCap & 0x3fffffff) * 8);
+        writer->WriteArray(3, &DAT_010cb2d8, collisionEntries.m_data, collisionEntries.m_iElementCount * 8, allocatedBytes);
     }
 
     int propCap = m_kProperties.m_iCapacityState;
     if ((propCap & 0x80000000) == 0 || writer->m_includeOwned)
     {
         void* propData = m_kProperties.m_data;
-        void* copy = ((void *)(::fnv_00d06f80::FUN_00d06f80((const char *)(propData), (propCap & 0x3fffffff) * 16)));
-        writer->WriteArray(3, &DAT_01020e44, m_kProperties.m_data, m_kProperties.m_iElementCount * 16, copy);
+        int allocatedBytes = ::fnv_00d06f80::FUN_00d06f80((const char *)(propData), (propCap & 0x3fffffff) * 16);
+        writer->WriteArray(3, &DAT_01020e44, m_kProperties.m_data, m_kProperties.m_iElementCount * 16, allocatedBytes);
     }
 
     hkpCollidableBoundingVolumeData& bounds = m_kCollidable.m_kBoundingVolumeData;

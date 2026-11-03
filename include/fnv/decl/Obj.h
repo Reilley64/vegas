@@ -27,7 +27,7 @@ public:
     // 0x00c85810
     bool FUN_00c85810(::Obj *);
     // 0x00cb23e0
-    void FUN_00cb23e0(int);
+    void FUN_00cb23e0(intptr_t);
     // 0x00d05190
     int ForwardWithZero(int, int);
     // 0x00dbe790

@@ -446,7 +446,7 @@ void* FUN_00588b00_shell::GetOrCreateCellOffsetData(TESFile* apFile)
         pdata->uiFileOffset = 0;
         pdata->m_kFirstPoint = NiPoint2(3.4028234663852886e+38f, 3.4028234663852886e+38f);
         pdata->m_kEndPoint = NiPoint2(::DAT_01015f5c, ::DAT_01015f5c);
-        reinterpret_cast<::FUN_00844700_Class *>((((DummyPointerMap*)((char*)this + 0xb0))))->FUN_00844700((std::uintptr_t)pmainfile, (unsigned int)pdata);
+        reinterpret_cast<::FUN_00844700_Class *>((((DummyPointerMap*)((char*)this + 0xb0))))->FUN_00844700((std::uintptr_t)pmainfile, (std::uintptr_t)pdata);
     }
     return pdata;
 }
@@ -474,7 +474,7 @@ struct FUN_00588fa0_arg
 int* FUN_00588fa0(int* self, FUN_00588fa0_arg a)
 {
     new ((void *)(self)) struct ::FUN_005890c0((*(unsigned int *)&(const ::FUN_00588fa0_arg &)(a)));
-    *self = (int)&DAT_01031fac;
+    *reinterpret_cast<void**>(self) = &DAT_01031fac;
     return self;
 }
 
@@ -494,13 +494,12 @@ struct Flt
 {
     operator unsigned int() const;
 };
-// Returns the unsigned int at offset 0xc0 as a char pointer, or an empty string when that value is zero.
+// Returns the string pointer at offset 0xc0, or an empty string when it is null.
 // @fnv 0x005832f0
 char* FUN_005832f0_shell::FUN_005832f0()
 {
-    return ((Flt*)((char*)this + 0xc0))->operator unsigned int()
-               ? (char*)((Flt*)((char*)this + 0xc0))->operator unsigned int()
-               : (char*)"";
+    char* pString = *(char**)((char*)this + 0xc0);
+    return pString ? pString : (char*)"";
 }
 
 struct FUN_00587670_shell : public TESWorldSpace
@@ -987,7 +986,7 @@ void FUN_004f6800_shell::FUN_004f6800(void* a1, float* a2, void* a3)
     tmp.FUN_004f6fc0();
     reinterpret_cast<::FUN_0052ce20_shell *>((((AlphaColor*)&tmp)))->FUN_0052ce20(a2[0]);
     reinterpret_cast<::FUN_004f5d90_shell *>((((Modifier*)&tmp)))->FUN_004f5d90(a2[1]);
-    reinterpret_cast<::FUN_004f6850_Class *>((((FUN_004f6850_shell*)this)))->FUN_004f6850((std::intptr_t)(a1), (int)(&tmp), (int)(a3));
+    reinterpret_cast<::FUN_004f6850_Class *>((((FUN_004f6850_shell*)this)))->FUN_004f6850((std::intptr_t)(a1), (std::intptr_t)(&tmp), (std::intptr_t)(a3));
 }
 
 struct FUN_00528560_Host
@@ -1278,14 +1277,17 @@ struct Caller_0095f590
 // @fnv 0x0095f530
 BGSCameraPath* FUN_0095f530_shell::FUN_0095f530(TESObjectREFR* apActionRef, TESObjectREFR* apTargetRef)
 {
+    // Both parameters carry plain values: a set/clear flag and the flag bits.
+    bool bSet = (unsigned char)reinterpret_cast<std::uintptr_t>(apActionRef) != 0;
+    unsigned char ucFlags = (unsigned char)reinterpret_cast<std::uintptr_t>(apTargetRef);
     unsigned char nv;
-    if ((unsigned char)apActionRef)
+    if (bSet)
     {
-        nv = *(unsigned char*)((char*)this + 0x680) | (unsigned int)apTargetRef;
+        nv = *(unsigned char*)((char*)this + 0x680) | ucFlags;
     }
     else
     {
-        nv = (unsigned char)~(unsigned char)apTargetRef;
+        nv = (unsigned char)~ucFlags;
         nv = *(unsigned char*)((char*)this + 0x680) & nv;
     }
     return ((Caller_0095f590*)this)->FUN_0095f590(nv);
@@ -1406,7 +1408,7 @@ FUN_00582c20::FUN_00582c20() : m_kSecondTreeComponent(0x25), m_kFourthTreeCompon
 namespace fnv_005857b0 {
 struct FileH
 {
-    int m_uiData;
+    int* m_uiData;
     float m_fVectorY;
     float m_fVectorZ;
     float m_fScalarPart;
@@ -1434,8 +1436,8 @@ void FUN_005857b0_shell::FUN_005857b0(std::intptr_t a, int aiDelta)
             for (int j = i3; j <= i0; j++)
             {
                 int k = reinterpret_cast<::fnv_00584530::FUN_005858b0_shell *>(this)->FUN_00584530((::fnv_00584530::FileH *)(a), i, j);
-                if (k >= 0 && ((int*)p->m_uiData)[k])
-                    ((int*)p->m_uiData)[k] += aiDelta;
+                if (k >= 0 && p->m_uiData[k])
+                    p->m_uiData[k] += aiDelta;
             }
         }
     }
@@ -1809,7 +1811,7 @@ void FUN_00588150_shell::AddCellReferences(TESObjectCELL* cell)
             {
                 pref = *((::TESObjectREFR **)((void *)(pCurrentElementNext)));
 
-                if (((std::uintptr_t)(reinterpret_cast<::LowProcess *>((void *)(reinterpret_cast<BSOcclusionPlane*>(pref)))->GetTarget())) != reinterpret_cast<int>(cell))
+                if (((std::uintptr_t)(reinterpret_cast<::LowProcess *>((void *)(reinterpret_cast<BSOcclusionPlane*>(pref)))->GetTarget())) != reinterpret_cast<std::uintptr_t>(cell))
                 {
                     if (reinterpret_cast<::fnv_00550200::FUN_00550200 *>((reinterpret_cast<FUN_00550200_shell*>(cell)))->IsPointInCell(
                             (*(const ::fnv_00550200::NiPoint3 *)(reinterpret_cast<BSOcclusionPlane*>(pref)->FUN_0125()))))
@@ -2633,8 +2635,8 @@ void SaveWorld::FUN_00584170()
         formID = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::SaveForm *)(reinterpret_cast<::InterfaceManager *>(this)->FUN_00586150()))))->FUN_0084e3a0()));
         ::FUN_00485910(0x4d414e5a, formID);
     }
-    ::FUN_004856f0((void *)(0x4d414e4e), reinterpret_cast<::FUN_00408da0_Class *>(&(canopy))->FUN_00408da0(), (void *)(canopy.FUN_0048cee0() + 1));
-    ::FUN_004856f0((void *)(0x4d414e58), reinterpret_cast<::FUN_00408da0_Class *>(&(waterNoise))->FUN_00408da0(), (void *)(waterNoise.FUN_0048cee0() + 1));
+    ::FUN_004856f0((void *)(0x4d414e4e), reinterpret_cast<::FUN_00408da0_Class *>(&(canopy))->FUN_00408da0(), (void *)(std::uintptr_t)(canopy.FUN_0048cee0() + 1));
+    ::FUN_004856f0((void *)(0x4d414e58), reinterpret_cast<::FUN_00408da0_Class *>(&(waterNoise))->FUN_00408da0(), (void *)(std::uintptr_t)(waterNoise.FUN_0048cee0() + 1));
     if (extra)
         reinterpret_cast<::FUN_0058f080 *>((extra))->Save();
     reinterpret_cast<::Holder *>(this)->FUN_00485680();
@@ -2837,7 +2839,7 @@ void WorldCopy::FUN_00584fa0(TESForm* form)
     waterHeight = source->waterHeight;
     ::__memcpy(&unk80, &source->unk80, 16);
     ::__memcpy(&unk90, &source->unk90, 12);
-    reinterpret_cast<::FUN_00810570_shell *>(this)->SetAssociatedActorValue(((int)(reinterpret_cast<::InterfaceManager *>((source))->FUN_00586150())));
+    reinterpret_cast<::FUN_00810570_shell *>(this)->SetAssociatedActorValue(((std::intptr_t)(reinterpret_cast<::InterfaceManager *>((source))->FUN_00586150())));
     reinterpret_cast<::FUN_00438af0_Class *>((cells))->FUN_00438af0();
     void* position = reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>((source->cells))->GetFirstPos();
     while (position)
@@ -3145,7 +3147,7 @@ CellOperations* WorldCellLoader::FUN_00585b30(int x, int y)
 
 struct FUN_00585ee0_shell : public TESWorldSpace
 {
-    bool FindParentFile(int a1, int a2, unsigned int* a3, unsigned int* a4);
+    bool FindParentFile(int a1, int a2, void** a3, unsigned int* a4);
 };
 
 struct FileX
@@ -3158,7 +3160,7 @@ struct WorldX
 
 
 // @fnv 0x00585ee0
-bool FUN_00585ee0_shell::FindParentFile(int a1, int a2, unsigned int* apuiFileOut, unsigned int* apuiOffsetOut)
+bool FUN_00585ee0_shell::FindParentFile(int a1, int a2, void** apuiFileOut, unsigned int* apuiOffsetOut)
 {
     bool bFound = false;
     *apuiFileOut = 0;
@@ -3173,7 +3175,7 @@ bool FUN_00585ee0_shell::FindParentFile(int a1, int a2, unsigned int* apuiFileOu
                 TESFile* pParentFile = reinterpret_cast<::TESFile *>((((FileX*)reinterpret_cast<::TESForm *>(this)->GetFile(iFileIndex))))->GetParentTESFile();
                 if (pParentFile && reinterpret_cast<::WorldReader *>((((WorldX*)this)))->SeekToCellInWorld((::FileReader *)(pParentFile), a1, a2) && ::FUN_00550f60(pParentFile))
                 {
-                    *apuiFileOut = (unsigned int)pParentFile;
+                    *apuiFileOut = pParentFile;
                     *apuiOffsetOut = reinterpret_cast<::TESFile *>((((FileX*)pParentFile)))->GetOffset();
                     bFound = true;
                     break;
@@ -4065,25 +4067,25 @@ bool World583::FUN_00583560(File583* file)
         case 0x4d414e43: {
             unsigned int value = 0;
             file->ReadChunkInt(&value);
-            reinterpret_cast<::fnv_0087ce80::FUN_0087ce80_shell *>(this)->FUN_0087ce80((::fnv_0087ce80::TESObjectCELL *)(value));
+            reinterpret_cast<::fnv_0087ce80::FUN_0087ce80_shell *>(this)->FUN_0087ce80((::fnv_0087ce80::TESObjectCELL *)(std::uintptr_t)(value));
             break;
         }
         case 0x4d414e49: {
             unsigned int value = 0;
             file->ReadChunkInt(&value);
-            reinterpret_cast<::LowProcess *>(this)->SetCurrentCombatTarget((::TESObjectREFR *)(value));
+            reinterpret_cast<::LowProcess *>(this)->SetCurrentCombatTarget((::TESObjectREFR *)(std::uintptr_t)(value));
             break;
         }
         case 0x324d414e: {
             unsigned int value = 0;
             file->ReadChunkInt(&value);
-            reinterpret_cast<::TESObjectACTI *>(this)->SetLoopingSound((::TESSound *)(value));
+            reinterpret_cast<::TESObjectACTI *>(this)->SetLoopingSound((::TESSound *)(std::uintptr_t)(value));
             break;
         }
         case 0x334d414e: {
             unsigned int value = 0;
             file->ReadChunkInt(&value);
-            reinterpret_cast<::TESObjectACTI *>(this)->SetActivateSound((::TESSound *)(value));
+            reinterpret_cast<::TESObjectACTI *>(this)->SetActivateSound((::TESSound *)(std::uintptr_t)(value));
             break;
         }
         case 0x344d414e: {
@@ -4095,7 +4097,7 @@ bool World583::FUN_00583560(File583* file)
         case 0x4d414e57: {
             unsigned int value = 0;
             file->ReadChunkInt(&value);
-            reinterpret_cast<::TESWorldSpace *>(this)->SetParent((::TESWorldSpace *)(value));
+            reinterpret_cast<::TESWorldSpace *>(this)->SetParent((::TESWorldSpace *)(std::uintptr_t)(value));
             field4E = 0xffff;
             break;
         }
@@ -4406,7 +4408,7 @@ void WorldObj::FUN_005878d0(RefObj* pRef)
                             reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)(map))->FUN_00853130(key3, (::fnv_00853130::CombatThreatRecord *&)(val));
                             if (!val)
                             {
-                                val = (int)new StrList();
+                                val = (std::intptr_t)new StrList();
                                 reinterpret_cast<::FUN_00844700_Class *>((map))->FUN_00844700(key3, val);
                             }
                             ((SetAtHelper*)val)->FUN_005ae3d0((void**)&pRef);

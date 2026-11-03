@@ -419,10 +419,10 @@ struct Item48
 // @fnv 0x006c99c0
 unsigned int FUN_006c99c0_shell::AddPathingItem(void* a, TESObjectREFR* pRefr)
 {
-    void* idx = ((PathBuilder*)((char*)this + 8))->AdvanceCounter();
-    void* mem = ((void *)(reinterpret_cast<::FUN_006e8f40_shell *>((((PathBuilder*)((char*)this + 8))))->FUN_006e8f40((::std::intptr_t)(idx))));
+    unsigned int idx = ((PathBuilder*)((char*)this + 8))->AdvanceCounter();
+    void* mem = ((void *)(reinterpret_cast<::FUN_006e8f40_shell *>((((PathBuilder*)((char*)this + 8))))->FUN_006e8f40(idx)));
     new (mem) Item48(a, pRefr);
-    return (unsigned int)idx;
+    return idx;
 }
 }  // namespace fnv_006c99c0
 
@@ -800,7 +800,7 @@ int FUN_006cc5e0_shell::FUN_006cc5e0(PathingLocation* aStartLocation, PathingLoc
                     PathingLocationS loc(
                         (*(::NiPoint3 *)(reinterpret_cast<::GetCenterX_006a6eb0 *>((void *)(((const NavMeshSearchNodeS*)&(*(const ::fnv_006cc5e0::NavMeshTriangleReference *)(reinterpret_cast<::FUN_006b3160_shell *>((void *)&(nodes))->FUN_006b3160(i))))))->FUN_006a6eb0({}))),
                         reinterpret_cast<::FUN_0068efb0_shell *>((((FUN_0068efb0_shell*)(*(const ::fnv_006cc5e0::NavMeshTriangleReference *)(reinterpret_cast<::FUN_006b3160_shell *>((void *)&(nodes))->FUN_006b3160(i))).m_pLocationNavMesh)))->FUN_0068efb0());
-                    reinterpret_cast<::FUN_0069f920_cls *>((((PathingSolutionS*)m_pOutputSolution)))->FUN_0069f920((::std::intptr_t)&(loc), (int)&(::NiPoint3::ZERO));
+                    reinterpret_cast<::FUN_0069f920_cls *>((((PathingSolutionS*)m_pOutputSolution)))->FUN_0069f920((::std::intptr_t)&(loc), (::std::intptr_t)&(::NiPoint3::ZERO));
                 }
             }
             else
@@ -1999,7 +1999,7 @@ bool PathBuilder::TryConnectPathNodes(unsigned int a, unsigned int b)
         case 1: {
             unsigned int nodeB;  // Detailed-path index.
             for (nodeB = 0; nodeB < ((unsigned int)(::std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(arrC))->GetName())); nodeB++)
-                reinterpret_cast<::FUN_0069f920_cls *>((((SolS*)m_pOutputSolution)))->FUN_0069f920((::std::intptr_t)(arrC.FUN_00691750(nodeB)), (int)&(NiPoint3::ZERO));
+                reinterpret_cast<::FUN_0069f920_cls *>((((SolS*)m_pOutputSolution)))->FUN_0069f920((::std::intptr_t)(arrC.FUN_00691750(nodeB)), (::std::intptr_t)&(NiPoint3::ZERO));
             // Goal solution node.
             void* i = reinterpret_cast<::FUN_006e78b0_shell *>((((SolS*)m_pOutputSolution)))->FUN_006e78b0(b);
             if (reinterpret_cast<::PathingGraphNode *>((((NodeS*)i)))->IsTransitionNode())
@@ -2013,7 +2013,7 @@ bool PathBuilder::TryConnectPathNodes(unsigned int a, unsigned int b)
                     if (reinterpret_cast<::BGSTerrainManager *>((((MinS*)((void *)(reinterpret_cast<::BaseProcess *>((((NodeS*)reinterpret_cast<::FUN_006e78b0_shell *>((((SolS*)m_pOutputSolution)))->FUN_006e78b0(b + 1))))->GetCurrentProcessData())))))->GetMinLevel() == reinterpret_cast<::BGSTerrainManager *>((((MinS*)((void *)(reinterpret_cast<::BaseProcess *>((((NodeS*)i)))->GetCurrentProcessData())))))->GetMinLevel())
                     {
                         reinterpret_cast<::FUN_0069f920_cls *>((((SolS*)m_pOutputSolution)))->FUN_0069f920((::std::intptr_t)(((void *)(reinterpret_cast<::BaseProcess *>((((NodeS*)reinterpret_cast<::FUN_006e78b0_shell *>((((SolS*)m_pOutputSolution)))->FUN_006e78b0(b + 1))))->GetCurrentProcessData()))),
-                                           (int)&(NiPoint3::ZERO));
+                                           (::std::intptr_t)&(NiPoint3::ZERO));
                         ((FUN_006cc5a0_shell*)reinterpret_cast<::S_FUN_006b05a0 *>((((SolS*)m_pOutputSolution)))->FUN_006b05a0())->SetFlag4(true);
                     }
                 }
@@ -2046,10 +2046,10 @@ bool PathBuilder::TryConnectPathNodes(unsigned int a, unsigned int b)
     {
         unsigned int i;
         for (i = 0; i < ((unsigned int)(::std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(arrB))->GetName())) - 1; i++)
-            reinterpret_cast<::FUN_0069f920_cls *>((((SolS*)m_pOutputSolution)))->FUN_0069f920((::std::intptr_t)(arrB.FUN_00691750(i)), (int)&(NiPoint3::ZERO));
+            reinterpret_cast<::FUN_0069f920_cls *>((((SolS*)m_pOutputSolution)))->FUN_0069f920((::std::intptr_t)(arrB.FUN_00691750(i)), (::std::intptr_t)&(NiPoint3::ZERO));
     }
     // Combined path result.
-    int arrA = reinterpret_cast<::fnv_006cc5e0::FUN_006cc5e0_shell *>((((PBX*)this)))->FUN_006cc5e0((::PathingLocation *)(arrB.FUN_006cedd0(locA.FUN_006cedd0(a, b))), {}, {}, {});
+    int arrA = reinterpret_cast<::fnv_006cc5e0::FUN_006cc5e0_shell *>((((PBX*)this)))->FUN_006cc5e0((::PathingLocation *)(arrB.FUN_00691750(arrB.sz - 1)), (::PathingLocation *)(locA.FUN_00691750(locA.sz - 1)), a, b);
     switch (arrA)
     {
     case 2: {
@@ -2077,7 +2077,7 @@ bool PathBuilder::TryConnectPathNodes(unsigned int a, unsigned int b)
                 reinterpret_cast<::FUN_006c9fa0_shell *>((m_pOutputSolution))->SetByteAtOffset40(0);
                 unsigned int i;
                 for (i = 0; i < ((unsigned int)(::std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(res3))->GetName())); i++)
-                    reinterpret_cast<::FUN_0069f920_cls *>((((SolS*)m_pOutputSolution)))->FUN_0069f920((::std::intptr_t)(res3.FUN_00691750(i)), (int)&(NiPoint3::ZERO));
+                    reinterpret_cast<::FUN_0069f920_cls *>((((SolS*)m_pOutputSolution)))->FUN_0069f920((::std::intptr_t)(res3.FUN_00691750(i)), (::std::intptr_t)&(NiPoint3::ZERO));
                 return !reinterpret_cast<::FUN_006b05d0_shell *>((((SolS*)m_pOutputSolution)))->FUN_006b05d0();
             }
         }
@@ -2092,7 +2092,7 @@ bool PathBuilder::TryConnectPathNodes(unsigned int a, unsigned int b)
         {
             int i;
             for (i = (int)((unsigned int)(::std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(locA))->GetName())) - 1; i >= 0; i--)
-                reinterpret_cast<::FUN_0069f920_cls *>((((SolS*)m_pOutputSolution)))->FUN_0069f920((::std::intptr_t)(locA.FUN_00691750(i)), (int)&(NiPoint3::ZERO));
+                reinterpret_cast<::FUN_0069f920_cls *>((((SolS*)m_pOutputSolution)))->FUN_0069f920((::std::intptr_t)(locA.FUN_00691750(i)), (::std::intptr_t)&(NiPoint3::ZERO));
         }
         void* nodeB = reinterpret_cast<::FUN_006e78b0_shell *>((((SolS*)m_pOutputSolution)))->FUN_006e78b0(b);
         if (reinterpret_cast<::PathingGraphNode *>((((NodeS*)nodeB)))->IsTransitionNode())
@@ -2106,7 +2106,7 @@ bool PathBuilder::TryConnectPathNodes(unsigned int a, unsigned int b)
                 if (reinterpret_cast<::BGSTerrainManager *>((((MinS*)((void *)(reinterpret_cast<::BaseProcess *>((((NodeS*)reinterpret_cast<::FUN_006e78b0_shell *>((((SolS*)m_pOutputSolution)))->FUN_006e78b0(b + 1))))->GetCurrentProcessData())))))->GetMinLevel() == reinterpret_cast<::BGSTerrainManager *>((((MinS*)((void *)(reinterpret_cast<::BaseProcess *>((((NodeS*)nodeB)))->GetCurrentProcessData())))))->GetMinLevel())
                 {
                     reinterpret_cast<::FUN_0069f920_cls *>((((SolS*)m_pOutputSolution)))->FUN_0069f920((::std::intptr_t)(((void *)(reinterpret_cast<::BaseProcess *>((((NodeS*)reinterpret_cast<::FUN_006e78b0_shell *>((((SolS*)m_pOutputSolution)))->FUN_006e78b0(b + 1))))->GetCurrentProcessData()))),
-                                       (int)&(NiPoint3::ZERO));
+                                       (::std::intptr_t)&(NiPoint3::ZERO));
                     ((FUN_006cc5a0_shell*)reinterpret_cast<::S_FUN_006b05a0 *>((((SolS*)m_pOutputSolution)))->FUN_006b05a0())->SetFlag4(true);
                 }
             }
@@ -4244,11 +4244,11 @@ struct BuilderLocal
     int unk0c;
     int unk10;
     int infos;
-    bool FindPath(LocationLocal*, LocationLocal*, int, int, int, int, int);
+    bool FindPath(LocationLocal*, LocationLocal*, int, std::intptr_t, std::intptr_t, int, int);
 };
 // Resolves start and goal locations to mesh/triangle points, runs a search in the given mode, and returns whether a path was found.
 // @fnv 0x006cd670
-bool BuilderLocal::FindPath(LocationLocal* start, LocationLocal* goal, int mode, int a, int b, int c, int d)
+bool BuilderLocal::FindPath(LocationLocal* start, LocationLocal* goal, int mode, std::intptr_t a, std::intptr_t b, int c, int d)
 {
     MeshRefLocal startMesh2;
     unsigned short startTriangle;
@@ -4681,7 +4681,7 @@ bool PathBuilderMethods::FUN_006cd1f0(PathingLocation* pStart, PathingLocation* 
                 25.0 >
             reinterpret_cast<::TaskQueueInterface *>((((PathingLocationMethods*)pEndLocation)))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr).z)
     {
-        reinterpret_cast<::FUN_0069f920_cls *>((((PathingSolutionMethods*)m_pOutputSolution)))->FUN_0069f920((::std::intptr_t)(pStart), (int)(&(*reinterpret_cast<unsigned int *>((void *)&::NiPoint3::ZERO))));
+        reinterpret_cast<::FUN_0069f920_cls *>((((PathingSolutionMethods*)m_pOutputSolution)))->FUN_0069f920((::std::intptr_t)(pStart), (::std::intptr_t)(&(*reinterpret_cast<unsigned int *>((void *)&::NiPoint3::ZERO))));
         return true;
     }
 
@@ -4700,7 +4700,7 @@ bool PathBuilderMethods::FUN_006cd1f0(PathingLocation* pStart, PathingLocation* 
     if (!FUN_006d7350((const PathingLocation*)&kStartPlus, (const PathingLocation*)&kEndMinus, 0, 0))
         return false;
 
-    reinterpret_cast<::FUN_0069f920_cls *>((((PathingSolutionMethods*)m_pOutputSolution)))->FUN_0069f920((::std::intptr_t)(pStart), (int)(&(*reinterpret_cast<unsigned int *>((void *)&::NiPoint3::ZERO))));
+    reinterpret_cast<::FUN_0069f920_cls *>((((PathingSolutionMethods*)m_pOutputSolution)))->FUN_0069f920((::std::intptr_t)(pStart), (::std::intptr_t)(&(*reinterpret_cast<unsigned int *>((void *)&::NiPoint3::ZERO))));
     return true;
 }
 }  // namespace fnv_006cd1f0
@@ -7543,7 +7543,7 @@ bool RouteBuilder::BuildRoute(void* from, void* to)
         {
             RoutePortal* portalRes = portals.FUN_00877a30(0);
             RoutePoint exit = (*(::RoutePoint *)&(reinterpret_cast<::fnv_00568fa0::Fn568fa0 *>((portalRes))->FUN_00568fa0()));
-            reinterpret_cast<::OwnerX *>((solution))->CreateEntry((::std::intptr_t)(infos.FUN_00877a30(0)), (int)&(exit), (int)(portalRes));
+            reinterpret_cast<::OwnerX *>((solution))->CreateEntry((::std::intptr_t)(infos.FUN_00877a30(0)), (::std::intptr_t)&(exit), (::std::intptr_t)(portalRes));
             RoutePoint entry = (*(::RoutePoint *)(reinterpret_cast<::BaseProcess *>((((::RouteCell *)(reinterpret_cast<::TESObjectREFR *>((portalRes))->GetExtraRadioData()))))->GetCurrentProcessData()));
             reinterpret_cast<::fnv_006c99c0::FUN_006c99c0_shell *>((solution))->AddPathingItem((void *)&(entry), (::TESObjectREFR *)(infos.FUN_00877a30(1)));
         }
@@ -7555,7 +7555,7 @@ bool RouteBuilder::BuildRoute(void* from, void* to)
                 if (portalRes)
                 {
                     RoutePoint exit = (*(::RoutePoint *)&(reinterpret_cast<::fnv_00568fa0::Fn568fa0 *>((portalRes))->FUN_00568fa0()));
-                    reinterpret_cast<::OwnerX *>((solution))->CreateEntry((::std::intptr_t)(infos.FUN_00877a30(i2)), (int)&(exit), (int)(portalRes));
+                    reinterpret_cast<::OwnerX *>((solution))->CreateEntry((::std::intptr_t)(infos.FUN_00877a30(i2)), (::std::intptr_t)&(exit), (::std::intptr_t)(portalRes));
                     RoutePoint entry = (*(::RoutePoint *)(reinterpret_cast<::BaseProcess *>((((::RouteCell *)(reinterpret_cast<::TESObjectREFR *>((portalRes))->GetExtraRadioData()))))->GetCurrentProcessData()));
                     reinterpret_cast<::fnv_006c99c0::FUN_006c99c0_shell *>((solution))->AddPathingItem((void *)&(entry), (::TESObjectREFR *)(infos.FUN_00877a30(i2 + 1)));
                 }
@@ -7624,15 +7624,15 @@ struct ActorX
 struct PathX
 {
     ActorX* m0;
-    int m4;
+    void* m4;
     int m8;
     char padc[8];
     char m14[4];
-    bool FUN_006cd8a0(LocX* pkStart, LocX* pkEnd, int iC, ListX* pkList, int iE);
+    bool FUN_006cd8a0(LocX* pkStart, LocX* pkEnd, void* iC, ListX* pkList, void* iE);
 };
 // Selects among three search calls using global booleans and, in one branch, a float threshold; passes endpoints and a node list.
 // @fnv 0x006cd8a0
-bool PathX::FUN_006cd8a0(LocX* pkStart, LocX* pkEnd, int iC, ListX* pkList, int iE)
+bool PathX::FUN_006cd8a0(LocX* pkStart, LocX* pkEnd, void* iC, ListX* pkList, void* iE)
 {
     if (*(*reinterpret_cast<::fnv_006cd8a0::BoolSet *>(&::g_011d7444)).FUN_00408d60() && ::GetFloatAtOffset68((const char *)(m0)) > 150.0)
     {
@@ -7647,7 +7647,7 @@ bool PathX::FUN_006cd8a0(LocX* pkStart, LocX* pkEnd, int iC, ListX* pkList, int 
     else if (*(*reinterpret_cast<::fnv_006cd8a0::BoolSet *>(&::g_011d7434)).FUN_00408d60())
     {
         SearchB kSearchB;
-        return reinterpret_cast<::FUN_006ed530_cls *>(&(kSearchB))->FUN_006ed530((::NodeA *)(m0), (::ArgObj *)(pkList), (::ArgObj *)(iE), (::Triple *)(::fnv_006cd8a0::PosX *)(&(*(::fnv_006cd8a0::PosX *)&(reinterpret_cast<::TaskQueueInterface *>((pkStart))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)))), (::Triple *)(::fnv_006cd8a0::PosX *)(&(*(::fnv_006cd8a0::PosX *)&(reinterpret_cast<::TaskQueueInterface *>((pkEnd))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)))), m4, (::Gate *)(iC), 1);
+        return reinterpret_cast<::FUN_006ed530_cls *>(&(kSearchB))->FUN_006ed530((::NodeA *)(m0), (::ArgObj *)(pkList), (::ArgObj *)(iE), (::Triple *)(::fnv_006cd8a0::PosX *)(&(*(::fnv_006cd8a0::PosX *)&(reinterpret_cast<::TaskQueueInterface *>((pkStart))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)))), (::Triple *)(::fnv_006cd8a0::PosX *)(&(*(::fnv_006cd8a0::PosX *)&(reinterpret_cast<::TaskQueueInterface *>((pkEnd))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)))), (std::intptr_t)m4, (::Gate *)(iC), 1);
     }
     else
     {

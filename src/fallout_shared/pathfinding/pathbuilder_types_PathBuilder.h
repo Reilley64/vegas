@@ -80,7 +80,7 @@ class PathBuilder
     bool TryConnectPathNodes(unsigned int, unsigned int);
     bool FUN_006c9b20();
     bool BuildPathForActor(Actor*, unsigned int);
-    void* AdvanceCounter();
+    unsigned int AdvanceCounter();
     PathingInfoEntry* GetPathingInfoEntry(PathingInfoEntry&);
     // PathBuilder
     // bool __cdecl PathBuilder::*()

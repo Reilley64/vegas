@@ -2722,13 +2722,13 @@ public:
     char* text;
     __forceinline NiFixedString(const char* str) {
         if (str == 0) {
-            text = (char*)(*reinterpret_cast<int *>(&::DAT_0109b220));
+            text = ::DAT_0109b220;
             return;
         }
         text = ::NiGlobalStringTable::AddString(str);
     }
     __forceinline ~NiFixedString() {
-        if (text == (char*)(*reinterpret_cast<int *>(&::DAT_0109b220))) {} else {
+        if (text == ::DAT_0109b220) {} else {
             char* p = text - 8;
             InterlockedDecrement((long volatile*)p);
         }
@@ -3334,9 +3334,9 @@ struct ItemList : NiTPointerListBase_NiTPointerAllocator_unsigned_int__Tile__Til
 };
 
 struct BSFixedString_Local {
-    int m_str;
+    char* m_str;
     ~BSFixedString_Local() {
-        if (m_str == (*reinterpret_cast<int *>(&::DAT_0109b220))) {
+        if (m_str == ::DAT_0109b220) {
         } else {
             long* p = (long*)(m_str - 8);
             InterlockedDecrement(p);
@@ -3346,7 +3346,6 @@ struct BSFixedString_Local {
 
 struct FUN_00a0c190 : Tile__TileTemplate {
     BSFixedString_Local m_str;
-    char pad[8 - sizeof(BSFixedString_Local)];
     ItemList m_items;
 
     ~FUN_00a0c190();
@@ -3745,7 +3744,7 @@ int __cdecl FUN_00a00940(char const* apString, int aiIndex)
     ScrapHeapBuffer* pData = 0;
 
     if (reinterpret_cast<::S_00adc830_Map *>(&(DAT_011f32f4))->GetAt(reinterpret_cast<unsigned long>(apString), (::S_00adc830_Entry *&)(pData)))
-        return reinterpret_cast<int>(pData);
+        return static_cast<int>(reinterpret_cast<std::uintptr_t>(pData));
 
     if (aiIndex == -1)
     {
@@ -4040,7 +4039,7 @@ struct FUN_00a0d220_frame {
 };
 
 struct FUN_00a0d220_cls {
-    int m_vptr;
+    const void* m_vptr;
     int unk04;
 
 
@@ -4113,14 +4112,14 @@ public:
     int m_unk10;
 
     TileTemplate_00a0ae70(const char* apName, void* apOwner) {
-        m_name = (const char*)(*reinterpret_cast<int *>(&::DAT_0109b220));
+        m_name = ::DAT_0109b220;
         m_unk10 = 0;
         m_unk08 = 0;
         m_unk0c = 0;
         if (m_name != apName) {
             const char* pOld = m_name;
             m_name = NiGlobalStringTable::AddString(apName);
-            if (pOld != (const char*)(*reinterpret_cast<int *>(&::DAT_0109b220))) {
+            if (pOld != ::DAT_0109b220) {
                 InterlockedDecrement((long*)(pOld - 8));
             }
         }
@@ -4302,14 +4301,14 @@ struct TileTemplateList_ac80 {
 };
 
 struct FixedString_ac80 {
-    int m_str;
-    FixedString_ac80() { m_str = (*reinterpret_cast<int *>(&::DAT_0109b220)); }
+    char* m_str;
+    FixedString_ac80() { m_str = ::DAT_0109b220; }
     ~FixedString_ac80();
     FixedString_ac80& operator=(const char* apString) {
-        if (m_str != (int)apString) {
-            int iOld = m_str;
-            m_str = (int)NiGlobalStringTable::AddString(apString);
-            if (iOld == (*reinterpret_cast<int *>(&::DAT_0109b220))) {
+        if (m_str != apString) {
+            char* iOld = m_str;
+            m_str = NiGlobalStringTable::AddString(apString);
+            if (iOld == ::DAT_0109b220) {
             } else {
                 long* p = (long*)(iOld - 8);
                 InterlockedDecrement(p);
@@ -4621,16 +4620,16 @@ struct ReuseNode {
     int trait;
     float value;
     ReuseString text;
-    int flags;
-    int owner;
-    ReuseNode(int a, float f, const char* s, int b, int c) {
+    std::intptr_t flags;
+    void* owner;
+    ReuseNode(int a, float f, const char* s, int b, void* c) {
         trait = a;
         value = f;
         reinterpret_cast<::TextString *>(&(text))->FUN_004037f0(s, 31);
         flags = b;
         owner = c;
     }
-    void Init(int a, float f, const char* s, int b, int c) {
+    void Init(int a, float f, const char* s, int b, void* c) {
         trait = a;
         value = f;
         text = s;
@@ -4642,7 +4641,7 @@ struct ReuseNode {
 
 
 // @fnv 0x00a0b950
-ReuseNode* FUN_00a0b950(int a, float f, const char* s, int b, int c) {
+ReuseNode* FUN_00a0b950(int a, float f, const char* s, int b, void* c) {
     ReuseNode* node;
     if ((unsigned int)DAT_011f32dc > 0) {
         DAT_011f32dc = DAT_011f32dc - 1;
@@ -6367,8 +6366,8 @@ struct FractalReaderB {  };
 
 inline FUN_00ac5490::FUN_00ac5490(GameString signature)
 {
-    int c00, c01, c02, c03, c04, c05, c06, c07, c08, c09, c10;
-    c00 = (int)&signature; c01 = c00 + 1; c02 = c01 + 1; c03 = c02 + 1;
+    ::std::uintptr_t c00, c01, c02, c03, c04, c05, c06, c07, c08, c09, c10;
+    c00 = reinterpret_cast<::std::uintptr_t>(&signature); c01 = c00 + 1; c02 = c01 + 1; c03 = c02 + 1;
     c04 = c03 + 1; c05 = c04 + 1; c06 = c05 + 1; c07 = c06 + 1;
     c08 = c07 + 1; c09 = c08 + 1; c10 = c09 + 1;
 }
@@ -6511,7 +6510,7 @@ struct A0D2A0_StringMap : A0D2A0_Map
 FUN_00a0d220_cls* FUN_00a0d220_cls::FUN_00a0d220(unsigned int auiFlags)
 {
     FUN_00a0d220_frame frame;
-    m_vptr = (int)&DAT_01094d9c;
+    m_vptr = &DAT_01094d9c;
     reinterpret_cast<::A0D2A0_StringMap *>(this)->A0D2A0_StringMap::~A0D2A0_StringMap();
     if (auiFlags & 1) {
         reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::FUN_00a0d220_pool *>(&::g_memoryManager))))->FUN_00aa4060(this);
@@ -6914,7 +6913,7 @@ void ParsedBuilder::FUN_00a0a410(int trait, const char* text, void* context, boo
         value = (float)::FUN_00a01860(text);
     if (value == ::DAT_01094ba8 && (text[0] == '_' || (text[0] == '&' && text[1] == '_')))
         value = (float)::FUN_00a00940(text, -1);
-    ParsedToken* createdToken16 = ((::fnv_00a0a410::ParsedToken *)(::FUN_00a0b950(trait, value, text, (int)value, (int)(context))));
+    ParsedToken* createdToken16 = ((::fnv_00a0a410::ParsedToken *)(::FUN_00a0b950(trait, value, text, (int)value, context)));
     bool isNumericX = true;
     for (unsigned i = 0; i < strlen(text); ++i) {
         if ((text[i] < '0' || text[i] > '9') && text[i] != '-' && text[i] != '.') {
@@ -7282,7 +7281,7 @@ struct R_Val {
 
     R_Str str;
 
-    int m10;
+    std::intptr_t m10;
 
     void* context;
 

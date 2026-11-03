@@ -196,7 +196,7 @@ void __cdecl FUN_00a11820()
 }
 
 struct NiTMapItem {
-    unsigned int key;
+    void* key;
     void* data;
     void* extra;
 };
@@ -213,9 +213,9 @@ struct FUN_00a11c00_shell {
 // @fnv 0x00a11c00
 void FUN_00a11c00_shell::FUN_00a11c00(NiTMapItem* item)
 {
-    NiTMapItem* created = (NiTMapItem*)reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(0xc);
+    NiTMapItem* created = (NiTMapItem*)reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(sizeof(NiTMapItem));
     NiTMapItem* temp = created;
-    temp->extra = (void*)item->key;
+    temp->extra = item->key;
     reinterpret_cast<::fnv_00adddd0::FUN_00a1b940 *>((((NiTPointerMap*)this)))->FUN_00a11db0((::fnv_00adddd0::MsgNode *)(temp));
 }
 
@@ -1794,7 +1794,9 @@ public:
         delete state;
     }
     void* m_pVtbl;          // 0x00
-    int unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20, unk24, unk28, unk2c;        // 0x04..0x2f
+    int unk04, unk08, unk0c, unk10, unk14;
+    void* unk18;
+    int unk1c, unk20, unk24, unk28, unk2c;
     int m_flags;            // 0x30
     int unk34, unk38, unk3c, unk40, unk44, unk48, unk4c, unk50, unk54;         // 0x34..0x57
     A0FE20NiP3 m_pos;
@@ -2144,7 +2146,7 @@ struct NiObject {
 
 extern NiRTTI DAT_011f4428;
 
-unsigned char __cdecl FUN_00a10c00(NiObject* pkObject, int a, int b, float c);
+unsigned char __cdecl FUN_00a10c00(NiObject* pkObject, const char* a, int b, float c);
 
 __forceinline bool KindOfRTTI(const NiRTTI& kRTTI, const NiObject* pkObject)
 {
@@ -2175,7 +2177,7 @@ __forceinline T* CastParentIfKind(const NiRTTI& kRTTI, NiObject* pkObject)
 }
 
 // @fnv 0x00a11470
-unsigned char __cdecl FUN_00a11470(NiObject* pkObject, int a, int b, float c)
+unsigned char __cdecl FUN_00a11470(NiObject* pkObject, const char* a, int b, float c)
 {
     NiObject* pkCast = CastIfKind<NiObject>(DAT_011f4428, pkObject);
     if (pkCast == 0 && pkObject != 0)
@@ -2283,7 +2285,7 @@ inline unsigned char A11740HasMarker(A11740Node*& p)
 }
 
 // @fnv 0x00a11740
-A11740Item* __cdecl FUN_00a11740(A11740Input* input, int unused, int expected, int* outValue)
+A11740Item* __cdecl FUN_00a11740(A11740Input* input, const char* unused, int expected, int* outValue)
 {
     A11740Item* res;
     unsigned int indexB;
@@ -3398,7 +3400,9 @@ struct FUN_0051cf00 {
     virtual void v48(); virtual void v49(); virtual void v50(); virtual void v51();
     virtual void v52(); virtual void v53(); virtual void v54();
     virtual void attach(FUN_0051cf00*,bool);
-    int unk04,unk08,unk0c,unk10,unk14,unk18,unk1c,unk20,unk24,unk28,unk2c,unk30;
+    int unk04,unk08,unk0c,unk10,unk14;
+    void* unk18;
+    int unk1c,unk20,unk24,unk28,unk2c,unk30;
     M107 rotation; P107 position; float scale;
     int unk68,unk6c,unk70,unk74,unk78,unk7c,unk80,unk84,unk88,unk8c,unk90,unk94,unk98,unk9c,unka0,unka4,unka8,unkac,unkb0;
     FUN_0051cf00();
@@ -3430,7 +3434,7 @@ struct Maker107 {
     }
 };
 // @fnv 0x00a10770
-FUN_0051cf00* __cdecl FUN_00a10770(const char* text,float x,float y,float scale,int idx,int p1,int p2,bool flag) {
+FUN_0051cf00* __cdecl FUN_00a10770(const char* text,float x,float y,float scale,int idx,int p1,void* p2,bool flag) {
     FUN_0051cf00* a;
     { a = new FUN_0051cf00; }
     ::AssignFixedString((char *)(a), 0, (char **)&(const ::fnv_00a10770::S107 &)(S107(&DAT_01094f9c)));
@@ -3438,7 +3442,7 @@ FUN_0051cf00* __cdecl FUN_00a10770(const char* text,float x,float y,float scale,
     B107 s(text);
     FUN_0051cf00* h;
     {
-        h=((::fnv_00a10770::FUN_0051cf00 *)(reinterpret_cast<::FontX *>((Maker107::Get(idx)))->FUN_00a12460(x,y,0.0f,(::SStr *)(::fnv_00a10770::B107 *)(&s),&eb,p1,(void *)(p2),0,flag)));
+        h=((::fnv_00a10770::FUN_0051cf00 *)(reinterpret_cast<::FontX *>((Maker107::Get(idx)))->FUN_00a12460(x,y,0.0f,(::SStr *)(::fnv_00a10770::B107 *)(&s),&eb,p1,p2,0,flag)));
     }
     if (!h) return 0;
     a->attach(h,true);
@@ -3607,7 +3611,7 @@ typedef void (*AlphaFlag)(NiAlphaProperty*,bool,unsigned short);
 typedef bool (*ExtraAttach)(NiObject*,ExtraData*);
 
 // @fnv 0x00a10c00
-unsigned char __cdecl FUN_00a10c00(NiObject* root,int text,int height,float duration) {
+unsigned char __cdecl FUN_00a10c00(NiObject* root,const char* text,int height,float duration) {
  if(!root) return false;
  bool found=false;
  int zt=(int)static_cast<NiAVObject*>(root)->GetBound().z;
@@ -3626,15 +3630,15 @@ unsigned char __cdecl FUN_00a10c00(NiObject* root,int text,int height,float dura
  } else {
   nodeB=new NiBillboardNode;
   ::AssignFixedString((char *)(nodeB), 0, (char **)&(const ::FixedText &)(FixedText(&DAT_01094f9c)));
-  extra34=new DebugTextExtraData(nodeB,(const char*)text,height,zt);
+  extra34=new DebugTextExtraData(nodeB,text,height,zt);
  }
  int total2=extra34->height+height;
  int limit3=10000;
- BSStringTChar str1((const char*)text);
+ BSStringTChar str1(text);
  NiAVObject* mesh6=((::NiAVObject *)(reinterpret_cast<::FontX *>((FontSystem::GetSingleton()->GetFont(1)))->FUN_00a12460(0,0,0,(::SStr *)(::BSStringTChar *)(&str1),&limit3,2,&(*reinterpret_cast<int *>(&::DAT_011a9be0)),0,1)));
  if(!mesh6) return false;
  nodeB->Attach(mesh6,true);
- extra34->text=(const char*)text;
+ extra34->text=text;
  ThreeByThreeMatrix mx1;
  mx1.MakeX(1.5707963705062866f);
  mesh6->SetRotation(reinterpret_cast<::ThreeByThreeMatrix *>((void *)&(const ::ThreeByThreeMatrix &)(mx1))->operator+(mesh6->rotation));
@@ -3659,7 +3663,7 @@ unsigned char __cdecl FUN_00a10c00(NiObject* root,int text,int height,float dura
  entry7->x=(float)total2;
  entry7->y=(float)total2;
  entry7->duration=duration;
- entry7->text=(const char*)text;
+ entry7->text=text;
  entry7->node.FUN_0066b0d0(nodeB);
  reinterpret_cast<FUN_00a11c00_shell*>(&((::DebugState *)(::FUN_00a0d9e0(true)))->list)->FUN_00a11c00(reinterpret_cast<NiTMapItem*>(&entry7));
  return true;

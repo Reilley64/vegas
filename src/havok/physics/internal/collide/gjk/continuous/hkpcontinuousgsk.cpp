@@ -55,7 +55,7 @@ struct S_00db4b50_A
     int unk88;
     int unk8c;
 };
-struct S_00db4b50_Out
+struct __declspec(align(16)) S_00db4b50_Out
 {
     int unk00;
     int unk04;
@@ -175,7 +175,7 @@ void FUN_00db4b50(S_00db4b50_A* a, float f, S_00db4b50_Out* out)
     *(__m128*)&out->unk110 = *(__m128*)(a->unk00 + 0x80);
     S_rotInv((const __m128*)&out->unk00, (const __m128*)&a->unk60, 2, (__m128*)&out->unkf0);
     ((S_00db4b50_Sub*)&out->unk120)->FUN_00c7f640(m, a->unk04 + 0x80);
-    reinterpret_cast<::FUN_004b4ab0_Class *>((((S_00db4b50_Sub*)&out->unke0)))->FUN_004b4ab0((int)(out), (int)(&a->unk50));
+    reinterpret_cast<::FUN_004b4ab0_Class *>((((S_00db4b50_Sub*)&out->unke0)))->FUN_004b4ab0(reinterpret_cast<intptr_t>((out)), reinterpret_cast<intptr_t>((&a->unk50)));
 }
 
 namespace fnv_00db52c0 {
@@ -591,10 +591,10 @@ void emit_function()
 #include "fnv/symbols_00db4000.h"
 #include "fnv/symbols_01029000.h"
 #include "fnv/symbols_simd.h"
-struct __declspec(align(16)) hkVector4
+struct __declspec(align(16)) SweepVector4
 {
     float x, y, z, w;
-    hkVector4& operator=(const hkVector4& o)
+    SweepVector4& operator=(const SweepVector4& o)
     {
         *(__m128*)this = *(const __m128*)&o;
         return *this;
@@ -613,7 +613,7 @@ struct SweepObj
 {
     void* unk00;
     void* unk04;
-    hkVector4* m_items;
+    SweepVector4* m_items;
     int m_uiItemCount;
     int unk10;
     int unk14;
@@ -629,19 +629,19 @@ struct SweepOut
 {
     float t;
     int unk04, unk08, unk0c;
-    hkVector4 v;
+    SweepVector4 v;
 };
 
 struct SweepState
 {
-    hkVector4 r00, r10, r20, r30, r40, r50, r60, r70, r80, r90, ra0, rb0;
-    hkVector4 n;   // c0
-    hkVector4 o;   // d0
-    hkVector4 c;   // e0
-    hkVector4 a;   // f0
-    hkVector4 b;   // 100
-    hkVector4 oa;  // 110
-    hkVector4 ob;  // 120
+    SweepVector4 r00, r10, r20, r30, r40, r50, r60, r70, r80, r90, ra0, rb0;
+    SweepVector4 n;   // c0
+    SweepVector4 o;   // d0
+    SweepVector4 c;   // e0
+    SweepVector4 a;   // f0
+    SweepVector4 b;   // 100
+    SweepVector4 oa;  // 110
+    SweepVector4 ob;  // 120
 };
 
 
@@ -681,9 +681,9 @@ void __cdecl FUN_00db4e40(SweepObj* obj, float* p, SweepOut* out)
         SweepState st;
         ::FUN_00db4b50((::S_00db4b50_A *)(obj), tCur, (::S_00db4b50_Out *)(::SweepState *)(&st));
         int i = *(volatile int*)&num;
-        hkVector4* it = obj->m_items;
+        SweepVector4* it = obj->m_items;
         float dt = tEnd - tCur;
-        hkVector4* dst = it;
+        SweepVector4* dst = it;
         num = 0;
         float margin = obj->m_44 * dt;
         float tNext = tEnd;
@@ -716,12 +716,12 @@ void __cdecl FUN_00db4e40(SweepObj* obj, float* p, SweepOut* out)
                 {
                     float w = it->w;
                     tEnd = w;
-                    tEnd = ::FUN_00db4ca0(obj, p, (const __m128 *)(it), tPrev, tCur, w, dist, vel, (::Out *)(out));
+                    tEnd = ::FUN_00db4ca0(obj, p, (const __m128 *)(it), tPrev, tCur, w, dist, vel, out);
                 }
             }
             else
             {
-                hkVector4 tmp = *it;
+                SweepVector4 tmp = *it;
                 *it = *dst;
                 *dst = tmp;
                 dst->w = dist;
@@ -837,10 +837,6 @@ void evaluatePlaneDistance()
 #include "fnv/symbols_0101e000.h"
 #include "fnv/symbols_0101f000.h"
 #include "fnv/symbols_0106b000.h"
-struct __declspec(align(16)) Sample
-{
-    unsigned int d[76];
-};
   // 0.5
   // 0.1
    // 0.1f
@@ -848,7 +844,7 @@ struct __declspec(align(16)) Sample
    // 0.9f
 // @fnv 0x00db4ca0
 float FUN_00db4ca0(void* a, const float* target, const __m128* origin, float A, float B, float C, float D, int unused,
-                   Out* res)
+                   SweepOut* res)
 {
     float t = A;
     float eps = (float)(target[4] * ::DAT_010290b0);
@@ -867,11 +863,11 @@ float FUN_00db4ca0(void* a, const float* target, const __m128* origin, float A, 
             if (!(t < DAT_0106b9e8))
                 t = DAT_010177e8;
         }
-        Sample s;
+        S_00db4b50_Out s;
         t = (1.0f - t) * A + B * t;
-        ::FUN_00db4b50((::S_00db4b50_A *)(a), t, (::S_00db4b50_Out *)(::Sample *)(&s));
-        __m128 w = *(__m128*)&s.d[48];
-        __m128 v = _mm_mul_ps(_mm_sub_ps(*origin, *(__m128*)&s.d[52]), w);
+        ::FUN_00db4b50((::S_00db4b50_A *)(a), t, &s);
+        __m128 w = *(__m128*)&s.unkc0;
+        __m128 v = _mm_mul_ps(_mm_sub_ps(*origin, *(__m128*)&s.unkd0), w);
         __m128 p = _mm_add_ss(_mm_shuffle_ps(v, v, 0xaa), _mm_shuffle_ps(w, w, 0xff));
         __m128 q = _mm_add_ss(_mm_shuffle_ps(v, v, 0x55), v);
         float r;
@@ -893,11 +889,18 @@ float FUN_00db4ca0(void* a, const float* target, const __m128* origin, float A, 
     if (t < res->t)
     {
         res->t = t;
-        res->pos = *origin;
+        res->v.q() = *origin;
     }
     return res->t;
 }
 
+#include <cstddef>
+#include "fnv/decl/FUN_005609f0_shell.h"
+#include "fnv/decl/ThisClass.h"
+#include "fnv/symbols_00c98000.h"
+#include "fnv/symbols_00da8000.h"
+// Moved from hkpcontinuousgsk_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp (VEGAS-15).
+namespace gsk_ehsc_rtm {
 // Moved from hkpcontinuousgsk_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp (VEGAS-15).
 
 // src/havok/physics/internal/collide/gjk/continuous/hkpcontinuousgsk_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp - RTM variant unit created 2026-11-01 by rtm_route.py: community reworks of src/havok/physics/internal/collide/gjk/continuous/hkpcontinuousgsk_gs_ehsc_nogs_noehsc_variant.cpp that match byte for byte only
@@ -908,11 +911,6 @@ float FUN_00db4ca0(void* a, const float* target, const __m128* origin, float A, 
 // to their real unit once identified.
 // src/havok/physics/internal/collide/gjk/continuous/hkpcontinuousgsk.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/physics/internal/collide/gjk/continuous/hkpcontinuousgsk.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
-#include <cstddef>
-#include "fnv/decl/FUN_005609f0_shell.h"
-#include "fnv/decl/ThisClass.h"
-#include "fnv/symbols_00c98000.h"
-#include "fnv/symbols_00da8000.h"
 // Adapted from the project's prior contributor draft of 24 October 2026.
 // The same-file caller lets VC2008 reproduce the private register convention.
 static float FUN_00db49b0(char* a, char* b, __m128* p, __m128* v0, __m128* v1, __m128* v2, float t);
@@ -965,25 +963,6 @@ class hkBool
     }
 
   private:
-    char m_cBooleanValue;
-public:
-    __forceinline hkBool()
-    {}
-    __forceinline hkBool(bool b)
-    {
-        m_cBooleanValue = (char)b;
-    }
-    __forceinline operator bool() const
-    {
-        return m_cBooleanValue != 0;
-    }
-    __forceinline hkBool& operator=(bool e)
-    {
-        m_cBooleanValue = (char)e;
-        return *this;
-    }
-
-          
     char m_cBooleanValue;
 };
 extern "C"
@@ -1202,21 +1181,6 @@ class VectorComponentValue
 
   private:
     hkQuadReal m_vValue;
-public:
-    __forceinline VectorComponentValue(const hkQuadReal& x) : m_vValue(x)
-    {}
-    __forceinline VectorComponentValue(hkReal x)
-    {
-        m_vValue = _mm_load_ss(&x);
-    }
-    __forceinline VectorComponentValue()
-    {}
-    __forceinline operator hkReal() const
-    {
-        hkReal s;
-        _mm_store_ss(&s, m_vValue);
-        return s;
-    }
 };
 typedef const VectorComponentValue& hkSimdRealParameter;
 class hkVector4XComparison;
@@ -1319,17 +1283,6 @@ class hkMatrix3
     hkVector4X m_kColumn0;
     hkVector4X m_kColumn1;
     hkVector4X m_kColumn2;
-public:
-    __forceinline hkMatrix3()
-    {}
-    __forceinline hkVector4& getColumn(int x)
-    {
-        return (&m_kColumn0)[x];
-    }
-    __forceinline const hkVector4& getColumn(int x) const
-    {
-        return (&m_kColumn0)[x];
-    }
 };
 class __declspec(align(16)) hkRotation : public hkMatrix3
 {
@@ -1362,34 +1315,6 @@ class hkTransform
   private:
     hkRotation m_rotation;
     hkVector4X m_vTranslation;
-public:
-    __forceinline hkTransform(const hkTransform& t)
-    {
-        const hkVector4 r0 = t.m_rotation.getColumn(0);
-        const hkVector4 r1 = t.m_rotation.getColumn(1);
-        const hkVector4 r2 = t.m_rotation.getColumn(2);
-        const hkVector4 r3 = t.m_rotation.getColumn(3);
-        m_rotation.getColumn(0) = r0;
-        m_rotation.getColumn(1) = r1;
-        m_rotation.getColumn(2) = r2;
-        m_rotation.getColumn(3) = r3;
-    }
-    __forceinline hkRotation& getRotation()
-    {
-        return m_rotation;
-    }
-    __forceinline const hkRotation& getRotation() const
-    {
-        return m_rotation;
-    }
-    __forceinline const hkVector4& getTranslation() const
-    {
-        return m_vTranslation;
-    }
-    __forceinline void SetMulInverse(const hkTransform& a, const hkTransform& b)
-    {
-        reinterpret_cast<::hkTransformCB22 *>(this)->FUN_00cb22f0((const ::hkTransformCB22 &)(a), (const ::hkTransformCB22 &)(b));
-    }
 };
 class hkSweptTransform
 {
@@ -1408,20 +1333,6 @@ class hkSweptTransform
     hkQuaternion m_qRotation0;
     hkQuaternion m_qRotation1;
     hkVector4X m_vCenterOfMassLocal;
-public:
-    __forceinline hkReal getBaseTime() const
-    {
-        return m_vCenterOfMass0(3);
-    }
-    __forceinline hkReal getInvDeltaTime() const
-    {
-        return m_vCenterOfMass1(3);
-    }
-    __forceinline hkReal getInterpolationValue(hkTime t) const
-    {
-        hkReal dt = (t - getBaseTime()) * getInvDeltaTime();
-        return dt;
-    }
 };
 inline void hkVector4X::operator=(const hkVector4X& v)
 {
@@ -1659,11 +1570,6 @@ class hkMotionState
   public:
     hkVector4X m_kDeltaAngle;
     hkReal m_fObjectRadius;
-public:
-    __forceinline const hkSweptTransform& getSweptTransform() const
-    {
-        return m_kSweptTransform;
-    }
 };
 const hkSweptTransform& hkMotionState::getSweptTransform() const
 {
@@ -1718,35 +1624,6 @@ class hkContactPoint
     }
     hkVector4X m_vContactPosition;
     hkVector4X m_vSeparatingNormal;
-public:
-    __forceinline const hkVector4& getPosition() const
-    {
-        return m_vContactPosition;
-    }
-    __forceinline const hkVector4& getNormal() const
-    {
-        return m_vSeparatingNormal;
-    }
-    __forceinline hkVector4& getPosition()
-    {
-        return m_vContactPosition;
-    }
-    __forceinline const hkVector4& getSeparatingNormal() const
-    {
-        return m_vSeparatingNormal;
-    }
-    __forceinline hkVector4& getSeparatingNormal()
-    {
-        return m_vSeparatingNormal;
-    }
-    __forceinline void setSeparatingNormal(const hkVector4& separatingNormal)
-    {
-        m_vSeparatingNormal = separatingNormal;
-    }
-    __forceinline void setDistance(hkReal d)
-    {
-        m_vSeparatingNormal(3) = d;
-    }
 };
 inline const hkVector4X& hkContactPoint::getNormal() const
 {
@@ -1822,8 +1699,6 @@ enum CollisionShapeType
     HK_SHAPE_USER2,
     HK_SHAPE_MAX_ID,
     HK_SHAPE_ALL = -1
-public:
-    HK_SHAPE_CONVEX_VERTICES = 3
 };
 class hkpCollisionDispatcher;
 struct ShapeRayCastQuery;
@@ -1944,15 +1819,6 @@ class hkpCdBody
     const hkpShape* m_pCollisionShape;
     hkpShapeKey m_uiCollisionShapeKey;
     const void* m_pMotionState;
-public:
-    __forceinline const hkpShape* getShape() const
-    {
-        return m_pCollisionShape;
-    }
-    __forceinline const hkMotionState* GetMotionState() const
-    {
-        return reinterpret_cast<const hkMotionState*>(m_pMotionState);
-    }
 };
 const hkMotionState* hkpCdBody::GetMotionState() const
 {
@@ -2071,16 +1937,6 @@ class ContactImpulseInfo
   public:
     hkReal m_fAccumulatedImpulse;
     hkReal m_fImpulseLimit;
-public:
-    __forceinline ContactImpulseInfo()
-    {
-        init();
-    }
-    __forceinline void init()
-    {
-        m_fAccumulatedImpulse = 0.0f;
-        m_fImpulseLimit = 0.0f;
-    }
 };
 inline void ContactImpulseInfo::init()
 {
@@ -2127,9 +1983,6 @@ class hkContactPointMaterial
         CONTACT_IS_DISABLED = 8
     };
     hkUint8 m_flags;
-public:
-    __forceinline hkContactPointMaterial()
-    {}
 };
 class PhysicsMaterial : public ContactImpulseInfo, public hkContactPointMaterial
 {
@@ -2145,9 +1998,6 @@ class PhysicsMaterial : public ContactImpulseInfo, public hkContactPointMaterial
   public:
     hkReal m_uiUserData;
     typedef hkUint32 UserData;
-public:
-    __forceinline PhysicsMaterial()
-    {}
 };
 __declspec(align(16)) class ContactDataPhysicsMaterial : public PhysicsMaterial
 {
@@ -2588,9 +2438,6 @@ struct ConvexCollisionQueryData
     hkVector4X m_vSubtypePosition;
     hkVector4X m_avSubtypeVectors[2];
     ValueWrapper<hkReal> m_fFinalQueryParameter;
-public:
-    __forceinline ConvexCollisionQueryData()
-    {}
 };
 struct ScalarVectorData
 {
@@ -2600,9 +2447,6 @@ struct ScalarVectorData
     }
     ValueWrapper<hkReal> m_fScale;
     hkVector4X m_vVector;
-public:
-    __forceinline ScalarVectorData() : m_Rt(1.0f)
-    {}
 };
 struct CollisionSolverInput
 {
@@ -2615,9 +2459,6 @@ struct CollisionSolverInput
     hkVector4X m_vAngularVelocity[2];
     hkVector4X m_vMassCenterA;
     hkVector4X m_vMassCenterB;
-public:
-    __forceinline CollisionSolverInput()
-    {}
 };
 enum hkpGskStatus
 {
@@ -2658,56 +2499,6 @@ class ConvexShapePairCache
     Vector4WithInt24W m_akPackedVerticesB[4];
     hkVector4X m_pSupport;
     hkVector4X m_kVectorPairResult[3];
-public:
-    __forceinline ConvexShapePairCache() : m_uiCacheFlags(0)
-    {}
-    __forceinline void setFeatureChange(int f)
-    {
-        m_iFeatureChange = f;
-    }
-    __forceinline void init(const hkpConvexShape* shapeA, const hkpConvexShape* shapeB, const ConvexFeaturePairCache& cache)
-    {
-        m_ucDimensionA = cache.m_ucDimensionA;
-        m_ucDimensionB = cache.m_ucDimensionB;
-        m_ucFeatureTypeA = cache.m_ucFeatureTypePair & 0xf;
-        m_ucFeatureTypeB = (cache.m_ucFeatureTypePair >> 4) & 0xf;
-        setFeatureChange(0);
-        shapeA->GetVerticesForIds(cache.m_kVertices, m_ucDimensionA, &m_akPackedVerticesA[0]);
-        shapeB->GetVerticesForIds(cache.m_kVertices + m_ucDimensionA, m_ucDimensionB, &m_akPackedVerticesB[0]);
-    }
-    int FUN_00daad40(const hkpConvexShape* shapeA, const hkpConvexShape* shapeB, const hkTransform& aTb,
-                     hkVector4& separatingNormal);
-    __forceinline int GetClosestPoint(const hkpConvexShape* shapeA, const hkpConvexShape* shapeB,
-                                        const hkTransform& aTb, hkVector4& separatingNormal)
-    {
-        return FUN_00daad40(shapeA, shapeB, aTb, separatingNormal);
-    }
-    __forceinline void WriteContactFeatureCache(ConvexFeaturePairCache& cache) const
-    {
-        reinterpret_cast<::ThisClass *>((void *)this)->FUN_00da9790((::Dest *)&(cache));
-    }
-    __forceinline void checkForChangesAndUpdateCache(ConvexFeaturePairCache& cache) const
-    {
-        if (!m_iFeatureChange)
-            return;
-        reinterpret_cast<::ThisClass *>((void *)this)->FUN_00da9790((::Dest *)&(cache));
-    }
-    __forceinline void getClosestPointAinA(const hkVector4& separatingNormal, hkVector4& pointOnAinA)
-    {
-        if (m_ucDimensionA == 1)
-        {
-            pointOnAinA = m_akPackedVerticesA[0];
-        }
-        else if (m_ucDimensionB == 1)
-        {
-            pointOnAinA = m_akCachedVectors[0];
-            pointOnAinA.addMul4(separatingNormal.getSimdAt(3), separatingNormal);
-        }
-        else
-        {
-            pointOnAinA = m_closestLineSegResult.m_kFirstVector;
-        }
-    }
 };
 __forceinline void hk4dGskCollPInputInitialize(const AgentSubtypeMarker& in3,
                                                ConvexCollisionQueryData& collPInput)
@@ -2862,7 +2653,7 @@ static __declspec(noinline) void FUN_00db54b0(const AgentSubtypeMarker& in3, Con
             delta = 0.5f;
         }
         hkBool earlyOut;
-        if (reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(MathUtilities::equal(distance1, tol.m_fMinimumTimeOfImpactDelta, tol.m_fMaximumConstraintViolation)))->FUN_005609f0())
+        if (reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const hkBool &)(MathUtilities::equal(distance1, tol.m_fMinimumTimeOfImpactDelta, tol.m_fMaximumConstraintViolation)))->FUN_005609f0())
         {
             earlyOut = true;
             featureChange = 0;
@@ -2895,12 +2686,12 @@ static __declspec(noinline) void FUN_00db54b0(const AgentSubtypeMarker& in3, Con
             hkVector4XUtil::TransformPointArray(aTb, gsk.m_akPackedVerticesB, gsk.m_ucDimensionB,
                                                 gsk.m_akCachedVectors);
             hkVector4X oldMasterNormalInA;
-            reinterpret_cast<::FUN_004b4ab0_Class *>(&(oldMasterNormalInA))->FUN_004b4ab0((int)&(wTa.getRotation()), (int)&(oldMasterNormal));
+            reinterpret_cast<::FUN_004b4ab0_Class *>(&(oldMasterNormalInA))->FUN_004b4ab0(reinterpret_cast<intptr_t>(&(wTa.getRotation())), reinterpret_cast<intptr_t>(&(oldMasterNormal)));
             hkGskRecalcContact(&gsk, &oldMasterNormalInA, &pointA, &normalA);
         }
         distance = normalA(3) - radiusSum;
-        if (reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(MathUtilities::equal(distance, tol.m_fMinimumTimeOfImpactDelta, tol.m_fMaximumConstraintViolation)))->FUN_005609f0() ||
-            reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(earlyOut))->FUN_005609f0())
+        if (reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const hkBool &)(MathUtilities::equal(distance, tol.m_fMinimumTimeOfImpactDelta, tol.m_fMaximumConstraintViolation)))->FUN_005609f0() ||
+            reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const hkBool &)(earlyOut))->FUN_005609f0())
         {
             break;
         }
@@ -2961,7 +2752,7 @@ static __declspec(noinline) void FUN_00db54b0(const AgentSubtypeMarker& in3, Con
                 cp.setSeparatingNormal(weldedNormal);
             EXAMINE_WELD_RESULTS:
                 if (weldResult == hkpConvexShape::WELD_RESULT_REJECT_CONTACT_POINT &&
-                    reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(in3.m_pRayCastInput->m_pCollisionQualityInfo->m_bEnableToiWeldRejection))->FUN_005609f0())
+                    reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const hkBool &)(in3.m_pRayCastInput->m_pCollisionQualityInfo->m_bEnableToiWeldRejection))->FUN_005609f0())
                 {
                     return;
                 }
@@ -3009,7 +2800,7 @@ static __declspec(noinline) void FUN_00db54b0(const AgentSubtypeMarker& in3, Con
                     collPInput.m_fStepTimeParameter = realProjectedLinearDelta + projectedAngularDelta;
                 }
                 hk4dGskCollPInputInitialize(in3, collPInput);
-                reinterpret_cast<::FUN_004b4ab0_Class *>(&(collPInput.m_vFirstStoredVector))->FUN_004b4ab0((int)&(wTb.getRotation()), (int)&(cp.getNormal()));
+                reinterpret_cast<::FUN_004b4ab0_Class *>(&(collPInput.m_vFirstStoredVector))->FUN_004b4ab0(reinterpret_cast<intptr_t>(&(wTb.getRotation())), reinterpret_cast<intptr_t>(&(cp.getNormal())));
                 collPInput.m_vSecondStoredVector = gsk.m_akPackedVerticesB[0];
                 if (collPInput.m_akPackedVerticesA.val())
                 {
@@ -3048,7 +2839,7 @@ static __declspec(noinline) void FUN_00db54b0(const AgentSubtypeMarker& in3, Con
                                                  &cache, separatingVelocity, properties);
         if (cbResult == hkpContactMgr::TOI_ACCEPT)
         {
-            if (reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(out.hasToi()))->FUN_005609f0())
+            if (reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const hkBool &)(out.hasToi()))->FUN_005609f0())
             {
                 in3.m_pContactManager->removeToi(*out.m_pConstraintOwner, out.m_fTimeOfImpact.m_kProperties);
             }
@@ -3067,10 +2858,48 @@ void hk_user(const AgentSubtypeMarker& in3, ContactPointWeldingParameters& tol, 
     FUN_00db54b0(in3, tol, gsk, featureChange, oldMasterNormal, deltaAngles, startRt, endRt, distance0, distance1, out);
 }
 
-// Moved from hkpcontinuousgsk_gs_nogs_variant_rtm_variant.cpp (VEGAS-15).
-void FUN_00db4b50(void* a, float t, Sample* out);
-typedef float hkTime;
+}  // namespace gsk_ehsc_rtm
 
+// Moved from hkpcontinuousgsk_gs_nogs_variant_rtm_variant.cpp (VEGAS-15).
+// 0.5
+// 0.1
+// 0.1f
+// 0.9
+
+
+typedef float hkReal;
+typedef float hkTime;
+typedef __m128 hkQuadReal;
+typedef unsigned char hkUint8;
+typedef unsigned short hkUint16;
+typedef unsigned int hkUint32;
+typedef hkUint16 hkpVertexId;
+
+extern "C" const float DAT_010d5384;
+
+
+class hkBool
+{
+  public:
+    __forceinline hkBool()
+    {}
+    __forceinline hkBool(bool b)
+    {
+        m_cBooleanValue = (char)b;
+    }
+    __forceinline operator bool() const
+    {
+        return m_cBooleanValue != 0;
+    }
+    __forceinline hkBool& operator=(bool e)
+    {
+        m_cBooleanValue = (char)e;
+        return *this;
+    }
+
+  private:
+    char m_cBooleanValue;
+};
 
 template <typename TYPE> class ValueWrapper
 {
@@ -3099,8 +2928,39 @@ template <typename TYPE> class ValueWrapper
   private:
     TYPE m_kStorage;
 };
-namespace MathUtilities {
 
+class VectorComponentValue
+{
+  public:
+    __forceinline VectorComponentValue(const hkQuadReal& x) : m_vValue(x)
+    {}
+    __forceinline VectorComponentValue(hkReal x)
+    {
+        m_vValue = _mm_load_ss(&x);
+    }
+    __forceinline VectorComponentValue()
+    {}
+    __forceinline operator hkReal() const
+    {
+        hkReal s;
+        _mm_store_ss(&s, m_vValue);
+        return s;
+    }
+    __forceinline hkQuadReal broadcast() const
+    {
+        return _mm_shuffle_ps(m_vValue, m_vValue, 0);
+    }
+    __forceinline const hkQuadReal& getQuad() const
+    {
+        return m_vValue;
+    }
+
+  private:
+    hkQuadReal m_vValue;
+};
+typedef const VectorComponentValue& hkSimdRealParameter;
+
+namespace MathUtilities {
 template <typename T> __forceinline T min2(T x, T y)
 {
     return x < y ? x : y;
@@ -3120,6 +2980,215 @@ __forceinline hkBool equal(hkReal x, hkReal y, hkReal tolerance2)
 }
 
 class hkMatrix3;
+class hkRotation;
+class hkTransform;
+
+class hkVector4
+{
+  public:
+    __forceinline hkVector4()
+    {}
+    __forceinline void operator=(const hkVector4& v)
+    {
+        m_vComponents = v.m_vComponents;
+    }
+    __forceinline void setZero4()
+    {
+        m_vComponents = _mm_setzero_ps();
+    }
+    __forceinline void add4(const hkVector4& v)
+    {
+        m_vComponents = _mm_add_ps(m_vComponents, v.m_vComponents);
+    }
+    __forceinline void sub4(const hkVector4& v)
+    {
+        m_vComponents = _mm_sub_ps(m_vComponents, v.m_vComponents);
+    }
+    __forceinline void setSub4(const hkVector4& v0, const hkVector4& v1)
+    {
+        m_vComponents = _mm_sub_ps(v0.m_vComponents, v1.m_vComponents);
+    }
+    __forceinline void setNeg3(const hkVector4& v)
+    {
+        m_vComponents = _mm_xor_ps(v.m_vComponents, *(const hkQuadReal*)&(*reinterpret_cast<const unsigned int (*)[4]>(&::DAT_010c4c00)));
+    }
+    __forceinline void setNeg4(const hkVector4& v)
+    {
+        m_vComponents = _mm_xor_ps(v.m_vComponents, *(const hkQuadReal*)&(*reinterpret_cast<const unsigned int (*)[4]>((void *)&::DAT_010c44d0)));
+    }
+    __forceinline void setMul4(hkSimdRealParameter r, const hkVector4& v1)
+    {
+        m_vComponents = _mm_mul_ps(r.broadcast(), v1.m_vComponents);
+    }
+    __forceinline void addMul4(hkSimdRealParameter r, const hkVector4& v1)
+    {
+        m_vComponents = _mm_add_ps(m_vComponents, _mm_mul_ps(r.broadcast(), v1.m_vComponents));
+    }
+    __forceinline void subMul4(hkSimdRealParameter r, const hkVector4& v1)
+    {
+        m_vComponents = _mm_sub_ps(m_vComponents, _mm_mul_ps(r.broadcast(), v1.m_vComponents));
+    }
+    __forceinline void setAddMul4(const hkVector4& a, const hkVector4& b, hkSimdRealParameter r)
+    {
+        m_vComponents = _mm_add_ps(a.m_vComponents, _mm_mul_ps(r.broadcast(), b.m_vComponents));
+    }
+    __forceinline void setAddMul4(const hkVector4& a, const hkVector4& x, const hkVector4& y)
+    {
+        m_vComponents = _mm_add_ps(a.m_vComponents, _mm_mul_ps(x.m_vComponents, y.m_vComponents));
+    }
+    __forceinline void setCross(const hkVector4& v0, const hkVector4& v1)
+    {
+        hkQuadReal cross0;
+        cross0 = _mm_mul_ps(_mm_shuffle_ps(v0.m_vComponents, v0.m_vComponents, _MM_SHUFFLE(3, 0, 2, 1)),
+                            _mm_shuffle_ps(v1.m_vComponents, v1.m_vComponents, _MM_SHUFFLE(3, 1, 0, 2)));
+        hkQuadReal cross1;
+        cross1 = _mm_mul_ps(_mm_shuffle_ps(v0.m_vComponents, v0.m_vComponents, _MM_SHUFFLE(3, 1, 0, 2)),
+                            _mm_shuffle_ps(v1.m_vComponents, v1.m_vComponents, _MM_SHUFFLE(3, 0, 2, 1)));
+        m_vComponents = _mm_sub_ps(cross0, cross1);
+    }
+    __forceinline void setInterpolate4(const hkVector4& v0, const hkVector4& v1, hkSimdRealParameter _t)
+    {
+        hkQuadReal t = _t.broadcast();
+        hkQuadReal s = _mm_sub_ps(*(const hkQuadReal*)&DAT_010ec7f0, t);
+        m_vComponents = _mm_add_ps(_mm_mul_ps(s, v0.m_vComponents), _mm_mul_ps(t, v1.m_vComponents));
+    }
+    __forceinline void setBroadcast(const hkVector4& v, int i)
+    {
+        if (i == 0)
+            m_vComponents = _mm_shuffle_ps(v.m_vComponents, v.m_vComponents, _MM_SHUFFLE(0, 0, 0, 0));
+        else if (i == 1)
+            m_vComponents = _mm_shuffle_ps(v.m_vComponents, v.m_vComponents, _MM_SHUFFLE(1, 1, 1, 1));
+        else if (i == 2)
+            m_vComponents = _mm_shuffle_ps(v.m_vComponents, v.m_vComponents, _MM_SHUFFLE(2, 2, 2, 2));
+        else if (i == 3)
+            m_vComponents = _mm_shuffle_ps(v.m_vComponents, v.m_vComponents, _MM_SHUFFLE(3, 3, 3, 3));
+    }
+    __forceinline VectorComponentValue getSimdAt(int i) const
+    {
+        switch (i)
+        {
+        case 0:
+            return m_vComponents;
+        case 1:
+            return _mm_shuffle_ps(m_vComponents, m_vComponents, _MM_SHUFFLE(1, 1, 1, 1));
+        case 2:
+            return _mm_shuffle_ps(m_vComponents, m_vComponents, _MM_SHUFFLE(2, 2, 2, 2));
+        case 3:
+        default:
+            return _mm_shuffle_ps(m_vComponents, m_vComponents, _MM_SHUFFLE(3, 3, 3, 3));
+        }
+    }
+    __forceinline VectorComponentValue dot3(const hkVector4& a) const
+    {
+        hkQuadReal x2 = _mm_mul_ps(m_vComponents, a.m_vComponents);
+        hkQuadReal xySum = _mm_add_ss(_mm_shuffle_ps(x2, x2, _MM_SHUFFLE(1, 1, 1, 1)), x2);
+        return _mm_add_ss(_mm_shuffle_ps(x2, x2, _MM_SHUFFLE(2, 2, 2, 2)), xySum);
+    }
+    __forceinline VectorComponentValue dot4xyz1(const hkVector4& a) const
+    {
+        hkQuadReal x2 = _mm_mul_ps(m_vComponents, a.m_vComponents);
+        hkQuadReal xySum = _mm_add_ss(_mm_shuffle_ps(x2, x2, _MM_SHUFFLE(1, 1, 1, 1)), x2);
+        hkQuadReal zwSum = _mm_add_ss(_mm_shuffle_ps(x2, x2, _MM_SHUFFLE(2, 2, 2, 2)),
+                                      _mm_shuffle_ps(m_vComponents, m_vComponents, _MM_SHUFFLE(3, 3, 3, 3)));
+        return _mm_add_ps(xySum, zwSum);
+    }
+    __forceinline VectorComponentValue length3() const
+    {
+        return _mm_sqrt_ss(this->dot3(*this).getQuad());
+    }
+    __forceinline hkReal& operator()(int a)
+    {
+        return reinterpret_cast<hkReal*>(&m_vComponents)[a];
+    }
+    __forceinline const hkReal& operator()(int a) const
+    {
+        return reinterpret_cast<const hkReal*>(&m_vComponents)[a];
+    }
+    __forceinline int getInt24W() const
+    {
+        return (reinterpret_cast<const hkUint32*>(this))[3] & ~0x3f000000;
+    }
+    __forceinline void _setMul3(const hkMatrix3& a, const hkVector4& b);
+    __forceinline void _setRotatedDir(const hkRotation& r, const hkVector4& v);
+    __forceinline void _setRotatedInverseDir(const hkRotation& r, const hkVector4& b);
+    __forceinline void _setTransformedPos(const hkTransform& t, const hkVector4& b);
+    __forceinline void _setTransformedInversePos(const hkTransform& a, const hkVector4& b);
+    void FUN_00c7f640(const hkTransform& a, const hkVector4& b);
+    void FUN_00c7f700(const hkRotation& a, const hkVector4& b);
+    __forceinline void SetTransformedPoint(const hkTransform& a, const hkVector4& b)
+    {
+        FUN_00c7f640(a, b);
+    }
+    __forceinline void SetRotatedDirection(const hkRotation& a, const hkVector4& b)
+    {
+        FUN_00c7f700(a, b);
+    }
+    __forceinline void setRotatedInverseDir(const hkRotation& a, const hkVector4& b)
+    {
+        reinterpret_cast<::FUN_004b4ab0_Class *>(this)->FUN_004b4ab0(reinterpret_cast<intptr_t>(&(a)), reinterpret_cast<intptr_t>(&(b)));
+    }
+
+    hkQuadReal m_vComponents;
+};
+
+class hkMatrix3
+{
+  public:
+    __forceinline hkMatrix3()
+    {}
+    __forceinline hkVector4& getColumn(int x)
+    {
+        return (&m_kColumn0)[x];
+    }
+    __forceinline const hkVector4& getColumn(int x) const
+    {
+        return (&m_kColumn0)[x];
+    }
+    hkVector4 m_kColumn0;
+    hkVector4 m_kColumn1;
+    hkVector4 m_kColumn2;
+};
+class hkRotation : public hkMatrix3
+{
+  public:
+    __forceinline hkRotation()
+    {}
+};
+class hkTransform
+{
+  public:
+    __forceinline hkTransform()
+    {}
+    __forceinline hkTransform(const hkTransform& t)
+    {
+        const hkVector4 r0 = t.m_rotation.getColumn(0);
+        const hkVector4 r1 = t.m_rotation.getColumn(1);
+        const hkVector4 r2 = t.m_rotation.getColumn(2);
+        const hkVector4 r3 = t.m_rotation.getColumn(3);
+        m_rotation.getColumn(0) = r0;
+        m_rotation.getColumn(1) = r1;
+        m_rotation.getColumn(2) = r2;
+        m_rotation.getColumn(3) = r3;
+    }
+    __forceinline hkRotation& getRotation()
+    {
+        return m_rotation;
+    }
+    __forceinline const hkRotation& getRotation() const
+    {
+        return m_rotation;
+    }
+    __forceinline const hkVector4& getTranslation() const
+    {
+        return m_vTranslation;
+    }
+    __forceinline void SetMulInverse(const hkTransform& a, const hkTransform& b)
+    {
+        reinterpret_cast<::hkTransformCB22 *>(this)->FUN_00cb22f0((const ::hkTransformCB22 &)(a), (const ::hkTransformCB22 &)(b));
+    }
+    hkRotation m_rotation;
+    hkVector4 m_vTranslation;
+};
 
 __forceinline void hkVector4::_setMul3(const hkMatrix3& a, const hkVector4& b)
 {
@@ -3173,8 +3242,52 @@ __forceinline void hkVector4::_setTransformedInversePos(const hkTransform& a, co
     t0.setSub4(b, a.getTranslation());
     _setRotatedInverseDir(a.getRotation(), t0);
 }
-namespace MotionUtilities {
 
+class Vector4WithInt24W : public hkVector4
+{
+  public:
+    __forceinline int GetValueForType() const
+    {
+        return getInt24W();
+    }
+};
+
+class hkSweptTransform
+{
+  public:
+    __forceinline hkReal getBaseTime() const
+    {
+        return m_vCenterOfMass0(3);
+    }
+    __forceinline hkReal getInvDeltaTime() const
+    {
+        return m_vCenterOfMass1(3);
+    }
+    __forceinline hkReal getInterpolationValue(hkTime t) const
+    {
+        hkReal dt = (t - getBaseTime()) * getInvDeltaTime();
+        return dt;
+    }
+    hkVector4 m_vCenterOfMass0;
+    hkVector4 m_vCenterOfMass1;
+    hkVector4 m_qRotation0;
+    hkVector4 m_qRotation1;
+    hkVector4 m_vCenterOfMassLocal;
+};
+class hkMotionState
+{
+  public:
+    __forceinline const hkSweptTransform& getSweptTransform() const
+    {
+        return m_kSweptTransform;
+    }
+    hkTransform m_kMotionTransform;
+    hkSweptTransform m_kSweptTransform;
+    hkVector4 m_kDeltaAngle;
+    hkReal m_fObjectRadius;
+};
+
+namespace MotionUtilities {
 __forceinline void calcAngularTimInfo(const hkMotionState& ms0, const hkMotionState& ms1, hkReal deltaTime,
                                       hkVector4* __restrict deltaAngleOut0, hkVector4* __restrict deltaAngleOut1)
 {
@@ -3192,6 +3305,10 @@ __forceinline void calcAngularTimInfo(const hkMotionState& ms0, const hkMotionSt
 }
 
 class hkSphere;
+enum CollisionShapeType
+{
+    HK_SHAPE_CONVEX_VERTICES = 3
+};
 template <typename ENUM, typename STORAGE> class hkEnum
 {
   public:
@@ -3203,8 +3320,166 @@ template <typename ENUM, typename STORAGE> class hkEnum
   private:
     STORAGE m_kStorage;
 };
+class hkpShape
+{
+  public:
+    virtual void vf00();
+    virtual void vf04();
+    virtual void vf08();
+    virtual void vf0c();
+    virtual void vf10();
+    virtual void vf14();
+    virtual void vf18();
+    virtual void vf1c();
+    virtual void vf20();
+    virtual void vf24();
+    virtual void vf28();
+    __forceinline CollisionShapeType getType() const
+    {
+        return m_type;
+    }
+    int m_usMemSizeAndFlags;
+    int m_ulUserData;
+    hkEnum<CollisionShapeType, hkUint32> m_type;
+};
+class hkpConvexShape : public hkpShape
+{
+  public:
+    enum WeldResult
+    {
+        WELD_RESULT_REJECT_CONTACT_POINT,
+        WELD_RESULT_ACCEPT_CONTACT_POINT_MODIFIED,
+        WELD_RESULT_ACCEPT_CONTACT_POINT_UNMODIFIED
+    };
+    virtual int GetNumCollisionSpheres() const;
+    virtual const hkSphere* GetCollisionSpheres(hkSphere* sphereBuffer) const;
+    virtual void vf34();
+    virtual void vf38();
+    virtual void GetVerticesFromIds(const hkpVertexId* ids, int numIds, Vector4WithInt24W* vertices) const;
+    virtual int WeldContactPoint(hkpVertexId* featurePoints, hkUint8& numFeaturePoints, hkVector4& contactPointWs,
+                                 const hkTransform* thisObjTransform, const hkpConvexShape* collidingShape,
+                                 const hkTransform* collidingTransform, hkVector4& separatingNormalInOut) const;
+    __forceinline int getNumCollisionSpheres() const
+    {
+        return GetNumCollisionSpheres();
+    }
+    __forceinline const hkSphere* getCollisionSpheres(hkSphere* sphereBuffer) const
+    {
+        return GetCollisionSpheres(sphereBuffer);
+    }
+    __forceinline void GetVerticesForIds(const hkpVertexId* ids, int numIds, Vector4WithInt24W* vertices) const
+    {
+        GetVerticesFromIds(ids, numIds, vertices);
+    }
+    __forceinline WeldResult weldContactPoint(hkpVertexId* featurePoints, hkUint8& numFeaturePoints,
+                                              hkVector4& contactPointWs, const hkTransform* thisObjTransform,
+                                              const hkpConvexShape* collidingShape,
+                                              const hkTransform* collidingTransform,
+                                              hkVector4& separatingNormalInOut) const
+    {
+        return (WeldResult)WeldContactPoint(featurePoints, numFeaturePoints, contactPointWs, thisObjTransform,
+                                            collidingShape, collidingTransform, separatingNormalInOut);
+    }
+    __forceinline hkReal getRadius() const
+    {
+        return m_fSphereRadius;
+    }
+    hkReal m_fSphereRadius;
+};
+class hkpCdBody
+{
+  public:
+    __forceinline const hkpShape* getShape() const
+    {
+        return m_pCollisionShape;
+    }
+    __forceinline const hkMotionState* GetMotionState() const
+    {
+        return reinterpret_cast<const hkMotionState*>(m_pMotionState);
+    }
+    const hkpShape* m_pCollisionShape;
+    hkUint32 m_uiCollisionShapeKey;
+    const void* m_pMotionState;
+};
+
+struct hkStepInfo
+{
+    ValueWrapper<hkTime> m_uiStartTime;
+    ValueWrapper<hkTime> m_fEndTime;
+    ValueWrapper<hkReal> m_fTimeStep;
+    ValueWrapper<hkReal> m_fInverseDeltaTime;
+};
+struct CollisionQualityInfo
+{
+    hkReal m_fMinimumCollisionSeparation, m_fMinimumExtraSeparation, m_fMaximumExtraSeparation, m_fTimeOfImpactSeparation;
+    int m_iQualityInfoValue10;
+    int m_bUseContinuousPhysics;
+    hkReal m_fCreateContactThreshold, m_fManifoldTimeDistance;
+    hkReal m_fMinimumSafeDeltaTime, m_fMinimumAbsoluteTimeOfImpact;
+    hkReal m_fMinimumTimeOfImpactDelta, m_fMaximumTimeOfImpactDelta, m_fMaximumConstraintViolation;
+    hkReal m_fMaximumLinearVelocity;
+    hkReal m_fMaximumAngularVelocity;
+    hkUint16 m_usValueAtOffset3C;
+    hkBool m_bEnableToiWeldRejection;
+};
+struct GskAgentInput
+{
+    int m_unk00, m_unk04, m_unk08, m_unk0c;
+    int m_unk10, m_unk14, m_unk18, m_unk1c;
+    int m_unk20, m_unk24, m_unk28, m_unk2c;
+    int m_unk30, m_unk34, m_unk38, m_unk3c;
+    int m_unk40, m_unk44, m_unk48, m_unk4c;
+    hkStepInfo m_pStepInfo;
+    ValueWrapper<CollisionQualityInfo*> m_pCollisionQualityInfo;
+};
 
 class hkpConstraintOwner;
+
+class hkContactPoint
+{
+  public:
+    __forceinline const hkVector4& getPosition() const
+    {
+        return m_vContactPosition;
+    }
+    __forceinline const hkVector4& getNormal() const
+    {
+        return m_vSeparatingNormal;
+    }
+    __forceinline hkVector4& getPosition()
+    {
+        return m_vContactPosition;
+    }
+    __forceinline const hkVector4& getSeparatingNormal() const
+    {
+        return m_vSeparatingNormal;
+    }
+    __forceinline hkVector4& getSeparatingNormal()
+    {
+        return m_vSeparatingNormal;
+    }
+    __forceinline void setSeparatingNormal(const hkVector4& separatingNormal)
+    {
+        m_vSeparatingNormal = separatingNormal;
+    }
+    __forceinline void setDistance(hkReal d)
+    {
+        m_vSeparatingNormal(3) = d;
+    }
+    hkVector4 m_vContactPosition;
+    hkVector4 m_vSeparatingNormal;
+};
+
+class ConvexFeaturePairCache
+{
+  public:
+    hkUint16 m_kVertices[4];
+    hkUint8 m_ucDimensionA;
+    hkUint8 m_ucDimensionB;
+    hkUint8 m_ucFeatureTypePair;
+    hkUint8 m_unk0b;
+    int m_unk0c;
+};
 class HeapContactFeatureCache : public ConvexFeaturePairCache
 {
   public:
@@ -3212,6 +3487,45 @@ class HeapContactFeatureCache : public ConvexFeaturePairCache
     {
         *this = o;
     }
+};
+
+class QuantizedFloat8
+{
+  public:
+    inline QuantizedFloat8()
+    {}
+    hkUint8 m_uiFilterValue;
+};
+class hkContactPointMaterial
+{
+  public:
+    __forceinline hkContactPointMaterial()
+    {}
+    int m_ulUserData;
+    QuantizedFloat8 m_fSlipAngle;
+    hkUint8 m_fElasticity;
+    QuantizedFloat8 m_usFlags;
+};
+class ContactImpulseInfo
+{
+  public:
+    __forceinline ContactImpulseInfo()
+    {
+        init();
+    }
+    __forceinline void init()
+    {
+        m_fAccumulatedImpulse = 0.0f;
+        m_fImpulseLimit = 0.0f;
+    }
+    hkReal m_fAccumulatedImpulse;
+    hkReal m_fImpulseLimit;
+};
+class PhysicsMaterial : public ContactImpulseInfo, public hkContactPointMaterial
+{
+  public:
+    __forceinline PhysicsMaterial()
+    {}
 };
 class ContactDataPhysicsMaterial : public PhysicsMaterial
 {
@@ -3226,6 +3540,12 @@ class ContactDataPhysicsMaterial : public PhysicsMaterial
     int m_internal14, m_internal18, m_internal1c;
     int m_extended0, m_extended1, m_extended2, m_extended3;
 };
+
+struct ContactPointWithId
+{
+    hkContactPoint m_kPoint;
+    hkVector4 m_unweldedNormal;
+};
 struct ContactPointRecord
 {
     hkContactPoint m_vContactPoint;
@@ -3235,6 +3555,60 @@ struct ContactPointRecord
     HeapContactFeatureCache m_kGskCache;
     ContactDataPhysicsMaterial m_kProperties;
 };
+struct WorldOperationEntry
+{
+    __forceinline hkBool hasToi() const
+    {
+        return m_fTimeOfImpact.m_uiCommandId != 3.402820018375656e38;
+    }
+    int m_pAlignedPairData;
+    ValueWrapper<hkpConstraintOwner*> m_pConstraintOwner;
+    ContactPointWithId m_akContactPoints[256];
+    ContactPointRecord m_fTimeOfImpact;
+};
+
+class hkpContactMgr
+{
+  public:
+    virtual void vf00();
+    virtual void vf04();
+    virtual void vf08();
+    virtual void vf0c();
+    virtual void vf10();
+    virtual void vf14();
+    virtual void vf18();
+    virtual int AddToi(const hkpCdBody& a, const hkpCdBody& b, const GskAgentInput& input,
+                           WorldOperationEntry& output, hkTime toi, hkContactPoint& cp,
+                           const HeapContactFeatureCache* gskCache, hkReal& projectedVelocity,
+                           ContactDataPhysicsMaterial& propertiesOut);
+    virtual void UpdatePhysicsMaterial(hkpConstraintOwner& constraintOwner, ContactDataPhysicsMaterial& properties);
+    __forceinline int addToi(const hkpCdBody& a, const hkpCdBody& b, const GskAgentInput& input,
+                             WorldOperationEntry& output, hkTime toi, hkContactPoint& cp,
+                             const HeapContactFeatureCache* gskCache, hkReal& projectedVelocity,
+                             ContactDataPhysicsMaterial& propertiesOut)
+    {
+        return AddToi(a, b, input, output, toi, cp, gskCache, projectedVelocity, propertiesOut);
+    }
+    __forceinline void removeToi(hkpConstraintOwner& constraintOwner, ContactDataPhysicsMaterial& properties)
+    {
+        UpdatePhysicsMaterial(constraintOwner, properties);
+    }
+};
+
+struct AgentProcessingInput
+{
+    ValueWrapper<const hkpCdBody*> m_pBodyA;
+    ValueWrapper<const hkpCdBody*> m_pBodyB;
+    ValueWrapper<const hkpCdBody*> m_pAdditionalCollidableBody;
+    ValueWrapper<const GskAgentInput*> m_pRayCastInput;
+    ValueWrapper<hkpContactMgr*> m_pContactManager;
+    hkTransform m_kTransform;
+};
+struct AgentSubtypeMarker : public AgentProcessingInput
+{
+    ValueWrapper<hkReal> m_fSubtypeValue;
+    hkVector4 m_vSubtypePosition;
+};
 
 class hkLineSegmentResult
 {
@@ -3242,6 +3616,71 @@ class hkLineSegmentResult
     hkVector4 m_kFirstVector;
     hkVector4 m_kClosestPointOnSecond;
     ValueWrapper<hkReal> m_t;
+};
+
+class ConvexShapePairCache
+{
+  public:
+    __forceinline ConvexShapePairCache() : m_uiCacheFlags(0)
+    {}
+    __forceinline void setFeatureChange(int f)
+    {
+        m_iFeatureChange = f;
+    }
+    __forceinline void init(const hkpConvexShape* shapeA, const hkpConvexShape* shapeB, const ConvexFeaturePairCache& cache)
+    {
+        m_ucDimensionA = cache.m_ucDimensionA;
+        m_ucDimensionB = cache.m_ucDimensionB;
+        m_ucFeatureTypeA = cache.m_ucFeatureTypePair & 0xf;
+        m_ucFeatureTypeB = (cache.m_ucFeatureTypePair >> 4) & 0xf;
+        setFeatureChange(0);
+        shapeA->GetVerticesForIds(cache.m_kVertices, m_ucDimensionA, &m_akPackedVerticesA[0]);
+        shapeB->GetVerticesForIds(cache.m_kVertices + m_ucDimensionA, m_ucDimensionB, &m_akPackedVerticesB[0]);
+    }
+    int FUN_00daad40(const hkpConvexShape* shapeA, const hkpConvexShape* shapeB, const hkTransform& aTb,
+                     hkVector4& separatingNormal);
+    __forceinline int GetClosestPoint(const hkpConvexShape* shapeA, const hkpConvexShape* shapeB,
+                                        const hkTransform& aTb, hkVector4& separatingNormal)
+    {
+        return FUN_00daad40(shapeA, shapeB, aTb, separatingNormal);
+    }
+    __forceinline void WriteContactFeatureCache(ConvexFeaturePairCache& cache) const
+    {
+        reinterpret_cast<::ThisClass *>((void *)this)->FUN_00da9790((::Dest *)&(cache));
+    }
+    __forceinline void checkForChangesAndUpdateCache(ConvexFeaturePairCache& cache) const
+    {
+        if (!m_iFeatureChange)
+            return;
+        reinterpret_cast<::ThisClass *>((void *)this)->FUN_00da9790((::Dest *)&(cache));
+    }
+    __forceinline void getClosestPointAinA(const hkVector4& separatingNormal, hkVector4& pointOnAinA)
+    {
+        if (m_ucDimensionA == 1)
+        {
+            pointOnAinA = m_akPackedVerticesA[0];
+        }
+        else if (m_ucDimensionB == 1)
+        {
+            pointOnAinA = m_akCachedVectors[0];
+            pointOnAinA.addMul4(separatingNormal.getSimdAt(3), separatingNormal);
+        }
+        else
+        {
+            pointOnAinA = m_closestLineSegResult.m_kFirstVector;
+        }
+    }
+    ValueWrapper<int> m_ucDimensionA, m_ucDimensionB, m_ucFeatureTypeA, m_ucFeatureTypeB;
+    ValueWrapper<hkUint32> m_uiCacheFlags;
+    ValueWrapper<int> m_iFeatureChange;
+    Vector4WithInt24W m_akPackedVerticesA[4];
+    hkVector4 m_verticesAinB[4];
+    hkVector4 m_akCachedVectors[4];
+    Vector4WithInt24W m_akPackedVerticesB[4];
+    hkVector4 m_lastDimB2;
+    hkLineSegmentResult m_closestLineSegResult;
+    hkVector4 m_unk160;
+    ValueWrapper<int> m_lastFeature;
 };
 
 __forceinline void hkGskRecalcContact(const ConvexShapePairCache& gsk, const hkVector4& separatingNormal,
@@ -3298,7 +3737,57 @@ __forceinline void TransformPointArray(const hkTransform& t, const hkVector4* ve
     } while (--i >= 0);
 }
 }
-void FUN_00db4b50(const ConvexCollisionQueryData& input, hkReal Rt, CollisionSolverInput& mat);
+
+struct ContactPointWeldingParameters
+{
+    ValueWrapper<hkReal> m_fMinimumTimeOfImpactDelta;
+    ValueWrapper<hkReal> m_fCreateContactThreshold;
+    ValueWrapper<hkReal> m_fMinimumSafeDeltaTime;
+    ValueWrapper<hkReal> m_fMaximumAngularVelocity;
+    ValueWrapper<hkReal> m_fMaximumConstraintViolation;
+};
+struct ConvexCollisionQueryData
+{
+    __forceinline ConvexCollisionQueryData()
+    {}
+    ValueWrapper<const hkMotionState*> m_pFirstQueryData;
+    ValueWrapper<const hkMotionState*> m_pSecondQueryData;
+    ValueWrapper<hkVector4*> m_akPackedVerticesA;
+    ValueWrapper<int> m_iStridedVertexCount;
+    ValueWrapper<int> m_iSecondPackedVertexCount;
+    ValueWrapper<hkReal> m_kFourthBasisVector;
+    ValueWrapper<hkReal> m_fSecondBasisScalar;
+    ValueWrapper<hkReal> m_fThirdBasisScalar;
+    hkVector4 m_vFirstStoredVector;
+    hkVector4 m_vSecondStoredVector;
+    ValueWrapper<const hkStepInfo*> m_pStepInfo;
+    ValueWrapper<hkReal> m_fStepTimeParameter;
+    hkVector4 m_vSubtypePosition;
+    hkVector4 m_avSubtypeVectors[2];
+    ValueWrapper<hkReal> m_fFinalQueryParameter;
+};
+struct ScalarVectorData
+{
+    __forceinline ScalarVectorData() : m_Rt(1.0f)
+    {}
+    ValueWrapper<hkReal> m_Rt;
+    hkVector4 m_collidePoint;
+};
+
+struct CollisionSolverInput
+{
+    __forceinline CollisionSolverInput()
+    {}
+    hkTransform m_pTransformB;
+    hkTransform m_pTransformA;
+    hkTransform m_kTransform;
+    hkVector4 m_vPointOnPlaneB;
+    hkVector4 m_pointOnPlaneA;
+    hkVector4 m_linearTimInfoA;
+    hkVector4 m_deltaAnglesA[2];
+    hkVector4 m_massCenterA;
+    hkVector4 m_vMassCenterB;
+};
 
 static hkReal hk4dGskCollidePointWithPlaneFinal(const ConvexCollisionQueryData& input,
                                                 const ContactPointWeldingParameters& tol, const hkVector4& vertex, hkReal startRt,
@@ -3323,7 +3812,7 @@ static hkReal hk4dGskCollidePointWithPlaneFinal(const ConvexCollisionQueryData& 
             rel = MathUtilities::min2(rel, 0.9f);
         }
         Rt = (1.0f - rel) * startRt + endRt * rel;
-        FUN_00db4b50(input, Rt, mat);
+        ::FUN_00db4b50(reinterpret_cast<S_00db4b50_A*>(const_cast<ConvexCollisionQueryData*>(&input)), Rt, reinterpret_cast<S_00db4b50_Out*>(&mat));
         hkVector4 diff;
         diff.setSub4(vertex, mat.m_pointOnPlaneA);
         distance = diff.dot4xyz1(mat.m_vPointOnPlaneB);
@@ -3358,7 +3847,7 @@ void __cdecl FUN_00db4e40(const ConvexCollisionQueryData& input, const ContactPo
     while (numVertices)
     {
         CollisionSolverInput mat;
-        FUN_00db4b50(input, currentRt, mat);
+        ::FUN_00db4b50(reinterpret_cast<S_00db4b50_A*>(const_cast<ConvexCollisionQueryData*>(&input)), currentRt, reinterpret_cast<S_00db4b50_Out*>(&mat));
         hkVector4* vertex = input.m_akPackedVerticesA;
         hkVector4* insert = vertex;
         const hkReal restRt = 1.0f - currentRt;
@@ -3911,4 +4400,5 @@ __declspec(noinline) void __cdecl FUN_00db60c0(const AgentSubtypeMarker& in3, co
         gsk.checkForChangesAndUpdateCache(gskCache);
     }
 }
+
 #include "generated/data/havok/physics/internal/collide/gjk/continuous/hkpcontinuousgsk_gs_ehsc_nogs_noehsc_variant_rtm_variant.inc"

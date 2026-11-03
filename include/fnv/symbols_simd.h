@@ -25,6 +25,7 @@ struct Obj;
 struct ObjF;
 struct Obj_t;
 struct Out;
+struct SweepOut;
 struct Owner;
 struct Pair409;
 struct PivotPair;
@@ -84,7 +85,7 @@ unsigned int PackFloatsToUInt(const ::__m128 *);
 // 0x00d98630
 ::D986Result FUN_00d98630(const ::__m128 *, const ::__m128 *, int);
 // 0x00db4ca0
-float FUN_00db4ca0(void *, const float *, const ::__m128 *, float, float, float, float, int, ::Out *);
+float FUN_00db4ca0(void *, const float *, const ::__m128 *, float, float, float, float, int, ::SweepOut *);
 // 0x00dced90
 namespace fnv_00dced90 { void FUN_00dced90(const ::__m128 *, const ::__m128 *, char **); }
 // 0x00dcedd0

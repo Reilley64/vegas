@@ -3,6 +3,7 @@
 
 
 #include "fnv/symbols_00c85000.h"
+#include "havok/hkBase.h"
 #include "fnv/symbols_00d36000.h"
 #include "fnv/symbols_00d97000.h"
 #include "fnv/symbols_00da3000.h"
@@ -14,14 +15,18 @@ struct hkAgent1nMachine
 
 struct hkpListAgent
 {
-    char m0[0x10];
+    void* m_vtbl;
+    int unk04;
+    void* unk08;
+    void* unk0C;
+    hkArray<void*> m_agentTrack;
     void FUN_00d36850(void* arg);
 };
 
 // @fnv 0x00d36850
 void hkpListAgent::FUN_00d36850(void* arg)
 {
-    ::FUN_00da3510((*(::AgentSectorPointerArray *)((char*)this + 0x10)), (*(::CollisionAgentContext *)(arg)));
+    ::FUN_00da3510((*(::AgentSectorPointerArray *)(&m_agentTrack)), (*(::CollisionAgentContext *)(arg)));
 }
 
 
@@ -33,17 +38,18 @@ void FUN_00d36b00(int aiArg1, int aiArg2, int aiArg3, int aiArg4)
 
 struct Owner
 {
+    void* m_vtbl;
     int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    void FUN_00d36870(float a1, float a2, int a3);
+    void* unk08;
+    void* unk0C;
+    hkArray<void*> m_agentTrack;
+    void FUN_00d36870(float a1, float a2, void** a3);
 };
 // Forwards the three arguments to FUN_00da35f0 with the object's field at offset 0x10 as its first argument.
 // @fnv 0x00d36870
-void Owner::FUN_00d36870(float afValue1, float afValue2, int aiValue)
+void Owner::FUN_00d36870(float afValue1, float afValue2, void** aiValue)
 {
-    ::FUN_00da35f0((::Da35Stream ***)(void *)((char*)this + 0x10), afValue1, afValue2, (void **)(aiValue));
+    ::FUN_00da35f0((::Da35Stream ***)(void *)(&m_agentTrack), afValue1, afValue2, aiValue);
 }
 
 
@@ -66,17 +72,17 @@ struct FUN_00d36820_cls
 {
     virtual void v00(int a);
     int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    void FUN_00d36820(int a1);
+    ::S_00da40e0_ContactMgr* unk08;
+    ::S_00da40e0_Dispatcher* unk0C;
+    hkArray<void*> unk10;
+    void FUN_00d36820(void* a1);
 };
 
 // Calls FUN_00da42b0 with &unk10, unk0C, unk08 and a1, then invokes v00(1).
 // @fnv 0x00d36820
-void FUN_00d36820_cls::FUN_00d36820(int aiValue)
+void FUN_00d36820_cls::FUN_00d36820(void* aiValue)
 {
-    ::FUN_00da42b0((::BlockPoolArray *)(void *)(&unk10), (::S_00da40e0_Dispatcher *)(unk0C), (::S_00da40e0_ContactMgr *)(unk08), (*(::S_00da40e0_ConstraintOwner *)(aiValue)));
+    ::FUN_00da42b0((::BlockPoolArray *)(void *)(&unk10), unk0C, unk08, (*(::S_00da40e0_ConstraintOwner *)(aiValue)));
     this->v00(1);
 }
 
@@ -84,7 +90,7 @@ struct S_00d368a0_Arg
 {
     int unk00;
     int unk04;
-    int m_field08;
+    char** m_field08;
 };
 
 
@@ -94,7 +100,7 @@ struct S_00d368a0
     int unk04;
     int unk08;
     int unk0C;
-    int m_sub10;
+    hkArray<void*> m_sub10;
 
     void FUN_00d368a0(S_00d368a0_Arg* a, int unused);
 };
@@ -102,7 +108,7 @@ struct S_00d368a0
 // @fnv 0x00d368a0
 void S_00d368a0::FUN_00d368a0(S_00d368a0_Arg* a, int unused)
 {
-    ::FUN_00d97250((::Hdr *)(void *)(&m_sub10), (char **)(a->m_field08), (::Logger *)(a));
+    ::FUN_00d97250((::Hdr *)(void *)(&m_sub10), a->m_field08, (::Logger *)(a));
 }
 
 
@@ -117,13 +123,13 @@ struct VirtTarget
 
 struct CallArgs
 {
-    int unk00;
-    int unk04;
+    void* unk00;
+    void* unk04;
     int unk08;
     int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
+    void* unk10;
+    void* unk14;
+    void* unk18;
     int unk1C;
 };
 
@@ -131,9 +137,9 @@ struct FUN_00d368c0_cls
 {
     int unk00;
     int unk04;
-    int m_08;
+    void* m_08;
     int unk0C;
-    int unk10;
+    hkArray<void*> unk10;
     void FUN_00d368c0(void* a1, void* a2, void* a3, void* a4);
 };
 // Builds a CallArgs from the four arguments and m_08, calls v10 on a2, then passes it to FUN_00da48e0 with this+0x10.
@@ -141,14 +147,14 @@ struct FUN_00d368c0_cls
 void FUN_00d368c0_cls::FUN_00d368c0(void* a1, void* a2, void* a3, void* a4)
 {
     CallArgs s;
-    s.unk00 = (int)a1;
-    s.unk10 = (int)a3;
-    int iStored = m_08;
-    s.unk04 = (int)a2;
+    s.unk00 = a1;
+    s.unk10 = a3;
+    void* iStored = m_08;
+    s.unk04 = a2;
     s.unk14 = iStored;
-    s.unk18 = (int)a4;
+    s.unk18 = a4;
     s.unk0C = (*(VirtTarget**)a2)->v10();
-    ::FUN_00da48e0(((char*)&this->unk10), (&s));
+    ::FUN_00da48e0(&this->unk10, (&s));
 }
 
 // Moved from hkplistagent_rtm_variant.cpp (VEGAS-15).
@@ -259,10 +265,15 @@ struct S00d369a0_ListAgent
     int unk00, unk04;
     void* m08;
     int unk0C, track10;
-    void FUN_00d369a0(S00d369a0_Body* a1, S00d369a0_Body* a2, S00d369a0_Config* a3, int a4);
+    void FUN_00d369a0(S00d369a0_Body* a1, S00d369a0_Body* a2, S00d369a0_Config* a3, void* a4);
+};
+
+struct S00d369a0_StackRouter
+{
+    char* m_stackTop;
 };
 // @fnv 0x00d369a0
-void S00d369a0_ListAgent::FUN_00d369a0(S00d369a0_Body* a1, S00d369a0_Body* a2, S00d369a0_Config* a3, int a4)
+void S00d369a0_ListAgent::FUN_00d369a0(S00d369a0_Body* a1, S00d369a0_Body* a2, S00d369a0_Config* a3, void* a4)
 {
     S00d369a0_ProcessInput input;
     S00d369a0_Bits* bits = a2->m00;
@@ -283,9 +294,9 @@ void S00d369a0_ListAgent::FUN_00d369a0(S00d369a0_Body* a1, S00d369a0_Body* a2, S
     input.tim[3] = (f0 * o->f9c) * o->fa0 + (f1 * p->f9c) * p->fa0;
     reinterpret_cast<::hkTransformCB22 *>(&(input.transform))->FUN_00cb22f0((*(const ::hkTransformCB22 *)(o)), (*(const ::hkTransformCB22 *)(p)));
     int count = bits->m1C;
-    unsigned int* out = (unsigned int*)::FUN_00c85750();
-    unsigned int* dst = (unsigned int*)*out;
-    *out = (unsigned int)dst + ((count * 4 + 0x83) & 0xffffff80);
+    S00d369a0_StackRouter* out = static_cast<S00d369a0_StackRouter*>(::FUN_00c85750());
+    unsigned int* dst = (unsigned int*)out->m_stackTop;
+    out->m_stackTop = (char*)dst + ((count * 4 + 0x83) & 0xffffff80);
     int n = 0;
     unsigned int mask = 1;
     for (int i = 0; i < count; ++i, *(volatile unsigned int*)& mask = _rotl(*(volatile unsigned int*)&mask, 1))
@@ -295,5 +306,5 @@ void S00d369a0_ListAgent::FUN_00d369a0(S00d369a0_Body* a1, S00d369a0_Body* a2, S
     }
     dst[n] = 0xffffffff;
     ::fnv_00da4aa0::FUN_00da4aa0((*(::fnv_00da4aa0::Q30 *)(&this->track10)), (*(const ::fnv_00da4aa0::Q14 *)(&input)), (const ::fnv_00da4aa0::Q24 *)(bits), (const unsigned int *)(dst), (*(::fnv_00da4aa0::Q6 *)(a4)));
-    *(unsigned int*)::FUN_00c85750() = (unsigned int)dst;
+    static_cast<S00d369a0_StackRouter*>(::FUN_00c85750())->m_stackTop = (char*)dst;
 }

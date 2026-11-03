@@ -1045,7 +1045,7 @@ void __cdecl FUN_00cff290(hkpAgentNnTrackCFF2* track, hkpAgentNnTrackCFF2* appen
     if (appendee->m_kSectors.GetLogicalSize())
     {
         hkpAgentNnSectorCFF2** sectors = appendee->m_kSectors.m_data;
-        reinterpret_cast<::SearchObject *>(&(track->m_kSectors))->Search(hkRouterCFF2::(unsigned int)&(const <dependent type> &)(static_cast<CFE820MemoryRouter*>(::FUN_00c85750())->heap()), track->m_kSectors.GetLogicalSize(), (unsigned int)(sectors),
+        reinterpret_cast<::SearchObject *>(&(track->m_kSectors))->Search((uintptr_t)&(static_cast<hkMemoryRouterCFF2*>(::FUN_00c85750())->heap()), track->m_kSectors.GetLogicalSize(), (uintptr_t)(sectors),
                                  appendee->m_kSectors.GetLogicalSize());
         track->m_iBytesUsedInLastSector = appendee->m_iBytesUsedInLastSector;
         appendee->m_kSectors.m_iElementCount = 0;

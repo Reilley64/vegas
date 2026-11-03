@@ -247,23 +247,8 @@ void FUN_00cfd7d0_class::DecrementBytesAboveValue(unsigned int auiThreshold)
     }
 }
 
-struct FUN_00cfdae0_router
-{
-	virtual void FUN_00cfdae0_slot0();
-	virtual void FUN_00cfdae0_slot1();
-	virtual void FUN_00cfdae0_deallocate(void* object, unsigned short size);
-};
 
-struct FUN_00cfdae0_manager
-{
-	void* m_00;
-	void* m_04;
-	void* m_08;
-	void* m_0c;
-	FUN_00cfdae0_router* m_router;
-};
 
-FUN_00cfdae0_manager* _D1A0E0GetMemoryRouter();
 
 struct FUN_00cfdae0_class
 {
@@ -1045,9 +1030,8 @@ FUN_00cfdae0_class* FUN_00cfdae0_class::Destroy(unsigned char flags)
 
 	if (flags & 1)
 	{
-		FUN_00cfdae0_manager* manager = _D1A0E0GetMemoryRouter();
 		unsigned short size = m_iElementCount;
-		manager->m_router->FUN_00cfdae0_deallocate(this, size);
+		hkMemoryRouter::getInstance().heap().blockFree(this, size);
 	}
 
 	return this;

@@ -585,6 +585,7 @@ void FUN_00a25f10_Class::CopyBytesToBuffer(int* pBufferPtr, int* b, void* src)
 struct FUN_00a26220_Class
 {
     unsigned int FUN_00a26220();
+    unsigned int FUN_00a26240();
 };
 // @fnv 0x00a26220
 unsigned int FUN_00a26220_Class::FUN_00a26220()
@@ -7597,6 +7598,14 @@ namespace fnv_00a22e10 {
 #include <windows.h>
 #include <stdio.h>
 #include <string.h>
+#include <cstddef>
+#include "fnv/decl/fnv_00a26010__FUN_00a26010_Class.h"
+#include "fnv/symbols_00ee7000.h"
+#include "fnv/symbols_01100000.h"
+#include "fnv/decl/fnv_00a26010__FUN_00a26010_Class.h"
+#include "fnv/symbols_00a27000.h"
+#include "fnv/symbols_00a2b000.h"
+#include <math.h>
 
 
 struct S_00a22e10_Cls
@@ -7670,4 +7679,493 @@ void InputManager::FUN_00a25410(int offset)
     DAT_011f35ac = 0;
 }
 
+char* __cdecl FUN_00a25e00(char* dst, char* src);
+
+void* _memmove(void* dst, const void* src, unsigned int count);
+
+void* __cdecl _memmove(void* dst, const void* src, unsigned int count);
+
+void* _memmove(void* dst, const void* src, unsigned int count);
+
+void* _memmove(void* dst, const void* src, unsigned int n);
+
+extern "C" int __cdecl strcpy_s(char* dst, unsigned int size, const char* src);
+
+extern "C" int __cdecl strcat_s(char* dst, unsigned int size, const char* src);
+
+unsigned char FUN_00a25870();
+
+void* __cdecl _fnv_zlib_memset(void* dst, int val, unsigned int size);
+
+void __cdecl FUN_00ec44d0(int a, int b, int c);
+
+double __cdecl FUN_00eca060(double v);
+
+extern "C" void* __cdecl fnv_zlib_memset(void*, int, unsigned int);
+
+int __cdecl FUN_00ec68e4(const char* name, unsigned int a1);
+
+struct PoolQ
+{
+};
+
+struct FUN_00a26240
+{
+    int a, b;
+    ~FUN_00a26240();
+};
+
+struct PoolDelQ
+{
+};
+
+struct FUN_00a25b00 : PoolDelQ
+{
+    char pad[0x3ac];
+    FUN_00a26240 kList;
+    ~FUN_00a25b00();
+};
+
+// @fnv 0x00a25b00
+FUN_00a25b00::~FUN_00a25b00()
+{
+    if (DAT_011f3634Q)
+    {
+        delete DAT_011f3634Q;
+        reinterpret_cast<::FUN_00a25dd0_Class *>(this)->FUN_00a25dd0(0);
+    }
+}
+
+// Reconstruction of FUN_00a22660 (input-device-manager init), 1417 B, , ret 4.
+//
+// The target's allocation site 0x00a22a98..0x00a22aa4 is
+//     6a 40            push 0x40
+//     b9 38 62 1f 01   mov  ecx, OFFSET DAT_011f6238   (memory-manager singleton)
+//     e8 9c 13 08 00   call FUN_00aa3e40              (pool alloc)
+//     89 45 b4         mov  [ebp-0x4c], eax
+// followed by the new-expression EH state 0 (mov dword [ebp-4],0) and an unwind
+// action at 0x00f1e7a0 = `mov eax,[ebp-0x4c]; push eax; call ??3@YAXPAX@Z`.
+// That is an INLINED operator-new body.  With the pack flags (/Od => /Ob0) the same
+// source can only emit `push 0x40; call ??2@YAPAXI@Z; add esp,4` (work\00a22660_sub\p6.cpp);
+// __forceinline (p7.cpp) and the checker's `#pragma optimize("",on)` (p9.cpp) do not
+// inline it.  Under /Ob1 the site is byte-identical to the target (p6.cpp with /Ob1).
+
+extern "C" char DAT_01100ed4;
+
+// IID_IDirectInput8A
+extern "C" char DAT_01100f84;
+
+// GUID_SysMouse
+  // GUID_SysKeyboard
+extern "C" char DAT_01100cb4;
+
+// c_dfDIMouse
+  // c_dfDIKeyboard
+
+  // Setting objects, 12 B each
+extern "C" unsigned char DAT_011f35d4;
+
+extern "C" unsigned char DAT_011f35e0;
+
+extern "C" unsigned char DAT_011f35ec;
+
+inline bool SettingIs(const unsigned char* apSetting, bool abValue)
+{
+    return apSetting ? apSetting[4] == abValue : false;
+}
+
+struct MemMgr
+{
+};
+
+struct IDI8
+{
+    virtual long v00(void*, void*) = 0;
+    virtual long v04(void*, void*) = 0;
+    virtual long v08(void*, void*) = 0;
+    virtual long CreateDevice(void* guid, void** out, void* outer) = 0;
+};
+
+struct IDIDev
+{
+    virtual long v00(void*, void*) = 0;
+    virtual long v04(void*, void*) = 0;
+    virtual long v08(void*, void*) = 0;
+    virtual long GetCapabilities(void* caps) = 0;
+    virtual long v10(void*, void*) = 0;
+    virtual long v14(void*, void*) = 0;
+    virtual long SetProperty(int guid, void* hdr) = 0;
+    virtual long v1c(void*, void*) = 0;
+    virtual long v20(void*, void*) = 0;
+    virtual long v24(void*, void*) = 0;
+    virtual long v28(void*, void*) = 0;
+    virtual long SetDataFormat(void* fmt) = 0;
+    virtual long v30(void*, void*) = 0;
+    virtual long SetCooperativeLevel(void* hwnd, unsigned int flags) = 0;
+};
+
+struct Elem2
+{
+    int m00, m04, m08, m0c, m10, m14, m18, m1c, m20;
+};
+
+struct FUN_00a262d0_C40  // 0x40 bytes, ctor at 0x00a262d0
+{
+    int m00, m04, m08, m0c, m10, m14, m18, m1c;
+    int m20, m24, m28, m2c, m30, m34, m38, m3c;
+    FUN_00a262d0_C40(unsigned int a);
+};
+
+struct DIPROPDWORD
+{
+    unsigned int dwSize, dwHeaderSize, dwObj, dwHow, dwData;
+};
+
+struct Mgr
+{
+    unsigned char m00;
+    int m04;
+    IDI8* m08;
+    unsigned char pad0c[0x20];
+    IDIDev* m2c;
+    IDIDev* m30;
+    unsigned char m34[0x500];
+    unsigned char pad534[0x13c0];
+    int m18f4;
+    unsigned char m18f8[0x200];
+    unsigned int m1af8[0xb];  // DIDEVCAPS (0x2c)
+    unsigned char m1b24[0x28];
+    int m1b4c;
+    unsigned char m1b50;
+    unsigned char pad1b51[3];
+    int m1b54;
+    unsigned char pad1b58[8];
+    unsigned char m1b60[0x20];
+    FUN_00a262d0_C40* m1b80;
+    Elem2* m1b84;
+    unsigned char m1b88;
+    unsigned char pad1b89[7];
+    unsigned char m1b90;
+    unsigned char m1b91;
+    unsigned short m1b92;
+    Mgr* FUN_00a22660(int arg);
+};
+
+__forceinline Elem2* NewZeroedElem2()
+{
+    unsigned int uiSizeVal = 0x24;
+    void* pMemory = reinterpret_cast<::MemoryManagerStandIn *>((((MemMgr*)&(*reinterpret_cast<::NiAllocator *>(&::g_memoryManager)))))->FUN_00aa3e40(uiSizeVal);
+    return (Elem2*)(pMemory ? (std::memset(pMemory, 0, uiSizeVal), pMemory) : 0);
+}
+
+// @fnv 0x00a22660
+Mgr* Mgr::FUN_00a22660(int arg)
+{
+    this->m18f4 = 0;
+    this->m04 = 0;
+    this->m1b92 = 0;
+
+    ::FUN_00ee7f10((void*)arg, 0x800, &DAT_01100ed4, (void**)&this->m08, 0);
+
+    if (SettingIs((*reinterpret_cast<unsigned char (*)[]>(&::g_011f35d0)), true))
+    {
+        reinterpret_cast<::FUN_00a252d0_cls *>((this))->SetEnabled(1);
+    }
+
+    this->m2c = 0;
+    void* pDev;
+    long hr = this->m08->CreateDevice(&DAT_01100f84, &pDev, 0);
+    DIPROPDWORD propVal;
+    if (hr == 0)
+    {
+        this->m04 |= 4;
+        this->m2c = (IDIDev*)pDev;
+        if (SettingIs((*reinterpret_cast<unsigned char (*)[]>(&::g_011f35dc)), true))
+        {
+            this->m2c->SetCooperativeLevel(GetActiveWindow(), 0x16);
+        }
+        else
+        {
+            this->m2c->SetCooperativeLevel(GetActiveWindow(), 0x15);
+        }
+        this->m2c->SetDataFormat(&DAT_01100cb4);
+        propVal.dwSize = 0x14;
+        propVal.dwHeaderSize = 0x10;
+        propVal.dwHow = 0;
+        propVal.dwObj = 0;
+        propVal.dwData = 0x20;
+        this->m2c->SetProperty(1, &propVal);
+    }
+
+    this->m30 = 0;
+    this->m1b50 = 6;
+
+    void* hKeyStep = 0;
+    char acValueResult[10];
+    unsigned int typeIn;
+    unsigned int cb;
+    if (RegOpenKeyExA((void*)0x80000001, "Control Panel\\Mouse", 0, 0xf003f, &hKeyStep) == 0)
+    {
+        cb = 0xa;
+        if (RegQueryValueExA(hKeyStep, "MouseSensitivity", 0, &typeIn, (unsigned char*)acValueResult, &cb) == 0)
+        {
+            this->m1b50 = (unsigned char)std::atoi(acValueResult);
+        }
+        RegCloseKey(hKeyStep);
+    }
+
+    this->m1b4c = SwapMouseButton(0);
+    SwapMouseButton(this->m1b4c);
+    this->m1b54 = GetDoubleClickTime();
+
+    std::memset(&this->m1b60[0], 0, 0x20);
+    std::memset(&this->m1af8[0], 0, 0x2c);
+    this->m1af8[0] = 0x2c;
+
+    if (SettingIs((*reinterpret_cast<unsigned char (*)[]>(&::g_011f35e8)), true))
+    {
+        this->m04 |= 8;
+    }
+
+    hr = this->m08->CreateDevice(&DAT_01100f74, &pDev, 0);
+    if (hr == 0)
+    {
+        this->m04 |= 2;
+        this->m30 = (IDIDev*)pDev;
+        this->m30->GetCapabilities(&this->m1af8[0]);
+        if (this->m04 & 8)
+        {
+            hr = this->m30->SetCooperativeLevel(GetActiveWindow(), 6);
+        }
+        else
+        {
+            hr = this->m30->SetCooperativeLevel(GetActiveWindow(), 5);
+        }
+        switch (hr)
+        {
+        case 0x80070057:
+            hr = 1;
+            break;
+        case 0x80070015:
+            hr = 1;
+            break;
+        case 0x80070006:
+            hr = 1;
+            break;
+        }
+        this->m30->SetDataFormat(&DAT_01100aac);
+    }
+
+    std::memset(&this->m34[0], 0, 0x500);
+    std::memset(&this->m18f8[0], 0, 0x200);
+    std::memset(&this->m1b24[0], 0, 0x28);
+    this->m1b90 = 0;
+    this->m1b91 = 0;
+
+    this->m1b80 = new FUN_00a262d0_C40(0);
+
+    {
+        this->m1b84 = NewZeroedElem2();
+        this->m1b84->m08 = 0;
+        this->m1b84->m00 = 0;
+        this->m1b84->m04 = 2;
+        this->m1b84->m14 = 0;
+        this->m1b84->m1c = 0;
+
+        reinterpret_cast<::FUN_00a26310_Class *>((this->m1b80))->FUN_00a26310(1, (::FUN_00a26480_class *)(this->m1b84));
+        reinterpret_cast<::FUN_00a26310_Class *>((this->m1b80))->FUN_00a26310(0, (::FUN_00a26480_class *)(this->m1b84));
+    }
+    this->m1b88 = 1;
+
+    reinterpret_cast<::FUN_00a24b70_Class *>((this))->FUN_00a24b70(4);
+    this->m00 = 0;
+    return this;
+}
+
+struct S_00a25920_Pool
+{
+};
+
+struct S_00a25920_Obj
+{
+    int unk00;
+    static __forceinline void* operator new(std::size_t)
+    {
+        return reinterpret_cast<::MemoryManagerStandIn *>(&(((S_00a25920_Pool&)(*reinterpret_cast<::NiAllocator *>(&::g_memoryManager)))))->FUN_00aa3e40(0x14280);
+    }
+    S_00a25920_Obj();
+};
+
+// @fnv 0x00a25920
+S_00a25920_Obj* __cdecl FUN_00a25920()
+{
+    if ((*reinterpret_cast<::S_00a25920_Obj * *>(&::DAT_011f3634Q)) == 0)
+    {
+        (*reinterpret_cast<::S_00a25920_Obj * *>(&::DAT_011f3634Q)) = new S_00a25920_Obj;
+    }
+    return (*reinterpret_cast<::S_00a25920_Obj * *>(&::DAT_011f3634Q));
+}
+
+// @fnv 0x00a25880
+void FUN_00a25880()
+{
+    if (!(*reinterpret_cast<::S_00a25920_Obj * *>(&::DAT_011f3634Q)))
+        (*reinterpret_cast<::S_00a25920_Obj * *>(&::DAT_011f3634Q)) = new S_00a25920_Obj();
+    ((FUN_00a25de0_Class*)(*reinterpret_cast<::S_00a25920_Obj * *>(&::DAT_011f3634Q)))->FUN_00a25de0();
+}
+
+// @fnv 0x00a26240
+FUN_00a26240::~FUN_00a26240()
+{
+    while (b)
+    {
+        int next = ((FUN_00a26240*)b)->b;
+        ((FUN_00a26240*)b)->b = 0;
+        delete (FUN_00a26240*)b;
+        b = next;
+    }
+    a = 0;
+}
+
+void __cdecl FUN_00ec61c0(void* dst, int value, unsigned int size);
+
+struct Spl_a28060_Pt
+{
+    float x, y, z;
+    Spl_a28060_Pt()
+    {}
+    Spl_a28060_Pt(float fx, float fy, float afDepth) : x(fx), y(fy), z(afDepth)
+    {}
+    Spl_a28060_Pt Cross(const Spl_a28060_Pt& p) const
+    {
+        return Spl_a28060_Pt(y * p.z - z * p.y, z * p.x - x * p.z, x * p.y - y * p.x);
+    }
+    float SqrLength() const
+    {
+        return x * x + y * y + z * z;
+    }
+    float Length() const
+    {
+        return sqrtf(x * x + y * y + z * z);
+    }
+};
+
+struct Spl_a28060_Key
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+};
+
+extern int DAT_011a7ed4;
+
+extern float DAT_011f3658;
+
+// @fnv 0x00a28060
+float __cdecl FUN_00a28060(Spl_a28060_Key* keys, int count)
+{
+    float fScaledValue = 0.0f;
+    for (unsigned int i = 0; i < (unsigned int)(count - 1); i++)
+    {
+        Spl_a28060_Key* a = &keys[i];
+        Spl_a28060_Key* b = &keys[i + 1];
+        for (int j = 0; j <= DAT_011a7ed4; j++)
+        {
+            float t = j * DAT_011f3658;
+            Spl_a28060_Pt d1, d2;
+            ::FUN_00a27d60(t, (::TCBKeyS *)(a), (unsigned int)(b), (::Vec3S *)(::Spl_a28060_Pt *)(&d1));
+            ::fnv_00a27e40::FUN_00a27e40(t, (const float *)(a), (unsigned int)(b), (::fnv_00a27e40::Vec3Output *)(::Spl_a28060_Pt *)(&d2));
+            float v = d1.Cross(d2).Length() / d1.SqrLength();
+            if (v > fScaledValue)
+                fScaledValue = v;
+        }
+    }
+    return fScaledValue;
+}
+
+struct Spl_a2b6d0_Pt
+{
+    float x, y, z;
+    Spl_a2b6d0_Pt()
+    {}
+    Spl_a2b6d0_Pt(float fx, float fy, float afDepth) : x(fx), y(fy), z(afDepth)
+    {}
+    Spl_a2b6d0_Pt Cross(const Spl_a2b6d0_Pt& p) const
+    {
+        return Spl_a2b6d0_Pt(y * p.z - z * p.y, z * p.x - x * p.z, x * p.y - y * p.x);
+    }
+    float SqrLength() const
+    {
+        return x * x + y * y + z * z;
+    }
+    float Length() const
+    {
+        return sqrtf(x * x + y * y + z * z);
+    }
+};
+
+struct Spl_a2b6d0_Key
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+    int unk40;
+    int unk44;
+    int unk48;
+};
+
+extern int DAT_011a7ed4;
+
+extern float DAT_011f3658;
+
+// @fnv 0x00a2b6d0
+float __cdecl FUN_00a2b6d0(Spl_a2b6d0_Key* keys, int count)
+{
+    float fScaledValue = 0.0f;
+    for (unsigned int i = 0; i < (unsigned int)(count - 1); i++)
+    {
+        Spl_a2b6d0_Key* a = &keys[i];
+        Spl_a2b6d0_Key* b = &keys[i + 1];
+        for (int j = 0; j <= DAT_011a7ed4; j++)
+        {
+            float t = j * DAT_011f3658;
+            Spl_a2b6d0_Pt d1, d2;
+            ::ComputeInterpolatedPosition(t, (::S_00a2b050_Obj *)(a), (int)(b), (::S_00a2b050_V3 *)(::Spl_a2b6d0_Pt *)(&d1));
+            ::FUN_00a2b130(t, (const float *)(a), (unsigned int)(b), (::Vector3 *)(::Spl_a2b6d0_Pt *)(&d2));
+            float v = d1.Cross(d2).Length() / d1.SqrLength();
+            if (v > fScaledValue)
+                fScaledValue = v;
+        }
+    }
+    return fScaledValue;
+}
+
 #include "generated/data/staging/blk_00a20000_od.inc"
+#include "generated/data/staging/blk_00a20000_od_ob1_variant.inc"
+#include "generated/data/staging/blk_00a20000_od_o2_nood_variant.inc"

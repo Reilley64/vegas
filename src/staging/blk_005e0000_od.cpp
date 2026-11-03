@@ -132,6 +132,26 @@
 #include "fnv/symbols_011cd000.h"
 #include "fnv/symbols_011de000.h"
 #include "../../include/layout_support.h"
+#include <string.h>
+#include "fnv/decl/FUN_00600ab0_shell.h"
+#include "fnv/decl/FUN_00ad73b0_t.h"
+#include "fnv/decl/Flt.h"
+#include "fnv/decl/NiObjectNET.h"
+#include "fnv/decl/SoundPlaybackManager.h"
+#include "fnv/decl/SoundWrapper.h"
+#include "fnv/decl/TESAnimGroup.h"
+#include "fnv/decl/fnv_0043b1b0__FUN_0043b1b0_shell.h"
+#include "fnv/decl/fnv_005eeff0__GlobalObject_00869f00.h"
+#include "fnv/decl/fnv_005ef1d0__FUN_005ef1d0.h"
+#include "fnv/symbols_00458000.h"
+#include "fnv/symbols_004aa000.h"
+#include "fnv/symbols_005e4000.h"
+#include "fnv/symbols_005f2000.h"
+#include "fnv/symbols_005f6000.h"
+#include "fnv/symbols_00653000.h"
+#include "fnv/symbols_0096a000.h"
+#include "fnv/symbols_00c85000.h"
+#include "fnv/symbols_011f4000.h"
 
 struct GlobalObject_0045cf30
 {
@@ -2338,6 +2358,7 @@ struct StrArray
     int unk0C;
     char*& GetAt(unsigned int index);
     void Clear(bool);
+    unsigned int GetSize();
 };
 
 struct EntryArray
@@ -2347,6 +2368,7 @@ struct EntryArray
     int unk08;
     int unk0C;
     void Clear(bool);
+    unsigned int GetSize();
 };
 
 
@@ -4082,6 +4104,7 @@ class TESForm
     virtual ~TESForm();
 public:
     bool GetInitialized() const;
+    ::ENUM_FORM_ID GetFormType() const;
 };
 
 class TESSound : public TESForm
@@ -5591,6 +5614,76 @@ void ClassLoad5F::FUN_005f7050()
         reinterpret_cast<::FUN_008579e0_shell *>(((*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame))))->FUN_008579e0(szAlternateName, present);
         reinterpret_cast<::TESFullName *>(&(alternateName))->SetFullName(szAlternateName);
     }
+}
+
+bool FUN_005e0160();
+
+void __cdecl BSEndian(unsigned char*, EndianSizeTag<0>);
+
+void* __cdecl FUN_00ec7230(char* dst, const char* src, unsigned int size);
+
+void* __cdecl FUN_00ec7230(char* dst, const char* src, unsigned int size);
+
+void* __cdecl FUN_00ec7230(char* dst, const char* src, unsigned int count);
+
+void FUN_005e0b60(void* p);
+
+unsigned int __cdecl FUN_005e0b50(void* base, int offset);
+
+int strcpy_s(char* dst, unsigned int size, const char* src);
+
+double __cdecl StrToD(const char* s);
+
+enum ENUM_FORM_ID;
+
+int strcpy_s(char* dst, unsigned int size, const char* src);
+
+bool FUN_005e39a0();
+
+void BSEndian(unsigned int*, EndianSizeTag<0>);
+
+void BSEndian(unsigned short*, EndianSizeTag<0>);
+
+struct LocalFormArray
+{
+    int unk00, unk04, unk08, unk0c, unk10, unk14;
+    LocalFormArray();
+    ~LocalFormArray();
+    void SetSize(unsigned int);
+};
+
+struct LocalString
+{
+    char* data;
+    unsigned short size, capacity;
+    LocalString();
+    ~LocalString();
+};
+
+struct LocalState
+{
+    int unk00, unk04, unk08, unk0c, unk10, unk14;
+    int unk18, unk1c, unk20, unk24, unk28, unk2c;
+};
+
+struct FUN_005ff890
+{
+    LocalFormArray first;
+    LocalFormArray second;
+    LocalString name;
+    LocalState state;
+    FUN_005ff890(const char*);
+};
+
+// @fnv 0x005ff890
+FUN_005ff890::FUN_005ff890(const char* text)
+{
+    reinterpret_cast<::TextString *>(&(name))->FUN_004037f0(text, 0);
+    first.SetSize(1);
+    reinterpret_cast<::FUN_00600ab0_shell *>(&(first))->FUN_00600ab0(1);
+    second.SetSize(1);
+    reinterpret_cast<::FUN_00600ab0_shell *>(&(second))->FUN_00600ab0(1);
+    memset(&state, 0, sizeof(state));
 }
 
 #include "generated/data/staging/blk_005e0000_od.inc"

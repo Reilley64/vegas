@@ -701,6 +701,7 @@ struct FUN_00a61670_Map
     HashNode_00a61670* buckets[1001];
     unsigned int count;
     HashValue_00a61670* RemoveByKey(uintptr_t key);
+    HashValue_00a61670* RemoveByKey(unsigned int key);
 };
 // Looks up a key in the hash map, unlinks and deallocates its node, clears the value's key, and returns the removed value or null.
 // @fnv 0x00a61670
@@ -965,6 +966,7 @@ class FUN_00a61920_Class
     FUN_00a61920_Node* m_pBuckets[1];
 
     bool FindShaderByHash(int, intptr_t, NiShader**);
+    bool FindShaderByHash(int, int, NiShader**);
 };
 
 void NiShader::Release()
@@ -1555,6 +1557,7 @@ struct FUN_00a66960_cls
     int m_28;
     int m_2C;
     intptr_t FUN_00a66960(int a1);
+    int FUN_00a66960(int a1);
 };
 
 // @fnv 0x00a66960
@@ -1728,6 +1731,7 @@ FUN_00a69b00::FUN_00a69b00()
 struct FUN_00a69b40_Class
 {
     void FUN_00a69b40(intptr_t param_2);
+    void FUN_00a69b40(int param_2);
 };
 
 // Sets or clears bit 0 of the flags at offset 0x18 depending on whether param_2 is nonzero or any entry after the first in the array at 0x20 is nonzero.
@@ -3534,6 +3538,7 @@ class NiTMapBaseA6F
     unsigned int m_uiHashSize;
     NiTMapItemA6F** m_ppkHashTable;
     unsigned int m_uiCount;
+    __forceinline NiTMapBaseA6F(unsigned int uiHashSize = 37) throw() { m_uiHashSize = uiHashSize; m_uiCount = 0; unsigned int uiSize = sizeof(NiTMapItemA6F*) * m_uiHashSize; m_ppkHashTable = (NiTMapItemA6F**)::FUN_00aa1070(uiSize); MemSetA6F(m_ppkHashTable, 0, m_uiHashSize * sizeof(NiTMapItemA6F*)); }
 };
 
 class NiTPointerMapA6F : public NiTMapBaseA6F
@@ -3902,6 +3907,7 @@ class HashA616
     unsigned int m_uiItemCount;
 
     void FUN_00a61610(uintptr_t key, EntryA616* entry);
+    void FUN_00a61610(unsigned int key, EntryA616* entry);
 };
 
 // @fnv 0x00a61610
@@ -4869,6 +4875,16 @@ void Thing::WriteData()
 }
 
 #include <math.h>
+#include "fnv/decl/FrustumPlanes__Planes.h"
+#include "fnv/symbols_00a60000.h"
+#include "fnv/symbols_00a64000.h"
+#include "fnv/symbols_00a69000.h"
+#include "fnv/symbols_00a71000.h"
+#include "fnv/symbols_00a74000.h"
+#include "fnv/symbols_00a75000.h"
+#include "fnv/symbols_00a77000.h"
+#include "fnv/symbols_00a7b000.h"
+#include "fnv/symbols_00a7e000.h"
 namespace FrustumPlanes {
 
 struct Vector
@@ -5555,6 +5571,45 @@ int PivotGeometry::MedianOfThree(unsigned short* apIndices, unsigned char ctx, i
     if (reinterpret_cast<::NiGeometryDataCmp *>(this)->CompareVertices(apIndices[mid], apIndices[hi], ctx) < 0)
         return apIndices[hi];
     return apIndices[mid];
+}
+
+void* __cdecl _fnv_zlib_memset(void* p, int c, unsigned int n);
+
+void FUN_00a632b0();
+
+void FreeGlobalAlias();
+
+void FUN_00a638c0(void* p);
+
+void ReleasePendingTable();
+
+static int CompareFloatArrays(const float* pfA, const float* pfB, unsigned int ItemUpdateArray);
+
+int A66970Compare(const A66970Keys* pkKeys);
+
+void ReleaseGlobalStrings();
+
+void __cdecl FUN_00a74d80(int param_1);
+
+void FUN_00a7e930();
+
+extern "C" void* __cdecl MemSetA6F(void* pvDest, int iValue, unsigned int uiSize);
+
+unsigned short FUN_00a75f20(char* p, int);
+
+class FUN_007613f0
+{
+  public:
+    int unk00;
+    FUN_007613f0() throw();
+    ~FUN_007613f0() throw()
+    {}
+};
+
+// @fnv 0x00a63ae0
+void* FUN_00a63ae0(unsigned int ItemUpdateArray)
+{
+    return new FUN_007613f0[ItemUpdateArray];
 }
 
 #include "generated/data/staging/blk_00a60000_o2.inc"

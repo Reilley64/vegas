@@ -49,6 +49,21 @@
 #include "fnv/symbols_011f8000.h"
 #include "fnv/symbols_01202000.h"
 #include "../../include/layout_support.h"
+#include <mmsystem.h>
+#include <cwchar>
+#include "fnv/decl/AudioMgr_adac30.h"
+#include "fnv/decl/FUN_00439ef0_class.h"
+#include "fnv/decl/FUN_004b6190_shell.h"
+#include "fnv/decl/FUN_00ae8090_Class.h"
+#include "fnv/decl/Point3Offset.h"
+#include "fnv/decl/S_00afea20_Arr.h"
+#include "fnv/symbols_00457000.h"
+#include "fnv/symbols_00ad9000.h"
+#include "fnv/symbols_00af4000.h"
+#include "fnv/symbols_00afd000.h"
+#include <math.h>
+#include "fnv/symbols_006b3000.h"
+#include "fnv/symbols_00af2000.h"
 
 extern int DAT_010a42b4;
 
@@ -372,10 +387,12 @@ FUN_00aea730_Class* FUN_00aea730_Class::FUN_00aea730(int aiValue)
 
 struct MemoryManager
 {
+    void Deallocate(void*);
 };
 struct FUN_00aeaa80_Class
 {
     void* FUN_00aeaa80(unsigned int flags);
+    void FUN_00aea770();
 };
 // Calls FUN_00aea770, deallocates this via g_memoryManager when flags has bit 1 set, and returns this.
 // @fnv 0x00aeaa80
@@ -1465,6 +1482,7 @@ class NiPoint3
     float z;
 public:
     static const ::NiPoint3 ZERO;
+    float ComputeMagnitude() const;
 };
 
 struct Stub1A4
@@ -1767,6 +1785,7 @@ struct SndStream
 
 struct SndHeap
 {
+    void Deallocate(void* p);
 };
 
 struct SndFloatHolder
@@ -5264,6 +5283,7 @@ struct xFmtPtr
 // memset called as a __cdecl member: same pushes, but the pointer temp is numbered before the size temp
 struct xMemsetTarget
 {
+    void* __cdecl FUN_00ec61c0(int, unsigned int);
 };
 struct xCharPtr
 {
@@ -6878,4 +6898,2943 @@ int SystemFileWriter::FUN_00afede0(void* buf, DWORD len, int unused, unsigned __
     return rc;
 }
 
+extern "C" long __cdecl _fseek(void* stream, long offset, int whence);
+
+long __cdecl FUN_00aea180(void* stream, long offset, int whence, int pad);
+
+extern "C" long __cdecl _fseek(void* stream, long offset, int whence);
+
+long __cdecl FUN_00af1cf0(void* stream, long offset, int whence, int pad);
+
+int __cdecl CloseAndDeleteFile(BSFile* f);
+
+char __cdecl FUN_00af2750();
+
+size_t __cdecl _strlen(const char* s);
+
+int __cdecl _strcpy_s(char* dst, size_t size, const char* src);
+
+long FUN_00aeabf0(void* stream, long offset, int whence, int pad);
+
+int __cdecl FUN_00af2290(int param_1);
+
+void* __cdecl SndMemCopy(void* dst, const void* src, unsigned int n);
+
+void* __cdecl SndMemSet(void* dst, int c, unsigned int n);
+
+extern "C" void* fnv_zlib_memset(void* dst, int c, int n);
+
+void __cdecl FUN_00ec61c0(void*, int, unsigned int);
+
+int __cdecl CallProcAndAccumulate(void* arg0, int a, int b, FUN_00af2180_cls* p);
+
+int DispatchHandlerEvent(void* pvHandler, void* pvEvent, void* pvUnused, void* pvData);
+
+bool HasWildcardChars(const char* s);
+
+unsigned int* __cdecl FUN_00ec3bad(unsigned int* value);
+
+int __cdecl CopyFileChecked(const char* lpExistingFileName, const char* lpNewFileName, unsigned char bFailIfExists);
+
+class NiRefObject
+{
+  public:
+    virtual void v00();
+    virtual void DeleteThis();
+    unsigned int m_uiRefCount;
+
+    void IncRefCount()
+    {
+        InterlockedIncrement((volatile long*)&m_uiRefCount);
+    }
+    void DecRefCount()
+    {
+        if (InterlockedDecrement((volatile long*)&m_uiRefCount) == 0)
+            DeleteThis();
+    }
+};
+
+struct NiObjPtr
+{
+    NiRefObject* m_pObject;
+
+    NiObjPtr& operator=(const NiObjPtr& other)
+    {
+        if (m_pObject != other.m_pObject)
+        {
+            if (m_pObject)
+                m_pObject->DecRefCount();
+            m_pObject = other.m_pObject;
+            if (m_pObject)
+                m_pObject->IncRefCount();
+        }
+        return *this;
+    }
+    ~NiObjPtr()
+    {
+        if (m_pObject)
+            m_pObject->DecRefCount();
+    }
+};
+
+struct AE8DE0_Record
+{
+    int unk00;
+    int m_04;
+    NiObjPtr m_08;
+};
+
+class AE8DE0_Class
+{
+  public:
+    int unk00;
+
+    void FUN_00ae8de0(AE8DE0_Record* a1, int a2, NiObjPtr a3);
+};
+
+// @fnv 0x00ae8de0
+void AE8DE0_Class::FUN_00ae8de0(AE8DE0_Record* a1, int a2, NiObjPtr a3)
+{
+    a1->m_04 = a2;
+    a1->m_08 = a3;
+}
+
+struct ScopeGuard_b10070
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+
+    __forceinline ~ScopeGuard_b10070()
+    {}
+};
+
+struct FUN_00ae8e70_cls
+{
+    void* vtbl;
+    int unk04;
+    void* m_08;
+
+    void FUN_00ae8e70();
+};
+
+// @fnv 0x00ae8e70
+void FUN_00ae8e70_cls::FUN_00ae8e70()
+{
+    *(void**)this = (void*)&DAT_010a3308;
+    {
+        ScopeGuard_b10070 g;
+        reinterpret_cast<::AE91F0Map *>(this)->ClearAll();
+    }
+    *(void**)this = (void*)&DAT_010a33b0;
+    reinterpret_cast<::AE91F0Map *>(this)->ClearAll();
+    ::FUN_00aa10f0(m_08);
+}
+
+struct SoundList936
+{
+    void* m_pkHead;
+    void* m_pkTail;
+    unsigned int m_uiCount;
+    SoundList936()
+    {
+        m_uiCount = 0;
+        m_pkHead = 0;
+        m_pkTail = 0;
+    }
+    ~SoundList936();
+};
+
+struct FUN_00ae9360
+{
+    virtual void V00();
+    int unk004, unk008, unk00C, unk010, unk014, unk018, unk01C, unk020;
+    int unk024, unk028, unk02C, unk030, unk034, unk038, unk03C, unk040;
+    int unk044, unk048, unk04C, unk050, unk054, unk058, unk05C, unk060;
+    int unk064, unk068, unk06C, unk070, unk074, unk078, unk07C, unk080;
+    int unk084, unk088, unk08C, unk090, unk094, unk098, unk09C, unk0A0;
+    int unk0A4, unk0A8, unk0AC, unk0B0, unk0B4, unk0B8, unk0BC, unk0C0;
+    int unk0C4, unk0C8, unk0CC, unk0D0, unk0D4, unk0D8, unk0DC, unk0E0;
+    int unk0E4, unk0E8, unk0EC, unk0F0, unk0F4, unk0F8, unk0FC, unk100;
+    int unk104, unk108, unk10C, unk110, unk114, unk118, unk11C, unk120;
+    int unk124, unk128, unk12C, unk130, unk134, unk138, unk13C, unk140;
+    int unk144, unk148, unk14C, unk150, unk154, unk158, unk15C, unk160;
+    int unk164, unk168, unk16C, unk170, unk174, unk178, unk17C, unk180;
+    int unk184, unk188;
+    SoundList936 m_kList;
+
+    FUN_00ae9360();
+};
+
+// @fnv 0x00ae9360
+FUN_00ae9360::FUN_00ae9360()
+{
+    ::FUN_00ae95e0((char *)this);
+}
+
+inline float SqrtA810(float f)
+{
+    return (float)sqrt(f);
+}
+
+struct Pt3A810
+{
+    float x, y, z;
+    Pt3A810()
+    {}
+    Pt3A810(float fX, float fY, float fZ)
+    {
+        x = fX;
+        y = fY;
+        z = fZ;
+    }
+    Pt3A810 operator-(const Pt3A810& pt) const
+    {
+        return Pt3A810(x - pt.x, y - pt.y, z - pt.z);
+    }
+    float Length() const
+    {
+        return SqrtA810(x * x + y * y + z * z);
+    }
+};
+
+struct SpeedA810
+{
+    void* vtbl;
+    Pt3A810 m_pos;
+    int unk10, unk14, unk18, unk1c, unk20, unk24, unk28, unk2c, unk30;
+    unsigned long m_lastTime;
+    float m_speed;
+    void FUN_00aea810(const Pt3A810& pos);
+};
+
+// @fnv 0x00aea810
+void SpeedA810::FUN_00aea810(const Pt3A810& pos)
+{
+    unsigned long uiNow = timeGetTime();
+    Pt3A810 kDelta = pos - m_pos;
+    m_speed = reinterpret_cast<::NiPoint3 *>((void *)&(kDelta))->ComputeMagnitude() / ((uiNow - m_lastTime) * 1000) * DAT_010a3be8;
+    m_pos = pos;
+    m_lastTime = uiNow;
+}
+
+struct WavFmt
+{
+    unsigned short wFormatTag;
+    unsigned short wChannels;
+    unsigned int dwSamplesPerSec;
+    unsigned int dwAvgBytesPerSec;
+    unsigned short wBlockAlign;
+    unsigned short wBitsPerSample;
+    unsigned short wCbSize;
+};
+
+struct SndInfo
+{
+    int unk0;
+    int f4;
+    int f8;
+};
+
+struct Mgr
+{
+};
+
+struct AF1d80
+{
+    unsigned int unk000;
+    unsigned int unk004;
+    unsigned int unk008;
+    unsigned int unk00c;
+    unsigned int unk010;
+    unsigned int unk014;
+    unsigned int unk018;
+    unsigned int unk01c;
+    unsigned int unk020;
+    unsigned int unk024;
+    unsigned int unk028;
+    unsigned int unk02c;
+    unsigned int unk030;
+    unsigned int unk034;
+    unsigned int unk038;
+    unsigned int unk03c;
+    unsigned int unk040;
+    unsigned int unk044;
+    unsigned int unk048;
+    unsigned int unk04c;
+    unsigned int unk050;
+    unsigned int unk054;
+    unsigned int unk058;
+    unsigned int unk05c;
+    unsigned int unk060;
+    unsigned int unk064;
+    unsigned int unk068;
+    unsigned int unk06c;
+    unsigned int unk070;
+    unsigned int unk074;
+    unsigned int unk078;
+    unsigned int unk07c;
+    unsigned int unk080;
+    unsigned int unk084;
+    unsigned int unk088;
+    unsigned int unk08c;
+    unsigned int unk090;
+    unsigned int unk094;
+    unsigned int unk098;
+    unsigned int unk09c;
+    unsigned int unk0a0;
+    unsigned int unk0a4;
+    unsigned int unk0a8;
+    unsigned int unk0ac;
+    unsigned int unk0b0;
+    unsigned int unk0b4;
+    unsigned int unk0b8;
+    unsigned int unk0bc;
+    unsigned int unk0c0;
+    unsigned int unk0c4;
+    unsigned int unk0c8;
+    unsigned int unk0cc;
+    unsigned int unk0d0;
+    unsigned int unk0d4;
+    unsigned int unk0d8;
+    unsigned int unk0dc;
+    unsigned int unk0e0;
+    unsigned int unk0e4;
+    unsigned int unk0e8;
+    unsigned int unk0ec;
+    unsigned int unk0f0;
+    unsigned int unk0f4;
+    unsigned int unk0f8;
+    unsigned int unk0fc;
+    unsigned int unk100;
+    unsigned int unk104;
+    unsigned int unk108;
+    unsigned int unk10c;
+    unsigned int unk110;
+    unsigned int unk114;
+    unsigned int unk118;
+    unsigned int unk11c;
+    unsigned int unk120;
+    unsigned int unk124;
+    unsigned int unk128;
+    unsigned int unk12c;
+    unsigned int unk130;
+    unsigned int unk134;
+    unsigned int unk138;
+    unsigned int unk13c;
+    unsigned int unk140;
+    unsigned int unk144;
+    unsigned int unk148;
+    unsigned int unk14c;
+    unsigned int unk150;
+    unsigned int unk154;
+    unsigned int unk158;
+    unsigned int unk15c;
+    unsigned int unk160;
+    unsigned int unk164;
+    unsigned int unk168;
+    unsigned int unk16c;
+    unsigned int unk170;
+    unsigned int unk174;
+    unsigned int unk178;
+    unsigned int unk17c;
+    unsigned int unk180;
+    unsigned int unk184;
+    unsigned int unk188;
+    unsigned int unk18c;
+    unsigned int unk190;
+    unsigned int unk194;
+    unsigned int unk198;
+    unsigned int unk19c;
+    unsigned int unk1a0;
+    unsigned int unk1a4;
+    unsigned int unk1a8;
+    unsigned int unk1ac;
+    unsigned int unk1b0;
+    unsigned int unk1b4;
+    unsigned int unk1b8;
+    unsigned int unk1bc;
+    unsigned int unk1c0;
+    unsigned int unk1c4;
+    unsigned int unk1c8;
+    unsigned int unk1cc;
+    unsigned int unk1d0;
+    unsigned int unk1d4;
+    unsigned int unk1d8;
+    unsigned int unk1dc;
+    unsigned int unk1e0;
+    unsigned int unk1e4;
+    unsigned int unk1e8;
+    unsigned int unk1ec;
+    unsigned int unk1f0;
+    unsigned int unk1f4;
+    unsigned int unk1f8;
+    unsigned int unk1fc;
+    unsigned int unk200;
+    unsigned int unk204;
+    unsigned int unk208;
+    unsigned int unk20c;
+    unsigned int unk210;
+    unsigned int unk214;
+    unsigned int unk218;
+    unsigned int unk21c;
+    unsigned int unk220;
+    unsigned int unk224;
+    unsigned int unk228;
+    unsigned int unk22c;
+    unsigned int unk230;
+    unsigned int unk234;
+    unsigned int unk238;
+    unsigned int unk23c;
+    unsigned int unk240;
+    unsigned int unk244;
+    unsigned int unk248;
+    unsigned int unk24c;
+    unsigned int unk250;
+    unsigned int unk254;
+    unsigned int unk258;
+    unsigned int unk25c;
+    unsigned int unk260;
+    unsigned int unk264;
+    unsigned int unk268;
+    unsigned int unk26c;
+    unsigned int unk270;
+    unsigned int unk274;
+    unsigned int unk278;
+    unsigned int unk27c;
+    unsigned int unk280;
+    unsigned int unk284;
+    unsigned int unk288;
+    unsigned int unk28c;
+    unsigned int unk290;
+    unsigned int unk294;
+    unsigned int unk298;
+    unsigned int unk29c;
+    unsigned int unk2a0;
+    unsigned int unk2a4;
+    unsigned int unk2a8;
+    unsigned int unk2ac;
+    unsigned int unk2b0;
+    unsigned int unk2b4;
+    unsigned int unk2b8;
+    unsigned int unk2bc;
+    unsigned int unk2c0;
+    unsigned int unk2c4;
+    unsigned int unk2c8;
+    unsigned int unk2cc;
+    void* m2d0;
+    int m2d4;
+    SndInfo* m2d8;
+    unsigned char m2dc;
+    unsigned char unk2dd;
+    unsigned char unk2de;
+    unsigned char unk2df;
+    AF1d80();
+    ~AF1d80()
+    {
+        reinterpret_cast<::FUN_00af1d80_cls *>(this)->UpdateAndReleaseTarget();
+    }
+
+    __forceinline int SamplesPerSec()
+    {
+        return this->m2d8 ? this->m2d8->f8 : 0;
+    }
+    __forceinline unsigned int Channels()
+    {
+        return this->m2d8 ? this->m2d8->f4 : 1;
+    }
+    __forceinline unsigned int BytesPerFrame()
+    {
+        return (this->m2d8 ? this->m2d8->f4 : 1) * (this->m2d4 * 2);
+    }
+};
+
+// VEGAS17-CONFLICT: AudioBuffer (variant definition below differs from the one above)
+struct AudioBuffer
+{
+    unsigned int unk000;
+    unsigned int unk004;
+    unsigned int m8;
+    unsigned int unk00c;
+    unsigned int unk010;
+    int m14;
+    unsigned int unk018;
+    unsigned int unk01c;
+    unsigned int unk020;
+    unsigned int unk024;
+    unsigned int unk028;
+    unsigned int unk02c;
+    unsigned int unk030;
+    unsigned short m34;
+    char m36;
+    unsigned char unk037;
+    unsigned int unk038;
+    unsigned int unk03c;
+    unsigned int unk040;
+    unsigned int unk044;
+    unsigned int unk048;
+    unsigned int unk04c;
+    unsigned int unk050;
+    unsigned int unk054;
+    unsigned int unk058;
+    unsigned int unk05c;
+    unsigned int unk060;
+    unsigned int unk064;
+    unsigned int unk068;
+    unsigned int unk06c;
+    unsigned int unk070;
+    unsigned int unk074;
+    unsigned int unk078;
+    unsigned int unk07c;
+    unsigned int unk080;
+    unsigned int unk084;
+    unsigned int unk088;
+    unsigned int unk08c;
+    unsigned int unk090;
+    unsigned int unk094;
+    unsigned int unk098;
+    unsigned int unk09c;
+    unsigned int unk0a0;
+    unsigned int unk0a4;
+    unsigned int unk0a8;
+    unsigned int unk0ac;
+    unsigned int unk0b0;
+    unsigned int unk0b4;
+    unsigned int unk0b8;
+    unsigned int unk0bc;
+    unsigned int unk0c0;
+    unsigned int unk0c4;
+    unsigned int unk0c8;
+    unsigned int unk0cc;
+    unsigned int unk0d0;
+    unsigned int unk0d4;
+    unsigned int unk0d8;
+    unsigned int unk0dc;
+    unsigned int unk0e0;
+    unsigned int unk0e4;
+    unsigned int unk0e8;
+    unsigned int unk0ec;
+    unsigned int unk0f0;
+    unsigned int unk0f4;
+    unsigned int unk0f8;
+    unsigned int unk0fc;
+    unsigned int unk100;
+    unsigned int unk104;
+    unsigned int unk108;
+    unsigned int unk10c;
+    unsigned int unk110;
+    unsigned int unk114;
+    unsigned int unk118;
+    unsigned int unk11c;
+    unsigned int unk120;
+    unsigned int unk124;
+    unsigned int unk128;
+    unsigned int unk12c;
+    unsigned int unk130;
+    unsigned int unk134;
+    unsigned int unk138;
+    unsigned int unk13c;
+    unsigned int unk140;
+    unsigned int unk144;
+    unsigned int unk148;
+    unsigned int unk14c;
+    unsigned int unk150;
+    unsigned int unk154;
+    unsigned char unk158;
+    unsigned char unk159;
+    unsigned short m15a;
+    unsigned int unk15c;
+    unsigned int unk160;
+    unsigned int unk164;
+    unsigned int unk168;
+    unsigned int unk16c;
+    unsigned int unk170;
+    unsigned int unk174;
+    unsigned int unk178;
+    unsigned int unk17c;
+    unsigned int unk180;
+    unsigned int unk184;
+    unsigned int unk188;
+    unsigned int unk18c;
+    unsigned int unk190;
+    unsigned int unk194;
+    unsigned int unk198;
+    unsigned int unk19c;
+    unsigned int unk1a0;
+    unsigned int m1a4;
+    unsigned int m1a8;
+    unsigned int m1ac;
+    unsigned int unk1b0;
+    WavFmt* m1b4;
+    unsigned int unk1b8;
+    unsigned int unk1bc;
+    unsigned int unk1c0;
+    unsigned int unk1c4;
+    void* m1c8;
+    unsigned int unk1cc;
+    unsigned int unk1d0;
+    unsigned int unk1d4;
+    unsigned int unk1d8;
+    unsigned int m1dc;
+    unsigned int unk1e0;
+    unsigned int unk1e4;
+    unsigned int unk1e8;
+    unsigned int unk1ec;
+    unsigned int unk1f0;
+    unsigned int unk1f4;
+    unsigned int unk1f8;
+    unsigned int unk1fc;
+    unsigned int unk200;
+    unsigned int unk204;
+    unsigned int unk208;
+    unsigned int unk20c;
+    unsigned int unk210;
+    unsigned int unk214;
+    unsigned int unk218;
+    unsigned int unk21c;
+    unsigned int unk220;
+    unsigned int unk224;
+    unsigned int unk228;
+    AF1d80* m22c;
+
+    __forceinline unsigned int Flags()
+    {
+        return this->m8;
+    }
+    __forceinline bool Any()
+    {
+        return (this->m8 & 0x4000000) || (this->m8 & 0x2000000);
+    }
+
+    __forceinline void* GetBuffer()
+    {
+        return this->m1c8;
+    }
+    __forceinline void* AllocSnd(unsigned int n)
+    {
+        void* p = reinterpret_cast<::MemoryManagerStandIn *>((((Mgr*)&(*reinterpret_cast<char *>(&::g_memoryManager)))))->FUN_00aa3e40(n);
+        return p;
+    }
+
+    __forceinline bool Setup(bool& bHalf, unsigned int& nSize)
+    {
+        void* p;
+        if (this->Any() && ((this->m8 & 0x2000) || (this->m8 & 0x1000)))
+            this->m8 |= 0x10;
+        this->m8 &= 0xfdffffff;
+        this->m8 &= 0xfbffffff;
+        bHalf = (this->Flags() & 0x400000) || (this->Flags() & 0x100000);
+        nSize = 0;
+        this->m1a4 = 0x24;
+        this->m1b4->wCbSize = 0;
+        this->m1b4->wFormatTag = 1;
+        this->m1b4->dwSamplesPerSec = this->m22c->SamplesPerSec();
+        this->m1b4->wBitsPerSample = 0x10;
+        this->m1b4->wChannels = this->m22c->Channels();
+        this->m1b4->wBlockAlign = (this->m1b4->wBitsPerSample / 8) * this->m1b4->wChannels;
+        this->m1b4->dwAvgBytesPerSec = this->m1b4->dwSamplesPerSec * this->m1b4->wBlockAlign;
+        this->m1ac = this->m22c->BytesPerFrame();
+        this->m1dc = this->m1ac;
+        if (bHalf)
+            nSize = this->m1ac + (this->m1b4->dwAvgBytesPerSec >> 1);
+        else
+            nSize = this->m1ac;
+        p = reinterpret_cast<::MemoryManagerStandIn *>((((Mgr*)&(*reinterpret_cast<char *>(&::g_memoryManager)))))->FUN_00aa3e40(nSize);
+        this->m1c8 = p;
+        std::memset(this->GetBuffer(), 0, nSize);
+        this->m34 = this->m1b4->dwSamplesPerSec;
+        this->m15a = this->m34;
+        this->m14 = this->m1dc / (2 * this->m22c->Channels()) / (this->m34 / 1000);
+        reinterpret_cast<::FUN_00af2100_cls *>((this->m22c))->FUN_00af2100((unsigned char *)(this->m1c8), this->m1ac);
+        if ((this->Flags() & 1) || (this->m22c->Channels() > 1))
+        {
+            this->m1a8 = 0x40;
+            this->m8 &= 0xfffffffd;
+            this->m8 |= 1;
+        }
+        else
+        {
+            this->m1a8 = 0x30010;
+        }
+        this->m1a8 |= 0x2a0;
+        if (bHalf)
+        {
+            this->m1ac = this->m1ac + (this->m1b4->dwAvgBytesPerSec >> 1);
+            this->m1dc = this->m1ac;
+            this->m14 = this->m14 + 0x1f4;
+        }
+        return reinterpret_cast<::FUN_00ae9c50_s *>((this))->SetFlagState(true);
+    }
+    bool FUN_00aebff0();
+};
+
+struct AE8150_Node
+{
+    AE8150_Node* m_pkNext;
+    AE8150_Node* m_pkPrev;
+    void* m_element;
+};
+
+typedef AE8150_Node* AE8150_Pos;
+
+struct AE8150_List
+{
+    AE8150_Node* m_pkHead;
+    AE8150_Node* m_pkTail;
+    AE8150_Pos GetHeadPos() const
+    {
+        return m_pkHead;
+    }
+    void* const& GetNext(AE8150_Pos& kPos) const
+    {
+        void* const& element = kPos->m_element;
+        kPos = kPos->m_pkNext;
+        return element;
+    }
+    AE8150_Pos FindPos(void* const& element, AE8150_Pos kPos = 0) const
+    {
+        if (kPos == 0)
+            kPos = GetHeadPos();
+        while (kPos)
+        {
+            AE8150_Pos kPrev = kPos;
+            if (element == GetNext(kPos))
+                return kPrev;
+        }
+        return 0;
+    }
+    void Reserve() const
+    {
+        int unused[15];
+        (void)unused;
+    }
+    void* FUN_00ae8150(void* const& element);
+};
+
+// @fnv 0x00ae8150
+void* AE8150_List::FUN_00ae8150(void* const& element)
+{
+    AE8150_Pos kPos = FindPos(element);
+    Reserve();
+    return kPos ? ((void *)(reinterpret_cast<::FUN_00ae8090_Class *>(this)->FUN_00ae8090((::FUN_00ae8090_Node **)&(kPos)))) : element;
+}
+
+struct MapStorageBase : BucketTableStorage
+{
+    inline ~MapStorageBase()
+    {
+        reinterpret_cast<::AE91F0Map *>(this)->ClearAll();
+        ::FUN_00aa10f0(data);
+    }
+};
+
+struct FUN_00ae8c60 : MapStorageBase
+{
+    ~FUN_00ae8c60();
+};
+
+// @fnv 0x00ae8c60
+FUN_00ae8c60::~FUN_00ae8c60()
+{
+    reinterpret_cast<::AE91F0Map *>(this)->ClearAll();
+}
+
+struct MemoryManager8D10
+{
+    void Deallocate(void* pvMem);
+};
+
+extern MemoryManager8D10 g_kMemoryManager8D10;
+
+struct MapItem8D10
+{
+    MapItem8D10* m_pkNext;
+    const char* m_key;
+    void* m_val;
+};
+
+class MapBase8D10
+{
+  public:
+    static void operator delete(void* pvMem)
+    {
+        g_kMemoryManager8D10.Deallocate(pvMem);
+    }
+    virtual ~MapBase8D10()
+    {
+        reinterpret_cast<::AE91F0Map *>(this)->ClearAll();
+        ::FUN_00aa10f0(m_ppkHashTable);
+    }
+    virtual unsigned int KeyToHashIndex(const char* key) const;
+    virtual bool IsKeysEqual(const char* key1, const char* key2) const;
+    virtual void SetValue(MapItem8D10* pkItem, const char* key, void* val);
+    virtual void ClearValue(MapItem8D10* pkItem);
+    virtual MapItem8D10* NewItem();
+    virtual void DeleteItem(MapItem8D10* pkItem);
+    void RemoveAll()
+    {
+        for (unsigned int i = 0; i < m_uiHashSize; i++)
+        {
+            while (m_ppkHashTable[i])
+            {
+                MapItem8D10* pkSave = m_ppkHashTable[i];
+                m_ppkHashTable[i] = m_ppkHashTable[i]->m_pkNext;
+                ClearValue(pkSave);
+                DeleteItem(pkSave);
+            }
+        }
+        m_uiCount = 0;
+    }
+    unsigned int m_uiHashSize;
+    MapItem8D10** m_ppkHashTable;
+    unsigned int m_uiCount;
+};
+
+class FUN_00ae8d10 : public MapBase8D10
+{
+  public:
+    virtual ~FUN_00ae8d10();
+};
+
+// @fnv 0x00ae8d10
+FUN_00ae8d10::~FUN_00ae8d10()
+{
+    reinterpret_cast<::AE91F0Map *>(this)->ClearAll();
+}
+
+struct FUN_00ae93f0 : FUN_00ae9360_Base
+{
+    virtual ~FUN_00ae93f0();
+};
+
+struct AudioCleanupHelper
+{
+    __forceinline ~AudioCleanupHelper();
+};
+
+struct AudioStreamStorage
+{
+    int state;
+    unsigned int position;
+    unsigned int headSize;
+    unsigned int bodySize;
+    unsigned int tailSize;
+    unsigned int tailPosition;
+    void* head;
+    void* body;
+    void* tail;
+};
+
+struct FUN_00aeafb0 : FUN_00ae93f0
+{
+
+    int unk198;
+    SndUnknown* unk19C;
+    SndUnknown* unk1A0;
+    Stub1A4 unk1A4;
+    void* unk1C8;
+    int unk1CC;
+    int unk1D0;
+    SndUnknown* unk1D4;
+    SndUnknown* unk1D8;
+    int unk1DC;
+    int unk1E0;
+    int unk1E4;
+    int unk1E8;
+    int unk1EC;
+    int unk1F0;
+    int unk1F4;
+    int unk1F8;
+    int unk1FC;
+    int unk200;
+    int unk204;
+    int unk208;
+    unsigned short unk20C;
+    unsigned short unk20E;
+    unsigned short unk210;
+    unsigned short unk212;
+    unsigned short unk214;
+    unsigned short unk216;
+    NiPoint3 unk218;
+    char unk224;
+    AudioStreamStorage* unk228;
+    AudioCleanupHelper* unk22C;
+    virtual ~FUN_00aeafb0();
+};
+
+// @fnv 0x00aeafb0
+FUN_00aeafb0::~FUN_00aeafb0()
+{
+    if (unk19C)
+    {
+        while (unk19C->Release())
+        {
+        }
+        unk19C = 0;
+    }
+    if (unk1D4)
+    {
+        while (unk1D4->Release())
+        {
+        }
+        unk1D4 = 0;
+    }
+    if (unk1A0)
+    {
+        --DAT_011f7128;
+        while (unk1A0->Release())
+        {
+        }
+        unk1A0 = 0;
+    }
+    if (unk1D8)
+    {
+        while (unk1D8->Release())
+        {
+        }
+        unk1D8 = 0;
+    }
+    if (unk1A4.pBuf)
+    {
+        void* buffer = unk1A4.pBuf;
+        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(buffer);
+        unk1A4.pBuf = 0;
+    }
+    if (unk1C8)
+    {
+        void* buffer = unk1C8;
+        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(buffer);
+        unk1C8 = 0;
+    }
+    if (unk228)
+    {
+        if (unk228->head)
+        {
+            void* buffer = unk228->head;
+            reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(buffer);
+        }
+        if (unk228->tail)
+        {
+            void* buffer = unk228->tail;
+            reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(buffer);
+        }
+        if (unk228->body)
+        {
+            void* buffer = unk228->body;
+            reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(buffer);
+        }
+        {
+            void* buffer = unk228;
+            reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(buffer);
+        }
+    }
+    if (unk22C)
+    {
+        delete unk22C;
+        unk22C = 0;
+    }
+}
+
+struct VolumeCurve
+{
+};
+
+struct VolumeBuffer
+{
+    virtual int slot0();
+    virtual int slot1();
+    virtual int slot2();
+    virtual int slot3();
+    virtual int slot4();
+    virtual int slot5();
+    virtual int slot6();
+    virtual int slot7();
+    virtual int slot8();
+    virtual int slot9();
+    virtual int slot10();
+    virtual int slot11();
+    virtual int slot12();
+    virtual int slot13();
+    virtual int slot14();
+    virtual long SetVolume(long);
+};
+
+struct BSWin32GameSound
+{
+    int unk00;
+    int unk04;
+    int flags08;
+    int unk0c;
+    int flags10;
+    int unk14;
+    unsigned short attenuation18, percent1a, attenuation1c, attenuation1e, attenuation20, unk22;
+    float volume24;
+    int unk028;
+    int unk02c;
+    int unk030;
+    int unk034;
+    int unk038;
+    int unk03c;
+    int unk040;
+    int unk044;
+    int unk048;
+    int unk04c;
+    int unk050;
+    int unk054;
+    int unk058;
+    int unk05c;
+    int unk060;
+    int unk064;
+    int unk068;
+    int unk06c;
+    int unk070;
+    int unk074;
+    int unk078;
+    int unk07c;
+    int unk080;
+    int unk084;
+    int unk088;
+    int unk08c;
+    int unk090;
+    int unk094;
+    int unk098;
+    int unk09c;
+    int unk0a0;
+    int unk0a4;
+    int unk0a8;
+    int unk0ac;
+    int unk0b0;
+    int unk0b4;
+    int unk0b8;
+    int unk0bc;
+    int unk0c0;
+    int unk0c4;
+    int unk0c8;
+    int unk0cc;
+    int unk0d0;
+    int unk0d4;
+    int unk0d8;
+    int unk0dc;
+    int unk0e0;
+    int unk0e4;
+    int unk0e8;
+    int unk0ec;
+    int unk0f0;
+    int unk0f4;
+    int unk0f8;
+    int unk0fc;
+    int unk100;
+    int unk104;
+    int unk108;
+    int unk10c;
+    int unk110;
+    int unk114;
+    int unk118;
+    int unk11c;
+    int unk120;
+    int unk124;
+    int unk128;
+    int unk12c;
+    int unk130;
+    int unk134;
+    int unk138;
+    int unk13c;
+    int unk140;
+    int unk144;
+    int unk148;
+    int unk14c;
+    int unk150;
+    int unk154;
+    int unk158;
+    int unk15c;
+    int unk160;
+    int unk164;
+    int unk168;
+    int unk16c;
+    int unk170;
+    int unk174;
+    int unk178;
+    int unk17c;
+    int unk180;
+    int unk184;
+    int unk188;
+    int unk18c;
+    int unk190;
+    int unk194;
+    int unk198;
+    VolumeBuffer* buffer19c;
+    VolumeBuffer* buffer1a0;
+    __forceinline unsigned short GetPercent() const
+    {
+        return percent1a;
+    }
+    bool IsFlag10Set(unsigned int uiFlag) const
+    {
+        return (flags10 & uiFlag) != 0;
+    }
+    bool IsFlag08Set(unsigned int uiFlag) const
+    {
+        return (flags08 & uiFlag) != 0;
+    }
+    bool FUN_00aed660(float volume);
+};
+
+// @fnv 0x00aed660
+bool BSWin32GameSound::FUN_00aed660(float volume)
+{
+    unsigned int scaled;
+    long result3;
+    volume24 = volume;
+    float scaleA = GetPercent();
+    long attenuationTmp = 0;
+    long adjusted3 = 0;
+    scaleA /= 100.0;
+    if (buffer19c)
+    {
+        volume = volume > 1.0 ? 1.0f : volume;
+        volume = volume < 0.0 ? 0.0f : volume;
+        volume = reinterpret_cast<::AudioMgr_adac30 *>((((::VolumeCurve *)(::FUN_00ad9060()))))->FUN_00adac30({}, {});
+        if (!IsFlag10Set(0x200) && IsFlag10Set(0x10000) && !IsFlag08Set(0x1000))
+            volume = 0.00001f;
+        volume = volume < 9.999999747378752e-06 ? 0.00001f : volume;
+        attenuationTmp = (int)((float)std::log10(volume) * 2000.0);
+        attenuationTmp -= attenuation18 + attenuation1c + attenuation20;
+        if (reinterpret_cast<::BSGameSound *>(this)->HasSoundFlagTwo() || reinterpret_cast<::BSGameSound *>(this)->CanStartPlayback())
+            attenuationTmp -= attenuation1e;
+        if (flags10 & 0x8)
+        {
+        }
+        attenuationTmp = attenuationTmp > -10000 ? attenuationTmp : -10000;
+        attenuationTmp = attenuationTmp < -1 ? attenuationTmp : -1;
+        scaled = (unsigned int)(scaleA * -10000.0);
+        adjusted3 = attenuationTmp + scaled;
+        adjusted3 = adjusted3 > -10000 ? adjusted3 : -10000;
+        adjusted3 = adjusted3 < -1 ? adjusted3 : -1;
+        if (!IsFlag10Set(0x400))
+        {
+            result3 = 0x80004005;
+            if (buffer1a0)
+                buffer1a0->SetVolume(adjusted3);
+            if (buffer19c)
+                result3 = buffer19c->SetVolume(attenuationTmp);
+            if (result3 >= 0)
+                return true;
+            else
+                return false;
+        }
+        else
+        {
+            if (buffer1a0)
+                buffer1a0->SetVolume(-10000);
+            return buffer19c->SetVolume(-10000) >= 0;
+        }
+    }
+    else
+        return false;
+}
+
+inline float P010Root(float f)
+{
+    return FUN_004579e0(f);
+}
+
+struct P010Vec
+{
+    float x, y, z;
+    P010Vec()
+    {}
+    P010Vec(float a, float b, float c) : x(a), y(b), z(c)
+    {}
+    inline P010Vec operator-(const P010Vec& r) const
+    {
+        return P010Vec(x - r.x, y - r.y, z - r.z);
+    }
+    inline P010Vec operator+(const P010Vec& r) const
+    {
+        return P010Vec(x + r.x, y + r.y, z + r.z);
+    }
+    inline float DotProduct(const P010Vec& r) const
+    {
+        return x * r.x + y * r.y + z * r.z;
+    }
+    inline float FUN_00457990() const
+    {
+        return P010Root(x * x + y * y + z * z);
+    }
+};
+
+inline P010Vec __cdecl FUN_004a3760(float s, const P010Vec& r)
+{
+    return P010Vec(s * r.x, s * r.y, s * r.z);
+}
+
+struct P010Listener
+{
+    virtual void slot00();
+    virtual void slot04();
+    virtual void slot08();
+    virtual const P010Vec* Position();
+};
+
+struct P010Audio
+{
+    int unk00, unk04, unk08, unk0c;
+    P010Listener* listener;
+    __forceinline static P010Audio* Get()
+    {
+        return (P010Audio*)DAT_011f6d98;
+    }
+    __forceinline P010Listener* Listener()
+    {
+        return listener;
+    }
+};
+
+struct P010Sound
+{
+    virtual void slot00();
+    virtual void slot04();
+    virtual void slot08();
+    virtual void slot0c();
+    virtual void slot10();
+    virtual void slot14();
+    virtual void slot18();
+    virtual void slot1c();
+    virtual void slot20();
+    virtual void slot24();
+    virtual void slot28();
+    virtual void slot2c();
+    virtual void slot30();
+    virtual void slot34();
+    virtual void slot38();
+    virtual void slot3c();
+    virtual void slot40();
+    virtual void slot44();
+    virtual void slot48();
+    virtual void SetPosition(float, float, float, int);
+};
+
+struct P010Object;
+
+struct P010ObjectVtable
+{
+    void* slot00;
+    void* slot04;
+    void* slot08;
+    void* slot0c;
+    void* slot10;
+    void* slot14;
+    void* slot18;
+    void* slot1c;
+    void* slot20;
+    void* slot24;
+    void* slot28;
+    void* slot2c;
+    void* slot30;
+    void* slot34;
+    void* slot38;
+    void(* update)(P010Object*, float);
+};
+
+struct P010Object
+{
+    P010ObjectVtable* vtable;
+    unsigned int unk4;
+    unsigned int unk8;
+    unsigned int unkc;
+    unsigned int unk10;
+    unsigned int unk14;
+    unsigned int unk18;
+    unsigned short unk1c, volume;
+    unsigned int unk20;
+    float unk24;
+    unsigned int unk28;
+    unsigned int unk2c;
+    unsigned int unk30;
+    unsigned int unk34;
+    unsigned int unk38;
+    unsigned int unk3c;
+    unsigned int unk40;
+    unsigned int unk44;
+    unsigned int unk48;
+    unsigned int unk4c;
+    unsigned int unk50;
+    unsigned int unk54;
+    unsigned int unk58;
+    unsigned int unk5c;
+    unsigned int unk60;
+    unsigned int unk64;
+    unsigned int unk68;
+    unsigned int unk6c;
+    unsigned int unk70;
+    unsigned int unk74;
+    unsigned int unk78;
+    unsigned int unk7c;
+    unsigned int unk80;
+    unsigned int unk84;
+    unsigned int unk88;
+    unsigned int unk8c;
+    unsigned int unk90;
+    unsigned int unk94;
+    unsigned int unk98;
+    unsigned int unk9c;
+    unsigned int unka0;
+    unsigned int unka4;
+    unsigned int unka8;
+    unsigned int unkac;
+    unsigned int unkb0;
+    unsigned int unkb4;
+    unsigned int unkb8;
+    unsigned int unkbc;
+    unsigned int unkc0;
+    unsigned int unkc4;
+    unsigned int unkc8;
+    unsigned int unkcc;
+    unsigned int unkd0;
+    unsigned int unkd4;
+    unsigned int unkd8;
+    unsigned int unkdc;
+    unsigned int unke0;
+    unsigned int unke4;
+    unsigned int unke8;
+    unsigned int unkec;
+    unsigned int unkf0;
+    unsigned int unkf4;
+    unsigned int unkf8;
+    unsigned int unkfc;
+    unsigned int unk100;
+    unsigned int unk104;
+    unsigned int unk108;
+    unsigned int unk10c;
+    unsigned int unk110;
+    unsigned int unk114;
+    unsigned int unk118;
+    unsigned int unk11c;
+    unsigned int unk120;
+    unsigned int unk124;
+    unsigned int unk128;
+    unsigned int unk12c;
+    unsigned int unk130;
+    unsigned int unk134;
+    unsigned int unk138;
+    float unk13c;
+    float unk140;
+    unsigned int unk144;
+    unsigned int unk148;
+    unsigned int unk14c;
+    float unk150;
+    unsigned int unk154;
+    unsigned int unk158;
+    unsigned int unk15c;
+    unsigned int unk160;
+    unsigned int unk164;
+    unsigned int unk168;
+    unsigned int unk16c;
+    unsigned int unk170;
+    unsigned int unk174;
+    unsigned int unk178;
+    P010Vec origin;
+    unsigned int unk188;
+    unsigned int unk18c;
+    unsigned int unk190;
+    unsigned int unk194;
+    unsigned int unk198;
+    unsigned int unk19c;
+    unsigned int unk1a0;
+    unsigned int unk1a4;
+    unsigned int unk1a8;
+    unsigned int unk1ac;
+    unsigned int unk1b0;
+    unsigned int unk1b4;
+    unsigned int unk1b8;
+    unsigned int unk1bc;
+    unsigned int unk1c0;
+    unsigned int unk1c4;
+    unsigned int unk1c8;
+    unsigned int unk1cc;
+    unsigned int unk1d0;
+    P010Sound* sound1d4;
+    P010Sound* sound1d8;
+    unsigned int unk1dc;
+    unsigned int unk1e0;
+    unsigned int unk1e4;
+    unsigned int unk1e8;
+    unsigned int unk1ec;
+    unsigned int unk1f0;
+    unsigned int unk1f4;
+    unsigned int unk1f8;
+    unsigned int unk1fc;
+    unsigned int unk200;
+    unsigned int unk204;
+    unsigned int unk208;
+    unsigned short attenuation20c, attenuation20e;
+    unsigned short attenuation210, attenuation212;
+    unsigned short attenuation214, attenuation216;
+    P010Vec position;
+    bool dirty;
+    inline bool IsProjected() const
+    {
+        return (unk8 & 0x10000000) != 0;
+    }
+    inline bool IsLine() const
+    {
+        return (unk10 & 0x8000) != 0;
+    }
+    inline void SetDistance(float d)
+    {
+        unk150 = d;
+    }
+    inline void SetVolume(unsigned short a)
+    {
+        volume = a;
+        vtable->update(this, unk24);
+    }
+    void FUN_00aef090(float x, float y, float z);
+};
+
+// @fnv 0x00aef090
+void P010Object::FUN_00aef090(float x, float y, float z)
+{
+    P010Vec tempVector;
+    P010Vec output;
+    output = *(const P010Vec*)&::NiPoint3::ZERO;
+    tempVector = *(const P010Vec*)&::NiPoint3::ZERO;
+    bool changed = false;
+    if ((reinterpret_cast<::BSGameSound *>(this)->HasSoundFlagTwo() || reinterpret_cast<::BSGameSound *>(this)->CanStartPlayback()) && unk198)
+    {
+        float distance;
+        P010Listener* listener;
+        {
+            P010Vec current, delta8, toListener4;
+
+            float local41, local1, ratio7, lowVal, mid4, highVal;
+            {
+                if (P010Audio::Get()->Listener())
+                {
+                    listener = P010Audio::Get()->Listener();
+                    tempVector = *listener->Position();
+                    if (unk8 & 0x40000)
+                    {
+                        x = tempVector.x;
+                        y = tempVector.y;
+                        z = tempVector.z;
+                    }
+                    if (position.x != x || position.y != y || position.z != z)
+                    {
+                        position.x = x;
+                        position.y = y;
+                        position.z = z;
+                        changed = true;
+                    }
+                }
+                dirty = true;
+                if (sound1d4)
+                {
+                    if ((!IsProjected() || !IsLine()) && changed)
+                    {
+                        sound1d4->SetPosition(float(x * DAT_010a3be8), float(z * DAT_010a3be8), float(y * DAT_010a3be8),
+                                              1);
+                        if (sound1d8)
+                            sound1d8->SetPosition(float(x * DAT_010a3be8), float(z * DAT_010a3be8),
+                                                  float(y * DAT_010a3be8), 1);
+                    }
+                    else if (P010Audio::Get()->Listener() && IsProjected() && IsLine())
+                    {
+                        local41 = 0.0f;
+                        local1 = 0.0f;
+                        ratio7 = 0.0f;
+                        current = *P010Audio::Get()->Listener()->Position();
+                        delta8 = origin - position;
+                        toListener4 = current - position;
+                        local41 = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(toListener4))->DotProduct((void *)&(delta8));
+                        if (local41 <= 0.0)
+                            output = position;
+                        else
+                        {
+                            local1 = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(delta8))->DotProduct((void *)&(delta8));
+                            if (local1 <= local41)
+                                output = origin;
+                            else
+                            {
+                                ratio7 = local41 / local1;
+                                output = position + FUN_004a3760(ratio7, delta8);
+                            }
+                        }
+                        sound1d4->SetPosition(float(output.x * DAT_010a3be8), float(output.z * DAT_010a3be8),
+                                              float(output.y * DAT_010a3be8), 1);
+                        if (sound1d8)
+                            sound1d8->SetPosition(float(output.x * DAT_010a3be8), float(output.z * DAT_010a3be8),
+                                                  float(output.y * DAT_010a3be8), 1);
+                    }
+                }
+                SetDistance(reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::P010Vec &)((tempVector - position)))->ComputeMagnitude());
+                distance = unk150;
+                if (IsProjected() && IsLine() && P010Audio::Get()->Listener())
+                {
+                    distance = reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::P010Vec &)((output - *P010Audio::Get()->Listener()->Position())))->ComputeMagnitude();
+                }
+                if (fabs(unk13c - unk140) > 10.0)
+                {
+                    lowVal = (unk13c - unk140) * 0.25 + unk140;
+                    mid4 = (unk13c - unk140) * 0.5 + unk140;
+                    highVal = (unk13c - unk140) * 0.75 + unk140;
+                    if (distance >= unk13c)
+                    {
+                        SetVolume(10000);
+                    }
+                    else if (distance > highVal && unk13c - highVal > 0.0)
+                    {
+                        SetVolume((unsigned short)(attenuation212 + (attenuation214 - attenuation212) *
+                                                                        ((distance - highVal) / (unk13c - highVal))));
+                    }
+                    else if (distance > mid4 && highVal - mid4 > 0.0)
+                    {
+                        SetVolume((unsigned short)(attenuation210 + (attenuation212 - attenuation210) *
+                                                                        ((distance - mid4) / (highVal - mid4))));
+                    }
+                    else if (distance > lowVal && mid4 - lowVal > 0.0)
+                    {
+                        SetVolume((unsigned short)(attenuation20e + (attenuation210 - attenuation20e) *
+                                                                        ((distance - lowVal) / (mid4 - lowVal))));
+                    }
+                    else if (distance > unk140 && lowVal - unk140 > 0.0)
+                    {
+                        SetVolume((unsigned short)(attenuation20c + (attenuation20e - attenuation20c) *
+                                                                        ((distance - unk140) / (lowVal - unk140))));
+                    }
+                    else
+                    {
+                        SetVolume(0);
+                    }
+                }
+                else
+                {
+                    if (distance >= unk13c)
+                    {
+                        SetVolume(10000);
+                    }
+                    else
+                    {
+                        SetVolume(0);
+                    }
+                }
+                vtable->update(this, unk24);
+            }
+        }
+    }
+}
+
+struct OggFile
+{
+    virtual ~OggFile();
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    bool bGood;
+    __forceinline bool IsGood() const
+    {
+        return bGood;
+    }
+};
+
+struct OvCallbacks
+{
+    unsigned int(__cdecl* read_func)(void* ptr, unsigned int size, unsigned int nmemb, void* datasource);
+    int(__cdecl* seek_func)(void* datasource, __int64 offset, int whence);
+    int(__cdecl* close_func)(void* datasource);
+    long(__cdecl* tell_func)(void* datasource);
+};
+
+unsigned int __cdecl CallProcAndAccumulate(void* ptr, unsigned int size, unsigned int nmemb, void* datasource);
+
+int __cdecl DispatchHandlerEvent(void* datasource, __int64 offset, int whence);
+
+long __cdecl FUN_00af2290(void* datasource);
+
+struct OggStream;
+
+extern "C" int __cdecl ov_open_callbacks(void* datasource, OggStream* vf, char* initial, long ibytes,
+                                         OvCallbacks callbacks);
+
+struct VorbisInfo;
+
+struct OggStream
+{
+    int unk000;
+    int unk004;
+    int unk008;
+    int unk00C;
+    int unk010;
+    int unk014;
+    int unk018;
+    int unk01C;
+    int unk020;
+    int unk024;
+    int unk028;
+    int unk02C;
+    int unk030;
+    int unk034;
+    int unk038;
+    int unk03C;
+    int unk040;
+    int unk044;
+    int unk048;
+    int unk04C;
+    int unk050;
+    int unk054;
+    int unk058;
+    int unk05C;
+    int unk060;
+    int unk064;
+    int unk068;
+    int unk06C;
+    int unk070;
+    int unk074;
+    int unk078;
+    int unk07C;
+    int unk080;
+    int unk084;
+    int unk088;
+    int unk08C;
+    int unk090;
+    int unk094;
+    int unk098;
+    int unk09C;
+    int unk0A0;
+    int unk0A4;
+    int unk0A8;
+    int unk0AC;
+    int unk0B0;
+    int unk0B4;
+    int unk0B8;
+    int unk0BC;
+    int unk0C0;
+    int unk0C4;
+    int unk0C8;
+    int unk0CC;
+    int unk0D0;
+    int unk0D4;
+    int unk0D8;
+    int unk0DC;
+    int unk0E0;
+    int unk0E4;
+    int unk0E8;
+    int unk0EC;
+    int unk0F0;
+    int unk0F4;
+    int unk0F8;
+    int unk0FC;
+    int unk100;
+    int unk104;
+    int unk108;
+    int unk10C;
+    int unk110;
+    int unk114;
+    int unk118;
+    int unk11C;
+    int unk120;
+    int unk124;
+    int unk128;
+    int unk12C;
+    int unk130;
+    int unk134;
+    int unk138;
+    int unk13C;
+    int unk140;
+    int unk144;
+    int unk148;
+    int unk14C;
+    int unk150;
+    int unk154;
+    int unk158;
+    int unk15C;
+    int unk160;
+    int unk164;
+    int unk168;
+    int unk16C;
+    int unk170;
+    int unk174;
+    int unk178;
+    int unk17C;
+    int unk180;
+    int unk184;
+    int unk188;
+    int unk18C;
+    int unk190;
+    int unk194;
+    int unk198;
+    int unk19C;
+    int unk1A0;
+    int unk1A4;
+    int unk1A8;
+    int unk1AC;
+    int unk1B0;
+    int unk1B4;
+    int unk1B8;
+    int unk1BC;
+    int unk1C0;
+    int unk1C4;
+    int unk1C8;
+    int unk1CC;
+    int unk1D0;
+    int unk1D4;
+    int unk1D8;
+    int unk1DC;
+    int unk1E0;
+    int unk1E4;
+    int unk1E8;
+    int unk1EC;
+    int unk1F0;
+    int unk1F4;
+    int unk1F8;
+    int unk1FC;
+    int unk200;
+    int unk204;
+    int unk208;
+    int unk20C;
+    int unk210;
+    int unk214;
+    int unk218;
+    int unk21C;
+    int unk220;
+    int unk224;
+    int unk228;
+    int unk22C;
+    int unk230;
+    int unk234;
+    int unk238;
+    int unk23C;
+    int unk240;
+    int unk244;
+    int unk248;
+    int unk24C;
+    int unk250;
+    int unk254;
+    int unk258;
+    int unk25C;
+    int unk260;
+    int unk264;
+    int unk268;
+    int unk26C;
+    int unk270;
+    int unk274;
+    int unk278;
+    int unk27C;
+    int unk280;
+    int unk284;
+    int unk288;
+    int unk28C;
+    int unk290;
+    int unk294;
+    int unk298;
+    int unk29C;
+    int unk2A0;
+    int unk2A4;
+    int unk2A8;
+    int unk2AC;
+    int unk2B0;
+    int unk2B4;
+    int unk2B8;
+    int unk2BC;
+    int unk2C0;
+    int unk2C4;
+    int unk2C8;
+    int unk2CC;
+    OggFile* pFile;
+    int iTotal;
+    VorbisInfo* iInfo;
+    bool bOpen;
+
+    bool FUN_00af1e00(const char* name);
+};
+
+// @fnv 0x00aebff0
+bool AudioBuffer::FUN_00aebff0()
+{
+    this->m22c = new AF1d80();
+    if (!reinterpret_cast<::OggStream *>((this->m22c))->FUN_00af1e00((const char *)(void *)(&this->m36)))
+    {
+        delete this->m22c;
+        this->m22c = 0;
+        return false;
+    }
+    bool bHalf;
+    unsigned int nSize;
+    return Setup(bHalf, nSize);
+}
+
+// @fnv 0x00af1e00
+bool OggStream::FUN_00af1e00(const char* name)
+{
+    // Legacy target lowercases259 bytes after strcpy, including the unused tail beyond NUL.
+    char path3[260];
+    strcpy(path3, name);
+    for (int i4 = 0; i4 < 259; i4++)
+        path3[i4] = tolower(path3[i4]);
+    char* ext3 = strstr(path3, ".ogg");
+    if (!ext3)
+    {
+        ext3 = strstr(path3, ".mp3");
+        if (!ext3)
+            ext3 = strstr(path3, ".wav");
+        if (ext3)
+        {
+            ext3[1] = 'o';
+            ext3[2] = 'g';
+            ext3[3] = 'g';
+        }
+        else
+        {
+            return false;
+        }
+    }
+    pFile = (OggFile*)FileFinder::GetFile(path3, 0, 0x4000, 0x10);
+    if (!pFile || !pFile->IsGood())
+    {
+        if (pFile)
+        {
+            delete pFile;
+            pFile = 0;
+        }
+        return false;
+    }
+    OvCallbacks cb_ = {CallProcAndAccumulate, DispatchHandlerEvent, 0, FUN_00af2290};
+    int ret = ov_open_callbacks(pFile, this, 0, 0, cb_);
+    if (ret)
+    {
+        reinterpret_cast<::BSFile *>((pFile))->Close();
+        delete pFile;
+        pFile = 0;
+        return false;
+    }
+    bOpen = true;
+    iInfo = ((::VorbisInfo *)(::FUN_00ee81f8(this, -1)));
+    if (((long)(::FUN_00ee81f2(this))))
+        iTotal = static_cast<int>(::FUN_00ee81ec(this, 0));
+    return true;
+}
+
+inline void NiEndianSwap(unsigned int& uiValue, Flag kFlag)
+{
+    unsigned int* puiValue = &uiValue;
+    *puiValue = fnv::crt::byteswap_ulong(*puiValue);
+}
+
+inline void NiEndianSwap(unsigned short& usValue, Flag kFlag)
+{
+    unsigned short* pusValue = &usValue;
+    *pusValue = fnv::crt::byteswap_ushort(*pusValue);
+}
+
+struct ArchiveHeader
+{
+    unsigned int m_uiMagic;
+    unsigned int m_uiSize;
+    unsigned int m_uiType;
+    FUN_00afd920_Class m_kFlags;
+    unsigned int m_uiValueBeforeCount;
+    unsigned int m_uiCharacterCount;
+    unsigned int m_uiHash;
+    unsigned int m_uiCRC;
+    unsigned short m_usElementCount;
+
+    void FUN_00afd9d0();
+};
+
+// @fnv 0x00afd9d0
+void ArchiveHeader::FUN_00afd9d0()
+{
+    NiEndianSwap(m_uiMagic, Flag());
+    NiEndianSwap(m_uiSize, Flag());
+    NiEndianSwap(m_uiType, Flag());
+    m_kFlags.UpdateValue();
+    NiEndianSwap(m_uiValueBeforeCount, Flag());
+    NiEndianSwap(m_uiCharacterCount, Flag());
+    NiEndianSwap(m_uiHash, Flag());
+    NiEndianSwap(m_uiCRC, Flag());
+    NiEndianSwap(m_usElementCount, Flag());
+}
+
+struct MemoryManagerAllocator
+{
+};
+
+inline void CopyChars(unsigned short* destination, const unsigned short* source, unsigned int size)
+{
+    std::memmove(destination, source, size);
+}
+
+struct WideString
+{
+    unsigned short* data;
+    unsigned short length;
+    unsigned short capacity;
+    bool FUN_00afff50(const unsigned short* input, unsigned int reserve);
+};
+
+// @fnv 0x00afff50
+bool WideString::FUN_00afff50(const unsigned short* input, unsigned int reserve)
+{
+    unsigned int a;
+    a = input ? std::wcslen((const wchar_t *)(input)) : 0;
+    unsigned int newSize = a > reserve ? a : reserve;
+    unsigned short* required;
+    if (newSize <= capacity)
+    {
+        if (newSize)
+        {
+            if (input)
+            {
+                CopyChars(data, input, 2 * a + 2);
+            }
+            else
+            {
+                *data = 0;
+            }
+        }
+        else
+        {
+            if (data)
+                delete[] data;
+            data = 0;
+            newSize = 0;
+            capacity = newSize <= 0xffff ? (unsigned short)newSize : 0xffff;
+        }
+    }
+    else
+    {
+        required = data;
+        data = new unsigned short[newSize + 1];
+        if (input)
+        {
+            CopyChars(data, input, 2 * a + 2);
+        }
+        else
+        {
+            *data = 0;
+        }
+        if (required)
+            delete[] required;
+        capacity = newSize <= 0xffff ? (unsigned short)newSize : 0xffff;
+    }
+    length = a <= 0xffff ? (unsigned short)a : 0xffff;
+    return a != 0;
+}
+
+struct AE92D0_Range
+{
+    int m_kRayStart;
+    int m_kRayEnd;
+    int m_uiItemCount;
+    AE92D0_Range()
+    {
+        m_uiItemCount = 0;
+        m_kRayStart = 0;
+        m_kRayEnd = 0;
+    }
+    ~AE92D0_Range();
+};
+
+struct AE92D0_Object
+{
+    virtual ~AE92D0_Object();
+    int unk004;
+    int unk008;
+    int unk00C;
+    int unk010;
+    int unk014;
+    int unk018;
+    int unk01C;
+    int unk020;
+    int unk024;
+    int unk028;
+    int unk02C;
+    int unk030;
+    int unk034;
+    int unk038;
+    int unk03C;
+    int unk040;
+    int unk044;
+    int unk048;
+    int unk04C;
+    int unk050;
+    int unk054;
+    int unk058;
+    int unk05C;
+    int unk060;
+    int unk064;
+    int unk068;
+    int unk06C;
+    int unk070;
+    int unk074;
+    int unk078;
+    int unk07C;
+    int unk080;
+    int unk084;
+    int unk088;
+    int unk08C;
+    int unk090;
+    int unk094;
+    int unk098;
+    int unk09C;
+    int unk0A0;
+    int unk0A4;
+    int unk0A8;
+    int unk0AC;
+    int unk0B0;
+    int unk0B4;
+    int unk0B8;
+    int unk0BC;
+    int unk0C0;
+    int unk0C4;
+    int unk0C8;
+    int unk0CC;
+    int unk0D0;
+    int unk0D4;
+    int unk0D8;
+    int unk0DC;
+    int unk0E0;
+    int unk0E4;
+    int unk0E8;
+    int unk0EC;
+    int unk0F0;
+    int unk0F4;
+    int unk0F8;
+    int unk0FC;
+    int unk100;
+    int unk104;
+    int unk108;
+    int unk10C;
+    int unk110;
+    int unk114;
+    int unk118;
+    int unk11C;
+    int unk120;
+    int unk124;
+    int unk128;
+    int unk12C;
+    int unk130;
+    int unk134;
+    int unk138;
+    int unk13C;
+    int unk140;
+    int unk144;
+    int unk148;
+    int unk14C;
+    int unk150;
+    int unk154;
+    int unk158;
+    int unk15C;
+    int unk160;
+    int unk164;
+    int unk168;
+    int unk16C;
+    int unk170;
+    int unk174;
+    int unk178;
+    int unk17C;
+    int unk180;
+    int unk184;
+    int unk188;
+    AE92D0_Range m_range;
+    AE92D0_Object(int unused);
+};
+
+// @fnv 0x00ae92d0
+AE92D0_Object::AE92D0_Object(int unused)
+{
+    ::FUN_00ae95e0((char *)this);
+}
+
+void* __cdecl FUN_00ec7230(void* dst, const void* src, unsigned int size);
+
+class FUN_005eee10
+{
+  public:
+    typedef const char* Elem;
+    void** m_vtbl;
+    const char** m_data;
+    unsigned int m_iElementCount;
+    ~FUN_005eee10();
+
+    void FUN_0042fb60(const char** pDst, const char** pSrc, unsigned int ItemUpdateArray)
+    {
+        if (ItemUpdateArray <= 0)
+            return;
+        if (pDst < pSrc)
+        {
+            for (unsigned int i = 0; i < ItemUpdateArray; i++)
+                FUN_00ec7230(&pDst[i], &pSrc[i], sizeof(const char*));
+        }
+        else if (pDst > pSrc)
+        {
+            for (int i = ItemUpdateArray - 1; i >= 0; i--)
+                FUN_00ec7230(&pDst[i], &pSrc[i], sizeof(const char*));
+        }
+    }
+
+    void RemoveRange(unsigned int uiIndex, unsigned int ItemUpdateArray)
+    {
+        unsigned int uiMove;
+        unsigned int uiTail = m_iElementCount - uiIndex - ItemUpdateArray;
+        uiMove = uiTail < ItemUpdateArray ? uiTail : ItemUpdateArray;
+        for (unsigned int i = 0; i < ItemUpdateArray; i++)
+            (m_data + uiIndex + i)->~Elem();
+        FUN_0042fb60(m_data + uiIndex, m_data + m_iElementCount - uiMove, uiMove);
+        m_iElementCount -= ItemUpdateArray;
+    }
+};
+
+class FileFinderImpl
+{
+  public:
+    FUN_005eee10 m_ppData;
+    ~FileFinderImpl();
+};
+
+// @fnv 0x00afdcf0
+FileFinderImpl::~FileFinderImpl()
+{
+    unsigned int uiSize = m_ppData.m_iElementCount;
+    unsigned int uiIndex = uiSize;
+    while (uiIndex--)
+    {
+        const char* item = m_ppData.m_data[uiIndex];
+        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060((void*)item);
+        reinterpret_cast<::S_00afea20_Arr *>(&(m_ppData))->RemoveRange(uiIndex, 1);
+    }
+    if ((*reinterpret_cast<::FileFinderImpl * *>(&::g_fileFinder)) == this)
+    {
+        (*reinterpret_cast<::FileFinderImpl * *>(&::g_fileFinder)) = 0;
+    }
+}
+
+struct MgrAF
+{
+};
+
+struct GuidAF
+{
+    unsigned int a;
+    unsigned short b, c;
+    unsigned char d[8];
+};
+
+extern GuidAF DAT_01101004, DAT_01100fd4;
+
+struct Setting_01017720_011f96a0
+{
+    int vtable;
+    unsigned int value;
+};
+
+struct OutputAF;
+
+struct AudioAF
+{
+    int u0, u4, u8, uc;
+    void* p10;
+    inline OutputAF* GetOutput()
+    {
+        return (OutputAF*)p10;
+    }
+    static inline AudioAF* Instance()
+    {
+        return (AudioAF*)DAT_011f6d98;
+    }
+};
+
+struct OutputAF
+{
+    virtual void x0();
+    virtual void x4();
+    virtual void x8();
+    virtual void xc();
+    virtual void x10();
+    virtual void x14();
+    virtual void x18();
+    virtual void x1c();
+    virtual void x20();
+    virtual void x24();
+    virtual void x28();
+    virtual unsigned int x2c();
+};
+
+struct BufferAF
+{
+    virtual long Query(void*, void**);
+    virtual void x04();
+    virtual void x08();
+    virtual void x0c();
+    virtual void x10();
+    virtual long Format(void*, unsigned long, unsigned long*);
+    virtual void x18();
+    virtual void x1c();
+    virtual void x20();
+    virtual void x24();
+    virtual void x28();
+    virtual long Lock(unsigned long, unsigned long, void**, unsigned long*, void**, unsigned long*,
+                                unsigned long);
+    virtual void x30();
+    virtual void x34();
+    virtual void x38();
+    virtual void x3c();
+    virtual void x40();
+    virtual void x44();
+    virtual void x48();
+    virtual long Unlock(void*, unsigned long, void*, unsigned long);
+    virtual void x50();
+    virtual long Effect(unsigned long, void*, void*);
+    virtual void x58();
+    virtual long Object(void*, unsigned long, void*, void**);
+};
+
+struct DeviceAF
+{
+    virtual void x00();
+    virtual void x04();
+    virtual void x08();
+    virtual long Create(void*, void**, void*);
+};
+
+struct EffectObjectAF
+{
+    virtual void x00();
+    virtual void x04();
+    virtual void x08();
+    virtual void x0c();
+    virtual void x10();
+    virtual long Set(unsigned int);
+};
+
+struct EffectAF
+{
+    unsigned int size, flags;
+    GuidAF guid;
+    unsigned int reserved1, reserved2;
+};
+
+struct DescAF
+{
+    unsigned int size, flags, bytes, reserved;
+    void* format;
+    GuidAF guid;
+};
+
+inline bool& EnableAF()
+{
+    return &::g_011f7130 ? *(bool*)&::g_011f7130.value : (*(bool*)&(*reinterpret_cast<unsigned int *>(&::DAT_01202800)) = false, *(bool*)&(*reinterpret_cast<unsigned int *>(&::DAT_01202800)));
+}
+
+inline unsigned int& LimitAF()
+{
+    return &::g_011f713c ? ::g_011f713c.value : ((*reinterpret_cast<unsigned int *>(&::DAT_01202800)) = 0, (*reinterpret_cast<unsigned int *>(&::DAT_01202800)));
+}
+
+inline void* AllocateAF(unsigned int size)
+{
+    void* p = reinterpret_cast<::MemoryManagerStandIn *>((((MgrAF*)&(*reinterpret_cast<char *>(&::g_memoryManager)))))->FUN_00aa3e40(size);
+    return p;
+}
+
+inline void FreeAF(void* p)
+{
+    reinterpret_cast<::FNV_MemoryManager *>((((MgrAF*)&(*reinterpret_cast<char *>(&::g_memoryManager)))))->FUN_00aa4060(p);
+}
+
+inline void ZeroAF(void* dest, unsigned int size)
+{
+    std::memset(dest, 0, size);
+}
+
+inline void CopyAF(void* dest, const void* source, unsigned int size)
+{
+    std::memmove(dest, source, size);
+}
+
+struct AF1430
+{
+    unsigned int unk000;
+    unsigned int unk004;
+    unsigned int unk008;
+    unsigned int unk00c;
+    unsigned int unk010;
+    unsigned int unk014;
+    unsigned int unk018;
+    unsigned int unk01c;
+    unsigned int unk020;
+    unsigned int unk024;
+    unsigned int unk028;
+    unsigned int unk02c;
+    unsigned int unk030;
+    unsigned int unk034;
+    unsigned int unk038;
+    unsigned int unk03c;
+    unsigned int unk040;
+    unsigned int unk044;
+    unsigned int unk048;
+    unsigned int unk04c;
+    unsigned int unk050;
+    unsigned int unk054;
+    unsigned int unk058;
+    unsigned int unk05c;
+    unsigned int unk060;
+    unsigned int unk064;
+    unsigned int unk068;
+    unsigned int unk06c;
+    unsigned int unk070;
+    unsigned int unk074;
+    unsigned int unk078;
+    unsigned int unk07c;
+    unsigned int unk080;
+    unsigned int unk084;
+    unsigned int unk088;
+    unsigned int unk08c;
+    unsigned int unk090;
+    unsigned int unk094;
+    unsigned int unk098;
+    unsigned int unk09c;
+    unsigned int unk0a0;
+    unsigned int unk0a4;
+    unsigned int unk0a8;
+    unsigned int unk0ac;
+    unsigned int unk0b0;
+    unsigned int unk0b4;
+    unsigned int unk0b8;
+    unsigned int unk0bc;
+    unsigned int unk0c0;
+    unsigned int unk0c4;
+    unsigned int unk0c8;
+    unsigned int unk0cc;
+    unsigned int unk0d0;
+    unsigned int unk0d4;
+    unsigned int unk0d8;
+    unsigned int unk0dc;
+    unsigned int unk0e0;
+    unsigned int unk0e4;
+    unsigned int unk0e8;
+    unsigned int unk0ec;
+    unsigned int unk0f0;
+    unsigned int unk0f4;
+    unsigned int unk0f8;
+    unsigned int unk0fc;
+    unsigned int unk100;
+    unsigned int unk104;
+    unsigned int unk108;
+    unsigned int unk10c;
+    unsigned int unk110;
+    unsigned int unk114;
+    unsigned int unk118;
+    unsigned int unk11c;
+    unsigned int unk120;
+    unsigned int unk124;
+    unsigned int unk128;
+    unsigned int unk12c;
+    unsigned int unk130;
+    unsigned int unk134;
+    unsigned int unk138;
+    unsigned int unk13c;
+    unsigned int unk140;
+    unsigned int unk144;
+    unsigned int unk148;
+    unsigned int unk14c;
+    unsigned int unk150;
+    unsigned int unk154;
+    unsigned int unk158;
+    unsigned int unk15c;
+    unsigned int unk160;
+    unsigned int unk164;
+    unsigned int unk168;
+    unsigned int unk16c;
+    unsigned int unk170;
+    unsigned int unk174;
+    unsigned int unk178;
+    unsigned int unk17c;
+    unsigned int unk180;
+    unsigned int unk184;
+    unsigned int unk188;
+    unsigned int unk18c;
+    unsigned int unk190;
+    unsigned int unk194;
+    DeviceAF* device;
+    BufferAF* source;
+    BufferAF* buffer;
+    unsigned int unk1a4;
+    unsigned int unk1a8;
+    unsigned int unk1ac;
+    unsigned int unk1b0;
+    unsigned int unk1b4;
+    unsigned int unk1b8;
+    unsigned int unk1bc;
+    unsigned int unk1c0;
+    unsigned int unk1c4;
+    unsigned int unk1c8;
+    unsigned int unk1cc;
+    BufferAF* created;
+    unsigned int unk1d4;
+    void* unkEffect;
+    unsigned int unk1dc;
+    void* object;
+    __forceinline unsigned int Flags()
+    {
+        return unk008;
+    }
+    __forceinline bool Any()
+    {
+        return (unk008 & 0x4000000) || (unk008 & 0x2000000);
+    }
+    bool FUN_00af1430();
+};
+
+// @fnv 0x00af1430
+bool AF1430::FUN_00af1430()
+{
+    void* src1Bytes2;
+    unsigned long srcn8;
+    void* src2Bytes;
+    unsigned long CNA;
+    {
+        DescAF desc;
+        {
+            unsigned long n;
+            {
+                EffectAF effect;
+                {
+                    void* CSAB;
+                    void* CSA6;
+                    void* CSA2;
+                    void* free1_2;
+                    void* allocatedB;
+                    unsigned int count30;
+                    unsigned long n222;
+                    void* dst2BytesTmp;
+                    long hRefId2;
+                    void* dst2Bytes3;
+                    if ((Flags() & 0x20) || !EnableAF() || !device || !source || !AudioAF::Instance()->GetOutput() ||
+                        !AudioAF::Instance()->GetOutput()->x2c() || Any() || LimitAF() <= (unsigned int)DAT_011f7128)
+                        return false;
+                    dst2BytesTmp = 0;
+                    dst2Bytes3 = 0;
+                    n = 0;
+                    n222 = 0;
+                    src1Bytes2 = 0;
+                    src2Bytes = 0;
+                    CNA = 0;
+                    srcn8 = 0;
+                    std::memset(&desc, 0, 0x24);
+                    desc.size = 0x24;
+                    if (Flags() & 1)
+                        desc.flags = 0x40;
+                    else
+                        desc.flags = 0x30010;
+                    desc.flags |= 0x2a0;
+                    desc.bytes = unk1dc + (unsigned int)(unk1dc * 0.25);
+                    desc.guid = *(GuidAF*)&DAT_01093f04;
+                    allocatedB = reinterpret_cast<::MemoryManagerStandIn *>((((MgrAF*)&(*reinterpret_cast<char *>(&::g_memoryManager)))))->FUN_00aa3e40(0x12);
+                    desc.format = allocatedB;
+                    source->Format(desc.format, 0x12, &n);
+                    DAT_011f7128++;
+                    if (device->Create(&desc, (void**)&created, 0) < 0)
+                    {
+                        (free1_2 = desc.format, reinterpret_cast<::FNV_MemoryManager *>((((MgrAF*)&(*reinterpret_cast<char *>(&::g_memoryManager)))))->FUN_00aa4060(free1_2));
+                        return false;
+                    }
+                    created->Query((void*)&(*reinterpret_cast<::GuidAF *>((void *)&::g_IID_SndBuffer8)), (void**)&buffer);
+                    if (buffer)
+                        buffer->Query((void*)&(*reinterpret_cast<::GuidAF *>((void *)&::g_IID_Snd3DBuffer)), &unkEffect);
+                    else
+                    {
+                        (CSA2 = desc.format, reinterpret_cast<::FNV_MemoryManager *>((((MgrAF*)&(*reinterpret_cast<char *>(&::g_memoryManager)))))->FUN_00aa4060(CSA2));
+                        return false;
+                    }
+                    effect.size = 0x20;
+                    effect.flags = 0;
+                    effect.guid = DAT_01101004;
+                    effect.reserved1 = 0;
+                    effect.reserved2 = 0;
+                    hRefId2 = buffer->Effect(1, &effect, 0);
+                    hRefId2 = buffer->Object(&DAT_01101004, 0, &DAT_01100fd4, &object);
+                    if (hRefId2 >= 0)
+                    {
+                        count30 = unk154;
+                        if (AudioAF::Instance()->GetOutput())
+                        {
+                            count30 = AudioAF::Instance()->GetOutput()->x2c();
+                        }
+                        if (count30 > 0)
+                        {
+                            --count30;
+                            hRefId2 = ((EffectObjectAF*)object)->Set(count30);
+                        }
+                    }
+                    n = 0;
+                    if (buffer->Lock(0, 0, &dst2BytesTmp, &n, &dst2Bytes3, &n222, 2) < 0)
+                    {
+                        (CSA6 = desc.format, reinterpret_cast<::FNV_MemoryManager *>((((MgrAF*)&(*reinterpret_cast<char *>(&::g_memoryManager)))))->FUN_00aa4060(CSA6));
+                        return false;
+                    }
+                    if (source->Lock(0, 0, &src1Bytes2, &CNA, &src2Bytes, &srcn8, 2) >= 0)
+                    {
+                        ZeroAF(dst2BytesTmp, desc.bytes);
+                        CopyAF(dst2BytesTmp, src1Bytes2, unk1ac);
+                        source->Unlock(src1Bytes2, CNA, src2Bytes, srcn8);
+                    }
+                    buffer->Unlock(dst2BytesTmp, n, dst2Bytes3, n222);
+                    (CSAB = desc.format, reinterpret_cast<::FNV_MemoryManager *>((((MgrAF*)&(*reinterpret_cast<char *>(&::g_memoryManager)))))->FUN_00aa4060(CSAB));
+                    return true;
+                }
+            }
+        }
+    }
+}
+
+struct AudioVec
+{
+    float x, y, z;
+    AudioVec()
+    {}
+    AudioVec(float a, float b, float c) : x(a), y(b), z(c)
+    {}
+    inline AudioVec FUN_00439ef0(const AudioVec& rhs) const
+    {
+        const AudioVec* self = this;
+        return AudioVec(self->x - rhs.x, self->y - rhs.y, self->z - rhs.z);
+    }
+    inline float DotProduct(const AudioVec& rhs) const
+    {
+        const AudioVec* self = this;
+        float result = self->x * rhs.x + self->y * rhs.y + self->z * rhs.z;
+        return result;
+    }
+};
+
+AudioVec __cdecl FUN_004a3760(float, const AudioVec&);
+
+__forceinline float Absolute(float value)
+{
+    return float(fabs(value));
+}
+
+struct Listener
+{
+    virtual void v00();
+    virtual void v04();
+    virtual void v08();
+    virtual const AudioVec& Position();
+};
+
+struct AudioSystem
+{
+    unsigned int unk00, unk04, unk08, unk0c;
+    Listener* listener;
+    __forceinline Listener* GetListener()
+    {
+        return listener;
+    }
+};
+
+__forceinline AudioSystem* GetSystem()
+{
+    return reinterpret_cast<AudioSystem*>(DAT_011f6d98);
+}
+
+struct PositionOutput
+{
+    virtual void v00();
+    virtual void v04();
+    virtual void v08();
+    virtual void v0c();
+    virtual void v10();
+    virtual void v14();
+    virtual void v18();
+    virtual void v1c();
+    virtual void v20();
+    virtual void v24();
+    virtual void v28();
+    virtual void v2c();
+    virtual void v30();
+    virtual void v34();
+    virtual void v38();
+    virtual void v3c();
+    virtual void v40();
+    virtual void v44();
+    virtual void v48();
+    virtual void SetPosition(float, float, float, unsigned int);
+};
+
+struct AudioSound
+{
+    virtual void v00();
+    virtual void v04();
+    virtual void v08();
+    virtual void v0c();
+    virtual void v10();
+    virtual void v14();
+    virtual void v18();
+    virtual void v1c();
+    virtual void v20();
+    virtual void v24();
+    virtual void v28();
+    virtual void v2c();
+    virtual void v30();
+    virtual void v34();
+    virtual void v38();
+    virtual void Refresh(float);
+    unsigned int unk004;
+    unsigned int flags;
+    unsigned int unk00c;
+    unsigned int state;
+    unsigned int unk014;
+    unsigned int unk018;
+    unsigned short unk1c;
+    unsigned short attenuation;
+    unsigned int unk020;
+    float volume;
+    unsigned int unk028;
+    unsigned int unk02c;
+    unsigned int unk030;
+    unsigned int unk034;
+    unsigned int unk038;
+    unsigned int unk03c;
+    unsigned int unk040;
+    unsigned int unk044;
+    unsigned int unk048;
+    unsigned int unk04c;
+    unsigned int unk050;
+    unsigned int unk054;
+    unsigned int unk058;
+    unsigned int unk05c;
+    unsigned int unk060;
+    unsigned int unk064;
+    unsigned int unk068;
+    unsigned int unk06c;
+    unsigned int unk070;
+    unsigned int unk074;
+    unsigned int unk078;
+    unsigned int unk07c;
+    unsigned int unk080;
+    unsigned int unk084;
+    unsigned int unk088;
+    unsigned int unk08c;
+    unsigned int unk090;
+    unsigned int unk094;
+    unsigned int unk098;
+    unsigned int unk09c;
+    unsigned int unk0a0;
+    unsigned int unk0a4;
+    unsigned int unk0a8;
+    unsigned int unk0ac;
+    unsigned int unk0b0;
+    unsigned int unk0b4;
+    unsigned int unk0b8;
+    unsigned int unk0bc;
+    unsigned int unk0c0;
+    unsigned int unk0c4;
+    unsigned int unk0c8;
+    unsigned int unk0cc;
+    unsigned int unk0d0;
+    unsigned int unk0d4;
+    unsigned int unk0d8;
+    unsigned int unk0dc;
+    unsigned int unk0e0;
+    unsigned int unk0e4;
+    unsigned int unk0e8;
+    unsigned int unk0ec;
+    unsigned int unk0f0;
+    unsigned int unk0f4;
+    unsigned int unk0f8;
+    unsigned int unk0fc;
+    unsigned int unk100;
+    unsigned int unk104;
+    unsigned int unk108;
+    unsigned int unk10c;
+    unsigned int unk110;
+    unsigned int unk114;
+    unsigned int unk118;
+    unsigned int unk11c;
+    unsigned int unk120;
+    unsigned int unk124;
+    unsigned int unk128;
+    unsigned int unk12c;
+    unsigned int unk130;
+    unsigned int unk134;
+    unsigned int unk138;
+    float outer;
+    float inner;
+    unsigned int unk144;
+    unsigned int unk148;
+    unsigned int unk14c;
+    float distance;
+    unsigned int unk154;
+    unsigned int unk158;
+    unsigned int unk15c;
+    unsigned int unk160;
+    unsigned int unk164;
+    unsigned int unk168;
+    unsigned int unk16c;
+    unsigned int unk170;
+    unsigned int unk174;
+    unsigned int unk178;
+    AudioVec source;
+    unsigned int unk188;
+    unsigned int unk18c;
+    unsigned int unk190;
+    unsigned int unk194;
+    unsigned int unk198;
+    unsigned int unk19c;
+    unsigned int unk1a0;
+    unsigned int unk1a4;
+    unsigned int unk1a8;
+    unsigned int unk1ac;
+    unsigned int unk1b0;
+    unsigned int unk1b4;
+    unsigned int unk1b8;
+    unsigned int unk1bc;
+    unsigned int unk1c0;
+    unsigned int unk1c4;
+    unsigned int unk1c8;
+    unsigned int unk1cc;
+    unsigned int unk1d0;
+    PositionOutput* primary;
+    PositionOutput* secondary;
+    unsigned int unk1dc;
+    unsigned int unk1e0;
+    unsigned int unk1e4;
+    unsigned int unk1e8;
+    unsigned int unk1ec;
+    unsigned int unk1f0;
+    unsigned int unk1f4;
+    unsigned int unk1f8;
+    unsigned int unk1fc;
+    unsigned int unk200;
+    unsigned int unk204;
+    unsigned int unk208;
+    unsigned short level0;
+    unsigned short level1;
+    unsigned short level2;
+    unsigned short level3;
+    unsigned short level4;
+    unsigned short unk216;
+    AudioVec point;
+
+    __forceinline bool IsSegment()
+    {
+        return (flags & 0x10000000) != 0;
+    }
+    __forceinline bool HasSegment()
+    {
+        return (state & 0x8000) != 0;
+    }
+    __forceinline void Attenuate(unsigned short value)
+    {
+        attenuation = value;
+        Refresh(volume);
+    }
+    void FUN_00aed990();
+};
+
+// @fnv 0x00aed990
+void AudioSound::FUN_00aed990()
+{
+    float x = 0.0f, coordY = 0.0f, z = 0.0f;
+    AudioVec projected3 = reinterpret_cast<const AudioVec&>(::NiPoint3::ZERO);
+    if (((unsigned char)(reinterpret_cast<::BSGameSound *>(this)->HasSoundFlagTwo())) || ((unsigned char)(reinterpret_cast<::BSGameSound *>(this)->CanStartPlayback())))
+    {
+        if (GetSystem()->GetListener())
+        {
+            if (flags & 0x40000)
+            {
+                Listener* listenerC3 = GetSystem()->GetListener();
+                AudioVec listenerPosition = listenerC3->Position();
+                x = listenerPosition.x;
+                coordY = listenerPosition.y;
+                z = listenerPosition.z;
+                if (primary)
+                {
+                    primary->SetPosition(float(x * DAT_010a3be8), float(z * DAT_010a3be8), float(coordY * DAT_010a3be8),
+                                         1);
+                    if (secondary)
+                        secondary->SetPosition(float(x * DAT_010a3be8), float(z * DAT_010a3be8),
+                                               float(coordY * DAT_010a3be8), 1);
+                }
+            }
+            else if (IsSegment() && HasSegment())
+            {
+                float projection = 0.0f, squaredLength = 0.0f, fractionX = 0.0f;
+                AudioVec center = GetSystem()->GetListener()->Position();
+                AudioVec direction2;
+                direction2 = (*(::AudioVec *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(source))->FUN_00439ef0((::NiPoint3 *)&(point), *(const ::NiPoint3 *)nullptr)));
+                AudioVec delta;
+                delta = (*(::AudioVec *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(center))->FUN_00439ef0((::NiPoint3 *)&(point), *(const ::NiPoint3 *)nullptr)));
+                projection = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(delta))->DotProduct((void *)&(direction2));
+                if (projection <= 0.0)
+                {
+                    projected3 = point;
+                }
+                else
+                {
+                    squaredLength = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(direction2))->DotProduct((void *)&(direction2));
+                    if (squaredLength <= projection)
+                    {
+                        projected3 = source;
+                    }
+                    else
+                    {
+                        fractionX = projection / squaredLength;
+                        projected3 = (*(::AudioVec *)(reinterpret_cast<::Point3Offset *>((void *)&(point))->ProjectileLaunched((::NiPoint3 *)&(const ::AudioVec &)(FUN_004a3760(fractionX, direction2)), {})));
+                    }
+                }
+                if (primary)
+                {
+                    primary->SetPosition(float(projected3.x * DAT_010a3be8), float(projected3.z * DAT_010a3be8),
+                                         float(projected3.y * DAT_010a3be8), 1);
+                    if (secondary)
+                        secondary->SetPosition(float(projected3.x * DAT_010a3be8), float(projected3.z * DAT_010a3be8),
+                                               float(projected3.y * DAT_010a3be8), 1);
+                }
+            }
+            float distance = this->distance;
+            if (IsSegment() && HasSegment() && GetSystem()->GetListener())
+            {
+                distance = reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::AudioVec &)((*(::AudioVec *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(projected3))->FUN_00439ef0((::NiPoint3 *)&(GetSystem()->GetListener()->Position()), *(const ::NiPoint3 *)nullptr)))))->ComputeMagnitude();
+                this->distance = distance;
+            }
+            else if (GetSystem()->GetListener())
+            {
+                distance = reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::AudioVec &)((*(::AudioVec *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(point))->FUN_00439ef0((::NiPoint3 *)&(GetSystem()->GetListener()->Position()), *(const ::NiPoint3 *)nullptr)))))->ComputeMagnitude();
+                this->distance = distance;
+            }
+            if (Absolute(outer - inner) > 10.0 && outer * ::DAT_010290f8 > distance)
+            {
+                float quarter = float((outer - inner) * 0.25 + inner);
+                float midpointVal = float((outer - inner) * 0.5 + inner);
+                float threeQuarter2 = float((outer - inner) * 0.75 + inner);
+                if (distance >= outer)
+                {
+                    Attenuate(10000);
+                }
+                else if (distance > threeQuarter2 && outer - threeQuarter2 > 0.0)
+                {
+                    Attenuate((unsigned short)(level3 + (level4 - level3) *
+                                                            ((distance - threeQuarter2) / (outer - threeQuarter2))));
+                }
+                else if (distance > midpointVal && threeQuarter2 - midpointVal > 0.0)
+                {
+                    Attenuate((unsigned short)(level2 + (level3 - level2) * ((distance - midpointVal) /
+                                                                             (threeQuarter2 - midpointVal))));
+                }
+                else if (distance > quarter && midpointVal - quarter > 0.0)
+                {
+                    Attenuate((unsigned short)(level1 +
+                                               (level2 - level1) * ((distance - quarter) / (midpointVal - quarter))));
+                }
+                else if (distance > inner && quarter - inner > 0.0)
+                {
+                    Attenuate((unsigned short)(level0 + (level1 - level0) * ((distance - inner) / (quarter - inner))));
+                }
+                else
+                {
+                    Attenuate(0);
+                }
+            }
+            else
+            {
+                if (distance >= outer)
+                {
+                    Attenuate(10000);
+                }
+                else
+                {
+                    Attenuate(0);
+                }
+            }
+            Refresh(volume);
+        }
+    }
+}
+
+void* __cdecl _fnv_zlib_memset(void* p, int c, unsigned int n);
+
+long __cdecl FUN_00aea180(void* stream, long offset, int whence, int iWhenceArg);
+
+long __cdecl FUN_00af1cf0(void* stream, long offset, int whence, int iWhenceArg);
+
+int __cdecl CloseAndDeleteFile(BSFile* apFile);
+
+long FUN_00aeabf0(void* stream, long offset, int whence, int iOrigin);
+
+void* __cdecl _fnv_zlib_memset(void* p, int c, int n);
+
+void __cdecl FUN_00ec44d0(void*, const void*, unsigned int);
+
+bool HasWildcardChars(const char* pcString);
+
+int __cdecl FUN_00ec3bad(int value);
+
+double FUN_00ecbc80(double);
+
+extern "C" char* __cdecl xStrstr(char* s, const char* sub);
+
+extern "C" int __cdecl strcpy_s(char* dst, unsigned int n, const char* src);
+
+extern "C" void* __cdecl xMemcpy(void* d, const void* s, unsigned int n);
+
+int __cdecl FUN_00ec3bad(int value);
+
+int __cdecl FUN_00ecadb8();
+
+extern void __cdecl FUN_00ec65a6(char*, U32, const char*);
+
+void __cdecl FUN_00aea020();
+
+extern "C" int __cdecl _splitpath_s(const char* source, char* drive, unsigned int driveSize, char* directory,
+                                    unsigned int directorySize, char* filename, unsigned int filenameSize,
+                                    char* extension, unsigned int extensionSize);
+
+extern "C" int __cdecl _makepath_s(char* result, unsigned int resultSize, const char* drive, const char* directory,
+                                   const char* filename, const char* extension);
+
+namespace ListenerDestruction {
+struct ListenerBase
+{
+    virtual ~ListenerBase() = 0;
+    int state04, state08, state0c, state10;
+    int state14, state18, state1c, state20;
+    int state24, state28, state2c, state30;
+    int state34, state38, state3c, state40;
+    int environment;
+};
+inline ListenerBase::~ListenerBase()
+{
+    environment = 0;
+}
+struct FUN_00aea770 : ListenerBase
+{
+    IDSBufStub* listener;
+// @fnv 0x00aea770
+    virtual __declspec(noinline) ~FUN_00aea770()
+    {
+        if (listener)
+        {
+            listener->Release();
+            listener = 0;
+        }
+    }
+};
+void DestroyListener(void* object)
+{
+    static_cast<FUN_00aea770*>(object)->FUN_00aea770::~FUN_00aea770();
+}
+}
+
 #include "generated/data/staging/blk_00ae0000_od.inc"
+#include "generated/data/staging/blk_00ae0000_od_ob1_variant.inc"
+#include "generated/data/staging/blk_00ae0000_od_ob1_rtm_variant.inc"

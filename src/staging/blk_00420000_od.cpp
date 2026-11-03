@@ -94,6 +94,18 @@
 #include "fnv/symbols_011de000.h"
 #include "fnv/symbols_011e0000.h"
 #include "../../include/layout_support.h"
+#include "fnv/decl/TESActorBase.h"
+#include "fnv/decl/fnv_004385f0__FUN_004385f0_Class.h"
+#include "fnv/decl/fnv_00438780__NiTPointerMap_00438780.h"
+#include "fnv/decl/fnv_00439390__NiObjectNET.h"
+#include "fnv/decl/fnv_0043b1b0__FUN_0043b1b0_shell.h"
+#include "fnv/decl/fnv_00575700__RefrV.h"
+#include "fnv/symbols_00439000.h"
+#include "fnv/symbols_0043a000.h"
+#include "fnv/symbols_00483000.h"
+#include "fnv/symbols_004ad000.h"
+#include "fnv/symbols_0056f000.h"
+#include "fnv/symbols_006b3000.h"
 
 struct BaseExtraList
 {
@@ -473,6 +485,7 @@ struct TESForm
 {
 public:
     void ClearData();
+    virtual ~TESForm();
 };
 
 struct TESObjectTREE
@@ -4175,5 +4188,23 @@ FUN_00436420::FUN_00436420(Arg a, int aiUnused1, int aiUnused2) : Base(0x83)
     reinterpret_cast<::SoundPlaybackHandle *>(&(m))->operator=((const ::SoundPlaybackHandle &)(a));
 }
 }  // namespace fnv_00436420
+
+extern "C" void _fnv_zlib_memset(void* p, int c, unsigned int n);
+
+class FUN_0043a9f0_C
+{
+  public:
+    TESObjectREFR* m_pkRef;
+
+    void FUN_0043a9f0();
+};
+
+// @fnv 0x0043a9f0
+void FUN_0043a9f0_C::FUN_0043a9f0()
+{
+    unsigned int auiFormId = (unsigned int)m_pkRef;
+    if (auiFormId)
+        m_pkRef = dynamic_cast<TESObjectREFR*>(::FUN_004839c0(auiFormId));
+}
 
 #include "generated/data/staging/blk_00420000_od.inc"

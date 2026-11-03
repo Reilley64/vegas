@@ -50,6 +50,10 @@
 #include "fnv/symbols_011de000.h"
 #include "fnv/symbols_01268000.h"
 #include "../../include/layout_support.h"
+#include "fnv/symbols_005a3000.h"
+#include "fnv/symbols_005ac000.h"
+#include "fnv/symbols_005b4000.h"
+#include "fnv/symbols_005ba000.h"
 
 struct FUN_005a3740_cls
 {
@@ -678,6 +682,7 @@ bool FUN_005a7b60_cls::FUN_005a7b60(TESForm* pkForm)
 struct DeletingObject
 {
     void* Destroy(unsigned int flags);
+    void FUN_005a7d40();
 };
 // Calls FUN_005a7d40, then frees this via operator delete when the low bit of flags is set, and returns this.
 // @fnv 0x005a7d10
@@ -821,6 +826,82 @@ bool __cdecl FUN_005b4960(int unused, char const* data, TESObjectREFR* reference
     ::FUN_00406f60((::FUN_00406f90_this *)(string), format, values[0], values[1], values[2], values[3], values[4], values[5], values[6], values[7],
                     values[8], values[9]);
     return true;
+}
+
+void FUN_005b4940();
+
+bool FUN_005b9220();
+
+char __cdecl FUN_005b9240();
+
+void FUN_005b4a70();
+
+void FUN_005b9200(unsigned char value);
+
+struct FUN_00680890_r005a7d40
+{
+    unsigned int first;
+    unsigned int second;
+    FUN_00680890_r005a7d40();
+    ~FUN_00680890_r005a7d40();
+};
+
+// VEGAS17-CONFLICT: FUN_005a7c50 (variant definition below differs from the one above)
+struct FUN_005a7c50 : FUN_00483370, FUN_00402d00
+{
+    FUN_00680890_r005a7d40 member34;
+    FUN_0096a2d0 member3c;
+    FUN_0096a2d0 member44;
+    FUN_0096a2d0 member4c;
+    FUN_005a7c50();
+};
+
+// Generated address-based names identify the native TESForm base destructor
+// and TESRecipe destructor to this checker; layouts/ownership follow native RTTI.
+class BaseFormComponent
+{
+  public:
+    virtual ~BaseFormComponent();
+};
+
+class FUN_00483630_holder : public BaseFormComponent
+{
+  public:
+    unsigned char formType;
+    unsigned char unk05;
+    unsigned short unk06;
+    unsigned int flags;
+    unsigned int formID;
+    unsigned int unk10;
+    unsigned int unk14;
+    virtual ~FUN_00483630_holder();
+};
+
+class TESFullName : public BaseFormComponent
+{
+  public:
+    BSStringT<char> fullName;
+    virtual ~TESFullName();
+};
+
+class FUN_005a7d40 : public FUN_00483630_holder, public TESFullName
+{
+  public:
+    unsigned int skill;
+    unsigned int requiredSkill;
+    unsigned int category;
+    unsigned int subcategory;
+    FUN_00680890_r005a7d40 conditions;
+    BSSimpleList<void*> ingredients;
+    BSSimpleList<void*> outputs;
+    BSSimpleList<void*> unk4c;
+    virtual ~FUN_005a7d40();
+};
+
+// @fnv 0x005a7d40
+FUN_005a7d40::~FUN_005a7d40()
+{
+    reinterpret_cast<::TESRecipe *>(this)->ClearData();
 }
 
 #include "generated/data/staging/blk_005a0000_od.inc"

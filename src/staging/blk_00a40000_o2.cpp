@@ -1220,6 +1220,7 @@ struct RawArray
             --size;
         return p;
     }
+    virtual ~RawArray() throw() { ::FUN_00aa10f0(data); }
 };
 struct RefArray
 {
@@ -2102,6 +2103,7 @@ class A1450Array
     unsigned short m_usSize;
     unsigned short m_usESize;
     unsigned short m_usGrowBy;
+    virtual ~A1450Array() { ::FUN_00aa10f0(m_pBase); }
 };
 
 class A1450OwnedArray : public A1450Array
@@ -3085,6 +3087,7 @@ class NiTMapBaseA4D
     unsigned int m_uiHashSize;
     NiTMapItemA4D** m_ppkHashTable;
     unsigned int m_uiCount;
+    virtual ~NiTMapBaseA4D() throw() { reinterpret_cast<::S_00b601a0_Map *>(this)->FUN_00b601a0(); ::FUN_00aa10f0(m_ppkHashTable); }
 };
 
 class NiTMapA4D : public NiTMapBaseA4D
@@ -3275,6 +3278,7 @@ struct FUN_00a5d320_Class
 struct FUN_00a5d430_Class
 {
     void FUN_00a5d430(uintptr_t param_1);
+    void FUN_00a5d430(unsigned int param_1);
 };
 
 // @fnv 0x00a5d430
@@ -3292,6 +3296,7 @@ struct NiVBSet
 struct FUN_00a5d450_class
 {
     void CreateVertexBufferSet(uintptr_t a, void* b);
+    void CreateVertexBufferSet(unsigned int a, void* b);
 };
 // Copies the stream members via CopyMembersStream, then copies m_p and m_f into dst.
 // @fnv 0x00a44850
@@ -3475,6 +3480,9 @@ struct NiStream
     NiObjectGroup* GetObjectGroup(unsigned int id);
 public:
     ::NiObject *GetLoadedObject();
+    bool Load(char *, int);
+    bool Save(char *&, int &);
+    void InsertObject(::NiObject *);
 };
 class FUN_00a5d610_Object
 {
@@ -5838,6 +5846,15 @@ bool Holder::FUN_00a5ba40(NiTexture* p)
 }
 
 #include <windows.h>
+#include "fnv/decl/FUN_00a473d0_class.h"
+#include "fnv/decl/NiObjectNET.h"
+#include "fnv/decl/PointerList.h"
+#include "fnv/decl/fnv_00a47420__FUN_00a47420_cls.h"
+#include "fnv/symbols_00a40000.h"
+#include "fnv/symbols_00a41000.h"
+#include "fnv/symbols_00a50000.h"
+#include "fnv/symbols_00a51000.h"
+#include "fnv/symbols_00a5d000.h"
 
 struct a53540_Counted
 {
@@ -5971,6 +5988,492 @@ void FUN_00a5f800(TextureListView* texture)
         texture->next->previous = texture->previous;
     }
     LeaveCriticalSection(reinterpret_cast<CRITICAL_SECTION_STUB*>(&DAT_011f4580));
+}
+
+float FUN_00a42050(float a, float b, float c);
+
+extern "C" char* __cdecl _strcat_s(char* destination, unsigned int destinationSize, const char* source);
+
+void* __cdecl fnv_zlib_memset(void* dst, void* src, unsigned int size);
+
+extern "C" unsigned int __cdecl _strcpy_s(char* dst, unsigned int size, const char* src);
+
+ControllerAllocation* FUN_00a411c0(unsigned int ReportDiagnostic, void* target, unsigned int unused2,
+                                             float value, unsigned int flags);
+
+void __cdecl FUN_00a5b460();
+
+void __cdecl FUN_00a420e0(float a0, float a1, float* p2, float a3, float a4, float* p5, float a6, float a7, float* p8,
+                          float* p9);
+
+namespace a47 {
+struct Obj
+{
+    virtual void v00() throw();
+    virtual void DeleteThis() throw();
+    volatile long m_lRef;
+    void IncRefCount() throw()
+    {
+        InterlockedIncrement(&m_lRef);
+    }
+    void DecRefCount() throw()
+    {
+        if (!InterlockedDecrement(&m_lRef))
+            DeleteThis();
+    }
+};
+struct Ptr
+{
+    Obj* m_p;
+    Ptr(Obj* p = 0) throw() : m_p(p)
+    {
+        if (m_p)
+            m_p->IncRefCount();
+    }
+    Ptr(const Ptr& o) throw() : m_p(o.m_p)
+    {
+        if (m_p)
+            m_p->IncRefCount();
+    }
+    ~Ptr() throw()
+    {
+        if (m_p)
+            m_p->DecRefCount();
+    }
+    Ptr& operator=(Obj* p) throw()
+    {
+        if (m_p != p)
+        {
+            if (m_p)
+                m_p->DecRefCount();
+            m_p = p;
+            if (m_p)
+                m_p->IncRefCount();
+        }
+        return *this;
+    }
+    operator Obj*() const throw()
+    {
+        return m_p;
+    }
+    bool operator!=(const Ptr& o) const throw()
+    {
+        return m_p != o.m_p;
+    }
+    bool operator!=(Obj* p) const throw()
+    {
+        return m_p != p;
+    }
+    Ptr& operator=(const Ptr& o) throw()
+    {
+        if (m_p != o.m_p)
+        {
+            if (m_p)
+                m_p->DecRefCount();
+            m_p = o.m_p;
+            if (m_p)
+                m_p->IncRefCount();
+        }
+        return *this;
+    }
+};
+struct Arr
+{
+    virtual ~Arr() throw();
+    Ptr* m_pBase;
+    unsigned short m_usMaxSize, m_usSize, m_usESize, m_usGrowBy;
+    Ptr FUN_00a47540(unsigned int i) throw();
+};
+// @fnv 0x00a47540
+Ptr Arr::FUN_00a47540(unsigned int i) throw()
+{
+    if (i >= m_usSize)
+        return Ptr(0);
+    Ptr sp = m_pBase[i];
+    m_pBase[i] = Ptr(0);
+    if (sp != Ptr(0))
+        m_usESize--;
+    if (i == (unsigned short)(m_usSize - 1))
+        m_usSize--;
+    return sp;
+}
+}
+
+class NiObjectD510
+{
+  public:
+    virtual ~NiObjectD510();
+    virtual void DeleteThis();
+    void IncRefCount()
+    {
+        InterlockedIncrement(&m_uiRefCount);
+    }
+    void DecRefCount()
+    {
+        if (InterlockedDecrement(&m_uiRefCount) == 0)
+            DeleteThis();
+    }
+    void FUN_00a5d510(class NiPointerD510& spCopy);
+    long m_uiRefCount;
+};
+
+class NiPointerD510
+{
+  public:
+    NiPointerD510(NiObjectD510* pObject = 0)
+    {
+        m_pObject = pObject;
+        if (m_pObject)
+            m_pObject->IncRefCount();
+    }
+    ~NiPointerD510()
+    {
+        if (m_pObject)
+            m_pObject->DecRefCount();
+    }
+    NiPointerD510& operator=(const NiPointerD510& ptr)
+    {
+        if (m_pObject != ptr.m_pObject)
+        {
+            if (m_pObject)
+                m_pObject->DecRefCount();
+            m_pObject = ptr.m_pObject;
+            if (m_pObject)
+                m_pObject->IncRefCount();
+        }
+        return *this;
+    }
+    NiObjectD510* m_pObject;
+};
+
+class NiStreamD510
+{
+  public:
+    NiStreamD510();
+    ~NiStreamD510();
+    NiObjectD510* GetObjectAt(unsigned int i) const
+    {
+        return m_ppkTopObjects[i];
+    }
+    int unk000;
+    char m_acInputFilePath[0x104];
+    int unk108;
+    int unk10c;
+    int unk110;
+    int unk114;
+    int unk118;
+    int unk11c;
+    int unk120;
+    int unk124;
+    int unk128;
+    int unk12c;
+    int unk130;
+    int unk134;
+    int unk138;
+    int unk13c;
+    int unk140;
+    int unk144;
+    int unk148;
+    int unk14c;
+    int unk150;
+    int unk154;
+    int unk158;
+    int unk15c;
+    int unk160;
+    int unk164;
+    int unk168;
+    int unk16c;
+    int unk170;
+    int unk174;
+    int unk178;
+    int unk17c;
+    int unk180;
+    int unk184;
+    int unk188;
+    int unk18c;
+    int unk190;
+    int unk194;
+    int unk198;
+    int unk19c;
+    int unk1a0;
+    int unk1a4;
+    int unk1a8;
+    int unk1ac;
+    int unk1b0;
+    int unk1b4;
+    int unk1b8;
+    int unk1bc;
+    int unk1c0;
+    int unk1c4;
+    int unk1c8;
+    int unk1cc;
+    int unk1d0;
+    int unk1d4;
+    int unk1d8;
+    int unk1dc;
+    int unk1e0;
+    int unk1e4;
+    int unk1e8;
+    int unk1ec;
+    int unk1f0;
+    int unk1f4;
+    int unk1f8;
+    int unk1fc;
+    int unk200;
+    int unk204;
+    int unk208;
+    int unk20c;
+    int unk210;
+    int unk214;
+    int unk218;
+    void* m_pTopObjectsVTable;
+    NiObjectD510** m_ppkTopObjects;
+    int unk224;
+    int unk228;
+    int unk22c;
+    int unk230;
+    int unk234;
+    int unk238;
+    int unk23c;
+    int unk240;
+    int unk244;
+    int unk248;
+    int unk24c;
+    int unk250;
+    int unk254;
+    int unk258;
+    int unk25c;
+    int unk260;
+    int unk264;
+    int unk268;
+    int unk26c;
+    int unk270;
+    int unk274;
+    int unk278;
+    int unk27c;
+    int unk280;
+    int unk284;
+    int unk288;
+    int unk28c;
+    int unk290;
+    int unk294;
+    int unk298;
+    int unk29c;
+    int unk2a0;
+    int unk2a4;
+    int unk2a8;
+    int unk2ac;
+    int unk2b0;
+    int unk2b4;
+    int unk2b8;
+    int unk2bc;
+    int unk2c0;
+    int unk2c4;
+    int unk2c8;
+    int unk2cc;
+    int unk2d0;
+    int unk2d4;
+    int unk2d8;
+    int unk2dc;
+    int unk2e0;
+    int unk2e4;
+    int unk2e8;
+    int unk2ec;
+    int unk2f0;
+    int unk2f4;
+    int unk2f8;
+    int unk2fc;
+    int unk300;
+    int unk304;
+    int unk308;
+    int unk30c;
+    int unk310;
+    int unk314;
+    int unk318;
+    int unk31c;
+    int unk320;
+    int unk324;
+    int unk328;
+    int unk32c;
+    int unk330;
+    int unk334;
+    int unk338;
+    int unk33c;
+    int unk340;
+    int unk344;
+    int unk348;
+    int unk34c;
+    int unk350;
+    int unk354;
+    int unk358;
+    int unk35c;
+    int unk360;
+    int unk364;
+    int unk368;
+    int unk36c;
+    int unk370;
+    int unk374;
+    int unk378;
+    int unk37c;
+    int unk380;
+    int unk384;
+    int unk388;
+    int unk38c;
+    int unk390;
+    int unk394;
+    int unk398;
+    int unk39c;
+    int unk3a0;
+    int unk3a4;
+    int unk3a8;
+    int unk3ac;
+    int unk3b0;
+    int unk3b4;
+    int unk3b8;
+    int unk3bc;
+    int unk3c0;
+    int unk3c4;
+    int unk3c8;
+    int unk3cc;
+    int unk3d0;
+    int unk3d4;
+    int unk3d8;
+    int unk3dc;
+    int unk3e0;
+    int unk3e4;
+    int unk3e8;
+    int unk3ec;
+    int unk3f0;
+    int unk3f4;
+    int unk3f8;
+    int unk3fc;
+    int unk400;
+    int unk404;
+    int unk408;
+    int unk40c;
+    int unk410;
+    int unk414;
+    int unk418;
+    int unk41c;
+    int unk420;
+    int unk424;
+    int unk428;
+    int unk42c;
+    int unk430;
+    int unk434;
+    int unk438;
+    int unk43c;
+    int unk440;
+    int unk444;
+    int unk448;
+    int unk44c;
+    int unk450;
+    int unk454;
+    int unk458;
+    int unk45c;
+    int unk460;
+    int unk464;
+    int unk468;
+    int unk46c;
+    int unk470;
+    int unk474;
+    int unk478;
+    int unk47c;
+    int unk480;
+    int unk484;
+    int unk488;
+    int unk48c;
+    int unk490;
+    int unk494;
+    int unk498;
+    int unk49c;
+    int unk4a0;
+    int unk4a4;
+    int unk4a8;
+    int unk4ac;
+    int unk4b0;
+    int unk4b4;
+    int unk4b8;
+    int unk4bc;
+    int unk4c0;
+    int unk4c4;
+    int unk4c8;
+    int unk4cc;
+    int unk4d0;
+    int unk4d4;
+    int unk4d8;
+    int unk4dc;
+    int unk4e0;
+    int unk4e4;
+    int unk4e8;
+    int unk4ec;
+    int unk4f0;
+    int unk4f4;
+    int unk4f8;
+    int unk4fc;
+    int unk500;
+    int unk504;
+    int unk508;
+    int unk50c;
+    int unk510;
+    int unk514;
+    int unk518;
+    int unk51c;
+    int unk520;
+    int unk524;
+    int unk528;
+    int unk52c;
+    int unk530;
+    int unk534;
+    int unk538;
+    int unk53c;
+    int unk540;
+    int unk544;
+    int unk548;
+    int unk54c;
+    int unk550;
+    int unk554;
+    int unk558;
+    int unk55c;
+    int unk560;
+    int unk564;
+    int unk568;
+    int unk56c;
+    int unk570;
+    int unk574;
+    int unk578;
+    int unk57c;
+    int unk580;
+    int unk584;
+    int unk588;
+    int unk58c;
+    int unk590;
+    int unk594;
+    int unk598;
+    int unk59c;
+    int unk5a0;
+    int unk5a4;
+    int unk5a8;
+    int unk5ac;
+    int unk5b0;
+    int unk5b4;
+    int unk5b8;
+    int unk5bc;
+    int unk5c0;
+};
+
+// @fnv 0x00a5d510
+void NiObjectD510::FUN_00a5d510(NiPointerD510& spCopy)
+{
+    NiStreamD510 kStream;
+    reinterpret_cast<::NiStream *>(&(kStream))->InsertObject((::NiObject *)(::NiObjectD510 *)(this));
+    char* pcBuffer = 0;
+    int iBufferSize = 0;
+    reinterpret_cast<::NiStream *>(&(kStream))->Save(pcBuffer, iBufferSize);
+    reinterpret_cast<::NiStream *>(&(kStream))->Load(pcBuffer, iBufferSize);
+    NiPointerD510 spRetainedObject = kStream.GetObjectAt(0);
+    ::FUN_00aa10f0(pcBuffer);
+    spCopy = spRetainedObject;
 }
 
 #include "generated/data/staging/blk_00a40000_o2.inc"

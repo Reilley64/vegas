@@ -647,6 +647,8 @@ struct FUN_0083c750_class
 struct TESForm
 {
     virtual ~TESForm();
+    public:
+    ::ENUM_FORM_ID GetFormType() const;
 };
 struct TESObjectREFR : TESForm
 {
@@ -4139,6 +4141,15 @@ FUN_0083c750::~FUN_0083c750()
 
 namespace fnv_0082f1b0 {
 #include <windows.h>
+#include "fnv/decl/FORenderedMenu.h"
+#include "fnv/decl/FUN_004615d0_shell.h"
+#include "fnv/decl/FUN_0082f260_cls.h"
+#include "fnv/decl/FUN_0083c750.h"
+#include "fnv/decl/SoundWrapper.h"
+#include "fnv/decl/fnv_0083b710__FUN_0083b710_cls.h"
+#include "fnv/symbols_00831000.h"
+#include "fnv/symbols_0083a000.h"
+#include "../../include/layout_support_decl_blk_00820000_od.h"
 
 // Wrapper around the Win32 critical-section API: locks the section owned by
 // the object passed in the fastcall register (ecx).
@@ -4167,6 +4178,66 @@ FUN_0082b370::FUN_0082b370(int a, int b, int c)
     ((ArgHolderBaseCtor*)this)->FUN_00803d30(a, b, c);
     *(void***)this = DAT_0107c53c;
     _pad[0x48] = 0;
+}
+
+void FUN_00837500();
+
+enum ENUM_FORM_ID;
+
+bool FUN_0082d740(TESSound* self, int* outA, int* outB);
+
+FUN_0082b370* CreateFUN0082b370(int a, int b, int c);
+
+void* __cdecl CreateFUN0082cf80(int a, int b, int c);
+
+int strcpy_s(char* dest, unsigned int size, const char* src);
+
+int FUN_00831f70(int unused);
+
+// These declarations name the existing BSStringT ABI accessors omitted from
+// the supplied class declaration; they add no storage or replacement bodies.
+struct StringAccess530
+{
+};
+
+struct BraceString530 : BSStringT<char>
+{
+    BSStringT<char> FUN_0083d8b0();
+};
+
+// @fnv 0x0083d8b0
+BSStringT<char> BraceString530::FUN_0083d8b0()
+{
+    unsigned int output6 = 0;  // next output character
+    int depth_ = 0;            // nesting depth
+    unsigned int index4;       // input character index
+    BSStringT<char> result;
+    reinterpret_cast<::TextString *>(&(result))->FUN_004037f0(((const char *)(::FUN_00559450((int *)this))), 0);
+    for (index4 = 0; index4 < ((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((((StringAccess530*)this)))->FUN_004048e0())); ++index4)
+    {
+        if (((const char *)(::FUN_00559450((int *)this)))[index4] == '{')
+        {
+            ++depth_;
+        }
+        else if (((const char *)(::FUN_00559450((int *)this)))[index4] == '}')
+        {
+            depth_ = depth_ == 0 ? 0 : depth_ - 1;
+        }
+        if (depth_ == 0)
+        {
+            if (((const char *)(::FUN_00559450((int *)this)))[index4] != '}')
+            {
+                *((char *)(reinterpret_cast<::FUN_0083da30_cls *>((((StringAccess530*)&result)))->ApplyMaskedOffset(output6))) = ((const char *)(::FUN_00559450((int *)this)))[index4];
+                ++output6;
+            }
+        }
+    }
+    if (output6 < ((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((((StringAccess530*)&result)))->FUN_004048e0())))
+    {
+        *((char *)(reinterpret_cast<::FUN_0083da30_cls *>((((StringAccess530*)&result)))->ApplyMaskedOffset(output6))) = 0;
+    }
+    result.SetLength(output6);
+    return result;
 }
 
 #include "generated/data/staging/blk_00820000_od.inc"

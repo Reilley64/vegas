@@ -1264,6 +1264,7 @@ struct SpawnedObject
     int unk2c;
     int m30;
 
+    void InitBase() throw();
 };
 
 // Allocates a 0x34-byte SpawnedObject, runs InitBase, installs the vtable, zeroes most fields, sets m18 to -1, and returns it (or null).
@@ -3309,6 +3310,29 @@ void ByteDecoder::DecodeBytes(unsigned char* src, unsigned char* dst)
 }
 
 #include <string.h>
+#include <cstddef>
+#include "fnv/decl/ActiveArray.h"
+#include "fnv/decl/FUN_00a41520_cls.h"
+#include "fnv/decl/FUN_00a826b0_shell.h"
+#include "fnv/decl/NormalizedWeights.h"
+#include "fnv/decl/SkinBuilder.h"
+#include "fnv/decl/SkinWeights__Processor.h"
+#include "fnv/decl/Skp_00a828d0_cls.h"
+#include "fnv/symbols_00a81000.h"
+#include "fnv/symbols_00a84000.h"
+#include "fnv/symbols_00a86000.h"
+#include "fnv/symbols_00a87000.h"
+#include "fnv/symbols_00a8f000.h"
+#include "fnv/symbols_00a91000.h"
+#include "fnv/symbols_00a95000.h"
+#include "fnv/symbols_00a9a000.h"
+#include "fnv/symbols_00a9b000.h"
+#include "fnv/symbols_00a9f000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_010a2000.h"
+#include "fnv/symbols_00a85000.h"
+#include "fnv/symbols_00a88000.h"
+#include "fnv/symbols_00a8a000.h"
 // Returns 1 if a is null, -1 if b is null, otherwise returns the result of comparing the two strings pointed to by a and b.
 // @fnv 0x00a86280
 int __cdecl FUN_00a86280(const char** apStrA, const char** apStrB)
@@ -3410,6 +3434,8 @@ public:
     unsigned int unk38;
     unsigned int unk3c;
     unsigned int unk40;
+    NiPixelFormat();
+    bool operator==(const NiPixelFormat&) const;
 };
 struct BitmapReader {
     unsigned int unk000;
@@ -3862,6 +3888,924 @@ void MaterialLibraryView::FUN_00a8fdb0()
     }
     vtbl = (void*)&(*reinterpret_cast<const void * *>(&::DAT_0101dce4));
     fn((void*)&(*reinterpret_cast<volatile long *>(&::NiRefObject::ms_lObjectCount)));
+}
+
+int __cdecl GetGlobalDataPtr();
+
+void ResetStreamLinkIDSet();
+
+unsigned int __cdecl FUN_00a88ac0(unsigned int a);
+
+extern int(* DAT_00fdf1c4)(void*);
+
+void __cdecl FUN_00a9ba80();
+
+float __cdecl FUN_00a811f0(float y, float x);
+
+void FUN_00a89650(const short* psCompressed, unsigned int uiUnused, float fProjectionAlongAim, float fHalfRange,
+                  float* pfValues, unsigned int ItemUpdateArray);
+
+// VEGAS17-CONFLICT: DecodePair (variant definition below differs from the one above)
+struct DecodePair
+{
+    unsigned char first, second;
+};
+
+// VEGAS17-CONFLICT: Decoder (variant definition below differs from the one above)
+struct Decoder
+{
+    unsigned int unk00, unk04;
+    unsigned char* input;
+    unsigned int unk0c;
+    DecodePair table[256];
+    void DecodeToOutput(unsigned int* output);
+};
+
+extern "C" void __cdecl FUN_00ec44d0(void* dst, const void* src, unsigned int size);
+
+// VEGAS17-CONFLICT: FUN_00a8bdf0_cls (variant definition below differs from the one above)
+struct FUN_00a8bdf0_cls
+{
+    void(* m_00)(FUN_00a8bdf0_cls* self, unsigned char* out);
+    void(* m_04)(FUN_00a8bdf0_cls* self, unsigned char* out);
+    int m_08;
+    int m_0c;
+    void FUN_00a8bdf0(unsigned char* dst, unsigned int a2, unsigned int count);
+};
+
+struct MemMgr : MemoryManager
+{
+};
+
+struct WeightEntry
+{
+    unsigned int index;
+    float weight;
+};
+
+struct WeightArray
+{
+    WeightEntry* m_data;
+    unsigned int m_pRayCursor;
+    unsigned int m_iElementCount;
+
+    WeightArray() throw();
+    ~WeightArray()
+    {
+        ::FUN_00aa10f0(m_data);
+    }
+
+    void Add(const WeightEntry& entry)
+    {
+        if (m_iElementCount == m_pRayCursor)
+            reinterpret_cast<::FUN_00a826b0_shell *>(this)->FUN_00a826b0(m_pRayCursor > 0 ? m_pRayCursor * 2 : 1);
+        m_data[m_iElementCount] = entry;
+        m_iElementCount++;
+    }
+
+};
+
+struct BoneWeight
+{
+    unsigned short vertex;
+    unsigned short pad02;
+    float weight;
+};
+
+struct SkinBone
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3C;
+    int unk40;
+    BoneWeight* weights;
+    unsigned short weightCount;
+    unsigned short unk4A;
+};
+
+// VEGAS17-CONFLICT: SkinData (variant definition below differs from the one above)
+struct SkinData
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3C;
+    SkinBone* bones;
+    unsigned int boneCount;
+};
+
+// @fnv 0x00a84810
+WeightArray* FUN_00a84810(unsigned int vertexCount, SkinData* skin)
+{
+    WeightArray* arrays = new WeightArray[vertexCount];
+    unsigned int boneCount = skin->boneCount;
+    for (unsigned int i = 0; i < boneCount; i++)
+    {
+        SkinBone* bone = &skin->bones[i];
+        for (unsigned int j = 0; j < bone->weightCount; j++)
+        {
+            WeightEntry entry;
+            entry.index = i;
+            entry.weight = bone->weights[j].weight;
+            arrays[bone->weights[j].vertex].Add(entry);
+        }
+    }
+    for (unsigned int k = 0; k < vertexCount; k++)
+    {
+        if (arrays[k].m_iElementCount == 0)
+        {
+            delete[] arrays;
+            return 0;
+        }
+        reinterpret_cast<::NormalizedWeights *>(&(arrays[k]))->NormalizeWeights();
+        reinterpret_cast<::NormalizedWeights *>(&(arrays[k]))->NormalizeWeights();
+    }
+    return arrays;
+}
+
+// NiFree
+
+struct S911d0_Entry
+{
+    unsigned int unk00;
+    unsigned int unk04;
+    void* m_pkName0;
+    void* m_pkName1;
+    void* m_pkName2;
+};
+
+class S911d0_EntryPool
+{
+  public:
+      // Delete
+};
+
+template <class T> class S911d0_ArrayBase
+{
+  public:
+    virtual ~S911d0_ArrayBase()
+    {
+        FUN_00aa10f0(m_pBase);
+    }
+
+    unsigned int GetSize() const
+    {
+        return m_usSize;
+    }
+    T GetAt(unsigned int uiIndex) const
+    {
+        return m_pBase[uiIndex];
+    }
+    void SetAt(unsigned int uiIndex, const T& element)
+    {
+        if (uiIndex >= m_usSize)
+        {
+            m_usSize = (unsigned short)(uiIndex + 1);
+            if (element != 0)
+                m_usESize++;
+        }
+        else if (element != 0)
+        {
+            if (m_pBase[uiIndex] == 0)
+                m_usESize++;
+        }
+        else if (m_pBase[uiIndex] != 0)
+        {
+            m_usESize--;
+        }
+        m_pBase[uiIndex] = element;
+    }
+    void FUN_00a90180(int iFlags);
+
+    T* m_pBase;
+    unsigned short m_usMaxSize;
+    unsigned short m_usSize;
+    unsigned short m_usESize;
+    unsigned short m_usGrowBy;
+};
+
+class S911d0_Base
+{
+  public:
+    virtual ~S911d0_Base();  // FUN_00a7b8c0
+    unsigned int unk04;
+    unsigned int unk08;
+    unsigned int unk0C;
+    unsigned int unk10;
+    unsigned int unk14;
+    unsigned int unk18;
+    unsigned int unk1C;
+    unsigned int unk20;
+    unsigned int unk24;
+    unsigned int unk28;
+    unsigned int unk2C;
+    unsigned int unk30;
+    unsigned int unk34;
+    unsigned int unk38;
+    unsigned int unk3C;
+    unsigned int unk40;
+    unsigned int unk44;
+    unsigned int unk48;
+    unsigned int unk4C;
+    unsigned int unk50;
+    unsigned int unk54;
+    unsigned int unk58;
+    unsigned int unk5C;
+};
+
+class FUN_00a911d0 : public S911d0_Base
+{
+  public:
+    virtual ~FUN_00a911d0();
+    S911d0_ArrayBase<S911d0_Entry*> m_kEntries;
+};
+
+// @fnv 0x00a911d0
+FUN_00a911d0::~FUN_00a911d0()
+{
+    for (unsigned int i = 0; i < m_kEntries.GetSize(); i++)
+    {
+        S911d0_Entry* pkEntry = m_kEntries.GetAt(i);
+        m_kEntries.SetAt(i, 0);
+        if (pkEntry)
+        {
+            reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::FUN_00aa4060_class *>(&::g_memoryManager))))->FUN_00aa4060(pkEntry->m_pkName0);
+            reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::FUN_00aa4060_class *>(&::g_memoryManager))))->FUN_00aa4060(pkEntry->m_pkName1);
+            reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::FUN_00aa4060_class *>(&::g_memoryManager))))->FUN_00aa4060(pkEntry->m_pkName2);
+            S911d0_Entry* pkDelete = pkEntry;
+            reinterpret_cast<::ActiveArray *>(((*reinterpret_cast<::S911d0_EntryPool * *>(&::DAT_011f5e50))))->FindOrAdd((*(void *const *)(&pkDelete)));
+        }
+    }
+    reinterpret_cast<::FUN_00a41520_cls *>(&(m_kEntries))->FUN_00a90180(0);
+}
+
+extern void(* DAT_00fdf05c)(void*);
+
+extern void(* DAT_00fdf100)(void*);
+
+struct BmpColor
+{
+    unsigned char r, g, b, a;
+};
+
+class FUN_00a8b110 : public NiRefObject
+{
+  public:
+    unsigned int unk08, unk0c, unk10, unk14, unk18, unk1c, unk20;
+    FUN_00a8b110(bool, unsigned int, const BmpColor*);
+};
+
+class NiPixelData
+{
+  public:
+    void* vtable;
+    unsigned int refs;
+    NiPixelFormat format;
+    FUN_00a8b110* palette;
+    unsigned char* pixels;
+    unsigned int* width;
+    unsigned int* height;
+    unsigned int* offsets;
+    unsigned int levels;
+    unsigned int stride;
+    unsigned int unk68, unk6c, unk70;
+    NiPixelData(unsigned int, unsigned int, const NiPixelFormat&, unsigned int = 1, unsigned int = 1);
+    unsigned char* Pixels()
+    {
+        return pixels + offsets[0];
+    }
+    void SetPalette(FUN_00a8b110* p)
+    {
+        if (palette != p)
+        {
+            if (palette)
+                palette->DecRefCount();
+            palette = p;
+            if (palette)
+                palette->IncRefCount();
+        }
+    }
+};
+
+struct BmpStream
+{
+    virtual void v0();
+    virtual void v1();
+    virtual void v2();
+    virtual void v3();
+    virtual void v4();
+    virtual void Seek(int, int);
+    unsigned int position;
+    unsigned int(__cdecl* read)(BmpStream*, void*, unsigned int, unsigned int*, unsigned int);
+    void Read(void* dst, unsigned int size)
+    {
+        unsigned int component = 1;
+        position += read(this, dst, size, &component, 1);
+    }
+};
+
+struct BmpReader
+{
+    virtual void v0();
+    virtual void v1();
+    virtual void v2();
+    virtual bool Header(BmpStream&, unsigned int&, unsigned int&, NiPixelFormat&, bool&, unsigned int&);
+    unsigned int unk004;
+    unsigned int unk008;
+    unsigned int unk00c;
+    unsigned int unk010;
+    unsigned int unk014;
+    unsigned int unk018;
+    unsigned int unk01c;
+    unsigned int unk020;
+    unsigned int unk024;
+    unsigned int unk028;
+    unsigned int unk02c;
+    unsigned int unk030;
+    unsigned int unk034;
+    unsigned int unk038;
+    unsigned int unk03c;
+    unsigned int unk040;
+    unsigned int unk044;
+    unsigned int unk048;
+    unsigned int unk04c;
+    unsigned int unk050;
+    unsigned int unk054;
+    unsigned int unk058;
+    unsigned int unk05c;
+    unsigned int unk060;
+    unsigned int unk064;
+    unsigned int unk068;
+    unsigned int unk06c;
+    unsigned int unk070;
+    unsigned int unk074;
+    unsigned int unk078;
+    unsigned int unk07c;
+    unsigned int unk080;
+    unsigned int unk084;
+    unsigned int unk088;
+    unsigned int unk08c;
+    unsigned int unk090;
+    unsigned int unk094;
+    unsigned int unk098;
+    unsigned int unk09c;
+    unsigned int unk0a0;
+    unsigned int unk0a4;
+    unsigned int unk0a8;
+    unsigned int unk0ac;
+    unsigned int unk0b0;
+    unsigned int unk0b4;
+    unsigned int unk0b8;
+    unsigned int unk0bc;
+    unsigned int unk0c0;
+    unsigned int unk0c4;
+    unsigned int unk0c8;
+    unsigned int unk0cc;
+    unsigned int unk0d0;
+    unsigned int unk0d4;
+    unsigned int unk0d8;
+    unsigned int unk0dc;
+    unsigned int unk0e0;
+    unsigned int unk0e4;
+    unsigned int unk0e8;
+    unsigned int unk0ec;
+    unsigned int unk0f0;
+    unsigned int unk0f4;
+    unsigned int unk0f8;
+    unsigned int unk0fc;
+    unsigned int width, height;
+    NiPixelFormat format;
+    unsigned short bpp;
+    unsigned int colorCount, dataOffset;
+    bool flip;
+    NiPixelData* FUN_00a8e810(BmpStream& stream, NiPixelData* optional);
+};
+
+// @fnv 0x00a8e810
+NiPixelData* BmpReader::FUN_00a8e810(BmpStream& stream, NiPixelData* optional)
+{
+    bool mipmap;
+    unsigned int w, h, faces;
+    NiPixelFormat headerFormat;
+    DAT_00fdf05c(&unk080);
+    if (!Header(stream, w, h, headerFormat, mipmap, faces))
+    {
+        DAT_00fdf100(&unk080);
+        return 0;
+    }
+    NiPixelData* dest;
+    if (optional && optional->width[0] == width && optional->height[0] == height && optional->format == format)
+        dest = optional;
+    else
+        dest = new NiPixelData(width, height, format);
+    if (format == (*reinterpret_cast<const ::NiPixelFormat *>((void *)&::DAT_011aa210)))
+    {
+        BmpColor colors[256];
+        stream.Read(colors, colorCount * sizeof(BmpColor));
+        BmpColor* color = colors;
+        for (unsigned int i = 0; i < colorCount; ++i, ++color)
+        {
+            unsigned char temp = color->r;
+            color->r = color->b;
+            color->b = temp;
+            color->a = 255;
+        }
+        dest->SetPalette(new FUN_00a8b110(false, 256, colors));
+    }
+    else
+    {
+        stream.Seek(colorCount * sizeof(BmpColor), DAT_010a2484);
+    }
+    int extra = dataOffset - 54 - colorCount * sizeof(BmpColor);
+    if (extra > 0)
+        stream.Seek(extra, DAT_010a2484);
+    unsigned int imageSize = (((width * bpp + 31) & ~31) >> 3) * height;
+    unsigned int rowSize = dest->width[0] * dest->stride;
+    if (bpp == 4)
+    {
+        unsigned int packedSize = (width >> 1) + (width & 1);
+        unsigned int padding = (packedSize & 3) ? 4 - (packedSize & 3) : 0;
+        unsigned char* input = (unsigned char*)::FUN_00aa1070(packedSize + padding);
+        unsigned char* row;
+        int step;
+        if (flip)
+        {
+            row = dest->Pixels() + rowSize * (dest->height[0] - 1);
+            step = -(int)rowSize;
+        }
+        else
+        {
+            row = dest->Pixels();
+            step = rowSize;
+        }
+        for (unsigned int y = 0; y < height; ++y, row += step)
+        {
+            stream.Read(input, packedSize + padding);
+            unsigned char* out = row;
+            unsigned char* in = input;
+            for (unsigned int x = 0; x < packedSize; ++x)
+            {
+                *out++ = *in >> 4;
+                *out++ = *in & 15;
+                ++in;
+            }
+        }
+        ::FUN_00aa10f0(input);
+    }
+    else
+    {
+        if (flip)
+        {
+            unsigned char* row = dest->Pixels() + rowSize * (height - 1);
+            unsigned int y;
+            if (rowSize & 3)
+            {
+                unsigned int padding = 4 - (rowSize & 3);
+                unsigned char dummy[4];
+                for (y = 0; y < height; ++y)
+                {
+                    stream.Read(row, rowSize);
+                    stream.Read(dummy, padding);
+                    row -= rowSize;
+                }
+            }
+            else
+            {
+                for (y = 0; y < height; ++y)
+                {
+                    stream.Read(row, rowSize);
+                    row -= rowSize;
+                }
+            }
+        }
+        else
+        {
+            if (rowSize & 3)
+            {
+                unsigned int padding = 4 - (rowSize & 3);
+                unsigned char* row = dest->Pixels();
+                unsigned char dummy[4];
+                for (unsigned int y = 0; y < height; ++y, row += rowSize)
+                {
+                    stream.Read(row, rowSize);
+                    stream.Read(dummy, padding);
+                }
+            }
+            else
+            {
+                stream.Read(dest->Pixels(), imageSize);
+            }
+        }
+    }
+    if (format == DAT_011aa2e8 || format == (*reinterpret_cast<const ::NiPixelFormat *>(&::gNiPoint3StartupSrc)))
+    {
+        unsigned int pixelStride = dest->stride;
+        unsigned int count = width * height;
+        unsigned char* pixel = dest->Pixels();
+        for (unsigned int i = 0; i < count; ++i, pixel += pixelStride)
+        {
+            unsigned char swap = pixel[0];
+            pixel[0] = pixel[2];
+            pixel[2] = swap;
+        }
+    }
+    DAT_00fdf100(&unk080);
+    return dest;
+}
+
+inline void* operator new[](std::size_t size, int) throw()
+{
+    return reinterpret_cast<::MemoryManagerStandIn *>(&(static_cast<MemMgr&>(g_memoryManager)))->FUN_00aa3e40(size);
+}
+
+struct Interaction
+{
+    unsigned int bone;
+    float weight;
+};
+
+struct TempRecord
+{
+    void* data;
+    unsigned int size;
+    unsigned int count;
+    ~TempRecord()
+    {
+        ::FUN_00aa10f0(data);
+    }
+};
+
+struct Holder
+{
+    void* data;
+    unsigned int size;
+    unsigned int count;
+    unsigned short index;
+    unsigned short flags;
+    ~Holder()
+    {
+        ::FUN_00aa10f0(data);
+    }
+    bool ContainsSortedSubset(const Holder* other);
+};
+
+__declspec(noinline) bool Holder::ContainsSortedSubset(const Holder* other)
+{
+    unsigned int i = 0;
+    for (unsigned int j = 0; j < other->count; ++j, ++i)
+    {
+        while (i < count &&
+               static_cast<const unsigned short*>(data)[i] < static_cast<const unsigned short*>(other->data)[j])
+            ++i;
+        if (i == count ||
+            static_cast<const unsigned short*>(data)[i] != static_cast<const unsigned short*>(other->data)[j])
+            return false;
+    }
+    return true;
+}
+
+struct SourceGeometry
+{
+    unsigned int unk00, unk04;
+    unsigned short vertexCount, unk0a;
+    unsigned int unk0c, unk10, unk14, unk18, unk1c, unk20, unk24, unk28, unk2c, unk30, unk34, unk38, unk3c;
+    unsigned short triangleCount, unk42;
+    unsigned short GetCount() const
+    {
+        return vertexCount;
+    }
+    unsigned short GetTriangleCount() const
+    {
+        return triangleCount;
+    }
+};
+
+struct SkinBuildData
+{
+    unsigned int unk00;
+    unsigned int unk04;
+    unsigned int unk08;
+    unsigned int unk0c;
+    unsigned int unk10;
+    unsigned int unk14;
+    unsigned int unk18;
+    unsigned short unk1c;
+    unsigned short triangleTotal;
+    unsigned int unk20;
+    unsigned short influencesPerVertex;
+    unsigned short unk26;
+    unsigned int unk28;
+    unsigned int unk2c;
+    unsigned int unk30;
+    unsigned int unk34;
+    unsigned int unk38;
+    unsigned int unk3c;
+    unsigned int unk40;
+    unsigned int boneCount;
+};
+
+struct C082d30
+{
+    void* data;
+    unsigned int size;
+    unsigned int count;
+    void AppendMatchingIndices(int, void*, unsigned int);
+    void Grow(unsigned int);
+public:
+    void AppendMatchingIndices(int, int *, unsigned int);
+};
+
+__declspec(noinline) void C082d30::AppendMatchingIndices(int partition, void* assignments, unsigned int triangleTotal)
+{
+    const int* map = static_cast<const int*>(assignments);
+    for (unsigned int triangle = 0; triangle < triangleTotal; ++triangle)
+    {
+        if (map[triangle] != partition)
+            continue;
+        if (count == size)
+            Grow(size == 0 ? 1 : 2 * size);
+        static_cast<unsigned short*>(data)[count] = static_cast<unsigned short>(triangle);
+        ++count;
+    }
+}
+
+struct FUN_00a81ba0
+{
+    void* m_pVTable;
+    unsigned short* m_04;
+    float* m_08;
+    unsigned short* m_0c;
+    unsigned char* m_10;
+    unsigned short* m_14;
+    unsigned short* m_18;
+    unsigned short unk1c;
+    unsigned short triangleTotal;
+    unsigned short unk20;
+    volatile unsigned short m_22;
+    unsigned short influencesPerVertex;
+    unsigned short unk26;
+    unsigned int m_28;
+
+    FUN_00a81ba0() throw();
+    ~FUN_00a81ba0()
+    {}
+    unsigned short* BuildVertexRemapTable(C082d30*, SourceGeometry*);
+    void BuildTriangleList(C082d30*, SourceGeometry*, unsigned short*);
+    void PopulateSkinData(C082d30*, Holder*, SourceGeometry*, TempRecord*, bool, bool, unsigned char, unsigned int);
+};
+
+typedef FUN_00a81ba0 OutputRecord;
+
+struct HolderArray
+{
+    Holder** volatile data;
+    unsigned int capacity;
+    unsigned int count;
+};
+
+struct GeometryBuilder
+{
+    unsigned int unk00, unk04, count;
+    OutputRecord* output;
+    bool FUN_00a84980(SourceGeometry*, SkinBuildData*, unsigned char, unsigned char, bool, OutputRecord**,
+                      unsigned short*, unsigned char*);
+};
+
+__declspec(noinline) void FUN_00a81ba0::PopulateSkinData(C082d30* triangles, Holder* bones, SourceGeometry* geometry,
+                                                         TempRecord* interactions, bool padBones, bool makePalette,
+                                                         unsigned char width, unsigned int totalBones)
+{
+    unsigned int paletteCount = bones->count;
+    if (paletteCount < width)
+        paletteCount = width;
+    unk20 = static_cast<unsigned short>(paletteCount);
+    triangleTotal = static_cast<unsigned short>(triangles->count);
+    m_04 = static_cast<unsigned short*>(::FUN_00aa1070(2 * unk20));
+    for (unsigned int i = 0; i < unk20; ++i)
+        m_04[i] = i < bones->count ? static_cast<unsigned short*>(bones->data)[i] : 0;
+    unsigned short* translation = BuildVertexRemapTable(triangles, geometry);
+    BuildTriangleList(triangles, geometry, translation);
+    ::FUN_00aa10f0(translation);
+    float* destination;
+    if (padBones)
+    {
+        influencesPerVertex = width;
+        unsigned int count = influencesPerVertex * unk1c;
+        m_08 = static_cast<float*>(::FUN_00aa1070(sizeof(float) * count));
+        m_10 = static_cast<unsigned char*>(::FUN_00aa1070(count));
+        unsigned int* remap = static_cast<unsigned int*>(::FUN_00aa1070(sizeof(unsigned int) * totalBones));
+        for (unsigned int bone = 0; bone < bones->count; ++bone)
+            remap[m_04[bone]] = bone;
+        destination = m_08;
+        unsigned char* palette = m_10;
+        float* weights = static_cast<float*>(::FUN_00aa1070(sizeof(float) * influencesPerVertex));
+        unsigned char* paletteIndices = static_cast<unsigned char*>(::FUN_00aa1070(influencesPerVertex));
+        for (unsigned int vertex = 0; vertex < unk1c; ++vertex)
+        {
+            const TempRecord& record = interactions[m_0c[vertex]];
+            const Interaction* entries = static_cast<const Interaction*>(record.data);
+            unsigned int slot = 0;
+            for (; slot < record.count; ++slot)
+            {
+                weights[slot] = entries[slot].weight;
+                paletteIndices[slot] = static_cast<unsigned char>(remap[entries[slot].bone]);
+            }
+            for (; slot < influencesPerVertex; ++slot)
+            {
+                weights[slot] = 0.0f;
+                paletteIndices[slot] = 0;
+            }
+            for (unsigned int outputSlot = 0; outputSlot < influencesPerVertex; ++outputSlot)
+            {
+                unsigned int selected = 0;
+                float largest = weights[0];
+                for (unsigned int candidate = 1; candidate < influencesPerVertex; ++candidate)
+                {
+                    if (weights[candidate] > largest)
+                    {
+                        selected = candidate;
+                        largest = weights[candidate];
+                    }
+                }
+                *destination++ = weights[selected];
+                *palette++ = paletteIndices[selected];
+                weights[selected] = -1.0f;
+            }
+        }
+        ::FUN_00aa10f0(weights);
+        ::FUN_00aa10f0(paletteIndices);
+        ::FUN_00aa10f0(remap);
+    }
+    else
+    {
+        influencesPerVertex = unk20;
+        unsigned int count = influencesPerVertex * unk1c;
+        m_08 = static_cast<float*>(::FUN_00aa1070(sizeof(float) * count));
+        destination = m_08;
+        for (unsigned int vertex = 0; vertex < unk1c; ++vertex)
+        {
+            const TempRecord& record = interactions[m_0c[vertex]];
+            const Interaction* entries = static_cast<const Interaction*>(record.data);
+            unsigned int slot = 0;
+            for (; slot < bones->count; ++slot)
+            {
+                float weight = 0.0f;
+                unsigned int bone = static_cast<const unsigned short*>(bones->data)[slot];
+                for (unsigned int interaction = 0; interaction < record.count; ++interaction)
+                {
+                    if (entries[interaction].bone == bone)
+                    {
+                        weight = entries[interaction].weight;
+                        break;
+                    }
+                }
+                *destination++ = weight;
+            }
+            for (; slot < unk20; ++slot)
+                *destination++ = 0.0f;
+        }
+        if (makePalette)
+        {
+            m_10 = static_cast<unsigned char*>(::FUN_00aa1070(count));
+            unsigned char* palette = m_10;
+            for (unsigned int vertex = 0; vertex < unk1c; ++vertex)
+                for (unsigned int bone = 0; bone < unk20; ++bone)
+                    *palette++ = static_cast<unsigned char>(bone);
+        }
+    }
+}
+
+// @fnv 0x00a84980
+bool GeometryBuilder::FUN_00a84980(SourceGeometry* source, SkinBuildData* other, unsigned char first,
+                                   unsigned char second, bool mode, OutputRecord** outputs, unsigned short* indices,
+                                   unsigned char* changes)
+{
+    HolderArray holders = {0, 0, 0};
+    void* data;
+    TempRecord* records = ((::TempRecord *)(::FUN_00a84810((unsigned int)this, (::SkinData *)(source->GetCount()))));
+    if (!records)
+    {
+        ::FUN_00aa10f0(records);
+        return false;
+    }
+
+    bool success = reinterpret_cast<::SkinWeights::Processor *>(this)->ReduceGroupWeights((::SkinWeights::Geometry *)(source), first, second, (::SkinWeights::Group *)(records));
+    if (success)
+    {
+        success = reinterpret_cast<::SkinBuilder *>(this)->BuildTriangleSetMapping((::SkinGeom *)(source), other, first, records, (::SkinItems *)(::HolderArray *)(&holders), (int **)(void **)(&data), (int *)(outputs));
+        if (outputs && indices && changes)
+        {
+            for (unsigned int i = 0; i < holders.count; ++i)
+            {
+                Holder** entries = holders.data;
+                Holder* current = entries[i];
+                indices[i] = current->index;
+                if (i)
+                {
+                    Holder* previous = entries[i - 1];
+                    if (current->ContainsSortedSubset(previous) && current->count == previous->count)
+                        changes[i] = 0;
+                    else
+                        changes[i] = 1;
+                }
+                else
+                {
+                    changes[0] = 1;
+                }
+            }
+        }
+        OutputRecord* result = new (0) OutputRecord[count];
+        bool padBones = (first != second);
+        C082d30 scratch;
+        scratch.data = 0;
+        scratch.size = 0;
+        scratch.count = 0;
+        for (unsigned int i = 0; i < count; ++i)
+        {
+            reinterpret_cast<::C082d30 *>(&(scratch))->AppendMatchingIndices(i, (int *)(data), source->GetTriangleCount());
+            Holder* current = const_cast<Holder**&>(holders.data)[i];
+            reinterpret_cast<::Skp_00a828d0_cls *>(&(result[i]))->PopulateSkinData((::GeomData *)(::C082d30 *)(&scratch), (::Skp_00a828d0_src *)(current), source, (::Skp_00a828d0_grp *)(records), padBones, mode, second,
+                                       (*(SkinBuildData* volatile*)&other)->boneCount);
+            scratch.count = 0;
+            delete current;
+        }
+        ::FUN_00aa10f0(data);
+        while (count)
+        {
+            unsigned int i = 0;
+            for (; i < count; ++i)
+            {
+                if (!(unsigned short)result[i].unk1c)
+                {
+                    for (unsigned int j = i; j < count - 1; ++j)
+                    {
+                        std::memmove(&result[j], &result[j + 1], sizeof(OutputRecord));
+                        outputs[j] = outputs[j + 1];
+                        indices[j] = indices[j + 1];
+                        changes[j] = changes[j + 1];
+                    }
+                    --count;
+                    break;
+                }
+            }
+            if (i == count)
+                break;
+        }
+        output = result;
+        ::FUN_00aa10f0(scratch.data);
+    }
+    delete[] records;
+    ::FUN_00aa10f0(holders.data);
+    return success;
+}
+
+void __cdecl _memmove(void*,const void*,unsigned int);
+
+void __cdecl FUN_00a877d0();
+
+void __cdecl FUN_00a877e0();
+
+struct P03MM {  };
+
+struct SpawnedRecord {
+    int m_p;
+    short m_s1;
+    short m_s2;
+    int m_i1;
+    int m_i2;
+    int m_i3;
+    SpawnedRecord() throw();
+    ~SpawnedRecord() {}
+};
+
+// @fnv 0x00a90290
+SpawnedRecord* FUN_00a90290(unsigned int n) {
+    return new SpawnedRecord[n];
 }
 
 #include "generated/data/staging/blk_00a80000_o2.inc"

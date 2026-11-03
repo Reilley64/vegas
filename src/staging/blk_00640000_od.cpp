@@ -312,6 +312,7 @@ struct FUN_0064db00_class
 struct FUN_0064db50_class
 {
     void FUN_0064db50(int a, intptr_t b);
+    void FUN_0064db50(int a, int b);
 };
 
 struct FUN_0064dbd0_Class
@@ -1920,6 +1921,7 @@ struct FUN_0065cc70_Holder
     int m_8;
     int m_C;
     intptr_t FUN_0065cc70(unsigned int param);
+    int FUN_0065cc70(unsigned int param);
 };
 // Bounds-checks param against the holder's count, then returns the int stored at offset 0xc plus param.
 // @fnv 0x0065cc70
@@ -1939,6 +1941,7 @@ struct TextureBasis
 struct Holder : TextureBasis
 {
     intptr_t FUN_0065cec0(unsigned int);
+    int FUN_0065cec0(unsigned int);
 };
 // @fnv 0x0065cec0
 intptr_t Holder::FUN_0065cec0(unsigned int auiIndex)
@@ -7795,6 +7798,29 @@ bool VecF380::FUN_0065f380(unsigned int _Capacity)
 }
 
 #include <math.h>
+#include <cstddef>
+#include "fnv/decl/FUN_006c63e0_Class.h"
+#include "fnv/decl/FloatInsertVector.h"
+#include "fnv/decl/InsertVector.h"
+#include "fnv/decl/fnv_006505d0__FUN_006505d0_class.h"
+#include "fnv/decl/fnv_00659310__FUN_00659310_Class.h"
+#include "fnv/decl/fnv_00659440__FUN_00659440.h"
+#include "fnv/decl/fnv_0065d740__FUN_0065d740_cls.h"
+#include "fnv/decl/fnv_0065ec10__FUN_0065ec10_class.h"
+#include "fnv/decl/fnv_0065ec40__FUN_0065ec40_Class.h"
+#include "fnv/decl/fnv_0065ec70__FUN_0065ec70_class.h"
+#include "fnv/decl/fnv_0065edd0__FUN_0065edd0_class.h"
+#include "fnv/decl/fnv_0065f4f0__FUN_0065f4f0_cls.h"
+#include "fnv/decl/fnv_0065f550__FUN_0065f550_Class.h"
+#include "fnv/decl/fnv_0065f5a0__FUN_0065f5a0_cls.h"
+#include "fnv/symbols_00401000.h"
+#include "fnv/symbols_004ad000.h"
+#include "fnv/symbols_00642000.h"
+#include "fnv/symbols_00643000.h"
+#include "fnv/symbols_00644000.h"
+#include "fnv/symbols_00646000.h"
+#include "fnv/symbols_00649000.h"
+#include "fnv/symbols_00660000.h"
 template <class Collection> class SettingT
 {
   public:
@@ -7979,6 +8005,194 @@ FUN_00658f30::FUN_00658f30(const FUN_00658f30& other) : rows(other.rows), column
     reinterpret_cast<::S_0060b3f0 *>(this)->FUN_0060b3f0(rows * columns);
     if (((unsigned int)(reinterpret_cast<::FUN_00662820_shell *>((void *)this)->FUN_00662820())) && ((unsigned int)(reinterpret_cast<::FUN_00662820_shell *>((void *)&(other))->FUN_00662820())))
         memcpy(((void *)(reinterpret_cast<::V_006578b0 *>((void *)this)->FUN_006578b0(0))), ((void *)(reinterpret_cast<::V_006578b0 *>((void *)&(other))->FUN_006578b0(0))), rows * columns * sizeof(unsigned int));
+}
+
+unsigned int __cdecl FUN_00ec7c56(void);
+
+// @fnv 0x0064e3f0
+extern "C" void __cdecl FUN_0064e3f0(int a, int b, int c)
+{
+    char v = ((char)(::FUN_0065e750(&a, &b)));
+    ::FUN_0064e600((int *)(a), (int *)(b), (::FUN_0065e9a0_holder *)(c));
+}
+
+void FUN_00658bd0(int a1, int a2, int a3);
+
+unsigned int __cdecl FUN_00ec7c56(void);
+
+unsigned int __cdecl FUN_00ec7c56();
+
+void FUN_0065e510(int a, int b, int c);
+
+void __cdecl FUN_0065e5a0(int a, int b, int c);
+
+void __cdecl FUN_0065eb00(int a);
+
+void FUN_0065ee50_Helper(void*, unsigned int, int, void (*)());
+
+int __cdecl FUN_00ec7ce3(void* a1, unsigned int a2, void* a3, unsigned int a4);
+
+int __cdecl _memcmp(const void* a, const void* b, unsigned int n);
+
+// Scale a value by the remaining fraction (max - current) / max, clamped to [0, 1].
+float __cdecl ScaleByInverseRatio(float fValue, float fScaledValue, float fCurrentAmountNext);
+
+int __cdecl ComputeWeightedValue(float value1, float value2, int weight);
+
+unsigned int __cdecl FUN_00ec7c56(void);
+
+unsigned int __cdecl FUN_00ec7c56(void);
+
+// @fnv 0x0064e430
+extern "C" void __cdecl FUN_0064e430(int count, int unused)
+{
+    if ((unsigned int)count <= 0u)
+        count = 0;
+    else if (0xffffffffu / (unsigned int)count < 16u)
+        throw std::bad_alloc();
+    ::FUN_00401000((unsigned int)count * 16u);
+}
+
+// @fnv 0x0064e630
+extern "C" void __cdecl FUN_0064e630(void* a, void* b, void* c, void* d)
+{
+    FUN_0064e630_flag aa = {};
+    unsigned char zz = ::FUN_0065e750(&c, {});
+    ::ForwardToHandler(CallWithFlag((int*)&a), CallWithFlag((int*)&b), (int)(c), (int)(d));
+}
+
+// @fnv 0x0064e920
+extern "C" void __cdecl FUN_0064e920(int a, int b, int c, int d)
+{
+    FlagBox5317 flag1 = {};
+    unsigned char flag2 = FUN_0065e750((void*)&a, (void*)&c);
+    ::FUN_0064e9c0((::Elem64e9 *)(CallWithFlag((int*)&a)), (::Elem64e9 *)(CallWithFlag((int*)&b)), (::Elem64e9 *)(c), (*(::Alloc64e9 *)(d)), (::NonscalarTag64e9)(flag2), (::CheckedTag64e9)(flag1.v));
+}
+
+extern "C" void FUN_00ec7894(Hldr0044* p, void* dat);
+
+// VEGAS17-CONFLICT: FUN_0065be60 (variant definition below differs from the one above)
+class FUN_0065be60 : public OwnerBase
+{
+  public:
+    SubMember m_iThirdValue;
+
+    FUN_0065be60(int a);
+    virtual ~FUN_0065be60();
+};
+
+// VEGAS17-CONFLICT: FUN_006815c0 (variant definition below differs from the one above)
+struct FUN_006815c0
+{
+    void* object;
+    FUN_006815c0();
+    ~FUN_006815c0();
+};
+
+struct FUN_0065de30
+{
+    unsigned int value;
+    FUN_0065de30(const FUN_0065de30&);
+    unsigned int FUN_0044abd0(int flag);
+};
+
+struct FUN_008c71b0
+{
+    unsigned int value;
+    FUN_008c71b0(void* owner);
+    ~FUN_008c71b0();
+    static void* operator new(std::size_t, unsigned int);
+    static void operator delete(void*, std::size_t);
+};
+
+struct FUN_0065dc90 : FUN_006815c0
+{
+    FUN_0065de30 member;
+    FUN_0065dc90(FUN_0065de30 argument);
+};
+
+unsigned int __cdecl FUN_00ec7c56(void);
+
+void FUN_00ecaebb(void* dst, void* src, unsigned int size, unsigned int count, void (*copyCtor)(),
+                            void (*dtor)());
+
+// @fnv 0x00658c10
+extern "C" void __cdecl FUN_00658c10(int a, int b)
+{
+    Hldr0044 h;
+
+    if ((unsigned)a <= 0)
+    {
+        a = 0;
+    }
+    else
+    {
+        if (0xFFFFFFFFu / (unsigned)a < 60)
+        {
+            reinterpret_cast<::FUN_0044d6c0_class *>(&(h))->FUN_0044d6c0((void **)(0));
+            FUN_00ec7894(&h, &DAT_01140ef8);
+        }
+    }
+
+    ::FUN_00401000(a * 60);
+}
+
+namespace c820 {
+struct RCTag
+{
+};
+struct InTag
+{
+};
+struct FwdTag : InTag
+{
+};
+struct BiTag : FwdTag
+{
+};
+struct RaTag : BiTag
+{
+};
+struct PtrCat
+{
+};
+typedef Elem_65eed0* It;
+}
+Elem_65eed0* __cdecl FUN_0065f820(Elem_65eed0* first, Elem_65eed0* last, Elem_65eed0* dest);
+
+namespace de {
+struct RCTag
+{
+};
+struct PtrCat
+{
+};
+PtrCat __cdecl FUN_0065e750(int& a, int& b);
+}
+
+// @fnv 0x0065fde0
+extern "C" void __cdecl FUN_0065fde0(int first, int last, int dest, int al)
+{
+    using namespace de;
+    ::CopyRange(CallWithFlag(&first), CallWithFlag(&last), dest, (::FUN_00660070_cls *)(al));
+}
+
+// @fnv 0x0064e380
+extern "C" int __cdecl FUN_0064e380(int arg1, int arg2, int arg3)
+{
+    TagA flag1 = {};
+    char flag2 = ((char)(::FUN_0065e750(&arg1, &arg3)));
+    TagA flag3;
+
+    return ::FUN_0064e5a0(CallWithFlag(&arg1), CallWithFlag(&arg2), arg3);
+}
+
+void* __cdecl operator new(std::size_t size, unsigned int allocation);
+
+// @fnv 0x0065dc90
+FUN_0065dc90::FUN_0065dc90(FUN_0065de30 argument) : FUN_006815c0(), member(argument)
+{
+    object = new (member.FUN_0044abd0(1)) FUN_008c71b0(this);
 }
 
 #include "generated/data/staging/blk_00640000_od.inc"

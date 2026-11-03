@@ -69,6 +69,14 @@
 #include "fnv/symbols_011de000.h"
 #include "fnv/symbols_01268000.h"
 #include "../../include/layout_support.h"
+#include "fnv/decl/ArrD9E0.h"
+#include "fnv/decl/FUN_004a4840_class.h"
+#include "fnv/decl/FUN_005ca4f0_shell.h"
+#include "fnv/decl/fnv_0066df40__B6DF40Owner.h"
+#include "fnv/symbols_00661000.h"
+#include "fnv/symbols_0066b000.h"
+#include "fnv/symbols_0066e000.h"
+#include "fnv/symbols_00670000.h"
 
 void __cdecl CopyConstructEntry(int a, int b);
 
@@ -960,6 +968,7 @@ struct List_009e03e0
 struct G2 : public List_009e03e0
 {
     void AddHead(DetectionViewData** value);
+    bool IsEmpty();
 };
 
 struct SL : public G2
@@ -2027,6 +2036,72 @@ S_0067caa0_Foo* S_0067caa0_Foo::FUN_0067caa0()
     unk1c = DAT_010162c0;
 
     return this;
+}
+
+unsigned int __cdecl FUN_00ec7c56();
+
+// VEGAS17-CONFLICT: FUN_0067b170 (variant definition below differs from the one above)
+struct FUN_0067b170
+{
+    int pad[4];
+    unsigned char flag;
+    int pad2[3];
+    FUN_0067b170();
+};
+
+// @fnv 0x006603a0
+extern "C" void __cdecl FUN_006603a0(void* a, void* b, void* c, void* d)
+{
+    SpawnedFlagBox flagA3 = {};
+    bool flagB;
+    flagB = ((bool)(::FUN_0065e750(&a, &c)));
+    ::std6605::CopyConstructRange((::Elem6605 *)(void *)(((void *)(::CallWithFlag((int *)(void *)(&a))))), (::Elem6605 *)(void *)(((void *)(::CallWithFlag((int *)(void *)(&b))))), (::Elem6605 *)(c), (*(::Alloc6605 *)(d)), (::NonscalarTag6605)(flagB), (::CheckedTag6605)(flagA3.v));
+}
+
+struct DetectionEntry
+{
+    unsigned int key;
+};
+
+struct DetectionEntryList
+{
+    DetectionEntry* item;
+    DetectionEntryList* next;
+};
+
+struct DetectionGroup
+{
+    unsigned int owner;
+    DetectionEntryList* entries;
+};
+
+// @fnv 0x0066e100
+void __cdecl FUN_0066e100(unsigned int key)
+{
+    G2* node = &(*reinterpret_cast<::G2 *>(&::g_011d6124));
+    while (node && !node->IsEmpty())
+    {
+        DetectionGroup* group = ((::DetectionGroup *)(new ((void *)(node)) ::Vec3()));
+        node = ((::G2 *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
+        if (group && reinterpret_cast<::FUN_005ca4f0_shell *>((group))->FUN_005ca4f0())
+        {
+            if (((unsigned int)(::FUN_00559450((int *)(group)))) == key)
+                reinterpret_cast<::DetClassExtended *>((group))->ClearAndReset();
+            DetectionEntryList* child = ((::DetectionEntryList *)(reinterpret_cast<::Callees *>((group))->FUN_00726070()));
+            bool removed = false;
+            while (!removed && child && ((::DetectionEntry *)(new ((void *)(child)) ::Vec3())))
+            {
+                DetectionEntry* entry = ((::DetectionEntry *)(new ((void *)(child)) ::Vec3()));
+                child = ((::DetectionEntryList *)(reinterpret_cast<::Callees *>((child))->FUN_00726070()));
+                if (entry->key == key)
+                {
+                    reinterpret_cast<::ItemChangeListNode *>((((::DetectionEntryList *)(reinterpret_cast<::Callees *>((group))->FUN_00726070()))))->FUN_00905330((::InventoryStackRecord *const &)(entry));
+                    delete entry;
+                    removed = true;
+                }
+            }
+        }
+    }
 }
 
 #include "generated/data/staging/blk_00660000_od.inc"

@@ -151,6 +151,27 @@
 #include "fnv/symbols_01202000.h"
 #include "fnv/symbols_01272000.h"
 #include "../../include/layout_support.h"
+#include "fnv/decl/FUN_00401660_Class.h"
+#include "fnv/decl/FUN_004726b0_class.h"
+#include "fnv/decl/FUN_004746d0.h"
+#include "fnv/decl/NiObjectNET.h"
+#include "fnv/decl/WorldData.h"
+#include "fnv/decl/fnv_0043b1b0__FUN_0043b1b0_shell.h"
+#include "fnv/decl/fnv_00470550__FUN_00470550_t.h"
+#include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
+#include "fnv/decl/fnv_00474880__FUN_00474880.h"
+#include "fnv/decl/fnv_00474a40__FUN_00474a40_shell.h"
+#include "fnv/decl/s428110__Owner.h"
+#include "fnv/symbols_00404000.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_00464000.h"
+#include "fnv/symbols_0046e000.h"
+#include "fnv/symbols_00474000.h"
+#include "fnv/symbols_0047a000.h"
+#include "fnv/symbols_00486000.h"
+#include "fnv/symbols_006b3000.h"
+#include "fnv/symbols_0096a000.h"
+#include "fnv/symbols_009ac000.h"
 
 struct FUN_004600f0_class
 {
@@ -587,6 +608,7 @@ bool FUN_00476a20_Class::IsFlag4Set()
 struct FUN_00476ae0_class
 {
     void FUN_00476ae0(bool a);
+    void SetTaskFlag(bool a);
 };
 
 struct TaskQueueInterface
@@ -1244,6 +1266,8 @@ public:
     void MarkForDeletion(bool);
 public:
     void SetDestroyed(bool);
+    virtual ~TESForm();
+    ::ENUM_FORM_ID GetFormType() const;
 };
 struct FUN_00474a00_shell
 {
@@ -5082,4 +5106,274 @@ void FUN_00464f40_class::FUN_00470110()
     ::FUN_004ede70(reinterpret_cast<FNVPointerArray*>(this)->m_pBase);
 }
 
+void __cdecl FUN_00ec825b(char* p, unsigned int a, char const* b, char const* c, char const* d, char const* e);
+
+void __cdecl BSEndian(unsigned char*, EndianSizeTag<0>);
+
+void __cdecl BSEndian(unsigned int*, EndianSizeTag<3>);
+
+__declspec(thread) unsigned int TLS_PAD[166];
+
+enum ENUM_FORM_ID;
+
+Twin_008d0360* __cdecl FUN_00471f70();
+
+int FUN_00ec6da0(const char*, const char*);
+
+// FUN_00461cf0 (0x00461cf0, 1340 bytes) -- TESFile record scan.
+// Vtable-free; member of the file-list holder (count at +0x218, array at +0x21c).
+class TESWorldSpace;
+
+struct TESRecordHeader
+{
+    unsigned int type;
+    unsigned int f4;
+    unsigned int f8;
+    unsigned int fC;
+};
+
+class TESFile
+{
+  public:
+    bool GetOptimizedFile();
+    TESRecordHeader* GetRecordHeader();
+    bool FUN_00470c70(int, int);
+    bool IsEndianConversionRequired();
+public:
+    bool NextChunk();
+public:
+    unsigned char GetFileCompileIndex();
+public:
+    bool IsGroupOpen();
+};
+
+// XCLC chunk payload: two dwords swapped by the endian pass plus a trailing bool.
+struct XCLC
+{
+    unsigned int x;
+    unsigned int y;
+    unsigned char z;
+    XCLC();
+};
+
+class AutoMemContext
+{
+  public:
+    int m0;
+    AutoMemContext(int, bool, const char*, int);
+    ~AutoMemContext();
+};
+
+class VoiceStr
+{
+  public:
+    bool FUN_008256d0();
+};
+
+class DialogueResponse
+{
+  public:
+};
+
+struct FUN_00585940_shell
+{
+};
+
+struct TESWorldSpace : TESForm
+{
+  public:
+    virtual ~TESWorldSpace();
+};
+
+extern "C" char DAT_010186b8[];
+
+struct TESFileArray
+{
+    char pad[0x218];
+    unsigned int mCount;
+    TESFile* mFiles[1];
+    int FUN_00461cf0(char*, int*, int*);
+};
+
+// @fnv 0x00461cf0
+int TESFileArray::FUN_00461cf0(char* name, int* out1, int* out2)
+{
+    AutoMemContext ctx(0x16, true, (char*)DAT_010186b8, 0x1041);
+    int result = 0;
+    *out1 = 0;
+    *out2 = 0;
+    if (name && *name)
+    {
+        bool found = false;
+        for (unsigned int i = 0; i < mCount; i++)
+        {
+            if (mFiles[i] && mFiles[i]->GetOptimizedFile())
+            {
+                found = true;
+                break;
+            }
+        }
+        if (found)
+        {
+            VoiceStr* p = ((::VoiceStr *)(::FUN_00460140((int)((*reinterpret_cast<::DialogueResponse * *>(&::g_dataHandler))))));
+            while (p && !p->FUN_008256d0())
+            {
+                void* v = *((void **)(new ((void *)(p)) ::Vec3()));
+                p = ((::VoiceStr *)(reinterpret_cast<::Callees *>((p))->FUN_00726070()));
+                if (reinterpret_cast<::WorldData *>((((FUN_00585940_shell*)v)))->FindCellByEditorID(name, out1, out2))
+                {
+                    result = (int)v;
+                    break;
+                }
+            }
+        }
+        else
+        {
+            for (unsigned int j = 0; j < mCount; j++)
+            {
+                TESFile* f = mFiles[j];
+                if (f && f->FUN_00470c70(0, 0))
+                {
+                    TESRecordHeader* hdr = f->GetRecordHeader();
+                    bool got = false;
+                    while (hdr && !got)
+                    {
+                        bool read = false;
+                        if (hdr->type == (unsigned int)(*reinterpret_cast<int *>(&::fnv_00543df0::kGroupFormType)))
+                        {
+                            if (hdr->fC == 0 && hdr->f8 == (unsigned int)(*reinterpret_cast<int *>((void *)&::fnv_00543f50::str_01187314)))
+                            {
+                                got = true;
+                                read = reinterpret_cast<::FUN_00472150_shell *>((f))->FUN_00472150(true);
+                            }
+                            else
+                            {
+                                read = f->IsGroupOpen();
+                            }
+                        }
+                        else
+                        {
+                            read = reinterpret_cast<::FUN_00472150_shell *>((f))->FUN_00472150(true);
+                        }
+                        if (read)
+                            hdr = f->GetRecordHeader();
+                        else
+                            hdr = 0;
+                    }
+                    if (got)
+                    {
+                        hdr = f->GetRecordHeader();
+                        got = false;
+                        while (hdr && !got)
+                        {
+                            bool read2 = false;
+                            if (hdr->type == (unsigned int)(*reinterpret_cast<int *>((void *)&::fnv_00543f50::str_01187314)))
+                            {
+                                unsigned int id = hdr->fC;
+                                unsigned int hi = id >> 24;
+                                TESFile* w = reinterpret_cast<::FUN_00471a10_shell *>((f))->GetFileByIndex(hi + 1);
+                                if (!w)
+                                    w = f;
+                                id &= 0xffffff;
+                                id |= (unsigned int)(unsigned char)w->GetFileCompileIndex() << 24;
+                                result = (int)dynamic_cast<TESWorldSpace*>(::FUN_004839c0(id));
+                                read2 = reinterpret_cast<::FUN_00472150_shell *>((f))->FUN_00472150(true);
+                            }
+                            else if (hdr->type == (unsigned int)(*reinterpret_cast<int *>(&::DAT_011872b4)))
+                            {
+                                int chunk = reinterpret_cast<::FUN_004726b0_class *>((f))->FUN_004726b0();
+                                if (chunk == 0x44494445)
+                                {
+                                    unsigned int len = reinterpret_cast<::FUN_00401660_Class *>((f))->GetField25C() + 1;
+                                    char* ptr = (char*)::FUN_00401000(len);
+                                    ::FUN_00403d30(ptr, 0, len);
+                                    reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((f))->FUN_00472890((char *)(ptr), 0);
+                                    if (FUN_00404dc0(ptr, name) == 0)
+                                    {
+                                        got = true;
+                                        while (chunk)
+                                        {
+                                            if (chunk == 0x434c4358)
+                                            {
+                                                XCLC v;
+                                                ::FUN_00403d30(&v, 0, sizeof(v));
+                                                reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((f))->FUN_00472890((char *)(void *)(&v), sizeof(v));
+                                                if (f->IsEndianConversionRequired())
+                                                    reinterpret_cast<::S_00462230 *>(&(v))->FUN_00462230();
+                                                *out1 = v.x;
+                                                *out2 = v.y;
+                                                chunk = 0;
+                                            }
+                                            else if (f->NextChunk())
+                                            {
+                                                chunk = reinterpret_cast<::FUN_004726b0_class *>((f))->FUN_004726b0();
+                                            }
+                                            else
+                                            {
+                                                chunk = 0;
+                                            }
+                                        }
+                                    }
+                                    FUN_00401030(ptr);
+                                }
+                                read2 = reinterpret_cast<::FUN_00472150_shell *>((f))->FUN_00472150(true);
+                            }
+                            else
+                            {
+                                bool flag = false;
+                                if (hdr->type == (unsigned int)(*reinterpret_cast<int *>(&::fnv_00543df0::kGroupFormType)))
+                                {
+                                    switch (hdr->fC)
+                                    {
+                                    case 0:
+                                        if (hdr->f8 == (unsigned int)(*reinterpret_cast<int *>((void *)&::fnv_00543f50::str_01187314)))
+                                        {
+                                            read2 = reinterpret_cast<::FUN_00472150_shell *>((f))->FUN_00472150(true);
+                                            flag = true;
+                                        }
+                                        else
+                                        {
+                                            unsigned char c = (unsigned char)FindFormEnumIndex(hdr->f8);
+                                            if (c > 0x41)
+                                            {
+                                                read2 = false;
+                                                flag = true;
+                                            }
+                                        }
+                                        break;
+                                    case 1:
+                                    case 4:
+                                    case 5:
+                                        read2 = reinterpret_cast<::FUN_00472150_shell *>((f))->FUN_00472150(true);
+                                        flag = true;
+                                        break;
+                                    case 6:
+                                        read2 = f->IsGroupOpen();
+                                        flag = true;
+                                        break;
+                                    }
+                                }
+                                if (0)
+                                {
+                                }
+                            }
+                            if (read2)
+                                hdr = f->GetRecordHeader();
+                            else
+                                hdr = 0;
+                        }
+                    }
+                    reinterpret_cast<::FUN_00471130_shell *>((f))->FUN_00471130();
+                    if (!got)
+                        result = 0;
+                    else
+                        break;
+                }
+            }
+        }
+    }
+    return result;
+}
+
 #include "generated/data/staging/blk_00460000_od.inc"
+#include "generated/data/staging/blk_00460000_od_rtti_variant.inc"

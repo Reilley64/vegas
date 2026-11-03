@@ -4985,6 +4985,7 @@ public:
     float GetLengthSquared();
 public:
     static const ::NiPoint3 ZERO;
+    ::NiPoint3 Cross(const ::NiPoint3 &) const;
 };
 // @fnv 0x006ed7a0
 void FUN_006ed7a0_Class::FUN_006ed7a0(const PathingLocation& loc)
@@ -11442,6 +11443,29 @@ FUN_006f9940::~FUN_006f9940()
 }
 
 #include <stdio.h>
+#include "fnv/decl/FUN_0045bb20_cls.h"
+#include "fnv/decl/FUN_006fda10_shell.h"
+#include "fnv/decl/GarbageCollector.h"
+#include "fnv/decl/fnv_006e10a0__FUN_006e10a0_Class.h"
+#include "fnv/decl/fnv_006e21b0__FUN_006e21b0_Class.h"
+#include "fnv/decl/fnv_006ecb70__FUN_006ecb70_Class.h"
+#include "fnv/decl/fnv_006ee5d0__FUN_006ee5d0_Class.h"
+#include "fnv/decl/fnv_006ef0c0__HostP059.h"
+#include "fnv/decl/fnv_006f28a0__FUN_006f28a0_Class.h"
+#include "fnv/decl/fnv_006f7780__FUN_006f7780_Class.h"
+#include "fnv/decl/fnv_006f9770__GlobalObject_00869f00.h"
+#include "fnv/decl/fnv_006fa6a0__S006FA6A0.h"
+#include "fnv/decl/fnv_006faa50__FUN_006faa50_Class.h"
+#include "fnv/decl/fnv_006ff660__FUN_006ff660_Class.h"
+#include "fnv/decl/fnv_anon_tile__NiPoint2_Sub.h"
+#include "fnv/symbols_0043b000.h"
+#include "fnv/symbols_00449000.h"
+#include "fnv/symbols_00696000.h"
+#include "fnv/symbols_006ba000.h"
+#include "fnv/symbols_006e7000.h"
+#include "fnv/symbols_006f3000.h"
+#include "fnv/symbols_006ff000.h"
+#include "fnv/symbols_00c85000.h"
 namespace fnv_006fc490 {
 struct NiNode
 {
@@ -11994,6 +12018,34 @@ void* QueueDeletingView::FUN_006ec230(unsigned int flags)
     if (flags & 1)
         Deallocate(this);
     return this;
+}
+
+void* __cdecl FUN_00ec7230(char* dst, const char* src, unsigned int size);
+
+void* __cdecl _fnv_zlib_memset(void* p, int c, unsigned int n);
+
+FUN_006f4640::~FUN_006f4640()
+{
+    reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(this)->Clear(true);
+}
+
+struct SteamUserObj
+{
+    virtual void v0();
+    virtual bool v1();
+};
+
+// @fnv 0x006ff820
+bool FUN_006ff690::FUN_006ff820()
+{
+    if (initialized)
+    {
+        if (SteamUtils())
+        {
+            return ((SteamUserObj*)SteamUtils())->v1();
+        }
+    }
+    return false;
 }
 
 #include "generated/data/staging/blk_006e0000_od.inc"

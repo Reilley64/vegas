@@ -103,6 +103,24 @@
 #include "fnv/symbols_011f6000.h"
 #include "fnv/symbols_011f8000.h"
 #include "../../include/layout_support.h"
+#include "fnv/decl/FUN_00493bb0_Class.h"
+#include "fnv/decl/NiObjectNET.h"
+#include "fnv/decl/StartMenu.h"
+#include "fnv/decl/TESForm.h"
+#include "fnv/decl/TopicMenuController.h"
+#include "fnv/symbols_00406000.h"
+#include "fnv/symbols_0047f000.h"
+#include "fnv/symbols_00503000.h"
+#include "fnv/symbols_00505000.h"
+#include "fnv/symbols_0050e000.h"
+#include "fnv/symbols_0050f000.h"
+#include "fnv/symbols_00510000.h"
+#include "fnv/symbols_0051d000.h"
+#include "fnv/symbols_005e5000.h"
+#include "fnv/symbols_0066e000.h"
+#include "fnv/symbols_00702000.h"
+#include "fnv/symbols_00705000.h"
+#include "fnv/symbols_011d4000.h"
 
 struct FUN_00505c20_class
 {
@@ -936,6 +954,7 @@ struct LockExtraData
 
 struct P01RefA
 {
+    virtual ~P01RefA();
 };
 
 class ExtraRadioData;
@@ -2703,6 +2722,261 @@ bool FUN_00519570(TESForm* apForm)
         }
     }
     return result;
+}
+
+extern "C" int __cdecl _memcmp(const void* s1, const void* s2, unsigned int n);
+
+extern "C" void* __cdecl FUN_00eca2e0(void* p, int c, size_t n);
+
+bool __cdecl InitSettingsDefaults();
+
+class ActorValueOwner
+{
+  public:
+    virtual void AVO00();
+    virtual void AVO01();
+    virtual void AVO02();
+    virtual void AVO03();
+    virtual void AVO04();
+    virtual void AVO05();
+    virtual void AVO06();
+    virtual int GetBaseActorValue(ActorValue::Index index);
+};
+
+struct ActorPad04 : public ActorVTable
+{
+    char pad04[0xa0];
+};
+
+// VEGAS17-CONFLICT: Actor (variant definition below differs from the one above)
+struct Actor : public ActorPad04, public ActorValueOwner
+{
+    virtual bool ActorCheck();
+    virtual void V65();
+    virtual void V66();
+    virtual void V67();
+    virtual void V68();
+    virtual void V69();
+    virtual void V70();
+    virtual void V71();
+    virtual void V72();
+    virtual void V73();
+    virtual void V74();
+    virtual void V75();
+    virtual void V76();
+    virtual void V77();
+    virtual void V78();
+    virtual void V79();
+    virtual void V80();
+    virtual void V81();
+    virtual void V82();
+    virtual void V83();
+    virtual void V84();
+    virtual void V85();
+    virtual void V86();
+    virtual void V87();
+    virtual void V88();
+    virtual void V89();
+    virtual void V90();
+    virtual void V91();
+    virtual void V92();
+    virtual void V93();
+    virtual void V94();
+    virtual void V95();
+    virtual void V96();
+    virtual void V97();
+    virtual void V98();
+    virtual void V99();
+    virtual void V100();
+    virtual void V101();
+    virtual void V102();
+    virtual void V103();
+    virtual void V104();
+    virtual void V105();
+    virtual void V106();
+    virtual void V107();
+    virtual void V108();
+    virtual void V109();
+    virtual void V110();
+    virtual void V111();
+    virtual void V112();
+    virtual void V113();
+    virtual void V114();
+    virtual void V115();
+    virtual void V116();
+    virtual void V117();
+    virtual void V118();
+    virtual void V119();
+    virtual void V120();
+    virtual void V121();
+    virtual void V122();
+    virtual void V123();
+    virtual void V124();
+    virtual void V125();
+    virtual void V126();
+    virtual void V127();
+    virtual void V128();
+    virtual void V129();
+    virtual void V130();
+    virtual void V131();
+    virtual void V132();
+    virtual void V133();
+    virtual void V134();
+    virtual void V135();
+    virtual void V136();
+    virtual void V137();
+    virtual void V138();
+    virtual void V139();
+    virtual void V140();
+    virtual void V141();
+    virtual void V142();
+    virtual void V143();
+    virtual void V144();
+    virtual void V145();
+    virtual void V146();
+    virtual void V147();
+    virtual void V148();
+    virtual void V149();
+    virtual void V150();
+    virtual void V151();
+    virtual void V152();
+    virtual void V153();
+    virtual void V154();
+    virtual void V155();
+    virtual void V156();
+    virtual void V157();
+    virtual void V158();
+    virtual void V159();
+    virtual void V160();
+    virtual void V161();
+    virtual void V162();
+    virtual void V163();
+    virtual void V164();
+    virtual void V165();
+    virtual void V166();
+    virtual void V167();
+    virtual void V168();
+    virtual void V169();
+    virtual void V170();
+    virtual void V171();
+    virtual void V172();
+    virtual void V173();
+    virtual void V174();
+    virtual void V175();
+    virtual void V176();
+    virtual void V177();
+    virtual void V178();
+    virtual void V179();
+    virtual void V180();
+    virtual void V181();
+    virtual void V182();
+    virtual void V183();
+    virtual void V184();
+    virtual void V185();
+    virtual void V186();
+    virtual void V187();
+    virtual void V188();
+    virtual void V189();
+    virtual void V190();
+    virtual void V191();
+    virtual void V192();
+    virtual void V193();
+    virtual void V194();
+    virtual void V195();
+    virtual void V196();
+    virtual void V197();
+    virtual void V198();
+    virtual void V199();
+    virtual void V200();
+    virtual void V201();
+    virtual void V202();
+    virtual void V203();
+    virtual void V204();
+    virtual void V205();
+    virtual void V206();
+    virtual void V207();
+    virtual void V208();
+    virtual void V209();
+    virtual void V210();
+    virtual void V211();
+    virtual void V212();
+    virtual void V213();
+    virtual void V214();
+    virtual void V215();
+    virtual bool CanUseSkillBook();
+    virtual void V217();
+    virtual void V218();
+    virtual void V219();
+    virtual void V220();
+    virtual void V221();
+    virtual void V222();
+    virtual void V223();
+    virtual void V224();
+    virtual void V225();
+    virtual void V226();
+    virtual void V227();
+    virtual void V228();
+    virtual void V229();
+    virtual void V230();
+    virtual void V231();
+    virtual void V232();
+    virtual void ModActorValue(ActorValue::Index index, float amount, int unk);
+};
+
+struct StrMem
+{
+    char* data;
+    unsigned short length, capacity;
+    StrMem();
+    ~StrMem();
+};
+
+struct StringSetting552
+{
+};
+
+struct FloatSetting552
+{
+};
+
+namespace ActorValue {
+}
+
+struct SkillBookEffect552
+{
+    ActorValue::Index FUN_00514fd0();
+    bool FUN_00515040(TESObjectREFR* reference);
+};
+
+// @fnv 0x00515040
+bool SkillBookEffect552::FUN_00515040(TESObjectREFR* reference)
+{
+    bool applied = false;
+    Actor* actor2 = dynamic_cast<Actor*>(reference);
+    if (!actor2->CanUseSkillBook())
+        return applied;
+    if (((bool)(reinterpret_cast<::FUN_00493bb0_Class *>((actor2))->FUN_00493bb0())) && !FUN_00702360())
+    {
+        ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::StringSetting552 *>(&::g_011d4ccc))))->GetMenuTitle()))), 0, (int)(0), (int)(0), DAT_010162c0, false);
+        return applied;
+    }
+    ActorValue::Index skill2 = FUN_00514fd0();
+    if (::FUN_0047f060((*(int *)&(skill2))))
+    {
+        if ((*reinterpret_cast<::Actor * *>(&::_g_thePlayer))->GetBaseActorValue(skill2) < 200)
+        {
+            float amount5 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FloatSetting552 *>(&::g_011c9284))))));
+            StrMem message;
+            ::ApplyPerkModifiers(11, (*reinterpret_cast<::Actor * *>(&::_g_thePlayer)), &amount5);
+            (*reinterpret_cast<::Actor * *>(&::_g_thePlayer))->ModActorValue(skill2, amount5, 0);
+            ::TopicMenuController::IncrementMiscStat(15);
+            ::FUN_00406f60((::FUN_00406f90_this *)(::StrMem *)(&message), ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::StringSetting552 *>(&::g_011d49c0))))->GetMenuTitle())), ActorValue::GetActorValueName(skill2),
+                         static_cast<int>(amount5));
+            ::DispatchMessageToSink((int)(((const char *)(::FUN_00559450((int *)&(message))))), 1, (int)(0), (int)(0), DAT_010162c0, false);
+            applied = true;
+        }
+    }
+    return applied;
 }
 
 #include "generated/data/staging/blk_00500000_od.inc"

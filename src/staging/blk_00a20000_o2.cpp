@@ -216,7 +216,8 @@ void StoreGlobalByte(int a, int b, int c, unsigned char* pDest)
     *pDest = DAT_011f367d;
 }
 
-struct Inner_00a6db50 {  };
+struct Inner_00a6db50 {    void Set(float, float, float, float);
+};
 // Calls Set on the object with each element of c multiplied by b, then returns the object.
 // @fnv 0x00a2bc90
 Inner_00a6db50* ScaleAndApply(Inner_00a6db50* apObject, float afScale, const float* afValues)
@@ -1036,6 +1037,7 @@ struct Inner_b5508 {
     unsigned int unk04;
     unsigned int unk08;
     unsigned int unk0C;
+    Vec4_b5508* Set(float a, float b, float c, float d);
 };
 
 // Calls Set with (1,0,0,0) and copies the returned Vec4 into out.
@@ -1550,6 +1552,7 @@ public:
         m_uiStreamFlags += uiBytesRead;
         return uiBytesRead;
     }
+    unsigned int(__cdecl* m_pfnRead)(A29F00BinaryStream*, void*, unsigned int, unsigned int*, unsigned int);
 };
 
 class A29F00Stream {
@@ -2300,6 +2303,7 @@ struct NiBinaryStreamStandIn {
         unsigned int uiSize = sizeof(T);
         return BinaryRead(pValue, sizeof(T), &uiSize, 1);
     }
+    unsigned int(__cdecl* m_pfnRead)(NiBinaryStreamStandIn* pkThis, void* pvBuffer, unsigned int uiBytes, unsigned int* puiComponentSizes, unsigned int uiNumComponents);
 };
 
 struct NiStreamImpl {
@@ -2351,6 +2355,8 @@ public:
         m_uiStreamFlags += uiBytesRead;
         return uiBytesRead;
     }
+    unsigned int(__cdecl* m_pfnRead)(BA2BA10BinaryStream*, void*, unsigned int, unsigned int*, unsigned int);
+    unsigned int(__cdecl* m_pfnWrite)(BA2BA10BinaryStream*, const void*, unsigned int, unsigned int*, unsigned int);
 };
 
 class BA2BA10Stream {
@@ -2758,6 +2764,7 @@ struct S_a2c300_Istr {
     int unk0;
     int unk4;
     unsigned (__cdecl *unk8)(S_a2c300_Istr*, void*, unsigned, unsigned*, unsigned);
+    unsigned(__cdecl* unk8)(S_a2c300_Istr*, void*, unsigned, unsigned*, unsigned);
 };
 struct S_a2c300_Stream {
     int unk0;
@@ -2941,6 +2948,7 @@ struct S_a2c390_Istr {
     int unk4;
     int unk8;
     unsigned (__cdecl *unkc)(S_a2c390_Istr*, void*, unsigned, unsigned*, unsigned);
+    unsigned(__cdecl* unkc)(S_a2c390_Istr*, void*, unsigned, unsigned*, unsigned);
 };
 struct S_a2c390_Stream {
     int unk0;
@@ -3428,6 +3436,7 @@ struct NiBinaryStreamW {
         unsigned int uiSize = sizeof(T);
         return BinaryWrite(pValue, sizeof(T), &uiSize, 1);
     }
+    unsigned int(__cdecl* m_pfnWrite)(NiBinaryStreamW* pkThis, const void* pvBuffer, unsigned int uiBytes, unsigned int* puiComponentSizes, unsigned int uiNumComponents);
 };
 
 struct NiStreamStandInW {
@@ -4115,11 +4124,13 @@ struct AnimSink {
     int m_00;
     int m_04;
     int (__cdecl *m_08)(AnimSink* self, void* ctx, int count, int* out, int flag);
+    int(__cdecl* m_08)(AnimSink* self, void* ctx, int count, int* out, int flag);
 };
 
 class FUN_00a3da20_cls {
 public:
     void AccumulateAnimSink(intptr_t a1);
+    void AccumulateAnimSink(int a1);
 };
 // @fnv 0x00a27430
 void FUN_00a27430_T::FUN_00a27430(NiStream& stream)
@@ -4143,6 +4154,7 @@ struct FUN_00a3da50_Anim {
     int m_iArrayLength;
     int m_unk08;
     int (__cdecl *m_pfn)(FUN_00a3da50_Anim *pAnim, int iIndex, int iMode, int *pOut, int iFlag);
+    int(__cdecl* m_pfn)(FUN_00a3da50_Anim* pAnim, int iIndex, int iMode, int* pOut, int iFlag);
 };
 
 struct FUN_00a3da50_Owner {
@@ -5194,6 +5206,15 @@ ControllerBase* FUN_00a359d0()
 }
 
 #include <math.h>
+#include "fnv/decl/NiPoint3.h"
+#include "fnv/decl/NiQuaternion.h"
+#include "fnv/decl/QQ.h"
+#include "fnv/decl/fnv_00a29640__FUN_00a29640_T.h"
+#include "fnv/symbols_00a2e000.h"
+#include "fnv/symbols_00a31000.h"
+#include "fnv/symbols_00a3c000.h"
+#include "fnv/symbols_00a88000.h"
+#include "fnv/symbols_01015000.h"
 struct TextureCodec { unsigned int unk00,unk04,unk08,offset0c,converterIndex; unsigned char bytesPerElement; };
 struct TexelSampler { unsigned int unk00,unk04,unk08,unk0c,unk10,unk14; TextureCodec* codec;
 float SampleLength(unsigned int x,unsigned int y,float value); };
@@ -5311,6 +5332,1132 @@ bool __cdecl FUN_00a2cc30(int param_1, int param_2)
 {
     return A2CC30_Shell::FUN_00a291a0(reinterpret_cast<const Helper*>(param_1),
                                       reinterpret_cast<const Helper*>(param_2));
+}
+
+void* _memmove(void* d, const void* s, unsigned int n);
+
+bool FUN_00a282a0(float t, TCBKeyS** pKeys, unsigned int* pCount);
+
+typedef int(* FnInterlockedDecrement)(void*);
+
+void FUN_00a28620(int param_1, int param_2);
+
+typedef void(* Fn_00a26fa0_cb)(void*);
+
+void ApplyCallbackBackwards(char* p, int iTileIndex, int nCount, Fn_00a26fa0_cb pFn);
+
+void* _memmove(void* d, const void* s, unsigned int n);
+
+// The primary comparison: the float at +0 and the NiBound sub-object at +4.
+typedef void(__cdecl* A291F0Func)();
+
+float __cdecl FUN_00a291e0();
+
+void __cdecl RegisterCurveOps(int eContent, int eType);
+
+typedef int(__cdecl* FUN_00a29550_fn)(FUN_00a29550_stream*, int, int, int*, int);
+
+typedef bool(__cdecl* FNV_CbFn)(float, int*, int*);
+
+typedef void*(__cdecl* A29F00LoadFunc)(A29F00Stream& kStream, unsigned int uiNumKeys);
+
+void FUN_00a2a890(float fTime, const A2A890Key& kKey0, const A2A890Key& kKey1, A2A890Point3& kResult);
+
+// MemoryManager, P03MM, Vec3S, Vec3R come from the pack header.
+void* _memmove(void* d, const void* s, unsigned int n);
+
+template <class T> inline void S_a2c390_Load(S_a2c390_Stream* s, T& v)
+{
+    S_a2c390_BinLoad(s->unk250, &v, sizeof(T));
+}
+
+typedef int(__cdecl* S_00a2c9d0_ReadFn)(void* stream, void* buffer, unsigned int size, unsigned int* pCount,
+                                        unsigned int count);
+
+int __cdecl FUN_00ec658f(void(__cdecl* pfn)(void));
+
+// VEGAS17-CONFLICT: FUN_00a3da50_Owner (variant definition below differs from the one above)
+struct FUN_00a3da50_Owner
+{
+    int m_unk00;
+    int m_unk04;
+    int m_unk08;
+    int m_unk0C;
+    int m_unk10;
+    int m_unk14;
+    int m_unk18;
+    int m_unk1C;
+    int m_unk20;
+    int m_unk24;
+    int m_unk28;
+    int m_unk2C;
+    int m_unk30;
+    int m_unk34;
+    int m_unk38;
+    int m_unk3C;
+    int m_unk40;
+    int m_unk44;
+    int m_unk48;
+    int m_unk4C;
+    int m_unk50;
+    int m_unk54;
+    int m_unk58;
+    int m_unk5C;
+    int m_unk60;
+    int m_unk64;
+    int m_unk68;
+    int m_unk6C;
+    int m_unk70;
+    int m_unk74;
+    int m_unk78;
+    int m_unk7C;
+    int m_unk80;
+    int m_unk84;
+    int m_unk88;
+    int m_unk8C;
+    int m_unk90;
+    int m_unk94;
+    int m_unk98;
+    int m_unk9C;
+    int m_unkA0;
+    int m_unkA4;
+    int m_unkA8;
+    int m_unkAC;
+    int m_unkB0;
+    int m_unkB4;
+    int m_unkB8;
+    int m_unkBC;
+    int m_unkC0;
+    int m_unkC4;
+    int m_unkC8;
+    int m_unkCC;
+    int m_unkD0;
+    int m_unkD4;
+    int m_unkD8;
+    int m_unkDC;
+    int m_unkE0;
+    int m_unkE4;
+    int m_unkE8;
+    int m_unkEC;
+    int m_unkF0;
+    int m_unkF4;
+    int m_unkF8;
+    int m_unkFC;
+    int m_unk100;
+    int m_unk104;
+    int m_unk108;
+    int m_unk10C;
+    int m_unk110;
+    int m_unk114;
+    int m_unk118;
+    int m_unk11C;
+    int m_unk120;
+    int m_unk124;
+    int m_unk128;
+    int m_unk12C;
+    int m_unk130;
+    int m_unk134;
+    int m_unk138;
+    int m_unk13C;
+    int m_unk140;
+    int m_unk144;
+    int m_unk148;
+    int m_unk14C;
+    int m_unk150;
+    int m_unk154;
+    int m_unk158;
+    int m_unk15C;
+    int m_unk160;
+    int m_unk164;
+    int m_unk168;
+    int m_unk16C;
+    int m_unk170;
+    int m_unk174;
+    int m_unk178;
+    int m_unk17C;
+    int m_unk180;
+    int m_unk184;
+    int m_unk188;
+    int m_unk18C;
+    int m_unk190;
+    int m_unk194;
+    int m_unk198;
+    int m_unk19C;
+    int m_unk1A0;
+    int m_unk1A4;
+    int m_unk1A8;
+    int m_unk1AC;
+    int m_unk1B0;
+    int m_unk1B4;
+    int m_unk1B8;
+    int m_unk1BC;
+    int m_unk1C0;
+    int m_unk1C4;
+    int m_unk1C8;
+    int m_unk1CC;
+    int m_unk1D0;
+    int m_unk1D4;
+    int m_unk1D8;
+    int m_unk1DC;
+    int m_unk1E0;
+    int m_unk1E4;
+    int m_unk1E8;
+    int m_unk1EC;
+    int m_unk1F0;
+    int m_unk1F4;
+    int m_unk1F8;
+    int m_unk1FC;
+    int m_unk200;
+    int m_unk204;
+    int m_unk208;
+    int m_unk20C;
+    int m_unk210;
+    int m_unk214;
+    int m_unk218;
+    int m_unk21C;
+    int m_unk220;
+    int m_unk224;
+    int m_unk228;
+    int m_unk22C;
+    int m_unk230;
+    int m_unk234;
+    int m_unk238;
+    int m_unk23C;
+    int m_unk240;
+    int m_unk244;
+    int m_unk248;
+    int m_unk24C;
+    FUN_00a3da50_Anim* m_pAnim;
+};
+
+void __cdecl FUN_00ec44d0(void* dst, const void* src, unsigned int count);
+
+// @fnv 0x00a291e0
+float __cdecl FUN_00a291e0()
+{
+    return 0.0f;
+}
+
+void ApplyCallbackBackwards(char *p, int iTileIndex, int nCount, Fn_00a26fa0_cb pFn);
+
+int __cdecl FUN_00ec658f(void (__cdecl* pfn)(void));
+
+struct NiFixedString {
+    char* m_kHandle;
+    NiFixedString() {}
+    NiFixedString(char* const& s) : m_kHandle(s) {}
+    NiFixedString& operator=(char* const& s) { m_kHandle = s; return *this; }
+};
+
+class NiRefObject {
+public:
+    virtual ~NiRefObject() throw();
+    unsigned int m_uiRefCount;
+    void IncRefCount() throw();
+    void DecRefCount() throw();
+};
+
+class NiObject : public NiRefObject {
+public:
+    NiObject();
+};
+
+class NiControllerSequence : public NiObject {
+public:
+    NiControllerSequence();
+    virtual ~NiControllerSequence() throw();
+
+    NiFixedString m_kName;
+    unsigned int m_uiNumControlledBlocks;
+    unsigned int m_uiNumIDTags;
+    void* m_pInterpArray;
+    void* m_pkIDTags;
+    float m_fWeight;
+    NiPointer<NiRefObject> m_spTextKeyData;
+    int m_eAnimationCycleType;
+    float m_fFrequency;
+    float m_fFirstKeyTime;
+    float m_fLastKeyTime;
+    float m_fLastTime;
+    float m_fWeightAdjustedLastTime;
+    float m_fScaledLastTime;
+    void* m_pkOwnerManager;
+    int m_eAnimationState;
+    float m_fSequenceOffset;
+    float m_fStartTime;
+    float m_fEndTime;
+    float m_fDestinationFrame;
+    NiControllerSequence* m_pkTimeSyncSequence;
+    NiFixedString m_kAccumulationRootName;
+    void* m_pkAccumulationRoot;
+    void* m_spStringPalette;
+    short m_sCurAnimNIdx;
+    void* m_spAnimNotes;
+    unsigned short m_usNumNotes;
+    bool m_bRemoveActivatorOnComplete;
+};
+
+// @fnv 0x00a316a0
+NiControllerSequence::NiControllerSequence() :
+    m_kName(DAT_0109b220), m_uiNumControlledBlocks(0), m_uiNumIDTags(0), m_pInterpArray(0), m_pkIDTags(0), m_fWeight(1.0f), m_spTextKeyData(0), m_fFrequency(1.0f), m_fFirstKeyTime(::DAT_01096548)
+{
+    m_eAnimationCycleType = 0;
+    m_pkOwnerManager = 0;
+    float fInvalid = ::DAT_01015f5c;
+    m_eAnimationState = 0;
+    m_fLastKeyTime = fInvalid;
+    m_fLastTime = fInvalid;
+    m_fWeightAdjustedLastTime = fInvalid;
+    m_fScaledLastTime = fInvalid;
+    m_fSequenceOffset = fInvalid;
+    m_fStartTime = fInvalid;
+    m_fEndTime = fInvalid;
+    m_fDestinationFrame = fInvalid;
+    m_pkTimeSyncSequence = 0;
+    m_kAccumulationRootName = DAT_0109b220;
+    m_pkAccumulationRoot = 0;
+    m_spStringPalette = 0;
+    m_sCurAnimNIdx = -1;
+    m_spAnimNotes = 0;
+    m_usNumNotes = 0;
+    m_bRemoveActivatorOnComplete = false;
+}
+
+void StoreGlobalByte(int a, int b, int c, unsigned char* d);
+
+void FUN_00a28060();
+
+bool FUN_00a291a0(const Helper* a, const Helper* b);
+
+A281E0BezPosKey* LoadBezPosKeys(A281E0Stream& kStream, unsigned int uiNumKeys);
+
+void __cdecl SaveKeyArray(NiStream& kStream, A28260Key* pkKeys, unsigned int uiNumKeys);
+
+void FUN_00a286e0(unsigned int a0, unsigned int a1, unsigned int a2, Vec4_b5508* out);
+
+void __cdecl FUN_00a28720(void* a, void* b);
+
+FUN_00a289b0_Vec4* __cdecl SampleKeyedVec4(FUN_00a289b0_Vec4* out, float t, char* keys, void* arg4, unsigned int count,
+                                           unsigned char stride);
+
+bool __cdecl FUN_00a28a80(Obj_a28* a, Obj_a28* b);
+
+void CopyBlk36(Blk36* dst, const Blk36* src);
+
+void __cdecl CallSpawnTarget(float a, char* x, char* y, SpawnTarget* z);
+
+extern void __cdecl FUN_00a28ab0(FNVAnim* obj, unsigned int count, unsigned int flag);
+
+void __cdecl FUN_00a28dc0(FNVAnim* obj, unsigned int count, unsigned int flag);
+
+// The primary comparison: the float at +0 and the NiBound sub-object at +4.
+bool FUN_00a28a80(UHelper* a, UHelper* b);
+
+bool CompareBounds(UHelper* a, UHelper* b);
+
+int __cdecl FUN_00a29550(int a1, int a2);
+
+void __cdecl FUN_00a29660(void* target, Outer* source);
+
+// The element constructor of the allocated object.
+bool UpdateArrayElements(float t, void** pOut, int* pFlag);
+
+void ReadBlockEntries(A29FE0Context* pkContext, A29FE0Block* pkBlock);
+
+bool A2BDE0KeyEqual(const A2BDE0Key& kA, const A2BDE0Key& kB);
+
+void __cdecl FUN_00a28ab0(void* a, unsigned int count, void* c);
+
+void __cdecl FUN_00a28720(S_a2c390_Stream* s, void* obj);
+
+struct Elem48
+{
+    int unk00;
+    float m04, m08, m0C, m10;
+    float m14, m18, m1C;
+    float m20, m24, m28;
+    unsigned char m2C, m2D, m2E, unk2F;
+    float m30, m34, m38;
+    float m3C, m40, m44;
+    Elem48() throw();
+    ~Elem48() throw();
+};
+
+// @fnv 0x00a29db0
+Elem48* __cdecl FUN_00a29db0(unsigned int count)
+{
+    return new Elem48[count];
+}
+
+struct Elem20
+{
+    float unk00;
+    float unk04;
+    float unk08;
+    float unk0C;
+    float unk10;
+
+    Elem20();
+    ~Elem20()
+    {}
+};
+
+// @fnv 0x00a2ab40
+void* FUN_00a2ab40(unsigned int count)
+{
+    return new Elem20[count];
+}
+
+struct A2ABC0Stream;
+
+struct A2ABC0Key
+{
+    float unk00;
+    float unk04;
+    float unk08;
+    float unk0C;
+    float unk10;
+
+    A2ABC0Key();
+    ~A2ABC0Key()
+    {}
+};
+
+// @fnv 0x00a2abc0
+void* FUN_00a2abc0(A2ABC0Stream* s, unsigned int count)
+{
+    A2ABC0Key* p = new A2ABC0Key[count];
+    for (unsigned int i = 0; i < count; i++)
+        reinterpret_cast<::fnv_00a29640::FUN_00a29640_T *>(&(p[i]))->FUN_00a29640((*(::fnv_00a29640::NiStream *)(s)));
+    return p;
+}
+
+struct BoolKeyS
+{
+    float time;
+    bool value;
+    ~BoolKeyS() throw()
+    {}
+};
+
+bool GenInterpBool(float t, BoolKeyS* keys, int type, unsigned int count, unsigned int stride);
+
+// @fnv 0x00a2ccd0
+bool FUN_00a2ccd0(float fTime, BoolKeyS*& pkKeys, unsigned int& uiNumKeys)
+{
+    unsigned int uiIndex;
+    BoolKeyS* pkOldKeys = pkKeys;
+    if (::NiAnimationKeyA3D::FindKeyIndex(fTime, (::NiAnimationKeyA3D *)(::TCBKeyS *)((TCBKeyS*)pkOldKeys), uiNumKeys, (*(unsigned int *)(&uiIndex)), sizeof(BoolKeyS)))
+    {
+        BoolKeyS* pkNewKeys = new BoolKeyS[uiNumKeys + 1];
+        std::memmove(pkNewKeys, pkOldKeys, uiIndex * sizeof(BoolKeyS));
+        if (uiNumKeys > uiIndex)
+            std::memmove(&pkNewKeys[uiIndex + 1], &pkOldKeys[uiIndex], (uiNumKeys - uiIndex) * sizeof(BoolKeyS));
+        bool bValue = GenInterpBool(fTime, pkOldKeys, 5, uiNumKeys, sizeof(BoolKeyS));
+        BoolKeyS* pkKey = &pkNewKeys[uiIndex];
+        pkKey->time = fTime;
+        pkKey->value = bValue;
+        uiNumKeys++;
+        delete[] pkOldKeys;
+        pkKeys = pkNewKeys;
+        return true;
+    }
+    return false;
+}
+
+struct A28F00Elem
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+
+    A28F00Elem();
+    ~A28F00Elem()
+    {}
+};
+
+// @fnv 0x00a28f00
+A28F00Elem* __cdecl FUN_00a28f00(unsigned int ItemUpdateArray)
+{
+    return new A28F00Elem[ItemUpdateArray];
+}
+
+FUN_00a289b0_Vec4* __cdecl SampleKeyedVec4(FUN_00a289b0_Vec4* out, float t, char* keys, void* arg4, unsigned int count,
+                                           unsigned char stride);
+
+void __cdecl FUN_00a28dc0(FNVAnim* obj, unsigned int count, unsigned int flag);
+
+struct QuatS
+{
+    float m_fVectorX, m_fVectorY, m_fVectorZ, m_fScalarPart;
+    QuatS()
+    {}
+    QuatS(float w, float x, float y, float z) throw();
+};
+
+struct TCBRotKeyS
+{
+    float m_fTime;
+    QuatS m_kQuat;
+    float m_fValueX;
+    float m_fValueY;
+    float m_fValueZ;
+    float unk20;
+    TCBRotKeyS() : m_kQuat(0.0f, 0.0f, 0.0f, 0.0f)
+    {}
+    ~TCBRotKeyS()
+    {}
+};
+
+typedef TCBRotKeyS RotKeyS;
+
+// @fnv 0x00a28f50
+bool FUN_00a28f50(float t, RotKeyS*& pkKeys, unsigned int& uiNumKeys)
+{
+    TCBRotKeyS* pkOld = (TCBRotKeyS*)pkKeys;
+    unsigned int uiInsertAt;
+    if (::NiAnimationKeyA3D::FindKeyIndex(t, (::NiAnimationKeyA3D *)(::TCBKeyS *)((TCBKeyS*)pkOld), uiNumKeys, (*(unsigned int *)(&uiInsertAt)), sizeof(TCBRotKeyS)))
+    {
+        TCBRotKeyS* pkNewKeys = new TCBRotKeyS[uiNumKeys + 1];
+        std::memmove(pkNewKeys, pkOld, uiInsertAt * sizeof(TCBRotKeyS));
+        if (uiNumKeys > uiInsertAt)
+            std::memmove(&pkNewKeys[uiInsertAt + 1], &pkOld[uiInsertAt], (uiNumKeys - uiInsertAt) * sizeof(TCBRotKeyS));
+
+        QuatS kQuat;
+        SampleKeyedVec4((FUN_00a289b0_Vec4*)&kQuat, t, (char*)pkOld, (void*)2, uiNumKeys, sizeof(TCBRotKeyS));
+        TCBRotKeyS* pkNewKey = &pkNewKeys[uiInsertAt];
+        pkNewKey->m_fTime = t;
+        pkNewKey->m_kQuat = kQuat;
+        uiNumKeys++;
+        delete[] pkOld;
+        pkKeys = pkNewKeys;
+        FUN_00a28dc0((FNVAnim*)pkNewKeys, uiNumKeys, sizeof(TCBRotKeyS));
+        return true;
+    }
+    return false;
+}
+
+struct A290A0Stream;
+
+struct A290A0Key
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    A290A0Key();
+    ~A290A0Key();
+};
+
+// @fnv 0x00a290a0
+A290A0Key* __cdecl FUN_00a290a0(A290A0Stream* pkStream, unsigned int ItemUpdateArray)
+{
+    A290A0Key* pkKeys = new A290A0Key[ItemUpdateArray];
+    for (unsigned int i = 0; i < ItemUpdateArray; i++)
+    {
+        reinterpret_cast<::fnv_00a29640::FUN_00a29640_T *>(&(pkKeys[i]))->FUN_00a29640((*(::fnv_00a29640::NiStream *)(pkStream)));
+    }
+    return pkKeys;
+}
+
+struct RotKeyQuat
+{
+    float w;
+    float x;
+    float y;
+    float z;
+};
+
+// VEGAS17-CONFLICT: TimedRotationKey (variant definition below differs from the one above)
+struct TimedRotationKey : AnimKeyBase
+{
+    RotKeyQuat m_kRotationValue;
+    TimedRotationKey();
+};
+
+void FUN_00a298f0(RotKeyQuat* pkResult, float fTime, TimedRotationKey* pkKeys, int eType, unsigned int uiNumKeys,
+                  unsigned int uiKeySize);
+
+// @fnv 0x00a2a390
+bool FUN_00a2a390(float fTime, TimedRotationKey*& pkKeys, unsigned int& uiNumKeys)
+{
+    TimedRotationKey* pkOld = pkKeys;
+    unsigned int uiIndex;
+    if (::NiAnimationKeyA3D::FindKeyIndex(fTime, (::NiAnimationKeyA3D *)(::TCBKeyS *)((TCBKeyS*)pkOld), uiNumKeys, (*(unsigned int *)(&uiIndex)), sizeof(TimedRotationKey)))
+    {
+        TimedRotationKey* pkNew = new TimedRotationKey[uiNumKeys + 1];
+        std::memmove(pkNew, pkOld, uiIndex * sizeof(TimedRotationKey));
+        if (uiNumKeys > uiIndex)
+            std::memmove(&pkNew[uiIndex + 1], &pkOld[uiIndex], (uiNumKeys - uiIndex) * sizeof(TimedRotationKey));
+
+        RotKeyQuat kQuat;
+        FUN_00a298f0(&kQuat, fTime, pkOld, 1, uiNumKeys, sizeof(TimedRotationKey));
+        TimedRotationKey* pkKey = &pkNew[uiIndex];
+        pkKey->time = fTime;
+        pkKey->m_kRotationValue = kQuat;
+        uiNumKeys++;
+
+        delete[] pkOld;
+        pkKeys = pkNew;
+        return true;
+    }
+    return false;
+}
+
+struct ColorKeyValue
+{
+    float r;
+    float g;
+    float b;
+    float a;
+};
+
+struct ColorKey
+{
+    float m_fTime;
+    ColorKeyValue m_kValue;
+    ColorKey();  // FUN_00a2bdb0
+    ~ColorKey()
+    {}
+};
+
+ColorKeyValue* __cdecl SampleKeyedVec4(ColorKeyValue* pkOut, float fTime, ColorKey* pkKeys, int iType,
+                                       unsigned int ItemUpdateArray, unsigned char ucStride);
+
+void __cdecl FUN_00a28ab0(ColorKey* pkKeys, unsigned int ItemUpdateArray, unsigned int uiStride);
+
+// @fnv 0x00a2ac30
+bool FUN_00a2ac30(float fTime, ColorKey** ppkKeys, unsigned int* puiNumKeys)
+{
+    ColorKey* pkKeys = *ppkKeys;
+    unsigned int uiIndex;
+    if (::NiAnimationKeyA3D::FindKeyIndex(fTime, (::NiAnimationKeyA3D *)(::TCBKeyS *)((TCBKeyS*)pkKeys), *puiNumKeys, (*(unsigned int *)(&uiIndex)), sizeof(ColorKey)))
+    {
+        ColorKey* pkNew = new ColorKey[*puiNumKeys + 1];
+        std::memmove(pkNew, pkKeys, uiIndex * sizeof(ColorKey));
+        if (*puiNumKeys > uiIndex)
+            std::memmove(&pkNew[uiIndex + 1], &pkKeys[uiIndex], (*puiNumKeys - uiIndex) * sizeof(ColorKey));
+        ColorKeyValue kValue;
+        SampleKeyedVec4(&kValue, fTime, pkKeys, 1, *puiNumKeys, sizeof(ColorKey));
+        ColorKey& kKey = pkNew[uiIndex];
+        kKey.m_fTime = fTime;
+        kKey.m_kValue = kValue;
+        ++*puiNumKeys;
+        delete[] pkKeys;
+        *ppkKeys = pkNew;
+        FUN_00a28ab0(pkNew, *puiNumKeys, sizeof(ColorKey));
+        return true;
+    }
+    return false;
+}
+
+struct QuatA
+{
+    float w, x, y, z;
+    QuatA()
+    {}
+    void Set(float, float, float, float);
+};
+
+struct FUN_00a2bdb0
+{
+    float time;
+    QuatA value;
+    float tension, continuity, bias;
+    QuatA a;
+    QuatA b;
+    FUN_00a2bdb0()
+    {
+        value.Set(0.0f, 0.0f, 0.0f, 0.0f);
+    }
+    ~FUN_00a2bdb0()
+    {}
+};
+
+QuatA __cdecl SampleKeyedVec4(float, FUN_00a2bdb0*, int, unsigned, unsigned);
+
+// @fnv 0x00a2c1b0
+bool __cdecl FUN_00a2c1b0(float time, FUN_00a2bdb0** keys, unsigned* count)
+{
+    FUN_00a2bdb0* oldKeys = *keys;
+    unsigned index;
+    if (::NiAnimationKeyA3D::FindKeyIndex(time, (::NiAnimationKeyA3D *)(::TCBKeyS *)((TCBKeyS*)oldKeys), *count, (*(unsigned int *)(&index)), 64))
+    {
+        FUN_00a2bdb0* newKeys = new FUN_00a2bdb0[*count + 1];
+        std::memmove(newKeys, oldKeys, index * sizeof(FUN_00a2bdb0));
+        if (*count > index)
+            std::memmove(newKeys + index + 1, oldKeys + index, (*count - index) * sizeof(FUN_00a2bdb0));
+        QuatA value = SampleKeyedVec4(time, oldKeys, 3, *count, 64);
+        FUN_00a2bdb0& key = newKeys[index];
+        key.time = time;
+        key.value = value;
+        key.bias = key.continuity = key.tension = 0.0f;
+        ++*count;
+        delete[] oldKeys;
+        *keys = newKeys;
+        ::FUN_00a2c130((::Quad64 *)(newKeys), *count, (void *)(64));
+        return true;
+    }
+    return false;
+}
+
+namespace fnv_00a2c420 {
+namespace na2c {
+struct Alloc
+{
+};
+}
+struct FUN_00a2bdb0
+{
+    int d[16];
+    FUN_00a2bdb0() throw();
+    ~FUN_00a2bdb0() throw()
+    {}
+};
+
+// @fnv 0x00a2c420
+FUN_00a2bdb0* __cdecl FUN_00a2c420(S_a2c300_Stream* s, unsigned int count)
+{
+    FUN_00a2bdb0* arr = new FUN_00a2bdb0[count];
+    for (unsigned int i = 0; i < count; i++)
+        reinterpret_cast<::S_a2c300_Obj *>(&(arr[i]))->SaveExtraFields(s);
+    return arr;
+}
+}
+
+// namespace fnv_00a2c420
+
+struct ScalarKeyA2
+{
+    float time, value, tension, bias, continuity, inTangent, outTangent;
+    ~ScalarKeyA2() throw()
+    {}
+};
+
+float GetValueAtTime(float, ScalarKeyA2*, int, unsigned int, unsigned int);
+
+// @fnv 0x00a2c890
+bool FUN_00a2c890(float time, ScalarKeyA2** keys, unsigned int* count)
+{
+    ScalarKeyA2* old = *keys;
+    unsigned int index;
+    if (::NiAnimationKeyA3D::FindKeyIndex(time, (::NiAnimationKeyA3D *)(old), *count, (*(unsigned int *)(&index)), 28))
+    {
+        ScalarKeyA2* result = new ScalarKeyA2[*count + 1];
+        std::memmove(result, old, index * sizeof(ScalarKeyA2));
+        if (*count > index)
+            std::memmove(result + index + 1, old + index, (*count - index) * sizeof(ScalarKeyA2));
+        float value = GetValueAtTime(time, old, 3, *count, 28);
+        ScalarKeyA2& key = result[index];
+        key.time = time;
+        key.value = value;
+        key.continuity = key.bias = key.tension = 0.0f;
+        ++*count;
+        delete[] old;
+        *keys = result;
+        ::FUN_00a2c7a0((::Key *)(result), *count);
+        return true;
+    }
+    return false;
+}
+
+struct A2CF60Elem
+{
+    float unk00;
+    float x;
+    float y;
+    float z;
+    float w;
+
+    A2CF60Elem();
+    ~A2CF60Elem()
+    {}
+
+};
+
+// @fnv 0x00a2cf60
+A2CF60Elem* __cdecl FUN_00a2cf60(void* apStream, unsigned int auiCount)
+{
+    A2CF60Elem* pkItems = new A2CF60Elem[auiCount];
+    for (unsigned int i = 0; i < auiCount; i++)
+        reinterpret_cast<::fnv_00a29640::FUN_00a29640_T *>(&(pkItems[i]))->FUN_00a29640((*(::fnv_00a29640::NiStream *)(apStream)));
+    return pkItems;
+}
+
+namespace fnv_00a2d000 {
+struct QuatS
+{
+    float w, x, y, z;
+};
+struct QuatR : QuatS
+{
+    QuatR()
+    {}
+};
+
+struct QuatKey
+{
+    float time;
+    QuatS q;
+    QuatKey()
+    {
+        q.w = 0.0f;
+        q.x = 0.0f;
+        q.y = 0.0f;
+        q.z = 0.0f;
+    }
+    ~QuatKey()
+    {}
+};
+
+QuatR FUN_00a298f0(float t, QuatKey* keys, int type, unsigned int count, unsigned int stride);
+
+// @fnv 0x00a2d000
+bool FUN_00a2d000(float t, QuatKey** pKeys, unsigned int* pCount)
+{
+    QuatKey* keys = *pKeys;
+    unsigned int idx;
+    if (::NiAnimationKeyA3D::FindKeyIndex(t, (::NiAnimationKeyA3D *)(::TCBKeyS *)((TCBKeyS*)keys), *pCount, (*(unsigned int *)(&idx)), sizeof(QuatKey)))
+    {
+        unsigned int count = *pCount + 1;
+        QuatKey* newKeys = new QuatKey[count];
+        std::memmove(newKeys, keys, idx * sizeof(QuatKey));
+        if (*pCount > idx)
+            std::memmove(&newKeys[idx + 1], &keys[idx], (*pCount - idx) * sizeof(QuatKey));
+        QuatR q = FUN_00a298f0(t, keys, 5, *pCount, sizeof(QuatKey));
+        QuatKey& key = newKeys[idx];
+        key.time = t;
+        key.q = q;
+        ++*pCount;
+        delete[] keys;
+        *pKeys = newKeys;
+        return true;
+    }
+    return false;
+}
+}
+
+// namespace fnv_00a2d000
+
+struct A2D6C0Quaternion
+{
+    float m_fVectorX;
+    float m_fVectorY;
+    float m_fVectorZ;
+    float m_fScalarPart;
+
+    A2D6C0Quaternion()
+    {}
+};
+
+struct A2D6C0RotKey
+{
+    float m_fTime;
+    A2D6C0Quaternion m_kRotationValue;
+
+    A2D6C0RotKey();
+    ~A2D6C0RotKey()
+    {}
+};
+
+A2D6C0Quaternion __cdecl SampleKeyedVec4(float fTime, A2D6C0RotKey* pkKeys, int eType, unsigned int uiNumKeys,
+                                         unsigned int uiKeySize);
+
+void __cdecl FUN_00a28ab0(A2D6C0RotKey* pkKeys, unsigned int uiNumKeys, unsigned int uiKeySize);
+
+// @fnv 0x00a2d6c0
+bool __cdecl FUN_00a2d6c0(float fTime, A2D6C0RotKey*& pkKeys, unsigned int& uiNumKeys)
+{
+    A2D6C0RotKey* pkOld = pkKeys;
+    unsigned int uiInsert;
+    if (::NiAnimationKeyA3D::FindKeyIndex(fTime, (::NiAnimationKeyA3D *)(::TCBKeyS *)((TCBKeyS*)pkOld), uiNumKeys, (*(unsigned int *)(&uiInsert)), sizeof(A2D6C0RotKey)))
+    {
+        A2D6C0RotKey* pkNew;
+        pkNew = new A2D6C0RotKey[uiNumKeys + 1];
+        std::memmove(pkNew, pkOld, uiInsert * sizeof(A2D6C0RotKey));
+        if (uiNumKeys > uiInsert)
+            std::memmove(&pkNew[uiInsert + 1], &pkOld[uiInsert], (uiNumKeys - uiInsert) * sizeof(A2D6C0RotKey));
+        A2D6C0Quaternion kQuat = SampleKeyedVec4(fTime, pkOld, 5, uiNumKeys, sizeof(A2D6C0RotKey));
+        A2D6C0RotKey* pkKey = &pkNew[uiInsert];
+        pkKey->m_fTime = fTime;
+        pkKey->m_kRotationValue = kQuat;
+        uiNumKeys++;
+        delete[] pkOld;
+        pkKeys = pkNew;
+        FUN_00a28ab0(pkNew, uiNumKeys, sizeof(A2D6C0RotKey));
+        return true;
+    }
+    return false;
+}
+
+class SeqE2E7
+{
+  public:
+    virtual ~SeqE2E7();
+    virtual void DeleteThis();
+    long m_uiRefCount;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3C;
+    void* m_pkOwnerManager;
+
+    void IncRefCount()
+    {
+        InterlockedIncrement(&m_uiRefCount);
+    }
+    void DecRefCount()
+    {
+        if (InterlockedDecrement(&m_uiRefCount) == 0)
+            DeleteThis();
+    }
+};
+
+template <class T> class NiTObjectArrayE2E7
+{
+  public:
+    virtual ~NiTObjectArrayE2E7();
+    T* m_pBase;
+    unsigned short m_usMaxSize;
+    unsigned short m_usSize;
+    unsigned short m_usESize;
+    unsigned short m_usGrowBy;
+
+    unsigned int GetSize() const
+    {
+        return m_usSize;
+    }
+    T& GetAt(unsigned int uiIndex) const
+    {
+        return m_pBase[uiIndex];
+    }
+    __declspec(noalias) T FUN_00a47540(unsigned int uiIndex);  // RemoveAtAndFill
+};
+
+template <class T> class NiTPrimitiveSetE2E7
+{
+  public:
+    T* m_pBase;
+    unsigned int m_uiElementCount;
+    unsigned int m_uiAllocatedCapacity;
+
+    unsigned int GetSize() const
+    {
+        return m_uiAllocatedCapacity;
+    }
+    T GetAt(unsigned int uiIndex) const
+    {
+        return m_pBase[uiIndex];
+    }
+    void RemoveAt(unsigned int uiIndex)
+    {
+        m_pBase[uiIndex] = m_pBase[--m_uiAllocatedCapacity];
+    }
+};
+
+typedef void* NiTMapIteratorE2E7;
+
+template <class TKEY, class TVAL> class NiTMapE2E7
+{
+  public:
+    virtual ~NiTMapE2E7();
+    virtual unsigned int KeyToHashIndex(TKEY key) const;
+
+    unsigned int m_uiHashSize;
+    NiTMapItem<TKEY, TVAL>** m_ppkHashTable;
+    unsigned int m_uiCount;
+
+    NiTMapIteratorE2E7 GetFirstPos() const
+    {
+        for (unsigned int i = 0; i < m_uiHashSize; i++)
+        {
+            if (m_ppkHashTable[i])
+                return m_ppkHashTable[i];
+        }
+        return 0;
+    }
+
+    void GetNext(NiTMapIteratorE2E7& pos, TKEY& key, TVAL& val) const
+    {
+        NiTMapItem<TKEY, TVAL>* pkItem = (NiTMapItem<TKEY, TVAL>*)pos;
+        key = pkItem->m_key;
+        val = pkItem->m_val;
+        if (pkItem->m_pkNext)
+        {
+            pos = pkItem->m_pkNext;
+            return;
+        }
+        unsigned int i = KeyToHashIndex(pkItem->m_key);
+        for (++i; i < m_uiHashSize; i++)
+        {
+            pkItem = m_ppkHashTable[i];
+            if (pkItem)
+            {
+                pos = pkItem;
+                return;
+            }
+        }
+        pos = 0;
+    }
+
+    bool FUN_00e91fd0(TKEY key);  // RemoveAt
+};
+
+class SeqMgrE2E7
+{
+  public:
+    virtual ~SeqMgrE2E7();
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    NiTObjectArrayE2E7<NiPointer<SeqE2E7> > m_kSequences;
+    NiTPrimitiveSetE2E7<SeqE2E7*> m_kPlayingSequences;
+    NiTMapE2E7<const char*, SeqE2E7*> m_kPointerMap;
+
+    void FUN_00a2e7d0(SeqE2E7* pkSequence, NiPointer<SeqE2E7>& spOut);
+};
+
+// @fnv 0x00a2e7d0
+void SeqMgrE2E7::FUN_00a2e7d0(SeqE2E7* pkSequence, NiPointer<SeqE2E7>& spOut)
+{
+    for (unsigned int ui = 0; ui < m_kSequences.GetSize(); ui++)
+    {
+        NiPointer<SeqE2E7> pListSequence = m_kSequences.GetAt(ui);
+        if (pListSequence == pkSequence)
+        {
+            m_kSequences.FUN_00a47540(ui);
+
+            NiTMapIteratorE2E7 kIter = m_kPointerMap.GetFirstPos();
+            while (kIter)
+            {
+                const char* pcName;
+                SeqE2E7* pkSeq;
+                m_kPointerMap.GetNext(kIter, pcName, pkSeq);
+                if (pkSeq == pkSequence)
+                {
+                    m_kPointerMap.FUN_00e91fd0(pcName);
+                    break;
+                }
+            }
+
+            for (unsigned int uj = 0; uj < m_kPlayingSequences.GetSize(); uj++)
+            {
+                if (m_kPlayingSequences.GetAt(uj) == pkSequence)
+                    m_kPlayingSequences.RemoveAt(uj);
+            }
+
+            reinterpret_cast<::S_00a30880_Foo *>(((pListSequence).operator->()))->ReleaseItems();
+            pListSequence->m_pkOwnerManager = 0;
+            spOut = pListSequence;
+            return;
+        }
+    }
+    spOut = 0;
+}
+
+struct LoadKey48 {
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3C;
+    int unk40;
+    int unk44;
+    LoadKey48();
+    ~LoadKey48() {}
+};
+
+// @fnv 0x00a2a070
+LoadKey48* __cdecl FUN_00a2a070(A29F00Stream& kStream, unsigned int uiNumKeys) {
+    LoadKey48* pkKeys = new LoadKey48[uiNumKeys];
+    for (unsigned int i = 0; i < uiNumKeys; i++)
+        reinterpret_cast<::A29F00KeyData *>(&(pkKeys[i]))->LoadKeyData(kStream);
+    return pkKeys;
+}
+
+struct LoadKey20 {
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    LoadKey20();
+    ~LoadKey20() {}
+};
+
+// @fnv 0x00a2a320
+LoadKey20* __cdecl FUN_00a2a320(S_a2c300_Stream* s, unsigned int count) {
+    LoadKey20* keys = new LoadKey20[count];
+    for (unsigned int i = 0; i < count; i++)
+        reinterpret_cast<::fnv_00a29640::FUN_00a29640_T *>(&(keys[i]))->FUN_00a29640((*(::fnv_00a29640::NiStream *)(s)));
+    return keys;
+}
+
+struct ArrayElementA2BE60 {
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+    ArrayElementA2BE60() throw();
+    ~ArrayElementA2BE60() {}
+};
+
+// @fnv 0x00a2be60
+ArrayElementA2BE60* FUN_00a2be60(unsigned int n) {
+    return new ArrayElementA2BE60[n];
 }
 
 #include "generated/data/staging/blk_00a20000_o2.inc"

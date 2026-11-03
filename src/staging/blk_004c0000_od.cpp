@@ -403,6 +403,7 @@ char FUN_004def00(float afValue, char acValue)
 
 struct GlobalObject_004aff00
 {
+    void RemoveAll();
 };
 
 struct FUN_004def90_Class
@@ -1567,6 +1568,7 @@ class NiAVObject : public NiObject
 {
   public:
     NiFixedString& GetName();
+    ::NiPoint3 &FUN_0043c490();
 };
 
 class NiStream
@@ -3585,6 +3587,38 @@ void* FUN_004d85a0_Class::GetLocalSubValue(int a)
 namespace fnv_004dc710 {
 #include <windows.h>
 #include <d3d9.h>
+#include "fnv/decl/FUN_00456630_helper.h"
+#include "fnv/decl/FUN_0076b610_Class.h"
+#include "fnv/decl/FUN_00844700_Class.h"
+#include "fnv/decl/FUN_009cdae0_shell.h"
+#include "fnv/decl/NiNode.h"
+#include "fnv/decl/TESRecipe.h"
+#include "fnv/decl/fnv_004d80b0__FUN_004d80b0_Class.h"
+#include "fnv/decl/fnv_004d8a40__TreeCtrl4d8a.h"
+#include "fnv/decl/fnv_006838b0__FUN_006838b0_shell.h"
+#include "fnv/symbols_0043b000.h"
+#include "fnv/symbols_0043f000.h"
+#include "fnv/symbols_004a8000.h"
+#include "fnv/symbols_004d5000.h"
+#include "fnv/symbols_004d6000.h"
+#include "fnv/symbols_004de000.h"
+#include "fnv/symbols_0096a000.h"
+#include "fnv/decl/fnv_004d80b0__FUN_004d80b0_Class.h"
+#include "fnv/decl/fnv_004d8a40__TreeCtrl4d8a.h"
+#include "fnv/symbols_004d5000.h"
+#include "fnv/symbols_004d6000.h"
+#include "fnv/symbols_004de000.h"
+#include "fnv/symbols_0096a000.h"
+#include <commctrl.h>
+#include "fnv/decl/FUN_004d4eb0.h"
+#include "fnv/decl/FUN_004d91b0_Class.h"
+#include "fnv/decl/Owner.h"
+#include "fnv/decl/fnv_004d80b0__FUN_004d80b0_Class.h"
+#include "fnv/decl/fnv_004d8a40__TreeCtrl4d8a.h"
+#include "fnv/symbols_004d5000.h"
+#include "fnv/symbols_004d6000.h"
+#include "fnv/symbols_004de000.h"
+#include "fnv/symbols_0096a000.h"
 bool FUN_004dcda0_Result();
 int __cdecl FUN_004dc2b0_Result();
 
@@ -4322,4 +4356,534 @@ int FUN_004dd2c0(int iDisplayIndex, EFEyefinityInfo* pkEyefinityInfo, int* piNum
     return iReturnValue;
 }
 
+void* FUN_004dd240(unsigned int size);
+
+int __cdecl FUN_004dd2a0(void* p);
+
+int __cdecl FUN_004d7890(int a, int b, int c, int d);
+
+void ClearAndFreePointer(void* p);
+
+bool __cdecl FUN_004deed0(char const* a, unsigned char b);
+
+void __cdecl ClearGlobalArray(void);
+
+int __cdecl FUN_004d5e00();
+
+struct NiPoint3;
+
+int __cdecl FUN_00ec9d4a(const char* pcFormat, ...);
+
+float __cdecl FUN_004de0f0();
+
+namespace fnv_004d66d0 {
+struct NiPoint3
+{
+  public:
+    float x, y, z;
+};
+class NiFixedString
+{
+  public:
+    const char* text;
+};
+class NiRTTI : public BSStringT<char>
+{
+};
+class ViewerStrings
+{
+  public:
+    virtual ~ViewerStrings();
+    const char** strings;
+    unsigned short capacity, size, used, growBy;
+    ViewerStrings(int initialSize, int growSize);
+    unsigned int GetSize();
+    const char*& GetAt(unsigned int index);
+};
+class NiTimeController;
+class NiTriBasedGeom;
+class NiObject
+{
+  public:
+    virtual ~NiObject();
+    virtual void Unk01();
+    virtual NiRTTI* GetRTTI();
+    virtual NiNode* IsSceneNode();
+    virtual void Unk04();
+    virtual void Unk05();
+    virtual NiTriBasedGeom* IsTriBasedGeom();
+    virtual void Unk07();
+    virtual void Unk08();
+    virtual void Unk09();
+    virtual void Unk10();
+    virtual void Unk11();
+    virtual void Unk12();
+    virtual void Unk13();
+    virtual void Unk14();
+    virtual void Unk15();
+    virtual void Unk16();
+    virtual void Unk17();
+    virtual void Unk18();
+    virtual void Unk19();
+    virtual void Unk20();
+    virtual void Unk21();
+    virtual void Unk22();
+    virtual void Unk23();
+    virtual void GetViewerStrings(ViewerStrings* strings);
+};
+class NiObjectNET : public NiObject
+{
+  public:
+};
+class NiTimeController : public NiObject
+{
+  public:
+};
+class PropertyValue
+{
+  public:
+};
+class PropertyList
+{
+  public:
+};
+class NiAVObject : public NiObjectNET
+{
+  public:
+    NiFixedString& GetName();
+};
+class NiNode : public NiAVObject
+{
+  public:
+    unsigned int FUN_0043b480();
+};
+class NiTriBasedGeom
+{
+  public:
+};
+int __cdecl FUN_00406d50(char*, unsigned int, const char*);
+struct TreeItemFields
+{
+    unsigned int mask;
+    void* handle;
+    unsigned int state;
+    unsigned int stateMask;
+    const char* text;
+    int textMax;
+    int image;
+    int selectedImage;
+    int children;
+    NiAVObject* data;
+    int integral;
+    unsigned int stateEx;
+    HWND window;
+    int expandedImage;
+};
+struct TreeInsert
+{
+    void* parent;
+    void* insertAfter;
+    union
+    {
+        TreeItemFields item;
+        TreeItemFields itemex;
+    };
+};
+class ObjectTree
+{
+  public:
+    void* field00;
+    void* field04;
+    void* field08;
+    HWND tree;
+    void* field10;
+    void* field14;
+    NiTPointerMap<unsigned int, unsigned int> entries;
+    void FUN_004d66d0(void* parent, NiAVObject* object);
+};
+// @fnv 0x004d66d0
+void ObjectTree::FUN_004d66d0(void* parent, NiAVObject* object)
+{
+    // The controller chain and extra-data object outlive the tree-building scopes.
+    NiObject* insertion;
+    unsigned int i;
+    NiTimeController* extra;
+    {
+        char scale[260];
+        {
+            bool hasPropertyControllers;
+            {
+                ViewerStrings* strings;
+                {
+                    char label[260];
+                    {
+                        TreeInsert treeItem;
+
+                        treeItem.insertAfter = reinterpret_cast<void*>(0xffff0002);
+                        treeItem.item.mask = 0x27;
+                        treeItem.parent = parent;
+                        treeItem.item.data = object;
+                        ::FUN_00406d00(label, 260, "%s \"%s\" (%.0f,%.0f,%.0f)", ((const char *)(::FUN_00559450((int *)(object->GetRTTI())))),
+                                  (*(::fnv_004d66d0::NiFixedString *)(reinterpret_cast<::TESTopicInfoData *>((object))->GetLinkToList())).text, (*(::fnv_004d66d0::NiPoint3 *)&(reinterpret_cast<::NiAVObject *>((object))->FUN_0043c490())).x, (*(::fnv_004d66d0::NiPoint3 *)&(reinterpret_cast<::NiAVObject *>((object))->FUN_0043c490())).y,
+                                  (*(::fnv_004d66d0::NiPoint3 *)&(reinterpret_cast<::NiAVObject *>((object))->FUN_0043c490())).z);
+                        if (reinterpret_cast<::FUN_009cdae0_shell *>((object))->GetFloatAt64() != 1.0)
+                        {
+                            ::FUN_00406d00(scale, 260, " Scale %.1f", reinterpret_cast<::FUN_009cdae0_shell *>((object))->GetFloatAt64());
+                            FUN_00406d50(label, 260, scale);
+                        }
+                        if (reinterpret_cast<::FUN_00456630_helper *>((object))->FUN_00456610())
+                            FUN_00406d50(label, 260, " Culled");
+                        treeItem.item.text = ((const char *)(::FUN_00464f30((int)(label))));
+                        if (object->IsSceneNode())
+                            treeItem.item.image = 3;
+                        else if (::FUN_0043b300((const ::NiRTTI *)(const ::fnv_004d66d0::NiRTTI *)(&(*reinterpret_cast<::fnv_004d66d0::NiRTTI *>(&::g_011f4a18))), (::NiAVObject *)(object)))
+                            treeItem.item.image = 1;
+                        else if (::FUN_0043b300((const ::NiRTTI *)(const ::fnv_004d66d0::NiRTTI *)(&(*reinterpret_cast<::fnv_004d66d0::NiRTTI *>(&::g_011f4a28))), (::NiAVObject *)(object)))
+                            treeItem.item.image = 2;
+                        else
+                            treeItem.item.image = 4;
+                        treeItem.item.selectedImage = treeItem.item.image;
+                        treeItem.parent = (void*)SendMessageA(tree, 0x1100, 0, (LPARAM)&treeItem);
+                        treeItem.item.data = 0;
+                        reinterpret_cast<::FUN_00844700_Class *>(&(entries))->FUN_00844700((unsigned int)object, (unsigned int)treeItem.parent);
+                        treeItem.item.text = ((const char *)(::FUN_00464f30((int)("Attributes"))));
+                        treeItem.item.image = 5;
+                        treeItem.item.selectedImage = treeItem.item.image;
+                        parent = treeItem.parent;
+                        treeItem.parent = (void*)SendMessageA(tree, 0x1100, 0, (LPARAM)&treeItem);
+                        strings = new ViewerStrings(128, 128);
+                        object->GetViewerStrings(strings);
+                        for (i = 0; i < reinterpret_cast<::FUN_00658930_class *>((strings))->GetShortAtOffsetA(); i++)
+                        {
+                            treeItem.item.text = ((const char *)(::FUN_00464f30((int)(strings->GetAt(i)))));
+                            treeItem.item.image = 6;
+                            treeItem.item.selectedImage = treeItem.item.image;
+                            SendMessageA(tree, 0x1100, 0, (LPARAM)&treeItem);
+                        }
+                        ::FUN_005e03d0((::NiTArray_Layout *)(strings));
+                        hasPropertyControllers = false;
+                        if (!reinterpret_cast<::FUN_0076b610_Class *>((void *)&((*(::fnv_004d66d0::PropertyList *)(reinterpret_cast<::TESRecipe *>((object))->GetData()))))->FUN_0076b610())
+                        {
+                            void* position = ((void *)(::FUN_00559450((int *)&((*(::fnv_004d66d0::PropertyList *)(reinterpret_cast<::TESRecipe *>((object))->GetData()))))));
+                            while (position)
+                            {
+                                NiObjectNET* property = ((::fnv_004d66d0::NiObjectNET *)(::FUN_00559450((int *)&((*(::fnv_004d66d0::PropertyValue *)(reinterpret_cast<::ListStandIn *>(&((*(::fnv_004d66d0::PropertyList *)(reinterpret_cast<::TESRecipe *>((object))->GetData()))))->FUN_0057cbe0((int **)&(position))))))));
+                                NiTimeController* propertyController = ((::fnv_004d66d0::NiTimeController *)(::fnv_0043b230::FUN_0043b230((const char *)(property))));
+                                if (propertyController)
+                                {
+                                    hasPropertyControllers = true;
+                                    break;
+                                }
+                            }
+                        }
+                        extra = ((::fnv_004d66d0::NiTimeController *)(::fnv_0043b230::FUN_0043b230((const char *)(object))));
+                        if (extra || hasPropertyControllers)
+                        {
+                            treeItem.item.text = ((const char *)(::FUN_00464f30((int)("Controllers"))));
+                            treeItem.item.image = 5;
+                            treeItem.item.selectedImage = treeItem.item.image;
+                            treeItem.parent = parent;
+                            void* controllersItem = (void*)SendMessageA(tree, 0x1100, 0, (LPARAM)&treeItem);
+                            while (extra)
+                            {
+                                unsigned int j;
+                                {
+                                    NiObject* typedController;
+                                    {
+                                        char controllerName[64];
+                                        ::FUN_004add50(controllerName, ((const char *)(::FUN_00559450((int *)(extra->GetRTTI())))), 63);
+                                        controllerName[63] = 0;
+                                        treeItem.item.text = ((const char *)(::FUN_00464f30((int)(controllerName))));
+                                        treeItem.item.image = 6;
+                                        treeItem.item.selectedImage = treeItem.item.image;
+                                        treeItem.parent = controllersItem;
+                                        treeItem.parent = (void*)SendMessageA(tree, 0x1100, 0, (LPARAM)&treeItem);
+                                        extra->GetViewerStrings(strings);
+                                        for (j = 0; j < reinterpret_cast<::FUN_00658930_class *>((strings))->GetShortAtOffsetA(); j++)
+                                        {
+                                            treeItem.item.text = ((const char *)(::FUN_00464f30((int)(strings->GetAt(j)))));
+                                            treeItem.item.image = 6;
+                                            treeItem.item.selectedImage = treeItem.item.image;
+                                            SendMessageA(tree, 0x1100, 0, (LPARAM)&treeItem);
+                                        }
+                                        ::FUN_005e03d0((::NiTArray_Layout *)(strings));
+                                        typedController = ((::fnv_004d66d0::NiObject *)(::FUN_00653270((const ::NiRTTI *)(const ::fnv_004d66d0::NiRTTI *)(&(*reinterpret_cast<::fnv_004d66d0::NiRTTI *>(&::g_011f36ac))), (::NiObject *)(extra))));
+                                        if (typedController)
+                                        {
+                                            (*reinterpret_cast<::fnv_004d66d0::NiObject * *>(&::DAT_011f36f8)) = (*reinterpret_cast<::fnv_004d66d0::NiObject * *>(&::DAT_011f36f4));
+                                            (*reinterpret_cast<::fnv_004d66d0::NiObject * *>(&::DAT_011f36f4)) = typedController;
+                                            reinterpret_cast<::TreeCtrl4d86 *>(this)->PopulateObjectTree(treeItem.parent, (::Object4d86 *)(typedController));
+                                        }
+                                        else
+                                        {
+                                            NiObject* otherController = ((::fnv_004d66d0::NiObject *)(::FUN_00653270((const ::NiRTTI *)(const ::fnv_004d66d0::NiRTTI *)(&(*reinterpret_cast<::fnv_004d66d0::NiRTTI *>(&::g_011f36bc))), (::NiObject *)(extra))));
+                                            if (otherController)
+                                                reinterpret_cast<::TreeCtrl4d88 *>(this)->AddBlendInterpTreeItems(treeItem.parent, (::BlendInterp4d88 *)(otherController));
+                                        }
+                                        extra = ((::fnv_004d66d0::NiTimeController *)(::fnv_004a8a90::FUN_004a8a90((char *)(extra))));
+                                    }
+                                }
+                            }
+                            if (hasPropertyControllers)
+                            {
+                                void* position = ((void *)(::FUN_00559450((int *)&((*(::fnv_004d66d0::PropertyList *)(reinterpret_cast<::TESRecipe *>((object))->GetData()))))));
+                                while (position)
+                                {
+                                    NiObjectNET* property = ((::fnv_004d66d0::NiObjectNET *)(::FUN_00559450((int *)&((*(::fnv_004d66d0::PropertyValue *)(reinterpret_cast<::ListStandIn *>(&((*(::fnv_004d66d0::PropertyList *)(reinterpret_cast<::TESRecipe *>((object))->GetData()))))->FUN_0057cbe0((int **)&(position))))))));
+                                    NiTimeController* propertyController = ((::fnv_004d66d0::NiTimeController *)(::fnv_0043b230::FUN_0043b230((const char *)(property))));
+                                    while (propertyController)
+                                    {
+                                        unsigned int j;
+                                        {
+                                            NiObject* typedController;
+                                            {
+                                                char controllerName[64];
+                                                ::FUN_004add50(controllerName, ((const char *)(::FUN_00559450((int *)(propertyController->GetRTTI())))),
+                                                             63);
+                                                controllerName[63] = 0;
+                                                treeItem.item.text = ((const char *)(::FUN_00464f30((int)(controllerName))));
+                                                treeItem.item.image = 6;
+                                                treeItem.item.selectedImage = treeItem.item.image;
+                                                treeItem.parent = controllersItem;
+                                                treeItem.parent =
+                                                    (void*)SendMessageA(tree, 0x1100, 0, (LPARAM)&treeItem);
+                                                propertyController->GetViewerStrings(strings);
+                                                for (j = 0; j < reinterpret_cast<::FUN_00658930_class *>((strings))->GetShortAtOffsetA(); j++)
+                                                {
+                                                    treeItem.item.text = ((const char *)(::FUN_00464f30((int)(strings->GetAt(j)))));
+                                                    treeItem.item.image = 6;
+                                                    treeItem.item.selectedImage = treeItem.item.image;
+                                                    SendMessageA(tree, 0x1100, 0, (LPARAM)&treeItem);
+                                                }
+                                                ::FUN_005e03d0((::NiTArray_Layout *)(strings));
+                                                typedController = ((::fnv_004d66d0::NiObject *)(::FUN_00653270((const ::NiRTTI *)(const ::fnv_004d66d0::NiRTTI *)(&(*reinterpret_cast<::fnv_004d66d0::NiRTTI *>(&::g_011f36ac))), (::NiObject *)(propertyController))));
+                                                if (typedController)
+                                                {
+                                                    (*reinterpret_cast<::fnv_004d66d0::NiObject * *>(&::DAT_011f36f8)) = (*reinterpret_cast<::fnv_004d66d0::NiObject * *>(&::DAT_011f36f4));
+                                                    (*reinterpret_cast<::fnv_004d66d0::NiObject * *>(&::DAT_011f36f4)) = typedController;
+                                                    reinterpret_cast<::TreeCtrl4d86 *>(this)->PopulateObjectTree(treeItem.parent, (::Object4d86 *)(typedController));
+                                                }
+                                                else
+                                                {
+                                                    NiObject* otherController =
+                                                        ((::fnv_004d66d0::NiObject *)(::FUN_00653270((const ::NiRTTI *)(const ::fnv_004d66d0::NiRTTI *)(&(*reinterpret_cast<::fnv_004d66d0::NiRTTI *>(&::g_011f36bc))), (::NiObject *)(propertyController))));
+                                                    if (otherController)
+                                                        reinterpret_cast<::TreeCtrl4d88 *>(this)->AddBlendInterpTreeItems(treeItem.parent, (::BlendInterp4d88 *)(otherController));
+                                                }
+                                                propertyController = ((::fnv_004d66d0::NiTimeController *)(::fnv_004a8a90::FUN_004a8a90((char *)(propertyController))));
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        reinterpret_cast<::HostClass *>(this)->SendModifierMessages((int)(parent), (::NiObject *)(object));
+                        if (!reinterpret_cast<::FUN_0076b610_Class *>((void *)&((*(::fnv_004d66d0::PropertyList *)(reinterpret_cast<::TESRecipe *>((object))->GetData()))))->FUN_0076b610())
+                        {
+                            treeItem.item.text = ((const char *)(::FUN_00464f30((int)("Properties"))));
+                            treeItem.item.image = 5;
+                            treeItem.item.selectedImage = treeItem.item.image;
+                            treeItem.parent = parent;
+                            void* propertiesItem = (void*)SendMessageA(tree, 0x1100, 0, (LPARAM)&treeItem);
+                            void* position = ((void *)(::FUN_00559450((int *)&((*(::fnv_004d66d0::PropertyList *)(reinterpret_cast<::TESRecipe *>((object))->GetData()))))));
+                            while (position)
+                            {
+                                NiObjectNET* property = ((::fnv_004d66d0::NiObjectNET *)(::FUN_00559450((int *)&((*(::fnv_004d66d0::PropertyValue *)(reinterpret_cast<::ListStandIn *>(&((*(::fnv_004d66d0::PropertyList *)(reinterpret_cast<::TESRecipe *>((object))->GetData()))))->FUN_0057cbe0((int **)&(position))))))));
+                                {
+                                    unsigned int j;
+                                    {
+                                        char propertyName[64];
+                                        ::FUN_004add50(propertyName, ((const char *)(::FUN_00559450((int *)(property->GetRTTI())))), 63);
+                                        propertyName[63] = 0;
+                                        treeItem.item.text = ((const char *)(::FUN_00464f30((int)(propertyName))));
+                                        treeItem.item.image = 6;
+                                        treeItem.item.selectedImage = treeItem.item.image;
+                                        treeItem.parent = propertiesItem;
+                                        treeItem.parent = (void*)SendMessageA(tree, 0x1100, 0, (LPARAM)&treeItem);
+                                        property->GetViewerStrings(strings);
+                                        for (j = 0; j < reinterpret_cast<::FUN_00658930_class *>((strings))->GetShortAtOffsetA(); j++)
+                                        {
+                                            treeItem.item.text = ((const char *)(::FUN_00464f30((int)(strings->GetAt(j)))));
+                                            treeItem.item.image = 6;
+                                            treeItem.item.selectedImage = treeItem.item.image;
+                                            SendMessageA(tree, 0x1100, 0, (LPARAM)&treeItem);
+                                        }
+                                        ::FUN_005e03d0((::NiTArray_Layout *)(strings));
+                                    }
+                                }
+                            }
+                        }
+                        if (object->IsTriBasedGeom() && ((::fnv_004d66d0::NiObject *)(::fnv_0043fad0::FUN_0043fad0((const char *)(object->IsTriBasedGeom())))))
+                        {
+                            treeItem.item.text = ((const char *)(::FUN_00464f30((int)("SkinInstance"))));
+                            treeItem.item.image = 5;
+                            treeItem.item.selectedImage = treeItem.item.image;
+                            treeItem.parent = parent;
+                            treeItem.parent = (void*)SendMessageA(tree, 0x1100, 0, (LPARAM)&treeItem);
+                            ViewerStrings* skinStrings = new ViewerStrings(128, 128);
+                            ((::fnv_004d66d0::NiObject *)(::fnv_0043fad0::FUN_0043fad0((const char *)(object->IsTriBasedGeom()))))->GetViewerStrings(skinStrings);
+                            for (unsigned int j = 0; j < reinterpret_cast<::FUN_00658930_class *>((skinStrings))->GetShortAtOffsetA(); j++)
+                            {
+                                treeItem.item.text = ((const char *)(::FUN_00464f30((int)(skinStrings->GetAt(j)))));
+                                treeItem.item.image = 6;
+                                treeItem.item.selectedImage = treeItem.item.image;
+                                SendMessageA(tree, 0x1100, 0, (LPARAM)&treeItem);
+                            }
+                            ::FUN_005e03d0((::NiTArray_Layout *)(skinStrings));
+                        }
+                        insertion = ((::fnv_004d66d0::NiObject *)(reinterpret_cast<::fnv_006838b0::FUN_006838b0_shell *>((object))->FUN_006838b0()));
+                        if (insertion)
+                            reinterpret_cast<::C7 *>(this)->AddChildTreeItem(parent, (::Node7 *)(insertion));
+                        delete strings;
+                        if (object->IsSceneNode())
+                        {
+                            NiNode* node = (NiNode*)object;
+                            for (unsigned int j = 0; j < node->FUN_0043b480(); j++)
+                            {
+                                NiAVObject* child = ((::fnv_004d66d0::NiAVObject *)(reinterpret_cast<::NiNode *>((node))->GetAt(j)));
+                                if (child)
+                                    FUN_004d66d0(parent, child);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+}
+
+int __cdecl FUN_004d7890(int aiArg1, int aiArg2, int aiArg3, int aiArg4);
+
+void ClearAndFreePointer(void* apPointer);
+
+bool __cdecl FUN_004deed0(char const* a, unsigned char aucIndex);
+
+void* FUN_00ec61c0(void* pvDst, int iValue, unsigned int uiSize);
+
+extern float DAT_01189230[16];
+
+struct Spectrum4d50
+{
+    unsigned int m_uiCount;
+    int m_iStart;
+    float** m_ppfBands;
+    float** m_ppfPeaks;
+    float FUN_004d50e0(int iFrame);
+};
+
+// @fnv 0x004d50e0
+float Spectrum4d50::FUN_004d50e0(int iFrame)
+{
+    int iIndex2 = iFrame - m_iStart;
+    float fResult = 0.0f;
+    if (iIndex2 < 0 || (unsigned int)iIndex2 >= m_uiCount)
+        return 0.0f;
+    int iBest3 = 0;
+    float fTotal5 = 0.0f;
+    float fScaledValue = m_ppfBands[iIndex2][iBest3] * DAT_01189230[0];
+    for (int i2 = 1; i2 < 16; i2++)
+    {
+        if (m_ppfBands[iIndex2][i2] * DAT_01189230[i2] > fScaledValue)
+        {
+            iBest3 = i2;
+            fScaledValue = m_ppfBands[iIndex2][i2] * DAT_01189230[i2];
+        }
+    }
+    fResult = m_ppfBands[iIndex2][iBest3];
+    if (iIndex2 > 1 && (unsigned int)iIndex2 < m_uiCount - 2)
+        fResult = (m_ppfBands[iIndex2][iBest3] + m_ppfBands[iIndex2 - 1][iBest3] + m_ppfBands[iIndex2 + 1][iBest3] +
+                   m_ppfBands[iIndex2 - 2][iBest3] + m_ppfBands[iIndex2 + 2][iBest3]) /
+                  5.0;
+    else if (iIndex2 > 0)
+        fResult = (m_ppfBands[iIndex2][iBest3] + m_ppfBands[iIndex2 - 1][iBest3]) / 2.0;
+    else if ((unsigned int)iIndex2 < m_uiCount - 1)
+        fResult = (m_ppfBands[iIndex2][iBest3] + m_ppfBands[iIndex2 + 1][iBest3]) / 2.0;
+    else
+        fResult = m_ppfBands[iIndex2][iBest3];
+    return fResult * DAT_01189230[iBest3];
+}
+
+// @fnv 0x004d75b0
+LRESULT FUN_004d75b0(HWND window, UINT message, WPARAM wParam, LPARAM lParam)
+{
+    NMHDR* pHeader;
+    TVITEMEXA treeItem;
+    HWND hChildWindow;
+    switch (message)
+    {
+    case 6:
+        if ((unsigned short)(wParam & 0xffff) == 1 || (unsigned short)(wParam & 0xffff) == 2)
+            ShowCursor(1);
+        break;
+    case 0x4e:
+        pHeader = (NMHDR*)lParam;
+        switch (pHeader->code)
+        {
+        case -402:
+            if (DAT_011c6f18)
+            {
+                NMTREEVIEWA* pTreeNotify = (NMTREEVIEWA*)lParam;
+                LPARAM data = pTreeNotify->itemOld.lParam;
+                FUN_004d7890(data, 1, 0, 0);
+                data = pTreeNotify->itemNew.lParam;
+                FUN_004d7890(data, 0, 0, 0);
+            }
+            return 1;
+        case -5:
+            memset(&treeItem, 0, sizeof(treeItem));
+            treeItem.mask = 0x14;
+            treeItem.hItem = (HTREEITEM)SendMessageA(pHeader->hwndFrom, 0x110a, 8, (LPARAM)treeItem.hItem);
+            FUN_004d7890(treeItem.lParam, 2, 0, 0);
+            if (!treeItem.hItem)
+                treeItem.hItem = (HTREEITEM)SendMessageA(pHeader->hwndFrom, 0x110a, 9, (LPARAM)treeItem.hItem);
+            treeItem.mask = 0xd;
+            treeItem.pszText = (*reinterpret_cast<char (*)[260]>(&::DAT_011c6e10));
+            treeItem.cchTextMax = 260;
+            if (treeItem.hItem && SendMessageA(pHeader->hwndFrom, 0x110c, 0, (LPARAM)&treeItem))
+            {
+                SendMessageA(pHeader->hwndFrom, 0x110b, 9, (LPARAM)treeItem.hItem);
+                if (treeItem.state & 0x20)
+                {
+                    ::ExpandTreeItemsRecursively(pHeader->hwndFrom, (int)(treeItem.hItem), 1);
+                    SendMessageA(pHeader->hwndFrom, 0x1102, 1, (LPARAM)treeItem.hItem);
+                }
+                else
+                {
+                    ::ExpandTreeItemsRecursively(pHeader->hwndFrom, (int)(treeItem.hItem), 2);
+                    SendMessageA(pHeader->hwndFrom, 0x1102, 2, (LPARAM)treeItem.hItem);
+                }
+                return 1;
+            }
+            break;
+        case -412: {
+            NMTVKEYDOWN* key = (NMTVKEYDOWN*)lParam;
+            memset(&treeItem, 0, sizeof(treeItem));
+            TVITEMA treeKeyItem;
+            treeKeyItem.hItem = (HTREEITEM)SendMessageA(pHeader->hwndFrom, 0x110a, 9, 0);
+            if (treeKeyItem.hItem)
+            {
+                treeKeyItem.mask = 4;
+                SendMessageA(pHeader->hwndFrom, 0x110c, 0, (LPARAM)&treeKeyItem);
+                if (FUN_004d7890(treeKeyItem.lParam, 3, key->wVKey, key->flags))
+                    return 1;
+            }
+            break;
+        }
+        }
+        break;
+    case 5:
+        hChildWindow = GetWindow(window, 5);
+        if (hChildWindow)
+        {
+            SetWindowPos(hChildWindow, 0, 0, 0, (unsigned short)(lParam & 0xffff),
+                         (unsigned short)(((unsigned int)lParam >> 16) & 0xffff), 2);
+            ShowWindow(hChildWindow, 1);
+        }
+        break;
+    }
+    return DefWindowProcA(window, message, wParam, lParam);
+}
+
 #include "generated/data/staging/blk_004c0000_od.inc"
+#include "generated/data/staging/blk_004c0000_od_rtm_variant.inc"

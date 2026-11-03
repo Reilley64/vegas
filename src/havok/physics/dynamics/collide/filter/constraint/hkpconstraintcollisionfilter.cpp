@@ -19,8 +19,8 @@
 struct VtableObject
 {
     virtual void v0();
-    virtual void v1(int value);
-    virtual void v2(int value);
+    virtual void v1(const void* value);
+    virtual void v2(const void* value);
 };
 struct Owner
 {
@@ -40,11 +40,11 @@ struct Owner
     int unk34;
     int unk38;
     int unk3c;
-    void FUN_00d87c20(int value, bool mode);
+    void FUN_00d87c20(const void* value, bool mode);
 };
 // Calls v2(value) on the VtableObject at this+0x40 when mode is true, otherwise calls v1(value).
 // @fnv 0x00d87c20
-void Owner::FUN_00d87c20(int value, bool mode)
+void Owner::FUN_00d87c20(const void* value, bool mode)
 {
     VtableObject* p = (VtableObject*)((char*)this + 0x40);
     if (mode)
@@ -452,7 +452,7 @@ void FUN_00d87d70_cls::FUN_00d87d70(A* p)
 struct S_00d87f60_Arg
 {
     struct S_00d87f60_Obj* unk00;
-    int unk04;
+    void* unk04;
 };
 struct S_00d87f60_Flag
 {
@@ -470,7 +470,7 @@ struct S_00d87f60_Data
 {
     char unk00;
     void* unk04;
-    int unk08;
+    void* unk08;
     char unk0c;
 };
 struct S_00d87f60_Base
@@ -784,7 +784,7 @@ struct Owner_d87f00;
 struct Pair_d87f00
 {
     Obj_d87f00* m_pHeadNode;
-    unsigned int m_iSecondInteger;
+    void* m_iSecondInteger;
 };
 
 struct Event_d87f00
@@ -793,7 +793,7 @@ struct Event_d87f00
     unsigned char unk01;
     unsigned short unk02;
     void* m_ptr;
-    unsigned int m_val;
+    void* m_val;
     unsigned char m_flag;
     unsigned char unk0D;
     unsigned char unk0E;

@@ -77,7 +77,7 @@ public:
     // 0x00d86b40
     int GetTagValue();
     // 0x00d87c20
-    void FUN_00d87c20(int, bool);
+    void FUN_00d87c20(const void *, bool);
     // 0x00d97070
     void FUN_00d97070(int);
     // 0x00d9bef0

@@ -553,7 +553,7 @@ void CA8830Object::FUN_00ca8830(int value)
 
 struct SubObject;
 
-typedef void(* SubDoFn)(SubObject* apThis, int aiFirst, int aiSecond);
+typedef void(* SubDoFn)(SubObject* apThis, intptr_t aiFirst, intptr_t aiSecond);
 
 struct SubObjectVtbl
 {
@@ -639,12 +639,12 @@ struct FUN_00ca8860_cls
     int unkd8;
     int unkdc;
     SubObject m_sub;
-    void FUN_00ca8860(int aiFirst, int aiSecond);
+    void FUN_00ca8860(intptr_t aiFirst, intptr_t aiSecond);
 };
 
 // Calls the sub-object's Do virtual with aiFirst and aiSecond, then invokes FUN_00ca8700 on this.
 // @fnv 0x00ca8860
-void FUN_00ca8860_cls::FUN_00ca8860(int aiFirst, int aiSecond)
+void FUN_00ca8860_cls::FUN_00ca8860(intptr_t aiFirst, intptr_t aiSecond)
 {
     m_sub.m_pVtbl->Do(&m_sub, aiFirst, aiSecond);
     ::FUN_00ca8700((::Entity *)(void *)(this));

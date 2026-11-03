@@ -1,3 +1,4 @@
+#include <cstdint>
 
 // src/havok/physics/dynamics/world/util/hkpworldoperationqueue.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/util/hkpworldoperationqueue.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
@@ -775,7 +776,7 @@ void Pending::FUN_00cf7c10()
             release(p->object);
             break;
         case 24:
-            reinterpret_cast<::FUN_00ca8860_cls *>((p->object))->FUN_00ca8860((int)&(p->point[0]), (int)&(p->point[1]));
+            reinterpret_cast<::FUN_00ca8860_cls *>((p->object))->FUN_00ca8860((intptr_t)&(p->point[0]), (intptr_t)&(p->point[1]));
             freeBlock(p->point, 32);
             release(p->object);
             break;
@@ -835,7 +836,7 @@ void Pending::FUN_00cf7c10()
             release(p->object);
             break;
         case 35:
-            reinterpret_cast<::Owner *>((p->object))->FUN_00d87c20((int)(p->other), p->enabled);
+            reinterpret_cast<::Owner *>((p->object))->FUN_00d87c20(p->other, p->enabled);
             release(p->object);
             release(p->other);
             break;
@@ -994,8 +995,8 @@ struct Elem
         int tagd;
         unsigned char b[4];
     };
-    int* f04;
-    int f08;
+    Obj** f04;
+    intptr_t f08; // a count for the batch operations, an object pointer for the others
     int f0c;
     int f10;
 };
@@ -1034,7 +1035,7 @@ void Vec::FUN_00cf7690(Elem* arg)
     BSAudio* bsa = static_cast<BSAudio*>(::FUN_00c85750());
     if (cnt == (cap & 0x3fffffff))
     {
-        ::ResizeAudioStream((::AudioAllocator *)(bsa->alloc), (::AudioStream *)(void *)(this), 0x14);
+        ::ResizeAudioStream((::AudioAllocator *)(bsa->alloc), (::AudioStream *)(void *)(this), sizeof(Elem));
     }
     Elem* pNew = data + cnt;
     if (pNew)
@@ -1069,33 +1070,33 @@ void Vec::FUN_00cf7690(Elem* arg)
         ::FUN_00c904e0();
         return;
     case 6: {
-        int f08v = dst->f08;
+        intptr_t f08v = dst->f08;
         int count = (unsigned short)f08v;
         BSAudio* b = static_cast<BSAudio*>(::FUN_00c85750());
-        void* mem = b->alloc->V04(count * 4);
-        dst->f04 = (int*)mem;
-        ::FUN_00cb1260(mem, arg->f04, (unsigned short)arg->f08 * 4);
-        int* p = dst->f04;
-        int* end = p + (unsigned short)dst->f08;
+        void* mem = b->alloc->V04(count * (int)sizeof(Obj*));
+        dst->f04 = (Obj**)mem;
+        ::FUN_00cb1260(mem, arg->f04, (unsigned short)arg->f08 * sizeof(Obj*));
+        Obj** p = dst->f04;
+        Obj** end = p + (unsigned short)dst->f08;
         while (p < end)
         {
-            reinterpret_cast<::FUN_00c90510_class *>((((Obj*)*p++)))->FUN_00c90510();
+            reinterpret_cast<::FUN_00c90510_class *>((*p++))->FUN_00c90510();
         }
     }
         ::FUN_00c904e0();
         return;
     case 7: {
-        int f08v = dst->f08;
+        intptr_t f08v = dst->f08;
         int count = (unsigned short)f08v;
         BSAudio* b = static_cast<BSAudio*>(::FUN_00c85750());
-        void* mem = b->alloc->V04(count * 4);
-        dst->f04 = (int*)mem;
-        ::FUN_00cb1260(mem, arg->f04, (unsigned short)arg->f08 * 4);
-        int* p = dst->f04;
-        int* end = p + (unsigned short)dst->f08;
+        void* mem = b->alloc->V04(count * (int)sizeof(Obj*));
+        dst->f04 = (Obj**)mem;
+        ::FUN_00cb1260(mem, arg->f04, (unsigned short)arg->f08 * sizeof(Obj*));
+        Obj** p = dst->f04;
+        Obj** end = p + (unsigned short)dst->f08;
         while (p < end)
         {
-            reinterpret_cast<::FUN_00c90510_class *>((((Obj*)*p++)))->FUN_00c90510();
+            reinterpret_cast<::FUN_00c90510_class *>((*p++))->FUN_00c90510();
         }
     }
         ::FUN_00c904e0();
@@ -1120,7 +1121,7 @@ void Vec::FUN_00cf7690(Elem* arg)
             BSAudio* b = static_cast<BSAudio*>(::FUN_00c85750());
             if (s->cnt == (s->cap & 0x3fffffff))
             {
-                ::ResizeAudioStream((::AudioAllocator *)(b->alloc), (::AudioStream *)(s), 0x14);
+                ::ResizeAudioStream((::AudioAllocator *)(b->alloc), (::AudioStream *)(s), sizeof(Elem));
             }
             Elem* d2 = s->data + s->cnt;
             if (d2)
@@ -1139,33 +1140,33 @@ void Vec::FUN_00cf7690(Elem* arg)
         reinterpret_cast<::FUN_00c90510_class *>((((Obj*)dst->f04)))->FUN_00c90510();
         break;
     case 15: {
-        int f08v = dst->f08;
+        intptr_t f08v = dst->f08;
         int count = (unsigned short)f08v;
         BSAudio* b = static_cast<BSAudio*>(::FUN_00c85750());
-        void* mem = b->alloc->V04(count * 4);
-        dst->f04 = (int*)mem;
-        ::FUN_00cb1260(mem, arg->f04, (unsigned short)arg->f08 * 4);
-        int* p = dst->f04;
-        int* end = p + (unsigned short)dst->f08;
+        void* mem = b->alloc->V04(count * (int)sizeof(Obj*));
+        dst->f04 = (Obj**)mem;
+        ::FUN_00cb1260(mem, arg->f04, (unsigned short)arg->f08 * sizeof(Obj*));
+        Obj** p = dst->f04;
+        Obj** end = p + (unsigned short)dst->f08;
         while (p < end)
         {
-            reinterpret_cast<::FUN_00c90510_class *>((((Obj*)*p++)))->FUN_00c90510();
+            reinterpret_cast<::FUN_00c90510_class *>((*p++))->FUN_00c90510();
         }
     }
         ::FUN_00c904e0();
         return;
     case 16: {
-        int f08v = dst->f08;
+        intptr_t f08v = dst->f08;
         int count = (unsigned short)f08v;
         BSAudio* b = static_cast<BSAudio*>(::FUN_00c85750());
-        void* mem = b->alloc->V04(count * 4);
-        dst->f04 = (int*)mem;
-        ::FUN_00cb1260(mem, arg->f04, (unsigned short)arg->f08 * 4);
-        int* p = dst->f04;
-        int* end = p + (unsigned short)dst->f08;
+        void* mem = b->alloc->V04(count * (int)sizeof(Obj*));
+        dst->f04 = (Obj**)mem;
+        ::FUN_00cb1260(mem, arg->f04, (unsigned short)arg->f08 * sizeof(Obj*));
+        Obj** p = dst->f04;
+        Obj** end = p + (unsigned short)dst->f08;
         while (p < end)
         {
-            reinterpret_cast<::FUN_00c90510_class *>((((Obj*)*p++)))->FUN_00c90510();
+            reinterpret_cast<::FUN_00c90510_class *>((*p++))->FUN_00c90510();
         }
     }
         ::FUN_00c904e0();
@@ -1174,7 +1175,7 @@ void Vec::FUN_00cf7690(Elem* arg)
         reinterpret_cast<::FUN_00c90510_class *>((((Obj*)dst->f04)))->FUN_00c90510();
         BSAudio* b = static_cast<BSAudio*>(::FUN_00c85750());
         void* mem = b->alloc->V04(0x20);
-        int nf08;
+        intptr_t nf08;
         if (mem)
         {
             Obj32* pObjCopy = (Obj32*)mem;
@@ -1187,7 +1188,7 @@ void Vec::FUN_00cf7690(Elem* arg)
             pObjCopy->d5 = pObjSrc->d5;
             pObjCopy->d6 = pObjSrc->d6;
             pObjCopy->d7 = pObjSrc->d7;
-            nf08 = (int)mem;
+            nf08 = (intptr_t)mem;
         }
         else
         {
@@ -1212,17 +1213,17 @@ void Vec::FUN_00cf7690(Elem* arg)
         reinterpret_cast<::FUN_00c90510_class *>((((Obj*)dst->f04)))->FUN_00c90510();
         break;
     case 23: {
-        int f08v = dst->f08;
+        intptr_t f08v = dst->f08;
         int count = (unsigned short)f08v;
         BSAudio* b = static_cast<BSAudio*>(::FUN_00c85750());
-        void* mem = b->alloc->V04(count * 4);
-        dst->f04 = (int*)mem;
-        ::FUN_00cb1260(mem, arg->f04, (unsigned short)arg->f08 * 4);
-        int* p = dst->f04;
-        int* end = p + (unsigned short)dst->f08;
+        void* mem = b->alloc->V04(count * (int)sizeof(Obj*));
+        dst->f04 = (Obj**)mem;
+        ::FUN_00cb1260(mem, arg->f04, (unsigned short)arg->f08 * sizeof(Obj*));
+        Obj** p = dst->f04;
+        Obj** end = p + (unsigned short)dst->f08;
         while (p < end)
         {
-            reinterpret_cast<::FUN_00c90510_class *>((((Obj*)*p++)))->FUN_00c90510();
+            reinterpret_cast<::FUN_00c90510_class *>((*p++))->FUN_00c90510();
         }
     }
         ::FUN_00c904e0();

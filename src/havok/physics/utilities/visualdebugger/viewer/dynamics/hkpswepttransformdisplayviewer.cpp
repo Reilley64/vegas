@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/visualdebugger/viewer/dynamics/hkpswepttransformdisplayviewer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/dynamics/hkpswepttransformdisplayviewer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkUlong.h"
 #include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include "fnv/decl/FUN_00d641f0_cls.h"
@@ -13,7 +14,7 @@
 #include "fnv/symbols_01268000.h"
 struct hkpSweptTransformDisplayViewer
 {
-    void FUN_00d64950(int a);
+    void FUN_00d64950(void* a);
 };
 
 extern "C" void FUN_00d64650();
@@ -78,7 +79,7 @@ struct SweptArg
 {
     int unk00;
     int unk04;
-    int m_08;
+    void* m_08;
     int unk0C;
     unsigned char m_10;
     unsigned char m_11;
@@ -115,7 +116,7 @@ void SweptTransformItem::FUN_00d64120(SweptArg* a1)
         return;
     }
     hkpSweptTransformDisplayViewer* viewer = (hkpSweptTransformDisplayViewer*)((char*)this - 0x28);
-    int iIndex = reinterpret_cast<::D63FF0Container *>((viewer))->FindEntryIndex((void *)(a1->m_08));
+    int iIndex = reinterpret_cast<::D63FF0Container *>((viewer))->FindEntryIndex(a1->m_08);
     if (iIndex < 0)
     {
         return;
@@ -335,10 +336,10 @@ struct SweptViewer : SweptViewerBase, SweptEntityListener, SweptPostSimListener
 };
 // Calls FindEntryIndex on the viewer at this-0x20 with a; if the returned index is non-negative, calls RemoveWorldData with it.
 // @fnv 0x00d64950
-void hkpSweptTransformDisplayViewer::FUN_00d64950(int a)
+void hkpSweptTransformDisplayViewer::FUN_00d64950(void* a)
 {
     hkpSweptTransformDisplayViewer* p = (hkpSweptTransformDisplayViewer*)((char*)this - 0x20);
-    int r = reinterpret_cast<::D63FF0Container *>((p))->FindEntryIndex((void *)(a));
+    int r = reinterpret_cast<::D63FF0Container *>((p))->FindEntryIndex(a);
     if (r >= 0)
         reinterpret_cast<::SweptViewer *>((p))->RemoveWorldData(r);
 }
@@ -369,18 +370,25 @@ struct AudioArray
 };
 struct SweptViewer
 {
-    int m_vptr00, unk04, m_vptr08, unk0c, unk10, unk14, unk18, unk1c, m_vptr20, m_vptr24, m_vptr28, m_vptr2c;
+    const void* m_vptr00;
+    int unk04;
+    const void* m_vptr08;
+    int unk0c, unk10, unk14, unk18, unk1c;
+    const void* m_vptr20;
+    const void* m_vptr24;
+    const void* m_vptr28;
+    const void* m_vptr2c;
     AudioArray m_ppData;
     void Destroy();
 };
 // @fnv 0x00d648c0
 void SweptViewer::Destroy()
 {
-    m_vptr00 = &::DAT_010d1918;
-    m_vptr08 = &::DAT_010d18f8;
-    m_vptr20 = &::DAT_010d18e8;
-    m_vptr28 = &::DAT_010d18cc;
-    m_vptr2c = &::DAT_010d18bc;
+    m_vptr00 = &DAT_010d1918;
+    m_vptr08 = &DAT_010d18f8;
+    m_vptr20 = &DAT_010d18e8;
+    m_vptr28 = &DAT_010d18cc;
+    m_vptr2c = &DAT_010d18bc;
     int i = m_ppData.m_iArrayLength - 1;
     if (i >= 0)
     {
@@ -395,10 +403,10 @@ void SweptViewer::Destroy()
     m_ppData.m_iArrayLength = 0;
     unsigned int uiCapBits = m_ppData.m_uCapBits;
     if ((uiCapBits & 0x80000000u) == 0)
-        a->bufFree(m_ppData.m_pData, (uiCapBits & 0x3fffffffu) * 4);
+        a->bufFree(m_ppData.m_pData, (uiCapBits & 0x3fffffffu) * sizeof(void*));
     m_ppData.Reset();
     m_vptr2c = &::DAT_010ccf7c;
-    m_vptr28 = (int)"pFU";
+    m_vptr28 = "pFU";
     return reinterpret_cast<struct ::FUN_00ddcc60 *>(this)->FUN_00ddcc60::~FUN_00ddcc60();
 }
 }  // namespace fnv_00d648c0
@@ -442,7 +450,7 @@ struct D64020DisplayHandler
     virtual void unk04();
     virtual void unk08();
     virtual void unk0C();
-    virtual void displayFrame(const D64020Transform& transform, unsigned long id, int tag);
+    virtual void displayFrame(const D64020Transform& transform, hkUlong id, int tag);
 };
 
 struct D64020Constraint
@@ -563,12 +571,12 @@ void D64020Viewer::DisplayConstraintPivots(D64020Constraint* constraint)
     reinterpret_cast<::RotationRows *>(&(frame.m_rotation))->FUN_00cb2d90((void *)&(constraint->m_kRotationA));
     *(__m128*)frame.m_vTranslation.m_f = _mm_sub_ps(*(const __m128*)constraint->m_kPivotA.m_f,
                                                     D64020RotateDir(frame.m_rotation, constraint->m_localPivot));
-    m_pDisplayHandler->displayFrame(frame, (unsigned long)constraint + 0x11, ::g_ptr_0x1268fd0);
+    m_pDisplayHandler->displayFrame(frame, reinterpret_cast<hkUlong>(constraint) + 0x11, ::g_ptr_0x1268fd0);
 
     reinterpret_cast<::RotationRows *>(&(frame.m_rotation))->FUN_00cb2d90((void *)&(constraint->m_kRotationB));
     *(__m128*)frame.m_vTranslation.m_f = _mm_sub_ps(*(const __m128*)constraint->m_kPivotB.m_f,
                                                     D64020RotateDir(frame.m_rotation, constraint->m_localPivot));
-    m_pDisplayHandler->displayFrame(frame, (unsigned long)constraint + 0x12, ::g_ptr_0x1268fd0);
+    m_pDisplayHandler->displayFrame(frame, reinterpret_cast<hkUlong>(constraint) + 0x12, ::g_ptr_0x1268fd0);
 }
 
 // sub ecx,8; jmp FUN_00d649c0 == MSVC adjustor thunk for the secondary base's override.
@@ -774,14 +782,14 @@ struct Reporter { virtual void v0(); virtual void v1(); virtual void v2(); virtu
  extern int DAT_01268fd4;
  extern int DAT_01268fd8;
 struct Shape { virtual void release(int f); int unk04; int unk08; int unk0c; int unk10; int unk14; int unk18; int unk1c; int unk20; int unk24; int unk28; int unk2c; int unk30; int unk34; int unk38; int unk3c; int unk40; int unk44; int unk48; int unk4c; int unk50; };
-struct Disp { virtual void v0(); virtual void add(void* a, void* b, void* c, int d, int e); virtual void v2(); virtual void tag(int a, void* b, int c); };
+struct Disp { virtual void v0(); virtual void add(void* a, void* b, hkUlong id, int d, int e); virtual void v2(); virtual void tag(int a, hkUlong id, int c); };
 __declspec(align(16)) struct Mat { float a0,a1,a2,a3,b0,b1,b2,b3,c0,c1,c2,c3,d0,d1,d2,d3; };
 __declspec(align(16)) struct V4 { float x; float y; float z; float w; };
-struct Arr { int* data; int size; int cap; };
+struct Arr { hkUlong* data; int size; int cap; };
 struct Entry { int unk00; Arr unk04; };
 struct Arg {
-    int unk00; int unk04; int unk08; int unk0c;
-    union { int unk10; struct { unsigned char byte10, unk11, unk12, unk13; }; };
+    int unk00; int unk04; void* unk08; int unk0c;
+    void* unk10;
     int unk14;
     int unk18;
     int unk1c;
@@ -880,13 +888,13 @@ void Self::FUN_00d642c0(Arg* a)
 {
      
     if (a->unk10 == 0) return;
-     int idx = reinterpret_cast<::D63FF0Container *>((((hkpSweptTransformDisplayViewer*)((char*)this - sizeof(OwnerBase)))))->FindEntryIndex((void *)(a->unk08));
+     int idx = reinterpret_cast<::D63FF0Container *>((((hkpSweptTransformDisplayViewer*)((char*)this - sizeof(OwnerBase)))))->FindEntryIndex(a->unk08);
     if (idx < 0) return;
     SweptArray<Shape*> list;
     Entry* e; e = unk08[idx];
     list.m_data = 0; list.m_iElementCount = 0; list.m_iCapacityState = 0x80000000; TmpA ta; reinterpret_cast<::FUN_00ddfb70_cls *>(&(ta))->FUN_00ddfb70();
     TmpB tb; ::FUN_00ddfb80((::FUN_00ddfb80_s *)&(tb), &ta, {});
-    reinterpret_cast<::Node *>(&(tb))->FUN_00de0f90((void *)(a->unk10), (::XfResult *)(void *)(&list));
+    reinterpret_cast<::Node *>(&(tb))->FUN_00de0f90(a->unk10, (::XfResult *)(void *)(&list));
     for (int j = list.m_iElementCount - 1; j >= 0; j--) { Shape* s = (Shape*)list.m_data[j];
         if (s->unk50 == 6 && 0 == s->unk08) {
             char buf[512];
@@ -899,12 +907,12 @@ void Self::FUN_00d642c0(Arg* a)
             list.removeAt(j);
         } }
     if (0 < list.m_iElementCount && 5 != a->motionType) {
-        unsigned char* id1 = (unsigned char*)&a->unk11;
+        hkUlong id1 = reinterpret_cast<hkUlong>(&a->unk10) + 1;
         Arr* ids = &e->unk04;
         hkMemoryRouter* b = &hkMemoryRouter::getInstance();
-        if (ids->size == (ids->cap & 0x3fffffff)) ::ResizeAudioStream((::AudioAllocator *)(b->m_heap), (::AudioStream *)(ids), 4);
-        int* slot1 = ids->data + ids->size;
-        for (int k = 0; k < 1; ++k) slot1[k] = (int)id1; ++ids->size;
+        if (ids->size == (ids->cap & 0x3fffffff)) ::ResizeAudioStream((::AudioAllocator *)(b->m_heap), (::AudioStream *)(ids), sizeof(hkUlong));
+        hkUlong* slot1 = ids->data + ids->size;
+        for (int k = 0; k < 1; ++k) slot1[k] = id1; ++ids->size;
         Mat m1; Mat m2;
         reinterpret_cast<::RotationRows *>((((FUN_008cd6a0_Class*)&m1)))->FUN_00cb2d90(&a->rotation0);
         __m128 v = a->center;
@@ -920,11 +928,11 @@ void Self::FUN_00d642c0(Arg* a)
         Disp* d = ((DisplayPrefix*)((char*)this - sizeof(DisplayPrefix)))->display; d->add(&list, &m1, id1, ::g_ptr_0x1268fd0, 0);
         d = ((DisplayPrefix*)((char*)this - sizeof(DisplayPrefix)))->display;
         d->tag(DAT_01268fd8, id1, ::g_ptr_0x1268fd0);
-        unsigned char* id2 = &a->unk12;
+        hkUlong id2 = reinterpret_cast<hkUlong>(&a->unk10) + 2;
         b = &hkMemoryRouter::getInstance();
-        if (ids->size == (ids->cap & 0x3fffffff)) ::ResizeAudioStream((::AudioAllocator *)(b->m_heap), (::AudioStream *)(ids), 4);
-        int* slot2 = ids->data + ids->size;
-        for (int k = 0; k < 1; ++k) slot2[k] = (int)id2; ++ids->size;
+        if (ids->size == (ids->cap & 0x3fffffff)) ::ResizeAudioStream((::AudioAllocator *)(b->m_heap), (::AudioStream *)(ids), sizeof(hkUlong));
+        hkUlong* slot2 = ids->data + ids->size;
+        for (int k = 0; k < 1; ++k) slot2[k] = id2; ++ids->size;
         d = ((DisplayPrefix*)((char*)this - sizeof(DisplayPrefix)))->display;
         d->add(&list, &m2, id2, ::g_ptr_0x1268fd0, 0);
         d = ((DisplayPrefix*)((char*)this - sizeof(DisplayPrefix)))->display;
@@ -981,18 +989,15 @@ struct S_00d63e40_Handler {
     virtual void v1();
     virtual void v2();
     virtual void v3();
-    virtual void display(const S_00d63e40_Mat3* xf, const char* id, int tag);
+    virtual void display(const S_00d63e40_Mat3* xf, hkUlong id, int tag);
 };
 
 struct __declspec(align(16)) S_00d63e40_Entity {
     int unk00;
     int unk04;
-    int unk08;
+    void* unk08;
     int unk0C;
-    char unk10;
-    char id0;
-    char id1;
-    char unk13;
+    void* unk10;
     int unk14;
     int unk18;
     int unk1C;
@@ -1157,12 +1162,12 @@ void S_00d63e40_S::FUN_00d63e40(S_00d63e40_WorldPad world)
             __m128 c = e->com.q();
             __m128 r = _mm_add_ps(_mm_add_ps(_mm_mul_ps(_mm_shuffle_ps(c, c, 0x55), m.c1.q()), _mm_mul_ps(_mm_shuffle_ps(c, c, 0), m.c0.q())), _mm_mul_ps(_mm_shuffle_ps(c, c, 0xaa), m.c2.q()));
             m.t.q() = _mm_sub_ps(e->pos0.q(), r);
-            handler->display(&m, &e->id0, ::g_ptr_0x1268fd0);
+            handler->display(&m, reinterpret_cast<hkUlong>(&e->unk10) + 1, ::g_ptr_0x1268fd0);
             reinterpret_cast<::RotationRows *>(&(m))->FUN_00cb2d90((void *)(&e->rot1));
             c = e->com.q();
             r = _mm_add_ps(_mm_add_ps(_mm_mul_ps(_mm_shuffle_ps(c, c, 0x55), m.c1.q()), _mm_mul_ps(_mm_shuffle_ps(c, c, 0), m.c0.q())), _mm_mul_ps(_mm_shuffle_ps(c, c, 0xaa), m.c2.q()));
             m.t.q() = _mm_sub_ps(e->pos1.q(), r);
-            handler->display(&m, &e->id1, ::g_ptr_0x1268fd0);
+            handler->display(&m, reinterpret_cast<hkUlong>(&e->unk10) + 2, ::g_ptr_0x1268fd0);
         }
     }
     S_00d63e40_Timer("Et");

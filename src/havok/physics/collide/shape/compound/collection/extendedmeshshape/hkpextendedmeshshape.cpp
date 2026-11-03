@@ -268,13 +268,23 @@ int FUN_00d55520(FUN_00d55520_cls* a1)
     return a1->m_18;
 }
 
-struct SpawnedOwner
+struct FUN_00d555d0_cls
+{
+    int m_d0;
+    int GetSpawnedValue(int aiKey);
+};
+
+struct SpawnedOwnerHead
 {
     int unk00;
     int unk04;
     int unk08;
     int unk0C;
-    int unk10;
+};
+
+// FUN_00d555d0_cls is the interface at +0x10.
+struct SpawnedOwner : SpawnedOwnerHead, FUN_00d555d0_cls
+{
     int unk14;
     int unk18;
     int unk1C;
@@ -327,12 +337,6 @@ struct SpawnedOwner
     int unkD8;
     int m_0xdc;
 
-};
-
-struct FUN_00d555d0_cls
-{
-    int m_d0;
-    int GetSpawnedValue(int aiKey);
 };
 
 struct Child
@@ -2269,7 +2273,7 @@ struct SpawnedOwnerQ
 // @fnv 0x00d555d0
 int FUN_00d555d0_cls::GetSpawnedValue(int aiKey)
 {
-    SpawnedOwner* outer = (SpawnedOwner*)((char*)this - 0x10);
+    SpawnedOwner* outer = static_cast<SpawnedOwner*>(this);
     int* v = reinterpret_cast<int*>(reinterpret_cast<::SpawnedOwnerQ *>((outer))->FUN_00d55530(aiKey));
     if (v != 0)
     {

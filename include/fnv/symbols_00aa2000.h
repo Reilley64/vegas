@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 namespace fnv_00aa2e60 { struct NiMemStream; }
 struct NiMemStream;
@@ -9,7 +10,7 @@ namespace fnv_00aa2020 { extern "C" void InitHolder(); }
 // 0x00aa2060
 extern "C" void FUN_00aa2060(int, int);
 // 0x00aa2080
-void FUN_00aa2080(void (*)(), int);
+void FUN_00aa2080(void (*)(), intptr_t);
 // 0x00aa20b0
 void FUN_00aa20b0(void *);
 // 0x00aa2170
@@ -31,14 +32,14 @@ char *SkipPathPrefix(char *);
 // 0x00aa2cc0
 bool FUN_00aa2cc0(const char *);
 // 0x00aa2d10
-int FUN_00aa2d10(int, int);
+int FUN_00aa2d10(intptr_t, int);
 // 0x00aa2dd0
 unsigned int FUN_00aa2dd0(::NiMemStream *, void *, const void *, unsigned int);
 // 0x00aa2e60
 namespace fnv_00aa2e60 { unsigned int FUN_00aa2e60(::fnv_00aa2e60::NiMemStream *, void *, unsigned int); }
 // 0x00aa2ea0
-void FUN_00aa2ea0(::S_00aa2dd0 *, const void *, unsigned int);
+void FUN_00aa2ea0(::S_00aa2dd0 *, const void *, uintptr_t);
 // 0x00aa2ec0
 unsigned int FUN_00aa2ec0(::NiMemStream *, void *, unsigned int, void *, void *);
 // 0x00aa2f20
-unsigned int FUN_00aa2f20(::NiMemStream *, const void *, unsigned int, void *, void *);
+unsigned int FUN_00aa2f20(::NiMemStream *, const void *, uintptr_t, void *, void *);

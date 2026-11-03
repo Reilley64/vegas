@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 class D3DRenderStateGroup;
 struct Counts;
@@ -21,4 +22,4 @@ void FUN_00e89ad0(int);
 // 0x00e89d50
 const char *GetHResultName(unsigned int);
 // 0x00e89ed0
-int SelectFormatTileValue(::Pair *, ::Counts *);
+intptr_t SelectFormatTileValue(::Pair *, ::Counts *);

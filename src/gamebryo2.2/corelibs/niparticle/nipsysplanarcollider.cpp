@@ -1,4 +1,5 @@
 
+#include <cstdint>
 #include <new>
 #include <cmath>
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -29,7 +30,7 @@
 // @fnv 0x00c32510
 void NiPSysPlanarCollider::CopyMemberData(NiPSysPlanarCollider* dest, CloningProcess& process)
 {
-    reinterpret_cast<::FUN_00a5d450_class *>(this)->CreateVertexBufferSet((unsigned int)(dest), (void *)&(process));
+    reinterpret_cast<::FUN_00a5d450_class *>(this)->CreateVertexBufferSet((uintptr_t)(dest), (void *)&(process));
 
     dest->m_fBounceFactor = m_fBounceFactor;
     dest->m_bSpawnOnCollision = m_bSpawnOnCollision;
@@ -130,7 +131,7 @@ struct BoundDataBlock
     unsigned int unk14;
     unsigned int unk18;
     unsigned int unk1c;
-    unsigned int unk20;
+    uintptr_t unk20;
     unsigned int unk24;
     unsigned int unk28;
     unsigned int unk2c;
@@ -847,7 +848,7 @@ NiPSysCollider* PlanarColliderExt::FUN_00c28d10(float time, float* collisionTime
         }
     }
     NiPSysCollider* result;
-    result = ((::NiPSysCollider *)(reinterpret_cast<::FUN_00c32450_shell *>(this)->FUN_00c32450(time, (unsigned int)(collisionTime), (unsigned int)(data), particleId)));
+    result = ((::NiPSysCollider *)(reinterpret_cast<::FUN_00c32450_shell *>(this)->FUN_00c32450(time, (uintptr_t)(collisionTime), (uintptr_t)(data), particleId)));
     return result ? result : (bCollided ? this : 0);
 }
 

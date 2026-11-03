@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nimain/nigeometrydata.cpp: NiGeometryData, NiGeometryDataRecovered, NiGeometryDataCmp, GeomData and more (36 functions)
 
+#include <cstdint>
 #include <windows.h>
 #include <cstring>
 #include "fnv/decl/A5D6E0This.h"
@@ -76,7 +77,7 @@ bool NiGeometryData::RegisterStreamables(NiStream& kStream)
 // @fnv 0x00a677e0
 void NiGeometryData::LinkObject(NiStream& kStream)
 {
-    ::FUN_00a89af0((int)this);
+    ::FUN_00a89af0((intptr_t)this);
 
     if (kStream.GetFileVersion() >= 0x0A030007)
     {
@@ -1038,7 +1039,7 @@ struct Callable
 
     int BinaryWrite(const void* pv, unsigned int bytes, unsigned int uiSize)
     {
-        int res = m_pfn(this, (unsigned int)pv, bytes, &uiSize, 1);
+        int res = m_pfn(this, (uintptr_t)pv, bytes, &uiSize, 1);
         m_nCount += res;
         return res;
     }
@@ -1199,7 +1200,7 @@ struct Owner
 
 // Doubles a3 three times (multiplying by 8) and writes a2 with that size via the owner's callable BinaryWrite.
 // @fnv 0x00a67ae0
-void __cdecl FUN_00a67ae0(Owner* pOwner, unsigned int pData, unsigned int a3)
+void __cdecl FUN_00a67ae0(Owner* pOwner, uintptr_t pData, unsigned int a3)
 {
     Callable* pkCallable = pOwner->m_callable;
     for (unsigned int ui = 0; ui < 3; ++ui)
@@ -1702,9 +1703,9 @@ struct NiGeometryDataSave : NiGeometryData
 // @fnv 0x00a68520
 void NiGeometryDataSave::FUN_00a68520(SaveStream& kStream)
 {
-    ::FUN_00a89af0((int)this);
+    ::FUN_00a89af0((intptr_t)this);
 
-    unsigned int uiObjectGroup = ::FUN_00a634f0((char *)&(kStream), (int)((*reinterpret_cast<::fnv_00a68520::NiObjectGroup * *>(&::DAT_011f4880))), {});
+    unsigned int uiObjectGroup = ::FUN_00a634f0((char *)&(kStream), (intptr_t)((*reinterpret_cast<::fnv_00a68520::NiObjectGroup * *>(&::DAT_011f4880))), {});
     SerializeValue(kStream, uiObjectGroup);
 
     SerializeValue(kStream, m_usVertices);
@@ -1740,7 +1741,7 @@ void NiGeometryDataSave::FUN_00a68520(SaveStream& kStream)
 
     unsigned int uiTextureCount = m_usVertices * (m_usTrianglePoints & NiGeometryData::TEXTURE_SET_MASK);
     if (uiTextureCount && m_pkTexture && m_bVerticesDirty)
-        ::FUN_00a67ae0((::Owner *)&(kStream), (unsigned int)(m_pkTexture), uiTextureCount);
+        ::FUN_00a67ae0((::Owner *)&(kStream), (uintptr_t)(m_pkTexture), uiTextureCount);
 
     SerializeValue(kStream, (unsigned short)(m_usDirtyFlags & 0x7000));
 

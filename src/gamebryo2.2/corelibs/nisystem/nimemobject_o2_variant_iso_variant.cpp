@@ -3,6 +3,7 @@
 
 // src/gamebryo2.2/corelibs/nisystem/nimemobject_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/gamebryo2.2/corelibs/nisystem/nimemobject.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
+#include <cstdint>
 #include "fnv/decl/FUN_00633ba0_Class.h"
 #include "fnv/symbols_0109b000.h"
 #include "fnv/symbols_011f4000.h"
@@ -20,7 +21,7 @@ struct FUN_00a5c200 : ::NiObject
 // @fnv 0x00a5c200
 FUN_00a5c200::FUN_00a5c200()
 {
-    words[0] = (unsigned int)::DAT_0109b244;
+    words[0] = (uintptr_t)::DAT_0109b244;
     name = (*reinterpret_cast<::NiFixedString *>(&::DAT_0109b220));
     controller = 0;
     extraData = 0;

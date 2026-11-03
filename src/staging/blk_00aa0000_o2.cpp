@@ -2,6 +2,7 @@
 // src/staging/blk_00aa0000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstdint>
 #include <windows.h>
 #include <new>
 #include <cstring>
@@ -459,7 +460,7 @@ extern FUN_00aa2080_callback DAT_011f60c8[];
 
 // Stores callback and value in parallel arrays at the current index, increments the index, and invokes the callback if the flag is set.
 // @fnv 0x00aa2080
-void __cdecl FUN_00aa2080(FUN_00aa2080_callback callback, int value)
+void __cdecl FUN_00aa2080(FUN_00aa2080_callback callback, intptr_t value)
 {
     DAT_011f60c8[DAT_011f6108] = callback;
     DAT_011f6088[DAT_011f6108] = value;
@@ -981,7 +982,7 @@ inline void Swap4(char* data, int count)
     }
 }
 // @fnv 0x00aa1de0
-void __cdecl SwapBufferBySizes(char* buffer, unsigned int length, const unsigned int* sizes, unsigned int count)
+void __cdecl SwapBufferBySizes(char* buffer, unsigned int length, const unsigned int* sizes, uintptr_t count)
 {
     char* data = buffer;
     unsigned int done = 0;

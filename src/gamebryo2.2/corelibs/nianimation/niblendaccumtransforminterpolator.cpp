@@ -1,4 +1,5 @@
 
+#include <cstdint>
 #include <new>
 #include "runtime/crt.h"
 #include "fnv/decl/BlendCopy.h"
@@ -48,7 +49,7 @@ struct T
 // @fnv 0x00a391c0
 bool T::Equals(const T& aOther) const
 {
-    return tx == aOther.tx && ty == aOther.ty && tz == aOther.tz && ((bool)(::FUN_00a92660((const float *)&(rot), (int)&(aOther.rot), {}))) &&
+    return tx == aOther.tx && ty == aOther.ty && tz == aOther.tz && ((bool)(::FUN_00a92660((const float *)&(rot), (intptr_t)&(aOther.rot), {}))) &&
            scale == aOther.scale;
 }
 
@@ -212,7 +213,7 @@ struct STUB_91C0
 // @fnv 0x00a39780
 bool FUN_00a39780_shell::FUN_00a39780(NiObject* pkObject)
 {
-    if (!::fnv_00a36fd0::FUN_00a36fd0((::fnv_00a36fd0::BlendS *)(((STUB_6FD0*)this)), (int)(pkObject), {}))
+    if (!::fnv_00a36fd0::FUN_00a36fd0((::fnv_00a36fd0::BlendS *)(((STUB_6FD0*)this)), (intptr_t)(pkObject), {}))
         return false;
     return ((char)(reinterpret_cast<::T *>((((STUB_91C0*)&this->m_kAccumulatedTransform.m_kTranslate.x)))->Equals((*(const ::T *)((char*)pkObject + 0x30)))));
 }
@@ -465,7 +466,7 @@ struct Self : Base
 void FUN_00a3a6b0(Self* self, int unused, Arr* strs)
 {
     reinterpret_cast<::BlendSerializer *>((self))->FUN_00a38080((::NiStream *)(strs));
-    char* s = ::FUN_00a7d330((const char *)((*reinterpret_cast<int *>(&::g_011f371c))));
+    char* s = ::FUN_00a7d330((const char *)((*reinterpret_cast<intptr_t *>(&::g_011f371c))));
     unsigned int n = strs->m_usSize;
     if (n >= strs->m_usMaxSize)
         reinterpret_cast<::ViewerStrings *>((strs))->SetSize(n + strs->m_usGrowBy);

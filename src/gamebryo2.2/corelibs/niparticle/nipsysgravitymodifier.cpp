@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/niparticle/nipsysgravitymodifier.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/niparticle/nipsysgravitymodifier.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/decl/FUN_004a0c10_s.h"
 #include "fnv/decl/FUN_00a645b0_cls.h"
 #include "fnv/decl/FUN_00c22a80_cls.h"
@@ -493,18 +494,18 @@ struct NiPSysGravityModifierImpl
 void NiPSysGravityModifierImpl::AddViewerStrings(NiViewerStringsArray* pkStrings)
 {
     reinterpret_cast<::FUN_00c319e0_cls *>(this)->FUN_00c319e0((::StrArr *)(pkStrings));
-    reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((int)&(const char *const &)(FUN_00a7d330((*reinterpret_cast<::NiRTTIStandIn *>(&::g_01202548)).m_pcName)));
+    reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((intptr_t)&(const char *const &)(FUN_00a7d330((*reinterpret_cast<::NiRTTIStandIn *>(&::g_01202548)).m_pcName)));
     const char* pcGravityObjName;
     if (m_pkGravityObject)
         pcGravityObjName = m_pkGravityObject->m_kName;
     else
         pcGravityObjName = "None";
-    reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((int)&(const char *const &)(::fnv_00a7d5e0::FUN_00a7d5e0("Gravity Object", pcGravityObjName)));
-    reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((int)&(const char *const &)(reinterpret_cast<::NiPoint3 *>((void *)&(m_kGravityDirection))->FUN_00a59af0("Gravity Axis")));
-    reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((int)&(const char *const &)(FUN_00a7d550("Decay", m_fDistanceDecay)));
-    reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((int)&(const char *const &)(FUN_00a7d550("Strength", m_fValue)));
-    reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((int)&(const char *const &)(FUN_00a7d550("Turbulence", m_fTurbulenceAmount)));
-    reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((int)&(const char *const &)(FUN_00a7d550("TurbulenceScale", m_fTurbulenceScale)));
+    reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((intptr_t)&(const char *const &)(::fnv_00a7d5e0::FUN_00a7d5e0("Gravity Object", pcGravityObjName)));
+    reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((intptr_t)&(const char *const &)(reinterpret_cast<::NiPoint3 *>((void *)&(m_kGravityDirection))->FUN_00a59af0("Gravity Axis")));
+    reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((intptr_t)&(const char *const &)(FUN_00a7d550("Decay", m_fDistanceDecay)));
+    reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((intptr_t)&(const char *const &)(FUN_00a7d550("Strength", m_fValue)));
+    reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((intptr_t)&(const char *const &)(FUN_00a7d550("Turbulence", m_fTurbulenceAmount)));
+    reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((intptr_t)&(const char *const &)(FUN_00a7d550("TurbulenceScale", m_fTurbulenceScale)));
     const char* pcForceTypeName;
     if (m_eForceType == 0)
         pcForceTypeName = "FORCE_PLANAR";
@@ -512,8 +513,8 @@ void NiPSysGravityModifierImpl::AddViewerStrings(NiViewerStringsArray* pkStrings
         pcForceTypeName = "FORCE_SPHERICAL";
     else
         pcForceTypeName = "Unknown";
-    reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((int)&(const char *const &)(::fnv_00a7d5e0::FUN_00a7d5e0("Force Type", pcForceTypeName)));
-    reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((int)&(const char *const &)(FUN_00a7d370("WorldAligned", m_bFieldFlag)));
+    reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((intptr_t)&(const char *const &)(::fnv_00a7d5e0::FUN_00a7d5e0("Force Type", pcForceTypeName)));
+    reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((intptr_t)&(const char *const &)(FUN_00a7d370("WorldAligned", m_bFieldFlag)));
 }
 
 struct Node18

@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/nimain/nivertweightsextradata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/nivertweightsextradata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/decl/ExtraDataObject.h"
 #include "fnv/decl/ExtraDataStrings.h"
 #include "fnv/decl/FUN_00a7b330_shell.h"
@@ -141,11 +142,11 @@ struct FUN_00a89b30_cls
     void* m_vtbl;
     unsigned int unk04;
     unsigned int unk08;
-    void* FUN_00a89b30(unsigned int a1);
+    void* FUN_00a89b30(uintptr_t a1);
 };
 
 // @fnv 0x00a89b30
-void* FUN_00a89b30_cls::FUN_00a89b30(unsigned int a1)
+void* FUN_00a89b30_cls::FUN_00a89b30(uintptr_t a1)
 {
     FUN_00a89b30_cls* p = (FUN_00a89b30_cls*)FUN_00aa13e0(0xc);
     if (p != 0)

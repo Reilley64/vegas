@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 class CF4840Saver;
 class CF4BC0Object;
@@ -8,9 +9,9 @@ class F4A30Result;
 struct hkReferencedObject;
 
 // 0x00cf4790
-const char *GetConstraintTypeName(int);
+const char *GetConstraintTypeName(intptr_t);
 // 0x00cf4840
-::CF4840Saver *CreateSaver(unsigned int);
+::CF4840Saver *CreateSaver(uintptr_t);
 // 0x00cf4a30
 ::F4A30Result *CreateF4A30Result(::F4A30Node *, void *);
 // 0x00cf4af0

@@ -1,5 +1,6 @@
 // staging/blk_00a60000_o2.cpp: NiShader, PivotGeometry, NiDirectionalLight, NiTMapBaseStub and more (116 functions)
 
+#include <cstdint>
 #include <windows.h>
 // src/staging/blk_00a60000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
@@ -701,11 +702,11 @@ struct FUN_00a61670_Map
 {
     HashNode_00a61670* buckets[1001];
     unsigned int count;
-    HashValue_00a61670* RemoveByKey(unsigned int key);
+    HashValue_00a61670* RemoveByKey(uintptr_t key);
 };
 // Looks up a key in the hash map, unlinks and deallocates its node, clears the value's key, and returns the removed value or null.
 // @fnv 0x00a61670
-HashValue_00a61670* FUN_00a61670_Map::RemoveByKey(unsigned int key)
+HashValue_00a61670* FUN_00a61670_Map::RemoveByKey(uintptr_t key)
 {
     unsigned int index = (key >> 4) % 1001;
     HashValue_00a61670* result = 0;
@@ -965,7 +966,7 @@ class FUN_00a61920_Class
   public:
     FUN_00a61920_Node* m_pBuckets[1];
 
-    bool FindShaderByHash(int, int, NiShader**);
+    bool FindShaderByHash(int, intptr_t, NiShader**);
 };
 
 void NiShader::Release()
@@ -977,7 +978,7 @@ int* NiShader::GetHash()
 }
 
 // @fnv 0x00a61920
-bool FUN_00a61920_Class::FindShaderByHash(int iBucketIndex, int iHashKey, NiShader** ppOutShader)
+bool FUN_00a61920_Class::FindShaderByHash(int iBucketIndex, intptr_t iHashKey, NiShader** ppOutShader)
 {
     FUN_00a61920_Node* node = m_pBuckets[iBucketIndex];
     bool found = false;
@@ -1732,12 +1733,12 @@ FUN_00a69b00::FUN_00a69b00()
 
 struct FUN_00a69b40_Class
 {
-    void FUN_00a69b40(int param_2);
+    void FUN_00a69b40(intptr_t param_2);
 };
 
 // Sets or clears bit 0 of the flags at offset 0x18 depending on whether param_2 is nonzero or any entry after the first in the array at 0x20 is nonzero.
 // @fnv 0x00a69b40
-void FUN_00a69b40_Class::FUN_00a69b40(int param_2)
+void FUN_00a69b40_Class::FUN_00a69b40(intptr_t param_2)
 {
     bool found = param_2 != 0;
     if (!found)
@@ -3916,11 +3917,11 @@ class HashA616
     NodeA616* m_buckets[1001];
     unsigned int m_uiItemCount;
 
-    void FUN_00a61610(unsigned int key, EntryA616* entry);
+    void FUN_00a61610(uintptr_t key, EntryA616* entry);
 };
 
 // @fnv 0x00a61610
-void HashA616::FUN_00a61610(unsigned int key, EntryA616* entry)
+void HashA616::FUN_00a61610(uintptr_t key, EntryA616* entry)
 {
     unsigned int uiBucket = (key >> 4) % 1001;
     entry->m_key = key;

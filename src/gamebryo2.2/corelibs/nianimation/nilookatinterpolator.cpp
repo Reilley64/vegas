@@ -4,6 +4,7 @@
 
 
 // @fnv 0x00a4be10
+#include <cstdint>
 #include <windows.h>
 #include <new>
 #include "fnv/decl/A54440Hash.h"
@@ -112,7 +113,7 @@ void Host_00a4bb80::FUN_00a4bb80(CloningProcess& kCloning)
     bool bCloned;
     NiObject* pkClone;
     NiLookAtInterpolator* pkDest;
-    reinterpret_cast<::FUN_00a5d430_Class *>((((NiObject*)this)))->FUN_00a5d430((unsigned int)&(kCloning));
+    reinterpret_cast<::FUN_00a5d430_Class *>((((NiObject*)this)))->FUN_00a5d430((uintptr_t)&(kCloning));
     pkClone = 0;
     reinterpret_cast<::A54440Hash *>((kCloning.m_pCloneMap))->FUN_00a53c30((::A54440Manager *)((char const*)this), (::A54440Manager **)&((ShaderBufferRecord*&)pkClone));
     pkDest = (NiLookAtInterpolator*)pkClone;
@@ -1339,7 +1340,7 @@ struct S_00a4ba30_Cls
 // @fnv 0x00a4ba30
 S_00a4ba30_Cls* S_00a4ba30_Cls::FUN_00a4ba30(float a, float b)
 {
-    S_00a4ba30_Cls* pResult = ((::S_00a4ba30_Cls *)(::FUN_00a57050((int)this, a)));
+    S_00a4ba30_Cls* pResult = ((::S_00a4ba30_Cls *)(::FUN_00a57050((intptr_t)this, a)));
     for (int i = 0; i < 3; i++)
     {
         if (unk38[i])

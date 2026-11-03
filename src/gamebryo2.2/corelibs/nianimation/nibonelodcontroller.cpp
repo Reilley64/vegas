@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/nianimation/nibonelodcontroller.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/nibonelodcontroller.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <windows.h>
 #include <new>
 #include "fnv/decl/FNV_MemoryManager.h"
@@ -199,7 +200,7 @@ struct NiBoneLODController : NiObject
 // @fnv 0x00a54340
 void NiBoneLODController::FUN_00a54340(NiStream& kStream)
 {
-    ::FUN_00a89af0((int)this);
+    ::FUN_00a89af0((intptr_t)this);
     int iLOD = m_iLOD;
     m_iLOD = -1;
     FUN_00a541f0(iLOD);
@@ -426,7 +427,7 @@ class NiBoneLODControllerA53 : public NiTimeController
 // @fnv 0x00a53d00
 bool NiBoneLODControllerA53::FUN_00a53d00(NiStream& kStream)
 {
-    if (!::FUN_00a6d0f0((::TCReg *)this, (int)&(kStream), *(::NiStream *)nullptr))
+    if (!::FUN_00a6d0f0((::TCReg *)this, (intptr_t)&(kStream), *(::NiStream *)nullptr))
         return false;
 
     for (unsigned int ui = 0; ui < m_kSkinInfoSets.GetSize(); ui++)
@@ -881,7 +882,7 @@ class EqBoneLODController : public EqTimeController
 // @fnv 0x00a53ea0
 bool EqBoneLODController::FUN_00a53ea0(EqObject* pkObject)
 {
-    if (!::FUN_00a6cc80((::TCEq *)this, (int)(pkObject), {}))
+    if (!::FUN_00a6cc80((::TCEq *)this, (intptr_t)(pkObject), {}))
         return false;
 
     EqBoneLODController* pkDest = (EqBoneLODController*)pkObject;

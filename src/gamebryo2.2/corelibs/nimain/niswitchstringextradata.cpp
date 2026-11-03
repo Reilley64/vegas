@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/nimain/niswitchstringextradata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/niswitchstringextradata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <cstring>
 #include "runtime/crt.h"
 #include "fnv/decl/ExtraDataObject.h"
@@ -142,7 +143,7 @@ struct FUN_00a93a60_shell
     void* m_pUnknown0;
     void* m_pUnknown1;
     void* m_pUnknown2;
-    unsigned int m_uiSize;
+    uintptr_t m_uiSize;
     char** m_ppcValue;
     int m_iIndex;
 
@@ -164,7 +165,7 @@ void FUN_00a93a60_shell::FUN_00a93a60(StrArr* apViewerStrings)
         }
         reinterpret_cast<::fnv_00b5c7d0::StrArr *>((apViewerStrings))->SetAt(index, value);
 
-        value = ::FUN_00a7d510("m_uiSize", (unsigned int)(reinterpret_cast<char const*>(m_uiSize)));
+        value = ::FUN_00a7d510("m_uiSize", (uintptr_t)(reinterpret_cast<char const*>(m_uiSize)));
         index = apViewerStrings->m_uiSize;
         if (index >= apViewerStrings->m_uiCapacity)
         {
@@ -417,10 +418,10 @@ struct SSE_Node : NiExtraData
 };
 struct SSE_Owner : NiSwitchStringExtraData
 {
-    SSE_Node* CreateNode(unsigned int);
+    SSE_Node* CreateNode(uintptr_t);
 };
 // @fnv 0x00a938d0
-SSE_Node* SSE_Owner::CreateNode(unsigned int arg)
+SSE_Node* SSE_Owner::CreateNode(uintptr_t arg)
 {
     SSE_Node* obj = new SSE_Node;
     reinterpret_cast<::StrListObj *>(this)->CopyStringList((::StrListObj *)(obj), (void *)(arg));

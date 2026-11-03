@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nianimation/nitransforminterpolator.cpp: NiTransformInterpolator, Holder, NiTransformInterpolatorCopy, InterpolatorF7B0 (26 functions)
 
+#include <cstdint>
 #include <windows.h>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/DataA38.h"
@@ -142,7 +143,7 @@ int FUN_00a3f650_shell::FUN_00a3f650(short aiIndex)
 
 struct FUN_00a3f990_shell
 {
-    int FUN_00a3f990(unsigned int* out1, int* out2, unsigned char* out3);
+    intptr_t FUN_00a3f990(unsigned int* out1, int* out2, unsigned char* out3);
 };
 // @fnv 0x00a3fdb0
 bool NiTransformInterpolator::Update(float time, NiObjectNET* target, NiQuatTransform& value)
@@ -197,7 +198,7 @@ bool NiTransformInterpolator::Update(float time, NiObjectNET* target, NiQuatTran
 
 // Reads fields at offsets 0xa, 0x14, 0x1d and 0x24 from the object at this+0x2c into the out parameters and returns the last; zeroes them if that pointer is null.
 // @fnv 0x00a3f990
-int FUN_00a3f990_shell::FUN_00a3f990(unsigned int* puiValue, int* piValue, unsigned char* pucValue)
+intptr_t FUN_00a3f990_shell::FUN_00a3f990(unsigned int* puiValue, int* piValue, unsigned char* pucValue)
 {
     void* p = *(void**)((char*)this + 0x2c);
     if (p)
@@ -427,7 +428,7 @@ struct Holder
 NiInterpolator* FUN_00a3fd10_shell::FUN_00a3fd10(float m_fStartTime, float m_fMaximumDistance)
 {
     NiTransformInterpolator* pkSeqInterp =
-        (NiTransformInterpolator*)((::FUN_00a3fd10_shell *)(::FUN_00a57050((int)(((FUN_00a57050_tgt*)this)), m_fStartTime)));
+        (NiTransformInterpolator*)((::FUN_00a3fd10_shell *)(::FUN_00a57050((intptr_t)(((FUN_00a57050_tgt*)this)), m_fStartTime)));
     if (pkSeqInterp && *(void**)&this->m_spTransformData.p)
     {
         NiTransformData* spNewData = 0;

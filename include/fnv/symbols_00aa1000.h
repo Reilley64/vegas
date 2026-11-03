@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 class NiFile;
 class NiFileHack;
@@ -51,4 +52,4 @@ unsigned int FUN_00aa1ad0(::ProcessingState *, const void *, unsigned int, void 
 // 0x00aa1d40
 unsigned char FUN_00aa1d40();
 // 0x00aa1de0
-void SwapBufferBySizes(char *, unsigned int, const unsigned int *, unsigned int);
+void SwapBufferBySizes(char *, unsigned int, const unsigned int *, uintptr_t);

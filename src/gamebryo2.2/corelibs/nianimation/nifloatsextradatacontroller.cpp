@@ -1,4 +1,5 @@
 
+#include <cstdint>
 #include <windows.h>
 // src/gamebryo2.2/corelibs/nianimation/nifloatsextradatacontroller.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/nifloatsextradatacontroller.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
@@ -44,7 +45,7 @@ int* __cdecl FUN_00a4f000()
     if (p)
     {
         InitTimeController(p);
-        p[0] = reinterpret_cast<int>(&DAT_0109928c);
+        p[0] = reinterpret_cast<intptr_t>(&DAT_0109928c);
         p[0x10] = 0xffffffff;
         p[0x11] = (*reinterpret_cast<int *>(&::DAT_0109b220));
         return p;
@@ -260,7 +261,7 @@ void ControllerStub::FUN_00a4f1e0(StreamStub* stream)
     if (index >= stream->unk08)
         reinterpret_cast<::ViewerStrings *>((stream))->SetSize(index + stream->unk0E);
     reinterpret_cast<::fnv_00b5c7d0::StrArr *>((stream))->SetAt(index, (*(char * *)(&value)));
-    value = ((void *)(::FUN_00a7d4d0((const char *)(int *)(&DAT_01099270), (int)(unk40))));
+    value = ((void *)(::FUN_00a7d4d0((const char *)(int *)(&DAT_01099270), (intptr_t)(unk40))));
     index = stream->unk0A;
     if (index >= stream->unk08)
         reinterpret_cast<::ViewerStrings *>((stream))->SetSize(index + stream->unk0E);
@@ -455,10 +456,10 @@ void NiFloatsExtraDataController::FUN_00c312f0(NiFloatsExtraDataController* pkDe
     char* pcName = m_kName.m_kHandle;
     if (pkDest->m_kName.m_kHandle != pcName)
     {
-        if (pcName != (char*)(*reinterpret_cast<int *>(&::DAT_0109b220)))
+        if (pcName != (char*)(*reinterpret_cast<intptr_t *>(&::DAT_0109b220)))
             InterlockedIncrement((volatile long*)(pcName - 8));
         char* pcOldName = pkDest->m_kName.m_kHandle;
-        if (pcOldName != (char*)(*reinterpret_cast<int *>(&::DAT_0109b220)))
+        if (pcOldName != (char*)(*reinterpret_cast<intptr_t *>(&::DAT_0109b220)))
             InterlockedDecrement((volatile long*)(pcOldName - 8));
         pkDest->m_kName.m_kHandle = pcName;
     }

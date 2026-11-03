@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/nianimation/nifloatkey.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/nifloatkey.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/decl/FUN_00a3da20_cls.h"
 #include "fnv/symbols_00a26000.h"
 #include "fnv/symbols_00a29000.h"
@@ -73,7 +74,7 @@ struct Holder_00a26eb0 : Base_00a26eb0
 // @fnv 0x00a26eb0
 void Holder_00a26eb0::FUN_00a26eb0(NiStream& stream)
 {
-    reinterpret_cast<::FUN_00a3da20_cls *>(this)->AccumulateAnimSink((int)&(stream));
+    reinterpret_cast<::FUN_00a3da20_cls *>(this)->AccumulateAnimSink((intptr_t)&(stream));
     NiBinaryStream* __restrict input = stream.input;
     unsigned int size = 4;
     input->position += input->read(input, &m, 4, &size, 1);
@@ -100,7 +101,7 @@ struct SObj
 // @fnv 0x00a26ef0
 void WriteFloatToStream(SStream* pStream, SObj* pObj)
 {
-    ::CallAnimCallback((::FUN_00a3da50_Owner *)(pStream), (int)(pObj));
+    ::CallAnimCallback((::FUN_00a3da50_Owner *)(pStream), (intptr_t)(pObj));
     SOut* __restrict output = pStream->out;
     unsigned int size = 4;
     output->pos += output->fn(output, &pObj->v, 4, &size, 1);

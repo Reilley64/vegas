@@ -4,6 +4,7 @@
 
 
 // @fnv 0x00cbb950
+#include <cstdint>
 #include <windows.h>
 #include <new>
 #include "fnv/decl/BufferOwner.h"
@@ -497,7 +498,7 @@ AllocHolder* __cdecl FUN_00c85750();
 
 // Allocates and initializes two spawned objects, stores them in global pointers, and sets the initialization flag.
 // @fnv 0x00cbbb10
-int __cdecl FUN_00cbbb10(int a1, unsigned int auParam1, unsigned int auParam2)
+int __cdecl FUN_00cbbb10(intptr_t a1, uintptr_t auParam1, unsigned int auParam2)
 {
     if (DAT_01268414 != 0)
     {

@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/niparticle/nipsyssphereemitter.cpp: NiPSysSphereEmitter, PSysSphereEmitter (10 functions)
 
+#include <cstdint>
 #include <new>
 #include <cstdlib>
 #include "fnv/decl/FUN_00c31b80_This.h"
@@ -182,14 +183,14 @@ struct Emitter00c200c0
 void Emitter00c200c0::AppendTwoValues(FUN_00c200c0_Arr* p)
 {
     reinterpret_cast<::FUN_00c31db0_cls *>((p))->FUN_00c31db0({});
-    unsigned int uiValue = ((unsigned int)(::FUN_00a7d330((const char *)((*reinterpret_cast<unsigned int *>(&::g_01202510))))));
+    uintptr_t uiValue = ((uintptr_t)(::FUN_00a7d330((const char *)((*reinterpret_cast<uintptr_t *>(&::g_01202510))))));
     unsigned int n = p->m_usSize;
     if (n >= p->m_usMax)
     {
         reinterpret_cast<::ViewerStrings *>((p))->SetSize(p->m_usGrow + n);
     }
     reinterpret_cast<::fnv_00b5c7d0::StrArr *>((p))->SetAt(n, (*(char * *)(&uiValue)));
-    uiValue = ((unsigned int)(::FUN_00a7d550((const char *)(const void *)(&UNK_01015a9c), m_f58)));
+    uiValue = ((uintptr_t)(::FUN_00a7d550((const char *)(const void *)(&UNK_01015a9c), m_f58)));
     n = p->m_usSize;
     if (n >= p->m_usMax)
     {

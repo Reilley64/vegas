@@ -3,6 +3,7 @@
 
 // Placeholder declarations
 
+#include <cstdint>
 #include <cstring>
 #include "fnv/decl/FUN_00e98710_cls.h"
 #include "fnv/decl/MemoryManagerStandIn.h"
@@ -65,8 +66,8 @@ void S::CreateScreenTextureBufferData(NiScreenTexture* pkScreenTexture)
         NiGeometryBufferData* pkBuffData = pMemory ? new (pMemory) NiGeometryBufferData() : 0;
         *(int*)((char*)pkBuffData + 0x3c) = 4;
         *(NiGeometryBufferData**)((char*)pkScreenTexture + 0x1c) = pkBuffData;
-        *(int*)((char*)pkBuffData + 4) = (int)&DAT_01400000;
-        ::FUN_00e98730((int)this, (int)(pkBuffData), {});
+        *(intptr_t*)((char*)pkBuffData + 4) = (intptr_t)&DAT_01400000;
+        ::FUN_00e98730((intptr_t)this, (intptr_t)(pkBuffData), {});
     }
 }
 

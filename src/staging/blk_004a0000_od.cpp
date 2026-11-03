@@ -2,6 +2,7 @@
 // src/staging/blk_004a0000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstdint>
 #include <windows.h>
 #include <new>
 #include <cmath>
@@ -471,7 +472,7 @@ void FUN_004afba0_class::UnlockAtOffset()
 }
 }  // namespace fnv_004afba0
 
-void __cdecl FUN_004b0220(int);
+void __cdecl FUN_004b0220(intptr_t);
 struct FUN_004afc20
 {
     void* vtbl;
@@ -1391,7 +1392,7 @@ struct S004b0220
 };
 // If param_1 is non-null, calls FUN_00667120 with 3 on it.
 // @fnv 0x004b0220
-void __cdecl FUN_004b0220(int pObject)
+void __cdecl FUN_004b0220(intptr_t pObject)
 {
     S004b0220* q;
     S004b0220* p;

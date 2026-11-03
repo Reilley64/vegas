@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 struct DataBufferInfo;
 struct TableValue;
@@ -10,7 +11,7 @@ public:
     // 0x00aa0250
     bool FUN_00aa0250(const unsigned int *);
     // 0x00b57ea0
-    void InsertOrUpdate(unsigned int, unsigned int);
+    void InsertOrUpdate(uintptr_t, uintptr_t);
     // 0x00dbe920
     void ClearEntries();
 };

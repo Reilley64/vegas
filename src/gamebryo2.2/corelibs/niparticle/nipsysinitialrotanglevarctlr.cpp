@@ -4,6 +4,7 @@
 
 
 // @fnv 0x00c2a080
+#include <cstdint>
 #include <new>
 #include "fnv/decl/FUN_00c32d80.h"
 #include "fnv/decl/NiPSysAirFieldAirFrictionCtlr.h"
@@ -27,12 +28,12 @@ struct Item
 
 struct Creator
 {
-    Item* CreateItem(int iArg);
+    Item* CreateItem(intptr_t iArg);
 };
 
 // Allocates a 0x40-byte Item, initialises it, sets its vtable, passes it to FUN_00c32de0 with iArg, and returns it.
 // @fnv 0x00c2a0c0
-Item* Creator::CreateItem(int iArg)
+Item* Creator::CreateItem(intptr_t iArg)
 {
     Item* pkItem = (Item*)FUN_00aa13e0(0x40);
     if (pkItem)

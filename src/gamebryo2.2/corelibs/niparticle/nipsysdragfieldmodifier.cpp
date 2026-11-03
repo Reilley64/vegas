@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/niparticle/nipsysdragfieldmodifier.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/niparticle/nipsysdragfieldmodifier.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <new>
 #include <cmath>
 #include "fnv/decl/C32060EmitterModifier.h"
@@ -117,7 +118,7 @@ struct BoundDataBlock
     unsigned int unk14;
     unsigned int unk18;
     unsigned int unk1c;
-    unsigned int unk20;
+    uintptr_t unk20;
     unsigned int unk24;
     unsigned int unk28;
     unsigned int unk2c;

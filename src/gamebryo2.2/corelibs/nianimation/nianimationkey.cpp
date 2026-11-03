@@ -5,6 +5,7 @@
 // UpdateSlotStates - recursive tree walk over 3-child state nodes with a float test
 // and a dispatch-table callback.
 
+#include <cstdint>
 #include "fnv/decl/ChannelState.h"
 #include "fnv/decl/FUN_00a6db50_V.h"
 #include "fnv/decl/MemoryManagerStandIn.h"
@@ -27,7 +28,7 @@ struct SlotState
 
 // For each of three slots, recursively updates the slot's callback state and stores the result, then invokes the slot's callback with a5 and a6.
 // @fnv 0x00a3d930
-void __cdecl UpdateSlotStates(int aiSlotGroup, int a2, void** apSlotData, int* apiState, float afValueA, float afValueB)
+void __cdecl UpdateSlotStates(int aiSlotGroup, intptr_t a2, void** apSlotData, int* apiState, float afValueA, float afValueB)
 {
     if (a2 == 4)
     {
@@ -39,7 +40,7 @@ void __cdecl UpdateSlotStates(int aiSlotGroup, int a2, void** apSlotData, int* a
             void* pSlotData = pSlot->m14[idx];
             int iSlotIndex = pSlot->m20[idx];
             void* volatile savedC = pSlot->m30[idx];
-            a2 = (int)pSlotData;
+            a2 = (intptr_t)pSlotData;
             void* pResult = pSlotData;
             if (pSlotData != 0)
             {
@@ -93,7 +94,7 @@ typedef void (*CopyCallback)(void* dst, void* src);
 
 
 // @fnv 0x00a3d630
-void FUN_00a3d630(int a1, int a2, void* apData, int aiCount, float afMin, float afMax, void** apOut, int* apiOutCount)
+void FUN_00a3d630(int a1, int a2, void* apData, intptr_t aiCount, float afMin, float afMax, void** apOut, int* apiOutCount)
 {
     if (a2 == 4)
     {
@@ -107,7 +108,7 @@ void FUN_00a3d630(int a1, int a2, void* apData, int aiCount, float afMin, float 
             unsigned char idx = (unsigned char)uiIndex;
             unsigned int m20 = state->m20[idx];
             local_m20[uiIndex] = m20;
-            FUN_00a3d630(0, m20, state->m30[idx], (int)state->m14[idx], afMin, afMax, &local_bufs[uiIndex],
+            FUN_00a3d630(0, m20, state->m30[idx], (intptr_t)state->m14[idx], afMin, afMax, &local_bufs[uiIndex],
                          &local_counts[uiIndex]);
         }
 

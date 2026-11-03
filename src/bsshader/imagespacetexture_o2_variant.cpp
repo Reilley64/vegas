@@ -2,6 +2,7 @@
 // src/bsshader/imagespacetexture_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/bsshader/imagespacetexture.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
+#include <cstdint>
 #include <windows.h>
 #include "fnv/decl/E7DE90Owner.h"
 #include "fnv/decl/E7DEF0TextureStage.h"
@@ -300,11 +301,11 @@ class BA3760Object
     int unk08;
     int m_iValue;
 
-    void FUN_00ba3760(int iValue);
+    void FUN_00ba3760(intptr_t iValue);
 };
 
 // @fnv 0x00ba3760
-void BA3760Object::FUN_00ba3760(int iValue)
+void BA3760Object::FUN_00ba3760(intptr_t iValue)
 {
     m_iValue = iValue;
 }

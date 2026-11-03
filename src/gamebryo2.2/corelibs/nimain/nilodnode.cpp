@@ -4,6 +4,7 @@
 
 
 // @fnv 0x00a994c0
+#include <cstdint>
 #include <windows.h>
 #include <new>
 #include "fnv/decl/FUN_00a645b0_cls.h"
@@ -490,7 +491,7 @@ void FUN_00a99140_cls::UpdateTargetIndex(Arg99* arg)
                 m_iIndex--;
         }
     }
-    reinterpret_cast<::FUN_00a93ef0_cls *>(this)->UpdateSwitchChild((unsigned int)(arg));
+    reinterpret_cast<::FUN_00a93ef0_cls *>(this)->UpdateSwitchChild((uintptr_t)(arg));
 }
 
 void __cdecl NiFree(void* pvMem);

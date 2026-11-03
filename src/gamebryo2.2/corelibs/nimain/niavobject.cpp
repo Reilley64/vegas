@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/nimain/niavobject.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/niavobject.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <windows.h>
 #include <new>
 #include "fnv/decl/FNV_MemoryManager.h"
@@ -541,17 +542,17 @@ namespace fnv_00a59e20 {
 struct NiAVObject
 {
     char _pad_0[1];
-    int FUN_00a59e20(int param);
+    intptr_t FUN_00a59e20(intptr_t param);
 };
 
 // @fnv 0x00a59e20
-int NiAVObject::FUN_00a59e20(int param)
+intptr_t NiAVObject::FUN_00a59e20(intptr_t param)
 {
     int handle = *reinterpret_cast<int*>(param);
     if (handle == (*reinterpret_cast<int *>(&::DAT_0109b220)))
         return 0;
     int diff = *reinterpret_cast<int*>(this + 8) != handle;
-    return (diff - 1) & reinterpret_cast<int>(this);
+    return (diff - 1) & reinterpret_cast<intptr_t>(this);
 }
 }  // namespace fnv_00a59e20
 
@@ -931,7 +932,7 @@ struct FUN_00a59f00_cls
 // @fnv 0x00a59f00
 bool FUN_00a59f00_cls::FUN_00a59f00(void* apArg)
 {
-    if (!::FUN_00a5c180((void *)this, (int)(apArg), {}))
+    if (!::FUN_00a5c180((void *)this, (intptr_t)(apArg), {}))
     {
         return false;
     }
@@ -1229,7 +1230,7 @@ struct Obj00a5a900 : Base00a5c5b0
 // @fnv 0x00a5a900
 void Obj00a5a900::FUN_00a5a900(NiStream& kStream)
 {
-    ::fnv_00a5c5b0::SaveNiObjectLinks((char *)this, (int)&(kStream), {});
+    ::fnv_00a5c5b0::SaveNiObjectLinks((char *)this, (intptr_t)&(kStream), {});
     SerializeValue(kStream, unk30);
     reinterpret_cast<::NiColor *>(&(unk58))->SaveBinary((::NiStream &)(kStream));
     reinterpret_cast<::FUN_00a59a90_cls *>(&(unk34))->ReadMatrixFromStream((void *)&(kStream));
@@ -1506,7 +1507,7 @@ void FUN_00a5a040_Class::FUN_00a5a040()
     ((FUN_0040fbf0_shell*)&DAT_011f42a0)->FUN_0040fbf0(0);
     if (m18 != 0)
     {
-        ::FUN_00a5e3a0((::NiAVObject *)(m18), (int)&(ps), *(::NiPropertyState * *)nullptr);
+        ::FUN_00a5e3a0((::NiAVObject *)(m18), (intptr_t)&(ps), *(::NiPropertyState * *)nullptr);
     }
     else
     {
@@ -1712,7 +1713,7 @@ struct Stream
     unsigned short length;
     unsigned short active;
     unsigned short growth;
-    __forceinline void Add(unsigned int value)
+    __forceinline void Add(uintptr_t value)
     {
         unsigned int index = length;
         if (index >= capacity)
@@ -1787,14 +1788,14 @@ struct FUN_00a5ad00_shell
 void FUN_00a5ad00_shell::FUN_00a5ad00(Stream* stream)
 {
     reinterpret_cast<::S *>((stream))->FUN_00a5ca80({});
-    stream->Add(((unsigned int)(::FUN_00a7d330((const char *)((*reinterpret_cast<unsigned int *>(&::g_011f4280)))))));
+    stream->Add(((uintptr_t)(::FUN_00a7d330((const char *)((*reinterpret_cast<uintptr_t *>(&::g_011f4280)))))));
     union FlagWord
     {
         unsigned int word;
         unsigned char byte;
     } firstFlag;
     firstFlag.byte = static_cast<unsigned char>(flags) & 1;
-    stream->Add(((unsigned int)(::FUN_00a7d370(&DAT_0109b204, firstFlag.word))));
+    stream->Add(((uintptr_t)(::FUN_00a7d370(&DAT_0109b204, firstFlag.word))));
     unsigned char bFlag11 = static_cast<unsigned char>(flags >> 11) & 1;
     if (bFlag11)
     {
@@ -1804,51 +1805,51 @@ void FUN_00a5ad00_shell::FUN_00a5ad00(Stream* stream)
             unsigned char byte;
         } flag11;
         flag11.byte = bFlag11;
-        stream->Add(((unsigned int)(::FUN_00a7d370(&DAT_0109b1f8, flag11.word))));
+        stream->Add(((uintptr_t)(::FUN_00a7d370(&DAT_0109b1f8, flag11.word))));
     }
-    stream->Add(((unsigned int)(reinterpret_cast<::NiPoint3 *>(&(field58))->FUN_00a59af0(&DAT_0109b1e4))));
-    stream->Add(((unsigned int)(reinterpret_cast<::FloatMatrix3 *>(&(field34))->ToString(&DAT_0109b1d4))));
-    stream->Add(((unsigned int)(::FUN_00a7d550(&DAT_0109b1c4, field64))));
-    stream->Add(((unsigned int)(reinterpret_cast<::NiPoint3 *>(&(field8C))->FUN_00a59af0(&DAT_0109b1b0))));
-    stream->Add(((unsigned int)(reinterpret_cast<::FloatMatrix3 *>(&(field68))->ToString(&DAT_0109b1a0))));
-    stream->Add(((unsigned int)(::FUN_00a7d550(&DAT_0109b190, field98))));
-    stream->Add(((unsigned int)(reinterpret_cast<::NiBound *>(((textSource ? textSource : reinterpret_cast<TextSource*>(&(*reinterpret_cast<char *>(&::g_defaultBound))))))->FUN_00a7fb20(&DAT_0109b184))));
+    stream->Add(((uintptr_t)(reinterpret_cast<::NiPoint3 *>(&(field58))->FUN_00a59af0(&DAT_0109b1e4))));
+    stream->Add(((uintptr_t)(reinterpret_cast<::FloatMatrix3 *>(&(field34))->ToString(&DAT_0109b1d4))));
+    stream->Add(((uintptr_t)(::FUN_00a7d550(&DAT_0109b1c4, field64))));
+    stream->Add(((uintptr_t)(reinterpret_cast<::NiPoint3 *>(&(field8C))->FUN_00a59af0(&DAT_0109b1b0))));
+    stream->Add(((uintptr_t)(reinterpret_cast<::FloatMatrix3 *>(&(field68))->ToString(&DAT_0109b1a0))));
+    stream->Add(((uintptr_t)(::FUN_00a7d550(&DAT_0109b190, field98))));
+    stream->Add(((uintptr_t)(reinterpret_cast<::NiBound *>(((textSource ? textSource : reinterpret_cast<TextSource*>(&(*reinterpret_cast<char *>(&::g_defaultBound))))))->FUN_00a7fb20(&DAT_0109b184))));
     union FlagWord1
     {
         unsigned int word;
         unsigned char byte;
     } flag1;
     flag1.byte = static_cast<unsigned char>(flags >> 1) & 1;
-    stream->Add(((unsigned int)(::FUN_00a7d370(&DAT_0109b178, flag1.word))));
+    stream->Add(((uintptr_t)(::FUN_00a7d370(&DAT_0109b178, flag1.word))));
     union FlagWord2
     {
         unsigned int word;
         unsigned char byte;
     } flag2;
     flag2.byte = static_cast<unsigned char>(flags >> 2) & 1;
-    stream->Add(((unsigned int)(::FUN_00a7d370(&DAT_0109b164, flag2.word))));
+    stream->Add(((uintptr_t)(::FUN_00a7d370(&DAT_0109b164, flag2.word))));
     union FlagWord4
     {
         unsigned int word;
         unsigned char byte;
     } flag4;
     flag4.byte = static_cast<unsigned char>(flags >> 4) & 1;
-    stream->Add(((unsigned int)(::FUN_00a7d370(&DAT_0109b154, flag4.word))));
+    stream->Add(((uintptr_t)(::FUN_00a7d370(&DAT_0109b154, flag4.word))));
     union FlagWord3
     {
         unsigned int word;
         unsigned char byte;
     } flag3;
     flag3.byte = static_cast<unsigned char>(flags >> 3) & 1;
-    stream->Add(((unsigned int)(::FUN_00a7d370(&DAT_0109b138, flag3.word))));
+    stream->Add(((uintptr_t)(::FUN_00a7d370(&DAT_0109b138, flag3.word))));
     if (elementCount)
     {
         IndexedNode* node = elements;
         while (node != 0)
         {
             IndexedElement* element = GetNextIndexed(node);
-            unsigned int key = *element->GetValue();
-            unsigned int next = ((unsigned int)(::FUN_00a7d5a0((const char *)(key), element)));
+            uintptr_t key = *element->GetValue();
+            uintptr_t next = ((uintptr_t)(::FUN_00a7d5a0((const char *)(key), element)));
             unsigned int index = stream->length;
             if (index >= stream->capacity)
                 reinterpret_cast<::ViewerStrings *>((stream))->SetSize(index + stream->growth);
@@ -1871,7 +1872,7 @@ void FUN_00a5ad00_shell::FUN_00a5ad00(Stream* stream)
         }
     }
     if (propertyObject)
-        stream->Add(((unsigned int)(::FUN_00a7d5a0((const char *)((unsigned int)&DAT_0109b124), reinterpret_cast<IndexedElement*>(propertyObject)))));
+        stream->Add(((uintptr_t)(::FUN_00a7d5a0((const char *)((uintptr_t)&DAT_0109b124), reinterpret_cast<IndexedElement*>(propertyObject)))));
     unsigned char bFlag10 = static_cast<unsigned char>(flags >> 10) & 1;
     if (bFlag10)
     {
@@ -1881,7 +1882,7 @@ void FUN_00a5ad00_shell::FUN_00a5ad00(Stream* stream)
             unsigned char byte;
         } flag10;
         flag10.byte = bFlag10;
-        stream->Add(((unsigned int)(::FUN_00a7d370(&DAT_0109b118, flag10.word))));
+        stream->Add(((uintptr_t)(::FUN_00a7d370(&DAT_0109b118, flag10.word))));
     }
     unsigned char bit13 = static_cast<unsigned char>(flags >> 13) & 1;
     if (bit13)
@@ -1892,7 +1893,7 @@ void FUN_00a5ad00_shell::FUN_00a5ad00(Stream* stream)
             unsigned char byte;
         } flag13;
         flag13.byte = bit13;
-        stream->Add(((unsigned int)(::FUN_00a7d370(&DAT_0109b10c, flag13.word))));
+        stream->Add(((uintptr_t)(::FUN_00a7d370(&DAT_0109b10c, flag13.word))));
     }
 }
 

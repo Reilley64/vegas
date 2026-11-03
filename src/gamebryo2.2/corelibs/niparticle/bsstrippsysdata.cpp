@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/niparticle/bsstrippsysdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/niparticle/bsstrippsysdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <new>
 #include <cstring>
 #include "fnv/decl/NiPSysDataWriter.h"
@@ -391,7 +392,7 @@ struct S_00c26000_Strip;
 
 struct S_00c26000_Base
 {
-    int unk00;
+    intptr_t unk00;
     int unk04;
     unsigned short unk08;
     unsigned short unk0a;
@@ -1118,7 +1119,7 @@ struct StripCloneC263 : S_00c26000_Strip
     StripCloneC263() throw()
     {
         new ((void *)(reinterpret_cast<StripBaseConstructorC263*>(this))) ::FUN_00c24c90();
-        unk00 = reinterpret_cast<int>((*reinterpret_cast<const void * (*)[]>(&::DAT_010be514)));
+        unk00 = reinterpret_cast<intptr_t>((*reinterpret_cast<const void * (*)[]>(&::DAT_010be514)));
         unk7c = 0;
     }
 

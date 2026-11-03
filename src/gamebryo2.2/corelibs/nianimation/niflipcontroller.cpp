@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/nianimation/niflipcontroller.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/niflipcontroller.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <windows.h>
 #include <new>
 #include <cstring>
@@ -724,7 +725,7 @@ struct F570Array
 {
     virtual ~F570Array() throw()
     {
-        ::FUN_004b0220((int)(m_pBase));
+        ::FUN_004b0220((intptr_t)(m_pBase));
     }
 
     void* m_pBase;

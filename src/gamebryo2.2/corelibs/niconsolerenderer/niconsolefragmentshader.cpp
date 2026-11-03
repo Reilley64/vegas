@@ -1,4 +1,5 @@
 
+#include <cstdint>
 #include <windows.h>
 #include <new>
 #include "fnv/decl/BoneHost.h"
@@ -206,7 +207,7 @@ NiD3DVertexDeclaration* NiConsoleShaderDeclaration_shellEx::FUN_00e8d410(unsigne
 typedef void(__cdecl* DAT_0126f738_fn_t)(void*, void*, unsigned int, unsigned int, unsigned int);
 // Calls the function pointer at DAT_0126f738 indexed by the int at a1+0x134, passing a1+0xF4, a1+0x118, a2, a3 and a4.
 // @fnv 0x00e8d3d0
-void __cdecl DispatchByIndex(void* a1, unsigned int auiArg2, unsigned int auiArg3, unsigned int auiArg4)
+void __cdecl DispatchByIndex(void* a1, uintptr_t auiArg2, unsigned int auiArg3, unsigned int auiArg4)
 {
     DAT_0126f738[*(int*)((char*)a1 + 0x134)]((char*)a1 + 0xF4, (char*)a1 + 0x118, auiArg2, auiArg3, auiArg4);
 }
@@ -220,9 +221,9 @@ struct NiFragmentShaderInstanceDescriptor
 // @fnv 0x00e8d540
 void* NiFragmentShaderInstanceDescriptor::FUN_00e8d540(unsigned int flags)
 {
-    if ((int)m_pDescriptorData != (*reinterpret_cast<int *>(&::DAT_0109b220)))
-        InterlockedDecrement((long volatile*)((int)m_pDescriptorData - 8));
-    *(int*)this = (int)&DAT_010efeb4;
+    if ((intptr_t)m_pDescriptorData != (*reinterpret_cast<int *>(&::DAT_0109b220)))
+        InterlockedDecrement((long volatile*)((intptr_t)m_pDescriptorData - 8));
+    *(intptr_t*)this = (intptr_t)&DAT_010efeb4;
     if (flags & 1)
         reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(this);
     return this;
@@ -250,7 +251,7 @@ bool ProcessShaderParam(unsigned int a1, FUN_00e8d5f0_Param* pParam, void* pUnus
     switch (pParam->m8)
     {
     case 0:
-        ::FUN_00b79950((char*)p, (int)pParam, (NiRefObject*)pParam);
+        ::FUN_00b79950((char*)p, (intptr_t)pParam, (NiRefObject*)pParam);
         break;
     case 2:
         p->FUN_00b80600((NiRefObject*)pParam);
@@ -293,13 +294,13 @@ struct FragHost
     char pad1[0x18];
     int m38;
 
-    int FUN_00e8d260(unsigned int p1, unsigned int p2, Rec24* p3, unsigned int p4, unsigned int p5, unsigned int p6,
-                     unsigned int p7, unsigned int p8);
+    int FUN_00e8d260(uintptr_t p1, uintptr_t p2, Rec24* p3, uintptr_t p4, uintptr_t p5, uintptr_t p6,
+                     uintptr_t p7, uintptr_t p8);
 };
 
 // @fnv 0x00e8d260
-int FragHost::FUN_00e8d260(unsigned int p1, unsigned int p2, Rec24* pRec, unsigned int p4, unsigned int p5,
-                           unsigned int p6, unsigned int p7, unsigned int p8)
+int FragHost::FUN_00e8d260(uintptr_t p1, uintptr_t p2, Rec24* pRec, uintptr_t p4, uintptr_t p5,
+                           uintptr_t p6, uintptr_t p7, uintptr_t p8)
 {
     if (pRec != 0)
     {
@@ -441,11 +442,11 @@ struct FUN_00e8db90 : BaseObj_e8db90, FieldsMid_e8db90
 {
     virtual void unk00();
     SubObj_e8db90 m_3c;
-    FUN_00e8db90(unsigned int a);
+    FUN_00e8db90(uintptr_t a);
 };
 
 // @fnv 0x00e8db90
-FUN_00e8db90::FUN_00e8db90(unsigned int a)
+FUN_00e8db90::FUN_00e8db90(uintptr_t a)
 {
     new ((void *)&(m_3c.m_inner)) ::FUN_00ee8a10((*(const ::FUN_00ee8a10 *)(a)));
 }
@@ -466,9 +467,9 @@ void __cdecl FUN_00e8d2e0()
 
 
 // @fnv 0x00e8d2f0
-int __cdecl FUN_00e8d2f0()
+intptr_t __cdecl FUN_00e8d2f0()
 {
-    return ((int)(static_cast<::ShaderPrepQ *>(nullptr)->PrepareShaderAndStreams({}, {}, {}, {})));
+    return ((intptr_t)(static_cast<::ShaderPrepQ *>(nullptr)->PrepareShaderAndStreams({}, {}, {}, {})));
 }
 
 // @fnv 0x00e8d300
@@ -685,7 +686,7 @@ void operator delete(void* pvObject, size_t uiSize);
 
 struct ShaderObj
 {
-    volatile unsigned int m_vft0;
+    volatile uintptr_t m_vft0;
     unsigned int unk04;
     unsigned int unk08;
     unsigned int unk0c;
@@ -700,7 +701,7 @@ struct ShaderObj
     unsigned int unk30;
     unsigned int unk34;
     unsigned int unk38;
-    unsigned int m_vft3c;
+    uintptr_t m_vft3c;
     void* volatile m_40;
     unsigned int unk44;
     unsigned int unk48;
@@ -714,11 +715,11 @@ struct ShaderObj
 // @fnv 0x00e8dbe0
 ShaderObj* ShaderObj::Release(unsigned int uiFlags)
 {
-    m_vft0 = (unsigned int)&DAT_010eff44;
+    m_vft0 = (uintptr_t)&DAT_010eff44;
     void* pvDevice = m_40;
     if (pvDevice != (*reinterpret_cast<void * *>(&::DAT_0109b220)))
         InterlockedDecrement((volatile long*)pvDevice - 2);
-    m_vft3c = (unsigned int)&DAT_010efeb4;
+    m_vft3c = (uintptr_t)&DAT_010efeb4;
     reinterpret_cast<::FUN_00e806c0 *>(this)->FUN_00e806c0::~FUN_00e806c0();
     if (uiFlags & 1)
         ::FUN_00aa1460(this, sizeof(ShaderObj));
@@ -800,7 +801,7 @@ bool AddShaderConstant(unsigned int uiFlags, unsigned int* puiIndex, const char*
 
     ShaderConstantEntryE8D* pkEntry = 0;
     ::AssignStageFromPool((*(::StageReturn * *)(&pkEntry)));
-    if (reinterpret_cast<::StageSet *>((pkMap))->FUN_00e802b0((unsigned int)(pkMap->m_pvEntries), (::Stage321 *)(pkEntry)))
+    if (reinterpret_cast<::StageSet *>((pkMap))->FUN_00e802b0((uintptr_t)(pkMap->m_pvEntries), (::Stage321 *)(pkEntry)))
     {
         ReleaseEntryE8D(pkEntry);
         return false;
@@ -1073,7 +1074,7 @@ void ShaderView::FUN_00e8dc30(void* a, void* b, void* c, ShaderGeometry* geometr
                 reinterpret_cast<::ShaderHost *>(this)->BindShaderInput((::Descriptor *)(entry), (::Geometry *)(geometry->property), (::PropertyState *)(e));
         }
     }
-    ::FUN_00a8f3e0((int)this, (int)(a), (int)(b), (int)(c), (int)(geometry), (int)(e), (int)(f));
+    ::FUN_00a8f3e0((intptr_t)this, (intptr_t)(a), (intptr_t)(b), (intptr_t)(c), (intptr_t)(geometry), (intptr_t)(e), (intptr_t)(f));
 }
 static __forceinline BinaryDataRecord* LookupStream(Geometry* geometry, unsigned int selector)
 {
@@ -1139,8 +1140,8 @@ void ShaderHost::BindShaderInput(Descriptor* descriptor, Geometry* geometry, Pro
                 format = (packed >> 8) & 15;
                 if ((selector & 0xf0000000) == 0x10000000)
                 {
-                    unsigned int value = stream->format & 255;
-                    value |= ((unsigned int)(reinterpret_cast<::Outer_00e7ddf0 *>((descriptor))->FUN_00e7ddf0())) & 0xffff0000;
+                    uintptr_t value = stream->format & 255;
+                    value |= ((uintptr_t)(reinterpret_cast<::Outer_00e7ddf0 *>((descriptor))->FUN_00e7ddf0())) & 0xffff0000;
                     bool flag = ((bool)(reinterpret_cast<::FUN_00e8d3a0_cls *>((descriptor))->QueryFlagB()));
                     reinterpret_cast<::fnv_00e88fc0::E88FC0StageSet *>((descriptor->state))->SetStageValue(11, (void *)(value), flag);
                 }
@@ -1178,7 +1179,7 @@ void ShaderHost::BindShaderInput(Descriptor* descriptor, Geometry* geometry, Pro
             dimension = texture->dimension;
             format = texture->format;
             if ((selector & 0xf0000000) == 0x10000000)
-                DispatchByIndex(texture, (unsigned int)descriptor, (unsigned int)((bool)(reinterpret_cast<::FUN_00e8d3a0_cls *>((descriptor))->QueryFlagB())), field18);
+                DispatchByIndex(texture, (uintptr_t)descriptor, (unsigned int)((bool)(reinterpret_cast<::FUN_00e8d3a0_cls *>((descriptor))->QueryFlagB())), field18);
         }
     }
 finish:

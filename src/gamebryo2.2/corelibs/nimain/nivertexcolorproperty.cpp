@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/nimain/nivertexcolorproperty.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/nivertexcolorproperty.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <new>
 #include <cstring>
 #include "fnv/decl/FUN_00a5c200.h"
@@ -37,7 +38,7 @@ NiProperty* FUN_00a5f280()
     {
         new ((void *)(p)) struct ::FUN_00a5c200();
         *reinterpret_cast<short*>(reinterpret_cast<char*>(p) + 0x18) = 8;
-        *reinterpret_cast<int*>(p) = reinterpret_cast<int>(&DAT_0109b72c);
+        *reinterpret_cast<intptr_t*>(p) = reinterpret_cast<intptr_t>(&DAT_0109b72c);
         return p;
     }
     return 0;

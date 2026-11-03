@@ -4,6 +4,7 @@
 
 // src/gamebryo2.2/corelibs/nianimation/nicontrollersequence.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/nicontrollersequence.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstdint>
 #include <new>
 #include <windows.h>
 #include <cmath>
@@ -1430,7 +1431,7 @@ struct SeqIDTagOffsets
     OffsetString m_kCtlrType;
     OffsetString m_kCtlrID;
     OffsetString m_kInterpolatorID;
-    void LoadFromPalette(NiStringPalette* pkPalette, int iUnused);
+    void LoadFromPalette(NiStringPalette* pkPalette, intptr_t iUnused);
 };
 struct A31500Ref
 {
@@ -2446,16 +2447,16 @@ struct Controller33130
 };
 static void Release33130(char* h)
 {
-    if (h != (char*)(*reinterpret_cast<int *>(&::DAT_0109b220)))
+    if (h != (char*)(*reinterpret_cast<intptr_t *>(&::DAT_0109b220)))
         InterlockedDecrement((long*)(h - 8));
 }
 static void Assign33130(FixedStr& dst, const char* value)
 {
-    char* h = !value ? (char*)(*reinterpret_cast<int *>(&::DAT_0109b220)) : NiGlobalStringTable::AddString(value);
+    char* h = !value ? (char*)(*reinterpret_cast<intptr_t *>(&::DAT_0109b220)) : NiGlobalStringTable::AddString(value);
     if (dst.m_handle != h)
     {
         char* old = dst.m_handle;
-        if (h != (char*)(*reinterpret_cast<int *>(&::DAT_0109b220)))
+        if (h != (char*)(*reinterpret_cast<intptr_t *>(&::DAT_0109b220)))
             InterlockedIncrement((long*)(h - 8));
         Release33130(old);
         dst.m_handle = h;
@@ -3071,11 +3072,11 @@ struct LegacySequence : ::NiObject
 // @fnv 0x00a352f0
 void LegacySequence::FUN_00a352f0(NiStream& stream)
 {
-    ::FUN_00a89af0((int)this);
+    ::FUN_00a89af0((intptr_t)this);
     if (stringPalette)
     {
         for (unsigned int i = 0; i < count; ++i)
-            reinterpret_cast<::SeqIDTagOffsets *>(&(tags[i]))->LoadFromPalette((::NiStringPalette *)(stringPalette), (int)&(stream));
+            reinterpret_cast<::SeqIDTagOffsets *>(&(tags[i]))->LoadFromPalette((::NiStringPalette *)(stringPalette), (intptr_t)&(stream));
         if (stringPalette)
         {
             RefObj* palette = stringPalette;

@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/nianimation/nigeommorpherupdatetask.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/nigeommorpherupdatetask.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <windows.h>
 #include "fnv/decl/ActiveArray.h"
 #include "fnv/decl/FNV_MemoryManager.h"
@@ -240,7 +241,7 @@ class NiObject_00a56d40
 
 struct FUN_00a56d40_cls
 {
-    int m_vptr00;
+    intptr_t m_vptr00;
     int unk04;
     int unk08;
     NiRefObject* m_0c;
@@ -273,7 +274,7 @@ FUN_00a56d40_cls* FUN_00a56d40_cls::Destroy(unsigned char acFlags)
                 {
                     b->Unk_04();
                 }
-                p->m_vptr00 = (int)&DAT_01069674;
+                p->m_vptr00 = (intptr_t)&DAT_01069674;
                 reinterpret_cast<class ::FUN_00a5d3d0 *>((((NiObject_00a56d40*)p)))->FUN_00a5d3d0::~FUN_00a5d3d0();
             } while (--i >= 0);
         }

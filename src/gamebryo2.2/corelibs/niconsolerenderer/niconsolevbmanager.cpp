@@ -8,6 +8,7 @@
 // NiD3DHLSLVertexShader, i.e. immediately after the 60-byte NiD3DVertexShader
 // base object.
 
+#include <cstdint>
 #include <windows.h>
 #include <cstring>
 #include "fnv/decl/FUN_00a66960_cls.h"
@@ -80,8 +81,8 @@ struct Inner
     virtual void f3();
     virtual void f4();
     virtual void f5();
-    virtual int func18(Outer* a, unsigned int b);
-    virtual void func1c(Outer* a, unsigned int b);
+    virtual int func18(Outer* a, uintptr_t b);
+    virtual void func1c(Outer* a, uintptr_t b);
 };
 
 struct Outer
@@ -97,7 +98,7 @@ struct Outer
 
 // Calls func1c then func18 on a->m08; if func18 returns nonzero, stores it in a->m28[b] when b < a->m20 and returns true, else false.
 // @fnv 0x00e8bfa0
-bool FUN_00e8bfa0(Outer* apOuter, unsigned int uiIndex)
+bool FUN_00e8bfa0(Outer* apOuter, uintptr_t uiIndex)
 {
     Inner* p = apOuter->m08;
     p->func1c(apOuter, uiIndex);
@@ -112,7 +113,7 @@ bool FUN_00e8bfa0(Outer* apOuter, unsigned int uiIndex)
 
 // Copies count blocks of size bytes from src to dst, advancing dst by stride and src by size each time.
 // @fnv 0x00e8c090
-void CopyStridedElements(char* apDest, char* src, unsigned int stride, unsigned int size, unsigned int count)
+void CopyStridedElements(char* apDest, char* src, uintptr_t stride, unsigned int size, unsigned int count)
 {
     if (count <= 0)
         return;
@@ -216,7 +217,7 @@ struct Owner_e8bff0 {
 };
 // @fnv 0x00e8bff0
 void* Owner_e8bff0::FUN_00e8bff0(Holder_e8bff0* source, unsigned int type, unsigned int length, unsigned int flags) {
-    unsigned int out = 0;
+    uintptr_t out = 0;
     if (source->read(type, length, &out, flags) < 0)
         return 0;
     EnterCriticalSection(CriticalSection());
@@ -312,7 +313,7 @@ struct NiGeometryData {
     unsigned int unk2c, unk30;
     C_00e8f010* bufferData;
 };
-struct Class87d40 { void ForwardActorBaseData(void*, int, int, int, int, int); };
+struct Class87d40 { void ForwardActorBaseData(void*, intptr_t, intptr_t, int, int, int); };
 struct CriticalSection { unsigned int debug, lock, recursion, owner, semaphore, spin; };
 struct Renderer {
     unsigned int unk00;
@@ -384,7 +385,7 @@ VertexRecord* Renderer::FUN_00e8c1e0(NiGeometryData* data, Class87d40* transform
             (buf->GetDesc(&desc), desc.type == 100 && desc.fvf == fvf && desc.size >= (unsigned short)count * stride)) {
             record = existing;
         } else {
-            if (!::FUN_00e8bfa0((::Outer *)this, (unsigned int)(bufferData))) return 0;
+            if (!::FUN_00e8bfa0((::Outer *)this, (uintptr_t)(bufferData))) return 0;
             record = bufferData->count > 0 ? bufferData->records[0] : 0;
             dirty = 0xfff;
         }
@@ -398,11 +399,11 @@ VertexRecord* Renderer::FUN_00e8c1e0(NiGeometryData* data, Class87d40* transform
         if (positions && (dirty & 1)) {
             char* positionDest = destination + positionOffset;
             char* normalDest = normals ? destination + normalOffset : 0;
-            transform->ForwardActorBaseData(data, (int)positionDest, (int)normalDest, 0, 0, stride);
+            transform->ForwardActorBaseData(data, (intptr_t)positionDest, (intptr_t)normalDest, 0, 0, stride);
         }
     } else {
-        if (positions && (dirty & 1)) ::CopyStridedElements((char *)this, destination + positionOffset, (unsigned int)((char*)positions), stride, 12);
-        if (normals && (dirty & 2)) ::CopyStridedElements((char *)this, destination + normalOffset, (unsigned int)((char*)normals), stride, 12);
+        if (positions && (dirty & 1)) ::CopyStridedElements((char *)this, destination + positionOffset, (uintptr_t)((char*)positions), stride, 12);
+        if (normals && (dirty & 2)) ::CopyStridedElements((char *)this, destination + normalOffset, (uintptr_t)((char*)normals), stride, 12);
     }
     if (colors && (dirty & 4)) {
         char* output = destination + colorOffset;

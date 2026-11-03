@@ -4,6 +4,7 @@
 
 
 // @fnv 0x00a9b1b0
+#include <cstdint>
 #include <new>
 #include "fnv/decl/FUN_00a80580_cls.h"
 #include "fnv/decl/FUN_00a80610_shell.h"
@@ -117,11 +118,11 @@ struct FUN_00a9b250_obj
 
 struct FUN_00a9b250_cls
 {
-    FUN_00a9b250_obj* CreateAndInitObject(unsigned int arg);
+    FUN_00a9b250_obj* CreateAndInitObject(uintptr_t arg);
 };
 
 // @fnv 0x00a9b250
-FUN_00a9b250_obj* FUN_00a9b250_cls::CreateAndInitObject(unsigned int arg)
+FUN_00a9b250_obj* FUN_00a9b250_cls::CreateAndInitObject(uintptr_t arg)
 {
     FUN_00a9b250_obj* p = (FUN_00a9b250_obj*)FUN_00aa13e0(0xc4);
     if (p != 0)
@@ -161,7 +162,7 @@ struct ArgRec
     int unk00;
     int unk04;
     int unk08;
-    unsigned int m_0C;
+    uintptr_t m_0C;
 };
 
 struct FUN_00a9b2a0_cls

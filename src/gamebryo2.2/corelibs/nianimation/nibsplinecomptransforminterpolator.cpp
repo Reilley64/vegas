@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nianimation/nibsplinecomptransforminterpolator.cpp: NiBSplineCompTransformInterpolator, Holder, SThis (11 functions)
 
+#include <cstdint>
 #include "fnv/decl/A503E0Light.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/BSplineTransformLoad.h"
@@ -139,7 +140,7 @@ bool FUN_00a50e00_shell::FUN_00a50e00(NiObject* pkObject)
 {
     NiBSplineCompTransformInterpolator* pkDest;
     unsigned int ui;
-    if (!::FUN_00a501b0((::FUN_00a501b0_obj *)(((FUN_00a501b0_caller*)this)), (int)(pkObject), {}))
+    if (!::FUN_00a501b0((::FUN_00a501b0_obj *)(((FUN_00a501b0_caller*)this)), (intptr_t)(pkObject), {}))
         return false;
     pkDest = (NiBSplineCompTransformInterpolator*)pkObject;
     for (ui = 0; ui < 6; ui++)
@@ -161,7 +162,7 @@ struct Holder
 void Holder::AppendString(StrArr* pkStrings)
 {
     reinterpret_cast<::BSplineTransformLoad *>(this)->LoadBSplineTransform((*(::NiStream *)(pkStrings)));
-    char* s = ::FUN_00a7d330((const char*)(*reinterpret_cast<int *>(&::g_011f4004)));
+    char* s = ::FUN_00a7d330((const char*)(*reinterpret_cast<intptr_t *>(&::g_011f4004)));
     unsigned int uiSize = *(unsigned short*)((char*)pkStrings + 0xa);
     unsigned int uiCapacity = *(unsigned short*)((char*)pkStrings + 8);
     if (uiSize >= uiCapacity)
@@ -210,7 +211,7 @@ struct BaseHolder
 
 struct FUN_00a4fff0_t : BaseHolder
 {
-    int m_vft;
+    intptr_t m_vft;
     int m_f04;
     int m_f08;
     int m_f0c;
@@ -228,15 +229,15 @@ struct FUN_00a4fff0_t : BaseHolder
     int m_f3c;
     int m_f40;
     int m_f44;
-    FUN_00a4fff0_t(int, int, int, int, int);
+    FUN_00a4fff0_t(intptr_t, int, int, int, intptr_t);
 };
 
 // Calls the base constructor with a and e, sets the vtable, copies global values into fields m_f1c..m_f38, and stores b, c, d in m_f3c..m_f44.
 // @fnv 0x00a4fff0
-FUN_00a4fff0_t::FUN_00a4fff0_t(int aiArg1, int aiArg2, int aiArg3, int aiArg4, int aiArg5)
+FUN_00a4fff0_t::FUN_00a4fff0_t(intptr_t aiArg1, int aiArg2, int aiArg3, int aiArg4, intptr_t aiArg5)
 {
     reinterpret_cast<::FUN_00a57f20_cls *>(this)->FUN_00a57f20((void *)(aiArg1), (void *)(aiArg5));
-    m_vft = (int)&DAT_0109957c;
+    m_vft = (intptr_t)&DAT_0109957c;
     m_f1c = (*reinterpret_cast<int *>(&::DAT_011a8400));
     m_f20 = DAT_011a8404;
     m_f24 = DAT_011a8408;

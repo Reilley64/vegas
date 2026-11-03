@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/nimain/nifloatextradata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/nifloatextradata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/decl/ExtraDataObject.h"
 #include "fnv/decl/ExtraDataStrings.h"
 #include "fnv/decl/FUN_00a7b2c0_shell.h"
@@ -185,7 +186,7 @@ void FUN_00a9a520_shell::AppendViewerStrings(A89C70StringArray* strings)
     reinterpret_cast<::ExtraDataStrings *>(this)->FUN_00a7b580((::StrArr *)(strings));
 
     char* value =
-        ::FUN_00a7d330((const char *)(::GlobalObjectO2_00a7b610 *)(reinterpret_cast<GlobalObjectO2_00a7b610*>(*reinterpret_cast<unsigned int*>(&::g_011f5f40))));
+        ::FUN_00a7d330((const char *)(::GlobalObjectO2_00a7b610 *)(reinterpret_cast<GlobalObjectO2_00a7b610*>(*reinterpret_cast<uintptr_t*>(&::g_011f5f40))));
 
     unsigned int index = strings->m_nextIndex;
 

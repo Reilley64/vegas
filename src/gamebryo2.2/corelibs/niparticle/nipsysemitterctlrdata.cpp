@@ -4,6 +4,7 @@
 
 
 // @fnv 0x00c2baa0
+#include <cstdint>
 #include "fnv/decl/A5D6E0This.h"
 #include "fnv/decl/A5d470Class.h"
 #include "fnv/decl/FUN_00a5d3d0.h"
@@ -317,7 +318,7 @@ class NiPSysEmitterCtlrDataStub : public NiObjectStub
 // @fnv 0x00c2bdf0
 void NiPSysEmitterCtlrDataStub::FUN_00c2bdf0(NiStream& kStream)
 {
-    ::FUN_00a89af0((int)this);
+    ::FUN_00a89af0((intptr_t)this);
 
     ::FUN_00a26df0((::MyStream *)&(kStream), (void *)&(m_uiValueAtOffset8));
     if (m_uiValueAtOffset8 > 0)

@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 // @fnv 0x00c1ba40
+#include <cstdint>
 #include <new>
 #include "fnv/decl/FUN_00439ef0_class.h"
 #include "fnv/decl/FUN_004a0c10_s.h"
@@ -112,7 +113,7 @@ void NiCapsuleBV::FUN_00e9f280(const NiBoundingVolume& kABV)
 extern int DAT_010f17d0;
 struct S00ea0640
 {
-    int v0;
+    intptr_t v0;
     int v1;
     int v2;
     int v3;
@@ -204,7 +205,7 @@ NiBoundingVolume* NiCapsuleBV::FUN_00ea0700()
 // @fnv 0x00ea0640
 S00ea0640* S00ea0640::FUN_00ea0640(S00ea0640* apSource)
 {
-    v0 = (int)&DAT_010f17d0;
+    v0 = (intptr_t)&DAT_010f17d0;
     v1 = apSource->v1;
     v2 = apSource->v2;
     v3 = apSource->v3;
@@ -253,7 +254,7 @@ struct S_00e9f400_Obj
 };
 
 // @fnv 0x00e9f400
-bool __cdecl FUN_00e9f400(float p1, int p2, int p3, int p4, int p5, float* p6, S_00e9f400_P3* p7, bool abWantNormal,
+bool __cdecl FUN_00e9f400(float p1, intptr_t p2, intptr_t p3, intptr_t p4, intptr_t p5, float* p6, S_00e9f400_P3* p7, bool abWantNormal,
                           S_00e9f400_P3* p9, S_00e9f400_P3* p10)
 {
     S_00e9f400_Obj obj;
@@ -421,8 +422,8 @@ struct FUN_00ea0540_cls
 // @fnv 0x00ea0540
 void FUN_00ea0540_cls::FUN_00ea0540(unsigned int a1)
 {
-    unsigned int obj = a1;
-    ::FUN_00a89af0((int)(this));
+    uintptr_t obj = a1;
+    ::FUN_00a89af0((intptr_t)(this));
     reinterpret_cast<::NiColor *>((reinterpret_cast<SubA*>((char*)this + 0x4)))->LoadBinary((*(::NiStream *)(obj)));
     reinterpret_cast<::NiColor *>((reinterpret_cast<SubA*>((char*)this + 0x10)))->LoadBinary((*(::NiStream *)(obj)));
 
@@ -724,7 +725,7 @@ struct IsectObj
     int unk48;
 };
 // @fnv 0x00e9f510
-bool __cdecl FUN_00e9f510(float p1, int p2, int p3, int p4, int p5, float* p6, Vec3e* p7, bool abWantNormal, Vec3e* p9,
+bool __cdecl FUN_00e9f510(float p1, int p2, intptr_t p3, int p4, intptr_t p5, float* p6, Vec3e* p7, bool abWantNormal, Vec3e* p9,
                           Vec3e* p10)
 {
     IsectObj o;
@@ -1506,7 +1507,7 @@ bool __cdecl FUN_00e9fdc0(float afTime, Capsule* apCapsule, Vec3* a2, const Vec3
     }
     CapsuleTriangleQuery query;
     new ((void *)&(query)) ::FUN_00eb3750((float *)(apCapsule), (::FloatVec3Local *)(apTriA), (::FloatVec3Local *)(apTriB), (::FloatVec3Local *)(apTriC), afTime, ::AngularDashpotApplyD4DCB0::DAT_01017d00, ::DAT_010141cc, (void *)(0x20));
-    reinterpret_cast<::S_00eae7a0_Solver *>(&(query))->Solve((*(const ::S_00eae7a0_Point *)((int)a2)), (*(const ::S_00eae7a0_Point *)((int)a6)));
+    reinterpret_cast<::S_00eae7a0_Solver *>(&(query))->Solve((*(const ::S_00eae7a0_Point *)((intptr_t)a2)), (*(const ::S_00eae7a0_Point *)((intptr_t)a6)));
     *a7 = reinterpret_cast<::FnvCpu_FUN_00eae6f0_CpuObject *>(&(query))->FUN_00eae6f0();
     if (reinterpret_cast<::FnvCpu_FUN_00be0aa0_CpuObject *>(&(query))->FUN_00be0aa0() != 3 && reinterpret_cast<::FnvCpu_FUN_00be0aa0_CpuObject *>(&(query))->FUN_00be0aa0() != 2)
     {

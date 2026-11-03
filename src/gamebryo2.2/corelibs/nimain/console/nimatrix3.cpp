@@ -1,6 +1,7 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <cmath>
 #include "fnv/symbols_00a30000.h"
 #include "fnv/symbols_00a58000.h"
@@ -15,7 +16,7 @@ struct TransformRecord {
     float unk18;
     float unk1C;
     float unk20;
-    void GetMatrix(unsigned int parameter, float* output);
+    void GetMatrix(uintptr_t parameter, float* output);
 };
 
 struct S_00a59a30_BinaryStream;
@@ -696,7 +697,7 @@ char* FloatMatrix3::ToString(const char* name) {
 struct EigenMatrixRow { float first, second, third; };
 struct EigenMatrix { float cell[3][3]; bool FUN_00a58b00(float* diagonal, float* subdiagonal); };
 // @fnv 0x00a59980
-void TransformRecord::GetMatrix(unsigned int parameter, float* pafMatrix)
+void TransformRecord::GetMatrix(uintptr_t parameter, float* pafMatrix)
 {
     TransformRecord recordCopy = *this;
     float intermediate[2];

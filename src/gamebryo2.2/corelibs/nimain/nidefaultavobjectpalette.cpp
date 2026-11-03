@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nimain/nidefaultavobjectpalette.cpp: NiDefaultAVObjectPalette, Map, PaletteOwner, PaletteShell and more (18 functions)
 
+#include <cstdint>
 #include <new>
 #include <cstdio>
 #include <cstring>
@@ -524,7 +525,7 @@ struct PaletteShell : public NiDefaultAVObjectPalette
 // @fnv 0x00a6e5b0
 void PaletteShell::FUN_00a6e5b0(CloningProcess& kCloning)
 {
-    reinterpret_cast<::FUN_00a5d430_Class *>((((NiObjectCloneBase*)this)))->FUN_00a5d430((unsigned int)&(kCloning));
+    reinterpret_cast<::FUN_00a5d430_Class *>((((NiObjectCloneBase*)this)))->FUN_00a5d430((uintptr_t)&(kCloning));
 
     NiFixedString kName;
     NiObject*& pkClone = reinterpret_cast<NiObject*&>(kName.m_kHandle);
@@ -887,7 +888,7 @@ struct Map
     void RemoveKey(const Key&);
     __forceinline bool GetAt(const Key& key, Obj*& value)
     {
-        Item* item = buckets[(unsigned int)key.text % size];
+        Item* item = buckets[(uintptr_t)key.text % size];
         while (item)
         {
             if (key.text == item->key)
@@ -923,7 +924,7 @@ __declspec(noinline) void AssignEntry(Item* item, const Key& key, const void* va
 }
 __declspec(noinline) void Map::FUN_00a6e980(const Key& key, const void* value)
 {
-    unsigned int hash = (unsigned int)key.text % size;
+    uintptr_t hash = (uintptr_t)key.text % size;
     Item* cursor = buckets[hash];
     while (cursor)
     {
@@ -943,7 +944,7 @@ __declspec(noinline) void Map::FUN_00a6e980(const Key& key, const void* value)
 
 __declspec(noinline) void Map::RemoveKey(const Key& key)
 {
-    unsigned int hash = (unsigned int)key.text % size;
+    uintptr_t hash = (uintptr_t)key.text % size;
     Item** link = buckets + hash;
     while (*link)
     {

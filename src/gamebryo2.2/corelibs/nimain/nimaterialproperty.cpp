@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nimain/nimaterialproperty.cpp: free functions (8 functions)
 
+#include <cstdint>
 #include <windows.h>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
@@ -37,7 +38,7 @@ void* NiMaterialProperty_Destructor(NiMaterialProperty* pThis, int, unsigned int
 {
     *(int**)pThis = &(*reinterpret_cast<int *>(&::DAT_0109d6c4));
     if (NiRenderer::ms_pRenderer)
-        (*(void(**)(NiRenderer*, NiMaterialProperty*))(*(int*)NiRenderer::ms_pRenderer + 0xf4))(
+        (*(void(**)(NiRenderer*, NiMaterialProperty*))(*(intptr_t*)NiRenderer::ms_pRenderer + 0xf4))(
             NiRenderer::ms_pRenderer, pThis);
     reinterpret_cast<::FUN_00a5c240_shell *>((pThis))->DestroyFogProperty();
     if (flags & 1)
@@ -206,7 +207,7 @@ BA75730Object* FUN_00a75730_cls::FUN_00a75730(BA75730Cloning& kCloning)
         reinterpret_cast<::FUN_00a755f0_Class *>(this)->CopyCullingData(pkClone, (::CloningProcess &)(kCloning));
         return pkClone;
     }
-    reinterpret_cast<::FUN_00a5d450_class *>(this)->CreateVertexBufferSet((unsigned int)(this), (void *)&(kCloning));
+    reinterpret_cast<::FUN_00a5d450_class *>(this)->CreateVertexBufferSet((uintptr_t)(this), (void *)&(kCloning));
     return this;
 }
 
@@ -507,13 +508,13 @@ struct FUN_00a75a70_shell : public ViewerPropertyBase
 void FUN_00a75a70_shell::FUN_00a75a70(NiViewerStringsArray* pkStrings)
 {
     reinterpret_cast<::FUN_00a62a40_this *>(this)->AppendString((::StrArr *)(pkStrings));
-    reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((int)&(const char *const &)(FUN_00a7d330((*reinterpret_cast<::NiRTTI *>(&::g_011f4a5c)).GetName())));
-    reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((int)&(const char *const &)(reinterpret_cast<::NiColor *>((void *)&(m_spec))->GetFormattedString("m_spec")));
+    reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((intptr_t)&(const char *const &)(FUN_00a7d330((*reinterpret_cast<::NiRTTI *>(&::g_011f4a5c)).GetName())));
+    reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((intptr_t)&(const char *const &)(reinterpret_cast<::NiColor *>((void *)&(m_spec))->GetFormattedString("m_spec")));
     if (m_external_emit)
-        reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((int)&(const char *const &)(reinterpret_cast<::NiColor *>((void *)(m_external_emit))->GetFormattedString("m_external_emit")));
+        reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((intptr_t)&(const char *const &)(reinterpret_cast<::NiColor *>((void *)(m_external_emit))->GetFormattedString("m_external_emit")));
     else
-        reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((int)&(const char *const &)(reinterpret_cast<::NiColor *>((void *)&(m_emit))->GetFormattedString("m_emit")));
-    reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((int)&(const char *const &)(FUN_00a7d550("m_fShine", m_fShine)));
-    reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((int)&(const char *const &)(FUN_00a7d550("m_fAlpha", m_fAlpha)));
-    reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((int)&(const char *const &)(FUN_00a7d550("m_fEmitMult", m_fEmitMult)));
+        reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((intptr_t)&(const char *const &)(reinterpret_cast<::NiColor *>((void *)&(m_emit))->GetFormattedString("m_emit")));
+    reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((intptr_t)&(const char *const &)(FUN_00a7d550("m_fShine", m_fShine)));
+    reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((intptr_t)&(const char *const &)(FUN_00a7d550("m_fAlpha", m_fAlpha)));
+    reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((intptr_t)&(const char *const &)(FUN_00a7d550("m_fEmitMult", m_fEmitMult)));
 }

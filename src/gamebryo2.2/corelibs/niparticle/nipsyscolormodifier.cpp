@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/niparticle/nipsyscolormodifier.cpp: NiPSysColorModifier, Host, NiPSysColorModifierLocal (9 functions)
 
+#include <cstdint>
 #include "generated/data/vtables.h"
 #include <new>
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -218,13 +219,13 @@ struct HostLike
 
 struct S00c2d240
 {
-    void* CreateAndInit(int arg);
+    void* CreateAndInit(intptr_t arg);
 };
 
 extern "C" void* __cdecl Alloc00c2d240(unsigned int);
 
 // @fnv 0x00c2d240
-void* S00c2d240::CreateAndInit(int arg)
+void* S00c2d240::CreateAndInit(intptr_t arg)
 {
     void* pObject = Alloc00c2d240(0x24);
     if (pObject)

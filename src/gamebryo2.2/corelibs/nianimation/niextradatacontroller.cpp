@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nianimation/niextradatacontroller.cpp: NiPSysModifierCtlr, NiExtraDataController, FakeController, TargetController (8 functions)
 
+#include <cstdint>
 #include <windows.h>
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/Cls_a64ea0.h"
@@ -43,7 +44,7 @@ struct NiExtraDataController : NiObjectNET
 // @fnv 0x00a57400
 void NiExtraDataController::FUN_00a57400(NiStream& kStream)
 {
-    ::FUN_00a89af0((int)this);
+    ::FUN_00a89af0((intptr_t)this);
     if (*(int*)((char*)this + 0x2C))
         NiObjectNET::RefreshExtraData();
 }
@@ -315,7 +316,7 @@ bool TargetController::HasMatchingItem(TargetCandidate* pCandidate)
 {
     if (!HasTargetType(pCandidate))
         return false;
-    if ((unsigned int)m_pFlagTarget == (*reinterpret_cast<unsigned int *>(&::DAT_0109b220)))
+    if ((uintptr_t)m_pFlagTarget == (*reinterpret_cast<unsigned int *>(&::DAT_0109b220)))
         return false;
     for (unsigned int uiIndex = 0; uiIndex < pCandidate->m_usElementCount; ++uiIndex)
     {

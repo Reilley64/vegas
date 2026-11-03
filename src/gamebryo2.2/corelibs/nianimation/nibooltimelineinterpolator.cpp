@@ -4,6 +4,7 @@
 
 
 // @fnv 0x00a52d70
+#include <cstdint>
 #include <windows.h>
 #include "fnv/decl/FUN_00a536d0_cls.h"
 #include "fnv/decl/NiBoolInterpolatorA536.h"
@@ -139,7 +140,7 @@ void* CreateNiKeyBasedInterpolator()
     if (p)
     {
         new (p) NiKeyBasedInterpolator();
-        *(unsigned int*)p = (unsigned int)&DAT_0109a0b4;
+        *(uintptr_t*)p = (uintptr_t)&DAT_0109a0b4;
         *(unsigned char*)((char*)p + 0xc) = DAT_0109a914;
         *(unsigned int*)((char*)p + 0x10) = 0;
         *(unsigned int*)((char*)p + 0x14) = 0;

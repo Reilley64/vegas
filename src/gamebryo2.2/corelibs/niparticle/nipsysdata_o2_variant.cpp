@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/niparticle/nipsysdata_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/gamebryo2.2/corelibs/niparticle/nipsysdata.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
+#include <cstdint>
 #include <new>
 #include <cstring>
 #include "fnv/decl/AA4610Allocator.h"
@@ -564,7 +565,7 @@ static inline void SetCenterAndRadius(NiBound& kBound, const NiPoint3& kTargetCe
 // @fnv 0x00c24f20
 void NiPSysData_View::FUN_00c24f20(NiPSysData_View* pkDest, void* kCloning)
 {
-    reinterpret_cast<::FUN_00a5d450_class *>((((NiObject_Stub*)this)))->CreateVertexBufferSet((unsigned int)(pkDest), kCloning);
+    reinterpret_cast<::FUN_00a5d450_class *>((((NiObject_Stub*)this)))->CreateVertexBufferSet((uintptr_t)(pkDest), kCloning);
 
     NiPoint3* pkVertex = new ParticlePoint[m_usVertices];
     unsigned int uiVertexSize = sizeof(NiPoint3) * m_usVertices;
@@ -630,7 +631,7 @@ void NiPSysData_View::FUN_00c24f20(NiPSysData_View* pkDest, void* kCloning)
     {
         RgbaColor* pkSubTextureOffsets = (RgbaColor*)_NiMalloc(sizeof(RgbaColor) * m_ucSubTextureOffsetCount);
         std::memmove(pkSubTextureOffsets, m_pkSubTextureOffsets, sizeof(RgbaColor) * m_ucSubTextureOffsetCount);
-        ::FUN_00a968e0((char *)(pkDest), (int)(pkSubTextureOffsets), (void *)(m_ucSubTextureOffsetCount), {});
+        ::FUN_00a968e0((char *)(pkDest), (intptr_t)(pkSubTextureOffsets), (void *)(m_ucSubTextureOffsetCount), {});
     }
 
     Point3ParameterData* pkParticleInfo = 0;

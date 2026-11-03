@@ -4,6 +4,7 @@
 
 
 // @fnv 0x00a44920
+#include <cstdint>
 #include <windows.h>
 #include <new>
 #include "fnv/decl/A5D6E0This.h"
@@ -276,7 +277,7 @@ class CA449C0Container : public CA449C0Base
 // @fnv 0x00a449c0
 void CA449C0Container::LinkObjects(CA449C0Stream& kStream)
 {
-    ::FUN_00a89af0((int)this);
+    ::FUN_00a89af0((intptr_t)this);
     for (int i = 0; i < m_usNumObjects; i++)
     {
         m_ppkObjects[i] = ((::CA449C0Object *)(reinterpret_cast<::NiStream *>(&(kStream))->GetLoadedObject()));
@@ -621,7 +622,7 @@ class LoaderA44 : public FUN_00a89af0_helper
 // @fnv 0x00a44a90
 void LoaderA44::FUN_00a44a90(NiStreamA44& kStream)
 {
-    ::FUN_00a89af0((int)this);
+    ::FUN_00a89af0((intptr_t)this);
     ReadBinaryValue(kStream, m_08);
     ReadBinaryValue(kStream, m_0C);
 }
@@ -832,7 +833,7 @@ class B80Notes : public B80Object
 // @fnv 0x00a44b80
 void B80Notes::FUN_00a44b80(B80Stream& kStream)
 {
-    ::FUN_00a89af0((int)this);
+    ::FUN_00a89af0((intptr_t)this);
     B80SaveBinary(*kStream.m_pBackingStream, m_usNumNotes);
     for (unsigned int i = 0; i < m_usNumNotes; i++)
         kStream.SaveLinkID(m_ppkNotes[i]);

@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/nimain/nirangeloddata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/nirangeloddata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <new>
 #include <cstring>
 #include "fnv/decl/FUN_00aa09c0_cls.h"
@@ -170,7 +171,7 @@ NiRangeLODData* CreateRangeLODData()
     if (p)
     {
         ((Base00aa09a0*)p)->FUN_00aa09a0();
-        *(int*)p = (int)&DAT_010a073c;
+        *(intptr_t*)p = (intptr_t)&DAT_010a073c;
         p->m_kCenter = ::NiPoint3::ZERO;
         p->m_uiRangeCount = 0;
         p->m_pRanges = 0;
@@ -186,7 +187,7 @@ NiRangeLODData* CopyRangeLODData(NiRangeLODData* self, int)
     if (pkData)
     {
         ((BaseCall*)pkData)->FUN_00aa09a0();
-        *(int*)((char*)pkData + 0) = (int)&DAT_010a073c;
+        *(intptr_t*)((char*)pkData + 0) = (intptr_t)&DAT_010a073c;
         pkData->m_kCenter = ::NiPoint3::ZERO;
         pkData->m_uiRangeCount = 0;
         pkData->m_pRanges = 0;
@@ -535,7 +536,7 @@ class FUN_00aa09a0 : public A09A0Object
 StandIn* StandIn::InitializeRangeLODData()
 {
     new ((void *)(((BaseCall*)this))) ::FUN_00aa09a0();
-    *(int*)this = (int)&DAT_010a073c;
+    *(intptr_t*)this = (intptr_t)&DAT_010a073c;
     ((NiRangeLODData*)this)->m_kCenter = ::NiPoint3::ZERO;
     ((NiRangeLODData*)this)->m_uiRangeCount = 0;
     ((NiRangeLODData*)this)->m_pRanges = 0;

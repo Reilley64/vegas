@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nianimation/nibsplinedata.cpp: NiBSplineData, SplData (7 functions)
 
+#include <cstdint>
 #include "fnv/decl/A5D6E0This.h"
 #include "fnv/decl/A5d470Class.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -158,7 +159,7 @@ struct FUN_00a52950_cls : NiBSplineData
 // @fnv 0x00a52950
 void FUN_00a52950_cls::LoadControlPoints(NiStream& stream)
 {
-    ::FUN_00a89af0((int)(reinterpret_cast<NiBSplineBaseStand*>(this)));
+    ::FUN_00a89af0((intptr_t)(reinterpret_cast<NiBSplineBaseStand*>(this)));
     NiBSplineStreamView* pStreamView = reinterpret_cast<NiBSplineStreamView*>(&stream);
     pStreamView->m_pUnderlyingStream->Load(&m_uiControlPointCount);
     if (m_uiControlPointCount != 0)

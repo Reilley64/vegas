@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/nimain/nisourcecubemap.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/nisourcecubemap.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "generated/data/vtables.h"
 #include <windows.h>
 #include <new>
@@ -737,12 +738,12 @@ SpawnedObject* __cdecl FUN_00a61040(char** ppName, int aValue, NiRenderer* pRend
     char** ppNameSlot = &p->m_30;
     if (*ppNameSlot != name)
     {
-        if ((int)name != (*reinterpret_cast<int *>(&::DAT_0109b220)))
+        if ((intptr_t)name != (*reinterpret_cast<int *>(&::DAT_0109b220)))
         {
             InterlockedIncrement((long volatile*)(name - 8));
         }
         char* old = *ppNameSlot;
-        if ((int)old != (*reinterpret_cast<int *>(&::DAT_0109b220)))
+        if ((intptr_t)old != (*reinterpret_cast<int *>(&::DAT_0109b220)))
         {
             InterlockedDecrement((long volatile*)(old - 8));
         }
@@ -1072,7 +1073,7 @@ class NiStream
     int unk1DC;
     int unk1E0;
     int unk1E4;
-    int unk1E8;
+    intptr_t unk1E8;
     int unk1EC;
     int unk1F0;
     int unk1F4;

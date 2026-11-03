@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/nianimation/nipathcontroller.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/nipathcontroller.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <windows.h>
 #include <new>
 #include <cmath>
@@ -222,7 +223,7 @@ struct NiPathController : public Base40
 // @fnv 0x00a49cc0
 bool NiPathController::FUN_00a49cc0(NiStream& kStream)
 {
-    if (!::FUN_00a6d0f0((::TCReg *)this, (int)&(kStream), *(::NiStream *)nullptr))
+    if (!::FUN_00a6d0f0((::TCReg *)this, (intptr_t)&(kStream), *(::NiStream *)nullptr))
         return false;
     FakeObj* pkPath = m_pPathObject;
     if (pkPath)
@@ -778,7 +779,7 @@ struct PathObject : PathBase
 };
 struct PathShell
 {
-    PathObject* CreatePathObject(int value);
+    PathObject* CreatePathObject(intptr_t value);
 };
 #include <string.h>
 struct NiObject
@@ -866,7 +867,7 @@ struct NiPathControllerStub : NiTimeControllerStub
 // @fnv 0x00a4a710
 bool NiPathControllerStub::FUN_00a4a710(NiObject* pkObject)
 {
-    if (!::FUN_00a6cc80((::TCEq *)this, (int)(pkObject), {}))
+    if (!::FUN_00a6cc80((::TCEq *)this, (intptr_t)(pkObject), {}))
         return false;
 
     NiPathControllerStub* pkOther = (NiPathControllerStub*)pkObject;
@@ -888,7 +889,7 @@ bool NiPathControllerStub::FUN_00a4a710(NiObject* pkObject)
         unsigned int ItemUpdateArray;
         int c;
         unsigned char d;
-        ::fnv_00a49d00::GetRotKeyData((::NiRotData *)this, (int)(&a), (::fnv_00a49d00::TimedRotationKey **)(unsigned int *)(&ItemUpdateArray), &c, (int *)(unsigned char *)(&d), {});
+        ::fnv_00a49d00::GetRotKeyData((::NiRotData *)this, (intptr_t)(&a), (::fnv_00a49d00::TimedRotationKey **)(unsigned int *)(&ItemUpdateArray), &c, (int *)(unsigned char *)(&d), {});
         if (memcmp(pkLengths, pkOther->m_pkPartLengths, ItemUpdateArray * sizeof(unsigned int)) != 0)
             return false;
     }
@@ -1143,7 +1144,7 @@ struct PathCtl : CloneableObj
 };
 // Allocates and initializes a PathObject, then calls FUN_00a4b0b0 with the given value and returns the new object or null.
 // @fnv 0x00a4b330
-PathObject* PathShell::CreatePathObject(int value)
+PathObject* PathShell::CreatePathObject(intptr_t value)
 {
     PathObject* object = (PathObject*)FUN_00aa13e0(0x64);
     PathObject* result;

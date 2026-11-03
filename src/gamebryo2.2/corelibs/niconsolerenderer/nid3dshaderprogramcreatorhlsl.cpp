@@ -1,6 +1,7 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <new>
 #include <cstring>
 #include "runtime/crt.h"
@@ -133,7 +134,7 @@ struct NiD3DShaderProgram
 // @fnv 0x00eea540
 void NiD3DShaderProgram::FUN_00eea540(NiD3DShaderProgramCreator* pkCreator)
 {
-    *reinterpret_cast<unsigned int*>(this + 0x1c) = reinterpret_cast<unsigned int>(pkCreator);
+    *reinterpret_cast<uintptr_t*>(this + 0x1c) = reinterpret_cast<uintptr_t>(pkCreator);
 }
 
 extern "C" void __cdecl operator delete(void*, size_t);
@@ -755,7 +756,7 @@ class HLSLCreator : public NiD3DShaderProgramCreatorHLSL
   public:
     NiD3DHLSLPixelShaderStandIn* FUN_00e967d0(const void* pvBuffer, unsigned int uiBufferSize, const char* pcShaderName,
                                               const char* pcEntryPoint, const char* pcShaderTarget, void* pvHandle,
-                                              unsigned int auiGroupKey, unsigned int bSoftwareVP, bool bRecoverable);
+                                              uintptr_t auiGroupKey, unsigned int bSoftwareVP, bool bRecoverable);
 };
 
 // Compiles the shader source, creates the pixel shader handle, fills a new NiD3DHLSLPixelShaderStandIn with it and returns it, or returns 0 on failure.
@@ -763,7 +764,7 @@ class HLSLCreator : public NiD3DShaderProgramCreatorHLSL
 NiD3DHLSLPixelShaderStandIn* HLSLCreator::FUN_00e967d0(const void* pvBuffer, unsigned int uiBufferSize,
                                                        const char* pcShaderName, const char* pcEntryPoint,
                                                        const char* pcShaderTarget, void* pvHandle,
-                                                       unsigned int auiGroupKey, unsigned int bSoftwareVP,
+                                                       uintptr_t auiGroupKey, unsigned int bSoftwareVP,
                                                        bool bRecoverable)
 {
     NiD3DHLSLPixelShaderStandIn* pkShader = new NiD3DHLSLPixelShaderStandIn((*reinterpret_cast<::NiD3DRenderer * *>(&::DAT_0126fa2c)));
@@ -786,7 +787,7 @@ NiD3DHLSLPixelShaderStandIn* HLSLCreator::FUN_00e967d0(const void* pvBuffer, uns
         return 0;
     }
 
-    void* hShader = ::CreateVertexShaderChecked((void *)this, pvCode, (unsigned int)(&pvHandle), (void *)(auiGroupKey), (unsigned int)(0), 0);
+    void* hShader = ::CreateVertexShaderChecked((void *)this, pvCode, (uintptr_t)(&pvHandle), (void *)(auiGroupKey), (unsigned int)(0), 0);
     if (hShader == 0)
     {
         ::FUN_00aa0020(1, bRecoverable, "Failed CreateVertexShader call on %s\n", pcShaderName);
@@ -835,7 +836,7 @@ struct MatrixNm
 
 // Solves each column of x against b by copying it into single-column matrices, calling SolveVector, and writing the result back.
 // @fnv 0x00e590f0
-MatResult __cdecl SolveMatrixColumns(void* solver, MatrixNm& x, MatrixNm& b, int maxIter, float tolerance)
+MatResult __cdecl SolveMatrixColumns(void* solver, MatrixNm& x, MatrixNm& b, intptr_t maxIter, float tolerance)
 {
     MatResult result;
     MatrixNm xColumn(x.GetNumRows(), 1);
@@ -1076,14 +1077,14 @@ struct HLSLCreator_b10814
     int unk00;
     NiD3DHLSLPixelShaderStandIn* FUN_00e95f20(void* pvBuffer, unsigned int uiCodeSize, const char* pcShaderName,
                                               const char* pcEntryPoint, const char* pcShaderTarget, const char* pcName,
-                                              unsigned int auiGroupKey, unsigned int bSoftwareVP, bool bRecoverable);
+                                              uintptr_t auiGroupKey, unsigned int bSoftwareVP, bool bRecoverable);
 };
 
 // @fnv 0x00e95f20
 NiD3DHLSLPixelShaderStandIn* HLSLCreator_b10814::FUN_00e95f20(void* pvBuffer, unsigned int uiCodeSize,
                                                               const char* pcShaderName, const char* pcEntryPoint,
                                                               const char* pcShaderTarget, const char* pcName,
-                                                              unsigned int auiPassCount, unsigned int bSoftwareVP,
+                                                              uintptr_t auiPassCount, unsigned int bSoftwareVP,
                                                               bool bRecoverable)
 {
     NiD3DHLSLPixelShaderStandIn* pkShader = new NiD3DHLSLPixelShaderStandIn((NiD3DRenderer*)::DAT_0126fa2c);
@@ -1107,7 +1108,7 @@ NiD3DHLSLPixelShaderStandIn* HLSLCreator_b10814::FUN_00e95f20(void* pvBuffer, un
         pcShaderTarget = reinterpret_cast<const char*(*)(void*)>(&FUN_00ee6e2e)(g_0126fa28);
     }
 
-    void* pvHandle = ::CreateVertexShaderChecked((void *)(this), ((ID3DXBuffer*)pvBuffer)->GetBufferPointer(), (unsigned int)((void*)&pcName),
+    void* pvHandle = ::CreateVertexShaderChecked((void *)(this), ((ID3DXBuffer*)pvBuffer)->GetBufferPointer(), (uintptr_t)((void*)&pcName),
                                                      (void *)(auiPassCount), (unsigned int)(0), 0);
     if (pvHandle == 0)
     {
@@ -1210,7 +1211,7 @@ struct HLSLPixelShaderCtor96 : NiMemObject
 {
     HLSLPixelShaderCtor96(void* pkRenderer) throw()
     {
-        new ((void *)(((HLSLPixelShader96*)this))) ::FUN_00e897d0((int)(pkRenderer), 2);
+        new ((void *)(((HLSLPixelShader96*)this))) ::FUN_00e897d0((intptr_t)(pkRenderer), 2);
         ((HLSLPixelShader96*)this)->m_pD3DPixelShader = 0;
         *(void**)this = &(*reinterpret_cast<void * *>(&::DAT_010f10f4));
         ((HLSLPixelShader96*)this)->m_pcShaderEntryPoint = 0;
@@ -1292,7 +1293,7 @@ bool* ConjugateGradientSolve(bool* abConverged, SolverMatrix* matrix, SolverVect
     int size = apInitialGuess->FUN_00cc0760();
     SolverVector temp;
     SolverVector pResidual, p, pMatVec, x;
-    ::FUN_00e58e80((int)(apRhs), (int)(&pResidual), (::E58E80Object *)(::SolverVector *)(((::SolverVector *)(reinterpret_cast<::S_00e58ea0_cls *>((matrix))->FUN_00e58ea0((::S_00e58ea0_Gen *)(::SolverVector *)(&temp), (::S_00e58ea0_Gen *)(apInitialGuess))))), *(const ::E87E0Matrix *)nullptr);
+    ::FUN_00e58e80((intptr_t)(apRhs), (intptr_t)(&pResidual), (::E58E80Object *)(::SolverVector *)(((::SolverVector *)(reinterpret_cast<::S_00e58ea0_cls *>((matrix))->FUN_00e58ea0((::S_00e58ea0_Gen *)(::SolverVector *)(&temp), (::S_00e58ea0_Gen *)(apInitialGuess))))), *(const ::E87E0Matrix *)nullptr);
     reinterpret_cast<::FUN_00c7b0f0_shell *>(&(temp))->FUN_00c7b0f0();
     p.CopyFrom(&pResidual);
     reinterpret_cast<::Stand_e58d90 *>(&(pMatVec))->InitArray(size, 1);
@@ -1308,7 +1309,7 @@ bool* ConjugateGradientSolve(bool* abConverged, SolverMatrix* matrix, SolverVect
                 *abConverged = true;
                 goto done;
             }
-            reinterpret_cast<::FUN_00e58b10_class *>((matrix))->FUN_00e58b10((int)(&pMatVec), (int)(&p), (int)(&x));
+            reinterpret_cast<::FUN_00e58b10_class *>((matrix))->FUN_00e58b10((intptr_t)(&pMatVec), (intptr_t)(&p), (intptr_t)(&x));
             {
                 float fStepSize = (float)((double)fResidualNormSq / ::DotProduct((::CE588A0Vector *)(::SolverVector *)(&p), (::CE588A0Vector *)(::SolverVector *)(&pMatVec)));
                 ::FUN_00e58960((::FUN_00e587b0_Class *)(apInitialGuess), &fStepSize, (::FUN_00e58880_Class *)(::SolverVector *)(&p));
@@ -1380,7 +1381,7 @@ class ShaderSrcE95
     virtual void vfn_1C();
     virtual void vfn_1D();
     virtual void vfn_1E();
-    virtual unsigned int GetCodeSize();
+    virtual uintptr_t GetCodeSize();
     virtual void vfn_20();
     virtual void vfn_21();
     virtual void SetD3DPixelShader(void* pvHandle);
@@ -1415,7 +1416,7 @@ bool ShaderMgrE95::FUN_00e95ba0(ShaderSrcE95* pkShader)
         return false;
 
     unsigned int uiVersion = pkShader->GetShaderVersion();
-    void* pvHandle = ::CreateVertexShaderChecked((void *)this, pvCode, (unsigned int)(&uiVersion), (void *)(pkShader->GetCodeSize()), (unsigned int)(0), 0);
+    void* pvHandle = ::CreateVertexShaderChecked((void *)this, pvCode, (uintptr_t)(&uiVersion), (void *)(pkShader->GetCodeSize()), (unsigned int)(0), 0);
     if (!pvHandle)
         return false;
 
@@ -1544,7 +1545,7 @@ struct S00e96610_Creator
 {
     void* m_vtbl;
     S00e96610_VS* FUN_00e96610(const char* pcFileName, const char* pcShaderName, const char* pcEntryPoint,
-                               ShaderTargetName pcShaderTarget, void* hDecl, unsigned int uiUsage,
+                               ShaderTargetName pcShaderTarget, void* hDecl, uintptr_t uiUsage,
                                unsigned int bSoftwareVP, bool bRecoverable);
 };
 
@@ -1552,7 +1553,7 @@ struct S00e96610_Creator
 // @fnv 0x00e96610
 S00e96610_VS* S00e96610_Creator::FUN_00e96610(const char* pcFileName, const char* pcShaderName,
                                               const char* pcEntryPoint, ShaderTargetName pcShaderTarget, void* hDecl,
-                                              unsigned int uiUsage, unsigned int bSoftwareVP, bool bRecoverable)
+                                              uintptr_t uiUsage, unsigned int bSoftwareVP, bool bRecoverable)
 {
     S00e96610_VS* pkShader = new S00e96610_VS(DAT_0126fa2c);
     if (!pkShader)
@@ -1574,7 +1575,7 @@ S00e96610_VS* S00e96610_Creator::FUN_00e96610(const char* pcFileName, const char
         return 0;
     }
 
-    void* hShader = ::CreateVertexShaderChecked((void *)this, pvCode, (unsigned int)(&hDecl), (void *)(uiUsage), (unsigned int)(0), 0);
+    void* hShader = ::CreateVertexShaderChecked((void *)this, pvCode, (uintptr_t)(&hDecl), (void *)(uiUsage), (unsigned int)(0), 0);
     if (!hShader)
     {
         ::FUN_00aa0020(1, bRecoverable, "Failed CreateVertexShader call on %s\n", pcShaderName);

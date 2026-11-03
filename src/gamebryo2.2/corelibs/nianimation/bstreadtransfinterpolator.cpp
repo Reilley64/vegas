@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/nianimation/bstreadtransfinterpolator.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/bstreadtransfinterpolator.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/decl/DataA38.h"
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_00a3ca30_shell.h"
@@ -129,7 +130,7 @@ bool FUN_00a434b0_shell::UpdateSampleValue(float time, int, int)
     if (count > 0)
     {
         unsigned int index = sampleIndex;
-        float value = ::InterpolateKey(time, (const ::S00a26b40_Key *)(times), (unsigned int)(values), count, &index, (*(unsigned char *)&(const ::TrackFlags &)(flags)));
+        float value = ::InterpolateKey(time, (const ::S00a26b40_Key *)(times), (uintptr_t)(values), count, &index, (*(unsigned char *)&(const ::TrackFlags &)(flags)));
         sampleIndex = index;
         if (previousTime > time && previousValue > value)
         {

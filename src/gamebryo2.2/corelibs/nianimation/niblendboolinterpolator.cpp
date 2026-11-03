@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nianimation/niblendboolinterpolator.cpp: NiBlendBoolInterpolator, BlendBoolShell (13 functions)
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/BlendCopy.h"
@@ -33,7 +34,7 @@ struct FUN_00a565a0_shell : public NiBlendBoolInterpolator
 // @fnv 0x00a565a0
 bool FUN_00a565a0_shell::FUN_00a565a0(NiInterpolator* pkInterpolator)
 {
-    return (*(bool(**)(NiInterpolator*))(*(int*)pkInterpolator + 0xa4))(pkInterpolator);
+    return (*(bool(**)(NiInterpolator*))(*(intptr_t*)pkInterpolator + 0xa4))(pkInterpolator);
 }
 
 class BSFadeNode
@@ -94,7 +95,7 @@ struct M76Obj
 // @fnv 0x00a565f0
 bool M76Obj::IsBoolValueEqual(M76Obj* pkObject)
 {
-    if (!::fnv_00a36fd0::FUN_00a36fd0((::fnv_00a36fd0::BlendS *)this, (int)(pkObject), {}))
+    if (!::fnv_00a36fd0::FUN_00a36fd0((::fnv_00a36fd0::BlendS *)this, (intptr_t)(pkObject), {}))
         return false;
     M76Obj* pkDest = pkObject;
     return m_bBoolValue == pkDest->m_bBoolValue ? true : false;

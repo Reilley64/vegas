@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nianimation/nifloatdata.cpp: NiFloatData (10 functions)
 
+#include <cstdint>
 #include <windows.h>
 #include <new>
 #include "fnv/decl/A5D6E0This.h"
@@ -210,7 +211,7 @@ struct FUN_00a3cfd0_shell : NiFloatData
 // @fnv 0x00a3cfd0
 void FUN_00a3cfd0_shell::WriteToStream(NiStream* stream)
 {
-    ::FUN_00a89af0((int)(reinterpret_cast<NiObject_Ext*>(this)));
+    ::FUN_00a89af0((intptr_t)(reinterpret_cast<NiObject_Ext*>(this)));
     stream->GetWriter()->Write(&m_uiNumKeys);
     if (m_uiNumKeys > 0)
     {

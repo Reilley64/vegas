@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/nimain/nicolorextradata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/nicolorextradata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/decl/ExtraDataObject.h"
 #include "fnv/decl/ExtraDataStrings.h"
 #include "fnv/decl/FUN_00a698a0_class.h"
@@ -285,7 +286,7 @@ unsigned int* __cdecl FUN_00a89490()
     {
         reinterpret_cast<::ExtraDataObject *>((((NiExtraData_StandIn*)ptr)))->FUN_00a7b2e0();
 
-        ptr[0] = (unsigned int)&DAT_0109eccc;
+        ptr[0] = (uintptr_t)&DAT_0109eccc;
 
         float f[4];
         f[0] = 0.0f;

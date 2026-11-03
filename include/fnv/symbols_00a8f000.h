@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 struct NiProperty;
 struct S_00a8f2c0_Arg;
@@ -9,7 +10,7 @@ void *CreateObjA8F260(int, int);
 // 0x00a8f2c0
 ::S_00a8f2c0_Obj *CreateFadeNodeFromArg(int, int, ::S_00a8f2c0_Arg *);
 // 0x00a8f3e0
-int FUN_00a8f3e0(int, int, int, int, int, int, int);
+int FUN_00a8f3e0(intptr_t, intptr_t, intptr_t, intptr_t, intptr_t, intptr_t, intptr_t);
 // 0x00a8f3f0
 int FUN_00a8f3f0(int, int, int, int, int, int, int, int);
 // 0x00a8f440

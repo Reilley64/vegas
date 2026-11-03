@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nimain/nizbufferproperty.cpp: NiAlphaProperty, AlphaPropInit_cls (11 functions)
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/EqBase.h"
 #include "fnv/decl/FUN_00a5c200.h"
@@ -22,7 +23,7 @@ NiAlphaProperty::NiAlphaProperty()
 {
     flag1 = 0;
     flag2 = 0;
-    *(unsigned int*)this = (unsigned int)&kVtbl_NiAlphaAccumulator;
+    *(uintptr_t*)this = (uintptr_t)&kVtbl_NiAlphaAccumulator;
     enabled = 1;
 }
 
@@ -139,7 +140,7 @@ A5F510Property* A5F510FlagProperty::FUN_00a5f510(CloningProcess& kCloning)
         pkClone->m_usFlags = m_usFlags;
         return pkClone;
     }
-    reinterpret_cast<::FUN_00a5d450_class *>((this))->CreateVertexBufferSet((unsigned int)&(kCloning), {});
+    reinterpret_cast<::FUN_00a5d450_class *>((this))->CreateVertexBufferSet((uintptr_t)&(kCloning), {});
     return this;
 }
 
@@ -246,7 +247,7 @@ AlphaPropInit_cls* AlphaPropInit_cls::FUN_00a5fc10()
     int zero = 0;
     int* p24 = (int*)&m_24;
     *p24 = zero;
-    ::FUN_00a5f7b0((int)this);
+    ::FUN_00a5f7b0((intptr_t)this);
     m_pVtbl = &(*reinterpret_cast<unsigned int *>(&::DAT_0109b9ec));
     m_30 = (*reinterpret_cast<void * *>(&::DAT_0109b220));
     m_34 = (*reinterpret_cast<void * *>(&::DAT_0109b220));

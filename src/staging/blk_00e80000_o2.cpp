@@ -2,6 +2,7 @@
 // src/staging/blk_00e80000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstdint>
 #include <windows.h>
 #include <new>
 #include <cstring>
@@ -262,7 +263,7 @@ struct BSFadeNode {
     static void* __cdecl operator new(unsigned int);
 };
 // @fnv 0x00e978a0
-int __cdecl FUN_00e978a0(int a, int b)
+int __cdecl FUN_00e978a0(int a, intptr_t b)
 {
     void* p = BSFadeNode::operator new(0x8c);
     if (p)
@@ -1800,7 +1801,7 @@ struct ConstantTarget {
 
 
 // @fnv 0x00e830f0
-int SetConstantSum(ConstantTarget* target, int reg, int type1, int type2, int iUnused1, int iUnused2)
+int SetConstantSum(ConstantTarget* target, intptr_t reg, intptr_t type1, int type2, int iUnused1, int iUnused2)
 {
     switch (type1) {
     case 3:
@@ -6866,11 +6867,11 @@ struct FUN_00e89ae0_cls {
     int unk10B0; int unk10B4; int unk10B8; int unk10BC; int unk10C0; int unk10C4; int unk10C8; int unk10CC; int unk10D0; int unk10D4; int unk10D8; int unk10DC;
     int unk10E0; int unk10E4; int unk10E8; int unk10EC; int unk10F0; int unk10F4;
     FUN_00e89ae0_obj* m_10f8;
-    bool IsVtblCallSucceeded(int a1, int a2, int a3, int a4);
+    bool IsVtblCallSucceeded(int a1, intptr_t a2, int a3, int a4);
 };
 // Calls virtual method slot 0x62 on m_10f8 with a1, a2, a3 and returns whether the result is non-negative.
 // @fnv 0x00e89ae0
-bool FUN_00e89ae0_cls::IsVtblCallSucceeded(int a1, int a2, int a3, int a4) {
+bool FUN_00e89ae0_cls::IsVtblCallSucceeded(int a1, intptr_t a2, int a3, int a4) {
     FUN_00e89ae0_obj* obj = m_10f8;
     return ((FUN_00e89ae0_vfn)obj->vtbl[0x62])(obj, a1, a2, a3) >= 0;
 }
@@ -8065,12 +8066,12 @@ public:
     int unk10F4;
     E89B40Device* m_pkDevice;
 
-    bool SetDeviceState(unsigned int uiA, unsigned int uiB, unsigned int uiC, unsigned int uiUnused);
+    bool SetDeviceState(unsigned int uiA, uintptr_t uiB, unsigned int uiC, unsigned int uiUnused);
 };
 
 // Calls m_pkDevice->SetState with uiA, uiB and uiC and returns whether the result is non-negative.
 // @fnv 0x00e89b40
-bool E89B40Renderer::SetDeviceState(unsigned int uiA, unsigned int uiB, unsigned int uiC, unsigned int uiUnused) {
+bool E89B40Renderer::SetDeviceState(unsigned int uiA, uintptr_t uiB, unsigned int uiC, unsigned int uiUnused) {
     return m_pkDevice->SetState(uiA, uiB, uiC) >= 0;
 }
 
@@ -9271,7 +9272,7 @@ struct FUN_00e984d0_Struct {
 };
 
 // @fnv 0x00e984d0
-void __cdecl FUN_00e984d0(FUN_00e984d0_Struct* pStruct, int aiArg1, int aiArg2)
+void __cdecl FUN_00e984d0(FUN_00e984d0_Struct* pStruct, intptr_t aiArg1, int aiArg2)
 {
     int local = 1;
     pStruct->unk04 += pStruct->unk0c(pStruct, aiArg1, aiArg2, &local, 1);
@@ -9294,7 +9295,7 @@ public:
 
 // Looks up a function pointer in DAT_0126fa94 indexed by the two objects' indices and calls it, swapping the argument pairs if the first lookup is null.
 // @fnv 0x00e9c8c0
-bool __cdecl CallConditionFunction(float afValue, FUN_00e9c8c0_obj* apFirst, unsigned int auiFirstArg, FUN_00e9c8c0_obj* apSecond, unsigned int auiSecondArg)
+bool __cdecl CallConditionFunction(float afValue, FUN_00e9c8c0_obj* apFirst, uintptr_t auiFirstArg, FUN_00e9c8c0_obj* apSecond, uintptr_t auiSecondArg)
 {
     unsigned int uiFirstIndex = apFirst->GetIndex() * 6;
     unsigned int uiSecondIndex = apSecond->GetIndex();
@@ -9438,7 +9439,7 @@ struct ItemArrayOwner {
     unsigned int foundIndex;
 };
 
-bool __cdecl CallConditionFunction(float a1, void* a2, unsigned int a3, void* a4, unsigned int a5);
+bool __cdecl CallConditionFunction(float a1, void* a2, uintptr_t a3, void* a4, uintptr_t a5);
 
 // Searches a2's items against a4's items with CallConditionFunction and, on a match, stores both indices in foundIndex and returns true.
 // @fnv 0x00e9e9e0
@@ -10869,12 +10870,12 @@ struct StageSet {
     int m_1C;
     StageArray m_20;
 
-    int FUN_00e802b0(unsigned int index, Stage321* obj);
+    int FUN_00e802b0(uintptr_t index, Stage321* obj);
 };
 
 // Stores obj at index in m_20, updating m_14, m_18, m_1C, and obj->m_04, or shrinks m_14 when obj is null.
 // @fnv 0x00e802b0
-int StageSet::FUN_00e802b0(unsigned int index, Stage321* obj)
+int StageSet::FUN_00e802b0(uintptr_t index, Stage321* obj)
 {
     if (index >= DAT_011bf560)
         return 1;
@@ -14962,7 +14963,7 @@ namespace ShaderSubtractData {
 
 // Subtracts DAT_0126f8b0 from DAT_0126f8a0 into DAT_0126f900 based on typeA and typeB, then calls target->SetConstant(reg, &DAT_0126f900.x, 0).
 // @fnv 0x00e83320
-int FUN_00e83320(ConstantTarget* target, int reg, int typeA, int typeB, int aiUnused5, int aiUnused6) {
+int FUN_00e83320(ConstantTarget* target, intptr_t reg, intptr_t typeA, int typeB, int aiUnused5, int aiUnused6) {
     switch (typeA) {
         case 3:
         case 4:
@@ -15028,7 +15029,7 @@ extern "C" {
 
 // Computes a divided matrix or vector from DAT_0126f820/DAT_0126f8a0 by DAT_0126f8b0, optionally inverting/transposing, then calls target->SetConstant.
 // @fnv 0x00e82e70
-int FUN_00e82e70(ConstantTarget* target, int aiRegister, int type1, int type2, bool abInverse, bool abTranspose) {
+int FUN_00e82e70(ConstantTarget* target, intptr_t aiRegister, intptr_t type1, int type2, bool abInverse, bool abTranspose) {
     switch (type1) {
     case 9: {
         if (type2 < 3) {

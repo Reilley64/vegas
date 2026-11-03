@@ -4,6 +4,7 @@
 
 
 // @fnv 0x00c29f90
+#include <cstdint>
 #include <new>
 #include "fnv/decl/FUN_00c32d80.h"
 #include "fnv/decl/NiPSysAirFieldAirFrictionCtlr.h"
@@ -49,12 +50,12 @@ struct FUN_00c29fb0_cls
     void* m_vtbl;
     unsigned int unk04;
     unsigned int unk08;
-    void* FUN_00c29fb0(unsigned int a1);
+    void* FUN_00c29fb0(uintptr_t a1);
 };
 
 // Allocates a 0x40-byte object, runs its base constructor, sets its vtable, passes it to FUN_00c32de0 with a1, and returns it.
 // @fnv 0x00c29fb0
-void* FUN_00c29fb0_cls::FUN_00c29fb0(unsigned int a1)
+void* FUN_00c29fb0_cls::FUN_00c29fb0(uintptr_t a1)
 {
     FUN_00c29fb0_cls* p = (FUN_00c29fb0_cls*)FUN_00aa13e0(0x40);
     if (p != 0)

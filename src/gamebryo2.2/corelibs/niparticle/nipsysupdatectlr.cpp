@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/niparticle/nipsysupdatectlr.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/niparticle/nipsysupdatectlr.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <windows.h>
 #include <new>
 #include "fnv/decl/NiGPUProgramOwner.h"
@@ -63,7 +64,7 @@ struct FUN_00c27160_cls
     unsigned int unk10;
     float m_14;
     float m_18;
-    void* FUN_00c27160(unsigned int a1);
+    void* FUN_00c27160(uintptr_t a1);
 };
 
 // Reconstruction of FUN_00c27290.
@@ -300,7 +301,7 @@ class FUN_00a6d220 : public FUN_00a5d3a0
 };
 // Allocates a 0x34-byte object, runs its base constructor, zeroes m_14/m_18, sets its vtable, then passes it to FUN_00a6cfe0 with a1 and returns it.
 // @fnv 0x00c27160
-void* FUN_00c27160_cls::FUN_00c27160(unsigned int a1)
+void* FUN_00c27160_cls::FUN_00c27160(uintptr_t a1)
 {
     FUN_00c27160_cls* p = (FUN_00c27160_cls*)FUN_00aa13e0(0x34);
     if (p != 0)

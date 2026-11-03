@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nimain/niglobalstringtable.cpp: NiGlobalStringTable, NiPlaybackFile (3 functions)
 
+#include <cstdint>
 #include <cstring>
 #include "fnv/decl/EC2DF0Registry.h"
 #include "fnv/decl/MovieSignalState.h"
@@ -79,7 +80,7 @@ bool NiPlaybackFile::FindString(const char* name, bool silent, bool preload, boo
 
     if (!strlen(name))
         return false;
-    if (!reinterpret_cast<::EC2DF0Registry *>(((*reinterpret_cast<::NiPlaybackManager * *>(&::DAT_0126fac4))))->GetNameByKey((unsigned int)(name), acPath))
+    if (!reinterpret_cast<::EC2DF0Registry *>(((*reinterpret_cast<::NiPlaybackManager * *>(&::DAT_0126fac4))))->GetNameByKey((uintptr_t)(name), acPath))
     {
         strcpy(acPath, "Data\\Video\\");
         std::strcat(acPath, name);

@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/nicollision/nispherebv.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nicollision/nispherebv.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <new>
 #include <cmath>
 #include <cstring>
@@ -58,7 +59,7 @@ struct NiSphereBV : NiObject
 // @fnv 0x00eab860
 void NiSphereBV::FUN_00eab860(NiStream& kStream)
 {
-    ::FUN_00a89af0((int)this);
+    ::FUN_00a89af0((intptr_t)this);
     m_kBoundingSphere.LoadBinary(kStream);
 }
 
@@ -135,7 +136,7 @@ struct MyBV
 // @fnv 0x00eab820
 int MyBV::FUN_00eab820(const NiBoundingVolume& kABV)
 {
-    return kABV.f3() == 0 && ((bool)(::FUN_00a92660((const float *)(((Q const*)((char const*)&kABV + 4))), (int)&(m_kBoundingSphere), {})));
+    return kABV.f3() == 0 && ((bool)(::FUN_00a92660((const float *)(((Q const*)((char const*)&kABV + 4))), (intptr_t)&(m_kBoundingSphere), {})));
 }
 
 struct Proxy00eab8a0
@@ -146,7 +147,7 @@ struct Proxy00eab8a0
 // @fnv 0x00eab8a0
 Proxy00eab8a0* Proxy00eab8a0::InitFromParams(float afValue, int const* paiParams)
 {
-    *(int*)this = (int)&DAT_010f1854;
+    *(intptr_t*)this = (intptr_t)&DAT_010f1854;
     ((int*)this)[1] = paiParams[0];
     ((int*)this)[2] = paiParams[1];
     ((int*)this)[3] = paiParams[2];
@@ -260,7 +261,7 @@ BVClone* BVClone::Clone()
     BVClone* pkClone = (BVClone*)reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00eacac0::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(20);
     if (pkClone)
     {
-        *(int*)pkClone = (int)&::DAT_010f1854;
+        *(intptr_t*)pkClone = (intptr_t)&::DAT_010f1854;
         pkClone->s = this->s;
         return pkClone;
     }

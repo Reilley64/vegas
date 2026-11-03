@@ -1,4 +1,5 @@
 
+#include <cstdint>
 #include <cmath>
 #include <cstring>
 #include "fnv/decl/A54440Hash.h"
@@ -1162,7 +1163,7 @@ struct FUN_00a304b0_cls
 void FUN_00a304b0_cls::FUN_00a304b0(FUN_00a304b0_arr* pArr)
 {
     reinterpret_cast<::BaseWrap *>(this)->WriteManagerControlledFlag((::StrArr *)(pArr));
-    void* pItem = ((void *)(::FUN_00a7d330((const char *)((*reinterpret_cast<int *>(&::g_011f36bc))))));
+    void* pItem = ((void *)(::FUN_00a7d330((const char *)((*reinterpret_cast<intptr_t *>(&::g_011f36bc))))));
     unsigned int usIndex = pArr->m_usElementCount;
     if (usIndex >= pArr->m_usCapacity)
     {

@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nianimation/nibsplinebasisdata.cpp: NiBSplineBasisData, SplineOwner (10 functions)
 
+#include <cstdint>
 #include "fnv/decl/A5D6E0This.h"
 #include "fnv/decl/A5d470Class.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -80,7 +81,7 @@ struct ArrX
 void FUN_00a52c90(ArrX* pArray)
 {
     reinterpret_cast<::A5D6E0This *>((pArray))->AppendCameraPathEntries({});
-    ActorCombatGroup* pObject = ((::fnv_00a52c90::ActorCombatGroup *)(::FUN_00a7d330((const char *)((*reinterpret_cast<int *>(&::g_011f403c))))));
+    ActorCombatGroup* pObject = ((::fnv_00a52c90::ActorCombatGroup *)(::FUN_00a7d330((const char *)((*reinterpret_cast<intptr_t *>(&::g_011f403c))))));
     unsigned n = pArray->m_usSize;
     if (n >= pArray->m_usMaxSize)
         reinterpret_cast<::ViewerStrings *>((pArray))->SetSize(n + pArray->m_usGrowBy);
@@ -96,7 +97,7 @@ struct FUN_00a51ab0_base
 
 struct FUN_00a51ab0_cls : FUN_00a51ab0_base
 {
-    int m_vptr00;
+    intptr_t m_vptr00;
     int unk04;
     int unk08;
     int unk0c;
@@ -109,15 +110,15 @@ struct FUN_00a51ab0_cls : FUN_00a51ab0_base
     float m_28;
     int m_2c;
 
-    FUN_00a51ab0_cls* FUN_00a51ab0(int a1, int a2, int a3);
+    FUN_00a51ab0_cls* FUN_00a51ab0(intptr_t a1, int a2, intptr_t a3);
 };
 
 // Calls InitBase, sets the vtable pointer, zeroes four floats and stores a2 into m_2c, then returns this.
 // @fnv 0x00a51ab0
-FUN_00a51ab0_cls* FUN_00a51ab0_cls::FUN_00a51ab0(int a1, int a2, int a3)
+FUN_00a51ab0_cls* FUN_00a51ab0_cls::FUN_00a51ab0(intptr_t a1, int a2, intptr_t a3)
 {
     reinterpret_cast<::FUN_00a57f20_cls *>(this)->FUN_00a57f20((void *)(a1), (void *)(a3));
-    m_vptr00 = (int)&DAT_01099d3c;
+    m_vptr00 = (intptr_t)&DAT_01099d3c;
     *(volatile float*)&m_1c = 0.0f;
     m_20 = 0.0f;
     m_24 = 0.0f;
@@ -178,7 +179,7 @@ struct SplineOwner
 SplineObj* SplineOwner::CreateSplineObj(unsigned char flags)
 {
     SplineObj* pResult = new SplineObj;
-    reinterpret_cast<::FUN_00a5d450_class *>(this)->CreateVertexBufferSet((unsigned int)(pResult), (void *)(flags));
+    reinterpret_cast<::FUN_00a5d450_class *>(this)->CreateVertexBufferSet((uintptr_t)(pResult), (void *)(flags));
     pResult->m_08 = m_08;
     return pResult;
 }
@@ -249,7 +250,7 @@ class FUN_00a52c50_BasisData : public NiObject
 // @fnv 0x00a52c50
 void FUN_00a52c50_BasisData::FUN_00a52c50(NiStream& stream)
 {
-    ::FUN_00a89af0((int)this);
+    ::FUN_00a89af0((intptr_t)this);
     WriteScalar(static_cast<NiStreamSave&>(stream).m_pBackingStream, m_kBSplineBasis.m_iNumControlPoints);
 }
 
@@ -258,7 +259,7 @@ void* NiMalloc(unsigned int size);
 
 struct FUN_00a54190_cls
 {
-    int m_vt;
+    intptr_t m_vt;
     void* m_04;
     unsigned short m_08;
     unsigned short m_0a;
@@ -271,7 +272,7 @@ struct FUN_00a54190_cls
 // @fnv 0x00a54190
 FUN_00a54190_cls* FUN_00a54190_cls::FUN_00a54190(int n, short a2)
 {
-    m_vt = (int)&DAT_0109a2a4;
+    m_vt = (intptr_t)&DAT_0109a2a4;
     m_08 = n;
     m_0e = a2;
     m_0a = 0;

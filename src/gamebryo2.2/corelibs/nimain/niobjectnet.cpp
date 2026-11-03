@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nimain/niobjectnet.cpp: NiObjectNET, ShortArray, MorphTarget, bhkSphereShape and more (26 functions)
 
+#include <cstdint>
 #include <windows.h>
 #include <cstring>
 #include "runtime/crt.h"
@@ -103,7 +104,7 @@ void NiObjectNET::GetNumChildren()
 // @fnv 0x00a5b8f0
 void NiObjectNET::ProcessClone(CloningProcess& kProcess)
 {
-    reinterpret_cast<::FUN_00a5d430_Class *>(this)->FUN_00a5d430((unsigned int)&(kProcess));
+    reinterpret_cast<::FUN_00a5d430_Class *>(this)->FUN_00a5d430((uintptr_t)&(kProcess));
 
     for (unsigned short i = 0; i < m_usExtraDataCount; ++i)
     {
@@ -207,7 +208,7 @@ void NiObjectNET::RefreshExtraData()
 
 
 // @fnv 0x00a5b950
-void AssignFixedString(char* pThis, int, char** ppkName)
+void AssignFixedString(char* pThis, intptr_t, char** ppkName)
 {
     char* pcNewName = *ppkName;
     if (*reinterpret_cast<char**>(pThis + 8) != pcNewName)
@@ -459,7 +460,7 @@ struct NiObjSave
 // @fnv 0x00a5c5b0
 void SaveNiObjectLinks(char* self, int, VStream* kStream)
 {
-    ::FUN_00a89af0((int)(reinterpret_cast<NiObject*>(self)));
+    ::FUN_00a89af0((intptr_t)(reinterpret_cast<NiObject*>(self)));
     reinterpret_cast<::FUN_00a641f0_cls *>((kStream))->WriteObjectLink(reinterpret_cast<NiFixedString*>(self + 8));
     unsigned int uiStreamableExtraCount = 0;
     unsigned short i;
@@ -570,7 +571,7 @@ void FUN_00a5c290_shell::FUN_00a5c290(NiObjectNET* pkDest, CloningProcess* kClon
 {
     char* pcSuffixedName;
     int iNameLen;
-    reinterpret_cast<::FUN_00a5d450_class *>((((FUN_00a5d450_holder*)this)))->CreateVertexBufferSet((unsigned int)((NiBinaryExtraData*)pkDest), kCloning);
+    reinterpret_cast<::FUN_00a5d450_class *>((((FUN_00a5d450_holder*)this)))->CreateVertexBufferSet((uintptr_t)((NiBinaryExtraData*)pkDest), kCloning);
 
     if (kCloning->m_eCloneCopyMode == 1)
     {
@@ -599,7 +600,7 @@ void FUN_00a5c290_shell::FUN_00a5c290(NiObjectNET* pkDest, CloningProcess* kClon
             else
                 kName.m_kHandle = ::NiGlobalStringTable::AddString(pcSuffixedName);
             FSH kArg = kName;
-            ::AssignFixedString((char *)(((FUN_00a5b950_holder*)pkDest)), (int)&(kArg), {});
+            ::AssignFixedString((char *)(((FUN_00a5b950_holder*)pkDest)), (intptr_t)&(kArg), {});
             if (kName.m_kHandle != ::DAT_0109b220)
                 InterlockedDecrement((long*)(kName.m_kHandle - 8));
             ::FUN_00aa10f0(pcSuffixedName);
@@ -1020,7 +1021,7 @@ struct S
     void* vtbl;
     int unk04;
     int unk08;
-    int GetUnk08() const
+    intptr_t GetUnk08() const
     {
         return unk08;
     }
@@ -1031,7 +1032,7 @@ struct S
 void S::FUN_00a5ca80(StrArray* apArray)
 {
     reinterpret_cast<::A5D6E0This *>(this)->AppendCameraPathEntries((::NiTArray< ::BGSCameraPath *, ::NiTMallocInterface< ::BGSCameraPath *>> *)(apArray));
-    char* str = ::FUN_00a7d330((const char *)((*reinterpret_cast<int *>(&::g_011f4304))));
+    char* str = ::FUN_00a7d330((const char *)((*reinterpret_cast<intptr_t *>(&::g_011f4304))));
     apArray->Add(str);
     str = ::fnv_00a7d5e0::FUN_00a7d5e0("m_kName", (const char *)(GetUnk08()));
     apArray->Add(str);
@@ -1046,7 +1047,7 @@ struct FUN_00a5bca0_shell : public NiObjectNET
 // @fnv 0x00a5c0e0
 void NiObjectNET::LinkObject(NiStream& kStream)
 {
-    ::FUN_00a89af0((int)this);
+    ::FUN_00a89af0((intptr_t)this);
 
     if (kStream.m_uiNifVersion < 0x0500000B)
     {
@@ -1080,7 +1081,7 @@ void NiObjectNET::LinkObject(NiStream& kStream)
 // @fnv 0x00a5c6a0
 void LinkObjectA5::FUN_00a5c6a0(NiStream& stream)
 {
-    ::FUN_00a89af0((int)this);
+    ::FUN_00a89af0((intptr_t)this);
     if (stream.m_uiNifVersion < 0x0500000b)
     {
         LinkExtraA5* extra = reinterpret_cast<LinkExtraA5*>(m_extra);
@@ -1162,7 +1163,7 @@ bool FUN_00a5bca0_shell::SetExtraDataName(NiExtraData* pkExtra)
             char* pcGeneratedKey = (char*)::FUN_00aa1070(uiLen);
             CopyFilePath(pcGeneratedKey, uiLen, pcRTTI, uiStrLength);
             fnv::crt::strcat_s(pcGeneratedKey, uiLen, pcSuffix);
-            ::AssignFixedString((char *)(((NamedObj*)pkExtra)), (int)&(const ::BSFadeNode &)(BSFadeNode(pcGeneratedKey)), {});
+            ::AssignFixedString((char *)(((NamedObj*)pkExtra)), (intptr_t)&(const ::BSFadeNode &)(BSFadeNode(pcGeneratedKey)), {});
             ::FUN_00aa10f0(pcGeneratedKey);
         }
     }

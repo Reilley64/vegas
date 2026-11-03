@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/nimain/nicullingproperty.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/nicullingproperty.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <windows.h>
 #include <new>
 #include "fnv/decl/FUN_00a5c200.h"
@@ -38,7 +39,7 @@ void __cdecl FUN_00a8fd80()
     if (p)
     {
         FUN_00a8fce0_shell* pFadeNode = reinterpret_cast<FUN_00a8fce0_shell*>(p);
-        DAT_011f5e40 = (int)((void *)(reinterpret_cast<::NiSingleShaderMaterialLibrary *>((pFadeNode))->FUN_00a8fce0()));
+        DAT_011f5e40 = (intptr_t)((void *)(reinterpret_cast<::NiSingleShaderMaterialLibrary *>((pFadeNode))->FUN_00a8fce0()));
     }
     else
     {

@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nimain/nibacktofrontaccumulator.cpp: NiBackToFrontAccumulator, BackToFront_aa0 (12 functions)
 
+#include <cstdint>
 #include "generated/data/vtables.h"
 #include <new>
 #include "fnv/decl/BSShaderLightingProperty.h"
@@ -385,7 +386,7 @@ void C_00aa0dc0::FUN_00aa0dc0()
 {
     NiBackToFrontAccumulator* self = this;
 
-    *(unsigned int*)self = (unsigned int)&(*reinterpret_cast<int *>(&::kVtbl_NiBackToFrontAccumulator));
+    *(uintptr_t*)self = (uintptr_t)&(*reinterpret_cast<int *>(&::kVtbl_NiBackToFrontAccumulator));
     ::FUN_00aa10f0(self->m_ppGeometries);
     ::FUN_00aa10f0(self->m_pfGeometrySortValues);
 
@@ -419,7 +420,7 @@ void C_00aa0dc0::FUN_00aa0dc0()
     }
 
     reinterpret_cast<::BSShaderLightingProperty *>(&(self->m_kUnsortedGeometryList))->ClearLights();
-    *(unsigned int*)self = (unsigned int)&DAT_010a2304;
+    *(uintptr_t*)self = (uintptr_t)&DAT_010a2304;
     reinterpret_cast<class ::FUN_00a5d3d0 *>((self))->FUN_00a5d3d0::~FUN_00a5d3d0();
 }
 

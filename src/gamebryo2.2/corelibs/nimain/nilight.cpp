@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nimain/nilight.cpp: NiLight, Standin (11 functions)
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/EffectObject.h"
@@ -255,7 +256,7 @@ struct FUN_00a69320_base
 };
 struct FUN_00a71f60_cls : FUN_00a69320_base
 {
-    int m_vptr00;
+    intptr_t m_vptr00;
     int unk04;
     int unk08;
     int unk0C;
@@ -324,7 +325,7 @@ struct FUN_00a71f60_cls : FUN_00a69320_base
 FUN_00a71f60_cls::FUN_00a71f60_cls()
 {
     new ((void *)this) ::NiDynamicEffect();
-    m_vptr00 = (int)&DAT_0109ce4c;
+    m_vptr00 = (intptr_t)&DAT_0109ce4c;
     m_c8 = 0.0f;
     m_cc = 0.0f;
     m_d0 = 0.0f;

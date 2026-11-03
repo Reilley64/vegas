@@ -17,6 +17,7 @@
 // evidence - NiGPUProgram is 12 bytes and NiD3DShaderProgram is 44
 // bytes, with m_uiProgramCodeSize at offset 20.
 //
+#include <cstdint>
 #include <cstring>
 #include "fnv/decl/FUN_00a41520_cls.h"
 #include "fnv/decl/MemoryManagerStandIn.h"
@@ -192,7 +193,7 @@ struct Obj
 void Obj::FUN_00e9f020(char* stream)
 {
     unsigned int num;
-    ::FUN_00a89af0((int)this);
+    ::FUN_00a89af0((intptr_t)this);
     Stream* in = *(Stream**)(stream + 0x24c);
     {
         unsigned int sz = 4;

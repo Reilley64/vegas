@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nianimation/nibsplinecompfloatinterpolator.cpp: NiBSplineCompFloatInterpolator, FObj (10 functions)
 
+#include <cstdint>
 #include "fnv/decl/FUN_00a50c70_cls.h"
 #include "fnv/decl/FUN_00a50d30_shell.h"
 #include "fnv/decl/FUN_00a57f20_cls.h"
@@ -55,14 +56,14 @@ struct FUN_00a57f20_shell
 extern int DAT_010997f4;
 struct FUN_00a509f0_shell
 {
-    FUN_00a509f0_shell* FUN_00a509f0(int a, int b, int c);
+    FUN_00a509f0_shell* FUN_00a509f0(intptr_t a, int b, intptr_t c);
 };
 // Calls FUN_00a57f20 with a and c, sets the vtable pointer to DAT_010997f4, stores b at offset 0x20, and returns this.
 // @fnv 0x00a509f0
-FUN_00a509f0_shell* FUN_00a509f0_shell::FUN_00a509f0(int aiArg1, int b, int aiArg2)
+FUN_00a509f0_shell* FUN_00a509f0_shell::FUN_00a509f0(intptr_t aiArg1, int b, intptr_t aiArg2)
 {
     reinterpret_cast<::FUN_00a57f20_cls *>((((FUN_00a57f20_shell*)this)))->FUN_00a57f20((void *)(aiArg1), (void *)(aiArg2));
-    *(int*)this = (int)&DAT_010997f4;
+    *(intptr_t*)this = (intptr_t)&DAT_010997f4;
     *(int*)((char*)this + 0x20) = b;
     return this;
 }
@@ -88,7 +89,7 @@ struct FUN_00a516e0_shell : BaseX
 void FUN_00a516e0_shell::AppendString(StrArr* pkStrings)
 {
     reinterpret_cast<::FUN_00a50d30_shell *>(this)->SerializeToStrings(pkStrings);
-    char* pszString = ::FUN_00a7d330((const char*)(*reinterpret_cast<int *>(&::g_011f401c)));
+    char* pszString = ::FUN_00a7d330((const char*)(*reinterpret_cast<intptr_t *>(&::g_011f401c)));
     unsigned int uiSize = pkStrings->m_usSize;
     unsigned int uiMax = pkStrings->m_usMaxSize;
     if (uiSize >= uiMax)
@@ -112,7 +113,7 @@ bool FUN_00a514e0_shell::Equals(void* pkObject)
 {
     FUN_00a514e0_shell* pkDest;
     unsigned int iIndex;
-    if (!::IsInterpEqual((::FInterpX *)(((FUN_00a50b30_shell*)this)), (int)(pkObject), {}))
+    if (!::IsInterpEqual((::FInterpX *)(((FUN_00a50b30_shell*)this)), (intptr_t)(pkObject), {}))
         return false;
     pkDest = (FUN_00a514e0_shell*)pkObject;
     for (iIndex = 0; iIndex < 2; iIndex++)
@@ -160,7 +161,7 @@ struct FUN_00a51530_cls
     float m0c;
     float m10;
     NiBSplineEvalTarget2* m14;
-    unsigned int m18;
+    uintptr_t m18;
     float m1c;
     unsigned int m20;
     float m24;
@@ -220,7 +221,7 @@ struct FObj : FBase
         pfScalars[1] = kMaxCompScalar;
     }
     virtual void LoadBinary(NiStream&);
-    FObj* FUN_00a515c0(int arg);
+    FObj* FUN_00a515c0(intptr_t arg);
 };
 
 struct FUN_00a50aa0_shell
@@ -228,7 +229,7 @@ struct FUN_00a50aa0_shell
 };
 
 // @fnv 0x00a515c0
-FObj* FObj::FUN_00a515c0(int arg)
+FObj* FObj::FUN_00a515c0(intptr_t arg)
 {
     FObj* p = (FObj*)FUN_00aa13e0(0x2c);
     if (p)

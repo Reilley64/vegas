@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/nianimation/nikeyframemanager_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/gamebryo2.2/corelibs/nianimation/nikeyframemanager.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
+#include <cstdint>
 #include <windows.h>
 #include <new>
 #include "fnv/decl/AHSeqOwner.h"
@@ -346,7 +347,7 @@ void TargetD810::FUN_00a4d810(StreamD810& akStream)
                 reinterpret_cast<::AHSeqOwner *>((pkItem))->AddSeq((const char *)(pvLink), (::S_00a47ae0_Rc *)(pkObj));
                 NiFree(pvLink);
             }
-            int id = pkItem->id;
+            intptr_t id = pkItem->id;
             reinterpret_cast<::ShaderStringPointerMap *>(&(map))->FUN_00e927f0((const char *)(id), (*(::NiPointer< ::ShaderRefObject> *)&(const ::SmartD810 &)(pkItem)));
         }
         delete DAT_011f3fb0;
@@ -358,7 +359,7 @@ void TargetD810::FUN_00a4d810(StreamD810& akStream)
         for (unsigned int i = 0; i < ItemUpdateArray; i++)
         {
             RefD810* pkItem = ((::RefD810 *)(reinterpret_cast<::NiStream *>(&(akStream))->GetLoadedObject()));
-            int id = pkItem->id;
+            intptr_t id = pkItem->id;
             reinterpret_cast<::ShaderStringPointerMap *>(&(map))->FUN_00e927f0((const char *)(id), (*(::NiPointer< ::ShaderRefObject> *)&(const ::SmartD810 &)(pkItem)));
         }
     }
@@ -425,7 +426,7 @@ struct S_00a4dac0
     int unk2c;
     int unk30;
     S_00a4dac0_Map map34;
-    bool FUN_00a4dac0(int a, const char* name, int b) throw();
+    bool FUN_00a4dac0(intptr_t a, const char* name, int b) throw();
 };
 // @fnv 0x00a4db80
 void SeqController::FUN_00a4db80(NiStreamR& kStream)
@@ -449,7 +450,7 @@ void SeqController::FUN_00a4db80(NiStreamR& kStream)
                 reinterpret_cast<::FUN_00a64ce0_shell *>(&(kStream))->FUN_00a64ce0((char **)&(pcName2));
                 unsigned int uiValue;
                 ReadBinaryValue(kStream.Istr(), uiValue);
-                reinterpret_cast<::S_00a4dac0 *>(this)->FUN_00a4dac0((int)(pcName2), pcName, uiValue);
+                reinterpret_cast<::S_00a4dac0 *>(this)->FUN_00a4dac0((intptr_t)(pcName2), pcName, uiValue);
                 NiFree(pcName2);
                 NiFree(pcName);
             }
@@ -490,7 +491,7 @@ void SeqController::FUN_00a4db80(NiStreamR& kStream)
                 reinterpret_cast<::FUN_00a64ce0_shell *>(&(kStream))->FUN_00a64ce0((char **)&(pcName2));
                 unsigned int uiValue;
                 ReadBinaryValue(kStream.Istr(), uiValue);
-                reinterpret_cast<::S_00a4dac0 *>(this)->FUN_00a4dac0((int)(pcName2), pcName, uiValue);
+                reinterpret_cast<::S_00a4dac0 *>(this)->FUN_00a4dac0((intptr_t)(pcName2), pcName, uiValue);
                 NiFree(pcName);
                 NiFree(pcName2);
             }
@@ -504,7 +505,7 @@ void SeqController::FUN_00a4db80(NiStreamR& kStream)
     }
 }
 // @fnv 0x00a4dac0
-bool S_00a4dac0::FUN_00a4dac0(int a, const char* name, int b) throw()
+bool S_00a4dac0::FUN_00a4dac0(intptr_t a, const char* name, int b) throw()
 {
     S_00a4dac0_Obj* obj = 0;
     ::CreateOrReleaseRef((const char *)(a), b, (::S_00a48070_Ref **)(::S_00a4dac0_Obj **)(&obj), (void *)(name));

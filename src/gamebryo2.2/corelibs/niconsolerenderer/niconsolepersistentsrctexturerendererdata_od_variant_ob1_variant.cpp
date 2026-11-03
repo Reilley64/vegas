@@ -2,6 +2,7 @@
 // to their real unit once identified.
 
 // produce (ebp frame in an /O2 unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
+#include <cstdint>
 #include <windows.h>
 #include "fnv/decl/A5D6E0This.h"
 #include "fnv/decl/FUN_00a5d450_class.h"
@@ -57,7 +58,7 @@ struct BSMultiBound
 };
 struct FUN_00c35f50_class
 {
-    void FUN_00c35fe0(BSMultiBound*, int);
+    void FUN_00c35fe0(BSMultiBound*, intptr_t);
     BSMultiBound* FUN_00c35f50(int);
 };
 extern int _data_011c16bc;
@@ -211,9 +212,9 @@ struct BSMbW
 };
 
 // @fnv 0x00c35fe0
-void FUN_00c35f50_class::FUN_00c35fe0(BSMultiBound* pkDest, int kCloning)
+void FUN_00c35f50_class::FUN_00c35fe0(BSMultiBound* pkDest, intptr_t kCloning)
 {
-    reinterpret_cast<::FUN_00a5d450_class *>((((NiObjectCM*)this)))->CreateVertexBufferSet((unsigned int)pkDest, (void*)kCloning);
+    reinterpret_cast<::FUN_00a5d450_class *>((((NiObjectCM*)this)))->CreateVertexBufferSet((uintptr_t)pkDest, (void*)kCloning);
     NiNode* pNewInstance = ((BSMbW*)this)->m_spShape->MakeClone(kCloning);
     ((BSMbW*)pkDest)->m_spShape = pNewInstance;
 }

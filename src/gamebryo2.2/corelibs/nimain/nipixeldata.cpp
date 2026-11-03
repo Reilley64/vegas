@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nimain/nipixeldata.cpp: NiPixelData, NiPixelDataSerialization, NiPixelDataLoad, NiPixelDataEq (13 functions)
 
+#include <cstdint>
 #include <windows.h>
 #include <cstring>
 #include "fnv/decl/A5D6E0This.h"
@@ -298,7 +299,7 @@ static __forceinline void TransferData(NiStreamSerialization* stream, const void
 // @fnv 0x00a7c670
 void NiPixelDataSerialization::SaveToStream(NiStreamSerialization* stream)
 {
-    ::FUN_00a89af0((int)(reinterpret_cast<NiObjectSerialization*>(this)));
+    ::FUN_00a89af0((intptr_t)(reinterpret_cast<NiObjectSerialization*>(this)));
     reinterpret_cast<::FUN_00a7d1a0_Class *>((reinterpret_cast<NiPixelFormatSerialization*>(&m_kPixelFormat)))->FUN_00a7d1a0((*(::NiStream *)(stream)));
     stream->SavePalette(m_spPalette.value);
 
@@ -671,7 +672,7 @@ struct PixelDataBE80 : public RendererDataBase_s
 // @fnv 0x00a7be80
 void PixelDataBE80::FUN_00a7be80(NiStream& kStream)
 {
-    ::FUN_00a89af0((int)this);
+    ::FUN_00a89af0((intptr_t)this);
     m_spPalette = reinterpret_cast<::NiStream *>(&(kStream))->GetLoadedObject();
 }
 

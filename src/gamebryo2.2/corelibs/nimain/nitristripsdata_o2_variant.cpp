@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/nimain/nitristripsdata_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/gamebryo2.2/corelibs/nimain/nitristripsdata.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
+#include <cstdint>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
 #include "fnv/decl/FUN_004a0c10_s.h"
@@ -493,7 +494,7 @@ struct NiTriStripsSerializer : NiTriStripsData
 void NiTriStripsSerializer::FUN_00a76430(NiStream& stream)
 {
     AppendTrianglesInfo(stream);
-    unsigned int entry = ((unsigned int)(::FUN_00a7d330((const char *)(*reinterpret_cast<const NiRTTI* const*>(&(*reinterpret_cast<const ::NiRTTI *>(&::g_011f4a70)))))));
+    uintptr_t entry = ((uintptr_t)(::FUN_00a7d330((const char *)(*reinterpret_cast<const NiRTTI* const*>(&(*reinterpret_cast<const ::NiRTTI *>(&::g_011f4a70)))))));
     unsigned int count = stream.m_usSize;
     if (count >= (unsigned int)stream.m_usMaxSize)
     {
@@ -501,7 +502,7 @@ void NiTriStripsSerializer::FUN_00a76430(NiStream& stream)
     }
     reinterpret_cast<::fnv_00b5c7d0::StrArr *>(&(stream))->SetAt(count, (*(char * *)(&entry)));
 
-    entry = ((unsigned int)(::FUN_00a7d490((const char *)(str_0109d984), m_usStrips)));
+    entry = ((uintptr_t)(::FUN_00a7d490((const char *)(str_0109d984), m_usStrips)));
     count = stream.m_usSize;
     if (count >= (unsigned int)stream.m_usMaxSize)
     {
@@ -509,7 +510,7 @@ void NiTriStripsSerializer::FUN_00a76430(NiStream& stream)
     }
     reinterpret_cast<::fnv_00b5c7d0::StrArr *>(&(stream))->SetAt(count, (*(char * *)(&entry)));
 
-    entry = ((unsigned int)(::FUN_00a7d5a0((const char *)(str_0109d970), (void *)(m_pusStripLengths))));
+    entry = ((uintptr_t)(::FUN_00a7d5a0((const char *)(str_0109d970), (void *)(m_pusStripLengths))));
     count = stream.m_usSize;
     if (count >= (unsigned int)stream.m_usMaxSize)
     {
@@ -517,7 +518,7 @@ void NiTriStripsSerializer::FUN_00a76430(NiStream& stream)
     }
     reinterpret_cast<::fnv_00b5c7d0::StrArr *>(&(stream))->SetAt(count, (*(char * *)(&entry)));
 
-    entry = ((unsigned int)(::FUN_00a7d5a0((const char *)(str_0109d960), (void *)(m_pusStripLists))));
+    entry = ((uintptr_t)(::FUN_00a7d5a0((const char *)(str_0109d960), (void *)(m_pusStripLists))));
     count = stream.m_usSize;
     if (count >= (unsigned int)stream.m_usMaxSize)
     {

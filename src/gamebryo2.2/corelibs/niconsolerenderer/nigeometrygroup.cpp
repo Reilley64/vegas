@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/niconsolerenderer/nigeometrygroup.cpp: NiGeometryGroup, NiGeometryBufferData, StandIn (6 functions)
 
+#include <cstdint>
 #include <windows.h>
 #include "fnv/symbols_00aa1000.h"
 #include "fnv/symbols_00fdf000.h"
@@ -54,7 +55,7 @@ NiGeometryBufferData::NiGeometryBufferData()
 
 
 // @fnv 0x00e98730
-void FUN_00e98730(int pObject, int, int pArg)
+void FUN_00e98730(intptr_t pObject, int, intptr_t pArg)
 {
     InterlockedIncrement((long volatile*)(pObject + 4));
     *(int*)(pArg + 8) = pObject;

@@ -1,5 +1,6 @@
 
 // SSE_DECLARATIONS_DEFER_TO_SDK
+#include <cstdint>
 #include "generated/data/vtables.h"
 #include <windows.h>
 // src/staging/blk_00ca0000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
@@ -6791,7 +6792,7 @@ void* __cdecl FUN_00cba1c0()
 
 
 // @fnv 0x00cbbfb0
-void FUN_00cbbfb0(unsigned int a1)
+void FUN_00cbbfb0(uintptr_t a1)
 {
     DAT_01268418 = a1;
 }

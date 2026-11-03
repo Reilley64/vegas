@@ -1,4 +1,5 @@
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/A5D6E0This.h"
 #include "fnv/decl/A5d470Class.h"
@@ -267,7 +268,7 @@ void TimedRotationKey::ClearFloatKeys()
     int* p = (int*)((char*)this + 0x30);
     for (int i = 0; i < 3; ++i)
     {
-        int key = *p;
+        intptr_t key = *p;
         if (key != 0)
         {
             int iDeleteFuncIndex = *(p - 4);
@@ -307,11 +308,11 @@ void FUN_00a4e0b0_Holder::FUN_00a4e0b0(void* a1, int a2, char* a3)
 
 struct FUN_00a4e0f0_shell
 {
-    void InitFromParams(unsigned int, unsigned int, unsigned int);
+    void InitFromParams(unsigned int, unsigned int, uintptr_t);
 };
 
 // @fnv 0x00a4e0f0
-void FUN_00a4e0f0_shell::InitFromParams(unsigned int a, unsigned int b, unsigned int pSource)
+void FUN_00a4e0f0_shell::InitFromParams(unsigned int a, unsigned int b, uintptr_t pSource)
 {
     if (a && b)
     {
@@ -557,17 +558,17 @@ void FUN_00a4e410_shell::FUN_00a4e410(float fA, float fB, PSysPtr4e4<PSysData4e4
     int iOutB = 0;
     if (m_usCount0 > 0)
     {
-        ::FUN_00a3d630(2, (int)(m_pvData0), m_pvExtra0, m_usCount0, fA, fB, (void **)(int *)(&iOutA), &iOutB);
+        ::FUN_00a3d630(2, (intptr_t)(m_pvData0), m_pvExtra0, m_usCount0, fA, fB, (void **)(int *)(&iOutA), &iOutB);
         pkResult->FUN_00a4e2e0(iOutA, iOutB, m_pvData0);
     }
     if (m_usCount1 > 0)
     {
-        ::FUN_00a3d630(1, (int)(m_pvData1), m_pvExtra1, m_usCount1, fA, fB, (void **)(int *)(&iOutA), &iOutB);
+        ::FUN_00a3d630(1, (intptr_t)(m_pvData1), m_pvExtra1, m_usCount1, fA, fB, (void **)(int *)(&iOutA), &iOutB);
         pkResult->FUN_00a4e350(iOutA, iOutB, m_pvData1);
     }
     if (m_usCount2 > 0)
     {
-        ::FUN_00a3d630(0, (int)(m_pvData2), m_pvExtra2, m_usCount2, fA, fB, (void **)(int *)(&iOutA), &iOutB);
+        ::FUN_00a3d630(0, (intptr_t)(m_pvData2), m_pvExtra2, m_usCount2, fA, fB, (void **)(int *)(&iOutA), &iOutB);
         pkResult->FUN_00a4e3b0(iOutA, iOutB, m_pvData2);
     }
     spOut = pkResult;
@@ -755,7 +756,7 @@ struct TransformSaveQuery : NiTransformData
 // @fnv 0x00a4e810
 void TransformSaveQuery::FUN_00a4e810(NiStream& stream)
 {
-    ::FUN_00a89af0((int)this);
+    ::FUN_00a89af0((intptr_t)this);
     unsigned int count = m_usNumRotKeys;
     SaveAnimationValue(stream, count);
     if (m_usNumRotKeys > 0)

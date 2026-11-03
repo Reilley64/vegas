@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/niparticle/nipsysemitterctlr.cpp: NiPSysEmitterCtlr, NiBoolData, ThisStruct, Host and more (39 functions)
 
+#include <cstdint>
 #include <windows.h>
 #include <cstdlib>
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -149,7 +150,7 @@ const char* const* FUN_00c1ba50(unsigned short usIndex)
 {
     if (usIndex == 0)
         return reinterpret_cast<const char* const*>(DAT_011ae754);
-    int r = (usIndex != 1) - 1;
+    intptr_t r = (usIndex != 1) - 1;
     r = r & DAT_011ae758;
     return reinterpret_cast<const char* const*>(r);
 }
@@ -705,7 +706,7 @@ struct CChildA : CBaseA
         m14 = 0;
     }
     static void* operator new(size_t size);
-    void M(unsigned int a, unsigned int b, unsigned int c);
+    void M(uintptr_t a, unsigned int b, unsigned int c);
 };
 
 struct CClsA
@@ -713,7 +714,7 @@ struct CClsA
     char pad[0x10];
     CPtrA m_ptr;
     int m14;
-    void FUN_00c1bf10(unsigned int a, unsigned int b, unsigned int c);
+    void FUN_00c1bf10(uintptr_t a, unsigned int b, unsigned int c);
 };
 // @fnv 0x00c1c0e0
 void NiPSysEmitterCtlr::LinkObject(NiStream& stream)
@@ -750,7 +751,7 @@ void NiPSysEmitterCtlr::LinkObject(NiStream& stream)
         else
             boolInterpolator = 0;
 
-        reinterpret_cast<::CClsA *>((boolInterpolator))->FUN_00c1bf10((unsigned int)(reinterpret_cast<void*>(fields[7])), fields[8], fields[6]);
+        reinterpret_cast<::CClsA *>((boolInterpolator))->FUN_00c1bf10((uintptr_t)(reinterpret_cast<void*>(fields[7])), fields[8], fields[6]);
         fields[6] = 0;
         fields[7] = 0;
         reinterpret_cast<unsigned char*>(data)[0x24] = 0;
@@ -776,7 +777,7 @@ void NiPSysEmitterCtlr::LinkObject(NiStream& stream)
 
 // Ensures m_ptr holds a CChildA, calls M(a, c, b) and clears m14 when c > 0, otherwise calls M(0, 0, 0) if m_ptr is set.
 // @fnv 0x00c1bf10
-void CClsA::FUN_00c1bf10(unsigned int auiFirst, unsigned int auiThird, unsigned int auiSecond)
+void CClsA::FUN_00c1bf10(uintptr_t auiFirst, unsigned int auiThird, unsigned int auiSecond)
 {
     if (auiSecond > 0)
     {
@@ -904,14 +905,14 @@ struct C1BF90Base
 struct C1BF90Owner : C1BF90Base
 {
     C1BF90Target* unk40;
-    int GetObjectValueByKey();
+    intptr_t GetObjectValueByKey();
 };
 
 extern unsigned char DAT_01096968;
 
 // Returns vf54() if nonzero; otherwise looks up an object by DAT_011f407c and returns a value indexed by its key, or 0.
 // @fnv 0x00c1bf90
-int C1BF90Owner::GetObjectValueByKey()
+intptr_t C1BF90Owner::GetObjectValueByKey()
 {
     int iVf54Result = this->unk40->vf54();
     if (iVf54Result == 0)

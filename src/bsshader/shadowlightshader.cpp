@@ -1,5 +1,6 @@
 // bsshader/shadowlightshader.cpp: ShadowLightShader, ShaderS, ShaderAdapter, ObjectArray and more (59 functions)
 
+#include <cstdint>
 #include <windows.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -367,7 +368,7 @@ void FUN_00b798c0(const float* afSource)
 
 // Assigns pObj to the NiPointer at pThis+0x5c, releasing the old object and incrementing the new one's reference count.
 // @fnv 0x00b79950
-void FUN_00b79950(char* pThis, int, NiRefObject* pObj)
+void FUN_00b79950(char* pThis, intptr_t, NiRefObject* pObj)
 {
     NiPointer<NiRefObject>& spMember = *(NiPointer<NiRefObject>*)(pThis + 0x5c);
     if (spMember.m_pObject != pObj)

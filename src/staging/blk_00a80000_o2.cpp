@@ -2,6 +2,7 @@
 // src/staging/blk_00a80000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstdint>
 #include <windows.h>
 #include <new>
 #include <cmath>
@@ -2964,7 +2965,7 @@ void __cdecl FUN_00a88a40()
 
 // 0x00a89af0  ret 4
 // @fnv 0x00a89af0
-void FUN_00a89af0(int) {
+void FUN_00a89af0(intptr_t) {
 }
 
 struct S_00a8d8b0;

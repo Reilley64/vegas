@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nianimation/nifloatextradatacontroller.cpp: NiFloatExtraDataController (9 functions)
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
@@ -71,7 +72,7 @@ struct NiTimeController_Call
 int* InitTimeController(int* pThis)
 {
     new ((void *)(reinterpret_cast<NiTimeController_Call*>(pThis))) ::FUN_00a38e00();
-    pThis[0] = reinterpret_cast<int>(&DAT_0109aa14);
+    pThis[0] = reinterpret_cast<intptr_t>(&DAT_0109aa14);
     pThis[14] = (*reinterpret_cast<int *>(&::DAT_0109b220));
     pThis[15] = 0;
     return pThis;

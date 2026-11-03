@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/niparticle/nipsysmodifieractivectlr.cpp: NiPSysAirFieldAirFrictionCtlr, StandIn, NiPSysModifierActiveCtlr (13 functions)
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/CtlrStandin.h"
 #include "fnv/decl/FUN_00a52f00.h"
@@ -62,7 +63,7 @@ struct Wrap_00a532d0
 void* FUN_00c32b80(void* pThis, int, unsigned short usUnused)
 {
     bool bValue;
-    (*(void(**)(void*, bool*))(*(int*)pThis + 0xf0))(pThis, &bValue);
+    (*(void(**)(void*, bool*))(*(intptr_t*)pThis + 0xf0))(pThis, &bValue);
     void* p = BSFadeNode::operator new(0x18);
     if (p)
         return ((void*(*)(void*, bool))FUN_00a532d0)(p, bValue);
@@ -72,7 +73,7 @@ void* FUN_00c32b80(void* pThis, int, unsigned short usUnused)
 // @fnv 0x00c32bc0
 bool FUN_00c32bc0(const void* pThis, int, void* pkInterpolator, unsigned short usIndex)
 {
-    return (*(bool(**)(void*))(*(int*)pkInterpolator + 0xa4))(pkInterpolator);
+    return (*(bool(**)(void*))(*(intptr_t*)pkInterpolator + 0xa4))(pkInterpolator);
 }
 
 struct FUN_00c29d50_shell
@@ -83,7 +84,7 @@ struct FUN_00c29d50_shell
 // @fnv 0x00c29d50
 void FUN_00c29d50_shell::FUN_00c29d50(char* pOut)
 {
-    *pOut = *(char*)(*(int*)((char*)this + 0x3c) + 0x14);
+    *pOut = *(char*)(*(intptr_t*)((char*)this + 0x3c) + 0x14);
 }
 
 struct GlobalObjectO2_00a7b610;

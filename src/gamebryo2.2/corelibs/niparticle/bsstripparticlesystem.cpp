@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/niparticle/bsstripparticlesystem.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/niparticle/bsstripparticlesystem.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/B1D0Node3D.h"
 #include "fnv/decl/BSMultiBoundNode.h"
@@ -71,11 +72,11 @@ struct ParticleSystem
 };
 struct ParticleOwner
 {
-    ParticleSystem* CreateParticleSystem(unsigned int flags);
+    ParticleSystem* CreateParticleSystem(uintptr_t flags);
 };
 // Allocates a 0x110-byte ParticleSystem, initialises it and its vtable, passes it to FUN_00c1b6f0 with flags, and returns it.
 // @fnv 0x00c257d0
-ParticleSystem* ParticleOwner::CreateParticleSystem(unsigned int flags)
+ParticleSystem* ParticleOwner::CreateParticleSystem(uintptr_t flags)
 {
     ParticleSystem* object = static_cast<ParticleSystem*>(FUN_00aa13e0(0x110));
     if (object)

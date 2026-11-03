@@ -736,7 +736,7 @@ struct CRITICAL_SECTION_STUB
 };
 
 // @fnv 0x00a5f7b0
-void FUN_00a5f7b0(int pNode)
+void FUN_00a5f7b0(intptr_t pNode)
 {
     EnterCriticalSection((CRITICAL_SECTION_STUB*)&DAT_011f4580);
     if (DAT_011f4500 == 0)
@@ -1492,7 +1492,7 @@ struct FUN_00a57580_cls
 };
 
 // @fnv 0x00a57580
-int __cdecl InvokeAndAccumulate(FUN_00a57580_cls* pObj, int iValue)
+int __cdecl InvokeAndAccumulate(FUN_00a57580_cls* pObj, intptr_t iValue)
 {
     int n = 1;
     int r = pObj->m_fn(pObj, iValue, 1, &n, 1);
@@ -1508,7 +1508,7 @@ struct FUN_00a575b0_Object
 };
 
 // @fnv 0x00a575b0
-void __cdecl FUN_00a575b0(FUN_00a575b0_Object* object, int value)
+void __cdecl FUN_00a575b0(FUN_00a575b0_Object* object, intptr_t value)
 {
     int result = 4;
     object->unk04 += object->unk08(object, value, 4, &result, 1);
@@ -3289,11 +3289,11 @@ struct FUN_00a5d320_Class
 
 struct FUN_00a5d430_Class
 {
-    void FUN_00a5d430(unsigned int param_1);
+    void FUN_00a5d430(uintptr_t param_1);
 };
 
 // @fnv 0x00a5d430
-void FUN_00a5d430_Class::FUN_00a5d430(unsigned int param_1)
+void FUN_00a5d430_Class::FUN_00a5d430(uintptr_t param_1)
 {
 
     void* map_ptr = *(void**)(param_1 + 4);
@@ -3306,7 +3306,7 @@ struct NiVBSet
 
 struct FUN_00a5d450_class
 {
-    void CreateVertexBufferSet(unsigned int a, void* b);
+    void CreateVertexBufferSet(uintptr_t a, void* b);
 };
 // Copies the stream members via CopyMembersStream, then copies m_p and m_f into dst.
 // @fnv 0x00a44850
@@ -3318,7 +3318,7 @@ void FUN_00a44850_holder::CopyMembersStreamAndFields(FUN_00a44850_holder* dst, C
 }
 
 // @fnv 0x00a5d450
-void FUN_00a5d450_class::CreateVertexBufferSet(unsigned int a, void* ppSet)
+void FUN_00a5d450_class::CreateVertexBufferSet(uintptr_t a, void* ppSet)
 {
     NiVBSet* set = *(NiVBSet**)ppSet;
     reinterpret_cast<::HashTableBase *>((set))->InsertOrUpdate((unsigned int)this, a);

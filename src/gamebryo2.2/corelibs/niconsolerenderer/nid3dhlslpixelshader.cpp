@@ -1,6 +1,7 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <windows.h>
 #include "fnv/decl/FUN_0043ba10_shell.h"
 #include "fnv/decl/FUN_00e898c0_shell.h"
@@ -2865,12 +2866,12 @@ struct Player
     int unk34;
     Library* m_library;
 
-    bool FUN_00e96da0(Entry* entry, int arg, int extra);
+    bool FUN_00e96da0(Entry* entry, intptr_t arg, int extra);
 };
 
 // Resolves an Entry's sound info via m_library if needed, then dispatches playback through m_handler based on the entry's type.
 // @fnv 0x00e96da0
-bool Player::FUN_00e96da0(Entry* entry, int arg, int extra)
+bool Player::FUN_00e96da0(Entry* entry, intptr_t arg, int extra)
 {
     SoundInfo info;
     if (m_library == 0 || m_pPointerAt20 == 0)

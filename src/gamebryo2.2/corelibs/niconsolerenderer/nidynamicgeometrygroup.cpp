@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/niconsolerenderer/nidynamicgeometrygroup.cpp: NiDynamicGeometryGroup, SomeClass, UnsharedGroupStub, Group and more (17 functions)
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/FNV_MemoryManager.h"
@@ -57,7 +58,7 @@ void FUN_00e951e0(NiGeometryBufferData* pkBuffData, unsigned int uiStream)
         {
             if (pkChip->m_pkOwningStream)
             {
-                ::FUN_00a89af0((int)(pkChip->m_pkTreeBlock));
+                ::FUN_00a89af0((intptr_t)(pkChip->m_pkTreeBlock));
                 pkChip->m_pkOwningStream = 0;
             }
             if (uiStream < pkBuffData->m_uiRegisterStreamCount)
@@ -195,7 +196,7 @@ struct Base_00aa4060
 {
 };
 
-extern "C" void __cdecl FUN_00aa10f0(int);
+extern "C" void __cdecl FUN_00aa10f0(intptr_t);
 extern void* DAT_010f107c;
 extern void* DAT_010f103c;
 
@@ -215,7 +216,7 @@ S_00e95300* S_00e95300::FUN_00e95300(int aiFlags)
     reinterpret_cast<::S_00b601a0_Map *>((((Base_00b601a0*)this)))->FUN_00b601a0();
     m_vftable = &DAT_010f103c;
     reinterpret_cast<::S_00b601a0_Map *>((((Base_00b601a0*)this)))->FUN_00b601a0();
-    FUN_00aa10f0((int)m_unk08);
+    FUN_00aa10f0((intptr_t)m_unk08);
     if (aiFlags & 1)
     {
         reinterpret_cast<::FNV_MemoryManager *>((((Base_00aa4060*)&(*reinterpret_cast<void * *>(&::g_memoryManager)))))->FUN_00aa4060(this);
@@ -256,7 +257,7 @@ void FUN_00e95500_Class::EnsureBuffer(Destination* destination)
         newBuffer->unk3c = 4;
         destination->buffer1c = newBuffer;
         newBuffer->unk04 = &(*reinterpret_cast<char *>(&::DAT_01400000));
-        ::FUN_00e98730((int)this, (int)(newBuffer), {});
+        ::FUN_00e98730((intptr_t)this, (intptr_t)(newBuffer), {});
         destination->index18 = 0xffff;
     }
 }
@@ -392,7 +393,7 @@ void UnsharedGroupStub::CreateBufferData(GeomDataStub* pkData, bool abUnused, Pa
     if (bBinormals)
         uiFlags |= 0x200000;
     pkBuffData->m_uiValue1 = (uiT << 24) | uiFlags;
-    ::FUN_00e98730((int)this, (int)(pkBuffData), {});
+    ::FUN_00e98730((intptr_t)this, (intptr_t)(pkBuffData), {});
     reinterpret_cast<::NiGeometryData *>((pkData))->SetDirtyFlags(0xffff);
 }
 
@@ -641,7 +642,7 @@ Chip* Group::GetOrCreateChip(Data* data, unsigned int stream)
         Chip* branchChip = streamChips.data[nextIndex];
         if (!branchChip)
         {
-            branchChip = ((::Chip *)(::FUN_00537d60_Create(0, (unsigned int)(buffer), size, stride, 0)));
+            branchChip = ((::Chip *)(::FUN_00537d60_Create(0, (uintptr_t)(buffer), size, stride, 0)));
             chip = branchChip;
             reinterpret_cast<::FUN_00a41520_cls *>(&(streamChips))->FUN_00ba3aa0(nextIndex, (::KeyPair **)&(chip));
         }
@@ -660,11 +661,11 @@ Chip* Group::GetOrCreateChip(Data* data, unsigned int stream)
     else
     {
         MemoryAllocationProvider* set = 0;
-        unsigned int mapKey = key ? key : length | 0x80000000;
+        uintptr_t mapKey = key ? key : length | 0x80000000;
         if (!reinterpret_cast<::A54440Hash *>(&(sets))->FUN_00a53c30((::A54440Manager *)(mapKey), (::A54440Manager **)&(set)) || !set)
         {
             set = CreateBufferSetData(2048, device, key, 0);
-            reinterpret_cast<::HashTableBase *>(&(sets))->InsertOrUpdate(mapKey, (unsigned int)(set));
+            reinterpret_cast<::HashTableBase *>(&(sets))->InsertOrUpdate(mapKey, (uintptr_t)(set));
         }
         ByteFlag flag(data->flag);
         void* buffer = ((void *)(reinterpret_cast<::S_00e987c0_Class *>((set))->AllocateStream(stride, &size, &offset, false, (*(unsigned char *)&(const ::ByteFlag &)(flag)))));
@@ -672,8 +673,8 @@ Chip* Group::GetOrCreateChip(Data* data, unsigned int stream)
         Chip* result = chip;
         if (!result)
         {
-            result = ((::Chip *)(::FUN_00537d60_Create(0, (unsigned int)(buffer), size, stride, 0)));
-            reinterpret_cast<::HashTableBase *>(&(chips))->InsertOrUpdate(mapKey, (unsigned int)(result));
+            result = ((::Chip *)(::FUN_00537d60_Create(0, (uintptr_t)(buffer), size, stride, 0)));
+            reinterpret_cast<::HashTableBase *>(&(chips))->InsertOrUpdate(mapKey, (uintptr_t)(result));
         }
         else
         {

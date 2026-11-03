@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nianimation/nicolorinterpolator.cpp: NiColorInterpolator (17 functions)
 
+#include <cstdint>
 #include <windows.h>
 #include <new>
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -263,7 +264,7 @@ BSFadeNode* FUN_00a3c130()
     if (p)
     {
         new ((void *)(p)) ::FUN_00a3ca10();
-        *(unsigned int*)p = (unsigned int)&DAT_01096e14;
+        *(uintptr_t*)p = (uintptr_t)&DAT_01096e14;
         *(unsigned int*)((char*)p + 0xc) = *(unsigned int*)&DAT_011a9430;
         *(unsigned int*)&p->m_kColorValue.r = DAT_011a9434;
         *(unsigned int*)&p->m_kColorValue.g = DAT_011a9438;
@@ -460,7 +461,7 @@ struct FUN_00a3bef0_shell : NiColorInterpolator
 // @fnv 0x00a3bef0
 NiColorInterpolator* FUN_00a3bef0_shell::CreateClippedInterpolator(float startTime, float endTime)
 {
-    NiColorInterpolator* interpolator = ((::NiColorInterpolator *)(::FUN_00a57050((int)(reinterpret_cast<FUN_00a57050_helper*>(this)), startTime)));
+    NiColorInterpolator* interpolator = ((::NiColorInterpolator *)(::FUN_00a57050((intptr_t)(reinterpret_cast<FUN_00a57050_helper*>(this)), startTime)));
     if (m_spColorData.m_pObject)
     {
         NiColorData* clippedData = 0;
@@ -542,7 +543,7 @@ void FUN_00a3c270_cls::AppendColorProperties(ViewerArray* out)
     }
     reinterpret_cast<::fnv_00b5c7d0::StrArr *>((out))->SetAt(uiIndex, (*(char * *)(&pValue)));
 
-    unsigned int v = m_uiFilterValue;
+    uintptr_t v = m_uiFilterValue;
     void* s = ((void *)(::FUN_00a7d5a0("m_spColorData", (void *)(v))));
     uiIndex = out->m_usNext;
     uiMax = out->m_usMax;
@@ -564,11 +565,11 @@ inline NiColorInterpolator::NiColorInterpolator(NiColorData* data)
 {}
 struct Owner488
 {
-    NiColorInterpolator* CreateColorInterpolator(int);
+    NiColorInterpolator* CreateColorInterpolator(intptr_t);
 };
 // Allocates a NiColorInterpolator with null color data, initializes it via FUN_00a3c0a0 with arg, and returns it.
 // @fnv 0x00a3c1f0
-NiColorInterpolator* Owner488::CreateColorInterpolator(int arg)
+NiColorInterpolator* Owner488::CreateColorInterpolator(intptr_t arg)
 {
     void* memory = FUN_00aa13e0(sizeof(NiColorInterpolator));
     NiColorInterpolator* interpolator = memory ? new (memory) NiColorInterpolator(0) : 0;

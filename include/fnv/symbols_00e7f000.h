@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 class BeamStage;
 struct FUN_00e7ee80;
@@ -7,7 +8,7 @@ struct Self_00e7f000;
 template <class> class NiPointer;
 
 // 0x00e7f000
-::Node_00e7f000 *FindNodeByKey(::Self_00e7f000 *, int, int, bool &);
+::Node_00e7f000 *FindNodeByKey(::Self_00e7f000 *, int, intptr_t, bool &);
 // 0x00e7f050
 namespace fnv_00e7f050 { void *FUN_00e7f050(void *, int, unsigned int); }
 // 0x00e7f070
@@ -23,6 +24,6 @@ int FUN_00e7f7c0();
 // 0x00e7f900
 namespace fnv_00e7f900 { void *FUN_00e7f900(void *, int, unsigned int); }
 // 0x00e7f920
-void FUN_00e7f920(int);
+void FUN_00e7f920(intptr_t);
 // 0x00e7fcd0
 void FreePointerArray(::NiPointer< ::BeamStage> *);

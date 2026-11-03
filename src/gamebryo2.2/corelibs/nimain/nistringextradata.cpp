@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/nimain/nistringextradata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/nistringextradata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <windows.h>
 #include "fnv/decl/Cls_a64ea0.h"
 #include "fnv/decl/ExtraDataObject.h"
@@ -168,7 +169,7 @@ struct FUN_00a742c0_cls
 // @fnv 0x00a742c0
 FUN_00a742c0_cls* FUN_00a742c0_cls::Destroy(unsigned int acFlags)
 {
-    *(volatile int*)&unk00 = (int)&DAT_0109d39c;
+    *(volatile intptr_t*)&unk00 = (intptr_t)&DAT_0109d39c;
     char* pData = *(char* volatile*)&m_pData;
     if (pData != (char*)DAT_0109b220)
     {
@@ -196,11 +197,11 @@ struct FUN_00a74300_cls
     int unk08;
     char* m_0c;
 
-    void* CreateCopy(int arg);
+    void* CreateCopy(intptr_t arg);
 };
 
 // @fnv 0x00a74300
-void* FUN_00a74300_cls::CreateCopy(int arg)
+void* FUN_00a74300_cls::CreateCopy(intptr_t arg)
 {
     FUN_00a74300_cls* esi = (FUN_00a74300_cls*)FUN_00aa13e0(0x10);
     if (esi != 0)

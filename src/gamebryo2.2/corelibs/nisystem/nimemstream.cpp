@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/nisystem/nimemstream.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nisystem/nimemstream.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <cstring>
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_00aa1d30_cls.h"
@@ -99,7 +100,7 @@ unsigned int __cdecl FUN_00aa2ec0(NiMemStream* pStream, void* apBuffer, unsigned
     char* pBufferBase = *(char**)((char*)pStream + 0x10);
     std::memmove(apBuffer, pBufferBase + uiPosition, uiCopied);
     *(unsigned int*)((char*)pStream + 0x14) += uiCopied;
-    ::SwapBufferBySizes((char *)(apBuffer), auiLength, (const unsigned int *)(apArgA), (unsigned int)(apArgB));
+    ::SwapBufferBySizes((char *)(apBuffer), auiLength, (const unsigned int *)(apArgA), (uintptr_t)(apArgB));
     return uiCopied;
 }
 
@@ -108,13 +109,13 @@ struct S_00aa2dd0
 };
 // Copies uSize bytes from pSrc into a temporary buffer, passes it to SwapBufferBySizes, writes it to pStream, frees the buffer and returns the write result.
 // @fnv 0x00aa2f20
-unsigned int __cdecl FUN_00aa2f20(NiMemStream* pStream, const void* pSrc, unsigned int uSize, void* pA, void* pB)
+unsigned int __cdecl FUN_00aa2f20(NiMemStream* pStream, const void* pSrc, uintptr_t uSize, void* pA, void* pB)
 {
     if (uSize <= 0)
         return 0;
     void* pBuffer = ::FUN_00aa1070(uSize);
     std::memmove(pBuffer, pSrc, uSize);
-    ::SwapBufferBySizes((char *)(pBuffer), uSize, (const unsigned int *)(pA), (unsigned int)(pB));
+    ::SwapBufferBySizes((char *)(pBuffer), uSize, (const unsigned int *)(pA), (uintptr_t)(pB));
     unsigned int uRet = ::FUN_00aa2dd0((::NiMemStream *)(((S_00aa2dd0*)pStream)), (void *)(pBuffer), (const void *)(uSize), {});
     ::FUN_00aa10f0(pBuffer);
     return uRet;
@@ -150,10 +151,10 @@ void NiMemStream::SetSwapMode(bool bDoSwap)
 unsigned int FUN_00aa2dd0(NiMemStream* pThis, void* unused, const void* data, unsigned int numBytes);
 unsigned int __cdecl FUN_00aa2ec0(NiMemStream* pStream, void* pData, unsigned int uLen, void* pA, void* pB);
 
-unsigned int __cdecl FUN_00aa2f20(NiMemStream* pStream, const void* pSrc, unsigned int uSize, void* pA, void* pB);
+unsigned int __cdecl FUN_00aa2f20(NiMemStream* pStream, const void* pSrc, uintptr_t uSize, void* pA, void* pB);
 
 // @fnv 0x00aa2ea0
-void __cdecl FUN_00aa2ea0(S_00aa2dd0* pThis, const void* pData, unsigned int uLen)
+void __cdecl FUN_00aa2ea0(S_00aa2dd0* pThis, const void* pData, uintptr_t uLen)
 {
     ::FUN_00aa2dd0((::NiMemStream *)(pThis), (void *)(pData), (const void *)(uLen), {});
 }

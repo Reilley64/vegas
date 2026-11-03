@@ -4,6 +4,7 @@
 
 
 // @fnv 0x00a485a0
+#include <cstdint>
 #include <new>
 #include "fnv/decl/CloneableObj.h"
 #include "fnv/decl/FUN_00a57990.h"
@@ -49,7 +50,7 @@ void* __cdecl FUN_00a48750()
         new ((void *)(pFadeNode)) class ::FUN_00a6d220();
         *(int*)((char*)pFadeNode + 0x38) = 0;
         *(int*)((char*)pFadeNode + 0x34) = 0;
-        *(int*)pFadeNode = (int)&DAT_01098634;
+        *(intptr_t*)pFadeNode = (intptr_t)&DAT_01098634;
         return pFadeNode;
     }
     return 0;

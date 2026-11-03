@@ -4,6 +4,7 @@
 
 
 // @fnv 0x00c29e90
+#include <cstdint>
 #include <new>
 #include "fnv/decl/CtlrStandin.h"
 #include "fnv/decl/NiPSysAirFieldAirFrictionCtlr.h"
@@ -28,7 +29,7 @@ struct FUN_00c32d80
 FUN_00c32d80::FUN_00c32d80()
 {
     static_cast<::CtlrStandin *>(nullptr)->FUN_00c31260();
-    *(int*)this = (int)&DAT_010c0e44;
+    *(intptr_t*)this = (intptr_t)&DAT_010c0e44;
 }
 
 

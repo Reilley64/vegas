@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nimain/nialphaaccumulator.cpp: NiAlphaAccumulator, CloneAccumulator (17 functions)
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/FUN_0043a010_shell.h"
 #include "fnv/decl/FUN_00a95ca0_shell.h"
@@ -20,7 +21,7 @@
 // @fnv 0x00aa0f00
 NiAlphaAccumulator::NiAlphaAccumulator()
 {
-    *(volatile unsigned int*)this = (unsigned int)&kVtbl_NiBackToFrontAccumulator;
+    *(volatile uintptr_t*)this = (uintptr_t)&kVtbl_NiBackToFrontAccumulator;
     m_kUnsortedGeometryList.m_kItemCount.m_uiCount = 0;
     m_kUnsortedGeometryList.m_pkHead = 0;
     m_kUnsortedGeometryList.m_pkTail = 0;
@@ -873,7 +874,7 @@ NiObject* CloneAccumulator::FUN_00a9b730(CloningProcess* cloning)
     if (clone)
     {
         new ((void *)(((CloneBaseInitializer*)clone))) ::NiAlphaAccumulator();
-        clone->m_layout0 = (unsigned int)&kVtbl_NiAlphaAccumulator;
+        clone->m_layout0 = (uintptr_t)&kVtbl_NiAlphaAccumulator;
         clone->m_bSkipObjectsWithFlag13 = true;
         clone->m_bSkipObjectsWithFlag14 = false;
         clone->m_bInterface = false;

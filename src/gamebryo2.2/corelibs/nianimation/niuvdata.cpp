@@ -4,6 +4,7 @@
 
 
 // @fnv 0x00a45010
+#include <cstdint>
 #include "fnv/decl/A5D6E0This.h"
 #include "fnv/decl/A5d470Class.h"
 #include "fnv/decl/FUN_00a5d3d0.h"
@@ -853,7 +854,7 @@ struct NiUVDataLB : NiObjectLB
 // @fnv 0x00a45610
 void NiUVDataLB::FUN_00a45610(NiStreamX& kStream)
 {
-    ::FUN_00a89af0((int)this);
+    ::FUN_00a89af0((intptr_t)this);
     ReadBinaryValue(kStream, m_uiNumUOffsetKeys);
     if (m_uiNumUOffsetKeys > 0)
     {

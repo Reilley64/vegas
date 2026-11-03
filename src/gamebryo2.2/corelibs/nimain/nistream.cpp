@@ -1,4 +1,5 @@
 // gamebryo2.2/corelibs/nimain/nistream.cpp: NiStream, NiStreamImpl, ThisObj, Receiver and more (64 functions)
+#include <cstdint>
 #include <windows.h>
 #include <new>
 #include <cstdlib>
@@ -725,9 +726,9 @@ void InitHavokPhysics()
         hkMemorySystemC68::FrameInfo kInfo;
         kInfo.m_iSolverBufferSize = 0;
         hkFreeListMemorySystemC68* pkMemorySystem = new (g_acMemorySystemBufferC68) hkFreeListMemorySystemC68;
-        reinterpret_cast<::FUN_00cd06c0_t *>((pkMemorySystem))->FUN_00cd06c0((int)(&s_kMallocAllocator));
+        reinterpret_cast<::FUN_00cd06c0_t *>((pkMemorySystem))->FUN_00cd06c0((intptr_t)(&s_kMallocAllocator));
         g_pkMemorySystemC68 = pkMemorySystem;
-        ::FUN_00cbbfb0((unsigned int)(pkMemorySystem));
+        ::FUN_00cbbfb0((uintptr_t)(pkMemorySystem));
 
         hkMemoryRouterC68* pkRouter = GetMemorySystemC68().CreateMemoryRouter(kInfo, hkMemorySystemC68::Flags(1));
         pkRouter->m_pkTemp = pkRouter->m_pkHeap;
@@ -735,17 +736,17 @@ void InitHavokPhysics()
 
         char* pcStack = g_acStackBufferC68;
         int iStackSize = sizeof(g_acStackBufferC68);
-        int iMisalign = (int)pcStack & 0xf;
+        intptr_t iMisalign = (intptr_t)pcStack & 0xf;
         if (iMisalign)
         {
-            int iActionIndex = 0x10 - iMisalign;
+            intptr_t iActionIndex = 0x10 - iMisalign;
             pcStack += iActionIndex;
             iStackSize -= iActionIndex;
         }
         pkRouter->m_kStack.m_pcStart = pcStack;
         pkRouter->m_kStack.m_pcCur = pcStack;
         pkRouter->m_kStack.m_pcEnd = pcStack + iStackSize;
-        ::fnv_00cbbb10::FUN_00cbbb10((int)(pkRouter), (unsigned int)(((void (&)(const char *, void *))::FUN_0084cbd0)), (unsigned int)(0));
+        ::fnv_00cbbb10::FUN_00cbbb10((intptr_t)(pkRouter), (uintptr_t)(((void (&)(const char *, void *))::FUN_0084cbd0)), (unsigned int)(0));
 
         ::fnv_00c828f0::InitializeSelectionMasks();
         g_pkWorldListenerC68 = new bhkWorldListenerC68;
@@ -1093,7 +1094,7 @@ namespace fnv_00a633f0 {
 struct FUN_00a633f0_shell
 {
     char _pad[0x238];
-    int m_aiIndexedValues;
+    intptr_t m_aiIndexedValues;
     char _pad2[4];
     unsigned int m_uiItemCount;
 
@@ -1152,7 +1153,7 @@ unsigned int FUN_00a63480(FUN_00a63480_holder* self, int, const char* name)
 {
     if (!name)
         return 0xffffffff;
-    unsigned int id = 0xffffffff;
+    uintptr_t id = 0xffffffff;
     reinterpret_cast<::A54440Hash *>(&(self->map))->FUN_00a53c30((::A54440Manager *)(name), (::A54440Manager **)&((ShaderBufferRecord*&)id));
     return id;
 }
@@ -3980,13 +3981,13 @@ class FnvNiStream
     unsigned int unk244;               // +0x244
     unsigned int unk248;               // +0x248
     FnvStreamBuffer* m_pBinaryStream;  // +0x24c
-    void FUN_00a64d80(unsigned int param);
+    void FUN_00a64d80(uintptr_t param);
 };
 
 // @fnv 0x00a64d80
-void FnvNiStream::FUN_00a64d80(unsigned int param)
+void FnvNiStream::FUN_00a64d80(uintptr_t param)
 {
-    unsigned int count;
+    uintptr_t count;
     FnvStreamBuffer* s = m_pBinaryStream;
     {
         // the kind of the value that is read; it dies right after the read
@@ -5996,7 +5997,7 @@ bool StreamMatch::AddObject(RefCountedObj* object)
         return false;
     }
     UnsignedIntValue count = {objects.unk0c};
-    reinterpret_cast<::HashTableBase *>((((FUN_00b57ea0_cls*)map)))->InsertOrUpdate((unsigned int)(obj), (*(unsigned int *)&(const ::UnsignedIntValue &)(count)));
+    reinterpret_cast<::HashTableBase *>((((FUN_00b57ea0_cls*)map)))->InsertOrUpdate((uintptr_t)(obj), (*(unsigned int *)&(const ::UnsignedIntValue &)(count)));
     object = obj;
     if (obj != 0)
     {
@@ -6501,7 +6502,7 @@ bool NiStreamLoader::FUN_00a664e0()
         NiObject*(__cdecl* factory)();
         NiPointer instance;
     } creation;
-    reinterpret_cast<::FnvNiStream *>(this)->FUN_00a64d80((unsigned int)(className));
+    reinterpret_cast<::FnvNiStream *>(this)->FUN_00a64d80((uintptr_t)(className));
     if (!reinterpret_cast<::A54440Hash *>((void *)((*reinterpret_cast<::fnv_00a664e0::NiTStringTemplateMap< ::fnv_00a664e0::NiTPointerMap<const char *, ::fnv_00a664e0::NiShader *>, ::fnv_00a664e0::NiShader *> * *>(&::DAT_011f4784))))->FUN_00a53c30((::A54440Manager *)(className), (::A54440Manager **)(creation.factory)))
     {
         error = 5;
@@ -6712,7 +6713,7 @@ void RtStream::WriteRTTIHeader()
     {
         const char* pcName = m_ppkObjects[i]->GetStreamableRTTI()->m_pcName;
         unsigned short usID;
-        if (!reinterpret_cast<::FUN_00c74990_cls *>((void *)&(kRTTIMap))->LookupValue((unsigned int)(pcName), (unsigned short *)&(usID)))
+        if (!reinterpret_cast<::FUN_00c74990_cls *>((void *)&(kRTTIMap))->LookupValue((uintptr_t)(pcName), (unsigned short *)&(usID)))
             kRTTIMap.FUN_00a643e0(pcName, (unsigned short)kRTTIMap.GetCount());
     }
 
@@ -6885,7 +6886,7 @@ bool FUN_00a66850_shell::FUN_00a66850()
         VObject* pkObject = (*(VObject***)&this->m_kThirdFollowingStreamField.m_pBase)[i];
         unsigned int uiStartInBytes = (*(VBinStream**)&this->m_pBackingStream)->GetPosition();
         pkObject->SaveBinary(this);
-        unsigned int uiSizeInBytes = (*(VBinStream**)&this->m_pBackingStream)->GetPosition() - uiStartInBytes;
+        uintptr_t uiSizeInBytes = (*(VBinStream**)&this->m_pBackingStream)->GetPosition() - uiStartInBytes;
         kObjectSizes.SetAt(i, (TESForm*)uiSizeInBytes);
     }
     pkThis->SaveTopLevelObjects();
@@ -7430,7 +7431,7 @@ void S_00ca76b0_Cls::FUN_00ca76b0(S_00ca76b0_Stream* apStream)
                 InterlockedIncrement(&o->m_rc);
         }
     }
-    ::FUN_00c84cc0((int *)this, (unsigned int)(apStream));
+    ::FUN_00c84cc0((int *)this, (uintptr_t)(apStream));
 }
 
 

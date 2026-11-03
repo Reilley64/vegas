@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nimain/niskininstance.cpp: NiSkinInstance, SkinGraph, NiSkinInstanceStub, SkinInstanceW and more (8 functions)
 
+#include <cstdint>
 #include <cstdlib>
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/A5D6E0This.h"
@@ -32,7 +33,7 @@ void NiSkinInstance::LoadBinary(NiStream& stream)
 // @fnv 0x00a86380
 void NiSkinInstance::LinkObject(NiStream& stream)
 {
-    ::FUN_00a89af0((int)this);
+    ::FUN_00a89af0((intptr_t)this);
     m_pSkinData = stream.GetLoadedObject();
     if (stream.m_uiNifVersion >= 0x0a010065)
         m_pkSkinMeshPartition = stream.GetLoadedObject();
@@ -309,7 +310,7 @@ class SkinInstanceW
 // @fnv 0x00a867a0
 void SkinInstanceW::SaveSkinInstance(NiStreamW& kStream)
 {
-    ::FUN_00a89af0((int)this);
+    ::FUN_00a89af0((intptr_t)this);
     kStream.SaveLinkID((NiObject*)m_pSkinData);
     kStream.SaveLinkID(m_pkSkinMeshPartition);
     kStream.SaveLinkID(m_pRootParent);
@@ -448,9 +449,9 @@ void Skin::FUN_00a86920(Strings* apStrings)
     Partition* pPartition = skin;
     if (pPartition)
     {
-        unsigned int partitions = (unsigned int)partition;
+        uintptr_t partitions = (uintptr_t)partition;
         if (partitions)
-            partitions = (unsigned int)partition->name;
+            partitions = (uintptr_t)partition->name;
         apStrings->Add(FUN_00a7d510("Hardware partitions", partitions));
         unsigned int uiBoneCount = pPartition->bones;
         apStrings->Add(FUN_00a7d510("Bone Count", uiBoneCount));

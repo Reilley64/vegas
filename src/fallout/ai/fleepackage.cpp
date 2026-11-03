@@ -1006,8 +1006,7 @@ unsigned short FUN_009f19f0_shell::GetSaveSize()
         {
             TESForm* pForm = ::FUN_004839c0(m_pContactSound->formID);
 
-            ::FUN_0040fbe0(
-                );
+            ::FUN_0040fbe0();
         }
         else
         {
@@ -1968,8 +1967,7 @@ void FleeSavePackage::SaveFleePackage()
         if (reference)
         {
             TESForm* form = ::FUN_004839c0(reference->formID);
-            ::FUN_0040fbe0(
-                );
+            ::FUN_0040fbe0();
         }
         else
         {
@@ -2084,13 +2082,11 @@ void FleeLoadPackage::FUN_009f1e80()
             if (pInfo)
             {
                 TESForm* pForm = ::FUN_004839c0(pInfo->auiFormId);
-                ::FUN_005b5e40(
-                    );
+                ::FUN_005b5e40();
             }
             else
             {
-                ::FUN_005b5e40(
-                    );
+                ::FUN_005b5e40();
             }
         }
         uiBlockStart7 = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::FleeLoadManager * *>(&::g_TESSaveLoadGame))))->FUN_00825c00();
@@ -2127,20 +2123,16 @@ void FleeLoadPackage::FUN_009f1e80()
         {
             TESForm* pEndForm = ::FUN_004839c0(pEndInfo->auiFormId);
             if (uiBlockEndA > usBlockSize2 + uiBlockStart7)
-                ::FUN_005b5e40(
-                    );
+                ::FUN_005b5e40();
             else if (uiBlockEndA < usBlockSize2 + uiBlockStart7)
-                ::FUN_005b5e40(
-                    );
+                ::FUN_005b5e40();
         }
         else
         {
             if (uiBlockEndA > usBlockSize2 + uiBlockStart7)
-                ::FUN_005b5e40(
-                    );
+                ::FUN_005b5e40();
             else if (uiBlockEndA < usBlockSize2 + uiBlockStart7)
-                ::FUN_005b5e40(
-                    );
+                ::FUN_005b5e40();
         }
     }
 }

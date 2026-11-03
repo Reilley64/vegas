@@ -8503,12 +8503,10 @@ void ProcessState::FUN_0090fd80(unsigned flags, unsigned arg2, unsigned arg3)
                 if (record)
                 {
                     FormView* form = ((::fnv_0090fd80::FormView *)(::FUN_004839c0(record->id)));
-                    ::FUN_005b5e40(
-                        );
+                    ::FUN_005b5e40();
                 }
                 else
-                    ::FUN_005b5e40(
-                        );
+                    ::FUN_005b5e40();
             }
             start = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::fnv_0090fd80::SaveReader * *>(&::g_TESSaveLoadGame))))->FUN_00825c00();
             reinterpret_cast<::FUN_008579e0_shell *>(((*reinterpret_cast<::fnv_0090fd80::SaveReader * *>(&::g_TESSaveLoadGame))))->FUN_008579e0(&blockSize, 2);
@@ -8561,20 +8559,16 @@ void ProcessState::FUN_0090fd80(unsigned flags, unsigned arg2, unsigned arg3)
             {
                 FormView* form2 = ((::fnv_0090fd80::FormView *)(::FUN_004839c0(record2->id)));
                 if (end > start + blockSize)
-                    ::FUN_005b5e40(
-                        );
+                    ::FUN_005b5e40();
                 else if (end < start + blockSize)
-                    ::FUN_005b5e40(
-                        );
+                    ::FUN_005b5e40();
             }
             else
             {
                 if (end > start + blockSize)
-                    ::FUN_005b5e40(
-                        );
+                    ::FUN_005b5e40();
                 else if (end < start + blockSize)
-                    ::FUN_005b5e40(
-                        );
+                    ::FUN_005b5e40();
             }
         }
     }

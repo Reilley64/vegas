@@ -578,8 +578,7 @@ unsigned short FUN_009ec890_shell::FUN_009ec890()
         if (header)
         {
             TESForm* form = ::FUN_004839c0(*(unsigned int*)header);
-            ::FUN_0040fbe0(
-                );
+            ::FUN_0040fbe0();
         }
         else
         {
@@ -873,8 +872,7 @@ unsigned short FUN_009ebb80_shell::FUN_009ebb80()
             {
                 FUN_009ebb80_form* pForm = reinterpret_cast<FUN_009ebb80_form*>(::FUN_004839c0(SoundAssetTmp->formID));
 
-                ::FUN_0040fbe0(
-                    );
+                ::FUN_0040fbe0();
             }
             else
             {

@@ -1247,8 +1247,7 @@ unsigned short FUN_008d0900_shell::FUN_008d0900(unsigned int aiFlags, MobileObje
         if (isize)
         {
             itempStartSize = ((::fnv_008d0900::TESForm *)(::FUN_004839c0(isize->iFormID)));
-            ::FUN_0040fbe0(
-                );
+            ::FUN_0040fbe0();
         }
         else
         {

@@ -337,8 +337,7 @@ unsigned short FUN_009ed5f0_shell::FUN_009ed5f0()
         if (m_pContactSound)
         {
             TESForm* pForm = ::FUN_004839c0(m_pContactSound->formID);
-            ::FUN_0040fbe0(
-                );
+            ::FUN_0040fbe0();
         }
         else
         {
@@ -843,13 +842,11 @@ void PackageReader::LoadPackageBlock()
             if (header)
             {
                 TESForm* form = ::FUN_004839c0(header->formID);
-                ::FUN_005b5e40(
-                    );
+                ::FUN_005b5e40();
             }
             else
             {
-                ::FUN_005b5e40(
-                    );
+                ::FUN_005b5e40();
             }
         }
         pBlockStart = ((char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((LoadManager*)DAT_011de45c)))->FUN_00825c00()));
@@ -865,26 +862,22 @@ void PackageReader::LoadPackageBlock()
             TESForm* form = ::FUN_004839c0(pBlockHeader->formID);
             if (header > pBlockStart + usBlockSize)
             {
-                ::FUN_005b5e40(
-                    );
+                ::FUN_005b5e40();
             }
             else if (header < pBlockStart + usBlockSize)
             {
-                ::FUN_005b5e40(
-                    );
+                ::FUN_005b5e40();
             }
         }
         else
         {
             if (header > pBlockStart + usBlockSize)
             {
-                ::FUN_005b5e40(
-                    );
+                ::FUN_005b5e40();
             }
             else if (header < pBlockStart + usBlockSize)
             {
-                ::FUN_005b5e40(
-                    );
+                ::FUN_005b5e40();
             }
         }
     }

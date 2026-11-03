@@ -2856,11 +2856,11 @@ struct FUN_00880850_stand
 // @fnv 0x00880850
 int FUN_00880850_stand::FUN_00880850(int aiArg1, int aiArg2, int aiArg3)
 {
-    return (int)FUN_00404040(::FUN_00880890((void *)this, aiArg1, (float)aiArg2, aiArg3));
+    return (int)FUN_00404040(::FUN_00880890((void *)this, aiArg1, (float)aiArg2, (void *)(std::intptr_t)aiArg3));
 }
 
 // @fnv 0x00880890
-float FUN_00880890(void* pThis, float a1, float afValue, float a3)
+float FUN_00880890(void* pThis, int aiValue, float afValue, void* apSource)
 {
     return afValue;
 }
@@ -12845,8 +12845,7 @@ unsigned int FUN_008b8ca0_shell::FUN_008b8ca0(TESFaction** apFactionArray, unsig
             icount = icount + 1;
             if (icount >= aiArraySize)
             {
-                ::FUN_005b5e40(
-                    );
+                ::FUN_005b5e40();
                 return aiArraySize;
             }
         }
@@ -12872,8 +12871,7 @@ unsigned int FUN_008b8ca0_shell::FUN_008b8ca0(TESFaction** apFactionArray, unsig
                     icount = icount + 1;
                     if (icount >= aiArraySize)
                     {
-                        ::FUN_005b5e40(
-                            );
+                        ::FUN_005b5e40();
                         return aiArraySize;
                     }
                 }
@@ -21720,7 +21718,7 @@ void FUN_00880ad0_shell::FUN_00880ad0(int aiWhich, float afValue, Actor* apAttac
         return;
     if (::FUN_00406d70(aiWhich, 0x100))
         return;
-    afValue = ::FUN_00880890((void *)(((P09ActorH*)this)), aiWhich, afValue, (float)(apAttacker));
+    afValue = ::FUN_00880890((void *)(((P09ActorH*)this)), aiWhich, afValue, apAttacker);
     float foldValue =
         ::ActorValue::HasActorValueChangedCallback((::ActorValue::Index)(aiWhich)) ? GetCurrentActorValue((ActorValue::Index)aiWhich) : 0.0f;
     if (m_pBaseProcess)
@@ -52156,7 +52154,7 @@ void FUN_00880e00_shell::FUN_00880e00(int aiAV, float afDelta, Actor* apAttacker
         return;
     if (FUN_00406d70(aiAV, 0x100))
         return;
-    afDelta = ::FUN_00880890((void *)this, aiAV, afDelta, (float)(apAttacker));
+    afDelta = ::FUN_00880890((void *)this, aiAV, afDelta, apAttacker);
     float fOldValue = ::ActorValue::HasActorValueChangedCallback((::ActorValue::Index)(aiAV)) ? GetCurrentActorValue((ActorValue::Index)aiAV) : 0.0f;
     ((FUN_00880e00_ModList*)&m_kFirstActorData)->FUN_00937480(aiAV, afDelta, 2);
     if (aiAV == 0x10 && afDelta < 0.0)
@@ -53401,7 +53399,7 @@ void FUN_00881130_Class::ApplyActorValueDelta(int index, float delta, FUN_008811
         return;
     if (FUN_00406d70(index, 0x100))
         return;
-    delta = ::FUN_00880890((void *)this, index, delta, (float)(source));
+    delta = ::FUN_00880890((void *)this, index, delta, source);
     float current = ::ActorValue::HasActorValueChangedCallback((::ActorValue::Index)(index)) ? Current(index) : 0.0f;
     if (index == 22 && delta < 0.0)
     {
@@ -60610,7 +60608,7 @@ void ThisC::FUN_0088c830(FormC* p0, int aiCount, void* apExtraData, bool p3, boo
             }
         }
     case 0x1a:
-        if (reinterpret_cast<::Twin_0080f7d0 *>((this))->IsPointInside((float)(p0), (float)(apExtraData)))
+        if (reinterpret_cast<::Twin_0080f7d0 *>((this))->IsPointInside(0.0f, 0.0f))
         {
             if (aiCount > 1)
             {
@@ -82291,8 +82289,7 @@ void B6FF0Actor::CollectLimbBones(B6FF0Node* pkNode, bool bRecursing)
     if (pkNode->IsSceneNode())
     {
         if (::DAT_011df268 >= 256)
-            ::FUN_005b5e40(
-                );
+            ::FUN_005b5e40();
         else
             g_apkB6FF0LimbBones[::DAT_011df268++] = pkNode;
 
@@ -147291,8 +147288,7 @@ bool Pawn::TryAttack(int action)
         int actual = GetType(played_);
         const char* actualName = actual == 255 ? "ANIM_GROUP_NONE" : DAT_011977d8[actual].name;
         const char* requestedName2 = action == 255 ? "ANIM_GROUP_NONE" : DAT_011977d8[action].name;
-        ::FUN_005b5e40(
-            );
+        ::FUN_005b5e40();
     }
     return false;
 }
@@ -152730,7 +152726,7 @@ class VectorComponentValue {
 public:
     __forceinline VectorComponentValue(const hkQuadReal& x) : m_vValue(x) {}
     __forceinline VectorComponentValue() {}
-    __forceinline hkQuadReal broadcast() const { return (_mm_shuffle_ps)(m_vValue, m_vValue, 0); }
+    __forceinline hkQuadReal broadcast() const { return _mm_shuffle_ps(m_vValue, m_vValue, 0); }
     __forceinline const hkQuadReal& getQuad() const { return m_vValue; }
     hkQuadReal m_vValue;
 };
@@ -152752,7 +152748,7 @@ public:
     __forceinline hkVector4() {}
     __forceinline hkQuadReal& getQuad() { return m_vComponents; }
     __forceinline void operator=(const hkVector4& v) { m_vComponents = v.m_vComponents; }
-    __forceinline void SetAllComponents(hkSimdRealParameter a) { m_vComponents = (_mm_shuffle_ps)(a.getQuad(), a.getQuad(), 0); }
+    __forceinline void SetAllComponents(hkSimdRealParameter a) { m_vComponents = _mm_shuffle_ps(a.getQuad(), a.getQuad(), 0); }
     __forceinline void add4(const hkVector4& v) { m_vComponents = (_mm_add_ps)(m_vComponents, v.m_vComponents); }
     __forceinline void setAdd4(const hkVector4& v0, const hkVector4& v1) { m_vComponents = (_mm_add_ps)(v0.m_vComponents, v1.m_vComponents); }
     __forceinline void setSub4(const hkVector4& v0, const hkVector4& v1) { m_vComponents = (FloatHardware::_mm_sub_ps)(v0.m_vComponents, v1.m_vComponents); }
@@ -152765,19 +152761,19 @@ public:
     __forceinline void addMul4(hkSimdRealParameter r, const hkVector4& v1) { m_vComponents = (_mm_add_ps)(m_vComponents, (_mm_mul_ps)(r.broadcast(), v1.m_vComponents)); }
     __forceinline void setCross(const hkVector4& v0, const hkVector4& v1) {
         hkQuadReal cross0;
-        cross0 = (_mm_mul_ps)((_mm_shuffle_ps)(v0.m_vComponents, v0.m_vComponents, 0xc9), (_mm_shuffle_ps)(v1.m_vComponents, v1.m_vComponents, 0xd2));
+        cross0 = (_mm_mul_ps)(_mm_shuffle_ps(v0.m_vComponents, v0.m_vComponents, 0xc9), _mm_shuffle_ps(v1.m_vComponents, v1.m_vComponents, 0xd2));
         hkQuadReal cross1;
-        cross1 = (_mm_mul_ps)((_mm_shuffle_ps)(v0.m_vComponents, v0.m_vComponents, 0xd2), (_mm_shuffle_ps)(v1.m_vComponents, v1.m_vComponents, 0xc9));
+        cross1 = (_mm_mul_ps)(_mm_shuffle_ps(v0.m_vComponents, v0.m_vComponents, 0xd2), _mm_shuffle_ps(v1.m_vComponents, v1.m_vComponents, 0xc9));
         m_vComponents = (FloatHardware::_mm_sub_ps)(cross0, cross1);
     }
     __forceinline VectorComponentValue dot3(const hkVector4& a) const {
         hkQuadReal x2 = (_mm_mul_ps)(m_vComponents, a.m_vComponents);
-        hkQuadReal xySum = (_mm_add_ss)((_mm_shuffle_ps)(x2, x2, 0x55), x2);
-        return (_mm_add_ss)((_mm_shuffle_ps)(x2, x2, 0xaa), xySum);
+        hkQuadReal xySum = (_mm_add_ss)(_mm_shuffle_ps(x2, x2, 0x55), x2);
+        return (_mm_add_ss)(_mm_shuffle_ps(x2, x2, 0xaa), xySum);
     }
     __forceinline VectorComponentValue lengthSquared3() const { return this->dot3(*this); }
     __forceinline void setXYZW(const hkVector4& xyz, const hkVector4& w) {
-        m_vComponents = (_mm_shuffle_ps)(xyz.m_vComponents, (_mm_unpackhi_ps)(xyz.m_vComponents, w.m_vComponents), 0xc4);
+        m_vComponents = _mm_shuffle_ps(xyz.m_vComponents, (_mm_unpackhi_ps)(xyz.m_vComponents, w.m_vComponents), 0xc4);
     }
     __forceinline void setSqrtInverse4(const hkVector4& vec) {
         hkQuadReal r = vec.m_vComponents;
@@ -152789,22 +152785,22 @@ public:
     __forceinline VectorComponentValue getSimdAt(int i) const {
         switch (i) {
         case 0: return m_vComponents;
-        case 1: return (_mm_shuffle_ps)(m_vComponents, m_vComponents, 0x55);
-        case 2: return (_mm_shuffle_ps)(m_vComponents, m_vComponents, 0xaa);
-        default: return (_mm_shuffle_ps)(m_vComponents, m_vComponents, 0xff);
+        case 1: return _mm_shuffle_ps(m_vComponents, m_vComponents, 0x55);
+        case 2: return _mm_shuffle_ps(m_vComponents, m_vComponents, 0xaa);
+        default: return _mm_shuffle_ps(m_vComponents, m_vComponents, 0xff);
         }
     }
     __forceinline void broadcast(int i) {
-        if (i == 0) m_vComponents = (_mm_shuffle_ps)(m_vComponents, m_vComponents, 0);
-        else if (i == 1) m_vComponents = (_mm_shuffle_ps)(m_vComponents, m_vComponents, 0x55);
-        else if (i == 2) m_vComponents = (_mm_shuffle_ps)(m_vComponents, m_vComponents, 0xaa);
-        else if (i == 3) m_vComponents = (_mm_shuffle_ps)(m_vComponents, m_vComponents, 0xff);
+        if (i == 0) m_vComponents = _mm_shuffle_ps(m_vComponents, m_vComponents, 0);
+        else if (i == 1) m_vComponents = _mm_shuffle_ps(m_vComponents, m_vComponents, 0x55);
+        else if (i == 2) m_vComponents = _mm_shuffle_ps(m_vComponents, m_vComponents, 0xaa);
+        else if (i == 3) m_vComponents = _mm_shuffle_ps(m_vComponents, m_vComponents, 0xff);
     }
     __forceinline void setBroadcast(const hkVector4& v, int i) {
-        if (i == 0) m_vComponents = (_mm_shuffle_ps)(v.m_vComponents, v.m_vComponents, 0);
-        else if (i == 1) m_vComponents = (_mm_shuffle_ps)(v.m_vComponents, v.m_vComponents, 0x55);
-        else if (i == 2) m_vComponents = (_mm_shuffle_ps)(v.m_vComponents, v.m_vComponents, 0xaa);
-        else if (i == 3) m_vComponents = (_mm_shuffle_ps)(v.m_vComponents, v.m_vComponents, 0xff);
+        if (i == 0) m_vComponents = _mm_shuffle_ps(v.m_vComponents, v.m_vComponents, 0);
+        else if (i == 1) m_vComponents = _mm_shuffle_ps(v.m_vComponents, v.m_vComponents, 0x55);
+        else if (i == 2) m_vComponents = _mm_shuffle_ps(v.m_vComponents, v.m_vComponents, 0xaa);
+        else if (i == 3) m_vComponents = _mm_shuffle_ps(v.m_vComponents, v.m_vComponents, 0xff);
     }
     __forceinline void SetRotatedDirection(const hkQuaternion& quat, const hkVector4& direction);
     __forceinline void _setTransformedPos(const hkQsTransform& a, const hkVector4& b);

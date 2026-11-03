@@ -1036,8 +1036,7 @@ void FUN_009c9280_shell::ExecuteVATSMeleeAttack(VATSCommand* pAttackCmd)
         {
             if (reinterpret_cast<::FUN_005ff160_shell *>((this->m_pIdleForm))->GetFlagsMasked() != 4)
             {
-                ::FUN_005b5e40(
-                    );
+                ::FUN_005b5e40();
                 this->m_pIdleForm = 0;
             }
         }

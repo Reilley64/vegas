@@ -1635,8 +1635,7 @@ FUN_00985d10* FUN_00991e80_shell::FUN_00991e80()
     unsigned int ipos = reinterpret_cast<::Arr86 *>(this)->AddAtFirstFreeSlot((::BGSAddonNode *&)(pgroup));
     if (ipos > 0x40)
     {
-        ::FUN_005b5e40(
-            );
+        ::FUN_005b5e40();
     }
     reinterpret_cast<::FUN_00537e90 *>((pgroup))->SetQuantity(ipos);
     return pgroup;

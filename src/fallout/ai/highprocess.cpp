@@ -10190,8 +10190,7 @@ bool HighProcessStandIn::IsTargetDetected(Actor* apActor, Actor* apTarget)
         break;
 
     default:
-        ::FUN_005b5e40(
-            );
+        ::FUN_005b5e40();
         break;
     }
 
@@ -71183,8 +71182,7 @@ void ProcessEatProcess008e3140::FUN_008e3140(Actor* actor, TESObjectREFR* prefer
                 reinterpret_cast<::FUN_00675830_shell *>((aShared))->FUN_00675830((::PackValue12 *)(::HighProcessRawPosition *)(&aCreated), actor);
                 if (!aOwnList && !aRegion)
                 {
-                    ::FUN_005b5e40(
-                        );
+                    ::FUN_005b5e40();
                     aOwnList = 64;
                 }
                 float aTotal = aOwnList > 0 ? (float)aOwnList

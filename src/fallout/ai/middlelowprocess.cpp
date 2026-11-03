@@ -791,8 +791,7 @@ unsigned short FUN_0092e420_shell::FUN_0092e420(unsigned int flags, int value)
         {
             form = ::FUN_004839c0(hitSound->formID);
 
-            ::FUN_0040fbe0(
-                );
+            ::FUN_0040fbe0();
         }
         else
         {

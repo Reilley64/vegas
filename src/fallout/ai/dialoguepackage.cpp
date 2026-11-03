@@ -434,13 +434,11 @@ unsigned short DialoguePackage::FUN_009ef560()
             {
                 pForm = ::FUN_004839c0(*reinterpret_cast<unsigned int*>(apSaveGameBuffer));
 
-                ::FUN_0040fbe0(
-                    );
+                ::FUN_0040fbe0();
             }
             else
             {
-                ::FUN_0040fbe0(
-                    );
+                ::FUN_0040fbe0();
             }
         }
     }

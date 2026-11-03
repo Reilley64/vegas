@@ -7063,8 +7063,7 @@ void FUN_00923960_shell::UpdateWeaponDrawnAnimation(bool abDrawn, BipedAnim* apB
         }
         else
         {
-            ::FUN_005b5e40(
-                );
+            ::FUN_005b5e40();
         }
     }
 }
@@ -24935,8 +24934,7 @@ bool FurnitureProcess::FUN_00921e80(RefAccess* actor)
             IdleAccess* idle = ((::fnv_00921e80::IdleAccess *)(reinterpret_cast<::IdleAnimationManager *>(((*reinterpret_cast<::fnv_00921e80::ManagerAccess * *>(&::DAT_011cb6a0))))->FindIdleFormForObject((::TESObjectREFR *)(actor), (::TESObjectREFR *)(currentFurniture))));
             if (!idle)
             {
-                ::FUN_005b5e40(
-                    );
+                ::FUN_005b5e40();
                 reinterpret_cast<::fnv_00568020::FUN_00568020_shell *>((currentFurniture))->FUN_00568020(furnitureIndex, 0);
                 reinterpret_cast<::FUN_004974a0_shell *>((anim))->FUN_004974a0();
                 reinterpret_cast<::fnv_00496080::FUN_00496080_shell *>((anim))->FUN_00496080(0, 0.0f);
@@ -29590,13 +29588,11 @@ void TargetProcess::LoadFromSave(unsigned int a1, unsigned int a2, MobileObject*
             if (pFormInfo)
             {
                 TESForm* pForm = ::FUN_004839c0(*(unsigned int*)pFormInfo);
-                ::FUN_005b5e40(
-                    );
+                ::FUN_005b5e40();
             }
             else
             {
-                ::FUN_005b5e40(
-                    );
+                ::FUN_005b5e40();
             }
         }
         aA114 = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::fnv_00924b90::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_00825c00();
@@ -29766,26 +29762,22 @@ void TargetProcess::LoadFromSave(unsigned int a1, unsigned int a2, MobileObject*
             TESForm* pFormEnd = ::FUN_004839c0(*(unsigned int*)pFormInfoEnd);
             if (j > (unsigned int)(ExitLoc + aA114))
             {
-                ::FUN_005b5e40(
-                    );
+                ::FUN_005b5e40();
             }
             else if (j < (unsigned int)(ExitLoc + aA114))
             {
-                ::FUN_005b5e40(
-                    );
+                ::FUN_005b5e40();
             }
         }
         else
         {
             if (j > (unsigned int)(ExitLoc + aA114))
             {
-                ::FUN_005b5e40(
-                    );
+                ::FUN_005b5e40();
             }
             else if (j < (unsigned int)(ExitLoc + aA114))
             {
-                ::FUN_005b5e40(
-                    );
+                ::FUN_005b5e40();
             }
         }
     }
@@ -37124,8 +37116,7 @@ bool P130Process::FUN_009213e0(P130Actor* actor)
             if ((isBed || (((::P130Marker *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((P130Ref*)m_pFurnitureReference)))->FUN_007af430())),
                            ::TESFurniture::IsFurnitureSitMarker(((int)(reinterpret_cast<::FUN_005094b0_shell *>((((P130Marker*)&FurnitureMarker)))->FUN_005094b0()))))) &&
                 !IsFurnitureMarkerValid((Actor*)actor))
-                ::FUN_005b5e40(
-                    );
+                ::FUN_005b5e40();
         }
         SetIdleAnimation(0, 0);
         SetProcessState(0x2000);
@@ -37137,8 +37128,7 @@ bool P130Process::FUN_009213e0(P130Actor* actor)
         P130Node* entry = ((::P130Node *)(reinterpret_cast<::IdleAnimationManager *>(((*reinterpret_cast<::P130Service * *>(&::DAT_011cb6a0))))->FindIdleFormForObject((::TESObjectREFR *)(actor), m_pFurnitureReference)));
         if (!entry)
         {
-            ::FUN_005b5e40(
-                );
+            ::FUN_005b5e40();
             m_ucFurnitureInteractionState = 0;
             return false;
         }

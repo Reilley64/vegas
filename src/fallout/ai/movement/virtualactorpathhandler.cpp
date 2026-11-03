@@ -1436,8 +1436,7 @@ int DoorPathHandler::UpdateDoorPath(NiPoint3& position)
         {
             if (reinterpret_cast<::NiPlane *>(&(((PointComparison&)position)))->operator==((const ::NiPlane &)(actorPosition)))
             {
-                ::FUN_005b5e40(
-                    );
+                ::FUN_005b5e40();
             }
             return -2;
         }

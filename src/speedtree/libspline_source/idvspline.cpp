@@ -15,6 +15,7 @@
 #include "fnv/symbols_00401000.h"
 #include "fnv/symbols_004b1000.h"
 #include "fnv/symbols_005b5000.h"
+#include "fnv/symbols_00ad5000.h"
 #include "fnv/symbols_00b3b000.h"
 #include "fnv/symbols_01017000.h"
 #include "fnv/symbols_01019000.h"
@@ -1693,8 +1694,22 @@ struct TreeQ
         int _Pad;
         return (0 < _Count ? _Count : 1);
     }
+    NodeQ* FUN_00ad1960(NodeQ* _Larg, NodeQ* _Parg, NodeQ* _Rarg, const ValQ& _Val, char _Carg);
     IterQ FUN_00acf120(bool _Addleft, NodeQ* _Wherenode, const ValQ& _Val);
 };
+
+// Shares address 0x00ad1960 with Owner::FUN_00ad1960 (identical node allocators folded by the linker).
+inline NodeQ* TreeQ::FUN_00ad1960(NodeQ* _Larg, NodeQ* _Parg, NodeQ* _Rarg, const ValQ& _Val, char _Carg)
+{
+    NodeQ* _Wherenode = (NodeQ*)::FUN_00ad5370(1, (::AllocElem48*)0);
+    _Wherenode->_Left = _Larg;
+    _Wherenode->_Parent = _Parg;
+    _Wherenode->_Right = _Rarg;
+    _Wherenode->_Myval = _Val;
+    _Wherenode->_Color = _Carg;
+    _Wherenode->_Isnil = 0;
+    return _Wherenode;
+}
 
 inline IterQ::IterQ(NodeQ* p, const TreeQ* t) : _Myaux(0), _Ptr(p)
 {
@@ -1710,7 +1725,7 @@ IterQ TreeQ::FUN_00acf120(bool _Addleft, NodeQ* _Wherenode, const ValQ& _Val)
     {
         ThrowLen(LenErrQ("map/set<T> too long"));
     }
-    NodeQ* _Newnode = ((::NodeQ *)(reinterpret_cast<::Owner *>(this)->FUN_00ad1960((int)(_Myhead), (int)(_Wherenode), (int)(_Myhead), (int)&(_Val), 0)));
+    NodeQ* _Newnode = FUN_00ad1960(_Myhead, _Wherenode, _Myhead, _Val, 0);
     ++_Mysize;
     if (_Wherenode == _Myhead)
     {

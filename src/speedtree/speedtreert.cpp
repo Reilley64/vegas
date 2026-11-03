@@ -5997,7 +5997,15 @@ struct SubC
 };
 struct Sub5c
 {
+    char pad00[0x48];
+    int m_i48;
+    int FUN_00b18300();
 };
+// Shares address 0x00b18300 with NiD3DHLSLPixelShader::FUN_00b18300 (identical getters folded by the linker).
+inline int Sub5c::FUN_00b18300()
+{
+    return m_i48;
+}
 struct Sub10
 {
     int unk00;
@@ -6251,7 +6259,7 @@ bool Tree59::FUN_00b059e0(const char* p1, int p2)
             FUN_00b06810(m_p0c->second());
             FUN_00b069c0(m_p0c->third());
             m_48 = m_p00->count();
-            m_3c = ((int)(reinterpret_cast<::NiD3DHLSLPixelShader *>((m_p5c))->FUN_00b18300()));
+            m_3c = m_p5c->FUN_00b18300();
             if (m_18 == 2)
             {
                 m_18 = 1;

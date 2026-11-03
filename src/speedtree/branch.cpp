@@ -2109,12 +2109,25 @@ struct RingOwner
                       RingPoint* uvScale, float value, bool flag, float uvOffset, int linear);
 };
 
+// The frond engine level read below; the pad stands for members not named yet.
+struct FrondEngineLevels
+{
+    char pad00[0x48];
+    int m_i48;
+    int FUN_00b18300();
+};
+// Shares address 0x00b18300 with NiD3DHLSLPixelShader::FUN_00b18300 (identical getters folded by the linker).
+inline int FrondEngineLevels::FUN_00b18300()
+{
+    return m_i48;
+}
+
 // @fnv 0x00b11050
 void FUN_00b10dc0::FUN_00b11050(unsigned int seed, float scale, int level, const BranchPoint& origin, float age,
                                 float parentFactor, const BranchMatrix& transform, const BranchPoint& axis,
                                 BranchMesh* mesh, void* context, float weight, unsigned int id, float cap)
 {
-    bool animation = ((bool)(reinterpret_cast<::FUN_00b18320_Class *>((DAT_011f8c00))->GetByteAtOffset4C())) && level >= ((int)(reinterpret_cast<::NiD3DHLSLPixelShader *>((DAT_011f8c00))->FUN_00b18300()));
+    bool animation = ((bool)(reinterpret_cast<::FUN_00b18320_Class *>((DAT_011f8c00))->GetByteAtOffset4C())) && level >= (reinterpret_cast<FrondEngineLevels *>((DAT_011f8c00))->FUN_00b18300());
     if (level == DAT_011ad14c)
         id = (*reinterpret_cast<unsigned int *>(&::fnv_00b2af80::DAT_011f8bfc))++;
     if (level == 0)
@@ -2340,7 +2353,7 @@ void FUN_00b10dc0::FUN_00b11050(unsigned int seed, float scale, int level, const
                         qpia *= qpia;
                     qHVMR.object->FUN_00b11050(seed, scale, level, qJDuOZ, qxWmVch, qpia, entries[qHVMR.idx].matrix,
                                                entries[qHVMR.idx].direction, mesh, context, qQMZREG, id, qZWI);
-                    if (!((bool)(reinterpret_cast<::FUN_00b18320_Class *>((DAT_011f8c00))->GetByteAtOffset4C())) || level < ((int)(reinterpret_cast<::NiD3DHLSLPixelShader *>((DAT_011f8c00))->FUN_00b18300())))
+                    if (!((bool)(reinterpret_cast<::FUN_00b18320_Class *>((DAT_011f8c00))->GetByteAtOffset4C())) || level < (reinterpret_cast<FrondEngineLevels *>((DAT_011f8c00))->FUN_00b18300()))
                         reinterpret_cast<::FrondPointAppend *>(&(childList))->FUN_00b1e4c0((const ::FrondPoint &)(qHVMR));
                     else
                     {

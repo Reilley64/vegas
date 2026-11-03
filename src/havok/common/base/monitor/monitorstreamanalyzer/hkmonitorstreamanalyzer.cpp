@@ -4561,3 +4561,5 @@ static __declspec(noinline) void FUN_00e0cec0(float start, float step, int axis,
         --n;
     }
 }
+
+#include "generated/data/havok/common/base/monitor/monitorstreamanalyzer/hkmonitorstreamanalyzer.inc"

@@ -2,6 +2,7 @@
 // src/fallout/ai/combat/combatprocedurehidefromtarget.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/combat/combatprocedurehidefromtarget.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "generated/data/vtables.h"
 #include "fnv/decl/AlchemyItem.h"
 #include "fnv/decl/BSFaceGenNiNode.h"
 #include "fnv/decl/CPStandIn009caae0.h"
@@ -70,7 +71,7 @@ struct FUN_009d6120_shell
 // @fnv 0x009d6120
 void FUN_009d6120_shell::FUN_009d6120()
 {
-    *reinterpret_cast<int*>(this) = 0x01091a64;
+    *reinterpret_cast<void**>(this) = fnv_vftable_DAT_01091a64;
     reinterpret_cast<::FUN_009ca6c0_class *>((reinterpret_cast<FUN_009ca6c0_shell*>(this)))->FUN_009ca6c0();
 }
 

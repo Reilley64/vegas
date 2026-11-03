@@ -341,3 +341,5 @@ void FUN_006ffe80_shell::FUN_006ffe10()
     m_28 = 1;
     m_29 = 0;
 }
+
+#include "generated/data/fallout/interface/fadermanager.inc"

@@ -1639,3 +1639,5 @@ void GeomShader::RenderGeometry(int arg)
             r->Render(iSetting, geom, bc, 0, b8, arg, 0, bound, name, 0, 1);
     }
 }
+
+#include "generated/data/bsshader/bsdistanttreeshader.inc"

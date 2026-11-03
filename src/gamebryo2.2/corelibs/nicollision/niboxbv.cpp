@@ -4594,3 +4594,5 @@ bool __cdecl FUN_00ea7d40(float maxTime, const SweepBox& box0, const SweepPoint&
     }
     return true;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nicollision/niboxbv.inc"

@@ -16045,3 +16045,5 @@ void __cdecl FUN_00be9920()
     DAT_011fbe14 = 0x300;
 }
 }  // namespace fnv_00be9920
+
+#include "generated/data/bsshader/shadowlightshader.inc"

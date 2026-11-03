@@ -25,3 +25,5 @@ unsigned int NiFile::RequestFileAccess(const char* name, unsigned int mode, unsi
     ::CompleteJob((::JobA *)(::NiFileAccessRequest *)(&request));
     return request.result;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nisystem/nifile.inc"

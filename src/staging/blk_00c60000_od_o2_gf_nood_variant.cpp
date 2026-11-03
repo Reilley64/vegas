@@ -1255,3 +1255,5 @@ inline void Vector::FUN_005611c0()
     inverse = _mm_andnot_ps(_mm_cmpeq_ss(s, _mm_set_ss(0.0f)), inverse);
     value = _mm_mul_ps(_mm_shuffle_ps(inverse, inverse, 0), value);
 }
+
+#include "generated/data/staging/blk_00c60000_od_o2_gf_nood_variant.inc"

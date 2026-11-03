@@ -113,3 +113,5 @@ struct FUN_00aa5220_Class
 // @fnv 0x00aa5220
 void FUN_00aa5220_Class::FUN_00aa5220()
 {}
+
+#include "generated/data/bscore/bsrandom.inc"

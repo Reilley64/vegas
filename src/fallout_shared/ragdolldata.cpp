@@ -1102,3 +1102,5 @@ void RagDollDataInit::InitFromRef(RagDollRefStandIn* apRef)
         }
     }
 }
+
+#include "generated/data/fallout_shared/ragdolldata.inc"

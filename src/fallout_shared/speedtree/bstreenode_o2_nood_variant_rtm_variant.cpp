@@ -1617,3 +1617,5 @@ void S00c880f0_Cls::FUN_00c880f0()
         }
     }
 }
+
+#include "generated/data/fallout_shared/speedtree/bstreenode_o2_nood_variant_rtm_variant.inc"

@@ -3569,3 +3569,5 @@ void S2bde0_Tree::FUN_00b2c790(S2bde0_Parser* parser)
         throw error2;
     }
 }
+
+#include "generated/data/speedtree/treeengine_ob1_variant.inc"

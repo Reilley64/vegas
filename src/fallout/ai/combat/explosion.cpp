@@ -3391,3 +3391,5 @@ Base1* FUN_00576870_cls::FUN_00576870(int a)
 {
     return static_cast<Derived*>(((::Base2 *)(reinterpret_cast<::Holder0057c400 *>(&(m_sub))->FUN_0057c400(a))));
 }
+
+#include "generated/data/fallout/ai/combat/explosion.inc"

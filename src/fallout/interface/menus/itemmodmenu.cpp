@@ -1674,3 +1674,5 @@ void __cdecl PopulateModListScreen()
         reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((Screen*)(*reinterpret_cast<int *>(&::DAT_011d9f54)))->label58))->FUN_00a01350(4036, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Setting *>(&::g_011d29f4))))->GetMenuTitle()))), true);
     }
 }
+
+#include "generated/data/fallout/interface/menus/itemmodmenu.inc"

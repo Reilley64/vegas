@@ -13954,3 +13954,5 @@ bool FUN_006bfb90_shell::FUN_006bfb90(FUN_006bfb90_shell* other)
     return m_iWordAt00 == other->m_iWordAt00 && m_iWordAt04 == other->m_iWordAt04 && m_8 == other->m_8;
 }
 }  // namespace fnv_006bfb90
+
+#include "generated/data/staging/blk_006a0000_od.inc"

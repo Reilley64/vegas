@@ -4023,3 +4023,5 @@ int Thing::GetIndex(int value)
     }
     return 0;
 }
+
+#include "generated/data/fallout/interface/menus/surgerymenu.inc"

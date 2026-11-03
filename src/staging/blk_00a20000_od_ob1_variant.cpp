@@ -6285,3 +6285,5 @@ FUN_00a26240::~FUN_00a26240()
     }
     a = 0;
 }
+
+#include "generated/data/staging/blk_00a20000_od_ob1_variant.inc"

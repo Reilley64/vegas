@@ -1553,3 +1553,5 @@ FUN_009badc0::~FUN_009badc0()
     m_pController = 0;
     reinterpret_cast<::ShadowNode *>(this)->FUN_009bb850();
 }
+
+#include "generated/data/fallout/ai/combat/muzzleflash.inc"

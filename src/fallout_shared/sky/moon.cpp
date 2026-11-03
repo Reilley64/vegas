@@ -550,3 +550,5 @@ void FUN_00636020_shell::FUN_00636020(::Sky* apSky, float afSecondsPassed)
 }
 
 }
+
+#include "generated/data/fallout_shared/sky/moon.inc"

@@ -30,3 +30,5 @@ void BSAudioDefinesEmitCoveredFunctions()
     BSSoundMessageList* pList = 0;
     reinterpret_cast<::SndStack70 *>((pList))->FUN_00ae7f90();
 }
+
+#include "generated/data/bsaudio/bsaudiodefines_h_unit.inc"

@@ -3291,3 +3291,5 @@ void LiquidActionCandidate::FUN_00cbccb0(float delta)
 
     pending = 0;
 }
+
+#include "generated/data/fallout/ai/combat/explosion_o2_nood_variant.inc"

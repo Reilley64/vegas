@@ -15013,3 +15013,5 @@ void S00875bf0_Shell875::FUN_00875bf0()
         reinterpret_cast<::FUN_00c4f2d0_class *>((scene))->FUN_00c4f2d0();
     }
 }
+
+#include "generated/data/fallout/misc/main.inc"

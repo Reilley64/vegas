@@ -942,3 +942,5 @@ void DynamicGroupData::FUN_00e95880()
     sets.Destroy(&DAT_010f107c, &DAT_010f103c);
     reinterpret_cast<::FUN_00e98710_cls *>(this)->FUN_00e98710();
 }
+
+#include "generated/data/gamebryo2.2/corelibs/niconsolerenderer/nidynamicgeometrygroup.inc"

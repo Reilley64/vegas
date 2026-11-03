@@ -2303,3 +2303,5 @@ FUN_009d1d30_Vec3 CombatThing::GetTrajectory(unsigned int auiArg)
     ComputeTrajectory(&kResult3, ((::Actor *)(reinterpret_cast<::FUN_00996de0_Class *>(this)->FUN_00996de0())), pActor2, auiArg, reinterpret_cast<::Thing *>((pTarget))->GetOrFallback((int)(((::Actor *)(reinterpret_cast<::FUN_00996de0_Class *>(this)->FUN_00996de0())))), 0.0f, 0);
     return kResult3;
 }
+
+#include "generated/data/fallout/ai/combat/combatprocedureattackranged.inc"

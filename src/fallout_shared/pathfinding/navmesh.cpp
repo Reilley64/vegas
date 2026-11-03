@@ -1,5 +1,6 @@
 // fallout_shared/pathfinding/navmesh.cpp: NavMesh, ActorMover, BGSCameraPath, TESEffectShader and more (97 functions)
 
+#include "generated/data/vtables.h"
 #include <new>
 #include <cmath>
 #include <cstring>
@@ -243,7 +244,7 @@ bool NavMesh::GetStaticAvoidNodesForTriangle(unsigned short triangle,
 // @fnv 0x006dd010
 PathingLocation::PathingLocation(const CoordinateTriple& location, NavMeshInfo* navMesh, unsigned short triangle)
 {
-    m_ppVirtualMethodTable = (void**)0x0102583c;
+    m_ppVirtualMethodTable = (void**)fnv_vftable_DAT_0102583c;
     new ((void *)(((BSSimpleList<InventoryStackRecord*>*)&Location))) ::Vec3();
     Location = location.Point;
     uiFlags = 0;
@@ -2813,3 +2814,5 @@ FUN_00691ea0::~FUN_00691ea0()
 {
     reinterpret_cast<::FUN_00438af0_Class *>(this)->FUN_00438af0();
 }
+
+#include "generated/data/fallout_shared/pathfinding/navmesh.inc"

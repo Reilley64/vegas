@@ -2819,3 +2819,5 @@ void ActorBaseInitItemView::FUN_0047d8b0(TESForm* param)
         }
     }
 }
+
+#include "generated/data/fallout_shared/tesactorbasedata.inc"

@@ -15448,3 +15448,5 @@ FUN_00b17fd0::FUN_00b17fd0()
     curve40 = new SplineCurve(std::string(
         "BezierSpline 0.0 1.0 0.0 { 3 0 0.00138887 0.337009 0.941501 0.132767 0.493215 0.998903 1 0.00102074 0.23702 1 -6.24607e-008 0.307222 -0.951638 0.126974 }"));
 }
+
+#include "generated/data/staging/blk_00b00000_od_ob1_variant.inc"

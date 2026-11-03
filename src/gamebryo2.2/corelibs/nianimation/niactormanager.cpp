@@ -43,3 +43,5 @@ void ClearNodeList()
     *(volatile int*)&DAT_011f3e80 = 0;
     *(volatile int*)&DAT_011f3e7c = 0;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nianimation/niactormanager.inc"

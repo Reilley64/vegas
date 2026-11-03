@@ -309,3 +309,5 @@ ArrowGeometry* __cdecl FUN_00c59a50(const ArrowPoint& direction, const ArrowColo
         return vertices5;
     }
 }
+
+#include "generated/data/fallout/ai/actor_ob1_variant.inc"

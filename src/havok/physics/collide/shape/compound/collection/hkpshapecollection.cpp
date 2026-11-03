@@ -601,3 +601,5 @@ class FUN_00d21410 : public hkpShape_ctor, public ShapeContainerLite
 FUN_00d21410::FUN_00d21410(int type, char collectionType)
     : hkpShape_ctor(type), ShapeContainerLite(), m_info(collectionType)
 {}
+
+#include "generated/data/havok/physics/collide/shape/compound/collection/hkpshapecollection.inc"

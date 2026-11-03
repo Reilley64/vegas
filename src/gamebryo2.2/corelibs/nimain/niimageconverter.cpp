@@ -679,3 +679,5 @@ ImageResult* ImageOwner::LoadImage(const char* apPath, ImageResult* destination,
     }
     return 0;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nimain/niimageconverter.inc"

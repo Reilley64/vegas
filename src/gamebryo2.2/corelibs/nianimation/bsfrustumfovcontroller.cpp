@@ -519,3 +519,5 @@ void BSFrustumFOVController::GetFieldOfView(float& afOutValue)
     float v = pCamera->m_fFieldOfView;
     afOutValue = atan(v) * 2.0f;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nianimation/bsfrustumfovcontroller.inc"

@@ -1440,3 +1440,5 @@ void SearchProcedure::UpdateSearchState()
         break;
     }
 }
+
+#include "generated/data/fallout/ai/combat/combatproceduresearch.inc"

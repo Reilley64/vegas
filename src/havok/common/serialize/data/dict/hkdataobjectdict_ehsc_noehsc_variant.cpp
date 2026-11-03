@@ -4970,3 +4970,5 @@ hkDataClassDictDC82* hkDataWorldDC82::FUN_00dc8270(const hkClassDC82& pClassInfo
     }
     return c;
 }
+
+#include "generated/data/havok/common/serialize/data/dict/hkdataobjectdict_ehsc_noehsc_variant.inc"

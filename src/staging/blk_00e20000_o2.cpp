@@ -4830,3 +4830,5 @@ void S_Class2b0::FUN_00e3f2b0(S_Out2b0* apOut)
             reinterpret_cast<::FUN_00d61df0_cls *>((apOut))->FUN_00d61df0((int)(str_010ebaa0));
     }
 }
+
+#include "generated/data/staging/blk_00e20000_o2.inc"

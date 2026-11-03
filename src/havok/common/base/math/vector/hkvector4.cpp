@@ -1660,3 +1660,5 @@ end:
         reinterpret_cast<::FUN_00c6c720_class *>(&(sub))->AccumulateValue((int)((void*)iIndex), scalar(_mm_shuffle_ps(_mm_load_ps(a->v), _mm_load_ps(a->v), 170)));
     return flag;
 }
+
+#include "generated/data/havok/common/base/math/vector/hkvector4.inc"

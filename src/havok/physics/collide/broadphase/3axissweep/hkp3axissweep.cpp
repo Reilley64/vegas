@@ -4111,3 +4111,5 @@ void AssignedSweep::FUN_00d193e0(RemovedHandleList* apRemoved, int arg2)
     GetHeap()->ReleaseTemp(D);
     FreeBuffer(pSortedBoxes, capA);
 }
+
+#include "generated/data/havok/physics/collide/broadphase/3axissweep/hkp3axissweep.inc"

@@ -115,3 +115,5 @@ void TileMenuStub::FUN_00a1f310()
     else
         reinterpret_cast<::A0B020Tile *>(this)->FUN_00a0b020();
 }
+
+#include "generated/data/bsmenu/tilemenu.inc"

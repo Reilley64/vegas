@@ -1389,3 +1389,5 @@ void native_entry()
 {
     FUN_00dd0660(probe_count, probe_cfm, probe_jac, probe_offsets, probe_bodies, probe_rows, 0);
 }
+
+#include "generated/data/havok/common/base/math/matrix/hkmatrix3.inc"

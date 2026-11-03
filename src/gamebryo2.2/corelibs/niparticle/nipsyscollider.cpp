@@ -860,3 +860,5 @@ FUN_00c32780::FUN_00c32780(float bounce, bool spawn, bool die, NiPSysSpawnModifi
     : m_fBounceFactor(bounce), m_bSpawnOnCollision(spawn), m_bDieOnCollision(die), m_pSpawnModifier(spawnMod),
       m_kCollisionPosition(NiPoint3::ZERO), m_fSpawnRate(0.0f), m_pColliderManager(0)
 {}
+
+#include "generated/data/gamebryo2.2/corelibs/niparticle/nipsyscollider.inc"

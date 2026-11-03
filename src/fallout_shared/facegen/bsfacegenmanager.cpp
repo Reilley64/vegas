@@ -7265,3 +7265,5 @@ FUN_006518e0::~FUN_006518e0()
     cache = 0;
 }
 }  // namespace fnv_006518e0
+
+#include "generated/data/fallout_shared/facegen/bsfacegenmanager.inc"

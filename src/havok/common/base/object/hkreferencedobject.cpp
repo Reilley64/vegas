@@ -1579,3 +1579,5 @@ void __cdecl FUN_00c904e0()
         LeaveCriticalSection(&lock->m_kCriticalSection);
     }
 }
+
+#include "generated/data/havok/common/base/object/hkreferencedobject.inc"

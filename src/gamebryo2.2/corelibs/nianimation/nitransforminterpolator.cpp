@@ -1427,3 +1427,5 @@ void S00a3ffd0_Interp::FUN_00a3ffd0()
         m_spTransformData = 0;
     m_kDefaultTransform = kTransform;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nianimation/nitransforminterpolator.inc"

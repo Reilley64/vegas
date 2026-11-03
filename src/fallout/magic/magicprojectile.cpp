@@ -1875,3 +1875,5 @@ void __cdecl FUN_0081e040(void* a, unsigned int b, unsigned int c, int d, GameTi
         reinterpret_cast<::Host096d450 *>(&((*reinterpret_cast<::fnv_0081e040::Host096d450 *>(&::g_011e0e80))))->FUN_0096d450((::MobileObject *)(result), 0, 0, 0, (::MobileObject *)(void *)(0));
 }
 }  // namespace fnv_0081e040
+
+#include "generated/data/fallout/magic/magicprojectile.inc"

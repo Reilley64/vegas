@@ -2196,3 +2196,5 @@ void __cdecl FUN_00ce5a70(CE5F90QsTransform* mappingType, const CE5F90QsTransfor
 }
 }  // namespace fnv_00ce5a70
 #include "fnv/symbols_simd.h"
+
+#include "generated/data/havok/animation/animation/mapper/hkaskeletonmapperutils_gs_ehsc_nogs_noehsc_variant_rtm_variant.inc"

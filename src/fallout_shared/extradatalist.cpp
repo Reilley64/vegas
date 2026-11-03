@@ -23722,3 +23722,5 @@ char const* FUN_0048e730(::TESForm* form, int arg)
     }
     return ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((pTexture))->FUN_00408da0()));
 }
+
+#include "generated/data/fallout_shared/extradatalist.inc"

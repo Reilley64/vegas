@@ -449,3 +449,5 @@ hkpWorldObject::hkpWorldObject(const void* shape, int type)
         reinterpret_cast<::FUN_00c90510_class *>((((FUN_00c90510_s*)shape)))->FUN_00c90510();
 }
 }
+
+#include "generated/data/havok/physics/dynamics/world/hkpworldobject.inc"

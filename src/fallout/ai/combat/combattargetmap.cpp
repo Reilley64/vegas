@@ -196,3 +196,5 @@ FUN_009a3ef0::~FUN_009a3ef0()
     }
     reinterpret_cast<::FUN_00438af0_Class *>((((MyMap*)this)))->FUN_00438af0();
 }
+
+#include "generated/data/fallout/ai/combat/combattargetmap.inc"

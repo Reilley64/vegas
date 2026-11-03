@@ -2878,3 +2878,5 @@ FUN_006104c0::~FUN_006104c0()
     ((RaceCleanup*)this)->FUN_00610ac0();
 }
 }
+
+#include "generated/data/fallout_shared/tesrace.inc"

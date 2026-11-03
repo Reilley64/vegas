@@ -1475,3 +1475,5 @@ void FUN_00d68b20_cls::FUN_00d68b20(int idx)
     }
     a->size = 0;
 }
+
+#include "generated/data/havok/physics/utilities/visualdebugger/viewer/collide/hkpconvexradiusviewer.inc"

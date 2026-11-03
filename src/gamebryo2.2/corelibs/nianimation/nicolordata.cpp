@@ -689,3 +689,5 @@ void FUN_00a3d270_cls::BuildAndSetData(float fFirst, float fSecond, NiPointerD27
     }
     spResult = spScreenData;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nianimation/nicolordata.inc"

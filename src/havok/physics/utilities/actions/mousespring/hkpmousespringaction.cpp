@@ -723,3 +723,5 @@ FUN_00cbb4e0::FUN_00cbb4e0(int arg)
     m_uiCollisionShapeKey = 0xFFFFFFFF;
     reinterpret_cast<::SStringPtr *>((((Ms_N*)&m_name)))->FUN_00cb0c10("hkpMouseSpringAction");
 }
+
+#include "generated/data/havok/physics/utilities/actions/mousespring/hkpmousespringaction.inc"

@@ -4518,3 +4518,5 @@ void FNVAnimationController::FUN_00c7cb50(int side) {
         ++nodeIndex;
     }
 }
+
+#include "generated/data/fallout/ai/actor_o2_nood_variant_rtm_variant.inc"

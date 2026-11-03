@@ -68,3 +68,5 @@ FUN_00c47660::FUN_00c47660()
     m_2c = 0;
     m_bA0 = false;
 }
+
+#include "generated/data/bsshader/shadowscenelight_od_variant_ob1_variant.inc"

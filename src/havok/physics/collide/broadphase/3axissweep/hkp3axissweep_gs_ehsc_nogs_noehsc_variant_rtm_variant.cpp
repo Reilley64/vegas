@@ -2017,3 +2017,5 @@ void Sweep3Axis::FUN_00d11020(const OffsetScaleVector& offsetLow, const OffsetSc
     m_kVectorAt40.zeroElement3();
     m_kVectorAt50.zeroElement3();
 }
+
+#include "generated/data/havok/physics/collide/broadphase/3axissweep/hkp3axissweep_gs_ehsc_nogs_noehsc_variant_rtm_variant.inc"

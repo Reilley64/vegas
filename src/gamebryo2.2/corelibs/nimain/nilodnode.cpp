@@ -1063,3 +1063,5 @@ void LODLoader::FUN_00a994d0(NiStream* pStream)
         reinterpret_cast<::FUN_00a645b0_cls *>((stream))->FUN_00a645b0();
     }
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nimain/nilodnode.inc"

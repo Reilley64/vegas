@@ -3523,3 +3523,5 @@ void BoundLoadEffectView::FUN_0080a2d0(int arg)
         }
     }
 }
+
+#include "generated/data/fallout/magic/bounditemeffect.inc"

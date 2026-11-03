@@ -2075,3 +2075,5 @@ void Target::FUN_00ead1e0()
         }
     }
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nicollision/nicollisiondata.inc"

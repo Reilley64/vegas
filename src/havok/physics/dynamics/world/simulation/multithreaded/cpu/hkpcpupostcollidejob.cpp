@@ -169,3 +169,5 @@ int __cdecl AccumulateShapes(Worker** a1, TargetClass* apTarget, Caller* apCalle
         return 2;
     }
 }
+
+#include "generated/data/havok/physics/dynamics/world/simulation/multithreaded/cpu/hkpcpupostcollidejob.inc"

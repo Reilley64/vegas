@@ -1116,3 +1116,5 @@ void hkpMoppBvTreeShapeD543::FUN_00d54380(const hkAabbD543& kAabbIn, hkArrayD543
     reinterpret_cast<::GridCell *>(&(kQuery))->FUN_00dd1da0((::GridSource *)(m_pMoppCode), (::GridBounds *)&(kAabb), (int)(&kHits));
 }
 }  // namespace fnv_00d54380
+
+#include "generated/data/havok/physics/collide/shape/compound/tree/mopp/hkpmoppbvtreeshape.inc"

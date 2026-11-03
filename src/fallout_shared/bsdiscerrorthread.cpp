@@ -8,3 +8,5 @@ int __cdecl FUN_00652130()
 {
     return DAT_011d59dc;
 }
+
+#include "generated/data/fallout_shared/bsdiscerrorthread.inc"

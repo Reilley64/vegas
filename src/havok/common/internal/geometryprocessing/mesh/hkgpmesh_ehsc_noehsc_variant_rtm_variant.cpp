@@ -5580,3 +5580,5 @@ __declspec(noinline) Obj* FUN_00e1c940(ThisCls* self, void*, float a, int n)
     reinterpret_cast<::fnv_00d9c010::FUN_00d9c010_cls *>(&(l2))->ClearBuffers();
     return obj;
 }
+
+#include "generated/data/havok/common/internal/geometryprocessing/mesh/hkgpmesh_ehsc_noehsc_variant_rtm_variant.inc"

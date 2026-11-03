@@ -2255,3 +2255,5 @@ void FleePackageLG::FUN_009f25f0(void* apBuffer)
         }
     }
 }
+
+#include "generated/data/fallout/ai/fleepackage.inc"

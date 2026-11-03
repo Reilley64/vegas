@@ -3523,3 +3523,5 @@ void ImpProjectile::ApplyImpact(ImpTarget* apTarget, ImpPoint* apPos, ImpPoint* 
 }
 
 }
+
+#include "generated/data/staging/blk_009c0000_od.inc"

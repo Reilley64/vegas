@@ -3396,3 +3396,5 @@ void ShaderLoadView::FUN_00821ed0(ActiveEffect* effect, TESObjectREFR* target)
             m_pAffectedArmorObject = dynamic_cast<TESBoundObject*>(::FUN_004839c0(objectID));
     }
 }
+
+#include "generated/data/fallout/magic/magicshaderhiteffect.inc"

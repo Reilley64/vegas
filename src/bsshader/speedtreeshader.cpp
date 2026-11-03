@@ -9,3 +9,5 @@ void SpeedTreeLeafShaderConstantMapSetup::ConfigureShaderConstantMap(NiD3DShader
     map->vfn_08("TreeData", 0x10000007, 0, index, 1, "", 16, 4, (*reinterpret_cast<float (*)[4]>(&::DAT_01200678)), false);
     map->vfn_08("WindMatrices", 0x10000009, 0, ++index, 16, "", 256, 4, DAT_01200688, false);
 }
+
+#include "generated/data/bsshader/speedtreeshader.inc"

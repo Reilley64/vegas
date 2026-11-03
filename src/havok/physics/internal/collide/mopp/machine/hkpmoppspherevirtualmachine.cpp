@@ -283,3 +283,5 @@ void xSphereMachine::FUN_00e64f00(const xMoppCode* code, const xSphere& sphere, 
     state.properties[0] = 0;
     FUN_00e64870(&state, program);
 }
+
+#include "generated/data/havok/physics/internal/collide/mopp/machine/hkpmoppspherevirtualmachine.inc"

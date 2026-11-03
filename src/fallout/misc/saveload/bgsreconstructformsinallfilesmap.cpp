@@ -3733,3 +3733,5 @@ void* ReconstructMapDeletingView::FUN_00843440(unsigned int flags)
         ::FUN_00401030(this);
     return this;
 }
+
+#include "generated/data/fallout/misc/saveload/bgsreconstructformsinallfilesmap.inc"

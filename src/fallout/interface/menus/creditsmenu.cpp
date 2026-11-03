@@ -1851,3 +1851,5 @@ bool __cdecl FUN_0075f2a0()
     }
     return false;
 }
+
+#include "generated/data/fallout/interface/menus/creditsmenu.inc"

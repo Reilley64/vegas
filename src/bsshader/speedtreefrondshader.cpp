@@ -320,3 +320,5 @@ void Frond::CreateShaderConstantMaps()
             break;
     }
 }
+
+#include "generated/data/bsshader/speedtreefrondshader.inc"

@@ -1654,3 +1654,5 @@ void PerkSelectMenu::HandleTileAction(int aiTileID, Tile* apTile)
     }
 }
 }  // namespace fnv_007e7280
+
+#include "generated/data/fallout/interface/menus/traitmenu.inc"

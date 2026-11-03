@@ -562,3 +562,5 @@ void __cdecl FUN_00da16d0(const hkVector4& top, const hkVector4& bottom, float r
     appendCapsuleEnd(geom, numSides, startVertex, tri);
     outGeom = geom;
 }
+
+#include "generated/data/havok/common/geometryutilities/misc/hkgeometryutils_gs_nogs_variant_rtm_variant.inc"

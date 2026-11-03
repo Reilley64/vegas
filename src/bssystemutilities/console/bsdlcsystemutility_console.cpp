@@ -411,3 +411,5 @@ void OwnQ::ClearItems(bool bFlag)
     }
     reinterpret_cast<::Node185 *>(&(kList))->FUN_00ae83e0();
 }
+
+#include "generated/data/bssystemutilities/console/bsdlcsystemutility_console.inc"

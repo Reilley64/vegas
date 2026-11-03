@@ -465,3 +465,5 @@ void S00e67230_Machine::FUN_00e67230(const S00e67230_Code* codeIn, const S00e672
         modifierOut->branch(code->data[0] == 13 ? 5 : 0);
     }
 }
+
+#include "generated/data/havok/physics/internal/collide/mopp/machine/hkpmoppmodifyvirtualmachine.inc"

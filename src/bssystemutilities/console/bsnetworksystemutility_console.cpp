@@ -34,3 +34,5 @@ struct FUN_00af2d60_Class
 // @fnv 0x00af2d60
 void FUN_00af2d60_Class::FUN_00af2d60()
 {}
+
+#include "generated/data/bssystemutilities/console/bsnetworksystemutility_console.inc"

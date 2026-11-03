@@ -55371,3 +55371,5 @@ extern "C" void __cdecl FUN_005c0740(::TESObjectREFR* apRef, char acAxis, float 
         }
     }
 }
+
+#include "generated/data/fallout_shared/tesscriptfunctions.inc"

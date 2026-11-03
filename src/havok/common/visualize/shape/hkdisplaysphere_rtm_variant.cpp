@@ -286,3 +286,5 @@ __declspec(noinline) void SphereMeshBuilder::FUN_00e0b360()
     for (int i = 0; i < 20; ++i)
         ::FUN_00e0afe0((::SubdivMesh *)(m_08), i, v, 2.0f);
 }
+
+#include "generated/data/havok/common/visualize/shape/hkdisplaysphere_rtm_variant.inc"

@@ -474,3 +474,5 @@ FUN_004f2870_Landscape::FUN_004f2870_Landscape(const FUN_004f2870_Landscape& kOt
     m_pkTexture = new F2870Texture;
     reinterpret_cast<::TESFullName *>((m_pkTexture))->SetFullName(((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((void *)(kOther.m_pkTexture))->FUN_00408da0())));
 }
+
+#include "generated/data/fallout_shared/region system/tesregiondatalandscape.inc"

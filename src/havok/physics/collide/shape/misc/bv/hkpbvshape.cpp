@@ -351,3 +351,5 @@ void BvShapeReleaseView::FUN_00c9d930()
     *(int*)self = (int)&(*reinterpret_cast<int *>(&::DAT_0102e388));
     *(int*)&self->m_pContainedShape = (int)&DAT_010c6fb0;
 }
+
+#include "generated/data/havok/physics/collide/shape/misc/bv/hkpbvshape.inc"

@@ -1365,3 +1365,5 @@ bool __cdecl FUN_007a8ba0()
     return false;
 }
 }  // namespace fnv_007a8ba0
+
+#include "generated/data/fallout/interface/menus/messagemenu.inc"

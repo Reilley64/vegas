@@ -454,3 +454,5 @@ const char* __cdecl FUN_00d06e60(int value)
         return str_0106f148;
     }
 }
+
+#include "generated/data/havok/common/base/debugutil/statisticscollector/hkstatisticscollector.inc"

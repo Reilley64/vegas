@@ -88,3 +88,5 @@ int FindMiscStatIndex(const char* pcStatName)
     ::FUN_005b5e40();
     return 0x2b;
 }
+
+#include "generated/data/fallout_shared/miscstats.inc"

@@ -1809,3 +1809,5 @@ void OwnerX::FUN_006f8c40()
     else if (loaded && built)
         reinterpret_cast<::BGSDistantTreeBlock *>(this)->ProcessAllTrees();
 }
+
+#include "generated/data/fallout_shared/distant terrain system/bgsdistanttreeblock.inc"

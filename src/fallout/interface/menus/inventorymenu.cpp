@@ -2683,3 +2683,5 @@ void FUN_00781b10_shell::ClearActionPointSource()
 
     reinterpret_cast<FUN_00781680_shell*>(this)->FUN_00781680();
 }
+
+#include "generated/data/fallout/interface/menus/inventorymenu.inc"

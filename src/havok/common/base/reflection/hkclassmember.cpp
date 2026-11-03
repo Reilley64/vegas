@@ -358,3 +358,5 @@ int ClassMember_d869::FUN_00d86980() const
     }
     return size;
 }
+
+#include "generated/data/havok/common/base/reflection/hkclassmember.inc"

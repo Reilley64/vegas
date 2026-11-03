@@ -497,3 +497,5 @@ void FUN_00937400_ModifierList::FUN_00937400(Modifier* modifier)
     reinterpret_cast<::ItemChangeListNode *>(this)->FUN_00905330((::InventoryStackRecord *const &)(modifier));
     delete modifier;
 }
+
+#include "generated/data/fallout/ai/modifierlist.inc"

@@ -512,3 +512,5 @@ bool FUN_00622590_Owner::PlaceGridObjects(FUN_0056d2c0_Class* p1, const NiPoint3
     }
     return bResultTmp;
 }
+
+#include "generated/data/havok/unplaced/cellmopp.inc"

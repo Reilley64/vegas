@@ -2492,3 +2492,5 @@ void FUN_0087d030(BSScrapArray<NiPointer<NiAVObject>, 1024>* apArray)
     }
     reinterpret_cast<::FUN_006c6200_cls *>(&(((FUN_0087d030_ParentArray&)(*reinterpret_cast<::BSSimpleArray< ::ParentSpaceNode, 1024> *>(&::g_011df1c4)))))->FUN_006c6200(false);
 }
+
+#include "generated/data/fallout/misc/taskqueueinterface.inc"

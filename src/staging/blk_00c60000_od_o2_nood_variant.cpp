@@ -7947,3 +7947,5 @@ bool FUN_00c7fcc0(S00c7fcc0_Obj* self, int a2, S00c7fcc0_Out* out, bool flag)
     }
     return result;
 }
+
+#include "generated/data/staging/blk_00c60000_od_o2_nood_variant.inc"

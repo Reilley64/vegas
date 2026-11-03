@@ -224,3 +224,5 @@ xProj::xProj(xActorV* apA, int b, int c, int d, xP3 kP1, xP3 kP2)
             LIST->FUN_005ae3d0(this);
     }
 }
+
+#include "generated/data/fallout/magic/magicboltprojectile_o2_variant_od_oy_noo2_variant.inc"

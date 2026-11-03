@@ -1025,3 +1025,5 @@ void Node::FUN_00ddfd10(const BaseShape* shape, const Transform& mat, Array<Disp
         break;
     }
 }
+
+#include "generated/data/havok/physics/utilities/visualdebugger/viewer/hkpshapedisplaybuilder_gs_ehsc_nogs_noehsc_variant_rtm_variant.inc"

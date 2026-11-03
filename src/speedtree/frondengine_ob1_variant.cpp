@@ -30517,3 +30517,5 @@ void FrondEngine::FUN_00b18fd0(FrondGeometry* output, void* context)
         throw IdvFileError(invalidModeMessage, false);
     }
 }
+
+#include "generated/data/speedtree/frondengine_ob1_variant.inc"

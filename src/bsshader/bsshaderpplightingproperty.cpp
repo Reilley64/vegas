@@ -3689,3 +3689,5 @@ tail: {
     g &= ~0x100u;
 }
 }
+
+#include "generated/data/bsshader/bsshaderpplightingproperty.inc"

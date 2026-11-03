@@ -141,3 +141,5 @@ void FUN_00b6b7d0(NiRenderTargetGroup* pkTarget, unsigned int uiClone)
     ((GraphicsRenderer*)NiRenderer::ms_pRenderer)->BeginUsingRenderTargetGroup(pkTarget2, uiClone);
     ::PushRefCountedSlot((int *)(pkTarget));
 }
+
+#include "generated/data/fallout_shared/speedtree/bstreemanager_o2_variant.inc"

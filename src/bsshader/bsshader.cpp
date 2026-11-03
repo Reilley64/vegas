@@ -2253,3 +2253,5 @@ failure:
     return result;
 }
 }  // namespace fnv_00be0fe0
+
+#include "generated/data/bsshader/bsshader.inc"

@@ -690,3 +690,5 @@ D3DXVECTOR4* FUN_00ee6e34(D3DXVECTOR4* output, const D3DXVECTOR4* input, const D
 {
     return D3DXVec4Transform(output, input, matrix);
 }
+
+#include "generated/data/staging/blk_00ee0000_o2.inc"

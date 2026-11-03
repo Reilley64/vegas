@@ -1590,3 +1590,5 @@ extern "C" int __cdecl FUN_00d28a30(Ref<const SolverInfo> info, const TimeInterv
     return minimum;
 }
 }
+
+#include "generated/data/havok/physics/dynamics/motion/util/hkprigidmotionutil_rtm_variant.inc"

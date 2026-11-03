@@ -1830,3 +1830,5 @@ void CollectionProcessAgent::FUN_00d437a0(ShapeArg* arg, unsigned int a0, unsign
         pBuf->m_pCur = pRec + 1;
     }
 }
+
+#include "generated/data/havok/physics/collide/agent/compoundagent/shapecollection/hkpshapecollectionagent.inc"

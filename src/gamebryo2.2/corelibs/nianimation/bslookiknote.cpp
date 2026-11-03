@@ -689,3 +689,5 @@ void S_00a441f0_cls::AppendFormattedFields(S_00a441f0_arg* p)
         S_Push(p, ::fnv_00a7d5e0::FUN_00a7d5e0((*reinterpret_cast<const char (*)[]>(&::DAT_01044a7c)), (*reinterpret_cast<const char (*)[]>((void *)&::g_011d1f8c_arg1))));
     }
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nianimation/bslookiknote.inc"

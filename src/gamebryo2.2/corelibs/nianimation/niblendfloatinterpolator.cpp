@@ -292,3 +292,5 @@ NiBlendFloatInterpolator* BlendFloatSource::FUN_00a405f0(void* pCloningProcess)
     copy->m_fFloatValue = m_fFloatValue;
     return copy;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nianimation/niblendfloatinterpolator.inc"

@@ -5606,3 +5606,5 @@ void ClassLoad5F::FUN_005f7050()
         reinterpret_cast<::TESFullName *>(&(alternateName))->SetFullName(szAlternateName);
     }
 }
+
+#include "generated/data/staging/blk_005e0000_od.inc"

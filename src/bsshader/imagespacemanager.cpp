@@ -2783,3 +2783,5 @@ void PartialScreenGeometryReceiver::FUN_00b8c3b0(float afWidth, float afHeight,
     ::AssignFixedString((char *)((this->m_pMenuBackgroundScreenElements).operator->()), (int)&(const ::NiFixedString &)(GeometryString("Interface Effect Partial Screen Trishape")), {});
     apScreenElements = this->m_pMenuBackgroundScreenElements;
 }
+
+#include "generated/data/bsshader/imagespacemanager.inc"

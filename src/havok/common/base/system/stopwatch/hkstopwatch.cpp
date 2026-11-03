@@ -51,3 +51,5 @@ float DivideInt64ToFloat(__int64 aiNumerator, __int64 aiDenominator)
 {
     return (float)((double)aiNumerator / (double)aiDenominator);
 }
+
+#include "generated/data/havok/common/base/system/stopwatch/hkstopwatch.inc"

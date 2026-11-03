@@ -2270,3 +2270,5 @@ float FUN_00adc8b0_shell::FUN_00adc8b0(unsigned long auiKey)
     }
     return fVol;
 }
+
+#include "generated/data/bsaudio/bsaudiomanager.inc"

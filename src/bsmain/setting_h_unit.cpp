@@ -7,3 +7,5 @@
 #include "fnv/symbols_011f3000.h"
 #include "fnv/symbols_011f9000.h"
 #include "setting.h"
+
+#include "generated/data/bsmain/setting_h_unit.inc"

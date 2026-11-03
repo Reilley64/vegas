@@ -548,3 +548,5 @@ FUN_00da33d0_cls* FUN_00da33d0_cls::FUN_00da33d0(bool flag)
     }
     return this;
 }
+
+#include "generated/data/havok/common/base/system/io/socket/bsd/hkbsdsocket.inc"

@@ -1707,3 +1707,5 @@ void FUN_00cd0b30_cls::FUN_00cd0b30(int apTarget)
     reinterpret_cast<::FUN_00cd0c80 *>(&(localData))->FUN_00cd0c80::~FUN_00cd0c80();
 }
 }  // namespace fnv_00cd0b30
+
+#include "generated/data/havok/common/base/memory/system/freelist/hkfreelistmemorysystem.inc"

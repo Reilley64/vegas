@@ -282,3 +282,5 @@ FUN_00a8f190_cls::FUN_00a8f190_cls()
     *(void* volatile*)&m_pVTable = &(*reinterpret_cast<int *>((void *)&::DAT_0109f4dc));
     *(int volatile*)&m_i10 = 0;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/niconsolerenderer/nid3dshaderinterface.inc"

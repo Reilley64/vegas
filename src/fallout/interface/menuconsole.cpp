@@ -1166,3 +1166,5 @@ void DumpConsole::DumpLoadedTextures()
         }
     }
 }
+
+#include "generated/data/fallout/interface/menuconsole.inc"

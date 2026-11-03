@@ -12024,3 +12024,5 @@ void* QueueDeletingView::FUN_006ec230(unsigned int flags)
         Deallocate(this);
     return this;
 }
+
+#include "generated/data/staging/blk_006e0000_od.inc"

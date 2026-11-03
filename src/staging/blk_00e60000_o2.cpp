@@ -11702,3 +11702,5 @@ NiDX9AdditionalDepthStencilBufferData* __cdecl FUN_00e7d850(D3DDevice_e7d850* pk
 
     return pkData;
 }
+
+#include "generated/data/staging/blk_00e60000_o2.inc"

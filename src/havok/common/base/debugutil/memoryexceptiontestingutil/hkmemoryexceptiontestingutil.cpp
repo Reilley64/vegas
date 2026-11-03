@@ -7,3 +7,5 @@ void __cdecl FUN_00d88040(int value)
 {
     DAT_01269200 = value;
 }
+
+#include "generated/data/havok/common/base/debugutil/memoryexceptiontestingutil/hkmemoryexceptiontestingutil.inc"

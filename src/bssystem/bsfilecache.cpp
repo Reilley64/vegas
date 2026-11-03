@@ -288,3 +288,5 @@ void FUN_00b010d0_cls::FUN_00b010d0()
         }
     }
 }
+
+#include "generated/data/bssystem/bsfilecache.inc"

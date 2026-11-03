@@ -757,3 +757,5 @@ void AudioPathFixer::FUN_00aea640(char* apName)
         fnv::crt::strcat_s(apName, 260, acBuffer);
     }
 }
+
+#include "generated/data/bsaudio/bsgamesound.inc"

@@ -852,3 +852,5 @@ NiNode* TileImageShim::FUN_00a1fd50()
 }
 
 }
+
+#include "generated/data/bsmenu/tileimage.inc"

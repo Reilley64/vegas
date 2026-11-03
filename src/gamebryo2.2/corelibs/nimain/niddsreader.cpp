@@ -1403,3 +1403,5 @@ void __cdecl FUN_00a8cc40(NiBinaryStream* stream, NiPixelData* apPixelData, NiPi
     }
 }
 }  // namespace fnv_00a8cc40
+
+#include "generated/data/gamebryo2.2/corelibs/nimain/niddsreader.inc"

@@ -14872,3 +14872,5 @@ void CSpeedTreeRTD04::FUN_00b0d040(STexturesD04& sTextures)
     }
 }
 }  // namespace fnv_00b0d040
+
+#include "generated/data/speedtree/speedtreert_ob1_variant.inc"

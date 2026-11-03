@@ -8358,3 +8358,5 @@ FUN_009fc5a0::FUN_009fc5a0(int b, int c, int d, int* apIntArray, int f) : FUN_00
     m44 = 0;
     m48 = 1;
 }
+
+#include "generated/data/staging/blk_009e0000_o2.inc"

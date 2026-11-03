@@ -140,3 +140,5 @@ void FUN_00a74a10()
     if ((DAT_011f4a58 & 0x2000000) == 0) return;
     DAT_011f4a50 = 5;
 }
+
+#include "generated/data/staging/blk_00a60000_od.inc"

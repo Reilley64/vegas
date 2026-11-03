@@ -87,3 +87,5 @@ __m128* NormVec_cls::FUN_00c74c90(__m128* out)
     *out = vResult;
     return out;
 }
+
+#include "generated/data/havok/animation/animation/ik/footplacement/hkafootplacementiksolver.inc"

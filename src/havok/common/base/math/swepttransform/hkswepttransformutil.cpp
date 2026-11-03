@@ -1162,3 +1162,5 @@ void __cdecl FUN_00cf1b10(float time, FUN_008cd6a0_Class* self)
     __m128 vRz = _mm_mul_ps(_mm_shuffle_ps(vComLocal, vComLocal, 0xAA), self->col2.q);
     self->translation.q = _mm_sub_ps(self->com1.q, _mm_add_ps(_mm_add_ps(vRy, vRx), vRz));
 }
+
+#include "generated/data/havok/common/base/math/swepttransform/hkswepttransformutil.inc"

@@ -1525,3 +1525,5 @@ bool __cdecl FUN_00e9fdc0(float afTime, Capsule* apCapsule, Vec3* a2, const Vec3
     return true;
 }
 }  // namespace fnv_00e9fdc0
+
+#include "generated/data/gamebryo2.2/corelibs/nicollision/nicapsulebv.inc"

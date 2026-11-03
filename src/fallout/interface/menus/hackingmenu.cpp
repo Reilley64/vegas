@@ -4792,3 +4792,5 @@ void HackMenu::FUN_00766b80(int aiButtonIndex, HackTile* tile)
     }
 }
 }  // namespace fnv_00766b80
+
+#include "generated/data/fallout/interface/menus/hackingmenu.inc"

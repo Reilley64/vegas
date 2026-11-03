@@ -21,3 +21,5 @@ unsigned int __cdecl PackFloatsToUInt(const __m128* apFloats)
     return ((converted.bits[3] & 0xffffffc0u) << 18) | ((converted.bits[2] & 0x3fc0u) << 10) |
            ((converted.bits[1] & 0x3fc0u) << 2) | ((converted.bits[0] >> 6) & 0xffu);
 }
+
+#include "generated/data/havok/common/base/math/vector/hkvector4util.inc"

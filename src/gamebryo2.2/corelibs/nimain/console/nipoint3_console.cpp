@@ -58,3 +58,5 @@ void NormalizePoints(NiPoint3* pElementBuffer, unsigned int count, unsigned int 
         pElementBuffer = (NiPoint3*)((char*)pElementBuffer + stride);
     }
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nimain/console/nipoint3_console.inc"

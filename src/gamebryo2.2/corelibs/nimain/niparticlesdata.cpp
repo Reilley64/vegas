@@ -1175,3 +1175,5 @@ void ParticlesLoadView::FUN_00a96cf0(StreamIn* stream)
         }
     }
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nimain/niparticlesdata.inc"

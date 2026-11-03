@@ -324,3 +324,5 @@ ParticleSystem* __cdecl FUN_00554010(const FUN_006815c0* origin)
     reinterpret_cast<::Root *>((system))->SetProcessEnabled(0);
     return system;
 }
+
+#include "generated/data/staging/blk_00540000_o2_od_noo2_variant.inc"

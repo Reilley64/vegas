@@ -367,3 +367,5 @@ t->m_ticks = ticks; }
         }
     }
 }
+
+#include "generated/data/havok/physics/collide/agent/convexagent/spherecapsule/hkpspherecapsuleagent.inc"

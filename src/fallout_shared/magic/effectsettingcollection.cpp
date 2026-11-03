@@ -206,3 +206,5 @@ unsigned int FUN_00408c30()
     }
     return size;
 }
+
+#include "generated/data/fallout_shared/magic/effectsettingcollection.inc"

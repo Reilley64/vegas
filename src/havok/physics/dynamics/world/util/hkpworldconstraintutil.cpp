@@ -681,3 +681,5 @@ ConstraintPointer* FUN_00d27ac0(void* unused, Constraint* constraint)
     return insertion;
 }
 }  // namespace fnv_00d27ac0
+
+#include "generated/data/havok/physics/dynamics/world/util/hkpworldconstraintutil.inc"

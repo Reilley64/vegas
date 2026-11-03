@@ -1186,3 +1186,5 @@ finish:
     reinterpret_cast<::E7DE90Owner *>((descriptor))->ApplyPairToState(dimension);
     reinterpret_cast<::E7DEF0TextureStage *>((descriptor))->FUN_00e7def0(format);
 }
+
+#include "generated/data/gamebryo2.2/corelibs/niconsolerenderer/niconsolefragmentshader.inc"

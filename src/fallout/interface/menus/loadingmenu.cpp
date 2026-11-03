@@ -4056,3 +4056,5 @@ void S00788ab0_LoadingSetup::FUN_00788ab0(int aiExtraCandidates)
     }
 }
 }  // namespace fnv_00788ab0
+
+#include "generated/data/fallout/interface/menus/loadingmenu.inc"

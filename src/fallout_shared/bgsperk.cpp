@@ -2503,3 +2503,5 @@ bool BGSAbilityPerkEntryCompareShell::FUN_005e9d60(BGSPerkEntry* apCompare)
         return true;
     return false;
 }
+
+#include "generated/data/fallout_shared/bgsperk.inc"

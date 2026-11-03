@@ -7990,3 +7990,5 @@ FUN_00658f30::FUN_00658f30(const FUN_00658f30& other) : rows(other.rows), column
     if (((unsigned int)(reinterpret_cast<::FUN_00662820_shell *>((void *)this)->FUN_00662820())) && ((unsigned int)(reinterpret_cast<::FUN_00662820_shell *>((void *)&(other))->FUN_00662820())))
         memcpy(((void *)(reinterpret_cast<::V_006578b0 *>((void *)this)->FUN_006578b0(0))), ((void *)(reinterpret_cast<::V_006578b0 *>((void *)&(other))->FUN_006578b0(0))), rows * columns * sizeof(unsigned int));
 }
+
+#include "generated/data/staging/blk_00640000_od.inc"

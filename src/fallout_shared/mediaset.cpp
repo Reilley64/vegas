@@ -1202,3 +1202,5 @@ bool MediaSetCompare::IsDifferentFrom(TESForm* form)
         return true;
     return false;
 }
+
+#include "generated/data/fallout_shared/mediaset.inc"

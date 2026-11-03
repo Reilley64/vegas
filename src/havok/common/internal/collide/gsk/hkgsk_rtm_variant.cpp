@@ -1820,3 +1820,5 @@ END_AND_EXPORT_CACHE:
 
     return result;
 }
+
+#include "generated/data/havok/common/internal/collide/gsk/hkgsk_rtm_variant.inc"

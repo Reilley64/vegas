@@ -18,3 +18,5 @@ ActiveEffect* MagicEffectSystem::Activate(MagicCaster* caster, MagicItem* item, 
         reinterpret_cast<::FUN_008041c0_shell *>((pCreateEffect))->InitFromSource(source);
     return pCreateEffect;
 }
+
+#include "generated/data/fallout_shared/magic/effectarchetype.inc"

@@ -523,3 +523,5 @@ bool FUN_0043a590_shell::FUN_0043a590(TESForm* form)
     }
     return true;
 }
+
+#include "generated/data/fallout_shared/teleportdata.inc"

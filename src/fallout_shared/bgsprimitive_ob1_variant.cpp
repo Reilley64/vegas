@@ -2014,3 +2014,5 @@ bool OrientedBox::FUN_00c36f20(Frustum* frustum)
 }
 
 }
+
+#include "generated/data/fallout_shared/bgsprimitive_ob1_variant.inc"

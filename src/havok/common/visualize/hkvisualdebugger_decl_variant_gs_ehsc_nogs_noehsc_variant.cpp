@@ -358,3 +358,5 @@ void VisualDebugger523::FUN_00cd0ec0(float timeStep)
         frameStart = startTime;
     }
 }
+
+#include "generated/data/havok/common/visualize/hkvisualdebugger_decl_variant_gs_ehsc_nogs_noehsc_variant.inc"

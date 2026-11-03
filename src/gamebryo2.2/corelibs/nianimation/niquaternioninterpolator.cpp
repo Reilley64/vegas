@@ -763,3 +763,5 @@ A48E20_Object* A48E20_Owner::Clone(CloningProcess* cloning)
     reinterpret_cast<::FUN_00a3c0a0_shell *>(this)->FUN_00a3c0a0((::FUN_00a3c0a0_shell *)(clone), cloning);
     return clone;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nianimation/niquaternioninterpolator.inc"

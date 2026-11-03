@@ -2457,3 +2457,5 @@ void MagicTargetTypedDispel::FUN_00824630(int aiType)
         }
     }
 }
+
+#include "generated/data/fallout/magic/magictarget.inc"

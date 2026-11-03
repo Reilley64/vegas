@@ -77,3 +77,5 @@ FUN_00ca9360_cls* FUN_00ca9360_cls::FUN_00ca9360(const float* key)
     pResult->m_00 = (unsigned char)(((int)(mid - (unsigned)&(*reinterpret_cast<unsigned char *>(&::DAT_010c7948)))) >> 2);
     return pResult;
 }
+
+#include "generated/data/havok/common/base/types/hkbasetypes.inc"

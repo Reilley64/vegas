@@ -1356,3 +1356,5 @@ void ConstraintDrawDetail::Viewer::FUN_00d69260(int aiCollidable, Entity* entity
         trace->current = entry + 1;
     }
 }
+
+#include "generated/data/havok/physics/utilities/visualdebugger/viewer/dynamics/hkpconstraintviewer.inc"

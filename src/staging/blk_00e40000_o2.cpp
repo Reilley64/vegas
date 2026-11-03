@@ -7068,3 +7068,5 @@ KnotVector FUN_00e54630(int a, int degree, float** knots, KnotVector** points, f
     return result;
 }
 }
+
+#include "generated/data/staging/blk_00e40000_o2.inc"

@@ -335,3 +335,5 @@ void PipboyShader2::SetupPipboyPasses(PipboyGeometry* pkGeometry, int iUnused)
     reinterpret_cast<::fnv_00ba3ba0::Holder *>(this)->FUN_00ba3ba0(0, 1, 2, 3, 0, 0, 0);
     reinterpret_cast<::FUN_00ba3c70_shell *>(this)->SetEffectAt(0, (::ImageSpaceEffect *)(pkGeometry->unk08->unk134), (::ImageSpaceEffectParam *)(pkConst), 0);
 }
+
+#include "generated/data/bsshader/imagespaceeffecttv.inc"

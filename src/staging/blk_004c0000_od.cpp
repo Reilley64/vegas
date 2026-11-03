@@ -4324,3 +4324,5 @@ int FUN_004dd2c0(int iDisplayIndex, EFEyefinityInfo* pkEyefinityInfo, int* piNum
     }
     return iReturnValue;
 }
+
+#include "generated/data/staging/blk_004c0000_od.inc"

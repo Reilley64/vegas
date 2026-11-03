@@ -1721,3 +1721,5 @@ float Spectrum4d50::FUN_004d50e0(int iFrame)
         fResult = m_ppfBands[iIndex2][iBest3];
     return fResult * DAT_01189230[iBest3];
 }
+
+#include "generated/data/staging/blk_004c0000_od_rtm_variant.inc"

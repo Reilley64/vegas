@@ -2016,3 +2016,5 @@ ResultByte FUN_00ceb6f0(float& outT, float& outU, float& outV, const VectorValue
     outV *= inverse;
     return true;
 }
+
+#include "generated/data/staging/blk_00ce0000_o2_gs_nogs_variant.inc"

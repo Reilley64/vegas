@@ -1258,3 +1258,5 @@ float __cdecl GetSquaredDistanceToTriangle(const Point3Lite& first, const Triang
     *t = 1.0f - fProjS;
     return fabsf((c + 2.0 * e + fSqDist) - numer * *s);
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nicollision/nispherebv.inc"

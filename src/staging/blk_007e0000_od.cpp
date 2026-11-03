@@ -1742,3 +1742,5 @@ bool RemoveView::RemoveNodeFromList(RemoveNode* node, RemoveNode* previous)
     }
     return false;
 }
+
+#include "generated/data/staging/blk_007e0000_od.inc"

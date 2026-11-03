@@ -2552,3 +2552,5 @@ GeomBufferDataQ* ShaderPrepQ::PrepareShaderAndStreams(GeometryQ* pkGeometry, Ski
     }
     return pkBuffData;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/niconsolerenderer/nid3dshader.inc"

@@ -853,3 +853,5 @@ FUN_00bd8ae0::FUN_00bd8ae0(ModelSource* source, int mode, int variant, unsigned 
 
     m04->AttachRoot(m00.m_pObject, 1);
 }
+
+#include "generated/data/bsshader/tallgrassgroup.inc"

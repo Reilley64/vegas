@@ -94,3 +94,5 @@ char* S00d4f170_StandIn::FUN_00d4f170(char* result)
     *out = (*out != 0) && (m_kTwistLimit.m_fMinAngle <= m_kTwistLimit.m_fMaxAngle);
     return out;
 }
+
+#include "generated/data/havok/physics/dynamics/constraint/chain/ragdolllimits/hkpragdolllimitsdata.inc"

@@ -2045,3 +2045,5 @@ int __cdecl FUN_004da670(int aiWidth, int aiHeight)
     return (int)((::fnv_004da670::RendObj *)(::FUN_00559450((int *)&(DAT_011c73b4))));
 }
 }  // namespace fnv_004da670
+
+#include "generated/data/fallout_shared/renderer.inc"

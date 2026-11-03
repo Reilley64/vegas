@@ -990,3 +990,5 @@ void GenerateGrassPositions(int iA, int iB, int iUnused08, LODLand* pkLand, void
         ::PopulateGrassInstances(pvLandOwnerPos, iA, iB, (::NiNodeStub *)(iC), (::GrassParamF *)(pkSettings), (float (*)[3])(DAT_011ca43c), DAT_011ca440, usCountOld);
 }
 }  // namespace fnv_0057de00
+
+#include "generated/data/fallout_shared/testerrainlodmanager.inc"

@@ -93,3 +93,5 @@ int __cdecl FUN_00d48620(int iThirdArg, int iFirstArg, int iUnused)
 {
     return FUN_00d48560(iFirstArg, 0, iThirdArg);
 }
+
+#include "generated/data/havok/common/base/types/hkrefvariant.inc"

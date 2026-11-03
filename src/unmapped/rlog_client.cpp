@@ -113,3 +113,5 @@ int LodGrid::FUN_00458be0(LodCell* pkCell, LodPoint* pkPos)
     g_pkLastCell_011c3f04 = pkCell;
     return g_iLastLod_011c3f00;
 }
+
+#include "generated/data/unmapped/rlog_client.inc"

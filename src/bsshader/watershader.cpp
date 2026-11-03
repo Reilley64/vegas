@@ -2047,3 +2047,5 @@ void WaterSetup::FUN_00b864d0(WaterRenderArg* arg)
             pixel->Setup(shader, geometry, geometryData, 0, properties, arg, 0, world, bound, 0, 1);
     }
 }
+
+#include "generated/data/bsshader/watershader.inc"

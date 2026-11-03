@@ -9775,3 +9775,5 @@ BSAnimGroupSequence* AnimSequenceMultiple::FUN_0048f790(TESAnimGroup* apAnimGrou
     }
     return 0;
 }
+
+#include "generated/data/fallout_shared/animation.inc"

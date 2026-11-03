@@ -197,3 +197,5 @@ void FUN_00867150_shell::FUN_00867180()
     *(void**)this = &DAT_01082564;
     reinterpret_cast<::fnv_00ec15e0::BSMoviePlayer *>((((FUN_00ec15e0_shell*)this)))->fnv_00ec15e0::BSMoviePlayer::~BSMoviePlayer();
 }
+
+#include "generated/data/fallout/misc/bgsmovieplayer.inc"

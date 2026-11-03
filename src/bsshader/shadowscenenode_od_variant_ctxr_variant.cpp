@@ -577,3 +577,5 @@ void UpdateOwner::FUN_006056f0(UpdateObject* object)
         ::fnv_00655fa0::ApplyFaceGenTextures((::fnv_00655fa0::NiAVObject *)(::UpdateObject *)(((::UpdateObject *)(::FUN_00559450((int *)&(current))))), (::fnv_00655fa0::FaceGenData *)&(packet));
     }
 }
+
+#include "generated/data/bsshader/shadowscenenode_od_variant_ctxr_variant.inc"

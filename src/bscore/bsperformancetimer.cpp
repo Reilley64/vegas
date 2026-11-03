@@ -39,3 +39,5 @@ FUN_006ff690* __cdecl FUN_006ff580()
         (*reinterpret_cast<::FUN_006ff690 * *>(&::DAT_011d8794)) = new FUN_006ff690;
     return (*reinterpret_cast<::FUN_006ff690 * *>(&::DAT_011d8794));
 }
+
+#include "generated/data/bscore/bsperformancetimer.inc"

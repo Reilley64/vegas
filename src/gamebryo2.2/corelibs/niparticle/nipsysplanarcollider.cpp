@@ -892,3 +892,5 @@ void* FUN_00c29900(void* this_ptr, int, float fBounce, int bSpawnOnCollide, int 
     reinterpret_cast<::NiTransform *>((((DummyTransform*)((char*)this_ptr + 0xcc))))->ResetToIdentity();
     return this_ptr;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/niparticle/nipsysplanarcollider.inc"

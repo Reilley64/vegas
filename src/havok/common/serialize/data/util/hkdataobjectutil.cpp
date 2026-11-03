@@ -4024,3 +4024,5 @@ DKlass_dc3a80* DReader_dc3a80::FUN_00dc3a80(const DMember_dc3a80* member, const 
     }
     return pExpectedClass;
 }
+
+#include "generated/data/havok/common/serialize/data/util/hkdataobjectutil.inc"

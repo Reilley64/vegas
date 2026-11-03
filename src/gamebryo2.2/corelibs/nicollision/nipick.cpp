@@ -449,3 +449,5 @@ ImageSpaceTextureE993* TexturePoolE993::GetTexture(int iParam)
     m_uiNext++;
     return pkTexture;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nicollision/nipick.inc"

@@ -6295,3 +6295,5 @@ void __cdecl FUN_00d0cde0(float a1, char* owner, Flags_cls* flags, ArrayRef_cls*
         i++;
     } while (i < *(int*)(owner + 0x4c));
 }
+
+#include "generated/data/havok/physics/dynamics/world/simulation/continuous/hkpcontinuoussimulation.inc"

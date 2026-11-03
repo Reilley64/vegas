@@ -2426,3 +2426,5 @@ void FUN_00837550(ImpactData* apImpact)
 }
 
 }
+
+#include "generated/data/fallout/audio/impactmixer.inc"

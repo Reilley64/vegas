@@ -8,3 +8,5 @@
 #include "fnv/symbols_00450000.h"
 #include "fnv/symbols_011f6000.h"
 #include "nigeommorphercontroller.inl"
+
+#include "generated/data/gamebryo2.2/corelibs/nianimation/nigeommorphercontroller_h_unit.inc"

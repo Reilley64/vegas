@@ -1322,3 +1322,5 @@ void PassManager::ConfigureAllPasses()
     DAT_012009fc = 0;
     reinterpret_cast<::Owner *>(this)->InitShaderConstantMaps();
 }
+
+#include "generated/data/bsshader/lighting30shader_preset.inc"

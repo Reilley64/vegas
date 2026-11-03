@@ -67,3 +67,5 @@ float FUN_00b37470_shell::SetStrength(float fOldStrength, float fNewStrength, fl
     ((unsigned int*)((char*)this + 0x30))[0] = 0;
     return ((float*)((char*)this + 0))[0];
 }
+
+#include "generated/data/speedtree/windengine.inc"

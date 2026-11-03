@@ -216,3 +216,5 @@ ActiveEffect* FUN_00805920(BGSLoadFormBuffer* buffer)
     ::FUN_005b5e40();
     return 0;
 }
+
+#include "generated/data/fallout/magic/activeeffect_decl_variant.inc"

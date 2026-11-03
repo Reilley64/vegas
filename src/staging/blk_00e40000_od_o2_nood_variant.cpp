@@ -819,3 +819,5 @@ void __cdecl FUN_00e52190(const hkQuatStore_e52190* q, unsigned char* out)
     out[2] = c[2];
     out[2] = (unsigned char)(((f[idx] < 0.0f) << 7) | c[2]);
 }
+
+#include "generated/data/staging/blk_00e40000_od_o2_nood_variant.inc"

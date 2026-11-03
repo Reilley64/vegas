@@ -1375,3 +1375,5 @@ bool GrenadeProjectile::FUN_009b4740()
     }
     return true;
 }
+
+#include "generated/data/fallout/ai/combat/grenadeprojectile_decl_variant.inc"

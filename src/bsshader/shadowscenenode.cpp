@@ -11629,3 +11629,5 @@ FUN_00b5e5a0::~FUN_00b5e5a0()
     unk1E0 = 0;
     unk128 = 0;
 }
+
+#include "generated/data/bsshader/shadowscenenode.inc"

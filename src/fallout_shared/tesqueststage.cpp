@@ -484,3 +484,5 @@ FUN_0060f5f0::~FUN_0060f5f0()
     if (m_pkDecalData)
         delete m_pkDecalData;
 }
+
+#include "generated/data/fallout_shared/tesqueststage.inc"

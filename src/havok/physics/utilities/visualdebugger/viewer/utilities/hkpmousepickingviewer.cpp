@@ -498,3 +498,5 @@ struct Derived : PrimaryBase, SecondaryBase
 Derived::Derived()
 {}
 }  // namespace fnv_00d66ef0
+
+#include "generated/data/havok/physics/utilities/visualdebugger/viewer/utilities/hkpmousepickingviewer.inc"

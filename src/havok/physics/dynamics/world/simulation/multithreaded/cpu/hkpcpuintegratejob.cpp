@@ -1537,3 +1537,5 @@ FINISH_BROAD_PHASE:
     }
 }
 }  // namespace fnv_00d95cf0
+
+#include "generated/data/havok/physics/dynamics/world/simulation/multithreaded/cpu/hkpcpuintegratejob.inc"

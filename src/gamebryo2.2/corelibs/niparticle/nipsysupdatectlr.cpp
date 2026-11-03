@@ -541,3 +541,5 @@ void SpawnedController::FUN_00c271c0(const float* apPosition)
         owner->v3C(m_28);
     }
 }
+
+#include "generated/data/gamebryo2.2/corelibs/niparticle/nipsysupdatectlr.inc"

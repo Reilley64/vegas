@@ -321,3 +321,5 @@ NamedC318* NamedC318::FUN_00c31870(unsigned int uiFlags)
         NamedC318::operator delete(this, sizeof(NamedC318));
     return this;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/niparticle/nipsysmodifier.inc"

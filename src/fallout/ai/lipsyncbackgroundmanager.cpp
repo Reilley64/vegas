@@ -793,3 +793,5 @@ void FUN_00905c50_Class::InitTerrainManager()
 
     unk34 = ((::BGSTerrainManager *)(::ReadAnimationFromStream((::Stream *)(file))));
 }
+
+#include "generated/data/fallout/ai/lipsyncbackgroundmanager.inc"

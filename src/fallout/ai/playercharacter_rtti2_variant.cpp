@@ -36797,3 +36797,5 @@ void PlayerSave::FUN_00955620(unsigned int flags)
         }
     }
 }
+
+#include "generated/data/fallout/ai/playercharacter_rtti2_variant.inc"

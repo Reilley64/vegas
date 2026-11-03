@@ -1270,3 +1270,5 @@ void SaveLoadStatsDump::FUN_00853e10()
     }
 }
 }  // namespace fnv_00853e10
+
+#include "generated/data/fallout/misc/saveload/bgssaveloadstructs.inc"

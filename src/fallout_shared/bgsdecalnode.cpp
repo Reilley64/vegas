@@ -546,3 +546,5 @@ TrackedNode::TrackedNode() : NodeBase(0)
 }
 
 }
+
+#include "generated/data/fallout_shared/bgsdecalnode.inc"

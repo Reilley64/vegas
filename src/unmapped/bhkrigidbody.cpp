@@ -3896,3 +3896,5 @@ void Target::FUN_00c8f080()
     }
     flags |= 4;
 }
+
+#include "generated/data/unmapped/bhkrigidbody.inc"

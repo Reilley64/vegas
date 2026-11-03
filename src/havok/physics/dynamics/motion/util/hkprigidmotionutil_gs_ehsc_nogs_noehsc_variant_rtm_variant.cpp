@@ -239,3 +239,5 @@ extern "C" void __cdecl FUN_00d28680(StepReleaseFitStepArgs args)
 }
 
 }
+
+#include "generated/data/havok/physics/dynamics/motion/util/hkprigidmotionutil_gs_ehsc_nogs_noehsc_variant_rtm_variant.inc"

@@ -732,3 +732,5 @@ void ImpactSwapMaps::FUN_0058f4c0(ImpactSwapMaps* apSwap)
     }
     memcpy((char*)this + 0x30, (char*)apSwap + 0x30, 300);
 }
+
+#include "generated/data/bgsimpactdataset.inc"

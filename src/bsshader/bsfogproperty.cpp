@@ -136,3 +136,5 @@ void FUN_00a99f30()
 {
     static_cast<::FUN_00a5c240_shell *>(nullptr)->DestroyFogProperty();
 }
+
+#include "generated/data/bsshader/bsfogproperty.inc"

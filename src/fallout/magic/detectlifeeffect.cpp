@@ -418,3 +418,5 @@ bool __cdecl UpdateEffectShaderOnActor(Actor80c* pkRef, bool bStopEffect)
         return false;
     }
 }
+
+#include "generated/data/fallout/magic/detectlifeeffect.inc"

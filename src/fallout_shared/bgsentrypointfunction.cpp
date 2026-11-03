@@ -1207,3 +1207,5 @@ FUN_005e6540::FUN_005e6540() : FUN_005e6420_SV(), label(0), m_script(), flags(0)
 {
     reinterpret_cast<::BGSEntryPointFunctionDataActivateChoice *>((reinterpret_cast<ChoiceDataInitialization*>(this)))->InitializeComponent();
 }
+
+#include "generated/data/fallout_shared/bgsentrypointfunction.inc"

@@ -34246,3 +34246,5 @@ void RendererE70140::FUN_00e70140(SceneArg* apSceneArg)
     }
     overlayArg->Finish(k);
 }
+
+#include "generated/data/gamebryo2.2/corelibs/niconsolerenderer/niconsolerenderer.inc"

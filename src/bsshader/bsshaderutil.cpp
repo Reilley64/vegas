@@ -505,3 +505,5 @@ NiTexture* FUN_00b6bbd0(NiTexture* texture, const NiPixelFormat* pixelFormat)
     return pResultTexture;
 }
 }  // namespace fnv_00b6bbd0
+
+#include "generated/data/bsshader/bsshaderutil.inc"

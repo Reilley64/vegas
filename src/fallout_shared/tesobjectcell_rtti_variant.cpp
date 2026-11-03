@@ -1712,3 +1712,5 @@ void CellUpdateView::FUN_00551890(float fTimeSinceScaleStart, bool bSkipLoaded)
         }
     }
 }
+
+#include "generated/data/fallout_shared/tesobjectcell_rtti_variant.inc"

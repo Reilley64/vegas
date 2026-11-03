@@ -1058,3 +1058,5 @@ void CriticalSectionEntry::FUN_0078d1d0()
 {
     DAT_00fdf1b0(this);
 }
+
+#include "generated/data/staging/blk_00780000_od.inc"

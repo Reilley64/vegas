@@ -3678,3 +3678,5 @@ int __cdecl GetOrCreateItem(RTKey* key, unsigned int pos, RTItem** ppItem)
     }
     return (*ppItem)->usTotal - (*ppItem)->usUsed;
 }
+
+#include "generated/data/staging/blk_00b40000_o2.inc"

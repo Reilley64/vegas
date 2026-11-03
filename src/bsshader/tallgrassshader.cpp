@@ -2908,3 +2908,5 @@ void BSParticleShader::SetShaderParams(Param1* p1)
         }
     }
 }
+
+#include "generated/data/bsshader/tallgrassshader.inc"

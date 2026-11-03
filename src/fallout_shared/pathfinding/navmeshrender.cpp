@@ -1335,3 +1335,5 @@ int NavRenderStub::GetNavTriColor(NavTriStub* pNavTri)
     }
     return iColorCode;
 }
+
+#include "generated/data/fallout_shared/pathfinding/navmeshrender.inc"

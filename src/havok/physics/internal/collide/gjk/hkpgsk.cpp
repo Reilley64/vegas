@@ -3102,3 +3102,5 @@ bool* S00daac40_FUN_00daac40_cls::FUN_00daac40(S00daac40_RayArgument<bool*> out,
     *destination = false;
     return destination;
 }
+
+#include "generated/data/havok/physics/internal/collide/gjk/hkpgsk.inc"

@@ -1340,3 +1340,5 @@ GlobalObject2_0045cfe0 g_011e09d4(g_011e09d4_arg0, g_011e09d4_arg1);
 // @fnv 0x00fa9240
 // @fnv 0x00fd9b70
 GlobalObject2_0096a2d0 g_011e0ae8;
+
+#include "generated/data/generated/global_object_initializers2.inc"

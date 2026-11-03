@@ -1,5 +1,6 @@
 // staging/blk_00c20000_o2.cpp: NiPSysParticle, NiPSysBoxEmitter, Host, NiPSysBoxEmitterWrapper and more (45 functions)
 
+#include "generated/data/vtables.h"
 #include <windows.h>
 // src/staging/blk_00c20000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
@@ -258,7 +259,7 @@ void* __cdecl FUN_00c2b720()
     {
         FUN_00c32d80* obj = (FUN_00c32d80*)node;
         obj->FUN_00c32d80_Ctor();
-        node->m_vftable = (void*)0x010bfa54;
+        node->m_vftable = (void*)fnv_vftable_NiPSysDerivedC2B;
         return node;
     }
     return 0;
@@ -907,7 +908,7 @@ void* __cdecl FUN_00c2a2b0()
         *(float*)((char*)pObject + 0x20) = zero;
         *(short*)((char*)pObject + 0x1c) = 0;
         *(float*)((char*)pObject + 0x28) = zero;
-        *(int*)pObject = 0x10bf0bc;
+        *(void**)pObject = fnv_vftable_A4b0Cls;
         *(short*)((char*)pObject + 0x24) = 0;
         return pObject;
     }
@@ -1324,3 +1325,5 @@ void Host_data::FUN_00c312a0()
     }
     reinterpret_cast<struct ::FUN_00a6d290 *>((((Host_base*)this)))->FUN_00a6d290::~FUN_00a6d290();
 }
+
+#include "generated/data/staging/blk_00c20000_o2.inc"

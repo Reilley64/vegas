@@ -20778,3 +20778,5 @@ void B8EE90CinematicShader::FUN_00b8ee90()
     CreateShaders(&kVertexShader, &kPixelShader, "Cinematic", "vs_1_1", "ps_2_a");
     SetupShaders();
 }
+
+#include "generated/data/staging/blk_00b80000_o2.inc"

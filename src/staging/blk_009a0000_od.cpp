@@ -2,6 +2,7 @@
 // src/staging/blk_009a0000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include "generated/data/vtables.h"
 #include <new>
 #include <cstring>
 #include "fnv/decl/A3B0Controller.h"
@@ -1277,8 +1278,8 @@ struct FUN_009b3160 : Projectile
 // @fnv 0x009b3160
 FUN_009b3160::FUN_009b3160(bool b) : Projectile(b)
 {
-    *(void**)((char*)this + 0) = (void*)0x0108f2f4;
-    *(void**)((char*)this + 0x18) = (void*)0x0108f2e8;
+    *(void**)((char*)this + 0) = (void*)fnv_vftable_DAT_0108f2f4;
+    *(void**)((char*)this + 0x18) = (void*)fnv_vftable_DAT_0108f2e8;
     reinterpret_cast<::FUN_004f15a0_shell *>(this)->FUN_004f15a0(0x40);
     *(float*)((char*)this + 0x150) = 0.0f;
     *(float*)((char*)this + 0x154) = 0.0f;
@@ -8737,3 +8738,5 @@ void FUN_009aa470_Class::FUN_009aa4b0()
     ::FUN_00403d30(this, 0, 0x50);
     ::FUN_00403d30(static_cast<CombatWorldStateArrayValues*>(this)->specifiedVariables, 0, 0xc);
 }
+
+#include "generated/data/staging/blk_009a0000_od.inc"

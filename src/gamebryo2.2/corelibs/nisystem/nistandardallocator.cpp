@@ -512,3 +512,5 @@ void* FUN_00aa3300(unsigned int puiSize, unsigned char* pucAlign, int iType, int
     puiSize = *(unsigned int*)puiSize;
     return std::memset(pvNew, 0, puiSize);
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nisystem/nistandardallocator.inc"

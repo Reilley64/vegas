@@ -10009,3 +10009,5 @@ __declspec(noinline) void Quaternion::FUN_00c66320(const Quaternion& a, const Qu
 }
 
 }  // namespace FootIKDetail
+
+#include "generated/data/staging/blk_00c60000_od_o2_nood_variant_rtm_variant.inc"

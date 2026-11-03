@@ -5429,3 +5429,5 @@ bool InputStats::FUN_007db680(int code, float amount)
     return false;
 }
 }  // namespace fnv_007db680
+
+#include "generated/data/fallout/interface/menus/statsmenu.inc"

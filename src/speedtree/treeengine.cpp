@@ -420,3 +420,5 @@ FUN_00b2ac80::FUN_00b2ac80(int param)
     i5c = param;
     reinterpret_cast<::OwnerB2BC70 *>(this)->FUN_00b2bc70(::DAT_0101622c);
 }
+
+#include "generated/data/speedtree/treeengine.inc"

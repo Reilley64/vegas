@@ -3507,3 +3507,5 @@ void* FUN_00c4fb10(void* apObj)
     *(int*)apObj = (int)&DAT_0101ea8c;
     return apObj;
 }
+
+#include "generated/data/fallout_shared/bgsprimitive.inc"

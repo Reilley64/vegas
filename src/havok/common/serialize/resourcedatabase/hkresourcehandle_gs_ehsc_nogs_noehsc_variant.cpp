@@ -1167,3 +1167,5 @@ int hkMemoryResourceContainer::FUN_00e2e790(hkMemoryResourceContainer* newParent
     reinterpret_cast<::hkReferencedObjectC905 *>((void *)this)->FUN_00c905b0();
     return 0;
 }
+
+#include "generated/data/havok/common/serialize/resourcedatabase/hkresourcehandle_gs_ehsc_nogs_noehsc_variant.inc"

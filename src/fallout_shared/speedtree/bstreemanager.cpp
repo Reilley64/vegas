@@ -1219,3 +1219,5 @@ void* Ref664::FUN_00667120(unsigned int flags)
         ::operator delete(this);
     return this;
 }
+
+#include "generated/data/fallout_shared/speedtree/bstreemanager.inc"

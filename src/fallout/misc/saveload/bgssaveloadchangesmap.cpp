@@ -1,5 +1,6 @@
 // fallout/misc/saveload/bgssaveloadchangesmap.cpp: BGSSaveLoadChangesMap, CombatTargetMap, FormChangeRecord, DelStandIn (17 functions)
 
+#include "generated/data/vtables.h"
 #include <cstring>
 #include "fnv/decl/ActorStandIn008a.h"
 #include "fnv/decl/BGSReconstructFormsInAllFilesMap.h"
@@ -71,7 +72,7 @@
 BGSSaveLoadChangesMap::BGSSaveLoadChangesMap()
 {
     ::FUN_00845b30((int *)this, (::FUN_00845b30_arg)(0x13AF));
-    *(void**)this = (void*)0x0107ED68;
+    *(void**)this = (void*)fnv_vftable_BGSSaveLoadChangesMap;
 }
 
 // Looks up the actor in the map and returns its array of combat targets, or null if not present.

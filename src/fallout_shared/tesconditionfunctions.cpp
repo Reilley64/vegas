@@ -23362,3 +23362,5 @@ bool FUN_005a08c0(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, do
         DebugLog("Get Knocked State >> %0.2f", *afReturnValue);
     return true;
 }
+
+#include "generated/data/fallout_shared/tesconditionfunctions.inc"

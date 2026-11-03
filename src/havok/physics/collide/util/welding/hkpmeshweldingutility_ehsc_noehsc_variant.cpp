@@ -1115,3 +1115,5 @@ void __cdecl FUN_00dddcd0(const hkTransformW& transform, hkpShapeCollectionW* co
         collection->SetWeldingInfo(key, weldingInfo);
     }
 }
+
+#include "generated/data/havok/physics/collide/util/welding/hkpmeshweldingutility_ehsc_noehsc_variant.inc"

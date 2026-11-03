@@ -1018,3 +1018,5 @@ void TerrainStream::PushRef(TerrainRefProxy* apRef)
         FUN_006f5840();
     }
 }
+
+#include "generated/data/fallout_shared/distant terrain system/bgsterrainmanager.inc"

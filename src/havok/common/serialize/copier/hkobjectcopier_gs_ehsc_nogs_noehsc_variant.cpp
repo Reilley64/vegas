@@ -800,3 +800,5 @@ void ZeroCopier::FUN_00e03460(ZeroArchive& archive, const ZeroMember& member)
     reinterpret_cast<::FUN_00d607b0_class *>(&(archive))->FUN_00d607b0((int)(zero.m_data));
     zero.destroyLocal();
 }
+
+#include "generated/data/havok/common/serialize/copier/hkobjectcopier_gs_ehsc_nogs_noehsc_variant.inc"

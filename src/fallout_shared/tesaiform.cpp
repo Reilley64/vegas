@@ -739,3 +739,5 @@ bool AIFormFlags::FUN_0047f600(TESForm* apForm)
     }
     return bResult2;
 }
+
+#include "generated/data/fallout_shared/tesaiform.inc"

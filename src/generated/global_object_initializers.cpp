@@ -10160,3 +10160,5 @@ FUN_00709f00::FUN_00709f00(unsigned int uiValue, unsigned char ucType) : FUN_004
 }
 
 }
+
+#include "generated/data/generated/global_object_initializers.inc"

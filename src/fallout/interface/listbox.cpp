@@ -7844,3 +7844,5 @@ struct FUN_00724200 : FUN_00723f80
 // @fnv 0x00724200
 FUN_00724200::~FUN_00724200()
 {}
+
+#include "generated/data/fallout/interface/listbox.inc"

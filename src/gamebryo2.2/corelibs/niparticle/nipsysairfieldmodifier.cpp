@@ -1181,3 +1181,5 @@ void AirModifier::FUN_00c2fb40(float time, AirParticles* apParticles)
         }
     }
 }
+
+#include "generated/data/gamebryo2.2/corelibs/niparticle/nipsysairfieldmodifier.inc"

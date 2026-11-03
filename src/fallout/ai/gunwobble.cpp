@@ -30,3 +30,5 @@ void FUN_008d6a80(int iIndex, void* root)
         }
     }
 }
+
+#include "generated/data/fallout/ai/gunwobble.inc"

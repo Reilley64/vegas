@@ -1883,3 +1883,5 @@ bool FUN_00e92330_cls::FUN_00e92330(unsigned int apItem)
     LeaveCriticalSection(&m_lock);
     return result;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/niconsolerenderer/nid3dshaderfactory.inc"

@@ -9065,3 +9065,5 @@ void* Target::FUN_00994bd0(Input* apInput, bool flag)
     return 0;
 }
 }  // namespace fnv_00994bd0
+
+#include "generated/data/fallout/ai/combatcontroller.inc"

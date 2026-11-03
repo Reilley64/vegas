@@ -311,3 +311,5 @@ void S00d4da60_DashpotAction::FUN_00d4da60(S00d4da60_StepRef stepInfo)
 
 
 }
+
+#include "generated/data/havok/physics/utilities/actions/dashpot/hkpdashpotaction_rtm_variant.inc"

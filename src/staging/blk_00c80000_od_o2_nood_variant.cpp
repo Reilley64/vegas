@@ -2412,3 +2412,5 @@ void __cdecl FUN_00c9b670(NiAVObject* object, const NiPoint3& velocity, unsigned
         }
     }
 }
+
+#include "generated/data/staging/blk_00c80000_od_o2_nood_variant.inc"

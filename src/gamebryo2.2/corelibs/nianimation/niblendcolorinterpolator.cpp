@@ -603,3 +603,5 @@ bool Blend61c0::UpdateBlend(float fTime, NiObjectNET* pkInterpTarget, CA61c0& kV
     kValue = m_kColorValue;
     return true;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nianimation/niblendcolorinterpolator.inc"

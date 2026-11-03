@@ -776,3 +776,5 @@ void WorkerThreadPoolViewD2::FUN_00d2ce50()
     ::FUN_00d04380(&pool->m_sharedData.m_kWorkerSemaphore, {});
     reinterpret_cast<::FUN_00d87920_cls *>(&(worker.m_iThreadHandle))->FUN_00d87920();
 }
+
+#include "generated/data/havok/common/base/thread/job/threadpool/cpu/hkcpujobthreadpool.inc"

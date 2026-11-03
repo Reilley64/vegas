@@ -2023,3 +2023,5 @@ bool FUN_0081d6c0_shell::FUN_0081d6c0()
     return bSuccess;
 }
 }  // namespace fnv_0081d6c0
+
+#include "generated/data/fallout/magic/magicmodelhiteffect.inc"

@@ -20726,3 +20726,5 @@ FUN_00bb3ba0::FUN_00bb3ba0(unsigned short value, void* texture, BB3660RefObject*
 }
 
 }
+
+#include "generated/data/staging/blk_00ba0000_o2.inc"

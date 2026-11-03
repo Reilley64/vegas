@@ -90,3 +90,5 @@ void FUN_00aa4e40()
         }
     }
 }
+
+#include "generated/data/bscore/bstimer.inc"

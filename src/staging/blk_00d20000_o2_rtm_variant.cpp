@@ -2287,3 +2287,5 @@ void FUN_00d3dca0(S_00d3dca0_Obj* o)
     FUN_00d3dbe0(&f);
     reinterpret_cast<::FUN_00cfbcc0_cls *>((o))->AddSpawnEntry((::SpawnRequest *)(::S_00d3dca0_Fns *)(&f), 1, 3);
 }
+
+#include "generated/data/staging/blk_00d20000_o2_rtm_variant.inc"

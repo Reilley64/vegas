@@ -102,3 +102,5 @@ void* __cdecl FUN_00cb11b0(void* apSrc, int anMaxLen, void* p3)
     return buf;
 }
 }  // namespace fnv_00cb11b0
+
+#include "generated/data/havok/common/base/container/string/hkstringptr.inc"

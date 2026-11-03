@@ -2714,3 +2714,5 @@ void CriticalSectionOwner::FUN_00d04420(Registry* data)
 {
     LeaveCriticalSection(this);
 }
+
+#include "generated/data/havok/common/base/thread/jobqueue/hkjobqueue.inc"

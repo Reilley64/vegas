@@ -749,3 +749,5 @@ void FUN_00a50110_obj::FUN_00a57fd0(FUN_00a50110_obj* destination, FUN_00a50110_
         }
     }
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nianimation/nibsplinetransforminterpolator.inc"

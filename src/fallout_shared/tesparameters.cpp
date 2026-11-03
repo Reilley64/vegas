@@ -230,3 +230,5 @@ bool __cdecl FUN_00682320(const FunctionData* apFuncData, unsigned int aiParam)
     }
     return bretval;
 }
+
+#include "generated/data/fallout_shared/tesparameters.inc"

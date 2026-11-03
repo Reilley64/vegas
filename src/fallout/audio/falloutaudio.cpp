@@ -576,3 +576,5 @@ void __cdecl PlayMysteriousStrangerSound()
         ::FUN_00453a70()->GetSoundHandleByEditorID("MUSMysteriousStrangerA02", 0x200101);
     reinterpret_cast<::FUN_00ad8830_shell *>(&(hndle))->FUN_00ad8830(false);
 }
+
+#include "generated/data/fallout/audio/falloutaudio.inc"

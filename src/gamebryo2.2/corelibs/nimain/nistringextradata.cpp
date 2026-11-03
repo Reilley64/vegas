@@ -264,3 +264,5 @@ void FUN_00a74380_shell::FUN_00a74380(NiStream& stream)
     char* s = *(char**)((char*)this + 0x0c);
     reinterpret_cast<NiStrTable&>(stream).Add(::fnv_00a7d5e0::FUN_00a7d5e0("m_kString", s));
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nimain/nistringextradata.inc"

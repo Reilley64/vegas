@@ -394,3 +394,5 @@ void Elements::FUN_00a912d0(ViewerStrings* pkStrings)
 }
 
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nimain/nitexture.inc"

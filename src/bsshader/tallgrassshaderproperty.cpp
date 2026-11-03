@@ -608,3 +608,5 @@ ArrayHolder* __cdecl GetArrayHolder()
     return &obj;
 }
 }  // namespace fnv_00b61170
+
+#include "generated/data/bsshader/tallgrassshaderproperty.inc"

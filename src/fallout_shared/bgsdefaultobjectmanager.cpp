@@ -199,3 +199,5 @@ void FUN_0058d820_cls::InitializeVTable()
     m_pVTable = (void*)&DAT_01032dc4;
     reinterpret_cast<::FUN_00483630_holder *>(this)->FUN_00483630_holder::~FUN_00483630_holder();
 }
+
+#include "generated/data/fallout_shared/bgsdefaultobjectmanager.inc"

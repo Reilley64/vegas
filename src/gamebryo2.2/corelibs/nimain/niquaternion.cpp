@@ -436,3 +436,5 @@ char* FUN_00a6e190_shell::FUN_00a6e190(const char* pcPrefix)
     ::NiSprintf(pcString, uiLen, "%s: (w=%g,x=%g,y=%g,z=%g)", pcPrefix, f0, f4, f8, fc);
     return pcString;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nimain/niquaternion.inc"

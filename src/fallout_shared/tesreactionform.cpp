@@ -893,3 +893,5 @@ void FUN_0048c9d0_Class::FUN_0048c9d0(FUN_0048c9d0_SaveBuffer* buffer)
         }
     }
 }
+
+#include "generated/data/fallout_shared/tesreactionform.inc"

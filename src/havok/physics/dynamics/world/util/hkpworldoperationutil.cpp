@@ -8712,3 +8712,5 @@ void __cdecl FUN_00cb4640(TaskCtx* apParent, TaskCtx* apChild, int mode)
 }
 
 }
+
+#include "generated/data/havok/physics/dynamics/world/util/hkpworldoperationutil.inc"

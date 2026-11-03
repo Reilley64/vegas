@@ -421,3 +421,5 @@ void WriteValueByType(FUN_00846330_shell* self, unsigned short ausValue, int typ
     }
 }
 }  // namespace fnv_00845d80
+
+#include "generated/data/fallout/misc/saveload/bgssaveloaddefines.inc"

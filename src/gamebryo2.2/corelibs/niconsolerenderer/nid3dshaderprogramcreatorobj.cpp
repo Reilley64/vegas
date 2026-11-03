@@ -87,3 +87,5 @@ bool FUN_00e981f0(const char* apFilePath, void** apOutBuffer, unsigned int* outS
     *apOutBuffer = pBuffer;
     return true;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/niconsolerenderer/nid3dshaderprogramcreatorobj.inc"

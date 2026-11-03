@@ -1395,3 +1395,5 @@ FUN_005edc30::~FUN_005edc30()
 {
     reinterpret_cast<::fnv_005edfb0::FUN_005edfb0_shell *>(this)->ClearRagdollData();
 }
+
+#include "generated/data/fallout_shared/bgsragdoll.inc"

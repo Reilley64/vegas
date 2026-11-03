@@ -4693,3 +4693,5 @@ void Target::FUN_00b2c890(float step)
     }
 }
 }  // namespace fnv_00b2c890
+
+#include "generated/data/speedtree/indexedgeometry_ob1_variant.inc"

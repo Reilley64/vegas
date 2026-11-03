@@ -186,3 +186,5 @@ void FUN_00a3d630(int a1, int a2, void* apData, int aiCount, float afMin, float 
         *apOut = 0;
     }
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nianimation/nianimationkey.inc"

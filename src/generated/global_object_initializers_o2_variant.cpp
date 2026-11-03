@@ -9765,3 +9765,5 @@ void* FUN_00c1ad50_class::FUN_00c1ad50()
         ::FUN_00aa2080((void (*)())(void *)((void*)&RegisterParticleSystems), (int)((void*)&FUN_00c1a7d0));
     return this;
 }
+
+#include "generated/data/generated/global_object_initializers_o2_variant.inc"

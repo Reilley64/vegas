@@ -11282,3 +11282,5 @@ void HostA::FUN_009a2a30(BGSLoadFormBuffer* buffer)
     for (unsigned int j = 0; j < 7; j++)
         maximum = FUN_00404010(maximum, values[j]);
 }
+
+#include "generated/data/fallout/ai/combat/combatstate.inc"

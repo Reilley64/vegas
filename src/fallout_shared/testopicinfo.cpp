@@ -1973,3 +1973,5 @@ struct FUN_0061ce10
 // @fnv 0x0061ce10
 FUN_0061ce10::~FUN_0061ce10()
 {}
+
+#include "generated/data/fallout_shared/testopicinfo.inc"

@@ -24823,3 +24823,5 @@ FUN_00bc1d40::FUN_00bc1d40()
     field01c = 15;
 }
 }  // namespace fnv_00bc1d40
+
+#include "generated/data/staging/blk_00bc0000_o2.inc"

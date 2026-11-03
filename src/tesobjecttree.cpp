@@ -2171,3 +2171,5 @@ void TreeCopy::FUN_0051c140(TESForm* source)
     Data = *reinterpret_cast<TreeDataGetter>((*reinterpret_cast<void***>(tree))[0x63])(tree);
     m_kBillboardDimensions = tree->m_kBillboardDimensions;
 }
+
+#include "generated/data/tesobjecttree.inc"

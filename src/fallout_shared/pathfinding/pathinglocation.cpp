@@ -1,5 +1,6 @@
 // fallout_shared/pathfinding/pathinglocation.cpp: PathingLocation, PathingLocationProxy, PathingLocationArray, StandInShell and more (34 functions)
 
+#include "generated/data/vtables.h"
 #include <new>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FUN_00438690.h"
@@ -54,7 +55,7 @@
 // @fnv 0x004ff7e0
 bool PathingLocation::HasValidTriangle()
 {
-    m_ppVirtualMethodTable = (void**)0x0102583c;
+    m_ppVirtualMethodTable = (void**)fnv_vftable_DAT_0102583c;
     __assume(0);
 }
 
@@ -445,7 +446,7 @@ struct SetupPathingLocation : PathingLocation
 // @fnv 0x006dce10
 PathingLocation::PathingLocation(const NiPoint3& location, TESObjectREFR* reference)
 {
-    m_ppVirtualMethodTable = (void**)0x0102583c;
+    m_ppVirtualMethodTable = (void**)fnv_vftable_DAT_0102583c;
     new ((void *)(reinterpret_cast<BSSimpleList<InventoryStackRecord*>*>(&Location))) ::Vec3();
     reinterpret_cast<::SetupPathingLocation *>(this)->FUN_006dd280(location, reinterpret_cast<TESObjectCELL*>(reinterpret_cast<LowProcess*>(reference)->GetTarget()),
                     ((::TESWorldSpace *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((reference))->FUN_00575d70())));
@@ -1429,3 +1430,5 @@ bool __cdecl FUN_006d0b10(PathingRequest* pRequest, PathingSolution* m_pOutputSo
     bool bResult = kBuilder.BuildPath();
     return bResult;
 }
+
+#include "generated/data/fallout_shared/pathfinding/pathinglocation.inc"

@@ -257,3 +257,5 @@ hkBool BoxBoxCollisionDetection::TestEdgeEdgeContact(BoxBoxEdgeContact* contact)
     contact->m_fClosestPointDistanceSquared = dist;
     return hkBool(true);
 }
+
+#include "generated/data/havok/physics/collide/boxbox/hkpboxboxcollisiondetection.inc"

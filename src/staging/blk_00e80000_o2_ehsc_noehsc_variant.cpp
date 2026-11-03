@@ -7620,3 +7620,5 @@ ArrayElementE80390* __cdecl FUN_00e80390(unsigned int count)
 {
     return new(count) ArrayElementE80390[count];
 }
+
+#include "generated/data/staging/blk_00e80000_o2_ehsc_noehsc_variant.inc"

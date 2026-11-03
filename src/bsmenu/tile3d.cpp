@@ -1572,3 +1572,5 @@ void Tile3DX::LoadTile()
     ::FUN_00707820();
 }
 }  // namespace fnv_00a20980
+
+#include "generated/data/bsmenu/tile3d.inc"

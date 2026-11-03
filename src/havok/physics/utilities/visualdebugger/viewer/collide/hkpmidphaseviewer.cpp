@@ -576,3 +576,5 @@ void* hkpMidphaseViewer::FUN_00d6a8b0(int flags)
     return this;
 }
 }  // namespace fnv_00d6a8b0
+
+#include "generated/data/havok/physics/utilities/visualdebugger/viewer/collide/hkpmidphaseviewer.inc"

@@ -12776,3 +12776,5 @@ extern "C" ByteAnswer __cdecl FUN_00df2750(const PTree* tree, PCast& input, PCol
     restoreStack(base);
     return sink->finish();
 }
+
+#include "generated/data/staging/blk_00de0000_o2.inc"

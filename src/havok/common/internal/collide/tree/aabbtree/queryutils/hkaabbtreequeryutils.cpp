@@ -2202,3 +2202,5 @@ void __cdecl FUN_00e2bbd0(const FilterRays_Tree* tree, const FilterRays_Node* no
         }
     }
 }
+
+#include "generated/data/havok/common/internal/collide/tree/aabbtree/queryutils/hkaabbtreequeryutils.inc"

@@ -6877,3 +6877,5 @@ int SystemFileWriter::FUN_00afede0(void* buf, DWORD len, int unused, unsigned __
     }
     return rc;
 }
+
+#include "generated/data/staging/blk_00ae0000_od.inc"

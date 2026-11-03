@@ -550,3 +550,5 @@ void FUN_00aa46a0_holder::FUN_00aa43a0(int unused)
     }
 }
 }  // namespace fnv_00aa43a0
+
+#include "generated/data/bscore/memorymanager.inc"

@@ -368,3 +368,5 @@ void __cdecl FUN_00d01d20(Src* pSrc)
         FUN_00d88040(0);
     }
 }
+
+#include "generated/data/havok/physics/dynamics/world/util/hkpworldmemoryutil.inc"

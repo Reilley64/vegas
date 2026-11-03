@@ -72,3 +72,5 @@ int C00aa1d50::FUN_00aa1d50()
 {
     return m4;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nisystem/nibinarystream.inc"

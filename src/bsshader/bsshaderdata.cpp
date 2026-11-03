@@ -272,3 +272,5 @@ void FUN_00bb01c0_t::CreatePrecipitationVertexShaders()
             ((::NiD3DVertexShader *)(::fnv_00be0fe0::FUN_00be0fe0((const char *)this, (::_D3DXMACRO *)(shaderPath), (const char *)(shaderDefs[i].Macros), ::NiD3DGPUProgramCache::GetVertexShaderProfile())));
     }
 }
+
+#include "generated/data/bsshader/bsshaderdata.inc"

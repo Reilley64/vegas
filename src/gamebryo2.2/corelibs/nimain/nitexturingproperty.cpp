@@ -2349,3 +2349,5 @@ void* MapScalarDtorCandidate::FUN_00a6a9f0(unsigned int flags)
         reinterpret_cast<::FNV_MemoryManager *>((reinterpret_cast<DeallocHelper00aa4060*>(&::g_memoryManager)))->FUN_00aa4060(this);
     return this;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nimain/nitexturingproperty.inc"

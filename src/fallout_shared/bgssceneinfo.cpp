@@ -1402,3 +1402,5 @@ FUN_004a9970::~FUN_004a9970()
 {
     reinterpret_cast<::FUN_00438af0_Class *>(this)->FUN_00438af0();
 }
+
+#include "generated/data/fallout_shared/bgssceneinfo.inc"

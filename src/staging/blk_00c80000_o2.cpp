@@ -18807,3 +18807,5 @@ void Target_c9b090::FUN_00c9b090(float* apTime)
     }
     lastTime = *apTime;
 }
+
+#include "generated/data/staging/blk_00c80000_o2.inc"

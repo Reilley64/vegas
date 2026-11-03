@@ -658,3 +658,5 @@ void PathingRequestDebugView::PrintDebugInfo(PathingDebugOutput* output)
     output->Print(0, 1, "Ignoring Locks: %s", bIgnoreLocks ? "true" : "false");
     output->Print(0, 1, "Pathsmoothing retry count: %i", m_iRequestType);
 }
+
+#include "generated/data/fallout_shared/pathfinding/pathingrequest.inc"

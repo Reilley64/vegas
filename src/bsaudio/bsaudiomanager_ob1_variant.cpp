@@ -10365,3 +10365,5 @@ DebugList* AudioSystem::FUN_00ae5ff0(unsigned int filter)
     head8->FUN_00ae81e0((int(__cdecl*)(SoundNode*, SoundNode*))FUN_00ae5fb0);
     return head8;
 }
+
+#include "generated/data/bsaudio/bsaudiomanager_ob1_variant.inc"

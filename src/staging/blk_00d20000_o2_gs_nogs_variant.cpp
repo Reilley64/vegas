@@ -987,3 +987,5 @@ unsigned short* FUN_00d39390(Pair* pair,Header* header,unsigned short* ids,FourF
  }
  return ids+16;
 }
+
+#include "generated/data/staging/blk_00d20000_o2_gs_nogs_variant.inc"

@@ -1320,3 +1320,5 @@ void runProbe()
 {
     probeSink = FUN_00d5b990(probeData, probeCount, probeStride, probeAxes, probeOutput, probeLimit);
 }
+
+#include "generated/data/havok/common/internal/convexhull/hkgeometryutility.inc"

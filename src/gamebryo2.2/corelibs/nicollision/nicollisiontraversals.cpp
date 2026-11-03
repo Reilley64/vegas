@@ -2170,3 +2170,5 @@ NiBoundingVolume* __cdecl FUN_00e9c850(unsigned int code, int* point)
     memcpy((char*)&result->unk04, &stBounds, 60);
     return result;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nicollision/nicollisiontraversals.inc"

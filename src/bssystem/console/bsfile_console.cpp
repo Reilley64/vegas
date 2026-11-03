@@ -283,3 +283,5 @@ SYSTEMTIME B003C0File::GetLastWriteTime()
     SystemTimeToTzSpecificLocalTime(0, &utcTime4, &localTime2);
     return localTime2;
 }
+
+#include "generated/data/bssystem/console/bsfile_console.inc"

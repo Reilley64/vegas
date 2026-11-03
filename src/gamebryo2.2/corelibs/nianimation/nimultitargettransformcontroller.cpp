@@ -1491,3 +1491,5 @@ FUN_00a2fb70::~FUN_00a2fb70() throw()
     delete[] blends;
     ::FUN_00aa10f0(targets);
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nianimation/nimultitargettransformcontroller.inc"

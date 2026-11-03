@@ -1025,3 +1025,5 @@ void ModifierRoutingList::FUN_00937380(ModifierEntryView* apEntry)
     else
         AddHead(apEntry);
 }
+
+#include "generated/data/bscore/bssimplelist.inc"

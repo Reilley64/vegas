@@ -254,3 +254,5 @@ FUN_00636b20::~FUN_00636b20()
     m_kSecond.Reset(0);
     m_pvCached = 0;
 }
+
+#include "generated/data/fallout_shared/sky/precipitation.inc"

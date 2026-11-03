@@ -330,3 +330,5 @@ void FUN_00cbc220(hkOstream* ostr, MemSystemInfo* info)
         FUN_00cbc000(ostr, "DebugMem", stats, 0x7fffffff);
     }
 }
+
+#include "generated/data/havok/common/base/memory/system/hkmemorysystem.inc"

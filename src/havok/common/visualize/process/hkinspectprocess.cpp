@@ -985,3 +985,5 @@ void* S00ddb450_Call(int type, char* data, const hkPathArray* path, int i, const
     return FUN_00ddb450(member, data, path, type, i);
 }
 }  // namespace fnv_00ddb450
+
+#include "generated/data/havok/common/visualize/process/hkinspectprocess.inc"

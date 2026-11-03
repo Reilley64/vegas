@@ -23,3 +23,5 @@ bool FUN_00aa00c0(int a, int b)
 {
     return false;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nimain/console/nigeometrygroupmanager.inc"

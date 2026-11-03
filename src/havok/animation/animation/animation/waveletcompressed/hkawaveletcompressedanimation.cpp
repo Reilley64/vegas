@@ -1436,3 +1436,5 @@ void WaveletSamplerE30::FUN_00e30980(float time, unsigned int transformCount, hk
     FUN_00c85750()->m_aiEntries.m_pTileTemplate = (char*)interpolated;
     FUN_00c85750()->m_aiEntries.m_pTileTemplate = (char*)block;
 }
+
+#include "generated/data/havok/animation/animation/animation/waveletcompressed/hkawaveletcompressedanimation.inc"

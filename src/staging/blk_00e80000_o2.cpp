@@ -15095,3 +15095,5 @@ int FUN_00e82e70(ConstantTarget* target, int aiRegister, int type1, int type2, b
         return 1;
     }
 }
+
+#include "generated/data/staging/blk_00e80000_o2.inc"

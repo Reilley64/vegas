@@ -57,3 +57,5 @@ void FUN_00bc28f0(StrArr* pStrArr)
     }
     reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pStrArr))->SetAt(uiIndex, pStr);
 }
+
+#include "generated/data/bsshader/bsshadersdm.inc"

@@ -153,3 +153,5 @@ bool FUN_00af2f80_class::CopyBufferIfNotEmpty(char* pDest)
     }
     return false;
 }
+
+#include "generated/data/bssystemutilities/console/bsawardssystemutility_console.inc"

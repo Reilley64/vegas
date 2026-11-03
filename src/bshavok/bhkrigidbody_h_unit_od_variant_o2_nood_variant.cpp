@@ -819,3 +819,5 @@ int Q8f6e0_Obj::FUN_00c8f6e0(Q8f6e0_Arg* a)
     }
     return r;
 }
+
+#include "generated/data/bshavok/bhkrigidbody_h_unit_od_variant_o2_nood_variant.inc"

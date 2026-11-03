@@ -539,3 +539,5 @@ MyController* MyController::FUN_00a4f040(unsigned int destroyFlag)
 
     return this;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nianimation/nifloatsextradatacontroller.inc"

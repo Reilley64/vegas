@@ -463,3 +463,5 @@ void FUN_00b66ad0_cls::FUN_00b66ad0(int a1, FnvTarget* target)
         }
     }
 }
+
+#include "generated/data/fallout_shared/bgstextureset_o2_variant.inc"

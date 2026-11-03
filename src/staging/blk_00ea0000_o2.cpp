@@ -4027,3 +4027,5 @@ NiBoundingVolume* __cdecl FUN_00ea7490(void* apStream)
     pkVolume->LoadBinary(apStream);
     return pkVolume;
 }
+
+#include "generated/data/staging/blk_00ea0000_o2.inc"

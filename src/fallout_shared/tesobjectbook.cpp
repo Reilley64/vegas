@@ -1250,3 +1250,5 @@ bool BookComparison::FUN_00514f50(TESForm* other)
         return true;
     return false;
 }
+
+#include "generated/data/fallout_shared/tesobjectbook.inc"

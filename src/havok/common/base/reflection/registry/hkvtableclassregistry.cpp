@@ -84,3 +84,5 @@ failure:
     ::FUN_00cb0c00((int)&(parseState.buffer));
     return 0;
 }
+
+#include "generated/data/havok/common/base/reflection/registry/hkvtableclassregistry.inc"

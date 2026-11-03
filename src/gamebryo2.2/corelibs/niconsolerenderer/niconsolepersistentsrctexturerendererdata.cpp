@@ -8091,3 +8091,5 @@ NiDX9RenderedCubeMapData* __cdecl FUN_00e901a0(NiRenderedCubeMap* pkTexture, NiD
     DAT_0126f9e4 += uiPad;
     return pkThis;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/niconsolerenderer/niconsolepersistentsrctexturerendererdata.inc"

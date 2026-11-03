@@ -503,3 +503,5 @@ BRBool RayBoxShape::FUN_00c9de40(const BRRayCastInput& input, BRRayCastOutput& r
     BRMonitorStream::GetMonitorStream().timerCommand("Et");
     return true;
 }
+
+#include "generated/data/havok/physics/collide/shape/convex/box/hkpboxshape.inc"

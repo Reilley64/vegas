@@ -43,3 +43,5 @@ void TaskThreadManager::EndRenderingTaskThread()
     }
 }
 #pragma optimize("", off)
+
+#include "generated/data/bsshader/mtrenderingsystem.inc"

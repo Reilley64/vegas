@@ -754,3 +754,5 @@ void BGSExplosion_shell::FUN_004fb5a0(TESForm* apCopy)
     memcpy(FUN_004fadc0(), pcopy->FUN_004fadc0(), 0x34);
     reinterpret_cast<::fnv_0057bd60::fnv_anon_tesobjectrefr::Dummy *>((((EffectSetting_shell*)this)))->FUN_0057bd60((::fnv_0057bd60::MobileObject *)(::TESObjectLIGH *)(((EffectSetting_shell*)pcopy)->GetLight()));
 }
+
+#include "generated/data/fallout_shared/bgsexplosion.inc"

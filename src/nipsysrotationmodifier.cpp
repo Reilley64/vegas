@@ -825,3 +825,5 @@ void FUN_00c207a0_shell::UpdateParticleRotation(NiPSysData* pkSysData, unsigned 
         pkData->m_pfRotationSpeeds[usNewParticle] = fSpeed;
     }
 }
+
+#include "generated/data/nipsysrotationmodifier.inc"

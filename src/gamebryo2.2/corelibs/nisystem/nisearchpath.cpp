@@ -130,3 +130,5 @@ struct FUN_00aa2510
 // @fnv 0x00aa2510
 FUN_00aa2510::~FUN_00aa2510()
 {}
+
+#include "generated/data/gamebryo2.2/corelibs/nisystem/nisearchpath.inc"

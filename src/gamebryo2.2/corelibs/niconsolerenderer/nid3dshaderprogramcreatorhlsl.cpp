@@ -1808,3 +1808,5 @@ HLSLPixelShaderObj* BufferPixelShaderCreator::FUN_00e96100(ID3DXBuffer* code, un
         constants->Release();
     return shader;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/niconsolerenderer/nid3dshaderprogramcreatorhlsl.inc"

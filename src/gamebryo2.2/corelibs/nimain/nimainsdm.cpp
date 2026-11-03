@@ -395,3 +395,5 @@ void __cdecl InitializeGameSystems()
         FUN_00a74da0();
     }
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nimain/nimainsdm.inc"

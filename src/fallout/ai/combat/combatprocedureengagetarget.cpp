@@ -1681,3 +1681,5 @@ FUN_009d3a00::FUN_009d3a00()
     : FUN_009ca680(), unk10(0), f14(0.0f), f18(0.0f), f1c(0.0f), m20(), m28(), b30(false), b31(false), b32(false),
       b33(true), pt34((*reinterpret_cast<::NiPoint3_T *>((void *)&::NiPoint3::ZERO))), m40(), m50(), m60(-DAT_010914d0)
 {}
+
+#include "generated/data/fallout/ai/combat/combatprocedureengagetarget.inc"

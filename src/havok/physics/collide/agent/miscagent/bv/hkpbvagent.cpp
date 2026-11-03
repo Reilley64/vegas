@@ -2131,3 +2131,5 @@ void Owner::FUN_00d46340(int a1, int a2, const Block* p, int a4, int a5)
         reinterpret_cast<::Agent228 *>((reinterpret_cast<Host*>(this)))->CheckBvShape((::BvA *)(a2), (::BvB *)(a1), (::BvC *)(::Block *)(&blk), (unsigned long)(&ev), (unsigned long)(0));
     }
 }
+
+#include "generated/data/havok/physics/collide/agent/miscagent/bv/hkpbvagent.inc"

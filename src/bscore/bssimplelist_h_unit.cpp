@@ -1514,3 +1514,5 @@ bool FUN_0048b310(void* form, int variant)
         bFound = true;
     return bFound;
 }
+
+#include "generated/data/bscore/bssimplelist_h_unit.inc"

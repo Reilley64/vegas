@@ -428,3 +428,5 @@ void AgentD::FUN_00d324e0(const BodyD& a, const BodyD& b, const InputD& input, O
     timer(::DAT_010c41f8);
 }
 }  // namespace fnv_00d324e0
+
+#include "generated/data/havok/physics/collide/agent/heightfieldagent/hkpheightfieldagent_gs_ehsc_nogs_noehsc_variant.inc"

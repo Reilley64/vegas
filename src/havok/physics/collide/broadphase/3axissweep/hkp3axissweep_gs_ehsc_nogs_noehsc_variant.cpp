@@ -3478,3 +3478,5 @@ void Sweep15::FUN_00d18400(In1* p1, In2* p2, int p3)
     }
     return;
 }
+
+#include "generated/data/havok/physics/collide/broadphase/3axissweep/hkp3axissweep_gs_ehsc_nogs_noehsc_variant.inc"

@@ -337,3 +337,5 @@ bool FUN_00401c50_cls::FUN_00401c50(void* pOther)
     }
     return false;
 }
+
+#include "generated/data/fallout_shared/bgshunger.inc"

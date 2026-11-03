@@ -1851,3 +1851,5 @@ void BlendImageSpaceModifiers(float blend, TESImageSpaceModifier* pPreviousModif
                                         0.0f, depth5.x, depth5.y);
     reinterpret_cast<::FUN_00b8af60_shell *>((manager4))->RaiseBlurRadius(motion_24);
 }
+
+#include "generated/data/fallout_shared/tesimagespacemodifier.inc"

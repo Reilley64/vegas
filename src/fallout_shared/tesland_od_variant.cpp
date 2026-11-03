@@ -5665,3 +5665,5 @@ bool LandS::FUN_00539060(TESForm* apGroupFORM)
     }
     return bretval;
 }
+
+#include "generated/data/fallout_shared/tesland_od_variant.inc"

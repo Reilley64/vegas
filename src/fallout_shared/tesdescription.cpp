@@ -371,3 +371,5 @@ void Desc482d::FUN_00482d80(BaseFormComponent* apComponent)
     reinterpret_cast<::TextString *>(&(g_011c5498))->FUN_004037f0((const char*)((DescStandIn*)pDesc)->vf4(0, 'CSED'), 0);
     m_uiDescriptionFileOffset = ((unsigned long)(reinterpret_cast<::Callees *>((((Off482d*)pDesc)))->FUN_00726070()));
 }
+
+#include "generated/data/fallout_shared/tesdescription.inc"

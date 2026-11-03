@@ -218,3 +218,5 @@ FUN_00c90b80::FUN_00c90b80()
     m_bAllowUnconstrainedIslandJob = 0;
     m_bFireCollisionCallbacks = 0;
 }
+
+#include "generated/data/havok/physics/dynamics/world/hkpworldcinfo.inc"

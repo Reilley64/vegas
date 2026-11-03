@@ -18,3 +18,5 @@
 #include "fnv/symbols_0109b000.h"
 #include "fnv/symbols_011aa000.h"
 #include "nifixedstring.inl"
+
+#include "generated/data/gamebryo2.2/corelibs/nimain/nifixedstring_h_unit.inc"

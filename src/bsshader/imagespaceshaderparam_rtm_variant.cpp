@@ -272,3 +272,5 @@ bool ImageSpaceEffectFourTexturePass::FUN_00ba4270(int a1)
     pParam->CopyParamData(1, &g_afBlurKernel[0][iStart], (iHi * 2 + 1) * 16);
     return false;
 }
+
+#include "generated/data/bsshader/imagespaceshaderparam_rtm_variant.inc"

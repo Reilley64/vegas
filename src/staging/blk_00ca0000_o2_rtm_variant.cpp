@@ -1,4 +1,5 @@
 // staging/blk_00ca0000_o2_rtm_variant.cpp: hkQuaternion, AryType, RayCaster_rc1c, VelocityController and more (19 functions)
+#include "generated/data/vtables.h"
 #include <xmmintrin.h>
 // src/staging/blk_00ca0000_o2_rtm_variant.cpp - RTM variant unit created 2026-11-01 by rtm_route.py: community reworks of src/staging/blk_00ca0000_o2.cpp that match byte for byte only
 // with VC9 RTM (cl 15.00.21022.08, the compiler the game was built with). Declarations copied from that unit's skeleton.
@@ -8562,13 +8563,13 @@ struct cb86f0_obj : bhkRefObject
     cb86f0_obj()
     {
         reinterpret_cast<::FUN_00c87c30_t *>(this)->FUN_00c87c30();
-        vtable = (void*)0x102016c;
+        vtable = (void*)fnv_vftable_FUN_00c87970;
         const int inc = 1;
         unk0c = 0;
         DAT_01268154 += inc;
         vtable = (void*)&DAT_0102009c;
         DAT_01268118 += inc;
-        vtable = (void*)0x10c8914;
+        vtable = (void*)fnv_vftable_FUN_00cb83f0;
     }
 
     static void* operator new(unsigned int size)
@@ -13477,3 +13478,5 @@ void __cdecl FUN_00cb94a0(MyHost* param1, const __m128* param2, float param3)
     output->V35(::DAT_01015f5c);
 }
 }  // namespace fnv_00cb94a0
+
+#include "generated/data/staging/blk_00ca0000_o2_rtm_variant.inc"

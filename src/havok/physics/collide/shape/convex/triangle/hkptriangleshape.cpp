@@ -1437,3 +1437,5 @@ return true;
 {StringCursor&mStream=StringCursor::GetMonitorStream();if(mStream.memoryAvailable()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName="E" "t" "";h->setTime();mStream.setEnd((char*)(h+1));}};
 return false;
 }
+
+#include "generated/data/havok/physics/collide/shape/convex/triangle/hkptriangleshape.inc"

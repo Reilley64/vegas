@@ -2226,3 +2226,5 @@ TESRace* __cdecl FUN_00617270(TESForm* form)
         return result;
     }
 }
+
+#include "generated/data/staging/blk_00600000_od.inc"

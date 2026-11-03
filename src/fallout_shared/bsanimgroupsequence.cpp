@@ -880,3 +880,5 @@ bool __cdecl PlaySequenceSounds(SeqSound* sequence, TESObjectREFR* reference)
     }
     return result2;
 }
+
+#include "generated/data/fallout_shared/bsanimgroupsequence.inc"

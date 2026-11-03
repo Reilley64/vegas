@@ -1990,3 +1990,5 @@ done:
     FUN_00c85750()->unk00 = (int)base;
     return found;
 }
+
+#include "generated/data/staging/blk_00d00000_o2.inc"

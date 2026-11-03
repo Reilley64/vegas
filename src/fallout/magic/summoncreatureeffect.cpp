@@ -2198,3 +2198,5 @@ void Dbeffect::FUN_00829900(void* arg)
             reinterpret_cast<::fnv_00804210::ActiveEffectUpdateShell *>((((ActiveEffect*)this)))->FUN_00804210(true);
     }
 }
+
+#include "generated/data/fallout/magic/summoncreatureeffect.inc"

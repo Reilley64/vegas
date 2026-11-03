@@ -803,3 +803,5 @@ void TraitSelectMenuCheckState::FUN_007e8470(int aiID, bool abForce)
     }
 }
 }  // namespace fnv_007e8470
+
+#include "generated/data/fallout/interface/menus/traitselectmenu.inc"

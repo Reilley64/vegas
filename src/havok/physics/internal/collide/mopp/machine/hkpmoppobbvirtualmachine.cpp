@@ -297,3 +297,5 @@ void VirtualMachine::Execute(const QueryState* apQueryState,unsigned char* __res
         }
     }
 }
+
+#include "generated/data/havok/physics/internal/collide/mopp/machine/hkpmoppobbvirtualmachine.inc"

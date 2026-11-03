@@ -11,3 +11,5 @@
 #include "fnv/symbols_0102f000.h"
 #include "fnv/symbols_011de000.h"
 #include "virtualactorpathhandler.h"
+
+#include "generated/data/fallout/ai/movement/virtualactorpathhandler_h_unit.inc"

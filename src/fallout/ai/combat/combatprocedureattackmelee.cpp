@@ -6817,3 +6817,5 @@ unsigned char FUN_009cde10_shell::FUN_009cf030(float a, float b, int aiUnused)
     }
     return bResult;
 }
+
+#include "generated/data/fallout/ai/combat/combatprocedureattackmelee.inc"

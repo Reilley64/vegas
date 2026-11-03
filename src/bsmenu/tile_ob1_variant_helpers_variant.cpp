@@ -1920,3 +1920,5 @@ bool __cdecl FUN_00a02d40(Input02D40* arg) {
     }
     return false;
 }
+
+#include "generated/data/bsmenu/tile_ob1_variant_helpers_variant.inc"

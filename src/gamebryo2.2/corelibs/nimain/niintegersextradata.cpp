@@ -534,3 +534,5 @@ void FUN_00c542a0_shell::FUN_00c542a0(ViewerStringsArray* strings)
         reinterpret_cast<::S_0060ba10 *>((strings))->FUN_0096a610((int)&(aHeadingY));
     }
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nimain/niintegersextradata.inc"

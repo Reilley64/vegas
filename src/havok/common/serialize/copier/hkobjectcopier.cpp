@@ -884,3 +884,5 @@ int Host::FUN_00e036b0(StreamObj* apSourceStream, StreamObj* apLookupStream, Str
     return state0.base;
 }
 }  // namespace fnv_00e036b0
+
+#include "generated/data/havok/common/serialize/copier/hkobjectcopier.inc"

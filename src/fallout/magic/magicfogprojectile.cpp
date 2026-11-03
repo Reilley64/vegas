@@ -1568,3 +1568,5 @@ void FogProjectileImpl::FUN_0081b430(int a1, int a2)
     if (_pkCaster != (*reinterpret_cast<::Actor * *>(&::_g_thePlayer)))
         FUN_0080fae0(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingStandIn *>(&::g_011d15f8)))))));
 }
+
+#include "generated/data/fallout/magic/magicfogprojectile.inc"

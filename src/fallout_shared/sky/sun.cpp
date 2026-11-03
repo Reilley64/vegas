@@ -1292,3 +1292,5 @@ void A6A0Sun::FUN_006426a0(void* pvArg0, A6A0Target* pkTarget, void* pvArg1)
         }
     }
 }
+
+#include "generated/data/fallout_shared/sky/sun.inc"

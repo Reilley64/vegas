@@ -14351,3 +14351,5 @@ bool TutorialMessageGate718::FUN_00718630(int aeID, unsigned int aiMenuID, unsig
     }
     return bshow;
 }
+
+#include "generated/data/fallout/interface/interfacemanager.inc"

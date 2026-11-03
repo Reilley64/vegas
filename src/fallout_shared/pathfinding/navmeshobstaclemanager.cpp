@@ -7144,3 +7144,5 @@ void RemoveObstacleManagerView::FUN_006c0c80(::TESObjectREFR* ref)
         }
     }
 }
+
+#include "generated/data/fallout_shared/pathfinding/navmeshobstaclemanager.inc"

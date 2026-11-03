@@ -1817,3 +1817,5 @@ bool NiAGDObject::FUN_00a727f0(NiObject* pkObject)
 
     return true;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nimain/niadditionalgeometrydata_o2_variant.inc"

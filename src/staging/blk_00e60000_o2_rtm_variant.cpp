@@ -8296,3 +8296,5 @@ void __cdecl FUN_00e67c50(Polytope* a, Polytope* b, __m128* result, Face** outA,
     *dst = normalize3(_mm_add_ps(_mm_mul_ps(splat(&bestB), (*outB)->normal), first));
     dst->lanes.w = (float)sqrt(maximum(0.0f, best));
 }
+
+#include "generated/data/staging/blk_00e60000_o2_rtm_variant.inc"

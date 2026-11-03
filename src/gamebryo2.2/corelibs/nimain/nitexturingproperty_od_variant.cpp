@@ -43,3 +43,5 @@ void Owner_b9713::FUN_00533f40(ObjectBase* v)
         reinterpret_cast<::fnv_00b5c7d0::StrArr *>(&(m_ppData))->SetAt(0, (char *&)(v));
     }
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nimain/nitexturingproperty_od_variant.inc"

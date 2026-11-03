@@ -44,3 +44,5 @@ void VolumetricFogShader::UpdateShaderConstants()
                                            false);
     }
 }
+
+#include "generated/data/bsshader/volumetricfogshader.inc"

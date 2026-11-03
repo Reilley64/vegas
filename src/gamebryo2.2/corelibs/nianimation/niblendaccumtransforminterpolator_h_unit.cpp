@@ -13,3 +13,5 @@
 #include "fnv/decl/S_004963e0.h"
 #include "fnv/decl/fnv_00496420__FUN_00496420_shell.h"
 #include "niblendaccumtransforminterpolator.inl"
+
+#include "generated/data/gamebryo2.2/corelibs/nianimation/niblendaccumtransforminterpolator_h_unit.inc"

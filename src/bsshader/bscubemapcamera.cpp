@@ -776,3 +776,5 @@ void Camera::FUN_00bd7bb0(int aiFace)
     }
     ::DAT_011f9508->SetColor(savedColor);
 }
+
+#include "generated/data/bsshader/bscubemapcamera.inc"

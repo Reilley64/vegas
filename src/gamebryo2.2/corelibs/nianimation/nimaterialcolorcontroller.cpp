@@ -765,3 +765,5 @@ NiMaterialColorController* NiMaterialColorController::FUN_00bc29e0(int aiFlags)
     return this;
 }
 }  // namespace fnv_00bc29e0
+
+#include "generated/data/gamebryo2.2/corelibs/nianimation/nimaterialcolorcontroller.inc"

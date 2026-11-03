@@ -2117,3 +2117,5 @@ void hk_user(const AgentSubtypeMarker& in3, ContactPointWeldingParameters& tol, 
 {
     FUN_00db54b0(in3, tol, gsk, featureChange, oldMasterNormal, deltaAngles, startRt, endRt, distance0, distance1, out);
 }
+
+#include "generated/data/havok/physics/internal/collide/gjk/continuous/hkpcontinuousgsk_gs_ehsc_nogs_noehsc_variant_rtm_variant.inc"

@@ -512,3 +512,5 @@ void TimeRebaser::FUN_00d0b3e0(hkpWorld* world, hkStepInfo& stepInfo)
     stepInfo = world->m_pStepInfo;
     world->m_pCollisionInput->m_pStepInfo = world->m_pStepInfo;
 }
+
+#include "generated/data/havok/physics/dynamics/world/maintenance/default/hkpdefaultworldmaintenancemgr.inc"

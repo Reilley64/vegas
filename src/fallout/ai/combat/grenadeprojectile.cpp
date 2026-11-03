@@ -1604,3 +1604,5 @@ bool ImpactProjectile::ProcessHits()
 
     return processed;
 }
+
+#include "generated/data/fallout/ai/combat/grenadeprojectile.inc"

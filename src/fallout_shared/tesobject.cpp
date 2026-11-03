@@ -3111,3 +3111,5 @@ std::basic_string<char, std::char_traits<char>, std::allocator<char> >* std::bas
     return this;
 }
 }  // namespace fnv_007ab0a0
+
+#include "generated/data/fallout_shared/tesobject.inc"

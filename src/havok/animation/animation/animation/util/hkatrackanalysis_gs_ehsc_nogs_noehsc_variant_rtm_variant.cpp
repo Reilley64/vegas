@@ -963,3 +963,5 @@ void __cdecl FUN_00e4f910(TrackBuffers_e50650* buffers, void* masks, void* value
     analyzeTransformTracks(*reinterpret_cast<const TrackInput*>(buffers), static_cast<unsigned short*>(masks),
                            static_cast<float*>(values), reinterpret_cast<const TrackFlag&>(report));
 }
+
+#include "generated/data/havok/animation/animation/animation/util/hkatrackanalysis_gs_ehsc_nogs_noehsc_variant_rtm_variant.inc"

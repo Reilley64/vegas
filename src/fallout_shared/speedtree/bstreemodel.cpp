@@ -3191,3 +3191,5 @@ void TreeActor::UpdateTreeLod(TreeCallback* pCallback)
         pCallback->SetBranchEnabled(visible);
     }
 }
+
+#include "generated/data/fallout_shared/speedtree/bstreemodel.inc"

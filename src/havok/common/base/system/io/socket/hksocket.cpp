@@ -263,3 +263,5 @@ FUN_00d2b850::FUN_00d2b850() throw()
         DAT_01268a44 = true;
     }
 }
+
+#include "generated/data/havok/common/base/system/io/socket/hksocket.inc"

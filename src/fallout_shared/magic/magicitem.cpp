@@ -825,3 +825,5 @@ ReturnString MagicLabel::GetNameForType(unsigned int type)
         return ReturnString(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::StringSetting *>(&::g_011c3474))))->GetMenuTitle())));
     }
 }
+
+#include "generated/data/fallout_shared/magic/magicitem.inc"

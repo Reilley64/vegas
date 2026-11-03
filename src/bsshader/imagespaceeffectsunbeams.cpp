@@ -367,3 +367,5 @@ bool FUN_00c04b90_class::UpdateCameraConstants(void* apUnused)
     reinterpret_cast<::ImageSpaceShaderParam *>((pkMap))->SetShaderConstantVector4(1, fDotX, fDotY, 0.0f, 0.0f);
     return true;
 }
+
+#include "generated/data/bsshader/imagespaceeffectsunbeams.inc"

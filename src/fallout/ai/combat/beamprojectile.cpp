@@ -1931,3 +1931,5 @@ bool FUN_009b8b10_cls::FUN_009b8b10()
     }
     return bResult;
 }
+
+#include "generated/data/fallout/ai/combat/beamprojectile.inc"

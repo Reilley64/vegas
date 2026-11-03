@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/niparticle/nipsyscolormodifier.cpp: NiPSysColorModifier, Host, NiPSysColorModifierLocal (9 functions)
 
+#include "generated/data/vtables.h"
 #include <new>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
@@ -229,7 +230,7 @@ void* S00c2d240::CreateAndInit(int arg)
     if (pObject)
     {
         new ((void *)(((Ctor00c2d240*)pObject))) ::NiPSysPositionModifier();
-        *(void**)pObject = (void*)0x010bffe4;
+        *(void**)pObject = (void*)fnv_vftable_PSysColorModifierStandIn;
         *(volatile int*)((char*)pObject + 0x18) = 0;
         *(volatile float*)((char*)pObject + 0x1c) = 0.0f;
         *(volatile float*)((char*)pObject + 0x20) = 0.0f;

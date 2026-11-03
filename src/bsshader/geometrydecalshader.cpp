@@ -925,3 +925,5 @@ void Fx_Self::UpdateColorAndPower(Fx_Param* apParam)
     fx_dispatch44(unk30, m, l, e, apParam, v, p);
     fx_dispatch5c(unk34, m, l, e, apParam, v, p);
 }
+
+#include "generated/data/bsshader/geometrydecalshader.inc"

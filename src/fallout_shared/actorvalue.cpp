@@ -911,3 +911,5 @@ bool ActorValueCompare::FUN_00670540(TESForm* form)
         return true;
     return false;
 }
+
+#include "generated/data/fallout_shared/actorvalue.inc"

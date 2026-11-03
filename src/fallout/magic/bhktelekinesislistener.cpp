@@ -655,3 +655,5 @@ void TelekinesisFinishReceiver::FUN_00807a10(::hkpEntity* entity)
 }
 
 }
+
+#include "generated/data/fallout/magic/bhktelekinesislistener.inc"

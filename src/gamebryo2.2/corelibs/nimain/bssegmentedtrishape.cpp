@@ -901,3 +901,5 @@ void S00a87620_Obj::AddToItemList(ItemList* apItemList)
         apItemList->Add(((void *)(::FUN_00a7d510(DAT_0109e928, nullCount))));
     }
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nimain/bssegmentedtrishape.inc"

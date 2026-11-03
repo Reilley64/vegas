@@ -1359,3 +1359,5 @@ void RenderToTextureImpl::FUN_007fe1f0(int aiUnk, int aiUnk2, int aiUnk3)
     spTarget5.FUN_0066b0d0(0);
 }
 }  // namespace fnv_007fe1f0
+
+#include "generated/data/fallout/interface/forenderedmenuracesex.inc"

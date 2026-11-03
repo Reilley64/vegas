@@ -759,3 +759,5 @@ void NiStaticGeometryGroup_00e94a30::FUN_00e94a30(NiScreenTexture* pkScreenTextu
         ::FUN_00e98730((int)this, (int)(pkBuffData), {});
     }
 }
+
+#include "generated/data/gamebryo2.2/corelibs/niconsolerenderer/nistaticgeometrygroup.inc"

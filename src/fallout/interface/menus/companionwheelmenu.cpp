@@ -3743,3 +3743,5 @@ void FUN_007563a0_shell::ToggleFollowerWait()
     if (bSuccess && *(Tile_Set_Helper**)((char*)this + 0x30))
         reinterpret_cast<::Tile *>(((*(Tile_Set_Helper**)((char*)this + 0x30))))->Set(0x100f, !m_bTopicResponsePlayed);
 }
+
+#include "generated/data/fallout/interface/menus/companionwheelmenu.inc"

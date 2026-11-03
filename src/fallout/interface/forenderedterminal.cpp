@@ -717,3 +717,5 @@ void FUN_007ffe40()
 {
     reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::Sound376 &)((*(::Sound376 *)(reinterpret_cast<::AudioClass_ae5680 *>((((::Audio376 *)(::FUN_00ad9060()))))->ResolveAudioHandle((::Handle_ae5680 *)("OBJComputerTerminalPowerDown"), 0x121, {})))))->FUN_00ad8830(false);
 }
+
+#include "generated/data/fallout/interface/forenderedterminal.inc"

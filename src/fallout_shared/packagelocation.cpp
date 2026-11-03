@@ -1705,3 +1705,5 @@ void FUN_0067fc50_shell::ResolveObject(int unused)
         pObject = pObject ? FUN_004839c0(reinterpret_cast<unsigned int>(pObject)) : 0;
     }
 }
+
+#include "generated/data/fallout_shared/packagelocation.inc"

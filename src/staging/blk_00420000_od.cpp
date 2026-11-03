@@ -4184,3 +4184,5 @@ FUN_00436420::FUN_00436420(Arg a, int aiUnused1, int aiUnused2) : Base(0x83)
     reinterpret_cast<::SoundPlaybackHandle *>(&(m))->operator=((const ::SoundPlaybackHandle &)(a));
 }
 }  // namespace fnv_00436420
+
+#include "generated/data/staging/blk_00420000_od.inc"

@@ -4901,3 +4901,5 @@ void PulleyRow_use(PulleyRowQuery* in, PulleyRowSchema** cursor, PulleyRowGeomet
     FUN_00d6e300(in, cursor, mat);
 }
 }
+
+#include "generated/data/havok/physics/constraintsolver/constraint/atom/hkpbuildjacobianfromatoms.inc"

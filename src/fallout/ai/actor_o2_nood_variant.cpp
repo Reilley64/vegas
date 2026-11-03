@@ -4077,3 +4077,5 @@ void AnimationOwner::FUN_00c7e3b0()
 }
 
 } // namespace SkeletonBuild
+
+#include "generated/data/fallout/ai/actor_o2_nood_variant.inc"

@@ -3785,3 +3785,5 @@ void CombatOwner_SV::FUN_00992480(Actor* apActor, Actor* apTarget)
     reinterpret_cast<::CombatOwner *>(this)->FUN_009929e0((unsigned int)apActor);
 }
 }  // namespace fnv_00992480
+
+#include "generated/data/fallout/ai/combat/combatmanager.inc"

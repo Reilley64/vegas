@@ -250,3 +250,5 @@ void __cdecl FUN_00d9d950(S9d950_Owner* apA, int aiB, const S9d950_Box* apC, con
         apA->unk0c = x > y ? x : y;
     }
 }
+
+#include "generated/data/havok/common/internal/kdtree/build/hkkdtreebuildingutils.inc"

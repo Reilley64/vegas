@@ -1406,3 +1406,5 @@ CollisionShape* __cdecl FUN_00c55d50(Point3* start, Point3* end, float forwardEx
     shape2->slot0e8();
     return shape2;
 }
+
+#include "generated/data/fallout/audio/impactmixer_ob1_variant.inc"

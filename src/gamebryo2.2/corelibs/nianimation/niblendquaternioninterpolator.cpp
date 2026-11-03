@@ -592,3 +592,5 @@ bool QBlendInterp::FUN_00a556b0(float fTime, void* pkTarget, NiQuat& kValue)
     kValue = m_kValue;
     return true;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nianimation/niblendquaternioninterpolator.inc"

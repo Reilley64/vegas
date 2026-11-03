@@ -448,3 +448,5 @@ bool BlendBoolShell::FUN_00a56710(float fTime, NiObjectNET* pkInterpTarget, bool
     }
     return true;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nianimation/niblendboolinterpolator.inc"

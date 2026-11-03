@@ -315,3 +315,5 @@ void Shader::FUN_00baa850(int identity, const Transform* transform)
         direction = value;
     }
 }
+
+#include "generated/data/staging/blk_00ba0000_od_o2_nood_variant.inc"

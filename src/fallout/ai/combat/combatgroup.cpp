@@ -10817,3 +10817,5 @@ void* S009865d0_CombatGroup::FUN_009865d0(int aiRef)
 {
     return reinterpret_cast<FUN_00986610_shell*>(this)->FUN_00986610(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<RefObj*>(aiRef)))->FUN_0084e3a0())));
 }
+
+#include "generated/data/fallout/ai/combat/combatgroup.inc"

@@ -2527,3 +2527,5 @@ void BipedLoadAccess::UpdateBipedObjects(bool force)
     }
     reinterpret_cast<::FUN_00a5a040_Class *>((((CloneLoadAccess*)((::NiAVObject *)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((m_pActor))->FUN_0043fcd0())))))->FUN_00a5a040();
 }
+
+#include "generated/data/fallout_shared/bipedanim.inc"

@@ -3920,3 +3920,5 @@ NiPixelData* NiDevImageConverterEx::FUN_00a7a280(const NiPixelData& kSrc, const 
         return pkNew;
     return 0;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nimain/nidevimageconverter.inc"

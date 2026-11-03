@@ -1018,3 +1018,5 @@ void Palette::FUN_00a6eb60(void* apDest)
     }
     changes.Destroy();
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nimain/nidefaultavobjectpalette.inc"

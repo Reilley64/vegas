@@ -84,3 +84,5 @@ void TransformSaver::FUN_00a86cd0(NiStream& stream)
     reinterpret_cast<::NiColor *>(&(static_cast<TransformTranslationSaver&>(m_kTranslation)))->SaveBinary(stream);
     static_cast<TransformOutputStream&>(stream).output->SaveScale(&m_fScale);
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nimain/nitransform.inc"

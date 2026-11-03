@@ -1545,3 +1545,5 @@ void __cdecl FUN_00d00270(void* pOwner, TaskContext* pContext)
     }
     FUN_00cff9b0(*pArr);
 }
+
+#include "generated/data/havok/physics/dynamics/entity/util/hkpentitycallbackutil.inc"

@@ -765,3 +765,5 @@ void Integrals159::FUN_00ced390(Mesh159* mesh, const IntegralVector159* offset)
     for (int i = 0; i < 3; ++i)
         products[i] = (float)(products[i] * 0.5);
 }
+
+#include "generated/data/havok/physics/utilities/dynamics/inertia/hkpinertiatensorcomputer_gs_ehsc_nogs_noehsc_variant_rtm_variant.inc"

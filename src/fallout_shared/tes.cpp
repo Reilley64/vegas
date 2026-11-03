@@ -12253,3 +12253,5 @@ void FadeAttachedTES::FUN_00459a00()
         }
     }
 }
+
+#include "generated/data/fallout_shared/tes.inc"

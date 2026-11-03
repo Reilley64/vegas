@@ -1411,3 +1411,5 @@ FUN_00ba7df0::~FUN_00ba7df0()
         DAT_01200420 = 0;
     }
 }
+
+#include "generated/data/bsshader/particleshaderproperty.inc"

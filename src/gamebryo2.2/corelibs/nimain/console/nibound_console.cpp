@@ -561,3 +561,5 @@ void Sphere::FUN_00a7f3f0(const Sphere& other)
     }
     radius = (dist + other.radius + radius) * 0.5;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nimain/console/nibound_console.inc"

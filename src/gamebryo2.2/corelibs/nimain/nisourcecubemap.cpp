@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/nimain/nisourcecubemap.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/nisourcecubemap.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "generated/data/vtables.h"
 #include <windows.h>
 #include <new>
 #include <cstring>
@@ -77,7 +78,7 @@ NiSourceCubeMap* __cdecl CreateNiSourceCubeMap()
     {
         NiSourceCubeMap* n = static_cast<NiSourceCubeMap*>(p);
         reinterpret_cast<::AlphaPropInit_cls *>((n))->FUN_00a5fc10();
-        *(unsigned int*)(n) = 0x0109babc;
+        *(void**)(n) = fnv_vftable_NiCubeMap;
         *(unsigned int*)((char*)n + 0x48) = 0;
         return n;
     }
@@ -1551,3 +1552,5 @@ void CubeHost::FUN_00a60940(Pixels* a, Pixels* b, Pixels* c, Pixels* d, Pixels* 
             old->Destroy();
     }
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nimain/nisourcecubemap.inc"

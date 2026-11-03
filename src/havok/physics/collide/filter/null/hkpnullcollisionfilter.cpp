@@ -184,3 +184,5 @@ void S_00cfab30_this::RecordAndDispatch(S_00cfab30_object* apTarget, S_00cfab30_
         allocator->next = record + 1;
     }
 }
+
+#include "generated/data/havok/physics/collide/filter/null/hkpnullcollisionfilter.inc"

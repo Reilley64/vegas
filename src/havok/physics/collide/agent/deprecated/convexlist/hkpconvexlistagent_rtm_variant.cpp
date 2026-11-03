@@ -1296,3 +1296,5 @@ tail:
         }
     }
 }
+
+#include "generated/data/havok/physics/collide/agent/deprecated/convexlist/hkpconvexlistagent_rtm_variant.inc"

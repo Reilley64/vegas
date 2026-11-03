@@ -27,3 +27,5 @@ void InitTrigTables()
     }
 }
 }  // namespace fnv_00a813c0
+
+#include "generated/data/gamebryo2.2/corelibs/nimain/nimath.inc"

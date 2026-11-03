@@ -769,3 +769,5 @@ MinVec4 __cdecl FUN_00e31470(const MinVec4Array& arr)
         r.setMin4(r, arr.m_data[i]);
     return r;
 }
+
+#include "generated/data/staging/blk_00e20000_od_o2_nood_variant.inc"

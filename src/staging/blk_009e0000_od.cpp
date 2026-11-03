@@ -2399,3 +2399,5 @@ void* FUN_009f61e0_Class::FUN_009f6430(unsigned int flags)
         ::FUN_00401030(this);
     return this;
 }
+
+#include "generated/data/staging/blk_009e0000_od.inc"

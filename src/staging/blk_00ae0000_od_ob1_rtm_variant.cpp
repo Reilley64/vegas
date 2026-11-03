@@ -4227,3 +4227,5 @@ void DestroyListener(void* object)
     static_cast<FUN_00aea770*>(object)->FUN_00aea770::~FUN_00aea770();
 }
 }
+
+#include "generated/data/staging/blk_00ae0000_od_ob1_rtm_variant.inc"

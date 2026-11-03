@@ -45881,3 +45881,5 @@ const std::codecvt<char, char, int>& __cdecl FUN_00ad4fd0(const std::locale& _Lo
         return (const std::codecvt<char, char, int>&)*_Pf;
     }
 }
+
+#include "generated/data/staging/blk_00ac0000_od_ob1_variant.inc"

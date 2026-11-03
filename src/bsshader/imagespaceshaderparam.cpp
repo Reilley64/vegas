@@ -259,3 +259,5 @@ bool ShaderPass_4e30::FUN_00c04e30(int arg)
     reinterpret_cast<::FUN_00b8a860_shell *>((pShader))->SetEntry(3, &kParam3.r);
     return false;
 }
+
+#include "generated/data/bsshader/imagespaceshaderparam.inc"

@@ -2,6 +2,7 @@
 // src/havok/physics/collide/agent/miscagent/transform/hkptransformagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/miscagent/transform/hkptransformagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "generated/data/vtables.h"
 #include <windows.h>
 #include "fnv/decl/FUN_00cfbbe0_cls.h"
 #include "fnv/decl/FUN_00d2eb50_cls.h"
@@ -1631,7 +1632,7 @@ struct TtShapeCollection : TtTransform {
 void TtShapeCollection::FUN_00d43460(int a, int b, int c, int d) {
     SectorDesc s;
     s.unk04 = false;
-    s.sectorPtrs = (void*)0x10ce81c;
+    s.sectorPtrs = (void*)fnv_vftable_D3CF80Collector;
     s.unk08 = d;
     reinterpret_cast<::fnv_00d42ed0::Owner *>(this)->FUN_00d42ed0((::fnv_00d42ed0::Input *)(b), a, c, (int)(&s));
 }

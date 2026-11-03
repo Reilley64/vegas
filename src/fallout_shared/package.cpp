@@ -13734,3 +13734,5 @@ bool PackageComparison::FUN_00673420(TESForm* form)
         return true;
     return false;
 }
+
+#include "generated/data/fallout_shared/package.inc"

@@ -2004,3 +2004,5 @@ void UpdateSpawnedObjectFlags(unsigned char abFlag1, unsigned char abFlag2, unsi
     }
     DAT_011ff9d8[iIndex] += aiDelta;
 }
+
+#include "generated/data/unmapped/bsrenderstate.inc"

@@ -277,3 +277,5 @@ void __cdecl FUN_00a9bb60()
 
     LeaveCriticalSection(&DAT_011f600c);
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nimain/nimaterial.inc"

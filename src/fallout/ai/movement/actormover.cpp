@@ -7669,3 +7669,5 @@ int Mover::FUN_009dc980()
     return 0;
 }
 }
+
+#include "generated/data/fallout/ai/movement/actormover.inc"

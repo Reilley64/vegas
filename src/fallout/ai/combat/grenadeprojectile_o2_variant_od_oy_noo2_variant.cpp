@@ -496,3 +496,5 @@ void hkVector4Mul::FUN_009b4670(const hkVector4Mul& a)
 {
     m_vComponents = _mm_mul_ps(m_vComponents, a.m_vComponents);
 }
+
+#include "generated/data/fallout/ai/combat/grenadeprojectile_o2_variant_od_oy_noo2_variant.inc"

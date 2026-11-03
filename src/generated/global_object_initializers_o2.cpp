@@ -2290,3 +2290,5 @@ GlobalObjectO2_00a7b610 g_01270918(g_01270918_arg0, g_01270918_arg1);
 GlobalObjectO2_00a7b610 g_01270920(g_01270920_arg0, (const char*)0);
 // @fnv 0x00fc7a50
 GlobalObjectO2_00a7b610 g_01270928(g_01270928_arg0, (const char*)0);
+
+#include "generated/data/generated/global_object_initializers_o2.inc"

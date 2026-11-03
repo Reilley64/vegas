@@ -2104,3 +2104,5 @@ bool CharGenInputMenu::FUN_00754150(int a1, float amount)
 
     return result;
 }
+
+#include "generated/data/fallout/interface/menus/chargenmenu.inc"

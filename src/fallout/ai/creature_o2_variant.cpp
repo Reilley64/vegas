@@ -100,3 +100,5 @@ bool FUN_00c6a350(NiAVObject* pkObject, int iValue, bool bRecurse, bool bForce, 
     }
     return bResult;
 }
+
+#include "generated/data/fallout/ai/creature_o2_variant.inc"

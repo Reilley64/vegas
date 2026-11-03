@@ -1138,3 +1138,5 @@ StripCloneC263* StripCloneC263::FUN_00c263b0(S_00c26000_Proc& cloning)
     CloneStrip(result, &cloning);
     return result;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/niparticle/bsstrippsysdata.inc"

@@ -966,3 +966,5 @@ void __cdecl FUN_00d47860()
     }
     reinterpret_cast<::FUN_00db78a0_cls *>((((NameRegistryTable*)DAT_01269b10)))->FUN_00db78a0((::FUN_00db78a0_item **)(DAT_010d5430), (void **)(void *)(&DAT_010d59b8));
 }
+
+#include "generated/data/havok/common/serialize/util/hkbuiltintyperegistry.inc"

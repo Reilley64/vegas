@@ -341,3 +341,5 @@ bool __cdecl FUN_00a62be0(const NiPoint3** basis, const NiPoint3* apCenter, cons
     axes[1] = up;
     return true;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nimain/nirenderer.inc"

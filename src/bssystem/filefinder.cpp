@@ -428,3 +428,5 @@ FileMatchList* FUN_00afe420(const char* pattern, const char* directory, unsigned
     }
     return matches;
 }
+
+#include "generated/data/bssystem/filefinder.inc"

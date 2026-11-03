@@ -4289,3 +4289,5 @@ struct FUN_004b0190 : GlobalObject_004aff00
 // @fnv 0x004b0190
 FUN_004b0190::~FUN_004b0190()
 {}
+
+#include "generated/data/staging/blk_004a0000_od.inc"

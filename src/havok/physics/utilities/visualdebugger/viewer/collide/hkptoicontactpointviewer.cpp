@@ -654,3 +654,5 @@ void S00d68670_ToiContactPointViewer::FUN_00d68670(const S00d68670_ContactPointE
         FUN_00d683b0(m_pDisplayHandler, (Vec*)&event.m_vContactPoint->getPosition(), (Vec*)&event.m_vContactPoint->getNormal(), 0xffff0000, (int)collidable, DAT_01269004);
     }
 }
+
+#include "generated/data/havok/physics/utilities/visualdebugger/viewer/collide/hkptoicontactpointviewer.inc"

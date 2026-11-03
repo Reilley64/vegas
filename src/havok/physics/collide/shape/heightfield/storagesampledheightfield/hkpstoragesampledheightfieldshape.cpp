@@ -415,3 +415,5 @@ FUN_00d49750::FUN_00d49750(HeightFieldSource* source) : m_sReferenceCount(1)
         }
     }
 }
+
+#include "generated/data/havok/physics/collide/shape/heightfield/storagesampledheightfield/hkpstoragesampledheightfieldshape.inc"

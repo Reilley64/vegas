@@ -2214,3 +2214,5 @@ float __cdecl FUN_00644ce0(ActorValueOwner* apOwner, DmgWeapon* apWeapon, float 
     }
     return ((fBaseDamage4 + fAmmoBonus6) * kFDamage + fBonus6) * fHealthMult3 * fTimeMult3 * fTeammateMult;
 }
+
+#include "generated/data/fallout_shared/combatformulas.inc"

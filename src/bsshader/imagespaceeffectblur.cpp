@@ -39,3 +39,5 @@ void ImageSpaceEffectFourTexturePass::Setup(ImageSpaceManager* manager, ImageSpa
 
     reinterpret_cast<::FUN_00ba3c70_shell *>(this)->SetEffectAt(2, manager->GetEffect(46), second, 0);
 }
+
+#include "generated/data/bsshader/imagespaceeffectblur.inc"

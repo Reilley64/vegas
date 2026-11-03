@@ -4387,3 +4387,5 @@ void Self::FUN_004e3d60(ParamObj* param)
         zpos = next;
     }
 }
+
+#include "generated/data/staging/blk_004e0000_od.inc"

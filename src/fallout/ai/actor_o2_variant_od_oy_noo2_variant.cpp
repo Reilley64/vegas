@@ -6273,3 +6273,5 @@ void kSelf::FUN_0094cae0(kActor* p)
     }
 }
 }  // namespace fnv_0094cae0
+
+#include "generated/data/fallout/ai/actor_o2_variant_od_oy_noo2_variant.inc"

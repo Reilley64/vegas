@@ -143,3 +143,5 @@ int WriteCompilerInfo(const char* name)
     buffer.clear(FUN_00c85750()->heap());
     return 0;
 }
+
+#include "generated/data/havok/common/visualize/hkversionreporter.inc"

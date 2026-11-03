@@ -1165,3 +1165,5 @@ void AlchemyItemMagic::FUN_00403600(MagicItem* source)
     }
     ::__memcpy(GetData(), ((AlchemyItemMagic*)item)->GetData(), 0x14);
 }
+
+#include "generated/data/fallout_shared/magic/alchemyitem.inc"

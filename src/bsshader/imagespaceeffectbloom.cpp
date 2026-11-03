@@ -27,3 +27,5 @@ void BloomImageSpaceEffect::Setup(ImageSpaceManager* manager, ImageSpaceEffectPa
     reinterpret_cast<::FUN_00ba3c70_shell *>(this)->SetEffectAt(1, manager->GetEffect(57), secondParam, 0);
     secondParam->SetShaderConstantVector4(0, DAT_012023f4, DAT_012023f8, 0.0f, 0.0f);
 }
+
+#include "generated/data/bsshader/imagespaceeffectbloom.inc"

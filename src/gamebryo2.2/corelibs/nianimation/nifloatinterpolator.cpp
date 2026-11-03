@@ -677,3 +677,5 @@ A3C8D0_Object* A3C8D0_Owner::CreateObject(int arg)
     reinterpret_cast<::FUN_00a3c780_cls *>(this)->FUN_00a3c780((::NiFloatInterpolator *)(object), arg);
     return object;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nianimation/nifloatinterpolator.inc"

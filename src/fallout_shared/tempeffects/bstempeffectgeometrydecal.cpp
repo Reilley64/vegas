@@ -2949,3 +2949,5 @@ bool DecalLoad688::FUN_00688c90()
     }
     return result5;
 }
+
+#include "generated/data/fallout_shared/tempeffects/bstempeffectgeometrydecal.inc"

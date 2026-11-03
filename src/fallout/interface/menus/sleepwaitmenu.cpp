@@ -644,3 +644,5 @@ void FUN_007bfc00_shell::FUN_007bfc00()
     DAT_011da920 = 0;
     reinterpret_cast<::fnv_00a1c520::FUN_00a1c520 *>(this)->fnv_00a1c520::FUN_00a1c520::~FUN_00a1c520();
 }
+
+#include "generated/data/fallout/interface/menus/sleepwaitmenu.inc"

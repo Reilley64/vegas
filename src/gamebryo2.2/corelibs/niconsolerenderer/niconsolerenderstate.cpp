@@ -205,3 +205,5 @@ void RenderState::ApplyRenderModes(void* resource, Descriptor* desc, RenderModes
         device->SetState(137, 0, 0, 0);
     }
 }
+
+#include "generated/data/gamebryo2.2/corelibs/niconsolerenderer/niconsolerenderstate.inc"

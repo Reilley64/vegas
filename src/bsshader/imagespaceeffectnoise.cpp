@@ -36,3 +36,5 @@ void SetEffectParamAt(char* pThis, int, unsigned int uiIndex, int a2, int a3)
     p[1] = a3;
     reinterpret_cast<::FUN_00a41520_cls *>((((NiTPrimitiveArray_ImageSpaceEffectParam___*)(pThis + 0x38))))->FUN_00ba3aa0(uiIndex, (::KeyPair **)&(param));
 }
+
+#include "generated/data/bsshader/imagespaceeffectnoise.inc"

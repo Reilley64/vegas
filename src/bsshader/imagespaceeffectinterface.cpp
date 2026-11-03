@@ -504,3 +504,5 @@ void PipboyShader::SetupScanlineDistortion(PipboyGeometry* pkGeometry, int iUnus
 
     reinterpret_cast<::FUN_00ba3c70_shell *>(this)->SetEffectAt(1, (::ImageSpaceEffect *)(pkGeometry->unk08->unk124), (::ImageSpaceEffectParam *)(pkConst1), 0);
 }
+
+#include "generated/data/bsshader/imagespaceeffectinterface.inc"

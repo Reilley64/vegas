@@ -513,3 +513,5 @@ void FUN_00b8f4b0(RenderOwner* owner)
         group->state = ((::RenderState *)(::D3DRenderStateGroup::GetCurrentRenderStateGroup()));
     reinterpret_cast<::StateGroup *>((group->state))->SetNodeValue(56, 3, true);
 }
+
+#include "generated/data/gamebryo2.2/corelibs/niconsolerenderer/nid3drenderstategroup.inc"

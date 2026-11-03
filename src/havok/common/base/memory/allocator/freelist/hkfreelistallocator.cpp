@@ -3356,3 +3356,5 @@ FUN_00dd7200_cls* Owner17::FUN_00d60020(int aiParam1, int aiParam2, int aiParam3
     return (FUN_00dd7200_cls*)s;
 }
 }
+
+#include "generated/data/havok/common/base/memory/allocator/freelist/hkfreelistallocator.inc"

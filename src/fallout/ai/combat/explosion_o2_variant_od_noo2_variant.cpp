@@ -1492,3 +1492,5 @@ void This::FUN_009ad670()
             ::fnv_00a6d2d0::FUN_00a6d2d0((::fnv_00a6d2d0::TCTimeNode *)(obj));
     }
 }
+
+#include "generated/data/fallout/ai/combat/explosion_o2_variant_od_noo2_variant.inc"

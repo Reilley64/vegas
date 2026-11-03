@@ -758,3 +758,5 @@ void TextureWalker::FUN_004aa3d0(NiAVObject* obj, bool b)
     }
 }
 }  // namespace fnv_004aa3d0
+
+#include "generated/data/fallout_shared/bgstextureusemap.inc"

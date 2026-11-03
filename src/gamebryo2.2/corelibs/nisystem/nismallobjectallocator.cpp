@@ -169,3 +169,5 @@ int FUN_00aa3810_cls::FUN_00aa3810(unsigned int index)
     AllocBlock* block = (AllocBlock*)((char*)this + (index << 8) - 0x100);
     return ((int)(reinterpret_cast<::NiFixedAllocatorStub *>((block))->FUN_00aa35a0()));
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nisystem/nismallobjectallocator.inc"

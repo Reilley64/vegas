@@ -1317,3 +1317,5 @@ void POwner::FUN_00cade20(const PStep& step,const PVec& gravity,PCollector& cast
     else phantom->FUN_00c9e990(position,query.tolerance);
     {PStream& s=*static_cast<PStream*>(TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c))));if(s.available()){PTimer* p=reinterpret_cast<PTimer*>(s.GetStreamEnd());p->tag=::str_01076f38;p->stamp();s.end(reinterpret_cast<char*>(p+1));}}
 }
+
+#include "generated/data/havok/physics/utilities/charactercontrol/characterproxy/hkpcharacterproxy_ehsc_noehsc_variant.inc"

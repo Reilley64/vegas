@@ -3275,3 +3275,5 @@ struct FUN_00812170
 // @fnv 0x00812170
 FUN_00812170::~FUN_00812170()
 {}
+
+#include "generated/data/fallout/magic/magicboltprojectile.inc"

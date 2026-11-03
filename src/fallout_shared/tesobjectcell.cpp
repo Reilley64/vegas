@@ -23132,3 +23132,5 @@ TESImageSpace* C5Cell::FUN_00547680()
     }
     return m_pImageSpace;
 }
+
+#include "generated/data/fallout_shared/tesobjectcell.inc"

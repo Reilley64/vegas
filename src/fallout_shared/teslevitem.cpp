@@ -239,3 +239,5 @@ bool LevItemComparison::FUN_0050b840(::TESForm* other)
         return true;
     return false;
 }
+
+#include "generated/data/fallout_shared/teslevitem.inc"

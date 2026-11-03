@@ -1,5 +1,6 @@
 // fallout_shared/facegen/bsfacegenmorphdata.cpp: BSFaceGenMorphDataHead, DifferentialArray, HolderDb0, BSFaceGenMorphDataHair (26 functions)
 
+#include "generated/data/vtables.h"
 #include <cstdlib>
 #include "runtime/crt.h"
 #include "fnv/decl/Callees.h"
@@ -118,7 +119,7 @@ struct FUN_00661d40_shell : EBase
 // @fnv 0x00661d40
 void FUN_00661d40_shell::SetVTableAndDestroy()
 {
-    *reinterpret_cast<int*>(this) = 0x01065f04;
+    *reinterpret_cast<void**>(this) = fnv_vftable_DAT_01065f04;
     ::FUN_00496910((int **)this);
 }
 
@@ -815,3 +816,5 @@ FUN_006624c0::FUN_006624c0(NiGeometry* geometry, V3* apExtraVertices, unsigned i
         count = 0;
     }
 }
+
+#include "generated/data/fallout_shared/facegen/bsfacegenmorphdata.inc"

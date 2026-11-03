@@ -940,3 +940,5 @@ float TransformShape_d5d8::FUN_00d5d840(const __m128& direction)
     _mm_store_ss(&result, sum);
     return result;
 }
+
+#include "generated/data/havok/physics/collide/shape/convex/convextransform/hkpconvextransformshape.inc"

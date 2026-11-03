@@ -3999,3 +3999,5 @@ bool LevelGamepadView::FUN_00785ed0(int aiButtonCode, float afValue)
     }
     return bHandled;
 }
+
+#include "generated/data/fallout/interface/menus/levelupmenu.inc"

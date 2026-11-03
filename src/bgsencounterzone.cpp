@@ -599,3 +599,5 @@ void EncounterZoneCopy::FUN_00525fa0(TESForm* source)
     reinterpret_cast<::FormCloneOperation *>((reinterpret_cast<FormComponentCopy*>(this)))->FUN_004851b0(other);
     ::__memcpy(&Data, &other->Data, sizeof(Data));
 }
+
+#include "generated/data/bgsencounterzone.inc"

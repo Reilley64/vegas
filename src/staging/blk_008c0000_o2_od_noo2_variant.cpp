@@ -666,3 +666,5 @@ void Ref8::FUN_008cba30(const NiPoint3* start, const NiPoint3* end, Ref8* victim
         }
     }
 }
+
+#include "generated/data/staging/blk_008c0000_o2_od_noo2_variant.inc"

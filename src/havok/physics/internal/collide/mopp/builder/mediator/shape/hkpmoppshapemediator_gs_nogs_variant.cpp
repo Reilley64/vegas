@@ -268,3 +268,5 @@ void ExtentCalculator::FUN_00dd5440(const hkVector4& direction, int unused, cons
     *maxOut = fMinimumInputValue;
 }
 }  // namespace fnv_00dd5440
+
+#include "generated/data/havok/physics/internal/collide/mopp/builder/mediator/shape/hkpmoppshapemediator_gs_nogs_variant.inc"

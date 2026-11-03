@@ -2788,3 +2788,5 @@ void ChildNode::FUN_00a5ed10(ChildObj* pkChild, bool firstAvailable)
     }
 }
 }  // namespace fnv_00a5ed10
+
+#include "generated/data/gamebryo2.2/corelibs/nimain/ninode.inc"

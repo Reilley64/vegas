@@ -375,3 +375,5 @@ bool BlendPointShell::FUN_00a55c30(float time, NiObjectNET* target, NiPoint3& va
     value = m_kPoint3Value;
     return true;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nianimation/niblendpoint3interpolator.inc"

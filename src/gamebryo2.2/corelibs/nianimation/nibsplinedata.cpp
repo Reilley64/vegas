@@ -278,3 +278,5 @@ void SplData::FUN_00a52550(float fTime, float* afPos, unsigned int uiDimension, 
         } while (--n);
     }
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nianimation/nibsplinedata.inc"

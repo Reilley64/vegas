@@ -80,3 +80,5 @@ unsigned int __cdecl FUN_00da6de0(int a1, int a2, int a3, hkListAgent3* self)
     ::FUN_00d97250((::Hdr *)(a2), (char **)(a3), (::Logger *)(self));
     return self->v1c();
 }
+
+#include "generated/data/havok/physics/collide/agent3/list3/hkplistagent3.inc"

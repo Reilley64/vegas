@@ -1357,3 +1357,5 @@ done:
     entries.destroy();
 }
 }  // namespace fnv_00d66530
+
+#include "generated/data/havok/physics/utilities/visualdebugger/viewer/dynamics/hkpphantomdisplayviewer.inc"

@@ -687,3 +687,5 @@ SolverDeletingView* SolverDeletingView::FUN_00d5ed70(unsigned int)
     (this->*destroy)();
     return this;
 }
+
+#include "generated/data/havok/common/base/memory/allocator/solver/hksolverallocator.inc"

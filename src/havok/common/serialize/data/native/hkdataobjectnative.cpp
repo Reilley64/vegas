@@ -2656,3 +2656,5 @@ NativeMemberReferenceDBBA C_dbbab0::FUN_00dbbab0(int aiMemberName)
     FUN_00d871a0 member(&m_0C, aiMemberName);
     return NativeMemberReferenceDBBA((int)this, aiMemberName);
 }
+
+#include "generated/data/havok/common/serialize/data/native/hkdataobjectnative.inc"

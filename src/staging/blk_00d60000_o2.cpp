@@ -3697,3 +3697,5 @@ void InvokeTransformC320()
     RigidTransform* b = outBSourceC320;
     FUN_00d6c320(pivots, bodies, a, b);
 }
+
+#include "generated/data/staging/blk_00d60000_o2.inc"

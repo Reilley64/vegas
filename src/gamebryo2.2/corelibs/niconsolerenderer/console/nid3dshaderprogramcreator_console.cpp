@@ -147,3 +147,5 @@ GeometryRelatedType* FUN_00e988d0(void* pvShaderCode)
     }
     return hShader;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/niconsolerenderer/console/nid3dshaderprogramcreator_console.inc"

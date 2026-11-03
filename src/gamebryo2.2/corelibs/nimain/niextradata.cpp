@@ -311,3 +311,5 @@ void ExtraDataStrings::FUN_00a7b580(StrArr* strings)
     strings->Add(::FUN_00a7d330((*reinterpret_cast<const char *const *>(&::g_011f4a80))));
     strings->Add(::fnv_00a7d5e0::FUN_00a7d5e0(DAT_01097790, GetName()));
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nimain/niextradata.inc"

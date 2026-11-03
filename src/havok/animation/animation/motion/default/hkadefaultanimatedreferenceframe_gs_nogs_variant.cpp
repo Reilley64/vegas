@@ -395,3 +395,5 @@ FUN_00e41830::FUN_00e41830(const Config& config) throw() : m_ppVirtualMethodTabl
         tempV0.v = sample;
     }
 }
+
+#include "generated/data/havok/animation/animation/motion/default/hkadefaultanimatedreferenceframe_gs_nogs_variant.inc"

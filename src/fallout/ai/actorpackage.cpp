@@ -1130,3 +1130,5 @@ void ActorPackageLoad::FUN_008c6320(int aiFlags, int aiUnused)
     }
     reinterpret_cast<::FUN_008579e0_shell *>((((SaveLoadStub*)::g_TESSaveLoadGame)))->FUN_008579e0(&m_fPackageValue, 4);
 }
+
+#include "generated/data/fallout/ai/actorpackage.inc"

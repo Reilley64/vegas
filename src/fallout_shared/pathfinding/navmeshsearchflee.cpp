@@ -482,3 +482,5 @@ bool Search::ExpandNode(Node* node, NodeArray* output)
     }
     return true;
 }
+
+#include "generated/data/fallout_shared/pathfinding/navmeshsearchflee.inc"

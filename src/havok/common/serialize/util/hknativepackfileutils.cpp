@@ -863,3 +863,5 @@ struct FUN_00dc0f80
 FUN_00dc0f80::FUN_00dc0f80()
 {}
 }  // namespace fnv_00dc0f80
+
+#include "generated/data/havok/common/serialize/util/hknativepackfileutils.inc"

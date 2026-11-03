@@ -5230,3 +5230,5 @@ void __cdecl FUN_00c55200()
 {
     (*reinterpret_cast<::BBXRef * *>(&::g_pkString_c55)) = new BBXRef("BBX");
 }
+
+#include "generated/data/staging/blk_00c40000_od_ehs_ob1_noehsc_variant.inc"

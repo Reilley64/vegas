@@ -3987,3 +3987,5 @@ bool BatchRenderer::FUN_00b9a120(unsigned& key, int& bucket, bool& kind, int fla
         result = reinterpret_cast<::BSBatchRenderer *>(this)->FindPassBucket(key, bucket, kind);
     return result;
 }
+
+#include "generated/data/bsshader/bsbatchrenderer.inc"

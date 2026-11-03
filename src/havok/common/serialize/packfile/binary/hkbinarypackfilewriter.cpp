@@ -2485,3 +2485,5 @@ void Writer::FUN_00dbc7a0(Context* context)
 }
 
 }
+
+#include "generated/data/havok/common/serialize/packfile/binary/hkbinarypackfilewriter.inc"

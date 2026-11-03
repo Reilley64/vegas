@@ -1042,3 +1042,5 @@ void __cdecl FUN_00b4df10()
 {
     static_cast<::NodeA5E8 *>(nullptr)->FUN_00a5e880(*(::NiStreamA5E8 *)nullptr);
 }
+
+#include "generated/data/bsshader/bsfadenode.inc"

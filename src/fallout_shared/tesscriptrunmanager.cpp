@@ -681,3 +681,5 @@ bool ScriptRunner::RunScript(Script* script, TESObjectREFR* reference, ScriptLoc
     return true;
 }
 }  // namespace fnv_005e1160
+
+#include "generated/data/fallout_shared/tesscriptrunmanager.inc"

@@ -1503,3 +1503,5 @@ void Grid::FUN_004baf10()
     reinterpret_cast<::_Dummy_004bc4a0 *>((((::Obj *)(::FUN_00b4f5c0()))))->SetAccumulate(true);
     ((::Obj *)(::FUN_004bc3f0()))->SetBackground(&kColorA);
 }
+
+#include "generated/data/fallout_shared/gridcell.inc"

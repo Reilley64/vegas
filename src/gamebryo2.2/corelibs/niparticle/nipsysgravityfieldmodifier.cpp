@@ -663,3 +663,5 @@ void Field141::ApplyForceToParticles(float time, Data141* data)
         }
     }
 }
+
+#include "generated/data/gamebryo2.2/corelibs/niparticle/nipsysgravityfieldmodifier.inc"

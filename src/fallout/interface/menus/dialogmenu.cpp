@@ -1275,3 +1275,5 @@ FUN_007642f0::FUN_007642f0()
     reinterpret_cast<::FlagS *>(this)->FUN_007a1950(0, 1);
     ::AddToHeadList((int *)(::FUN_007642f0 *)(this));
 }
+
+#include "generated/data/fallout/interface/menus/dialogmenu.inc"

@@ -8107,3 +8107,5 @@ void ActorConsumeShell::FUN_008c2090(MagicItem* pItem, bool bApply)
         }
     }
 }
+
+#include "generated/data/fallout/ai/actor_magic.inc"

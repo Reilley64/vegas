@@ -768,3 +768,5 @@ void SubBufferSaveShell::FUN_00865020(TESForm* form)
         ::FUN_00845cc0(DAT_01082228, form->GetName(), ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((form))->FUN_0084e3a0())));
     }
 }
+
+#include "generated/data/fallout/misc/saveload/bgsloadgamesubbuffer.inc"

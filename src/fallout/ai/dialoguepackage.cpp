@@ -2063,3 +2063,5 @@ void FUN_009f0460_class::FUN_009f0460(BGSLoadFormBuffer* apSaveBuffer)
     }
 }
 }  // namespace fnv_009f0460
+
+#include "generated/data/fallout/ai/dialoguepackage.inc"

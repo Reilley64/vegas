@@ -117,3 +117,5 @@ void ImageSpaceEffectX::SetupEffect(ImageSpaceManagerX* manager, ImageSpaceEffec
     reinterpret_cast<::FUN_00ba3b50_t *>(this)->SetArrayEntry(3, 1, 2, 0, 0);
     reinterpret_cast<::FUN_00ba3c70_shell *>(this)->SetEffectAt(3, manager->GetEffect(44), shaderParam, 0);
 }
+
+#include "generated/data/bsshader/imagespaceeffectgethit.inc"

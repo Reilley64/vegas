@@ -2114,3 +2114,5 @@ void WaterZoneRemoval::FUN_0062fc70(ParamStruct* apParams)
         }
     }
 }
+
+#include "generated/data/fallout_shared/havok/teswaterlistener.inc"

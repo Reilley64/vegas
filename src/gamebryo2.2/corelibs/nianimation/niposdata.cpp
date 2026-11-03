@@ -515,3 +515,5 @@ void FUN_00a49140_cls::FUN_00a49140(float a1, float a2, RefCountedObj** apObj)
         tmp->DecRefCount();
     }
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nianimation/niposdata.inc"

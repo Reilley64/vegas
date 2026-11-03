@@ -2348,3 +2348,5 @@ DAT_0109619c::DAT_0109619c() throw()
         m_pListener = 0;
     }
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nianimation/nicontrollermanager.inc"

@@ -1311,3 +1311,5 @@ void* Shell_0052a300::FUN_0052a300(unsigned int aFlags)
     }
     return this;
 }
+
+#include "generated/data/fallout_shared/imagespacemodifierinstance.inc"

@@ -194,3 +194,5 @@ void CallTarget_ce9c40()
 {
     g_out9c40 = (int)FUN_00ce9c40((ShapeOwner*)g_in9c40);
 }
+
+#include "generated/data/havok/animation/ragdoll/utils/hkaragdollutils_gs_nogs_noehsc_variant.inc"

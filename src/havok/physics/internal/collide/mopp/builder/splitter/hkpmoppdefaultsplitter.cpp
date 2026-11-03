@@ -1874,3 +1874,5 @@ float FnvCurve::FUN_00e0a850(FnParams* apParams)
     return poly * coefficient;
 }
 }  // namespace fnv_00e0a850
+
+#include "generated/data/havok/physics/internal/collide/mopp/builder/splitter/hkpmoppdefaultsplitter.inc"

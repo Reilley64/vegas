@@ -636,3 +636,5 @@ void MultiSphereShape::FUN_00d2a7c0(const hkTransformSimd& localToWorld, float t
     out.m_kMinimumCorner.set(_mm_sub_ps(absMin, tol4));
     out.m_kMaximumCorner.set(_mm_add_ps(tol4, absMax));
 }
+
+#include "generated/data/havok/physics/collide/shape/deprecated/multisphere/hkpmultisphereshape.inc"

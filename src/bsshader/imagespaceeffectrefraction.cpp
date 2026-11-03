@@ -73,3 +73,5 @@ void* X::ReleaseIfFlagged(unsigned int flag)
         reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(this);
     return this;
 }
+
+#include "generated/data/bsshader/imagespaceeffectrefraction.inc"

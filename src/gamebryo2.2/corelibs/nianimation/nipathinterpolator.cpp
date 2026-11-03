@@ -1920,3 +1920,5 @@ void PathMotion::EvaluateBasis(unsigned int aiFirstKey, unsigned int aiSecondKey
     *out = transform;
 }
 }  // namespace fnv_00a3de50
+
+#include "generated/data/gamebryo2.2/corelibs/nianimation/nipathinterpolator.inc"

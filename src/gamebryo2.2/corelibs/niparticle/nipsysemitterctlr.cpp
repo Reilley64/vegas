@@ -1855,3 +1855,5 @@ void C630Ctlr::FUN_00c1c630(float* time)
         ++iLoop;
     }
 }
+
+#include "generated/data/gamebryo2.2/corelibs/niparticle/nipsysemitterctlr.inc"

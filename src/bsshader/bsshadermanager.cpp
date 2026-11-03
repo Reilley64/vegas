@@ -4567,3 +4567,5 @@ NativeB66810* __cdecl FUN_00b54b60(NiGeometry* apGeometry)
     delete result;
     return 0;
 }
+
+#include "generated/data/bsshader/bsshadermanager.inc"

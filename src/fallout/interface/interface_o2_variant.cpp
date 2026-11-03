@@ -214,3 +214,5 @@ bool QueuedTreeModel::FUN_00b600c0(char* pBuf, unsigned int uiSize)
 {
     return reinterpret_cast<::QRequest *>(this)->FUN_00c3d0e0(pBuf, uiSize, DAT_010ade08);
 }
+
+#include "generated/data/fallout/interface/interface_o2_variant.inc"

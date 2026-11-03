@@ -4192,3 +4192,5 @@ void GridMesh::FUN_006959b0()
         }
     }
 }
+
+#include "generated/data/fallout_shared/pathfinding/navmesh_util.inc"

@@ -6094,3 +6094,5 @@ float __cdecl FUN_00a2b6d0(Spl_a2b6d0_Key* keys, int count)
     }
     return fScaledValue;
 }
+
+#include "generated/data/staging/blk_00a20000_od_o2_nood_variant.inc"

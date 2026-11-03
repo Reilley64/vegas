@@ -1897,3 +1897,5 @@ void S_00d65970_Obj::FUN_00d65970(S_00d65970_Arg* arg)
             vfn1(e->items.data[j]);
     }
 }
+
+#include "generated/data/havok/physics/utilities/visualdebugger/viewer/collide/hkpshapedisplayviewer.inc"

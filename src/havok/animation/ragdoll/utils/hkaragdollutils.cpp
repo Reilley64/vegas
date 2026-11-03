@@ -1113,3 +1113,5 @@ void CallTarget_ce9880()
 {
     g_out = FUN_00ce9880(*(const hkQsXform*)g_inT, (Body*)g_inBody);
 }
+
+#include "generated/data/havok/animation/ragdoll/utils/hkaragdollutils.inc"

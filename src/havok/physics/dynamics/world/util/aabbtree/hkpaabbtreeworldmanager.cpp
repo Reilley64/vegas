@@ -2545,3 +2545,5 @@ FUN_00d9a040::FUN_00d9a040() throw()
 }
 
 }
+
+#include "generated/data/havok/physics/dynamics/world/util/aabbtree/hkpaabbtreeworldmanager.inc"

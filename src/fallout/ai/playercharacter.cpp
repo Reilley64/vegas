@@ -68071,3 +68071,5 @@ void PlayerListCleanup::FUN_00948050()
     reinterpret_cast<::FileMatchList *>((reinterpret_cast< ::List_009e03e0*>(&unk7C8)))->RemoveAll();
     unk7D0 = 0;
 }
+
+#include "generated/data/fallout/ai/playercharacter.inc"

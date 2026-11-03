@@ -53,3 +53,5 @@ void SimpleBillboard::CalculateBillboardTransform(const float* afPosition)
     DAT_011f8d2c = corners[3] * frame.cRot;
     ReserveBillboardWorkspace();
 }
+
+#include "generated/data/speedtree/simplebillboard.inc"

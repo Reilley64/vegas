@@ -411,3 +411,5 @@ class FUN_004f91b0 : public ExtraDataBase
 // @fnv 0x004f91b0
 FUN_004f91b0::FUN_004f91b0() : ExtraDataBase(FUN_004f9230())
 {}
+
+#include "generated/data/fallout_shared/bgsaddonnode.inc"

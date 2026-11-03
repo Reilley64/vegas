@@ -563,3 +563,5 @@ void EvadeProcedure::UpdateFleeState()
         break;
     }
 }
+
+#include "generated/data/fallout/ai/combat/combatprocedureevade.inc"

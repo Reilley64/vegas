@@ -28538,3 +28538,5 @@ void* FUN_00cceda0_cls::FUN_00cceda0(unsigned int arg)
     FUN_00c87700();
     return res;
 }
+
+#include "generated/data/staging/blk_00cc0000_o2.inc"

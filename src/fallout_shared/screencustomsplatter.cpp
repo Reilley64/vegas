@@ -468,3 +468,5 @@ void FUN_004de8e0(unsigned int ItemUpdateArray, float fAlpha, int iUnused, float
         }
     }
 }
+
+#include "generated/data/fallout_shared/screencustomsplatter.inc"

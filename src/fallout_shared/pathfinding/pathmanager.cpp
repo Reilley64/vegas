@@ -7312,3 +7312,5 @@ FUN_006e9cc0::FUN_006e9cc0(int mode, PathHandle value) : first(0), second(0), ha
 {
     reinterpret_cast<::PathingTaskShell *>(this)->AssignRequestAndQueue((::PathingRequest *)(mode), (*(::NiPointer< ::ActorPathingMessageQueue> *)&(const ::PathHandle &)(value)));
 }
+
+#include "generated/data/fallout_shared/pathfinding/pathmanager.inc"

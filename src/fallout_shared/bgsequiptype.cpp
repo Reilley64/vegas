@@ -208,3 +208,5 @@ void FUN_00479380_cls::SetFromLookup(int a1)
         reinterpret_cast<::CombatProcedure *>((this))->Initialize((::CombatController *)(((int)(reinterpret_cast<::Callees *>((obj))->FUN_00726070()))));
     }
 }
+
+#include "generated/data/fallout_shared/bgsequiptype.inc"

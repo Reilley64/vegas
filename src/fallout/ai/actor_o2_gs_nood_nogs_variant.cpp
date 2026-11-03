@@ -304,3 +304,5 @@ void SkeletonPoseData::FUN_00cda340()
 }
 }  // namespace fnv_00cda340
 #include "fnv/symbols_simd.h"
+
+#include "generated/data/fallout/ai/actor_o2_gs_nood_nogs_variant.inc"

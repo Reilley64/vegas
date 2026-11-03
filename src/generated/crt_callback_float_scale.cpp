@@ -9774,3 +9774,5 @@ void InitializeRuntimeFloatScale1951()
 {
     runtimeInitializationFloat4222 = runtimeInitializationFloat2087 * ::DAT_01011590;
 }
+
+#include "generated/data/generated/crt_callback_float_scale.inc"

@@ -944,3 +944,5 @@ bool MorphEqualData::FUN_00a418a0(MorphEqualData* other)
     }
     return false;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nianimation/nimorphdata.inc"

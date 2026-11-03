@@ -9544,3 +9544,5 @@ int FUN_007f3bf0_cls::FUN_007f3bf0(int a1)
         return -1;
     return 0x1a;
 }
+
+#include "generated/data/fallout/interface/menus/vatsmenu.inc"

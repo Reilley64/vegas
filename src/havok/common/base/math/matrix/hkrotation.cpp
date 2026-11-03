@@ -277,3 +277,5 @@ void* RotationRows::FUN_00cb2d90(void* apQuaternion)
     convertRotation(*this, _mm_load_ps((const float*)apQuaternion));
     return apQuaternion;
 }
+
+#include "generated/data/havok/common/base/math/matrix/hkrotation.inc"

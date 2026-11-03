@@ -7011,3 +7011,5 @@ FUN_00d54de0::FUN_00d54de0()
     MoppInputSetBool(m_flag20, false);
     MoppInputSetBool(m_flag1E, false);
 }
+
+#include "generated/data/staging/blk_00d40000_o2.inc"

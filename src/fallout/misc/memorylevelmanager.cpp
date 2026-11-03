@@ -261,3 +261,5 @@ bool FUN_00878340_shell::FUN_00878340()
 {
     return *((bool*)((char*)this + 0x75d));
 }
+
+#include "generated/data/fallout/misc/memorylevelmanager.inc"

@@ -258,3 +258,5 @@ FUN_00bc49a0::~FUN_00bc49a0()
     m_spVertexShaderObject = 0;
     m_spPixelShaderObject = 0;
 }
+
+#include "generated/data/bsshader/beamshader.inc"

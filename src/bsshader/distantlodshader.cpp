@@ -1039,3 +1039,5 @@ FUN_00bd5670_c::FUN_00bd5670_c(NiRefObject* apDeclaration)
     m_count98 = 0;
 }
 }  // namespace fnv_00bd5670
+
+#include "generated/data/bsshader/distantlodshader.inc"

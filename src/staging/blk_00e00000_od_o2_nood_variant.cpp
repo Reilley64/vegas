@@ -1486,3 +1486,5 @@ const void* __cdecl FUN_00e022a0()
     S00e022a0_Object kObject(flag);
     return *reinterpret_cast<const void**>(&kObject);
 }
+
+#include "generated/data/staging/blk_00e00000_od_o2_nood_variant.inc"

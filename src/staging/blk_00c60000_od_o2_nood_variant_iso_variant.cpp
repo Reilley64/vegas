@@ -5469,3 +5469,5 @@ void FUN_00c68750(const SourcePoint* p)
     v.set(p->x * DAT_012677d8, p->y * DAT_012677d8, p->z * DAT_012677d8);
     reinterpret_cast<::ControllerC66 *>((&v))->FUN_00c66c00(*(const ::hkVector4C66 *)nullptr);
 }
+
+#include "generated/data/staging/blk_00c60000_od_o2_nood_variant_iso_variant.inc"

@@ -7253,3 +7253,5 @@ bool ClearanceSearch::FUN_006b25f0(const NavMeshEdgePoint& origin, const NiPoint
     }
     return true;
 }
+
+#include "generated/data/fallout_shared/pathfinding/pathsmootherpov.inc"

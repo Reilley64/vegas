@@ -2541,3 +2541,5 @@ bool Processor::ReduceGroupWeights(Geometry* geometry, unsigned char maxTriangle
 }
 
 }  // namespace SkinWeights
+
+#include "generated/data/gamebryo2.2/corelibs/nimain/niskinpartition.inc"

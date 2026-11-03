@@ -17,3 +17,5 @@
 #include "fnv/symbols_011c1000.h"
 #include "fnv/symbols_011f6000.h"
 #include "tile.h"
+
+#include "generated/data/bsmenu/tile_h_unit.inc"

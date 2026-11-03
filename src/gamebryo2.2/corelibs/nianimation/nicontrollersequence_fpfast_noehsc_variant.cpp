@@ -1525,3 +1525,5 @@ ControllerSequence::ControllerSequence(const SeqFixedString& kName, unsigned int
         m_pkSeqTagArray = new SeqTag[m_uiNumControlledBlocks];
     }
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nianimation/nicontrollersequence_fpfast_noehsc_variant.inc"

@@ -107,3 +107,5 @@ void __cdecl FUN_00d85ef0(ListenerOwner* pOwner)
     }
     FUN_00d85d40(pArr);
 }
+
+#include "generated/data/havok/physics/dynamics/constraint/util/hkpconstraintcallbackutil.inc"

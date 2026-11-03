@@ -2,6 +2,7 @@
 // src/staging/blk_00500000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include "generated/data/vtables.h"
 #include <new>
 #include <cstring>
 #include "fnv/decl/ActorInventoryQueryViews__ActorQuery.h"
@@ -821,8 +822,8 @@ struct FUN_00509a10 : TESGrassBase
 // @fnv 0x00509a10
 FUN_00509a10::FUN_00509a10()
 {
-    ((void**)this)[0] = (void*)0x0102814c;
-    (&this->m_30.vft)[0] = (void*)0x01028128;
+    ((void**)this)[0] = (void*)fnv_vftable_FUN_00509cc0_for_CcBase;
+    (&this->m_30.vft)[0] = (void*)fnv_vftable_FUN_00509cc0_for_CcSub;
     reinterpret_cast<::FUN_004f15a0_shell *>(this)->FUN_004f15a0(0x24);
     reinterpret_cast<::TESGrass *>(this)->ResetFormData();
 }
@@ -2702,3 +2703,5 @@ bool FUN_00519570(TESForm* apForm)
     }
     return result;
 }
+
+#include "generated/data/staging/blk_00500000_od.inc"

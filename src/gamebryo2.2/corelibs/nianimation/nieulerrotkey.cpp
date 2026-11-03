@@ -60,3 +60,5 @@ void ChannelState::SetChannelValues(void* value0, int present0, unsigned type0, 
         ++pucEncoded;
     }
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nianimation/nieulerrotkey.inc"

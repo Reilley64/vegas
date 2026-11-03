@@ -2438,3 +2438,5 @@ bool PlaybackContinueState::FUN_00ec1840(bool allowInterruption)
         return false;
     return true;
 }
+
+#include "generated/data/staging/blk_00ec0000_od.inc"

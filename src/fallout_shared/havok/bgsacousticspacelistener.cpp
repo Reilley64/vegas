@@ -312,3 +312,5 @@ S_00620260_T* S_00620260_C::FUN_00620260(int a, int b)
     }
     return r;
 }
+
+#include "generated/data/fallout_shared/havok/bgsacousticspacelistener.inc"

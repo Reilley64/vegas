@@ -7740,3 +7740,5 @@ int Solver::FUN_00e63770(E63Out* out)
         }
     }
 }
+
+#include "generated/data/staging/blk_00e60000_o2_gs_nogs_rtm_variant.inc"

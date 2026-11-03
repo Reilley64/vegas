@@ -3664,3 +3664,5 @@ void FUN_008368b0(BGSLoadGameBuffer* apBuffer)
         }
     }
 }
+
+#include "generated/data/fallout/audio/falloutradio.inc"

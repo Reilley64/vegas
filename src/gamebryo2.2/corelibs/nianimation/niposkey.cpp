@@ -193,3 +193,5 @@ void __cdecl ComputeFrenetFrame(float time, const AnimationKey* key0, const Anim
     reinterpret_cast<::FUN_004a0c10_s *>(&(normal))->FUN_004a0c10();
     binormal = CrossCurveVectors(tangent, normal);
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nianimation/niposkey.inc"

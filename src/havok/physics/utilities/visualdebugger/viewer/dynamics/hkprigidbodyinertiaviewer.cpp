@@ -1086,3 +1086,5 @@ struct D67910Object : D67910Primary, D67910Secondary
 D67910Object::D67910Object()
 {
 }
+
+#include "generated/data/havok/physics/utilities/visualdebugger/viewer/dynamics/hkprigidbodyinertiaviewer.inc"

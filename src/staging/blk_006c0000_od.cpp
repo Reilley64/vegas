@@ -5515,3 +5515,5 @@ void* GlobalObjectDeletingEntry::FUN_006c7290(unsigned int flags)
         ::FUN_00401030(this);
     return this;
 }
+
+#include "generated/data/staging/blk_006c0000_od.inc"

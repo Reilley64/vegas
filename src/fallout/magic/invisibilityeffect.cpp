@@ -1631,3 +1631,5 @@ void MVEffect::FUN_0080e230()
             delete pEffect5;
     }
 }
+
+#include "generated/data/fallout/magic/invisibilityeffect.inc"

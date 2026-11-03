@@ -496,3 +496,5 @@ void* S2::DestroyIfFlagged(unsigned int flags)
 // @fnv 0x00516240
 FUN_00516240::~FUN_00516240()
 {}
+
+#include "generated/data/fallout_shared/tesobjectcont.inc"

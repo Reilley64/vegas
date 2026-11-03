@@ -1584,3 +1584,5 @@ void MapOwner::FUN_006b7b70(NavMeshInfo* info)
 {
     return dynamic_cast< ::TESObjectCELL*>(FUN_00690830(this));
 }
+
+#include "generated/data/fallout_shared/pathfinding/navmeshinfomap.inc"

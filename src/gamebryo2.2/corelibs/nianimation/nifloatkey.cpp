@@ -240,3 +240,5 @@ float __cdecl InterpolateKey(float time, const S00a26b40_Key* keys, unsigned int
     *lastIndex = last;
     return result;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nianimation/nifloatkey.inc"

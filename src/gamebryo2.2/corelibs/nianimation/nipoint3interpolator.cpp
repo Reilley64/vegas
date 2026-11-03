@@ -918,3 +918,5 @@ bool PosInterpEq::FUN_00a49a80(NiPoint3Interpolator* other)
     }
     return true;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nianimation/nipoint3interpolator.inc"

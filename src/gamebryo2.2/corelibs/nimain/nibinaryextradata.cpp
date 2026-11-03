@@ -458,3 +458,5 @@ A7F920ExtraData* A7F920BinaryExtraData::FUN_00a7f920(CloningProcess& kCloning)
     }
     return pkClone;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nimain/nibinaryextradata.inc"

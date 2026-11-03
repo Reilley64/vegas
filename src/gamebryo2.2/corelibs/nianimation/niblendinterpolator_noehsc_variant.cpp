@@ -604,3 +604,5 @@ void Blend100::FUN_00a37980(Stream100& stream)
     }
 }
 }  // namespace fnv_00a37980
+
+#include "generated/data/gamebryo2.2/corelibs/nianimation/niblendinterpolator_noehsc_variant.inc"

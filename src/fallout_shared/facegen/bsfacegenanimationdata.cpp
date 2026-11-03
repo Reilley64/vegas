@@ -1930,3 +1930,5 @@ FUN_00649680::FUN_00649680()
     unk124.b18f = false;
     unk124.b190 = false;
 }
+
+#include "generated/data/fallout_shared/facegen/bsfacegenanimationdata.inc"

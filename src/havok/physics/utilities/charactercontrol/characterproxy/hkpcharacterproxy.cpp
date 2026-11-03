@@ -3752,3 +3752,5 @@ void S00caefd0_Proxy::FUN_00caefd0(const S00caefd0_Vec& direction, S00caefd0_Sur
     surfaceConstraintInteractions.destruct();
     surfaceConstraints.destruct();
 }
+
+#include "generated/data/havok/physics/utilities/charactercontrol/characterproxy/hkpcharacterproxy.inc"

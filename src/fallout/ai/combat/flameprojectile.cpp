@@ -776,3 +776,5 @@ bool Projectile9B3::CanProcessHit(Ref9B3* pkTarget, int iArg1, int iArg2, int iP
     }
     return false;
 }
+
+#include "generated/data/fallout/ai/combat/flameprojectile.inc"

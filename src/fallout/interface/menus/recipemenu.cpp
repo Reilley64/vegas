@@ -4336,3 +4336,5 @@ void SelfObj::FUN_00728da0(TESForm* apForm, MenuTileList* apTiles)
         }
     }
 }
+
+#include "generated/data/fallout/interface/menus/recipemenu.inc"

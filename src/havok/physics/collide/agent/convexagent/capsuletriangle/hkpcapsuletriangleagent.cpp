@@ -1032,3 +1032,5 @@ void __cdecl FUN_00d3a8c0(Body* apBodyA, Body* apBodyB, Input* input, Penetratio
         state->current = timer + 1;
     }
 }
+
+#include "generated/data/havok/physics/collide/agent/convexagent/capsuletriangle/hkpcapsuletriangleagent.inc"

@@ -337,3 +337,5 @@ void __cdecl ProcessOpenCloseEvent(Ref* ref, SequenceEvent* sequence)
         }
     }
 }
+
+#include "generated/data/fallout_shared/bgsopencloseform.inc"

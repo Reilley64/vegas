@@ -70686,3 +70686,5 @@ void IdleLoadedProcessView::FUN_008eedf0(AnimIdle* idle, KFModel* model)
         reinterpret_cast<::NiPointer_KFModel *>((void *)&(const ::NiPointer< ::KFModel> &)(m_kKeyframeModels[0]))->FUN_0044b070(model);
     }
 }
+
+#include "generated/data/fallout/ai/highprocess.inc"

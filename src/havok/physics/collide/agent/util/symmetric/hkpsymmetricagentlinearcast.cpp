@@ -213,3 +213,5 @@ void VecHolder::FUN_00da70e0(const VecArg& arg)
     m_04 = m_20->m_04;
 }
 }  // namespace fnv_00da70e0
+
+#include "generated/data/havok/physics/collide/agent/util/symmetric/hkpsymmetricagentlinearcast.inc"

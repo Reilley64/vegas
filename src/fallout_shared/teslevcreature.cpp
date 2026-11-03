@@ -271,3 +271,5 @@ bool Entry::FUN_0050b320(TESForm* other)
 }
 
 }
+
+#include "generated/data/fallout_shared/teslevcreature.inc"

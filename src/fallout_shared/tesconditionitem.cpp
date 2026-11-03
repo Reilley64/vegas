@@ -452,3 +452,5 @@ void FUN_00681220_class::FUN_00681220(int functionCode)
     }
 }
 }  // namespace fnv_00681220
+
+#include "generated/data/fallout_shared/tesconditionitem.inc"

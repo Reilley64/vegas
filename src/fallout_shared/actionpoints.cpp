@@ -129,3 +129,5 @@ char const* FUN_0066ddc0(int index)
 {
     return DAT_0119bb50[index]->GetMenuTitle();
 }
+
+#include "generated/data/fallout_shared/actionpoints.inc"

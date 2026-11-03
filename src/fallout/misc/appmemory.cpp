@@ -262,3 +262,5 @@ void MemoryManager::FUN_00866770()
     reinterpret_cast<::FUN_00aa3cc0_shell *>(this)->CreateMemoryPool(576, 0x200000, (char *)("Pool 576"));
     reinterpret_cast<::FUN_00aa3cc0_shell *>(this)->CreateMemoryPool(596, 0x100000, (char *)("Pool 596"));
 }
+
+#include "generated/data/fallout/misc/appmemory.inc"

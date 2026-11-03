@@ -1185,3 +1185,5 @@ void ActorBaseLoad::FUN_005f1b30(unsigned int aiFlags, unsigned int a2)
     }
 }
 }  // namespace fnv_005f1b30
+
+#include "generated/data/fallout_shared/tesactorbase.inc"

@@ -301,3 +301,5 @@ void BoxEmitterInit::FUN_00c201d0(const ThreeByThreeMatrix& kRot, NiPoint3& kPos
                               kRot.m_aRows[2].Dot(kWorldPosition));
 }
 }  // namespace fnv_00c201d0
+
+#include "generated/data/gamebryo2.2/corelibs/niparticle/nipsysboxemitter.inc"

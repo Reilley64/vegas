@@ -740,3 +740,5 @@ void FUN_00a8afc0(void* apNode)
     node->_next = 0;
     LeaveCriticalSection(&DAT_011f5c80);
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nimain/nipalette.inc"

@@ -176,3 +176,5 @@ void GameTimerRecord::FUN_00aa50a0()
         m_uiSecondTimerValue = uiTickCount - m_uiSecondTimerValue;
     }
 }
+
+#include "generated/data/bsmenu/xuserinterface.inc"

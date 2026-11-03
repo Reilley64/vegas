@@ -21374,3 +21374,5 @@ void C42List::FUN_00c42b80()
     m_0c = _len;
 }
 }  // namespace fnv_00c42b80
+
+#include "generated/data/staging/blk_00c40000_od_ob1_variant.inc"

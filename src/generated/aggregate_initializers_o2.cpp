@@ -427,3 +427,5 @@ Agg6 g_0126eb40(&(*reinterpret_cast<char *>((void *)&::g_0126eb10_arg0)), &(*rei
 Agg6 g_0126eb88(&(*reinterpret_cast<char *>((void *)&::g_0126eb58_arg0)), &(*reinterpret_cast<char *>(&::FUN_00e02700)), &(*reinterpret_cast<char *>(&::FUN_00e02720)), ::FUN_00e02730(), &d_011bdb84, (const void*)24);
 // @fnv 0x00fc7150
 Agg6 g_0126ebd0(&(*reinterpret_cast<char *>((void *)&::g_01268560_arg0)), &(*reinterpret_cast<char *>(&::FUN_00e02780)), &(*reinterpret_cast<char *>(&::FUN_00e02760)), FUN_00e027a0(), &d_011b1bfc, (const void*)12);
+
+#include "generated/data/generated/aggregate_initializers_o2.inc"

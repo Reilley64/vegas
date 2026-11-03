@@ -691,3 +691,5 @@ FUN_0087a170::~FUN_0087a170()
 {
     delete m_pkHelper;
 }
+
+#include "generated/data/fallout/misc/seendata.inc"

@@ -639,3 +639,5 @@ void DragModifier::FUN_00c2cb20(float fTime, BoundDataBlock* pkData)
         }
     }
 }
+
+#include "generated/data/gamebryo2.2/corelibs/niparticle/nipsysdragfieldmodifier.inc"

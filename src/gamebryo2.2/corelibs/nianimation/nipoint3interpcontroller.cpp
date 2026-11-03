@@ -133,3 +133,5 @@ void* S_00a53280_Foo::FUN_00a53280(void* arg)
     unk14 = 0;
     return this;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nianimation/nipoint3interpcontroller.inc"

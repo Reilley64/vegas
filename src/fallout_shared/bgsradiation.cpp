@@ -319,3 +319,5 @@ FUN_00591c20_ListForm::~FUN_00591c20_ListForm()
 {
     ClearData();
 }
+
+#include "generated/data/fallout_shared/bgsradiation.inc"

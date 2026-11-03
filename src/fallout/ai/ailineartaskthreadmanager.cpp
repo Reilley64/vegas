@@ -868,3 +868,5 @@ void __cdecl FUN_008c7da0()
     reinterpret_cast<::FUN_008c79e0_shell *>((reinterpret_cast<FUN_008c79e0_shell*>(((void *)(::FUN_00713d80())))))->SignalThreadEvent(0, 11);
 }
 }  // namespace fnv_008c7da0
+
+#include "generated/data/fallout/ai/ailineartaskthreadmanager.inc"

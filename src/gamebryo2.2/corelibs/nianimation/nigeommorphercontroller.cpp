@@ -2179,3 +2179,5 @@ void NiGMCShell_a3b350::FUN_00a3b350(NiStreamSV& stream)
         stream.Save(m_pInterpolatorItems[i].m_fWeight);
     }
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nianimation/nigeommorphercontroller.inc"

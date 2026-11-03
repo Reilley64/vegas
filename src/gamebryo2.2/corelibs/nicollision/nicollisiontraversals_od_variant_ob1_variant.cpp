@@ -454,3 +454,5 @@ void Host::FUN_00c34ad0(Pt p0, Obj* pA, Obj* pB, Vec4 color, unsigned char flag)
         }
     }
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nicollision/nicollisiontraversals_od_variant_ob1_variant.inc"

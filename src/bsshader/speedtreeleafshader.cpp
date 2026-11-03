@@ -281,3 +281,5 @@ void FUN_00bb2be0_shell::FUN_00bb2be0()
     this->Init79();
     reinterpret_cast<::ShaderSetup *>((reinterpret_cast<FUN_00bb1d40_t*>(this)))->CreatePasses();
 }
+
+#include "generated/data/bsshader/speedtreeleafshader.inc"

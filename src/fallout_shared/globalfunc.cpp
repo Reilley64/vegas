@@ -3725,3 +3725,5 @@ FUN_004b5040::FUN_004b5040(unsigned int value)
     reinterpret_cast<::MouseSpringOwner *>(this)->FUN_00c87260((::MouseSpringInfo *)(value));
     ++DAT_01268124;
 }
+
+#include "generated/data/fallout_shared/globalfunc.inc"

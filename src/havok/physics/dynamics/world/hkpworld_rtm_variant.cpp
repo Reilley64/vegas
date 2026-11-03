@@ -4,6 +4,7 @@
 
 // src/havok/physics/dynamics/world/hkpworld.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/hkpworld.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "generated/data/vtables.h"
 #include <windows.h>
 #include <new>
 #include "fnv/decl/Big.h"
@@ -8296,7 +8297,7 @@ public:
         unk0c = 0;
         DAT_01268188 += inc;
         _ReadWriteBarrier();
-        m_vtbl = (const void*)0x10c5ce4;
+        m_vtbl = (const void*)fnv_vftable_FUN_00c88380;
         _ReadWriteBarrier();
         DAT_01268318 += inc;
     }
@@ -10212,3 +10213,5 @@ void FUN_00c99210(const ::hkVector4_S& vertexA, const ::hkVector4_S& vertexB, co
     unsigned int argb = PackColorBigEndian(res.m_vComponents.m128_f32[0], res.m_vComponents.m128_f32[1], res.m_vComponents.m128_f32[2], alpha);
     (*reinterpret_cast<::C00c98720 * *>(&::DAT_012681e0))->FUN_00c98720(reinterpret_cast<int>(&vertexA), reinterpret_cast<int>(&vertexB), reinterpret_cast<int>(&vertexC), argb, 0, 0);
 }
+
+#include "generated/data/havok/physics/dynamics/world/hkpworld_rtm_variant.inc"

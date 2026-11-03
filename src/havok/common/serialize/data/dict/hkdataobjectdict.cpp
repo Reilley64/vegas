@@ -10876,3 +10876,5 @@ FindResultDC97* DictWriteAccessDC97::FUN_00dc9710(FindResultDC97* result, int ke
     result->index = -1;
     return result;
 }
+
+#include "generated/data/havok/common/serialize/data/dict/hkdataobjectdict.inc"

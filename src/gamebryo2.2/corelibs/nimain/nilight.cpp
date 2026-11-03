@@ -409,3 +409,5 @@ void* Standin::FUN_00a72040(unsigned int auiFlags)
         ::FUN_00aa1460(this, 0xF0);
     return this;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nimain/nilight.inc"

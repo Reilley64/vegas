@@ -6463,3 +6463,5 @@ append:
 
     *dest = primitive;
 }
+
+#include "generated/data/staging/blk_00e60000_o2_gs_ehsc_nogs_noehsc_variant.inc"

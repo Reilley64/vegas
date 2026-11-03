@@ -1450,3 +1450,5 @@ int DoorPathHandler::UpdateDoorPath(NiPoint3& position)
     }
     return 0;
 }
+
+#include "generated/data/fallout/ai/movement/virtualactorpathhandler.inc"

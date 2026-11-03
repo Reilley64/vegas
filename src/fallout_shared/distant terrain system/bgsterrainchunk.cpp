@@ -1473,3 +1473,5 @@ void D6Detacher::FUN_006fb3d0(bool force)
         }
     }
 }
+
+#include "generated/data/fallout_shared/distant terrain system/bgsterrainchunk.inc"

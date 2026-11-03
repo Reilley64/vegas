@@ -686,3 +686,5 @@ ShapeData& ShapeData::FUN_00ce4ae0(const ShapeData& other)
     m_uiItemCount = other.m_uiItemCount;
     return *this;
 }
+
+#include "generated/data/staging/blk_00ce0000_od_o2_nood_variant.inc"

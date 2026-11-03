@@ -259,3 +259,5 @@ C4E7770TriShapeData* C4E7770QuadFactory::FUN_004e7770(float m_fGlyphWidthInPixel
     }
     return pkShapeData;
 }
+
+#include "generated/data/fallout_shared/teswater_ob0_noob1_variant.inc"

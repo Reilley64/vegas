@@ -1,5 +1,6 @@
 
 // SSE_DECLARATIONS_DEFER_TO_SDK
+#include "generated/data/vtables.h"
 #include <windows.h>
 // src/staging/blk_00ca0000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
@@ -7091,7 +7092,7 @@ extern "C" void __cdecl FUN_00c9eec0();
 // @fnv 0x00cbe880
 void FUN_00cbe880_Class::FUN_00cbe880()
 {
-    this->m_iWordAt00 = 0x10c477c;
+    this->m_iWordAt00 = fnv_vftable_FUN_00c6d1e0;
     FUN_00c9eec0();
 }
 
@@ -15738,13 +15739,13 @@ struct cb86f0_obj : bhkRefObject
     cb86f0_obj()
     {
         reinterpret_cast<::FUN_00c87c30_t *>(this)->FUN_00c87c30();
-        vtable = (void*)0x102016c;
+        vtable = (void*)fnv_vftable_FUN_00c87970;
         const int inc = 1;
         unk0c = 0;
         DAT_01268154 += inc;
         vtable = (void*)&DAT_0102009c;
         DAT_01268118 += inc;
-        vtable = (void*)0x10c8914;
+        vtable = (void*)fnv_vftable_FUN_00cb83f0;
     }
 
     static void* operator new(unsigned int size)
@@ -16096,3 +16097,5 @@ void S_00cb0030_Cls::FUN_00cb0030(S_00cb0030_Out* out)
         }
     }
 }
+
+#include "generated/data/staging/blk_00ca0000_o2.inc"

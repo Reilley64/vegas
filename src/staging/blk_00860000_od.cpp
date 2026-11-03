@@ -7631,3 +7631,5 @@ void FUN_00876a70(char* pBuffer, unsigned long cbBuffer)
     }
     InstalledPathDetail::RegCloseKey(hKey);
 }
+
+#include "generated/data/staging/blk_00860000_od.inc"

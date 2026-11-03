@@ -260,3 +260,5 @@ float __cdecl FUN_00d571d0()
     return 1.0f;
 }
 }  // namespace fnv_00d571d0
+
+#include "generated/data/havok/physics/collide/shape/convex/cylinder/hkpcylindershape.inc"

@@ -665,3 +665,5 @@ void __cdecl FUN_00e4ead0(const unsigned short* mask, unsigned int count, Statis
     else
         result->rate = 0.0f;
 }
+
+#include "generated/data/havok/animation/animation/animation/util/hkatrackanalysis.inc"

@@ -5202,3 +5202,5 @@ bool RenderTile::FUN_00a04640(bool clear) {
     LeaveCriticalSection(&DAT_011f3330);
     return changed;
 }
+
+#include "generated/data/bsmenu/tile_ob1_variant.inc"

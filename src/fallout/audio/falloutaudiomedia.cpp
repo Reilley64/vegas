@@ -973,3 +973,5 @@ void __cdecl PlayAudioMedia(int aeMediaType, char const* apFileName, unsigned in
     ::fnv_00830490::FUN_00830490();
 }
 }  // namespace fnv_008300c0
+
+#include "generated/data/fallout/audio/falloutaudiomedia.inc"

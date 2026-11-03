@@ -621,3 +621,5 @@ char* FormatTestCondition(const char* name, int test)
 
     return buffer;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nimain/nialphaproperty.inc"

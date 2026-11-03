@@ -4034,3 +4034,5 @@ int RagdollAnimControllerView::FUN_00c7a8d0()
         }
     }
 }
+
+#include "generated/data/fallout/ai/actor_o2_variant.inc"

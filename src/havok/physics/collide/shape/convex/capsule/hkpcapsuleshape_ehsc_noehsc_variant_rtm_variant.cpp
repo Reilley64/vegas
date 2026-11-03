@@ -406,3 +406,5 @@ __declspec(noinline) S00d22760_Bool S00d22760_Capsule::FUN_00d22760(const S00d22
 returnFalse:
     return S00d22760_Bool(false);
 }
+
+#include "generated/data/havok/physics/collide/shape/convex/capsule/hkpcapsuleshape_ehsc_noehsc_variant_rtm_variant.inc"

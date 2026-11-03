@@ -1487,3 +1487,5 @@ void* FUN_00659c40_shell::FUN_00659c40(unsigned int flags)
     return this;
 }
 }  // namespace fnv_00659c40
+
+#include "generated/data/fallout_shared/facegen/bsfacegenmodel.inc"

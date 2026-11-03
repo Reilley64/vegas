@@ -650,3 +650,5 @@ void AddAnimationToGarbageCollector(AnimationObject* object)
         reinterpret_cast<::FUN_008693c0_shell *>((((AnimationQueue*)&g_011de808)))->FUN_008693c0((int)(&object));
     }
 }
+
+#include "generated/data/fallout/misc/garbagecollector.inc"

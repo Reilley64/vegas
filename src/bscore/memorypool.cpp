@@ -513,3 +513,5 @@ FUN_00aa66a0::FUN_00aa66a0(unsigned int aiBlockSize, unsigned int aiPoolSize, co
     reinterpret_cast<::FUN_00aa6980_stub *>(this)->RegisterInPools();
 }
 }  // namespace fnv_00aa66a0
+
+#include "generated/data/bscore/memorypool.inc"

@@ -1180,3 +1180,5 @@ void __cdecl FUN_00e61e70(const float* p, float* out)
     out[3] = w;
     out[4] = nl * w;
 }
+
+#include "generated/data/staging/blk_00e60000_od_o2_nood_variant.inc"

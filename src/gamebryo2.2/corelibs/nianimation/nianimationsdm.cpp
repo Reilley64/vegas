@@ -351,3 +351,5 @@ void FUN_00a2d8a0()
         ::ActorManagerPacket::InitializePoint3();
     }
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nianimation/nianimationsdm.inc"

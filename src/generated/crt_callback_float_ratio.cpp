@@ -2244,3 +2244,5 @@ void InitializeRuntimeFloatRatio445()
 {
     runtimeInitializationFloat4122 = runtimeInitializationDouble3 / runtimeInitializationFloat2048;
 }
+
+#include "generated/data/generated/crt_callback_float_ratio.inc"

@@ -1704,3 +1704,5 @@ bool __cdecl IsCombatActionValid(CombatController* controller, int iSection)
 
     return true;
 }
+
+#include "generated/data/fallout/ai/combat/combatactions.inc"

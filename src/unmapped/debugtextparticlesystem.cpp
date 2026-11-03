@@ -1728,3 +1728,5 @@ bool Manager::FUN_00ca2ad0(void* source, unsigned int flags)
     }
     return result;
 }
+
+#include "generated/data/unmapped/debugtextparticlesystem.inc"

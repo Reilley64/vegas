@@ -4861,3 +4861,5 @@ void LegacyCollisionLoader::FUN_00c87f60(NiStream& stream)
         reinterpret_cast<::NiCollisionObject *>(this)->LoadBinary(stream);
     }
 }
+
+#include "generated/data/fallout_shared/speedtree/bstreenode_o2_variant.inc"

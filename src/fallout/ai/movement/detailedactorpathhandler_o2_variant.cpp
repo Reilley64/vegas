@@ -93,3 +93,5 @@ const char* S::FUN_00c8d4a0()
     }
     return r;
 }
+
+#include "generated/data/fallout/ai/movement/detailedactorpathhandler_o2_variant.inc"

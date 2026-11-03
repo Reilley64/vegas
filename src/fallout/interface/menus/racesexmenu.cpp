@@ -8669,3 +8669,5 @@ FUN_007ac560::~FUN_007ac560()
     }
 }
 }  // namespace fnv_007ac560
+
+#include "generated/data/fallout/interface/menus/racesexmenu.inc"

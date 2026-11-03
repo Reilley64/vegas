@@ -524,3 +524,5 @@ bool InitTutorialMenu(TESForm* apMsg, bool aFlag)
     }
     return false;
 }
+
+#include "generated/data/fallout/interface/menus/tutorialmenu.inc"

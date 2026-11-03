@@ -1700,3 +1700,5 @@ bool GpuCacheWriter::FUN_00ee9620()
     }
     return false;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nimain/nigpuprogramcache.inc"

@@ -6,3 +6,5 @@
 #include "fnv/symbols_004a8000.h"
 #include "fnv/symbols_00559000.h"
 #include "niavobject.inl"
+
+#include "generated/data/gamebryo2.2/corelibs/nimain/niavobject_inl_unit.inc"

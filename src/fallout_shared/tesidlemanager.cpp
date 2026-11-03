@@ -611,3 +611,5 @@ void FUN_00600030_cls::FUN_00600030()
         }
     }
 }
+
+#include "generated/data/fallout_shared/tesidlemanager.inc"

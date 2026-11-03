@@ -603,3 +603,5 @@ bool LeveledSpellComparison::FUN_0050bd10(TESForm* apCompare)
         return true;
     return false;
 }
+
+#include "generated/data/fallout_shared/teslevspell.inc"

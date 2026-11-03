@@ -5903,3 +5903,5 @@ bool OccluderC358::FUN_00c358a0(Point point)
     else
         return true;
 }
+
+#include "generated/data/staging/blk_00c20000_od_ob1_variant.inc"

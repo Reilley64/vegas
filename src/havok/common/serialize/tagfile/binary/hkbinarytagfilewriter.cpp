@@ -2183,3 +2183,5 @@ __declspec(noinline) void UnkHolder::FUN_00dbedb0(UnkRet* value, int count)
         capacity += capacity;
     reinterpret_cast<::FUN_00dbec60_cls *>((((S00dbedb0_Callee*)this)))->FUN_00dbec60((::AllocOwner *)(value), capacity);
 }
+
+#include "generated/data/havok/common/serialize/tagfile/binary/hkbinarytagfilewriter.inc"

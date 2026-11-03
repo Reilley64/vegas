@@ -8521,3 +8521,5 @@ void FUN_00707e30(DisplayItem* item, DisplayTile* root)
         }
     }
 }
+
+#include "generated/data/fallout/interface/interface.inc"

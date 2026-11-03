@@ -1172,3 +1172,5 @@ void Manager802::FUN_00802a90()
     if (!(*reinterpret_cast<::Manager802 * *>(&::DAT_011db800)))
         (*reinterpret_cast<::Manager802 * *>(&::DAT_011db800)) = new Manager802;
 }
+
+#include "generated/data/unmapped/debugtextmanager.inc"

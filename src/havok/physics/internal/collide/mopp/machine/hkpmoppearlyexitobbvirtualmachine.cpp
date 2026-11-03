@@ -39,3 +39,5 @@ hkBool S_00e647e0::SetupAndProcessShape(S_00e647e0_Input* input, const void* b, 
 }
 
 #include "fnv_asm_helpers.h"   // project x87 helpers (fnv_SinCos, fnv_FloatToInt), kept last so earlier code is unchanged
+
+#include "generated/data/havok/physics/internal/collide/mopp/machine/hkpmoppearlyexitobbvirtualmachine.inc"

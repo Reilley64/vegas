@@ -1268,3 +1268,5 @@ void FeeNode::FUN_006fee90(int a)
         }
     }
 }
+
+#include "generated/data/bgsterrainnode.inc"

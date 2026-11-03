@@ -910,3 +910,5 @@ FUN_00ce2510::FUN_00ce2510(int a, int b, int c, ObjectArray<int>* apBoneMap) : m
     reinterpret_cast<::RagdollInstance *>(this)->FUN_00ce22c0((*(const ::ObjectArray< ::ReferenceObject *> *)(a)), (*(const ::ObjectArray< ::ReferenceObject *> *)(b)), (::ReferenceObject *)(c));
     m_kBoneMap.assign(*apBoneMap);
 }
+
+#include "generated/data/havok/animation/ragdoll/instance/hkaragdollinstance.inc"

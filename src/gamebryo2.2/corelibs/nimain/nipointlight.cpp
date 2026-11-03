@@ -687,3 +687,5 @@ void __cdecl FUN_00a9b380()
 {
     static_cast<::FUN_00a72160_shell *>(nullptr)->FUN_00a72160({});
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nimain/nipointlight.inc"

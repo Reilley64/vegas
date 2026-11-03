@@ -5,6 +5,7 @@
 
 // src/staging/blk_00aa0000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include "generated/data/vtables.h"
 #include <windows.h>
 #include <new>
 #include <cmath>
@@ -2677,7 +2678,7 @@ struct S00aa8950_Obj : FUN_00aa8be0_cls
 // @fnv 0x00aa8950
 void* S00aa8950_Obj::FUN_00aa8950(unsigned int flags)
 {
-    ((int*)this)[0] = 0x010a2970;
+    ((void**)this)[0] = fnv_vftable_DAT_010a2970;
     {
         S00aa8950_ReleaseGuard guard;
         ClearList();
@@ -21689,3 +21690,5 @@ bool __cdecl FUN_00ab2640(const ReaderString& filename, unsigned int* format, Im
     }
     return true;
 }
+
+#include "generated/data/staging/blk_00aa0000_od_ob1_variant.inc"

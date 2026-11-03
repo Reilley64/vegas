@@ -1644,3 +1644,5 @@ FUN_00d2c910::FUN_00d2c910(void* a, int b) : S00d2c910_Base(a, b)
 {
     m_kScaleFactors = N::_mm_setr_ps(0.0f, 0.0f, 0.0f, 0.0f);
 }
+
+#include "generated/data/staging/blk_00d20000_od_o2_nood_variant.inc"

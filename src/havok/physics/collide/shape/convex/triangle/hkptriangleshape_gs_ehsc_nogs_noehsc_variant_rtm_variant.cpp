@@ -54,3 +54,5 @@ void FUN_00d20370_Triangle::FUN_00d20370(const unsigned short* indexes, int coun
         indexes += 1;
     }
 }
+
+#include "generated/data/havok/physics/collide/shape/convex/triangle/hkptriangleshape_gs_ehsc_nogs_noehsc_variant_rtm_variant.inc"

@@ -876,3 +876,5 @@ int __cdecl FUN_00dde4c0(S00dde4c0_Mesh* mesh, S00dde4c0_Tri* tri, int skip, int
     hits.finish();
     return result;
 }
+
+#include "generated/data/havok/physics/collide/util/welding/hkpmeshweldingutility_rtm_variant.inc"

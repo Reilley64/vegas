@@ -233,3 +233,5 @@ void AssociatedItemCopyEntry::FUN_00806d50(::ActiveEffect* target)
     if (destination)
         destination->_p48 = _p48;
 }
+
+#include "generated/data/fallout/magic/associateditemeffect.inc"

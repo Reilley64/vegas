@@ -8148,3 +8148,5 @@ void MobileObject::FUN_008cf2c0(unsigned int auiArg1, unsigned int auiArg2)
     reinterpret_cast<::ActorDeletionQueue *>(&((*reinterpret_cast<::Mgr *>(&::g_011e0e80))))->FUN_0096d470((::MobileObject *)(void *)(this), FUN_00931850());
     reinterpret_cast<::Host096d450 *>(&((*reinterpret_cast<::Mgr *>(&::g_011e0e80))))->FUN_0096d450((::MobileObject *)(void *)(this), FUN_00931850(), false, false, (::MobileObject *)(false));
 }
+
+#include "generated/data/fallout/magic/magicballprojectile.inc"

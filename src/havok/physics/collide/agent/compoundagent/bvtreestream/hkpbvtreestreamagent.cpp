@@ -1274,3 +1274,5 @@ Header* FUN_00d2e7f0(void* first, void* second, StreamDispatchInput* context, un
     }
     return Create64(second, first, context, 0);
 }
+
+#include "generated/data/havok/physics/collide/agent/compoundagent/bvtreestream/hkpbvtreestreamagent.inc"

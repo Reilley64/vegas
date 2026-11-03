@@ -1701,3 +1701,5 @@ void Projectile::FUN_00960520(int a)
     reinterpret_cast<::FUN_008c5d90_Class *>((((::fnv_00960520::VObj *)(::FUN_00559450((int *)&(m_634))))))->FUN_008c5d90((const ::NiPoint3Local *)(::fnv_00960520::Vec3 *)(&dest));
 }
 }  // namespace fnv_00960520
+
+#include "generated/data/fallout/ai/playercharacter_o2_variant_od_oy_noo2_variant.inc"

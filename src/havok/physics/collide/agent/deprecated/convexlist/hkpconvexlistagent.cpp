@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 
+#include "generated/data/vtables.h"
 #include <windows.h>
 #include <new>
 #include "fnv/decl/Cls_dafcd0.h"
@@ -1261,7 +1262,7 @@ void* __cdecl FUN_00d34510(void* bodyA, void* bodyB, AgentCollisionInput* input,
             void* agent = pMemoryRouter->m_pThreadAllocator->allocate(iAllocSize);
             ((AgentHeader*)agent)->m_usMemSizeAndFlags = (unsigned short)iAllocSize;
             ((PfnD33940)FUN_00d33940)(agent, bodyB, bodyA, input, contactMgr);
-            *(void**)agent = (void*)0x10cec68;
+            *(void**)agent = (void*)fnv_vftable_hkpSymmetricConvexListAgentD33D;
             return agent;
         }
         case 1: {
@@ -1287,7 +1288,7 @@ void* __cdecl FUN_00d34510(void* bodyA, void* bodyB, AgentCollisionInput* input,
                 void* agent = pMemoryRouter->m_pThreadAllocator->allocate(iAllocSize);
                 ((AgentHeader*)agent)->m_usMemSizeAndFlags = (unsigned short)iAllocSize;
                 ((PfnD440f0)FUN_00d440f0)(agent, bodyB, bodyA, input, contactMgr);
-                *(void**)agent = (void*)0x10ce8b0;
+                *(void**)agent = (void*)fnv_vftable_fnv_00d442c0_D442C0ShapeAgent;
                 return agent;
             }
             case 2: {
@@ -1296,7 +1297,7 @@ void* __cdecl FUN_00d34510(void* bodyA, void* bodyB, AgentCollisionInput* input,
                 void* agent = pMemoryRouter->m_pThreadAllocator->allocate(iAllocSize);
                 ((AgentHeader*)agent)->m_usMemSizeAndFlags = (unsigned short)iAllocSize;
                 ((PfnDacbd0)FUN_00dacbd0)(agent, bodyA, bodyB, contactMgr);
-                *(void**)agent = (void*)0x10ceb94;
+                *(void**)agent = (void*)fnv_vftable_hkpPredGskfAgentD33D;
                 return agent;
             }
             }
@@ -1315,3 +1316,5 @@ void* __cdecl FUN_00d34510(void* bodyA, void* bodyB, AgentCollisionInput* input,
     }
 }
 }  // namespace fnv_00d34510
+
+#include "generated/data/havok/physics/collide/agent/deprecated/convexlist/hkpconvexlistagent.inc"

@@ -4297,3 +4297,5 @@ void ThisObj::FUN_00524db0(Param* param)
     }
 }
 }  // namespace fnv_00524db0
+
+#include "generated/data/fallout_shared/tesobjectweap.inc"

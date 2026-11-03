@@ -3047,3 +3047,5 @@ void FUN_00c86f10_cls::FUN_00c86f10(FUN_00c86f10_arg* a1)
         p[15] = _byteswap_ulong(p[15]);
     }
 }
+
+#include "generated/data/fallout_shared/globalfunc_o2_variant.inc"

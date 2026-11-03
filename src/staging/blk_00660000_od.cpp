@@ -2037,3 +2037,5 @@ S_0067caa0_Foo* S_0067caa0_Foo::FUN_0067caa0()
 
     return this;
 }
+
+#include "generated/data/staging/blk_00660000_od.inc"

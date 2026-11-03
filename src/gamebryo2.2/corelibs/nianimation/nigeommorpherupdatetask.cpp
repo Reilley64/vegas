@@ -438,3 +438,5 @@ void NiStreamLinkIDSet::FUN_00a56e60(unsigned int uiTaskCount)
     pkBlock->m_pkNext = m_pkBlocks;
     m_pkBlocks = pkBlock;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nianimation/nigeommorpherupdatetask.inc"

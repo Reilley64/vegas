@@ -41,3 +41,5 @@ void* FUN_00c6b910(void* apObject)
     *((unsigned short*)apObject + 6) = 0x41;
     return apObject;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nimain/nirtti.inc"

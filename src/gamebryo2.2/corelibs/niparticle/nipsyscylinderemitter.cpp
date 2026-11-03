@@ -258,3 +258,5 @@ void NiPSysCylinderEmitterX::FUN_00c1fa50(ThreeByThreeMatrix& kRotate, NiPoint3&
     kMotionVelocity = kResult;
 }
 }  // namespace fnv_00c1fa50
+
+#include "generated/data/gamebryo2.2/corelibs/niparticle/nipsyscylinderemitter.inc"

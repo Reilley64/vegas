@@ -2761,3 +2761,5 @@ void SkyShader::FUN_00b874f0()
             InterlockedIncrement(&next17->m_uiRefCount);
     }
 }
+
+#include "generated/data/bsshader/skyshader.inc"

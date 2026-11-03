@@ -14366,3 +14366,5 @@ bool MotionBounds::FUN_00c9a1f0(__m128* value)
 }
 
 }
+
+#include "generated/data/staging/blk_00c80000_o2_rtm_variant.inc"

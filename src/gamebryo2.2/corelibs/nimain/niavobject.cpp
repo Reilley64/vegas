@@ -2974,3 +2974,5 @@ void FUN_00a5a170_cls::FUN_00a5a170(A170Set* apSource, bool abAllocate, A170Set*
     *apResult = result;
 }
 }  // namespace fnv_00a5a170
+
+#include "generated/data/gamebryo2.2/corelibs/nimain/niavobject.inc"

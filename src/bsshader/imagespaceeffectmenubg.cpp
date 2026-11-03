@@ -35,3 +35,5 @@ void ImageSpaceEffectMenuBackground::Setup(ImageSpaceManager* manager, ImageSpac
     reinterpret_cast<::FUN_00ba3b50_t *>(this)->SetArrayEntry(0, 1, 2, (*(int *)&(const ::NiTexturingProperty::FilterMode &)(NiTexturingProperty::FILTER_BILERP)), (*(int *)&(const ::NiTexturingProperty::FilterMode &)(NiTexturingProperty::FILTER_NEAREST)));
     reinterpret_cast<::FUN_00ba3c70_shell *>(this)->SetEffectAt(0, manager->pEffectList.m_pBase[ImageSpaceManager::EFFECT_SHADER_MENUBG], shaderParameters, 0);
 }
+
+#include "generated/data/bsshader/imagespaceeffectmenubg.inc"

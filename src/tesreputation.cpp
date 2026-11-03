@@ -956,3 +956,5 @@ void ReputationCopyReceiver::FUN_00616500(TESForm* source)
     ::__memcpy(&data, &reputation->data, sizeof(data));
     reinterpret_cast<::FormCloneOperation *>((reinterpret_cast<ReputationComponentCopy*>(this)))->FUN_004851b0(source);
 }
+
+#include "generated/data/tesreputation.inc"

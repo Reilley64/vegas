@@ -877,3 +877,5 @@ int FUN_00e32ec0_Class::FUN_00e32ec0() const
 {
     return m_iFrameCount;
 }
+
+#include "generated/data/havok/animation/animation/animation/splinecompressed/hkasplinecompressedanimation.inc"

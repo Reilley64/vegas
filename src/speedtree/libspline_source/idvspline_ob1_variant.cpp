@@ -5556,3 +5556,5 @@ void TreeCleanup::FUN_00b3ba90()
     ((Alloc<NodeT>*)&unk0C)->deallocate(head, 1);
     head = 0, count = 0;
 }
+
+#include "generated/data/speedtree/libspline_source/idvspline_ob1_variant.inc"

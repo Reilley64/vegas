@@ -3350,3 +3350,5 @@ void Quat_cdb910::FUN_00cdb910(float t, const Vec_cdb910& from, const Vec_cdb910
         m_vec = axis;
     }
 }
+
+#include "generated/data/staging/blk_00cc0000_od_o2_nood_variant_gs_nogs_rtm_variant.inc"

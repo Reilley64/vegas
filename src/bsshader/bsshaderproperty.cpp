@@ -890,3 +890,5 @@ BSShaderProperty::ShaderPassList* FUN_00bb73f0_shell::FUN_00bb73f0(int geometry,
     return m_pRenderPassArray3c;
 }
 }  // namespace fnv_00bb73f0
+
+#include "generated/data/bsshader/bsshaderproperty.inc"

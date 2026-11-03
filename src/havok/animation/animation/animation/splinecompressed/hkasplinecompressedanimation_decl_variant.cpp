@@ -281,3 +281,5 @@ int __cdecl FUN_00e63c60(bool* valid)
     *valid = true;
     return status;
 }
+
+#include "generated/data/havok/animation/animation/animation/splinecompressed/hkasplinecompressedanimation_decl_variant.inc"

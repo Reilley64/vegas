@@ -16,6 +16,7 @@ add_library(game STATIC
   src/runtime/crt.cpp
 )
 target_include_directories(game PUBLIC src)
+include(src/generated/data/sources.cmake)
 
 add_executable(FalloutNV EXCLUDE_FROM_ALL src/main.cpp)
 target_link_libraries(FalloutNV PRIVATE game)

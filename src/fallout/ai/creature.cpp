@@ -1100,3 +1100,5 @@ void XActorQ::FUN_008d4b60()
         }
     }
 }
+
+#include "generated/data/fallout/ai/creature.inc"

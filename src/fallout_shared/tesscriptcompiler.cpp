@@ -2292,3 +2292,5 @@ bool __cdecl FUN_005b3cd0(unsigned short opcode, MessageParameter_5b3c* apParame
         }
     }
 }
+
+#include "generated/data/fallout_shared/tesscriptcompiler.inc"

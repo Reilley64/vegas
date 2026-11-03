@@ -14192,3 +14192,5 @@ int FUN_00933480(void* apObject)
 {
     return FNV_DynamicCast(apObject, 0, &::DAT_01183028, &DAT_0118a690, 0) != 0;
 }
+
+#include "generated/data/fallout/ai/mobileobject.inc"

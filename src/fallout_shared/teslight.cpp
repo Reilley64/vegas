@@ -1483,3 +1483,5 @@ bool LightComparison::FUN_0050d120(TESForm* form)
         return true;
     return false;
 }
+
+#include "generated/data/fallout_shared/teslight.inc"

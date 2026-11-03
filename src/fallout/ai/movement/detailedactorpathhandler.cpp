@@ -10530,3 +10530,5 @@ bool EndRotateHandler::FUN_009e7550()
 
     return false;
 }
+
+#include "generated/data/fallout/ai/movement/detailedactorpathhandler.inc"

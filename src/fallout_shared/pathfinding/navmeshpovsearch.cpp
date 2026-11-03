@@ -10523,3 +10523,5 @@ float NavOwnerArc::FUN_006a0940(NavObj* apSelf, ArcStandIn aArc, NavObj* apIgnor
     return 1.0f;
 }
 }  // namespace fnv_006a0940
+
+#include "generated/data/fallout_shared/pathfinding/navmeshpovsearch.inc"

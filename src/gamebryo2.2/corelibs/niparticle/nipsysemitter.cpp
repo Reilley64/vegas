@@ -618,3 +618,5 @@ void S_00c22530_Emitter::FUN_00c22530(S_00c22530_Stream& stream)
     S_00c22530_ReadFloat(stream, m_fYValue);
     S_00c22530_ReadFloat(stream, m_fLifeSpanVariation);
 }
+
+#include "generated/data/gamebryo2.2/corelibs/niparticle/nipsysemitter.inc"

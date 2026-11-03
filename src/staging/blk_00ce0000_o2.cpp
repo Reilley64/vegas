@@ -4242,3 +4242,5 @@ void MapperInitialization::FUN_00ce5310()
     _mm_store_ps(reinterpret_cast<float*>(&data->unk40), ::DAT_010c71b0);
     _mm_store_ps(reinterpret_cast<float*>(&data->unk50), _mm_set1_ps(DAT_01012068));
 }
+
+#include "generated/data/staging/blk_00ce0000_o2.inc"

@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nimain/nibacktofrontaccumulator.cpp: NiBackToFrontAccumulator, BackToFront_aa0 (12 functions)
 
+#include "generated/data/vtables.h"
 #include <new>
 #include "fnv/decl/BSShaderLightingProperty.h"
 #include "fnv/decl/FUN_0040fbf0_shell.h"
@@ -21,7 +22,7 @@
 // @fnv 0x00aa0fc0
 NiBackToFrontAccumulator::NiBackToFrontAccumulator()
 {
-    *(volatile unsigned int*)this = 0x010a2304;
+    *(void**)this = fnv_vftable_DAT_010a2304;
     m_pkAccumulationCamera = 0;
 }
 

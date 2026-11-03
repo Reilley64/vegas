@@ -5575,3 +5575,5 @@ int PivotGeometry::MedianOfThree(unsigned short* apIndices, unsigned char ctx, i
         return apIndices[hi];
     return apIndices[mid];
 }
+
+#include "generated/data/staging/blk_00a60000_o2.inc"

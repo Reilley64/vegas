@@ -121,3 +121,5 @@ void ArrowDrawObject::FUN_00e10d50(const ArrowDrawVector* a0, int a1, const Arro
 }
 
 }
+
+#include "generated/data/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkpprimitivedrawer_rtm_variant.inc"

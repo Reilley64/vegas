@@ -765,3 +765,5 @@ int FnvCpu_FUN_00a7b850_CpuObject::FUN_00a7b850()
 {
     return value;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nimain/nitrishapedata.inc"

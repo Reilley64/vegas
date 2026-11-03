@@ -9120,3 +9120,5 @@ bool StartMenuGamepadRelease::FUN_007cf5e0(int aiButton, float afValue)
     }
     return false;
 }
+
+#include "generated/data/fallout/interface/menus/startmenu.inc"

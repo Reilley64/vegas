@@ -145,3 +145,5 @@ float FUN_00a3e9a0_cls::GetAccumulatedValue()
     }
     return m_24;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nianimation/nirotkey.inc"

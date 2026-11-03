@@ -222,3 +222,5 @@ void FUN_004b0910_cls::AddKeyedItems(Key4b0910* pkKey, unsigned int ItemUpdateAr
         reinterpret_cast<::fnv_00631540::TargetClass *>(&(pkFound4->m_kList))->FUN_00631540((const ::NiPointer< ::NiNode> &)((const ::GlobalObject_00633c90 &)(iObject2)));
     }
 }
+
+#include "generated/data/fallout_shared/bsclonepool.inc"

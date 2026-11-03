@@ -2804,3 +2804,5 @@ void __cdecl FUN_00ce4e20(QsTransform* xforms, const float* volatile weights, un
         } while (--n);
     }
 }
+
+#include "generated/data/staging/blk_00ce0000_o2_rtm_variant.inc"

@@ -864,3 +864,5 @@ Collider* Collider::FUN_00c28110(float fBounce, int bSpawnOnCollide, int bDieOnC
     p->cachedNode.scale = p->cachedOwner.scale = -3.402823466e+38F;
     return this;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/niparticle/nipsyssphericalcollider.inc"

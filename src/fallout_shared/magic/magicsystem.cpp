@@ -278,3 +278,5 @@ float GetOriginalRuntimeFloatSetting9()
 {
     return ((::Setting_Value *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting9))))->f;
 }
+
+#include "generated/data/fallout_shared/magic/magicsystem.inc"

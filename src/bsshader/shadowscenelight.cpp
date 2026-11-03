@@ -3603,3 +3603,5 @@ cullDone:
     m_fShadowParameter4 = dimmer;
     m_fShadowParameter5 = shadow;
 }
+
+#include "generated/data/bsshader/shadowscenelight.inc"

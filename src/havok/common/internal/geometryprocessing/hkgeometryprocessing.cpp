@@ -1060,3 +1060,5 @@ CentroidVector __cdecl FUN_00de9b50(const CentroidVector* apCentroidA, const Cen
     result.value = vSum;
     return result;
 }
+
+#include "generated/data/havok/common/internal/geometryprocessing/hkgeometryprocessing.inc"

@@ -551,3 +551,5 @@ void FUN_00a9b090_cls::AppendRttiAndName(ObjArray* pArray)
     }
     reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pArray))->SetAt(count, (*(char * *)(&v)));
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nimain/nibooleanextradata.inc"

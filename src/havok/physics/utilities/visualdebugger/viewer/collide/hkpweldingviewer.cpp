@@ -431,3 +431,5 @@ Own_00d62eb0* make_00d62eb0()
     static Own_00d62eb0 o;
     return &o;
 }
+
+#include "generated/data/havok/physics/utilities/visualdebugger/viewer/collide/hkpweldingviewer.inc"

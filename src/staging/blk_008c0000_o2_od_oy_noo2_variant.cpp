@@ -1674,3 +1674,5 @@ void Holder00807080::FUN_008d1180(FUN_00807770_Class* nodes, Data08* data)
         }
     }
 }
+
+#include "generated/data/staging/blk_008c0000_o2_od_oy_noo2_variant.inc"

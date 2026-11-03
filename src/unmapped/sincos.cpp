@@ -235,3 +235,5 @@ void UpdateSkyEntries(float afA, float afB)
         }
     }
 }
+
+#include "generated/data/unmapped/sincos.inc"

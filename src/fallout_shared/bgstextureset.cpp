@@ -549,3 +549,5 @@ void Owner::FUN_00593030(unsigned int uiType, int iValue)
 }
 
 }
+
+#include "generated/data/fallout_shared/bgstextureset.inc"

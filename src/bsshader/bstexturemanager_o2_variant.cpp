@@ -1213,3 +1213,5 @@ RenderTexture* RenderTargetManager::FUN_00b6d5e0(NiRenderer* pkRenderer, unsigne
     m_kUsedList.AddTail(pkFound);
     return pkFound->m_spTexture;
 }
+
+#include "generated/data/bsshader/bstexturemanager_o2_variant.inc"

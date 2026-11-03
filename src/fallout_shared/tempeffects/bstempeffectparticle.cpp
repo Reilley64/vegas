@@ -1595,3 +1595,5 @@ void SGTempEffectParticle::FUN_00689cb0()
     }
 }
 }  // namespace fnv_00689cb0
+
+#include "generated/data/fallout_shared/tempeffects/bstempeffectparticle.inc"

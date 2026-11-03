@@ -29073,3 +29073,5 @@ void Stub65800::FUN_00c65800(BC6C330Stream& kStream)
 {
     reinterpret_cast<::BC6C330HavokCollision *>(this)->FUN_00c6c330(kStream);
 }
+
+#include "generated/data/staging/blk_00c60000_o2.inc"

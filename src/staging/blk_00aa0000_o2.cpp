@@ -1493,3 +1493,5 @@ void __cdecl FUN_00aa1920()
     }
     (*reinterpret_cast<void * *>(&::g_011f6078)) = 0;
 }
+
+#include "generated/data/staging/blk_00aa0000_o2.inc"

@@ -427,3 +427,5 @@ void FUN_009cbb70_shell::FUN_009cbb70()
         }
     }
 }
+
+#include "generated/data/fallout/ai/combat/combatprocedureattacklow.inc"

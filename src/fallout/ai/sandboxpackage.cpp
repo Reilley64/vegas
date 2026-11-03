@@ -2526,3 +2526,5 @@ FUN_009f3a70::~FUN_009f3a70()
     reinterpret_cast<::FUN_009f41c0_shell *>(this)->ResetReference();
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(&(m_choices))->Clear(1);
 }
+
+#include "generated/data/fallout/ai/sandboxpackage.inc"

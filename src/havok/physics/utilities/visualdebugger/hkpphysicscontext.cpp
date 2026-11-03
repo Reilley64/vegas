@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/visualdebugger/hkpphysicscontext.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/hkpphysicscontext.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "generated/data/vtables.h"
 #include <new>
 #include "fnv/decl/Debugger836.h"
 #include "fnv/decl/FUN_00c90b80.h"
@@ -1983,7 +1984,7 @@ struct FUN_00cd1eb0_StandIn
 // @fnv 0x00cd1eb0
 int FUN_00cd1eb0_StandIn::FUN_00cd1eb0(int aiFlags)
 {
-    unk00 = 0x010cb1e4;
+    unk00 = fnv_vftable_DFFA90ListenerE;
     if (aiFlags & 1)
     {
         FUN_00401030(this);

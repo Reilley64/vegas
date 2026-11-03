@@ -3766,3 +3766,5 @@ FUN_008d2060::~FUN_008d2060()
     if (!reinterpret_cast<::FUN_004077c0_shell *>((void *)this)->FUN_004077c0())
         Set3D(0, false);
 }
+
+#include "generated/data/fallout/ai/character.inc"

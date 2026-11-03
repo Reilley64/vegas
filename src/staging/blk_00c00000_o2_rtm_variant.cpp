@@ -7636,3 +7636,5 @@ void C17510Shader::FUN_00c17510()
     DAT_011fbd90 = DAT_011fbd84;
     DAT_011fb1b0 = DAT_011fb1a4;
 }
+
+#include "generated/data/staging/blk_00c00000_o2_rtm_variant.inc"

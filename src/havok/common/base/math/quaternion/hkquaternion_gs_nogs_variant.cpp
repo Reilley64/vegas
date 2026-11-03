@@ -149,3 +149,5 @@ void hkQuaternion::FUN_00cb2a50(const hkVector4& v)
 
     FUN_00cb2450(axis, ClampedAcos(dot));
 }
+
+#include "generated/data/havok/common/base/math/quaternion/hkquaternion_gs_nogs_variant.inc"

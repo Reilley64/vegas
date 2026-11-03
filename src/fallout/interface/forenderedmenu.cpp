@@ -2971,3 +2971,5 @@ void FUN_007ff740_shell::UpdateBodyPart()
     ((SSNVt*)::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(1))->v3a(((::NiAVObject *)(reinterpret_cast<::TESRegionDataMap *>((this))->GetRegionMapName())));
     ((MenuStub*)this)->ResetMenuState();
 }
+
+#include "generated/data/fallout/interface/forenderedmenu.inc"

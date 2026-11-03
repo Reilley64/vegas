@@ -12069,3 +12069,5 @@ bool ProjectileBlastSearch::FUN_009c6380(NiAVObject* apRoot, NiPoint3& aBlastPos
 
     return bblastNodeFound;
 }
+
+#include "generated/data/fallout/ai/combat/projectile.inc"

@@ -330,3 +330,5 @@ void A7F6E0Object::LoadBinary(A7F6E0Stream& kStream)
     A7F6E0LoadBinary(kStream, m_fValue0);
     A7F6E0LoadBinary(kStream, m_fValue1);
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nimain/bspackedadditionalgeometrydata.inc"

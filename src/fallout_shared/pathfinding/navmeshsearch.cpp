@@ -768,3 +768,5 @@ struct FUN_006a6ad0 : public FUN_006a7b10
 // @fnv 0x006a6ad0
 FUN_006a6ad0::~FUN_006a6ad0()
 {}
+
+#include "generated/data/fallout_shared/pathfinding/navmeshsearch.inc"

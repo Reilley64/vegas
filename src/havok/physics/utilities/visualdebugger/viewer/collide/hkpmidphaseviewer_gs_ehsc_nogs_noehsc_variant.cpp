@@ -650,3 +650,5 @@ void Self::FUN_00d6a2f0(Param* apParam)
         cleanupAlloc.ReturnMemory(indices.m_data, (indices.m_iCapacityState & 0x3fffffff) * 4);
     return;
 }
+
+#include "generated/data/havok/physics/utilities/visualdebugger/viewer/collide/hkpmidphaseviewer_gs_ehsc_nogs_noehsc_variant.inc"

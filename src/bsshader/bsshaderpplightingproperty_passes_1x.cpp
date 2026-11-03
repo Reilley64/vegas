@@ -137,3 +137,5 @@ void* FUN_00bdac00_t::FUN_00bdac00(NiGeometry* apGeom, ShadowSceneLight* apLight
     *abFirst = false;
     return 0;
 }
+
+#include "generated/data/bsshader/bsshaderpplightingproperty_passes_1x.inc"

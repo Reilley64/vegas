@@ -317,3 +317,5 @@ struct D63240Object : D63240Primary, D63240Secondary
 
 D63240Object::D63240Object()
 {}
+
+#include "generated/data/havok/physics/utilities/visualdebugger/viewer/dynamics/hkpworldsnapshotviewer.inc"

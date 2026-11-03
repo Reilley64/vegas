@@ -887,3 +887,5 @@ void V46a50Owner::FUN_00d46a50(V46a50List* apList)
     reinterpret_cast<::hkBlockPoolD469 *>((apList))->FreeAllChunks();
 }
 }  // namespace fnv_00d46a50
+
+#include "generated/data/havok/common/base/system/io/writer/array/hkarraystreamwriter.inc"

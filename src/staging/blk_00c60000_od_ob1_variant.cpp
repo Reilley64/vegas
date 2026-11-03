@@ -4044,3 +4044,5 @@ void Emitter61::FUN_00c61cc0(Cloning61& kCloning)
             reinterpret_cast<::CmpPtrArray *>(&(pkDest9->m_kArray))->FUN_00c63030();
     }
 }
+
+#include "generated/data/staging/blk_00c60000_od_ob1_variant.inc"

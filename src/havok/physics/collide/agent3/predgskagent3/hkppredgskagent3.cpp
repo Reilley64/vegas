@@ -574,3 +574,5 @@ fallback:
     ::ProcessCollision((::In *)(input), status, (::Arg2 *)(result), (::Arg3 *)(result), (::Arg4 *)(cache), (::VecS *)(separation), (::Arg6 *)(output));
     goto complete;
 }
+
+#include "generated/data/havok/physics/collide/agent3/predgskagent3/hkppredgskagent3.inc"

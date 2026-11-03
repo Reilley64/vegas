@@ -90,3 +90,5 @@ void* FUN_00a75650(void* self)
     p->m_48 = 0;
     return self;
 }
+
+#include "generated/data/bsshader/lighting30shaderproperty.inc"

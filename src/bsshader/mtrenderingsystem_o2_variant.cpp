@@ -1016,3 +1016,5 @@ struct FUN_00ba3620
 // @fnv 0x00ba3620
 FUN_00ba3620::~FUN_00ba3620()
 {}
+
+#include "generated/data/bsshader/mtrenderingsystem_o2_variant.inc"

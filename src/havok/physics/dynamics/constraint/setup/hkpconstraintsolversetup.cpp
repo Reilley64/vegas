@@ -1606,3 +1606,5 @@ redoElemTemp:
         goto redoElemTemp;
     }
 }
+
+#include "generated/data/havok/physics/dynamics/constraint/setup/hkpconstraintsolversetup.inc"

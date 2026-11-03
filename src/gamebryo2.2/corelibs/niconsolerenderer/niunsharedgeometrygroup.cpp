@@ -469,3 +469,5 @@ NiVBChipE94* NiUnsharedGeometryGroupE94::FUN_00e94e30(NiBuffDataE94* pkBuffData,
     }
     return pkChip;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/niconsolerenderer/niunsharedgeometrygroup.inc"

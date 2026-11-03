@@ -510,3 +510,5 @@ void S_00a86d50_Foo::SetBounds(S_00a86d50_V3 p, S_00a86d50_WR rw)
     pBound->m_uiZ = p.z;
     pBound->m_w = t;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nimain/bsresizabletrishape.inc"

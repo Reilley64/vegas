@@ -1874,3 +1874,5 @@ void S_00a4c4b0_Obj::FUN_00a4c4b0(S_00a4c4b0_Obj* dest, S_00a4c4b0_Cloning& c)
     }
 }
 }  // namespace fnv_00a4c4b0
+
+#include "generated/data/gamebryo2.2/corelibs/nianimation/nilookatinterpolator.inc"

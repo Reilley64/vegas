@@ -1225,3 +1225,5 @@ void FUN_00d92900(S00d92900_Data* constraintData, const S00d92900_QueryIn* in, S
     int bound;
     dispatchContacts(constraintData, in, atom, type, bound);
 }
+
+#include "generated/data/havok/physics/dynamics/constraint/contact/hkpsimplecontactconstraintdata.inc"

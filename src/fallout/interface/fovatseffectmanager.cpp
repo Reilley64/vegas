@@ -204,3 +204,5 @@ ShadowLightData::ShadowLightData() : m_spTargetObject(0)
     radius = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(((SettingT_GameSettingCollection_&)g_011db238)))))->f;
     duration = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(((SettingT_GameSettingCollection_&)g_011db200)))))->f;
 }
+
+#include "generated/data/fallout/interface/fovatseffectmanager.inc"

@@ -305,3 +305,5 @@ void SphereEmitter00c1fe20::GenerateSpherePoint(SphereMatrix3& kRotate, SpherePo
     v.z = kRotate.m20 * kMotionVelocity.x + kRotate.m21 * kMotionVelocity.y + kRotate.m22 * kMotionVelocity.z;
     kMotionVelocity = v;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/niparticle/nipsyssphereemitter.inc"

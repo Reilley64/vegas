@@ -250,3 +250,5 @@ void FUN_00a53910_shell::FUN_00a53910(float startTime, float endTime, NiPointer<
     if (original != 0)
         original->DecRefCount();
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nianimation/nibooldata.inc"

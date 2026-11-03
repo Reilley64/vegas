@@ -22025,3 +22025,5 @@ done:
         reinterpret_cast<::FUN_00c6cba0_class *>((object))->FUN_00c6cba0();
 }
 }  // namespace fnv_00cd44e0
+
+#include "generated/data/staging/blk_00cc0000_o2_rtm_variant.inc"

@@ -4993,3 +4993,5 @@ void CompanionWheelInventory::FUN_007568d0()
         reinterpret_cast<::fnv_007575b0::FUN_007575b0_shell *>(this)->RunTopicResultScripts((::fnv_007575b0::TESTopic *)(topic));
     }
 }
+
+#include "generated/data/fallout/interface/menus/containermenu.inc"

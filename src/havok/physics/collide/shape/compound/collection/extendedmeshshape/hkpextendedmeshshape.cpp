@@ -3048,3 +3048,5 @@ FUN_00d56ab0::FUN_00d56ab0(Src& input) : FUN_00d21410(14, 1)
     reinterpret_cast<::S_00d55950 *>(this)->FUN_00d55950();
     m_ce0 = reinterpret_cast<::FUN_00d1f1e0_class *>((reinterpret_cast<FUN_00d554a0_class*>(static_cast<Base2*>(this))))->FUN_00d1f1e0();
 }
+
+#include "generated/data/havok/physics/collide/shape/compound/collection/extendedmeshshape/hkpextendedmeshshape.inc"

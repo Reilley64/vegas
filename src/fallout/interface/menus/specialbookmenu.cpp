@@ -2033,3 +2033,5 @@ void BookMenu::HandleKey(unsigned int key, int unused)
         break;
     }
 }
+
+#include "generated/data/fallout/interface/menus/specialbookmenu.inc"

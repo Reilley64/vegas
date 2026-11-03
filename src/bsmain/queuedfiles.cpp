@@ -549,3 +549,5 @@ void FUN_00c3d440_cls::FUN_00c3d440()
         FUN_0043db70();
     }
 }
+
+#include "generated/data/bsmain/queuedfiles.inc"

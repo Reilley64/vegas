@@ -1690,3 +1690,5 @@ void P164Actor::FUN_008ab3a0(P164Buffer* buffer)
     if (!((P164ActorVirtual*)this)->IsDead(0) && m_eCriticalStage != 0)
         m_eCriticalStage = (ACTOR_CRITICAL_STAGE)0;
 }
+
+#include "generated/data/fallout/ai/actor_rtm_variant.inc"

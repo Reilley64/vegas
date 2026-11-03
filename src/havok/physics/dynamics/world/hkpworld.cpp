@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/world/hkpworld.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/hkpworld.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "generated/data/vtables.h"
 #include <windows.h>
 #include <cstring>
 #include "fnv/decl/C66A00This.h"
@@ -13711,7 +13712,7 @@ public:
         unk0c = 0;
         DAT_01268188 += inc;
         _ReadWriteBarrier();
-        m_vtbl = (const void*)0x10c5ce4;
+        m_vtbl = (const void*)fnv_vftable_FUN_00c88380;
         _ReadWriteBarrier();
         DAT_01268318 += inc;
     }
@@ -15069,3 +15070,5 @@ int WorldAdvanceEntry::FUN_00c91bd0()
     reinterpret_cast<::FUN_00c91190_Class *>((reinterpret_cast<AdvanceTimeDetail::WorldLock*>(this)))->FUN_00c91190();
     return result;
 }
+
+#include "generated/data/havok/physics/dynamics/world/hkpworld.inc"

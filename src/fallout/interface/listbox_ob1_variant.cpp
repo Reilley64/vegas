@@ -2129,3 +2129,5 @@ void AGOwner::FUN_00a09130(int iIndex, Tile* pTile, int iValue)
     }
     ::fnv_00a0a130::FUN_00a0a130((int)(pItem->m_pIntegerData), (int)(this));
 }
+
+#include "generated/data/fallout/interface/listbox_ob1_variant.inc"

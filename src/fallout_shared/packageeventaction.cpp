@@ -310,3 +310,5 @@ bool FUN_0067dbf0_shell::FUN_0067dbf0(TESObjectREFR_GetFlags_caller* apParam)
     }
     return false;
 }
+
+#include "generated/data/fallout_shared/packageeventaction.inc"

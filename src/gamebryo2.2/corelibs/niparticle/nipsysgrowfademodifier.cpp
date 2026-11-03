@@ -261,3 +261,5 @@ FUN_00c31720* A4b0Cls::FUN_00c2a4b0(A4b0Clone* cloning)
     p->m_28 = m_28;
     return p;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/niparticle/nipsysgrowfademodifier.inc"

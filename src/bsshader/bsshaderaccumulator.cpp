@@ -4226,3 +4226,5 @@ FUN_00b660d0::FUN_00b660d0(int flags, unsigned count, unsigned pass)
     depth = false;
     silhouette = LocalColor(0.3f, 0.3f, 0.3f, 1.0f);
 }
+
+#include "generated/data/bsshader/bsshaderaccumulator.inc"

@@ -1877,3 +1877,5 @@ void S_00803b70_Main::FUN_00803b70(float value)
         reinterpret_cast<::Ring216 *>((((::S_00803b70_O58 *)(::FUN_00559450((int *)&(m_58))))))->AddValue(value, reinterpret_cast<::NiPoint3 *>(&(r))->ComputeMagnitude(), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::S_00803b70_Setting *>(&::originalRuntimeFloatSetting1207)))))), {});
     }
 }
+
+#include "generated/data/fallout/magic/absorbeffect.inc"

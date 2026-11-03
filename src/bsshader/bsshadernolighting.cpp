@@ -1708,3 +1708,5 @@ void NoLightingShaderBuild::FUN_00bc9cc0()
         m180 = m34->v28("BoneMatrix3");
     }
 }
+
+#include "generated/data/bsshader/bsshadernolighting.inc"

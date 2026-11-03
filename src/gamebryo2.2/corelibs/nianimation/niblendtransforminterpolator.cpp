@@ -466,3 +466,5 @@ bool BlendTransformInterpolator::FUN_00a40c10(float time, NiObjectNET* object, B
         return false;
     return true;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nianimation/niblendtransforminterpolator.inc"

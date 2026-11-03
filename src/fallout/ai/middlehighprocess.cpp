@@ -42056,3 +42056,5 @@ unsigned short S00926350_Target926350::FUN_00926350(Actor* actor)
     }
     return controller;
 }
+
+#include "generated/data/fallout/ai/middlehighprocess.inc"

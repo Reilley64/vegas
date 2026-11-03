@@ -148,3 +148,5 @@ Setting_01017720_011f96a0 g_0126fac8(s_010f1dbc, true);
 Setting_01017720_011f96a0 g_0126fad4(s_010f1ddc, 26214400);
 // @fnv 0x00fc7810
 Setting_01017720_011f96a0 g_0126fae0(s_010f1df8, 3);
+
+#include "generated/data/generated/setting_eh_initializers.inc"

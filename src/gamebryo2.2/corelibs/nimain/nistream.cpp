@@ -7839,3 +7839,5 @@ void NiStreamTopObjects::FUN_00cc1a10(unsigned int index, const NiPointer<NiObje
     }
     m_pBase[index] = object;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nimain/nistream.inc"

@@ -1786,3 +1786,5 @@ void CompressedMeshAabbQuery_00e3cf40::FUN_00e3cf40(hkAabbq* out)
         out->m_kMaximumCorner.setMax4(out->m_kMaximumCorner, aabb.m_kMaximumCorner);
     }
 }
+
+#include "generated/data/havok/physics/collide/shape/compound/collection/compressedmesh/hkpcompressedmeshshape.inc"

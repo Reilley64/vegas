@@ -3032,3 +3032,5 @@ FUN_00794ff0::FUN_00794ff0(int aiParam1, int aiParam2, const char* pName, int iP
         ((BSScrapArray<Animation*, 0x400>*)&m_kAnims)->Add(va_arg(kArgs, Animation*));
     va_end(kArgs);
 }
+
+#include "generated/data/fallout/interface/menus/lovetestermenu.inc"

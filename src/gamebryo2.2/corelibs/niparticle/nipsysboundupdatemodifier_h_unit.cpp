@@ -10,3 +10,5 @@
 #include "fnv/symbols_00450000.h"
 #include "fnv/symbols_011f6000.h"
 #include "nipsysboundupdatemodifier.inl"
+
+#include "generated/data/gamebryo2.2/corelibs/niparticle/nipsysboundupdatemodifier_h_unit.inc"

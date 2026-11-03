@@ -311,3 +311,5 @@ void FUN_0058ccf0_Class::SetSceneNode(SceneNode* node)
     }
     DAT_011e07c3 = true;
 }
+
+#include "generated/data/bgscamerapathmanager.inc"

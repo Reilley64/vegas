@@ -1673,3 +1673,5 @@ void d5bce0_caller()
 {
     *g_d5bce0Out = FUN_00d5bce0(g_d5bce0P0, g_d5bce0P1, g_d5bce0P2, g_d5bce0P3, g_d5bce0Slack);
 }
+
+#include "generated/data/havok/common/internal/convexhull/hkgeometryutility_rtm_variant.inc"

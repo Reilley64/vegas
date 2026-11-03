@@ -168,3 +168,5 @@ int FnvCpu_FUN_00be0b90_CpuObject::FUN_00be0b90()
 {
     return value;
 }
+
+#include "generated/data/NiRenderedTexture.inc"

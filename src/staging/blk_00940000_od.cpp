@@ -4286,3 +4286,5 @@ void PlayerEnchantStub::RemoveEnchantment(TESBoundObject* apForm, int aiUnused)
         pEnchantedForms = 0;
     }
 }
+
+#include "generated/data/staging/blk_00940000_od.inc"

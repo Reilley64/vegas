@@ -446,3 +446,5 @@ void SaveKeys(Stream& kStream, const Key* pkKeys, unsigned int uiNumKeys)
 }
 
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nianimation/niboolkey.inc"

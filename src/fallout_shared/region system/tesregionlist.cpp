@@ -119,3 +119,5 @@ bool PointObject::IsInRegion(RegionNode* region, float value)
     }
     return false;
 }
+
+#include "generated/data/fallout_shared/region system/tesregionlist.inc"

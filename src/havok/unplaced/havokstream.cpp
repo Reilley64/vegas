@@ -1119,3 +1119,5 @@ FUN_00625b40::~FUN_00625b40()
 {
     reinterpret_cast<::FUN_00625bf0_Class *>(this)->FUN_00625bf0((::FUN_00625bf0_Container *)(::FUN_0057c530 *)(&m_kList));
 }
+
+#include "generated/data/havok/unplaced/havokstream.inc"

@@ -3311,3 +3311,5 @@ int __cdecl FUN_00d8fb70(const ConstraintSolverInfo& info, int currentSolverStep
 }
 
 }
+
+#include "generated/data/havok/physics/constraintsolver/solve/hkpsolver_gs_nogs_variant.inc"

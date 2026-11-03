@@ -690,3 +690,5 @@ void FUN_00624580_Class::FUN_00624580(SceneList* pSceneList)
     }
 }
 }  // namespace fnv_00624580
+
+#include "generated/data/fallout_shared/havok/foislandactivationlistener.inc"

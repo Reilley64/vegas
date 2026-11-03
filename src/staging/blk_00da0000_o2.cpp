@@ -1,5 +1,6 @@
 // staging/blk_00da0000_o2.cpp: Holder, MapHolder, SpawnedOuter, SearchObject and more (113 functions)
 
+#include "generated/data/vtables.h"
 #include <windows.h>
 // src/staging/blk_00da0000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
@@ -223,7 +224,7 @@ void __cdecl FUN_00da0760(void* pObject, void* b)
 {
     if (pObject)
     {
-        *(void**)((char*)pObject + 0) = (void*)0x010d460c;
+        *(void**)((char*)pObject + 0) = (void*)fnv_vftable_S00da0780_Object;
         reinterpret_cast<::FUN_00cb0a70_Class *>((((FUN_00cb0a70_class*)((char*)pObject + 8))))->FUN_00cb0a70((int)b);
     }
 }
@@ -3638,3 +3639,5 @@ void StackTraceOwner::FUN_00da2930()
 
     vtable = &(*reinterpret_cast<int *>(&::DAT_0102e388));
 }
+
+#include "generated/data/staging/blk_00da0000_o2.inc"

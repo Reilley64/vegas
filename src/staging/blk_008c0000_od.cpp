@@ -5655,3 +5655,5 @@ void FUN_008d5020_class::FUN_008d5020()
     *reinterpret_cast<void**>(this) = new FUN_008d5590_shell_helper;
 }
 }  // namespace fnv_008d5020
+
+#include "generated/data/staging/blk_008c0000_od.inc"

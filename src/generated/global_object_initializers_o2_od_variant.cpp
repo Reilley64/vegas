@@ -2556,3 +2556,5 @@ void FUN_0044fb00_Shim::FUN_0044fb00()
 {
     DeleteCriticalSection(reinterpret_cast<CRITICAL_SECTION*>(this));
 }
+
+#include "generated/data/generated/global_object_initializers_o2_od_variant.inc"

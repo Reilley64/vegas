@@ -528,3 +528,5 @@ bool FrenzyCheckEffectView::FUN_0080dca0(MagicTarget* apTarget)
         return true;
     return false;
 }
+
+#include "generated/data/fallout/magic/frenzyeffect.inc"

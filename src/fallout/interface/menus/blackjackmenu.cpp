@@ -4868,3 +4868,5 @@ void InputMenu::HandleAction(int action, void* tile)
         }
     }
 }
+
+#include "generated/data/fallout/interface/menus/blackjackmenu.inc"

@@ -305,3 +305,5 @@ bool FNVEffect::FUN_00a68d80(FNVEffect* other)
     }
     return true;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nimain/nidynamiceffect.inc"

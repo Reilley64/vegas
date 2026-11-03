@@ -717,3 +717,5 @@ JackGeometry* __cdecl FUN_00c59200(float scale)
     ::AssignFixedString((char *)(result9), (int)&(const ::NameJack &)(NameJack("BSTestObjects Coordinate Jack")), {});
     return result9;
 }
+
+#include "generated/data/fallout_shared/pathfinding/pathingdebuggeometry_ob1_variant.inc"

@@ -1207,3 +1207,5 @@ void Se31d50_Anim::FUN_00e31d50(const Se31d50_Raw& raw, const Se31d50_PerTrack& 
     }
     (*reinterpret_cast<::Se31d50_Error * *>(&::DAT_01268360))->EndSection();
 }
+
+#include "generated/data/havok/animation/animation/animation/splinecompressed/hkasplinecompressedanimationctor_gs_ehsc_nogs_noehsc_variant.inc"

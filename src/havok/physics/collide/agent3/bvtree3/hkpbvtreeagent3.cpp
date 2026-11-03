@@ -492,3 +492,5 @@ void FUN_00d2da20(FUN_00cfbd60_Obj* target)
     FUN_00d2d9d0(&agentFuncs);
     reinterpret_cast<::FUN_00cfbd60_cls *>((target))->AddEntry((::SrcRec *)(void *)(&agentFuncs), -1, 8);
 }
+
+#include "generated/data/havok/physics/collide/agent3/bvtree3/hkpbvtreeagent3.inc"

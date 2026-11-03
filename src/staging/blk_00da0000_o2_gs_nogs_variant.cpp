@@ -1208,3 +1208,5 @@ void __cdecl FUN_00da0d50(GridMesh& mesh, int resolution)
         mesh.vertices[i].sum(value, bounds.lower);
     }
 }
+
+#include "generated/data/staging/blk_00da0000_o2_gs_nogs_variant.inc"

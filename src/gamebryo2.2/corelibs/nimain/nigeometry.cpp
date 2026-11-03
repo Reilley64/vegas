@@ -1710,3 +1710,5 @@ void S00a7ff70_Geom::FUN_00a7ff70(const ThreeByThreeMatrix& kMat, const S00a7ff7
     }
     reinterpret_cast<::Bound88 *>(&(m_spGeometryData->m_sub))->ComputeBoundingSphere(usVertices, (const ::Vec88 *)(pkVertex));
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nimain/nigeometry.inc"

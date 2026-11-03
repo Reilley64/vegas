@@ -1972,3 +1972,5 @@ V* S::FUN_00b05000(V* out, M* apMatrix)
     out->z = tz5;
     return out;
 }
+
+#include "generated/data/speedtree/speedtreert.inc"

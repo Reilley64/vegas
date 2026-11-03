@@ -1331,3 +1331,5 @@ bool __cdecl FUN_0040dfa0(Item405c* timer1, Item405c* timer2)
 
     return false;
 }
+
+#include "generated/data/staging/blk_00400000_od.inc"

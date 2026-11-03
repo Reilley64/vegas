@@ -3178,3 +3178,5 @@ void SlotsMenu::FUN_007c2460(int action, void* target)
         state = 5;
 }
 }  // namespace fnv_007c2460
+
+#include "generated/data/fallout/interface/menus/slotmachinemenu.inc"

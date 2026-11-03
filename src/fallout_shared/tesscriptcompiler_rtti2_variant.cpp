@@ -1358,3 +1358,5 @@ bool __cdecl FUN_005b1ba0(unsigned short count, const EncodeParameter* parameter
 
     return true;
 }
+
+#include "generated/data/fallout_shared/tesscriptcompiler_rtti2_variant.inc"

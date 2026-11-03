@@ -68,3 +68,5 @@ FUN_00aa89d0_holder* FUN_00aa89d0_holder::Destroy(unsigned int flags)
         reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(this);
     return this;
 }
+
+#include "generated/data/bscore/oei_io_thread.inc"

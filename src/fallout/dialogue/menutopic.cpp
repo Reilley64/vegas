@@ -1476,3 +1476,5 @@ void ResponseFillOwner::FUN_0083df80(TESQuest* apQuest, TESTopic* apTopic, TESTo
         presponse = ((::TESResponse *)(reinterpret_cast<::FUN_0045cd60_shell *>((presponse))->FUN_0045cd60()));
     }
 }
+
+#include "generated/data/fallout/dialogue/menutopic.inc"

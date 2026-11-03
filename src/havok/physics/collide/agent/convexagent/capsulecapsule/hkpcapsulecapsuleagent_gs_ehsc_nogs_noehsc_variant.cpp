@@ -649,3 +649,5 @@ void Agent::FUN_00d3c060(const CdBody* bodyA, const CdBody* bodyB, const Collisi
         }
     }
 }
+
+#include "generated/data/havok/physics/collide/agent/convexagent/capsulecapsule/hkpcapsulecapsuleagent_gs_ehsc_nogs_noehsc_variant.inc"

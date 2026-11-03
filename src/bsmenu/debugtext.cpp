@@ -1047,3 +1047,5 @@ void __cdecl ReleaseLock()
         LeaveCriticalSection((LPCRITICAL_SECTION)&DAT_011f33dc);
     }
 }
+
+#include "generated/data/bsmenu/debugtext.inc"

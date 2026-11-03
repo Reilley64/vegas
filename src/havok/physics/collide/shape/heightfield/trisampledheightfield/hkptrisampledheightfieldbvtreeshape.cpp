@@ -915,3 +915,5 @@ hkUint32 BvTreeShape::FUN_00d26ba0(const hkAabb& aabbIn, hkpShapeKey* hits, int 
     }
     return numHits;
 }
+
+#include "generated/data/havok/physics/collide/shape/heightfield/trisampledheightfield/hkptrisampledheightfieldbvtreeshape.inc"

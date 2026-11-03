@@ -2042,3 +2042,5 @@ Script* FUN_004826d0(TESForm* apForm)
     return pSF ? ((::fnv_004826d0::Script *)(reinterpret_cast<::Callees *>((pSF))->FUN_00726070())) : 0;
 }
 }  // namespace fnv_004826d0
+
+#include "generated/data/fallout_shared/tescontainer.inc"

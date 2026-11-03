@@ -2412,3 +2412,5 @@ void __cdecl FUN_00519290()
         }
     }
 }
+
+#include "generated/data/fallout_shared/tesobjectdoor.inc"

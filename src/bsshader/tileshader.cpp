@@ -2418,3 +2418,5 @@ void PassShader::ApplyToRenderer(RenderPassArg* pArg)
     }
 }
 }  // namespace fnv_00bca760
+
+#include "generated/data/bsshader/tileshader.inc"

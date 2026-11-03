@@ -413,3 +413,5 @@ int __cdecl FUN_009c0d80(Scene* scene, Controller* player, int eventOwner, float
     }
     return result;
 }
+
+#include "generated/data/fallout/ai/combat/projectile_gf_variant.inc"

@@ -1036,3 +1036,5 @@ void CenterOfMassRemovalDispatcher::FUN_00d69c10(Context* context)
         }
     }
 }
+
+#include "generated/data/havok/physics/utilities/visualdebugger/viewer/dynamics/hkprigidbodycentreofmassviewer.inc"

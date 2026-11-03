@@ -34,3 +34,5 @@ int __cdecl FUN_006705b0(int aeActivity, int aiDifficulty)
     }
     return iresult;
 }
+
+#include "generated/data/fallout_shared/experiencepoints.inc"

@@ -355,3 +355,5 @@ NiProperty* __cdecl CreateProperty()
     }
     return 0;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nimain/nicullingproperty.inc"

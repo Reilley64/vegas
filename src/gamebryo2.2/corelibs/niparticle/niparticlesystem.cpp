@@ -3199,3 +3199,5 @@ void RefObjectList::FUN_00c1b4a0(const NiRefObjectPtr& element)
     m_pkHead = pkNode;
 }
 }  // namespace fnv_00c1b4a0
+
+#include "generated/data/gamebryo2.2/corelibs/niparticle/niparticlesystem.inc"

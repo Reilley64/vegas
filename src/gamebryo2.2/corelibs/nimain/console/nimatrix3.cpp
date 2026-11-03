@@ -891,3 +891,5 @@ bool EigenMatrix::FUN_00a58b00(float* diagonal, float* subdiagonal)
     }
     return false;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nimain/console/nimatrix3.inc"

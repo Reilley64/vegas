@@ -3664,3 +3664,5 @@ bool ChunkOffsetFile::FUN_004724f0(unsigned int newoffset)
     reinterpret_cast<::FUN_004726b0_class *>(this)->FUN_004726b0();
     return true;
 }
+
+#include "generated/data/fallout_shared/tesfile.inc"

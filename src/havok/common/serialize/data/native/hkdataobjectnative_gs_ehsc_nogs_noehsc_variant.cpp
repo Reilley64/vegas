@@ -1071,3 +1071,5 @@ NativeDBC* ArrayDBC::FUN_00dbc000(int index)
         return FUN_00dbb260((WorldDBC*)descriptor, &value);
     return 0;
 }
+
+#include "generated/data/havok/common/serialize/data/native/hkdataobjectnative_gs_ehsc_nogs_noehsc_variant.inc"

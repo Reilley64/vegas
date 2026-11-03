@@ -691,3 +691,5 @@ bool CellLoader::FUN_005422d0(CellFile* file)
     reinterpret_cast<::TESForm *>(this)->SetInitializationState(false);
     return true;
 }
+
+#include "generated/data/fallout_shared/tesobjectcell_ctx2_variant.inc"

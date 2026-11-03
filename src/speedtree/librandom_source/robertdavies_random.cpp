@@ -1569,3 +1569,5 @@ void __cdecl FUN_00b42ed0(S_00b42ed0_Iter first, S_00b42ed0_Iter last, const boo
         S_00b42ed0_Pad();
     }
 }
+
+#include "generated/data/speedtree/librandom_source/robertdavies_random.inc"

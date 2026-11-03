@@ -4766,3 +4766,5 @@ void Pusher::FUN_00818150(PushRef* target, Vec3 origin, EffectStub* effect, floa
     }
 }
 }  // namespace fnv_00818150
+
+#include "generated/data/fallout/magic/magiccaster.inc"

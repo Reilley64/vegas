@@ -2182,3 +2182,5 @@ unsigned int __cdecl GenerateConversation(TESObjectREFR* speaker, TESObjectREFR*
     }
     return history->FUN_005ae380();
 }
+
+#include "generated/data/fallout_shared/testopic.inc"

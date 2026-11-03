@@ -351,3 +351,5 @@ void FUN_00b5a720_cls::FUN_00b5a720(S_00b5a4a0_Src* src, int unused)
     if (0)
         reinterpret_cast<::FUN_00a41520_cls *>(&(m_params))->FUN_00ba3aa0(0, (::KeyPair **)&(p));
 }
+
+#include "generated/data/bsshader/imagespaceeffectradialblur.inc"

@@ -17927,3 +17927,5 @@ InventoryStackRecord* FUN_004bfba0_shell::FUN_004bfba0(TESBoundObject* apObj, in
         return 0;
     }
 }
+
+#include "generated/data/fallout_shared/inventorychanges.inc"

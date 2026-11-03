@@ -440,3 +440,5 @@ void* WorldObject::FUN_00c8d2f0(void* a1)
     }
     return pDebugNode;
 }
+
+#include "generated/data/bshavok/bhkrigidbody_h_unit.inc"

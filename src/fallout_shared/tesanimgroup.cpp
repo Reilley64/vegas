@@ -1110,3 +1110,5 @@ Vec3* Holder::GetVec(Vec3* out)
     *out = m_vec;
     return out;
 }
+
+#include "generated/data/fallout_shared/tesanimgroup.inc"

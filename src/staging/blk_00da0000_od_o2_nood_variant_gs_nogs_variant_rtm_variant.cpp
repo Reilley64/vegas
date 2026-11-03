@@ -314,3 +314,5 @@ void S00da8180_AabbCastMachine::FUN_00da8180(const AabbCastInput& input, void* c
     m_isStartQuery = (*programCounter != 0xd) - 1;
     reinterpret_cast<::MoppCastMachine *>(this)->FUN_00da71c0((const ::VectorPropertyRecord *)(const ::MachineVectorIndexRecord *)(&query), programCounter, (::TwoPointVectorBundles *)(::Vector4Pair *)(&fQuery), 0);
 }
+
+#include "generated/data/staging/blk_00da0000_od_o2_nood_variant_gs_nogs_variant_rtm_variant.inc"

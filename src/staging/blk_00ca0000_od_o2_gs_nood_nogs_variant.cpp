@@ -142,3 +142,5 @@ void CbfOwner::FUN_00cbf860(CbfTarget* obj, CbfSrc* src, int* p3, int p4, int p5
     obj->Cast(&local, this, 0);
     cbfTimer(DAT_010c41f8);
 }
+
+#include "generated/data/staging/blk_00ca0000_od_o2_gs_nood_nogs_variant.inc"

@@ -9828,3 +9828,5 @@ void __cdecl FUN_00e94290()
     }
     DAT_0126fa30 = 0;
 }
+
+#include "generated/data/staging/blk_00e80000_o2_rtm_variant.inc"

@@ -997,3 +997,5 @@ void BloodShader::ApplyBloodShader(RenderInput* input)
     }
 }
 }  // namespace fnv_00b80c20
+
+#include "generated/data/bsshader/bsshaderbloodsplatter.inc"

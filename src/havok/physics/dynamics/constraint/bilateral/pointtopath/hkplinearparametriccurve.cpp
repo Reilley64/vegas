@@ -890,3 +890,5 @@ void LinearCurve::FUN_00e47cb0(hkReal t, hkVector4& up) const
     }
     hkNormalize3(out);
 }
+
+#include "generated/data/havok/physics/dynamics/constraint/bilateral/pointtopath/hkplinearparametriccurve.inc"

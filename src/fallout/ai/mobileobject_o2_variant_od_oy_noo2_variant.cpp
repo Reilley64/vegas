@@ -1830,3 +1830,5 @@ void Actor9BE::FUN_009be0a0()
         }
     }
 }
+
+#include "generated/data/fallout/ai/mobileobject_o2_variant_od_oy_noo2_variant.inc"

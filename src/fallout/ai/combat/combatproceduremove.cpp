@@ -2097,3 +2097,5 @@ void ProcedureController::FUN_009d8ad0(unsigned int value)
         command.FUN_0066b0d0(context->FUN_008b3820());
 }
 }
+
+#include "generated/data/fallout/ai/combat/combatproceduremove.inc"

@@ -1417,3 +1417,5 @@ void __cdecl FUN_00cd6520(const ContactVector* positions, float radius, const Co
             break;
     }
 }
+
+#include "generated/data/havok/physics/collide/util/hkpcollidecapsuleutil.inc"

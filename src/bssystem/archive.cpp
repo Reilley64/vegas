@@ -8785,3 +8785,5 @@ int __cdecl FUN_00af6430(int aiMasterIndex, int directory, int file, int name)
     return result;
 }
 }
+
+#include "generated/data/bssystem/archive.inc"

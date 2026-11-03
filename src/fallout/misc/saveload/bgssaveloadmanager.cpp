@@ -1031,3 +1031,5 @@ void BGSSaveLoadManager::FUN_00850a90()
 
     reinterpret_cast<::SaveManager *>(this)->FUN_008503b0(autosaveName, -1, false);
 }
+
+#include "generated/data/fallout/misc/saveload/bgssaveloadmanager.inc"

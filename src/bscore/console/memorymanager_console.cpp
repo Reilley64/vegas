@@ -15,3 +15,5 @@ void ClearMemoryPoolTables()
     for (uiIndex2 = 0; uiIndex2 < 0x100; ++uiIndex2)
         ::ms_pPoolAddressMap[uiIndex2] = 0;
 }
+
+#include "generated/data/bscore/console/memorymanager_console.inc"

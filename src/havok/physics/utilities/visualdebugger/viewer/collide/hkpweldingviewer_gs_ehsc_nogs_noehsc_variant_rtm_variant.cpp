@@ -1732,3 +1732,5 @@ start=interp;
 reinterpret_cast<::hkReferencedObjectC905 *>((void *)(system))->FUN_00c905b0();
 reinterpret_cast<::FUN_00c91190_Class *>((world))->FUN_00c91190();
 }
+
+#include "generated/data/havok/physics/utilities/visualdebugger/viewer/collide/hkpweldingviewer_gs_ehsc_nogs_noehsc_variant_rtm_variant.inc"

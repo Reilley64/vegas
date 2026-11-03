@@ -1978,3 +1978,5 @@ FUN_0058f900::~FUN_0058f900()
 {
     reinterpret_cast<::FUN_00438af0_Class *>(this)->FUN_00438af0();
 }
+
+#include "generated/data/staging/blk_00580000_od.inc"

@@ -390,3 +390,5 @@ void* Elem_c25::DestroyElements(unsigned int uiFlags)
         ::FUN_00aa1460(this, 0x14);
     return this;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/niparticle/nipsysupdatetask.inc"

@@ -3807,3 +3807,5 @@ void ClsX::FUN_005aa350()
     }
 }
 }  // namespace fnv_005aa350
+
+#include "generated/data/fallout_shared/tesscript.inc"

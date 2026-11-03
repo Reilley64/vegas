@@ -541,3 +541,5 @@ FUN_00622c80::FUN_00622c80(float value, unsigned int id) : m_kSplatters(0)
     reinterpret_cast<::fnv_00622d60::xCaster *>(this)->FUN_00622d60(value, id);
 }
 }
+
+#include "generated/data/fallout_shared/screensplatter.inc"

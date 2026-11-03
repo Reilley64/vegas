@@ -167,3 +167,5 @@ void __cdecl FUN_00e33a30(const u8*& cur, int aiTick, float afScaleTime, float f
     DAT_011be4d0[iDegree](f2, iDegree, buf, &ob[0].x, aux);
     cur += (iCount + 1) * stride * scale;
 }
+
+#include "generated/data/havok/unplaced/hkaprocessflyingcolors.inc"

@@ -178,3 +178,5 @@ FUN_00a712f0* Target2180::FUN_007c2180()
     ::AssignFixedString((char *)(camera5), (int)&(const ::String2180 &)(String2180(&DAT_01070c70)), {});
     return camera5;
 }
+
+#include "generated/data/bsshader/shadowscenenode_od_variant.inc"

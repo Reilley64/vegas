@@ -10173,3 +10173,5 @@ TESForm* Save77::FUN_00859a90(unsigned int id, Record77* record)
         reinterpret_cast<::FUN_0046a010_shell *>((((FormMethods77*)pForm)))->FUN_0046a010(1);
     return pForm;
 }
+
+#include "generated/data/fallout_shared/tessaveloadgame.inc"

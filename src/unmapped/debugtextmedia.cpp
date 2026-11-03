@@ -339,3 +339,5 @@ void ThisCls::FUN_00852080(int unused)
     reinterpret_cast<::FUN_004de2d0_StandIn *>(&((*reinterpret_cast<::fnv_00852080::GlobalObject_0045cf30 *>(&::g_011de308))))->FUN_004de2d0(settingByte16);
 }
 }  // namespace fnv_00852080
+
+#include "generated/data/unmapped/debugtextmedia.inc"

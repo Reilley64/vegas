@@ -632,3 +632,5 @@ void __cdecl FUN_00d947e0(S00d947e0_Obj** a1, S00d947e0_Queue* apQueue, S00d947e
 
     reinterpret_cast<::LunaOwner *>((apQueue))->ProcessCallback((int)(apData), (int)(apData), 0);
 }
+
+#include "generated/data/havok/physics/collide/query/multithreaded/raycastquery/cpu/hkpcpukdtreebuildjob.inc"

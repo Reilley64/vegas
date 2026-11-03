@@ -1096,3 +1096,5 @@ extern "C" int FUN_00c73170(MovementController* self, void*, MovementInput* in) 
     }
     return result;
 }
+
+#include "generated/data/fallout/ai/mobileobject_o2_variant_rtm_variant.inc"

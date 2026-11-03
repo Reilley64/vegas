@@ -3915,3 +3915,5 @@ void CreatureHost_5fa0a0::FUN_005fa0a0(TESObjectREFR* ref)
         }
     }
 }
+
+#include "generated/data/fallout_shared/tescreature.inc"

@@ -2202,3 +2202,5 @@ void RecordCollection::FUN_00cb7d80(NiStrArr* a1)
     }
 }
 }  // namespace fnv_00cb7d80
+
+#include "generated/data/fallout_shared/speedtree/bstreenode_o2_nood_variant.inc"

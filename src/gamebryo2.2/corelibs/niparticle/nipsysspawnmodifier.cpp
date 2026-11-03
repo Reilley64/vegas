@@ -947,3 +947,5 @@ void SpawnWorker::FUN_00c23ee0(float afTime, float fTimeDelta, unsigned short us
     pkNewInfo->m_fZValue = afTime - pkNewInfo->m_fXValue;
     reinterpret_cast<::FUN_00c1aee0_cls *>((((PSys*)m_pkTarget)))->FUN_00c1aee0(usNewIndex);
 }
+
+#include "generated/data/gamebryo2.2/corelibs/niparticle/nipsysspawnmodifier.inc"

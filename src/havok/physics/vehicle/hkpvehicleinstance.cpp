@@ -3248,3 +3248,5 @@ void VehicleAeroInstance::FUN_00e37080(float deltaTime, void* output) throw()
     VehicleAeroDispatch* aerodynamics = reinterpret_cast<VehicleAeroDispatch*>(m_pAerodynamics);
     aerodynamics->calculate(deltaTime, this, output);
 }
+
+#include "generated/data/havok/physics/vehicle/hkpvehicleinstance.inc"

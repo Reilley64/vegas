@@ -415,3 +415,5 @@ void __cdecl FUN_00d2f0d0(MoppCastBody* a, MoppCastBody* b, MoppCastInput* c, in
     reinterpret_cast<::S00da8180_AabbCastMachine *>(&(ls.collector))->FUN_00da8180((*(const ::AabbCastInput *)(&ls.query)), (void *)(d), (void *)(e));
     ProfMark(DAT_010c41f8);
 }
+
+#include "generated/data/staging/blk_00d20000_od_o2_nood_variant_rtm_variant.inc"

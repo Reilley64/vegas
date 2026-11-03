@@ -23,3 +23,5 @@ int FileNameComponents::SetFullPath(const char* path)
     *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x248) = 0;
     return *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x248);
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nisystem/console/nifilename.inc"

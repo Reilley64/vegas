@@ -3,6 +3,7 @@
 
 
 // SSE_DECLARATIONS_DEFER_TO_SDK
+#include "generated/data/vtables.h"
 #include <windows.h>
 // src/staging/blk_00ca0000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
@@ -8529,13 +8530,13 @@ struct cb86f0_obj : bhkRefObject
     cb86f0_obj()
     {
         reinterpret_cast<::FUN_00c87c30_t *>(this)->FUN_00c87c30();
-        vtable = (void*)0x102016c;
+        vtable = (void*)fnv_vftable_FUN_00c87970;
         const int inc = 1;
         unk0c = 0;
         DAT_01268154 += inc;
         vtable = (void*)&DAT_0102009c;
         DAT_01268118 += inc;
-        vtable = (void*)0x10c8914;
+        vtable = (void*)fnv_vftable_FUN_00cb83f0;
     }
 
     static void* operator new(unsigned int size)

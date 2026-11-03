@@ -992,3 +992,5 @@ NiNode* __cdecl FUN_00c81380(float a, float b)
     }
     return result;
 }
+
+#include "generated/data/fallout_shared/speedtree/bstreemodel_o2_nood_nogf_variant.inc"

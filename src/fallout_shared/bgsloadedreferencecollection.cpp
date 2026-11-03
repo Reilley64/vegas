@@ -140,3 +140,5 @@ FUN_00526b70::~FUN_00526b70()
 {
     reinterpret_cast<::FUN_00438af0_Class *>(this)->FUN_00438af0();
 }
+
+#include "generated/data/fallout_shared/bgsloadedreferencecollection.inc"

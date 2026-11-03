@@ -747,3 +747,5 @@ int __cdecl FUN_00e0bd40(Sink* p1, ObjectWriteInfo* p2, unsigned int aiIdLow, un
     reinterpret_cast<::FUN_00e02c70_Class *>(&(x))->FUN_00e02c70_Class::~FUN_00e02c70_Class();
     return r;
 }
+
+#include "generated/data/havok/common/visualize/serialize/hkobjectserialize.inc"

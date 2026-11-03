@@ -1075,3 +1075,5 @@ void* __cdecl FUN_00e932f0(const char* pcFilename)
     return 0;
 }
 }  // namespace fnv_00e932f0
+
+#include "generated/data/gamebryo2.2/corelibs/niconsolerenderer/nid3dshaderprogramfactory.inc"

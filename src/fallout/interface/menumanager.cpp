@@ -1777,3 +1777,5 @@ bool FUN_00720f90_shell::FUN_00720f90(int param_1)
     }
     return false;
 }
+
+#include "generated/data/fallout/interface/menumanager.inc"

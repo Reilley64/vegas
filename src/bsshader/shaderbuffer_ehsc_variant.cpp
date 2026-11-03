@@ -156,3 +156,5 @@ void S00b7fd90_cls::FUN_00b7fd90(unsigned int a1, unsigned int a2, Thing_b9704* 
     }
     reinterpret_cast<::FUN_00a41520_cls *>(this)->FUN_00ba3aa0(index, (::KeyPair **)&(a3));
 }
+
+#include "generated/data/bsshader/shaderbuffer_ehsc_variant.inc"

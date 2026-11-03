@@ -3539,3 +3539,5 @@ void Tree::FUN_00e08cc0(S_00e07da0_Node* node, int arg2, int arg3)
         entry->pos = this->m_stream->m_pos;
     }
 }
+
+#include "generated/data/havok/physics/internal/collide/mopp/builder/assembler/hkpmoppdefaultassembler.inc"

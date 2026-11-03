@@ -1372,3 +1372,5 @@ FUN_00ba53f0::FUN_00ba53f0(NiD3DVertexDeclaration* apVertexDeclaration)
     std::memset(&unk84, 0, 80);
 }
 }
+
+#include "generated/data/bsshader/particleshader.inc"

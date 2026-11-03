@@ -5204,3 +5204,5 @@ int ScriptParameterHandler::SetOutputValues(int unusedFirst, int primaryValue, i
     *secondaryOutput = secondaryValue;
     return 3;
 }
+
+#include "generated/data/staging/blk_00ac0000_od.inc"

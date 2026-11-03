@@ -8125,3 +8125,5 @@ bool EmittanceSourceComparison::FUN_004354c0(BSExtraData* apCompare)
         return true;
     return false;
 }
+
+#include "generated/data/fallout_shared/extradataobjects.inc"

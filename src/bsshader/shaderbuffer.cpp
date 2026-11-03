@@ -235,3 +235,5 @@ done:
     return this;
 }
 }  // namespace fnv_00b7fa40
+
+#include "generated/data/bsshader/shaderbuffer.inc"

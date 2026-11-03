@@ -1668,3 +1668,5 @@ void FUN_00cd1610_cls::FUN_00cd1610(unsigned int wanted)
     (*reinterpret_cast<::fnv_00cd1610::ErrorService * *>(&::DAT_01268360))->V08();
 }
 }  // namespace fnv_00cd1610
+
+#include "generated/data/havok/common/visualize/hkvisualdebugger.inc"

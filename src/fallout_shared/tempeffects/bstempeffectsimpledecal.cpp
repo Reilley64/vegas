@@ -2773,3 +2773,5 @@ void FUN_0068dea0_cls::UpdateDebugDecalBox(const xColorA* COLOR, bool FLAG)
         reinterpret_cast<::FUN_00a59c60_cls *>((qbXcw))->FUN_00a59c60((int)&(qBCzzXA));
     }
 }
+
+#include "generated/data/fallout_shared/tempeffects/bstempeffectsimpledecal.inc"

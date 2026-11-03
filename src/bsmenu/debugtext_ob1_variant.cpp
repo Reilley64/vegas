@@ -3119,3 +3119,5 @@ unsigned char __cdecl FUN_00a10c00(NiObject* root,int text,int height,float dura
  reinterpret_cast<FUN_00a11c00_shell*>(&((::DebugState *)(::FUN_00a0d9e0(true)))->list)->FUN_00a11c00(reinterpret_cast<NiTMapItem*>(&entry7));
  return true;
 }
+
+#include "generated/data/bsmenu/debugtext_ob1_variant.inc"

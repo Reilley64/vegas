@@ -1202,3 +1202,5 @@ tail_check:
         return -1;
     }
 }
+
+#include "generated/data/havok/common/base/thread/jobqueue/hkjobqueue_rtm_variant.inc"

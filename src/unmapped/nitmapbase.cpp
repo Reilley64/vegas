@@ -736,3 +736,5 @@ void nae7::Map::FUN_00ae7ee0(Item*& pos, unsigned int& key, Val& val) const
     }
     pos = 0;
 }
+
+#include "generated/data/unmapped/nitmapbase.inc"

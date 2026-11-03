@@ -729,3 +729,5 @@ initNext(job,dev,param,count,cap,pitch);
     }
 
 }
+
+#include "generated/data/havok/physics/dynamics/world/simulation/multithreaded/cpu/hkpcpubroadphasejob.inc"

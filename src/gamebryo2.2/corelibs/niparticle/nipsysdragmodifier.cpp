@@ -322,3 +322,5 @@ void NiPSysDragShell::FUN_00c2c620(NiStream& stream)
     array.Append(((void *)(::FUN_00a7d550((const char *)(const void *)(&(*reinterpret_cast<char *>((void *)&::g_011d3348_arg1))), range))));
     array.Append(((void *)(::FUN_00a7d550((const char *)(const void *)(&DAT_010bfef0), falloff))));
 }
+
+#include "generated/data/gamebryo2.2/corelibs/niparticle/nipsysdragmodifier.inc"

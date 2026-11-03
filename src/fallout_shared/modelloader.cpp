@@ -20231,3 +20231,5 @@ FUN_0044a040::~FUN_0044a040()
 {
     reinterpret_cast<::FUN_0065f240 *>((((CleanupReceiver*)this)))->Clear();
 }
+
+#include "generated/data/fallout_shared/modelloader.inc"

@@ -82,3 +82,5 @@ FUN_00bc0600::FUN_00bc0600()
     kWhiteColor.a = kWhiteColor.b;
     *(RgbaColor*)&DAT_01201f30 = kWhiteColor;
 }
+
+#include "generated/data/bsshader/imagespaceeffectvatsscan.inc"

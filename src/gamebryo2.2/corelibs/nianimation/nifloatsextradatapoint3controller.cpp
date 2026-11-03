@@ -559,3 +559,5 @@ VertexBufferLockInfo* VertexRenderer::FUN_00e8c820(VertexSource* source, unsigne
     }
     return resource;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nianimation/nifloatsextradatapoint3controller.inc"

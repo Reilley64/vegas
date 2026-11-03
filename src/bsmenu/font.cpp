@@ -5953,3 +5953,5 @@ void S00a1b7f0_GlyphMetric::FUN_00a1b7f0(unsigned char auiCharacter) {
  unk34 = 0;
 
 }
+
+#include "generated/data/bsmenu/font.inc"

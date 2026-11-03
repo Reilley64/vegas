@@ -395,3 +395,5 @@ void D40A10Caller(int* a, FNVTypeRecord** b, FNVObject** objs, D40A10Entry* out)
 {
     FUN_00d40a10(a, b, objs, out);
 }
+
+#include "generated/data/havok/physics/collide/agent3/predgskcylinderagent3/hkppredgskcylinderagent3.inc"

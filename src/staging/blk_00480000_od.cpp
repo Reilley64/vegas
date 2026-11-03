@@ -4118,3 +4118,5 @@ void* DeleteWrapper::FUN_00486c30(unsigned int flags)
         ::FUN_00401030(this);
     return this;
 }
+
+#include "generated/data/staging/blk_00480000_od.inc"

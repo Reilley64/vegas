@@ -2729,3 +2729,5 @@ void FUN_00a04510()
 
     }
 }
+
+#include "generated/data/bsmenu/tile.inc"

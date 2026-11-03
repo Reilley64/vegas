@@ -3062,3 +3062,5 @@ void S_00662e90_Class::FUN_00662e90(S_00662e90_Argument* pArg)
         }
     }
 }
+
+#include "generated/data/fallout_shared/facegen/bsfacegenninode.inc"

@@ -5181,3 +5181,5 @@ SettingT<GameSettingCollection> originalRuntimeFloatSetting1307(runtimeFloatSett
 // @fnv 0x00fd77a0
 SettingT<GameSettingCollection> originalRuntimeFloatSetting1308(runtimeFloatSettingKey1308,
                                                                 ::g_011e024c_arg1);
+
+#include "generated/data/generated/setting_float_initializers.inc"

@@ -3873,3 +3873,5 @@ void MaterialLibraryView::FUN_00a8fdb0()
     vtbl = (void*)&(*reinterpret_cast<const void * *>(&::DAT_0101dce4));
     fn((void*)&(*reinterpret_cast<volatile long *>(&::NiRefObject::ms_lObjectCount)));
 }
+
+#include "generated/data/staging/blk_00a80000_o2.inc"

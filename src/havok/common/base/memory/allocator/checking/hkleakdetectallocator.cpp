@@ -1089,3 +1089,5 @@ void LeakDetectAllocator::FUN_00d5f150(unsigned int unused, void* apBlock, int n
     m_pReferenceObject->ReleaseBlock(apBlock, numBytes);
     LeaveCriticalSection(cs);
 }
+
+#include "generated/data/havok/common/base/memory/allocator/checking/hkleakdetectallocator.inc"

@@ -1210,3 +1210,5 @@ void FUN_0084e930(BGSLoadFormBuffer* pBuffer, INITIAL_DATA_TYPE eType, void* pDa
     }
     FUN_0084e800(eType);
 }
+
+#include "generated/data/fallout/misc/saveload/bgssaveloadinitialdata.inc"

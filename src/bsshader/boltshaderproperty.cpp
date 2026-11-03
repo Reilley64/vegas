@@ -166,3 +166,5 @@ void Ring216::AddValue(float afValue, float p2, float afScale, float afUnused)
         this->m_84 = *(float*)(this->m_60 + (this->m_7c << 4) + 4);
     }
 }
+
+#include "generated/data/bsshader/boltshaderproperty.inc"

@@ -705,3 +705,5 @@ bool LineCompiler::FUN_005aff40(CompileScript* script, CompileState* compiler, C
     }
     return true;
 }
+
+#include "generated/data/fallout_shared/tesscriptcompiler_ctx_variant.inc"

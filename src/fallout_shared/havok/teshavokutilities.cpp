@@ -1041,3 +1041,5 @@ void __cdecl FUN_0062c430(VtObj* apVtObj)
         }
     }
 }
+
+#include "generated/data/fallout_shared/havok/teshavokutilities.inc"

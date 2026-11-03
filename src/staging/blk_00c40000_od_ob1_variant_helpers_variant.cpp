@@ -9457,3 +9457,5 @@ BoundingVolumeNode* FUN_00c58d30(float fRadius, float m_fGlyphExtent, float fZ,
     pkNode->AttachChildInAvailableSlot(pkGeomX, true);
     return pkNode;
 }
+
+#include "generated/data/staging/blk_00c40000_od_ob1_variant_helpers_variant.inc"

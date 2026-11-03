@@ -6270,3 +6270,5 @@ Q00c9fde0* C9FFD0Owner::FUN_00c9ffd0(unsigned int argument)
     FUN_00c87700();
     return object;
 }
+
+#include "generated/data/fallout_shared/tesobjectrefr_o2_variant.inc"

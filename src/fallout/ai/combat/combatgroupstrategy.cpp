@@ -1329,3 +1329,5 @@ void Strategy990640::SortMembersByTargetDistance()
         }
     }
 }
+
+#include "generated/data/fallout/ai/combat/combatgroupstrategy.inc"

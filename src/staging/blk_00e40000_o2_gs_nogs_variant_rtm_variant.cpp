@@ -4065,3 +4065,5 @@ HavokRegisterUtilities::storeVelocityAccumulators(*opaA,*opaB);
 
 
 }
+
+#include "generated/data/staging/blk_00e40000_o2_gs_nogs_variant_rtm_variant.inc"

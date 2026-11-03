@@ -2575,3 +2575,5 @@ void GeomEA0::ReadBinary(StreamEA0& kStream)
         reinterpret_cast<::FUN_00a645b0_cls *>(&(kStream))->FUN_00a645b0();
 }
 }  // namespace fnv_00a67ea0
+
+#include "generated/data/gamebryo2.2/corelibs/nimain/nigeometrydata.inc"

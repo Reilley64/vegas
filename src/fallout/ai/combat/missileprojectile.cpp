@@ -2601,3 +2601,5 @@ void MissileActor::HandleMissileImpact()
     }
 }
 }  // namespace fnv_009ba660
+
+#include "generated/data/fallout/ai/combat/missileprojectile.inc"

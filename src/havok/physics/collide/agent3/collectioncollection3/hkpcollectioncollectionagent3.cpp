@@ -841,3 +841,5 @@ void __cdecl FUN_00d34e10(const hkpAgent3ProcessInputq& input, const hkpShapeCon
         out->m_uiCollisionShapeKey = key;
     }
 }
+
+#include "generated/data/havok/physics/collide/agent3/collectioncollection3/hkpcollectioncollectionagent3.inc"

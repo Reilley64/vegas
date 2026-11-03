@@ -16892,3 +16892,5 @@ struct WeaponShaderCleanup : public ::ProcessLists
     }
     return result;
 }
+
+#include "generated/data/fallout/ai/processlists.inc"

@@ -225,3 +225,5 @@ void Viewer::FUN_00de7a70(Input* input, Display* display, int id, int tag)
         display->line(&scratch.line.base, &scratch.line.end, 0xffffff00, id, tag);
     }
 }
+
+#include "generated/data/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkplimitedhingedrawer.inc"

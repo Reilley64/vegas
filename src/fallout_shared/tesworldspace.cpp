@@ -4789,3 +4789,5 @@ void WorldSpaceRefShell::FUN_00587d10(TESObjectREFR* apRef)
         reinterpret_cast<::ActorTaskManager *>(&((*reinterpret_cast<::ATM *>(&::g_011ca60c))))->WaitForTasksDuringRendering();
     }
 }
+
+#include "generated/data/fallout_shared/tesworldspace.inc"

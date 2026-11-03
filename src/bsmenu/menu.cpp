@@ -1983,3 +1983,5 @@ FUN_00a1c520::~FUN_00a1c520()
         ((::fnv_00a1c520::InputManager *)(reinterpret_cast<::FUN_00877720_shell *>(((*reinterpret_cast<::fnv_00a1c520::OSGlobals * *>(&::g_osGlobals))))->FUN_00877720()))->SetFlag(8);
 }
 }  // namespace fnv_00a1c520
+
+#include "generated/data/bsmenu/menu.inc"

@@ -703,3 +703,5 @@ NiTexture* NiTexture::FUN_0064ceb0(float lo, float hi, float scale, void* srcv)
     }
     return ((::NiTexture *)(::FUN_00559450((int *)&(m_08))));
 }
+
+#include "generated/data/staging/blk_00640000_o2_od_oy_noo2_variant.inc"

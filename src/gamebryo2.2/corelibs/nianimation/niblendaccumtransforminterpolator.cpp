@@ -1031,3 +1031,5 @@ bool BlendAccumState::FUN_00a39960(float time, void* target, NiQuatTransform& ou
     }
     return false;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nianimation/niblendaccumtransforminterpolator.inc"

@@ -572,3 +572,5 @@ void MapX::FUN_00ae7cc0(unsigned int key, PtrX val)
     m_ppHashTable[index_qtj] = item;
     m_uiCount++;
 }
+
+#include "generated/data/unmapped/nitmapbase_ob1_variant.inc"

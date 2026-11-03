@@ -1295,3 +1295,5 @@ unsigned int ShaderX::CreateShaderPass(GeomX* pkGeometry, void* pkSkin, DataX* p
     }
     return 0;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/niconsolerenderer/nid3ddefaultshader.inc"

@@ -2025,3 +2025,5 @@ void FUN_00b02920_class::FUN_00b02920(int unused)
     *(char*)((char*)this + 4) = 1;
     *(char*)((char*)this + 0x2c) = 0;
 }
+
+#include "generated/data/staging/blk_00b00000_od.inc"

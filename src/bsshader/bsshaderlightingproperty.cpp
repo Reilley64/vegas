@@ -3473,3 +3473,5 @@ Node_b71560* List_b71560::FUN_00b713c0(Node_b71560* pos, Light_b71560* const& it
     ++pool.count;
     return node;
 }
+
+#include "generated/data/bsshader/bsshaderlightingproperty.inc"

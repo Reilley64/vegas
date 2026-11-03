@@ -65,3 +65,5 @@ void FUN_00b6bee0(void* first, void* second, BSShaderAccumulator* accumulator)
         accumulator->vfn_48(first, second, 0);
     }
 }
+
+#include "generated/data/bsshader/bsshaderutil_decl_variant.inc"

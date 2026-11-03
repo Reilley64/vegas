@@ -4169,3 +4169,5 @@ FUN_0082b370::FUN_0082b370(int a, int b, int c)
     *(void***)this = DAT_0107c53c;
     _pad[0x48] = 0;
 }
+
+#include "generated/data/staging/blk_00820000_od.inc"

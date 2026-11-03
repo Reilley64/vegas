@@ -1344,3 +1344,5 @@ char* __cdecl BuildProjectionModeString(const char* pPrefix, int eMode)
     }
 }
 }  // namespace fnv_00a92b00
+
+#include "generated/data/gamebryo2.2/corelibs/nimain/nitextureeffect.inc"

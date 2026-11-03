@@ -316,3 +316,5 @@ bool B402310Stage::FUN_00402310(TESForm* pkForm)
         return true;
     return false;
 }
+
+#include "generated/data/fallout_shared/bgssleepdeprevation.inc"

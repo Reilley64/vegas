@@ -393,3 +393,5 @@ void Agent378::FUN_00d378e0(Body378* a, Body378* b, void* input, ContactBuffer37
     }
     timer378(DAT_010c41f8);
 }
+
+#include "generated/data/havok/physics/collide/agent/miscagent/multirayconvex/hkpmultirayconvexagent_gs_ehsc_nogs_noehsc_variant.inc"

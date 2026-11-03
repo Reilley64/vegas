@@ -210,3 +210,5 @@ void __cdecl FUN_00aa1a30(const char* name, NiFile::OpenMode mode)
     DAT_011ac228(name, mode);
 }
 }  // namespace fnv_00aa1a30
+
+#include "generated/data/gamebryo2.2/corelibs/nisystem/nifile_iso_variant.inc"

@@ -11632,3 +11632,5 @@ void __cdecl FUN_00719580(VisibilityTile* pTile)
         reinterpret_cast<::FUN_00a074d0_shell *>((pTile))->FUN_00a074d0(4);
     }
 }
+
+#include "generated/data/fallout/interface/menus/hudmainmenu.inc"

@@ -418,3 +418,5 @@ DirectoryResult __cdecl FUN_00da25a0(const char* input, DirectoryOutput& listing
     FindClose(handle);
     return DirectorySuccess;
 }
+
+#include "generated/data/havok/physics/utilities/serialize/hkphavoksnapshot_gs_ehsc_nogs_noehsc_variant.inc"

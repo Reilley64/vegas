@@ -386,3 +386,5 @@ bool FUN_00509540_obj::FUN_00509540(TESForm* apCompare)
         return true;
     return false;
 }
+
+#include "generated/data/fallout_shared/tesfurniture.inc"

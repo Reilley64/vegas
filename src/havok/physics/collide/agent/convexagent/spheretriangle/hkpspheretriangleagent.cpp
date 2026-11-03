@@ -647,3 +647,5 @@ void CpuObject::FUN_00d3e0d0(void* first, void* second, unsigned int third, unsi
     reinterpret_cast<::S00d3d6b0_SphereTriAgent *>(this)->FUN_00d3d6b0((::S00d3d6b0_BodyHolderB *)(second), (::S00d3d6b0_BodyHolderB *)(first), (::S00d3d6b0_Input *)(third), (::S00d3d6b0_Sink *)(::fnv_00d3e0d0::CpuCallData *)(&data));
 }
 }  // namespace fnv_00d3e0d0
+
+#include "generated/data/havok/physics/collide/agent/convexagent/spheretriangle/hkpspheretriangleagent.inc"

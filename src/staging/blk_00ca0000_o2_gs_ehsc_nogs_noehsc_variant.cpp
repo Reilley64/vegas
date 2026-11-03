@@ -6475,3 +6475,5 @@ void S00cbf950_Target::FUN_00cbf950(S00cbf950_Body* body, const S00cbf950_Input*
     FUN_00c85750()->unk00 = saved;
     ((S00cbf950_Trace*)TlsGetValue(DAT_0126835c))->mark(&(*reinterpret_cast<char *>(&::DAT_010c41f8)), state.endTick);
 }
+
+#include "generated/data/staging/blk_00ca0000_o2_gs_ehsc_nogs_noehsc_variant.inc"

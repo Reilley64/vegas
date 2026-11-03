@@ -5921,3 +5921,5 @@ m_kLocalTransform = hkTransform::GetIdentityTransform();
 }
 }
 return m_bFirstImplementationFlag ? HK_SUCCESS : HK_FAILURE;}
+
+#include "generated/data/havok/common/internal/geometryprocessing/convexhull/hkgpconvexhull.inc"

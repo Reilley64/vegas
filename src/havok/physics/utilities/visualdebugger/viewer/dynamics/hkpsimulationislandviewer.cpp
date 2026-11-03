@@ -492,3 +492,5 @@ void IslandWorldRemoval::FUN_00d64a20(S_Elem2* world)
 {
     reinterpret_cast<::SearchArray *>((world))->ClearValue((int)(static_cast<hkListenerD64A*>(this)));
 }
+
+#include "generated/data/havok/physics/utilities/visualdebugger/viewer/dynamics/hkpsimulationislandviewer.inc"

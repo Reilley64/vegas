@@ -798,3 +798,5 @@ subTreeSizes[i]=KdTree::getSizeForFastBuild(jobSize[i]);
 
 ;
 }
+
+#include "generated/data/havok/common/internal/kdtree/build/hkkdtreebuilder_o2_nood_variant_gs_ehsc_nogs_noehsc_variant_rtm_variant.inc"

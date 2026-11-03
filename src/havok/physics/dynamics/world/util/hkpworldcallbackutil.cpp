@@ -5559,3 +5559,5 @@ void __cdecl FUN_00d00960(::ProfOwner* owner, void* arg)
     }
     ::FUN_00d00370(*list);
 }
+
+#include "generated/data/havok/physics/dynamics/world/util/hkpworldcallbackutil.inc"

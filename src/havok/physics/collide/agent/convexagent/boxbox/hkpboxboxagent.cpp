@@ -200,3 +200,5 @@ void __cdecl FUN_00d40910(BoxAgentRegistry* pkObj)
     FUN_00d408e0(&kFuncs);
     reinterpret_cast<::FUN_00cfbbe0_cls *>((pkObj))->FUN_00cfbbe0((::FUN_00cfbbe0_rec *)&(kFuncs), 4, 4);
 }
+
+#include "generated/data/havok/physics/collide/agent/convexagent/boxbox/hkpboxboxagent.inc"

@@ -285,3 +285,5 @@ int hkxEnvironmentParser::FUN_00e3f520(const char* str)
     } while (state != 8);
     return 0;
 }
+
+#include "generated/data/havok/common/scenedata/environment/hkxenvironment_gs_ehsc_nogs_noehsc_variant.inc"

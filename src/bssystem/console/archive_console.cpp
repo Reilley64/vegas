@@ -62,3 +62,5 @@ void __cdecl ResolveRelativePath(const char* aBasePath, const char* aRelPath, ch
         fnv::crt::strcpy_s(aOutPath, 0x104, aRelPath);
     }
 }
+
+#include "generated/data/bssystem/console/archive_console.inc"

@@ -5962,3 +5962,5 @@ void AudioSound::FUN_00aed990()
         }
     }
 }
+
+#include "generated/data/staging/blk_00ae0000_od_ob1_variant.inc"

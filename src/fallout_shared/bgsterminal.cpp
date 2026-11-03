@@ -1317,3 +1317,5 @@ int FUN_00501270_shell::FUN_005011a0(TESObjectREFR* apRef)
     }
     return result;
 }
+
+#include "generated/data/fallout_shared/bgsterminal.inc"

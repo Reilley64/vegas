@@ -915,3 +915,5 @@ unsigned short FUN_00a35eb0_shell::FindByName(const char* name)
 
     return DAT_01096320;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nianimation/bsmultitargettreadtransfcontroller.inc"

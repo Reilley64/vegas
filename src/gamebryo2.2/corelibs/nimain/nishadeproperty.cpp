@@ -1015,3 +1015,5 @@ void FUN_00a81600_cls::WriteToArray(NiArr* a)
     bool b = (m_18 & 1) != 0;
     a->Add(((void *)(::FUN_00a7d370("m_bSmooth", b))));
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nimain/nishadeproperty.inc"

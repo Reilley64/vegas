@@ -837,3 +837,5 @@ FUN_0058b3f0* OwnerX::GetEntryObject()
     return m_pEntryObject ? m_pEntryObject : (m_pEntryObject = new FUN_0058b3f0);
 }
 }  // namespace fnv_0058b350
+
+#include "generated/data/fallout_shared/bgscamerapath.inc"

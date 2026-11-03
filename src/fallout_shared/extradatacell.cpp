@@ -626,3 +626,5 @@ bool ExtraCellImageSpace::FUN_0040f140(BSExtraData* extra)
         return true;
     return false;
 }
+
+#include "generated/data/fallout_shared/extradatacell.inc"

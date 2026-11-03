@@ -1009,3 +1009,5 @@ FUN_00d60f30::FUN_00d60f30(const PtrArray& apArray, void* first, void* second)
     m_kListener = this;
 }
 }  // namespace fnv_00d60f30
+
+#include "generated/data/havok/common/visualize/hkserverprocesshandler.inc"

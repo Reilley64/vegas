@@ -3418,3 +3418,5 @@ int Obj_008c9cf0::FUN_008c9cf0()
     reinterpret_cast<ActorTaskManager*>(this)->WaitForTasksDuringRendering();
     return result;
 }
+
+#include "generated/data/fallout/ai/aitaskmanager.inc"

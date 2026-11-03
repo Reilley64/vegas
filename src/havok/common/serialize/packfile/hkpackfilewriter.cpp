@@ -1421,3 +1421,5 @@ __declspec(noinline) void MapB8E150::FUN_00dc9ec0(void* a, int* b)
     entries[index].value = (void*)oldIndex;
     indices.insert(a, index);
 }
+
+#include "generated/data/havok/common/serialize/packfile/hkpackfilewriter.inc"

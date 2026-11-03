@@ -509,3 +509,5 @@ bool S00a44430_Obj::FUN_00a44430(const char* apTextKey)
     }
     return bret;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nianimation/bsgrabiknote.inc"

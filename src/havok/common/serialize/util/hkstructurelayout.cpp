@@ -532,3 +532,5 @@ void __cdecl FUN_00dc1960(NodeListEx& root, const LayoutOptions& options, Arg2& 
     }
     nodeArray.Free();
 }
+
+#include "generated/data/havok/common/serialize/util/hkstructurelayout.inc"

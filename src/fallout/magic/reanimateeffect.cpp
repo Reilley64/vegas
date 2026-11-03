@@ -1997,3 +1997,5 @@ FUN_008265b0::FUN_008265b0(int a, int b, int c) : EffBase(a, b, c)
     m_54 = *(V12b*)&(*(::V12t *)(reinterpret_cast<::FUN_00416870_t *>(&(t))->FUN_00416870(0.0f, 0.0f, 0.0f)));
     m_60 = *(V16b*)&(*reinterpret_cast<::V16p *>((void *)&::NiQuaternion::IDENTITY));
 }
+
+#include "generated/data/fallout/magic/reanimateeffect.inc"

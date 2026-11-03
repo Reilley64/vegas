@@ -1189,3 +1189,5 @@ void FUN_00782a90()
         FUN_007800c0();
     }
 }
+
+#include "generated/data/fallout/interface/menus/inventorymenu_rtti_variant.inc"

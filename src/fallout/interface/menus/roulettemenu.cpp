@@ -15979,3 +15979,5 @@ void RouletteMenuX::FUN_007bd2a0()
     }
 }
 }  // namespace fnv_007bd2a0
+
+#include "generated/data/fallout/interface/menus/roulettemenu.inc"

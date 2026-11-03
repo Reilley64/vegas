@@ -3758,3 +3758,5 @@ void BlackjackUpdate::FUN_00734db0()
         break;
     }
 }
+
+#include "generated/data/fallout/interface/menus/blackjackmenu_ctx_variant.inc"

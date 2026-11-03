@@ -1041,3 +1041,5 @@ FUN_004d61b0::FUN_004d61b0(int a1, int a2, int a3, const char* apName, int a5, i
         reinterpret_cast<::Owner64 *>(this)->FUN_004d64c0(a3, (const char *)(0));
     }
 }
+
+#include "generated/data/fallout_shared/magic/effectitem.inc"

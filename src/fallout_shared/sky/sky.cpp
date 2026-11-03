@@ -3485,3 +3485,5 @@ void FUN_0063bb70_shell::QueryTwoSources(FUN_0063bb70_result* result, FUN_0063bc
         result->value2 = 0;
     }
 }
+
+#include "generated/data/fallout_shared/sky/sky.inc"

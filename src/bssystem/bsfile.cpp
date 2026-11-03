@@ -535,3 +535,5 @@ unsigned int BSFileW::ReadWideString(WStrOut* out, unsigned int maxBytes)
     }
     return bytesReadB >> 1;
 }
+
+#include "generated/data/bssystem/bsfile.inc"

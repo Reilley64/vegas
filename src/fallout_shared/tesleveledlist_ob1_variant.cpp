@@ -126,3 +126,5 @@ void NiPointModifier::FUN_00c61120(NiViewerStringsArray* pkStrings)
     reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((int)&(const char *const &)(reinterpret_cast<::NiPoint3 *>((void *)&(m_kLightVector))->FUN_00a59af0(str_010c3568)));
     reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((int)&(const char *const &)(::FUN_00a7d550((*reinterpret_cast<const char (*)[]>(&::UNK_01015a9c)), GetAttributeStrength())));
 }
+
+#include "generated/data/fallout_shared/tesleveledlist_ob1_variant.inc"

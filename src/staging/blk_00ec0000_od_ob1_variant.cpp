@@ -2154,3 +2154,5 @@ unsigned char S0EPlaybackFile::FUN_00ec0e00(const char* pcName, bool b1, bool b2
         ((S0EMoviePlayer*)::DAT_0126fac4)->EndB();
     return bRet;
 }
+
+#include "generated/data/staging/blk_00ec0000_od_ob1_variant.inc"

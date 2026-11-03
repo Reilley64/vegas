@@ -167,3 +167,5 @@ void FUN_00878690_shell::FUN_00878690()
     *(int*)this = (int)&DAT_01083b5c;
     reinterpret_cast<::FUN_00c51df0 *>(this)->FUN_00c51df0::~FUN_00c51df0();
 }
+
+#include "generated/data/fallout/misc/scenegraph.inc"

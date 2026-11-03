@@ -1054,3 +1054,5 @@ B906A0Derived::B906A0Derived()
 {}
 
 static B906A0Derived g_b906a0;
+
+#include "generated/data/bsshader/imagespaceshaderhdr_h_unit.inc"

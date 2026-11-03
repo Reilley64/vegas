@@ -1063,3 +1063,5 @@ void RepairMenuData::ApplyRepair(RepairEntry* apEntry)
         delete pNewList4;
     }
 }
+
+#include "generated/data/fallout/interface/menus/repairservicesmenu.inc"

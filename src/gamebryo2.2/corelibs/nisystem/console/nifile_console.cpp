@@ -277,3 +277,5 @@ FUN_00aa18c0::~FUN_00aa18c0()
     }
     ::FUN_00aa10f0(m_pBuffer);
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nisystem/console/nifile_console.inc"

@@ -44,3 +44,5 @@ char* FUN_00a69a60_Owner::FUN_00a69a60(const char* pPrefix)
     ::NiSprintf(pBuffer, uiPrefixLen + 0x38, "(%g,%g,%g), %g", m_f0, m_f4, m_f8, m_fC);
     return pBuffer;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nimain/niplane.inc"

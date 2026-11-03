@@ -34644,3 +34644,5 @@ void InitializeRuntimeCallbackStatus6925()
 {
     runtimeCallbackInitializationStatus6925 = ::FUN_00a2d810();
 }
+
+#include "generated/data/generated/crt_callback_status.inc"

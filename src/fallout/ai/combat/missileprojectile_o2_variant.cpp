@@ -602,3 +602,5 @@ bool FUN_00c6a0b0(NiAVObject* pkObject, bool bValue, bool bRecurse, bool bForce)
     }
     return bResult;
 }
+
+#include "generated/data/fallout/ai/combat/missileprojectile_o2_variant.inc"

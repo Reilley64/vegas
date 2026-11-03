@@ -638,3 +638,5 @@ int C0::FUN_00be0b10()
 {
     return *(int*)((char*)this + 0x2c);
 }
+
+#include "generated/data/staging/blk_00be0000_o2.inc"

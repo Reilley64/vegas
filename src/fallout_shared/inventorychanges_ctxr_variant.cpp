@@ -7749,3 +7749,5 @@ void InventoryMoveTarget::FUN_004cb5f0(MoveOwner* source, MoveOwner* destination
         }
     }
 }
+
+#include "generated/data/fallout_shared/inventorychanges_ctxr_variant.inc"

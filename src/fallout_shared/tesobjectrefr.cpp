@@ -1,4 +1,5 @@
 // fallout_shared/tesobjectrefr.cpp: XActor, Owner, Thing, Ref and more (522 functions)
+#include "generated/data/vtables.h"
 #include <new>
 #include <cmath>
 #include <cstdint>
@@ -15366,7 +15367,7 @@ struct FUN_0056e610 : bhkConvexShape
 // @fnv 0x0056e610
 FUN_0056e610::FUN_0056e610(unsigned int a)
 {
-    *reinterpret_cast<void**>(this) = (void*)0x0103093c;
+    *reinterpret_cast<void**>(this) = (void*)fnv_vftable_FUN_00c9fd70_cls;
     DAT_0126825c++;
     reinterpret_cast<::S0056e810_Object *>(this)->FUN_0056e810((*(const ::S0056e810_Vector *)(a)));
 }
@@ -50371,3 +50372,5 @@ unsigned int FUN_00579620(TESForm* form)
         return length;
     }
 }
+
+#include "generated/data/fallout_shared/tesobjectrefr.inc"

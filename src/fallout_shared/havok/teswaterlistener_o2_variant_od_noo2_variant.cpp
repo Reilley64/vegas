@@ -340,3 +340,5 @@ int PhysicsController::FUN_00630170(PhysicsReference* reference, float height, f
     }
     return result;
 }
+
+#include "generated/data/fallout_shared/havok/teswaterlistener_o2_variant_od_noo2_variant.inc"

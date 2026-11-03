@@ -507,3 +507,5 @@ void VBSetCleanup::FUN_00e943c0()
     buffer = 0;
     blocks.CleanupBlockArray::~CleanupBlockArray();
 }
+
+#include "generated/data/gamebryo2.2/corelibs/niconsolerenderer/nivbset.inc"

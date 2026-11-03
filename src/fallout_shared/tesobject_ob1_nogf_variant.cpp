@@ -232,3 +232,5 @@ void emit_insert(InsertVector<El>* p, V::const_iterator w, V::size_type n, const
 {
     p->FUN_00abfa90(w, n, x);
 }
+
+#include "generated/data/fallout_shared/tesobject_ob1_nogf_variant.inc"

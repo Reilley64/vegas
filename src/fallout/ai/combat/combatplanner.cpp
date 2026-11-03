@@ -296,3 +296,5 @@ bool CPPlanner::ExpandNode(CPNode* pkNode, CPOutArray* pkOut)
     }
     return true;
 }
+
+#include "generated/data/fallout/ai/combat/combatplanner.inc"

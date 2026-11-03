@@ -5867,3 +5867,5 @@ void InitializeRuntimeFloatCall1066()
     fnvFloat_011f3234 =
         (::DAT_01011598 / (FUN_004019b0(fnvFloat_010939b8) * fnvFloat_010939b8)) * fnvFloat_010939bc;
 }
+
+#include "generated/data/generated/float_call_initializers.inc"

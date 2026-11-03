@@ -2995,3 +2995,5 @@ typedef FUN_0057c4d0 FUN_0056aac0_map;
 // @fnv 0x0057c4d0
 FUN_0057c4d0::~FUN_0057c4d0()
 {}
+
+#include "generated/data/staging/blk_00560000_od.inc"

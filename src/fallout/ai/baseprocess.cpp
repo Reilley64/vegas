@@ -1924,3 +1924,5 @@ struct FUN_008d0610 : BaseProcess
 // @fnv 0x008d0610
 FUN_008d0610::~FUN_008d0610()
 {}
+
+#include "generated/data/fallout/ai/baseprocess.inc"

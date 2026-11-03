@@ -1194,3 +1194,5 @@ void Shot::UpdateCamera(float afTime)
     if (reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::NiPoint3Ex &)((GetCameraPosition() - pt)))->ComputeMagnitude() <= *((float *)&(::FUN_00403e20((float *)(void *)(&(*reinterpret_cast<float *>(&::originalRuntimeFloatSetting39)))))))
         c75 = 1;
 }
+
+#include "generated/data/fallout_shared/bgscamerashot.inc"

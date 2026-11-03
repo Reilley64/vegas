@@ -1049,3 +1049,5 @@ void S00cf52c0_Obj::FUN_00cf52c0(const S00cf5140_Input& input, const hkpCdBody& 
 
     ((S00cf5140_Stream*)TlsGetValue(DAT_0126835c))->timerEnd();
 }
+
+#include "generated/data/havok/physics/collide/shape/compound/collection/list/hkplistshape.inc"

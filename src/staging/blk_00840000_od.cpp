@@ -2,6 +2,7 @@
 // src/staging/blk_00840000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include "generated/data/vtables.h"
 #include <windows.h>
 #include <new>
 #include <cstring>
@@ -817,7 +818,7 @@ struct FUN_00844660_Class
 // @fnv 0x00844660
 void FUN_00844660_Class::FUN_00844660()
 {
-    m_vtbl = (int)0x0107ec88;
+    m_vtbl = fnv_vftable_DAT_0107ec88;
     reinterpret_cast<::FUN_00438af0_Class *>(this)->FUN_00438af0();
     ::FUN_00aa10f0((void*)m_data);
 }
@@ -917,7 +918,7 @@ struct FUN_0084ba20
 // @fnv 0x0084ba20
 void FUN_0084ba20::Init()
 {
-    m_vft = (void*)0x0107f4e8;
+    m_vft = (void*)fnv_vftable_DAT_0107f4e8;
     reinterpret_cast<::FUN_00438af0_Class *>(this)->FUN_00438af0();
     _NiFreeAlias(m_data);
 }
@@ -6796,3 +6797,5 @@ void Cls::FUN_00858af0(EntryListNode* list, Entry* ctx, bool reset)
     }
     reinterpret_cast<::FUN_004534f0_shell *>(this)->FUN_004534f0(0);
 }
+
+#include "generated/data/staging/blk_00840000_od.inc"

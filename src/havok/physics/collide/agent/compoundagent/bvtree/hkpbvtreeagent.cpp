@@ -1580,3 +1580,5 @@ extern "C" void __cdecl FUN_00d31110(void* apBodyA, void* apBodyB, void* apInput
     if ((iCapFlags & 0x80000000) == 0)
         pAllocator->deallocate(hits.m_data, (iCapFlags & 0x3fffffff) * 4);
 }
+
+#include "generated/data/havok/physics/collide/agent/compoundagent/bvtree/hkpbvtreeagent.inc"

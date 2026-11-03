@@ -763,3 +763,5 @@ void __cdecl FUN_00da12b0(ScriptProgram* mesh, float tolerance, bool unique, Mes
 
     mesh->triangles.SetSizeAndGrow(dest - mesh->triangles.begin());
 }
+
+#include "generated/data/havok/common/base/container/array/hkarrayutil.inc"

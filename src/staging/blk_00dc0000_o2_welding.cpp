@@ -135,3 +135,5 @@ void S00ddf070_Caller()
 {
     g00ddf070_out = FUN_00ddf070(g00ddf070_parent, g00ddf070_name, g00ddf070_v, g00ddf070_v, g00ddf070_strings);
 }
+
+#include "generated/data/staging/blk_00dc0000_o2_welding.inc"

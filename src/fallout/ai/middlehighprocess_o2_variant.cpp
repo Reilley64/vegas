@@ -97,3 +97,5 @@ bool __cdecl FUN_00c69fc0(int object, unsigned char bSelect, unsigned char mode,
     }
     return bResult;
 }
+
+#include "generated/data/fallout/ai/middlehighprocess_o2_variant.inc"

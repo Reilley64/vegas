@@ -1277,3 +1277,5 @@ void ThisCls::CopyFromMediaLocationController(TESForm* apForm)
         pNode = ((::BSSimpleList< ::MediaSet *> *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070()));
     }
 }
+
+#include "generated/data/fallout_shared/medialocationcontroller.inc"

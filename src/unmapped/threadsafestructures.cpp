@@ -893,3 +893,5 @@ HashMap44c1e0::~HashMap44c1e0()
     delete m_pBuckets;
     delete m_pSlots;
 }
+
+#include "generated/data/unmapped/threadsafestructures.inc"

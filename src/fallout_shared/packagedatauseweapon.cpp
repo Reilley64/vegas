@@ -702,3 +702,5 @@ FUN_0067cb70::FUN_0067cb70(Data67CB kData, int iParam)
     m_kData.m_f0C = kData.m_f0C;
     m_kData.m_f10 = kData.m_f10;
 }
+
+#include "generated/data/fallout_shared/packagedatauseweapon.inc"

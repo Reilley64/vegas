@@ -42,3 +42,5 @@ int __cdecl CreateDirectoryChecked(const char* apcPath)
 {
     return CreateDirectoryA(apcPath, 0) ? 0 : 4;
 }
+
+#include "generated/data/bssystem/console/bssystemdir_console.inc"

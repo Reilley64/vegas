@@ -1,5 +1,6 @@
 // staging/blk_00a40000_o2.cpp: Owner, Controller, Arr, ExtraOwner and more (111 functions)
 
+#include "generated/data/vtables.h"
 #include <windows.h>
 #include <string.h>
 // src/staging/blk_00a40000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
@@ -101,7 +102,7 @@ void* __cdecl FUN_00a409d0()
     if (p)
     {
         new ((void *)(p)) class ::FUN_00a36890();
-        *(void**)p = (void*)0x0109750c;
+        *(void**)p = (void*)fnv_vftable_FUN_00a40980;
         return p;
     }
     return 0;
@@ -5986,3 +5987,5 @@ void FUN_00a5f800(TextureListView* texture)
     }
     LeaveCriticalSection(reinterpret_cast<CRITICAL_SECTION_STUB*>(&DAT_011f4580));
 }
+
+#include "generated/data/staging/blk_00a40000_o2.inc"

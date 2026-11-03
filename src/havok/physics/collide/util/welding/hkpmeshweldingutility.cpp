@@ -1226,3 +1226,5 @@ void __cdecl FUN_00dde760(int a, int aiPayload, int c, int d)
     if ((vector.encodedCapacity & 0x80000000u) == 0)
         currentAllocator->ReturnMemory(vector.elements, (vector.encodedCapacity & 0x3fffffff) * 0x50);
 }
+
+#include "generated/data/havok/physics/collide/util/welding/hkpmeshweldingutility.inc"

@@ -8,3 +8,5 @@
 #include "fnv/symbols_00450000.h"
 #include "fnv/symbols_011f6000.h"
 #include "menu.h"
+
+#include "generated/data/bsmenu/menu_h_unit.inc"

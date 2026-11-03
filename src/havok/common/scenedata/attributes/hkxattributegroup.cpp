@@ -315,3 +315,5 @@ S00e5cce0_Class& S00e5cce0_Class::FUN_00e5cce0(const S00e5cce0_Class& aOther)
     }
     return *this;
 }
+
+#include "generated/data/havok/common/scenedata/attributes/hkxattributegroup.inc"

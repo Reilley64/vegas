@@ -171,3 +171,5 @@ bool FOPipboyManager::FUN_007f8720(bool press, bool release, float& x, float& y,
     }
     return result;
 }
+
+#include "generated/data/fallout/interface/fopipboymanager_decl_variant.inc"

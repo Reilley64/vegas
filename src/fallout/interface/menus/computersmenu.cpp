@@ -3523,3 +3523,5 @@ void TerminalTextMenu::BuildAnimation()
     }
 }
 }  // namespace fnv_00758ad0
+
+#include "generated/data/fallout/interface/menus/computersmenu.inc"

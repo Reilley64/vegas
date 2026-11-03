@@ -236,3 +236,5 @@ unsigned int BinaryWriter::FUN_00affbb0(const StreamString* string, bool abWrite
     filePosition += result;
     return result;
 }
+
+#include "generated/data/bssystem/bsfile_ob1_variant.inc"

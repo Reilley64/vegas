@@ -2883,3 +2883,5 @@ void FUN_00b10dc0::FUN_00b14ed0(BranchMesh* data, unsigned short cols)
         }
     }
 }
+
+#include "generated/data/speedtree/branch_ob1_variant.inc"

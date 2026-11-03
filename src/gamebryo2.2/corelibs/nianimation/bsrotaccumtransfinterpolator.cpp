@@ -438,3 +438,5 @@ FUN_00a43df0_cls* FUN_00a43df0_cls::FUN_00a43df0(unsigned char acFlags)
     }
     return this;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nianimation/bsrotaccumtransfinterpolator.inc"

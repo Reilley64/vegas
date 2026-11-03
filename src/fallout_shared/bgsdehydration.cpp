@@ -4775,3 +4775,5 @@ bool S_005805c0_Owner::FUN_005805c0(int value08, S_005805c0_Arg* object, int val
 
     return false;
 }
+
+#include "generated/data/fallout_shared/bgsdehydration.inc"

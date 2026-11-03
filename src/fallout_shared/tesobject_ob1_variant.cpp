@@ -10367,3 +10367,5 @@ FUN_00acc6c0::FUN_00acc6c0(const char* filename, int mode, int protection) : inp
     if (filebuf.FUN_00acfab0(filename, mode | 1, protection) == 0)
         setstate(2);
 }
+
+#include "generated/data/fallout_shared/tesobject_ob1_variant.inc"

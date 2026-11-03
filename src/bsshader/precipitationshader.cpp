@@ -736,3 +736,5 @@ bool ShaderManager_bb09::ResetSharedResources()
     g_spSharedResource = 0;
     return bResult;
 }
+
+#include "generated/data/bsshader/precipitationshader.inc"

@@ -48,3 +48,5 @@ FUN_0043a010_t* FUN_0043a010_shell::FUN_0043a010()
     reinterpret_cast<::RecursiveSpinLock *>(&((*reinterpret_cast<::RecursiveSpinLock *>(&::g_011c5f80))))->FUN_0040fba0();
     return pkNode;
 }
+
+#include "generated/data/bsshader/bsshaderproperty_od_variant.inc"

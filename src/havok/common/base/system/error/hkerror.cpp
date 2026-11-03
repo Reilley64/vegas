@@ -184,3 +184,5 @@ void FUN_00cb1750(const char* apMsg)
     }
     reinterpret_cast<struct ::FUN_00cc00e0 *>(&(buf))->FUN_00cc00e0::~FUN_00cc00e0();
 }
+
+#include "generated/data/havok/common/base/system/error/hkerror.inc"

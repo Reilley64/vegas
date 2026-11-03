@@ -161,3 +161,5 @@ unsigned char TESEatPackageData_StandIn::FUN_0067bb40(int arg)
 
     return 0;
 }
+
+#include "generated/data/fallout_shared/packagedataeat.inc"

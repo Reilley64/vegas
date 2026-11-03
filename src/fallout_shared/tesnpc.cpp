@@ -8216,3 +8216,5 @@ bool TESNPCActivate::FUN_00607990(TESObjectREFR* apTargetRef, TESObjectREFR* apA
     }
     return false;
 }
+
+#include "generated/data/fallout_shared/tesnpc.inc"

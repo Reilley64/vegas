@@ -2470,3 +2470,5 @@ Resource* __cdecl FUN_00b587c0(Input* input)
 
     return answer;
 }
+
+#include "generated/data/bsshader/distantlodshaderproperty.inc"

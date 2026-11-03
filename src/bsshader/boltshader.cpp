@@ -1011,3 +1011,5 @@ Obj_bc18d0* FUN_00bc15a0()
     CachedShape() = pkShape;
     return (Obj_bc18d0*)(FUN_00a74480*)CachedShape();
 }
+
+#include "generated/data/bsshader/boltshader.inc"

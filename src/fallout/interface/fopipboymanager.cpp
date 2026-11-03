@@ -1543,3 +1543,5 @@ void PipboyStub::UpdatePipboyLight(bool b)
     }
 }
 }  // namespace fnv_007fa7a0
+
+#include "generated/data/fallout/interface/fopipboymanager.inc"

@@ -696,3 +696,5 @@ commonExit:
     _ReadWriteBarrier();
     return;
 }
+
+#include "generated/data/havok/physics/utilities/visualdebugger/viewer/collide/hkpconvexradiusbuilder_gs_ehsc_nogs_noehsc_variant_rtm_variant.inc"

@@ -2679,3 +2679,5 @@ void FnvDistantBlockLoadTask::UpdateLoadingState()
         }
     }
 }
+
+#include "generated/data/fallout_shared/distant terrain system/bgsdistantobjectblock.inc"

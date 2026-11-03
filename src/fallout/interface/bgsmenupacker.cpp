@@ -59,3 +59,5 @@ void FNVCollection::FUN_00700350()
     }
     FUN_00703c00(UNK_0106e800);
 }
+
+#include "generated/data/fallout/interface/bgsmenupacker.inc"

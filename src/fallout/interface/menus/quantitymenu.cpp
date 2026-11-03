@@ -319,3 +319,5 @@ bool QtyMenuStub::HandleQuantityKey(int aiKey, int aiUnused)
     }
     return bHandled;
 }
+
+#include "generated/data/fallout/interface/menus/quantitymenu.inc"

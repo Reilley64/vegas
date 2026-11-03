@@ -13323,3 +13323,5 @@ void TimeoutTimer::FUN_00910b10()
 {
     m_fTimeout = 0.0f;
 }
+
+#include "generated/data/fallout/ai/lowprocess.inc"

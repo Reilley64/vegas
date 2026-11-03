@@ -5155,3 +5155,5 @@ S00a31880_FUN_00a31880_cls* S00a31880_FUN_00a31880_cls::FUN_00a31880(S00a31880_F
     m_0d = src->m_0d;
     return this;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nianimation/nicontrollersequence.inc"

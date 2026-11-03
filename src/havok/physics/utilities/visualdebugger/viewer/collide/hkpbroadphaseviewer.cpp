@@ -571,3 +571,5 @@ struct FUN_00d6ada0 : S_00d6ada0_ReferencedObject
 FUN_00d6ada0::FUN_00d6ada0()
 {}
 }  // namespace fnv_00d6ada0
+
+#include "generated/data/havok/physics/utilities/visualdebugger/viewer/collide/hkpbroadphaseviewer.inc"

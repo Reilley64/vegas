@@ -44,3 +44,5 @@ B6B610Wrapper* __cdecl CreateWrapperFromGeometry(void* apArg1, void* apArg2, voi
         return new B6B610Wrapper(geometry, apArg6, apArg7);
     return 0;
 }
+
+#include "generated/data/bsmenu/texture.inc"

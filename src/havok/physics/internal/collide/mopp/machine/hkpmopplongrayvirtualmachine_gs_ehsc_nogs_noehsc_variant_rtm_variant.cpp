@@ -873,3 +873,5 @@ __forceinline void MoppMachine::GetHitDistance(unsigned key, const unsigned* pro
     }
 }
 }
+
+#include "generated/data/havok/physics/internal/collide/mopp/machine/hkpmopplongrayvirtualmachine_gs_ehsc_nogs_noehsc_variant_rtm_variant.inc"

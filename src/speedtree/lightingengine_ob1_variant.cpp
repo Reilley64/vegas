@@ -362,3 +362,5 @@ void LightQ::FUN_00b2a940(Parser* p)
         iToken = ((int)(reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement()));
     } while (iToken != 0x1f41);
 }
+
+#include "generated/data/speedtree/lightingengine_ob1_variant.inc"

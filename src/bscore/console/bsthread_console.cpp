@@ -93,3 +93,5 @@ void FUN_00aa64f0_t::StopAndCloseHandle()
         LeaveCriticalSection(&cs);
     }
 }
+
+#include "generated/data/bscore/console/bsthread_console.inc"

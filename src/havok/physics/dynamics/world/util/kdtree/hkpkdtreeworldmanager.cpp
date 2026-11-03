@@ -1547,3 +1547,5 @@ void Manager::FUN_00d0a810(Tree** tree, Input* input, Queue* queue, Workers* wor
     ReturnMemory(early.secondData, early.secondCap);
     ReturnMemory(const_cast<int*&>(tail.firstData), early.firstCap);
 }
+
+#include "generated/data/havok/physics/dynamics/world/util/kdtree/hkpkdtreeworldmanager.inc"

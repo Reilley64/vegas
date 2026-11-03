@@ -3248,3 +3248,5 @@ FUN_00c63ab0::FUN_00c63ab0(int parameter)
         entries[index] = 0;
     }
 }
+
+#include "generated/data/staging/blk_00c60000_od.inc"

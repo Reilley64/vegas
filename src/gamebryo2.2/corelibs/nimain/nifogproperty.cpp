@@ -525,3 +525,5 @@ void FUN_00a9a090()
     PtrRef<Obj00a9a120> r(DAT_011f5f3c);
     r = (Obj00a9a120*)new (FUN_00aa13e0(sizeof(NiFogProperty))) NiFogProperty;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nimain/nifogproperty.inc"

@@ -358,3 +358,5 @@ void StringOwner::BuildStringArray(unsigned int apArray)
         }
     }
 }
+
+#include "generated/data/bsshader/bsshaderbloodsplatterproperty.inc"

@@ -126,3 +126,5 @@ float Uniform::FUN_00b3f2a0(float afValue) const
 {
     return (afValue < ::_DAT_01012060 || afValue > 1.0) ? 0.0f : 1.0f;
 }
+
+#include "generated/data/speedtree/librandom_source/idvrandom.inc"

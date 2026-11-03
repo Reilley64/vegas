@@ -971,3 +971,5 @@ void A48280Obj::CopyTo(float fTime, float fDuration, A48280Obj** ppRival)
             pDestroy->v1();
     }
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nianimation/nirotdata.inc"

@@ -73,3 +73,5 @@ char FUN_00aa09d0(char)
 {
     return 1;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nimain/niloddata.inc"

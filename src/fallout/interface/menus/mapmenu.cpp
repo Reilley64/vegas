@@ -7645,3 +7645,5 @@ void Reconstruction798cb0::FUN_00798cb0(int aiEventCode, Tile* tile)
     }
 }
 }  // namespace fnv_00798cb0
+
+#include "generated/data/fallout/interface/menus/mapmenu.inc"

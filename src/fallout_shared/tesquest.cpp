@@ -1834,3 +1834,5 @@ void QuestShell::FUN_0060d720()
     reinterpret_cast<::FUN_0060caf0_shell *>(this)->FUN_0060caf0(false);
     reinterpret_cast<::FUN_005ec700_shell *>(this)->SetFlag20(false);
 }
+
+#include "generated/data/fallout_shared/tesquest.inc"

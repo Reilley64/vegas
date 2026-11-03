@@ -1100,3 +1100,5 @@ struct ToiCountThunkObject : ToiCountThunkPrimary, ToiCountThunkSecondary
 
 ToiCountThunkObject::ToiCountThunkObject()
 {}
+
+#include "generated/data/havok/physics/utilities/visualdebugger/viewer/collide/hkptoicountviewer.inc"

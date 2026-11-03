@@ -8,3 +8,5 @@
 #include "fnv/symbols_00450000.h"
 #include "fnv/symbols_011f6000.h"
 #include "windengine.h"
+
+#include "generated/data/speedtree/windengine_h_unit.inc"

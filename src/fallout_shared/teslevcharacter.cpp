@@ -303,3 +303,5 @@ bool Entry::FUN_0050acf0(TESForm* other)
     return false;
 }
 }
+
+#include "generated/data/fallout_shared/teslevcharacter.inc"

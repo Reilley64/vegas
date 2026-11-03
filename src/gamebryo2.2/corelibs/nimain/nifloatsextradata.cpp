@@ -4,6 +4,7 @@
 
 
 // @fnv 0x00a89120
+#include "generated/data/vtables.h"
 #include "fnv/decl/ExtraDataObject.h"
 #include "fnv/decl/ExtraDataStrings.h"
 #include "fnv/decl/FUN_00a7b2c0_shell.h"
@@ -37,7 +38,7 @@ void* __cdecl FUN_00a89190()
     {
         NiExtraData* pExtraData = static_cast<NiExtraData*>(p);
         reinterpret_cast<::ExtraDataObject *>((pExtraData))->FUN_00a7b2e0();
-        *static_cast<void**>(p) = (void*)0x0109ec0c;
+        *static_cast<void**>(p) = (void*)fnv_vftable_DAT_0109ec0c;
         *(int*)(static_cast<char*>(p) + 0x10) = 0;
         *(int*)(static_cast<char*>(p) + 0x0c) = 0;
         return p;

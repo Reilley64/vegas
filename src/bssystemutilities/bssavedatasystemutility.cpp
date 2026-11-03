@@ -58,3 +58,5 @@ bool FUN_00af2ff0_Holder::FUN_00af2ff0(const char* a, void* b)
 {
     return false;
 }
+
+#include "generated/data/bssystemutilities/bssavedatasystemutility.inc"

@@ -740,3 +740,5 @@ int FUN_00dfaba0(const hkTransform* transform, Arg1* arg1, Arg2** arg2, int coun
     *FUN_00c85750() = buffer;
     return 0;
 }
+
+#include "generated/data/havok/physics/internal/collide/gjk/penetration/hkpconvexpenetrationutil.inc"

@@ -2130,3 +2130,5 @@ void Struct801420::FUN_00801450(unsigned char a, int b)
         (void)ptr12;
     }
 }
+
+#include "generated/data/fallout/interface/fovatseffectmanager_od_variant.inc"

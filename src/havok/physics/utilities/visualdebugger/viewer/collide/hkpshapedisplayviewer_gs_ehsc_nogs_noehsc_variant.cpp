@@ -1360,3 +1360,5 @@ void S65_Self::FUN_00d65ad0(S65_Param* param)
     if ((vec.cap & 0x80000000) == 0)
         al.FreeArray(vec.data, (vec.cap & 0x3fffffff) * 4);
 }
+
+#include "generated/data/havok/physics/utilities/visualdebugger/viewer/collide/hkpshapedisplayviewer_gs_ehsc_nogs_noehsc_variant.inc"

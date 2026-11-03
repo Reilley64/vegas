@@ -1386,3 +1386,5 @@ __declspec(noinline) Vec4* FUN_00d5bb10(Vec4* result, Vec4* first, Vec4* second,
     out->q.m128_f32[3] = distance + radius;
     return result;
 }
+
+#include "generated/data/havok/common/internal/convexhull/hkgeometryutility_rtmfull_variant.inc"

@@ -5364,3 +5364,5 @@ bool __cdecl FUN_00a2cc30(int param_1, int param_2)
     return A2CC30_Shell::FUN_00a291a0(reinterpret_cast<const Helper*>(param_1),
                                       reinterpret_cast<const Helper*>(param_2));
 }
+
+#include "generated/data/staging/blk_00a20000_o2.inc"

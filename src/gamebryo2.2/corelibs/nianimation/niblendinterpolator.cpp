@@ -1606,3 +1606,5 @@ void FUN_00a37670_NiBlendInterpolator::operator delete(void* p, unsigned int n)
 {
     ::FUN_00aa1460(p, n);
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nianimation/niblendinterpolator.inc"

@@ -161,3 +161,5 @@ void Rotation::FUN_00cb2850(const __m128* a, const __m128* b, float t)
     __m128 scale = _mm_shuffle_ps(corrected, corrected, 0);
     m_v = _mm_mul_ps(scale, result);
 }
+
+#include "generated/data/havok/common/base/math/quaternion/hkquaternion_gs_ehsc_nogs_noehsc_variant_rtm_variant.inc"

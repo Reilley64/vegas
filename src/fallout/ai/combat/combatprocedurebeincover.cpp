@@ -1056,3 +1056,5 @@ void CoverProcedure::UpdateCoverState()
     }
     }
 }
+
+#include "generated/data/fallout/ai/combat/combatprocedurebeincover.inc"

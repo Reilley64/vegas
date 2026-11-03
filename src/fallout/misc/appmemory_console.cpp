@@ -87,3 +87,5 @@ void MemoryManager::InitializeHeaps()
     classes[23] = heaps[2];
     current = 0;
 }
+
+#include "generated/data/fallout/misc/appmemory_console.inc"

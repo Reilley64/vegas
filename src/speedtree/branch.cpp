@@ -548,3 +548,5 @@ float FUN_00b14e90(float minimum, float maximum)
     float range = maximum - minimum;
     return fraction * range + minimum;
 }
+
+#include "generated/data/speedtree/branch.inc"

@@ -8050,3 +8050,5 @@ int MeshQ::FUN_00e11990(const VectorQ& plane, int aiComponent)
         result += 2;
     return result;
 }
+
+#include "generated/data/staging/blk_00e00000_o2.inc"

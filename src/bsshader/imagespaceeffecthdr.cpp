@@ -111,3 +111,5 @@ void HDRImageSpaceEffect::Setup(ImageSpaceManager* manager, ImageSpaceEffectPara
     reinterpret_cast<::FUN_00ba3c70_shell *>(this)->SetEffectAt(4, manager->GetEffect(60), shaderParam, 0);
     reinterpret_cast<::FUN_00a41520_cls *>(&(pEffectParamList))->FUN_00ba3aa0(4, (::KeyPair **)&(const ::ImageSpaceEffectParam *const &)((ImageSpaceEffectParam*)shaderParam));
 }
+
+#include "generated/data/bsshader/imagespaceeffecthdr.inc"

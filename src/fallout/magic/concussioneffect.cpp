@@ -120,3 +120,5 @@ void FUN_0052d240_shell::FUN_0052d240()
 {
     reinterpret_cast<::TESForm *>(this)->ClearData();
 }
+
+#include "generated/data/fallout/magic/concussioneffect.inc"

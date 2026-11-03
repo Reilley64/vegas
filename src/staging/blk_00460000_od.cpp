@@ -5089,3 +5089,5 @@ void FUN_00464f40_class::FUN_00470110()
     reinterpret_cast<FNVPointerArray*>(this)->m_ppVirtualMethodTable = reinterpret_cast<void**>(&DAT_01019a34);
     ::FUN_004ede70(reinterpret_cast<FNVPointerArray*>(this)->m_pBase);
 }
+
+#include "generated/data/staging/blk_00460000_od.inc"

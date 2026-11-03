@@ -114,3 +114,5 @@ Vec3 __cdecl FUN_006d99a0(float angle, PathingLocation* startRef, PathingLocatio
     }
     return (*(::Vec3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(goalId_))->FUN_00439ef0((::NiPoint3 *)&(origin20), *(const ::NiPoint3 *)nullptr)));
 }
+
+#include "generated/data/fallout_shared/pathfinding/pathfind_ctx_variant.inc"

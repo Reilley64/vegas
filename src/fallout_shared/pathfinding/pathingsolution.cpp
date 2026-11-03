@@ -1485,3 +1485,5 @@ bool FUN_006e9830_shell::FindPointAtDistance(float afT, float afDistance, bool a
         return true;
     }
 }
+
+#include "generated/data/fallout_shared/pathfinding/pathingsolution.inc"

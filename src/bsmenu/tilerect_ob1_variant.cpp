@@ -183,3 +183,5 @@ NiNode* TileX::FUN_00a1f3b0()
     reinterpret_cast<::UpdateTreeNode *>(this)->FUN_00a037e0(0xfa2, reinterpret_cast<::TileListBoxCalls *>(this)->GetFloat(0xfa2), {});
     return unknown_2c;
 }
+
+#include "generated/data/bsmenu/tilerect_ob1_variant.inc"

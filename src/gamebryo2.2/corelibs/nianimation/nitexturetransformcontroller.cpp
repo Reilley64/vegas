@@ -766,3 +766,5 @@ NiTextureTransformController* __cdecl FUN_00a46950()
             NiTextureTransformController(0, 0, NiTextureTransformController__TransformMember_TT_TRANSLATE_U);
     return 0;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nianimation/nitexturetransformcontroller.inc"

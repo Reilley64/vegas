@@ -70,3 +70,5 @@ bool __cdecl FUN_00aa2cc0(const char* pcPath)
         return true;
     return false;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nisystem/console/nipath_console.inc"

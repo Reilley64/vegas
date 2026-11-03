@@ -52,3 +52,5 @@ extern "C" void __cdecl SubtractScalarFloat(__m128* pResult, const __m128* pLeft
 void FUN_00d892d0()
 {
 }
+
+#include "generated/data/havok/physics/constraintsolver/solve/hkpsolver.inc"

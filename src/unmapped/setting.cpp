@@ -312,3 +312,5 @@ void* FUN_0044f600_class::InitializeVtbl()
 // @fnv 0x0044f700
 FUN_0044f700::FUN_0044f700()
 {}
+
+#include "generated/data/unmapped/setting.inc"

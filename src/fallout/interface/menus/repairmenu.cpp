@@ -1398,3 +1398,5 @@ void __cdecl PopulateRepairMenu()
     }
 }
 }  // namespace fnv_007b6aa0
+
+#include "generated/data/fallout/interface/menus/repairmenu.inc"

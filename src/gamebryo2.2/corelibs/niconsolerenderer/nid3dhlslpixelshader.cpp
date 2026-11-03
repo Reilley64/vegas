@@ -2945,3 +2945,5 @@ bool Player::FUN_00e96da0(Entry* entry, int arg, int extra)
     return ok;
 }
 }  // namespace fnv_00e96da0
+
+#include "generated/data/gamebryo2.2/corelibs/niconsolerenderer/nid3dhlslpixelshader.inc"

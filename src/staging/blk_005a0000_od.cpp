@@ -823,3 +823,5 @@ bool __cdecl FUN_005b4960(int unused, char const* data, TESObjectREFR* reference
                     values[8], values[9]);
     return true;
 }
+
+#include "generated/data/staging/blk_005a0000_od.inc"

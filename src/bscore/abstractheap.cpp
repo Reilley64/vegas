@@ -705,3 +705,5 @@ void AbstractHeapX::GetHeapStats(HeapStatsX* stats, bool full)
     stats->m_uiTrailingStatsValue = stats->iMemHeapSize - stats->m_iUsedSize + stats->iFreeSize;
     fnv_LeaveCriticalSection(&this->cs);
 }
+
+#include "generated/data/bscore/abstractheap.inc"

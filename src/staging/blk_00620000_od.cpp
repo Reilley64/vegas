@@ -7438,3 +7438,5 @@ void FUN_00620110_Class::FUN_006201c0()
     }
     static_cast<ZoneTargetListenerView*>(this)->firstZone = 0;
 }
+
+#include "generated/data/staging/blk_00620000_od.inc"

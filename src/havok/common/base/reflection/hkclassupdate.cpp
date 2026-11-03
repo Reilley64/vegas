@@ -207,3 +207,5 @@ TypeNode* ParentNodeView::FUN_00d46d60()
 {
     return parent;
 }
+
+#include "generated/data/havok/common/base/reflection/hkclassupdate.inc"

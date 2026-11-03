@@ -632,3 +632,5 @@ char* FUN_00aa5ec0_shell::FUN_00aa5ec0(unsigned int aiInitialSize)
     }
     return pbuffer;
 }
+
+#include "generated/data/bscore/scrapheap.inc"

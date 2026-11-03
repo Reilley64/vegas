@@ -1222,3 +1222,5 @@ extern "C" void __cdecl FUN_00cddd20(void* aiCount, void* apParents, void* apRoo
     toLocal((int)aiCount, (const short*)apParents, *(const QsXform*)apRoot, (const QsXform*)apWorld,
             (QsXform*)apLocalOut);
 }
+
+#include "generated/data/havok/animation/animation/rig/hkaskeletonutils.inc"

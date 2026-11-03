@@ -795,3 +795,5 @@ rayA++;
 }
 {StringCursor&mStream=StringCursor::GetMonitorStream();if(reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(mStream.memoryAvailable()))->FUN_005609f0()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName=::DAT_010c41f8;h->setTime();mStream.setEnd((char*)(h+1));}};
 }
+
+#include "generated/data/havok/physics/collide/agent/miscagent/multirayconvex/hkpmultirayconvexagent_gs_nogs_variant_rtm_variant.inc"

@@ -3488,3 +3488,5 @@ bool __cdecl FUN_007304b0(Fr7304Entry* pkItem)
     }
     return bResult;
 }
+
+#include "generated/data/fallout/interface/menus/bartermenu.inc"

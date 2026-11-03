@@ -1187,3 +1187,5 @@ void SolUpdater::FUN_00d2fac0(const SolBody& first, const SolBody& second, const
         SolMerge<SolEntry>::slow(m_kEntries, keys, first, second, value, m_pContactManager, context, state);
     }
 }
+
+#include "generated/data/havok/physics/collide/agent/compoundagent/bvtree/hkpbvtreeagent_gs_ehsc_nogs_noehsc_variant.inc"

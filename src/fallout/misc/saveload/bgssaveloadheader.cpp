@@ -310,3 +310,5 @@ NiTexture* __cdecl LoadScreenshotTexture(SaveLoadFile* file, unsigned int offset
     aTexFormat.iAlphaFormat = 0;
     return ((::NiTexture *)(::fnv_00a5ff10::FUN_00a5ff10((::fnv_00a5ff10::RefCounted *)(pixelData2), (void *)(ScreenshotName("BGSSaveLoadHeader_Screenshot")), (const ::fnv_00a5ff10::OwnerTriple *)(::ScreenshotTexFormat *)(&aTexFormat))));
 }
+
+#include "generated/data/fallout/misc/saveload/bgssaveloadheader.inc"

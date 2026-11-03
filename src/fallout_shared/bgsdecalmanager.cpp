@@ -3151,3 +3151,5 @@ bool DWork::FUN_004a2070(DArg* arg)
     return true;
 }
 }  // namespace fnv_004a2070
+
+#include "generated/data/fallout_shared/bgsdecalmanager.inc"

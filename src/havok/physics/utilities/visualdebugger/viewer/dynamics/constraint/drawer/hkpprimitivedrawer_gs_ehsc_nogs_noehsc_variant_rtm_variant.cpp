@@ -382,3 +382,5 @@ void PlaneDrawObject::FUN_00e11180(const PlaneDrawVector* p1, int p2, const Plan
 }
 }  // namespace fnv_00e11180
 #include "fnv/symbols_simd.h"
+
+#include "generated/data/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkpprimitivedrawer_gs_ehsc_nogs_noehsc_variant_rtm_variant.inc"

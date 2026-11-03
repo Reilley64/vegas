@@ -515,3 +515,5 @@ FUN_005e50c0_shell::~FUN_005e50c0_shell()
     if (1)
         ::FUN_00401030(this);
 }
+
+#include "generated/data/fallout_shared/bgsbodypart.inc"

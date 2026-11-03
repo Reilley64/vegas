@@ -2233,3 +2233,5 @@ void nsa98::Cls::AllocateMipMap(unsigned int uiLevels, unsigned int uiFaces, uns
     m_puiHeight = m_puiWidth + uiLevels;
     m_puiOffsetInBytes = m_puiHeight + uiLevels;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nimain/nipersistentsrctexturerendererdata.inc"

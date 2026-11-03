@@ -908,3 +908,5 @@ void ThisT::FUN_0060a950(ParamT* param)
             ::BSShaderManager::UpdateObjectTypeRecurse((::NiAVObject *)(cur), 0, 0);
     }
 }
+
+#include "generated/data/fallout_shared/tesnpc_ctx_variant.inc"

@@ -681,3 +681,5 @@ void FUN_00dcfc00(const hkVector4* pivotA, const hkVector4* pivotB, float maxFor
         jac[2].linear.m_vComponents.m128_f32[3] = velocity.m_vComponents.m128_f32[2] * k;
     }
 }
+
+#include "generated/data/havok/physics/constraintsolver/constraint/bilateral/hkp1dbilateralconstraintbuildjacobian_rtm_variant.inc"

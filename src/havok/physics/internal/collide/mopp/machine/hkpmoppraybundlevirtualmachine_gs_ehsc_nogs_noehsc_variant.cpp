@@ -287,3 +287,5 @@ Vec4Comp BundleMachine::FUN_00dd4870(const ShapeContainer* collection, const Tre
 
     return m_vRayDelta;
 }
+
+#include "generated/data/havok/physics/internal/collide/mopp/machine/hkpmoppraybundlevirtualmachine_gs_ehsc_nogs_noehsc_variant.inc"

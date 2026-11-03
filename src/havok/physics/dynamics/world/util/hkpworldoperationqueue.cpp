@@ -1815,3 +1815,5 @@ void S_Owner::FUN_00c674d0(S_Item** items, unsigned int count)
         memset(items, 0, count * sizeof(S_Item*));
     }
 }
+
+#include "generated/data/havok/physics/dynamics/world/util/hkpworldoperationqueue.inc"

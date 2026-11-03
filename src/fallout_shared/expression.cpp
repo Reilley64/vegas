@@ -283,3 +283,5 @@ char* ExpressionConverter::ConvertToPostfix(const char* pInfix, unsigned int* pu
         }
     }
 }
+
+#include "generated/data/fallout_shared/expression.inc"

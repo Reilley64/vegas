@@ -64,3 +64,5 @@ void FUN_009a5f90_shell::SaveTimeStamp(BGSSaveFormBuffer* apSaveGameBuffer)
     reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(&fSavedTimeStamp, 4, 0);
 }
 }  // namespace fnv_009a5f90
+
+#include "generated/data/fallout/ai/combat/combattimer.inc"

@@ -157,3 +157,5 @@ void* FUN_00c85760()
     return TlsGetValue((*reinterpret_cast<unsigned long *>(&::DAT_01268108)));
 }
 }  // namespace fnv_00c85760
+
+#include "generated/data/havok/common/base/memory/router/hkmemoryrouter.inc"

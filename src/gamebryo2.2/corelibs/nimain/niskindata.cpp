@@ -809,3 +809,5 @@ void SkinLoadData::FUN_00a84f50(SkinLoadStream& stream)
         SkinLoadBinary(stream, unused);
     }
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nimain/niskindata.inc"

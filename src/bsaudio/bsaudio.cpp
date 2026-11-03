@@ -1430,3 +1430,5 @@ void FUN_00ad8100_shell::FUN_00ad8100(char* apSoundName, unsigned int aiFlags, v
     reinterpret_cast<::OwnerQ3 *>(&(BSAudioManager::GetRandomGenerator()))->FUN_00add6f0((const char *)((unsigned int)apSoundName), aiFlags, (unsigned int)apParam);
 }
 }  // namespace fnv_00ad8100
+
+#include "generated/data/bsaudio/bsaudio.inc"

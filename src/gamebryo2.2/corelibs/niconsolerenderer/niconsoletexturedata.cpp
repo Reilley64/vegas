@@ -1,5 +1,6 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "generated/data/vtables.h"
 #include "fnv/decl/FUN_00a5d3d0.h"
 #include "fnv/symbols_00aa1000.h"
 struct NiRefObject
@@ -18,7 +19,7 @@ struct NiTexture_RendererData : NiRefObject
 void* NiTexture_RendererData::FUN_00a981a0(unsigned int flags)
 {
     NiTexture_RendererData* pThis = this;
-    *reinterpret_cast<void**>(pThis) = reinterpret_cast<void*>(0x010a080c);
+    *reinterpret_cast<void**>(pThis) = reinterpret_cast<void*>(fnv_vftable_S_00a981d0_Mid);
     reinterpret_cast<class ::FUN_00a5d3d0 *>((pThis))->FUN_00a5d3d0::~FUN_00a5d3d0();
     if (flags & 1)
         ::FUN_00aa1460(pThis, 0x60);

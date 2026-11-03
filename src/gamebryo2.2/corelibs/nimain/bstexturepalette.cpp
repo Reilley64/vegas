@@ -409,3 +409,5 @@ void __cdecl FUN_00a61cd0()
         ((TexSpinLock*)&g_spinLock)->Unlock();
     }
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nimain/bstexturepalette.inc"

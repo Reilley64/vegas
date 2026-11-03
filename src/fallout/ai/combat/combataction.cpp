@@ -352,3 +352,5 @@ FUN_00979bd0::FUN_00979bd0(int a)
     aeType = a;
     iFlags = DAT_011a4280[aeType].iFlags;
 }
+
+#include "generated/data/fallout/ai/combat/combataction.inc"

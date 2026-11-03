@@ -7836,3 +7836,5 @@ TESTopic* TopicLookup::FUN_00461690(unsigned int id)
 {
     return dynamic_cast<TESTopic*>(::FUN_004839c0(id));
 }
+
+#include "generated/data/fallout_shared/tesdatahandler.inc"

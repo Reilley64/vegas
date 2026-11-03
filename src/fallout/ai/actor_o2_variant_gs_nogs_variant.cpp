@@ -2468,3 +2468,5 @@ void hkaPoseCDA::FUN_00cda690()
     }
     m_bPoseInitialized = true;
 }
+
+#include "generated/data/fallout/ai/actor_o2_variant_gs_nogs_variant.inc"

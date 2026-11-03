@@ -2714,3 +2714,5 @@ void InitializeRuntimeFloatReciprocal539()
 {
     runtimeInitializationFloat4121 = kRuntimeInitializerUnit / runtimeInitializationFloat4122;
 }
+
+#include "generated/data/generated/crt_callback_float_reciprocal.inc"

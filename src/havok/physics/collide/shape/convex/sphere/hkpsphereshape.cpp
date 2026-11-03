@@ -593,3 +593,5 @@ void FUN_00cd80e0(float* output)
 {
     *reinterpret_cast<__m128*>(output) = _mm_setzero_ps();
 }
+
+#include "generated/data/havok/physics/collide/shape/convex/sphere/hkpsphereshape.inc"

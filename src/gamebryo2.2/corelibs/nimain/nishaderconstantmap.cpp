@@ -987,3 +987,5 @@ ShaderLight* GetLightByType(ShaderLights* lights, unsigned int type, unsigned in
 
     return result;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nimain/nishaderconstantmap.inc"

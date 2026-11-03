@@ -959,3 +959,5 @@ restore_exit:
     scope.saved = restore;
 cold_exit:;
 }
+
+#include "generated/data/fallout/ai/combat/explosion_o2_variant.inc"

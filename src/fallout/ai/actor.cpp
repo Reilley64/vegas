@@ -147724,3 +147724,5 @@ void EffectAddedActorView::FUN_008c4ab0(::ActiveEffect* apEffect)
         }
     }
 }
+
+#include "generated/data/fallout/ai/actor.inc"

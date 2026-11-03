@@ -274,3 +274,5 @@ unsigned int AHSeqOwner::AddSeq(const char* pcName, S_00a47ae0_Rc* pkSeq)
     m_kSeqs.SetAtGrow(uiIndex, pkSeq);
     return uiIndex;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nianimation/nisequence.inc"

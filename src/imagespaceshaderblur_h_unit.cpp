@@ -472,3 +472,5 @@ struct Derived : PrimaryBase, SecondaryBase
 Derived::Derived()
 {}
 }  // namespace fnv_00b8ec70
+
+#include "generated/data/imagespaceshaderblur_h_unit.inc"

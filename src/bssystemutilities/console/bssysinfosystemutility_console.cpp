@@ -80,3 +80,5 @@ unsigned int BSSysInfoSystemUtility::GetRandomGenerator(void)
     }
     return gCachedLanguage;
 }
+
+#include "generated/data/bssystemutilities/console/bssysinfosystemutility_console.inc"

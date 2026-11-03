@@ -3535,3 +3535,5 @@ void call_interleave(V B, V A, V C, V O, Wrap E, V D, V M1, V M2)
 {
     FUN_00dd3020(B, A, C, O, E, D, M1, M2);
 }
+
+#include "generated/data/staging/blk_00dc0000_o2.inc"

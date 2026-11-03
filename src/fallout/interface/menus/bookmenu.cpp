@@ -1139,3 +1139,5 @@ void LoadBook::LoadBookFile()
     reinterpret_cast<::Tile *>((((::BookTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->Set(0x100a, -99999);
     reinterpret_cast<::Tile *>((((::BookTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->Set(0x100a, 0);
 }
+
+#include "generated/data/fallout/interface/menus/bookmenu.inc"

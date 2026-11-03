@@ -1184,3 +1184,5 @@ void TextureRenderer::AddTexture(NiTexture* pkTexture)
     else if (IsKindOfType(&(*reinterpret_cast<::NiRTTI *>(&::g_011f4ac4)), pkTexture))
         m_aspTextures[iSlot] = pkTexture;
 }
+
+#include "generated/data/bsshader/debugshader.inc"

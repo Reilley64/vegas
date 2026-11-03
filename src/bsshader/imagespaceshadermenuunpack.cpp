@@ -689,3 +689,5 @@ void HudInner::UpdateHudGeometry(int aiUnk, SurfaceOwner* apSurface, HudParam* a
         (*reinterpret_cast<bool *>(&::DAT_011ae5d4)) = false;
     }
 }
+
+#include "generated/data/bsshader/imagespaceshadermenuunpack.inc"

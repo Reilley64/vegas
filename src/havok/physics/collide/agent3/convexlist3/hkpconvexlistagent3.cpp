@@ -1255,3 +1255,5 @@ int hkpConvexListLinearCastD334::FUN_00d334c0(const hkpCdBodyD333* apBodyA, cons
     return reinterpret_cast<hkpLinearCastProcessorD334*>(m_processor)
         ->process(bodyA, bodyB, a3, a4, a5, a6, apCache, a8, a9);
 }
+
+#include "generated/data/havok/physics/collide/agent3/convexlist3/hkpconvexlistagent3.inc"

@@ -12265,3 +12265,5 @@ void System125::FUN_004e3590(Parent125* parent, Ref125* reference)
         }
     }
 }
+
+#include "generated/data/fallout_shared/teswater.inc"

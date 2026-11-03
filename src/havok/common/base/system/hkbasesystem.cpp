@@ -651,3 +651,5 @@ S_00cbbde0_Reader* FUN_00cbbde0(const char* name) throw()
     return reader;
 }
 }  // namespace fnv_00cbbde0
+
+#include "generated/data/havok/common/base/system/hkbasesystem.inc"

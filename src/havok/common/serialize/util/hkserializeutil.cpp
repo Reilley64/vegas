@@ -1128,3 +1128,5 @@ void S00d48950_Caller()
 {
     g00d48950_out = FUN_00d48950(g00d48950_result, g00d48950_target, g00d48950_lookup, g00d48950_root);
 }
+
+#include "generated/data/havok/common/serialize/util/hkserializeutil.inc"

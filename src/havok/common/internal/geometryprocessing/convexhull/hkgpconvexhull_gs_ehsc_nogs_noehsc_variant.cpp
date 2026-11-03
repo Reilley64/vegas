@@ -9990,3 +9990,5 @@ seed.bits.w=source->first->point.bits.w;
     }
     return false;
 }
+
+#include "generated/data/havok/common/internal/geometryprocessing/convexhull/hkgpconvexhull_gs_ehsc_nogs_noehsc_variant.inc"

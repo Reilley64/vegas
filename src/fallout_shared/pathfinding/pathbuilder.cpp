@@ -7867,3 +7867,5 @@ HighProcessPart6e6::HighProcessPart6e6()
     unk8c = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::GlobalFloatSetting *>(&::originalRuntimeFloatSetting841))))));
     unk90 = ::g_011db514_arg1;
 }
+
+#include "generated/data/fallout_shared/pathfinding/pathbuilder.inc"

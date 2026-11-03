@@ -4139,3 +4139,5 @@ void __cdecl FUN_00d36c60(void* apAgent)
     FUN_00d36bb0(&funcs);
     reinterpret_cast<::FUN_00cfbbe0_cls *>((agent))->FUN_00cfbbe0((::FUN_00cfbbe0_rec *)(::CollisionAgentFunctionTable *)(&funcs), -1, 9);
 }
+
+#include "generated/data/staging/blk_00d20000_o2.inc"

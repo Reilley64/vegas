@@ -1472,3 +1472,5 @@ float __cdecl FUN_00643870(S00643870_Base1* apObj, float afValue)
 
     return fResult;
 }
+
+#include "generated/data/fallout_shared/aiformulas.inc"

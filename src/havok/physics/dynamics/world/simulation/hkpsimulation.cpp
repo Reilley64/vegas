@@ -3036,3 +3036,5 @@ void FNVOwner_CFA5F0::FUN_00cfa5f0(int arg1,int arg2,FNVSIM_CFA5F0* sim,const in
     }
 }
 }  // namespace fnv_00cfa5f0
+
+#include "generated/data/havok/physics/dynamics/world/simulation/hkpsimulation.inc"

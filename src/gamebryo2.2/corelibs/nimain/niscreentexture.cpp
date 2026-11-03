@@ -949,3 +949,5 @@ ScreenTextureClone* ScreenHost::FUN_00a95c10(void* apSource)
     CopyTo(reinterpret_cast<ScreenCopy*>(object), apSource);
     return object;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nimain/niscreentexture.inc"

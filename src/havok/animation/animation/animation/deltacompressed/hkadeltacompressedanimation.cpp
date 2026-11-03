@@ -1215,3 +1215,5 @@ void DeltaSampler::FUN_00e359f0(float time, hkUint32 maxNumTransformTracks, hkQs
     dynamicDOFs.destroyLocal();
 }
 }  // namespace fnv_00e359f0
+
+#include "generated/data/havok/animation/animation/animation/deltacompressed/hkadeltacompressedanimation.inc"

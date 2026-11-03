@@ -95,3 +95,5 @@ void List::FUN_00405760(File* file, const char* name)
         break;
     }
 }
+
+#include "generated/data/fallout_shared/magic/effectitemlist_ctxr_variant.inc"

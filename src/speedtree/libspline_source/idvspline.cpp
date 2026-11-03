@@ -945,3 +945,5 @@ float SplineSampler::Sample(float a1)
     }
     return val4;
 }
+
+#include "generated/data/speedtree/libspline_source/idvspline.inc"

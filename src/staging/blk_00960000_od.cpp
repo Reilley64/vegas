@@ -9462,3 +9462,5 @@ FUN_0096d020::FUN_0096d020() : semaphore(0, 40)
     reinterpret_cast<::RecursiveSpinLock *>((((BSSpinLockUnlock*)&lock)))->FUN_0040fba0();
     DAT_00fdf0a4((_RTL_CRITICAL_SECTION*)&DAT_011e0e20);
 }
+
+#include "generated/data/staging/blk_00960000_od.inc"

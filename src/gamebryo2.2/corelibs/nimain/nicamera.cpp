@@ -1648,3 +1648,5 @@ bool NiCameraV7::FUN_00a70080(const NiBoundV7& bound)
     UpdateWorldBound();
     return true;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nimain/nicamera.inc"

@@ -9212,3 +9212,5 @@ bool __cdecl FUN_006d74c0(PathingLocation& start, const NiPoint3& end, NavMesh* 
     }
 }
 }  // namespace fnv_006d74c0
+
+#include "generated/data/fallout_shared/pathfinding/pathfind.inc"

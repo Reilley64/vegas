@@ -6241,3 +6241,5 @@ FUN_00bbc9c0::~FUN_00bbc9c0()
     ReleaseShaderPointer(m_pVertexDeclaration8);
     m_pGeometryBufferData = 0;
 }
+
+#include "generated/data/bsshader/lighting30shader.inc"

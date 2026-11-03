@@ -910,3 +910,5 @@ void BoundUpdateModifier::UpdateBounds(float fTime, NiPSysData* pkData)
         m_usCurrentSample = 0;
     }
 }
+
+#include "generated/data/gamebryo2.2/corelibs/niparticle/nipsysboundupdatemodifier.inc"

@@ -140,3 +140,5 @@ int __cdecl FUN_00d54280()
 {
     return 0;
 }
+
+#include "generated/data/havok/physics/dynamics/constraint/bilateral/ballandsocket/hkpballandsocketconstraintdata.inc"

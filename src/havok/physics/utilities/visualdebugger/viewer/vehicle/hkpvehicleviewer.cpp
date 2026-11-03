@@ -781,3 +781,5 @@ void D63590List::FUN_00d63590(unsigned int value)
         reinterpret_cast<::hkReferencedObjectC905 *>((((ItemList*)value)))->FUN_00c905b0();
     }
 }
+
+#include "generated/data/havok/physics/utilities/visualdebugger/viewer/vehicle/hkpvehicleviewer.inc"

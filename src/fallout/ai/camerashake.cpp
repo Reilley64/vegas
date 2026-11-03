@@ -183,3 +183,5 @@ float UpdateCameraShake(float time, MatrixView* output)
     }
     return DAT_011dfed4;
 }
+
+#include "generated/data/fallout/ai/camerashake.inc"

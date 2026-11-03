@@ -940,3 +940,5 @@ fnv_b4214::FUN_0082a460::FUN_0082a460(int aiParam1, int aiParam2, int aiParam3)
     m_5c = 0;
     m_5d = 0;
 }
+
+#include "generated/data/fallout/magic/telekinesiseffect.inc"

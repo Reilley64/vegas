@@ -2426,3 +2426,5 @@ bool FnvElementCollection::SetSlotObject(unsigned short index, int type)
     m_slots[index].FUN_0066b0d0(type);
     return true;
 }
+
+#include "generated/data/fallout_shared/speedtree/bstreenode.inc"

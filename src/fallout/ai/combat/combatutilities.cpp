@@ -4583,3 +4583,5 @@ NiPoint3 FUN_009a8050(Actor* pkRef)
 }
 
 }
+
+#include "generated/data/fallout/ai/combat/combatutilities.inc"

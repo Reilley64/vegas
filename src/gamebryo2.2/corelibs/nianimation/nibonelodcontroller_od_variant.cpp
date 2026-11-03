@@ -417,3 +417,5 @@ void FUN_00c53c50_Class::FUN_00c53c50(NiTPrimitiveArray_unsigned_int* array)
     values.value2 = (unsigned int)::FUN_00a7d510(str_0109a388, this->unk38);
     reinterpret_cast<::S_0060ba10 *>((array))->FUN_0096a610((int)&(values.value2));
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nianimation/nibonelodcontroller_od_variant.inc"

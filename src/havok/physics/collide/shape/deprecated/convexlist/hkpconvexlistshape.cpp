@@ -1179,3 +1179,5 @@ void ConvexListShapeQ::FUN_00d5e300(const hkVector4q& direction, hkVector4q& sup
     id += (subShape << 8);
     supportingVertex.setInt24W(id);
 }
+
+#include "generated/data/havok/physics/collide/shape/deprecated/convexlist/hkpconvexlistshape.inc"

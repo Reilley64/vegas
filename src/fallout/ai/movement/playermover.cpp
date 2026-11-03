@@ -15,6 +15,7 @@
 //   +0x28) as observed in the PC disassembly.
 //   fallout/misc/saveload/bgsloadformbuffer.cpp declaration.
 
+#include "generated/data/vtables.h"
 #include "fnv/decl/BSAnimGroupSequence.h"
 #include "fnv/decl/BSShaderNoLightingProperty.h"
 #include "fnv/decl/FUN_004077c0_shell.h"
@@ -352,7 +353,7 @@ struct FUN_009e9e30_shell : FUN_009daef0
 // @fnv 0x009e9e30
 void FUN_009e9e30_shell::FUN_009e9e30()
 {
-    *reinterpret_cast<int*>(this) = 0x0109297c;
+    *reinterpret_cast<void**>(this) = fnv_vftable_FUN_009e9d00;
     FUN_009daef0::~FUN_009daef0();
 }
 
@@ -390,3 +391,5 @@ void FUN_009ea5a0_shell::FUN_009ea5a0(BGSSaveFormBuffer* apBuffer)
     reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50(&m_uiMode, 4, 0);
     reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50(&m_fValue, 4, 0);
 }
+
+#include "generated/data/fallout/ai/movement/playermover.inc"

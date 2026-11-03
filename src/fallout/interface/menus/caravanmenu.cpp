@@ -25203,3 +25203,5 @@ void R74Menu::SelectCard(int row, int column)
         }
     }
 }
+
+#include "generated/data/fallout/interface/menus/caravanmenu.inc"

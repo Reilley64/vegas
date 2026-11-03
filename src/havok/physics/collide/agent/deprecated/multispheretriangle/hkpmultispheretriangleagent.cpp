@@ -2,6 +2,7 @@
 // src/havok/physics/collide/agent/deprecated/multispheretriangle/hkpmultispheretriangleagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/deprecated/multispheretriangle/hkpmultispheretriangleagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "generated/data/vtables.h"
 #include "fnv/decl/SphereTriangleAgent.h"
 #include "fnv/decl/SphereTriangleProcessReceiver.h"
 #include "fnv/symbols_00cd7000.h"
@@ -120,7 +121,7 @@ void __cdecl FUN_00d38ac0(void* first, void* second, void* third, int fourth)
     D38AC0Data data;
     data.unk08 = fourth;
     data.unk04 = 0;
-    data.unk00 = 0x10ce81c;
+    data.unk00 = fnv_vftable_D3CF80Collector;
     ::FUN_00d38130((*(const ::hkpCdBody *)(second)), (*(const ::hkpCdBody *)(first)), third, (*(::hkpCdBodyPairCollector *)(&data)));
 }
 

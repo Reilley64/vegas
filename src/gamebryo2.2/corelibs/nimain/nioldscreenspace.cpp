@@ -3165,3 +3165,5 @@ void SequenceOwner::FUN_00a916a0(SequenceOwner* pkDest, CloningProcess& kCloning
     }
 }
 }  // namespace fnv_00a916a0
+
+#include "generated/data/gamebryo2.2/corelibs/nimain/nioldscreenspace.inc"

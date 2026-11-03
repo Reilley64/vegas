@@ -92,3 +92,5 @@ void FUN_00af36e0_shell::SetStringAt(unsigned int index, const char* pcStr)
         fnv::crt::strcpy_s((char*)pNewString, len, pcStr);
     }
 }
+
+#include "generated/data/bssystemutilities/bssystemutilitiesstrings.inc"

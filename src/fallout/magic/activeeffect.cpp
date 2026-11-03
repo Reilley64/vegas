@@ -2907,3 +2907,5 @@ FUN_00803ed0::~FUN_00803ed0()
         reinterpret_cast<::SoundPlaybackHandle *>(&(m_kSoundHandle))->Release();
     }
 }
+
+#include "generated/data/fallout/magic/activeeffect.inc"

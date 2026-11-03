@@ -13306,3 +13306,5 @@ void ShaderSetup::FUN_00c0fdc0()
     DAT_011fc38c = 0x3c;
 }
 }  // namespace fnv_00c0fdc0
+
+#include "generated/data/staging/blk_00c00000_o2.inc"

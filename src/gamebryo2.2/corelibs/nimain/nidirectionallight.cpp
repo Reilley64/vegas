@@ -184,3 +184,5 @@ NiObject* FUN_00a75cf0_impl::FUN_00a75cf0(CloningProcess* kCloning)
     pkObject->m_kWorldDir = m_kWorldDir;
     return (NiObject*)pkObject;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nimain/nidirectionallight.inc"

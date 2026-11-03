@@ -738,3 +738,5 @@ void __cdecl FUN_00e318a0(unsigned int auBit, FUN_00e318a0_buf* apBuf)
     }
 }
 }  // namespace fnv_00e318a0
+
+#include "generated/data/havok/animation/animation/animation/splinecompressed/hkasplinecompressedanimationctor.inc"

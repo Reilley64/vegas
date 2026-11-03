@@ -437,3 +437,5 @@ void S00e63f10::hkpMoppEarlyExitObbVirtualMachine::FUN_00e63f10(const CollisionS
         }
     }
 }
+
+#include "generated/data/havok/physics/internal/collide/mopp/machine/hkpmoppearlyexitobbvirtualmachine_gs_nogs_variant.inc"

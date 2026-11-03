@@ -1034,3 +1034,5 @@ int HWShell::FUN_00701bd0(int index)
     }
     return result5;
 }
+
+#include "generated/data/fallout/interface/hotkeyswheel.inc"

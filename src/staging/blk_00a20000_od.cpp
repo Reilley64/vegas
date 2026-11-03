@@ -7669,3 +7669,5 @@ void InputManager::FUN_00a25410(int offset)
     (*reinterpret_cast<unsigned short *>(&::DAT_011f35b6)) = 0;
     DAT_011f35ac = 0;
 }
+
+#include "generated/data/staging/blk_00a20000_od.inc"

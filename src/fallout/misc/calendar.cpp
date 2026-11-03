@@ -274,3 +274,5 @@ int Thing::FUN_00867ca0()
     }
     return result;
 }
+
+#include "generated/data/fallout/misc/calendar.inc"

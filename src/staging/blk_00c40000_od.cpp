@@ -11458,3 +11458,5 @@ bool RegistryOpen::FUN_00c5d920(bool create)
     }
     return result;
 }
+
+#include "generated/data/staging/blk_00c40000_od.inc"

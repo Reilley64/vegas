@@ -170,3 +170,5 @@ invalid:
     ::FUN_00aa0020(1, context, "Invalid shader buffer\n");
     return false;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/niconsolerenderer/console/nid3dshaderprogramcreatorasm_console.inc"

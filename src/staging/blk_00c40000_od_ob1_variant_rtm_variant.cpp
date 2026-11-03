@@ -13993,3 +13993,5 @@ void FrustumArrayConstruction::FUN_00c4a360(void* elements, int count)
         new (static_cast<FrustumPlaneSet*>(elements) + index) FrustumPlaneSet;
     }
 }
+
+#include "generated/data/staging/blk_00c40000_od_ob1_variant_rtm_variant.inc"

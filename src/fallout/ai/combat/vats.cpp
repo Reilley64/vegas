@@ -2171,3 +2171,5 @@ bool FUN_009c9920_shell::FUN_009c9920()
     }
     return found;
 }
+
+#include "generated/data/fallout/ai/combat/vats.inc"

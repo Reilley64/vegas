@@ -1235,3 +1235,5 @@ void WaterEffectSetting::FUN_0057fde0(TESForm* apCopy)
         static_cast<BaseFormComponent *>(&pcopy->m_kNoiseMapTexture));
     reinterpret_cast<FUN_0057fef0_shell*>(this)->FUN_0057fef0(reinterpret_cast<Holder*>(pcopy)->FUN_0057fda0());
 }
+
+#include "generated/data/fallout_shared/teswaterform.inc"

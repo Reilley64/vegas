@@ -3761,3 +3761,5 @@ void This160::FUN_00c8e160(float* p1, RotationArg160 input, unsigned int p3)
     reinterpret_cast<::fnv_005617c0::FUN_005617c0_ *>(this)->FUN_005617c0((int)((float*)&W.v70));
 }
 }  // namespace fnv_00c8e160
+
+#include "generated/data/unmapped/bhkrigidbody_rtm_variant.inc"

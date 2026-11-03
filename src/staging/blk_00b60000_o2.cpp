@@ -15967,3 +15967,5 @@ void FUN_00b63b60_class::FUN_00b63b60()
     reinterpret_cast<::S_00b601a0_Map *>((((NiTMapBaseStub*)((char*)this + 0x1b4))))->FUN_00b601a0();
     LeaveCriticalSection((void*)(this + 0x200));
 }
+
+#include "generated/data/staging/blk_00b60000_o2.inc"

@@ -1927,3 +1927,5 @@ void __cdecl MapperX::FUN_00ce3090(const PoseX* original,PoseX* output,const sho
         }
     }
 }
+
+#include "generated/data/staging/blk_00ce0000_o2_gs_nogs_variant_rtm_variant.inc"

@@ -342,3 +342,5 @@ bool FUN_007f6af0(Owner007f6af0* self)
     }
     return false;
 }
+
+#include "generated/data/fallout/interface/menus/vatsmenu_o2_variant_od_oy_noo2_variant.inc"

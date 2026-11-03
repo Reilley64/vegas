@@ -1924,3 +1924,5 @@ int TESFileArray::FUN_00461cf0(char* name, int* out1, int* out2)
     }
     return result;
 }
+
+#include "generated/data/staging/blk_00460000_od_rtti_variant.inc"

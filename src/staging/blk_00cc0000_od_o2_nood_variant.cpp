@@ -5429,3 +5429,5 @@ void CylinderDisplayOwner::FUN_00ccd6f0(void* pkA, void* pkB)
         vf55(pkA, pkResult, pkB, ::g_01268694_arg0);
     }
 }
+
+#include "generated/data/staging/blk_00cc0000_od_o2_nood_variant.inc"

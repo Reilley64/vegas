@@ -2447,3 +2447,5 @@ void xLockPickMenu::FUN_0078eb50()
     }
 }
 }  // namespace fnv_0078eb50
+
+#include "generated/data/fallout/interface/menus/lockpickmenu.inc"

@@ -2757,3 +2757,5 @@ volatile int d86_extent;
 void D86HelperUse() {
     FUN_00d868e0(d86_type, d86_text, d86_extent);
 }
+
+#include "generated/data/staging/blk_00d80000_o2_rtm_variant.inc"

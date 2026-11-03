@@ -7600,3 +7600,5 @@ int FUN_00a2a720()
     DAT_011f3814 = ((void (&)())::FUN_00a2a620);
     return 1;
 }
+
+#include "generated/data/generated/crt_callback_status_o2_variant.inc"

@@ -855,3 +855,5 @@ int ImmediateForwarder::FUN_00ddcae0()
     ImmediateOwner* owner = reinterpret_cast<ImmediateOwner*>(reinterpret_cast<char*>(this) - sizeof(OwnerHolder));
     return static_cast<ImmediateReceiver*>(owner->m_target)->GetTypeItem();
 }
+
+#include "generated/data/havok/common/visualize/process/hkdebugdisplayprocess.inc"

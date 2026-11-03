@@ -178,3 +178,5 @@ bool ActivateChoice::FUN_005e6ee0(TESFile* file)
 
     return true;
 }
+
+#include "generated/data/fallout_shared/bgsentrypointfunction_ctx_variant.inc"

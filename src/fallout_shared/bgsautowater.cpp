@@ -1608,3 +1608,5 @@ void FUN_0049c860(MeshInput* apMeshInput)
     ::BuildWaterSurfaces((::CellView *)(apMeshInput));
     CreateAutoWaterNode(reinterpret_cast<ParamObj*>(apMeshInput));
 }
+
+#include "generated/data/fallout_shared/bgsautowater.inc"

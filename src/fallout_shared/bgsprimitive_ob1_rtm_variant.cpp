@@ -79,3 +79,5 @@ int S00c365f0_Box::FUN_00c365f0(const NiBound& sphere)
     }
     return inside ? 2 : outside2 ? 1 : 0;
 }
+
+#include "generated/data/fallout_shared/bgsprimitive_ob1_rtm_variant.inc"

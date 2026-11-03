@@ -408,3 +408,5 @@ BlendConstructor::FUN_00a36890()
       m_fWeightThreshold(0.0f), m_fSingleInterpolatorTime(BlendTimeValue), m_fHighSumOfWeights(BlendTimeValue),
       m_fNextHighSumOfWeights(BlendTimeValue), m_fTrailingValue(BlendTimeValue)
 {}
+
+#include "generated/data/gamebryo2.2/corelibs/nianimation/bsblendtreadtransfinterpolator.inc"

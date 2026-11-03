@@ -354,3 +354,5 @@ int FUN_00d93380(Globals *globals, Queue *queue, Job *job) {
     if (context.allocation) { Memory *m = FUN_00c85750(); Allocator *a = m->allocator; a->release(context.allocation, 512); }
     return result;
 }
+
+#include "generated/data/havok/physics/dynamics/world/simulation/multithreaded/cpu/hkpcpuagentsectorjob.inc"

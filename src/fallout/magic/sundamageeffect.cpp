@@ -887,3 +887,5 @@ double S_0082a150::FUN_0082a1b0()
     }
     return 0.0;
 }
+
+#include "generated/data/fallout/magic/sundamageeffect.inc"

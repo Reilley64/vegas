@@ -6415,3 +6415,5 @@ extern "C" FNV_00d99f50_Result __cdecl FUN_00d98ca0(const TreeData* tree, const 
 }
 
 }
+
+#include "generated/data/staging/blk_00d80000_o2.inc"

@@ -4356,3 +4356,5 @@ void Shell_b7e1::FUN_00b7e150(DrawArg* apDrawArg)
     (*reinterpret_cast<::rw_b7e1::RendererStageContext * *>(&::DAT_0126f74c))->renderer->SetConstants(&data.x);
 }
 }
+
+#include "generated/data/gamebryo2.2/corelibs/niconsolerenderer/nid3dpass.inc"

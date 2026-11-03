@@ -915,3 +915,5 @@ FUN_0080e610::FUN_0080e610(void* caster, void* item, void* effect) : LightEffect
 }
 
 }  // namespace fnv_0080e610
+
+#include "generated/data/fallout/magic/lighteffect.inc"

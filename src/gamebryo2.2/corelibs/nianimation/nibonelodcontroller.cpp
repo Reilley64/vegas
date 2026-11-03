@@ -2168,3 +2168,5 @@ void BoneLODCtrl::FUN_00a53d70(NiStream& kStream)
         m_kShapeGroups.ReplaceAt(i, (NiTriBasedGeom*)((void *)(reinterpret_cast<::NiStream *>(&(kStream))->GetLoadedObject())));
 }
 }  // namespace fnv_00a53d70
+
+#include "generated/data/gamebryo2.2/corelibs/nianimation/nibonelodcontroller.inc"

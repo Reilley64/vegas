@@ -4475,8 +4475,6 @@ void FUN_00b6fd10_cls::SetValue(int value)
     m_6c = value;
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
-
 struct Blob60_cls
 {
     int m_00;
@@ -8532,7 +8530,6 @@ void FUN_00b6a510_shell::FUN_00b6a510()
     reinterpret_cast<::NiTPointerListBaseRaw *>(this)->FUN_004ed900();
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
 struct FUN_00b6abb0
 {
     FUN_00b6abb0();

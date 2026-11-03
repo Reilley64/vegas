@@ -182,14 +182,16 @@ struct D376B0IndexArray
     }
 };
 
+// The multi-ray shape: the number of children is its ray array's size.
 struct D376B0Shape
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int m_numChildren;
+    const void* m_vtable;
+    unsigned short m_usMemSizeAndFlags;
+    short m_sReferenceCount;
+    void* m_userData;   // +0x08
+    int m_type;         // +0x0c
+    void* m_rays;       // +0x10
+    int m_numChildren;  // +0x14
 };
 
 struct D376B0ShapeRef
@@ -227,23 +229,13 @@ FUN_00d376b0::FUN_00d376b0(const D376B0ShapeRef& shape, void* pUnused, void* unu
 }
 
 namespace fnv_00d37740 {
-struct S_00d376b0_Class
-{
-    int unk00;
-    short unk04;
-    void FUN_00d376b0(int a, int b, int c, int d);
-};
-
-
-
 
 // @fnv 0x00d37740
 void FUN_00d37740(void* aiArg1, void* aiArg2, void* aiArg3, void* aiArg4)
 {
-    S_00d376b0_Class* result = static_cast<S_00d376b0_Class*>(hkMemoryRouter::getInstance().heap().blockAlloc(0x20));
-
-    result->unk04 = 0x20;
-    new ((void *)(result)) ::FUN_00d376b0((*(const ::D376B0ShapeRef *)(aiArg1)), (void *)(aiArg2), (void *)(aiArg3), (void *)(aiArg4));
+    void* mem = hkMemoryRouter::getInstance().heap().blockAlloc(sizeof(::FUN_00d376b0));
+    ::FUN_00d376b0* result = new (mem) ::FUN_00d376b0((*(const ::D376B0ShapeRef *)(aiArg1)), aiArg2, aiArg3, aiArg4);
+    result->m_usMemSizeAndFlags = sizeof(::FUN_00d376b0);
 }
 }  // namespace fnv_00d37740
 
@@ -262,18 +254,12 @@ struct SpawnedObject
     unsigned short m_iElementCount;
 };
 
-struct FUN_00d376b0_cls
-{
-    int unk00;
-    void FUN_00d376b0(int a, int b, int c, int d);
-};
-
 // @fnv 0x00d37780
 void* FUN_00d37780_impl(void* aiArg1, void* aiArg2, void* aiArg3, void* aiArg4)
 {
-    SpawnedObject* obj = static_cast<SpawnedObject*>(hkMemoryRouter::getInstance().heap().blockAlloc(0x20));
-    obj->m_iElementCount = 0x20;
-    new ((void *)(((FUN_00d376b0_cls*)obj))) ::FUN_00d376b0((*(const ::D376B0ShapeRef *)(aiArg2)), (void *)(aiArg1), (void *)(aiArg3), (void *)(aiArg4));
+    SpawnedObject* obj = static_cast<SpawnedObject*>(hkMemoryRouter::getInstance().heap().blockAlloc(sizeof(::FUN_00d376b0)));
+    obj->m_iElementCount = sizeof(::FUN_00d376b0);
+    new ((void *)(obj)) ::FUN_00d376b0((*(const ::D376B0ShapeRef *)(aiArg2)), (void *)(aiArg1), (void *)(aiArg3), (void *)(aiArg4));
     // the original writes the derived vtable pointer into the object here
     obj->SpawnedObject::~SpawnedObject();
     return obj;

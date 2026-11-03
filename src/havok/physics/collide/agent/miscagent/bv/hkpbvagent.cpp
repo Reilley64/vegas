@@ -392,7 +392,7 @@ class FUN_00d453d0_cls
     unsigned short m_06;   // 0x06
     void* m_08;            // 0x08
     void* m_0C;            // 0x0c
-    int m_10;              // 0x10
+    void* m_10;            // 0x10, the child agent
 };
 
 // Initialises the object's vtable and fields, builds the child body from a1, and creates the child agent through the dispatcher's agent2 table.
@@ -446,9 +446,9 @@ class D45480Object : public D45480ReferencedObject
   public:
     __declspec(nothrow) D45480Object(void* a, void* b, void* c, void* d);
 
-    int unk08;
-    int unk0C;
-    int unk10;
+    void* m_contactMgr;           // +0x08
+    void* m_boundingVolumeAgent;  // +0x0c
+    void* m_childAgent;           // +0x10
 };
 
 // Allocates a D45480Object via its four-argument constructor and returns the new object.
@@ -1958,27 +1958,32 @@ namespace fnv_00d45f30 {
 
 
 
+// The bounding-volume agent (0x14 bytes on 32-bit); SpawnedObject is its symmetric version.
 struct SpawnedBase
 {
     virtual void v0();
     unsigned short m_iElementCount;
-    SpawnedBase(int a, int b, int c, int d);
+    short m_sReferenceCount;
+    void* m_contactMgr;           // +0x08
+    void* m_boundingVolumeAgent;  // +0x0c
+    void* m_childAgent;           // +0x10
+    SpawnedBase(void* a, void* b, void* c, void* d);
 };
 
 struct SpawnedObject : SpawnedBase
 {
-    SpawnedObject(int a, int b, int c, int d) : SpawnedBase(a, b, c, d)
+    SpawnedObject(void* a, void* b, void* c, void* d) : SpawnedBase(a, b, c, d)
     {}
     virtual void v1();
 };
 
 
-// Allocates a SpawnedObject via the holder's allocator, sets its size field to 0x14, and constructs it in place with the given arguments.
+// Allocates a SpawnedObject from the heap, records its size, and constructs it in place with the two bodies swapped.
 // @fnv 0x00d45f30
-void* __cdecl FUN_00d45f30(int a1, int a2, int a3, int a4)
+void* __cdecl FUN_00d45f30(void* a1, void* a2, void* a3, void* a4)
 {
-    SpawnedObject* pObj = static_cast<SpawnedObject*>(hkMemoryRouter::getInstance().heap().blockAlloc(0x14));
-    pObj->m_iElementCount = 0x14;
+    SpawnedObject* pObj = static_cast<SpawnedObject*>(hkMemoryRouter::getInstance().heap().blockAlloc(sizeof(SpawnedObject)));
+    pObj->m_iElementCount = sizeof(SpawnedObject);
     return new (pObj) SpawnedObject(a2, a1, a3, a4);
 }
 }  // namespace fnv_00d45f30

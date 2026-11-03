@@ -95,6 +95,7 @@ int FUN_00e60670()
 }
 
 #include <xmmintrin.h>
+#include <bit>
 struct FUN_00e606c0_cls {
     int unk00;
     int unk04;
@@ -196,7 +197,7 @@ void FUN_00e60730_cls::FUN_00e60730(const unsigned short* apIndices, int aiCount
         Mat* pMatrix = m_p20->sub10.GetMat(m_p24[iIndex / 3], &scratch);
         apIndices++;
         apOut->v = pMatrix->rows[iIndex % 3 + 2].v;
-        *((unsigned int*)apOut + 3) = iIndex | 0x3f000000;
+        apOut->v[3] = std::bit_cast<float>(iIndex | 0x3f000000);
         apOut++;
     }
 }

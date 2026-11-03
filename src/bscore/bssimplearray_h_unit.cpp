@@ -20,8 +20,6 @@
 #include "fnv/symbols_0106c000.h"
 #include "bssimplearray.h"
 
-typedef unsigned int size_t;
-
 
 class TESForm
 {
@@ -54,15 +52,15 @@ class PathOwner
     char pad9[0x27];
     FormIDArray forms;
 
-    void* CreatePathNode(void* a, TESForm* b);
+    unsigned int CreatePathNode(void* a, TESForm* b);
 };
 
 // Allocates a path node from the pool, constructs it with a and b, and if b is non-null adds b's form ID to the forms array.
 // @fnv 0x006ce7e0
-void* PathOwner::CreatePathNode(void* a, TESForm* apForm)
+unsigned int PathOwner::CreatePathNode(void* a, TESForm* apForm)
 {
-    void* id = ((void *)(reinterpret_cast<::FUN_006cef10_shell *>(&(pool))->AdvanceCounter()));
-    void* pNodePlace = ((void *)(reinterpret_cast<::FUN_006e8f40_shell *>(&(pool))->FUN_006e8f40((int)(id))));
+    unsigned int id = reinterpret_cast<::FUN_006cef10_shell *>(&(pool))->AdvanceCounter();
+    void* pNodePlace = ((void *)(reinterpret_cast<::FUN_006e8f40_shell *>(&(pool))->FUN_006e8f40(id)));
     new (pNodePlace) PathNodeA(a, apForm);
     if (apForm)
     {

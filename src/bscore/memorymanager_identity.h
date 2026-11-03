@@ -1,6 +1,7 @@
 // bscore/memorymanager_identity.h: declares TESActorBase, Actor, TESFile, BSExtraData, BaseExtraList and more
 #ifndef FNV_MEMORYMANAGER_IDENTITY_H
 #define FNV_MEMORYMANAGER_IDENTITY_H
+#include <cstddef>
 
 
 #include "fnv/decl/fnv_0040ff60__FUN_0040ff60_shell.h"

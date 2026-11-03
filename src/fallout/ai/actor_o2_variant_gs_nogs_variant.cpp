@@ -5,6 +5,7 @@
 
 // src/fallout/ai/actor_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/fallout/ai/actor.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
+#include <cstdint>
 #include <windows.h>
 #include <cmath>
 #include "fnv/decl/BGSCameraPath.h"
@@ -775,7 +776,7 @@ struct S
     virtual void v37();
     virtual void v38();
     virtual void SetMode(int iMode);
-    void FUN_00561690(int);
+    void FUN_00561690(std::intptr_t);
 };
 struct Cast_c9b
 {

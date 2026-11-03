@@ -1,6 +1,8 @@
 #pragma once
 #include <cstdint>
 
+#include <cstdint>
+
 class BA3760Object {
 public:
     // 0x00ba3760

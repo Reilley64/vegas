@@ -1,5 +1,6 @@
 // bscore/bsstring.cpp: free functions (15 functions)
 
+#include <cstdint>
 #include <cstring>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/BaseProcess.h"
@@ -149,7 +150,7 @@ void FUN_00403a00_class::FUN_00403a00(unsigned int length)
 
 struct FUN_004046b0_arg
 {
-    void AssignFromString(unsigned int value);
+    void AssignFromString(std::uintptr_t value);
 };
 
 struct FUN_004046b0_sub
@@ -181,12 +182,10 @@ struct FUN_004046b0_cls
 FUN_004046b0_arg* FUN_004046b0_cls::AssignFromSub(FUN_004046b0_arg* apArg)
 {
     unsigned int flag = 0;
-    apArg->AssignFromString(((unsigned int)(reinterpret_cast<::BaseProcess *>(&(m_38))->GetCurrentProcessData())));
+    apArg->AssignFromString(((std::uintptr_t)(reinterpret_cast<::BaseProcess *>(&(m_38))->GetCurrentProcessData())));
     flag |= 1;
     return apArg;
 }
-
-int _tolower(int character);
 
 // Returns a pointer to the first case-insensitive occurrence of apString2 within apString1, or 0 if not found.
 // @fnv 0x004b75a0
@@ -217,13 +216,15 @@ const char* FUN_004b75a0(const char* apString1, const char* apString2)
 
 struct FUN_00634830_cls
 {
+    char unk00[0x58];
+    unsigned short usValue58;
     unsigned int GetOffset58();
 };
 
 // @fnv 0x00634830
 unsigned int FUN_00634830_cls::GetOffset58()
 {
-    return *(unsigned short*)((char*)this + 0x58);
+    return usValue58;
 }
 
 #include <stdarg.h>

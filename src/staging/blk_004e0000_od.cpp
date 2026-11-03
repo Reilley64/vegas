@@ -2,6 +2,7 @@
 // src/staging/blk_004e0000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstdint>
 #include <new>
 #include <cmath>
 #include "fnv/decl/ActorMover.h"
@@ -4327,7 +4328,7 @@ void Self::FUN_004e3d60(ParamObj* param)
                                 {
                                     DAT_011ad81c = ((::VObj *)(::FUN_00559450((int *)&(pprop->m_134))))->get37();
                                     DAT_011ad820 = ((::VObj *)(::FUN_00559450((int *)&(pprop->m_134))))->get38();
-                                    obj->m_30.FUN_0066b0d0(((void *)(reinterpret_cast<::Pool *>((((::BSTextureManager *)(::FUN_004a0ea0()))))->FUN_00b6e110((unsigned int)(((void *)(::FUN_004a0e90()))), 0x13, 0, 0, 0))));
+                                    obj->m_30.FUN_0066b0d0(((void *)(reinterpret_cast<::Pool *>((((::BSTextureManager *)(::FUN_004a0ea0()))))->FUN_00b6e110((std::uintptr_t)(((void *)(::FUN_004a0e90()))), 0x13, 0, 0, 0))));
                                 }
                             }
                             pprop->m_138.FUN_006e5cc0(obj->m_30);

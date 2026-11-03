@@ -3939,7 +3939,7 @@ void Owner4a4::FUN_004a4340()
             if (pkEntry && pkEntry->m_pQuery)
             {
                 unsigned int uiOut = 0;
-                reinterpret_cast<::S_00c4edf0_cls *>((pkEntry->m_pQuery))->FUN_00c4edf0((int)(&uiOut), 1);
+                reinterpret_cast<::S_00c4edf0_cls *>((pkEntry->m_pQuery))->FUN_00c4edf0((std::intptr_t)(&uiOut), 1);
                 delete pkEntry->m_pQuery;
                 pkEntry->m_pQuery = 0;
             }

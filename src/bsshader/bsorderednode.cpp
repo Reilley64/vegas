@@ -1,3 +1,5 @@
+#include <cstdint>
+#include <cstddef>
 // bsshader/bsorderednode.cpp: BSOrderedNode, NiBound (6 functions)
 
 #include "fnv/decl/FUN_00462d80_shell.h"
@@ -197,7 +199,7 @@ SpawnedObject* FUN_00bc2e00_cls::CreateSpawnedObject(void* arg)
 {
     SpawnedObject* obj = 0;
     obj = new SpawnedObject();
-    reinterpret_cast<::FUN_00bc2c50_class *>((this))->CopyTailFields((::FUN_00bc2c50_class *)(obj), (int)(arg));
+    reinterpret_cast<::FUN_00bc2c50_class *>((this))->CopyTailFields((::FUN_00bc2c50_class *)(obj), (std::intptr_t)(arg));
     return obj;
 }
 

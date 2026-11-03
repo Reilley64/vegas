@@ -1,5 +1,6 @@
 // bsshader/bsfadenode.cpp: BSFadeNode, NiFixedString, BSShaderManager, FadeViewer and more (22 functions)
 
+#include <cstdint>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_004b6190_shell.h"
@@ -145,7 +146,7 @@ struct FUN_00a5e5b0_helper
 // @fnv 0x00b4def0
 bool FUN_00b4def0_shell::FUN_00b4def0(NiStream* arStream)
 {
-    if (!((unsigned char)(::fnv_00a5e5b0::RegisterChildStreamables((::NiNode *)(((FUN_00a5e5b0_helper*)this)), (int)(arStream), *(::fnv_00a5e5b0::NiStream *)nullptr))))
+    if (!((unsigned char)(::fnv_00a5e5b0::RegisterChildStreamables((::NiNode *)(((FUN_00a5e5b0_helper*)this)), (std::intptr_t)(arStream), *(::fnv_00a5e5b0::NiStream *)nullptr))))
         return false;
     return true;
 }
@@ -164,10 +165,10 @@ void __cdecl SetFlagOnVirtualResult(Dummy* apDummy)
 {
     if (apDummy)
     {
-        char* r = apDummy->v4();
+        NiAVObject* r = reinterpret_cast<NiAVObject*>(apDummy->v4());
         if (r)
         {
-            *(unsigned int*)(r + 0x30) |= 0x20000;
+            r->m_uiFlags |= 0x20000;
         }
     }
 }
@@ -177,29 +178,29 @@ class P03MM
   public:
 };
 
-// Recursively frees the linked list hanging off self[1], deallocating each node, then clears self[0].
+// Recursively frees the nodes linked after this list node, deallocating each one, then clears its item.
 // @fnv 0x00b4df30
 void FUN_00b4df30(void* p)
 {
-    void** self = (void**)p;
-    if (self[1])
+    BSSimpleList<void*>* self = (BSSimpleList<void*>*)p;
+    if (self->m_pkNext)
     {
-        void* next;
+        BSSimpleList<void*>* next;
         do
         {
-            void* node = self[1];
-            next = *(void**)((char*)node + 4);
-            *(void**)((char*)node + 4) = 0;
-            void* pCurrent = self[1];
+            BSSimpleList<void*>* node = self->m_pkNext;
+            next = node->m_pkNext;
+            node->m_pkNext = 0;
+            BSSimpleList<void*>* pCurrent = self->m_pkNext;
             if (pCurrent)
             {
                 FUN_00b4df30(pCurrent);
                 reinterpret_cast<::FNV_MemoryManager *>((((P03MM*)&::g_memoryManager)))->FUN_00aa4060(pCurrent);
             }
-            self[1] = next;
+            self->m_pkNext = next;
         } while (next);
     }
-    self[0] = 0;
+    self->m_item = 0;
 }
 
 double(__cdecl* DAT_011f9134)(void*);
@@ -234,12 +235,13 @@ struct NiNode_Helper : public NiNode
 // @fnv 0x00b4e3f0
 void* FUN_00b4e3f0(void* apSource, int dummy, void* kCloning)
 {
+    BSFadeNode* pSource = (BSFadeNode*)apSource;
     BSFadeNode* pFadeNode = new BSFadeNode();
     reinterpret_cast<::NiNode *>((((NiNode_Helper*)apSource)))->CopyMemberData((NiNode*)pFadeNode, (*(::CloningProcess *)(kCloning)));
-    *(unsigned int*)((char*)pFadeNode + 0x30) &= 0xfffd3fff;
-    pFadeNode->fNearDistSqr = *(float*)((char*)apSource + 0xac);
-    pFadeNode->fFarDistSqr = *(float*)((char*)apSource + 0xb0);
-    *(void**)((char*)pFadeNode + 0xc4) = *(void**)((char*)apSource + 0xc4);
+    pFadeNode->m_uiFlags &= 0xfffd3fff;
+    pFadeNode->fNearDistSqr = pSource->fNearDistSqr;
+    pFadeNode->fFarDistSqr = pSource->fFarDistSqr;
+    pFadeNode->eMultType = pSource->eMultType;
     return pFadeNode;
 }
 
@@ -690,7 +692,11 @@ bool Fade::UpdateFade(Fade* camera, int unused)
 }
 
 #include <math.h>
-struct NiCamera;
+struct NiCamera : NiAVObject
+{
+    unsigned char cameraData[0x110 - 0x9c];
+    float m_fLODAdjust;
+};
 struct CloningProcess;
 struct NiPoint2;
 struct NiPoint3;
@@ -721,7 +727,7 @@ struct Pt3
 // @fnv 0x00b4e030
 bool FUN_00b4e030_shell::IsWithinFadeDistance(NiCamera* apCamera, float afDistMult)
 {
-    float ffadeAdjust = *(float*)((char*)apCamera + 0x110);
+    float ffadeAdjust = apCamera->m_fLODAdjust;
     if (this->eMultType == 9)
         return false;
     if (this->eMultType >= 0 && this->eMultType < 11)
@@ -730,9 +736,9 @@ bool FUN_00b4e030_shell::IsWithinFadeDistance(NiCamera* apCamera, float afDistMu
         if (fdiff != 0.0f)
             ffadeAdjust = ffadeAdjust / fdiff;
     }
-    const Pt3& kA = *(Pt3*)((char*)this + 0x8c);
-    const Pt3& kB = *(Pt3*)((char*)apCamera + 0x8c);
-    Pt3 kDiff(kA.x - kB.x, kA.y - kB.y, kA.z - kB.z);
+    const float* kA = m_afWorldTranslate;
+    const float* kB = apCamera->m_afWorldTranslate;
+    Pt3 kDiff(kA[0] - kB[0], kA[1] - kB[1], kA[2] - kB[2]);
     float fDist = sqrtf(reinterpret_cast<::FUN_004b6190_shell *>((void *)&(kDiff))->DotProduct((void *)&(kDiff))) * afDistMult;
     if (fDist < 0.0f)
         fDist = 0.0f;

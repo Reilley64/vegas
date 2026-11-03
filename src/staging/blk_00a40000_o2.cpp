@@ -1627,12 +1627,12 @@ class FUN_00a59c60_cls
     int unk10;
     int unk14;
     FUN_00a59c60_target* m_18;
-    void FUN_00a59c60(int a1);
+    void FUN_00a59c60(std::intptr_t a1);
 };
 
 // Calls v41 with the given argument and 0, then calls v63 on m_18 if it is non-null.
 // @fnv 0x00a59c60
-void FUN_00a59c60_cls::FUN_00a59c60(int aiValue)
+void FUN_00a59c60_cls::FUN_00a59c60(std::intptr_t aiValue)
 {
     v41(aiValue, 0);
     if (m_18 != 0)

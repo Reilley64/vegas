@@ -3,6 +3,7 @@
 // against, for verified matches whose own declarations clash with the unit's current types.
 // src/fallout/interface/menus/blackjackmenu.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/interface/menus/blackjackmenu.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstdint>
 #include <new>
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/ActorValueOwner.h"
@@ -3149,11 +3150,11 @@ void BlackjackUpdate::FUN_00734db0()
             if (DAT_011d90e0 > 1.0)
                 reinterpret_cast<::Tile *>((message))->Set(0xfa3, 0);
             Update90 scene(DAT_011d90e0, true, false);
-            reinterpret_cast<::FUN_00a59c60_cls *>((((::SceneUpdate *)(reinterpret_cast<::NiNode *>((((::SceneUpdate *)(::FUN_00559450((int *)(((ScenePointerUpdate*)&(*reinterpret_cast<::GO *>(&::g_011d9098)))))))))->GetAt(0)))))->FUN_00a59c60((int)&(scene));
+            reinterpret_cast<::FUN_00a59c60_cls *>((((::SceneUpdate *)(reinterpret_cast<::NiNode *>((((::SceneUpdate *)(::FUN_00559450((int *)(((ScenePointerUpdate*)&(*reinterpret_cast<::GO *>(&::g_011d9098)))))))))->GetAt(0)))))->FUN_00a59c60((std::intptr_t)&(scene));
             if (DAT_011d90e0 == 0.0)
             {
                 Update90 reset(0.0f, true, false);
-                reinterpret_cast<::FUN_00a59c60_cls *>((((::SceneUpdate *)(::FUN_00559450((int *)(((ScenePointerUpdate*)&(*reinterpret_cast<::GO *>(&::g_011d9098)))))))))->FUN_00a59c60((int)&(reset));
+                reinterpret_cast<::FUN_00a59c60_cls *>((((::SceneUpdate *)(::FUN_00559450((int *)(((ScenePointerUpdate*)&(*reinterpret_cast<::GO *>(&::g_011d9098)))))))))->FUN_00a59c60((std::intptr_t)&(reset));
                 reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::BSSoundHandleEx &)(((::Audio129 *)(::FUN_00453a70()))->FUN_00ad7550(DAT_01070d74, 0x121)))->FUN_00ad8830(false);
                 sounded = true;
                 FUN_0096a2d0* p = player;
@@ -3171,7 +3172,7 @@ void BlackjackUpdate::FUN_00734db0()
             if (counts[0] == 1)
             {
                 Update90 pu(DAT_011d90e0, true, false);
-                reinterpret_cast<::FUN_00a59c60_cls *>((((::SceneUpdate *)(reinterpret_cast<::NiNode *>((((::SceneUpdate *)(::FUN_00559450((int *)(((ScenePointerUpdate*)&(*reinterpret_cast<::GO *>(&::g_011d9098)))))))))->GetAt(1)))))->FUN_00a59c60((int)&(pu));
+                reinterpret_cast<::FUN_00a59c60_cls *>((((::SceneUpdate *)(reinterpret_cast<::NiNode *>((((::SceneUpdate *)(::FUN_00559450((int *)(((ScenePointerUpdate*)&(*reinterpret_cast<::GO *>(&::g_011d9098)))))))))->GetAt(1)))))->FUN_00a59c60((std::intptr_t)&(pu));
             }
             if (counts[2] == 1 && DAT_011d90e0 >= half)
             {
@@ -3181,7 +3182,7 @@ void BlackjackUpdate::FUN_00734db0()
                     reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::BSSoundHandleEx &)(((::Audio129 *)(::FUN_00453a70()))->FUN_00ad7550(DAT_01070d74, 0x121)))->FUN_00ad8830(false);
                 }
                 Update90 du(DAT_011d90e0 - half, true, false);
-                reinterpret_cast<::FUN_00a59c60_cls *>((((::SceneUpdate *)(reinterpret_cast<::NiNode *>((((::SceneUpdate *)(::FUN_00559450((int *)(((ScenePointerUpdate*)&(*reinterpret_cast<::GO *>(&::g_011d9098)))))))))->GetAt(3)))))->FUN_00a59c60((int)&(du));
+                reinterpret_cast<::FUN_00a59c60_cls *>((((::SceneUpdate *)(reinterpret_cast<::NiNode *>((((::SceneUpdate *)(::FUN_00559450((int *)(((ScenePointerUpdate*)&(*reinterpret_cast<::GO *>(&::g_011d9098)))))))))->GetAt(3)))))->FUN_00a59c60((std::intptr_t)&(du));
             }
             if (counts[0] == 2 && DAT_011d90e0 >= reinterpret_cast<::FUN_00508100_shell *>((playerSeq[1]))->FUN_00508100())
             {
@@ -3191,7 +3192,7 @@ void BlackjackUpdate::FUN_00734db0()
                     reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::BSSoundHandleEx &)(((::Audio129 *)(::FUN_00453a70()))->FUN_00ad7550(DAT_01070d74, 0x121)))->FUN_00ad8830(false);
                 }
                 Update90 pu2(DAT_011d90e0 - reinterpret_cast<::FUN_00508100_shell *>((playerSeq[previous]))->FUN_00508100(), true, false);
-                reinterpret_cast<::FUN_00a59c60_cls *>((((::SceneUpdate *)(reinterpret_cast<::NiNode *>((((::SceneUpdate *)(::FUN_00559450((int *)(((ScenePointerUpdate*)&(*reinterpret_cast<::GO *>(&::g_011d9098)))))))))->GetAt(1)))))->FUN_00a59c60((int)&(pu2));
+                reinterpret_cast<::FUN_00a59c60_cls *>((((::SceneUpdate *)(reinterpret_cast<::NiNode *>((((::SceneUpdate *)(::FUN_00559450((int *)(((ScenePointerUpdate*)&(*reinterpret_cast<::GO *>(&::g_011d9098)))))))))->GetAt(1)))))->FUN_00a59c60((std::intptr_t)&(pu2));
             }
             if (counts[2] == 2 && DAT_011d90e0 >= reinterpret_cast<::FUN_00508100_shell *>((playerSeq[1]))->FUN_00508100() + half)
             {
@@ -3201,7 +3202,7 @@ void BlackjackUpdate::FUN_00734db0()
                     reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::BSSoundHandleEx &)(((::Audio129 *)(::FUN_00453a70()))->FUN_00ad7550(DAT_01070d5c, 0x121)))->FUN_00ad8830(false);
                 }
                 Update90 du2(DAT_011d90e0 - (reinterpret_cast<::FUN_00508100_shell *>((playerSeq[1]))->FUN_00508100() + half), true, false);
-                reinterpret_cast<::FUN_00a59c60_cls *>((((::SceneUpdate *)(reinterpret_cast<::NiNode *>((((::SceneUpdate *)(::FUN_00559450((int *)(((ScenePointerUpdate*)&(*reinterpret_cast<::GO *>(&::g_011d9098)))))))))->GetAt(3)))))->FUN_00a59c60((int)&(du2));
+                reinterpret_cast<::FUN_00a59c60_cls *>((((::SceneUpdate *)(reinterpret_cast<::NiNode *>((((::SceneUpdate *)(::FUN_00559450((int *)(((ScenePointerUpdate*)&(*reinterpret_cast<::GO *>(&::g_011d9098)))))))))->GetAt(3)))))->FUN_00a59c60((std::intptr_t)&(du2));
             }
             if (DAT_011d90e0 >= endTime)
             {
@@ -3284,7 +3285,7 @@ void BlackjackUpdate::FUN_00734db0()
         if (DAT_011d90e0 > 1.0)
             reinterpret_cast<::Tile *>((message))->Set(0xfa3, 0);
         Update90 scene(DAT_011d90e0, true, false);
-        reinterpret_cast<::FUN_00a59c60_cls *>((((::SceneUpdate *)(reinterpret_cast<::NiNode *>((((::SceneUpdate *)(::FUN_00559450((int *)(((ScenePointerUpdate*)&(*reinterpret_cast<::GO *>(&::g_011d9098)))))))))->GetAt(0)))))->FUN_00a59c60((int)&(scene));
+        reinterpret_cast<::FUN_00a59c60_cls *>((((::SceneUpdate *)(reinterpret_cast<::NiNode *>((((::SceneUpdate *)(::FUN_00559450((int *)(((ScenePointerUpdate*)&(*reinterpret_cast<::GO *>(&::g_011d9098)))))))))->GetAt(0)))))->FUN_00a59c60((std::intptr_t)&(scene));
         if (DAT_011d90e0 == 0.0)
         {
             reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::BSSoundHandleEx &)(((::Audio129 *)(::FUN_00453a70()))->FUN_00ad7550(DAT_01070d74, 0x121)))->FUN_00ad8830(false);
@@ -3325,9 +3326,9 @@ void BlackjackUpdate::FUN_00734db0()
         }
         Update90 hu(DAT_011d90e0, true, false);
         if (onSplit)
-            reinterpret_cast<::FUN_00a59c60_cls *>((((::SceneUpdate *)(reinterpret_cast<::NiNode *>((((::SceneUpdate *)(::FUN_00559450((int *)(((ScenePointerUpdate*)&(*reinterpret_cast<::GO *>(&::g_011d9098)))))))))->GetAt(2)))))->FUN_00a59c60((int)&(hu));
+            reinterpret_cast<::FUN_00a59c60_cls *>((((::SceneUpdate *)(reinterpret_cast<::NiNode *>((((::SceneUpdate *)(::FUN_00559450((int *)(((ScenePointerUpdate*)&(*reinterpret_cast<::GO *>(&::g_011d9098)))))))))->GetAt(2)))))->FUN_00a59c60((std::intptr_t)&(hu));
         else
-            reinterpret_cast<::FUN_00a59c60_cls *>((((::SceneUpdate *)(reinterpret_cast<::NiNode *>((((::SceneUpdate *)(::FUN_00559450((int *)(((ScenePointerUpdate*)&(*reinterpret_cast<::GO *>(&::g_011d9098)))))))))->GetAt(1)))))->FUN_00a59c60((int)&(hu));
+            reinterpret_cast<::FUN_00a59c60_cls *>((((::SceneUpdate *)(reinterpret_cast<::NiNode *>((((::SceneUpdate *)(::FUN_00559450((int *)(((ScenePointerUpdate*)&(*reinterpret_cast<::GO *>(&::g_011d9098)))))))))->GetAt(1)))))->FUN_00a59c60((std::intptr_t)&(hu));
         if ((onSplit && DAT_011d90e0 >= reinterpret_cast<::FUN_00508100_shell *>((splitSeq[counts[1]]))->FUN_00508100()) ||
             (!onSplit && DAT_011d90e0 >= reinterpret_cast<::FUN_00508100_shell *>((playerSeq[counts[0]]))->FUN_00508100()))
         {
@@ -3364,8 +3365,8 @@ void BlackjackUpdate::FUN_00734db0()
             reinterpret_cast<::NiControllerManager *>((playerAnim))->ActivateControllerSequence((::NiControllerSequence *)(playerSeq[2]), 0, 0, 1.0f, 0.0f, (::NiControllerSequence *)(0));
             Update90 pu(0.0f, true, false);
             Update90 du(0.0f, true, false);
-            reinterpret_cast<::FUN_00a59c60_cls *>((((::SceneUpdate *)(reinterpret_cast<::NiNode *>((((::SceneUpdate *)(::FUN_00559450((int *)(((ScenePointerUpdate*)&(*reinterpret_cast<::GO *>(&::g_011d9098)))))))))->GetAt(3)))))->FUN_00a59c60((int)&(du));
-            reinterpret_cast<::FUN_00a59c60_cls *>((((::SceneUpdate *)(reinterpret_cast<::NiNode *>((((::SceneUpdate *)(::FUN_00559450((int *)(((ScenePointerUpdate*)&(*reinterpret_cast<::GO *>(&::g_011d9098)))))))))->GetAt(1)))))->FUN_00a59c60((int)&(pu));
+            reinterpret_cast<::FUN_00a59c60_cls *>((((::SceneUpdate *)(reinterpret_cast<::NiNode *>((((::SceneUpdate *)(::FUN_00559450((int *)(((ScenePointerUpdate*)&(*reinterpret_cast<::GO *>(&::g_011d9098)))))))))->GetAt(3)))))->FUN_00a59c60((std::intptr_t)&(du));
+            reinterpret_cast<::FUN_00a59c60_cls *>((((::SceneUpdate *)(reinterpret_cast<::NiNode *>((((::SceneUpdate *)(::FUN_00559450((int *)(((ScenePointerUpdate*)&(*reinterpret_cast<::GO *>(&::g_011d9098)))))))))->GetAt(1)))))->FUN_00a59c60((std::intptr_t)&(pu));
             reinterpret_cast<::FUN_00734d50_holder *>(this)->SetFlag(0x10, true);
             counts[0]--;
             state = 2;
@@ -3399,7 +3400,7 @@ void BlackjackUpdate::FUN_00734db0()
             {
                 reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::BSSoundHandleEx &)(((::Audio129 *)(::FUN_00453a70()))->FUN_00ad7550(DAT_01070d40, 0x121)))->FUN_00ad8830(false);
                 Update90 reset(0.0f, true, false);
-                reinterpret_cast<::FUN_00a59c60_cls *>((((::SceneUpdate *)(::FUN_00559450((int *)(((ScenePointerUpdate*)&(*reinterpret_cast<::GO *>(&::g_011d9098)))))))))->FUN_00a59c60((int)&(reset));
+                reinterpret_cast<::FUN_00a59c60_cls *>((((::SceneUpdate *)(::FUN_00559450((int *)(((ScenePointerUpdate*)&(*reinterpret_cast<::GO *>(&::g_011d9098)))))))))->FUN_00a59c60((std::intptr_t)&(reset));
                 reinterpret_cast<::NiControllerManager *>((tableAnim))->ActivateControllerSequence((::NiControllerSequence *)(tableStart), 0, 0, 1.0f, 0.0f, (::NiControllerSequence *)(0));
                 reinterpret_cast<::NiControllerManager *>((playerAnim))->ActivateControllerSequence((::NiControllerSequence *)(playerSeq[0]), 0, 0, 1.0f, 0.0f, (::NiControllerSequence *)(0));
                 reinterpret_cast<::NiControllerManager *>((splitAnim))->ActivateControllerSequence((::NiControllerSequence *)(splitSeq[0]), 0, 0, 1.0f, 0.0f, (::NiControllerSequence *)(0));
@@ -3410,16 +3411,16 @@ void BlackjackUpdate::FUN_00734db0()
                 Update90 tableUpdate(DAT_011d90e0, true, false);
                 Update90 playerUpdate(DAT_011d90e0, true, false);
                 Update90 splitUpdate(DAT_011d90e0, true, false);
-                reinterpret_cast<::FUN_00a59c60_cls *>((((::SceneUpdate *)(reinterpret_cast<::NiNode *>((((::SceneUpdate *)(::FUN_00559450((int *)(((ScenePointerUpdate*)&(*reinterpret_cast<::GO *>(&::g_011d9098)))))))))->GetAt(0)))))->FUN_00a59c60((int)&(tableUpdate));
-                reinterpret_cast<::FUN_00a59c60_cls *>((((::SceneUpdate *)(reinterpret_cast<::NiNode *>((((::SceneUpdate *)(::FUN_00559450((int *)(((ScenePointerUpdate*)&(*reinterpret_cast<::GO *>(&::g_011d9098)))))))))->GetAt(1)))))->FUN_00a59c60((int)&(playerUpdate));
-                reinterpret_cast<::FUN_00a59c60_cls *>((((::SceneUpdate *)(reinterpret_cast<::NiNode *>((((::SceneUpdate *)(::FUN_00559450((int *)(((ScenePointerUpdate*)&(*reinterpret_cast<::GO *>(&::g_011d9098)))))))))->GetAt(2)))))->FUN_00a59c60((int)&(splitUpdate));
+                reinterpret_cast<::FUN_00a59c60_cls *>((((::SceneUpdate *)(reinterpret_cast<::NiNode *>((((::SceneUpdate *)(::FUN_00559450((int *)(((ScenePointerUpdate*)&(*reinterpret_cast<::GO *>(&::g_011d9098)))))))))->GetAt(0)))))->FUN_00a59c60((std::intptr_t)&(tableUpdate));
+                reinterpret_cast<::FUN_00a59c60_cls *>((((::SceneUpdate *)(reinterpret_cast<::NiNode *>((((::SceneUpdate *)(::FUN_00559450((int *)(((ScenePointerUpdate*)&(*reinterpret_cast<::GO *>(&::g_011d9098)))))))))->GetAt(1)))))->FUN_00a59c60((std::intptr_t)&(playerUpdate));
+                reinterpret_cast<::FUN_00a59c60_cls *>((((::SceneUpdate *)(reinterpret_cast<::NiNode *>((((::SceneUpdate *)(::FUN_00559450((int *)(((ScenePointerUpdate*)&(*reinterpret_cast<::GO *>(&::g_011d9098)))))))))->GetAt(2)))))->FUN_00a59c60((std::intptr_t)&(splitUpdate));
             }
             else if (sounded && DAT_011d90e0 - soundTime < reinterpret_cast<::FUN_00508100_shell *>((dealerSeq[0]))->FUN_00508100())
             {
                 Update90 tableUpdate2(DAT_011d90e0 - soundTime, true, false);
                 Update90 dealerUpdate(DAT_011d90e0 - soundTime, true, false);
-                reinterpret_cast<::FUN_00a59c60_cls *>((((::SceneUpdate *)(reinterpret_cast<::NiNode *>((((::SceneUpdate *)(::FUN_00559450((int *)(((ScenePointerUpdate*)&(*reinterpret_cast<::GO *>(&::g_011d9098)))))))))->GetAt(0)))))->FUN_00a59c60((int)&(tableUpdate2));
-                reinterpret_cast<::FUN_00a59c60_cls *>((((::SceneUpdate *)(reinterpret_cast<::NiNode *>((((::SceneUpdate *)(::FUN_00559450((int *)(((ScenePointerUpdate*)&(*reinterpret_cast<::GO *>(&::g_011d9098)))))))))->GetAt(3)))))->FUN_00a59c60((int)&(dealerUpdate));
+                reinterpret_cast<::FUN_00a59c60_cls *>((((::SceneUpdate *)(reinterpret_cast<::NiNode *>((((::SceneUpdate *)(::FUN_00559450((int *)(((ScenePointerUpdate*)&(*reinterpret_cast<::GO *>(&::g_011d9098)))))))))->GetAt(0)))))->FUN_00a59c60((std::intptr_t)&(tableUpdate2));
+                reinterpret_cast<::FUN_00a59c60_cls *>((((::SceneUpdate *)(reinterpret_cast<::NiNode *>((((::SceneUpdate *)(::FUN_00559450((int *)(((ScenePointerUpdate*)&(*reinterpret_cast<::GO *>(&::g_011d9098)))))))))->GetAt(3)))))->FUN_00a59c60((std::intptr_t)&(dealerUpdate));
             }
             if (DAT_011d90e0 >= reinterpret_cast<::FUN_00508100_shell *>((playerSeq[0]))->FUN_00508100() && !sounded)
             {
@@ -3431,8 +3432,8 @@ void BlackjackUpdate::FUN_00734db0()
                 soundTime = DAT_011d90e0;
                 Update90 tableUpdate2(0.0f, true, false);
                 Update90 dealerUpdate(0.0f, true, false);
-                reinterpret_cast<::FUN_00a59c60_cls *>((((::SceneUpdate *)(reinterpret_cast<::NiNode *>((((::SceneUpdate *)(::FUN_00559450((int *)(((ScenePointerUpdate*)&(*reinterpret_cast<::GO *>(&::g_011d9098)))))))))->GetAt(0)))))->FUN_00a59c60((int)&(tableUpdate2));
-                reinterpret_cast<::FUN_00a59c60_cls *>((((::SceneUpdate *)(reinterpret_cast<::NiNode *>((((::SceneUpdate *)(::FUN_00559450((int *)(((ScenePointerUpdate*)&(*reinterpret_cast<::GO *>(&::g_011d9098)))))))))->GetAt(3)))))->FUN_00a59c60((int)&(dealerUpdate));
+                reinterpret_cast<::FUN_00a59c60_cls *>((((::SceneUpdate *)(reinterpret_cast<::NiNode *>((((::SceneUpdate *)(::FUN_00559450((int *)(((ScenePointerUpdate*)&(*reinterpret_cast<::GO *>(&::g_011d9098)))))))))->GetAt(0)))))->FUN_00a59c60((std::intptr_t)&(tableUpdate2));
+                reinterpret_cast<::FUN_00a59c60_cls *>((((::SceneUpdate *)(reinterpret_cast<::NiNode *>((((::SceneUpdate *)(::FUN_00559450((int *)(((ScenePointerUpdate*)&(*reinterpret_cast<::GO *>(&::g_011d9098)))))))))->GetAt(3)))))->FUN_00a59c60((std::intptr_t)&(dealerUpdate));
             }
             else if (DAT_011d90e0 - soundTime >= reinterpret_cast<::FUN_00508100_shell *>((dealerSeq[0]))->FUN_00508100() && sounded)
             {
@@ -3480,7 +3481,7 @@ void BlackjackUpdate::FUN_00734db0()
             break;
         }
         Update90 su(DAT_011d90e0, true, false);
-        reinterpret_cast<::FUN_00a59c60_cls *>((((::SceneUpdate *)(reinterpret_cast<::NiNode *>((((::SceneUpdate *)(::FUN_00559450((int *)(((ScenePointerUpdate*)&(*reinterpret_cast<::GO *>(&::g_011d9098)))))))))->GetAt(0)))))->FUN_00a59c60((int)&(su));
+        reinterpret_cast<::FUN_00a59c60_cls *>((((::SceneUpdate *)(reinterpret_cast<::NiNode *>((((::SceneUpdate *)(::FUN_00559450((int *)(((ScenePointerUpdate*)&(*reinterpret_cast<::GO *>(&::g_011d9098)))))))))->GetAt(0)))))->FUN_00a59c60((std::intptr_t)&(su));
         if (DAT_011d90e0 == 0.0)
         {
             reinterpret_cast<::FUN_00734d50_holder *>(this)->SetFlag(0x400, true);
@@ -3492,7 +3493,7 @@ void BlackjackUpdate::FUN_00734db0()
         if (DAT_011d90e0 < reinterpret_cast<::FUN_00508100_shell *>((revealSeq))->FUN_00508100())
         {
             Update90 du(DAT_011d90e0, true, false);
-            reinterpret_cast<::FUN_00a59c60_cls *>((((::SceneUpdate *)(reinterpret_cast<::NiNode *>((((::SceneUpdate *)(::FUN_00559450((int *)(((ScenePointerUpdate*)&(*reinterpret_cast<::GO *>(&::g_011d9098)))))))))->GetAt(3)))))->FUN_00a59c60((int)&(du));
+            reinterpret_cast<::FUN_00a59c60_cls *>((((::SceneUpdate *)(reinterpret_cast<::NiNode *>((((::SceneUpdate *)(::FUN_00559450((int *)(((ScenePointerUpdate*)&(*reinterpret_cast<::GO *>(&::g_011d9098)))))))))->GetAt(3)))))->FUN_00a59c60((std::intptr_t)&(du));
         }
         if (DAT_011d90e0 >= reinterpret_cast<::FUN_00508100_shell *>((revealSeq))->FUN_00508100())
         {
@@ -3513,7 +3514,7 @@ void BlackjackUpdate::FUN_00734db0()
             break;
         }
         Update90 su(DAT_011d90e0, true, false);
-        reinterpret_cast<::FUN_00a59c60_cls *>((((::SceneUpdate *)(reinterpret_cast<::NiNode *>((((::SceneUpdate *)(::FUN_00559450((int *)(((ScenePointerUpdate*)&(*reinterpret_cast<::GO *>(&::g_011d9098)))))))))->GetAt(0)))))->FUN_00a59c60((int)&(su));
+        reinterpret_cast<::FUN_00a59c60_cls *>((((::SceneUpdate *)(reinterpret_cast<::NiNode *>((((::SceneUpdate *)(::FUN_00559450((int *)(((ScenePointerUpdate*)&(*reinterpret_cast<::GO *>(&::g_011d9098)))))))))->GetAt(0)))))->FUN_00a59c60((std::intptr_t)&(su));
         if (DAT_011d90e0 == 0.0)
         {
             reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::BSSoundHandleEx &)(((::Audio129 *)(::FUN_00453a70()))->FUN_00ad7550(DAT_01070d5c, 0x121)))->FUN_00ad8830(false);
@@ -3534,7 +3535,7 @@ void BlackjackUpdate::FUN_00734db0()
         if (DAT_011d90e0 < reinterpret_cast<::FUN_00508100_shell *>((dealerSeq[counts[2]]))->FUN_00508100())
         {
             Update90 du(DAT_011d90e0, true, false);
-            reinterpret_cast<::FUN_00a59c60_cls *>((((::SceneUpdate *)(reinterpret_cast<::NiNode *>((((::SceneUpdate *)(::FUN_00559450((int *)(((ScenePointerUpdate*)&(*reinterpret_cast<::GO *>(&::g_011d9098)))))))))->GetAt(3)))))->FUN_00a59c60((int)&(du));
+            reinterpret_cast<::FUN_00a59c60_cls *>((((::SceneUpdate *)(reinterpret_cast<::NiNode *>((((::SceneUpdate *)(::FUN_00559450((int *)(((ScenePointerUpdate*)&(*reinterpret_cast<::GO *>(&::g_011d9098)))))))))->GetAt(3)))))->FUN_00a59c60((std::intptr_t)&(du));
         }
         if (DAT_011d90e0 >= reinterpret_cast<::FUN_00508100_shell *>((dealerSeq[counts[2]]))->FUN_00508100())
         {

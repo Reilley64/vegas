@@ -1,3 +1,6 @@
+#include <cstdint>
+#include <new>
+#include <cstddef>
 // bsshader/bsbatchrenderer.cpp: BSBatchRenderer, BSBatchRenderer__GeometryGroup, Thing, BSBatchRenderer_AlphaDepth and more (43 functions)
 
 #include <new>
@@ -103,7 +106,7 @@ void BSBatchRenderer::ReleaseGeometryGroups()
     {
         if (!m_pAlphaGeometryGroups[0]->m_usPassCountLocal)
         {
-            reinterpret_cast<::AlphaList *>((reinterpret_cast<BSBatchRenderer__AlphaList*>(&AlphaGeometryList[0])))->FUN_00e7db70((unsigned int *)&(m_pAlphaGeometryGroups[0]));
+            reinterpret_cast<::AlphaList *>((reinterpret_cast<BSBatchRenderer__AlphaList*>(&AlphaGeometryList[0])))->FUN_00e7db70((void *const *)&(m_pAlphaGeometryGroups[0]));
             BSBatchRenderer__GeometryGroup* group = m_pAlphaGeometryGroups[0];
             if (group)
             {
@@ -114,7 +117,7 @@ void BSBatchRenderer::ReleaseGeometryGroups()
         m_pAlphaGeometryGroups[0] = 0;
         if (!m_pAlphaGeometryGroups[1]->m_usPassCountLocal)
         {
-            reinterpret_cast<::AlphaList *>((reinterpret_cast<BSBatchRenderer__AlphaList*>(&AlphaGeometryList[1])))->FUN_00e7db70((unsigned int *)&(m_pAlphaGeometryGroups[1]));
+            reinterpret_cast<::AlphaList *>((reinterpret_cast<BSBatchRenderer__AlphaList*>(&AlphaGeometryList[1])))->FUN_00e7db70((void *const *)&(m_pAlphaGeometryGroups[1]));
             BSBatchRenderer__GeometryGroup* group = m_pAlphaGeometryGroups[1];
             if (group)
             {
@@ -179,36 +182,53 @@ template <> class NiTPointerListBase<NiTPointerAllocator<unsigned int>, char*>
     void* AddHead();
 };
 
-// Appends a new node holding *elem to the list, reusing a free node from self[3] or allocating one, and updates head, tail and count.
-// @fnv 0x00b99840
-void FUN_00b99840(int* self, int, const int* pElement)
+struct ListNode_b99840
 {
-    int* node = (int*)self[3];
+    ListNode_b99840* m_pkNext;
+    ListNode_b99840* m_pkPrev;
+    void* m_pElement;
+};
+
+struct List_b99840
+{
+    void* m_00;
+    ListNode_b99840* m_pkHead;
+    ListNode_b99840* m_pkTail;
+    ListNode_b99840* m_pkFree;
+    unsigned int m_uiCount;
+};
+
+// Appends a new node holding *pElement to the list, reusing a node from the free list or allocating one, and updates head, tail and count.
+// @fnv 0x00b99840
+void FUN_00b99840(void* apList, int, void* const* pElement)
+{
+    List_b99840* self = (List_b99840*)apList;
+    ListNode_b99840* node = self->m_pkFree;
     if (!node)
     {
-        node = (int*)((void *)(reinterpret_cast<::FUN_0043a010_shell *>((((NiTPointerListBase<NiTPointerAllocator<unsigned int>, char*>*)(self + 4))))->FUN_0043a010()));
+        node = (ListNode_b99840*)((void *)(reinterpret_cast<::FUN_0043a010_shell *>((((NiTPointerListBase<NiTPointerAllocator<unsigned int>, char*>*)(&self->m_uiCount))))->FUN_0043a010()));
     }
     else
     {
-        self[3] = *node;
+        self->m_pkFree = node->m_pkNext;
     }
 
-    node[2] = *pElement;
-    node[0] = 0;
-    node[1] = self[2];
+    node->m_pElement = *pElement;
+    node->m_pkNext = 0;
+    node->m_pkPrev = self->m_pkTail;
 
-    int* tail = (int*)self[2];
+    ListNode_b99840* tail = self->m_pkTail;
     if (tail)
     {
-        *tail = (int)node;
-        self[4]++;
-        self[2] = (int)node;
+        tail->m_pkNext = node;
+        self->m_uiCount++;
+        self->m_pkTail = node;
     }
     else
     {
-        self[4]++;
-        self[1] = (int)node;
-        self[2] = (int)node;
+        self->m_uiCount++;
+        self->m_pkHead = node;
+        self->m_pkTail = node;
     }
 }
 
@@ -272,16 +292,27 @@ struct FUN_00b99630_Arg
 void SortList(void*, FUN_00b99630_Arg);
 
 extern char DAT_011ffe35;
-extern int DAT_011ffe38;
+extern void* DAT_011ffe38;
+
+struct GeometryGroupView_b9
+{
+    unsigned char m_ucEntryType;
+    unsigned char pad01;
+    unsigned short m_usPassCountLocal;
+    void* m_pGroupKey;
+    void* m_pGroupRenderer;
+    char m_kPasses[1];
+};
 
 // @fnv 0x00b99a10
-void FUN_00b99a10(char* this_ptr, int, int param_1, char param_2)
+void FUN_00b99a10(char* this_ptr, int, std::intptr_t param_1, char param_2)
 {
-    DAT_011ffe38 = param_1;
+    DAT_011ffe38 = (void*)param_1;
     DAT_011ffe35 = param_2;
     FUN_00b99630_Arg arg = {((void (&)())::CompareSortPassesByDepth)};
-    SortList(*(char**)(this_ptr + 0x70) + 0xc, arg);
-    SortList(*(char**)(this_ptr + 0x74) + 0xc, arg);
+    BSBatchRenderer* renderer = (BSBatchRenderer*)this_ptr;
+    SortList(&((GeometryGroupView_b9*)renderer->m_pSecondaryGeometryGroups[0])->m_kPasses, arg);
+    SortList(&((GeometryGroupView_b9*)renderer->m_pSecondaryGeometryGroups[1])->m_kPasses, arg);
 }
 
 struct PassGroup_Layout
@@ -690,9 +721,9 @@ struct FUN_00b9a3c0_shell : public BSBatchRenderer
 bool FUN_00b9a3c0_shell::FUN_00b9a3c0(unsigned int& auiPass, int& aiBucket, bool& abFlag, bool)
 {
     unsigned int idx = 0;
-    reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)(((DummyPointerMap*)((char*)this + 0xc))))->FUN_00853130(auiPass, (::fnv_00853130::CombatThreatRecord *&)(idx));
+    reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)(((DummyPointerMap*)&this->m_kGroupIndexMap)))->FUN_00853130(auiPass, (::fnv_00853130::CombatThreatRecord *&)(idx));
     PassGroup_Layout* pGroups = *(PassGroup_Layout**)&this->m_pPassBucketEntries;
-    ::ClearPassGroups((::PassGroup_Layout *)(((PassGroup_Layout*)((char*)pGroups + idx * 0x68))), false, {});
+    ::ClearPassGroups((::PassGroup_Layout *)(pGroups + idx), false, {});
     return ((BSBatchRenderer*)this)->FindPassBucket(auiPass, aiBucket, abFlag);
 }
 }  // namespace fnv_00b9a3c0
@@ -877,31 +908,37 @@ struct FUN_00b9a5b0 : public BSFadeNode
     virtual void Method35(void* pPass, unsigned int id);
 };
 
+struct PassView_b9abc0
+{
+    char pad00[4];
+    unsigned short m_usPassId;
+};
+
 // @fnv 0x00b9abc0
 void DispatchPass(void* pThis, int dummy, void* pPass, bool bFlag)
 {
-    unsigned char* pBytes = (unsigned char*)pThis;
-    if ((pBytes[0] & 1u) > 0)
+    GeometryGroupView_b9* pGroup = (GeometryGroupView_b9*)pThis;
+    if ((pGroup->m_ucEntryType & 1u) > 0)
     {
         if (bFlag)
         {
-            ::PushFront((::FUN_00b99890_List *)(((PassListStandin*)(pBytes + 0xc))), (int)(&pPass), {});
+            ::PushFront((::FUN_00b99890_List *)(((PassListStandin*)&pGroup->m_kPasses)), 0, (unsigned int *)((&pPass)));
         }
         else
         {
-            ::FUN_00b99840((int *)(((PassListStandin*)(pBytes + 0xc))), (int)(&pPass), {});
+            ::FUN_00b99840((void *)(((PassListStandin*)&pGroup->m_kPasses)), 0, (void *const *)((&pPass)));
         }
     }
     else
     {
-        if (*(void**)(pBytes + 8) == 0)
+        if (pGroup->m_pGroupRenderer == 0)
         {
-            *(void**)(pBytes + 8) = new FUN_00b9a5b0(*(void**)(pBytes + 4), 0x64);
+            pGroup->m_pGroupRenderer = new FUN_00b9a5b0(pGroup->m_pGroupKey, 0x64);
         }
-        FUN_00b9a5b0* pObj = *(FUN_00b9a5b0**)(pBytes + 8);
-        pObj->Method35(pPass, *(unsigned short*)((char*)pPass + 4));
+        FUN_00b9a5b0* pObj = (FUN_00b9a5b0*)pGroup->m_pGroupRenderer;
+        pObj->Method35(pPass, ((PassView_b9abc0*)pPass)->m_usPassId);
     }
-    (*(unsigned short*)(pBytes + 2))++;
+    pGroup->m_usPassCountLocal++;
 }
 
 struct SortPt
@@ -919,7 +956,7 @@ struct SortBound
 };
 extern SortBound DAT_011f4288;
 extern char DAT_011ffe35;
-extern int DAT_011ffe38;
+extern void* DAT_011ffe38;
 struct SortCamera
 {
     char pad[0x68];
@@ -1232,12 +1269,10 @@ void FUN_00b994f0(Pass_b994f0* prenderpass, unsigned int uiPassId, bool balphaTe
         if ((*reinterpret_cast<::fnv_00b994f0::Shader_b994f0 * *>(&::fnv_00b988e0::DAT_011ffe2c))->IsLit())
             reinterpret_cast<::S_00b7ac20_Class *>(((*reinterpret_cast<::fnv_00b994f0::Shader_b994f0 * *>(&::fnv_00b988e0::DAT_011ffe2c))))->FUN_00b7ac20(uiPassId);
         else if ((*reinterpret_cast<::fnv_00b994f0::Shader_b994f0 * *>(&::fnv_00b988e0::DAT_011ffe2c))->IsType11())
-            ::FUN_00bb96d0((unsigned int)((*reinterpret_cast<::fnv_00b994f0::Shader_b994f0 * *>(&::fnv_00b988e0::DAT_011ffe2c))));
+            ::FUN_00bb96d0((std::uintptr_t)((*reinterpret_cast<::fnv_00b994f0::Shader_b994f0 * *>(&::fnv_00b988e0::DAT_011ffe2c))));
     }
 }
 }  // namespace fnv_00b994f0
-
-namespace fnv_00b9aa80 {
 
 template <> class NiTPointerMap<unsigned int, unsigned int>
 {
@@ -1248,6 +1283,8 @@ template <> class NiTPointerMap<unsigned int, unsigned int>
     void* m_ppkHashTable;
     unsigned int m_kItemCount;
 };
+
+namespace fnv_00b9aa80 {
 
 class FUN_00b99bb0
 {
@@ -1707,12 +1744,13 @@ struct NodeAllocator
 };
 struct AlphaListCursor
 {
+    AlphaNode* m_pkHead;
     AlphaNode* m_pkTail;
     NodeAllocator m_kItemCount;
 };
 static inline AlphaNode*& ListHead(AlphaListCursor* pkList)
 {
-    return *(AlphaNode**)((char*)pkList - 4);
+    return pkList->m_pkHead;
 }
 struct PoolLock
 {
@@ -1741,7 +1779,7 @@ void AddSortedGroup(BSBatchRenderer* pRenderer, int dummy, SortBound* pBound, bo
     if (pRenderer->m_iActiveGroupCount == 0 && pCamera != 0)
     {
         GroupStandin** idx = (GroupStandin**)pRenderer->m_pAlphaGeometryGroups;
-        AlphaListCursor* pkList = (AlphaListCursor*)((char*)pRenderer->AlphaGeometryList + 4);
+        AlphaListCursor* pkList = (AlphaListCursor*)&pRenderer->AlphaGeometryList[0];
         long iRemaining = 2;
         while (iRemaining ? true : false)
         {
@@ -1809,7 +1847,7 @@ void AddSortedGroup(BSBatchRenderer* pRenderer, int dummy, SortBound* pBound, bo
             }
             *idx = c;
             idx++;
-            pkList = (AlphaListCursor*)((char*)pkList + 12);
+            pkList++;
             iRemaining--;
         }
         pRenderer->m_bHasActiveGroups = bFlag1;
@@ -2703,7 +2741,7 @@ void __cdecl FUN_00b99110(DrawPass* pass, bool depth, bool alpha, bool blend)
                 first = false;
             }
             void* draw = shader->Draw(geometry, partition, vertexData, properties);
-            reinterpret_cast<::E6D310Renderer *>((renderer))->FUN_00e6d310((::E6D310StripSet *)(draw), (::E6D310Geometry *)(partition), (int)(data));
+            reinterpret_cast<::E6D310Renderer *>((renderer))->FUN_00e6d310((::E6D310StripSet *)(draw), (::E6D310Geometry *)(partition), (std::intptr_t)(data));
             if (flags)
             {
                 for (unsigned int next = i + 1; next < count && !flags[i + 1].continuation;)
@@ -2717,7 +2755,7 @@ void __cdecl FUN_00b99110(DrawPass* pass, bool depth, bool alpha, bool blend)
                         draw = shader->Draw(geometry, p, uiVertexData, properties);
                         if (!draw)
                             return;
-                        reinterpret_cast<::E6D310Renderer *>((renderer))->FUN_00e6d310((::E6D310StripSet *)(draw), (::E6D310Geometry *)(p), (int)(data));
+                        reinterpret_cast<::E6D310Renderer *>((renderer))->FUN_00e6d310((::E6D310StripSet *)(draw), (::E6D310Geometry *)(p), (std::intptr_t)(data));
                     }
                 }
             }
@@ -2777,7 +2815,7 @@ void ActivePassNode::InsertItem(ItemValue volatile item, ActivePassCompare afCom
         {
             if (prev == 0)
             {
-                ::FUN_00b98e20((::Node_00b98e20 *)(this), (int)((const unsigned short*)&item), {});
+                ::FUN_00b98e20((::Node_00b98e20 *)(this), 0, (const unsigned short *)(((const unsigned short*)&item)));
             }
             else
             {
@@ -2822,14 +2860,12 @@ struct Thing
 {
     char pad[0x64];
     int m_total;
-    void AddNode(int index, int value);
+    void AddNode(int index, std::intptr_t value);
 };
-
-extern "C" Node* FUN_0043a010(void* alloc);
 
 // Allocates or reuses a free node, stores value, and prepends it to the entry's linked list, updating counts.
 // @fnv 0x00b99a90
-void Thing::AddNode(int index, int value)
+void Thing::AddNode(int index, std::intptr_t value)
 {
     Entry* entry = (Entry*)((char*)this + index * 0x14);
     Node* node;
@@ -2881,20 +2917,19 @@ struct Thing
 {
     char pad[0x64];
     int m_total;
-    void AppendNode(int index, int value);
+    void AppendNode(int index, std::intptr_t value);
 };
 
-extern "C" Node* FUN_0043a010(void* alloc);
 
 // Allocates or reuses a Node, sets its value, and appends it to the linked list at the given index.
 // @fnv 0x00b99b00
-void Thing::AppendNode(int index, int value)
+void Thing::AppendNode(int index, std::intptr_t value)
 {
     Entry* entry = (Entry*)((char*)this + index * 0x14);
     Node* node;
     if (entry->m_free == 0)
     {
-        node = FUN_0043a010(&entry->m_uiItemCount);
+        node = (Node*)(reinterpret_cast<::FUN_0043a010_shell *>(&entry->m_uiItemCount)->FUN_0043a010());
     }
     else
     {
@@ -3113,9 +3148,9 @@ void S00b99c90_Shell::AddPassToGroup(RenderPass99* pkPass, unsigned int uiPassEn
         reinterpret_cast<::ActivePassNode *>(&(m_kActivePassList))->InsertItem((volatile ::ItemValue)(uiPass), (int (*)(unsigned int, unsigned short))(CompareShorts));
 
     if (pkPass->m_bIsAlpha && (uiPass < 0x238 || uiPass > 0x23e))
-        reinterpret_cast<::fnv_00b99a90::Thing *>(&(m_pPassBucketEntries[uiIndex]))->AddNode(iGroup, (int)(pkPass));
+        reinterpret_cast<::fnv_00b99a90::Thing *>(&(m_pPassBucketEntries[uiIndex]))->AddNode(iGroup, (std::intptr_t)(pkPass));
     else
-        reinterpret_cast<::fnv_00b99b00::Thing *>(&(m_pPassBucketEntries[uiIndex]))->AppendNode(iGroup, (int)(pkPass));
+        reinterpret_cast<::fnv_00b99b00::Thing *>(&(m_pPassBucketEntries[uiIndex]))->AppendNode(iGroup, (std::intptr_t)(pkPass));
 }
 
 namespace fnv_00b9a5b0 {
@@ -3143,7 +3178,7 @@ struct MapBase
         {
             unsigned int s;
         };
-        S sz = {hashSize * sizeof(void*)};
+        S sz = {static_cast<unsigned int>(hashSize * sizeof(void*))};
         std::memset(buckets, 0, sz.s);
     }
     ~MapBase();

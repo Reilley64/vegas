@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 struct AlphaList {
 public:
     // 0x00e7db70
-    unsigned int FUN_00e7db70(unsigned int *);
+    std::uintptr_t FUN_00e7db70(void *const *);
 };

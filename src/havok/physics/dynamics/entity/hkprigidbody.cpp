@@ -441,7 +441,7 @@ struct AudioInterfaceVTable
     void* slot24;
     void* slot28;
     void* slot2C;
-    void(* dispatch)(AudioInterface*, intptr_t);
+    void(* dispatch)(AudioInterface*, const void*);
 };
 struct AudioInterface
 {
@@ -506,11 +506,11 @@ struct FUN_00ca8800_Class
     int unkD8;
     int unkDC;
     AudioInterface interfaceE0;
-    void FUN_00ca8800(intptr_t value);
+    void FUN_00ca8800(const void* value);
 };
 // Calls the interface's dispatch with value, then invokes FUN_00ca8700 on this object.
 // @fnv 0x00ca8800
-void FUN_00ca8800_Class::FUN_00ca8800(intptr_t value)
+void FUN_00ca8800_Class::FUN_00ca8800(const void* value)
 {
     interfaceE0.vtbl->dispatch(&interfaceE0, value);
     ::FUN_00ca8700((::Entity *)(::FUN_00ca8800_Class *)(this));
@@ -531,7 +531,7 @@ struct CA8830Member
     virtual void unk28();
     virtual void unk2C();
     virtual void unk30();
-    virtual void setValue(int value);
+    virtual void setValue(const void* value);
 };
 
 struct CA8830Object;
@@ -542,12 +542,12 @@ struct CA8830Object
     char unk000[0xe0];
     CA8830Member m_kMemberDescriptor;
 
-    void FUN_00ca8830(int value);
+    void FUN_00ca8830(const void* value);
 };
 
 // Calls setValue on the member with value, then passes this to FUN_00ca8700.
 // @fnv 0x00ca8830
-void CA8830Object::FUN_00ca8830(int value)
+void CA8830Object::FUN_00ca8830(const void* value)
 {
     m_kMemberDescriptor.setValue(value);
     ::FUN_00ca8700((::Entity *)(::CA8830Object *)(this));

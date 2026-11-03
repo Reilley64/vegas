@@ -36,7 +36,7 @@ BSFileCache::BSFileCache()
 
 struct FUN_00b011b0_shell : public BSFileCache
 {
-    bool FUN_00b011b0(int);
+    bool FUN_00b011b0(const char*);
 };
 
 struct VT_00b011b0
@@ -46,7 +46,7 @@ struct VT_00b011b0
     virtual void v2();
     virtual void v3();
     virtual void v4();
-    virtual int v5(int);
+    virtual int v5(const char*);
 };
 struct ST_00b011b0
 {
@@ -59,10 +59,6 @@ struct FUN_00b01020
 FUN_00b01020::~FUN_00b01020()
 {}
 
-struct Unk00b01040
-{
-    void CallVirtualWithField38();
-};
 struct VBase
 {
     virtual void f0();
@@ -78,11 +74,17 @@ struct VBase
     virtual void f10();
     virtual void f11(int, int, int, int);
 };
-// Calls the virtual f11 on this with arguments 0, the int at offset 0x38, 1 and 0.
+struct Unk00b01040 : VBase
+{
+    char pad04[0x34];
+    int m_i38;
+    void CallVirtualWithField38();
+};
+// Calls the virtual f11 on this with arguments 0, m_i38, 1 and 0.
 // @fnv 0x00b01040
 void Unk00b01040::CallVirtualWithField38()
 {
-    ((VBase*)this)->f11(0, *(int*)((char*)this + 0x38), 1, 0);
+    f11(0, m_i38, 1, 0);
 }
 
 struct FUN_00b01070_Class
@@ -115,7 +117,7 @@ struct C00b011e0
 };
 // Calls v5 on the argument, then forwards the result to FUN_00b011e0 and returns its bool result.
 // @fnv 0x00b011b0
-bool FUN_00b011b0_shell::FUN_00b011b0(int a)
+bool FUN_00b011b0_shell::FUN_00b011b0(const char* a)
 {
     return reinterpret_cast<::C00b011e0 *>((((ST_00b011b0*)this)))->FUN_00b011e0(((VT_00b011b0*)this)->v5(a));
 }
@@ -195,12 +197,14 @@ void FUN_00b01360_Cls::FUN_00b01360(int a, int b, int c, int d)
 
 struct StandIn
 {
+    char pad00[0x60];
+    void* m_p60;
     void ClearPointerAt60();
 };
 // @fnv 0x00b01370
 void StandIn::ClearPointerAt60()
 {
-    *reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x60) = 0;
+    m_p60 = 0;
 }
 
 
@@ -286,6 +290,61 @@ void FUN_00b010d0_cls::FUN_00b010d0()
         {
             Sleep(10);
         }
+    }
+}
+
+inline bool IsCacheFinished(BSFileCache* m_pAabbCache)
+{
+    return m_pAabbCache->m_eCacheState == FILE_CACHING_FINISHED;
+}
+
+inline bool IsCachePaused(BSFileCache* m_pAabbCache)
+{
+    return m_pAabbCache->m_eCacheState == FILE_CACHING_PAUSED ||
+           m_pAabbCache->m_eCacheState == FILE_CACHING_FORCE_PAUSED;
+}
+
+struct Cls00b01220
+{
+    unsigned char unk00;
+    Cls00b01220* FUN_00b01220(int unused);
+};
+
+// @fnv 0x00b01220
+Cls00b01220* Cls00b01220::FUN_00b01220(int unused)
+{
+    BSFileCache* pCache1 = ((::BSFileCache *)&(::BSFileCache::GetRandomGenerator()));
+    if (!IsCacheFinished(pCache1))
+    {
+        BSFileCache* pCache2 = ((::BSFileCache *)&(::BSFileCache::GetRandomGenerator()));
+        this->unk00 = IsCachePaused(pCache2);
+
+        BSFileCache* pCache3 = ((::BSFileCache *)&(::BSFileCache::GetRandomGenerator()));
+        if (pCache3->m_eCacheState == FILE_CACHING_IN_PROGRESS)
+        {
+            pCache3->m_eCacheState = FILE_CACHING_PAUSED;
+        }
+    }
+
+    return this;
+}
+
+class FUN_00b012a0_cls
+{
+  public:
+    unsigned char m_00;
+    void FUN_00b012a0();
+};
+
+// @fnv 0x00b012a0
+void FUN_00b012a0_cls::FUN_00b012a0()
+{
+    BSFileCache* cache = ((::BSFileCache *)&(::BSFileCache::GetRandomGenerator()));
+    if (!IsCacheFinished(cache) && m_00 == 0)
+    {
+        BSFileCache* cache2 = ((::BSFileCache *)&(::BSFileCache::GetRandomGenerator()));
+        if (cache2->m_eCacheState == FILE_CACHING_PAUSED)
+            cache2->m_eCacheState = FILE_CACHING_IN_PROGRESS;
     }
 }
 

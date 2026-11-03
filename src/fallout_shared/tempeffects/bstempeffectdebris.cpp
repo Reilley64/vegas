@@ -7,6 +7,7 @@
 // read and the setter a plain field write.
 //
 
+#include <cstdint>
 #include "fnv/decl/A5D2C0Object.h"
 #include "fnv/decl/AbstractHeap.h"
 #include "fnv/decl/B683670List.h"
@@ -930,7 +931,7 @@ void DebrisEffect::SpawnDebris(int a4, int a5, int a6, int a7, int a8, float f9,
     reinterpret_cast<::FUN_00683190_shell *>(this)->AttachCollisionObject((::WorldActor *)(a4));
     reinterpret_cast<::FUN_00a5a040_Class *>((((::SceneObject *)(::FUN_00559450((int *)&(static_cast<ScenePointer&>(m_18)))))))->FUN_00a5a040();
     UpdateContext node(::fnv_00563f30::DAT_011c3c08, true, false);
-    reinterpret_cast<::FUN_00a59c60_cls *>((((::SceneObject *)(::FUN_00559450((int *)&(static_cast<ScenePointer&>(m_18)))))))->FUN_00a59c60((int)&(node));
+    reinterpret_cast<::FUN_00a59c60_cls *>((((::SceneObject *)(::FUN_00559450((int *)&(static_cast<ScenePointer&>(m_18)))))))->FUN_00a59c60((std::intptr_t)&(node));
     ::FUN_0062b8d0(((::SceneObject *)(::FUN_00559450((int *)&(static_cast<ScenePointer&>(m_18))))), (const void *)(a7), true);
     ::FUN_0062ba80(((::SceneObject *)(::FUN_00559450((int *)&(static_cast<ScenePointer&>(m_18))))), (*(const ::NiPoint3 *)(a8)), true);
     reinterpret_cast<::FUN_00973fd0_cls *>(&((*reinterpret_cast<::EffectRegistry *>(&::g_011e0e80))))->FUN_00973fd0((::FnvArgObj *)(::FUN_00682c40 *)(this));

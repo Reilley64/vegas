@@ -336,6 +336,8 @@ template <> void BSSimpleArray<Tile::Value*, 8>::Insert(unsigned int index, Tile
     }
 }
 
+template <> void BSSimpleArray<Tile::Value*, 8>::ReallocateStorage(unsigned int newCapacity, unsigned int preserveCount);
+
 // Retained admissible closest WIP; intentionally unmarked.
 // Candidate address 00a0d000, 187 bytes, inferred folded Tile callee binding.
 template <> unsigned int BSSimpleArray<Tile::Value*, 8>::ReserveIndex()

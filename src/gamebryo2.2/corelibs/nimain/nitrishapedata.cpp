@@ -741,11 +741,11 @@ struct FnvCpu_FUN_00a7b850_CpuObject
     unsigned int unk3c;
     unsigned int unk40;
     unsigned int unk44;
-    int value;
-    int FUN_00a7b850();
+    void* value;
+    void* FUN_00a7b850();
 };
 // @fnv 0x00a7b850
-int FnvCpu_FUN_00a7b850_CpuObject::FUN_00a7b850()
+void* FnvCpu_FUN_00a7b850_CpuObject::FUN_00a7b850()
 {
     return value;
 }

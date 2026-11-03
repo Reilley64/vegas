@@ -1,3 +1,5 @@
+#include <cstdint>
+#include <cstddef>
 // bsshader/bsshadermanager.cpp: BSShaderManager, NiFixedString, SkyShaderProperty, StringHashMapBase (31 functions)
 
 #include <windows.h>
@@ -25,7 +27,6 @@
 #include "fnv/decl/Lighting30Shader.h"
 #include "fnv/decl/MemoryManagerStandIn.h"
 #include "fnv/decl/NiGeometryData_shell.h"
-#include "fnv/decl/NiGlobalStringTable.h"
 #include "fnv/decl/NiRenderer.h"
 #include "fnv/decl/ParticleShader.h"
 #include "fnv/decl/S654.h"
@@ -96,6 +97,31 @@
 #include "fnv/symbols_01272000.h"
 #include "bsshadermanager_decls.h"
 #include <stddef.h>
+#include "fnv/decl/FUN_0046e8e0_This.h"
+#include "fnv/decl/FUN_0046eb00_Class.h"
+#include "fnv/decl/FUN_0046eb20_Class.h"
+#include "fnv/decl/FUN_0046ebd0_Class.h"
+#include "fnv/decl/NiNode.h"
+#include "fnv/decl/fnv_0046eb40__FUN_0046eb40_Class.h"
+#include "fnv/decl/fnv_0046eb60__FUN_0046eb60_Class.h"
+#include "fnv/decl/fnv_0046eb80__FUN_0046eb80_Class.h"
+#include "fnv/decl/fnv_0046eba0__FUN_0046eba0_class.h"
+#include "fnv/symbols_00653000.h"
+#include "fnv/symbols_00b4f000.h"
+#include "fnv/symbols_00b54000.h"
+#include "fnv/decl/FUN_00bb7300_Class.h"
+#include "fnv/symbols_00a5f000.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_011aa000.h"
+#include <math.h>
+
+class NiGlobalStringTable
+{
+
+  public:
+    static char* AddString(const char*);
+};
+
 
 class NiRTTI;
 class NiRenderer;
@@ -483,10 +509,16 @@ void __cdecl ProcessPropertyTree(PropHelper* pProp, int param2)
     }
 }
 
+struct FogOwner_b55520
+{
+    char pad[0x134];
+    BSFogProperty* m_pFogProperty;
+};
+
 // @fnv 0x00b55520
 BSFogProperty* __cdecl FUN_00b55520(int aiShadowSceneNode)
 {
-    return *(BSFogProperty**)((char*)DAT_011f91c8[aiShadowSceneNode] + 0x134);
+    return reinterpret_cast<FogOwner_b55520*>(DAT_011f91c8[aiShadowSceneNode])->m_pFogProperty;
 }
 
 
@@ -503,13 +535,6 @@ void FUN_00b55b80(NiAVObject* apObject)
     }
 }
 
-struct tagRECT
-{
-    long left;
-    long top;
-    long right;
-    long bottom;
-};
 extern float DAT_011f95f4;
 extern float DAT_011f95f8;
 extern float DAT_011f95fc;
@@ -2298,7 +2323,7 @@ void __cdecl FUN_00b557d0()
         hit:
             found = 1;
         join: {
-            ShaderEntryBase* t = (ShaderEntryBase*)((unsigned int)p & (found ? 0xffffffffu : 0u));
+            ShaderEntryBase* t = found ? (ShaderEntryBase*)p : nullptr;
             if (t != 0)
             {
                 t->vfn_120();
@@ -2306,7 +2331,7 @@ void __cdecl FUN_00b557d0()
         }
         }
         ++ppEntry;
-    } while ((int)ppEntry < (int)&DAT_011f95d4);
+    } while ((void*)ppEntry < (void*)&DAT_011f95d4);
     reinterpret_cast<::Host *>((((ImageSpaceTail*)DAT_011f91ac)))->FUN_00b8b3b0();
 }
 
@@ -2327,7 +2352,7 @@ void __cdecl FUN_00b55b00(PropHelper* pPropHelper, float fValue)
         unsigned int t = prop->m_uiType - 1;
         int iOutOfRange = (t > 11) ? -1 : 0;
         int inRange = (iOutOfRange + 1) != 0 ? -1 : 0;
-        FUN_00b55b00_prop* target = (FUN_00b55b00_prop*)((unsigned int)prop & (unsigned int)inRange);
+        FUN_00b55b00_prop* target = inRange ? prop : nullptr;
         if (target != 0)
         {
             target->m_fValue = fValue;
@@ -2490,7 +2515,7 @@ struct ShProp
     int unk4c;
     int unk50;
     int unk54;
-    void* unk58;
+    unsigned int unk58;
 };
 struct Shader
 {
@@ -2635,7 +2660,7 @@ inline bool IsExactB(Shader* s, RTTIStub* r)
     return b;
 }
 
-Shader* __cdecl FUN_00b55560(void*);
+Shader* __cdecl FUN_00b55560(unsigned int);
 
 // @fnv 0x00b579e0
 void __cdecl UpdateShaderProperty(AVObj* obj, bool abUnused, bool abFlag8, bool a3)
@@ -2834,7 +2859,7 @@ void __cdecl CopyMaterialPropertyRecursive(Walker* apWalker)
         Material* pSourceMaterial = prop.m_pObject;
         if (pSourceMaterial)
         {
-            reinterpret_cast<::S654 *>((apWalker))->ForwardToSubobject((int)(pSourceMaterial));
+            reinterpret_cast<::S654 *>((apWalker))->ForwardToSubobject((std::intptr_t)(pSourceMaterial));
             NiObjectCopyInfo copyInfo(0x101);
             Material* pDestMaterial;
             if (pSourceMaterial->controller)
@@ -3156,12 +3181,12 @@ struct FUN_00b7fe40_cls
     unsigned int m_00;
     Rec* m_04;
     SubObj m_08;
-    bool LoadFromReader(int param);
+    bool LoadFromReader(std::intptr_t param);
 };
 
 // Reads a chunk into an allocated record, then calls a helper on each subobject.
 // @fnv 0x00b7fe40
-bool FUN_00b7fe40_cls::LoadFromReader(int param)
+bool FUN_00b7fe40_cls::LoadFromReader(std::intptr_t param)
 {
     bool result = false;
     ChunkHeader buf;
@@ -3185,7 +3210,7 @@ bool FUN_00b7fe40_cls::LoadFromReader(int param)
                     for (unsigned int i = 0; i < buf.count; ++i)
                     {
                         m_08.FUN_00a642a0(pRecord, pRecord);
-                        pRecord = (Rec*)((char*)pRecord + pRecord->m_100 + 0x104);
+                        pRecord = (Rec*)((char*)(pRecord + 1) + pRecord->m_100);
                     }
                 }
                 else
@@ -3549,92 +3574,92 @@ template <> class NiPointer<RefShader>
 
 // Returns the cached RefShader for the given index, lazily creating it via a switch on the index if it is not yet initialized.
 // @fnv 0x00b55560
-Shader* __cdecl FUN_00b55560(void* aiIndex)
+Shader* __cdecl FUN_00b55560(unsigned int aiIndex)
 {
-    if (!DAT_011f9508 || (unsigned int)aiIndex > 0x22)
+    if (!DAT_011f9508 || aiIndex > 0x22)
         return 0;
     NiPointer<RefShader>* shaders = (NiPointer<RefShader>*)&DAT_011f9548;
-    if (!shaders[(unsigned int)aiIndex].m_pObject)
+    if (!shaders[aiIndex].m_pObject)
     {
         HeapScope heapScope(5);
-        switch ((unsigned int)aiIndex)
+        switch (aiIndex)
         {
         case 1:
-            shaders[(unsigned int)aiIndex] = ((::RefShader *)(::fnv_00b7a380::FUN_00b7a380()));
+            shaders[aiIndex] = ((::RefShader *)(::fnv_00b7a380::FUN_00b7a380()));
             break;
         case 2:
-            shaders[(unsigned int)aiIndex] = ((::RefShader *)(::fnv_00bacf00::CreateShaderFadeNode()));
+            shaders[aiIndex] = ((::RefShader *)(::fnv_00bacf00::CreateShaderFadeNode()));
             break;
         case 3:
-            shaders[(unsigned int)aiIndex] = ((::RefShader *)(::FUN_00bd5920()));
+            shaders[aiIndex] = ((::RefShader *)(::FUN_00bd5920()));
             break;
         case 4:
-            FUN_00b55560((void*)1);
-            shaders[(unsigned int)aiIndex] = ((::RefShader *)(::FUN_00bd4750()));
+            FUN_00b55560(1);
+            shaders[aiIndex] = ((::RefShader *)(::FUN_00bd4750()));
             break;
         case 5:
-            shaders[(unsigned int)aiIndex] = ((::RefShader *)(::fnv_00bd2e70::FUN_00bd2e70()));
+            shaders[aiIndex] = ((::RefShader *)(::fnv_00bd2e70::FUN_00bd2e70()));
             break;
         case 6:
-            shaders[(unsigned int)aiIndex] = ((::RefShader *)(::CreateSpeedTreeLeafShader()));
+            shaders[aiIndex] = ((::RefShader *)(::CreateSpeedTreeLeafShader()));
             break;
         case 9:
-            shaders[(unsigned int)aiIndex] = ((::RefShader *)(::BloodSplatterBeamShader::CreateShader_00bd23f0()));
+            shaders[aiIndex] = ((::RefShader *)(::BloodSplatterBeamShader::CreateShader_00bd23f0()));
             break;
         case 10:
-            shaders[(unsigned int)aiIndex] = ((::RefShader *)(::FUN_00b8a390()));
+            shaders[aiIndex] = ((::RefShader *)(::FUN_00b8a390()));
             break;
         case 13:
-            shaders[(unsigned int)aiIndex] = ((::RefShader *)(::FUN_00bd14b0()));
+            shaders[aiIndex] = ((::RefShader *)(::FUN_00bd14b0()));
             break;
         case 14:
-            shaders[(unsigned int)aiIndex] = ((::RefShader *)(::CreateFaceGenMorphShader()));
+            shaders[aiIndex] = ((::RefShader *)(::CreateFaceGenMorphShader()));
             break;
         case 15:
-            shaders[(unsigned int)aiIndex] = ((::RefShader *)(::fnv_00bcd680::FUN_00bcd680()));
+            shaders[aiIndex] = ((::RefShader *)(::fnv_00bcd680::FUN_00bcd680()));
             break;
         case 16:
-            shaders[(unsigned int)aiIndex] = ((::RefShader *)(::CreateGeometryDecalShader()));
+            shaders[aiIndex] = ((::RefShader *)(::CreateGeometryDecalShader()));
             break;
         case 17:
-            shaders[(unsigned int)aiIndex] = ((::RefShader *)(::WaterShader::CreateShader()));
+            shaders[aiIndex] = ((::RefShader *)(::WaterShader::CreateShader()));
             break;
         case 24:
-            shaders[(unsigned int)aiIndex] = ((::RefShader *)(::ParticleShader::CreateShader()));
+            shaders[aiIndex] = ((::RefShader *)(::ParticleShader::CreateShader()));
             break;
         case 25:
-            shaders[(unsigned int)aiIndex] = ((::RefShader *)(static_cast<::BoltShader *>(nullptr)->CreateShader()));
+            shaders[aiIndex] = ((::RefShader *)(static_cast<::BoltShader *>(nullptr)->CreateShader()));
             break;
         case 26:
-            shaders[(unsigned int)aiIndex] = ((::RefShader *)(::BloodSplatterBeamShader::CreateShader()));
+            shaders[aiIndex] = ((::RefShader *)(::BloodSplatterBeamShader::CreateShader()));
             break;
         case 29:
             if (DAT_011f94a6)
-                shaders[(unsigned int)aiIndex] = ((::RefShader *)(::Lighting30Shader::CreateShader()));
-            else if (shaders[(unsigned int)aiIndex].Reset())
-                return (Shader*)shaders[(unsigned int)aiIndex].m_pObject;
+                shaders[aiIndex] = ((::RefShader *)(::Lighting30Shader::CreateShader()));
+            else if (shaders[aiIndex].Reset())
+                return (Shader*)shaders[aiIndex].m_pObject;
             break;
         case 30:
-            shaders[(unsigned int)aiIndex] = ((::RefShader *)(::FUN_00bb0660()));
+            shaders[aiIndex] = ((::RefShader *)(::FUN_00bb0660()));
             break;
         case 32:
-            shaders[(unsigned int)aiIndex] = ((::RefShader *)(::FUN_00bcae90()));
+            shaders[aiIndex] = ((::RefShader *)(::FUN_00bcae90()));
             break;
         case 33:
-            shaders[(unsigned int)aiIndex] = ((::RefShader *)(::BSShaderNoLighting::CreateShader()));
+            shaders[aiIndex] = ((::RefShader *)(::BSShaderNoLighting::CreateShader()));
             break;
         case 34:
-            shaders[(unsigned int)aiIndex] = ((::RefShader *)(static_cast<::VolumetricFogShader *>(nullptr)->CreateShader()));
+            shaders[aiIndex] = ((::RefShader *)(static_cast<::VolumetricFogShader *>(nullptr)->CreateShader()));
             break;
         case 7:
-            shaders[(unsigned int)aiIndex] = ((::RefShader *)(static_cast<::BSShaderBloodSplatter *>(nullptr)->CreateShader()));
+            shaders[aiIndex] = ((::RefShader *)(static_cast<::BSShaderBloodSplatter *>(nullptr)->CreateShader()));
             break;
         case 8:
-            shaders[(unsigned int)aiIndex] = ((::RefShader *)(::fnv_00bb6e30::CreateTreeShader()));
+            shaders[aiIndex] = ((::RefShader *)(::fnv_00bb6e30::CreateTreeShader()));
             break;
         }
     }
-    return (Shader*)shaders[(unsigned int)aiIndex].m_pObject;
+    return (Shader*)shaders[aiIndex].m_pObject;
 }
 
 struct InitMemory
@@ -3691,14 +3716,14 @@ struct TextureManagerInit
 };
 struct TextureLoaderInit
 {
-    void* source;
+    int source;
     unsigned int count;
     unsigned int unk008;
     unsigned int unk00c;
     unsigned int unk010;
     unsigned int unk014;
     unsigned int unk018;
-    TextureLoaderInit(void*);
+    TextureLoaderInit(int);
     ~TextureLoaderInit();
 };
 struct ImageManagerInit
@@ -4130,8 +4155,8 @@ void InitRenderSystem()
         if (!DAT_011f91c6)
         {
             (*reinterpret_cast<::TextureManagerInit * *>(&::DAT_011f91a8)) = new TextureManagerInit;
-            (*reinterpret_cast<::TextureLoaderInit * *>(&::DAT_011f9498)) = new TextureLoaderInit(((void *)(::FUN_00b7faf0())));
-            reinterpret_cast<::FUN_00b7fe40_cls *>(((*reinterpret_cast<::TextureLoaderInit * *>(&::DAT_011f9498))))->LoadFromReader((int)((*reinterpret_cast<::TextureLoaderInit * *>(&::DAT_011f9498))->source));
+            (*reinterpret_cast<::TextureLoaderInit * *>(&::DAT_011f9498)) = new TextureLoaderInit(::FUN_00b7faf0());
+            reinterpret_cast<::FUN_00b7fe40_cls *>(((*reinterpret_cast<::TextureLoaderInit * *>(&::DAT_011f9498))))->LoadFromReader((std::intptr_t)((*reinterpret_cast<::TextureLoaderInit * *>(&::DAT_011f9498))->source));
             if (!(*reinterpret_cast<::TextureLoaderInit * *>(&::DAT_011f9498))->count)
             {
                 delete (*reinterpret_cast<::TextureLoaderInit * *>(&::DAT_011f9498));
@@ -4142,7 +4167,7 @@ void InitRenderSystem()
             if (DAT_011f9508)
             {
                 for (int shader = 1; shader < 35; ++shader)
-                    ::FUN_00b55560((void *)(shader));
+                    ::FUN_00b55560(shader);
                 DAT_011f91ac = reinterpret_cast<ImageSpaceManager*>(new ImageManagerInit);
                 if ((*reinterpret_cast<::TextureLoaderInit * *>(&::DAT_011f9498)))
                 {
@@ -4156,19 +4181,19 @@ void InitRenderSystem()
             DAT_011f91c6 = true;
         }
         ClearCallbackTables();
-        reinterpret_cast<void (**)()>(DAT_011f9f80)[0] = ((void (&)())::ProcessCommands);
-        reinterpret_cast<void (**)()>(DAT_011f9f80)[10] = ((void (&)())::InsertNodeAtHead);
-        reinterpret_cast<void (**)()>(DAT_011f9f80)[11] = ((void (&)())::FUN_00b606e0);
-        reinterpret_cast<void (**)()>(DAT_011f9f80)[13] = ((void (&)())::AccumulateRenderPasses);
-        reinterpret_cast<void (**)()>(DAT_011f9f80)[9] = ((void (&)())::FUN_00b64440);
-        reinterpret_cast<void (**)()>(DAT_011f9f80)[14] = ((void (&)())::AddEntriesToAccumulator);
-        reinterpret_cast<void (**)()>(DAT_011f9f80)[8] = ((void (&)())::FUN_00b64490);
-        reinterpret_cast<void (**)()>(DAT_011f9f40)[0] = ((void (&)())::FUN_00b665a0);
+        DAT_011f9f80[0] = ((void (&)())::ProcessCommands);
+        DAT_011f9f80[10] = ((void (&)())::InsertNodeAtHead);
+        DAT_011f9f80[11] = ((void (&)())::FUN_00b606e0);
+        DAT_011f9f80[13] = ((void (&)())::AccumulateRenderPasses);
+        DAT_011f9f80[9] = ((void (&)())::FUN_00b64440);
+        DAT_011f9f80[14] = ((void (&)())::AddEntriesToAccumulator);
+        DAT_011f9f80[8] = ((void (&)())::FUN_00b64490);
+        DAT_011f9f40[0] = ((void (&)())::FUN_00b665a0);
         DAT_011f9f3c = ((void (&)())::ProcessCommands);
-        reinterpret_cast<void (**)()>(DAT_011f9f40)[12] = ((void (&)())::RenderAccumulationPasses);
-        reinterpret_cast<void (**)()>(DAT_011f9f40)[10] = ((void (&)())::FUN_00b65e80);
-        reinterpret_cast<void (**)()>(DAT_011f9f40)[13] = FUN_00a29680;
-        reinterpret_cast<void (**)()>(DAT_011f9f40)[14] = ((void (&)())::FUN_00b64530);
+        DAT_011f9f40[12] = ((void (&)())::RenderAccumulationPasses);
+        DAT_011f9f40[10] = ((void (&)())::FUN_00b65e80);
+        DAT_011f9f40[13] = FUN_00a29680;
+        DAT_011f9f40[14] = ((void (&)())::FUN_00b64530);
         DAT_011f9f38 = ((void (&)())::FUN_00b665a0);
         (*reinterpret_cast<void * *>(&::fnv_00b988e0::DAT_011ffe2c)) = 0;
         DAT_011ffe30 = 0;
@@ -4194,7 +4219,6 @@ inline NiFixedString::~NiFixedString()
     if (m_kHandle != DAT_0109b220)
         InterlockedDecrement(reinterpret_cast<volatile long*>(m_kHandle - 8));
 }
-extern "C" void* FUN_00aa13e0(unsigned int);
 struct NiPoint3
 {
     float x, y, z;
@@ -4499,6 +4523,798 @@ NativeB66810* __cdecl FUN_00b54b60(NiGeometry* apGeometry)
                                 pDestGeomData->uvCoords, pDestGeomData->GetUVSetCount(), 0x1000);
     delete result;
     return 0;
+}
+
+extern "C" int __cdecl strcpy_s(char*, size_t, const char*);
+
+extern "C" int __cdecl _strnicmp(const char*, const char*, size_t);
+
+void __cdecl SetRectCenterAndHalfExtents(tagRECT* apLoadedRect);
+
+struct TGProperty;
+
+struct TGGeometry;
+
+struct TGTextureInfo;
+
+struct TGRTTI
+{
+    int unk00;
+};
+
+struct TGAVObject
+{
+    virtual void v00();
+    virtual void v04();
+    virtual void v08();
+    virtual int IsSceneNode();
+    virtual void v10();
+    virtual void v14();
+    virtual void v18();
+    virtual int IsGeometry();
+};
+
+struct TGNode : TGAVObject
+{
+    unsigned int GetArrayCount();
+};
+
+struct TGGeometry : TGAVObject
+{
+};
+
+struct TGTexturingProperty
+{
+};
+
+struct TGGatherer
+{
+    void FUN_0046e910(TGAVObject* apObject, int aiArg);
+};
+
+// @fnv 0x0046e910
+void TGGatherer::FUN_0046e910(TGAVObject* apObject, int aiArg)
+{
+    if (apObject)
+    {
+        if (apObject->IsGeometry())
+        {
+            TGGeometry* pGeom = (TGGeometry*)apObject;
+            TGProperty* pAlpha6 = ((::TGProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((pGeom))->FUN_00a59d30(3)));
+            TGTexturingProperty* pTexProp2 = ((::TGTexturingProperty *)(::FUN_00653270((const ::NiRTTI *)(const ::TGRTTI *)(&(*reinterpret_cast<::TGRTTI *>(&::g_011f49a4))), (::NiObject *)(::TGProperty *)(((::TGProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((pGeom))->FUN_00a59d30(5)))))));
+            if (pTexProp2)
+            {
+                reinterpret_cast<::FUN_0046e8e0_This *>(this)->FUN_0046e8e0((::KFModel *)(::TGTextureInfo *)(((::TGTextureInfo *)(reinterpret_cast<::FUN_0046eb20_Class *>((pTexProp2))->GetElementAt2()))), {}, {}, {}, {});
+                reinterpret_cast<::FUN_0046e8e0_This *>(this)->FUN_0046e8e0((::KFModel *)(::TGTextureInfo *)(((::TGTextureInfo *)(reinterpret_cast<::fnv_0046eb80::FUN_0046eb80_Class *>((pTexProp2))->GetEntryAt5()))), {}, {}, {}, {});
+                reinterpret_cast<::FUN_0046e8e0_This *>(this)->FUN_0046e8e0((::KFModel *)(::TGTextureInfo *)(((::TGTextureInfo *)(reinterpret_cast<::fnv_0046eb60::FUN_0046eb60_Class *>((pTexProp2))->FUN_0046eb60()))), {}, {}, {}, {});
+                reinterpret_cast<::FUN_0046e8e0_This *>(this)->FUN_0046e8e0((::KFModel *)(::TGTextureInfo *)(((::TGTextureInfo *)(reinterpret_cast<::fnv_0046eb40::FUN_0046eb40_Class *>((pTexProp2))->FUN_0046eb40()))), {}, {}, {}, {});
+                reinterpret_cast<::FUN_0046e8e0_This *>(this)->FUN_0046e8e0((::KFModel *)(::TGTextureInfo *)(((::TGTextureInfo *)(reinterpret_cast<::FUN_0046eb00_Class *>((pTexProp2))->GetSecondElement()))), {}, {}, {}, {});
+                for (unsigned int i = 0; i < reinterpret_cast<::FUN_0046ebd0_Class *>((pTexProp2))->FUN_0046ebd0(); i++)
+                    reinterpret_cast<::FUN_0046e8e0_This *>(this)->FUN_0046e8e0((::KFModel *)(::TGTextureInfo *)(((::TGTextureInfo *)(reinterpret_cast<::fnv_0046eba0::FUN_0046eba0_class *>((pTexProp2))->GetElementAtOffset(i)))), {}, {}, {}, {});
+            }
+        }
+        else if (apObject && apObject->IsSceneNode())
+        {
+            TGNode* pNode = (TGNode*)apObject;
+            unsigned int uiCount5 = pNode->GetArrayCount();
+            for (unsigned int j2 = 0; j2 < uiCount5; j2++)
+            {
+                TGAVObject* pChild2 = ((::TGAVObject *)(reinterpret_cast<::NiNode *>((pNode))->GetAt(j2)));
+                if (pChild2)
+                    FUN_0046e910(pChild2, aiArg);
+            }
+        }
+    }
+}
+
+void RegisterNiStreamFactories();
+
+void* __cdecl _fnv_zlib_memset(void*, int, unsigned int);
+
+// Shared checkpoint chk_eaaefe0e50c64877994e, revalidated 28 October 2026.
+
+// WIP: 6253 bytes, four native displacement bytes differ in positive-Z face.
+
+// staged0..15 are shared cube coordinates; staged19..24 are inverse lengths.
+
+// staged25 preserves the first-face row snapshot; staged16..18 are attenuation.
+
+// Keep the scalar sharing and the two first-reference markers when resuming.
+
+extern "C" void _ReadWriteBarrier();
+
+class NiPixelFormat
+{
+
+  public:
+    unsigned int flags, bitsPerPixel, srgb, rendererHint, extraData;
+
+    unsigned int redSemantic, redRepresentation, redBits;
+
+    unsigned int greenSemantic, greenRepresentation, greenBits;
+
+    unsigned int blueSemantic, blueRepresentation, blueBits;
+
+    unsigned int alphaSemantic, alphaRepresentation, alphaBits;
+};
+
+class NiMemObject
+{
+
+  public:
+
+};
+
+class NiPixelData : public NiRefObject, public NiMemObject
+{
+
+  public:
+    NiPixelFormat format;
+
+    unsigned int unknown4c;
+
+    unsigned char* pixels;
+
+    unsigned int* widths;
+
+    unsigned int* heights;
+
+    unsigned int* offsets;
+
+    unsigned int levels;
+
+    unsigned int faces;
+
+    unsigned int revision;
+
+    unsigned int unknown6c;
+
+    bool changed;
+
+    NiPixelData(unsigned int, unsigned int, const NiPixelFormat&, unsigned int, unsigned int);
+};
+
+class PixelOwner
+{
+
+  public:
+    NiPixelData* object;
+
+    PixelOwner(NiPixelData* p) : object(p)
+    {
+
+        if (p)
+            InterlockedIncrement(reinterpret_cast<volatile long*>(&p->m_uiRefCount));
+    }
+
+    ~PixelOwner()
+    {
+        if (object)
+            object->DecRefCount();
+    }
+
+    void Assign(NiPixelData* p)
+    {
+
+        if (object != p)
+        {
+
+            if (object)
+                object->DecRefCount();
+
+            object = p;
+
+            if (p)
+                InterlockedIncrement(reinterpret_cast<volatile long*>(&p->m_uiRefCount));
+        }
+    }
+};
+
+int FUN_004dc060(int);
+
+
+
+__forceinline NiPointer<NiTexture>& NiPointer<NiTexture>::operator=(NiTexture* p)
+{
+
+    if (m_pObject != p)
+    {
+
+        if (m_pObject)
+            m_pObject->DecRefCount();
+
+        m_pObject = p;
+
+        if (p)
+            InterlockedIncrement(reinterpret_cast<volatile long*>(&p->m_uiRefCount));
+    }
+
+    return *this;
+}
+
+__forceinline void CopyTextureReference(NiPointer<NiTexture>& to, const NiPointer<NiTexture>& from)
+{
+    if (to.m_pObject != from.m_pObject)
+    {
+        if (to.m_pObject)
+            to.m_pObject->DecRefCount();
+        to.m_pObject = from.m_pObject;
+        if (to.m_pObject)
+            InterlockedIncrement(reinterpret_cast<volatile long*>(&to.m_pObject->m_uiRefCount));
+    }
+}
+
+__forceinline float AttenuationCoordinate(float f)
+{
+    float r;
+    if (f < 63.5)
+        r = (float)(1.0 - f / 63.5);
+    else
+        r = (float)((f - 63.5) / 63.5);
+    return r;
+}
+
+__forceinline float ClampUpper(float f, float d)
+{
+    return d < f ? d : f;
+}
+
+__forceinline float ClampLower(float f, float d)
+{
+    return d > f ? d : f;
+}
+
+__forceinline unsigned char ToByte(double f)
+{
+    return (unsigned char)f;
+}
+
+// @fnv 0x00b55bb0
+void FUN_00b55bb0()
+{
+
+    NiPixelData* faceData;
+    unsigned int* faceOffsets;
+
+    NiPixelFormat cubePixelFormat;
+
+    cubePixelFormat = (*reinterpret_cast<const ::NiPixelFormat *>((void *)&::DAT_011aaac8));
+
+    PixelOwner cube(new NiPixelData(128, 128, cubePixelFormat, 1, 6));
+
+    cube.object->revision += 1;
+
+    unsigned char* pixel = cube.object->pixels + cube.object->offsets[0];
+
+    float staged0;
+    float staged1;
+    float staged2;
+    float staged3;
+    float staged4;
+    float staged5;
+    float staged6;
+    float staged7;
+    float staged8;
+    float staged9;
+    float staged10;
+    float staged11;
+    float staged12;
+    float staged13;
+    float staged14;
+    float staged15;
+    float staged16;
+    float staged17;
+    float staged18;
+
+    float staged19;
+    float staged20;
+    float staged21;
+    float staged22;
+    float staged23;
+    float staged24;
+    int loopIndex0;
+    int loopIndex1;
+    int loopIndex2;
+
+    (void)staged1;
+    int snapshotIndex;
+    float staged25;
+    (void)staged13;
+    for (loopIndex0 = 0; (float)loopIndex0 < 128.0f; ++loopIndex0)
+    {
+
+        loopIndex1 = 0;
+        goto firstBody;
+    firstTest: {
+        ++loopIndex1;
+        snapshotIndex = loopIndex1;
+        if ((float)snapshotIndex < 128.0f)
+            goto firstBody;
+        goto firstEnd;
+    }
+    firstBody: {
+
+        staged4 = (float)(64.0);
+        staged25 = (float)(64.0 - (float)loopIndex0);
+        staged1 = staged25;
+        staged2 = (float)(64.0 - (float)loopIndex1);
+
+        staged19 = (float)sqrt((double)(float)(staged4 * staged4 + staged1 * staged1 + staged2 * staged2));
+        staged19 = 1.0f / staged19;
+
+        staged0 = staged4 * staged19;
+        staged1 *= staged19;
+        staged2 *= staged19;
+
+        {
+            unsigned char channel = (unsigned char)((staged2 + 1.0) * 0.5 * 255.0);
+            *pixel++ = channel;
+        }
+
+        {
+            unsigned char channel = (unsigned char)((staged1 + 1.0) * 0.5 * 255.0);
+            *pixel++ = channel;
+        }
+
+        {
+            unsigned char channel = (unsigned char)((staged0 + 1.0) * 0.5 * 255.0);
+            *pixel++ = channel;
+        }
+
+        *pixel++ = 0;
+
+        goto firstTest;
+    }
+
+    firstEnd:;
+    }
+
+    faceData = cube.object;
+    faceOffsets = faceData->offsets;
+    pixel = faceData->pixels + faceOffsets[0] + faceOffsets[faceData->levels];
+
+    for (loopIndex0 = 0; (float)loopIndex0 < 128.0f; ++loopIndex0)
+    {
+
+        for (loopIndex1 = 0; (float)loopIndex1 < 128.0f; ++loopIndex1)
+        {
+
+            staged2 = (float)(64.0 - (float)loopIndex0);
+            staged3 = (float)(-64.0);
+            staged12 = (float)((float)loopIndex1 - 64.0);
+
+            staged20 = staged3 * staged3 + staged2 * staged2 + staged12 * staged12;
+            staged20 = sqrtf(staged20);
+            staged20 = 1.0f / staged20;
+
+            staged3 *= staged20;
+            staged2 *= staged20;
+            staged4 = staged12 * staged20;
+
+            {
+                unsigned char channel = (unsigned char)((staged4 + 1.0) * 0.5 * 255.0);
+                *pixel++ = channel;
+            }
+
+            {
+                unsigned char channel = (unsigned char)((staged2 + 1.0) * 0.5 * 255.0);
+                *pixel++ = channel;
+            }
+
+            {
+                unsigned char channel = (unsigned char)((staged3 + 1.0) * 0.5 * 255.0);
+                *pixel++ = channel;
+            }
+
+            *pixel++ = 0;
+        }
+    }
+
+    pixel = cube.object->pixels + cube.object->offsets[0] + 2 * cube.object->offsets[cube.object->levels];
+
+    for (loopIndex1 = 0; (float)loopIndex1 < 128.0f; ++loopIndex1)
+    {
+
+        for (loopIndex2 = 0; (float)loopIndex2 < 128.0f; ++loopIndex2)
+        {
+
+            staged6 = (float)(64.0);
+            staged5 = (float)((float)loopIndex2 - 64.0);
+            staged7 = (float)((float)loopIndex1 - 64.0);
+
+            staged21 = sqrtf(staged5 * staged5 + staged6 * staged6 + staged7 * staged7);
+            staged21 = 1.0f / staged21;
+
+            staged5 *= staged21;
+            staged8 = staged6 * staged21;
+            staged7 *= staged21;
+
+            {
+                unsigned char channel = (unsigned char)((staged7 + 1.0) * 0.5 * 255.0);
+                *pixel++ = channel;
+            }
+
+            {
+                unsigned char channel = (unsigned char)((staged8 + 1.0) * 0.5 * 255.0);
+                *pixel++ = channel;
+            }
+
+            {
+                unsigned char channel = (unsigned char)((staged5 + 1.0) * 0.5 * 255.0);
+                *pixel++ = channel;
+            }
+
+            *pixel++ = 0;
+        }
+    }
+
+    pixel = cube.object->pixels + cube.object->offsets[0] + 3 * cube.object->offsets[cube.object->levels];
+
+    for (loopIndex1 = 0; (float)loopIndex1 < 128.0f; ++loopIndex1, _ReadWriteBarrier())
+    {
+
+        loopIndex2 = 0;
+        goto test3_1;
+    body3_1: {
+
+        staged9 = (float)((float)loopIndex2 - 64.0);
+        staged10 = (float)(-64.0);
+        staged11 = (float)(64.0 - (float)loopIndex1);
+
+        staged22 = 1.0f / sqrtf(staged10 * staged10 + staged9 * staged9 + staged11 * staged11);
+
+        staged9 *= staged22;
+        staged10 *= staged22;
+        staged11 *= staged22;
+
+        {
+            unsigned char channel = (unsigned char)((staged11 + 1.0) * 0.5 * 255.0);
+            *pixel++ = channel;
+        }
+
+        {
+            unsigned char channel = (unsigned char)((staged10 + 1.0) * 0.5 * 255.0);
+            *pixel++ = channel;
+        }
+
+        {
+            unsigned char channel = (unsigned char)((staged9 + 1.0) * 0.5 * 255.0);
+            *pixel++ = channel;
+        }
+
+        *pixel++ = 0;
+
+        ++loopIndex2;
+    }
+    test3_1:
+        if ((float)loopIndex2 < 128.0f)
+            goto body3_1;
+    }
+
+    pixel = cube.object->pixels + cube.object->offsets[0] + 4 * cube.object->offsets[cube.object->levels];
+
+    for (loopIndex0 = 0; (float)loopIndex0 < 128.0f; ++loopIndex0)
+    {
+
+        for (loopIndex2 = 0; (float)loopIndex2 < 128.0f; ++loopIndex2)
+        {
+
+            staged14 = (float)(64.0);
+            staged13 = (float)((float)loopIndex2 - 64.0);
+            staged4 = (float)(64.0 - (float)loopIndex0);
+
+            staged23 = sqrtf(staged13 * staged13 + staged4 * staged4 + staged14 * staged14);
+            staged23 = 1.0f / staged23;
+
+            staged13 *= staged23;
+            staged4 *= staged23;
+            staged14 *= staged23;
+
+            {
+                unsigned char channel = (unsigned char)((staged14 + 1.0) * 0.5 * 255.0);
+                *pixel++ = channel;
+            }
+
+            {
+                unsigned char channel = (unsigned char)((staged4 + 1.0) * 0.5 * 255.0);
+                *pixel++ = channel;
+            }
+
+            {
+                unsigned char channel = (unsigned char)((staged13 + 1.0) * 0.5 * 255.0);
+                *pixel++ = channel;
+            }
+
+            *pixel++ = 0;
+        }
+    }
+
+    pixel = cube.object->pixels + cube.object->offsets[0] + 5 * cube.object->offsets[cube.object->levels];
+
+    for (loopIndex0 = 0; (float)loopIndex0 < 128.0f; ++loopIndex0)
+    {
+
+        for (loopIndex2 = 0; (float)loopIndex2 < 128.0f; ++loopIndex2)
+        {
+
+            staged15 = (float)(-64.0);
+            staged13 = (float)(64.0 - (float)loopIndex2);
+            staged12 = (float)(64.0 - (float)loopIndex0);
+
+            staged24 = (float)sqrt((double)(float)(staged13 * staged13 + staged12 * staged12 + staged15 * staged15));
+            staged24 = 1.0f / staged24;
+
+            staged13 *= staged24;
+            staged12 *= staged24;
+            staged15 *= staged24;
+
+            {
+                unsigned char channel = (unsigned char)((staged15 + 1.0) * 0.5 * 255.0);
+                *pixel++ = channel;
+            }
+
+            {
+                unsigned char channel = (unsigned char)((staged12 + 1.0) * 0.5 * 255.0);
+                *pixel++ = channel;
+            }
+
+            {
+                unsigned char channel = (unsigned char)((staged13 + 1.0) * 0.5 * 255.0);
+                *pixel++ = channel;
+            }
+
+            *pixel++ = 0;
+        }
+    }
+
+    NiTexture::TextureFormatPreferences prefs;
+    prefs.m_ePreferredPixelLayout = 2;
+    prefs.m_eMipFlag = 0;
+    prefs.m_eAlphaFormat = 0;
+
+    PixelOwner error(new NiPixelData(16, 16, (*reinterpret_cast<const ::NiPixelFormat *>(&::gNiPoint3StartupSrc)), 1, 1));
+
+    pixel = error.object->pixels + error.object->offsets[0];
+
+    for (int row = 0; 16 > row; ++row)
+        for (int column = 0; column < 16; ++column)
+        {
+
+            *pixel++ = 255;
+
+            *pixel++ = 0;
+
+            *pixel++ = 0;
+
+            *pixel++ = 255;
+        }
+
+    error.object->changed = true;
+    error.object->revision += 1;
+
+    {
+        NiFixedString name("BSShader_DefErrorMap");
+        (*reinterpret_cast<::NiPointer< ::NiTexture> *>(&::g_pkC0BC90DefaultTexture)) = ((::NiTexture *)(::fnv_00a5ff10::FUN_00a5ff10((::fnv_00a5ff10::RefCounted *)(error.object), (void *)(name.m_kHandle), (const ::fnv_00a5ff10::OwnerTriple *)&((*reinterpret_cast<::NiTexture::TextureFormatPreferences *>(&::DAT_011a9598))))));
+    }
+
+    PixelOwner normal(new NiPixelData(16, 16, DAT_011aa2e8, 1, 1));
+
+    pixel = normal.object->pixels + normal.object->offsets[0];
+
+    for (int row = 0; row < 16; ++row)
+        for (int column = 0; column < 16; ++column)
+        {
+
+            *pixel++ = 128;
+
+            *pixel++ = 128;
+
+            *pixel++ = 255;
+        }
+
+    normal.object->changed = true;
+    ++normal.object->revision;
+
+    {
+        NiFixedString name("BSShader_DefNormalMap");
+        (*reinterpret_cast<::NiPointer< ::NiTexture> *>(&::DAT_011f9510)) = ((::NiTexture *)(::fnv_00a5ff10::FUN_00a5ff10((::fnv_00a5ff10::RefCounted *)(normal.object), (void *)(name.m_kHandle), (const ::fnv_00a5ff10::OwnerTriple *)&((*reinterpret_cast<::NiTexture::TextureFormatPreferences *>(&::DAT_011a9598))))));
+    }
+
+    PixelOwner gloss(new NiPixelData(16, 16, (*reinterpret_cast<const ::NiPixelFormat *>(&::gNiPoint3StartupSrc)), 1, 1));
+
+    pixel = gloss.object->pixels + gloss.object->offsets[0];
+
+    for (int row = 0; 16 > row; ++row)
+        for (int column = 0; 16 > column; ++column)
+        {
+
+            *pixel++ = 128;
+
+            *pixel++ = 128;
+
+            *pixel++ = 255;
+
+            *pixel++ = 64;
+        }
+
+    gloss.object->changed = true;
+    ++gloss.object->revision;
+
+    {
+        NiFixedString name("BSShader_DefNormalGlossMap");
+        (*reinterpret_cast<::NiPointer< ::NiTexture> *>(&::DAT_011f9518)) = ((::NiTexture *)(::fnv_00a5ff10::FUN_00a5ff10((::fnv_00a5ff10::RefCounted *)(gloss.object), (void *)(name.m_kHandle), (const ::fnv_00a5ff10::OwnerTriple *)&((*reinterpret_cast<::NiTexture::TextureFormatPreferences *>(&::DAT_011a9598))))));
+    }
+
+    normal.Assign(new NiPixelData(16, 16, DAT_011aa2e8, 1, 1));
+
+    pixel = normal.object->pixels + normal.object->offsets[0];
+
+    for (int row = 0; row < 16; ++row)
+        for (int column = 0; column < 16; ++column)
+        {
+
+            *pixel++ = 0;
+            *pixel++ = 0;
+            *pixel++ = 0;
+        }
+
+    normal.object->changed = true;
+    normal.object->revision += 1;
+
+    {
+        NiFixedString name("BSShader_DefHeightMap");
+        (*reinterpret_cast<::NiPointer< ::NiTexture> *>(&::DAT_011f951c)) = ((::NiTexture *)(::fnv_00a5ff10::FUN_00a5ff10((::fnv_00a5ff10::RefCounted *)(normal.object), (void *)(name.m_kHandle), (const ::fnv_00a5ff10::OwnerTriple *)&((*reinterpret_cast<::NiTexture::TextureFormatPreferences *>(&::DAT_011a9598))))));
+    }
+
+    BSShaderManager::GetTexture("Data\\Textures\\Effects\\WindowEnvironmentMap01.dds", true, (*reinterpret_cast<::NiPointer< ::NiTexture> *>(&::DAT_011f9520)), true, false);
+
+    BSShaderManager::GetTexture("Data\\Textures\\Effects\\WindowEnvironmentMap02.dds", true, (*reinterpret_cast<::NiPointer< ::NiTexture> *>(&::DAT_011f9524)), true, false);
+
+    PixelOwner secret(new NiPixelData(4, 4, (*reinterpret_cast<const ::NiPixelFormat *>(&::gNiPoint3StartupSrc)), 1, 1));
+
+    pixel = secret.object->pixels + secret.object->offsets[0];
+
+    for (int row = 4; row; --row)
+        for (int column = 4; column; --column)
+        {
+
+            *pixel++ = 0;
+
+            *pixel++ = 0;
+
+            *pixel++ = 0;
+
+            *pixel++ = 64;
+        }
+
+    ++secret.object->revision;
+    secret.object->changed = true;
+
+    {
+        NiFixedString name("BSShader_HideSecretMap");
+        (*reinterpret_cast<::NiPointer< ::NiTexture> *>(&::DAT_011f9528)) = ((::NiTexture *)(::fnv_00a5ff10::FUN_00a5ff10((::fnv_00a5ff10::RefCounted *)(secret.object), (void *)(name.m_kHandle), (const ::fnv_00a5ff10::OwnerTriple *)&((*reinterpret_cast<::NiTexture::TextureFormatPreferences *>(&::DAT_011a9598))))));
+    }
+
+    PixelOwner effect(new NiPixelData(4, 4, (*reinterpret_cast<const ::NiPixelFormat *>(&::gNiPoint3StartupSrc)), 1, 1));
+
+    pixel = effect.object->pixels + effect.object->offsets[0];
+
+    for (int row = 4; row; --row)
+        for (int column = 4; column; --column)
+        {
+
+            *pixel++ = 0;
+
+            *pixel++ = 0;
+
+            *pixel++ = 0;
+
+            *pixel++ = 255;
+        }
+
+    effect.object->changed = true;
+    effect.object->revision++;
+
+    {
+        NiFixedString name("BSShader_DefTexEffectMap");
+        (*reinterpret_cast<::NiPointer< ::NiTexture> *>(&::DAT_011f952c)) = ((::NiTexture *)(::fnv_00a5ff10::FUN_00a5ff10((::fnv_00a5ff10::RefCounted *)(effect.object), (void *)(name.m_kHandle), (const ::fnv_00a5ff10::OwnerTriple *)&((*reinterpret_cast<::NiTexture::TextureFormatPreferences *>(&::DAT_011a9598))))));
+    }
+
+    char texturePath[260];
+
+    ::FUN_00406d00(texturePath, 260, "%seyereflection.dds", "Data\\Textures\\Effects\\");
+
+    {
+        NiFixedString name("EyeReflectionCubeMap");
+        (*reinterpret_cast<::NiPointer< ::NiTexture> *>(&::DAT_011f9544)) = ((::NiTexture *)(::CreateCubeMap((void *)(texturePath), (void *)(texturePath), (void *)(texturePath), (void *)(texturePath), (void *)(texturePath), (void *)(texturePath),
+                                    (::CubeRenderer *)(DAT_011f9508), (std::intptr_t)&(name), (const ::TextureFormatPreferences *)&((*reinterpret_cast<::NiTexture::TextureFormatPreferences *>(&::DAT_011a9598))))));
+    }
+
+    ::FUN_00406d00(texturePath, 260, "%sreflection.dds", "Data\\Textures\\Effects\\");
+
+    {
+        NiFixedString name("ArmorReflectionCubeMap");
+        reinterpret_cast<NiPointer<NiTexture>&>(DAT_011f95d4) =
+            ((::NiTexture *)(::CreateCubeMap((void *)(texturePath), (void *)(texturePath), (void *)(texturePath), (void *)(texturePath), (void *)(texturePath), (void *)(texturePath), (::CubeRenderer *)(DAT_011f9508),
+                         (std::intptr_t)&(name), (const ::TextureFormatPreferences *)&((*reinterpret_cast<::NiTexture::TextureFormatPreferences *>(&::DAT_011a9598))))));
+    }
+
+    ::FUN_00406d00(texturePath, 260, "%saniso.dds", "Data\\Textures\\Effects\\");
+
+    {
+        NiFixedString name(texturePath);
+        (*reinterpret_cast<::NiPointer< ::NiTexture> *>(&::DAT_011f9530)) = ::NiSourceTexture::Create(name, (::NiTexture__FormatPrefs &)((*reinterpret_cast<::NiTexture::TextureFormatPreferences *>(&::DAT_011a9598))), true, false);
+    }
+
+    ::FUN_00406d00(texturePath, 260, "%sNoiseMap.dds", "Data\\Textures\\Effects\\");
+
+    {
+        NiFixedString name(texturePath);
+        (*reinterpret_cast<::NiPointer< ::NiTexture> *>(&::DAT_011f953c)) = ::NiSourceTexture::Create(name, (::NiTexture__FormatPrefs &)((*reinterpret_cast<::NiTexture::TextureFormatPreferences *>(&::DAT_011a9598))), true, false);
+    }
+
+    PixelOwner noise(new NiPixelData(4, 4, (*reinterpret_cast<const ::NiPixelFormat *>(&::gNiPoint3StartupSrc)), 1, 1));
+
+    pixel = noise.object->pixels + noise.object->offsets[0];
+
+    for (int row = 4; row; --row)
+        for (int column = 4; column; --column)
+        {
+
+            *pixel++ = 143;
+            *pixel++ = 143;
+            *pixel++ = 143;
+            *pixel++ = 255;
+        }
+
+    noise.object->changed = true;
+    ++noise.object->revision;
+
+    {
+        NiFixedString name("BSShader_EmptyNoiseMap");
+        (*reinterpret_cast<::NiPointer< ::NiTexture> *>(&::DAT_011f9540)) = ((::NiTexture *)(::fnv_00a5ff10::FUN_00a5ff10((::fnv_00a5ff10::RefCounted *)(noise.object), (void *)(name.m_kHandle), (const ::fnv_00a5ff10::OwnerTriple *)&((*reinterpret_cast<::NiTexture::TextureFormatPreferences *>(&::DAT_011a9598))))));
+    }
+
+    PixelOwner attenuation(new NiPixelData(128, 128, DAT_011aa2e8, 1, 1));
+
+    pixel = attenuation.object->pixels + attenuation.object->offsets[0];
+
+    for (loopIndex0 = 0; 128 > loopIndex0; ++loopIndex0)
+        for (loopIndex2 = 0; loopIndex2 < 128; ++loopIndex2)
+        {
+            staged16 = AttenuationCoordinate((float)loopIndex2);
+            staged17 = AttenuationCoordinate((float)loopIndex0);
+
+            staged18 = staged16 * staged16 + staged17 * staged17;
+
+            staged18 = (float)ClampLower(ClampUpper((float)staged18, (float)1.0), (float)0.0);
+
+            staged18 = FUN_004dc060(0) == 1 ? 1.0f - staged18 : staged18;
+
+            staged18 = (float)(staged18 * 255.0);
+
+            unsigned char shade;
+
+            shade = ToByte((float)std::floor((double)staged18));
+
+            *pixel++ = shade;
+            *pixel++ = shade;
+            *pixel++ = shade;
+        }
+
+    prefs.m_ePreferredPixelLayout = 2;
+    prefs.m_eMipFlag = 0;
+    prefs.m_eAlphaFormat = 0;
+
+    attenuation.object->changed = true;
+    attenuation.object->revision++;
+
+    {
+        NiFixedString name("BSShader_AttenuationXYZ");
+        (*reinterpret_cast<::NiPointer< ::NiTexture> *>(&::DAT_011f9534)) = ((::NiTexture *)(::fnv_00a5ff10::FUN_00a5ff10((::fnv_00a5ff10::RefCounted *)(attenuation.object), (void *)(name.m_kHandle), (const ::fnv_00a5ff10::OwnerTriple *)&(prefs))));
+    }
+
+    CopyTextureReference((*reinterpret_cast<::NiPointer< ::NiTexture> *>(&::DAT_011f9538)), (*reinterpret_cast<::NiPointer< ::NiTexture> *>(&::DAT_011f9534)));
 }
 
 #include "generated/data/bsshader/bsshadermanager.inc"

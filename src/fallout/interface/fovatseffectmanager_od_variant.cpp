@@ -612,7 +612,7 @@ void VATSEffectStub::FUN_00800370()
             ::FUN_004a0370((char *)(((::VRenderer *)(::FUN_0043c4b0()))));
             unsigned int a;
             unsigned int b;
-            if (((unsigned char)(reinterpret_cast<::S_00c4edf0_cls *>((queriesA[i]))->FUN_00c4edf0((int)(&a), 1))) && ((unsigned char)(reinterpret_cast<::S_00c4edf0_cls *>((queriesB[i]))->FUN_00c4edf0((int)(&b), 1))) && !done[i])
+            if (((unsigned char)(reinterpret_cast<::S_00c4edf0_cls *>((queriesA[i]))->FUN_00c4edf0((std::intptr_t)(&a), 1))) && ((unsigned char)(reinterpret_cast<::S_00c4edf0_cls *>((queriesB[i]))->FUN_00c4edf0((std::intptr_t)(&b), 1))) && !done[i])
             {
                 delete queriesA[i];
                 queriesA[i] = 0;

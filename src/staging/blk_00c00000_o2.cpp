@@ -2,6 +2,7 @@
 // src/staging/blk_00c00000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstdint>
 #include <windows.h>
 #include <new>
 #include <cstdlib>
@@ -376,7 +377,7 @@ FUN_00c1a660_holder* FUN_00c1a660_holder::FUN_00c1a660(unsigned int a)
     return this;
 }
 
-extern int DAT_011f9530;
+extern intptr_t DAT_011f9530;
 struct FUN_00c0bb20_class
 {
     void FUN_00c0bb20(int a, int b);
@@ -10162,7 +10163,7 @@ P440List* P440Shader::GetPasses(P440Geometry* geometry, unsigned int key, int un
     if (dirty)
     {
         P440Position bound = geometry->position ? *geometry->position : *(P440Position*)&(*reinterpret_cast<char *>(&::g_defaultBound));
-        reinterpret_cast<::LightSortOwner *>(this)->SortShadowSceneLights((int)(&bound));
+        reinterpret_cast<::LightSortOwner *>(this)->SortShadowSceneLights((const ::B9DBE0Bound *)(&bound));
     }
     void* lightIterator;
     if (cacheKey == uiCacheKey && dirty)
@@ -10748,7 +10749,7 @@ struct S00c02c30_ColorA
 };
 
 // @fnv 0x00c02c30
-void FUN_00c02c30(unsigned int uiUnused, int param_2, FUN_00c02c30_Obj* apObj, int iIndex)
+void FUN_00c02c30(void* uiUnused, int param_2, FUN_00c02c30_Obj* apObj, int iIndex)
 {
     S00c02c30_ColorA kColor = *reinterpret_cast<S00c02c30_ColorA*>(&(*reinterpret_cast<unsigned int *>(&::DAT_011a9bd0)));
     kColor.r = 1.0f;

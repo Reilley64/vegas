@@ -1,5 +1,6 @@
 // fallout_shared/pathfinding/pathmanager_ctxr_variant.cpp: free functions (1 function)
 
+#include <cstdint>
 #include "fnv/decl/ActorTaskManager.h"
 #include "fnv/decl/BaseProcess.h"
 #include "fnv/decl/CombatProcedure.h"
@@ -1606,7 +1607,7 @@ void FUN_006eae40_shell::FUN_006eae40()
         else
         {
             NiUpdateData ud(0.0f, false, false);
-            reinterpret_cast<::FUN_00a59c60_cls *>((((NiNode*)(*reinterpret_cast<::fnv_006eae40::GlobalObject_00633c90 *>(&::g_011d6e5c)))))->FUN_00a59c60((int)&(ud));
+            reinterpret_cast<::FUN_00a59c60_cls *>((((NiNode*)(*reinterpret_cast<::fnv_006eae40::GlobalObject_00633c90 *>(&::g_011d6e5c)))))->FUN_00a59c60((std::intptr_t)&(ud));
         }
     }
     reinterpret_cast<::ActorTaskManager *>(&(m_lockC38))->WaitForTasksDuringRendering();

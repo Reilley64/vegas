@@ -5,6 +5,7 @@
 
 // src/staging/blk_008c0000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
+#include <cstdint>
 #include "fnv/decl/BSShaderNoLightingProperty.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FUN_00439f50_class.h"
@@ -538,7 +539,7 @@ void Ref8::FUN_008cba30(const NiPoint3* start, const NiPoint3* end, Ref8* victim
                     ::FUN_00cb9650((::FUN_00cb9650_Object *)(scene));
                     ::FUN_00c6a350((::NiAVObject *)(scene), 1, 1, 0, 1);
                     NiUpdateData zero(0.0f, false, false);
-                    reinterpret_cast<::FUN_00a59c60_cls *>((scene))->FUN_00a59c60((int)&(zero));
+                    reinterpret_cast<::FUN_00a59c60_cls *>((scene))->FUN_00a59c60((std::intptr_t)&(zero));
                     NiPoint3 offset = ((::Node8 *)(::FUN_00461130((int)(root))))->FUN_004b4500(DAT_011a9478);
                     reinterpret_cast<::FUN_004a0c10_s *>(&(offset))->FUN_004a0c10();
                     offset = *v1f4() + (offset * DAT_01085c58);

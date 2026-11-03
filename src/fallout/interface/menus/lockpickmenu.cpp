@@ -2,6 +2,7 @@
 // src/fallout/interface/menus/lockpickmenu.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/interface/menus/lockpickmenu.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/ActorValueOwner.h"
@@ -387,7 +388,7 @@ void FUN_00790f40_cls::AdvanceSequence(float afDelta)
     {
         reinterpret_cast<::fnv_00a328b0::SeqExt *>((m_pSequence))->FUN_00a328b0((float)(reinterpret_cast<::FUN_00759450_shell *>((m_pSequence))->FUN_00759450() +
                                      (reinterpret_cast<::FUN_00508100_shell *>((m_pSequence))->FUN_00508100() - reinterpret_cast<::FUN_00759450_shell *>((m_pSequence))->FUN_00759450()) * fSequenceTimeRatio), {});
-        reinterpret_cast<::FUN_00a59c60_cls *>((((::fnv_00790f40::NiNode *)(::FUN_00559450((int *)&((*reinterpret_cast<::fnv_00790f40::NiNodePointer *>(&::g_011da24c))))))->GetAt(0)))->FUN_00a59c60((int)&(kData));
+        reinterpret_cast<::FUN_00a59c60_cls *>((((::fnv_00790f40::NiNode *)(::FUN_00559450((int *)&((*reinterpret_cast<::fnv_00790f40::NiNodePointer *>(&::g_011da24c))))))->GetAt(0)))->FUN_00a59c60((std::intptr_t)&(kData));
     }
 }
 }  // namespace fnv_00790f40
@@ -678,7 +679,7 @@ FUN_00a712f0* FUN_0078e900_shell::FUN_0078e900()
     reinterpret_cast<::CamLook *>((b))->SetLookAt((const ::CamPoint &)((const ::fnv_0078e900::FUN_00416870 &)(FUN_00416870(0.0f, 0.0f, 1.0f))), (const ::CamPoint &)((const ::fnv_0078e900::FUN_00416870 &)(FUN_00416870(0.0f, 0.0f, 1.0f))));
     reinterpret_cast<::FUN_00733fd0_shell *>((b))->FUN_00733fd0(1.0f);
     FUN_0043d410 a(0.0f, 0, 0);
-    reinterpret_cast<::FUN_00a59c60_cls *>((b))->FUN_00a59c60((int)(&a));
+    reinterpret_cast<::FUN_00a59c60_cls *>((b))->FUN_00a59c60((std::intptr_t)(&a));
     return b;
 }
 }  // namespace fnv_0078e900
@@ -1033,7 +1034,7 @@ void LockPickState::UpdateLockRotation(float amount)
         reinterpret_cast<::FUN_00440460_S *>((object))->FUN_00440460((const ::V3 *)&(const ::NiPoint3 &)((*(::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(const ::NiPoint3 &)((*(::NiPoint3 *)(reinterpret_cast<::Point3Offset *>(&(position))->ProjectileLaunched((::NiPoint3 *)&(offset), {})))))->FUN_00439ef0((::NiPoint3 *)&(const ::NiPoint3 &)(matrix.FUN_004b4500(offset)), *(const ::NiPoint3 *)nullptr)))));
         matrix = reinterpret_cast<::ThreeByThreeMatrix *>(&(matrix))->operator+(rotation);
         reinterpret_cast<::FUN_0043fa80_s *>((object))->FUN_0043fa80(matrix);
-        reinterpret_cast<::FUN_00a59c60_cls *>((object))->FUN_00a59c60((int)&(kUpdateData));
+        reinterpret_cast<::FUN_00a59c60_cls *>((object))->FUN_00a59c60((std::intptr_t)&(kUpdateData));
     }
 }
 struct SortNode
@@ -1283,7 +1284,7 @@ void ThisCls::InitLockInterface()
     reinterpret_cast<::FUN_004bc1f0_S *>((((NiNode*)((void *)(::FUN_00559450((int *)(((Glob*)&(*reinterpret_cast<::Manager *>(&::g_011da24c))))))))))->FUN_004bc1f0(125.0f, 0.0f, 0.0f);
     UpdData i;
     new ((void *)&(i)) ::NiUpdateData(0.0f, false, false);
-    reinterpret_cast<::FUN_00a59c60_cls *>((((NiNode*)((void *)(::FUN_00559450((int *)(((Glob*)&(*reinterpret_cast<::Manager *>(&::g_011da24c))))))))))->FUN_00a59c60((int)(&i));
+    reinterpret_cast<::FUN_00a59c60_cls *>((((NiNode*)((void *)(::FUN_00559450((int *)(((Glob*)&(*reinterpret_cast<::Manager *>(&::g_011da24c))))))))))->FUN_00a59c60((std::intptr_t)(&i));
     void* s;
     s = ((void *)(reinterpret_cast<::MyHost *>((((AVObj*)pin)))->FUN_00a5c570((const ::MyRTTI *)(void *)(&(*reinterpret_cast<void * *>(&::g_011f36ac))))));
     CtrlNode* r;
@@ -2170,9 +2171,9 @@ void xLockPickMenu::FUN_0078eb50()
         {
             xUpdateData UPD0(xg_fElapsed_11da2ac, true, false);
             xUpdateData UPD1(xg_fElapsed_11da2ac, true, false);
-            reinterpret_cast<::FUN_00a59c60_cls *>((((::fnv_0078eb50::xAV *)(reinterpret_cast<::NiNode *>((((::fnv_0078eb50::xAV *)(::FUN_00559450((int *)&((*reinterpret_cast<::fnv_0078eb50::xNodePtr *>(&::g_011da24c))))))))->GetAt(0)))))->FUN_00a59c60((int)&(UPD0));
+            reinterpret_cast<::FUN_00a59c60_cls *>((((::fnv_0078eb50::xAV *)(reinterpret_cast<::NiNode *>((((::fnv_0078eb50::xAV *)(::FUN_00559450((int *)&((*reinterpret_cast<::fnv_0078eb50::xNodePtr *>(&::g_011da24c))))))))->GetAt(0)))))->FUN_00a59c60((std::intptr_t)&(UPD0));
             if (xg_fElapsed_11da2ac == 0.0 || !m_6c || reinterpret_cast<::TileListBoxCalls *>((m_30))->GetFloat(::DAT_011da1f8) > 0.0)
-                reinterpret_cast<::FUN_00a59c60_cls *>((((::fnv_0078eb50::xAV *)(reinterpret_cast<::NiNode *>((((::fnv_0078eb50::xAV *)(::FUN_00559450((int *)&((*reinterpret_cast<::fnv_0078eb50::xNodePtr *>(&::g_011da24c))))))))->GetAt(1)))))->FUN_00a59c60((int)&(UPD1));
+                reinterpret_cast<::FUN_00a59c60_cls *>((((::fnv_0078eb50::xAV *)(reinterpret_cast<::NiNode *>((((::fnv_0078eb50::xAV *)(::FUN_00559450((int *)&((*reinterpret_cast<::fnv_0078eb50::xNodePtr *>(&::g_011da24c))))))))->GetAt(1)))))->FUN_00a59c60((std::intptr_t)&(UPD1));
             if (xg_fElapsed_11da2ac == 0.0 && m_6c)
             {
                 if (reinterpret_cast<::TileListBoxCalls *>((m_30))->GetFloat(::DAT_011da1f8) <= 0.0)
@@ -2198,7 +2199,7 @@ void xLockPickMenu::FUN_0078eb50()
         if (m_a8)
         {
             xUpdateData UPDB(xg_fElapsed_11da2ac, true, false);
-            reinterpret_cast<::FUN_00a59c60_cls *>((((::fnv_0078eb50::xAV *)(reinterpret_cast<::NiNode *>((((::fnv_0078eb50::xAV *)(::FUN_00559450((int *)&((*reinterpret_cast<::fnv_0078eb50::xNodePtr *>(&::g_011da24c))))))))->GetAt(1)))))->FUN_00a59c60((int)&(UPDB));
+            reinterpret_cast<::FUN_00a59c60_cls *>((((::fnv_0078eb50::xAV *)(reinterpret_cast<::NiNode *>((((::fnv_0078eb50::xAV *)(::FUN_00559450((int *)&((*reinterpret_cast<::fnv_0078eb50::xNodePtr *>(&::g_011da24c))))))))->GetAt(1)))))->FUN_00a59c60((std::intptr_t)&(UPDB));
             if (reinterpret_cast<::FUN_00508100_shell *>((m_a8))->FUN_00508100() <= xg_fElapsed_11da2ac)
             {
                 m_28 = 2;
@@ -2370,7 +2371,7 @@ void xLockPickMenu::FUN_0078eb50()
             {
                 reinterpret_cast<::fnv_00a328b0::SeqExt *>((m_ac))->FUN_00a328b0(reinterpret_cast<::FUN_00759450_shell *>((m_ac))->FUN_00759450() + (1.0 - m_94) * (reinterpret_cast<::FUN_00508100_shell *>((m_ac))->FUN_00508100() - reinterpret_cast<::FUN_00759450_shell *>((m_ac))->FUN_00759450()),
                                    0);
-                reinterpret_cast<::FUN_00a59c60_cls *>((((::fnv_0078eb50::xAV *)(::FUN_00559450((int *)&((*reinterpret_cast<::fnv_0078eb50::xNodePtr *>(&::g_011da24c))))))))->FUN_00a59c60((int)&(qxWmVch));
+                reinterpret_cast<::FUN_00a59c60_cls *>((((::fnv_0078eb50::xAV *)(::FUN_00559450((int *)&((*reinterpret_cast<::fnv_0078eb50::xNodePtr *>(&::g_011da24c))))))))->FUN_00a59c60((std::intptr_t)&(qxWmVch));
             }
             reinterpret_cast<::LockPickState *>(this)->UpdateLockRotation(reinterpret_cast<::TileListBoxCalls *>((m_68))->GetFloat(xg_iTileId2_11da1fc) + xg_iDir_11a0394 * 2.5);
             xg_iDir_11a0394 = -xg_iDir_11a0394;
@@ -2394,7 +2395,7 @@ void xLockPickMenu::FUN_0078eb50()
         if (m_b0 && qpqRa)
         {
             xUpdateData UPD5(xg_fElapsed_11da2ac, true, false);
-            reinterpret_cast<::FUN_00a59c60_cls *>((((::fnv_0078eb50::xAV *)(reinterpret_cast<::NiNode *>((((::fnv_0078eb50::xAV *)(::FUN_00559450((int *)&((*reinterpret_cast<::fnv_0078eb50::xNodePtr *>(&::g_011da24c))))))))->GetAt(1)))))->FUN_00a59c60((int)&(UPD5));
+            reinterpret_cast<::FUN_00a59c60_cls *>((((::fnv_0078eb50::xAV *)(reinterpret_cast<::NiNode *>((((::fnv_0078eb50::xAV *)(::FUN_00559450((int *)&((*reinterpret_cast<::fnv_0078eb50::xNodePtr *>(&::g_011da24c))))))))->GetAt(1)))))->FUN_00a59c60((std::intptr_t)&(UPD5));
             if (reinterpret_cast<::FUN_00508100_shell *>((m_b0))->FUN_00508100() <= xg_fElapsed_11da2ac)
                 m_28 = 6;
         }
@@ -2422,7 +2423,7 @@ void xLockPickMenu::FUN_0078eb50()
                 ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_0078eb50::xStrSetting *>(&::g_011d34ec))))->GetMenuTitle()))), 0, (int)(s_szIcon), (int)(0), 2.0f, 0);
                 reinterpret_cast<::Tile *>((m_58))->Set(0xfa3, 0);
                 xUpdateData UPD6(0.0f, true, false);
-                reinterpret_cast<::FUN_00a59c60_cls *>((((::fnv_0078eb50::xAV *)(reinterpret_cast<::NiNode *>((((::fnv_0078eb50::xAV *)(::FUN_00559450((int *)&((*reinterpret_cast<::fnv_0078eb50::xNodePtr *>(&::g_011da24c))))))))->GetAt(1)))))->FUN_00a59c60((int)&(UPD6));
+                reinterpret_cast<::FUN_00a59c60_cls *>((((::fnv_0078eb50::xAV *)(reinterpret_cast<::NiNode *>((((::fnv_0078eb50::xAV *)(::FUN_00559450((int *)&((*reinterpret_cast<::fnv_0078eb50::xNodePtr *>(&::g_011da24c))))))))->GetAt(1)))))->FUN_00a59c60((std::intptr_t)&(UPD6));
                 m_28 = 2;
             }
             else

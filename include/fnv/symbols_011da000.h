@@ -138,7 +138,7 @@ namespace fnv_007c06f0 { extern int g_traitX; }
 // 0x011da99c
 extern int DAT_011da99c;
 // 0x011da9a4
-extern int DAT_011da9a4;
+extern void *DAT_011da9a4;
 // 0x011da9ac
 extern char *DAT_011da9ac;
 // 0x011da9d0

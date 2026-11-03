@@ -5,6 +5,7 @@
 
 // src/fallout/ai/actor_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/fallout/ai/actor.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
+#include <cstdint>
 #include <cstddef>
 #include <windows.h>
 #include <new>
@@ -951,7 +952,7 @@ struct S
     virtual void v37();
     virtual void v38();
     virtual void SetMode(int iMode);
-    void FUN_00561690(int);
+    void FUN_00561690(std::intptr_t);
 };
 struct Cast_c9b
 {
@@ -1064,11 +1065,11 @@ struct QueryOwner
     virtual void vfn_d0();
     virtual int vfn_d4(ScratchVec* out);
 
-    int FUN_00560bc0(int param);
+    int FUN_00560bc0(std::intptr_t param);
 };
 
 // @fnv 0x00560bc0
-int QueryOwner::FUN_00560bc0(int param)
+int QueryOwner::FUN_00560bc0(std::intptr_t param)
 {
     ScratchVec v;
     return ((int)(::SetNiPoint3FromHkVector4((*(::NiPoint3 *)(param)), (*(const ::hkVector4 *)(vfn_d4(&v))))));
@@ -2835,7 +2836,7 @@ void ActorH::FUN_008ae000(HitDataH* pkHit)
                 ::FUN_00cb9650((::FUN_00cb9650_Object *)(pkObject));
                 ::FUN_00c6a350((::NiAVObject *)(pkObject), 1, 1, 0, 1);
                 TargetInfoH kInfo(0.0f, 0, 0);
-                reinterpret_cast<::FUN_00a59c60_cls *>((pkObject))->FUN_00a59c60((int)(&kInfo));
+                reinterpret_cast<::FUN_00a59c60_cls *>((pkObject))->FUN_00a59c60((std::intptr_t)(&kInfo));
                 hkVector4H kImpulse;
                 ::fnv_004a3e00::FUN_004a3e00((*(::fnv_004a3e00::bhkCharacterController *)(&kImpulse)), (*(const ::fnv_004a3e00::NiPoint3 *)(&kWorldPosition)));
                 ::SetCollisionScale((::SceneNode *)(pkObject), (unsigned int)(&kImpulse), fImpulse, (::MaterialSelector *)(pkHit));

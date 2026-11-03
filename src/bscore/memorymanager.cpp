@@ -1,5 +1,6 @@
 // bscore/memorymanager.cpp: MemoryManager, TESQuest, TESActorBaseData, Actor and more (21 functions)
 
+#include <cstdint>
 #include <windows.h>
 #include <cstring>
 #include "fnv/decl/AA4610Allocator.h"
@@ -60,7 +61,7 @@ unsigned int MemoryManager::Size(const void* pointer)
         size = pool->GetBlockSize();
     else
     {
-        IMemoryHeap* heap = ((::IMemoryHeap *)(reinterpret_cast<::FUN_00aa45a0_Class *>(this)->FindItemByArg((int)(pointer))));
+        IMemoryHeap* heap = ((::IMemoryHeap *)(reinterpret_cast<::FUN_00aa45a0_Class *>(this)->FindItemByArg((intptr_t)(pointer))));
         if (heap)
             size = heap->Size(pointer, 0);
         else
@@ -189,7 +190,7 @@ struct MemoryPoolView : public MemoryPool
 {
     bool HasMemory()
     {
-        return *(void**)((char*)this + 4) != 0;
+        return m_pPoolBase != 0;
     }
 };
 // Creates a MemoryPool with the given block and pool sizes and description, deleting it if it has no memory; returns early when aiBlockSize is below 8.
@@ -229,16 +230,14 @@ void FUN_00aa3a10_shell::ClearFlagAndSetByte()
     *(unsigned char*)this = 1;
 }
 
-struct _RTL_CRITICAL_SECTION;
-extern _RTL_CRITICAL_SECTION DAT_011f6234;
+extern volatile long DAT_011f6234;
 // @fnv 0x00aa4460
 void FUN_00aa4460()
 {
     InterlockedIncrement(&DAT_011f6234);
 }
 
-struct _RTL_CRITICAL_SECTION;
-extern _RTL_CRITICAL_SECTION DAT_011f6234;
+extern volatile long DAT_011f6234;
 // @fnv 0x00aa4470
 void FUN_00aa4470()
 {
@@ -254,7 +253,6 @@ void FUN_00aa4480(unsigned char value)
 }
 
 namespace fnv_00aa4490 {
-extern unsigned int DAT_011f6234;
 
 // @fnv 0x00aa4490
 bool FUN_00aa4490()
@@ -430,16 +428,15 @@ inline void FUN_00aa5950()
     delete DAT_011f63b4;
     DAT_011f63b4 = 0;
 }
-struct PoolView
+struct PoolView : MemoryPool
 {
     ~PoolView();
 };
-extern PoolView* DAT_011f67b8[256];
 inline void DestroyMemoryPools()
 {
     for (unsigned int i = 0; i < 256; ++i)
     {
-        delete DAT_011f67b8[i];
+        delete static_cast<PoolView*>(DAT_011f67b8[i]);
         DAT_011f67b8[i] = 0;
     }
 }
@@ -464,7 +461,7 @@ FUN_00aa3a40::~FUN_00aa3a40()
     ScrapView* heap;
     while (position)
     {
-        reinterpret_cast<::RecursiveLock *>(&(unk114))->Unlock((::BSCriticalSectionEntry **)&(position), (unsigned int *)&(key), (unsigned int *)&(heap));
+        reinterpret_cast<::RecursiveLock *>(&(unk114))->Unlock((::BSCriticalSectionEntry **)&(position), (unsigned int *)&(key), (void **)&(heap));
         delete heap;
     }
     reinterpret_cast<::AE91F0Map *>(&(unk114))->ClearAll();

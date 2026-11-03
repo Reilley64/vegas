@@ -45,16 +45,27 @@ struct NiPropertyState
     void* m_spProperties[16];
 };
 
+struct SkyPropertyView_b8a1a0
+{
+    char pad00[0x8c];
+    int m_eSkyObjectType;
+};
+struct StencilPropertyView_b8a1a0
+{
+    char pad00[0x18];
+    unsigned char m_ucFlags;
+};
+
 // @fnv 0x00b8a1a0
 void FUN_00b8a1a0(const NiPropertyState* apState)
 {
-    void* pkSkyProp = apState->m_spProperties[3];
-    int val = *(int*)((char*)pkSkyProp + 0x8c);
+    SkyPropertyView_b8a1a0* pkSkyProp = (SkyPropertyView_b8a1a0*)apState->m_spProperties[3];
+    int val = pkSkyProp->m_eSkyObjectType;
     if (val == 0 || val == 6)
         AddToTwoCounters(6, 7, 0);
 
-    void* rendererSpecific = apState->m_spProperties[4];
-    if (rendererSpecific && (*(unsigned char*)((char*)rendererSpecific + 0x18) & 1))
+    StencilPropertyView_b8a1a0* rendererSpecific = (StencilPropertyView_b8a1a0*)apState->m_spProperties[4];
+    if (rendererSpecific && (rendererSpecific->m_ucFlags & 1))
         ::UpdateRendererStateCount(0, 0);
 }
 
@@ -2406,11 +2417,11 @@ void SkyShader::FUN_00b874f0()
     shader0[0] = "sky\\v\\sky.v.hlsl";
     shader0[1] = 0;
     shader0[2] = 0;
-    std::memset(shader0 + 3, 0, 64);
+    std::memset(shader0 + 3, 0, 16 * sizeof(const char*));
     FUN_00be0c00(shader0[0], sourceName);
     FUN_00406d00(compiledName, 260, "SKY.vso");
     NiRefObject* next0 =
-        ((::NiRefObject *)(::fnv_00be0fe0::FUN_00be0fe0((const char *)this, (::_D3DXMACRO *)(sourceName), (const char *)(const char **)(shader0 + 1), NiD3DGPUProgramCache::GetVertexShaderProfile())));
+        ((::NiRefObject *)(::fnv_00be0fe0::FUN_00be0fe0(sourceName, (::_D3DXMACRO *)(shader0 + 1), NiD3DGPUProgramCache::GetVertexShaderProfile(), compiledName)));
     if (m_98 != next0)
     {
         if (m_98)
@@ -2425,11 +2436,11 @@ void SkyShader::FUN_00b874f0()
     shader1[2] = 0;
     shader1[3] = 0;
     shader1[4] = 0;
-    std::memset(shader1 + 5, 0, 56);
+    std::memset(shader1 + 5, 0, 14 * sizeof(const char*));
     FUN_00be0c00(shader1[0], sourceName);
     FUN_00406d00(compiledName, 260, "SKYT.vso");
     NiRefObject* next1 =
-        ((::NiRefObject *)(::fnv_00be0fe0::FUN_00be0fe0((const char *)this, (::_D3DXMACRO *)(sourceName), (const char *)(const char **)(shader1 + 1), NiD3DGPUProgramCache::GetVertexShaderProfile())));
+        ((::NiRefObject *)(::fnv_00be0fe0::FUN_00be0fe0(sourceName, (::_D3DXMACRO *)(shader1 + 1), NiD3DGPUProgramCache::GetVertexShaderProfile(), compiledName)));
     if (m_9c != next1)
     {
         if (m_9c)
@@ -2446,11 +2457,11 @@ void SkyShader::FUN_00b874f0()
     shader2[4] = 0;
     shader2[5] = 0;
     shader2[6] = 0;
-    std::memset(shader2 + 7, 0, 48);
+    std::memset(shader2 + 7, 0, 12 * sizeof(const char*));
     FUN_00be0c00(shader2[0], sourceName);
     FUN_00406d00(compiledName, 260, "SKYMM.vso");
     NiRefObject* next2 =
-        ((::NiRefObject *)(::fnv_00be0fe0::FUN_00be0fe0((const char *)this, (::_D3DXMACRO *)(sourceName), (const char *)(const char **)(shader2 + 1), NiD3DGPUProgramCache::GetVertexShaderProfile())));
+        ((::NiRefObject *)(::fnv_00be0fe0::FUN_00be0fe0(sourceName, (::_D3DXMACRO *)(shader2 + 1), NiD3DGPUProgramCache::GetVertexShaderProfile(), compiledName)));
     if (m_a0 != next2)
     {
         if (m_a0)
@@ -2466,11 +2477,11 @@ void SkyShader::FUN_00b874f0()
     shader16[4] = 0;
     shader16[5] = 0;
     shader16[6] = 0;
-    std::memset(shader16 + 7, 0, 48);
+    std::memset(shader16 + 7, 0, 12 * sizeof(const char*));
     FUN_00be0c00(shader16[0], sourceName);
     FUN_00406d00(compiledName, 260, "SKYSTARS.vso");
     NiRefObject* next3 =
-        ((::NiRefObject *)(::fnv_00be0fe0::FUN_00be0fe0((const char *)this, (::_D3DXMACRO *)(sourceName), (const char *)(const char **)(shader16 + 1), NiD3DGPUProgramCache::GetVertexShaderProfile())));
+        ((::NiRefObject *)(::fnv_00be0fe0::FUN_00be0fe0(sourceName, (::_D3DXMACRO *)(shader16 + 1), NiD3DGPUProgramCache::GetVertexShaderProfile(), compiledName)));
     if (m_a8 != next3)
     {
         if (m_a8)
@@ -2485,11 +2496,11 @@ void SkyShader::FUN_00b874f0()
     shader4[2] = 0;
     shader4[3] = 0;
     shader4[4] = 0;
-    std::memset(shader4 + 5, 0, 56);
+    std::memset(shader4 + 5, 0, 14 * sizeof(const char*));
     FUN_00be0c00(shader4[0], sourceName);
     FUN_00406d00(compiledName, 260, "SKYOCC.vso");
     NiRefObject* next4 =
-        ((::NiRefObject *)(::fnv_00be0fe0::FUN_00be0fe0((const char *)this, (::_D3DXMACRO *)(sourceName), (const char *)(const char **)(shader4 + 1), NiD3DGPUProgramCache::GetVertexShaderProfile())));
+        ((::NiRefObject *)(::fnv_00be0fe0::FUN_00be0fe0(sourceName, (::_D3DXMACRO *)(shader4 + 1), NiD3DGPUProgramCache::GetVertexShaderProfile(), compiledName)));
     if (m_ac != next4)
     {
         if (m_ac)
@@ -2506,11 +2517,11 @@ void SkyShader::FUN_00b874f0()
     shader5[4] = 0;
     shader5[5] = 0;
     shader5[6] = 0;
-    std::memset(shader5 + 7, 0, 48);
+    std::memset(shader5 + 7, 0, 12 * sizeof(const char*));
     FUN_00be0c00(shader5[0], sourceName);
     FUN_00406d00(compiledName, 260, "SKYCLOUDS.vso");
     NiRefObject* next5 =
-        ((::NiRefObject *)(::fnv_00be0fe0::FUN_00be0fe0((const char *)this, (::_D3DXMACRO *)(sourceName), (const char *)(const char **)(shader5 + 1), NiD3DGPUProgramCache::GetVertexShaderProfile())));
+        ((::NiRefObject *)(::fnv_00be0fe0::FUN_00be0fe0(sourceName, (::_D3DXMACRO *)(shader5 + 1), NiD3DGPUProgramCache::GetVertexShaderProfile(), compiledName)));
     if (m_b0 != next5)
     {
         if (m_b0)
@@ -2523,7 +2534,7 @@ void SkyShader::FUN_00b874f0()
     FUN_00be0c00(shader5[0], sourceName);
     FUN_00406d00(compiledName, 260, "SKYCLOUDSFADE.vso");
     NiRefObject* next6 =
-        ((::NiRefObject *)(::fnv_00be0fe0::FUN_00be0fe0((const char *)this, (::_D3DXMACRO *)(sourceName), (const char *)(const char **)(shader13 + 1), NiD3DGPUProgramCache::GetVertexShaderProfile())));
+        ((::NiRefObject *)(::fnv_00be0fe0::FUN_00be0fe0(sourceName, (::_D3DXMACRO *)(shader13 + 1), NiD3DGPUProgramCache::GetVertexShaderProfile(), compiledName)));
     if (m_b4 != next6)
     {
         if (m_b4)
@@ -2536,7 +2547,7 @@ void SkyShader::FUN_00b874f0()
     shader7[0] = "sky\\p\\sky.p.hlsl";
     shader7[1] = 0;
     shader7[2] = 0;
-    std::memset(shader7 + 3, 0, 64);
+    std::memset(shader7 + 3, 0, 16 * sizeof(const char*));
     FUN_00be0c00(shader7[0], sourceName);
     FUN_00406d00(compiledName, 260, "SKY.pso");
     NiRefObject* next7 =
@@ -2555,7 +2566,7 @@ void SkyShader::FUN_00b874f0()
     shader8[2] = 0;
     shader8[3] = 0;
     shader8[4] = 0;
-    std::memset(shader8 + 5, 0, 56);
+    std::memset(shader8 + 5, 0, 14 * sizeof(const char*));
     FUN_00be0c00(shader8[0], sourceName);
     FUN_00406d00(compiledName, 260, "SKYTEX.pso");
     NiRefObject* next8 =
@@ -2576,7 +2587,7 @@ void SkyShader::FUN_00b874f0()
     shader9[4] = 0;
     shader9[5] = 0;
     shader9[6] = 0;
-    std::memset(shader9 + 7, 0, 48);
+    std::memset(shader9 + 7, 0, 12 * sizeof(const char*));
     FUN_00be0c00(shader8[0], sourceName);
     FUN_00406d00(compiledName, 260, "SKYTEXFADE.pso");
     NiRefObject* next9 =
@@ -2596,7 +2607,7 @@ void SkyShader::FUN_00b874f0()
     shader10[2] = 0;
     shader10[3] = 0;
     shader10[4] = 0;
-    std::memset(shader10 + 5, 0, 56);
+    std::memset(shader10 + 5, 0, 14 * sizeof(const char*));
     FUN_00be0c00(shader10[0], sourceName);
     FUN_00406d00(compiledName, 260, "SKYSUNOCCL.pso");
     NiRefObject* next10 =
@@ -2615,7 +2626,7 @@ void SkyShader::FUN_00b874f0()
     shader11[2] = 0;
     shader11[3] = 0;
     shader11[4] = 0;
-    std::memset(shader11 + 5, 0, 56);
+    std::memset(shader11 + 5, 0, 14 * sizeof(const char*));
     FUN_00be0c00(shader11[0], sourceName);
     FUN_00406d00(compiledName, 260, "SKYSHORIZFADE.pso");
     NiRefObject* next11 =
@@ -2636,11 +2647,11 @@ void SkyShader::FUN_00b874f0()
     shader12[4] = 0;
     shader12[5] = 0;
     shader12[6] = 0;
-    std::memset(shader12 + 7, 0, 48);
+    std::memset(shader12 + 7, 0, 12 * sizeof(const char*));
     FUN_00be0c00(shader12[0], sourceName);
     FUN_00406d00(compiledName, 260, "SKYFAR.vso");
     NiRefObject* next12 =
-        ((::NiRefObject *)(::fnv_00be0fe0::FUN_00be0fe0((const char *)this, (::_D3DXMACRO *)(sourceName), (const char *)(const char **)(shader12 + 1), NiD3DGPUProgramCache::GetVertexShaderProfile())));
+        ((::NiRefObject *)(::fnv_00be0fe0::FUN_00be0fe0(sourceName, (::_D3DXMACRO *)(shader12 + 1), NiD3DGPUProgramCache::GetVertexShaderProfile(), compiledName)));
     if (m_b8 != next12)
     {
         if (m_b8)
@@ -2653,7 +2664,7 @@ void SkyShader::FUN_00b874f0()
     FUN_00be0c00(shader6[0], sourceName);
     FUN_00406d00(compiledName, 260, "SKYCLOUDSI.vso");
     NiRefObject* next13 =
-        ((::NiRefObject *)(::fnv_00be0fe0::FUN_00be0fe0((const char *)this, (::_D3DXMACRO *)(sourceName), (const char *)(const char **)(shader6 + 1), NiD3DGPUProgramCache::GetVertexShaderProfile())));
+        ((::NiRefObject *)(::fnv_00be0fe0::FUN_00be0fe0(sourceName, (::_D3DXMACRO *)(shader6 + 1), NiD3DGPUProgramCache::GetVertexShaderProfile(), compiledName)));
     if (m_bc != next13)
     {
         if (m_bc)
@@ -2668,11 +2679,11 @@ void SkyShader::FUN_00b874f0()
     shader14[2] = 0;
     shader14[3] = 0;
     shader14[4] = 0;
-    std::memset(shader14 + 5, 0, 56);
+    std::memset(shader14 + 5, 0, 14 * sizeof(const char*));
     FUN_00be0c00(shader14[0], sourceName);
     FUN_00406d00(compiledName, 260, "SKYQUADSI.vso");
     NiRefObject* next14 =
-        ((::NiRefObject *)(::fnv_00be0fe0::FUN_00be0fe0((const char *)this, (::_D3DXMACRO *)(sourceName), (const char *)(const char **)(shader14 + 1), NiD3DGPUProgramCache::GetVertexShaderProfile())));
+        ((::NiRefObject *)(::fnv_00be0fe0::FUN_00be0fe0(sourceName, (::_D3DXMACRO *)(shader14 + 1), NiD3DGPUProgramCache::GetVertexShaderProfile(), compiledName)));
     if (m_c0 != next14)
     {
         if (m_c0)
@@ -2688,7 +2699,7 @@ void SkyShader::FUN_00b874f0()
     shader15[2] = numberBuffer;
     shader15[3] = 0;
     shader15[4] = 0;
-    std::memset(shader15 + 5, 0, 56);
+    std::memset(shader15 + 5, 0, 14 * sizeof(const char*));
     FUN_00be0c00(shader15[0], sourceName);
     FUN_00406d00(compiledName, 260, "SKYSI.pso");
     NiRefObject* next15 =
@@ -2709,7 +2720,7 @@ void SkyShader::FUN_00b874f0()
     shader3[4] = 0;
     shader3[5] = 0;
     shader3[6] = 0;
-    std::memset(shader3 + 7, 0, 48);
+    std::memset(shader3 + 7, 0, 12 * sizeof(const char*));
     FUN_00be0c00(shader3[0], sourceName);
     FUN_00406d00(compiledName, 260, "SKYSISUN.pso");
     NiRefObject* next16 =
@@ -2730,7 +2741,7 @@ void SkyShader::FUN_00b874f0()
     shader17[4] = 0;
     shader17[5] = 0;
     shader17[6] = 0;
-    std::memset(shader17 + 7, 0, 48);
+    std::memset(shader17 + 7, 0, 12 * sizeof(const char*));
     FUN_00be0c00(shader17[0], sourceName);
     FUN_00406d00(compiledName, 260, "SKYSICLOUDS.pso");
     NiRefObject* next17 =

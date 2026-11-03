@@ -1,5 +1,6 @@
 // fallout/ai/playercharacter.cpp: PlayerView, PlayerCharacter_StandIn, PlayerCharacter, PlayerStub and more (251 functions)
 
+#include <cstdint>
 #include <windows.h>
 #include <new>
 #include <cstdlib>
@@ -9211,7 +9212,7 @@ void MatchPlayer::FUN_0093c200(MatchPoint position, float rise, float fall, floa
     reinterpret_cast<::FUN_0043fa80_s *>((((::fnv_0093c200::MatchNode *)(::FUN_00558310((::NiNode_00558310 *)(::fnv_0093c200::MatchNode *)(((::fnv_0093c200::MatchNode *)(::FUN_0045c670()))))))))->FUN_0043fa80((*(const ::ThreeByThreeMatrix *)(&basis)));
     reinterpret_cast<::FUN_00440460_S *>((((::fnv_0093c200::MatchNode *)(::FUN_00558310((::NiNode_00558310 *)(::fnv_0093c200::MatchNode *)(((::fnv_0093c200::MatchNode *)(::FUN_0045c670()))))))))->FUN_00440460((const ::V3 *)(const ::fnv_0093c200::MatchPoint *)(&position));
     MatchUpdate update(0.0f, false, false);
-    reinterpret_cast<::FUN_00a59c60_cls *>((((::fnv_0093c200::MatchNode *)(::FUN_00558310((::NiNode_00558310 *)(::fnv_0093c200::MatchNode *)(((::fnv_0093c200::MatchNode *)(::FUN_0045c670()))))))))->FUN_00a59c60((int)&(update));
+    reinterpret_cast<::FUN_00a59c60_cls *>((((::fnv_0093c200::MatchNode *)(::FUN_00558310((::NiNode_00558310 *)(::fnv_0093c200::MatchNode *)(((::fnv_0093c200::MatchNode *)(::FUN_0045c670()))))))))->FUN_00a59c60((std::intptr_t)&(update));
     reinterpret_cast<::FUN_00a5a040_Class *>((((::fnv_0093c200::MatchNode *)(reinterpret_cast<::FUN_0084e3a0_Class *>(((*reinterpret_cast<::fnv_0093c200::MatchService * *>(&::g_TES))))->FUN_0084e3a0()))))->FUN_00a5a040();
     reinterpret_cast<::BSAudio *>((((::fnv_0093c200::MatchAudio *)(::FUN_00453a70()))))->SetListenerPosition((*(::NiPoint3 *)&(const ::fnv_0093c200::MatchPoint &)(position)));
     reinterpret_cast<::FUN_00ad7940_C *>((((::fnv_0093c200::MatchAudio *)(::FUN_00453a70()))))->FUN_00ad7940((*(int *)&(const ::fnv_0093c200::MatchPoint &)(MatchPoint(::FUN_005c53d0(GetAngle(0)), ::FUN_005b9e80(GetAngle(0)), 0.0f))), (*(int *)&(const ::fnv_0093c200::MatchPoint &)((*reinterpret_cast<::fnv_0093c200::MatchPoint *>((void *)&::DAT_011a9484)))), {}, {}, {}, {});
@@ -18212,7 +18213,7 @@ void CameraPlayer::FUN_0094a8c0()
     reinterpret_cast<::FUN_0043fa80_s *>((((::fnv_0094a8c0::CameraObject *)(::FUN_00558310((::NiNode_00558310 *)(f))))))->FUN_0043fa80((*(const ::ThreeByThreeMatrix *)(&ba)));
     CameraUpdate k;
     new ((void *)&(k)) ::NiUpdateData(0.0f, false, false);
-    reinterpret_cast<::FUN_00a59c60_cls *>((((::fnv_0094a8c0::CameraObject *)(::FUN_00558310((::NiNode_00558310 *)(f))))))->FUN_00a59c60((int)&(k));
+    reinterpret_cast<::FUN_00a59c60_cls *>((((::fnv_0094a8c0::CameraObject *)(::FUN_00558310((::NiNode_00558310 *)(f))))))->FUN_00a59c60((std::intptr_t)&(k));
     if (((::fnv_0094a8c0::CameraWorld *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>(this)->FUN_00575d70())) && ((::fnv_0094a8c0::CameraTerrain *)(reinterpret_cast<::TESWorldSpace *>((((::fnv_0094a8c0::CameraWorld *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>(this)->FUN_00575d70()))))->GetWorldTerrainManager())))
     {
         reinterpret_cast<::BGSTerrainManager *>((((::fnv_0094a8c0::CameraTerrain *)(reinterpret_cast<::TESWorldSpace *>((((::fnv_0094a8c0::CameraWorld *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>(this)->FUN_00575d70()))))->GetWorldTerrainManager()))))->FUN_006fca90((const ::NiPoint3 &)(cameraPosition), 15);
@@ -19450,7 +19451,7 @@ void Obj117::FUN_0094ae40(bool force, bool skip)
         position17 = (*reinterpret_cast<::fnv_0094ae40::V117 *>(&::DAT_011e0808));
         reinterpret_cast<::FUN_00440460_S *>(&(cameraNode))->FUN_00440460((const ::V3 *)&(position17));
         U117 update53(0, 0, 0);
-        reinterpret_cast<::FUN_00a59c60_cls *>(&(cameraNode))->FUN_00a59c60((int)&(update53));
+        reinterpret_cast<::FUN_00a59c60_cls *>(&(cameraNode))->FUN_00a59c60((std::intptr_t)&(update53));
         reinterpret_cast<::CamLook *>(&(cameraNode))->SetLookAt((const ::CamPoint &)((const ::fnv_0094ae40::V117 &)((*(::fnv_0094ae40::V117 *)(reinterpret_cast<::FUN_009c8ac0_class *>(&((*reinterpret_cast<::fnv_0094ae40::Mode117 *>(&::g_011f2250))))->FUN_009c8ac0({}))))), (const ::CamPoint &)((*reinterpret_cast<::fnv_0094ae40::V117 *>((void *)&::DAT_011a9484))));
         temp29 = (*(::fnv_0094ae40::M117 *)(::FUN_006a9540((char *)&(cameraNode))));
         reinterpret_cast<::ThreeByThreeMatrix *>(&(temp29))->GetRow(0, (::NiPoint3 &)(row13));
@@ -19489,7 +19490,7 @@ void Obj117::FUN_0094ae40(bool force, bool skip)
                 reinterpret_cast<::FUN_00440460_S *>((DAT_011e07d8))->FUN_00440460((const ::V3 *)&(const ::fnv_0094ae40::V117 &)(DAT_011e07d8->FUN_0043c490() +
                                            (*(::fnv_0094ae40::V117 *)(::FUN_004b3ae0((::NiPoint3 *)&(delta), (const ::NiPoint3 &)((*(::fnv_0094ae40::M117 *)(::FUN_006a9540((char *)(((::fnv_0094ae40::Obj117 *)(::FUN_00559450((int *)&(node694))))))))), {})))));
                 U117 upd(0, 0, 0);
-                reinterpret_cast<::FUN_00a59c60_cls *>((DAT_011e07d8))->FUN_00a59c60((int)&(upd));
+                reinterpret_cast<::FUN_00a59c60_cls *>((DAT_011e07d8))->FUN_00a59c60((std::intptr_t)&(upd));
             }
         }
         if (control && control->FUN_00621440() && ((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::fnv_0094ae40::Mode117 *>(&::g_011f2250))))->GetName())) != 4)
@@ -19571,7 +19572,7 @@ void Obj117::FUN_0094ae40(bool force, bool skip)
         }
         reinterpret_cast<::FUN_00440460_S *>(&(cameraNode))->FUN_00440460((const ::V3 *)&(position17));
         U117 update211(0, 0, 0);
-        reinterpret_cast<::FUN_00a59c60_cls *>(&(cameraNode))->FUN_00a59c60((int)&(update211));
+        reinterpret_cast<::FUN_00a59c60_cls *>(&(cameraNode))->FUN_00a59c60((std::intptr_t)&(update211));
         if (::DAT_011e07b9)
             reinterpret_cast<::CamLook *>(&(cameraNode))->SetLookAt((const ::CamPoint &)(base6), (const ::CamPoint &)((*reinterpret_cast<::fnv_0094ae40::V117 *>((void *)&::DAT_011a9484))));
         else
@@ -19600,7 +19601,7 @@ void Obj117::FUN_0094ae40(bool force, bool skip)
         reinterpret_cast<::FUN_00440460_S *>((((::fnv_0094ae40::Obj117 *)(::FUN_00558310((::NiNode_00558310 *)(manager4))))))->FUN_00440460((const ::V3 *)&(position17));
         reinterpret_cast<::FUN_0043fa80_s *>((((::fnv_0094ae40::Obj117 *)(::FUN_00558310((::NiNode_00558310 *)(manager4))))))->FUN_0043fa80((const ::ThreeByThreeMatrix &)(rotation52));
         U117 upd216(0, 0, 0);
-        reinterpret_cast<::FUN_00a59c60_cls *>((((::fnv_0094ae40::Obj117 *)(::FUN_00558310((::NiNode_00558310 *)(manager4))))))->FUN_00a59c60((int)&(upd216));
+        reinterpret_cast<::FUN_00a59c60_cls *>((((::fnv_0094ae40::Obj117 *)(::FUN_00558310((::NiNode_00558310 *)(manager4))))))->FUN_00a59c60((std::intptr_t)&(upd216));
     }
     reinterpret_cast<::BSAudio *>((((::fnv_0094ae40::Sound117 *)(::FUN_00453a70()))))->SetListenerPosition((*(::NiPoint3 *)&(const ::fnv_0094ae40::V117 &)(position17)));
     reinterpret_cast<::FUN_00ad7940_C *>((((::fnv_0094ae40::Sound117 *)(::FUN_00453a70()))))->FUN_00ad7940((*(int *)&(const ::fnv_0094ae40::V117 &)(((::fnv_0094ae40::Obj117 *)(reinterpret_cast<::BSFaceGenNiNode *>((manager4))->GetAnimationData()))->FUN_0045bba0())), (*(int *)&(const ::fnv_0094ae40::V117 &)(((::fnv_0094ae40::Obj117 *)(reinterpret_cast<::BSFaceGenNiNode *>((manager4))->GetAnimationData()))->GetPoint())), {}, {}, {}, {});
@@ -21672,7 +21673,7 @@ Node* View::FUN_0094e1d0(bool arg)
     if (!(*reinterpret_cast<::fnv_0094e1d0::Node * *>(&::fnv_0094ae40::DAT_011e07d8)))
         ::FUN_0040fbe0();
     UpdateData localValue60(0.0f, false, false);
-    reinterpret_cast<::FUN_00a59c60_cls *>((localValue11))->FUN_00a59c60((int)&(localValue60));
+    reinterpret_cast<::FUN_00a59c60_cls *>((localValue11))->FUN_00a59c60((std::intptr_t)&(localValue60));
     cameraHeight = ((::fnv_0094e1d0::Point *)(::FUN_0045bb80((int)((*reinterpret_cast<::fnv_0094e1d0::Node * *>(&::DAT_011e07d0))))))->z;
     Matrix localValue22 = (*reinterpret_cast<::fnv_0094e1d0::Matrix *>(&::DAT_011a9448));
     reinterpret_cast<::FUN_0043fa80_s *>((localValue11))->FUN_0043fa80((*(const ::ThreeByThreeMatrix *)(&FUN_0056fac0(localValue22))));
@@ -28640,7 +28641,7 @@ afterChain:
         else
         {
             NiUpdateData upd(0.0f, false, false);
-            reinterpret_cast<::FUN_00a59c60_cls *>((nodeOld))->FUN_00a59c60((int)(&upd));
+            reinterpret_cast<::FUN_00a59c60_cls *>((nodeOld))->FUN_00a59c60((std::intptr_t)(&upd));
         }
         GlobalObject_0041a250 handle;
         reinterpret_cast<::fnv_004189c0::FUN_004189c0_shell *>((((::fnv_00951a10::RetObj *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()))))->FUN_004189c0({});
@@ -30638,7 +30639,7 @@ void xActor::FUN_00953060(xActor* pActor, float fRate, bool bSkip)
             {
                 reinterpret_cast<::TaskQueueInterface *>((qQMZREG))->QueueActorDisarm(false);
                 xUpd qXMUYT(0.0f, false, false);
-                reinterpret_cast<::FUN_00a59c60_cls *>((qQMZREG))->FUN_00a59c60((int)&(qXMUYT));
+                reinterpret_cast<::FUN_00a59c60_cls *>((qQMZREG))->FUN_00a59c60((std::intptr_t)&(qXMUYT));
                 qQMZREG->UpdateProps();
                 reinterpret_cast<::TaskQueueInterface *>((qQMZREG))->QueueActorDisarm(true);
             }
@@ -67879,7 +67880,7 @@ void* FUN_00954610_cls::FUN_00954610(Obj* a1, Obj* a2, void* a3, void* a4, void*
         {
             ::FUN_00c6a040((int)(X), 0, 1, 1);
             new ((void *)&(ETmp)) ::NiUpdateData(0.0f, 0, 0);
-            reinterpret_cast<::FUN_00a59c60_cls *>((X))->FUN_00a59c60((int)(&ETmp));
+            reinterpret_cast<::FUN_00a59c60_cls *>((X))->FUN_00a59c60((std::intptr_t)(&ETmp));
             ::FUN_00c6a040((int)(X), 1, 1, 1);
             RTmp = *RU->v125();
             reinterpret_cast<::FUN_00439ef0_class *>(&(RTmp))->FUN_00439ef0((::NiPoint3 *)(void *)(&PTmp), (*(const ::NiPoint3 *)(((void *)(new ((void *)(((::Obj *)(reinterpret_cast<::FUN_0043d450_Owner *>((X))->FUN_0043d450())))) ::Vec3())))));

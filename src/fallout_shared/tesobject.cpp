@@ -1,5 +1,6 @@
 // fallout_shared/tesobject.cpp: TESObject, TESBoundObject, SceneObjectLookup, TESFormList and more (81 functions)
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/A5D2C0Object.h"
 #include "fnv/decl/BSXFlags.h"
@@ -607,7 +608,7 @@ NiNode* TESCreature::Create3DModel(TESObjectREFR* reference)
                 reinterpret_cast<::FUN_004aad00_shell *>((biped))->InitBoneSlots((::NiAVObject *)(node));
                 reinterpret_cast<::FUN_00a5a040_Class *>((node))->FUN_00a5a040();
                 NiUpdateData update(0.0f, false, false);
-                reinterpret_cast<::FUN_00a59c60_cls *>((node))->FUN_00a59c60((int)&(update));
+                reinterpret_cast<::FUN_00a59c60_cls *>((node))->FUN_00a59c60((std::intptr_t)&(update));
             }
         }
         else if (::FUN_004aae30(node, (::NiFixedString *)("Bip01")))
@@ -616,7 +617,7 @@ NiNode* TESCreature::Create3DModel(TESObjectREFR* reference)
             reference->SetBipedAnim(biped);
             reinterpret_cast<::FUN_00a5a040_Class *>((node))->FUN_00a5a040();
             NiUpdateData update(0.0f, false, false);
-            reinterpret_cast<::FUN_00a59c60_cls *>((node))->FUN_00a59c60((int)&(update));
+            reinterpret_cast<::FUN_00a59c60_cls *>((node))->FUN_00a59c60((std::intptr_t)&(update));
         }
     }
     return node;
@@ -1965,7 +1966,7 @@ bool Ev510Obj::FUN_00510080()
     Ev510Node* p = (Ev510Node*)CreateNiNode(0);
     reinterpret_cast<::FUN_00a5a040_Class *>((p))->FUN_00a5a040();
     NiUpdateData data(0.0f, false, false);
-    reinterpret_cast<::FUN_00a59c60_cls *>((p))->FUN_00a59c60((int)&(data));
+    reinterpret_cast<::FUN_00a59c60_cls *>((p))->FUN_00a59c60((std::intptr_t)&(data));
     return true;
 }
 
@@ -2590,7 +2591,7 @@ NiAVObject* CloneObject17::FUN_0050ee50(TESObjectREFR* reference, bool forceClon
                         canReuse = false;
                 }
             }
-            if (canReuse && ::FUN_0048b310(this, (int)(reference)))
+            if (canReuse && ::FUN_0048b310(this, (void *)(reference)))
                 canReuse = false;
             if (canReuse && ::FUN_00569410((::NiAVObject *)(h)))
                 canReuse = false;

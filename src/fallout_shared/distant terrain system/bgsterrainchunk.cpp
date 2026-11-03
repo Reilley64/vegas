@@ -2,6 +2,7 @@
 // src/fallout_shared/distant terrain system/bgsterrainchunk.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/distant terrain system/bgsterrainchunk.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <new>
 #include <cstdio>
 #include "fnv/decl/AlchemyItem.h"
@@ -1244,10 +1245,10 @@ void Target006fac::FUN_006facb0()
         }
         reinterpret_cast<::FUN_00a5a040_Class *>((((::Obj006fac *)(::FUN_00559450((int *)&(r4))))))->FUN_00a5a040();
         FUN_0043d410 a(0.0f, false, false);
-        reinterpret_cast<::FUN_00a59c60_cls *>((((::Obj006fac *)(::FUN_00559450((int *)&(r4))))))->FUN_00a59c60((int)&(a));
+        reinterpret_cast<::FUN_00a59c60_cls *>((((::Obj006fac *)(::FUN_00559450((int *)&(r4))))))->FUN_00a59c60((std::intptr_t)&(a));
         reinterpret_cast<::SelfX *>(this)->UpdateWaterReferences(0);
         FUN_0043d410 h(0.0f, false, false);
-        reinterpret_cast<::FUN_00a59c60_cls *>((((::Obj006fac *)(reinterpret_cast<::FUN_004ea9a0_Class *>((((::Obj006fac *)(::FUN_00559450((int *)(((::Obj006fac *)(::FUN_00559450((int *)this)))))))))->FUN_004ea9a0()))))->FUN_00a59c60((int)&(h));
+        reinterpret_cast<::FUN_00a59c60_cls *>((((::Obj006fac *)(reinterpret_cast<::FUN_004ea9a0_Class *>((((::Obj006fac *)(::FUN_00559450((int *)(((::Obj006fac *)(::FUN_00559450((int *)this)))))))))->FUN_004ea9a0()))))->FUN_00a59c60((std::intptr_t)&(h));
         reinterpret_cast<::TerrainChunk *>(this)->FUN_006fb7e0();
         reinterpret_cast<::FUN_006fa670_Target *>(this)->AddSelfToList();
         done = 1;

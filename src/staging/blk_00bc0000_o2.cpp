@@ -2,6 +2,7 @@
 // src/staging/blk_00bc0000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstdint>
 #include <new>
 #include <cstddef>
 #include <windows.h>
@@ -1324,11 +1325,11 @@ struct FUN_00bd8550_Class
     unsigned short m_usIndex;         // +0x12
     void* m_pData;                    // +0x14
     int* m_pEntryData;                // +0x18
-    bool PushEntry(void* src, int value);
+    bool PushEntry(void* src, std::intptr_t value);
 };
 
 // @fnv 0x00bd8550
-bool FUN_00bd8550_Class::PushEntry(void* src, int value)
+bool FUN_00bd8550_Class::PushEntry(void* src, std::intptr_t value)
 {
     if (m_usIndex != m_usElementCount && src)
     {
@@ -2470,12 +2471,12 @@ struct FUN_00bc2c50_class
     unsigned char unkBC;
 
 
-    void CopyTailFields(FUN_00bc2c50_class* destination, int value);
+    void CopyTailFields(FUN_00bc2c50_class* destination, std::intptr_t value);
 };
 
 // Calls ForwardToBase, then copies unkAC through unkBC from this object into destination.
 // @fnv 0x00bc2c50
-void FUN_00bc2c50_class::CopyTailFields(FUN_00bc2c50_class* destination, int value)
+void FUN_00bc2c50_class::CopyTailFields(FUN_00bc2c50_class* destination, std::intptr_t value)
 {
     reinterpret_cast<::FUN_00c5fb60_class *>(this)->ForwardToBase((::S_00a953b0_Node *)(destination), (void *)(value));
 
@@ -7797,7 +7798,7 @@ void FUN_00bd92b0_class::FUN_00bd92b0(int a1, int a2, int a3, int a4)
     reinterpret_cast<::HolderForAccum *>((pMgr))->SetAccumulatorAt(2, (::NiAccumulator *)(0), (const ::NiCamera *)(0));
 
     FUN_00bd92b0_mgr* g = (FUN_00bd92b0_mgr*)(*reinterpret_cast<int *>(&::DAT_011f91a8));
-    int r = reinterpret_cast<::FUN_00ba3770_struct *>((sub))->FUN_00ba3770();
+    void* r = reinterpret_cast<::FUN_00ba3770_struct *>((sub))->FUN_00ba3770();
     reinterpret_cast<::Manager *>((g))->FUN_00b6da10((::Item *)(r));
     reinterpret_cast<::Holder *>((sub))->FUN_00ba38b0();
 }
@@ -11065,7 +11066,7 @@ struct Obj1090
 // @fnv 0x00bd1090
 void Obj1090::FUN_00bd1090()
 {
-    Obj1090* source = ((::Obj1090 *)(::FUN_00b55560((void *)(1))));
+    Obj1090* source = ((::Obj1090 *)(::FUN_00b55560(1)));
     Ptr1090 first(source->m_30);
     Ptr1090 second(source->m_34);
     m_34 = second.value;
@@ -12096,7 +12097,7 @@ void FUN_00bd4ba0_class::ApplyPasses(PassArg* pPassArg)
     reinterpret_cast<::fnv_00b7dab0::RX *>(this)->UpdateRenderPass((::fnv_00b7dab0::ArgX *)(pPassArg));
     FogStub* fog = ((::fnv_00bd4ba0::FogStub *)(::FUN_00b55520(::DAT_011f91c4)));
     Apply(geom, fog, x);
-    PassOwner* owner = ((::fnv_00bd4ba0::PassOwner *)(::FUN_00b55560((void *)(1))));
+    PassOwner* owner = ((::fnv_00bd4ba0::PassOwner *)(::FUN_00b55560(1)));
     owner->unk30->SetupPass((void*)(*reinterpret_cast<::DispatchRegistry * *>(&::DAT_0126f74c))->unk44, geom, bc, 0, b8, pPassArg, 0, &geom->unk68, bound, 0, 1);
     owner->unk34->SetupPass((*reinterpret_cast<::DispatchRegistry * *>(&::DAT_0126f74c))->handler, geom, bc, 0, b8, pPassArg, 0, &geom->unk68, bound, 0, 1);
     PassShader* pShader30 = unk30;
@@ -18796,7 +18797,7 @@ void TechniqueShader_ce40::SetTechniquePass(unsigned int uiTechnique)
     case 1:
     case 2:
         reinterpret_cast<::fnv_00b7af80::ShaderSelector *>(this)->SelectShaderProgram(uiTechnique);
-        ((::Renderer_ce40 *)(::FUN_00b55560((void *)(1))))->SetShaderTechnique(uiTechnique);
+        ((::Renderer_ce40 *)(::FUN_00b55560(1)))->SetShaderTechnique(uiTechnique);
         m_pkTechniquePass = m_pkDefaultPass;
         break;
     case 0x101:
@@ -18852,7 +18853,7 @@ void TechniqueShader_ce40::SetTechniquePass(unsigned int uiTechnique)
         break;
     default:
         reinterpret_cast<::fnv_00b7af80::ShaderSelector *>(this)->SelectShaderProgram(uiTechnique);
-        ((::Renderer_ce40 *)(::FUN_00b55560((void *)(1))))->SetShaderTechnique(uiTechnique);
+        ((::Renderer_ce40 *)(::FUN_00b55560(1)))->SetShaderTechnique(uiTechnique);
         break;
     }
 }
@@ -19123,12 +19124,12 @@ void TechniqueShader_fd20::FUN_00bcfd20(unsigned int uiTechnique)
     case 1:
     case 2:
         reinterpret_cast<::fnv_00b7af80::ShaderSelector *>(this)->SelectShaderProgram(uiTechnique);
-        ((::Renderer_fd20 *)(::FUN_00b55560((void *)(1))))->SetShaderTechnique(uiTechnique);
+        ((::Renderer_fd20 *)(::FUN_00b55560(1)))->SetShaderTechnique(uiTechnique);
         m_pkTechniquePass = m_pkPass6c;
         break;
     case 3:
         reinterpret_cast<::fnv_00b7af80::ShaderSelector *>(this)->SelectShaderProgram(uiTechnique);
-        ((::Renderer_fd20 *)(::FUN_00b55560((void *)(1))))->SetShaderTechnique(uiTechnique);
+        ((::Renderer_fd20 *)(::FUN_00b55560(1)))->SetShaderTechnique(uiTechnique);
         m_pkTechniquePass = m_pkPass70;
         break;
     case 0x100:
@@ -19181,7 +19182,7 @@ void TechniqueShader_fd20::FUN_00bcfd20(unsigned int uiTechnique)
         break;
     default:
         reinterpret_cast<::fnv_00b7af80::ShaderSelector *>(this)->SelectShaderProgram(uiTechnique);
-        ((::Renderer_fd20 *)(::FUN_00b55560((void *)(1))))->SetShaderTechnique(uiTechnique);
+        ((::Renderer_fd20 *)(::FUN_00b55560(1)))->SetShaderTechnique(uiTechnique);
         break;
     }
     if (uiTechnique == 0x250 || uiTechnique == 0x251)
@@ -19967,7 +19968,7 @@ void Cam_bd7620::CullScene(Scene_bd7620* scene)
     acc->unk84 = true;
     Culler_bd7620 kCuller(0);
     UpdData_bd7620 kData(0.0f);
-    reinterpret_cast<::FUN_00a59c60_cls *>(this)->FUN_00a59c60((int)&(kData));
+    reinterpret_cast<::FUN_00a59c60_cls *>(this)->FUN_00a59c60((std::intptr_t)&(kData));
     kCuller.m_pkAccumulationCamera = this;
     reinterpret_cast<::S694a0 *>(&(kCuller))->FUN_00a694a0((void *)(&m_kCameraFrustum));
     reinterpret_cast<::CullerOwner *>((scene))->CullSceneObjects((*(::NiCullingProcess *)(&kCuller)));
@@ -23746,7 +23747,7 @@ void PShader::FUN_00bdf790(PGeom* geom, int renderFlags, unsigned short* count, 
     }
     else
     {
-        reinterpret_cast<::fnv_00bdf3e0::Bdf3e0_cls *>(this)->FUN_00bdf3e0((int)(geom), (int)(sceneLight), count, passMode, (char *)(bool *)(&firstPass), diffusePass, special);
+        reinterpret_cast<::fnv_00bdf3e0::Bdf3e0_cls *>(this)->FUN_00bdf3e0((void *)(geom), (void *)(sceneLight), count, passMode, (char *)(bool *)(&firstPass), diffusePass, special);
     }
 afterLighting:
     if (!allFlags)

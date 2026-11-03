@@ -1,6 +1,7 @@
 // bsshader/particleshader_decls.h: declares NiD3DVertexDeclaration, ParticleShader
 #ifndef PARTICLESHADER_DECLS_H
 #define PARTICLESHADER_DECLS_H
+#include <cstddef>
 
 
 #include "fnv/symbols_00e76000.h"

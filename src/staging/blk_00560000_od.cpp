@@ -2,6 +2,7 @@
 // src/staging/blk_00560000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/Callees.h"
@@ -1407,7 +1408,7 @@ void FUN_00563220(bhkCollisionObject* apCollisionObject, SaveRequest* request)
             {
                 Pt_S position;
                 hkVector4 rotation;
-                reinterpret_cast<::QueryOwner *>((body))->FUN_00560bc0((int)&(reinterpret_cast<NiPoint3&>(position)));
+                reinterpret_cast<::QueryOwner *>((body))->FUN_00560bc0((std::intptr_t)&(reinterpret_cast<NiPoint3&>(position)));
                 reinterpret_cast<::S00560c20_Object *>((body))->FUN_00560c20((::S00560c20_Target *)&(rotation));
                 reinterpret_cast<::FUN_00865e50_shell *>((world))->FUN_00865e50(&position, 12, 0);
                 reinterpret_cast<::FUN_00865e50_shell *>((world))->FUN_00865e50(&rotation, 16, 0);
@@ -2296,7 +2297,7 @@ void __cdecl FUN_00560a10(PSRef* apRef, PSSaveContext* apContext)
             {
                 PSPoint3 kPosition3;
                 PSVector4 kRotationBasis;
-                reinterpret_cast<::QueryOwner *>((pBody6))->FUN_00560bc0((int)&(kPosition3));
+                reinterpret_cast<::QueryOwner *>((pBody6))->FUN_00560bc0((std::intptr_t)&(kPosition3));
                 reinterpret_cast<::S00560c20_Object *>((pBody6))->FUN_00560c20((::S00560c20_Target *)&(kRotationBasis));
                 reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::PSSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&kPosition3, 0xc);
                 reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::PSSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&kRotationBasis, 0x10);

@@ -4,6 +4,7 @@
 
 
 // @fnv 0x009b7cb0
+#include <cstdint>
 #include <new>
 #include "fnv/decl/Actor.h"
 #include "fnv/decl/C89AC0_Owner.h"
@@ -2075,7 +2076,7 @@ bool Impact::HandleContactResponse()
         {
             reinterpret_cast<::FUN_00440460_S *>((node7))->FUN_00440460((const ::V3 *)&(contact->position));
             Update update(0.0f, 0, 0);
-            reinterpret_cast<::FUN_00a59c60_cls *>((node7))->FUN_00a59c60((int)&(update));
+            reinterpret_cast<::FUN_00a59c60_cls *>((node7))->FUN_00a59c60((std::intptr_t)&(update));
         }
         ::FUN_00c6a350((::NiAVObject *)(node7), 1, 1, 0, 1);
         ::FUN_00c6a3d0(node7, ((int)(::FUN_005dbe10())), 1, 0);
@@ -2570,7 +2571,7 @@ void MissileActor::HandleMissileImpact()
             reinterpret_cast<::fnv_009bf470::Ref9bf *>(this)->UpdateNodeTransform(0, 0);
             ::FUN_00c69f50((::S_00c69f50_Obj *)(node3), 1, 1);
             MissileUpdate update53(0.0f, false, false);
-            reinterpret_cast<::FUN_00a59c60_cls *>((node3))->FUN_00a59c60((int)(&update53));
+            reinterpret_cast<::FUN_00a59c60_cls *>((node3))->FUN_00a59c60((std::intptr_t)(&update53));
             if (reinterpret_cast<::bhkRigidBody_shell *>((body20))->FUN_00517630() == 5)
                 ::FUN_00c6a350((::NiAVObject *)(node3), 5, 1, 0, 1);
             else

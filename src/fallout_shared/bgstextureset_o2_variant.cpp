@@ -1,5 +1,6 @@
 // fallout_shared/bgstextureset_o2_variant.cpp: ThunkDerived (5 functions)
 
+#include <cstdint>
 #include <windows.h>
 // src/fallout_shared/bgstextureset_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/fallout_shared/bgstextureset.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
@@ -422,11 +423,11 @@ struct FUN_00b66ad0_cls
     int unkA8;
     FnvRefObj** m_ac[6];  // +0xac
 
-    void FUN_00b66ad0(int a1, FnvTarget* target);
+    void FUN_00b66ad0(std::intptr_t a1, FnvTarget* target);
 };
 
 // @fnv 0x00b66ad0
-void FUN_00b66ad0_cls::FUN_00b66ad0(int a1, FnvTarget* target)
+void FUN_00b66ad0_cls::FUN_00b66ad0(std::intptr_t a1, FnvTarget* target)
 {
     if (target == 0)
     {

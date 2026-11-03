@@ -1776,9 +1776,9 @@ void FUN_00707050(Tile* apTile)
 }
 
 // @fnv 0x00707070
-int __cdecl GetFieldD0()
+void* __cdecl GetFieldD0()
 {
-    return *(int*)((char*)((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())) + 0xd0);
+    return *(void**)((char*)((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())) + 0xd0);
 }
 
 // @fnv 0x00707080
@@ -2982,7 +2982,7 @@ struct Dummy00712450
 };
 // Calls _FUN_004b7210 with a, b and c, then returns the result of SetNodeAlpha on the returned object.
 // @fnv 0x00707010
-int FUN_00707010(int aiArg, float afArg1, float afArg2)
+int FUN_00707010(void* aiArg, float afArg1, float afArg2)
 {
     return ((::Dummy00712450 *)(::fnv_004b7210::FUN_004b7210()))->SetNodeAlpha();
 }
@@ -3867,17 +3867,17 @@ struct FUN_00707870_Target
 
 // Constructs a temporary with value 1.0 and dispatches it to DAT_011dea10 or to the object at a1 depending on FUN_004b5bf0(a1).
 // @fnv 0x00707870
-unsigned int __cdecl FUN_00707870(unsigned int a1)
+void* __cdecl FUN_00707870(void* a1)
 {
     unsigned int pad[6];
     FUN_00707870_Temp t(1.0f);
     if (::FUN_004b5bf0((::NiAVObject *)(a1)) != 0)
     {
-        return ((int)(reinterpret_cast<::FUN_00457ba0_class *>(((*reinterpret_cast<::FUN_00707870_Owner * *>(&::g_TES))))->FUN_00457ba0((::NiAVObject *)(a1), (::CloningProcess *)(::FUN_00707870_Temp *)(&t))));
+        return ((void *)(reinterpret_cast<::FUN_00457ba0_class *>(((*reinterpret_cast<::FUN_00707870_Owner * *>(&::g_TES))))->FUN_00457ba0((::NiAVObject *)(a1), (::CloningProcess *)(::FUN_00707870_Temp *)(&t))));
     }
     else
     {
-        return ((int)(reinterpret_cast<::A5D2C0Object *>((reinterpret_cast<FUN_00707870_Target*>(a1)))->FUN_00a5d2c0((*(::A5D2C0CloningProcess *)(&t)))));
+        return ((void *)(reinterpret_cast<::A5D2C0Object *>((reinterpret_cast<FUN_00707870_Target*>(a1)))->FUN_00a5d2c0((*(::A5D2C0CloningProcess *)(&t)))));
     }
 }
 
@@ -6968,7 +6968,7 @@ void __cdecl FUN_0079ffb0(char param_1)
     new ((void *)&(mk8c26)) ::NiUpdateData(0.0f, 0, 0);
     reinterpret_cast<::FUN_00a59c60_cls *>((static_cast<ChainObj*>(
         reinterpret_cast<void*>(
-            reinterpret_cast<::fnv_0056c7f0::Tile *>((static_cast<Tile30*>(reinterpret_cast<MapMenuR6*>(DAT_011da368)->tile_30)))->FUN_0056c7f0()))))->FUN_00a59c60((int)(&mk8c26));
+            reinterpret_cast<::fnv_0056c7f0::Tile *>((static_cast<Tile30*>(reinterpret_cast<MapMenuR6*>(DAT_011da368)->tile_30)))->FUN_0056c7f0()))))->FUN_00a59c60((std::intptr_t)(&mk8c26));
     reinterpret_cast<MapMenuR6*>(DAT_011da368)->field_128 = reinterpret_cast<MapMenuR6*>(DAT_011da368)->field_128 + 1;
     if (::FUN_007a1750() == 0)
     {

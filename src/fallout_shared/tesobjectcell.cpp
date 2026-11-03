@@ -1,5 +1,6 @@
 // fallout_shared/tesobjectcell.cpp: TESObjectCELL, Owner, Cell, hkpEntityListener and more (325 functions)
 
+#include <cstdint>
 #include <cstddef>
 #include <windows.h>
 #include <new>
@@ -7612,7 +7613,7 @@ void __cdecl UpdateSceneGraph(NiAVObject* object)
             if (updateNode)
             {
                 NiUpdateData updateData(::fnv_00563f30::DAT_011c3c08, true, false);
-                reinterpret_cast<::FUN_00a59c60_cls *>((reinterpret_cast<NN_00605d70*>(updateNode)))->FUN_00a59c60((int)&(updateData));
+                reinterpret_cast<::FUN_00a59c60_cls *>((reinterpret_cast<NN_00605d70*>(updateNode)))->FUN_00a59c60((std::intptr_t)&(updateData));
             }
         }
     }
@@ -11277,7 +11278,7 @@ Widget* FUN_00545cf0_Cls::GetOrCreateWidget()
         a->Attach(current, 1);
 
         e.FUN_0043d410(0.0f);
-        reinterpret_cast<::FUN_00a59c60_cls *>((a))->FUN_00a59c60((int)(&e));
+        reinterpret_cast<::FUN_00a59c60_cls *>((a))->FUN_00a59c60((std::intptr_t)(&e));
         reinterpret_cast<::Cell_Sub *>(this)->FUN_00544ce0();
         m_parentC4->FUN_0066b0d0(a);
         reinterpret_cast<::fnv_00545a30::FUN_00545a30_shell *>(this)->AttachOrphanedChildren();
@@ -15748,7 +15749,7 @@ void FUN_00557dd0(RenderCell* cell, render_test::FUN_00557da0* options, bool all
     reinterpret_cast<::FUN_00440460_S *>((((::fnv_00557dd0::RenderNode *)(::FUN_00558310((::NiNode_00558310 *)(kPosition))))))->FUN_00440460((const ::V3 *)&(bResult));
     reinterpret_cast<::FUN_0043fa80_s *>((((::fnv_00557dd0::RenderNode *)(::FUN_00558310((::NiNode_00558310 *)(kPosition))))))->FUN_0043fa80((const ::ThreeByThreeMatrix &)(kRotationBasis));
     NiUpdateData pRoot(0.0f, false, false);
-    reinterpret_cast<::FUN_00a59c60_cls *>((((::fnv_00557dd0::RenderNode *)(::FUN_00558310((::NiNode_00558310 *)(kPosition))))))->FUN_00a59c60((int)&(pRoot));
+    reinterpret_cast<::FUN_00a59c60_cls *>((((::fnv_00557dd0::RenderNode *)(::FUN_00558310((::NiNode_00558310 *)(kPosition))))))->FUN_00a59c60((std::intptr_t)&(pRoot));
     if (!testData)
         ::FUN_005b5e40();
 }
@@ -15809,7 +15810,7 @@ bool UpdateAndCheckBudget(int a1, const NiPoint3* apPosition, const ThreeByThree
     reinterpret_cast<::FUN_00440460_S *>((((NiAVObject_Shell*)FUN_00558310(node2))))->FUN_00440460((const ::V3 *)&(*apPosition));
     reinterpret_cast<::FUN_0043fa80_s *>((((NiAVObject_Shell*)FUN_00558310(node2))))->FUN_0043fa80((*(const ::ThreeByThreeMatrix *)(apRotation)));
     NiUpdateData updateData(0.0f, false, false);
-    reinterpret_cast<::FUN_00a59c60_cls *>((((NiAVObject_Shell*)FUN_00558310(node2))))->FUN_00a59c60((int)&(updateData));
+    reinterpret_cast<::FUN_00a59c60_cls *>((((NiAVObject_Shell*)FUN_00558310(node2))))->FUN_00a59c60((std::intptr_t)&(updateData));
     unsigned int startTick3 = ((unsigned int)(::FUN_00457fe0()));
     reinterpret_cast<::fnv_0086ff70::Main86 *>((g_osGlobals))->FUN_0086ff70();
     unsigned int dummy4 = 0;
@@ -18532,9 +18533,9 @@ void CellRenderer::BuildExteriorCameraScene(RenderPtr* output)
     reinterpret_cast<::FUN_0043fa80_s *>((((RenderObject*)camera_2)))->FUN_0043fa80((const ::ThreeByThreeMatrix &)(_dx));
     reinterpret_cast<::NiCamera *>((((RenderObject*)camera_2)))->UpdateViewFrustum((const ::NiFrustum &)(_bA));
     RenderUpdate updateNodeTmp(0.0f, false, false);
-    reinterpret_cast<::FUN_00a59c60_cls *>((((RenderObject*)nodeB)))->FUN_00a59c60((int)&(updateNodeTmp));
+    reinterpret_cast<::FUN_00a59c60_cls *>((((RenderObject*)nodeB)))->FUN_00a59c60((std::intptr_t)&(updateNodeTmp));
     RenderUpdate updateCameraVal(0.0f, false, false);
-    reinterpret_cast<::FUN_00a59c60_cls *>((((RenderObject*)camera_2)))->FUN_00a59c60((int)&(updateCameraVal));
+    reinterpret_cast<::FUN_00a59c60_cls *>((((RenderObject*)camera_2)))->FUN_00a59c60((std::intptr_t)&(updateCameraVal));
     ::SetByteAtOffset1B(true);
     ::fnv_006652e0::FUN_006652e0((::fnv_006652e0::NiAVObject *)(::RenderObject *)(camera_2), true);
     reinterpret_cast<::CellQ *>(this)->FUN_005570d0();
@@ -19056,7 +19057,7 @@ void C0054e830::FUN_0054e830(void* arg1, NP* apOutTexture)
     NP group(0);
     NP p4(0);
     ImageSpaceEffect* pip;
-    p4.Reset(((void *)(reinterpret_cast<::Pool *>((((::fnv_0054e830::TexMgr *)(::FUN_004a0ea0()))))->FUN_00b6e110((unsigned int)(((::fnv_0054e830::VT *)(::FUN_004a0e90()))), 0x1e, 0, 0, 0))));
+    p4.Reset(((void *)(reinterpret_cast<::Pool *>((((::fnv_0054e830::TexMgr *)(::FUN_004a0ea0()))))->FUN_00b6e110((std::uintptr_t)(((::fnv_0054e830::VT *)(::FUN_004a0e90()))), 0x1e, 0, 0, 0))));
     group.Reset(((::fnv_0054e830::TexMgr *)(::FUN_004a0ea0()))->M4(((::fnv_0054e830::VT *)(::FUN_004a0e90())), 0x1c, 0, 0));
     if ((void*)group && (void*)p4)
     {
@@ -19340,9 +19341,9 @@ void Cell::FUN_0054f500(int aiGridX, int aiGridY, ScenePtr* apOut)
     reinterpret_cast<::FUN_0043fa80_s *>(((spCameraTmp).operator->()))->FUN_0043fa80((const ::ThreeByThreeMatrix &)(kRotateLoc));
     reinterpret_cast<::NiCamera *>(((spCameraTmp).operator->()))->UpdateViewFrustum((const ::NiFrustum &)(kFrustumLocal));
     NiUpdateData kNodeUpdate(0.0f, false, false);
-    reinterpret_cast<::FUN_00a59c60_cls *>(((spNodeSample).operator->()))->FUN_00a59c60((int)&(kNodeUpdate));
+    reinterpret_cast<::FUN_00a59c60_cls *>(((spNodeSample).operator->()))->FUN_00a59c60((std::intptr_t)&(kNodeUpdate));
     NiUpdateData kLocalCameraUpdate(0.0f, false, false);
-    reinterpret_cast<::FUN_00a59c60_cls *>(((spCameraTmp).operator->()))->FUN_00a59c60((int)&(kLocalCameraUpdate));
+    reinterpret_cast<::FUN_00a59c60_cls *>(((spCameraTmp).operator->()))->FUN_00a59c60((std::intptr_t)&(kLocalCameraUpdate));
     bool bCulled0Cur = false;
     bool bCulled1In = false;
     CullObject* pObject0Ptr = ((::CellShadow::CullObject *)(reinterpret_cast<::TESObjectCELL *>(this)->GetCellChildAt(0)));

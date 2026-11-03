@@ -3,6 +3,7 @@
 #define FNV_BSAUDIO_WORKER_DECLS_H
 
 
+#include <cstdint>
 #include "fnv/decl/AudioManagerD570.h"
 #include "fnv/decl/AudioThreadHost_00ad9f30.h"
 #include "fnv/decl/BSAudioManager_.h"
@@ -64,8 +65,8 @@ class BSAudio
     void FUN_00ad7940(NiPoint3, NiPoint3);
     void FUN_00ad79b0(unsigned int);
     void FUN_00ad77f0(float, unsigned int);
-    void FUN_00ad8100(unsigned int, unsigned int, unsigned int);
-    void ForwardToManager(unsigned int, unsigned int);
+    void FUN_00ad8100(const char*, unsigned int, std::intptr_t);
+    void ForwardToManager(const char*, unsigned int);
 };
 
 // BSAudioListener interface. Only the vtable slots this unit forwards to are

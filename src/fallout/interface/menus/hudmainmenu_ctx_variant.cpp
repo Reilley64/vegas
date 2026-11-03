@@ -1,6 +1,7 @@
 
 // hudmainmenu_ctx_variant.cpp: context variant of src/fallout/interface/menus/hudmainmenu.cpp: its stripped skeleton, as these functions were checked
 // against, for verified matches whose own declarations clash with the unit's current types.
+#include <cstdint>
 #include <new>
 #include <cstring>
 #include "fnv/decl/ActorTaskManager.h"
@@ -900,7 +901,7 @@ Tile* FUN_0076bfe0()
         reinterpret_cast<::FUN_00440490_shell *>((((*reinterpret_cast<::NiPointer< ::NiNode> *>(&::g_011d9770))).operator->()))->FUN_00440490(0.1f);
         reinterpret_cast<::FUN_004bc1f0_S *>((((*reinterpret_cast<::NiPointer< ::NiNode> *>(&::g_011d9770))).operator->()))->FUN_004bc1f0(380.0f, 0.0f, 0.0f);
         NiUpdateData kUpdateSceneY(0.0f, false, false);
-        reinterpret_cast<::FUN_00a59c60_cls *>((((*reinterpret_cast<::NiPointer< ::NiNode> *>(&::g_011d9770))).operator->()))->FUN_00a59c60((int)&(kUpdateSceneY));
+        reinterpret_cast<::FUN_00a59c60_cls *>((((*reinterpret_cast<::NiPointer< ::NiNode> *>(&::g_011d9770))).operator->()))->FUN_00a59c60((std::intptr_t)&(kUpdateSceneY));
         (*reinterpret_cast<::NiPointer< ::NiNode> *>(&::g_011d975c)) = ((::NiNode *)(reinterpret_cast<::CamBuilder *>((((MenuStub*)::g_pHudMainMenuInstance)))->FUN_0077ee50()));
         (*reinterpret_cast<::HUDEmptyStub * *>(&::g_011d96bc)) = new HUDEmptyStub;
         ::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(1)->vfdc((*reinterpret_cast<::NiPointer< ::NiNode> *>(&::g_011d9770)), true);
@@ -910,7 +911,7 @@ Tile* FUN_0076bfe0()
         pController27 = ((::NiTimeController *)(reinterpret_cast<::MyHost *>((((::NiNode *)(pBreathNodeYA->GetAt(0)))))->FUN_00a5c570((const ::MyRTTI *)(::NiRTTI *)(&(*reinterpret_cast<::NiRTTI *>(&::g_011f36ac))))));
         reinterpret_cast<::NiAVObject *>((pBreathNodeYA))->SetLocalRotation(-1.5707964f, 1.0f, 0.0f, 0.0f);
         NiUpdateData kUpdateBreath2(0.0f, true, false);
-        reinterpret_cast<::FUN_00a59c60_cls *>((((::NiNode *)(pBreathNodeYA->GetAt(0)))))->FUN_00a59c60((int)&(kUpdateBreath2));
+        reinterpret_cast<::FUN_00a59c60_cls *>((((::NiNode *)(pBreathNodeYA->GetAt(0)))))->FUN_00a59c60((std::intptr_t)&(kUpdateBreath2));
         if (pController27)
         {
             NiControllerManagerStub* l_114 = (NiControllerManagerStub*)pController27;

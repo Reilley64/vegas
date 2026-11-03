@@ -2,6 +2,7 @@
 // src/fallout/interface/menus/racesexmenu.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/interface/menus/racesexmenu.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <new>
 #include <cstring>
 #include "fnv/decl/A5D2C0Object.h"
@@ -774,7 +775,7 @@ void FUN_007b1ae0_shell::UpdateShadowSceneNode()
     int pad;
     reinterpret_cast<::S00b5d9f0_Owner *>((NiAdditionalGeometryData::GetShadowSceneNodeForIndex(3)))->FUN_00b5d9f0((::S00b5d9f0_Obj *)(::NiNode *)(((::NiNode *)(reinterpret_cast<::FUN_00950bb0_shell *>(((*reinterpret_cast<::PC_00605d70 * *>(&::_g_thePlayer))))->FUN_00950bb0(false)))), false);
     NiUpdateData data(0.0f, false, false);
-    reinterpret_cast<::FUN_00a59c60_cls *>((reinterpret_cast<NiNode*>(NiAdditionalGeometryData::GetShadowSceneNodeForIndex(3))))->FUN_00a59c60((int)&(data));
+    reinterpret_cast<::FUN_00a59c60_cls *>((reinterpret_cast<NiNode*>(NiAdditionalGeometryData::GetShadowSceneNodeForIndex(3))))->FUN_00a59c60((std::intptr_t)&(data));
     if (((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210()))->GetActiveRenderedMenu())
         reinterpret_cast<::Light7FD *>((reinterpret_cast<FUN_007fd660_shell*>(((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210()))->GetActiveRenderedMenu())))->FUN_007fd660(1.0f);
 }
@@ -2507,7 +2508,7 @@ bool HostB50::RebuildFaceGen(bool rebuild)
         }
     }
     PointB50 l(0, false, false);
-    reinterpret_cast<::FUN_00a59c60_cls *>(((*reinterpret_cast<::fnv_007b2b50::PlayerB50 * *>(&::_g_thePlayer))->v1ac(false)))->FUN_00a59c60((int)&(l));
+    reinterpret_cast<::FUN_00a59c60_cls *>(((*reinterpret_cast<::fnv_007b2b50::PlayerB50 * *>(&::_g_thePlayer))->v1ac(false)))->FUN_00a59c60((std::intptr_t)&(l));
     reinterpret_cast<::FUN_007b1ae0_shell *>(this)->UpdateShadowSceneNode();
     return true;
 }
@@ -8074,7 +8075,7 @@ void FUN_00653e50(FGRoot* pkRoot, int iMode)
                 FGNameBuffer kBufferData(0x101);
                 FGShape* pkShape = ((::FGShape *)(reinterpret_cast<::A5D2C0Object *>((pkChildPropertyValue))->FUN_00a5d2c0((*(::A5D2C0CloningProcess *)(&kBufferData)))));
                 reinterpret_cast<::FUN_00539f20_Class *>((pkShape))->FUN_00539f20(((void *)(reinterpret_cast<::fnv_006546e0::FUN_006546e0_Class *>((pkProperty))->FUN_006546e0())));
-                reinterpret_cast<::S654 *>((pkFaceInfo))->ForwardToSubobject((int)(pkProperty));
+                reinterpret_cast<::S654 *>((pkFaceInfo))->ForwardToSubobject((std::intptr_t)(pkProperty));
                 reinterpret_cast<::FUN_00439410_cls *>((pkFaceInfo))->FUN_00439410((::ArgObject *)(pkShape));
                 reinterpret_cast<::FUN_00874460_cls *>((pkFaceInfo))->set(((int)(reinterpret_cast<::AlchemyItem *>((pkChild))->FUN_004030b0())));
                 unsigned short usFlags = ((unsigned short)(reinterpret_cast<::FUN_004a8090_shell *>((pkFaceInfo))->CallTargetV36()));

@@ -4,6 +4,7 @@
 
 // src/staging/blk_00c80000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
+#include <cstdint>
 #include <new>
 #include <cstddef>
 #include <windows.h>
@@ -12783,8 +12784,8 @@ void BlendLocal::FUN_00c81e30()
             Reset();
         else if (rigid)
         {
-            reinterpret_cast<::S *>((rigid))->FUN_00561690((int)&((*reinterpret_cast<::BlendTransformDetail::VecLocal *>(&::DAT_01267e30))));
-            reinterpret_cast<::fnv_005617c0::FUN_005617c0_ *>((rigid))->FUN_005617c0((int)&((*reinterpret_cast<::BlendTransformDetail::VecLocal *>(&::DAT_01267e30))));
+            reinterpret_cast<::S *>((rigid))->FUN_00561690((std::intptr_t)&((*reinterpret_cast<::BlendTransformDetail::VecLocal *>(&::DAT_01267e30))));
+            reinterpret_cast<::fnv_005617c0::FUN_005617c0_ *>((rigid))->FUN_005617c0((std::intptr_t)&((*reinterpret_cast<::BlendTransformDetail::VecLocal *>(&::DAT_01267e30))));
         }
         reinterpret_cast<::FUN_0040fbf0_shell *>(&((*reinterpret_cast<::BlendTransformDetail::LockLocal *>(&::DAT_01267b80))))->FUN_0040fbf0(0);
         reinterpret_cast<::ColObj_c65f40 *>(this)->FUN_00c65f40(desiredMotion, (::NiObj_c65f40 *)(rigid), false);

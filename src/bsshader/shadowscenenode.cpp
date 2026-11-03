@@ -1,8 +1,10 @@
 // bsshader/shadowscenenode.cpp: ShadowSceneNode, Base, Self, BlendOwner and more (63 functions)
 
+#include <cstdint>
 #include <cstddef>
 #include <windows.h>
 #include <new>
+#include "fnv/decl/FUN_00c5b5a0_cls.h"
 #include <cstdlib>
 #include <cstring>
 #include "fnv/decl/B9BB10Effect.h"
@@ -32,7 +34,6 @@
 #include "fnv/decl/FUN_00c47a70_Class.h"
 #include "fnv/decl/FUN_00c47ae0_cls.h"
 #include "fnv/decl/FUN_00c48800_cls.h"
-#include "fnv/decl/FUN_00c5b5a0_cls.h"
 #include "fnv/decl/FUN_00c5b5d0_class.h"
 #include "fnv/decl/FUN_00cd2530_cls.h"
 #include "fnv/decl/MemoryManager.h"
@@ -168,11 +169,17 @@ struct List_00b5ac20
     }
 };
 
-// Returns the item at the given index from the list at pThis+0xb4, or null if the index is out of range.
+struct SceneNodeLights_00b5ac20
+{
+    char pad[0xb4];
+    List_00b5ac20 kLights;
+};
+
+// Returns the item at the given index from the node's light list, or null if the index is out of range.
 // @fnv 0x00b5ac20
 void* GetListItemAt(char* pThis, int, unsigned int index)
 {
-    List_00b5ac20* list = (List_00b5ac20*)(pThis + 0xb4);
+    List_00b5ac20* list = &reinterpret_cast<SceneNodeLights_00b5ac20*>(pThis)->kLights;
     if (index >= list->ItemUpdateArray)
         return 0;
 
@@ -187,11 +194,17 @@ void* GetListItemAt(char* pThis, int, unsigned int index)
     return item;
 }
 
-// Assigns pObj to the reference-counted pointer at pThis+0x10c, releasing the old object and retaining the new one.
+struct RefField10c_00b5aee0
+{
+    char pad[0x10c];
+    NiRefObject* pRef;
+};
+
+// Assigns pObj to the reference-counted pointer pRef (offset 0x10c), releasing the old object and retaining the new one.
 // @fnv 0x00b5aee0
 void AssignRefObject(char* pThis, int, NiRefObject* pObj)
 {
-    NiRefObject*& spField = *(NiRefObject**)(pThis + 0x10c);
+    NiRefObject*& spField = reinterpret_cast<RefField10c_00b5aee0*>(pThis)->pRef;
     if (spField != pObj)
     {
         if (spField)
@@ -204,11 +217,17 @@ void AssignRefObject(char* pThis, int, NiRefObject* pObj)
     }
 }
 
-// Assigns pObj to the reference-counted pointer at pThis+0x128, releasing the old object and retaining the new one.
+struct RefField128_00b5af30
+{
+    char pad[0x128];
+    NiRefObject* pRef;
+};
+
+// Assigns pObj to the reference-counted pointer pRef (offset 0x128), releasing the old object and retaining the new one.
 // @fnv 0x00b5af30
 void FUN_00b5af30(char* pThis, int, NiRefObject* pObj)
 {
-    NiRefObject*& pRef = *(NiRefObject**)(pThis + 0x128);
+    NiRefObject*& pRef = reinterpret_cast<RefField128_00b5af30*>(pThis)->pRef;
     if (pRef != pObj)
     {
         if (pRef)
@@ -236,24 +255,43 @@ static inline char*& GetNextLight(ShadowLightNode*& pkIter)
     return rVal;
 }
 
+struct ShadowLights_00b5b060
+{
+    char pad[0xc0];
+    ShadowLightNode* pkHead;
+};
+struct LightFlags_00b5b060
+{
+    char pad[0x30];
+    unsigned int uiFlags;
+};
+struct ShadowLight_00b5b060
+{
+    char pad[0xf8];
+    LightFlags_00b5b060* pkFlags;
+    char padFC[0x10c - 0xfc];
+    BSRenderedTexture* pkTexture;
+};
+
 // @fnv 0x00b5b060
 void FUN_00b5b060(char* pThis, int)
 {
-    ShadowLightNode* pkIter = *(ShadowLightNode**)(pThis + 0xC0);
+    ShadowLightNode* pkIter = reinterpret_cast<ShadowLights_00b5b060*>(pThis)->pkHead;
     while (pkIter)
     {
         char* pkLight = GetNextLight(pkIter);
-        if (pkLight && *(void**)(pkLight + 0xF8))
+        ShadowLight_00b5b060* pkView = reinterpret_cast<ShadowLight_00b5b060*>(pkLight);
+        if (pkLight && pkView->pkFlags)
         {
-            reinterpret_cast<::MultiBoundOwner *>((DAT_011f91a8))->FUN_00b6d4c0((::BSMultiBound *)(*(BSRenderedTexture**)(pkLight + 0x10C)));
-            BSRenderedTexture* pkTex = *(BSRenderedTexture**)(pkLight + 0x10C);
+            reinterpret_cast<::MultiBoundOwner *>((DAT_011f91a8))->FUN_00b6d4c0((::BSMultiBound *)(pkView->pkTexture));
+            BSRenderedTexture* pkTex = pkView->pkTexture;
             if (pkTex)
             {
                 if (InterlockedDecrement(&pkTex->refs) == 0)
                     pkTex->DeleteThis();
-                *(BSRenderedTexture**)(pkLight + 0x10C) = 0;
+                pkView->pkTexture = 0;
             }
-            *(unsigned int*)(*(char**)(pkLight + 0xF8) + 0x30) |= 1;
+            pkView->pkFlags->uiFlags |= 1;
             ::ClearShaderPropRefs((char *)(pkLight));
         }
     }
@@ -273,13 +311,22 @@ struct VTableStub_00b5b150
 
 void __cdecl FUN_00b5b0e0(void* pObj);
 
+struct NodeChildren_00b5b150
+{
+    char pad[0xa0];
+    void** ppChildren;
+    unsigned short usMaxSize;
+    unsigned short usSize;
+};
+
 // Iterates the children of pNode, calling FUN_00b5b0e0 on geometry children and recursing into node children.
 // @fnv 0x00b5b150
 void ProcessNodeChildren(void* pThis, int, void* pNode)
 {
-    for (unsigned int i = 0; i < *reinterpret_cast<unsigned short*>(reinterpret_cast<char*>(pNode) + 0xa6); ++i)
+    NodeChildren_00b5b150* pkChildren = reinterpret_cast<NodeChildren_00b5b150*>(pNode);
+    for (unsigned int i = 0; i < pkChildren->usSize; ++i)
     {
-        void* pChild = (*reinterpret_cast<void***>(reinterpret_cast<char*>(pNode) + 0xa0))[i];
+        void* pChild = pkChildren->ppChildren[i];
         if (pChild)
         {
             if ((*reinterpret_cast<VTableStub_00b5b150**>(pChild))->GetAsGeometry(pChild))
@@ -422,15 +469,15 @@ void FUN_00b5ade0(FUN_00b5ade0_arr* self, int, unsigned index, bool shrink)
     }
     {
         unsigned* p = self->data + index;
-        ::FUN_00cb9930((void *)(((ArrOps*)self)), (int)(p), p + 1, (unsigned int *)(self->count - index - 1), {});
+        ::FUN_00cb9930((void *)(((ArrOps*)self)), 0, (unsigned int *)((p)), (unsigned int *)(p + 1), (unsigned int)((self->count - index - 1)));
         self->count--;
         return;
     }
 resize:
     unsigned newCap = self->capacity > 0x800 ? self->capacity - 0x400 : self->capacity >> 1;
     unsigned* puiNewData = (unsigned*)self->Alloc(newCap);
-    ::FUN_00cb9930((void *)(((ArrOps*)self)), (int)(puiNewData), self->data, (unsigned int *)(index), {});
-    ::FUN_00cb9930((void *)(((ArrOps*)self)), (int)(puiNewData + index), self->data + index + 1, (unsigned int *)(self->count - 1), {});
+    ::FUN_00cb9930((void *)(((ArrOps*)self)), 0, (unsigned int *)((puiNewData)), (unsigned int *)(self->data), (unsigned int)((index)));
+    ::FUN_00cb9930((void *)(((ArrOps*)self)), 0, (unsigned int *)((puiNewData + index)), (unsigned int *)(self->data + index + 1), (unsigned int)((self->count - 1)));
     self->Free(self->data);
     self->count--;
     self->data = puiNewData;
@@ -452,7 +499,7 @@ void FUN_00b5aea0_self::RemoveRange(unsigned int start, unsigned int n)
     unsigned int m = count - start - n;
     if (m >= n)
         m = n;
-    ::FUN_00cb9930((void *)this, (int)(data + start), (unsigned int *)(int *)(data + (count - m)), (unsigned int *)(m), {});
+    ::FUN_00cb9930((void *)this, 0, (unsigned int *)((data + start)), (unsigned int *)((int *)(data + (count - m))), (unsigned int)((m)));
     count -= n;
 }
 
@@ -503,7 +550,7 @@ void FUN_00b5b1c0(ShadowSceneNode* thisptr, int, NiAVObject* apObject)
     {
         NiNode* pnode = ((NiAVObjectVirt*)apObject)->vfunc3();
         if (pnode)
-            ::ProcessNodeChildren((void *)(((FUN_00b5b150_Struct*)thisptr)), (int)(pnode), {});
+            ::ProcessNodeChildren((void *)(((FUN_00b5b150_Struct*)thisptr)), 0, (void *)((pnode)));
     }
 }
 
@@ -624,7 +671,7 @@ void FUN_00b5d930(OwnerD* self, int, LightD* l)
         V3D p = l->v100;
         if (((PosD*)&p)->_Call_439090(&d->pos) && l->s110 != 0xff)
         {
-            reinterpret_cast<::FUN_00b5a9d0_class *>((l))->SetTripleInts((*(int *)&(const ::V3D &)(d->pos)), {}, {});
+            reinterpret_cast<::FUN_00b5a9d0_class *>((l))->SetTripleInts(*(const int *)&d->pos.x, *(const int *)&d->pos.y, *(const int *)&d->pos.z);
             self->FUN_00b5d300(l);
         }
     }
@@ -1039,9 +1086,13 @@ struct LightNode
 
 struct ShadowSceneNodeS : FUN_00c51570_Class
 {
+    char pad[0xb4];
+    LightNode* m_pkLightHead;
+    LightNode* m_pkLightTail;
+    unsigned int m_uiLightCount;
     unsigned int InitializeTESResources() const
     {
-        return *(unsigned int*)((char*)this + 0xbc);
+        return m_uiLightCount;
     }
     static char* const& Next(LightNode*& pos)
     {
@@ -1051,9 +1102,9 @@ struct ShadowSceneNodeS : FUN_00c51570_Class
     }
     char* GetLightAt(unsigned short usIndex) const
     {
-        if (usIndex >= *(unsigned int*)((char*)this + 0xbc))
+        if (usIndex >= m_uiLightCount)
             return 0;
-        LightNode* pos = *(LightNode**)((char*)this + 0xb4);
+        LightNode* pos = m_pkLightHead;
         char* light = Next(pos);
         for (unsigned int i = 0; i < usIndex; i++)
             light = Next(pos);
@@ -1640,25 +1691,94 @@ struct SearchObject
 {
     unsigned char CheckProcStateAndPlane(ProcessArgs args, char* target, char* item);
 };
+struct SearchTest_00b5bbe0
+{
+    virtual void v00();
+    virtual void v01();
+    virtual void v02();
+    virtual void v03();
+    virtual void v04();
+    virtual void v05();
+    virtual void v06();
+    virtual void v07();
+    virtual void v08();
+    virtual void v09();
+    virtual void v0a();
+    virtual void v0b();
+    virtual void v0c();
+    virtual void v0d();
+    virtual void v0e();
+    virtual void v0f();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual void v1a();
+    virtual void v1b();
+    virtual void v1c();
+    virtual void v1d();
+    virtual void v1e();
+    virtual void v1f();
+    virtual void v20();
+    virtual void v21();
+    virtual void v22();
+    virtual void v23();
+    virtual void v24();
+    virtual void v25();
+    virtual void v26();
+    virtual unsigned char Slot27(char* pTarget);
+    int m_04;
+    unsigned int m_uiState;
+};
+struct SearchSub_00b5bbe0
+{
+    char pad[0xc];
+    SearchTest_00b5bbe0* pkTest;
+};
+struct SearchSource_00b5bbe0
+{
+    char pad[0xa8];
+    unsigned short usCount;
+    SearchSub_00b5bbe0* pkSub;
+};
+struct SearchTarget_00b5bbe0
+{
+    char pad[0x2c];
+    char kTestData[0x90 - 0x2c];
+    unsigned int uiType;
+};
+struct SearchItem_00b5bbe0
+{
+    char pad[0x40];
+    unsigned int uiKind;
+};
 struct ShadowProcessor
 {
+    char pad[0x1e0];
+    SearchList* m_pkSearchList;
     void ProcessTargetIfEligible(SearchObject* source, ProcessArgs args, char* target);
 };
-typedef unsigned char(* TestCallback)(void*, char*);
 // @fnv 0x00b5bbe0
 void ShadowProcessor::ProcessTargetIfEligible(SearchObject* source, ProcessArgs args, char* target)
 {
-    char* subobject = *(char**)((char*)source + 0xac);
-    void* object = *(void**)(subobject + 0xc);
-    unsigned int type = *(unsigned int*)(target + 0x90);
-    unsigned int state = *(unsigned int*)((char*)object + 8);
-    if (type != 1 && type != 3 && state == 0 && *(unsigned short*)((char*)source + 0xa8) > (unsigned short)state)
+    SearchSource_00b5bbe0* pkSource = reinterpret_cast<SearchSource_00b5bbe0*>(source);
+    SearchTarget_00b5bbe0* pkTarget = reinterpret_cast<SearchTarget_00b5bbe0*>(target);
+    SearchTest_00b5bbe0* object = pkSource->pkSub->pkTest;
+    unsigned int type = pkTarget->uiType;
+    unsigned int state = object->m_uiState;
+    if (type != 1 && type != 3 && state == 0 && pkSource->usCount > (unsigned short)state)
     {
-        unsigned char accepted = (*(TestCallback*)((char*)*(void**)object + 0x9c))(object, target + 0x2c);
-        *(unsigned int*)(*(char**)(*(char**)((char*)source + 0xac) + 0xc) + 8) = (accepted == 0) + 1;
+        unsigned char accepted = object->Slot27(pkTarget->kTestData);
+        pkSource->pkSub->pkTest->m_uiState = (accepted == 0) + 1;
         if (accepted)
         {
-            SearchList* list = *(SearchList**)((char*)this + 0x1e0);
+            SearchList* list = m_pkSearchList;
             if (list)
             {
                 SearchNode* position = list->first;
@@ -1667,7 +1787,7 @@ void ShadowProcessor::ProcessTargetIfEligible(SearchObject* source, ProcessArgs 
                     char** ppItem = &position->item;
                     position = position->next;
                     char* item = *ppItem;
-                    if (item && *(unsigned int*)(item + 0x40) == 1)
+                    if (item && reinterpret_cast<SearchItem_00b5bbe0*>(item)->uiKind == 1)
                     {
                         if (!source->CheckProcStateAndPlane(args, target, item))
                             break;
@@ -1839,7 +1959,7 @@ int SSN_b5::FUN_00b5ca70(Node_b5* node, float time)
             continue;
         FUN_00b5c940(obj, true);
         UpdData_b5 data;
-        reinterpret_cast<::FUN_00a59c60_cls *>((obj))->FUN_00a59c60((int)&(data));
+        reinterpret_cast<::FUN_00a59c60_cls *>((obj))->FUN_00a59c60((std::intptr_t)&(data));
         Geom_b5* g = (Geom_b5*)((::Cast_b5 *)(reinterpret_cast<::NiObject *>((obj))->DynamicCast((const ::NiRTTI *)(const ::NiRTTI_b5 *)(&(*reinterpret_cast<::NiRTTI_b5 *>(&::g_011f4a98))))));
         if (g)
         {
@@ -2176,11 +2296,11 @@ struct ShadowSceneNodeX
     int unk120;
     int unk124;
     RefPtr<ShadowRenderTarget> m_spReferencedObject;
-    void FUN_00b5b880(int arg);
+    void FUN_00b5b880(void* arg);
 };
 
 // @fnv 0x00b5b880
-void ShadowSceneNodeX::FUN_00b5b880(int arg)
+void ShadowSceneNodeX::FUN_00b5b880(void* arg)
 {
     AutoMemContext ctx(0x20);
     if (!m_spReferencedObject)
@@ -2200,7 +2320,7 @@ void ShadowSceneNodeX::FUN_00b5b880(int arg)
                 if (!(light->m_pLight->m_uiObjectFlags & 1))
                 {
                     UpdateData data;
-                    reinterpret_cast<::FUN_00a59c60_cls *>((light->m_pLight))->FUN_00a59c60((int)&(data));
+                    reinterpret_cast<::FUN_00a59c60_cls *>((light->m_pLight))->FUN_00a59c60((std::intptr_t)&(data));
                     if (light->m_usIndex != 0xff)
                     {
                         g_pCurrentShadowLight = light;
@@ -2215,7 +2335,7 @@ void ShadowSceneNodeX::FUN_00b5b880(int arg)
             }
         }
         for (int i = n + 0x11; i < 0x15; i++)
-            ::RenderStageWait::FUN_00ba3130((::RenderStageWait::ThreadStages *)&((*reinterpret_cast<::RenderHelper *>(&::g_01200088))), (void *)(1), i, {});
+            ::RenderStageWait::FUN_00ba3130((::RenderStageWait::ThreadStages *)&((*reinterpret_cast<::RenderHelper *>(&::g_01200088))), 0, 1, i);
     }
     m_spReferencedObject->sp130 = 0;
 }
@@ -2541,11 +2661,11 @@ struct SPShader
     int unk1D8;
     bool bDefaultEnabled;
 
-    void FUN_00b5ba80(int aiPass, SPPass* apPass);
+    void FUN_00b5ba80(void* aiPass, SPPass* apPass);
 };
 
 // @fnv 0x00b5ba80
-void SPShader::FUN_00b5ba80(int aiPass, SPPass* apPass)
+void SPShader::FUN_00b5ba80(void* aiPass, SPPass* apPass)
 {
     SPRenderer* pRenderer = apPass->pOwner->pRenderer;
     SPGeometry* pGeomA = apPass->pGeomA;
@@ -2607,7 +2727,7 @@ struct GlobalLock_t
             m_uiThread = 0;
     }
 };
-extern GlobalLock_t DAT_011f9ea0;
+static GlobalLock_t& kLock_011f9ea0_a = reinterpret_cast<GlobalLock_t&>(::fnv_00b5ddf0::DAT_011f9ea0);
 
 struct BoundOwner_t
 {
@@ -2749,9 +2869,9 @@ void BoundOwner_t::AddBound(BoundRef_t* pkBound)
         return;
     if (!m_b1FC)
         return;
-    reinterpret_cast<::FUN_0040fbf0_shell *>(&(DAT_011f9ea0))->FUN_0040fbf0((char *)(0));
+    reinterpret_cast<::FUN_0040fbf0_shell *>(&(kLock_011f9ea0_a))->FUN_0040fbf0((char *)(0));
     m_kBounds.AddTail(*pkBound);
-    DAT_011f9ea0.Unlock();
+    kLock_011f9ea0_a.Unlock();
 }
 
 
@@ -3730,7 +3850,7 @@ struct FUN_00b5e0f0 : Base
 // @fnv 0x00b5e0f0
 FUN_00b5e0f0::FUN_00b5e0f0() : Base(0)
 {
-    ::AssignFixedString((char *)this, (int)&(const ::Fixed &)(Fixed("shadow scene node")), {});
+    ::AssignFixedString((char *)this, 0, (char **)&(const ::Fixed &)(Fixed("shadow scene node")));
     lights.FUN_00e74d40();
     shadowLights.FUN_00e74d40();
     ref124 = (Ref*)0;
@@ -4167,7 +4287,7 @@ void Root::SetProcessEnabled(bool enable)
             InterfaceArray array;
             FUN_00cd1ed0();
             WorldContext* item = new WorldContext;
-            reinterpret_cast<::FUN_00cd2530_cls *>((item))->AddItem((int)(GetWorld()));
+            reinterpret_cast<::FUN_00cd2530_cls *>((item))->AddItem(GetWorld());
             array.AddBack(item);
             process = new Process(array, 0);
             reinterpret_cast<::hkVisualDebuggerCD0D *>((process))->CreateServer(0x61a9);
@@ -4817,7 +4937,7 @@ void NodeTarget::RemoveLightFromNode(void** object, void* apLight)
             {
                 int index = reinterpret_cast<::FUN_00b5a930_cls *>(&(item->container))->FindFirstMatch(object, 0, (bool (*)(void **, void *))(int (*)(int *, int *))(&::FUN_00b5a980));
                 if (index != -1)
-                    ::FUN_00b5ade0((::FUN_00b5ade0_arr *)&(item->container), index, true, {});
+                    ::FUN_00b5ade0((::FUN_00b5ade0_arr *)&(item->container), 0, index, true);
             }
             node = (LightNode*)*object;
         }
@@ -4842,7 +4962,7 @@ void NodeTarget::RemoveLightFromNode(void** object, void* apLight)
                         }
                     }
                     if (index != -1)
-                        ::FUN_00b5ade0((::FUN_00b5ade0_arr *)(c), index, true, {});
+                        ::FUN_00b5ade0((::FUN_00b5ade0_arr *)(c), 0, index, true);
                 }
             }
             node = (LightNode*)*object;
@@ -5334,15 +5454,15 @@ struct LocalArray
                 goto slow;
         }
         _ReadWriteBarrier();
-        ::FUN_00cb9930((void *)(((ArrOps*)this)), (int)((unsigned*)(data + i)), (unsigned*)(data + i + 1), (unsigned int *)(n - i - 1), {});
+        ::FUN_00cb9930((void *)(((ArrOps*)this)), 0, (unsigned int *)(((unsigned*)(data + i))), (unsigned int *)((data + i + 1)), (unsigned int)((n - i - 1)));
     done:
         --count;
         return;
     slow:
         unsigned cap = capacity > 2048 ? capacity - 1024 : capacity / 2;
         void** fresh = Allocate(cap);
-        ::FUN_00cb9930((void *)(((ArrOps*)this)), (int)((unsigned*)fresh), (unsigned*)data, (unsigned int *)(i), {});
-        ::FUN_00cb9930((void *)(((ArrOps*)this)), (int)((unsigned*)(fresh + i)), (unsigned*)(data + i + 1), (unsigned int *)(count - 1), {});
+        ::FUN_00cb9930((void *)(((ArrOps*)this)), 0, (unsigned int *)(((unsigned*)fresh)), (unsigned int *)(data), (unsigned int)((i)));
+        ::FUN_00cb9930((void *)(((ArrOps*)this)), 0, (unsigned int *)(((unsigned*)(fresh + i))), (unsigned int *)((data + i + 1)), (unsigned int)((count - 1)));
         Free(data);
         data = fresh;
         capacity = cap;
@@ -5831,7 +5951,7 @@ void LocalTarget::FUN_00b5ddf0(LocalContext* apContext)
                         LocalObject* obj = (LocalObject*)geometry->objects.data[i];
                         unsigned index = obj->geometryLinks.find(geometry);
                         if (index != ~0u)
-                            ::FUN_00b5ade0((::FUN_00b5ade0_arr *)&(obj->geometryLinks), index, true, {});
+                            ::FUN_00b5ade0((::FUN_00b5ade0_arr *)&(obj->geometryLinks), 0, index, true);
                     }
                     geometry->objects.clear();
                     LocalLink<LocalLight>* lightPos = geometry->lights;
@@ -7177,13 +7297,17 @@ struct GlobalObject_0096a2d0
             m_pOwnerObject = 0;
     }
 };
-extern "C" GlobalObject_0096a2d0 DAT_011f9ea0;
+static GlobalObject_0096a2d0& kLock_011f9ea0_b = reinterpret_cast<GlobalObject_0096a2d0&>(::fnv_00b5ddf0::DAT_011f9ea0);
 extern "C" void* __cdecl FUN_00aa13e0(unsigned int);
 struct LightEx;
 
 struct LightEx : public NiRefObject
 {
-    char body[0x250 - 8];
+    char body08[0xf8 - 8];
+    ShadowLightFlags* m_pkFlags;
+    char bodyFC[0x128 - 0xfc];
+    void* m_pKey;
+    char body12C[0x250 - 0x12c];
     LightEx();
 };
 
@@ -7223,21 +7347,21 @@ LightEx* ShadowSceneNode_Self::FUN_00b5cbd0(void* key)
         ShadowSceneLight* const& ref = pos->light;
         pos = pos->next;
         LightEx* light = (LightEx*)ref;
-        if (light && *(void**)((char*)light + 0x128) == key)
+        if (light && light->m_pKey == key)
         {
-            ShadowLightFlags* flags = *(ShadowLightFlags**)((char*)light + 0xf8);
+            ShadowLightFlags* flags = light->m_pkFlags;
             flags->flags &= 0xfffffffe;
             reinterpret_cast<::B9BB10Effect *>((light))->FUN_00b9bb10(1.0f, 0);
             return light;
         }
     }
 
-    DAT_011f9ea0.Lock(0);
+    kLock_011f9ea0_b.Lock(0);
     LightEx* light = new LightEx;
-    ::FUN_00b5af30((char *)(light), (int)(key), {});
+    ::FUN_00b5af30((char *)(light), 0, (::NiRefObject *)((key)));
     reinterpret_cast<::FUN_00b9dcb0_Class *>((light))->SetShadowEnabled(true);
     m_activeLights.FUN_00a5a310(NiPointer<NiRefObject>(light));
-    DAT_011f9ea0.Unlock();
+    kLock_011f9ea0_b.Unlock();
     return light;
 }
 }  // namespace fnv_00b5cbd0
@@ -7322,7 +7446,10 @@ class S00b5cd00_Param
     virtual void DeleteThis();
 
     long m_iObjectReferenceCount;
-
+    char pad08[0xed - 0x8];
+    unsigned char m_ucFlagED;
+    char padEE[0xfc - 0xee];
+    unsigned char m_ucFlagFC;
 };
 
 // Reference-taking argument wrapper: the constructor adds a reference; the caller drops it after the call.
@@ -7404,12 +7531,12 @@ class S00b5cd00_Owner
 // @fnv 0x00b5cd00
 S00b5cd00_Param* S00b5cd00_Owner::FUN_00b5cd00(S00b5cd00_Param* param)
 {
-    reinterpret_cast<unsigned char*>(param)[0xFC] = 1;
+    param->m_ucFlagFC = 1;
     S00b5cd00_Light* light = new S00b5cd00_Light;
     light->m_flags &= ~1u;
     reinterpret_cast<::fnv_00b9dda0::FUN_00b9dda0_Class *>((param))->FUN_00b9dda0((::fnv_00b9dda0::NiLight *)(light));
     reinterpret_cast<::FUN_00b9dcb0_Class *>((param))->SetShadowEnabled(true);
-    reinterpret_cast<unsigned char*>(param)[0xED] = 0;
+    param->m_ucFlagED = 0;
     m_kNode.FUN_00a5a310(param);
     if (InterlockedDecrement(&param->m_iObjectReferenceCount) == 0)
         param->DeleteThis();
@@ -7571,7 +7698,7 @@ void SSN_cand::FUN_00b5cde0(MyShadowSceneLight* apLight)
     }
     else
     {
-        ::MoveNodeBefore((::List_00b702e0 *)(pShadowList), (int)(m_pD4), (::Node_00b702e0 *)(pShadowList->head), {});
+        ::MoveNodeBefore((::List_00b702e0 *)(pShadowList), 0, (::Node_00b702e0 *)((m_pD4)), (::Node_00b702e0 *)((pShadowList->head)));
     }
 
     if (!m_pD0)
@@ -7581,7 +7708,7 @@ void SSN_cand::FUN_00b5cde0(MyShadowSceneLight* apLight)
     }
     else
     {
-        ::MoveNodeBefore((::List_00b702e0 *)(pShadowList), (int)(m_pD0), (::Node_00b702e0 *)(pShadowList->head), {});
+        ::MoveNodeBefore((::List_00b702e0 *)(pShadowList), 0, (::Node_00b702e0 *)((m_pD0)), (::Node_00b702e0 *)((pShadowList->head)));
     }
 
     if (!m_pD4)
@@ -7637,7 +7764,7 @@ void SSN_cand::FUN_00b5cde0(MyShadowSceneLight* apLight)
             {
                 if (light == apLight)
                 {
-                    ::MoveNodeBefore((::List_00b702e0 *)(pShadowList), (int)(node), (::Node_00b702e0 *)(m_pD4), {});
+                    ::MoveNodeBefore((::List_00b702e0 *)(pShadowList), 0, (::Node_00b702e0 *)((node)), (::Node_00b702e0 *)((m_pD4)));
                 }
                 else
                 {
@@ -7657,7 +7784,7 @@ struct S00b5d9f0_Lock
 
 };
 
-extern S00b5d9f0_Lock DAT_011f9ec0;
+static S00b5d9f0_Lock& kLock_011f9ec0_c = reinterpret_cast<S00b5d9f0_Lock&>(::fnv_00b5ddf0::DAT_011f9ec0);
 extern int DAT_011f9ec4;
 
 class S00b5d9f0_Obj
@@ -7782,7 +7909,7 @@ void S00b5d9f0_Owner::FUN_00b5d9f0(S00b5d9f0_Obj* obj, unsigned char flag)
     if (obj == 0)
         return;
 
-    reinterpret_cast<::FUN_0040fbf0_shell *>(&(DAT_011f9ec0))->FUN_0040fbf0((char *)(0));
+    reinterpret_cast<::FUN_0040fbf0_shell *>(&(kLock_011f9ec0_c))->FUN_0040fbf0((char *)(0));
 
     switch (!flag)
     {
@@ -7799,7 +7926,7 @@ void S00b5d9f0_Owner::FUN_00b5d9f0(S00b5d9f0_Obj* obj, unsigned char flag)
 
     --DAT_011f9ec4;
     if (DAT_011f9ec4 == 0)
-        DAT_011f9ec0.m_pOwnerObject = 0;
+        kLock_011f9ec0_c.m_pOwnerObject = 0;
 }
 
 namespace fnv_00b5e870 {
@@ -8201,7 +8328,7 @@ extern float DAT_01200558;
 struct LinkArray
 {
     virtual void v0();
-    unsigned int* data;
+    void** data;
     unsigned int count, capacity;
     unsigned int FindFirstMatch(const RefPtr_b9fcc0*, unsigned int, int(__cdecl*)(int*, int*));
     void FUN_00b5ade0(unsigned int, bool);
@@ -8927,7 +9054,7 @@ class Self
 
     unsigned int FUN_00a5dbe0(void* p);
 
-    unsigned int FUN_00b5e870(ParamObj* arg);
+    std::uintptr_t FUN_00b5e870(ParamObj* arg);
 };
 
 __declspec(noinline) RefPtr_b9fcc0 List_b9fcc0::FUN_00b9efa0(void*& p)
@@ -8982,7 +9109,7 @@ __declspec(noinline) void Self::RemoveLightFromNode(RefPtr_b9fcc0& value, void*&
                 unsigned int index = ~0u;
                 for (unsigned int j = 0; j < data->links.count; ++j)
                 {
-                    if (data->links.data && data->links.data[j] == reinterpret_cast<unsigned int>(item))
+                    if (data->links.data && data->links.data[j] == item)
                     {
                         index = j;
                         break;
@@ -9002,7 +9129,7 @@ __declspec(noinline) void Self::RemoveLightFromNode(RefPtr_b9fcc0& value, void*&
 
 // Processes entries in m_listB4, updates globals from arg and m_134, and returns a value derived from m_134 or FUN_00a5dbe0.
 // @fnv 0x00b5e870
-unsigned int Self::FUN_00b5e870(ParamObj* arg)
+std::uintptr_t Self::FUN_00b5e870(ParamObj* arg)
 
 {
 
@@ -9107,7 +9234,7 @@ unsigned int Self::FUN_00b5e870(ParamObj* arg)
 
     Obj134* val;
     val = m_134;
-    unsigned result = reinterpret_cast<unsigned>(val);
+    std::uintptr_t result = reinterpret_cast<std::uintptr_t>(val);
     if (val)
     {
         ptr = val->m_kDiffuseColor;
@@ -9392,14 +9519,14 @@ ShadowSceneLight* S00b5eca0_Node::FUN_00b5eca0(ShadowSceneLight* pkLight)
         S00b5eca0_Tex* pkTexture;
         if (((S00b5eca0_Settings*)0)->m_bUseRenderedShadows)
         {
-            pkTexture = ((::S00b5eca0_Tex *)(reinterpret_cast<::Pool *>((((S00b5eca0_Mgr*)DAT_011f91a8)))->FUN_00b6e110((unsigned int)(DAT_011f9508), 0x2a, 0, 0, 0)));
-            ((::S00b5eca0_Group *)(reinterpret_cast<::BSRenderedTexture *>((pkTexture))->GetGroup()))->SetBuffer(((void *)(reinterpret_cast<::CpuObject *>((((S00b5eca0_Mgr*)DAT_011f91a8)))->FUN_00b6d120())));
+            pkTexture = ((::S00b5eca0_Tex *)(reinterpret_cast<::Pool *>((((S00b5eca0_Mgr*)DAT_011f91a8)))->FUN_00b6e110((std::uintptr_t)(DAT_011f9508), 0x2a, 0, 0, 0)));
+            ((::S00b5eca0_Group *)(reinterpret_cast<::BSRenderedTexture *>((pkTexture))->GetGroup()))->SetBuffer(reinterpret_cast<::CpuObject *>((((S00b5eca0_Mgr*)DAT_011f91a8)))->FUN_00b6d120());
         }
         else
         {
             pkTexture = ((::S00b5eca0_Tex *)(reinterpret_cast<::MultiBoundLists *>((((S00b5eca0_Mgr*)DAT_011f91a8)))->ActivatePending()));
         }
-        ::AssignRefObject((char *)(pkL), (int)(pkTexture), {});
+        ::AssignRefObject((char *)(pkL), 0, (::NiRefObject *)((pkTexture)));
     }
     FUN_00b5d300(pkLight);
     return 0;
@@ -9922,7 +10049,7 @@ void SceneCull::FUN_00b5f9b0(CullProcess* process)
                                 if (process->FUN_00c4f320(object))
                                 {
                                     void* camera = process->camera;
-                                    reinterpret_cast<::SPShader *>(this)->FUN_00b5ba80((int)(camera), (::SPPass *)(entry));
+                                    reinterpret_cast<::SPShader *>(this)->FUN_00b5ba80(camera, (::SPPass *)(entry));
                                     entry->object->Cull(process);
                                 }
                             }
@@ -9991,6 +10118,45 @@ void SceneCull::FUN_00b5f9b0(CullProcess* process)
 }  // namespace fnv_00b5f9b0
 
 #include <math.h>
+#include "fnv/decl/CamLook.h"
+#include "fnv/decl/FUN_00507700_cls.h"
+#include "fnv/decl/FUN_00733fd0_shell.h"
+#include "fnv/decl/FUN_00b9bc50_t.h"
+#include "fnv/decl/NiCamera.h"
+#include "fnv/decl/NiUpdateData.h"
+#include "fnv/decl/_Cam_00712e60.h"
+#include "fnv/symbols_00403000.h"
+#include "fnv/symbols_0045c000.h"
+#include "fnv/symbols_004dc000.h"
+#include "fnv/symbols_0057d000.h"
+#include "fnv/symbols_01016000.h"
+#include "fnv/symbols_01023000.h"
+#include "fnv/symbols_01070000.h"
+#include "runtime/crt.h"
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/FUN_004169d0_shell.h"
+#include "fnv/decl/FUN_00453470_shell.h"
+#include "fnv/decl/FUN_00503650_shell.h"
+#include "fnv/decl/FUN_00602130_shell.h"
+#include "fnv/decl/FUN_00613970_shell.h"
+#include "fnv/decl/FUN_00613b20_shell.h"
+#include "fnv/decl/FUN_00a59d30_C.h"
+#include "fnv/decl/MiddleHighProcess.h"
+#include "fnv/decl/NiNode.h"
+#include "fnv/decl/S_0060ba10.h"
+#include "fnv/decl/S_FUN_0045bc00.h"
+#include "fnv/decl/TESNPC.h"
+#include "fnv/decl/TESTopicInfoData.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/decl/fnv_006044e0__FUN_006044e0_shell.h"
+#include "fnv/symbols_004aa000.h"
+#include "fnv/symbols_004b3000.h"
+#include "fnv/symbols_00559000.h"
+#include "fnv/symbols_00605000.h"
+#include "fnv/symbols_00653000.h"
+#include "fnv/symbols_00655000.h"
+#include "fnv/symbols_0104a000.h"
+
 struct LightObj
 {
     virtual void v0();
@@ -10176,7 +10342,7 @@ struct Globals
     void* unk1E0;
     NiPoint3 g;
 };
-extern Globals* DAT_011f91c8;
+
 struct FUN_00b9dae0_cls
 {
     void* unk00;
@@ -10256,7 +10422,7 @@ bool FUN_00b9dae0_cls::FUN_00b9dae0(NiPoint3* apPoint, LightObj* apLight, float 
     d.x = apLight->pos.x - apPoint->x;
     d.y = apLight->pos.y - apPoint->y;
     d.z = apLight->pos.z - apPoint->z;
-    NiPoint3 g = DAT_011f91c8->g;
+    NiPoint3 g = reinterpret_cast<Globals*>(::DAT_011f91c8[0])->g;
     NiPoint3 s;
     s.x = g.x + d.x;
     s.y = g.y + d.y;
@@ -10424,7 +10590,7 @@ template <class T> struct ArrayLikeT
 
     __forceinline int Find(const T& key)
     {
-        return reinterpret_cast<::FUN_00b5a930_cls *>(this)->FindFirstMatch(&key, 0, (bool (*)(void **, void *))(::FUN_00b5a980));
+        return reinterpret_cast<::FUN_00b5a930_cls *>(this)->FindFirstMatch((void*)&key, 0, (bool (*)(void **, void *))(::FUN_00b5a980));
     }
 
     __forceinline void Clear()
@@ -10853,7 +11019,7 @@ void OwnerD::FUN_00b5d300(LightD* apLight)
         }
         for (unsigned int i = 0; i < reinterpret_cast<::FUN_00c5b5d0_class *>((((FUN_00c5b5d0_class*)m_1e0)))->FUN_00c5b5d0(); i++)
         {
-            void* pElement = (void*)reinterpret_cast<::FUN_00c5b5a0_cls *>((((FUN_00c5b5a0_cls*)m_1e0)))->FUN_00c5b5a0(i);
+            void* pElement = reinterpret_cast<::FUN_00c5b5a0_cls *>((((FUN_00c5b5a0_cls*)m_1e0)))->FUN_00c5b5a0(i);
             if (pElement)
                 reinterpret_cast<::ShadowSceneLight *>((apLight))->AddObject((::NiAVObject *)(pElement));
         }
@@ -11609,4 +11775,591 @@ FUN_00b5e5a0::~FUN_00b5e5a0()
     unk128 = 0;
 }
 
+
+
+struct Items_00c5b5a0
+{
+    char pad[0x40];
+    void** ppItems;
+};
+
+// @fnv 0x00c5b5a0
+void* FUN_00c5b5a0_cls::FUN_00c5b5a0(int idx)
+{
+    void** p = reinterpret_cast<Items_00c5b5a0*>(this)->ppItems + idx;
+    void* result = *p;
+    return result;
+}
+
+extern "C" char DAT_01070c70;
+
+struct Rect2180
+{
+    float x[4];
+    Rect2180(float, float, float, float);
+};
+
+struct Frustum2180
+{
+    float left, right, top, bottom, nearz, farz;
+    bool ortho;
+    Frustum2180(bool);
+};
+
+struct Point2180
+{
+    float x, y, z;
+    Point2180(float, float, float);
+};
+
+struct Update2180
+{
+    int data[3];
+};
+
+struct String2180
+{
+    int value;
+    String2180(const char*);
+    ~String2180();
+};
+
+struct Setting2180
+{
+};
+
+struct Provider2180
+{
+    virtual void s0();
+    virtual void s1();
+    virtual void s2();
+    virtual void s3();
+    virtual void s4();
+    virtual void s5();
+    virtual void s6();
+    virtual void s7();
+    virtual void s8();
+    virtual void s9();
+    virtual void s10();
+    virtual void s11();
+    virtual void s12();
+    virtual void s13();
+    virtual void s14();
+    virtual void s15();
+    virtual void s16();
+    virtual void s17();
+    virtual void s18();
+    virtual void s19();
+    virtual void s20();
+    virtual void s21();
+    virtual void s22();
+    virtual void s23();
+    virtual void s24();
+    virtual void s25();
+    virtual void s26();
+    virtual void s27();
+    virtual void s28();
+    virtual void s29();
+    virtual void s30();
+    virtual void s31();
+    virtual void s32();
+    virtual void s33();
+    virtual void s34();
+    virtual void s35();
+    virtual void s36();
+    virtual void s37();
+    virtual void s38();
+    virtual void s39();
+    virtual void s40();
+    virtual void s41();
+    virtual void s42();
+    virtual void s43();
+    virtual void s44();
+    virtual void s45();
+    virtual void s46();
+    virtual void s47();
+    virtual void s48();
+    virtual void s49();
+    virtual void s50();
+    virtual void s51();
+    virtual void s52();
+    virtual void s53();
+    virtual void s54();
+    virtual void s55();
+    virtual void s56();
+    virtual void s57();
+    virtual void s58();
+    virtual void s59();
+    virtual void s60();
+    virtual void s61();
+    virtual void s62();
+    virtual void s63();
+    virtual float get();
+};
+
+struct FUN_00a712f0
+{
+    int bytes[0x114 / 4];
+    FUN_00a712f0();
+};
+
+struct Target2180
+{
+    FUN_00a712f0* FUN_007c2180();
+};
+
+// @fnv 0x007c2180
+FUN_00a712f0* Target2180::FUN_007c2180()
+{
+    FUN_00a712f0* camera5 = new FUN_00a712f0;
+    Rect2180 rect(0.0f, 1.0f, 1.0f, 0.0f);
+    reinterpret_cast<::_Cam_00712e60 *>((camera5))->FUN_00712e60((const ::_Rect16_00712e60 &)(rect));
+    Frustum2180 frustum5(false);
+    frustum5.farz = ((::Provider2180 *)(::FUN_0045c670()))->get();
+    frustum5.nearz = *((float *)&(::FUN_00403e20((float *)(((Setting2180*)&(*reinterpret_cast<char *>(&::g_01203144)))))));
+    reinterpret_cast<::FUN_00507700_cls *>((camera5))->FUN_00507700(frustum5.farz / frustum5.nearz);
+    float ratio3 = (double)(*(unsigned char*)&(*reinterpret_cast<char *>(&::DAT_011f9426)) ? *(int*)&(*reinterpret_cast<char *>(&::DAT_011f9434)) : FUN_004dc200()) / ((int)(::FUN_004dc1f0()));
+    float nearz = *(float*)&(*reinterpret_cast<char *>(&::DAT_01016264));
+    float angle = *((float *)&(::FUN_00403e20((float *)(((Setting2180*)&(*reinterpret_cast<char *>(&::g_01203150))))))) * *(double*)&(*reinterpret_cast<char *>((void *)&::DAT_01023128)) * *(double*)&DAT_01070c80;
+    frustum5.left = -FUN_0057dd70(angle) * nearz;
+    frustum5.right = FUN_0057dd70(angle) * nearz;
+    frustum5.bottom = -FUN_0057dd70(angle) * ratio3 * nearz;
+    frustum5.top = FUN_0057dd70(angle) * ratio3 * nearz;
+    frustum5.ortho = false;
+    reinterpret_cast<::NiCamera *>((camera5))->UpdateViewFrustum((const ::NiFrustum &)(frustum5));
+    reinterpret_cast<::CamLook *>((camera5))->SetLookAt((const ::CamPoint &)((const ::Point2180 &)(Point2180(0.0f, 0.0f, 1.0f))), (const ::CamPoint &)((const ::Point2180 &)(Point2180(0.0f, 0.0f, 1.0f))));
+    reinterpret_cast<::FUN_00733fd0_shell *>((camera5))->FUN_00733fd0(1.0f);
+    Update2180 update2;
+    new ((void *)&(update2)) ::NiUpdateData(0.0f, false, false);
+    reinterpret_cast<::FUN_00a59c60_cls *>((camera5))->FUN_00a59c60((std::intptr_t)&(update2));
+    ::AssignFixedString((char *)(camera5), 0, (char **)&(const ::String2180 &)(String2180(&DAT_01070c70)));
+    return camera5;
+}
+
+struct UpdateObject;
+
+struct UpdateList
+{
+    void* vtable;
+    void* buffer;
+    unsigned size;
+    unsigned capacity;
+};
+
+struct LocalNodePtr
+{
+    UpdateObject* root;
+    LocalNodePtr(UpdateObject*);
+    ~LocalNodePtr();
+};
+
+struct NodeRecord
+{
+    unsigned first;
+    unsigned second;
+    unsigned third;
+    unsigned fourth;
+    unsigned fifth;
+    unsigned sixth;
+    unsigned seventh;
+    unsigned eighth;
+};
+
+struct UpdatePacket
+{
+    NodeRecord records[4];
+    void* identity;
+    unsigned region;
+    float weight;
+    void* flags;
+    unsigned sex;
+    UpdateList primary;
+    UpdateList secondary;
+    UpdateList names;
+    UpdateList nodes;
+    bool enabled;
+    bool dirty;
+    unsigned short unknownD6;
+    unsigned unknownD8;
+    unsigned unknownDC;
+    unsigned unknownE0;
+    unsigned tailE4;
+    unsigned tailE8;
+    UpdatePacket();
+    ~UpdatePacket();
+};
+
+struct UpdateObject
+{
+    virtual void slot000();
+    virtual void slot001();
+    virtual void slot002();
+    virtual UpdateObject* GetList();
+    virtual void slot004();
+    virtual void slot005();
+    virtual void slot006();
+    virtual UpdateObject* GetNode();
+    virtual void slot008();
+    virtual void slot009();
+    virtual void slot010();
+    virtual void slot011();
+    virtual void slot012();
+    virtual void slot013();
+    virtual void slot014();
+    virtual void slot015();
+    virtual void slot016();
+    virtual void slot017();
+    virtual void slot018();
+    virtual void slot019();
+    virtual void slot020();
+    virtual void slot021();
+    virtual void slot022();
+    virtual void slot023();
+    virtual void slot024();
+    virtual void slot025();
+    virtual void slot026();
+    virtual void slot027();
+    virtual void slot028();
+    virtual void slot029();
+    virtual void slot030();
+    virtual void slot031();
+    virtual void slot032();
+    virtual void slot033();
+    virtual void slot034();
+    virtual void slot035();
+    virtual void slot036();
+    virtual void slot037();
+    virtual void slot038();
+    virtual void slot039();
+    virtual void slot040();
+    virtual void slot041();
+    virtual void slot042();
+    virtual void slot043();
+    virtual void slot044();
+    virtual void slot045();
+    virtual void slot046();
+    virtual void slot047();
+    virtual void slot048();
+    virtual void slot049();
+    virtual void slot050();
+    virtual void slot051();
+    virtual void slot052();
+    virtual void slot053();
+    virtual void slot054();
+    virtual void slot055();
+    virtual void slot056();
+    virtual void slot057();
+    virtual void slot058();
+    virtual void slot059();
+    virtual void slot060();
+    virtual void slot061();
+    virtual void slot062();
+    virtual void slot063();
+    virtual void slot064();
+    virtual void slot065();
+    virtual void slot066();
+    virtual void slot067();
+    virtual void slot068();
+    virtual void slot069();
+    virtual void slot070();
+    virtual void slot071();
+    virtual bool IsReady();
+    virtual void SetReady(bool);
+    virtual void slot074();
+    virtual void slot075();
+    virtual void slot076();
+    virtual void slot077();
+    virtual void slot078();
+    virtual void slot079();
+    virtual void slot080();
+    virtual void slot081();
+    virtual void slot082();
+    virtual void slot083();
+    virtual void slot084();
+    virtual void slot085();
+    virtual void slot086();
+    virtual void slot087();
+    virtual void slot088();
+    virtual void slot089();
+    virtual void slot090();
+    virtual void slot091();
+    virtual void slot092();
+    virtual void slot093();
+    virtual void slot094();
+    virtual void slot095();
+    virtual void slot096();
+    virtual void slot097();
+    virtual void slot098();
+    virtual void slot099();
+    virtual void slot100();
+    virtual void slot101();
+    virtual void slot102();
+    virtual void slot103();
+    virtual void slot104();
+    virtual void slot105();
+    virtual void slot106();
+    virtual void slot107();
+    virtual void slot108();
+    virtual UpdateObject* GetRenderNode(int);
+    virtual void slot110();
+    virtual void slot111();
+    virtual void slot112();
+    virtual void slot113();
+    virtual void slot114();
+    virtual void slot115();
+    virtual UpdateObject* GetRoot();
+    const char* FUN_0043b1b0();
+    bool FUN_008256d0();
+};
+
+struct NodePointer
+{
+    UpdateObject* root;
+    NodePointer& FUN_0066b0d0(UpdateObject*);
+};
+
+struct RefList
+{
+    UpdateObject* item;
+    RefList* next;
+};
+
+struct UpdateOwner
+{
+    unsigned unknown000;
+    unsigned unknown004;
+    unsigned unknown008;
+    unsigned unknown00C;
+    unsigned unknown010;
+    unsigned unknown014;
+    unsigned unknown018;
+    unsigned unknown01C;
+    unsigned unknown020;
+    unsigned unknown024;
+    unsigned unknown028;
+    unsigned unknown02C;
+    unsigned unknown030;
+    unsigned unknown034;
+    unsigned unknown038;
+    unsigned unknown03C;
+    unsigned unknown040;
+    unsigned unknown044;
+    unsigned unknown048;
+    unsigned unknown04C;
+    unsigned unknown050;
+    unsigned unknown054;
+    unsigned unknown058;
+    unsigned unknown05C;
+    unsigned unknown060;
+    unsigned unknown064;
+    unsigned unknown068;
+    unsigned unknown06C;
+    unsigned unknown070;
+    unsigned unknown074;
+    unsigned unknown078;
+    unsigned unknown07C;
+    unsigned unknown080;
+    unsigned unknown084;
+    unsigned unknown088;
+    unsigned unknown08C;
+    unsigned unknown090;
+    unsigned unknown094;
+    unsigned unknown098;
+    unsigned unknown09C;
+    unsigned unknown0A0;
+    unsigned unknown0A4;
+    unsigned unknown0A8;
+    unsigned unknown0AC;
+    unsigned unknown0B0;
+    unsigned unknown0B4;
+    unsigned unknown0B8;
+    unsigned unknown0BC;
+    unsigned unknown0C0;
+    unsigned unknown0C4;
+    unsigned unknown0C8;
+    unsigned unknown0CC;
+    unsigned unknown0D0;
+    unsigned unknown0D4;
+    unsigned unknown0D8;
+    unsigned unknown0DC;
+    unsigned unknown0E0;
+    unsigned unknown0E4;
+    unsigned unknown0E8;
+    unsigned unknown0EC;
+    unsigned unknown0F0;
+    unsigned unknown0F4;
+    unsigned unknown0F8;
+    unsigned unknown0FC;
+    unsigned unknown100;
+    unsigned unknown104;
+    unsigned unknown108;
+    RefList references;
+    unsigned unknown114;
+    unsigned unknown118;
+    unsigned unknown11C;
+    unsigned unknown120;
+    unsigned unknown124;
+    unsigned unknown128;
+    unsigned unknown12C;
+    unsigned unknown130;
+    unsigned unknown134;
+    unsigned unknown138;
+    unsigned unknown13C;
+    unsigned unknown140;
+    unsigned unknown144;
+    unsigned unknown148;
+    unsigned unknown14C;
+    unsigned unknown150;
+    unsigned unknown154;
+    unsigned unknown158;
+    unsigned unknown15C;
+    unsigned unknown160;
+    unsigned unknown164;
+    unsigned unknown168;
+    unsigned unknown16C;
+    unsigned unknown170;
+    unsigned unknown174;
+    unsigned unknown178;
+    unsigned unknown17C;
+    unsigned unknown180;
+    unsigned unknown184;
+    unsigned unknown188;
+    unsigned unknown18C;
+    unsigned unknown190;
+    unsigned unknown194;
+    unsigned unknown198;
+    unsigned unknown19C;
+    unsigned unknown1A0;
+    unsigned unknown1A4;
+    unsigned unknown1A8;
+    unsigned unknown1AC;
+    unsigned unknown1B0;
+    unsigned unknown1B4;
+    unsigned unknown1B8;
+    unsigned unknown1BC;
+    unsigned unknown1C0;
+    NodePointer previous;
+    NodePointer current;
+    unsigned FUN_005f0cc0();
+    void FUN_00603ad0(UpdatePacket&);
+    void FUN_006056f0(UpdateObject* object);
+};
+
+extern unsigned DAT_0101f5f8;
+
+// @fnv 0x006056f0
+void UpdateOwner::FUN_006056f0(UpdateObject* object)
+{
+    if (!object || !::IsSettingEnabled())
+        return;
+    UpdateObject* rootNode = object->GetRoot();
+    unsigned entry = 0;
+    UpdateObject* currentNode = current.FUN_0066b0d0(object->GetRenderNode(0)).root;
+    UpdateObject* found = ((::UpdateObject *)(::FUN_004aae30((::NiAVObject *)(rootNode), (::NiFixedString *)(::FUN_00605d40(0)))));
+    UpdateObject* node = found ? found->GetNode() : 0;
+    if (!node || !currentNode)
+        return;
+    UpdateObject* nested;
+    UpdateObject* list;
+    UpdateObject* root;
+    ::ItemA59D* count;
+    UpdateObject* key;
+    if (!currentNode->IsReady())
+    {
+        found = ((::UpdateObject *)(::FUN_004aae30((::NiAVObject *)(rootNode), (::NiFixedString *)(&DAT_0101f5f8))));
+        if (found)
+        {
+            nested = found->GetList();
+            if (nested)
+            {
+                found = ((::UpdateObject *)(reinterpret_cast<::S_FUN_0045bc00 *>((nested))->FUN_0045bc00(0)));
+                if (found)
+                {
+                    list = found->GetList();
+                    if (list)
+                    {
+                        entry = ((unsigned int)(reinterpret_cast<::FUN_00453470_shell *>((list))->FUN_00453470()));
+                        for (unsigned i = 0; i < entry; i++)
+                        {
+                            found = ((::UpdateObject *)(reinterpret_cast<::NiNode *>((list))->GetAt(i)));
+                            root = found ? found->GetNode() : 0;
+                            if (root)
+                            {
+                                count = reinterpret_cast<::FUN_00a59d30_C *>((root))->FUN_00a59d30(2);
+                                key = ((::UpdateObject *)(::FUN_00653270((const ::NiRTTI *)(void *)(&(*reinterpret_cast<unsigned int *>(&::g_011f4a5c))), (::NiObject *)(count))));
+                                if (key && !fnv::crt::strnicmp(((::UpdateObject *)(reinterpret_cast<::TESTopicInfoData *>((key))->GetLinkToList()))->FUN_0043b1b0(), &(*reinterpret_cast<char *>((void *)&::g_011d348c_arg1)), 4))
+                                {
+                                    if (::MatchGeometryVertices((::Geometry *)(root), (::Geometry *)(node), ::fnv_00c88020::DAT_01016248, true, 0))
+                                    {
+                                        currentNode->SetReady(true);
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    entry = ((unsigned int)(reinterpret_cast<::FUN_00453470_shell *>((nested))->FUN_00453470()));
+                    for (unsigned j = 0; j < entry; j++)
+                    {
+                        found = ((::UpdateObject *)(reinterpret_cast<::NiNode *>((nested))->GetAt(j)));
+                        root = found ? found->GetNode() : 0;
+                        if (root)
+                        {
+                            count = reinterpret_cast<::FUN_00a59d30_C *>((root))->FUN_00a59d30(2);
+                            key = ((::UpdateObject *)(::FUN_00653270((const ::NiRTTI *)(void *)(&(*reinterpret_cast<unsigned int *>(&::g_011f4a5c))), (::NiObject *)(count))));
+                            if (key && !fnv::crt::strnicmp(((::UpdateObject *)(reinterpret_cast<::TESTopicInfoData *>((key))->GetLinkToList()))->FUN_0043b1b0(), &(*reinterpret_cast<char *>((void *)&::g_011d348c_arg1)), 4))
+                            {
+                                if (::MatchGeometryVertices((::Geometry *)(root), (::Geometry *)(node), ::fnv_00c88020::DAT_01016248, true, 0))
+                                {
+                                    currentNode->SetReady(true);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    if (((::UpdateObject *)(reinterpret_cast<::Callees *>(&(references))->FUN_00726070())))
+    {
+        UpdatePacket packet;
+        packet.identity = reinterpret_cast<::TESNPC *>(this)->GetHair();
+        packet.weight = reinterpret_cast<::FUN_00602130_shell *>(this)->FUN_00602130();
+        packet.flags = reinterpret_cast<::MiddleHighProcess *>(this)->GetAnimation();
+        packet.sex = FUN_005f0cc0();
+        packet.region = reinterpret_cast<::FUN_004169d0_shell *>(this)->FUN_004169d0();
+        FUN_00603ad0(packet);
+        if (!packet.flags && ((::UpdateObject *)(reinterpret_cast<::FUN_00503650_shell *>((((::UpdateObject *)(reinterpret_cast<::Callees *>(&(references))->FUN_00726070()))))->FUN_00503650())) &&
+            !((::UpdateObject *)(reinterpret_cast<::FUN_00503650_shell *>((((::UpdateObject *)(reinterpret_cast<::Callees *>(&(references))->FUN_00726070()))))->FUN_00503650()))->FUN_008256d0())
+            packet.flags = reinterpret_cast<::BSSimpleList<void*>*>(((::UpdateObject *)(reinterpret_cast<::FUN_00503650_shell *>((((::UpdateObject *)(reinterpret_cast<::Callees *>(&(references))->FUN_00726070()))))->FUN_00503650())))->m_item;
+        for (unsigned k = 0; k < 8; k++)
+        {
+            ::TESModel* model = reinterpret_cast<::FUN_00613970_shell *>((((::UpdateObject *)(reinterpret_cast<::Callees *>(&(references))->FUN_00726070()))))->FUN_00613970(FUN_005f0cc0(), k);
+            reinterpret_cast<::S_0060ba10 *>(&(packet.primary))->FUN_0096a610((std::intptr_t)&(model));
+            ::TESTexture* texture = reinterpret_cast<::FUN_00613b20_shell *>((((::UpdateObject *)(reinterpret_cast<::Callees *>(&(references))->FUN_00726070()))))->GetBodyPartTexture(FUN_005f0cc0(), k);
+            reinterpret_cast<::S_0060ba10 *>(&(packet.secondary))->FUN_0096a610((std::intptr_t)&(texture));
+            reinterpret_cast<::Callees *>(&(references))->FUN_00726070();
+            void* name = ::FUN_00605d40(k);
+            reinterpret_cast<::S_0060ba10 *>(&(packet.names))->FUN_0096a610((std::intptr_t)&(name));
+            reinterpret_cast<::Callees *>(&(references))->FUN_00726070();
+            if (((bool)(::FUN_00605d50())))
+            {
+                LocalNodePtr ptr(0);
+                reinterpret_cast<::fnv_006044e0::FUN_006044e0_shell *>(this)->CreatePartTexture(k, (void *)&(ptr));
+                reinterpret_cast<::S_0060ba10 *>(&(packet.nodes))->FUN_0060ba10((std::intptr_t)&(ptr));
+            }
+        }
+        reinterpret_cast<::Callees *>(&(references))->FUN_00726070();
+        packet.enabled = ((bool)(::FUN_00605d50()));
+        ::fnv_00655fa0::ApplyFaceGenTextures((::fnv_00655fa0::NiAVObject *)(previous.root), (::fnv_00655fa0::FaceGenData *)&(packet));
+        ::fnv_00655fa0::ApplyFaceGenTextures((::fnv_00655fa0::NiAVObject *)(current.root), (::fnv_00655fa0::FaceGenData *)&(packet));
+    }
+}
+
 #include "generated/data/bsshader/shadowscenenode.inc"
+#include "generated/data/bsshader/shadowscenenode_od_variant.inc"
+#include "generated/data/bsshader/shadowscenenode_od_variant_ctxr_variant.inc"

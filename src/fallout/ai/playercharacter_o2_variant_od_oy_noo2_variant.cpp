@@ -5,6 +5,7 @@
 
 // src/fallout/ai/playercharacter_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/fallout/ai/playercharacter.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
+#include <cstdint>
 #include <new>
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -1677,7 +1678,7 @@ void Projectile::FUN_00960520(int a)
                 HkVec v;
                 reinterpret_cast<::bhkUnaryAction *>(&(v))->Set(reinterpret_cast<::bhkCharacterController *>(&(delta))->GetVectorElement(0), reinterpret_cast<::bhkCharacterController *>(&(delta))->GetVectorElement(1), reinterpret_cast<::bhkCharacterController *>(&(delta))->GetVectorElement(2), 0.0f);
                 reinterpret_cast<::V *>(&(v))->FUN_00553f70((*(const ::V *)(((void *)&(::fnv_00560d80::FUN_00560d80((void *)(bodyProc)))))));
-                reinterpret_cast<::S *>((bodyProc))->FUN_00561690((int)(&v));
+                reinterpret_cast<::S *>((bodyProc))->FUN_00561690((std::intptr_t)(&v));
             }
         }
     }

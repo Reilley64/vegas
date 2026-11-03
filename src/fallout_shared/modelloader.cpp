@@ -3053,11 +3053,11 @@ struct S_004a0e10
 {
     char pad[0x208];
     unsigned char f208;
-    bool FUN_004a0e10(int a, unsigned char b);
+    bool FUN_004a0e10(std::intptr_t a, unsigned char b);
 };
 // Returns false if FUN_004a0e50 fails; otherwise returns whether f208 equals b.
 // @fnv 0x004a0e10
-bool S_004a0e10::FUN_004a0e10(int aiUnused, unsigned char b)
+bool S_004a0e10::FUN_004a0e10(std::intptr_t aiUnused, unsigned char b)
 {
     if (!reinterpret_cast<::FUN_004a0e50_Class *>(this)->FUN_004a0e50())
         return false;
@@ -13641,11 +13641,11 @@ class FUN_00c3a8a0_cls
     int m_d8;
     int m_dc;
     int m_e0;
-    bool FUN_00c3a8a0(unsigned int, unsigned int);
+    bool FUN_00c3a8a0(std::uintptr_t, std::uintptr_t);
 };
 
 // @fnv 0x00c3a8a0
-bool FUN_00c3a8a0_cls::FUN_00c3a8a0(unsigned int a1, unsigned int a2)
+bool FUN_00c3a8a0_cls::FUN_00c3a8a0(std::uintptr_t a1, std::uintptr_t a2)
 {
     if (a2 == 0)
     {
@@ -18502,7 +18502,7 @@ void Ref3::FUN_005702e0(Obj3* replacement, bool warn)
         ::FUN_00c6bd00((::TreeNode_cls *)(replacement), true);
         reinterpret_cast<::FUN_00a5a040_Class *>((replacement))->FUN_00a5a040();
         Update3 update(0.0f, false, false);
-        reinterpret_cast<::FUN_00a59c60_cls *>((replacement))->FUN_00a59c60((int)&(update));
+        reinterpret_cast<::FUN_00a59c60_cls *>((replacement))->FUN_00a59c60((std::intptr_t)&(update));
     }
     if (replacement && base && base->Type() != 0x25)
         reinterpret_cast<::Dummy_0056c7d0 *>((replacement))->FUN_0056c7d0(this);
@@ -19021,7 +19021,7 @@ void C43::FUN_0043d180()
             {
                 Update43 update4;
                 new ((void *)&(update4)) ::NiUpdateData(0.0f, false, false);
-                reinterpret_cast<::FUN_00a59c60_cls *>((node2))->FUN_00a59c60((int)&(update4));
+                reinterpret_cast<::FUN_00a59c60_cls *>((node2))->FUN_00a59c60((std::intptr_t)&(update4));
                 float radius = reinterpret_cast<::Twin_0084d030 *>(&((*(::fnv_0043d180::Bound43 *)(reinterpret_cast<::FUN_0043d450_Owner *>((node2))->FUN_0043d450()))))->GetStoredFloatValue();
                 Vec43 vec3;
                 if (radius < 0.0010000000474974513)

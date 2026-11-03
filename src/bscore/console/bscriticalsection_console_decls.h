@@ -6,6 +6,13 @@ struct BSCriticalSectionEntry
     unsigned int key;
     unsigned int value;
 };
+// The entry of a map whose values are pointers.
+struct BSCriticalSectionPointerEntry
+{
+    BSCriticalSectionPointerEntry* next;
+    unsigned int key;
+    void* value;
+};
 class RecursiveLock
 {
   public:
@@ -14,4 +21,5 @@ class RecursiveLock
     unsigned int bucketCount;
     BSCriticalSectionEntry** buckets;
     void Unlock(BSCriticalSectionEntry** entry, unsigned int* key, unsigned int* value);
+    void Unlock(BSCriticalSectionEntry** entry, unsigned int* key, void** value);
 };

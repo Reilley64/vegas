@@ -5,6 +5,8 @@
 #include "fnv/symbols_01017000.h"
 #include "threadsafestructures_ThreadSafeStructuresMatch.h"
 
+template<> ThreadInterfaceManager<LockFreeQueue<bhkRigidBody*>::QueueDeleteManagerTag>::ThreadInterfaceManager(unsigned int maxThreads);
+
 template<>
 // @fnv 0x0044B350
 LockFreeQueue<NiPointer<QueuedReference> >::LockFreeQueue(unsigned int maxThreads, unsigned int deleteBatchSize)

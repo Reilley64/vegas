@@ -1,3 +1,4 @@
+#include <cstddef>
 // bsshader/beamshader.cpp: BeamPassShader, BloodSplatterBeamShader, DistantLODShader (6 functions)
 
 #include "fnv/decl/BSShaderRenderUtility.h"

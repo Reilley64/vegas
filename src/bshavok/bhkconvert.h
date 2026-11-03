@@ -12,7 +12,7 @@
 // @fnv 0x0056df80
 hkTransform& FromHK(hkTransform& out, const NiTransform& in)
 {
-    ::VisitAndFetchThree((::FetcherC *)&(*reinterpret_cast<hkRotation*>(&((::BGSPerkEntry *)(new ((void *)(reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(&out))) ::Vec3())))),
+    ::VisitAndFetchThree((::FetcherC *)(new ((void *)&out) ::Vec3()),
                        (::VisitorB *)&(in.rotation));
     hkVector4 position;
     new ((void *)(reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(&position))) ::Vec3();

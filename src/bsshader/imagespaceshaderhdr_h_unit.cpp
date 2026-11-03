@@ -1,3 +1,4 @@
+#include <cstddef>
 // bsshader/imagespaceshaderhdr_h_unit.cpp: Derived, StandIn, Candidate, Target and more (26 functions)
 
 #include <new>
@@ -7,18 +8,25 @@
 #include "fnv/symbols_010b3000.h"
 #include "imagespaceshaderhdr.h"
 
+struct ImageSpaceShaderVtables
+{
+    void* m_pVtable;
+    char pad04[0x6c - 4];
+    void* m_pSecondaryVtable;
+};
+
 struct H00b90150
 {
 };
-struct S00b90150
+struct S00b90150 : ImageSpaceShaderVtables
 {
     void* FUN_00b90150(unsigned int);
 };
 // @fnv 0x00b90150
 void* S00b90150::FUN_00b90150(unsigned int auiFlags)
 {
-    *(void**)this = (void*)&DAT_010b3598;
-    *(void**)((char*)this + 0x6c) = (void*)&DAT_010b3574;
+    m_pVtable = (void*)&DAT_010b3598;
+    m_pSecondaryVtable = (void*)&DAT_010b3574;
     reinterpret_cast<::FUN_00c03a20_cls *>((((H00b90150*)this)))->FUN_00c03a20_cls::~FUN_00c03a20_cls();
     if (auiFlags & 1)
         ::FUN_00aa1460(this, 0xd0);
@@ -30,15 +38,15 @@ extern int DAT_010B3934;
 struct Helper00c03a20
 {
 };
-struct StandIn00b904e0
+struct StandIn00b904e0 : ImageSpaceShaderVtables
 {
     void* DestroyImageSpaceShader(unsigned int);
 };
 // @fnv 0x00b904e0
 void* StandIn00b904e0::DestroyImageSpaceShader(unsigned int auiFlags)
 {
-    *(void**)this = (void*)&vftable_ImageSpaceShaderHDRBlendInShaderCinematicAlphamask;
-    *(void**)((char*)this + 0x6c) = (void*)&DAT_010B3934;
+    m_pVtable = (void*)&vftable_ImageSpaceShaderHDRBlendInShaderCinematicAlphamask;
+    m_pSecondaryVtable = (void*)&DAT_010B3934;
     reinterpret_cast<::FUN_00c03a20_cls *>((((Helper00c03a20*)this)))->FUN_00c03a20_cls::~FUN_00c03a20_cls();
     if (auiFlags & 1)
         ::FUN_00aa1460(this, 0xd0);
@@ -50,15 +58,15 @@ extern int DAT_010b3c58;
 struct Caller
 {
 };
-struct StandIn
+struct StandIn : ImageSpaceShaderVtables
 {
     void* FUN_00b907f0(unsigned int);
 };
 // @fnv 0x00b907f0
 void* StandIn::FUN_00b907f0(unsigned int auiFlags)
 {
-    *(void**)this = (void*)&DAT_010b3c58;
-    *(void**)((char*)this + 0x6c) = (void*)&vftable_ImageSpaceShaderHDRBrightPassFilter;
+    m_pVtable = (void*)&DAT_010b3c58;
+    m_pSecondaryVtable = (void*)&vftable_ImageSpaceShaderHDRBrightPassFilter;
     reinterpret_cast<::FUN_00c03a20_cls *>((((Caller*)this)))->FUN_00c03a20_cls::~FUN_00c03a20_cls();
     if (auiFlags & 1)
         ::FUN_00aa1460(this, 0xd0);
@@ -70,7 +78,7 @@ extern int DAT_010B42A4;
 struct C00c03a20
 {
 };
-struct S00b90e30
+struct S00b90e30 : ImageSpaceShaderVtables
 {
     void* DestroyImageSpaceShaderHDRLightAdapt(unsigned int);
 };
@@ -78,8 +86,8 @@ struct S00b90e30
 // @fnv 0x00b90e30
 void* S00b90e30::DestroyImageSpaceShaderHDRLightAdapt(unsigned int flags)
 {
-    *(void**)this = (void*)&vftable_ImageSpaceShaderHDRLightAdapt;
-    *(void**)((char*)this + 0x6c) = (void*)&DAT_010B42A4;
+    m_pVtable = (void*)&vftable_ImageSpaceShaderHDRLightAdapt;
+    m_pSecondaryVtable = (void*)&DAT_010B42A4;
     reinterpret_cast<::FUN_00c03a20_cls *>((((C00c03a20*)this)))->FUN_00c03a20_cls::~FUN_00c03a20_cls();
     if (flags & 1)
         ::FUN_00aa1460(this, 0xd0);
@@ -88,15 +96,15 @@ void* S00b90e30::DestroyImageSpaceShaderHDRLightAdapt(unsigned int flags)
 
 extern void* vftable_ImageSpaceShaderHDRDownSample16;
 extern void* DAT_010B3DF4;
-struct FUN_00b90980_shell
+struct FUN_00b90980_shell : ImageSpaceShaderVtables
 {
     void* DestroyImageSpaceShaderHDRDownSample16(unsigned int);
 };
 // @fnv 0x00b90980
 void* FUN_00b90980_shell::DestroyImageSpaceShaderHDRDownSample16(unsigned int auiFlags)
 {
-    *(void**)this = &vftable_ImageSpaceShaderHDRDownSample16;
-    *(void**)((char*)this + 0x6c) = &DAT_010B3DF4;
+    m_pVtable = &vftable_ImageSpaceShaderHDRDownSample16;
+    m_pSecondaryVtable = &DAT_010B3DF4;
     reinterpret_cast<::FUN_00c03a20_cls *>(this)->FUN_00c03a20_cls::~FUN_00c03a20_cls();
     if (auiFlags & 1)
         ::FUN_00aa1460(this, 0xd0);
@@ -105,7 +113,7 @@ void* FUN_00b90980_shell::DestroyImageSpaceShaderHDRDownSample16(unsigned int au
 
 extern int vftable_ImageSpaceShaderHDRDownSample16LightAdapt;
 extern int DAT_010B4914;
-struct Unk914
+struct Unk914 : ImageSpaceShaderVtables
 {
     void* FUN_00b914a0(unsigned int);
 };
@@ -113,8 +121,8 @@ struct Unk914
 // @fnv 0x00b914a0
 void* Unk914::FUN_00b914a0(unsigned int flags)
 {
-    *(void**)this = &vftable_ImageSpaceShaderHDRDownSample16LightAdapt;
-    *(void**)((char*)this + 0x6c) = &DAT_010B4914;
+    m_pVtable = &vftable_ImageSpaceShaderHDRDownSample16LightAdapt;
+    m_pSecondaryVtable = &DAT_010B4914;
     reinterpret_cast<::FUN_00c03a20_cls *>((this))->FUN_00c03a20_cls::~FUN_00c03a20_cls();
     if (flags & 1)
         ::FUN_00aa1460(this, 0xd0);
@@ -125,7 +133,7 @@ void __cdecl FUN_00c03a20(void);
 extern int vftable_ImageSpaceShaderHDRDownSample9;
 extern int vftable_ImageSpaceShaderHDRDownSample9_2;
 
-struct FUN_00b90b10_shell
+struct FUN_00b90b10_shell : ImageSpaceShaderVtables
 {
     void* DestroyImageSpaceShaderHDRDownSample9(unsigned int flags);
 };
@@ -133,8 +141,8 @@ struct FUN_00b90b10_shell
 // @fnv 0x00b90b10
 void* FUN_00b90b10_shell::DestroyImageSpaceShaderHDRDownSample9(unsigned int flags)
 {
-    *(int*)this = (int)&vftable_ImageSpaceShaderHDRDownSample9;
-    *(int*)((char*)this + 0x6c) = (int)&vftable_ImageSpaceShaderHDRDownSample9_2;
+    m_pVtable = &vftable_ImageSpaceShaderHDRDownSample9;
+    m_pSecondaryVtable = &vftable_ImageSpaceShaderHDRDownSample9_2;
     FUN_00c03a20();
     if (flags & 1)
         ::FUN_00aa1460(this, 0xd0);

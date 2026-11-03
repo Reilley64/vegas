@@ -19,5 +19,5 @@ int DAT_011ffa28;
 namespace fnv_00b988e0 { ::fnv_00b988e0::EventHandler *DAT_011ffe2c; }
 unsigned int DAT_011ffe30;
 char DAT_011ffe35;
-int DAT_011ffe38;
+void *DAT_011ffe38;
 unsigned int DAT_0126f680[16];

@@ -3343,7 +3343,7 @@ void Worker53::FUN_0053a090(bool update, int unused) {
  }
  }
  Update53 data; new ((void *)&(data)) ::NiUpdateData(0.0f,false,false);
- reinterpret_cast<::FUN_00a59c60_cls *>((node))->FUN_00a59c60((int)&(data));
+ reinterpret_cast<::FUN_00a59c60_cls *>((node))->FUN_00a59c60((std::intptr_t)&(data));
  if(update) reinterpret_cast<::FUN_00a5a040_Class *>((node))->FUN_00a5a040();
  }
  }
@@ -4140,7 +4140,7 @@ void HostMesh53::FUN_0053fa40(bool show) {
  root_->Attach(((::fnv_0053fa40::N53 *)(::FUN_00559450((int *)&(data->mesh)))),true);
  reinterpret_cast<::FUN_00a5a040_Class *>((((::fnv_0053fa40::N53 *)(::FUN_00559450((int *)&(data->mesh))))))->FUN_00a5a040();
  U53 update5(0.0f,false,false);
- reinterpret_cast<::FUN_00a59c60_cls *>((((::fnv_0053fa40::N53 *)(::FUN_00559450((int *)&(data->mesh))))))->FUN_00a59c60((int)&(update5));
+ reinterpret_cast<::FUN_00a59c60_cls *>((((::fnv_0053fa40::N53 *)(::FUN_00559450((int *)&(data->mesh))))))->FUN_00a59c60((std::intptr_t)&(update5));
 }
 }  // namespace fnv_0053fa40
 
@@ -5222,7 +5222,7 @@ if (!data->nodes) {
   if(data->nodes[index]) {
    reinterpret_cast<::TaskQueueInterface *>((data->nodes[index]))->QueueActorDisarm(savedA[index]);
    UpdateData update(0.0f,false,false);
-   reinterpret_cast<::FUN_00a59c60_cls *>((data->nodes[index]))->FUN_00a59c60((int)&(update));
+   reinterpret_cast<::FUN_00a59c60_cls *>((data->nodes[index]))->FUN_00a59c60((std::intptr_t)&(update));
    reinterpret_cast<::FUN_00a5a040_Class *>((data->nodes[index]))->FUN_00a5a040();
   }
  }

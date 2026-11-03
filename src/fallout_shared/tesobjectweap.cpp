@@ -1,5 +1,6 @@
 // fallout_shared/tesobjectweap.cpp: TESObjectWEAP, TransHolder, Weapon, WeaponCopyAccess and more (72 functions)
 
+#include <cstdint>
 #include <new>
 #include <cstring>
 #include "fnv/decl/AmmoOwner.h"
@@ -3863,7 +3864,7 @@ void FireWeapon::FUN_00523150(FireRef* reference) {
        root->attach(marker,true);
        reinterpret_cast<::FUN_00a5a040_Class *>((((FireNode*)marker)))->FUN_00a5a040();
        FireUpdate update(0,false,false);
-       reinterpret_cast<::FUN_00a59c60_cls *>((((FireNode*)marker)))->FUN_00a59c60((int)&(update));
+       reinterpret_cast<::FUN_00a59c60_cls *>((((FireNode*)marker)))->FUN_00a59c60((std::intptr_t)&(update));
       }
      }
     }
@@ -3902,7 +3903,7 @@ void FireWeapon::FUN_00523150(FireRef* reference) {
       cellNode->attach(cellMarker31,true);
       reinterpret_cast<::FUN_00a5a040_Class *>((((FireNode*)cellMarker31)))->FUN_00a5a040();
       FireUpdate cellUpdate73(0,false,false);
-      reinterpret_cast<::FUN_00a59c60_cls *>((((FireNode*)cellMarker31)))->FUN_00a59c60((int)&(cellUpdate73));
+      reinterpret_cast<::FUN_00a59c60_cls *>((((FireNode*)cellMarker31)))->FUN_00a59c60((std::intptr_t)&(cellUpdate73));
      }
     }
    } else if (process39 && process39->package() && reinterpret_cast<struct ::FUN_0041ca90 *>((process39->package()))->get()==16) {

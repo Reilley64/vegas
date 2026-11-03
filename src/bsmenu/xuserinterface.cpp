@@ -6,6 +6,7 @@
 #include "fnv/decl/FUN_00711e00_StandIn.h"
 #include "fnv/decl/FUN_00877720_shell.h"
 #include "fnv/decl/MagicCaster_shell.h"
+#include "OSGlobals.h"
 #include "fnv/decl/MouseInputStandIn.h"
 #include "fnv/decl/StartMenu.h"
 #include "fnv/symbols_00446000.h"
@@ -32,10 +33,6 @@ struct SettingStr
 };
 
 struct Controls
-{
-};
-
-struct OSGlobals
 {
 };
 
@@ -95,7 +92,7 @@ int FUN_0086a580(const char* text, const char* caption, unsigned int flags)
             {
                 if (!FUN_00446e10() || !FUN_004dc1e0())
                 {
-                    if (::g_osGlobals && GetCurrentThreadId() != ((unsigned int)(reinterpret_cast<::MagicCaster_shell *>((::g_osGlobals))->FUN_0044edb0())) &&
+                    if (::g_osGlobals && GetCurrentThreadId() != ::g_osGlobals->mainThreadID &&
                         reinterpret_cast<::FUN_00877720_shell *>((::g_osGlobals))->FUN_00877720() && !((int)(reinterpret_cast<::FUN_00711e00_StandIn *>((reinterpret_cast<::FUN_00877720_shell *>((::g_osGlobals))->FUN_00877720()))->FUN_00711e00())))
                     {
                         reinterpret_cast<::MouseInputStandIn *>((reinterpret_cast<::FUN_00877720_shell *>((::g_osGlobals))->FUN_00877720()))->RecreateDevice(1);
@@ -122,7 +119,7 @@ int FUN_0086a580(const char* text, const char* caption, unsigned int flags)
         {
             if (!FUN_00446e10() || !FUN_004dc1e0())
             {
-                if (::g_osGlobals && GetCurrentThreadId() != ((unsigned int)(reinterpret_cast<::MagicCaster_shell *>((::g_osGlobals))->FUN_0044edb0())) &&
+                if (::g_osGlobals && GetCurrentThreadId() != ::g_osGlobals->mainThreadID &&
                     reinterpret_cast<::FUN_00877720_shell *>((::g_osGlobals))->FUN_00877720() && !((int)(reinterpret_cast<::FUN_00711e00_StandIn *>((reinterpret_cast<::FUN_00877720_shell *>((::g_osGlobals))->FUN_00877720()))->FUN_00711e00())))
                 {
                     reinterpret_cast<::MouseInputStandIn *>((reinterpret_cast<::FUN_00877720_shell *>((::g_osGlobals))->FUN_00877720()))->RecreateDevice(1);

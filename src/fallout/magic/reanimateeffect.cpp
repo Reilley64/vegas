@@ -2,6 +2,7 @@
 // src/fallout/magic/reanimateeffect.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/reanimateeffect.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/decl/ActiveEffectLoader.h"
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/BSShaderNoLightingProperty.h"
@@ -1911,7 +1912,7 @@ void Reanimation::StartReanimation()
                 {
                     body = ((::RBodyAccess *)(::fnv_006fa820::FUN_006fa820((const char *)(collision))));
                     body->SetMotion(4);
-                    reinterpret_cast<::QueryOwner *>((body))->FUN_00560bc0((int)&(position));
+                    reinterpret_cast<::QueryOwner *>((body))->FUN_00560bc0((std::intptr_t)&(position));
                     reinterpret_cast<::S00560c20_Object *>((body))->FUN_00560c20((::S00560c20_Target *)&(rotation));
                 }
             }

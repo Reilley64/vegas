@@ -2,6 +2,7 @@
 // src/staging/blk_00b60000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstdint>
 #include <new>
 #include <cstddef>
 #include <windows.h>
@@ -621,7 +622,7 @@ void FUN_00b66520_class::ApplyRenderMode()
 
 bool FUN_00b70270(void*);
 // @fnv 0x00b665c0
-char FUN_00b665c0(int a)
+char FUN_00b665c0(std::intptr_t a)
 {
     FUN_00b70270((void*)a);
     return 0;
@@ -699,7 +700,7 @@ struct FUN_00b7b930_Ctx
 
 // If the entry is enabled, the target is valid and the context value is nonzero, writes a world or identity-offset matrix into DAT_011fd968.
 // @fnv 0x00b7b930
-void UpdateWorldMatrix(FUN_00b7b930_Arg* pkArg, int iIdentity, const FUN_00b7b930_Transform* pkWorld)
+void UpdateWorldMatrix(FUN_00b7b930_Arg* pkArg, const void* iIdentity, const FUN_00b7b930_Transform* pkWorld)
 {
     if (!(*reinterpret_cast<::FUN_00b7b930_Entry * *>(&::DAT_011febe4))->bEnabled)
         return;
@@ -3715,11 +3716,11 @@ struct CpuObject
     unsigned int unk9c;
     unsigned int unka0;
     unsigned int unka4;
-    int value;
-    int FUN_00b6d120();
+    void* value;
+    void* FUN_00b6d120();
 };
 // @fnv 0x00b6d120
-int CpuObject::FUN_00b6d120()
+void* CpuObject::FUN_00b6d120()
 {
     return value;
 }
@@ -3892,12 +3893,12 @@ struct RTManager_b6d170
     int unkA0;
     int unkA4;
     void* unkA8;
-    RenderTarget_b6d170* CreateRenderTarget(int a1, unsigned int width, unsigned int height, int a4, int a5,
+    RenderTarget_b6d170* CreateRenderTarget(std::intptr_t a1, unsigned int width, unsigned int height, int a4, int a5,
                                             unsigned int flags, int a7, int msaaType, int a9, int a10);
 };
 
 // @fnv 0x00b6d170
-RenderTarget_b6d170* RTManager_b6d170::CreateRenderTarget(int aiUnused, unsigned int width, unsigned int height, int a4,
+RenderTarget_b6d170* RTManager_b6d170::CreateRenderTarget(std::intptr_t aiUnused, unsigned int width, unsigned int height, int a4,
                                                           int aiUnused2, unsigned int flags, int aiUnused3,
                                                           int msaaType, int a9, int a10)
 {
@@ -7353,10 +7354,10 @@ extern V4 DAT_011ad850;
 // @fnv 0x00b7a870
 void __cdecl FUN_00b7a870(unsigned int uiStageId)
 {
-    MyContext* p1 = ((::MyContext *)(::FUN_00b55560((void *)(1))));
-    MyContext* pContext14 = ((::MyContext *)(::FUN_00b55560((void *)(14))));
-    MyContext* pContext15 = ((::MyContext *)(::FUN_00b55560((void *)(15))));
-    MyContext* pContext13 = ((::MyContext *)(::FUN_00b55560((void *)(13))));
+    MyContext* p1 = ((::MyContext *)(::FUN_00b55560(1)));
+    MyContext* pContext14 = ((::MyContext *)(::FUN_00b55560(14)));
+    MyContext* pContext15 = ((::MyContext *)(::FUN_00b55560(15)));
+    MyContext* pContext13 = ((::MyContext *)(::FUN_00b55560(13)));
 
     if (uiStageId - 0x24e <= 3)
     {
@@ -7974,7 +7975,7 @@ struct CopyObject : CopyBase
     RefCopy* f140;
     RefCopy* f144;
     RefCopy* f148;
-    void FUN_00b6a6c0(CopyObject* dst, int arg);
+    void FUN_00b6a6c0(CopyObject* dst, std::intptr_t arg);
 };
 static __forceinline void AssignRef(RefCopy*& dst, RefCopy* const& src)
 {
@@ -8023,7 +8024,7 @@ static __forceinline void AppendCopy(CopyList* dest, void* const& value, unsigne
 }
 // Copies base fields and a fixed set of member values into dst, reassigns the reference-counted pointers, and deep-copies the list into dst->list.
 // @fnv 0x00b6a6c0
-void CopyObject::FUN_00b6a6c0(CopyObject* dst, int arg)
+void CopyObject::FUN_00b6a6c0(CopyObject* dst, std::intptr_t arg)
 {
     ::FUN_00ba8b10((::BSSP_stub4 *)this, (int)(dst), (::BSSP_stub4 *)(arg), {});
     AssignRef(dst->f148, f148);
@@ -10437,7 +10438,7 @@ bool __cdecl ProcessCommands(RSSettings* pSettings, void* pRef, void* pUnused, R
                     }
                     else
                     {
-                        RSEffect* pEffect = ((::RSEffect *)(::FUN_00b55560((void *)(1))));
+                        RSEffect* pEffect = ((::RSEffect *)(::FUN_00b55560(1)));
                         ::FUN_00b7a870(pCmd->m_usId);
                         if (pEffect)
                         {
@@ -10610,12 +10611,12 @@ struct Pool
         ::GetRenderTargetDesc((::RenderConfigSurface *)this, a, (unsigned int *)(type), &props.width, &props.height, &props.format, &props.unused, &props.flags);
         return ((::RefObj *)(reinterpret_cast<::RenderTargetManager *>(this)->FUN_00b6d5e0((::NiRenderer *)(a), props.width, props.height, props.flags | flags, props.format, props.unused, type, p5, 0, e)));
     }
-    RefObj* FUN_00b6e110(unsigned int a, unsigned int type, unsigned int flags, unsigned int noReuse, unsigned int e);
+    RefObj* FUN_00b6e110(std::uintptr_t a, unsigned int type, unsigned int flags, unsigned int noReuse, unsigned int e);
 };
 
 // With noReuse 0, returns the head of the type's list (adding it to its set) or else CreateNew's result; with noReuse nonzero, returns 0.
 // @fnv 0x00b6e110
-RefObj* Pool::FUN_00b6e110(unsigned int a, unsigned int type, unsigned int flags, unsigned int noReuse, unsigned int e)
+RefObj* Pool::FUN_00b6e110(std::uintptr_t a, unsigned int type, unsigned int flags, unsigned int noReuse, unsigned int e)
 {
     if (noReuse == 0)
     {

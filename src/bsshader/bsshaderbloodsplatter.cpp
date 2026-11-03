@@ -1,3 +1,5 @@
+#include <cstdint>
+#include <cstddef>
 // bsshader/bsshaderbloodsplatter.cpp: BSShaderBloodSplatter, BloodShader (17 functions)
 
 #include <windows.h>
@@ -75,6 +77,7 @@ BSShaderBloodSplatter::BSShaderBloodSplatter() : BSShader()
 }
 
 #include "bsshaderbloodsplatter_decls.h"
+#include "fnv/decl/FUN_0068ab80_class.h"
 
 // Configures two NiD3DPass objects with two texture stages each, render states, vertex and pixel shaders, and returns true.
 // @fnv 0x00b807d0
@@ -132,31 +135,31 @@ void BSShaderBloodSplatter::InitializeShaderData()
     SplatterShaderInfo vertex;
     vertex.file = "BloodSplatter\\BloodSplatter.v.hlsl";
     vertex.macros[0].Name = 0;
-    std::memset(&vertex.macros[0].Definition, 0, 68);
+    std::memset(&vertex.macros[0].Definition, 0, 17 * sizeof(const char*));
     SplatterShaderInfo pixel;
     pixel.file = "BloodSplatter\\BloodSplatter.p.hlsl";
     pixel.macros[0].Name = 0;
-    std::memset(&pixel.macros[0].Definition, 0, 68);
+    std::memset(&pixel.macros[0].Definition, 0, 17 * sizeof(const char*));
     SplatterShaderInfo flareVertexShader;
     flareVertexShader.file = "BloodSplatter\\BloodSplatter.v.hlsl";
     flareVertexShader.macros[0].Name = "FLARE";
     flareVertexShader.macros[0].Definition = "";
     flareVertexShader.macros[1].Name = 0;
-    std::memset(&flareVertexShader.macros[1].Definition, 0, 60);
+    std::memset(&flareVertexShader.macros[1].Definition, 0, 15 * sizeof(const char*));
     SplatterShaderInfo flarePixelShader;
     flarePixelShader.file = "BloodSplatter\\BloodSplatter.p.hlsl";
     flarePixelShader.macros[0].Name = "FLARE";
     flarePixelShader.macros[0].Definition = "";
     flarePixelShader.macros[1].Name = 0;
-    std::memset(&flarePixelShader.macros[1].Definition, 0, 60);
+    std::memset(&flarePixelShader.macros[1].Definition, 0, 15 * sizeof(const char*));
     char shaderPath[260];
     char outputFile[260];
     ::FUN_00be0c00(vertex.file, shaderPath);
     ::FUN_00406d00(outputFile, 260, "BS.vso");
-    m_spTreeVertexShader[0] = ((::NiD3DVertexShader *)(::fnv_00be0fe0::FUN_00be0fe0((const char *)this, (::_D3DXMACRO *)(shaderPath), (const char *)(vertex.macros), "vs_1_1")));
+    m_spTreeVertexShader[0] = ((::NiD3DVertexShader *)(::fnv_00be0fe0::FUN_00be0fe0(shaderPath, (::_D3DXMACRO *)(vertex.macros), "vs_1_1", outputFile)));
     ::FUN_00be0c00(flareVertexShader.file, shaderPath);
     ::FUN_00406d00(outputFile, 260, "BSF.vso");
-    m_spTreeVertexShader[1] = ((::NiD3DVertexShader *)(::fnv_00be0fe0::FUN_00be0fe0((const char *)this, (::_D3DXMACRO *)(shaderPath), (const char *)(flareVertexShader.macros), "vs_1_1")));
+    m_spTreeVertexShader[1] = ((::NiD3DVertexShader *)(::fnv_00be0fe0::FUN_00be0fe0(shaderPath, (::_D3DXMACRO *)(flareVertexShader.macros), "vs_1_1", outputFile)));
     ::FUN_00be0c00(pixel.file, shaderPath);
     ::FUN_00406d00(outputFile, 260, "BS.pso");
     m_spPixelShaderVariants[0] = reinterpret_cast<::FUN_00be1750_shell *>(this)->FUN_00be1750((char *)(shaderPath), (void *)(pixel.macros), (char *)("ps_2_a"), (char *)(outputFile));
@@ -185,11 +188,17 @@ void BSShaderBloodSplatter::FUN_00b805d0(unsigned int pass)
     }
 }
 
-// Assigns value to the NiRefObject pointer at offset 0x44, releasing the old reference and incrementing the new one's ref count.
+struct RefSlotView_b80600
+{
+    char pad00[0x44];
+    NiRefObject* m_pObject44;
+};
+
+// Assigns value to the NiRefObject pointer slot m_pObject44, releasing the old reference and incrementing the new one's ref count.
 // @fnv 0x00b80600
 void BSShaderBloodSplatter::FUN_00b80600(NiRefObject* value)
 {
-    NiRefObject** ppSlot = reinterpret_cast<NiRefObject**>(reinterpret_cast<char*>(this) + 0x44);
+    NiRefObject** ppSlot = &reinterpret_cast<RefSlotView_b80600*>(this)->m_pObject44;
     NiRefObject* old = *ppSlot;
     if (old != value)
     {
@@ -203,13 +212,13 @@ void BSShaderBloodSplatter::FUN_00b80600(NiRefObject* value)
 
 struct FUN_00b807c0_shell
 {
-    int FUN_00b807c0(void* a, void* b);
+    void* FUN_00b807c0(void* a, void* b);
 };
 
 // @fnv 0x00b807c0
-int FUN_00b807c0_shell::FUN_00b807c0(void* a, void* b)
+void* FUN_00b807c0_shell::FUN_00b807c0(void* a, void* b)
 {
-    return *reinterpret_cast<int*>(reinterpret_cast<unsigned char*>(this) + 0x28);
+    return reinterpret_cast<BSShaderBloodSplatter*>(this)->m_spShaderDeclaration.m_pObject;
 }
 
 
@@ -223,12 +232,12 @@ struct FUN_00b80380_shell
 {
     void FUN_00b80380();
 };
-// Calls the virtual function at vtable slot 74 on this for each of the two pointers stored at this+0x6c and this+0x70.
+// Calls the virtual function at vtable slot 74 on this for each of the two render passes.
 // @fnv 0x00b80380
 void FUN_00b80380_shell::FUN_00b80380()
 {
     typedef void(* Fn)(void*, void*);
-    void** p = (void**)((char*)this + 0x6c);
+    void** p = (void**)reinterpret_cast<BSShaderBloodSplatter*>(this)->spRenderPass;
     int n = 2;
     do
     {
@@ -405,13 +414,13 @@ template <class T> struct NiPointerS
     }
 };
 
-// Lazily creates the two NiD3DShaderConstantMap objects stored at offsets 0x30 and 0x34 and registers their shader constant entries.
+// Lazily creates the two shader constant maps and registers their shader constant entries.
 // @fnv 0x00b80f50
 void FUN_00b80f50_shell::CreateShaderConstantMaps()
 {
-    NiPointerS<NiD3DShaderConstantMap>& pAlphaMap = *(NiPointerS<NiD3DShaderConstantMap>*)((char*)this + 0x30);
+    NiPointerS<NiD3DShaderConstantMap>& pAlphaMap = *(NiPointerS<NiD3DShaderConstantMap>*)&m_spFirstShaderConstantMap;
     NiPointerS<NiD3DShaderConstantMap>& m_pVertexShaderConstantMap =
-        *(NiPointerS<NiD3DShaderConstantMap>*)((char*)this + 0x34);
+        *(NiPointerS<NiD3DShaderConstantMap>*)&m_spSecondShaderConstantMap;
     if (!pAlphaMap)
     {
         pAlphaMap = new NiD3DShaderConstantMap(*(void**)&this->m_pShaderObject, 2);
@@ -558,7 +567,7 @@ struct FUN_00b80b30_item
 {
     int unk00;
     int unk04;
-    unsigned int m_u08;
+    void* m_u08;
 };
 
 struct FUN_00b80b30_pass
@@ -652,7 +661,7 @@ struct FUN_00b80b30_sub
     int unk54;
     int unk58;
     int unk5c;
-    int m_arr60[2];
+    void* m_arr60[2];
 };
 
 struct FUN_00b80b30_arg
@@ -782,7 +791,7 @@ void FUN_00b80b30_cls::InitPassItems(FUN_00b80b30_arg* apArg)
             FUN_00b80b30_item* item = pass->m_ppItems[i];
             item->m_u08 = sub->m_arr60[i];
             void* value = sub->v51();
-            reinterpret_cast<::E7DE90Owner *>((item))->ApplyPairToState((unsigned int)(value));
+            reinterpret_cast<::E7DE90Owner *>((item))->ApplyPairToState((std::uintptr_t)(value));
         }
     }
     else if ((*reinterpret_cast<int *>(&::DAT_011f91e4)) == 0x2f0)
@@ -791,18 +800,18 @@ void FUN_00b80b30_cls::InitPassItems(FUN_00b80b30_arg* apArg)
         FUN_00b80b30_item* pFirstItem = pass->m_ppItems[0];
         pFirstItem->m_u08 = sub->m_arr60[0];
         void* value0 = sub->v51();
-        reinterpret_cast<::E7DE90Owner *>((pFirstItem))->ApplyPairToState((unsigned int)(value0));
+        reinterpret_cast<::E7DE90Owner *>((pFirstItem))->ApplyPairToState((std::uintptr_t)(value0));
         FUN_00b80b30_item* pSecondItem = pass->m_ppItems[1];
         if (((void *)(reinterpret_cast<::FUN_00ba3780_struct *>(&(DAT_012005a4))->FUN_00ba3780())))
         {
-            pSecondItem->m_u08 = (unsigned int)((void *)(reinterpret_cast<::FUN_00ba3780_struct *>(&(DAT_012005a4))->FUN_00ba3780()));
+            pSecondItem->m_u08 = ((void *)(reinterpret_cast<::FUN_00ba3780_struct *>(&(DAT_012005a4))->FUN_00ba3780()));
         }
         else
         {
-            pSecondItem->m_u08 = (*reinterpret_cast<int *>(&::g_splatterWhiteFlashTexture));
+            pSecondItem->m_u08 = (*reinterpret_cast<void * *>(&::g_splatterWhiteFlashTexture));
         }
         void* value1 = sub->v51();
-        reinterpret_cast<::E7DE90Owner *>((pSecondItem))->ApplyPairToState((unsigned int)(value1));
+        reinterpret_cast<::E7DE90Owner *>((pSecondItem))->ApplyPairToState((std::uintptr_t)(value1));
     }
     v108();
 }
@@ -995,5 +1004,18 @@ void BloodShader::ApplyBloodShader(RenderInput* input)
     }
 }
 }  // namespace fnv_00b80c20
+
+int* __cdecl FUN_00b807b0();
+
+struct FUN_0068ab60_shell
+{
+    void FUN_0068ab60();
+};
+
+// @fnv 0x0068ab60
+void FUN_0068ab60_shell::FUN_0068ab60()
+{
+    reinterpret_cast<::FUN_0068ab80_class *>(this)->FUN_0068ab80();
+}
 
 #include "generated/data/bsshader/bsshaderbloodsplatter.inc"

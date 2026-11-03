@@ -3,6 +3,7 @@
 // byte only under /MT /O2 /GS /EHsc /Gy (unit src/fallout_shared/tesobjectrefr.cpp lists /MT /Od /Oy- /GS /EHsc /Gy). Declarations copied from that unit's skeleton; move the functions
 // to their real unit once identified.
 
+#include <cstdint>
 #include <cstddef>
 #include <windows.h>
 #include "fnv/decl/CB2FC0Object.h"
@@ -396,7 +397,7 @@ void Owner::FUN_00cb3650(ArgObj* arg)
             ia.flag2 = 0;
             ia.flag3 = 0;
             ia.flag4 = 0;
-            reinterpret_cast<::FUN_00a59c60_cls *>((body))->FUN_00a59c60((int)&(ia));
+            reinterpret_cast<::FUN_00a59c60_cls *>((body))->FUN_00a59c60((std::intptr_t)&(ia));
         }
     }
     else

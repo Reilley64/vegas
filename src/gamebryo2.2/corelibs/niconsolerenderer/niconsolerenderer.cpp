@@ -1287,7 +1287,7 @@ struct NiConsoleRenderer_shellEx : GraphicsRenderer {
 void NiConsoleRenderer_shellEx::FUN_00e75310(NiD3DShaderInterface* shader)
 {
     shader->SetShaderObject(0);
-    reinterpret_cast<::AlphaList *>((((BSBatchRenderer__AlphaList*)&this->remaining[2272])))->FUN_00e7db70((unsigned int *)&((BSBatchRenderer__GeometryGroup*&)shader));
+    reinterpret_cast<::AlphaList *>((((BSBatchRenderer__AlphaList*)&this->remaining[2272])))->FUN_00e7db70((void *const *)&((BSBatchRenderer__GeometryGroup*&)shader));
 }
 
 void _delete(void*, unsigned int);
@@ -4063,12 +4063,12 @@ struct E6D310Renderer {
     int unk284;
     E6D310Device* m_device;
 
-    void FUN_00e6d310(E6D310StripSet* set, E6D310Geometry* geometry, int unused);
+    void FUN_00e6d310(E6D310StripSet* set, E6D310Geometry* geometry, std::intptr_t unused);
 };
 
 // For each strip, computes the primitive count and issues a DrawIndexedPrimitive call, advancing the index start offset.
 // @fnv 0x00e6d310
-void E6D310Renderer::FUN_00e6d310(E6D310StripSet* stripSet, E6D310Geometry* geometry, int unused)
+void E6D310Renderer::FUN_00e6d310(E6D310StripSet* stripSet, E6D310Geometry* geometry, std::intptr_t unused)
 {
     unsigned int start = 0;
     for (unsigned int i = 0; i < stripSet->m_stripCount; i++) {
@@ -25282,7 +25282,7 @@ void S00e75340_Renderer::FUN_00e75340(S00e75340_Group* volatile group)
     g->PrepareForRemoval();
     reinterpret_cast<::NiD3DShaderInterface *>((g))->SetShaderObject((::GraphicsRenderer *)(0));
     S00e75340_Renderer* r = this;
-    reinterpret_cast<::AlphaList *>((reinterpret_cast<S00e75340_Alpha*>(reinterpret_cast<char*>(r) + 0x90c)))->FUN_00e7db70((unsigned int *)(::S00e75340_Group **)((S00e75340_Group**)&group));
+    reinterpret_cast<::AlphaList *>((reinterpret_cast<S00e75340_Alpha*>(reinterpret_cast<char*>(r) + 0x90c)))->FUN_00e7db70((void *const *)(::S00e75340_Group **)((S00e75340_Group**)&group));
 }
 
 struct ShaderDeclStandIn

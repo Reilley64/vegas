@@ -1,6 +1,7 @@
 // bsshader/imagespacemanager_geometry.h: declares NiUpdateData, NiGlobalStringTable, NiScreenElementsData, NiAVObject, NiScreenElements and more
 #ifndef IMAGESPACEMANAGER_GEOMETRY_H
 #define IMAGESPACEMANAGER_GEOMETRY_H
+#include <cstddef>
 
 #include "fnv/decl/FUN_00a59c60_cls.h"
 #include "fnv/decl/FUN_00a5a040_Class.h"

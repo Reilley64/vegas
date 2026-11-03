@@ -1,5 +1,6 @@
 // staging/blk_00ba0000_o2.cpp: GeomList_S, Owner, BSFogProperty, FnvOdbObject and more (245 functions)
 
+#include <cstdint>
 #include <cstddef>
 #include <windows.h>
 // src/staging/blk_00ba0000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
@@ -1398,7 +1399,7 @@ void FUN_00bb9660_Class::FUN_00bb9660()
 extern char DAT_01200863;
 
 // @fnv 0x00bb96d0
-void FUN_00bb96d0(unsigned int)
+void FUN_00bb96d0(std::uintptr_t)
 {
     DAT_01200863 = 0;
     DAT_012010bc[8] = 0;
@@ -8454,7 +8455,7 @@ bool FUN_00bb5ff0_Class::FUN_00bb5ff0(FUN_00a59d30_Class* a1)
     void* prop = ((void *)(reinterpret_cast<::FUN_00a59d30_C *>((a1))->FUN_00a59d30(10)));
     if (prop)
     {
-        reinterpret_cast<::S654 *>((a1))->ForwardToSubobject((int)(prop));
+        reinterpret_cast<::S654 *>((a1))->ForwardToSubobject((std::intptr_t)(prop));
     }
     return result;
 }
@@ -14410,7 +14411,7 @@ bool nbb::Owner::FUN_00bb12e0(Root248* apRoot)
         m_90 = d ? d->m_08 : 0;
         d = *item->m_20;
         SetMode(d ? (d->m_04 >> 12) & 3 : 3);
-        reinterpret_cast<::S654 *>((apRoot))->ForwardToSubobject((int)(item));
+        reinterpret_cast<::S654 *>((apRoot))->ForwardToSubobject((std::intptr_t)(item));
         return true;
     }
     return false;
@@ -18175,7 +18176,7 @@ void Badb90This::FUN_00badb90(int a0, int a1, int a2, int a3)
     if (DAT_012005a0)
     {
         Tex* t = ((::Tex *)(reinterpret_cast<::FUN_00ba3780_struct *>(&(texA))->FUN_00ba3780()));
-        TexRefObj* r = ((::TexRefObj *)(::FUN_00b55560((void *)(9))));
+        TexRefObj* r = ((::TexRefObj *)(::FUN_00b55560(9)));
         reinterpret_cast<::TextureRenderer *>((r))->AddTexture((::NiTexture *)(t));
     }
     reinterpret_cast<::FUN_00ba3940_cls *>(&(texC))->FUN_00ba3940((::FUN_00ba3940_cls *)(::IST *)(((::IST *)(reinterpret_cast<::FUN_00ba3940_cls *>(&(texA))->FUN_00ba3940((::FUN_00ba3940_cls *)(::IST *)(&texB))))));
@@ -18281,13 +18282,13 @@ void Badb90This::FUN_00badb90(int a0, int a1, int a2, int a3)
         Tex* t;
         TexRefObj* r;
         t = ((::Tex *)(reinterpret_cast<::FUN_00ba3780_struct *>(&(texC))->FUN_00ba3780()));
-        r = ((::TexRefObj *)(::FUN_00b55560((void *)(9))));
+        r = ((::TexRefObj *)(::FUN_00b55560(9)));
         reinterpret_cast<::TextureRenderer *>((r))->AddTexture((::NiTexture *)(t));
         t = ((::Tex *)(reinterpret_cast<::FUN_00ba3780_struct *>(&(GlobalTex()))->FUN_00ba3780()));
-        r = ((::TexRefObj *)(::FUN_00b55560((void *)(9))));
+        r = ((::TexRefObj *)(::FUN_00b55560(9)));
         reinterpret_cast<::TextureRenderer *>((r))->AddTexture((::NiTexture *)(t));
         t = ((::Tex *)(reinterpret_cast<::FUN_00ba3780_struct *>(&(texE))->FUN_00ba3780()));
-        r = ((::TexRefObj *)(::FUN_00b55560((void *)(9))));
+        r = ((::TexRefObj *)(::FUN_00b55560(9)));
         reinterpret_cast<::TextureRenderer *>((r))->AddTexture((::NiTexture *)(t));
     }
     reinterpret_cast<::H_00ba39a0 *>(&(texC))->FUN_00ba39a0();
@@ -19833,7 +19834,7 @@ P368PassArray* P368Shader::FUN_00bb4740(P368Geom* geom, unsigned int auFlags, bo
 
         bound = *(geom->bound ? geom->bound : (P368Sphere*)&::g_defaultBound);
 
-        reinterpret_cast<::LightSortOwner *>(this)->SortShadowSceneLights((int)(&bound));
+        reinterpret_cast<::LightSortOwner *>(this)->SortShadowSceneLights((const ::B9DBE0Bound *)(&bound));
     }
 
     void* cursor;

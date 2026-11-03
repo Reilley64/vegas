@@ -1,6 +1,7 @@
 // bsmenu/tileimage_private.h: declares NiTexture, TextureFormatPreferences, Tile, TileImage, TextureReceiver and more
 #ifndef FNV_TILEIMAGE_PRIVATE_H
 #define FNV_TILEIMAGE_PRIVATE_H
+#include <cstddef>
 
 #include <new>
 #include <windows.h>
@@ -213,5 +214,4 @@ class TaskQueueInterface
   public:
     static void CopyStringToBuffer(char*, unsigned int, const char*);
 };
-int strcat_s(char*, unsigned int, const char*);
 #endif

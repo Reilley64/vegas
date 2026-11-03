@@ -2,6 +2,7 @@
 #include <new>
 #ifndef BSRANDOM_PRECIPITATION_H
 #define BSRANDOM_PRECIPITATION_H
+#include <cstddef>
 class NiAVObject;
 template <class T> class NiPointer
 {

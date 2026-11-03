@@ -1,6 +1,7 @@
 // Names of nested/template specializations use the canonical generator identifier mapping.
 #ifndef FNV_NID3DSHADERCONSTANTMAP_H
 #define FNV_NID3DSHADERCONSTANTMAP_H
+#include <cstddef>
 
 #include "layout_support.h"
 #include "NiRefObject.h"

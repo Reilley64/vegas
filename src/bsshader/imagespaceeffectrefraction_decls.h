@@ -1,6 +1,7 @@
 // bsshader/imagespaceeffectrefraction_decls.h: declares RgbaColor, WaterTintRecord, ImageSpaceShaderParam, ImageSpaceTexture, ImageSpaceManager and more
 #ifndef IMAGESPACEEFFECTREFRACTION_DECLS_H
 #define IMAGESPACEEFFECTREFRACTION_DECLS_H
+#include <cstddef>
 
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_00ba3770_struct.h"

@@ -2,6 +2,7 @@
 // src/unmapped/debugtextmanager.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/debug/debugtextmanager.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <cstring>
 #include "fnv/decl/Actor.h"
 #include "fnv/decl/FUN_005e50f0_Obj.h"
@@ -343,13 +344,13 @@ void Owner::FUN_008026b0()
         unsigned int val = 0;
         if (objsA[i])
         {
-            reinterpret_cast<::S_00c4edf0_cls *>((objsA[i]))->FUN_00c4edf0((int)(&val), 1);
+            reinterpret_cast<::S_00c4edf0_cls *>((objsA[i]))->FUN_00c4edf0((std::intptr_t)(&val), 1);
             delete objsA[i];
             objsA[i] = 0;
         }
         if (objsB[i])
         {
-            reinterpret_cast<::S_00c4edf0_cls *>((objsB[i]))->FUN_00c4edf0((int)(&val), 1);
+            reinterpret_cast<::S_00c4edf0_cls *>((objsB[i]))->FUN_00c4edf0((std::intptr_t)(&val), 1);
             delete objsB[i];
             objsB[i] = 0;
         }

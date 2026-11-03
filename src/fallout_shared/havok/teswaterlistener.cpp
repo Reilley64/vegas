@@ -2,6 +2,7 @@
 // src/fallout_shared/havok/teswaterlistener.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/havok/teswaterlistener.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <cstddef>
 #include <cmath>
 #include <cstring>
@@ -997,7 +998,7 @@ void WaterSplash_62e970::SpawnWaterSplash(Body_62e970* apBody, float afWaterZ)
     if (vel.z > 0.0)
         fScale = fScale * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FloatSetting_62e970 *>(&::originalRuntimeFloatSetting986))))));
     Vec3_62e970 _pos;
-    reinterpret_cast<::QueryOwner *>((apBody))->FUN_00560bc0((int)&(_pos));
+    reinterpret_cast<::QueryOwner *>((apBody))->FUN_00560bc0((std::intptr_t)&(_pos));
     fHeight4 = afWaterZ;
     if (!((void *)(reinterpret_cast<::BGSCameraPath *>((((TES_62e970*)g_TES)))->GetPrevPath())) && reinterpret_cast<::FUN_004572e0_shell *>((((TES_62e970*)g_TES)))->GetLandHeightAt((const ::NiPoint3 &)(_pos), fHeight4) &&
         fHeight4 > afWaterZ)

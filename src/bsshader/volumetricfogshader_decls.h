@@ -1,5 +1,6 @@
 #ifndef VOLUMETRICFOGSHADER_DECLS_H
 #define VOLUMETRICFOGSHADER_DECLS_H
+#include <cstddef>
 
 
 #include <windows.h>

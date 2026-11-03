@@ -1,5 +1,6 @@
 // fallout_shared/packagelocation.cpp: LocationDescriptor, TESPackage, BGSMessageInitAccess, OwnQ (31 functions)
 
+#include <cstdint>
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/BSShaderNoLightingProperty.h"
 #include "fnv/decl/C857A10Buffer.h"
@@ -1128,7 +1129,7 @@ void FUN_00826be0_shell::FUN_00826be0(float afSecondsElapsed)
             hkVector4 hkpos;
             hkpos.FUN_005dbf70(startPos, endPos, fLerp);
             B006815c0 currentPos;
-            reinterpret_cast<::QueryOwner *>(((*(bhkRigidBody**)((char*)this + 0x48))))->FUN_00560bc0((int)&(currentPos));
+            reinterpret_cast<::QueryOwner *>(((*(bhkRigidBody**)((char*)this + 0x48))))->FUN_00560bc0((std::intptr_t)&(currentPos));
             NiPoint3 dirToCaster = *(const NiPoint3_sub*)pcaster->GetPos() - currentPos;
             dirToCaster.z = 0.0f;
             float fx = -FUN_004b5550(dirToCaster.y, dirToCaster.x);

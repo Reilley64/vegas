@@ -1,6 +1,7 @@
 // bsshader/imagespaceeffectbloom_decls.h: declares MemoryManager, RgbaColor, ImageSpaceShaderParam, RenderStateMap, ImageSpaceManager
 #ifndef FNV_IMAGESPACEEFFECTBLOOM_DECLS_H
 #define FNV_IMAGESPACEEFFECTBLOOM_DECLS_H
+#include <cstddef>
 
 
 // the allocation entry points use the canonical MemoryManager signatures.

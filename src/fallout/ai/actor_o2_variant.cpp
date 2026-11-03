@@ -2,6 +2,7 @@
 // src/fallout/ai/actor_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/fallout/ai/actor.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
+#include <cstdint>
 #include <windows.h>
 #include <cmath>
 #include <cstring>
@@ -542,7 +543,7 @@ void __cdecl FUN_00c7d3b0(NiNode* param_1, void* param_2, void* param_3, char* p
         updateData.b2 = false;
         updateData.b3 = false;
         updateData.b4 = false;
-        reinterpret_cast<::FUN_00a59c60_cls *>((param_1))->FUN_00a59c60((int)&(updateData));
+        reinterpret_cast<::FUN_00a59c60_cls *>((param_1))->FUN_00a59c60((std::intptr_t)&(updateData));
     }
 }
 
@@ -1238,7 +1239,7 @@ struct S
     virtual void v37();
     virtual void v38();
     virtual void SetMode(int iMode);
-    void FUN_00561690(int);
+    void FUN_00561690(std::intptr_t);
 };
 
 struct Cast_c9b
@@ -1296,8 +1297,8 @@ void __cdecl FUN_00c9bdf0(Obj_c9b* pkObj, float f)
                     if (pkS)
                     {
                         pkS->SetMode(4);
-                        pkS->FUN_00561690((int)&DAT_01267e30);
-                        reinterpret_cast<::fnv_005617c0::FUN_005617c0_ *>((pkS))->FUN_005617c0((int)(&DAT_01267e30));
+                        pkS->FUN_00561690((std::intptr_t)&DAT_01267e30);
+                        reinterpret_cast<::fnv_005617c0::FUN_005617c0_ *>((pkS))->FUN_005617c0((std::intptr_t)(&DAT_01267e30));
                     }
                 }
             }
@@ -3341,7 +3342,7 @@ void FUN_00c821b0(KObject* root, KPoint3* outDelta, bool update)
         {
             KQuat q;
             fromNode = false;
-            reinterpret_cast<::QueryOwner *>((body))->FUN_00560bc0((int)&(t.trans));
+            reinterpret_cast<::QueryOwner *>((body))->FUN_00560bc0((std::intptr_t)&(t.trans));
             reinterpret_cast<::S00560c20_Object *>((body))->FUN_00560c20((::S00560c20_Target *)&(q));
             reinterpret_cast<::FUN_004f0180_Class *>((void *)&(q))->FUN_004f0180((::M3_ *)&(t.rot));
         }

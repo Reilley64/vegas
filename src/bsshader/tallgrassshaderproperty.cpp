@@ -1,3 +1,5 @@
+#include <cstdint>
+#include <cstddef>
 // bsshader/tallgrassshaderproperty.cpp: TallGrassShaderProperty, Holder, PointerMap (9 functions)
 
 #include <windows.h>
@@ -301,12 +303,12 @@ unsigned short __cdecl GetOrCreateGrassGroup(IntegerDataBlock* apGrassParam, int
     if (!pcachedGeom)
         return 0;
     pGrassCache = 0;
-    if (!reinterpret_cast<::A54440Hash *>((((NiTStringPointerMap_00e93020*)((::NiTMapBase< ::NiTPointerAllocator<unsigned int>, unsigned long, ::TallGrassShaderProperty::TallGrassCacheData *> *)(::fnv_00b61170::GetArrayHolder())))))->FUN_00a53c30((::A54440Manager *)(void *)((void*)apGrassParam->m_iWordAt04), (::A54440Manager **)&((void*&)pGrassCache)))
+    if (!reinterpret_cast<::A54440Hash *>((((NiTStringPointerMap_00e93020*)((::NiTMapBase< ::NiTPointerAllocator<unsigned int>, unsigned long, ::TallGrassShaderProperty::TallGrassCacheData *> *)(::fnv_00b61170::GetArrayHolder())))))->FUN_00a53c30((::A54440Manager *)(void *)(std::uintptr_t)(apGrassParam->m_iWordAt04), (::A54440Manager **)&((void*&)pGrassCache)))
     {
         pGrassCache = new FUN_00b617f0();
         pGrassCache->m_spCachedGeometry = (NiGPUProgram*)pcachedGeom;
         std::memmove(pGrassCache, apGrassParam, 0x20);
-        reinterpret_cast<::HashTableBase *>((((NiVBSet*)((::NiTMapBase< ::NiTPointerAllocator<unsigned int>, unsigned long, ::TallGrassShaderProperty::TallGrassCacheData *> *)(::fnv_00b61170::GetArrayHolder())))))->InsertOrUpdate(apGrassParam->m_iWordAt04, (unsigned int)(pGrassCache));
+        reinterpret_cast<::HashTableBase *>((((NiVBSet*)((::NiTMapBase< ::NiTPointerAllocator<unsigned int>, unsigned long, ::TallGrassShaderProperty::TallGrassCacheData *> *)(::fnv_00b61170::GetArrayHolder())))))->InsertOrUpdate(apGrassParam->m_iWordAt04, (std::uintptr_t)(pGrassCache));
     }
     pCurrentElementNext = &pGrassCache->m_kNode;
     piter = pCurrentElementNext->m_pkHead;
@@ -542,7 +544,7 @@ void __cdecl PopulateGrassInstances(void* apKey, int aiCellX, int aiCellY, NiNod
             float fRand2 = std::rand() / 32767.0 * 2.0 - 1.0;
             float fValue = apParam->m_iThirdValue * fRand2 * 100.0;
             afInstance[3] = FloorF(fValue) + afInstance[3];
-            reinterpret_cast<::FUN_00bd8550_Class *>((pGroup))->PushEntry(afInstance, (int)(apKey));
+            reinterpret_cast<::FUN_00bd8550_Class *>((pGroup))->PushEntry(afInstance, (std::intptr_t)(apKey));
             auiCount--;
             iIndex++;
         }
@@ -552,8 +554,8 @@ void __cdecl PopulateGrassInstances(void* apKey, int aiCellX, int aiCellY, NiNod
     apGrassNode->v47();
 
     GrassGroupStub* pGroup = 0;
-    reinterpret_cast<::A54440Hash *>((((::NiTStringPointerMap_00e93020 *)(::fnv_00b61170::GetArrayHolder()))))->FUN_00a53c30((::A54440Manager *)(void *)((void*)apParam->m_iWordAt04), (::A54440Manager **)&((void*&)pGroup));
-    reinterpret_cast<::HashTableBase *>(&(pGroup->kVBSet))->InsertOrUpdate((unsigned int)apKey, (unsigned int)(apKey));
+    reinterpret_cast<::A54440Hash *>((((::NiTStringPointerMap_00e93020 *)(::fnv_00b61170::GetArrayHolder()))))->FUN_00a53c30((::A54440Manager *)(void *)(std::uintptr_t)(apParam->m_iWordAt04), (::A54440Manager **)&((void*&)pGroup));
+    reinterpret_cast<::HashTableBase *>(&(pGroup->kVBSet))->InsertOrUpdate((std::uintptr_t)apKey, (std::uintptr_t)(apKey));
 }
 
 namespace fnv_00b61170 {

@@ -1,5 +1,6 @@
 #ifndef FNV_BSAWARDSSYSTEMUTILITY_CONSOLE_DECLS_H
 #define FNV_BSAWARDSSYSTEMUTILITY_CONSOLE_DECLS_H
+#include <cstddef>
 
 
 #include "fnv/decl/FNV_MemoryManager.h"

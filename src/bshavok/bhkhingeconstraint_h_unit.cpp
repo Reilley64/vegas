@@ -15,7 +15,7 @@
 #include "fnv/symbols_01268000.h"
 #include "bhkhingeconstraint.h"
 
-const NiRTTI bhkHingeConstraint::ms_kRTTI;
+const NiRTTI bhkHingeConstraint::ms_kRTTI{};
 
 // @fnv 0x009ba510
 const NiRTTI* bhkHingeConstraint::GetRTTI() const

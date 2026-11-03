@@ -2,6 +2,7 @@
 // src/fallout_shared/distant terrain system/bgsdistanttreeblock.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/distant terrain system/bgsdistanttreeblock.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <new>
 #include <cstring>
 #include "fnv/decl/A72BB0_DataStreamOwner.h"
@@ -1792,12 +1793,12 @@ void OwnerX::FUN_006f8c40()
             ((::NodeX *)(reinterpret_cast<::FUN_004ea9e0_Class *>((((HolderX*)(*(::NiPtrS< ::HolderX> *)(reinterpret_cast<::LowProcess *>(this)->GetActiveCombatTarget())))))->FUN_004ea9e0()))->Attach(aA->node, true);
             reinterpret_cast<::FUN_00a5a040_Class *>((((NodeX*)aA->node)))->FUN_00a5a040();
             UpdateDataX firstUpdate(0.0f, false, false);
-            reinterpret_cast<::FUN_00a59c60_cls *>((((NodeX*)aA->node)))->FUN_00a59c60((int)&(firstUpdate));
+            reinterpret_cast<::FUN_00a59c60_cls *>((((NodeX*)aA->node)))->FUN_00a59c60((std::intptr_t)&(firstUpdate));
             UpdateDataX rootUpdate(0.0f, false, false);
-            reinterpret_cast<::FUN_00a59c60_cls *>((((::NodeX *)(reinterpret_cast<::TESRegionDataMap *>((((HolderX*)(*(::NiPtrS< ::HolderX> *)(reinterpret_cast<::LowProcess *>(this)->GetActiveCombatTarget())))))->GetRegionMapName()))))->FUN_00a59c60((int)&(rootUpdate));
+            reinterpret_cast<::FUN_00a59c60_cls *>((((::NodeX *)(reinterpret_cast<::TESRegionDataMap *>((((HolderX*)(*(::NiPtrS< ::HolderX> *)(reinterpret_cast<::LowProcess *>(this)->GetActiveCombatTarget())))))->GetRegionMapName()))))->FUN_00a59c60((std::intptr_t)&(rootUpdate));
             ((NodeX*)aA->node)->SetObjectBound(GetBound(aA));
             UpdateDataX finalUpdate(0.0f, false, false);
-            reinterpret_cast<::FUN_00a59c60_cls *>((((NodeX*)aA->node)))->FUN_00a59c60((int)&(finalUpdate));
+            reinterpret_cast<::FUN_00a59c60_cls *>((((NodeX*)aA->node)))->FUN_00a59c60((std::intptr_t)&(finalUpdate));
         }
         built = true;
     }

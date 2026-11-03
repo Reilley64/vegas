@@ -2,6 +2,7 @@
 // src/fallout_shared/speedtree/bstreemodel.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/speedtree/bstreemodel.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <new>
 #include <cmath>
 #include "fnv/decl/A5D2C0Object.h"
@@ -1089,7 +1090,7 @@ void TreeModelX::FUN_00669500(LoaderX* loader)
         reinterpret_cast<::FUN_00439410_cls *>((((NiNodeX*)m_pController)))->FUN_00439410((::ArgObject *)(void *)(spAlpha_2));
     ShaderPropV* shader = new ShaderPropV();
     reinterpret_cast<::FUN_00439410_cls *>((((NiNodeX*)m_pController)))->FUN_00439410((::ArgObject *)(shader));
-    reinterpret_cast<::FUN_00b66ad0_cls *>((shader))->FUN_00b66ad0((int)("STBB"), (::FnvTarget *)(name));
+    reinterpret_cast<::FUN_00b66ad0_cls *>((shader))->FUN_00b66ad0((std::intptr_t)("STBB"), (::FnvTarget *)(name));
     shader->Set100(0, ((void *)(::fnv_00656db0::FUN_00656db0())));
     shader->SetE4(0);
     shader->SetFlag(0xd, true);
@@ -1946,7 +1947,7 @@ Tree* Model::CreateTree(float scale)
     if (branches && branchProperties)
     {
         count3 = reinterpret_cast<::fnv_00669990::BSTreeModel *>(this)->FUN_00669990();
-        shader = ((void *)(::FUN_00b55560((void *)(4))));
+        shader = ((void *)(::FUN_00b55560(4)));
         unusedB = tree5->GetBranches();
         for (i = 0; i < count3; i++)
         {
@@ -1980,7 +1981,7 @@ Tree* Model::CreateTree(float scale)
                 geometryX = tree5->GetBranch(i);
                 if (!geometryX)
                     continue;
-                reinterpret_cast<::FUN_00b66ad0_cls *>((((::TreeBuild::Property *)(::FUN_00559450((int *)&(branchProperties[i]))))))->FUN_00b66ad0((int)(DAT_01066830), (::FnvTarget *)(::TreeBuild::Object *)(((::TreeBuild::Object *)(::FUN_00559450((int *)&(extra))))));
+                reinterpret_cast<::FUN_00b66ad0_cls *>((((::TreeBuild::Property *)(::FUN_00559450((int *)&(branchProperties[i]))))))->FUN_00b66ad0((std::intptr_t)(DAT_01066830), (::FnvTarget *)(::TreeBuild::Object *)(((::TreeBuild::Object *)(::FUN_00559450((int *)&(extra))))));
                 ::BSShaderManager::UpdateObjectTypeRecurse((::NiAVObject *)(geometryX), 0, 0);
                 reinterpret_cast<::ShaderOwner *>((geometryX))->FUN_00539ef0((::NiGPUProgram *)(::TreeBuild::Shader *)(((::TreeBuild::Property *)(::FUN_00559450((int *)&(branchProperties[i]))))->CreateShader(geometryX)));
                 if (!((int)(reinterpret_cast<::BGSCameraPath *>((((::TreeBuild::ShaderState *)(::fnv_005495f0::FUN_005495f0((const char *)(geometryX))))))->GetPrevPath())))
@@ -1991,7 +1992,7 @@ Tree* Model::CreateTree(float scale)
     if (leaves && leafProperties)
     {
         count3 = reinterpret_cast<::FUN_006699d0_shell *>(this)->GetUnsignedShort();
-        shader = ((void *)(::FUN_00b55560((void *)(6))));
+        shader = ((void *)(::FUN_00b55560(6)));
         for (i = 0; i < count3; i++)
         {
             if (!((::TreeBuild::GeometryData *)(::FUN_00559450((int *)&(leaves[i])))))

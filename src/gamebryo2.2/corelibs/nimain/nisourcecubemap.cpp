@@ -900,7 +900,7 @@ struct CubeRenderer
 
 // @fnv 0x00a61120
 NiCubeMap* __cdecl CreateCubeMap(void* a1, void* a2, void* a3, void* a4, void* a5, void* a6, CubeRenderer* pkRenderer,
-                                 int iUnused, const TextureFormatPreferences* pkPrefs)
+                                 std::intptr_t iUnused, const TextureFormatPreferences* pkPrefs)
 {
     NiCubeMap* pkMap = new NiCubeMap;
     pkMap->m_kTextureFormatPreferences = *pkPrefs;

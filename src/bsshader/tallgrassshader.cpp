@@ -1,3 +1,4 @@
+#include <cstddef>
 // bsshader/tallgrassshader.cpp: TallGrassShader, Self, ShaderRegister, TallGrassPrograms and more (25 functions)
 
 #include <cstddef>
@@ -538,9 +539,14 @@ struct BSShader
 {
     BSShader();
     virtual ~BSShader();
-    char pad04[0x24];
+    char pad04[0x18 - 4];
+    void* m_pShaderObject;
+    char pad1c[0x28 - 0x1c];
     RefPtr_bacd00 m_spDecl;
-    char pad2c[0x3c];
+    char pad2c[0x30 - 0x2c];
+    RefPtr_bacd00 m_spFirstShaderConstantMap;
+    RefPtr_bacd00 m_spSecondShaderConstantMap;
+    char pad38[0x68 - 0x38];
     int m_i68;
 };
 struct V4_bacd00
@@ -642,17 +648,22 @@ struct NiD3DVertexDeclaration
     virtual void d44();
     virtual void Finish();
 };
+struct TLS_bacf00
+{
+    char pad[0x2b4];
+    int m_eMemoryContext;
+};
 struct QAutoMemContext
 {
     int m_eMemoryContext;
     QAutoMemContext(int iNew)
     {
-        m_eMemoryContext = (*reinterpret_cast<int (*)[174]>(&::g_tlsBlock))[0x2b4 / 4];
-        (*reinterpret_cast<int (*)[174]>(&::g_tlsBlock))[0x2b4 / 4] = iNew;
+        m_eMemoryContext = reinterpret_cast<TLS_bacf00*>(&::g_tlsBlock)->m_eMemoryContext;
+        reinterpret_cast<TLS_bacf00*>(&::g_tlsBlock)->m_eMemoryContext = iNew;
     }
     ~QAutoMemContext()
     {
-        (*reinterpret_cast<int (*)[174]>(&::g_tlsBlock))[0x2b4 / 4] = m_eMemoryContext;
+        reinterpret_cast<TLS_bacf00*>(&::g_tlsBlock)->m_eMemoryContext = m_eMemoryContext;
     }
 };
 struct FUN_00bacd00 : BSFadeNode
@@ -845,10 +856,10 @@ struct FUN_00ba8ff0_shell : NiPropertyState_stub
     char pad30[0x28];
     int f58;
     float f5c;
-    FUN_00ba8e50* CreatePropertyStateCopy(unsigned int uiPass);
+    FUN_00ba8e50* CreatePropertyStateCopy(void* uiPass);
 };
 // @fnv 0x00ba8ff0
-FUN_00ba8e50* FUN_00ba8ff0_shell::CreatePropertyStateCopy(unsigned int uiPass)
+FUN_00ba8e50* FUN_00ba8ff0_shell::CreatePropertyStateCopy(void* uiPass)
 {
     FUN_00ba8e50* pResult = new FUN_00ba8e50;
     reinterpret_cast<::NiCullingProperty *>(this)->FUN_00a81430(pResult, (*(::CloningProcess *)(uiPass)));
@@ -878,24 +889,33 @@ static __forceinline void S_BinRead(S_00ba9380_Bin* bin, void* v, unsigned int b
     unsigned int sz = 4;
     bin->m_uiPos += bin->Read(v, bytes, &sz, 1);
 }
+struct S_00ba9380_Stream
+{
+    char pad00[0x250];
+    S_00ba9380_Bin* m_pkBin;
+};
 struct FUN_00ba9380_cls
 {
+    char pad00[0x20];
+    unsigned int m_auiFlags[2];
+    char pad28[0x30 - 0x28];
+    float m_fEnvMapScale;
+    char pad34[0x58 - 0x34];
+    unsigned int m_uiShaderType;
     void FUN_00ba9380(void* pOther);
 };
-// Calls SaveToStream, then reads four 4-byte values from the stream at pOther+0x250 into this+0x58, this+0x20, this+0x24 and this+0x30.
+// Calls SaveToStream, then reads the shader type, the two flag words and the environment map scale from the stream's bin.
 // @fnv 0x00ba9380
 void FUN_00ba9380_cls::FUN_00ba9380(void* pOther)
 {
-    char* pObj = (char*)pOther;
+    S_00ba9380_Stream* pStream = (S_00ba9380_Stream*)pOther;
     reinterpret_cast<::fnv_00a815c0::NiShadeProperty *>(this)->SaveToStream((*(::fnv_00a815c0::NiStream *)(pOther)));
-    S_BinRead(*(S_00ba9380_Bin**)(pObj + 0x250), (char*)this + 0x58, 4);
-    char* p = (char*)this + 0x20;
+    S_BinRead(pStream->m_pkBin, &m_uiShaderType, 4);
     for (int i = 0; i < 2; i++)
     {
-        S_BinRead(*(S_00ba9380_Bin**)(pObj + 0x250), p, 4);
-        p += 4;
+        S_BinRead(pStream->m_pkBin, &m_auiFlags[i], 4);
     }
-    S_BinRead(*(S_00ba9380_Bin**)(pObj + 0x250), (char*)this + 0x30, 4);
+    S_BinRead(pStream->m_pkBin, &m_fEnvMapScale, 4);
 }
 
 extern int DAT_010b8480;
@@ -919,7 +939,7 @@ struct S_00ba9520_Entry
 
 struct S_00ba9520_Base
 {
-    int unk00;
+    void* unk00;
     S_00ba9520_Entry** unk04;
     int unk08;
     unsigned short unk0c;
@@ -928,7 +948,7 @@ struct S_00ba9520_Base
 
     ~S_00ba9520_Base()
     {
-        unk00 = (int)&DAT_010b8480;
+        unk00 = &DAT_010b8480;
         reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::S_00ba9520_Heap *>(&::g_memoryManager))))->FUN_00aa4060(unk04);
     }
 };
@@ -1022,7 +1042,7 @@ struct ShaderVariableMap : RefObj_bacd00
         return reinterpret_cast<LookupFn>((*reinterpret_cast<void***>(this))[28])(this, name);
     }
 };
-struct ShaderRegister
+struct ShaderRegister : FUN_00bacd00
 {
     void InitializeShaderVariableMaps();
 };
@@ -1031,11 +1051,11 @@ struct ShaderRegister
 void ShaderRegister::InitializeShaderVariableMaps()
 {
     AllocationScope allocScope;
-    RefPtr_bacd00& mainGroup = *reinterpret_cast<RefPtr_bacd00*>(reinterpret_cast<char*>(this) + 0x34);
-    RefPtr_bacd00& extraGroup = *reinterpret_cast<RefPtr_bacd00*>(reinterpret_cast<char*>(this) + 0x30);
+    RefPtr_bacd00& mainGroup = m_spSecondShaderConstantMap;
+    RefPtr_bacd00& extraGroup = m_spFirstShaderConstantMap;
     if (!mainGroup.m_pObject)
     {
-        mainGroup = new ShaderVariableMap(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x18), 0);
+        mainGroup = new ShaderVariableMap(m_pShaderObject, 0);
         static_cast<ShaderVariableMap*>(mainGroup.m_pObject)
             ->Register(&(*reinterpret_cast<char *>((void *)&::DAT_010A1E50)), 0x20000009, 0, 9, 4, 0, 0, 0, 0, 0);
         static_cast<ShaderVariableMap*>(mainGroup.m_pObject)
@@ -1046,25 +1066,25 @@ void ShaderRegister::InitializeShaderVariableMaps()
             ->Register(&DAT_010b8c48, 0x10000007, 0, 14, 1, &(*reinterpret_cast<char *>((void *)&::DAT_01011584)), 0x10, 4, &(*reinterpret_cast<char *>((void *)&::DAT_011FA290)), 0);
         static_cast<ShaderVariableMap*>(mainGroup.m_pObject)
             ->Register(&(*reinterpret_cast<char *>((void *)&::DAT_010B8C34)), 0x10000009, 0, 0, 9, &(*reinterpret_cast<char *>((void *)&::DAT_01011584)), 0x90, 4, &DAT_01200510, 0);
-        unsigned int count = *reinterpret_cast<unsigned short*>(reinterpret_cast<char*>(this) + 0x1ac);
+        unsigned int count = m_usElementCount;
         static_cast<ShaderVariableMap*>(mainGroup.m_pObject)
             ->Register(&DAT_010b8c24, 0x10000009, 0, 20, count, &(*reinterpret_cast<char *>((void *)&::DAT_01011584)), count << 4, 4,
-                       *reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x1a4), 0);
-        *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x1a8) =
+                       m_pReferencedObject, 0);
+        m_i1a8 =
             static_cast<ShaderVariableMap*>(mainGroup.m_pObject)->Lookup(&DAT_010b8c24);
     }
     if (!extraGroup.m_pObject)
     {
-        extraGroup = new ShaderVariableMap(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x18), 2);
+        extraGroup = new ShaderVariableMap(m_pShaderObject, 2);
         static_cast<ShaderVariableMap*>(extraGroup.m_pObject)
             ->Register(&DAT_010b8c10, 0x10000007, 0, 2, 1, &(*reinterpret_cast<char *>((void *)&::DAT_01011584)), 0x10, 4,
-                       reinterpret_cast<char*>(this) + 0x1b0, 0);
+                       &m_k1, 0);
         static_cast<ShaderVariableMap*>(extraGroup.m_pObject)
             ->Register(&DAT_010b8bfc, 0x10000007, 0, 4, 1, &(*reinterpret_cast<char *>((void *)&::DAT_01011584)), 0x10, 4,
-                       reinterpret_cast<char*>(this) + 0x1c0, 0);
+                       &m_k2, 0);
         static_cast<ShaderVariableMap*>(extraGroup.m_pObject)
             ->Register(&DAT_010b8bec, 0x10000007, 0, 3, 1, &(*reinterpret_cast<char *>((void *)&::DAT_01011584)), 0x10, 4,
-                       reinterpret_cast<char*>(this) + 0x1d0, 0);
+                       &m_k3, 0);
     }
 }
 
@@ -1631,15 +1651,13 @@ struct GrassThreadMemory
     int unk2b0;
     int context;
 };
-extern "C" unsigned long __readfsdword(unsigned long);
 struct GrassMemoryScope
 {
     GrassThreadMemory* thread;
     int previous;
     GrassMemoryScope()
     {
-        unsigned int index = ::DAT_0126fd98;
-        thread = ((GrassThreadMemory**)__readfsdword(0x2c))[index];
+        thread = reinterpret_cast<GrassThreadMemory*>(&::g_tlsBlock);
         previous = thread->context;
         thread->context = 28;
     }
@@ -1805,21 +1823,21 @@ void TallGrassPrograms::FUN_00baafc0()
     vertex[0].macros[0] = "VS_2_0";
     vertex[0].macros[1] = 0;
     vertex[0].macros[2] = 0;
-    std::memset(&vertex[0].macros[3], 0, 60);
+    std::memset(&vertex[0].macros[3], 0, 15 * sizeof(const char*));
     vertex[1].source = "tallgrass\\1x\\v\\lowDetail.v.hlsl";
     vertex[1].macros[0] = "VS_2_0";
     vertex[1].macros[1] = 0;
     vertex[1].macros[2] = "VERTLIT";
     vertex[1].macros[3] = "";
     vertex[1].macros[4] = 0;
-    std::memset(&vertex[1].macros[5], 0, 52);
+    std::memset(&vertex[1].macros[5], 0, 13 * sizeof(const char*));
     vertex[2].source = "tallgrass\\1x\\v\\lowDetail.v.hlsl";
     vertex[2].macros[0] = "VS_2_0";
     vertex[2].macros[1] = 0;
     vertex[2].macros[2] = "FIT_TO_SLOPE";
     vertex[2].macros[3] = "";
     vertex[2].macros[4] = 0;
-    std::memset(&vertex[2].macros[5], 0, 52);
+    std::memset(&vertex[2].macros[5], 0, 13 * sizeof(const char*));
     vertex[3].source = "tallgrass\\1x\\v\\lowDetail.v.hlsl";
     vertex[3].macros[0] = "VS_2_0";
     vertex[3].macros[1] = 0;
@@ -1828,14 +1846,14 @@ void TallGrassPrograms::FUN_00baafc0()
     vertex[3].macros[4] = "FIT_TO_SLOPE";
     vertex[3].macros[5] = "";
     vertex[3].macros[6] = 0;
-    std::memset(&vertex[3].macros[7], 0, 44);
+    std::memset(&vertex[3].macros[7], 0, 11 * sizeof(const char*));
     vertex[4].source = "tallgrass\\1x\\v\\lowDetail.v.hlsl";
     vertex[4].macros[0] = "VS_2_0";
     vertex[4].macros[1] = 0;
     vertex[4].macros[2] = "PTLIGHT";
     vertex[4].macros[3] = "";
     vertex[4].macros[4] = 0;
-    std::memset(&vertex[4].macros[5], 0, 52);
+    std::memset(&vertex[4].macros[5], 0, 13 * sizeof(const char*));
     vertex[5].source = "tallgrass\\1x\\v\\lowDetail.v.hlsl";
     vertex[5].macros[0] = "VS_2_0";
     vertex[5].macros[1] = 0;
@@ -1844,7 +1862,7 @@ void TallGrassPrograms::FUN_00baafc0()
     vertex[5].macros[4] = "VERTLIT";
     vertex[5].macros[5] = "";
     vertex[5].macros[6] = 0;
-    std::memset(&vertex[5].macros[7], 0, 44);
+    std::memset(&vertex[5].macros[7], 0, 11 * sizeof(const char*));
     vertex[6].source = "tallgrass\\1x\\v\\lowDetail.v.hlsl";
     vertex[6].macros[0] = "VS_2_0";
     vertex[6].macros[1] = 0;
@@ -1853,7 +1871,7 @@ void TallGrassPrograms::FUN_00baafc0()
     vertex[6].macros[4] = "FIT_TO_SLOPE";
     vertex[6].macros[5] = "";
     vertex[6].macros[6] = 0;
-    std::memset(&vertex[6].macros[7], 0, 44);
+    std::memset(&vertex[6].macros[7], 0, 11 * sizeof(const char*));
     vertex[7].source = "tallgrass\\1x\\v\\lowDetail.v.hlsl";
     vertex[7].macros[0] = "VS_2_0";
     vertex[7].macros[1] = 0;
@@ -1879,7 +1897,7 @@ void TallGrassPrograms::FUN_00baafc0()
     vertex[8].macros[2] = "PROJ_SHADOW";
     vertex[8].macros[3] = "";
     vertex[8].macros[4] = 0;
-    std::memset(&vertex[8].macros[5], 0, 52);
+    std::memset(&vertex[8].macros[5], 0, 13 * sizeof(const char*));
     vertex[9].source = "tallgrass\\1x\\v\\lowDetail.v.hlsl";
     vertex[9].macros[0] = "VS_2_0";
     vertex[9].macros[1] = 0;
@@ -1888,7 +1906,7 @@ void TallGrassPrograms::FUN_00baafc0()
     vertex[9].macros[4] = "PROJ_SHADOW";
     vertex[9].macros[5] = "";
     vertex[9].macros[6] = 0;
-    std::memset(&vertex[9].macros[7], 0, 44);
+    std::memset(&vertex[9].macros[7], 0, 11 * sizeof(const char*));
     vertex[10].source = "tallgrass\\1x\\v\\lowDetail.v.hlsl";
     vertex[10].macros[0] = "VS_2_0";
     vertex[10].macros[1] = 0;
@@ -1897,7 +1915,7 @@ void TallGrassPrograms::FUN_00baafc0()
     vertex[10].macros[4] = "PROJ_SHADOW";
     vertex[10].macros[5] = "";
     vertex[10].macros[6] = 0;
-    std::memset(&vertex[10].macros[7], 0, 44);
+    std::memset(&vertex[10].macros[7], 0, 11 * sizeof(const char*));
     vertex[11].source = "tallgrass\\1x\\v\\lowDetail.v.hlsl";
     vertex[11].macros[0] = "VS_2_0";
     vertex[11].macros[1] = 0;
@@ -1925,7 +1943,7 @@ void TallGrassPrograms::FUN_00baafc0()
     vertex[12].macros[4] = "PROJ_SHADOW";
     vertex[12].macros[5] = "";
     vertex[12].macros[6] = 0;
-    std::memset(&vertex[12].macros[7], 0, 44);
+    std::memset(&vertex[12].macros[7], 0, 11 * sizeof(const char*));
     vertex[13].source = "tallgrass\\1x\\v\\lowDetail.v.hlsl";
     vertex[13].macros[0] = "VS_2_0";
     vertex[13].macros[1] = 0;
@@ -1989,7 +2007,7 @@ void TallGrassPrograms::FUN_00baafc0()
     vertex[16].macros[2] = "BILLBOARD";
     vertex[16].macros[3] = "";
     vertex[16].macros[4] = 0;
-    std::memset(&vertex[16].macros[5], 0, 52);
+    std::memset(&vertex[16].macros[5], 0, 13 * sizeof(const char*));
     vertex[17].source = "tallgrass\\1x\\v\\lowDetail.v.hlsl";
     vertex[17].macros[0] = "VS_2_0";
     vertex[17].macros[1] = 0;
@@ -1998,7 +2016,7 @@ void TallGrassPrograms::FUN_00baafc0()
     vertex[17].macros[4] = "FIT_TO_SLOPE";
     vertex[17].macros[5] = "";
     vertex[17].macros[6] = 0;
-    std::memset(&vertex[17].macros[7], 0, 44);
+    std::memset(&vertex[17].macros[7], 0, 11 * sizeof(const char*));
     vertex[18].source = "tallgrass\\1x\\v\\lowDetail.v.hlsl";
     vertex[18].macros[0] = "VS_2_0";
     vertex[18].macros[1] = 0;
@@ -2007,7 +2025,7 @@ void TallGrassPrograms::FUN_00baafc0()
     vertex[18].macros[4] = "PTLIGHT";
     vertex[18].macros[5] = "";
     vertex[18].macros[6] = 0;
-    std::memset(&vertex[18].macros[7], 0, 44);
+    std::memset(&vertex[18].macros[7], 0, 11 * sizeof(const char*));
     vertex[19].source = "tallgrass\\1x\\v\\lowDetail.v.hlsl";
     vertex[19].macros[0] = "VS_2_0";
     vertex[19].macros[1] = 0;
@@ -2033,7 +2051,7 @@ void TallGrassPrograms::FUN_00baafc0()
     vertex[20].macros[2] = "SHADOWMAP";
     vertex[20].macros[3] = "";
     vertex[20].macros[4] = 0;
-    std::memset(&vertex[20].macros[5], 0, 52);
+    std::memset(&vertex[20].macros[5], 0, 13 * sizeof(const char*));
     vertex[21].source = "tallgrass\\1x\\v\\lowDetail.v.hlsl";
     vertex[21].macros[0] = "VS_2_0";
     vertex[21].macros[1] = 0;
@@ -2042,7 +2060,7 @@ void TallGrassPrograms::FUN_00baafc0()
     vertex[21].macros[4] = "FIT_TO_SLOPE";
     vertex[21].macros[5] = "";
     vertex[21].macros[6] = 0;
-    std::memset(&vertex[21].macros[7], 0, 44);
+    std::memset(&vertex[21].macros[7], 0, 11 * sizeof(const char*));
     vertex[22].source = "tallgrass\\1x\\v\\lowDetail.v.hlsl";
     vertex[22].macros[0] = "VS_2_0";
     vertex[22].macros[1] = 0;
@@ -2051,7 +2069,7 @@ void TallGrassPrograms::FUN_00baafc0()
     vertex[22].macros[4] = "BILLBOARD";
     vertex[22].macros[5] = "";
     vertex[22].macros[6] = 0;
-    std::memset(&vertex[22].macros[7], 0, 44);
+    std::memset(&vertex[22].macros[7], 0, 11 * sizeof(const char*));
     vertex[23].source = "tallgrass\\1x\\v\\lowDetail.v.hlsl";
     vertex[23].macros[0] = "VS_2_0";
     vertex[23].macros[1] = 0;
@@ -2111,8 +2129,7 @@ void TallGrassPrograms::FUN_00baafc0()
                         ::FUN_00406d00(binaryShaderName, 260, "GRASS23x%03i.vso", index);
                         vertexShaderProfile = "vs_3_0";
                     }
-                    vertexPrograms[index] = ((::GrassShader *)(::fnv_00be0fe0::FUN_00be0fe0((const char *)this, (::_D3DXMACRO *)(sourcePath), (const char *)(::GrassMacro *)((GrassMacro*)vertex[index].macros),
-                                                         vertexShaderProfile)));
+                    vertexPrograms[index] = ((::GrassShader *)(::fnv_00be0fe0::FUN_00be0fe0(sourcePath, (::_D3DXMACRO *)(vertex[index].macros), vertexShaderProfile, binaryShaderName)));
                 }
             }
         }
@@ -2129,7 +2146,7 @@ void TallGrassPrograms::FUN_00baafc0()
                     vertexShaderProfile = "vs_3_0";
                 }
                 vertexPrograms[index] =
-                    ((::GrassShader *)(::fnv_00be0fe0::FUN_00be0fe0((const char *)this, (::_D3DXMACRO *)(sourcePath), (const char *)(::GrassMacro *)((GrassMacro*)vertex[index].macros), vertexShaderProfile)));
+                    ((::GrassShader *)(::fnv_00be0fe0::FUN_00be0fe0(sourcePath, (::_D3DXMACRO *)(vertex[index].macros), vertexShaderProfile, binaryShaderName)));
             }
         }
         for (int index = 0, pixelOffset = 0; pixelOffset < (int)sizeof(pixel);
@@ -2217,7 +2234,7 @@ namespace ba94b0 {
 
 struct CtorBase
 {
-    int f00;
+    void* f00;
     int f04;
     int f08;
     int f0c;
@@ -2230,7 +2247,7 @@ class MidLevel : public CtorBase
   public:
     __forceinline MidLevel(unsigned int n) : CtorBase(n, 3)
     {
-        f00 = (int)&DAT_010b8480;
+        f00 = &DAT_010b8480;
     }
 };
 

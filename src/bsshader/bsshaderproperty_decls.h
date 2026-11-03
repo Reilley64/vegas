@@ -1,6 +1,7 @@
 // bsshader/bsshaderproperty_decls.h: declares BSShaderPropertyLightSlot, BSShaderProperty
 #ifndef FNV_BSSHADERPROPERTY_DECLS_H
 #define FNV_BSSHADERPROPERTY_DECLS_H
+#include <cstddef>
 
 #include "fnv/decl/FUN_00a41520_cls.h"
 #include "fnv/decl/MemoryManagerStandIn.h"

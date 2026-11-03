@@ -1,6 +1,7 @@
 // Names of nested/template specializations use the canonical generator identifier mapping.
 #ifndef FNV_IMAGESPACETEXTURE_H
 #define FNV_IMAGESPACETEXTURE_H
+#include <cstddef>
 
 #include "fnv/decl/Holder00ba37f0.h"
 #include "fnv/decl/MemoryManagerStandIn.h"

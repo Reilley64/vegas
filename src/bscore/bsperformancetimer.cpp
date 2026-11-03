@@ -1,3 +1,4 @@
+#include <cstddef>
 // bscore/bsperformancetimer.cpp: PerformanceTimerManager (3 functions)
 
 #include "fnv/symbols_011d8000.h"

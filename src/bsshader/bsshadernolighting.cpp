@@ -1,3 +1,5 @@
+#include <cstdint>
+#include <cstddef>
 // bsshader/bsshadernolighting.cpp: BSShaderNoLighting, ShaderDispatcher, LightingShader, TechniqueShader and more (21 functions)
 
 #include <windows.h>
@@ -102,36 +104,36 @@ void BSShaderNoLighting::InitializeShaderData()
     vertexConfigs[0].macros[0].Name = "TEX";
     vertexConfigs[0].macros[0].Definition = "";
     vertexConfigs[0].macros[1].Name = 0;
-    std::memset(&vertexConfigs[0].macros[1].Definition, 0, 60);
+    std::memset(&vertexConfigs[0].macros[1].Definition, 0, 15 * sizeof(const char*));
     vertexConfigs[1].path = "lighting\\1x\\v\\NoLighting.v.hlsl";
     vertexConfigs[1].macros[0].Name = "VC";
     vertexConfigs[1].macros[0].Definition = "";
     vertexConfigs[1].macros[1].Name = 0;
-    std::memset(&vertexConfigs[1].macros[1].Definition, 0, 60);
+    std::memset(&vertexConfigs[1].macros[1].Definition, 0, 15 * sizeof(const char*));
     vertexConfigs[2].path = "lighting\\1x\\v\\NoLighting.v.hlsl";
     vertexConfigs[2].macros[0].Name = "TEX";
     vertexConfigs[2].macros[0].Definition = "";
     vertexConfigs[2].macros[1].Name = "VC";
     vertexConfigs[2].macros[1].Definition = "";
     vertexConfigs[2].macros[2].Name = 0;
-    std::memset(&vertexConfigs[2].macros[2].Definition, 0, 52);
+    std::memset(&vertexConfigs[2].macros[2].Definition, 0, 13 * sizeof(const char*));
     vertexConfigs[3].path = "lighting\\1x\\v\\NoLighting.v.hlsl";
     vertexConfigs[3].macros[0].Name = 0;
-    std::memset(&vertexConfigs[3].macros[0].Definition, 0, 68);
+    std::memset(&vertexConfigs[3].macros[0].Definition, 0, 17 * sizeof(const char*));
     vertexConfigs[4].path = "lighting\\1x\\v\\NoLighting.v.hlsl";
     vertexConfigs[4].macros[0].Name = "TEX";
     vertexConfigs[4].macros[0].Definition = "";
     vertexConfigs[4].macros[1].Name = "FALLOFF";
     vertexConfigs[4].macros[1].Definition = "";
     vertexConfigs[4].macros[2].Name = 0;
-    std::memset(&vertexConfigs[4].macros[2].Definition, 0, 52);
+    std::memset(&vertexConfigs[4].macros[2].Definition, 0, 13 * sizeof(const char*));
     vertexConfigs[5].path = "lighting\\1x\\v\\NoLighting.v.hlsl";
     vertexConfigs[5].macros[0].Name = "VC";
     vertexConfigs[5].macros[0].Definition = "";
     vertexConfigs[5].macros[1].Name = "FALLOFF";
     vertexConfigs[5].macros[1].Definition = "";
     vertexConfigs[5].macros[2].Name = 0;
-    std::memset(&vertexConfigs[5].macros[2].Definition, 0, 52);
+    std::memset(&vertexConfigs[5].macros[2].Definition, 0, 13 * sizeof(const char*));
     vertexConfigs[6].path = "lighting\\1x\\v\\NoLighting.v.hlsl";
     vertexConfigs[6].macros[0].Name = "TEX";
     vertexConfigs[6].macros[0].Definition = "";
@@ -140,26 +142,26 @@ void BSShaderNoLighting::InitializeShaderData()
     vertexConfigs[6].macros[2].Name = "FALLOFF";
     vertexConfigs[6].macros[2].Definition = "";
     vertexConfigs[6].macros[3].Name = 0;
-    std::memset(&vertexConfigs[6].macros[3].Definition, 0, 44);
+    std::memset(&vertexConfigs[6].macros[3].Definition, 0, 11 * sizeof(const char*));
     vertexConfigs[7].path = "lighting\\1x\\v\\NoLighting.v.hlsl";
     vertexConfigs[7].macros[0].Name = "FALLOFF";
     vertexConfigs[7].macros[0].Definition = "";
     vertexConfigs[7].macros[1].Name = 0;
-    std::memset(&vertexConfigs[7].macros[1].Definition, 0, 60);
+    std::memset(&vertexConfigs[7].macros[1].Definition, 0, 15 * sizeof(const char*));
     vertexConfigs[8].path = "lighting\\1x\\v\\NoLighting.v.hlsl";
     vertexConfigs[8].macros[0].Name = "TEX";
     vertexConfigs[8].macros[0].Definition = "";
     vertexConfigs[8].macros[1].Name = "SKIN";
     vertexConfigs[8].macros[1].Definition = "";
     vertexConfigs[8].macros[2].Name = 0;
-    std::memset(&vertexConfigs[8].macros[2].Definition, 0, 52);
+    std::memset(&vertexConfigs[8].macros[2].Definition, 0, 13 * sizeof(const char*));
     vertexConfigs[9].path = "lighting\\1x\\v\\NoLighting.v.hlsl";
     vertexConfigs[9].macros[0].Name = "VC";
     vertexConfigs[9].macros[0].Definition = "";
     vertexConfigs[9].macros[1].Name = "SKIN";
     vertexConfigs[9].macros[1].Definition = "";
     vertexConfigs[9].macros[2].Name = 0;
-    std::memset(&vertexConfigs[9].macros[2].Definition, 0, 52);
+    std::memset(&vertexConfigs[9].macros[2].Definition, 0, 13 * sizeof(const char*));
     vertexConfigs[10].path = "lighting\\1x\\v\\NoLighting.v.hlsl";
     vertexConfigs[10].macros[0].Name = "TEX";
     vertexConfigs[10].macros[0].Definition = "";
@@ -168,12 +170,12 @@ void BSShaderNoLighting::InitializeShaderData()
     vertexConfigs[10].macros[2].Name = "SKIN";
     vertexConfigs[10].macros[2].Definition = "";
     vertexConfigs[10].macros[3].Name = 0;
-    std::memset(&vertexConfigs[10].macros[3].Definition, 0, 44);
+    std::memset(&vertexConfigs[10].macros[3].Definition, 0, 11 * sizeof(const char*));
     vertexConfigs[11].path = "lighting\\1x\\v\\NoLighting.v.hlsl";
     vertexConfigs[11].macros[0].Name = "SKIN";
     vertexConfigs[11].macros[0].Definition = "";
     vertexConfigs[11].macros[1].Name = 0;
-    std::memset(&vertexConfigs[11].macros[1].Definition, 0, 60);
+    std::memset(&vertexConfigs[11].macros[1].Definition, 0, 15 * sizeof(const char*));
     vertexConfigs[12].path = "lighting\\1x\\v\\NoLighting.v.hlsl";
     vertexConfigs[12].macros[0].Name = "TEX";
     vertexConfigs[12].macros[0].Definition = "";
@@ -182,7 +184,7 @@ void BSShaderNoLighting::InitializeShaderData()
     vertexConfigs[12].macros[2].Name = "SKIN";
     vertexConfigs[12].macros[2].Definition = "";
     vertexConfigs[12].macros[3].Name = 0;
-    std::memset(&vertexConfigs[12].macros[3].Definition, 0, 44);
+    std::memset(&vertexConfigs[12].macros[3].Definition, 0, 11 * sizeof(const char*));
     vertexConfigs[13].path = "lighting\\1x\\v\\NoLighting.v.hlsl";
     vertexConfigs[13].macros[0].Name = "VC";
     vertexConfigs[13].macros[0].Definition = "";
@@ -191,7 +193,7 @@ void BSShaderNoLighting::InitializeShaderData()
     vertexConfigs[13].macros[2].Name = "SKIN";
     vertexConfigs[13].macros[2].Definition = "";
     vertexConfigs[13].macros[3].Name = 0;
-    std::memset(&vertexConfigs[13].macros[3].Definition, 0, 44);
+    std::memset(&vertexConfigs[13].macros[3].Definition, 0, 11 * sizeof(const char*));
     vertexConfigs[14].path = "lighting\\1x\\v\\NoLighting.v.hlsl";
     vertexConfigs[14].macros[0].Name = "TEX";
     vertexConfigs[14].macros[0].Definition = "";
@@ -202,73 +204,73 @@ void BSShaderNoLighting::InitializeShaderData()
     vertexConfigs[14].macros[3].Name = "SKIN";
     vertexConfigs[14].macros[3].Definition = "";
     vertexConfigs[14].macros[4].Name = 0;
-    memset(&vertexConfigs[14].macros[4].Definition, 0, 36);
+    memset(&vertexConfigs[14].macros[4].Definition, 0, 9 * sizeof(const char*));
     vertexConfigs[15].path = "lighting\\1x\\v\\NoLighting.v.hlsl";
     vertexConfigs[15].macros[0].Name = "FALLOFF";
     vertexConfigs[15].macros[0].Definition = "";
     vertexConfigs[15].macros[1].Name = "SKIN";
     vertexConfigs[15].macros[1].Definition = "";
     vertexConfigs[15].macros[2].Name = 0;
-    std::memset(&vertexConfigs[15].macros[2].Definition, 0, 52);
+    std::memset(&vertexConfigs[15].macros[2].Definition, 0, 13 * sizeof(const char*));
     vertexConfigs[16].path = "lighting\\1x\\v\\particlesystem.v.hlsl";
     vertexConfigs[16].macros[0].Name = 0;
-    std::memset(&vertexConfigs[16].macros[0].Definition, 0, 68);
+    std::memset(&vertexConfigs[16].macros[0].Definition, 0, 17 * sizeof(const char*));
     vertexConfigs[17].path = "lighting\\1x\\v\\particlesystem.v.hlsl";
     vertexConfigs[17].macros[0].Name = "PSYS_SUBTEX";
     vertexConfigs[17].macros[0].Definition = "";
     vertexConfigs[17].macros[1].Name = 0;
-    std::memset(&vertexConfigs[17].macros[1].Definition, 0, 60);
+    std::memset(&vertexConfigs[17].macros[1].Definition, 0, 15 * sizeof(const char*));
     vertexConfigs[18].path = "lighting\\1x\\v\\particlesystem.v.hlsl";
     vertexConfigs[18].macros[0].Name = "PSYS_STRIP";
     vertexConfigs[18].macros[0].Definition = "";
     vertexConfigs[18].macros[1].Name = 0;
-    std::memset(&vertexConfigs[18].macros[1].Definition, 0, 60);
+    std::memset(&vertexConfigs[18].macros[1].Definition, 0, 15 * sizeof(const char*));
     vertexConfigs[19].path = "lighting\\1x\\v\\particlesystem.v.hlsl";
     vertexConfigs[19].macros[0].Name = "PSYS_STRIP";
     vertexConfigs[19].macros[0].Definition = "";
     vertexConfigs[19].macros[1].Name = "PSYS_SUBTEX";
     vertexConfigs[19].macros[1].Definition = "";
     vertexConfigs[19].macros[2].Name = 0;
-    std::memset(&vertexConfigs[19].macros[2].Definition, 0, 52);
+    std::memset(&vertexConfigs[19].macros[2].Definition, 0, 13 * sizeof(const char*));
     vertexConfigs[20].path = "lighting\\2x\\v\\waterfog.v.hlsl";
     vertexConfigs[20].macros[0].Name = 0;
-    std::memset(&vertexConfigs[20].macros[0].Definition, 0, 68);
+    std::memset(&vertexConfigs[20].macros[0].Definition, 0, 17 * sizeof(const char*));
     vertexConfigs[21].path = "lighting\\2x\\v\\waterfog.v.hlsl";
     vertexConfigs[21].macros[0].Name = "TEXCOORD";
     vertexConfigs[21].macros[0].Definition = "";
     vertexConfigs[21].macros[1].Name = 0;
-    std::memset(&vertexConfigs[21].macros[1].Definition, 0, 60);
+    std::memset(&vertexConfigs[21].macros[1].Definition, 0, 15 * sizeof(const char*));
     vertexConfigs[22].path = "lighting\\2x\\v\\waterfog.v.hlsl";
     vertexConfigs[22].macros[0].Name = "VC";
     vertexConfigs[22].macros[0].Definition = "";
     vertexConfigs[22].macros[1].Name = 0;
-    std::memset(&vertexConfigs[22].macros[1].Definition, 0, 60);
+    std::memset(&vertexConfigs[22].macros[1].Definition, 0, 15 * sizeof(const char*));
     vertexConfigs[23].path = "lighting\\2x\\v\\waterfog.v.hlsl";
     vertexConfigs[23].macros[0].Name = "VC";
     vertexConfigs[23].macros[0].Definition = "";
     vertexConfigs[23].macros[1].Name = "TEXCOORD";
     vertexConfigs[23].macros[1].Definition = "";
     vertexConfigs[23].macros[2].Name = 0;
-    std::memset(&vertexConfigs[23].macros[2].Definition, 0, 52);
+    std::memset(&vertexConfigs[23].macros[2].Definition, 0, 13 * sizeof(const char*));
     vertexConfigs[24].path = "lighting\\2x\\v\\waterfog.v.hlsl";
     vertexConfigs[24].macros[0].Name = "SKIN";
     vertexConfigs[24].macros[0].Definition = "";
     vertexConfigs[24].macros[1].Name = 0;
-    std::memset(&vertexConfigs[24].macros[1].Definition, 0, 60);
+    std::memset(&vertexConfigs[24].macros[1].Definition, 0, 15 * sizeof(const char*));
     vertexConfigs[25].path = "lighting\\2x\\v\\waterfog.v.hlsl";
     vertexConfigs[25].macros[0].Name = "TEXCOORD";
     vertexConfigs[25].macros[0].Definition = "";
     vertexConfigs[25].macros[1].Name = "SKIN";
     vertexConfigs[25].macros[1].Definition = "";
     vertexConfigs[25].macros[2].Name = 0;
-    std::memset(&vertexConfigs[25].macros[2].Definition, 0, 52);
+    std::memset(&vertexConfigs[25].macros[2].Definition, 0, 13 * sizeof(const char*));
     vertexConfigs[26].path = "lighting\\2x\\v\\waterfog.v.hlsl";
     vertexConfigs[26].macros[0].Name = "VC";
     vertexConfigs[26].macros[0].Definition = "";
     vertexConfigs[26].macros[1].Name = "SKIN";
     vertexConfigs[26].macros[1].Definition = "";
     vertexConfigs[26].macros[2].Name = 0;
-    std::memset(&vertexConfigs[26].macros[2].Definition, 0, 52);
+    std::memset(&vertexConfigs[26].macros[2].Definition, 0, 13 * sizeof(const char*));
     vertexConfigs[27].path = "lighting\\2x\\v\\waterfog.v.hlsl";
     vertexConfigs[27].macros[0].Name = "VC";
     vertexConfigs[27].macros[0].Definition = "";
@@ -277,14 +279,14 @@ void BSShaderNoLighting::InitializeShaderData()
     vertexConfigs[27].macros[2].Name = "SKIN";
     vertexConfigs[27].macros[2].Definition = "";
     vertexConfigs[27].macros[3].Name = 0;
-    std::memset(&vertexConfigs[27].macros[3].Definition, 0, 44);
+    std::memset(&vertexConfigs[27].macros[3].Definition, 0, 11 * sizeof(const char*));
     for (int i = 0; i < 28; ++i)
     {
         if (vertexConfigs[i].path)
         {
             ::FUN_00be0c00(vertexConfigs[i].path, path);
             ::FUN_00406d00(output, 260, "NOLIGHT%03i.vso", i);
-            AssignShader(m_spTreeVertexShader[i], ((::NiD3DVertexShader *)(::fnv_00be0fe0::FUN_00be0fe0((const char *)this, (::_D3DXMACRO *)(path), (const char *)(vertexConfigs[i].macros), "vs_2_0"))));
+            AssignShader(m_spTreeVertexShader[i], ((::NiD3DVertexShader *)(::fnv_00be0fe0::FUN_00be0fe0(path, (::_D3DXMACRO *)(vertexConfigs[i].macros), "vs_2_0", output))));
         }
     }
     BSNoLightingShaderConfig texConfig;
@@ -292,13 +294,13 @@ void BSShaderNoLighting::InitializeShaderData()
     texConfig.macros[0].Name = "TEX";
     texConfig.macros[0].Definition = "";
     texConfig.macros[1].Name = 0;
-    std::memset(&texConfig.macros[1].Definition, 0, 60);
+    std::memset(&texConfig.macros[1].Definition, 0, 15 * sizeof(const char*));
     BSNoLightingShaderConfig vcConfig;
     vcConfig.path = "lighting\\1x\\p\\NoLighting.p.hlsl";
     vcConfig.macros[0].Name = "VC";
     vcConfig.macros[0].Definition = "";
     vcConfig.macros[1].Name = 0;
-    std::memset(&vcConfig.macros[1].Definition, 0, 60);
+    std::memset(&vcConfig.macros[1].Definition, 0, 15 * sizeof(const char*));
     BSNoLightingShaderConfig texVcConfig;
     texVcConfig.path = "lighting\\1x\\p\\NoLighting.p.hlsl";
     texVcConfig.macros[0].Name = "TEX";
@@ -306,7 +308,7 @@ void BSShaderNoLighting::InitializeShaderData()
     texVcConfig.macros[1].Name = "VC";
     texVcConfig.macros[1].Definition = "";
     texVcConfig.macros[2].Name = 0;
-    std::memset(&texVcConfig.macros[2].Definition, 0, 52);
+    std::memset(&texVcConfig.macros[2].Definition, 0, 13 * sizeof(const char*));
     BSNoLightingShaderConfig premultConfig;
     premultConfig.path = "lighting\\1x\\p\\NoLighting.p.hlsl";
     premultConfig.macros[0].Name = "PREMULT_ALPHA";
@@ -316,21 +318,21 @@ void BSShaderNoLighting::InitializeShaderData()
     premultConfig.macros[2].Name = "VC";
     premultConfig.macros[2].Definition = "";
     premultConfig.macros[3].Name = 0;
-    std::memset(&premultConfig.macros[3].Definition, 0, 44);
+    std::memset(&premultConfig.macros[3].Definition, 0, 11 * sizeof(const char*));
     BSNoLightingShaderConfig mat;
     mat.path = "lighting\\1x\\p\\NoLighting.p.hlsl";
     mat.macros[0].Name = 0;
-    std::memset(&mat.macros[0].Definition, 0, 68);
+    std::memset(&mat.macros[0].Definition, 0, 17 * sizeof(const char*));
     BSNoLightingShaderConfig waterConfig;
     waterConfig.path = "lighting\\2x\\p\\waterfog.p.hlsl";
     waterConfig.macros[0].Name = 0;
-    std::memset(&waterConfig.macros[0].Definition, 0, 68);
+    std::memset(&waterConfig.macros[0].Definition, 0, 17 * sizeof(const char*));
     BSNoLightingShaderConfig waterAtConfig;
     waterAtConfig.path = "lighting\\2x\\p\\waterfog.p.hlsl";
     waterAtConfig.macros[0].Name = "ALPHATESTING";
     waterAtConfig.macros[0].Definition = "";
     waterAtConfig.macros[1].Name = 0;
-    std::memset(&waterAtConfig.macros[1].Definition, 0, 60);
+    std::memset(&waterAtConfig.macros[1].Definition, 0, 15 * sizeof(const char*));
     ::FUN_00be0c00(texConfig.path, path);
     ::FUN_00406d00(output, 260, "NOLIGHTTEX.pso");
     AssignShader(m_spPixelShaderVariants[0], reinterpret_cast<::FUN_00be1750_shell *>(this)->FUN_00be1750((char *)(path), (void *)(texConfig.macros), (char *)("ps_2_a"), (char *)(output)));
@@ -386,20 +388,37 @@ struct NiColor
 };
 
 
+struct MaterialView_bc6fe0
+{
+    char pad00[0x28];
+    float m_fAlpha;
+};
+
+struct ShaderPropView_bc6fe0
+{
+    char pad00[0x28];
+    NiColor m_kEmissiveColor;
+    NiColor* m_pEmissiveColorOverride;
+    char pad38[0x40 - 0x38];
+    float m_fEmissiveScale;
+};
+
 // @fnv 0x00bc6fe0
 void UpdateMaterialColor(void* pThis, int, char* pMaterialProp, char* pShaderProp)
 {
-    DAT_01202010.a = (*(float*)(pMaterialProp + 0x28) < 1.0f) ? *(float*)(pMaterialProp + 0x28) : 1.0f;
+    MaterialView_bc6fe0* material = (MaterialView_bc6fe0*)pMaterialProp;
+    ShaderPropView_bc6fe0* shaderProp = (ShaderPropView_bc6fe0*)pShaderProp;
+    DAT_01202010.a = (material->m_fAlpha < 1.0f) ? material->m_fAlpha : 1.0f;
 
-    NiColor* pEmissiveColor = *(NiColor**)(pShaderProp + 0x34);
+    NiColor* pEmissiveColor = shaderProp->m_pEmissiveColorOverride;
     if (!pEmissiveColor)
-        pEmissiveColor = (NiColor*)(pShaderProp + 0x28);
+        pEmissiveColor = &shaderProp->m_kEmissiveColor;
 
     NiColor emissiveColor = *pEmissiveColor;
 
     if (::DAT_011f941e || (emissiveColor.r < 0.1f && emissiveColor.g < 0.1f && emissiveColor.b < 0.1f))
     {
-        float fScale = *(float*)(pShaderProp + 0x40);
+        float fScale = shaderProp->m_fEmissiveScale;
         emissiveColor.r *= fScale;
         emissiveColor.g *= fScale;
         emissiveColor.b *= fScale;
@@ -431,7 +450,30 @@ struct Mat3x3_00bc8e00
     float m[3][3];
 };
 
-// Builds an identity 3x3 matrix, replaces it with the matrix at p3+0x20 when reachable, and copies it into the DAT_01201fe0..DAT_01202008 globals.
+struct TexXformView_bc8e00
+{
+    char pad00[0x1c];
+    char m_bDirty;
+    char pad1d[0x20 - 0x1d];
+    Mat3x3_00bc8e00 m_kMatrix;
+};
+struct TextureView_bc8e00
+{
+    char pad00[0xc];
+    TexXformView_bc8e00* m_pTransform;
+};
+struct PropertyView_bc8e00
+{
+    char pad00[0x20];
+    TextureView_bc8e00** m_ppTextures;
+};
+struct ObjectView_bc8e00
+{
+    char pad00[0x14];
+    PropertyView_bc8e00* m_pProperty;
+};
+
+// Builds an identity 3x3 matrix, replaces it with the first texture's transform matrix when reachable, and copies it into the DAT_01201fe0..DAT_01202008 globals.
 // @fnv 0x00bc8e00
 void UpdateGlobalMatrix(void* pObject)
 {
@@ -446,20 +488,20 @@ void UpdateGlobalMatrix(void* pObject)
     mat.m[2][1] = 0.0f;
     mat.m[2][2] = 1.0f;
 
-    char* p1 = *reinterpret_cast<char**>(reinterpret_cast<char*>(pObject) + 0x14);
+    PropertyView_bc8e00* p1 = reinterpret_cast<ObjectView_bc8e00*>(pObject)->m_pProperty;
     if (p1)
     {
-        char* p2 = **reinterpret_cast<char***>(p1 + 0x20);
+        TextureView_bc8e00* p2 = *p1->m_ppTextures;
         if (p2)
         {
-            char* p3 = *reinterpret_cast<char**>(p2 + 0xc);
+            TexXformView_bc8e00* p3 = p2->m_pTransform;
             if (p3)
             {
-                if (*reinterpret_cast<char*>(p3 + 0x1c) != 0)
+                if (p3->m_bDirty != 0)
                 {
                     reinterpret_cast<::TexXform *>((p3))->UpdateMatrix();
                 }
-                mat = *reinterpret_cast<Mat3x3_00bc8e00*>(p3 + 0x20);
+                mat = p3->m_kMatrix;
             }
         }
     }
@@ -482,19 +524,39 @@ struct DummyRenderer
     void* obj5c;
 };
 
+struct Self_bc8f20
+{
+    char pad00[0x180];
+    int m_i180;
+};
+struct Geometry_bc8f20
+{
+    char pad00[0x20];
+    int m_i20;
+    char pad24[0x28 - 0x24];
+    int m_i28;
+};
+struct Data_bc8f20
+{
+    char pad00[4];
+    int m_i04;
+    char pad08[0x20 - 8];
+    unsigned short m_us20;
+};
+
 // If arg3 is non-null, calls FUN_00e6fe30 then invokes renderer vtable slot 0x78 with fields from this_ptr, arg2 and arg3, returning 0.
 // @fnv 0x00bc8f20
 int FUN_00bc8f20(char* this_ptr, int edx_unused, int aiUnused, char* arg2, char* arg3, int arg4, int arg5,
-                            int arg6, int arg7, int arg8)
+                            int arg6, void* arg7, int arg8)
 {
     if (arg3)
     {
-        reinterpret_cast<::BoneHost *>((DAT_011f9508))->FUN_00e6fe30((::SkinMatrixBlock *)(edx_unused), (::Xf *)((int)arg2), arg7, 0, 3);
+        reinterpret_cast<::BoneHost *>((DAT_011f9508))->FUN_00e6fe30((::SkinMatrixBlock *)(arg2), (::Xf *)(arg7), 0, 3, 1);
         void* obj = ((DummyRenderer*)DAT_0126f74c)->obj5c;
         typedef void(* VFunc)(void*, int, int, int, int, int);
         VFunc fn = (*(VFunc**)obj)[0x78 / 4];
-        fn(obj, *(int*)(this_ptr + 0x180), *(int*)(arg2 + 0x28), *(unsigned short*)(arg3 + 0x20), *(int*)(arg2 + 0x20),
-           *(int*)(arg3 + 4));
+        fn(obj, ((Self_bc8f20*)this_ptr)->m_i180, ((Geometry_bc8f20*)arg2)->m_i28, ((Data_bc8f20*)arg3)->m_us20,
+           ((Geometry_bc8f20*)arg2)->m_i20, ((Data_bc8f20*)arg3)->m_i04);
     }
     return 0;
 }
@@ -524,23 +586,40 @@ void CallHandlerForEachValue(FUN_00bc6940_obj* self)
 }
 
 
-struct FUN_00bc6fa0_shell
+struct EntryContainer_bc6fa0
 {
-    void CopyEntriesToGlobalBuffer(int a1, int a2);
+    char pad00[0x68];
+    void* m_pEntries;
+    unsigned char m_ucCount;
+};
+struct Source_bc6fa0
+{
+    char pad00[0xb8];
+    EntryContainer_bc6fa0* m_pContainer;
+};
+struct Target_bc6fa0
+{
+    char pad00[0x20];
+    int m_iCount;
 };
 
-// Copies count 16-byte entries from the object at a1+0xb8 into DAT_01202048 and stores count at this+0x170+0x20.
-// @fnv 0x00bc6fa0
-void FUN_00bc6fa0_shell::CopyEntriesToGlobalBuffer(int apSource, int aiUnused)
+struct FUN_00bc6fa0_shell
 {
-    int pContainer = *(int*)(apSource + 0xb8);
-    unsigned char count = *(unsigned char*)(pContainer + 0x6c);
+    char pad00[0x170];
+    Target_bc6fa0* m_pTarget;
+    void CopyEntriesToGlobalBuffer(std::intptr_t a1, std::intptr_t a2);
+};
+
+// Copies count 16-byte entries from the source's container into DAT_01202048 and stores count in the target.
+// @fnv 0x00bc6fa0
+void FUN_00bc6fa0_shell::CopyEntriesToGlobalBuffer(std::intptr_t apSource, std::intptr_t aiUnused)
+{
+    EntryContainer_bc6fa0* pContainer = ((Source_bc6fa0*)apSource)->m_pContainer;
+    unsigned char count = pContainer->m_ucCount;
     if (count > 0)
     {
-        int pEntries = *(int*)(pContainer + 0x68);
-        std::memmove(&(*reinterpret_cast<char *>(&::NoLightingConsts::DAT_01202048)), (const void*)pEntries, count << 4);
-        int obj = *(int*)((char*)this + 0x170);
-        *(int*)(obj + 0x20) = count;
+        std::memmove(&(*reinterpret_cast<char *>(&::NoLightingConsts::DAT_01202048)), pContainer->m_pEntries, count << 4);
+        m_pTarget->m_iCount = count;
     }
 }
 
@@ -649,10 +728,10 @@ void BSShaderNoLighting::PrepareShaderPass(const NiPropertyState* properties)
         reinterpret_cast<::XRenderer *>((m_pShaderObject))->FUN_00e6fbb0((const ::XTransform &)(*world), false);
     }
     if ((unsigned int)(pass - 82) <= 5)
-        reinterpret_cast<::FUN_00bc6fa0_shell *>(this)->CopyEntriesToGlobalBuffer((int)(geometry), (int)&(geometry->GetWorldTransform()));
+        reinterpret_cast<::FUN_00bc6fa0_shell *>(this)->CopyEntriesToGlobalBuffer((std::intptr_t)(geometry), (std::intptr_t)&(geometry->GetWorldTransform()));
     ::UpdateGlobalMatrix((void *)this);
     reinterpret_cast<::FUN_00bc7100_t *>(this)->FUN_00bc7100();
-    ::UpdateMaterialColor((void *)this, (int)(property), (char *)(material), {});
+    ::UpdateMaterialColor((void *)this, 0, (char *)(property), (char *)(material));
     if ((unsigned int)(pass - 86) <= 1)
     {
         if ((property->ulFlags[0] & 0x40) > 0)
@@ -800,7 +879,7 @@ void ShaderDispatcher::DispatchShaderProperty(ShaderPropertyFlags** property)
     }
     else
     {
-        ::FUN_00be1ff0((::Input818 *)this);
+        ::FUN_00be1ff0((::Input818 *)property);
     }
 }
 
@@ -1283,6 +1362,8 @@ bool LightingShader::FUN_00bc77e0()
 
 struct NiD3DPassRelease
 {
+    char pad00[0x64];
+    unsigned int m_uiRefCount;
 };
 
 inline NiPointer<NiD3DPass>::~NiPointer()
@@ -1290,7 +1371,7 @@ inline NiPointer<NiD3DPass>::~NiPointer()
     NiD3DPass* pass = m_pObject;
     if (pass)
     {
-        unsigned int* referenceCount = (unsigned int*)((char*)pass + 0x64);
+        unsigned int* referenceCount = &((NiD3DPassRelease*)pass)->m_uiRefCount;
         if (--*referenceCount == 0)
         {
             reinterpret_cast<::NiD3DPass *>((((NiD3DPassRelease*)pass)))->DestroyPass();
@@ -1320,7 +1401,7 @@ __forceinline BSShaderNoLighting::~BSShaderNoLighting()
         NiD3DPass* pass = spRenderPass[i].m_pObject;
         if (pass)
         {
-            unsigned int* referenceCount = (unsigned int*)((char*)pass + 0x64);
+            unsigned int* referenceCount = &((NiD3DPassRelease*)pass)->m_uiRefCount;
             if (--*referenceCount == 0)
             {
                 reinterpret_cast<::NiD3DPass *>((((NiD3DPassRelease*)pass)))->DestroyPass();

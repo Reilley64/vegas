@@ -9406,7 +9406,7 @@ struct FUN_00cb9d80_class
 // @fnv 0x00cb9d80
 void FUN_00cb9d80_class::ReadFromStream(void* context)
 {
-    ::FUN_00a89af0((int)(context));
+    ::FUN_00a89af0((std::intptr_t)(context));
     unsigned int count = unk14;
     reinterpret_cast<::FUN_00a641f0_cls *>((((FUN_00a641f0_class*)context)))->WriteObjectLink(&unk08);
 
@@ -13515,7 +13515,7 @@ void FUN_00ca8960_Class::EnqueueTransform(const __m128* position, const __m128* 
         reinterpret_cast<::WorldWithPending *>((queue08))->FUN_00c91160();
     }
     else
-        reinterpret_cast<::FUN_00ca8860_cls *>(this)->FUN_00ca8860((int)(position), (int)(rotation));
+        reinterpret_cast<::FUN_00ca8860_cls *>(this)->FUN_00ca8860((intptr_t)(position), (intptr_t)(rotation));
 }
 
 namespace fnv_00cabf30 {

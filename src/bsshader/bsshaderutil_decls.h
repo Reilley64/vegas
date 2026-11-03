@@ -1,6 +1,8 @@
 // bsshader/bsshaderutil_decls.h: declares FourComponentFloatVector, FadeState, FadeProperties, NiAVObject, NiNode and more
 #ifndef BSSHADERUTIL_DECLS_H
 #define BSSHADERUTIL_DECLS_H
+#include "fnv/symbols_00b54000.h"
+#include <cstddef>
 
 #include "fnv/decl/CameraState4E9.h"
 #include "fnv/decl/FNV_MemoryManager.h"
@@ -83,7 +85,7 @@ class BSShaderAccumulator
     virtual void vfn_3c() = 0;
     virtual void vfn_40() = 0;
     virtual void vfn_44() = 0;
-    virtual void vfn_48() = 0;
+    virtual void vfn_48(void* a, void* b, int c) = 0;
     virtual void vfn_4c() = 0;
     virtual void vfn_50() = 0;
     virtual void vfn_54() = 0;
@@ -109,6 +111,8 @@ class BSShaderAccumulator
     virtual void vfn_a4() = 0;
     virtual void Unk_2A() = 0;
     virtual void Unk_2B() = 0;
+    char padAccum04[0xc0];
+    NiPointer<NiRefObject> texture;
 };
 
 class NiRenderer

@@ -1,6 +1,8 @@
 #pragma once
 #include <cstdint>
 
+#include <cstdint>
+
 namespace TriGeomViewerDetail { struct EntryArray; }
 namespace fnv_00a89890 { struct ArrStub; }
 

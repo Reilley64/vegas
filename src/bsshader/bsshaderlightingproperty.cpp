@@ -1,3 +1,6 @@
+#include <cstring>
+#include <cstdint>
+#include <cstddef>
 // bsshader/bsshaderlightingproperty.cpp: BSShaderLightingProperty, NewObj, LList, FalloffProperty and more (45 functions)
 
 #include <new>
@@ -55,38 +58,43 @@
 #include "fnv/symbols_01202000.h"
 #include "bsshaderlightingproperty_types_BSShaderLightingProperty.h"
 #include "bsshaderlightingproperty_globals.h"
+#include "fnv/decl/FUN_00700270_class.h"
+class BSShaderLightingProperty;
+namespace fnv_00b6f540 { struct CloningProcess; }
 
 // @fnv 0x00b70490
 ShadowSceneLight* BSShaderLightingProperty::GetFirstAttachedLight(void*& iter)
 {
-    void* node = *(void**)&this->m_kShadowSceneLights.m_pkHead;
+    FNVPointerListItem* node = *(FNVPointerListItem**)&this->m_kShadowSceneLights.m_pkHead;
     iter = node;
     if (!node)
         return 0;
-    iter = *(void**)node;
-    return *(ShadowSceneLight**)((char*)node + 8);
+    iter = node->m_pkNext;
+    return (ShadowSceneLight*)node->m_element;
 }
 
 // Allocates a node from the pool at this+8, links it after source in the list, and increments the count.
 // @fnv 0x00b713c0
 void BSShaderLightingProperty::CopyMemberData(BSShaderLightingProperty* source, CloningProcess& process)
 {
-    bsshaderlightingproperty_NodePool* allocator = (bsshaderlightingproperty_NodePool*)((char*)this + 8);
-    void* node = ((void *)(reinterpret_cast<::FUN_0043a010_shell *>((allocator))->FUN_0043a010()));
-    *(void**)((char*)node + 8) = *(void**)&process;
-    *(void**)node = source;
-    *(void**)((char*)node + 4) = *(void**)((char*)source + 4);
-    if (*(void**)((char*)source + 4))
+    FNVPointerListBase* list = (FNVPointerListBase*)this;
+    FNVPointerListItem* before = (FNVPointerListItem*)source;
+    bsshaderlightingproperty_NodePool* allocator = (bsshaderlightingproperty_NodePool*)&list->m_kItemCount;
+    FNVPointerListItem* node = ((FNVPointerListItem *)(reinterpret_cast<::FUN_0043a010_shell *>((allocator))->FUN_0043a010()));
+    node->m_element = *(void**)&process;
+    node->m_pkNext = before;
+    node->m_pkPrev = before->m_pkPrev;
+    if (before->m_pkPrev)
     {
-        void* next = *(void**)((char*)source + 4);
-        *(void**)next = node;
-        *(void**)((char*)source + 4) = node;
-        ++*(unsigned int*)((char*)this + 8);
+        FNVPointerListItem* prev = before->m_pkPrev;
+        prev->m_pkNext = node;
+        before->m_pkPrev = node;
+        ++list->m_kItemCount.m_uiCount;
         return;
     }
-    *(void**)this = node;
-    *(void**)((char*)source + 4) = node;
-    ++*(unsigned int*)((char*)this + 8);
+    list->m_pkHead = node;
+    before->m_pkPrev = node;
+    ++list->m_kItemCount.m_uiCount;
 }
 
 // @fnv 0x00b71300
@@ -117,19 +125,19 @@ void BSShaderLightingProperty::ClearLights()
 // @fnv 0x00b70590
 ShadowSceneLight* BSShaderLightingProperty::GetFirstActiveLight(void*& iter)
 {
-    void* node = *(void**)&this->m_kShadowSceneLights.m_pkHead;
+    FNVPointerListItem* node = *(FNVPointerListItem**)&this->m_kShadowSceneLights.m_pkHead;
     iter = node;
     if (node)
     {
-        iter = *(void**)node;
-        ShadowSceneLight* light = *(ShadowSceneLight**)((char*)node + 8);
+        iter = node->m_pkNext;
+        ShadowSceneLight* light = (ShadowSceneLight*)node->m_element;
         while (iter && light)
         {
             if (bsshaderlightingproperty_IsActive(light))
                 break;
-            void* next = iter;
-            iter = *(void**)next;
-            light = *(ShadowSceneLight**)((char*)next + 8);
+            FNVPointerListItem* next = (FNVPointerListItem*)iter;
+            iter = next->m_pkNext;
+            light = (ShadowSceneLight*)next->m_element;
         }
         if (!light || bsshaderlightingproperty_IsActive(light))
             return light;
@@ -246,18 +254,14 @@ struct FUN_00b702b0_shell : public NiRTTI
     void FUN_00b702b0(char*, void*);
 };
 
-struct _Helper_00ba8b10
-{
-};
-static void (_Helper_00ba8b10::*const _ref_00ba8b10)(char*, void*) = &((void (&)(char *, void *))::FUN_00ba8b10);
 
-// Calls FUN_00ba8b10 with p1 and p2, then invokes the virtual function at offset 0xc8 with this and p1.
+// Calls FUN_00ba8b10 with p1 and p2, then invokes virtual slot 50 (offset 0xc8 in the 32-bit vtable) with this and p1.
 // @fnv 0x00b702b0
 void FUN_00b702b0_shell::FUN_00b702b0(char* p1, void* p2)
 {
-    ::FUN_00ba8b10((::BSSP_stub4 *)(((_Helper_00ba8b10*)this)), (int)(p1), (::BSSP_stub4 *)(p2), {});
+    ::FUN_00ba8b10((::BSSP_stub4 *)(this), 0, (::BSSP_stub4 *)(p1), (::CloningProcess *)((p2)));
     typedef void(* VFn)(void*, char*);
-    (*(VFn*)((*(int*)this) + 0xc8))(this, p1);
+    (*reinterpret_cast<VFn**>(this))[50](this, p1);
 }
 
 struct Node_00b702e0
@@ -301,8 +305,8 @@ void MoveNodeBefore(List_00b702e0* list, int, Node_00b702e0* node, Node_00b702e0
 
 struct ItemWrap_00b70340
 {
-    int val;
-    const int& Get() const
+    void* val;
+    void* const& Get() const
     {
         return val;
     }
@@ -311,7 +315,7 @@ struct ItemWrap_00b70340
 struct Node_00b70340
 {
     Node_00b70340* next;
-    int pad;
+    Node_00b70340* prev;
     ItemWrap_00b70340 item;
     const ItemWrap_00b70340& GetItem() const
     {
@@ -327,20 +331,20 @@ struct Obj_00b70340
 {
     char pad[0x60];
     Node_00b70340* head;
-    int pad2;
+    Node_00b70340* tail;
     unsigned int count;
 };
 
 // Searches the linked list for a node whose item value equals target, storing the node in outNode and returning whether it was found.
 // @fnv 0x00b70340
-bool FindNodeByItemValue(Obj_00b70340* pThis, int, int aiTargetValue, int unused, Node_00b70340** outNode)
+bool FindNodeByItemValue(Obj_00b70340* pThis, int, void* aiTargetValue, int unused, Node_00b70340** outNode)
 {
     *outNode = 0;
     if (pThis->count < 1)
         return false;
 
     Node_00b70340* pCurrent = pThis->head;
-    int item = pCurrent->GetItem().Get();
+    void* item = pCurrent->GetItem().Get();
     Node_00b70340* next = pCurrent->GetNext();
 
     while (item)
@@ -352,29 +356,13 @@ bool FindNodeByItemValue(Obj_00b70340* pThis, int, int aiTargetValue, int unused
         }
         if (!next)
             break;
-        const int& r = next->GetItem().Get();
+        void* const& r = next->GetItem().Get();
         pCurrent = next;
         next = next->GetNext();
         item = r;
     }
     return false;
 }
-
-struct Helper_00b707d0_Obj
-{
-    char pad[0x30];
-    unsigned char flags;
-};
-
-struct Helper_00b707d0_Light
-{
-    char pad0[0xec];
-    bool byteEC;
-    char pad1[0xf8 - 0xed];
-    Helper_00b707d0_Obj* objF8;
-    char pad2[0x110 - 0xfc];
-    unsigned short word110;
-};
 
 struct Helper_00b707d0_Node
 {
@@ -390,12 +378,12 @@ struct Helper_00b707d0_Node
     }
 };
 
-// Walks the linked list at thisPtr+0x60 and counts lights whose word110 is not 0xFF, whose objF8 flags bit 0 is clear, and whose byteEC is false.
+// Walks the shadow scene light list and counts lights whose word110 is not 0xFF, whose objF8 flags bit 0 is clear, and whose byteEC is false.
 // @fnv 0x00b707d0
 int FUN_00b707d0(void* thisPtr)
 {
     int count = 0;
-    Helper_00b707d0_Node* pos = *(Helper_00b707d0_Node**)((char*)thisPtr + 0x60);
+    Helper_00b707d0_Node* pos = (Helper_00b707d0_Node*)((BSShaderLightingProperty*)thisPtr)->m_kShadowSceneLights.m_pkHead;
     while (pos)
     {
         Helper_00b707d0_Light* light = pos->GetNext(pos);
@@ -411,7 +399,7 @@ extern int DAT_010ae7b0;
 // @fnv 0x00b71410
 void FUN_00b71410(void* pThis, int)
 {
-    BSShaderLightingProperty* pSub = (BSShaderLightingProperty*)((char*)pThis + 0x60);
+    BSShaderLightingProperty* pSub = (BSShaderLightingProperty*)&((BSShaderLightingProperty*)pThis)->m_kShadowSceneLights;
     *(int**)pThis = &DAT_010ae7b0;
     pSub->ClearLights();
     pSub->ClearLights();
@@ -425,17 +413,18 @@ void FUN_00ba8e50(void*);
 void* FUN_00b71720(char* pThis)
 {
     reinterpret_cast<::FUN_00ba8e50_cls *>((pThis))->FUN_00ba8e50();
-    char* list = pThis + 0x60;
+    BSShaderLightingProperty* self = (BSShaderLightingProperty*)pThis;
+    FNVPointerListBase* list = (FNVPointerListBase*)&self->m_kShadowSceneLights;
     *(int**)pThis = &DAT_010ae7b0;
-    *(int*)(list + 8) = 0;
-    *(int*)(list + 0) = 0;
-    *(int*)(list + 4) = 0;
+    list->m_kItemCount.m_uiCount = 0;
+    list->m_pkHead = 0;
+    list->m_pkTail = 0;
     ((BSShaderLightingProperty*)list)->ClearLights();
-    *(float*)(pThis + 0x6c) = 1.0f;
-    *(int*)(pThis + 0x70) = 0;
-    *(char*)(pThis + 0x74) = 0;
-    *(int*)(pThis + 0x78) = 0;
-    *(int*)(pThis + 0x1c) = 1;
+    self->m_fForcedDarkness = 1.0f;
+    self->m_uiLightCount = 0;
+    self->m_bHasForcedDarkness = false;
+    self->m_pLightData = 0;
+    self->m_iShaderType = 1;
     return pThis;
 }
 
@@ -709,41 +698,36 @@ struct _RCObj
 {
     virtual void _v0();
     virtual void _dtor();
-};
-
-struct _Vec4
-{
-    int x;
-    int y;
-    int z;
-    int w;
+    long m_uiRefCount;
 };
 
 // @fnv 0x00b6f540
 void FUN_00b6f540_shell::CopyShaderLightingProperty(BSShaderLightingProperty* pDest, CloningProcess* arCloneData)
 {
-    ::FUN_00ba8b10((::BSSP_stub4 *)(reinterpret_cast<_Helper_00ba8b10*>(this)), (int)(reinterpret_cast<char*>(pDest)),
-                                                            (::BSSP_stub4 *)(void *)(static_cast<void*>(arCloneData)), {});
+    ::FUN_00ba8b10((::BSSP_stub4 *)(this), 0, (::BSSP_stub4 *)(reinterpret_cast<char*>(pDest)), (::CloningProcess *)((void *)(static_cast<void*>(arCloneData))));
 
     _RCObj* oldVal = *reinterpret_cast<_RCObj**>(&pDest->m_kShadowSceneLights.m_pkHead);
     if (oldVal != *reinterpret_cast<_RCObj**>(&this->m_kShadowSceneLights.m_pkHead))
     {
         if (oldVal)
         {
-            if (InterlockedDecrement(reinterpret_cast<long*>(reinterpret_cast<char*>(oldVal) + 4)) == 0)
+            if (InterlockedDecrement(&oldVal->m_uiRefCount) == 0)
                 oldVal->_dtor();
         }
         _RCObj* newVal = *reinterpret_cast<_RCObj**>(&this->m_kShadowSceneLights.m_pkHead);
         *reinterpret_cast<_RCObj**>(&pDest->m_kShadowSceneLights.m_pkHead) = newVal;
         if (newVal)
-            InterlockedIncrement(reinterpret_cast<long*>(reinterpret_cast<char*>(newVal) + 4));
+            InterlockedIncrement(&newVal->m_uiRefCount);
     }
 
     int val = *reinterpret_cast<int*>(&this->m_fForcedDarkness);
     *reinterpret_cast<int*>(&pDest->m_fForcedDarkness) = val;
 
-    *reinterpret_cast<_Vec4*>(reinterpret_cast<char*>(pDest) + 0x70) =
-        *reinterpret_cast<_Vec4*>(reinterpret_cast<char*>(this) + 0x70);
+    pDest->m_uiLightCount = m_uiLightCount;
+    pDest->m_bHasForcedDarkness = m_bHasForcedDarkness;
+    std::memcpy(pDest->layoutPadding7D, layoutPadding7D, sizeof(layoutPadding7D));
+    pDest->m_pLightData = m_pLightData;
+    pDest->layoutPCExtra = layoutPCExtra;
 }
 }  // namespace fnv_00b6f540
 
@@ -965,7 +949,7 @@ extern int DAT_010ae7b0;
 BSShaderLightingProperty* DestroyShaderLightingProperty(BSShaderLightingProperty* self, int edx,
                                                                    unsigned int flags)
 {
-    BSShaderLightingProperty* list = (BSShaderLightingProperty*)((char*)self + 0x60);
+    BSShaderLightingProperty* list = (BSShaderLightingProperty*)&self->m_kShadowSceneLights;
     *(int**)self = &DAT_010ae7b0;
     list->ClearLights();
     list->ClearLights();
@@ -1021,7 +1005,7 @@ typedef void(* OwnerFn)(Owner*, void*);
 NewObj* FUN_00b71800(_Helper_00ba8b10* self, int unused, void* arg)
 {
     NewObj* o = new NewObj;
-    ::FUN_00ba8b10((::BSSP_stub4 *)(self), (int)(reinterpret_cast<char*>(o)), (::BSSP_stub4 *)(arg), {});
+    ::FUN_00ba8b10((::BSSP_stub4 *)(self), 0, (::BSSP_stub4 *)(reinterpret_cast<char*>(o)), (::CloningProcess *)((arg)));
     (*reinterpret_cast<OwnerFn**>(self))[0xc8 / 4](reinterpret_cast<Owner*>(self), o);
     return o;
 }
@@ -1059,10 +1043,10 @@ struct SelfStub
 
 // Allocates a NewObj, passes it with arg to FUN_00b702b0, and returns the new object.
 // @fnv 0x00bb4140
-NewObj* FUN_00bb4140(SelfStub* self, int unused, int aiValue)
+NewObj* FUN_00bb4140(SelfStub* self, int unused, void* aiValue)
 {
     NewObj* o = new NewObj;
-    reinterpret_cast<::FUN_00b702b0_shell *>((self))->FUN_00b702b0((char *)(o), (void *)(aiValue));
+    reinterpret_cast<::FUN_00b702b0_shell *>((self))->FUN_00b702b0((char *)(o), aiValue);
     return o;
 }
 
@@ -1121,10 +1105,8 @@ static inline Light_b70700* GetNext_b70700(ListItem_b70700*& kPos)
 
 static inline bool Skip_b70700(Light_b70700* p)
 {
-    char* l = reinterpret_cast<char*>(p);
-    return *reinterpret_cast<unsigned short*>(l + 0x110) == 0xff ||
-           (*reinterpret_cast<unsigned int*>(*reinterpret_cast<char**>(l + 0xf8) + 0x30) & 1) ||
-           *reinterpret_cast<bool*>(l + 0xec) == true;
+    Helper_00b707d0_Light* l = reinterpret_cast<Helper_00b707d0_Light*>(p);
+    return l->word110 == 0xff || (l->objF8->flags & 1) || l->byteEC == true;
 }
 
 // @fnv 0x00b70700
@@ -1638,18 +1620,18 @@ struct FalloffProperty : ViewerBaseProperty
 void FalloffProperty::FUN_00b6ff20(NiViewerStringsArray* pkStrings)
 {
     reinterpret_cast<::ShaderPropertyRecord *>(this)->WriteToSettingArray((::SettingArray *)(pkStrings));
-    reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((int)&(const char *const &)(::FUN_00a7d330((*reinterpret_cast<::ViewerRTTI *>(&::g_011fa05c)).m_pcName)));
+    reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((std::intptr_t)&(const char *const &)(::FUN_00a7d330((*reinterpret_cast<::ViewerRTTI *>(&::g_011fa05c)).m_pcName)));
     ViewerTexture* pkTex = ((::ViewerTexture *)(::FUN_00c4bb40((::NiObjectC4BB *)(void *)(m_pkTexture))));
     if (pkTex)
-        reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((int)&(const char *const &)(::fnv_00a7d5e0::FUN_00a7d5e0("base texture", (const char *)(pkTex))));
+        reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((std::intptr_t)&(const char *const &)(::fnv_00a7d5e0::FUN_00a7d5e0("base texture", (const char *)(pkTex))));
     else
-        reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((int)&(const char *const &)(::FUN_00a7d5a0("base texture", m_pkTexture)));
+        reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((std::intptr_t)&(const char *const &)(::FUN_00a7d5a0("base texture", m_pkTexture)));
     if ((m_uiValue1 & 0x40) > 0)
     {
-        reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((int)&(const char *const &)(::FUN_00a7d550("falloff start angle", m_fFalloffStartAngle)));
-        reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((int)&(const char *const &)(::FUN_00a7d550("falloff stop angle", m_fFalloffStopAngle)));
-        reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((int)&(const char *const &)(::FUN_00a7d550("falloff start opacity", m_fFalloffStartOpacity)));
-        reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((int)&(const char *const &)(::FUN_00a7d550("falloff stop opacity", m_fFalloffStopOpacity)));
+        reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((std::intptr_t)&(const char *const &)(::FUN_00a7d550("falloff start angle", m_fFalloffStartAngle)));
+        reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((std::intptr_t)&(const char *const &)(::FUN_00a7d550("falloff stop angle", m_fFalloffStopAngle)));
+        reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((std::intptr_t)&(const char *const &)(::FUN_00a7d550("falloff start opacity", m_fFalloffStartOpacity)));
+        reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((std::intptr_t)&(const char *const &)(::FUN_00a7d550("falloff stop opacity", m_fFalloffStopOpacity)));
     }
 }
 
@@ -1698,7 +1680,7 @@ template <class T> class ViewerArray
     unsigned short m_usESize;
     unsigned short m_usGrowBy;
 };
-typedef ViewerArray<char*> ViewerStrings;
+typedef ViewerArray<char*> ViewerStringArray;
 
 
 class LightingPropertyBase
@@ -1731,10 +1713,10 @@ class LightingProperty : public LightingPropertyBase
 void LightingProperty::FUN_00b71450(ViewerStrings* pkStrings)
 {
     reinterpret_cast<::ShaderPropertyRecord *>(this)->WriteToSettingArray((::SettingArray *)(pkStrings));
-    pkStrings->Add(FUN_00a7d330((*reinterpret_cast<const char * *>(&::g_011fa560))));
-    pkStrings->Add(::FUN_00a7d490("number of lights", GetNumLights()));
-    pkStrings->Add(::FUN_00a7d490("active lights", ((unsigned short)(::FUN_00b70790((::FUN_00b70790_owner *)this)))));
-    pkStrings->Add(FUN_00a7d510("Reference ID", GetReferenceID()));
+    reinterpret_cast<ViewerStringArray*>(pkStrings)->Add(FUN_00a7d330((*reinterpret_cast<const char * *>(&::g_011fa560))));
+    reinterpret_cast<ViewerStringArray*>(pkStrings)->Add(::FUN_00a7d490("number of lights", GetNumLights()));
+    reinterpret_cast<ViewerStringArray*>(pkStrings)->Add(::FUN_00a7d490("active lights", ((unsigned short)(::FUN_00b70790((::FUN_00b70790_owner *)this)))));
+    reinterpret_cast<ViewerStringArray*>(pkStrings)->Add(FUN_00a7d510("Reference ID", GetReferenceID()));
 }
 
 struct GeometryState;
@@ -2073,7 +2055,8 @@ struct FUN_00b704b0_t
 // @fnv 0x00b704b0
 unsigned short FUN_00b704b0_t::get68()
 {
-    return *(unsigned short*)((char*)this + 0x68);
+    FNVPointerListBase* list = (FNVPointerListBase*)&((BSShaderLightingProperty*)this)->m_kShadowSceneLights;
+    return (unsigned short)list->m_kItemCount.m_uiCount;
 }
 
 struct S00b700d0_RTTI;
@@ -2312,12 +2295,12 @@ class LightSortOwner
     int unk58;
     int unk5C;
     ShadowSceneLightList m_kShadowSceneLights;
-    void SortShadowSceneLights(int aiMemoryContext);
+    void SortShadowSceneLights(const ::B9DBE0Bound* apBound);
 };
 
 // Reorders m_kShadowSceneLights by ComputeFade's result and resets iLastRenderPassState to 0 if any node moves.
 // @fnv 0x00b70390
-void LightSortOwner::SortShadowSceneLights(int aiMemoryContext)
+void LightSortOwner::SortShadowSceneLights(const ::B9DBE0Bound* apBound)
 {
     NiTListIterator kIter = m_kShadowSceneLights.GetHeadPos();
     bool bChanged = false;
@@ -2326,11 +2309,11 @@ void LightSortOwner::SortShadowSceneLights(int aiMemoryContext)
         NiTListItem_ShadowSceneLight___* pkNode = (NiTListItem_ShadowSceneLight___*)kIter;
         ShadowSceneLight* pkLight = m_kShadowSceneLights.GetNext(kIter);
         NiTListIterator kTestIter = m_kShadowSceneLights.GetHeadPos();
-        float fKey = reinterpret_cast<::B9DBE0Fader *>((pkLight))->ComputeFade((const ::B9DBE0Bound *)(aiMemoryContext));
+        float fKey = reinterpret_cast<::B9DBE0Fader *>((pkLight))->ComputeFade(apBound);
         while (kTestIter != pkNode && kTestIter)
         {
             NiTListItem_ShadowSceneLight___* pkTest = (NiTListItem_ShadowSceneLight___*)kTestIter;
-            if (fKey < reinterpret_cast<::B9DBE0Fader *>((m_kShadowSceneLights.GetNext(kTestIter)))->ComputeFade((const ::B9DBE0Bound *)(aiMemoryContext)))
+            if (fKey < reinterpret_cast<::B9DBE0Fader *>((m_kShadowSceneLights.GetNext(kTestIter)))->ComputeFade(apBound))
             {
                 if (pkNode != pkTest)
                 {
@@ -2861,7 +2844,7 @@ struct Bdf3e0_list
     int unk08;
     int unk0c;
     int count;
-    void FUN_00ba9ee0(int a, int b, int c, int d, int e, int f, int g, int h);
+    void FUN_00ba9ee0(void* a, int b, int c, int d, void* e, void* f, void* g, void* h);
 };
 
 struct Bdf3e0_cls;
@@ -2948,23 +2931,23 @@ struct Bdf3e0_cls
     int unk34;
     int unk38;
     Bdf3e0_list* list;
-    void FUN_00bdf3e0(int a0, int a1, unsigned short* a2, char a3, char* a4, int a5, char a6);
+    void FUN_00bdf3e0(void* a0, void* a1, unsigned short* a2, char a3, char* a4, int a5, char a6);
 };
 
 // Walks three node iterators past defined vectors, computes an id from vt->vEC and flags, and appends a list entry via FUN_00ba9ee0 or increments *a2.
 // @fnv 0x00bdf3e0
-void Bdf3e0_cls::FUN_00bdf3e0(int a0, int a1, unsigned short* apCount, char acMode, char* apFlag, int a5, char acAdjust)
+void Bdf3e0_cls::FUN_00bdf3e0(void* a0, void* a1, unsigned short* apCount, char acMode, char* apFlag, int a5, char acAdjust)
 {
-    int it = 0;
-    Bdf3e0_node* p = ((::fnv_00bdf3e0::Bdf3e0_node *)(::FUN_00b70600((::FUN_00b70600_list *)this, (int)(&it), {})));
+    ::FUN_00b70600_node* it = 0;
+    Bdf3e0_node* p = ((::fnv_00bdf3e0::Bdf3e0_node *)(::FUN_00b70600((::FUN_00b70600_list *)this, 0, &it)));
     while (p && p->info->vec.isDef())
-        p = ((::fnv_00bdf3e0::Bdf3e0_node *)(::FUN_00b70700((::ListItem_b70700 *&)this)));
-    Bdf3e0_node* q = ((::fnv_00bdf3e0::Bdf3e0_node *)(::FUN_00b70700((::ListItem_b70700 *&)this)));
+        p = ((::fnv_00bdf3e0::Bdf3e0_node *)(::FUN_00b70700(reinterpret_cast<::ListItem_b70700 *&>(it))));
+    Bdf3e0_node* q = ((::fnv_00bdf3e0::Bdf3e0_node *)(::FUN_00b70700(reinterpret_cast<::ListItem_b70700 *&>(it))));
     while (q && q->info->vec.isDef())
-        q = ((::fnv_00bdf3e0::Bdf3e0_node *)(::FUN_00b70700((::ListItem_b70700 *&)this)));
-    Bdf3e0_node* r = ((::fnv_00bdf3e0::Bdf3e0_node *)(::FUN_00b70700((::ListItem_b70700 *&)this)));
+        q = ((::fnv_00bdf3e0::Bdf3e0_node *)(::FUN_00b70700(reinterpret_cast<::ListItem_b70700 *&>(it))));
+    Bdf3e0_node* r = ((::fnv_00bdf3e0::Bdf3e0_node *)(::FUN_00b70700(reinterpret_cast<::ListItem_b70700 *&>(it))));
     while (r && r->info->vec.isDef())
-        r = ((::fnv_00bdf3e0::Bdf3e0_node *)(::FUN_00b70700((::ListItem_b70700 *&)this)));
+        r = ((::fnv_00bdf3e0::Bdf3e0_node *)(::FUN_00b70700(reinterpret_cast<::ListItem_b70700 *&>(it))));
     unsigned short s = vt->vEC(this);
     int n = s < 7 ? s : 7;
     bool f = (flags & 0x100000) > 0;
@@ -2988,7 +2971,7 @@ void Bdf3e0_cls::FUN_00bdf3e0(int a0, int a1, unsigned short* apCount, char acMo
         if (f)
             id += 2;
         if (acMode == 1)
-            list->FUN_00ba9ee0(a0, id, 1, 4, a1, (int)p, (int)q, (int)r);
+            list->FUN_00ba9ee0(a0, id, 1, 4, a1, p, q, r);
         else
             ++*apCount;
     }
@@ -3014,8 +2997,8 @@ struct S00b70680_Helper
 {
     static bool Active(ShadowSceneLight* l)
     {
-        return *(unsigned short*)((char*)l + 0x110) != 0xff &&
-               (*(unsigned char*)(*(char**)((char*)l + 0xf8) + 0x30) & 1) == 0;
+        Helper_00b707d0_Light* light = (Helper_00b707d0_Light*)l;
+        return light->word110 != 0xff && (light->objF8->flags & 1) == 0;
     }
 };
 // Advances the iterator past inactive ShadowSceneLight entries and returns the next active light or null.
@@ -3193,7 +3176,7 @@ void WatchSet::AddWatcher(Watcher* pkWatcher)
     Watcher* light = pkWatcher;
     if (!m_iLocked)
     {
-        reinterpret_cast<::AlphaList *>(&(m_kWatchers))->FUN_00e7db70((unsigned int *)&(pkWatcher));
+        reinterpret_cast<::AlphaList *>(&(m_kWatchers))->FUN_00e7db70((void *const *)&(pkWatcher));
         m_bValueAt0C = true;
         if (light->m_bHasAccumulation)
             m_iTimer = 0;
@@ -3284,7 +3267,7 @@ struct S
 void S::FUN_00b718b0()
 {
     void* key = &(*reinterpret_cast<char *>(&::g_011fa310));
-    reinterpret_cast<::AlphaList *>(&(list60))->FUN_00e7db70((unsigned int *)&(key));
+    reinterpret_cast<::AlphaList *>(&(list60))->FUN_00e7db70((void *const *)&(key));
     list60.AddHead(&(*reinterpret_cast<char *>(&::g_011fa310)));
     unk78 = list60.GetHeadPos();
 }
@@ -3415,12 +3398,12 @@ void Obj_b71560::InsertOrMoveNode(Light_b71560* item, void* a2)
     Node_b71560* p78 = m_p78;
     if (p78)
     {
-        if (::FindNodeByItemValue((::Obj_00b70340 *)this, (int)(item), (int)(a2), (int)(&a2), {}))
+        if (::FindNodeByItemValue((::Obj_00b70340 *)this, 0, item, 0, (::Node_00b70340 **)((&a2))))
         {
             if (a2)
-                ::MoveNodeBefore((::List_00b702e0 *)&(m_list60), (int)(static_cast<Node_b71560*>(a2)), (::Node_00b702e0 *)(p78), {});
+                ::MoveNodeBefore((::List_00b702e0 *)&(m_list60), 0, (::Node_00b702e0 *)((static_cast<Node_b71560*>(a2))), (::Node_00b702e0 *)((p78)));
             else
-                ::MoveNodeBefore((::List_00b702e0 *)&(m_list60), (int)(m_list60.tail), (::Node_00b702e0 *)(p78), {});
+                ::MoveNodeBefore((::List_00b702e0 *)&(m_list60), 0, (::Node_00b702e0 *)((m_list60.tail)), (::Node_00b702e0 *)((p78)));
             return;
         }
         reinterpret_cast<::BSShaderLightingProperty *>(&(m_list60))->CopyMemberData((::BSShaderLightingProperty *)(p78), (::CloningProcess &)(item));
@@ -3429,7 +3412,7 @@ void Obj_b71560::InsertOrMoveNode(Light_b71560* item, void* a2)
     }
     void* key = a2;
     Light_b71560* light = item;
-    if (!::FindNodeByItemValue((::Obj_00b70340 *)this, (int)(light), (int)(key), (int)(&a2), {}))
+    if (!::FindNodeByItemValue((::Obj_00b70340 *)this, 0, light, 0, (::Node_00b70340 **)((&a2))))
     {
         reinterpret_cast<::FUN_00b58570_Class *>(&(m_list60))->FUN_00b58570((void *)&(item));
     }
@@ -3468,6 +3451,17 @@ Node_b71560* List_b71560::FUN_00b713c0(Node_b71560* pos, Light_b71560* const& it
     pos->prev = node;
     ++pool.count;
     return node;
+}
+
+struct FUN_0076a3d0_Class
+{
+    void FUN_0076a3d0(int);
+};
+
+// @fnv 0x0076a3d0
+void FUN_0076a3d0_Class::FUN_0076a3d0(int a)
+{
+    reinterpret_cast<::FUN_00700270_class *>(this)->operator==(a);
 }
 
 #include "generated/data/bsshader/bsshaderlightingproperty.inc"

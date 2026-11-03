@@ -2,6 +2,7 @@
 // src/staging/blk_00b80000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstdint>
 #include <new>
 #include <windows.h>
 #include <cmath>
@@ -11414,7 +11415,7 @@ bool Target::FUN_00b9de90(int a, int b, int c, int aiUnused, Input* input, unsig
     node.unk060 = c;
     reinterpret_cast<::ViewCamera *>(&(node))->FUN_00bd7200(flags);
     NiUpdateData update;
-    reinterpret_cast<::FUN_00a59c60_cls *>(&(node))->FUN_00a59c60((int)&(update));
+    reinterpret_cast<::FUN_00a59c60_cls *>(&(node))->FUN_00a59c60((std::intptr_t)&(update));
     return ((bool)(::FUN_00b9c020((::FNVCuboid *)this, (::FNVCuboid *)(value))));
 }
 }  // namespace fnv_00b9de90
@@ -15504,7 +15505,7 @@ void ImageSpaceManagerB979::RenderEndOfFrameEffects(RendererB979* pkRenderer, Re
         {
             pkDest = m_pkSwapTarget;
             if (m_iNumActiveEffects > 2)
-                pkTemp = ((::RenderTargetB979 *)(reinterpret_cast<::Pool *>(((*reinterpret_cast<::RenderTargetManagerB979 * *>(&::DAT_011f91a8))))->FUN_00b6e110((unsigned int)(pkRenderer), 3, 0, 0, 0)));
+                pkTemp = ((::RenderTargetB979 *)(reinterpret_cast<::Pool *>(((*reinterpret_cast<::RenderTargetManagerB979 * *>(&::DAT_011f91a8))))->FUN_00b6e110((std::uintptr_t)(pkRenderer), 3, 0, 0, 0)));
         }
         int iRendered = 0;
         for (int i = 0; i <= m_iLastEffect; i++)
@@ -15516,7 +15517,7 @@ void ImageSpaceManagerB979::RenderEndOfFrameEffects(RendererB979* pkRenderer, Re
             ImageSpaceEffectB979* pkEffect = m_ppkEffects[i];
             if (pkEffect && pkEffect->IsActive())
             {
-                reinterpret_cast<::BB97550Shader *>(this)->FUN_00b97550(i, (int)(pkRenderer), (int)(pkSource), (int)(pkDest), 0, true);
+                reinterpret_cast<::BB97550Shader *>(this)->FUN_00b97550(i, (std::intptr_t)(pkRenderer), (int)(pkSource), (int)(pkDest), 0, true);
                 iRendered++;
                 RenderTargetB979* pkSwap = pkSource;
                 pkSource = pkDest;
@@ -15527,7 +15528,7 @@ void ImageSpaceManagerB979::RenderEndOfFrameEffects(RendererB979* pkRenderer, Re
             reinterpret_cast<::Manager *>(((*reinterpret_cast<::RenderTargetManagerB979 * *>(&::DAT_011f91a8))))->FUN_00b6da10((::Item *)(pkTemp));
     }
     else
-        reinterpret_cast<::BB97550Shader *>(this)->FUN_00b97550(34, (int)(pkRenderer), (int)(*ppkSource), (int)(*ppkDest), 0, true);
+        reinterpret_cast<::BB97550Shader *>(this)->FUN_00b97550(34, (std::intptr_t)(pkRenderer), (int)(*ppkSource), (int)(*ppkDest), 0, true);
 }
 
 // @fnv 0x00b988a0
@@ -16187,12 +16188,12 @@ struct EffectManager975
     int unk00;
     int unk04;
     ImageSpaceEffectB979** effects;
-    void FUN_00b975f0(unsigned int index, int a, int b, int c, int d, int e);
+    void FUN_00b975f0(unsigned int index, void* a, void* b, void* c, void* d, void* e);
 };
 
 // Calls FUN_00b8c980 with effects[index] and the five int arguments while a memory context of 0x27 is set.
 // @fnv 0x00b975f0
-void EffectManager975::FUN_00b975f0(unsigned int uiEffectIndex, int a, int b, int c, int d, int e)
+void EffectManager975::FUN_00b975f0(unsigned int uiEffectIndex, void* a, void* b, void* c, void* d, void* e)
 {
     ScopedMemoryContext context(0x27);
     reinterpret_cast<::ImageSpaceOwner *>(this)->FUN_00b8c980((::ISEffectShader *)(effects[uiEffectIndex]), (void *)(a), (::NiTexture *)(b), (::BSRenderedTexture *)(c), (void *)(d), (void *)(e));
@@ -20481,7 +20482,7 @@ void B9D150::UpdateOutputLight(B9List* lights, B9Point3 position)
     output->translation = position + (direction * limitedDistance) * (float)DAT_010b7e90;
     distance = (float)(limitedDistance * 8.0);
     B9UpdateData update;
-    reinterpret_cast<::FUN_00a59c60_cls *>((output))->FUN_00a59c60((int)&(update));
+    reinterpret_cast<::FUN_00a59c60_cls *>((output))->FUN_00a59c60((std::intptr_t)&(update));
     float intensity = (float)(color.r * (double)0.4f + color.g * (double)0.4f + color.b * (double)0.4f);
     float clamped = FinalClamp(intensity);
     output->SetDiffuse(NiColor(clamped, clamped, clamped));

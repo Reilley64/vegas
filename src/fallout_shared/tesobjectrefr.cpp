@@ -2228,7 +2228,7 @@ struct ObjX
 };
 struct S
 {
-    void FUN_00561690(int a);
+    void FUN_00561690(std::intptr_t a);
 };
 struct Actor;
 struct BGSLoadFormBuffer;
@@ -11250,7 +11250,7 @@ void FUN_00562020(TESObjectREFR* self)
         reinterpret_cast<::FUN_0043fa80_s *>((((NiAVObject_H*)pobj3D2)))->FUN_0043fa80((const ::ThreeByThreeMatrix &)((const ::fnv_00562020::M3 &)(((F56_H*)self)->FUN_0056fa00())));
         ::FUN_00c69f50((::S_00c69f50_Obj *)(pobj3D2), 1, 0);
         UpDataB.NiUpdateData(0.0f, false, false);
-        reinterpret_cast<::FUN_00a59c60_cls *>((((NiNode_H*)pobj3D2)))->FUN_00a59c60((int)&(UpDataB));
+        reinterpret_cast<::FUN_00a59c60_cls *>((((NiNode_H*)pobj3D2)))->FUN_00a59c60((std::intptr_t)&(UpDataB));
     }
 }
 }  // namespace fnv_00562020
@@ -12573,7 +12573,7 @@ bool FUN_00563d80_shell::FUN_00563d80(NiControllerManager* apManager, char* apSe
             reinterpret_cast<::FUN_0098adb0_shell *>((pSequence))->FUN_0098adb0(foffset);
             ::FUN_00c6bd00((::TreeNode_cls *)(::fnv_00563d80::NiNode *)((NiNode*)pobj3D), true);
             UpdateData.NiUpdateData(fkeyTime, true, false);
-            reinterpret_cast<::FUN_00a59c60_cls *>((((NiNode*)pobj3D)))->FUN_00a59c60((int)&(*(NiUpdateData*)&UpdateData));
+            reinterpret_cast<::FUN_00a59c60_cls *>((((NiNode*)pobj3D)))->FUN_00a59c60((std::intptr_t)&(*(NiUpdateData*)&UpdateData));
             reinterpret_cast<::fnv_005672c0::Fn5672c0 *>((((FUN_005672c0_shell*)this)))->FUN_005672c0((::fnv_005672c0::NiAVObject *)(pSequence));
             apManager->StopSequence(pSequence, 0.0f);
             reinterpret_cast<::TaskQueueInterface *>((((TaskQueueInterface*)apManager)))->QueueReferenceStateTask(false);
@@ -19146,9 +19146,9 @@ void RefX::FUN_00562ed0(BooleanIntegerAccessor* apSaveData)
         }
         ::FUN_00c6a350((::NiAVObject *)(p3D), iModeA, true, false, false);
         UpdDataX kUpdate(0.0f, false, false);
-        reinterpret_cast<::FUN_00a59c60_cls *>((p3D))->FUN_00a59c60((int)&(kUpdate));
+        reinterpret_cast<::FUN_00a59c60_cls *>((p3D))->FUN_00a59c60((std::intptr_t)&(kUpdate));
         ::FUN_00c68900((::S_00c68900_Node *)(p3D), (::S_00c68900_Context *)(::fnv_00562ed0::CollisionObjectCountContext *)(&kContext), (void (*)(void *, S_00c68900_Context *))(((void (&)(fnv_00562ed0::NiCollisionObject *, fnv_00562ed0::CollisionObjectCountContext *))::FUN_00563380)));
-        reinterpret_cast<::FUN_00a59c60_cls *>((p3D))->FUN_00a59c60((int)&(kUpdate));
+        reinterpret_cast<::FUN_00a59c60_cls *>((p3D))->FUN_00a59c60((std::intptr_t)&(kUpdate));
     }
     else
     {
@@ -26062,7 +26062,7 @@ void RestoreRef::FUN_00560530(unsigned short size)
         {
             ::FUN_00c6a350((::NiAVObject *)(sceneB), 1, true, false, true);
             UpdateState update4(0.0f, false, false);
-            reinterpret_cast<::FUN_00a59c60_cls *>((sceneB))->FUN_00a59c60((int)&(update4));
+            reinterpret_cast<::FUN_00a59c60_cls *>((sceneB))->FUN_00a59c60((std::intptr_t)&(update4));
         }
         ::FUN_00c68900((::S_00c68900_Node *)(sceneB), (::S_00c68900_Context *)(::fnv_00560530::RestoreContext *)(&context4), (void (*)(void *, S_00c68900_Context *))(((void (&)(void *, fnv_00560530::RestoreContext *))::fnv_00560e70::FUN_00560e70)));
         if (actor && actor->slot141())
@@ -26079,7 +26079,7 @@ void RestoreRef::FUN_00560530(unsigned short size)
         if (!slot64())
         {
             UpdateState update6(0.0f, false, false);
-            reinterpret_cast<::FUN_00a59c60_cls *>((sceneB))->FUN_00a59c60((int)&(update6));
+            reinterpret_cast<::FUN_00a59c60_cls *>((sceneB))->FUN_00a59c60((std::intptr_t)&(update6));
         }
     }
     else
@@ -27571,7 +27571,7 @@ void Actor79::FUN_005659f0()
                             end = reinterpret_cast<::FUN_00759450_shell *>((secondary8))->FUN_00759450();
                         }
                         Update79 update(end, 1, 0);
-                        reinterpret_cast<::FUN_00a59c60_cls *>((root1))->FUN_00a59c60((int)&(update));
+                        reinterpret_cast<::FUN_00a59c60_cls *>((root1))->FUN_00a59c60((std::intptr_t)&(update));
                     }
                     else
                     {
@@ -27583,7 +27583,7 @@ void Actor79::FUN_005659f0()
                             manager35->FUN_0047aab0(sequence8, 0, 0, 1.0f, 0.0f, 0);
                             reinterpret_cast<::FUN_0098adb0_shell *>((sequence8))->FUN_0098adb0(-::DAT_0102f510);
                             Update79 update(reinterpret_cast<::FUN_00759450_shell *>((sequence8))->FUN_00759450(), 1, 0);
-                            reinterpret_cast<::FUN_00a59c60_cls *>((root1))->FUN_00a59c60((int)&(update));
+                            reinterpret_cast<::FUN_00a59c60_cls *>((root1))->FUN_00a59c60((std::intptr_t)&(update));
                         }
                         manager35->FUN_0048fef0(0.0f);
                         reinterpret_cast<::TaskQueueInterface *>((manager35))->QueueReferenceStateTask(0);
@@ -27725,7 +27725,7 @@ void Actor79::FUN_005659f0()
     if (saved62 && animation16)
     {
         Update79 update(saved62->time, 0, 0);
-        reinterpret_cast<::FUN_00a59c60_cls *>((((::fnv_005659f0::Node79 *)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>(this)->FUN_0043fcd0()))))->FUN_00a59c60((int)&(update));
+        reinterpret_cast<::FUN_00a59c60_cls *>((((::fnv_005659f0::Node79 *)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>(this)->FUN_0043fcd0()))))->FUN_00a59c60((std::intptr_t)&(update));
         reinterpret_cast<::FUN_0041ae10_shell *>((FUN_005d43c0()))->FUN_0041ae10();
     }
 }
@@ -30099,9 +30099,9 @@ Scene* Reference::FUN_0056b2d0(unsigned char immediate)
                 {
                     ::FUN_00c6a040((int)(((::BuildReferenceScene::Scene *)(::FUN_00559450((int *)&(scene))))), 0, 1, 1);
                     Update firstUpdateSlot10(0.0f, 0, 0);
-                    reinterpret_cast<::FUN_00a59c60_cls *>((((::BuildReferenceScene::Scene *)(::FUN_00559450((int *)&(scene))))))->FUN_00a59c60((int)&(firstUpdateSlot10));
+                    reinterpret_cast<::FUN_00a59c60_cls *>((((::BuildReferenceScene::Scene *)(::FUN_00559450((int *)&(scene))))))->FUN_00a59c60((std::intptr_t)&(firstUpdateSlot10));
                     Update secondUpdateSlot12(0.0f, 0, 0);
-                    reinterpret_cast<::FUN_00a59c60_cls *>((((::BuildReferenceScene::Scene *)(::FUN_00559450((int *)&(scene))))))->FUN_00a59c60((int)&(secondUpdateSlot12));
+                    reinterpret_cast<::FUN_00a59c60_cls *>((((::BuildReferenceScene::Scene *)(::FUN_00559450((int *)&(scene))))))->FUN_00a59c60((std::intptr_t)&(secondUpdateSlot12));
                     ::FUN_00c6a040((int)(((::BuildReferenceScene::Scene *)(::FUN_00559450((int *)&(scene))))), 1, 1, 1);
                     Vector differenceSlot0 =
                         (*(::BuildReferenceScene::Vector *)(reinterpret_cast<::FUN_00439ef0_class *>(&(position))->FUN_00439ef0((::NiPoint3 *)&(*((::BuildReferenceScene::WorldPosition *)(reinterpret_cast<::FUN_0043d450_Owner *>((((::BuildReferenceScene::Scene *)(::FUN_00559450((int *)&(scene))))))->FUN_0043d450()))->FUN_006815c0()), *(const ::NiPoint3 *)nullptr)));
@@ -34129,7 +34129,7 @@ void __cdecl FUN_00577450(Param577* apParam, unsigned flags)
                     }
                     ::FUN_00c6bd00((::TreeNode_cls *)(p), true);
                     Update577 a(0, true, false);
-                    reinterpret_cast<::FUN_00a59c60_cls *>((p))->FUN_00a59c60((int)&(a));
+                    reinterpret_cast<::FUN_00a59c60_cls *>((p))->FUN_00a59c60((std::intptr_t)&(a));
                     Body577* h = ((::fnv_00577450::Body577 *)(::fnv_006fa820::FUN_006fa820((const char *)(apParam))));
                     if (h)
                     {
@@ -36988,7 +36988,7 @@ struct FUN_005616d0_Owner
     void OnTrigger(TriggerContext* context);
 };
 // @fnv 0x00561690
-void S::FUN_00561690(int aiArg)
+void S::FUN_00561690(std::intptr_t aiArg)
 {
     TESBoundObjectX* o = ((::TESBoundObjectX *)(::FUN_004ae750((void *)(((ScriptLocalsX*)this)))));
     if (o)
@@ -37340,7 +37340,7 @@ void Ref00561860::FUN_00561860(unsigned short arg)
             }
         }
         NiUpdateData upd(0.0f, false, false);
-        reinterpret_cast<::FUN_00a59c60_cls *>((kObj))->FUN_00a59c60((int)&(upd));
+        reinterpret_cast<::FUN_00a59c60_cls *>((kObj))->FUN_00a59c60((std::intptr_t)&(upd));
     }
     else
     {
@@ -37601,7 +37601,7 @@ void TargetRef::FUN_00569df0(bool abEnabled)
             {
                 reinterpret_cast<::FUN_00a5a040_Class *>((pRootNode9))->FUN_00a5a040();
                 NiUpdateData updateData7(0.0f, false, false);
-                reinterpret_cast<::FUN_00a59c60_cls *>((pRootNode9))->FUN_00a59c60((int)&(updateData7));
+                reinterpret_cast<::FUN_00a59c60_cls *>((pRootNode9))->FUN_00a59c60((std::intptr_t)&(updateData7));
             }
         }
     }
@@ -38370,7 +38370,7 @@ void Ref::ResetAnimation()
                 _mgr->FUN_0047aab0(sc1, 0, 0, 1.0f, 0.0f, 0);
                 reinterpret_cast<::FUN_0098adb0_shell *>((sc1))->FUN_0098adb0(-::DAT_0102f510);
                 NiUpdateData ud(reinterpret_cast<::FUN_00759450_shell *>((sc1))->FUN_00759450(), true, false);
-                reinterpret_cast<::FUN_00a59c60_cls *>((pObjA))->FUN_00a59c60((int)&(ud));
+                reinterpret_cast<::FUN_00a59c60_cls *>((pObjA))->FUN_00a59c60((std::intptr_t)&(ud));
             }
             _mgr->FUN_0048fef0(0.0f);
             reinterpret_cast<::TaskQueueInterface *>((_mgr))->QueueReferenceStateTask(false);
@@ -38385,7 +38385,7 @@ void Ref::ResetAnimation()
                         _mgr->FUN_0047aab0(sa_, 0, 0, 1.0f, 0.0f, 0);
                     reinterpret_cast<::FUN_0098adb0_shell *>((sa_))->FUN_0098adb0(-::DAT_0102f510);
                     NiUpdateData ud2(reinterpret_cast<::FUN_00759450_shell *>((sa_))->FUN_00759450(), true, false);
-                    reinterpret_cast<::FUN_00a59c60_cls *>((pObjA))->FUN_00a59c60((int)&(ud2));
+                    reinterpret_cast<::FUN_00a59c60_cls *>((pObjA))->FUN_00a59c60((std::intptr_t)&(ud2));
                 }
                 if (sb2)
                 {
@@ -38393,7 +38393,7 @@ void Ref::ResetAnimation()
                         _mgr->FUN_0047aab0(sb2, 0, 0, 1.0f, 0.0f, 0);
                     reinterpret_cast<::FUN_0098adb0_shell *>((sb2))->FUN_0098adb0(-::DAT_0102f510);
                     NiUpdateData ud3(reinterpret_cast<::FUN_00759450_shell *>((sb2))->FUN_00759450(), true, false);
-                    reinterpret_cast<::FUN_00a59c60_cls *>((pObjA))->FUN_00a59c60((int)&(ud3));
+                    reinterpret_cast<::FUN_00a59c60_cls *>((pObjA))->FUN_00a59c60((std::intptr_t)&(ud3));
                 }
             }
         }
@@ -38560,7 +38560,7 @@ void UpdatePackagesFromBuffer(Mgr* mgr, Buf* buf, float time)
     {
         ::FUN_00c6bd00((::TreeNode_cls *)(p), true);
         NiUpdateData ud2(time, true, false);
-        reinterpret_cast<::FUN_00a59c60_cls *>((p))->FUN_00a59c60((int)&(ud2));
+        reinterpret_cast<::FUN_00a59c60_cls *>((p))->FUN_00a59c60((std::intptr_t)&(ud2));
     }
 }
 }  // namespace fnv_00564010
@@ -39500,7 +39500,7 @@ void ScaleReference::FUN_00567490(float scale)
         {
             reinterpret_cast<::FUN_00440490_shell *>((node1))->FUN_00440490(scale);
             NiUpdateData update(0.0f, false, false);
-            reinterpret_cast<::FUN_00a59c60_cls *>((node1))->FUN_00a59c60((int)&(update));
+            reinterpret_cast<::FUN_00a59c60_cls *>((node1))->FUN_00a59c60((std::intptr_t)&(update));
         }
         node1 = ((::fnv_00567490::NiAVObject *)(reinterpret_cast<::FUN_00950bb0_shell *>((g_thePlayer))->FUN_00950bb0(false)));
     }
@@ -39512,7 +39512,7 @@ void ScaleReference::FUN_00567490(float scale)
     {
         reinterpret_cast<::FUN_00440490_shell *>((node1))->FUN_00440490(scale);
         NiUpdateData update(0.0f, false, false);
-        reinterpret_cast<::FUN_00a59c60_cls *>((node1))->FUN_00a59c60((int)&(update));
+        reinterpret_cast<::FUN_00a59c60_cls *>((node1))->FUN_00a59c60((std::intptr_t)&(update));
         if (IsActor())
         {
             ScaleReference* actor_ = this;
@@ -41121,7 +41121,7 @@ void Actor::FUN_0056eab0()
         reinterpret_cast<::fnv_00567490::ScaleReference *>(this)->FUN_00567490(1.0f);
         reinterpret_cast<::FUN_00440490_shell *>((Get3D()))->FUN_00440490(1.0f);
         UpdateParams kParams(0.0f, 0, 0);
-        reinterpret_cast<::FUN_00a59c60_cls *>((Get3D()))->FUN_00a59c60((int)&(kParams));
+        reinterpret_cast<::FUN_00a59c60_cls *>((Get3D()))->FUN_00a59c60((std::intptr_t)&(kParams));
         BoundBox kBound;
         kBound.m_kBoundsBox = FUN_0056fa00();
         kBound.m_kCenter = *GetPos();
@@ -41414,7 +41414,7 @@ void Ref::FUN_0056f700()
     {
         UpdData ud;
         new ((void *)&(ud)) ::NiUpdateData(0.0f, false, false);
-        reinterpret_cast<::FUN_00a59c60_cls *>((((Ref*)((void *)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>(this)->FUN_0043fcd0())))))->FUN_00a59c60((int)(&ud));
+        reinterpret_cast<::FUN_00a59c60_cls *>((((Ref*)((void *)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>(this)->FUN_0043fcd0())))))->FUN_00a59c60((std::intptr_t)(&ud));
         bool b = v64();
         if (b)
         {
@@ -44043,7 +44043,7 @@ void This57::FUN_0057ada0()
         }
     }
     new ((void *)&(t_)) ::NiUpdateData(0.0f, 0, 0);
-    reinterpret_cast<::FUN_00a59c60_cls *>((((::fnv_0057ada0::RetObj *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0)))))->FUN_00a59c60((int)(&t_));
+    reinterpret_cast<::FUN_00a59c60_cls *>((((::fnv_0057ada0::RetObj *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0)))))->FUN_00a59c60((std::intptr_t)(&t_));
 }
 }  // namespace fnv_0057ada0
 
@@ -46579,7 +46579,7 @@ void Ref::FUN_0055c3e0(TESForm* apSource)
         reinterpret_cast<::FUN_0043fa80_s *>((node()))->FUN_0043fa80((*(const ::ThreeByThreeMatrix *)(&FUN_0056fa00())));
         ::FUN_00c6bd00((::TreeNode_cls *)(::CopyNode *)(node()), true);
         NiUpdateData update(0.0f, false, false);
-        reinterpret_cast<::FUN_00a59c60_cls *>((node()))->FUN_00a59c60((int)&(update));
+        reinterpret_cast<::FUN_00a59c60_cls *>((node()))->FUN_00a59c60((std::intptr_t)&(update));
     }
     if (((::Cell *)(reinterpret_cast<::LowProcess *>((pSource))->GetTarget())))
     {
@@ -46732,7 +46732,7 @@ void Ref::FUN_0055c3e0(TESForm* apSource)
             ::BGSOpenCloseForm::SetOpenState((::TESObjectREFR *)(::Ref *)(this), false, true);
         ::FUN_00c6bd00((::TreeNode_cls *)(::CopyNode *)(node()), true);
         NiUpdateData update(0.0f, false, false);
-        reinterpret_cast<::FUN_00a59c60_cls *>((node()))->FUN_00a59c60((int)&(update));
+        reinterpret_cast<::FUN_00a59c60_cls *>((node()))->FUN_00a59c60((std::intptr_t)&(update));
         reinterpret_cast<::FUN_00a5a040_Class *>((node()))->FUN_00a5a040();
     }
     else
@@ -46873,7 +46873,7 @@ void FNV_0055f970::FUN_0055f970()
                     reinterpret_cast<::FUN_0098adb0_shell *>((first))->FUN_0098adb0(-DAT_0102f510);
                     Position position;
                     new ((void *)&(position)) ::NiUpdateData(reinterpret_cast<::FUN_00759450_shell *>((first))->FUN_00759450(), {}, {});
-                    reinterpret_cast<::FUN_00a59c60_cls *>((reference))->FUN_00a59c60((int)(&position));
+                    reinterpret_cast<::FUN_00a59c60_cls *>((reference))->FUN_00a59c60((std::intptr_t)(&position));
                 }
                 if (second)
                 {
@@ -46882,7 +46882,7 @@ void FNV_0055f970::FUN_0055f970()
                     reinterpret_cast<::FUN_0098adb0_shell *>((second))->FUN_0098adb0(-DAT_0102f510);
                     Position position;
                     new ((void *)&(position)) ::NiUpdateData(reinterpret_cast<::FUN_00759450_shell *>((second))->FUN_00759450(), {}, {});
-                    reinterpret_cast<::FUN_00a59c60_cls *>((reference))->FUN_00a59c60((int)(&position));
+                    reinterpret_cast<::FUN_00a59c60_cls *>((reference))->FUN_00a59c60((std::intptr_t)(&position));
                 }
             }
             else
@@ -46895,7 +46895,7 @@ void FNV_0055f970::FUN_0055f970()
                     reinterpret_cast<::FUN_0098adb0_shell *>((first))->FUN_0098adb0(-DAT_0102f510);
                     Position position;
                     new ((void *)&(position)) ::NiUpdateData(reinterpret_cast<::FUN_00759450_shell *>((first))->FUN_00759450(), {}, {});
-                    reinterpret_cast<::FUN_00a59c60_cls *>((reference))->FUN_00a59c60((int)(&position));
+                    reinterpret_cast<::FUN_00a59c60_cls *>((reference))->FUN_00a59c60((std::intptr_t)(&position));
                 }
                 reinterpret_cast<::NiControllerManager *>((controller))->DeactivateAllSequences(0.0f);
                 reinterpret_cast<::TaskQueueInterface *>((controller))->QueueReferenceStateTask(false);
@@ -47076,7 +47076,7 @@ void __cdecl FUN_0055ffa0(AnimationInterpolatorNode* apController, NiNode* apNod
     if (ok && apNode)
     {
         NiUpdateData data2(f, true, false);
-        reinterpret_cast<::FUN_00a59c60_cls *>((((FUN_00a59c60_shell*)apNode)))->FUN_00a59c60((int)&(data2));
+        reinterpret_cast<::FUN_00a59c60_cls *>((((FUN_00a59c60_shell*)apNode)))->FUN_00a59c60((std::intptr_t)&(data2));
     }
 }
 
@@ -47513,7 +47513,7 @@ void C0055f780::FUN_0055f780(unsigned int a1, unsigned int a2)
         ::FUN_00c69f50((::S_00c69f50_Obj *)(node), 1, 0);
         UpdData upd;
         new ((void *)&(upd)) ::NiUpdateData(0.0f, false, false);
-        reinterpret_cast<::FUN_00a59c60_cls *>((node))->FUN_00a59c60((int)&(upd));
+        reinterpret_cast<::FUN_00a59c60_cls *>((node))->FUN_00a59c60((std::intptr_t)&(upd));
     }
     if (0)
     {

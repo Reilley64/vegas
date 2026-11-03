@@ -1,3 +1,4 @@
+#include <cstddef>
 
 // src/bsshader/imagespaceeffectwaterfft.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/bsshader/imagespaceeffectwaterfft.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
@@ -260,7 +261,7 @@ void ImageSpaceEffectX::SetupShaderPasses(EffectSource* apSource, int unused)
         reinterpret_cast<::FUN_00ba3c70_shell *>(this)->SetEffectAt(0, (::ImageSpaceEffect *)(void *)(apSource->textures.GetAt(65)), param, 2);
         reinterpret_cast<::FUN_00a41520_cls *>(&(params))->FUN_00ba3aa0(0, (::KeyPair **)&(param));
     }
-    ::SetEffectParamAt((char *)this, 0, 1, 1, {});
+    ::SetEffectParamAt((char *)this, 0, 0, 1, 1);
     reinterpret_cast<::FUN_00a41520_cls *>(&(params))->FUN_00ba3aa0(1, (::KeyPair **)&(const ::ImageSpaceEffectParam *const &)(0));
     reinterpret_cast<::FUN_00ba3b50_t *>(this)->SetArrayEntry(1, 2, 3, 0, 0);
     reinterpret_cast<::FUN_00ba3c70_shell *>(this)->SetEffectAt(1, (::ImageSpaceEffect *)(void *)(apSource->textures.GetAt(18)), 0, 2);

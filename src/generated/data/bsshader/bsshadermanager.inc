@@ -46,7 +46,7 @@ int DAT_011f950c;
 int DAT_011f9510;
 ::C0BC90Texture *g_pkC0BC90DefaultTexture;
 ::NiTexture *DAT_011f9518;
-int DAT_011f9530;
+intptr_t DAT_011f9530;
 unsigned int DAT_011f9534;
 int DAT_011f9538;
 unsigned int DAT_011f9544;

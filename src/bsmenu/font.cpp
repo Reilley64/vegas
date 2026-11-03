@@ -1,3 +1,6 @@
+#include "global_string_header.h"
+#include <cstdint>
+#include <cstddef>
 // bsmenu/font.cpp: Font, FontManager, OwnQ, SBox and more (57 functions)
 
 #include <new>
@@ -242,8 +245,6 @@ float FUN_00a1b3a0_shell::FUN_00a1b3a0(int aiFont)
 
 extern char str_010a435c[];
 
-int __cdecl _strnicmp(const char*, const char*, unsigned int);
-int __cdecl strcpy_s(char*, unsigned int, const char*);
 
 // Builds dst from src: prefixes "Trees" when src ends in "spt", prefixes str_010a435c unless src starts with "meshes\", else copies src.
 // @fnv 0x00af4250
@@ -261,7 +262,6 @@ void __cdecl BuildAssetPath(const char* pcSourcePath, char* pcDestPath, unsigned
     }
 }
 
-int __cdecl strcpy_s(char*, unsigned int, const char*);
 struct FUN_00c3d090_shell2 {
     char pad[0x28];
     char* p;
@@ -271,7 +271,7 @@ struct FUN_00c3d090_shell2 {
 void FUN_00c3d090_shell2::FUN_00c3d090(int flag, char* dst)
 {
     if (flag == 0) {
-        ::BuildAssetPath((const char *)((int)p), dst, 0x104);
+        ::BuildAssetPath(p, dst, 0x104);
     } else {
         char* src = p;
         strcpy_s(dst, 0x104, src);
@@ -354,15 +354,16 @@ void FUN_00a16d20_shell::FUN_00a16d20()
 }
 }  // namespace fnv_00a16d20
 
-struct FUN_00a1b410_shell { char* p; void ClearPointer(); };
-// Sets p to null, then if p is non-null increments the counter at p+4 via InterlockedIncrement.
+struct RefCountedView { void* m_pVtbl; long m_lRefCount; };
+struct FUN_00a1b410_shell { RefCountedView* p; void ClearPointer(); };
+// Sets p to null, then if p is non-null increments its reference count via InterlockedIncrement.
 // @fnv 0x00a1b410
 void FUN_00a1b410_shell::ClearPointer()
 {
     p = 0;
     if (p) {
-        char* q = p;
-        InterlockedIncrement((long*)(q + 4));
+        RefCountedView* q = p;
+        InterlockedIncrement(&q->m_lRefCount);
     }
 }
 
@@ -500,6 +501,12 @@ struct FUN_00a19f70_t {
     void WrapLine(void* apSource, unsigned int auiStart);
 };
 
+// The font number of the source that FUN_00a1bd40 lays out; the pad stands for members not named yet.
+struct TextLineSource {
+    char pad00[0x18];
+    unsigned int uiFontNum;
+};
+
 struct FUN_00a1bd40 {
     NiTPointerList<TextItem*> kItemList;
     unsigned int uiNumItems;
@@ -517,7 +524,7 @@ struct FUN_00a1bd40 {
 // @fnv 0x00a1bd40
 FUN_00a1bd40::FUN_00a1bd40(void* apOwner, void* apSource, unsigned int auiFlags, unsigned int auiMaxWidth) {
     uiNumItems = 0;
-    uiFontNum = *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(apSource) + 0x18);
+    uiFontNum = static_cast<TextLineSource*>(apSource)->uiFontNum;
     uiMaxWidth = auiMaxWidth;
     pOwner = apOwner;
     uiStart = 0;
@@ -664,7 +671,9 @@ struct AttachWrap {
 };
 struct NiGeometryData_SetConsistency_View { void SetDataConsistency(int); };
 struct TileShaderProperty : BSFadeNode {
-    char pad[0xb0];
+    char pad[0x68];
+    RgbaColor m_kColor;
+    char pad78[0x38];
     TileShaderProperty(bool);
 };
 namespace L {
@@ -672,7 +681,7 @@ struct NiFixedString : ::NiFixedString {
     NiFixedString(const char* s) { if (s == 0) m_kHandle = ::DAT_0109b220; else m_kHandle = ::NiGlobalStringTable::AddString(s); }
     ~NiFixedString() {
         if (m_kHandle == ::DAT_0109b220) return;
-        NiGlobalStringTable::DecRef((long*)(m_kHandle - 8));
+        NiGlobalStringTable::DecRef(&((StringHeader*)m_kHandle - 1)->refs);
     }
 };
 struct NiGeometryData {
@@ -734,14 +743,14 @@ NiTriShape* FUN_00a14a20_shell::CreateTextShape(int aiChars, void* axColor, bool
     pd = pshape->GetModelData();
     pd->m_ucKeepFlags = 0;
     pd->m_ucCompressFlags = 1;
-    ::AssignFixedString((char *)(pshape), (int)&(const ::NiFixedString &)(L::NiFixedString("Interface: Text")), {});
+    ::AssignFixedString((char *)(pshape), 0, (char **)&(const ::NiFixedString &)(L::NiFixedString("Interface: Text")));
     ((NiGeometryData_SetConsistency_View*)pshape->GetModelData())->SetDataConsistency(0x4000);
     ptsp = new TileShaderProperty(false);
     ((AttachWrap*)pshape)->AttachProperty((NiObject*)ptsp);
-    *(RgbaColor*)((char*)ptsp + 0x68) = *(const RgbaColor*)axColor;
+    ptsp->m_kColor = *(const RgbaColor*)axColor;
     if (abPrepareObject)
         ::BSShaderManager::UpdateObjectTypeRecurse((::NiAVObject*)pshape, false, false);
-    reinterpret_cast<::TileShaderProperty *>((ptsp))->FUN_00bb7a10((::NiTexture *)(::fnv_00a14a20::NiTexture *)(((L::TexProp*)((L::TexPtr*)((char*)this + 0xc))[0])->GetBaseTexture()));
+    reinterpret_cast<::TileShaderProperty *>((ptsp))->FUN_00bb7a10((::NiTexture *)(::fnv_00a14a20::NiTexture *)(((L::TexProp*)*(L::TexPtr*)&m_kTextureSlots[0])->GetBaseTexture()));
     reinterpret_cast<::FUN_00a5a040_Class *>((pshape))->FUN_00a5a040();
     ::AttachFaceGenAnimationData((::NiAVObject*)pshape);
     return (NiTriShape*)pshape;
@@ -946,14 +955,14 @@ NiPoint3 FUN_00a1b020_t::FUN_00a1b020(const char* strText, int aiFont, float afW
 
     returnDims = ::NiPoint3::ZERO;
     uistrLength = std::strlen(strText);
-    plettersA = (FontCharacterInfo*)(*(char**)&pFont[aiFont - 1]->m_pFontData + 0x128);
+    plettersA = ((::fnv_00a19c00::SFontDataView*)pFont[aiFont - 1]->m_pFontData)->kLetters;
     fwrapPointWidth = 0;
     fcurrLineWidth = 0;
     flinePadding = reinterpret_cast<::FUN_00a1b3a0_shell *>((((FUN_00a1b3a0_shell*)this)))->FUN_00a1b3a0(aiFont);
     fprevLetterWidth = 0;
     bsoftHyphen = false;
     inumLines = 1;
-    returnDims.y = *(float*)((char*)plettersA + 0x728);
+    returnDims.y = plettersA[32].m_fGlyphExtent;
     for (int iletterCt = aiStartIndex; iletterCt < uistrLength; iletterCt++) {
         unsigned char cletter = strText[iletterCt];
         float fcurrLetterWidth = 0;
@@ -989,7 +998,7 @@ NiPoint3 FUN_00a1b020_t::FUN_00a1b020(const char* strText, int aiFont, float afW
                 fcurrLineWidth = fcurrLetterWidth + fprevLetterWidth;
             }
             returnDims.x = returnDims.x > fwrapPointWidth ? returnDims.x : fwrapPointWidth;
-            returnDims.y = flinePadding + **(float**)&pFont[aiFont - 1]->m_pFontData + returnDims.y;
+            returnDims.y = flinePadding + ((::fnv_00a19c00::SFontDataView*)pFont[aiFont - 1]->m_pFontData)->m_fFontSize + returnDims.y;
             fwrapPointWidth = 0;
             inumLines++;
         }
@@ -1084,7 +1093,7 @@ void FUN_00a16700_cls::SplitAndProcessToken(char* text, FUN_004037f0_target* tar
 struct FUN_00a18ff0_node {
     FUN_00a18ff0_node* next;
     int unk04;
-    int value;
+    void* value;
 };
 
 struct FUN_00a18ff0_cls {
@@ -1094,12 +1103,12 @@ struct FUN_00a18ff0_cls {
     int unk0c;
     int unk10;
     unsigned int m_14;
-    int GetValueAtCount();
+    void* GetValueAtCount();
 };
 
 // Walks the linked list from head for m_14 steps and returns the node's value, or 0 if m_08 is null or the list ends early.
 // @fnv 0x00a18ff0
-int FUN_00a18ff0_cls::GetValueAtCount() {
+void* FUN_00a18ff0_cls::GetValueAtCount() {
     unsigned int count;
     FUN_00a18ff0_node* cur;
     void* first4;
@@ -1110,7 +1119,7 @@ int FUN_00a18ff0_cls::GetValueAtCount() {
         h4 = head;
         cur = h4;
         while (cur != 0 && count-- != 0) {
-            int* p3 = &cur->value;
+            void** p3 = &cur->value;
             cur = cur->next;
         }
         if (cur != 0) {
@@ -1192,7 +1201,6 @@ void FUN_00a1b770_cls::FUN_00a1b770()
     FUN_00a1b7f0(0x20);
 }
 
-int __cdecl strcpy_s(char*, unsigned int, const char*);
 
 inline void CopyFont(char* dst, unsigned int size, const char* file) { strcpy_s(dst, size, file); }
 struct FontTexSlot {
@@ -1241,7 +1249,7 @@ struct FUN_00a12020 {
     float m_fLineHeight;
     float m_fDrop;
     int m_iOverlap;
-    int m_pFontData;
+    void* m_pFontData;
     FontStr iconName;
     FontIconArray icons;
     FUN_00a12020(int fontNum, const char* file, bool load);
@@ -1591,7 +1599,7 @@ AtlasGeometry* FontAtlasFactory::FUN_00a14da0() {
  AtlasData* dataB=geometry_->GetData();
  dataB->keep=false;
  dataB->dynamic=true;
- ::AssignFixedString((char *)(geometry_), (int)&(const ::AtlasString &)(AtlasString(sheetGeometryName)), {});
+ ::AssignFixedString((char *)(geometry_), 0, (char **)&(const ::AtlasString &)(AtlasString(sheetGeometryName)));
  geometry_->GetData()->FUN_00a67050(0x4000);
  AtlasShader* shader3=new AtlasShader(false);
  reinterpret_cast<::FUN_00439410_cls *>((geometry_))->FUN_00439410((::ArgObject *)(shader3));
@@ -1882,7 +1890,6 @@ int f0004; float f0008; float f000c; float f0010; float f0014; float f0018; floa
 };
 struct TexName { int id; char name[32]; };
 struct Names { int unk00; int count; TexName textures[8]; };
-struct StringHeader { long refs; int length; };
 struct FixedString { char* handle; FixedString(const char* text) { if(!text) handle=DAT_0109b220; else handle=::NiGlobalStringTable::AddString(text); } ~FixedString() { if(handle==DAT_0109b220) return; StringHeader* header=(StringHeader*)handle-1; InterlockedDecrement(&header->refs); } };
 struct PixelFormat { int value; }; 
 struct PixelData {
@@ -2477,15 +2484,15 @@ void FUN_00a152d0_shell::FUN_00a152d0()
 void S_00a12300_Obj::ClearArray() {
     int unusedOne;
     int unusedTwo;
-    int index;
+    S_00a12300_Arr* index;
     int array;
 
     for (unusedOne = 0; m_aiIndexedValues != 0 && unusedOne < m_aiIndexedValues->count; unusedOne++) {
         ((S_00a12300_Elem*)((char*)&this->unk0c + unusedOne * 4))->FUN_0066b0d0(0);
     }
 
-    index = (int)m_aiIndexedValues;
-    reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::S_00a12300_Glob *>(&::g_memoryManager))))->FUN_00aa4060((S_00a12300_Arr*)index);
+    index = m_aiIndexedValues;
+    reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::S_00a12300_Glob *>(&::g_memoryManager))))->FUN_00aa4060(index);
     m_aiIndexedValues = 0;
 }
 
@@ -2626,8 +2633,8 @@ struct Info_ {
     int iEnd;
     int iLeading;
     int iUnused;
-    int oFirst;
-    int oLast;
+    void* oFirst;
+    void* oLast;
     char bFlag;
     SStr str;
     int GetFont() { return m_iType; }
@@ -2744,7 +2751,7 @@ RunNode* FontData::CreateTextRunNode(SStr* text, Info_* info) {
     info->iEnd = 0;
     info->oLast = 0;
     if (pNode) {
-        info->oFirst = (int)pNode->GetB8();
+        info->oFirst = pNode->GetB8();
         ListObj* list = ((::fnv_00a18a30::ListObj *)(reinterpret_cast<::FUN_00a18ff0_cls *>((pNode))->GetValueAtCount()));
         if (list) {
             info->iEnd = 0;
@@ -2755,7 +2762,7 @@ RunNode* FontData::CreateTextRunNode(SStr* text, Info_* info) {
                 info->iEnd += e->v14 + e->v1c;
                 info->iStart = Max(info->iStart, e->v0c);
             }
-            info->oLast = (int)list->GetX8();
+            info->oLast = list->GetX8();
         }
     }
     Pad20();
@@ -2769,7 +2776,6 @@ namespace fnv_00a12880 {
 extern char DAT_01011584[];
 unsigned int LayoutLength(const char*);
 unsigned int LayoutCapacity(unsigned int,unsigned int);
-extern "C" void* __cdecl memcpy(void*,const void*,unsigned int);
 inline void* LayoutCopy(void* destination,const void* source,unsigned int size) { return memcpy(destination,source,size); }
 struct LayoutText {
     char* data; unsigned short length,capacity;
@@ -2920,9 +2926,9 @@ struct FontDataView {
 struct BoundView {  int a,b,c,d; };
 struct GeometryView {
     int unk00,unk04; unsigned short vertices,id; int unk0c;
-    BoundView bound; int active;
+    BoundView bound; void* active;
     unsigned short GetVertices() { return vertices; }
-    int GetActive() { int result=active; return result; }
+    void* GetActive() { void* result=active; return result; }
     void FUN_00a67050(int);
 };
 struct ShapeView {
@@ -2994,7 +3000,7 @@ struct FontRenderer {
     BSStringT<char> atlas; FinalizerView finalizer;
     bool HasNoIcons() { return finalizer.count==0; }
     unsigned int GetIconCount() { return finalizer.count; }
-    void FUN_00a12880(int*,int*,int*,int,int,int,char,int,ShapeView**,ShapeView**);
+    void FUN_00a12880(int*,int*,int*,int,int,int,char,const void*,ShapeView**,ShapeView**);
     void FUN_00a12fb0(int,FUN_00759330*);
     void UpdateIconGeometry(int,ShapeView*,NiPoint3&);
 };
@@ -3016,13 +3022,13 @@ inline InlineManager* Manager() { return (InlineManager*)(*reinterpret_cast<::Fo
 __forceinline double TabMod(const float& value) { return (float)std::fmod((double)value,(double)::InventorySelection::DAT_0102f0f8); }
 __forceinline void TabAdvance(float& value) { float tabPosition=value; float tabMultiple=(float)TabMod(tabPosition); value=::DAT_010731a8-tabMultiple+value; }
 // @fnv 0x00a12880
-void FontRenderer::FUN_00a12880(int* source,int* width,int* height,int count,int limit,int mode,char separator,int flags,ShapeView** primary,ShapeView** secondary) {
+void FontRenderer::FUN_00a12880(int* source,int* width,int* height,int count,int limit,int mode,char separator,const void* flags,ShapeView** primary,ShapeView** secondary) {
     if(*height==0) *height=0x7fffffff;
     if(!limit) limit=0x7fffffff;
     unsigned char letter9;
     int letterCode7;
     GlyphData* glyph;
-    int secondaryActive_2;
+    void* secondaryActive_2;
     float lineB=reinterpret_cast<::FUN_00a1b3a0_shell *>((Manager()))->FUN_00a1b3a0(number);
     FUN_00759330 layoutX(*width,*height,count,limit,separator);
     FUN_00a12fb0(SourceValue(source),&layoutX);
@@ -3077,7 +3083,7 @@ void FontRenderer::FUN_00a12880(int* source,int* width,int* height,int count,int
         *width=Maximum((int)(position6.x-originXVal),*width);
         ++cur5;
     }
-    int res=(*primary)->GetGeometry()->GetActive();
+    void* res=(*primary)->GetGeometry()->GetActive();
     reinterpret_cast<::Bound88 *>(&((*primary)->GetGeometry()->bound))->ComputeBoundingSphere((*primary)->GetGeometry()->GetVertices(),(const ::Vec88 *)(res));
     if(*secondary) {
         secondaryActive_2=(*secondary)->GetGeometry()->GetActive();
@@ -3206,11 +3212,7 @@ struct MemoryManager { void* Allocate(unsigned int); };
 struct LayoutMemory { void Deallocate(void*); };
 unsigned int LayoutLength(const char*);
 unsigned int LayoutCapacity(unsigned int,unsigned int);
-extern "C" void* __cdecl memcpy(void*,const void*,unsigned int);
 inline void* LayoutCopy(void* destination,const void* source,unsigned int size) { return memcpy(destination,source,size); }
-extern "C" unsigned int __cdecl strlen(const char*);
-extern "C" char* __cdecl strcpy(char*,const char*);
-extern "C" int __cdecl toupper(int);
 int __cdecl FUN_00408b20(const char*,const char*);
 extern "C" int __cdecl sscanf(const char*,const char*,...);
 struct LayoutString {
@@ -3750,9 +3752,6 @@ unsigned int LayoutLength(const char*);
 unsigned int LayoutCapacity(unsigned int,unsigned int);
 inline void* LayoutCopy(void* destination,const void* source,unsigned int size) {return memcpy(destination,source,size);}
 namespace TextLayout {
-extern "C" unsigned int __cdecl strlen(const char*);
-extern "C" char* __cdecl strcpy(char*,const char*);
-extern "C" int __cdecl sprintf(char*,const char*,...);
 extern char DAT_010950a8[];
 struct Memory {
  void FUN_00aa4060(void*);
@@ -4141,7 +4140,7 @@ struct Letter {float leading,top,width,height;unsigned int unk10,unk14,unk18,unk
 
 struct FontData {unsigned int unk0;unsigned int unk4;unsigned int unk8;unsigned int unkc;unsigned int unk10;unsigned int unk14;unsigned int unk18;unsigned int unk1c;unsigned int unk20;unsigned int unk24;unsigned int unk28;unsigned int unk2c;unsigned int unk30;unsigned int unk34;unsigned int unk38;unsigned int unk3c;unsigned int unk40;unsigned int unk44;unsigned int unk48;unsigned int unk4c;unsigned int unk50;unsigned int unk54;unsigned int unk58;unsigned int unk5c;unsigned int unk60;unsigned int unk64;unsigned int unk68;unsigned int unk6c;unsigned int unk70;unsigned int unk74;unsigned int unk78;unsigned int unk7c;unsigned int unk80;unsigned int unk84;unsigned int unk88;unsigned int unk8c;unsigned int unk90;unsigned int unk94;unsigned int unk98;unsigned int unk9c;unsigned int unka0;unsigned int unka4;unsigned int unka8;unsigned int unkac;unsigned int unkb0;unsigned int unkb4;unsigned int unkb8;unsigned int unkbc;unsigned int unkc0;unsigned int unkc4;unsigned int unkc8;unsigned int unkcc;unsigned int unkd0;unsigned int unkd4;unsigned int unkd8;unsigned int unkdc;unsigned int unke0;unsigned int unke4;unsigned int unke8;unsigned int unkec;unsigned int unkf0;unsigned int unkf4;unsigned int unkf8;unsigned int unkfc;unsigned int unk100;unsigned int unk104;unsigned int unk108;unsigned int unk10c;unsigned int unk110;unsigned int unk114;unsigned int unk118;unsigned int unk11c;unsigned int unk120;unsigned int unk124;Letter letters[256];};
 
-struct Icons {virtual void v0();virtual void v4();virtual void Free(void*);int unk4,count,unkC;bool Empty(){return count==0;}void FUN_00a1bfa0(bool abFree){if(unk4){for(unsigned int i=0;i<(unsigned int)count;++i){}if(abFree){Free((void*)unk4);unk4=0;unk4=0;unkC=0;}count=0;}}};
+struct Icons {virtual void v0();virtual void v4();virtual void Free(void*);void* unk4;int count,unkC;bool Empty(){return count==0;}void FUN_00a1bfa0(bool abFree){if(unk4){for(unsigned int i=0;i<(unsigned int)count;++i){}if(abFree){Free(unk4);unk4=0;unk4=0;unkC=0;}count=0;}}};
 
 struct Font {unsigned int unk0;unsigned int unk4;unsigned int unk8;unsigned int unkc;unsigned int unk10;unsigned int unk14;unsigned int unk18;unsigned int unk1c;unsigned int unk20;unsigned int unk24;unsigned int unk28;unsigned int unk2c;unsigned int unk30;unsigned int unk34;FontData* data;unsigned int unk3c;unsigned int unk40;Icons icons;};
 
@@ -4157,7 +4156,7 @@ void Builder::BuildPage(Node* node,Layout* layout){
 
 Page* pageSlot35=0;int remainingSlot28=index;int iconIndexSlot11=0;Shape* shapesSlot32[8];int indices[8];Link<Page*>* cursorSlot10=pages.Head();while(cursorSlot10&&remainingSlot28--)pages.Next(cursorSlot10);if(cursorSlot10)pageSlot35=cursorSlot10->value;else return;
 
-for(unsigned int fontIndex=0;fontIndex<8;fontIndex++){indices[fontIndex]=0;shapesSlot32[fontIndex]=0;int count=reinterpret_cast<::MapQ *>((pageSlot35))->CountEmptyNameEntries(fontIndex);if(count>0){shapesSlot32[fontIndex]=((::PageMeshes::Shape *)(reinterpret_cast<::fnv_00a14a20::FUN_00a14a20_shell *>((GetDebrisManager()->GetFont(fontIndex)))->CreateTextShape(count,(void *)(&Color(117.0f/255.0f,59.0f/255.0f,33.0f/255.0f,1.0f)),true)));shapesSlot32[fontIndex]->SetPosition((*reinterpret_cast<::PageMeshes::Vec *>((void *)&::NiPoint3::ZERO)));}}
+for(unsigned int fontIndex=0;fontIndex<8;fontIndex++){indices[fontIndex]=0;shapesSlot32[fontIndex]=0;int count=reinterpret_cast<::MapQ *>((pageSlot35))->CountEmptyNameEntries(fontIndex);if(count>0){Color kShapeColor(117.0f/255.0f,59.0f/255.0f,33.0f/255.0f,1.0f);shapesSlot32[fontIndex]=((::PageMeshes::Shape *)(reinterpret_cast<::fnv_00a14a20::FUN_00a14a20_shell *>((GetDebrisManager()->GetFont(fontIndex)))->CreateTextShape(count,(void *)(&kShapeColor),true)));shapesSlot32[fontIndex]->SetPosition((*reinterpret_cast<::PageMeshes::Vec *>((void *)&::NiPoint3::ZERO)));}}
 
 List<Shape*> imagesSlot52;Shape* iconsSlot17=0;if(!GetDebrisManager()->GetFont(0)->icons.Empty()){iconsSlot17=((::PageMeshes::Shape *)(reinterpret_cast<::FontAtlasFactory *>((GetDebrisManager()->GetFont(0)))->FUN_00a14da0()));iconsSlot17->SetPositionThroughShape((*reinterpret_cast<::PageMeshes::Vec *>((void *)&::NiPoint3::ZERO)));imagesSlot52.Add(iconsSlot17);}
 
@@ -4171,9 +4170,9 @@ Vec glyphPosition=position;glyphPosition.x+=runSlot0->offset;if(runSlot0->letter
 
 }
 
-bool attachedSlot0=false;for(unsigned int finishIndex=0;finishIndex<8;finishIndex++){if(shapesSlot32[finishIndex]){Vec* vertices=shapesSlot32[finishIndex]->GetData()->GetVertices();reinterpret_cast<::Bound88 *>(&(shapesSlot32[finishIndex]->GetData()->GetBound()))->ComputeBoundingSphere(shapesSlot32[finishIndex]->GetData()->GetCount(),(const ::Vec88 *)(vertices));shapesSlot32[finishIndex]->SetPosition((*reinterpret_cast<::PageMeshes::Vec *>((void *)&::NiPoint3::ZERO)));reinterpret_cast<::FUN_00a5a040_Class *>((shapesSlot32[finishIndex]))->FUN_00a5a040();Update update;reinterpret_cast<::FUN_00a59c60_cls *>((shapesSlot32[finishIndex]))->FUN_00a59c60((int)&(update));node->Attach(shapesSlot32[finishIndex],true);attachedSlot0=true;}}
+bool attachedSlot0=false;for(unsigned int finishIndex=0;finishIndex<8;finishIndex++){if(shapesSlot32[finishIndex]){Vec* vertices=shapesSlot32[finishIndex]->GetData()->GetVertices();reinterpret_cast<::Bound88 *>(&(shapesSlot32[finishIndex]->GetData()->GetBound()))->ComputeBoundingSphere(shapesSlot32[finishIndex]->GetData()->GetCount(),(const ::Vec88 *)(vertices));shapesSlot32[finishIndex]->SetPosition((*reinterpret_cast<::PageMeshes::Vec *>((void *)&::NiPoint3::ZERO)));reinterpret_cast<::FUN_00a5a040_Class *>((shapesSlot32[finishIndex]))->FUN_00a5a040();Update update;reinterpret_cast<::FUN_00a59c60_cls *>((shapesSlot32[finishIndex]))->FUN_00a59c60((std::intptr_t)&(update));node->Attach(shapesSlot32[finishIndex],true);attachedSlot0=true;}}
 
-while(imagesSlot52.Count()){Shape* finishedImageSlot0=((::PageMeshes::Shape *)(reinterpret_cast<::FUN_00a1c080_Class *>(&(imagesSlot52))->PopFront()));Vec* imageVerticesSlot0=finishedImageSlot0->GetData()->GetVertices();reinterpret_cast<::Bound88 *>(&(finishedImageSlot0->GetData()->GetBound()))->ComputeBoundingSphere(finishedImageSlot0->GetData()->GetCount(),(const ::Vec88 *)(imageVerticesSlot0));finishedImageSlot0->position=(*reinterpret_cast<::PageMeshes::Vec *>((void *)&::NiPoint3::ZERO));reinterpret_cast<::FUN_00a5a040_Class *>((finishedImageSlot0))->FUN_00a5a040();Update imageUpdateSlot0;reinterpret_cast<::FUN_00a59c60_cls *>((finishedImageSlot0))->FUN_00a59c60((int)&(imageUpdateSlot0));node->Attach(finishedImageSlot0,true);}}
+while(imagesSlot52.Count()){Shape* finishedImageSlot0=((::PageMeshes::Shape *)(reinterpret_cast<::FUN_00a1c080_Class *>(&(imagesSlot52))->PopFront()));Vec* imageVerticesSlot0=finishedImageSlot0->GetData()->GetVertices();reinterpret_cast<::Bound88 *>(&(finishedImageSlot0->GetData()->GetBound()))->ComputeBoundingSphere(finishedImageSlot0->GetData()->GetCount(),(const ::Vec88 *)(imageVerticesSlot0));finishedImageSlot0->position=(*reinterpret_cast<::PageMeshes::Vec *>((void *)&::NiPoint3::ZERO));reinterpret_cast<::FUN_00a5a040_Class *>((finishedImageSlot0))->FUN_00a5a040();Update imageUpdateSlot0;reinterpret_cast<::FUN_00a59c60_cls *>((finishedImageSlot0))->FUN_00a59c60((std::intptr_t)&(imageUpdateSlot0));node->Attach(finishedImageSlot0,true);}}
 
 reinterpret_cast<::RequestQueue *>(&(GetDebrisManager()->GetFont(0)->icons))->FUN_00a1bfa0(true);
 
@@ -5115,7 +5114,6 @@ FUN_00a168b0::FUN_00a168b0() {
 }
 
 namespace fnv_00a1a800 {
-extern "C" unsigned int __cdecl strlen(const char*);
 unsigned int __cdecl BSStringLength(const char*);
 unsigned int __cdecl BSStringCapacityMaximum(unsigned int, unsigned int);
 void* __cdecl __memcpy(void*, const void*, unsigned int);
@@ -5534,7 +5532,7 @@ TQShape* TQOwner::FUN_00a1a800(TQStr kPath, float fX, float fY, float fZ, int iW
     TQProperty* pkProperty3 = new TQProperty(false);
     reinterpret_cast<::TileShaderProperty *>((pkProperty3))->FUN_00bb7a10((::NiTexture *)(pkTexture3));
     reinterpret_cast<::FUN_00439410_cls *>((pkShape))->FUN_00439410((::ArgObject *)(pkProperty3));
-    TQZBuffer* pkNewZBuffer2 = ((::fnv_00a1a800::TQZBuffer *)(::FUN_00b55560((void *)(0x20))));
+    TQZBuffer* pkNewZBuffer2 = ((::fnv_00a1a800::TQZBuffer *)(::FUN_00b55560(0x20)));
     TQZBuffer* pkZBuffer9 = pkNewZBuffer2;
     pkShape->m_pkZBuffer = pkZBuffer9;
     reinterpret_cast<::FUN_00a5a040_Class *>((pkShape))->FUN_00a5a040();

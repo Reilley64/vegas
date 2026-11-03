@@ -1,3 +1,4 @@
+#include <cstddef>
 
 // src/bsshader/particleshaderproperty.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/bsshader/particleshaderproperty.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
@@ -41,6 +42,12 @@ template <class T> class NiTMallocInterface
 template <class T, class A> class NiTPrimitiveArray
 {
   public:
+    void* m_pVtable;
+    T* m_pBase;
+    unsigned short m_usMaxSize;
+    unsigned short m_usSize;
+    unsigned short m_usESize;
+    unsigned short m_usGrowBy;
     void SetSize(unsigned int);
     void SetAt(unsigned int, char*&);
 };
@@ -55,15 +62,15 @@ struct ParticleShaderProperty : BaseStr
 void ParticleShaderProperty::FUN_00ba7f20(NiTPrimitiveArray<char*, NiTMallocInterface<char*> >* apStrings)
 {
     reinterpret_cast<::ShaderPropertyRecord *>(this)->WriteToSettingArray((::SettingArray *)(apStrings));
-    char* str = ::FUN_00a7d330((const char*)(*reinterpret_cast<int *>(&::g_01200434)));
-    unsigned int size = *(unsigned short*)((char*)apStrings + 0xA);
-    if (size >= *(unsigned short*)((char*)apStrings + 8))
-        reinterpret_cast<::ViewerStrings *>((apStrings))->SetSize(size + *(unsigned short*)((char*)apStrings + 0xE));
+    char* str = ::FUN_00a7d330(*reinterpret_cast<const char * *>(&::g_01200434));
+    unsigned int size = apStrings->m_usSize;
+    if (size >= apStrings->m_usMaxSize)
+        reinterpret_cast<::ViewerStrings *>((apStrings))->SetSize(size + apStrings->m_usGrowBy);
     reinterpret_cast<::fnv_00b5c7d0::StrArr *>((apStrings))->SetAt(size, str);
 }
 
 extern int DAT_01200424;
-int __cdecl GetFloatQuadTable();
+void* __cdecl GetFloatQuadTable();
 struct MemoryManager
 {
 };
@@ -358,7 +365,7 @@ void ParticleEmitter::AdvanceParticleTimes(float fTime)
 struct TableAllocator
 {
 };
-extern int DAT_01200420;
+extern void* DAT_01200420;
 
 struct FloatQuad
 {
@@ -367,11 +374,11 @@ struct FloatQuad
 };
 
 // @fnv 0x00ba73a0
-int __cdecl GetFloatQuadTable()
+void* __cdecl GetFloatQuadTable()
 {
     char** ppTable = reinterpret_cast<char**>(&DAT_01200420);
     if (*ppTable != 0)
-        return (int)*ppTable;
+        return *ppTable;
 
     unsigned int uiQuadCount = ::ParticleShader::GetShaderParticleCount();
     char* pBase = (char*)new FloatQuad[uiQuadCount * 4];
@@ -391,9 +398,9 @@ int __cdecl GetFloatQuadTable()
             pQuad[3] = fIndexValue;
             p += 16;
         } while (++i < uiQuadCount);
-        return (int)*ppTable;
+        return *ppTable;
     }
-    return (int)pBase;
+    return pBase;
 }
 
 struct ShaderArrayEntry

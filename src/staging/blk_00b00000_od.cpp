@@ -295,7 +295,7 @@ struct FUN_00b00c90_vt
 
 // Iterates DAT_011f8af8 up to DAT_011f8af0 and calls vfn_1 on each non-null entry.
 // @fnv 0x00b00c90
-void CallVfn1OnAllEntries(int param_1)
+void CallVfn1OnAllEntries(void* param_1)
 {
     int iIndex;
     for (iIndex = 0; iIndex < DAT_011f8af0; iIndex = iIndex + 1)
@@ -1920,7 +1920,7 @@ int DirectoryArchive::FUN_00b01590(const char* root, const char* directory, cons
         data2[result - 1] = 0;
     meshName3.FUN_00afd390(data2, 2);
     value = false;
-    if (reinterpret_cast<::S_af9 *>(this)->FindHashEntry((int)(&meshName3), &countB, 0))
+    if (reinterpret_cast<::S_af9 *>(this)->FindHashEntry(reinterpret_cast<::FileNameHash *>(&meshName3), &countB, 0))
         value = true;
     while (current)
     {
@@ -1937,7 +1937,7 @@ int DirectoryArchive::FUN_00b01590(const char* root, const char* directory, cons
             {
                 FUN_00afd390_class fileName;
                 fileName.FUN_00afd390(data5.cFileName, 0);
-                if (reinterpret_cast<::fnv_00afac90::S_af9 *>(this)->FUN_00afac90(countB, (int)(&fileName), 0))
+                if (reinterpret_cast<::fnv_00afac90::S_af9 *>(this)->FUN_00afac90(countB, reinterpret_cast<::FileNameHash *>(&fileName), 0))
                     count3++;
             }
         }

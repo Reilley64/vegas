@@ -1,5 +1,6 @@
 // fallout_shared/ragdolldata.cpp: RagDollData, RagDollDataEx, RagDollRefUpdater, RagDollWalker and more (17 functions)
 
+#include <cstdint>
 #include <cmath>
 #include <cstring>
 #include "fnv/decl/FUN_00401660_Class.h"
@@ -1013,7 +1014,7 @@ bool RagDollRefUpdater::FUN_004d9910(TESObjectREFR* apRef)
                 reinterpret_cast<::FUN_0043fa80_s *>((p3D2))->FUN_0043fa80(apRef->GetRotation());
                 ::FUN_00c6bd00((::TreeNode_cls *)(p3D2), true);
                 NiUpdateData kData6(0.0f, false, false);
-                reinterpret_cast<::FUN_00a59c60_cls *>((p3D2))->FUN_00a59c60((int)&(kData6));
+                reinterpret_cast<::FUN_00a59c60_cls *>((p3D2))->FUN_00a59c60((std::intptr_t)&(kData6));
             }
         }
         if (!bResult)

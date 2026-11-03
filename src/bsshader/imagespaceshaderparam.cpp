@@ -14,6 +14,9 @@
 #include "imagespaceshaderparam_decls.h"
 #include "imagespaceshaderparam_types_NiD3DShaderConstantMap.h"
 #include "imagespaceshaderparam_types_ImageSpaceShaderParam.h"
+#include "fnv/decl/FUN_00ba3780_struct.h"
+#include "fnv/symbols_011ad000.h"
+#include "fnv/symbols_01200000.h"
 
 // Releases and reallocates the vertex and pixel constant arrays, then registers them with two new NiD3DShaderConstantMap objects.
 // @fnv 0x00b8ab10
@@ -260,4 +263,203 @@ bool ShaderPass_4e30::FUN_00c04e30(int arg)
     return false;
 }
 
+// Native NiObject/NiTexture contracts: JIP-LN-NVSE internal/netimmerse.h.
+class NiRTTI;
+
+class NiNode;
+
+class BSFadeNode;
+
+class BSMultiBoundNode;
+
+class NiGeometry;
+
+class NiTriBasedGeom;
+
+class NiTriStrips;
+
+class NiTriShape;
+
+class BSSegmentedTriShape;
+
+class BSResizableTriShape;
+
+class NiParticles;
+
+class NiLines;
+
+class bhkNiCollisionObject;
+
+class bhkBlendCollisionObject;
+
+class bhkRigidBody;
+
+class bhkLimitedHingeConstraint;
+
+class NiObjectCopyInfo;
+
+class NiStream;
+
+class NiBound;
+
+class NiControllerManager;
+
+class NiTimeController;
+
+class NiExtraData;
+
+class NiObject : public NiRefObject
+{
+  public:
+    virtual NiRTTI* GetType();
+    virtual NiNode* GetNiNode();
+    virtual BSFadeNode* GetFadeNode();
+    virtual BSMultiBoundNode* GetMultiBoundNode();
+    virtual NiGeometry* GetNiGeometry();
+    virtual NiTriBasedGeom* GetTriBasedGeom();
+    virtual NiTriStrips* GetTriStrips();
+    virtual NiTriShape* GetTriShape();
+    virtual BSSegmentedTriShape* GetSegmentedTriShape();
+    virtual BSResizableTriShape* GetResizableTriShape();
+    virtual NiParticles* GetNiParticles();
+    virtual NiLines* GetNiLines();
+    virtual bhkNiCollisionObject* GetCollisionObject();
+    virtual bhkBlendCollisionObject* GetBlendCollisionObject();
+    virtual bhkRigidBody* GetRigidBody();
+    virtual bhkLimitedHingeConstraint* GetLimitedHingeConstraint();
+    virtual NiObject* Clone(NiObjectCopyInfo*);
+    virtual void LoadBinary(NiStream*);
+    virtual void LinkObject(NiStream*);
+    virtual void RegisterStreamables(NiStream*);
+    virtual void SaveBinary(NiStream*);
+    virtual bool Compare(NiObject*);
+    virtual void GetViewerStrings(NiTArray<char*, NiTNewInterface<char*> >*);
+    virtual void AddViewerStrings(NiTArray<char*, NiTNewInterface<char*> >*);
+    virtual void ProcessClone(NiObjectCopyInfo*);
+    virtual void PostLinkObject(NiStream*);
+    virtual bool StreamCanSkip();
+    virtual NiRTTI* GetStreamableRTTI();
+    virtual void SetWorldBound(NiBound*);
+    virtual unsigned int GetBlockAllocationSize();
+    virtual void Unk_20();
+    virtual void Unk_21(unsigned int);
+    virtual NiControllerManager* GetControllerManager();
+};
+
+class NiFixedString
+{
+  public:
+    const char* str;
+};
+
+class NiObjectNET : public NiObject
+{
+  public:
+    NiFixedString m_blockName;
+    NiTimeController* m_controller;
+    NiExtraData** m_extraDataList;
+    unsigned short m_extraDataListLen, m_extraDataListCapacity;
+};
+
+class NiTexture : public NiObjectNET
+{
+  public:
+    virtual void Unk_23();
+    virtual void Unk_24();
+    virtual unsigned int GetRenderedWidth();
+    virtual unsigned int GetRenderedHeight();
+};
+
+struct ImageSpaceTexture
+{
+};
+
+extern float g_afBlurKernel[15][4];
+
+extern float g_afBlurWeights[8][15][4];
+
+struct BlurParamArray
+{
+    void* m_ppVirtualMethodTable;
+    ImageSpaceShaderParam** m_pBase;
+    unsigned short m_usMaxSize;
+    unsigned short m_usSize;
+    unsigned short m_usESize;
+    unsigned short m_usGrowBy;
+    ImageSpaceShaderParam*& GetAt(unsigned int i)
+    {
+        return m_pBase[i];
+    }
+};
+
+struct BlurTexArray
+{
+    void* m_ppVirtualMethodTable;
+    const ImageSpaceTexture** m_pBase;
+    unsigned short m_usMaxSize;
+    unsigned short m_usSize;
+    unsigned short m_usESize;
+    unsigned short m_usGrowBy;
+    const ImageSpaceTexture*& GetAt(unsigned int i)
+    {
+        return m_pBase[i];
+    }
+};
+
+struct ImageSpaceEffectFourTexturePass
+{
+    void* m_ppVirtualMethodTable;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    BlurParamArray unk18;
+    BlurTexArray unk28;
+    int unk38;
+    int unk3C;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4C;
+    int unk50;
+    int unk54;
+    int unk58;
+    bool unk5C;
+    bool FUN_00ba4270(int a1);
+};
+
+// @fnv 0x00ba4270
+bool ImageSpaceEffectFourTexturePass::FUN_00ba4270(int a1)
+{
+    float m_fGlyphWidthInPixels = (float)((::NiTexture *)(reinterpret_cast<::FUN_00ba3780_struct *>((void *)(unk28.GetAt(2)))->FUN_00ba3780()))->GetRenderedWidth();
+    float m_fGlyphExtent = (float)((::NiTexture *)(reinterpret_cast<::FUN_00ba3780_struct *>((void *)(unk28.GetAt(1)))->FUN_00ba3780()))->GetRenderedHeight();
+    int iLevel = unk58;
+    int iLo = iLevel - 1;
+    int iHi = iLo + 1;
+    if (iHi > 7)
+        iHi = 7;
+    if (iLo < 1)
+        iLo = 1;
+    int iStart = (7 - iHi) * 4;
+    float fT = 1.0f - ((float)iLevel - ::DAT_012003c4);
+    if (fT == 0.0f)
+        fT = 1.0f;
+    for (int i = 0; i < 15; i++)
+        g_afBlurKernel[i][2] =
+            (g_afBlurWeights[iHi - 1][i][2] - g_afBlurWeights[iLo - 1][i][2]) * fT + g_afBlurWeights[iLo - 1][i][2];
+    ImageSpaceShaderParam* pParam = unk18.GetAt(0);
+    m_fGlyphExtent = 1.0f / m_fGlyphExtent;
+    pParam->SetShaderConstantVector4(0, 0.0f, m_fGlyphExtent, 0.0f, 0.0f);
+    if (unk5C)
+        pParam->SetShaderConstantVector4(17, ::DAT_012003c8, ::DAT_011adbd4, 0.0f, 0.0f);
+    pParam->CopyParamData(1, &g_afBlurKernel[0][iStart], (iHi * 2 + 1) * 16);
+    pParam = unk18.GetAt(1);
+    m_fGlyphWidthInPixels = 1.0f / m_fGlyphWidthInPixels;
+    pParam->SetShaderConstantVector4(0, m_fGlyphWidthInPixels, 0.0f, 0.0f, 0.0f);
+    pParam->CopyParamData(1, &g_afBlurKernel[0][iStart], (iHi * 2 + 1) * 16);
+    return false;
+}
+
 #include "generated/data/bsshader/imagespaceshaderparam.inc"
+#include "generated/data/bsshader/imagespaceshaderparam_rtm_variant.inc"

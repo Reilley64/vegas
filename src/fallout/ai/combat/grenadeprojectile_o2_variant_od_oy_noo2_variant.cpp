@@ -5,6 +5,7 @@
 
 // src/fallout/ai/combat/grenadeprojectile_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/fallout/ai/combat/grenadeprojectile.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
+#include <cstdint>
 #include "fnv/decl/Actor.h"
 #include "fnv/decl/BSShaderNoLightingProperty.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -470,7 +471,7 @@ bool Actor9B4::FUN_009b4460(TESObjectREFR9B4* pkTarget, int a2, int a3, int a4, 
                     fAlpha = fAlpha + (double)0.1f;
                     reinterpret_cast<::bhkUnaryAction *>(&(kColor))->Set(fAlpha, fAlpha, fAlpha, 0.0f);
                     reinterpret_cast<::hkVector4Mul *>(&(kColor))->FUN_009b4670((*(const ::hkVector4Mul *)(((void *)&(::fnv_00560d80::FUN_00560d80((void *)(pkObject)))))));
-                    reinterpret_cast<::S *>((pkObject))->FUN_00561690((int)(&kColor));
+                    reinterpret_cast<::S *>((pkObject))->FUN_00561690((std::intptr_t)(&kColor));
                 }
             }
         }

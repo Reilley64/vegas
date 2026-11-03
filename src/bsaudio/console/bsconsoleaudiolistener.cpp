@@ -24,17 +24,20 @@ NiPoint3& BSAudioListener::FUN_00aeaad0()
 namespace fnv_00aeaaf0 {
 struct NiPoint3
 {
+    float x, y, z;
 };
 
 struct BSAudioListener
 {
+    char pad00[0x10];
+    NiPoint3 m_kVelocity;
     NiPoint3* FUN_00aeaaf0();
 };
 
 // @fnv 0x00aeaaf0
 NiPoint3* BSAudioListener::FUN_00aeaaf0()
 {
-    return reinterpret_cast<NiPoint3*>(reinterpret_cast<char*>(this) + 0x10);
+    return &m_kVelocity;
 }
 }  // namespace fnv_00aeaaf0
 
@@ -46,13 +49,15 @@ struct NiPoint3
 
 struct BSAudioListener
 {
+    char pad00[0x1c];
+    NiPoint3 m_kOrientation;
     NiPoint3& FUN_00aeab10();
 };
 
 // @fnv 0x00aeab10
 NiPoint3& BSAudioListener::FUN_00aeab10()
 {
-    return *(NiPoint3*)((char*)this + 0x1c);
+    return m_kOrientation;
 }
 }  // namespace fnv_00aeab10
 
@@ -74,14 +79,15 @@ void BSAudioListener::FUN_00aeab30(float afGain)
 namespace fnv_00aeab90 {
 struct BSAudioListener
 {
-    float m_fDopplerScale;
+    char pad00[0x3c];
+    float m_fRolloffFactor;
     void SetRolloffFactor(float afRolloffFactor);
 };
 
 // @fnv 0x00aeab90
 void BSAudioListener::SetRolloffFactor(float afRolloffFactor)
 {
-    *(float*)((char*)this + 0x3c) = afRolloffFactor;
+    m_fRolloffFactor = afRolloffFactor;
 }
 }  // namespace fnv_00aeab90
 
@@ -91,7 +97,8 @@ struct MemoryManager
 extern int DAT_010a3bb4;
 struct BSAudioListenerShell
 {
-    char _pad[0x44];
+    void* m_pVtable;
+    char _pad[0x40];
     unsigned int _m44;
     void* Destroy(unsigned int);
 };
@@ -99,7 +106,7 @@ struct BSAudioListenerShell
 // @fnv 0x00aeabb0
 void* BSAudioListenerShell::Destroy(unsigned int auiFlags)
 {
-    *(int*)this = (int)&DAT_010a3bb4;
+    m_pVtable = &DAT_010a3bb4;
     _m44 = 0;
     if (auiFlags & 1)
         reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(this);

@@ -1,6 +1,7 @@
 // speedtree/windengine_decls.h: declares Matrix4f
 #ifndef FNV_WINDENGINE_DECLS_H
 #define FNV_WINDENGINE_DECLS_H
+#include <cstddef>
 
 
 #include "fnv/decl/FNV_MemoryManager.h"

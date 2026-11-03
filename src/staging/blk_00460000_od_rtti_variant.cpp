@@ -5,6 +5,7 @@
 
 // src/staging/blk_00460000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include <cstdint>
 #include <new>
 #include "fnv/decl/Actor.h"
 #include "fnv/decl/BGSCameraPath.h"
@@ -155,7 +156,7 @@ struct Arr
 };
 struct FUN_0046eb00_Class
 {
-    unsigned int GetSecondElement();
+    std::uintptr_t GetSecondElement();
 };
 struct FUN_0046ebf0_Class
 {
@@ -659,7 +660,7 @@ struct TESAttackDamageForm : public BaseFormComponent
 };
 struct FUN_0046eb20_Class
 {
-    unsigned int GetElementAt2();
+    std::uintptr_t GetElementAt2();
 };
 struct FUN_0046ebd0_Class
 {
@@ -699,7 +700,7 @@ class FUN_00462dc0_cls
     int m_00;
     int m_04;
     int(__cdecl* m_08)(FUN_00462dc0_cls* self, int a, int b, int c, int d);
-    int InvokeAndAccumulate(int a1, int a2, int a3, int a4);
+    int InvokeAndAccumulate(std::intptr_t a1, int a2, int a3, int a4);
 };
 extern int DAT_01019a34;
 struct ResourceDescriptor

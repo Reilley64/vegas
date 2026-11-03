@@ -1,3 +1,5 @@
+#include <cstdint>
+#include <cstddef>
 // bsaudio/bsgamesound.cpp: BSGameSound, SoundView, AudioPathFixer (24 functions)
 
 #include <cstddef>
@@ -132,56 +134,58 @@ bool BSGameSound::HasMaster(const char* filename, bool resolve)
 }
 
 
-// Initializes the object's fields to zero/default values, sets flags at offset 0x10, and clears bit 0x8000.
+// Initializes the sound's fields to zero/default values, sets bit 0x100 of uiSoundFlags, and clears bit 0x8000.
 // @fnv 0x00ae95e0
 void FUN_00ae95e0(char* pObject)
 {
-    *(int*)(pObject + 0x4) = 0;
-    *(int*)(pObject + 0x8) = 0;
-    *(int*)(pObject + 0xc) = 0;
-    *(int*)(pObject + 0x10) = 0;
-    *(int*)(pObject + 0x10) |= 0x100;
-    *(int*)(pObject + 0x14) = 0;
-    *(short*)(pObject + 0x18) = 0;
-    *(short*)(pObject + 0x1a) = 0;
-    *(short*)(pObject + 0x1c) = 0;
-    *(short*)(pObject + 0x1e) = 0;
-    *(short*)(pObject + 0x20) = 0;
-    *(float*)(pObject + 0x24) = 1.0f;
-    *(float*)(pObject + 0x28) = 0.0f;
-    *(float*)(pObject + 0x2c) = 0.0f;
-    *(int*)(pObject + 0x30) = 0;
-    *(short*)(pObject + 0x34) = 0;
-    *(float*)(pObject + 0x13c) = g_011c7374_arg1;
-    *(float*)(pObject + 0x140) = 50.0f;
-    *(int*)(pObject + 0x14c) = 0;
-    *(int*)(pObject + 0x154) = 0;
-    *(int*)(pObject + 0x160) = 0;
-    *(int*)(pObject + 0x15c) = 0;
-    *(int*)(pObject + 0x144) = 0;
-    *(int*)(pObject + 0x148) = 0;
-    *(float*)(pObject + 0x150) = 3.4028234663852886e+38f;
-    *(char*)(pObject + 0x158) = 0;
-    *(short*)(pObject + 0x15a) = 0;
-    *(int*)(pObject + 0x174) = 0;
-    *(int*)(pObject + 0x178) = 0;
-    *(int*)(pObject + 0x164) = 0;
-    *(int*)(pObject + 0x168) = 0;
-    *(int*)(pObject + 0x16c) = 0;
-    *(int*)(pObject + 0x170) = 0;
-    *(int*)(pObject + 0x10) = false ? (*(int*)(pObject + 0x10) | 0x8000) : (*(int*)(pObject + 0x10) & ~0x8000);
+    BSGameSound* p = (BSGameSound*)pObject;
+    p->m_uiSoundResourceID = 0;
+    p->m_uiSoundFlags = 0;
+    p->m_uiSoundParameter11 = 0;
+    p->uiSoundFlags = 0;
+    p->uiSoundFlags |= 0x100;
+    p->m_iSoundType = 0;
+    p->m_uiSoundParameterA = 0;
+    p->m_uiReverbAttenuation = 0;
+    p->m_uiSoundParameterB = 0;
+    p->m_uiSoundParameter6 = 0;
+    p->m_uiSoundParameter5 = 0;
+    p->m_fRolloff = 1.0f;
+    p->m_fMinimumDistance = 0.0f;
+    p->m_fMaximumDistance = 0.0f;
+    p->m_uiSoundCategory = 0;
+    p->m_uiSoundParameter4 = 0;
+    p->afValueAfterThirdFloat = g_011c7374_arg1;
+    p->afThirdFloatArgument = 50.0f;
+    p->m_uiSoundParameter13 = 0;
+    p->m_uiSoundParameter7 = 0;
+    p->m_uiSoundParameter2 = 0;
+    p->m_uiPlaybackId = 0;
+    p->m_uiSoundParameter12 = 0;
+    p->m_uiSoundParameter3 = 0;
+    p->m_uiSoundParameter1 = 3.4028234663852886e+38f;
+    p->m_uiSoundParameter8 = 0;
+    p->m_uiSoundParameter10 = 0;
+    p->m_uiSoundParameter9 = 0;
+    p->m_uiTrailingValue2 = 0;
+    p->m_pfnBooleanCallback = 0;
+    p->m_pfnIntegerCallback = 0;
+    p->m_pAudioSource = 0;
+    p->m_pAudioData = 0;
+    p->uiSoundFlags = false ? (p->uiSoundFlags | 0x8000) : (p->uiSoundFlags & ~0x8000);
 }
 
-// If a callback pointer at offset 0x168 is set, calls it with the value at 0x170 and the id at 0x14, then clears both fields.
+// If m_pfnIntegerCallback is set, calls it with m_pAudioData and the sound type, then clears both fields.
 // @fnv 0x00ae9af0
 void ClearCallback(char* pObject)
 {
-    if (*(void**)(pObject + 0x168) != 0)
+    BSGameSound* p = (BSGameSound*)pObject;
+    if (p->m_pfnIntegerCallback != 0)
     {
-        int id = *(int*)(pObject + 0x14);
-        (*(void(__cdecl**)(int, int))(pObject + 0x168))(*(int*)(pObject + 0x170), id);
-        *(int*)(pObject + 0x170) = 0;
-        *(int*)(pObject + 0x168) = 0;
+        int id = p->m_iSoundType;
+        p->m_pfnIntegerCallback(p->m_pAudioData, id);
+        p->m_pAudioData = 0;
+        p->m_pfnIntegerCallback = 0;
     }
 }
 
@@ -288,7 +292,7 @@ struct FUN_00ae9ec0 : FUN_00ae93f0
 // @fnv 0x00ae9ec0
 void* FUN_00ae9ec0::DeleteThis(unsigned int flags)
 {
-    reinterpret_cast<::FUN_00ae93f0 *>((this))->FUN_00ae93f0::~FUN_00ae93f0();
+    reinterpret_cast<::FUN_00ae93f0 *>((this))->::FUN_00ae93f0::~FUN_00ae93f0();
     if (flags & 1)
         reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00ae9ec0::MemoryManager *>(&::g_memoryManager))))->FUN_00aa4060(this);
     return this;
@@ -333,12 +337,12 @@ struct Interface
 
 struct FUN_00aea590_shell
 {
-    bool FUN_00aea590(int param, int unused);
+    bool FUN_00aea590(int param, std::intptr_t unused);
 };
 
 // Returns true when param is non-negative; otherwise logs "Audio system could not be initialized." and returns false.
 // @fnv 0x00aea590
-bool FUN_00aea590_shell::FUN_00aea590(int aiResult, int unused)
+bool FUN_00aea590_shell::FUN_00aea590(int aiResult, std::intptr_t unused)
 {
     if (aiResult >= 0)
         return true;
@@ -394,16 +398,22 @@ struct Point3
     Point3(float ax, float ay, float az) : x(ax), y(ay), z(az)
     {}
 };
+// The position of a platform game sound; the pad stands for members not named here.
+struct GameSoundPositionView
+{
+    char pad00[0x218];
+    Point3 m_kPosition;
+};
 struct FUN_00aefd20 : BSGameSound
 {
     Point3 GetPos();
 };
-// Returns the sound's position at offset 0x218 when either of the two checks passes, otherwise the origin (0,0,0).
+// Returns the sound's position when either of the two checks passes, otherwise the origin (0,0,0).
 // @fnv 0x00aefd20
 Point3 FUN_00aefd20::GetPos()
 {
     if (HasSoundFlagTwo() || CanStartPlayback())
-        return *(Point3*)((char*)this + 0x218);
+        return ((GameSoundPositionView*)this)->m_kPosition;
     return Point3(0.0f, 0.0f, 0.0f);
 }
 
@@ -503,10 +513,7 @@ struct SoundView
     unsigned int unk134;
     unsigned int unk138;
     float unk13c;
-    unsigned int unk140;
-    unsigned int unk144;
-    unsigned int unk148;
-    unsigned int unk14c;
+    char pad140[0x10];
     float unk150;
     bool Flag100()
     {
@@ -572,15 +579,7 @@ struct BSWin32Audio
     int unk08;
     int unk0c;
     BSAudioVoice* unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-    int unk30;
-    int unk34;
+    char pad14[0x24];
     BSAudioSink* unk38;
     BSAudioSink* unk3c;
     void Shutdown();
@@ -706,27 +705,28 @@ void C::SetWindow(int aiWindow)
     {
         CoInitialize(0);
         iResult = ((int)(::FUN_00ee81e0((const void *)(0), (void **)(void *)(&com), (void *)(0))));
-        if (!reinterpret_cast<::FUN_00aea590_shell *>(this)->FUN_00aea590(iResult, (int)(&DAT_010a3b10)))
+        if (!reinterpret_cast<::FUN_00aea590_shell *>(this)->FUN_00aea590(iResult, (std::intptr_t)(&DAT_010a3b10)))
             return;
         iResult = com->coop(window, 2);
-        reinterpret_cast<::FUN_00aea590_shell *>(this)->FUN_00aea590(iResult, (int)(&DAT_010a3ae0));
+        reinterpret_cast<::FUN_00aea590_shell *>(this)->FUN_00aea590(iResult, (std::intptr_t)(&DAT_010a3ae0));
         *(int*)capsdata = 96;
         iResult = com->caps(capsdata);
-        reinterpret_cast<::FUN_00aea590_shell *>(this)->FUN_00aea590(iResult, (int)(&DAT_010a3a78));
+        reinterpret_cast<::FUN_00aea590_shell *>(this)->FUN_00aea590(iResult, (std::intptr_t)(&DAT_010a3a78));
         std::memset(&desc, 0, 36);
         desc.size = 36;
         desc.flags = 145;
         iResult = com->create(&desc, &buffer, 0);
-        if (!reinterpret_cast<::FUN_00aea590_shell *>(this)->FUN_00aea590(iResult, (int)(&DAT_010a3a38)))
+        if (!reinterpret_cast<::FUN_00aea590_shell *>(this)->FUN_00aea590(iResult, (std::intptr_t)(&DAT_010a3a38)))
             return;
         iResult = buffer->q(&DAT_01100fa4, &iInterface);
-        if (!reinterpret_cast<::FUN_00aea590_shell *>(this)->FUN_00aea590(iResult, (int)(&DAT_010a39f8)))
+        if (!reinterpret_cast<::FUN_00aea590_shell *>(this)->FUN_00aea590(iResult, (std::intptr_t)(&DAT_010a39f8)))
             return;
         sound = new FUN_00aea730_Class(iInterface);
     }
     if (sound)
     {
-        sound->s2(&Vec());
+        Vec kZero{};
+        sound->s2(&kZero);
         sound->s12(1.0f);
     }
     flag5 = 1;

@@ -1,6 +1,7 @@
 // bsshader/imagespaceeffectblur_decls.h: declares MemoryManager, ImageSpaceManager, NiTexturingProperty, ImageSpaceShaderParam
 #ifndef IMAGESPACEEFFECTBLUR_DECLS_H
 #define IMAGESPACEEFFECTBLUR_DECLS_H
+#include <cstddef>
 
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_00ba3b50_t.h"

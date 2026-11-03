@@ -1,6 +1,7 @@
 // bscore/bsrandom_singleton.h: declares MersenneTwister
 #ifndef FNV_BSRANDOM_SINGLETON_H
 #define FNV_BSRANDOM_SINGLETON_H
+#include <cstddef>
 
 #include "fnv/symbols_011c5000.h"
 namespace bsrandom_singleton {

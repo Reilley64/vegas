@@ -2,6 +2,7 @@
 // src/staging/blk_00940000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/BSFaceGenNiNode.h"
 #include "fnv/decl/BSShaderNoLightingProperty.h"
@@ -2250,9 +2251,9 @@ void RestorePlayer::RestorePlayerLocation(bool travel)
             ::FUN_00c6bd00((::TreeNode_cls *)(third_), true);
             ::FUN_00c6bd00((::TreeNode_cls *)(first5), true);
             RestoreUpdate updateThird4(0.0f, false, false);
-            reinterpret_cast<::FUN_00a59c60_cls *>((third_))->FUN_00a59c60((int)&(updateThird4));
+            reinterpret_cast<::FUN_00a59c60_cls *>((third_))->FUN_00a59c60((std::intptr_t)&(updateThird4));
             RestoreUpdate updateFirst2(0.0f, false, false);
-            reinterpret_cast<::FUN_00a59c60_cls *>((first5))->FUN_00a59c60((int)&(updateFirst2));
+            reinterpret_cast<::FUN_00a59c60_cls *>((first5))->FUN_00a59c60((std::intptr_t)&(updateFirst2));
         }
     }
 }

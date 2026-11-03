@@ -138,10 +138,10 @@ struct Owner132
 {
     unsigned int unk00, unk04, unk08, unk0c, unk10, unk14;
     Context132* context;
-    void FUN_00b7b730(Group132*, unsigned int, int, const char*);
+    void FUN_00b7b730(Group132*, unsigned int, const void*, const char*);
 };
 // @fnv 0x00b7b730
-void Owner132::FUN_00b7b730(Group132* group, unsigned int slot, int skipLoad, const char* name)
+void Owner132::FUN_00b7b730(Group132* group, unsigned int slot, const void* skipLoad, const char* name)
 {
     Matrix132 matrix, result, temporary;
     if (!(*reinterpret_cast<::Entry132 * *>(&::DAT_011febdc))->enabled)

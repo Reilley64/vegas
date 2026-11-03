@@ -1,6 +1,7 @@
 // Names of nested/template specializations use the canonical generator identifier mapping.
 #ifndef FNV_BOLTSHADER_H
 #define FNV_BOLTSHADER_H
+#include <cstddef>
 
 #include "layout_support.h"
 #include "NiFixedString.h"

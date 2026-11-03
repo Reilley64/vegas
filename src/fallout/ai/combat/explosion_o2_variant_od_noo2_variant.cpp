@@ -7,6 +7,7 @@
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 // src/fallout/ai/combat/explosion.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/combat/explosion.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstdint>
 #include <new>
 #include "fnv/decl/Actor.h"
 #include "fnv/decl/BGSCameraPath.h"
@@ -1428,7 +1429,7 @@ void This::FUN_009ad670()
                 ::FUN_00c69f50((::S_00c69f50_Obj *)(obj), 1, 1);
                 Upd update;
                 new ((void *)&(update)) ::NiUpdateData(0.0f, 0, 0);
-                reinterpret_cast<::FUN_00a59c60_cls *>((obj))->FUN_00a59c60((int)(&update));
+                reinterpret_cast<::FUN_00a59c60_cls *>((obj))->FUN_00a59c60((std::intptr_t)(&update));
                 Obj* world = (Obj*)((::Obj *)(reinterpret_cast<::FUN_004543c0_cls *>((((::Cell *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))))->FUN_004543c0()));
                 world->Vd0(obj, 1, 1, 0, 1);
             }
@@ -1439,7 +1440,7 @@ void This::FUN_009ad670()
             ::FUN_00c69f50((::S_00c69f50_Obj *)(obj), 1, 1);
             Upd update;
             new ((void *)&(update)) ::NiUpdateData(0.0f, 0, 0);
-            reinterpret_cast<::FUN_00a59c60_cls *>((obj))->FUN_00a59c60((int)(&update));
+            reinterpret_cast<::FUN_00a59c60_cls *>((obj))->FUN_00a59c60((std::intptr_t)(&update));
             Obj* world = (Obj*)((::Obj *)(reinterpret_cast<::FUN_004543c0_cls *>((((::Cell *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))))->FUN_004543c0()));
             world->Vd0(obj, 1, 1, 0, 1);
         }

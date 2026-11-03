@@ -21,7 +21,7 @@ void ImageSpaceEffectFourTexturePass::Setup(ImageSpaceManager* manager, ImageSpa
         first->AllocateShaderConstants(0, 1);
         first->SetShaderConstantVector4(0, 0.0f, DAT_011ae6c8, DAT_011ae6cc, 0.0f);
         reinterpret_cast<::FUN_00a41520_cls *>(&(pEffectParamList))->FUN_00ba3aa0(0, (::KeyPair **)&(first));
-        ::SetEffectParamAt((char *)this, 0, 1, 1, {});
+        ::SetEffectParamAt((char *)this, 0, 0, 1, 1);
 
         reinterpret_cast<::FUN_00ba3c70_shell *>(this)->SetEffectAt(0, manager->GetEffect(45), first, 2);
         first = 0;

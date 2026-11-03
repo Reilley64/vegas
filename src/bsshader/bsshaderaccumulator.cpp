@@ -1,3 +1,5 @@
+#include <cstdint>
+#include <cstddef>
 // bsshader/bsshaderaccumulator.cpp: BSShaderAccumulator, AccumWIP, AccumS, Candidate and more (38 functions)
 
 #include <windows.h>
@@ -20,7 +22,6 @@
 #include "fnv/decl/FUN_00aa45a0_Class.h"
 #include "fnv/decl/FUN_00b63bf0_cls.h"
 #include "fnv/decl/FUN_00b63e90_cls.h"
-#include "fnv/decl/FUN_00c4ed40_cls.h"
 #include "fnv/decl/FUN_00c4edb0_Class.h"
 #include "fnv/decl/Lighting30Shader.h"
 #include "fnv/decl/Manager.h"
@@ -92,6 +93,24 @@ class AccumWIP : public BSShaderAccumulator
 #include "bsshaderaccumulator_batchrenderer.h"
 #include "MemoryManager.h"
 
+class Handler
+{
+  public:
+    virtual void v00();
+    virtual void v01();
+    virtual void v02();
+};
+
+class FUN_00c4ed40_cls
+{
+  public:
+    Handler* m_00;
+
+    void FUN_00c4ed40();
+};
+
+struct ShCamera;
+
 
 typedef BSSimpleList<unsigned short> BSShaderAccumulatorPassIndexList;
 
@@ -150,7 +169,12 @@ struct FUN_00b63500_shell : public BSShaderAccumulator
     void RenderBound(void*, bool);
 };
 
-__declspec(thread) char tls_data[0x2c0];
+struct AccumulatorTls
+{
+    char pad[0x2bc];
+    unsigned int uiRendererIndex;
+};
+__declspec(thread) AccumulatorTls tls_data;
 
 struct BatchRendererDummy
 {
@@ -163,9 +187,9 @@ struct BatchRendererDummy
 // @fnv 0x00b63500
 void FUN_00b63500_shell::RenderBound(void* aBound, bool abZPrePass)
 {
-    unsigned int uiIndex = *(unsigned int*)&tls_data[0x2bc] % this->m_uiRendererCount;
-    BatchRendererDummy* m_pGroupRenderer = *(BatchRendererDummy**)((char*)this + uiIndex * 4 + 0x174);
-    m_pGroupRenderer->AddBoundToRenderGroup(aBound, abZPrePass, *(void**)&this->m_pkAccumulationCamera,
+    unsigned int uiIndex = tls_data.uiRendererIndex % this->m_uiRendererCount;
+    BatchRendererDummy* pRenderer = reinterpret_cast<BatchRendererDummy*>(this->m_pGroupRenderer[uiIndex]);
+    pRenderer->AddBoundToRenderGroup(aBound, abZPrePass, *(void**)&this->m_pkAccumulationCamera,
                                             this->m_bSkipObjectsWithFlag14);
 }
 
@@ -275,8 +299,8 @@ struct Item_00b655b0
 struct Self_00b655b0
 {
     unsigned char pad[0x140];
-    PoolAllocatorBase<unsigned int>::LinkedListEntry* head;
-    PoolAllocatorBase<unsigned int>::LinkedListEntry* tail;
+    PoolAllocatorBase<void*>::LinkedListEntry* head;
+    PoolAllocatorBase<void*>::LinkedListEntry* tail;
     unsigned int count;
 };
 
@@ -298,8 +322,8 @@ void FUN_00b655b0(Self_00b655b0* self)
             }
             reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(item);
         }
-        PoolAllocatorBase<unsigned int>::LinkedListEntry* node = self->head;
-        PoolAllocatorBase<unsigned int>::LinkedListEntry* next = node->m_pkNext;
+        PoolAllocatorBase<void*>::LinkedListEntry* node = self->head;
+        PoolAllocatorBase<void*>::LinkedListEntry* next = node->m_pkNext;
         self->head = next;
         if (next)
         {
@@ -312,8 +336,8 @@ void FUN_00b655b0(Self_00b655b0* self)
         node->m_element = 0;
         reinterpret_cast<::FUN_0040fbf0_shell *>(&((*reinterpret_cast<::RecursiveSpinLock *>(&::g_011c5f80))))->FUN_0040fbf0((char *)(0));
         node->m_pUserData = 0;
-        node->m_pkNext = (*reinterpret_cast<::PoolAllocatorBase<unsigned int>::LinkedListEntry * *>(&::DAT_011c5f58));
-        (*reinterpret_cast<::PoolAllocatorBase<unsigned int>::LinkedListEntry * *>(&::DAT_011c5f58)) = node;
+        node->m_pkNext = (*reinterpret_cast<::PoolAllocatorBase<void*>::LinkedListEntry * *>(&::DAT_011c5f58));
+        (*reinterpret_cast<::PoolAllocatorBase<void*>::LinkedListEntry * *>(&::DAT_011c5f58)) = node;
         if (--DAT_011c5f84 == 0)
         {
             (*reinterpret_cast<::RecursiveSpinLock *>(&::g_011c5f80)).value = 0;
@@ -324,6 +348,11 @@ void FUN_00b655b0(Self_00b655b0* self)
 
 struct BSBatchRenderer__PassList
 {
+    const void* const* vftable;
+    void* m_pkHead;
+    void* m_pkTail;
+    void* m_pkSavedHead;
+    unsigned int m_uiCount;
 };
 
 extern const void* const* vftable_BSBatchRenderer__PassList;
@@ -331,12 +360,12 @@ extern const void* const* vftable_BSBatchRenderer__PassList;
 // @fnv 0x00b656b0
 void FUN_00b656b0(BSBatchRenderer__PassList* pThis, int)
 {
-    *(volatile unsigned int*)pThis = (unsigned int)&vftable_BSBatchRenderer__PassList;
+    *(const void* const* volatile*)&pThis->vftable = (const void* const*)&vftable_BSBatchRenderer__PassList;
     reinterpret_cast<::FUN_00b63e90_cls *>((pThis))->ReleasePoolNodes();
-    *(unsigned int*)((char*)pThis + 0xc) = *(unsigned int*)((char*)pThis + 4);
-    *(unsigned int*)((char*)pThis + 4) = 0;
-    *(unsigned int*)((char*)pThis + 8) = 0;
-    *(unsigned int*)((char*)pThis + 0x10) = 0;
+    pThis->m_pkSavedHead = pThis->m_pkHead;
+    pThis->m_pkHead = 0;
+    pThis->m_pkTail = 0;
+    pThis->m_uiCount = 0;
     reinterpret_cast<::FUN_00b63e90_cls *>((pThis))->ReleasePoolNodes();
 }
 
@@ -346,29 +375,44 @@ struct NodePoolView
     void* AddHead();
 };
 
-// If bFlag is set, allocates a node via AddHead, links it before the current head at p+0x10, updates the count and returns true.
+struct InsertListNode
+{
+    InsertListNode* m_pkNext;
+    InsertListNode* m_pkPrev;
+    void* m_element;
+};
+
+struct InsertList
+{
+    char pad[0xc];
+    InsertListNode* m_pkHead;
+    InsertListNode* m_pkTail;
+    NodePoolView m_kPool;
+};
+
+// If bInsert is set, allocates a node from the list's pool, appends it after the tail, updates the count and returns true.
 // @fnv 0x00b65a90
 bool __cdecl InsertNodeAtHead(void* pList, void* data, void* arg3, void* arg4, int bInsert)
 {
     if (!bInsert)
         return true;
-    char* p = (char*)pList;
-    NodePoolView* pHead = (NodePoolView*)(p + 0x14);
-    void* node = ((void *)(reinterpret_cast<::FUN_0043a010_shell *>((pHead))->FUN_0043a010()));
-    *(void**)((char*)node + 8) = data;
-    *(void**)((char*)node) = 0;
-    *(void**)((char*)node + 4) = *(void**)(p + 0x10);
-    void* oldHead = *(void**)(p + 0x10);
-    if (oldHead)
+    InsertList* list = (InsertList*)pList;
+    NodePoolView* pHead = &list->m_kPool;
+    InsertListNode* node = ((InsertListNode *)(reinterpret_cast<::FUN_0043a010_shell *>((pHead))->FUN_0043a010()));
+    node->m_element = data;
+    node->m_pkNext = 0;
+    node->m_pkPrev = list->m_pkTail;
+    InsertListNode* oldTail = list->m_pkTail;
+    if (oldTail)
     {
-        *(void**)oldHead = node;
+        oldTail->m_pkNext = node;
         ++pHead->m_uiCount;
-        *(void**)(p + 0x10) = node;
+        list->m_pkTail = node;
         return true;
     }
     ++pHead->m_uiCount;
-    *(void**)(p + 0x0C) = node;
-    *(void**)(p + 0x10) = node;
+    list->m_pkHead = node;
+    list->m_pkTail = node;
     return true;
 }
 
@@ -458,6 +502,12 @@ struct V42
     {}
     virtual void f40()
     {}
+    int m_04;
+    int m_08;
+    int m_0c;
+    int m_10;
+    int m_14;
+    int m_18;
 };
 
 extern void FUN_00b64f90(void*);
@@ -474,10 +524,11 @@ public:
 // @fnv 0x00b65e80
 void __cdecl FUN_00b65e80(void* pObject)
 {
-    if (*(int*)((unsigned char*)pObject + 8))
+    V42* object = reinterpret_cast<V42*>(pObject);
+    if (object->m_08)
     {
-        *(int*)((unsigned char*)pObject + 0x18) = 0;
-        reinterpret_cast<V42*>(pObject)->f40();
+        object->m_18 = 0;
+        object->f40();
         FUN_00b64f90(pObject);
         ::BSRenderStateManager::SetDepthBufferEnabled(0, (::BSRENDERSTATE_LOCK)(0));
     }
@@ -580,7 +631,7 @@ void FUN_00b63620(AccumStub* self)
         unsigned int uiData = 0;
         if (self->m_aEntries[i].query)
         {
-            reinterpret_cast<::S_00c4edf0_cls *>((self->m_aEntries[i].query))->FUN_00c4edf0((int)(&uiData), 1);
+            reinterpret_cast<::S_00c4edf0_cls *>((self->m_aEntries[i].query))->FUN_00c4edf0((std::intptr_t)(&uiData), 1);
             QueryStub* q = self->m_aEntries[i].query;
             if (q)
             {
@@ -662,7 +713,7 @@ bool FUN_00b63680_shell::CheckVolumeState(unsigned int uiVolumeId, bool abRunQue
                 int r;
                 do
                 {
-                    r = ((unsigned char)(reinterpret_cast<::S_00c4edf0_cls *>((reinterpret_cast<QueryStub*>(vol->m_pRenderQuery)))->FUN_00c4edf0((int)(reinterpret_cast<unsigned int*>(&abRunQuery)), 1)));
+                    r = ((unsigned char)(reinterpret_cast<::S_00c4edf0_cls *>((reinterpret_cast<QueryStub*>(vol->m_pRenderQuery)))->FUN_00c4edf0((std::intptr_t)(reinterpret_cast<unsigned int*>(&abRunQuery)), 1)));
                 } while (r == 1);
                 if (r == 0)
                 {
@@ -699,25 +750,15 @@ bool FUN_00b63680_shell::CheckVolumeState(unsigned int uiVolumeId, bool abRunQue
 }
 
 namespace fnv_00b63a50 {
-struct BatchStub
+struct AccumStub : public ::BSShaderAccumulator
 {
 };
-struct AccumStub
-{
-    char pad[8];
-    int m_i8;
-    char pad2[0x25];
-    unsigned char m_c31;
-    char pad3[0x142];
-    BatchStub* m_pBatchRenderer[6];
-    unsigned int m_uiCount;
-};
-// Calls FUN_00b99a10 on each of the m_uiCount batch renderers, passing m_i8 and m_c31.
+// Calls FUN_00b99a10 on each of the m_uiRendererCount batch renderers, passing the accumulation camera and m_bSkipObjectsWithFlag14.
 // @fnv 0x00b63a50
 void FUN_00b63a50(AccumStub* pAccum)
 {
-    for (unsigned int i = 0; i < pAccum->m_uiCount; ++i)
-        ::FUN_00b99a10((char *)(pAccum->m_pBatchRenderer[i]), pAccum->m_i8, pAccum->m_c31, {});
+    for (unsigned int i = 0; i < pAccum->m_uiRendererCount; ++i)
+        ::FUN_00b99a10((char *)(pAccum->m_pGroupRenderer[i]), 0, (std::intptr_t)(pAccum->m_pkAccumulationCamera), pAccum->m_bSkipObjectsWithFlag14);
 }
 }  // namespace fnv_00b63a50
 
@@ -726,9 +767,14 @@ struct BSShaderLightingProperty
 {
 };
 // @fnv 0x00b65570
+struct Owner
+{
+    char pad[0xc];
+    ::BSShaderLightingProperty m_kLightingProperty;
+};
 void FUN_00b65570(char* self, int unused)
 {
-    reinterpret_cast<::BSShaderLightingProperty *>((reinterpret_cast<BSShaderLightingProperty*>(self + 0xc)))->ClearLights();
+    reinterpret_cast<Owner*>(self)->m_kLightingProperty.ClearLights();
 }
 }  // namespace fnv_00b65570
 
@@ -752,7 +798,7 @@ struct RecursiveSpinLock
     unsigned int m_uiOwningThreadID;
     unsigned int m_uiRecursionCount;
 };
-typedef PoolAllocatorBase<unsigned int> PoolAlloc;
+typedef PoolAllocatorBase<void*> PoolAlloc;
 struct ListNode
 {
     ListNode* m_pkNext;
@@ -775,8 +821,8 @@ struct PtrList
         pkNode->m_element = 0;
         reinterpret_cast<::FUN_0040fbf0_shell *>(&((*reinterpret_cast<::fnv_00b64f90::RecursiveSpinLock *>(&::g_011c5f80))))->FUN_0040fbf0((char *)(0));
         pkNode->m_pkPrev = 0;
-        pkNode->m_pkNext = (ListNode*)(*reinterpret_cast<::PoolAllocatorBase<unsigned int>::LinkedListEntry * *>(&::DAT_011c5f58));
-        (*reinterpret_cast<::PoolAllocatorBase<unsigned int>::LinkedListEntry * *>(&::DAT_011c5f58)) = (PoolAlloc::LinkedListEntry*)pkNode;
+        pkNode->m_pkNext = (ListNode*)(*reinterpret_cast<::PoolAllocatorBase<void*>::LinkedListEntry * *>(&::DAT_011c5f58));
+        (*reinterpret_cast<::PoolAllocatorBase<void*>::LinkedListEntry * *>(&::DAT_011c5f58)) = (PoolAlloc::LinkedListEntry*)pkNode;
         if (--(*reinterpret_cast<::fnv_00b64f90::RecursiveSpinLock *>(&::g_011c5f80)).m_uiRecursionCount == 0)
             (*reinterpret_cast<::fnv_00b64f90::RecursiveSpinLock *>(&::g_011c5f80)).m_uiOwningThreadID = 0;
         m_uiCount--;
@@ -850,9 +896,9 @@ struct OMNode
 {
     OMNode* m_pkNext;
     void* m_pUserData;
-    unsigned int m_element;
+    void* m_element;
 };
-typedef PoolAllocatorBase<unsigned int>::LinkedListEntry OMAllocNode;
+typedef PoolAllocatorBase<void*>::LinkedListEntry OMAllocNode;
 class BSShaderLightingProperty
 {
   public:
@@ -877,8 +923,8 @@ struct OMList
         pkNode->m_element = 0;
         reinterpret_cast<::FUN_0040fbf0_shell *>(&((*reinterpret_cast<::fnv_00b656e0::RecursiveSpinLock *>(&::g_011c5f80))))->FUN_0040fbf0((char *)(0));
         pkNode->m_pUserData = 0;
-        pkNode->m_pkNext = (OMNode*)(*reinterpret_cast<::PoolAllocatorBase<unsigned int>::LinkedListEntry * *>(&::DAT_011c5f58));
-        (*reinterpret_cast<::PoolAllocatorBase<unsigned int>::LinkedListEntry * *>(&::DAT_011c5f58)) = (OMAllocNode*)pkNode;
+        pkNode->m_pkNext = (OMNode*)(*reinterpret_cast<::PoolAllocatorBase<void*>::LinkedListEntry * *>(&::DAT_011c5f58));
+        (*reinterpret_cast<::PoolAllocatorBase<void*>::LinkedListEntry * *>(&::DAT_011c5f58)) = (OMAllocNode*)pkNode;
         if (--::DAT_011c5f84 == 0)
             (*reinterpret_cast<::fnv_00b656e0::RecursiveSpinLock *>(&::g_011c5f80)).m_uiOwningThreadID = 0;
         m_uiCount--;
@@ -997,15 +1043,17 @@ struct OMCS
         DeleteCriticalSection(&m_kCS);
     }
 };
-struct FUN_00a9b4a0
-{
-    virtual ~FUN_00a9b4a0();
-    char pad[0x88];
-};
 struct OMSlot48
 {
     OMObjC4* m_p;
     char pad[0x10];
+};
+struct FUN_00a9b4a0
+{
+    virtual ~FUN_00a9b4a0();
+    char pad04[0x44];
+    OMSlot48 m_aSlots48[3];
+    char pad84[0x8];
 };
 struct FUN_00b656e0 : public FUN_00a9b4a0
 {
@@ -1057,7 +1105,7 @@ FUN_00b656e0::~FUN_00b656e0()
         m_kList140.RemoveHead();
     }
     m_sp13c = 0;
-    OMSlot48* pkSlots = (OMSlot48*)((char*)this + 0x48);
+    OMSlot48* pkSlots = m_aSlots48;
     for (int iSlotIndex = 0; iSlotIndex < 3; iSlotIndex++)
     {
         if (pkSlots[iSlotIndex].m_p)
@@ -1118,8 +1166,8 @@ void FUN_00b65c60(AccumWIP* apAccum)
         {
             ::BSRenderedTexture::EndAllAndResetRendererState();
             if (!(*reinterpret_cast<::fnv_00b65c60::BSRenderedTexture * *>(&::DAT_011f943c)))
-                (*reinterpret_cast<::fnv_00b65c60::BSRenderedTexture * *>(&::DAT_011f943c)) = ((::fnv_00b65c60::BSRenderedTexture *)(reinterpret_cast<::Pool *>(((*reinterpret_cast<::fnv_00b65c60::BSTextureManager * *>(&::DAT_011f91a8))))->FUN_00b6e110((unsigned int)((*reinterpret_cast<::fnv_00b65c60::NiRenderer * *>(&::DAT_011f9508))), 5, 0, (unsigned int)(0), 0)));
-            reinterpret_cast<::BB97550Shader *>(((*reinterpret_cast<::fnv_00b65c60::ImageSpaceManager * *>(&::DAT_011f91ac))))->FUN_00b97550(0x22, (int)((*reinterpret_cast<::fnv_00b65c60::NiRenderer * *>(&::DAT_011f9508))), (int)((*reinterpret_cast<::fnv_00b65c60::BSRenderedTexture * *>(&::DAT_011f9438))), (int)((*reinterpret_cast<::fnv_00b65c60::BSRenderedTexture * *>(&::DAT_011f943c))), 0, true);
+                (*reinterpret_cast<::fnv_00b65c60::BSRenderedTexture * *>(&::DAT_011f943c)) = ((::fnv_00b65c60::BSRenderedTexture *)(reinterpret_cast<::Pool *>(((*reinterpret_cast<::fnv_00b65c60::BSTextureManager * *>(&::DAT_011f91a8))))->FUN_00b6e110((std::uintptr_t)((*reinterpret_cast<::fnv_00b65c60::NiRenderer * *>(&::DAT_011f9508))), 5, 0, (unsigned int)(0), 0)));
+            reinterpret_cast<::BB97550Shader *>(((*reinterpret_cast<::fnv_00b65c60::ImageSpaceManager * *>(&::DAT_011f91ac))))->FUN_00b97550(0x22, (std::intptr_t)((*reinterpret_cast<::fnv_00b65c60::NiRenderer * *>(&::DAT_011f9508))), (std::intptr_t)((*reinterpret_cast<::fnv_00b65c60::BSRenderedTexture * *>(&::DAT_011f9438))), (std::intptr_t)((*reinterpret_cast<::fnv_00b65c60::BSRenderedTexture * *>(&::DAT_011f943c))), 0, true);
             ::FUN_00b6b8d0(0, (::NiRenderTargetGroup *)(::fnv_00b65c60::NiRenderTargetGroup *)(((::fnv_00b65c60::NiRenderTargetGroup *)(reinterpret_cast<::BSRenderedTexture *>(((*reinterpret_cast<::fnv_00b65c60::BSRenderedTexture * *>(&::DAT_011f9438))))->GetGroup()))));
         }
         reinterpret_cast<::CameraState4E9 *>(((*reinterpret_cast<::fnv_00b65c60::NiRenderer * *>(&::DAT_011f9508))))->SetFromCamera((*(const ::Camera4E9 *)(*(NiCamera**)&apAccum->m_pkAccumulationCamera)));
@@ -1159,8 +1207,7 @@ void __cdecl FUN_00b65ae0(AccumWIP* pAccum)
 {
     if (pAccum->m_pkAccumulationCamera)
     {
-        unsigned char* raw = (unsigned char*)pAccum;
-        int mode = *(int*)(raw + 0x19c);
+        int mode = (int)pAccum->m_eRenderMode;
         if (mode == 8)
         {
             pAccum->RenderPassGroup(6, mode, false, -1);
@@ -1176,12 +1223,12 @@ void __cdecl FUN_00b65ae0(AccumWIP* pAccum)
             return;
         }
         pAccum->SetShaderPassEnabled(10, false);
-        if (::DAT_011f9fc1 && *(int*)(raw + 0x19c) != 7)
+        if (::DAT_011f9fc1 && (int)pAccum->m_eRenderMode != 7)
         {
             (*reinterpret_cast<::fnv_00b65ae0::GO *>(&::DAT_011fa008)) = ((void *)(::CreateRenderPassesNode()));
             ::DAT_011f9fc1 = false;
         }
-        if (*(bool*)(raw + 0x164))
+        if (pAccum->m_bFirstSpecialPassFlag)
         {
             pAccum->RenderPassGroup(1, 0x237, false, -1);
             ::UpdateSpawnedObjectFlags(0, 0, 0, 0, 0, 0, 0);
@@ -1199,7 +1246,7 @@ void __cdecl FUN_00b65ae0(AccumWIP* pAccum)
         ::FUN_00b64e30((::AccumWIP *)(((AccumView*)pAccum)));
         pAccum->RenderPassGroup(0x25c, 0x287, false, -1);
         ::fnv_00b63a50::FUN_00b63a50((::fnv_00b63a50::AccumStub *)(((AccumView*)pAccum)));
-        if (*(bool*)(raw + 0x167))
+        if (pAccum->m_bFourthBooleanFlagBeforeInteger)
             ((AccumView*)pAccum)->UpdatePasses(false);
         else
             ((AccumView*)pAccum)->UpdatePasses(true);
@@ -1265,7 +1312,7 @@ NiNode* __cdecl CreateRenderPassesNode()
 
     {
         NiFixedString fixedString(NiGlobalStringTable::AddString("RenderPasses"));
-        ::AssignFixedString((char *)(pNode), (int)&(fixedString), {});
+        ::AssignFixedString((char *)(pNode), 0, (char **)&(fixedString));
     }
 
     UpdateData.fTime = 0.0f;
@@ -1275,7 +1322,7 @@ NiNode* __cdecl CreateRenderPassesNode()
     UpdateData.bTimeToDie = false;
     UpdateData.bVisible = false;
 
-    reinterpret_cast<::FUN_00a59c60_cls *>((pNode))->FUN_00a59c60((int)&(UpdateData));
+    reinterpret_cast<::FUN_00a59c60_cls *>((pNode))->FUN_00a59c60((std::intptr_t)&(UpdateData));
     return pNode;
 }
 
@@ -1335,13 +1382,13 @@ void Candidate::RenderGeometryPass(void* geometry, unsigned int index, void* cam
     }
     if (m_akRenderQueryStates[index].m_pRenderQuery)
     {
-        ShaderLocal* shader = ((::ShaderLocal *)(::FUN_00b55560((void *)(1))));
+        ShaderLocal* shader = ((::ShaderLocal *)(::FUN_00b55560(1)));
         ::FUN_00b7a870(9);
         shader->stage34->Reset();
         shader->stage30->Reset();
         reinterpret_cast<::S_00c4ed70_Class *>((reinterpret_cast<QueryLocal*>(m_akRenderQueryStates[index].m_pRenderQuery)))->FUN_00c4ed70();
         reinterpret_cast<::CameraState4E9 *>(((*reinterpret_cast<::ManagerLocal * *>(&::NiRenderer::ms_pRenderer))))->SetFromCamera((*(const ::Camera4E9 *)(camera)));
-        FUN_00ba8cd0 pass(geometry, 9, 1, false, false);
+        struct FUN_00ba8cd0 pass(geometry, 9, 1, false, false);
         ::fnv_00b994f0::FUN_00b994f0((::fnv_00b994f0::Pass_b994f0 *)(void *)(&pass), 9, 0, 0, 0);
         reinterpret_cast<::FUN_00c4edb0_Class *>((reinterpret_cast<QueryLocal*>(m_akRenderQueryStates[index].m_pRenderQuery)))->FUN_00c4edb0();
         m_akRenderQueryStates[index].m_bQueryPending = true;
@@ -1400,7 +1447,7 @@ void AccumWIP::SetShaderPassEnabled(unsigned int uiGroupIndex, bool bFlag)
     {
         for (unsigned int i = 0; i < m_uiRendererCount; ++i)
         {
-            ::FUN_00b9a4d0((::FUN_00b9a4d0_Obj *)(reinterpret_cast<BRView*>(m_pGroupRenderer[i])->m_pGeometryGroups[uiGroupIndex]), bFlag, {});
+            ::FUN_00b9a4d0((::FUN_00b9a4d0_Obj *)(reinterpret_cast<BRView*>(m_pGroupRenderer[i])->m_pGeometryGroups[uiGroupIndex]), 0, bFlag);
         }
     }
     else
@@ -1546,11 +1593,11 @@ struct ViewX
     PassX* m_apPass[2];
     char pad3[0x18c - 0x17c];
     int m18c;
-    void UpdatePasses(void* p);
+    void UpdatePasses(int p);
 };
 // Runs both passes while either returns a value above the float minimum, then finalizes each active pass.
 // @fnv 0x00b650c0
-void ViewX::UpdatePasses(void* p)
+void ViewX::UpdatePasses(int p)
 {
     ::fnv_00b988e0::FUN_00b988e0();
     float afValues[2];
@@ -1565,9 +1612,9 @@ void ViewX::UpdatePasses(void* p)
         reinterpret_cast<::fnv_00b9af60::Renderer_af60 *>((m_apPass[i]))->UpdateVisibility((int)(p), (::fnv_00b9af60::Cam_af60 *)(m8), m31, afValues[1 - i]);
         afValues[i] = reinterpret_cast<::BSBatchRenderer_AlphaDepth *>((m_apPass[i]))->ComputeAlphaDepth((int)(p), (::SortCamera *)(m8), (*(bool *)&(const ::FlagB &)(FlagB(m31))));
     }
-    ::FUN_00b64f20((::BSBatchRendererView *)(m_apPass[0]), (int)(p), {});
+    ::FUN_00b64f20((::BSBatchRendererView *)(m_apPass[0]), 0, (unsigned int)((p)));
     if (m18c == 2)
-        ::FUN_00b64f20((::BSBatchRendererView *)(m_apPass[1]), (int)(p), {});
+        ::FUN_00b64f20((::BSBatchRendererView *)(m_apPass[1]), 0, (unsigned int)((p)));
     ::fnv_00b988e0::FUN_00b988e0();
 }
 
@@ -2056,7 +2103,7 @@ void FUN_00b64a00_Pass::FUN_00b64a00(ShCamera* pkCamera, ShCamera* pkOther)
     ShManager* pkManager = ((::ShManager *)(::BSShaderManager::GetSceneDepthRenderedTexture()));
     if ((*reinterpret_cast<::ShRenderer * *>(&::NiRenderer::ms_pRenderer))->m_iRendererState)
         ::BSRenderedTexture::EndAllAndResetRendererState();
-    ::FUN_00b6b8d0(7, (::NiRenderTargetGroup *)(((int)(reinterpret_cast<::BSRenderedTexture *>((pkManager))->GetGroup()))));
+    ::FUN_00b6b8d0(7, (::NiRenderTargetGroup *)(((reinterpret_cast<::BSRenderedTexture *>((pkManager))->GetGroup()))));
 
     m_pkAccumulationCamera = pkCamera;
     pkRenderer->SetCurrentCamera(m_pkAccumulationCamera->m_kWorldTranslate, m_pkAccumulationCamera->m_kWorldRotate,
@@ -2843,7 +2890,7 @@ bool Sh651_Batch::FUN_00b651e0(ShCamera* pkCamera, ShManager* pkManager)
                 pkGeom = pkItem->m_pkGeom;
                 if (pkGeom)
                 {
-                    ::FUN_00b6b8d0(3, (::NiRenderTargetGroup *)(((int)(reinterpret_cast<::BSRenderedTexture *>((pkAccumMgr))->GetGroup()))));
+                    ::FUN_00b6b8d0(3, (::NiRenderTargetGroup *)(((reinterpret_cast<::BSRenderedTexture *>((pkAccumMgr))->GetGroup()))));
                     pkRenderer->SetCurrentCamera(
                         m_pkAccumulationCamera->m_kWorldTranslate, m_pkAccumulationCamera->m_kWorldRotate,
                         m_pkAccumulationCamera->m_kViewFrustum, m_pkAccumulationCamera->m_kPort);
@@ -2862,12 +2909,12 @@ bool Sh651_Batch::FUN_00b651e0(ShCamera* pkCamera, ShManager* pkManager)
                         pkItem->Render((*reinterpret_cast<::fnv_00b651e0::ShRenderer * *>(&::NiRenderer::ms_pRenderer)));
                     }
                     ::BSRenderedTexture::EndAllAndResetRendererState();
-                    ::FUN_00b6b8d0(0, (::NiRenderTargetGroup *)(((int)(reinterpret_cast<::BSRenderedTexture *>((pkManager))->GetGroup()))));
+                    ::FUN_00b6b8d0(0, (::NiRenderTargetGroup *)(((reinterpret_cast<::BSRenderedTexture *>((pkManager))->GetGroup()))));
                     ShColor kColor = pkGeom->m_kFogTint;
                     Sh651_Cam* pkCam = (*reinterpret_cast<::fnv_00b651e0::Sh651_Holder * *>(&::DAT_011f91ac))->m_pkScene->m_pkCam;
                     pkCam->m_bValueAt0C = true;
                     pkCam->m_kFogTint = kColor;
-                    reinterpret_cast<::BB97550Shader *>(((*reinterpret_cast<::fnv_00b651e0::Sh651_Holder * *>(&::DAT_011f91ac))))->FUN_00b97550(0xd, (int)(pkRenderer), (int)(pkManager), (int)(pkManager), 0, 1);
+                    reinterpret_cast<::BB97550Shader *>(((*reinterpret_cast<::fnv_00b651e0::Sh651_Holder * *>(&::DAT_011f91ac))))->FUN_00b97550(0xd, (std::intptr_t)(pkRenderer), (std::intptr_t)(pkManager), (std::intptr_t)(pkManager), 0, 1);
                 }
             }
         }
@@ -2977,7 +3024,7 @@ void __cdecl RenderAccumulationPasses(AccumWIP2* apAccumWIP)
         DAT_011f9fc1 = false;
     }
 
-    *(int*)((char*)apAccumWIP + 0x18) = 0;
+    apAccumWIP->m_pkGeometryList = 0;
     ((VtblSlot41*)apAccumWIP)->slot41();
 
     reinterpret_cast<::RenderAccumulator *>((apAccumWIP))->FUN_00b63770(1, 0x287, false, -1);
@@ -2985,14 +3032,14 @@ void __cdecl RenderAccumulationPasses(AccumWIP2* apAccumWIP)
     ::fnv_00b63a50::FUN_00b63a50((::fnv_00b63a50::AccumStub *)(apAccumWIP));
 
     if (*(char*)&apAccumWIP->m_bFourthBooleanFlagBeforeInteger)
-        reinterpret_cast<::ViewX *>((apAccumWIP))->UpdatePasses((void *)(0));
+        reinterpret_cast<::ViewX *>((apAccumWIP))->UpdatePasses(0);
     else
-        reinterpret_cast<::ViewX *>((apAccumWIP))->UpdatePasses((void *)(1));
+        reinterpret_cast<::ViewX *>((apAccumWIP))->UpdatePasses(1);
 
     if (*(char*)&apAccumWIP->m_bFourthBooleanFlagBeforeInteger)
-        reinterpret_cast<::ViewX *>((apAccumWIP))->UpdatePasses((void *)(1));
+        reinterpret_cast<::ViewX *>((apAccumWIP))->UpdatePasses(1);
     else
-        reinterpret_cast<::ViewX *>((apAccumWIP))->UpdatePasses((void *)(0));
+        reinterpret_cast<::ViewX *>((apAccumWIP))->UpdatePasses(0);
 
     ::BSRenderStateManager::SetDepthBufferEnabled(false, (::BSRENDERSTATE_LOCK)((BSRENDERSTATE_LOCK)0));
     reinterpret_cast<::RenderAccumulator *>((apAccumWIP))->FUN_00b63770(0x2cf, 0x2d7, false, -1);
@@ -3134,7 +3181,6 @@ void S00b66050_cls::RemoveEntry(unsigned int key)
         S00b66050_entry*& slot = node->m_data;
         node = node->m_next;
         S00b66050_entry* entry = slot;
-        key = (unsigned int)entry;
         if (entry != 0 && entry->m_key == uiKey)
         {
             if (entry->m_ptr != 0)
@@ -3149,7 +3195,7 @@ void S00b66050_cls::RemoveEntry(unsigned int key)
                 entry->m_ptr = 0;
             }
             reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::S00b66050_heap *>(&::g_memoryManager))))->FUN_00aa4060(entry);
-            reinterpret_cast<::AlphaList *>(&(m_kNode))->FUN_00e7db70(&key);
+            reinterpret_cast<::AlphaList *>(&(m_kNode))->FUN_00e7db70((void *const *)&entry);
             return;
         }
     }
@@ -3217,7 +3263,7 @@ void SunQueryAccum::PollQuery(unsigned int uiSlot)
     if (!m_akRenderQueryStates[uiSlot].m_pRenderQuery)
         return;
     unsigned int count;
-    unsigned char status = ((unsigned char)(reinterpret_cast<::DispatchOwner *>((m_akRenderQueryStates[uiSlot].m_pRenderQuery))->FUN_00c4ee40((int)(&count), 1)));
+    unsigned char status = ((unsigned char)(reinterpret_cast<::DispatchOwner *>((m_akRenderQueryStates[uiSlot].m_pRenderQuery))->FUN_00c4ee40((std::intptr_t)(&count), 1)));
     if (status == 1)
     {
         if (count == 0)
@@ -3756,7 +3802,7 @@ bool DepthAccumulator::FUN_00b64570(NiCamera* camera, TextureView* target)
         {
             NiRefObject* texture =
                 (depth ? depth->texture : (const NiPointer<NiRefObject>&)NiPointer<NiRefObject>()).m_pObject;
-            LightingShaderView* shader = ((::fnv_00b64570::LightingShaderView *)(::FUN_00b55560((void *)(9))));
+            LightingShaderView* shader = ((::fnv_00b64570::LightingShaderView *)(::FUN_00b55560(9)));
             reinterpret_cast<::TextureRenderer *>((shader))->AddTexture((::NiTexture *)(texture));
         }
     }
@@ -3775,9 +3821,8 @@ bool DepthAccumulator::FUN_00b64570(NiCamera* camera, TextureView* target)
 }
 }  // namespace fnv_00b64570
 
-struct LocalCriticalSection
+struct LocalCriticalSection : CRITICAL_SECTION
 {
-    unsigned unk00, unk04, unk08, unk0c, unk10, unk14;
     LocalCriticalSection()
     {
         InitializeCriticalSection(this);
@@ -4188,6 +4233,19 @@ FUN_00b660d0::FUN_00b660d0(int flags, unsigned count, unsigned pass)
     waterTarget.clear();
     depth = false;
     silhouette = LocalColor(0.3f, 0.3f, 0.3f, 1.0f);
+}
+
+
+
+
+
+// @fnv 0x00c4ed40
+void FUN_00c4ed40_cls::FUN_00c4ed40()
+{
+    if (m_00 != 0)
+    {
+        m_00->v02();
+    }
 }
 
 #include "generated/data/bsshader/bsshaderaccumulator.inc"

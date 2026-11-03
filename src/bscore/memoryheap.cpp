@@ -1,5 +1,6 @@
 // bscore/memoryheap.cpp: MemoryHeap, FakeHeap (17 functions)
 
+#include <cstdint>
 #include <windows.h>
 #include "fnv/decl/AbstractHeapBlockInfo.h"
 #include "fnv/decl/AbstractHeapBuckets.h"
@@ -8,10 +9,16 @@
 #include "fnv/symbols_011f6000.h"
 #include "memoryheap_decls.h"
 
+struct FUN_00aa7c00_header
+{
+    FUN_00aa7c00_header* pPreviousBlock;
+    unsigned int uiSizeAndFlags;
+};
+
 // @fnv 0x00aa7be0
 unsigned int MemoryHeap::Size(const void* pointer, unsigned int)
 {
-    return ((const unsigned int*)pointer)[-1] & 0x0fffffff;
+    return ((const FUN_00aa7c00_header*)pointer - 1)->uiSizeAndFlags & 0x0fffffff;
 }
 
 // @fnv 0x00aa7b20
@@ -39,7 +46,7 @@ unsigned int MemoryHeap::CommitRange(void* base, unsigned int offset, unsigned i
     return size;
 }
 
-struct FUN_00aa7ab0_s
+struct FUN_00aa7ab0_s : MemoryHeap
 {
     unsigned int FUN_00aa7ab0(char* pBase, unsigned int uiElapsedMilliseconds, unsigned int uiSize);
 };
@@ -47,8 +54,8 @@ struct FUN_00aa7ab0_s
 // @fnv 0x00aa7ab0
 unsigned int FUN_00aa7ab0_s::FUN_00aa7ab0(char* pBase, unsigned int uiElapsedMilliseconds, unsigned int uiSize)
 {
-    uiSize &= ~(*(unsigned int*)((char*)this + 0x10) - 1);
-    if (uiSize >= *(unsigned int*)((char*)this + 0x10))
+    uiSize &= ~(m_uiHeapGrowthEnabled - 1);
+    if (uiSize >= m_uiHeapGrowthEnabled)
     {
         char* pAddr = pBase + uiElapsedMilliseconds - uiSize;
         if (!(bool)(int)(VirtualFree(pAddr, uiSize, 0x4000) == 1))
@@ -78,12 +85,12 @@ struct FUN_00aa7c00_shell
     unsigned int FUN_00aa7c00(const void* apPointer);
 };
 
-// Reads the low 28 bits of the word before apPointer, masks them, and returns that value plus 8.
+// Returns the size of the block at apPointer plus its header, read from the block header before it.
 // @fnv 0x00aa7c00
 unsigned int FUN_00aa7c00_shell::FUN_00aa7c00(const void* apPointer)
 {
-    unsigned int offset = *(unsigned int*)((char*)apPointer - 4) & 0x0FFFFFFF;
-    return offset + 8;
+    const FUN_00aa7c00_header* pHeader = (const FUN_00aa7c00_header*)apPointer - 1;
+    return (pHeader->uiSizeAndFlags & 0x0FFFFFFF) + sizeof(FUN_00aa7c00_header);
 }
 
 struct FUN_00aa7c30_shell
@@ -140,7 +147,7 @@ void FUN_00aa7d60_cls::FUN_00aa7d60(FUN_00aa7d60_blk* pBlock)
     if (uiSize >= m_uiPage)
     {
         char* pFirst = (char*)(pBlock + 1);
-        char* pAligned = (char*)(((unsigned int)pFirst + m_uiPage - 1) & ~(m_uiPage - 1));
+        char* pAligned = (char*)(((std::uintptr_t)pFirst + m_uiPage - 1) & ~(std::uintptr_t)(m_uiPage - 1));
         uiSize = (uiSize - (pAligned - pFirst)) & ~(m_uiPage - 1);
         if (uiSize >= m_uiPage)
         {
@@ -2376,4 +2383,45 @@ int AA7D00Saver::FUN_00aa7d00(AA7D00Stream* pkStream, bool bFlag)
         iResult = pkStream->Write(&iZero, 4);
     }
     return iResult;
+}
+
+void FUN_00aa9d10(void* this_ptr);
+
+struct BlockHeader
+{
+    unsigned int size;
+    unsigned int flags;
+
+    static __forceinline const BlockHeader* FromMemory(const void* pointer)
+    {
+        return (const BlockHeader*)((const char*)pointer - sizeof(BlockHeader));
+    }
+
+    __forceinline bool IsFree() const
+    {
+        return (flags & 0x40000000u) != 0;
+    }
+
+    __forceinline bool GuardIntact() const
+    {
+        return true;
+    }
+};
+
+class HeapValidator
+{
+  public:
+    virtual void slot0();
+    virtual void slot1();
+    virtual void slot2();
+    virtual void slot3();
+    virtual bool Contains(const void* pointer);
+    bool FUN_00aa7b70(const void* pointer);
+};
+
+// @fnv 0x00aa7b70
+bool HeapValidator::FUN_00aa7b70(const void* pointer)
+{
+    const BlockHeader* header = BlockHeader::FromMemory(pointer);
+    return Contains(pointer) && !header->IsFree() && header->GuardIntact();
 }

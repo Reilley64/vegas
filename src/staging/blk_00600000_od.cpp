@@ -2,6 +2,7 @@
 // src/staging/blk_00600000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstdint>
 #include <new>
 #include <cctype>
 #include <cstring>
@@ -307,7 +308,7 @@ void FUN_0061bf50_Class::InitAndClear()
 }  // namespace fnv_0061bf50
 
 // @fnv 0x0061f420
-bool FUN_0061f420(unsigned int auiValue, unsigned int auiOther)
+bool FUN_0061f420(std::uintptr_t auiValue, std::uintptr_t auiOther)
 {
     if (auiValue < auiOther)
         return true;

@@ -196,7 +196,7 @@ struct FUN_00c87670_Class : NiObject
 // @fnv 0x00c87670
 void FUN_00c87670_Class::FUN_00c87670(NiStream& stream)
 {
-    ::FUN_00a89af0((int)this);
+    ::FUN_00a89af0((std::intptr_t)this);
     if (m_field_0xc)
         ((void(*)(FUN_00c87670_Class*, void*)) reinterpret_cast<void**>(
             reinterpret_cast<void**>(this)[0])[44])(this, m_field_0xc);
@@ -3404,7 +3404,7 @@ void BC87850RefObject::SaveSerializeData(BC87850Stream& kStream)
 {
     int iHandle;
     char* pSerializeData = GetSerializeData(&iHandle);
-    ::FUN_00a89af0((int)this);
+    ::FUN_00a89af0((std::intptr_t)this);
     BC87850BinaryStreamSave(*kStream.m_pBackingStream, pSerializeData, GetSerializeSize());
     FreeSerializeData(iHandle);
 }
@@ -9474,7 +9474,7 @@ void UpdateChainCollision(NiAVObject* apObject)
     NiAVObject* pkChain = pkRoot->GetObjectByName("Chain01");
     if (!pkChain)
         return;
-    reinterpret_cast<::FUN_00a59c60_cls *>((apObject))->FUN_00a59c60((int)&(const ::NiUpdateData &)(NiUpdateData()));
+    reinterpret_cast<::FUN_00a59c60_cls *>((apObject))->FUN_00a59c60((std::intptr_t)&(const ::NiUpdateData &)(NiUpdateData()));
     NiNode* pkParent = pkChain->m_pParentNode;
     if (!pkParent)
         return;

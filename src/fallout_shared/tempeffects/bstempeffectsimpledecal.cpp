@@ -1,5 +1,6 @@
 // fallout_shared/tempeffects/bstempeffectsimpledecal.cpp: BSTempEffectSimpleDecal, NiPoint3, DecalStub, DecalHolder and more (27 functions)
 
+#include <cstdint>
 #include <new>
 #include <cmath>
 #include "fnv/decl/BSFaceGenKeyframe.h"
@@ -832,7 +833,7 @@ struct FUN_0068de30_holder
 // @fnv 0x0068de30
 bool FUN_0068de30_holder::ReleaseTextureObject()
 {
-    if (!reinterpret_cast<::S_00c4edf0_cls *>((unk1c))->FUN_00c4edf0((int)(&unk24), 0))
+    if (!reinterpret_cast<::S_00c4edf0_cls *>((unk1c))->FUN_00c4edf0((std::intptr_t)(&unk24), 0))
     {
         return false;
     }
@@ -1724,7 +1725,7 @@ bool DecalSetup::Initialize()
         reinterpret_cast<::FUN_00440490_shell *>((((Graph*)p028)))->FUN_00440490(reinterpret_cast<::FUN_009cdae0_shell *>((((Graph*)p10C)))->GetFloatAt64());
         reinterpret_cast<::FUN_00a5a040_Class *>((((Graph*)p028)))->FUN_00a5a040();
         UpdateInfo j(::fnv_00563f30::DAT_011c3c08, false, false);
-        reinterpret_cast<::FUN_00a59c60_cls *>((((Graph*)p028)))->FUN_00a59c60((int)&(j));
+        reinterpret_cast<::FUN_00a59c60_cls *>((((Graph*)p028)))->FUN_00a59c60((std::intptr_t)&(j));
         reinterpret_cast<::S00b5d9f0_Owner *>((((SceneOps*)((::Graph *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0))))))->FUN_00b5d9f0((::S00b5d9f0_Obj *)(::Graph *)(geometry(0)), {});
         reinterpret_cast<::fnv_00631540::TargetClass *>((attachment->list))->FUN_00631540((const ::NiPointer< ::NiNode> &)((const ::NiPointer< ::Graph> &)((Graph*)this)));
         reinterpret_cast<::FUN_0068b220_shell *>(this)->FUN_0068b220();
@@ -2752,7 +2753,7 @@ void FUN_0068dea0_cls::UpdateDebugDecalBox(const xColorA* COLOR, bool FLAG)
             reinterpret_cast<::FUN_00458e20_shell *>(((*reinterpret_cast<::xTES * *>(&::g_TES))))->FUN_00458e20((::NiAVObject *)(qbXcw), 30.0f);
         ((::xVObj *)(reinterpret_cast<::FUN_009611e0_shell *>((qbXcw))->FUN_009611e0()))->Refresh();
         xUpdateData qBCzzXA(0.0f, false, false);
-        reinterpret_cast<::FUN_00a59c60_cls *>((qbXcw))->FUN_00a59c60((int)&(qBCzzXA));
+        reinterpret_cast<::FUN_00a59c60_cls *>((qbXcw))->FUN_00a59c60((std::intptr_t)&(qBCzzXA));
     }
 }
 

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdint>
+
 struct M;
 struct R;
 struct StrArray;
@@ -21,7 +23,7 @@ public:
     // 0x00546890
     ::S *InitBound(unsigned short, unsigned short);
     // 0x00561690
-    void FUN_00561690(int);
+    void FUN_00561690(std::intptr_t);
     // 0x005fdb60
     void *FUN_005fdb60(unsigned int);
     // 0x00670760

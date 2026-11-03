@@ -1,8 +1,10 @@
 // bsmenu/menu.cpp: Menu (27 functions)
 
+#include "global_string_header.h"
 #include <windows.h>
 #include <string.h>
 
+#include <cstdint>
 #include <new>
 #include <cstring>
 #include "runtime/crt.h"
@@ -65,6 +67,36 @@ class Tile
 
 class TileMenu : public Tile
 {
+};
+
+struct TileListItem
+{
+    TileListItem* m_pkNext;
+    TileListItem* m_pkPrev;
+    Tile* m_element;
+};
+struct TileChildList
+{
+    TileListItem* m_pkHead;
+    void* GetHeadPos() const
+    {
+        return m_pkHead;
+    }
+    Tile*& GetNext(void*& kPos) const
+    {
+        Tile*& element = ((TileListItem*)kPos)->m_element;
+        kPos = ((TileListItem*)kPos)->m_pkNext;
+        return element;
+    }
+};
+struct NiNode;
+// The Tile members used below; the pads stand for members not named yet.
+struct TileView
+{
+    void* m_pVtbl;
+    TileChildList m_kChildren;
+    char pad08[0x24];
+    NiNode* m_pNode;
 };
 
 class Tile;
@@ -644,13 +676,13 @@ CompressedXML* LoadCompressedXML(const char* apFilename, const char* apFileData)
 
 struct FUN_00a0c900_shell
 {
-    void FUN_00a0c900(const char*, int);
+    void FUN_00a0c900(const char*, std::uintptr_t);
 };
 
 extern int DAT_011f34f4;
 
 // @fnv 0x00a1cb60
-void __cdecl FUN_00a1cb60(char const* a1, int aiValue)
+void __cdecl FUN_00a1cb60(char const* a1, std::uintptr_t aiValue)
 {
     int v4[10];
     ((FUN_00a0c900_shell*)&DAT_011f34f4)->FUN_00a0c900(a1, aiValue);
@@ -676,8 +708,8 @@ void FUN_00a1d9e0_shell::FUN_00a1d9e0()
         pTile_c = pMenu;
         reinterpret_cast<::FUN_00a012d0_t *>((pTile_c))->FUN_00a012d0(0xfa3, 0.0f, true);
         pTile_b = pMenu;
-        pTile_a = (TileMenu*)*(void**)((char*)pTile_b + 0x2c);
-        ::FUN_00707010((int)(pTile_a), 1.0f, 0.0f);
+        pTile_a = (TileMenu*)((TileView*)pTile_b)->m_pNode;
+        ::FUN_00707010(pTile_a, 1.0f, 0.0f);
         m_eFadeState = 2;
         if (m_iModalMenuId)
         {
@@ -708,8 +740,8 @@ void FUN_00a1daa0_shell::FUN_00a1daa0()
         pTile_c = pMenu;
         reinterpret_cast<::FUN_00a012d0_t *>((pTile_c))->FUN_00a012d0(0xfa3, 1.0f, true);
         pTile_b = pMenu;
-        pTile_a = *(void**)((char*)pTile_b + 0x2c);
-        ::FUN_00707010((int)(pTile_a), 1.0f, 0.0f);
+        pTile_a = ((TileView*)pTile_b)->m_pNode;
+        ::FUN_00707010(pTile_a, 1.0f, 0.0f);
         m_eFadeState = 1;
         ::FUN_00706f90((int)(this));
     }
@@ -730,8 +762,8 @@ void FUN_00a1dba0_shell::FUN_00a1dba0()
         pTile_c = pMenu;
         reinterpret_cast<::FUN_00a012d0_t *>((pTile_c))->FUN_00a012d0(0xfa3, 0.0f, true);
         pTile_b = pMenu;
-        pTile_a = *(void**)((char*)pTile_b + 0x2c);
-        ::FUN_00707010((int)(pTile_a), 1.0f, 0.0f);
+        pTile_a = ((TileView*)pTile_b)->m_pNode;
+        ::FUN_00707010(pTile_a, 1.0f, 0.0f);
         m_eFadeState = 4;
         ::FUN_00706f90((int)(this));
     }
@@ -868,7 +900,7 @@ bool FUN_00a1d280()
                 for (unsigned int i = 0; i < kHeader.ItemUpdateArray; i++)
                 {
                     XMLEntry* pEntry = (XMLEntry*)pCurrent;
-                    int iTemplate = ((int)(::fnv_00a01e20::FUN_00a01e20(pEntry->acName, pEntry->acData, pEntry->GetLength())));
+                    std::uintptr_t iTemplate = reinterpret_cast<std::uintptr_t>(::fnv_00a01e20::FUN_00a01e20(pEntry->acName, pEntry->acData, pEntry->GetLength()));
                     ::FUN_00a1cb60(pEntry->acName, iTemplate);
                     pCurrent += pEntry->GetLength() + 0x84;
                 }
@@ -921,26 +953,6 @@ struct NiPoint3
     float z;
 };
 
-struct TileListItem
-{
-    TileListItem* m_pkNext;
-    TileListItem* m_pkPrev;
-    Tile* m_element;
-};
-struct TileChildList
-{
-    TileListItem* m_pkHead;
-    void* GetHeadPos() const
-    {
-        return m_pkHead;
-    }
-    Tile*& GetNext(void*& kPos) const
-    {
-        Tile*& element = ((TileListItem*)kPos)->m_element;
-        kPos = ((TileListItem*)kPos)->m_pkNext;
-        return element;
-    }
-};
 struct NiNode;
 template <class T> class NiPointer
 {
@@ -973,6 +985,13 @@ inline float NiMaxF(float a, float b)
     return a > b ? a : b;
 }
 
+// The local translation of a NiNode; the pad stands for members not named here.
+struct NiNodeView
+{
+    char pad00[0x58];
+    NiPoint3 m_kLocalTranslate;
+};
+
 // @fnv 0x00a1dfb0
 float FUN_00a1dfb0()
 {
@@ -981,10 +1000,10 @@ float FUN_00a1dfb0()
     float z;
     Tile* proot = ::Interface::GetPrimaryInterfaceTile();
 
-    xelem = ((TileChildList*)((char*)proot + 4))->GetHeadPos();
+    xelem = ((TileView*)proot)->m_kChildren.GetHeadPos();
     while (xelem)
     {
-        Tile* ptile = ((TileChildList*)((char*)proot + 4))->GetNext(xelem);
+        Tile* ptile = ((TileView*)proot)->m_kChildren.GetNext(xelem);
         if (ptile && reinterpret_cast<::FUN_00a03c90_shell *>((((TileH*)ptile)))->FUN_00a03c90())
         {
             float fdepth =
@@ -998,9 +1017,9 @@ float FUN_00a1dfb0()
         reinterpret_cast<::FUN_00a012d0_t *>((GetNextTile()))->FUN_00a012d0(4013, z, true);
         NiPoint3 xyz;
         Tile* pcursor = GetNextTile();
-        xyz = *(NiPoint3*)((char*)((NiPointer<NiNode>*)((char*)pcursor + 0x2c))->operator->() + 0x58);
+        xyz = ((NiNodeView*)((TileView*)pcursor)->m_pNode)->m_kLocalTranslate;
         xyz.y = z * ::DAT_0106f290;
-        *(NiPoint3*)((char*)((NiPointer<NiNode>*)((char*)pcursor + 0x2c))->operator->() + 0x58) = xyz;
+        ((NiNodeView*)((TileView*)pcursor)->m_pNode)->m_kLocalTranslate = xyz;
     }
     return fmaxdepth + 2.0;
 }
@@ -1166,6 +1185,11 @@ void* g_pTileItemFreeList;
 void LockTileItemPool();
 void UnlockTileItemPool();
 
+struct TileItemFreeNode
+{
+    void* m_pNext;
+    void* m_pElement;
+};
 template <class T> class NiTPointerAllocator
 {
   public:
@@ -1174,8 +1198,8 @@ template <class T> class NiTPointerAllocator
         void* pFree = apMem;
         LockTileItemPool();
         void* pOld = g_pTileItemFreeList;
-        ((void**)pFree)[1] = 0;
-        ((void**)pFree)[0] = pOld;
+        ((TileItemFreeNode*)pFree)->m_pElement = 0;
+        ((TileItemFreeNode*)pFree)->m_pNext = pOld;
         g_pTileItemFreeList = pFree;
         UnlockTileItemPool();
     }
@@ -1433,7 +1457,7 @@ struct WeightedMapNode
 {
     WeightedMapNode* unk00;
     const char* unk04;
-    int unk08;
+    std::uintptr_t unk08;
 };
 struct MapAllocator
 {
@@ -1444,12 +1468,12 @@ struct FUN_00a0c900_shell
     virtual void Unk00();
     virtual unsigned int Hash(const char*);
     virtual bool Equal(const char*, const char*);
-    virtual void Set(WeightedMapNode*, const char*, int);
+    virtual void Set(WeightedMapNode*, const char*, std::uintptr_t);
     unsigned int unk04;
     WeightedMapNode** unk08;
     unsigned int unk0C;
     bool unk10;
-    void FUN_00a0c900(const char* apPath, int apXML)
+    void FUN_00a0c900(const char* apPath, std::uintptr_t apXML)
     {
         unsigned int bucket = Hash(apPath);
         WeightedMapNode* node = unk08[bucket];
@@ -1528,7 +1552,7 @@ int LoadMasterMenuFiles()
 
         pXML2 = ((::fnv_00a1cb80::CompressedXML *)(::LoadCompressedXML(pathBuffer6, _cur_ptr)));
         stripped2 = Menu::GetMenuPath(pathBuffer6);
-        reinterpret_cast<::FUN_00a0c900_shell *>(&(DAT_011f34e0))->FUN_00a0c900(stripped2, (int)pXML2);
+        reinterpret_cast<::FUN_00a0c900_shell *>(&(DAT_011f34e0))->FUN_00a0c900(stripped2, reinterpret_cast<std::uintptr_t>(pXML2));
 
         count7++;
         _cur_ptr = found9 + 4;
@@ -1565,8 +1589,8 @@ struct MapItem
 struct EntryMap
 {
     unsigned int m_uiHashSize;
-    unsigned int* m_ppkHashTable;
-    unsigned int GetFirstPos()
+    MapItem** m_ppkHashTable;
+    MapItem* GetFirstPos()
     {
         for (unsigned int i = 0; i < m_uiHashSize; ++i)
         {
@@ -1577,24 +1601,24 @@ struct EntryMap
     }
     virtual void v00();
     virtual unsigned int KeyToHashIndex(const char* pcKey);
-    void GetNext(unsigned int& kPos, const char*& pcName, CompressedEntry*& pkEntry)
+    void GetNext(MapItem*& kPos, const char*& pcName, CompressedEntry*& pkEntry)
     {
-        MapItem* pkItem = (MapItem*)kPos;
+        MapItem* pkItem = kPos;
         pcName = pkItem->m_pcKey;
         pkEntry = pkItem->m_pkVal;
         if (pkItem->m_pkNext)
         {
-            kPos = (unsigned int)pkItem->m_pkNext;
+            kPos = pkItem->m_pkNext;
             return;
         }
         unsigned int i = KeyToHashIndex(pkItem->m_pcKey);
         unsigned int nextBucket = i + 1;
         for (; nextBucket < m_uiHashSize; ++nextBucket)
         {
-            pkItem = (MapItem*)m_ppkHashTable[nextBucket];
+            pkItem = m_ppkHashTable[nextBucket];
             if (pkItem)
             {
-                kPos = (unsigned int)pkItem;
+                kPos = pkItem;
                 return;
             }
         }
@@ -1718,7 +1742,7 @@ bool WriteCompressedEntryArchive()
                 {
                     EntryArray records;
                     NameArray names;
-                    unsigned int e = DAT_011f34e0.GetFirstPos();
+                    MapItem* e = DAT_011f34e0.GetFirstPos();
                     while (e != 0)
                     {
                         char debug[260];
@@ -1726,7 +1750,7 @@ bool WriteCompressedEntryArchive()
                             CompressedEntry* entry;
                             {
                                 const char* index;
-                                reinterpret_cast<::RecursiveLock *>(&(DAT_011f34e0))->Unlock((::BSCriticalSectionEntry **)&(e), (unsigned int *)&(index), (unsigned int *)&(entry));
+                                DAT_011f34e0.GetNext(e, index, entry);
                                 ::FUN_00a02d40((::Input02D40 *)(entry));
                                 reinterpret_cast<::FUN_00a1e4d0_shell *>(&(records))->FUN_00a1e4d0(records.m_usSize, (::Tile *&)(entry));
                                 reinterpret_cast<::S_0060ba10 *>(&(names))->FUN_0096a610((int)&(index));
@@ -1789,9 +1813,11 @@ extern MemoryManager g_memoryManager;
 class InputManager
 {
   public:
+    char pad00[0x1b92];
+    unsigned short m_usFlags;
     void SetFlag(unsigned short flag)
     {
-        *reinterpret_cast<unsigned short*>(reinterpret_cast<char*>(this) + 0x1b92) |= flag;
+        m_usFlags |= flag;
     }
 };
 class OSGlobals
@@ -1806,7 +1832,7 @@ struct TemplateName
     {
         if (m_kHandle == g_nullFixedString)
             return;
-        long* p = (long*)(m_kHandle - 8);
+        long* p = &((StringHeader*)m_kHandle - 1)->refs;
         InterlockedDecrement(p);
     }
 };

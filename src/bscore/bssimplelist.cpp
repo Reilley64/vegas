@@ -24,6 +24,7 @@
 #include "fnv/symbols_01015000.h"
 #include "fnv/symbols_011f6000.h"
 #include "InventoryStackRecord.h"
+#include "fnv/decl/FNV_MemoryManager.h"
 
 // Reusable definitions from bscore/bssimplelist.inl. Explicit pointer-list
 // instantiations below select the original linker-folded bodies.
@@ -260,7 +261,7 @@ GObj* GList::FUN_004f35b0(int key)
     GObj* pObj = 0;
     while (node)
     {
-        pObj = *((::GObj **)(new ((void *)(node)) ::Vec3()));
+        pObj = *((::GObj **)(&reinterpret_cast<::BSSimpleList<void*>*>(node)->m_item));
         if (pObj && reinterpret_cast<int(*)(GObj*)>((*reinterpret_cast<void***>(pObj))[4])(pObj) == key)
             return pObj;
         node = ((::GNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
@@ -437,9 +438,9 @@ FormFlagRecord* ActList::FUN_005a90b0(TESForm* form, bool create)
     FormFlagRecord* empty4;
     ActNode* cur = head;
     empty4 = 0;
-    while (cur && *((::FormFlagRecord **)(new ((void *)(cur)) ::Vec3())))
+    while (cur && *((::FormFlagRecord **)(&reinterpret_cast<::BSSimpleList<void*>*>(cur)->m_item)))
     {
-        FormFlagRecord* obj = *((::FormFlagRecord **)(new ((void *)(cur)) ::Vec3()));
+        FormFlagRecord* obj = *((::FormFlagRecord **)(&reinterpret_cast<::BSSimpleList<void*>*>(cur)->m_item));
         if (obj->pForm == form)
             return obj;
         if (obj->pForm == 0)
@@ -764,7 +765,7 @@ struct TopicS
 bool TopicS::HasCur()
 {
     cur = reinterpret_cast<Cur*>(reinterpret_cast<char*>(this) + 0xc);
-    return (cur && *((int *)(new ((void *)(cur)) ::Vec3())) != 0) ? 1 : 0;
+    return (cur && *((int *)(&reinterpret_cast<::BSSimpleList<void*>*>(cur)->m_item)) != 0) ? 1 : 0;
 }
 
 struct ItemChangeList : BSSimpleList<InventoryStackRecord*>
@@ -907,9 +908,9 @@ void FUN_00967290_struct::FUN_00967290()
     if (m_kNode)
     {
         void* item = 0;
-        while (m_kNode && *((void **)(new ((void *)(m_kNode)) ::Vec3())))
+        while (m_kNode && *((void **)(&reinterpret_cast<::BSSimpleList<void*>*>(m_kNode)->m_item)))
         {
-            item = *((void **)(new ((void *)(m_kNode)) ::Vec3()));
+            item = *((void **)(&reinterpret_cast<::BSSimpleList<void*>*>(m_kNode)->m_item));
             void* pItem = item;
             ::FUN_00401030(pItem);
             m_kNode->_ref_0063f7b0();
@@ -1022,5 +1023,136 @@ void ModifierRoutingList::FUN_00937380(ModifierEntryView* apEntry)
     else
         AddHead(apEntry);
 }
+
+struct MyRTTI
+{
+    void* m_pName;
+    const MyRTTI* m_base;
+};
+
+struct MyCtrl
+{
+    virtual void f0();
+    virtual void f1();
+    virtual const MyRTTI* GetRTTI();
+    char _pad[0x2C];
+    MyCtrl* m_next;
+};
+
+struct MyHost
+{
+    char _pad[0xC];
+    MyCtrl* m_pFirstNode;
+    MyCtrl* FUN_00a5c570(const MyRTTI* pkRTTI) const;
+};
+
+// @fnv 0x00a5c570
+MyCtrl* MyHost::FUN_00a5c570(const MyRTTI* pkRTTI) const
+{
+    MyCtrl* pkCtrl = m_pFirstNode;
+    while (pkCtrl)
+    {
+        const MyRTTI* pkR = pkCtrl->GetRTTI();
+        while (pkR)
+        {
+            if (pkR == pkRTTI)
+                return pkCtrl;
+            pkR = pkR->m_base;
+        }
+        pkCtrl = pkCtrl->m_next;
+    }
+    return 0;
+}
+
+struct Memory185
+{
+};
+
+struct Node185
+{
+    InventoryStackRecord* item;
+    Node185* next;
+    void FUN_00ae83e0();
+// @fnv 0x00ae83e0
+    inline ~Node185()
+    {
+        FUN_00ae83e0();
+    }
+};
+
+void Node185::FUN_00ae83e0()
+{
+    while (next)
+    {
+        Node185* successor = next->next;
+        next->next = 0;
+        delete next;
+        next = successor;
+    }
+    item = 0;
+}
+
+struct Mem_00a0cbe0
+{
+};
+
+template <class T> struct List_00a0cbe0
+{
+    T m_item;
+    List_00a0cbe0<T>* m_pkNext;
+
+    ~List_00a0cbe0()
+    {
+        int u1, u2, u3;
+        reinterpret_cast<::Node185 *>(this)->FUN_00ae83e0();
+    }
+    bool IsEmpty()
+    {
+        return m_pkNext == 0 && m_item == 0;
+    }
+    void RemoveAll();
+    void FUN_00a0cbe0(const T& item);
+};
+
+// @fnv 0x00a0cbe0
+template <class T> void List_00a0cbe0<T>::FUN_00a0cbe0(const T& item)
+{
+    if (!item || IsEmpty())
+        return;
+
+    List_00a0cbe0<T>* pkCur = this;
+    List_00a0cbe0<T>* pkPrev = this;
+    while (pkCur && pkCur->m_item != item)
+    {
+        pkPrev = pkCur;
+        pkCur = pkCur->m_pkNext;
+    }
+    if (pkCur)
+    {
+        if (pkCur == this)
+        {
+            if (m_pkNext)
+            {
+                pkPrev = m_pkNext;
+                m_pkNext = pkPrev->m_pkNext;
+                m_item = pkPrev->m_item;
+                pkPrev->m_pkNext = 0;
+                delete pkPrev;
+            }
+            else
+            {
+                m_item = 0;
+            }
+        }
+        else
+        {
+            pkPrev->m_pkNext = pkCur->m_pkNext;
+            pkCur->m_pkNext = 0;
+            delete pkCur;
+        }
+    }
+}
+
+template struct List_00a0cbe0<InventoryStackRecord*>;
 
 #include "generated/data/bscore/bssimplelist.inc"

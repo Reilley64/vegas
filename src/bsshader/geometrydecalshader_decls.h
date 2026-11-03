@@ -1,3 +1,4 @@
+#include <cstddef>
 // bsshader/geometrydecalshader_decls.h: declares NiMemObject, NiRefObject, NiD3DPixelShader, NiD3DVertexShader, NiD3DPass and more
 
 #include <windows.h>

@@ -1,3 +1,5 @@
+#include <cstdint>
+#include <cstddef>
 // bsshader/bsshaderpplightingproperty.cpp: BSShaderPPLightingProperty, CopyProperty, Target, OwnerX and more (34 functions)
 
 #include <windows.h>
@@ -60,10 +62,21 @@ void BSShaderPPLightingProperty::EnsureNormalMap()
         SetNormalMap(0, (*reinterpret_cast<::NiTexture * *>(&::DAT_011f9510)));
 }
 
-// @fnv 0x00b67260
-int FUN_00b67260(char* pThis, int, int idx1, int idx2)
+struct PPLightingTextureSlots
 {
-    return ((int**)(pThis + 0xAC))[idx1][idx2];
+    char pad00[0xa8];
+    unsigned short m_usA8;
+    char padAA[0xac - 0xaa];
+    void** m_appTextureSlots[7];
+    unsigned short m_usC8;
+    char padCA[0xd8 - 0xca];
+    int m_iD8;
+};
+
+// @fnv 0x00b67260
+void* FUN_00b67260(char* pThis, int, int idx1, int idx2)
+{
+    return ((PPLightingTextureSlots*)pThis)->m_appTextureSlots[idx1][idx2];
 }
 
 struct BSFadeNode
@@ -78,10 +91,10 @@ struct SelfStub
 {
 };
 // @fnv 0x00b67610
-NewObj* FUN_00b67610(SelfStub* self, int edx, int arg)
+NewObj* FUN_00b67610(SelfStub* self, int edx, void* arg)
 {
     NewObj* pObj = new NewObj();
-    reinterpret_cast<::FUN_00b702b0_shell *>((self))->FUN_00b702b0((char *)(pObj), (void *)(arg));
+    reinterpret_cast<::FUN_00b702b0_shell *>((self))->FUN_00b702b0((char *)(pObj), arg);
     (*(void(***)(SelfStub*, NewObj*))self)[0x34](self, pObj);
     return pObj;
 }
@@ -95,25 +108,25 @@ char const* const* __cdecl FUN_00b671b0()
 // @fnv 0x00b671c0
 int FUN_00b671c0(char* self, int)
 {
-    return *reinterpret_cast<int*>(self + 0xd8);
+    return ((PPLightingTextureSlots*)self)->m_iD8;
 }
 
 // @fnv 0x00b671d0
 void FUN_00b671d0(char* self, int, int v)
 {
-    *reinterpret_cast<int*>(self + 0xd8) = v;
+    ((PPLightingTextureSlots*)self)->m_iD8 = v;
 }
 
 // @fnv 0x00b671e0
 unsigned short FUN_00b671e0(char* self, int)
 {
-    return *reinterpret_cast<unsigned short*>(self + 0xa8);
+    return ((PPLightingTextureSlots*)self)->m_usA8;
 }
 
 // @fnv 0x00b671f0
 unsigned short FUN_00b671f0(char* self, int)
 {
-    return *reinterpret_cast<unsigned short*>(self + 0xc8);
+    return ((PPLightingTextureSlots*)self)->m_usC8;
 }
 
 extern "C"
@@ -168,15 +181,16 @@ void SetArrayElement(Container_00b67200* this_ptr, int unused_edx, unsigned int 
 }
 
 // @fnv 0x00b67280
-int FUN_00b67280(char* self, int)
+void* FUN_00b67280(char* self, int)
 {
-    return **reinterpret_cast<int**>(self + 0xac);
+    return reinterpret_cast<Container_00b67200*>(self)->m_apArray[0]->m_pObject;
 }
 
 struct ManagedObj
 {
     virtual void _v0();
     virtual void DecRefCount();
+    long m_uiRefCount;
 };
 
 struct ContainerClass
@@ -197,13 +211,13 @@ void SetManagedObjectAt(ContainerClass* pThis, int, int index, ManagedObj* pNew)
     {
         if (pOld)
         {
-            if (!DAT_00fdf1c4((void*)((char*)pOld + 4)))
+            if (!DAT_00fdf1c4(&pOld->m_uiRefCount))
                 pOld->DecRefCount();
         }
         *pSlot = pNew;
         if (pNew)
         {
-            DAT_00fdf1c0((void*)((char*)pNew + 4));
+            DAT_00fdf1c0(&pNew->m_uiRefCount);
         }
     }
 }
@@ -212,17 +226,29 @@ namespace fnv_00b672e0 {
 extern int(* DAT_00fdf1c4)(int*);
 extern void(* DAT_00fdf1c0)(int*);
 
+struct TextureSlotOwner
+{
+    char pad[0xb0];
+    void** m_ppTextureSlot;
+};
+
+struct RefCounted
+{
+    void* m_pVtable;
+    int m_iRefCount;
+};
+
 // @fnv 0x00b672e0
 void ReplaceArrayElement(void* pThis, int, int index, void* value)
 {
-    void** arr = *(void***)((char*)pThis + 0xb0);
+    void** arr = ((TextureSlotOwner*)pThis)->m_ppTextureSlot;
     void** slot = &arr[index];
     void* pCurrent = *slot;
     if (pCurrent != value)
     {
         if (pCurrent)
         {
-            if (DAT_00fdf1c4((int*)((char*)pCurrent + 4)) == 0)
+            if (DAT_00fdf1c4(&((RefCounted*)pCurrent)->m_iRefCount) == 0)
             {
                 typedef void(* DtorFn)(void*);
                 ((DtorFn*)*(void**)pCurrent)[1](pCurrent);
@@ -230,7 +256,7 @@ void ReplaceArrayElement(void* pThis, int, int index, void* value)
         }
         *slot = value;
         if (value)
-            DAT_00fdf1c0((int*)((char*)value + 4));
+            DAT_00fdf1c0(&((RefCounted*)value)->m_iRefCount);
     }
 }
 }  // namespace fnv_00b672e0
@@ -246,11 +272,17 @@ struct RefObj
 extern int(* DAT_00fdf1c4)(unsigned int*);
 extern int(* DAT_00fdf1c0)(unsigned int*);
 
-// Replaces the RefObj pointer at index idx in the array at self+0xb4, releasing the old object and retaining the new one.
+struct TextureSlotOwner
+{
+    char pad[0xb4];
+    RefObj** m_ppTextureSlot;
+};
+
+// Replaces the RefObj pointer at index idx in the third texture slot array, releasing the old object and retaining the new one.
 // @fnv 0x00b67330
 void SetRefAt(void* self, int, int idx, RefObj* pValue)
 {
-    RefObj** arr = *(RefObj***)((char*)self + 0xb4);
+    RefObj** arr = ((TextureSlotOwner*)self)->m_ppTextureSlot;
     RefObj** slot = arr + idx;
     RefObj* old = *slot;
     if (old != pValue)
@@ -331,7 +363,7 @@ struct TargetClass_00b683e0
     virtual void V37();
     virtual void V38();
     virtual void V39();
-    virtual void V40(void* arg1, void* ebx, void* pLocal, int zero1, int val, int zero2);
+    virtual void V40(void* arg1, void* ebx, void* pLocal, int zero1, void* val, int zero2);
 };
 
 // Selects a renderer pointer based on particle shader settings, calls V40 with it, and returns the low 16 bits of the resulting local value.
@@ -477,7 +509,7 @@ struct FUN_00b67380 : FUN_00b71410
     NiPtr_b67380 m_spDC;              // +0xdc
     float m_fE0;                      // +0xe0
     int m_aiE4[7];                    // +0xe4
-    FUN_00ba8cd0* m_p100;             // +0x100
+    struct FUN_00ba8cd0* m_p100;      // +0x100
     virtual ~FUN_00b67380();
 };
 
@@ -509,27 +541,46 @@ struct BSShaderProperty__RenderPassArray
 {
     void Add(NiGeometry*, unsigned short, bool, unsigned char, ShadowSceneLight*, ShadowSceneLight*, ShadowSceneLight*,
              ShadowSceneLight*);
+    char pad00[0x10];
+    int m_iCount;
+};
+struct FUN_00b68c10_Skin
+{
+    char pad00[0x18];
+    unsigned short m_usFlags;
+};
+struct FUN_00b68c10_Geometry
+{
+    char pad00[0x9c];
+    FUN_00b68c10_Skin* m_pSkinInstance;
 };
 struct FUN_00b68c10_t
 {
+    char pad00[0x20];
+    unsigned int m_uiFlags1;
+    unsigned int m_uiFlags2;
+    char pad28[0x50 - 0x28];
+    BSShaderProperty__RenderPassArray* m_pRenderPassArray;
+    char pad54[0xe0 - 0x54];
+    float m_fE0;
     BSShaderProperty__RenderPassArray* GetRenderPassArray(NiGeometry* pkGeometry);
 };
 
 // @fnv 0x00b68c10
 BSShaderProperty__RenderPassArray* FUN_00b68c10_t::GetRenderPassArray(NiGeometry* pkGeometry)
 {
-    if (*(float*)((char*)this + 0xe0) > 0.0f)
+    if (m_fE0 > 0.0f)
         return 0;
     reinterpret_cast<::BA97B0Owner *>(this)->CreateChildIfMissing(1);
-    BSShaderProperty__RenderPassArray* pkPasses = *(BSShaderProperty__RenderPassArray**)((char*)this + 0x50);
-    if (*(int*)((char*)pkPasses + 0x10) == 0)
+    BSShaderProperty__RenderPassArray* pkPasses = m_pRenderPassArray;
+    if (pkPasses->m_iCount == 0)
     {
-        void* pkSkin = *(void**)((char*)pkGeometry + 0x9c);
+        FUN_00b68c10_Skin* pkSkin = ((FUN_00b68c10_Geometry*)pkGeometry)->m_pSkinInstance;
         bool bHasAnimation = false;
         if (pkSkin)
-            bHasAnimation = (*(unsigned short*)((char*)pkSkin + 0x18) >> 9) & 1;
-        bool bSpecular = (*(unsigned int*)((char*)this + 0x24) & 0x20) > 0;
-        if ((*(unsigned int*)((char*)this + 0x20) & 2) > 0)
+            bHasAnimation = (pkSkin->m_usFlags >> 9) & 1;
+        bool bSpecular = (m_uiFlags2 & 0x20) > 0;
+        if ((m_uiFlags1 & 2) > 0)
         {
             if (bSpecular)
             {
@@ -564,7 +615,7 @@ BSShaderProperty__RenderPassArray* FUN_00b68c10_t::GetRenderPassArray(NiGeometry
             }
         }
     }
-    return *(BSShaderProperty__RenderPassArray**)((char*)this + 0x50);
+    return m_pRenderPassArray;
 }
 
 struct NiBinaryStream
@@ -1622,12 +1673,12 @@ inline float NiClamp_b68(float fValue, float fMin, float fScaledValue)
 // @fnv 0x00b68fe0
 void ShaderProp_b68::FUN_00b68fe0(ShaderProp_b68* apOther)
 {
-    ::FUN_00ba8be0((::BSSP_stub *)this, (int)(apOther), {});
-    if (!((m_uiValue1 & (unsigned int)&DAT_01000000) > 0))
+    ::FUN_00ba8be0((::BSSP_stub *)this, 0, (std::intptr_t)((apOther)));
+    if (!((m_uiValue1 & 0x1000000u) > 0))
     {
         if (!m_spTextureSet)
             m_spTextureSet = new BSShaderTextureSet;
-        reinterpret_cast<::FUN_00b66ad0_cls *>(this)->FUN_00b66ad0((int)(&apOther->m_fAlpha), (::FnvTarget *)(0));
+        reinterpret_cast<::FUN_00b66ad0_cls *>(this)->FUN_00b66ad0((std::intptr_t)(&apOther->m_fAlpha), (::FnvTarget *)(0));
     }
     float fCurrentAlpha = m_fAlpha;
     float fTemp = fCurrentAlpha < ::_DAT_01012060 ? 0.0f : fCurrentAlpha;
@@ -1865,12 +1916,12 @@ void Target::FUN_00b690d0(StrArr* apStrings)
             if (name = ((const char *)(::FUN_00c4bb40((::NiObjectC4BB *)(void *)(unkac[1])))))
             {
                 value = ::fnv_00a7d5e0::FUN_00a7d5e0("multi diff", name);
-                reinterpret_cast<::S_0060ba10 *>((apStrings))->FUN_0096a610((int)&(value));
+                reinterpret_cast<::S_0060ba10 *>((apStrings))->FUN_0096a610((std::intptr_t)&(value));
             }
             else
             {
                 value = FUN_00a7d5a0("multi diff", unkac[1]);
-                reinterpret_cast<::S_0060ba10 *>((apStrings))->FUN_0096a610((int)&(value));
+                reinterpret_cast<::S_0060ba10 *>((apStrings))->FUN_0096a610((std::intptr_t)&(value));
             }
         }
         if (unkb0[1])
@@ -1878,12 +1929,12 @@ void Target::FUN_00b690d0(StrArr* apStrings)
             if (name = ((const char *)(::FUN_00c4bb40((::NiObjectC4BB *)(void *)(unkb0[1])))))
             {
                 value = ::fnv_00a7d5e0::FUN_00a7d5e0("multi normal", name);
-                reinterpret_cast<::S_0060ba10 *>((apStrings))->FUN_0096a610((int)&(value));
+                reinterpret_cast<::S_0060ba10 *>((apStrings))->FUN_0096a610((std::intptr_t)&(value));
             }
             else
             {
                 value = FUN_00a7d5a0("multi normal", unkb0[1]);
-                reinterpret_cast<::S_0060ba10 *>((apStrings))->FUN_0096a610((int)&(value));
+                reinterpret_cast<::S_0060ba10 *>((apStrings))->FUN_0096a610((std::intptr_t)&(value));
             }
         }
     }
@@ -1920,12 +1971,12 @@ void Target::FUN_00b690d0(StrArr* apStrings)
                     if (name = ((const char *)(::FUN_00c4bb40((::NiObjectC4BB *)(void *)(unkb0[i])))))
                     {
                         value = ::fnv_00a7d5e0::FUN_00a7d5e0(" normal map", name);
-                        reinterpret_cast<::S_0060ba10 *>((apStrings))->FUN_0096a610((int)&(value));
+                        reinterpret_cast<::S_0060ba10 *>((apStrings))->FUN_0096a610((std::intptr_t)&(value));
                     }
                     else
                     {
                         value = FUN_00a7d5a0(" normal map", unkb0[i]);
-                        reinterpret_cast<::S_0060ba10 *>((apStrings))->FUN_0096a610((int)&(value));
+                        reinterpret_cast<::S_0060ba10 *>((apStrings))->FUN_0096a610((std::intptr_t)&(value));
                     }
                 }
                 if (unkcc[i])
@@ -1938,12 +1989,12 @@ void Target::FUN_00b690d0(StrArr* apStrings)
                     if (name = ((const char *)(::FUN_00c4bb40((::NiObjectC4BB *)(void *)(unkb4[i])))))
                     {
                         value = ::fnv_00a7d5e0::FUN_00a7d5e0(" glow map", name);
-                        reinterpret_cast<::S_0060ba10 *>((apStrings))->FUN_0096a610((int)&(value));
+                        reinterpret_cast<::S_0060ba10 *>((apStrings))->FUN_0096a610((std::intptr_t)&(value));
                     }
                     else
                     {
                         value = FUN_00a7d5a0(" glow map", unkb4[i]);
-                        reinterpret_cast<::S_0060ba10 *>((apStrings))->FUN_0096a610((int)&(value));
+                        reinterpret_cast<::S_0060ba10 *>((apStrings))->FUN_0096a610((std::intptr_t)&(value));
                     }
                 }
             }
@@ -3367,7 +3418,7 @@ Passes* Shader::GetPasses(Geom* geom, unsigned int pass, unsigned short* output,
             if (prop == 0)
                 prop = properties->alpha;
             bool alphaTest = prop && (bool)(int)(prop->shifted() & 1);
-            reinterpret_cast<::FUN_00bda060_Class *>(this)->FUN_00bda060((int)(geom), geom->skin != 0, alphaTest);
+            reinterpret_cast<::FUN_00bda060_Class *>(this)->FUN_00bda060((std::intptr_t)(geom), geom->skin != 0, alphaTest);
         }
         return special8;
     }
@@ -3462,7 +3513,7 @@ Passes* Shader::GetPasses(Geom* geom, unsigned int pass, unsigned short* output,
         _ReadWriteBarrier();  // Keep the dirty reset before inspecting rebuild flags.
         if ((((flags & 0x4000000) > 0 || GetFlag(5)) && (GetFlag(11) || GetFlag(28))) || GetFlag(5) ||
             (geom->props.alpha->flags & 1))
-            reinterpret_cast<::LightSortOwner *>(this)->SortShadowSceneLights((int)(&bound));
+            reinterpret_cast<::LightSortOwner *>(this)->SortShadowSceneLights((const ::B9DBE0Bound *)(&bound));
         if (updatePasses == true)
         {
             mainPasses->count = 0;

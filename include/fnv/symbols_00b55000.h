@@ -17,7 +17,7 @@ void SetPropertyValueRecursive(::B55480AVObject *, int);
 // 0x00b55520
 ::BSFogProperty *FUN_00b55520(int);
 // 0x00b55560
-::Shader *FUN_00b55560(void *);
+::Shader *FUN_00b55560(unsigned int);
 // 0x00b557d0
 void FUN_00b557d0();
 // 0x00b55a10

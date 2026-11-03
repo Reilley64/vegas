@@ -1,3 +1,5 @@
+#include <cstdint>
+#include <cstddef>
 
 // src/bsshader/bsshaderbloodsplatterproperty.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/bsshader/bsshaderbloodsplatterproperty.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
@@ -279,23 +281,12 @@ struct StringArray
     unsigned short unk0c;
     unsigned short m_0e;
 
-    void appendInner(unsigned int& home, unsigned int value)
+    void append(char* value)
     {
         unsigned int index = m_0a;
         if (index >= m_08)
-        {
-            home = value;
             reinterpret_cast<::ViewerStrings *>(this)->SetSize(index + m_0e);
-        }
-        else
-        {
-            home = value;
-        }
-        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(index, (*(char * *)(&home)));
-    }
-    void append(unsigned int& home, unsigned int value)
-    {
-        appendInner(home, value);
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(index, value);
     }
 
 };
@@ -326,34 +317,25 @@ struct StringOwner
     unsigned int unk54;
     unsigned int unk58;
     unsigned int unk5C;
-    unsigned int children[2];
+    void* children[2];
 
-    void BuildStringArray(unsigned int a1);
+    void BuildStringArray(StringArray* a1);
 };
 
 
 // Appends a value and formatted child labels to a StringArray via append.
 // @fnv 0x00b81520
-void StringOwner::BuildStringArray(unsigned int apArray)
+void StringOwner::BuildStringArray(StringArray* pArray)
 {
-    StringArray* pArray = (StringArray*)apArray;
     reinterpret_cast<::ShaderPropertyRecord *>(this)->WriteToSettingArray((::SettingArray *)(pArray));
-    pArray->append(apArray, ((unsigned int)(::FUN_00a7d330((const char *)((*reinterpret_cast<unsigned int *>(&::g_011ff0f4)))))));
+    pArray->append(::FUN_00a7d330((*reinterpret_cast<const char * *>(&::g_011ff0f4))));
     for (unsigned int index = 0; index < 2; ++index)
     {
-        unsigned int label = children[index];
-        label = ((unsigned int)(::FUN_00c4bb40((::NiObjectC4BB *)(label))));
+        void* label = ::FUN_00c4bb40((::NiObjectC4BB *)(children[index]));
         if (label)
-        {
-            unsigned int text = ((unsigned int)(::fnv_00a7d5e0::FUN_00a7d5e0(str_010ae79c, (const char *)(label))));
-            pArray->append(apArray, text);
-        }
+            pArray->append(::fnv_00a7d5e0::FUN_00a7d5e0(str_010ae79c, (const char *)(label)));
         else
-        {
-            unsigned int child = children[index];
-            unsigned int text = ((unsigned int)(::FUN_00a7d5a0(str_010ae79c, (void *)(child))));
-            pArray->append(apArray, text);
-        }
+            pArray->append(::FUN_00a7d5a0(str_010ae79c, children[index]));
     }
 }
 

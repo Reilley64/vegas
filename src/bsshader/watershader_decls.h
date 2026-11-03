@@ -3,6 +3,7 @@
 // Names of nested/template specializations use the canonical generator identifier mapping.
 #ifndef WATERSHADER_DECLS_H
 #define WATERSHADER_DECLS_H
+#include <cstddef>
 
 #include "fnv/decl/FUN_00be1750_shell.h"
 #include "fnv/symbols_00406000.h"

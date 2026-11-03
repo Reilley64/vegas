@@ -2845,7 +2845,7 @@ struct S_00c4edf0_Obj
 struct S_00c4edf0_cls
 {
     S_00c4edf0_Obj* unk00;
-    bool FUN_00c4edf0(int a1, bool a2);
+    bool FUN_00c4edf0(std::intptr_t a1, bool a2);
 };
 struct DispatchObject
 {
@@ -2861,7 +2861,7 @@ struct DispatchObject
 struct DispatchOwner
 {
     DispatchObject* object;
-    bool FUN_00c4ee40(int code, unsigned char enabled);
+    bool FUN_00c4ee40(std::intptr_t code, unsigned char enabled);
 };
 struct FUN_00c509a0_Class
 {
@@ -5259,7 +5259,7 @@ struct C46Class : FUN_00a5e5b0_helper
 // @fnv 0x00c46d10
 bool C46Class::FUN_00c46d10(NiStream* s)
 {
-    if (!((unsigned char)(::fnv_00a5e5b0::RegisterChildStreamables((::NiNode *)this, (int)(s), *(::fnv_00a5e5b0::NiStream *)nullptr))))
+    if (!((unsigned char)(::fnv_00a5e5b0::RegisterChildStreamables((::NiNode *)this, (std::intptr_t)(s), *(::fnv_00a5e5b0::NiStream *)nullptr))))
         return false;
     GetChild()->v54(s);
     return true;
@@ -13067,7 +13067,7 @@ void Owner::FUN_00c51f20()
         block.ucFlag2 = 0;
         block.ucFlag3 = 0;
         block.ucFlag4 = 0;
-        reinterpret_cast<::FUN_00a59c60_cls *>((GetTarget()))->FUN_00a59c60((int)(&block));
+        reinterpret_cast<::FUN_00a59c60_cls *>((GetTarget()))->FUN_00a59c60((std::intptr_t)(&block));
     }
 }
 
@@ -20124,7 +20124,7 @@ struct C5Base
         if (collision && collision->GetOwner() != this)
             collision->SetOwner(this);
     }
-    void ForwardToSubobject(int iValue)
+    void ForwardToSubobject(std::intptr_t iValue)
     {
         NiPointer<C5RefObj> property(reinterpret_cast<C5RefObj*>(iValue));
         C5List& propertyList = properties;
@@ -20208,7 +20208,7 @@ FUN_00c5f680::FUN_00c5f680(C5Src* pkSource, bool bCopy) : C5Base(0)
         {
             void* pkProperty = pkSource->properties.GetHead();
             reinterpret_cast<::FUN_00439410_cls *>(this)->FUN_00439410((::ArgObject *)(pkProperty));
-            reinterpret_cast<::S654 *>((pkSource))->ForwardToSubobject((int)pkProperty);
+            reinterpret_cast<::S654 *>((pkSource))->ForwardToSubobject((std::intptr_t)pkProperty);
         }
 
         translation = pkSource->translation;

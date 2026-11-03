@@ -1,3 +1,4 @@
+#include <cstddef>
 // bsshader/speedtreeleafshader.cpp: SpeedTreeLeafShader (5 functions)
 
 #include <cstddef>

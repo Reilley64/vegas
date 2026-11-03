@@ -5,6 +5,7 @@
 
 // src/staging/blk_00560000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
+#include <cstdint>
 #include <new>
 #include "fnv/decl/AlignedVector.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -486,7 +487,7 @@ void Ref56D::FUN_0056d7e0()
         reinterpret_cast<::fnv_00567490::ScaleReference *>(this)->FUN_00567490(1.0f);
         reinterpret_cast<::FUN_00440490_shell *>((Get3D()))->FUN_00440490(1.0f);
         Color56D kColor(0.0f, 0, 0);
-        reinterpret_cast<::FUN_00a59c60_cls *>((Get3D()))->FUN_00a59c60((int)&(kColor));
+        reinterpret_cast<::FUN_00a59c60_cls *>((Get3D()))->FUN_00a59c60((std::intptr_t)&(kColor));
         Transform56D kXform;
         kXform.m_kRotate = GetRotation();
         kXform.m_kTranslate = *GetPos();

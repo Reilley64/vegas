@@ -2,16 +2,17 @@
 
 struct FUN_007adc60_shell
 {
+    char pad00[0xec];
     unsigned int dwFlags;
     void FUN_007adc60(int aIndex, bool aSet);
 };
 
-// Sets or clears bit aIndex in the flags word at offset 0xec of this object, according to aSet.
+// Sets or clears bit aIndex in dwFlags, according to aSet.
 // @fnv 0x007adc60
 void FUN_007adc60_shell::FUN_007adc60(int aIndex, bool aSet)
 {
     if (aSet)
-        ((unsigned int*)this)[0xec / 4] |= (1 << aIndex);
+        dwFlags |= (1 << aIndex);
     else
-        ((unsigned int*)this)[0xec / 4] &= ~(1 << aIndex);
+        dwFlags &= ~(1 << aIndex);
 }

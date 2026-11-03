@@ -4,6 +4,7 @@
 
 // src/fallout_shared/tes.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/tes.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstdint>
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/BSFaceGenMorphData.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -1077,7 +1078,7 @@ void FUN_00b631d0_cls::FUN_00b631d0()
     {
         if (m_ppData[i] != 0)
         {
-            reinterpret_cast<::S_00c4edf0_cls *>((((QueryStub*)m_ppData[i])))->FUN_00c4edf0((int)(&state), 1);
+            reinterpret_cast<::S_00c4edf0_cls *>((((QueryStub*)m_ppData[i])))->FUN_00c4edf0((std::intptr_t)(&state), 1);
 
             void* item = m_ppData[i];
             if (item != 0)
@@ -1097,7 +1098,7 @@ void FUN_00b631d0_cls::FUN_00b631d0()
     {
         if (entry->item != 0)
         {
-            reinterpret_cast<::S_00c4edf0_cls *>((((QueryStub*)entry->item)))->FUN_00c4edf0((int)(&state), 1);
+            reinterpret_cast<::S_00c4edf0_cls *>((((QueryStub*)entry->item)))->FUN_00c4edf0((std::intptr_t)(&state), 1);
             void* item = entry->item;
             if (item != 0)
             {
@@ -1118,7 +1119,7 @@ void FUN_00b631d0_cls::FUN_00b631d0()
         Holder* holder = (Holder*)NextHolder(node);
         if (holder != 0 && holder->item != 0)
         {
-            reinterpret_cast<::S_00c4edf0_cls *>((((QueryStub*)holder->item)))->FUN_00c4edf0((int)(&state), 1);
+            reinterpret_cast<::S_00c4edf0_cls *>((((QueryStub*)holder->item)))->FUN_00c4edf0((std::intptr_t)(&state), 1);
             void* item = holder->item;
             if (item != 0)
             {

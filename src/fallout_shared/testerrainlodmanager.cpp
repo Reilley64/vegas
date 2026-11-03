@@ -1,5 +1,6 @@
 // fallout_shared/testerrainlodmanager.cpp: free functions (11 functions)
 
+#include <cstdint>
 #include <new>
 #include <cmath>
 #include "fnv/decl/B3CA80Owner.h"
@@ -496,7 +497,7 @@ void FUN_0057d0a0(Point3 position, Point3 direction, float scale)
     if ((*reinterpret_cast<::TerrainLOD::TerrainNode * *>(&::DAT_011ca438)))
     {
         UpdateData update(0, false, false);
-        reinterpret_cast<::FUN_00a59c60_cls *>(((*reinterpret_cast<::TerrainLOD::TerrainNode * *>(&::DAT_011ca438))))->FUN_00a59c60((int)(&update));
+        reinterpret_cast<::FUN_00a59c60_cls *>(((*reinterpret_cast<::TerrainLOD::TerrainNode * *>(&::DAT_011ca438))))->FUN_00a59c60((std::intptr_t)(&update));
         reinterpret_cast<::FUN_00a5a040_Class *>(((*reinterpret_cast<::TerrainLOD::TerrainNode * *>(&::DAT_011ca438))))->FUN_00a5a040();
     }
 }

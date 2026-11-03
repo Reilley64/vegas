@@ -1,3 +1,5 @@
+#include <cstdint>
+#include <cstddef>
 // bsshader/particleshader.cpp: ParticleShader, ShaderState (12 functions)
 
 #include <cstddef>
@@ -28,7 +30,7 @@
 // @fnv 0x00ba52d0
 unsigned int ParticleShader::GetShaderParticleCount()
 {
-    register unsigned int count = (*reinterpret_cast<unsigned int *>(&::DAT_012003ec));
+    unsigned int count = (*reinterpret_cast<unsigned int *>(&::DAT_012003ec));
     if (count == 0)
     {
         count = 26 + (::DAT_011f91c0 < 2 ? 0 : 52);
@@ -58,10 +60,12 @@ BSShader* ParticleShader::CreateShader()
 
 struct NiD3DPass
 {
+    char pad00[0x64];
+    int m_iRefCount;
     void DestroyPass();
 };
 
-// Assigns a NiD3DPass pointer, releasing the old pass when its refcount at offset 0x64 drops to zero and incrementing the new pass's refcount.
+// Assigns a NiD3DPass pointer, releasing the old pass when its refcount drops to zero and incrementing the new pass's refcount.
 // @fnv 0x00ba53c0
 void* AssignNiD3DPass(void* pThis, int, void* param)
 {
@@ -72,7 +76,7 @@ void* AssignNiD3DPass(void* pThis, int, void* param)
     {
         if (old)
         {
-            int* piRefCount = (int*)((char*)old + 0x64);
+            int* piRefCount = &old->m_iRefCount;
             *piRefCount -= 1;
             if (*piRefCount == 0)
                 old->DestroyPass();
@@ -80,7 +84,7 @@ void* AssignNiD3DPass(void* pThis, int, void* param)
         NiD3DPass* n = *ppParam;
         *ppThis = n;
         if (n)
-            ++*(int*)((char*)n + 0x64);
+            ++n->m_iRefCount;
     }
     return pThis;
 }
@@ -94,13 +98,15 @@ void* __cdecl FUN_00ba5730()
 
 struct FUN_00ba6ce0_shell
 {
+    char pad00[0x12c];
+    int m_i12c;
     char FUN_00ba6ce0(int value);
 };
 
 // @fnv 0x00ba6ce0
 char FUN_00ba6ce0_shell::FUN_00ba6ce0(int value)
 {
-    *(int*)((char*)this + 0x12c) = value;
+    m_i12c = value;
     return 1;
 }
 
@@ -138,7 +144,7 @@ struct RefSlot
         void* p = value;
         if (p)
         {
-            if (--*(int*)((char*)p + 0x64) == 0)
+            if (--static_cast<NiD3DPass*>(p)->m_iRefCount == 0)
             {
                 ((void(*)(void*))FUN_00e80190)(p);
             }
@@ -149,7 +155,7 @@ struct RefSlot
         void* p = value;
         if (p)
         {
-            if (--*(int*)((char*)p + 0x64) == 0)
+            if (--static_cast<NiD3DPass*>(p)->m_iRefCount == 0)
             {
                 ((void(*)(void*))FUN_00e80190)(p);
             }
@@ -816,7 +822,7 @@ NiProperty* __cdecl FUN_00ba68d0(NiAVObject* apObject, ArgObj* apArg)
             updateData.c6 = 0;
             updateData.c7 = 0;
             updateData.c8 = 0;
-            reinterpret_cast<::FUN_00a59c60_cls *>((obj))->FUN_00a59c60((int)&(updateData));
+            reinterpret_cast<::FUN_00a59c60_cls *>((obj))->FUN_00a59c60((std::intptr_t)&(updateData));
             ::BSShaderManager::UpdateObjectTypeRecurse((::NiAVObject *)(clone), 0, 0);
             NiProperty* pProperty = ((::NiProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((clone))->FUN_00a59d30(3)));
             int bValidType = 0;
@@ -1142,7 +1148,7 @@ NiObject* __cdecl FUN_00ba64e0()
     Q64_Geo* geo = new Q64_Geo(nv, verts, 0, 0, uv, 1, 0, tris, idx);
     Q64_Buf* buf = new Q64_Buf(nv, 1);
     reinterpret_cast<::FUN_00a72ca0_Class *>((buf))->FUN_00a72ca0(1);
-    reinterpret_cast<::A72BB0_DataStreamOwner *>((buf))->FUN_00a72bb0(0, (void *)(((unsigned int)(::GetFloatQuadTable()))), nv * 4, 1);
+    reinterpret_cast<::A72BB0_DataStreamOwner *>((buf))->FUN_00a72bb0(0, ::GetFloatQuadTable(), nv * 4, 1);
     reinterpret_cast<::FUN_00a726a0_cls *>((buf))->FUN_00a726a0(0, 0, 0, (void *)(1), nv, 4, 4);
     reinterpret_cast<::NiGPUProgramOwner *>((geo))->SetProgram((::NiGPUProgram *)(buf));
 

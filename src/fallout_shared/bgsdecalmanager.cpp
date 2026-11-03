@@ -1818,7 +1818,7 @@ void Camera::UpdateCamera(Input* input)
     reinterpret_cast<::FUN_0043fa80_s *>((((::CameraPass::Scene *)(::FUN_00559450((int *)&(scene))))))->FUN_0043fa80((const ::ThreeByThreeMatrix &)(basisSlot28Slot36));
     reinterpret_cast<::NiCamera *>((((::CameraPass::Scene *)(::FUN_00559450((int *)&(scene))))))->UpdateViewFrustum((const ::NiFrustum &)(frustumSlot18Slot39));
     Update updateSlot12(0.0f, 0, 0);
-    reinterpret_cast<::FUN_00a59c60_cls *>((((::CameraPass::Scene *)(::FUN_00559450((int *)&(scene))))))->FUN_00a59c60((int)(&updateSlot12));
+    reinterpret_cast<::FUN_00a59c60_cls *>((((::CameraPass::Scene *)(::FUN_00559450((int *)&(scene))))))->FUN_00a59c60((std::intptr_t)(&updateSlot12));
     void* lineSlot0Slot21;
     if (::DAT_011c57f4 & 4)
     {
@@ -3036,7 +3036,7 @@ bool DWork::FUN_004a2070(DArg* arg)
                             reinterpret_cast<::fnv_004a2c00::FUN_004a2c00_shell *>((((::fnv_004a2070::DObj *)(::FUN_00559450((int *)&(decal))))))->AssignGo((DObj*)arg->skin);
                             reinterpret_cast<::fnv_00631540::TargetClass *>((selected->effects))->FUN_00631540((const ::NiPointer< ::NiNode> &)((const ::fnv_004a2070::DPtr &)(((::fnv_004a2070::DObj *)(::FUN_00559450((int *)&(decal)))))));
                             DUpdate update(0.0f, false, false);
-                            reinterpret_cast<::FUN_00a59c60_cls *>((selected))->FUN_00a59c60((int)&(update));
+                            reinterpret_cast<::FUN_00a59c60_cls *>((selected))->FUN_00a59c60((std::intptr_t)&(update));
                             reinterpret_cast<::FUN_00973fd0_cls *>(&((*reinterpret_cast<::fnv_004a2070::DManager *>(&::g_011e0e80))))->FUN_00973fd0((::FnvArgObj *)(::fnv_004a2070::DObj *)(((::fnv_004a2070::DObj *)(::FUN_00559450((int *)&(decal))))));
                             effect.FUN_0066b0d0(((::fnv_004a2070::DObj *)(::FUN_00559450((int *)&(decal)))));
                         }

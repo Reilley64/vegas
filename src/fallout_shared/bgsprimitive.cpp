@@ -1,5 +1,6 @@
 // fallout_shared/bgsprimitive.cpp: BGSPrimitiveSphere, BGSPrimitiveBox, BSMultiBoundAABB, BSMultiBoundSphere and more (113 functions)
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/A5D6E0This.h"
 #include "fnv/decl/A5d470Class.h"
@@ -218,7 +219,7 @@ void BGSPrimitiveBox::NormalizeRadii(NiPoint3& radii)
         NiBound bound;
         reinterpret_cast<::FUN_004a51d0_shell *>(&(bound))->FUN_004a51d0((void *)&(NiPoint3::ZERO), radius);
         reinterpret_cast<::s4a5200::Owner *>(((m_kGeometry).operator->()))->FUN_004a5200((int)&(bound));
-        reinterpret_cast<::FUN_00a59c60_cls *>(((m_pController).operator->()))->FUN_00a59c60((int)&(kUpdateData));
+        reinterpret_cast<::FUN_00a59c60_cls *>(((m_pController).operator->()))->FUN_00a59c60((std::intptr_t)&(kUpdateData));
         reinterpret_cast<::FUN_00a5a040_Class *>(((m_kGeometry).operator->()))->FUN_00a5a040();
         m_pController->UpdateWorldBound();
     }
@@ -668,7 +669,7 @@ struct FUN_00c4fa10_shell : NiObject
 // @fnv 0x00c4fa10
 void FUN_00c4fa10_shell::FUN_00c4fa10(NiStream& stream)
 {
-    ::FUN_00a89af0((int)this);
+    ::FUN_00a89af0((std::intptr_t)this);
 }
 }  // namespace fnv_00c4fa10
 
@@ -716,7 +717,7 @@ struct FUN_00c4fa60_shell : NiObject
 // @fnv 0x00c4fa60
 void FUN_00c4fa60_shell::FUN_00c4fa60(NiStream& stream)
 {
-    ::FUN_00a89af0((int)this);
+    ::FUN_00a89af0((std::intptr_t)this);
 }
 }  // namespace fnv_00c4fa60
 
@@ -1965,7 +1966,7 @@ void FUN_004a55a0_shell::UpdateBoxGeometry(NiPoint3& aExtents)
         NiBound bound2;
         reinterpret_cast<::FUN_004a51d0_shell *>(&(bound2))->FUN_004a51d0((void *)&(NiPoint3::ZERO), fMax3);
         reinterpret_cast<::s4a5200::Owner *>(((m_kGeometry).operator->()))->FUN_004a5200((int)&(bound2));
-        reinterpret_cast<::FUN_00a59c60_cls *>(((m_pController).operator->()))->FUN_00a59c60((int)&(updateData3));
+        reinterpret_cast<::FUN_00a59c60_cls *>(((m_pController).operator->()))->FUN_00a59c60((std::intptr_t)&(updateData3));
         ((NiAVObjB8_shell*)(BSFadeNode*)m_pController)->UpdateB8(updateData3);
         reinterpret_cast<::FUN_00a5a040_Class *>(((m_kGeometry).operator->()))->FUN_00a5a040();
         m_pController->UpdateWorldBound();
@@ -2769,7 +2770,7 @@ void BGSPrimitiveSphere::SetRadius(float radius)
         NiBound kBound;
         reinterpret_cast<::FUN_004a51d0_shell *>(&(kBound))->FUN_004a51d0((void *)&(const ::NiPoint3 &)(NiPoint3(0.0f, 0.0f, 0.0f)), radius);
         reinterpret_cast<::s4a5200::Owner *>(((((BGSPrimitive*)this)->m_kGeometry).operator->()))->FUN_004a5200((int)&(kBound));
-        reinterpret_cast<::FUN_00a59c60_cls *>(((((BGSPrimitive*)this)->m_pController).operator->()))->FUN_00a59c60((int)&(kUpdateDataTmp));
+        reinterpret_cast<::FUN_00a59c60_cls *>(((((BGSPrimitive*)this)->m_pController).operator->()))->FUN_00a59c60((std::intptr_t)&(kUpdateDataTmp));
         reinterpret_cast<::FUN_00a5a040_Class *>(((((BGSPrimitive*)this)->m_kGeometry).operator->()))->FUN_00a5a040();
         ((BGSPrimitive*)this)->m_pController->UpdateWorldBound();
     }
@@ -2983,7 +2984,7 @@ void BGSPrimitiveSphere::CreateSphereGeometry()
     }
 
     NiUpdateData updateData3(0.0f, false, false);
-    reinterpret_cast<::FUN_00a59c60_cls *>(((m_pController).operator->()))->FUN_00a59c60((int)&(updateData3));
+    reinterpret_cast<::FUN_00a59c60_cls *>(((m_pController).operator->()))->FUN_00a59c60((std::intptr_t)&(updateData3));
 }
 }  // namespace fnv_004a72d0
 

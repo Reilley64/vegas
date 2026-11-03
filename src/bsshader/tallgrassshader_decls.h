@@ -1,3 +1,4 @@
+#include <cstddef>
 // bsshader/tallgrassshader_decls.h: declares MemoryManager, TallGrassShader
 
 #include "fnv/decl/FNV_MemoryManager.h"

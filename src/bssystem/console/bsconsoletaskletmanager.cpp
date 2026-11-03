@@ -10,7 +10,7 @@ struct MemoryManager
 };
 struct BSTaskletManager
 {
-    int _00;
+    const void* pVtable;
     int _04;
     int _08;
     void* _0c;
@@ -19,7 +19,7 @@ struct BSTaskletManager
 // @fnv 0x00b02780
 void* BSTaskletManager::Destroy(unsigned int flags)
 {
-    *(int*)this = (int)&DAT_010a48ac;
+    pVtable = &DAT_010a48ac;
     CloseHandle(_0c);
     if (flags & 1)
         reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(this);

@@ -1,3 +1,5 @@
+#include <cstdint>
+#include <cstddef>
 // bsshader/shadowscenelight.cpp: ShadowSceneLight, RemovalList, NiRefObject, LightView and more (22 functions)
 
 #include <cmath>
@@ -118,17 +120,32 @@ struct Node_00b9e770
     char* data;
 };
 
-static __forceinline int IsShaderProp_00b9e770(char* prop)
+struct Prop_00b9e770
 {
-    unsigned int t = *(unsigned int*)(prop + 0x1c);
+    char pad00[0x1c];
+    unsigned int m_iShaderType;
+    char pad20[0x38 - 0x20];
+    int iLastRenderPassState;
+};
+
+struct Geometry_00b9e770
+{
+    char pad00[0xa8];
+    Prop_00b9e770* m_pShaderProperty;
+};
+
+static __forceinline int IsShaderProp_00b9e770(Prop_00b9e770* prop)
+{
+    unsigned int t = prop->m_iShaderType;
     return t >= 1 && t <= 12;
 }
 
-// Walks the list at self+0x138, clears field +0x38 of each item's shader property, then nulls the list head.
+// Walks the list in m_pShadowData, clears the last render pass state of each item's shader property, then nulls the list head.
 // @fnv 0x00b9e770
 void ClearShaderPropRefs(char* self)
 {
-    Node_00b9e770* pNode = *(Node_00b9e770**)(self + 0x138);
+    ShadowSceneLight* light = (ShadowSceneLight*)self;
+    Node_00b9e770* pNode = (Node_00b9e770*)light->m_pShadowData;
     while (pNode)
     {
         char** ppData = &pNode->data;
@@ -136,16 +153,16 @@ void ClearShaderPropRefs(char* self)
         char* item = *ppData;
         if (item)
         {
-            char* prop = *(char**)(item + 0xa8);
+            Prop_00b9e770* prop = ((Geometry_00b9e770*)item)->m_pShaderProperty;
             if (prop)
             {
-                char* pShaderProp = IsShaderProp_00b9e770(prop) ? prop : 0;
+                Prop_00b9e770* pShaderProp = IsShaderProp_00b9e770(prop) ? prop : 0;
                 if (pShaderProp)
-                    *(void**)(pShaderProp + 0x38) = 0;
+                    pShaderProp->iLastRenderPassState = 0;
             }
         }
     }
-    *(Node_00b9e770**)(self + 0x138) = 0;
+    light->m_pShadowData = 0;
 }
 
 extern "C" __declspec(dllimport) void FreeBlockImp(void*);
@@ -261,7 +278,7 @@ RefPtr_b9e7c0 FUN_00b9e7c0_list::PopFront()
     else
         m_pkTail = 0;
     RefPtr_b9e7c0 element = pkNode->m_element;
-    ::ReleaseRefCountedNode((void *)this);
+    ::ReleaseRefCountedNode((void *)(pkNode));
     m_uiCount--;
     return element;
 }
@@ -383,7 +400,7 @@ RefPtr_b9e850 FUN_00b9e850_list::PopBack()
     else
         m_pkHead = 0;
     RefPtr_b9e850 element = pkNode->m_element;
-    ::ReleaseRefCountedNode((void *)this);
+    ::ReleaseRefCountedNode((void *)(pkNode));
     m_uiCount--;
     return element;
 }
@@ -447,15 +464,15 @@ struct FUN_00b9fba0_s
 // @fnv 0x00b9fba0
 void FUN_00b9fba0_s::FUN_00b9fba0()
 {
-    char* self = reinterpret_cast<char*>(this);
-    FencePtr& fence = *reinterpret_cast<FencePtr*>(self + 0x13c);
+    ShadowSceneLight* self = reinterpret_cast<ShadowSceneLight*>(this);
+    FencePtr& fence = *reinterpret_cast<FencePtr*>(&self->m_spShadowGeometry);
     if (fence.m_p == 0)
     {
         fence = reinterpret_cast<NiAVObject*>(new FUN_00a74480(0));
-        ::AssignFixedString((char *)((fence).operator->()), (int)&(const ::NiFixedString &)("fence"), {});
+        ::AssignFixedString((char *)((fence).operator->()), 0, (char **)&(const ::NiFixedString &)("fence"));
     }
-    reinterpret_cast<::fnv_00c1b4a0::RefObjectList *>((reinterpret_cast<FUN_00c1b4a0_holder*>(self + 0xe0)))->FUN_00c1b4a0((*(const ::fnv_00c1b4a0::NiRefObjectPtr *)(&fence)));
-    *reinterpret_cast<int*>(self + 0x138) = *reinterpret_cast<int*>(self + 0xe0);
+    reinterpret_cast<::fnv_00c1b4a0::RefObjectList *>((reinterpret_cast<FUN_00c1b4a0_holder*>(&self->m_kLightStripList)))->FUN_00c1b4a0((*(const ::fnv_00c1b4a0::NiRefObjectPtr *)(&fence)));
+    self->m_pShadowData = self->m_kLightStripList.m_pkHead;
 }
 
 struct V3
@@ -487,9 +504,16 @@ struct C3
 };
 struct LightV
 {
+    char pad00[0x8c];
+    V3 m_kWorldTranslate;
+    char pad98[0xc4 - 0x98];
+    float m_fDimmer;
+    char padC8[0xd4 - 0xc8];
+    C3 m_kDiffuse;
+    float m_fRadius;
     float GetDimmer() const
     {
-        return *(float*)((char*)this + 0xc4);
+        return m_fDimmer;
     }
 };
 inline float MinF(float a, float b)
@@ -510,26 +534,27 @@ struct FUN_00b9bc50_t
     float ComputeLightAttenuation(V3 apPoint, NiLight* apIgnore);
 };
 
-// Computes a light's attenuation at apPoint from its dimmed color and distance/radius falloff, storing and returning the result at this+0xc.
+// Computes a light's attenuation at apPoint from its dimmed color and distance/radius falloff, storing and returning the result in m_fShadowParameter3.
 // @fnv 0x00b9bc50
 float FUN_00b9bc50_t::ComputeLightAttenuation(V3 apPoint, NiLight* apIgnore)
 {
-    char* pkLight = *(char**)((char*)this + 0xf8);
-    if (pkLight == (char*)apIgnore || *((char*)this + 0xec) == 1)
+    ShadowSceneLight* self = reinterpret_cast<ShadowSceneLight*>(this);
+    LightV* pkLight = (LightV*)self->m_pMenuLight.m_pObject;
+    if (pkLight == (LightV*)apIgnore || self->m_bSkipLightObject == 1)
         return 0.0f;
-    V3 lightPos = *(V3*)(pkLight + 0x8c);
-    C3 lightColor = *(C3*)(pkLight + 0xd4);
-    lightColor *= ((LightV*)pkLight)->GetDimmer();
-    float plightRadius = *(float*)(pkLight + 0xe0);
-    *(float*)((char*)this + 0xc) = 1.0f;
-    if (*((char*)this + 0xf4))
+    V3 lightPos = pkLight->m_kWorldTranslate;
+    C3 lightColor = pkLight->m_kDiffuse;
+    lightColor *= pkLight->GetDimmer();
+    float plightRadius = pkLight->m_fRadius;
+    self->m_fShadowParameter3 = 1.0f;
+    if (self->m_bLightFlag0)
     {
         float fdistance = (apPoint - lightPos).Length() / plightRadius;
         fdistance = MinF(1.0f, fdistance < ::_DAT_01012060 ? 0.0f : fdistance);
-        *(float*)((char*)this + 0xc) = 1.0f - fdistance * fdistance;
+        self->m_fShadowParameter3 = 1.0f - fdistance * fdistance;
     }
-    *(float*)((char*)this + 0xc) = MaxF(lightColor.r, MaxF(lightColor.g, lightColor.b)) * *(float*)((char*)this + 0xc);
-    return *(float*)((char*)this + 0xc);
+    self->m_fShadowParameter3 = MaxF(lightColor.r, MaxF(lightColor.g, lightColor.b)) * self->m_fShadowParameter3;
+    return self->m_fShadowParameter3;
 }
 
 struct BSTextureManager;
@@ -905,7 +930,7 @@ struct FUN_00a69400
     FUN_00a69400(void*);
     int unk04;
     int unk08;
-    int unk0C;
+    void* unk0C;
     int unk10;
     int unk14;
     int unk18;
@@ -1099,7 +1124,7 @@ void LightView::RenderFaces()
         if (!(unsigned short)(uiFaceBit & uiFaceMask))
         {
             UpdateView updateView;
-            reinterpret_cast<::FUN_00a59c60_cls *>(this)->FUN_00a59c60((int)&(updateView));
+            reinterpret_cast<::FUN_00a59c60_cls *>(this)->FUN_00a59c60((std::intptr_t)&(updateView));
             if (DAT_011f91b8 != 7)
             {
                 if (unk138)
@@ -1109,7 +1134,7 @@ void LightView::RenderFaces()
                     unk13C->slot35(this);
                     unk13C->unk84 = true;
                     BSCullingProcess cullingProcess(0);
-                    cullingProcess.unk0C = (int)this;
+                    cullingProcess.unk0C = this;
                     void* list = &unkDC;
                     reinterpret_cast<::S694a0 *>(&(cullingProcess))->FUN_00a694a0(list);
                     AccumulatorView* pAccumulator = unk13C;
@@ -1480,7 +1505,7 @@ RefPtr_b9fcc0 RemovalList::FUN_00b9efa0(void*& position)
     if (next)
         next->m_pkPrev = previous;
     RefPtr_b9fcc0 element = item->m_element;
-    ::ReleaseRefCountedNode((void *)this);
+    ::ReleaseRefCountedNode((void *)(item));
     --m_uiCount;
     return element;
 }
@@ -1488,6 +1513,9 @@ RefPtr_b9fcc0 RemovalList::FUN_00b9efa0(void*& position)
 
 extern "C" void _ReadWriteBarrier(void);
 #include <string.h>
+#include "fnv/decl/FUN_00c4a070.h"
+#include "fnv/decl/FUN_00c4a1e0.h"
+struct Geom_b9f480;
 namespace fnv_00b9dfc0 {
 // Views extend the pack's intentionally abbreviated object declarations.
 struct ShadowVector : NiPoint3
@@ -1675,7 +1703,7 @@ void ShadowSceneLightDecompile::UpdateShadow(void* unused, unsigned char* render
         BSRenderedTexture* texture = ((::BSRenderedTexture *)(reinterpret_cast<::MultiBoundLists *>(((*reinterpret_cast<::fnv_00b9dfc0::ShadowManager * *>(&::DAT_011f91a8))))->ActivatePending()));
         if (!texture)
             reinterpret_cast<NiAVObject*>(m_pMenuLight.m_pObject)->m_uiObjectFlags |= 1;
-        ::AssignRefObject((char *)this, (int)(texture), {});
+        ::AssignRefObject((char *)this, 0, (::NiRefObject *)((texture)));
     }
 
     if (updateShadow && m_usEnabledState != 255 && m_fShadowParameter5 > ::DAT_01082cb0 &&
@@ -1724,7 +1752,7 @@ void ShadowSceneLightDecompile::UpdateShadow(void* unused, unsigned char* render
         NiFrustum frustum(false);
         frustum.orthographic = true;
         ShadowExtraData* pExtraData =
-            ((::fnv_00b9dfc0::ShadowExtraData *)(reinterpret_cast<::NiAVObject *>((reinterpret_cast<ShadowObject*>(m_pLightNode.m_pObject)))->GetExtraData((*(const ::NiFixedString *)((*reinterpret_cast<const void * *>(&::g_pkString_c55)))))));
+            ((::fnv_00b9dfc0::ShadowExtraData *)(reinterpret_cast<::NiAVObject *>((reinterpret_cast<ShadowObject*>(m_pLightNode.m_pObject)))->GetExtraData((*(const ::NiFixedString *)(::g_pkString_c55)))));
         float radius;
         {
             ShadowObject* __restrict scene = reinterpret_cast<ShadowObject*>(m_pLightNode.m_pObject);
@@ -1775,10 +1803,10 @@ void ShadowSceneLightDecompile::UpdateShadow(void* unused, unsigned char* render
             a.initialUpdate.updateGeomorphs = false;
             a.initialUpdate.updateBounds = false;
             a.initialUpdate.updateTransforms = false;
-            reinterpret_cast<::FUN_00a59c60_cls *>((reinterpret_cast<FUN_00a712f0*>(GetShadowCamera())))->FUN_00a59c60((int)&(a.initialUpdate));
+            reinterpret_cast<::FUN_00a59c60_cls *>((reinterpret_cast<FUN_00a712f0*>(GetShadowCamera())))->FUN_00a59c60((std::intptr_t)&(a.initialUpdate));
             memcpy(&b.position, &reinterpret_cast<ShadowObject*>(m_pLightNode.m_pObject)->world.translation,
                    sizeof(b.position));
-            pExtraData = ((::fnv_00b9dfc0::ShadowExtraData *)(reinterpret_cast<::NiAVObject *>((reinterpret_cast<ShadowObject*>(m_pLightNode.m_pObject)))->GetExtraData((*(const ::NiFixedString *)((*reinterpret_cast<const void * *>(&::g_pkString_c55)))))));
+            pExtraData = ((::fnv_00b9dfc0::ShadowExtraData *)(reinterpret_cast<::NiAVObject *>((reinterpret_cast<ShadowObject*>(m_pLightNode.m_pObject)))->GetExtraData((*(const ::NiFixedString *)(::g_pkString_c55)))));
             ShadowVector tempOffset;
             ShadowObject* __restrict scaleSource = reinterpret_cast<ShadowObject*>(m_pLightNode.m_pObject);
             float scale = static_cast<const volatile float&>(scaleSource->world.scale);
@@ -1805,7 +1833,7 @@ void ShadowSceneLightDecompile::UpdateShadow(void* unused, unsigned char* render
             d.finalUpdate.updateGeomorphs = false;
             d.finalUpdate.updateBounds = false;
             d.finalUpdate.updateTransforms = false;
-            reinterpret_cast<::FUN_00a59c60_cls *>((reinterpret_cast<FUN_00a712f0*>(GetShadowCamera())))->FUN_00a59c60((int)&(d.finalUpdate));
+            reinterpret_cast<::FUN_00a59c60_cls *>((reinterpret_cast<FUN_00a712f0*>(GetShadowCamera())))->FUN_00a59c60((std::intptr_t)&(d.finalUpdate));
             float nearPlane = frustum.nearPlane;
             float farPlane = frustum.farPlane;
             ShadowObject* __restrict boundSource = reinterpret_cast<ShadowObject*>(m_pLightNode.m_pObject);
@@ -1822,8 +1850,7 @@ void ShadowSceneLightDecompile::UpdateShadow(void* unused, unsigned char* render
             frustum.farPlane = farPlane;
             reinterpret_cast<::NiCamera *>((reinterpret_cast<FUN_00a712f0*>(GetShadowCamera())))->UpdateViewFrustum((const ::NiFrustum &)(frustum));
             reinterpret_cast<::FUN_00b9cfd0_class *>((reinterpret_cast<ShadowAccumulator*>(m_spShadowShaderAccumulator.m_pObject)))->AssignRefCounted(this);
-            ::AccumTaskDetail::FUN_00ba3390((::AccumTaskDetail::AccumTaskReceiver *)&((*reinterpret_cast<::fnv_00b9dfc0::ShadowEvents *>(&::g_01200088))), m_pCamera.m_pObject, (::AccumTaskDetail::NiRefObject *)(0), (::AccumTaskDetail::TaskArg1 *)(m_pLightNode.m_pObject), (::AccumTaskDetail::NiRefObject *)(0), (void *)(0),
-                                      m_spShadowShaderAccumulator.m_pObject, (::AccumTaskDetail::NiRefObject *)(0), (unsigned int)(renderFlags + 0x11), 0, {});
+            ::AccumTaskDetail::FUN_00ba3390((::AccumTaskDetail::AccumTaskReceiver *)&((*reinterpret_cast<::fnv_00b9dfc0::ShadowEvents *>(&::g_01200088))), m_pCamera.m_pObject, (::AccumTaskDetail::NiRefObject *)(0), (::AccumTaskDetail::TaskArg1 *)(m_pLightNode.m_pObject), (::AccumTaskDetail::NiRefObject *)(0), (void *)(0), m_spShadowShaderAccumulator.m_pObject, (::AccumTaskDetail::NiRefObject *)(0), (std::uintptr_t)(renderFlags + 0x11), 0, {});
         }
     }
     else if (m_spLightRenderedTexture.m_pObject)
@@ -1832,7 +1859,7 @@ void ShadowSceneLightDecompile::UpdateShadow(void* unused, unsigned char* render
         m_spLightRenderedTexture = 0;
         m_spShadowShaderAccumulator = 0;
     }
-    reinterpret_cast<::ThreadStageSignalDetail::RenderingStageController *>(&((*reinterpret_cast<::fnv_00b9dfc0::ShadowEvents *>(&::g_01200088))))->FUN_00ba30f0(0, (int)(renderFlags + 0x11));
+    reinterpret_cast<::ThreadStageSignalDetail::RenderingStageController *>(&((*reinterpret_cast<::fnv_00b9dfc0::ShadowEvents *>(&::g_01200088))))->FUN_00ba30f0(0, (int)(std::intptr_t)(renderFlags + 0x11));
 }
 }  // namespace fnv_00b9dfc0
 
@@ -2147,7 +2174,7 @@ void ShadowSceneLight_b9f480::AddGeometry(Geom_b9f480* apGeom)
                     if (kGeomList.GetNext(pNode) == apGeom)
                     {
                         if (pStart)
-                            ::MoveNodeBefore((::List_00b702e0 *)&(kGeomList), (int)(pCur), (::Node_00b702e0 *)(pStart), {});
+                            ::MoveNodeBefore((::List_00b702e0 *)&(kGeomList), 0, (::Node_00b702e0 *)((pCur)), (::Node_00b702e0 *)((pStart)));
                         reinterpret_cast<::Obj_b71560 *>((pProp))->InsertOrMoveNode((::Light_b71560 *)(::ShadowSceneLight_b9f480 *)(this), apGeom->pBound ? apGeom->pBound : &::g_defaultBound);
                         return;
                     }
@@ -3160,14 +3187,13 @@ void ShadowPass::FUN_00b9f780(PassContext* context, int pass)
         PassEffect* effect = GetImageManager()->effects[17];
         reinterpret_cast<::HolderForAccum *>((effect))->SetAccumulatorAt(2, (::NiAccumulator *)(::fnv_00b9f780::ImageSpaceTexture *)(&input), (const ::NiCamera *)(0));
         PassRenderer* renderer2 = (*reinterpret_cast<::fnv_00b9f780::PassRenderer * *>(&::DAT_011f9508));
-        reinterpret_cast<::BB97550Shader *>((GetImageManager()))->FUN_00b97550(17, (int)(renderer2), (int)(m_spLightRenderedTexture.m_pObject),
-                                        (int)(m_spLightRenderedTexture.m_pObject), (int)(&param), 1);
+        reinterpret_cast<::BB97550Shader *>((GetImageManager()))->FUN_00b97550(17, (std::intptr_t)(renderer2), (std::intptr_t)(m_spLightRenderedTexture.m_pObject), (std::intptr_t)(m_spLightRenderedTexture.m_pObject), (std::intptr_t)(&param), 1);
         reinterpret_cast<::MultiBoundOwner *>(((*reinterpret_cast<::fnv_00b9f780::PassTextureManager * *>(&::DAT_011f91a8))))->FUN_00b6d4c0((::BSMultiBound *)(texture));
     }
     if (m_bLightFlag4)
     {
         void* texture = ((void *)(reinterpret_cast<::FUN_004bc320_shell *>((reinterpret_cast<RenderTextureView*>(m_spLightRenderedTexture.m_pObject)))->FUN_004bc320(0)));
-        PassDebug* debug = ((::fnv_00b9f780::PassDebug *)(::FUN_00b55560((void *)(9))));
+        PassDebug* debug = ((::fnv_00b9f780::PassDebug *)(::FUN_00b55560(9)));
         reinterpret_cast<::TextureRenderer *>((debug))->AddTexture((::NiTexture *)(texture));
     }
     m_bShadowFrustumInitialized = false;
@@ -3485,7 +3511,7 @@ void ShadowUpdate_b9e::FUN_00b9e970(CameraCullView_b9e* camera)
     bool contained = true;
     if (castShadow && m_pCamera.m_pObject)
     {
-        uiCullMask = ((bool)(::FUN_00b9c020((::FNVCuboid *)this, (::FNVCuboid *)(::LightPositionView_b9e *)(camera->GetCamera())))) ? 0 : 255;
+        uiCullMask = ((bool)(::FUN_00b9c020((::FNVCuboid *)(::LightPositionView_b9e *)(camera->GetCamera()), (::FNVCuboid *)(m_pCamera.m_pObject)))) ? 0 : 255;
     }
     else
     {
@@ -3510,8 +3536,9 @@ void ShadowUpdate_b9e::FUN_00b9e970(CameraCullView_b9e* camera)
         }
         if (!contained && castShadow && CanCube_b9e() && m_bLightFlag1)
         {
+            const int* boundWords = (const int*)&bound;
             for (unsigned short face = 0; face < 6; ++face)
-                if (!reinterpret_cast<::fnv_00b9de90::Target *>(this)->FUN_00b9de90((*(int *)&(const ::NiBound &)(bound)), (int)(camera), face, {}, {}, {}))
+                if (!reinterpret_cast<::fnv_00b9de90::Target *>(this)->FUN_00b9de90(boundWords[0], boundWords[1], boundWords[2], boundWords[3], (::fnv_00b9de90::Input *)(camera), face))
                     uiCullMask |= 1 << face;
         }
     }
@@ -3600,4 +3627,64 @@ cullDone:
     m_fShadowParameter5 = shadow;
 }
 
+extern "C" void* __cdecl fnv_zlib_memset(void*, int, unsigned int);
+
+extern "C" const NiPoint3 NiPoint3_ZERO;
+
+extern const float runtimeFloatSettingDefault100;
+
+class FUN_00c49fe0
+{
+  public:
+    FUN_00c49fe0();
+    ~FUN_00c49fe0();
+    void* m_p0;
+    int m_iWordAt04;
+    int m_8;
+    int m_iThirdValue;
+};
+
+class FUN_00c4a1b0
+{
+  public:
+    FUN_00c4a1b0();
+    ~FUN_00c4a1b0();
+    void* m_p0;
+    int m_iWordAt04;
+    int m_8;
+    int m_iThirdValue;
+};
+
+class FUN_00c47660
+{
+  public:
+    FUN_00c47660();
+    bool m_b0;
+    FUN_00c49fe0 m_kList4;
+    FUN_00c4a1b0 m_kList14;
+    int m_24;
+    int m_28;
+    int m_2c;
+    NiFrustumPlanes m_kFrustumPlanes;
+    NiPoint3 m_kPoint;
+    bool m_bA0;
+};
+
+// @fnv 0x00c47660
+FUN_00c47660::FUN_00c47660()
+{
+    NiPoint3 kA;
+    NiPoint3 kB;
+    NiPoint3 kC;
+    m_24 = 0;
+    m_28 = 0;
+    m_kPoint = NiPoint3::ZERO;
+    reinterpret_cast<::FUN_00c4a070 *>(&(m_kList4))->SetSize(4, 1);
+    reinterpret_cast<::FUN_00c4a1e0 *>(&(m_kList14))->SetSize(10, 1);
+    m_b0 = false;
+    m_2c = 0;
+    m_bA0 = false;
+}
+
 #include "generated/data/bsshader/shadowscenelight.inc"
+#include "generated/data/bsshader/shadowscenelight_od_variant_ob1_variant.inc"

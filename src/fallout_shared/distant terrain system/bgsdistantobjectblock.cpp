@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 
+#include <cstdint>
 #include <cstddef>
 #include <new>
 #include "fnv/decl/AlchemyItem.h"
@@ -2102,7 +2103,7 @@ void MenuModelImpl::UpdateMenuNodes()
         reinterpret_cast<::FUN_00874460_cls *>((((::MmNode *)(::FUN_00559450((int *)&(m_spNodeA))))))->set((int)(((void *)(::FUN_00b55560(((void *)(reinterpret_cast<::LowProcess *>((pkTexX))->GetPackageObjectType())))))));
         MmTransform kTransformTmp(0.0f, 0, 0);
         reinterpret_cast<::FUN_00a5a040_Class *>((((::MmNode *)(::FUN_00559450((int *)&(m_spNodeA))))))->FUN_00a5a040();
-        reinterpret_cast<::FUN_00a59c60_cls *>((((::MmNode *)(::FUN_00559450((int *)&(m_spNodeA))))))->FUN_00a59c60((int)(&kTransformTmp));
+        reinterpret_cast<::FUN_00a59c60_cls *>((((::MmNode *)(::FUN_00559450((int *)&(m_spNodeA))))))->FUN_00a59c60((std::intptr_t)(&kTransformTmp));
         reinterpret_cast<::FeeNode *>((m_pkOwnerManager))->FUN_006fee90(0);
         reinterpret_cast<::FUN_004410d0_Class *>((((::MmWorldBound *)(::fnv_005495f0::FUN_005495f0((const char *)(((::MmNode *)(::FUN_00559450((int *)&(m_spNodeA))))))))))->SetByteAtOffset38(0);
         ((::MmWorldBound *)(::fnv_005495f0::FUN_005495f0((const char *)(((::MmNode *)(::FUN_00559450((int *)&(m_spNodeA))))))))->FUN_00a67050(0x4000);
@@ -2382,10 +2383,10 @@ void FUN_006f6a90_Owner::ApplyShaderSetup(GtAVObject* pkObject)
             pkShaderZ = pkNewVal2;
             reinterpret_cast<::FUN_00439410_cls *>((pkGeomA))->FUN_00439410((::ArgObject *)(pkShaderZ));
         }
-        reinterpret_cast<::FUN_00874460_cls *>((pkGeomA))->set(((int)(::FUN_00b55560((void *)(reinterpret_cast<::LowProcess *>((pkShaderZ))->GetPackageObjectType())))));
+        reinterpret_cast<::FUN_00874460_cls *>((pkGeomA))->set(((int)(::FUN_00b55560(reinterpret_cast<::LowProcess *>((pkShaderZ))->GetPackageObjectType()))));
         GtPoint3 kZeroWork(0.0f, 0, 0);
         reinterpret_cast<::FUN_00a5a040_Class *>((pkGeomA))->FUN_00a5a040();
-        reinterpret_cast<::FUN_00a59c60_cls *>((pkGeomA))->FUN_00a59c60((int)(&kZeroWork));
+        reinterpret_cast<::FUN_00a59c60_cls *>((pkGeomA))->FUN_00a59c60((std::intptr_t)(&kZeroWork));
         reinterpret_cast<::FeeNode *>((m_pkOwnerManager))->FUN_006fee90(0);
         reinterpret_cast<::FUN_004410d0_Class *>((((::fnv_006f6a90::GtFlags *)(::fnv_005495f0::FUN_005495f0((const char *)(pkGeomA))))))->SetByteAtOffset38(0);
         ((::fnv_006f6a90::GtFlags *)(::fnv_005495f0::FUN_005495f0((const char *)(pkGeomA))))->FUN_00a67050(0x4000);

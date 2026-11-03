@@ -1,3 +1,5 @@
+#include <cstdint>
+#include <cstddef>
 
 // src/bsshader/imagespaceshadermenuunpack.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/bsshader/imagespaceshadermenuunpack.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
@@ -665,16 +667,16 @@ void HudInner::UpdateHudGeometry(int aiUnk, SurfaceOwner* apSurface, HudParam* a
                 pScreenElementsData->SetRectangleBounds(i, 0, v4, v5, e0, e1);
                 pScreenElements->unkb8->FUN_00a67050(0);
                 NiFixedString sName(NiGlobalStringTable::AddString("Interface: HUD Unpack Geometry"));
-                ::AssignFixedString((char *)(pScreenElements), (int)(&sName), {});
+                ::AssignFixedString((char *)(pScreenElements), 0, (char **)&sName);
             }
             reinterpret_cast<::FUN_00a5a040_Class *>((pScreenElements))->FUN_00a5a040();
             NiUpdateData ud;
-            reinterpret_cast<::FUN_00a59c60_cls *>((pScreenElements))->FUN_00a59c60((int)(&ud));
-            pScreenElements->unkc0 = (HudOwner*)((char*)this - 0x6c);
+            reinterpret_cast<::FUN_00a59c60_cls *>((pScreenElements))->FUN_00a59c60((std::intptr_t)(&ud));
+            pScreenElements->unkc0 = static_cast<HudOwner*>(this);
             (*reinterpret_cast<::GlobalA * *>(&::DAT_011f91ac))->unk200 = pScreenElements;
         }
         NiScreenElements* spr = (*reinterpret_cast<::GlobalA * *>(&::DAT_011f91ac))->unk200;
-        HudOwner* pHudOwner = (HudOwner*)((char*)this - 0x6c);
+        HudOwner* pHudOwner = static_cast<HudOwner*>(this);
         pHudOwner->vf14(spr);
         pHudOwner->vf52(p);
         reinterpret_cast<::S00c03c80_cls *>((pHudOwner))->ProcessEntries();
@@ -683,7 +685,7 @@ void HudInner::UpdateHudGeometry(int aiUnk, SurfaceOwner* apSurface, HudParam* a
             if ((*reinterpret_cast<::ScreenSink * *>(&::NiRenderer::ms_pRenderer))->unk208 == true)
                 (*reinterpret_cast<::ScreenSink * *>(&::NiRenderer::ms_pRenderer))->vf64(&color);
         }
-        reinterpret_cast<::FUN_00a87790_cls *>((spr))->FUN_00a87790((int)((*reinterpret_cast<::ScreenSink * *>(&::NiRenderer::ms_pRenderer))));
+        reinterpret_cast<::FUN_00a87790_cls *>((spr))->FUN_00a87790((std::intptr_t)((*reinterpret_cast<::ScreenSink * *>(&::NiRenderer::ms_pRenderer))));
         (*reinterpret_cast<bool *>(&::DAT_011ae5d4)) = false;
     }
 }

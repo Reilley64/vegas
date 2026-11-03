@@ -1,3 +1,4 @@
+#include <cstdint>
 // bscore/bsmap_decls.h: declares BGSDistantTreeBlock
 #ifndef BSMAP_DECLS_H
 #define BSMAP_DECLS_H
@@ -11,9 +12,9 @@ template <class K, class V> class NiTPointerMap
     unsigned int m_uiCount;
 
     virtual ~NiTPointerMap();
-    virtual unsigned int Hash(unsigned int key);
-    virtual bool Equal(unsigned int key1, unsigned int key2);
-    virtual void FillEntry(void* item, unsigned int key, void* data);
+    virtual unsigned int Hash(std::uintptr_t key);
+    virtual bool Equal(std::uintptr_t key1, std::uintptr_t key2);
+    virtual void FillEntry(void* item, std::uintptr_t key, void* data);
     virtual void UnlinkEntry(void* item);
     virtual void* AllocateEntry();
 

@@ -1,5 +1,6 @@
 // fallout_shared/bgscamerashot.cpp: BGSCameraShot, CameraShot, ShotThis, Shot (16 functions)
 
+#include <cstdint>
 #include <new>
 #include <cstring>
 #include "fnv/decl/BGSCameraPath.h"
@@ -745,7 +746,7 @@ void ShotThis::SetupCamera(void* param1, int iMode)
         {
             ::FUN_004b70f0((::NiNode *)(void *)(((::CamNodeX *)(::FUN_00559450((int *)&(m_spPositionNode))))), -DAT_011f21d4);
         }
-        reinterpret_cast<::FUN_00a59c60_cls *>((((::CamNodeX *)(::FUN_00559450((int *)&(m_spPositionNode))))))->FUN_00a59c60((int)(&auxPtr));
+        reinterpret_cast<::FUN_00a59c60_cls *>((((::CamNodeX *)(::FUN_00559450((int *)&(m_spPositionNode))))))->FUN_00a59c60((std::intptr_t)(&auxPtr));
         if ((signed char)m_bUpdateNodePosition == -1 && !m_bFlag75)
         {
             void* queriedVal = ((void *)(reinterpret_cast<::MyHost *>((((::CamNodeX *)(::FUN_00559450((int *)&(m_spPositionNode))))))->FUN_00a5c570((const ::MyRTTI *)(void *)(&(*reinterpret_cast<int *>(&::g_011f3714))))));
@@ -1107,7 +1108,7 @@ void Shot::UpdateCamera(float afTime)
     if (!((::Node6c *)(::FUN_00559450((int *)&(m6c)))))
         return;
     NiUpdateData upd(afTime, true, false);
-    reinterpret_cast<::FUN_00a59c60_cls *>((((::Node6c *)(::FUN_00559450((int *)&(m6c))))))->FUN_00a59c60((int)&(upd));
+    reinterpret_cast<::FUN_00a59c60_cls *>((((::Node6c *)(::FUN_00559450((int *)&(m6c))))))->FUN_00a59c60((std::intptr_t)&(upd));
     DAT_011ca77c = reinterpret_cast<::NiAVObject *>((((::Node6c *)(::FUN_00559450((int *)&(m6c))))))->FUN_0043c490();
     NiPoint3 pt = DAT_011ca77c;
     if (c75 && !reinterpret_cast<GObj*>((*reinterpret_cast<::PlayerObj * *>(&::_g_thePlayer)))->Check22c(0))

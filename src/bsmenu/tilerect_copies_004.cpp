@@ -4,6 +4,8 @@
 // inlined from worker header tilerect_decls.h
 #ifndef FNV_TILERECT_H
 #define FNV_TILERECT_H
+#include "global_string_header.h"
+#include <cstddef>
 
 #include <windows.h>
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -189,7 +191,7 @@ class NiFixedString
     {
         if (m_kHandle == (*reinterpret_cast<::NiFixedString *>(&::DAT_0109b220)).m_kHandle)
             return;
-        volatile long* refs = (volatile long*)(m_kHandle - 8);
+        volatile long* refs = &((StringHeader*)m_kHandle - 1)->refs;
         InterlockedDecrement(refs);
     }
 };

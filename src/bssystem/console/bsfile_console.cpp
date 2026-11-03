@@ -43,7 +43,7 @@ void BSFile::Seek(int offset, int mode)
     }
 }
 
-struct FUN_00aff950_shell
+struct FUN_00aff950_shell : BSFile
 {
     unsigned int FUN_00aa1810(void*, unsigned int);
     unsigned int FUN_00aff950(void*, unsigned int);
@@ -52,7 +52,7 @@ struct FUN_00aff950_shell
 unsigned int FUN_00aff950_shell::FUN_00aff950(void* buffer, unsigned int size)
 {
     unsigned int term = this->FUN_00aa1810(buffer, size);
-    *(unsigned int*)((char*)this + 0x150) += term;
+    position += term;
     return term;
 }
 

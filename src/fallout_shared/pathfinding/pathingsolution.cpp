@@ -1,5 +1,6 @@
 // fallout_shared/pathfinding/pathingsolution.cpp: PathingSolution, OwnS, DelS, HermiteStub and more (34 functions)
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/BGSSaveGameBuffer.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -493,7 +494,7 @@ _ref_006815c0 FUN_006e7d60_stub::FUN_006e7d60(char* pFirst, char* pSecond)
 
 struct FUN_006e8f40_shell
 {
-    int FUN_006e8f40(int a) const;
+    std::intptr_t FUN_006e8f40(int a) const;
 };
 // @fnv 0x006e78b0
 void* FUN_006e78b0_shell::FUN_006e78b0(unsigned int aiIndex)
@@ -502,7 +503,7 @@ void* FUN_006e78b0_shell::FUN_006e78b0(unsigned int aiIndex)
 }
 
 // @fnv 0x006e8f40
-int FUN_006e8f40_shell::FUN_006e8f40(int aiIndex) const
+std::intptr_t FUN_006e8f40_shell::FUN_006e8f40(int aiIndex) const
 {
     return aiIndex * 0x30 + *(int*)((char*)this + 4);
 }

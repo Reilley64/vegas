@@ -112,10 +112,10 @@ void __cdecl FUN_00b540d0()
 
 
 // @fnv 0x00b540f0
-int __cdecl PopNextInt()
+void* __cdecl PopNextInt()
 {
     int index = DAT_011f9168;
-    int* p = (*reinterpret_cast<int * *>(&::fnv_00b54630::CleanupState::DAT_011f9170)) + index;
+    void** p = (*reinterpret_cast<void * * *>(&::fnv_00b54630::CleanupState::DAT_011f9170)) + index;
     DAT_011f9168 = DAT_011f9168 + 1;
     return *p;
 }
@@ -511,9 +511,9 @@ void __cdecl FUN_00b4f570()
 
 
 // @fnv 0x00b4f5c0
-int FUN_00b4f5c0()
+void* FUN_00b4f5c0()
 {
-    return (*reinterpret_cast<int *>(&::DAT_011f95ec));
+    return ::DAT_011f95ec;
 }
 
 struct FUN_00b54620_This
@@ -1844,9 +1844,9 @@ void FunSceneManager::FUN_00b5f150(void* pTarget, int flag)
 
 
 // @fnv 0x00b4f5d0
-int FUN_00b4f5d0()
+void* FUN_00b4f5d0()
 {
-    return (*reinterpret_cast<int *>(&::g_spCurrentAccumulator));
+    return (*reinterpret_cast<void **>(&::g_spCurrentAccumulator));
 }
 
 struct FUN_00b54280

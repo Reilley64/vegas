@@ -1,3 +1,4 @@
+#include <cstddef>
 // bssystemutilities/console/bsnetworksystemutility_console_decls.h: declares NetworkSystemUtility, MemoryManager
 
 #include "fnv/decl/FNV_MemoryManager.h"

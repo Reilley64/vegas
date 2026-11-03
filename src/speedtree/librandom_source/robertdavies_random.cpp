@@ -515,6 +515,12 @@ struct B43IterBase
     }
 };
 
+// Checked-iterator validation of the VC9 standard library in release builds (_SECURE_SCL=1).
+#define _SCL_SECURE_VALIDATE(cond)                                                                                     \
+    if (!(cond))                                                                                                       \
+    _invalid_parameter_noinfo()
+#define _SCL_SECURE_VALIDATE_RANGE(cond) _SCL_SECURE_VALIDATE(cond)
+
 struct B43UVecIt : B43IterBase
 {
     unsigned int* _Myptr;
@@ -589,15 +595,13 @@ struct CopyElement
 };
 
 CopyElement* __cdecl FUN_00b43230(CopyElement* first, CopyElement* last, CopyElement* destination,
-                                  std::allocator<CopyElement>& allocator, std::_Nonscalar_ptr_iterator_tag,
-                                  std::_Range_checked_iterator_tag);
+                                  std::allocator<CopyElement>& allocator, TagNonscalar, TagRangeChecked);
 
 // @fnv 0x00b431e0
 CopyElement* __cdecl FUN_00b431e0(CopyElement* _First, CopyElement* _Last, CopyElement* _Dest,
                                   std::allocator<CopyElement>& _Al)
 {
-    return FUN_00b43230(std::_Checked_base(_First), std::_Checked_base(_Last), _Dest, _Al, std::_Ptr_cat(_First, _Dest),
-                        std::_Range_checked_iterator_tag());
+    return FUN_00b43230(_First, _Last, _Dest, _Al, TagNonscalar(), TagRangeChecked());
 }
 
 struct SpawnedPair

@@ -2,6 +2,7 @@
 // src/staging/blk_009a0000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstdint>
 #include "generated/data/vtables.h"
 #include <new>
 #include <cstring>
@@ -6724,7 +6725,7 @@ void Obj082::ProcessHits()
                             ::FUN_00c6a350((::NiAVObject *)(zero), 1, 1, 0, 1);
                             Vector082 node;
                             new ((void *)&(node)) ::NiUpdateData(0.0f, 0, 0);
-                            reinterpret_cast<::FUN_00a59c60_cls *>((zero))->FUN_00a59c60((int)(&node));
+                            reinterpret_cast<::FUN_00a59c60_cls *>((zero))->FUN_00a59c60((std::intptr_t)(&node));
                         }
                     }
                 }

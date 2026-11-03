@@ -1352,11 +1352,11 @@ struct FUN_00a87790_cls
     virtual void vd4();
     virtual void vd8();
     virtual void Tail(int a);
-    void FUN_00a87790(int a);
+    void FUN_00a87790(std::intptr_t a);
 };
 
 // @fnv 0x00a87790
-void FUN_00a87790_cls::FUN_00a87790(int a)
+void FUN_00a87790_cls::FUN_00a87790(std::intptr_t a)
 {
     this->Tail(a);
 }

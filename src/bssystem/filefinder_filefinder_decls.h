@@ -1,6 +1,7 @@
 // bssystem/filefinder_filefinder_decls.h: declares NiFile, FileFinder, MemoryManager, BSFile, ArchiveManager
 #ifndef FNV_FILEFINDER_FILEFINDER_DECLS_H
 #define FNV_FILEFINDER_FILEFINDER_DECLS_H
+#include <cstddef>
 
 #include "runtime/crt.h"
 #include "fnv/decl/MemoryManagerStandIn.h"

@@ -1,3 +1,5 @@
+#include <cstdint>
+#include <cstddef>
 
 // src/bsshader/distantlodshaderproperty.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/bsshader/distantlodshaderproperty.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
@@ -392,7 +394,7 @@ void FUN_00b578a0()
         (*reinterpret_cast<::S_B * *>(&::DAT_011f91ac)) = new S_B;
     }
 
-    reinterpret_cast<::Setup051 *>(((*reinterpret_cast<::S_A * *>(&::DAT_011f91a8))))->FUN_00b6e450((::NiRenderer_b6d170 *)((*reinterpret_cast<unsigned int *>(&::DAT_011f9508))));
+    reinterpret_cast<::Setup051 *>(((*reinterpret_cast<::S_A * *>(&::DAT_011f91a8))))->FUN_00b6e450((::NiRenderer_b6d170 *)(::DAT_011f9508));
 }
 
 
@@ -531,7 +533,7 @@ void __cdecl FUN_00b59ae0(void* a1, unsigned int key, Obj3* apObj3, ObjA4* apObj
     while (count > 0)
     {
         pOwner = 0;
-        unsigned short n = ((unsigned short)(::GetOrCreateItem((::RTKey *)(apObjA4), (unsigned int)(a1), (::RTItem **)(::FnvOwner **)(&pOwner))));
+        unsigned short n = ((unsigned short)(::GetOrCreateItem((::RTKey *)(apObjA4), (unsigned int)(std::uintptr_t)(a1), (::RTItem **)(::FnvOwner **)(&pOwner))));
         if (pOwner == 0)
         {
             return;
@@ -2079,7 +2081,7 @@ Resource* __cdecl FUN_00b587c0(Input* input)
     if (!((::Cache *)(::GetNiTStringMap()))->FUN_00e92760(input->key, &cachedResource))
     {
 
-        if (!input->scene && input->path && reinterpret_cast<::FUN_00c3a8a0_cls *>(&(stream))->FUN_00c3a8a0((unsigned int)(input->path), false))
+        if (!input->scene && input->path && reinterpret_cast<::FUN_00c3a8a0_cls *>(&(stream))->FUN_00c3a8a0((std::uintptr_t)(input->path), false))
         {
 
             Scene* loaded = stream.objects[0];

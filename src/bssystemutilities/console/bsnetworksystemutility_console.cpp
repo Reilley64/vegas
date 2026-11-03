@@ -19,11 +19,18 @@ NetworkSystemUtility& NetworkSystemUtility::GetRandomGenerator()
     return *DAT_011f7270;
 }
 
+// The two fields FUN_00af2d40 clears.
+struct FUN_00af2d40_View
+{
+    bool m_bFlag;
+    void* m_pValue;
+};
+
 // @fnv 0x00af2d40
 void* FUN_00af2d40(void* pThis)
 {
-    *(bool*)pThis = false;
-    *((void**)pThis + 1) = 0;
+    ((FUN_00af2d40_View*)pThis)->m_bFlag = false;
+    ((FUN_00af2d40_View*)pThis)->m_pValue = 0;
     return pThis;
 }
 

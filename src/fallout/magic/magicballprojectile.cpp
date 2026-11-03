@@ -2,6 +2,7 @@
 // src/fallout/magic/magicballprojectile.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/magicballprojectile.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/ArrowProjectile.h"
 #include "fnv/decl/B5F750Owner.h"
@@ -1360,7 +1361,7 @@ void TESObjectREFR::ResetProjectileIdleAnimation()
                 reinterpret_cast<::TaskQueueInterface *>((pManager))->QueueReferenceStateTask(true);
                 reinterpret_cast<::FUN_0098adb0_shell *>((pSequence))->FUN_0098adb0(-DAT_0107a510);
                 NiUpdateData kUpdateData(::fnv_00563f30::DAT_011c3c08 - (double)0.1f, true, false);
-                reinterpret_cast<::FUN_00a59c60_cls *>((pNode))->FUN_00a59c60((int)&(kUpdateData));
+                reinterpret_cast<::FUN_00a59c60_cls *>((pNode))->FUN_00a59c60((std::intptr_t)&(kUpdateData));
             }
         }
     }
@@ -5723,7 +5724,7 @@ void Host::FUN_00936b20(int aiUnused)
             }
             m6c->v120();
             NiUpdateData uData((float)((double)reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((&(*reinterpret_cast<::Twin_0084d030 *>(&::g_timeGlobal))))->FUN_00825c00() / 1000.0), true, false);
-            reinterpret_cast<::FUN_00a59c60_cls *>((pSceneObject->v116()))->FUN_00a59c60((int)&(uData));
+            reinterpret_cast<::FUN_00a59c60_cls *>((pSceneObject->v116()))->FUN_00a59c60((std::intptr_t)&(uData));
         }
     }
 }
@@ -7135,7 +7136,7 @@ void Controller::FUN_008cb3c0(float afDelta)
     if (actor)
     {
         NiUpdateData updateInfo(afDelta, 1, 0);
-        reinterpret_cast<::FUN_00a59c60_cls *>((actor))->FUN_00a59c60((int)(&updateInfo));
+        reinterpret_cast<::FUN_00a59c60_cls *>((actor))->FUN_00a59c60((std::intptr_t)(&updateInfo));
     }
 }
 }  // namespace fnv_008cb3c0

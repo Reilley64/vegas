@@ -1,5 +1,6 @@
 // bscore/abstractheap.cpp: AbstractHeap, HeapFreeBlock, AbstractHeapDump, AbstractHeapBuckets and more (19 functions)
 
+#include <cstdint>
 #include <windows.h>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FNV_MemoryManager.h"
@@ -329,22 +330,28 @@ void AbstractHeap::PushBlock(MemoryBlockHeader* block)
     ++m_iFreeBlockCount;
 }
 
-struct FUN_00aaa560_shell
+struct FUN_00aaa560_node
 {
-    int FUN_00aaa560(int arg);
+    char unk00[0x4c];
+    FUN_00aaa560_node* pNext;
 };
 
-// Returns -1 if arg is null, otherwise counts nodes by following the pointer at offset 0x4C until it is null.
+struct FUN_00aaa560_shell
+{
+    int FUN_00aaa560(FUN_00aaa560_node* pNode);
+};
+
+// Returns -1 if pNode is null, otherwise counts the nodes that follow it through pNext.
 // @fnv 0x00aaa560
-int FUN_00aaa560_shell::FUN_00aaa560(int pNode)
+int FUN_00aaa560_shell::FUN_00aaa560(FUN_00aaa560_node* pNode)
 {
     if (!pNode)
         return -1;
     int count = 0;
-    while (*(int*)(pNode + 0x4C))
+    while (pNode->pNext)
     {
         ++count;
-        pNode = *(int*)(pNode + 0x4C);
+        pNode = pNode->pNext;
     }
     return count;
 }
@@ -393,7 +400,7 @@ struct SubBucket_aa9
 };
 struct FUN_00aaa0d0_s
 {
-    void FUN_00aaa0d0(int);
+    void FUN_00aaa0d0(std::intptr_t);
 };
 struct FUN_00aa9fb0_heap
 {
@@ -424,7 +431,7 @@ void FUN_00aa9fb0_heap::FUN_00aa9fb0()
             pblock = m_kSubBucketLists[isub].pList->pHead;
             while (pblock)
             {
-                ((FUN_00aaa0d0_s*)this)->FUN_00aaa0d0((int)pblock);
+                ((FUN_00aaa0d0_s*)this)->FUN_00aaa0d0((std::intptr_t)pblock);
                 pblock = pblock->pNext;
             }
         }
@@ -434,14 +441,14 @@ void FUN_00aa9fb0_heap::FUN_00aa9fb0()
         pblock = m_kFreeLists[i2].pHead;
         while (pblock)
         {
-            ((FUN_00aaa0d0_s*)this)->FUN_00aaa0d0((int)pblock);
+            ((FUN_00aaa0d0_s*)this)->FUN_00aaa0d0((std::intptr_t)pblock);
             pblock = pblock->pNext;
         }
     }
     pblock = m_kFreeListSentinel.pHead;
     while (pblock)
     {
-        ((FUN_00aaa0d0_s*)this)->FUN_00aaa0d0((int)pblock);
+        ((FUN_00aaa0d0_s*)this)->FUN_00aaa0d0((std::intptr_t)pblock);
         pblock = pblock->pNext;
     }
     pfreeCur = m_pLastBlock;
@@ -451,18 +458,6 @@ void FUN_00aa9fb0_heap::FUN_00aa9fb0()
     }
     LeaveCriticalSection((_RTL_CRITICAL_SECTION*)kCS);
 }
-
-struct _MEMORYSTATUS
-{
-    unsigned long dwLength;
-    unsigned long dwMemoryLoad;
-    unsigned long dwTotalPhys;
-    unsigned long dwAvailPhys;
-    unsigned long dwTotalPageFile;
-    unsigned long dwAvailPageFile;
-    unsigned long dwTotalVirtual;
-    unsigned long dwAvailVirtual;
-};
 
 struct AbstractHeapDump : AbstractHeap
 {

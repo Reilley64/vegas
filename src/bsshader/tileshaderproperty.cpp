@@ -1,3 +1,4 @@
+#include <cstddef>
 
 // src/bsshader/tileshaderproperty.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/bsshader/tileshaderproperty.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
@@ -15,6 +16,7 @@
 #include "fnv/symbols_00ba8000.h"
 #include "fnv/symbols_011f6000.h"
 #include "fnv/symbols_01200000.h"
+#include "fnv/symbols_0106e000.h"
 void* __cdecl FUN_00bb7d60()
 {
     return &(*reinterpret_cast<void * *>(&::g_012007d8));
@@ -157,13 +159,13 @@ struct FnvTileShaderProperty
     unsigned char m_unk92;  // +0x92
     unsigned char m_unk93;  // +0x93
 
-    void CopyTileShaderProperty(FnvTileShaderProperty* dst, int flag);
+    void CopyTileShaderProperty(FnvTileShaderProperty* dst, void* flag);
 };
 
 // @fnv 0x00bb7ac0
-void FnvTileShaderProperty::CopyTileShaderProperty(FnvTileShaderProperty* dst, int flag)
+void FnvTileShaderProperty::CopyTileShaderProperty(FnvTileShaderProperty* dst, void* flag)
 {
-    ::FUN_00ba8b10((::BSSP_stub4 *)this, (int)(dst), (::BSSP_stub4 *)(flag), {});
+    ::FUN_00ba8b10((::BSSP_stub4 *)this, 0, (::BSSP_stub4 *)(dst), (::CloningProcess *)((flag)));
 
     NiTexture* pOldTile = dst->m_pkTile;
     if (pOldTile != m_pkTile)
@@ -202,11 +204,11 @@ struct TilePropertyClone : NiMemObjectAllocation, FnvTileShaderProperty
 };
 struct TileCloneSource
 {
-    TilePropertyClone* CreateTilePropertyClone(int);
+    TilePropertyClone* CreateTilePropertyClone(void*);
 };
 // Allocates a TilePropertyClone with false, initializes it via CopyTileShaderProperty with flag, and returns it.
 // @fnv 0x00bb7e70
-TilePropertyClone* TileCloneSource::CreateTilePropertyClone(int flag)
+TilePropertyClone* TileCloneSource::CreateTilePropertyClone(void* flag)
 {
     TilePropertyClone* result = new TilePropertyClone(false);
     reinterpret_cast<::FnvTileShaderProperty *>(this)->CopyTileShaderProperty((::FnvTileShaderProperty *)(result), flag);
@@ -568,10 +570,10 @@ void FUN_00bb7b60_cls::FUN_00bb7b60(NiStreamStub* a1)
 {
     reinterpret_cast<::S_00ba92c0_Prop *>(this)->FUN_00ba92c0((*(::S_00ba92c0_Stream *)(a1)));
     SaveBin(*a1->m_pBackingStream, m_8c);
-    unsigned int v = 0;
-    reinterpret_cast<::FUN_00a64ce0_shell *>((a1))->FUN_00a64ce0((char **)(unsigned int *)(&v));
-    reinterpret_cast<::TextString *>(&(m_94))->FUN_004037f0((const char *)(v), 0);
-    ::FUN_00aa10f0((void *)(v));
+    char* v = 0;
+    reinterpret_cast<::FUN_00a64ce0_shell *>((a1))->FUN_00a64ce0(&v);
+    reinterpret_cast<::TextString *>(&(m_94))->FUN_004037f0(v, 0);
+    ::FUN_00aa10f0(v);
 }
 
 namespace fnv_00bb7be0 {
@@ -785,7 +787,7 @@ struct FUN_00bb7be0_cls
     int unk88;
     int m_8c;
     int unk90;
-    int m_94;
+    char* m_94;
     void FUN_00bb7be0(NiStreamStub* a1);
 };
 
@@ -800,7 +802,7 @@ void FUN_00bb7be0_cls::FUN_00bb7be0(NiStreamStub* a1)
 {
     reinterpret_cast<::FUN_00ba9380_cls *>(this)->FUN_00ba9380(a1);
     SaveBin(*a1->m_pBackingStream, m_8c);
-    reinterpret_cast<::FUN_00a64160_cls *>((a1))->FUN_00a64160((const char *)(m_94));
+    reinterpret_cast<::FUN_00a64160_cls *>((a1))->FUN_00a64160(m_94);
 }
 }  // namespace fnv_00bb7be0
 
@@ -889,4 +891,12 @@ class FUN_00bb7d70 : public ShaderBase_bb7d
 FUN_00bb7d70::~FUN_00bb7d70()
 {
     m_spTexture0 = 0;
+}
+
+void* __cdecl FUN_00bb7d60();
+
+// @fnv 0x00706e80
+float FUN_00706e80()
+{
+    return ::DAT_0106ec38;
 }

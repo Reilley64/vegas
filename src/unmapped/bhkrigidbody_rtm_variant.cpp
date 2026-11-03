@@ -3,6 +3,7 @@
 
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstdint>
 #include <cstddef>
 #include <windows.h>
 #include "fnv/decl/ActionOwnerC9d590.h"
@@ -3731,11 +3732,11 @@ void This160::FUN_00c8e160(float* p1, RotationArg160 input, unsigned int p3)
             if (--a3->ref04 == 0)
                 a3->unk00 = 0;
         }
-        reinterpret_cast<::S *>(this)->FUN_00561690((int)((float*)&(*reinterpret_cast<::hkVector *>(&::DAT_01267e30))));
+        reinterpret_cast<::S *>(this)->FUN_00561690((std::intptr_t)((float*)&(*reinterpret_cast<::hkVector *>(&::DAT_01267e30))));
     }
     else
     {
-        reinterpret_cast<::S *>(this)->FUN_00561690((int)((float*)&W.v60));
+        reinterpret_cast<::S *>(this)->FUN_00561690((std::intptr_t)((float*)&W.v60));
     }
     reinterpret_cast<::Quat74 *>(&(separate_v50))->FUN_00c74ac0((*(const ::Quat74 *)((float*)&separate_q)), (*(const ::Quat74 *)(&W.outB)));
     reinterpret_cast<::FUN_005611c0_t *>(&(separate_v50))->FUN_005611c0();
@@ -3753,7 +3754,7 @@ void This160::FUN_00c8e160(float* p1, RotationArg160 input, unsigned int p3)
         __m128 axis = W.v70.v;
         W.v70.v = _mm_mul_ps(factor, axis);
     }
-    reinterpret_cast<::fnv_005617c0::FUN_005617c0_ *>(this)->FUN_005617c0((int)((float*)&W.v70));
+    reinterpret_cast<::fnv_005617c0::FUN_005617c0_ *>(this)->FUN_005617c0((std::intptr_t)((float*)&W.v70));
 }
 }  // namespace fnv_00c8e160
 

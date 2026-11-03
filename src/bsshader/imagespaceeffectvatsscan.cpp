@@ -1,5 +1,6 @@
 // bsshader/imagespaceeffectvatsscan.cpp: free functions (3 functions)
 
+#include <cstdint>
 #include "fnv/decl/AA4610Allocator.h"
 #include "fnv/decl/BA3760Object.h"
 #include "fnv/decl/BBA3C00Shader.h"
@@ -18,6 +19,13 @@
 #include "imagespaceeffectvatsscan_decls.h"
 #include <new>
 
+struct ImageSpaceManagerView_bc06c0
+{
+    char pad00[8];
+    ImageSpaceEffect** m_ppEffects;
+};
+const int kVatsScanShaderIndex = 75;
+
 // @fnv 0x00bc06c0
 void ImageSpaceEffectMultiTexture::Setup(ImageSpaceManager* manager, ImageSpaceEffectParam* params)
 {
@@ -31,15 +39,14 @@ void ImageSpaceEffectMultiTexture::Setup(ImageSpaceManager* manager, ImageSpaceE
     ImageSpaceTexture* pTexture = new ImageSpaceTexture;
     reinterpret_cast<::FUN_00a41520_cls *>(&(pTextures))->FUN_00ba3aa0(3, (::KeyPair **)&(pTexture));
     reinterpret_cast<::Holder00ba37f0 *>((pTextures.m_pBase[3]))->FUN_00ba37f0((::Tex00ba37f0 *)(pScanTexture));
-    reinterpret_cast<::BA3760Object *>((((NonActorMagicCaster*)pTextures.m_pBase[3])))->FUN_00ba3760((int)((MagicItem*)3));
+    reinterpret_cast<::BA3760Object *>((((NonActorMagicCaster*)pTextures.m_pBase[3])))->FUN_00ba3760((std::intptr_t)((MagicItem*)3));
     pTexture = new ImageSpaceTexture;
     reinterpret_cast<::FUN_00a41520_cls *>(&(pTextures))->FUN_00ba3aa0(4, (::KeyPair **)&(pTexture));
     reinterpret_cast<::Holder00ba37f0 *>((pTextures.m_pBase[4]))->FUN_00ba37f0((::Tex00ba37f0 *)(pDistortTexture));
     pDistortTexture = (NiTexture*)new ImageSpaceTexture;
     reinterpret_cast<::FUN_00a41520_cls *>(&(pTextures))->FUN_00ba3aa0(2, (::KeyPair **)&((ImageSpaceTexture*&)pDistortTexture));
     reinterpret_cast<::Holder00ba37f0 *>((pTextures.m_pBase[2]))->FUN_00ba37f0((::Tex00ba37f0 *)(::NiTexture *)(0));
-    char* effect = *(char**)(*(char**)((char*)manager + 8) + 0x12c);
-    char* pAdjustedEffect = effect ? effect - 0x6c : 0;
+    ImageSpaceEffect* effect = reinterpret_cast<ImageSpaceManagerView_bc06c0*>(manager)->m_ppEffects[kVatsScanShaderIndex];
     ImageSpaceShaderParam* pShaderParam = new ImageSpaceShaderParam;
     pShaderParam->AllocateShaderConstants(0, 3);
     pShaderParam->m_eClearFlags = (NiRenderer__ClearFlags)1;
@@ -47,7 +54,7 @@ void ImageSpaceEffectMultiTexture::Setup(ImageSpaceManager* manager, ImageSpaceE
     pShaderParam->SetShaderConstantVector4(2, DAT_01201f30, DAT_01201f34, DAT_01201f38, DAT_01201f3c);
     reinterpret_cast<::FUN_00a41520_cls *>(&(pEffectParamList))->FUN_00ba3aa0(0, (::KeyPair **)&(pShaderParam));
     reinterpret_cast<::BBA3C00Shader *>(this)->SetEntryRanges(0, 1, 2, 3, 4, 0, 0, 0, 0);
-    reinterpret_cast<::FUN_00ba3c70_shell *>(this)->SetEffectAt(0, (ImageSpaceEffect*)(pAdjustedEffect ? pAdjustedEffect + 0x6c : 0), pShaderParam, 0);
+    reinterpret_cast<::FUN_00ba3c70_shell *>(this)->SetEffectAt(0, effect, pShaderParam, 0);
 }
 
 struct Unknown
@@ -82,5 +89,22 @@ FUN_00bc0600::FUN_00bc0600()
     kWhiteColor.a = kWhiteColor.b;
     *(RgbaColor*)&DAT_01201f30 = kWhiteColor;
 }
+
+class NiTexture
+{
+  public:
+    virtual ~NiTexture();
+    virtual void DeleteThis();
+    volatile long m_uiRefCount;
+    void IncRefCount()
+    {
+        InterlockedIncrement(&m_uiRefCount);
+    }
+    void DecRefCount()
+    {
+        if (InterlockedDecrement(&m_uiRefCount) == 0)
+            DeleteThis();
+    }
+};
 
 #include "generated/data/bsshader/imagespaceeffectvatsscan.inc"

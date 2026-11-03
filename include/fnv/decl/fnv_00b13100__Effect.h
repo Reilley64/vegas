@@ -8,6 +8,6 @@ namespace fnv_00b13100 {
 struct Effect {
 public:
     // 0x00b13100
-    void FUN_00b13100(::fnv_00b13100::ParentNode *, float, unsigned int, const ::fnv_00b13100::Vector3 &, float, const ::fnv_00b13100::FloatMatrix3 &, const ::fnv_00b13100::Vector3 &, int, float, int);
+    void FUN_00b13100(::fnv_00b13100::ParentNode *, float, unsigned int, const ::fnv_00b13100::Vector3 &, float, const ::fnv_00b13100::FloatMatrix3 &, const ::fnv_00b13100::Vector3 &, void *, float, int);
 };
 }

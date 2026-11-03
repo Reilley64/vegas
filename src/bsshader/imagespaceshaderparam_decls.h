@@ -1,6 +1,7 @@
 // bsshader/imagespaceshaderparam_decls.h: declares ImageSpaceShaderParamFloat
 #ifndef IMAGESPACESHADERPARAM_DECLS_H
 #define IMAGESPACESHADERPARAM_DECLS_H
+#include <cstddef>
 
 #include <cstring>
 #include "fnv/decl/MemoryManagerStandIn.h"

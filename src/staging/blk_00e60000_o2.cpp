@@ -921,7 +921,7 @@ void FUN_00e7dbc0_Class::FUN_00e7dbc0()
     *(int*)this = (int)&::DAT_010ef184;
     EnterCriticalSection(&(*reinterpret_cast<int *>(&::DAT_0126f600)));
     void* p = this;
-    reinterpret_cast<::AlphaList *>((((BSBatchRenderer__AlphaList*)&DAT_0126f5cc)))->FUN_00e7db70((unsigned int *)(void **)(&p));
+    reinterpret_cast<::AlphaList *>((((BSBatchRenderer__AlphaList*)&DAT_0126f5cc)))->FUN_00e7db70((void *const *)(void **)(&p));
     LeaveCriticalSection(&(*reinterpret_cast<int *>(&::DAT_0126f600)));
     void* q = *(void**)((char*)this + 0x14);
     *(int*)this = (int)&::DAT_010eeed4;

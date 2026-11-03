@@ -2,6 +2,7 @@
 // src/fallout/ai/combat/combatgroup.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/combat/combatgroup.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <new>
 #include <malloc.h>
 #include "fnv/decl/AlchemyItem.h"
@@ -6913,7 +6914,7 @@ void DebugGroup::RebuildDebugVisuals(bool clearOnly)
         ((::DebugNode *)(::FUN_00524cf0((::TESObjectCELL *)(((::DebugScene *)(reinterpret_cast<::LowProcess *>(((*reinterpret_cast<::DebugActor * *>(&::_g_thePlayer))))->GetTarget()))))))->Attach(((::DebugNode *)(::FUN_00559450((int *)&(debug)))), true);
         reinterpret_cast<::FUN_00a5a040_Class *>((((::DebugNode *)(::FUN_00559450((int *)&(debug))))))->FUN_00a5a040();
         DebugUpdate update(0.0f, 0, 0);
-        reinterpret_cast<::FUN_00a59c60_cls *>((((::DebugNode *)(::FUN_00559450((int *)&(debug))))))->FUN_00a59c60((int)&(update));
+        reinterpret_cast<::FUN_00a59c60_cls *>((((::DebugNode *)(::FUN_00559450((int *)&(debug))))))->FUN_00a59c60((std::intptr_t)&(update));
     }
 }
 

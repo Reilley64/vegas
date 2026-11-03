@@ -1,6 +1,7 @@
 // bsshader/shadowscenenode_fog_decls.h: declares NiMemObject, NiColor, NiFogProperty, BSFogProperty, ShadowSceneNode
 #ifndef FNV_SHADOWSCENENODE_FOG_DECLS_H
 #define FNV_SHADOWSCENENODE_FOG_DECLS_H
+#include <cstddef>
 
 
 #include "layout_support.h"

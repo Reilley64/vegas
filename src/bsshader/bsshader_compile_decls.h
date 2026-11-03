@@ -1,6 +1,7 @@
 // bsshader/bsshader_compile_decls.h: declares _FILETIME, NiBinaryStream, FileFinder, ShaderBufferCollection, ShaderBufferTableBuilder and more
 #ifndef BSSHADER_COMPILE_DECLS_H
 #define BSSHADER_COMPILE_DECLS_H
+#include <cstddef>
 
 #include <cstdio>
 #include "runtime/crt.h"
@@ -25,10 +26,6 @@ struct _D3DXMACRO
 {
     const char* Name;
     const char* Definition;
-};
-struct _FILETIME
-{
-    unsigned int dwLowDateTime, dwHighDateTime;
 };
 class BSFile;
 class NiBinaryStream

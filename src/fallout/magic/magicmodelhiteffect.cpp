@@ -1,5 +1,6 @@
 // fallout/magic/magicmodelhiteffect.cpp: MagicModelHitEffect, Candidate (22 functions)
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/BF20RefFormCall.h"
@@ -148,7 +149,7 @@ bool MagicModelHitEffect::Init()
                                     static_cast<float>(static_cast<double>(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::TimeGlobal *>(&::g_timeGlobal))))->FUN_00825c00()) / 1000.0), true,
                                     false);
                                 reinterpret_cast<::FUN_00a59c60_cls *>((reinterpret_cast<NiAVObject*>(
-                                    reinterpret_cast<NiPointer<NiNode>*>(&this->spRetainedObject)->operator->())))->FUN_00a59c60((int)&(map));
+                                    reinterpret_cast<NiPointer<NiNode>*>(&this->spRetainedObject)->operator->())))->FUN_00a59c60((std::intptr_t)&(map));
                             }
 
                             NiControllerManager* targetManager = reinterpret_cast<NiControllerManager*>(((::SkyShaderProperty *)(::FUN_00653270(

@@ -1,5 +1,6 @@
 // fallout_shared/animation.cpp: TESAnimGroup, Animation, AnimSequenceMultiple, TaskQueueInterface and more (156 functions)
 
+#include <cstdint>
 #include <new>
 #include <cctype>
 #include <cstring>
@@ -4643,7 +4644,7 @@ bool Animation::Init(BSSimpleList<const char*>* files, NiNode* root, TESObjectRE
         {
             reinterpret_cast<::SeqA34f20 *>((anim))->StartSequence(100, true, 1.0f, 0.0f, (::SeqA34f20 *)(::NiControllerSequence *)(0), false);
             NiUpdateData update(0.0f, true, false);
-            reinterpret_cast<::FUN_00a59c60_cls *>(((m_acHeaderData).operator->()))->FUN_00a59c60((int)&(update));
+            reinterpret_cast<::FUN_00a59c60_cls *>(((m_acHeaderData).operator->()))->FUN_00a59c60((std::intptr_t)&(update));
             anim->Deactivate(0.0f, false);
         }
     }
@@ -8254,7 +8255,7 @@ void FUN_00491180_shell::FUN_00491180(TESObjectREFR* apRef, float afDelta, float
     {
         float fTime = (afTime == -1.0) ? time : afTime;
         NiUpdateData kUpdData(fTime, false, false);
-        reinterpret_cast<::FUN_00a59c60_cls *>((((NiNode*)m_acHeaderData)))->FUN_00a59c60((int)&(kUpdData));
+        reinterpret_cast<::FUN_00a59c60_cls *>((((NiNode*)m_acHeaderData)))->FUN_00a59c60((std::intptr_t)&(kUpdData));
         return;
     }
 
@@ -8288,7 +8289,7 @@ void FUN_00491180_shell::FUN_00491180(TESObjectREFR* apRef, float afDelta, float
     {
         time = afTime;
         NiUpdateData kUpdateData(time, true, false);
-        reinterpret_cast<::FUN_00a59c60_cls *>((((NiNode*)m_acHeaderData)))->FUN_00a59c60((int)&(kUpdateData));
+        reinterpret_cast<::FUN_00a59c60_cls *>((((NiNode*)m_acHeaderData)))->FUN_00a59c60((std::intptr_t)&(kUpdateData));
         return;
     }
 

@@ -2,6 +2,7 @@
 // src/fallout/interface/menus/creditsmenu.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/interface/menus/creditsmenu.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <new>
 #include <cstdlib>
 #include <cstring>
@@ -554,7 +555,7 @@ void CreditsMenuX::FUN_0075f910()
     kPos.z += *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingF *>(&::g_011d94e4)))))) * reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::TimeGlobal *>(&::g_timeGlobal))))->GetStoredFloatValue();
     reinterpret_cast<::FUN_00440460_S *>(((m_pController).operator->()))->FUN_00440460((const ::V3 *)&(kPos));
     NiUpdateData kData(0.0f, false, false);
-    reinterpret_cast<::FUN_00a59c60_cls *>(((m_pController).operator->()))->FUN_00a59c60((int)&(kData));
+    reinterpret_cast<::FUN_00a59c60_cls *>(((m_pController).operator->()))->FUN_00a59c60((std::intptr_t)&(kData));
     float fHeight4 = reinterpret_cast<::Twin_0084d030 *>((void *)&((*(const ::NiBound *)(reinterpret_cast<::FUN_0043d450_Owner *>((void *)((m_pController).operator->()))->FUN_0043d450()))))->GetStoredFloatValue() * 2.0;
     if (kPos.z > fHeight4)
         CheckSaveNameConflict();
@@ -1682,7 +1683,7 @@ void CreditMenu::FUN_0075fb90()
     ::BSShaderManager::UpdateObjectTypeRecurse((::NiAVObject *)(::CreditSceneNode *)(((::CreditSceneNode *)(::FUN_00559450((int *)&(root))))), 0, 0);
     ((::CreditSceneNode *)(::FUN_00559450((int *)&(::FUN_00a29680();
     CreditUpdate update(0.0f, 0, 0);
-    reinterpret_cast<::FUN_00a59c60_cls *>((((::CreditSceneNode *)(::FUN_00559450((int *)&(root))))))->FUN_00a59c60((int)&(update));
+    reinterpret_cast<::FUN_00a59c60_cls *>((((::CreditSceneNode *)(::FUN_00559450((int *)&(root))))))->FUN_00a59c60((std::intptr_t)&(update));
     reinterpret_cast<::fnv_004a03c0::DD *>((((::GlobalView *)(::FUN_004bc3f0()))))->FUN_004a03c0();
 }
 
@@ -1819,7 +1820,7 @@ bool __cdecl FUN_0075f2a0()
             kPos.x = (float)((double)kPos.x + 214.0);
             reinterpret_cast<::FUN_00440460_S *>((pNode))->FUN_00440460((const ::V3 *)&(kPos));
             NiUpdateData kUpdate2(0.0f, false, false);
-            reinterpret_cast<::FUN_00a59c60_cls *>((pNode))->FUN_00a59c60((int)&(kUpdate2));
+            reinterpret_cast<::FUN_00a59c60_cls *>((pNode))->FUN_00a59c60((std::intptr_t)&(kUpdate2));
         }
         return true;
     }

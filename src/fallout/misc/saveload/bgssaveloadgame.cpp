@@ -1,5 +1,6 @@
 // fallout/misc/saveload/bgssaveloadgame.cpp: BGSSaveLoadGame, DelStandIn, BGSSaveLoadGameImpl, FakeGame and more (59 functions)
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/B45CDA0TES.h"
 #include "fnv/decl/BGSCameraPath.h"
@@ -2168,7 +2169,7 @@ void Reference::FUN_00575830(Position* apPosition)
             ::FUN_00c6bd00((::TreeNode_cls *)(::Scene *)(((::Scene *)(::FUN_00559450((int *)&(loaded->node))))), true);
             reinterpret_cast<::FUN_00a5a040_Class *>((((::Scene *)(::FUN_00559450((int *)&(loaded->node))))))->FUN_00a5a040();
             UpdateInfo info(0.0f, false, false);
-            reinterpret_cast<::FUN_00a59c60_cls *>((((::Scene *)(::FUN_00559450((int *)&(loaded->node))))))->FUN_00a59c60((int)&(info));
+            reinterpret_cast<::FUN_00a59c60_cls *>((((::Scene *)(::FUN_00559450((int *)&(loaded->node))))))->FUN_00a59c60((std::intptr_t)&(info));
         }
     }
     if (world7)

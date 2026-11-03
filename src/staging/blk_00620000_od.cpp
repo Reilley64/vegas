@@ -7181,8 +7181,8 @@ void Mover628::MoveToDestination(Body628* body, Group628* moved)
                 reinterpret_cast<::FUN_005532a0_cls *>(&(rotation))->FUN_005532a0(0.0f, 0.0f, 0.01f, 0.0f);
                 Vec628 velocity;
                 reinterpret_cast<::FUN_005532a0_cls *>(&(velocity))->FUN_005532a0(0.0f, 0.0f, 0.0f, 0.0f);
-                reinterpret_cast<::S *>((member))->FUN_00561690((int)(&rotation));
-                reinterpret_cast<::fnv_005617c0::FUN_005617c0_ *>((member))->FUN_005617c0((int)(&velocity));
+                reinterpret_cast<::S *>((member))->FUN_00561690((std::intptr_t)(&rotation));
+                reinterpret_cast<::fnv_005617c0::FUN_005617c0_ *>((member))->FUN_005617c0((std::intptr_t)(&velocity));
             }
             if (reference && reference->isActor())
             {
@@ -7205,7 +7205,7 @@ void Mover628::MoveToDestination(Body628* body, Group628* moved)
             reinterpret_cast<::FUN_005610f0_cls *>((body))->FUN_005610f0((int)(&destination));
             Vec628 rotation;
             reinterpret_cast<::FUN_005532a0_cls *>(&(rotation))->FUN_005532a0(0.0f, 0.0f, 0.01f, 0.0f);
-            reinterpret_cast<::S *>((body))->FUN_00561690((int)(&rotation));
+            reinterpret_cast<::S *>((body))->FUN_00561690((std::intptr_t)(&rotation));
         }
     }
 }

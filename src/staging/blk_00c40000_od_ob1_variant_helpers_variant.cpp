@@ -1,6 +1,7 @@
 // src/staging/blk_00c40000_od_ob1_variant_helpers_variant.cpp - helper variant unit created 2026-11-01 by helper_variants.py: the reworked code of these functions uses the
 // approved helpers of fnv_asm_helpers.h, which src/staging/blk_00c40000_od_ob1_variant.cpp cannot include without changing its accepted functions.
 // Same flags (/MT /Od /Oy- /GS /EHsc /Gy /Ob1); declarations copied from that unit's skeleton.
+#include <cstdint>
 #include <cstddef>
 #include <windows.h>
 #include <new>
@@ -2436,7 +2437,7 @@ struct S_00c4edf0_Obj {
 };
 struct S_00c4edf0_cls {
     S_00c4edf0_Obj* unk00;
-    bool FUN_00c4edf0(int a1, bool a2);
+    bool FUN_00c4edf0(std::intptr_t a1, bool a2);
 };
 struct DispatchObject {
     virtual void reserved0();
@@ -2450,7 +2451,7 @@ struct DispatchObject {
 };
 struct DispatchOwner {
     DispatchObject* object;
-    bool FUN_00c4ee40(int code, unsigned char enabled);
+    bool FUN_00c4ee40(std::intptr_t code, unsigned char enabled);
 };
 struct FUN_00c509a0_Class {
     void FUN_00c509a0(int);
@@ -7838,7 +7839,7 @@ void Owner::FUN_00c51f20()
         block.ucFlag2 = 0;
         block.ucFlag3 = 0;
         block.ucFlag4 = 0;
-        reinterpret_cast<::FUN_00a59c60_cls *>((GetTarget()))->FUN_00a59c60((int)(&block));
+        reinterpret_cast<::FUN_00a59c60_cls *>((GetTarget()))->FUN_00a59c60((std::intptr_t)(&block));
     }
 }
 

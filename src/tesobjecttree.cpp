@@ -1,5 +1,6 @@
 // tesobjecttree.cpp: TESObjectTREE, BSShaderTextureSet, BGSImpactData, BSFadeNode and more (45 functions)
 
+#include <cstdint>
 #include <new>
 #include <cstring>
 #include "fnv/decl/Arr86.h"
@@ -1925,7 +1926,7 @@ TreeSceneObject* TreeBillboardBuilder::CreateBillboardSceneObject(bool variant)
     reinterpret_cast<::FUN_0051c3b0_cls *>(this)->BuildBillboardTexturePath(q);
     FUN_0051d0d0* cf = new FUN_0051d0d0;
     cf->SetTexture(0, q);
-    reinterpret_cast<::FUN_00b66ad0_cls *>((i))->FUN_00b66ad0((int)("STBB"), (::FnvTarget *)(cf));
+    reinterpret_cast<::FUN_00b66ad0_cls *>((i))->FUN_00b66ad0((std::intptr_t)("STBB"), (::FnvTarget *)(cf));
     i->UpdateShader(0);
     NiPointer<NiSourceTexture> p(0);
     cf->GetTexture(0, &p);

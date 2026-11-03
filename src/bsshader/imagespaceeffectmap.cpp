@@ -1,3 +1,4 @@
+#include <cstddef>
 
 // src/bsshader/imagespaceeffectmap.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/bsshader/imagespaceeffectmap.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
@@ -139,7 +140,7 @@ struct Mid08_cls
     int unkb4;
     int unkb8;
     int unkbc;
-    int m_c0;
+    void* m_c0;
 };
 
 struct MemMgr_cls
@@ -230,6 +231,6 @@ void FUN_00baa240_cls::Initialize(FUN_00baa240_cls* a1, int aiArg)
         FUN_00b8a9e0* toStore = obj;
         reinterpret_cast<::FUN_00a41520_cls *>(&(m_18))->FUN_00ba3aa0(0, (::KeyPair **)&(toStore));
     }
-    ::SetEffectParamAt((char *)this, 0, 1, 0, {});
+    ::SetEffectParamAt((char *)this, 0, 0, 1, 0);
     reinterpret_cast<::FUN_00ba3c70_shell *>(this)->SetEffectAt(0, (::ImageSpaceEffect *)(a1->m_08->m_c0), (::ImageSpaceEffectParam *)(obj), 0);
 }

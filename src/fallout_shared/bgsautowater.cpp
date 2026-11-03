@@ -2,6 +2,7 @@
 // src/fallout_shared/bgsautowater.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/bgsautowater.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/BSFaceGenNiNode.h"
@@ -1476,8 +1477,7 @@ void __cdecl CreateAutoWaterNode(ParamObj* a0)
                                                                                                                 0.0f,
                                                                                                                 false,
                                                                                                                 false);
-                                                                                                            reinterpret_cast<::FUN_00a59c60_cls *>((p80))->FUN_00a59c60(
-                                                                                                                (int)(&res));
+                                                                                                            reinterpret_cast<::FUN_00a59c60_cls *>((p80))->FUN_00a59c60((std::intptr_t)(&res));
                                                                                                             reinterpret_cast<::CellView *>((a0))->FUN_00548230(
                                                                                                                 (::RefView *)(p84),
                                                                                                                 false);

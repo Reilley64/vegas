@@ -2,6 +2,7 @@
 // src/fallout/ai/combat/muzzleflash.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/combat/muzzleflash.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/decl/Actor.h"
 #include "fnv/decl/BSShaderNoLightingProperty.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -1330,9 +1331,9 @@ void FUN_009bacb0::UpdateNodePosition(void* arg)
     ::fnv_00a6d2d0::FUN_00a6d2d0((::fnv_00a6d2d0::TCTimeNode *)(::S_009baf50_Node *)(((::S_009baf50_Node *)(::FUN_00559450((int *)(((S_009baf50_Ptr*)&first)))))));
     reinterpret_cast<::FUN_00a5a040_Class *>((((::S_009baf50_Node *)(::FUN_00559450((int *)(((S_009baf50_Ptr*)&first)))))))->FUN_00a5a040();
     S_009baf50_Vec pos((float)(::fnv_00563f30::DAT_011c3c08 - DAT_01090008), 1, 0);
-    reinterpret_cast<::FUN_00a59c60_cls *>((((::S_009baf50_Node *)(::FUN_00559450((int *)(((S_009baf50_Ptr*)&first)))))))->FUN_00a59c60((int)&(pos));
+    reinterpret_cast<::FUN_00a59c60_cls *>((((::S_009baf50_Node *)(::FUN_00559450((int *)(((S_009baf50_Ptr*)&first)))))))->FUN_00a59c60((std::intptr_t)&(pos));
     pos.x = ::fnv_00563f30::DAT_011c3c08;
-    reinterpret_cast<::FUN_00a59c60_cls *>((((::S_009baf50_Node *)(::FUN_00559450((int *)(((S_009baf50_Ptr*)&first)))))))->FUN_00a59c60((int)&(pos));
+    reinterpret_cast<::FUN_00a59c60_cls *>((((::S_009baf50_Node *)(::FUN_00559450((int *)(((S_009baf50_Ptr*)&first)))))))->FUN_00a59c60((std::intptr_t)&(pos));
 }
 // @fnv 0x009bb240
 void ThisCls::UpdateMuzzleFlash(ParamCls* apParam)
@@ -1410,7 +1411,7 @@ void ThisCls::UpdateMuzzleFlash(ParamCls* apParam)
             if (!FUN_008c7aa0())
             {
                 NiUpdateData aUpd(fResultTmp, false, false);
-                reinterpret_cast<::FUN_00a59c60_cls *>((((::NiAVObject *)(::FUN_00559450((int *)&(m_0c))))))->FUN_00a59c60((int)&(aUpd));
+                reinterpret_cast<::FUN_00a59c60_cls *>((((::NiAVObject *)(::FUN_00559450((int *)&(m_0c))))))->FUN_00a59c60((std::intptr_t)&(aUpd));
             }
             else
             {

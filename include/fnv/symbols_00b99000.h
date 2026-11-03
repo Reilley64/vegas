@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdint>
+
 class BSBatchRenderer__PassList;
 namespace fnv_00b99110 { struct DrawPass; }
 namespace fnv_00b994f0 { struct Pass_b994f0; }
@@ -15,7 +17,7 @@ void SetShaderPass(unsigned int, ::FUN_00b99390_S *);
 // 0x00b994f0
 namespace fnv_00b994f0 { void FUN_00b994f0(::fnv_00b994f0::Pass_b994f0 *, unsigned int, bool, bool, bool); }
 // 0x00b99840
-void FUN_00b99840(int *, int, const int *);
+void FUN_00b99840(void *, int, void *const *);
 // 0x00b99890
 void PushFront(::FUN_00b99890_List *, int, unsigned int *);
 // 0x00b998f0
@@ -23,7 +25,7 @@ void FUN_00b998f0();
 // 0x00b99990
 void ClearPassList(::BSBatchRenderer__PassList *, int);
 // 0x00b99a10
-void FUN_00b99a10(char *, int, int, char);
+void FUN_00b99a10(char *, int, std::intptr_t, char);
 // 0x00b99a50
 void ClearPassGroups(::PassGroup_Layout *, int, bool);
 // 0x00b99bc0

@@ -1,3 +1,4 @@
+#include <cstddef>
 
 // src/bsshader/imagespaceeffectradialblur.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/bsshader/imagespaceeffectradialblur.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
@@ -232,7 +233,7 @@ void S_00b5a4a0::FUN_00b5a4a0(S_00b5a4a0_Src* src, int unused)
     reinterpret_cast<::ImageSpaceShaderParam *>((param))->SetShaderConstantVector4(0, 0.1f, 0.0f, 0.0f, 0.0f);
     reinterpret_cast<::FUN_00ba3c70_shell *>(this)->SetEffectAt(0, (::ImageSpaceEffect *)(src->unk8->unkD8[g_00b5a4a0_index]), (::ImageSpaceEffectParam *)(param), 0);
     reinterpret_cast<::FUN_00a41520_cls *>(&(m_params))->FUN_00ba3aa0(0, (::KeyPair **)&(param));
-    ::SetEffectParamAt((char *)this, 0, 1, 0, {});
+    ::SetEffectParamAt((char *)this, 0, 0, 1, 0);
 }
 
 struct FourFloatVector
@@ -328,7 +329,7 @@ void FUN_00b5a720_cls::FUN_00b5a720(S_00b5a4a0_Src* src, int unused)
     reinterpret_cast<::FUN_00ba3c70_shell *>(this)->SetEffectAt(0, (::ImageSpaceEffect *)(tex), (::ImageSpaceEffectParam *)(p), 2);
 
     reinterpret_cast<::FUN_00a41520_cls *>(&(m_params))->FUN_00ba3aa0(0, (::KeyPair **)&(p));
-    ::SetEffectParamAt((char *)this, 0, 1, 1, {});
+    ::SetEffectParamAt((char *)this, 0, 0, 1, 1);
 
     p = new S_00b5a4a0_Param();
     reinterpret_cast<::ImageSpaceShaderParam *>((p))->AllocateShaderConstants(0, 3);

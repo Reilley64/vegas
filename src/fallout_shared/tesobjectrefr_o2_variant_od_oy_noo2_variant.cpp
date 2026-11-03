@@ -5,6 +5,7 @@
 
 // src/fallout_shared/tesobjectrefr_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/fallout_shared/tesobjectrefr.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
+#include <cstdint>
 #include <cstddef>
 #include <new>
 #include "fnv/decl/ActorTaskManager.h"
@@ -2306,7 +2307,7 @@ struct Owner5615
 void Owner5615::FUN_005615d0(int value)
 {
     AlignedLocal5615 local;
-    reinterpret_cast<::S *>(this)->FUN_00561690((int)(((void *)&(::fnv_004a3e00::FUN_004a3e00((*(::fnv_004a3e00::bhkCharacterController *)(&local)), (*(const ::fnv_004a3e00::NiPoint3 *)(value)))))));
+    reinterpret_cast<::S *>(this)->FUN_00561690((std::intptr_t)(((void *)&(::fnv_004a3e00::FUN_004a3e00((*(::fnv_004a3e00::bhkCharacterController *)(&local)), (*(const ::fnv_004a3e00::NiPoint3 *)(value)))))));
 }
 
 struct NiPoint3
@@ -2333,7 +2334,7 @@ class bhkCharacterController
 void bhkCharacterController::FUN_00561630(const NiPoint3& param_1)
 {
     HKVector4 local;
-    reinterpret_cast<::fnv_005617c0::FUN_005617c0_ *>(this)->FUN_005617c0((int)(((void *)(::CopyCharacterControllerVector((::bhkCharacterController *)(void *)(&local), param_1)))));
+    reinterpret_cast<::fnv_005617c0::FUN_005617c0_ *>(this)->FUN_005617c0((std::intptr_t)(((void *)(::CopyCharacterControllerVector((::bhkCharacterController *)(void *)(&local), param_1)))));
 }
 
 class S00561730_Comparison
@@ -2767,7 +2768,7 @@ void P107RefF14::FUN_0056f140()
         reinterpret_cast<::fnv_00567490::ScaleReference *>(this)->FUN_00567490(1.0f);
         reinterpret_cast<::FUN_00440490_shell *>((Get3D()))->FUN_00440490(1.0f);
         NiColorF14 kColor(0.0f, 0, 0);
-        reinterpret_cast<::FUN_00a59c60_cls *>((Get3D()))->FUN_00a59c60((int)&(kColor));
+        reinterpret_cast<::FUN_00a59c60_cls *>((Get3D()))->FUN_00a59c60((std::intptr_t)&(kColor));
         NiTransformF14 kXform;
         kXform.m_kOrientation = GetRotationMatrix();
         kXform.m_kTranslation = *GetPos();

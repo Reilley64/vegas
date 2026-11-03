@@ -1,3 +1,5 @@
+#include <cstdint>
+#include <cstddef>
 // bsshader/imagespacemanager.cpp: ImageSpaceManager, Derived, Host, ImageSpaceManager_b8b and more (60 functions)
 
 #include <cmath>
@@ -97,7 +99,7 @@ void ImageSpaceManager::CreateMenuBackgroundGeometry()
     m_pMenuBackgroundScreenGeometry->GetData()->SetRectangle(0, DAT_01012054, 1.0f, ::DAT_010162c0, DAT_0104a494);
     m_pMenuBackgroundScreenGeometry->GetData()->SetRectangleBounds(0, 0, 0.0f, 0.0f, 1.0f, 1.0f);
     reinterpret_cast<::FUN_00a87900_class *>((m_pMenuBackgroundScreenGeometry->GetData()))->FUN_00a87900();
-    ::AssignFixedString((char *)((m_pMenuBackgroundScreenGeometry).operator->()), (int)&(const ::NiFixedString &)(GeometryString("Imagespace Effect Geometry")), {});
+    ::AssignFixedString((char *)((m_pMenuBackgroundScreenGeometry).operator->()), 0, (char **)&(const ::NiFixedString &)(GeometryString("Imagespace Effect Geometry")));
     reinterpret_cast<::FUN_00a5a040_Class *>(((m_pMenuBackgroundScreenGeometry).operator->()))->FUN_00a5a040();
     NiUpdateData update;
     update.time = 0.0f;
@@ -106,7 +108,7 @@ void ImageSpaceManager::CreateMenuBackgroundGeometry()
     update.c = false;
     update.d = false;
     update.e = false;
-    reinterpret_cast<::FUN_00a59c60_cls *>(((m_pMenuBackgroundScreenGeometry).operator->()))->FUN_00a59c60((int)&(update));
+    reinterpret_cast<::FUN_00a59c60_cls *>(((m_pMenuBackgroundScreenGeometry).operator->()))->FUN_00a59c60((std::intptr_t)&(update));
 }
 
 // @fnv 0x00b8b200
@@ -416,15 +418,27 @@ void FUN_00b8afe0_shell::AddDoubleVision(float afDoubleVision)
     this->m_fAdditionalImageSpaceValue += afDoubleVision;
 }
 
+struct FUN_00b8b210_Params
+{
+    char pad00[5];
+    bool m_bDirty;
+    char pad06[0x58 - 6];
+    int m_iMode;
+    char pad5c[0x70 - 0x5c];
+    float m_fFirstWeight;
+    float m_fSecondWeight;
+};
+
 // @fnv 0x00b8b210
 void FUN_00b8b210(char* pThis, int, int mode)
 {
-    if (mode != *(int*)(pThis + 0x58))
+    FUN_00b8b210_Params* p = (FUN_00b8b210_Params*)pThis;
+    if (mode != p->m_iMode)
     {
-        *(bool*)(pThis + 0x5) = true;
-        *(int*)(pThis + 0x58) = mode;
-        *(float*)(pThis + 0x70) = (mode == 1 || mode == 0) ? 1.0f : 0.0f;
-        *(float*)(pThis + 0x74) = (mode == 2 || mode == 0) ? 1.0f : 0.0f;
+        p->m_bDirty = true;
+        p->m_iMode = mode;
+        p->m_fFirstWeight = (mode == 1 || mode == 0) ? 1.0f : 0.0f;
+        p->m_fSecondWeight = (mode == 2 || mode == 0) ? 1.0f : 0.0f;
     }
 }
 
@@ -456,48 +470,75 @@ struct PtrTable
     VTableObj* p20;
 };
 
+struct FUN_00b8b440_Params
+{
+    char pad00[8];
+    PtrTable* m_pTable;
+    char pad0c[0x14 - 0xc];
+    char m_a14[0x1c - 0x14];
+    float m_f1c;
+    char pad20[0x34 - 0x20];
+    float m_f34;
+    char pad38[0x40 - 0x38];
+    float m_f40;
+    float m_f44;
+    float m_f48;
+    char pad4c[0x50 - 0x4c];
+    char m_a50[0x5c - 0x50];
+    char m_a5c[0x68 - 0x5c];
+    char m_a68[0x78 - 0x68];
+    char m_a78[0xa8 - 0x78];
+    int m_iA8;
+};
+
 // @fnv 0x00b8b440
 void FUN_00b8b440(char* pThis, int, bool bFlag)
 {
-    PtrTable** ppTable = (PtrTable**)(pThis + 8);
+    FUN_00b8b440_Params* p = (FUN_00b8b440_Params*)pThis;
+    PtrTable** ppTable = &p->m_pTable;
     if ((*ppTable)->p00)
     {
-        (*ppTable)->p00->v8(pThis + 0x50);
+        (*ppTable)->p00->v8(p->m_a50);
     }
     if ((*ppTable)->p04)
     {
-        (*ppTable)->p04->v8(pThis + 0x14);
+        (*ppTable)->p04->v8(p->m_a14);
     }
     if ((*ppTable)->p20)
     {
-        (*ppTable)->p20->v8(pThis + 0x5c);
+        (*ppTable)->p20->v8(p->m_a5c);
     }
     if ((*ppTable)->p0c)
     {
-        (*ppTable)->p0c->v9(pThis + 0x78, *(int*)(pThis + 0xa8));
-        (*ppTable)->p0c->v10(pThis + 0x68);
+        (*ppTable)->p0c->v9(p->m_a78, p->m_iA8);
+        (*ppTable)->p0c->v10(p->m_a68);
     }
     if (!bFlag)
     {
-        DAT_011ad87c = *(float*)(pThis + 0x34);
+        DAT_011ad87c = p->m_f34;
         DAT_011ad880 = 1.0f;
     }
     else
     {
-        DAT_011ad880 = *(float*)(pThis + 0x34);
+        DAT_011ad880 = p->m_f34;
     }
-    DAT_011f9190 = *(float*)(pThis + 0x40);
-    DAT_011f918c = *(float*)(pThis + 0x48);
-    DAT_011f9188 = *(float*)(pThis + 0x44);
-    DAT_011f9184 = *(float*)(pThis + 0x1c);
+    DAT_011f9190 = p->m_f40;
+    DAT_011f918c = p->m_f48;
+    DAT_011f9188 = p->m_f44;
+    DAT_011f9184 = p->m_f1c;
 }
 
-// Sets the first three entries of the bool array at self+0x58 to true and the fourth to false.
+struct FUN_00b8bc20_Owner
+{
+    char pad00[0x58];
+    NiTArray<bool, NiTMallocInterface<bool> > m_kFlags;
+};
+
+// Sets the first three entries of the flag array to true and the fourth to false.
 // @fnv 0x00b8bc20
 void FUN_00b8bc20(char* self, int)
 {
-    NiTArray<bool, NiTMallocInterface<bool> >* arr =
-        reinterpret_cast<NiTArray<bool, NiTMallocInterface<bool> >*>(self + 0x58);
+    NiTArray<bool, NiTMallocInterface<bool> >* arr = &reinterpret_cast<FUN_00b8bc20_Owner*>(self)->m_kFlags;
     bool val;
     val = true;
     arr->SetAt(0, val);
@@ -515,36 +556,47 @@ class D3DRenderStateGroup
     static D3DRenderStateGroup* __cdecl GetCurrentRenderStateGroup(void);
 };
 
+struct FUN_00b8bfe0_Pass
+{
+    char pad00[0x30];
+    D3DRenderStateGroup* m_pRenderState;
+};
+struct FUN_00b8bfe0_Owner
+{
+    char pad00[0x5c];
+    FUN_00b8bfe0_Pass* m_pPass;
+};
+
 // Ensures the render state object exists, then sets render states 0x34, 0x38, 0x39 and 0x37 to 1, 7, 0x80 and 1.
 // @fnv 0x00b8bfe0
 void FUN_00b8bfe0(char* pThis, int)
 {
-    char* pPass = *(char**)(pThis + 0x5c);
-    if (*(D3DRenderStateGroup**)(pPass + 0x30) == 0)
-        *(D3DRenderStateGroup**)(pPass + 0x30) = D3DRenderStateGroup::GetCurrentRenderStateGroup();
-    reinterpret_cast<::StateGroup *>(((*(D3DRenderStateGroup**)(pPass + 0x30))))->SetNodeValue(0x34, 1, true);
+    FUN_00b8bfe0_Pass* pPass = ((FUN_00b8bfe0_Owner*)pThis)->m_pPass;
+    if (pPass->m_pRenderState == 0)
+        pPass->m_pRenderState = D3DRenderStateGroup::GetCurrentRenderStateGroup();
+    reinterpret_cast<::StateGroup *>(((pPass->m_pRenderState)))->SetNodeValue(0x34, 1, true);
 
-    pPass = *(char**)(pThis + 0x5c);
-    if (*(D3DRenderStateGroup**)(pPass + 0x30) == 0)
-        *(D3DRenderStateGroup**)(pPass + 0x30) = D3DRenderStateGroup::GetCurrentRenderStateGroup();
-    reinterpret_cast<::StateGroup *>(((*(D3DRenderStateGroup**)(pPass + 0x30))))->SetNodeValue(0x38, 7, true);
+    pPass = ((FUN_00b8bfe0_Owner*)pThis)->m_pPass;
+    if (pPass->m_pRenderState == 0)
+        pPass->m_pRenderState = D3DRenderStateGroup::GetCurrentRenderStateGroup();
+    reinterpret_cast<::StateGroup *>(((pPass->m_pRenderState)))->SetNodeValue(0x38, 7, true);
 
-    pPass = *(char**)(pThis + 0x5c);
-    if (*(D3DRenderStateGroup**)(pPass + 0x30) == 0)
-        *(D3DRenderStateGroup**)(pPass + 0x30) = D3DRenderStateGroup::GetCurrentRenderStateGroup();
-    reinterpret_cast<::StateGroup *>(((*(D3DRenderStateGroup**)(pPass + 0x30))))->SetNodeValue(0x39, 0x80, true);
+    pPass = ((FUN_00b8bfe0_Owner*)pThis)->m_pPass;
+    if (pPass->m_pRenderState == 0)
+        pPass->m_pRenderState = D3DRenderStateGroup::GetCurrentRenderStateGroup();
+    reinterpret_cast<::StateGroup *>(((pPass->m_pRenderState)))->SetNodeValue(0x39, 0x80, true);
 
-    pPass = *(char**)(pThis + 0x5c);
-    if (*(D3DRenderStateGroup**)(pPass + 0x30) == 0)
-        *(D3DRenderStateGroup**)(pPass + 0x30) = D3DRenderStateGroup::GetCurrentRenderStateGroup();
-    reinterpret_cast<::StateGroup *>(((*(D3DRenderStateGroup**)(pPass + 0x30))))->SetNodeValue(0x37, 1, true);
+    pPass = ((FUN_00b8bfe0_Owner*)pThis)->m_pPass;
+    if (pPass->m_pRenderState == 0)
+        pPass->m_pRenderState = D3DRenderStateGroup::GetCurrentRenderStateGroup();
+    reinterpret_cast<::StateGroup *>(((pPass->m_pRenderState)))->SetNodeValue(0x37, 1, true);
 }
 
 struct ShaderInitBlock_00b8c0e0
 {
     const char* name;
-    int zero;
-    int pad[17];
+    const char* zero;
+    const char* pad[17];
 };
 
 struct Vtable_00b8c0e0
@@ -571,18 +623,18 @@ void InitTVShader(Obj_00b8c0e0* pObj, int)
     ShaderInitBlock_00b8c0e0 psBlock;
     vsBlock.name = "imagespace\\1x\\v\\base.v.hlsl";
     vsBlock.zero = 0;
-    std::memset(vsBlock.pad, 0, 0x44);
+    std::memset(vsBlock.pad, 0, sizeof(vsBlock.pad));
     psBlock.name = "imagespace\\2x\\p\\tv.p.hlsl";
     psBlock.zero = 0;
-    std::memset(psBlock.pad, 0, 0x44);
+    std::memset(psBlock.pad, 0, sizeof(psBlock.pad));
     pObj->vt->fn_13c(pObj, &vsBlock, &psBlock, "TV", "vs_1_1", "ps_2_0");
     pObj->vt->fn_14c(pObj);
 }
 
 // @fnv 0x00b8b1c0
-int FUN_00b8b1c0(int a, int b)
+std::intptr_t FUN_00b8b1c0(std::intptr_t a, std::intptr_t b)
 {
-    return ((int)(::FUN_00b59d30((::Vec4 *)(a), (::NiPoint2 *)(b), (float *)(int *)(&b))));
+    return ((std::intptr_t)(::FUN_00b59d30((::Vec4 *)(a), (::NiPoint2 *)(b), (float *)(&b))));
 }
 
 extern float DAT_012023f4;
@@ -601,41 +653,52 @@ void FUN_00b8b200(bool value);
 extern ImageSpaceModifierParameterData DAT_011ff940;
 extern float DAT_012003d0;
 
-// Copies 0x98 bytes from the object's source pointer at 0xb0 or 0xac into offset 0x14, falling back to DAT_011ff940, then zeroes two floats.
+struct FUN_00b8b500_Owner
+{
+    char pad00[0x14];
+    ImageSpaceModifierParameterData m_kParams;
+    char pad[0xac - 0x14 - sizeof(ImageSpaceModifierParameterData)];
+    ImageSpaceModifierParameterData* m_pBaseSource;
+    ImageSpaceModifierParameterData* m_pOverrideSource;
+};
+
+// Copies the parameters from the override source, else the base source, else DAT_011ff940, then zeroes two floats.
 // @fnv 0x00b8b500
 void FUN_00b8b500(void* thisPtr, int aiUnused)
 {
-    char* pSource = *(char**)((char*)thisPtr + 0xb0);
+    FUN_00b8b500_Owner* owner = (FUN_00b8b500_Owner*)thisPtr;
+    ImageSpaceModifierParameterData* pSource = owner->m_pOverrideSource;
     if (pSource)
     {
-        std::memmove((char*)thisPtr + 0x14, pSource, 0x98);
+        std::memmove(&owner->m_kParams, pSource, sizeof(ImageSpaceModifierParameterData));
         ::DAT_01202400 = 0.0f;
         DAT_012003d0 = 0.0f;
         return;
     }
-    pSource = *(char**)((char*)thisPtr + 0xac);
+    pSource = owner->m_pBaseSource;
     if (pSource)
     {
-        std::memmove((char*)thisPtr + 0x14, pSource, 0x98);
+        std::memmove(&owner->m_kParams, pSource, sizeof(ImageSpaceModifierParameterData));
         ::DAT_01202400 = 0.0f;
         DAT_012003d0 = 0.0f;
         return;
     }
-    std::memmove((char*)thisPtr + 0x14, &DAT_011ff940, 0x98);
+    std::memmove(&owner->m_kParams, &DAT_011ff940, sizeof(ImageSpaceModifierParameterData));
     ::DAT_01202400 = 0.0f;
     DAT_012003d0 = 0.0f;
 }
 
 struct FUN_00b8bc80_shell
 {
-    NiTArray<bool, NiTMallocInterface<bool> > m_aiIndexedValues;  // at offset 0x58
+    char pad00[0x58];
+    NiTArray<bool, NiTMallocInterface<bool> > m_aiIndexedValues;
     void FUN_00b8bc80();
 };
-// Sets the bool array at offset 0x58: index 0, 1 and 3 to true and index 2 to false.
+// Sets the bool array: index 0, 1 and 3 to true and index 2 to false.
 // @fnv 0x00b8bc80
 void FUN_00b8bc80_shell::FUN_00b8bc80()
 {
-    NiTArray<bool, NiTMallocInterface<bool> >* p = (NiTArray<bool, NiTMallocInterface<bool> >*)((char*)this + 0x58);
+    NiTArray<bool, NiTMallocInterface<bool> >* p = &m_aiIndexedValues;
     p->SetAt(0, true);
     p->SetAt(1, true);
     p->SetAt(2, false);
@@ -711,8 +774,8 @@ FUN_00b8bea0::FUN_00b8bea0()
 struct FUN_00b8bf10_Desc
 {
     const char* file;
-    int flags;
-    int r0, r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, r12, r13, r14, r15, r16;
+    const char* flags;
+    const char* r0, *r1, *r2, *r3, *r4, *r5, *r6, *r7, *r8, *r9, *r10, *r11, *r12, *r13, *r14, *r15, *r16;
 };
 struct FUN_00b8bf10_Obj;
 typedef void(* FUN_00b8bf10_Add)(FUN_00b8bf10_Obj*, FUN_00b8bf10_Desc*, FUN_00b8bf10_Desc*, const char*,
@@ -730,13 +793,19 @@ void RegisterSunbeamsShader(FUN_00b8bf10_Obj* self, int unused)
     FUN_00b8bf10_Desc b;
     a.file = "imagespace\\1x\\v\\base.v.hlsl";
     a.flags = 0;
-    std::memset(&a.r0, 0, 0x44);
+    std::memset(&a.r0, 0, 17 * sizeof(const char*));
     b.file = "imagespace\\2x\\p\\sunbeams.p.hlsl";
     b.flags = 0;
-    std::memset(&b.r0, 0, 0x44);
+    std::memset(&b.r0, 0, 17 * sizeof(const char*));
     reinterpret_cast<FUN_00b8bf10_Add>(self->vt[0x13c / 4])(self, &a, &b, "Sunbeams", "vs_1_1", "ps_2_a");
     reinterpret_cast<FUN_00b8bf10_Fin>(self->vt[0x14c / 4])(self);
 }
+
+struct ImageSpaceShaderSecondaryBase
+{
+    char pad00[0x6c];
+    void* m_pSecondaryVtable;
+};
 
 namespace fnv_00b8c070 {
 extern int DAT_010b0318;
@@ -763,7 +832,7 @@ struct FUN_00b8c070 : ImageSpaceEffectShader
 FUN_00b8c070::FUN_00b8c070()
 {
     *(int**)this = &DAT_010b0338;
-    *(int**)((char*)this + 0x6c) = &DAT_010b0318;
+    ((::ImageSpaceShaderSecondaryBase*)this)->m_pSecondaryVtable = &DAT_010b0318;
     reinterpret_cast<::FUN_00a41520_cls *>(&(m))->FUN_00a90180(4);
 }
 }  // namespace fnv_00b8c070
@@ -781,8 +850,8 @@ struct S_00b8bd50
 // @fnv 0x00b8bd50
 void* S_00b8bd50::FUN_00b8bd50(unsigned int flags)
 {
-    *(int*)this = (int)&DAT_010affc0;
-    *(int*)((char*)this + 0x6c) = (int)&DAT_010affa0;
+    *(void**)this = &DAT_010affc0;
+    ((::ImageSpaceShaderSecondaryBase*)this)->m_pSecondaryVtable = &DAT_010affa0;
     reinterpret_cast<::FUN_00c03a20_cls *>((((H_00c03a20*)this)))->FUN_00c03a20_cls::~FUN_00c03a20_cls();
     if (flags & 1)
         _delete(this, 0xd0);
@@ -879,12 +948,12 @@ struct Host
 // @fnv 0x00b8b3b0
 void Host::FUN_00b8b3b0()
 {
-    for (unsigned int i = 0x88; i < 0x1D0; i += 4)
+    for (unsigned int i = 0; i < 82; ++i)
     {
-        if (*(char**)((char*)ptr + i))
+        if (ptr->arr[i])
         {
-            char* pEntry = *(char**)((char*)ptr + i);
-            Obj* o = pEntry ? (Obj*)(pEntry - 0x6C) : 0;
+            char* pEntry = ptr->arr[i];
+            Obj* o = pEntry ? (Obj*)(pEntry - offsetof(::ImageSpaceShaderSecondaryBase, m_pSecondaryVtable)) : 0;
             o->f72();
         }
     }
@@ -900,36 +969,39 @@ struct UnkClass
 void* UnkClass::DestroyIfFlagged(unsigned int auiFlags)
 {
     *(int**)this = &DAT_010b0198;
-    *(int**)((char*)this + 0x6c) = &DAT_010b0174;
+    ((::ImageSpaceShaderSecondaryBase*)this)->m_pSecondaryVtable = &DAT_010b0174;
     reinterpret_cast<::FUN_00c03a20_cls *>(this)->FUN_00c03a20_cls::~FUN_00c03a20_cls();
     if (auiFlags & 1)
         _delete(this, 0xd0);
     return this;
 }
 
+struct FUN_00b8aea0_Data
+{
+    char pad00[0xb4];
+    float m_afScale[38];
+    float m_afOffset[38];
+};
+
 // @fnv 0x00b8aea0
 void FUN_00b8aea0(char* self)
 {
-    float* p = (float*)(self + 0x14c);
-    int i = 0xf;
-    for (; i; --i)
+    FUN_00b8aea0_Data* data = (FUN_00b8aea0_Data*)self;
+    for (int i = 0; i < 15; ++i)
     {
-        p[-0x26] = 1.0f;
-        *p = 0.0f;
-        ++p;
+        data->m_afScale[i] = 1.0f;
+        data->m_afOffset[i] = 0.0f;
     }
-    *(float*)(self + 0xf0) = 1.0f;
-    *(float*)(self + 0xf4) = 1.0f;
-    *(float*)(self + 0xf8) = 1.0f;
-    *(float*)(self + 0x188) = 0.0f;
-    *(float*)(self + 0x18c) = 0.0f;
-    *(float*)(self + 0x190) = 0.0f;
-    p = (float*)(self + 0x1b0);
-    for (i += 0xc; i; --i)
+    data->m_afScale[15] = 1.0f;
+    data->m_afScale[16] = 1.0f;
+    data->m_afScale[17] = 1.0f;
+    data->m_afOffset[15] = 0.0f;
+    data->m_afOffset[16] = 0.0f;
+    data->m_afOffset[17] = 0.0f;
+    for (int i = 25; i < 37; ++i)
     {
-        p[-0x26] = 1.0f;
-        *p = 0.0f;
-        ++p;
+        data->m_afScale[i] = 1.0f;
+        data->m_afOffset[i] = 0.0f;
     }
 }
 
@@ -1294,7 +1366,7 @@ void FUN_00b8b7d0_cls::FUN_00b8b7d0(float afParam0, int aiParam1, float afParam2
     float t = d.x * d.x + d.y * d.y + d.z * d.z;
     t = (float)sqrt((double)t);
     float dist = t;
-    ::FUN_00b59d30((::Vec4 *)((int)pPosition), (::NiPoint2 *)((int)&pos), (float *)(int *)((int*)&t));
+    ::FUN_00b59d30((::Vec4 *)(pPosition), (::NiPoint2 *)(&pos), (float *)(int *)((int*)&t));
     t = t + afParam3;
     reinterpret_cast<::B8B060Request *>(this)->SetIfHigherPriority(afParam0, aiParam1, dist, dist, afParam2, t, (*(const ::B8B060Pair *)((int*)&pos)));
 }
@@ -1440,17 +1512,17 @@ struct FUN_00b8bdb0_cls
 // @fnv 0x00b8bdb0
 void FUN_00b8bdb0_cls::InitScanBlendPass()
 {
-    unsigned int f[0x26];
-    f[0x13] = (unsigned int)"imagespace\\1x\\v\\base.v.hlsl";
+    const char* f[0x26];
+    f[0x13] = "imagespace\\1x\\v\\base.v.hlsl";
     f[0x14] = 0;
-    std::memset(&f[0x15], 0, 0x44);
-    f[0] = (unsigned int)"imagespace\\2x\\p\\scanlines_blend.p.hlsl";
-    f[1] = (unsigned int)"BLURSRC1";
+    std::memset(&f[0x15], 0, 17 * sizeof(f[0]));
+    f[0] = "imagespace\\2x\\p\\scanlines_blend.p.hlsl";
+    f[1] = "BLURSRC1";
     f[2] = 0;
-    f[3] = (unsigned int)"VATS";
+    f[3] = "VATS";
     f[4] = 0;
     f[5] = 0;
-    std::memset(&f[6], 0, 0x34);
+    std::memset(&f[6], 0, 13 * sizeof(f[0]));
     this->v13c((void*)&f[0x13], (void*)&f[0], "IFVATSSCANBLEND", "vs_1_1", "ps_2_0");
     this->v14c();
     ISPassHolder* a = (ISPassHolder*)this->m_5c;
@@ -2285,15 +2357,16 @@ class FUN_00b8b760_cls
 {
   public:
     int unk00;
-    void FUN_00b8b760(float a1, float a2, float a3, float a4, float a5, int a6);
+    void FUN_00b8b760(float a1, float a2, float a3, float a4, float a5, std::intptr_t a6);
 };
-// Calls FUN_00b59d30 with a6 and local, then passes a3 and a5 adjusted by a6's float bits to FUN_00b8b000.
+// Calls FUN_00b59d30 with the bound a6 and local, then passes a3 and a5 offset by the returned radius to SetRadialBlurParameters.
 // @fnv 0x00b8b760
-void FUN_00b8b760_cls::FUN_00b8b760(float a1, float a2, float a3, float a4, float a5, int a6)
+void FUN_00b8b760_cls::FUN_00b8b760(float a1, float a2, float a3, float a4, float a5, std::intptr_t a6)
 {
     int local[2];
-    ::FUN_00b59d30((::Vec4 *)(a6), (::NiPoint2 *)(local), &a5 + 1);
-    reinterpret_cast<::ImageSpaceManager *>(this)->SetRadialBlurParameters(a1, a2, *(float*)&a6 + a3, a4, *(float*)&a6 + a5, (*(const ::NiPoint2 *)(local)));
+    float radius;
+    ::FUN_00b59d30((::Vec4 *)(a6), (::NiPoint2 *)(local), &radius);
+    reinterpret_cast<::ImageSpaceManager *>(this)->SetRadialBlurParameters(a1, a2, radius + a3, a4, radius + a5, (*(const ::NiPoint2 *)(local)));
 }
 
 namespace fnv_00b8b8d0 {
@@ -2774,8 +2847,8 @@ void PartialScreenGeometryReceiver::FUN_00b8c3b0(float afWidth, float afHeight,
     this->m_pMenuBackgroundScreenElements->GetData()->SetRectangleBounds(0, 0, 0.0f, 0.0f, afWidth, afHeight);
     reinterpret_cast<::FUN_00a5a040_Class *>(((this->m_pMenuBackgroundScreenElements).operator->()))->FUN_00a5a040();
     NiUpdateData updateData = {0.0f, false, false, false, false, false};
-    reinterpret_cast<::FUN_00a59c60_cls *>(((this->m_pMenuBackgroundScreenElements).operator->()))->FUN_00a59c60((int)&(updateData));
-    ::AssignFixedString((char *)((this->m_pMenuBackgroundScreenElements).operator->()), (int)&(const ::NiFixedString &)(GeometryString("Interface Effect Partial Screen Trishape")), {});
+    reinterpret_cast<::FUN_00a59c60_cls *>(((this->m_pMenuBackgroundScreenElements).operator->()))->FUN_00a59c60((std::intptr_t)&(updateData));
+    ::AssignFixedString((char *)((this->m_pMenuBackgroundScreenElements).operator->()), 0, (char **)&(const ::NiFixedString &)(GeometryString("Interface Effect Partial Screen Trishape")));
     apScreenElements = this->m_pMenuBackgroundScreenElements;
 }
 

@@ -5,6 +5,7 @@
 
 // src/staging/blk_00c40000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include <cstdint>
 #include <new>
 #include <windows.h>
 #include <cmath>
@@ -2441,7 +2442,7 @@ struct S_00c4edf0_Obj {
 };
 struct S_00c4edf0_cls {
     S_00c4edf0_Obj* unk00;
-    bool FUN_00c4edf0(int a1, bool a2);
+    bool FUN_00c4edf0(std::intptr_t a1, bool a2);
 };
 struct DispatchObject {
     virtual void reserved0();
@@ -2455,7 +2456,7 @@ struct DispatchObject {
 };
 struct DispatchOwner {
     DispatchObject* object;
-    bool FUN_00c4ee40(int code, unsigned char enabled);
+    bool FUN_00c4ee40(std::intptr_t code, unsigned char enabled);
 };
 struct FUN_00c509a0_Class {
     void FUN_00c509a0(int);

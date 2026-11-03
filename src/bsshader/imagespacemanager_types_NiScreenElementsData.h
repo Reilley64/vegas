@@ -1,6 +1,7 @@
 // Names of nested/template specializations use the canonical generator identifier mapping.
 #ifndef FNV_NISCREENELEMENTSDATA_H
 #define FNV_NISCREENELEMENTSDATA_H
+#include <cstddef>
 
 #include "layout_support.h"
 #include "NiObject.h"

@@ -29697,7 +29697,7 @@ void FUN_008abfe0_shell::FUN_008abfe0(BGSLoadFormBuffer* apLoadGameBuffer)
                         ::FUN_00c9b670((::NiAVObject *)(pobj3D), (*(const ::NiPoint3 *)(&(*reinterpret_cast<::fnv_008abfe0::P3_008abfe0 *>((void *)&::NiPoint3::ZERO)))), 1, 0.0f, 0);
                 }
                 new ((void *)(((UDH_008abfe0*)&UpdateData))) ::NiUpdateData(0.0f, false, false);
-                reinterpret_cast<::FUN_00a59c60_cls *>((pobj3D))->FUN_00a59c60((int)&(UpdateData));
+                reinterpret_cast<::FUN_00a59c60_cls *>((pobj3D))->FUN_00a59c60((std::intptr_t)&(UpdateData));
             }
             reinterpret_cast<::Actor *>((((ACT_008abfe0*)this)))->UpdateActorPresentation();
             if (((VA_008abfe0*)this)->v133() == 9 || ((bool)(reinterpret_cast<::FUN_00437bd0_stub *>((((ACT_008abfe0*)this)))->FUN_00437bd0())) ||
@@ -136311,7 +136311,7 @@ void ActorView::FUN_008b52a0(void* reference, unsigned int partIndex, bool explo
             container10->Attach(result3, true);
             ::FUN_00c6bd00((::TreeNode_cls *)(result3), true);
             UpdateData eLocA(0.0f, false, false);
-            reinterpret_cast<::FUN_00a59c60_cls *>((result3))->FUN_00a59c60((int)&(eLocA));
+            reinterpret_cast<::FUN_00a59c60_cls *>((result3))->FUN_00a59c60((std::intptr_t)&(eLocA));
             ::FUN_00c6a350((::NiAVObject *)(result3), 1, true, true, true);
             world14->Add(result3, true, false, false, true);
             Bound boundary = (*(const ::fnv_008b52a0::Bound *)(reinterpret_cast<::FUN_0043d450_Owner *>((GetNode()))->FUN_0043d450()));
@@ -146378,7 +146378,7 @@ void KillActor::FUN_0089d900(::Actor* arg1, float arg2)
                 }
                 ::FUN_00c6a350((::NiAVObject *)(r240), 1, 1, 1, 1);
                 new ((void *)&(obj2f0)) ::NiUpdateData(0.0f, 0, 0);
-                reinterpret_cast<::FUN_00a59c60_cls *>((((KillSupport::ObjA59*)r240)))->FUN_00a59c60((int)(&obj2f0));
+                reinterpret_cast<::FUN_00a59c60_cls *>((((KillSupport::ObjA59*)r240)))->FUN_00a59c60((std::intptr_t)(&obj2f0));
                 reinterpret_cast<::MyPoint439180 *>(&(v274))->FUN_00439180(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::KillSupport::GlobF *>(&::originalRuntimeFloatSetting695)))))));
                 ::FUN_0062b8d0(r240, &v274, 0);
                 ((KillSupport::V048View*)this)->target(4);

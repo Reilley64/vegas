@@ -140,18 +140,20 @@ struct P09QFBase
 {
     void QueuedFile(int);
 };
-struct P09QFE
+struct P09QFE : QueuedFile
 {
+    char* m_pcName;
+    void* m_pData;
     P09QFE* InitQueuedFile(int aePriority);
 };
-// Calls QueuedFile with the priority, sets the vtable to DAT_010c1554, clears fields at offsets 0x28 and 0x2c, and returns this.
+// Calls QueuedFile with the priority, sets the vtable to DAT_010c1554, clears m_pcName and m_pData, and returns this.
 // @fnv 0x00c3ce60
 P09QFE* P09QFE::InitQueuedFile(int aePriority)
 {
     new ((void *)(((P09QFBase*)this))) ::FUN_00c3c590(aePriority);
     *(int**)this = &DAT_010c1554;
-    *(char**)((char*)this + 0x28) = 0;
-    *(void**)((char*)this + 0x2c) = 0;
+    m_pcName = 0;
+    m_pData = 0;
     return this;
 }
 
@@ -205,6 +207,7 @@ FUN_00c3cea0::~FUN_00c3cea0()
 }  // namespace fnv_00c3cea0
 
 #include <windows.h>
+class QueuedFile;
 struct PoolHolder
 {
 };
@@ -223,7 +226,7 @@ struct QueuedFileRef
         if (m_pObject != 0)
         {
             QueuedFile* t = m_pObject;
-            InterlockedIncrement((LONG*)((char*)t + 8));
+            InterlockedIncrement(&t->m_iRefCount);
         }
     }
 
@@ -282,7 +285,7 @@ struct ChildrenOps
                 pTmp = pSlot->m_pObject;
                 if (pTmp != 0)
                 {
-                    InterlockedIncrement((LONG*)((char*)pTmp + 8));
+                    InterlockedIncrement(&pTmp->m_iRefCount);
                 }
             }
         }
@@ -544,6 +547,40 @@ void FUN_00c3d440_cls::FUN_00c3d440()
     {
         FUN_0043db70();
     }
+}
+
+struct _NiStreamCtorAlias
+{
+    _NiStreamCtorAlias();
+    virtual ~_NiStreamCtorAlias();
+};
+
+struct BSStream : _NiStreamCtorAlias
+{
+    char pad[0x5c0];
+    int m_5c4;
+    int m_5c8;
+    BSStream()
+    {
+        m_5c8 = 0;
+        m_5c4 = 0;
+    }
+    virtual ~BSStream();
+};
+
+struct FUN_00b60640 : QBase
+{
+    char pad[0x2c];
+    BSStream m_stream;
+    FUN_00b60640(char const* filename);
+    virtual ~FUN_00b60640();
+};
+
+// @fnv 0x00b60640
+FUN_00b60640::FUN_00b60640(char const* filename) : QBase(2)
+{
+    reinterpret_cast<::FUN_00c3cee0_shell *>(this)->FUN_00c3cee0((char *)(filename));
+    reinterpret_cast<::fnv_00c3cf60::FUN_00c3cf60_shell *>(this)->LookupFileEntryByArchive(0);
 }
 
 #include "generated/data/bsmain/queuedfiles.inc"

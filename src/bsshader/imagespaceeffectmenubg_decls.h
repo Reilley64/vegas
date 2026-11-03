@@ -1,6 +1,7 @@
 // bsshader/imagespaceeffectmenubg_decls.h: declares NiTexture, NiTexturingProperty, RgbaColor, NiD3DShaderConstantMap, ImageSpaceShaderParam and more
 #ifndef FNV_IMAGESPACEEFFECTMENUBG_DECLS_H
 #define FNV_IMAGESPACEEFFECTMENUBG_DECLS_H
+#include <cstddef>
 
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_00a41520_cls.h"

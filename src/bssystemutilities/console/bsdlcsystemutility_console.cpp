@@ -1,3 +1,4 @@
+#include <cstddef>
 // bssystemutilities/console/bsdlcsystemutility_console.cpp: DownloadableContentManager, BSSystemUtility, OwnQ (11 functions)
 
 #include "fnv/decl/FNV_MemoryManager.h"
@@ -26,7 +27,7 @@ DownloadableContentManager& BSSystemUtility::QDLCUtility()
 // @fnv 0x00af2b10
 unsigned int DownloadableContentManager::MountDownloadableContent(unsigned int userIndex, MOUNT_CALLBACK callback)
 {
-    ::FUN_00af2c20((int)this);
+    ::FUN_00af2c20(this);
     struct MountProgress
     {
         BSSimpleList<ContentMountRecord*>* pkList;
@@ -78,27 +79,19 @@ unsigned int DownloadableContentManager::MountDownloadableContent(unsigned int u
     }
 }
 
-struct SLX
-{
-    void* item;
-    SLX* next;
-};
-// Zeroes the object's first three words and clears three SLX nodes at offsets 0xc, 0x14 and 0x1c, then returns self.
+// Zeroes the count and the two service pointers and clears the three lists' head nodes, then returns self.
 // @fnv 0x00af27c0
 DownloadableContentManager* FUN_00af27c0(DownloadableContentManager* self)
 {
-    *(unsigned int*)((char*)self + 0) = 0;
-    *(unsigned int*)((char*)self + 4) = 0;
-    *(unsigned int*)((char*)self + 8) = 0;
-    SLX* a = (SLX*)((char*)self + 0xc);
-    a->item = 0;
-    a->next = 0;
-    SLX* b = (SLX*)((char*)self + 0x14);
-    b->item = 0;
-    b->next = 0;
-    SLX* c = (SLX*)((char*)self + 0x1c);
-    c->item = 0;
-    c->next = 0;
+    self->m_uiContentCount = 0;
+    self->m_pFirstService = 0;
+    self->m_pSecondService = 0;
+    self->m_kContentEntries.m_item = 0;
+    self->m_kContentEntries.m_pkNext = 0;
+    self->m_kMountedPackages.m_item = 0;
+    self->m_kMountedPackages.m_pkNext = 0;
+    self->m_kMountedPackageNames.m_item = 0;
+    self->m_kMountedPackageNames.m_pkNext = 0;
     return self;
 }
 
@@ -135,7 +128,7 @@ bool S::InvokeCallback(int aiUnused, void(__cdecl* b)(int, int, int), int aiValu
 }
 
 // @fnv 0x00af2c20
-void FUN_00af2c20(int ecx)
+void FUN_00af2c20(void* ecx)
 {}
 
 namespace fnv_00af2850 {
@@ -284,7 +277,7 @@ unsigned int FUN_00af2940_shell::AddInstalledDlcPackages(unsigned int anPlayerIn
             {
                 uiInstalledCount++;
                 void* package = new FUN_00b008b0(DAT_011accb8[uiIndex].name);
-                reinterpret_cast<::TemplateList_00a0ae70 *>((((FUN_00af2420_class*)((char*)this + 0xc))))->AddTail((::TileTemplate_00a0ae70 **)(void **)(&package));
+                reinterpret_cast<::TemplateList_00a0ae70 *>(&m_kContentEntries)->AddTail((::TileTemplate_00a0ae70 **)(void **)(&package));
             }
         }
     }
@@ -385,7 +378,7 @@ struct OwnQ
 void OwnQ::ClearItems(bool bFlag)
 {
     if (bFlag)
-        ::FUN_00af2c20((int)this);
+        ::FUN_00af2c20(this);
     NodQ* pNode = &kList.kHead;
     while (pNode && !pNode->IsEmpty())
     {

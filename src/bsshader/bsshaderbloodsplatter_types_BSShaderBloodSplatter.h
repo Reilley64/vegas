@@ -1,6 +1,7 @@
 // Names of nested/template specializations use the canonical generator identifier mapping.
 #ifndef FNV_BSSHADERBLOODSPLATTER_H
 #define FNV_BSSHADERBLOODSPLATTER_H
+#include <cstddef>
 
 #include "fnv/decl/FUN_00be1750_shell.h"
 #include "fnv/symbols_00be0000.h"

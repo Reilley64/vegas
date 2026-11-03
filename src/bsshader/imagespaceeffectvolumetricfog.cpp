@@ -9,7 +9,6 @@
 #include "fnv/decl/MemoryManagerStandIn.h"
 #include "fnv/symbols_00401000.h"
 #include "fnv/symbols_011f6000.h"
-typedef unsigned int size_t;
 
 struct ImageSpaceTexture;
 struct ImageSpaceEffectParam
@@ -47,7 +46,7 @@ public:
 struct Arg2Inner
 {
     char pad[0xa8];
-    int field_a8;
+    void* field_a8;
 };
 
 struct Arg2

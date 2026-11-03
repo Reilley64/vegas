@@ -1,3 +1,5 @@
+#include <cstdint>
+#include <cstddef>
 // bsshader/distantlodshader.cpp: DistantLODShader, BSShaderStandin, RSShader, LodCompiler (13 functions)
 
 #include <windows.h>
@@ -151,14 +153,17 @@ void* __cdecl FUN_00bd5460()
 
 struct FUN_00bd5470_shell
 {
+    char pad00[0x74];
+    int m_i74;
+    char m_c78;
     void FUN_00bd5470(int a, char b);
 };
 
 // @fnv 0x00bd5470
 void FUN_00bd5470_shell::FUN_00bd5470(int a, char b)
 {
-    *reinterpret_cast<int*>(this + 0x74) = a;
-    *reinterpret_cast<char*>(this + 0x78) = b;
+    m_i74 = a;
+    m_c78 = b;
 }
 
 struct S_00bd58f0
@@ -240,11 +245,11 @@ struct ShaderVTable
     {}
     virtual void f34()
     {}
-    virtual void f35(unsigned int, unsigned int, unsigned int, unsigned int, unsigned int)
+    virtual void f35(std::uintptr_t, unsigned int, unsigned int, unsigned int, unsigned int)
     {}
     virtual void f36()
     {}
-    virtual void f37(unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int,
+    virtual void f37(std::uintptr_t, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int,
                      unsigned int)
     {}
     virtual void f38()
@@ -358,10 +363,10 @@ FUN_00bd5670* FUN_00bd5920()
 
     FUN_00bd5670* result = 0;
 
-    declaration->f35((unsigned int)result, (unsigned int)result, (unsigned int)result, 2, (unsigned int)result);
-    declaration->f35(1, 5, 4, 3, (unsigned int)result);
-    declaration->f35(2, 7, 5, 1, (unsigned int)result);
-    declaration->f37((unsigned int)result, 3, 6, 0x80000000, (unsigned int)result, 5, 1, (unsigned int)result);
+    declaration->f35(0, 0, 0, 2, 0);
+    declaration->f35(1, 5, 4, 3, 0);
+    declaration->f35(2, 7, 5, 1, 0);
+    declaration->f37(0, 3, 6, 0x80000000, 0, 5, 1, 0);
     declaration->f45();
 
     result = new FUN_00bd5670(declaration);
@@ -384,6 +389,8 @@ public:
 
 struct FUN_00bd5a40_shell
 {
+    char pad00[0x6c];
+    NiD3DPass* m_pRenderPass;
     bool FUN_00bd5a40();
 };
 
@@ -762,7 +769,7 @@ struct RSShader
 // @fnv 0x00bd5a40
 bool FUN_00bd5a40_shell::FUN_00bd5a40()
 {
-    ::NiD3DPass::CreateD3DPass((::NiPointer< ::NiD3DPass> &)(*(NiD3DPass**)((char*)this + 0x6c)));
+    ::NiD3DPass::CreateD3DPass((::NiPointer< ::NiD3DPass> &)(m_pRenderPass));
     reinterpret_cast<::RSShader *>(this)->SetupRenderPass();
     return true;
 }
@@ -800,11 +807,11 @@ struct ShaderRecord
 {
     const char* name;
     const char* shader;
-    unsigned int field08;
-    unsigned int field0c;
-    unsigned int field10;
-    unsigned int field14;
-    unsigned char body[0x34];
+    const char* field08;
+    const char* field0c;
+    const char* field10;
+    const char* field14;
+    const char* body[13];
 };
 struct LodCompiler
 {
@@ -851,35 +858,35 @@ void LodCompiler::CompileDistanceLodShaders()
     ShaderRecord pix[2], vert[4];
     vert[0].name = str_010bc23c;
     vert[0].shader = 0;
-    memset(&vert[0].field08, 0, 0x44);
+    memset(&vert[0].field08, 0, 17 * sizeof(const char*));
     vert[1].name = str_010bc23c;
     vert[1].shader = str_010b8ba0;
     vert[1].field08 = 0;
     vert[1].field0c = 0;
-    memset(&vert[1].field10, 0, 0x3c);
+    memset(&vert[1].field10, 0, 15 * sizeof(const char*));
     vert[2].name = str_010bc23c;
     vert[2].shader = str_010b8bc4;
     vert[2].field08 = 0;
     vert[2].field0c = 0;
-    memset(&vert[2].field10, 0, 0x3c);
+    memset(&vert[2].field10, 0, 15 * sizeof(const char*));
     vert[3].name = str_010bc23c;
     vert[3].shader = str_010b8bc4;
     vert[3].field08 = 0;
-    vert[3].field0c = (unsigned int)str_010b8ba0;
+    vert[3].field0c = str_010b8ba0;
     vert[3].field10 = 0;
     vert[3].field14 = 0;
-    memset(&vert[3].body[0], 0, 0x34);
+    memset(&vert[3].body[0], 0, 13 * sizeof(const char*));
     pix[0].name = str_010b8b7c;
     pix[0].shader = 0;
     pix[0].field08 = 0;
-    memset(&pix[0].field0c, 0, 0x40);
+    memset(&pix[0].field0c, 0, 16 * sizeof(const char*));
     pix[1].name = str_010b8b7c;
     pix[1].shader = str_010b8b74;
     pix[1].field08 = 0;
     pix[1].field0c = 0;
     pix[1].field10 = 0;
-    memset(&pix[1].field14, 0, 0x38);
-    unsigned int uiShaderProfile = ((unsigned int)(::NiD3DGPUProgramCache::GetPixelShaderProfile(1)));
+    memset(&pix[1].field14, 0, 14 * sizeof(const char*));
+    const char* uiShaderProfile = ::NiD3DGPUProgramCache::GetPixelShaderProfile(1);
     char scratch[260], name[260];
     if ((*reinterpret_cast<unsigned int *>(&::DAT_011f91c0)) == 1)
     {
@@ -887,7 +894,7 @@ void LodCompiler::CompileDistanceLodShaders()
         {
             ::FUN_00be0c00(vert[i].name, (char *)(scratch));
             ::FUN_00406d00(name, 260, "DISTLOD1%03i.vso", i);
-            vertex[i] = ((::NiRefObject *)(::fnv_00be0fe0::FUN_00be0fe0((const char *)this, (::_D3DXMACRO *)(scratch), (const char *)(void *)(&vert[i].shader), "vs_1_1")));
+            vertex[i] = ((::NiRefObject *)(::fnv_00be0fe0::FUN_00be0fe0(scratch, (::_D3DXMACRO *)(&vert[i].shader), "vs_1_1", name)));
         }
         ::FUN_00be0c00(pix[0].name, (char *)(scratch));
         ::FUN_00406d00(name, 260, "DISTLOD1%03i.pso", 0);
@@ -899,7 +906,7 @@ void LodCompiler::CompileDistanceLodShaders()
         {
             ::FUN_00be0c00(vert[i].name, (char *)(scratch));
             ::FUN_00406d00(name, 260, "DISTLOD2%03i.vso", i);
-            vertex[i] = ((::NiRefObject *)(::fnv_00be0fe0::FUN_00be0fe0((const char *)this, (::_D3DXMACRO *)(scratch), (const char *)(void *)(&vert[i].shader), "vs_2_0")));
+            vertex[i] = ((::NiRefObject *)(::fnv_00be0fe0::FUN_00be0fe0(scratch, (::_D3DXMACRO *)(&vert[i].shader), "vs_2_0", name)));
         }
         ::FUN_00be0c00(pix[1].name, (char *)(scratch));
         ::FUN_00406d00(name, 260, "DISTLOD2%03i.pso", 1);

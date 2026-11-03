@@ -1,6 +1,7 @@
 // bsshader/imagespacemanager_decls.h: declares NiUpdateData, ImageSpaceManagerNameString, NiAVObject, NiScreenElements, ImageSpaceManagerScreenGeometry
 #ifndef FNV_IMAGESPACEMANAGER_DECLS_H
 #define FNV_IMAGESPACEMANAGER_DECLS_H
+#include <cstddef>
 
 #include <windows.h>
 #include "NiFixedString.h"

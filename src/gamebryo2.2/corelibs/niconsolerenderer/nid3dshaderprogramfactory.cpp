@@ -569,7 +569,7 @@ void NiD3DShaderProgramFactory_Shell::RemoveDirectoryEntry(const char* pcDirecto
         BSBatchRenderer__GeometryGroup* pcSearchDir = m_directories.GetNext(kPos);
         if (pcSearchDir && ::NiStricmp((const char*)pcSearchDir, acPath) == 0)
         {
-            reinterpret_cast<::AlphaList *>(&(m_directories))->FUN_00e7db70((unsigned int *)&(pcSearchDir));
+            reinterpret_cast<::AlphaList *>(&(m_directories))->FUN_00e7db70((void *const *)&(pcSearchDir));
             break;
         }
     }

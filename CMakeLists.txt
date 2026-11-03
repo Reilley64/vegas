@@ -17,6 +17,7 @@ add_library(game STATIC
 )
 target_include_directories(game PUBLIC src)
 include(src/generated/data/sources.cmake)
+include(src/bs_speedtree_sources.cmake)
 include(src/gamebryo2.2/sources.cmake)
 include(src/havok/physics/sources.cmake)
 include(src/havok/common/sources.cmake)

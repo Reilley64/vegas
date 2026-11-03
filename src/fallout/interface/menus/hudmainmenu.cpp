@@ -1,5 +1,6 @@
 // fallout/interface/menus/hudmainmenu.cpp: HUDMainMenu, HUDMainMenuS, Interface, TESSound and more (82 functions)
 
+#include <cstdint>
 #include <windows.h>
 #include <new>
 #include <cstdio>
@@ -3950,7 +3951,7 @@ CamObj* CamBuilder::FUN_0077ee50()
     reinterpret_cast<::CamLook *>((pCamera))->SetLookAt((const ::CamPoint &)((const ::CamPoint3 &)(CamPoint3(0.0f, 0.0f, 1.0f))), (const ::CamPoint &)((const ::CamPoint3 &)(CamPoint3(0.0f, 0.0f, 1.0f))));
     reinterpret_cast<::FUN_00733fd0_shell *>((pCamera))->FUN_00733fd0(1.0f);
     CamUpdateData updateData3(0.0f, false, false);
-    reinterpret_cast<::FUN_00a59c60_cls *>((pCamera))->FUN_00a59c60((int)&(updateData3));
+    reinterpret_cast<::FUN_00a59c60_cls *>((pCamera))->FUN_00a59c60((std::intptr_t)&(updateData3));
     return pCamera;
 }
 
@@ -4059,7 +4060,7 @@ void FUN_0077f2f0(FUN_0077f2f0_obj* pObject)
                     vt->v55(((int)(reinterpret_cast<::fnv_00447080::FUN_00447080_shell *>((((FUN_0077f2f0_mgr*)(*reinterpret_cast<void * *>(&::g_modelLoader)))))->FUN_00447080({}, {}, {}, {}, {}, {}))), pObject->v5(), 0, 1, 0, 0, 0, 1);
                     reinterpret_cast<::TaskQueueInterface *>((((::FUN_0077f2f0_vt55 *)(::FUN_00559450((int *)(((FUN_0077f2f0_mgr*)&DAT_011d9770)))))))->QueueActorDisarm(1);
                     new ((void *)&(loc)) ::NiUpdateData(0.0f, 0, 0);
-                    reinterpret_cast<::FUN_00a59c60_cls *>((((::FUN_0077f2f0_vt55 *)(::FUN_00559450((int *)(((FUN_0077f2f0_mgr*)&DAT_011d9770)))))))->FUN_00a59c60((int)(&loc));
+                    reinterpret_cast<::FUN_00a59c60_cls *>((((::FUN_0077f2f0_vt55 *)(::FUN_00559450((int *)(((FUN_0077f2f0_mgr*)&DAT_011d9770)))))))->FUN_00a59c60((std::intptr_t)(&loc));
                 }
             }
         }
@@ -7135,7 +7136,7 @@ void BreathHUD::FUN_0077e4f0()
     {
         BreathUpdate update(0.0f, true, false);
         reinterpret_cast<::fnv_00a328b0::SeqExt *>((sequence))->FUN_00a328b0(reinterpret_cast<::FUN_00508100_shell *>((sequence))->FUN_00508100() + fraction * (reinterpret_cast<::FUN_00759450_shell *>((sequence))->FUN_00759450() - reinterpret_cast<::FUN_00508100_shell *>((sequence))->FUN_00508100()), false);
-        reinterpret_cast<::FUN_00a59c60_cls *>((((::BreathObject *)(reinterpret_cast<::NiNode *>((((::BreathNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((tile))->FUN_0056c7f0()))))->GetAt(0)))))->FUN_00a59c60((int)&(update));
+        reinterpret_cast<::FUN_00a59c60_cls *>((((::BreathObject *)(reinterpret_cast<::NiNode *>((((::BreathNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((tile))->FUN_0056c7f0()))))->GetAt(0)))))->FUN_00a59c60((std::intptr_t)&(update));
     }
 }
 
@@ -7228,7 +7229,7 @@ void CompassHUD::UpdateCompassMarkers()
                 reinterpret_cast<::NiAVObject *>((((::fnv_0077e750::CompassNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((h))->FUN_0056c7f0()))))->SetLocalRotation(angle5 - angle2, 0.0f, 1.0f, 0.0f);
                 CompassUpdate updated5;
                 new ((void *)&(updated5)) ::NiUpdateData(0.0f, true, false);
-                reinterpret_cast<::FUN_00a59c60_cls *>((((::fnv_0077e750::CompassNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((h))->FUN_0056c7f0()))))->FUN_00a59c60((int)&(updated5));
+                reinterpret_cast<::FUN_00a59c60_cls *>((((::fnv_0077e750::CompassNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((h))->FUN_0056c7f0()))))->FUN_00a59c60((std::intptr_t)&(updated5));
             }
         }
     }

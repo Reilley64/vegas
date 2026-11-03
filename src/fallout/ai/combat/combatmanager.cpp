@@ -1,5 +1,6 @@
 // fallout/ai/combat/combatmanager.cpp: CombatFlagHolder, CombatBox, CombatManager, CombatNodeArray and more (37 functions)
 
+#include <cstdint>
 #include <cstring>
 #include "fnv/decl/Actor8A7.h"
 #include "fnv/decl/ActorMergeData.h"
@@ -744,7 +745,7 @@ void FUN_00991770_shell::UpdateDetectionVisuals()
             static_cast<unsigned int>(*reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 0x38)))))->FUN_00a5a040();
         NiUpdateData UpdateData(0.0f, false, false);
         reinterpret_cast<::FUN_00a59c60_cls *>((reinterpret_cast<NiNode*>(
-            static_cast<unsigned int>(*reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 0x38)))))->FUN_00a59c60((int)&(UpdateData));
+            static_cast<unsigned int>(*reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 0x38)))))->FUN_00a59c60((std::intptr_t)&(UpdateData));
     }
 }
 }  // namespace fnv_00991770

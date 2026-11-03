@@ -20262,7 +20262,7 @@ void __cdecl RestoreNodeTransforms(NiNode* root, SavedNodeArray* saved, int flag
         saved->data[i].object->m_kLocalTransform.m_kOrientation = saved->data[i].rotation;
     }
     NiUpdateData update;
-    reinterpret_cast<::FUN_00a59c60_cls *>((root))->FUN_00a59c60((int)&(update));
+    reinterpret_cast<::FUN_00a59c60_cls *>((root))->FUN_00a59c60((std::intptr_t)&(update));
     if (mode != 4 && mode != 0)
         ::FUN_00c6a350((::NiAVObject *)(root), mode, true, false, true);
     if ((unsigned char)flags)
@@ -27543,7 +27543,7 @@ void bhkCollisionProxy::FUN_00c6bd60(bool bEnable)
                 fScale->m_kLocalTransform.m_fScale = fabsf(1.0f / s);
                 a->AttachChildInAvailableSlot(fScale, true);
                 NiUpdateData sub;
-                reinterpret_cast<::FUN_00a59c60_cls *>((fScale))->FUN_00a59c60((int)&(sub));
+                reinterpret_cast<::FUN_00a59c60_cls *>((fScale))->FUN_00a59c60((std::intptr_t)&(sub));
             }
 
             NiPointer<NiAVObjV> pNode = world->vfunc_cc(fScale);
@@ -27553,7 +27553,7 @@ void bhkCollisionProxy::FUN_00c6bd60(bool bEnable)
                 {
                     reinterpret_cast<::FUN_00a5a040_Class *>(((pNode).operator->()))->FUN_00a5a040();
                     NiUpdateData sub;
-                    reinterpret_cast<::FUN_00a59c60_cls *>(((pNode).operator->()))->FUN_00a59c60((int)&(sub));
+                    reinterpret_cast<::FUN_00a59c60_cls *>(((pNode).operator->()))->FUN_00a59c60((std::intptr_t)&(sub));
                 }
             }
             else

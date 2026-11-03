@@ -1,3 +1,5 @@
+#include <cstdint>
+#include <cstddef>
 // bscore/memorypool.cpp: MemoryPool (13 functions)
 
 #include <cstring>
@@ -129,7 +131,7 @@ void FUN_00aa6c70_shell::FUN_00aa6c70(void* apPointer)
         return;
     reinterpret_cast<::FUN_0040fbf0_shell *>(&(m_kCriticalSection))->FUN_0040fbf0((char *)("MemoryPool::Free"));
     PushFreeBlock(apPointer);
-    ipageIndex = ((unsigned int)apPointer - (unsigned int)m_pPoolBase) >> 12;
+    ipageIndex = (unsigned int)(((char*)apPointer - (char*)m_pPoolBase) >> 12);
     m_pPageBlockCounts[ipageIndex]--;
     {
         RecursiveSpinLock* pl = &m_kCriticalSection;
@@ -425,7 +427,7 @@ void FUN_00aa6a10_shell::ClearPoolSlots()
     ::DAT_011f67b8[base] = 0;
 
     count = f50 >> 24;
-    if (f50 % (unsigned int)&DAT_01000000)
+    if (f50 % 0x01000000u)
         count++;
 
     unsigned int index = f4 >> 24;

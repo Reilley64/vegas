@@ -183,7 +183,7 @@ class NiShader : public NiRefObject
     virtual bhkRigidBody* IsBhkRigidBody();
     virtual bhkLimitedHingeConstraint* IsBhkLimitedHingeConstraint();
     virtual bool IsFormInitialized();
-    virtual void Initialize();
+    virtual bool Initialize();
     virtual bool SetupGeometry(NiGeometry* apGeometry);
     virtual UInt32 GetGeometryRenderCount(NiGeometry* apGeometry, const NiSkinInstance* apSkin,
                                           NiGeometryBufferData* apRendererData, const NiPropertyState* apState,

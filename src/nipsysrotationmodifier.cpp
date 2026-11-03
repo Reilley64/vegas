@@ -1,5 +1,6 @@
 // nipsysrotationmodifier.cpp: NiPSysRotationModifier, NiPSysMeshUpdateModifier, FnvRotMod (12 functions)
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/FUN_0045dfc0_shell.h"
 #include "fnv/decl/FUN_00c319e0_cls.h"
@@ -65,7 +66,7 @@ struct FUN_00c20a00_shell : public NiPSysRotationModifier
 // @fnv 0x00c20a00
 void FUN_00c20a00_shell::FUN_00c20a00(NiStream* kStream)
 {
-    ::FUN_00a89af0((int)this);
+    ::FUN_00a89af0((std::intptr_t)this);
     if (kStream->m_uiNifVersion < 0x14000002)
     {
         float* pfRotationSpeeds;

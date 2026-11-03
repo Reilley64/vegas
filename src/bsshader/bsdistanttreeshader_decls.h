@@ -1,5 +1,6 @@
 #ifndef BSDISTANTTREESHADER_DECLS_H
 #define BSDISTANTTREESHADER_DECLS_H
+#include <cstddef>
 
 
 #include "fnv/decl/E7DEF0TextureStage.h"

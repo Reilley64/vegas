@@ -1,3 +1,4 @@
+#include <cstddef>
 // bsshader/imagespaceeffectnoise_decls.h: declares MemoryManager, ImageSpaceShaderParam, ImageSpaceManager, Effects
 
 #include "fnv/decl/FNV_MemoryManager.h"
@@ -39,6 +40,7 @@ class ImageSpaceEffect
     char prefix[24];
     NiTArray<ImageSpaceEffectParam*, NiTMallocInterface<ImageSpaceEffectParam*> > params;
     NiTArray<ImageSpaceTexture*, NiTMallocInterface<ImageSpaceTexture*> > textures;
+    NiTArray<ImageSpaceEffectParam*, NiTMallocInterface<ImageSpaceEffectParam*> > inputs;
 public:
     void SetTextureArraySize(int);
 };

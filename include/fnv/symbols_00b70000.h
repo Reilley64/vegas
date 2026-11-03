@@ -23,7 +23,7 @@ void FUN_00b70290(::Dummy_00b70290 *, int, int);
 // 0x00b702e0
 void MoveNodeBefore(::List_00b702e0 *, int, ::Node_00b702e0 *, ::Node_00b702e0 *);
 // 0x00b70340
-bool FindNodeByItemValue(::Obj_00b70340 *, int, int, int, ::Node_00b70340 **);
+bool FindNodeByItemValue(::Obj_00b70340 *, int, void *, int, ::Node_00b70340 **);
 // 0x00b70600
 ::FUN_00b70600_obj *FUN_00b70600(::FUN_00b70600_list *, int, ::FUN_00b70600_node **);
 // 0x00b70680

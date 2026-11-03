@@ -1,5 +1,6 @@
 // bsshader/debugshader.cpp: BloodSplatterBeamShader, SpeedTreeFrondShaderX, DebugShaderLoader, DebugShaderInit and more (15 functions)
 
+#include <cstdint>
 #include <windows.h>
 #include <cstring>
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -101,6 +102,9 @@ void FUN_00bd3f80_shell::FUN_00bd3f80()
 
 struct FUN_00bd2b40_class
 {
+    void* m_pVtable;
+    char pad04[0x84 - 4];
+    void* m_p84;
     void CallVirtualWithMember();
 };
 
@@ -108,7 +112,7 @@ struct FUN_00bd2b40_class
 void FUN_00bd2b40_class::CallVirtualWithMember()
 {
     void** vtbl = *(void***)this;
-    void* arg = *(void**)((char*)this + 0x84);
+    void* arg = m_p84;
     typedef void(* Fn)(void*, void*);
     ((Fn)vtbl[0x128 / 4])(this, arg);
 }
@@ -356,19 +360,19 @@ void SpeedTreeFrondShaderX::CreateShaders()
     kVertexShaders[0].pFile = "speedtree\\frond.v.hlsl";
     kVertexShaders[0].kMacros[0].Name = 0;
     kVertexShaders[0].kMacros[0].Definition = 0;
-    std::memset(&kVertexShaders[0].kMacros[1], 0, 0x40);
+    std::memset(&kVertexShaders[0].kMacros[1], 0, 16 * sizeof(const char*));
     kVertexShaders[1].pFile = "speedtree\\frond.v.hlsl";
     kVertexShaders[1].kMacros[0].Name = "FOG";
     kVertexShaders[1].kMacros[0].Definition = "";
     kVertexShaders[1].kMacros[1].Name = 0;
     kVertexShaders[1].kMacros[1].Definition = 0;
-    std::memset(&kVertexShaders[1].kMacros[2], 0, 0x38);
+    std::memset(&kVertexShaders[1].kMacros[2], 0, 14 * sizeof(const char*));
     kVertexShaders[2].pFile = "speedtree\\frond.v.hlsl";
     kVertexShaders[2].kMacros[0].Name = "PT";
     kVertexShaders[2].kMacros[0].Definition = "";
     kVertexShaders[2].kMacros[1].Name = 0;
     kVertexShaders[2].kMacros[1].Definition = 0;
-    std::memset(&kVertexShaders[2].kMacros[2], 0, 0x38);
+    std::memset(&kVertexShaders[2].kMacros[2], 0, 14 * sizeof(const char*));
     kVertexShaders[3].pFile = "speedtree\\frond.v.hlsl";
     kVertexShaders[3].kMacros[0].Name = "PT";
     kVertexShaders[3].kMacros[0].Definition = "";
@@ -376,17 +380,17 @@ void SpeedTreeFrondShaderX::CreateShaders()
     kVertexShaders[3].kMacros[1].Definition = "";
     kVertexShaders[3].kMacros[2].Name = 0;
     kVertexShaders[3].kMacros[2].Definition = 0;
-    std::memset(&kVertexShaders[3].kMacros[3], 0, 0x30);
+    std::memset(&kVertexShaders[3].kMacros[3], 0, 12 * sizeof(const char*));
     kPixelShaders[0].pFile = "speedtree\\frond.p.hlsl";
     kPixelShaders[0].kMacros[0].Name = 0;
     kPixelShaders[0].kMacros[0].Definition = 0;
-    std::memset(&kPixelShaders[0].kMacros[1], 0, 0x40);
+    std::memset(&kPixelShaders[0].kMacros[1], 0, 16 * sizeof(const char*));
     kPixelShaders[1].pFile = "speedtree\\frond.p.hlsl";
     kPixelShaders[1].kMacros[0].Name = "FOG";
     kPixelShaders[1].kMacros[0].Definition = "";
     kPixelShaders[1].kMacros[1].Name = 0;
     kPixelShaders[1].kMacros[1].Definition = 0;
-    std::memset(&kPixelShaders[1].kMacros[2], 0, 0x38);
+    std::memset(&kPixelShaders[1].kMacros[2], 0, 14 * sizeof(const char*));
     char acPath[260];
     char acName[260];
 
@@ -396,7 +400,7 @@ void SpeedTreeFrondShaderX::CreateShaders()
         {
             FUN_00be0c00(kVertexShaders[i].pFile, acPath);
             ::FUN_00406d00(acName, 0x104, "STFROND%03i.vso", i);
-            m_pFrondVertexShaderVariants[i] = ((::NiD3DVertexShader *)(::fnv_00be0fe0::FUN_00be0fe0((const char *)this, (::_D3DXMACRO *)(acPath), (const char *)(kVertexShaders[i].kMacros), "vs_1_1")));
+            m_pFrondVertexShaderVariants[i] = ((::NiD3DVertexShader *)(::fnv_00be0fe0::FUN_00be0fe0(acPath, (::_D3DXMACRO *)(kVertexShaders[i].kMacros), "vs_1_1", acName)));
         }
         else
         {
@@ -468,16 +472,16 @@ void DebugShaderLoader::LoadDebugShaders()
     vertexDesc.pFile = "imagespace\\1x\\v\\base_old.v.hlsl";
     vertexDesc.kMacros[0].Name = 0;
     vertexDesc.kMacros[0].Definition = 0;
-    std::memset(&vertexDesc.kMacros[1], 0, 64);
+    std::memset(&vertexDesc.kMacros[1], 0, 16 * sizeof(const char*));
     FUN_00be0c00(vertexDesc.pFile, path);
     ::FUN_00406d00(name, 260, "DEBUG.vso");
-    m_spTreeVertexShader = ((::NiD3DVertexShader *)(::fnv_00be0fe0::FUN_00be0fe0((const char *)this, (::_D3DXMACRO *)(path), (const char *)(vertexDesc.kMacros), "vs_1_1")));
+    m_spTreeVertexShader = ((::NiD3DVertexShader *)(::fnv_00be0fe0::FUN_00be0fe0(path, (::_D3DXMACRO *)(vertexDesc.kMacros), "vs_1_1", name)));
 
     ShaderDescX pixelDesc;
     pixelDesc.pFile = "imagespace\\1x\\p\\copy.p.hlsl";
     pixelDesc.kMacros[0].Name = 0;
     pixelDesc.kMacros[0].Definition = 0;
-    std::memset(&pixelDesc.kMacros[1], 0, 64);
+    std::memset(&pixelDesc.kMacros[1], 0, 16 * sizeof(const char*));
     FUN_00be0c00(pixelDesc.pFile, path);
     ::FUN_00406d00(name, 260, "DEBUG00.pso");
     m_spPixelShaderVariants[0] = reinterpret_cast<::FUN_00be1750_shell *>(this)->FUN_00be1750(path, pixelDesc.kMacros, (char *)(profile), name);
@@ -487,7 +491,7 @@ void DebugShaderLoader::LoadDebugShaders()
     maskedPixelDesc.kMacros[0].Name = "CHANNELMASK";
     maskedPixelDesc.kMacros[0].Definition = "";
     maskedPixelDesc.kMacros[1].Name = 0;
-    std::memset(&maskedPixelDesc.kMacros[1].Definition, 0, 60);
+    std::memset(&maskedPixelDesc.kMacros[1].Definition, 0, 15 * sizeof(const char*));
     FUN_00be0c00(maskedPixelDesc.pFile, path);
     ::FUN_00406d00(name, 260, "DEBUG01.pso");
     m_spPixelShaderVariants[1] = reinterpret_cast<::FUN_00be1750_shell *>(this)->FUN_00be1750(path, maskedPixelDesc.kMacros, (char *)(profile), name);
@@ -588,9 +592,9 @@ struct ScreenQuad : NiScreenElements
     {
         return data;
     }
-    bool Insert(int a, int b, int c)
+    bool Insert(int a, int b, const unsigned short* c)
     {
-        return ((bool)(reinterpret_cast<::NiScreenElementsDataShell *>((GetData()))->FUN_00a87ae0(a, b, (const unsigned short *)(c))));
+        return ((bool)(reinterpret_cast<::NiScreenElementsDataShell *>((GetData()))->FUN_00a87ae0(a, b, c)));
     }
     bool Rectangle(int a, float b, float c, float d, float e)
     {
@@ -646,7 +650,7 @@ bool DebugShaderInit::InitDebugShader()
     static_cast<ScreenQuad*>(m_pMenuBackgroundScreenGeometry.m_pObject)->Texture(0, 0, 0.0f, 0.0f, 1.0f, 1.0f);
     static_cast<ScreenQuad*>(m_pMenuBackgroundScreenGeometry.m_pObject)->Finish();
     reinterpret_cast<::FUN_00a5a040_Class *>((static_cast<ScreenQuad*>(m_pMenuBackgroundScreenGeometry.m_pObject)))->FUN_00a5a040();
-    reinterpret_cast<::FUN_00a59c60_cls *>((GetScreenQuad()))->FUN_00a59c60((int)&(update));
+    reinterpret_cast<::FUN_00a59c60_cls *>((GetScreenQuad()))->FUN_00a59c60((std::intptr_t)&(update));
     if (!m_spFirstShaderConstantMap.m_pObject)
     {
         m_spFirstShaderConstantMap = new PixelConstantMap(m_pShaderObject, 2);
@@ -1048,7 +1052,7 @@ void RenderOwner::DrawSlots(void* destination)
     float ratioClamped = Larger(1.0f, ratio);
     float horizontal = ratio / ratioClamped;
     float vertical = 1.0f / Second(1.0f, ratio);
-    RenderRectangle viewportRect = {::DAT_010181bc, horizontal, vertical - 0.0500000007450580596923828125, 0.0f};
+    RenderRectangle viewportRect = {::DAT_010181bc, horizontal, static_cast<float>(vertical - 0.0500000007450580596923828125), 0.0f};
 
     FNV_STUB_NiPointer<RenderContext> context;
     context = this->context;
@@ -1078,7 +1082,7 @@ void RenderOwner::DrawSlots(void* destination)
             {
                 (*reinterpret_cast<::DisplayDevice * *>(&::NiRenderer::ms_pRenderer))->PrepareFrame(&viewportRect);
             }
-            reinterpret_cast<::FUN_00a87790_cls *>((context.m_pObject))->FUN_00a87790((int)((*reinterpret_cast<::DisplayDevice * *>(&::NiRenderer::ms_pRenderer))));
+            reinterpret_cast<::FUN_00a87790_cls *>((context.m_pObject))->FUN_00a87790((std::intptr_t)((*reinterpret_cast<::DisplayDevice * *>(&::NiRenderer::ms_pRenderer))));
             slots[GetIndex()] = 0;
             context.m_pObject->SetOwner(0);
         }

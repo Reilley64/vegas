@@ -227,7 +227,9 @@ struct S_00cfaed0_This
 {
     int unk00;
     S_00cfaed0_P3* p3;
-    int p4, p8, p9;
+    const void* p4;
+    void* p8;
+    void* p9;
     S_00cfaed0_P2* p2;
     int unk18, unk1c;
     int u20, u24, u28, u2c, u30, u34;
@@ -239,8 +241,8 @@ struct S_00cfaed0_This
     float f80;
     float f84;
     int p6;
-    void FUN_00cfaed0(S_00cfaed0_Iface* p1, S_00cfaed0_P2* a2, S_00cfaed0_P3* a3, int a4, S_00cfaed0_P5* a5, int a6,
-                      int a7, int a8, int a9);
+    void FUN_00cfaed0(S_00cfaed0_Iface* p1, S_00cfaed0_P2* a2, S_00cfaed0_P3* a3, const void* a4, S_00cfaed0_P5* a5, int a6,
+                      int a7, void* a8, void* a9);
 };
 
 struct S_00cfaed0_Real
@@ -277,11 +279,11 @@ struct S_00cfaed0_Vec
     }
 };
 // @fnv 0x00cfaed0
-void S_00cfaed0_This::FUN_00cfaed0(S_00cfaed0_Iface* p1, S_00cfaed0_P2* a2, S_00cfaed0_P3* a3, int a4,
-                                   S_00cfaed0_P5* a5, int a6, int a7, int a8, int a9)
+void S_00cfaed0_This::FUN_00cfaed0(S_00cfaed0_Iface* p1, S_00cfaed0_P2* a2, S_00cfaed0_P3* a3, const void* a4,
+                                   S_00cfaed0_P5* a5, int a6, int a7, void* a8, void* a9)
 {
-    *(volatile int*)&p8 = a8;
-    p9 = *(volatile int*)&a9;
+    *(void* volatile*)&p8 = a8;
+    p9 = *(void* volatile*)&a9;
     p2 = a2;
     p4 = a4;
     p3 = a3;

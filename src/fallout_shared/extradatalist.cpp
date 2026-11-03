@@ -463,7 +463,7 @@ void* FUN_0040f740(int* pThis)
 
 __declspec(thread) int tls_pad0;
 __declspec(thread) void* tls_lastList;
-__declspec(thread) int tls_clearCount;
+thread_local int tls_clearCount;
 __declspec(thread) void* tls_lastExtras[0x93];
 
 // Increments DAT_011c38e4 and tls_clearCount, and if apList matches tls_lastList and aeType is a valid index, clears tls_lastExtras[aeType].
@@ -482,7 +482,7 @@ __declspec(thread) int tls_pad_0;
 __declspec(thread) int tls_pad_4;
 __declspec(thread) const BaseExtraList* tls_apList;
 __declspec(thread) int tls_counter;
-__declspec(thread) char tls_buffer[0x24c];
+thread_local char tls_buffer[0x24c];
 
 // Increments DAT_011c38e4 and tls_counter; if apList equals tls_apList, clears tls_buffer and resets tls_apList to null.
 // @fnv 0x0040f860
@@ -519,7 +519,7 @@ namespace fnv_anon_extradatalist {}
 using namespace fnv_anon_extradatalist;
 namespace fnv_anon_extradatalist {
 __declspec(thread) int pad_tls[2];
-__declspec(thread) BaseExtraList* tls_pList;
+thread_local BaseExtraList* tls_pList;
 __declspec(thread) int pad_tls2;
 __declspec(thread) BSExtraData* tls_pExtras[0x93];
 }

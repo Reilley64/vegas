@@ -104,7 +104,7 @@ public:
     __forceinline void upper(const Vec4& left,const Vec4& right) { data=_mm_max_ps(left.data,right.data); }
     __forceinline void blend(const Vec4& left,const Vec4& right,const ScalarLane& ratio) {
         __m128 amount=ratio.spread();
-        __m128 complement=_mm_sub_ps(_mm_load_ps(DAT_010ec7f0),amount);
+        __m128 complement=_mm_sub_ps(DAT_010ec7f0,amount);
         data=_mm_add_ps(_mm_mul_ps(complement,left.data),_mm_mul_ps(amount,right.data));
     }
     __forceinline void transform(const Mat4Like& matrix,const Vec4& input);
@@ -289,7 +289,7 @@ static __forceinline void CompressExpanded(const BoundsRecord& expanded, BoundsR
 
 static __forceinline void SweepOffset(const OffsetInput& input, const FloatBounds& aabb, FloatBounds& swept) {
 
-    ScalarLane fraction(DAT_01016248);
+    ScalarLane fraction(::fnv_00c88020::DAT_01016248);
     Vec4 halfSize; halfSize.difference(aabb.maximum,aabb.minimum); halfSize.multiply(fraction);
     Vec4 middle; middle.blend(aabb.maximum,aabb.minimum,fraction);
     Vec4 localArm; localArm.transform(input.inverseEnd,middle);
@@ -367,10 +367,10 @@ extern "C" void FUN_00d1a330(const CollisionContext* context,EntityNode*const* o
         if(allocated) {
             const ShapeParts* parts=geometry->GetShapeContainer();
             int n=parts->GetNumChildShapes();
-            int* stack=(int*)::FUN_00c85750();
+            char** stack=(char**)::FUN_00c85750();
             BoundsRecord* bounds=(BoundsRecord*)*stack;
             *stack+=((unsigned)n*32+127)&~127;
-            stack=(int*)::FUN_00c85750();
+            stack=(char**)::FUN_00c85750();
             unsigned int* keys=(unsigned int*)*stack;
             *stack+=(n*4+127)&~127;
             OffsetInput sweepInput;
@@ -409,7 +409,7 @@ extern "C" void FUN_00d1a330(const CollisionContext* context,EntityNode*const* o
             ConvertAabb(totalSweep,context->quantization.low,context->quantization.high,context->quantization.scale,expanded);
             CompressExpanded(expanded,*output);
             if (n) {
-                stack = (int*)::FUN_00c85750();
+                stack = (char**)::FUN_00c85750();
                 S_00d1b1d0_Item* pairs = (S_00d1b1d0_Item*)*stack;
                 *stack += (n * 8 + 127) & -128;
                 if (n > 1) {
@@ -436,10 +436,10 @@ extern "C" void FUN_00d1a330(const CollisionContext* context,EntityNode*const* o
                     valueCursor+=2;
                 } while(--remaining);
                 }
-                *(int*)::FUN_00c85750() = (int)pairs;
+                *(char**)::FUN_00c85750() = (char*)pairs;
             }
-            *(int*)::FUN_00c85750()=(int)keys;
-            *(int*)::FUN_00c85750()=(int)bounds;
+            *(char**)::FUN_00c85750()=(char*)keys;
+            *(char**)::FUN_00c85750()=(char*)bounds;
         } else {
             AabbHolder holder; FloatBounds& box=holder.box;
             geometry->getAabb(object->m_pMotionState.getTransform(),slack,reinterpret_cast<FloatBounds&>(box));

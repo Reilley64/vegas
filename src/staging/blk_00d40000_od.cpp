@@ -28,10 +28,10 @@ struct D51Allocator;
 
 struct D51MemHolder
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     D51Allocator* m_pThreadAllocator;
 };
 
@@ -127,10 +127,10 @@ struct hkMemoryAllocator;
 
 struct hkThreadMemory
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     hkMemoryAllocator* unk10;
     hkMemoryAllocator& heap()
     {
@@ -860,10 +860,10 @@ void FnvCpu_FUN_00d4f820_CpuObject::FUN_00d4f820(FnvCpu_FUN_00d4f820_CpuData0* i
 namespace fnv_00d51890 {
 struct HkRouterD51
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     void* m_pStreamAllocator;
 };
 
@@ -1027,7 +1027,7 @@ unsigned int GeometryBuilder::FUN_00d51d40(const __m128* vectors)
 namespace fnv_00d52000 {
 struct RouterD52
 {
-    int unk00, unk04, unk08, unk0c;
+    void *unk00, *unk04, *unk08, *unk0c;
     void* m_pStreamAllocator;
 };
 template <typename T> inline void D52ConstructWithCopy(T* p, int n, const T& t)
@@ -1099,10 +1099,10 @@ struct D529E0_Heap;
 
 struct D529E0_Router
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     D529E0_Heap* m_pStreamAllocator;
 };
 
@@ -1458,10 +1458,10 @@ void ConstraintBasis::FUN_00d4f3d0(const FloatMatrix3* a, const FloatMatrix3* b,
 
 struct StubHeapHolder
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     void* heap;
 };
 

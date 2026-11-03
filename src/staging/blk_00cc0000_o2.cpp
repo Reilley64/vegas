@@ -5555,10 +5555,10 @@ struct Allocator {
 };
 
 struct MemorySystem {
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
+    void* m_00;
+    void* m_04;
+    void* m_08;
+    void* m_0c;
     Allocator* allocator;
 
     void* Allocate(unsigned int bytes) {
@@ -7248,10 +7248,10 @@ struct SpawnedAllocator {
 };
 
 struct AllocHolder {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     SpawnedAllocator* m_pAllocator;
 };
 
@@ -7780,10 +7780,10 @@ struct AudioAllocator {
 };
 
 struct AudioHolder {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     AudioAllocator* m_pAllocator;
 };
 
@@ -12304,10 +12304,10 @@ struct SpawnedAllocator {
 };
 
 struct AllocHolder {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     SpawnedAllocator* m_pAllocator;
 };
 
@@ -12396,10 +12396,10 @@ struct AudioAllocator {
 };
 
 struct AudioHolder {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     AudioAllocator* m_pAllocator;
 };
 
@@ -12647,10 +12647,10 @@ struct hkMemAllocator {
 };
 
 struct hkThreadMem {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     hkMemAllocator* m_pAllocator;
 };
 
@@ -13971,10 +13971,10 @@ struct CCFAllocator {
 };
 
 struct CCFMemoryRouter {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     CCFAllocator* m_pStreamAllocator;
 
     CCFAllocator& heap() { return *m_pStreamAllocator; }
@@ -14558,15 +14558,15 @@ struct ChunkAllocator {
     virtual void freeChunk(void* p, int size);
 };
 struct MemHolder {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     ChunkAllocator* allocator;
     void* allocateChunk(int n) { return allocator->allocateChunk(n); }
     void freeChunk(void* p, int n) { allocator->freeChunk(p, n); }
 };
-MemHolder* GetMemHolder();
+inline MemHolder* GetMemHolder() { return static_cast<MemHolder*>(::FUN_00c85750()); }
 
 struct ShapeData {
     int data;
@@ -15046,10 +15046,10 @@ fail:
 struct hkMemoryAllocator;
 
 struct NineIntegerRecord {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     hkMemoryAllocator* m_pStreamAllocator;
 
     hkMemoryAllocator& heap() { return *m_pStreamAllocator; }
@@ -15248,10 +15248,10 @@ struct AudioAllocator {
 };
 
 struct AudioHolder {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     AudioAllocator* m_pAllocator;
 };
 
@@ -16363,16 +16363,16 @@ struct CC5AE0Allocator {
 };
 
 struct CC5AE0MemoryRouter {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     CC5AE0Allocator* m_pStreamAllocator;
 
     CC5AE0Allocator& heap() { return *m_pStreamAllocator; }
 };
 
-extern "C" CC5AE0MemoryRouter& __cdecl CC5AE0GetMemoryRouter();
+inline CC5AE0MemoryRouter& CC5AE0GetMemoryRouter() { return *static_cast<CC5AE0MemoryRouter*>(::FUN_00c85750()); }
 
 class CC5AE0Helper {
 public:
@@ -16722,16 +16722,16 @@ struct CC77E0Allocator {
 };
 
 struct CC77E0MemoryRouter {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     CC77E0Allocator* m_pStreamAllocator;
 
     CC77E0Allocator& heap() { return *m_pStreamAllocator; }
 };
 
-extern "C" CC77E0MemoryRouter& __cdecl hkMemoryRouterCC77();
+inline CC77E0MemoryRouter& hkMemoryRouterCC77() { return *static_cast<CC77E0MemoryRouter*>(::FUN_00c85750()); }
 
 
 struct CC77E0AllocTagScope {
@@ -16863,16 +16863,16 @@ public:
 
 class BCC7F30Router {
 public:
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     BCC7F30Allocator* m_pkHeap;
 
     BCC7F30Allocator& heap() { return *m_pkHeap; }
 };
 
-BCC7F30Router* BCC7F30GetRouter();
+inline BCC7F30Router* BCC7F30GetRouter() { return static_cast<BCC7F30Router*>(::FUN_00c85750()); }
 
 class BCC7F30ReferencedObject {
 public:
@@ -17178,16 +17178,16 @@ struct CC9890Allocator {
 };
 
 struct CC9890MemoryRouter {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     CC9890Allocator* m_pStreamAllocator;
 
     CC9890Allocator& heap() { return *m_pStreamAllocator; }
 };
 
-extern "C" CC9890MemoryRouter& __cdecl CC9890GetMemoryRouter();
+inline CC9890MemoryRouter& CC9890GetMemoryRouter() { return *static_cast<CC9890MemoryRouter*>(::FUN_00c85750()); }
 
 class CC9890Helper {
 public:
@@ -18181,16 +18181,16 @@ public:
 };
 
 struct MemoryCCD {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     AllocatorCCD* m_pHeapAllocator;
 
     AllocatorCCD& heap() { return *m_pHeapAllocator; }
 };
 
-MemoryCCD* __cdecl GetMemoryCCD();
+inline MemoryCCD* GetMemoryCCD() { return static_cast<MemoryCCD*>(::FUN_00c85750()); }
 
 
 struct AllocTagScopeCCD {
@@ -18350,14 +18350,14 @@ struct CE340Allocator {
     virtual void ReleaseBlock(void* p, int numBytes);
 };
 struct CE340Router {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     CE340Allocator* m_pStreamAllocator;
     CE340Allocator& heap() { return *m_pStreamAllocator; }
 };
-CE340Router* CE340GetRouter() throw();
+inline CE340Router* CE340GetRouter() { return static_cast<CE340Router*>(::FUN_00c85750()); }
 
 struct CE340Vec4 {
     float x, y, z, w;
@@ -20651,8 +20651,8 @@ struct MyLocalArray : public MyArray<T> {
         NineIntegerRecord* router = (NineIntegerRecord*)static_cast<S_00cc4b90_Router*>(::FUN_00c85750());
         int numBytes = capacity * sizeof(T);
         int aligned = (numBytes + 0x7f) & ~0x7f;
-        void* p = (void*)router->unk00;
-        router->unk00 = (int)((char*)p + aligned);
+        void* p = router->unk00;
+        router->unk00 = (char*)p + aligned;
         this->m_iCapacityState = capacity | MyArray<T>::DONT_DEALLOCATE_FLAG;
         this->m_data = (T*)p;
         this->m_initialStack = p;
@@ -20663,7 +20663,7 @@ struct MyLocalArray : public MyArray<T> {
         if (p == this->m_data) {
             this->m_iElementCount = 0;
         }
-        ((NineIntegerRecord*)static_cast<S_00cc4b90_Router*>(::FUN_00c85750()))->unk00 = (int)p;
+        ((NineIntegerRecord*)static_cast<S_00cc4b90_Router*>(::FUN_00c85750()))->unk00 = p;
     }
 };
 
@@ -20779,7 +20779,7 @@ static void __declspec(noinline) FUN_00cc0080(CC0280Stream* s, const char* str)
         s->Write("(null)", 6);
         return;
     }
-    s->Write(str, ::fnv_00cb10d0::FUN_00cb10d0((const char *)((int)str)));
+    s->Write(str, ::fnv_00cb10d0::FUN_00cb10d0(str));
 }
 
 struct CC0280Writer : hkOstream {
@@ -20808,7 +20808,7 @@ static __declspec(noinline) void FUN_00cc0080(WriterObj* obj, const char* str)
     if (!str)
         obj->Write("(null)", 6);
     else
-        obj->Write(str, ::fnv_00cb10d0::FUN_00cb10d0((const char *)((int)str)));
+        obj->Write(str, ::fnv_00cb10d0::FUN_00cb10d0(str));
 }
 
 struct FUN_00cc01e0_class {
@@ -22050,10 +22050,10 @@ struct hkMemoryAllocatorCC3 {
 };
 
 struct hkMemoryRouterCC3 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     hkMemoryAllocatorCC3* m_pStreamAllocator;
     hkMemoryAllocatorCC3& heap() { return *m_pStreamAllocator; }
 };
@@ -24622,10 +24622,10 @@ struct CD3AD0Allocator {
 };
 
 struct CD3AD0MemoryRouter {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     CD3AD0Allocator* m_pStreamAllocator;
 
     CD3AD0Allocator& heap() { return *m_pStreamAllocator; }

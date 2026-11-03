@@ -416,10 +416,10 @@ void FUN_00d532a0_cls::ApplyToAllEntries(int aiValue)
 
 struct AllocHolder
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     void* m_pAllocator;
 };
 
@@ -474,10 +474,10 @@ struct D42800Allocator
 
 struct D42800MemoryRouter
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     D42800Allocator* m_pStreamAllocator;
 
     D42800Allocator& heap()
@@ -673,10 +673,10 @@ struct Allocator
 // Global allocator holder: the allocator pointer sits at +0x10.
 struct Holder
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     Allocator* m_pAllocator;
 };
 
@@ -701,10 +701,10 @@ struct D442C0Allocator
 
 struct D442C0MemoryRouter
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     D442C0Allocator* m_pStreamAllocator;
 
     D442C0Allocator& heap()
@@ -1454,10 +1454,10 @@ struct FnvCpu_FUN_00d4de00_CpuAllocator
 };
 struct FnvCpu_FUN_00d4de00_CpuAllocatorHolder
 {
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     FnvCpu_FUN_00d4de00_CpuAllocator* allocator;
 };
 struct FnvCpu_FUN_00d4de00_CpuObject
@@ -1707,10 +1707,10 @@ class FUN_00d50140_alloc
 class FUN_00d50140_holder
 {
   public:
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     FUN_00d50140_alloc* m_10;
 };
 
@@ -1994,10 +1994,10 @@ struct FUN_00d51b30_arr
 
 struct FUN_00d51b30_holder
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     void* m_pAllocator;
 };
 
@@ -2058,10 +2058,10 @@ void FUN_00d51b30_cls::AppendTwoIntsAndAdvance(int aiValue)
 namespace fnv_00d51e50 {
 struct AudioHolder
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     void* m_pAllocator;
 };
 
@@ -2123,10 +2123,10 @@ struct S_00d51f90_Heap
 };
 struct S_00d51f90_Router
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     S_00d51f90_Heap* m_pStreamAllocator;
 };
 struct S_00d51f90_Arr
@@ -2189,10 +2189,10 @@ struct D52BA0Allocator;
 
 struct D52BA0MemoryRouter
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     D52BA0Allocator* m_pStreamAllocator;
 
     D52BA0Allocator& heap()
@@ -2264,10 +2264,10 @@ extern "C" void _ReadWriteBarrier(void);
 
 struct FUN_00d52be0_AudioHolder
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     void* m_pAllocator;
 };
 
@@ -2342,10 +2342,10 @@ void FUN_00d52be0_cls::FUN_00d52be0(int aiFirstValue, int aiSecondValue)
 namespace fnv_00d52ca0 {
 struct AllocHolder
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     void* m_pAllocator;
 };
 
@@ -2725,10 +2725,10 @@ struct FnvCpu_FUN_00d57120_CpuAllocator
 };
 struct FnvCpu_FUN_00d57120_CpuAllocatorHolder
 {
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     FnvCpu_FUN_00d57120_CpuAllocator* allocator;
 };
 struct FnvCpu_FUN_00d57120_CpuObject
@@ -3207,17 +3207,17 @@ struct D53970Alloc
 };
 struct D53970Router
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     D53970Alloc* m_pStreamAllocator;
     D53970Alloc& Heap()
     {
         return *m_pStreamAllocator;
     }
 };
-D53970Router& GetMemoryRouter();
+inline D53970Router& GetMemoryRouter() { return *static_cast<D53970Router*>(::FUN_00c85750()); }
 struct D53970HeapAlloc
 {
     D53970Alloc& Get()
@@ -3734,10 +3734,10 @@ class hkMemoryAllocatorD539;
 
 struct hkMemoryRouterD539
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     hkMemoryAllocatorD539* m_pStreamAllocator;
 
     hkMemoryAllocatorD539& heap()
@@ -4045,10 +4045,10 @@ class hkMemoryAllocatorD5E0
 
 struct hkMemoryRouterD5E0
 {
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
+    void* m_00;
+    void* m_04;
+    void* m_08;
+    void* m_0c;
     hkMemoryAllocatorD5E0* m_pStreamAllocator;
     hkMemoryAllocatorD5E0& heap()
     {

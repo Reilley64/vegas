@@ -315,9 +315,9 @@ struct AudioAllocator
 struct AudioHolder
 {
     intptr_t unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     AudioAllocator* m_pAllocator;
 };
 
@@ -762,9 +762,9 @@ struct AudioAllocator
 struct AudioHolder
 {
     intptr_t unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     AudioAllocator* m_pAllocator;
 };
 
@@ -975,10 +975,10 @@ class SpawnedAllocator
 
 struct AllocHolder
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     SpawnedAllocator* m_pAllocator;
 };
 
@@ -3927,9 +3927,9 @@ struct AudioAllocator
 struct AudioHolder
 {
     intptr_t unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     AudioAllocator* m_pAllocator;
 };
 

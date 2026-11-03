@@ -132,8 +132,8 @@ struct SpawnedAllocator
 struct AllocHolder
 {
     intptr_t unk00;
-    int unk04;
-    int unk08;
+    void* unk04;
+    void* unk08;
     void* unk0C;
     SpawnedAllocator* m_pAllocator;
 };
@@ -713,10 +713,10 @@ struct ArrayAllocator
 };
 struct Holder
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     ArrayAllocator* allocator;
 };
 Holder* __cdecl _FUN_00c85750();

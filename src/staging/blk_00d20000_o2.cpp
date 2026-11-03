@@ -402,9 +402,9 @@ struct hkMemAllocStub
 
 struct hkMemCtxStub
 {
-    int unk00;
-    int unk04;
-    int unk08;
+    void* unk00;
+    void* unk04;
+    void* unk08;
     hkMemAllocStub* alloc;
     void* mem;
 
@@ -412,7 +412,7 @@ struct hkMemCtxStub
     void* heap() { return mem; }
 };
 
-hkMemCtxStub* GetMemCtx();
+inline hkMemCtxStub* GetMemCtx() { return static_cast<hkMemCtxStub*>(::FUN_00c85750()); }
 
 struct IntArrayStub
 {
@@ -484,10 +484,10 @@ struct D2F240Allocator {
 };
 
 struct D2F240MemoryRouter {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     D2F240Allocator* m_pStreamAllocator;
 
     D2F240Allocator& heap() { return *m_pStreamAllocator; }
@@ -636,10 +636,10 @@ struct FnvCpu_FUN_00d2f430_CpuAllocator {
     virtual void Invoke(void* block, unsigned int size);
 };
 struct FnvCpu_FUN_00d2f430_CpuAllocatorHolder {
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     FnvCpu_FUN_00d2f430_CpuAllocator* allocator;
 };
 struct FnvCpu_FUN_00d2f430_CpuObject {
@@ -685,10 +685,10 @@ struct AudioAllocator {
 };
 
 struct AudioHolder {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     AudioAllocator* m_pAllocator;
 };
 
@@ -783,10 +783,10 @@ struct Allocator
 
 struct Holder
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     Allocator* m_pAllocator;
 };
 
@@ -843,10 +843,10 @@ struct FUN_00d36f50_allocator
 
 struct FUN_00d36f50_manager
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     FUN_00d36f50_allocator* unk10;
 };
 
@@ -920,10 +920,10 @@ struct S_00d37da0_Allocator {
 };
 
 struct S_00d37da0_Router {
-    int unk0;
-    int unk4;
-    int unk8;
-    int unkC;
+    void* unk0;
+    void* unk4;
+    void* unk8;
+    void* unkC;
     S_00d37da0_Allocator* m_pStreamAllocator;
     S_00d37da0_Allocator& heap() { return *m_pStreamAllocator; }
 };
@@ -1104,10 +1104,10 @@ struct FUN_00d3b380_allocator
 
 struct FUN_00d3b380_singleton
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     FUN_00d3b380_allocator* unk10;
 };
 
@@ -2066,10 +2066,10 @@ public:
 };
 
 struct hkMemoryRouterD262 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     hkMemoryAllocatorD262* m_pStreamAllocator;
     hkMemoryAllocatorD262& heap() { return *m_pStreamAllocator; }
 };
@@ -2230,7 +2230,7 @@ struct RetObj
 
 struct AllocMgr
 {
-    int unk00, unk04, unk08, unk0c;
+    void *unk00, *unk04, *unk08, *unk0c;
     IAlloc* allocator;
 };
 
@@ -2786,10 +2786,10 @@ struct hkMemoryAllocatorD2C9 {
 };
 
 struct hkMemoryRouterD2C9 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     hkMemoryAllocatorD2C9* m_pStreamAllocator;
 
     hkMemoryAllocatorD2C9& heap() { return *m_pStreamAllocator; }
@@ -3543,10 +3543,10 @@ struct D2DC10Allocator {
 };
 
 struct D2DC10MemoryRouter {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     D2DC10Allocator* m_pStreamAllocator;
 
     D2DC10Allocator& heap() { return *m_pStreamAllocator; }
@@ -3598,10 +3598,10 @@ struct D37D30Allocator {
 };
 
 struct D37D30MemoryRouter {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     D37D30Allocator* m_pStreamAllocator;
 
     D37D30Allocator& heap() { return *m_pStreamAllocator; }

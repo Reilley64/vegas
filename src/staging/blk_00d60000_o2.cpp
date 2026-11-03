@@ -88,7 +88,7 @@ struct Registry_00dd9380
 // @fnv 0x00d68800
 void RegisterContactPointsInactive()
 {
-    Registry_00dd9380* reg = (Registry_00dd9380*)(*reinterpret_cast<int *>(&::DAT_01269cd0));
+    Registry_00dd9380* reg = (Registry_00dd9380*)::DAT_01269cd0;
     DAT_01269008 = ((void *)(reinterpret_cast<::S_00dd9380 *>((reg))->FUN_00dd9380("Contact Points (Inactive)", (intptr_t)(((void (&)())::FUN_00d687c0)))));
 }
 
@@ -97,10 +97,10 @@ struct Registry_00dd9380_StandIn
 {
 };
 // @fnv 0x00d688d0
-void* RegisterContactPointsActive()
+int RegisterContactPointsActive()
 {
-    ::DAT_0126900c = (int)((void *)(reinterpret_cast<::S_00dd9380 *>(((*reinterpret_cast<::fnv_00d688d0::Registry_00dd9380_StandIn * *>(&::DAT_01269cd0))))->FUN_00dd9380("Contact Points (Active)", (intptr_t)(((void (&)())::fnv_00d68890::FUN_00d68890)))));
-    return (void*)::DAT_0126900c;
+    ::DAT_0126900c = (int)reinterpret_cast<::S_00dd9380 *>(((*reinterpret_cast<::fnv_00d688d0::Registry_00dd9380_StandIn * *>(&::DAT_01269cd0))))->FUN_00dd9380("Contact Points (Active)", (intptr_t)(((void (&)())::fnv_00d68890::FUN_00d68890)));
+    return ::DAT_0126900c;
 }
 }  // namespace fnv_00d688d0
 
@@ -155,10 +155,10 @@ struct FnvCpu_FUN_00d687c0_CpuAllocator
 };
 struct FnvCpu_FUN_00d687c0_CpuHolder
 {
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     FnvCpu_FUN_00d687c0_CpuAllocator* allocator;
 };
 struct FnvCpu_FUN_00d687c0_CpuBlock
@@ -234,10 +234,10 @@ void* FUN_00d68880(void* pObject)
 namespace fnv_00d68890 {
 struct AllocHolder
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     void* m_pAllocator;
 };
 
@@ -289,10 +289,10 @@ struct D68910Allocator
 
 struct D68910MemoryRouter
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     D68910Allocator* m_pStreamAllocator;
 
     D68910Allocator& heap()
@@ -606,7 +606,7 @@ struct HKMemoryManager
     virtual void v1();
     virtual void v2();
     virtual void v3();
-    virtual void* v4(int);
+    virtual void* v4(void*);
 };
 struct FUN_00d60860
 {
@@ -624,7 +624,7 @@ FUN_00d60860::FUN_00d60860(void* pData, unsigned char ucType)
     m_usSize = 1;
     m_pVtbl = &(*reinterpret_cast<char *>(&::DAT_010d14f8));
     m_ucType = ucType;
-    m_pData = (*reinterpret_cast<::fnv_00d60860::HKMemoryManager * *>(&::DAT_01268364))->v4((int)pData);
+    m_pData = (*reinterpret_cast<::fnv_00d60860::HKMemoryManager * *>(&::DAT_01268364))->v4(pData);
 }
 }  // namespace fnv_00d60860
 
@@ -711,20 +711,20 @@ int hkStringD614::FindCaseInsensitive(const char* needle) const
 
 struct FUN_00d61520_cls
 {
-    int unk00;
+    const char* m_pcData;
     int FindOffset(intptr_t a, int b, int c);
 };
 // @fnv 0x00d61520
 int FUN_00d61520_cls::FindOffset(intptr_t aiValue, int aiUnused1, int aiUnused2)
 {
     int esi = -1;
-    int r = ((int)(::fnv_00cb1130::FUN_00cb1130((const char *)(unk00), (const char *)(aiValue))));
+    const char* r = ::fnv_00cb1130::FUN_00cb1130(m_pcData, (const char *)(aiValue));
     if (r != 0)
     {
         do
         {
-            esi = r - unk00;
-            r = ((int)(::fnv_00cb1130::FUN_00cb1130((const char *)(r + 1), (const char *)(aiValue))));
+            esi = (int)(r - m_pcData);
+            r = ::fnv_00cb1130::FUN_00cb1130(r + 1, (const char *)(aiValue));
         } while (r != 0);
     }
     return esi;
@@ -867,7 +867,7 @@ struct FUN_00d61700_cls
 // @fnv 0x00d61700
 int FUN_00d61700_cls::EndsWith(char* aString)
 {
-    int len = ::fnv_00cb10d0::FUN_00cb10d0((const char *)((int)aString));
+    int len = ::fnv_00cb10d0::FUN_00cb10d0(aString);
     if (len > m_04 - 1)
     {
         return 0;
@@ -1052,9 +1052,9 @@ class hkMemoryAllocatorD61B;
 
 struct hkMemoryRouterD61B
 {
-    int m_00;
-    int m_04;
-    int m_08;
+    void* m_00;
+    void* m_04;
+    void* m_08;
     hkMemoryAllocatorD61B* m_pTemp;
     hkMemoryAllocatorD61B* m_pStreamAllocator;
     hkMemoryAllocatorD61B& temp()
@@ -1134,9 +1134,9 @@ class hkMemoryAllocatorD61E;
 
 struct hkMemoryRouterD61E
 {
-    int m_00;
-    int m_04;
-    int m_08;
+    void* m_00;
+    void* m_04;
+    void* m_08;
     hkMemoryAllocatorD61E* m_pTemp;
     hkMemoryAllocatorD61E& temp()
     {
@@ -1201,9 +1201,9 @@ class hkMemoryAllocatorD620;
 
 struct hkMemoryRouterD620
 {
-    int unk00;
-    int unk04;
-    int unk08;
+    void* unk00;
+    void* unk04;
+    void* unk08;
     hkMemoryAllocatorD620* m_pTemp;
     hkMemoryAllocatorD620* m_pStreamAllocator;
     hkMemoryAllocatorD620& temp()
@@ -1257,10 +1257,10 @@ void hkStringBufD620::Assign(void* src, int len)
 
 struct D62080_Audio
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
 };
 
 struct D62080_Object
@@ -1285,7 +1285,7 @@ void D62080_Object::FUN_00d62080(intptr_t aData, int param3)
     int newCount = index + 1;
 
     D62080_Audio* audio = (D62080_Audio*)FUN_00c85750();
-    int audioValue = audio->unk0c;
+    void* audioValue = audio->unk0c;
 
     int capacity = (int)(m_pRayCursor & 0x3fffffff);
     if (capacity < newCount)
@@ -1294,7 +1294,7 @@ void D62080_Object::FUN_00d62080(intptr_t aData, int param3)
         if (newCount >= capacity)
             capacity = newCount;
 
-        ::FUN_00c908c0((::SpawnedObject *)(audioValue), (::SpawnedArray *)((int)this), capacity, 1);
+        ::FUN_00c908c0((::SpawnedObject *)(audioValue), (::SpawnedArray *)(void *)(this), capacity, 1);
     }
 
     m_uiItemCount = newCount;
@@ -1305,10 +1305,10 @@ void D62080_Object::FUN_00d62080(intptr_t aData, int param3)
 
 struct Router_d62100
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int m_iValueAtOffset0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* m_pTempAllocator;
 };
 struct FUN_00d62100_Class
 {
@@ -1343,7 +1343,7 @@ struct hkStringPtr
     const char* m_stringAndFlags;
     const char* cString() const
     {
-        return (const char*)((unsigned int)m_stringAndFlags & ~1);
+        return (const char*)((uintptr_t)m_stringAndFlags & ~(uintptr_t)1);
     }
 };
 
@@ -1423,8 +1423,8 @@ FUN_00d61df0_cls* FUN_00d61df0_cls::FUN_00d61df0(intptr_t arg)
 {
     int ebx = ::fnv_00cb10d0::FUN_00cb10d0((const char *)(arg));
     int ebp = unk04;
-    int* rec = reinterpret_cast<int*>(FUN_00c85750());
-    reinterpret_cast<::hkObjectD626 *>((reinterpret_cast<FUN_00d62630_Obj*>(this)))->FUN_00d62630(rec[3], ebp - 1, arg, ebx);
+    Router_d62100* router = static_cast<Router_d62100*>(FUN_00c85750());
+    reinterpret_cast<::hkObjectD626 *>((reinterpret_cast<FUN_00d62630_Obj*>(this)))->FUN_00d62630((intptr_t)router->m_pTempAllocator, ebp - 1, arg, ebx);
     return this;
 }
 // @fnv 0x00d62100
@@ -1433,7 +1433,7 @@ int FUN_00d62100_Class::FUN_00d62100(int first, intptr_t second, int third)
     if (third < 0)
         third = ::fnv_00cb10d0::FUN_00cb10d0((const char *)(second));
     Router_d62100* router = static_cast<Router_d62100*>(FUN_00c85750());
-    return reinterpret_cast<::hkObjectD626 *>(this)->FUN_00d62630(router->m_iValueAtOffset0C, first, second, third);
+    return reinterpret_cast<::hkObjectD626 *>(this)->FUN_00d62630((intptr_t)router->m_pTempAllocator, first, second, third);
 }
 
 // @fnv 0x00d62630
@@ -1506,7 +1506,7 @@ void* __cdecl AllocateRecordWithData(void* data)
     MemorySystem* memory = static_cast<MemorySystem*>(FUN_00c85750());
     HeapBlockMetadata* record = static_cast<HeapBlockMetadata*>(memory->heap->Allocate(44));
     record->size = 44;
-    HeapBlockMetadata* result = ((::HeapBlockMetadata *)(reinterpret_cast<::FUN_00d62ef0_cls *>((record))->FUN_00d62ef0((int)(data), 1)));
+    HeapBlockMetadata* result = ((::HeapBlockMetadata *)(reinterpret_cast<::FUN_00d62ef0_cls *>((record))->FUN_00d62ef0((intptr_t)(data), 1)));
     return result ? reinterpret_cast<char*>(result) + 8 : 0;
 }
 
@@ -1518,10 +1518,10 @@ struct Allocator_d632c0
 
 struct Holder_d632c0
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     Allocator_d632c0* allocator;
 };
 
@@ -1748,7 +1748,7 @@ class FUN_00dd9380_class
 void __cdecl InitWorldMemory()
 {
     (*reinterpret_cast<void * *>(&::DAT_01268fc8)) =
-        ((void *)(reinterpret_cast<::S_00dd9380 *>((reinterpret_cast<FUN_00dd9380_class*>((*reinterpret_cast<int *>(&::DAT_01269cd0)))))->FUN_00dd9380("World Memory", (intptr_t)((void*)((void (&)())::FUN_00d632c0)))));
+        ((void *)(reinterpret_cast<::S_00dd9380 *>((reinterpret_cast<FUN_00dd9380_class*>(::DAT_01269cd0)))->FUN_00dd9380("World Memory", (intptr_t)((void*)((void (&)())::FUN_00d632c0)))));
 }
 }  // namespace fnv_00d63400
 
@@ -1768,10 +1768,10 @@ class hkMemoryAllocatorD634
 
 struct hkMemoryRouterD634
 {
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
+    void* m_00;
+    void* m_04;
+    void* m_08;
+    void* m_0c;
     hkMemoryAllocatorD634* m_pStreamAllocator;
     hkMemoryAllocatorD634& heap()
     {
@@ -1888,10 +1888,10 @@ struct FnvCpu_FUN_00d645f0_CpuAllocator
 };
 struct FnvCpu_FUN_00d645f0_CpuHolder
 {
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     FnvCpu_FUN_00d645f0_CpuAllocator* allocator;
 };
 struct FnvCpu_FUN_00d645f0_CpuBlock
@@ -1923,7 +1923,7 @@ class FUN_00dd9380_class
 void __cdecl RegisterSweptTransformsTask()
 {
     (*reinterpret_cast<void * *>(&::g_ptr_0x1268fd0)) =
-        ((void *)(reinterpret_cast<::S_00dd9380 *>((reinterpret_cast<FUN_00dd9380_class*>((*reinterpret_cast<int *>(&::DAT_01269cd0)))))->FUN_00dd9380("Swept Transforms", (intptr_t)((void*)((void (&)())::FUN_00d645f0)))));
+        ((void *)(reinterpret_cast<::S_00dd9380 *>((reinterpret_cast<FUN_00dd9380_class*>(::DAT_01269cd0)))->FUN_00dd9380("Swept Transforms", (intptr_t)((void*)((void (&)())::FUN_00d645f0)))));
 }
 }  // namespace fnv_00d64630
 
@@ -2409,9 +2409,9 @@ class hkMemoryAllocatorD61
 
 struct hkMemoryRouterD61
 {
-    int unk00;
-    int unk04;
-    int unk08;
+    void* unk00;
+    void* unk04;
+    void* unk08;
     hkMemoryAllocatorD61* m_alloc;
 };
 
@@ -2451,9 +2451,10 @@ FUN_00d619d0& FUN_00d619d0::operator=(const FUN_00d619d0& aSource)
 
 struct FUN_00d61a50_cls
 {
-    int* m_data;
+    char* m_data;
     int m_iElementCount;
     int m_iCapacityState;
+    char m_acStorage[128];
 
     int* FUN_00d61a50(intptr_t value);
 };
@@ -2463,17 +2464,16 @@ struct FUN_00d61a50_cls
 // @fnv 0x00d61a50
 int* FUN_00d61a50_cls::FUN_00d61a50(intptr_t value)
 {
-    m_data = (int*)((char*)this + 0x0C);
+    m_data = m_acStorage;
     m_iElementCount = 0;
     m_iCapacityState = 0x80000080;
 
     if (value != 0)
     {
-        char* source = ((char *)(::fnv_00cb10d0::FUN_00cb10d0((const char *)(value))));
-        int count = (int)source + 1;
+        int length = ::fnv_00cb10d0::FUN_00cb10d0((const char *)(value));
+        int count = length + 1;
 
-        void* audio = FUN_00c85750();
-        int allocator = *(int*)((char*)audio + 0x0C);
+        hkMemoryAllocatorD620* allocator = static_cast<hkMemoryRouterD620*>(FUN_00c85750())->m_pTemp;
         int capacity = m_iCapacityState & 0x3FFFFFFF;
 
         if (capacity < count)
@@ -2485,13 +2485,12 @@ int* FUN_00d61a50_cls::FUN_00d61a50(intptr_t value)
         }
 
         m_iElementCount = count;
-        *(char*)(source + (int)m_data) = 0;
-        ::FUN_00cb1260(m_data, (const void *)(value), (intptr_t)(source));
+        m_data[length] = 0;
+        ::FUN_00cb1260(m_data, (const void *)(value), length);
     }
     else
     {
-        void* audio = FUN_00c85750();
-        int allocator = *(int*)((char*)audio + 0x0C);
+        hkMemoryAllocatorD620* allocator = static_cast<hkMemoryRouterD620*>(FUN_00c85750())->m_pTemp;
         int capacity = m_iCapacityState & 0x3FFFFFFF;
 
         if (capacity < 1)
@@ -2521,9 +2520,9 @@ class hkMemoryAllocatorD61B8
 
 struct hkMemoryRouterD61B8
 {
-    int m_00;
-    int m_04;
-    int m_08;
+    void* m_00;
+    void* m_04;
+    void* m_08;
     hkMemoryAllocatorD61B8* m_pTemp;
     hkMemoryAllocatorD61B8* m_pStreamAllocator;
     hkMemoryAllocatorD61B8& temp()
@@ -2582,16 +2581,16 @@ FUN_00d61b80::FUN_00d61b80(const FUN_00d61b80& kOther) throw() : m_kStringBuffer
 {}
 
 struct C6DF60Router;
-C6DF60Router* __cdecl _FNV_e03300_arena();
+inline C6DF60Router* _FNV_e03300_arena() { return static_cast<C6DF60Router*>(::FUN_00c85750()); }
 struct C6DF60Router
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
+    void* unk10;
+    void* unk14;
+    void* unk18;
 };
 struct C540BC0Allocator
 {
@@ -2615,7 +2614,7 @@ struct FUN_00d61cc0_t
 void FUN_00d61cc0_t::FUN_00d61cc0()
 {
     C6DF60Router* router = _FNV_e03300_arena();
-    C540BC0Allocator* allocator = (C540BC0Allocator*)(void*)router->unk0c;
+    C540BC0Allocator* allocator = (C540BC0Allocator*)router->unk0c;
     int state = m_iState2 & 0x3fffffff;
     if (state < 1)
     {
@@ -2632,9 +2631,9 @@ class hkMemoryAllocatorD61F;
 
 struct hkMemoryRouterD61F
 {
-    int unk00;
-    int unk04;
-    int unk08;
+    void* unk00;
+    void* unk04;
+    void* unk08;
     hkMemoryAllocatorD61F* m_pTemp;
     hkMemoryAllocatorD61F* m_pStreamAllocator;
     hkMemoryAllocatorD61F& temp()
@@ -2707,9 +2706,9 @@ class hkMemoryAllocatorD61F;
 
 struct hkMemoryRouterD61F
 {
-    int unk00;
-    int unk04;
-    int unk08;
+    void* unk00;
+    void* unk04;
+    void* unk08;
     hkMemoryAllocatorD61F* m_pTemp;
     hkMemoryAllocatorD61F* m_pStreamAllocator;
     hkMemoryAllocatorD61F& temp()
@@ -2764,10 +2763,10 @@ class hkMemoryAllocatorD62
 
 struct hkMemoryRouterD62
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     hkMemoryAllocatorD62* m_pStreamAllocator;
 
     hkMemoryAllocatorD62& heap()
@@ -2789,7 +2788,7 @@ class hkReferencedObjectD62
     static void* operator new(std::size_t nbytes)
     {
         hkReferencedObjectD62* b =
-            static_cast<hkReferencedObjectD62*>((*static_cast<hkMemoryRouterD62*>(::FUN_00c85750())).heap().AllocateMemoryBlock(nbytes));
+            static_cast<hkReferencedObjectD62*>((*static_cast<hkMemoryRouterD62*>(::FUN_00c85750())).heap().AllocateMemoryBlock((int)nbytes));
         b->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return b;
     }
@@ -3194,7 +3193,7 @@ void hkOstreamD624::WriteFormatted(const char* pcFormat, ...) throw()
             kBuf.setLength(iNumChars);
         }
     }
-    reinterpret_cast<::D62080_Object *>(this)->FUN_00d62080((int)(kBuf.cString()), -1);
+    reinterpret_cast<::D62080_Object *>(this)->FUN_00d62080((intptr_t)(kBuf.cString()), -1);
 }
 
 // sub ecx,8; jmp target  ==  MSVC adjustor thunk: Derived overrides a virtual that both of its bases
@@ -5091,9 +5090,9 @@ class hkMemoryAllocator
 
 struct TempRouterD621
 {
-    int unk00;
-    int unk04;
-    int unk08;
+    void* unk00;
+    void* unk04;
+    void* unk08;
     hkMemoryAllocator* m_pTemp;
     hkMemoryAllocator& temp()
     {
@@ -5173,15 +5172,15 @@ int InlineStorageString::FUN_00d62190(const char* from, const char* to, int rtyp
             replaced = 1;
             do
             {
-                reinterpret_cast<::D62080_Object *>(this)->FUN_00d62080((int)(orig.cString() + startIndex), index - startIndex);
-                reinterpret_cast<::D62080_Object *>(this)->FUN_00d62080((int)(to), toLen);
+                reinterpret_cast<::D62080_Object *>(this)->FUN_00d62080((intptr_t)(orig.cString() + startIndex), index - startIndex);
+                reinterpret_cast<::D62080_Object *>(this)->FUN_00d62080((intptr_t)(to), toLen);
                 startIndex = index + fromLen;
                 if (rtype == 0)
                     break;
                 index = reinterpret_cast<::hkStringBufD614 *>((void *)&(orig))->FindSubstring(from, startIndex, 0x7fffffff);
             } while (index >= 0);
         }
-        reinterpret_cast<::D62080_Object *>(this)->FUN_00d62080((int)(orig.cString() + startIndex), orig.getLength() - startIndex);
+        reinterpret_cast<::D62080_Object *>(this)->FUN_00d62080((intptr_t)(orig.cString() + startIndex), orig.getLength() - startIndex);
     }
     else
     {
@@ -5250,33 +5249,23 @@ void WriteSwapped(char**, int, int);
 void FUN_00d60900(char* p);
 
 
-char* __cdecl FUN_00cb1130(char* pcHaystack, const char* pcNeedle);
 
-int __cdecl FUN_00cb1130(int a1, int a2);
 
 int FUN_00d616e0(unsigned int value);
 
-int __cdecl FUN_00cb10d0(int s);
-
-int __cdecl FUN_00cb10d0(const char* str);
 
 
-void __cdecl FUN_00cb1260(void* pvDst, const void* pvSrc, int iNumBytes) throw();
-
-int __cdecl FUN_00cb10d0(int);
 
 
-int __cdecl FUN_00cb10d0(const char* pcString) throw();
 
-void __cdecl FUN_00cb1260(void* pvDst, const void* pvSrc, int iNumBytes) throw();
+
+
 
 void __cdecl FUN_00d2caa0(void* pvDst, void* pvSrc, unsigned int uiNumBytes);
 
-int __cdecl FUN_00cb10d0(int value);
 
 void __cdecl FUN_00d2caa0(void* value1, unsigned int value2, unsigned int value3);
 
-extern int __cdecl FUN_00cb10d0(int value);
 
 
 
@@ -5298,11 +5287,6 @@ void* __cdecl FUN_00d645f0(uintptr_t value);
 extern int DAT_010d14f8;
 
 
-namespace fnvc_adapt {
-char* __cdecl FUN_00cb10d0(int value);
-}
-
-void __cdecl FUN_00cb1260(int* data, int value, char* source);
 
 hkpCollisionAgentD62* __cdecl FUN_00d62f20(void* contactMgr);
 

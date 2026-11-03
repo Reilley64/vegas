@@ -207,9 +207,9 @@ struct AllocIface {
 
 struct AllocHolder {
     intptr_t unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     AllocIface* m_pAllocator;
 };
 
@@ -257,10 +257,10 @@ struct AllocIface {
 };
 
 struct AllocHolder {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     AllocIface* m_pAllocator;
 };
 
@@ -362,10 +362,10 @@ struct D85440Allocator {
 };
 
 struct D85440MemoryRouter {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     D85440Allocator* m_pStreamAllocator;
 
     D85440Allocator& heap() { return *m_pStreamAllocator; }
@@ -428,10 +428,10 @@ struct FUN_00d85490_Allocator {
 };
 
 struct FUN_00d85490_Manager {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     FUN_00d85490_Allocator* unk10;
 };
 
@@ -486,10 +486,10 @@ struct B_Stub {
 };
 
 struct A_Stub {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     B_Stub* unk10;
 };
 
@@ -537,10 +537,10 @@ struct SpawnedAllocator {
 };
 
 struct SpawnedHolder {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     SpawnedAllocator* m_pAllocator;
 };
 
@@ -597,10 +597,10 @@ struct AllocIface {
 };
 
 struct AllocHolder {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     AllocIface* m_pAllocator;
 };
 
@@ -717,10 +717,10 @@ struct FUN_00d855c0_Factory {
 };
 
 struct FUN_00d855c0_Manager {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     FUN_00d855c0_Factory* unk10;
 };
 
@@ -757,10 +757,10 @@ struct AllocIface {
 };
 
 struct AllocHolder {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     AllocIface* m_pAllocator;
 };
 
@@ -822,10 +822,10 @@ struct AllocIface {
 };
 
 struct AllocHolder {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     AllocIface* m_pAllocator;
 };
 
@@ -986,16 +986,16 @@ struct D85660Allocator {
 };
 
 struct D85660MemoryRouter {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     D85660Allocator* m_pStreamAllocator;
 
     D85660Allocator& heap() { return *m_pStreamAllocator; }
 };
 
-extern "C" D85660MemoryRouter& __cdecl D85660GetMemoryRouter() throw();
+inline D85660MemoryRouter& D85660GetMemoryRouter() { return *static_cast<D85660MemoryRouter*>(::FUN_00c85750()); }
 void __cdecl D85660MemCpy(void* pvDst, const void* pvSrc, int iNumBytes) throw();
 
 class D85660Object {
@@ -2601,10 +2601,10 @@ public:
 };
 
 struct hkMemoryRouterD881 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     hkMemoryAllocatorD881* m_pStreamAllocator;
 
     hkMemoryAllocatorD881& heap() { return *m_pStreamAllocator; }
@@ -3675,10 +3675,10 @@ struct CleanupAllocator {
 };
 
 struct CleanupRouter {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     CleanupAllocator* m_pThreadAllocator;
     int unk14;
     CleanupAllocator* m_allocator2;
@@ -6405,7 +6405,7 @@ struct FreeD86 {
 };
 
 struct RouterD86 {
-    int unk00, unk04, unk08;
+    void *unk00, *unk04, *unk08;
     FreeD86* heap;
 };
 

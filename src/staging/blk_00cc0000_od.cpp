@@ -124,10 +124,10 @@ struct hkMemoryAllocator
 
 struct hkMemoryRouterStub
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     hkMemoryAllocator* m_pThreadAllocator;
     hkMemoryAllocator& heap()
     {
@@ -373,10 +373,10 @@ struct Cc6830Alloc
 
 struct Cc6830Router
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     Cc6830Alloc* m_pThreadAllocator;
 
     Cc6830Alloc& heap()
@@ -566,10 +566,10 @@ struct hkMemoryAllocator;
 
 struct NineIntegerRecord
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     hkMemoryAllocator* m_pStreamAllocator;
 
     __forceinline hkMemoryAllocator& heap()
@@ -1039,10 +1039,10 @@ struct SpawnAllocator
 
 struct SpawnHolder
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     SpawnAllocator* m_pAllocator;
 };
 
@@ -5001,10 +5001,10 @@ class FNVAllocator
 
 struct FNVAllocHolder
 {
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     FNVAllocator* m_pAllocator;
 };
 

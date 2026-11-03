@@ -979,7 +979,7 @@ void BGSTerrainManager::FUN_006fca90(const NiPoint3& arPos, int aiFlags)
                         reinterpret_cast<::fnv_006f2290::BSSimpleArrayActor *>(&(array2C))->FUN_006f2290(keptCount, true);
                         for (unsigned int j = 0; j < keptCount; j++)
                         {
-                            array2C.FUN_0047a110(j, ((::RefObj *)(reinterpret_cast<::S3e60 *>(&(kept))->FUN_006a7ad0(j))));
+                            array2C.FUN_0047a110(j, (*(::RefObj **)(reinterpret_cast<::S3e60 *>(&(kept))->FUN_006a7ad0(j))));
                         }
                     }
                 }

@@ -1827,7 +1827,7 @@ void __cdecl ProcessCollisionEvent(void* context, CollisionEvent* event, float d
         callbackEvent.point = &event->position;
         callbackEvent.constraint = &event->manager->constraint;
         callbackEvent.properties = &event->properties;
-        ::FUN_00d01700((::hkpWorld *)(context), &callbackEvent, (void *)(1));
+        ::FUN_00d01700((::hkpWorld *)(context), &callbackEvent, 1);
         return;
     }
     if (result.velocityA < 0.0f && result.velocityB < 0.0f) {

@@ -215,7 +215,7 @@ struct S93ba0_Conn {
     int unkc0;
     int unkc4;
     int unkc8;
-    int lockId;
+    const void* m_shape;
 };
 
 struct S93ba0_Stager {
@@ -585,7 +585,7 @@ _ReadWriteBarrier();
         job->pitch = (u16)pitch;
 }
 // @fnv 0x00d93ba0
-void* __cdecl FUN_00d93ba0(S93ba0_Owner* owner, S93ba0_Output* output, S93ba0_Job* nextJobOut) throw()
+int __cdecl FUN_00d93ba0(S93ba0_Owner* owner, S93ba0_Output* output, S93ba0_Job* nextJobOut) throw()
 {
     S93ba0_Job* job = nextJobOut;
 
@@ -605,8 +605,8 @@ void* __cdecl FUN_00d93ba0(S93ba0_Owner* owner, S93ba0_Output* output, S93ba0_Jo
     S93ba0_LocalArray first(owner->device->pairCapacity);
     S93ba0_LocalArray second(owner->device->pairCapacity);
     S93ba0_Block* block = job->block;
-    ::UpdateBroadPhasePairs((::CollidableD0 **)(owner->builder), 
-        (int)setup->conn, (::WorldD0 *)(setup->buildParam), (*(::PairArrayD0 *)(owner->device)), (*(::PairArrayD0 *)(&first)));
+    ::UpdateBroadPhasePairs((::CollidableD0 **)(setup->conn), setup->buildParam, (::WorldD0 *)(owner->device),
+        (*(::PairArrayD0 *)(&first)), (*(::PairArrayD0 *)(&second)));
 
     last = 1 - block->numThreads;
     int left = 0;
@@ -637,7 +637,7 @@ void* __cdecl FUN_00d93ba0(S93ba0_Owner* owner, S93ba0_Output* output, S93ba0_Jo
                 S93ba0_copy4(copy + index * 16, src, n);
                 index += c->count;
             }
-            ::FUN_00d01700((::hkpWorld *)(owner->device), copy, (void *)(total));
+            ::FUN_00d01700((::hkpWorld *)(owner->device), copy, total);
             static_cast<S93ba0_Mem*>(::FUN_00c85750())->lifoCursor = copy;
         }
         *marker = 2;
@@ -659,17 +659,17 @@ void* __cdecl FUN_00d93ba0(S93ba0_Owner* owner, S93ba0_Output* output, S93ba0_Jo
         S93ba0_Device* device = (S93ba0_Device*)owner->device;
         if (first.m_iElementCount + second.m_iElementCount > 0) {
             S93ba0_timer( ::DAT_010cc5e4);
-            reinterpret_cast<::FUN_00c911d0_Class *>((device))->EnterLock((void *)((*conn)->lockId));
+            reinterpret_cast<::FUN_00c911d0_Class *>((device))->EnterLock((void *)((*conn)->m_shape));
             reinterpret_cast<::Dispatcher *>((device->stager))->DispatchPairs((::Pair *)(second.m_data), second.m_iElementCount);
             const int needed = first.m_iElementCount;
             if (!static_cast<S93ba0_Mem*>(::FUN_00c85750())->getBlockAlloc()->hasSpace(needed << 10)) {
-                reinterpret_cast<::FUN_00c91210_Class *>((device))->FUN_00c91210((void *)((*conn)->lockId));
+                reinterpret_cast<::FUN_00c91210_Class *>((device))->FUN_00c91210((void *)((*conn)->m_shape));
             } else {
                 S93ba0_timer( ::DAT_010cc5d8);
                 char* extra = device->extra;
                 reinterpret_cast<::DispatcherCF7080 *>((device->stager))->FUN_00cf7080(
                     (::PairCF7080 *)(first.m_data), first.m_iElementCount, (const ::FilterCF7080 *)(void *)(extra ? extra + 8 : 0));
-                reinterpret_cast<::FUN_00c91210_Class *>((device))->FUN_00c91210((void *)((*conn)->lockId));
+                reinterpret_cast<::FUN_00c91210_Class *>((device))->FUN_00c91210((void *)((*conn)->m_shape));
             }
         }
         S93ba0_timer( str_01076f38);
@@ -721,10 +721,10 @@ initNext(job,dev,param,count,cap,pitch);
             job->numBlocks = (u16)n;
         }
         S93ba0_timer( ::DAT_010c41f8);
-        return ((void *)(reinterpret_cast<::S_00d05020_JobQueue *>((output))->FUN_00d05020(0, 1, (*(::S_00d05020_Job *)(job)), 0)));
+        return reinterpret_cast<::S_00d05020_JobQueue *>((output))->FUN_00d05020(0, 1, (*(::S_00d05020_Job *)(job)), 0);
     } else {
         S93ba0_timer( ::DAT_010c41f8);
-        return ((void *)(reinterpret_cast<::LunaOwner *>((output))->ProcessCallback((intptr_t)(job), (intptr_t)(job), 0)));
+        return reinterpret_cast<::LunaOwner *>((output))->ProcessCallback((intptr_t)(job), (intptr_t)(job), 0);
     }
 
 }

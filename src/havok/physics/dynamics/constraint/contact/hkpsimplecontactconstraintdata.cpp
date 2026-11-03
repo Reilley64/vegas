@@ -1172,7 +1172,7 @@ static __forceinline void dispatchContacts(S00d92900_Data* constraintData, const
                     {
                         S00d92900_BreachInfo bi;
                         bi.set(in->m_pConstraintChainInstance, props, cp, false);
-                        ::FUN_00d01700((::hkpWorld *)(world), (void *)(&bi), (void *)(1));
+                        ::FUN_00d01700((::hkpWorld *)(world), (void *)(&bi), 1);
                     }
                     cpp->asProperties()->m_fAccumulatedImpulse = 0.0f;
                     cpp->asProperties()->m_uiUserData = 0.0f;

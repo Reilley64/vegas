@@ -1543,7 +1543,7 @@ redoElemTemp:
             S88b50_BreachedHeader* h = (S88b50_BreachedHeader*)schemas;
             if (h->m_iBreachCount != 0)
             {
-                ::FUN_00d01700((::hkpWorld *)(island.m_pOwningWorld), h->getElem(0), (void *)(h->m_iBreachCount));
+                ::FUN_00d01700((::hkpWorld *)(island.m_pOwningWorld), h->getElem(0), h->m_iBreachCount);
             }
         }
         if (scratch2 != 0)

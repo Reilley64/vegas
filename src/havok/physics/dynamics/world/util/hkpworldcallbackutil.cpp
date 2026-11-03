@@ -3051,7 +3051,7 @@ void __cdecl FUN_00d01650(D01650World* world, void* pvEvent, void* pvContext)
 struct Listener
 {
     virtual void vfunc0();
-    virtual void vfunc1(void* a1, void* a2);
+    virtual void vfunc1(void* a1, int a2);
 };
 
 struct ListenerArray
@@ -3101,7 +3101,7 @@ static __forceinline void writeTimestamp(char* cur, const char* tag, volatile un
 
 // Iterates hkpWorld listener array, writes start/end timestamps to TLS buffer, invokes each listener, then compacts the array.
 // @fnv 0x00d01700
-void __cdecl FUN_00d01700(hkpWorld* world, void* a1, void* a2)
+void __cdecl FUN_00d01700(hkpWorld* world, void* a1, int a2)
 {
     volatile unsigned int uiStartTsc;
     volatile unsigned int t1;

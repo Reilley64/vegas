@@ -7,6 +7,7 @@ namespace fnv_00cb94a0 { struct MyHost; }
 namespace fnv_00dd62e0 { struct VectorArray; }
 namespace fnv_00dd62e0 { using ::__m128; }
 namespace fnv_00e2ab00 { using ::__m128; }
+namespace fnv_00c66320 { using ::__m128; }
 struct AvgSrc;
 struct BodyPair;
 struct ClosestPointResult;

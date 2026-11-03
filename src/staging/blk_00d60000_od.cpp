@@ -222,7 +222,7 @@ static __forceinline void buildBasis(const MotionInput* input, __m128 normal, Ba
 }
 
 // @fnv 0x00d6aef0
-void __cdecl FUN_00d6aef0(const MotionInput* input, float outputBits)
+void __cdecl FUN_00d6aef0(const MotionInput* input, void* outputBits)
 {
     __m128 a = input->directionA, b = input->directionB;
     __m128 t = _mm_mul_ps(_mm_shuffle_ps(b, b, 0xc9), _mm_shuffle_ps(a, a, 0xd2));
@@ -259,7 +259,7 @@ void __cdecl FUN_00d6aef0(const MotionInput* input, float outputBits)
             movement = _mm_mul_ps(_mm_set1_ps(input->scale), workspace.delta);
         }
         workspace.position.value = _mm_add_ps(movement, workspace.position.value);
-        FUN_004b4ab0_Class* output = *reinterpret_cast<FUN_004b4ab0_Class* const*>(&outputBits);
+        FUN_004b4ab0_Class* output = static_cast<FUN_004b4ab0_Class*>(outputBits);
         output->FUN_00c7f700(&workspace.basis, &workspace.position);
         __m128 translation = _mm_load_ps(reinterpret_cast<const float*>(&input->translation));
         __m128 transformed = _mm_load_ps(reinterpret_cast<const float*>(&output->value));

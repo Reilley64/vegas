@@ -18,6 +18,9 @@ add_library(game STATIC
 target_include_directories(game PUBLIC src)
 include(src/generated/data/sources.cmake)
 include(src/gamebryo2.2/sources.cmake)
+include(src/havok/common/sources.cmake)
+include(src/havok/animation/sources.cmake)
+include(src/havok/unplaced/sources.cmake)
 
 add_executable(FalloutNV EXCLUDE_FROM_ALL src/main.cpp src/runtime/new.cpp)
 target_include_directories(FalloutNV PRIVATE include)

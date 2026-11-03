@@ -2,6 +2,7 @@
 // src/havok/physics/collide/shape/compound/collection/extendedmeshshape/hkpextendedmeshshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/compound/collection/extendedmeshshape/hkpextendedmeshshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include <xmmintrin.h>
@@ -42,23 +43,8 @@ int FUN_00d554a0_class::GetOrInitValue()
 }
 
 
-struct hkMemoryAllocator;
 
-struct AudioMgr
-{
-    int unk00, unk04, unk08, unk0c;
-    hkMemoryAllocator* unk10;
-    hkMemoryAllocator& heap()
-    {
-        return *unk10;
-    }
-};
 
-struct BSAudio;
-inline AudioMgr* audio()
-{
-    return (AudioMgr*)static_cast<BSAudio*>(::FUN_00c85750());
-}
 
 
 struct hkShortArray
@@ -73,13 +59,12 @@ struct hkShortArray
     }
     __forceinline void reserveExactly(int n)
     {
-        AudioMgr* m = audio();
         if (getCapacity() < n)
-            ::FUN_00c908c0((::SpawnedObject *)&(m->heap()), (::SpawnedArray *)(void *)(this), n, sizeof(short));
+            ::FUN_00c908c0((::SpawnedObject *)&(hkMemoryRouter::getInstance().heap()), (::SpawnedArray *)(void *)(this), n, sizeof(short));
     }
     __forceinline void reserve(int n)
     {
-        hkMemoryAllocator& alloc = audio()->heap();
+        hkMemoryAllocator& alloc = hkMemoryRouter::getInstance().heap();
         if (getCapacity() < n)
         {
             int cap = 2 * getCapacity();
@@ -135,21 +120,6 @@ void FUN_00d56070_class::SetShortAtKey(int key, short sValue)
     }
 }
 
-struct S_00d56880_Alloc
-{
-};
-struct S_00d56880_Router
-{
-    int unk0;
-    int unk4;
-    int unk8;
-    int unkc;
-    S_00d56880_Alloc* m_pStreamAllocator;
-    S_00d56880_Alloc& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
 
 
 struct S_00d56880_Elem
@@ -198,7 +168,7 @@ struct S_00d56880_Array
     {
         return m_cap & 0x3fffffff;
     }
-    __forceinline void GrowArrayCapacity(S_00d56880_Alloc& a, int n)
+    __forceinline void GrowArrayCapacity(hkMemoryAllocator& a, int n)
     {
         if (getCapacity() < n)
         {
@@ -209,7 +179,7 @@ struct S_00d56880_Array
     }
     __forceinline S_00d56880_Elem* expandBy(int n)
     {
-        S_00d56880_Alloc& a = static_cast<S_00d56880_Router*>(::FUN_00c85750())->heap();
+        hkMemoryAllocator& a = hkMemoryRouter::getInstance().heap();
         int oldsize = m_iElementCount;
         GrowArrayCapacity(a, oldsize + n);
         S_00d56880_Elem* p = m_data + m_iElementCount;
@@ -918,22 +888,6 @@ int FUN_00d56160_cls::Vec4(FUN_00d56160_items* items, unsigned int value)
 struct hkReferencedObject
 {
 };
-struct BufferAllocator
-{
-    virtual void Slot0();
-    virtual void Slot1();
-    virtual void Slot2();
-    virtual void Slot3();
-    virtual void Release(void* data, unsigned bytes);
-};
-struct BSAudio
-{
-    unsigned unk00;
-    unsigned unk04;
-    unsigned unk08;
-    unsigned unk0c;
-    BufferAllocator* allocator;
-};
 struct Container
 {
     unsigned unk00;
@@ -949,7 +903,7 @@ struct Container
 // @fnv 0x00d56800
 void Container::FUN_00d56800()
 {
-    BufferAllocator* allocator = static_cast<BSAudio*>(::FUN_00c85750())->allocator;
+    hkMemoryAllocator* allocator = &hkMemoryRouter::getInstance().heap();
     int savedCount = count;
     hkReferencedObject** savedData = data;
     for (int i = 0; i < savedCount; ++i)
@@ -960,30 +914,13 @@ void Container::FUN_00d56800()
     }
     count = 0;
     if (!(capacityFlags & 0x80000000u))
-        allocator->Release(data, (capacityFlags & 0x3fffffffu) * 4u);
+        allocator->bufFree(data, (capacityFlags & 0x3fffffffu) * 4u);
     capacityFlags = 0x80000000u;
     data = 0;
 }
 
 namespace fnv_00d56e00 {
-struct hkMemoryAllocator
-{
-    virtual ~hkMemoryAllocator();
-    virtual void* AllocateMemoryBlock(int numBytes);
-    virtual void ReleaseBlock(void* p, int numBytes);
-    virtual void* AllocateBufferWithSize(int& reqNumBytesInOut);
-    virtual void ReturnMemory(void* p, int numBytes);
-};
 
-struct BSAudio
-{
-    int unk00, unk04, unk08, unk0c;
-    hkMemoryAllocator* unk10;
-    hkMemoryAllocator& heap()
-    {
-        return *unk10;
-    }
-};
 
 
 extern "C" char DAT_010d0ecc[];
@@ -1014,18 +951,18 @@ template <class T> struct hkArray
     }
     __forceinline void ClearAndRelease()
     {
-        hkMemoryAllocator& alloc = static_cast<BSAudio*>(::FUN_00c85750())->heap();
+        hkMemoryAllocator& alloc = hkMemoryRouter::getInstance().heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
         {
-            alloc.ReturnMemory(m_data, getCapacity() * sizeof(T));
+            alloc.bufFree(m_data, getCapacity() * sizeof(T));
         }
         m_data = 0;
         m_iCapacityState = 0x80000000;
     }
     __forceinline void destroyAndDeallocate()
     {
-        hkMemoryAllocator& alloc = static_cast<BSAudio*>(::FUN_00c85750())->heap();
+        hkMemoryAllocator& alloc = hkMemoryRouter::getInstance().heap();
         int n = m_iElementCount;
         T* p = m_data;
         for (int i = 0; i < n; i++)
@@ -1035,7 +972,7 @@ template <class T> struct hkArray
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
         {
-            alloc.ReturnMemory(m_data, getCapacity() * sizeof(T));
+            alloc.bufFree(m_data, getCapacity() * sizeof(T));
         }
         m_data = 0;
         m_iCapacityState = 0x80000000;
@@ -1257,7 +1194,7 @@ struct ArrayD562
     }
     __forceinline ElemD562& AllocatePair()
     {
-        hkMemoryAllocator& alloc = audio()->heap();
+        hkMemoryAllocator& alloc = hkMemoryRouter::getInstance().heap();
         int oldSize = m_iElementCount;
         reserve(alloc, oldSize + 1);
         new (m_data + m_iElementCount) ElemD562();
@@ -2093,14 +2030,6 @@ int MeshOwner::FUN_00d56900(volatile int key)
 }
 
 namespace fnv_00d56200 {
-struct AudioHolder
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    void* m_10;
-};
 
 struct SubBuf
 {
@@ -2110,14 +2039,6 @@ struct SubBuf
 };
 
 
-struct Allocator
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual void v0c();
-    virtual void v10(void* p, int n);
-};
 
 struct FUN_00d56200_cls
 {
@@ -2200,11 +2121,9 @@ void FUN_00d56200_cls::FUN_00d56200(int a1)
             } while (i < m_b8);
         }
         SubBuf* sub = &m_cc;
-        AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
         if ((sub->m_08 & 0x3fffffff) < total)
-            ::FUN_00c908c0((::SpawnedObject *)(pHolder->m_10), (::SpawnedArray *)(sub), total, 2);
-        AudioHolder* pHolder2 = static_cast<AudioHolder*>(::FUN_00c85750());
-        void* alloc2 = pHolder2->m_10;
+            ::FUN_00c908c0((::SpawnedObject *)(&hkMemoryRouter::getInstance().heap()), (::SpawnedArray *)(sub), total, 2);
+        hkMemoryAllocator* alloc2 = &hkMemoryRouter::getInstance().heap();
         int size = sub->m_08 & 0x3fffffff;
         if (size < total)
         {
@@ -2216,14 +2135,13 @@ void FUN_00d56200_cls::FUN_00d56200(int a1)
         sub->m_04 = total;
         return;
     }
-    AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
-    Allocator* alloc = (Allocator*)pHolder->m_10;
+    hkMemoryAllocator* alloc = &hkMemoryRouter::getInstance().heap();
     int size = m_cc.m_08;
     int zero = 0;
     m_cc.m_04 = zero;
     if ((m_cc.m_08 & 0x80000000u) == 0)
     {
-        alloc->v10(m_cc.m_00, (size & 0x3fffffff) * 2);
+        alloc->bufFree(m_cc.m_00, (size & 0x3fffffff) * 2);
     }
     m_cc.m_00 = 0;
     m_cc.m_08 = (int)0x80000000;
@@ -2673,7 +2591,7 @@ template <typename T> struct hkArrS
 
     __forceinline T* expandBy(int n)
     {
-        return _expandBy(audio()->heap(), n);
+        return _expandBy(hkMemoryRouter::getInstance().heap(), n);
     }
 };
 
@@ -2778,14 +2696,6 @@ ShapesSubpartT* ShapesSubpartT::FUN_00d56660(hkConvexShapeS* const* childShapes,
     return this;
 }
 
-struct hkMemoryAllocator
-{
-    virtual void v0();
-    virtual void v1();
-    virtual void v2();
-    virtual void* AllocateBufferWithSize(int* reqNumInOut);
-    virtual void ReturnMemory(void* p, int numBytes);
-};
 
 struct SrcElem
 {
@@ -2867,7 +2777,7 @@ template <typename T> struct hkArray
     }
     __forceinline void reserve(int n)
     {
-        hkMemoryAllocator& alloc = audio()->heap();
+        hkMemoryAllocator& alloc = hkMemoryRouter::getInstance().heap();
         if (getCapacity() < n)
         {
             int cap = 2 * getCapacity();
@@ -3075,17 +2985,16 @@ FUN_00d56ab0::FUN_00d56ab0(Src& input) : FUN_00d21410(14, 1)
     m_ce4 = s->f50;
     m_cb0 = s->f30;
     m_cd8 = s->f4c;
-    AudioMgr* m = audio();
-    hkMemoryAllocator* pAllocator = m->unk10;
+    hkMemoryAllocator* pAllocator = &hkMemoryRouter::getInstance().heap();
     int cap = m_w.m_cap;
     int curCap = cap & 0x3fffffff;
     if (curCap < s->m_usPassCountLocal)
     {
         if ((cap & 0x80000000) == 0)
-            pAllocator->ReturnMemory(m_w.m_data, curCap * 2);
+            pAllocator->bufFree(m_w.m_data, curCap * 2);
         {
             int iSize = s->m_usPassCountLocal * 2;
-            m_w.m_data = (unsigned short*)pAllocator->AllocateBufferWithSize(&iSize);
+            m_w.m_data = static_cast<unsigned short*>(pAllocator->bufAlloc(iSize));
             m_w.m_cap = iSize / 2;
         }
     }

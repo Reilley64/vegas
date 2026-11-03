@@ -202,7 +202,7 @@ void FUN_0067fdd0_shell::SetByteValue(unsigned char value)
     m_cByte2 = value;
 }
 
-struct FUN_0067fdf0_shell
+struct FUN_0067fdf0_shell : PackedByteIntRecord
 {
     void SetByteAtOffset3(unsigned char param_2);
 };
@@ -210,7 +210,7 @@ struct FUN_0067fdf0_shell
 // @fnv 0x0067fdf0
 void FUN_0067fdf0_shell::SetByteAtOffset3(unsigned char aucValue)
 {
-    *(unsigned char*)((char*)this + 3) = aucValue;
+    m_cLastByteBeforePayloadItem = aucValue;
 }
 
 namespace fnv_0067fe10 {

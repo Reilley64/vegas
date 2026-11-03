@@ -27,7 +27,6 @@
 #include "fnv/decl/S00485110.h"
 #include "fnv/decl/TESObjectACTI.h"
 #include "fnv/decl/TESPackage.h"
-#include "fnv/decl/Vec3.h"
 #include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
 #include "fnv/decl/fnv_0057bd60__fnv_anon_tesobjectrefr__Dummy.h"
 #include "fnv/decl/fnv_005f5f80__FUN_005f5f80_shell.h"
@@ -788,7 +787,7 @@ void FUN_00408600_class::CopyValuesFromList(void* pSourceList)
     EffectSetting* val;
     reinterpret_cast<::FileMatchList *>(&counterEffects)->RemoveAll();
     data.m_sCounterEffectCount = 0;
-    for (BSSimpleList<EffectSetting*>* cur = (BSSimpleList<EffectSetting*>*)pSourceList; cur != 0 && (val = *((EffectSetting **)(new ((void *)(cur)) ::Vec3()))) != 0;
+    for (BSSimpleList<EffectSetting*>* cur = (BSSimpleList<EffectSetting*>*)pSourceList; cur != 0 && (val = cur->m_item) != 0;
          cur = ((BSSimpleList<EffectSetting*> *)(reinterpret_cast<::Callees *>((cur))->FUN_00726070())))
     {
         reinterpret_cast<SubListA0*>(&counterEffects)->AddItem(&val);
@@ -796,9 +795,6 @@ void FUN_00408600_class::CopyValuesFromList(void* pSourceList)
     }
 }
 
-struct ListT
-{
-};
 struct EffT : public EffectSetting
 {
     bool IsDifferentFrom(void* param);
@@ -821,16 +817,16 @@ bool EffT::IsDifferentFrom(void* pObject)
         (reinterpret_cast<::EffectSetting *>(this)->GetHitSound()) != (reinterpret_cast<::EffectSetting *>((other))->GetHitSound()) || (reinterpret_cast<::FUN_008ce390_shell *>(this)->FUN_008ce390()) != (reinterpret_cast<::FUN_008ce390_shell *>((other))->FUN_008ce390()) ||
         reinterpret_cast<::FUN_00408550_Cls *>(this)->GetShortValue() != reinterpret_cast<::FUN_00408550_Cls *>((other))->GetShortValue() || reinterpret_cast<::EffectSetting *>(this)->GetArchetype() != reinterpret_cast<::EffectSetting *>((other))->GetArchetype())
         return 1;
-    ListT* pa4 = reinterpret_cast<ListT*>(&counterEffects);
-    ListT* pbX = reinterpret_cast<ListT*>(&other->counterEffects);
+    BSSimpleList<EffectSetting*>* pa4 = &counterEffects;
+    BSSimpleList<EffectSetting*>* pbX = &other->counterEffects;
     while (pa4 && pbX)
     {
-        EffectSetting* av = *((EffectSetting **)(new ((void *)(pa4)) ::Vec3()));
-        EffectSetting* bv5 = *((EffectSetting **)(new ((void *)(pbX)) ::Vec3()));
+        EffectSetting* av = pa4->m_item;
+        EffectSetting* bv5 = pbX->m_item;
         if (av != bv5)
             return 1;
-        pa4 = ((::ListT *)(reinterpret_cast<::Callees *>((pa4))->FUN_00726070()));
-        pbX = ((::ListT *)(reinterpret_cast<::Callees *>((pbX))->FUN_00726070()));
+        pa4 = ((BSSimpleList<EffectSetting*> *)(reinterpret_cast<::Callees *>((pa4))->FUN_00726070()));
+        pbX = ((BSSimpleList<EffectSetting*> *)(reinterpret_cast<::Callees *>((pbX))->FUN_00726070()));
     }
     return 0;
 }
@@ -886,7 +882,7 @@ void EffectSetting::FUN_00407300()
     data.m_pAssociatedForm = savedPAssociatedItemOriginal;
 
     EffectSetting* savedPkEffect;
-    for (BSSimpleList<EffectSetting*>* pkIter = &counterEffects; pkIter && (savedPkEffect = (*((::EffectSetting **)(new ((void *)(pkIter)) ::Vec3())))) != 0;
+    for (BSSimpleList<EffectSetting*>* pkIter = &counterEffects; pkIter && (savedPkEffect = pkIter->m_item) != 0;
          pkIter = ((::BSSimpleList< ::EffectSetting *> *)(reinterpret_cast<::Callees *>((pkIter))->FUN_00726070())))
         ::FUN_00485910(CHUNK_ESCE, ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((void *)(savedPkEffect))->FUN_0084e3a0())));
 

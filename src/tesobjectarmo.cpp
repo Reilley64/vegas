@@ -35,7 +35,6 @@
 #include "fnv/decl/S00485110.h"
 #include "fnv/decl/TESOffsetWorker.h"
 #include "fnv/decl/TESRegionGrassObject.h"
-#include "fnv/decl/Vec3.h"
 #include "fnv/decl/fnv_00403570__FUN_00403570_shell.h"
 #include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
 #include "fnv/decl/fnv_0047b560__FUN_0047b560_shell.h"
@@ -87,9 +86,9 @@ void TESObjectARMO::InitItem()
     else if (m_bUsesSoundList && m_pPickupPutdownSoundList)
     {
         BSSimpleList<SoundDescriptor*>* soundList = m_pPickupPutdownSoundList;
-        while (soundList && *((::SoundDescriptor **)(new ((void *)(soundList)) ::Vec3())))
+        while (soundList && soundList->m_item)
         {
-            SoundDescriptor* sound = *((::SoundDescriptor **)(new ((void *)(soundList)) ::Vec3()));
+            SoundDescriptor* sound = soundList->m_item;
             soundList = ((::BSSimpleList< ::SoundDescriptor *> *)(reinterpret_cast<::Callees *>((soundList))->FUN_00726070()));
             if (sound->SoundAssetTmp)
                 sound->SoundAssetTmp = (TESSound*)::FUN_004839c0(static_cast<unsigned int>(reinterpret_cast<std::uintptr_t>(sound->SoundAssetTmp)));
@@ -727,9 +726,9 @@ void ArmorSerializer::Save()
     else if (m_pPickupPutdownSoundList)
     {
         FoleyNode* node = (FoleyNode*)m_pPickupPutdownSoundList;
-        while (node && (*((::SoundDescriptor **)(new ((void *)(node)) ::Vec3()))))
+        while (node && node->m_item)
         {
-            SoundDescriptor* sound = (*((::SoundDescriptor **)(new ((void *)(node)) ::Vec3())));
+            SoundDescriptor* sound = node->m_item;
             node = ((::FoleyNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
             if (sound && sound->SoundAssetTmp)
             {
@@ -768,9 +767,9 @@ void ArmorCopy::CopyArmorData(TESForm* form)
     if (m_bUsesSoundList && m_pPickupPutdownSoundList)
     {
         node_ = m_pPickupPutdownSoundList;
-        while (node_ && (*((::SoundDescriptor **)(new ((void *)(node_)) ::Vec3()))))
+        while (node_ && node_->m_item)
         {
-            sound = (*((::SoundDescriptor **)(new ((void *)(node_)) ::Vec3())));
+            sound = node_->m_item;
             ::FUN_00401030(sound);
             node_ = ((::BSSimpleList< ::SoundDescriptor *> *)(reinterpret_cast<::Callees *>((node_))->FUN_00726070()));
         }
@@ -786,9 +785,9 @@ void ArmorCopy::CopyArmorData(TESForm* form)
         if (source3->m_pPickupPutdownSoundList)
         {
             iter = source3->m_pPickupPutdownSoundList;
-            while (iter && (*((::SoundDescriptor **)(new ((void *)(iter)) ::Vec3()))))
+            while (iter && iter->m_item)
             {
-                original9 = (*((::SoundDescriptor **)(new ((void *)(iter)) ::Vec3())));
+                original9 = iter->m_item;
                 iter = ((::BSSimpleList< ::SoundDescriptor *> *)(reinterpret_cast<::Callees *>((iter))->FUN_00726070()));
                 if (original9 && original9->SoundAssetTmp)
                 {
@@ -820,7 +819,7 @@ TESSound* TESObjectARMOFoley::GetFoleySound(int eType)
                                   : (m_pSoundSourceArmor ? m_pSoundSourceArmor->m_pPickupPutdownSoundList : 0);
     while (pFoleyList && !pFoleyList->IsEmpty() && !pkSound)
     {
-        pkFoley = (*((::SoundDescriptor **)(new ((void *)(pFoleyList)) ::Vec3())));
+        pkFoley = pFoleyList->m_item;
         pFoleyList = ((::BSSimpleList< ::SoundDescriptor *> *)(reinterpret_cast<::Callees *>((pFoleyList))->FUN_00726070()));
         if (pkFoley->SoundAssetTmp && pkFoley->eType == eType && (int)(DialogueRandom() & 0x63) < pkFoley->layoutPadding4[0])
             pkSound = pkFoley->SoundAssetTmp;
@@ -862,18 +861,18 @@ bool ArmorCompare::IsDifferentFrom(TESForm* form)
     else
     {
         if (pOther->m_pPickupPutdownSoundList && m_pPickupPutdownSoundList &&
-            (*((::SoundDescriptor **)(new ((void *)(pOther->m_pPickupPutdownSoundList)) ::Vec3()))) == (*((::SoundDescriptor **)(new ((void *)(m_pPickupPutdownSoundList)) ::Vec3()))))
+            pOther->m_pPickupPutdownSoundList->m_item == m_pPickupPutdownSoundList->m_item)
         {
             BSSimpleList<SoundDescriptor*>* pCurrent = m_pPickupPutdownSoundList;
-            while (pCurrent && (*((::SoundDescriptor **)(new ((void *)(pCurrent)) ::Vec3()))))
+            while (pCurrent && pCurrent->m_item)
             {
                 bool bFound = false;
                 BSSimpleList<SoundDescriptor*>* search = pOther->m_pPickupPutdownSoundList;
-                while (search && (*((::SoundDescriptor **)(new ((void *)(search)) ::Vec3()))))
+                while (search && search->m_item)
                 {
-                    if ((*((::SoundDescriptor **)(new ((void *)(pCurrent)) ::Vec3())))->SoundAssetTmp == (*((::SoundDescriptor **)(new ((void *)(search)) ::Vec3())))->SoundAssetTmp &&
-                        (*((::SoundDescriptor **)(new ((void *)(pCurrent)) ::Vec3())))->layoutPadding4[0] == (*((::SoundDescriptor **)(new ((void *)(search)) ::Vec3())))->layoutPadding4[0] &&
-                        (*((::SoundDescriptor **)(new ((void *)(pCurrent)) ::Vec3())))->eType == (*((::SoundDescriptor **)(new ((void *)(search)) ::Vec3())))->eType)
+                    if (pCurrent->m_item->SoundAssetTmp == search->m_item->SoundAssetTmp &&
+                        pCurrent->m_item->layoutPadding4[0] == search->m_item->layoutPadding4[0] &&
+                        pCurrent->m_item->eType == search->m_item->eType)
                     {
                         bFound = true;
                         break;

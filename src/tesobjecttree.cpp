@@ -1319,6 +1319,8 @@ class BS9AA340Item
 class BS9AA340List
 {
   public:
+    BS9AA340Item* m_item;
+    BS9AA340List* m_pkNext;
     void RemoveItemByOwner(int iOwner);
 };
 
@@ -1329,7 +1331,7 @@ void BS9AA340List::RemoveItemByOwner(int iOwner)
     BS9AA340List* pkNode = this;
     while (pkNode)
     {
-        BS9AA340Item* pkItem = *((::BS9AA340Item **)(new ((void *)(pkNode)) ::Vec3()));
+        BS9AA340Item* pkItem = pkNode->m_item;
         if (pkItem && ::FUN_00559450((int *)(pkItem)) == iOwner)
         {
             reinterpret_cast<::ItemChangeListNode *>((pkNode))->FUN_00905330((*(::InventoryStackRecord *const *)(&pkItem)));

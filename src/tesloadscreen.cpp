@@ -19,7 +19,6 @@
 #include "fnv/decl/RefList.h"
 #include "fnv/decl/S00485110.h"
 #include "fnv/decl/TextString.h"
-#include "fnv/decl/Vec3.h"
 #include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
 #include "fnv/decl/fnv_004855a0__ArrSI.h"
 #include "fnv/decl/fnv_00575d70__FUN_00575d70_shell.h"
@@ -120,7 +119,7 @@ void TESLoadScreen::ClearLoadScreenData()
     BSSimpleList<WorldCellRecord*>* item = &m_kWorldCellRecordList;
     while (item && !item->IsEmpty())
     {
-        WorldCellRecord* data = (*((::WorldCellRecord **)(new ((void *)(item)) ::Vec3())));
+        WorldCellRecord* data = item->m_item;
         delete data;
         item = ((::BSSimpleList< ::WorldCellRecord *> *)(reinterpret_cast<::Callees *>((item))->FUN_00726070()));
     }
@@ -136,7 +135,7 @@ void TESLoadScreen::InitItem()
     BSSimpleList<WorldCellRecord*>* previous = 0;
     while (item && !item->IsEmpty())
     {
-        WorldCellRecord* data = (*((::WorldCellRecord **)(new ((void *)(item)) ::Vec3())));
+        WorldCellRecord* data = item->m_item;
         if (data->auiFormId)
             ::ResolveFormID((unsigned int *)&(data->auiFormId), GetFile(-1));
         if (data->uiWorldID)
@@ -229,7 +228,7 @@ bool TESLoadScreen::MatchesFormLocation(TESForm* form)
         BSSimpleList<WorldCellRecord*>* item = &m_kWorldCellRecordList;
         while (item && !item->IsEmpty())
         {
-            WorldCellRecord* data = (*((::WorldCellRecord **)(new ((void *)(item)) ::Vec3())));
+            WorldCellRecord* data = item->m_item;
             if (location.auiFormId)
             {
                 if (data->auiFormId == location.auiFormId)
@@ -395,7 +394,7 @@ void LoadScreenA6C::CopyLoadScreenData(TESForm* pkForm)
     pkDstNode = &m_kWorldCellRecordList;
     while (pkSrcIter && !pkSrcIter->IsEmpty())
     {
-        reinterpret_cast<::Callees *>((static_cast<LoadFormListA6C*>(pkDstNode)))->FUN_00905820((void *)(new ((void *)(pkSrcIter)) ::Vec3()));
+        reinterpret_cast<::Callees *>((static_cast<LoadFormListA6C*>(pkDstNode)))->FUN_00905820((void *)&pkSrcIter->m_item);
         if (((::BSSimpleList< ::WorldCellRecord *> *)(reinterpret_cast<::Callees *>((pkDstNode))->FUN_00726070())))
             pkDstNode = ((::BSSimpleList< ::WorldCellRecord *> *)(reinterpret_cast<::Callees *>((pkDstNode))->FUN_00726070()));
         pkSrcIter = ((::BSSimpleList< ::WorldCellRecord *> *)(reinterpret_cast<::Callees *>((pkSrcIter))->FUN_00726070()));
@@ -414,21 +413,9 @@ class ListX
     void* head;
     void* next;
 };
-class FormT
+class FormT : public TESLoadScreen
 {
   public:
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    ListX kList;
     bool FUN_005a6d30(void* pOther);
 };
 // @fnv 0x005a6d30
@@ -437,14 +424,14 @@ bool FormT::FUN_005a6d30(void* pOther)
     FormT* pOtherForm = (FormT*)dynamic_cast<::TESLoadScreen *>(reinterpret_cast<::TESForm *>(pOther));
     if (!pOtherForm)
         return true;
-    ListX* it = &pOtherForm->kList;
-    if (kList.FUN_005ae380() != it->FUN_005ae380())
+    BSSimpleList<WorldCellRecord*>* it = &pOtherForm->m_kWorldCellRecordList;
+    if (reinterpret_cast<ListX*>(&m_kWorldCellRecordList)->FUN_005ae380() != reinterpret_cast<ListX*>(it)->FUN_005ae380())
         return true;
-    while (it && !it->FUN_008256d0())
+    while (it && !reinterpret_cast<ListX*>(it)->FUN_008256d0())
     {
-        if (!reinterpret_cast<::RefList *>(&(kList))->FUN_005f65d0((void **)(void *)(((void *)(new ((void *)(it)) ::Vec3())))))
+        if (!reinterpret_cast<::RefList *>(&m_kWorldCellRecordList)->FUN_005f65d0((void **)(void *)&it->m_item))
             return true;
-        it = ((::ListX *)(reinterpret_cast<::Callees *>((it))->FUN_00726070()));
+        it = ((BSSimpleList<WorldCellRecord*> *)(reinterpret_cast<::Callees *>((it))->FUN_00726070()));
     }
     if (reinterpret_cast<::FUN_00509540_obj *>(this)->FUN_00485270((::TESForm *)(pOtherForm)))
         return true;

@@ -808,7 +808,7 @@ extern "C" void* __cdecl _NiFreeAlias(void*);
 
 struct FUN_00844660_Class
 {
-    int m_vtbl;
+    void* m_vtbl;
     int m_auiShapeKeys;
     int m_data;
     void FUN_00844660();

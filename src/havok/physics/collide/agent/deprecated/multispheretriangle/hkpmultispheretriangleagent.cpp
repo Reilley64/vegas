@@ -108,7 +108,7 @@ S_00d37e60_Agent* CreateTriAgent2(const S_00d37e60_CdBody& bodyA, const S_00d37e
 
 struct D38AC0Data
 {
-    int unk00;
+    void* unk00;
     char unk04;
     char unk05;
     char unk06;

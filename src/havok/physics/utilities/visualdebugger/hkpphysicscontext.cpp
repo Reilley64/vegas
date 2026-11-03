@@ -1976,7 +1976,7 @@ CD28F0Derived::CD28F0Derived()
 
 struct FUN_00cd1eb0_StandIn
 {
-    int unk00;
+    void* unk00;
     int FUN_00cd1eb0(int param);
 };
 

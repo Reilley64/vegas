@@ -7083,7 +7083,7 @@ FUN_00cbe820_cls* FUN_00cbe820_cls::FUN_00cbe820()
 
 struct FUN_00cbe880_Class
 {
-    int m_iWordAt00;
+    void* m_iWordAt00;
     void FUN_00cbe880();
 };
 

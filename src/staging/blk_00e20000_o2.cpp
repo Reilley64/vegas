@@ -139,7 +139,7 @@ void __cdecl AlignAndAdvance(char flags, int aiCount, int aiIndex, int* p)
 extern int DAT_010eb770;
 struct FUN_00e34800
 {
-    int vtbl;
+    void* vtbl;
     int a;
     int b;
     int c;
@@ -149,7 +149,7 @@ struct FUN_00e34800
 // @fnv 0x00e34800
 FUN_00e34800::FUN_00e34800(int aiValue)
 {
-    vtbl = (int)&DAT_010eb770;
+    vtbl = &DAT_010eb770;
     reinterpret_cast<::FUN_00cb0a70_Class *>((((FUN_00e34800*)((char*)this + 0xc))))->FUN_00cb0a70(aiValue);
 }
 
@@ -171,22 +171,22 @@ void FUN_00e3b4d0_Class::ApplyToBothObjects(void* a, void* b)
 
 struct FUN_00e3ec30_Class
 {
-    int FUN_00e3ec30(intptr_t arg);
+    char* FUN_00e3ec30(intptr_t arg);
 };
 
 // @fnv 0x00e3ec30
-int FUN_00e3ec30_Class::FUN_00e3ec30(intptr_t arg)
+char* FUN_00e3ec30_Class::FUN_00e3ec30(intptr_t arg)
 {
     if (!arg)
         return 0;
     for (int i = 0; i < *(int*)((char*)this + 0x2c); ++i)
     {
-        int* p = *(int**)((char*)this + 0x28);
-        int pEntry = p[i];
-        int eax = *(int*)(pEntry + 0x14);
-        if ((eax & 0xfffffffe) != 0)
+        char** p = *(char***)((char*)this + 0x28);
+        char* pEntry = p[i];
+        uintptr_t eax = *(uintptr_t*)(pEntry + 0x14);
+        if ((eax & ~(uintptr_t)1) != 0)
         {
-            eax &= 0xfffffffe;
+            eax &= ~(uintptr_t)1;
             if (::fnv_00cb0fe0::CompareStringsCaseInsensitive((const char *)(eax), (const char *)(arg)) == 0)
                 return pEntry;
         }
@@ -315,8 +315,8 @@ struct E2baaDst
     unsigned char unk19;
     unsigned char unk1A;
     unsigned char unk1B;
-    int unk1C;
-    int unk20;
+    E2baaSrc* unk1C;
+    E2baaSrc* unk20;
     int unk24;
     int unk28;
     int unk2C;
@@ -340,10 +340,10 @@ E2baaDst* __cdecl FUN_00e2baa0(E2baaDst* out, E2baaSrc* src, intptr_t flag)
     out->unk18 = 0;
     *(volatile int*)&out->unk24 = *(volatile int*)&src->unk30;
     int iSrc30 = src->unk30;
-    *(volatile int*)&out->unk20 = (int)src;
+    *(E2baaSrc* volatile*)&out->unk20 = src;
     out->unk28 = iSrc30;
     int iSrc24 = src->unk24;
-    *(volatile int*)&out->unk1C = (int)src;
+    *(E2baaSrc* volatile*)&out->unk1C = src;
     out->unk50 = iSrc24;
     int v = ((src->unk20 != 0) ? -1 : 0) & flag;
     out->unk54 = (v != 0) ? v + 0x10 : 0;
@@ -1788,7 +1788,7 @@ struct S_00e3ae70_Alloc
 
 struct S_00e3ae70_Holder
 {
-    int unk00;
+    char* unk00;
     int unk04;
     int unk08;
     int unk0c;
@@ -2122,7 +2122,7 @@ struct S_00e3ed00_Result
     int unk04;
     int unk08;
     int unk0c;
-    int unk10;
+    void* unk10;
 };
 
 struct S_00e3ed00_List
@@ -2495,7 +2495,7 @@ void FUN_00e3f110_cls::Destroy() throw()
     m_uCap78 = 0x80000000u;
     AudioHolder* pHolder2 = (AudioHolder*)static_cast<BSAudio*>(::FUN_00c85750());
     AudioAllocator* pAllocator2 = pHolder2->m_pAllocator;
-    int* pEntry = (int*)m_pBuf18;
+    AudioRefObject** pEntry = (AudioRefObject**)m_pBuf18;
     if (m_iCount1c > 0)
     {
         int n = m_iCount1c;
@@ -2503,7 +2503,7 @@ void FUN_00e3f110_cls::Destroy() throw()
         {
             if (*pEntry != 0)
             {
-                reinterpret_cast<::hkReferencedObjectC905 *>((((AudioRefObject*)*pEntry)))->FUN_00c905b0();
+                reinterpret_cast<::hkReferencedObjectC905 *>(*pEntry)->FUN_00c905b0();
             }
             *pEntry = 0;
             pEntry += 3;
@@ -2546,7 +2546,7 @@ unsigned char FUN_00e3f210_cls::HasDelimiter()
 
 struct FUN_00e3f230_Entry
 {
-    unsigned int m_flagged;
+    uintptr_t m_flagged;
     unsigned int unk04;
 };
 
@@ -2565,7 +2565,7 @@ void* FUN_00e3f340_Class::GetEntryByArg(int arg)
     if (index != -1)
     {
         void* entry = *(void**)(*(char**)((char*)this + 8) + index * 8 + 4);
-        return (void*)((unsigned int)entry & ~1u);
+        return (void*)((uintptr_t)entry & ~(uintptr_t)1);
     }
     return 0;
 }
@@ -2579,7 +2579,7 @@ int FUN_00e3f230_cls::FindEntryByKey(intptr_t arg)
     {
         do
         {
-            unsigned int key = m_pEntries[i].m_flagged & 0xfffffffeu;
+            uintptr_t key = m_pEntries[i].m_flagged & ~(uintptr_t)1;
             if (::fnv_00cb0fe0::CompareStringsCaseInsensitive((const char *)(key), (const char *)(arg)) == 0)
             {
                 return i;
@@ -2603,14 +2603,14 @@ void __cdecl FUN_00e30ff0(int index, int arg)
 
 struct BE3E7E0Entry
 {
-    unsigned int m_uiTaggedName;
+    uintptr_t m_uiTaggedName;
     int unk04;
     int unk08;
     int unk0C;
 
     const char* GetName() const
     {
-        return (const char*)(m_uiTaggedName & ~1u);
+        return (const char*)(m_uiTaggedName & ~(uintptr_t)1);
     }
 };
 
@@ -4036,7 +4036,7 @@ void FUN_00e2cc30(SplitInput* input, intptr_t a2, intptr_t a3, intptr_t a4, intp
     float* weights = (float*)router->unk00;
     weightArray.m_data = weights;
     weightArray.localMemory = weights;
-    router->unk00 = (int)weights + ((count * 4 + 127) & -128);
+    router->unk00 = (char*)weights + ((count * 4 + 127) & -128);
     weightArray.m_iElementCount = count;
     weightArray.m_iCapacityState = count | 0x80000000;
     for (int i = 0; i < count; ++i)
@@ -4051,7 +4051,7 @@ void FUN_00e2cc30(SplitInput* input, intptr_t a2, intptr_t a3, intptr_t a4, intp
     WorkItem* data = (WorkItem*)router->unk00;
     stack.m_data = data;
     stack.localMemory = data;
-    router->unk00 = (int)data + 384;
+    router->unk00 = (char*)data + 384;
     int iMaxDepth = 0;
     stack.m_iElementCount = 0;
     stack.m_iCapacityState = 10 | 0x80000000;
@@ -4101,9 +4101,9 @@ void FUN_00e2cc30(SplitInput* input, intptr_t a2, intptr_t a3, intptr_t a4, intp
         if (iMaxDepth <= stack.m_iElementCount)
             iMaxDepth = stack.m_iElementCount;
     } while (stack.m_iElementCount);
-    static_cast<S_00e3ae70_Holder*>(::FUN_00c85750())->unk00 = (int)stack.localMemory;
+    static_cast<S_00e3ae70_Holder*>(::FUN_00c85750())->unk00 = (char*)stack.localMemory;
     stack.ClearAndRelease();
-    static_cast<S_00e3ae70_Holder*>(::FUN_00c85750())->unk00 = (int)weightArray.localMemory;
+    static_cast<S_00e3ae70_Holder*>(::FUN_00c85750())->unk00 = (char*)weightArray.localMemory;
     weightArray.ClearAndRelease();
 }
 
@@ -4750,8 +4750,8 @@ __declspec(noinline) unsigned char Q_cls::HasDelimiter()
 
 struct S_Pair2b0
 {
-    unsigned int first;
-    unsigned int second;
+    uintptr_t first;
+    uintptr_t second;
 };
 
 struct S_Out2b0
@@ -4779,8 +4779,8 @@ void S_Class2b0::FUN_00e3f2b0(S_Out2b0* apOut)
     reinterpret_cast<::FUN_00d61cc0_t *>((apOut))->FUN_00d61cc0();
     for (int i = 0; i < unk0c; i++)
     {
-        Q_cls* first = (Q_cls*)(unk08[i].first & ~1u);
-        Q_cls* second = (Q_cls*)(unk08[i].second & ~1u);
+        Q_cls* first = (Q_cls*)(unk08[i].first & ~(uintptr_t)1);
+        Q_cls* second = (Q_cls*)(unk08[i].second & ~(uintptr_t)1);
         const char* a = reinterpret_cast<::FUN_00e3f210_cls *>((first))->HasDelimiter() ? (*reinterpret_cast<char (*)[]>(&::fnv_00ac9790::DAT_01021184)) : ::DAT_01011584;
         const char* b = reinterpret_cast<::FUN_00e3f210_cls *>((second))->HasDelimiter() ? (*reinterpret_cast<char (*)[]>(&::fnv_00ac9790::DAT_01021184)) : ::DAT_01011584;
         reinterpret_cast<::hkOstreamD624 *>((apOut))->WriteFormatted(str_010ebaa4, a, first, a, b, second, b);

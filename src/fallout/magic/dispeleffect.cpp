@@ -149,7 +149,7 @@ struct FUN_0080da00_cls
 void FUN_0080da00_cls::UpdateItems()
 {
     ItemObj* cur = ((::HolderObj *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))->h2();
-    bool b9 = ((::FUN_0080da00_cls *)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::FUN_0080da00_cls *)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0()))))->FUN_0084e3a0())) == 0;
+    bool b9 = ((::FUN_0080da00_cls *)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::FUN_0080da00_cls *)(reinterpret_cast<::ActiveEffectFields *>(this)->effect))))->FUN_0084e3a0())) == 0;
     ItemObj* x = ((::ItemObj *)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60())) ? ((::ItemObj *)(reinterpret_cast<::MagicCaster *>((((::ItemObj *)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60()))))->GetCasterActor())) : 0;
     while (cur != 0 && !cur->FUN_008256d0())
     {

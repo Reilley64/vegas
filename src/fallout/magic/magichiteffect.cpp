@@ -1,5 +1,6 @@
 // fallout/magic/magichiteffect.cpp: MagicHitEffect (17 functions)
 
+#include "fnv/active_effect_fields.h"
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/BGSTerrainManager.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -648,10 +649,10 @@ class MgrX
 // @fnv 0x0081b8e0
 FUN_00470440* __cdecl CreateEffectEntries(ActiveEffect* pEffect)
 {
-    if (reinterpret_cast<::MagicTarget *>((((::CasterX *)(reinterpret_cast<::ActorMover *>((pEffect))->GetCurrentMoveModeType()))))->GetOwnerActor())
+    if (reinterpret_cast<::MagicTarget *>((((::CasterX *)(reinterpret_cast<::ActiveEffectFields *>(pEffect)->target))))->GetOwnerActor())
     {
-        TESCreature* pCreature = dynamic_cast<TESCreature*>(reinterpret_cast<::MagicTarget *>((((::CasterX *)(reinterpret_cast<::ActorMover *>((pEffect))->GetCurrentMoveModeType()))))->GetOwnerActor()->GetActorBase());
-        Character* pCharacter = dynamic_cast<Character*>(reinterpret_cast<::MagicTarget *>((((::CasterX *)(reinterpret_cast<::ActorMover *>((pEffect))->GetCurrentMoveModeType()))))->GetOwnerActor());
+        TESCreature* pCreature = dynamic_cast<TESCreature*>(reinterpret_cast<::MagicTarget *>((((::CasterX *)(reinterpret_cast<::ActiveEffectFields *>(pEffect)->target))))->GetOwnerActor()->GetActorBase());
+        Character* pCharacter = dynamic_cast<Character*>(reinterpret_cast<::MagicTarget *>((((::CasterX *)(reinterpret_cast<::ActiveEffectFields *>(pEffect)->target))))->GetOwnerActor());
         if ((!pCreature || !pCreature->FUN_005fbf20()) && pCharacter)
             pCharacter->V218();
     }
@@ -665,7 +666,7 @@ FUN_00470440* __cdecl CreateEffectEntries(ActiveEffect* pEffect)
         return c;
     if (!pEffect->HasFlag(4) && !FUN_00525420())
     {
-        a = new FUN_0081c630(((::CasterX *)(reinterpret_cast<::ActorMover *>((pEffect))->GetCurrentMoveModeType()))->V04(pEffect));
+        a = new FUN_0081c630(((::CasterX *)(reinterpret_cast<::ActiveEffectFields *>(pEffect)->target))->V04(pEffect));
         if (a->VC4())
         {
             reinterpret_cast<::FUN_00973fd0_cls *>(&((*reinterpret_cast<::MgrX *>(&::g_011e0e80))))->FUN_00973fd0((::FnvArgObj *)(a));
@@ -678,7 +679,7 @@ FUN_00470440* __cdecl CreateEffectEntries(ActiveEffect* pEffect)
     }
     if (!pEffect->HasFlag(2))
     {
-        a = new FUN_0081f350(((::CasterX *)(reinterpret_cast<::ActorMover *>((pEffect))->GetCurrentMoveModeType()))->V04(pEffect));
+        a = new FUN_0081f350(((::CasterX *)(reinterpret_cast<::ActiveEffectFields *>(pEffect)->target))->V04(pEffect));
         if (a->VC4())
         {
             reinterpret_cast<::FUN_00973fd0_cls *>(&((*reinterpret_cast<::MgrX *>(&::g_011e0e80))))->FUN_00973fd0((::FnvArgObj *)(a));

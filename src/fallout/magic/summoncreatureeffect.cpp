@@ -220,8 +220,8 @@ void* SummonCreatureEffect::FUN_00828560(unsigned int flags)
 // @fnv 0x00828590
 FUN_00828590::~FUN_00828590()
 {
-    if (unk71 && ((::FUN_0040b800_shell *)(reinterpret_cast<::Twin_0044ddc0 *>(this)->GetName())))
-        reinterpret_cast<::UnloadMagic *>((((::FUN_0040b800_shell *)(reinterpret_cast<::Twin_0044ddc0 *>(this)->GetName()))))->FUN_0040b800(true);
+    if (unk71 && ((::FUN_0040b800_shell *)(reinterpret_cast<::ActiveEffectFields *>(this)->spell)))
+        reinterpret_cast<::UnloadMagic *>((((::FUN_0040b800_shell *)(reinterpret_cast<::ActiveEffectFields *>(this)->spell))))->FUN_0040b800(true);
 }
 
 struct SelectedRecord
@@ -614,14 +614,14 @@ void S_008287e0::FUN_008287e0()
     const char* m_pIdleForm = "SpecialIdle_SummonEffect";
     NiPoint3 vel = 64.0f * NiPoint3(-FUN_005c53d0(-unk64.z), FUN_005b9e80(-unk64.z), 0.0f);
     void* m_kModelObjectsItem =
-        FUN_006890b0(((::S_008287e0_Cell *)(reinterpret_cast<::LowProcess *>((ref))->GetTarget())), 1.0f, ((::S_008287e0_Setting *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((::S_008287e0_Item *)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0()))))->FUN_00825c00()))->vfn05(), vel, unk58, 1.0f, 7, 0);
+        FUN_006890b0(((::S_008287e0_Cell *)(reinterpret_cast<::LowProcess *>((ref))->GetTarget())), 1.0f, ((::S_008287e0_Setting *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((::S_008287e0_Item *)(reinterpret_cast<::ActiveEffectFields *>(this)->effect))))->FUN_00825c00()))->vfn05(), vel, unk58, 1.0f, 7, 0);
     reinterpret_cast<::FUN_00689920_shell *>((((S_008287e0_Temp*)m_kModelObjectsItem)))->FUN_00689920(m_pIdleForm);
     void* pAVObject = ((void *)(reinterpret_cast<::fnv_00490e40::FUN_00490e40_shell *>((((S_008287e0_Temp*)m_kModelObjectsItem)))->FUN_00490e40()));
     unk54 = ::GetAnimValueByPrefix((::NiObj6220 *)(pAVObject), m_pIdleForm, "Hit");
 
-    if (!unk71 && ((::S_008287e0_Magic *)(reinterpret_cast<::Twin_0044ddc0 *>(this)->GetName())))
+    if (!unk71 && ((::S_008287e0_Magic *)(reinterpret_cast<::ActiveEffectFields *>(this)->spell)))
     {
-        reinterpret_cast<::MagicItem *>((((::S_008287e0_Magic *)(reinterpret_cast<::Twin_0044ddc0 *>(this)->GetName()))))->Preload(false);
+        reinterpret_cast<::MagicItem *>((((::S_008287e0_Magic *)(reinterpret_cast<::ActiveEffectFields *>(this)->spell))))->Preload(false);
         unk71 = true;
     }
 }
@@ -777,9 +777,9 @@ FUN_00828470_cls* FUN_00828610_cls::CloneObject()
     obj->m_58 = m_58;
     obj->m_64 = m_64;
     obj->m_70 = m_70;
-    if (m_71 != 0 && obj->m_71 == 0 && ((::fnv_00828610::FUN_0044ddc0_ret *)(reinterpret_cast<::Twin_0044ddc0 *>(this)->GetName())))
+    if (m_71 != 0 && obj->m_71 == 0 && ((::fnv_00828610::FUN_0044ddc0_ret *)(reinterpret_cast<::ActiveEffectFields *>(this)->spell)))
     {
-        reinterpret_cast<::MagicItem *>((((::fnv_00828610::FUN_0044ddc0_ret *)(reinterpret_cast<::Twin_0044ddc0 *>(this)->GetName()))))->Preload(0);
+        reinterpret_cast<::MagicItem *>((((::fnv_00828610::FUN_0044ddc0_ret *)(reinterpret_cast<::ActiveEffectFields *>(this)->spell))))->Preload(0);
     }
     obj->m_71 = m_71;
     return obj;
@@ -1036,9 +1036,9 @@ void FUN_008289e0_cls::CleanupSummonedCreature()
         }
         this->m_4c = 0;
     }
-    if (this->m_71 != 0 && ((::FxnNode *)(reinterpret_cast<::Twin_0044ddc0 *>((this))->GetName())) != 0)
+    if (this->m_71 != 0 && ((::FxnNode *)(reinterpret_cast<::ActiveEffectFields *>(this)->spell)) != 0)
     {
-        reinterpret_cast<::UnloadMagic *>((((::FxnNode *)(reinterpret_cast<::Twin_0044ddc0 *>((this))->GetName()))))->FUN_0040b800(0);
+        reinterpret_cast<::UnloadMagic *>((((::FxnNode *)(reinterpret_cast<::ActiveEffectFields *>(this)->spell))))->FUN_0040b800(0);
         this->m_71 = 0;
     }
 }

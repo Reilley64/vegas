@@ -340,11 +340,11 @@ FUN_00807ee0::~FUN_00807ee0()
             delete unk50[j];
         }
     }
-    if (unka5 && ((::MagicItemS *)(reinterpret_cast<::Twin_0044ddc0 *>(this)->GetName())) && ((::EffItemS *)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0())))
+    if (unka5 && ((::MagicItemS *)(reinterpret_cast<::ActiveEffectFields *>(this)->spell)) && ((::EffItemS *)(reinterpret_cast<::ActiveEffectFields *>(this)->effect)))
     {
-        ModelHolderS* pHolder = ((::MagicItemS *)(reinterpret_cast<::Twin_0044ddc0 *>(this)->GetName()))->GetHolder(0);
-        EffItemS* pFound = ((::EffItemS *)(reinterpret_cast<::fnv_004064d0::EffectItemList *>(&(((::MagicItemS *)(reinterpret_cast<::Twin_0044ddc0 *>(this)->GetName()))->list))->FindCostliestEffectItem((int)(((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::EffItemS *)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0()))))->FUN_0084e3a0()))), 0)));
-        if (pHolder->model.GetModelLength() > 0 && ((::EffItemS *)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0())) == pFound)
+        ModelHolderS* pHolder = ((::MagicItemS *)(reinterpret_cast<::ActiveEffectFields *>(this)->spell))->GetHolder(0);
+        EffItemS* pFound = ((::EffItemS *)(reinterpret_cast<::fnv_004064d0::EffectItemList *>(&(((::MagicItemS *)(reinterpret_cast<::ActiveEffectFields *>(this)->spell))->list))->FindCostliestEffectItem((int)(((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::EffItemS *)(reinterpret_cast<::ActiveEffectFields *>(this)->effect))))->FUN_0084e3a0()))), 0)));
+        if (pHolder->model.GetModelLength() > 0 && ((::EffItemS *)(reinterpret_cast<::ActiveEffectFields *>(this)->effect)) == pFound)
             reinterpret_cast<::FUN_00445300_shell *>(((*reinterpret_cast<::LoaderS * *>(&::g_modelLoader))))->FUN_00445300((char *)(pHolder->model.GetModelPath()), false, 1);
         unka5 = false;
     }
@@ -2351,14 +2351,14 @@ void ActiveEffect::FUN_00808680()
         reinterpret_cast<::fnv_00804210::ActiveEffectUpdateShell *>(this)->FUN_00804210(false);
         return;
     }
-    if (((::fnv_00808680::MagicItem *)(reinterpret_cast<::Twin_0044ddc0 *>(this)->GetName())) && ((::fnv_00808680::EffectItem *)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0())))
+    if (((::fnv_00808680::MagicItem *)(reinterpret_cast<::ActiveEffectFields *>(this)->spell)) && ((::fnv_00808680::EffectItem *)(reinterpret_cast<::ActiveEffectFields *>(this)->effect)))
     {
-        EffectSettingQ* pBaseEffect = ((::fnv_00808680::MagicItem *)(reinterpret_cast<::Twin_0044ddc0 *>(this)->GetName()))->FUN_0040a300(0);
-        EffectItem* pRangeItem = ((::fnv_00808680::EffectItem *)(reinterpret_cast<::fnv_004064d0::EffectItemList *>(&(((::fnv_00808680::MagicItem *)(reinterpret_cast<::Twin_0044ddc0 *>(this)->GetName()))->kList))->FindCostliestEffectItem(reinterpret_cast<::FUN_0084e3a0_Class *>((((::fnv_00808680::EffectItem *)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0()))))->FUN_0084e3a0(), 0)));
+        EffectSettingQ* pBaseEffect = ((::fnv_00808680::MagicItem *)(reinterpret_cast<::ActiveEffectFields *>(this)->spell))->FUN_0040a300(0);
+        EffectItem* pRangeItem = ((::fnv_00808680::EffectItem *)(reinterpret_cast<::fnv_004064d0::EffectItemList *>(&(((::fnv_00808680::MagicItem *)(reinterpret_cast<::ActiveEffectFields *>(this)->spell))->kList))->FindCostliestEffectItem(reinterpret_cast<::FUN_0084e3a0_Class *>((((::fnv_00808680::EffectItem *)(reinterpret_cast<::ActiveEffectFields *>(this)->effect))))->FUN_0084e3a0(), 0)));
         if (pBaseEffect->kModel.GetModelLength() > 0)
         {
             NiNode* pNode = ((::fnv_00808680::NiNode *)(reinterpret_cast<::fnv_00447080::FUN_00447080_shell *>((((ModelLoaderQ*)(*reinterpret_cast<::LoaderS * *>(&::g_modelLoader)))))->FUN_00447080((char *)(pBaseEffect->kModel.GetModelPath()), 0, true, false, false, false)));
-            bool bIsType4 = ((::fnv_00808680::MagicItem *)(reinterpret_cast<::Twin_0044ddc0 *>(this)->GetName()))->GetType() == 4;
+            bool bIsType4 = ((::fnv_00808680::MagicItem *)(reinterpret_cast<::ActiveEffectFields *>(this)->spell))->GetType() == 4;
             if (!bIsType4)
             {
                 if (pNode)
@@ -2368,7 +2368,7 @@ void ActiveEffect::FUN_00808680()
             {
                 fHitEffectTime = 0.0f;
             }
-            if (((::fnv_00808680::EffectItem *)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0())) != pRangeItem)
+            if (((::fnv_00808680::EffectItem *)(reinterpret_cast<::ActiveEffectFields *>(this)->effect)) != pRangeItem)
                 reinterpret_cast<::FUN_00445300_shell *>((((ModelLoaderQ*)(*reinterpret_cast<::LoaderS * *>(&::g_modelLoader)))))->FUN_00445300(pBaseEffect->kModel.GetModelPath(), false, 1);
         }
     }
@@ -3159,11 +3159,11 @@ void BIEffect::StopEffect()
             m_bLoadArmorModel = false;
         }
         if (pkActor->IsAlive() && ((::BIProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pkActor))->GetBaseTexture())) && !(reinterpret_cast<::FUN_0045cd60_shell *>((((::BIProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pkActor))->GetBaseTexture()))))->FUN_0045cd60()) &&
-            ((::BIEffectItem *)(reinterpret_cast<::Twin_0044ddc0 *>(this)->GetName())) && ((::BINode *)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0())))
+            ((::BIEffectItem *)(reinterpret_cast<::ActiveEffectFields *>(this)->spell)) && ((::BINode *)(reinterpret_cast<::ActiveEffectFields *>(this)->effect)))
         {
-            BIModelHolder* pkModelOut = ((::BIEffectItem *)(reinterpret_cast<::Twin_0044ddc0 *>(this)->GetName()))->FUN_0040a300(0);
-            void* pvFound = ((void *)(reinterpret_cast<::fnv_004064d0::EffectItemList *>(&(((::BIEffectItem *)(reinterpret_cast<::Twin_0044ddc0 *>(this)->GetName()))->m_kList))->FindCostliestEffectItem((int)(((::BINode *)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::BINode *)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0()))))->FUN_0084e3a0()))), 0)));
-            if (((::BINode *)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0())) == pvFound)
+            BIModelHolder* pkModelOut = ((::BIEffectItem *)(reinterpret_cast<::ActiveEffectFields *>(this)->spell))->FUN_0040a300(0);
+            void* pvFound = ((void *)(reinterpret_cast<::fnv_004064d0::EffectItemList *>(&(((::BIEffectItem *)(reinterpret_cast<::ActiveEffectFields *>(this)->spell))->m_kList))->FindCostliestEffectItem((int)(((::BINode *)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::BINode *)(reinterpret_cast<::ActiveEffectFields *>(this)->effect))))->FUN_0084e3a0()))), 0)));
+            if (((::BINode *)(reinterpret_cast<::ActiveEffectFields *>(this)->effect)) == pvFound)
             {
                 if (((::BIModelHolder *)(reinterpret_cast<::ActiveEffect *>(this)->GetEffectSetting()))->m_kModel.GetModelLength() > 0)
                 {

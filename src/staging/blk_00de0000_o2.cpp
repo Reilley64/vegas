@@ -87,18 +87,51 @@
 #include "fnv/symbols_0126d000.h"
 #include "../../include/layout_support.h"
 
+// Views for objects these finish-constructors and destructors build in place. Members FUN_00cb0a70
+// (hkStringPtr's finish constructor) and FUN_00cb0c00 run on are hkStringPtr (`const char*`).
+struct DEStringAt04
+{
+    int unk00;
+    const char* m_sz04;
+};
+struct DEStringAt14
+{
+    void* m_pVtbl;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    const char* m_sz14;
+};
+
+struct DF64D0Object
+{
+    int m_i00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int m_i10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    unsigned short m_us20;
+    unsigned short m_us22;
+    int m_i24;
+    int m_i28;
+};
 // If p is non-null and b is set, zeroes the fields at offsets 0x20, 0x22, 0x24, 0x28, 0x10 and sets the int at offset 0 to 1.
 // @fnv 0x00df64d0
 void __cdecl FUN_00df64d0(void* p, int b)
 {
-    if (p && b)
+    DF64D0Object* pkObject = static_cast<DF64D0Object*>(p);
+    if (pkObject && b)
     {
-        *(unsigned short*)((char*)p + 0x20) = 0;
-        *(unsigned short*)((char*)p + 0x22) = 0;
-        *(int*)((char*)p + 0x24) = 0;
-        *(int*)((char*)p + 0x28) = 0;
-        *(int*)p = 1;
-        *(int*)((char*)p + 0x10) = 0;
+        pkObject->m_us20 = 0;
+        pkObject->m_us22 = 0;
+        pkObject->m_i24 = 0;
+        pkObject->m_i28 = 0;
+        pkObject->m_i00 = 1;
+        pkObject->m_i10 = 0;
     }
 }
 
@@ -110,7 +143,7 @@ struct FUN_00cb0c00_class
 // @fnv 0x00dfb490
 void FUN_00dfb490(FUN_00cb0c00_class* self)
 {
-    ::FUN_00cb0c00((intptr_t)(reinterpret_cast<FUN_00cb0c00_class*>(reinterpret_cast<char*>(self) + 4)));
+    ::FUN_00cb0c00((intptr_t)(&reinterpret_cast<DEStringAt04*>(self)->m_sz04));
     ::FUN_00cb0c00((intptr_t)(self));
 }
 
@@ -138,7 +171,7 @@ void FUN_00dfbdf0(void* p, int a)
     if (p)
     {
         *(void**)p = (void*)&DAT_010cc2fc;
-        ((FUN_00dfbdf0_class*)((char*)p + 0x14))->FUN_00cb0a70(a);
+        reinterpret_cast<FUN_00dfbdf0_class*>(&static_cast<DEStringAt14*>(p)->m_sz14)->FUN_00cb0a70(a);
         *(void**)p = (void*)&DAT_010df34c;
     }
 }
@@ -160,6 +193,14 @@ void __cdecl FUN_00dfc3e0(void** ppObject, void* a2)
 
 extern "C" void* DAT_010e222c;
 
+struct DFD0F0Shape
+{
+    void* m_pVtbl;
+    unsigned short m_usMemSizeAndFlags;
+    short m_sReferenceCount;
+    uintptr_t m_ulUserData;
+    unsigned int m_type;
+};
 // @fnv 0x00dfd0f0
 void FUN_00dfd0f0(void* pObject, int b)
 {
@@ -167,9 +208,9 @@ void FUN_00dfd0f0(void* pObject, int b)
     {
         *reinterpret_cast<void**>(pObject) = &DAT_010305a8;
         if (b)
-            *reinterpret_cast<int*>(reinterpret_cast<char*>(pObject) + 0xc) = 0;
+            static_cast<DFD0F0Shape*>(pObject)->m_type = 0;
         *reinterpret_cast<void**>(pObject) = &DAT_010e222c;
-        *reinterpret_cast<int*>(reinterpret_cast<char*>(pObject) + 0xc) = 0x18;
+        static_cast<DFD0F0Shape*>(pObject)->m_type = 0x18;
     }
 }
 
@@ -182,7 +223,7 @@ struct FUN_00cb0a70_class
 void __cdecl FUN_00dfd770(void* pObject, void* arg2)
 {
     if (pObject)
-        ((FUN_00cb0a70_class*)((char*)pObject + 4))->FUN_00cb0a70((intptr_t)arg2);
+        reinterpret_cast<FUN_00cb0a70_class*>(&static_cast<DEStringAt04*>(pObject)->m_sz04)->FUN_00cb0a70((intptr_t)arg2);
 }
 
 namespace fnv_00dfd970 {
@@ -223,7 +264,7 @@ void FUN_00dfde30(void* apObject)
 {
     if (apObject)
     {
-        *(unsigned short*)((char*)apObject + 6) = 1;
+        static_cast<DFD0F0Shape*>(apObject)->m_sReferenceCount = 1;
         *(int**)(char*)apObject = &DAT_010d3cc0;
     }
 }
@@ -247,7 +288,7 @@ void FUN_00dfef50(int* pObject, int aiValue)
     if (pObject)
     {
         *(void**)pObject = (void*)&DAT_010cc2fc;
-        ((FUN_00cb0a70_Class*)((char*)pObject + 0x14))->FUN_00cb0a70(aiValue);
+        reinterpret_cast<FUN_00cb0a70_Class*>(&reinterpret_cast<DEStringAt14*>(pObject)->m_sz14)->FUN_00cb0a70(aiValue);
         *(void**)pObject = (void*)&DAT_010d08f4;
     }
 }
@@ -266,7 +307,7 @@ void FUN_00dff0f0(FUN_00dff0f0_class* p, int aiValue)
     if (p)
     {
         p->m = &DAT_010cc2fc;
-        ((FUN_00dff0f0_class*)((char*)p + 0x14))->FUN_00cb0a70(aiValue);
+        reinterpret_cast<FUN_00dff0f0_class*>(&reinterpret_cast<DEStringAt14*>(p)->m_sz14)->FUN_00cb0a70(aiValue);
         p->m = &DAT_010e6834;
     }
 }
@@ -303,7 +344,7 @@ void __cdecl FUN_00dff340(void* apObject, void* arg)
     if (apObject)
     {
         ((FUN_00dff340_Class*)apObject)->m_p = &DAT_010cc2fc;
-        ((FUN_00dff340_Class*)((char*)apObject + 0x14))->FUN_00cb0a70(arg);
+        reinterpret_cast<FUN_00dff340_Class*>(&static_cast<DEStringAt14*>(apObject)->m_sz14)->FUN_00cb0a70(arg);
         ((FUN_00dff340_Class*)apObject)->m_p = &DAT_010d0944;
     }
 }
@@ -376,7 +417,7 @@ void CopyFields(void* pSource, void* pDest)
 // @fnv 0x00dfbc70
 void FUN_00dfbc70(FUN_00cb0c00_class* self)
 {
-    ::FUN_00cb0c00((intptr_t)(((FUN_00cb0c00_class*)((char*)self + 4))));
+    ::FUN_00cb0c00((intptr_t)(&reinterpret_cast<DEStringAt04*>(self)->m_sz04));
 }
 
 extern int DAT_010df89c;
@@ -580,7 +621,7 @@ void __cdecl FUN_00dfd7a0(FUN_00dfd7a0_vt* p)
 // @fnv 0x00dfd7c0
 void __cdecl FUN_00dfd7c0(void* arg)
 {
-    ::FUN_00cb0c00((intptr_t)(((FUN_00cb0c00_class*)((char*)arg + 4))));
+    ::FUN_00cb0c00((intptr_t)(&static_cast<DEStringAt04*>(arg)->m_sz04));
 }
 
 struct FUN_00dfd940_vt
@@ -596,7 +637,7 @@ void __cdecl FUN_00dfd940(FUN_00dfd940_vt* p)
 // @fnv 0x00dfdb40
 void __cdecl FUN_00dfdb40(void* p)
 {
-    ::FUN_00cb0c00((intptr_t)(((FUN_00cb0c00_class*)((char*)p + 4))));
+    ::FUN_00cb0c00((intptr_t)(&static_cast<DEStringAt04*>(p)->m_sz04));
 }
 
 extern int DAT_010e351c;
@@ -802,17 +843,25 @@ void __cdecl FUN_00dff0d0(int* p)
 }
 
 extern int DAT_010c8e94;
+struct DFF270Object : DEStringAt14
+{
+    char m_pad18[0x3c];
+    void* m_pData;
+    int m_iSize;
+    int m_iCapacityAndFlags;
+};
 // @fnv 0x00dff270
 void __cdecl FUN_00dff270(void* pObject, void* b)
 {
     if (pObject)
     {
         *(void**)pObject = (void*)&DAT_010cc2fc;
-        ((FUN_00cb0a70_Class*)((char*)pObject + 0x14))->FUN_00cb0a70((intptr_t)b);
+        DFF270Object* pkObject = static_cast<DFF270Object*>(pObject);
+        reinterpret_cast<FUN_00cb0a70_Class*>(&pkObject->m_sz14)->FUN_00cb0a70((intptr_t)b);
         *(void**)pObject = (void*)&DAT_010c8e94;
-        *(int*)((char*)pObject + 0x54) = 0;
-        *(int*)((char*)pObject + 0x58) = 0;
-        *(int*)((char*)pObject + 0x5c) = 0x80000000;
+        pkObject->m_pData = 0;
+        pkObject->m_iSize = 0;
+        pkObject->m_iCapacityAndFlags = 0x80000000;
     }
 }
 
@@ -1083,7 +1132,7 @@ void __cdecl CallMethodOnBothHelpers(FUN_00cb0a70_Class* pHelper, int iValue)
     if (pHelper)
     {
         pHelper->FUN_00cb0a70(iValue);
-        ((FUN_00cb0a70_Class*)((char*)pHelper + 4))->FUN_00cb0a70(iValue);
+        reinterpret_cast<FUN_00cb0a70_Class*>(&reinterpret_cast<DEStringAt04*>(pHelper)->m_sz04)->FUN_00cb0a70(iValue);
     }
 }
 
@@ -1161,7 +1210,7 @@ void __cdecl FUN_00dfbc20(S_00d49310_Lock* self)
 void __cdecl FUN_00dfbc30(void* pTarget, void* b)
 {
     if (pTarget)
-        ((FUN_00cb0a70_Class*)((char*)pTarget + 4))->FUN_00cb0a70((intptr_t)b);
+        reinterpret_cast<FUN_00cb0a70_Class*>(&static_cast<DEStringAt04*>(pTarget)->m_sz04)->FUN_00cb0a70((intptr_t)b);
 }
 
 // @fnv 0x00dfbc80
@@ -1432,7 +1481,7 @@ void __cdecl FUN_00dfe2d0(FUN_00ce5360_class* pObject, int iValue)
     {
         int* p = (int*)pObject;
         *(void**)p = (void*)&DAT_010cb864;
-        reinterpret_cast<::FUN_00ce5360_This *>((((FUN_00ce5360_class*)((char*)pObject + 0x10))))->FUN_00ce5360(iValue);
+        reinterpret_cast<::FUN_00ce5360_This *>(&pObject->m_10)->FUN_00ce5360(iValue);
     }
 }
 
@@ -1472,6 +1521,14 @@ void __cdecl FUN_00dfe590(void* p)
 
 extern int DAT_010e587c;
 
+struct DFE5B0Object
+{
+    void* m_pVtbl;
+    int unk04;
+    const char* m_sz08;
+    char m_pad0c[0x48];
+    const char* m_sz54;
+};
 // If a is non-null, stores &DAT_010e587c at its start and calls m(b) on the helper objects at offsets 8 and 0x54.
 // @fnv 0x00dfe5b0
 void __cdecl FUN_00dfe5b0(void* pObject, int iValue)
@@ -1479,8 +1536,9 @@ void __cdecl FUN_00dfe5b0(void* pObject, int iValue)
     if (pObject)
     {
         *(void**)pObject = (void*)&DAT_010e587c;
-        ((FUN_00cb0a70_Class*)((char*)pObject + 8))->FUN_00cb0a70(iValue);
-        ((FUN_00cb0a70_Class*)((char*)pObject + 0x54))->FUN_00cb0a70(iValue);
+        DFE5B0Object* pkObject = static_cast<DFE5B0Object*>(pObject);
+        reinterpret_cast<FUN_00cb0a70_Class*>(&pkObject->m_sz08)->FUN_00cb0a70(iValue);
+        reinterpret_cast<FUN_00cb0a70_Class*>(&pkObject->m_sz54)->FUN_00cb0a70(iValue);
     }
 }
 
@@ -1491,7 +1549,7 @@ void __cdecl FUN_00dfe990(void* apObject, int aiValue)
     if (apObject)
     {
         *(void**)(char*)apObject = (void*)&DAT_010e5a58;
-        ((FUN_00cb0a70_Class*)((char*)apObject + 8))->FUN_00cb0a70(aiValue);
+        reinterpret_cast<FUN_00cb0a70_Class*>(&static_cast<DFE5B0Object*>(apObject)->m_sz08)->FUN_00cb0a70(aiValue);
     }
 }
 
@@ -1622,7 +1680,7 @@ void __cdecl FUN_00dff9b0(FUN_00dff9b0_m* pObject, int aiValue)
     if (pObject)
     {
         *reinterpret_cast<void**>(pObject) = &DAT_010cc2fc;
-        reinterpret_cast<FUN_00dff9b0_m*>(reinterpret_cast<char*>(pObject) + 0x14)->m(aiValue);
+        reinterpret_cast<FUN_00dff9b0_m*>(&reinterpret_cast<DEStringAt14*>(pObject)->m_sz14)->m(aiValue);
         *reinterpret_cast<void**>(pObject) = &DAT_010d0994;
     }
 }
@@ -2228,12 +2286,14 @@ void FUN_00de4920_cls::CopyVec4ToBuffer(int* volatile pOut)
 namespace fnv_00de4e00 {
 struct CpuObject
 {
+    char m_pad00[0x80];
+    char m_k80[1];
     char* FUN_00de4e00();
 };
 // @fnv 0x00de4e00
 char* CpuObject::FUN_00de4e00()
 {
-    return reinterpret_cast<char*>(this) + 128;
+    return m_k80;
 }
 }  // namespace fnv_00de4e00
 
@@ -2275,6 +2335,7 @@ struct FUN_00de4e10_cls
     int unk84;
     int unk88;
     int unk8C;
+    char m_k90[1];
 
     char* FUN_00de4e10();
 };
@@ -2282,7 +2343,7 @@ struct FUN_00de4e10_cls
 // @fnv 0x00de4e10
 char* FUN_00de4e10_cls::FUN_00de4e10()
 {
-    return (char*)this + 0x90;
+    return m_k90;
 }
 
 struct FUN_00de5320_vec4
@@ -2296,13 +2357,15 @@ struct FUN_00de5320_vec4
 class FUN_00de5320_cls
 {
   public:
+    char m_pad00[0x70];
+    FUN_00de5320_vec4 m_kVec70;
     FUN_00de5320_vec4 GetVec4At70();
 };
 
 // @fnv 0x00de5320
 FUN_00de5320_vec4 FUN_00de5320_cls::GetVec4At70()
 {
-    FUN_00de5320_vec4* src = (FUN_00de5320_vec4*)((char*)this + 0x70);
+    FUN_00de5320_vec4* src = &m_kVec70;
     return *src;
 }
 
@@ -2400,13 +2463,15 @@ float FUN_00de5350_cls::FUN_00de5350()
 class FUN_00de5360_cls
 {
   public:
+    char m_pad00[0x80];
+    void* m_p80;
     void* FUN_00de5360();
 };
 
 // @fnv 0x00de5360
 void* FUN_00de5360_cls::FUN_00de5360()
 {
-    return *(void**)((char*)this + 0x80);
+    return m_p80;
 }
 
 
@@ -6829,6 +6894,12 @@ void* __cdecl FUN_00dffe70()
 }
 
 
+struct DFFE0Object
+{
+    void* m_pVtbl;
+    char m_pad04[0x11a];
+    unsigned short m_usHalfOne;
+};
 // @fnv 0x00dffe80
 void __cdecl FUN_00dffe80(void* apObject, int b)
 {
@@ -6840,8 +6911,7 @@ void __cdecl FUN_00dffe80(void* apObject, int b)
         {
             float value = 1.0f;
             int bits = *reinterpret_cast<int*>(&value);
-            *reinterpret_cast<unsigned short*>(static_cast<char*>(apObject) + 0x11e) =
-                static_cast<unsigned short>(bits >> 16);
+            static_cast<DFFE0Object*>(apObject)->m_usHalfOne = static_cast<unsigned short>(bits >> 16);
         }
 
         *(void**)apObject = (void*)&DAT_010c6d54;
@@ -7548,32 +7618,38 @@ void __cdecl FUN_00dfca00(void* pvObject, int iFinishing)
 
 struct FnvCpu_FUN_00de1150_CpuObject
 {
+    char m_pad00[0x60];
+    char m_k60[1];
     char* FUN_00de1150();
 };
 // @fnv 0x00de1150
 char* FnvCpu_FUN_00de1150_CpuObject::FUN_00de1150()
 {
-    return reinterpret_cast<char*>(this) + 96;
+    return m_k60;
 }
 
 struct FnvCpu_FUN_00de1160_CpuObject
 {
+    char m_pad00[0x70];
+    char m_k70[1];
     char* FUN_00de1160();
 };
 // @fnv 0x00de1160
 char* FnvCpu_FUN_00de1160_CpuObject::FUN_00de1160()
 {
-    return reinterpret_cast<char*>(this) + 112;
+    return m_k70;
 }
 
 struct FnvCpu_FUN_00de4de0_CpuObject
 {
+    char m_pad00[0x60];
+    char m_k60[1];
     char* FUN_00de4de0();
 };
 // @fnv 0x00de4de0
 char* FnvCpu_FUN_00de4de0_CpuObject::FUN_00de4de0()
 {
-    return reinterpret_cast<char*>(this) + 96;
+    return m_k60;
 }
 
 // @fnv 0x00de4df0

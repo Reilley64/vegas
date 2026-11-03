@@ -237,23 +237,9 @@ struct DDCC60World
 {
 };
 
-struct VUC_Allocator
-{
-    virtual void a();
-    virtual void b();
-    virtual void c();
-    virtual void d();
-    virtual void free(void* ptr, unsigned int size);
-};
 
-struct VUC_Router
-{
-    char m_auiShapeKeys[0x10];
-    VUC_Allocator* m_pThreadAllocator;
-};
 
 extern int DAT_010df34c;
-VUC_Router* _D1A0E0GetMemoryRouter();
 
 struct FUN_00e38bf0
 {
@@ -324,38 +310,35 @@ FUN_00e38bf0::~FUN_00e38bf0()
     if (m_ref40)
         reinterpret_cast<::hkReferencedObjectC905 *>((m_ref40))->FUN_00c905b0();
 
-    VUC_Router* router = _D1A0E0GetMemoryRouter();
-    VUC_Allocator* allocator = router->m_pThreadAllocator;
+    hkMemoryAllocator* allocator = hkMemoryRouter::getInstance().m_heap;
 
     m_sizec4 = 0;
     if ((m_capacityc8 & 0x80000000) == 0)
     {
         unsigned int size = (m_capacityc8 & 0x3fffffff) * 4;
-        allocator->free(m_datac0, size);
+        allocator->bufFree(m_datac0, size);
     }
     m_datac0 = 0;
     m_capacityc8 = 0x80000000;
 
-    router = _D1A0E0GetMemoryRouter();
-    allocator = router->m_pThreadAllocator;
+    allocator = hkMemoryRouter::getInstance().m_heap;
 
     m_sizea4 = 0;
     if ((m_capacitya8 & 0x80000000) == 0)
     {
         unsigned int size = m_capacitya8 & 0x3fffffff;
-        allocator->free(m_dataa0, size);
+        allocator->bufFree(m_dataa0, size);
     }
     m_dataa0 = 0;
     m_capacitya8 = 0x80000000;
 
-    router = _D1A0E0GetMemoryRouter();
-    allocator = router->m_pThreadAllocator;
+    allocator = hkMemoryRouter::getInstance().m_heap;
 
     m_size4c = 0;
     if ((m_capacity50 & 0x80000000) == 0)
     {
         unsigned int size = (m_capacity50 & 0x3fffffff) * 0xe0;
-        allocator->free(m_data48, size);
+        allocator->bufFree(m_data48, size);
     }
     m_data48 = 0;
     m_capacity50 = 0x80000000;
@@ -627,8 +610,7 @@ void VUC_Instance::UpdateVehicleState(float afDeltaTime, const VUC_Filtered& inp
     hkpVehicleInstance* vehicle = reinterpret_cast<hkpVehicleInstance*>(this);
     VUC_RealArray& rFixedArray = output.m_kSecondRealArray;
     int count = vehicle->m_kSecondRealArray.m_iElementCount;
-    VUC_Router* router = reinterpret_cast<VUC_Router*>(::FUN_00c85750());
-    VUC_Allocator* alloc = router->m_pThreadAllocator;
+    hkMemoryAllocator* alloc = hkMemoryRouter::getInstance().m_heap;
     int capacity = rFixedArray.m_iCapacityState & 0x3fffffff;
     if (capacity < count)
     {
@@ -639,8 +621,7 @@ void VUC_Instance::UpdateVehicleState(float afDeltaTime, const VUC_Filtered& inp
     }
     rFixedArray.m_iElementCount = count;
     count = vehicle->m_kSecondRealArray.m_iElementCount;
-    router = reinterpret_cast<VUC_Router*>(::FUN_00c85750());
-    alloc = router->m_pThreadAllocator;
+    alloc = hkMemoryRouter::getInstance().m_heap;
     capacity = output.m_kFirstRealArray.m_iCapacityState & 0x3fffffff;
     if (capacity < count)
     {
@@ -659,28 +640,7 @@ void VUC_Instance::UpdateVehicleState(float afDeltaTime, const VUC_Filtered& inp
     vehicle->m_fBrakeState = output.m_unk18;
 }
 
-struct hkAllocatorE38D
-{
-    virtual void V0() throw();
-    virtual void V1() throw();
-    virtual void V2() throw();
-    virtual void V3() throw();
-    virtual void ReturnMemory(void* p, int iNumBytes) throw();
-    template <typename T> void _bufFree(void* p, int aiNumElements)
-    {
-        ReturnMemory(p, aiNumElements * sizeof(T));
-    }
-};
 
-struct hkMemoryRouterE38D
-{
-    void* m_apvUnk00[4];
-    hkAllocatorE38D* m_pkHeap;
-    hkAllocatorE38D& heap()
-    {
-        return *m_pkHeap;
-    }
-};
 
 
 template <typename T> struct hkArrayE38D
@@ -693,7 +653,7 @@ template <typename T> struct hkArrayE38D
     {}
     ~hkArrayE38D() throw()
     {
-        hkAllocatorE38D& kAlloc = ((hkMemoryRouterE38D*)::FUN_00c85750())->heap();
+        hkMemoryAllocator& kAlloc = hkMemoryRouter::getInstance().heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
             kAlloc._bufFree<T>(m_data, m_iCapacityState & 0x3fffffff);
@@ -704,7 +664,7 @@ template <typename T> struct hkArrayE38D
     {
         return m_iCapacityState & 0x3fffffff;
     }
-    void GrowArrayCapacity(hkAllocatorE38D& kAlloc, int n)
+    void GrowArrayCapacity(hkMemoryAllocator& kAlloc, int n)
     {
         const int iCapacity = getCapacity();
         if (iCapacity < n)
@@ -716,7 +676,7 @@ template <typename T> struct hkArrayE38D
     }
     void SetSizeAndGrow(int n)
     {
-        GrowArrayCapacity(((hkMemoryRouterE38D*)::FUN_00c85750())->heap(), n);
+        GrowArrayCapacity(hkMemoryRouter::getInstance().heap(), n);
         m_iElementCount = n;
     }
 };
@@ -775,11 +735,10 @@ struct VUC_AeroOutput
 
 static inline void VUC_ReleaseArray(VUC_RealArray& a)
 {
-    VUC_Router* router = (VUC_Router*)::FUN_00c85750();
-    VUC_Allocator* allocator = router->m_pThreadAllocator;
+    hkMemoryAllocator* allocator = hkMemoryRouter::getInstance().m_heap;
     a.m_iElementCount = 0;
     if ((a.m_iCapacityState & 0x80000000) == 0)
-        allocator->free(a.m_data, (a.m_iCapacityState & 0x3fffffff) * sizeof(float));
+        allocator->bufFree(a.m_data, (a.m_iCapacityState & 0x3fffffff) * sizeof(float));
     a.m_data = 0;
     a.m_iCapacityState = 0x80000000;
 }
@@ -861,22 +820,6 @@ struct VehicleData
     short m_sReferenceCount;
     VehicleVector4 m_kGravity;
     signed char m_iWheelCount;
-};
-struct VehicleScratchAllocator
-{
-    virtual void slot00();
-    virtual void slot04();
-    virtual void slot08();
-    virtual void slot0c();
-    virtual void free(void* memory, unsigned int bytes);
-};
-struct VehicleMemoryRouter
-{
-    char* m_stackTop;
-    void* m_stackEnd;
-    void* m_stackCapacity;
-    void* m_heapFallback;
-    VehicleScratchAllocator* m_pThreadAllocator;
 };
 struct VehicleWheelCollide
 {
@@ -1456,28 +1399,6 @@ FUN_00e39300_class& FUN_00e39300_class::FUN_00e39300(const FUN_00e39300_class* s
     return *this;
 }
 
-class hkMemoryAllocatorE39
-{
-  public:
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual void* AllocateBufferWithSize(int& iReqNumBytesInOut);
-    virtual void ReturnMemory(void* pvData, int iNumBytes);
-};
-struct hkMemoryRouterE39
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    hkMemoryAllocatorE39* m_pStreamAllocator;
-    hkMemoryAllocatorE39& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
-hkMemoryRouterE39& __cdecl GetMemoryRouterE39() throw();
 
 template <class T> __forceinline void destructE39(T* pArr, int n)
 {
@@ -1501,7 +1422,7 @@ template <class T> class hkClassArrayE39
     {
         return m_iCapacityState & 0x3fffffff;
     }
-    __forceinline void reserve(hkMemoryAllocatorE39& kAlloc, int n)
+    __forceinline void reserve(hkMemoryAllocator& kAlloc, int n)
     {
         if (getCapacity() < n)
         {
@@ -1512,7 +1433,7 @@ template <class T> class hkClassArrayE39
     }
     __forceinline hkClassArrayE39& operator=(const hkClassArrayE39& a)
     {
-        hkMemoryAllocatorE39& kAlloc = GetMemoryRouterE39().heap();
+        hkMemoryAllocator& kAlloc = hkMemoryRouter::getInstance().heap();
         const int iOldSize = m_iElementCount;
         const int iNewSize = a.m_iElementCount;
         int iCopiedSize = (iNewSize > iOldSize) ? iOldSize : iNewSize;
@@ -1536,13 +1457,13 @@ template <class T> class hkPodArrayE39
     }
     __forceinline hkPodArrayE39& operator=(const hkPodArrayE39& a)
     {
-        hkMemoryAllocatorE39& kAlloc = GetMemoryRouterE39().heap();
+        hkMemoryAllocator& kAlloc = hkMemoryRouter::getInstance().heap();
         if (getCapacity() < a.m_iElementCount)
         {
             if ((m_iCapacityState & 0x80000000) == 0)
-                kAlloc.ReturnMemory(m_data, getCapacity() * sizeof(T));
+                kAlloc.bufFree(m_data, getCapacity() * sizeof(T));
             int iNumBytes = a.m_iElementCount * sizeof(T);
-            m_data = static_cast<T*>(kAlloc.AllocateBufferWithSize(iNumBytes));
+            m_data = static_cast<T*>(kAlloc.bufAlloc(iNumBytes));
             m_iCapacityState = iNumBytes / (int)sizeof(T);
         }
         m_iElementCount = a.m_iElementCount;
@@ -1831,33 +1752,23 @@ void FUN_00e37160(int, FnvVehicleState* state)
     state->vectors70 = zero;
 }
 
-struct FUN_00e39400_Router
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    VUC_Allocator* m_pThreadAllocator;
-};
 
 // Frees the backing buffers of m_kSecondRealArray and m_kFirstRealArray via the thread allocator and resets their state to empty.
 // @fnv 0x00e39400
 FUN_00e39400::~FUN_00e39400() throw()
 {
-    FUN_00e39400_Router* m = (FUN_00e39400_Router*)::FUN_00c85750();
-    VUC_Allocator* alloc = m->m_pThreadAllocator;
+    hkMemoryAllocator* alloc = hkMemoryRouter::getInstance().m_heap;
     int c = m_kSecondRealArray.m_iCapacityState;
     m_kSecondRealArray.m_iElementCount = 0;
     if (!(c & 0x80000000))
-        alloc->free(m_kSecondRealArray.m_data, c & 0x3fffffff);
+        alloc->bufFree(m_kSecondRealArray.m_data, c & 0x3fffffff);
     m_kSecondRealArray.m_data = 0;
     m_kSecondRealArray.m_iCapacityState = 0x80000000;
-    m = (FUN_00e39400_Router*)::FUN_00c85750();
-    alloc = m->m_pThreadAllocator;
+    alloc = hkMemoryRouter::getInstance().m_heap;
     c = m_kFirstRealArray.m_iCapacityState;
     m_kFirstRealArray.m_iElementCount = 0;
     if (!(c & 0x80000000))
-        alloc->free(m_kFirstRealArray.m_data, (c & 0x3fffffff) * 4);
+        alloc->bufFree(m_kFirstRealArray.m_data, (c & 0x3fffffff) * 4);
     m_kFirstRealArray.m_data = 0;
     m_kFirstRealArray.m_iCapacityState = 0x80000000;
 }
@@ -3034,10 +2945,7 @@ void VUC_Instance::UpdateVehicleComponents(const VUC_StepInfo& stepInfo, void* d
     FUN_00e39400 breakingInfo;
     {
         int n = m_data->m_iWheelCount;
-        char** cur = (char**)::FUN_00c85750();
-        char* p = *cur;
-        *cur = p + ((n * 4 + 0x7f) & ~0x7f);
-        transmission.m_pGearRatios = (float*)p;
+        transmission.m_pGearRatios = static_cast<float*>(hkMemoryRouter::getInstance().allocateStack((n * 4 + 0x7f) & ~0x7f));
     }
 
     const float deltaTime = stepInfo.m_fTimeStep;
@@ -3058,8 +2966,7 @@ void VUC_Instance::UpdateVehicleComponents(const VUC_StepInfo& stepInfo, void* d
     }
 
     {
-        char* p = (char*)transmission.m_pGearRatios;
-        *(char**)::FUN_00c85750() = p;
+        hkMemoryRouter::getInstance().deallocateStack(transmission.m_pGearRatios);
     }
 
     {
@@ -5230,8 +5137,7 @@ class hkpVehicleWheelCollideInitE387 : public hkReferencedObject
 
 template <class T> __forceinline void vehicleSetSizeInitE387(hkArray<T>& a, int n)
 {
-    ::VUC_Router* router = static_cast< ::VUC_Router*>(::FUN_00c85750());
-    ::VUC_Allocator* heap = router->m_pThreadAllocator;
+    hkMemoryAllocator* heap = hkMemoryRouter::getInstance().m_heap;
     _ReadWriteBarrier();
     int cap = a.m_iCapacityState & 0x3fffffff;
     if (cap < n)
@@ -5672,19 +5578,18 @@ void VehicleInstance::FUN_00e39190(const VehicleStepInfo* stepInfo)
 {
     reinterpret_cast<::VUBCD_Instance *>(this)->FUN_00e37940();
     int wheelCount = m_data->m_iWheelCount;
-    VehicleMemoryRouter* router = (VehicleMemoryRouter*)::FUN_00c85750();
-    char* originalTop = router->m_stackTop;
+    hkMemoryRouter& router = hkMemoryRouter::getInstance();
+    char* originalTop = static_cast<char*>(router.allocateStack(((wheelCount * 3 << 5) + 127) & ~127));
     float deltaTime = stepInfo->m_fTimeStep;
-    router->m_stackTop = originalTop + (((wheelCount * 3 << 5) + 127) & ~127);
     int capacityAndFlags = wheelCount | 0x80000000;
 
     m_pWheelCollide->CollideWheels(deltaTime, this, originalTop);
     reinterpret_cast<::VUC_StepInstance *>(this)->FUN_00e39030((*(const ::VUC_StepInfo *)(stepInfo)), originalTop);
-    ((VehicleMemoryRouter*)::FUN_00c85750())->m_stackTop = originalTop;
-    VehicleScratchAllocator* allocator = ((VehicleMemoryRouter*)::FUN_00c85750())->m_pThreadAllocator;
+    hkMemoryRouter::getInstance().deallocateStack(originalTop);
+    hkMemoryAllocator* allocator = hkMemoryRouter::getInstance().m_heap;
     if (!(capacityAndFlags & 0x80000000))
     {
-        allocator->free(originalTop, (capacityAndFlags & 0x3fffffff) * 3 << 5);
+        allocator->bufFree(originalTop, (capacityAndFlags & 0x3fffffff) * 3 << 5);
     }
 }
 

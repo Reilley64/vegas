@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdint>
+
 class GlobalObject2_0045cfe0;
 class GlobalObject_0044f440;
 class GlobalObject_0044fae0;
@@ -59,7 +61,7 @@ extern ::OSGlobals *g_osGlobals;
 // 0x011dea10
 extern int g_TES;
 // 0x011dea14
-extern int DAT_011dea14;
+extern std::uintptr_t DAT_011dea14;
 // 0x011dea18
 extern int DAT_011dea18;
 // 0x011dea1c

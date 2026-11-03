@@ -69,7 +69,7 @@ NiNode *DAT_011d59ec;
 int DAT_011d5c44;
 BGSAcousticSpace *DAT_011dcfb8;
 namespace SetRenderCamera { bool DAT_011de9d1; }
-int DAT_011dea14;
+std::uintptr_t DAT_011dea14;
 int DAT_011dea18;
 int DAT_011dea1c;
 ::SkyInit *DAT_011dea20;

@@ -8562,7 +8562,7 @@ void BootInit::FUN_0086cf20(ScenePart* scene)
     DAT_011dea20 = ((::SkyInit *)(::Sky::GetInstance()));
     ::fnv_00877730::FUN_00877730();
     int mode = FUN_0086d470();
-    ScenePart* root_2 = ((::ScenePart *)(::FUN_007a1480()));
+    ScenePart* root_2 = reinterpret_cast<::ScenePart *>(::DAT_011dea14);
     if (root_2)
     {
         ::FUN_00a89af0((std::intptr_t)(((::ScenePart *)(reinterpret_cast<::FUN_004505a0_cls *>((DAT_011dea20))->FUN_004505a0()))));

@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include "fnv/symbols_00c85000.h"
+#include "havok/hkpCollisionDispatcher.h"
 #include "fnv/decl/ContainerD082.h"
 #include "fnv/symbols_00cb5000.h"
 #include "fnv/symbols_00cc0000.h"
@@ -247,6 +248,25 @@ struct Entry
     int unk14;
     Holder* holder;
 };
+// hkpEntity members the agent utilities read (32-bit offsets).
+struct AgentEntityFields
+{
+    char pad00[0xcc];
+    void* m_pSimulationIsland;   // +0xcc
+    char padd0[0x18];
+    unsigned char m_motionType;  // +0xe8, m_motion.m_type
+};
+// hkpCollidable::m_ownerOffset gives the owning entity.
+struct AgentCollidableFields
+{
+    char pad00[0x10];
+    signed char m_ownerOffset;  // +0x10
+};
+static inline AgentEntityFields* entityOfCollidable(void* collidable)
+{
+    signed char ownerOffset = static_cast<AgentCollidableFields*>(collidable)->m_ownerOffset;
+    return reinterpret_cast<AgentEntityFields*>(static_cast<char*>(collidable) + ownerOffset);
+}
 struct Root
 {
     int unk00;
@@ -317,9 +337,9 @@ struct Owner
 void __cdecl FUN_00cc1160(Owner* owner)
 {
     Owner* pOwner = owner;
-    char* pRootBase = (char*)pOwner->root;
-    int iDisplacement = ((signed char*)pRootBase)[0x10];
-    Entry* entry = *(Entry**)(pRootBase + iDisplacement + 0xcc);
+    Root* pRoot = pOwner->root;
+    AgentEntityFields* entity = reinterpret_cast<AgentEntityFields*>((char*)pRoot + pRoot->displacement);
+    Entry* entry = static_cast<Entry*>(entity->m_pSimulationIsland);
     Holder* holder = entry->holder;
     Interface* pInterface = holder->interfaceObject;
     pInterface->Invoke(pOwner);
@@ -407,16 +427,16 @@ void __cdecl DispatchEvents(EventSource* source, DispatchContext* context)
         {
             EventRecord* event = events.data[index].record;
             unsigned char handlerIndex = event->dispatchId;
-            EventHandler handler = *(EventHandler*)((char*)context->table + 0x16c8 + handlerIndex * 0x50);
+            const hkpCollisionDispatcher* dispatcher = static_cast<const hkpCollisionDispatcher*>(context->table);
+            EventHandler handler = (EventHandler)dispatcher->m_agent3Func[handlerIndex].m_updateFilterFunc;
             if (handler)
             {
                 void* sourceObject = event->source10;
                 void* target = event->target14;
-                char sourceOffset = *((char*)sourceObject + 0x10);
-                void* sourceField = (char*)sourceObject + sourceOffset;
-                void* argument = *((char*)sourceField + 0xe8) == 5
-                                     ? *(void**)((char*)target + *((char*)target + 0x10) + 0xcc)
-                                     : *(void**)((char*)sourceField + 0xcc);
+                AgentEntityFields* sourceField = entityOfCollidable(sourceObject);
+                void* argument = sourceField->m_motionType == 5
+                                     ? entityOfCollidable(target)->m_pSimulationIsland
+                                     : sourceField->m_pSimulationIsland;
                 void* eventData = event->type == 4 ? (char*)&event->data30 : (char*)&event->data20;
                 handler(event, eventData, sourceObject, target, context, event->value08, argument);
             }
@@ -513,6 +533,8 @@ struct S_00cc0ed0_Blocks
 };
 
 
+// Size of one agent sector block.
+static const int kAgentSectorBytes = 0x200;
 // Iterates over the block pointers in m5c, calling DispatchSlotCallback on each record up to the block end (m58 for the last block, 0x200 otherwise).
 // @fnv 0x00cc0ed0
 void __cdecl ProcessBlocks(S_00cc0ed0_Blocks* s, float a2, float a3, void* a4)
@@ -531,7 +553,7 @@ void __cdecl ProcessBlocks(S_00cc0ed0_Blocks* s, float a2, float a3, void* a4)
             }
             else
             {
-                end = (char*)p + 0x200;
+                end = (char*)p + kAgentSectorBytes;
             }
             while ((char*)p < end)
             {
@@ -553,6 +575,8 @@ struct S_00cc0f40_Prop
     int unk18;
     int unk1C;
     unsigned short w20;
+    char pad22[0x36];
+    char m_agentTrack[1];  // +0x58, hkpSimulationIsland::m_agentTrack
 };
 struct S_00cc0f40_Body
 {
@@ -688,7 +712,7 @@ void __cdecl FUN_00cc0f40(S_00cc0f40_Coll* pCollA, S_00cc0f40_Coll* pCollB, S_00
         s2 = pTemp;
     }
     void* r = in->table->fn[a->b8c * 8 + b->b8c]->v3(pCollA, pCollB, in);
-    ::FUN_00cfe8a0((::CFE820Pool *)(::S_00cc0f40_Body *)((S_00cc0f40_Body*)((char*)z + 0x58)), (::CollidableNode *)(pCollA), (::CollidableBody *)(s1), (::CollidableNode *)(pCollB), (::CollidableBody *)(s2), (*(unsigned char *)&(const ::S_00cc0f40_Flag &)(flag)), o, (::Dispatcher *)(in), r);
+    ::FUN_00cfe8a0((::CFE820Pool *)(::S_00cc0f40_Body *)((S_00cc0f40_Body*)(&z->m_agentTrack)), (::CollidableNode *)(pCollA), (::CollidableBody *)(s1), (::CollidableNode *)(pCollB), (::CollidableBody *)(s2), (*(unsigned char *)&(const ::S_00cc0f40_Flag &)(flag)), o, (::Dispatcher *)(in), r);
 }
 
 struct Island
@@ -721,6 +745,9 @@ Island* __cdecl PickIslandByValue(const void* val, Island* apIslandA, Island* ap
 struct SelectorTarget
 {
     unsigned char m_00;
+    char pad01[0x1f];
+    char m_data20[0x10];  // +0x20
+    char m_data30[1];     // +0x30, used by type 4
 };
 
 // @fnv 0x00cc0e90
@@ -728,9 +755,9 @@ static void* FUN_00cc0e90(SelectorTarget* p)
 {
     if (p->m_00 == 4)
     {
-        return (char*)p + 0x30;
+        return p->m_data30;
     }
-    return (char*)p + 0x20;
+    return p->m_data20;
 }
 
 void* probe_caller(SelectorTarget* p)

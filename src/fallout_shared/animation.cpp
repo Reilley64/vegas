@@ -4305,7 +4305,7 @@ SeqIface* FUN_004948c0_shell::GetSequenceForGroup(unsigned short group, int type
 BNObject* BNLookup::FindObjectByNameVariant(BNObject* apObject, int aiVariant)
 {
     void* pPosVal = ((void *)(::FUN_00559450((int *)(m_pObjectList))));
-    char* pName3 = strrchr((*(::BNFixedString *)(reinterpret_cast<::TESTopicInfoData *>((apObject))->GetLinkToList())), '\\');
+    char* pName3 = (char*)strrchr((*(::BNFixedString *)(reinterpret_cast<::TESTopicInfoData *>((apObject))->GetLinkToList())), '\\');
     char* pSuffix4;
     char acBufferX[260];
 
@@ -4345,7 +4345,7 @@ BNObject* BNLookup::FindObjectByNameVariant(BNObject* apObject, int aiVariant)
     while (pPosVal)
     {
         BNObject* pObject = ((::BNObject *)(reinterpret_cast<::FUN_006317a0_struct *>((m_pObjectList))->AddEight((int)(pPosVal))));
-        char* pObjectName = strrchr((*(::BNFixedString *)(reinterpret_cast<::TESTopicInfoData *>((pObject))->GetLinkToList())), '\\');
+        char* pObjectName = (char*)strrchr((*(::BNFixedString *)(reinterpret_cast<::TESTopicInfoData *>((pObject))->GetLinkToList())), '\\');
         if (pObjectName && !::FUN_00404dc0(pObjectName, pName3))
             return pObject;
         pPosVal = ((void *)(reinterpret_cast<::FUN_007b52d0_cls *>((m_pObjectList))->DereferenceIfNotNull((int **)(pPosVal))));
@@ -5900,14 +5900,14 @@ BlendSequence* BlendAnimation::FUN_004949a0(BlendSequence* apSequence, unsigned 
         else if (duration < ::DAT_01016408)
             reinterpret_cast<::NiControllerManager *>((((::AnimationBlend::BlendManager *)(::FUN_00559450((int *)&(manager))))))->ActivateControllerSequence((::NiControllerSequence *)(apSequence), 0, 1, ::GetFloatAtOffset1C((char *)(apSequence)), 0.0f, (::NiControllerSequence *)(0));
         else if (synchronize)
-            ::CallFUN_00a351d0((::FUN_00a351d0_cls *)(((::AnimationBlend::BlendManager *)(::FUN_00559450((int *)&(manager))))), (int)(previous2), (float)(apSequence), duration, 0,
-                                                     ::GetFloatAtOffset1C((char *)(previous2)));
+            ::CallFUN_00a351d0((::FUN_00a351d0_cls *)(previous2), (std::intptr_t)(apSequence), duration, 0,
+                                                         ::GetFloatAtOffset1C((char *)(previous2)), ::GetFloatAtOffset1C((char *)(apSequence)));
         else
         {
             bool blended = false;
             if (previous2 && ((int)(reinterpret_cast<::LowProcess *>((previous2))->GetActiveCombatTarget())))
-                blended = ::sa2e280::FUN_00a2e280((::sa2e280::Sequence *)(((::AnimationBlend::BlendManager *)(::FUN_00559450((int *)&(manager))))), (::sa2e280::Sequence *)(previous2), (float)(apSequence), duration, 0, 1,
-                                                               ::GetFloatAtOffset1C((char *)(apSequence)));
+                blended = ::sa2e280::FUN_00a2e280((::sa2e280::Sequence *)(previous2), (::sa2e280::Sequence *)(apSequence), duration, 0, 1,
+                                                ::GetFloatAtOffset1C((char *)(apSequence)), 0);
             if (!blended)
             {
                 if (reinterpret_cast<::fnv_00451530::FUN_00451530_shell *>(((*reinterpret_cast<::AnimationBlend::BlendMain * *>(&::g_TES))))->FUN_00451530())
@@ -5920,7 +5920,7 @@ BlendSequence* BlendAnimation::FUN_004949a0(BlendSequence* apSequence, unsigned 
                         if (((bool)(::FUN_00495580())) && blendActor->ragdoll && ::FUN_004955a0((::bhkRagdollController *)(blendActor->ragdoll)))
                             reinterpret_cast<::FUN_00c75b40_cls *>((blendActor->ragdoll))->UpdateBoneLocalTransforms();
                     }
-                    ::FUN_00a2f800((::NiControllerSequence *)(((::AnimationBlend::BlendManager *)(::FUN_00559450((int *)&(manager))))), (float)(apSequence), 0.0f, duration, 0);
+                    ::FUN_00a2f800((::NiControllerSequence *)(apSequence), 0.0f, duration, 0, 0);
                 }
             }
         }
@@ -7715,7 +7715,6 @@ struct Loader496
 struct Save496
 {
 };
-extern "C" char DAT_011de45c;
 struct Target496
 {
     static void DetachObjectModels(Data496* data);
@@ -9399,7 +9398,6 @@ void* FUN_0048ef60(void* apThis, unsigned int flags)
 
 namespace fnv_004965d0 {
 extern "C" char DAT_0101dcd8;
-extern "C" char DAT_011c3f2c;
 
 struct ItemPad4965
 {
@@ -9492,7 +9490,7 @@ FUN_004965d0::FUN_004965d0(Item4965* apItem, void* apField14, void* apFieldC, Ac
     source = apItem;
     for (int i = 0; i < 2; ++i)
     {
-        items[i] = (Item4965*)((void *)(reinterpret_cast<::TESDataHandler *>(((*(Container4965**)&DAT_011c3f2c)))->FindNthMatchingItem(apItem, i)));
+        items[i] = (Item4965*)((void *)(reinterpret_cast<::TESDataHandler *>(((*(Container4965**)&::fnv_004994f0::DAT_011c3f2c)))->FindNthMatchingItem(apItem, i)));
         sols[i].Reset(0);
     }
     field30 = aiField30;

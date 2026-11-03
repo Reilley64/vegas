@@ -130,7 +130,7 @@ struct S_00d943d0_Block
     int unk44;
     int unk48;
     int unk4C;
-    int* m_auiHeaderValues;
+    void** m_ppEntities;
 };
 
 struct S_00d943d0_Item
@@ -186,7 +186,7 @@ struct S_00d943d0_Inner
     int unk06C;
     int unk070;
     int unk074;
-    int unk078;
+    const ::CollisionContext* unk078;
     int unk07C;
     int unk080;
     int unk084;
@@ -296,7 +296,7 @@ struct S_00d943d0_Obj
 {
 };
 
-int __cdecl FUN_00d28a30(int* p1e0, int* p1d0, int* p200, int* ints, int n, int sz);
+int __cdecl FUN_00d28a30(int* p1e0, int* p1d0, int* p200, void** ints, int n, int sz);
 
 // Picks FUN_00d28a30 or FUN_00d29bf0 by item->m_flag to set item->m_result, calls FUN_00d1a330, then obj->ProcessCallback.
 // @fnv 0x00d943d0
@@ -308,7 +308,7 @@ void __cdecl FUN_00d943d0(S_00d943d0_Ctx* ctx, S_00d943d0_Obj* obj, S_00d943d0_I
     S_00d943d0_Block* pBlock = item->m_block;
     unsigned int n = item->m_uiValueCount;
     S_00d943d0_Elem* e = pBlock->m_pElements + (idx + 1);
-    int* ints = pBlock->m_auiHeaderValues + idx;
+    void** ints = pBlock->m_ppEntities + idx;
     if (item->m_flag)
     {
         item->m_result =
@@ -318,7 +318,7 @@ void __cdecl FUN_00d943d0(S_00d943d0_Ctx* ctx, S_00d943d0_Obj* obj, S_00d943d0_I
     {
         item->m_result = ::ApplyAccumulatorsPrivate::FUN_00d29bf0((*(const ::ApplyAccumulatorsPrivate::ConstraintSolverInfo *)(&ctx->m_inner->unk1E0)), (*(const ::ApplyAccumulatorsPrivate::hkStepInfo *)(&ctx->m_inner->unk1D0)), (const ::ApplyAccumulatorsPrivate::QuantizedBoundsData *)(e), (::ApplyAccumulatorsPrivate::hkpMotion *const *)(ints), n, 0xe0);
     }
-    ::FUN_00d1a330((const ::CollisionContext *)(ctx->m_inner->unk078), (::EntityNode *const *)(ints), n);
+    ::FUN_00d1a330(ctx->m_inner->unk078, (::EntityNode *const *)(ints), n);
 
     S_00d943d0_Timer("lt");
 

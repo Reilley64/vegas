@@ -319,7 +319,7 @@ int FUN_00d93380(Globals *globals, Queue *queue, Job *job) {
                 reinterpret_cast<::FUN_00c911d0_Class *>((globals->world))->EnterLock(island);
                 island->maximum = island->maximum > owner.maximum ? island->maximum : owner.maximum;
                 island->added += owner.added; island->removed += owner.removed; island->changed += owner.changed;
-                if (owner.commands.size) ::FUN_00df25f0((int)(globals->world), (::CommandRecord *)(void *)((char *)&owner.commands + owner.commands.offset), owner.commands.size);
+                if (owner.commands.size) ::FUN_00df25f0(globals->world, (::CommandRecord *)(void *)((char *)&owner.commands + owner.commands.offset), owner.commands.size);
                 reinterpret_cast<::FUN_00c91210_Class *>((globals->world))->FUN_00c91210(island);
             }
         } else storeResults(job->batch->results[job->index], owner);
@@ -348,7 +348,7 @@ int FUN_00d93380(Globals *globals, Queue *queue, Job *job) {
         storeResults(job->batch->results[job->index], owner);
         profile(str_010d3e14, DAT_0126835c);
     }
-    int result = reinterpret_cast<::LunaOwner *>((queue))->ProcessCallback((int)(job), (int)(job), 0);
+    int result = reinterpret_cast<::LunaOwner *>((queue))->ProcessCallback((intptr_t)(job), (intptr_t)(job), 0);
     owner.dispatch = &(*reinterpret_cast<int *>(&::DAT_0102e388));
     if (context.allocation) { Memory *m = static_cast<Memory*>(::FUN_00c85750()); Allocator *a = m->allocator; a->release(context.allocation, 512); }
     return result;

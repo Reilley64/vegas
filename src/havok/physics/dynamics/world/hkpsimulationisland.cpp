@@ -32,7 +32,7 @@ struct S_00d070c0
 // @fnv 0x00d070c0
 void FUN_00d070c0(S_00d070c0* obj)
 {
-    ::FUN_00cb3c80((int)(obj->unk14->unk08), (int)(obj));
+    ::FUN_00cb3c80((void*)(obj->unk14->unk08), obj);
 }
 
 struct Holder
@@ -692,7 +692,7 @@ void FUN_00d07470_cls::AddItem(ListItem* apItem)
         ::ResizeAudioStream(pHolder->m_pAllocator, (::AudioStream *)(pItems), 4);
     }
 
-    void** pSlot = (void**)((unsigned int)pItems->m_pData + *(volatile unsigned int*)&pItems->m_uCount * 4);
+    void** pSlot = pItems->m_pData + *(volatile unsigned int*)&pItems->m_uCount;
     *pSlot = apItem;
     pItems->m_uCount++;
 
@@ -724,7 +724,7 @@ namespace fnvc_adapt {
 
 struct FUN_00d07720_cls
 {
-    int m_vptr00;
+    const void* m_vptr00;
     int unk04;
     int unk08;
     int unk0c;
@@ -757,7 +757,7 @@ struct FUN_00d07720_cls
 // @fnv 0x00d07720
 void FUN_00d07720_cls::ResetArrays()
 {
-    m_vptr00 = (int)&DAT_010ccf28;
+    m_vptr00 = &DAT_010ccf28;
 
     AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
     AudioAllocator* pAllocator = pHolder->m_pAllocator;
@@ -792,7 +792,7 @@ void FUN_00d07720_cls::ResetArrays()
     m_pData3 = 0;
     m_uCapBits3 = 0x80000000u;
 
-    *(volatile int*)&m_vptr00 = (int)&(*reinterpret_cast<int *>(&::DAT_0102e388));
+    *(const void* volatile*)&m_vptr00 = &::DAT_0102e388;
 }
 }  // namespace fnv_00d07720
 

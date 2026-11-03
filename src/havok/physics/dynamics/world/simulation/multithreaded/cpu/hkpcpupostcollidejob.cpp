@@ -140,7 +140,7 @@ int __cdecl AccumulateShapes(Worker** a1, TargetClass* apTarget, Caller* apCalle
                 *(float*)(rec8 + 4) = (float)val;
                 tls2->records = rec8 + 8;
             }
-            ::FUN_00df25f0((int)(*a1), (::CommandRecord *)(char *)(shape->m_10.get()), shape->m_10.m_iElementCount);
+            ::FUN_00df25f0(*a1, (::CommandRecord *)(char *)(shape->m_10.get()), shape->m_10.m_iElementCount);
         }
     }
 

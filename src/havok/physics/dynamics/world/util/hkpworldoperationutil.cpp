@@ -84,9 +84,9 @@ void ClearSlotReference(int* thisPtr, int* p)
 }
 
 // @fnv 0x00cb3c80
-void FUN_00cb3c80(int first, int second)
+void FUN_00cb3c80(void* first, void* second)
 {
-    ::fnv_00d27ac0::FUN_00d27ac0((void *)(first), (::fnv_00d27ac0::Constraint *)(second));
+    ::fnv_00d27ac0::FUN_00d27ac0(first, (::fnv_00d27ac0::Constraint *)(second));
     ::FUN_00d00960((::ProfOwner *)(first), (void *)(second));
 }
 

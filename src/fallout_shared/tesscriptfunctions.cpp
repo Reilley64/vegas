@@ -45869,7 +45869,7 @@ void Target8d3f::FUN_008d3fa0() {
     void* object = ((void *)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>(this)->FUN_0043fcd0()));
     if (object) {
         if (::FUN_008c7aa0()) {
-            reinterpret_cast<::Unnamed_0087b5c0 *>((((::fnv_008d3fa0::Queue8d3f *)(::TaskQueueInterface::GetSingleton()))))->FUN_0087b5c0((int)(this));
+            reinterpret_cast<::Unnamed_0087b5c0 *>((((::fnv_008d3fa0::Queue8d3f *)(::TaskQueueInterface::GetSingleton()))))->FUN_0087b5c0((void *)(this));
         } else {
             if (this == (*reinterpret_cast<::fnv_008d3fa0::Target8d3f * *>(&::_g_thePlayer))) ((::fnv_008d3fa0::Menu8d3f *)(::fnv_00705990::FUN_00705990()))->Before();
             ((::fnv_008d3fa0::Process8d3f *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))->Clear(1);
@@ -51111,7 +51111,7 @@ bool FUN_005da570(const ScriptParameter* paramInfo, const char* scriptData, TESO
         {
             TESObjectWEAP* pkWeapon = (TESObjectWEAP*)pkForm;
             if (FUN_008c7aa0())
-                reinterpret_cast<::FUN_0087aa40_Holder *>((((TaskQueue5da*)((::KillTaskQueue *)(::TaskQueueInterface::GetSingleton())))))->FUN_0087aa40((int)(pkWeapon), (int)(thisObj));
+                reinterpret_cast<::FUN_0087aa40_Holder *>((((TaskQueue5da*)((::KillTaskQueue *)(::TaskQueueInterface::GetSingleton())))))->FUN_0087aa40((void *)(pkWeapon), (void *)(thisObj));
             else
                 reinterpret_cast<::FireWeapon *>((pkWeapon))->FUN_00523150((::FireRef *)(thisObj));
         }

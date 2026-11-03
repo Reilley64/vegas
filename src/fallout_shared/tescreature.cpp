@@ -3408,7 +3408,7 @@ void Actor::ApplyEffectToBodyParts(Effect* effect, int type, int part, void* sou
         if (!::FUN_008c7aa0())
             reinterpret_cast<::fnv_008b52a0::ActorView *>(this)->FUN_008b52a0((void *)(type), ba, a, !flag, true, false);
         else
-            reinterpret_cast<::FUN_0087b440_holder *>((((::fnv_008b4d10::Queue *)(::TaskQueueInterface::GetSingleton()))))->FUN_0087b440((int)(this), type, ba, a, !flag);
+            reinterpret_cast<::FUN_0087b440_holder *>((((::fnv_008b4d10::Queue *)(::TaskQueueInterface::GetSingleton()))))->FUN_0087b440((void *)(this), type, ba, a, !flag);
         if (*(*reinterpret_cast<::fnv_008b4d10::GlobalObject_0045cf30 *>(&::g_011df858)).Bool() && ba != -1)
             break;
     }

@@ -1779,7 +1779,7 @@ bool WaterOwner::FUN_0062f6b0(WaterRequest* request)
     reinterpret_cast<::FUN_0057b0d0_cls *>((((WaterContactReference*)d)))->FUN_0057b0d0((std::intptr_t)(a), 1);
     if (FUN_008c7aa0() && ((::WaterTaskQueue *)(::TaskQueueInterface::GetSingleton())))
     {
-        reinterpret_cast<::FakeTaskQueue *>((((::WaterTaskQueue *)(::TaskQueueInterface::GetSingleton()))))->FUN_0087b4a0((int)(b), (int)(d), 0.0f);
+        reinterpret_cast<::FakeTaskQueue *>((((::WaterTaskQueue *)(::TaskQueueInterface::GetSingleton()))))->FUN_0087b4a0((void *)(b), (void *)(d), 0.0f);
     }
     else
     {
@@ -1958,7 +1958,7 @@ struct EDL_Helper
 
 struct Holder0087b4f0
 {
-    void FUN_0087b4f0(int a, int b, float c);
+    void FUN_0087b4f0(void* a, void* b, float c);
 };
 
 
@@ -2151,7 +2151,7 @@ void WaterZoneRemoval::FUN_0062fc70(ParamStruct* apParams)
         if (FUN_008c7aa0() && TaskQueueInterface::GetSingleton())
         {
             ((Holder0087b4f0*)TaskQueueInterface::GetSingleton())
-                ->FUN_0087b4f0((int)apParams->unk08, (int)apParams->unk00, 0.0f);
+                ->FUN_0087b4f0((void *)apParams->unk08, (void *)apParams->unk00, 0.0f);
         }
         else
         {
@@ -2846,7 +2846,7 @@ void SpawnManagerE::FUN_0062ee60(float fTimeDelta)
                         if (!reinterpret_cast<::B200Owner *>((pkObj))->FUN_0057b200())
                         {
                             if (FUN_008c7aa0() && ((::AudioE *)(::TaskQueueInterface::GetSingleton())))
-                                reinterpret_cast<::FakeTaskQueue *>((((::AudioE *)(::TaskQueueInterface::GetSingleton()))))->FUN_0087b4a0(0, (int)(pkObj), fFoundHeight);
+                                reinterpret_cast<::FakeTaskQueue *>((((::AudioE *)(::TaskQueueInterface::GetSingleton()))))->FUN_0087b4a0(0, (void *)(pkObj), fFoundHeight);
                             else
                                 reinterpret_cast<::Target5c80 *>((((::AudioMgrE *)(::FUN_0070ec90((char *)((*reinterpret_cast<::InterfaceE * *>(&::g_TES))))))))->AddObjectToEntry((void *)(0), (::Object5c80 *)(pkObj), fFoundHeight);
                         }
@@ -2858,7 +2858,7 @@ void SpawnManagerE::FUN_0062ee60(float fTimeDelta)
                         if (!reinterpret_cast<::B200Owner *>((pkObj))->FUN_0057b200())
                         {
                             if (FUN_008c7aa0() && ((::AudioE *)(::TaskQueueInterface::GetSingleton())))
-                                reinterpret_cast<::Holder0087b4f0 *>((((::AudioE *)(::TaskQueueInterface::GetSingleton()))))->FUN_0087b4f0(0, (int)(pkObj), fFoundHeight);
+                                reinterpret_cast<::Holder0087b4f0 *>((((::AudioE *)(::TaskQueueInterface::GetSingleton()))))->FUN_0087b4f0(0, (void *)(pkObj), fFoundHeight);
                             else
                                 reinterpret_cast<::WaterZoneManager *>((((::AudioMgrE *)(::FUN_0070ec90((char *)((*reinterpret_cast<::InterfaceE * *>(&::g_TES))))))))->UpdateWaterZone((::TESObjectREFR *)(0), (::TESObjectREFR *)(pkObj), fFoundHeight);
                         }

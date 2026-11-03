@@ -56,7 +56,7 @@ extern unsigned char DAT_011f6229;
 // 0x011f622c
 namespace fnv_00aa3430 { extern int DAT_011f622c; }
 // 0x011f6234
-extern ::_RTL_CRITICAL_SECTION DAT_011f6234;
+extern volatile long DAT_011f6234;
 // 0x011f6238
 extern ::MemoryManager g_memoryManager;
 // 0x011f6388

@@ -452,18 +452,6 @@ void FUN_00aa9fb0_heap::FUN_00aa9fb0()
     LeaveCriticalSection((_RTL_CRITICAL_SECTION*)kCS);
 }
 
-struct _MEMORYSTATUS
-{
-    unsigned long dwLength;
-    unsigned long dwMemoryLoad;
-    unsigned long dwTotalPhys;
-    unsigned long dwAvailPhys;
-    unsigned long dwTotalPageFile;
-    unsigned long dwAvailPageFile;
-    unsigned long dwTotalVirtual;
-    unsigned long dwAvailVirtual;
-};
-
 struct AbstractHeapDump : AbstractHeap
 {
     void LogFreeBlockStats(unsigned int blockSize, HeapFreeList* list);

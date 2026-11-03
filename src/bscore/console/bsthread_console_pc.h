@@ -39,8 +39,8 @@ class BSThread
     BSThreadCriticalSectionPC CriticalSection;
     void* m_pThreadHandle;
     void* m_pCurrentThreadHandle;
-    unsigned int m_uiCreatedThreadId;
-    unsigned int m_uiCurrentThreadId;
+    unsigned long m_uiCreatedThreadId;
+    unsigned long m_uiCurrentThreadId;
     bool m_bThreadStarted;
 };
 

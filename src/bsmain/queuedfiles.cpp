@@ -205,8 +205,6 @@ FUN_00c3cea0::~FUN_00c3cea0()
 }  // namespace fnv_00c3cea0
 
 #include <windows.h>
-#include "fnv/decl/FUN_00c3cee0_shell.h"
-#include "fnv/decl/fnv_00c3cf60__FUN_00c3cf60_shell.h"
 class QueuedFile;
 struct PoolHolder
 {

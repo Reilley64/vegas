@@ -607,10 +607,10 @@ struct StrAllocator
 {
 };
 
-template <class T, class A> class StrArray
+template <class T, class A> class ViewerStrArray
 {
   public:
-    virtual ~StrArray();
+    virtual ~ViewerStrArray();
     T* m_pBase;
     unsigned short m_usMaxSize;
     unsigned short m_usSize;
@@ -628,7 +628,7 @@ template <class T, class A> class StrArray
     }
 };
 
-typedef StrArray<char*, StrAllocator> ViewerStrings;
+typedef ViewerStrArray<char*, StrAllocator> ViewerStringArray;
 
 struct RttiStub
 {
@@ -663,8 +663,8 @@ void CollisionObj::FUN_00c66060(ViewerStrings* apViewerStrings)
 {
     MemContextGuard guard(0x10);
     reinterpret_cast<::ViewerCollision *>(this)->AppendDebugInfo((::NiTPrimitiveArray<char *, ::NiTMallocInterface<char *>> *)(apViewerStrings));
-    apViewerStrings->Add(::FUN_00a7d330((*reinterpret_cast<::RttiStub *>(&::g_012043f8)).GetName()));
-    apViewerStrings->Add(::FUN_00a7d370("bUseVel", GetUseVel()));
+    reinterpret_cast<ViewerStringArray*>(apViewerStrings)->Add(::FUN_00a7d330((*reinterpret_cast<::RttiStub *>(&::g_012043f8)).GetName()));
+    reinterpret_cast<ViewerStringArray*>(apViewerStrings)->Add(::FUN_00a7d370("bUseVel", GetUseVel()));
 }
 
 struct Mat3

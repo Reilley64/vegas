@@ -229,16 +229,14 @@ void FUN_00aa3a10_shell::ClearFlagAndSetByte()
     *(unsigned char*)this = 1;
 }
 
-struct _RTL_CRITICAL_SECTION;
-extern _RTL_CRITICAL_SECTION DAT_011f6234;
+extern volatile long DAT_011f6234;
 // @fnv 0x00aa4460
 void FUN_00aa4460()
 {
     InterlockedIncrement(&DAT_011f6234);
 }
 
-struct _RTL_CRITICAL_SECTION;
-extern _RTL_CRITICAL_SECTION DAT_011f6234;
+extern volatile long DAT_011f6234;
 // @fnv 0x00aa4470
 void FUN_00aa4470()
 {
@@ -254,7 +252,6 @@ void FUN_00aa4480(unsigned char value)
 }
 
 namespace fnv_00aa4490 {
-extern unsigned int DAT_011f6234;
 
 // @fnv 0x00aa4490
 bool FUN_00aa4490()
@@ -442,7 +439,7 @@ inline void FUN_00aa5950()
     delete DAT_011f63b4;
     DAT_011f63b4 = 0;
 }
-struct PoolView
+struct PoolView : MemoryPool
 {
     ~PoolView();
     static __forceinline void operator delete(void* p)
@@ -450,12 +447,11 @@ struct PoolView
         reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(p);
     }
 };
-extern PoolView* DAT_011f67b8[256];
 inline void DestroyMemoryPools()
 {
     for (unsigned int i = 0; i < 256; ++i)
     {
-        delete DAT_011f67b8[i];
+        delete static_cast<PoolView*>(DAT_011f67b8[i]);
         DAT_011f67b8[i] = 0;
     }
 }

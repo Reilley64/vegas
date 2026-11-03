@@ -963,10 +963,6 @@ void MaterialInspector::FUN_00c8f870(InspectorList* output)
     }
 }
 
-struct Q8f6e0_Tls;
-
-extern Q8f6e0_Tls* FUN_00c85750();
-
 struct Q8f6e0_Heap
 {
     virtual void v00();
@@ -974,15 +970,6 @@ struct Q8f6e0_Heap
     virtual void v08();
     virtual void v0c();
     virtual void ReturnMemory(void* p, int bytes);
-};
-
-struct Q8f6e0_Tls
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    Q8f6e0_Heap* heap;
 };
 
 struct Q8f6e0_Mem
@@ -1081,7 +1068,7 @@ struct __declspec(align(16)) Q8f6e0_Pre
 
 __forceinline Q8f6e0_Pre::~Q8f6e0_Pre()
 {
-    Q8f6e0_Heap& h = *FUN_00c85750()->heap;
+    Q8f6e0_Heap& h = reinterpret_cast<Q8f6e0_Heap&>(FUN_00c85750().heap());
     size = 0;
     if ((capFlags & 0x80000000) == 0)
         h.ReturnMemory(data, (capFlags & 0x3fffffff) * 8);

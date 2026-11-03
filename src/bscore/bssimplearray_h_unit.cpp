@@ -19,8 +19,6 @@
 #include "fnv/symbols_0106c000.h"
 #include "bssimplearray.h"
 
-typedef unsigned int size_t;
-
 inline void* operator new(size_t, void* p)
 {
     return p;

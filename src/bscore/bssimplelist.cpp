@@ -518,7 +518,6 @@ FUN_00619740::FUN_00619740()
 }
 
 namespace fnv_00631540 {
-void* __cdecl operator new(std::size_t);
 
 struct _FUN_0052aa80_shell
 {

@@ -5748,7 +5748,7 @@ int FUN_00457620_cls::FUN_00457620(const float* pos)
     {
         if (((unsigned char)(reinterpret_cast<::TESCallHelper *>(((*reinterpret_cast<::fnv_00457620::FUN_00457620_gridowner * *>(&::g_TES))))->IsCellBuffered(cell5, false))))
         {
-            return ((int)(reinterpret_cast<::fnv_0053f0e0::TESObjectLAND *>((((::fnv_00457620::FUN_00457620_nodeowner *)(reinterpret_cast<::S00546fb0_Cell *>((((FUN_00457620_cellhost*)cell5)))->FUN_00546fb0()))))->FUN_0053f0e0(*(const ::fnv_0053f0e0::NiPoint3 *)nullptr)));
+            return ((int)(reinterpret_cast<::fnv_0053f0e0::TESObjectLAND *>((((::fnv_00457620::FUN_00457620_nodeowner *)(reinterpret_cast<::S00546fb0_Cell *>((((FUN_00457620_cellhost*)cell5)))->FUN_00546fb0()))))->FUN_0053f0e0(*(const ::fnv_0053f0e0::NiPoint3 *)pos)));
         }
     }
     return 0;
@@ -11312,7 +11312,7 @@ void BatchTES::FUN_004556d0(int mode)
                 {
                     reinterpret_cast<::fnv_00454450::ReloadManager *>(this)->FUN_00454450((::fnv_00454450::ReloadPoint *)(::BatchPoint *)(&position4));
                     float height;
-                    reinterpret_cast<::TESObjectLAND *>((((::BatchTerrain *)(reinterpret_cast<::S00546fb0_Cell *>((cell))->FUN_00546fb0()))))->FUN_0053f180(*(const ::LandscapeColorData *)nullptr, *(float *)nullptr);
+                    reinterpret_cast<::TESObjectLAND *>((((::BatchTerrain *)(reinterpret_cast<::S00546fb0_Cell *>((cell))->FUN_00546fb0()))))->FUN_0053f180((const ::LandscapeColorData &)(position4), height);
                     if (height >= 0.0)
                         position4.z = height;
                 }
@@ -11320,7 +11320,7 @@ void BatchTES::FUN_004556d0(int mode)
                 {
                     reinterpret_cast<::TES *>(this)->FindCellAtPosition((const ::NiPoint3 *)(::BatchPoint *)(&position4), false);
                     float height;
-                    reinterpret_cast<::TESObjectLAND *>((((::BatchTerrain *)(reinterpret_cast<::S00546fb0_Cell *>((cell))->FUN_00546fb0()))))->FUN_0053f180(*(const ::LandscapeColorData *)nullptr, *(float *)nullptr);
+                    reinterpret_cast<::TESObjectLAND *>((((::BatchTerrain *)(reinterpret_cast<::S00546fb0_Cell *>((cell))->FUN_00546fb0()))))->FUN_0053f180((const ::LandscapeColorData &)(position4), height);
                     if (height >= 0.0)
                         position4.z = height;
                 }

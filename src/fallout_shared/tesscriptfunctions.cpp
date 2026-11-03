@@ -25091,8 +25091,8 @@ bool __cdecl FUN_005b4630(const ScriptParameter* parameters, const char* compile
         FUN_00703e80(((const char *)(::FUN_00464f30((int)(((const char *)(::FUN_00559450((int *)&(p)))))))), 0, ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&(i->fullName))->FUN_00408da0())), FUN_005b4a70, 0, 23, 0.0f, 0.0f,
             a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7], a[8], a[9], 0);
     } else if (((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((void *)(&p))->FUN_004048e0()))) {
-        ::DispatchMessageToSink((int)(((const char *)(::FUN_00464f30((int)(((const char *)(::FUN_00559450((int *)&(p))))))))), 0,
-            (int)(((::MessageFullNameRecord *)(reinterpret_cast<::BGSMessageInitAccess *>((i))->GetIconFormID())) ? ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&(((::MessageFullNameRecord *)(reinterpret_cast<::BGSMessageInitAccess *>((i))->GetIconFormID()))->fullName))->FUN_00408da0())) : 0), (int)(0),
+        ::DispatchMessageToSink((std::intptr_t)(((const char *)(::FUN_00464f30((int)(((const char *)(::FUN_00559450((int *)&(p))))))))), 0,
+            (std::intptr_t)(((::MessageFullNameRecord *)(reinterpret_cast<::BGSMessageInitAccess *>((i))->GetIconFormID())) ? ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&(((::MessageFullNameRecord *)(reinterpret_cast<::BGSMessageInitAccess *>((i))->GetIconFormID()))->fullName))->FUN_00408da0())) : 0), (std::intptr_t)(0),
             (float)((unsigned int)(reinterpret_cast<::Twin_00639b40 *>((i))->GetEntryPoint())), false);
     }
     return true;
@@ -28286,7 +28286,8 @@ bool FUN_005bb8c0(int p1,int p2,int reference,int container,int script,int local
  if(!FUN_005accb0(p1,p2,offset,reference,container,script,locals,&start2,&end))return false;
  if(start2<=0.0 && end<=0.0)DAT_011cae47=!DAT_011cae47;
  else DAT_011cae47=true;
- FogColor color=(*(::FogColor *)&(reinterpret_cast<::UnknownClass005bb9b0 *>((((::FogRenderer *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0)))))->FUN_005bb9b0(*(::MyVec005bb9b0 *)nullptr)));
+ ::MyVec005bb9b0 kFogColor;
+ FogColor color=(*(::FogColor *)&(reinterpret_cast<::UnknownClass005bb9b0 *>((((::FogRenderer *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0)))))->FUN_005bb9b0(kFogColor)));
  ::FUN_00b5a8c0((int)(((::FogRenderer *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0)))), DAT_011cae47,(*(int *)&(const ::FogColor &)(color)),start2,end, {});
  return true;
 }
@@ -32244,7 +32245,7 @@ bool __cdecl FUN_005c1d40(const ScriptParameter* paramInfo, const char* scriptDa
                     FUN_00406f60(&kMessage, "%s %s", reinterpret_cast<::FUN_00408da0_Class *>(&(pkSpell->kFullName))->FUN_00408da0(), ((const char *)(reinterpret_cast<::StartMenu *>(&(g_011d3654))->GetMenuTitle())));
                     BSStringT<char> kIcon;
                     FUN_00406f60(&kIcon, "%s", g_011cba00_arg1);
-                    ::DispatchMessageToSink((int)(((const char *)(::FUN_00559450((int *)(((String5c1*)&kMessage)))))), 0, (int)(((const char *)(::FUN_00559450((int *)(((String5c1*)&kIcon)))))), (int)(0), ::DAT_010162c0, false);
+                    ::DispatchMessageToSink((std::intptr_t)(((const char *)(::FUN_00559450((int *)(((String5c1*)&kMessage)))))), 0, (std::intptr_t)(((const char *)(::FUN_00559450((int *)(((String5c1*)&kIcon)))))), (std::intptr_t)(0), ::DAT_010162c0, false);
                 }
             }
             else
@@ -35047,7 +35048,7 @@ bool FUN_005c8620(const ScriptParameter* params,const char* data,TESObjectREFR* 
      }
  }
  if (marker)
-     ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::WorkerSetting *>(&::g_011d4768))))->GetMenuTitle()))),0,(int)("Interface\\Icons\\Message Icons\\glow_message_map.dds"),(int)("UIPopUpMapMarkerAdded"),2.0f,false);
+     ::DispatchMessageToSink((std::intptr_t)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::WorkerSetting *>(&::g_011d4768))))->GetMenuTitle()))),0,(std::intptr_t)("Interface\\Icons\\Message Icons\\glow_message_map.dds"),(std::intptr_t)("UIPopUpMapMarkerAdded"),2.0f,false);
  result = 1.0;
  return true;
 }
@@ -39568,7 +39569,7 @@ bool FUN_005cdc10(const ScriptParameter* paramInfo, const char* scriptData, TESO
                 Actor* pTarget = dynamic_cast<Actor*>(((::fnv_005cdc10::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pActor_2))->GetBaseTexture()))->GetTarget());
                 if (pTarget == (Actor*)(*reinterpret_cast<::fnv_005cdc10::PC7d * *>(&::_g_thePlayer)) && !reinterpret_cast<::FUN_00962720_shell *>((((PlayerStub*)(*reinterpret_cast<::fnv_005cdc10::PC7d * *>(&::_g_thePlayer)))))->HasExtraFollowerForm((char *)(pActor_2)) && reinterpret_cast<::fnv_00962620::FUN_00962620_cls *>((((PlayerStub*)(*reinterpret_cast<::fnv_005cdc10::PC7d * *>(&::_g_thePlayer)))))->FUN_00962620() > *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_005cdc10::GameSettingInt *>(&::g_011cdad0)))))))
                 {
-                    ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_005cdc10::GameSettingString *>(&::g_011d3d54))))->GetMenuTitle()))), 0, (int)(0), (int)(0), 2.0f, false);
+                    ::DispatchMessageToSink((std::intptr_t)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_005cdc10::GameSettingString *>(&::g_011d3d54))))->GetMenuTitle()))), 0, (std::intptr_t)(0), (std::intptr_t)(0), 2.0f, false);
                 }
                 else
                 {
@@ -48749,7 +48750,7 @@ bool FUN_005d0060(
                     if (actor_ == (*reinterpret_cast<::fnv_005d0060::PlayerCharacter * *>(&::_g_thePlayer)) && !kISilent) {
                         BSStringT<char> str;
                         str.PrintfString("%s %s.", ::FUN_00482720(pItem_2), ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_005d0060::GlobalObject_0040c150 *>(&::g_011d2a0c))))->GetMenuTitle())));
-                        ::DispatchMessageToSink((int)(((const char *)(::FUN_00559450((int *)(((StringReader*)&str)))))), 0, (int)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_neutral.dds"), (int)(0), 2.0f, 0);
+                        ::DispatchMessageToSink((std::intptr_t)(((const char *)(::FUN_00559450((int *)(((StringReader*)&str)))))), 0, (std::intptr_t)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_neutral.dds"), (std::intptr_t)(0), 2.0f, 0);
                         reinterpret_cast<::FUN_00950030_shell *>(((*reinterpret_cast<::fnv_005d0060::PlayerCharacter * *>(&::_g_thePlayer))))->FUN_00950030();
                         ((::fnv_005d0060::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((void *)((*reinterpret_cast<::fnv_005d0060::PlayerCharacter * *>(&::_g_thePlayer))))->GetBaseTexture()))->Unk_580(1, 0, 0);
                         ::fnv_00704af0::FUN_00704af0();
@@ -50567,7 +50568,9 @@ bool __cdecl FUN_005c25f0(const ScriptParameter* apParameters, const char* apCom
                 FUN_006b8340 aDy1;
                 PathBuilderDetailedPathInfos aB15;
                 S3e60 flags0;
-                if (!reinterpret_cast<::fnv_006b8c50::FUN_006b8c50_shell *>(&(aDy1))->SetupNavMeshSearch((::fnv_006b8c50::PathingActorData *)(::fnv_005c25f0::FUN_00502670_stand *)(&wrap8), (void *)&(const ::fnv_005c25f0::NiPoint3 &)((*(::fnv_005c25f0::NiPoint3 *)&(reinterpret_cast<::TaskQueueInterface *>((void *)&(shell_))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)))), ((void *)(reinterpret_cast<::PathingLocationProxy *>(&(shell_))->GetAssociatedNavMesh())), (void *)&(const ::fnv_005c25f0::NiPoint3 &)((*(::fnv_005c25f0::NiPoint3 *)&(reinterpret_cast<::TaskQueueInterface *>((void *)&(goal4))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)))), ((void *)(reinterpret_cast<::PathingLocationProxy *>(&(goal4))->GetAssociatedNavMesh())), &aB15, &flags0, outA8 != 0))
+                ::NiPoint3 kNavStart;
+                ::NiPoint3 kNavGoal;
+                if (!reinterpret_cast<::fnv_006b8c50::FUN_006b8c50_shell *>(&(aDy1))->SetupNavMeshSearch((::fnv_006b8c50::PathingActorData *)(::fnv_005c25f0::FUN_00502670_stand *)(&wrap8), (void *)&(const ::fnv_005c25f0::NiPoint3 &)((*(::fnv_005c25f0::NiPoint3 *)&(reinterpret_cast<::TaskQueueInterface *>((void *)&(shell_))->QueueActorAnimationTask(kNavStart)))), ((void *)(reinterpret_cast<::PathingLocationProxy *>(&(shell_))->GetAssociatedNavMesh())), (void *)&(const ::fnv_005c25f0::NiPoint3 &)((*(::fnv_005c25f0::NiPoint3 *)&(reinterpret_cast<::TaskQueueInterface *>((void *)&(goal4))->QueueActorAnimationTask(kNavGoal)))), ((void *)(reinterpret_cast<::PathingLocationProxy *>(&(goal4))->GetAssociatedNavMesh())), &aB15, &flags0, outA8 != 0))
                     valid4 = false;
                 else
                     for (unsigned int j = 0; j < (unsigned int)((int)(reinterpret_cast<::Twin_0044ddc0 *>(&(flags0))->GetName())); ++j)
@@ -50609,7 +50612,9 @@ bool __cdecl FUN_005c25f0(const ScriptParameter* apParameters, const char* apCom
                 FUN_006b8340 aFD1;
                 PathBuilderDetailedPathInfos aB49;
                 S3e60 aBB4;
-                if (!reinterpret_cast<::fnv_006b8c50::FUN_006b8c50_shell *>(&(aFD1))->SetupNavMeshSearch((::fnv_006b8c50::PathingActorData *)(::fnv_005c25f0::FUN_00502670_stand *)(&wrap8), (void *)&(const ::fnv_005c25f0::NiPoint3 &)((*(::fnv_005c25f0::NiPoint3 *)&(reinterpret_cast<::TaskQueueInterface *>((void *)&(aCur))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)))), ((void *)(reinterpret_cast<::PathingLocationProxy *>(&(aCur))->GetAssociatedNavMesh())), (void *)&(const ::fnv_005c25f0::NiPoint3 &)((*(::fnv_005c25f0::NiPoint3 *)&(reinterpret_cast<::TaskQueueInterface *>((void *)&(aAng))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)))), ((void *)(reinterpret_cast<::PathingLocationProxy *>(&(aAng))->GetAssociatedNavMesh())), &aB49, &aBB4, outA8 != 0))
+                ::NiPoint3 kNavStart;
+                ::NiPoint3 kNavGoal;
+                if (!reinterpret_cast<::fnv_006b8c50::FUN_006b8c50_shell *>(&(aFD1))->SetupNavMeshSearch((::fnv_006b8c50::PathingActorData *)(::fnv_005c25f0::FUN_00502670_stand *)(&wrap8), (void *)&(const ::fnv_005c25f0::NiPoint3 &)((*(::fnv_005c25f0::NiPoint3 *)&(reinterpret_cast<::TaskQueueInterface *>((void *)&(aCur))->QueueActorAnimationTask(kNavStart)))), ((void *)(reinterpret_cast<::PathingLocationProxy *>(&(aCur))->GetAssociatedNavMesh())), (void *)&(const ::fnv_005c25f0::NiPoint3 &)((*(::fnv_005c25f0::NiPoint3 *)&(reinterpret_cast<::TaskQueueInterface *>((void *)&(aAng))->QueueActorAnimationTask(kNavGoal)))), ((void *)(reinterpret_cast<::PathingLocationProxy *>(&(aAng))->GetAssociatedNavMesh())), &aB49, &aBB4, outA8 != 0))
                     aB10 = false;
             }
             if (!aB10)
@@ -56112,9 +56117,9 @@ bool FUN_005d0300(const ScriptParameter* param, const char* desc, TESObjectREFR_
                             BSStringT<char> str;
                             ::FUN_00406f60((::FUN_00406f90_this *)(::BSStringT<char> *)(&str), "%s %s.", ::FUN_00482720((::TESForm *)pForm),
                                          ((const char *)(reinterpret_cast<::StartMenu *>((((SettingObj_ctx*)&(*reinterpret_cast<char *>(&::g_011d424c)))))->GetMenuTitle())));
-                            ::DispatchMessageToSink((int)(((const char *)(::FUN_00559450((int *)&(str))))), 0,
-                                                   (int)("Interface_ctx\\Icons\\Message Icons\\glow_message_vaultboy_neutral.dds"),
-                                                   (int)(0), 2.0f, false);
+                            ::DispatchMessageToSink((std::intptr_t)(((const char *)(::FUN_00559450((int *)&(str))))), 0,
+                                                   (std::intptr_t)("Interface_ctx\\Icons\\Message Icons\\glow_message_vaultboy_neutral.dds"),
+                                                   (std::intptr_t)(0), 2.0f, false);
                             reinterpret_cast<::FUN_00950030_shell *>(((*reinterpret_cast<::Actor_ctx * *>(&::_g_thePlayer))))->FUN_00950030();
                             ((::BaseProcess_ctx *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::Actor_ctx * *>(&::_g_thePlayer))))->GetBaseTexture()))->v352(1, 0, 0);
                             ::fnv_00704af0::FUN_00704af0();

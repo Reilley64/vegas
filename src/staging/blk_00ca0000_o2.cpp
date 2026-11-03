@@ -17138,7 +17138,7 @@ void VelocityController::FUN_00cb9290()
                     __m128 scalar = _mm_load_ss(&::DAT_01016410);
                     __m128 factor = _mm_shuffle_ps(scalar, scalar, 0);
                     __m128 scaled = _mm_mul_ps(factor, velocity);
-                    reinterpret_cast<::FUN_00631100_shell *>((body))->FUN_00631100(amount, (int)(&scaled));
+                    reinterpret_cast<::FUN_00631100_shell *>((body))->FUN_00631100(amount, (intptr_t)(&scaled));
                 }
             }
         }

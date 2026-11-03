@@ -322,15 +322,15 @@ struct VList
     virtual void f20();
     virtual void f21();
     virtual void f22();
-    virtual void Target(float a, int b);
+    virtual void Target(float a, intptr_t b);
 };
 struct FUN_00631100_shell
 {
-    void FUN_00631100(float a, int b);
+    void FUN_00631100(float a, intptr_t b);
 };
 // Calls FUN_00c9c1d0 on this, then forwards a and b to Target on the BGSRagdollList from TESDataHandler.
 // @fnv 0x00631100
-void FUN_00631100_shell::FUN_00631100(float afValue, int aiValue)
+void FUN_00631100_shell::FUN_00631100(float afValue, intptr_t aiValue)
 {
     reinterpret_cast<::hkpEntityC9C *>((((UnkCall*)this)))->FUN_00c9c1d0();
     ((VList*)((::BSSimpleList_Ragdoll *)(reinterpret_cast<::FUN_009d9f40_Class *>((((TESDataHandler*)this)))->FUN_009d9f40())))->Target(afValue, aiValue);

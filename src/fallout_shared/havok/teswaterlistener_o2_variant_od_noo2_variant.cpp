@@ -293,7 +293,7 @@ int PhysicsController::FUN_00630170(PhysicsReference* reference, float height, f
                 new ((void *)&(secondForce)) ::Vec3();
                 FUN_005dbf20 secondMultiplier(mass * -1.0);
                 reinterpret_cast<::S00630ae0_Result *>(&(secondForce))->FUN_00630ae0((const ::S00630ae0_Source *)(const ::PhysicsVector *)(&secondMultiplier), (const ::S00630ae0_Vector *)(const ::PhysicsVector *)(&direction));
-                reinterpret_cast<::FUN_00631100_shell *>((reference))->FUN_00631100(deltaTime, (int)(&secondForce));
+                reinterpret_cast<::FUN_00631100_shell *>((reference))->FUN_00631100(deltaTime, (intptr_t)(&secondForce));
                 reinterpret_cast<::TESForm *>((state))->ClearData();
                 PhysicsVector linear;
                 new ((void *)&(linear)) ::FUN_004a3c90((*(const ::FUN_004a3c90 *)(((const ::PhysicsVector *)(::FUN_00560dc0((::TESDataHandler *)(reference)))))));

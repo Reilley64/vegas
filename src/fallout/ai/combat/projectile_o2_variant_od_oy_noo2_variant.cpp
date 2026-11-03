@@ -503,7 +503,7 @@ void ProjPB::FUN_009becc0(float fUnused)
                 reinterpret_cast<::AlignedVector *>(&(kImpulse))->FUN_004a3f10((*(const ::AlignedVector *)(((const void *)(reinterpret_cast<::A6080Speaker *>((pkWorld))->FUN_009a6080())))));
                 hkSimdRealPB kScale(2.0f);
                 reinterpret_cast<::S_00627920 *>(&(kImpulse))->FUN_00627920((::S_00561240 *)&(kScale));
-                reinterpret_cast<::FUN_00631100_shell *>((pkMotion))->FUN_00631100(fTimeSinceScaleStart, (int)&(kImpulse));
+                reinterpret_cast<::FUN_00631100_shell *>((pkMotion))->FUN_00631100(fTimeSinceScaleStart, (intptr_t)&(kImpulse));
             }
         }
     }

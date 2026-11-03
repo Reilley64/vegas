@@ -1709,7 +1709,7 @@ struct __declspec(align(16)) CbfRayIn
     int m_iCachedVertexCount;
     void* m_vTo;
     int m_ten;
-    int m_iFilter;
+    intptr_t m_iFilter;
 };
 
 struct __declspec(align(16)) CbfSrc
@@ -1751,12 +1751,23 @@ class CbfTarget
     virtual void Cast(CbfRayIn* args, void* owner, int flag);
 };
 
+// The collision filter: a referenced object followed by the vtables of its four filter interfaces.
+struct CbfFilter
+{
+    void* vtable;
+    int memSizeAndRefCount;
+    void* collidableCollidableFilter;
+    void* shapeCollectionFilter;
+    void* rayShapeCollectionFilter;
+    void* rayCollidableFilter;
+};
+
 struct CbfOwner
 {
     int unk00;
     CbfSrc* m_04;
-    intptr_t m_08;
-    int m_0C;
+    void* m_08;
+    intptr_t m_0C;
     int m_10;
     int unk14;
     int unk18;
@@ -1770,7 +1781,7 @@ struct CbfOwner
     int unk38;
     int unk3C;
     int unk40;
-    intptr_t m_44;
+    void* m_44;
     void FUN_00cbf860(CbfTarget* obj, CbfSrc* src, int* p3, intptr_t p4, intptr_t p5);
 };
 
@@ -1781,9 +1792,10 @@ void CbfOwner::FUN_00cbf860(CbfTarget* obj, CbfSrc* src, int* p3, intptr_t p4, i
     m_04 = src;
     m_0C = p5;
     m_10 = 0;
-    m_08 = p3 != 0 ? (intptr_t)p3 + 0x14 : 0;
+    CbfFilter* filter = reinterpret_cast<CbfFilter*>(p3);
+    m_08 = filter != 0 ? &filter->rayCollidableFilter : 0;
     if (src->unk20 != 0)
-        m_44 = p3 != 0 ? (intptr_t)p3 + 0x10 : 0;
+        m_44 = filter != 0 ? &filter->rayShapeCollectionFilter : 0;
     else
         m_44 = 0;
     CbfRayIn local;

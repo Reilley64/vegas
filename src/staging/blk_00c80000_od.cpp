@@ -426,6 +426,12 @@ struct FUN_00c99ff0_base
     char m_auiShapeKeys[0xa0];
 };
 
+struct FUN_00c99ff0_arg
+{
+    char pad[0x40];
+    __m128 m_40;
+};
+
 struct FUN_00c99ff0_cls : FUN_00c99ff0_base
 {
     __m128 m_a0;
@@ -441,7 +447,7 @@ FUN_00c99ff0_cls* FUN_00c99ff0_cls::FUN_00c99ff0(void* a1, __m128* a2, __m128* a
     *(void**)this = (void*)&DAT_010c69f4;
     m_a0 = *a2;
     m_b0 = *a3;
-    m_c0 = *(__m128*)((char*)a1 + 0x40);
+    m_c0 = static_cast<FUN_00c99ff0_arg*>(a1)->m_40;
     return this;
 }
 
@@ -1985,7 +1991,7 @@ void __cdecl FUN_00c88a40(bool create, Filter filter, SceneNode* first, SceneNod
                     }
                 }
 
-                reinterpret_cast<::FUN_009ba320_shell *>(&(info))->FUN_009ba320((unsigned int)(sourceBody), (unsigned int)(targetBody));
+                reinterpret_cast<::FUN_009ba320_shell *>(&(info))->FUN_009ba320((uintptr_t)(sourceBody), (uintptr_t)(targetBody));
 
                 Transform sourceTransform = (sourceBody ? sourceBody->underlying : 0)->transform;
 
@@ -2413,7 +2419,7 @@ void __cdecl FUN_00c9b670(NiAVObject* object, const NiPoint3& velocity, unsigned
                     {
                         new (&sharedPoint) NiPoint3(static_cast<const NiPoint3_helper&>(velocity) * DAT_011b0f88);
                         NiPoint3& scaled = sharedPoint;
-                        reinterpret_cast<::FUN_00631100_shell *>((((PhysicsMotion*)body->body)))->FUN_00631100(DAT_011afe64, (int)&((*(::hkVector4 *)&(::fnv_004a3e00::FUN_004a3e00((::fnv_004a3e00::bhkCharacterController &)(work.vector), (const ::fnv_004a3e00::NiPoint3 &)(scaled))))));
+                        reinterpret_cast<::FUN_00631100_shell *>((((PhysicsMotion*)body->body)))->FUN_00631100(DAT_011afe64, (intptr_t)&((*(::hkVector4 *)&(::fnv_004a3e00::FUN_004a3e00((::fnv_004a3e00::bhkCharacterController &)(work.vector), (const ::fnv_004a3e00::NiPoint3 &)(scaled))))));
                     }
                 }
             }

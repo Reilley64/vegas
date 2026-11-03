@@ -11437,7 +11437,7 @@ void RayWorld::FUN_00c91f70(const void* input,void* output) {
         ((RayManager*)m_pKdTreeManager)->CastRay(input,m_pCollisionFilter,output);
     } else {
         __declspec(align(16)) RayCaster caster;
-        reinterpret_cast<::CbfOwner *>(&(caster))->FUN_00cbf860((::CbfTarget *)(m_pJobSemaphore),(::CbfSrc *)(input),(int *)(m_pCollisionFilter),0,(int)(output));
+        reinterpret_cast<::CbfOwner *>(&(caster))->FUN_00cbf860((::CbfTarget *)(m_pJobSemaphore),(::CbfSrc *)(input),(int *)(m_pCollisionFilter),0,(intptr_t)(output));
     }
     RecordRayTimer(::DAT_010c41f8);
 }

@@ -17,11 +17,11 @@ struct FUN_00cf4d80_shell
 };
 struct FUN_00d4d980_Class : hkpDashpotAction
 {
-    FUN_00d4d980_Class* FUN_00d4d980(int entityA, int entityB, int name);
+    FUN_00d4d980_Class* FUN_00d4d980(hkpEntity* entityA, hkpEntity* entityB, hkUlong name);
 };
 // Calls FUN_00cf4d80, sets m_fSpringStrength and m_fMotorDamping from globals, sets the vtable pointer, zeroes both m_kPoint entries and returns this.
 // @fnv 0x00d4d980
-FUN_00d4d980_Class* FUN_00d4d980_Class::FUN_00d4d980(int entityA, int entityB, int name)
+FUN_00d4d980_Class* FUN_00d4d980_Class::FUN_00d4d980(hkpEntity* entityA, hkpEntity* entityB, hkUlong name)
 {
     new ((void *)(reinterpret_cast<FUN_00cf4d80_shell*>(this))) ::FUN_00cf4d80((void *)(entityA), (void *)(entityB), name);
     m_fSpringStrength = DAT_0101e2bc;
@@ -52,17 +52,6 @@ struct DashRouter1
     DashHeap1* u10;
 };
 
-class FUN_00d4d980_class
-{
-  public:
-    void* FUN_00d4d980(hkpEntity* entityA, hkpEntity* entityB, hkUlong userData);
-};
-
-__declspec(noinline) void* FUN_00d4d980_class::FUN_00d4d980(hkpEntity* entityA, hkpEntity* entityB, hkUlong userData)
-{
-    return this;
-}
-
 class hkpDashpotActionX : public hkpDashpotAction
 {
   public:
@@ -82,7 +71,7 @@ hkpAction* hkpDashpotActionX::FUN_00d4d9d0(const hkArray<hkpEntity*>& newEntitie
     DashRouter1* router = static_cast<DashRouter1*>(FUN_00c85750());
     hkpDashpotAction* pDashpot = (hkpDashpotAction*)router->u10->allocate(0x60);
     pDashpot->m_usMemSizeAndFlags = 0x60;
-    pDashpot = (hkpDashpotAction*)((void *)(reinterpret_cast<::FUN_00d4d980_Class *>((((FUN_00d4d980_class*)pDashpot)))->FUN_00d4d980((int)(newEntities.m_data[0]), (int)(newEntities.m_data[1]), m_ulUserData)));
+    pDashpot = reinterpret_cast<::FUN_00d4d980_Class *>(pDashpot)->FUN_00d4d980(newEntities.m_data[0], newEntities.m_data[1], m_ulUserData);
 
     *(__m128*)&pDashpot->m_kPoint[0] = *(__m128*)&m_kPoint[0];
     *(__m128*)&pDashpot->m_kPoint[1] = *(__m128*)&m_kPoint[1];

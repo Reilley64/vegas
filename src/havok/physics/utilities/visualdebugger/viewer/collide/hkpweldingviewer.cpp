@@ -16,8 +16,7 @@ struct FUN_00dd9380_class
 // @fnv 0x00d62e60
 void __cdecl RegisterWeldingViewer()
 {
-    void* result = ((void *)(reinterpret_cast<::S_00dd9380 *>((((FUN_00dd9380_class*)(::DAT_01269cd0))))->FUN_00dd9380("WeldingViewer", reinterpret_cast<intptr_t>((void*)&((void *(&)())::FUN_00d62e20_impl)))));
-    DAT_01268fbc = (int)result;
+    DAT_01268fbc = (int)reinterpret_cast<::S_00dd9380 *>((((FUN_00dd9380_class*)(::DAT_01269cd0))))->FUN_00dd9380("WeldingViewer", reinterpret_cast<intptr_t>((void*)&((void *(&)())::FUN_00d62e20_impl)));
 }
 
 struct S_00d62650_B1
@@ -132,7 +131,7 @@ struct S_00d626b0_C
 };
 struct S_00d626b0_R : S_00d626b0_A, S_00d626b0_B, S_00d626b0_C
 {
-    S_00d626b0_R(int a) throw();
+    S_00d626b0_R(void* a) throw();
 };
 struct S_00d626b0_S
 {
@@ -143,7 +142,7 @@ struct S_00d626b0_S
 
 struct FUN_00d626b0 : S_00d626b0_R, S_00d626b0_S
 {
-    FUN_00d626b0(int a) throw();
+    FUN_00d626b0(void* a) throw();
     virtual void a0();
     virtual void b0();
     virtual void c0();
@@ -152,7 +151,7 @@ struct FUN_00d626b0 : S_00d626b0_R, S_00d626b0_S
 
 // If the owner pointer m_24 is set, calls FUN_00c93920 on each of its m_70 items, passing this object.
 // @fnv 0x00d626b0
-FUN_00d626b0::FUN_00d626b0(int aiArg) throw() : S_00d626b0_R(aiArg)
+FUN_00d626b0::FUN_00d626b0(void* aiArg) throw() : S_00d626b0_R(aiArg)
 {
     if (m_24)
     {
@@ -292,10 +291,8 @@ void* __cdecl FUN_00d62e20_impl(void* arg)
     Manager* pManager = (Manager*)getMemoryRouter();
     Viewer* pViewer = pManager->unk10->alloc0x2c(0x2c);
     pViewer->unk04 = 0x2c;
-    void* pResult = ((void *)(new ((void *)(pViewer)) ::FUN_00d626b0((int)(arg))));
-    if (pResult)
-        return (char*)pResult + 8;
-    return 0;
+    ::FUN_00d626b0* pResult = new ((void *)(pViewer)) ::FUN_00d626b0(arg);
+    return static_cast<S_00d626b0_B*>(pResult);
 }
 
 

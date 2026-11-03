@@ -276,17 +276,17 @@ template <class T> inline void CopyConstruct(T* dst, int count, const T& value)
 }
 struct ItemList
 {
-    void** data;
+    unsigned int* data;
     int count;
     unsigned int capacity;
-    int indexOf(void* item) const
+    int indexOf(unsigned int item) const
     {
         for (int i = 0; i < count; ++i)
             if (data[i] == item)
                 return i;
         return -1;
     }
-    void AddBack(void* const& value)
+    void AddBack(const unsigned int& value)
     {
         AudioHolder* holder = getMemoryRouter();
         if (count == (int)(capacity & 0x3fffffff))
@@ -357,15 +357,15 @@ struct FUN_00e65080_cls
     unsigned char unkB9;
     unsigned char unkBA;
     unsigned char unkBB;
-    void* m_bc;
+    unsigned int m_bc;
     unsigned char m_c0;
 
-    void FUN_00e65080(void* item, unsigned int unused);
+    void FUN_00e65080(unsigned int item, const unsigned int* unused);
 };
 
 // Adds item to m_34 if absent, calls FUN_00e65040 when m_b8 is clear or item matches m_bc, and sets m_c0 when m_b0 is true.
 // @fnv 0x00e65080
-void FUN_00e65080_cls::FUN_00e65080(void* item, unsigned int unused)
+void FUN_00e65080_cls::FUN_00e65080(unsigned int item, const unsigned int* unused)
 {
     if (m_34.indexOf(item) == -1)
     {
@@ -373,7 +373,7 @@ void FUN_00e65080_cls::FUN_00e65080(void* item, unsigned int unused)
         bool selected = flagB8 != 0 && item == m_bc;
         if (flagB8 == 0 || selected)
         {
-            reinterpret_cast<::Cls *>(this)->FUN_00e65040((*(::Flag *)&(const ::FlagArg &)(FlagArg(true))), (int)(item));
+            reinterpret_cast<::Cls *>(this)->FUN_00e65040((*(::Flag *)&(const ::FlagArg &)(FlagArg(true))), (int)item);
             bool result = m_b0 || selected;
             m_b0 = result;
         }
@@ -412,7 +412,7 @@ struct E65Input
     int unk08;
     int unk0C;
     hkVector4 m_vec;
-    int unk20;
+    const unsigned char* unk20;
 };
 struct E65Key
 {
@@ -1018,9 +1018,9 @@ void E65Solver::FUN_00e65d90(E65Input* apInput, E65Key* __restrict key, int aiDa
         m_ranges[i].m_kMinimumCorner = lo;
         m_ranges[i].m_kMaximumCorner = hi;
     }
-    int v = *(volatile int*)&apInput->unk20;
+    const unsigned char* v = *(const unsigned char* volatile*)&apInput->unk20;
     out.unk14 = 0;
-    reinterpret_cast<::S_00e65140_VM *>(this)->FUN_00e65140((const ::S_00e65140_Query *)(::E65Out *)(&out), (const unsigned char *)(v));
+    reinterpret_cast<::S_00e65140_VM *>(this)->FUN_00e65140((const ::S_00e65140_Query *)(::E65Out *)(&out), v);
 }
 
 // Executes a Mopp byte-code stream, updating the DOP bounds and recording primitive hits via FUN_00e65080.
@@ -1431,7 +1431,7 @@ void S_00e65140_VM::FUN_00e65140(const S_00e65140_Query* query, const unsigned c
             m_primitiveId = command - 0x30;
         AddHit:
             m_primitiveId += query->m_uiPropertyCount;
-            reinterpret_cast<::FUN_00e65080_cls *>(this)->FUN_00e65080((void *)(m_primitiveId), (unsigned int)(query->m_kProperties));
+            reinterpret_cast<::FUN_00e65080_cls *>(this)->FUN_00e65080((unsigned int)m_primitiveId, query->m_kProperties);
             m_primitiveId = -1;
             return;
         default: {

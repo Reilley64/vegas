@@ -1065,11 +1065,6 @@ void FUN_00dcee80(const S_00dcee80_Info& info, const S_00dcee80_QueryIn& in, S_0
 #include "fnv/symbols_01268000.h"
 static void FUN_00dcf460(Jac_dcf880* out, const Info_dcf880* info, const QueryIn_dcf880* in, float scale);
 void CallTarget_dcf460();
-__forceinline void S_00dcee80_Vector4::setNeg4(const S_00dcee80_Vector4& v)
-{
-
-    q() = _mm_xor_ps(v.q(), DAT_010c44d0);
-}
 
 #include <math.h>
 struct Input102
@@ -1084,7 +1079,6 @@ struct Row102
 {
     hkVector4 linear, angularA, angularB;
 };
-extern hkVector4 DAT_010ec7f0;
 void FUN_00d6c970(const hkVector4*, const hkVector4*, const Input102*, Row102*);
 static float DotValue(__m128 v, __m128 a)
 {
@@ -1111,7 +1105,7 @@ union Velocity102
     } lanes;
     float& at(int i)
     {
-        return m_vComponents[i];
+        return reinterpret_cast<float*>(&m_vComponents)[i];
     }
 };
 // @fnv 0x00dcfc00
@@ -1136,7 +1130,7 @@ void FUN_00dcfc00(const hkVector4* pivotA, const hkVector4* pivotB, float maxFor
         scale = sqrtf(scale);
         scale = sqrtf(scale);
         double eps = DAT_010c9300;
-        __m128 ones = DAT_010ec7f0.m_vComponents;
+        __m128 ones = DAT_010ec7f0;
         __m128 t = _mm_load_ss(&scale);
         __m128 sa = _mm_shuffle_ps(t, t, 0);
         hkVector4 a;

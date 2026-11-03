@@ -450,7 +450,7 @@ struct WorkVectors
 
 extern "C"
 {
-    const __m128 DAT_010ec7f0 = {{1.0f, 1.0f, 1.0f, 1.0f}};
+    const __m128 DAT_010ec7f0 = {1.0f, 1.0f, 1.0f, 1.0f};
     const float DAT_010959f4 = 1e-6f;
 }
 

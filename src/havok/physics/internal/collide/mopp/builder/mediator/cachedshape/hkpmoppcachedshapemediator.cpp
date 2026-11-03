@@ -106,7 +106,7 @@ struct AudioAllocator
 
 struct AudioHolder
 {
-    int unk00;
+    char* unk00;
     int unk04;
     int unk08;
     int unk0c;
@@ -219,7 +219,7 @@ class FUN_00dd5cd0_cls
     int unk10;
     Mgr* m_pMgr;
 
-    void ProcessItems(int a, int b);
+    void ProcessItems(::Item_00dd5b00* a, int b);
 };
 
 class DD5D50ReferencedObject
@@ -354,7 +354,7 @@ struct Obj_00dd5b00
 };
 // Iterates count items from m_pMgr starting at m, calling ComputeAxisRanges on each item whose v14() is nonzero, advancing m via v0c.
 // @fnv 0x00dd5cd0
-void FUN_00dd5cd0_cls::ProcessItems(int aiArg1, int aiArg2)
+void FUN_00dd5cd0_cls::ProcessItems(::Item_00dd5b00* aiArg1, int aiArg2)
 {
     __declspec(align(16)) int slots[127];
     int i;
@@ -368,7 +368,7 @@ void FUN_00dd5cd0_cls::ProcessItems(int aiArg1, int aiArg2)
             Item* item = m_pMgr->v14(m, slots);
             if (item->v14())
             {
-                reinterpret_cast<::Obj_00dd5b00 *>(this)->ComputeAxisRanges((::Src_00dd5b00 *)(item), m, (::Item_00dd5b00 *)(aiArg1), aiArg2);
+                reinterpret_cast<::Obj_00dd5b00 *>(this)->ComputeAxisRanges((::Src_00dd5b00 *)(item), m, aiArg1, aiArg2);
             }
             m = m_pMgr->v0c(m);
             i = i - 1;
@@ -394,8 +394,8 @@ void Obj_00dd5b00::ComputeAxisRanges(Src_00dd5b00* apSource, int aiId, Item_00dd
 {
     int nVerts = apSource->v2c();
     AudioHolder* pHolder = getMemoryRouter();
-    Vec4* m_pkDeltas = (Vec4*)pHolder->unk00;
-    pHolder->unk00 = (int)m_pkDeltas + ((nVerts * sizeof(Vec4) + 0x7f) & ~0x7f);
+    Vec4* m_pkDeltas = reinterpret_cast<Vec4*>(pHolder->unk00);
+    pHolder->unk00 += (nVerts * sizeof(Vec4) + 0x7f) & ~0x7f;
     apSource->v30(m_pkDeltas);
 
     Vec_00dd5b00* pList = &m_kNode;
@@ -454,7 +454,7 @@ void Obj_00dd5b00::ComputeAxisRanges(Src_00dd5b00* apSource, int aiId, Item_00dd
     }
 
     pHolder = getMemoryRouter();
-    pHolder->unk00 = (int)m_pkDeltas;
+    pHolder->unk00 = reinterpret_cast<char*>(m_pkDeltas);
 }
 
 struct FUN_00dd5de0_Allocator

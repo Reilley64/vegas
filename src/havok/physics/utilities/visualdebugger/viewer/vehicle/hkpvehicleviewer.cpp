@@ -210,7 +210,7 @@ extern const char DAT_010d17c4;
 // @fnv 0x00d63da0
 void __cdecl FUN_00d63da0()
 {
-    (*reinterpret_cast<void * *>(&::g_D63DC0Value)) = ((void *)(reinterpret_cast<::S_00dd9380 *>(((*reinterpret_cast<::Factory * *>(&::DAT_01269cd0))))->FUN_00dd9380(&DAT_010d17c4, reinterpret_cast<intptr_t>((void*)((void (&)())::fnv_00d63d60::AllocAndInitObject)))));
+    ::g_D63DC0Value = (int)(reinterpret_cast<::S_00dd9380 *>(((*reinterpret_cast<::Factory * *>(&::DAT_01269cd0))))->FUN_00dd9380(&DAT_010d17c4, reinterpret_cast<intptr_t>((void*)((void (&)())::fnv_00d63d60::AllocAndInitObject))));
 }
 
 
@@ -1720,7 +1720,7 @@ public:
 __forceinline void*__cdecl operator new(hk_size_t nbytes){;hkReferencedObject*b=static_cast<hkReferencedObject*>(NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes)));b->m_usMemSizeAndFlags=static_cast<hkUint16>(nbytes);;return b;}__forceinline void __cdecl operator delete(void*p){hkReferencedObject*b=static_cast<hkReferencedObject*>(p);;NineIntegerRecord::GetMonitorStream().heap().ReleaseBlock(p,b->m_usMemSizeAndFlags);}__forceinline void*__cdecl operator new(hk_size_t,void*p){return p;}__forceinline void*__cdecl operator new[](hk_size_t,void*p){__debugbreak();return p;}__forceinline void __cdecl operator delete(void*,void*){}__forceinline void __cdecl operator delete[](void*,void*){__debugbreak();}class CommandArgument;
 static hkProcess*__cdecl create(const hkArray<hkProcessContext*>&contexts);
 static void __cdecl RegisterViewer();
-virtual int GetOperationType(){return (int)(*reinterpret_cast<void * *>(&::g_D63DC0Value));}
+virtual int GetOperationType(){return ::g_D63DC0Value;}
 virtual void init();
 static inline const char*__cdecl getName(){return "Vehicles";}
 protected:
@@ -2133,7 +2133,7 @@ const hkpVehicleInstance::WheelInfo&wheel=vehicle->m_kWheelInfoArray[w];
 const hkVector4&contactPoint=wheel.m_vContactPoint.getPosition();
 const hkVector4&hardPoint=wheel.m_vContactPointVelocity;
 const int collidableId=(wheel.m_pUserData)?(int)(hkUlong)(wheel.m_pUserData->getCollidable()):0;
-m_pDisplayHandler->DisplayLine(contactPoint,hardPoint,(wheel.m_pUserData)? hkColor::RED:hkColor::ROSYBROWN,collidableId,(int)(*reinterpret_cast<void * *>(&::g_D63DC0Value)));
+m_pDisplayHandler->DisplayLine(contactPoint,hardPoint,(wheel.m_pUserData)? hkColor::RED:hkColor::ROSYBROWN,collidableId,::g_D63DC0Value);
 centerPoint[w].setAddMul4(contactPoint,wheel.m_vHardPointWs,-wheelParam.m_fSphereRadius);
 {
 hkVector4 spoke;spoke=wheel.m_vHardPointWs;
@@ -2143,7 +2143,7 @@ spoke.normalize3();
 spoke.mul4(wheelParam.m_fSphereRadius);
 hkVector4 start;start.setAdd4(centerPoint[w],spoke);
 hkVector4 end;end.setSub4(centerPoint[w],spoke);
-m_pDisplayHandler->DisplayLine(start,end,(wheel.m_pUserData)? hkColor::WHITESMOKE:hkColor::ROSYBROWN,collidableId,(int)(*reinterpret_cast<void * *>(&::g_D63DC0Value)));
+m_pDisplayHandler->DisplayLine(start,end,(wheel.m_pUserData)? hkColor::WHITESMOKE:hkColor::ROSYBROWN,collidableId,::g_D63DC0Value);
 }
 hkVector4 spokes[numWheelSegments];
 spokes[0].setMul4(wheelParam.m_fSphereRadius,wheel.m_vHardPointWs);
@@ -2160,7 +2160,7 @@ spokes[s-1].add4(centerPoint[w]);
 }
 if(s>=2)
 {
-m_pDisplayHandler->DisplayLine(spokes[(s-2)% numWheelSegments],spokes[(s-1)% numWheelSegments],(wheel.m_pUserData)? hkColor::WHITESMOKE:hkColor::ROSYBROWN,collidableId,(int)(*reinterpret_cast<void * *>(&::g_D63DC0Value)));
+m_pDisplayHandler->DisplayLine(spokes[(s-2)% numWheelSegments],spokes[(s-1)% numWheelSegments],(wheel.m_pUserData)? hkColor::WHITESMOKE:hkColor::ROSYBROWN,collidableId,::g_D63DC0Value);
 }
 }
 }
@@ -2187,7 +2187,7 @@ firstTimeThrough=false;
 }
 else
 {
-m_pDisplayHandler->DisplayLine(a,b,hkColor::YELLOWGREEN,collidableId,(int)(*reinterpret_cast<void * *>(&::g_D63DC0Value)));
+m_pDisplayHandler->DisplayLine(a,b,hkColor::YELLOWGREEN,collidableId,::g_D63DC0Value);
 }
 if(wheelsFoundOnThisAxle==totalWheelsOnThisAxle)break;
 }

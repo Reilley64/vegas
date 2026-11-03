@@ -2,6 +2,8 @@
 // src/havok/physics/internal/collide/mopp/builder/splitter/hkpmoppdefaultsplitter.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/physics/internal/collide/mopp/builder/splitter/hkpmoppdefaultsplitter.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <xmmintrin.h>
+#include "fnv/symbols_simd.h"
 #include <new>
 #include "fnv/symbols_00c85000.h"
 #include <cstddef>
@@ -196,7 +198,7 @@ class FUN_00e09f80_class
     int unk30;
     hkAxisE09F* m_axes;
 
-    hkNodeE09F* AllocateNode(int iOwner, hkRangeE09F* pkRange) throw();
+    hkNodeE09F* AllocateNode(hkNodeE09F* iOwner, hkRangeE09F* pkRange) throw();
 };
 
 struct FNVRange
@@ -805,7 +807,7 @@ class hkOutputE0A5
     virtual void V2() throw();
     virtual int getA() throw();
     virtual int getB() throw();
-    virtual void finish(int iResult, void* pvOwner, int iSize) throw();
+    virtual void finish(::SplitNode* pRoot, void* pvOwner, int iSize) throw();
 };
 
 struct hkSettingsE0A5
@@ -950,7 +952,7 @@ int hkProcessorE0A5::FUN_00e0a550(hkInputE0A5* pkInput, void* iArg, hkOutputE0A5
     kStack.m_0c = 0;
     m_aiEntries = &kStack;
 
-    int iResult = ((int)(reinterpret_cast<::SplitBuilder *>(this)->FUN_00e0a270((::SplitNode *)(0), (::SplitList *)(::hkJobE0A5 *)(&kJob), 0, 0)));
+    ::SplitNode* iResult = reinterpret_cast<::SplitBuilder *>(this)->FUN_00e0a270((::SplitNode *)(0), (::SplitList *)(::hkJobE0A5 *)(&kJob), 0, 0);
     {
         pkOutput->finish(iResult, this, iNumNodes * 2);
     }
@@ -1071,7 +1073,7 @@ struct MatchOwner
 };
 // Pops a free node from the free list, resets its flags and range fields, links it to the owner, and registers its three key ranges with the axis handler.
 // @fnv 0x00e09f80
-hkNodeE09F* FUN_00e09f80_class::AllocateNode(int iOwner, hkRangeE09F* pkRange) throw()
+hkNodeE09F* FUN_00e09f80_class::AllocateNode(hkNodeE09F* iOwner, hkRangeE09F* pkRange) throw()
 {
     hkNodeE09F* pkNode = m_kFreeListEntries;
     m_kFreeListEntries = pkNode->m_next;
@@ -1085,7 +1087,7 @@ hkNodeE09F* FUN_00e09f80_class::AllocateNode(int iOwner, hkRangeE09F* pkRange) t
     pkNode->unk3C = false;
     pkNode->unk3D = false;
     pkNode->m_uiBufferCapacity = true;
-    pkNode->m_next = (hkNodeE09F*)iOwner;
+    pkNode->m_next = iOwner;
     pkNode->unk60 = pkRange->m_kMinimumCorner;
     reinterpret_cast<::MatchOwner *>(this)->FUN_00e098b0((::S00e098b0_Range *)(pkRange), (::NodeBounds *)(pkNode));
     for (int i = 0; i < 3; i++)
@@ -1667,7 +1669,7 @@ SplitNode* SplitBuilder::FUN_00e0a270(SplitNode* parent, SplitList* list, int si
         {
             m_monitor->step(m_pTreeNode, this, 0x800);
         }
-        return ((::SplitNode *)(reinterpret_cast<::FUN_00e09f80_class *>(this)->AllocateNode((int)(parent), (::hkRangeE09F *)(list))));
+        return ((::SplitNode *)(reinterpret_cast<::FUN_00e09f80_class *>(this)->AllocateNode((::hkNodeE09F *)(parent), (::hkRangeE09F *)(list))));
     }
 
     if (m_settings->m_progress && m_14 == 0)

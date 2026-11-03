@@ -2188,10 +2188,15 @@ class __declspec(novtable) FUN_00b581c0_cls : public SpawnedBase_b581c0
 FUN_00b581c0_cls::~FUN_00b581c0_cls()
 {}
 
-// @fnv 0x00b4e140
-void FUN_00b4e140()
+struct FUN_00b4e140_shell
 {
-    ::FUN_00b4df30({});
+    void FUN_00b4e140();
+};
+
+// @fnv 0x00b4e140
+void FUN_00b4e140_shell::FUN_00b4e140()
+{
+    ::FUN_00b4df30(this);
 }
 
 struct FUN_00b58530_Obj

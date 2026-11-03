@@ -173,11 +173,18 @@ struct FUN_009fbca0
     FUN_009fbca0* Method(bool);
 };
 
-// @fnv 0x009fc450
-int FUN_009fc450(intptr_t a)
+struct FUN_009fc450_shell
 {
-    intptr_t b = *(intptr_t*)(a + 8);
-    return ((int)(::FUN_009fd0a0((const wchar_t *)(b), {})));
+    void* m_00;
+    void* m_04;
+    const wchar_t* m_pszName;
+    long FUN_009fc450(wchar_t** ppszId);
+};
+
+// @fnv 0x009fc450
+long FUN_009fc450_shell::FUN_009fc450(wchar_t** ppszId)
+{
+    return ::FUN_009fd0a0(m_pszName, ppszId);
 }
 
 struct FUN_009fc460_Class
@@ -786,7 +793,7 @@ struct FUN_009fa350_class
 };
 struct FUN_009fd450_class
 {
-    void FUN_009fd450();
+    unsigned int FUN_009fd450(void** arg);
 };
 struct FUN_009fe690_class
 {
@@ -4890,12 +4897,15 @@ int FUN_009fdf20_cls::FUN_009fdf20()
     return m_24;
 }
 
-extern "C" void __cdecl FUN_009fd320();
+struct FUN_009fdfd0_shell
+{
+    void FUN_009fdfd0();
+};
 
 // @fnv 0x009fdfd0
-void __cdecl FUN_009fdfd0()
+void FUN_009fdfd0_shell::FUN_009fdfd0()
 {
-    FUN_009fd320();
+    reinterpret_cast<struct ::FUN_009fd320 *>(this)->~FUN_009fd320();
 }
 
 
@@ -5911,10 +5921,10 @@ struct TargetOwner
     unsigned int DispatchCall(void** arg);
 };
 // @fnv 0x009fd450
-void FUN_009fd450_class::FUN_009fd450()
+unsigned int FUN_009fd450_class::FUN_009fd450(void** arg)
 {
     *(int*)((char*)this + 0xa0) = 0;
-    reinterpret_cast<::TargetOwner *>((((FUN_009fa350_class*)this)))->DispatchCall({});
+    return reinterpret_cast<::TargetOwner *>((((FUN_009fa350_class*)this)))->DispatchCall(arg);
 }
 // @fnv 0x009fa350
 unsigned int TargetOwner::DispatchCall(void** arg)

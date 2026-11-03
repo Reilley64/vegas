@@ -9441,10 +9441,15 @@ void Owner::InitShaderConstantMaps()
     DAT_01200ec0[103].p->pixel = pixel;
 }
 
-// @fnv 0x00c1a630
-void __cdecl FUN_00c1a630()
+struct FUN_00c1a630_shell
 {
-    static_cast<::fnv_00a74640::FUN_00a74640 *>(nullptr)->Clone(*(::fnv_00a74640::CloningProcess *)nullptr);
+    ::fnv_00a74640::NiTriStrips* FUN_00c1a630(::fnv_00a74640::CloningProcess& kCloning);
+};
+
+// @fnv 0x00c1a630
+::fnv_00a74640::NiTriStrips* FUN_00c1a630_shell::FUN_00c1a630(::fnv_00a74640::CloningProcess& kCloning)
+{
+    return reinterpret_cast<::fnv_00a74640::FUN_00a74640 *>(this)->Clone(kCloning);
 }
 
 extern "C" void _ReadWriteBarrier();
@@ -12174,10 +12179,15 @@ void FUN_00c1a310(int aUnused, int abGreen, Obj_c1a310* p)
     *(ColorA_c1a310*)&DAT_011fa2d0 = c;
 }
 
-// @fnv 0x00c1a390
-void __cdecl FUN_00c1a390()
+struct FUN_00c1a390_shell
 {
-    static_cast<::FUN_00a71db0_class *>(nullptr)->CreateTriStripsObject({});
+    ::NiTriStripsObject* FUN_00c1a390(int value);
+};
+
+// @fnv 0x00c1a390
+::NiTriStripsObject* FUN_00c1a390_shell::FUN_00c1a390(int value)
+{
+    return reinterpret_cast<::FUN_00a71db0_class *>(this)->CreateTriStripsObject(value);
 }
 
 namespace ShaderBias {
@@ -13325,11 +13335,9 @@ void __cdecl FUN_00c04950();
 
 float __cdecl FUN_00c05870();
 
-void __cdecl FUN_00c1a630();
 
 void FUN_00c1a310(int a, int b, Obj_c1a310* p);
 
-void __cdecl FUN_00c1a390();
 
 extern int DAT_011fab5c;
 

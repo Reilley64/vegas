@@ -8436,10 +8436,15 @@ FUN_00b60b10::FUN_00b60b10()
 }
 
 
-// @fnv 0x00b6a510
-void FUN_00b6a510()
+struct FUN_00b6a510_shell
 {
-    static_cast<::NiTPointerListBaseRaw *>(nullptr)->FUN_004ed900();
+    void FUN_00b6a510();
+};
+
+// @fnv 0x00b6a510
+void FUN_00b6a510_shell::FUN_00b6a510()
+{
+    reinterpret_cast<::NiTPointerListBaseRaw *>(this)->FUN_004ed900();
 }
 
 void* __cdecl FUN_00aa13e0(unsigned int size);

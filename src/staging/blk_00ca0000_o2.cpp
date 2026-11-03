@@ -173,6 +173,41 @@
 #include "fnv/decl/CbfOwner.h"
 #include "../../include/layout_support.h"
 
+// The byte before an aligned block holds the distance back to the start of its allocation.
+struct AlignedBlockPrefix
+{
+    unsigned char m_ucOffset;
+};
+// An hkStringPtr value with the low bit set owns its (aligned) string copy.
+inline uintptr_t TagOwnedString(const void* apString)
+{
+    return reinterpret_cast<uintptr_t>(apString) | 1;
+}
+inline AlignedBlockPrefix* GetAlignedBlockPrefix(void* apBlock)
+{
+    return static_cast<AlignedBlockPrefix*>(apBlock) - 1;
+}
+
+// The NiStream fields that code reads through an untyped stream pointer.
+struct NiStreamFields
+{
+    char pad[0x1e4];
+    unsigned char m_ucSourceByteOrder;
+    char pad1e5[0x250 - 0x1e5];
+    void* m_pkStream;
+};
+
+// The global string table stores a reference count and the length before each string.
+struct GlobalStringHeader
+{
+    volatile long m_lRefCount;
+    unsigned int m_uiLength;
+};
+inline GlobalStringHeader* GetGlobalStringHeader(const void* apString)
+{
+    return const_cast<GlobalStringHeader*>(static_cast<const GlobalStringHeader*>(apString) - 1);
+}
+
 struct VelocityNode;
 struct VelocityController
 {
@@ -227,16 +262,22 @@ struct FUN_00ca5310_class
 {
     int m_auiShapeKeys;
     int m_pAuxiliaryObject;
-    void* m_p;
+    struct FUN_00ca5310_inner* m_p;
 };
 
-// Returns element 0x24 of the float array at m_p when a and m_p are non-null, otherwise 1.0f.
+struct FUN_00ca5310_inner
+{
+    char pad[0x90];
+    float m_f90;
+};
+
+// Returns m_p->m_f90 when a and m_p are non-null, otherwise 1.0f.
 // @fnv 0x00ca5310
 float GetField24Float(struct FUN_00ca5310_class* pClass)
 {
     float result;
     if (pClass && pClass->m_p)
-        result = ((float*)pClass->m_p)[0x24];
+        result = pClass->m_p->m_f90;
     else
         result = 1.0f;
     return result;
@@ -429,22 +470,32 @@ FUN_00cbf400_class::FUN_00cbf400_class() : GlobalObject_0045cfe0("iNumThreads:HA
     m_f = 0;
 }
 
+struct FUN_00ca0d40_vtable
+{
+    void* slot0;
+    void* slot1;
+    void (*Free)(void*);
+};
 struct FUN_00ca0d40_class
 {
+    void* m_vtbl;
+    void* m_pData;
+    unsigned int m_08;
+    unsigned int m_0c;
     void FUN_00ca0d40();
 };
-// Sets the vtable pointer to DAT_010c7310 and, if the pointer at offset 4 is set, calls the function at DAT_010c7310+8 on it and clears offsets 4, 8 and 12.
+// Sets the vtable pointer to DAT_010c7310 and, if m_pData is set, frees it through slot 2 of that vtable and clears m_pData, m_08 and m_0c.
 // @fnv 0x00ca0d40
 void FUN_00ca0d40_class::FUN_00ca0d40()
 {
-    void* p = *(void**)((char*)this + 4);
-    *(void**)((char*)this + 0) = &DAT_010c7310;
+    void* p = m_pData;
+    m_vtbl = &DAT_010c7310;
     if (p)
     {
-        ((void(*)(void*)) * (void**)((char*)&DAT_010c7310 + 8))(p);
-        *(int**)((char*)this + 4) = 0;
-        *(int**)((char*)this + 12) = 0;
-        *(int**)((char*)this + 8) = 0;
+        reinterpret_cast<FUN_00ca0d40_vtable*>(&DAT_010c7310)->Free(p);
+        m_pData = 0;
+        m_0c = 0;
+        m_08 = 0;
     }
 }
 
@@ -465,7 +516,7 @@ FUN_00ca4a90_Class* FUN_00ca4a90_Class::FUN_00ca4a90(int flags)
 {
     FUN_00ca4490();
     if ((flags & 1) && this)
-        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060((char*)this - *(unsigned char*)((char*)this - 1));
+        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060((char*)this - GetAlignedBlockPrefix(this)->m_ucOffset);
     return this;
 }
 
@@ -682,7 +733,7 @@ FUN_00cba080_class* FUN_00cba080_class::FUN_00cba080(int flag)
     m_vtbl = &DAT_010c8d14;
     if (old)
     {
-        ((void(*)(void*)) * (void**)((char*)&DAT_010c8d14 + 8))(old);
+        reinterpret_cast<FUN_00ca0d40_vtable*>(&DAT_010c8d14)->Free(old);
         m_data = 0;
         m_iThirdValue = 0;
         m_8 = 0;
@@ -2273,11 +2324,6 @@ struct HandleSlot
     int m_04;
 };
 
-struct HandleOwner
-{
-    bool IsDegenerate(unsigned int handle);
-};
-
 class HandleManager
 {
   public:
@@ -2322,6 +2368,13 @@ class HandleManager
     int FUN_00ca4ac0(int handle);
 };
 
+struct HandleOwner
+{
+    char pad[0x10];
+    HandleManager m_kManager;
+    bool IsDegenerate(unsigned int handle);
+};
+
 // @fnv 0x00ca4ac0
 int HandleManager::FUN_00ca4ac0(int handle)
 {
@@ -2341,7 +2394,7 @@ int HandleManager::FUN_00ca4ac0(int handle)
         {
             return -1;
         }
-        HandleOwner* owner = (HandleOwner*)((char*)this - 0x10);
+        HandleOwner* owner = reinterpret_cast<HandleOwner*>(reinterpret_cast<char*>(this) - offsetof(HandleOwner, m_kManager));
         if (!owner->IsDegenerate(cur))
         {
             return (int)cur;
@@ -3955,7 +4008,7 @@ struct FUN_00ca4bc0_obj
         unsigned char* a = (unsigned char*)reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00ca6a80::FUN_00aa3e40_alloc *>(&::g_memoryManager))))->FUN_00aa3e40(size);
         unsigned char pad = (unsigned char)(0x10 - ((uintptr_t)a & 0xf));
         a += pad;
-        a[-1] = pad;
+        GetAlignedBlockPrefix(a)->m_ucOffset = pad;
         return a;
     }
     static void operator delete(void*)
@@ -6858,7 +6911,7 @@ FUN_00cba110::FUN_00cba110() : m_08((*reinterpret_cast<void * *>(&::DAT_0109b220
         m_08.p = ((void *)(::NiGlobalStringTable::AddString((const char *)(0))));
         if (p != (*reinterpret_cast<void * *>(&::DAT_0109b220)))
         {
-            InterlockedDecrement((volatile long*)((char*)p - 8));
+            InterlockedDecrement(&GetGlobalStringHeader(p)->m_lRefCount);
         }
     }
 }
@@ -7110,10 +7163,10 @@ void BufferOwner::WriteToStream(void* source)
 {
     reinterpret_cast<::S_00c8a280_Obj *>(this)->FUN_00c8a280((*(::S_00c8a280_Stream *)(source)));
     unsigned char* data = buffer;
-    WriteStream* __restrict stream = *(WriteStream**)((unsigned char*)source + 0x250);
+    WriteStream* __restrict stream = static_cast<WriteStream*>(static_cast<NiStreamFields*>(source)->m_pkStream);
     unsigned int length = 64;
     stream->transferred += stream->write(stream, data + 0x20, 64, &length, 1);
-    stream = *(WriteStream**)((unsigned char*)source + 0x250);
+    stream = static_cast<WriteStream*>(static_cast<NiStreamFields*>(source)->m_pkStream);
     length = 64;
     stream->transferred += stream->write(stream, data + 0x60, 64, &length, 1);
 }
@@ -8292,7 +8345,7 @@ class CA6E60Data
   public:
     static void operator delete(void* pvMem)
     {
-        unsigned char ucOffset = static_cast<unsigned char*>(pvMem)[-1];
+        unsigned char ucOffset = GetAlignedBlockPrefix(pvMem)->m_ucOffset;
         reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(static_cast<char*>(pvMem) - ucOffset);
     }
 
@@ -9508,32 +9561,32 @@ void FUN_00cb9d80_class::ReadFromStream(void* context)
 
     unsigned int size = 4;
 
-    FUN_00cb9d80_stream* stream = *(FUN_00cb9d80_stream**)((char*)context + 0x250);
+    FUN_00cb9d80_stream* stream = static_cast<FUN_00cb9d80_stream*>(static_cast<NiStreamFields*>(context)->m_pkStream);
     {
         int temp = size;
         stream->position += stream->read(stream, &unk2c, size, &temp, 1);
     }
-    stream = *(FUN_00cb9d80_stream**)((char*)context + 0x250);
+    stream = static_cast<FUN_00cb9d80_stream*>(static_cast<NiStreamFields*>(context)->m_pkStream);
     {
         int temp = size;
         stream->position += stream->read(stream, &unk30, size, &temp, 1);
     }
-    stream = *(FUN_00cb9d80_stream**)((char*)context + 0x250);
+    stream = static_cast<FUN_00cb9d80_stream*>(static_cast<NiStreamFields*>(context)->m_pkStream);
     {
         int temp = size;
         stream->position += stream->read(stream, &unk34, size, &temp, 1);
     }
-    stream = *(FUN_00cb9d80_stream**)((char*)context + 0x250);
+    stream = static_cast<FUN_00cb9d80_stream*>(static_cast<NiStreamFields*>(context)->m_pkStream);
     {
         int temp = size;
         stream->position += stream->read(stream, &unk38, size, &temp, 1);
     }
-    stream = *(FUN_00cb9d80_stream**)((char*)context + 0x250);
+    stream = static_cast<FUN_00cb9d80_stream*>(static_cast<NiStreamFields*>(context)->m_pkStream);
     {
         int temp = size;
         stream->position += stream->read(stream, &unk3c, size, &temp, 1);
     }
-    stream = *(FUN_00cb9d80_stream**)((char*)context + 0x250);
+    stream = static_cast<FUN_00cb9d80_stream*>(static_cast<NiStreamFields*>(context)->m_pkStream);
     {
         int temp = size;
         stream->position += stream->read(stream, &count, size, &temp, 1);
@@ -9542,7 +9595,7 @@ void FUN_00cb9d80_class::ReadFromStream(void* context)
     for (unsigned int i = 0; i < count; ++i)
     {
         unsigned int value = unk20[i];
-        stream = *(FUN_00cb9d80_stream**)((char*)context + 0x250);
+        stream = static_cast<FUN_00cb9d80_stream*>(static_cast<NiStreamFields*>(context)->m_pkStream);
         {
             int temp = size;
             stream->position += stream->read(stream, &value, size, &temp, 1);
@@ -10114,7 +10167,7 @@ class Node_ca57
         unsigned char pad = 0x10;
         pad -= lo;
         raw += pad;
-        raw[-1] = pad;
+        GetAlignedBlockPrefix(raw)->m_ucOffset = pad;
         return raw;
     }
 };
@@ -10217,6 +10270,8 @@ struct PositionCommand
 
 struct PositionQueue
 {
+    char pad[0x94];
+    int m_iLockCount;
 };
 
 struct PositionOwner
@@ -10232,7 +10287,7 @@ struct PositionOwner
 void PositionOwner::SendPositionCommand(float* position)
 {
     PositionQueue* active = queue;
-    if (active && *(int*)((char*)active + 0x94))
+    if (active && active->m_iLockCount)
     {
         PositionCommand command;
         command.sender = this;
@@ -10325,22 +10380,25 @@ struct SomeClass
     int unk68;
     int unk6C;
     int unk70;
+    int m_74;
 };
 
 // @fnv 0x00cac900
 int* FUN_00cac900(SomeClass* pThis)
 {
-    return (int*)((char*)pThis + 0x74);
+    return &pThis->m_74;
 }
 
 struct FnvCpu_FUN_00cac950_CpuObject
 {
+    char pad[16];
+    char m_acData[1];
     char* FUN_00cac950();
 };
 // @fnv 0x00cac950
 char* FnvCpu_FUN_00cac950_CpuObject::FUN_00cac950()
 {
-    return reinterpret_cast<char*>(this) + 16;
+    return m_acData;
 }
 
 struct FUN_00CAFEC0_This
@@ -10580,6 +10638,17 @@ struct FUN_00d2acf0
     static void operator delete(void* object);
 };
 
+struct FUN_00cb88d0_params
+{
+    int unk00;
+    void* m_pShape;
+    char pad08[8];
+    float m_afA[4];
+    float m_afB[4];
+    float m_f30;
+    float m_f34;
+};
+
 struct FUN_00cb88d0_owner : CAC300Owner
 {
     void CreateShapeAndApply(void* parameters);
@@ -10590,8 +10659,9 @@ struct FUN_00cb88d0_owner : CAC300Owner
 void FUN_00cb88d0_owner::CreateShapeAndApply(void* pParams)
 {
     CA2020AllocTagScope allocationTag(16);
-    FUN_00d2acf0* shape = new FUN_00d2acf0(*(void**)((char*)pParams + 4), (char*)pParams + 0x10, (char*)pParams + 0x20,
-                                           *(float*)((char*)pParams + 0x30), *(float*)((char*)pParams + 0x34), 0);
+    FUN_00cb88d0_params* params = static_cast<FUN_00cb88d0_params*>(pParams);
+    FUN_00d2acf0* shape = new FUN_00d2acf0(params->m_pShape, (char*)params->m_afA, (char*)params->m_afB, params->m_f30,
+                                           params->m_f34, 0);
     SetObject((hkReferencedObject*)shape);
     reinterpret_cast<::hkReferencedObjectC905 *>((shape))->FUN_00c905b0();
     Apply((intptr_t)pParams);
@@ -11023,14 +11093,14 @@ struct ShapeData : ShapePrefix
         char* p = (char*)reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::HeapAllocator *>(&::g_memoryManager))))->FUN_00aa3e40(size + 16);
         unsigned char off = (unsigned char)(16 - ((unsigned char)(uintptr_t)p & 15));
         p += off;
-        p[-1] = off;
+        GetAlignedBlockPrefix(p)->m_ucOffset = off;
         return p;
     }
     static void operator delete(void* p)
     {
         if (p)
         {
-            unsigned char off = ((unsigned char*)p)[-1];
+            unsigned char off = GetAlignedBlockPrefix(p)->m_ucOffset;
             (*reinterpret_cast<::HeapAllocator *>(&::g_memoryManager)).Deallocate((char*)p - off);
         }
     }
@@ -11173,6 +11243,8 @@ public:
 struct CA8B80Command;
 struct CA8B80Queue
 {
+    char pad[0x94];
+    int m_iLockCount;
 };
 struct FUN_00ca8a30_Class
 {
@@ -11189,11 +11261,11 @@ struct FUN_00ca8a30_Local
     float m_uiY;
     float m_uiZ;
 };
-// If m_8 is set and its field at 0x94 is nonzero, pushes a command holding this and the coordinates onto m_8; otherwise calls FUN_00561800(p).
+// If m_8 is set and its m_iLockCount is nonzero, pushes a command holding this and the coordinates onto m_8; otherwise calls FUN_00561800(p).
 // @fnv 0x00ca8a30
 void FUN_00ca8a30_Class::PushCommand(NiPoint3* apPoint)
 {
-    if (m_8 && *(int*)((char*)m_8 + 0x94))
+    if (m_8 && m_8->m_iLockCount)
     {
         FUN_00ca8a30_Local localCmd;
         localCmd.m_p = this;
@@ -11242,6 +11314,14 @@ struct Host_ca9e60
     void* FUN_00ca9e60(void* arg);
 };
 
+struct Object_ca9e60
+{
+    void* m_vtbl;
+    int unk04;
+    int unk08;
+    int m_0c;
+};
+
 // Allocates a bhkRefObject, initializes it, increments two global counters, passes it and arg to FUN_00c89730, and returns it.
 // @fnv 0x00ca9e60
 void* Host_ca9e60::FUN_00ca9e60(void* arg)
@@ -11257,7 +11337,7 @@ void* Host_ca9e60::FUN_00ca9e60(void* arg)
             reinterpret_cast<::FUN_00c87c30_t *>((((bhkRefObject*)p)))->FUN_00c87c30();
             *(void**)p = &DAT_0108febc;
             int one = 1;
-            *((int*)p + 3) = 0;
+            static_cast<Object_ca9e60*>(p)->m_0c = 0;
             DAT_01268188 += one;
             *(void**)p = &DAT_010c81ac;
             DAT_0126830c += one;
@@ -11983,7 +12063,7 @@ void FUN_00ca5a80_cls::ReleaseOwned(bool abRelease)
         if (p)
         {
             reinterpret_cast<::FUN_00ca5620 *>((p))->FUN_00ca5620::~FUN_00ca5620();
-            unsigned char n = ((unsigned char*)p)[-1];
+            unsigned char n = GetAlignedBlockPrefix(p)->m_ucOffset;
             reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::PoolFree_t *>(&::g_memoryManager))))->FUN_00aa4060((char*)p - n);
         }
         m_0c = 0;
@@ -12071,7 +12151,7 @@ class NiFixedString
     ~NiFixedString()
     {
         if (m_kHandle != ::DAT_0109b220)
-            InterlockedDecrement((volatile long*)(m_kHandle - 8));
+            InterlockedDecrement(&GetGlobalStringHeader(m_kHandle)->m_lRefCount);
     }
 };
 
@@ -12475,17 +12555,33 @@ struct FUN_00cac980_class
     void* m_30;
     void* FUN_00cac980();
 };
+struct FUN_00cac070_target;
+struct FUN_00cac070_vtable
+{
+    void* slots[21];
+    void (*Link)(FUN_00cac070_target*, NiStream&);
+};
+struct FUN_00cac070_target
+{
+    FUN_00cac070_vtable* vtable;
+};
+struct FUN_00cac070_entry
+{
+    char pad[0xc];
+    FUN_00cac070_target* m_0c;
+};
+
 // @fnv 0x00cac070
 void FUN_00cac070_Stub::FUN_00cac070(NiStream& stream)
 {
     if (m_8)
     {
-        void* r = reinterpret_cast<::FUN_00cac980_class *>((m_8))->FUN_00cac980();
+        FUN_00cac070_entry* r = static_cast<FUN_00cac070_entry*>(reinterpret_cast<::FUN_00cac980_class *>((m_8))->FUN_00cac980());
         if (r)
         {
-            void* obj = *(void**)((char*)r + 0xc);
+            FUN_00cac070_target* obj = r->m_0c;
             if (obj)
-                ((void(*)(void*, NiStream&))(*(void***)obj)[21])(obj, stream);
+                obj->vtable->Link(obj, stream);
         }
     }
     ::FUN_00a81fe0((intptr_t)this);
@@ -12675,9 +12771,9 @@ static __declspec(noinline) void FUN_00cb0b10(char* text, int count, StringSlot 
         if (text)
         {
             if (count == -1)
-                *out = (uintptr_t)FUN_00cb0aa0(text) + 1;
+                *out = TagOwnedString(FUN_00cb0aa0(text));
             else
-                *out = (uintptr_t)FUN_00cb0ad0(text, count) + 1;
+                *out = TagOwnedString(FUN_00cb0ad0(text, count));
         }
         else
         {
@@ -12747,9 +12843,9 @@ __declspec(noinline) void AssignStringCB(StringRefCB ref, const char* text, int 
     if (text)
     {
         if (count == -1)
-            self->handle = (uintptr_t)FUN_00cb0aa0((char*)text) + 1;
+            self->handle = TagOwnedString(FUN_00cb0aa0((char*)text));
         else
-            self->handle = (uintptr_t)FUN_00cb0ad0(text, count) + 1;
+            self->handle = TagOwnedString(FUN_00cb0ad0(text, count));
     }
     else
     {
@@ -12809,7 +12905,7 @@ struct S00cb87e0_Node
         unsigned char pad = 0x10;
         pad -= lo;
         raw += pad;
-        raw[-1] = pad;
+        GetAlignedBlockPrefix(raw)->m_ucOffset = pad;
         return raw;
     }
     void operator delete(void*) throw()
@@ -12882,13 +12978,13 @@ struct CloneSpec : public CloneableObj
         char* raw = (char*)reinterpret_cast<::MemoryManagerStandIn *>((((MemoryManager_t*)&::g_memoryManager)))->FUN_00aa3e40((unsigned int)size);
         unsigned char pad = 0x10 - ((unsigned char)(uintptr_t)raw & 0xF);
         raw += pad;
-        raw[-1] = (char)pad;
+        GetAlignedBlockPrefix(raw)->m_ucOffset = pad;
         return raw;
     }
 
     __forceinline void operator delete(void* p)
     {
-        unsigned char pad = ((unsigned char*)p)[-1];
+        unsigned char pad = GetAlignedBlockPrefix(p)->m_ucOffset;
         reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060((char*)p - pad);
     }
 
@@ -12988,7 +13084,7 @@ class CbaString
     ~CbaString()
     {
         if (m_pcString != (*reinterpret_cast<void * *>(&::DAT_0109b220)))
-            InterlockedDecrement((long*)((char*)m_pcString - 8));
+            InterlockedDecrement(&GetGlobalStringHeader(m_pcString)->m_lRefCount);
     }
     void* m_pcString;
 };
@@ -13544,8 +13640,8 @@ struct FUN_00ca6780_cls
 // @fnv 0x00ca6780
 int FUN_00ca6780_cls::FUN_00ca6780(FUN_00ca6780_arg* a1)
 {
-    unsigned int tmp;
-    volatile unsigned int* p = v2D((unsigned char*)&tmp + 3);
+    unsigned char owned;
+    volatile unsigned int* p = v2D(&owned);
     int size = v2A();
     if (a1->unk04 < 4)
     {
@@ -13709,6 +13805,14 @@ struct CAC410_RefCounted
 {
     virtual void Dummy();
     virtual void Release();
+    volatile LONG m_lRefCount;
+};
+
+struct CAC410_Owner
+{
+    void* unk00;
+    void* unk04;
+    struct FUN_00cac980_Holder* m_08;
 };
 
 struct FUN_00cac980_Result
@@ -13740,7 +13844,7 @@ void FUN_00cac410(void* pThis)
 {
     CAC410_ScopedValue scopedValue;
 
-    FUN_00cac980_Holder* holder = *reinterpret_cast<FUN_00cac980_Holder**>(reinterpret_cast<char*>(pThis) + 8);
+    FUN_00cac980_Holder* holder = static_cast<CAC410_Owner*>(pThis)->m_08;
 
     if (holder)
     {
@@ -13751,7 +13855,7 @@ void FUN_00cac410(void* pThis)
 
             if (object)
             {
-                if (InterlockedDecrement(reinterpret_cast<LONG volatile*>(reinterpret_cast<char*>(object) + 4)) == 0)
+                if (InterlockedDecrement(&object->m_lRefCount) == 0)
                 {
                     object->Release();
                 }
@@ -13836,7 +13940,7 @@ void* S00cb87e0_Obj::GetNode(bool* abCreated)
         unsigned char padding = 0x10;
         padding -= low;
         raw += padding;
-        raw[-1] = padding;
+        GetAlignedBlockPrefix(raw)->m_ucOffset = padding;
         S00cb87e0_Node* p = (S00cb87e0_Node*)raw;
         p->unk00 = 0;
         p->unk04 = 0;
@@ -14265,7 +14369,7 @@ void FUN_00cb8610_Class::FUN_00cb8610(void* arg)
     unsigned char value;
     FUN_00c868b0_Obj* result = vfB4(&value);
 
-    if (*((unsigned char*)arg + 0x1E4) != 1)
+    if (static_cast<NiStreamFields*>(arg)->m_ucSourceByteOrder != 1)
     {
         result->unk10 = _byteswap_ulong(result->unk10);
         _ReadWriteBarrier();
@@ -14290,7 +14394,7 @@ void FUN_00cb8610_Class::FUN_00cb8610(void* arg)
 
     reinterpret_cast<::FUN_00c868b0_cls *>(this)->FUN_00c868b0((::C868_Iface *)(arg));
 
-    if (*((unsigned char*)arg + 0x1E4) != 1)
+    if (static_cast<NiStreamFields*>(arg)->m_ucSourceByteOrder != 1)
     {
         result->unk10 = _byteswap_ulong(result->unk10);
         _ReadWriteBarrier();
@@ -14667,11 +14771,18 @@ struct FUN_00cbda30_rec
     unsigned int m3C;
 };
 
+struct FUN_00cbda30_obj
+{
+    char pad[0x20];
+    FUN_00cbda30_rec m_kFirst;
+    FUN_00cbda30_rec m_kSecond;
+};
+
 struct FUN_00cbda30_cls
 {
     virtual void v00()
     {}
-    FUN_00cbda30_rec* m04;
+    FUN_00cbda30_obj* m04;
     void ReadRecord(FUN_00cbda30_arg* a1);
 };
 
@@ -14680,19 +14791,19 @@ void SwapEndianBlocks(void* p);
 extern "C" void _ReadWriteBarrier(void);
 unsigned int* __cdecl SwapEndianBlocks(unsigned int* arg);
 
-// Calls FUN_00c8a230, reads two 0x40-byte blocks at offsets 0x20 and 0x60 of m04 via a1->m24C, and byte-swaps them unless a1->m1E5 is 1.
+// Calls FUN_00c8a230, reads the two 0x40-byte blocks of m04 via a1->m24C, and byte-swaps them unless a1->m1E5 is 1.
 // @fnv 0x00cbda30
 void FUN_00cbda30_cls::ReadRecord(FUN_00cbda30_arg* a1)
 {
     reinterpret_cast<::FUN_00d53200_class *>(this)->FUN_00c8a230((*(::NiStream *)(a1)));
-    FUN_00cbda30_rec* p = m04;
+    FUN_00cbda30_obj* obj = m04;
     FUN_00cbda30_io* io = a1->m24C;
-    FUN_00cbda30_rec* b = (FUN_00cbda30_rec*)((char*)p + 0x20);
+    FUN_00cbda30_rec* b = &obj->m_kFirst;
     io->m04 += io->m08(io, b, 0x40, 0, 0);
     io = a1->m24C;
-    FUN_00cbda30_rec* q = (FUN_00cbda30_rec*)((char*)p + 0x60);
+    FUN_00cbda30_rec* q = &obj->m_kSecond;
     io->m04 += io->m08(io, q, 0x40, 0, 0);
-    p = q;
+    FUN_00cbda30_rec* p = q;
     if (a1->m1E5 != 1)
     {
         b->m30 = _byteswap_ulong(b->m30);
@@ -15277,10 +15388,10 @@ static __declspec(noinline) void FUN_00cb0b10(StringSlot slotRef, char* apString
     {
         if (aiLength == -1)
         {
-            *slot = (uintptr_t)FUN_00cb0aa0(apString) + 1;
+            *slot = TagOwnedString(FUN_00cb0aa0(apString));
             return;
         }
-        *slot = (uintptr_t)FUN_00cb0ad0(apString, aiLength) + 1;
+        *slot = TagOwnedString(FUN_00cb0ad0(apString, aiLength));
         return;
     }
     *slot = DAT_01268358;
@@ -17446,7 +17557,7 @@ void* NTCVt::operator new(std::size_t size) throw()
     char* p = (char*)reinterpret_cast<::MemoryManagerStandIn *>((((MemoryManagerAllocHelper*)&::g_memoryManager)))->FUN_00aa3e40(size);
     unsigned char adj = (unsigned char)(0x10 - ((unsigned char)(uintptr_t)p & 0xf));
     p += adj;
-    p[-1] = (char)adj;
+    GetAlignedBlockPrefix(p)->m_ucOffset = adj;
     return p;
 }
 
@@ -17589,7 +17700,7 @@ S00cbe7b0_Obj* S00cbe7b0_Obj::FUN_00cbe7b0()
     m_6 = 1;
     m_8 = 0;
     m_vtbl = &DAT_010c91ec;
-    reinterpret_cast< ::FUN_00cbe820_cls*>(reinterpret_cast<char*>(this) + 0x10)->FUN_00cbe820();
+    reinterpret_cast< ::FUN_00cbe820_cls*>(&m_10)->FUN_00cbe820();
     __m128 z = _mm_setzero_ps();
     _mm_store_ps((float*)&q20, z);
     _mm_store_ps((float*)&q30, z);
@@ -18451,7 +18562,7 @@ class NiFixedString
     __forceinline ~NiFixedString()
     {
         if (m_kHandle != (*reinterpret_cast<void * *>(&::DAT_0109b220)))
-            InterlockedDecrement((volatile long*)(m_kHandle - 8));
+            InterlockedDecrement(&GetGlobalStringHeader(m_kHandle)->m_lRefCount);
     }
 };
 
@@ -21110,7 +21221,7 @@ class bhkForceController : public NiTimeController
         unsigned char lo = (unsigned char)(uintptr_t)raw;
         unsigned char pad = 16 - (lo & 15);
         raw += pad;
-        raw[-1] = pad;
+        GetAlignedBlockPrefix(raw)->m_ucOffset = pad;
         return raw;
     }
     bhkForceController() : unk40(*(__m128*)&(*reinterpret_cast<const __m128 *>(&::DAT_01267e30))), unk50(0.0f)
@@ -21217,7 +21328,7 @@ void FUN_00cac890(VecNode* nodes, int count, const __m128* axis)
             _mm_store_ss(&dot, s2);
 
             cur->w = value * -dot;
-            cur = (VecNode*)((float*)cur + 28);
+            cur++;
         } while (--c >= 0);
 }
 

@@ -4,29 +4,17 @@
 
 // src/havok/physics/vehicle/hkpvehicledata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/vehicle/hkpvehicledata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <xmmintrin.h>
 #include "fnv/decl/MatrixProduct.h"
 #include "fnv/decl/MotionMassView.h"
 #include "fnv/symbols_00c90000.h"
 #include "fnv/symbols_00e59000.h"
 #include "havok/hkpVehicleData.h"
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 #include "fnv/symbols_simd.h"
 extern "C"
 {
     void _ReadWriteBarrier();
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_and_ps(__m128, __m128);
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-    __m128 _mm_set_ps1(float);
-    __m128 _mm_load_ss(const float*);
-    __m128 _mm_load_ps1(const float*);
-    void _mm_store_ss(float*, __m128);
 }
 
 
@@ -74,11 +62,11 @@ struct FourFloatVector : QuadStorage
     }
     __forceinline float& operator()(int i)
     {
-        return m_vComponents.m128_f32[i];
+        return m_vComponents[i];
     }
     __forceinline const float& operator()(int i) const
     {
-        return m_vComponents.m128_f32[i];
+        return m_vComponents[i];
     }
     __forceinline void setAbs4(const FourFloatVector& v)
     {

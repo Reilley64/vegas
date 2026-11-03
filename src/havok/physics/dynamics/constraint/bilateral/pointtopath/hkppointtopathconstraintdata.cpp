@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/constraint/bilateral/pointtopath/hkppointtopathconstraintdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/bilateral/pointtopath/hkppointtopathconstraintdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <xmmintrin.h>
 #include "fnv/decl/FUN_00c7f690_cls.h"
 #include "fnv/decl/FUN_00c90510_class.h"
 #include "fnv/decl/FUN_00d21ce0_cls.h"
@@ -140,13 +141,7 @@ hkBoolDEE8 hkObjectDEE8::FUN_00dee840() const
     return m_18 != 0 && m_20;
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 
-extern "C" __m128 _mm_setzero_ps();
 
 struct hkVector4DEE7
 {
@@ -275,14 +270,6 @@ FUN_00dee750::FUN_00dee750() throw() : m_path(0), m_fFriction(0.0f), m_cOrientat
 }
 
 namespace fnv_00dee870 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
 
 struct Vec_00dee870
 {
@@ -391,13 +378,7 @@ void Obj_00dee870::FUN_00dee870(void* a1, void* a2, void* a3, void* a4, void* a5
 }  // namespace fnv_00dee870
 
 namespace fnv_00deea00 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 
-extern "C" __m128 _mm_setzero_ps();
 
 namespace hkDEEA {
 struct hkVector4
@@ -535,24 +516,6 @@ void hkpPointToPathConstraintData::FUN_00deea00(const hkVector4& kPivotA, const 
 extern "C" void _WriteBarrier(void);
 extern "C" void _ReadBarrier(void);
 extern "C" void _ReadWriteBarrier(void);
-extern "C"
-{
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_xor_ps(__m128, __m128);
-    __m128 _mm_andnot_ps(__m128, __m128);
-    __m128 _mm_setzero_ps(void);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_sub_ss(__m128, __m128);
-    __m128 _mm_mul_ss(__m128, __m128);
-    __m128 _mm_rsqrt_ss(__m128);
-    __m128 _mm_cmpeq_ss(__m128, __m128);
-    __m128 _mm_set_ss(float);
-    __m128 _mm_set_ps1(float);
-    __m128 _mm_load_ps(const float*);
-}
 
 
 struct TransformQ;

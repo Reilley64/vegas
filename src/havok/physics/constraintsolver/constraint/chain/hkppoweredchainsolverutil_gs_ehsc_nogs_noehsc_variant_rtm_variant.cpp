@@ -651,7 +651,7 @@ extern "C" void __cdecl FUN_00df1260(PoweredChain* chain, int* chosenConstraint,
     for (int i = chain->m_iConstraintCount - 1; i >= 0; i--)
     {
         Quad8 product;
-        ::FUN_00e29510((::__m128 *)(void *)(&product), (const ::__m128 *)(const void *)(&chain->m_kMatrices[i].m_kMiddle), (const ::__m128 *)(const void *)(&accum));
+        ::FUN_00e29510((__m128 *)(void *)(&product), (const __m128 *)(const void *)(&chain->m_kMatrices[i].m_kMiddle), (const __m128 *)(const void *)(&accum));
         accum.setSub8(target[i], product);
         for (int axis = 0; axis < 3; axis++)
         {
@@ -682,7 +682,6 @@ extern "C" void __cdecl FUN_00df1260(PoweredChain* chain, int* chosenConstraint,
 }
 
 #include <xmmintrin.h>
-extern "C" __m128 _mm_load_ss(const float*);
 template <class T> class Cell
 {
     T value;
@@ -1384,7 +1383,7 @@ void __cdecl FUN_00df1430(const hkChainInfo& info, int& modifiedConstraintIndex,
     impLeft.setZero8();
     {
         hkVec8 tmp;
-        ::FUN_00e29510((::__m128 *)(void *)(&tmp), (const ::__m128 *)(const void *)(&((hkTriple*)info.m_kMatrices)[info.m_iConstraintCount - 1].m_diag), (const ::__m128 *)(const void *)(&impLeft));
+        ::FUN_00e29510((__m128 *)(void *)(&tmp), (const __m128 *)(const void *)(&((hkTriple*)info.m_kMatrices)[info.m_iConstraintCount - 1].m_diag), (const __m128 *)(const void *)(&impLeft));
         impLeft.setSub8(g[info.m_iConstraintCount - 1], tmp);
     }
     for (int i = info.m_iConstraintCount - 1; i >= 0; i--)
@@ -1396,7 +1395,7 @@ void __cdecl FUN_00df1430(const hkChainInfo& info, int& modifiedConstraintIndex,
         if (tIdx >= 0)
         {
             hkVec8 tmp;
-            ::FUN_00e29510((::__m128 *)(void *)(&tmp), (const ::__m128 *)(const void *)(&baseTriple->m_diag), (const ::__m128 *)(const void *)(&impLeft));
+            ::FUN_00e29510((__m128 *)(void *)(&tmp), (const __m128 *)(const void *)(&baseTriple->m_diag), (const __m128 *)(const void *)(&impLeft));
             impLeft.setSub8(g[tIdx], tmp);
         }
         else
@@ -1413,12 +1412,12 @@ void __cdecl FUN_00df1430(const hkChainInfo& info, int& modifiedConstraintIndex,
             offDiagTransp.setIdentity();
         }
         hkVec8 resultVelocityVec;
-        ::FUN_00e29510((::__m128 *)(void *)(&resultVelocityVec), (const ::__m128 *)(const void *)(&offDiagTransp), (const ::__m128 *)(const void *)(&impLeft));
+        ::FUN_00e29510((__m128 *)(void *)(&resultVelocityVec), (const __m128 *)(const void *)(&offDiagTransp), (const __m128 *)(const void *)(&impLeft));
         {
             hkVec8 tmp;
-            ::FUN_00e29510((::__m128 *)(void *)(&tmp), (const ::__m128 *)(const void *)(&baseTriple[1].m_upper), (const ::__m128 *)(const void *)(&impCenter));
+            ::FUN_00e29510((__m128 *)(void *)(&tmp), (const __m128 *)(const void *)(&baseTriple[1].m_upper), (const __m128 *)(const void *)(&impCenter));
             resultVelocityVec.add8(tmp);
-            ::FUN_00e29510((::__m128 *)(void *)(&tmp), (const ::__m128 *)(const void *)(&baseTriple[1].m_upperInv), (const ::__m128 *)(const void *)(&impRight));
+            ::FUN_00e29510((__m128 *)(void *)(&tmp), (const __m128 *)(const void *)(&baseTriple[1].m_upperInv), (const __m128 *)(const void *)(&impRight));
             resultVelocityVec.add8(tmp);
         }
         for (int c = 0; c < 3; c++)

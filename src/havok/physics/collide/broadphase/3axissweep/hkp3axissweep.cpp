@@ -2,6 +2,7 @@
 // src/havok/physics/collide/broadphase/3axissweep/hkp3axissweep.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/broadphase/3axissweep/hkp3axissweep.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
 #include "fnv/decl/FUN_00d06fb0_cls.h"
 #include "fnv/decl/S_00d112c0.h"
 #include "fnv/symbols_00c90000.h"
@@ -1990,7 +1991,7 @@ struct SweepEndpoint {
     SweepEndpoint(unsigned short val, unsigned short idx) : m_uiFilterValue(val), m_usIndex(idx) {}
 };
 
-inline void* operator new(unsigned int, void* p) { return p; }
+inline void* operator new(size_t, void* p) { return p; }
 
 template <typename T>
 inline void S00d13950_constructWithCopy(T* p, int n, const T& t)
@@ -2128,7 +2129,7 @@ void SweepClass::FUN_00d13950(const SweepArray<SweepNode*>& nodes, SweepArray<Sw
 }
 
 namespace fnv_00d13bd0 {
-inline void* operator new(unsigned int, void* p) { return p; }
+inline void* operator new(size_t, void* p) { return p; }
 struct SweepBase {
     const void** vtable;
     int unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
@@ -2198,7 +2199,7 @@ FUN_00d13bd0::FUN_00d13bd0(const int* low,const int* high,int count):lowBound((v
     offset=_mm_setzero_ps(); offset2=_mm_setzero_ps(); scale=_mm_set1_ps(1.0f);
     const __m128& scaleRef=scale;
     scaleCopy=scaleRef;
-    maximum=(*reinterpret_cast<::__m128 *>(&::DAT_011b3790));
+    maximum=(*reinterpret_cast<__m128 *>(&::DAT_011b3790));
     for(int iteration=0;iteration<23;++iteration) {
         scratch.middle=(scratch.upper+scratch.lower)*0.5;
         double midpoint=scratch.middle; float& value=scratch.value;value=midpoint+1.0f;
@@ -2582,13 +2583,7 @@ FUN_00d1a2d0::FUN_00d1a2d0() {}
 
 #include <xmmintrin.h>
 namespace fnv_00d11650 {
-union __declspec(intrin_type) __declspec(align(16)) __m128 {
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 
-extern "C" __m128 _mm_setr_ps(float, float, float, float);
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
 
 typedef float hkReal;
 typedef unsigned short hkUint16;
@@ -2596,7 +2591,7 @@ typedef unsigned short hkUint16;
 struct hkVector4q {
     __m128 m_vComponents;
 
-    __forceinline hkReal operator()(int i) const { return m_vComponents.m128_f32[i]; }
+    __forceinline hkReal operator()(int i) const { return m_vComponents[i]; }
     __forceinline void set(hkReal x, hkReal y, hkReal z, hkReal w) { m_vComponents = _mm_setr_ps(x, y, z, w); }
     __forceinline void setSub4(const hkVector4q& a, const hkVector4q& v) { m_vComponents = _mm_sub_ps(a.m_vComponents, v.m_vComponents); }
     __forceinline void operator=(const hkVector4q& v) { m_vComponents = v.m_vComponents; }

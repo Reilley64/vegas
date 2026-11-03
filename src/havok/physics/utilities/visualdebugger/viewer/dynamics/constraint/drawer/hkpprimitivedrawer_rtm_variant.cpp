@@ -3,6 +3,7 @@
 
 // src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkpprimitivedrawer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkpprimitivedrawer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <xmmintrin.h>
 #include "fnv/symbols_01016000.h"
 #include "fnv/symbols_01064000.h"
 #include "fnv/symbols_010c4000.h"
@@ -13,33 +14,15 @@ struct CpuObject
 };
 
 namespace ArrowDraw {
-namespace ArrowDrawMath {
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    struct
-    {
-        float x, y, z, w;
-    };
-} __m128;
-extern "C"
-{
-    extern __m128 _mm_add_ss(__m128 _A, __m128 _B);
-    extern __m128 _mm_add_ps(__m128 _A, __m128 _B);
-    extern __m128 _mm_sub_ps(__m128 _A, __m128 _B);
-    extern __m128 _mm_mul_ps(__m128 _A, __m128 _B);
-    extern __m128 _mm_shuffle_ps(__m128 _A, __m128 _B, unsigned int _Imm8);
-    extern __m128 _mm_load_ss(float const* _A);
-}
-}
 
-extern const ArrowDrawMath::__m128 DAT_010c71e0;
+extern const __m128 DAT_010c71e0;
 
 struct ArrowDrawVector
 {
-    ArrowDrawMath::__m128 m;
+    __m128 m;
     void add(const ArrowDrawVector& a)
     {
-        m = ArrowDrawMath::_mm_add_ps(m, a.m);
+        m = _mm_add_ps(m, a.m);
     }
     ArrowDrawVector& operator=(const ArrowDrawVector& a)
     {
@@ -74,28 +57,28 @@ struct ArrowDrawObject : ::CpuObject
     void FUN_00e10d50(const ArrowDrawVector* a0, int a1, const ArrowDrawVector* a2, int a3, float a4, int a5, int a6);
 };
 
-static __forceinline ArrowDrawMath::__m128 Hk_e10d50_splat(float f)
+static __forceinline __m128 Hk_e10d50_splat(float f)
 {
-    ArrowDrawMath::__m128 v = ArrowDrawMath::_mm_load_ss(&f);
-    return ArrowDrawMath::_mm_shuffle_ps(v, v, 0);
+    __m128 v = _mm_load_ss(&f);
+    return _mm_shuffle_ps(v, v, 0);
 }
 
-static __forceinline ArrowDrawMath::__m128 Hk_e10d50_rot(const ArrowDrawMath::__m128& q, ArrowDrawMath::__m128 v)
+static __forceinline __m128 Hk_e10d50_rot(const __m128& q, __m128 v)
 {
-    ArrowDrawMath::__m128 w = ArrowDrawMath::_mm_shuffle_ps(q, q, 0xff);
-    ArrowDrawMath::__m128 ww = ArrowDrawMath::_mm_add_ps(DAT_010c71e0, ArrowDrawMath::_mm_mul_ps(w, w));
-    ArrowDrawMath::__m128 r = ArrowDrawMath::_mm_mul_ps(v, ww);
-    ArrowDrawMath::__m128 p = ArrowDrawMath::_mm_mul_ps(q, v);
-    ArrowDrawMath::__m128 xy = ArrowDrawMath::_mm_add_ss(ArrowDrawMath::_mm_shuffle_ps(p, p, 0x55), p);
-    ArrowDrawMath::__m128 d = ArrowDrawMath::_mm_add_ss(ArrowDrawMath::_mm_shuffle_ps(p, p, 0xaa), xy);
-    d = ArrowDrawMath::_mm_shuffle_ps(d, d, 0);
-    r = ArrowDrawMath::_mm_add_ps(r, ArrowDrawMath::_mm_mul_ps(d, q));
-    ArrowDrawMath::__m128 c = ArrowDrawMath::_mm_sub_ps(
-        ArrowDrawMath::_mm_mul_ps(ArrowDrawMath::_mm_shuffle_ps(q, q, 0xc9), ArrowDrawMath::_mm_shuffle_ps(v, v, 0xd2)),
-        ArrowDrawMath::_mm_mul_ps(ArrowDrawMath::_mm_shuffle_ps(q, q, 0xd2),
-                                  ArrowDrawMath::_mm_shuffle_ps(v, v, 0xc9)));
-    r = ArrowDrawMath::_mm_add_ps(r, ArrowDrawMath::_mm_mul_ps(w, c));
-    return ArrowDrawMath::_mm_add_ps(r, r);
+    __m128 w = _mm_shuffle_ps(q, q, 0xff);
+    __m128 ww = _mm_add_ps(DAT_010c71e0, _mm_mul_ps(w, w));
+    __m128 r = _mm_mul_ps(v, ww);
+    __m128 p = _mm_mul_ps(q, v);
+    __m128 xy = _mm_add_ss(_mm_shuffle_ps(p, p, 0x55), p);
+    __m128 d = _mm_add_ss(_mm_shuffle_ps(p, p, 0xaa), xy);
+    d = _mm_shuffle_ps(d, d, 0);
+    r = _mm_add_ps(r, _mm_mul_ps(d, q));
+    __m128 c = _mm_sub_ps(
+        _mm_mul_ps(_mm_shuffle_ps(q, q, 0xc9), _mm_shuffle_ps(v, v, 0xd2)),
+        _mm_mul_ps(_mm_shuffle_ps(q, q, 0xd2),
+                                  _mm_shuffle_ps(v, v, 0xc9)));
+    r = _mm_add_ps(r, _mm_mul_ps(w, c));
+    return _mm_add_ps(r, r);
 }
 
 // @fnv 0x00e10d50
@@ -104,19 +87,19 @@ void ArrowDrawObject::FUN_00e10d50(const ArrowDrawVector* a0, int a1, const Arro
 {
     ArrowDrawVector p1, p2;
     ArrowDrawQuaternion q1, q2;
-    p1.m = ArrowDrawMath::_mm_add_ps(ArrowDrawMath::_mm_mul_ps(Hk_e10d50_splat(a4), ((const ArrowDrawVector*)a1)->m),
+    p1.m = _mm_add_ps(_mm_mul_ps(Hk_e10d50_splat(a4), ((const ArrowDrawVector*)a1)->m),
                                      a0->m);
     ((ArrowDrawTarget*)value)->edge(a0, &p1, a3, a5, a6);
     q1.FUN_00cb2450((int)a2, ::DAT_01064f60);
     q2.FUN_00cb2450((int)a2, ::DAT_01016b78);
     double na = -a4;
-    ArrowDrawMath::__m128 r1 = Hk_e10d50_rot(*(ArrowDrawMath::__m128*)&q1, ((const ArrowDrawVector*)a1)->m);
+    __m128 r1 = Hk_e10d50_rot(*(__m128*)&q1, ((const ArrowDrawVector*)a1)->m);
     volatile float s = (float)(na * DAT_010c4ab0);
     ArrowDrawTarget* nextSink = (ArrowDrawTarget*)value;
-    p2.m = ArrowDrawMath::_mm_add_ps(ArrowDrawMath::_mm_mul_ps(Hk_e10d50_splat(s), r1), p1.m);
+    p2.m = _mm_add_ps(_mm_mul_ps(Hk_e10d50_splat(s), r1), p1.m);
     nextSink->edge(&p1, &p2, a3, a5, a6);
-    ArrowDrawMath::__m128 r2 = Hk_e10d50_rot(*(ArrowDrawMath::__m128*)&q2, r1);
-    p2.m = ArrowDrawMath::_mm_add_ps(ArrowDrawMath::_mm_mul_ps(Hk_e10d50_splat(s), r2), p1.m);
+    __m128 r2 = Hk_e10d50_rot(*(__m128*)&q2, r1);
+    p2.m = _mm_add_ps(_mm_mul_ps(Hk_e10d50_splat(s), r2), p1.m);
     ((ArrowDrawTarget*)value)->edge(&p1, &p2, a3, a5, a6);
 }
 

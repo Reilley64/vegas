@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 // @fnv 0x00dd51f0
+#include <xmmintrin.h>
 #include "fnv/decl/FUN_00dd51d0_class.h"
 int ReadIntField(const void* a, int* piValue)
 {
@@ -156,16 +157,7 @@ int FnvCpu_FUN_00dd5290_CpuObject::FUN_00dd5290()
     return value;
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 #include "fnv/symbols_simd.h"
-extern "C"
-{
-    __m128 _mm_xor_ps(__m128, __m128);
-}
 
 
 typedef float hkReal;

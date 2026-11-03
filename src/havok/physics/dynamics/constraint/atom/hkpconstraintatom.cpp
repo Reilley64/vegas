@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/constraint/atom/hkpconstraintatom.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/atom/hkpconstraintatom.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <xmmintrin.h>
 #include "fnv/decl/MProduct.h"
 #include "fnv/decl/MatrixProduct.h"
 #include "fnv/decl/S_00cd4c70.h"
@@ -115,12 +116,6 @@ int ConstraintAtom::FUN_00d22030(ConstraintInfo* info)
     return 0;
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
 
 struct hkVector4q
 {
@@ -136,11 +131,11 @@ struct hkVector4q
     }
     __forceinline float& operator()(int i)
     {
-        return m_vComponents.m128_f32[i];
+        return m_vComponents[i];
     }
     __forceinline const float& operator()(int i) const
     {
-        return m_vComponents.m128_f32[i];
+        return m_vComponents[i];
     }
 };
 
@@ -230,17 +225,7 @@ void hkpMassChangerModifierConstraintAtomq::ScaleInverseInertia(const void* cp, 
 }
 
 namespace fnv_00d21f50 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 
-extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_add_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_sub_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_add_ss(__m128 a, __m128 b);
-extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
 
 struct hkSimdRealD21F
 {
@@ -346,10 +331,6 @@ int hkpModifierConstraintAtomD220::FUN_00d22090(hkpConstraintInfoD220& kInfo, un
     return iCallbackRequest;
 }
 
-extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, int c);
-extern "C" __m128 _mm_add_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_sub_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
 
 struct Vec4
 {
@@ -462,8 +443,6 @@ void SetGlobalVectors(int, int, const __m128* source1, int, const __m128* source
     DAT_012689d0 = source2[1];
 }
 
-extern "C" __m128 _mm_load_ps(float const* p);
-extern "C" __m128 _mm_add_ss(__m128 a, __m128 b);
 struct FUN_00d21fc0_n
 {
     float x, y, z, w;

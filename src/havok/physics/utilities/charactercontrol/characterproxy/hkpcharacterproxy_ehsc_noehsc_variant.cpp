@@ -5,6 +5,8 @@
 
 // src/havok/physics/utilities/charactercontrol/characterproxy/hkpcharacterproxy.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/charactercontrol/characterproxy/hkpcharacterproxy.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstddef>
+#include <xmmintrin.h>
 #include <intrin.h>
 #include "fnv/decl/HostC9C6.h"
 #include "fnv/decl/OwnerCD2A.h"
@@ -155,7 +157,7 @@ struct FNVArray {
 struct FNVBuffers {
     FNVArray spare;
     FNVArray elements;
-    static void* operator new(unsigned int bytes) {
+    static void* operator new(size_t bytes) {
         return FUN_00c85750()->GetAllocator()->Allocate(bytes);
     }
 };
@@ -494,12 +496,6 @@ public:
 struct Query289 {
  void CollectAllContactPoints(void*,void*);
 };
-union __declspec(intrin_type) __declspec(align(16)) __m128 { float m128_f32[4]; unsigned __int64 m128_u64[2]; };
-extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_add_ss(__m128 a, __m128 b);
-extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
-extern "C" __m128 _mm_sqrt_ss(__m128 a);
-extern "C" void _mm_store_ss(float* p, __m128 a);
 struct S00cacaa0_Vec {
     __m128 m_vComponents;
 };
@@ -735,7 +731,7 @@ struct S_00caf4d0_Router {
     S_00caf4d0_Heap& heap() throw() { return *m_pStreamAllocator; }
 };
 static __forceinline S_00caf4d0_Router* GetRouter37() throw() { return reinterpret_cast<S_00caf4d0_Router*>(FUN_00c85750()); }
-inline void* __cdecl operator new(unsigned int, void* where) throw() { return where; }
+inline void* __cdecl operator new(size_t, void* where) throw() { return where; }
 struct __declspec(align(16)) S_00caf4d0_Vector4 {
     float x, y, z, w;
     S_00caf4d0_Vector4() throw() {}
@@ -989,8 +985,6 @@ struct Cad820Cls : S_00caf4d0_TrackerBase, S_00caf4d0_EntityListener, CadPhantom
 
     void FUN_00cad820(CadPhantom* phantom) throw();
 };
-extern "C" __m128 _mm_sub_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_setzero_ps(void);
 struct S00cafd90_Vec {
     __m128 m_vComponents;
 };
@@ -1058,24 +1052,7 @@ static __forceinline float S00cafd90_Dot3(__m128 a, __m128 b)
 #include "fnv/symbols_simd.h"
 extern "C" {
 void _ReadWriteBarrier();
-__m128 _mm_set_ss(float);
-__m128 _mm_set_ps1(float);
-__m128 _mm_setr_ps(float,float,float,float);
 unsigned __int64 __rdtsc();
-__m128 _mm_load_ps(const float*);
-__m128 _mm_load_ss(const float*);
-void _mm_store_ps(float*,__m128);
-__m128 _mm_add_ps(__m128,__m128);
-__m128 _mm_mul_ss(__m128,__m128);
-__m128 _mm_sub_ss(__m128,__m128);
-__m128 _mm_rsqrt_ss(__m128);
-__m128 _mm_cmpeq_ss(__m128,__m128);
-__m128 _mm_cmple_ps(__m128,__m128);
-__m128 _mm_and_ps(__m128,__m128);
-__m128 _mm_andnot_ps(__m128,__m128);
-__m128 _mm_unpacklo_ps(__m128,__m128);
-__m128 _mm_movelh_ps(__m128,__m128);
-int _mm_movemask_ps(__m128);
 }
 extern char str_010c8508[],str_010c8500[],str_010c84f0[],str_010c84dc[],str_010c84d0[],str_010c84c4[],str_010c84b8[];
 __declspec(nothrow) FNVMemoryManager* __cdecl FUN_00c85750();
@@ -1105,7 +1082,7 @@ public:
     __forceinline void operator=(const PVec& v) throw(){q=v.q;}
     __forceinline void operator=(const __m128& v) throw(){q=v;}
     const __m128& quad() const throw(){return q;}
-    __forceinline float& component(int i) throw(){return q.m128_f32[i];}
+    __forceinline float& component(int i) throw(){return q[i];}
     __forceinline void set(float x,float y,float z,float w=0.0f) throw(){
         q=_mm_setr_ps(x,y,z,w);
     }
@@ -1240,7 +1217,7 @@ void POwner::FUN_00cade20(const PStep& step,const PVec& gravity,PCollector& cast
         } else phantom->cast(position,query,cast,&start);
         if(cast.hit()) {
             reinterpret_cast<::SortableArray *>(&(cast))->FUN_00cabad0();
-            ::FUN_00cac890((::VecNode *)this, (int)(cast.hits().begin()),(const ::__m128 *)(cast.hits().count()));
+            ::FUN_00cac890((::VecNode *)this, (int)(cast.hits().begin()),(const __m128 *)(cast.hits().count()));
         }
         {PStream& s=*static_cast<PStream*>(TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c))));if(s.available()){PTimer* p=reinterpret_cast<PTimer*>(s.GetStreamEnd());p->tag=str_010c84dc;p->stamp();s.end(reinterpret_cast<char*>(p+1));}}
         update(start,cast,threaded);
@@ -1280,7 +1257,7 @@ void POwner::FUN_00cade20(const PStep& step,const PVec& gravity,PCollector& cast
             } else phantom->cast(position,query,cast,0);
             if(cast.hit()) {
                 reinterpret_cast<::SortableArray *>(&(cast))->FUN_00cabad0();
-                ::FUN_00cac890((::VecNode *)this, (int)(cast.hits().begin()),(const ::__m128 *)(cast.hits().count()));
+                ::FUN_00cac890((::VecNode *)this, (int)(cast.hits().begin()),(const __m128 *)(cast.hits().count()));
                 while(reinterpret_cast<::FUN_00cacf10_cls *>((void *)this)->FUN_00cacf10((void *)&(cast[0]))!=-1) {
                     removeFirst(cast);
                     if(!cast.hit()) {ok=1;break;}

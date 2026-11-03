@@ -2,14 +2,13 @@
 // src/havok/physics/collide/shape/heightfield/sampledheightfield/hkpsampledheightfieldshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/heightfield/sampledheightfield/hkpsampledheightfieldshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <xmmintrin.h>
 #include "fnv/symbols_00d26000.h"
 #include "fnv/symbols_01012000.h"
 #include "havok/hkpSampledHeightFieldShape.h"
 
 #include "fnv_asm_helpers.h"   // project x87 helpers (fnv_SinCos, fnv_FloatToInt), kept last so earlier code is unchanged
 
-union __declspec(intrin_type) __declspec(align(16)) __m128 { float m128_f32[4]; unsigned __int64 m128_u64[2]; };
-extern "C" __m128 _mm_load_ps1(const float*);
 
 struct Cls_00d24670 {
     virtual void v00(); virtual void v04(); virtual void v08(); virtual void v0c();
@@ -35,16 +34,16 @@ void Cls_00d24670::FUN_00d24670(int x, int y, float fx, float fy, __m128* nrm, f
             const float dx = h10 - h00;
             const float dy = h11 - h10;
             *height = h00 + dy * fy + dx * fx;
-            nrm->m128_f32[0] = -dx;
-            nrm->m128_f32[2] = -dy;
+            (*nrm)[0] = -dx;
+            (*nrm)[2] = -dy;
             *flag = 1;
         } else {
             float h01 = getH(x, y + 1);
             const float dx = h11 - h01;
             const float dy = h01 - h00;
             *height = h00 + dy * fy + dx * fx;
-            nrm->m128_f32[0] = -dx;
-            nrm->m128_f32[2] = -dy;
+            (*nrm)[0] = -dx;
+            (*nrm)[2] = -dy;
             *flag = 0;
         }
     } else {
@@ -55,16 +54,16 @@ void Cls_00d24670::FUN_00d24670(int x, int y, float fx, float fy, __m128* nrm, f
             const float dx = h11 - h01;
             const float dy = h11 - h10;
             *height = h10 + dy * fy + dx * (fx - 1.0);
-            nrm->m128_f32[0] = -dx;
-            nrm->m128_f32[2] = -dy;
+            (*nrm)[0] = -dx;
+            (*nrm)[2] = -dy;
             *flag = 1;
         } else {
             float h00 = getH(x, y);
             const float dx = h10 - h00;
             const float dy = h01 - h00;
             *height = h00 + dy * fy + dx * fx;
-            nrm->m128_f32[0] = -dx;
-            nrm->m128_f32[2] = -dy;
+            (*nrm)[0] = -dx;
+            (*nrm)[2] = -dy;
             *flag = 0;
         }
     }
@@ -224,7 +223,6 @@ void Obj::FUN_00d26120(Input* input, void* arg2, void* arg3) {
     this->FUN_00d24b50(&local, arg2, true, input->f34, arg3);
 }
 
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
 
 __declspec(align(16)) const hkVector4 halfScale = {0.5f, 0.5f, 0.5f, 0.5f};
 

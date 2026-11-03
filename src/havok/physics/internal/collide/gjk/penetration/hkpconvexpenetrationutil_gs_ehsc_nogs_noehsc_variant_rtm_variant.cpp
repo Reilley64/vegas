@@ -7,6 +7,7 @@
 // to their real unit once identified.
 // src/havok/physics/internal/collide/gjk/penetration/hkpconvexpenetrationutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/physics/internal/collide/gjk/penetration/hkpconvexpenetrationutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <xmmintrin.h>
 #include <cmath>
 #include "fnv/decl/FUN_004b4ab0_Class.h"
 #include "fnv/decl/FanSpace__FanBuilder.h"
@@ -17,16 +18,6 @@
 #include "fnv/symbols_01017000.h"
 #include "fnv/symbols_010c9000.h"
 #include "fnv/symbols_01267000.h"
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-    short m128_i16[8];
-    int m128_i32[4];
-    __int64 m128_i64[2];
-    unsigned short m128_u16[8];
-    unsigned int m128_u32[4];
-} __m128;
 struct __declspec(align(16)) hkVector4
 {
     float x, y, z, w;
@@ -85,16 +76,6 @@ struct FUN_00df9c40_Obj
 
     void PushVectorTriple(const __m128* src);
 };
-extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_add_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_sub_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_xor_ps(__m128 a, __m128 b);
-extern "C" void _mm_store_ps(float* p, __m128 a);
-extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
-extern "C" __m128 _mm_unpacklo_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_unpackhi_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_movelh_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_movehl_ps(__m128 a, __m128 b);
 class hkMatrix3DF9B;
 struct hkVector4DF9B
 {
@@ -251,14 +232,6 @@ class hkpMinkowskiDF9B
     const hkpConvexShapeDF9B* m_pShapeA;
     const hkpConvexShapeDF9B* m_pShapeB;
 };
-extern "C" __m128 _mm_xor_ps(__m128, __m128);
-extern "C" __m128 _mm_load_ps(const float*);
-extern "C" void _mm_store_ps(float*, __m128);
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ss(__m128, __m128);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-extern "C" void _mm_store_ss(float*, __m128);
 struct __declspec(align(16)) S00df9ef0_Vec4
 {
     float x;
@@ -298,9 +271,6 @@ static float S00df9ef0_Dot3(__m128 v)
     _mm_store_ss(&f, s);
     return f;
 }
-extern "C" __m128 _mm_sub_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_cmplt_ps(__m128 a, __m128 b);
-extern "C" int _mm_movemask_ps(__m128 a);
 struct __declspec(align(16)) Vec4
 {
     float x, y, z, w;
@@ -365,22 +335,6 @@ extern "C" void _ReadBarrier();
 extern "C" void _ReadWriteBarrier();
 #include <math.h>
 #include "fnv/symbols_simd.h"
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ss(__m128, __m128);
-extern "C" __m128 _mm_mul_ss(__m128, __m128);
-extern "C" __m128 _mm_sub_ss(__m128, __m128);
-extern "C" __m128 _mm_load_ss(const float*);
-extern "C" void _mm_store_ss(float*, __m128);
-extern "C" __m128 _mm_rsqrt_ss(__m128);
-extern "C" __m128 _mm_cmpeq_ss(__m128, __m128);
-extern "C" __m128 _mm_andnot_ps(__m128, __m128);
-extern "C" __m128 _mm_and_ps(__m128, __m128);
-extern "C" __m128 _mm_xor_ps(__m128, __m128);
-extern "C" __m128 _mm_sqrt_ss(__m128);
-extern "C" __m128 _mm_setzero_ps();
-extern "C" __m128 _mm_set_ss(float);
 void __cdecl FUN_00cd7530(const void* g, void* a, void* b, void* c, void* out);
 
 struct Scalar

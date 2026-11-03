@@ -4,17 +4,10 @@
 // src/havok/physics/utilities/visualdebugger/viewer/collide/hkpconvexradiusbuilder.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/collide/hkpconvexradiusbuilder.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <xmmintrin.h>
 #include "fnv/symbols_00c90000.h"
 #include "fnv/symbols_01268000.h"
 namespace bounding_plane_rework {
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    struct
-    {
-        float x, y, z, w;
-    } lanes;
-} __m128;
-extern "C" __m128 _mm_setr_ps(float, float, float, float);
 struct Transform
 {
     __m128 rotation0, rotation1, rotation2, translation;

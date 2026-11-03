@@ -4,6 +4,8 @@
 
 // src/havok/physics/utilities/weapons/hkpballgun.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/weapons/hkpballgun.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstddef>
+#include <xmmintrin.h>
 #include "fnv/decl/FUN_00c90510_class.h"
 #include "fnv/decl/FUN_00c91620_Class.h"
 #include "fnv/decl/hkReferencedObjectC905.h"
@@ -113,12 +115,6 @@ class hkpBallGunE46E : public hkpFirstPersonGunE46E
 
     void FUN_00e46ea0(hkpWorldE46E* pkWorld) throw();
 };
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C" __m128 _mm_setzero_ps();
 static const float DAT_0101df44 = 0.2f;
 static const float DAT_0104ef80 = 40.0f;
 static const float DAT_0101b268 = 50.0f;
@@ -155,7 +151,7 @@ struct FUN_00cb0c10
 };
 struct FUN_00e46e80
 {
-    static void* operator new(unsigned int uiSize)
+    static void* operator new(size_t uiSize)
     {
         return FUN_00c85750()->heap().AllocateMemoryBlock(uiSize);
     }
@@ -201,16 +197,6 @@ class FUN_00e46f90 : public FUN_00e46660
     unsigned int unk54, unk58, unk5C;
 };
 
-extern "C"
-{
-
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_set_ps1(float);
-    __m128 _mm_set_ss(float);
-    __m128 _mm_load_ss(float const*);
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-}
 
 struct hkQuadVector4
 {
@@ -269,7 +255,7 @@ class hkBoolResult
 struct hkpShapeBase : public hkReferencedObject
 {
 
-    __forceinline void* operator new(unsigned int nbytes)
+    __forceinline void* operator new(size_t nbytes)
     {
         hkReferencedObject* b = static_cast<hkReferencedObject*>(FUN_00c85750()->heap().AllocateMemoryBlock(nbytes));
         b->m_usMemSizeAndFlags = static_cast<hkUint16>(nbytes);

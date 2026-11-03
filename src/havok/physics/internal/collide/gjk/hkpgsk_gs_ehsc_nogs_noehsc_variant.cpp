@@ -174,32 +174,32 @@ void Simplex::FUN_00daa7e0(void* arg1, void* arg2, const Transform* transform)
         return;
     }
 
-    unsigned tag2 = *(unsigned*)&a[2].quad.m128_f32[3] & 0xc0ffffff;
+    unsigned tag2 = *(unsigned*)&a[2].quad[3] & 0xc0ffffff;
 
-    unsigned tag1 = *(unsigned*)&a[1].quad.m128_f32[3] & 0xc0ffffff;
+    unsigned tag1 = *(unsigned*)&a[1].quad[3] & 0xc0ffffff;
 
     countA = 3;
     countB = 3;
 
-    if (tag1 == tag2 || ((*(unsigned*)&a[0].quad.m128_f32[3] & 0xc0ffffff) == tag2))
+    if (tag1 == tag2 || ((*(unsigned*)&a[0].quad[3] & 0xc0ffffff) == tag2))
         countA = 2;
 
-    if ((*(unsigned*)&a[0].quad.m128_f32[3] & 0xc0ffffff) == tag1)
+    if ((*(unsigned*)&a[0].quad[3] & 0xc0ffffff) == tag1)
     {
         --countA;
         a[0] = a[countA];
     }
 
-    tag2 = *(unsigned*)&verticesB[4 + 2].quad.m128_f32[3] & 0xc0ffffff;
+    tag2 = *(unsigned*)&verticesB[4 + 2].quad[3] & 0xc0ffffff;
 
-    tag1 = *(unsigned*)&verticesB[4 + 1].quad.m128_f32[3] & 0xc0ffffff;
+    tag1 = *(unsigned*)&verticesB[4 + 1].quad[3] & 0xc0ffffff;
 
     if (tag1 == tag2)
         --countB;
-    else if ((*(unsigned*)&verticesB[4 + 0].quad.m128_f32[3] & 0xc0ffffff) == tag2)
+    else if ((*(unsigned*)&verticesB[4 + 0].quad[3] & 0xc0ffffff) == tag2)
         --countB;
 
-    if (countB >= 2 && ((*(unsigned*)&verticesB[4 + 0].quad.m128_f32[3] & 0xc0ffffff) == tag1))
+    if (countB >= 2 && ((*(unsigned*)&verticesB[4 + 0].quad[3] & 0xc0ffffff) == tag1))
     {
         --countB;
         verticesB[4 + 0] = verticesB[4 + countB];

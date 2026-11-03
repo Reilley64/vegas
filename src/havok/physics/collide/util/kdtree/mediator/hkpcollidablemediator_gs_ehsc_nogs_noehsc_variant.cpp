@@ -5,6 +5,7 @@
 
 // src/havok/physics/collide/util/kdtree/mediator/hkpcollidablemediator.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/util/kdtree/mediator/hkpcollidablemediator.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <xmmintrin.h>
 #include "fnv/decl/FUN_00d07950_cls.h"
 #include "fnv/symbols_00cf8000.h"
 #include "fnv/symbols_00d1a000.h"
@@ -249,8 +250,8 @@ void FUN_00d9e020(const CollidableQ* collidable, __m128i* out)
         collidable->m_pCollisionShape->getAabb(collidable->m_pMotionState, 0.0f, aabb);
         BroadPhaseQ* bp = world->m_pJobSemaphore;
         __m128 maxVal = DAT_011b6d70;
-        convertToUint32WithClip(aabb.m_kMinimumCorner, bp->m_kVectorAt40, bp->m_vScale, maxVal, (*reinterpret_cast<const ::__m128 *>(&::DAT_01267e30)), aabb32.m_kMinimumCorner);
-        convertToUint32WithClip(aabb.m_kMaximumCorner, bp->m_kVectorAt50, bp->m_vScale, maxVal, (*reinterpret_cast<const ::__m128 *>(&::DAT_01267e30)), aabb32.m_kMaximumCorner);
+        convertToUint32WithClip(aabb.m_kMinimumCorner, bp->m_kVectorAt40, bp->m_vScale, maxVal, (*reinterpret_cast<const __m128 *>(&::DAT_01267e30)), aabb32.m_kMinimumCorner);
+        convertToUint32WithClip(aabb.m_kMaximumCorner, bp->m_kVectorAt50, bp->m_vScale, maxVal, (*reinterpret_cast<const __m128 *>(&::DAT_01267e30)), aabb32.m_kMaximumCorner);
         aabb32.m_ucExpansionShift = 0;
         aabb32.m_ucExpansionMin[0] = 0;
         aabb32.m_ucExpansionMin[1] = 0;
@@ -266,13 +267,13 @@ void FUN_00d9e020(const CollidableQ* collidable, __m128i* out)
     ma = _mm_adds_epu16(_mm_slli_epi32(ma, 1), _mm_set1_epi16(1));
 
     union { __m128i m_vComponents; unsigned short m_u16[8]; } r;
-    r.m_u16[0] = mi.m128i_u16[1];
-    r.m_u16[1] = mi.m128i_u16[3];
-    r.m_u16[2] = mi.m128i_u16[5];
-    r.m_u16[3] = mi.m128i_u16[7];
-    r.m_u16[4] = ma.m128i_u16[1];
-    r.m_u16[5] = ma.m128i_u16[3];
-    r.m_u16[6] = ma.m128i_u16[5];
-    r.m_u16[7] = ma.m128i_u16[7];
+    r.m_u16[0] = reinterpret_cast<unsigned short*>(&mi)[1];
+    r.m_u16[1] = reinterpret_cast<unsigned short*>(&mi)[3];
+    r.m_u16[2] = reinterpret_cast<unsigned short*>(&mi)[5];
+    r.m_u16[3] = reinterpret_cast<unsigned short*>(&mi)[7];
+    r.m_u16[4] = reinterpret_cast<unsigned short*>(&ma)[1];
+    r.m_u16[5] = reinterpret_cast<unsigned short*>(&ma)[3];
+    r.m_u16[6] = reinterpret_cast<unsigned short*>(&ma)[5];
+    r.m_u16[7] = reinterpret_cast<unsigned short*>(&ma)[7];
     *out = r.m_vComponents;
 }

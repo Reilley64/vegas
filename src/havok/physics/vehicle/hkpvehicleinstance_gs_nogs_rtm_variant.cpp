@@ -4,6 +4,8 @@
 
 // src/havok/physics/vehicle/hkpvehicleinstance.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/vehicle/hkpvehicleinstance.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstddef>
+#include <xmmintrin.h>
 #include <windows.h>
 #include "fnv/decl/FUN_00c90510_class.h"
 #include "fnv/decl/FUN_00c91620_Class.h"
@@ -726,7 +728,7 @@ class FUN_00e38b20
     hkClonableE392* m_9c;
     char unkA0[0x34];
 
-    void* operator new(unsigned int nbytes)
+    void* operator new(size_t nbytes)
     {
         FUN_00e38b20* b = static_cast<FUN_00e38b20*>(
             static_cast<hkMemoryRouterE392*>(FUN_00c85750())->heap().AllocateMemoryBlock(nbytes));
@@ -766,15 +768,7 @@ struct VUC_Transmission8
     signed char m_gear3;
     float m_extra;
 };
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 #include "fnv/symbols_simd.h"
-extern "C" __m128 _mm_add_ps(__m128, __m128);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
 struct Q_e380c0_Vec
 {
     __m128 q;
@@ -900,7 +894,7 @@ struct FUN_00e39300_class
     float unkd4;
     FUN_00e39300_class& FUN_00e39300(const FUN_00e39300_class* src);
 };
-inline void* operator new(unsigned int, void* pvWhere)
+inline void* operator new(size_t, void* pvWhere)
 {
     return pvWhere;
 }
@@ -1129,10 +1123,7 @@ class VehicleDataE39 : public hkReferencedObjectE39
     bool m_bCE;
     float m_fD0;
 };
-extern "C" void _mm_store_ps(float*, __m128);
 extern const float DAT_01011d78;
-extern "C" __m128 _mm_setr_ps(float, float, float, float);
-extern "C" __m128 _mm_setzero_ps();
 union VecInit
 {
     __m128 v;
@@ -1182,18 +1173,6 @@ struct FUN_00e39400_Router
     int unk0c;
     VUC_Allocator* m_pThreadAllocator;
 };
-extern "C" __m128 _mm_unpacklo_ps(__m128, __m128);
-extern "C" __m128 _mm_unpackhi_ps(__m128, __m128);
-extern "C" __m128 _mm_movelh_ps(__m128, __m128);
-extern "C" __m128 _mm_movehl_ps(__m128, __m128);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ps(__m128, __m128);
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_min_ps(__m128, __m128);
-extern "C" __m128 _mm_max_ps(__m128, __m128);
-extern "C" __m128 _mm_xor_ps(__m128, __m128);
-extern "C" __m128 _mm_set_ps1(float);
 struct VehFr_Vector4
 {
 
@@ -1524,9 +1503,6 @@ struct VehFr_Vehicle
 
     void FUN_00e38140(float dt, VehFr_FrictionParams& params, VehFr_Ground& ground);
 };
-extern "C" __m128 _mm_add_ss(__m128 _A, __m128 _B);
-extern "C" float _mm_cvtss_f32(__m128 _A);
-extern "C" __m128 _mm_sqrt_ss(__m128 _A);
 struct S00e37880_Vec
 {
     __m128 m_vComponents;
@@ -1660,9 +1636,6 @@ struct S00e37880_Obj
 
     float FUN_00e37880();
 };
-extern "C" __m128 _mm_add_ss(__m128, __m128);
-extern "C" __m128 _mm_sqrt_ss(__m128);
-extern "C" float _mm_cvtss_f32(__m128);
 struct SpeedVectorE378
 {
     __m128 m_vComponents;
@@ -1794,10 +1767,6 @@ struct VehicleSpeedE378 : hkpVehicleInstance
 {
     float FUN_00e37820();
 };
-extern "C" __m128 _mm_add_ss(__m128, __m128);
-extern "C" __m128 _mm_sqrt_ss(__m128);
-extern "C" void _mm_store_ss(float*, __m128);
-extern "C" float _mm_cvtss_f32(__m128);
 struct S00e375a0_AxleData
 {
     int unk00;
@@ -2060,19 +2029,12 @@ class VehicleAeroInstance : public hkpVehicleInstance
 };
 
 namespace WheelUpdateBuild {
-typedef ::__m128 WheelUpdateSimd;
+typedef __m128 WheelUpdateSimd;
 using ::VUC_Vector4;
 using ::VUC_Data;
 using ::hkpVehicleInstance;
 using ::DAT_01011d78;
 
-extern "C" WheelUpdateSimd _mm_set_ss(float);
-extern "C" WheelUpdateSimd _mm_load_ss(const float*);
-extern "C" WheelUpdateSimd _mm_rsqrt_ss(WheelUpdateSimd);
-extern "C" WheelUpdateSimd _mm_cmpeq_ss(WheelUpdateSimd, WheelUpdateSimd);
-extern "C" WheelUpdateSimd _mm_mul_ss(WheelUpdateSimd, WheelUpdateSimd);
-extern "C" WheelUpdateSimd _mm_sub_ss(WheelUpdateSimd, WheelUpdateSimd);
-extern "C" WheelUpdateSimd _mm_andnot_ps(WheelUpdateSimd, WheelUpdateSimd);
 
 struct __declspec(align(16)) WheelUpdateTransform
 {
@@ -2206,16 +2168,16 @@ void VUC_Instance::FUN_00e37aa0(float dt, void* det) throw()
 
             float half = self->m_kWheelSteeringAngles.m_data[i] * 0.5;
             WheelUpdateSimd h = _mm_load_ss(&half);
-            WheelUpdateSimd hb = ::_mm_shuffle_ps(h, h, 0);
+            WheelUpdateSimd hb = _mm_shuffle_ps(h, h, 0);
             WheelUpdateSimd axis =
                 *(WheelUpdateSimd*)&((WheelUpdateSuspension*)self->m_pSuspension)->m_data[i].m_vDirectionChassisSpace;
             VUC_Vector4 qv;
-            *(WheelUpdateSimd*)&qv = ::_mm_mul_ps(hb, axis);
+            *(WheelUpdateSimd*)&qv = _mm_mul_ps(hb, axis);
             qv.w = 1.0f;
             WheelUpdateSimd q = *(WheelUpdateSimd*)&qv;
-            WheelUpdateSimd sq = ::_mm_mul_ps(q, q);
-            WheelUpdateSimd sum = ::_mm_add_ps(::_mm_shuffle_ps(sq, sq, 0x4e), sq);
-            WheelUpdateSimd lenSq = ::_mm_add_ps(::_mm_shuffle_ps(sum, sum, 0xb1), sum);
+            WheelUpdateSimd sq = _mm_mul_ps(q, q);
+            WheelUpdateSimd sum = _mm_add_ps(_mm_shuffle_ps(sq, sq, 0x4e), sq);
+            WheelUpdateSimd lenSq = _mm_add_ps(_mm_shuffle_ps(sum, sum, 0xb1), sum);
             WheelUpdateSimd r = _mm_rsqrt_ss(lenSq);
             WheelUpdateSimd mask = _mm_cmpeq_ss(lenSq, zero128);
             WheelUpdateSimd newton = _mm_mul_ss(lenSq, r);
@@ -2224,29 +2186,29 @@ void VUC_Instance::FUN_00e37aa0(float dt, void* det) throw()
             WheelUpdateSimd inv = _mm_mul_ss(half128, r);
             inv = _mm_mul_ss(inv, newton);
             inv = _mm_andnot_ps(mask, inv);
-            q = ::_mm_mul_ps(q, ::_mm_shuffle_ps(inv, inv, 0));
+            q = _mm_mul_ps(q, _mm_shuffle_ps(inv, inv, 0));
             *(WheelUpdateSimd*)&wheel->m_qSteeringOrientation = q;
             *(WheelUpdateSimd*)&wheel->m_vRayEndPointWs =
                 *(WheelUpdateSimd*)&((VUC_Data*)self->m_data)->m_kChassisOrientation[2];
             ::_ReadWriteBarrier();
             WheelUpdateSimd qq = *(WheelUpdateSimd*)&wheel->m_qSteeringOrientation;
             WheelUpdateSimd v = *(WheelUpdateSimd*)&wheel->m_vRayEndPointWs;
-            WheelUpdateSimd w = ::_mm_shuffle_ps(qq, qq, 0xff);
-            WheelUpdateSimd prod = ::_mm_mul_ps(v, qq);
-            WheelUpdateSimd y = ::_mm_shuffle_ps(prod, prod, 0x55);
-            WheelUpdateSimd xy = ::_mm_add_ss(y, prod);
-            WheelUpdateSimd z = ::_mm_shuffle_ps(prod, prod, 0xaa);
-            WheelUpdateSimd dot = ::_mm_add_ss(z, xy);
+            WheelUpdateSimd w = _mm_shuffle_ps(qq, qq, 0xff);
+            WheelUpdateSimd prod = _mm_mul_ps(v, qq);
+            WheelUpdateSimd y = _mm_shuffle_ps(prod, prod, 0x55);
+            WheelUpdateSimd xy = _mm_add_ss(y, prod);
+            WheelUpdateSimd z = _mm_shuffle_ps(prod, prod, 0xaa);
+            WheelUpdateSimd dot = _mm_add_ss(z, xy);
             WheelUpdateSimd cross =
-                ::_mm_sub_ps(::_mm_mul_ps(::_mm_shuffle_ps(v, v, 0xd2), ::_mm_shuffle_ps(qq, qq, 0xc9)),
-                             ::_mm_mul_ps(::_mm_shuffle_ps(v, v, 0xc9), ::_mm_shuffle_ps(qq, qq, 0xd2)));
-            cross = ::_mm_mul_ps(cross, w);
-            WheelUpdateSimd ww = ::_mm_mul_ps(w, w);
-            ww = ::_mm_add_ps(ww, *(WheelUpdateSimd*)&(*reinterpret_cast<::VUC_Vector4 *>((void *)&::DAT_010c71e0)));
-            ww = ::_mm_mul_ps(ww, v);
-            WheelUpdateSimd term = ::_mm_add_ps(ww, ::_mm_mul_ps(::_mm_shuffle_ps(dot, dot, 0), qq));
-            WheelUpdateSimd result = ::_mm_add_ps(cross, term);
-            result = ::_mm_add_ps(result, result);
+                _mm_sub_ps(_mm_mul_ps(_mm_shuffle_ps(v, v, 0xd2), _mm_shuffle_ps(qq, qq, 0xc9)),
+                             _mm_mul_ps(_mm_shuffle_ps(v, v, 0xc9), _mm_shuffle_ps(qq, qq, 0xd2)));
+            cross = _mm_mul_ps(cross, w);
+            WheelUpdateSimd ww = _mm_mul_ps(w, w);
+            ww = _mm_add_ps(ww, *(WheelUpdateSimd*)&(*reinterpret_cast<::VUC_Vector4 *>((void *)&::DAT_010c71e0)));
+            ww = _mm_mul_ps(ww, v);
+            WheelUpdateSimd term = _mm_add_ps(ww, _mm_mul_ps(_mm_shuffle_ps(dot, dot, 0), qq));
+            WheelUpdateSimd result = _mm_add_ps(cross, term);
+            result = _mm_add_ps(result, result);
             WheelUpdateVector spin;
             *(WheelUpdateSimd*)&spin = result;
             wheel->m_vSuspensionDirectionWs.FUN_00c7f700(chassisRot, &spin);
@@ -2257,27 +2219,18 @@ void VUC_Instance::FUN_00e37aa0(float dt, void* det) throw()
 }
 
 namespace AxleGroundBuild {
-typedef ::__m128 AxleQuad;
+typedef __m128 AxleQuad;
 using ::hkVector4;
 using ::hkRotation;
 using ::hkpVehicleInstance;
-using ::_mm_add_ps;
-using ::_mm_mul_ps;
-using ::_mm_shuffle_ps;
-using ::_mm_setzero_ps;
-using ::_mm_add_ss;
-using ::_mm_sub_ps;
-using ::_mm_store_ss;
+using _mm_add_ps;
+using _mm_mul_ps;
+using _mm_shuffle_ps;
+using _mm_setzero_ps;
+using _mm_add_ss;
+using _mm_sub_ps;
+using _mm_store_ss;
 
-extern "C"
-{
-    AxleQuad _mm_sub_ss(AxleQuad, AxleQuad);
-    AxleQuad _mm_mul_ss(AxleQuad, AxleQuad);
-    AxleQuad _mm_rsqrt_ss(AxleQuad);
-    AxleQuad _mm_cmpeq_ss(AxleQuad, AxleQuad);
-    AxleQuad _mm_andnot_ps(AxleQuad, AxleQuad);
-    AxleQuad _mm_set_ss(float);
-}
 
 struct Accumulator
 {
@@ -2310,7 +2263,6 @@ class AxleParams
     hkVector4 unk50;
 };
 
-extern "C" AxleQuad _mm_load_ss(const float*);
 struct VelocityVector
 {
     AxleQuad q;

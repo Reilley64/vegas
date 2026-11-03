@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/serialize/hkpphysicsdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/serialize/hkpphysicsdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
 #include <new>
 #include <cstring>
 #include "fnv/decl/BodyCollection.h"
@@ -579,7 +580,7 @@ extern int DAT_010d07f4;
 struct D4C2Place
 {
 };
-inline void* operator new(unsigned int, void* p, D4C2Place)
+inline void* operator new(size_t, void* p, D4C2Place)
 {
     __assume(p != 0);
     return p;

@@ -5,6 +5,7 @@
 
 // src/havok/physics/dynamics/constraint/setup/hkpconstraintsolversetup.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/setup/hkpconstraintsolversetup.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <xmmintrin.h>
 #include "fnv/symbols_00d1a000.h"
 #include "fnv/symbols_00d29000.h"
 #include "fnv/symbols_00d88000.h"
@@ -103,12 +104,6 @@ struct D88470Obj
     unsigned int limitSum;
     unsigned int initSum;
 };
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C" __m128 _mm_setzero_ps();
 struct hkVector4D886
 {
     __m128 m_vComponents;

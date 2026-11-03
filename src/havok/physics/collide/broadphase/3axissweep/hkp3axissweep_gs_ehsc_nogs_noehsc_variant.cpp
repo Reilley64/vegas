@@ -5,6 +5,7 @@
 
 // src/havok/physics/collide/broadphase/3axissweep/hkp3axissweep.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/broadphase/3axissweep/hkp3axissweep.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstddef>
 #include "fnv/decl/FUN_00d06fb0_cls.h"
 #include "fnv/decl/FUN_00d11e80_cls.h"
 #include "fnv/decl/SweepClass.h"
@@ -1014,7 +1015,7 @@ int SweepCls::FUN_00d114e0(void* a1, const SweepAabb& aabb, int a3)
         __m128 v = _mm_add_ps(m_kVectorAt40.m_vComponents, aabb.m_kMinimumCorner.m_vComponents);
         v = _mm_mul_ps(v, m_vScale.m_vComponents);
         v = _mm_min_ps(v, maxVal);
-        v = _mm_max_ps(v, (*reinterpret_cast<::__m128 *>(&::DAT_01267e30)));
+        v = _mm_max_ps(v, (*reinterpret_cast<__m128 *>(&::DAT_01267e30)));
         SweepVec4 t; t.m_vComponents = v;
         const float* f = (const float*)&t;
         out.m_min0 = fnv_FloatToInt(f[0]);
@@ -1026,7 +1027,7 @@ int SweepCls::FUN_00d114e0(void* a1, const SweepAabb& aabb, int a3)
         __m128 v = _mm_add_ps(m_kVectorAt50.m_vComponents, aabb.m_kMaximumCorner.m_vComponents);
         v = _mm_mul_ps(v, m_vScale.m_vComponents);
         v = _mm_min_ps(v, maxVal);
-        v = _mm_max_ps(v, (*reinterpret_cast<::__m128 *>(&::DAT_01267e30)));
+        v = _mm_max_ps(v, (*reinterpret_cast<__m128 *>(&::DAT_01267e30)));
         SweepVec4 t; t.m_vComponents = v;
         const float* f = (const float*)&t;
         out.m_max0 = fnv_FloatToInt(f[0]);
@@ -1204,14 +1205,14 @@ VPair8* a1=(VPair8*)addr; Vec33 zero; zero.setZero();
             Vec33 pw, qw;
             pw.setAdd4(a1->v0,row40); pw.mul4(row60); pw.min4(clamp); pw.max4(zero); pw.add4(bias);
                         QuantMin40 qa;
-            qa.x = (unsigned short)(pw.data.m128_u32[0] >> 7);
-            qa.y = (unsigned short)(pw.data.m128_u32[1] >> 7);
-            qa.z = (unsigned short)(pw.data.m128_u32[2] >> 7);
+            qa.x = (unsigned short)(reinterpret_cast<unsigned int*>(&pw.data)[0] >> 7);
+            qa.y = (unsigned short)(reinterpret_cast<unsigned int*>(&pw.data)[1] >> 7);
+            qa.z = (unsigned short)(reinterpret_cast<unsigned int*>(&pw.data)[2] >> 7);
             qw.setAdd4(a1->v1,row50); qw.mul4(row60); qw.min4(clamp); qw.max4(zero); qw.add4(bias);
             unsigned short u[4];
-            u[0] = (unsigned short)(qw.data.m128_u32[0] >> 7);
-            u[1] = (unsigned short)(qw.data.m128_u32[1] >> 7);
-            u[2] = (unsigned short)(qw.data.m128_u32[2] >> 7);
+            u[0] = (unsigned short)(reinterpret_cast<unsigned int*>(&qw.data)[0] >> 7);
+            u[1] = (unsigned short)(reinterpret_cast<unsigned int*>(&qw.data)[1] >> 7);
+            u[2] = (unsigned short)(reinterpret_cast<unsigned int*>(&qw.data)[2] >> 7);
 
             out.min[0] = (*(unsigned int*)&qa.x) & 0xfffe; out.min[1] = (*(unsigned int*)&qa.y) & 0xfffe; out.min[2] = (*(unsigned int*)&qa.z) & 0xfffe;
             out.max[0] = u[0] | 1;
@@ -1851,8 +1852,8 @@ void Sweep154::FUN_00d154a0(Input154 input, Callback154 callback) {
     __m128 in0 = input.p->min;
     __m128 in1 = input.p->max;
     const __m128& scale = unk60;
-    __m128 cmax = (*reinterpret_cast<::__m128 *>(&::DAT_011b3790));
-    const __m128& coff = (*reinterpret_cast<::__m128 *>(&::DAT_011b3770));
+    __m128 cmax = (*reinterpret_cast<__m128 *>(&::DAT_011b3790));
+    const __m128& coff = (*reinterpret_cast<__m128 *>(&::DAT_011b3770));
     __m128 r = _mm_add_ps(_mm_max_ps(_mm_min_ps(_mm_mul_ps(_mm_add_ps(unk40, in0), scale), cmax), zero), coff);
     struct Scratch154 { unsigned short ep[4]; union { __m128 vector; unsigned int u[4]; struct {int low[4],high[4];} bounds; } tmp; } scratch;
     scratch.tmp.vector = r;
@@ -2075,7 +2076,7 @@ inline void S159a0_convert(const __m128& in, const __m128& offset, const __m128&
     x = _mm_mul_ps(x, scale);
     x = _mm_min_ps(x, maxV.m_vComponents);
     x = _mm_max_ps(x, minV.m_vComponents);
-    x = _mm_add_ps(x, (*reinterpret_cast<::__m128 *>(&::DAT_011b3770)));
+    x = _mm_add_ps(x, (*reinterpret_cast<__m128 *>(&::DAT_011b3770)));
     S159a0_QuadInt u;
     u.q = x;
     out.u16[0] = (unsigned short)(u.u[0] >> 7);
@@ -2169,7 +2170,7 @@ void S159a0_Sweep::FUN_00d159a0(const S159a0_Aabb& aabb, PairArray& out)
     S159a0_Vec clipMin;
     clipMin.m_vComponents = _mm_setzero_ps();
     S159a0_Vec clipMax;
-    clipMax.m_vComponents = (*reinterpret_cast<::__m128 *>(&::DAT_011b3790));
+    clipMax.m_vComponents = (*reinterpret_cast<__m128 *>(&::DAT_011b3790));
 
     S159a0_AabbInt aabbInt;
     S159a0_IntUnion64 mi;
@@ -2300,7 +2301,7 @@ __forceinline void S16c50_convertToUint16WithClip(const S16c50_Vec4& in, const S
     x = _mm_mul_ps(x, scale.m_vComponents);
     x = _mm_min_ps(x, maxV.m_vComponents);
     x = _mm_max_ps(x, minV.m_vComponents);
-    x = _mm_add_ps(x, (*reinterpret_cast<::__m128 *>(&::DAT_011b3770)));
+    x = _mm_add_ps(x, (*reinterpret_cast<__m128 *>(&::DAT_011b3770)));
     S16c50_QuadInt u;
     u.q = x;
     out.u16[0] = (unsigned short)(u.i[0] >> 7);
@@ -2439,7 +2440,7 @@ struct S16c50_Sweep {
     __forceinline void convertVectorToInt(const S16c50_Vec4& vec, unsigned int* intsOut) const
     {
         S16c50_Vec4 minVal; minVal.setZero4();
-        S16c50_Vec4 maxVal; maxVal.m_vComponents = (*reinterpret_cast<::__m128 *>(&::DAT_011b3790));
+        S16c50_Vec4 maxVal; maxVal.m_vComponents = (*reinterpret_cast<__m128 *>(&::DAT_011b3790));
         S16c50_IntUnion64 out;
         S16c50_convertToUint16WithClip(vec, m_kVectorAt40, m_vScale, minVal, maxVal, out);
         intsOut[0] = out.u16[0];
@@ -2966,7 +2967,7 @@ void S4ef0Owner::FUN_00d14ef0(const S4ef0Aabb& aabb,S4ef0Results& pairsOut) cons
  _querySingleAabb(aabb,0,&pairsOut,0,0);
 }
 
-inline void* __cdecl operator new(unsigned int, void* storage) { return storage; }
+inline void* __cdecl operator new(size_t, void* storage) { return storage; }
 
 static const __m128 batchSweepBias={65536.0f,65536.0f,65536.0f,65536.0f};
 
@@ -3030,14 +3031,14 @@ __forceinline void quantizeSweepAabb(const SweepVector& offsetLow,const BatchAab
     SweepVector lowValue,highValue;
     lowValue.setAdd(box.low,offsetLow);lowValue.mul(scale);lowValue.setMin(lowValue,upper);lowValue.setMax(lowValue,zero);lowValue.add(magic);
     ShortResult lower;
-    lower.values[0]=(unsigned short)(lowValue.v.m128_u32[0]>>7);
-    lower.values[1]=(unsigned short)(lowValue.v.m128_u32[1]>>7);
-    lower.values[2]=(unsigned short)(lowValue.v.m128_u32[2]>>7);
+    lower.values[0]=(unsigned short)(reinterpret_cast<unsigned int*>(&lowValue.v)[0]>>7);
+    lower.values[1]=(unsigned short)(reinterpret_cast<unsigned int*>(&lowValue.v)[1]>>7);
+    lower.values[2]=(unsigned short)(reinterpret_cast<unsigned int*>(&lowValue.v)[2]>>7);
     highValue.setAdd(box.high,offsetHigh);highValue.mul(scale);highValue.setMin(highValue,upper);highValue.setMax(highValue,zero);highValue.add(magic);
     ShortResult upperResult;
-    upperResult.values[0]=(unsigned short)(highValue.v.m128_u32[0]>>7);
-    upperResult.values[1]=(unsigned short)(highValue.v.m128_u32[1]>>7);
-    upperResult.values[2]=(unsigned short)(highValue.v.m128_u32[2]>>7);
+    upperResult.values[0]=(unsigned short)(reinterpret_cast<unsigned int*>(&highValue.v)[0]>>7);
+    upperResult.values[1]=(unsigned short)(reinterpret_cast<unsigned int*>(&highValue.v)[1]>>7);
+    upperResult.values[2]=(unsigned short)(reinterpret_cast<unsigned int*>(&highValue.v)[2]>>7);
     out.low[0]=lower.values[0]&0xfffe;
     out.low[1]=lower.values[1]&0xfffe;
     out.low[2]=lower.values[2]&0xfffe;
@@ -3052,14 +3053,14 @@ __forceinline void quantizeCombinedSweepAabb(const BatchAabb& box,const SweepVec
     SweepVector lowValue,highValue;
     lowValue.setAdd(box.low,offsetLow);lowValue.mul(scale);lowValue.setMin(lowValue,upper);lowValue.setMax(lowValue,zero);lowValue.add(magic);
     ShortResult lower;
-    lower.values[0]=(unsigned short)(lowValue.v.m128_u32[0]>>7);
-    lower.values[1]=(unsigned short)(lowValue.v.m128_u32[1]>>7);
-    lower.values[2]=(unsigned short)(lowValue.v.m128_u32[2]>>7);
+    lower.values[0]=(unsigned short)(reinterpret_cast<unsigned int*>(&lowValue.v)[0]>>7);
+    lower.values[1]=(unsigned short)(reinterpret_cast<unsigned int*>(&lowValue.v)[1]>>7);
+    lower.values[2]=(unsigned short)(reinterpret_cast<unsigned int*>(&lowValue.v)[2]>>7);
     highValue.setAdd(box.high,offsetHigh);highValue.mul(scale);highValue.setMin(highValue,upper);highValue.setMax(highValue,zero);highValue.add(magic);
     ShortResult upperResult;
-    upperResult.values[0]=(unsigned short)(highValue.v.m128_u32[0]>>7);
-    upperResult.values[1]=(unsigned short)(highValue.v.m128_u32[1]>>7);
-    upperResult.values[2]=(unsigned short)(highValue.v.m128_u32[2]>>7);
+    upperResult.values[0]=(unsigned short)(reinterpret_cast<unsigned int*>(&highValue.v)[0]>>7);
+    upperResult.values[1]=(unsigned short)(reinterpret_cast<unsigned int*>(&highValue.v)[1]>>7);
+    upperResult.values[2]=(unsigned short)(reinterpret_cast<unsigned int*>(&highValue.v)[2]>>7);
     out.low[0]=lower.values[0]&0xfffe;
     out.low[1]=lower.values[1]&0xfffe;
     out.low[2]=lower.values[2]&0xfffe;

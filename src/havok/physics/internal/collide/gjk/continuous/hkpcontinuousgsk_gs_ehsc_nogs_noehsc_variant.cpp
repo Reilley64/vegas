@@ -136,7 +136,7 @@ void __cdecl FUN_00db4e40(SweepObj* obj, float* p, SweepOut* out)
                 {
                     float w = it->w;
                     tEnd = w;
-                    tEnd = ::FUN_00db4ca0(obj, p, (const ::__m128 *)(it), tPrev, tCur, w, dist, vel, (::Out *)(out));
+                    tEnd = ::FUN_00db4ca0(obj, p, (const __m128 *)(it), tPrev, tCur, w, dist, vel, (::Out *)(out));
                 }
             }
             else

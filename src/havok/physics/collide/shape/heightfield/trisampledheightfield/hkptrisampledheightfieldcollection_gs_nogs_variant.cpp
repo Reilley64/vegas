@@ -5,6 +5,7 @@
 
 // src/havok/physics/collide/shape/heightfield/trisampledheightfield/hkptrisampledheightfieldcollection.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/heightfield/trisampledheightfield/hkptrisampledheightfieldcollection.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <xmmintrin.h>
 #include "fnv/decl/FUN_00c90510_class.h"
 #include "fnv/decl/FUN_00d21410.h"
 #include "fnv/decl/hkReferencedObjectC905.h"
@@ -83,12 +84,6 @@ __declspec(noinline) hkpSampledHeightFieldShape* S_d264d0_Coll::FUN_00d26450()
 {
     return m_pHeightFieldShape;
 }
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C" __m128 _mm_setzero_ps(void);
 extern int DAT_010ce390;
 extern int DAT_010ce370;
 struct Target26700
@@ -196,24 +191,11 @@ struct FUN_00d267c0_t : FUN_00d26450_S
     void FUN_00d267c0(int mode);
 };
 
-namespace N {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C"
-{
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_max_ps(__m128, __m128);
-    __m128 _mm_min_ps(__m128, __m128);
-}
-}
 
 struct hkAabb_d26460
 {
-    N::__m128 m_kMinimumCorner;
-    N::__m128 m_kMaximumCorner;
+    __m128 m_kMinimumCorner;
+    __m128 m_kMaximumCorner;
 };
 struct hkTransform_d26460;
 struct hkShape_d26460
@@ -241,7 +223,7 @@ struct FUN_00d26460_cls
     int unk24;
     int unk28;
     int unk2C;
-    N::__m128 m_kTranslation;
+    __m128 m_kTranslation;
     void FUN_00d26460(const hkTransform_d26460& kTransform, float fTolerance, hkAabb_d26460& kAabbOut);
 };
 // @fnv 0x00d26460
@@ -249,8 +231,8 @@ void FUN_00d26460_cls::FUN_00d26460(const hkTransform_d26460& kTransform, float 
 {
     hkAabb_d26460 kAabb;
     ((::hkShape_d26460 *)(reinterpret_cast<::FUN_00d26450_Obj *>(this)->FUN_00d26450()))->getAabb(kTransform, m_fBoundRadius + fTolerance, kAabb);
-    N::__m128 kMaxPoint = N::_mm_add_ps(m_kTranslation, kAabb.m_kMaximumCorner);
-    N::__m128 kMinBoundsCur = N::_mm_add_ps(m_kTranslation, kAabb.m_kMinimumCorner);
-    kAabbOut.m_kMinimumCorner = N::_mm_min_ps(kAabb.m_kMinimumCorner, kMinBoundsCur);
-    kAabbOut.m_kMaximumCorner = N::_mm_max_ps(kAabb.m_kMaximumCorner, kMaxPoint);
+    __m128 kMaxPoint = _mm_add_ps(m_kTranslation, kAabb.m_kMaximumCorner);
+    __m128 kMinBoundsCur = _mm_add_ps(m_kTranslation, kAabb.m_kMinimumCorner);
+    kAabbOut.m_kMinimumCorner = _mm_min_ps(kAabb.m_kMinimumCorner, kMinBoundsCur);
+    kAabbOut.m_kMaximumCorner = _mm_max_ps(kAabb.m_kMaximumCorner, kMaxPoint);
 }

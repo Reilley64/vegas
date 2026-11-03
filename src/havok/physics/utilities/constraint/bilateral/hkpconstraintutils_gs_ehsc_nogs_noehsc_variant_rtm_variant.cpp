@@ -7,6 +7,7 @@
 // to their real unit once identified.
 // src/havok/physics/utilities/constraint/bilateral/hkpconstraintutils.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/constraint/bilateral/hkpconstraintutils.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <xmmintrin.h>
 #include "fnv/decl/FUN_005616d0_Owner.h"
 #include "fnv/decl/FUN_00561800_Class.h"
 #include "fnv/decl/FUN_00c90510_class.h"
@@ -23,18 +24,6 @@
 #include "fnv/decl/hkReferencedObjectC905.h"
 #include "fnv/symbols_00e5a000.h"
 #include "fnv/symbols_01268000.h"
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-    char m128_i8[16];
-    short m128_i16[8];
-    int m128_i32[4];
-    __int64 m128_i64[2];
-    unsigned char m128_u8[16];
-    unsigned short m128_u16[8];
-    unsigned int m128_u32[4];
-} __m128;
 #include "fnv/symbols_simd.h"
 struct hkMemoryAllocator
 {
@@ -232,23 +221,11 @@ struct WorkVectors
 };
 extern "C"
 {
-    __m128 _mm_load_ps(const float* p);
-    __m128 _mm_mul_ps(__m128 a, __m128 b);
-    __m128 _mm_add_ps(__m128 a, __m128 b);
-    __m128 _mm_sub_ps(__m128 a, __m128 b);
-    __m128 _mm_shuffle_ps(__m128 a, __m128 b, int sel);
-    __m128 _mm_add_ss(__m128 a, __m128 b);
-    __m128 _mm_set_ps1(float x);
-    void _mm_store_ss(float* p, __m128 v);
-}
-extern "C"
-{
     const __m128 DAT_010ec7f0 = {{1.0f, 1.0f, 1.0f, 1.0f}};
     const float DAT_010959f4 = 1e-6f;
 }
 bool* FUN_00e5af80(bool* out, FnvHolder2* h, float t, float t2);
 
-extern "C" __m128 _mm_load_ss(const float*);
 
 class VectorComponentValue
 {

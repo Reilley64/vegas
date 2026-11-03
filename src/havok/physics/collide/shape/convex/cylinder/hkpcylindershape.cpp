@@ -93,26 +93,11 @@ S00d57b20_Obj* S00d57b20_Obj::FUN_00d57b20(int condition)
 #include <xmmintrin.h>
 #include <math.h>
 namespace fnv_00d57220 {
-union __declspec(intrin_type) __declspec(align(16)) __m128 {
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C" __m128 _mm_setzero_ps(void);
-extern "C" __m128 _mm_set_ss(float);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_mul_ss(__m128, __m128);
-extern "C" __m128 _mm_add_ss(__m128, __m128);
-extern "C" __m128 _mm_sub_ss(__m128, __m128);
-extern "C" __m128 _mm_rsqrt_ss(__m128);
-extern "C" __m128 _mm_cmpeq_ss(__m128, __m128);
-extern "C" __m128 _mm_andnot_ps(__m128, __m128);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
 
 struct Vec_d57220v {
     __m128 q;
-    float& operator()(int i) { return q.m128_f32[i]; }
-    const float& operator()(int i) const { return q.m128_f32[i]; }
+    float& operator()(int i) { return q[i]; }
+    const float& operator()(int i) const { return q[i]; }
     void setZero4() { q = _mm_setzero_ps(); }
     __forceinline void normalize3()
     {

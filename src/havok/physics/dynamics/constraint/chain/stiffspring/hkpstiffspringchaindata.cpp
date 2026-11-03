@@ -2,6 +2,8 @@
 // src/havok/physics/dynamics/constraint/chain/stiffspring/hkpstiffspringchaindata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/chain/stiffspring/hkpstiffspringchaindata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
+#include <xmmintrin.h>
 #include "fnv/decl/fnv_00e3b0a0__FUN_00e3b0a0_cls.h"
 #include "fnv/symbols_00c90000.h"
 #include "fnv/symbols_00d6f000.h"
@@ -118,25 +120,6 @@ FUN_00e3b0a0* FUN_00e3b0a0::DestroyAndFree(unsigned int uiFlags) throw()
     return this;
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C"
-{
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_andnot_ps(__m128, __m128);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_sub_ss(__m128, __m128);
-    __m128 _mm_mul_ss(__m128, __m128);
-    __m128 _mm_rsqrt_ss(__m128);
-    __m128 _mm_cmpeq_ss(__m128, __m128);
-    __m128 _mm_set_ss(float);
-    void _mm_store_ss(float*, __m128);
-}
 union hkVector4q
 {
     __m128 m_vComponents;
@@ -325,7 +308,7 @@ struct hkMemoryRouterS
     int unk0c;
     hkMemoryAllocator* m_pStreamAllocator;
 };
-__forceinline void* __cdecl operator new(unsigned int, void* p) throw()
+__forceinline void* __cdecl operator new(size_t, void* p) throw()
 {
     return p;
 }
@@ -432,7 +415,7 @@ void hkpStiffSpringChainDataEx::FUN_00e3b0f0(const SixteenWordFloatRecord& inNon
         }
         else
         {
-            bp.m_kConstraintAxis.m_vComponents = (*reinterpret_cast<const ::__m128 *>(&::DAT_01268370));
+            bp.m_kConstraintAxis.m_vComponents = (*reinterpret_cast<const __m128 *>(&::DAT_01268370));
             length = 0.0f;
         }
         ::FUN_00dcee70();

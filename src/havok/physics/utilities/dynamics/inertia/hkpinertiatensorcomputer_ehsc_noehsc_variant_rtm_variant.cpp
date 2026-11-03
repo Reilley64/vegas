@@ -7,6 +7,8 @@
 
 // src/havok/physics/utilities/dynamics/inertia/hkpinertiatensorcomputer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/dynamics/inertia/hkpinertiatensorcomputer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstddef>
+#include <xmmintrin.h>
 #include <cstring>
 #include "fnv/decl/D762F0Owner.h"
 #include "fnv/decl/ExpandShape.h"
@@ -227,17 +229,6 @@ void S00cec3d0_Base::FUN_00cec000(const float* v)
     P1 = v[A] * v[B];
     Pa = v[A];
 }
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-};
-extern "C"
-{
-    __m128 _mm_setr_ps(float, float, float, float);
-    __m128 _mm_setzero_ps();
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_and_ps(__m128, __m128);
-}
 struct Vector
 {
     union
@@ -262,7 +253,7 @@ struct Vector
     }
     float& operator()(int i)
     {
-        return q.m128_f32[i];
+        return q[i];
     }
     int maxAxisSecond() const
     {
@@ -324,7 +315,6 @@ struct MotionLike
     float field90;
 };
 void FUN_00cebdb0(const MotionLike* source, MotionLike* destination);
-extern "C" __m128 _mm_load_ss(const float*);
 struct Sub
 {
 };
@@ -466,13 +456,6 @@ __forceinline float fTargetUpperBound(float a, float b)
     return a < b ? a : b;
 }
 float __cdecl FUN_00cedec0(S_00cee1c0_Arr* arr, int unk, float value);
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128i
-{
-    int m128i_i32[4];
-} __m128i;
-extern "C" __m128i _mm_cvtsi32_si128(int);
-__m128 _mm_castsi128_ps(__m128i);
-extern "C" void _mm_store_ps(float*, __m128);
 struct __declspec(align(16)) Vec4
 {
     float x, y, z, w;
@@ -518,7 +501,6 @@ inline __m128 scalarVector(float x)
     __m128 result = {x};
     return result;
 }
-extern "C" __m128 _mm_load_ss(const float*);
 extern "C" void _ReadWriteBarrier();
 int __cdecl FUN_00cebbb0(void* state, float value, Receiver2* receiver);
 struct S_00ced310_V
@@ -542,13 +524,6 @@ static __forceinline void S_SetZero(S_00ced310_M* m)
     _mm_store_ps(&m->c2.x, z);
 }
 void __cdecl SetDiagonal(S_00ced310_M* m);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-extern "C"
-{
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_set_ps1(float);
-}
 struct S_00ced090_Elem
 {
     float unk00;
@@ -876,24 +851,6 @@ inline void S00cf0f40_Swap4(void* p)
 
 #include <math.h>
 #include "fnv/symbols_simd.h"
-extern "C"
-{
-    __m128 _mm_setzero_ps();
-    __m128 _mm_load_ss(const float*);
-    void _mm_store_ss(float*, __m128);
-    __m128 _mm_set_ss(float);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_sub_ss(__m128, __m128);
-    __m128 _mm_mul_ss(__m128, __m128);
-    __m128 _mm_sqrt_ss(__m128);
-    __m128 _mm_rsqrt_ss(__m128);
-    __m128 _mm_cmpeq_ss(__m128, __m128);
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_andnot_ps(__m128, __m128);
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-}
 
 typedef __m128 hkQuadReal;
 typedef float hkReal;
@@ -1364,34 +1321,7 @@ int __cdecl FUN_00cee290(const hkVector4& v0, const hkVector4& v1, const hkVecto
 }
 
 namespace CapsuleMassSimd {
-namespace NativeRegisters {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-};
-}
-typedef NativeRegisters::__m128 CapsuleMassQuad;
-extern "C"
-{
-    CapsuleMassQuad _mm_add_ss(CapsuleMassQuad, CapsuleMassQuad);
-    CapsuleMassQuad _mm_mul_ss(CapsuleMassQuad, CapsuleMassQuad);
-    CapsuleMassQuad _mm_sub_ss(CapsuleMassQuad, CapsuleMassQuad);
-    CapsuleMassQuad _mm_mul_ps(CapsuleMassQuad, CapsuleMassQuad);
-    CapsuleMassQuad _mm_add_ps(CapsuleMassQuad, CapsuleMassQuad);
-    CapsuleMassQuad _mm_sqrt_ss(CapsuleMassQuad);
-    CapsuleMassQuad _mm_rsqrt_ss(CapsuleMassQuad);
-    CapsuleMassQuad _mm_set_ss(float);
-    CapsuleMassQuad _mm_set_ps1(float);
-    CapsuleMassQuad _mm_move_ss(CapsuleMassQuad, CapsuleMassQuad);
-    CapsuleMassQuad _mm_cmpeq_ss(CapsuleMassQuad, CapsuleMassQuad);
-    CapsuleMassQuad _mm_andnot_ps(CapsuleMassQuad, CapsuleMassQuad);
-    void _mm_store_ss(float*, CapsuleMassQuad);
-    CapsuleMassQuad _mm_load_ss(const float*);
-    CapsuleMassQuad _mm_shuffle_ps(CapsuleMassQuad, CapsuleMassQuad, unsigned int);
-    CapsuleMassQuad _mm_setzero_ps();
-    CapsuleMassQuad _mm_setr_ps(float, float, float, float);
-    CapsuleMassQuad _mm_sub_ps(CapsuleMassQuad, CapsuleMassQuad);
-}
+typedef __m128 CapsuleMassQuad;
 extern "C" double __cdecl fabs(double);
 static __forceinline float capsuleMassAbs(float x)
 {
@@ -1415,7 +1345,7 @@ class CapsuleMassScalar
     {}
     CapsuleMassScalar(float scalar)
     {
-        value = CapsuleMassSimd::_mm_load_ss(&scalar);
+        value = _mm_load_ss(&scalar);
     }
     __forceinline const CapsuleMassQuad& quad() const
     {
@@ -1423,12 +1353,12 @@ class CapsuleMassScalar
     }
     __forceinline CapsuleMassQuad splat() const
     {
-        return CapsuleMassSimd::_mm_shuffle_ps(value, value, 0);
+        return _mm_shuffle_ps(value, value, 0);
     }
     operator float() const
     {
         float result;
-        CapsuleMassSimd::_mm_store_ss(&result, value);
+        _mm_store_ss(&result, value);
         return result;
     }
 };
@@ -1446,7 +1376,7 @@ struct __declspec(align(16)) CapsuleMassVector
     {}
     __forceinline CapsuleMassVector(int)
     {
-        m = CapsuleMassSimd::_mm_setzero_ps();
+        m = _mm_setzero_ps();
     }
     __forceinline CapsuleMassScalar length3() const;
     __forceinline CapsuleMassScalar dot3(const CapsuleMassVector& b) const;
@@ -1455,7 +1385,7 @@ struct __declspec(align(16)) CapsuleMassVector
     void FUN_00c7f700(const struct CapsuleMassMatrix*, const CapsuleMassVector*);
     __forceinline void set(float a, float b, float c, float d = 0.0f)
     {
-        m = CapsuleMassSimd::_mm_setr_ps(a, b, c, d);
+        m = _mm_setr_ps(a, b, c, d);
     }
 };
 struct CapsuleMassMatrix
@@ -1480,13 +1410,13 @@ struct CapsuleMassMatrix
     }
     __forceinline void zero()
     {
-        row0.m = CapsuleMassSimd::_mm_setzero_ps();
-        row1.m = CapsuleMassSimd::_mm_setzero_ps();
-        row2.m = CapsuleMassSimd::_mm_setzero_ps();
+        row0.m = _mm_setzero_ps();
+        row1.m = _mm_setzero_ps();
+        row2.m = _mm_setzero_ps();
     }
     __forceinline float& at(int r, int c)
     {
-        return (&row0)[c].m.m128_f32[r];
+        return (&row0)[c].m[r];
     }
     __forceinline void identity()
     {
@@ -1521,7 +1451,7 @@ struct CapsuleMassTransform
     __forceinline void identity()
     {
         rotation.identity();
-        translation.m = CapsuleMassSimd::_mm_setzero_ps();
+        translation.m = _mm_setzero_ps();
     }
 };
 struct CapsuleMassBody
@@ -1539,9 +1469,9 @@ struct CapsuleMassBody
     {}
     __forceinline CapsuleMassBody(bool)
     {
-        inertia.row0.m = CapsuleMassSimd::_mm_setzero_ps();
-        inertia.row1.m = CapsuleMassSimd::_mm_setzero_ps();
-        inertia.row2.m = CapsuleMassSimd::_mm_setzero_ps();
+        inertia.row0.m = _mm_setzero_ps();
+        inertia.row1.m = _mm_setzero_ps();
+        inertia.row2.m = _mm_setzero_ps();
     }
     __forceinline CapsuleMassBody(const CapsuleMassBody& b)
     {
@@ -1553,7 +1483,7 @@ struct CapsuleMassBody
 };
 struct CapsuleMassElement
 {
-    static __forceinline void* operator new(unsigned int, void* p)
+    static __forceinline void* operator new(size_t, void* p)
     {
         return p;
     }
@@ -1599,48 +1529,48 @@ extern int __cdecl FUN_00ceba60(float, float, CapsuleMassBody*);
 
 static __forceinline CapsuleMassQuad capsuleMassSum3(CapsuleMassQuad v)
 {
-    return CapsuleMassSimd::_mm_add_ss(CapsuleMassSimd::_mm_shuffle_ps(v, v, 0xaa),
-                                       CapsuleMassSimd::_mm_add_ss(CapsuleMassSimd::_mm_shuffle_ps(v, v, 0x55), v));
+    return _mm_add_ss(_mm_shuffle_ps(v, v, 0xaa),
+                                       _mm_add_ss(_mm_shuffle_ps(v, v, 0x55), v));
 }
 static __forceinline float capsuleMassReal(CapsuleMassQuad v)
 {
     float f;
-    CapsuleMassSimd::_mm_store_ss(&f, v);
+    _mm_store_ss(&f, v);
     return f;
 }
 __forceinline CapsuleMassScalar CapsuleMassVector::length3() const
 {
-    return CapsuleMassSimd::_mm_sqrt_ss(dot3(*this).quad());
+    return _mm_sqrt_ss(dot3(*this).quad());
 }
 __forceinline CapsuleMassScalar CapsuleMassVector::dot3(const CapsuleMassVector& b) const
 {
-    return CapsuleMassScalar(capsuleMassSum3(CapsuleMassSimd::_mm_mul_ps(m, b.m)));
+    return CapsuleMassScalar(capsuleMassSum3(_mm_mul_ps(m, b.m)));
 }
 __forceinline CapsuleMassScalar CapsuleMassVector::inverseLength3() const
 {
-    const CapsuleMassQuad half = CapsuleMassSimd::_mm_set_ss(0.5f);
-    const CapsuleMassQuad three = CapsuleMassSimd::_mm_set_ss(3.0f);
-    const CapsuleMassQuad zero = CapsuleMassSimd::_mm_set_ss(0.0f);
+    const CapsuleMassQuad half = _mm_set_ss(0.5f);
+    const CapsuleMassQuad three = _mm_set_ss(3.0f);
+    const CapsuleMassQuad zero = _mm_set_ss(0.0f);
     const CapsuleMassQuad squared = dot3(*this).quad();
-    const CapsuleMassQuad isZero = CapsuleMassSimd::_mm_cmpeq_ss(squared, zero);
-    const CapsuleMassQuad approx = CapsuleMassSimd::_mm_rsqrt_ss(squared);
-    const CapsuleMassQuad refined = CapsuleMassSimd::_mm_mul_ss(
-        CapsuleMassSimd::_mm_mul_ss(half, approx),
-        CapsuleMassSimd::_mm_sub_ss(three,
-                                    CapsuleMassSimd::_mm_mul_ss(CapsuleMassSimd::_mm_mul_ss(squared, approx), approx)));
-    return CapsuleMassSimd::_mm_andnot_ps(isZero, refined);
+    const CapsuleMassQuad isZero = _mm_cmpeq_ss(squared, zero);
+    const CapsuleMassQuad approx = _mm_rsqrt_ss(squared);
+    const CapsuleMassQuad refined = _mm_mul_ss(
+        _mm_mul_ss(half, approx),
+        _mm_sub_ss(three,
+                                    _mm_mul_ss(_mm_mul_ss(squared, approx), approx)));
+    return _mm_andnot_ps(isZero, refined);
 }
 __forceinline void CapsuleMassVector::normalize3()
 {
     CapsuleMassQuad inverse = inverseLength3().splat();
-    m = CapsuleMassSimd::_mm_mul_ps(inverse, m);
+    m = _mm_mul_ps(inverse, m);
 }
 static __forceinline CapsuleMassQuad capsuleMassCross(CapsuleMassQuad a, CapsuleMassQuad b)
 {
-    return CapsuleMassSimd::_mm_sub_ps(CapsuleMassSimd::_mm_mul_ps(CapsuleMassSimd::_mm_shuffle_ps(a, a, 0xc9),
-                                                                   CapsuleMassSimd::_mm_shuffle_ps(b, b, 0xd2)),
-                                       CapsuleMassSimd::_mm_mul_ps(CapsuleMassSimd::_mm_shuffle_ps(a, a, 0xd2),
-                                                                   CapsuleMassSimd::_mm_shuffle_ps(b, b, 0xc9)));
+    return _mm_sub_ps(_mm_mul_ps(_mm_shuffle_ps(a, a, 0xc9),
+                                                                   _mm_shuffle_ps(b, b, 0xd2)),
+                                       _mm_mul_ps(_mm_shuffle_ps(a, a, 0xd2),
+                                                                   _mm_shuffle_ps(b, b, 0xc9)));
 }
 
 // @fnv 0x00ceeca0
@@ -1652,7 +1582,7 @@ __declspec(noinline) int __cdecl FUN_00ceeca0(const CapsuleMassVector* source, c
     if (radius <= 0.0f)
         return 1;
     CapsuleMassVector between;
-    between.m = CapsuleMassSimd::_mm_sub_ps(destination->m, source->m);
+    between.m = _mm_sub_ps(destination->m, source->m);
     float length = float(between.length3());
     CapsuleMassTransform transform;
     if (length > 0.0f)
@@ -1675,9 +1605,9 @@ __declspec(noinline) int __cdecl FUN_00ceeca0(const CapsuleMassVector* source, c
     }
     else
         transform.rotation.identity();
-    CapsuleMassQuad h = CapsuleMassSimd::_mm_set_ss(0.5f);
-    transform.translation.m = CapsuleMassSimd::_mm_mul_ps(CapsuleMassSimd::_mm_shuffle_ps(h, h, 0),
-                                                          CapsuleMassSimd::_mm_add_ps(source->m, destination->m));
+    CapsuleMassQuad h = _mm_set_ss(0.5f);
+    transform.translation.m = _mm_mul_ps(_mm_shuffle_ps(h, h, 0),
+                                                          _mm_add_ps(source->m, destination->m));
     float sphereVolume = (float)(radius * DAT_010cbf40 * radius * radius);
     float cylinderVolume = (float)(radius * 3.1415927410125732421875 * radius * length);
     float volume = sphereVolume + cylinderVolume;
@@ -1692,14 +1622,14 @@ __declspec(noinline) int __cdecl FUN_00ceeca0(const CapsuleMassVector* source, c
         element.properties.center.set(0.0f, 0.0f, 0.0f);
         element.properties.inertia = CapsuleMassMatrix(0);
         CapsuleMassVector scale;
-        scale.m = CapsuleMassSimd::_mm_load_ss(&cylinderMass);
+        scale.m = _mm_load_ss(&cylinderMass);
         element.properties.inertia.row0.x = (float)(halfLength * length * 0.5 / 3.0 + radius * radius * 0.25);
         element.properties.inertia.row1.y = element.properties.inertia.row0.x;
         element.properties.inertia.row2.z = (float)(radius * radius * 0.5);
         reinterpret_cast<::S_00cd4c70 *>(&(element.properties.inertia))->Multiply((*(const ::S_V4 *)(&scale)));
         element.properties.volume = cylinderVolume;
         element.properties.mass = cylinderMass;
-        element.properties.center.m = CapsuleMassSimd::_mm_setzero_ps();
+        element.properties.center.m = _mm_setzero_ps();
         elements.append(element);
     }
     {
@@ -1708,14 +1638,14 @@ __declspec(noinline) int __cdecl FUN_00ceeca0(const CapsuleMassVector* source, c
         CapsuleMassVector offset;
         offset.set(0.0f, 0.0f, (float)halfLength);
         offset.FUN_00c7f700(&transform.rotation, &offset);
-        offset.m = CapsuleMassSimd::_mm_add_ps(cap.transform.translation.m, offset.m);
+        offset.m = _mm_add_ps(cap.transform.translation.m, offset.m);
         cap.transform.translation.m = offset.m;
         cap.properties.center.set(0.0f, 0.0f, (float)(radius * DAT_010cbf68));
         CapsuleMassBody ball(false);
         FUN_00ceba60(radius, sphereMass, &ball);
         cap.properties.inertia = ball.inertia;
         CapsuleMassVector half;
-        half.m = CapsuleMassSimd::_mm_load_ss(&::fnv_00c88020::DAT_01016248);
+        half.m = _mm_load_ss(&::fnv_00c88020::DAT_01016248);
         reinterpret_cast<::S_00cd4c70 *>(&(cap.properties.inertia))->Multiply((*(const ::S_V4 *)(&half)));
         FUN_00cebe80((FUN_00cebe80_Struct*)&cap.properties.center, (float)(sphereMass * 0.5),
                      &cap.properties.inertia.row0.x);
@@ -1729,14 +1659,14 @@ __declspec(noinline) int __cdecl FUN_00ceeca0(const CapsuleMassVector* source, c
         CapsuleMassVector offset;
         offset.set(0.0f, 0.0f, (float)-halfLength);
         offset.FUN_00c7f700(&transform.rotation, &offset);
-        offset.m = CapsuleMassSimd::_mm_add_ps(cap.transform.translation.m, offset.m);
+        offset.m = _mm_add_ps(cap.transform.translation.m, offset.m);
         cap.transform.translation.m = offset.m;
         cap.properties.center.set(0.0f, 0.0f, (float)(radius * DAT_010cbf60));
         CapsuleMassBody ball(false);
         FUN_00ceba60(radius, sphereMass, &ball);
         cap.properties.inertia = ball.inertia;
         CapsuleMassVector half;
-        half.m = CapsuleMassSimd::_mm_load_ss(&::fnv_00c88020::DAT_01016248);
+        half.m = _mm_load_ss(&::fnv_00c88020::DAT_01016248);
         reinterpret_cast<::S_00cd4c70 *>(&(cap.properties.inertia))->Multiply((*(const ::S_V4 *)(&half)));
         FUN_00cebe80((FUN_00cebe80_Struct*)&cap.properties.center, (float)(sphereMass * 0.5),
                      &cap.properties.inertia.row0.x);

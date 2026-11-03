@@ -711,18 +711,18 @@ struct S00d67a50_Context377
 struct S00d67a50_Scalar377
 {
     __m128 v;
-    S00d67a50_Scalar377(float x) : v(::_mm_load_ss(&x))
+    S00d67a50_Scalar377(float x) : v(_mm_load_ss(&x))
     {}
     S00d67a50_Scalar377(__m128 x) : v(x)
     {}
     __m128 all() const
     {
-        return ::_mm_shuffle_ps(v, v, 0);
+        return _mm_shuffle_ps(v, v, 0);
     }
     operator float() const
     {
         float x;
-        ::_mm_store_ss(&x, v);
+        _mm_store_ss(&x, v);
         return x;
     }
 };
@@ -735,27 +735,27 @@ struct S00d67a50_MathVector377
     };
     void sum(const S00d67a50_MathVector377& a, const S00d67a50_MathVector377& b)
     {
-        v = ::_mm_add_ps(a.v, b.v);
+        v = _mm_add_ps(a.v, b.v);
     }
     void difference(const S00d67a50_MathVector377& a, const S00d67a50_MathVector377& b)
     {
-        v = ::_mm_sub_ps(a.v, b.v);
+        v = _mm_sub_ps(a.v, b.v);
     }
     void scale(const S00d67a50_Scalar377& s)
     {
-        v = ::_mm_mul_ps(s.all(), v);
+        v = _mm_mul_ps(s.all(), v);
     }
     S00d67a50_Scalar377 dot(const S00d67a50_MathVector377& b) const
     {
-        __m128 p = ::_mm_mul_ps(v, b.v);
-        __m128 y = ::_mm_shuffle_ps(p, p, 0x55);
-        __m128 z = ::_mm_shuffle_ps(p, p, 0xaa);
-        return S00d67a50_Scalar377(::_mm_add_ss(z, ::_mm_add_ss(y, p)));
+        __m128 p = _mm_mul_ps(v, b.v);
+        __m128 y = _mm_shuffle_ps(p, p, 0x55);
+        __m128 z = _mm_shuffle_ps(p, p, 0xaa);
+        return S00d67a50_Scalar377(_mm_add_ss(z, _mm_add_ss(y, p)));
     }
     void offset(const S00d67a50_MathVector377& base, const S00d67a50_Scalar377& amount,
                 const S00d67a50_MathVector377& direction)
     {
-        v = ::_mm_add_ps(base.v, ::_mm_mul_ps(amount.all(), direction.v));
+        v = _mm_add_ps(base.v, _mm_mul_ps(amount.all(), direction.v));
     }
 };
 inline double abs377(float x)
@@ -775,7 +775,7 @@ void FUN_00d67a50(S00d67a50_Owner377* self, int a2, S00d67a50_Context377* ctx, i
     center.scale(S00d67a50_Scalar377(0.5f));
     extent.difference(*(S00d67a50_MathVector377*)&box.mxx, center);
     S00d67a50_MathVector377 direction;
-    direction.v = (*reinterpret_cast<::__m128 *>(&::DAT_01267e30));
+    direction.v = (*reinterpret_cast<__m128 *>(&::DAT_01267e30));
     int q = i / 3;
     int r = i - q * 3;
     direction.coordinates[r] = 1.0f - 2.0f * (float)q;

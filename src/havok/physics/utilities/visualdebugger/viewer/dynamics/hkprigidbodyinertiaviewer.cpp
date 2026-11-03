@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 
+#include <cstddef>
 #include <intrin.h>
 #include <new>
 #include "fnv/decl/FUN_00ddcc60.h"
@@ -418,7 +419,7 @@ extern "C" D67880MemoryRouter& __cdecl FUN_00c85750();
 
 class D67880ReferencedObject {
 public:
-    static void* operator new(unsigned int nbytes)
+    static void* operator new(size_t nbytes)
     {
         D67880ReferencedObject* b = static_cast<D67880ReferencedObject*>(FUN_00c85750().heap().AllocateMemoryBlock(nbytes));
         b->m_usMemSizeAndFlags = (unsigned short)nbytes;

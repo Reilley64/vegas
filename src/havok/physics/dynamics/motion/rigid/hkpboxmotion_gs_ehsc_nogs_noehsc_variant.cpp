@@ -5,6 +5,7 @@
 
 // src/havok/physics/dynamics/motion/rigid/hkpboxmotion.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/motion/rigid/hkpboxmotion.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <xmmintrin.h>
 #include "fnv/decl/MatrixProduct.h"
 #include "havok/hkpBoxMotion.h"
 struct FUN_00d1e670_StandIn
@@ -17,12 +18,6 @@ struct FUN_00d1e670_StandIn
 
     void FUN_00d1e670(float);
 };
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C" __m128 _mm_setzero_ps(void);
 struct Cls_00d1e7b0
 {
     int unk00;
@@ -79,8 +74,6 @@ struct Cls_00d1e7b0
     void WriteDiagonal(float* pOut);
 };
 
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, int);
 
 struct __declspec(align(16)) Vector4D1E850
 {

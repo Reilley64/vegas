@@ -4,6 +4,8 @@
 
 // src/havok/physics/dynamics/world/simulation/continuous/hkpcontinuoussimulation.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/simulation/continuous/hkpcontinuoussimulation.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstddef>
+#include <xmmintrin.h>
 #include <intrin.h>
 #include <windows.h>
 #include <cmath>
@@ -362,21 +364,6 @@ public:
 
     void RemoveMatchingEntries(ScopeQuery* q);
 };
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128 {
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-    __int32 m128_i32[4];
-    __int64 m128_i64[2];
-    unsigned __int32 m128_u32[4];
-} __m128;
-extern "C" __m128 _mm_mul_ps(__m128 _A, __m128 _B);
-extern "C" __m128 _mm_add_ps(__m128 _A, __m128 _B);
-extern "C" __m128 _mm_sub_ps(__m128 _A, __m128 _B);
-extern "C" __m128 _mm_shuffle_ps(__m128 _A, __m128 _B, unsigned int _Imm8);
-extern "C" __m128 _mm_unpacklo_ps(__m128 _A, __m128 _B);
-extern "C" __m128 _mm_unpackhi_ps(__m128 _A, __m128 _B);
-extern "C" __m128 _mm_movelh_ps(__m128 _A, __m128 _B);
-extern "C" __m128 _mm_movehl_ps(__m128 _A, __m128 _B);
 class hkVector4 {
 public:
     __m128 m_vComponents;
@@ -914,7 +901,7 @@ struct S_00d0d150_CollisionOutput {
     S_00d0d150_ProcessCdPoint m_akContactPoints[256];
     S_00d0d150_ToiInfo m_fTimeOfImpact;
 };
-inline void* __cdecl operator new(unsigned int, void* where) throw() { return where; }
+inline void* __cdecl operator new(size_t, void* where) throw() { return where; }
 template <typename T>
 struct S_00d0d150_Array {
     T* m_data;
@@ -1397,7 +1384,6 @@ void __cdecl ProcessCollisionEvent(void* context, CollisionEvent* event, float d
 // expanded integer AABB into thread-stack local arrays, add them to the 3-axis sweep, then remove duplicate pairs.
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
-extern "C" void _mm_prefetch(char const* p, int hint);
 // "LtBroadPhase"
 extern char DAT_010cd3e8[];
 // "StGatherAabbs"
@@ -3003,7 +2989,6 @@ struct S_00d0e9c0 {
     hkBool FUN_00d0bc20(S_00d0d150_ToiEvent* ev, float* fSubStepTime);
 };
 extern "C" unsigned __int64 __rdtsc();
-extern "C" void _mm_prefetch(const char*, int);
 extern char DAT_010cd3e8[];
 struct ScratchSpan {
     unsigned* start;
@@ -3761,7 +3746,6 @@ int FUN_00d0f300(const Limits& limits,Resources& resources,PairEvent& event,Reso
 template<class T> class ScanPointer {T p;public:__forceinline ScanPointer(){} __forceinline ScanPointer(T q):p(q){} __forceinline void operator=(T q){p=q;} __forceinline operator T()const{return p;} __forceinline T const& val()const{return p;}};
 // Resolve an event and remove obsolete queued events.
 extern "C" unsigned __int64 __rdtsc(void);
-extern "C" __m128 _mm_setzero_ps();
 extern "C" void _ReadWriteBarrier(void);
 extern char DAT_010cd540[];
 extern char DAT_010cd534[];
@@ -4654,11 +4638,6 @@ struct WorkBuf {
     int unk254;
     int unk255;
 };
-extern "C" __m128 _mm_load_ps(const float* p);
-extern "C" void _mm_store_ps(float* p, __m128 a);
-extern "C" __m128 _mm_load_ss(const float* p);
-extern "C" __m128 _mm_sub_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
 struct BodyX {
     int unk00; int unk04; int unk08; int unk0c;
     int unk10; int unk14; int unk18; int unk1c;
@@ -4715,7 +4694,7 @@ struct ObjX {
     int unk128; int unk12c;
     hkVector4 m_130;
     hkVector4 m_140;
-    float getW() const { return m_140.m_vComponents.m128_f32[3]; }
+    float getW() const { return m_140.m_vComponents[3]; }
     int unk150; int unk154; int unk158; int unk15c;
     int unk160; int unk164; int unk168; int unk16c;
     int unk170; int unk174; int unk178; int unk17c;

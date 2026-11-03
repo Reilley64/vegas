@@ -2,6 +2,8 @@
 // src/havok/physics/collide/shape/deprecated/storagemesh/hkpstoragemeshshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/deprecated/storagemesh/hkpstoragemeshshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
+#include <xmmintrin.h>
 #include <new>
 #include "fnv/decl/hkReferencedObjectC905.h"
 #include "fnv/decl/hkpPhysicsSystemD29.h"
@@ -9,18 +11,6 @@
 #include "fnv/symbols_01267000.h"
 #include "havok/hkpStorageMeshShape.h"
 
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-    signed char m128_i8[16];
-    short m128_i16[8];
-    int m128_i32[4];
-    __int64 m128_i64[2];
-    unsigned char m128_u8[16];
-    unsigned short m128_u16[8];
-    unsigned int m128_u32[4];
-} __m128;
 
 class hkVector4D4B
 {
@@ -506,7 +496,7 @@ Derived::Derived()
 
 extern "C" void _ReadWriteBarrier();
 
-inline void* operator new(unsigned int, void* p)
+inline void* operator new(size_t, void* p)
 {
     return p;
 }

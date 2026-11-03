@@ -2,6 +2,8 @@
 // src/havok/physics/dynamics/phantom/hkpaabbphantom.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/phantom/hkpaabbphantom.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
+#include <xmmintrin.h>
 #include <windows.h>
 #include "fnv/decl/C.h"
 #include "fnv/decl/CA92A0Object.h"
@@ -796,7 +798,7 @@ class hkpWorldObjectCF2D
 class FUN_00cf2cb0 : public hkpWorldObjectCF2D
 {
   public:
-    static __forceinline void* operator new(unsigned int uiSize) throw()
+    static __forceinline void* operator new(size_t uiSize) throw()
     {
         hkpWorldObjectCF2D* p = (hkpWorldObjectCF2D*)FUN_00c85750().heap().AllocateMemoryBlock(uiSize);
         p->m_usMemSizeAndFlags = (hkUint16)uiSize;
@@ -876,21 +878,6 @@ FUN_00cf2bf0* FUN_00cf2bf0::DestroyAndFree(unsigned int uiFlags) throw()
 }
 }  // namespace fnv_00cf2f60
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C" __m128 _mm_load_ps(const float*);
-extern "C" void _mm_store_ps(float*, __m128);
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ps(__m128, __m128);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_unpacklo_ps(__m128, __m128);
-extern "C" __m128 _mm_unpackhi_ps(__m128, __m128);
-extern "C" __m128 _mm_movelh_ps(__m128, __m128);
-extern "C" __m128 _mm_movehl_ps(__m128, __m128);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
 
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);

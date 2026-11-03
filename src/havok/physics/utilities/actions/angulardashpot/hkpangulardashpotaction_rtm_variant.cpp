@@ -3,15 +3,11 @@
 
 // src/havok/physics/utilities/actions/angulardashpot/hkpangulardashpotaction.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/actions/angulardashpot/hkpangulardashpotaction.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <xmmintrin.h>
 #include "fnv/decl/C74C20Quat.h"
 #include "fnv/decl/hkpEntityC9C.h"
 #include "fnv/symbols_01017000.h"
 #include "havok/hkpAngularDashpotAction.h"
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 #include "fnv/symbols_simd.h"
 struct hkQuaternionD4DB
 {
@@ -49,27 +45,13 @@ typedef hkReferencedObject DashpotReferencedBaseD4DCB0;
 
 namespace AngularDashpotApplyD4DCB0 {
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    struct
-    {
-        float x, y, z, w;
-    } lanes;
-};
 typedef __m128 DashpotQuadD4DCB0;
 
-extern "C" DashpotQuadD4DCB0 _mm_xor_ps(DashpotQuadD4DCB0 a, DashpotQuadD4DCB0 b);
-extern "C" DashpotQuadD4DCB0 _mm_load_ss(const float* x);
-extern "C" DashpotQuadD4DCB0 _mm_shuffle_ps(DashpotQuadD4DCB0 a, DashpotQuadD4DCB0 b, int n);
 static __forceinline DashpotQuadD4DCB0 splat(const float& x)
 {
     DashpotQuadD4DCB0 t = _mm_load_ss(&x);
     return _mm_shuffle_ps(t, t, 0);
 }
-extern "C" DashpotQuadD4DCB0 _mm_setzero_ps();
-extern "C" DashpotQuadD4DCB0 _mm_mul_ps(DashpotQuadD4DCB0 a, DashpotQuadD4DCB0 b);
-extern "C" DashpotQuadD4DCB0 _mm_add_ps(DashpotQuadD4DCB0 a, DashpotQuadD4DCB0 b);
-extern "C" DashpotQuadD4DCB0 _mm_sub_ps(DashpotQuadD4DCB0 a, DashpotQuadD4DCB0 b);
 
 extern const float DAT_01017d00 = 0.001f;
 
@@ -244,10 +226,10 @@ void S00d4dcb0_DashpotAct_shell::FUN_00d4dcb0(const S00d4dcb0_DashpotInputRec& i
         DashpotQuadD4DCB0 tmp;
     } v;
     S00d4dcb0_FUN_00c66320_shell* __restrict quat = &v.qprod;
-    ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)(quat), (void *)(&bEnt->unk160), (const ::fnv_00c66320::__m128 *)(const ::AngularDashpotApplyD4DCB0::__m128 *)((DashpotQuadD4DCB0*)&m_rotation), {});
+    ::fnv_00c66320::FUN_00c66320((__m128 *)(quat), (void *)(&bEnt->unk160), (const __m128 *)(const __m128 *)((DashpotQuadD4DCB0*)&m_rotation), {});
 
     v.tmp = _mm_xor_ps(v.qprod.m_vec, DashpotNegXY);
-    ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)(quat), (void *)(&aEnt->unk160), (const ::fnv_00c66320::__m128 *)(const ::AngularDashpotApplyD4DCB0::__m128 *)(&v.tmp), {});
+    ::fnv_00c66320::FUN_00c66320((__m128 *)(quat), (void *)(&aEnt->unk160), (const __m128 *)(const __m128 *)(&v.tmp), {});
     v.tmp = _mm_sub_ps(aEnt->unk1C0, bEnt->unk1C0);
 
     float t = reinterpret_cast<::C74C20Quat *>((quat))->GetAngle();

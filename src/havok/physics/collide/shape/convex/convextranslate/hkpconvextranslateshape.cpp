@@ -2,6 +2,7 @@
 // src/havok/physics/collide/shape/convex/convextranslate/hkpconvextranslateshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/convex/convextranslate/hkpconvextranslateshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <xmmintrin.h>
 #include <windows.h>
 #include "fnv/decl/FunctionContext.h"
 #include "fnv/symbols_01268000.h"
@@ -142,14 +143,6 @@ void* FUN_00dd5ea0_class::FUN_00dd5ea0()
     return &unk14;
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C" __m128 _mm_add_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_load_ps(const float*);
-extern "C" void _mm_store_ps(float*, __m128);
 
 struct hkVector4D5F
 {
@@ -212,15 +205,6 @@ void ClsDD5F50::FUN_00dd5f50(const unsigned short* ids, int numIds, hkVector4D5F
 }
 
 namespace fnv_00dd60e0 {
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-    __int32 m128_i32[4];
-    __int64 m128_i64[2];
-    unsigned __int32 m128_u32[4];
-} __m128;
-extern "C" __m128 _mm_sub_ps(__m128 _A, __m128 _B);
 
 extern "C" const char DAT_010d1074[];
 extern "C" const char DAT_010c41f8[];
@@ -350,8 +334,6 @@ HkBoolDD ConvexTranslateDD60::FUN_00dd60e0(const RayInputDD60& input, RayOutputD
 }
 }  // namespace fnv_00dd60e0
 
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, int);
 
 struct FNV_dd6060_Shape
 {

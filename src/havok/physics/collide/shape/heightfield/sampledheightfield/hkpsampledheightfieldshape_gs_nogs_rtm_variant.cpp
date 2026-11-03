@@ -4,6 +4,8 @@
 
 // src/havok/physics/collide/shape/heightfield/sampledheightfield/hkpsampledheightfieldshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/heightfield/sampledheightfield/hkpsampledheightfieldshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstddef>
+#include <xmmintrin.h>
 #include <intrin.h>
 #include <windows.h>
 #include "fnv/symbols_00c98000.h"
@@ -12,8 +14,6 @@
 #include "fnv/symbols_01268000.h"
 #include "havok/hkpSampledHeightFieldShape.h"
 #include "fnv_asm_helpers.h"   // project x87 helpers (fnv_SinCos, fnv_FloatToInt), kept last so earlier code is unchanged
-union __declspec(intrin_type) __declspec(align(16)) __m128 { float m128_f32[4]; unsigned __int64 m128_u64[2]; };
-extern "C" __m128 _mm_load_ps1(const float*);
 struct Cls_00d24670 {
     virtual void v00(); virtual void v04(); virtual void v08(); virtual void v0c();
     virtual void v10(); virtual void v14(); virtual void v18(); virtual void v1c();
@@ -110,7 +110,6 @@ struct Obj {
 
     void FUN_00d26120(Input* input, void* arg2, void* arg3);
 };
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
 __declspec(align(16)) const hkVector4 halfScale = {0.5f, 0.5f, 0.5f, 0.5f};
 struct SampledHeightField : hkpSampledHeightFieldShape {
     virtual void slot01();
@@ -138,7 +137,7 @@ typedef unsigned int hkUint32;
 typedef unsigned long __w64 hkUlong;
 typedef unsigned __int64 hkUint64;
 typedef __int64 hkInt64;
-typedef unsigned __w64 hk_size_t;class FinishingFlag
+typedef size_t hk_size_t;class FinishingFlag
 {
 public:
 FinishingFlag():m_bFinishing(0){}
@@ -189,8 +188,6 @@ return m_kStorage;
 }
 private:
 TYPE m_kStorage;};
-extern "C"{
-}
 template<typename T>
 class hkThreadLocalData
 {
@@ -295,21 +292,6 @@ hkUint16 m_usMemSizeAndFlags;
 public:
 hkReferencedObject_(class FinishingFlag flag){}
 };typedef float hkReal;
-extern "C"{
-extern __m128 _mm_add_ss(__m128 _A,__m128 _B);
-extern __m128 _mm_add_ps(__m128 _A,__m128 _B);
-extern __m128 _mm_sub_ss(__m128 _A,__m128 _B);
-extern __m128 _mm_sub_ps(__m128 _A,__m128 _B);
-extern __m128 _mm_mul_ss(__m128 _A,__m128 _B);
-extern __m128 _mm_mul_ps(__m128 _A,__m128 _B);
-extern __m128 _mm_rsqrt_ss(__m128 _A);
-extern __m128 _mm_andnot_ps(__m128 _A,__m128 _B);
-extern __m128 _mm_cmpeq_ss(__m128 _A,__m128 _B);
-extern __m128 _mm_shuffle_ps(__m128 _A,__m128 _B,unsigned int _Imm8);
-extern __m128 _mm_set_ss(float _A);
-extern int _mm_cvtss_si32(__m128 _A);
-extern __m128 _mm_set_ps1(float _A);
-extern __m128 _mm_load_ss(float const*_A);};
 typedef __m128 hkQuadReal;
 class hkVector4_;
 typedef const hkVector4_&hkVector4Parameter;

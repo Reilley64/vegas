@@ -5,6 +5,7 @@
 
 // src/havok/physics/collide/shape/deprecated/convexpiecemesh/hkpconvexpieceshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/deprecated/convexpiecemesh/hkpconvexpieceshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstddef>
 #include <new>
 #include "fnv/decl/FUN_00cb1600.h"
 #include "fnv/decl/FUN_00cc00e0.h"
@@ -192,7 +193,7 @@ void FNV_Owner::FUN_00e608d0(FNV_V4* pA, FNV_V4* pOut)
 
 extern "C" void __debugbreak();
 
-inline void* operator new(unsigned int, void* p)
+inline void* operator new(size_t, void* p)
 {
     return p;
 }

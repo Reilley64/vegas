@@ -5,6 +5,7 @@
 
 // src/havok/physics/collide/broadphase/3axissweep/hkp3axissweep.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/broadphase/3axissweep/hkp3axissweep.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstddef>
 #include "fnv/decl/FUN_00d06fb0_cls.h"
 #include "fnv/decl/S_00d112c0.h"
 #include "fnv/decl/fnv_00d11650__AxisSweep3.h"
@@ -999,7 +1000,7 @@ struct SweepEndpoint {
     SweepEndpoint() {}
     SweepEndpoint(unsigned short val, unsigned short idx) : m_uiFilterValue(val), m_usIndex(idx) {}
 };
-inline void* operator new(unsigned int, void* p) { return p; }
+inline void* operator new(size_t, void* p) { return p; }
 template <typename T>
 inline void S00d13950_constructWithCopy(T* p, int n, const T& t)
 {
@@ -1660,9 +1661,9 @@ void SweepSpace::FUN_00d16300(const SweepScan& scan, SweepRayCast* rays, int ray
     __m128 node3;
     node3 = _mm_mul_ps(_mm_add_ps(_mm_load_ps(centerOffset), _mm_load_ps(scan.origin)), _mm_load_ps(reciprocalExtent));
     __m128 dist = _mm_setzero_ps();
-    node3 = _mm_min_ps(node3, (*reinterpret_cast<::__m128 *>(&::DAT_011b3790)));
+    node3 = _mm_min_ps(node3, (*reinterpret_cast<__m128 *>(&::DAT_011b3790)));
     node3 = _mm_max_ps(node3, dist);
-    node3 = _mm_add_ps(node3, (*reinterpret_cast<::__m128 *>(&::DAT_011b3770)));
+    node3 = _mm_add_ps(node3, (*reinterpret_cast<__m128 *>(&::DAT_011b3770)));
     _mm_store_ps((float*)sweepKeys, node3);
     SweepKeyValues x = { sweepKeys[0] >> 7, sweepKeys[1] >> 7, sweepKeys[2] >> 7, sweepKeys[3] >> 7 };
     sweepKeys[0] = (unsigned short)x.x;

@@ -2,6 +2,8 @@
 // src/havok/physics/dynamics/world/hkpworld.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/hkpworld.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
+#include <xmmintrin.h>
 #include <intrin.h>
 #include "generated/data/vtables.h"
 #include <windows.h>
@@ -2363,7 +2365,7 @@ void* WorldWatchDogHolder::FUN_00c93570() {
     return m_pMemoryWatchDog;
 }
 
-inline void* __cdecl operator new(unsigned int, void* p) { return p; }
+inline void* __cdecl operator new(size_t, void* p) { return p; }
 inline void __cdecl operator delete(void*, void*) { }
 
 struct hkpPhantom;
@@ -4444,13 +4446,7 @@ void C00c98720::FUN_00c98720(int aiArg0, int aiArg1, int aiArg2, int aiArg3, int
     LeaveCriticalSection(pCS14);
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128 {
-    float m128_f32[4];
-};
 
-extern "C" __m128 __cdecl _mm_setzero_ps(void);
-extern "C" __m128 __cdecl _mm_add_ps(__m128 a, __m128 b);
-extern "C" __m128 __cdecl _mm_sub_ps(__m128 a, __m128 b);
 
 struct FUN_00c986c0_Obj {
 };
@@ -7859,7 +7855,7 @@ public:
     unsigned short m_usMemSizeAndFlags;
     short m_sReferenceCount;
 
-    static void* operator new(unsigned int nbytes)
+    static void* operator new(size_t nbytes)
     {
         hkRefObjC97E* b = static_cast<hkRefObjC97E*>(hkRouterC97E::FUN_00c85750().heap().AllocateMemoryBlock(nbytes));
         b->m_usMemSizeAndFlags = (unsigned short)nbytes;
@@ -8306,7 +8302,7 @@ struct CFB240ContactMgrFactory {
     virtual ~CFB240ContactMgrFactory();
     unsigned short m_usMemSizeAndFlags;
     short m_sReferenceCount;
-    void* operator new(unsigned int n) {
+    void* operator new(size_t n) {
         CFB240ContactMgrFactory* b = static_cast<CFB240ContactMgrFactory*>(c912::router()->heap().AllocateMemoryBlock(n));
         b->m_usMemSizeAndFlags = (unsigned short)n;
         return b;
@@ -9190,9 +9186,6 @@ CollisionObject* volatile probeObject;
 CollisionFilter* volatile probeFilter;
 void probeOverlapCaller() { SyncOverlap(probePhantom, probeObject, probeFilter); }
 
-extern "C" __m128 __cdecl _mm_mul_ps(__m128, __m128);
-extern "C" __m128 __cdecl _mm_add_ss(__m128, __m128);
-extern "C" __m128 __cdecl _mm_shuffle_ps(__m128, __m128, int);
 
 struct RotationInput {
     __m128 translation;
@@ -9230,7 +9223,6 @@ void RotationOwner::ApplyRotation(const RotationInput* transform, const __m128* 
     reinterpret_cast<::FUN_00c98820_Class *>(this)->FUN_00c98820((void *)(&worldPosition), (void *)(&worldDirection), (void *)(a), (void *)(b), (void *)(c));
 }
 
-extern "C" __m128 __cdecl _mm_setr_ps(float, float, float, float);
 
 struct hkTransformC997;
 
@@ -9748,7 +9740,7 @@ struct FUN_00d065e0 {
     unsigned char active;
     unsigned char unk41, unk42, unk43;
     FUN_00d065e0() throw();
-    static void* operator new(unsigned int size)
+    static void* operator new(size_t size)
     {
         MatchRouter* router = (MatchRouter*)::FUN_00c85750();
         FUN_00d065e0* memory = (FUN_00d065e0*)router->heap->allocate(size);
@@ -11706,7 +11698,7 @@ typedef float TF32; typedef double TD64; typedef signed char TC; typedef signed 
 typedef signed short TI16; typedef signed int TI32; typedef unsigned char TU; typedef unsigned char TU8;
 typedef unsigned short TU16; typedef unsigned int TU32; typedef unsigned long __w64 TU1; typedef signed long __w64 TL;
 typedef void*Tvl; enum TR1{ KS=0,KF=1} ;
-typedef unsigned __int64 TU64; typedef __int64 TI64; typedef long TST2; typedef unsigned __w64 TS4;
+typedef unsigned __int64 TU64; typedef __int64 TI64; typedef long TST2; typedef size_t TS4;
 typedef TU16 TOI; typedef TR TT; __forceinline TL __cdecl TGBO(const void*base,const void*pntr)throw(){ return TL(pntr)-TL(base);
 } template<typename TYPE>__forceinline TYPE*__cdecl TABO(TYPE*base,TL offset)throw(){ return reinterpret_cast<TYPE*>(reinterpret_cast<char*>(base)+offset); }
 class TFLOF{ public:TFLOF()throw():vf1(0){ } int vf1;
@@ -12622,7 +12614,7 @@ public:
     int unk28;
     int unk2C;
 
-    static void* operator new(unsigned int nbytes)
+    static void* operator new(size_t nbytes)
     {
         hkReferencedObject* b = static_cast<hkReferencedObject*>(FUN_00c85750().heap().AllocateMemoryBlock(nbytes));
         b->m_usMemSizeAndFlags = (unsigned short)nbytes;
@@ -12674,7 +12666,7 @@ typedef float hkReal_S;
 typedef signed short hkInt16_S;
 typedef unsigned short hkUint16_S;
 typedef unsigned long __w64 hkUlong_S;
-typedef unsigned __w64 hk_size_t;class FinishingFlag
+typedef size_t hk_size_t;class FinishingFlag
 {
 public:
 FinishingFlag():m_bFinishing(0){}
@@ -12789,15 +12781,6 @@ __forceinline hkArray_S(const hkArray_S&a);
 public:
 __forceinline hkArray_S&operator=(const HavokElementArray<T>&a);};
 
-extern "C"{
-extern __m128 _mm_add_ss(__m128 _A,__m128 _B);
-extern __m128 _mm_add_ps(__m128 _A,__m128 _B);
-extern __m128 _mm_sub_ps(__m128 _A,__m128 _B);
-extern __m128 _mm_mul_ps(__m128 _A,__m128 _B);
-extern __m128 _mm_sqrt_ss(__m128 _A);
-extern __m128 _mm_unpackhi_ps(__m128 _A,__m128 _B);
-extern __m128 _mm_setr_ps(float _A,float _B,float _C,float _D);
-extern void _mm_store_ss(float*_V,__m128 _A);};
 typedef __m128 hkQuadReal;
 class hkVector4_S;
 typedef const hkVector4_S&hkVector4Parameter;
@@ -13133,7 +13116,7 @@ boneLen=(boneLen>10.0f)? 10.0f:boneLen;
 boneLen=(boneLen<0.1f)? 0.1f:boneLen;
 }
 const hkVector4_S worldPosition=p1;
-hkQuaternion_S worldRotation;::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(worldRotation), (void *)&(worldFromModel.getRotation()),(const ::fnv_00c66320::__m128 *)&(modelSpacePose[i].getRotation()), {});
+hkQuaternion_S worldRotation;::fnv_00c66320::FUN_00c66320((__m128 *)&(worldRotation), (void *)&(worldFromModel.getRotation()),(const __m128 *)&(modelSpacePose[i].getRotation()), {});
 {
 hkVector4_S boneLocalFrame;
 hkVector4_S p2;
@@ -13156,8 +13139,6 @@ reinterpret_cast<::hkpListenerListC98B *>(this)->FUN_00c986c0((int)&(p1),(int)&(
 }
 }
 
-extern "C" __m128 __cdecl _mm_mul_ps(__m128 a, __m128 b);
-extern "C" __m128 __cdecl _mm_add_ss(__m128 a, __m128 b);
 
 
 class hkQuaternionDAD;
@@ -13213,7 +13194,7 @@ public:
         hkVector4DAD temp;
         temp.SetRotatedDirection(t1.m_rotation, t2.m_vTranslation);
         m_vTranslation.setAdd4(temp, t1.m_vTranslation);
-        ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(m_rotation), (void *)&(t1.m_rotation), (const ::fnv_00c66320::__m128 *)&(t2.m_rotation), {});
+        ::fnv_00c66320::FUN_00c66320((__m128 *)&(m_rotation), (void *)&(t1.m_rotation), (const __m128 *)&(t2.m_rotation), {});
         m_vScale.setMul4(t1.m_vScale, t2.m_vScale);
     }
 
@@ -13463,7 +13444,7 @@ class hkpLimitedHingeConstraintData : public hkpConstraintData {
 public:
  HingeAtoms atoms;
  hkpLimitedHingeConstraintData();
- static void* operator new(unsigned int size) {void* p=FUN_00c85750()->heap().AllocateMemoryBlock(size); static_cast<hkReferencedObject*>(p)->m_usMemSizeAndFlags=(unsigned short)size;return p;}
+ static void* operator new(size_t size) {void* p=FUN_00c85750()->heap().AllocateMemoryBlock(size); static_cast<hkReferencedObject*>(p)->m_usMemSizeAndFlags=(unsigned short)size;return p;}
  static void operator delete(void* p) {FUN_00c85750()->heap().ReleaseBlock(p,0xe0);}
 };
 class LimitedHingeWrapper {
@@ -13673,7 +13654,7 @@ public:
 
 class bhkRefObject {
 public:
-    static void* operator new(unsigned int size) { return FUN_00aa13e0(size); }
+    static void* operator new(size_t size) { return FUN_00aa13e0(size); }
     const void* m_vtbl;
     unsigned int unk04;
     unsigned int unk08;
@@ -14226,8 +14207,8 @@ struct Disp_00c98c80 {
 // @fnv 0x00c98c80
 void Disp_00c98c80::FUN_00c98c80(const Aabb_00c98c80* box, int p2, int p3, int p4)
 {
-    const float* pMin = box->m_kMinimumCorner.m_vComponents.m128_f32;
-    const float* pMax = box->m_kMaximumCorner.m_vComponents.m128_f32;
+    const float* pMin = reinterpret_cast<float*>(&box->m_kMinimumCorner.m_vComponents);
+    const float* pMax = reinterpret_cast<float*>(&box->m_kMaximumCorner.m_vComponents);
     Line_00c98c80 aabbEdges[12];
     aabbEdges[0].a.set(pMin[0], pMin[1], pMin[2], DAT_01011d78);
     aabbEdges[0].b.set(pMin[0], pMax[1], pMin[2], DAT_01011d78);
@@ -14329,7 +14310,7 @@ class hkReferencedObjectCAA {
 public:
     virtual ~hkReferencedObjectCAA();
 
-    void* operator new(unsigned int nbytes)
+    void* operator new(size_t nbytes)
     {
         hkReferencedObjectCAA* b = static_cast<hkReferencedObjectCAA*>(((hkMemoryRouterCAA*)FUN_00c85750())->heap().AllocateMemoryBlock(nbytes));
         b->m_usMemSizeAndFlags = static_cast<unsigned short>(nbytes);

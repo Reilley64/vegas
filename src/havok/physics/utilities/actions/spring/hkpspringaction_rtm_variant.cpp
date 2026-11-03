@@ -4,6 +4,7 @@
 
 // src/havok/physics/utilities/actions/spring/hkpspringaction.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/actions/spring/hkpspringaction.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <xmmintrin.h>
 #include "fnv/decl/FUN_00c7f690_cls.h"
 #include "fnv/decl/hkpEntityC9C.h"
 #include "fnv/symbols_01013000.h"
@@ -113,17 +114,6 @@ struct FUN_00d4d340 : FUN_00cf4d80
 {
     FUN_00d4d340(void* a, void* b, unsigned long c);
 };
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_sub_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_add_ss(__m128 a, __m128 b);
-extern "C" __m128 _mm_sqrt_ss(__m128 a);
-extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
-extern "C" void _mm_store_ss(float* p, __m128 a);
 struct hkSimdRealD4D3
 {
     __m128 m_vValue;
@@ -186,8 +176,6 @@ class hkpStiffSpringWrapperD4D3 : public hkBaseObjectD4D3
     float m_fSpringRestLength;
 };
 
-extern "C" void _mm_store_ps(float*, __m128);
-extern "C" __m128 _mm_load_ps1(const float*);
 struct __declspec(align(16)) SpringVector
 {
     __m128 q;
@@ -276,19 +264,16 @@ static float SpringDot3(__m128 a, __m128 b)
     _mm_store_ss(&r, dot3(a, b));
     return r;
 }
-extern "C" __m128 _mm_set_ss(float);
 static __m128 SpringSplat(float v)
 {
     __m128 s = _mm_set_ss(v);
     return _mm_shuffle_ps(s, s, 0);
 }
-extern "C" __m128 _mm_load_ss(const float*);
 static __m128 SpringSplatRef(const float& v)
 {
     __m128 s = _mm_load_ss(&v);
     return _mm_shuffle_ps(s, s, 0);
 }
-extern "C" __m128 _mm_set_ps1(float);
 static __m128 SpringSplatMem(float v)
 {
     __m128 s = _mm_load_ss(&v);

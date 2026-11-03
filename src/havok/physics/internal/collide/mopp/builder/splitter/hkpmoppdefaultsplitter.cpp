@@ -2,6 +2,8 @@
 // src/havok/physics/internal/collide/mopp/builder/splitter/hkpmoppdefaultsplitter.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/physics/internal/collide/mopp/builder/splitter/hkpmoppdefaultsplitter.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
+#include <xmmintrin.h>
 #include <cmath>
 #include "fnv/decl/SortedList.h"
 #include "fnv/decl/TimedEntryCollection.h"
@@ -523,12 +525,6 @@ NodeE0A* NodePoolE0A::PopNode()
     return node;
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C" __m128 _mm_xor_ps(__m128, __m128);
 
 struct FUN_00e0a950_E
 {
@@ -732,7 +728,7 @@ __forceinline void quickSortItems(SplitItem* items, int numItems)
     quickSortItems(items, numItems, SplitLess());
 }
 
-__forceinline void* __cdecl operator new(unsigned int, void* p)
+__forceinline void* __cdecl operator new(size_t, void* p)
 {
     return p;
 }

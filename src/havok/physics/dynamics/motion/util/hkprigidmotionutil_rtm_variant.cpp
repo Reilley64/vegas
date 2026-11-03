@@ -4,6 +4,7 @@
 // src/havok/physics/dynamics/motion/util/hkprigidmotionutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/motion/util/hkprigidmotionutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <xmmintrin.h>
 #include "fnv/decl/CD4BA0Matrix3.h"
 #include "fnv/decl/FUN_004b4ab0_Class.h"
 #include "fnv/decl/FUN_005611c0_t.h"
@@ -13,21 +14,6 @@
 #include "fnv/symbols_010ce000.h"
 #include "fnv/symbols_01268000.h"
 extern "C" void _ReadWriteBarrier();
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-} __m128;
-extern "C"
-{
-    __m128 _mm_set1_ps(float);
-    __m128 _mm_load_ss(const float*);
-    __m128 _mm_load_ps(const volatile float*);
-    __m128 _mm_shuffle_ps(__m128, __m128, int);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_setzero_ps();
-}
 
 static __forceinline __m128 broadcast(float f)
 {
@@ -300,30 +286,7 @@ TargetItem* __cdecl FUN_00d29830(ContextA0* a0, SourceItem** a1, int a2, int a3,
 
 #include <math.h>
 namespace ApplyAccumulatorsPrivate {
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-} __m128;
 
-extern "C"
-{
-    __m128 _mm_load_ss(const float*);
-    void _mm_store_ss(float*, __m128);
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_rcp_ps(__m128);
-    __m128 _mm_shuffle_ps(__m128, __m128, int);
-    __m128 _mm_and_ps(__m128, __m128);
-    __m128 _mm_cmplt_ps(__m128, __m128);
-    __m128 _mm_cmpeq_ps(__m128, __m128);
-    int _mm_movemask_ps(__m128);
-    __m128 _mm_unpacklo_ps(__m128, __m128);
-    __m128 _mm_unpackhi_ps(__m128, __m128);
-    __m128 _mm_movelh_ps(__m128, __m128);
-    __m128 _mm_movehl_ps(__m128, __m128);
-}
 
 typedef float hkReal;
 typedef float hkTime;
@@ -672,7 +635,7 @@ class hkTransform
     }
     static __forceinline const hkTransform& GetIdentityTransform()
     {
-        return reinterpret_cast<const hkTransform&>((*reinterpret_cast<const ApplyAccumulatorsPrivate::__m128 (*)[4]>(&::DAT_01268370)));
+        return reinterpret_cast<const hkTransform&>((*reinterpret_cast<const __m128 (*)[4]>(&::DAT_01268370)));
     }
     hkRotation m_rotation;
     hkVector4 m_vTranslation;
@@ -937,7 +900,7 @@ __forceinline void _stepMotionState(const hkStepInfo& info, hkVector4& linearVel
         absAng.setAbs4(angularVelocity);
 
         hkVector4 maxVel;
-        maxVel.getQuad() = (*reinterpret_cast<const ::ApplyAccumulatorsPrivate::__m128 *>(&::ApplyForcesStepPrivate::DAT_010cbf80));
+        maxVel.getQuad() = (*reinterpret_cast<const __m128 *>(&::ApplyForcesStepPrivate::DAT_010cbf80));
         int mask = absLin.compareLessThan4(maxVel).GetLaneMask() & absAng.compareLessThan4(maxVel).GetLaneMask();
         mask &= linearVelocity.compareEqual4(linearVelocity).GetLaneMask() &
                 angularVelocity.compareEqual4(angularVelocity).GetLaneMask();
@@ -991,7 +954,7 @@ __forceinline void _stepMotionState(const hkStepInfo& info, hkVector4& linearVel
             dq.m_vec(3) = w;
         }
 
-        ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(newRotation), (void *)&(dq), (const ::fnv_00c66320::__m128 *)&(newRotation), {});
+        ::fnv_00c66320::FUN_00c66320((__m128 *)&(newRotation), (void *)&(dq), (const __m128 *)&(newRotation), {});
         newRotation.normalize();
 
         motionState.m_kDeltaAngle.setAdd4(dq.m_vec, dq.m_vec);
@@ -1087,7 +1050,7 @@ static __forceinline int hkRigidMotionUtilCheckDeactivation(const ConstraintSolv
             pos.zeroElement(3);
             refPosition = pos;
         }
-        refOrientation = ::PackFloatsToUInt((const ::__m128 *)&(currentRotation.m_vec));
+        refOrientation = ::PackFloatsToUInt((const __m128 *)&(currentRotation.m_vec));
     }
 END_OF_FUNCTION:
     return MathUtilities::max2(motion.getNumInactiveFrames(0), motion.getNumInactiveFrames(1));
@@ -1171,27 +1134,6 @@ extern "C" int __cdecl FUN_00d29bf0(const ConstraintSolverInfo& solverInfo, cons
 #include "fnv/symbols_simd.h"
 namespace ApplyForcesStepPrivate {
 extern "C" void _ReadWriteBarrier(void);
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-} __m128;
-extern "C"
-{
-    __m128 _mm_load_ss(const float*);
-    __m128 _mm_load_ps(const volatile float*);
-    void _mm_store_ps(float*, __m128);
-    void _mm_store_ss(float*, __m128);
-    __m128 _mm_shuffle_ps(__m128, __m128, int);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_and_ps(__m128, __m128);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_cmplt_ps(__m128, __m128);
-    __m128 _mm_cmpeq_ps(__m128, __m128);
-    __m128 _mm_rcp_ps(__m128);
-    int _mm_movemask_ps(__m128);
-}
 
 struct Vec
 {
@@ -1419,7 +1361,7 @@ static __forceinline void integrateMotion(Motion* motion, const TimeInterval* st
         float fourth = h * h;
         angle.w = (float)((1.0 - ((double)0.822948f) * h - DAT_010ce4a0 * fourth) - (h * DAT_010ce498) * fourth);
     }
-    ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(rotation), &angle, (const ::fnv_00c66320::__m128 *)(::ApplyForcesStepPrivate::Vec4f *)(&rotation), {});
+    ::fnv_00c66320::FUN_00c66320((__m128 *)&(rotation), &angle, (const __m128 *)(::ApplyForcesStepPrivate::Vec4f *)(&rotation), {});
     reinterpret_cast<::FUN_005611c0_t *>(&(rotation))->FUN_005611c0();
     s->deltaAngle.quad = _mm_add_ps(angle.q(), angle.q());
     ((float*)&s->deltaAngle)[3] = (float)((float)sqrt(halfSquare) * 3.1415927410125732);
@@ -1568,7 +1510,7 @@ extern "C" int __cdecl FUN_00d28a30(Ref<const SolverInfo> info, const TimeInterv
                     << 7;
                 Vec4f center = *(Vec4f*)&motion->state.sweep.center;
                 reference->quad = _mm_and_ps(center.q(), DAT_010cbfc0.quad);
-                motion->referenceOrientation[which] = ::PackFloatsToUInt((const ::__m128 *)(rotation));
+                motion->referenceOrientation[which] = ::PackFloatsToUInt((const __m128 *)(rotation));
             }
             else
             {

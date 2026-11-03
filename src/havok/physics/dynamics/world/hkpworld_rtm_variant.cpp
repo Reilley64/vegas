@@ -4,6 +4,8 @@
 
 // src/havok/physics/dynamics/world/hkpworld.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/hkpworld.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstddef>
+#include <xmmintrin.h>
 #include <intrin.h>
 #include "generated/data/vtables.h"
 #include <windows.h>
@@ -1587,7 +1589,7 @@ static __forceinline void SaveBlob(ObjectWriter* writer,char* name,void* address
 struct WorldWatchDogHolder : hkpWorld {
     void* FUN_00c93570();
 };
-inline void* __cdecl operator new(unsigned int, void* p) { return p; }
+inline void* __cdecl operator new(size_t, void* p) { return p; }
 inline void __cdecl operator delete(void*, void*) { }
 struct hkpPhantom;
 struct ThreadMemHolder {
@@ -1901,12 +1903,6 @@ struct C00c98720 {
 
     void FUN_00c98720(int a, int b, int c, int d, int e, int f);
 };
-union __declspec(intrin_type) __declspec(align(16)) __m128 {
-    float m128_f32[4];
-};
-extern "C" __m128 __cdecl _mm_setzero_ps(void);
-extern "C" __m128 __cdecl _mm_add_ps(__m128 a, __m128 b);
-extern "C" __m128 __cdecl _mm_sub_ps(__m128 a, __m128 b);
 struct FUN_00c986c0_Obj {
 };
 struct FUN_00c98b60_Class {
@@ -4186,7 +4182,7 @@ public:
     unsigned short m_usMemSizeAndFlags;
     short m_sReferenceCount;
 
-    static void* operator new(unsigned int nbytes)
+    static void* operator new(size_t nbytes)
     {
         hkRefObjC97E* b = static_cast<hkRefObjC97E*>(hkRouterC97E::FUN_00c85750().heap().AllocateMemoryBlock(nbytes));
         b->m_usMemSizeAndFlags = (unsigned short)nbytes;
@@ -4417,7 +4413,7 @@ struct CFB240ContactMgrFactory {
     virtual ~CFB240ContactMgrFactory();
     unsigned short m_usMemSizeAndFlags;
     short m_sReferenceCount;
-    void* operator new(unsigned int n) {
+    void* operator new(size_t n) {
         CFB240ContactMgrFactory* b = static_cast<CFB240ContactMgrFactory*>(c912::router()->heap().AllocateMemoryBlock(n));
         b->m_usMemSizeAndFlags = (unsigned short)n;
         return b;
@@ -5165,9 +5161,6 @@ PhantomInterface* volatile probePhantom;
 CollisionObject* volatile probeObject;
 CollisionFilter* volatile probeFilter;
 void probeOverlapCaller();
-extern "C" __m128 __cdecl _mm_mul_ps(__m128, __m128);
-extern "C" __m128 __cdecl _mm_add_ss(__m128, __m128);
-extern "C" __m128 __cdecl _mm_shuffle_ps(__m128, __m128, int);
 struct RotationInput {
     __m128 translation;
     __m128 rotation;
@@ -5178,7 +5171,6 @@ struct VectorTemporary {
 struct RotationOwner {
     void ApplyRotation(const RotationInput*, const __m128*, const __m128*, int, int, int);
 };
-extern "C" __m128 __cdecl _mm_setr_ps(float, float, float, float);
 struct hkTransformC997;
 struct __declspec(align(16)) hkVector4C997 {
     float x, y, z, w;
@@ -5549,7 +5541,7 @@ struct FUN_00d065e0 {
     unsigned char active;
     unsigned char unk41, unk42, unk43;
     FUN_00d065e0() throw();
-    static void* operator new(unsigned int size)
+    static void* operator new(size_t size)
     {
         MatchRouter* router = (MatchRouter*)::FUN_00c85750();
         FUN_00d065e0* memory = (FUN_00d065e0*)router->heap->allocate(size);
@@ -6325,7 +6317,7 @@ enum TR1{ KS=0,KF=1} ;
 typedef unsigned __int64 TU64;
 typedef __int64 TI64;
 typedef long TST2;
-typedef unsigned __w64 TS4;
+typedef size_t TS4;
 typedef TU16 TOI;
 typedef TR TT;
 __forceinline TL __cdecl TGBO(const void*base,const void*pntr)throw(){ return TL(pntr)-TL(base);
@@ -7578,7 +7570,7 @@ typedef float hkReal_S;
 typedef signed short hkInt16_S;
 typedef unsigned short hkUint16_S;
 typedef unsigned long __w64 hkUlong_S;
-typedef unsigned __w64 hk_size_t;
+typedef size_t hk_size_t;
 class FinishingFlag
 {
 public:
@@ -7696,15 +7688,6 @@ typedef Allocator_S AllocatorType;protected:
 __forceinline hkArray_S(const hkArray_S&a);
 public:
 __forceinline hkArray_S&operator=(const HavokElementArray<T>&a);};
-extern "C"{
-extern __m128 _mm_add_ss(__m128 _A,__m128 _B);
-extern __m128 _mm_add_ps(__m128 _A,__m128 _B);
-extern __m128 _mm_sub_ps(__m128 _A,__m128 _B);
-extern __m128 _mm_mul_ps(__m128 _A,__m128 _B);
-extern __m128 _mm_sqrt_ss(__m128 _A);
-extern __m128 _mm_unpackhi_ps(__m128 _A,__m128 _B);
-extern __m128 _mm_setr_ps(float _A,float _B,float _C,float _D);
-extern void _mm_store_ss(float*_V,__m128 _A);}
 ;
 typedef __m128 hkQuadReal;
 class hkVector4_S;
@@ -8008,8 +7991,6 @@ protected:
 hkArray_S<hkDebugDisplayHandler*>m_kDebugDisplayHandlers;
 mutable class PhysicsSimulationContext*m_pPhysicsSimulationContext;
 };
-extern "C" __m128 __cdecl _mm_mul_ps(__m128 a, __m128 b);
-extern "C" __m128 __cdecl _mm_add_ss(__m128 a, __m128 b);
 class hkQuaternionDAD;
 class __declspec(align(16)) hkVector4DAD {
 public:
@@ -8059,7 +8040,7 @@ public:
         hkVector4DAD temp;
         temp.SetRotatedDirection(t1.m_rotation, t2.m_vTranslation);
         m_vTranslation.setAdd4(temp, t1.m_vTranslation);
-        ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(m_rotation), (void *)&(t1.m_rotation), (const ::fnv_00c66320::__m128 *)&(t2.m_rotation), {});
+        ::fnv_00c66320::FUN_00c66320((__m128 *)&(m_rotation), (void *)&(t1.m_rotation), (const __m128 *)&(t2.m_rotation), {});
         m_vScale.setMul4(t1.m_vScale, t2.m_vScale);
     }
 
@@ -8273,7 +8254,7 @@ public:
 };
 class bhkRefObject {
 public:
-    static void* operator new(unsigned int size) { return FUN_00aa13e0(size); }
+    static void* operator new(size_t size) { return FUN_00aa13e0(size); }
     const void* m_vtbl;
     unsigned int unk04;
     unsigned int unk08;
@@ -8649,7 +8630,7 @@ class hkReferencedObjectCAA {
 public:
     virtual ~hkReferencedObjectCAA();
 
-    void* operator new(unsigned int nbytes)
+    void* operator new(size_t nbytes)
     {
         hkReferencedObjectCAA* b = static_cast<hkReferencedObjectCAA*>(((hkMemoryRouterCAA*)FUN_00c85750())->heap().AllocateMemoryBlock(nbytes));
         b->m_usMemSizeAndFlags = static_cast<unsigned short>(nbytes);
@@ -9082,15 +9063,6 @@ int WorldFinishEntryC91C::FUN_00c91c00(void* queue, void* pool)
     return 0;
 }
 
-extern "C" {
-    __m128 __cdecl _mm_load_ps(float const*);
-    __m128 __cdecl _mm_load_ss(float const*);
-    void __cdecl _mm_store_ps(float*, __m128);
-    __m128 __cdecl _mm_mul_ps(__m128, __m128);
-    __m128 __cdecl _mm_add_ss(__m128, __m128);
-    __m128 __cdecl _mm_and_ps(__m128, __m128);
-    __m128 __cdecl _mm_rsqrt_ss(__m128);
-}
 
 
 __declspec(align(16)) struct V4 {
@@ -9137,10 +9109,6 @@ struct PlaneDraw {
 };
 
 struct TierQuotientCtor { double denominator; float threshold; __forceinline float value() const { return denominator/threshold; } };
-extern "C" ::hkQuadReal (_mm_load_ps)(const float*);
-extern "C" void (_mm_store_ps)(float*,::hkQuadReal);
-extern "C" ::hkQuadReal (_mm_load_ss)(const float*);
-extern "C" ::hkQuadReal (_mm_xor_ps)(::hkQuadReal,::hkQuadReal);
 extern "C" void __debugbreak();
 struct WorldCtor;
 struct ObjectCtor;
@@ -9313,7 +9281,7 @@ struct CollisionInputCtor {
     unsigned short unk6e;
     ManifoldCtor* manifold;
     int unk74,unk78,unk7c;
-    static void* operator new(unsigned int n) { return worldAlloc(n); }
+    static void* operator new(size_t n) { return worldAlloc(n); }
     CollisionInputCtor() { unk64=0;unk04=0; }
 };
 
@@ -9563,14 +9531,14 @@ struct BuildConfigCtor {
     unsigned char multithread,quality,contacts,weld;
 };
 static __forceinline float length3(::hkQuadReal v) {
-    ::hkQuadReal square=(::_mm_mul_ps)(v,v);
-    ::hkQuadReal y=(::_mm_shuffle_ps)(square,square,0x55);
-    ::hkQuadReal z=(::_mm_shuffle_ps)(square,square,0xaa);
-    y=(::_mm_add_ss)(y,square);
-    z=(::_mm_add_ss)(z,y);
-    z=(::_mm_sqrt_ss)(z);
+    ::hkQuadReal square=_mm_mul_ps(v,v);
+    ::hkQuadReal y=_mm_shuffle_ps(square,square,0x55);
+    ::hkQuadReal z=_mm_shuffle_ps(square,square,0xaa);
+    y=_mm_add_ss(y,square);
+    z=_mm_add_ss(z,y);
+    z=_mm_sqrt_ss(z);
     float result;
-    (::_mm_store_ss)(&result,z);
+    _mm_store_ss(&result,z);
     return result;
 }
 static __forceinline void initArray(RawArrayCtor& a) {
@@ -9874,19 +9842,19 @@ WorldCtor* WorldCtor::FUN_00c95a80(WorldInfoCtor* info, int version) {
     in->unk14=0;
     in->agents=&((DispatcherCtor*)in->dispatcher)->agents;
     setRange(in->range,0.0f,0.0f);
-    ::hkQuadReal extent=(::_mm_sub_ps)(info->maximum,info->minimum);
-    float inverseX=1.0f/extent.m128_f32[0];
-    float inverseY=1.0f/extent.m128_f32[1];
-    float inverseZ=1.0f/extent.m128_f32[2];
-    in->scale=(::_mm_mul_ps)((::_mm_setr_ps)(inverseX,inverseY,inverseZ,0.0f),(::_mm_shuffle_ps)((_mm_load_ss)(&DAT_010c6844),(_mm_load_ss)(&DAT_010c6844),0));
-    in->offset=(_mm_xor_ps)(info->minimum,::DAT_010c44d0);
-    ::hkQuadReal scalarCoeff=(_mm_load_ss)(&DAT_010c6840);
-    ::hkQuadReal splatCoeff=(::_mm_shuffle_ps)(scalarCoeff,scalarCoeff,0);
-    (_mm_store_ps)(&in->extent.m128_f32[0],(::_mm_add_ps)((::_mm_mul_ps)(splatCoeff,extent),in->offset));
-    ::hkQuadReal zero=(::_mm_setzero_ps)();
-    in->scale=(::_mm_shuffle_ps)(in->scale,(::_mm_unpackhi_ps)(in->scale,zero),0xc4);
-    ::hkQuadReal voffset=(_mm_load_ps)(&in->offset.m128_f32[0]); (_mm_store_ps)(&in->offset.m128_f32[0],(::_mm_shuffle_ps)(voffset,(::_mm_unpackhi_ps)(voffset,zero),0xc4));
-    (_mm_store_ps)(&in->extent.m128_f32[0],(::_mm_shuffle_ps)(in->extent,(::_mm_unpackhi_ps)(in->extent,zero),0xc4));
+    ::hkQuadReal extent=_mm_sub_ps(info->maximum,info->minimum);
+    float inverseX=1.0f/extent[0];
+    float inverseY=1.0f/extent[1];
+    float inverseZ=1.0f/extent[2];
+    in->scale=_mm_mul_ps(_mm_setr_ps(inverseX,inverseY,inverseZ,0.0f),_mm_shuffle_ps(_mm_load_ss(&DAT_010c6844),_mm_load_ss(&DAT_010c6844),0));
+    in->offset=_mm_xor_ps(info->minimum,::DAT_010c44d0);
+    ::hkQuadReal scalarCoeff=_mm_load_ss(&DAT_010c6840);
+    ::hkQuadReal splatCoeff=_mm_shuffle_ps(scalarCoeff,scalarCoeff,0);
+    _mm_store_ps(&in->extent[0],_mm_add_ps(_mm_mul_ps(splatCoeff,extent),in->offset));
+    ::hkQuadReal zero=_mm_setzero_ps();
+    in->scale=_mm_shuffle_ps(in->scale,_mm_unpackhi_ps(in->scale,zero),0xc4);
+    ::hkQuadReal voffset=_mm_load_ps(&in->offset[0]); _mm_store_ps(&in->offset[0],_mm_shuffle_ps(voffset,_mm_unpackhi_ps(voffset,zero),0xc4));
+    _mm_store_ps(&in->extent[0],_mm_shuffle_ps(in->extent,_mm_unpackhi_ps(in->extent,zero),0xc4));
     broadphase->vtable->vf70(broadphase,&in->offset,&in->extent,&in->scale);
     WorldCtorFactorySetup::RegisterContactMgrFactories((::CFB240Dispatcher*)dispatcher,this);
     if(DAT_012681dc) info->simulationType=3;
@@ -9969,26 +9937,18 @@ WorldCtor* WorldCtor::FUN_00c95a80(WorldInfoCtor* info, int version) {
 
 namespace ArrowHeadRatios {extern const float DAT_010c69c4=0.14999997615814208984375f; extern const float DAT_010c69c0=-0.14999997615814208984375f;}
 namespace ArrowLengthLimit { extern const float DAT_0104da4c = 1.1920928955078125e-7f; }
-extern "C" ::hkQuadReal __cdecl _mm_load_ps(const float*);
-extern "C" ::hkQuadReal __cdecl _mm_sub_ss(::hkQuadReal,::hkQuadReal);
-extern "C" ::hkQuadReal __cdecl _mm_mul_ss(::hkQuadReal,::hkQuadReal);
-extern "C" ::hkQuadReal __cdecl _mm_cmpeq_ss(::hkQuadReal,::hkQuadReal);
-extern "C" ::hkQuadReal __cdecl _mm_andnot_ps(::hkQuadReal,::hkQuadReal);
-extern "C" ::hkQuadReal __cdecl _mm_rsqrt_ss(::hkQuadReal);
-extern "C" ::hkQuadReal __cdecl _mm_set_ss(float);
-extern "C" ::hkQuadReal __cdecl _mm_load_ss(const float*);
-__forceinline ::hkQuadReal arrowSplat(float t) { ::hkQuadReal q = _mm_load_ss(&t); return ::_mm_shuffle_ps(q,q,0); }
+__forceinline ::hkQuadReal arrowSplat(float t) { ::hkQuadReal q = _mm_load_ss(&t); return _mm_shuffle_ps(q,q,0); }
 struct ArrowVectorView {
     union { ::hkQuadReal q; float f[4]; };
 };
 
 
 __forceinline ::hkQuadReal arrowDot3(::hkQuadReal a, ::hkQuadReal b) {
-    ::hkQuadReal products = ::_mm_mul_ps(a,b);
-    ::hkQuadReal xy = ::_mm_add_ss(::_mm_shuffle_ps(products,products,0x55),products);
-    return ::_mm_add_ss(::_mm_shuffle_ps(products,products,0xaa),xy);
+    ::hkQuadReal products = _mm_mul_ps(a,b);
+    ::hkQuadReal xy = _mm_add_ss(_mm_shuffle_ps(products,products,0x55),products);
+    return _mm_add_ss(_mm_shuffle_ps(products,products,0xaa),xy);
 }
-__forceinline float arrowScalar(::hkQuadReal q) { float out; ::_mm_store_ss(&out,q); return out; }
+__forceinline float arrowScalar(::hkQuadReal q) { float out; _mm_store_ss(&out,q); return out; }
 __forceinline void arrowPerpendicular(ArrowVectorView* v, ArrowVectorView& out) {
     int least=0, side=1, other=2;
     float low=fabsf(v->f[0]);
@@ -9996,50 +9956,50 @@ __forceinline void arrowPerpendicular(ArrowVectorView* v, ArrowVectorView& out) 
     float z=fabsf(v->f[2]);
     if(y<low) { side=0; least=1; low=y; }
     if(z<low) { other=least; }
-    out.q=::_mm_setzero_ps();
+    out.q=_mm_setzero_ps();
     out.f[side]=v->f[other];
     out.f[other]=-v->f[side];
 }
 __forceinline void arrowCross(ArrowVectorView& out,const ArrowVectorView& left,const ArrowVectorView& right) {
-    ::hkQuadReal first=::_mm_mul_ps(::_mm_shuffle_ps(left.q,left.q,0xc9),::_mm_shuffle_ps(right.q,right.q,0xd2));
-    ::hkQuadReal second=::_mm_mul_ps(::_mm_shuffle_ps(left.q,left.q,0xd2),::_mm_shuffle_ps(right.q,right.q,0xc9));
-    out.q=::_mm_sub_ps(first,second);
+    ::hkQuadReal first=_mm_mul_ps(_mm_shuffle_ps(left.q,left.q,0xc9),_mm_shuffle_ps(right.q,right.q,0xd2));
+    ::hkQuadReal second=_mm_mul_ps(_mm_shuffle_ps(left.q,left.q,0xd2),_mm_shuffle_ps(right.q,right.q,0xc9));
+    out.q=_mm_sub_ps(first,second);
 }
 __forceinline void drawDebugArrow(::FUN_00c986c0_Obj* drawer, ArrowVectorView* a, ArrowVectorView* v, int a3, int a4, int a5)
 {
     if (arrowScalar(arrowDot3(v->q,v->q)) < ::DAT_0104da4c) return;
     ArrowVectorView sum;
-    sum.q = ::_mm_add_ps(_mm_load_ps(a->f),v->q);
+    sum.q = _mm_add_ps(_mm_load_ps(a->f),v->q);
     ArrowVectorView u;
     arrowPerpendicular(v,u);
     float scaleValue0 = DAT_01019de0;
     ::hkQuadReal uq = u.q;
-    ::hkQuadReal usq = ::_mm_mul_ps(uq, uq);
-    ::hkQuadReal t0 = ::_mm_shuffle_ps(usq, usq, 0x55);
-    ::hkQuadReal t1 = ::_mm_add_ss(t0, usq);
-    ::hkQuadReal t2 = ::_mm_shuffle_ps(usq, usq, 0xaa);
-    ::hkQuadReal tt = ::_mm_add_ss(t2, t1);
+    ::hkQuadReal usq = _mm_mul_ps(uq, uq);
+    ::hkQuadReal t0 = _mm_shuffle_ps(usq, usq, 0x55);
+    ::hkQuadReal t1 = _mm_add_ss(t0, usq);
+    ::hkQuadReal t2 = _mm_shuffle_ps(usq, usq, 0xaa);
+    ::hkQuadReal tt = _mm_add_ss(t2, t1);
     ::hkQuadReal r = _mm_rsqrt_ss(tt);
     ::hkQuadReal fr = _mm_mul_ss(_mm_mul_ss(tt, r), r);
     ::hkQuadReal eq = _mm_cmpeq_ss(tt, _mm_set_ss(::DAT_01011d78));
     ::hkQuadReal factor = _mm_andnot_ps(eq, _mm_mul_ss(_mm_mul_ss(_mm_set_ss(::fnv_00c88020::DAT_01016248), r), _mm_sub_ss(_mm_set_ss(::DAT_01017718), fr)));
-    ::hkQuadReal n = ::_mm_mul_ps(uq, ::_mm_shuffle_ps(factor, factor, 0));
+    ::hkQuadReal n = _mm_mul_ps(uq, _mm_shuffle_ps(factor, factor, 0));
     ArrowVectorView unit,cross; unit.q=n; arrowCross(cross,*v,unit);
-    ::hkQuadReal len = ::_mm_sqrt_ss(arrowDot3(v->q,v->q));
-    ::hkQuadReal scaledN = ::_mm_mul_ps(::_mm_shuffle_ps(len, len, 0), n);
+    ::hkQuadReal len = _mm_sqrt_ss(arrowDot3(v->q,v->q));
+    ::hkQuadReal scaledN = _mm_mul_ps(_mm_shuffle_ps(len, len, 0), n);
     ::hkQuadReal aq = _mm_load_ps(a->f);
     ::hkQuadReal c = arrowSplat(scaleValue0);
-    ::hkQuadReal base = ::_mm_add_ps(::_mm_mul_ps(c, sum.q),
-                             ::_mm_mul_ps(::_mm_sub_ps(_mm_load_ps((*reinterpret_cast<::ArrowVectorView *>((void *)&::DAT_010ec7f0)).f), c), aq));
+    ::hkQuadReal base = _mm_add_ps(_mm_mul_ps(c, sum.q),
+                             _mm_mul_ps(_mm_sub_ps(_mm_load_ps((*reinterpret_cast<::ArrowVectorView *>((void *)&::DAT_010ec7f0)).f), c), aq));
     ArrowVectorView o1, o2, o3, o4;
     float scaleValue1 = ArrowHeadRatios::DAT_010c69c4;
-    o1.q = ::_mm_add_ps(base, ::_mm_mul_ps(arrowSplat(scaleValue1), scaledN));
+    o1.q = _mm_add_ps(base, _mm_mul_ps(arrowSplat(scaleValue1), scaledN));
     float scaleValue2 = ::DAT_010c69c0;
-    o2.q = ::_mm_add_ps(base, ::_mm_mul_ps(arrowSplat(scaleValue2), scaledN));
+    o2.q = _mm_add_ps(base, _mm_mul_ps(arrowSplat(scaleValue2), scaledN));
     float scaleValue3 = ArrowHeadRatios::DAT_010c69c4;
-    o3.q = ::_mm_add_ps(base, ::_mm_mul_ps(arrowSplat(scaleValue3), cross.q));
+    o3.q = _mm_add_ps(base, _mm_mul_ps(arrowSplat(scaleValue3), cross.q));
     float scaleValue4 = ::DAT_010c69c0;
-    o4.q = ::_mm_add_ps(base, ::_mm_mul_ps(arrowSplat(scaleValue4), cross.q));
+    o4.q = _mm_add_ps(base, _mm_mul_ps(arrowSplat(scaleValue4), cross.q));
     reinterpret_cast<::hkpListenerListC98B *>((drawer))->FUN_00c986c0((int)(&a->q), (int)(&sum.q), a3, a4, a5);
     reinterpret_cast<::hkpListenerListC98B *>((drawer))->FUN_00c986c0((int)(&sum.q), (int)(&o1.q), a3, a4, a5);
     reinterpret_cast<::hkpListenerListC98B *>((drawer))->FUN_00c986c0((int)(&sum.q), (int)(&o2.q), a3, a4, a5);
@@ -10108,64 +10068,54 @@ void DebugArrowEntry::FUN_00c98880(const ::hkVector4_S& kFrom, const ::hkVector4
 }
 
 extern float DAT_010c6850;
-extern "C" ::hkQuadReal (_mm_min_ps)(::hkQuadReal, ::hkQuadReal);
-extern "C" ::hkQuadReal (_mm_max_ps)(::hkQuadReal, ::hkQuadReal);
-extern "C" ::hkQuadReal (_mm_sub_ss)(::hkQuadReal, ::hkQuadReal);
-extern "C" ::hkQuadReal (_mm_mul_ss)(::hkQuadReal, ::hkQuadReal);
-extern "C" ::hkQuadReal (_mm_rsqrt_ss)(::hkQuadReal);
-extern "C" ::hkQuadReal (_mm_cmpeq_ss)(::hkQuadReal, ::hkQuadReal);
-extern "C" ::hkQuadReal (_mm_andnot_ps)(::hkQuadReal, ::hkQuadReal);
-extern "C" ::hkQuadReal (_mm_set_ss)(float);
-extern "C" ::hkQuadReal (_mm_set_ps1)(float);
-extern "C" ::hkQuadReal (_mm_load_ss)(const float*);
 
 struct ScalarC992 {
     ::hkQuadReal q;
     ScalarC992() {}
-    ScalarC992(float f) { q = (_mm_load_ss)(&f); }
+    ScalarC992(float f) { q = _mm_load_ss(&f); }
     ScalarC992(const ::hkQuadReal& v) { q = v; }
-    ::hkQuadReal broadcast() const { return (::_mm_shuffle_ps)(q,q,0); }
+    ::hkQuadReal broadcast() const { return _mm_shuffle_ps(q,q,0); }
     const ::hkQuadReal& value() const { return q; }
 };
 
-inline ScalarC992 operator*(const ScalarC992& a,const ScalarC992& b) { return (_mm_mul_ss)(a.value(),b.value()); }
-inline ScalarC992 operator+(const ScalarC992& a,const ScalarC992& b) { return (::_mm_add_ss)(a.value(),b.value()); }
+inline ScalarC992 operator*(const ScalarC992& a,const ScalarC992& b) { return _mm_mul_ss(a.value(),b.value()); }
+inline ScalarC992 operator+(const ScalarC992& a,const ScalarC992& b) { return _mm_add_ss(a.value(),b.value()); }
 struct Vec_c99210 {
     ::hkQuadReal m_vComponents;
-    void setSub4(const Vec_c99210& a, const Vec_c99210& b) { m_vComponents = (::_mm_sub_ps)(a.m_vComponents, b.m_vComponents); }
-    void setColor(float x,float y,float z,float w) { m_vComponents = (::_mm_setr_ps)(x,y,z,w); }
-    void set(float x, float y, float z, float w) { m_vComponents = (::_mm_setr_ps)(x, y, z, w); }
+    void setSub4(const Vec_c99210& a, const Vec_c99210& b) { m_vComponents = _mm_sub_ps(a.m_vComponents, b.m_vComponents); }
+    void setColor(float x,float y,float z,float w) { m_vComponents = _mm_setr_ps(x,y,z,w); }
+    void set(float x, float y, float z, float w) { m_vComponents = _mm_setr_ps(x, y, z, w); }
     __forceinline void setCross(const Vec_c99210& v1, const Vec_c99210& v2)
     {
-        ::hkQuadReal cross0 = (::_mm_mul_ps)((::_mm_shuffle_ps)(v2.m_vComponents, v2.m_vComponents, 0xd2), (::_mm_shuffle_ps)(v1.m_vComponents, v1.m_vComponents, 0xc9));
-        ::hkQuadReal cross1 = (::_mm_mul_ps)((::_mm_shuffle_ps)(v2.m_vComponents, v2.m_vComponents, 0xc9), (::_mm_shuffle_ps)(v1.m_vComponents, v1.m_vComponents, 0xd2));
-        m_vComponents = (::_mm_sub_ps)(cross0, cross1);
+        ::hkQuadReal cross0 = _mm_mul_ps(_mm_shuffle_ps(v2.m_vComponents, v2.m_vComponents, 0xd2), _mm_shuffle_ps(v1.m_vComponents, v1.m_vComponents, 0xc9));
+        ::hkQuadReal cross1 = _mm_mul_ps(_mm_shuffle_ps(v2.m_vComponents, v2.m_vComponents, 0xc9), _mm_shuffle_ps(v1.m_vComponents, v1.m_vComponents, 0xd2));
+        m_vComponents = _mm_sub_ps(cross0, cross1);
     }
     __forceinline ScalarC992 dot3(const Vec_c99210& b) const
     {
-        ::hkQuadReal x2 = (::_mm_mul_ps)(m_vComponents, b.m_vComponents);
-        ::hkQuadReal xy = (::_mm_add_ss)((::_mm_shuffle_ps)(x2, x2, 0x55), x2);
-        return (::_mm_add_ss)((::_mm_shuffle_ps)(x2, x2, 0xaa), xy);
+        ::hkQuadReal x2 = _mm_mul_ps(m_vComponents, b.m_vComponents);
+        ::hkQuadReal xy = _mm_add_ss(_mm_shuffle_ps(x2, x2, 0x55), x2);
+        return _mm_add_ss(_mm_shuffle_ps(x2, x2, 0xaa), xy);
     }
     __forceinline ScalarC992 inverseLength3() const
     {
-        ::hkQuadReal h = (_mm_set_ss)(0.5f), t = (_mm_set_ss)(3.0f), z = (_mm_set_ss)(0.0f);
+        ::hkQuadReal h = _mm_set_ss(0.5f), t = _mm_set_ss(3.0f), z = _mm_set_ss(0.0f);
         ::hkQuadReal square = dot3(*this).q;
-        ::hkQuadReal mask = (_mm_cmpeq_ss)(square,z);
-        ::hkQuadReal guess = (_mm_rsqrt_ss)(square);
-        ::hkQuadReal adjusted = (_mm_mul_ss)((_mm_mul_ss)(h,guess), (_mm_sub_ss)(t,(_mm_mul_ss)((_mm_mul_ss)(square,guess),guess)));
-        return (_mm_andnot_ps)(mask,adjusted);
+        ::hkQuadReal mask = _mm_cmpeq_ss(square,z);
+        ::hkQuadReal guess = _mm_rsqrt_ss(square);
+        ::hkQuadReal adjusted = _mm_mul_ss(_mm_mul_ss(h,guess), _mm_sub_ss(t,_mm_mul_ss(_mm_mul_ss(square,guess),guess)));
+        return _mm_andnot_ps(mask,adjusted);
     }
     __forceinline void normalize3()
     {
-        m_vComponents = (::_mm_mul_ps)(inverseLength3().broadcast(), m_vComponents);
+        m_vComponents = _mm_mul_ps(inverseLength3().broadcast(), m_vComponents);
     }
-    __forceinline void mulS(float s) { m_vComponents = (::_mm_mul_ps)(m_vComponents, (_mm_set_ps1)(s)); }
-    void mul4(const ScalarC992& s) { m_vComponents = (::_mm_mul_ps)(s.broadcast(), m_vComponents); }
-    void setMul4(const Vec_c99210& a, const Vec_c99210& b) { m_vComponents = (::_mm_mul_ps)(a.m_vComponents, b.m_vComponents); }
-    void scaled(const ScalarC992& f, const Vec_c99210& v) { m_vComponents = (::_mm_mul_ps)(f.broadcast(), v.m_vComponents); }
-    void accumulate(const ScalarC992& f, const Vec_c99210& v) { m_vComponents = (::_mm_add_ps)(m_vComponents, (::_mm_mul_ps)(f.broadcast(), v.m_vComponents)); }
-    void add4(const Vec_c99210& a) { m_vComponents = (::_mm_add_ps)(m_vComponents, a.m_vComponents); }
+    __forceinline void mulS(float s) { m_vComponents = _mm_mul_ps(m_vComponents, _mm_set_ps1(s)); }
+    void mul4(const ScalarC992& s) { m_vComponents = _mm_mul_ps(s.broadcast(), m_vComponents); }
+    void setMul4(const Vec_c99210& a, const Vec_c99210& b) { m_vComponents = _mm_mul_ps(a.m_vComponents, b.m_vComponents); }
+    void scaled(const ScalarC992& f, const Vec_c99210& v) { m_vComponents = _mm_mul_ps(f.broadcast(), v.m_vComponents); }
+    void accumulate(const ScalarC992& f, const Vec_c99210& v) { m_vComponents = _mm_add_ps(m_vComponents, _mm_mul_ps(f.broadcast(), v.m_vComponents)); }
+    void add4(const Vec_c99210& a) { m_vComponents = _mm_add_ps(m_vComponents, a.m_vComponents); }
 };
 
 
@@ -10197,9 +10147,9 @@ void FUN_00c99210(const ::hkVector4_S& vertexA, const ::hkVector4_S& vertexB, co
     res.scaled(l0.dot3(n) * half + half, c0);
     res.accumulate(l1.dot3(n) * half + half, c1);
     res.accumulate(ScalarC992(0.05f), rgb);
-    res.m_vComponents = (_mm_min_ps)((_mm_max_ps)(res.m_vComponents, (*reinterpret_cast<const ::Vec_c99210 *>(&::DAT_01267e30)).m_vComponents), (_mm_set_ps1)(1.0f));
+    res.m_vComponents = _mm_min_ps(_mm_max_ps(res.m_vComponents, (*reinterpret_cast<const ::Vec_c99210 *>(&::DAT_01267e30)).m_vComponents), _mm_set_ps1(1.0f));
     float alpha = (int)(color >> 24) * (double(1.0f / 255.0f));
-    unsigned int argb = PackColorBigEndian(res.m_vComponents.m128_f32[0], res.m_vComponents.m128_f32[1], res.m_vComponents.m128_f32[2], alpha);
+    unsigned int argb = PackColorBigEndian(res.m_vComponents[0], res.m_vComponents[1], res.m_vComponents[2], alpha);
     (*reinterpret_cast<::C00c98720 * *>(&::DAT_012681e0))->FUN_00c98720(reinterpret_cast<int>(&vertexA), reinterpret_cast<int>(&vertexB), reinterpret_cast<int>(&vertexC), argb, 0, 0);
 }
 

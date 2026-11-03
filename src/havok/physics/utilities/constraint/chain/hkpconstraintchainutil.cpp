@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/constraint/chain/hkpconstraintchainutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/constraint/chain/hkpconstraintchainutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
 #include "fnv/decl/D10710Object.h"
 #include "fnv/decl/FUN_00c90510_class.h"
 #include "fnv/decl/Quat74.h"
@@ -161,8 +162,8 @@ void FUN_00e5b3a0(XfScene_cls* a1, XfScene_cls* a2, const __m128* a3)
     char* p1 = XfSelectRec(a1->m_38[a1->m_3c - 1] + 0x10);
     char* p2 = XfSelectRec((char*)&a2->unk10);
     XfOut_cls outs[2];
-    ((FUN_00c7f690_cls*)&outs[0])->FUN_00c7f690((const ::S_00c7f690_M *)(const ::__m128 *)((const __m128*)(p1 + 0xf0)), (const ::S_00c7f690_V *)(a3));
-    ((FUN_00c7f690_cls*)&outs[1])->FUN_00c7f690((const ::S_00c7f690_M *)(const ::__m128 *)((const __m128*)(p2 + 0xf0)), (const ::S_00c7f690_V *)(a3));
+    ((FUN_00c7f690_cls*)&outs[0])->FUN_00c7f690((const ::S_00c7f690_M *)(const __m128 *)((const __m128*)(p1 + 0xf0)), (const ::S_00c7f690_V *)(a3));
+    ((FUN_00c7f690_cls*)&outs[1])->FUN_00c7f690((const ::S_00c7f690_M *)(const __m128 *)((const __m128*)(p2 + 0xf0)), (const ::S_00c7f690_V *)(a3));
     sub->Push(&outs[0], &outs[1]);
     reinterpret_cast<::hkpPhantomOverlapDD04 *>((a1))->AddReferencedObject((::hkReferencedObjectDD04 *)(a2));
 }
@@ -238,8 +239,8 @@ void ApplyRelativeOrientation(Owner* a1, char* a2, const __m128* a3, int a4, int
         FUN_00c7f690_cls first;
         FUN_00c7f690_cls second;
     } points;
-    reinterpret_cast<::FUN_00c7f690_cls *>(&(points.first))->FUN_00c7f690((const ::S_00c7f690_M *)(const ::__m128 *)((const __m128*)(e1 + 0xf0)), (const ::S_00c7f690_V *)(a3));
-    reinterpret_cast<::FUN_00c7f690_cls *>(&(points.second))->FUN_00c7f690((const ::S_00c7f690_M *)(const ::__m128 *)((const __m128*)(e2 + 0xf0)), (const ::S_00c7f690_V *)(a3));
+    reinterpret_cast<::FUN_00c7f690_cls *>(&(points.first))->FUN_00c7f690((const ::S_00c7f690_M *)(const __m128 *)((const __m128*)(e1 + 0xf0)), (const ::S_00c7f690_V *)(a3));
+    reinterpret_cast<::FUN_00c7f690_cls *>(&(points.second))->FUN_00c7f690((const ::S_00c7f690_M *)(const __m128 *)((const __m128*)(e2 + 0xf0)), (const ::S_00c7f690_V *)(a3));
     // Helper writes the quaternion at offset 0; original also stores arguments at 0x20/24/28.
     RelativeOrientationData relativeOrientation;
     reinterpret_cast<::Quat74 *>(&(relativeOrientation))->FUN_00c74ac0((*(const ::Quat74 *)(e2 + 0x160)), (*(const ::Quat74 *)(e1 + 0x160)));
@@ -328,7 +329,7 @@ int FUN_00e5b8f0(KeyOwnerA* a1, ListB* a2, OwnerC* a3, ...)
 {
     Pair32 keyPair;
 
-    if (::FUN_00e5ad40((::FnvHolder *)(a1), (::__m128 *)(::Tmp16 *)(&keyPair.lo), (::__m128 *)(::Tmp16 *)(&keyPair.hi)) != 0)
+    if (::FUN_00e5ad40((::FnvHolder *)(a1), (__m128 *)(::Tmp16 *)(&keyPair.lo), (__m128 *)(::Tmp16 *)(&keyPair.hi)) != 0)
     {
         return 1;
     }
@@ -372,7 +373,7 @@ int FUN_00e5b8f0(KeyOwnerA* a1, ListB* a2, OwnerC* a3, ...)
     return 1;
 }
 
-inline void* operator new(unsigned int, void* p)
+inline void* operator new(size_t, void* p)
 {
     return p;
 }

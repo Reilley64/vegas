@@ -133,10 +133,6 @@ struct RagdollBodiesToNotify : public hkpRagdollConstraintData
     int FUN_00cde9a0();
 };
 int __cdecl FUN_00cdead0();
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-};
 struct __declspec(align(16)) FUN_00cdf190_Vec
 {
     float x;

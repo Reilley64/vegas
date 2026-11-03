@@ -2,6 +2,7 @@
 // src/havok/physics/collide/shape/compound/collection/list/hkplistshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/compound/collection/list/hkplistshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <xmmintrin.h>
 #include <windows.h>
 #include "fnv/decl/fnv_00cf4fb0__ShapeCollection.h"
 #include "fnv/decl/hkReferencedObjectC905.h"
@@ -521,23 +522,7 @@ void ListShapeCF54::FUN_00cf54d0(int* shapes, int count, int* shapeData, int fla
     reinterpret_cast<::FUN_00cf5420_class *>(this)->FUN_00cf5420();
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 
-extern "C"
-{
-    __m128 _mm_cmple_ps(__m128 a, __m128 b);
-    int _mm_movemask_ps(__m128 a);
-    __m128 _mm_load_ps1(const float* p);
-    __m128 _mm_set1_ps(float a);
-    __m128 _mm_set_ps1(float a);
-    __m128 _mm_xor_ps(__m128 a, __m128 b);
-    __m128 _mm_min_ps(__m128 a, __m128 b);
-    __m128 _mm_max_ps(__m128 a, __m128 b);
-}
 
 struct hkVector4q
 {

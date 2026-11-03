@@ -4,6 +4,8 @@
 
 // src/havok/physics/collide/agent/convexagent/spherecapsule/hkpspherecapsuleagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/convexagent/spherecapsule/hkpspherecapsuleagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstddef>
+#include <xmmintrin.h>
 #include <intrin.h>
 #include <windows.h>
 #include "fnv/decl/FUN_005609f0_shell.h"
@@ -90,17 +92,6 @@ struct AgentDispatchDescriptor {
 struct CollisionDispatcher {
     void FUN_00d3f000(void* bodyA, void* bodyB, void* volatile input, unsigned int tag);
 };
-union __declspec(intrin_type) __declspec(align(16)) __m128 {
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C" __m128 _mm_load_ps(const float*);
-extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_add_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_sub_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_add_ss(__m128 a, __m128 b);
-extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
-extern "C" void _mm_store_ss(float* p, __m128 a);
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
 extern const char str_010cf158[];
@@ -181,7 +172,7 @@ typedef float hkReal;
 typedef unsigned short hkUint16;
 typedef unsigned int hkUint32;
 typedef unsigned long __w64 hkUlong;
-typedef unsigned __w64 hk_size_t;class FinishingFlag
+typedef size_t hk_size_t;class FinishingFlag
 {
 public:
 FinishingFlag():m_bFinishing(0){}
@@ -334,16 +325,6 @@ hkUint16 m_usMemSizeAndFlags;
 public:
 hkReferencedObject(class FinishingFlag flag){}
 };
-extern "C" {
-extern __m128 _mm_sub_ss(__m128 _A,__m128 _B);
-extern __m128 _mm_mul_ss(__m128 _A,__m128 _B);
-extern __m128 _mm_rsqrt_ss(__m128 _A);
-extern __m128 _mm_andnot_ps(__m128 _A,__m128 _B);
-extern __m128 _mm_cmpeq_ss(__m128 _A,__m128 _B);
-extern __m128 _mm_set_ss(float _A);
-extern __m128 _mm_setzero_ps(void);
-extern __m128 _mm_load_ss(float const*_A);
-}
 typedef __m128 hkQuadReal;
 class hkVector4;
 typedef const hkVector4&hkVector4Parameter;

@@ -27,9 +27,9 @@ Owner* Owner::FUN_00cf5ea0()
     _mm_store_ps(reinterpret_cast<float*>(&axisX), _mm_setzero_ps());
     _mm_store_ps(reinterpret_cast<float*>(&axisY), _mm_setzero_ps());
     _mm_store_ps(reinterpret_cast<float*>(&axisZ), _mm_setzero_ps());
-    axisX.m128_f32[0] = 1.0f;
-    axisY.m128_f32[1] = 1.0f;
-    axisZ.m128_f32[2] = 1.0f;
+    axisX[0] = 1.0f;
+    axisY[1] = 1.0f;
+    axisZ[2] = 1.0f;
     enabled = 1;
     mass = 1.0f;
     _mm_store_ps(reinterpret_cast<float*>(&translation), _mm_setzero_ps());

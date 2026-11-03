@@ -5,6 +5,7 @@
 
 // src/havok/physics/utilities/constraint/bilateral/hkpconstraintutils.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/constraint/bilateral/hkpconstraintutils.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <xmmintrin.h>
 #include <new>
 #include "fnv/decl/FUN_005616d0_Owner.h"
 #include "fnv/decl/FUN_00561800_Class.h"
@@ -20,18 +21,6 @@
 #include "fnv/decl/hkReferencedObjectC905.h"
 #include "fnv/symbols_00e5a000.h"
 #include "fnv/symbols_01268000.h"
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-    char m128_i8[16];
-    short m128_i16[8];
-    int m128_i32[4];
-    __int64 m128_i64[2];
-    unsigned char m128_u8[16];
-    unsigned short m128_u16[8];
-    unsigned int m128_u32[4];
-} __m128;
 #include "fnv/symbols_simd.h"
 struct hkMemoryAllocator
 {
@@ -232,17 +221,6 @@ struct WorkVectors
     Conv ca;
 };
 
-extern "C"
-{
-    __m128 _mm_load_ps(const float* p);
-    __m128 _mm_mul_ps(__m128 a, __m128 b);
-    __m128 _mm_add_ps(__m128 a, __m128 b);
-    __m128 _mm_sub_ps(__m128 a, __m128 b);
-    __m128 _mm_shuffle_ps(__m128 a, __m128 b, int sel);
-    __m128 _mm_add_ss(__m128 a, __m128 b);
-    __m128 _mm_set_ps1(float x);
-    void _mm_store_ss(float* p, __m128 v);
-}
 
 extern "C"
 {
@@ -293,7 +271,7 @@ bool* FUN_00e5af80(bool* out, FnvHolder2* h, float t, float t2)
             {
                 __m128 t2v = _mm_set_ps1(t2);
                 __m128 r = _mm_add_ps(_mm_mul_ps(_mm_sub_ps(DAT_010ec7f0, t2v), v.cb.m),
-                                      _mm_mul_ps(_mm_load_ps(b->unk120.m128_f32), t2v));
+                                      _mm_mul_ps(_mm_load_ps(reinterpret_cast<float*>(&b->unk120)), t2v));
                 reinterpret_cast<::FUN_00ca8800_Class *>((a))->FUN_00ca8800((int)(&r));
             }
             reinterpret_cast<::FUN_005616d0_Owner *>((a))->OnTrigger((::TriggerContext *)((int)&b->unk1b0));

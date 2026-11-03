@@ -143,7 +143,7 @@ struct hkVector4
 {
     float& operator()(int i)
     {
-        return m_vComponents.m128_f32[i];
+        return m_vComponents[i];
     }
     const float& operator()(int i) const
     {
@@ -317,19 +317,19 @@ void FUN_00d3e850(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const Collisio
     ContactPointPair event(bodyA, bodyB);
     const hkTransform& tB = *bodyB.m_pMotionState;
     first.column0 = tB.m_rotation.m_kColumn0;
-    fourth.column1.m_vComponents.m128_i32[0] = tB.m_rotation.m_kColumn1.m_vComponents.m128_i32[0];
-    fourth.column1.m_vComponents.m128_i32[1] = tB.m_rotation.m_kColumn1.m_vComponents.m128_i32[1];
-    fourth.column1.m_vComponents.m128_i32[2] = tB.m_rotation.m_kColumn1.m_vComponents.m128_i32[2];
-    __m128 c0 = _mm_load_ps(first.column0.m_vComponents.m128_f32);
-    fourth.column1.m_vComponents.m128_i32[3] = tB.m_rotation.m_kColumn1.m_vComponents.m128_i32[3];
+    reinterpret_cast<int*>(&fourth.column1.m_vComponents)[0] = reinterpret_cast<int*>(&tB.m_rotation.m_kColumn1.m_vComponents)[0];
+    reinterpret_cast<int*>(&fourth.column1.m_vComponents)[1] = reinterpret_cast<int*>(&tB.m_rotation.m_kColumn1.m_vComponents)[1];
+    reinterpret_cast<int*>(&fourth.column1.m_vComponents)[2] = reinterpret_cast<int*>(&tB.m_rotation.m_kColumn1.m_vComponents)[2];
+    __m128 c0 = _mm_load_ps(reinterpret_cast<float*>(&first.column0.m_vComponents));
+    reinterpret_cast<int*>(&fourth.column1.m_vComponents)[3] = reinterpret_cast<int*>(&tB.m_rotation.m_kColumn1.m_vComponents)[3];
     second.column2 = tB.m_rotation.m_kColumn2;
-    __m128 c1 = _mm_load_ps(fourth.column1.m_vComponents.m128_f32);
-    third.translation.m_vComponents.m128_i32[0] = tB.m_vTranslation.m_vComponents.m128_i32[0];
-    __m128 c2 = _mm_load_ps(second.column2.m_vComponents.m128_f32);
-    third.translation.m_vComponents.m128_i32[1] = tB.m_vTranslation.m_vComponents.m128_i32[1];
-    third.translation.m_vComponents.m128_i32[2] = tB.m_vTranslation.m_vComponents.m128_i32[2];
-    third.translation.m_vComponents.m128_i32[3] = tB.m_vTranslation.m_vComponents.m128_i32[3];
-    __m128 tr = _mm_load_ps(third.translation.m_vComponents.m128_f32);
+    __m128 c1 = _mm_load_ps(reinterpret_cast<float*>(&fourth.column1.m_vComponents));
+    reinterpret_cast<int*>(&third.translation.m_vComponents)[0] = reinterpret_cast<int*>(&tB.m_vTranslation.m_vComponents)[0];
+    __m128 c2 = _mm_load_ps(reinterpret_cast<float*>(&second.column2.m_vComponents));
+    reinterpret_cast<int*>(&third.translation.m_vComponents)[1] = reinterpret_cast<int*>(&tB.m_vTranslation.m_vComponents)[1];
+    reinterpret_cast<int*>(&third.translation.m_vComponents)[2] = reinterpret_cast<int*>(&tB.m_vTranslation.m_vComponents)[2];
+    reinterpret_cast<int*>(&third.translation.m_vComponents)[3] = reinterpret_cast<int*>(&tB.m_vTranslation.m_vComponents)[3];
+    __m128 tr = _mm_load_ps(reinterpret_cast<float*>(&third.translation.m_vComponents));
     const hkVector4* in = &capsuleB->m_kVertexA;
     int i = 1;
     do

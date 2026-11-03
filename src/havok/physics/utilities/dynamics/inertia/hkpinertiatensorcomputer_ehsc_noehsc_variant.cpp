@@ -5,6 +5,7 @@
 
 // src/havok/physics/utilities/dynamics/inertia/hkpinertiatensorcomputer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/dynamics/inertia/hkpinertiatensorcomputer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <xmmintrin.h>
 #include <cstring>
 struct Object
 {
@@ -199,17 +200,6 @@ void S00cec3d0_Base::FUN_00cec000(const float* v)
     P1 = v[A] * v[B];
     Pa = v[A];
 }
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-};
-extern "C"
-{
-    __m128 _mm_setr_ps(float, float, float, float);
-    __m128 _mm_setzero_ps();
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_and_ps(__m128, __m128);
-}
 struct Vector
 {
     union
@@ -234,7 +224,7 @@ struct Vector
     }
     float& operator()(int i)
     {
-        return q.m128_f32[i];
+        return q[i];
     }
     int maxAxisSecond() const
     {
@@ -298,7 +288,6 @@ struct MotionLike
     float field90;
 };
 void FUN_00cebdb0(const MotionLike* source, MotionLike* destination);
-extern "C" __m128 _mm_load_ss(const float*);
 struct Sub
 {
     void Multiply(const Vector* p);
@@ -444,13 +433,6 @@ __forceinline float fTargetUpperBound(float a, float b)
     return a < b ? a : b;
 }
 float __cdecl FUN_00cedec0(S_00cee1c0_Arr* arr, int unk, float value);
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128i
-{
-    int m128i_i32[4];
-} __m128i;
-extern "C" __m128i _mm_cvtsi32_si128(int);
-__m128 _mm_castsi128_ps(__m128i);
-extern "C" void _mm_store_ps(float*, __m128);
 struct __declspec(align(16)) Vec4
 {
     float x, y, z, w;
@@ -510,7 +492,6 @@ inline __m128 scalarVector(float x)
     __m128 result = {x};
     return result;
 }
-extern "C" __m128 _mm_load_ss(const float*);
 extern "C" void _ReadWriteBarrier();
 int __cdecl FUN_00cebbb0(void* state, float value, Receiver2* receiver);
 struct S_00ced310_V
@@ -534,13 +515,6 @@ static __forceinline void S_SetZero(S_00ced310_M* m)
     _mm_store_ps(&m->c2.x, z);
 }
 void __cdecl SetDiagonal(S_00ced310_M* m);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-extern "C"
-{
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_set_ps1(float);
-}
 struct S_00ced090_Elem
 {
     float unk00;

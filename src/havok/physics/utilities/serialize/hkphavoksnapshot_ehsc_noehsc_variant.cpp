@@ -5,6 +5,7 @@
 
 // src/havok/physics/utilities/serialize/hkphavoksnapshot.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/serialize/hkphavoksnapshot.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstddef>
 #include "fnv/decl/FUN_00d46d40_s.h"
 #include "fnv/decl/FUN_00d47770.h"
 #include "fnv/decl/FUN_00d49750.h"
@@ -232,7 +233,7 @@ struct NamedVariantS
         reinterpret_cast<::SStringPtr *>((void *)&(const ::hkStringPtr &)(m_pClassName))->FUN_00cb0c10(((const ::hkClassS *)(reinterpret_cast<::ReferencedObjectHolder *>((void *)&(m_pReferencedResource))->FUN_00d477a0())) ? reinterpret_cast<::FnvClassNameNode *>((void *)(((const ::hkClassS *)(reinterpret_cast<::ReferencedObjectHolder *>((void *)&(m_pReferencedResource))->FUN_00d477a0()))))->FUN_00d46d40() : 0);
     }
 };
-inline void* operator new(unsigned int, void* p)
+inline void* operator new(size_t, void* p)
 {
     return p;
 }

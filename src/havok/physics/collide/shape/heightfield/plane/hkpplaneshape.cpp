@@ -177,30 +177,12 @@ FUN_00d55240::FUN_00d55240(const PlaneVector& normal, const PlaneVector& center,
     : PlaneShapeBase(28)
 {
     plane.value = normal.value;
-    plane.value.m128_f32[3] = -normal.Dot3(center);
+    plane.value[3] = -normal.Dot3(center);
     centerVector.value = center.value;
     extentVector.value = extents.value;
 }
 
 namespace fnv_00d552f0 {
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-    __int32 m128_i32[4];
-    __int64 m128_i64[2];
-    unsigned __int32 m128_u32[4];
-} __m128;
-extern "C" __m128 _mm_sub_ps(__m128 _A, __m128 _B);
-extern "C" __m128 _mm_add_ps(__m128 _A, __m128 _B);
-extern "C" __m128 _mm_mul_ps(__m128 _A, __m128 _B);
-extern "C" __m128 _mm_add_ss(__m128 _A, __m128 _B);
-extern "C" __m128 _mm_and_ps(__m128 _A, __m128 _B);
-extern "C" __m128 _mm_cmple_ps(__m128 _A, __m128 _B);
-extern "C" __m128 _mm_shuffle_ps(__m128 _A, __m128 _B, unsigned int _Imm8);
-extern "C" __m128 _mm_set_ps1(float _A);
-extern "C" void _mm_store_ss(float* _V, __m128 _A);
-extern "C" int _mm_movemask_ps(__m128 _A);
 extern "C" const __m128 DAT_010ec7f0;
 extern "C" const __m128 DAT_01017d10;
 

@@ -925,7 +925,7 @@ void __cdecl FUN_00df19e0(int count, const CfmRecord& cfm, StepRecord* motors, L
     {
         BoolValue more(count - 1 - row != 0);
         StepRecord* local = motors + row;
-        ::FUN_00df0870((*(int *)&(const ::BoolValue &)(more)), (::ObjF *__restrict)(triples + row), (int)(local), (::__m128 *)(::Mat6 *)(&previous), (int *)(::Mat6 **)(&upper));
+        ::FUN_00df0870((*(int *)&(const ::BoolValue &)(more)), (::ObjF *__restrict)(triples + row), (int)(local), (__m128 *)(::Mat6 *)(&previous), (int *)(::Mat6 **)(&upper));
     }
 }
 
@@ -1041,6 +1041,6 @@ void __cdecl FUN_00df2040(int index, int count, const char* a3, char* a4)
     {
         FUN_00df0870_Flag flag;
         flag.b = (count - 1 - k != 0);
-        ::FUN_00df0870((*(int *)&(const ::FUN_00df0870_Flag &)(flag)), (::ObjF *__restrict)(a4 + k * 0x3c0), (int)(a3 + k * 0x40), (::__m128 *)(::FUN_00df2040_Blk *)(&buf), (int *)(char **)(&ptr));
+        ::FUN_00df0870((*(int *)&(const ::FUN_00df0870_Flag &)(flag)), (::ObjF *__restrict)(a4 + k * 0x3c0), (int)(a3 + k * 0x40), (__m128 *)(::FUN_00df2040_Blk *)(&buf), (int *)(char **)(&ptr));
     }
 }

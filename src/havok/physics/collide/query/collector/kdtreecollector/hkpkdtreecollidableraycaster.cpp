@@ -2,6 +2,7 @@
 // src/havok/physics/collide/query/collector/kdtreecollector/hkpkdtreecollidableraycaster.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/query/collector/kdtreecollector/hkpkdtreecollidableraycaster.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
 #include "fnv/symbols_010c4000.h"
 #include "fnv/symbols_01268000.h"
 struct FUN_00d97a10_Class
@@ -177,7 +178,7 @@ class FUN_00d979a0
     virtual ~FUN_00d979a0()
     {}
 
-    static void* operator new(unsigned int, void* p)
+    static void* operator new(size_t, void* p)
     {
         return p;
     }

@@ -152,7 +152,7 @@ E606E0Vector4* E606E0Shape::CopyVerticesWithRadius(E606E0Vector4* apDestVertices
     E606E0Vector4* pDest = apDestVertices;
     for (int i = 0; i < m_iStridedVertexCount; i++) {
         *pDest = m_kVertices[i];
-        pDest->m_vComponents.m128_f32[3] = m_fSphereRadius;
+        pDest->m_vComponents[3] = m_fSphereRadius;
         pDest++;
     }
     return apDestVertices;

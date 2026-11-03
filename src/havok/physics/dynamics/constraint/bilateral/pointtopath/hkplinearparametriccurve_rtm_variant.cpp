@@ -4,6 +4,7 @@
 
 // src/havok/physics/dynamics/constraint/bilateral/pointtopath/hkplinearparametriccurve.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/bilateral/pointtopath/hkplinearparametriccurve.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <xmmintrin.h>
 #include <new>
 #include "fnv/decl/fnv_00e48030__FUN_00e48030.h"
 #include "fnv/symbols_00c90000.h"
@@ -48,15 +49,6 @@ class CurveSmoothingGetter : public hkpParametricCurve
     float m_fSmoothingValue;
     float FUN_00e47420() const;
 };
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C" __m128 _mm_load_ps1(const float* p);
-extern "C" __m128 _mm_sub_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_add_ps(__m128 a, __m128 b);
 struct hkSimdRealE474
 {
     __m128 m_vValue;
@@ -141,11 +133,7 @@ struct CurveHelper : public hkpLinearParametricCurve
 {
     void CopyPoints(hkArray<hkVector4>& out) const;
 };
-extern "C" __m128 _mm_load_ps(const float*);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, int);
-extern "C" void _mm_store_ss(float*, __m128);
 extern "C" void _ReadWriteBarrier();
-extern "C" __m128 _mm_setr_ps(float, float, float, float);
 struct Allocator
 {
     virtual void dummy0();
@@ -241,14 +229,6 @@ static __forceinline void copyFromArray_e48090(hkArray<T>& self, Allocator* allo
 }
 #include <math.h>
 #include "fnv/symbols_simd.h"
-extern "C" __m128 _mm_andnot_ps(__m128, __m128);
-extern "C" __m128 _mm_setzero_ps(void);
-extern "C" __m128 _mm_add_ss(__m128, __m128);
-extern "C" __m128 _mm_sub_ss(__m128, __m128);
-extern "C" __m128 _mm_mul_ss(__m128, __m128);
-extern "C" __m128 _mm_rsqrt_ss(__m128);
-extern "C" __m128 _mm_cmpeq_ss(__m128, __m128);
-extern "C" __m128 _mm_set_ss(float);
 union hkVector4q
 {
     __m128 m_vComponents;
@@ -333,9 +313,6 @@ struct LinearCurve : public hkpLinearParametricCurve
     void FUN_00e47cb0(hkReal t, hkVector4& up) const;
 };
 
-extern "C" __m128 _mm_add_ss(__m128, __m128);
-extern "C" __m128 _mm_sqrt_ss(__m128);
-extern "C" __m128 _mm_load_ss(float const*);
 
 
 struct S00e47e80_hkMemoryRouterE47E

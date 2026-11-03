@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/motion/rigid/hkpspheremotion.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/motion/rigid/hkpspheremotion.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <xmmintrin.h>
 #include "fnv/symbols_0104d000.h"
 #include "fnv/symbols_010c9000.h"
 #include "havok/hkpSphereMotion.h"
@@ -94,16 +95,7 @@ void hkpSphereMotion_L::SetInertiaAndMassInv(const float* param_2)
     this->m_kInertiaAndMassInv.z = result;
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 
-extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_add_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_sub_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
 
 struct hkVector4D1E41
 {
@@ -268,17 +260,7 @@ const hkVector4D1E4& hkpSphereMotionD1E4::AddAngularImpulse(const hkVector4D1E4&
 }
 
 namespace fnv_00d1e5a0 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 
-extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_sub_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_add_ss(__m128 a, __m128 b);
-extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
-extern "C" void _mm_store_ss(float* p, __m128 a);
 
 struct hkSimdRealD1E5A
 {
@@ -376,8 +358,6 @@ void hkpSphereMotionD1E5A::ComputeVelocityAndInverseVirtualMass(const hkVector4D
 }
 }  // namespace fnv_00d1e5a0
 
-extern "C" __m128 _mm_setzero_ps();
-extern "C" void _mm_store_ps(float*, __m128);
 
 
 struct FUN_00d1e1d0_cls : hkpSphereMotion
@@ -402,7 +382,6 @@ void FUN_00d1e1d0_cls::FUN_00d1e1d0(int out)
     p[10] = inv;
 }
 
-extern "C" __m128 _mm_setzero_ps();
 
 class SphereInverseWorld : public hkpSphereMotion
 {
@@ -426,7 +405,6 @@ void SphereInverseWorld::FUN_00d1e3d0(hkMatrix3* out) const
     diagonal->m_kColumn2.z = inverse;
 }
 
-extern "C" __m128 _mm_setzero_ps();
 
 struct TestMotion : public hkpSphereMotion
 {

@@ -4,6 +4,7 @@
 
 // src/havok/physics/dynamics/constraint/atom/hkpconstraintatom.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/atom/hkpconstraintatom.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <xmmintrin.h>
 #include "fnv/decl/MProduct.h"
 #include "fnv/decl/MatrixProduct.h"
 #include "fnv/decl/S_00cd4c70.h"
@@ -52,13 +53,7 @@ struct ConstraintAtom
     ConstraintAtom* next;
     int FUN_00d22030(ConstraintInfo* info);
 };
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 #include "fnv/symbols_simd.h"
-extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
 struct hkVector4q
 {
     __m128 m_vComponents;
@@ -73,11 +68,11 @@ struct hkVector4q
     }
     __forceinline float& operator()(int i)
     {
-        return m_vComponents.m128_f32[i];
+        return m_vComponents[i];
     }
     __forceinline const float& operator()(int i) const
     {
-        return m_vComponents.m128_f32[i];
+        return m_vComponents[i];
     }
 };
 struct hkSimdRealq
@@ -142,10 +137,6 @@ class hkpModifierConstraintAtomD220
 
     int FUN_00d22090(hkpConstraintInfoD220& kInfo, unsigned char& ucUsedFlagsOut) const;
 };
-extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, int c);
-extern "C" __m128 _mm_add_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_sub_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
 struct Vec4
 {
     __m128 m_vComponents;
@@ -221,8 +212,6 @@ extern __m128 DAT_012689a0;
 extern __m128 DAT_012689b0;
 extern __m128 DAT_012689c0;
 extern __m128 DAT_012689d0;
-extern "C" __m128 _mm_load_ps(float const* p);
-extern "C" __m128 _mm_add_ss(__m128 a, __m128 b);
 struct FUN_00d21fc0_n
 {
     float x, y, z, w;
@@ -241,11 +230,6 @@ struct Cls_00d21fc0
     void FUN_00d21fc0(__m128* a, int b, int c, int d, int e, int out);
 };
 
-extern "C" __m128 _mm_add_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_sub_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_load_ss(float const* a);
-extern "C" __m128 _mm_set1_ps(float a);
-extern "C" __m128 _mm_move_ss(__m128 a, __m128 b);
 extern __m128 DAT_012689a0;
 extern __m128 DAT_012689b0;
 extern __m128 DAT_012689c0;

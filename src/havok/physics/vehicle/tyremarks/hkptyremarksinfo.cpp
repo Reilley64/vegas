@@ -2,6 +2,7 @@
 // src/havok/physics/vehicle/tyremarks/hkptyremarksinfo.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/vehicle/tyremarks/hkptyremarksinfo.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <xmmintrin.h>
 #include "fnv/decl/FUN_00e39e80_class.h"
 #include "fnv/symbols_00d06000.h"
 #include "havok/hkpTyremarksInfo.h"
@@ -94,11 +95,6 @@ void hkObjE39E::FUN_00e39ee0(hkStatisticsCollectorE39E* pkCollector, const hkCla
         pkCollector->addArray("Points", m_kPointSets.m_data[i]->m_kPoints);
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 
 struct __declspec(align(16)) hkVector4E39F
 {
@@ -120,7 +116,7 @@ struct hkSampleE39F
 
 __declspec(noinline) float hkSampleE39F::FUN_00e39e80() const
 {
-    return m_fVelocity.m_vComponents.m128_f32[3];
+    return m_fVelocity.m_vComponents[3];
 }
 
 class hkSampleRingE39F

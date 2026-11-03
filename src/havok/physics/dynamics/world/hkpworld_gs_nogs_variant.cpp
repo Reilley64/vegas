@@ -5,6 +5,8 @@
 
 // src/havok/physics/dynamics/world/hkpworld.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/hkpworld.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstddef>
+#include <xmmintrin.h>
 #include <windows.h>
 #include "fnv/decl/BatchAdd__WorldHelper.h"
 #include "fnv/decl/C66A00This.h"
@@ -1869,7 +1871,7 @@ struct WorldWatchDogHolder : hkpWorld
 {
     void* FUN_00c93570();
 };
-inline void* __cdecl operator new(unsigned int, void* p)
+inline void* __cdecl operator new(size_t, void* p)
 {
     return p;
 }
@@ -2258,13 +2260,6 @@ struct C00c98720
 
     void FUN_00c98720(int a, int b, int c, int d, int e, int f);
 };
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-};
-extern "C" __m128 __cdecl _mm_setzero_ps(void);
-extern "C" __m128 __cdecl _mm_add_ps(__m128 a, __m128 b);
-extern "C" __m128 __cdecl _mm_sub_ps(__m128 a, __m128 b);
 struct FUN_00c986c0_Obj
 {
 };
@@ -4904,7 +4899,7 @@ class hkRefObjC97E
     virtual ~hkRefObjC97E();
     unsigned short m_usMemSizeAndFlags;
     short m_sReferenceCount;
-    static void* operator new(unsigned int nbytes)
+    static void* operator new(size_t nbytes)
     {
         hkRefObjC97E* b = static_cast<hkRefObjC97E*>(hkRouterC97E::FUN_00c85750().heap().AllocateMemoryBlock(nbytes));
         b->m_usMemSizeAndFlags = (unsigned short)nbytes;

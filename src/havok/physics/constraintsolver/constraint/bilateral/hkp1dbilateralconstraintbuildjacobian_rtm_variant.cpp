@@ -4,25 +4,11 @@
 
 // src/havok/physics/constraintsolver/constraint/bilateral/hkp1dbilateralconstraintbuildjacobian.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/physics/constraintsolver/constraint/bilateral/hkp1dbilateralconstraintbuildjacobian.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <xmmintrin.h>
 #include "fnv/symbols_00dce000.h"
 #include "fnv/symbols_00dcf000.h"
 #include "fnv/symbols_010c9000.h"
 #include "fnv/symbols_01268000.h"
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-    int m128_i32[4];
-    __int64 m128_i64[2];
-    unsigned int m128_u32[4];
-} __m128;
-extern "C" __m128 _mm_add_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_sub_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_add_ss(__m128 a, __m128 b);
-extern "C" __m128 _mm_unpackhi_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
-extern "C" void _mm_store_ss(float* p, __m128 a);
 struct hkVector4
 {
     __m128 m_vComponents;
@@ -251,7 +237,6 @@ struct Jacobian_dcf5b0
     Vector_dcf5b0 angularA;
     Vector_dcf5b0 angularB;
 };
-extern "C" __m128 _mm_xor_ps(__m128, __m128);
 extern __m128 DAT_010c44d0;
 struct Src
 {
@@ -396,7 +381,6 @@ struct S_00dcf720_Jacobian
     }
 };
 // Adapted from an earlier contributor's 2026-10-21 WIP; retain prior credit.
-extern "C" __m128 _mm_xor_ps(__m128 a, __m128 b);
 static const double S00dcee80_kEps = 1.1920928955078125e-07;
 struct __declspec(align(16)) S_00dcee80_Vector4
 {
@@ -548,9 +532,6 @@ struct S_00dcee80_QueryOut
 };
 
 #include <math.h>
-extern "C" __m128 _mm_load_ps(const float*);
-extern "C" __m128 _mm_sqrt_ss(__m128);
-extern "C" __m128 _mm_load_ss(const float*);
 struct Input102
 {
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
@@ -590,7 +571,7 @@ union Velocity102
     } lanes;
     float& at(int i)
     {
-        return m_vComponents.m128_f32[i];
+        return m_vComponents[i];
     }
 };
 // @fnv 0x00dcfc00
@@ -600,9 +581,9 @@ void FUN_00dcfc00(const hkVector4* pivotA, const hkVector4* pivotB, float maxFor
     Accum_dcf880* bodyB = in->bodyB;
     FUN_00d6c970(pivotA, pivotB, in, jac);
     Velocity102 velocity;
-    velocity.at(0) = jac[0].linear.m_vComponents.m128_f32[3];
-    velocity.at(1) = jac[1].linear.m_vComponents.m128_f32[3];
-    velocity.at(2) = jac[2].linear.m_vComponents.m128_f32[3];
+    velocity.at(0) = jac[0].linear.m_vComponents[3];
+    velocity.at(1) = jac[1].linear.m_vComponents[3];
+    velocity.at(2) = jac[2].linear.m_vComponents[3];
     float limit = in->factor * maxForce;
     __m128 squared = _mm_mul_ps(velocity.m_vComponents, velocity.m_vComponents);
     __m128 sum =
@@ -667,18 +648,18 @@ void FUN_00dcfc00(const hkVector4* pivotA, const hkVector4* pivotB, float maxFor
             total.setXYZW(total, linearMass);
             float diagonal = total.horizontalAdd4() + eps;
             __m128 projectedInput = _mm_sub_ps(b.m_vComponents, a.m_vComponents);
-            row->angularB.m_vComponents.m128_f32[3] = diagonal;
-            row->angularA.m_vComponents.m128_f32[3] = tau / diagonal;
-            row->linear.m_vComponents.m128_f32[3] = DotValue(projectedInput, axis->m_vComponents) * factor;
+            row->angularB.m_vComponents[3] = diagonal;
+            row->angularA.m_vComponents[3] = tau / diagonal;
+            row->linear.m_vComponents[3] = DotValue(projectedInput, axis->m_vComponents) * factor;
             ++axis;
             ++row;
             ++n;
         } while (n < 3);
 
         float k = scale;
-        jac[0].linear.m_vComponents.m128_f32[3] = velocity.m_vComponents.m128_f32[0] * k;
-        jac[1].linear.m_vComponents.m128_f32[3] = velocity.m_vComponents.m128_f32[1] * k;
-        jac[2].linear.m_vComponents.m128_f32[3] = velocity.m_vComponents.m128_f32[2] * k;
+        jac[0].linear.m_vComponents[3] = velocity.m_vComponents[0] * k;
+        jac[1].linear.m_vComponents[3] = velocity.m_vComponents[1] * k;
+        jac[2].linear.m_vComponents[3] = velocity.m_vComponents[2] * k;
     }
 }
 

@@ -5,6 +5,7 @@
 
 // src/havok/physics/utilities/actions/motor/hkpmotoraction.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/actions/motor/hkpmotoraction.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstddef>
 #include "havok/hkpMotorAction.h"
 
 class hkpRigidBody;
@@ -49,7 +50,7 @@ template <class T> struct hkArrayMA
 class hkpMotorActionMA : public hkpMotorAction
 {
   public:
-    void* operator new(unsigned int nbytes)
+    void* operator new(size_t nbytes)
     {
         hkReferencedObject* b =
             static_cast<hkReferencedObject*>(FUN_00c85750().heap().AllocateMemoryBlock(static_cast<int>(nbytes)));

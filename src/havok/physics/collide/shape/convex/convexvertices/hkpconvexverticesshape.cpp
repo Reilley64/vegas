@@ -2,6 +2,7 @@
 // src/havok/physics/collide/shape/convex/convexvertices/hkpconvexverticesshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/convex/convexvertices/hkpconvexverticesshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <xmmintrin.h>
 #include <intrin.h>
 #include <windows.h>
 #include "fnv/decl/FUN_00c90510_class.h"
@@ -169,9 +170,7 @@ int SearchObject::FUN_00d5a4c0(unsigned int arg0, unsigned int arg1, unsigned in
     return (int)uiCallResult;
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128 { float m128_f32[4]; unsigned __int64 m128_u64[2]; };
 #include "fnv/symbols_simd.h"
-extern "C" __m128 _mm_setr_ps(float, float, float, float);
 struct hkVec4Q {
     __m128 m_vComponents;
     void set(float a, float b, float c, float d) { m_vComponents = _mm_setr_ps(a, b, c, d); }
@@ -217,18 +216,6 @@ hkSphereQ* ConvexVertsQ::FillSphereBuffer(hkSphereQ* sphereBuffer) const
 }
 
 namespace fnv_00d59cc0 {
-union __declspec(intrin_type) __declspec(align(16)) __m128 { float m128_f32[4]; unsigned __int64 m128_u64[2]; };
-extern "C" {
-__m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-__m128 _mm_mul_ps(__m128, __m128);
-__m128 _mm_add_ps(__m128, __m128);
-__m128 _mm_add_ss(__m128, __m128);
-__m128 _mm_xor_ps(__m128, __m128);
-__m128 _mm_unpacklo_ps(__m128, __m128);
-__m128 _mm_unpackhi_ps(__m128, __m128);
-__m128 _mm_movelh_ps(__m128, __m128);
-__m128 _mm_movehl_ps(__m128, __m128);
-}
 
 typedef __m128 hkQuadReal;
 
@@ -245,7 +232,7 @@ struct hkVector4q
     hkQuadReal m_vComponents;
 
     __forceinline void operator=(const hkVector4q& v) { m_vComponents = v.m_vComponents; }
-    __forceinline void setNeg4(const hkVector4q& v) { m_vComponents = _mm_xor_ps(v.m_vComponents, (*reinterpret_cast<const ::fnv_00d59cc0::__m128 *>((void *)&::DAT_010c44d0))); }
+    __forceinline void setNeg4(const hkVector4q& v) { m_vComponents = _mm_xor_ps(v.m_vComponents, (*reinterpret_cast<const __m128 *>((void *)&::DAT_010c44d0))); }
     __forceinline void _setRotatedInverseDir(const hkMatrix3q& r, const hkVector4q& b);
     void SetRotatedDirection(const hkMatrix3q& r, const hkVector4q& b) throw();
     __forceinline hkSimdRealq dot4xyz1(const hkVector4q& a) const
@@ -743,16 +730,7 @@ namespace FUN_00d59870 {
     }
 }
 
-extern "C" __m128 _mm_load_ps(const float*);
 struct SelectBits { __m128 v; };
-extern "C" __m128 _mm_setzero_ps(void);
-extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
-extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_add_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_cmplt_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_and_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_andnot_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_or_ps(__m128 a, __m128 b);
 
 struct MatchVector
 {
@@ -763,14 +741,14 @@ struct MatchVector
     MatchVector(const MatchVector& v) { m_vComponents = v.m_vComponents; }
     MatchVector(float v)
     {
-        m_vComponents.m128_f32[0] = v;
-        m_vComponents.m128_f32[1] = v;
-        m_vComponents.m128_f32[2] = v;
-        m_vComponents.m128_f32[3] = v;
+        m_vComponents[0] = v;
+        m_vComponents[1] = v;
+        m_vComponents[2] = v;
+        m_vComponents[3] = v;
     }
     void operator=(const MatchVector& v) { m_vComponents = v.m_vComponents; }
-    float& operator()(int i) { return m_vComponents.m128_f32[i]; }
-    const float& operator()(int i) const { return m_vComponents.m128_f32[i]; }
+    float& operator()(int i) { return m_vComponents[i]; }
+    const float& operator()(int i) const { return m_vComponents[i]; }
     void setMul4(const MatchVector& a, const MatchVector& b) { m_vComponents = _mm_mul_ps(_mm_load_ps((const float*)&a.m_vComponents), b.m_vComponents); }
     void addMul4(const MatchVector& a, const MatchVector& b) { m_vComponents = _mm_add_ps(m_vComponents, _mm_mul_ps(_mm_load_ps((const float*)&a.m_vComponents), b.m_vComponents)); }
     void add4(const MatchVector& a) { m_vComponents = _mm_add_ps(m_vComponents, a.m_vComponents); }
@@ -940,23 +918,6 @@ struct FUN_00d59bd0 : ConvexPart {
 };
 
 
-extern "C" __m128 _mm_set_ss(float);
-extern "C" float _mm_cvtss_f32(__m128);
-extern "C" __m128 _mm_setzero_ps(void);
-extern "C" __m128 _mm_load_ps(const float*);
-extern "C" __m128 _mm_loadu_ps(const float*);
-extern "C" void _mm_store_ps(float*, __m128);
-extern "C" void _mm_store_ss(float*, __m128);
-extern "C" __m128 _mm_add_ss(__m128, __m128);
-extern "C" __m128 _mm_sub_ss(__m128, __m128);
-extern "C" __m128 _mm_mul_ss(__m128, __m128);
-extern "C" __m128 _mm_add_ps(__m128, __m128);
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_rsqrt_ss(__m128);
-extern "C" __m128 _mm_cmpeq_ss(__m128, __m128);
-extern "C" __m128 _mm_andnot_ps(__m128, __m128);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
 extern "C" void _ReadWriteBarrier(void);
 extern "C" void _ReadBarrier(void);
 extern "C" void _WriteBarrier(void);
@@ -1219,7 +1180,7 @@ NineIntegerRecord* GetMemoryRouter_c85750();
 struct FourFloatVector
 {
     __m128 m_vComponents;
-    __forceinline float& operator()(int i) { return m_vComponents.m128_f32[i]; }
+    __forceinline float& operator()(int i) { return m_vComponents[i]; }
 };
 
 struct FourVectors

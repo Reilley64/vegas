@@ -2,6 +2,8 @@
 // src/havok/physics/utilities/charactercontrol/characterproxy/hkpcharacterproxy.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/charactercontrol/characterproxy/hkpcharacterproxy.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
+#include <xmmintrin.h>
 #include <intrin.h>
 #include <windows.h>
 #include "fnv/decl/Controller197.h"
@@ -230,7 +232,7 @@ struct FNVArray {
 struct FNVBuffers {
     FNVArray spare;
     FNVArray elements;
-    static void* operator new(unsigned int bytes) {
+    static void* operator new(size_t bytes) {
         return FUN_00c85750()->GetAllocator()->Allocate(bytes);
     }
 };
@@ -812,12 +814,6 @@ void Query289::CollectAllContactPoints(void* a,void* b) {
  reinterpret_cast<::POwner *>(this)->FUN_00cade20((*(const ::PStep *)(a)),(*(const ::PVec *)(b)),(*(::PCollector *)(&c2)),(*(::PCollector *)(&c1)),(void *)(0),0);
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128 { float m128_f32[4]; unsigned __int64 m128_u64[2]; };
-extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_add_ss(__m128 a, __m128 b);
-extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
-extern "C" __m128 _mm_sqrt_ss(__m128 a);
-extern "C" void _mm_store_ss(float* p, __m128 a);
 
 
 struct S00cacaa0_Vec {
@@ -967,18 +963,6 @@ void S00cacaa0_cls::FUN_00cacaa0(bool flag, float* a2, void* a3, void* a4)
 }
 
 namespace fnv_00cacf80 {
-union __declspec(intrin_type) __declspec(align(16)) __m128 {struct {float x,y,z,w;};};
-extern "C" {
-__m128 _mm_load_ss(const float*);
-void _mm_store_ss(float*,__m128);
-__m128 _mm_set_ps1(float);
-__m128 _mm_setzero_ps();
-__m128 _mm_shuffle_ps(__m128,__m128,int);
-__m128 _mm_mul_ps(__m128,__m128);
-__m128 _mm_add_ps(__m128,__m128);
-__m128 _mm_sub_ps(__m128,__m128);
-__m128 _mm_add_ss(__m128,__m128);
-}
 
 static float readStep(const float* p,int i){return p[i];}
 struct FloatMatrix3;
@@ -1493,7 +1477,7 @@ struct S_00caf4d0_Router {
 static __forceinline S_00caf4d0_Router* GetRouter37() throw() { return reinterpret_cast<S_00caf4d0_Router*>(FUN_00c85750()); }
 void ResizeAudioStream(S_00caf4d0_Heap& alloc, void* array, int elemSize) throw();
 
-inline void* __cdecl operator new(unsigned int, void* where) throw() { return where; }
+inline void* __cdecl operator new(size_t, void* where) throw() { return where; }
 
 struct __declspec(align(16)) S_00caf4d0_Vector4 {
     float x, y, z, w;
@@ -1908,8 +1892,6 @@ void Cad820Cls::FUN_00cad820(CadPhantom* phantom) throw()
     m_kPhantoms.removeAt(m_kPhantoms.indexOf(phantom));
 }
 
-extern "C" __m128 _mm_sub_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_setzero_ps(void);
 
 struct S00cafd90_Vec {
     __m128 m_vComponents;
@@ -1989,7 +1971,7 @@ float FUN_00cacf10_cls::FUN_00cafd90(void* a_, void* b_)
     S00cafd90_Body* b = (S00cafd90_Body*)b_;
     float t = 1.0f - S00cafd90_Dot3(a->unk10.m_vComponents, b->unk10.m_vComponents);
     float c = *(float*)&unk60 * *(float*)&unk60 * t;
-    float dw = a->unk10.m_vComponents.m128_f32[3] - b->unk10.m_vComponents.m128_f32[3];
+    float dw = a->unk10.m_vComponents[3] - b->unk10.m_vComponents[3];
     dw = dw * dw;
     S00cafd90_Vec vPosA = S00cafd90_Pos(a);
     S00cafd90_Vec vPosB = S00cafd90_Pos(b);
@@ -1997,8 +1979,6 @@ float FUN_00cacf10_cls::FUN_00cafd90(void* a_, void* b_)
     return e * ::DAT_0101ffa0 + c * ::DAT_01020758 + dw;
 }
 
-extern "C" __m128 _mm_add_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_load_ss(const float* p);
 typedef float S00cacd60_Real;
 class S00cacd60_SimdReal {
 public:
@@ -2261,17 +2241,6 @@ void S00cacd60_Proxy::FUN_00cacd60(const S00cacd60_Hit& hit, S00cacd60_Surface& 
     }
 }
 
-extern "C" __m128 _mm_load_ps(const float*);
-extern "C" __m128 _mm_load_ss(const float*);
-extern "C" __m128 _mm_add_ps(__m128, __m128);
-extern "C" __m128 _mm_set_ss(float);
-extern "C" __m128 _mm_rsqrt_ss(__m128);
-extern "C" __m128 _mm_mul_ss(__m128, __m128);
-extern "C" __m128 _mm_sub_ss(__m128, __m128);
-extern "C" __m128 _mm_cmpeq_ss(__m128, __m128);
-extern "C" __m128 _mm_andnot_ps(__m128, __m128);
-extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
-extern "C" void _mm_store_ss(float* p, __m128 a);
 
 struct __declspec(align(16)) Contact {
     __m128 normal;
@@ -2340,7 +2309,6 @@ volatile unsigned g_i; ContactBuffer* volatile g_b; volatile float g_d; const __
 void CallTarget_cadca0() { ContactBuffer* b=g_b; unsigned i=g_i; float d=g_d; const __m128* p=g_p; g_o=FUN_00cadca0(b,i,d,*p); g_o=FUN_00cadca0(b,i,d,*p); }
 
 static __forceinline __m128 CaccSplat(float value) { __m128 scalar = _mm_load_ss(&value); return _mm_shuffle_ps(scalar, scalar, 0); }
-extern "C" void _mm_store_ps(float*, __m128);
 
 __declspec(align(16)) struct S_V4 { float x, y, z, w; };
 
@@ -2409,13 +2377,6 @@ float S_00cacc50::FUN_00cacc50(const S_A& a, S_B* b, S_Pad<S_V4> c, S_Pad<S_V4> 
 #include "fnv/symbols_simd.h"
 extern "C" void _ReadWriteBarrier(void);
 
-extern "C" __m128 _mm_rsqrt_ss(__m128);
-extern "C" __m128 _mm_set_ss(float);
-extern "C" __m128 _mm_cmpeq_ss(__m128, __m128);
-extern "C" __m128 _mm_mul_ss(__m128, __m128);
-extern "C" __m128 _mm_sub_ss(__m128, __m128);
-extern "C" __m128 _mm_andnot_ps(__m128, __m128);
-extern "C" __m128 _mm_setzero_ps(void);
 
 
 struct S_00cad500_V4 {
@@ -2735,70 +2696,52 @@ void hkpCharacterProxy::FUN_00cac9a0(hkpCharacterProxyCinfo& info) const
     info.m_bRefreshManifoldInCheckSupport = m_bRefreshManifoldInCheckSupport;
 }
 
-namespace sse_ca0c40 {
-union __declspec(intrin_type) __declspec(align(16)) __m128 {
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-    __int8 m128_i8[16];
-    __int16 m128_i16[8];
-    __int32 m128_i32[4];
-    __int64 m128_i64[2];
-    unsigned __int8 m128_u8[16];
-    unsigned __int16 m128_u16[8];
-    unsigned __int32 m128_u32[4];
-};
-extern "C" __m128 _mm_add_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_sub_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
-extern "C" void _mm_store_ps(float* p, __m128 a);
-}
 
 struct CharProxy_ca0c40 {
-    sse_ca0c40::__m128 unk000;
-    sse_ca0c40::__m128 unk010;
-    sse_ca0c40::__m128 unk020;
-    sse_ca0c40::__m128 unk030;
-    sse_ca0c40::__m128 unk040;
-    sse_ca0c40::__m128 unk050;
-    sse_ca0c40::__m128 unk060;
-    sse_ca0c40::__m128 unk070;
-    sse_ca0c40::__m128 unk080;
-    sse_ca0c40::__m128 unk090;
-    sse_ca0c40::__m128 unk0a0;
-    sse_ca0c40::__m128 unk0b0;
-    sse_ca0c40::__m128 unk0c0;
-    sse_ca0c40::__m128 unk0d0;
-    sse_ca0c40::__m128 unk0e0;
-    sse_ca0c40::__m128 unk0f0;
-    sse_ca0c40::__m128 unk100;
-    sse_ca0c40::__m128 unk110;
-    sse_ca0c40::__m128 unk120;
-    sse_ca0c40::__m128 unk130;
-    sse_ca0c40::__m128 m_140;
-    sse_ca0c40::__m128 unk150;
-    sse_ca0c40::__m128 unk160;
-    sse_ca0c40::__m128 unk170;
-    sse_ca0c40::__m128 unk180;
-    sse_ca0c40::__m128 unk190;
-    sse_ca0c40::__m128 unk1a0;
-    sse_ca0c40::__m128 m_1b0;
-    sse_ca0c40::__m128 m_1c0;
+    __m128 unk000;
+    __m128 unk010;
+    __m128 unk020;
+    __m128 unk030;
+    __m128 unk040;
+    __m128 unk050;
+    __m128 unk060;
+    __m128 unk070;
+    __m128 unk080;
+    __m128 unk090;
+    __m128 unk0a0;
+    __m128 unk0b0;
+    __m128 unk0c0;
+    __m128 unk0d0;
+    __m128 unk0e0;
+    __m128 unk0f0;
+    __m128 unk100;
+    __m128 unk110;
+    __m128 unk120;
+    __m128 unk130;
+    __m128 m_140;
+    __m128 unk150;
+    __m128 unk160;
+    __m128 unk170;
+    __m128 unk180;
+    __m128 unk190;
+    __m128 unk1a0;
+    __m128 m_1b0;
+    __m128 m_1c0;
 
-    sse_ca0c40::__m128* FUN_00ca0c40(const sse_ca0c40::__m128* a, sse_ca0c40::__m128* out);
+    __m128* FUN_00ca0c40(const __m128* a, __m128* out);
 };
 
 // Stores m_1b0 plus the cross product of m_1c0 with (*a - m_140) in out and returns out.
 // @fnv 0x00ca0c40
-sse_ca0c40::__m128* CharProxy_ca0c40::FUN_00ca0c40(const sse_ca0c40::__m128* a, sse_ca0c40::__m128* out) {
-    sse_ca0c40::__m128 d = sse_ca0c40::_mm_sub_ps(*a, m_140);
-    sse_ca0c40::__m128 b = m_1c0;
-    sse_ca0c40::__m128 t1 = sse_ca0c40::_mm_mul_ps(sse_ca0c40::_mm_shuffle_ps(b, b, 0xc9), sse_ca0c40::_mm_shuffle_ps(d, d, 0xd2));
-    sse_ca0c40::__m128 vTerm2 = sse_ca0c40::_mm_mul_ps(sse_ca0c40::_mm_shuffle_ps(b, b, 0xd2), sse_ca0c40::_mm_shuffle_ps(d, d, 0xc9));
-    sse_ca0c40::__m128 c;
-    c = sse_ca0c40::_mm_sub_ps(t1, vTerm2);
-    sse_ca0c40::_mm_store_ps((float*)out, c);
-    sse_ca0c40::_mm_store_ps((float*)out, sse_ca0c40::_mm_add_ps(m_1b0, c));
+__m128* CharProxy_ca0c40::FUN_00ca0c40(const __m128* a, __m128* out) {
+    __m128 d = _mm_sub_ps(*a, m_140);
+    __m128 b = m_1c0;
+    __m128 t1 = _mm_mul_ps(_mm_shuffle_ps(b, b, 0xc9), _mm_shuffle_ps(d, d, 0xd2));
+    __m128 vTerm2 = _mm_mul_ps(_mm_shuffle_ps(b, b, 0xd2), _mm_shuffle_ps(d, d, 0xc9));
+    __m128 c;
+    c = _mm_sub_ps(t1, vTerm2);
+    _mm_store_ps((float*)out, c);
+    _mm_store_ps((float*)out, _mm_add_ps(m_1b0, c));
     return out;
 }
 
@@ -2806,13 +2749,6 @@ struct S00cae900_Listeners {  };
 static const float DAT_010c851c = -0.08f;
 extern const __m128 DAT_01017d10;
 typedef unsigned long DWORD;
-extern "C" {
-__m128 _mm_and_ps(__m128, __m128);
-__m128 _mm_cmple_ps(__m128, __m128);
-int _mm_movemask_ps(__m128);
-__m128 _mm_set_ps1(float);
-__m128 _mm_setr_ps(float, float, float, float);
-}
 typedef __m128 S00cae900_Quad;
 typedef float S00cae900_Real;
 
@@ -2962,7 +2898,7 @@ typedef S00cae900_TraitBool<false> S00cae900_TypeIsClass;
 template <typename T> struct S00cae900_IsPodType : public S00cae900_TraitBool<false> {};
 template <> struct S00cae900_IsPodType<S00cae900_Vec> : public S00cae900_TraitBool<true> {};
 struct S00cae900_PlacementNewArg;
-inline void* operator new(unsigned int, S00cae900_PlacementNewArg* p) { return p; }
+inline void* operator new(size_t, S00cae900_PlacementNewArg* p) { return p; }
 template <typename T> __forceinline void S00cae900_construct(T* t, int n, S00cae900_TypeIsPod) {}
 template <typename T> __forceinline void S00cae900_construct(T* t, int n, S00cae900_TypeIsClass) {
     for (int i = 0; i < n; ++i) {
@@ -3322,10 +3258,6 @@ void S00cae900_Proxy::FUN_00cae900(const S00cae900_Vec& direction, S00cae900_Sur
 }
 
 typedef unsigned long DWORD;
-extern "C" {
-__m128 _mm_set_ps1(float);
-__m128 _mm_setr_ps(float, float, float, float);
-}
 static const float kInvSixtySV = 1.0f / 60.0f;
 static const float kMinSurfaceDotSV = -0.08f;
 typedef __m128 S00caefd0_Quad;
@@ -3334,13 +3266,13 @@ typedef float S00caefd0_Real;
 class S00caefd0_SimdReal {
 public:
     S00caefd0_SimdReal(const S00caefd0_Quad& x) : m_vValue(x) {}
-    S00caefd0_SimdReal(S00caefd0_Real x) { m_vValue = (_mm_load_ss)(&x); }
+    S00caefd0_SimdReal(S00caefd0_Real x) { m_vValue = _mm_load_ss(&x); }
     operator S00caefd0_Real() const {
         S00caefd0_Real s;
-        (_mm_store_ss)(&s, m_vValue);
+        _mm_store_ss(&s, m_vValue);
         return s;
     }
-    __forceinline S00caefd0_Quad broadcast() const { return (_mm_shuffle_ps)(m_vValue, m_vValue, 0); }
+    __forceinline S00caefd0_Quad broadcast() const { return _mm_shuffle_ps(m_vValue, m_vValue, 0); }
     __forceinline const S00caefd0_Quad& getQuad() const { return m_vValue; }
 private:
     S00caefd0_Quad m_vValue;
@@ -3352,35 +3284,35 @@ class S00caefd0_Vec {
 public:
     __forceinline S00caefd0_Vec() {}
     __forceinline void operator=(const S00caefd0_Vec& v) { m_vComponents = v.m_vComponents; }
-    __forceinline void SetAllComponents(S00caefd0_Real a) { m_vComponents = (_mm_set_ps1)(a); }
-    __forceinline void set(S00caefd0_Real a, S00caefd0_Real b, S00caefd0_Real c, S00caefd0_Real d = 0.0f) { m_vComponents = (_mm_setr_ps)(a, b, c, d); }
-    __forceinline void setAll3(S00caefd0_Real a) { m_vComponents = (_mm_set_ps1)(a); }
-    __forceinline void setZero4() { m_vComponents = (_mm_setzero_ps)(); }
-    __forceinline void add4(const S00caefd0_Vec& v) { m_vComponents = (_mm_add_ps)(m_vComponents, v.m_vComponents); }
-    __forceinline void setAdd4(const S00caefd0_Vec& a, const S00caefd0_Vec& b) { m_vComponents = (_mm_add_ps)(a.m_vComponents, b.m_vComponents); }
-    __forceinline void sub4(const S00caefd0_Vec& v) { m_vComponents = (_mm_sub_ps)(m_vComponents, v.m_vComponents); }
-    __forceinline void mul4(S00caefd0_SimdParam s) { m_vComponents = (_mm_mul_ps)(s.broadcast(), m_vComponents); }
-    __forceinline void addMul4(S00caefd0_SimdParam r, const S00caefd0_Vec& v) { m_vComponents = (_mm_add_ps)(m_vComponents, (_mm_mul_ps)(r.broadcast(), v.m_vComponents)); }
-    __forceinline void setAddMul4(const S00caefd0_Vec& a, const S00caefd0_Vec& b, S00caefd0_SimdParam r) { m_vComponents = (_mm_add_ps)(a.m_vComponents, (_mm_mul_ps)(r.broadcast(), b.m_vComponents)); }
+    __forceinline void SetAllComponents(S00caefd0_Real a) { m_vComponents = _mm_set_ps1(a); }
+    __forceinline void set(S00caefd0_Real a, S00caefd0_Real b, S00caefd0_Real c, S00caefd0_Real d = 0.0f) { m_vComponents = _mm_setr_ps(a, b, c, d); }
+    __forceinline void setAll3(S00caefd0_Real a) { m_vComponents = _mm_set_ps1(a); }
+    __forceinline void setZero4() { m_vComponents = _mm_setzero_ps(); }
+    __forceinline void add4(const S00caefd0_Vec& v) { m_vComponents = _mm_add_ps(m_vComponents, v.m_vComponents); }
+    __forceinline void setAdd4(const S00caefd0_Vec& a, const S00caefd0_Vec& b) { m_vComponents = _mm_add_ps(a.m_vComponents, b.m_vComponents); }
+    __forceinline void sub4(const S00caefd0_Vec& v) { m_vComponents = _mm_sub_ps(m_vComponents, v.m_vComponents); }
+    __forceinline void mul4(S00caefd0_SimdParam s) { m_vComponents = _mm_mul_ps(s.broadcast(), m_vComponents); }
+    __forceinline void addMul4(S00caefd0_SimdParam r, const S00caefd0_Vec& v) { m_vComponents = _mm_add_ps(m_vComponents, _mm_mul_ps(r.broadcast(), v.m_vComponents)); }
+    __forceinline void setAddMul4(const S00caefd0_Vec& a, const S00caefd0_Vec& b, S00caefd0_SimdParam r) { m_vComponents = _mm_add_ps(a.m_vComponents, _mm_mul_ps(r.broadcast(), b.m_vComponents)); }
     __forceinline S00caefd0_SimdReal dot3(const S00caefd0_Vec& a) const {
-        S00caefd0_Quad x2 = (_mm_mul_ps)(m_vComponents, a.m_vComponents);
-        S00caefd0_Quad xySum = (_mm_add_ss)((_mm_shuffle_ps)(x2, x2, 0x55), x2);
-        return (_mm_add_ss)((_mm_shuffle_ps)(x2, x2, 0xaa), xySum);
+        S00caefd0_Quad x2 = _mm_mul_ps(m_vComponents, a.m_vComponents);
+        S00caefd0_Quad xySum = _mm_add_ss(_mm_shuffle_ps(x2, x2, 0x55), x2);
+        return _mm_add_ss(_mm_shuffle_ps(x2, x2, 0xaa), xySum);
     }
     __forceinline S00caefd0_SimdReal lengthSquared3() const { return dot3(*this); }
     __forceinline S00caefd0_SimdReal lengthInverse3() const {
-        const S00caefd0_Quad half = (_mm_set_ss)(0.5f);
-        const S00caefd0_Quad three = (_mm_set_ss)(3.0f);
-        const S00caefd0_Quad zero = (_mm_set_ss)(0.0f);
+        const S00caefd0_Quad half = _mm_set_ss(0.5f);
+        const S00caefd0_Quad three = _mm_set_ss(3.0f);
+        const S00caefd0_Quad zero = _mm_set_ss(0.0f);
         const S00caefd0_Quad len2 = dot3(*this).getQuad();
-        const S00caefd0_Quad len2EqualsZero = (_mm_cmpeq_ss)(len2, zero);
-        const S00caefd0_Quad approx = (_mm_rsqrt_ss)(len2);
-        const S00caefd0_Quad refined = (_mm_mul_ss)((_mm_mul_ss)(half, approx), (_mm_sub_ss)(three, (_mm_mul_ss)((_mm_mul_ss)(len2, approx), approx)));
-        return (_mm_andnot_ps)(len2EqualsZero, refined);
+        const S00caefd0_Quad len2EqualsZero = _mm_cmpeq_ss(len2, zero);
+        const S00caefd0_Quad approx = _mm_rsqrt_ss(len2);
+        const S00caefd0_Quad refined = _mm_mul_ss(_mm_mul_ss(half, approx), _mm_sub_ss(three, _mm_mul_ss(_mm_mul_ss(len2, approx), approx)));
+        return _mm_andnot_ps(len2EqualsZero, refined);
     }
     __forceinline void normalize3() {
         S00caefd0_Quad lenInv = lengthInverse3().broadcast();
-        m_vComponents = (_mm_mul_ps)(lenInv, m_vComponents);
+        m_vComponents = _mm_mul_ps(lenInv, m_vComponents);
     }
     S00caefd0_Quad m_vComponents;
 };

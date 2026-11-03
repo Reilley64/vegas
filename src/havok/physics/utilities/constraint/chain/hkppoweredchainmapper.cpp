@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/constraint/chain/hkppoweredchainmapper.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/constraint/chain/hkppoweredchainmapper.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
 #include <new>
 #include "fnv/decl/FUN_00cb1600.h"
 #include "fnv/decl/FUN_00cb18f0_t.h"
@@ -126,7 +127,7 @@ void hkSetE3A5::CollectSlotValues(int range, int slot, hkArrayE3A5<int>& out)
 struct FnPlacement
 {
 };
-inline void* operator new(unsigned int, FnPlacement* p)
+inline void* operator new(size_t, FnPlacement* p)
 {
     return p;
 }
@@ -288,7 +289,7 @@ struct FnMapper
     FnArray<FnLink> links;
     FnArray<FnTarget> targets;
     FnArray<FnObject*> chains;
-    static void* operator new(unsigned int size)
+    static void* operator new(size_t size)
     {
         FnAllocator& allocator = FUN_00c85750()->getHeap();
         FnMapper* p = (FnMapper*)allocator.allocate(size);

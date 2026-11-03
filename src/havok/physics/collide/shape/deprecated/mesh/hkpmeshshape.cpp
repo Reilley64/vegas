@@ -2,6 +2,8 @@
 // src/havok/physics/collide/shape/deprecated/mesh/hkpmeshshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/deprecated/mesh/hkpmeshshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
+#include <xmmintrin.h>
 #include "fnv/symbols_00d06000.h"
 #include "fnv/symbols_00d21000.h"
 #include "fnv/symbols_011b2000.h"
@@ -268,13 +270,6 @@ class FUN_00dccd00_C : public Base0DCCD, public Base1DCCD
 
 };
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C" __m128 _mm_setzero_ps(void);
-extern "C" __m128 _mm_setr_ps(float, float, float, float);
 
 struct Msh_dccf60_Subpart
 {
@@ -428,13 +423,7 @@ const void* Msh_dccf60_Mesh::CreateTriangle(unsigned int key, void* buffer) cons
 }
 
 namespace fnv_00dcd310 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 
-extern "C" __m128 _mm_set_ps1(float fA);
 
 struct hkVector4DCD3
 {
@@ -585,8 +574,6 @@ int FUN_00dcd410_C::GetElement(unsigned int uiKey)
     return -1;
 }
 
-extern "C" __m128 _mm_min_ps(__m128, __m128);
-extern "C" __m128 _mm_max_ps(__m128, __m128);
 struct MeshVec
 {
     __m128 m_vComponents;
@@ -607,9 +594,9 @@ static __declspec(noinline) void ExpandAabbWithVertex(const MeshVec& vertex, con
                                                       const MeshVec& scaling, MeshAabb& aabb)
 {
     MeshVec scaled;
-    scaled.set(vertex.m_vComponents.m128_f32[0] * scaling.m_vComponents.m128_f32[0],
-               vertex.m_vComponents.m128_f32[1] * scaling.m_vComponents.m128_f32[1],
-               vertex.m_vComponents.m128_f32[2] * scaling.m_vComponents.m128_f32[2]);
+    scaled.set(vertex.m_vComponents[0] * scaling.m_vComponents[0],
+               vertex.m_vComponents[1] * scaling.m_vComponents[1],
+               vertex.m_vComponents[2] * scaling.m_vComponents[2]);
     MeshVec v;
     v.FUN_00c7f640(localToWorld, scaled);
     aabb.m_kMinimumCorner.m_vComponents = _mm_min_ps(aabb.m_kMinimumCorner.m_vComponents, v.m_vComponents);
@@ -621,7 +608,7 @@ void MeshGetAabb_dccdd0()
     ExpandAabbWithVertex(*(MeshVec*)g_meshIn0, *(hkTransform*)g_meshIn1, *(MeshVec*)g_meshIn2, *(MeshAabb*)g_meshIn3);
 }
 
-inline void* operator new(unsigned int, void* p)
+inline void* operator new(size_t, void* p)
 {
     return p;
 }
@@ -739,10 +726,6 @@ S00dcd380_Mesh* S00dcd380_Host::FUN_00dcd380(int finishing)
 struct MeshAabb;
 extern "C" void _ReadWriteBarrier();
 
-extern "C" __m128 _mm_set_ps1(float);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, int);
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ps(__m128, __m128);
 struct hkpMeshShapeSubpart
 {
     const float* m_pMaterialIndexBase;
@@ -834,8 +817,6 @@ void MeshShapeHelper::FUN_00dccdd0(const hkTransform& placement, hkReal margin, 
     add(expansion, bounds.m_kMaximumCorner);
 }
 
-extern "C" __m128 _mm_load_ps(const float*);
-extern "C" void _mm_store_ps(float*, __m128);
 
 class MeshScalingSetter : public hkpMeshShape
 {

@@ -342,7 +342,7 @@ void PoweredChainData::FUN_00e3b850(const __m128* apFrameA, const __m128* apFram
     info.motorC = motorC;
     reinterpret_cast<::FUN_00c90510_class *>((motorC))->FUN_00c90510();
     info.enabled = false;
-    info.frameD = (*reinterpret_cast<const ::__m128 *>(&::DAT_012683b0));
+    info.frameD = (*reinterpret_cast<const __m128 *>(&::DAT_012683b0));
 }
 
 struct S00e3b810_Out

@@ -2,6 +2,8 @@
 // src/havok/physics/dynamics/world/simulation/continuous/hkpcontinuoussimulation.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/simulation/continuous/hkpcontinuoussimulation.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
+#include <xmmintrin.h>
 #include <intrin.h>
 #include <windows.h>
 #include <new>
@@ -549,22 +551,7 @@ void FUN_00d0bfc0_cls::RemoveMatchingEntries(ScopeQuery* pQuery) {
     } while (i >= 0);
 }
 
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128 {
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-    __int32 m128_i32[4];
-    __int64 m128_i64[2];
-    unsigned __int32 m128_u32[4];
-} __m128;
 
-extern "C" __m128 _mm_mul_ps(__m128 _A, __m128 _B);
-extern "C" __m128 _mm_add_ps(__m128 _A, __m128 _B);
-extern "C" __m128 _mm_sub_ps(__m128 _A, __m128 _B);
-extern "C" __m128 _mm_shuffle_ps(__m128 _A, __m128 _B, unsigned int _Imm8);
-extern "C" __m128 _mm_unpacklo_ps(__m128 _A, __m128 _B);
-extern "C" __m128 _mm_unpackhi_ps(__m128 _A, __m128 _B);
-extern "C" __m128 _mm_movelh_ps(__m128 _A, __m128 _B);
-extern "C" __m128 _mm_movehl_ps(__m128 _A, __m128 _B);
 
 class hkVector4 {
 public:
@@ -1242,7 +1229,7 @@ struct S_00d0d150_CollisionOutput {
     S_00d0d150_ToiInfo m_fTimeOfImpact;
 };
 
-inline void* __cdecl operator new(unsigned int, void* where) throw() { return where; }
+inline void* __cdecl operator new(size_t, void* where) throw() { return where; }
 
 template <typename T>
 struct S_00d0d150_Array {
@@ -1867,7 +1854,6 @@ void __cdecl ProcessCollisionEvent(void* context, CollisionEvent* event, float d
 // expanded integer AABB into thread-stack local arrays, add them to the 3-axis sweep, then remove duplicate pairs.
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
-extern "C" void _mm_prefetch(char const* p, int hint);
 
   // "LtBroadPhase"
 extern char DAT_010cd3e8[];  // "StGatherAabbs"
@@ -4113,7 +4099,6 @@ int S_00d0e9c0::FUN_00d0e9c0(float minTime) {
 }
 
 extern "C" unsigned __int64 __rdtsc();
-extern "C" void _mm_prefetch(const char*, int);
 extern char DAT_010cd3e8[];
 
 struct ScratchSpan {
@@ -5504,7 +5489,6 @@ FUN_00d0d020_cls *FUN_00d0d020_cls::FUN_00d0d020(Owner *apOwner) {
 template<class T> class ScanPointer {T p;public:__forceinline ScanPointer(){} __forceinline ScanPointer(T q):p(q){} __forceinline void operator=(T q){p=q;} __forceinline operator T()const{return p;} __forceinline T const& val()const{return p;}};
 // Resolve an event and remove obsolete queued events.
 extern "C" unsigned __int64 __rdtsc(void);
-extern "C" __m128 _mm_setzero_ps();
 extern "C" void _ReadWriteBarrier(void);
 extern char DAT_010cd540[];
 extern char DAT_010cd534[];

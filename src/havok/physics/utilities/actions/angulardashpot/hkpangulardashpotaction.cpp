@@ -2,13 +2,10 @@
 // src/havok/physics/utilities/actions/angulardashpot/hkpangulardashpotaction.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/actions/angulardashpot/hkpangulardashpotaction.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
+#include <xmmintrin.h>
 #include "havok/hkpAngularDashpotAction.h"
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 #include "fnv/symbols_simd.h"
 
 struct hkQuaternionD4DB
@@ -102,7 +99,7 @@ class hkReferencedObjectD4DC
     unsigned short m_usMemSizeAndFlags;
     short m_sReferenceCount;
 
-    static void* operator new(unsigned int uiSize)
+    static void* operator new(size_t uiSize)
     {
         hkReferencedObjectD4DC* pkObj =
             static_cast<hkReferencedObjectD4DC*>(FUN_00c85750().heap().AllocateMemoryBlock(uiSize));

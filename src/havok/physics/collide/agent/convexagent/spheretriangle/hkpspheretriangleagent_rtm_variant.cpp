@@ -4,6 +4,7 @@
 
 // src/havok/physics/collide/agent/convexagent/spheretriangle/hkpspheretriangleagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/convexagent/spheretriangle/hkpspheretriangleagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <xmmintrin.h>
 #include <intrin.h>
 #include <windows.h>
 #include "fnv/decl/Triangle.h"
@@ -103,14 +104,7 @@ struct D3DD10Object
     void FUN_00d3dd10(unsigned int p0, unsigned int p1,
                                  unsigned int p2, unsigned int p3);
 };
-union __declspec(intrin_type) __declspec(align(16)) __m128 { float m128_f32[4]; unsigned __int64 m128_u64[2]; };
 #include "fnv/symbols_simd.h"
-extern "C" {
-__m128 _mm_add_ps(__m128, __m128);
-__m128 _mm_mul_ps(__m128, __m128);
-__m128 _mm_xor_ps(__m128, __m128);
-__m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-}
 struct hkVector4q
 {
     __m128 m_vComponents;
@@ -175,12 +169,6 @@ typedef unsigned long DWORD;
 extern "C" {
 unsigned __int64 __rdtsc();
 void _ReadWriteBarrier();
-__m128 _mm_sub_ps(__m128, __m128);
-__m128 _mm_unpacklo_ps(__m128, __m128);
-__m128 _mm_unpackhi_ps(__m128, __m128);
-__m128 _mm_movelh_ps(__m128, __m128);
-__m128 _mm_movehl_ps(__m128, __m128);
-void _mm_store_ps(float*, __m128);
 }
 struct __declspec(align(16)) Vec4 {
     float x, y, z, w;
@@ -303,12 +291,10 @@ struct S_00d3d3e0_P1P { S_00d3d3e0_P1* p; S_00d3d3e0_P1* val() const { return p;
 struct S_00d3d3e0_P2P { S_00d3d3e0_P2* p; S_00d3d3e0_P2* val() const { return p; } };
 struct S_00d3d3e0_P3P { S_00d3d3e0_P3* p; S_00d3d3e0_P3* val() const { return p; } };
 
-extern "C" __m128 _mm_load_ss(float const*_A);
 typedef unsigned long DWORD;
 extern "C" {
 unsigned __int64 __rdtsc();
 void _ReadWriteBarrier();
-__m128 _mm_load_ss(const float*);
 }
 struct __declspec(align(16)) S00d3d6b0_Vec4 { float x,y,z,w; };
 struct S00d3d6b0_Res { S00d3d6b0_Vec4 pt; float d; };
@@ -403,8 +389,6 @@ void S00d3d6b0_SphereTriAgent::FUN_00d3d6b0(S00d3d6b0_BodyHolderB* a, S00d3d6b0_
 extern "C" {
 unsigned __int64 __rdtsc(void);
 void _ReadWriteBarrier(void);
-__m128 _mm_unpackhi_ps(__m128, __m128);
-__m128 _mm_load_ss(const float*);
 }
 
 struct Transform;
@@ -628,7 +612,6 @@ void TargetAgent_Cand::FUN_00d3dd90(const CdBody* bodyA, const CdBody* bodyB, co
     }
 }
 
-extern "C" __m128 _mm_load_ss(const float*);
 static __forceinline __m128 PlainBroadcast(const float& f) {
  __m128 t=_mm_load_ss(&f); return _mm_shuffle_ps(t,t,0);
 }

@@ -5,18 +5,13 @@
 
 // src/havok/physics/collide/shape/convex/capsule/hkpcapsuleshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/convex/capsule/hkpcapsuleshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <xmmintrin.h>
 #include "havok/hkpCapsuleShape.h"
 extern char const* const g_01268970_arg1;
 void __cdecl FUN_00c90360(char const* const* arg1, char const* const* arg2);
 void __cdecl FUN_00d22360(char const* const* arg1, char const* const* arg2);
 int __cdecl FUN_00d22350();
 int FUN_00d22d60(int a, int b);
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-};
-extern "C" __m128 _mm_load_ps(float const* p);
-extern "C" void _mm_store_ps(float* p, __m128 v);
 class FUN_00d223f0_cls
 {
   public:
@@ -98,11 +93,6 @@ void __cdecl FUN_00d231b0(const Point4& a, const Point4& b, const Point4& c, con
 void __cdecl GetClosestLinePoints(const Point4& aLineAStart, const Point4& aLineAEnd, const Point4& aLineBStart,
                                   const Point4& aLineBEnd, float* pfDistance, float* pfFractionA, float* pfFractionB,
                                   Point4* pointA, Point4* pointB);
-extern "C" __m128 _mm_add_ps(__m128, __m128);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, int);
-extern "C" __m128 _mm_load_ss(const float*);
-extern "C" void _mm_store_ps(float*, __m128);
 extern float DAT_01016248;
 class Aabb_d22440
 {
@@ -120,10 +110,4 @@ class Aabb_d22440
 
     void FUN_00d22440(__m128* pkCenter) const;
 };
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ss(__m128, __m128);
-extern "C" __m128 _mm_load_ss(const float*);
-extern "C" void _mm_store_ss(float*, __m128);
 void __cdecl FUN_00d224c0(float* arg1, float* arg2, float* arg3, float* out);

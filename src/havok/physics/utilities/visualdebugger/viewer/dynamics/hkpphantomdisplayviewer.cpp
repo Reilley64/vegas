@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/visualdebugger/viewer/dynamics/hkpphantomdisplayviewer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/dynamics/hkpphantomdisplayviewer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
 #include <windows.h>
 #include <new>
 #include "fnv/decl/FUN_00cb1600.h"
@@ -570,7 +571,7 @@ class hkReferencedObjectD667
     unsigned short m_usMemSizeAndFlags;
     short m_sReferenceCount;
 
-    static void* operator new(unsigned int nbytes)
+    static void* operator new(size_t nbytes)
     {
         hkReferencedObjectD667* b =
             static_cast<hkReferencedObjectD667*>(hkRouterD667::FUN_00c85750().heap().AllocateMemoryBlock(nbytes));
@@ -720,7 +721,7 @@ hkpPhantomDisplayViewer::~hkpPhantomDisplayViewer()
 
 extern "C" void _ReadWriteBarrier(void);
 extern "C" unsigned __int64 __rdtsc(void);
-inline void* operator new(unsigned int, void* p)
+inline void* operator new(size_t, void* p)
 {
     return p;
 }

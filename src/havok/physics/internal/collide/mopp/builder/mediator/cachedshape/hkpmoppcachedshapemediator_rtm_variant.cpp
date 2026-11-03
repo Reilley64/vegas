@@ -2,6 +2,7 @@
 // with VC9 RTM (cl 15.00.21022.08, the compiler the game was built with). Declarations copied from that unit's skeleton.
 
 
+#include <xmmintrin.h>
 #include "fnv/symbols_00c90000.h"
 #include "fnv/symbols_00d54000.h"
 int InitIntToZero(int, int* piValue);
@@ -214,16 +215,6 @@ struct FUN_00dd5660_cls
     int unk18;
     int FUN_00dd5660();
 };
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C" __m128 _mm_load_ps(float const* p);
-extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_add_ss(__m128 a, __m128 b);
-extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
-extern "C" void _mm_store_ss(float* p, __m128 a);
 struct Vec4
 {
     float x;

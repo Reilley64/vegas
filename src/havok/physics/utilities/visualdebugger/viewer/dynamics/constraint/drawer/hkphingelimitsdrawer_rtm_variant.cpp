@@ -5,24 +5,13 @@
 // src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkphingelimitsdrawer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkphingelimitsdrawer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <xmmintrin.h>
 #include "fnv/decl/CpuObject.h"
 #include "fnv/decl/DE44C0Object.h"
 #include "fnv/decl/FUN_00de4530Owner.h"
 #include "fnv/symbols_00cab000.h"
 #include "fnv/symbols_0106d000.h"
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-} __m128;
 
-extern "C"
-{
-    __m128 __cdecl _mm_add_ps(__m128, __m128);
-    __m128 __cdecl _mm_mul_ps(__m128, __m128);
-    __m128 __cdecl _mm_load_ss(const float*);
-    __m128 __cdecl _mm_shuffle_ps(__m128, __m128, int);
-    void __cdecl _mm_store_ps(float*, __m128);
-}
 
 static __forceinline __m128 splat(const float& f)
 {

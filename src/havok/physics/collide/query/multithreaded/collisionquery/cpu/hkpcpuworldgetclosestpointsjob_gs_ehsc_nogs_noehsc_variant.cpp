@@ -5,6 +5,8 @@
 
 // src/havok/physics/collide/query/multithreaded/collisionquery/cpu/hkpcpuworldgetclosestpointsjob.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/query/multithreaded/collisionquery/cpu/hkpcpuworldgetclosestpointsjob.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstddef>
+#include <xmmintrin.h>
 #include <intrin.h>
 #include <windows.h>
 #include "fnv/decl/FUN_005609f0_shell.h"
@@ -343,7 +345,7 @@ typedef unsigned char hkUint8;
 typedef unsigned short hkUint16;
 typedef unsigned int hkUint32;
 typedef unsigned long __w64 hkUlong;
-typedef unsigned __w64 hk_size_t;
+typedef size_t hk_size_t;
 typedef hkReal hkTime;class FinishingFlag
 {
 public:
@@ -507,8 +509,6 @@ typedef hkArray<T,TemporaryAllocatorProvider>Temp;protected:
 __forceinline hkArray(const hkArray&a);
 public:
 __forceinline hkArray&operator=(const HavokElementArray<T>&a);};
-typedef union __declspec(intrin_type)__declspec(align(16))__m128{
-unsigned __int16 m128_u16[8];}__m128;
 typedef __m128 hkQuadReal;
 class hkVector4;
 typedef const hkVector4&hkVector4Parameter;
@@ -821,8 +821,6 @@ typedef unsigned char BYTE;
 typedef unsigned short WORD;
 typedef void*LPVOID;
 extern "C"{
-extern "C"{}
-extern "C"{}
 typedef void*PVOID;
 typedef char CHAR;
 typedef long LONG;
@@ -885,7 +883,6 @@ extern "C++"{}
 extern "C++"{}
 extern "C++"{}
 }
-extern "C"{}
 typedef struct _WOW64_FLOATING_SAVE_AREA{
 DWORD ControlWord;
 DWORD StatusWord;

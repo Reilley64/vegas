@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/constraint/bilateral/ragdoll/hkpragdollconstraintdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/bilateral/ragdoll/hkpragdollconstraintdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <xmmintrin.h>
 #include "fnv/decl/FUN_00c7f690_cls.h"
 #include "fnv/decl/FUN_00ca9360_cls.h"
 #include "fnv/decl/hkReferencedObjectC905.h"
@@ -192,10 +193,6 @@ int __cdecl FUN_00cdead0()
     return 7;
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-};
 #include "fnv/symbols_simd.h"
 struct __declspec(align(16)) FUN_00cdf190_Vec
 {
@@ -317,7 +314,6 @@ void Cdf1c0_cls::GetM60(Cdf1c0_vec48* out)
     out->c = m60.c;
 }
 
-extern "C" __m128 _mm_setzero_ps(void);
 
 struct hkVector4B90
 {
@@ -329,7 +325,7 @@ struct hkVector4B90
     }
     __forceinline float& operator()(int i)
     {
-        return m_vComponents.m128_f32[i];
+        return m_vComponents[i];
     }
 };
 
@@ -500,25 +496,6 @@ FUN_00cb9090::FUN_00cb9090() throw()
     m_kBridgeAtoms.m_kAngularMotor.m_ucMotorAxis = 0;
 }
 
-extern "C"
-{
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_unpacklo_ps(__m128, __m128);
-    __m128 _mm_unpackhi_ps(__m128, __m128);
-    __m128 _mm_movelh_ps(__m128, __m128);
-    __m128 _mm_movehl_ps(__m128, __m128);
-    __m128 _mm_andnot_ps(__m128, __m128);
-    __m128 _mm_setzero_ps(void);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_sub_ss(__m128, __m128);
-    __m128 _mm_mul_ss(__m128, __m128);
-    __m128 _mm_rsqrt_ss(__m128);
-    __m128 _mm_cmpeq_ss(__m128, __m128);
-    __m128 _mm_set_ss(float);
-}
 
 union hkVector4q
 {
@@ -643,11 +620,6 @@ void hkpRagdollConstraintDataEx::FUN_00cdeae0(const hkTransform& bodyATransform,
     t.m_kMotorAxes = t.m_kRotationB;
 }
 
-extern "C" __m128 _mm_add_ss(__m128 _A, __m128 _B);
-extern "C" __m128 _mm_add_ps(__m128 _A, __m128 _B);
-extern "C" __m128 _mm_sub_ps(__m128 _A, __m128 _B);
-extern "C" __m128 _mm_mul_ps(__m128 _A, __m128 _B);
-extern "C" __m128 _mm_shuffle_ps(__m128 _A, __m128 _B, unsigned int _Imm8);
 
 
 struct Quat

@@ -5,6 +5,7 @@
 
 // src/havok/physics/utilities/charactercontrol/characterproxy/hkpcharacterproxy.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/charactercontrol/characterproxy/hkpcharacterproxy.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstddef>
 #include "fnv/decl/HostC9C6.h"
 #include "fnv/decl/POwner.h"
 #include "fnv/decl/PhantomListeners.h"
@@ -180,7 +181,7 @@ struct FNVBuffers
 {
     FNVArray spare;
     FNVArray elements;
-    static void* operator new(unsigned int bytes)
+    static void* operator new(size_t bytes)
     {
         return FUN_00c85750()->GetAllocator()->Allocate(bytes);
     }

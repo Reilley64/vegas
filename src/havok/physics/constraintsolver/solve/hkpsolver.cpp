@@ -1,5 +1,6 @@
 // havok/physics/constraintsolver/solve/hkpsolver.cpp: free functions (5 functions)
 
+#include <xmmintrin.h>
 #include "fnv/symbols_011b9000.h"
 #include "fnv_asm_helpers.h"
 // src/havok/physics/constraintsolver/solve/hkpsolver.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/physics/constraintsolver/solve/hkpsolver.cpp).
@@ -12,17 +13,7 @@ int __cdecl FUN_00d921d0(const signed char* index)
     return DAT_011b9434[*index];
 }
 
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128 {
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-    short m128_i16[8];
-    int m128_i32[4];
-    __int64 m128_i64[2];
-    unsigned short m128_u16[8];
-    unsigned int m128_u32[4];
-} __m128;
 
-extern "C" __m128 _mm_add_ss(__m128 a, __m128 b);
 
 // Adds the lowest single-precision float of b to that of a and stores the result in out.
 // @fnv 0x00c6cce0
@@ -38,7 +29,6 @@ char* __cdecl FUN_00d921c0(char* dst, const char* src)
     return dst;
 }
 
-extern "C" __m128 _mm_sub_ss(__m128 a, __m128 b);
 
 // @fnv 0x00c6ccc0
 extern "C" void __cdecl SubtractScalarFloat(__m128* pResult, const __m128* pLeft, const __m128* pRight)

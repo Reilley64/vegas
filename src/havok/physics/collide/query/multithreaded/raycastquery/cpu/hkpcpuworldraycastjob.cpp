@@ -2,6 +2,7 @@
 // src/havok/physics/collide/query/multithreaded/raycastquery/cpu/hkpcpuworldraycastjob.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/query/multithreaded/raycastquery/cpu/hkpcpuworldraycastjob.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
 #include "fnv/decl/FUN_005609f0_shell.h"
 #include "fnv/symbols_00e2b000.h"
 #include "fnv/symbols_010db000.h"
@@ -325,7 +326,7 @@ struct Spawned
     unsigned int m_10;
     unsigned int m_14;
     unsigned int m_18;
-    static void* operator new(unsigned int, void* p)
+    static void* operator new(size_t, void* p)
     {
         return p;
     }
@@ -459,36 +460,16 @@ void __cdecl FUN_00df89b0(Interface* apInterface, Source* apSource, Output* apOu
     apInterface->v5c(&local, apOutput, 0);
 }
 
-namespace SimdN {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C"
-{
-    __m128 _mm_load_ps(const float*);
-    __m128 _mm_set_ps1(float);
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-    __m128 _mm_unpacklo_ps(__m128, __m128);
-    __m128 _mm_unpackhi_ps(__m128, __m128);
-    __m128 _mm_movelh_ps(__m128, __m128);
-    __m128 _mm_movehl_ps(__m128, __m128);
-}
-}
 struct hkRotation;
 struct hkTransform;
 
 struct hkVector4
 {
-    SimdN::__m128 m_vComponents;
+    __m128 m_vComponents;
 
     __forceinline void setSub4(const hkVector4& a, const hkVector4& b)
     {
-        m_vComponents = SimdN::_mm_sub_ps(a.m_vComponents, b.m_vComponents);
+        m_vComponents = _mm_sub_ps(a.m_vComponents, b.m_vComponents);
     }
     __forceinline void _setRotatedDir(const hkRotation& r, const hkVector4& b);
     __forceinline void _setRotatedInverseDir(const hkRotation& r, const hkVector4& b);
@@ -510,34 +491,34 @@ struct hkTransform
 
 __forceinline void hkVector4::_setRotatedDir(const hkRotation& r, const hkVector4& b)
 {
-    const SimdN::__m128 c1 = SimdN::_mm_load_ps(&r.m_kColumn1.m_vComponents.m128_f32[0]);
-    const SimdN::__m128 b1 = SimdN::_mm_shuffle_ps(b.m_vComponents, b.m_vComponents, 0x55);
-    const SimdN::__m128 r1 = SimdN::_mm_mul_ps(c1, b1);
-    const SimdN::__m128 b0 = SimdN::_mm_shuffle_ps(b.m_vComponents, b.m_vComponents, 0x00);
-    const SimdN::__m128 r0 = SimdN::_mm_mul_ps(r.m_kColumn0.m_vComponents, b0);
-    const SimdN::__m128 b2 = SimdN::_mm_shuffle_ps(b.m_vComponents, b.m_vComponents, 0xaa);
-    const SimdN::__m128 r2 = SimdN::_mm_mul_ps(r.m_kColumn2.m_vComponents, b2);
-    m_vComponents = SimdN::_mm_add_ps(SimdN::_mm_add_ps(r1, r0), r2);
+    const __m128 c1 = _mm_load_ps(&r.m_kColumn1.m_vComponents[0]);
+    const __m128 b1 = _mm_shuffle_ps(b.m_vComponents, b.m_vComponents, 0x55);
+    const __m128 r1 = _mm_mul_ps(c1, b1);
+    const __m128 b0 = _mm_shuffle_ps(b.m_vComponents, b.m_vComponents, 0x00);
+    const __m128 r0 = _mm_mul_ps(r.m_kColumn0.m_vComponents, b0);
+    const __m128 b2 = _mm_shuffle_ps(b.m_vComponents, b.m_vComponents, 0xaa);
+    const __m128 r2 = _mm_mul_ps(r.m_kColumn2.m_vComponents, b2);
+    m_vComponents = _mm_add_ps(_mm_add_ps(r1, r0), r2);
 }
 
 __forceinline void hkVector4::_setRotatedInverseDir(const hkRotation& r, const hkVector4& b)
 {
-    SimdN::__m128 c0 = r.m_kColumn0.m_vComponents;
-    SimdN::__m128 c1 = r.m_kColumn1.m_vComponents;
-    SimdN::__m128 c2 = r.m_kColumn2.m_vComponents;
-    SimdN::__m128 tmp = SimdN::_mm_unpacklo_ps(c0, c1);
-    SimdN::__m128 ctmp = SimdN::_mm_unpackhi_ps(c0, c1);
-    c0 = SimdN::_mm_movelh_ps(tmp, c2);
-    tmp = SimdN::_mm_movehl_ps(c0, tmp);
-    c1 = SimdN::_mm_shuffle_ps(tmp, c2, 0xd4);
-    SimdN::__m128 t2 = SimdN::_mm_shuffle_ps(ctmp, c2, 0xe4);
-    const SimdN::__m128 b0 = SimdN::_mm_shuffle_ps(b.m_vComponents, b.m_vComponents, 0x00);
-    const SimdN::__m128 r0 = SimdN::_mm_mul_ps(c0, b0);
-    const SimdN::__m128 b1 = SimdN::_mm_shuffle_ps(b.m_vComponents, b.m_vComponents, 0x55);
-    const SimdN::__m128 r1 = SimdN::_mm_mul_ps(c1, b1);
-    const SimdN::__m128 b2 = SimdN::_mm_shuffle_ps(b.m_vComponents, b.m_vComponents, 0xaa);
-    const SimdN::__m128 r2 = SimdN::_mm_mul_ps(t2, b2);
-    m_vComponents = SimdN::_mm_add_ps(SimdN::_mm_add_ps(r0, r1), r2);
+    __m128 c0 = r.m_kColumn0.m_vComponents;
+    __m128 c1 = r.m_kColumn1.m_vComponents;
+    __m128 c2 = r.m_kColumn2.m_vComponents;
+    __m128 tmp = _mm_unpacklo_ps(c0, c1);
+    __m128 ctmp = _mm_unpackhi_ps(c0, c1);
+    c0 = _mm_movelh_ps(tmp, c2);
+    tmp = _mm_movehl_ps(c0, tmp);
+    c1 = _mm_shuffle_ps(tmp, c2, 0xd4);
+    __m128 t2 = _mm_shuffle_ps(ctmp, c2, 0xe4);
+    const __m128 b0 = _mm_shuffle_ps(b.m_vComponents, b.m_vComponents, 0x00);
+    const __m128 r0 = _mm_mul_ps(c0, b0);
+    const __m128 b1 = _mm_shuffle_ps(b.m_vComponents, b.m_vComponents, 0x55);
+    const __m128 r1 = _mm_mul_ps(c1, b1);
+    const __m128 b2 = _mm_shuffle_ps(b.m_vComponents, b.m_vComponents, 0xaa);
+    const __m128 r2 = _mm_mul_ps(t2, b2);
+    m_vComponents = _mm_add_ps(_mm_add_ps(r0, r1), r2);
 }
 
 __forceinline void hkVector4::_setTransformedInversePos(const hkTransform& t, const hkVector4& b)
@@ -740,14 +721,14 @@ struct RayCaster_00df8aa0 : S_00df8d60
                     }
                     self->unk14 = (self->m_kHits->m_pRayCursor == 1) ? output.m_fHitFraction : fraction;
                     self->m_bHit = true;
-                    self->m_earlyOutHitFractionVec.m_vComponents = SimdN::_mm_set_ps1(self->unk14);
+                    self->m_earlyOutHitFractionVec.m_vComponents = _mm_set_ps1(self->unk14);
                 }
             }
             return result;
         }
         shape->castRayWithCollector(self->m_kShapeRayInput, *body, *self->m_kCollector);
         self->m_kHits->m_iElementCount = self->m_kCollector->m_iValueAtOffset14;
-        self->m_earlyOutHitFractionVec.m_vComponents = SimdN::_mm_set_ps1(self->m_kCollector->m_fEarlyOutHitFraction);
+        self->m_earlyOutHitFractionVec.m_vComponents = _mm_set_ps1(self->m_kCollector->m_fEarlyOutHitFraction);
         return result;
     }
 

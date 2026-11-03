@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/visualdebugger/viewer/collide/hkpshapedisplayviewer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/collide/hkpshapedisplayviewer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
 #include <windows.h>
 #include <new>
 #include "fnv/decl/CB1A90Owner.h"
@@ -464,7 +465,7 @@ struct PendingNode
         m_08 = 0;
         m_0c = 0x80000000u;
     }
-    void* operator new(unsigned int size) throw()
+    void* operator new(size_t size) throw()
     {
         AllocHolder* holder = (AllocHolder*)FUN_00c85750();
         SpawnAlloc* alloc = holder->m_pAllocator;
@@ -1737,7 +1738,7 @@ struct S_00d65970_Router
 
 struct S_00d65970_Item;
 
-inline void* __cdecl operator new(unsigned int, void* where) throw()
+inline void* __cdecl operator new(size_t, void* where) throw()
 {
     return where;
 }

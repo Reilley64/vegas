@@ -2,17 +2,13 @@
 // src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkppointtopathdrawer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkppointtopathdrawer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <xmmintrin.h>
 #include "fnv/decl/CpuObject.h"
 #include "fnv/decl/DE44C0Object.h"
 #include "fnv/decl/FUN_00de4530Owner.h"
 #include "fnv/decl/FUN_00dee820_Class.h"
 #include "fnv/symbols_00cab000.h"
 #include "fnv/symbols_01016000.h"
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 
 struct hkTransform;
 

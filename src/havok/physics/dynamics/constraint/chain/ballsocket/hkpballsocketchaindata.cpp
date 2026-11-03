@@ -2,6 +2,8 @@
 // src/havok/physics/dynamics/constraint/chain/ballsocket/hkpballsocketchaindata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/chain/ballsocket/hkpballsocketchaindata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
+#include <xmmintrin.h>
 #include "fnv/symbols_00c90000.h"
 #include "fnv/symbols_00d6f000.h"
 #include "fnv/symbols_00dce000.h"
@@ -397,11 +399,6 @@ void DummyClass::ClearArrays()
 }
 }  // namespace fnv_00d549d0
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 
 struct Router_00d53d30
 {
@@ -447,12 +444,6 @@ void Chain_00d53d30::Push(const __m128& a, const __m128& b)
     e.b = b;
 }
 
-extern "C"
-{
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-}
 struct hkpConstraintInstance;
 struct hkpBallSocketChainDataConstraintInfo
 {
@@ -461,7 +452,7 @@ struct hkpBallSocketChainDataConstraintInfo
 struct ChainPlacement
 {
 };
-inline void* operator new(unsigned int, ChainPlacement* pointer)
+inline void* operator new(size_t, ChainPlacement* pointer)
 {
     return pointer;
 }

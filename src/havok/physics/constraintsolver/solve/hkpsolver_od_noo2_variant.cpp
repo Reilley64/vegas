@@ -5,22 +5,12 @@
 
 // src/havok/physics/constraintsolver/solve/hkpsolver.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/physics/constraintsolver/solve/hkpsolver.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <xmmintrin.h>
 #include <new>
 #include "fnv/decl/FUN_004a3c90.h"
 #include "fnv/decl/Vec3.h"
 #include "fnv/symbols_00d92000.h"
 #include "fnv/symbols_011b9000.h"
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-    short m128_i16[8];
-    int m128_i32[4];
-    __int64 m128_i64[2];
-    unsigned short m128_u16[8];
-    unsigned int m128_u32[4];
-} __m128;
-extern "C" __m128 _mm_add_ss(__m128 a, __m128 b);
 // @fnv 0x00c6cce0
 extern "C" void __cdecl AddScalarFloat(__m128* out, const __m128* a, const __m128* b)
 {
@@ -34,14 +24,12 @@ char* __cdecl FUN_00d921c0(char* dst, const char* src)
     return dst;
 }
 
-extern "C" __m128 _mm_sub_ss(__m128 a, __m128 b);
 // @fnv 0x00c6ccc0
 extern "C" void __cdecl SubtractScalarFloat(__m128* out, const __m128* a, const __m128* b)
 {
     *out = _mm_sub_ss(*a, *b);
 }
 
-extern "C" __m128 _mm_mul_ss(__m128 a, __m128 b);
 
 struct Vec4Src
 {
@@ -54,6 +42,6 @@ struct Vec4Dst
 // @fnv 0x00891060
 Vec4Dst* __cdecl FUN_00891060(Vec4Dst* out, Vec4Src* b, Vec4Src* a)
 {
-    new ((void *)(out)) ::FUN_004a3c90((const ::FUN_004a3c90 &)((const ::__m128 &)(_mm_mul_ss(*((::__m128 *)(new ((void *)(b)) ::Vec3())), *((::__m128 *)(new ((void *)(a)) ::Vec3()))))));
+    new ((void *)(out)) ::FUN_004a3c90((const ::FUN_004a3c90 &)((const __m128 &)(_mm_mul_ss(*((__m128 *)(new ((void *)(b)) ::Vec3())), *((__m128 *)(new ((void *)(a)) ::Vec3()))))));
     return out;
 }

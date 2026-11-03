@@ -5,6 +5,8 @@
 
 // src/havok/physics/vehicle/wheelcollide/linearcast/hkpvehiclelinearcastwheelcollide.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/vehicle/wheelcollide/linearcast/hkpvehiclelinearcastwheelcollide.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstddef>
+#include <xmmintrin.h>
 #include "fnv/decl/E367_Class.h"
 #include "fnv/decl/FUN_006212c0_shell.h"
 #include "fnv/decl/FUN_00c7f690_cls.h"
@@ -360,15 +362,7 @@ class hkpVehicleLinearCastWheelCollideE363 : public hkReferencedObjectE363
     unsigned int unk0C;
     hkArrayE363<hkpWheelStateE363> m_kWheelStates;
 };
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 #include "fnv/symbols_simd.h"
-extern "C" __m128 _mm_xor_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_unpackhi_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
 struct hkVector4E366
 {
     __m128 m_vComponents;
@@ -781,11 +775,11 @@ class hkpPhantomE36C : public hkReferencedObjectE36C
 class FUN_00cf2cb0 : public hkpPhantomE36C
 {
   public:
-    static __forceinline void* operator new(unsigned int, void* pvMem) throw()
+    static __forceinline void* operator new(size_t, void* pvMem) throw()
     {
         return pvMem;
     }
-    static __forceinline void* operator new(unsigned int uiSize) throw()
+    static __forceinline void* operator new(size_t uiSize) throw()
     {
         hkReferencedObjectE36C* p =
             (hkReferencedObjectE36C*)fnvc_adapt::FUN_00c85750().heap().AllocateMemoryBlock(uiSize);
@@ -856,11 +850,6 @@ class hkpVehicleLinearCastWheelCollideE36C : public hkReferencedObjectE36C
     void InitializeWheelCollisions(const hkpVehicleInstanceE36C* pkVehicle) throw();
 };
 
-extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_add_ss(__m128 a, __m128 b);
-extern "C" __m128 _mm_sub_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_load_ps(const float* p);
-extern "C" void _mm_store_ss(float* p, __m128 a);
 
 struct FUN_00ca0c40_host
 {

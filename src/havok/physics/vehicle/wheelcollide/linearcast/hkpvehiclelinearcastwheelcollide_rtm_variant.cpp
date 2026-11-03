@@ -4,6 +4,8 @@
 
 // src/havok/physics/vehicle/wheelcollide/linearcast/hkpvehiclelinearcastwheelcollide.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/vehicle/wheelcollide/linearcast/hkpvehiclelinearcastwheelcollide.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstddef>
+#include <xmmintrin.h>
 #include "fnv/decl/FUN_006212c0_shell.h"
 #include "fnv/decl/FUN_00c7f690_cls.h"
 #include "fnv/decl/FUN_00c90510_class.h"
@@ -360,15 +362,7 @@ class hkpVehicleLinearCastWheelCollideE363 : public hkReferencedObjectE363
     unsigned int unk0C;
     hkArrayE363<hkpWheelStateE363> m_kWheelStates;
 };
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 #include "fnv/symbols_simd.h"
-extern "C" __m128 _mm_xor_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_unpackhi_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
 struct hkVector4E366
 {
     __m128 m_vComponents;
@@ -780,11 +774,11 @@ class hkpPhantomE36C : public hkReferencedObjectE36C
 class FUN_00cf2cb0 : public hkpPhantomE36C
 {
   public:
-    static __forceinline void* operator new(unsigned int, void* pvMem) throw()
+    static __forceinline void* operator new(size_t, void* pvMem) throw()
     {
         return pvMem;
     }
-    static __forceinline void* operator new(unsigned int uiSize) throw()
+    static __forceinline void* operator new(size_t uiSize) throw()
     {
         hkReferencedObjectE36C* p =
             (hkReferencedObjectE36C*)fnvc_adapt::FUN_00c85750().heap().AllocateMemoryBlock(uiSize);
@@ -911,7 +905,6 @@ class FUN_00e36b20 : public hkRefObjE36B
     FUN_00e36b20() throw();
     virtual ~FUN_00e36b20() throw();
 };
-extern "C" __m128 _mm_setr_ps(float x, float y, float z, float w);
 struct __declspec(align(16)) Vector4E36120
 {
     float x;
@@ -951,7 +944,7 @@ struct ContextE36120
 ContextE36120* GetContextE36120();
 struct ShapeE36120
 {
-    static void* operator new(unsigned int nbytes) throw()
+    static void* operator new(size_t nbytes) throw()
     {
         ContextE36120* pkContext = GetContextE36120();
         ShapeE36120* pkShape = static_cast<ShapeE36120*>(pkContext->m_pkMemory->allocateChunk(nbytes));
@@ -988,7 +981,7 @@ struct CapsuleE36120 : public ShapeE36120
     int unk58;
     int unk5C;
 };
-inline void* operator new(unsigned int, void* pvMem) throw()
+inline void* operator new(size_t, void* pvMem) throw()
 {
     return pvMem;
 }

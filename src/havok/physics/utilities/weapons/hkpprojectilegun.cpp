@@ -2,6 +2,8 @@
 // src/havok/physics/utilities/weapons/hkpprojectilegun.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/weapons/hkpprojectilegun.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
+#include <xmmintrin.h>
 #include "fnv/decl/CA8890Object.h"
 #include "fnv/decl/FUN_00c90510_class.h"
 #include "fnv/decl/FUN_00c91620_Class.h"
@@ -540,27 +542,6 @@ FnvCpu_FUN_00e450c0_CpuObject* FnvCpu_FUN_00e450c0_CpuObject::FUN_00e450c0(unsig
     return this;
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C"
-{
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_andnot_ps(__m128, __m128);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_sub_ss(__m128, __m128);
-    __m128 _mm_mul_ss(__m128, __m128);
-    __m128 _mm_rsqrt_ss(__m128);
-    __m128 _mm_sqrt_ss(__m128);
-    __m128 _mm_cmpeq_ss(__m128, __m128);
-    __m128 _mm_set_ss(float);
-    void _mm_store_ss(float*, __m128);
-    float _mm_cvtss_f32(__m128);
-}
 
 struct hkVector4q
 {
@@ -908,7 +889,7 @@ class FUN_00e46e80
     FUN_00e46e80() throw();
     void FUN_00e45460(void* world) throw();
 
-    static void* operator new(unsigned int n)
+    static void* operator new(size_t n)
     {
         return hkRouterE46F::FUN_00c85750().heap().AllocateMemoryBlock(n);
     }

@@ -2,6 +2,7 @@
 // src/havok/physics/collide/agent/convexagent/gjk/hkpgskbaseagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/convexagent/gjk/hkpgskbaseagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <xmmintrin.h>
 #include <windows.h>
 #include "fnv/decl/Cls_dafcd0.h"
 #include "fnv/decl/FUN_00da9880_cls.h"
@@ -22,12 +23,6 @@ void hkpGskBaseAgent::FUN_00dabe90(bool)
         FUN_00dabe90(true);
 }
 
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-} __m128;
-extern "C" __m128 _mm_setzero_ps(void);
-extern "C" __m128 _mm_xor_ps(__m128, __m128);
 
 
 class FUN_00dabeb0_cls
@@ -219,9 +214,6 @@ void FUN_00dac9e0_cls::ProcessGskContact(const hkpCdBody* bodyA, const hkpCdBody
 void FUN_00dabe80(int, int, int, int)
 {}
 
-extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
-extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_add_ps(__m128 a, __m128 b);
 
 struct hkVector4DAC0
 {
@@ -504,20 +496,6 @@ struct GskStatus
 
 };
 
-extern "C"
-{
-    void _mm_store_ps(float*, __m128);
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-    __m128 _mm_unpacklo_ps(__m128, __m128);
-    __m128 _mm_unpackhi_ps(__m128, __m128);
-    __m128 _mm_movehl_ps(__m128, __m128);
-    __m128 _mm_movelh_ps(__m128, __m128);
-    __m128 _mm_load_ss(const float*);
-    __m128 _mm_set_ss(float);
-}
 
 static __forceinline short* unpackCache(GskCache& c, int& b, unsigned& f, int& a)
 {
@@ -591,7 +569,7 @@ hkBool GskAgentStandin::FUN_00dac7f0(const hkpCdBody& bodyA, const hkpCdBody& bo
         float fRadiusA = shapeA->m_fSphereRadius;
         __m128 vRadiusA = _mm_load_ss(&fRadiusA);
         __m128 vRadiusASplatted = _mm_shuffle_ps(vRadiusA, vRadiusA, 0);
-        _mm_store_ps(pContactData->m_vContactPosition.m128_f32,
+        _mm_store_ps(reinterpret_cast<float*>(&pContactData->m_vContactPosition),
                      _mm_sub_ps(pContactData->m_vContactPosition, _mm_mul_ps(vRadiusASplatted, verts)));
 
         float negDist = -dimA;
@@ -794,9 +772,6 @@ union EarlyScratch
     float distance;
 };
 
-extern "C" __m128 _mm_add_ps(__m128, __m128);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
 
 struct S_00dac0b0_TimerCommand
 {

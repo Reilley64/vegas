@@ -2,6 +2,8 @@
 // src/havok/physics/vehicle/wheelcollide/raycast/hkpvehicleraycastwheelcollide.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/vehicle/wheelcollide/raycast/hkpvehicleraycastwheelcollide.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
+#include <xmmintrin.h>
 #include <new>
 #include "fnv/decl/FUN_00c90510_class.h"
 #include "fnv/decl/FUN_00c936a0_World.h"
@@ -382,16 +384,8 @@ void S00e41f30_impl::CreateWheelPhantom(S00e41f30_arg* arg)
     reinterpret_cast<::hkOwnerXd07de0 *>((pPhantom))->FUN_00d07de0(v);
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 #include "fnv/symbols_simd.h"
 
-extern "C" __m128 _mm_xor_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_unpackhi_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
 
 
 struct hkVector4E423
@@ -629,7 +623,7 @@ class FUN_00e42550
     hkpListenerSetE42 m_kListeners;
     int* m_pCurrentSimulationIsland;
 
-    static void* operator new(unsigned int nbytes)
+    static void* operator new(size_t nbytes)
     {
         FUN_00e42550* b = static_cast<FUN_00e42550*>(hkRouterE42::FUN_00c85750().heap().AllocateMemoryBlock(nbytes));
         b->m_usMemSizeAndFlags = (unsigned short)nbytes;
@@ -805,10 +799,6 @@ void S00e420c0_Self::FUN_00e420c0(float deltaTime, const hkpVehicleInstanceE420*
     }
 }
 
-extern "C" __m128 _mm_min_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_max_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_load_ps(float const* p);
-extern "C" void _mm_store_ps(float* p, __m128 a);
 
 struct FUN_00e42010_counts
 {

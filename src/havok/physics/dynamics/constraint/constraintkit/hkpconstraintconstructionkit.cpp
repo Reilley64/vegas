@@ -2,19 +2,13 @@
 // src/havok/physics/dynamics/constraint/constraintkit/hkpconstraintconstructionkit.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/constraintkit/hkpconstraintconstructionkit.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <xmmintrin.h>
 #include "fnv/decl/PivotBWriter.h"
 #include "fnv/decl/fnv_00d52000__D52Class.h"
 #include "fnv/symbols_00c90000.h"
 #include "fnv/symbols_01011000.h"
 #include "fnv/symbols_01016000.h"
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    double m128_f64[2];
-} __m128;
 
-extern "C" __m128 _mm_setr_ps(float x, float y, float z, float w);
-extern "C" void _mm_store_ps(float* p, __m128 v);
 
 struct FUN_00d522b0_Ctx
 {
@@ -121,8 +115,8 @@ int FUN_00d52140_cls::FUN_00d52140(char* a1, char* a2, const __m128* a3)
 {
     FUN_00c7f690_cls t1;
     FUN_00c7f690_cls t2;
-    reinterpret_cast<::FUN_00c7f690_cls *>(&(t1))->FUN_00c7f690((const ::S_00c7f690_M *)(const ::__m128 *)((const __m128*)(a1 + 0xf0)), (const ::S_00c7f690_V *)(a3));
-    reinterpret_cast<::FUN_00c7f690_cls *>(&(t2))->FUN_00c7f690((const ::S_00c7f690_M *)(const ::__m128 *)((const __m128*)(a2 + 0xf0)), (const ::S_00c7f690_V *)(a3));
+    reinterpret_cast<::FUN_00c7f690_cls *>(&(t1))->FUN_00c7f690((const ::S_00c7f690_M *)(const __m128 *)((const __m128*)(a1 + 0xf0)), (const ::S_00c7f690_V *)(a3));
+    reinterpret_cast<::FUN_00c7f690_cls *>(&(t2))->FUN_00c7f690((const ::S_00c7f690_M *)(const __m128 *)((const __m128*)(a2 + 0xf0)), (const ::S_00c7f690_V *)(a3));
     int iResult = reinterpret_cast<::fnv_00d52000::D52Class *>((this))->FUN_00d52000((*(const ::fnv_00d52000::VecD52 *)(&t1)));
     reinterpret_cast<::PivotBWriter *>((this))->FUN_00d520a0((*(const ::D51Vector4 *)(&t2)));
     this->m_18 = 1;

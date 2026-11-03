@@ -313,14 +313,6 @@ void __cdecl FUN_00d323f0(int a, int b, const CopyPacket* source, int id1, int i
 }
 }  // namespace fnv_00d323f0
 
-namespace N {
-union __declspec(intrin_type) __declspec(align(16)) __m128 {float m128_f32[4];};
-extern "C" {
-__m128 _mm_add_ps(__m128,__m128); __m128 _mm_mul_ps(__m128,__m128);
-__m128 _mm_shuffle_ps(__m128,__m128,int); __m128 _mm_unpackhi_ps(__m128,__m128);
-__m128 _mm_load_ss(const float*);
-}
-}
 #include "fnv/symbols_simd.h"
 extern const char DAT_010cea38[];
 extern const char DAT_010cea7c[];
@@ -373,7 +365,7 @@ struct StringCursor {
 struct hkTransform;
 
 struct hkVector4 {
-    union { N::__m128 m_vComponents; struct { float x,y,z,w; }; };
+    union { __m128 m_vComponents; struct { float x,y,z,w; }; };
 
     __forceinline void SetRotatedDirection(const hkTransform& a, const hkVector4& b);
     __forceinline void SetTransformedPoint(const hkTransform& a, const hkVector4& b);
@@ -395,26 +387,26 @@ struct hkTransform {
 };
 
 __forceinline void hkVector4::SetRotatedDirection(const hkTransform& a, const hkVector4& b) {
-    N::__m128 y = N::_mm_shuffle_ps(b.m_vComponents, b.m_vComponents, 0x55);
-    N::__m128 x = N::_mm_shuffle_ps(b.m_vComponents, b.m_vComponents, 0x00);
-    N::__m128 z = N::_mm_shuffle_ps(b.m_vComponents, b.m_vComponents, 0xaa);
-    m_vComponents = N::_mm_add_ps(N::_mm_add_ps(N::_mm_mul_ps(y, a.m_kColumn1.m_vComponents), N::_mm_mul_ps(x, a.m_kColumn0.m_vComponents)), N::_mm_mul_ps(z, a.m_kColumn2.m_vComponents));
+    __m128 y = _mm_shuffle_ps(b.m_vComponents, b.m_vComponents, 0x55);
+    __m128 x = _mm_shuffle_ps(b.m_vComponents, b.m_vComponents, 0x00);
+    __m128 z = _mm_shuffle_ps(b.m_vComponents, b.m_vComponents, 0xaa);
+    m_vComponents = _mm_add_ps(_mm_add_ps(_mm_mul_ps(y, a.m_kColumn1.m_vComponents), _mm_mul_ps(x, a.m_kColumn0.m_vComponents)), _mm_mul_ps(z, a.m_kColumn2.m_vComponents));
 }
 
 __forceinline void hkVector4::SetTransformedPoint(const hkTransform& a, const hkVector4& b) {
-    N::__m128 y = N::_mm_shuffle_ps(b.m_vComponents, b.m_vComponents, 0x55);
-    N::__m128 x = N::_mm_shuffle_ps(b.m_vComponents, b.m_vComponents, 0x00);
-    N::__m128 z = N::_mm_shuffle_ps(b.m_vComponents, b.m_vComponents, 0xaa);
-    m_vComponents = N::_mm_add_ps(N::_mm_add_ps(N::_mm_mul_ps(y, a.m_kColumn1.m_vComponents), N::_mm_mul_ps(x, a.m_kColumn0.m_vComponents)), N::_mm_add_ps(N::_mm_mul_ps(z, a.m_kColumn2.m_vComponents), a.m_vTranslation.m_vComponents));
+    __m128 y = _mm_shuffle_ps(b.m_vComponents, b.m_vComponents, 0x55);
+    __m128 x = _mm_shuffle_ps(b.m_vComponents, b.m_vComponents, 0x00);
+    __m128 z = _mm_shuffle_ps(b.m_vComponents, b.m_vComponents, 0xaa);
+    m_vComponents = _mm_add_ps(_mm_add_ps(_mm_mul_ps(y, a.m_kColumn1.m_vComponents), _mm_mul_ps(x, a.m_kColumn0.m_vComponents)), _mm_add_ps(_mm_mul_ps(z, a.m_kColumn2.m_vComponents), a.m_vTranslation.m_vComponents));
 }
 
 __forceinline void transformSphere(hkVector4& __restrict out, const hkTransform& __restrict a, const hkVector4& __restrict sphere) {
-    N::__m128 y = N::_mm_shuffle_ps(sphere.m_vComponents, sphere.m_vComponents, 0x55);
-    N::__m128 x = N::_mm_shuffle_ps(sphere.m_vComponents, sphere.m_vComponents, 0x00);
-    N::__m128 z = N::_mm_shuffle_ps(sphere.m_vComponents, sphere.m_vComponents, 0xaa);
-    N::__m128 pos = N::_mm_add_ps(N::_mm_add_ps(N::_mm_mul_ps(y, a.m_kColumn1.m_vComponents), N::_mm_mul_ps(x, a.m_kColumn0.m_vComponents)), N::_mm_add_ps(N::_mm_mul_ps(z, a.m_kColumn2.m_vComponents), a.m_vTranslation.m_vComponents));
-    N::__m128 unpck = N::_mm_unpackhi_ps(pos, sphere.m_vComponents);
-    out.m_vComponents = N::_mm_shuffle_ps(pos, unpck, 0xc4);
+    __m128 y = _mm_shuffle_ps(sphere.m_vComponents, sphere.m_vComponents, 0x55);
+    __m128 x = _mm_shuffle_ps(sphere.m_vComponents, sphere.m_vComponents, 0x00);
+    __m128 z = _mm_shuffle_ps(sphere.m_vComponents, sphere.m_vComponents, 0xaa);
+    __m128 pos = _mm_add_ps(_mm_add_ps(_mm_mul_ps(y, a.m_kColumn1.m_vComponents), _mm_mul_ps(x, a.m_kColumn0.m_vComponents)), _mm_add_ps(_mm_mul_ps(z, a.m_kColumn2.m_vComponents), a.m_vTranslation.m_vComponents));
+    __m128 unpck = _mm_unpackhi_ps(pos, sphere.m_vComponents);
+    out.m_vComponents = _mm_shuffle_ps(pos, unpck, 0xc4);
 }
 
 struct hkSphere : hkVector4 {};
@@ -425,7 +417,7 @@ __forceinline void transformSpheres(const hkTransform& tr, const hkSphere* src, 
     do {
         hkVector4 value;
         value.SetTransformedPoint(local,src[i]);
-        value.m_vComponents = N::_mm_shuffle_ps(value.m_vComponents,N::_mm_unpackhi_ps(value.m_vComponents,src[i].m_vComponents),0xc4);
+        value.m_vComponents = _mm_shuffle_ps(value.m_vComponents,_mm_unpackhi_ps(value.m_vComponents,src[i].m_vComponents),0xc4);
         dst[i].m_vComponents = value.m_vComponents;
     } while (--i >= 0);
 }

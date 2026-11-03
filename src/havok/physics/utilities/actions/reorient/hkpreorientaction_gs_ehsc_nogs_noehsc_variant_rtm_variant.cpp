@@ -7,6 +7,7 @@
 // to their real unit once identified.
 // src/havok/physics/utilities/actions/reorient/hkpreorientaction.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/actions/reorient/hkpreorientaction.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstddef>
 #include "fnv/decl/hkpEntityC9C.h"
 #include "havok/hkpReorientAction.h"
 class hkMemoryAllocatorE445
@@ -59,7 +60,7 @@ class hkReferencedObjectE445
     hkUint16 m_usMemSizeAndFlags;
     hkInt16 m_sReferenceCount;
 
-    static void* operator new(unsigned int uiSize)
+    static void* operator new(size_t uiSize)
     {
         hkReferencedObjectE445* pkObj = static_cast<hkReferencedObjectE445*>(
             hkMemoryRouterE445::GetMonitorStream().heap().AllocateMemoryBlock(uiSize));

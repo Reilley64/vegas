@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/phantom/hkpphantom.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/phantom/hkpphantom.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <xmmintrin.h>
 #include "fnv/decl/Dispatcher.h"
 #include "fnv/decl/DispatcherCF7080.h"
 #include "fnv/decl/FNVWorldObject.h"
@@ -264,15 +265,8 @@ void hkpPhantomD07E::FreeListenerArrays() throw()
 
 #include "fnv_asm_helpers.h"   // project x87 helpers (fnv_SinCos, fnv_FloatToInt), kept last so earlier code is unchanged
 
-struct __declspec(intrin_type) __declspec(align(16)) __m128 {
-    float x, y, z, w;
-};
 #include "fnv/symbols_simd.h"
 
-extern "C" __m128 _mm_add_ps(__m128, __m128);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_min_ps(__m128, __m128);
-extern "C" __m128 _mm_max_ps(__m128, __m128);
 
 
 struct __declspec(align(16)) hkQuadD07950 {

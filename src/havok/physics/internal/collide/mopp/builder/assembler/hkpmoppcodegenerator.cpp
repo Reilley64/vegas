@@ -2,6 +2,7 @@
 // src/havok/physics/internal/collide/mopp/builder/assembler/hkpmoppcodegenerator.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/physics/internal/collide/mopp/builder/assembler/hkpmoppcodegenerator.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
 #include "fnv/symbols_00c90000.h"
 #include "fnv/symbols_00cb1000.h"
 #include "fnv/symbols_0102e000.h"
@@ -222,7 +223,7 @@ struct S_00e064f0_Ref
     virtual void vfn00();
     short m_usAllocationSize;
     short m_ref;
-    static void* operator new(unsigned n)
+    static void* operator new(size_t n)
     {
         char* p = (char*)S_00e064f0_Router::GetMonitorStream().heap().AllocateMemoryBlock(n);
         *(short*)(p + 4) = (short)n;

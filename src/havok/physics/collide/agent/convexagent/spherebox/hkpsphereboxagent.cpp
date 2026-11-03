@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 // @fnv 0x00d3c590
+#include <xmmintrin.h>
 #include "fnv/decl/FUN_00cfbbe0_cls.h"
 #include "fnv/decl/S00d3c910_SphereBoxAgent.h"
 #include "fnv/symbols_00d3a000.h"
@@ -206,19 +207,7 @@ void CpuObject::FUN_00d3d000(void* first, void* second, unsigned int third, unsi
     reinterpret_cast<::S00d3c910_SphereBoxAgent *>(this)->FUN_00d3c910((*(const ::S00d3c910_CdBody *)(second)), (*(const ::S00d3c910_CdBody *)(first)), (*(const ::S00d3c910_CollisionInput *)(third)), (*(::S00d3c910_CdPointCollector *)(&callData)));
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 #include "fnv/symbols_simd.h"
-extern "C"
-{
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_xor_ps(__m128, __m128);
-}
 
 
 struct SimplexVertex

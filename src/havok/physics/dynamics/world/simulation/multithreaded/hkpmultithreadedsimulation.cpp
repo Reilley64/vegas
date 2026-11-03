@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 
+#include <cstddef>
 #include <new>
 #include "fnv/decl/CB1A90Owner.h"
 #include "fnv/decl/ContainerD082.h"
@@ -1248,7 +1249,7 @@ void NotifyPhantomCollision(PairD020* pkPair)
     }
 }
 
-inline void* __cdecl operator new(unsigned int, void* p) throw()
+inline void* __cdecl operator new(size_t, void* p) throw()
 {
     return p;
 }

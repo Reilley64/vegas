@@ -5,6 +5,7 @@
 
 // src/havok/physics/utilities/visualdebugger/viewer/dynamics/hkpsimulationislandviewer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/dynamics/hkpsimulationislandviewer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstddef>
 #include "fnv/decl/FnvCpu_FUN_00de1170_CpuObject.h"
 #include "fnv/decl/S_00dd9380.h"
 #include "fnv/decl/SearchArray.h"
@@ -60,7 +61,7 @@ struct S_00d65180_RefObj
     short m_sReferenceCount;
     virtual ~S_00d65180_RefObj() throw()
     {}
-    void* operator new(unsigned int nbytes)
+    void* operator new(size_t nbytes)
     {
         S_00d65180_RefObj* b = static_cast<S_00d65180_RefObj*>(FUN_00c85750()->heap().AllocateMemoryBlock(nbytes));
         b->m_usMemSizeAndFlags = (unsigned short)nbytes;
@@ -376,7 +377,7 @@ Own_00d65210* make_00d65210()
 
 #include <xmmintrin.h>
 #include <windows.h>
-inline void* operator new(unsigned int, void* p)
+inline void* operator new(size_t, void* p)
 {
     return p;
 }

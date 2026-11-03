@@ -561,7 +561,7 @@ void __cdecl FUN_00df0870(int arg0, ObjF* __restrict obj, int arg2, __m128* arg3
     dst[10] = *(__m128*)&A.f0a0;
     dst[11] = *(__m128*)&A.f0b0;
 
-    ::FUN_00e29380((::__m128 *)(dst), (const ::__m128 *)(void *)(&C));
+    ::FUN_00e29380((__m128 *)(dst), (const __m128 *)(void *)(&C));
 
     input = obj->f0c0;
     fClamped = (::DAT_0104da4c < input) ? input : ::DAT_0104da4c;
@@ -663,12 +663,12 @@ void __cdecl FUN_00df11a0(InputStruct* apInput, hkAabb* out)
     {
         const hkAabb* aabb = (const hkAabb*)((const char*)apInput->aabbs + offset);
         hkAabb tempAabb;
-        ::FUN_00e29510((::__m128 *)(void *)(&tempAabb), (const ::__m128 *)(const void *)(&apInput->matrices[i].data0), (const ::__m128 *)(const void *)(&out[i - 1]));
+        ::FUN_00e29510((__m128 *)(void *)(&tempAabb), (const __m128 *)(const void *)(&apInput->matrices[i].data0), (const __m128 *)(const void *)(&out[i - 1]));
         tempAabb.m_kMinimumCorner.m_vComponents =
             _mm_sub_ps(_mm_load_ps(&aabb->m_kMinimumCorner.x), tempAabb.m_kMinimumCorner.m_vComponents);
         tempAabb.m_kMaximumCorner.m_vComponents =
             _mm_sub_ps(_mm_load_ps(&aabb->m_kMaximumCorner.x), tempAabb.m_kMaximumCorner.m_vComponents);
-        ::FUN_00e29510((::__m128 *)(void *)(&out[i]), (const ::__m128 *)(const void *)(&apInput->matrices[i].data1), (const ::__m128 *)(const void *)(&tempAabb));
+        ::FUN_00e29510((__m128 *)(void *)(&out[i]), (const __m128 *)(const void *)(&apInput->matrices[i].data1), (const __m128 *)(const void *)(&tempAabb));
         ++i;
         offset += sizeof(hkAabb);
     } while (i < apInput->count);

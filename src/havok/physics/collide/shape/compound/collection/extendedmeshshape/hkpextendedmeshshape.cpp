@@ -2,6 +2,8 @@
 // src/havok/physics/collide/shape/compound/collection/extendedmeshshape/hkpextendedmeshshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/compound/collection/extendedmeshshape/hkpextendedmeshshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
+#include <xmmintrin.h>
 #include <new>
 #include "fnv/decl/FUN_00827200_class.h"
 #include "fnv/decl/FUN_00c90510_class.h"
@@ -160,7 +162,7 @@ struct S_00d56880_Router
     }
 };
 
-inline void* operator new(unsigned int, void* p)
+inline void* operator new(size_t, void* p)
 {
     return p;
 }
@@ -1203,14 +1205,8 @@ void FUN_00d554e0(int a)
 void FUN_00d554f0(int a0)
 {}
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 #include "fnv/symbols_simd.h"
 
-extern "C" __m128 _mm_setzero_ps();
 
 struct hkVector4D562
 {
@@ -1313,14 +1309,7 @@ ElemD562* OwnerD562::FUN_00d562f0()
 }
 
 namespace fnv_00d569c0 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 
-extern "C" __m128 _mm_set_ps1(float fA);
-extern "C" __m128 _mm_setzero_ps();
 
 struct hkVector4D569
 {
@@ -1515,11 +1504,6 @@ void FUN_00d554c0_Class::FUN_00d554c0(const __m128* value)
 }
 
 extern "C" void _ReadWriteBarrier(void);
-extern "C" __m128 _mm_load_ss(const float*);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-extern "C" __m128 _mm_xor_ps(__m128, __m128);
-extern "C" __m128 _mm_min_ps(__m128, __m128);
-extern "C" __m128 _mm_max_ps(__m128, __m128);
 
 
 struct hkVec4
@@ -1615,14 +1599,6 @@ void CallTarget_d558b0()
 void FUN_00d55500()
 {}
 
-extern "C"
-{
-    __m128 _mm_set_ps1(float a);
-    __m128 _mm_setr_ps(float a, float b, float c, float d);
-    __m128 _mm_xor_ps(__m128 a, __m128 b);
-    __m128 _mm_min_ps(__m128 a, __m128 b);
-    __m128 _mm_max_ps(__m128 a, __m128 b);
-}
 
 typedef float hkReal;
 
@@ -1772,14 +1748,6 @@ struct VertexScratch
     }
 };
 extern "C" void _ReadWriteBarrier(void);
-extern "C"
-{
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-    __m128 _mm_and_ps(__m128, __m128);
-    void _mm_store_ss(float*, __m128);
-}
 
 extern int DAT_010c749c;
 extern int DAT_010d0e5c;
@@ -2072,10 +2040,6 @@ const S_00d55bd0_Shape* ExtendedMeshShape::FUN_00d55ce0(unsigned int key, void* 
     }
 }
 
-extern "C" void _mm_store_ps(float*, __m128);
-extern "C" __m128 _mm_add_ps(__m128, __m128);
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
 struct MeshEntry
 {
     void FUN_00d4ad60(int);
@@ -2439,9 +2403,6 @@ have:
     return (int)pEntry->get(iOffset);
 }
 
-extern "C" __m128 _mm_setr_ps(float, float, float, float);
-extern "C" __m128 _mm_min_ps(__m128, __m128);
-extern "C" __m128 _mm_max_ps(__m128, __m128);
 
 
 struct __declspec(align(16)) Vec4Q
@@ -2483,8 +2444,6 @@ void keep_alive_b11424(const Vec3* self, const Vec3* scale, const void* transfor
     FUN_00d55600(self, scale, transform, aabb);
 }
 
-extern "C" __m128 _mm_load_ps1(const float* p);
-extern "C" __m128 _mm_min_ps(__m128, __m128);
 struct hkVector4D563
 {
 
@@ -2655,11 +2614,6 @@ void hkpD563Shape::FUN_00d563a0(void* arg)
     m_total += reinterpret_cast<::fnv_00d56160::FUN_00d56160_cls *>(this)->Vec4((::fnv_00d56160::FUN_00d56160_items *)(arg), lastLevel);
 }
 
-extern "C"
-{
-    __m128 _mm_cmple_ps(__m128 a, __m128 b);
-    int _mm_movemask_ps(__m128 a);
-}
 
 typedef signed char hkInt8;
 typedef short hkInt16;
@@ -2835,7 +2789,7 @@ ShapesSubpartT* ShapesSubpartT::FUN_00d56660(hkConvexShapeS* const* childShapes,
         dst[i] = childShapes[i];
     }
 
-    hkVector4CompS isZero = compareEquals3(m_vTranslation, (*reinterpret_cast<const ::__m128 *>(&::DAT_01267e30)), 0.001f);
+    hkVector4CompS isZero = compareEquals3(m_vTranslation, (*reinterpret_cast<const __m128 *>(&::DAT_01267e30)), 0.001f);
     int flags = (isZero.allAreSetXYZ() ? 0 : 1) |
                 (transform.FUN_00cd4e00((*reinterpret_cast<const ::hkTransformD566 *>(&::DAT_01268370)), 0.001f).m_cBooleanValue ? 0 : 2);
     *(int*)&m_vTranslation.w = flags | 0x3f000000;

@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/phantom/hkpcachingshapephantom.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/phantom/hkpcachingshapephantom.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
 #include <new>
 #include "fnv/decl/C.h"
 #include "fnv/decl/CA92A0Object.h"
@@ -578,7 +579,7 @@ class hkpWorldObjectD4D0
 class FUN_00d4ce10 : public hkpWorldObjectD4D0
 {
   public:
-    static __forceinline void* operator new(unsigned int uiSize) throw()
+    static __forceinline void* operator new(size_t uiSize) throw()
     {
         hkpWorldObjectD4D0* p = (hkpWorldObjectD4D0*)FUN_00c85750().heap().AllocateMemoryBlock(uiSize);
         p->m_usMemSizeAndFlags = (hkUint16)uiSize;
@@ -1248,26 +1249,6 @@ void hkOwnerD4D0::FUN_00d4d030()
 }
 }  // namespace fnv_00d4d030
 
-namespace CastSimd {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float f[4];
-    unsigned __int64 u[2];
-};
-extern "C"
-{
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_min_ps(__m128, __m128);
-    __m128 _mm_max_ps(__m128, __m128);
-    __m128 _mm_setzero_ps(void);
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_sqrt_ss(__m128);
-    float _mm_cvtss_f32(__m128);
-}
-}
 
 
 class hkpCdPointCollector;
@@ -1342,9 +1323,9 @@ struct ShapeSweepParameters : public CollisionAgentContext
         m_unk0c = input.m_unk0c;
         m_unk10 = input.m_unk10;
         m_unk14 = input.m_unk14;
-        *(CastSimd::__m128*)&m_v0 = *(CastSimd::__m128*)&input.m_v0;
-        *(CastSimd::__m128*)&m_v1 = *(CastSimd::__m128*)&input.m_v1;
-        *(CastSimd::__m128*)&m_v2 = *(CastSimd::__m128*)&input.m_v2;
+        *(__m128*)&m_v0 = *(__m128*)&input.m_v0;
+        *(__m128*)&m_v1 = *(__m128*)&input.m_v1;
+        *(__m128*)&m_v2 = *(__m128*)&input.m_v2;
         m_pConfiguration = input.m_pConfiguration;
     }
 };
@@ -1383,43 +1364,43 @@ class hkpCollisionAgentLinear : public hkpCollisionAgent
 void hkpCachingShapePhantomLocal::FUN_00d4cab0(const hkVector4& position, const LinearCastParameters& input,
                                                hkpCdPointCollector& castCollector, hkpCdPointCollector* startCollector)
 {
-    *(CastSimd::__m128*)&m_kMotionState.m_kMotionTransform.m_vTranslation = *(CastSimd::__m128*)&position;
+    *(__m128*)&m_kMotionState.m_kMotionTransform.m_vTranslation = *(__m128*)&position;
 
     hkAabb aabb;
     hkReal tol =
         (hkReal)(((hkpWorld*)m_pOwningWorld)->m_pCollisionInput->m_fScalar * 0.5) + input.m_fMaxExtraPenetration;
     m_kCollidable.m_pCollisionShape->getAabb(m_kMotionState.m_kMotionTransform, tol, aabb);
 
-    CastSimd::__m128 path = CastSimd::_mm_sub_ps(*(CastSimd::__m128*)&input.m_vTo, *(CastSimd::__m128*)&position);
+    __m128 path = _mm_sub_ps(*(__m128*)&input.m_vTo, *(__m128*)&position);
 
-    CastSimd::__m128 zero = CastSimd::_mm_setzero_ps();
-    CastSimd::__m128 minVal = CastSimd::_mm_min_ps(zero, path);
-    CastSimd::__m128 maxVal = CastSimd::_mm_max_ps(zero, path);
+    __m128 zero = _mm_setzero_ps();
+    __m128 minVal = _mm_min_ps(zero, path);
+    __m128 maxVal = _mm_max_ps(zero, path);
 
-    CastSimd::__m128 auiLowerBounds = *(CastSimd::__m128*)&aabb.m_kMinimumCorner;
-    CastSimd::__m128 auiUpperBounds = *(CastSimd::__m128*)&aabb.m_kMaximumCorner;
+    __m128 auiLowerBounds = *(__m128*)&aabb.m_kMinimumCorner;
+    __m128 auiUpperBounds = *(__m128*)&aabb.m_kMaximumCorner;
 
-    auiLowerBounds = CastSimd::_mm_add_ps(minVal, auiLowerBounds);
-    auiUpperBounds = CastSimd::_mm_add_ps(maxVal, auiUpperBounds);
+    auiLowerBounds = _mm_add_ps(minVal, auiLowerBounds);
+    auiUpperBounds = _mm_add_ps(maxVal, auiUpperBounds);
 
-    *(CastSimd::__m128*)&aabb.m_kMinimumCorner = auiLowerBounds;
-    *(CastSimd::__m128*)&aabb.m_kMaximumCorner = auiUpperBounds;
+    *(__m128*)&aabb.m_kMinimumCorner = auiLowerBounds;
+    *(__m128*)&aabb.m_kMaximumCorner = auiUpperBounds;
 
     reinterpret_cast<::hkpAabbPhantomD07 *>(this)->FUN_00d07ec0((const ::hkAabbD07 &)(aabb));
 
     ShapeSweepParameters linearInput;
     linearInput.set(*((hkpWorld*)m_pOwningWorld)->m_pCollisionInput);
 
-    *(CastSimd::__m128*)&linearInput.m_path = path;
+    *(__m128*)&linearInput.m_path = path;
 
-    CastSimd::__m128 sq = CastSimd::_mm_mul_ps(path, path);
-    CastSimd::__m128 sh1 = CastSimd::_mm_shuffle_ps(sq, sq, 0x55);
-    CastSimd::__m128 sh2 = CastSimd::_mm_shuffle_ps(sq, sq, 0xAA);
-    CastSimd::__m128 add1 = CastSimd::_mm_add_ss(sh1, sq);
-    CastSimd::__m128 add2 = CastSimd::_mm_add_ss(sh2, add1);
-    CastSimd::__m128 len = CastSimd::_mm_sqrt_ss(add2);
+    __m128 sq = _mm_mul_ps(path, path);
+    __m128 sh1 = _mm_shuffle_ps(sq, sq, 0x55);
+    __m128 sh2 = _mm_shuffle_ps(sq, sq, 0xAA);
+    __m128 add1 = _mm_add_ss(sh1, sq);
+    __m128 add2 = _mm_add_ss(sh2, add1);
+    __m128 len = _mm_sqrt_ss(add2);
 
-    linearInput.m_cachedDistances = CastSimd::_mm_cvtss_f32(len);
+    linearInput.m_cachedDistances = _mm_cvtss_f32(len);
 
     linearInput.m_fScalar = input.m_fMaxExtraPenetration;
     linearInput.m_fMaxExtraPenetration = input.m_fMaxExtraPenetrationAgainstFixed;

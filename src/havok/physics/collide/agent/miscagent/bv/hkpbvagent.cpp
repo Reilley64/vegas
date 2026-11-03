@@ -2,6 +2,8 @@
 // src/havok/physics/collide/agent/miscagent/bv/hkpbvagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/miscagent/bv/hkpbvagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
+#include <xmmintrin.h>
 #include <windows.h>
 #include "fnv/decl/FUN_00cfbbe0_cls.h"
 #include "fnv/symbols_00d45000.h"
@@ -413,7 +415,7 @@ extern "C" D45480MemoryRouter& __cdecl FUN_00c85750();
 class D45480ReferencedObject
 {
   public:
-    static void* operator new(unsigned int nbytes)
+    static void* operator new(size_t nbytes)
     {
         D45480ReferencedObject* b =
             static_cast<D45480ReferencedObject*>(FUN_00c85750().heap().AllocateMemoryBlock(nbytes));
@@ -744,18 +746,6 @@ void S00d454c0_Owner::FUN_00d454c0(CdBody* bodyA, CdBody* bodyB, S00d454c0_Input
     TimerMark(::str_01076f38);
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C"
-{
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_xor_ps(__m128, __m128);
-}
 
 
 struct SimplexVertex
@@ -1758,7 +1748,7 @@ void __cdecl FUN_00d45dd0(const S_00d45dd0_CdBody& bodyA, const S_00d45dd0_CdBod
     }
 }
 
-inline void* operator new(unsigned int, void* p)
+inline void* operator new(size_t, void* p)
 {
     return p;
 }
@@ -2031,7 +2021,7 @@ struct SpawnedObject : SpawnedBase
     virtual void v1();
 };
 
-inline void* __cdecl operator new(unsigned int, void* p) throw()
+inline void* __cdecl operator new(size_t, void* p) throw()
 {
     return p;
 }
@@ -2048,7 +2038,6 @@ void* __cdecl FUN_00d45f30(int a1, int a2, int a3, int a4)
 }
 }  // namespace fnv_00d45f30
 
-extern "C" void _mm_store_ps(float*, __m128);
 
 
 struct __declspec(align(16)) Vec4

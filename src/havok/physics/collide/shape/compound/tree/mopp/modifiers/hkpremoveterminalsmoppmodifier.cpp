@@ -327,16 +327,6 @@ void __cdecl ConstructTemporaryObject(int a1, int a2, int a3)
 
 #include <xmmintrin.h>
 namespace fnv_00e485d0 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C"
-{
-    __m128 _mm_min_ps(__m128, __m128);
-    __m128 _mm_max_ps(__m128, __m128);
-}
 
 struct hkVector4E485
 {

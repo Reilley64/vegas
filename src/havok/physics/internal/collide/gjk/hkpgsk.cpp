@@ -3,6 +3,7 @@
 // src/havok/physics/internal/collide/gjk/hkpgsk.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/physics/internal/collide/gjk/hkpgsk.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <xmmintrin.h>
 #include <windows.h>
 #include "fnv/decl/FUN_009c1aa0_Class.h"
 #include "fnv/symbols_00d22000.h"
@@ -118,28 +119,8 @@ void ThisClass::FUN_00da9790(Dest* pDest)
 }
 
 #ifndef _INCLUDED_MM2
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-};
 #endif
 #ifndef _INCLUDED_MM2
-extern "C"
-{
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_shuffle_ps(__m128, __m128, int);
-    __m128 _mm_unpacklo_ps(__m128, __m128);
-    __m128 _mm_unpackhi_ps(__m128, __m128);
-    __m128 _mm_movelh_ps(__m128, __m128);
-    __m128 _mm_movehl_ps(__m128, __m128);
-    __m128 _mm_xor_ps(__m128, __m128);
-    __m128 _mm_cmplt_ps(__m128, __m128);
-    __m128 _mm_setzero_ps();
-    int _mm_movemask_ps(__m128);
-}
 #endif
 
 struct PlainVector
@@ -238,7 +219,7 @@ int Simplex::FUN_00da8500(const Vector* point, Vector* vertices, int orient)
                 tmp = copyVector(reinterpret_cast<const PlainVector&>(vertices[4].quad));
                 vertices[4] = vertices[5];
                 vertices[5] = tmp;
-                swapFloat(weights.quad.m128_f32[0], weights.quad.m128_f32[1]);
+                swapFloat(weights.quad[0], weights.quad[1]);
                 status = 1;
             }
         }
@@ -248,29 +229,8 @@ int Simplex::FUN_00da8500(const Vector* point, Vector* vertices, int orient)
 
 namespace fnv_00da8700 {
 #ifndef _INCLUDED_MM2
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 #endif
 #ifndef _INCLUDED_MM2
-extern "C"
-{
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_and_ps(__m128, __m128);
-    __m128 _mm_andnot_ps(__m128, __m128);
-    __m128 _mm_xor_ps(__m128, __m128);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_sub_ss(__m128, __m128);
-    __m128 _mm_mul_ss(__m128, __m128);
-    __m128 _mm_rsqrt_ss(__m128);
-    __m128 _mm_cmpeq_ss(__m128, __m128);
-    __m128 _mm_set_ss(float);
-    __m128 _mm_load_ps(const float*);
-}
 #endif
 
 extern const __m128 g_signMask;
@@ -476,13 +436,6 @@ void FUN_00da9880_cls::FUN_00da9880(const SpawnedSrc* apSrc, SpawnedDst* apDst)
     }
 }
 
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_sub_ss(__m128, __m128);
-extern "C" __m128 _mm_mul_ss(__m128, __m128);
-extern "C" __m128 _mm_add_ss(__m128, __m128);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, int);
-extern "C" int _mm_movemask_ps(__m128);
 
 extern const signed char DAT_010cb440[];
 
@@ -578,15 +531,6 @@ int S00da8390_Call(const S00da8390_Vec* p, float* dist, const S00da8390_Vec* v)
     return FUN_00da8390(v, p, dist);
 }
 
-extern "C"
-{
-    __m128 _mm_and_ps(__m128, __m128);
-    __m128 _mm_andnot_ps(__m128, __m128);
-    __m128 _mm_rsqrt_ss(__m128);
-    __m128 _mm_cmpeq_ss(__m128, __m128);
-    __m128 _mm_set_ss(float);
-    void _mm_store_ss(float*, __m128);
-}
 
 extern const __m128 DAT_010c44d0;
 
@@ -750,32 +694,6 @@ void __cdecl S00da8820_RecalcContact(S00da8820_Vec4* vA, S00da8820_Vec4* vB, con
 
 #include <math.h>
 #include "fnv/symbols_simd.h"
-extern "C"
-{
-    __m128 _mm_shuffle_ps(__m128, __m128, int);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_mul_ss(__m128, __m128);
-    __m128 _mm_sub_ss(__m128, __m128);
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_and_ps(__m128, __m128);
-    __m128 _mm_andnot_ps(__m128, __m128);
-    __m128 _mm_xor_ps(__m128, __m128);
-    __m128 _mm_cmpeq_ss(__m128, __m128);
-    __m128 _mm_rsqrt_ss(__m128);
-    __m128 _mm_set_ss(float);
-    __m128 _mm_set_ps1(float);
-    __m128 _mm_load_ps1(const float*);
-    __m128 _mm_load_ss(const float*);
-    __m128 _mm_setzero_ps();
-    __m128 _mm_unpacklo_ps(__m128, __m128);
-    __m128 _mm_unpackhi_ps(__m128, __m128);
-    __m128 _mm_movelh_ps(__m128, __m128);
-    __m128 _mm_movehl_ps(__m128, __m128);
-    int _mm_movemask_ps(__m128);
-    void _mm_store_ss(float*, __m128);
-}
 
 struct __declspec(align(16)) Collision_vector
 {
@@ -1393,7 +1311,7 @@ class ContactVector
     }
     __forceinline float& operator()(int index)
     {
-        return value.m128_f32[index];
+        return value[index];
     }
     __forceinline void setSub4(const ContactVector& lhs, const ContactVector& rhs)
     {
@@ -1626,9 +1544,6 @@ void FUN_00da8a00(ContactVector* first, ContactVector* second, int countA, int c
 }
 
 extern const __m128 DAT_01017d10;
-extern "C" __m128 _mm_and_ps(__m128, __m128);
-extern "C" __m128 _mm_load_ss(const float*);
-extern "C" void _mm_store_ss(float*, __m128);
 
 struct hkVector4
 {
@@ -1715,7 +1630,7 @@ static __declspec(noinline) int FUN_00da8fb0(const hkVector4* vertices, const hk
         _mm_store_ss(&lenSq, _mm_add_ss(s2, _mm_add_ss(s1, sq)));
         if (lenSq != 0.0f)
         {
-            dist[i] = dotsSqr.quad.m128_f32[i] / lenSq;
+            dist[i] = dotsSqr.quad[i] / lenSq;
         }
         else
         {
@@ -1764,10 +1679,6 @@ void dummy()
     g_out = FUN_00da8fb0(g_v, g_p, g_f);
 }
 
-extern "C" __m128 _mm_load_ss(const float*);
-extern "C" __m128 _mm_rsqrt_ss(__m128);
-extern "C" __m128 _mm_andnot_ps(__m128, __m128);
-extern "C" __m128 _mm_cmpeq_ss(__m128, __m128);
 extern const float DAT_010d51c4;
 
 class GapScalar
@@ -2643,12 +2554,6 @@ GapStatus GapSolver::FUN_00daad40(const GapShape* shapeA, const GapShape* shapeB
     return GAP_OK;
 }
 
-extern "C" __m128 _mm_sub_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_add_ss(__m128 a, __m128 b);
-extern "C" __m128 _mm_rsqrt_ss(__m128 a);
-extern "C" int _mm_movemask_ps(__m128 a);
-extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, int imm);
 
 static inline __m128 dot3DA(__m128 dx, __m128 dy)
 {
@@ -2730,28 +2635,6 @@ void CallerDA()
     FUN_00da9210(&g_sxDA, &g_numDA, 1, &g_outDA, &g_ppDA);
 }
 
-extern "C"
-{
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_sub_ss(__m128, __m128);
-    __m128 _mm_mul_ss(__m128, __m128);
-    __m128 _mm_div_ss(__m128, __m128);
-    __m128 _mm_shuffle_ps(__m128, __m128, int);
-    __m128 _mm_set_ps1(float);
-    __m128 _mm_setzero_ps();
-    __m128 _mm_xor_ps(__m128, __m128);
-    __m128 _mm_cmplt_ps(__m128, __m128);
-    __m128 _mm_unpacklo_ps(__m128, __m128);
-    __m128 _mm_unpackhi_ps(__m128, __m128);
-    __m128 _mm_movelh_ps(__m128, __m128);
-    __m128 _mm_movehl_ps(__m128, __m128);
-    int _mm_movemask_ps(__m128);
-    float _mm_cvtss_f32(__m128);
-    void _mm_store_ss(float*, __m128);
-}
 
 struct AlignedPoint
 {
@@ -2845,10 +2728,10 @@ int CollisionPlanes::FUN_00da8500(const AlignedPoint* point, AlignedPoint* trian
             tmp = copyAlignedPoint(reinterpret_cast<const PlainVector&>(triangle[4].quad));
             triangle[4] = triangle[5];
             triangle[5] = tmp;
-            float old = reference160.m128_f32[0];
-            reference160.m128_f32[0] = reference160.m128_f32[1];
-            reference160.m128_f32[1] = old;
-            unk010.m128_f32[1] = 1;
+            float old = reference160[0];
+            reference160[0] = reference160[1];
+            reference160[1] = old;
+            unk010[1] = 1;
         }
     }
     return mask;
@@ -2937,25 +2820,25 @@ int CollisionPlanes::FUN_00da9340(AlignedPoint* segment, AlignedPoint* polygon, 
         goto finish;
     if (result == 1)
     {
-        float y = position0.quad.m128_f32[1];
-        float z = position0.quad.m128_f32[2];
-        if (z * (float)(reference160.m128_f32[1] - y) > (float)(reference160.m128_f32[2] - z) * y)
+        float y = position0.quad[1];
+        float z = position0.quad[2];
+        if (z * (float)(reference160[1] - y) > (float)(reference160[2] - z) * y)
             goto finish;
         goto collapse1;
     }
     if (result == 2)
     {
-        float z = position0.quad.m128_f32[2];
-        float x = position0.quad.m128_f32[0];
-        if (!(x * (float)(reference160.m128_f32[2] - z) > (float)(reference160.m128_f32[0] - x) * z))
+        float z = position0.quad[2];
+        float x = position0.quad[0];
+        if (!(x * (float)(reference160[2] - z) > (float)(reference160[0] - x) * z))
             goto finish;
         goto collapse0;
     }
     if (result == 4)
     {
-        float x = position0.quad.m128_f32[0];
-        float y = position0.quad.m128_f32[1];
-        if (y * (float)(reference160.m128_f32[0] - x) > (float)(reference160.m128_f32[1] - y) * x)
+        float x = position0.quad[0];
+        float y = position0.quad[1];
+        if (y * (float)(reference160[0] - x) > (float)(reference160[1] - y) * x)
             goto collapse1;
     }
 collapse0:
@@ -2972,7 +2855,6 @@ collapse1:
     return 2;
 }
 
-extern "C" void _mm_store_ps(float* _V, __m128 _A);
 template <class T> struct S00daac40_RayArgument
 {
     T value;

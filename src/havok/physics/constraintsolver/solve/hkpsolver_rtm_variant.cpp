@@ -2,6 +2,7 @@
 // with VC9 RTM (cl 15.00.21022.08, the compiler the game was built with). Declarations copied from that unit's skeleton.
 
 
+#include <xmmintrin.h>
 #include "fnv/symbols_00d89000.h"
 #include "fnv/symbols_00d92000.h"
 #include "fnv/symbols_011b9000.h"
@@ -10,24 +11,13 @@
 #include "fnv_asm_helpers.h"
 // src/havok/physics/constraintsolver/solve/hkpsolver.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/physics/constraintsolver/solve/hkpsolver.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128 {
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-    short m128_i16[8];
-    int m128_i32[4];
-    __int64 m128_i64[2];
-    unsigned short m128_u16[8];
-    unsigned int m128_u32[4];
-} __m128;
 #include "fnv/symbols_simd.h"
-extern "C" __m128 _mm_add_ss(__m128 a, __m128 b);
 // Adds the lowest single-precision float of b to that of a and stores the result in out.
 // @fnv 0x00c6cce0
 extern "C" void __cdecl AddScalarFloat(__m128* pResult, const __m128* pLeft, const __m128* pRight)
 {
     *pResult = _mm_add_ss(*pLeft, *pRight);
 }
-extern "C" __m128 _mm_sub_ss(__m128 a, __m128 b);
 // @fnv 0x00c6ccc0
 extern "C" void __cdecl SubtractScalarFloat(__m128* pResult, const __m128* pLeft, const __m128* pRight)
 {
@@ -35,11 +25,6 @@ extern "C" void __cdecl SubtractScalarFloat(__m128* pResult, const __m128* pLeft
 }
 
 extern "C" void _ReadWriteBarrier();
-extern "C" __m128 _mm_load_ss(const float*);
-extern "C" __m128 _mm_setzero_ps();
-extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_add_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
 
 struct SpawnedVec4 {
     unsigned int m_uiX;
@@ -114,24 +99,6 @@ void __cdecl FUN_00d89ed0(SpawnedOwner* owner, BeginArg begin, SpawnedElem* limi
     }
 }
 
-extern "C" __m128 _mm_load_ss(const float*);
-extern "C" void _mm_store_ss(float*, __m128);
-extern "C" __m128 _mm_set_ps1(float);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ps(__m128, __m128);
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_and_ps(__m128, __m128);
-extern "C" __m128 _mm_cmpeq_ps(__m128, __m128);
-extern "C" __m128 _mm_cmplt_ps(__m128, __m128);
-extern "C" __m128 _mm_cmple_ps(__m128, __m128);
-extern "C" __m128 _mm_setzero_ps();
-extern "C" int _mm_movemask_ps(__m128);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-extern "C" __m128 _mm_set_ss(float);
-extern "C" __m128 _mm_mul_ss(__m128, __m128);
-extern "C" __m128 _mm_cmpeq_ss(__m128, __m128);
-extern "C" __m128 _mm_rsqrt_ss(__m128);
-extern "C" __m128 _mm_andnot_ps(__m128, __m128);
 struct __declspec(align(16)) Step_PlainQuad {
  float x,y,z,w;
  __forceinline operator __m128() const { return *(const __m128*)this; }

@@ -7,6 +7,7 @@
 // to their real unit once identified.
 // src/havok/physics/internal/collide/gjk/continuous/hkpcontinuousgsk.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/physics/internal/collide/gjk/continuous/hkpcontinuousgsk.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstddef>
 #include <math.h>
 #include <xmmintrin.h>
 #include "fnv/decl/FUN_004b4ab0_Class.h"
@@ -113,7 +114,7 @@ enum hkResult
     HK_SUCCESS = 0,
     HK_FAILURE = 1
 };
-typedef unsigned __w64 hk_size_t;
+typedef size_t hk_size_t;
 typedef hkReal hkTime;
 __forceinline hkLong __cdecl hkGetByteOffset(const void* base, const void* pntr)
 {

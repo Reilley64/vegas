@@ -2,6 +2,8 @@
 // src/havok/physics/utilities/dynamics/inertia/hkpinertiatensorcomputer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/dynamics/inertia/hkpinertiatensorcomputer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
+#include <xmmintrin.h>
 #include <new>
 #include <cmath>
 #include <cstring>
@@ -450,18 +452,7 @@ void S00cec3d0_Face::FUN_00cec3d0(const float* verts, const float* apNormal)
                         w * (2.0 * (apNormal[A] * m_fComponent0 + apNormal[B] * m_fComponent1) + w * Pa));
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-};
 #include "fnv/symbols_simd.h"
-extern "C"
-{
-    __m128 _mm_setr_ps(float, float, float, float);
-    __m128 _mm_setzero_ps();
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_and_ps(__m128, __m128);
-}
 struct Vector
 {
     union
@@ -486,7 +477,7 @@ struct Vector
     }
     float& operator()(int i)
     {
-        return q.m128_f32[i];
+        return q[i];
     }
     int maxAxisSecond() const
     {
@@ -585,7 +576,6 @@ void FUN_00cebdb0(const MotionLike* source, MotionLike* destination)
     destination->field70 = source->field40;
 }
 
-extern "C" __m128 _mm_load_ss(const float*);
 struct Sub
 {
     void Multiply(const Vector* p);
@@ -889,13 +879,6 @@ float __cdecl FUN_00cedec0(S_00cee1c0_Arr* arr, int aiNode, float value)
     return result;
 }
 
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128i
-{
-    int m128i_i32[4];
-} __m128i;
-extern "C" __m128i _mm_cvtsi32_si128(int);
-__m128 _mm_castsi128_ps(__m128i);
-extern "C" void _mm_store_ps(float*, __m128);
 
 struct __declspec(align(16)) Vec4
 {
@@ -943,7 +926,6 @@ inline __m128 scalarVector(float x)
     __m128 result = {x};
     return result;
 }
-extern "C" __m128 _mm_load_ss(const float*);
 extern "C" void _ReadWriteBarrier();
 // Steps a Track until it reaches stage 3 past a threshold, stores its translation, matrix and time in receiver, and returns 0, or 1 if the stage is -1.
 // @fnv 0x00cebbb0
@@ -978,8 +960,8 @@ int __cdecl FUN_00cebbb0(void* state, float value, Receiver2* receiver)
                 reinterpret_cast<::D762F0Owner *>(&(track))->FUN_00d762f0();
             step += step;
         }
-        receiver->translation = *((::__m128 *)(reinterpret_cast<::fnv_00d75600::S_00d75600_Obj *>(&(track))->FUN_00d75600()));
-        __m128* rows = ((::__m128 *)(reinterpret_cast<::fnv_00d75560::FUN_00d75560_cls *>(&(track))->FUN_00d75560()));
+        receiver->translation = *((__m128 *)(reinterpret_cast<::fnv_00d75600::S_00d75600_Obj *>(&(track))->FUN_00d75600()));
+        __m128* rows = ((__m128 *)(reinterpret_cast<::fnv_00d75560::FUN_00d75560_cls *>(&(track))->FUN_00d75560()));
         RowMatrix* m = &receiver->matrix;
         m->row0 = rows[0];
         m->row1 = rows[1];
@@ -1037,16 +1019,6 @@ void __cdecl SetDiagonal(S_00ced310_M* m)
 }
 
 namespace fnv_00cefb90 {
-extern "C"
-{
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_shuffle_ps(__m128, __m128, int);
-    __m128 _mm_sqrt_ss(__m128);
-    __m128 _mm_load_ss(const float*);
-    void _mm_store_ss(float*, __m128);
-}
 
 // Same-file stand-ins as FUN_00cece50 (hkpMassProperties / hkVector4 / hkMatrix3).
 struct __declspec(align(16)) CE50Vector
@@ -1110,7 +1082,6 @@ __declspec(noinline) void __cdecl AddInertiaTensor(float* c, float m, float* I)
     float zx = I[8] - m * c[2] * c[0];
     I[8] = I[2] = zx;
 }
-extern "C" __m128 _mm_div_ss(__m128, __m128);
 void __cdecl FUN_00ced6b0(const CEFBGeom* geometry, float mass, CE50Body* out);
 __declspec(noinline) int __cdecl FUN_00cee290(const CE50Vector* a, const CE50Vector* b, const CE50Vector* c, float mass,
                                               float thickness, CE50Body* out)
@@ -1320,13 +1291,6 @@ int __cdecl FUN_00cefb90(const CEFBGeom* geom, float surfaceThickness, BoolFlag 
 }
 }  // namespace fnv_00cefb90
 
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-extern "C"
-{
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_set_ps1(float);
-}
 
 struct S_00ced090_Elem
 {
@@ -1893,23 +1857,7 @@ void VertexComponentData::FUN_00cec000(const float* verts)
     m_fComponent5 /= -60.0f;
 }
 
-extern "C"
-{
-    void _mm_store_ps(float*, __m128);
-    __m128 _mm_load_ps(const float*);
-    __m128 _mm_set_ps1(float);
-    __m128 _mm_set_ss(float);
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_sub_ss(__m128, __m128);
-    __m128 _mm_mul_ss(__m128, __m128);
-    __m128 _mm_rsqrt_ss(__m128);
-    __m128 _mm_cmpeq_ss(__m128, __m128);
-    __m128 _mm_andnot_ps(__m128, __m128);
-}
-inline void* operator new(unsigned int, void* p)
+inline void* operator new(size_t, void* p)
 {
     return p;
 }
@@ -2299,13 +2247,6 @@ __declspec(noinline) void Receiver::FUN_00cecc90(float value)
     reinterpret_cast<::S_00cd4c70 *>((((S_00cecc90_Sub*)((char*)this + 0x20))))->Multiply((*(const ::S_V4 *)(&v)));
 }
 
-extern "C"
-{
-    __m128 _mm_set_ps1(float);
-    __m128 _mm_xor_ps(__m128, __m128);
-    __m128 _mm_min_ps(__m128, __m128);
-    __m128 _mm_max_ps(__m128, __m128);
-}
 
 extern const __m128 DAT_010c44d0;
 extern const __m128 DAT_010ec7f0;
@@ -2349,11 +2290,11 @@ struct V4
     }
     float& operator()(int i)
     {
-        return q.m128_f32[i];
+        return q[i];
     }
     const float& operator()(int i) const
     {
-        return q.m128_f32[i];
+        return q[i];
     }
 };
 struct BoxInertia : Mat3
@@ -2460,18 +2401,6 @@ void __cdecl FUN_00cebdf0(float* source, float value, Object* destination)
     reinterpret_cast<::S_00cd4c70 *>((dst))->Multiply((*(const ::S_V4 *)(&tmp)));
 }
 
-extern "C"
-{
-    __m128 _mm_set_ss(float);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_sub_ss(__m128, __m128);
-    __m128 _mm_mul_ss(__m128, __m128);
-    __m128 _mm_rsqrt_ss(__m128);
-    __m128 _mm_cmpeq_ss(__m128, __m128);
-    __m128 _mm_andnot_ps(__m128, __m128);
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-}
 
 static __forceinline float Square(float x)
 {
@@ -2687,16 +2616,16 @@ static __forceinline void computePoints(Vec* data, int count, float mass, OutObj
     for (int i = 0; i < count; i++)
     {
         const Vec* q = &data[i];
-        float dx = q->x - out->com.m128_f32[0], dy = q->y - out->com.m128_f32[1], dz = q->z - out->com.m128_f32[2];
-        out->r0.m128_f32[0] += (dy * dy + dz * dz) * inv;
-        out->r1.m128_f32[1] += (dx * dx + dz * dz) * inv;
-        out->r2.m128_f32[2] += (dx * dx + dy * dy) * inv;
-        out->r1.m128_f32[0] -= dx * dy * inv;
-        out->r0.m128_f32[1] -= dx * dy * inv;
-        out->r2.m128_f32[0] -= dx * dz * inv;
-        out->r0.m128_f32[2] -= dx * dz * inv;
-        out->r1.m128_f32[2] -= dy * dz * inv;
-        out->r2.m128_f32[1] -= dy * dz * inv;
+        float dx = q->x - out->com[0], dy = q->y - out->com[1], dz = q->z - out->com[2];
+        out->r0[0] += (dy * dy + dz * dz) * inv;
+        out->r1[1] += (dx * dx + dz * dz) * inv;
+        out->r2[2] += (dx * dx + dy * dy) * inv;
+        out->r1[0] -= dx * dy * inv;
+        out->r0[1] -= dx * dy * inv;
+        out->r2[0] -= dx * dz * inv;
+        out->r0[2] -= dx * dz * inv;
+        out->r1[2] -= dy * dz * inv;
+        out->r2[1] -= dy * dz * inv;
     }
 }
 // Copies vertex positions into a temporary array, computes the center of mass and inertia tensor via computePoints, then frees the array.

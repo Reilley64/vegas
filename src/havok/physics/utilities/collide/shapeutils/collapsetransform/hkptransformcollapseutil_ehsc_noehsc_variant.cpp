@@ -5,6 +5,8 @@
 
 // src/havok/physics/utilities/collide/shapeutils/collapsetransform/hkptransformcollapseutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/collide/shapeutils/collapsetransform/hkptransformcollapseutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstddef>
+#include <xmmintrin.h>
 #include <new>
 #include "fnv/decl/CenteredPointBounds.h"
 #include "fnv/decl/ConvexVertsQ_d59200.h"
@@ -142,12 +144,6 @@ class D749Table
 
     int SetEntryValue(int key, int value);
 };
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C" __m128 _mm_and_ps(__m128, __m128);
 struct Shp_d74480;
 struct Alloc_d74480
 {
@@ -327,7 +323,7 @@ static __declspec(noinline) void FUN_00d737d0(ShapeD738* shape, hkArrayD748<Shap
     }
 }
 
-inline void* operator new(unsigned int, void* p) throw()
+inline void* operator new(size_t, void* p) throw()
 {
     return p;
 }
@@ -374,24 +370,7 @@ void ShapeData::FUN_00d738f0(int value)
 
 #include <math.h>
 #include "fnv/symbols_simd.h"
-namespace CollapseSIMD {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C" void _mm_store_ps(float*, __m128);
-extern "C" void _mm_store_ss(float*, __m128);
-extern "C" __m128 _mm_setzero_ps();
-extern "C" __m128 _mm_setr_ps(float, float, float, float);
-extern "C" __m128 _mm_add_ps(__m128, __m128);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, int);
-extern "C" __m128 _mm_add_ss(__m128, __m128);
-extern "C" __m128 _mm_sqrt_ss(__m128);
-extern "C" __m128 _mm_and_ps(__m128, __m128);
-}
-typedef CollapseSIMD::__m128 hkQuadReal;
+typedef __m128 hkQuadReal;
 class hkBool
 {
   public:
@@ -419,7 +398,7 @@ class VectorComponentValue
     operator float() const
     {
         float s;
-        CollapseSIMD::_mm_store_ss(&s, m_vValue);
+        _mm_store_ss(&s, m_vValue);
         return s;
     }
     const hkQuadReal& getQuad() const
@@ -451,7 +430,7 @@ class hkVector4
 };
 inline hkVector4::hkVector4(float x, float y, float z, float w)
 {
-    m_vComponents = CollapseSIMD::_mm_setr_ps(x, y, z, w);
+    m_vComponents = _mm_setr_ps(x, y, z, w);
 }
 inline hkVector4::hkVector4(const hkVector4& v)
 {
@@ -463,17 +442,17 @@ inline void hkVector4::operator=(const hkVector4& v)
 }
 inline void hkVector4::setZero4()
 {
-    m_vComponents = CollapseSIMD::_mm_setzero_ps();
+    m_vComponents = _mm_setzero_ps();
 }
 inline VectorComponentValue hkVector4::dot3(const hkVector4& a) const
 {
-    hkQuadReal x2 = CollapseSIMD::_mm_mul_ps(m_vComponents, a.m_vComponents);
-    hkQuadReal xySum = CollapseSIMD::_mm_add_ss(CollapseSIMD::_mm_shuffle_ps(x2, x2, 0x55), x2);
-    return CollapseSIMD::_mm_add_ss(CollapseSIMD::_mm_shuffle_ps(x2, x2, 0xaa), xySum);
+    hkQuadReal x2 = _mm_mul_ps(m_vComponents, a.m_vComponents);
+    hkQuadReal xySum = _mm_add_ss(_mm_shuffle_ps(x2, x2, 0x55), x2);
+    return _mm_add_ss(_mm_shuffle_ps(x2, x2, 0xaa), xySum);
 }
 inline VectorComponentValue hkVector4::length3() const
 {
-    return CollapseSIMD::_mm_sqrt_ss(this->dot3(*this).getQuad());
+    return _mm_sqrt_ss(this->dot3(*this).getQuad());
 }
 inline float& hkVector4::operator()(int a)
 {
@@ -594,14 +573,14 @@ inline hkTransform::hkTransform(const hkTransform& t)
 __forceinline void hkVector4::_setTransformedPos(const hkTransform& t, const hkVector4& b)
 {
     const hkRotation& r = t.getRotation();
-    hkQuadReal b0 = CollapseSIMD::_mm_shuffle_ps(b.m_vComponents, b.m_vComponents, 0);
-    hkQuadReal r0 = CollapseSIMD::_mm_mul_ps(r.getColumn(0).m_vComponents, b0);
-    hkQuadReal b1 = CollapseSIMD::_mm_shuffle_ps(b.m_vComponents, b.m_vComponents, 0x55);
-    hkQuadReal r1 = CollapseSIMD::_mm_mul_ps(r.getColumn(1).m_vComponents, b1);
-    hkQuadReal b2 = CollapseSIMD::_mm_shuffle_ps(b.m_vComponents, b.m_vComponents, 0xaa);
-    hkQuadReal r2 = CollapseSIMD::_mm_mul_ps(r.getColumn(2).m_vComponents, b2);
-    m_vComponents = CollapseSIMD::_mm_add_ps(CollapseSIMD::_mm_add_ps(r0, r1),
-                                             CollapseSIMD::_mm_add_ps(r2, t.getTranslation().m_vComponents));
+    hkQuadReal b0 = _mm_shuffle_ps(b.m_vComponents, b.m_vComponents, 0);
+    hkQuadReal r0 = _mm_mul_ps(r.getColumn(0).m_vComponents, b0);
+    hkQuadReal b1 = _mm_shuffle_ps(b.m_vComponents, b.m_vComponents, 0x55);
+    hkQuadReal r1 = _mm_mul_ps(r.getColumn(1).m_vComponents, b1);
+    hkQuadReal b2 = _mm_shuffle_ps(b.m_vComponents, b.m_vComponents, 0xaa);
+    hkQuadReal r2 = _mm_mul_ps(r.getColumn(2).m_vComponents, b2);
+    m_vComponents = _mm_add_ps(_mm_add_ps(r0, r1),
+                                             _mm_add_ps(r2, t.getTranslation().m_vComponents));
 }
 extern int DAT_010d0e5c;
 
@@ -802,8 +781,8 @@ class hkpConvexTranslateShape : public hkpConvexShape
     {
         new ((void *)this) ::FUN_00c9e340(11, child->m_fSphereRadius, (::FUN_00d1df70 *)(child), 1);
         m_ppVirtualMethodTable = &DAT_010d0e5c;
-        m_vTranslation.m_vComponents = CollapseSIMD::_mm_and_ps(
-            translation.m_vComponents, reinterpret_cast<const CollapseSIMD::__m128&>(DAT_010c4c10));
+        m_vTranslation.m_vComponents = _mm_and_ps(
+            translation.m_vComponents, reinterpret_cast<const __m128&>(DAT_010c4c10));
         m_iChildShapeSize = 0;
         return this;
     }
@@ -1018,7 +997,7 @@ const hkpShape* FUN_00d739f0(const hkpShape* transformShape, const Options& opti
             for (int p = 0; p < planes.GetLogicalSize(); p++)
             {
                 hkVector4 plane;
-                CollapseSIMD::_mm_store_ps(reinterpret_cast<float*>(&plane.m_vComponents), planes[p].m_vComponents);
+                _mm_store_ps(reinterpret_cast<float*>(&plane.m_vComponents), planes[p].m_vComponents);
                 const float newDist = plane(3) - pivotShift.dot3(plane);
                 plane.FUN_00c7f700(parentFromChild.getRotation(), plane);
                 plane(3) = newDist;

@@ -193,7 +193,7 @@ void S_00d3f780_Obj::FUN_00d3f780(S_00d3f780_In* a, S_00d3f780_In* b, S_00d3f780
         }
         else
         {  // degenerate: the centres coincide
-            out->unk10 = (*reinterpret_cast<const ::__m128 *>(&::DAT_01268370));
+            out->unk10 = (*reinterpret_cast<const __m128 *>(&::DAT_01268370));
             depth = -(shapeA->radius() + shapeB->radius());
         }
         // the point of contact on the second sphere
@@ -202,7 +202,7 @@ void S_00d3f780_Obj::FUN_00d3f780(S_00d3f780_In* a, S_00d3f780_In* b, S_00d3f780
         __m128 bcast = _mm_shuffle_ps(rb, rb, 0);
         out->unk00 = _mm_add_ps(_mm_mul_ps(bcast, out->unk10), *posB);
         // the penetration depth shares the last component of the normal
-        volatile float& distance = out->unk10.m128_f32[3];
+        volatile float& distance = out->unk10[3];
         distance = depth;
 
         if (unkC == 0xffff)
@@ -355,7 +355,7 @@ void FUN_00d3f980(const Body* a, const Body* b, const Input* input, Collector* c
         else
         {
             scratch.collision.distance = 0.0f;
-            normal = _mm_shuffle_ps((*reinterpret_cast<::__m128 *>(&::DAT_01268370)), _mm_unpackhi_ps((*reinterpret_cast<::__m128 *>(&::DAT_01268370)), point.normal), 0xc4);
+            normal = _mm_shuffle_ps((*reinterpret_cast<__m128 *>(&::DAT_01268370)), _mm_unpackhi_ps((*reinterpret_cast<__m128 *>(&::DAT_01268370)), point.normal), 0xc4);
         }
         point.normal = normal;
         scratch.collision.radiusA = shapeA->radius;
@@ -365,7 +365,7 @@ void FUN_00d3f980(const Body* a, const Body* b, const Input* input, Collector* c
         __m128 scaleCopy = scale;
         __m128 radiusBroadcast = _mm_shuffle_ps(scaleCopy, scale, 0);
         point.position = _mm_add_ps(_mm_mul_ps(radiusBroadcast, normal), posB);
-        point.normal.m128_f32[3] = scratch.collision.distance - (scratch.collision.radiusA + scratch.collision.radiusB);
+        point.normal[3] = scratch.collision.distance - (scratch.collision.radiusA + scratch.collision.radiusB);
         collector->AddContactPoint(point);
     }
     {

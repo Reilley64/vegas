@@ -2,6 +2,7 @@
 // src/havok/physics/collide/shape/convex/convexvertices/hkpconvexverticesconnectivity.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/convex/convexvertices/hkpconvexverticesconnectivity.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
 #include "fnv/symbols_00c90000.h"
 #include "havok/hkpConvexVerticesConnectivity.h"
 
@@ -29,7 +30,7 @@ void hkpCVCStandIn::FUN_00e48de0()
     m_kNumVerticesPerFace.m_iElementCount = 0;
 }
 
-inline void* operator new(unsigned int, void* p)
+inline void* operator new(size_t, void* p)
 {
     return p;
 }

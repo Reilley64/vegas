@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 
+#include <xmmintrin.h>
 #include "fnv/decl/FUN_00cfbd60_cls.h"
 #include "fnv/symbols_00cbe000.h"
 #include "fnv/symbols_00cf8000.h"
@@ -173,22 +174,8 @@ void __cdecl FUN_00d34db0(void* apUnused, void* a2, void* apFirstObj, void* apSe
     ::FUN_00da4900((int)(a2), (int)(&s));
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128 { float m128_f32[4]; unsigned __int64 m128_u64[2]; };
 #include "fnv/symbols_simd.h"
 
-extern "C" {
-__m128 _mm_load_ps(const float* p);
-void _mm_store_ps(float* p, __m128 v);
-__m128 _mm_add_ps(__m128 a, __m128 b);
-__m128 _mm_sub_ps(__m128 a, __m128 b);
-__m128 _mm_mul_ps(__m128 a, __m128 b);
-__m128 _mm_min_ps(__m128 a, __m128 b);
-__m128 _mm_max_ps(__m128 a, __m128 b);
-__m128 _mm_add_ss(__m128 a, __m128 b);
-__m128 _mm_sqrt_ss(__m128 a);
-__m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm8);
-__m128 _mm_set_ps1(float a);
-}
 
   // AABB quantization clip max
 
@@ -220,7 +207,7 @@ struct hkVector4q
 
     __forceinline void setInterpolate4(const hkVector4q& a, const hkVector4q& b, const hkVector4q& t)
     {
-        m_vComponents = _mm_add_ps(_mm_mul_ps(_mm_sub_ps(_mm_load_ps(::DAT_010ec7f0.m128_f32), t.m_vComponents), a.m_vComponents), _mm_mul_ps(t.m_vComponents, b.m_vComponents));
+        m_vComponents = _mm_add_ps(_mm_mul_ps(_mm_sub_ps(_mm_load_ps(reinterpret_cast<float*>(&::DAT_010ec7f0)), t.m_vComponents), a.m_vComponents), _mm_mul_ps(t.m_vComponents, b.m_vComponents));
     }
 
     __forceinline void setAddMul4(const hkVector4q& a, const hkVector4q& b, const hkSimdRealq& r)
@@ -558,7 +545,7 @@ int __cdecl FUN_00d351c0(const hkpCdBodyq* body, int useCache, const hkpShapeCon
             if (useContinuous)
             {
                 hkVector4q minimum;
-                minimum.m_vComponents = _mm_load_ps(boundMinimum.m_vComponents.m128_f32);
+                minimum.m_vComponents = _mm_load_ps(reinterpret_cast<float*>(&boundMinimum.m_vComponents));
                 hkVector4q half;
                 half.m_vComponents = _mm_set_ps1(0.5f);
 
@@ -615,14 +602,14 @@ int __cdecl FUN_00d351c0(const hkpCdBodyq* body, int useCache, const hkpShapeCon
             const hkVector4q& offsetMin = input->m_kAabbMin;
             const hkVector4q& offsetMax = input->m_kAabbMaximum;
             hkVec4F convertedMin;
-            convertedMin.m_vComponents = _mm_max_ps(_mm_min_ps(_mm_mul_ps(_mm_add_ps(offsetMin.m_vComponents, boundMinimum.m_vComponents), scale.m_vComponents), maxVal), (*reinterpret_cast<::__m128 *>(&::DAT_01267e30)));
+            convertedMin.m_vComponents = _mm_max_ps(_mm_min_ps(_mm_mul_ps(_mm_add_ps(offsetMin.m_vComponents, boundMinimum.m_vComponents), scale.m_vComponents), maxVal), (*reinterpret_cast<__m128 *>(&::DAT_01267e30)));
             cur->m_kMinimumCorner[0] = fnv_FloatToInt(convertedMin(0));
             cur->m_kMinimumCorner[1] = fnv_FloatToInt(convertedMin(1));
             cur->m_kMinimumCorner[2] = fnv_FloatToInt(convertedMin(2));
             cur->m_kMinimumCorner[3] = fnv_FloatToInt(convertedMin(3));
 
             hkVec4F convertedMax;
-            convertedMax.m_vComponents = _mm_max_ps(_mm_min_ps(_mm_mul_ps(_mm_add_ps(boundMaximum.m_vComponents, offsetMax.m_vComponents), scale.m_vComponents), maxVal), (*reinterpret_cast<::__m128 *>(&::DAT_01267e30)));
+            convertedMax.m_vComponents = _mm_max_ps(_mm_min_ps(_mm_mul_ps(_mm_add_ps(boundMaximum.m_vComponents, offsetMax.m_vComponents), scale.m_vComponents), maxVal), (*reinterpret_cast<__m128 *>(&::DAT_01267e30)));
             cur->m_kMaximumCorner[0] = fnv_FloatToInt(convertedMax(0));
             cur->m_kMaximumCorner[1] = fnv_FloatToInt(convertedMax(1));
             cur->m_kMaximumCorner[2] = fnv_FloatToInt(convertedMax(2));
@@ -718,7 +705,6 @@ begin:
     if (i < aiHigh) { aiLow = i; goto begin; }
 }
 
-extern "C" __m128 _mm_set_ss(float);
 struct hkpAgent3ProcessInputq
 {
     const hkpCdBodyq* m_pBodyA;
@@ -747,7 +733,7 @@ static __forceinline void convertUpperCurrent(const hkVector4q& in, const hkVect
                                                   const __m128& maxVal, const __m128& minVal, unsigned int* out)
 {
     hkVec4F x;
-    x.m_vComponents = _mm_add_ps(offset.m_vComponents, _mm_load_ps(in.m_vComponents.m128_f32));
+    x.m_vComponents = _mm_add_ps(offset.m_vComponents, _mm_load_ps(reinterpret_cast<float*>(&in.m_vComponents)));
     x.m_vComponents = _mm_mul_ps(x.m_vComponents, scale.m_vComponents);
     x.m_vComponents = _mm_min_ps(x.m_vComponents, maxVal);
     x.m_vComponents = _mm_max_ps(x.m_vComponents, minVal);
@@ -759,8 +745,8 @@ static __forceinline void convertUpperCurrent(const hkVector4q& in, const hkVect
 
 static __forceinline void quantizeAabb(const hkAabbq& aabb, const hkpProcessCollisionInputq* in, hkAabbUint32Key* out) {
  __m128 maxVal=DAT_011b6d70;
- convertLowerCurrent(aabb.m_kMinimumCorner,in->m_kAabbMin,in->m_kAabbScale,maxVal,(*reinterpret_cast<::__m128 *>(&::DAT_01267e30)),out);
- convertUpperCurrent(aabb.m_kMaximumCorner,in->m_kAabbMaximum,in->m_kAabbScale,maxVal,(*reinterpret_cast<::__m128 *>(&::DAT_01267e30)),out->m_kMaximumCorner);
+ convertLowerCurrent(aabb.m_kMinimumCorner,in->m_kAabbMin,in->m_kAabbScale,maxVal,(*reinterpret_cast<__m128 *>(&::DAT_01267e30)),out);
+ convertUpperCurrent(aabb.m_kMaximumCorner,in->m_kAabbMaximum,in->m_kAabbScale,maxVal,(*reinterpret_cast<__m128 *>(&::DAT_01267e30)),out->m_kMaximumCorner);
 }
 
 // @fnv 0x00d34e10

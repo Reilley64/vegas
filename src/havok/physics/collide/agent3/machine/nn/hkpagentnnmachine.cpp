@@ -2,6 +2,8 @@
 // src/havok/physics/collide/agent3/machine/nn/hkpagentnnmachine.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent3/machine/nn/hkpagentnnmachine.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
+#include <xmmintrin.h>
 #include "fnv/decl/SearchObject.h"
 #include "fnv/decl/hkTransformCB22.h"
 #include "fnv/symbols_00cf1000.h"
@@ -1221,12 +1223,6 @@ void FUN_00cfe020(S_cfe020_Pool* pool, S_cfe020_Entry* dest)
     pool->blocks.optimize();
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C" __m128 _mm_setzero_ps(void);
 struct LinkArray
 {
     LinkEntry* m_data;
@@ -1480,7 +1476,7 @@ class PairBody
         parent = p;
         motion = t;
     }
-    static void* operator new(unsigned, void* p)
+    static void* operator new(size_t, void* p)
     {
         return p;
     }

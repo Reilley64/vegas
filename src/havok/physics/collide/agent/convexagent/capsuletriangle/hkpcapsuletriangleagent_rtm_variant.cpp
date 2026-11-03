@@ -4,6 +4,7 @@
 
 // src/havok/physics/collide/agent/convexagent/capsuletriangle/hkpcapsuletriangleagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/convexagent/capsuletriangle/hkpcapsuletriangleagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <xmmintrin.h>
 #include <windows.h>
 #include "fnv/decl/CapsuleTriProcess.h"
 #include "fnv/decl/FUN_00cfbbe0_cls.h"
@@ -87,18 +88,6 @@ struct FUN_00d39980_cls
     unsigned short m_w12;
     void* m_sub;
 };
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-    int m128_i32[4];
-    __int64 m128_i64[2];
-    unsigned int m128_u32[4];
-} __m128;
-extern "C" __m128 _mm_xor_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_add_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
 struct hkVector4
 {
     __m128 m_vComponents;
@@ -252,12 +241,6 @@ static __forceinline void transform(Vec4* out, const char* shape, int count, con
     }
 }
 void __cdecl TransformAndDispatch(char* a1, char* a2, char* pExtra, void* a4, int a5, int a6);
-extern "C" __m128 _mm_sub_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_add_ss(__m128 a, __m128 b);
-extern "C" void _mm_store_ss(float* p, __m128 a);
-extern "C" __m128 _mm_load_ps(const float* p);
-extern "C" void _mm_store_ps(float* p, __m128 a);
-extern "C" __m128 _mm_rsqrt_ps(__m128 a);
 static __forceinline float SqLenLane(__m128 x)
 {
     __m128 sq = _mm_mul_ps(x, x);
@@ -471,7 +454,6 @@ struct CapsuleTriangleAgent
     int unk14;
     void FUN_00d3a620(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const CollisionInput* input, VirtObj* collector);
 };
-extern "C" __m128 _mm_unpackhi_ps(__m128 a, __m128 b);
 struct ContactNormalSetter : Contact
 {
     ContactNormalSetter* FUN_00caad60(const __m128* source);

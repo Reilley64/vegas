@@ -819,7 +819,7 @@ struct ContactViewer
 // @fnv 0x00d68130
 void Context::ProcessQuery(Query* query)
 {
-    int mode = ::FUN_00d679c0((const ::__m128 *)(float *)(&query->direction.x));
+    int mode = ::FUN_00d679c0((const __m128 *)(float *)(&query->direction.x));
     for (int groupIndex = 0; groupIndex < query->groupCount; ++groupIndex)
     {
         EntryListNode* list = &query->groups[groupIndex]->entries;

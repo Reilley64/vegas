@@ -5,22 +5,11 @@
 // src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkppulleydrawer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkppulleydrawer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <xmmintrin.h>
 #include "fnv/decl/CpuObject.h"
 #include "fnv/decl/DE44C0Object.h"
 #include "fnv/decl/FUN_00de4530Owner.h"
 #include "fnv/symbols_01011000.h"
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C" __m128 _mm_setr_ps(float, float, float, float);
-extern "C" __m128 _mm_set_ps1(float);
-extern "C" __m128 _mm_load_ps1(const float*);
-extern "C" __m128 _mm_load_ss(const float*);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, int);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ps(__m128, __m128);
 
 typedef float hkReal;
 

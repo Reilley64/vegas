@@ -453,11 +453,6 @@ S00d54490_Obj* S00d54490_Obj::FUN_00d54490(int arg1, const hkpMoppBvTreeShape& a
 }
 
 namespace fnv_00d54520 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
 struct S54520_Mon
@@ -995,18 +990,7 @@ void S00d54720_MoppShape::FUN_00d54720(const void* apInput, const void* cdBody, 
 
 #include <xmmintrin.h>
 namespace fnv_00d54380 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    struct
-    {
-        float x, y, z, w;
-    };
-};
 
-extern "C" __m128 _mm_load_ps1(const float* p);
-extern "C" __m128 _mm_add_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_max_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_min_ps(__m128 a, __m128 b);
 
 struct hkVector4D543
 {

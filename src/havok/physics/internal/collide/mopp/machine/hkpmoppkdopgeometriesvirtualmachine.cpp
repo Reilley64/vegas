@@ -2,6 +2,7 @@
 // src/havok/physics/internal/collide/mopp/machine/hkpmoppkdopgeometriesvirtualmachine.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/physics/internal/collide/mopp/machine/hkpmoppkdopgeometriesvirtualmachine.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <xmmintrin.h>
 #include <new>
 #include "fnv/decl/FUN_00cb1600.h"
 #include "fnv/decl/FUN_00cc00e0.h"
@@ -381,11 +382,6 @@ void FUN_00e65080_cls::FUN_00e65080(void* item, unsigned int unused)
         m_c0 = 1;
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 struct hkVector4
 {
     __m128 m_vComponents;
@@ -1003,7 +999,7 @@ void E65Solver::FUN_00e65d90(E65Input* apInput, E65Key* __restrict key, int aiDa
     out.unk08 = 0;
     out.unk0C = 0;
     out.unk10 = 0;
-    m_invMass = 1.0f / apInput->m_vec.m_vComponents.m128_f32[3];
+    m_invMass = 1.0f / apInput->m_vec.m_vComponents[3];
     m_vec.m_vComponents = apInput->m_vec.m_vComponents;
     m_flag = false;
     float t = (float)(m_invMass * DAT_01091c00);

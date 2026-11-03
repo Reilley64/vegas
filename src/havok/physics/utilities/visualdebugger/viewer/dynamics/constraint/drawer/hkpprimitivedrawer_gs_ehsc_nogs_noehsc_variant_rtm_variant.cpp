@@ -221,37 +221,13 @@ void CircleDrawer::FUN_00e10f60(float angle, __m128* base, __m128* a10, VectorAr
 
 #include <xmmintrin.h>
 namespace fnv_00e11180 {
-namespace PlaneDrawMath {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    struct
-    {
-        float x, y, z, w;
-    };
-};
-extern "C"
-{
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_sub_ss(__m128, __m128);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_mul_ss(__m128, __m128);
-    __m128 _mm_shuffle_ps(__m128, __m128, int);
-    __m128 _mm_load_ss(const float*);
-    __m128 _mm_set_ss(float);
-    __m128 _mm_rsqrt_ss(__m128);
-    __m128 _mm_cmpeq_ss(__m128, __m128);
-    __m128 _mm_andnot_ps(__m128, __m128);
-}
-}
 
 struct PlaneDrawVector
 {
-    PlaneDrawMath::__m128 m;
+    __m128 m;
     void add(const PlaneDrawVector& a)
     {
-        m = PlaneDrawMath::_mm_add_ps(m, a.m);
+        m = _mm_add_ps(m, a.m);
     }
     PlaneDrawVector& operator=(const PlaneDrawVector& a)
     {
@@ -280,32 +256,32 @@ struct PlaneDrawTarget
     virtual void edge(const PlaneDrawVector* a, const PlaneDrawVector* b, int p4, int p6, int p7);
 };
 
-static inline PlaneDrawMath::__m128 PlaneDrawDot3(PlaneDrawMath::__m128 t)
+static inline __m128 PlaneDrawDot3(__m128 t)
 {
-    PlaneDrawMath::__m128 a = PlaneDrawMath::_mm_shuffle_ps(t, t, 0x55);
-    a = PlaneDrawMath::_mm_add_ss(a, t);
-    PlaneDrawMath::__m128 b = PlaneDrawMath::_mm_shuffle_ps(t, t, 0xaa);
-    return PlaneDrawMath::_mm_add_ss(b, a);
+    __m128 a = _mm_shuffle_ps(t, t, 0x55);
+    a = _mm_add_ss(a, t);
+    __m128 b = _mm_shuffle_ps(t, t, 0xaa);
+    return _mm_add_ss(b, a);
 }
 
 extern const double DAT_010eacc0;
 
-static __forceinline PlaneDrawMath::__m128 PlaneDrawRotate(PlaneDrawMath::__m128 q, PlaneDrawMath::__m128 p)
+static __forceinline __m128 PlaneDrawRotate(__m128 q, __m128 p)
 {
-    PlaneDrawMath::__m128 nh = (*reinterpret_cast<const ::fnv_00e11180::PlaneDrawMath::__m128 *>((void *)&::DAT_010c71e0));
-    PlaneDrawMath::__m128 qw = PlaneDrawMath::_mm_shuffle_ps(q, q, 0xff);
-    PlaneDrawMath::__m128 factor = PlaneDrawMath::_mm_add_ps(nh, PlaneDrawMath::_mm_mul_ps(qw, qw));
-    PlaneDrawMath::__m128 sum = PlaneDrawMath::_mm_mul_ps(p, factor);
-    PlaneDrawMath::__m128 dot = PlaneDrawDot3(PlaneDrawMath::_mm_mul_ps(q, p));
-    dot = PlaneDrawMath::_mm_shuffle_ps(dot, dot, 0);
-    sum = PlaneDrawMath::_mm_add_ps(sum, PlaneDrawMath::_mm_mul_ps(dot, q));
-    PlaneDrawMath::__m128 cp0 =
-        PlaneDrawMath::_mm_mul_ps(PlaneDrawMath::_mm_shuffle_ps(q, q, 0xc9), PlaneDrawMath::_mm_shuffle_ps(p, p, 0xd2));
-    PlaneDrawMath::__m128 cp1 =
-        PlaneDrawMath::_mm_mul_ps(PlaneDrawMath::_mm_shuffle_ps(q, q, 0xd2), PlaneDrawMath::_mm_shuffle_ps(p, p, 0xc9));
-    PlaneDrawMath::__m128 cross = PlaneDrawMath::_mm_sub_ps(cp0, cp1);
-    sum = PlaneDrawMath::_mm_add_ps(sum, PlaneDrawMath::_mm_mul_ps(qw, cross));
-    return PlaneDrawMath::_mm_add_ps(sum, sum);
+    __m128 nh = (*reinterpret_cast<const __m128 *>((void *)&::DAT_010c71e0));
+    __m128 qw = _mm_shuffle_ps(q, q, 0xff);
+    __m128 factor = _mm_add_ps(nh, _mm_mul_ps(qw, qw));
+    __m128 sum = _mm_mul_ps(p, factor);
+    __m128 dot = PlaneDrawDot3(_mm_mul_ps(q, p));
+    dot = _mm_shuffle_ps(dot, dot, 0);
+    sum = _mm_add_ps(sum, _mm_mul_ps(dot, q));
+    __m128 cp0 =
+        _mm_mul_ps(_mm_shuffle_ps(q, q, 0xc9), _mm_shuffle_ps(p, p, 0xd2));
+    __m128 cp1 =
+        _mm_mul_ps(_mm_shuffle_ps(q, q, 0xd2), _mm_shuffle_ps(p, p, 0xc9));
+    __m128 cross = _mm_sub_ps(cp0, cp1);
+    sum = _mm_add_ps(sum, _mm_mul_ps(qw, cross));
+    return _mm_add_ps(sum, sum);
 }
 
 struct PlaneDrawObject : CpuObject
@@ -320,22 +296,22 @@ void PlaneDrawObject::FUN_00e11180(const PlaneDrawVector* p1, int p2, const Plan
     float s = (float)((double)p5 * DAT_010eacc0);
     PlaneDrawVector L;
     PlaneDrawVector P1v;
-    PlaneDrawMath::__m128 t = PlaneDrawMath::_mm_load_ss(&s);
-    PlaneDrawMath::__m128 splat = PlaneDrawMath::_mm_shuffle_ps(t, t, 0);
-    *(PlaneDrawMath::__m128*)&L = PlaneDrawMath::_mm_mul_ps(splat, *(const PlaneDrawMath::__m128*)p3);
+    __m128 t = _mm_load_ss(&s);
+    __m128 splat = _mm_shuffle_ps(t, t, 0);
+    *(__m128*)&L = _mm_mul_ps(splat, *(const __m128*)p3);
     PlaneDrawQuaternion D1;
     D1.FUN_00cb2450(p2, ::fnv_00a10770::DAT_0101ff38);
     PlaneDrawQuaternion D2;
     D2.FUN_00cb2450(p2, ::DAT_01064f60);
 
-    L.m = PlaneDrawRotate(*(PlaneDrawMath::__m128*)&D2, L.m);
+    L.m = PlaneDrawRotate(*(__m128*)&D2, L.m);
     P1v.m = p1->m;
     PlaneDrawVector A[4];
     for (int i = 0; i < 4; ++i)
     {
         A[i] = P1v;
         A[i].add(L);
-        L.m = PlaneDrawRotate(*(PlaneDrawMath::__m128*)&D1, L.m);
+        L.m = PlaneDrawRotate(*(__m128*)&D1, L.m);
     }
 
     {
@@ -363,20 +339,20 @@ void PlaneDrawObject::FUN_00e11180(const PlaneDrawVector* p1, int p2, const Plan
         sk->edge(&A[1], &A[3], p4, p6, p7);
     }
 
-    PlaneDrawMath::__m128 ll = *(const PlaneDrawMath::__m128*)&L;
-    PlaneDrawMath::__m128 sq2 = PlaneDrawMath::_mm_mul_ps(ll, ll);
-    PlaneDrawMath::__m128 dot = PlaneDrawDot3(sq2);
-    PlaneDrawMath::__m128 r = dot;
-    r = PlaneDrawMath::_mm_rsqrt_ss(r);
-    PlaneDrawMath::__m128 mask = PlaneDrawMath::_mm_cmpeq_ss(dot, PlaneDrawMath::_mm_set_ss(::DAT_01011d78));
-    PlaneDrawMath::__m128 dr = PlaneDrawMath::_mm_mul_ss(PlaneDrawMath::_mm_mul_ss(dot, r), r);
-    PlaneDrawMath::__m128 t3 = PlaneDrawMath::_mm_sub_ss(PlaneDrawMath::_mm_set_ss(::DAT_01017718), dr);
-    PlaneDrawMath::__m128 scale =
-        PlaneDrawMath::_mm_mul_ss(PlaneDrawMath::_mm_mul_ss(PlaneDrawMath::_mm_set_ss(::fnv_00c88020::DAT_01016248), r), t3);
-    PlaneDrawMath::__m128 sel = PlaneDrawMath::_mm_andnot_ps(mask, scale);
-    PlaneDrawMath::__m128 spl = sel;
-    spl = PlaneDrawMath::_mm_shuffle_ps(spl, sel, 0);
-    *(PlaneDrawMath::__m128*)&L = PlaneDrawMath::_mm_mul_ps(spl, ll);
+    __m128 ll = *(const __m128*)&L;
+    __m128 sq2 = _mm_mul_ps(ll, ll);
+    __m128 dot = PlaneDrawDot3(sq2);
+    __m128 r = dot;
+    r = _mm_rsqrt_ss(r);
+    __m128 mask = _mm_cmpeq_ss(dot, _mm_set_ss(::DAT_01011d78));
+    __m128 dr = _mm_mul_ss(_mm_mul_ss(dot, r), r);
+    __m128 t3 = _mm_sub_ss(_mm_set_ss(::DAT_01017718), dr);
+    __m128 scale =
+        _mm_mul_ss(_mm_mul_ss(_mm_set_ss(::fnv_00c88020::DAT_01016248), r), t3);
+    __m128 sel = _mm_andnot_ps(mask, scale);
+    __m128 spl = sel;
+    spl = _mm_shuffle_ps(spl, sel, 0);
+    *(__m128*)&L = _mm_mul_ps(spl, ll);
 
     reinterpret_cast<::ArrowDraw::ArrowDrawObject *>((this))->FUN_00e10d50((const ::ArrowDraw::ArrowDrawVector *)(p1), p2, (const ::ArrowDraw::ArrowDrawVector *)(const ::fnv_00e11180::PlaneDrawVector *)(&L), p4, p5, p6, p7);
 }

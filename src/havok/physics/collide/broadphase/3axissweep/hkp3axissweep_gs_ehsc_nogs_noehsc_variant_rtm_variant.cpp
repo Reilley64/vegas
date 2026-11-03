@@ -7,6 +7,7 @@
 // to their real unit once identified.
 // src/havok/physics/collide/broadphase/3axissweep/hkp3axissweep.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/broadphase/3axissweep/hkp3axissweep.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstddef>
 #include "fnv/decl/FUN_00d06fb0_cls.h"
 #include "fnv/decl/FUN_00d11e80_cls.h"
 #include "fnv/decl/SweepMerge.h"
@@ -1029,14 +1030,14 @@ VPair8* a1=(VPair8*)addr; Vec33 zero; zero.setZero();
             Vec33 pw, qw;
             pw.setAdd4(a1->v0,row40); pw.mul4(row60); pw.min4(clamp); pw.max4(zero); pw.add4(bias);
                         QuantMin40 qa;
-            qa.x = (unsigned short)(pw.data.m128_u32[0] >> 7);
-            qa.y = (unsigned short)(pw.data.m128_u32[1] >> 7);
-            qa.z = (unsigned short)(pw.data.m128_u32[2] >> 7);
+            qa.x = (unsigned short)(reinterpret_cast<unsigned int*>(&pw.data)[0] >> 7);
+            qa.y = (unsigned short)(reinterpret_cast<unsigned int*>(&pw.data)[1] >> 7);
+            qa.z = (unsigned short)(reinterpret_cast<unsigned int*>(&pw.data)[2] >> 7);
             qw.setAdd4(a1->v1,row50); qw.mul4(row60); qw.min4(clamp); qw.max4(zero); qw.add4(bias);
             unsigned short u[4];
-            u[0] = (unsigned short)(qw.data.m128_u32[0] >> 7);
-            u[1] = (unsigned short)(qw.data.m128_u32[1] >> 7);
-            u[2] = (unsigned short)(qw.data.m128_u32[2] >> 7);
+            u[0] = (unsigned short)(reinterpret_cast<unsigned int*>(&qw.data)[0] >> 7);
+            u[1] = (unsigned short)(reinterpret_cast<unsigned int*>(&qw.data)[1] >> 7);
+            u[2] = (unsigned short)(reinterpret_cast<unsigned int*>(&qw.data)[2] >> 7);
 
             out.min[0] = (*(unsigned int*)&qa.x) & 0xfffe; out.min[1] = (*(unsigned int*)&qa.y) & 0xfffe; out.min[2] = (*(unsigned int*)&qa.z) & 0xfffe;
             out.max[0] = u[0] | 1;
@@ -1666,7 +1667,7 @@ __forceinline void S4ef0Owner::_querySingleAabb(const S4ef0Aabb& aabb,int type,S
  }
  querySingleAabbSub(object,bitField,refNode,type,pairsOut,nodesOut,collector);
 }
-inline void* __cdecl operator new(unsigned int, void* storage) { return storage; }
+inline void* __cdecl operator new(size_t, void* storage) { return storage; }
 static const __m128 batchSweepBias={65536.0f,65536.0f,65536.0f,65536.0f};
 struct BatchSweepAllocator {
     virtual void reserved0();
@@ -1727,14 +1728,14 @@ __forceinline void quantizeSweepAabb(const SweepVector& offsetLow,const BatchAab
     SweepVector lowValue,highValue;
     lowValue.setAdd(box.low,offsetLow);lowValue.mul(scale);lowValue.setMin(lowValue,upper);lowValue.setMax(lowValue,zero);lowValue.add(magic);
     ShortResult lower;
-    lower.values[0]=(unsigned short)(lowValue.v.m128_u32[0]>>7);
-    lower.values[1]=(unsigned short)(lowValue.v.m128_u32[1]>>7);
-    lower.values[2]=(unsigned short)(lowValue.v.m128_u32[2]>>7);
+    lower.values[0]=(unsigned short)(reinterpret_cast<unsigned int*>(&lowValue.v)[0]>>7);
+    lower.values[1]=(unsigned short)(reinterpret_cast<unsigned int*>(&lowValue.v)[1]>>7);
+    lower.values[2]=(unsigned short)(reinterpret_cast<unsigned int*>(&lowValue.v)[2]>>7);
     highValue.setAdd(box.high,offsetHigh);highValue.mul(scale);highValue.setMin(highValue,upper);highValue.setMax(highValue,zero);highValue.add(magic);
     ShortResult upperResult;
-    upperResult.values[0]=(unsigned short)(highValue.v.m128_u32[0]>>7);
-    upperResult.values[1]=(unsigned short)(highValue.v.m128_u32[1]>>7);
-    upperResult.values[2]=(unsigned short)(highValue.v.m128_u32[2]>>7);
+    upperResult.values[0]=(unsigned short)(reinterpret_cast<unsigned int*>(&highValue.v)[0]>>7);
+    upperResult.values[1]=(unsigned short)(reinterpret_cast<unsigned int*>(&highValue.v)[1]>>7);
+    upperResult.values[2]=(unsigned short)(reinterpret_cast<unsigned int*>(&highValue.v)[2]>>7);
     out.low[0]=lower.values[0]&0xfffe;
     out.low[1]=lower.values[1]&0xfffe;
     out.low[2]=lower.values[2]&0xfffe;
@@ -1748,14 +1749,14 @@ __forceinline void quantizeCombinedSweepAabb(const BatchAabb& box,const SweepVec
     SweepVector lowValue,highValue;
     lowValue.setAdd(box.low,offsetLow);lowValue.mul(scale);lowValue.setMin(lowValue,upper);lowValue.setMax(lowValue,zero);lowValue.add(magic);
     ShortResult lower;
-    lower.values[0]=(unsigned short)(lowValue.v.m128_u32[0]>>7);
-    lower.values[1]=(unsigned short)(lowValue.v.m128_u32[1]>>7);
-    lower.values[2]=(unsigned short)(lowValue.v.m128_u32[2]>>7);
+    lower.values[0]=(unsigned short)(reinterpret_cast<unsigned int*>(&lowValue.v)[0]>>7);
+    lower.values[1]=(unsigned short)(reinterpret_cast<unsigned int*>(&lowValue.v)[1]>>7);
+    lower.values[2]=(unsigned short)(reinterpret_cast<unsigned int*>(&lowValue.v)[2]>>7);
     highValue.setAdd(box.high,offsetHigh);highValue.mul(scale);highValue.setMin(highValue,upper);highValue.setMax(highValue,zero);highValue.add(magic);
     ShortResult upperResult;
-    upperResult.values[0]=(unsigned short)(highValue.v.m128_u32[0]>>7);
-    upperResult.values[1]=(unsigned short)(highValue.v.m128_u32[1]>>7);
-    upperResult.values[2]=(unsigned short)(highValue.v.m128_u32[2]>>7);
+    upperResult.values[0]=(unsigned short)(reinterpret_cast<unsigned int*>(&highValue.v)[0]>>7);
+    upperResult.values[1]=(unsigned short)(reinterpret_cast<unsigned int*>(&highValue.v)[1]>>7);
+    upperResult.values[2]=(unsigned short)(reinterpret_cast<unsigned int*>(&highValue.v)[2]>>7);
     out.low[0]=lower.values[0]&0xfffe;
     out.low[1]=lower.values[1]&0xfffe;
     out.low[2]=lower.values[2]&0xfffe;

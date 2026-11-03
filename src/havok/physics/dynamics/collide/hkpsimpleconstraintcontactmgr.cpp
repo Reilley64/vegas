@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/collide/hkpsimpleconstraintcontactmgr.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/collide/hkpsimpleconstraintcontactmgr.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <xmmintrin.h>
 #include <new>
 #include "fnv/decl/FUN_00cf3070_class.h"
 #include "fnv/decl/FUN_00d06fb0_cls.h"
@@ -1094,14 +1095,6 @@ FUN_00cfda50::~FUN_00cfda50() throw()
     }
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128 { float m128_f32[4]; unsigned __int64 m128_u64[2]; };
-extern "C" {
-__m128 _mm_sub_ps(__m128, __m128);
-__m128 _mm_mul_ps(__m128, __m128);
-__m128 _mm_add_ss(__m128, __m128);
-__m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-void _mm_store_ss(float*, __m128);
-}
 
 typedef unsigned short hkContactPointId;
 typedef unsigned long hkUlong;
@@ -1128,7 +1121,7 @@ struct hkContactPt
 {
     hkVec4 m_vContactPosition;
     hkVec4 m_vSeparatingNormal;
-    float getDistance() const { return m_vSeparatingNormal.m_vComponents.m128_f32[3]; }
+    float getDistance() const { return m_vSeparatingNormal.m_vComponents[3]; }
 };
 
 struct hkCPProperties
@@ -1447,7 +1440,6 @@ void* FUN_00cfd800_mgr::FUN_00cfd800(const CdBodyQ& a, const CdBodyQ& b, int max
 }
 
 namespace fnv_00cfd950 {
-union __declspec(intrin_type) __declspec(align(16)) __m128 { float m128_f32[4]; unsigned __int64 m128_u64[2]; };
 
 struct hkVector4q {
     __m128 m_vComponents;
@@ -1517,7 +1509,6 @@ int Cls::FUN_00cfce80(int a1, int a2, int a3, int* a4, float a5, int a6, int a7,
     return c.result;
 }
 
-extern "C" void _mm_stream_ps(float*, __m128);
 
 struct CfdInfoItem {
     __m128 m_v0;

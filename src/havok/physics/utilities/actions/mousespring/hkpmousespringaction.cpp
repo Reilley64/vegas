@@ -2,6 +2,8 @@
 // src/havok/physics/utilities/actions/mousespring/hkpmousespringaction.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/actions/mousespring/hkpmousespringaction.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
+#include <xmmintrin.h>
 #include <new>
 #include "fnv/decl/FUN_00cd8160.h"
 #include "fnv/decl/FUN_00d2b260.h"
@@ -56,11 +58,6 @@ int __cdecl FUN_00cbb8a0()
     return (int)&(*reinterpret_cast<int *>(&::g_01268a14));
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 #include "fnv/symbols_simd.h"
 
 extern int DAT_010c8e94;
@@ -258,11 +255,6 @@ struct Ms_B
 struct Ms_N
 {
 };
-extern "C"
-{
-    void _mm_store_ps(float*, __m128);
-    __m128 _mm_load_ps(const float*);
-}
 struct Fv
 {
     float x;
@@ -382,7 +374,7 @@ class FUN_00cbb4e0 : public hkpUnaryAction
 
     FUN_00cbb4e0(hkpEntity* pkEntity) throw();
 
-    void* operator new(unsigned int uiSize)
+    void* operator new(size_t uiSize)
     {
         hkMemoryRouterCBB7* pkRouter = (hkMemoryRouterCBB7*)FUN_00c85750();
         hkReferencedObject* pkObj = (hkReferencedObject*)pkRouter->m_pStreamAllocator->AllocateMemoryBlock(uiSize);
@@ -615,18 +607,7 @@ Cls* Cls::FUN_00cbb8b0(int flags)
     return this;
 }
 
-extern "C"
-{
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_and_ps(__m128, __m128);
-    __m128 _mm_load_ps1(const float*);
-    __m128 _mm_cmple_ps(__m128, __m128);
-    int _mm_movemask_ps(__m128);
-}
 
-extern "C"
-{
-}
 
 
 struct __declspec(align(16)) hkVector4CBB1
@@ -682,7 +663,6 @@ void hkpPositionTrackerCBB1::FUN_00cbb150(const hkVector4CBB1& kPosition)
     m_vContactPosition = kPosition;
 }
 
-extern "C" __m128 _mm_setzero_ps(void);
 struct FUN_00cbb4e0
 {
     void* unk00;

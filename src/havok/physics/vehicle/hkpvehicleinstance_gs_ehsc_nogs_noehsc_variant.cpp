@@ -5,6 +5,8 @@
 
 // src/havok/physics/vehicle/hkpvehicleinstance.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/vehicle/hkpvehicleinstance.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstddef>
+#include <xmmintrin.h>
 #include <windows.h>
 #include "fnv/decl/FUN_00c90510_class.h"
 #include "fnv/decl/FUN_00c91620_Class.h"
@@ -719,7 +721,7 @@ class FUN_00e38b20
     hkClonableE392* m_9c;
     char unkA0[0x34];
 
-    void* operator new(unsigned int nbytes)
+    void* operator new(size_t nbytes)
     {
         FUN_00e38b20* b = static_cast<FUN_00e38b20*>(
             static_cast<hkMemoryRouterE392*>(FUN_00c85750())->heap().AllocateMemoryBlock(nbytes));
@@ -759,14 +761,6 @@ struct VUC_Transmission8
     signed char m_gear3;
     float m_extra;
 };
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C" __m128 _mm_add_ps(__m128, __m128);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
 struct Q_e380c0_Vec
 {
     __m128 q;
@@ -892,7 +886,7 @@ struct FUN_00e39300_class
     float unkd4;
     FUN_00e39300_class& FUN_00e39300(const FUN_00e39300_class* src);
 };
-inline void* operator new(unsigned int, void* pvWhere)
+inline void* operator new(size_t, void* pvWhere)
 {
     return pvWhere;
 }
@@ -1122,8 +1116,6 @@ class VehicleDataE39 : public hkReferencedObjectE39
     float m_fD0;
 };
 
-extern "C" __m128 _mm_add_ss(__m128, __m128);
-extern "C" void _mm_store_ss(float*, __m128);
 
 struct WVec4
 {

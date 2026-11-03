@@ -64,6 +64,7 @@ struct D362Script {
 };
 extern unsigned char DAT_01268ad5;
 void FUN_00d362c0(D362Script* script);
+#include <xmmintrin.h>
 #include "fnv_asm_helpers.h"   // project x87 helpers (fnv_SinCos, fnv_FloatToInt), kept last so earlier code is unchanged
 extern "C" void __cdecl FUN_00d97250(void*, void*, void*);
 extern "C" const char str_010ceca8[];
@@ -98,20 +99,6 @@ struct Local {
 };
 extern "C" void __cdecl FUN_00da4900(void*, void*);
 void __cdecl FUN_00d34db0(void* a1, void* a2, void* a3, void* a4, void* a5, void* a6, void* a7);
-union __declspec(intrin_type) __declspec(align(16)) __m128 { float m128_f32[4]; unsigned __int64 m128_u64[2]; };
-extern "C" {
-__m128 _mm_load_ps(const float* p);
-void _mm_store_ps(float* p, __m128 v);
-__m128 _mm_add_ps(__m128 a, __m128 b);
-__m128 _mm_sub_ps(__m128 a, __m128 b);
-__m128 _mm_mul_ps(__m128 a, __m128 b);
-__m128 _mm_min_ps(__m128 a, __m128 b);
-__m128 _mm_max_ps(__m128 a, __m128 b);
-__m128 _mm_add_ss(__m128 a, __m128 b);
-__m128 _mm_sqrt_ss(__m128 a);
-__m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm8);
-__m128 _mm_set_ps1(float a);
-}
 extern __m128 DAT_010ec7f0;
 extern const __m128 DAT_011b6d70;
 // AABB quantization clip max
@@ -140,7 +127,7 @@ struct hkVector4q
 
     __forceinline void setInterpolate4(const hkVector4q& a, const hkVector4q& b, const hkVector4q& t)
     {
-        m_vComponents = _mm_add_ps(_mm_mul_ps(_mm_sub_ps(_mm_load_ps(DAT_010ec7f0.m128_f32), t.m_vComponents), a.m_vComponents), _mm_mul_ps(t.m_vComponents, b.m_vComponents));
+        m_vComponents = _mm_add_ps(_mm_mul_ps(_mm_sub_ps(_mm_load_ps(reinterpret_cast<float*>(&DAT_010ec7f0)), t.m_vComponents), a.m_vComponents), _mm_mul_ps(t.m_vComponents, b.m_vComponents));
     }
 
     __forceinline void setAddMul4(const hkVector4q& a, const hkVector4q& b, const hkSimdRealq& r)
@@ -421,7 +408,6 @@ __forceinline void hkSwap(T& x, T& y)
     x = t;
 }
 void __cdecl FUN_00d36360(SortEntry* pArr, int d, int h, SortEntryLess cmpLess);
-extern "C" __m128 _mm_set_ss(float);
 struct hkpAgent3ProcessInputq
 {
     const hkpCdBodyq* m_pBodyA;
@@ -450,7 +436,7 @@ static __forceinline void convertUpperCurrent(const hkVector4q& in, const hkVect
                                                   const __m128& maxVal, const __m128& minVal, unsigned int* out)
 {
     hkVec4F x;
-    x.m_vComponents = _mm_add_ps(offset.m_vComponents, _mm_load_ps(in.m_vComponents.m128_f32));
+    x.m_vComponents = _mm_add_ps(offset.m_vComponents, _mm_load_ps(reinterpret_cast<float*>(&in.m_vComponents)));
     x.m_vComponents = _mm_mul_ps(x.m_vComponents, scale.m_vComponents);
     x.m_vComponents = _mm_min_ps(x.m_vComponents, maxVal);
     x.m_vComponents = _mm_max_ps(x.m_vComponents, minVal);

@@ -7,6 +7,8 @@
 
 // src/havok/physics/collide/agent/miscagent/multirayconvex/hkpmultirayconvexagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/miscagent/multirayconvex/hkpmultirayconvexagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstddef>
+#include <xmmintrin.h>
 #include <intrin.h>
 #include <windows.h>
 #include "fnv/decl/FUN_005609f0_shell.h"
@@ -131,24 +133,12 @@ public:
     D376B0IndexArray m_ppIndices;
 };
 
-namespace RaySimd {
-union __declspec(intrin_type) __declspec(align(16)) __m128 {
-    float m128_f32[4];
-};
-extern "C" {
-__m128 _mm_add_ps(__m128, __m128);
-__m128 _mm_sub_ps(__m128, __m128);
-__m128 _mm_mul_ps(__m128, __m128);
-__m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-__m128 _mm_load_ss(const float*);
-}
-}
 
 typedef float hkReal;
 typedef unsigned short hkUint16;
 typedef unsigned int hkUint32;
 typedef unsigned long __w64 hkUlong;
-typedef unsigned __w64 hk_size_t;class FinishingFlag
+typedef size_t hk_size_t;class FinishingFlag
 {
 public:
 FinishingFlag():m_bFinishing(0){}
@@ -195,8 +185,6 @@ return m_kStorage;
 }
 private:
 TYPE m_kStorage;};
-extern "C"{
-}
 template<typename T>
 class hkThreadLocalData
 {
@@ -323,7 +311,7 @@ typename HavokElementArray<T>::const_iterator HavokElementArray<T>::begin()const
 return m_data;
 }
 
-typedef RaySimd::__m128 hkQuadReal;
+typedef __m128 hkQuadReal;
 class hkVector4;
 typedef const hkVector4&hkVector4Parameter;
 class VectorComponentValue
@@ -335,11 +323,11 @@ VectorComponentValue(const hkQuadReal&x)
 }
 VectorComponentValue(hkReal x)
 {
-m_vValue=(RaySimd::_mm_load_ss)(&x);
+m_vValue=_mm_load_ss(&x);
 }
 __forceinline hkQuadReal broadcast()const
 {
-return (RaySimd::_mm_shuffle_ps)(m_vValue,m_vValue,0);
+return _mm_shuffle_ps(m_vValue,m_vValue,0);
 }
 private:
 hkQuadReal m_vValue;};
@@ -388,19 +376,19 @@ hkVector4 m_vTranslation;};inline void hkVector4::setInterpolate4(const hkVector
 {
 extern const hkQuadReal DAT_010ec7f0;
 hkQuadReal t=_t.broadcast();
-hkQuadReal s=(RaySimd::_mm_sub_ps)(DAT_010ec7f0,t);
-m_vComponents=(RaySimd::_mm_add_ps)(
-(RaySimd::_mm_mul_ps)(s,v0.m_vComponents),
-(RaySimd::_mm_mul_ps)(t,v1.m_vComponents));}
+hkQuadReal s=_mm_sub_ps(DAT_010ec7f0,t);
+m_vComponents=_mm_add_ps(
+_mm_mul_ps(s,v0.m_vComponents),
+_mm_mul_ps(t,v1.m_vComponents));}
 inline void hkVector4::_setMul3(const hkMatrix3&a,const hkVector4&b)
 {
-const hkQuadReal b0=(RaySimd::_mm_shuffle_ps)(b.m_vComponents,b.m_vComponents,(((0)<<6)|((0)<<4)|((0)<<2)|((0))));
-const hkQuadReal r0=(RaySimd::_mm_mul_ps)(a.getColumn(0).m_vComponents,b0);
-const hkQuadReal b1=(RaySimd::_mm_shuffle_ps)(b.m_vComponents,b.m_vComponents,(((1)<<6)|((1)<<4)|((1)<<2)|((1))));
-const hkQuadReal r1=(RaySimd::_mm_mul_ps)(a.getColumn(1).m_vComponents,b1);
-const hkQuadReal b2=(RaySimd::_mm_shuffle_ps)(b.m_vComponents,b.m_vComponents,(((2)<<6)|((2)<<4)|((2)<<2)|((2))));
-const hkQuadReal r2=(RaySimd::_mm_mul_ps)(a.getColumn(2).m_vComponents,b2);
-m_vComponents=(RaySimd::_mm_add_ps)((RaySimd::_mm_add_ps)(r0,r1),r2);}
+const hkQuadReal b0=_mm_shuffle_ps(b.m_vComponents,b.m_vComponents,(((0)<<6)|((0)<<4)|((0)<<2)|((0))));
+const hkQuadReal r0=_mm_mul_ps(a.getColumn(0).m_vComponents,b0);
+const hkQuadReal b1=_mm_shuffle_ps(b.m_vComponents,b.m_vComponents,(((1)<<6)|((1)<<4)|((1)<<2)|((1))));
+const hkQuadReal r1=_mm_mul_ps(a.getColumn(1).m_vComponents,b1);
+const hkQuadReal b2=_mm_shuffle_ps(b.m_vComponents,b.m_vComponents,(((2)<<6)|((2)<<4)|((2)<<2)|((2))));
+const hkQuadReal r2=_mm_mul_ps(a.getColumn(2).m_vComponents,b2);
+m_vComponents=_mm_add_ps(_mm_add_ps(r0,r1),r2);}
 inline void hkVector4::_setRotatedDir(const hkRotation&r,const hkVector4&v)
 {
 _setMul3(r,v);
@@ -408,13 +396,13 @@ _setMul3(r,v);
 inline void hkVector4::_setTransformedPos(const hkTransform&t,const hkVector4&b)
 {
 const hkRotation&r=t.getRotation();
-hkQuadReal b0=(RaySimd::_mm_shuffle_ps)(b.m_vComponents,b.m_vComponents,(((0)<<6)|((0)<<4)|((0)<<2)|((0))));
-hkQuadReal r0=(RaySimd::_mm_mul_ps)(r.getColumn(0).m_vComponents,b0);
-hkQuadReal b1=(RaySimd::_mm_shuffle_ps)(b.m_vComponents,b.m_vComponents,(((1)<<6)|((1)<<4)|((1)<<2)|((1))));
-hkQuadReal r1=(RaySimd::_mm_mul_ps)(r.getColumn(1).m_vComponents,b1);
-hkQuadReal b2=(RaySimd::_mm_shuffle_ps)(b.m_vComponents,b.m_vComponents,(((2)<<6)|((2)<<4)|((2)<<2)|((2))));
-hkQuadReal r2=(RaySimd::_mm_mul_ps)(r.getColumn(2).m_vComponents,b2);
-m_vComponents=(RaySimd::_mm_add_ps)((RaySimd::_mm_add_ps)(r0,r1),(RaySimd::_mm_add_ps)(r2,t.getTranslation().m_vComponents));}
+hkQuadReal b0=_mm_shuffle_ps(b.m_vComponents,b.m_vComponents,(((0)<<6)|((0)<<4)|((0)<<2)|((0))));
+hkQuadReal r0=_mm_mul_ps(r.getColumn(0).m_vComponents,b0);
+hkQuadReal b1=_mm_shuffle_ps(b.m_vComponents,b.m_vComponents,(((1)<<6)|((1)<<4)|((1)<<2)|((1))));
+hkQuadReal r1=_mm_mul_ps(r.getColumn(1).m_vComponents,b1);
+hkQuadReal b2=_mm_shuffle_ps(b.m_vComponents,b.m_vComponents,(((2)<<6)|((2)<<4)|((2)<<2)|((2))));
+hkQuadReal r2=_mm_mul_ps(r.getColumn(2).m_vComponents,b2);
+m_vComponents=_mm_add_ps(_mm_add_ps(r0,r1),_mm_add_ps(r2,t.getTranslation().m_vComponents));}
 inline hkReal&hkVector4::operator()(int a)
 {
 return reinterpret_cast<hkReal*>(&m_vComponents)[a];

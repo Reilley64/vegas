@@ -2,6 +2,8 @@
 // src/havok/physics/utilities/collide/shapeutils/collapsetransform/hkptransformcollapseutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/collide/shapeutils/collapsetransform/hkptransformcollapseutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
+#include <xmmintrin.h>
 #include <new>
 #include "fnv/decl/FUN_005609f0_shell.h"
 #include "fnv/decl/FUN_00c90510_class.h"
@@ -219,13 +221,7 @@ found:
     return 0;
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 #include "fnv/symbols_simd.h"
-extern "C" __m128 _mm_and_ps(__m128, __m128);
 
 struct Shp_d74480;
 struct Alloc_d74480
@@ -652,11 +648,6 @@ void ShapeData::FUN_00d74a20()
     }
 }
 
-extern "C"
-{
-    __m128 _mm_setzero_ps(void);
-    __m128 _mm_and_ps(__m128, __m128);
-}
 
 
 struct hkVector4
@@ -668,7 +659,7 @@ struct hkVector4
     }
     __forceinline float& operator()(int i)
     {
-        return m_vComponents.m128_f32[i];
+        return m_vComponents[i];
     }
     __forceinline void setZero4()
     {
@@ -763,7 +754,7 @@ struct CollapseRefObject : hkBaseObject
 {
     unsigned short m_usMemSizeAndFlags;
     short m_sReferenceCount;
-    __forceinline void* operator new(unsigned int nbytes)
+    __forceinline void* operator new(size_t nbytes)
     {
         CollapseRefObject* b =
             static_cast<CollapseRefObject*>(NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(nbytes));

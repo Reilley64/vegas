@@ -46,7 +46,7 @@ class CompareValue;
 class PackedVector {
  __m128 value;
  public:
- __forceinline float& operator()(int i) {return value.m128_f32[i];}
+ __forceinline float& operator()(int i) {return value[i];}
  __forceinline void operator=(const PackedVector& v) { value=v.value; }
  __forceinline void operator=(const __m128& v) { value=v; }
  __forceinline __m128 read() const {return value;}
@@ -106,8 +106,8 @@ __forceinline void PackedVector::select32(const PackedVector& a,const PackedVect
 
 static __forceinline FourFloats MakePacked(float v) {
  FourFloats r;
- r.getQuad().m128_f32[0]=v;r.getQuad().m128_f32[1]=v;
- r.getQuad().m128_f32[2]=v;r.getQuad().m128_f32[3]=v;return r;
+ r.getQuad()[0]=v;r.getQuad()[1]=v;
+ r.getQuad()[2]=v;r.getQuad()[3]=v;return r;
 }
 struct VectorValue {
 
@@ -127,7 +127,7 @@ struct VectorValue {
 
 struct PlaneDistance { __m128 simd; __forceinline PlaneDistance() {}
 
- __forceinline PlaneDistance(const FourFloats& v) {simd.m128_f32[0]=v.getQuad().m128_f32[0];simd.m128_f32[1]=v.getQuad().m128_f32[1];simd.m128_f32[2]=v.getQuad().m128_f32[2];simd.m128_f32[3]=v.getQuad().m128_f32[3];}
+ __forceinline PlaneDistance(const FourFloats& v) {simd[0]=v.getQuad()[0];simd[1]=v.getQuad()[1];simd[2]=v.getQuad()[2];simd[3]=v.getQuad()[3];}
 
 };
 
@@ -546,17 +546,17 @@ void RayBundleTraversalMachine::FUN_00dd3210(const QueryState* state, const unsi
 
         FourFloats bytes;
 
-        float decoded0=(float)(int)command; bytes.getQuad().m128_f32[0]=decoded0;
+        float decoded0=(float)(int)command; bytes.getQuad()[0]=decoded0;
 
-        float decoded1=(float)(int)code[1]; bytes.getQuad().m128_f32[1]=decoded1;
+        float decoded1=(float)(int)code[1]; bytes.getQuad()[1]=decoded1;
 
         const unsigned int byte1=code[1];
 
-        float decoded2=(float)(int)splitNode; bytes.getQuad().m128_f32[2]=decoded2;
+        float decoded2=(float)(int)splitNode; bytes.getQuad()[2]=decoded2;
 
         const unsigned int byte3=code[3];
 
-        float decoded3=(float)(int)byte3; bytes.getQuad().m128_f32[3]=decoded3;
+        float decoded3=(float)(int)byte3; bytes.getQuad()[3]=decoded3;
 
 
 
@@ -909,21 +909,21 @@ endDistance=PlaneDiff(projectEnd.getQuad(),boundHigh.getQuad());
 
             VectorValue upperPoint0=_mm_add_ps(_mm_mul_ps(toWeight.getQuad(),oldEnd.axis[0].getQuad()),_mm_mul_ps(fromWeight.getQuad(),oldStart.axis[0].getQuad()));
 
-            _mm_store_ps(rays->ends[0].axis[0].getQuad().m128_f32,SelectVector(fraction,upperPoint0,rays->ends[0].axis[0].getQuad()));
+            _mm_store_ps(reinterpret_cast<float*>(&rays->ends[0].axis[0].getQuad()),SelectVector(fraction,upperPoint0,rays->ends[0].axis[0].getQuad()));
 
-            _mm_store_ps(rays->ends[1].axis[0].getQuad().m128_f32,SelectVector(b,upperPoint0,rays->ends[1].axis[0].getQuad()));
+            _mm_store_ps(reinterpret_cast<float*>(&rays->ends[1].axis[0].getQuad()),SelectVector(b,upperPoint0,rays->ends[1].axis[0].getQuad()));
 
-            VectorValue crossing=_mm_add_ps(_mm_mul_ps(toWeight.getQuad(),_mm_load_ps(oldEnd.axis[1].getQuad().m128_f32)),_mm_mul_ps(fromWeight.getQuad(),oldStart.axis[1].getQuad()));
+            VectorValue crossing=_mm_add_ps(_mm_mul_ps(toWeight.getQuad(),_mm_load_ps(reinterpret_cast<float*>(&oldEnd.axis[1].getQuad()))),_mm_mul_ps(fromWeight.getQuad(),oldStart.axis[1].getQuad()));
 
-            _mm_store_ps(rays->ends[0].axis[1].getQuad().m128_f32,SelectVector(fraction,crossing,rays->ends[0].axis[1].getQuad()));
+            _mm_store_ps(reinterpret_cast<float*>(&rays->ends[0].axis[1].getQuad()),SelectVector(fraction,crossing,rays->ends[0].axis[1].getQuad()));
 
-            _mm_store_ps(rays->ends[1].axis[1].getQuad().m128_f32,SelectVector(b,crossing,rays->ends[1].axis[1].getQuad()));
+            _mm_store_ps(reinterpret_cast<float*>(&rays->ends[1].axis[1].getQuad()),SelectVector(b,crossing,rays->ends[1].axis[1].getQuad()));
 
             VectorValue upperPoint2=_mm_add_ps(_mm_mul_ps(toWeight.getQuad(),oldEnd.axis[2].getQuad()),_mm_mul_ps(fromWeight.getQuad(),oldStart.axis[2].getQuad()));
 
-            _mm_store_ps(rays->ends[0].axis[2].getQuad().m128_f32,SelectVector(fraction,upperPoint2,rays->ends[0].axis[2].getQuad()));
+            _mm_store_ps(reinterpret_cast<float*>(&rays->ends[0].axis[2].getQuad()),SelectVector(fraction,upperPoint2,rays->ends[0].axis[2].getQuad()));
 
-            _mm_store_ps(rays->ends[1].axis[2].getQuad().m128_f32,SelectVector(b,upperPoint2,rays->ends[1].axis[2].getQuad()));
+            _mm_store_ps(reinterpret_cast<float*>(&rays->ends[1].axis[2].getQuad()),SelectVector(b,upperPoint2,rays->ends[1].axis[2].getQuad()));
 
             FourFloats lowerEndDistance,lowerStartDistance,lowerToWeight,lowerFromWeight;
 
@@ -940,21 +940,21 @@ lowerEndDistance=PlaneDiff(projectEnd.getQuad(),boundLow.getQuad());
 
             VectorValue lowerPoint0=_mm_add_ps(_mm_mul_ps(lowerToWeight.getQuad(),oldEnd.axis[0].getQuad()),_mm_mul_ps(lowerFromWeight.getQuad(),oldStart.axis[0].getQuad()));
 
-            _mm_store_ps(rays->ends[0].axis[0].getQuad().m128_f32,SelectVector(fraction,lowerPoint0,rays->ends[0].axis[0].getQuad()));
+            _mm_store_ps(reinterpret_cast<float*>(&rays->ends[0].axis[0].getQuad()),SelectVector(fraction,lowerPoint0,rays->ends[0].axis[0].getQuad()));
 
-            _mm_store_ps(rays->ends[1].axis[0].getQuad().m128_f32,SelectVector(b,lowerPoint0,rays->ends[1].axis[0].getQuad()));
+            _mm_store_ps(reinterpret_cast<float*>(&rays->ends[1].axis[0].getQuad()),SelectVector(b,lowerPoint0,rays->ends[1].axis[0].getQuad()));
 
-            VectorValue j=_mm_add_ps(_mm_mul_ps(lowerToWeight.getQuad(),_mm_load_ps(oldEnd.axis[1].getQuad().m128_f32)),_mm_mul_ps(lowerFromWeight.getQuad(),oldStart.axis[1].getQuad()));
+            VectorValue j=_mm_add_ps(_mm_mul_ps(lowerToWeight.getQuad(),_mm_load_ps(reinterpret_cast<float*>(&oldEnd.axis[1].getQuad()))),_mm_mul_ps(lowerFromWeight.getQuad(),oldStart.axis[1].getQuad()));
 
-            _mm_store_ps(rays->ends[0].axis[1].getQuad().m128_f32,SelectVector(fraction,j,rays->ends[0].axis[1].getQuad()));
+            _mm_store_ps(reinterpret_cast<float*>(&rays->ends[0].axis[1].getQuad()),SelectVector(fraction,j,rays->ends[0].axis[1].getQuad()));
 
-            _mm_store_ps(rays->ends[1].axis[1].getQuad().m128_f32,SelectVector(b,j,rays->ends[1].axis[1].getQuad()));
+            _mm_store_ps(reinterpret_cast<float*>(&rays->ends[1].axis[1].getQuad()),SelectVector(b,j,rays->ends[1].axis[1].getQuad()));
 
             VectorValue lowerPoint2=_mm_add_ps(_mm_mul_ps(lowerToWeight.getQuad(),oldEnd.axis[2].getQuad()),_mm_mul_ps(lowerFromWeight.getQuad(),oldStart.axis[2].getQuad()));
 
-            _mm_store_ps(rays->ends[0].axis[2].getQuad().m128_f32,SelectVector(fraction,lowerPoint2,rays->ends[0].axis[2].getQuad()));
+            _mm_store_ps(reinterpret_cast<float*>(&rays->ends[0].axis[2].getQuad()),SelectVector(fraction,lowerPoint2,rays->ends[0].axis[2].getQuad()));
 
-            _mm_store_ps(rays->ends[1].axis[2].getQuad().m128_f32,SelectVector(b,lowerPoint2,rays->ends[1].axis[2].getQuad()));
+            _mm_store_ps(reinterpret_cast<float*>(&rays->ends[1].axis[2].getQuad()),SelectVector(b,lowerPoint2,rays->ends[1].axis[2].getQuad()));
 
             continue;
 
@@ -1189,7 +1189,7 @@ leafNode: {
 
             (*reinterpret_cast<OutputLane*>(reinterpret_cast<unsigned char*>(output)+laneOffset)).PopDepth();
 
-            if(::DAT_010c92e0[lane]&_mm_movemask_ps(AlignedView(_mm_load_ps(hits.getQuad().m128_f32)))) {
+            if(::DAT_010c92e0[lane]&_mm_movemask_ps(AlignedView(_mm_load_ps(reinterpret_cast<float*>(&hits.getQuad()))))) {
 
                 hitFractions(lane)=(*reinterpret_cast<OutputLane*>(reinterpret_cast<unsigned char*>(output)+laneOffset)).fraction;
 

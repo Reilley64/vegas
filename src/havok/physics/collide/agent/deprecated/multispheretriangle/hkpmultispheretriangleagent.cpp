@@ -2,6 +2,8 @@
 // src/havok/physics/collide/agent/deprecated/multispheretriangle/hkpmultispheretriangleagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/deprecated/multispheretriangle/hkpmultispheretriangleagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
+#include <xmmintrin.h>
 #include "generated/data/vtables.h"
 #include "fnv/decl/SphereTriangleAgent.h"
 #include "fnv/decl/SphereTriangleProcessReceiver.h"
@@ -40,7 +42,7 @@ struct S_00d37e60_RefObj
     }
     virtual ~S_00d37e60_RefObj() throw()
     {}
-    void* operator new(unsigned int nbytes)
+    void* operator new(size_t nbytes)
     {
         S_00d37e60_RefObj* b = static_cast<S_00d37e60_RefObj*>(FUN_00c85750()->heap().AllocateMemoryBlock(nbytes));
         b->m_usMemSizeAndFlags = (unsigned short)nbytes;
@@ -236,19 +238,7 @@ void __cdecl FUN_00d38ed0(int aiArg1, int aiArg2, int aiArg3, int aiArg4)
     ::FUN_00d386c0((*(const ::S00d386c0_CdBody *)(aiArg2)), (*(const ::S00d386c0_CdBody *)(aiArg1)), (*(const ::S00d386c0_CollisionInput *)(aiArg3)), (*(::S00d386c0_CdPointCollector *)(&local)));
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 #include "fnv/symbols_simd.h"
-extern "C"
-{
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_xor_ps(__m128, __m128);
-}
 
 
 struct SimplexVertex
@@ -350,7 +340,7 @@ struct hkVector4
     __m128 m_vComponents;
     float getW() const
     {
-        return m_vComponents.m128_f32[3];
+        return m_vComponents[3];
     }
 };
 union hkQuadVector
@@ -479,7 +469,7 @@ void hkpMultiSphereTriangleAgent::FUN_00d37ed0(const hkpCdBody& bodyA, const hkp
 
     for (int i = 0; i < nsphere; ++i)
     {
-        float radiusSum = triB->getRadius() + localSpheres[i].m_vComponents.m128_f32[3];
+        float radiusSum = triB->getRadius() + localSpheres[i].m_vComponents[3];
         CollisionDistanceInfo cpr;
         ::FUN_00cd7850((const ::S_00cd7850_Vec &)(worldSpheres[i]), (const ::S_00cd7850_Vec *)(const ::hkVector4 *)(&triVertices[0]), (const ::S_00cd7850_Cache &)(m_kTriangleNormal), (::S_00cd7850_Result &)(cpr), (::S_00cd7850_Features *)(void *)(0));
         if (cpr.distance < radiusSum)
@@ -511,7 +501,7 @@ void __cdecl FUN_00d38130(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const 
 
     for (int i = 0; i < nsphere; ++i)
     {
-        float radiusSum = triB->m_fSphereRadius + localSpheres[i].m_vComponents.m128_f32[3];
+        float radiusSum = triB->m_fSphereRadius + localSpheres[i].m_vComponents[3];
         CollisionDistanceInfo cpr;
         ::FUN_00cd7850((const ::S_00cd7850_Vec &)(worldSpheres[i]), (const ::S_00cd7850_Vec *)(const ::hkVector4 *)(&triVertices[0]), (const ::S_00cd7850_Cache &)(cache), (::S_00cd7850_Result &)(cpr), (::S_00cd7850_Features *)(void *)(0));
         if (cpr.distance < radiusSum)

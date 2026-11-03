@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/constraint/bilateral/pointtopath/hkplinearparametriccurve.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/bilateral/pointtopath/hkplinearparametriccurve.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <xmmintrin.h>
 #include <new>
 #include "fnv/decl/S00e47e80_hkpLinearParametricCurveE47E.h"
 #include "fnv/symbols_00cbf000.h"
@@ -89,16 +90,7 @@ float CurveSmoothingGetter::FUN_00e47420() const
     return m_fSmoothingValue;
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 
-extern "C" __m128 _mm_load_ps1(const float* p);
-extern "C" __m128 _mm_sub_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_add_ps(__m128 a, __m128 b);
 
 extern const __m128 DAT_010ec7f0;
 
@@ -179,24 +171,6 @@ void hkpLinearParametricCurveE474::FUN_00e47440(float afParam, hkVector4E474& kP
 }
 
 namespace fnv_00e474e0 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ps(__m128, __m128);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ss(__m128, __m128);
-extern "C" __m128 _mm_sub_ss(__m128, __m128);
-extern "C" __m128 _mm_mul_ss(__m128, __m128);
-extern "C" __m128 _mm_rsqrt_ss(__m128);
-extern "C" __m128 _mm_cmpeq_ss(__m128, __m128);
-extern "C" __m128 _mm_andnot_ps(__m128, __m128);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-extern "C" __m128 _mm_set_ss(float);
-extern "C" __m128 _mm_set_ps1(float);
-extern "C" void _mm_store_ss(float*, __m128);
 
 extern const __m128 DAT_010ec7f0;
 
@@ -368,26 +342,6 @@ float Curve_e474e0::FindNearestPoint(float t, const Vec_e474e0& nearPoint, Vec_e
 }  // namespace fnv_00e474e0
 
 namespace fnv_00e478d0 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C"
-{
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_andnot_ps(__m128, __m128);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_sub_ss(__m128, __m128);
-    __m128 _mm_mul_ss(__m128, __m128);
-    __m128 _mm_rsqrt_ss(__m128);
-    __m128 _mm_cmpeq_ss(__m128, __m128);
-    __m128 _mm_set_ss(float);
-    __m128 _mm_set_ps1(float);
-}
 
 union hkVector4q
 {
@@ -566,16 +520,10 @@ void CurveHelper::CopyPoints(hkArray<hkVector4>& out) const
 }
 
 namespace fnv_00e48030 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 
 static const float DAT_01011d78 = 0.0f;
 static const float DAT_01012068 = 1.0f;
 
-extern "C" __m128 _mm_setr_ps(float fA, float fB, float fC, float fD);
 
 struct hkVector4E48
 {
@@ -647,12 +595,8 @@ FUN_00e48030::FUN_00e48030() throw() : m_fSmoothingValue(0.01f), m_bClosedLoop(f
 }
 }  // namespace fnv_00e48030
 
-extern "C" __m128 _mm_load_ps(const float*);
 
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, int);
-extern "C" void _mm_store_ss(float*, __m128);
 extern "C" void _ReadWriteBarrier();
-extern "C" __m128 _mm_setr_ps(float, float, float, float);
 extern float DAT_01011d78;
 struct Allocator
 {
@@ -771,14 +715,6 @@ LinearParametricCurve* LinearParametricCurve::FUN_00e48090()
 }
 
 #include <math.h>
-extern "C" __m128 _mm_andnot_ps(__m128, __m128);
-extern "C" __m128 _mm_setzero_ps(void);
-extern "C" __m128 _mm_add_ss(__m128, __m128);
-extern "C" __m128 _mm_sub_ss(__m128, __m128);
-extern "C" __m128 _mm_mul_ss(__m128, __m128);
-extern "C" __m128 _mm_rsqrt_ss(__m128);
-extern "C" __m128 _mm_cmpeq_ss(__m128, __m128);
-extern "C" __m128 _mm_set_ss(float);
 
 union hkVector4q
 {

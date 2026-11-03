@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/motion/rigid/hkpcharactermotion.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/motion/rigid/hkpcharactermotion.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <xmmintrin.h>
 #include "havok/hkpCharacterMotion.h"
 
 struct hkVector4D1E
@@ -71,13 +72,7 @@ void FUN_00d1edd0_stub::SetMinOfThree(const float* src)
     *(float*)((char*)this + 0xc8) = fMinAll;
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 
-extern "C" __m128 _mm_setzero_ps();
 
 struct hkVector4D1EE
 {
@@ -157,13 +152,7 @@ void hkpSphereMotionD1EE::FUN_00d1ee40(hkMatrix3D1EE& kInertiaInv) const
 }
 
 namespace fnv_00d1ee80 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 
-extern "C" __m128 _mm_setzero_ps();
 
 struct hkVector4D1E8x
 {
@@ -244,14 +233,7 @@ void hkpSphereMotionD1E8x::FUN_00d1ee80(hkMatrix3D1E8x& kInertiaInv) const
 }  // namespace fnv_00d1ee80
 
 namespace fnv_00d1ef50 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 
-extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_add_ps(__m128 a, __m128 b);
 
 struct hkVector4D1EF
 {
@@ -353,10 +335,6 @@ void FUN_00d1ed00_t::GetInverseDiagonal(float* out)
     out[10] = inv;
 }
 
-extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
-extern "C" __m128 _mm_add_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_sub_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
 
 struct hkSimdRealX
 {
@@ -435,14 +413,6 @@ void hkpSphereMotionX::FUN_00d1eec0(const hkVector4X& imp, const hkVector4X& p)
     m_kAngularVelocity.add4(deltaVelWs);
 }
 
-extern "C" __m128 _mm_set_ps1(float);
-extern "C" __m128 _mm_set_ss(float);
-extern "C" __m128 _mm_load_ss(const float*);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ps(__m128, __m128);
-extern "C" __m128 _mm_load_ps(const float*);
-extern "C" void _mm_store_ps(float*, __m128);
 union Vector
 {
     __m128 quad;
@@ -456,8 +426,6 @@ union Scalar
     __m128 quad;
     float real;
 };
-extern "C" __m128 _mm_load_ps1(const float*);
-extern "C" __m128 _mm_set_ps(float, float, float, float);
 struct Simd
 {
     __m128 quad;

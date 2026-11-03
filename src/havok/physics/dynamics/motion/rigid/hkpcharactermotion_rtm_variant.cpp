@@ -4,6 +4,7 @@
 
 // src/havok/physics/dynamics/motion/rigid/hkpcharactermotion.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/motion/rigid/hkpcharactermotion.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <xmmintrin.h>
 #include "havok/hkpCharacterMotion.h"
 struct hkVector4D1E
 {
@@ -38,12 +39,6 @@ struct FUN_00d1edd0_stub
 {
     void SetMinOfThree(const float* src);
 };
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C" __m128 _mm_setzero_ps();
 struct hkVector4D1EE
 {
     __m128 m_vComponents;
@@ -123,10 +118,6 @@ struct FUN_00d1ed00_t
 {
     void GetInverseDiagonal(float* out);
 };
-extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
-extern "C" __m128 _mm_add_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_sub_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
 struct hkSimdRealX
 {
     __m128 m_vValue;
@@ -187,14 +178,6 @@ class hkpSphereMotionX
 
     void FUN_00d1eec0(const hkVector4X& imp, const hkVector4X& p);
 };
-extern "C" __m128 _mm_set_ps1(float);
-extern "C" __m128 _mm_set_ss(float);
-extern "C" __m128 _mm_load_ss(const float*);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ps(__m128, __m128);
-extern "C" __m128 _mm_load_ps(const float*);
-extern "C" void _mm_store_ps(float*, __m128);
 union Vector
 {
     __m128 quad;
@@ -208,8 +191,6 @@ union Scalar
     __m128 quad;
     float real;
 };
-extern "C" __m128 _mm_load_ps1(const float*);
-extern "C" __m128 _mm_set_ps(float, float, float, float);
 struct Simd
 {
     __m128 quad;
@@ -262,9 +243,6 @@ class Motion
     void FUN_00d1ef80(float s, const Vec& force);
 };
 
-extern "C" __m128 _mm_load_ss(const float* p);
-extern "C" __m128 _mm_load_ps(const float* p);
-extern "C" void _mm_store_ps(float* p, __m128 a);
 
 class FUN_00d1efd0_cls
 {
@@ -304,9 +282,6 @@ void FUN_00d1efd0_cls::FUN_00d1efd0(float s, const hkVector4& v, int arg3)
     this->v20(t, arg3);
 }
 
-extern "C" __m128 _mm_load_ss(const float*);
-extern "C" __m128 _mm_load_ps(const float*);
-extern "C" void _mm_store_ps(float*, __m128);
 class hkStatisticsCollector;
 class CharacterTorqueMotion : public hkpCharacterMotion
 {

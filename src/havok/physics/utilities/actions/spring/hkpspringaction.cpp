@@ -2,6 +2,8 @@
 // src/havok/physics/utilities/actions/spring/hkpspringaction.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/actions/spring/hkpspringaction.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
+#include <xmmintrin.h>
 #include <new>
 #include <cstring>
 #include "fnv/decl/FUN_00c7f690_cls.h"
@@ -148,18 +150,7 @@ FUN_00d4d340::FUN_00d4d340(void* a, void* b, unsigned long c) : FUN_00cf4d80(a, 
     *(volatile bool*)&m_bEnableState = true;
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 
-extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_sub_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_add_ss(__m128 a, __m128 b);
-extern "C" __m128 _mm_sqrt_ss(__m128 a);
-extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
-extern "C" void _mm_store_ss(float* p, __m128 a);
 
 struct hkSimdRealD4D3
 {
@@ -243,18 +234,7 @@ void hkpStiffSpringWrapperD4D3::UpdatePivotsAndRestLength(const hkVector4D4D3& k
 }
 
 namespace fnv_00d4d410 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 
-extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_sub_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_add_ss(__m128 a, __m128 b);
-extern "C" __m128 _mm_sqrt_ss(__m128 a);
-extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
-extern "C" void _mm_store_ss(float* p, __m128 a);
 
 struct hkSimdRealD4D41
 {
@@ -354,11 +334,6 @@ void hkpStiffSpringWrapperD4D41::SetPivots(const hkVector4D4D41& kPivotA, const 
 }  // namespace fnv_00d4d410
 
 namespace fnv_00d4d4a0 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 
 struct hkVector4D4A0
 {
@@ -406,7 +381,7 @@ struct hkpCloneArgD4A0
 
 struct S00d4d4a0_Obj
 {
-    static void* operator new(unsigned int size)
+    static void* operator new(size_t size)
     {
         S00d4d4a0_Obj* memory = reinterpret_cast<S00d4d4a0_Obj*>(FUN_00c85750()->heap().AllocateMemoryBlock(size));
         memory->m_usMemSizeAndFlags = static_cast<unsigned short>(size);

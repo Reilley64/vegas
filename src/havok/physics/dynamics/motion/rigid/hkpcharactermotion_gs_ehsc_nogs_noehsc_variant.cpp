@@ -5,6 +5,7 @@
 
 // src/havok/physics/dynamics/motion/rigid/hkpcharactermotion.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/motion/rigid/hkpcharactermotion.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <xmmintrin.h>
 #include "havok/hkpCharacterMotion.h"
 struct hkVector4D1E
 {
@@ -39,12 +40,6 @@ struct FUN_00d1edd0_stub
 {
     void SetMinOfThree(const float* src);
 };
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C" __m128 _mm_setzero_ps();
 struct hkVector4D1EE
 {
     __m128 m_vComponents;
@@ -110,15 +105,6 @@ class hkpSphereMotionD1EE : public hkReferencedObjectD1EE
     hkVector4D1EE m_kInertiaAndMassInv;
 };
 
-extern "C"
-{
-    __m128 _mm_load_ps(const float*);
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_shuffle_ps(__m128, __m128, int);
-    __m128 _mm_add_ss(__m128, __m128);
-    float _mm_cvtss_f32(__m128);
-}
 
 struct S00d1f050_Obj : hkpCharacterMotion
 {

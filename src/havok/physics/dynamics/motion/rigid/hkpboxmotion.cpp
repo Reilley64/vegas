@@ -2,6 +2,8 @@
 // src/havok/physics/dynamics/motion/rigid/hkpboxmotion.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/motion/rigid/hkpboxmotion.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
+#include <xmmintrin.h>
 #include "fnv/decl/FUN_00cd5880_cls.h"
 #include "fnv/symbols_0104d000.h"
 #include "fnv/symbols_010c6000.h"
@@ -24,13 +26,7 @@ void FUN_00d1e670_StandIn::FUN_00d1e670(float value)
     f4(1.0f / value);
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 #include "fnv/symbols_simd.h"
-extern "C" __m128 _mm_setzero_ps(void);
 
 struct Cls_00d1e7b0
 {
@@ -105,13 +101,7 @@ void Cls_00d1e7b0::WriteDiagonal(float* pOut)
 }
 
 namespace fnv_00d1e810 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 
-extern "C" __m128 _mm_setr_ps(float a, float b, float c, float d);
 
 struct hkVector4D1E8
 {
@@ -178,24 +168,6 @@ void hkpSphereMotionD1E8::SetInertiaAndMassInv(const hkMatrix3D1E8& kInertiaInv)
 }  // namespace fnv_00d1e810
 
 namespace fnv_00d1eba0 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C"
-{
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-    __m128 _mm_unpacklo_ps(__m128, __m128);
-    __m128 _mm_unpackhi_ps(__m128, __m128);
-    __m128 _mm_movelh_ps(__m128, __m128);
-    __m128 _mm_movehl_ps(__m128, __m128);
-    void _mm_store_ss(float*, __m128);
-}
 
 class VectorComponentValue
 {
@@ -309,7 +281,6 @@ void Cls_00d1eba0::GetVelocityAndInvVirtualMass(const hkVector4& p, const hkVect
 }
 }  // namespace fnv_00d1eba0
 
-extern "C" __m128 _mm_max_ps(__m128, __m128);
 struct V4
 {
     __m128 q;
@@ -319,11 +290,11 @@ struct V4
     }
     float& operator()(int i)
     {
-        return q.m128_f32[i];
+        return q[i];
     }
     const float& operator()(int i) const
     {
-        return q.m128_f32[i];
+        return q[i];
     }
 };
 struct Mat3
@@ -331,7 +302,7 @@ struct Mat3
     V4 c0, c1, c2;
     float& operator()(int r, int c)
     {
-        return (&c0)[c].q.m128_f32[r];
+        return (&c0)[c].q[r];
     }
     void setZero()
     {
@@ -400,17 +371,6 @@ void BoxMotion::FUN_00d1e8c0(Mat3& out)
     reinterpret_cast<::FUN_00cd5880_cls *>(&(out))->FUN_00cd5880((unsigned int)(&m_kMotionTransform));
 }
 
-extern "C"
-{
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-    __m128 _mm_unpacklo_ps(__m128, __m128);
-    __m128 _mm_unpackhi_ps(__m128, __m128);
-    __m128 _mm_movelh_ps(__m128, __m128);
-    __m128 _mm_movehl_ps(__m128, __m128);
-}
 
 typedef __m128 hkSimd;
 
@@ -528,14 +488,7 @@ void hkpMotionB::FUN_00d1e9f0(const hkVec4Q& imp, const hkVec4Q& p)
     m_kAngularVelocity.add4(deltaVelWs);
 }
 
-extern "C" __m128 _mm_unpacklo_ps(__m128, __m128);
-extern "C" __m128 _mm_unpackhi_ps(__m128, __m128);
-extern "C" __m128 _mm_movelh_ps(__m128, __m128);
-extern "C" __m128 _mm_movehl_ps(__m128, __m128);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ps(__m128, __m128);
 extern "C" void _ReadWriteBarrier(void);
-extern "C" __m128 _mm_load_ps(const float*);
 struct Mat
 {
     __m128 c0, c1, c2;
@@ -573,9 +526,8 @@ void Motion::FUN_00d1eaf0(const Vec& impulse)
     acc = _mm_add_ps(acc, vResult);
 }
 
-extern "C" __m128 _mm_setr_ps(float, float, float, float);
 
-inline void* operator new(unsigned int, void* p)
+inline void* operator new(size_t, void* p)
 {
     return p;
 }
@@ -605,7 +557,6 @@ S00d1e690_cls* S00d1e690_cls::FUN_00d1e690(int a1, int a2)
     return this;
 }
 
-extern "C" __m128 _mm_setr_ps(float, float, float, float);
 
 struct S00d1e750_cls : hkpMotion
 {
@@ -627,8 +578,6 @@ const hkMatrix3& S00d1e750_cls::FUN_00d1e750(const hkMatrix3& inertia)
 
 extern "C" void _ReadWriteBarrier(void);
 
-extern "C" __m128 _mm_load_ps1(const float* p);
-extern "C" void _mm_store_ps(float* p, __m128 a);
 
 
 struct hkVector4D1E6F

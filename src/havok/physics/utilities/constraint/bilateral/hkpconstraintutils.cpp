@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/constraint/bilateral/hkpconstraintutils.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/constraint/bilateral/hkpconstraintutils.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <xmmintrin.h>
 #include <new>
 #include "fnv/decl/FUN_00c90510_class.h"
 #include "fnv/decl/FUN_00cb1600.h"
@@ -16,18 +17,6 @@
 #include "fnv/decl/hkPragdollLimitsData.h"
 #include "fnv/decl/hkReferencedObjectC905.h"
 #include "fnv/symbols_01268000.h"
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-    char m128_i8[16];
-    short m128_i16[8];
-    int m128_i32[4];
-    __int64 m128_i64[2];
-    unsigned char m128_u8[16];
-    unsigned short m128_u16[8];
-    unsigned int m128_u32[4];
-} __m128;
 
 struct hkMemoryAllocator
 {

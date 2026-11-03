@@ -5,6 +5,7 @@
 
 // src/havok/physics/collide/shape/deprecated/convexpiecemesh/hkpconvexpiecemeshshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/deprecated/convexpiecemesh/hkpconvexpiecemeshshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstddef>
 #include "fnv/decl/hkReferencedObjectC905.h"
 #include "fnv/symbols_00c85000.h"
 #include "fnv/symbols_00d21000.h"
@@ -208,7 +209,7 @@ class hkDisplayGeometryE494 : public hkReferencedObjectE494
 };
 
 #include <xmmintrin.h>
-inline void* __cdecl operator new(unsigned int, void* pvWhere) throw()
+inline void* __cdecl operator new(size_t, void* pvWhere) throw()
 {
     return pvWhere;
 }

@@ -4,6 +4,7 @@
 
 // src/havok/physics/dynamics/constraint/setup/hkpconstraintsolversetup.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/setup/hkpconstraintsolversetup.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <xmmintrin.h>
 #include <windows.h>
 #include "fnv/symbols_00c90000.h"
 #include "fnv/symbols_00d01000.h"
@@ -111,12 +112,6 @@ struct D88470Obj
     unsigned int limitSum;
     unsigned int initSum;
 };
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C" __m128 _mm_setzero_ps();
 struct hkVector4D886
 {
     __m128 m_vComponents;
@@ -636,7 +631,6 @@ struct S883_TaskHeader
     void* m_pByteArrayAt3C;
     void* m_pIntegerArrayAt40;
 };
-extern "C" void _mm_prefetch(char const*, int);
 extern const char str_010d3d70[];
 extern const char str_010d3d60[];
 // hkMemoryAllocator
@@ -1164,15 +1158,6 @@ static __forceinline int S88b50_integrate2(const void* solverInfo, const hkStepI
     return numInactiveFrames;
 }
 
-extern "C"
-{
-    __m128 _mm_load_ps1(const float* p);
-    __m128 _mm_load_ss(const float* p);
-    __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
-    __m128 _mm_add_ps(__m128 a, __m128 b);
-    __m128 _mm_sub_ps(__m128 a, __m128 b);
-    __m128 _mm_mul_ps(__m128 a, __m128 b);
-}
 
 struct VectorComponentValue
 {

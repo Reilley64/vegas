@@ -5,6 +5,7 @@
 // src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkpragdolldrawer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkpragdolldrawer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <xmmintrin.h>
 #include <math.h>
 #include "fnv/decl/ArrowDraw__ArrowDrawObject.h"
 #include "fnv/decl/CpuObject.h"
@@ -16,31 +17,7 @@
 #include "fnv/symbols_01017000.h"
 #include "fnv/symbols_01030000.h"
 #include "fnv/symbols_01267000.h"
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float lanes[4];
-} __m128;
 #include "fnv/symbols_simd.h"
-extern "C"
-{
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_sub_ss(__m128, __m128);
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_mul_ss(__m128, __m128);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_rsqrt_ss(__m128);
-    __m128 _mm_cmpeq_ss(__m128, __m128);
-    __m128 _mm_andnot_ps(__m128, __m128);
-    __m128 _mm_xor_ps(__m128, __m128);
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-    __m128 _mm_set_ss(float);
-    __m128 _mm_setzero_ps();
-    __m128 _mm_load_ss(const float*);
-    __m128 _mm_load_ps(const float*);
-    __m128 _mm_load_ps1(const float*);
-    void _mm_store_ps(float*, __m128);
-}
 
 class ScalarLane
 {

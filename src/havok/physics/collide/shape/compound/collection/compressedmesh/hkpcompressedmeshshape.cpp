@@ -2,6 +2,8 @@
 // src/havok/physics/collide/shape/compound/collection/compressedmesh/hkpcompressedmeshshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/compound/collection/compressedmesh/hkpcompressedmeshshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
+#include <xmmintrin.h>
 #include <new>
 #include "fnv/decl/FUN_00d21410.h"
 #include "fnv/decl/FUN_00dfd380_cls.h"
@@ -632,21 +634,7 @@ class __declspec(novtable) FUN_00e3dc50 : public hkpShapeE3D, public hkpShapeCon
 FUN_00e3dc50::~FUN_00e3dc50() throw()
 {}
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 
-extern "C"
-{
-    __m128 _mm_setr_ps(float x, float y, float z, float w);
-    __m128 _mm_set_ps1(float a);
-    __m128 _mm_min_ps(__m128 a, __m128 b);
-    __m128 _mm_max_ps(__m128 a, __m128 b);
-    __m128 _mm_add_ps(__m128 a, __m128 b);
-    __m128 _mm_sub_ps(__m128 a, __m128 b);
-}
 
 struct hkVector4q
 {
@@ -741,17 +729,6 @@ void FUN_00e3c9e0_Class::CopyFrom(__m128* src)
 }
 
 namespace fnv_00e3cc20 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C" __m128 _mm_setr_ps(float e0, float e1, float e2, float e3);
-extern "C" __m128 _mm_set_ps1(float a);
-extern "C" __m128 _mm_load_ss(const float* p);
-extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
-extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_add_ps(__m128 a, __m128 b);
 
 struct hkVector4q
 {
@@ -850,17 +827,6 @@ unsigned ValidatedMesh::FUN_00e3cfe0(unsigned key)
 }
 
 namespace fnv_00e3d250 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C"
-{
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_load_ps(const float*);
-    void _mm_store_ps(float*, __m128);
-}
 
 struct TransformQ;
 
@@ -961,19 +927,6 @@ void MeshQ::FUN_00e3d250(const ChunkQ* chunk, AabbQ* aabb)
 }  // namespace fnv_00e3d250
 
 namespace fnv_00e3d380 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C"
-{
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_load_ps(const float*);
-    void _mm_store_ps(float*, __m128);
-}
 
 extern __m128 DAT_010c71d0;
 
@@ -1160,9 +1113,6 @@ unsigned int hkpCompressedMeshShapeE3CB::FUN_00e3cb10(unsigned int uiOldKey) thr
     return 0xffffffff;
 }
 
-extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_load_ss(const float* p);
-extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, int mask);
 
 class CompressedChunk
 {
@@ -1195,15 +1145,7 @@ void CompressedChunk::FUN_00e3cd50(unsigned int i0, unsigned int i1, unsigned in
     getVertex(i2, error, v2);
 }
 
-extern "C"
-{
-    __m128 _mm_load_ss(const float*);
-    __m128 _mm_load_ps(const float* p);
-    void _mm_store_ps(float* p, __m128 a);
-    __m128 _mm_setzero_ps(void);
-    __m128 _mm_mul_ps(__m128 a, __m128 b);
-}
-inline void* operator new(unsigned int, void* memory)
+inline void* operator new(size_t, void* memory)
 {
     return memory;
 }

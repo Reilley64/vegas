@@ -4,6 +4,7 @@
 
 // src/havok/physics/internal/collide/mopp/builder/assembler/hkpmoppdefaultassembler.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/physics/internal/collide/mopp/builder/assembler/hkpmoppdefaultassembler.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstddef>
 #include <new>
 #include <cstring>
 #include "fnv/decl/E06490Stack.h"
@@ -1281,7 +1282,7 @@ struct FUN_00e065f0
     BvArray<BvFixup> m_buffer;
 
     FUN_00e065f0(unsigned int id) throw();
-    void* operator new(unsigned int n)
+    void* operator new(size_t n)
     {
         FUN_00e065f0* p = static_cast<FUN_00e065f0*>(GetBvRouter()->allocator->AllocateMemoryBlock(n));
         p->m_usMemSizeAndFlags = (unsigned short)n;
@@ -1394,7 +1395,7 @@ struct BvBuilder
 
     void FUN_00e08a60(BvNode* node, FUN_00e095d0_cls* parent, FUN_00e095d0_cls* stack, int depth, BvArray<int>* refs);
 };
-inline void* operator new(unsigned int, void* p)
+inline void* operator new(size_t, void* p)
 {
     return p;
 }
@@ -1694,26 +1695,7 @@ struct Tree : public FUN_00e09640_class
 };
 typedef void(* Vf18Fn)(Tree*, S_00e07da0_Node*, void*) throw();
 
-namespace E078Intrinsics {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-};
-extern "C"
-{
-    __m128 _mm_setr_ps(float, float, float, float);
-    __m128 _mm_set_ps(float, float, float, float);
-    __m128 _mm_set_ps1(float);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-    void _mm_store_ss(float*, __m128);
-    float _mm_cvtss_f32(__m128);
-    __m128 _mm_load_ss(const float*);
-}
-}
-typedef E078Intrinsics::__m128 E078Quad;
+typedef __m128 E078Quad;
 
 typedef float hkReal;
 
@@ -1722,11 +1704,11 @@ struct ScalarLane
     E078Quad data;
     __forceinline ScalarLane(float x)
     {
-        data = E078Intrinsics::_mm_load_ss(&x);
+        data = _mm_load_ss(&x);
     }
     __forceinline E078Quad splat() const
     {
-        return E078Intrinsics::_mm_shuffle_ps(data, data, 0);
+        return _mm_shuffle_ps(data, data, 0);
     }
 };
 
@@ -1740,27 +1722,27 @@ struct hkVector4
     }
     __forceinline void set(hkReal x, hkReal y, hkReal z, hkReal w)
     {
-        m_vComponents = E078Intrinsics::_mm_setr_ps(x, y, z, w);
+        m_vComponents = _mm_setr_ps(x, y, z, w);
     }
     __forceinline void mul4(const ScalarLane& s)
     {
-        m_vComponents = E078Intrinsics::_mm_mul_ps(s.splat(), m_vComponents);
+        m_vComponents = _mm_mul_ps(s.splat(), m_vComponents);
     }
     __forceinline void add4(const hkVector4& v)
     {
-        m_vComponents = E078Intrinsics::_mm_add_ps(m_vComponents, v.m_vComponents);
+        m_vComponents = _mm_add_ps(m_vComponents, v.m_vComponents);
     }
     __forceinline void add4(const E078Quad& v)
     {
-        m_vComponents = E078Intrinsics::_mm_add_ps(m_vComponents, v);
+        m_vComponents = _mm_add_ps(m_vComponents, v);
     }
     __forceinline hkReal dot3(const hkVector4& v) const
     {
-        E078Quad x2 = E078Intrinsics::_mm_mul_ps(m_vComponents, v.m_vComponents);
-        E078Quad xy = E078Intrinsics::_mm_add_ss(E078Intrinsics::_mm_shuffle_ps(x2, x2, 0x55), x2);
-        E078Quad xyz = E078Intrinsics::_mm_add_ss(E078Intrinsics::_mm_shuffle_ps(x2, x2, 0xaa), xy);
+        E078Quad x2 = _mm_mul_ps(m_vComponents, v.m_vComponents);
+        E078Quad xy = _mm_add_ss(_mm_shuffle_ps(x2, x2, 0x55), x2);
+        E078Quad xyz = _mm_add_ss(_mm_shuffle_ps(x2, x2, 0xaa), xy);
         float out;
-        E078Intrinsics::_mm_store_ss(&out, xyz);
+        _mm_store_ss(&out, xyz);
         return out;
     }
 };
@@ -1866,7 +1848,7 @@ static __forceinline int clampIndex(int i)
 // @fnv 0x00e07880
 void KdQuantizer::FUN_00e07880(const QuantNode* node, const KdRegion* region, int* hiOut, int* loOut)
 {
-    const hkReal* n = &node->m_vHitNormal->m_vComponents.m128_f32[0];
+    const hkReal* n = &node->m_vHitNormal->m_vComponents[0];
     int numNonZero = 0;
     int numNegative = 0;
     int axis = 0;

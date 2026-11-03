@@ -7,6 +7,8 @@
 
 // src/havok/physics/collide/agent/convexagent/gjk/hkpgskbaseagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/convexagent/gjk/hkpgskbaseagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstddef>
+#include <xmmintrin.h>
 #include <intrin.h>
 #include <windows.h>
 #include "fnv/decl/Cls_dafcd0.h"
@@ -21,11 +23,6 @@
 struct hkpGskBaseAgent {
     virtual void FUN_00dabe90(bool);
 };
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128 {
-    float m128_f32[4];
-} __m128;
-extern "C" __m128 _mm_setzero_ps(void);
-extern "C" __m128 _mm_xor_ps(__m128, __m128);
 class FUN_00dabeb0_cls {
 public:
     int unk00;
@@ -112,9 +109,6 @@ struct StringCursor {
     char* m_kRayEnd;
 };
 void FUN_00dabe80(int, int, int, int);
-extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
-extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_add_ps(__m128 a, __m128 b);
 struct hkVector4DAC0 {
     __m128 m_vComponents;
 
@@ -279,19 +273,6 @@ struct GskStatus {
     __m128 m_vertsB[10];
 
 };
-extern "C" {
-    void _mm_store_ps(float*, __m128);
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-    __m128 _mm_unpacklo_ps(__m128, __m128);
-    __m128 _mm_unpackhi_ps(__m128, __m128);
-    __m128 _mm_movehl_ps(__m128, __m128);
-    __m128 _mm_movelh_ps(__m128, __m128);
-    __m128 _mm_load_ss(const float*);
-    __m128 _mm_set_ss(float);
-}
 static __forceinline short* unpackCache(GskCache& c,int& b,unsigned& f,int& a) { b=c.m_ucDimensionB;f=c.m_features;a=c.m_ucDimensionA; return c.m_kVertices; }
 struct GskAgentStandin : public hkpGskBaseAgent {
     int unk04;
@@ -387,9 +368,6 @@ struct S_00dac2b0_Collector {
     virtual void AddCdBodyPair(const S_00dac2b0_Body& a, const S_00dac2b0_Body& b);
 };
 union EarlyScratch { volatile unsigned int ticks; int result; float distance; };
-extern "C" __m128 _mm_add_ps(__m128, __m128);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
 struct S_00dac0b0_TimerCommand {
     const char* m_pCommandName;
     unsigned int m_uiStartTicks;
@@ -535,7 +513,7 @@ typedef unsigned char hkUint8;
 typedef unsigned short hkUint16;
 typedef unsigned int hkUint32;
 typedef unsigned long __w64 hkUlong;
-typedef unsigned __w64 hk_size_t;
+typedef size_t hk_size_t;
 typedef hkReal hkTime;class FinishingFlag
 {
 public:
@@ -596,8 +574,6 @@ return val();
 }
 private:
 TYPE m_kStorage;};
-extern "C"{
-}
 template<typename T>
 class hkThreadLocalData
 {
@@ -661,16 +637,6 @@ public:
 hkReferencedObject(class FinishingFlag flag){}
 };
 
-extern "C"{
-
-extern __m128 _mm_sub_ps(__m128 _A,__m128 _B);
-
-
-extern __m128 _mm_unpackhi_ps(__m128 _A,__m128 _B);
-extern __m128 _mm_unpacklo_ps(__m128 _A,__m128 _B);
-extern __m128 _mm_movehl_ps(__m128,__m128);
-extern __m128 _mm_movelh_ps(__m128,__m128);
-extern __m128 _mm_load_ss(float const*_A);};
 typedef __m128 hkQuadReal;
 class hkVector4;
 typedef const hkVector4&hkVector4Parameter;

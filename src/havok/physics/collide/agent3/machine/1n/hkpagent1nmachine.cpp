@@ -2,6 +2,8 @@
 // src/havok/physics/collide/agent3/machine/1n/hkpagent1nmachine.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent3/machine/1n/hkpagent1nmachine.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
+#include <xmmintrin.h>
 #include "fnv/symbols_00c90000.h"
 #include "fnv/symbols_00cfe000.h"
 #include "fnv/symbols_00d2c000.h"
@@ -56,7 +58,7 @@ struct BlockPoolBlock
     {
         unk00 = 0;
     }
-    static void* operator new(BlockPoolsize_t, void* p) throw()
+    static void* operator new(size_t, void* p) throw()
     {
         return p;
     }
@@ -1889,13 +1891,7 @@ S_00da40e0_Entry* __cdecl ProcessEntryPair(const S_00da40e0_Input& in, S_00da40e
     return entry;
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 
-extern "C" __m128 _mm_setzero_ps(void);
 
 
 struct hkVector4
@@ -2398,17 +2394,6 @@ finish:
         ((StreamAllocator*)&FUN_00c85750().heap())->ReleaseBlock(previous, 512);
 }
 
-extern "C"
-{
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_unpacklo_ps(__m128, __m128);
-    __m128 _mm_unpackhi_ps(__m128, __m128);
-    __m128 _mm_movelh_ps(__m128, __m128);
-    __m128 _mm_movehl_ps(__m128, __m128);
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-}
 struct __declspec(align(16)) TOIBody
 {
     __m128 m_pos;
@@ -2431,23 +2416,23 @@ static __declspec(noinline) int FUN_00da37d0(const TOIBody* b, const TOIBody* a,
     m1 = _mm_shuffle_ps(m1, m2, 0xd4);
     m2 = _mm_shuffle_ps(t1, m2, 0xe4);
     __m128 dots = _mm_add_ps(_mm_add_ps(m0, m1), m2);
-    float t4 = (dots.m128_f32[2] - 1.0f) * p0 + (-dots.m128_f32[1]);
-    float t12 = dots.m128_f32[0] + (dots.m128_f32[2] - 1.0f) * p0;
+    float t4 = (dots[2] - 1.0f) * p0 + (-dots[1]);
+    float t12 = dots[0] + (dots[2] - 1.0f) * p0;
     float t8 = p0 + p2;
     if (t4 > t8)
         return 0;
-    if (dots.m128_f32[2] > 0.9999f && a->unk20 == 0xffff)
+    if (dots[2] > 0.9999f && a->unk20 == 0xffff)
         return 0;
-    if (a->unk20 == 0xffff && dots.m128_f32[2] < 0.8f && t4 + t12 < 0.1f)
+    if (a->unk20 == 0xffff && dots[2] < 0.8f && t4 + t12 < 0.1f)
     {
         float m = -t8 * 2;
-        if (b->m_dir.m128_f32[3] + a->m_dir.m128_f32[3] < m)
+        if (b->m_dir[3] + a->m_dir[3] < m)
             return 2;
     }
     float s = 0.0f;
     if (a->unk20 != 0xffff)
         s = *p1 * 0.05f;
-    if (!(b->m_dir.m128_f32[3] <= a->m_dir.m128_f32[3] - s))
+    if (!(b->m_dir[3] <= a->m_dir[3] - s))
         return 1;
     return 0;
 }

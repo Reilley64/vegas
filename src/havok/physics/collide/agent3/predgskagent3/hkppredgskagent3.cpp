@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 // @fnv 0x00d418b0
+#include <xmmintrin.h>
 #include <windows.h>
 #include "fnv/decl/Cls_dafcd0.h"
 #include "fnv/decl/FUN_00cfbd60_cls.h"
@@ -300,16 +301,6 @@ extern "C" int __cdecl FUN_00d41860_impl(int apOut, int apRecord, int aObj, int 
 typedef unsigned long DWORD;
 extern "C" unsigned __int64 __rdtsc();
 extern "C" void _ReadWriteBarrier();
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-} __m128;
-extern "C" __m128 _mm_load_ps(const float*);
-extern "C" __m128 _mm_loadu_ps(const float*);
-extern "C" void _mm_store_ps(float*, __m128);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, int);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ps(__m128, __m128);
 struct ProfileEvent
 {
     const char* name;

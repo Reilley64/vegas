@@ -7,6 +7,7 @@
 // to their real unit once identified.
 // src/havok/physics/collide/agent3/machine/1n/hkpagent1nmachineprocess.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent3/machine/1n/hkpagent1nmachineprocess.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstddef>
 #include <windows.h>
 #include "fnv/decl/FUN_005609f0_shell.h"
 #include "fnv/decl/FUN_00cb21e0_shell.h"
@@ -87,7 +88,7 @@ typedef unsigned short hkUint16;
 typedef unsigned int hkUint32;
 typedef unsigned long __w64 hkUlong;
 typedef signed long __w64 hkLong;
-typedef unsigned __w64 Y2;
+typedef size_t Y2;
 typedef hkReal hkTime;
 __forceinline hkLong __cdecl hkGetByteOffset(const void* base, const void* pntr)
 {
@@ -192,9 +193,6 @@ template <typename TYPE> class ValueWrapper
   private:
     TYPE m_kStorage;
 };
-extern "C"
-{
-}
 template <typename T> class hkThreadLocalData
 {
   public:
@@ -1944,9 +1942,6 @@ __forceinline Y3* __cdecl getAgentDataEnd(Y3* agentData)
     return hkAddByteOffset(agentData, (((sizeof(getChildAgent(agentData))) + ((16) - 1)) & (~((16) - 1))));
 }
 }
-extern "C"
-{
-}
 class hkpCollidableCollidableFilter
 {
   public:
@@ -2587,7 +2582,7 @@ typedef unsigned short Q133;
 typedef unsigned int Q49;
 typedef unsigned long __w64 Q165;
 typedef signed long __w64 hkLong;
-typedef unsigned __w64 Q3;
+typedef size_t Q3;
 typedef hkReal hkTime;
 __forceinline hkLong __cdecl Q19(const void* base, const void* pntr)
 {
@@ -2692,9 +2687,6 @@ template <typename TYPE> class Q20
   private:
     TYPE q89;
 };
-extern "C"
-{
-}
 template <typename T> class Q98
 {
   public:
@@ -4446,9 +4438,6 @@ __forceinline Q10* __cdecl getAgentDataEnd(Q10* agentData)
 {
     return Q11(agentData, (((sizeof(getChildAgent(agentData))) + ((16) - 1)) & (~((16) - 1))));
 }
-}
-extern "C"
-{
 }
 class Q63
 {

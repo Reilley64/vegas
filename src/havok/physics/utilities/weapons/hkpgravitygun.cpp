@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/weapons/hkpgravitygun.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/weapons/hkpgravitygun.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <xmmintrin.h>
 #include <cmath>
 #include "fnv/decl/FUN_00c7f690_cls.h"
 #include "fnv/decl/FUN_00c90510_class.h"
@@ -232,11 +233,6 @@ hkDerivedE463* hkDerivedE463::DestroyAndFree(unsigned int uiFlags) throw()
 }
 }  // namespace fnv_00e46340
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 
 namespace MathUtilities {
 inline hkReal fabs(hkReal r)
@@ -255,7 +251,7 @@ struct GGVector4
     }
     hkReal& operator()(int i)
     {
-        return m_vComponents.m128_f32[i];
+        return m_vComponents[i];
     }
 };
 
@@ -707,8 +703,6 @@ void hkpGravityGunEx::FUN_00e46140(hkReal dt, DDCC60World* world, GunArg3* a3, G
     reinterpret_cast<::hkpGravityGunEx *>(this)->FUN_00e45c90(dt, (*(const ::hkTransform *)(apGunTransform)), (::hkpRigidBody *)(a3));
 }
 
-extern "C" __m128 _mm_shuffle_ps(__m128 _A, __m128 _B, unsigned int _Imm8);
-extern "C" void _mm_store_ss(float* _V, __m128 _A);
 class hkMemoryAllocatorE460;
 
 struct hkMemoryRouterE460
@@ -809,7 +803,6 @@ void hkWorldE460::FUN_00e46000(hkEntityE460* apEntity)
     reinterpret_cast<::FUN_00ca88e0_cls *>((apEntity))->FUN_00ca88e0(f);
 }
 
-extern "C" __m128 _mm_setr_ps(float, float, float, float);
 
 class hkStringPtrE462
 {

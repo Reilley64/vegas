@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 // @fnv 0x00d68260
+#include <xmmintrin.h>
 #include <intrin.h>
 #include <windows.h>
 #include <new>
@@ -436,28 +437,8 @@ FUN_00d68740::FUN_00d68740()
 
 #include <math.h>
 
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128 {
-    struct { float lane0, lane1, lane2, lane3; };
-} __m128;
 #include "fnv/symbols_simd.h"
 
-extern "C" __m128 _mm_set_ss(float);
-extern "C" float _mm_cvtss_f32(__m128);
-extern "C" __m128 _mm_add_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_sub_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_mul_ss(__m128 a, __m128 b);
-extern "C" __m128 _mm_add_ss(__m128 a, __m128 b);
-extern "C" __m128 _mm_sub_ss(__m128 a, __m128 b);
-extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, int imm);
-extern "C" __m128 _mm_load_ps(const float* p);
-extern "C" __m128 _mm_load_ss(const float* p);
-extern "C" void _mm_store_ss(float* p, __m128 a);
-extern "C" __m128 _mm_rsqrt_ss(__m128 a);
-extern "C" __m128 _mm_sqrt_ss(__m128 a);
-extern "C" __m128 _mm_cmpeq_ss(__m128 a, __m128 b);
-extern "C" __m128 _mm_andnot_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_setzero_ps(void);
 
 
 

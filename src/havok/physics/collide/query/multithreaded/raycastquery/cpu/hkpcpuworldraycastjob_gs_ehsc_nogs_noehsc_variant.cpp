@@ -5,6 +5,7 @@
 
 // src/havok/physics/collide/query/multithreaded/raycastquery/cpu/hkpcpuworldraycastjob.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/query/multithreaded/raycastquery/cpu/hkpcpuworldraycastjob.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstddef>
 #include "fnv/decl/LunaOwner.h"
 #include "fnv/decl/RayCaster_00df8aa0.h"
 #include "fnv/symbols_00c90000.h"
@@ -220,7 +221,7 @@ struct Spawned
     unsigned int m_10;
     unsigned int m_14;
     unsigned int m_18;
-    static void* operator new(unsigned int, void* p)
+    static void* operator new(size_t, void* p)
     {
         return p;
     }
@@ -614,7 +615,7 @@ void __cdecl FUN_00df8df0(void* result, MeshRequest* request)
                 SimdValue width;
                 width.sub(*(SimdValue*)&v->bounds, *(SimdValue*)&v->position);
                 SimdValue eq;
-                eq.eq(width, (*reinterpret_cast<::__m128 *>(&::DAT_01267e30)));
+                eq.eq(width, (*reinterpret_cast<__m128 *>(&::DAT_01267e30)));
                 SimdValue selected;
                 selected.select(width, ::DAT_010c7170, eq);
                 __m128 value = selected.v;
@@ -671,7 +672,7 @@ void __cdecl FUN_00df8df0(void* result, MeshRequest* request)
             {
                 *(__m128*)&scratch.range = *(__m128*)&shared.unit;
                 ::FUN_00e2b070((const ::Input *)(request->passA), (::BundleCommand *)(face), (void *)(queryType), (*(::RayVector *)(&scratch.range)), (void *)(0), (void *)(0), (void *)(0), (void *)(0), (int *)(0));
-                ::FUN_00e2b510((::Owner *)(request->passB), (::RayBatch *)(face), queryType, (*(::__m128 *)(&scratch.range)));
+                ::FUN_00e2b510((::Owner *)(request->passB), (::RayBatch *)(face), queryType, (*(__m128 *)(&scratch.range)));
                 ::FUN_00e2acf0(queryFinal, (::InputStruct *)(face), (void *)(queryType), (float *)(void *)(&scratch.range));
                 ++face;
             } while (--iteration.count != 0);

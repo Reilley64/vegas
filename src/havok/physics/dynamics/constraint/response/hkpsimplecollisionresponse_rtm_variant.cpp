@@ -5,27 +5,7 @@
 // src/havok/physics/dynamics/constraint/response/hkpsimplecollisionresponse.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/response/hkpsimplecollisionresponse.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-};
-extern "C"
-{
-    __m128 _mm_load_ss(const float*);
-    void _mm_store_ss(float*, __m128);
-    __m128 _mm_set_ss(float);
-    __m128 _mm_setzero_ps();
-    __m128 _mm_shuffle_ps(__m128, __m128, int);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_mul_ss(__m128, __m128);
-    __m128 _mm_sub_ss(__m128, __m128);
-    __m128 _mm_cmpeq_ss(__m128, __m128);
-    __m128 _mm_rsqrt_ss(__m128);
-    __m128 _mm_andnot_ps(__m128, __m128);
-}
+#include <xmmintrin.h>
 #include <math.h>
 #include "fnv/symbols_simd.h"
 
@@ -382,27 +362,6 @@ extern "C" void __cdecl FUN_00d9f250(const Point& point, float time, Params& par
 
 namespace ConstraintInit {
 extern "C" void _ReadWriteBarrier(void);
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-};
-extern "C"
-{
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_max_ps(__m128, __m128);
-    __m128 _mm_setzero_ps(void);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_div_ss(__m128, __m128);
-    __m128 _mm_set_ss(float);
-    __m128 _mm_set_ps1(float);
-    __m128 _mm_load_ss(float const*);
-    __m128 _mm_load_ps1(float const*);
-    __m128 _mm_load_ps(float const*);
-    void _mm_store_ps(float*, __m128);
-}
 typedef __m128 hkQuadReal;
 typedef float hkReal;
 namespace MathUtilities {
@@ -642,7 +601,7 @@ static __forceinline void inverseSymmetric(const hkMatrix3& m, float eps, hkMatr
     RealLane minimum(eps * eps * eps);
     RealLane determinant = central.inner3(r0);
     maximumLane(determinant, minimum, determinant);
-    RealLane inverse = reinterpret_cast<const RealLane&>((*reinterpret_cast<::ConstraintInit::__m128 *>(&::DAT_010c7170))) / determinant;
+    RealLane inverse = reinterpret_cast<const RealLane&>((*reinterpret_cast<__m128 *>(&::DAT_010c7170))) / determinant;
     hkQuadReal factor = inverse.spread();
     inv.getColumn(0).scaled(factor, r0);
     inv.getColumn(1).scaled(factor, r1);

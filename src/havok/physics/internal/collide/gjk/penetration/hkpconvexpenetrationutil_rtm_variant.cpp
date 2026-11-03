@@ -4,6 +4,7 @@
 
 // src/havok/physics/internal/collide/gjk/penetration/hkpconvexpenetrationutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/physics/internal/collide/gjk/penetration/hkpconvexpenetrationutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <xmmintrin.h>
 #include "fnv/decl/DFB0B0_Owner.h"
 #include "fnv/decl/Host.h"
 #include "fnv/decl/Hull.h"
@@ -18,16 +19,6 @@
 #include "fnv/symbols_010db000.h"
 #include "fnv/symbols_01267000.h"
 #include "fnv/symbols_01268000.h"
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-    short m128_i16[8];
-    int m128_i32[4];
-    __int64 m128_i64[2];
-    unsigned short m128_u16[8];
-    unsigned int m128_u32[4];
-} __m128;
 struct __declspec(align(16)) hkVector4
 {
     float x, y, z, w;
@@ -86,14 +77,6 @@ struct FUN_00df9c40_Obj
 
     void PushVectorTriple(const __m128* src);
 };
-extern "C"
-{
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_shuffle_ps(__m128, __m128, int);
-    __m128 _mm_add_ss(__m128, __m128);
-    void _mm_store_ss(float*, __m128);
-}
 struct S00cd7530_SimdReal
 {
     __m128 m_vValue;
@@ -140,7 +123,6 @@ __forceinline void scalarDots(const S00cd7530_Vec& Q, const S00cd7530_Vec& R, fl
     _mm_store_ss(&RR, R.dot3(R).m_vValue);
     QR = R.dot3(Q);
 }
-extern "C" __m128 _mm_add_ps(__m128, __m128);
 struct S00dfa940_Entry
 {
     hkVector4 m_iThirdValue;
@@ -273,17 +255,10 @@ struct __declspec(align(16)) S_00dfaac0_Penetration
     int unk68;
     int unk6C;
 };
-extern "C" void _mm_store_ps(float*, __m128);
-extern "C" __m128 _mm_load_ps(const float*);
 extern "C"
 {
     void FUN_00e2d6c0(void*, void*, void*, void*, void*);
 
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_shuffle_ps(__m128, __m128, int);
-    __m128 _mm_xor_ps(__m128, __m128);
-    __m128 _mm_set_ps1(float);
 }
 struct Arg1
 {
@@ -392,10 +367,6 @@ struct WorkArray
     }
 };
 
-extern "C" __m128 _mm_add_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_xor_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_load_ss(const float* p);
 
 
 struct S_00df9d90_Bary

@@ -3,6 +3,8 @@
 // byte only under /MT /O2 /GS /EHs-c- /Gy (unit src/havok/physics/dynamics/world/broadphaseborder/hkpbroadphaseborder.cpp lists /MT /O2 /GS /EHsc /Gy). Declarations copied from that unit's skeleton; move the functions
 // to their real unit once identified.
 
+#include <cstddef>
+#include <xmmintrin.h>
 #include <new>
 #include "fnv/decl/FUN_00c90510_class.h"
 #include "fnv/decl/FUN_00c91620_Class.h"
@@ -243,12 +245,6 @@ class D0B6A0Collector : public D0B6A0Primary, public D0B6A0Secondary
 };
 void FUN_00d0b520(int);
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C" __m128 _mm_setr_ps(float e0, float e1, float e2, float e3);
 
 struct hkVector4
 {
@@ -259,7 +255,7 @@ struct hkVector4
     }
     const float& operator()(int i) const
     {
-        return m_vComponents.m128_f32[i];
+        return m_vComponents[i];
     }
 };
 
@@ -490,7 +486,7 @@ struct hkReferencedObject
     {
         m_sReferenceCount = 1;
     }
-    static void* operator new(unsigned int nbytes)
+    static void* operator new(size_t nbytes)
     {
         hkReferencedObject* b = static_cast<hkReferencedObject*>(FUN_00c85750().heap().AllocateMemoryBlock(nbytes));
         b->m_usMemSizeAndFlags = static_cast<unsigned short>(nbytes);

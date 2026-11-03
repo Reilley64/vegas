@@ -6,6 +6,7 @@
 // original image, so it is only declared here.
 
 // arg1: the six float vector
+#include <xmmintrin.h>
 #include <cmath>
 #include "fnv/decl/FUN_00c7f750_shell.h"
 #include "fnv/decl/FUN_00d72030_cls.h"
@@ -446,14 +447,6 @@ void Ea70_caller(Ea70Src* s, Ea70Obj* o, int* a)
     FUN_00d6ea70(s, o, a);
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C" __m128 _mm_add_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_load_ss(const float* p);
-extern "C" void _mm_store_ps(float* p, __m128 a);
 
 struct S6edf0_Vec
 {
@@ -625,7 +618,7 @@ void FUN_00d6edf0(S6edf0_Ctx* ctx, S6edf0_Blob* src, unsigned int arg3)
     ma.m10.add4(gr.ia.v);
     mb.m10.add4(gr.ib.v);
 
-    ::WriteVector((::__m128 *)(::S6edf0_Rot *)(&gr.ga), (::__m128 *)(::S6edf0_Rot *)(&gr.gb), (::__m128 **)(arg3));
+    ::WriteVector((__m128 *)(::S6edf0_Rot *)(&gr.ga), (__m128 *)(::S6edf0_Rot *)(&gr.gb), (__m128 **)(arg3));
     if (*p == 0x16)
     {
         tag.b = 1;
@@ -635,7 +628,7 @@ void FUN_00d6edf0(S6edf0_Ctx* ctx, S6edf0_Blob* src, unsigned int arg3)
     {
         ::FUN_00d6f460((const ::Atom *)(p), (*(int *)&(const ::S6edf0_Tag &)(tag)), (const ::QueryIn *)(::S6edf0_Blob *)(&blob), (::QueryOut *)(arg3));
     }
-    ::WriteVector((::__m128 *)(::S6edf0_Rot *)(&frames.ra), (::__m128 *)(::S6edf0_Rot *)(&frames.rb), (::__m128 **)(arg3));
+    ::WriteVector((__m128 *)(::S6edf0_Rot *)(&frames.ra), (__m128 *)(::S6edf0_Rot *)(&frames.rb), (__m128 **)(arg3));
 }
 
 __declspec(align(16)) struct FUN_00d71f90_cls
@@ -848,14 +841,6 @@ void __cdecl WriteVector(__m128* first, __m128* second, __m128** output)
     *output = destination + 6;
 }
 
-extern "C" __m128 _mm_load_ps(const float*);
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ps(__m128, __m128);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ss(__m128, __m128);
-extern "C" __m128 _mm_unpackhi_ps(__m128, __m128);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-extern "C" void _mm_store_ss(float*, __m128);
 
 
 struct ConstraintMotion
@@ -982,7 +967,7 @@ void __cdecl FUN_00d6c970(PivotPair pv, SegCtx* apSegCtx, __m128* out)
         pEntry[0] = o0;
 
         __m128 d50 = pMotionB->m50;
-        __m128 d60 = _mm_load_ps(pMotionB->m60.m128_f32);
+        __m128 d60 = _mm_load_ps(reinterpret_cast<float*>(&pMotionB->m60));
         __m128 d70 = pMotionB->m70;
         __m128 o1 = _mm_add_ps(
             _mm_add_ps(_mm_mul_ps(_mm_shuffle_ps(Y, Y, 0x55), d60), _mm_mul_ps(_mm_shuffle_ps(Y, Y, 0), d50)),
@@ -994,8 +979,8 @@ void __cdecl FUN_00d6c970(PivotPair pv, SegCtx* apSegCtx, __m128* out)
         float L = Diagonal(pEntry[0], o1, mass_a, mass_b);
         float M = (float)((double)L + K);
 
-        pEntry[1].m128_f32[3] = M;
-        pEntry[0].m128_f32[3] = fp / M;
+        pEntry[1][3] = M;
+        pEntry[0][3] = fp / M;
 
         __m128 BA = _mm_sub_ps(pv.B(), pv.A());
         __m128 prod = _mm_mul_ps(BA, *tp);
@@ -1003,19 +988,13 @@ void __cdecl FUN_00d6c970(PivotPair pv, SegCtx* apSegCtx, __m128* out)
         __m128 dz = _mm_add_ss(_mm_shuffle_ps(prod, prod, 0xaa), dx);
         float D;
         _mm_store_ss(&D, dz);
-        pEntry[-1].m128_f32[3] = D * fq;
+        pEntry[-1][3] = D * fq;
 
         tp++;
         pEntry += 3;
     } while (--n != 0);
 }
 
-extern "C" __m128 _mm_xor_ps(__m128, __m128);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-extern "C" __m128 _mm_add_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ss(__m128, __m128);
-extern "C" void _mm_store_ss(float*, __m128);
 struct Body409
 {
     unsigned unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
@@ -1068,23 +1047,10 @@ void FUN_00d6cd70(const __m128& in, const Pair409& xf, Jacobian409& out, float& 
     _mm_store_ss(&f, s);
     f = (float)(f + ::DAT_010c9300);
     float r = 1.0f / f;
-    out.first.m128_f32[3] = r;
+    out.first[3] = r;
     outRecip = r;
 }
 
-extern "C"
-{
-    __m128 _mm_load_ps1(const float* p);
-    __m128 _mm_load_ss(const float* p);
-    __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
-    __m128 _mm_add_ps(__m128 a, __m128 b);
-    __m128 _mm_sub_ps(__m128 a, __m128 b);
-    __m128 _mm_mul_ps(__m128 a, __m128 b);
-    __m128 _mm_add_ss(__m128 a, __m128 b);
-    __m128 _mm_mul_ss(__m128 a, __m128 b);
-    __m128 _mm_sqrt_ss(__m128 a);
-    void _mm_store_ss(float* p, __m128 a);
-}
 
 extern const double DAT_010d33d0;
 
@@ -1283,11 +1249,6 @@ int TwistLimit_Entry(const SixteenWordFloatRecord* in, const hkRotation* baseB, 
     return FUN_00d6d450(in, baseB, info, atom, baseA);
 }
 
-extern "C" __m128 _mm_sub_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_xor_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_add_ss(__m128 a, __m128 b);
-extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
 
 
 struct S6f0c0_F4
@@ -1508,10 +1469,6 @@ void S6f0c0_Caller(S6f0c0_Ctx* ctx, S6f0c0_Blob* src, S6f0c0_Rec** cursor)
 
 #include <math.h>
 #include "fnv/symbols_simd.h"
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ss(__m128, __m128);
-extern "C" void _mm_store_ss(float*, __m128);
 extern float DAT_010d33d8[];
 extern float DAT_010d33e0[];
 extern float DAT_010d33e4;
@@ -1620,13 +1577,6 @@ template <class T> class FieldValue
     }
 };
 extern "C" void _ReadWriteBarrier();
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ss(__m128, __m128);
-extern "C" __m128 _mm_sqrt_ss(__m128);
-extern "C" __m128 _mm_xor_ps(__m128, __m128);
-extern "C" float _mm_cvtss_f32(__m128);
-extern "C" void _mm_store_ss(float*, __m128);
 extern const double DAT_010d33d0;
 
 struct PackedScalar
@@ -1986,17 +1936,6 @@ void TargetCaller()
     FUN_00d6dd60(sourcePacket, sourceRecord, sourceA, sourceB, sourceCursor);
 }
 
-extern "C"
-{
-    __m128 _mm_sub_ps(__m128 a, __m128 b);
-    __m128 _mm_mul_ps(__m128 a, __m128 b);
-    __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm8);
-    __m128 _mm_add_ss(__m128 a, __m128 b);
-    __m128 _mm_sub_ss(__m128 a, __m128 b);
-    void _mm_store_ss(float* p, __m128 a);
-    __m128 _mm_unpackhi_ps(__m128 a, __m128 b);
-    int _mm_movemask_ps(__m128 a);
-}
 extern long(* DAT_00fdf1ec)(long volatile*, long);
 union __declspec(align(16)) V4
 {
@@ -2237,12 +2176,6 @@ void ConstraintWrite_use()
     FUN_00d6ced0(callInput, callObject, callA, callB, callCursor);
 }
 
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_xor_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ss(__m128, __m128);
-extern "C" void _mm_store_ss(float*, __m128);
 extern "C" void _ReadWriteBarrier();
 
 struct AngularRecord
@@ -2385,7 +2318,7 @@ static __declspec(noinline) void FUN_00d6da00(WriterContext* apContext, AngularR
         __m128 weightedB = _mm_mul_ps(_mm_mul_ps(vb, vb), matrixB->inertia);
         __m128 weightedA = _mm_mul_ps(_mm_mul_ps(va, va), matrixA->inertia);
         float mass = 1.0f / (float)(ReduceFloat(_mm_add_ps(weightedB, weightedA)) + ::DAT_010c9300);
-        row->angularA.m128_f32[3] = mass;
+        row->angularA[3] = mass;
         input.mass = mass;
         input.context = apContext;
         input.base = *(AngularData*)apContext->unk64;
@@ -2394,9 +2327,9 @@ static __declspec(noinline) void FUN_00d6da00(WriterContext* apContext, AngularR
         AngularOutput output;
         ::FUN_00dcfff0((::ObjA *)(solver), (::ObjB *)((const EvalInput*)&input), (float *)(::EvalOutput *)((EvalOutput*)&output));
         AngularRow** cursor = CursorValue((&cur.row));
-        row->angularB.m128_f32[3] = ((float&)apContext->unk08) * output.p0;
+        row->angularB[3] = ((float&)apContext->unk08) * output.p0;
         AngularRow* current = *cursor + 1;
-        current[-1].angularA.m128_f32[0] += ::DAT_010c9300;
+        current[-1].angularA[0] += ::DAT_010c9300;
         current[-1].header.type = 15;
         current[-1].p20 = ScalarValue(output.p2) * ((float&)apContext->unk04);
         double scaled = output.p3 * ((float&)apContext->unk04);
@@ -2416,7 +2349,7 @@ static __declspec(noinline) void FUN_00d6da00(WriterContext* apContext, AngularR
         AngularRow** cursor = CursorValue((&cur.row));
         AngularRow* current = *cursor;
         current->header.flag = 1;
-        current->angularA.m128_f32[0] += ::DAT_010c9300;
+        current->angularA[0] += ::DAT_010c9300;
         current->header.type = 3;
         *cursor = (AngularRow*)((__m128*)current + 1);
     }
@@ -2427,12 +2360,6 @@ void AngularWrite_use(AngularRecord* record, WriterContext* object, __m128* axes
     FUN_00d6da00(object, record, aa, ab, *(RowCursor*)cursor);
 }
 
-extern "C" __m128 _mm_sub_ss(__m128, __m128);
-extern "C" __m128 _mm_set_ss(float);
-extern "C" __m128 _mm_set_ps1(float);
-extern "C" __m128 _mm_rsqrt_ss(__m128);
-extern "C" __m128 _mm_cmpeq_ss(__m128, __m128);
-extern "C" __m128 _mm_andnot_ps(__m128, __m128);
 
 struct SolverVector
 {
@@ -2600,10 +2527,6 @@ void SolverWrite_use()
 }
 
 extern "C" void _ReadWriteBarrier();
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ss(__m128, __m128);
-extern "C" void _mm_store_ss(float*, __m128);
 extern float DAT_010d33e0[];
 extern float DAT_010d33d8[];
 extern float DAT_010d33e4;
@@ -2716,26 +2639,6 @@ void ConstraintCaller(ConstraintSource* s, ConstraintDest* o, ConstraintContext*
     FUN_00d6d720(s, o, c, a, b);
 }
 
-extern "C" __m128 _mm_load_ps(const float*);
-extern "C"
-{
-    extern __m128 _mm_add_ps(__m128 _A, __m128 _B);
-    extern __m128 _mm_add_ss(__m128 _A, __m128 _B);
-    extern __m128 _mm_andnot_ps(__m128 _A, __m128 _B);
-    extern __m128 _mm_cmpeq_ss(__m128 _A, __m128 _B);
-    extern __m128 _mm_load_ps1(float const* _A);
-    extern __m128 _mm_load_ss(float const* _A);
-    extern __m128 _mm_mul_ps(__m128 _A, __m128 _B);
-    extern __m128 _mm_mul_ss(__m128 _A, __m128 _B);
-    extern __m128 _mm_rsqrt_ss(__m128 _A);
-    extern __m128 _mm_set_ss(float _A);
-    extern __m128 _mm_shuffle_ps(__m128 _A, __m128 _B, unsigned int _Imm8);
-    extern __m128 _mm_sqrt_ss(__m128 _A);
-    extern void _mm_store_ss(float* _V, __m128 _A);
-    extern __m128 _mm_sub_ps(__m128 _A, __m128 _B);
-    extern __m128 _mm_sub_ss(__m128 _A, __m128 _B);
-    extern __m128 _mm_xor_ps(__m128 _A, __m128 _B);
-}
 
 struct hkVec4
 {
@@ -4370,7 +4273,7 @@ static __forceinline void case28(const Atom*& atoms, QueryIn& in, hkTrans& baseA
     reinterpret_cast<::FUN_00c7f750_shell *>(&(dvB))->FUN_00c7f750((float *)((const hkRot*)&negB), (float *)(&accB.m_vAngularVelocity));
     accA.m_vLinearVelocity.q = _mm_add_ps(accA.m_vLinearVelocity.q, dvA.q);
     accB.m_vLinearVelocity.q = _mm_add_ps(accB.m_vLinearVelocity.q, dvB.q);
-    ::WriteVector((::__m128 *)((const hkRot*)&negA), (::__m128 *)((const hkRot*)&negB), (::__m128 **)(out));
+    ::WriteVector((__m128 *)((const hkRot*)&negA), (__m128 *)((const hkRot*)&negB), (__m128 **)(out));
     if (child->m_type == 0x16)
     {
         ::FUN_00d72190((::Node *)(child), (::Buffer *)(&in6), (*(int *)&(const ::hkBool &)(hkBool(true))), (int *)(out));
@@ -4379,7 +4282,7 @@ static __forceinline void case28(const Atom*& atoms, QueryIn& in, hkTrans& baseA
     {
         FUN_00d6f460(child, childSize, &in6, out);
     }
-    ::WriteVector((::__m128 *)((const hkRot*)&skewA), (::__m128 *)((const hkRot*)&skewB), (::__m128 **)(out));
+    ::WriteVector((__m128 *)((const hkRot*)&skewA), (__m128 *)((const hkRot*)&skewB), (__m128 **)(out));
     atoms = (const Atom*)(a + 1);
 }
 static __forceinline void case23(const Atom*& atoms, QueryIn& in, hkTrans& baseA, hkTrans& baseB, QueryOut* out)
@@ -4463,7 +4366,7 @@ static __forceinline void case24(const Atom*& atoms, QueryIn& in, hkTrans& baseA
     in3.m_pBodyA = &accA;
     in3.m_pBodyB = &accB;
     accB.m_vInverseInertiaAndMass.q = _mm_mul_ps(accB.m_vInverseInertiaAndMass.q, factorB.q);
-    ::fnv_00dced90::FUN_00dced90((const ::__m128 *)(const ::hkVec4 *)(&accA.m_vInverseInertiaAndMass), (const ::__m128 *)(const ::hkVec4 *)(&accB.m_vInverseInertiaAndMass), (char **)(out));
+    ::fnv_00dced90::FUN_00dced90((const __m128 *)(const ::hkVec4 *)(&accA.m_vInverseInertiaAndMass), (const __m128 *)(const ::hkVec4 *)(&accB.m_vInverseInertiaAndMass), (char **)(out));
     if (child->m_type == 0x16)
     {
         ::FUN_00d72190((::Node *)(child), (::Buffer *)(&in3), (*(int *)&(const ::hkBool &)(hkBool(true))), (int *)(out));
@@ -4472,7 +4375,7 @@ static __forceinline void case24(const Atom*& atoms, QueryIn& in, hkTrans& baseA
     {
         FUN_00d6f460(child, childSize, &in3, out);
     }
-    ::fnv_00dced90::FUN_00dced90((const ::__m128 *)(const ::hkVec4 *)(&in.m_pBodyA->m_vInverseInertiaAndMass), (const ::__m128 *)(const ::hkVec4 *)(&in.m_pBodyB->m_vInverseInertiaAndMass), (char **)(out));
+    ::fnv_00dced90::FUN_00dced90((const __m128 *)(const ::hkVec4 *)(&in.m_pBodyA->m_vInverseInertiaAndMass), (const __m128 *)(const ::hkVec4 *)(&in.m_pBodyB->m_vInverseInertiaAndMass), (char **)(out));
     atoms = (const Atom*)(a + 1);
 }
 class SurfaceAxis
@@ -4520,11 +4423,11 @@ static __forceinline void case26(const Atom*& atoms, QueryIn& in, hkTrans& baseA
     __m128 d = dot3(n, v);
     SurfaceAxis tangent;
     tangent = _mm_xor_ps(_mm_sub_ps(v, _mm_mul_ps(_mm_shuffle_ps(d, d, 0), n)), DAT_010c44d0);
-    ::FUN_00dcedd0((const ::__m128 *)(const ::hkVec4 *)((const hkVec4*)&tangent), (void *)(which), (::FUN_00dcedd0_Record **)(out));
+    ::FUN_00dcedd0((const __m128 *)(const ::hkVec4 *)((const hkVec4*)&tangent), (void *)(which), (::FUN_00dcedd0_Record **)(out));
     acc.m_vLinearVelocity.q = _mm_add_ps(acc.m_vLinearVelocity.q, tangent);
     ::FUN_00d72190((::Node *)((const Atom*)contact), (::Buffer *)(&in5), (*(int *)&(const ::hkBool &)(hkBool(false))), (int *)(out));
     tangent = _mm_xor_ps(tangent, DAT_010c44d0);
-    ::FUN_00dcedd0((const ::__m128 *)(const ::hkVec4 *)((const hkVec4*)&tangent), (void *)(which), (::FUN_00dcedd0_Record **)(out));
+    ::FUN_00dcedd0((const __m128 *)(const ::hkVec4 *)((const hkVec4*)&tangent), (void *)(which), (::FUN_00dcedd0_Record **)(out));
     atoms = (const Atom*)((const char*)a + 0x30);
 }
 struct AngularStorage : AngLimitInfo

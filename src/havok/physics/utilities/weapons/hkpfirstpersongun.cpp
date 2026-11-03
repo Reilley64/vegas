@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/weapons/hkpfirstpersongun.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/weapons/hkpfirstpersongun.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
 #include "fnv/decl/WorldQuery.h"
 #include "fnv/decl/hkReferencedObjectC905.h"
 #include "fnv/symbols_00cb0000.h"
@@ -304,14 +305,6 @@ int FUN_00e46750_Obj::FUN_00e46750(unsigned char flag)
 
 #include <xmmintrin.h>
 namespace fnv_00e464e0 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C" __m128 _mm_setzero_ps(void);
-extern "C" __m128 _mm_unpackhi_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
 
 struct hkMemoryAllocator
 {
@@ -347,7 +340,7 @@ struct hkVector4q
     }
     float& operator()(int i)
     {
-        return m_vComponents.m128_f32[i];
+        return m_vComponents[i];
     }
     void setXYZ(const hkVector4q& v)
     {
@@ -386,7 +379,7 @@ struct hkpSphereShapeq
     int unk18;
     int unk1C;
 
-    static void* operator new(unsigned int nbytes)
+    static void* operator new(size_t nbytes)
     {
         hkpSphereShapeq* p = (hkpSphereShapeq*)FUN_00c85750()->heap().allocateChunk(nbytes);
         p->m_usMemSizeAndFlags = (unsigned short)nbytes;

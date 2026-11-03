@@ -2,6 +2,7 @@
 // src/havok/physics/internal/collide/gjk/gskmanifold/hkpgskmanifoldutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/physics/internal/collide/gjk/gskmanifold/hkpgskmanifoldutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <xmmintrin.h>
 #include "fnv/symbols_00dae000.h"
 #include "fnv/symbols_01011000.h"
 #include "fnv/symbols_01016000.h"
@@ -146,35 +147,7 @@ void __cdecl FUN_00dae340(S_00dad640_Set* set, unsigned int index)
     ::FUN_00dae220(iShift, (::S_00dae220_Set *)(set));
 }
 
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-} __m128;
 #include "fnv/symbols_simd.h"
-extern "C"
-{
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_sub_ss(__m128, __m128);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_mul_ss(__m128, __m128);
-    __m128 _mm_div_ss(__m128, __m128);
-    __m128 _mm_rsqrt_ss(__m128);
-    __m128 _mm_cmplt_ps(__m128, __m128);
-    __m128 _mm_cmpeq_ss(__m128, __m128);
-    __m128 _mm_setzero_ps();
-    __m128 _mm_set_ss(float);
-    __m128 _mm_andnot_ps(__m128, __m128);
-    __m128 _mm_xor_ps(__m128, __m128);
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-    __m128 _mm_unpacklo_ps(__m128, __m128);
-    __m128 _mm_unpackhi_ps(__m128, __m128);
-    __m128 _mm_movelh_ps(__m128, __m128);
-    __m128 _mm_movehl_ps(__m128, __m128);
-    int _mm_movemask_ps(__m128);
-    void _mm_store_ss(float*, __m128);
-}
 
 class Scalar
 {
@@ -263,11 +236,11 @@ class Vector
     }
     __forceinline float& operator()(int n)
     {
-        return q.m128_f32[n];
+        return q[n];
     }
     __forceinline const float& operator()(int n) const
     {
-        return q.m128_f32[n];
+        return q[n];
     }
     __forceinline Scalar getSimdAt(int n) const
     {

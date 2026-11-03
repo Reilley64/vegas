@@ -4,6 +4,7 @@
 
 // src/havok/physics/utilities/actions/mousespring/hkpmousespringaction.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/actions/mousespring/hkpmousespringaction.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <xmmintrin.h>
 #include <cmath>
 #include "fnv/decl/FUN_005616d0_Owner.h"
 #include "fnv/decl/FUN_00561800_Class.h"
@@ -43,11 +44,6 @@ struct FUN_00cbb1b0_Class
     void FUN_00cbb1b0(hkReal a);
 };
 int __cdecl FUN_00cbb8a0();
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 #include "fnv/symbols_simd.h"
 extern int DAT_010c8e94;
 extern const char str_011b1f3c[];
@@ -238,11 +234,6 @@ struct Ms_B
 struct Ms_N
 {
 };
-extern "C"
-{
-    void _mm_store_ps(float*, __m128);
-    __m128 _mm_load_ps(const float*);
-}
 struct Fv
 {
     float x;
@@ -351,17 +342,6 @@ struct Cls
     int m_5c;
     Cls* FUN_00cbb8b0(int flags);
 };
-extern "C"
-{
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_and_ps(__m128, __m128);
-    __m128 _mm_load_ps1(const float*);
-    __m128 _mm_cmple_ps(__m128, __m128);
-    int _mm_movemask_ps(__m128);
-}
-extern "C"
-{
-}
 struct __declspec(align(16)) hkVector4CBB1
 {
     __m128 m_vComponents;
@@ -397,7 +377,6 @@ class hkpPositionTrackerCBB1
 
     void FUN_00cbb150(const hkVector4CBB1& kPosition);
 };
-extern "C" __m128 _mm_setzero_ps(void);
 struct FUN_00cbb4e0
 {
     void* unk00;
@@ -420,20 +399,6 @@ struct FUN_00cbb4e0
     FUN_00cbb4e0(int arg);
 };
 
-extern "C"
-{
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_shuffle_ps(__m128, __m128, int);
-    void _mm_store_ss(float*, __m128);
-    __m128 _mm_setzero_ps();
-    __m128 _mm_load_ss(const float*);
-    __m128 _mm_load1_ps(const float*);
-    __m128 _mm_set1_ps(float);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_xor_ps(__m128, __m128);
-}
 
 
 struct hkStepInfo

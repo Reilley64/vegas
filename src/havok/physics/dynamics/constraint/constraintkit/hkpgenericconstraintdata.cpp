@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/constraint/constraintkit/hkpgenericconstraintdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/constraintkit/hkpgenericconstraintdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <xmmintrin.h>
 #include "fnv/decl/FUN_00d21ce0_cls.h"
 #include "fnv/decl/FUN_00d50c50.h"
 #include "fnv/decl/MProduct.h"
@@ -804,10 +805,6 @@ void* CFoo::FUN_00d504f0()
     return (void*)((char*)this + 0x18);
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-};
 #include "fnv/symbols_simd.h"
 struct FUN_00d50570_class
 {
@@ -989,7 +986,6 @@ struct FUN_00d503c0_src
     int unkA0, unkA4, unkA8, unkAc, unkB0, unkB4, unkB8;
 };
 
-extern "C" __m128 __cdecl _mm_setzero_ps(void);
 
 // Copies two vectors from src, sets a third to each unit axis in turn calling FUN_00dcf280 each time, then adds 3 to src->unkB8.
 // @fnv 0x00d503c0
@@ -1260,13 +1256,6 @@ void FUN_00d51390(int** stream, float** cursor, int a3, d51390_pool* pool, d5139
     pool->unkB8 += 1;
 }
 
-extern "C"
-{
-    __m128 _mm_add_ss(__m128 a, __m128 b);
-    __m128 _mm_mul_ps(__m128 a, __m128 b);
-    __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
-    void _mm_store_ss(float* p, __m128 a);
-}
 
 struct VectorComponentValue
 {
@@ -1339,7 +1328,6 @@ float calcAngleForAxis(const AngularFrames* frames, int axis)
     return FUN_00d50450(frames, axis);
 }
 
-extern "C" __m128 _mm_sub_ps(__m128 a, __m128 b);
 
 struct S00d505c0_Blk
 {
@@ -1376,9 +1364,6 @@ void FUN_00d505c0(int** a, int* b, void* unused, int* c, int* basePtr, int index
 }
 
 namespace fnv_00d50d60 {
-extern "C" __m128 __cdecl _mm_load_ps(const float*);
-extern "C" void __cdecl _mm_store_ps(float*, __m128);
-extern "C" __m128 __cdecl _mm_xor_ps(__m128, __m128);
 
 union D50D60_Vec
 {
@@ -1428,22 +1413,6 @@ void FUN_00d50d60(unsigned int** a0, int aiUnused1, int aiUnused2, D50D60_Stream
 }
 }  // namespace fnv_00d50d60
 
-extern "C"
-{
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_sub_ss(__m128, __m128);
-    __m128 _mm_mul_ss(__m128, __m128);
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-    __m128 _mm_load_ps(const float*);
-    void _mm_store_ps(float*, __m128);
-    void _mm_store_ss(float*, __m128);
-    __m128 _mm_rsqrt_ss(__m128);
-    __m128 _mm_cmpeq_ss(__m128, __m128);
-    __m128 _mm_andnot_ps(__m128, __m128);
-    __m128 _mm_set_ss(float);
-}
 
 struct __declspec(align(16)) hkVec4A
 {
@@ -1559,10 +1528,6 @@ struct AnglePool
     __m128 vectors[11];
     int unkB0, unkB4, unkB8;
 };
-extern "C" __m128 __cdecl _mm_mul_ps(__m128, __m128);
-extern "C" __m128 __cdecl _mm_add_ss(__m128, __m128);
-extern "C" __m128 __cdecl _mm_shuffle_ps(__m128, __m128, int);
-extern "C" void __cdecl _mm_store_ss(float*, __m128);
 extern int DAT_011b5a90[];
 extern float Atan2(float, float);
 extern float dotAngle(__m128, __m128);
@@ -1612,15 +1577,6 @@ void FUN_00d51170(int** __restrict stream, AngleRecord** cursor, int unused, Ang
 }
 }  // namespace fnv_00d51170
 
-extern "C"
-{
-    __m128 _mm_sub_ps(__m128 a, __m128 b);
-    __m128 _mm_mul_ps(__m128 a, __m128 b);
-    __m128 _mm_add_ss(__m128 a, __m128 b);
-    __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
-    __m128 _mm_load_ps(float const* p);
-    void _mm_store_ss(float* p, __m128 a);
-}
 
 struct ContactImpulseInfo
 {
@@ -1747,9 +1703,6 @@ void FUN_00d51270(const int** commands, const hkVector4** data, hkpGenericConstr
     runtime->m_solverResultIndex += 1;
 }
 
-extern "C" __m128 _mm_setr_ps(float, float, float, float);
-extern "C" __m128 _mm_load_ss(float const*);
-extern "C" __m128 _mm_unpacklo_ps(__m128, __m128);
 
 struct Motor;
 
@@ -1922,7 +1875,7 @@ void FUN_00d51410(int** cmdPtr, Vec** dataPtr, Scheme* scheme, Runtime* runtime,
         MotorStuff packet;
         packet.last0f = 0.0f;
         packet.last1f = 0.0f;
-        ::FUN_00d6cd70((*(const ::__m128 *)(axisVec)), (*(const ::Pair409 *)(apQuery)), (*(::Jacobian409 *)(schema)), (*(float *)(&packet)));
+        ::FUN_00d6cd70((*(const __m128 *)(axisVec)), (*(const ::Pair409 *)(apQuery)), (*(::Jacobian409 *)(schema)), (*(float *)(&packet)));
         packet.query = apQuery;
         int index = runtime->m_iFirstInteger;
         Pair* pSolverResults = *static_cast<Pair* volatile*>(&v.sr);
@@ -1936,8 +1889,6 @@ void FUN_00d51410(int** cmdPtr, Vec** dataPtr, Scheme* scheme, Runtime* runtime,
     runtime->m_iFirstInteger++;
 }
 
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ps(__m128, __m128);
 
 struct VecD506
 {

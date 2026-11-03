@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/constraint/contact/hkpsimplecontactconstraintdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/contact/hkpsimplecontactconstraintdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <xmmintrin.h>
 #include "fnv/decl/ComChangerAtom.h"
 #include "fnv/decl/FUN_005609f0_shell.h"
 #include "fnv/decl/Stats.h"
@@ -369,7 +370,7 @@ void hkClsX::DispatchNodeCallbacks(int a1, int a2, int a3, int a4, int a5)
             reinterpret_cast<::hkpMassChangerModifierConstraintAtomq *>((node))->ScaleInverseInertia((const void *)(a1), (*(::hkpSimpleConstraintInfoInitInputq *)(a2)), (void *)(a3), (*(::hkpSimpleConstraintInfoInitInputq *)(a4)), (void *)(a5));
             break;
         case 0x17:
-            ::SetGlobalVectors((int)(node), a1, (const ::__m128 *)(a2), a3, (const ::__m128 *)(a4));
+            ::SetGlobalVectors((int)(node), a1, (const __m128 *)(a2), a3, (const __m128 *)(a4));
             break;
         case 0x1A:
             reinterpret_cast<::fnv_00d21f50::hkpMovingSurfaceModifierConstraintAtomD21F *>((node))->FUN_00d21f50((*(const ::fnv_00d21f50::hkContactPointD21F *)(a1)), (void *)(a2), (void *)(a3), (void *)(a4), (*(::fnv_00d21f50::hkVector4D21F *)(a5)));
@@ -564,16 +565,7 @@ int hkpSimpleContactConstraintData::FUN_00d92df0(hkpConstraintOwner& constraintO
 }
 
 // Dispatch contact callbacks and prepare new contact solver state.
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float f0;
-    float f1;
-    float f2;
-    float f3;
-};
 #include "fnv/symbols_simd.h"
-extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
-extern "C" void _mm_store_ss(float* p, __m128 a);
 
    // 0.3f
    // HK_REAL_MAX

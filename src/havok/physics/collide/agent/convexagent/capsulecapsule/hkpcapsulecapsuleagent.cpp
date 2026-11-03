@@ -2,6 +2,8 @@
 // src/havok/physics/collide/agent/convexagent/capsulecapsule/hkpcapsulecapsuleagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/convexagent/capsulecapsule/hkpcapsulecapsuleagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
+#include <xmmintrin.h>
 #include <intrin.h>
 #include <windows.h>
 #include "fnv/decl/FUN_005609f0_shell.h"
@@ -91,11 +93,6 @@ void D3B6D0Agent::ForwardToHandler(const void* apArg1, const void* apArg2, const
     ::FUN_00d3b420((::Capsule *)(apArg1), (::Capsule *)(apArg2), (void *)(apArg3), (::HitHandler *)(apArg4));
 }
 
-struct __declspec(intrin_type) __declspec(align(16)) __m128 { float x, y, z, w; };
-extern "C" __m128 _mm_load_ps(const float*);
-extern "C" __m128 _mm_add_ps(__m128, __m128);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
 
 
 struct Vec4 { float x, y, z, w; };
@@ -187,7 +184,7 @@ enum hkResult
 HK_SUCCESS=0,
 HK_FAILURE=1
 };
-typedef unsigned __w64 hk_size_t;class FinishingFlag
+typedef size_t hk_size_t;class FinishingFlag
 {
 public:
 FinishingFlag():m_bFinishing(0){}
@@ -238,8 +235,6 @@ return val();
 }
 private:
 TYPE m_kStorage;};
-extern "C"{
-}
 template<typename T>
 class hkThreadLocalData
 {
@@ -298,10 +293,6 @@ public:
 hkReferencedObject(class FinishingFlag flag){}
 };
 
-extern "C"{
-
-
-};
 typedef __m128 hkQuadReal;
 class hkVector4;
 typedef const hkVector4&hkVector4Parameter;
@@ -655,11 +646,7 @@ collector.AddCdPoint(event);
 {StringCursor&mStream=StringCursor::GetMonitorStream();if(reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(mStream.memoryAvailable()))->FUN_005609f0()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName="E" "t" "";h->setTime();mStream.setEnd((char*)(h+1));}};
 }
 
-extern "C" __m128 _mm_mul_ps(__m128 _A, __m128 _B);
-extern "C" __m128 _mm_add_ps(__m128 _A, __m128 _B);
-extern "C" __m128 _mm_shuffle_ps(__m128 _A, __m128 _B, unsigned int _Imm8);
 
-extern "C" __m128 _mm_load_ps(const float*);
 class CapsulePointRotation;
 class CapsulePointTransform;
 

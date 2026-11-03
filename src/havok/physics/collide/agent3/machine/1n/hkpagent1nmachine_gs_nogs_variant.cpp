@@ -5,6 +5,8 @@
 
 // src/havok/physics/collide/agent3/machine/1n/hkpagent1nmachine.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent3/machine/1n/hkpagent1nmachine.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstddef>
+#include <xmmintrin.h>
 #include <intrin.h>
 #include <windows.h>
 #include "fnv/decl/FUN_005609f0_shell.h"
@@ -46,7 +48,7 @@ struct BlockPoolBlock {
     int unk18;
 
     BlockPoolBlock() { unk00 = 0; }
-    static void* operator new(BlockPoolsize_t, void* p) throw() { return p; }
+    static void* operator new(size_t, void* p) throw() { return p; }
 };
 struct BlockPoolArray {
     BlockPoolBlock** m_data;
@@ -1686,11 +1688,6 @@ struct ShapeCollectionFilter1n {
 };
 struct Filter1n : S_00da40e0_FilterHolder, ShapeCollectionFilter1n {
 };
-union __declspec(intrin_type) __declspec(align(16)) __m128 {
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C" __m128 _mm_setzero_ps(void);
 struct hkVector4
 {
     __m128 m_vComponents;
@@ -1830,7 +1827,7 @@ enum hkResult
 HK_SUCCESS=0,
 HK_FAILURE=1
 };
-typedef unsigned __w64 hk_size_t;
+typedef size_t hk_size_t;
 typedef hkReal hkTime;class FinishingFlag
 {
 public:
@@ -1912,8 +1909,6 @@ return val();
 }
 private:
 TYPE m_kStorage;};
-extern "C"{
-}
 template<typename T>
 class hkThreadLocalData
 {
@@ -1978,17 +1973,6 @@ public:
 hkReferencedObject(class FinishingFlag flag){}
 };
 
-extern "C"{
-extern __m128 _mm_add_ss(__m128 _A,__m128 _B);
-extern __m128 _mm_add_ps(__m128 _A,__m128 _B);
-extern __m128 _mm_sub_ps(__m128 _A,__m128 _B);
-extern __m128 _mm_mul_ps(__m128 _A,__m128 _B);
-extern __m128 _mm_shuffle_ps(__m128 _A,__m128 _B,unsigned int _Imm8);
-extern __m128 _mm_unpackhi_ps(__m128 _A,__m128 _B);
-extern __m128 _mm_unpacklo_ps(__m128 _A,__m128 _B);
-extern __m128 _mm_movehl_ps(__m128,__m128);
-extern __m128 _mm_movelh_ps(__m128,__m128);
-extern void _mm_store_ss(float*_V,__m128 _A);};
 typedef __m128 hkQuadReal;
 class hkVector4_S;
 typedef const hkVector4_S&hkVector4Parameter;

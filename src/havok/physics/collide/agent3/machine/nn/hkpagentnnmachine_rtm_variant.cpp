@@ -4,6 +4,8 @@
 
 // src/havok/physics/collide/agent3/machine/nn/hkpagentnnmachine.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent3/machine/nn/hkpagentnnmachine.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstddef>
+#include <xmmintrin.h>
 #include <windows.h>
 #include "fnv/decl/SearchObject.h"
 #include "fnv/decl/hkTransformCB22.h"
@@ -745,12 +747,6 @@ struct S_cfe020_Pool
     int used;
     S_cfe020_Blocks blocks;
 };
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C" __m128 _mm_setzero_ps(void);
 struct LinkArray
 {
     LinkEntry* m_data;
@@ -950,7 +946,7 @@ class PairBody
         parent = p;
         motion = t;
     }
-    static void* operator new(unsigned, void* p)
+    static void* operator new(size_t, void* p)
     {
         return p;
     }
@@ -1009,23 +1005,11 @@ void pairCaller();
 
 extern "C"
 {
-    __m128 _mm_load_ps(const float*);
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_shuffle_ps(__m128, __m128, int);
-    __m128 _mm_set_ps1(float);
-    __m128 _mm_load_ss(const float*);
-    __m128 _mm_load_ps1(const float*);
 
-    float _mm_cvtss_f32(__m128);
-    void _mm_store_ss(float*, __m128);
     void _ReadBarrier();
     void _ReadWriteBarrier();
     void _WriteBarrier();
     void _ReadWriteBarrier();
-    __m128 _mm_move_ss(__m128, __m128);
 }
 
 typedef float hkReal;
@@ -1156,7 +1140,7 @@ class hkpCdBodyCFE3
         m_parent = parent;
         m_pMotionState = t;
     }
-    inline void* operator new(unsigned int, void* p)
+    inline void* operator new(size_t, void* p)
     {
         return p;
     }
@@ -1554,24 +1538,11 @@ void hkAgentNnMachine_ProcessAgentCFE3(hkpAgentNnEntryCFE3* entry, const hkpProc
 
 extern "C"
 {
-    void _mm_prefetch(const char*, int);
-    __m128 _mm_load_ps(const float*);
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_shuffle_ps(__m128, __m128, int);
-    __m128 _mm_set_ps1(float);
-    __m128 _mm_load_ss(const float*);
-    __m128 _mm_load_ps1(const float*);
 
-    float _mm_cvtss_f32(__m128);
-    void _mm_store_ss(float*, __m128);
     void _ReadBarrier();
     void _ReadWriteBarrier();
     void _WriteBarrier();
     void _ReadWriteBarrier();
-    __m128 _mm_move_ss(__m128, __m128);
 }
 
 typedef float hkReal;
@@ -1710,7 +1681,7 @@ class hkpCdBodyCFT
         m_parent = parent;
         m_pMotionState = t;
     }
-    inline void* operator new(unsigned int, void* p)
+    inline void* operator new(size_t, void* p)
     {
         return p;
     }
@@ -2217,41 +2188,29 @@ void __cdecl FUN_00cff3c0(hkpConstraintOwnerCFT* owner, TrackSectors& track, con
 
 namespace ProcessAgentCFEDD0 {
 
-extern "C"
-{
-    ::__m128 _mm_load_ps(const float*);
-    ::__m128 _mm_sub_ps(::__m128, ::__m128);
-    ::__m128 _mm_mul_ps(::__m128, ::__m128);
-    ::__m128 _mm_add_ps(::__m128, ::__m128);
-    ::__m128 _mm_add_ss(::__m128, ::__m128);
-    ::__m128 _mm_shuffle_ps(::__m128, ::__m128, int);
-    ::__m128 _mm_load_ss(const float*);
-
-    void _mm_store_ss(float*, ::__m128);
-}
 
 typedef float hkReal;
 typedef unsigned char hkUchar;
-typedef ::__m128 hkQuadReal;
+typedef __m128 hkQuadReal;
 
 class hkSimdRealProcessAgentCFEDD0
 {
   public:
     hkSimdRealProcessAgentCFEDD0(hkReal x)
     {
-        m_vValue = ProcessAgentCFEDD0::_mm_load_ss(&x);
+        m_vValue = _mm_load_ss(&x);
     }
     hkSimdRealProcessAgentCFEDD0(const hkQuadReal& x) : m_vValue(x)
     {}
     operator hkReal() const
     {
         hkReal s;
-        ProcessAgentCFEDD0::_mm_store_ss(&s, m_vValue);
+        _mm_store_ss(&s, m_vValue);
         return s;
     }
     __forceinline hkQuadReal broadcast() const
     {
-        return ProcessAgentCFEDD0::_mm_shuffle_ps(m_vValue, m_vValue, 0);
+        return _mm_shuffle_ps(m_vValue, m_vValue, 0);
     }
 
   private:
@@ -2266,30 +2225,30 @@ class hkVector4ProcessAgentCFEDD0
 
     inline void setZero4()
     {
-        m_vComponents = ::_mm_setzero_ps();
+        m_vComponents = _mm_setzero_ps();
     }
     inline void setSub4(const hkVector4ProcessAgentCFEDD0& v0, const hkVector4ProcessAgentCFEDD0& v1)
     {
-        m_vComponents = ProcessAgentCFEDD0::_mm_sub_ps(v0.m_vComponents, v1.m_vComponents);
+        m_vComponents = _mm_sub_ps(v0.m_vComponents, v1.m_vComponents);
     }
     inline void setMul4(hkSimdRealParameterProcessAgentCFEDD0 r, const hkVector4ProcessAgentCFEDD0& v1)
     {
-        m_vComponents = ProcessAgentCFEDD0::_mm_mul_ps(r.broadcast(), v1.m_vComponents);
+        m_vComponents = _mm_mul_ps(r.broadcast(), v1.m_vComponents);
     }
     inline void addMul4(hkSimdRealParameterProcessAgentCFEDD0 r, const hkVector4ProcessAgentCFEDD0& v1)
     {
-        m_vComponents = ProcessAgentCFEDD0::_mm_add_ps(m_vComponents,
-                                                       ProcessAgentCFEDD0::_mm_mul_ps(r.broadcast(), v1.m_vComponents));
+        m_vComponents = _mm_add_ps(m_vComponents,
+                                                       _mm_mul_ps(r.broadcast(), v1.m_vComponents));
     }
     inline hkSimdRealProcessAgentCFEDD0 dot4xyz1(const hkVector4ProcessAgentCFEDD0& a) const
     {
-        hkQuadReal linear = ProcessAgentCFEDD0::_mm_load_ps(reinterpret_cast<const float*>(&m_vComponents));
+        hkQuadReal linear = _mm_load_ps(reinterpret_cast<const float*>(&m_vComponents));
         hkQuadReal sep = a.m_vComponents;
-        hkQuadReal x2 = ProcessAgentCFEDD0::_mm_mul_ps(linear, sep);
-        hkQuadReal xySum = ProcessAgentCFEDD0::_mm_add_ss(ProcessAgentCFEDD0::_mm_shuffle_ps(x2, x2, 85), x2);
-        hkQuadReal zwSum = ProcessAgentCFEDD0::_mm_add_ss(ProcessAgentCFEDD0::_mm_shuffle_ps(x2, x2, 170),
-                                                          ProcessAgentCFEDD0::_mm_shuffle_ps(linear, linear, 255));
-        return ProcessAgentCFEDD0::_mm_add_ps(xySum, zwSum);
+        hkQuadReal x2 = _mm_mul_ps(linear, sep);
+        hkQuadReal xySum = _mm_add_ss(_mm_shuffle_ps(x2, x2, 85), x2);
+        hkQuadReal zwSum = _mm_add_ss(_mm_shuffle_ps(x2, x2, 170),
+                                                          _mm_shuffle_ps(linear, linear, 255));
+        return _mm_add_ps(xySum, zwSum);
     }
     inline hkReal& operator()(int a)
     {
@@ -2360,7 +2319,7 @@ class hkpCdBodyProcessAgentCFEDD0
         m_parent = parent;
         m_pMotionState = t;
     }
-    inline void* operator new(unsigned int, void* p)
+    inline void* operator new(size_t, void* p)
     {
         return p;
     }

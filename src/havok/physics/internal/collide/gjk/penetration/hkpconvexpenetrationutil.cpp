@@ -2,6 +2,7 @@
 // src/havok/physics/internal/collide/gjk/penetration/hkpconvexpenetrationutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/physics/internal/collide/gjk/penetration/hkpconvexpenetrationutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <xmmintrin.h>
 #include "fnv/decl/DFB0B0_Owner.h"
 #include "fnv/decl/Host.h"
 #include "fnv/decl/Hull.h"
@@ -11,16 +12,6 @@
 #include "fnv/symbols_01032000.h"
 #include "fnv/symbols_010db000.h"
 #include "fnv/symbols_01268000.h"
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-    short m128_i16[8];
-    int m128_i32[4];
-    __int64 m128_i64[2];
-    unsigned short m128_u16[8];
-    unsigned int m128_u32[4];
-} __m128;
 
 struct __declspec(align(16)) hkVector4
 {
@@ -110,14 +101,6 @@ void FUN_00df9c40_Obj::PushVectorTriple(const __m128* src)
     this->unk6C = idx + 1;
 }
 
-extern "C"
-{
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_shuffle_ps(__m128, __m128, int);
-    __m128 _mm_add_ss(__m128, __m128);
-    void _mm_store_ss(float*, __m128);
-}
 
 struct S00cd7530_SimdReal
 {
@@ -263,7 +246,6 @@ void FUN_00cd7530(P pos, P t0, Mid t1, __int64 packedTail)
     }
 }
 
-extern "C" __m128 _mm_add_ps(__m128, __m128);
 
 struct S00dfa940_Entry
 {
@@ -495,18 +477,11 @@ int __cdecl TestPenetration(int a, int b, const S_00dfaac0_Transform& t, float f
     return result;
 }
 
-extern "C" void _mm_store_ps(float*, __m128);
-extern "C" __m128 _mm_load_ps(const float*);
 extern "C"
 {
     void** FUN_00c85750();
     void FUN_00e2d6c0(void*, void*, void*, void*, void*);
 
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_shuffle_ps(__m128, __m128, int);
-    __m128 _mm_xor_ps(__m128, __m128);
-    __m128 _mm_set_ps1(float);
 }
 
 

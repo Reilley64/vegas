@@ -235,17 +235,17 @@ void __cdecl FUN_00d6cb30(const S_00d6cb30_Info* info, const S_00d6cb30_QueryIn*
     float x = info->unk1C;
     S_00d6cb30_Jacobian* jac = out->m_pQueryResultSchema;
     float diag = BuildAngular431(info, in, jac);
-    jac->m_kAngularVelocity[0].m_vComponents.m128_f32[3] = x / diag;
+    jac->m_kAngularVelocity[0].m_vComponents[3] = x / diag;
 
     float n = -in->unk08;
     float a = info->unk10;
     float b = info->unk14;
-    jac->m_kAngularVelocity[1].m_vComponents.m128_f32[3] = info->unk18 * n;
+    jac->m_kAngularVelocity[1].m_vComponents[3] = info->unk18 * n;
     S_00d6cb30_Jacobian* j = out->m_pQueryResultSchema;
     out->m_pQueryResultSchema = j + 1;
     j->unk20 = a * n * x;
     j->unk24 = b * n * x;
     j->unk28 = x;
-    j->m_kAngularVelocity[0].m_vComponents.m128_f32[0] += 1.1920928955078125e-07;
+    j->m_kAngularVelocity[0].m_vComponents[0] += 1.1920928955078125e-07;
     *(unsigned char*)j = 0xd;
 }

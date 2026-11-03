@@ -660,7 +660,7 @@ extern "C" void __cdecl FUN_00df1260(PoweredChain* chain, int* chosenConstraint,
     for (int i = chain->m_iConstraintCount - 1; i >= 0; i--)
     {
         Quad8 product;
-        ::FUN_00e29510((::__m128 *)(void *)(&product), (const ::__m128 *)(const void *)(&chain->m_kMatrices[i].m_kMiddle), (const ::__m128 *)(const void *)(&accum));
+        ::FUN_00e29510((__m128 *)(void *)(&product), (const __m128 *)(const void *)(&chain->m_kMatrices[i].m_kMiddle), (const __m128 *)(const void *)(&accum));
         accum.setSub8(target[i], product);
         for (int axis = 0; axis < 3; axis++)
         {

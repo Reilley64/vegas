@@ -5,6 +5,7 @@
 
 // src/havok/physics/collide/shape/convex/box/hkpboxshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/convex/box/hkpboxshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <xmmintrin.h>
 #include "fnv/decl/FunctionContext.h"
 #include "fnv/decl/fnv_00c9e120__hkAabbUtilC9E1.h"
 #include "fnv/symbols_00c85000.h"
@@ -64,19 +65,7 @@ struct CenteredPointBounds
 
     CenteredPointBounds* SetExtentsAndRadius(const float* extents, float radius);
 };
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 #include "fnv/symbols_simd.h"
-extern "C" __m128 _mm_and_ps(__m128, __m128);
-extern "C" __m128 _mm_xor_ps(__m128, __m128);
-extern "C" __m128 _mm_cmplt_ps(__m128, __m128);
-extern "C" __m128 _mm_setzero_ps(void);
-extern "C" __m128 _mm_load_ps(const float*);
-extern "C" void _mm_store_ps(float*, __m128);
-extern "C" int _mm_movemask_ps(__m128);
 struct S00c9dc40_Box : public hkpBoxShape
 {
     void FUN_00c9dc40(const float* src, float* dst);
@@ -87,7 +76,6 @@ extern "C" void ZeroResult(__m128* result)
     *result = _mm_setzero_ps();
 }
 
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
 
 extern "C" const __m128 DAT_010c7030[];
 

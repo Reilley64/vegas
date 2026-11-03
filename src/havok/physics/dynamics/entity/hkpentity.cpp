@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/entity/hkpentity.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/entity/hkpentity.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
 #include "fnv/decl/FNVWorldObject.h"
 #include "fnv/decl/FUN_00d01ae0_shell.h"
 #include "fnv/decl/FUN_00d1dff0.h"
@@ -888,7 +889,7 @@ FUN_00c9d190::FUN_00c9d190(int flag)
     m_vtbl = &(*reinterpret_cast<int *>(&::DAT_010c6d54));
 }
 
-inline void* operator new(unsigned int, void* p)
+inline void* operator new(size_t, void* p)
 {
     return p;
 }
@@ -1896,7 +1897,7 @@ template <class T> class hkSmallArrayC9C6
 
 struct ListenersC9C6
 {
-    static void* operator new(unsigned int nbytes)
+    static void* operator new(size_t nbytes)
     {
         return fnvc_adapt::FUN_00c85750().heap().AllocateMemoryBlock(nbytes);
     }

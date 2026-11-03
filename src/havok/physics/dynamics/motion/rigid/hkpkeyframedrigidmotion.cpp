@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/motion/rigid/hkpkeyframedrigidmotion.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/motion/rigid/hkpkeyframedrigidmotion.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <xmmintrin.h>
 #include "fnv/decl/FUN_00c90510_class.h"
 #include "fnv/decl/hkReferencedObjectC905.h"
 #include "fnv/symbols_0102e000.h"
@@ -83,13 +84,7 @@ void FUN_00d1df50(int, int)
 void FUN_00d1df60(int, int)
 {}
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 
-extern "C" __m128 _mm_setzero_ps();
 
 struct hkVector4D1DF
 {
@@ -209,20 +204,6 @@ void ZeroFloats(float* apFloats)
 }
 
 namespace fnv_00d1e090 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C"
-{
-    __m128 _mm_load_ps(const float*);
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-    void _mm_store_ss(float*, __m128);
-}
 
 struct Veh_00d1e090 : public hkpKeyframedRigidMotion
 {
@@ -261,7 +242,6 @@ void Veh_00d1e090::ComputeVelocityAlongDirection(hkVector4* position, hkVector4*
 }
 }  // namespace fnv_00d1e090
 
-extern "C" void _mm_store_ps(float*, __m128);
 
 // @fnv 0x00d1e010
 void FUN_00d1e010(hkVector4* inertia)

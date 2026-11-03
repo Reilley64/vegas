@@ -4,6 +4,7 @@
 
 // src/havok/physics/vehicle/velocitydamper/default/hkpvehicledefaultvelocitydamper.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/vehicle/velocitydamper/default/hkpvehicledefaultvelocitydamper.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <xmmintrin.h>
 #include "fnv/decl/FUN_00561800_Class.h"
 #include "fnv/symbols_01012000.h"
 #include "havok/hkpVehicleDefaultVelocityDamper.h"

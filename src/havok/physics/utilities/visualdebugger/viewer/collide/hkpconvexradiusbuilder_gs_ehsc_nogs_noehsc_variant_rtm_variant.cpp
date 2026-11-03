@@ -346,7 +346,7 @@ static __forceinline void planeDistance(PlaneArray& planes, int index, __m128 p,
     __m128 scalar = _mm_load_ss(&radius);
     __m128 r = _mm_shuffle_ps(scalar, scalar, 0);
     __m128 point = _mm_add_ps(_mm_mul_ps(r, normal), p);
-    planes.data[index].m128_f32[3] =
+    planes.data[index][3] =
         getReal(_mm_sub_ss(*reinterpret_cast<const __m128*>(&(*reinterpret_cast<float *>(&::DAT_010c7160))), dot3(point, normal)));
 }
 struct Bounds
@@ -370,7 +370,7 @@ static __declspec(noinline) float FUN_00de3110(Shape* shape)
         __m128 point = vertices.data[v];
         for (int p = 0; p < count; ++p)
         {
-            float distance = source->data[p].m128_f32[3] + _mm_cvtss_f32(dot3(source->data[p], point));
+            float distance = source->data[p][3] + _mm_cvtss_f32(dot3(source->data[p], point));
             if (distance > maximum)
                 maximum = distance;
         }
@@ -385,12 +385,12 @@ static __declspec(noinline) void FUN_00de3200(Shape* shape, PlaneArray* planes, 
     planes->reserve(planes->size + 6);
     int start = planes->size;
     planes->size += 6;
-    planes->data[start] = _mm_setr_ps(1.0f, 0.0f, 0.0f, -bounds.maximum.m128_f32[0]);
-    planes->data[start + 1] = _mm_setr_ps(0.0f, 1.0f, 0.0f, -bounds.maximum.m128_f32[1]);
-    planes->data[start + 2] = _mm_setr_ps(0.0f, 0.0f, 1.0f, -bounds.maximum.m128_f32[2]);
-    planes->data[start + 3] = _mm_setr_ps(-1.0f, 0.0f, 0.0f, bounds.minimum.m128_f32[0]);
-    planes->data[start + 4] = _mm_setr_ps(0.0f, -1.0f, 0.0f, bounds.minimum.m128_f32[1]);
-    planes->data[start + 5] = _mm_setr_ps(0.0f, 0.0f, -1.0f, bounds.minimum.m128_f32[2]);
+    planes->data[start] = _mm_setr_ps(1.0f, 0.0f, 0.0f, -bounds.maximum[0]);
+    planes->data[start + 1] = _mm_setr_ps(0.0f, 1.0f, 0.0f, -bounds.maximum[1]);
+    planes->data[start + 2] = _mm_setr_ps(0.0f, 0.0f, 1.0f, -bounds.maximum[2]);
+    planes->data[start + 3] = _mm_setr_ps(-1.0f, 0.0f, 0.0f, bounds.minimum[0]);
+    planes->data[start + 4] = _mm_setr_ps(0.0f, -1.0f, 0.0f, bounds.minimum[1]);
+    planes->data[start + 5] = _mm_setr_ps(0.0f, 0.0f, -1.0f, bounds.minimum[2]);
 }
 struct StridedVertices
 {
@@ -477,11 +477,11 @@ void Processor::FUN_00de3520(Shape* shape, const Transform* transform, OutputArr
     case 11: {
         Transform local;
         local.rotation0 = _mm_setzero_ps();
-        local.rotation0.m128_f32[0] = 1.0f;
+        local.rotation0[0] = 1.0f;
         local.rotation1 = _mm_setzero_ps();
-        local.rotation1.m128_f32[1] = 1.0f;
+        local.rotation1[1] = 1.0f;
         local.rotation2 = _mm_setzero_ps();
-        local.rotation2.m128_f32[2] = 1.0f;
+        local.rotation2[2] = 1.0f;
         local.translation = shape->point20;
         combined.FUN_00cb2240(transform, &local);
         FUN_00de3520(shape->child18, &combined, output);
@@ -673,7 +673,7 @@ void Processor::FUN_00de3520(Shape* shape, const Transform* transform, OutputArr
             int count = source->size;
             for (int i = 0; i < count; ++i)
             {
-                float& component = planes[i].m128_f32[3];
+                float& component = planes[i][3];
                 component -= radius;
             }
         }

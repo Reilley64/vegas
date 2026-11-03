@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 
+#include <xmmintrin.h>
 #include "fnv/decl/BatchAdd__WorldHelper.h"
 #include "fnv/decl/CallRet.h"
 #include "fnv/decl/Cb5750_Owner.h"
@@ -341,17 +342,6 @@ extern "C" void _ReadWriteBarrier();
 typedef unsigned char Byte;
 typedef unsigned short UShort;
 typedef unsigned int UInt;
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    struct
-    {
-        float x;
-        float y;
-        float z;
-        float w;
-    } scalar;
-};
-extern "C" __m128 _mm_setr_ps(float, float, float, float);
 struct Vec
 {
     union
@@ -1452,11 +1442,6 @@ void S_00cf7ae0::FUN_00cf7ae0()
 
 #include <string.h>
 #include "fnv/symbols_simd.h"
-extern "C" __m128 _mm_and_ps(__m128, __m128);
-extern "C" __m128 _mm_cmple_ps(__m128, __m128);
-extern "C" int _mm_movemask_ps(__m128);
-extern "C" __m128 _mm_set_ps1(float);
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
 
 extern unsigned char DAT_01267b44;
 
@@ -1709,14 +1694,14 @@ static inline const __m128& GetLinVel(S_Body* b)
 {
     if (b && b->m_8)
         return b->m_8->m_1b0;
-    return (*reinterpret_cast<::__m128 *>(&::DAT_01267e30));
+    return (*reinterpret_cast<__m128 *>(&::DAT_01267e30));
 }
 
 static inline const __m128& GetAngVel(S_Body* b)
 {
     if (b && b->m_8)
         return b->m_8->m_1c0;
-    return (*reinterpret_cast<::__m128 *>(&::DAT_01267e30));
+    return (*reinterpret_cast<__m128 *>(&::DAT_01267e30));
 }
 
 static inline bool AllNear3(const __m128& a, const __m128& b, const __m128& eps)
@@ -1805,7 +1790,7 @@ void S_Owner::FUN_00c674d0(S_Item** items, unsigned int count)
                     bShapeUpdated = true;
                 }
             }
-            if (!AllNear3(GetLinVel(body), (*reinterpret_cast<::__m128 *>(&::DAT_01267e30)), eps.v) || !AllNear3(GetAngVel(body), (*reinterpret_cast<::__m128 *>(&::DAT_01267e30)), eps.v))
+            if (!AllNear3(GetLinVel(body), (*reinterpret_cast<__m128 *>(&::DAT_01267e30)), eps.v) || !AllNear3(GetAngVel(body), (*reinterpret_cast<__m128 *>(&::DAT_01267e30)), eps.v))
             {
                 if (body && body->m_8)
                     reinterpret_cast<::hkpEntityC9C *>((body->m_8))->FUN_00c9c1d0();

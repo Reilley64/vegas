@@ -2,6 +2,7 @@
 // src/havok/physics/collide/agent/compoundagent/bvtreestream/hkpbvtreestreamagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/compoundagent/bvtreestream/hkpbvtreestreamagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
 #include <new>
 #include "fnv/decl/Agent.h"
 #include "fnv/decl/FUN_00cfbbe0_cls.h"
@@ -671,18 +672,6 @@ void __cdecl FUN_00d2e9f0(int a2, int a1, const Input_d2e9* input, int aiRecordV
 }
 
 namespace fnv_00d2ec50 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C"
-{
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_xor_ps(__m128, __m128);
-}
 
 extern __m128 DAT_010c4c00;
 
@@ -1023,7 +1012,7 @@ void* FUN_00d2e5a0(void* a1, void* a2, void* a3, void* a4)
 }
 }  // namespace fnv_00d2e5a0
 
-inline void* __cdecl operator new(unsigned int, void* p)
+inline void* __cdecl operator new(size_t, void* p)
 {
     return p;
 }

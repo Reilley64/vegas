@@ -130,6 +130,6 @@ void FUN_00de7580_cls::FUN_00de7580(ArgHolder_00de7580 a1, Render_00de7580* a2, 
     __m128 res = _mm_add_ps(unk40.unk00, _mm_mul_ps(tv, _mm_load_ps(&result.x)));
 
     _mm_store_ps(&result.x, res);
-    a2->draw(&unk40, &result, ((::__m128 *)(::PackColorBigEndian(0.0f, 0.5f, 1.0f, 1.0f))), a3, a4);
+    a2->draw(&unk40, &result, ((__m128 *)(::PackColorBigEndian(0.0f, 0.5f, 1.0f, 1.0f))), a3, a4);
     a2->draw(&result, &unk50, (void*)0xffff0000, a3, a4);
 }

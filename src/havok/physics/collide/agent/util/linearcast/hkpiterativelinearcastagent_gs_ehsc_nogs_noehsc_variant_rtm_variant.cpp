@@ -7,36 +7,17 @@
 // src/havok/physics/collide/agent/util/linearcast/hkpiterativelinearcastagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/util/linearcast/hkpiterativelinearcastagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <xmmintrin.h>
 #include "fnv/decl/S_00d431b0.h"
 #include "fnv/symbols_0104d000.h"
 #include "fnv/symbols_010ce000.h"
-namespace IterativeSweepSimd {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    struct
-    {
-        float lane0, lane1, lane2, lane3;
-    };
-};
-extern "C"
-{
-    __m128 _mm_load_ss(const float*);
-    __m128 _mm_load_ps(const float*);
-    __m128 _mm_shuffle_ps(__m128, __m128, int);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_add_ss(__m128, __m128);
-    void _mm_store_ss(float*, __m128);
-    void _mm_store_ps(float*, __m128);
-}
-}
 extern "C" void _ReadWriteBarrier();
 
 struct __declspec(align(16)) IterativeSweep_hkVector4
 {
     union
     {
-        IterativeSweepSimd::__m128 quad;
+        __m128 quad;
         struct
         {
             float x, y, z, w;
@@ -45,8 +26,8 @@ struct __declspec(align(16)) IterativeSweep_hkVector4
 
     __forceinline void SetAllComponents(float v)
     {
-        IterativeSweepSimd::__m128 scalar = IterativeSweepSimd::_mm_load_ss(&v);
-        quad = IterativeSweepSimd::_mm_shuffle_ps(scalar, scalar, 0);
+        __m128 scalar = _mm_load_ss(&v);
+        quad = _mm_shuffle_ps(scalar, scalar, 0);
     }
 };
 
@@ -281,13 +262,13 @@ struct __declspec(align(16)) IterativeSweep_hkpLinearCastCollisionInput : public
 
 __forceinline float IterativeSweep_dot3(const IterativeSweep_hkVector4& a, const IterativeSweep_hkVector4& b)
 {
-    IterativeSweepSimd::__m128 mul = IterativeSweepSimd::_mm_mul_ps(a.quad, b.quad);
-    IterativeSweepSimd::__m128 shuf1 = IterativeSweepSimd::_mm_shuffle_ps(mul, mul, 0x55);
-    IterativeSweepSimd::__m128 shuf2 = IterativeSweepSimd::_mm_shuffle_ps(mul, mul, 0xaa);
-    IterativeSweepSimd::__m128 sum = IterativeSweepSimd::_mm_add_ss(shuf1, mul);
-    sum = IterativeSweepSimd::_mm_add_ss(shuf2, sum);
+    __m128 mul = _mm_mul_ps(a.quad, b.quad);
+    __m128 shuf1 = _mm_shuffle_ps(mul, mul, 0x55);
+    __m128 shuf2 = _mm_shuffle_ps(mul, mul, 0xaa);
+    __m128 sum = _mm_add_ss(shuf1, mul);
+    sum = _mm_add_ss(shuf2, sum);
     float res;
-    IterativeSweepSimd::_mm_store_ss(&res, sum);
+    _mm_store_ss(&res, sum);
     return res;
 }
 
@@ -369,8 +350,8 @@ void FUN_00daf8e0(const IterativeSweep_hkpCdBody* bodyA, const IterativeSweep_hk
 
         IterativeSweep_hkVector4 hitDist;
         hitDist.SetAllComponents(localTransform);
-        fraction.m_vTranslation.quad = IterativeSweepSimd::_mm_add_ps(
-            IterativeSweepSimd::_mm_mul_ps(hitDist.quad, step.quad),
+        fraction.m_vTranslation.quad = _mm_add_ps(
+            _mm_mul_ps(hitDist.quad, step.quad),
             ((const IterativeSweep_hkTransform*)bodyA->m_kMotionState)->m_vTranslation.quad);
 
         func(&tempBodyA, bodyB, &linearInput, &projectedDistance);
@@ -380,16 +361,16 @@ void FUN_00daf8e0(const IterativeSweep_hkpCdBody* bodyA, const IterativeSweep_hk
             return;
         }
 
-        IterativeSweepSimd::__m128 position =
-            IterativeSweepSimd::_mm_load_ps(&projectedDistance.m_kHitPoint.m_vContactPosition.x);
+        __m128 position =
+            _mm_load_ps(&projectedDistance.m_kHitPoint.m_vContactPosition.x);
         _ReadWriteBarrier();
         double currentFraction = localTransform;
-        IterativeSweepSimd::__m128 normal =
-            IterativeSweepSimd::_mm_load_ps(&projectedDistance.m_kHitPoint.m_vSeparatingNormal.x);
+        __m128 normal =
+            _mm_load_ps(&projectedDistance.m_kHitPoint.m_vSeparatingNormal.x);
         step.quad = input->m_step.quad;
         _ReadWriteBarrier();
-        IterativeSweepSimd::_mm_store_ps(&hitPoint.m_kPoint.m_vContactPosition.x, position);
-        IterativeSweepSimd::_mm_store_ps(&hitPoint.m_kPoint.m_vSeparatingNormal.x, normal);
+        _mm_store_ps(&hitPoint.m_kPoint.m_vContactPosition.x, position);
+        _mm_store_ps(&hitPoint.m_kPoint.m_vSeparatingNormal.x, normal);
 
         float subDot = IterativeSweep_dot3(step, hitPoint.m_kPoint.m_vSeparatingNormal);
         hitPoint.m_kPoint.m_vSeparatingNormal.w = currentFraction;

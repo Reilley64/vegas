@@ -2,6 +2,8 @@
 // src/havok/physics/collide/shape/convex/triangle/hkptriangleshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/convex/triangle/hkptriangleshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
+#include <xmmintrin.h>
 #include <intrin.h>
 #include <windows.h>
 #include "fnv/decl/FUN_00c7f690_cls.h"
@@ -49,12 +51,6 @@ int __cdecl ExtractEdge(unsigned short weldingInfo, int edge)
     return FUN_00d1fef0(weldingInfo, edge);
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128 { float m128_f32[4]; unsigned __int64 m128_u64[2]; };
-extern "C" __m128 _mm_add_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_load_ss(const float* p);
-extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
-extern "C" void _mm_store_ps(float* p, __m128 a);
 
 class FUN_00d1ff40_cls {
 public:
@@ -90,14 +86,6 @@ void FUN_00d1ff20_s::CopyVector(float* dst)
     *(__m128*)dst = v;
 }
 
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ss(__m128, __m128);
-extern "C" __m128 _mm_mul_ss(__m128, __m128);
-extern "C" __m128 _mm_sub_ss(__m128, __m128);
-extern "C" __m128 _mm_rsqrt_ss(__m128);
-extern "C" __m128 _mm_cmpeq_ss(__m128, __m128);
-extern "C" __m128 _mm_andnot_ps(__m128, __m128);
-extern "C" __m128 _mm_set_ss(float);
 
 // Computes the normalized cross product of two edge vectors and writes the result to out.
 // @fnv 0x00d1ff80
@@ -132,10 +120,6 @@ const __m128* volatile inputC;
 __m128* volatile outputV;
 void invokeTriangleNormal() { FUN_00d1ff80(inputA, inputB, inputC, outputV); }
 
-extern "C" __m128 _mm_max_ps(__m128, __m128);
-extern "C" __m128 _mm_min_ps(__m128, __m128);
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_load_ps(const float*);
 
 struct SimdVector {
     union { __m128 value; float component[4]; };
@@ -208,13 +192,6 @@ hkVector4* Cls_00d20110::GetVertices(hkVector4* apVertices)
     return apVertices;
 }
 
-extern "C" __m128 _mm_load_ps(const float*);
-extern "C" void _mm_store_ss(float*, __m128);
-extern "C" __m128 _mm_add_ss(__m128, __m128);
-extern "C" __m128 _mm_unpacklo_ps(__m128, __m128);
-extern "C" __m128 _mm_unpackhi_ps(__m128, __m128);
-extern "C" __m128 _mm_movelh_ps(__m128, __m128);
-extern "C" __m128 _mm_movehl_ps(__m128, __m128);
 
 __forceinline int rootSelect48(const float* sv)
 {
@@ -280,12 +257,6 @@ void TriangleSupport::FUN_00d20270(float const* pf, float* out)
 
 
 
-extern "C" __m128 _mm_load_ps1(const float*);
-extern "C" __m128 _mm_unpacklo_ps(__m128, __m128);
-extern "C" __m128 _mm_unpackhi_ps(__m128, __m128);
-extern "C" __m128 _mm_movelh_ps(__m128, __m128);
-extern "C" __m128 _mm_movehl_ps(__m128, __m128);
-extern "C" int _mm_movemask_ps(__m128);
 
 extern int DAT_011b3b50[];
 extern float DAT_011b3b38[];
@@ -458,7 +429,7 @@ typedef unsigned char hkUint8_S;
 typedef unsigned short hkUint16_S;
 typedef unsigned int hkUint32_S;
 typedef unsigned long __w64 hkUlong_S;
-typedef unsigned __w64 hk_size_t;class FinishingFlag
+typedef size_t hk_size_t;class FinishingFlag
 {
 public:
 FinishingFlag():m_bFinishing(0){}
@@ -506,8 +477,6 @@ return m_kStorage;
 }
 private:
 TYPE m_kStorage;};
-extern "C"{
-}
 template<typename T>
 class hkThreadLocalData
 {
@@ -566,28 +535,6 @@ public:
 hkReferencedObject_S(class FinishingFlag flag){}
 };typedef float hkReal_S;
 
-extern "C"{
-
-
-
-
-
-
-extern __m128 _mm_rcp_ps(__m128 _A);
-
-extern __m128 _mm_and_ps(__m128 _A,__m128 _B);
-
-extern __m128 _mm_or_ps(__m128 _A,__m128 _B);
-extern __m128 _mm_xor_ps(__m128 _A,__m128 _B);
-
-extern __m128 _mm_cmpeq_ps(__m128 _A,__m128 _B);
-extern __m128 _mm_cmplt_ps(__m128 _A,__m128 _B);
-extern __m128 _mm_cmple_ps(__m128 _A,__m128 _B);
-
-extern int _mm_movemask_ps(__m128 _A);
-
-extern __m128 _mm_setr_ps(float _A,float _B,float _C,float _D);
-extern __m128 _mm_setzero_ps(void);};
 typedef __m128 hkQuadReal;
 class hkVector4_S;
 typedef const hkVector4_S&hkVector4Parameter;
@@ -1277,7 +1224,6 @@ results.m_akRayOutputs[i].setKey(0xffffffff);
 return kComparisonMask;
 }
 
-extern "C" __m128 _mm_setzero_ps();
 
 class LaneScalar {
     __m128 value;
@@ -1344,7 +1290,6 @@ extern const LaneVector* obtainVector();
 extern LaneVector* obtainOutput();
 void keepEdgeTest() { FUN_00d201a0(*obtainVector(),*obtainVector(),obtainVector(),*obtainVector(),*obtainOutput()); }
 
-extern "C" void _mm_store_ss(float*, __m128);
 struct ShapeRayCastQuery {
     hkVector4_S m_vFrom;
     hkVector4_S m_vTo;

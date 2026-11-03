@@ -4,6 +4,7 @@
 
 // src/havok/physics/collide/query/multithreaded/raycastquery/cpu/hkpcpukdtreeraycastjob.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/query/multithreaded/raycastquery/cpu/hkpcpukdtreeraycastjob.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <xmmintrin.h>
 #include "fnv/symbols_011b3000.h"
 struct FUN_00e4dd90_shell
 {
@@ -120,11 +121,6 @@ FUN_00e4e3c0::FUN_00e4e3c0()
     m_i04 = 0;
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 #include "fnv/symbols_simd.h"
 
 struct Sub60
@@ -268,7 +264,7 @@ void FUN_00e2acf0(void* a1, InputStruct* a2, void* a3, float* a4)
 
     FloatMatrix3 m1;
     FloatMatrix3 m2;
-    ::fnv_00e2ab00::FUN_00e2ab00((::fnv_00e2ab00::__m128 *)(a2), (::fnv_00e2ab00::__m128 *)(::FloatMatrix3 *)(&m1), (::fnv_00e2ab00::__m128 *)(::FloatMatrix3 *)(&m2));
+    ::fnv_00e2ab00::FUN_00e2ab00((__m128 *)(a2), (__m128 *)(::FloatMatrix3 *)(&m1), (__m128 *)(::FloatMatrix3 *)(&m2));
 
     unsigned char result;
     FUN_00d99570(&result, a1, &m1, &m2, &obj, DAT_011b3830[a2->count]);

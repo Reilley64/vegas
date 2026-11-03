@@ -2,6 +2,7 @@
 // src/havok/physics/collide/shape/convex/capsule/hkpcapsuleshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/convex/capsule/hkpcapsuleshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <xmmintrin.h>
 #include "fnv/decl/FunctionContext.h"
 #include "fnv/symbols_01016000.h"
 #include "fnv/symbols_01268000.h"
@@ -26,13 +27,7 @@ int FUN_00d22d60(int a, int b)
     return 0x40;
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-};
 #include "fnv/symbols_simd.h"
-extern "C" __m128 _mm_load_ps(float const* p);
-extern "C" void _mm_store_ps(float* p, __m128 v);
 
 class FUN_00d223f0_cls
 {
@@ -174,7 +169,7 @@ void __cdecl GetClosestLinePoints(const Point4& aLineAStart, const Point4& aLine
                                   Point4* pointA, Point4* pointB)
 {
     ClosestLineResult result;
-    ::FUN_00d231b0((const ::__m128 *)&(aLineAStart), (const ::__m128 *)&(aLineAEnd), (const ::__m128 *)&(aLineBStart), (const ::__m128 *)&(aLineBEnd), (::ClosestPointResult *)(::ClosestLineResult *)(&result));
+    ::FUN_00d231b0((const __m128 *)&(aLineAStart), (const __m128 *)&(aLineAEnd), (const __m128 *)&(aLineBStart), (const __m128 *)&(aLineBEnd), (::ClosestPointResult *)(::ClosestLineResult *)(&result));
     *reinterpret_cast<__m128*>(pointA) = *reinterpret_cast<const __m128*>(&result.pointA);
     *reinterpret_cast<__m128*>(pointB) = *reinterpret_cast<const __m128*>(&result.pointB);
     *pfFractionA = result.fractionA;
@@ -182,11 +177,6 @@ void __cdecl GetClosestLinePoints(const Point4& aLineAStart, const Point4& aLine
     *pfDistance = result.distance;
 }
 
-extern "C" __m128 _mm_add_ps(__m128, __m128);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, int);
-extern "C" __m128 _mm_load_ss(const float*);
-extern "C" void _mm_store_ps(float*, __m128);
 
 class Aabb_d22440
 {
@@ -216,12 +206,6 @@ void Aabb_d22440::FUN_00d22440(__m128* pkCenter) const
     *pkCenter = _mm_mul_ps(kHalf, sum);
 }
 
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ss(__m128, __m128);
-extern "C" __m128 _mm_load_ss(const float*);
-extern "C" void _mm_store_ss(float*, __m128);
 
 // Projects a point onto a line segment defined by two endpoints, clamping the result to the segment bounds and writing it to out.
 // @fnv 0x00d224c0
@@ -375,9 +359,6 @@ void hkpCapsuleShapeD223::FUN_00d22370(const hkVector4D223& kDirection, hkVector
     kSupportingVertexOut.setInt24W(iVertexId);
 }
 
-extern "C" __m128 _mm_min_ps(__m128, __m128);
-extern "C" __m128 _mm_max_ps(__m128, __m128);
-extern "C" __m128 _mm_set_ps1(float);
 
 struct hkTransformq;
 

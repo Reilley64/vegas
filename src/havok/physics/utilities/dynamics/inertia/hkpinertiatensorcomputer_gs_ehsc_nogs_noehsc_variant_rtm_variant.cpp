@@ -7,6 +7,7 @@
 // to their real unit once identified.
 // src/havok/physics/utilities/dynamics/inertia/hkpinertiatensorcomputer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/dynamics/inertia/hkpinertiatensorcomputer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <xmmintrin.h>
 #include "fnv/decl/FUN_00c6cd00_cls.h"
 #include "fnv/symbols_00c85000.h"
 #include "fnv/symbols_00cef000.h"
@@ -208,17 +209,6 @@ void S00cec3d0_Base::FUN_00cec000(const float* v)
     P1 = v[A] * v[B];
     Pa = v[A];
 }
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-};
-extern "C"
-{
-    __m128 _mm_setr_ps(float, float, float, float);
-    __m128 _mm_setzero_ps();
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_and_ps(__m128, __m128);
-}
 struct Vector
 {
     union
@@ -243,7 +233,7 @@ struct Vector
     }
     float& operator()(int i)
     {
-        return q.m128_f32[i];
+        return q[i];
     }
     int maxAxisSecond() const
     {
@@ -289,7 +279,6 @@ struct Shape
     virtual void getAabb(const Transform*, float, Bounds*);
 };
 void FUN_00cedae0(Shape* shape, const Matrix* input, Vector* outA, Vector* outB);
-extern "C" void _mm_store_ps(float*, __m128);
 struct __declspec(align(16)) CE50Vector
 {
     float x, y, z, w;
@@ -336,18 +325,6 @@ static __declspec(noinline) void FUN_00cebfd0(CE50Body* body, float scale)
     body->inertia.row2.z *= scale;
 }
 int __cdecl FUN_00cece50(float* src, float mass, float thickness, CE50Body* out, ...);
-extern "C"
-{
-    void _mm_store_ps(float*, __m128);
-    __m128 _mm_load_ps(const float*);
-    __m128 _mm_set_ps1(float);
-    __m128 _mm_xor_ps(__m128, __m128);
-    __m128 _mm_min_ps(__m128, __m128);
-    __m128 _mm_max_ps(__m128, __m128);
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-}
 extern const __m128 DAT_010c44d0;
 extern const __m128 DAT_010ec7f0;
 __declspec(noinline) void __cdecl FUN_00cec7f0(int first, int count, float* b, float* a)
@@ -547,8 +524,6 @@ inline float MaxVal(float a, float b)
     return a > b ? a : b;
 }
 int __cdecl FUN_00ced8e0(State* self, float value, OutBlock* out);
-extern "C" __m128 _mm_mul_ps(__m128 _A, __m128 _B);
-extern "C" __m128 _mm_set_ps1(float _A);
 struct __declspec(align(16)) S00cf0690_Vec
 {
     float x, y, z, w;
@@ -577,16 +552,6 @@ static __declspec(noinline) void FUN_00cebfd0(S00cf0690_Mass* p, float density)
 
 #include <math.h>
 #include "fnv/symbols_simd.h"
-extern "C"
-{
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-    __m128 _mm_sqrt_ss(__m128);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_load_ss(const float*);
-    void _mm_store_ss(float*, __m128);
-}
 struct __declspec(align(16)) IntegralVector159
 {
     float x, y, z, w;

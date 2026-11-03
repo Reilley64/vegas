@@ -2,6 +2,8 @@
 // src/havok/physics/dynamics/collide/filter/pair/hkppaircollisionfilter.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/collide/filter/pair/hkppaircollisionfilter.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
+#include <xmmintrin.h>
 #include "fnv/decl/CB1BC0Map.h"
 #include "fnv/decl/FUN_00c7f750_shell.h"
 #include "fnv/decl/FUN_00c90510_class.h"
@@ -766,7 +768,7 @@ typedef unsigned char hkUint8;
 typedef unsigned short hkUint16;
 typedef unsigned int hkUint32;
 typedef signed long __w64 hkLong;
-typedef unsigned __w64 hk_size_t;
+typedef size_t hk_size_t;
 template <typename TYPE> __forceinline TYPE* __cdecl hkAddByteOffset(TYPE* base, hkLong offset)
 {
     return reinterpret_cast<TYPE*>(reinterpret_cast<char*>(base) + offset);
@@ -896,19 +898,6 @@ class NineIntegerRecord
   protected:
     StringPointerTriple m_aiEntries;
     Allocator* m_pStreamAllocator;
-};
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    unsigned __int32 m128_u32[4];
-} __m128;
-extern "C"
-{
-    extern __m128 _mm_add_ss(__m128 _A, __m128 _B);
-    extern __m128 _mm_add_ps(__m128 _A, __m128 _B);
-    extern __m128 _mm_sub_ps(__m128 _A, __m128 _B);
-    extern __m128 _mm_mul_ps(__m128 _A, __m128 _B);
-    extern __m128 _mm_shuffle_ps(__m128 _A, __m128 _B, unsigned int _Imm8);
-    extern void _mm_store_ss(float* _V, __m128 _A);
 };
 typedef __m128 hkQuadReal;
 class hkVector4;

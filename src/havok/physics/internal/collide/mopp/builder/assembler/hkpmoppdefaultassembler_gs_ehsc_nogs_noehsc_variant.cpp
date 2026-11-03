@@ -5,6 +5,7 @@
 
 // src/havok/physics/internal/collide/mopp/builder/assembler/hkpmoppdefaultassembler.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/physics/internal/collide/mopp/builder/assembler/hkpmoppdefaultassembler.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstddef>
 #include "fnv/decl/E06490Stack.h"
 #include "fnv/decl/FUN_00e06d70_Class.h"
 #include "fnv/decl/KdQuantizer.h"
@@ -1278,7 +1279,7 @@ struct FUN_00e065f0
     BvArray<BvFixup> m_buffer;
 
     FUN_00e065f0(unsigned int id) throw();
-    void* operator new(unsigned int n)
+    void* operator new(size_t n)
     {
         FUN_00e065f0* p = static_cast<FUN_00e065f0*>(GetBvRouter()->allocator->AllocateMemoryBlock(n));
         p->m_usMemSizeAndFlags = (unsigned short)n;
@@ -1389,7 +1390,7 @@ struct BvBuilder
 
     void FUN_00e08a60(BvNode* node, FUN_00e095d0_cls* parent, FUN_00e095d0_cls* stack, int depth, BvArray<int>* refs);
 };
-inline void* operator new(unsigned int, void* p)
+inline void* operator new(size_t, void* p)
 {
     return p;
 }
@@ -1539,7 +1540,7 @@ typedef signed char hkInt8;
 typedef signed short hkInt16;
 typedef unsigned char hkUint8;
 typedef unsigned short hkUint16;
-typedef unsigned __w64 hk_size_t;
+typedef size_t hk_size_t;
 class FinishingFlag
 {
   public:
@@ -1779,19 +1780,6 @@ template <typename T, typename Allocator> __forceinline hkArray<T, Allocator>::h
     HavokElementArray<T>::setOwnedData(p, n, cap);
 }
 typedef float hkReal;
-extern "C"
-{
-    extern __m128 _mm_add_ss(__m128 _A, __m128 _B);
-    extern __m128 _mm_sub_ss(__m128 _A, __m128 _B);
-    extern __m128 _mm_mul_ss(__m128 _A, __m128 _B);
-    extern __m128 _mm_mul_ps(__m128 _A, __m128 _B);
-    extern __m128 _mm_rsqrt_ss(__m128 _A);
-    extern __m128 _mm_andnot_ps(__m128 _A, __m128 _B);
-    extern __m128 _mm_cmpeq_ss(__m128 _A, __m128 _B);
-    extern __m128 _mm_shuffle_ps(__m128 _A, __m128 _B, unsigned int _Imm8);
-    extern __m128 _mm_set_ss(float _A);
-    extern __m128 _mm_setr_ps(float _A, float _B, float _C, float _D);
-};
 typedef __m128 hkQuadReal;
 class VectorComponentValue
 {

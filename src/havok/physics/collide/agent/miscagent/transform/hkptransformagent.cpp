@@ -2,6 +2,8 @@
 // src/havok/physics/collide/agent/miscagent/transform/hkptransformagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/miscagent/transform/hkptransformagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
+#include <xmmintrin.h>
 #include <intrin.h>
 #include "generated/data/vtables.h"
 #include <windows.h>
@@ -343,16 +345,8 @@ struct CallData { void* descriptor; float bound; unsigned int value; };
 struct Wrapper {
     void FUN_00d434a0(void*, void*, unsigned int, unsigned int);
 };
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128 {
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-    int m128_i32[4];
-    __int64 m128_i64[2];
-    unsigned int m128_u32[4];
-} __m128;
 #include "fnv/symbols_simd.h"
 
-extern "C" __m128 _mm_xor_ps(__m128 a, __m128 b);
 
 
 struct __declspec(align(16)) Vec4_d43620 {
@@ -795,9 +789,6 @@ S_00d431b0& S_00d431b0::CopyFrom(const S_00d431b0& aOther) {
     return *this;
 }
 
-extern "C" __m128 __cdecl _mm_mul_ps(__m128, __m128);
-extern "C" __m128 __cdecl _mm_add_ps(__m128, __m128);
-extern "C" __m128 __cdecl _mm_shuffle_ps(__m128, __m128, unsigned int);
 
 struct VectorComponentValue {
     __m128 m_vValue;
@@ -1297,7 +1288,7 @@ struct S_00d43030_RefObj {
     short m_sReferenceCount;
     virtual ~S_00d43030_RefObj() throw();
     __forceinline S_00d43030_RefObj() throw() { m_sReferenceCount = 1; }
-    __forceinline void* operator new(unsigned int nbytes)
+    __forceinline void* operator new(size_t nbytes)
     {
         S_00d43030_RefObj* b = static_cast<S_00d43030_RefObj*>((void*)static_cast<S_00d43030_Router*>(FUN_00c85750())->heap().allocate(nbytes));
         b->m_usMemSizeAndFlags = static_cast<unsigned short>(nbytes);
@@ -1394,13 +1385,6 @@ void __cdecl FUN_00d43370(int a2, int a1, const Input_d2e9* input, int a4, int a
 
 extern "C" void _ReadWriteBarrier(void);
 extern "C" unsigned __int64 __rdtsc(void);
-extern "C" __m128 _mm_load_ps(const float*);
-extern "C" void _mm_store_ps(float*, __m128);
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_unpacklo_ps(__m128, __m128);
-extern "C" __m128 _mm_unpackhi_ps(__m128, __m128);
-extern "C" __m128 _mm_movelh_ps(__m128, __m128);
-extern "C" __m128 _mm_movehl_ps(__m128, __m128);
 
 
 struct S_00d42b50_TimerCommand {
@@ -1559,8 +1543,8 @@ void S_00d42b50_Cls::FUN_00d42b50(const S_00d42b50_CdBody& bodyA, const S_00d42b
     const S_00d42b50_Motion* src = bodyA.m_pMotionState;
     _mm_store_ps(&ms.unk40.x, _mm_load_ps(&src->unk40.x));
     _mm_store_ps(&ms.unk50.x, _mm_load_ps(&src->unk50.x));
-    ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(ms.unk60), (void *)((const S_00d42b50_Vec*)&src->unk60), (const ::fnv_00c66320::__m128 *)(const ::S_00d42b50_Vec *)(&scratch.shape->m_rotation), {});
-    ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(ms.unk70), (void *)((const S_00d42b50_Vec*)&src->unk70), (const ::fnv_00c66320::__m128 *)(const ::S_00d42b50_Vec *)(&scratch.shape->m_rotation), {});
+    ::fnv_00c66320::FUN_00c66320((__m128 *)&(ms.unk60), (void *)((const S_00d42b50_Vec*)&src->unk60), (const __m128 *)(const ::S_00d42b50_Vec *)(&scratch.shape->m_rotation), {});
+    ::fnv_00c66320::FUN_00c66320((__m128 *)&(ms.unk70), (void *)((const S_00d42b50_Vec*)&src->unk70), (const __m128 *)(const ::S_00d42b50_Vec *)(&scratch.shape->m_rotation), {});
 
     __m128 delta = _mm_sub_ps(_mm_load_ps(&src->unk80.x), _mm_load_ps(&xf.t.x));
     __m128 xcol = _mm_load_ps(&xf.c0.x);

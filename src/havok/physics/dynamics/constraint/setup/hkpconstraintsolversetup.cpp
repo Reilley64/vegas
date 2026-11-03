@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/constraint/setup/hkpconstraintsolversetup.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/setup/hkpconstraintsolversetup.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <xmmintrin.h>
 #include <windows.h>
 #include "fnv/symbols_00c90000.h"
 #include "fnv/symbols_00d01000.h"
@@ -197,13 +198,7 @@ D88310Bool __cdecl CheckTotalsWithinLimits(D88470Obj* obj, D88470Elem** begin, i
         return false;
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 
-extern "C" __m128 _mm_setzero_ps();
 
 struct hkVector4D886
 {
@@ -921,7 +916,6 @@ int __cdecl FUN_00d883c0(const S883_Island& island, char* buffer, int bufferSize
     return size;
 }
 
-extern "C" void _mm_prefetch(char const*, int);
 extern const char str_010d3d70[];
 extern const char str_010d3d60[];
 

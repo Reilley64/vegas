@@ -3,6 +3,7 @@
 // byte only under /MT /O2 /GS- /EHsc /Gy (unit src/havok/physics/internal/collide/mopp/builder/mediator/shape/hkpmoppshapemediator.cpp lists /MT /O2 /GS /EHsc /Gy). Declarations copied from that unit's skeleton; move the functions
 // to their real unit once identified.
 
+#include <xmmintrin.h>
 #include "fnv/decl/FUN_00dd51d0_class.h"
 #include "fnv/symbols_00c85000.h"
 int ReadIntField(const void* a, int* b);
@@ -87,15 +88,6 @@ struct FnvCpu_FUN_00dd5290_CpuObject
     int value;
     int FUN_00dd5290();
 };
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C"
-{
-    __m128 _mm_xor_ps(__m128, __m128);
-}
 
 extern __m128 DAT_010c44d0;
 typedef float hkReal;
@@ -151,12 +143,6 @@ struct ProjectionShape
 };
 
 namespace fnv_00dd5440 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C" __m128 _mm_xor_ps(__m128, __m128);
 
 extern __m128 DAT_010c44d0;
 

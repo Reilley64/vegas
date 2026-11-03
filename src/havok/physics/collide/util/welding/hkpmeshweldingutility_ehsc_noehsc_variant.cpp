@@ -5,6 +5,8 @@
 
 // src/havok/physics/collide/util/welding/hkpmeshweldingutility.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/util/welding/hkpmeshweldingutility.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstddef>
+#include <xmmintrin.h>
 #include <new>
 #include <cmath>
 #include "fnv/decl/FUN_005609f0_shell.h"
@@ -245,7 +247,7 @@ __declspec(align(16)) struct QueryBuffer
 int FUN_00dde4c0(Iface* self, void* a, void* b, int idx, int zero, int* out);
 bool* CheckSubQueries(bool* result, void* key, Iface* self);
 void* FUN_00c908c0(void* alloc, void* arr, int numElems, int elemSize);
-inline void* operator new(unsigned int, void* p)
+inline void* operator new(size_t, void* p)
 {
     return p;
 }
@@ -312,17 +314,7 @@ struct LocalBuffer
 };
 int FUN_00dde4c0(ObjOuter* p2, Transform* trans, void* p1, int i, void* p3, int* outLocal);
 int __cdecl CheckTransformAndProcess(void* p1, ObjOuter* pOuter, void* p3, short* outWord);
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 #include "fnv/symbols_simd.h"
-extern "C" __m128 _mm_sub_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_and_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_cmple_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_load_ps1(const float* p);
-extern "C" int _mm_movemask_ps(__m128 a);
 class hkBoolDDCE
 {
   public:
@@ -405,33 +397,6 @@ __declspec(align(16)) struct FUN_00ddea00_cls
 
     FUN_00ddea00_cls* CopyFromSource(const FUN_00ddea00_src* src);
 };
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, int);
-extern "C" __m128 _mm_add_ss(__m128, __m128);
-extern "C" void _mm_store_ss(float*, __m128);
-extern "C"
-{
-
-    __m128 _mm_set_ss(float);
-
-    __m128 _mm_sub_ps(__m128, __m128);
-
-    __m128 _mm_mul_ps(__m128, __m128);
-
-    __m128 _mm_mul_ss(__m128, __m128);
-
-    __m128 _mm_add_ss(__m128, __m128);
-
-    __m128 _mm_sub_ss(__m128, __m128);
-
-    __m128 _mm_shuffle_ps(__m128, __m128, int);
-
-    __m128 _mm_rsqrt_ss(__m128);
-
-    __m128 _mm_cmpeq_ss(__m128, __m128);
-
-    __m128 _mm_andnot_ps(__m128, __m128);
-}
 struct ScalarNormal
 {
     __m128 q;
@@ -577,20 +542,6 @@ struct Track : public S_00ddecf0
     float FUN_00dded60();
 };
 
-extern "C"
-{
-    __m128 _mm_load_ss(const float*);
-    __m128 _mm_set_ss(float);
-    __m128 _mm_set_ps1(float);
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_sub_ss(__m128, __m128);
-    __m128 _mm_mul_ss(__m128, __m128);
-    __m128 _mm_min_ps(__m128, __m128);
-    __m128 _mm_max_ps(__m128, __m128);
-    __m128 _mm_rsqrt_ss(__m128);
-    __m128 _mm_cmpeq_ss(__m128, __m128);
-    __m128 _mm_andnot_ps(__m128, __m128);
-}
 
 extern char DAT_010d7f80;
 

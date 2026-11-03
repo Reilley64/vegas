@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 
+#include <cstddef>
 #include <intrin.h>
 #include <windows.h>
 #include <new>
@@ -553,7 +554,7 @@ void hkHandlerD085::FUN_00d08570(hkEntityD085* entity)
 }
 
 struct PlaceTagD088 {};
-inline void* operator new(unsigned int, void* p, PlaceTagD088) throw() { __assume(p != 0); return p; }
+inline void* operator new(size_t, void* p, PlaceTagD088) throw() { __assume(p != 0); return p; }
 inline void operator delete(void*, void*, PlaceTagD088) throw() {}
 
 template <class T>
@@ -2187,7 +2188,7 @@ FUN_00d0b0d0::~FUN_00d0b0d0()
 }
 }  // namespace fnv_00d0b0d0
 
-inline void* operator new(unsigned int, void* location) { return location; }
+inline void* operator new(size_t, void* location) { return location; }
 struct Target {
     int unk00;
 };

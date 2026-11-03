@@ -2,6 +2,7 @@
 // src/havok/physics/collide/shape/convex/sphere/hkpsphereshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/convex/sphere/hkpsphereshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <xmmintrin.h>
 #include <windows.h>
 #include "fnv/decl/FunctionContext.h"
 #include "fnv/symbols_010c4000.h"
@@ -45,15 +46,7 @@ int FUN_00cd87f0(int a1, int a2)
     return 0x20;
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 #include "fnv/symbols_simd.h"
-extern "C" __m128 _mm_load_ps1(const float*);
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ps(__m128, __m128);
 
 struct Shape_00cd8100
 {
@@ -165,25 +158,6 @@ void* HostCD81::RecordTimerCommands(void* pvResult, int a, int b)
     return pvResult;
 }
 
-extern "C" __m128 _mm_set_ps(float, float, float, float);
-extern "C" __m128 _mm_setr_ps(float, float, float, float);
-extern "C" __m128 _mm_set_ps1(float);
-extern "C" __m128 _mm_load_ps(const float*);
-extern "C" void _mm_store_ps(float*, __m128);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_cmplt_ps(__m128, __m128);
-extern "C" __m128 _mm_cmple_ps(__m128, __m128);
-extern "C" __m128 _mm_setzero_ps(void);
-extern "C" __m128 _mm_and_ps(__m128, __m128);
-extern "C" __m128 _mm_andnot_ps(__m128, __m128);
-extern "C" __m128 _mm_or_ps(__m128, __m128);
-extern "C" __m128 _mm_xor_ps(__m128, __m128);
-extern "C" __m128 _mm_rcp_ps(__m128);
-extern "C" __m128 _mm_rsqrt_ps(__m128);
-extern "C" __m128 _mm_load_ss(const float*);
-extern "C" __m128 _mm_unpacklo_ps(__m128, __m128);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, int);
-extern "C" int _mm_movemask_ps(__m128);
 extern "C" unsigned __int64 __rdtsc();
 extern "C" void _ReadWriteBarrier();
 class RayMask
@@ -505,8 +479,6 @@ RayMask ProbeSphere::FUN_00cd8220(const RayQuerySet& ray, RayHits& hits, const R
     return active;
 }
 
-extern "C" __m128 _mm_setzero_ps(void);
-extern "C" void _mm_store_ps(float*, __m128);
 
 // @fnv 0x00cd8060
 void FUN_00cd8060(int direction, float* vertexOut)
@@ -542,7 +514,6 @@ void FUN_00cd8080(int aUnused, __int64 packed)
     }
 }
 
-extern "C" __m128 _mm_setzero_ps(void);
 
 struct __declspec(align(16)) CentreVectorCD80
 {

@@ -7,6 +7,7 @@
 // src/havok/physics/dynamics/motion/util/hkprigidmotionutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/motion/util/hkprigidmotionutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <xmmintrin.h>
 #include <math.h>
 #include "fnv/decl/FUN_005611c0_t.h"
 #include "fnv/decl/RotationRows.h"
@@ -19,25 +20,9 @@
 #include "fnv/symbols_010ce000.h"
 #include "fnv/symbols_01268000.h"
 namespace StepReleaseFitPrivate {
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-} __m128;
 extern "C"
 {
     void _ReadWriteBarrier();
-    void _mm_store_ps(float*, __m128);
-    __m128 _mm_load_ss(const float*);
-    __m128 _mm_shuffle_ps(__m128, __m128, int);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_and_ps(__m128, __m128);
-    __m128 _mm_cmplt_ps(__m128, __m128);
-    __m128 _mm_cmpeq_ps(__m128, __m128);
-    int _mm_movemask_ps(__m128);
-    void _mm_store_ss(float*, __m128);
 }
 
 static __forceinline __m128 StepReleaseFitbroadcast(float f)
@@ -131,7 +116,7 @@ struct StepReleaseFitStepArgs
 };
 static __forceinline bool StepReleaseFitcheckVelocities(StepReleaseFitMotion* motion)
 {
-    __m128 limit = (*reinterpret_cast<const ::StepReleaseFitPrivate::__m128 *>(&::ApplyForcesStepPrivate::DAT_010cbf80));
+    __m128 limit = (*reinterpret_cast<const __m128 *>(&::ApplyForcesStepPrivate::DAT_010cbf80));
     __m128 mask = DAT_01017d10;
     __m128 linear = motion->linearVelocity;
     __m128 angular = motion->angularVelocity;
@@ -152,7 +137,7 @@ static __forceinline void StepReleaseFitadvanceMotion(StepReleaseFitStateArgumen
 {
     state.center1 = _mm_add_ps(
         _mm_mul_ps(StepReleaseFitbroadcast(StepReleaseFitscalarCopy(info.deltaTime)), linearVelocity), state.center1);
-    state.center1.m128_f32[3] = info.invDeltaTime;
+    state.center1[3] = info.invDeltaTime;
     _ReadWriteBarrier();
     StepReleaseFitQuaternion previous;
     previous.ix = state.rotation1.ix;
@@ -186,7 +171,7 @@ static __forceinline void StepReleaseFitadvanceMotion(StepReleaseFitStateArgumen
     reinterpret_cast<::FUN_005611c0_t *>(&(previous))->FUN_005611c0();
     state.deltaAngle = _mm_add_ps(*(__m128*)&increment, *(__m128*)&increment);
     float angle = (float)sqrt(angleSquared);
-    state.deltaAngle.m128_f32[3] = (float)(angle * ::DAT_0101ff40);
+    state.deltaAngle[3] = (float)(angle * ::DAT_0101ff40);
     _mm_store_ps((float*)&state.rotation1, *(__m128*)&previous);
     reinterpret_cast<::RotationRows *>(&(state))->FUN_00cb2d90((void *)(&late.p->rotation1));
 }
@@ -201,14 +186,14 @@ extern "C" void __cdecl FUN_00d28680(StepReleaseFitStepArgs args)
         StepReleaseFitMotionState& state = motion->state;
         if (!StepReleaseFitcheckVelocities(motion))
         {
-            motion->linearVelocity = (*reinterpret_cast<const ::StepReleaseFitPrivate::__m128 *>(&::DAT_01268370));
-            motion->angularVelocity = (*reinterpret_cast<const ::StepReleaseFitPrivate::__m128 *>(&::DAT_01268370));
+            motion->linearVelocity = (*reinterpret_cast<const __m128 *>(&::DAT_01268370));
+            motion->angularVelocity = (*reinterpret_cast<const __m128 *>(&::DAT_01268370));
         }
         __m128 center = state.center1;
         const StepReleaseFitStepInfo* info = args.info;
         _ReadWriteBarrier();
         state.center0 = center;
-        state.center0.m128_f32[3] = info->startTime;
+        state.center0[3] = info->startTime;
         _ReadWriteBarrier();
         __m128 oldLinear = motion->linearVelocity;
         unsigned int maxLinearIndex = state.maxLinear;

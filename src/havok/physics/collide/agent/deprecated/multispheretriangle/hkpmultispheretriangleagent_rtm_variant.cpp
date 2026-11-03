@@ -4,6 +4,8 @@
 
 // src/havok/physics/collide/agent/deprecated/multispheretriangle/hkpmultispheretriangleagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/deprecated/multispheretriangle/hkpmultispheretriangleagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstddef>
+#include <xmmintrin.h>
 #include <intrin.h>
 #include <windows.h>
 #include "fnv/symbols_00d37000.h"
@@ -29,7 +31,7 @@ struct S_00d37e60_RefObj {
     short m_sReferenceCount;
     S_00d37e60_RefObj() { m_sReferenceCount = 1; }
     virtual ~S_00d37e60_RefObj() throw() {}
-    void* operator new(unsigned int nbytes)
+    void* operator new(size_t nbytes)
     {
         S_00d37e60_RefObj* b = static_cast<S_00d37e60_RefObj*>(FUN_00c85750()->heap().AllocateMemoryBlock(nbytes));
         b->m_usMemSizeAndFlags = (unsigned short)nbytes;
@@ -127,14 +129,7 @@ struct FUN_00d38ed0_Local
 // Global object whose address (0x10ce7fc) is stored into the record.
 // Callee at 0x00d386c0: __cdecl, four arguments,
 // the last one being a pointer to the record built on the stack.
-union __declspec(intrin_type) __declspec(align(16)) __m128 { float m128_f32[4]; unsigned __int64 m128_u64[2]; };
 #include "fnv/symbols_simd.h"
-extern "C" {
-__m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-__m128 _mm_mul_ps(__m128, __m128);
-__m128 _mm_add_ps(__m128, __m128);
-__m128 _mm_xor_ps(__m128, __m128);
-}
 struct SimplexVertex
 {
     __m128 m_kPointA;
@@ -178,7 +173,7 @@ struct Agent : AgentBase
     void FUN_00d38f10(int a, int b, int c, Simplex* s);
 };
 struct hkVector4f { float x; float y; float z; float w; };
-struct hkVector4 { __m128 m_vComponents; float getW() const { return m_vComponents.m128_f32[3]; } };
+struct hkVector4 { __m128 m_vComponents; float getW() const { return m_vComponents[3]; } };
 union hkQuadVector { hkVector4f v; __m128 q; };
 struct hkTransformf {
     hkVector4f m_kColumn0;
@@ -258,7 +253,6 @@ void __cdecl FUN_00cd7850(const hkVector4& position, const hkVector4* triangle, 
 extern "C" {
 void _ReadWriteBarrier(void);
 unsigned __int64 __rdtsc(void);
-__m128 _mm_load_ss(const float*);
 }
 struct VectorWords { unsigned int x, y, z, w; };
 struct FloatWords { float x, y, z, w; };
@@ -392,17 +386,6 @@ float threshold = input->tolerance + radiusSum;
     }
 }
 
-namespace SphereTriangleProcessSimd {
-union __declspec(intrin_type) __declspec(align(16)) __m128 { float m128_f32[4]; unsigned __int64 m128_u64[2]; };
-extern "C" {
-__m128 _mm_load_ss(const float*);
-__m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-__m128 _mm_mul_ps(__m128, __m128);
-__m128 _mm_add_ps(__m128, __m128);
-}
-}
-extern "C" {
-}
 
 template<class T> class ProcessValue {
     T value;
@@ -415,19 +398,19 @@ public:
 
 class ProcessTransform;
 class ProcessScalar {
-    SphereTriangleProcessSimd::__m128 value;
+    __m128 value;
 public:
-    ProcessScalar(float x) { value = SphereTriangleProcessSimd::_mm_load_ss(&x); }
-    __forceinline SphereTriangleProcessSimd::__m128 broadcast() const { return SphereTriangleProcessSimd::_mm_shuffle_ps(value, value, 0); }
+    ProcessScalar(float x) { value = _mm_load_ss(&x); }
+    __forceinline __m128 broadcast() const { return _mm_shuffle_ps(value, value, 0); }
 };
 class ProcessVector {
-    SphereTriangleProcessSimd::__m128 value;
+    __m128 value;
 public:
     __forceinline void operator=(const ProcessVector& x) { value = x.value; }
     __forceinline float& operator()(int i) { return reinterpret_cast<float*>(&value)[i]; }
     __forceinline const float& operator()(int i) const { return reinterpret_cast<const float*>(&value)[i]; }
     __forceinline void addScaled(const ProcessVector& a, const ProcessVector& b, const ProcessScalar& scale) {
-        value = SphereTriangleProcessSimd::_mm_add_ps(a.value, SphereTriangleProcessSimd::_mm_mul_ps(scale.broadcast(), b.value));
+        value = _mm_add_ps(a.value, _mm_mul_ps(scale.broadcast(), b.value));
     }
     __forceinline void transform(const ProcessTransform&, const ProcessVector&);
 };
@@ -457,13 +440,13 @@ public:
 };
 void ProcessVector::transform(const ProcessTransform& t, const ProcessVector& b) {
     const ProcessRotation& r = t.getRotation();
-    SphereTriangleProcessSimd::__m128 x = SphereTriangleProcessSimd::_mm_shuffle_ps(b.value, b.value, 0);
-    SphereTriangleProcessSimd::__m128 rx = SphereTriangleProcessSimd::_mm_mul_ps(r.column(0).value, x);
-    SphereTriangleProcessSimd::__m128 y = SphereTriangleProcessSimd::_mm_shuffle_ps(b.value, b.value, 0x55);
-    SphereTriangleProcessSimd::__m128 ry = SphereTriangleProcessSimd::_mm_mul_ps(r.column(1).value, y);
-    SphereTriangleProcessSimd::__m128 z = SphereTriangleProcessSimd::_mm_shuffle_ps(b.value, b.value, 0xaa);
-    SphereTriangleProcessSimd::__m128 rz = SphereTriangleProcessSimd::_mm_mul_ps(r.column(2).value, z);
-    value = SphereTriangleProcessSimd::_mm_add_ps(SphereTriangleProcessSimd::_mm_add_ps(rx, ry), SphereTriangleProcessSimd::_mm_add_ps(rz, t.getTranslation().value));
+    __m128 x = _mm_shuffle_ps(b.value, b.value, 0);
+    __m128 rx = _mm_mul_ps(r.column(0).value, x);
+    __m128 y = _mm_shuffle_ps(b.value, b.value, 0x55);
+    __m128 ry = _mm_mul_ps(r.column(1).value, y);
+    __m128 z = _mm_shuffle_ps(b.value, b.value, 0xaa);
+    __m128 rz = _mm_mul_ps(r.column(2).value, z);
+    value = _mm_add_ps(_mm_add_ps(rx, ry), _mm_add_ps(rz, t.getTranslation().value));
 }
 static __forceinline void processPoints(const ProcessTransform& t, const ProcessVector* src, int count, ProcessVector* dst) {
     ProcessTransform copy = t;

@@ -2,6 +2,7 @@
 // src/havok/physics/collide/agent/convexagent/spheretriangle/hkpspheretriangleagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/convexagent/spheretriangle/hkpspheretriangleagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <xmmintrin.h>
 #include <windows.h>
 #include "fnv/decl/S00d3d6b0_SphereTriAgent.h"
 #include "fnv/decl/TargetAgent_Cand.h"
@@ -160,19 +161,7 @@ struct D3DD10Object
     void FUN_00d3dd10(unsigned int p0, unsigned int p1, unsigned int p2, unsigned int p3);
 };
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 #include "fnv/symbols_simd.h"
-extern "C"
-{
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_xor_ps(__m128, __m128);
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-}
 
 struct hkVector4q
 {
@@ -310,12 +299,6 @@ extern "C"
 {
     unsigned __int64 __rdtsc();
     void _ReadWriteBarrier();
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_unpacklo_ps(__m128, __m128);
-    __m128 _mm_unpackhi_ps(__m128, __m128);
-    __m128 _mm_movelh_ps(__m128, __m128);
-    __m128 _mm_movehl_ps(__m128, __m128);
-    void _mm_store_ps(float*, __m128);
 }
 
 

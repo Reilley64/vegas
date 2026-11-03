@@ -227,23 +227,6 @@ Own_00ddcd60* make_00ddcd60()
     return &o;
 }
 
-namespace ClipSimd {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float x, y, z, w;
-};
-extern "C"
-{
-    __m128 _mm_load_ps(const float*);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_shuffle_ps(__m128, __m128, int);
-    __m128 _mm_load_ss(const float*);
-    void _mm_store_ss(float*, __m128);
-}
-}
 #include "fnv/symbols_simd.h"
 
 struct __declspec(align(16)) hkVector4
@@ -254,19 +237,19 @@ struct __declspec(align(16)) hkVector4
         {
             float x, y, z, w;
         };
-        ClipSimd::__m128 q;
+        __m128 q;
     };
     __forceinline const float& operator()(int i) const
     {
         return (&x)[i];
     }
 };
-static __forceinline float dot3(ClipSimd::__m128 a, ClipSimd::__m128 b)
+static __forceinline float dot3(__m128 a, __m128 b)
 {
-    ClipSimd::__m128 product = ClipSimd::_mm_mul_ps(a, b);
-    ClipSimd::__m128 sum = ClipSimd::_mm_add_ss(ClipSimd::_mm_shuffle_ps(product, product, 0x55), product);
+    __m128 product = _mm_mul_ps(a, b);
+    __m128 sum = _mm_add_ss(_mm_shuffle_ps(product, product, 0x55), product);
     float r;
-    ClipSimd::_mm_store_ss(&r, ClipSimd::_mm_add_ss(ClipSimd::_mm_shuffle_ps(product, product, 0xaa), sum));
+    _mm_store_ss(&r, _mm_add_ss(_mm_shuffle_ps(product, product, 0xaa), sum));
     return r;
 }
 struct Hit
@@ -281,7 +264,7 @@ Hit __cdecl FUN_00ddd0b0(const hkVector4& start, const hkVector4& end, int plane
 {
     hkVector4 a = start;
     hkVector4 b = end;
-    const ClipSimd::__m128& ONE = (*reinterpret_cast<const ::ClipSimd::__m128 *>((void *)&::DAT_010ec7f0));
+    const __m128& ONE = (*reinterpret_cast<const __m128 *>((void *)&::DAT_010ec7f0));
     for (int i = 0; i < planeCount; ++i)
     {
         hkVector4 plane = planes[i];
@@ -295,21 +278,21 @@ Hit __cdecl FUN_00ddd0b0(const hkVector4& start, const hkVector4& end, int plane
         if (da * db < 0.0f)
         {
             float fraction = da / (da - db);
-            ClipSimd::__m128 t = ClipSimd::_mm_load_ss(&fraction);
-            t = ClipSimd::_mm_shuffle_ps(t, t, 0);
-            ClipSimd::__m128 p = ClipSimd::_mm_add_ps(ClipSimd::_mm_mul_ps(ClipSimd::_mm_sub_ps(ONE, t), a.q),
-                                                      ClipSimd::_mm_mul_ps(t, b.q));
+            __m128 t = _mm_load_ss(&fraction);
+            t = _mm_shuffle_ps(t, t, 0);
+            __m128 p = _mm_add_ps(_mm_mul_ps(_mm_sub_ps(ONE, t), a.q),
+                                                      _mm_mul_ps(t, b.q));
             if (da > 0.0f)
                 a.q = p;
             else
                 b.q = p;
         }
     }
-    ClipSimd::__m128 origin = start.q;
-    ClipSimd::__m128 direction = ClipSimd::_mm_sub_ps(end.q, origin);
+    __m128 origin = start.q;
+    __m128 direction = _mm_sub_ps(end.q, origin);
     float lengthSquared = dot3(direction, direction);
-    float firstFraction = dot3(ClipSimd::_mm_sub_ps(a.q, origin), direction) / lengthSquared;
-    float lastFraction = dot3(ClipSimd::_mm_sub_ps(b.q, origin), direction) / lengthSquared;
+    float firstFraction = dot3(_mm_sub_ps(a.q, origin), direction) / lengthSquared;
+    float lastFraction = dot3(_mm_sub_ps(b.q, origin), direction) / lengthSquared;
     *first = firstFraction;
     *last = lastFraction;
     return Hit(true);

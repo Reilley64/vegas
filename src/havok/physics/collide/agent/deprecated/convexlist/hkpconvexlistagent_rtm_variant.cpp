@@ -4,6 +4,8 @@
 
 // src/havok/physics/collide/agent/deprecated/convexlist/hkpconvexlistagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/deprecated/convexlist/hkpconvexlistagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstddef>
+#include <xmmintrin.h>
 #include <windows.h>
 #include <new>
 #include "fnv/decl/Cls_dafcd0.h"
@@ -198,7 +200,7 @@ class hkpCollisionAgentD33D
     unsigned short m_usMemSizeAndFlags;
     short m_sReferenceCount;
 
-    static __forceinline void* operator new(unsigned int uiSize) throw()
+    static __forceinline void* operator new(size_t uiSize) throw()
     {
         hkpCollisionAgentD33D* p = (hkpCollisionAgentD33D*)FUN_00c85750()->heap().AllocateMemoryBlock(uiSize);
         p->m_usMemSizeAndFlags = (unsigned short)uiSize;
@@ -252,7 +254,7 @@ struct hkArrayD33E
 
     hkArrayD33E() : m_data(0), m_iElementCount(0), m_iCapacityState(0x80000000)
     {}
-    static void* operator new(unsigned int, void* p) throw()
+    static void* operator new(size_t, void* p) throw()
     {
         return p;
     }
@@ -532,10 +534,6 @@ struct StringCursor
     int unk08;
     char* m_endCommandPointer;
 };
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-} __m128;
 struct hkVector4
 {
     __m128 m_vComponents;
@@ -551,7 +549,7 @@ struct hkContactPoint
     hkVector4 m_vSeparatingNormal;
     float getDistance() const
     {
-        return m_vSeparatingNormal.m_vComponents.m128_f32[3];
+        return m_vSeparatingNormal.m_vComponents[3];
     }
     hkContactPoint& operator=(const hkContactPoint& other)
     {
@@ -594,7 +592,7 @@ struct hkpClosestCdPointCollector
 
     hkpClosestCdPointCollector()
     {
-        m_kHitPoint.m_kPoint.m_vSeparatingNormal.m_vComponents.m128_f32[3] = ::DAT_0104da48;
+        m_kHitPoint.m_kPoint.m_vSeparatingNormal.m_vComponents[3] = ::DAT_0104da48;
         m_fEarlyOutDistance = ::DAT_0104da48;
         vtbl = &DAT_010c476c;
         m_kHitPoint.m_pRootCollidableA = 0;
@@ -719,17 +717,6 @@ struct ProfileIndex
 static __forceinline void* profileBuffer(const ProfileIndex& index)
 {
     return TlsGetValue(index.value);
-}
-extern "C"
-{
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-    __m128 _mm_sqrt_ss(__m128);
-    void _mm_store_ss(float*, __m128);
-    __m128 _mm_load_ss(const float*);
 }
 static __forceinline __m128 Splat(const float& f)
 {

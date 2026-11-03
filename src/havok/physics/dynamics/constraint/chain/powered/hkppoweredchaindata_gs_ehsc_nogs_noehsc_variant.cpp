@@ -5,6 +5,7 @@
 
 // src/havok/physics/dynamics/constraint/chain/powered/hkppoweredchaindata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/chain/powered/hkppoweredchaindata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstddef>
 #include "fnv/decl/FUN_00827200_class.h"
 #include "fnv/decl/RotationRows.h"
 #include "fnv/symbols_00c90000.h"
@@ -178,7 +179,7 @@ void caller_e3b680()
     FUN_00e3b680(*(Vec4*)g_b, *(Vec4*)g_a, *(Vec4*)g_r);
 }
 
-inline void* operator new(unsigned int, void* p)
+inline void* operator new(size_t, void* p)
 {
     return p;
 }
@@ -520,7 +521,7 @@ void PoweredChain::FUN_00e3ba40(const QueryInput& input, QueryOutput& output)
         }
         {
             Vector product;
-            ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(product), (void *)(&rotationB), (const ::fnv_00c66320::__m128 *)(const ::Vector *)(&getInfo(i).targetB), {});
+            ::fnv_00c66320::FUN_00c66320((__m128 *)&(product), (void *)(&rotationB), (const __m128 *)(const ::Vector *)(&getInfo(i).targetB), {});
             rotationB.simd = product.simd;
         }
         Vector& target = getInfo(i).target;
@@ -536,8 +537,8 @@ void PoweredChain::FUN_00e3ba40(const QueryInput& input, QueryOutput& output)
         if (squaredLength == 0.0f)
             previousTarget.simd = target.simd;
         Vector targetWorld, oldTargetWorld;
-        ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(targetWorld), (void *)(&rotationA), (const ::fnv_00c66320::__m128 *)(const ::Vector *)(&target), {});
-        ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(oldTargetWorld), (void *)(&rotationA), (const ::fnv_00c66320::__m128 *)(const ::Vector *)(&previousTarget), {});
+        ::fnv_00c66320::FUN_00c66320((__m128 *)&(targetWorld), (void *)(&rotationA), (const __m128 *)(const ::Vector *)(&target), {});
+        ::fnv_00c66320::FUN_00c66320((__m128 *)&(oldTargetWorld), (void *)(&rotationA), (const __m128 *)(const ::Vector *)(&previousTarget), {});
         previous->x = target.x;
         previous->y = target.y;
         previous->z = target.z;
@@ -561,7 +562,7 @@ void PoweredChain::FUN_00e3ba40(const QueryInput& input, QueryOutput& output)
             MotorState* __restrict motorStates = static_cast<MotorState*>(motorStep(solverResults));
             motorInput.state.unk00 = 0.0f;
             motorInput.state.unk04 = 0.0f;
-            ::FUN_00d6cd70((*(const ::__m128 *)(&direction)), (*(const ::Pair409 *)(&query)), (*(::Jacobian409 *)(states)), (*(float *)(&motorInput.currentVelocity)));
+            ::FUN_00d6cd70((*(const __m128 *)(&direction)), (*(const ::Pair409 *)(&query)), (*(::Jacobian409 *)(states)), (*(float *)(&motorInput.currentVelocity)));
             motorInput.positionError = reinterpret_cast<float*>(&error)[axis];
             motorInput.deltaTarget = reinterpret_cast<float*>(&oldError)[axis];
             motorInput.step = &query;

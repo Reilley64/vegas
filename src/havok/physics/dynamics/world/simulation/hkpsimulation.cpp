@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/world/simulation/hkpsimulation.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/simulation/hkpsimulation.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <xmmintrin.h>
 #include <intrin.h>
 #include <windows.h>
 #include <new>
@@ -951,8 +952,6 @@ struct MyObj : FUN_00cfa400_Obj {
     void FUN_00cfa430(void* first, void* second, S00cfa430_Data* data, unsigned char flags);
 };
 
-union __declspec(intrin_type) __declspec(align(16)) __m128 { float m128_f32[4]; unsigned __int64 m128_u64[2]; };
-extern "C" __m128 _mm_load_ss(const float* p);
 
 struct S00cfa6e0_Src {
     int u00;
@@ -1606,8 +1605,6 @@ extern const char str_010cc574[];
 extern const char str_010cc58c[];
 extern const char str_010cc55c[];
 extern const char str_010cc5a4[];
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, int);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
 struct CommandTimingEntry { const char* name; unsigned int time; unsigned int timeHigh; };
 struct TimerListCommand { const char* name; unsigned int time; unsigned int timeHigh; const char* first; };
 struct MonitorStream {
@@ -2521,27 +2518,6 @@ void Sim::FUN_00cf8b00()
 }
 }  // namespace fnv_00cf8b00
 
-extern "C" {
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_sub_ss(__m128, __m128);
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_mul_ss(__m128, __m128);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_andnot_ps(__m128, __m128);
-    __m128 _mm_xor_ps(__m128, __m128);
-    __m128 _mm_cmpeq_ss(__m128, __m128);
-    __m128 _mm_sqrt_ss(__m128);
-    __m128 _mm_rsqrt_ss(__m128);
-    float _mm_cvtss_f32(__m128);
-    __m128 _mm_set_ss(float);
-    __m128 _mm_set_ps1(float);
-    __m128 _mm_setzero_ps();
-    __m128 _mm_load_ps(const float*);
-    __m128 _mm_load_ss(const float*);
-    void _mm_store_ps(float*, __m128);
-    void _mm_store_ss(float*, __m128);
-}
 struct Allocator {
     virtual void slot0(); virtual void slot1(); virtual void slot2(); virtual void slot3();
     virtual void freeBlock(void*, int);
@@ -2870,7 +2846,7 @@ void SimulationContext::FUN_00cf9480(Body** bodies, int count, CollisionInput* i
                         axis=_mm_mul_ps(_mm_shuffle_ps(inverseScalar,inverseScalar,0),axis);
                         Quaternion turn, rotated;
                         turn.FUN_00cb2450(&axis,savedRotation);
-                        ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(rotated), (void *)(&turn),(const ::fnv_00c66320::__m128 *)(const ::Quaternion *)(&body->motion.rotation1), {});
+                        ::fnv_00c66320::FUN_00c66320((__m128 *)&(rotated), (void *)(&turn),(const __m128 *)(const ::Quaternion *)(&body->motion.rotation1), {});
                         reinterpret_cast<::RotationRows *>(&(transform))->FUN_00cb2d90((void *)(&rotated));
                         updateTranslation(body);
                         ::FUN_00cfdbe0((::InvalidateTimDetail::Node *)((int)pair),(*(const ::InvalidateTimDetail::Input *)((int)input)));
@@ -2885,7 +2861,7 @@ void SimulationContext::FUN_00cf9480(Body** bodies, int count, CollisionInput* i
                         perpendicular=_mm_mul_ps(_mm_shuffle_ps(refined,refined,0),perpendicular);
                         Quaternion sideways, oriented;
                         sideways.FUN_00cb2450(&perpendicular,savedRotation);
-                        ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(oriented), (void *)(&sideways),(const ::fnv_00c66320::__m128 *)(const ::Quaternion *)((Quaternion*)&angle), {});
+                        ::fnv_00c66320::FUN_00c66320((__m128 *)&(oriented), (void *)(&sideways),(const __m128 *)(const ::Quaternion *)((Quaternion*)&angle), {});
                         reinterpret_cast<::RotationRows *>(&(transform))->FUN_00cb2d90((void *)(&oriented));
                         updateTranslation(body);
                         ::FUN_00cfdbe0((::InvalidateTimDetail::Node *)((int)pair),(*(const ::InvalidateTimDetail::Input *)((int)input)));

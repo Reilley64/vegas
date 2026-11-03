@@ -118,7 +118,7 @@ public:
 
     __forceinline void set(Mask)
     {
-        m_uiMask = (*reinterpret_cast<const ::__m128 *>(&::DAT_01268460));
+        m_uiMask = (*reinterpret_cast<const __m128 *>(&::DAT_01268460));
     }
 
 private:

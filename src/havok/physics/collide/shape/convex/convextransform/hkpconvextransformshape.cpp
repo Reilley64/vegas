@@ -2,6 +2,7 @@
 // src/havok/physics/collide/shape/convex/convextransform/hkpconvextransformshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/convex/convextransform/hkpconvextransformshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <xmmintrin.h>
 #include <windows.h>
 #include <new>
 #include "fnv/decl/FUN_00c9e340.h"
@@ -150,24 +151,6 @@ void Cls_00d5d800::GetAabb(const hkTransform& t, float tol, Aabb_00d5d800& out)
     reinterpret_cast<Shape_00d5d800*>(m_pContainedShape)->getAabb(tmp, tol, out);
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C"
-{
-    __m128 _mm_load_ps(const float*);
-    void _mm_store_ps(float*, __m128);
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_unpacklo_ps(__m128, __m128);
-    __m128 _mm_unpackhi_ps(__m128, __m128);
-    __m128 _mm_movelh_ps(__m128, __m128);
-    __m128 _mm_movehl_ps(__m128, __m128);
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-}
 
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
@@ -315,19 +298,6 @@ hkBoolResult RtStandin::FUN_00d5d940(const ShapeRayCastQuery& input, ShapeRayCas
 
 namespace fnv_00d5dae0 {
 extern "C" void _ReadWriteBarrier(void);
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ps(__m128, __m128);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_unpacklo_ps(__m128, __m128);
-extern "C" __m128 _mm_unpackhi_ps(__m128, __m128);
-extern "C" __m128 _mm_movelh_ps(__m128, __m128);
-extern "C" __m128 _mm_movehl_ps(__m128, __m128);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
 
 extern "C" const char str_010d1084[];
 extern "C" unsigned __int64 __rdtsc(void);
@@ -552,15 +522,7 @@ void FUN_00d5de40_Obj::FUN_00d5de40(hkVector4* value)
 }
 
 namespace fnv_00d5dea0 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 
-extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_add_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
 
 struct hkTransformD5DE;
 
@@ -715,7 +677,6 @@ Standin* Standin::FUN_00d5d7a0(const hkpConvexShape* childShape, const AlignedTr
     return this;
 }
 
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
 
 struct TransformChild
 {
@@ -866,12 +827,6 @@ const hkSphereq* hkpConvexTransformShapeSpheres::FUN_00d5df10(hkSphereq* sphereB
     return sphereBuffer;
 }
 
-extern "C"
-{
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_load_ps1(const float*);
-    void _mm_store_ss(float*, __m128);
-}
 
 struct __declspec(align(16)) Vec4_d5d8
 {

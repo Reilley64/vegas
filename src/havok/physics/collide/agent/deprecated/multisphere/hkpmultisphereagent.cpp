@@ -2,6 +2,7 @@
 // src/havok/physics/collide/agent/deprecated/multisphere/hkpmultisphereagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/deprecated/multisphere/hkpmultisphereagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <xmmintrin.h>
 #include <new>
 #include <cstring>
 #include "fnv/decl/FUN_00cfbbe0_cls.h"
@@ -45,19 +46,8 @@ void Dispatcher::NotifyAll(unsigned int value)
     Finish(1);
 }
 
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-    __int32 m128_i32[4];
-    __int64 m128_i64[2];
-    unsigned __int32 m128_u32[4];
-} __m128;
 #include "fnv/symbols_simd.h"
 
-extern "C" __m128 _mm_mul_ps(__m128 _A, __m128 _B);
-extern "C" __m128 _mm_add_ps(__m128 _A, __m128 _B);
-extern "C" __m128 _mm_shuffle_ps(__m128 _A, __m128 _B, unsigned int _Imm8);
 
 class hkVector4
 {
@@ -65,11 +55,11 @@ class hkVector4
     __m128 m_vComponents;
     float& operator()(int i)
     {
-        return m_vComponents.m128_f32[i];
+        return m_vComponents[i];
     }
     const float& operator()(int i) const
     {
-        return m_vComponents.m128_f32[i];
+        return m_vComponents[i];
     }
 };
 
@@ -848,7 +838,7 @@ void __cdecl ProcessMultiSphereCollision(const hkpCdBody& bodyA, const hkpCdBody
                                       motion.m_kMotionTransform.m_rotation.m_kColumn2.m_vComponents));
             motion.m_kMotionTransform.m_vTranslation.m_vComponents =
                 _mm_add_ps(rotatedPoint, bodyA.getTransform().m_vTranslation.m_vComponents);
-            sphere.m_fSphereRadius = vector->m_vComponents.m128_f32[3];
+            sphere.m_fSphereRadius = vector->m_vComponents[3];
             childBody.SetCollisionShapeAndKey(&sphere, index);
             input.dispatcher->entries[input.dispatcher->table[sphere.m_type][typeB]].process(childBody, bodyB, input,
                                                                                              output, manager);
@@ -912,7 +902,7 @@ void SphereDispatch::ProcessSpheres(const hkpCdBody& aBody, const hkpCdBody& aOt
                                   motionState.m_kMotionTransform.m_rotation.m_kColumn2.m_vComponents)),
             aBody.getTransform().m_vTranslation.m_vComponents);
         motionState.m_kMotionTransform.m_vTranslation.m_vComponents = worldPoint;
-        sphere.m_fSphereRadius = point.m_vComponents.m128_f32[3];
+        sphere.m_fSphereRadius = point.m_vComponents[3];
         cdBodyProxy.SetCollisionShapeAndKey(&sphere, remaining);
         entry->agent->Process(cdBodyProxy, aOtherBody, input, collector);
         if (collector.earlyOut)
@@ -930,7 +920,6 @@ void FUN_00d44cc0(int a1, int a2, int a3, int a4)
     obj->Init(a1, a2, a3, a4);
 }
 
-extern "C" __m128 _mm_xor_ps(__m128 _A, __m128 _B);
 
 union __declspec(align(16)) S_00d45160_Vec
 {
@@ -990,7 +979,6 @@ class S_00d45160_Owner
                              unsigned int a5);
 };
 
-extern "C" __m128 _mm_load_ps(const float*);
 struct S00d44fd0_Base
 {
 };
@@ -1497,7 +1485,6 @@ FUN_00d44b00::FUN_00d44b00(const hkpCdBody& src, const hkpCdBody& pb, const S_00
     }
 }
 
-extern "C" void _mm_store_ps(float* _V, __m128 _A);
 __declspec(align(16)) struct S_V4
 {
     float x, y, z, w;

@@ -2,6 +2,7 @@
 // src/havok/physics/collide/shape/misc/multiray/hkpmultirayshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/misc/multiray/hkpmultirayshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <xmmintrin.h>
 #include "fnv/decl/FunctionContext.h"
 #include "fnv/symbols_00c90000.h"
 #include "fnv/symbols_00d06000.h"
@@ -107,20 +108,6 @@ void hkObjE3C6::AddRaysToStatistics(hkStatisticsCollectorE3C6* pkCollector, cons
     reinterpret_cast<::FunctionContext *>((void *)this)->FUN_00c90360(pkCollector, (void *)(&(*reinterpret_cast<const ::hkClassE3C6 *>(&::g_01268910))));
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C"
-{
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_min_ps(__m128, __m128);
-    __m128 _mm_max_ps(__m128, __m128);
-    __m128 _mm_set_ps1(float);
-}
 
 
 struct hkMemoryAllocator
@@ -274,20 +261,6 @@ void hkpMultiRayShapeImpl::FUN_00e3c800(const hkTransform& localToWorld, hkReal 
     worldRays._clearAndDeallocate(FUN_00c85750()->heap());
 }
 
-extern "C"
-{
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_sub_ss(__m128, __m128);
-    __m128 _mm_mul_ss(__m128, __m128);
-    __m128 _mm_sqrt_ss(__m128);
-    __m128 _mm_rsqrt_ss(__m128);
-    __m128 _mm_set_ss(float);
-    __m128 _mm_andnot_ps(__m128, __m128);
-    __m128 _mm_cmpeq_ss(__m128, __m128);
-    __m128 _mm_load_ps1(float const*);
-    void _mm_store_ss(float*, __m128);
-}
 struct RayStandIn
 {
     __m128 m_kRayStart;
@@ -374,7 +347,7 @@ FUN_00e3c680::FUN_00e3c680(const RayStandIn* rays, int nRays, float rayPenetrati
         {
             float len;
             _mm_store_ss(&len, _mm_sqrt_ss(dot3(vec)));
-            ray->m_kRayStart.m128_f32[3] = len;
+            ray->m_kRayStart[3] = len;
         }
         {
             __m128 len2 = dot3(vec);

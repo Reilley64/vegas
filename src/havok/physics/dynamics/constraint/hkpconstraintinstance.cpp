@@ -2,6 +2,8 @@
 // src/havok/physics/dynamics/constraint/hkpconstraintinstance.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/hkpconstraintinstance.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
+#include <xmmintrin.h>
 #include <new>
 #include "fnv/decl/FUN_00c90510_class.h"
 #include "fnv/decl/FUN_00cb0a60.h"
@@ -436,7 +438,7 @@ struct FUN_00cb0c10_s
 class FUN_00cf3ea0 : public hkpConstraintInstance
 {
   public:
-    static __forceinline void* operator new(unsigned int uiSize) throw()
+    static __forceinline void* operator new(size_t uiSize) throw()
     {
         void* p = FUN_00c85750()->heap().AllocateMemoryBlock(uiSize);
         ((unsigned short*)p)[2] = (unsigned short)uiSize;
@@ -714,12 +716,6 @@ void S00cf3df0_Obj::Add(void* apItem)
     m_l.put(apItem);
 }
 
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-} __m128;
-extern "C" __m128 _mm_load_ps(const float*);
-extern "C" void _mm_store_ps(float*, __m128);
 struct Matrix4f;
 struct CVector
 {
@@ -905,9 +901,6 @@ void CInstance::FUN_00cf30f0(Matrix4f* apTransform)
         }
 }
 
-extern "C"
-{
-}
 
 struct TargetObj
 {

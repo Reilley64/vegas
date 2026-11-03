@@ -2,6 +2,8 @@
 // src/havok/physics/utilities/visualdebugger/viewer/dynamics/hkprigidbodycentreofmassviewer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/dynamics/hkprigidbodycentreofmassviewer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
+#include <xmmintrin.h>
 #include <windows.h>
 #include "fnv/decl/MotionMassView.h"
 #include "fnv/decl/S_00dd9380.h"
@@ -136,7 +138,7 @@ extern "C" D6A140MemoryRouter& __cdecl FUN_00c85750();
 class D6A140ReferencedObject
 {
   public:
-    static void* operator new(unsigned int nbytes)
+    static void* operator new(size_t nbytes)
     {
         D6A140ReferencedObject* b =
             static_cast<D6A140ReferencedObject*>(FUN_00c85750().heap().AllocateMemoryBlock(nbytes));
@@ -580,19 +582,7 @@ FUN_00d6a0a0::~FUN_00d6a0a0()
 }
 }  // namespace fnv_00d6a0a0
 
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    struct
-    {
-        float x, y, z, w;
-    } lanes;
-} __m128;
 
-extern "C" __m128 _mm_add_ps(__m128, __m128);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_load_ps(const float*);
-extern "C" __m128 _mm_load_ss(const float*);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
 extern "C" unsigned __int64 __rdtsc(void);
 
 extern "C" void*(* DAT_00fdf044)(unsigned long);
@@ -602,12 +592,6 @@ extern char DAT_010d2224[];
 extern char DAT_010d2210[];
 extern char DAT_010d2200[];
 
-extern "C" __m128 _mm_set_ss(float);
-extern "C" __m128 _mm_set_ps1(float);
-extern "C" __m128 _mm_load_ps1(const float*);
-extern "C" __m128 _mm_move_ss(__m128, __m128);
-extern "C" __m128 _mm_setzero_ps();
-extern "C" float _mm_cvtss_f32(__m128);
 
 struct MonRec
 {
@@ -889,8 +873,6 @@ Parent::Parent()
 {}
 
 #include <math.h>
-extern "C" void _mm_store_ss(float*, __m128);
-extern "C" __m128 _mm_add_ss(__m128, __m128);
 
 struct Vec4Clamp
 {

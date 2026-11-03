@@ -1,3 +1,4 @@
+#include <cstddef>
 
 // src/havok/physics/utilities/visualdebugger/viewer/hkpshapedisplaybuilder_gs_ehsc_nogs_noehsc_variant.cpp - flag-variant unit created 2026-10-31 by flag_proofs.py: contributor code for these functions matched byte for
 // byte only under /MT /O2 /GS- /EHs-c- /Gy (unit src/havok/physics/utilities/visualdebugger/viewer/hkpshapedisplaybuilder.cpp lists /MT /O2 /GS /EHsc /Gy). Declarations copied from that unit's skeleton; move the functions
@@ -33,7 +34,7 @@ struct S_00ddfcd0_RefObj
     }
     virtual ~S_00ddfcd0_RefObj() throw()
     {}
-    void* operator new(unsigned int nbytes)
+    void* operator new(size_t nbytes)
     {
         S_00ddfcd0_RefObj* b = static_cast<S_00ddfcd0_RefObj*>(FUN_00c85750()->heap().AllocateMemoryBlock(nbytes));
         b->m_usMemSizeAndFlags = (unsigned short)nbytes;

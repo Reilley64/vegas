@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/collide/deprecated/hkpreportcontactmgr.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/collide/deprecated/hkpreportcontactmgr.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <xmmintrin.h>
 #include <new>
 #include "fnv/decl/FUN_00cfc590_class.h"
 #include "fnv/decl/FUN_00cfc5a0.h"
@@ -487,27 +488,7 @@ void S_Cfca40_Factory::CreateElement(S_Cfca40_AdjustedSource* apFirstSource, S_C
     new ((void *)(pElement)) ::FUN_00cfc5a0((int)(m_iValueAtOffset0C), (::S_00cfc5a0 *)(firstData), (::S_00cfc5a0 *)(secondData));
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    struct
-    {
-        float x, y, z, w;
-    };
-    struct
-    {
-        unsigned __int64 low, high;
-    };
-};
 
-extern "C"
-{
-    __m128 _mm_add_ps(__m128 a, __m128 b);
-    __m128 _mm_sub_ps(__m128 a, __m128 b);
-    __m128 _mm_mul_ps(__m128 a, __m128 b);
-    __m128 _mm_add_ss(__m128 a, __m128 b);
-    __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
-    void _mm_store_ss(float* p, __m128 a);
-}
 
 struct hkVector4
 {

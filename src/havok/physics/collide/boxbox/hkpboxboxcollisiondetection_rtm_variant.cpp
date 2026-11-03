@@ -7,6 +7,8 @@
 // RemoveValueAt - drops slot <index> of the eight-slot table held by
 // FUN_00db0920: the last slot in use is moved into the hole and the used-slot
 // counter goes down by one.
+#include <cstddef>
+#include <xmmintrin.h>
 #include <cmath>
 #include "fnv/decl/BoxPointInsertion.h"
 #include "fnv/decl/CD4BA0Matrix3.h"
@@ -31,33 +33,7 @@ struct FUN_00db0920
 public:
     unsigned char *ContainsKey(unsigned char *, const unsigned char *);
 };
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 #include "fnv/symbols_simd.h"
-extern "C"
-{
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_andnot_ps(__m128, __m128);
-    __m128 _mm_cmpeq_ss(__m128, __m128);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_mul_ss(__m128, __m128);
-    __m128 _mm_rsqrt_ss(__m128);
-    __m128 _mm_set_ps1(float);
-    __m128 _mm_set_ss(float);
-    __m128 _mm_setzero_ps(void);
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-    void _mm_store_ss(float*, __m128);
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_sub_ss(__m128, __m128);
-    __m128 _mm_xor_ps(__m128, __m128);
-}
-extern "C"
-{
-}
 extern "C++"
 {
     inline float __cdecl fabs(float _X)
@@ -185,23 +161,6 @@ static __forceinline void productValue(hkVector4& out, const SimdValue& f, __m12
     out.m_vComponents = _mm_mul_ps(f.broadcast(), row);
 }
 extern "C" void _ReadWriteBarrier();
-extern "C"
-{
-    __m128 _mm_load_ps(const float*);
-    __m128 _mm_load_ss(const float*);
-    __m128 _mm_load_ss(const float*);
-    void _mm_store_ps(float*, __m128);
-    __m128 _mm_set_ps(float, float, float, float);
-    __m128 _mm_setr_ps(float, float, float, float);
-    __m128 _mm_and_ps(__m128, __m128);
-    __m128 _mm_or_ps(__m128, __m128);
-    __m128 _mm_cmplt_ps(__m128, __m128);
-    int _mm_movemask_ps(__m128);
-    __m128 _mm_unpacklo_ps(__m128, __m128);
-    __m128 _mm_unpackhi_ps(__m128, __m128);
-    __m128 _mm_movelh_ps(__m128, __m128);
-    __m128 _mm_movehl_ps(__m128, __m128);
-}
 static __forceinline float sqrtf(float x)
 {
     return (float)sqrt(x);
@@ -475,9 +434,6 @@ __declspec(noinline) int ThisCls::FUN_00db0ec0(Vec4f* arg)
 }
 
 extern "C" void _ReadWriteBarrier();
-extern "C" __m128 _mm_load_ps(const float*);
-extern "C" __m128 _mm_load_ss(const float*);
-extern "C" void _mm_store_ps(float*, __m128);
 
 __forceinline __m128 ReadV(const __m128* p)
 {
@@ -623,20 +579,20 @@ __declspec(noinline) unsigned char* Owner::Compute(unsigned char* result, Blob* 
     const __m128 signB = (*reinterpret_cast<const hkVector4 (*)[8]>(&::DAT_010d52d0))[(contact->unk3c & 0x70) >> 4].m_vComponents;
     __m128 pointA = _mm_mul_ps(radiiA, signA);
     const __m128 pointB = _mm_mul_ps(radiiB, signB);
-    const float extentA = radiiA.m128_f32[axisA];
-    const float extentB = radiiB.m128_f32[axisB];
+    const float extentA = radiiA[axisA];
+    const float extentB = radiiB[axisB];
     const float edgeLengthA = (float)(-2.0 * extentA);
     const float edgeLengthB = (float)(extentB + extentB);
     const __m128 axis = _mm_load_ps(reinterpret_cast<const float*>(&relativeTransform) + axisB * 4);
     const __m128 edgeB = _mm_mul_ps(_mm_set_ps1(edgeLengthB), axis);
     const __m128 separation = _mm_sub_ps(Xf(&relativeTransform, pointB), pointA);
-    const float mixed = (float)(edgeB.m128_f32[axisA] * edgeLengthA);
+    const float mixed = (float)(edgeB[axisA] * edgeLengthA);
     const float squareA = (float)(edgeLengthA * edgeLengthA);
     const float squareB = (float)(extentB * extentB * 4.0);
     const float dotB = Dot3(_mm_mul_ps(separation, edgeB));
     const float determinant = (float)(squareA * squareB - mixed * mixed);
     const float absoluteDeterminant = (float)fabs(determinant);
-    const float projectedA = (float)(separation.m128_f32[axisA] * edgeLengthA);
+    const float projectedA = (float)(separation[axisA] * edgeLengthA);
     const float numeratorA = (float)(projectedA * squareB - dotB * mixed);
     const float lowerA = (float)(1.1920928955078125e-07 * absoluteDeterminant);
     if (!(lowerA < numeratorA))
@@ -662,9 +618,9 @@ __declspec(noinline) unsigned char* Owner::Compute(unsigned char* result, Blob* 
         *result = 0;
         return result;
     }
-    pointA.m128_f32[axisA] = (float)(pointA.m128_f32[axisA] + fractionA * edgeLengthA);
+    pointA[axisA] = (float)(pointA[axisA] + fractionA * edgeLengthA);
     __m128 edgeA = _mm_setzero_ps();
-    edgeA.m128_f32[axisA] = (float)(edgeLengthA * 0.5);
+    edgeA[axisA] = (float)(edgeLengthA * 0.5);
     const __m128 cross = _mm_sub_ps(_mm_mul_ps(_mm_shuffle_ps(edgeA, edgeA, 0xc9), _mm_shuffle_ps(edgeB, edgeB, 0xd2)),
                                     _mm_mul_ps(_mm_shuffle_ps(edgeA, edgeA, 0xd2), _mm_shuffle_ps(edgeB, edgeB, 0xc9)));
     const __m128 squares = _mm_mul_ps(cross, cross);
@@ -836,16 +792,6 @@ __declspec(noinline) void Owner::FUN_00db1990(ContactList* p0, Input* p1, float 
     p0->unk20 += 1;
 }
 
-extern "C"
-{
-    __m128 __cdecl _mm_load_ss(const float*);
-    void __cdecl _mm_store_ps(float*, __m128);
-
-    __m128 __cdecl _mm_add_ps(__m128, __m128);
-    __m128 __cdecl _mm_mul_ps(__m128, __m128);
-    __m128 __cdecl _mm_shuffle_ps(__m128, __m128, unsigned int);
-    __m128 __cdecl _mm_set_ps1(float);
-}
 
 struct __declspec(align(16)) MyDb0920
 {
@@ -1122,16 +1068,7 @@ __declspec(noinline) hkBool& BoxAgent::FUN_00db2750(hkBool& valid, hkContactPoin
     return valid;
 }
 
-namespace ClosestPointNative {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    struct
-    {
-        float x, y, z, w;
-    };
-};
-}
-typedef ClosestPointNative::__m128 ClosestPointQuad;
+typedef __m128 ClosestPointQuad;
 
 namespace ClosestPointUtilities {
 struct ClosestPointBool
@@ -1149,35 +1086,6 @@ struct ClosestPointVector
     ClosestPointQuad m_vComponents;
 };
 namespace ClosestPointSimd {
-extern "C"
-{
-    ClosestPointQuad _mm_add_ps(ClosestPointQuad, ClosestPointQuad);
-    ClosestPointQuad _mm_add_ss(ClosestPointQuad, ClosestPointQuad);
-    ClosestPointQuad _mm_andnot_ps(ClosestPointQuad, ClosestPointQuad);
-    ClosestPointQuad _mm_cmpeq_ss(ClosestPointQuad, ClosestPointQuad);
-    ClosestPointQuad _mm_mul_ps(ClosestPointQuad, ClosestPointQuad);
-    ClosestPointQuad _mm_mul_ss(ClosestPointQuad, ClosestPointQuad);
-    ClosestPointQuad _mm_rsqrt_ss(ClosestPointQuad);
-    ClosestPointQuad _mm_set_ps1(float);
-    ClosestPointQuad _mm_set_ss(float);
-    ClosestPointQuad _mm_setzero_ps(void);
-    ClosestPointQuad _mm_shuffle_ps(ClosestPointQuad, ClosestPointQuad, unsigned int);
-    void _mm_store_ss(float*, ClosestPointQuad);
-    ClosestPointQuad _mm_sub_ps(ClosestPointQuad, ClosestPointQuad);
-    ClosestPointQuad _mm_sub_ss(ClosestPointQuad, ClosestPointQuad);
-    ClosestPointQuad _mm_xor_ps(ClosestPointQuad, ClosestPointQuad);
-    ClosestPointQuad _mm_setr_ps(float, float, float, float);
-    ClosestPointQuad _mm_load_ss(const float*);
-    void _mm_store_ps(float*, ClosestPointQuad);
-    ClosestPointQuad _mm_cmplt_ps(ClosestPointQuad, ClosestPointQuad);
-    ClosestPointQuad _mm_and_ps(ClosestPointQuad, ClosestPointQuad);
-    ClosestPointQuad _mm_or_ps(ClosestPointQuad, ClosestPointQuad);
-    ClosestPointQuad _mm_unpacklo_ps(ClosestPointQuad, ClosestPointQuad);
-    ClosestPointQuad _mm_unpackhi_ps(ClosestPointQuad, ClosestPointQuad);
-    ClosestPointQuad _mm_movelh_ps(ClosestPointQuad, ClosestPointQuad);
-    ClosestPointQuad _mm_movehl_ps(ClosestPointQuad, ClosestPointQuad);
-    int _mm_movemask_ps(ClosestPointQuad);
-}
 }
 
 struct KeyEntry
@@ -1258,9 +1166,9 @@ static ClosestPointQuad load4(const Vec4& v)
 }
 static ClosestPointQuad dot3scalar(ClosestPointQuad value)
 {
-    ClosestPointQuad y = (ClosestPointSimd::_mm_shuffle_ps)(value, value, 0x55);
-    ClosestPointQuad z = (ClosestPointSimd::_mm_shuffle_ps)(value, value, 0xaa);
-    return (ClosestPointSimd::_mm_add_ss)(z, (ClosestPointSimd::_mm_add_ss)(y, value));
+    ClosestPointQuad y = _mm_shuffle_ps(value, value, 0x55);
+    ClosestPointQuad z = _mm_shuffle_ps(value, value, 0xaa);
+    return _mm_add_ss(z, _mm_add_ss(y, value));
 }
 __declspec(noinline) ClosestPointBool ClosestPointDetector::TestEdgeEdgeContact(Out* out) const
 {
@@ -1269,31 +1177,31 @@ __declspec(noinline) ClosestPointBool ClosestPointDetector::TestEdgeEdgeContact(
     ClosestPointQuad signA = ClosestPointSimd::DAT_010d52d0[(out->i38 & 0x70) >> 4];
     ClosestPointQuad signB = ClosestPointSimd::DAT_010d52d0[(out->i3c & 0x70) >> 4];
     Vec4 pointA;
-    (ClosestPointSimd::_mm_store_ps)(&pointA(0), (ClosestPointSimd::_mm_mul_ps)(load4(s1), signA));
-    ClosestPointQuad pointB = (ClosestPointSimd::_mm_mul_ps)(load4(s2), signB);
+    _mm_store_ps(&pointA(0), _mm_mul_ps(load4(s1), signA));
+    ClosestPointQuad pointB = _mm_mul_ps(load4(s2), signB);
     float lengthB = (&s2(0))[axisB] + (&s2(0))[axisB];
     float lengthA = (float)((&s1(0))[axisA] * -2.0);
     Vec4 directionB;
-    (ClosestPointSimd::_mm_store_ps)(
+    _mm_store_ps(
         &directionB(0),
-        (ClosestPointSimd::_mm_mul_ps)((ClosestPointSimd::_mm_set_ps1)(lengthB), load4(rotation[axisB])));
-    ClosestPointQuad worldB = (ClosestPointSimd::_mm_add_ps)(
-        (ClosestPointSimd::_mm_add_ps)(
-            (ClosestPointSimd::_mm_mul_ps)((ClosestPointSimd::_mm_shuffle_ps)(pointB, pointB, 0x55),
+        _mm_mul_ps(_mm_set_ps1(lengthB), load4(rotation[axisB])));
+    ClosestPointQuad worldB = _mm_add_ps(
+        _mm_add_ps(
+            _mm_mul_ps(_mm_shuffle_ps(pointB, pointB, 0x55),
                                            load4(rotation[1])),
-            (ClosestPointSimd::_mm_mul_ps)((ClosestPointSimd::_mm_shuffle_ps)(pointB, pointB, 0), load4(rotation[0]))),
-        (ClosestPointSimd::_mm_add_ps)(
-            (ClosestPointSimd::_mm_mul_ps)((ClosestPointSimd::_mm_shuffle_ps)(pointB, pointB, 0xaa),
+            _mm_mul_ps(_mm_shuffle_ps(pointB, pointB, 0), load4(rotation[0]))),
+        _mm_add_ps(
+            _mm_mul_ps(_mm_shuffle_ps(pointB, pointB, 0xaa),
                                            load4(rotation[2])),
             load4(s0)));
     Vec4 delta;
-    (ClosestPointSimd::_mm_store_ps)(&delta(0), (ClosestPointSimd::_mm_sub_ps)(worldB, load4(pointA)));
+    _mm_store_ps(&delta(0), _mm_sub_ps(worldB, load4(pointA)));
     float dotAB = (&directionB(0))[axisA] * lengthA;
     float squareA = lengthA * lengthA;
     float squareB = (float)((&s2(0))[axisB] * (&s2(0))[axisB] * 4.0);
     float dotDeltaB;
-    (ClosestPointSimd::_mm_store_ss)(&dotDeltaB,
-                                     dot3scalar((ClosestPointSimd::_mm_mul_ps)(load4(delta), load4(directionB))));
+    _mm_store_ss(&dotDeltaB,
+                                     dot3scalar(_mm_mul_ps(load4(delta), load4(directionB))));
     float determinant = squareA * squareB - dotAB * dotAB;
     determinant = (float)fabs(determinant);
     float dotDeltaA = (&delta(0))[axisA] * lengthA;
@@ -1310,63 +1218,63 @@ __declspec(noinline) ClosestPointBool ClosestPointDetector::TestEdgeEdgeContact(
     }
     (&pointA(0))[axisA] += fractionA * lengthA;
     Vec4 halfDirectionA;
-    halfDirectionA = (ClosestPointSimd::_mm_setzero_ps)();
+    halfDirectionA = _mm_setzero_ps();
     (&halfDirectionA(0))[axisA] = (float)(lengthA * 0.5);
     ClosestPointQuad av = load4(halfDirectionA);
     ClosestPointQuad bv = load4(directionB);
-    ClosestPointQuad cross = (ClosestPointSimd::_mm_sub_ps)(
-        (ClosestPointSimd::_mm_mul_ps)((ClosestPointSimd::_mm_shuffle_ps)(av, av, 0xc9),
-                                       (ClosestPointSimd::_mm_shuffle_ps)(bv, bv, 0xd2)),
-        (ClosestPointSimd::_mm_mul_ps)((ClosestPointSimd::_mm_shuffle_ps)(av, av, 0xd2),
-                                       (ClosestPointSimd::_mm_shuffle_ps)(bv, bv, 0xc9)));
-    ClosestPointQuad square = (ClosestPointSimd::_mm_mul_ps)(cross, cross);
+    ClosestPointQuad cross = _mm_sub_ps(
+        _mm_mul_ps(_mm_shuffle_ps(av, av, 0xc9),
+                                       _mm_shuffle_ps(bv, bv, 0xd2)),
+        _mm_mul_ps(_mm_shuffle_ps(av, av, 0xd2),
+                                       _mm_shuffle_ps(bv, bv, 0xc9)));
+    ClosestPointQuad square = _mm_mul_ps(cross, cross);
     ClosestPointQuad sum = dot3scalar(square);
-    ClosestPointQuad reciprocal = (ClosestPointSimd::_mm_rsqrt_ss)(sum);
-    ClosestPointQuad refined = (ClosestPointSimd::_mm_mul_ss)(
-        (ClosestPointSimd::_mm_mul_ss)((ClosestPointSimd::_mm_set_ss)(0.5f), reciprocal),
-        (ClosestPointSimd::_mm_sub_ss)(
-            (ClosestPointSimd::_mm_set_ss)(3.0f),
-            (ClosestPointSimd::_mm_mul_ss)((ClosestPointSimd::_mm_mul_ss)(sum, reciprocal), reciprocal)));
-    refined = (ClosestPointSimd::_mm_andnot_ps)(
-        (ClosestPointSimd::_mm_cmpeq_ss)(sum, (ClosestPointSimd::_mm_setzero_ps)()), refined);
-    ClosestPointQuad factor = (ClosestPointSimd::_mm_shuffle_ps)(refined, refined, 0);
-    ClosestPointQuad normal = (ClosestPointSimd::_mm_mul_ps)(factor, cross);
+    ClosestPointQuad reciprocal = _mm_rsqrt_ss(sum);
+    ClosestPointQuad refined = _mm_mul_ss(
+        _mm_mul_ss(_mm_set_ss(0.5f), reciprocal),
+        _mm_sub_ss(
+            _mm_set_ss(3.0f),
+            _mm_mul_ss(_mm_mul_ss(sum, reciprocal), reciprocal)));
+    refined = _mm_andnot_ps(
+        _mm_cmpeq_ss(sum, _mm_setzero_ps()), refined);
+    ClosestPointQuad factor = _mm_shuffle_ps(refined, refined, 0);
+    ClosestPointQuad normal = _mm_mul_ps(factor, cross);
     float magnitude;
-    (ClosestPointSimd::_mm_store_ss)(&magnitude, (ClosestPointSimd::_mm_mul_ss)(sum, factor));
+    _mm_store_ss(&magnitude, _mm_mul_ss(sum, factor));
     if (u0(1) > magnitude)
     {
         return ClosestPointBool(false);
     }
     float orientation;
-    (ClosestPointSimd::_mm_store_ss)(&orientation, dot3scalar((ClosestPointSimd::_mm_mul_ps)(signA, normal)));
+    _mm_store_ss(&orientation, dot3scalar(_mm_mul_ps(signA, normal)));
     if (orientation < 0.0f)
-        normal = (ClosestPointSimd::_mm_xor_ps)(normal, (*reinterpret_cast<const ::ClosestPointNative::__m128 *>((void *)&::DAT_010c44d0)));
+        normal = _mm_xor_ps(normal, (*reinterpret_cast<const __m128 *>((void *)&::DAT_010c44d0)));
     float separation;
-    (ClosestPointSimd::_mm_store_ss)(&separation, dot3scalar((ClosestPointSimd::_mm_mul_ps)(normal, load4(delta))));
+    _mm_store_ss(&separation, dot3scalar(_mm_mul_ps(normal, load4(delta))));
     if (u0(0) < separation)
     {
         return ClosestPointBool(false);
     }
-    (ClosestPointSimd::_mm_store_ps)(&out->o0(0), load4(pointA));
+    _mm_store_ps(&out->o0(0), load4(pointA));
     out->f34 = separation;
-    (ClosestPointSimd::_mm_store_ps)(&out->o2(0), (ClosestPointSimd::_mm_xor_ps)(normal, (*reinterpret_cast<const ::ClosestPointNative::__m128 *>((void *)&::DAT_010c44d0))));
+    _mm_store_ps(&out->o2(0), _mm_xor_ps(normal, (*reinterpret_cast<const __m128 *>((void *)&::DAT_010c44d0))));
     return ClosestPointBool(true);
 }
 static __forceinline void inverseAxes(ClosestPointVector& dst, const Vec4* rows, const ClosestPointVector& input)
 {
     ClosestPointQuad c0 = load4(rows[0]), c1 = load4(rows[1]), c2 = load4(rows[2]);
-    ClosestPointQuad lo = (ClosestPointSimd::_mm_unpacklo_ps)(c0, c1);
-    c0 = (ClosestPointSimd::_mm_unpackhi_ps)(c0, c1);
-    c1 = (ClosestPointSimd::_mm_movelh_ps)(lo, c2);
-    ClosestPointQuad y = (ClosestPointSimd::_mm_shuffle_ps)((ClosestPointSimd::_mm_movehl_ps)(c1, lo), c2, 0xd4);
-    c2 = (ClosestPointSimd::_mm_shuffle_ps)(c0, c2, 0xe4);
-    ClosestPointQuad b0 = (ClosestPointSimd::_mm_shuffle_ps)(input.m_vComponents, input.m_vComponents, 0);
-    ClosestPointQuad r0 = (ClosestPointSimd::_mm_mul_ps)(c1, b0);
-    ClosestPointQuad b1 = (ClosestPointSimd::_mm_shuffle_ps)(input.m_vComponents, input.m_vComponents, 0x55);
-    ClosestPointQuad r1 = (ClosestPointSimd::_mm_mul_ps)(y, b1);
-    ClosestPointQuad b2 = (ClosestPointSimd::_mm_shuffle_ps)(input.m_vComponents, input.m_vComponents, 0xaa);
-    ClosestPointQuad r2 = (ClosestPointSimd::_mm_mul_ps)(c2, b2);
-    dst.m_vComponents = (ClosestPointSimd::_mm_add_ps)((ClosestPointSimd::_mm_add_ps)(r0, r1), r2);
+    ClosestPointQuad lo = _mm_unpacklo_ps(c0, c1);
+    c0 = _mm_unpackhi_ps(c0, c1);
+    c1 = _mm_movelh_ps(lo, c2);
+    ClosestPointQuad y = _mm_shuffle_ps(_mm_movehl_ps(c1, lo), c2, 0xd4);
+    c2 = _mm_shuffle_ps(c0, c2, 0xe4);
+    ClosestPointQuad b0 = _mm_shuffle_ps(input.m_vComponents, input.m_vComponents, 0);
+    ClosestPointQuad r0 = _mm_mul_ps(c1, b0);
+    ClosestPointQuad b1 = _mm_shuffle_ps(input.m_vComponents, input.m_vComponents, 0x55);
+    ClosestPointQuad r1 = _mm_mul_ps(y, b1);
+    ClosestPointQuad b2 = _mm_shuffle_ps(input.m_vComponents, input.m_vComponents, 0xaa);
+    ClosestPointQuad r2 = _mm_mul_ps(c2, b2);
+    dst.m_vComponents = _mm_add_ps(_mm_add_ps(r0, r1), r2);
 }
 
 class ScalarLane
@@ -1376,7 +1284,7 @@ class ScalarLane
   public:
     ScalarLane(float f)
     {
-        value = (ClosestPointSimd::_mm_load_ss)(&f);
+        value = _mm_load_ss(&f);
     }
     ScalarLane(const ClosestPointQuad& f) : value(f)
     {}
@@ -1386,7 +1294,7 @@ class ScalarLane
     }
     __forceinline ClosestPointQuad broadcast() const
     {
-        return (ClosestPointSimd::_mm_shuffle_ps)(value, value, 0);
+        return _mm_shuffle_ps(value, value, 0);
     }
 };
 class VectorLanes
@@ -1414,28 +1322,28 @@ class VectorLanes
     }
     __forceinline void fill(const ScalarLane& f)
     {
-        value = (ClosestPointSimd::_mm_shuffle_ps)(f.low(), f.low(), 0);
+        value = _mm_shuffle_ps(f.low(), f.low(), 0);
     }
     __forceinline void fill(float f)
     {
-        value = (ClosestPointSimd::_mm_set_ps1)(f);
+        value = _mm_set_ps1(f);
     }
     __forceinline void multiply(const ScalarLane& f)
     {
-        value = (ClosestPointSimd::_mm_mul_ps)(f.broadcast(), value);
+        value = _mm_mul_ps(f.broadcast(), value);
     }
 };
 static __forceinline void chooseVector(VectorLanes& result, float replacement, const Vec4& vec, float bound)
 {
-    ClosestPointQuad v = (ClosestPointSimd::_mm_load_ss)(&replacement);
-    ClosestPointQuad b = (ClosestPointSimd::_mm_load_ss)(&bound);
+    ClosestPointQuad v = _mm_load_ss(&replacement);
+    ClosestPointQuad b = _mm_load_ss(&bound);
     VectorLanes selected;
     selected.fill(ScalarLane(v));
     ClosestPointQuad vs = selected;
-    ClosestPointQuad bs = (ClosestPointSimd::_mm_shuffle_ps)(b, b, 0);
-    ClosestPointQuad mask = (ClosestPointSimd::_mm_cmplt_ps)(bs, load4(vec));
-    result = (ClosestPointSimd::_mm_or_ps)((ClosestPointSimd::_mm_and_ps)(vs, mask),
-                                           (ClosestPointSimd::_mm_andnot_ps)(mask, (ClosestPointQuad)result));
+    ClosestPointQuad bs = _mm_shuffle_ps(b, b, 0);
+    ClosestPointQuad mask = _mm_cmplt_ps(bs, load4(vec));
+    result = _mm_or_ps(_mm_and_ps(vs, mask),
+                                           _mm_andnot_ps(mask, (ClosestPointQuad)result));
 }
 
 static __forceinline const float* getSignAddress(const Out& out)
@@ -1537,7 +1445,7 @@ __declspec(noinline) int ClosestPointDetector::FUN_00db1ed0(Arg0& ref0, KeyEntry
             pairp->k0 = (unsigned char)idx;
             out->i38 = idx;
             float thr = (&u1(0))[idx];
-            ClosestPointQuad col3 = (ClosestPointSimd::_mm_setr_ps)((&rotation[0](0))[idx], (&rotation[1](0))[idx],
+            ClosestPointQuad col3 = _mm_setr_ps((&rotation[0](0))[idx], (&rotation[1](0))[idx],
                                                                     (&rotation[2](0))[idx], 0.0f);
             ClosestPointQuad v70;
             if (thr < 0.0f)
@@ -1548,35 +1456,35 @@ __declspec(noinline) int ClosestPointDetector::FUN_00db1ed0(Arg0& ref0, KeyEntry
             else
             {
                 out->f30 = 1.0f;
-                v70 = (ClosestPointSimd::_mm_xor_ps)(load4(s2), (*reinterpret_cast<const ::ClosestPointNative::__m128 *>((void *)&::DAT_010c44d0)));
+                v70 = _mm_xor_ps(load4(s2), (*reinterpret_cast<const __m128 *>((void *)&::DAT_010c44d0)));
             }
-            (ClosestPointSimd::_mm_store_ps)(&out->o1(0), v70);
+            _mm_store_ps(&out->o1(0), v70);
             VectorLanes tweak;
             tweak.fill(-1.0e-5f);
             chooseVector(tweak, 1.0e-5f, u2, 0.0f);
             tweak.multiply(ScalarLane(out->f30));
             ClosestPointQuad sel = tweak;
-            sel = (ClosestPointSimd::_mm_add_ps)(sel, col3);
-            sel = (ClosestPointSimd::_mm_and_ps)(sel, (*reinterpret_cast<const ::ClosestPointNative::__m128 *>((void *)&::DAT_010c44d0)));
+            sel = _mm_add_ps(sel, col3);
+            sel = _mm_and_ps(sel, (*reinterpret_cast<const __m128 *>((void *)&::DAT_010c44d0)));
             ClosestPointQuad o1v = load4(out->o1);
-            o1v = (ClosestPointSimd::_mm_xor_ps)(sel, o1v);
-            (ClosestPointSimd::_mm_store_ps)(&out->o1(0), o1v);
+            o1v = _mm_xor_ps(sel, o1v);
+            _mm_store_ps(&out->o1(0), o1v);
             signF30 = out->f30;
             bits = *(unsigned int*)&signF30;
             o1v = load4(out->o1);
-            ClosestPointQuad a1 = (ClosestPointSimd::_mm_shuffle_ps)(o1v, o1v, 0x55);
-            a1 = (ClosestPointSimd::_mm_mul_ps)(a1, load4(rotation[1]));
-            ClosestPointQuad a2 = (ClosestPointSimd::_mm_shuffle_ps)(o1v, o1v, 0x00);
-            a2 = (ClosestPointSimd::_mm_mul_ps)(a2, load4(rotation[0]));
-            a1 = (ClosestPointSimd::_mm_add_ps)(a1, a2);
-            ClosestPointQuad a3 = (ClosestPointSimd::_mm_shuffle_ps)(o1v, o1v, 0xaa);
-            a3 = (ClosestPointSimd::_mm_mul_ps)(a3, load4(rotation[2]));
-            a3 = (ClosestPointSimd::_mm_add_ps)(a3, load4(s0));
-            a1 = (ClosestPointSimd::_mm_add_ps)(a1, a3);
-            (ClosestPointSimd::_mm_store_ps)(&out->o0(0), a1);
+            ClosestPointQuad a1 = _mm_shuffle_ps(o1v, o1v, 0x55);
+            a1 = _mm_mul_ps(a1, load4(rotation[1]));
+            ClosestPointQuad a2 = _mm_shuffle_ps(o1v, o1v, 0x00);
+            a2 = _mm_mul_ps(a2, load4(rotation[0]));
+            a1 = _mm_add_ps(a1, a2);
+            ClosestPointQuad a3 = _mm_shuffle_ps(o1v, o1v, 0xaa);
+            a3 = _mm_mul_ps(a3, load4(rotation[2]));
+            a3 = _mm_add_ps(a3, load4(s0));
+            a1 = _mm_add_ps(a1, a3);
+            _mm_store_ps(&out->o0(0), a1);
             const Vec4* __restrict pn = &out->o1;
-            int mm = (ClosestPointSimd::_mm_movemask_ps)(
-                         (ClosestPointSimd::_mm_cmplt_ps)(load4(*pn), (ClosestPointSimd::_mm_setzero_ps)())) &
+            int mm = _mm_movemask_ps(
+                         _mm_cmplt_ps(load4(*pn), _mm_setzero_ps())) &
                      7;
             unsigned char b1 = (unsigned char)((mm << 4) | ((bits >> 0x1c) & 8));
             pairp->k1 = b1;
@@ -1593,8 +1501,8 @@ __declspec(noinline) int ClosestPointDetector::FUN_00db1ed0(Arg0& ref0, KeyEntry
             }
             Vec4 absA = out->o0;
             ClosestPointQuad lv = load4(absA);
-            lv = (ClosestPointSimd::_mm_and_ps)(lv, (*reinterpret_cast<const ::ClosestPointNative::__m128 *>((void *)&::DAT_01017d10)));
-            int am = (ClosestPointSimd::_mm_movemask_ps)((ClosestPointSimd::_mm_cmplt_ps)(lv, load4(t1))) & 7;
+            lv = _mm_and_ps(lv, (*reinterpret_cast<const __m128 *>((void *)&::DAT_01017d10)));
+            int am = _mm_movemask_ps(_mm_cmplt_ps(lv, load4(t1))) & 7;
             if (am != 7)
             {
                 goto reject;
@@ -1620,7 +1528,7 @@ __declspec(noinline) int ClosestPointDetector::FUN_00db1ed0(Arg0& ref0, KeyEntry
             if (thr < 0.0f)
             {
                 out->f30 = -1.0f;
-                v60 = (ClosestPointSimd::_mm_xor_ps)(load4(s1), (*reinterpret_cast<const ::ClosestPointNative::__m128 *>((void *)&::DAT_010c44d0)));
+                v60 = _mm_xor_ps(load4(s1), (*reinterpret_cast<const __m128 *>((void *)&::DAT_010c44d0)));
             }
             else
             {
@@ -1628,25 +1536,25 @@ __declspec(noinline) int ClosestPointDetector::FUN_00db1ed0(Arg0& ref0, KeyEntry
                 v60 = load4(s1);
             }
             signF30 = -out->f30;
-            (ClosestPointSimd::_mm_store_ps)(&(*vectorOut)(0), v60);
+            _mm_store_ps(&(*vectorOut)(0), v60);
 
             VectorLanes tweak;
             tweak.fill(1.0e-5f);
             chooseVector(tweak, -1.0e-5f, u1, 0.0f);
-            tweak.multiply(ScalarLane((ClosestPointSimd::_mm_load_ss)((const float*)&signF30)));
+            tweak.multiply(ScalarLane(_mm_load_ss((const float*)&signF30)));
             *(float*)&signF30 = *signIn;
             ClosestPointQuad sel = tweak;
             ClosestPointQuad locv = load4(loc);
-            sel = (ClosestPointSimd::_mm_add_ps)(sel, locv);
-            sel = (ClosestPointSimd::_mm_and_ps)(sel, (*reinterpret_cast<const ::ClosestPointNative::__m128 *>((void *)&::DAT_010c44d0)));
+            sel = _mm_add_ps(sel, locv);
+            sel = _mm_and_ps(sel, (*reinterpret_cast<const __m128 *>((void *)&::DAT_010c44d0)));
             ClosestPointQuad o0v = load4(out->o0);
-            o0v = (ClosestPointSimd::_mm_xor_ps)(sel, o0v);
-            (ClosestPointSimd::_mm_store_ps)(&(*vectorOut)(0), o0v);
+            o0v = _mm_xor_ps(sel, o0v);
+            _mm_store_ps(&(*vectorOut)(0), o0v);
             ClosestPointVector temp;
-            temp.m_vComponents = (ClosestPointSimd::_mm_sub_ps)(o0v, load4(s0));
+            temp.m_vComponents = _mm_sub_ps(o0v, load4(s0));
             inverseAxes(*(ClosestPointVector*)&out->o1, rotation, temp);
-            int mm = (ClosestPointSimd::_mm_movemask_ps)(
-                         (ClosestPointSimd::_mm_cmplt_ps)(load4(out->o0), (ClosestPointSimd::_mm_setzero_ps)())) &
+            int mm = _mm_movemask_ps(
+                         _mm_cmplt_ps(load4(out->o0), _mm_setzero_ps())) &
                      7;
             unsigned char b1 = (unsigned char)(mm << 4);
             b1 |= (unsigned char)(((*(volatile unsigned int*)&signF30) >> 28) & 8);
@@ -1660,8 +1568,8 @@ __declspec(noinline) int ClosestPointDetector::FUN_00db1ed0(Arg0& ref0, KeyEntry
             }
             Vec4 absB = out->o1;
             ClosestPointQuad lv = load4(absB);
-            lv = (ClosestPointSimd::_mm_and_ps)(lv, (*reinterpret_cast<const ::ClosestPointNative::__m128 *>((void *)&::DAT_01017d10)));
-            int am = (ClosestPointSimd::_mm_movemask_ps)((ClosestPointSimd::_mm_cmplt_ps)(lv, load4(t2))) & 7;
+            lv = _mm_and_ps(lv, (*reinterpret_cast<const __m128 *>((void *)&::DAT_01017d10)));
+            int am = _mm_movemask_ps(_mm_cmplt_ps(lv, load4(t2))) & 7;
             if (am != 7)
             {
                 goto reject;
@@ -1684,55 +1592,55 @@ __declspec(noinline) int ClosestPointDetector::FUN_00db1ed0(Arg0& ref0, KeyEntry
             out->i3c = rem;
             Vec4 loc70 = rotation[rem];
             Vec4 arr90;
-            (ClosestPointSimd::_mm_store_ps)(&arr90(0), (ClosestPointSimd::_mm_setzero_ps)());
+            _mm_store_ps(&arr90(0), _mm_setzero_ps());
             (&arr90(0))[ebx] = 1.0f;
             ClosestPointQuad av = load4(arr90);
             ClosestPointQuad bvec = load4(loc70);
             ClosestPointQuad x1 = av;
-            ClosestPointQuad x3 = (ClosestPointSimd::_mm_shuffle_ps)(x1, x1, 0xd2);
+            ClosestPointQuad x3 = _mm_shuffle_ps(x1, x1, 0xd2);
             ClosestPointQuad x0 = bvec;
-            ClosestPointQuad x2 = (ClosestPointSimd::_mm_shuffle_ps)(bvec, bvec, 0xc9);
-            x2 = (ClosestPointSimd::_mm_mul_ps)(x2, x3);
-            x1 = (ClosestPointSimd::_mm_shuffle_ps)(av, av, 0xc9);
-            x0 = (ClosestPointSimd::_mm_shuffle_ps)(bvec, bvec, 0xd2);
-            x0 = (ClosestPointSimd::_mm_mul_ps)(x0, x1);
+            ClosestPointQuad x2 = _mm_shuffle_ps(bvec, bvec, 0xc9);
+            x2 = _mm_mul_ps(x2, x3);
+            x1 = _mm_shuffle_ps(av, av, 0xc9);
+            x0 = _mm_shuffle_ps(bvec, bvec, 0xd2);
+            x0 = _mm_mul_ps(x0, x1);
             ClosestPointQuad c0v = load4(u1);
-            x0 = (ClosestPointSimd::_mm_sub_ps)(x0, x2);
-            c0v = (ClosestPointSimd::_mm_mul_ps)(c0v, x0);
-            ClosestPointQuad d2 = (ClosestPointSimd::_mm_shuffle_ps)(c0v, c0v, 0x55);
-            ClosestPointQuad d3 = (ClosestPointSimd::_mm_shuffle_ps)(c0v, c0v, 0xaa);
-            d2 = (ClosestPointSimd::_mm_add_ss)(d2, c0v);
-            d3 = (ClosestPointSimd::_mm_add_ss)(d3, d2);
+            x0 = _mm_sub_ps(x0, x2);
+            c0v = _mm_mul_ps(c0v, x0);
+            ClosestPointQuad d2 = _mm_shuffle_ps(c0v, c0v, 0x55);
+            ClosestPointQuad d3 = _mm_shuffle_ps(c0v, c0v, 0xaa);
+            d2 = _mm_add_ss(d2, c0v);
+            d3 = _mm_add_ss(d3, d2);
             float dot;
-            (ClosestPointSimd::_mm_store_ss)(&dot, d3);
+            _mm_store_ss(&dot, d3);
             if (dot < 0.0f)
-                x0 = (ClosestPointSimd::_mm_xor_ps)(x0, (*reinterpret_cast<const ::ClosestPointNative::__m128 *>((void *)&::DAT_010c44d0)));
+                x0 = _mm_xor_ps(x0, (*reinterpret_cast<const __m128 *>((void *)&::DAT_010c44d0)));
             ClosestPointQuad edgeMatrix0 = load4(rotation[0]);
             ClosestPointQuad edgeMatrix1 = load4(rotation[1]);
             ClosestPointQuad edgeMatrix2 = load4(rotation[2]);
-            (ClosestPointSimd::_mm_store_ps)(&out->o0(0), x0);
-            ClosestPointQuad mlow = (ClosestPointSimd::_mm_unpacklo_ps)(edgeMatrix0, edgeMatrix1);
-            ClosestPointQuad mhigh = (ClosestPointSimd::_mm_unpackhi_ps)(edgeMatrix0, edgeMatrix1);
-            edgeMatrix0 = (ClosestPointSimd::_mm_movelh_ps)(mlow, edgeMatrix2);
+            _mm_store_ps(&out->o0(0), x0);
+            ClosestPointQuad mlow = _mm_unpacklo_ps(edgeMatrix0, edgeMatrix1);
+            ClosestPointQuad mhigh = _mm_unpackhi_ps(edgeMatrix0, edgeMatrix1);
+            edgeMatrix0 = _mm_movelh_ps(mlow, edgeMatrix2);
             Vec4 loc30 = out->o0;
             (&loc30(0))[ebx] = 1.0f;
-            ClosestPointQuad my = (ClosestPointSimd::_mm_shuffle_ps)(
-                (ClosestPointSimd::_mm_movehl_ps)(edgeMatrix0, mlow), edgeMatrix2, 0xd4);
-            ClosestPointQuad mz = (ClosestPointSimd::_mm_shuffle_ps)(mhigh, edgeMatrix2, 0xe4);
-            ClosestPointQuad trans = (ClosestPointSimd::_mm_add_ps)(
-                (ClosestPointSimd::_mm_add_ps)(
-                    (ClosestPointSimd::_mm_mul_ps)(my, (ClosestPointSimd::_mm_shuffle_ps)(x0, x0, 0x55)),
-                    (ClosestPointSimd::_mm_mul_ps)((ClosestPointSimd::_mm_shuffle_ps)(x0, x0, 0), edgeMatrix0)),
-                (ClosestPointSimd::_mm_mul_ps)(mz, (ClosestPointSimd::_mm_shuffle_ps)(x0, x0, 0xaa)));
-            (ClosestPointSimd::_mm_store_ps)(&out->o1(0), trans);
+            ClosestPointQuad my = _mm_shuffle_ps(
+                _mm_movehl_ps(edgeMatrix0, mlow), edgeMatrix2, 0xd4);
+            ClosestPointQuad mz = _mm_shuffle_ps(mhigh, edgeMatrix2, 0xe4);
+            ClosestPointQuad trans = _mm_add_ps(
+                _mm_add_ps(
+                    _mm_mul_ps(my, _mm_shuffle_ps(x0, x0, 0x55)),
+                    _mm_mul_ps(_mm_shuffle_ps(x0, x0, 0), edgeMatrix0)),
+                _mm_mul_ps(mz, _mm_shuffle_ps(x0, x0, 0xaa)));
+            _mm_store_ps(&out->o1(0), trans);
             Vec4 loc40 = out->o1;
             (&loc40(0))[rem] = 1.0f;
-            int mm0 = (ClosestPointSimd::_mm_movemask_ps)(
-                (ClosestPointSimd::_mm_cmplt_ps)(load4(loc30), (ClosestPointSimd::_mm_setzero_ps)()));
+            int mm0 = _mm_movemask_ps(
+                _mm_cmplt_ps(load4(loc30), _mm_setzero_ps()));
             unsigned char byte0 = (unsigned char)(((mm0 | 0xf8) << 4) | (ebx & 0xff));
             pairp->k0 = byte0;
-            int mm1 = (ClosestPointSimd::_mm_movemask_ps)(
-                (ClosestPointSimd::_mm_cmplt_ps)(load4(loc40), (ClosestPointSimd::_mm_setzero_ps)()));
+            int mm1 = _mm_movemask_ps(
+                _mm_cmplt_ps(load4(loc40), _mm_setzero_ps()));
             unsigned char byte1 = (unsigned char)((((~mm1) & 7) << 4) + (rem & 0xff));
             pairp->k1 = byte1;
             out->i38 = byte0;
@@ -1769,15 +1677,6 @@ __declspec(noinline) int ClosestPointDetector::FUN_00db1ed0(Arg0& ref0, KeyEntry
 typedef __m128 ManifoldQuad;
 
 extern "C" void _ReadBarrier();
-extern "C" __m128 _mm_load_ss(const float*);
-extern "C" __m128 _mm_load_ps(const float*);
-extern "C" __m128 _mm_and_ps(__m128, __m128);
-extern "C" __m128 _mm_cmplt_ps(__m128, __m128);
-extern "C" int _mm_movemask_ps(__m128);
-extern "C" __m128 _mm_unpacklo_ps(__m128, __m128);
-extern "C" __m128 _mm_unpackhi_ps(__m128, __m128);
-extern "C" __m128 _mm_movelh_ps(__m128, __m128);
-extern "C" __m128 _mm_movehl_ps(__m128, __m128);
 
 namespace Manifold {
 class NBool
@@ -2011,7 +1910,7 @@ extern const double DAT_010d5378;
 
 struct NFeature
 {
-    __forceinline static void* operator new(unsigned int, void* p)
+    __forceinline static void* operator new(size_t, void* p)
     {
         return p;
     }
@@ -2330,7 +2229,7 @@ __forceinline NBool NDetector::query(NManifold& m) const
         NV n;
         reinterpret_cast<::FUN_004b4ab0_Class *>((((NInverse*)&n)))->FUN_004b4ab0((int)&(aTb.getRotation()), (int)&(m.normal));
         m.normalSet = true;
-        m.packed = ::PackFloatsToUInt((const ::__m128 *)&(n));
+        m.packed = ::PackFloatsToUInt((const __m128 *)&(n));
         return true;
     }
     NV decoded;
@@ -2383,7 +2282,7 @@ __forceinline void NDetector::compact(NManifold& m) const
     {
         NV n;
         n._setRotatedInverseDir(aTb.getRotation(), m.normal);
-        m.packed = ::PackFloatsToUInt((const ::__m128 *)&(n));
+        m.packed = ::PackFloatsToUInt((const __m128 *)&(n));
         m.normalSet = true;
     }
 }

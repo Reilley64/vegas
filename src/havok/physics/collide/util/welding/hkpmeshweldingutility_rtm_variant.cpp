@@ -4,6 +4,8 @@
 
 // src/havok/physics/collide/util/welding/hkpmeshweldingutility.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/util/welding/hkpmeshweldingutility.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstddef>
+#include <xmmintrin.h>
 #include <new>
 #include <cmath>
 #include "fnv/decl/FUN_00cb1600.h"
@@ -245,7 +247,7 @@ __declspec(align(16)) struct QueryBuffer
 int FUN_00dde4c0(Iface* self, void* a, void* b, int idx, int zero, int* out);
 bool* CheckSubQueries(bool* result, void* key, Iface* self);
 void* FUN_00c908c0(void* alloc, void* arr, int numElems, int elemSize);
-inline void* operator new(unsigned int, void* p)
+inline void* operator new(size_t, void* p)
 {
     return p;
 }
@@ -312,17 +314,7 @@ struct LocalBuffer
 };
 int FUN_00dde4c0(ObjOuter* p2, Transform* trans, void* p1, int i, void* p3, int* outLocal);
 int __cdecl CheckTransformAndProcess(void* p1, ObjOuter* pOuter, void* p3, short* outWord);
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 #include "fnv/symbols_simd.h"
-extern "C" __m128 _mm_sub_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_and_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_cmple_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_load_ps1(const float* p);
-extern "C" int _mm_movemask_ps(__m128 a);
 class hkBoolDDCE
 {
   public:
@@ -405,33 +397,6 @@ __declspec(align(16)) struct FUN_00ddea00_cls
 
     FUN_00ddea00_cls* CopyFromSource(const FUN_00ddea00_src* src);
 };
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, int);
-extern "C" __m128 _mm_add_ss(__m128, __m128);
-extern "C" void _mm_store_ss(float*, __m128);
-extern "C"
-{
-
-    __m128 _mm_set_ss(float);
-
-    __m128 _mm_sub_ps(__m128, __m128);
-
-    __m128 _mm_mul_ps(__m128, __m128);
-
-    __m128 _mm_mul_ss(__m128, __m128);
-
-    __m128 _mm_add_ss(__m128, __m128);
-
-    __m128 _mm_sub_ss(__m128, __m128);
-
-    __m128 _mm_shuffle_ps(__m128, __m128, int);
-
-    __m128 _mm_rsqrt_ss(__m128);
-
-    __m128 _mm_cmpeq_ss(__m128, __m128);
-
-    __m128 _mm_andnot_ps(__m128, __m128);
-}
 struct ScalarNormal
 {
     __m128 q;
@@ -595,20 +560,6 @@ struct Shape
     Vec4 p0, p1, p2;
 };
 volatile unsigned char* __cdecl FUN_00ddcf60(volatile unsigned char* out, const Vec4* a, const Vec4* b, const Shape* s);
-extern "C"
-{
-    __m128 _mm_shuffle_ps(__m128, __m128, int);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_andnot_ps(__m128, __m128);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_sub_ss(__m128, __m128);
-    __m128 _mm_mul_ss(__m128, __m128);
-    __m128 _mm_rsqrt_ss(__m128);
-    __m128 _mm_cmpeq_ss(__m128, __m128);
-    __m128 _mm_set_ss(float);
-    void _mm_store_ss(float*, __m128);
-}
 struct hkVector4q
 {
     __m128 m_vComponents;
@@ -664,8 +615,6 @@ static __forceinline float hkAtan2(float y, float x)
 {
     return ::Atan2(y, x);
 }
-extern "C" __m128 _mm_load_ps(float const* _A);
-extern "C" void _mm_store_ps(float* _V, __m128 _A);
 struct __declspec(align(16)) Row
 {
     float x, y, z, w;
@@ -696,8 +645,6 @@ struct S00dde760_ScratchVector
 };
 void __cdecl FUN_00dde760(int a, int b, int c, int d);
 
-extern "C" ::__m128(_mm_setr_ps)(float, float, float, float);
-extern "C" ::__m128(_mm_add_ps)(::__m128, ::__m128);
 
 extern const char str_010d7fc8[];
 extern const char str_010d8004[];
@@ -705,10 +652,10 @@ extern const char str_010d8014[];
 
 struct S00dde4c0_Vec
 {
-    ::__m128 q;
+    __m128 q;
     __forceinline void setAll3(float v)
     {
-        q = (_mm_setr_ps)(v, v, v, ::DAT_01011d78);
+        q = _mm_setr_ps(v, v, v, ::DAT_01011d78);
     }
 };
 struct S00dde4c0_Tri
@@ -768,12 +715,12 @@ struct S00dde4c0_Mesh
 };
 struct S00dde4c0_Out
 {
-    ::__m128 a;
-    ::__m128 b;
-    ::__m128 c;
-    ::__m128 d;
-    ::__m128 e;
-    ::__m128 f;
+    __m128 a;
+    __m128 b;
+    __m128 c;
+    __m128 d;
+    __m128 e;
+    __m128 f;
 };
 
 struct S00dde4c0_Array
@@ -837,11 +784,11 @@ int __cdecl FUN_00dde4c0(S00dde4c0_Mesh* mesh, S00dde4c0_Tri* tri, int skip, int
         work.center = verts[idx % 3];
         float eps = ::DAT_010141cc;
         work.lo.setAll3(-eps);
-        ::__m128 low = work.lo.q;
+        __m128 low = work.lo.q;
         S00dde4c0_Vec hi;
         hi.setAll3(eps);
-        aabb.mn.q = (_mm_add_ps)(low, work.center.q);
-        aabb.mx.q = (_mm_add_ps)(hi.q, work.center.q);
+        aabb.mn.q = _mm_add_ps(low, work.center.q);
+        aabb.mx.q = _mm_add_ps(hi.q, work.center.q);
         mesh->query(&aabb, &hits);
     }
     bool first = true;
@@ -856,7 +803,7 @@ int __cdecl FUN_00dde4c0(S00dde4c0_Mesh* mesh, S00dde4c0_Tri* tri, int skip, int
             continue;
         int winding[2];
         S00dde4c0_Out out;
-        if (::FUN_00ddd6f0((const ::__m128 *)(verts), (const ::__m128 *)(const void *)(&shape->data), idx, (::__m128 *)(::S00dde4c0_Out *)(&out), winding) != 4)
+        if (::FUN_00ddd6f0((const __m128 *)(verts), (const __m128 *)(const void *)(&shape->data), idx, (__m128 *)(::S00dde4c0_Out *)(&out), winding) != 4)
             continue;
         if (checkWinding && winding[0] != (winding[1] + 1) % 3)
         {

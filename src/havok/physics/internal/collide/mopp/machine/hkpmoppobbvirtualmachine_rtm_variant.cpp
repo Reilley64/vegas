@@ -4,6 +4,7 @@
 
 // src/havok/physics/internal/collide/mopp/machine/hkpmoppobbvirtualmachine.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/physics/internal/collide/mopp/machine/hkpmoppobbvirtualmachine.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <xmmintrin.h>
 #include "fnv/decl/FUN_00cb1600.h"
 #include "fnv/decl/FUN_00cc00e0.h"
 #include "fnv/decl/SinkOwner.h"
@@ -140,23 +141,8 @@ struct VirtualMachine {
 };
 
 #ifndef _INCLUDED_MM2
-union __declspec(intrin_type) __declspec(align(16)) __m128 {
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 #include "fnv/symbols_simd.h"
 
-extern "C" {
-__m128 _mm_load_ss(const float*);
-__m128 _mm_set_ss(float);
-__m128 _mm_add_ps(__m128, __m128);
-__m128 _mm_sub_ps(__m128, __m128);
-__m128 _mm_mul_ps(__m128, __m128);
-__m128 _mm_and_ps(__m128, __m128);
-__m128 _mm_xor_ps(__m128, __m128);
-__m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-__m128 _mm_set_ps1(float);
-}
 
 #endif
 
@@ -176,7 +162,7 @@ struct ObbVector {
     template<int i> __forceinline void splat(const ObbVector& a) { m_vComponents=_mm_shuffle_ps(a.m_vComponents,a.m_vComponents,i); }
     __forceinline void setFloat(float f) { m_vComponents=_mm_set_ps1(f); }
     __m128 m_vComponents;
-    __forceinline float getComponent(int i) const { return m_vComponents.m128_f32[i]; }
+    __forceinline float getComponent(int i) const { return m_vComponents[i]; }
 };
 
 struct ObbTransform {
@@ -197,7 +183,7 @@ struct ObbCodeView {
     int unk0c;
     ObbVector m_offset;   // w = scale
     const ObbProgram* m_pCollisionShape;
-    __forceinline float getScale() const { return m_offset.m_vComponents.m128_f32[3]; }
+    __forceinline float getScale() const { return m_offset.m_vComponents[3]; }
 };
 
 

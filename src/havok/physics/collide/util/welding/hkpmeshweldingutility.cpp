@@ -2,6 +2,8 @@
 // src/havok/physics/collide/util/welding/hkpmeshweldingutility.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/util/welding/hkpmeshweldingutility.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
+#include <xmmintrin.h>
 #include <cmath>
 #include "fnv/symbols_00c90000.h"
 #include "fnv/symbols_00cbf000.h"
@@ -325,7 +327,7 @@ bool* CheckSubQueries(bool* result, void* key, Iface* self)
 }
 
 
-inline void* operator new(unsigned int, void* p)
+inline void* operator new(size_t, void* p)
 {
     return p;
 }
@@ -475,18 +477,8 @@ int __cdecl CheckTransformAndProcess(void* p1, ObjOuter* pOuter, void* p3, short
     return local2;
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 #include "fnv/symbols_simd.h"
 
-extern "C" __m128 _mm_sub_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_and_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_cmple_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_load_ps1(const float* p);
-extern "C" int _mm_movemask_ps(__m128 a);
 
 
 class hkBoolDDCE
@@ -535,26 +527,6 @@ hkBoolDDCE hkUtilDDCE::FUN_00ddced0(const hkTransformHolderDDCE& kA, const hkTra
 }
 
 namespace fnv_00ddd940 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C"
-{
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_xor_ps(__m128, __m128);
-    __m128 _mm_andnot_ps(__m128, __m128);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_sub_ss(__m128, __m128);
-    __m128 _mm_mul_ss(__m128, __m128);
-    __m128 _mm_rsqrt_ss(__m128);
-    __m128 _mm_cmpeq_ss(__m128, __m128);
-    __m128 _mm_set_ss(float);
-    void _mm_store_ss(float*, __m128);
-}
 
 typedef float hkReal;
 
@@ -578,7 +550,7 @@ struct hkVector4
     }
     __forceinline void setNeg3(const hkVector4& v)
     {
-        m_vComponents = _mm_xor_ps(v.m_vComponents, (*reinterpret_cast<::fnv_00ddd940::__m128 *>(&::DAT_010c4c00)));
+        m_vComponents = _mm_xor_ps(v.m_vComponents, (*reinterpret_cast<__m128 *>(&::DAT_010c4c00)));
     }
     __forceinline void setCross(const hkVector4& v0, const hkVector4& v1)
     {
@@ -735,10 +707,6 @@ FUN_00ddea00_cls* FUN_00ddea00_cls::CopyFromSource(const FUN_00ddea00_src* src)
     return this;
 }
 
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, int);
-extern "C" __m128 _mm_add_ss(__m128, __m128);
-extern "C" void _mm_store_ss(float*, __m128);
 
 // Rotates a's three vectors by index into out, then appends each b[i] not equal to out[0] or out[1] (else stores i in result[j]) and returns the count.
 // @fnv 0x00ddd6f0
@@ -778,29 +746,6 @@ int __cdecl FUN_00ddd6f0(const __m128* apVectors, const __m128* b, int aiStartIn
     return count;
 }
 
-extern "C"
-{
-
-    __m128 _mm_set_ss(float);
-
-    __m128 _mm_sub_ps(__m128, __m128);
-
-    __m128 _mm_mul_ps(__m128, __m128);
-
-    __m128 _mm_mul_ss(__m128, __m128);
-
-    __m128 _mm_add_ss(__m128, __m128);
-
-    __m128 _mm_sub_ss(__m128, __m128);
-
-    __m128 _mm_shuffle_ps(__m128, __m128, int);
-
-    __m128 _mm_rsqrt_ss(__m128);
-
-    __m128 _mm_cmpeq_ss(__m128, __m128);
-
-    __m128 _mm_andnot_ps(__m128, __m128);
-}
 
 extern const float DAT_01011d78;
 extern const float DAT_01017718;
@@ -1057,20 +1002,6 @@ volatile unsigned char* __cdecl FUN_00ddcf60(volatile unsigned char* out, const 
     return out;
 }
 
-extern "C"
-{
-    __m128 _mm_shuffle_ps(__m128, __m128, int);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_andnot_ps(__m128, __m128);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_sub_ss(__m128, __m128);
-    __m128 _mm_mul_ss(__m128, __m128);
-    __m128 _mm_rsqrt_ss(__m128);
-    __m128 _mm_cmpeq_ss(__m128, __m128);
-    __m128 _mm_set_ss(float);
-    void _mm_store_ss(float*, __m128);
-}
 
 struct hkVector4q
 {
@@ -1150,8 +1081,6 @@ float FUN_00ddd7e0(const hkVector4q* apVertices, float* sinOut, float* cosOut)
     return hkAtan2(*sinOut, *cosOut);
 }
 
-extern "C" __m128 _mm_load_ps(float const* _A);
-extern "C" void _mm_store_ps(float* _V, __m128 _A);
 struct __declspec(align(16)) Row
 {
     float x, y, z, w;

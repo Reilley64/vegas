@@ -6,14 +6,9 @@
 // src/havok/physics/dynamics/constraint/util/hkpconstraintpivotsutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/util/hkpconstraintpivotsutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <xmmintrin.h>
 #include "fnv/symbols_0104d000.h"
 #include "fnv/symbols_01268000.h"
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C" __m128 _mm_setzero_ps(void);
 
 struct hkVector4q
 {
@@ -29,7 +24,7 @@ struct hkVector4q
     }
     float& operator()(int i)
     {
-        return m_vComponents.m128_f32[i];
+        return m_vComponents[i];
     }
 };
 

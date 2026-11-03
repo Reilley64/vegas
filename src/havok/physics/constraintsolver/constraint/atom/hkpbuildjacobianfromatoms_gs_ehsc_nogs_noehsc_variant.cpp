@@ -484,7 +484,7 @@ static __declspec(noinline) void FUN_00d6cc80(const Pair337* pair, Jacobian337* 
     _mm_store_ss(&scalar, sum);
     float denominator = (float)(scalar + ::DAT_010c9300);
     float reciprocal = 1.0f / denominator;
-    output->first.m128_f32[3] = reciprocal;
+    output->first[3] = reciprocal;
     *effectiveMass = reciprocal;
 }
 void BuildJacobian337(const Pair337* pair, Jacobian337* output, const __m128* direction, float* mass)

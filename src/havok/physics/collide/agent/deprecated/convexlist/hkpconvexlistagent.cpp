@@ -3,6 +3,8 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 
+#include <cstddef>
+#include <xmmintrin.h>
 #include "generated/data/vtables.h"
 #include <windows.h>
 #include <new>
@@ -354,7 +356,7 @@ class hkpCollisionAgentD33D
     unsigned short m_usMemSizeAndFlags;
     short m_sReferenceCount;
 
-    static __forceinline void* operator new(unsigned int uiSize) throw()
+    static __forceinline void* operator new(size_t uiSize) throw()
     {
         hkpCollisionAgentD33D* p = (hkpCollisionAgentD33D*)FUN_00c85750()->heap().AllocateMemoryBlock(uiSize);
         p->m_usMemSizeAndFlags = (unsigned short)uiSize;
@@ -439,7 +441,7 @@ struct hkArrayD33E
 
     hkArrayD33E() : m_data(0), m_iElementCount(0), m_iCapacityState(0x80000000)
     {}
-    static void* operator new(unsigned int, void* p) throw()
+    static void* operator new(size_t, void* p) throw()
     {
         return p;
     }
@@ -542,7 +544,7 @@ class hkpCollisionAgentD343
     unsigned short m_usMemSizeAndFlags;
     short m_sReferenceCount;
 
-    static __forceinline void* operator new(unsigned int uiSize) throw()
+    static __forceinline void* operator new(size_t uiSize) throw()
     {
         hkpCollisionAgentD343* p = (hkpCollisionAgentD343*)FUN_00c85750()->heap().AllocateMemoryBlock(uiSize);
         p->m_usMemSizeAndFlags = (unsigned short)uiSize;
@@ -916,10 +918,6 @@ struct StringCursor
     char* m_endCommandPointer;
 };
 
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-} __m128;
 
 struct hkVector4
 {
@@ -937,7 +935,7 @@ struct hkContactPoint
     hkVector4 m_vSeparatingNormal;
     float getDistance() const
     {
-        return m_vSeparatingNormal.m_vComponents.m128_f32[3];
+        return m_vSeparatingNormal.m_vComponents[3];
     }
     hkContactPoint& operator=(const hkContactPoint& other)
     {
@@ -983,7 +981,7 @@ struct hkpClosestCdPointCollector
 
     hkpClosestCdPointCollector()
     {
-        m_kHitPoint.m_kPoint.m_vSeparatingNormal.m_vComponents.m128_f32[3] = ::DAT_0104da48;
+        m_kHitPoint.m_kPoint.m_vSeparatingNormal.m_vComponents[3] = ::DAT_0104da48;
         m_fEarlyOutDistance = ::DAT_0104da48;
         vtbl = &DAT_010c476c;
         m_kHitPoint.m_pRootCollidableA = 0;

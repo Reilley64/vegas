@@ -5,6 +5,7 @@
 
 // src/havok/physics/dynamics/entity/hkprigidbody.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/entity/hkprigidbody.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstddef>
 #include <new>
 #include <cmath>
 #include "fnv/decl/FUN_005616d0_Owner.h"
@@ -1183,7 +1184,7 @@ struct CA92A0Element
     int unk08;
     int unk0C;
 
-    static void* operator new(unsigned int, void* p) throw()
+    static void* operator new(size_t, void* p) throw()
     {
         return p;
     }
@@ -1578,7 +1579,7 @@ struct FixedMotion181 : Motion181
 {
     FixedMotion181(const V181*, const V181*) throw();
 };
-inline void* operator new(unsigned int, void* memory) throw()
+inline void* operator new(size_t, void* memory) throw()
 {
     return memory;
 }

@@ -4,6 +4,8 @@
 
 // src/havok/physics/collide/agent/convexagent/spherebox/hkpsphereboxagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/convexagent/spherebox/hkpsphereboxagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstddef>
+#include <xmmintrin.h>
 #include <intrin.h>
 #include <windows.h>
 #include "fnv/decl/FUN_005609f0_shell.h"
@@ -89,13 +91,6 @@ struct CpuCallData { void* descriptor; float bound; unsigned int value; };
 struct CpuObject {
     void FUN_00d3d000(void*, void*, unsigned int, unsigned int);
 };
-union __declspec(intrin_type) __declspec(align(16)) __m128 { float m128_f32[4]; unsigned __int64 m128_u64[2]; };
-extern "C" {
-__m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-__m128 _mm_mul_ps(__m128, __m128);
-__m128 _mm_add_ps(__m128, __m128);
-__m128 _mm_xor_ps(__m128, __m128);
-}
 struct SimplexVertex
 {
     __m128 m_kPointA;
@@ -145,22 +140,6 @@ struct Agent : AgentBase
 extern "C" {
 unsigned __int64 __rdtsc(void);
 void _ReadWriteBarrier(void);
-__m128 _mm_add_ss(__m128, __m128);
-__m128 _mm_sub_ss(__m128, __m128);
-__m128 _mm_mul_ss(__m128, __m128);
-__m128 _mm_andnot_ps(__m128, __m128);
-__m128 _mm_and_ps(__m128, __m128);
-__m128 _mm_cmpeq_ss(__m128, __m128);
-__m128 _mm_cmplt_ps(__m128, __m128);
-__m128 _mm_min_ps(__m128, __m128);
-__m128 _mm_sub_ps(__m128, __m128);
-__m128 _mm_rsqrt_ss(__m128);
-__m128 _mm_set_ss(float);
-__m128 _mm_load_ss(float const*);
-void _mm_store_ss(float*, __m128);
-__m128 _mm_setzero_ps(void);
-int _mm_movemask_ps(__m128);
-__m128 _mm_unpackhi_ps(__m128, __m128);
 }
 
 extern const char str_010cf050[];
@@ -546,22 +525,6 @@ void AgentBase::FUN_00d3c5b0(int a, int b, int c, Simplex* s)
 }
 
 extern "C" {
-__m128 _mm_and_ps(__m128, __m128);
-__m128 _mm_andnot_ps(__m128, __m128);
-__m128 _mm_sub_ps(__m128, __m128);
-__m128 _mm_min_ps(__m128, __m128);
-__m128 _mm_cmplt_ps(__m128, __m128);
-__m128 _mm_cmpeq_ss(__m128, __m128);
-__m128 _mm_setzero_ps(void);
-__m128 _mm_set_ss(float);
-__m128 _mm_load_ss(const float*);
-__m128 _mm_add_ss(__m128, __m128);
-__m128 _mm_sub_ss(__m128, __m128);
-__m128 _mm_mul_ss(__m128, __m128);
-__m128 _mm_rsqrt_ss(__m128);
-__m128 _mm_unpackhi_ps(__m128, __m128);
-int _mm_movemask_ps(__m128);
-void _mm_store_ss(float*, __m128);
 unsigned __int64 __rdtsc(void);
 void _ReadWriteBarrier(void);
 }
@@ -905,7 +868,7 @@ typedef float hkReal;
 typedef unsigned short hkUint16;
 typedef unsigned int hkUint32;
 typedef unsigned long __w64 hkUlong;
-typedef unsigned __w64 hk_size_t;class FinishingFlag
+typedef size_t hk_size_t;class FinishingFlag
 {
 public:
 FinishingFlag():m_bFinishing(0){}
@@ -956,8 +919,6 @@ return val();
 }
 private:
 TYPE m_kStorage;};
-extern "C"{
-}
 template<typename T>
 class hkThreadLocalData
 {
@@ -1015,27 +976,6 @@ public:
 hkReferencedObject(class FinishingFlag flag){}
 };
 
-extern "C"{
-extern __m128 _mm_add_ss(__m128 _A,__m128 _B);
-extern __m128 _mm_add_ps(__m128 _A,__m128 _B);
-extern __m128 _mm_sub_ss(__m128 _A,__m128 _B);
-extern __m128 _mm_sub_ps(__m128 _A,__m128 _B);
-extern __m128 _mm_mul_ss(__m128 _A,__m128 _B);
-extern __m128 _mm_mul_ps(__m128 _A,__m128 _B);
-extern __m128 _mm_rsqrt_ss(__m128 _A);
-extern __m128 _mm_min_ps(__m128 _A,__m128 _B);
-extern __m128 _mm_and_ps(__m128 _A,__m128 _B);
-extern __m128 _mm_andnot_ps(__m128 _A,__m128 _B);
-extern __m128 _mm_xor_ps(__m128 _A,__m128 _B);
-extern __m128 _mm_cmpeq_ss(__m128 _A,__m128 _B);
-extern __m128 _mm_cmplt_ps(__m128 _A,__m128 _B);
-extern __m128 _mm_shuffle_ps(__m128 _A,__m128 _B,unsigned int _Imm8);
-extern __m128 _mm_unpackhi_ps(__m128 _A,__m128 _B);
-extern int _mm_movemask_ps(__m128 _A);
-extern __m128 _mm_set_ss(float _A);
-extern __m128 _mm_setzero_ps(void);
-extern __m128 _mm_load_ss(float const*_A);
-extern void _mm_store_ss(float*_V,__m128 _A);};
 typedef __m128 hkQuadReal;
 class hkVector4;
 typedef const hkVector4&hkVector4Parameter;

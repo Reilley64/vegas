@@ -7,6 +7,7 @@
 // to their real unit once identified.
 // src/havok/physics/collide/shape/convex/cylinder/hkpcylindershape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/convex/cylinder/hkpcylindershape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstddef>
 #include <intrin.h>
 #include <windows.h>
 #include "fnv/decl/FunctionContext.h"
@@ -564,7 +565,7 @@ typedef unsigned char hkUint8_S;
 typedef unsigned short hkUint16_S;
 typedef unsigned int hkUint32_S;
 typedef unsigned long __w64 hkUlong_S;
-typedef unsigned __w64 hk_size_t;class FinishingFlag
+typedef size_t hk_size_t;class FinishingFlag
 {
 public:
 FinishingFlag():m_bFinishing(0){}
@@ -611,8 +612,6 @@ return m_kStorage;
 }
 private:
 TYPE m_kStorage;};
-extern "C"{
-}
 template<typename T>
 class hkThreadLocalData
 {

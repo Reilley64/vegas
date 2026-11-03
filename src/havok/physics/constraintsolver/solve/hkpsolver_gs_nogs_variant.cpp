@@ -3,6 +3,7 @@
 // to their real unit once identified.
 
 
+#include <xmmintrin.h>
 #include <new>
 #include "fnv/decl/FUN_005609f0_shell.h"
 #include "fnv/decl/FUN_005dbf20.h"
@@ -17,16 +18,6 @@
 // src/havok/physics/constraintsolver/solve/hkpsolver.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/physics/constraintsolver/solve/hkpsolver.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 int __cdecl FUN_00d921d0(const signed char* index);
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128 {
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-    short m128_i16[8];
-    int m128_i32[4];
-    __int64 m128_i64[2];
-    unsigned short m128_u16[8];
-    unsigned int m128_u32[4];
-} __m128;
-extern "C" __m128 _mm_add_ss(__m128 a, __m128 b);
 // Adds the lowest single-precision float of b to that of a and stores the result in out.
 // @fnv 0x00c6cce0
 extern "C" void __cdecl AddScalarFloat(__m128* pResult, const __m128* pLeft, const __m128* pRight)
@@ -34,7 +25,6 @@ extern "C" void __cdecl AddScalarFloat(__m128* pResult, const __m128* pLeft, con
     *pResult = _mm_add_ss(*pLeft, *pRight);
 }
 char* __cdecl FUN_00d921c0(char* dst, const char* src);
-extern "C" __m128 _mm_sub_ss(__m128 a, __m128 b);
 // @fnv 0x00c6ccc0
 extern "C" void __cdecl SubtractScalarFloat(__m128* pResult, const __m128* pLeft, const __m128* pRight)
 {
@@ -43,16 +33,6 @@ extern "C" void __cdecl SubtractScalarFloat(__m128* pResult, const __m128* pLeft
 
 #include <math.h>
 #include "fnv/symbols_simd.h"
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ps(__m128, __m128);
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_mul_ss(__m128, __m128);
-extern "C" __m128 _mm_min_ps(__m128, __m128);
-extern "C" __m128 _mm_max_ps(__m128, __m128);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, int);
-extern "C" __m128 _mm_load_ss(const float*);
-extern "C" void _mm_store_ss(float*, __m128);
-extern "C" __m128 _mm_load_ps(const float*);
 extern __m128 DAT_010c7160;
 extern unsigned char DAT_01269204;
 typedef float hkReal;
@@ -1341,12 +1321,6 @@ extern "C" void __cdecl FUN_00d8aac0(const ConstraintSolverInfo& info, const Sol
     stepJacobian(info, temp, schemas, accumulators, elemTemp);
 }
 
-extern "C" __m128 _mm_add_ps(__m128, __m128);
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, int);
-extern "C" __m128 _mm_load_ss(const float*);
-extern "C" void _mm_store_ss(float*, __m128);
 class Scalar {
     union { __m128 q; float components[4]; };
 public:
@@ -1375,7 +1349,7 @@ public:
     __forceinline void add3clobberW(const Vec& b) {q=_mm_add_ps(q,b.q);}
     __forceinline void sub3clobberW(const Vec& b) {q=_mm_sub_ps(q,b.q);}
     __forceinline void setBroadcast3clobberW(const Vec& b,int component) {q=_mm_shuffle_ps(b.q,b.q,0xff);}
-    __forceinline const float& operator()(int component) const {return q.m128_f32[component];}
+    __forceinline const float& operator()(int component) const {return q[component];}
     __forceinline Scalar horizontalAdd3() const {
         __m128 xy=_mm_add_ss(_mm_shuffle_ps(q,q,0x55),q);
         return _mm_add_ss(_mm_shuffle_ps(q,q,0xaa),xy);
@@ -1481,7 +1455,6 @@ void __cdecl FUN_00d893a0(unsigned int settingsAddress, void* unused, unsigned i
     }
 }
 
-extern "C" __m128 _mm_setzero_ps();
 
 
 
@@ -1712,12 +1685,6 @@ void __cdecl FUN_00d89690(const hkpSolverInfoQ& info, const hkSolverQ::SolverSte
     }
 }
 
-extern "C" void _mm_store_ss(float*,__m128);
-extern "C" __m128 _mm_mul_ps(__m128,__m128);
-extern "C" __m128 _mm_sub_ps(__m128,__m128);
-extern "C" __m128 _mm_add_ps(__m128,__m128);
-extern "C" __m128 _mm_shuffle_ps(__m128,__m128,int);
-extern "C" __m128 _mm_setzero_ps();
 
 template <class TYPE> class PoweredChainCell {
 public:
@@ -2091,23 +2058,10 @@ void __cdecl FUN_00d8a3a0(const PoweredChainSettings& info, const PoweredChainSo
 
 namespace ConstraintStepImplementation {
 
-namespace ConstraintStepStorage { typedef union __declspec(intrin_type) __declspec(align(16)) __m128 { struct { float x,y,z,w; }; } __m128;
-}
-extern "C" ConstraintStepStorage::__m128 _mm_add_ss(ConstraintStepStorage::__m128, ConstraintStepStorage::__m128);
-extern "C" ConstraintStepStorage::__m128 _mm_sub_ss(ConstraintStepStorage::__m128, ConstraintStepStorage::__m128);
-extern "C" ConstraintStepStorage::__m128 _mm_mul_ss(ConstraintStepStorage::__m128, ConstraintStepStorage::__m128);
-extern "C" ConstraintStepStorage::__m128 _mm_add_ps(ConstraintStepStorage::__m128, ConstraintStepStorage::__m128);
-extern "C" ConstraintStepStorage::__m128 _mm_sub_ps(ConstraintStepStorage::__m128, ConstraintStepStorage::__m128);
-extern "C" ConstraintStepStorage::__m128 _mm_mul_ps(ConstraintStepStorage::__m128, ConstraintStepStorage::__m128);
-extern "C" ConstraintStepStorage::__m128 _mm_min_ps(ConstraintStepStorage::__m128, ConstraintStepStorage::__m128);
-extern "C" ConstraintStepStorage::__m128 _mm_max_ps(ConstraintStepStorage::__m128, ConstraintStepStorage::__m128);
-extern "C" ConstraintStepStorage::__m128 _mm_shuffle_ps(ConstraintStepStorage::__m128,ConstraintStepStorage::__m128,int);
-extern "C" ConstraintStepStorage::__m128 _mm_load_ss(const float*);
-extern "C" void _mm_store_ss(float*,ConstraintStepStorage::__m128);
-extern ConstraintStepStorage::__m128 DAT_010c7160;
+extern __m128 DAT_010c7160;
 extern unsigned char DAT_01269204;
 typedef float ConstraintStepReal;
-typedef ConstraintStepStorage::__m128 ConstraintStepQuad;
+typedef __m128 ConstraintStepQuad;
 class ConstraintStepScalar
 {
 public:

@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/motion/hkpmotion.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/motion/hkpmotion.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <xmmintrin.h>
 #include "fnv/decl/FUN_00c86660_cls.h"
 #include "fnv/decl/hkSweptTransformq.h"
 #include "fnv/symbols_00cf2000.h"
@@ -124,16 +125,7 @@ int FUN_00c86380(unsigned int registerArg0, unsigned int registerArg1, unsigned 
     return (int)callResult0;
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 
-extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_add_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_sub_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
 
 struct hkVector4C864F
 {
@@ -209,13 +201,7 @@ void hkpMotionC864F::ApplyImpulse(const hkVector4C864F& kImpulse)
 }
 
 namespace fnv_00c86530 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 
-extern "C" __m128 _mm_setzero_ps();
 
 struct hkVector4C865
 {
@@ -345,11 +331,6 @@ FUN_00c86530::FUN_00c86530(const hkVector4C865& kPosition, const hkQuaternionC86
 }  // namespace fnv_00c86530
 
 namespace fnv_00c86610 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 struct Motion_00c86660
 {
 };
@@ -392,7 +373,6 @@ void FUN_00c864d0_Class::CopyFrom(__m128* apSource)
     m_f0e0 = *apSource;
 }
 
-extern "C" void _mm_store_ss(float*, __m128);
 
 struct MotionMassView : hkpMotionC864F
 {

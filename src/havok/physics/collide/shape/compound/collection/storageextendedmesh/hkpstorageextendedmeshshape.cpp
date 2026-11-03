@@ -2,6 +2,7 @@
 // src/havok/physics/collide/shape/compound/collection/storageextendedmesh/hkpstorageextendedmeshshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/compound/collection/storageextendedmesh/hkpstorageextendedmeshshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
 #include "fnv/decl/Container.h"
 #include "fnv/decl/FUN_00c90510_class.h"
 #include "fnv/decl/S_00d55950.h"
@@ -267,7 +268,7 @@ __declspec(noinline) FUN_00d49c40::FUN_00d49c40(hkFinishLoadedObjectFlagD4A1 fla
 __declspec(noinline) FUN_00d4a170::FUN_00d4a170(hkFinishLoadedObjectFlagD4A1 flag) throw()
 {}
 
-inline void* operator new(unsigned int, void* p) throw()
+inline void* operator new(size_t, void* p) throw()
 {
     return p;
 }
@@ -977,7 +978,7 @@ hkpExtendedMeshShapeTrianglesSubpartD4AB& hkpExtendedMeshShapeTrianglesSubpartD4
 }
 
 namespace fnv_00d4ad60 {
-inline void* operator new(unsigned int, void* p) throw()
+inline void* operator new(size_t, void* p) throw()
 {
     return p;
 }
@@ -1286,7 +1287,7 @@ struct StorageReferencedObject : hkBaseObject
     hkInt16 m_sReferenceCount;
     __forceinline StorageReferencedObject() : m_sReferenceCount(1)
     {}
-    __forceinline void* operator new(unsigned int nbytes)
+    __forceinline void* operator new(size_t nbytes)
     {
         StorageReferencedObject* b = static_cast<StorageReferencedObject*>(
             NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(nbytes));
@@ -1562,21 +1563,8 @@ Derived::Derived()
 
 #include <xmmintrin.h>
 namespace fnv_00d56500 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C"
-{
-    __m128 _mm_sub_ps(__m128 a, __m128 b);
-    __m128 _mm_and_ps(__m128 a, __m128 b);
-    __m128 _mm_cmple_ps(__m128 a, __m128 b);
-    __m128 _mm_set_ps1(float a);
-    int _mm_movemask_ps(__m128 a);
-}
 
-inline void* operator new(unsigned int, void* p) throw()
+inline void* operator new(size_t, void* p) throw()
 {
     return p;
 }
@@ -1753,8 +1741,8 @@ ShapesSubpartS* ShapesSubpartS::FUN_00d56500(hkConvexShapeS* const* childShapes,
         dst[i] = childShapes[i];
     }
 
-    m_rotation.m_vComponents = (*reinterpret_cast<const ::fnv_00d56500::__m128 *>((void *)&::DAT_010c71b0));
-    const int bOffsetNonZero = !equals3(offset, (*reinterpret_cast<const ::fnv_00d56500::__m128 *>(&::DAT_01267e30)), ::AngularDashpotApplyD4DCB0::DAT_01017d00);
+    m_rotation.m_vComponents = (*reinterpret_cast<const __m128 *>((void *)&::DAT_010c71b0));
+    const int bOffsetNonZero = !equals3(offset, (*reinterpret_cast<const __m128 *>(&::DAT_01267e30)), ::AngularDashpotApplyD4DCB0::DAT_01017d00);
     *(int*)&m_vTranslation.w = bOffsetNonZero | 0x3f000000;
     return this;
 }

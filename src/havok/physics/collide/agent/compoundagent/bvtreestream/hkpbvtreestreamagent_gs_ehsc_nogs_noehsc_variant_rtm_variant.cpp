@@ -7,6 +7,7 @@
 // to their real unit once identified.
 // src/havok/physics/collide/agent/compoundagent/bvtreestream/hkpbvtreestreamagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/compoundagent/bvtreestream/hkpbvtreestreamagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstddef>
 #include <intrin.h>
 #include <windows.h>
 #include "fnv/decl/FUN_005609f0_shell.h"
@@ -312,7 +313,7 @@ enum hkResult
 HK_SUCCESS=0,
 HK_FAILURE=1
 };
-typedef unsigned __w64 hk_size_t;
+typedef size_t hk_size_t;
 typedef hkReal hkTime;class FinishingFlag
 {
 public:
@@ -370,8 +371,6 @@ return val();
 }
 private:
 TYPE m_kStorage;};
-extern "C"{
-}
 template<typename T>
 class hkThreadLocalData
 {
@@ -1207,9 +1206,6 @@ hkpCollisionDispatcher*m_pCollisionDispatcher;
 hkAabb m_kBoundingBox;
 AgentSectorPointerArray m_kAgentNnTrack;
 };
-extern "C"
-{
-}
 class hkpBvTreeShape:public hkpShape
 {
 public:

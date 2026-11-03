@@ -170,16 +170,6 @@ __declspec(noinline) void LongRayVm::FUN_00dd1f30(const LongRayQueryInt* query, 
 }
 
 namespace LongRayTreeDetail {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-};
-extern "C" __m128 _mm_load_ss(const float*);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-extern "C" __m128 _mm_setr_ps(float, float, float, float);
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ps(__m128, __m128);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
 static __forceinline int readTriple(const unsigned char* q)
 {
     int x = q[0] << 8;
@@ -236,11 +226,11 @@ class hkVector4
     }
     __forceinline float& operator()(int n)
     {
-        return bits.m128_f32[n];
+        return bits[n];
     }
     __forceinline const float& operator()(int n) const
     {
-        return bits.m128_f32[n];
+        return bits[n];
     }
     __forceinline void set(float x, float y, float z, float w)
     {

@@ -5,6 +5,8 @@
 
 // src/havok/physics/collide/agent/convexagent/capsuletriangle/hkpcapsuletriangleagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/convexagent/capsuletriangle/hkpcapsuletriangleagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstddef>
+#include <xmmintrin.h>
 #include <intrin.h>
 #include <windows.h>
 #include "fnv/decl/FUN_005609f0_shell.h"
@@ -77,17 +79,6 @@ struct FUN_00d39980_cls {
     unsigned short m_w12;
     void* m_sub;
 };
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128 {
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-    int m128_i32[4];
-    __int64 m128_i64[2];
-    unsigned int m128_u32[4];
-} __m128;
-extern "C" __m128 _mm_xor_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_add_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
 struct hkVector4 {
     __m128 m_vComponents;
     void operator=(const hkVector4& o) { m_vComponents = o.m_vComponents; }
@@ -199,12 +190,6 @@ static __forceinline void transform(Vec4* out, const char* shape, int count, con
     }
 }
 void __cdecl TransformAndDispatch(char* a1, char* a2, char* pExtra, void* a4, int a5, int a6);
-extern "C" __m128 _mm_sub_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_add_ss(__m128 a, __m128 b);
-extern "C" void _mm_store_ss(float* p, __m128 a);
-extern "C" __m128 _mm_load_ps(const float* p);
-extern "C" void _mm_store_ps(float* p, __m128 a);
-extern "C" __m128 _mm_rsqrt_ps(__m128 a);
 static __forceinline float SqLenLane(__m128 x)
 {
     __m128 sq = _mm_mul_ps(x, x);
@@ -382,7 +367,7 @@ typedef unsigned char hkUint8;
 typedef unsigned short hkUint16;
 typedef unsigned int hkUint32;
 typedef unsigned long __w64 hkUlong;
-typedef unsigned __w64 hk_size_t;class FinishingFlag
+typedef size_t hk_size_t;class FinishingFlag
 {
 public:
 FinishingFlag():m_bFinishing(0){}
@@ -434,8 +419,6 @@ return val();
 }
 private:
 TYPE m_kStorage;};
-extern "C"{
-}
 template<typename T>
 class hkThreadLocalData
 {
@@ -499,10 +482,6 @@ public:
 hkReferencedObject(class FinishingFlag flag){}
 };
 
-extern "C"{
-
-
-};
 typedef __m128 hkQuadReal;
 class hkVector4_S;
 typedef const hkVector4_S&hkVector4Parameter;class Vector4Comparison;
@@ -1005,9 +984,6 @@ void setType(){m_type=HK_SHAPE_TRIANGLE;}
 {
 return&m_kVertexA;
 }
-extern "C"
-{
-}
 namespace hkVector4Util_S
 {
 __forceinline void __cdecl TransformPointArray(const hkTransform&t,const hkVector4_S*vectorsIn,int numVectors,hkVector4_S*vectorsOut);}
@@ -1077,7 +1053,7 @@ void __cdecl hkpCapsuleTriangleAgent::FUN_00d3a280(const hkpCdBody_S&bodyA,const
 TriangleDistanceUtility::PointTriangleCache cache;
 {
 const hkpTriangleShape*triB=static_cast<const hkpTriangleShape*>(bodyB.getShape());
-::ComputeInverseLengths((::__m128 *)(triB->GetIndexedVertices()),(float *)&(cache));
+::ComputeInverseLengths((__m128 *)(triB->GetIndexedVertices()),(float *)&(cache));
 }
 ContactPointPair event(bodyA,bodyB);
 if(getClosestPointInternal(bodyA,bodyB,input,cache,event.m_kPoint))
@@ -1178,7 +1154,6 @@ ContactPointAgentEntry m_akContactRecords[HK_MAX_CONTACT_POINT];
 };
 public:
 ValueWrapper<ContactPointBuffer*>m_akContactRecords;};
-extern "C" __m128 _mm_unpackhi_ps(__m128, __m128);
 static __forceinline void updateXYZ(hkVector4_S& dst,const hkVector4_S& xyz) {
     reinterpret_cast<hkQuadReal&>(dst)=_mm_shuffle_ps(xyz,_mm_unpackhi_ps(xyz,dst),0xc4);
 }

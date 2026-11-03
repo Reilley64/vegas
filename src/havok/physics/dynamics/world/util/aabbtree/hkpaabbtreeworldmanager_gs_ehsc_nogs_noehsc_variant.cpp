@@ -5,6 +5,7 @@
 
 // src/havok/physics/dynamics/world/util/aabbtree/hkpaabbtreeworldmanager.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/util/aabbtree/hkpaabbtreeworldmanager.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstddef>
 #include <windows.h>
 #include "fnv/decl/AabbTree16.h"
 #include "fnv/decl/CollectorState.h"
@@ -343,7 +344,7 @@ class hkHandlerD085
 struct PlaceTagD088
 {
 };
-inline void* operator new(unsigned int, void* p, PlaceTagD088) throw()
+inline void* operator new(size_t, void* p, PlaceTagD088) throw()
 {
     __assume(p != 0);
     return p;

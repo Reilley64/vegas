@@ -2,6 +2,8 @@
 // src/havok/physics/vehicle/driverinput/default/hkpvehicledefaultanalogdriverinput.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/vehicle/driverinput/default/hkpvehicledefaultanalogdriverinput.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
+#include <xmmintrin.h>
 #include "fnv/symbols_01011000.h"
 #include "fnv/symbols_01016000.h"
 #include "fnv/symbols_01017000.h"
@@ -281,7 +283,7 @@ class hkRefObjE43A
     unsigned short m_usMemSizeAndFlags;
     short m_sReferenceCount;
 
-    static void* operator new(unsigned int nbytes)
+    static void* operator new(size_t nbytes)
     {
         hkRefObjE43A* b = static_cast<hkRefObjE43A*>(hkRouterE43A::FUN_00c85750().heap().AllocateMemoryBlock(nbytes));
         b->m_usMemSizeAndFlags = (unsigned short)nbytes;
@@ -366,27 +368,6 @@ hkReal AnalogDriverInput::GetOutput(hkReal deltaTime, const void* vehicle, const
 }
 }  // namespace fnv_00e436b0
 
-struct __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float f0, f1, f2, f3;
-};
-extern "C"
-{
-    __m128 _mm_set_ss(float);
-    __m128 _mm_load_ps(const float*);
-    void _mm_store_ss(float*, __m128);
-    float _mm_cvtss_f32(__m128);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_sub_ss(__m128, __m128);
-    __m128 _mm_mul_ss(__m128, __m128);
-    __m128 _mm_sqrt_ss(__m128);
-    __m128 _mm_rsqrt_ss(__m128);
-    __m128 _mm_cmpeq_ss(__m128, __m128);
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_andnot_ps(__m128, __m128);
-    __m128 _mm_shuffle_ps(__m128, __m128, int);
-}
 
 extern const float DAT_01011d78 = 0.0f;
 extern const float DAT_01016248 = 0.5f;

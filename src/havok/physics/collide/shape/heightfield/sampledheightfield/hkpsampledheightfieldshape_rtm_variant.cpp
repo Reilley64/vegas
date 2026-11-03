@@ -4,13 +4,13 @@
 
 // src/havok/physics/collide/shape/heightfield/sampledheightfield/hkpsampledheightfieldshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/heightfield/sampledheightfield/hkpsampledheightfieldshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstddef>
+#include <xmmintrin.h>
 #include "fnv/decl/SampledHeightRayCastView.h"
 #include "fnv/symbols_00d26000.h"
 #include "fnv/symbols_01012000.h"
 #include "havok/hkpSampledHeightFieldShape.h"
 #include "fnv_asm_helpers.h"   // project x87 helpers (fnv_SinCos, fnv_FloatToInt), kept last so earlier code is unchanged
-union __declspec(intrin_type) __declspec(align(16)) __m128 { float m128_f32[4]; unsigned __int64 m128_u64[2]; };
-extern "C" __m128 _mm_load_ps1(const float*);
 struct Cls_00d24670 {
     virtual void v00(); virtual void v04(); virtual void v08(); virtual void v0c();
     virtual void v10(); virtual void v14(); virtual void v18(); virtual void v1c();
@@ -107,7 +107,6 @@ struct Obj {
 
     void FUN_00d26120(Input* input, void* arg2, void* arg3);
 };
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
 __declspec(align(16)) const hkVector4 halfScale = {0.5f, 0.5f, 0.5f, 0.5f};
 struct SampledHeightField : hkpSampledHeightFieldShape {
     virtual void slot01();
@@ -126,8 +125,7 @@ struct SampledHeightField : hkpSampledHeightFieldShape {
     void FUN_00d249f0(hkUlong transform, float tolerance, hkUlong aabb);
 };
 
-inline void* operator new(unsigned int,void* p) throw() { return p; }
-extern "C" { __m128 _mm_set_ps(float,float,float,float); __m128 _mm_setr_ps(float,float,float,float); __m128 _mm_mul_ps(__m128,__m128); __m128 _mm_load_ss(const float*); __m128 _mm_shuffle_ps(__m128,__m128,int); }
+inline void* operator new(size_t,void* p) throw() { return p; }
 
 
 
@@ -141,8 +139,8 @@ struct hkVec4
     void operator=(const hkVec4& v) { m_vComponents = v.m_vComponents; }
     void mul4(const hkVec4& a) { m_vComponents = _mm_mul_ps(m_vComponents, a.m_vComponents); }
     void setMul4(float r, const hkVec4& a) { __m128 s = _mm_load_ss(&r); __m128 t = _mm_shuffle_ps(s, s, 0); m_vComponents = _mm_mul_ps(t, a.m_vComponents); }
-    float& operator()(int i) { return m_vComponents.m128_f32[i]; }
-    const float& operator()(int i) const { return m_vComponents.m128_f32[i]; }
+    float& operator()(int i) { return m_vComponents[i]; }
+    const float& operator()(int i) const { return m_vComponents[i]; }
 };
 
 float FUN_00d97440() throw();
@@ -236,7 +234,7 @@ __forceinline HeightField::HeightField(const hkSampledHeightFieldShapeCinfo& ci,
 
     hkVec4 offset;
     offset.setMul4(FUN_00d97440(), m_kHeightScaleVector);
-    offset.m_vComponents.m128_f32[1] = 0.0f;
+    offset.m_vComponents[1] = 0.0f;
     m_kOffset = offset;
 }
 

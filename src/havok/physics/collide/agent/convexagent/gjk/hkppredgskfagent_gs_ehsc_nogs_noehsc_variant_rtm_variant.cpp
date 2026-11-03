@@ -7,6 +7,8 @@
 
 // src/havok/physics/collide/agent/convexagent/gjk/hkppredgskfagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/convexagent/gjk/hkppredgskfagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstddef>
+#include <xmmintrin.h>
 #include <intrin.h>
 #include <windows.h>
 #include "fnv/decl/Drecv.h"
@@ -51,7 +53,7 @@ typedef unsigned char hkUint8;
 typedef unsigned short hkUint16;
 typedef unsigned int hkUint32;
 typedef unsigned long __w64 hkUlong;
-typedef unsigned __w64 hk_size_t;
+typedef size_t hk_size_t;
 typedef hkReal hkTime;class FinishingFlag
 {
 public:
@@ -112,8 +114,6 @@ return val();
 }
 private:
 TYPE m_kStorage;};
-extern "C"{
-}
 template<typename T>
 class hkThreadLocalData
 {
@@ -188,16 +188,6 @@ return*s_instance;
 protected:
 hkSingleton(){}
 };
-typedef union __declspec(intrin_type)__declspec(align(16))__m128{
-unsigned __int16 m128_u16[8];}__m128;
-extern "C"{
-extern __m128 _mm_add_ss(__m128 _A,__m128 _B);
-extern __m128 _mm_add_ps(__m128 _A,__m128 _B);
-extern __m128 _mm_sub_ps(__m128 _A,__m128 _B);
-extern __m128 _mm_mul_ps(__m128 _A,__m128 _B);
-extern __m128 _mm_shuffle_ps(__m128 _A,__m128 _B,unsigned int _Imm8);
-extern __m128 _mm_load_ss(float const*_A);
-extern void _mm_store_ss(float*_V,__m128 _A);};
 typedef __m128 hkQuadReal;
 class hkVector4;
 typedef const hkVector4&hkVector4Parameter;

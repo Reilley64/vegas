@@ -2,6 +2,7 @@
 // src/havok/physics/collide/shape/deprecated/multisphere/hkpmultisphereshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/deprecated/multisphere/hkpmultisphereshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <xmmintrin.h>
 #include <windows.h>
 #include "fnv/decl/FunctionContext.h"
 #include "fnv/symbols_0104d000.h"
@@ -50,10 +51,6 @@ void hkObjectD2A6::FUN_00d2a600(hkStatisticsCollectorD2A6* pkCollector, const Gl
 
 extern int DAT_010ce4bc;
 
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-} __m128;
 
 struct FUN_00d2a760
 {
@@ -83,29 +80,17 @@ FUN_00d2a760::FUN_00d2a760(const hkVector4* spheres, int count)
     m_iSphereCount = count;
 }
 
-extern "C" __m128 _mm_set_ps(float, float, float, float);
 
-extern "C" __m128 _mm_setr_ps(float, float, float, float);
 
-extern "C" __m128 _mm_load_ps1(const float*);
 
-extern "C" __m128 _mm_move_ss(__m128, __m128);
 
-extern "C" __m128 _mm_load_ss(const float*);
 
-extern "C" __m128 _mm_set_ps1(float);
 
-extern "C" __m128 _mm_set_ss(float);
 
-extern "C" __m128 _mm_load_ps(const float*);
 
-extern "C" __m128 _mm_add_ps(__m128, __m128);
 
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
 
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
 
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, int);
 
 extern "C" void _ReadWriteBarrier();
 
@@ -321,11 +306,6 @@ extern "C" void _ReadWriteBarrier(void);
 extern "C" unsigned __int64 __rdtsc(void);
 extern const char str_010ce4f0[];
 
-extern "C" __m128 _mm_add_ss(__m128, __m128);
-extern "C" void _mm_store_ss(float*, __m128);
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, int);
 
 struct Sph_Mon
 {
@@ -544,8 +524,6 @@ void DummyMultiSphere::FUN_00d2abe0(const ShapeRayCastQuery& input, const hkpCdB
     } while (numHits != 0);
 }
 
-extern "C" __m128 _mm_min_ps(__m128, __m128);
-extern "C" __m128 _mm_max_ps(__m128, __m128);
 
 struct Vec4
 {

@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/visualdebugger/viewer/collide/hkpcontactpointviewer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/collide/hkpcontactpointviewer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <xmmintrin.h>
 #include <windows.h>
 #include <new>
 #include "fnv/decl/FUN_00ddcc60.h"
@@ -496,17 +497,6 @@ struct Target
     virtual void Draw(const Vec67* a, const Vec67* b, int color, void* body, int tag);
 };
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-};
-extern "C" __m128 _mm_load_ps(const float*);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ps(__m128, __m128);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, int);
-extern "C" __m128 _mm_add_ss(__m128, __m128);
-extern "C" float _mm_cvtss_f32(__m128);
-extern "C" void _mm_store_ps(float*, __m128);
 static __declspec(noinline) void FUN_00de2aa0(Target* context, Contact67* volatile contact, const Vec67* normal,
                                               int color, void* body, int tag)
 {

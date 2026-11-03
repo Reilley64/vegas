@@ -4,6 +4,7 @@
 
 // src/havok/physics/dynamics/world/simulation/multithreaded/hkpmultithreadedsimulation.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/simulation/multithreaded/hkpmultithreadedsimulation.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstddef>
 #include <new>
 #include "fnv/decl/CB1A90Owner.h"
 #include "fnv/decl/ContainerD082.h"
@@ -448,7 +449,7 @@ struct PairD020
     CollidableD020* m_pkB;
 };
 void NotifyPhantomCollision(PairD020* pkPair);
-inline void* __cdecl operator new(unsigned int, void* p) throw()
+inline void* __cdecl operator new(size_t, void* p) throw()
 {
     return p;
 }
@@ -4714,21 +4715,6 @@ struct ThisCls
     void FUN_00d03c20(ParamObj* p0, ParamObj* p1);
 };
 
-namespace StepBeginSse {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-};
-extern "C"
-{
-    __m128 _mm_load_ss(const float*);
-    __m128 _mm_set_ss(float);
-    __m128 _mm_load_ps(const float*);
-    __m128 _mm_shuffle_ps(__m128, __m128, int);
-    __m128 _mm_mul_ps(__m128, __m128);
-    void _mm_store_ps(float*, __m128);
-}
-}
 extern "C" void _ReadWriteBarrier();
 extern "C" void __debugbreak();
 extern char DAT_010ccbb0;
@@ -4937,15 +4923,15 @@ struct Sub
     {
         m_10c = m_120 * v.z;
         m_110 = (float)m_114 * v.w;
-        StepBeginSse::_mm_store_ps(
-            (float*)&m_10, StepBeginSse::_mm_mul_ps(StepBeginSse::_mm_shuffle_ps(StepBeginSse::_mm_load_ss(&m_10c),
-                                                                                 StepBeginSse::_mm_load_ss(&m_10c), 0),
-                                                    StepBeginSse::_mm_load_ps((const float*)&direction)));
+        _mm_store_ps(
+            (float*)&m_10, _mm_mul_ps(_mm_shuffle_ps(_mm_load_ss(&m_10c),
+                                                                                 _mm_load_ss(&m_10c), 0),
+                                                    _mm_load_ps((const float*)&direction)));
         float dz = v.z;
-        StepBeginSse::_mm_store_ps(
-            (float*)&m_20, StepBeginSse::_mm_mul_ps(StepBeginSse::_mm_shuffle_ps(StepBeginSse::_mm_load_ss(&dz),
-                                                                                 StepBeginSse::_mm_load_ss(&dz), 0),
-                                                    StepBeginSse::_mm_load_ps((const float*)&direction)));
+        _mm_store_ps(
+            (float*)&m_20, _mm_mul_ps(_mm_shuffle_ps(_mm_load_ss(&dz),
+                                                                                 _mm_load_ss(&dz), 0),
+                                                    _mm_load_ps((const float*)&direction)));
     }
     __forceinline void advanceCounters()
     {
@@ -5253,10 +5239,10 @@ struct Simulation
 };
 static __forceinline void scaleGravity(Vec4* dst, const Obj& world, const float& scale)
 {
-    StepBeginSse::_mm_store_ps(
-        (float*)dst, StepBeginSse::_mm_mul_ps(StepBeginSse::_mm_shuffle_ps(StepBeginSse::_mm_load_ss(&scale),
-                                                                           StepBeginSse::_mm_load_ss(&scale), 0),
-                                              StepBeginSse::_mm_load_ps((const float*)&world.m_10)));
+    _mm_store_ps(
+        (float*)dst, _mm_mul_ps(_mm_shuffle_ps(_mm_load_ss(&scale),
+                                                                           _mm_load_ss(&scale), 0),
+                                              _mm_load_ps((const float*)&world.m_10)));
 }
 // @fnv 0x00d022b0
 int Simulation::FUN_00d022b0(ArgCls* arg, float dt)

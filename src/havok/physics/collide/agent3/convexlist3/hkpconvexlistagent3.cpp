@@ -587,7 +587,7 @@ void __cdecl FUN_00d32ca0(int a, int b, int c, int output)
     }
     __m128* __restrict p = reinterpret_cast<__m128*>(output);
     float finalComponent = DAT_010CEB6C;
-    *p = (*reinterpret_cast<::__m128 *>(&::DAT_01268370));
+    *p = (*reinterpret_cast<__m128 *>(&::DAT_01268370));
     reinterpret_cast<float*>(p)[3] = finalComponent;
 }
 

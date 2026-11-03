@@ -4,6 +4,7 @@
 
 // src/havok/physics/collide/agent/miscagent/multirayconvex/hkpmultirayconvexagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/miscagent/multirayconvex/hkpmultirayconvexagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <xmmintrin.h>
 #include <windows.h>
 #include "fnv/decl/FUN_00cfbbe0_cls.h"
 #include "fnv/decl/hkTransformCB22.h"
@@ -157,22 +158,7 @@ class FUN_00d376b0 : public D376B0Filter
     D376B0IndexArray m_ppIndices;
 };
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    struct
-    {
-        float x, y, z, w;
-    };
-};
 #include "fnv/symbols_simd.h"
-extern "C"
-{
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_shuffle_ps(__m128, __m128, int);
-    __m128 _mm_load_ss(const float*);
-}
 
 
 extern "C" unsigned __int64 __rdtsc();

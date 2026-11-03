@@ -2,6 +2,8 @@
 // src/havok/physics/collide/shape/heightfield/trisampledheightfield/hkptrisampledheightfieldcollection.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/heightfield/trisampledheightfield/hkptrisampledheightfieldcollection.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
+#include <xmmintrin.h>
 #include <new>
 #include "fnv/decl/FUN_00c90510_class.h"
 #include "fnv/decl/FUN_00d21410.h"
@@ -158,12 +160,6 @@ void S_d264d0_Coll::FUN_00d264d0(unsigned int key, unsigned short value)
     m_kWeldingInfo.m_data[idx] = value;
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C" __m128 _mm_setzero_ps(void);
 
 extern int DAT_010ce390;
 extern int DAT_010ce370;
@@ -364,11 +360,6 @@ void FUN_00d267c0_t::FUN_00d267c0(int mode)
     }
 }
 
-extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_add_ss(__m128 a, __m128 b);
-extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
-extern "C" __m128 _mm_setr_ps(float a, float b, float c, float d);
-extern "C" void _mm_store_ss(float* p, __m128 a);
 
 struct S00d26510_Bool
 {
@@ -465,7 +456,7 @@ struct S00d26510_Tri : public S00d26510_Convex
     __m128 m_kVertexC;
     __m128 m_kVertexTransform;
 
-    void* operator new(unsigned int, void* p) throw()
+    void* operator new(size_t, void* p) throw()
     {
         return p;
     }

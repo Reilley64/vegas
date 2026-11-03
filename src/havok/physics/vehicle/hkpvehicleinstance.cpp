@@ -2,6 +2,8 @@
 // src/havok/physics/vehicle/hkpvehicleinstance.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/vehicle/hkpvehicleinstance.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
+#include <xmmintrin.h>
 #include <windows.h>
 #include "fnv/decl/AxleGroundBuild__Vehicle.h"
 #include "fnv/decl/Cb0StringCopy.h"
@@ -1020,7 +1022,7 @@ class FUN_00e38b20
     hkClonableE392* m_9c;
     char unkA0[0x34];
 
-    void* operator new(unsigned int nbytes)
+    void* operator new(size_t nbytes)
     {
         FUN_00e38b20* b = static_cast<FUN_00e38b20*>(
             static_cast<hkMemoryRouterE392*>(FUN_00c85750())->heap().AllocateMemoryBlock(nbytes));
@@ -1094,15 +1096,7 @@ void VUC_Instance::FUN_00e36fa0(float dt, VUC_Transmission& t) throw()
     *reinterpret_cast<float*>(base + 0xd0) = s.m_extra;
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 #include "fnv/symbols_simd.h"
-extern "C" __m128 _mm_add_ps(__m128, __m128);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
 struct Q_e380c0_Vec
 {
     __m128 q;
@@ -1213,12 +1207,6 @@ void Q_e380c0_cls::FUN_00e380c0(const Q_e380c0_Vec* in)
 }
 
 namespace fnv_00e385e0 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C" __m128 _mm_setzero_ps(void);
 
 extern const char str_010eb844[];
 
@@ -1560,7 +1548,7 @@ FUN_00e39300_class& FUN_00e39300_class::FUN_00e39300(const FUN_00e39300_class* s
     return *this;
 }
 
-inline void* operator new(unsigned int, void* pvWhere)
+inline void* operator new(size_t, void* pvWhere)
 {
     return pvWhere;
 }
@@ -1855,9 +1843,6 @@ VehicleDataE39& VehicleDataE39::FUN_00e39480(const VehicleDataE39& kOther)
     return *this;
 }
 
-extern "C" void _mm_store_ps(float*, __m128);
-extern "C" __m128 _mm_setr_ps(float, float, float, float);
-extern "C" __m128 _mm_setzero_ps();
 union VecInit
 {
     __m128 v;
@@ -1889,7 +1874,7 @@ struct WheelInit
 void WheelInit::FUN_00e370b0()
 {
     __m128 normal = DAT_010c7190;
-    m00.v = (*reinterpret_cast<const ::__m128 *>(&::DAT_01267e30));
+    m00.v = (*reinterpret_cast<const __m128 *>(&::DAT_01267e30));
     m10.v = normal;
     float* d = &m10.f.w;
     *d = 1.0f;
@@ -1973,29 +1958,17 @@ FUN_00e39400::~FUN_00e39400() throw()
     m_kFirstRealArray.m_iCapacityState = 0x80000000;
 }
 
-extern "C" __m128 _mm_unpacklo_ps(__m128, __m128);
 
-extern "C" __m128 _mm_unpackhi_ps(__m128, __m128);
 
-extern "C" __m128 _mm_movelh_ps(__m128, __m128);
 
-extern "C" __m128 _mm_movehl_ps(__m128, __m128);
 
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
 
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
 
-extern "C" __m128 _mm_add_ps(__m128, __m128);
 
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
 
-extern "C" __m128 _mm_min_ps(__m128, __m128);
 
-extern "C" __m128 _mm_max_ps(__m128, __m128);
 
-extern "C" __m128 _mm_xor_ps(__m128, __m128);
 
-extern "C" __m128 _mm_set_ps1(float);
 
 
 struct VehFr_Vector4
@@ -2557,9 +2530,6 @@ FUN_00e38b20::FUN_00e38b20(void* pkChassis) throw() : FUN_00d2b260(pkChassis, 0)
 }
 }  // namespace fnv_00e38b20
 
-extern "C" __m128 _mm_add_ss(__m128 _A, __m128 _B);
-extern "C" float _mm_cvtss_f32(__m128 _A);
-extern "C" __m128 _mm_sqrt_ss(__m128 _A);
 struct S00e37880_Vec
 {
     __m128 m_vComponents;
@@ -2708,9 +2678,6 @@ float S00e37880_Obj::FUN_00e37880()
     return (float)(_mm_cvtss_f32(_mm_sqrt_ss(b)) / 1609.300048828125 * 3600.0);
 }
 
-extern "C" __m128 _mm_add_ss(__m128, __m128);
-extern "C" __m128 _mm_sqrt_ss(__m128);
-extern "C" float _mm_cvtss_f32(__m128);
 
 struct SpeedVectorE378
 {
@@ -2852,10 +2819,6 @@ float VehicleSpeedE378::FUN_00e37820()
         DAT_01012640);
 }
 
-extern "C" __m128 _mm_add_ss(__m128, __m128);
-extern "C" __m128 _mm_sqrt_ss(__m128);
-extern "C" void _mm_store_ss(float*, __m128);
-extern "C" float _mm_cvtss_f32(__m128);
 
 struct S00e375a0_AxleData
 {

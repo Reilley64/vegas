@@ -13,24 +13,24 @@
 namespace SolverMotionDetail {
 
 typedef float SolverMotionReal;
-typedef ::__m128 SolverMotionQuad;
+typedef __m128 SolverMotionQuad;
 
 class SolverMotionScalar
 {
   public:
     __forceinline SolverMotionScalar(const SolverMotionQuad& x) : m_vValue(x)
     {}
-    __forceinline SolverMotionScalar(const SolverMotionReal& x) : m_vValue((::_mm_load_ss)(&x))
+    __forceinline SolverMotionScalar(const SolverMotionReal& x) : m_vValue(_mm_load_ss(&x))
     {}
     __forceinline operator SolverMotionReal() const
     {
         SolverMotionReal s;
-        (::_mm_store_ss)(&s, m_vValue);
+        _mm_store_ss(&s, m_vValue);
         return s;
     }
     __forceinline SolverMotionQuad broadcast() const
     {
-        return (::_mm_shuffle_ps)(m_vValue, m_vValue, 0);
+        return _mm_shuffle_ps(m_vValue, m_vValue, 0);
     }
 
   private:
@@ -55,30 +55,30 @@ __forceinline void SolverMotionVector::operator=(const SolverMotionVector& v)
 }
 __forceinline void SolverMotionVector::setSub4(const SolverMotionVector& v0, const SolverMotionVector& v1)
 {
-    m_vComponents = (::_mm_sub_ps)(v0.m_vComponents, v1.m_vComponents);
+    m_vComponents = _mm_sub_ps(v0.m_vComponents, v1.m_vComponents);
 }
 __forceinline void SolverMotionVector::addMul4(SolverMotionScalarArg r, const SolverMotionVector& v1)
 {
-    m_vComponents = (::_mm_add_ps)(m_vComponents, (::_mm_mul_ps)(r.broadcast(), v1.m_vComponents));
+    m_vComponents = _mm_add_ps(m_vComponents, _mm_mul_ps(r.broadcast(), v1.m_vComponents));
 }
 __forceinline void SolverMotionVector::setAddMul4(const SolverMotionVector& a, const SolverMotionVector& b,
                                                   SolverMotionScalarArg r)
 {
-    m_vComponents = (::_mm_add_ps)(a.m_vComponents, (::_mm_mul_ps)(r.broadcast(), b.m_vComponents));
+    m_vComponents = _mm_add_ps(a.m_vComponents, _mm_mul_ps(r.broadcast(), b.m_vComponents));
 }
 __forceinline SolverMotionScalar SolverMotionVector::dot3(const SolverMotionVector& a) const
 {
-    SolverMotionQuad x2 = (::_mm_mul_ps)(m_vComponents, a.m_vComponents);
-    SolverMotionQuad xySum = (::_mm_add_ss)((::_mm_shuffle_ps)(x2, x2, _MM_SHUFFLE(1, 1, 1, 1)), x2);
-    return (::_mm_add_ss)((::_mm_shuffle_ps)(x2, x2, _MM_SHUFFLE(2, 2, 2, 2)), xySum);
+    SolverMotionQuad x2 = _mm_mul_ps(m_vComponents, a.m_vComponents);
+    SolverMotionQuad xySum = _mm_add_ss(_mm_shuffle_ps(x2, x2, _MM_SHUFFLE(1, 1, 1, 1)), x2);
+    return _mm_add_ss(_mm_shuffle_ps(x2, x2, _MM_SHUFFLE(2, 2, 2, 2)), xySum);
 }
 __forceinline SolverMotionScalar SolverMotionVector::dot4xyz1(const SolverMotionVector& a) const
 {
-    SolverMotionQuad x2 = (::_mm_mul_ps)(m_vComponents, a.m_vComponents);
-    SolverMotionQuad xySum = (::_mm_add_ss)((::_mm_shuffle_ps)(x2, x2, _MM_SHUFFLE(1, 1, 1, 1)), x2);
-    SolverMotionQuad zwSum = (::_mm_add_ss)((::_mm_shuffle_ps)(x2, x2, _MM_SHUFFLE(2, 2, 2, 2)),
-                                            (::_mm_shuffle_ps)(m_vComponents, m_vComponents, _MM_SHUFFLE(3, 3, 3, 3)));
-    return (::_mm_add_ps)(xySum, zwSum);
+    SolverMotionQuad x2 = _mm_mul_ps(m_vComponents, a.m_vComponents);
+    SolverMotionQuad xySum = _mm_add_ss(_mm_shuffle_ps(x2, x2, _MM_SHUFFLE(1, 1, 1, 1)), x2);
+    SolverMotionQuad zwSum = _mm_add_ss(_mm_shuffle_ps(x2, x2, _MM_SHUFFLE(2, 2, 2, 2)),
+                                            _mm_shuffle_ps(m_vComponents, m_vComponents, _MM_SHUFFLE(3, 3, 3, 3)));
+    return _mm_add_ps(xySum, zwSum);
 }
 
 struct SolverMotionSurface

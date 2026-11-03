@@ -67,33 +67,17 @@ ValidationResult FUN_00d84b70::CheckValid()
 #include <xmmintrin.h>
 #include <math.h>
 namespace fnv_00d847c0 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C" __m128 _mm_setzero_ps(void);
-extern "C" __m128 _mm_set_ss(float);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_mul_ss(__m128, __m128);
-extern "C" __m128 _mm_add_ss(__m128, __m128);
-extern "C" __m128 _mm_sub_ss(__m128, __m128);
-extern "C" __m128 _mm_rsqrt_ss(__m128);
-extern "C" __m128 _mm_cmpeq_ss(__m128, __m128);
-extern "C" __m128 _mm_andnot_ps(__m128, __m128);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
 
 struct Vec_d849a0
 {
     __m128 q;
     float& operator()(int i)
     {
-        return q.m128_f32[i];
+        return q[i];
     }
     const float& operator()(int i) const
     {
-        return q.m128_f32[i];
+        return q[i];
     }
     void setZero4()
     {
@@ -223,33 +207,17 @@ void PointToPlane_d847c0::SetFromTransforms(const Trans_d847c0& bodyA, const Tra
 }  // namespace fnv_00d847c0
 
 namespace fnv_00d849a0 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C" __m128 _mm_setzero_ps(void);
-extern "C" __m128 _mm_set_ss(float);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_mul_ss(__m128, __m128);
-extern "C" __m128 _mm_add_ss(__m128, __m128);
-extern "C" __m128 _mm_sub_ss(__m128, __m128);
-extern "C" __m128 _mm_rsqrt_ss(__m128);
-extern "C" __m128 _mm_cmpeq_ss(__m128, __m128);
-extern "C" __m128 _mm_andnot_ps(__m128, __m128);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
 
 struct Vec_d849a0
 {
     __m128 q;
     float& operator()(int i)
     {
-        return q.m128_f32[i];
+        return q[i];
     }
     const float& operator()(int i) const
     {
-        return q.m128_f32[i];
+        return q[i];
     }
     void setZero4()
     {

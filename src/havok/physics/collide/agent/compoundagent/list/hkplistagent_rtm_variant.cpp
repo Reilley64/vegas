@@ -3,6 +3,7 @@
 
 // src/havok/physics/collide/agent/compoundagent/list/hkplistagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/compoundagent/list/hkplistagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <xmmintrin.h>
 #include "fnv/decl/hkTransformCB22.h"
 #include "fnv/symbols_00d36000.h"
 #include "fnv/symbols_00d97000.h"
@@ -79,15 +80,6 @@ struct FUN_00d368c0_cls
     void FUN_00d368c0(void* a1, void* a2, void* a3, void* a4);
 };
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-};
-extern "C" __m128 _mm_load_ss(const float*);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, int);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ps(__m128, __m128);
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
 
 extern "C" void _ReadWriteBarrier();
 struct S00d369a0_ShapeBase
@@ -210,7 +202,7 @@ void S00d369a0_ListAgent::FUN_00d369a0(S00d369a0_Body* a1, S00d369a0_Body* a2, S
     float f1 = dt * p->f5c;
     input.tim = _mm_mul_ps(_mm_shuffle_ps(_mm_load_ss(&f0), _mm_load_ss(&f0), 0), d0);
     input.tim = _mm_add_ps(_mm_mul_ps(_mm_shuffle_ps(_mm_load_ss(&f1), _mm_load_ss(&f1), 0), d1), input.tim);
-    input.tim.m128_f32[3] = (f0 * o->f9c) * o->fa0 + (f1 * p->f9c) * p->fa0;
+    input.tim[3] = (f0 * o->f9c) * o->fa0 + (f1 * p->f9c) * p->fa0;
     reinterpret_cast<::hkTransformCB22 *>(&(input.transform))->FUN_00cb22f0((*(const ::hkTransformCB22 *)(o)), (*(const ::hkTransformCB22 *)(p)));
     int count = bits->m1C;
     unsigned int* out = (unsigned int*)FUN_00c85750();

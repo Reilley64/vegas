@@ -2,24 +2,10 @@
 // src/havok/physics/constraintsolver/constraint/bilateral/hkp1dbilateralconstraintbuildjacobian.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/physics/constraintsolver/constraint/bilateral/hkp1dbilateralconstraintbuildjacobian.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <xmmintrin.h>
 #include "fnv/symbols_010c9000.h"
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-    int m128_i32[4];
-    __int64 m128_i64[2];
-    unsigned int m128_u32[4];
-} __m128;
 #include "fnv/symbols_simd.h"
 
-extern "C" __m128 _mm_add_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_sub_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_add_ss(__m128 a, __m128 b);
-extern "C" __m128 _mm_unpackhi_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
-extern "C" void _mm_store_ss(float* p, __m128 a);
 
 struct hkVector4
 {
@@ -192,19 +178,19 @@ void __cdecl ComputeAngularJacobian(const Info_dcf880& info, const QueryIn_dcf88
         hkVector4 s;
         s.setXYZW(vWeighted, m);
         float diag = s.horizontalAdd4() + 1.1920928955078125e-07;
-        jac->m_angular1.m_vComponents.m128_f32[3] = diag;
-        jac->m_angular0.m_vComponents.m128_f32[3] = 1.0f / diag;
+        jac->m_angular1.m_vComponents[3] = diag;
+        jac->m_angular0.m_vComponents[3] = 1.0f / diag;
     }
     {
         hkVector4 d;
         d.setSub4(info.m_kPivotB, info.m_kPivotA);
-        jac->m_kLinearJacobian.m_vComponents.m128_f32[3] = d.dot3(info.m_dir) * factor;
+        jac->m_kLinearJacobian.m_vComponents[3] = d.dot3(info.m_dir) * factor;
     }
     Jac_dcf880* pJacOut = aQueryOut.m_pJacobian;
     float f34 = info.m_34;
     pJacOut->m_30 = info.m_30;
     pJacOut->m_34 = f34;
-    pJacOut->m_kLinearJacobian.m_vComponents.m128_f32[0] += 1.1920928955078125e-07;
+    pJacOut->m_kLinearJacobian.m_vComponents[0] += 1.1920928955078125e-07;
     *(unsigned char*)pJacOut = 7;
     aQueryOut.m_pJacobian = pJacOut + 1;
 }
@@ -382,9 +368,9 @@ static __declspec(noinline) void FUN_00dcf460(Jac_dcf880* apJacobian, const Info
     combined.setXYZW(sumAB, invMassesSum);
 
     float sum = combined.horizontalAdd4() + DAT_010c9300;
-    apJacobian->m_angular1.m_vComponents.m128_f32[3] = sum;
-    apJacobian->m_angular0.m_vComponents.m128_f32[3] = rhs / sum;
-    apJacobian->m_kLinearJacobian.m_vComponents.m128_f32[3] = apQuery->m_factor * scale;
+    apJacobian->m_angular1.m_vComponents[3] = sum;
+    apJacobian->m_angular0.m_vComponents[3] = rhs / sum;
+    apJacobian->m_kLinearJacobian.m_vComponents[3] = apQuery->m_factor * scale;
 }
 Jac_dcf880* volatile g_out_dcf460;
 const Info_dcf880* volatile g_info_dcf460;
@@ -533,8 +519,8 @@ void __cdecl FUN_00dcfa30(Info_dcf880* a1, S_00dcf100_Cfg* apCfg, Jac_dcf880** p
 
     float tt = (float)((double)sum + DAT_010c9300);
     double c = DAT_010c9300;
-    out->m_angular1.m_vComponents.m128_f32[3] = tt;
-    out->m_angular0.m_vComponents.m128_f32[3] = fa / tt;
+    out->m_angular1.m_vComponents[3] = tt;
+    out->m_angular0.m_vComponents[3] = fa / tt;
 
     __m128 d =
         _mm_mul_ps(_mm_sub_ps(a1->m_kPivotB.m_vComponents, a1->m_kPivotA.m_vComponents), a1->m_dir.m_vComponents);
@@ -542,7 +528,7 @@ void __cdecl FUN_00dcfa30(Info_dcf880* a1, S_00dcf100_Cfg* apCfg, Jac_dcf880** p
     __m128 q = _mm_add_ss(_mm_shuffle_ps(d, d, 0xaa), p);
     float dot;
     _mm_store_ss(&dot, q);
-    out->m_kLinearJacobian.m_vComponents.m128_f32[3] = dot * fCfg20;
+    out->m_kLinearJacobian.m_vComponents[3] = dot * fCfg20;
 
     float nfb = -apCfg->f20;
     float t30 = a1->m_30;
@@ -551,11 +537,10 @@ void __cdecl FUN_00dcfa30(Info_dcf880* a1, S_00dcf100_Cfg* apCfg, Jac_dcf880** p
     *ppJacobian = o + 1;
     o->m_30 = t30 * nfb;
     o->m_34 = t34 * nfb;
-    o->m_kLinearJacobian.m_vComponents.m128_f32[0] = (float)(c + o->m_kLinearJacobian.m_vComponents.m128_f32[0]);
+    o->m_kLinearJacobian.m_vComponents[0] = (float)(c + o->m_kLinearJacobian.m_vComponents[0]);
     *(unsigned char*)&o->m_kLinearJacobian.m_vComponents = 8;
 }
 
-extern "C" __m128 _mm_xor_ps(__m128, __m128);
 struct Src
 {
     __m128* verts;
@@ -873,7 +858,6 @@ void FUN_00dcf720(const S_00dcf720_Info& info, const S_00dcf720_QueryIn& in, S_0
 
 // Adapted from an earlier contributor's 2026-10-21 WIP; retain prior credit.
 
-extern "C" __m128 _mm_xor_ps(__m128 a, __m128 b);
 
 static const double S00dcee80_kEps = 1.1920928955078125e-07;
 struct __declspec(align(16)) S_00dcee80_Vector4

@@ -5,6 +5,7 @@
 
 // Writes four function pointers into the first 16 bytes of p and clears the two bytes at offsets 16 and 17.
 // @fnv 0x00d3ab60
+#include <xmmintrin.h>
 #include <intrin.h>
 #include <windows.h>
 #include "fnv/decl/CapsuleTriProcess.h"
@@ -177,23 +178,12 @@ FUN_00d39980_cls* __cdecl CreateAllocatedObject(int a1, int a2, int a3, int a4)
     pObject->m_w0E = 0xffff;
     pObject->m_w10 = 0xffff;
     pObject->m_vptr = DAT_010ceefc;
-    ::ComputeInverseLengths((::__m128 *)(void *)((void*)(*(int*)a1 + 0x20)), (float *)(void *)(&pObject->m_sub));
+    ::ComputeInverseLengths((__m128 *)(void *)((void*)(*(int*)a1 + 0x20)), (float *)(void *)(&pObject->m_sub));
     pObject->m_vptr = DAT_010cef38;
     return pObject;
 }
 
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128 {
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-    int m128_i32[4];
-    __int64 m128_i64[2];
-    unsigned int m128_u32[4];
-} __m128;
 
-extern "C" __m128 _mm_xor_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_add_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
 
 
 struct hkVector4 {
@@ -411,12 +401,6 @@ void __cdecl TransformAndDispatch(char* a1, char* a2, char* pExtra, void* a4, in
                  (::Feature *)(0));
 }
 
-extern "C" __m128 _mm_sub_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_add_ss(__m128 a, __m128 b);
-extern "C" void _mm_store_ss(float* p, __m128 a);
-extern "C" __m128 _mm_load_ps(const float* p);
-extern "C" void _mm_store_ps(float* p, __m128 a);
-extern "C" __m128 _mm_rsqrt_ps(__m128 a);
 
 static __forceinline float SqLenLane(__m128 x)
 {
@@ -835,7 +819,6 @@ void CpuObject::FUN_00d3b1e0(void* first, void* second, unsigned int third, unsi
 }
 }  // namespace fnv_00d3b1e0
 
-extern "C" __m128 _mm_unpackhi_ps(__m128 a, __m128 b);
 
 struct ContactNormalSetter : Contact
 {
@@ -914,11 +897,11 @@ void CollisionAgent::FUN_00d39ef0(const BodyRecord& a,const BodyRecord& b,const 
     CacheRecord* cache=transformCache.cache;
     ::FUN_00cd6520((const ::ContactVector *)(pointsA),shapeA->radius,(const ::ContactVector *)(pointsB),shapeB->radius,(const float *)(void *)(&cache14),input.tolerance,0,(::ContactRecord *)(::ContactResults *)(&result),(::Feature *)(cache));
     int index;
-    if(result.points[0].normal.m128_f32[3] < result.points[1].normal.m128_f32[3]) {
-        if(!(input.tolerance > result.points[0].normal.m128_f32[3])) goto done;
+    if(result.points[0].normal[3] < result.points[1].normal[3]) {
+        if(!(input.tolerance > result.points[0].normal[3])) goto done;
         index=0;
     } else {
-        if(!(input.tolerance > result.points[1].normal.m128_f32[3])) goto done;
+        if(!(input.tolerance > result.points[1].normal[3])) goto done;
         index=1;
     }
     {
@@ -1009,7 +992,7 @@ void __cdecl FUN_00d3a8c0(Body* apBodyA, Body* apBodyB, Input* input, Penetratio
     }
     Locals l;
     Cache cache;
-    ::ComputeInverseLengths((::__m128 *)(void *)((void*)apBodyB->shape->vertices), (float *)(void *)(&cache));
+    ::ComputeInverseLengths((__m128 *)(void *)((void*)apBodyB->shape->vertices), (float *)(void *)(&cache));
     Shape* pShapeA = apBodyA->shape;
     Shape* pShapeB = apBodyB->shape;
     mytransform(l.outA.points, pShapeA, 2, apBodyA->matrix);

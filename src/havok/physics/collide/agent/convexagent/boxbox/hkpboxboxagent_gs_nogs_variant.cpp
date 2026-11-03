@@ -5,6 +5,7 @@
 
 // src/havok/physics/collide/agent/convexagent/boxbox/hkpboxboxagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/convexagent/boxbox/hkpboxboxagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstddef>
 #include <intrin.h>
 #include <windows.h>
 #include "fnv/decl/BoxAgent.h"
@@ -105,7 +106,7 @@ typedef void (__cdecl *FUN_00d406c0_fn4)(void*, void*, void*, void*);
 void FUN_00d408c0(void* a1, void* a2, void* a3, void* a4);
 
 #include <xmmintrin.h>
-inline void* operator new(unsigned int, void* p) { return p; }
+inline void* operator new(size_t, void* p) { return p; }
 
 
 

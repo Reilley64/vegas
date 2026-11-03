@@ -6,6 +6,7 @@
 // to their real unit once identified.
 // src/havok/physics/utilities/visualdebugger/viewer/hkpshapedisplaybuilder.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/hkpshapedisplaybuilder.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstddef>
 #include "fnv/decl/FUN_00ddfc30_cls.h"
 #include "fnv/decl/hkMatrix4CD60.h"
 #include "fnv/decl/hkpCylinderShapeGetCylRadius.h"
@@ -41,7 +42,7 @@ struct S_00ddfcd0_RefObj
     }
     virtual ~S_00ddfcd0_RefObj() throw()
     {}
-    void* operator new(unsigned int nbytes)
+    void* operator new(size_t nbytes)
     {
         S_00ddfcd0_RefObj* b = static_cast<S_00ddfcd0_RefObj*>(FUN_00c85750()->heap().AllocateMemoryBlock(nbytes));
         b->m_usMemSizeAndFlags = (unsigned short)nbytes;
@@ -354,7 +355,7 @@ template <class T> class ArrayBase
         capacity = 0x80000000;
     }
 };
-__forceinline void* operator new(unsigned int, void* p)
+__forceinline void* operator new(size_t, void* p)
 {
     return p;
 }
@@ -414,7 +415,7 @@ struct Mesh
     };
     Array<Vector> m_kVertices;
     Array<Triangle> m_uiTriangleCount;
-    __forceinline void* operator new(unsigned int n)
+    __forceinline void* operator new(size_t n)
     {
         return FUN_00c85750()->heap().AllocateMemoryBlock(n);
     }
@@ -444,7 +445,7 @@ struct RefObject
     virtual ~RefObject()
     {}
     unsigned short GetAllocationSize, refs;
-    __forceinline void* operator new(unsigned int n)
+    __forceinline void* operator new(size_t n)
     {
         RefObject* p = (RefObject*)FUN_00c85750()->heap().AllocateMemoryBlock(n);
         p->GetAllocationSize = (unsigned short)n;

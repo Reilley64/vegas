@@ -5,6 +5,7 @@
 // RemoveValueAt - drops slot <index> of the eight-slot table held by
 // FUN_00db0920: the last slot in use is moved into the hole and the used-slot
 // counter goes down by one.
+#include <xmmintrin.h>
 #include <cmath>
 #include "fnv/symbols_010d5000.h"
 struct FUN_00db0920
@@ -27,34 +28,8 @@ void FUN_00db0920::RemoveValueAt(int index)
     count--;
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 #include "fnv/symbols_simd.h"
-extern "C"
-{
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_andnot_ps(__m128, __m128);
-    __m128 _mm_cmpeq_ss(__m128, __m128);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_mul_ss(__m128, __m128);
-    __m128 _mm_rsqrt_ss(__m128);
-    __m128 _mm_set_ps1(float);
-    __m128 _mm_set_ss(float);
-    __m128 _mm_setzero_ps(void);
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-    void _mm_store_ss(float*, __m128);
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_sub_ss(__m128, __m128);
-    __m128 _mm_xor_ps(__m128, __m128);
-}
 
-extern "C"
-{
-}
 extern "C++"
 {
     inline float __cdecl fabs(float _X)

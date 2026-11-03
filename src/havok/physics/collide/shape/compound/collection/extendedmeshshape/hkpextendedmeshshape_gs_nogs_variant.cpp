@@ -5,6 +5,8 @@
 
 // src/havok/physics/collide/shape/compound/collection/extendedmeshshape/hkpextendedmeshshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/compound/collection/extendedmeshshape/hkpextendedmeshshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstddef>
+#include <xmmintrin.h>
 #include "fnv/decl/FUN_00d1f1e0_class.h"
 #include "fnv/decl/SpawnedOwnerQ.h"
 #include "fnv/decl/hkReferencedObjectC905.h"
@@ -103,7 +105,7 @@ struct S_00d56880_Router
         return *m_pStreamAllocator;
     }
 };
-inline void* operator new(unsigned int, void* p)
+inline void* operator new(size_t, void* p)
 {
     return p;
 }
@@ -632,13 +634,7 @@ struct bhkShapeOwner
 };
 void FUN_00d554e0(int a);
 void FUN_00d554f0(int a0);
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 #include "fnv/symbols_simd.h"
-extern "C" __m128 _mm_setzero_ps();
 struct hkVector4D562
 {
     __m128 m_vComponents;
@@ -722,13 +718,6 @@ struct OwnerD562
     ElemD562* FUN_00d562f0();
 };
 
-extern "C" __m128 _mm_add_ps(__m128 _A, __m128 _B);
-extern "C" __m128 _mm_load_ps1(float const* _A);
-extern "C" __m128 _mm_max_ps(__m128 _A, __m128 _B);
-extern "C" __m128 _mm_min_ps(__m128 _A, __m128 _B);
-extern "C" __m128 _mm_mul_ps(__m128 _A, __m128 _B);
-extern "C" __m128 _mm_sub_ps(__m128 _A, __m128 _B);
-extern "C" __m128 _mm_xor_ps(__m128 _A, __m128 _B);
 
 struct S00d55950_hkAabb
 {

@@ -7,6 +7,8 @@
 
 // src/havok/physics/utilities/visualdebugger/viewer/vehicle/hkpvehicleviewer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/vehicle/hkpvehicleviewer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstddef>
+#include <xmmintrin.h>
 #include <intrin.h>
 #include <windows.h>
 #include "fnv/decl/FUN_00c90510_class.h"
@@ -426,7 +428,7 @@ enum hkResult
 HK_SUCCESS=0,
 HK_FAILURE=1
 };
-typedef unsigned __w64 hk_size_t;
+typedef size_t hk_size_t;
 typedef hkUint16 hkObjectIndex;__forceinline hkLong __cdecl hkGetByteOffset(const void*base,const void*pntr)
 {
 return hkLong(pntr)-hkLong(base);
@@ -502,8 +504,6 @@ return val();
 }
 private:
 TYPE m_kStorage;};
-extern "C"{
-}
 template<typename T>
 class hkThreadLocalData
 {
@@ -682,21 +682,6 @@ friend class hkStatisticsCollector;
 public:
 ResizableArray(FinishingFlag f){}
 };
-typedef union __declspec(intrin_type)__declspec(align(16))__m128{
-struct { __int32 x, y, z, w; } lanes;}__m128;
-extern "C"{
-extern __m128 _mm_add_ss(__m128 _A,__m128 _B);
-extern __m128 _mm_add_ps(__m128 _A,__m128 _B);
-extern __m128 _mm_sub_ss(__m128 _A,__m128 _B);
-extern __m128 _mm_sub_ps(__m128 _A,__m128 _B);
-extern __m128 _mm_mul_ss(__m128 _A,__m128 _B);
-extern __m128 _mm_mul_ps(__m128 _A,__m128 _B);
-extern __m128 _mm_rsqrt_ss(__m128 _A);
-extern __m128 _mm_andnot_ps(__m128 _A,__m128 _B);
-extern __m128 _mm_cmpeq_ss(__m128 _A,__m128 _B);
-extern __m128 _mm_shuffle_ps(__m128 _A,__m128 _B,unsigned int _Imm8);
-extern __m128 _mm_set_ss(float _A);
-extern __m128 _mm_load_ss(float const*_A);};
 typedef __m128 hkQuadReal;
 class hkVector4;
 typedef const hkVector4&hkVector4Parameter;

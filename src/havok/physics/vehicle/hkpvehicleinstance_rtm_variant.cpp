@@ -4,6 +4,8 @@
 
 // src/havok/physics/vehicle/hkpvehicleinstance.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/vehicle/hkpvehicleinstance.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstddef>
+#include <xmmintrin.h>
 #include <intrin.h>
 #include <windows.h>
 #include <cmath>
@@ -594,7 +596,7 @@ public:
     hkClonableE392* m_9c;
     char unkA0[0x34];
 
-    void* operator new(unsigned int nbytes)
+    void* operator new(size_t nbytes)
     {
         FUN_00e38b20* b = static_cast<FUN_00e38b20*>(static_cast<hkMemoryRouterE392*>(FUN_00c85750())->heap().AllocateMemoryBlock(nbytes));
         b->m_usMemSizeAndFlags = static_cast<unsigned short>(nbytes);
@@ -632,11 +634,7 @@ struct VUC_Transmission8
     signed char m_gear3;
     float m_extra;
 };
-union __declspec(intrin_type) __declspec(align(16)) __m128 { float m128_f32[4]; unsigned __int64 m128_u64[2]; };
 #include "fnv/symbols_simd.h"
-extern "C" __m128 _mm_add_ps(__m128, __m128);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
 struct Q_e380c0_Vec { __m128 q; };
 struct Q_e380c0_Sub {
     virtual void v00();
@@ -756,7 +754,7 @@ struct FUN_00e39300_class
     float unkd4;
     FUN_00e39300_class& FUN_00e39300(const FUN_00e39300_class* src);
 };
-inline void* operator new(unsigned int, void* pvWhere) { return pvWhere; }
+inline void* operator new(size_t, void* pvWhere) { return pvWhere; }
 class hkMemoryAllocatorE39 {
 public:
     virtual void v00();
@@ -967,9 +965,6 @@ public:
     bool m_bCE;
     float m_fD0;
 };
-extern "C" void _mm_store_ps(float*,__m128);
-extern "C" __m128 _mm_setr_ps(float,float,float,float);
-extern "C" __m128 _mm_setzero_ps();
 union VecInit {
     __m128 v;
     struct { float x,y,z,w; } f;
@@ -1012,18 +1007,6 @@ struct FUN_00e39400_Router {
     int unk0c;
     VUC_Allocator* m_pThreadAllocator;
 };
-extern "C" __m128 _mm_unpacklo_ps(__m128, __m128);
-extern "C" __m128 _mm_unpackhi_ps(__m128, __m128);
-extern "C" __m128 _mm_movelh_ps(__m128, __m128);
-extern "C" __m128 _mm_movehl_ps(__m128, __m128);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ps(__m128, __m128);
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_min_ps(__m128, __m128);
-extern "C" __m128 _mm_max_ps(__m128, __m128);
-extern "C" __m128 _mm_xor_ps(__m128, __m128);
-extern "C" __m128 _mm_set_ps1(float);
 struct VehFr_Vector4 {
 
     __m128 m_vComponents;
@@ -1221,9 +1204,6 @@ struct VehFr_Vehicle {
     void FUN_00e38140(float dt, VehFr_FrictionParams& params, VehFr_Ground& ground);
 
 };
-extern "C" __m128 _mm_add_ss(__m128 _A, __m128 _B);
-extern "C" float _mm_cvtss_f32(__m128 _A);
-extern "C" __m128 _mm_sqrt_ss(__m128 _A);
 struct S00e37880_Vec
 {
     __m128 m_vComponents;
@@ -1357,9 +1337,6 @@ struct S00e37880_Obj
 
     float FUN_00e37880();
 };
-extern "C" __m128 _mm_add_ss(__m128, __m128);
-extern "C" __m128 _mm_sqrt_ss(__m128);
-extern "C" float _mm_cvtss_f32(__m128);
 struct SpeedVectorE378 {
     __m128 m_vComponents;
     float length3() const {
@@ -1484,10 +1461,6 @@ struct SpeedBodyE378 {
 struct VehicleSpeedE378 : hkpVehicleInstance {
     float FUN_00e37820();
 };
-extern "C" __m128 _mm_add_ss(__m128, __m128);
-extern "C" __m128 _mm_sqrt_ss(__m128);
-extern "C" void _mm_store_ss(float*, __m128);
-extern "C" float _mm_cvtss_f32(__m128);
 struct S00e375a0_AxleData {
     int unk00;
     int unk04;
@@ -1735,11 +1708,7 @@ public:
     void FUN_00e37080(float deltaTime, void* output) throw();
 };
 
-extern "C" __m128 _mm_load_ss(const float*);
-extern "C" __m128 _mm_set_ps1(float);
 inline __m128 splat(float f) { __m128 v = _mm_load_ss(&f); return _mm_shuffle_ps(v, v, 0); }
-extern "C" __m128 _mm_add_ss(__m128, __m128);
-extern "C" void _mm_store_ss(float*, __m128);
 
 
 
@@ -2000,23 +1969,6 @@ void hkpVehicleInstanceCustom::FUN_00e371d0(float deltaTime, int wheelNum, float
     }
 }
 
-extern "C" {
-__m128 _mm_load_ps(const float*);
-void _mm_store_ps(float*, __m128);
-__m128 _mm_load_ss(const float*);
-void _mm_store_ss(float*, __m128);
-__m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-__m128 _mm_add_ps(__m128, __m128);
-__m128 _mm_sub_ps(__m128, __m128);
-__m128 _mm_mul_ps(__m128, __m128);
-__m128 _mm_add_ss(__m128, __m128);
-__m128 _mm_sub_ss(__m128, __m128);
-__m128 _mm_mul_ss(__m128, __m128);
-__m128 _mm_cmpeq_ss(__m128, __m128);
-__m128 _mm_andnot_ps(__m128, __m128);
-__m128 _mm_rsqrt_ss(__m128);
-__m128 _mm_set_ss(float);
-}
 
 
 
@@ -2210,7 +2162,6 @@ void FnvVehicle::FUN_00e37350(int w_it, float linearForceAtWheel, float suspensi
 
 
 
-extern "C" __m128 _mm_load_ss(float const*);
 struct TorqueData {
     unsigned int unk00;
     unsigned int unk04;
@@ -2333,8 +2284,6 @@ void TorqueVehicle::FUN_00e376e0(float dt, TorqueOutputRef output) const
     }
 }
 
-extern "C" __m128 _mm_sub_ps(__m128,__m128);
-extern "C" __m128 _mm_load_ss(const float*);
 
 struct Vec4
 {
@@ -2655,9 +2604,9 @@ void VehInst37::FUN_00e37740(const TimeInterval& info, Out37& out)
     MotionState* ms = &m_pEntity->m_pMotionState.m_kMotionState;
     Vec4 linVel;
     linVel.setSub4(ms->m_kSweptTransform.m_vCenterOfMass1, ms->m_kSweptTransform.m_vCenterOfMass0);
-    linVel.mul4(ms->m_kSweptTransform.m_vCenterOfMass1.m_vComponents.m128_f32[3]);
+    linVel.mul4(ms->m_kSweptTransform.m_vCenterOfMass1.m_vComponents[3]);
     Vec4 angVel;
-    angVel.setMul4(ms->m_kSweptTransform.m_vCenterOfMass1.m_vComponents.m128_f32[3], ms->m_kDeltaAngle);
+    angVel.setMul4(ms->m_kSweptTransform.m_vCenterOfMass1.m_vComponents[3], ms->m_kDeltaAngle);
 
     out.m_kGravity = m_data->m_kGravity;
     reinterpret_cast<::FUN_00d72030_cls *>(&(out.m_sub150))->FUN_00d72030((const ::FUN_00d72030_cls *)(void *)(&out.unkd0));
@@ -2665,7 +2614,6 @@ void VehInst37::FUN_00e37740(const TimeInterval& info, Out37& out)
     out.m_kTranslationalVelocity = linVel;
 }
 
-extern "C" __m128 _mm_load_ss(const float*);
 
 struct VUBCD_Vec {
     __m128 m_vComponents;

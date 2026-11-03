@@ -1,4 +1,5 @@
 #pragma once
+class NiStream;
 
 struct BSMaterialEmittanceMultController;
 struct Derived_00bc33f0;
@@ -11,6 +12,6 @@ struct SpawnedObj_b9755;
 // 0x00bc36a0
 void *CreateInterpDerivedBc36();
 // 0x00bc3770
-void FUN_00bc3770();
+struct FUN_00bc3770_shell { bool FUN_00bc3770(::NiStream& kStream); };
 // 0x00bc38c0
 ::SpawnedObj_b9755 *FUN_00bc38c0();

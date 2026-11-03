@@ -338,7 +338,7 @@ struct FUN_00a46a30_Cls
 // @fnv 0x00a46a30
 void FUN_00a46a30_Cls::WriteToStream(NiStreamStandInW* pkStream)
 {
-    ::FUN_00a57c00();
+    reinterpret_cast<::FUN_00a57c00_shell *>(this)->FUN_00a57c00(*(::NiStream *)pkStream);
     unsigned char ucFlag = m_40;
     pkStream->m_pBackingStream->Write(&ucFlag);
     pkStream->m_pBackingStream->Write(&m_44);

@@ -153,13 +153,16 @@ struct Flt
 
 struct FUN_007fa970_Class
 {
+    char pad00[0xe0];
+    Flt unke0;
+    char pade1[0x3];
     uintptr_t FUN_007fa970();
 };
 
 // @fnv 0x007fa970
 uintptr_t FUN_007fa970_Class::FUN_007fa970()
 {
-    return ((Flt*)((char*)this + 0xe0))->operator unsigned int();
+    return this->unke0.operator unsigned int();
 }
 
 struct GO
@@ -186,13 +189,16 @@ struct Flt
 
 struct FUN_007fd640Class
 {
+    char pad00[0x90];
+    Flt unk90;
+    char pad91[0x3];
     uintptr_t FUN_007fd640();
 };
 
 // @fnv 0x007fd640
 uintptr_t FUN_007fd640Class::FUN_007fd640()
 {
-    return ((Flt*)((char*)this + 0x90))->operator unsigned int();
+    return this->unk90.operator unsigned int();
 }
 }  // namespace fnv_007fd640
 
@@ -218,6 +224,8 @@ void __cdecl FUN_007e65b0();
 struct FUN_007e66a0_cls
 {
     char _0[0x28];
+    int unk28[3];
+    NavMeshPtr unk34;
     void FUN_007e66a0(int a, int b);
 };
 // If b is zero and a is in [0,3), reads b from this[a+10]; for a==1, sets g_011daed8 from the navmesh pointer at this+0x34 and calls FUN_007e65b0.
@@ -225,11 +233,11 @@ struct FUN_007e66a0_cls
 void FUN_007e66a0_cls::FUN_007e66a0(int aiIndex, int aiValue)
 {
     if (aiValue == 0 && aiIndex >= 0 && aiIndex < 3)
-        aiValue = ((int*)this)[aiIndex + 10];
+        aiValue = this->unk28[aiIndex];
     switch (aiIndex)
     {
     case 1:
-        reinterpret_cast<::TextString *>(&((*reinterpret_cast<::BSStr *>(&::g_011daed8))))->FUN_004037f0((const char*)((NavMeshPtr*)((char*)this + 0x34))->FUN_00458b50(), 0);
+        reinterpret_cast<::TextString *>(&((*reinterpret_cast<::BSStr *>(&::g_011daed8))))->FUN_004037f0((const char*)this->unk34.FUN_00458b50(), 0);
         FUN_007e65b0();
         break;
     }

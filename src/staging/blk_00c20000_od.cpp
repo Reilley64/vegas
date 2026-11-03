@@ -7,6 +7,7 @@
 #include <windows.h>
 #include <cstring>
 #include "runtime/crt.h"
+#include "fnv/symbols_0043b000.h"
 #include "fnv/decl/A5d470Class.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/ControlGraph.h"
@@ -60,11 +61,7 @@
 #include "fnv/symbols_01204000.h"
 #include "../../include/layout_support.h"
 
-// fnv/decl/NiTPointerListBase.h declares a plain struct with the name of the NiTPointerListBase template in layout_support.h,
-// so the two cannot be in one unit; this unit calls 0x004ed900 (RemoveAll) through this declaration.
-struct NiTPointerListBase_004ed900 {
-    void FUN_004ed900();
-};
+#include "fnv/decl/NiTPointerListBase.h"
 #include <cmath>
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/BSShaderLightingProperty.h"
@@ -242,24 +239,28 @@ void QueuedParents::FUN_00c3c570()
 
 struct FUN_00c3f6f0_Class
 {
+    char pad00[0x18];
+    long unk18;
     void FUN_00c3f6f0();
 };
 
 // @fnv 0x00c3f6f0
 void FUN_00c3f6f0_Class::FUN_00c3f6f0()
 {
-    InterlockedIncrement((volatile long*)((char*)this + 0x18));
+    InterlockedIncrement(&this->unk18);
 }
 
 struct FUN_00c3f710_Class
 {
+    char pad00[0xc];
+    long unk0c;
     void IncrementRefCount();
 };
 
 // @fnv 0x00c3f710
 void FUN_00c3f710_Class::IncrementRefCount()
 {
-    InterlockedIncrement((volatile long*)((char*)this + 0xc));
+    InterlockedIncrement(&this->unk0c);
 }
 
 struct FUN_00c3f730_Class
@@ -286,6 +287,11 @@ void FUN_00c3fc80_class::CallSecondVirtualMethod(void* apObject)
 
 struct FUN_00c35980_Class
 {
+    char pad00[0xec];
+    int unkec;
+    int unkf0;
+    int unkf4;
+    int unkf8;
     int FUN_00c35980();
 };
 
@@ -293,9 +299,9 @@ struct FUN_00c35980_Class
 // @fnv 0x00c35980
 int FUN_00c35980_Class::FUN_00c35980()
 {
-    if (*(int*)((char*)this + 0xec) || *(int*)((char*)this + 0xf4))
+    if (this->unkec || this->unkf4)
         return 2;
-    if (*(int*)((char*)this + 0xf0) || *(int*)((char*)this + 0xf8))
+    if (this->unkf0 || this->unkf8)
         return 1;
     return 0;
 }
@@ -571,23 +577,32 @@ void FUN_00c3fca0_Class::FUN_00c3fca0(void* apObject)
 
 struct FUN_00c3fe00_Class
 {
+    char pad00[0x4];
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
     void* FUN_00c3fe00(int a, int b, int c, int d);
 };
 // Stores the four arguments into the first four fields and zeroes the fields at offsets 0x10 through 0x20, returning this.
 // @fnv 0x00c3fe00
 void* FUN_00c3fe00_Class::FUN_00c3fe00(int aiField0, int aiField1, int aiField2, int aiField3)
 {
-    int* p4 = (int*)((char*)this + 0x14);
+    int* p4 = &this->unk14;
     *p4 = 0;
-    int* p2 = (int*)((char*)this + 0x18);
+    int* p2 = &this->unk18;
     *p2 = 0;
     *(int*)this = aiField0;
-    *(int*)((char*)this + 4) = aiField1;
-    *(int*)((char*)this + 8) = aiField2;
-    *(int*)((char*)this + 0xc) = aiField3;
-    *(int*)((char*)this + 0x10) = 0;
-    *(int*)((char*)this + 0x1c) = 0;
-    *(int*)((char*)this + 0x20) = 0;
+    this->unk04 = aiField1;
+    this->unk08 = aiField2;
+    this->unk0c = aiField3;
+    this->unk10 = 0;
+    this->unk1c = 0;
+    this->unk20 = 0;
     return this;
 }
 
@@ -598,6 +613,12 @@ struct FUN_00c416a0_Class
 struct FUN_00c3fe80_Class : FUN_00c416a0_Class
 {
     bool FUN_00c3fe80(int a, int b, int c, void** out);
+    char pad00[0x4];
+    int * unk04;
+    int * unk08;
+    int * unk0c;
+    char pad10[0x4];
+    uintptr_t unk14;
 };
 // @fnv 0x00c3fe80
 bool FUN_00c3fe80_Class::FUN_00c3fe80(int aiArg1, int aiArg2, int aiArg3, void** ppOut)
@@ -611,7 +632,7 @@ bool FUN_00c3fe80_Class::FUN_00c3fe80(int aiArg1, int aiArg2, int aiArg3, void**
             {
                 int padA3;
                 {
-                    uintptr_t* field = (uintptr_t*)((char*)this + 0x14);
+                    uintptr_t* field = &this->unk14;
                     {
                         int padB[3];
                         {
@@ -630,7 +651,7 @@ bool FUN_00c3fe80_Class::FUN_00c3fe80(int aiArg1, int aiArg2, int aiArg3, void**
                                     }
                                 }
                                 {
-                                    uintptr_t* field2 = (uintptr_t*)((char*)this + 0x14);
+                                    uintptr_t* field2 = &this->unk14;
                                     {
                                         uintptr_t node = *field2 & ~(uintptr_t)1;
                                         {
@@ -647,9 +668,9 @@ bool FUN_00c3fe80_Class::FUN_00c3fe80(int aiArg1, int aiArg2, int aiArg3, void**
             }
         }
     }
-    **(int**)((char*)this + 4) = 0;
-    **(int**)((char*)this + 8) = 0;
-    **(int**)((char*)this + 0xc) = 0;
+    *this->unk04 = 0;
+    *this->unk08 = 0;
+    *this->unk0c = 0;
     return result;
 }
 
@@ -4033,7 +4054,7 @@ struct List_c0 : List_c0_base
 {
     inline ~List_c0()
     {
-        reinterpret_cast<::NiTPointerListBase_004ed900 *>(this)->FUN_004ed900();
+        reinterpret_cast<::NiTPointerListBaseRaw *>(this)->FUN_004ed900();
     }
     void FUN_004ed900();
     void DeleteItem(ListItem*);
@@ -4147,7 +4168,7 @@ class FUN_00c39770 : public Base_00c46af0
 FUN_00c39770::~FUN_00c39770()
 {
     reinterpret_cast<::BSShaderLightingProperty *>(&(m_b4))->ClearLights();
-    reinterpret_cast<::NiTPointerListBase_004ed900 *>(&(m_c0))->FUN_004ed900();
+    reinterpret_cast<::NiTPointerListBaseRaw *>(&(m_c0))->FUN_004ed900();
     reinterpret_cast<::S00c3a2e0_Cls *>(&(m_d0))->FUN_00c3a2e0();
     reinterpret_cast<::FUN_00b5af80_self *>(&(m_dc))->FUN_00b5af80(true);
     if (m_c0.unk0C)
@@ -4677,7 +4698,7 @@ struct S00c3a180_Scope
 void S00c3a180_cls::FUN_00c3a180()
 {
     S00c3a180_Scope s;
-    reinterpret_cast<::NiTPointerListBase_004ed900 *>(this)->FUN_004ed900();
+    reinterpret_cast<::NiTPointerListBaseRaw *>(this)->FUN_004ed900();
 }
 
 struct ScopeGuardA3a1
@@ -6011,7 +6032,6 @@ struct Stream_c3e1b0 : StreamBase_c3e1b0
 
 extern unsigned gm_GetCurrentThreadId();
 
-extern int FUN_0043b460(volatile long*, long, long);
 
 extern void LockBarrier();
 
@@ -7209,7 +7229,6 @@ bool F1f0Cls::FUN_00c3f1f0(int a1, int a2, int a3, bool a4)
 
 unsigned int __cdecl FUN_0040fc90();
 
-int __cdecl FUN_0043b460(unsigned int* p, unsigned int a, unsigned int b);
 
 struct SpinLockS
 {
@@ -7224,7 +7243,7 @@ struct SpinLockS
             return;
         }
         unsigned int spinCount = 0;
-        while (FUN_0043b460(&owningThread, 0, threadID))
+        while (FUN_0043b460(reinterpret_cast<long volatile*>(&owningThread), 0, (long)threadID))
         {
             if (++spinCount > 10000)
                 ::FUN_0040fca0(1);

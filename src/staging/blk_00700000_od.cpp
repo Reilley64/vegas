@@ -141,25 +141,35 @@ int BSStr::Equals(const char* s)
 
 struct FUN_007002d0_Class
 {
+    char pad00[0x21];
+    char unk21;
     void FUN_00700480(int, int);
     FUN_007002d0_Class* FUN_007002d0();
 };
 
 struct Flt
 {
+    char pad00[0x20];
+    char unk20;
     operator unsigned int();
     void FUN_00700300();
 };
 // @fnv 0x00700300
 void Flt::FUN_00700300()
 {
-    ((Flt*)((char*)this + 0x20))->operator unsigned int();
+    ((Flt*)&this->unk20)->operator unsigned int();
 }
 
 extern "C" void* __cdecl DAT_0106e8d4;
 
 struct FUN_00700560
 {
+    void* vtbl;
+    void* unk04;
+    unsigned short unk08;
+    unsigned short unk0a;
+    unsigned short unk0c;
+    unsigned short unk0e;
     FUN_00700560(void* a, void* b);
 };
 
@@ -172,7 +182,7 @@ struct FUN_00700480 : FUN_00700560
 FUN_007002d0_Class* FUN_007002d0_Class::FUN_007002d0()
 {
     new ((void *)this) ::FUN_00700480((void *)(0), (void *)(1));
-    *(char*)((char*)this + 0x21) = 0;
+    this->unk21 = 0;
     return this;
 }
 
@@ -209,24 +219,28 @@ FUN_00702220::~FUN_00702220()
 
 struct FUN_00703470_Class
 {
+    char pad00[0x110];
+    unsigned char unk110;
     unsigned char GetByteAt110();
 };
 
 // @fnv 0x00703470
 unsigned char FUN_00703470_Class::GetByteAt110()
 {
-    return *(unsigned char*)((char*)this + 0x110);
+    return this->unk110;
 }
 
 struct FUN_00703960_Class
 {
+    char pad00[0xec];
+    char unkec;
     void SetByteAtOffsetEC(char value);
 };
 
 // @fnv 0x00703960
 void FUN_00703960_Class::SetByteAtOffsetEC(char value)
 {
-    ((char*)this)[0xec] = value;
+    this->unkec = value;
 }
 
 struct GO
@@ -248,13 +262,15 @@ void NiPick::FUN_00705fc0(void* p)
 
 struct FUN_00709a20_Class
 {
+    char pad00[0x30];
+    int unk30;
     int FUN_00709a20();
 };
 
 // @fnv 0x00709a20
 int FUN_00709a20_Class::FUN_00709a20()
 {
-    return (*reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x30) & 0x2000) != 0;
+    return (this->unk30 & 0x2000) != 0;
 }
 
 
@@ -327,6 +343,9 @@ struct FUN_00700350_Class
 
 struct FUN_00717e30_Class
 {
+    char pad00[0x178];
+    TgtOps unk178;
+    char pad179[0x3];
     void FUN_00717e30();
 };
 
@@ -334,13 +353,20 @@ struct FUN_00717e30_Class
 // @fnv 0x00717e30
 void FUN_00717e30_Class::FUN_00717e30()
 {
-    reinterpret_cast<::FNVCollection *>((((FUN_00700350_Class*)((void *)(reinterpret_cast<::BaseProcess *>((((TgtOps*)((char*)this + 0x178))))->GetCurrentProcessData())))))->FUN_00700350();
+    reinterpret_cast<::FNVCollection *>((((FUN_00700350_Class*)((void *)(reinterpret_cast<::BaseProcess *>(((&this->unk178)))->GetCurrentProcessData())))))->FUN_00700350();
 }
 
 extern int DAT_0106f448;
 
+struct FUN_004037d0_Class
+{
+};
+
 struct FUN_00719390_class
 {
+    char pad00[0x4];
+    FUN_004037d0_Class unk04;
+    char pad05[0x3];
     void ConstructAndInit();
     void FUN_00719390();
 };
@@ -354,12 +380,14 @@ void FUN_00719390_class::FUN_00719390()
 
 struct FUN_00719b00_class
 {
+    char pad00[0x66d];
+    signed char unk66d;
     bool FUN_00719b00();
 };
 // @fnv 0x00719b00
 bool FUN_00719b00_class::FUN_00719b00()
 {
-    return (reinterpret_cast<signed char*>(reinterpret_cast<char*>(this) + 0x66d)[0] & 4) != 0;
+    return ((&this->unk66d)[0] & 4) != 0;
 }
 
 extern unsigned int DAT_0106f798;
@@ -381,13 +409,15 @@ void FUN_00719be0::Initialize()
 
 struct FUN_0071aa60_class
 {
+    char pad00[0x35];
+    unsigned char unk35;
     void FUN_0071aa60(bool value);
 };
 
 // @fnv 0x0071aa60
 void FUN_0071aa60_class::FUN_0071aa60(bool value)
 {
-    *reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(this) + 0x35) = value;
+    this->unk35 = value;
 }
 
 
@@ -406,17 +436,27 @@ void __cdecl FUN_0071cff0(intptr_t aiArg1, intptr_t aiArg2, int aiArg3)
 
 struct FUN_0071d010_Class
 {
+    char pad00[0x20];
+    unsigned char unk20;
     void SetByteAtOffset20(unsigned char v);
 };
 
 // @fnv 0x0071d010
 void FUN_0071d010_Class::SetByteAtOffset20(unsigned char aucValue)
 {
-    *reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(this) + 0x20) = aucValue;
+    this->unk20 = aucValue;
 }
+
+struct FUN_0071e1e0;
+struct Factory_0071e120
+{
+    FUN_0071e1e0* CreateInstance();
+};
 
 struct FUN_0071e0d0_Class
 {
+    char pad00[0x8];
+    ::Factory_0071e120 unk08;
     void FUN_0071e0d0();
 };
 
@@ -431,13 +471,22 @@ struct FUN_0071e1a0_cls
 };
 struct FUN_0071e0f0_cls
 {
+    char pad00[0x8];
+    FUN_0071e1a0_cls unk08;
+    char pad09[0x3];
     void FUN_0071e0f0(const char* arg);
 };
+struct FUN_0071e0f0_Arg
+{
+    char pad00[0x8];
+    Str6a70 unk08;
+};
+
 // @fnv 0x0071e0f0
 void FUN_0071e0f0_cls::FUN_0071e0f0(const char* arg)
 {
-    ((Str6a70*)((char*)arg + 8))->operator=(0);
-    ((FUN_0071e1a0_cls*)((char*)this + 8))->FUN_0071e1a0(arg);
+    ((FUN_0071e0f0_Arg*)arg)->unk08.operator=(0);
+    this->unk08.FUN_0071e1a0(arg);
 }
 
 struct StrMem
@@ -465,10 +514,16 @@ struct FUN_0071e250_class
     void FUN_0071e250();
 };
 
+struct HasThirdFieldNonZero_Obj
+{
+    char pad00[0x8];
+    int unk08;
+};
+
 // @fnv 0x0071f520
 char __cdecl HasThirdFieldNonZero(void* a)
 {
-    return ((int*)a)[2] != 0 ? 1 : 0;
+    return ((HasThirdFieldNonZero_Obj*)a)->unk08 != 0 ? 1 : 0;
 }
 
 extern int DAT_01070028;
@@ -502,6 +557,8 @@ int FUN_0071fb20_Class::FUN_0071fb20()
 
 struct FUN_0071fbc0_Class
 {
+    char pad00[0x28];
+    char unk28;
     void SetSlotValue(int index, int value);
 };
 
@@ -510,7 +567,7 @@ struct FUN_0071fbc0_Class
 void FUN_0071fbc0_Class::SetSlotValue(int index, int value)
 {
     if (index >= 0 && index < 3)
-        *(int*)((char*)this + 0x28 + index * 4) = value;
+        *(int*)((char*)&this->unk28 + index * 4) = value;
 }
 
 struct FUN_007004b0_Class : FUN_007004e0_class
@@ -653,6 +710,8 @@ struct FUN_00709840
 };
 struct TileMenu
 {
+    char pad00[0x3c];
+    int unk3c;
     TileMenu* TileMenuConstructor(int, int);
 };
 extern char vftable_TileMenu;
@@ -662,7 +721,7 @@ TileMenu* TileMenu::TileMenuConstructor(int aiUnused1, int aiUnused2)
 {
     ::FUN_00709840((void *)this);
     *(void**)this = (void*)&vftable_TileMenu;
-    *(int*)((char*)this + 0x3c) = 0;
+    this->unk3c = 0;
     return this;
 }
 
@@ -688,25 +747,38 @@ void __cdecl FUN_00709b50(unsigned char a, float afParam1, float afParam2, int a
 
 struct FUN_00709b80_Class
 {
+    char pad00[0x4ac];
+    float unk4ac;
+    float unk4b0;
+    char unk4b4;
+    char pad4b5[0x3];
+    int unk4b8;
     void SetParams(char a, float b, float c, int d);
 };
 // Stores a char at offset 0x4b4, two floats at 0x4ac and 0x4b0, and an int at 0x4b8 of this object.
 // @fnv 0x00709b80
 void FUN_00709b80_Class::SetParams(char a, float afValue1, float afValue2, int aiValue)
 {
-    *(char*)((char*)this + 0x4b4) = a;
-    *(float*)((char*)this + 0x4ac) = afValue1;
-    *(float*)((char*)this + 0x4b0) = afValue2;
-    *(int*)((char*)this + 0x4b8) = aiValue;
+    this->unk4b4 = a;
+    this->unk4ac = afValue1;
+    this->unk4b0 = afValue2;
+    this->unk4b8 = aiValue;
 }
 
 
 // Returns 1 if _pme is non-null and the byte at offset 0x1fc is set, otherwise 0.
+// The HUDMainMenu field this unit reads (include/HUDMainMenu.h can't be included here: its Menu clashes with the unit's polymorphic Menu stand-in).
+struct FUN_00709cc0_HudView
+{
+    char pad00[0x1fc];
+    bool m_bHudModeActive;
+};
+
 // @fnv 0x00709cc0
 unsigned char __cdecl FUN_00709cc0()
 {
     int result;
-    if ((*reinterpret_cast<void * *>(&::g_pHudMainMenuInstance)) && *(unsigned char*)((char*)(*reinterpret_cast<void * *>(&::g_pHudMainMenuInstance)) + 0x1fc))
+    if (::g_pHudMainMenuInstance && reinterpret_cast<const FUN_00709cc0_HudView*>(::g_pHudMainMenuInstance)->m_bHudModeActive)
         result = 1;
     else
         result = 0;
@@ -878,15 +950,17 @@ public:
 };
 struct Holder
 {
+    char pad00[0x810];
+    char unk810;
     void FUN_0071dd50(char const*);
 };
 // @fnv 0x0071dd50
 void Holder::FUN_0071dd50(char const* a)
 {
     if (a != 0)
-        TaskQueueInterface::CopyStringToBuffer((char*)this + 0x810, 0x104, a);
+        TaskQueueInterface::CopyStringToBuffer((char*)&this->unk810, 0x104, a);
     else
-        *((char*)this + 0x810) = 0;
+        this->unk810 = 0;
 }
 
 struct BSStringTCharAssign
@@ -905,11 +979,17 @@ struct S71df20
     void AssignString(const BSStringTCharAssign&);
 };
 // Gets a pointer via FUN_0071e0d0, assigns a to the object at offset 8, then passes the pointer to FUN_0049fa20.
+struct S71df20_Node
+{
+    char pad00[0x8];
+    BSStringTCharAssign unk08;
+};
+
 // @fnv 0x0071df20
 void S71df20::AssignString(const BSStringTCharAssign& aString)
 {
     void* tmp = ((A71e0d0*)this)->FUN_0071e0d0();
-    reinterpret_cast<::FUN_00501c10_cls *>((((BSStringTCharAssign*)((char*)tmp + 8))))->CallAndReturnSelf((intptr_t)&(aString));
+    reinterpret_cast<::FUN_00501c10_cls *>(&((S71df20_Node*)tmp)->unk08)->CallAndReturnSelf((intptr_t)&(aString));
     reinterpret_cast<::FUN_0049fa20_List *>((((B49fa20*)this)))->FUN_0049fa20((::FUN_0049fa20_Node *)(tmp));
 }
 
@@ -1034,35 +1114,46 @@ struct Menu_007a8b10
 };
 struct FUN_0071fb60_Class : Menu_007a8b10
 {
+    char pad04[0x30];
+    FUN_00716a10_Class unk34;
     ~FUN_0071fb60_Class();
 };
 // @fnv 0x0071fb60
 FUN_0071fb60_Class::~FUN_0071fb60_Class()
 {
-    reinterpret_cast<::FUN_00716a10 *>((((FUN_00716a10_Class*)((char*)this + 0x34))))->FUN_00716a10::~FUN_00716a10();
+    reinterpret_cast<::FUN_00716a10 *>(&this->unk34)->FUN_00716a10::~FUN_00716a10();
 }
 }  // namespace fnv_0071fb60
 
+struct FUN_007001f0_Item
+{
+    char pad00[0x4];
+    int unk04;
+};
+
 struct FUN_007001f0_Class
 {
+    char pad00[0x8];
+    FUN_007001f0_Item* unk08;
+    FUN_007001f0_Item* unk0c;
     intptr_t FUN_007001f0();
 };
 // Returns the value at offset 4 of the object stored at this+8 or this+0xc when both agree, or of whichever is non-null; otherwise 0.
 // @fnv 0x007001f0
 intptr_t FUN_007001f0_Class::FUN_007001f0()
 {
-    if (*(void**)((char*)this + 8) && *(void**)((char*)this + 0xc) &&
-        *(void**)((char*)(*(void**)((char*)this + 8)) + 4) == *(void**)((char*)(*(void**)((char*)this + 0xc)) + 4))
+    if (this->unk08 && this->unk0c &&
+        this->unk08->unk04 == this->unk0c->unk04)
     {
-        return *(int*)((char*)(*(void**)((char*)this + 8)) + 4);
+        return this->unk08->unk04;
     }
-    else if (*(void**)((char*)this + 8) && !*(void**)((char*)this + 0xc))
+    else if (this->unk08 && !this->unk0c)
     {
-        return *(int*)((char*)(*(void**)((char*)this + 8)) + 4);
+        return this->unk08->unk04;
     }
-    else if (!*(void**)((char*)this + 8) && *(void**)((char*)this + 0xc))
+    else if (!this->unk08 && this->unk0c)
     {
-        return *(int*)((char*)(*(void**)((char*)this + 0xc)) + 4);
+        return this->unk0c->unk04;
     }
     else
     {
@@ -1105,17 +1196,17 @@ extern int DAT_0106e8dc;
 FUN_00700560::FUN_00700560(void* ausSize, void* b)
 {
     *(void**)this = &DAT_0106e8dc;
-    *(unsigned short*)((char*)this + 0x08) = (unsigned short)(uintptr_t)ausSize;
-    *(unsigned short*)((char*)this + 0x0e) = (unsigned short)(uintptr_t)b;
-    *(unsigned short*)((char*)this + 0x0a) = 0;
-    *(unsigned short*)((char*)this + 0x0c) = 0;
-    if (*(unsigned short*)((char*)this + 0x08) > 0)
+    this->unk08 = (unsigned short)(uintptr_t)ausSize;
+    this->unk0e = (unsigned short)(uintptr_t)b;
+    this->unk0a = 0;
+    this->unk0c = 0;
+    if (this->unk08 > 0)
     {
-        *(void**)((char*)this + 0x04) = NiTMallocInterface_0096afc0::Allocate(*(unsigned short*)((char*)this + 0x08));
+        this->unk04 = NiTMallocInterface_0096afc0::Allocate(this->unk08);
     }
     else
     {
-        *(void**)((char*)this + 0x04) = 0;
+        this->unk04 = 0;
     }
 }
 
@@ -1451,15 +1542,13 @@ FUN_00719160_cls::FUN_00719160_cls(const char* a1, intptr_t a2)
 
 extern char vftable_FUN_00719390;
 
-struct FUN_004037d0_Class
-{
-};
+
 
 // @fnv 0x00719230
 void FUN_00719390_class::ConstructAndInit()
 {
     reinterpret_cast<void**>(this)[0] = reinterpret_cast<void*>(&vftable_FUN_00719390);
-    reinterpret_cast<::BSStringTChar *>((reinterpret_cast<FUN_004037d0_Class*>(reinterpret_cast<char*>(this) + 4)))->BSStringTChar::~BSStringTChar();
+    reinterpret_cast<::BSStringTChar *>((&this->unk04))->BSStringTChar::~BSStringTChar();
 }
 
 class FUN_00719ca0_cls
@@ -1558,12 +1647,18 @@ struct FUN_0071df60_Class
 };
 
 // Retrieves an object via FUN_0071e0d0, passes value to the object at offset 8, then forwards the object to FUN_00559a70.
+struct FUN_0071df60_Node
+{
+    char pad00[0x8];
+    FUN_00501c10_Class unk08;
+};
+
 // @fnv 0x0071df60
 void FUN_0071df60_Class::FUN_0071df60(intptr_t value)
 {
     void* result = this->FUN_0071e0d0();
 
-    reinterpret_cast<::FUN_00501c10_cls *>((reinterpret_cast<FUN_00501c10_Class*>(reinterpret_cast<unsigned char*>(result) + 8)))->CallAndReturnSelf(value);
+    reinterpret_cast<::FUN_00501c10_cls *>(&((FUN_0071df60_Node*)result)->unk08)->CallAndReturnSelf(value);
 
     reinterpret_cast<::FUN_00559a70_Class *>((this))->FUN_00559a70(result);
 }
@@ -1620,14 +1715,11 @@ struct FUN_0071e1e0
     int unk0c;
     FUN_0071e1e0();
 };
-struct Factory_0071e120
-{
-    FUN_0071e1e0* CreateInstance();
-};
+
 // @fnv 0x0071e0d0
 void FUN_0071e0d0_Class::FUN_0071e0d0()
 {
-    reinterpret_cast<::Factory_0071e120 *>((((FUN_0071e0d0_Class*)((char*)this + 8))))->CreateInstance();
+    this->unk08.CreateInstance();
 }
 // Allocates and constructs a new FUN_0071e1e0 object, returning its pointer.
 // @fnv 0x0071e120
@@ -2282,6 +2374,16 @@ struct MenuCollection
 };
 struct MenuState
 {
+    char pad00[0xc];
+    int unk0c;
+    char pad10[0x1];
+    unsigned char unk11;
+    char pad12[0x16];
+    void* unk28;
+    char pad2c[0x51];
+    unsigned char unk7d;
+    char pad7e[0xce];
+    int unk14c;
     void UpdateMenuSelection();
 };
 double __cdecl FUN_00408840(float);
@@ -2291,7 +2393,7 @@ void MenuState::UpdateMenuSelection()
 {
     ScopedMenuAccess scope(13, 1, &DAT_0106ef50, 0xca1);
     MenuFrame* cursor = ((::MenuFrame *)(reinterpret_cast<::FUN_00877720_shell *>(((*reinterpret_cast<::MenuFrameProvider * *>(&::g_osGlobals))))->FUN_00877720()));
-    *reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(this) + 0x11) = 0;
+    this->unk11 = 0;
     int frame = ::FUN_00559450((int *)&(((::MenuCollection *)(reinterpret_cast<::InterfaceManager *>(this)->FUN_00586150()))->list));
     while (frame != 0)
     {
@@ -2336,7 +2438,7 @@ void MenuState::UpdateMenuSelection()
                 }
                 else
                 {
-                    *reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(this) + 0x11) = 1;
+                    this->unk11 = 1;
                     reinterpret_cast<::Tile *>((((::MenuComponent *)(reinterpret_cast<::Callees *>((actor))->FUN_00726070()))))->Set(0xfa3, 1);
                     reinterpret_cast<::AlphaInterface *>(this)->SetNodeAlpha((::AlphaNode *)(::MenuComponent *)(((::MenuComponent *)(uintptr_t)(reinterpret_cast<::fnv_0056c7f0::Tile *>((((::MenuComponent *)(reinterpret_cast<::Callees *>((actor))->FUN_00726070()))))->FUN_0056c7f0()))), 1.0f - amount, 0.0f);
                     if (shouldUpdate)
@@ -2360,7 +2462,7 @@ void MenuState::UpdateMenuSelection()
                 }
                 else
                 {
-                    *reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(this) + 0x11) = 1;
+                    this->unk11 = 1;
                     reinterpret_cast<::Tile *>((((::MenuComponent *)(reinterpret_cast<::Callees *>((actor))->FUN_00726070()))))->Set(0xfa3, 1);
                     reinterpret_cast<::AlphaInterface *>(this)->SetNodeAlpha((::AlphaNode *)(::MenuComponent *)(((::MenuComponent *)(uintptr_t)(reinterpret_cast<::fnv_0056c7f0::Tile *>((((::MenuComponent *)(reinterpret_cast<::Callees *>((actor))->FUN_00726070()))))->FUN_0056c7f0()))), amount, 0.0f);
                     if (shouldUpdate)
@@ -2369,18 +2471,18 @@ void MenuState::UpdateMenuSelection()
             }
         }
     }
-    if (*reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0xc) == 4 &&
-        (!*reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(this) + 0x11) || reinterpret_cast<::fnv_00451530::FUN_00451530_shell *>(((*reinterpret_cast<::MenuGate * *>(&::g_TES))))->FUN_00451530()))
+    if (this->unk0c == 4 &&
+        (!this->unk11 || reinterpret_cast<::fnv_00451530::FUN_00451530_shell *>(((*reinterpret_cast<::MenuGate * *>(&::g_TES))))->FUN_00451530()))
     {
         reinterpret_cast<::DIDeviceOwner *>((cursor))->FUN_00a237b0();
-        *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0xc) = 1;
-        if (!FUN_004b71d0() || *reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(this) + 0x7d))
+        this->unk0c = 1;
+        if (!FUN_004b71d0() || this->unk7d)
         {
-            reinterpret_cast<::TaskQueueInterface *>((((::MenuComponent *)(uintptr_t)(reinterpret_cast<::fnv_0056c7f0::Tile *>((reinterpret_cast<MenuComponent*>(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x28))))->FUN_0056c7f0()))))->QueueActorDisarm(1);
-            reinterpret_cast<::Tile *>((reinterpret_cast<MenuComponent*>(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x28))))->Set(0xfa3, 0);
+            reinterpret_cast<::TaskQueueInterface *>((((::MenuComponent *)(uintptr_t)(reinterpret_cast<::fnv_0056c7f0::Tile *>((reinterpret_cast<MenuComponent*>(this->unk28)))->FUN_0056c7f0()))))->QueueActorDisarm(1);
+            reinterpret_cast<::Tile *>((reinterpret_cast<MenuComponent*>(this->unk28)))->Set(0xfa3, 0);
         }
-        reinterpret_cast<::RenderTile *>((reinterpret_cast<MenuComponent*>(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x28))))->FUN_00a04640(1);
-        *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x14c) = 0;
+        reinterpret_cast<::RenderTile *>((reinterpret_cast<MenuComponent*>(this->unk28)))->FUN_00a04640(1);
+        this->unk14c = 0;
     }
     DAT_011d8a90 = 99;
 }
@@ -2615,6 +2717,8 @@ class BSFile
 
 struct FUN_0071dd90_shell
 {
+    char pad00[0x810];
+    char unk810;
     void WriteLine(const char* apText);
 };
 // Formats the text, appends it to the console line queue, wraps it into lines using the console font, and trims overflow lines.
@@ -2666,12 +2770,12 @@ void ConsoleText::FUN_0071d0a0(const char* format, char* arguments)
 // @fnv 0x0071dd90
 void FUN_0071dd90_shell::WriteLine(const char* apText)
 {
-    if (!*((char*)this + 0x810))
+    if (!this->unk810)
         return;
     unsigned int uiLen = apText ? strlen(apText) : 0;
     if (!uiLen)
         return;
-    BSFile file((char*)this + 0x810, 1, 0x2800, true);
+    BSFile file((char*)&this->unk810, 1, 0x2800, true);
     if (file.Open(false, true))
     {
         file.Seek(0, DAT_010a2488);

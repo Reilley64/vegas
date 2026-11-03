@@ -5418,7 +5418,7 @@ void ShutdownE6EC20()
     if (::DAT_0126f0d4)
         g_pfnE6EC20FreeLibrary(::DAT_0126f0d4);
     ::g_0126f0dc = 0;
-    reinterpret_cast<::NiTPointerListBase *>(&((*reinterpret_cast<::E6EC20List *>(&::DAT_0126f0f8))))->FUN_004ed900();
+    reinterpret_cast<::NiTPointerListBaseRaw *>(&((*reinterpret_cast<::E6EC20List *>(&::DAT_0126f0f8))))->FUN_004ed900();
 }
 
 // Renderer resource setup: original C++ reconstructed from InitializeRendererResources.

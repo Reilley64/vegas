@@ -1,4 +1,5 @@
 #pragma once
+class NiStream;
 #include <cstdint>
 
 class NiDirectionalLight;
@@ -19,6 +20,6 @@ void *FUN_00a75c20(char *);
 // 0x00a75ec0
 ::NiTriBasedGeomData *FUN_00a75ec0(::NiTriBasedGeomData *);
 // 0x00a75f00
-void FUN_00a75f00();
+struct FUN_00a75f00_shell { bool FUN_00a75f00(::NiStream& kStream); };
 // 0x00a75f10
 intptr_t FUN_00a75f10(char *);

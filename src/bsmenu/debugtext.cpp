@@ -4,6 +4,7 @@
 
 #include "global_string_header.h"
 #include <cstdarg>
+#include "fnv/symbols_0043b000.h"
 #include <cstdint>
 #include <new>
 #include <cstdio>
@@ -1715,7 +1716,6 @@ struct A0FE20PropertyState {
     ~A0FE20PropertyState();
 };
 unsigned int FUN_0040fc90();
-int FUN_0043b460(volatile long*, long, long);
 void FUN_0040fca0(unsigned long);
 void FUN_0040fbe0(...);
 struct A0FE20Lock {

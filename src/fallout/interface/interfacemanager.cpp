@@ -158,6 +158,7 @@
 #include "fnv/decl/NiObjectNET.h"
 #include "fnv/decl/NiPick.h"
 #include "fnv/decl/NiPlane.h"
+#include "fnv/decl/NiTPointerListBase.h"
 #include "fnv/decl/Owner7164.h"
 #include "fnv/decl/OwnerLookupView.h"
 #include "fnv/decl/PatrolActorPackageData.h"
@@ -6733,7 +6734,7 @@ struct FUN_004ed900_shell
 // @fnv 0x0070aca0
 void __cdecl FUN_0070aca0()
 {
-    reinterpret_cast<FUN_004ed900_shell *>(&((*reinterpret_cast<::M788 *>(&::DAT_011f3324))))->FUN_004ed900();
+    reinterpret_cast<::NiTPointerListBaseRaw *>(&((*reinterpret_cast<::M788 *>(&::DAT_011f3324))))->FUN_004ed900();
 }
 
 namespace fnv_0070b5d0 {

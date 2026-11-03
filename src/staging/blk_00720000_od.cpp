@@ -37,6 +37,8 @@
 
 struct FUN_00726d50_class
 {
+    char pad00[0x28];
+    unsigned char unk28;
     void SetFlags(int a, int b);
     void FUN_00726d50(bool a);
 };
@@ -79,6 +81,7 @@ struct BSS
 };
 struct FUN_00726cf0 : BSS
 {
+    char pad00[0x24];
     void* m_p;
     ~FUN_00726cf0();
 };
@@ -86,16 +89,16 @@ struct FUN_00726cf0 : BSS
 // @fnv 0x00726cf0
 FUN_00726cf0::~FUN_00726cf0()
 {
-    ::FUN_00401030(*(void**)((char*)this + 0x24));
+    ::FUN_00401030(this->m_p);
 }
 
 // @fnv 0x00726d70
 void FUN_00726d50_class::SetFlags(int auiFlags, int abSet)
 {
     if (*(unsigned char*)&abSet)
-        *(unsigned char*)((char*)this + 0x28) |= auiFlags;
+        this->unk28 |= auiFlags;
     else
-        *(unsigned char*)((char*)this + 0x28) &= ~auiFlags;
+        this->unk28 &= ~auiFlags;
 }
 
 struct AX
@@ -212,15 +215,21 @@ unsigned int VATSMenu::GetFilteredCount()
     return ::GetRaceCount((char *)this) - (unsigned int)reinterpret_cast<::TileListBoxCalls *>((tile))->GetFloat(numFiltered);
 }
 
+struct FUN_0073ac90_Head
+{
+    char pad00[0x8];
+    char unk08;
+};
+
 struct FUN_0073ac90_shell
 {
-    void* m_pHead;
+    FUN_0073ac90_Head* m_pHead;
     void* FUN_0073ac90();
 };
 // @fnv 0x0073ac90
 void* FUN_0073ac90_shell::FUN_0073ac90()
 {
-    return (char*)(void*)*(void**)this + 8;
+    return &this->m_pHead->unk08;
 }
 
 struct Target_b9969
@@ -344,15 +353,22 @@ struct FUN_00726090_cls
 };
 
 // Clears m_1c and m_20, notifies and removes each linked object whose byte at offset 8 is zero, then calls Flush and Reset.
+struct FUN_00726090_Item
+{
+    void* tile;
+    void* object;
+    unsigned char isFiltered;
+};
+
 // @fnv 0x00726090
 void FUN_00726090_cls::FUN_00726090()
 {
     m_1c = 0;
     m_20 = 0.0f;
-    for (FNVNodeLink* cur = this ? (FNVNodeLink*)((char*)this + 4) : 0; cur != 0 && *((void ***)(new ((void *)(cur)) ::Vec3())) != 0;
+    for (FNVNodeLink* cur = this ? (FNVNodeLink*)&this->m_04 : 0; cur != 0 && *((void ***)(new ((void *)(cur)) ::Vec3())) != 0;
          cur = ((::FNVNodeLink *)(reinterpret_cast<::Callees *>((cur))->FUN_00726070())))
     {
-        if (((unsigned char*)*((void ***)(new ((void *)(cur)) ::Vec3())))[8] == 0)
+        if (((FUN_00726090_Item*)*((void ***)(new ((void *)(cur)) ::Vec3())))->isFiltered == 0)
         {
             reinterpret_cast<::Tile *>((((FNVObj*)**((void ***)(new ((void *)(cur)) ::Vec3())))))->Set(0xfac, m_1c++);
             reinterpret_cast<::VLList *>(this)->AccumulateTileHeight((::VLTile *)(**((void ***)(new ((void *)(cur)) ::Vec3()))));

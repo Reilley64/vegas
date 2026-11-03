@@ -1,4 +1,5 @@
 #pragma once
+class NiStream;
 
 class NiProperty;
 struct SpawnedObject;
@@ -11,3 +12,5 @@ void *FUN_00a952a0();
 ::SpawnedObject *FUN_00a958b0();
 // 0x00a95f20
 void *AllocateAndConstruct();
+// 0x00a950c0
+struct FUN_00a950c0_shell { void FUN_00a950c0(::NiStream& kStream); };

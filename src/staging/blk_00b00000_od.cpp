@@ -1735,7 +1735,7 @@ FUN_00b027c0::FUN_00b027c0()
     vtable = &DAT_010a48e8;
     bActive = 1;
     vtable = &DAT_010a48d8;
-    CSFields* pCS = (CSFields*)((char*)this + 8);
+    CSFields* pCS = (CSFields*)&this->pGroup;
     pCS->LockCount = 0;
     pCS->Pad1 = 1;
     pCS->Semaphore = CreateSemaphoreA(0, 0, 1, 0);
@@ -4228,7 +4228,7 @@ void VcVec::FUN_00b0e200(unsigned int _Newsize, char _Val)
         const ::VcConstIter &first = begin() + _Newsize;
         const ::VcConstIter &last = end();
         ::FUN_00b0e510_pair result;
-        reinterpret_cast<::FUN_00b0e510_cls *>(this)->FUN_00b0e510(&result, (uintptr_t)(((void *const *)&(first))[0]), (uintptr_t)(((void *const *)&(first))[1]), (uintptr_t)(((void *const *)&(last))[0]), (uintptr_t)(((void *const *)&(last))[1]));
+        reinterpret_cast<::FUN_00b0e510_cls *>(this)->FUN_00b0e510(&result, (uintptr_t)(((void *const *)&(first))[0]), (uintptr_t)((*(void *const *)&(first)._Myptr)), (uintptr_t)(((void *const *)&(last))[0]), (uintptr_t)((*(void *const *)&(last)._Myptr)));
     }
 }
 

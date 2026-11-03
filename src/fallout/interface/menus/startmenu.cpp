@@ -110,6 +110,7 @@
 #include "fnv/decl/NavMeshSearchLOSArray.h"
 #include "fnv/decl/NetworkSystemUtility.h"
 #include "fnv/decl/NiPoint3Interpolator.h"
+#include "fnv/decl/NiTPointerListBase.h"
 #include "fnv/decl/NonActorMagicTarget.h"
 #include "fnv/decl/Owner.h"
 #include "fnv/decl/P03Value.h"
@@ -1750,7 +1751,7 @@ FUN_007cb5b0::~FUN_007cb5b0()
     }
     reinterpret_cast<::RecordList *>(((*reinterpret_cast<::fnv_007cb5b0::BGSSaveLoadManager * *>(&::DAT_011de134))))->FUN_00851540();
     (*reinterpret_cast<::StartMenu * *>(&::fnv_007d0700::DAT_011daac0)) = 0;
-    reinterpret_cast<FUN_004ed900_shell *>(&((*reinterpret_cast<::fnv_007cb5b0::M788 *>(&::g_011dabd8))))->FUN_004ed900();
+    reinterpret_cast<::NiTPointerListBaseRaw *>(&((*reinterpret_cast<::fnv_007cb5b0::M788 *>(&::g_011dabd8))))->FUN_004ed900();
     ::FUN_007cb7a0();
 }
 }  // namespace fnv_007cb5b0

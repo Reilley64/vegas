@@ -43,13 +43,15 @@
 
 struct FUN_00740960_Class
 {
+    char pad00[0x628];
+    unsigned int unk628;
     unsigned int FUN_00740960();
 };
 
 // @fnv 0x00740960
 unsigned int FUN_00740960_Class::FUN_00740960()
 {
-    return *(unsigned int*)((char*)this + 0x628);
+    return this->unk628;
 }
 
 struct FUN_00752df0_class
@@ -166,13 +168,15 @@ void FUN_00754a00_cls::FUN_00754930(intptr_t a1)
 
 struct FUN_00759540_class
 {
+    char pad00[0xa5];
+    unsigned char unka5;
     bool IsFlag8Set();
 };
 
 // @fnv 0x00759540
 bool FUN_00759540_class::IsFlag8Set()
 {
-    return reinterpret_cast<const unsigned char*>(this)[0xa5] & 8;
+    return this->unka5 & 8;
 }
 
 struct FUN_00759d80_Class
@@ -298,22 +302,34 @@ struct TileProcessor
 };
 struct FUN_00759470_Class
 {
+    char pad00[0x2c];
+    Tile* unk2c;
+    Tile* unk30;
+    char pad34[0x10];
+    Tile* unk44;
+    char pad48[0x18];
+    Tile* unk60;
+    Tile* unk64;
+    char pad68[0x40];
+    FUN_00759540_class* unka8;
+    char padac[0x3c];
+    TileProcessor* unke8;
     void UpdateNoteDisplay(BGSNote* a1);
 };
 // @fnv 0x00759470
 void FUN_00759470_Class::UpdateNoteDisplay(BGSNote* pNote)
 {
-    ((TileProcessor*)(intptr_t)*((int*)this + 0x3a))->ProcessAllTiles();
-    ((Tile*)(intptr_t)*((int*)this + 0xb))->Set(0xfa3, 0);
-    ((Tile*)(intptr_t)*((int*)this + 0xc))->Set(0xfa9, 255);
-    ((Tile*)(intptr_t)*((int*)this + 0xc))->Set(0xfa3, 1);
-    ((Tile*)(intptr_t)*((int*)this + 0x18))->Set(0xfa3, 0);
-    if (((FUN_00759540_class*)(intptr_t)*((int*)this + 0x2a))->IsFlag8Set())
+    this->unke8->ProcessAllTiles();
+    this->unk2c->Set(0xfa3, 0);
+    this->unk30->Set(0xfa9, 255);
+    this->unk30->Set(0xfa3, 1);
+    this->unk60->Set(0xfa3, 0);
+    if (this->unka8->IsFlag8Set())
     {
-        ((Tile*)(intptr_t)*((int*)this + 0x11))->Set(0xfa3, 0);
-        ((Tile*)(intptr_t)*((int*)this + 0x19))->Set(0xfa3, 0);
+        this->unk44->Set(0xfa3, 0);
+        this->unk64->Set(0xfa3, 0);
     }
-    reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((Tile*)(intptr_t)*((int*)this + 0xc))))->FUN_00a01350(0xfcc, (char *)(((char *)(reinterpret_cast<::FUN_00408da0_Class *>((pNote->GetNoteTexture()))->FUN_00408da0()))), true);
+    reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((this->unk30))->FUN_00a01350(0xfcc, (char *)(((char *)(reinterpret_cast<::FUN_00408da0_Class *>((pNote->GetNoteTexture()))->FUN_00408da0()))), true);
 }
 
 struct SL
@@ -383,6 +399,8 @@ struct FUN_00752cb0_Inner
 
 struct FUN_00752cb0_cls
 {
+    char pad00[0xb44];
+    FUN_00752cb0_Group unkb44[1];
     int FUN_00752cb0(int a1, int a2);
 };
 
@@ -392,10 +410,10 @@ int FUN_00752cb0_cls::FUN_00752cb0(int aiGroupIndex, int aiMatchValue)
 {
     int i = 0;
     int count = 0;
-    while (i < 7 && ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(((FUN_00752cb0_Group*)((char*)this + 0xb44))[aiGroupIndex].items[i]))->GetName())) > 0)
+    while (i < 7 && ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(this->unkb44[aiGroupIndex].items[i]))->GetName())) > 0)
     {
         if (reinterpret_cast<::MiddleLowProcess *>((((FUN_00752cb0_Inner*)*(
-                 void**)((void *)(reinterpret_cast<::S3e60 *>((((FUN_00752cb0_Holder*)&((FUN_00752cb0_Group*)((char*)this + 0xb44))[aiGroupIndex].items[i])))->FUN_006a7ad0(0))))))->GetProcessInteger() == aiMatchValue)
+                 void**)((void *)(reinterpret_cast<::S3e60 *>((((FUN_00752cb0_Holder*)&this->unkb44[aiGroupIndex].items[i])))->FUN_006a7ad0(0))))))->GetProcessInteger() == aiMatchValue)
         {
             count++;
         }

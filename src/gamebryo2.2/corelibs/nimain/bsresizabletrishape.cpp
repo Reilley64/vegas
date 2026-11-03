@@ -157,9 +157,6 @@ struct NiStream
     char _00[0x250];
     NiBinaryStream* m_pBackingStream;
 };
-struct FUN_00a71d10_shell
-{
-};
 struct FUN_00a86ed0_shell : BSResizableTriShape
 {
     void FUN_00a86ed0(NiStream&);
@@ -167,7 +164,7 @@ struct FUN_00a86ed0_shell : BSResizableTriShape
 // @fnv 0x00a86ed0
 void FUN_00a86ed0_shell::FUN_00a86ed0(NiStream& stream)
 {
-    ::FUN_00a71d10();
+    reinterpret_cast<::FUN_00a71d10_shell *>(this)->FUN_00a71d10((::NiStream &)stream);
     NiBinaryStream* __restrict input = stream.m_pBackingStream;
     unsigned int size = 4;
     input->position += input->write(input, (void*)((char*)this + 0xc4), 4, &size, 1);

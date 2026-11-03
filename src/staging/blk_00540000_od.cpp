@@ -121,13 +121,15 @@ struct GO
 
 struct FUN_00549610_Class
 {
+    char pad[0x104];
+    GO unk104;
     void FUN_00549610(void* arg);
 };
 
 // @fnv 0x00549610
 void FUN_00549610_Class::FUN_00549610(void* arg)
 {
-    *(GO*)((char*)this + 0x104) = arg;
+    unk104 = arg;
 }
 
 
@@ -195,6 +197,8 @@ struct FUN_00559e50_Class
 };
 struct FUN_0055a020_Class
 {
+    char pad[0xc];
+    char unk0c;
     void FUN_0055a020();
 };
 
@@ -216,6 +220,7 @@ struct FUN_0055a2b0_Class
 {
     void* m0;
     void* m1;
+    char unk08;
     void FUN_0055a2b0();
 };
 // @fnv 0x0055a290
@@ -227,18 +232,20 @@ void FUN_0055a290_Class::FUN_0055a290()
 // @fnv 0x0055a2b0
 void FUN_0055a2b0_Class::FUN_0055a2b0()
 {
-    reinterpret_cast<::FUN_006208d0_cls *>((((FUN_0055a2b0_Class*)((char*)this + 8))))->FUN_006208d0_cls::~FUN_006208d0_cls();
+    reinterpret_cast<::FUN_006208d0_cls *>((&unk08))->FUN_006208d0_cls::~FUN_006208d0_cls();
 }
 
 struct FUN_0055b9a0_class
 {
+    char pad[0x2a];
+    char unk2a;
     char GetByteAtOffset42();
 };
 
 // @fnv 0x0055b9a0
 char FUN_0055b9a0_class::GetByteAtOffset42()
 {
-    return ((char*)this)[0x2a];
+    return unk2a;
 }
 
 extern void* DAT_0102e47c;
@@ -320,6 +327,8 @@ struct FUN_005407d0_Class
 };
 struct FUN_00540800_Class
 {
+    const char* vtbl;
+    void** unk04;
     void FUN_00540800();
 public:
     void FUN_00537ce0();
@@ -525,13 +534,15 @@ struct Flt
 };
 struct FUN_00540570_Owner
 {
+    char pad[0xb0];
+    Flt* unkb0;
     unsigned int GetFltValue(int);
 };
 // Returns the unsigned int value of the Flt element at index from the Flt array stored at offset 0xb0 of this object.
 // @fnv 0x00540570
 unsigned int FUN_00540570_Owner::GetFltValue(int index)
 {
-    return (*(Flt**)((char*)this + 0xb0))[index];
+    return unkb0[index];
 }
 }  // namespace fnv_00540570
 
@@ -543,8 +554,8 @@ struct FUN_00540940_Standin
 // @fnv 0x00540800
 void FUN_00540800_Class::FUN_00540800()
 {
-    *(const char**)this = "@\nT";
-    ::FUN_004ede70(*(void***)((char*)this + 4));
+    vtbl = "@\nT";
+    ::FUN_004ede70(unk04);
 }
 
 struct Date
@@ -557,6 +568,10 @@ struct FUN_005408e0 : Date
 };
 struct FUN_00540940_Class
 {
+    void* vtbl;
+    unsigned int count;
+    void* data;
+    unsigned int unk0c;
     void* InitBuffer(unsigned int size);
 };
 // @fnv 0x00540780
@@ -571,12 +586,12 @@ void* FUN_00540700_Class::FUN_00540780(int a)
 // @fnv 0x00540940
 void* FUN_00540940_Class::InitBuffer(unsigned int size)
 {
-    ((void**)this)[0] = &DAT_0102e47c;
-    ((unsigned int*)this)[1] = size;
-    ((unsigned int*)this)[3] = 0;
-    unsigned int count = ((unsigned int*)this)[1] * 4;
-    ((void**)this)[2] = ::FUN_00aa1070(count);
-    ::FUN_00403d30(((void**)this)[2], 0, ((unsigned int*)this)[1] * 4);
+    vtbl = &DAT_0102e47c;
+    this->count = size;
+    unk0c = 0;
+    unsigned int count = this->count * 4;
+    data = ::FUN_00aa1070(count);
+    ::FUN_00403d30(data, 0, this->count * 4);
     return this;
 }
 
@@ -640,6 +655,8 @@ struct DoorH
 };
 struct FUN_00547440_Class
 {
+    char pad[0x50];
+    float unk50;
     void FUN_00547440(float f);
 };
 // @fnv 0x00547440
@@ -647,9 +664,9 @@ void FUN_00547440_Class::FUN_00547440(float afValue)
 {
     Sky* p = ((::Sky *)(reinterpret_cast<::TESObjectCELL *>((((DoorH*)this)))->GetParentWorldSpace()));
     if (p && FUN_0040eb10(reinterpret_cast<::FUN_004536e0_Class *>((p))->GetFieldCC(), afValue, 0.001f))
-        *(float*)((char*)this + 0x50) = 3.402823466e+38f;
+        unk50 = 3.402823466e+38f;
     else
-        *(float*)((char*)this + 0x50) = afValue;
+        unk50 = afValue;
 }
 
 extern int DAT_011ca080;
@@ -916,14 +933,19 @@ struct FUN_00559a70_Class
     int count;
     void FUN_00559a70(void* block);
 };
+struct FUN_00559a70_Node
+{
+    void* next;
+    void* prev;
+};
 // Links block into the list after tail, updating head when the list was empty, then increments count.
 // @fnv 0x00559a70
 void FUN_00559a70_Class::FUN_00559a70(void* block)
 {
-    ((void**)block)[0] = 0;
-    ((void**)block)[1] = tail;
+    static_cast<FUN_00559a70_Node*>(block)->next = 0;
+    static_cast<FUN_00559a70_Node*>(block)->prev = tail;
     if (tail)
-        ((void**)tail)[0] = block;
+        static_cast<FUN_00559a70_Node*>(tail)->next = block;
     else
         head = block;
     tail = block;
@@ -940,10 +962,15 @@ struct FUN_00559c90_Class
     void FUN_00559c90(void*);
 };
 // Sets the int at offset 8 of a1 to 0, then calls unk8.FreeMemory(a1).
+struct FUN_00559c90_Item
+{
+    char pad[8];
+    int unk08;
+};
 // @fnv 0x00559c90
 void FUN_00559c90_Class::FUN_00559c90(void* a1)
 {
-    *reinterpret_cast<int*>(reinterpret_cast<char*>(a1) + 8) = 0;
+    static_cast<FUN_00559c90_Item*>(a1)->unk08 = 0;
     reinterpret_cast<::FUN_006b8310_class *>(&(unk8))->FreeMemory(a1);
 }
 
@@ -1016,6 +1043,8 @@ FUN_0055a0c0::FUN_0055a0c0(int)
 
 struct FUN_0055a240_Obj
 {
+    char pad[0x8];
+    FUN_00559900_Struct unk08;
 };
 struct FUN_0055a1e0_Class
 {
@@ -1120,9 +1149,9 @@ void FUN_0055a040_Class::FUN_0055a040(FUN_0055a240_Obj* a)
 {
     {
         FUN_0055a0c0 t(0);
-        ((FUN_00559900_Struct*)((char*)a + 8))->AssignFrom(*(FUN_00559900_Struct*)&t);
+        a->unk08.AssignFrom(*(FUN_00559900_Struct*)&t);
     }
-    ((FUN_0055a1e0_Class*)((char*)this + 12))->FUN_0055a1e0(a);
+    ((FUN_0055a1e0_Class*)&m2.m1)->FUN_0055a1e0(a);
 }
 
 struct ActorCombatGroup;
@@ -1263,12 +1292,14 @@ void __cdecl FUN_005516a0(bool value)
 
 struct FUN_00556850_Class
 {
+    char pad[0x25];
+    unsigned char unk25;
     bool IsFlagSet();
 };
 // @fnv 0x00556850
 bool FUN_00556850_Class::IsFlagSet()
 {
-    return (((unsigned char*)this)[0x25] & 1) ? true : false;
+    return (unk25 & 1) ? true : false;
 }
 
 struct FUN_0054acf0_Class
@@ -1432,10 +1463,15 @@ void C540BC0Array::ReserveCapacity(C540BC0Allocator& kAlloc, int aiMinElements)
 }
 
 
+struct FUN_0054ee60_Object
+{
+    char pad[0x18];
+    unsigned char unk18;
+};
 // @fnv 0x0054ee60
 void __cdecl FUN_0054ee60(char value)
 {
-    ((unsigned char *)(::FUN_00664840(true)))[0x18] = value;
+    reinterpret_cast<FUN_0054ee60_Object*>(::FUN_00664840(true))->unk18 = value;
 }
 
 extern int DAT_011c7a60;
@@ -1882,7 +1918,7 @@ struct RuntimeWorkItemFactory
 // @fnv 0x0055a020
 void FUN_0055a020_Class::FUN_0055a020()
 {
-    reinterpret_cast<::RuntimeWorkItemFactory *>((((FUN_0055a020_Class*)((char*)this + 0xc))))->CreateRuntimeWorkItem();
+    reinterpret_cast<::RuntimeWorkItemFactory *>((&unk0c))->CreateRuntimeWorkItem();
 }
 
 // Allocates and returns a new RuntimeWorkItem instance.
@@ -1898,7 +1934,6 @@ struct FUN_0055a2d0_Class
 {
     void* unk00;
     void* m_pSecondPointer;
-
     void FUN_0055a2d0();
 };
 

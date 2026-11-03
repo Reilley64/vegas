@@ -804,6 +804,7 @@ struct HC1Base
     int unk14;
     int unk18;
     void FUN_00ca4f40(NiStream* stream);
+    bool FUN_00aa0ad0(NiStream* stream);
 };
 // @fnv 0x00ca4f40
 void HC1Base::FUN_00ca4f40(NiStream* stream)
@@ -826,7 +827,7 @@ void HC1Base::FUN_00ca4f40(NiStream* stream)
             }
         }
     }
-    ::FUN_00aa0ad0();
+    FUN_00aa0ad0(stream);
 }
 
 struct Link

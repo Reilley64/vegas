@@ -185,7 +185,7 @@ void* FUN_00a6f390::MakeClone(CloningProcess& kCloning)
         {
             pkObject = 0;
         }
-        ::FUN_00a5d7a0();
+        reinterpret_cast<::FUN_00a5d7a0_shell *>(this)->FUN_00a5d7a0((::NiObjectNET *)pkObject, (::fnv_00a5c290::CloningProcess *)&kCloning);
         *(unsigned short*)((char*)pkObject + 0x18) = *(unsigned short*)((char*)this + 0x18);
         *(unsigned int*)((char*)pkObject + 0x1c) = *(unsigned int*)((char*)this + 0x1c);
         *(unsigned int*)((char*)pkObject + 0x20) = *(unsigned int*)((char*)this + 0x20);
@@ -266,7 +266,7 @@ struct Property : Base
 // @fnv 0x00a6f740
 void Property::FUN_00a6f740(Stream* stream)
 {
-    ::FUN_00a5d7b0();
+    reinterpret_cast<::FUN_00a5d7b0_shell *>(this)->FUN_00a5d7b0(*(::NiStream *)stream);
     unsigned int size = 2;
     Writer* __restrict w = stream->writer();
     w->bytesWritten += w->write(w, &mode, 2, &size, 1);

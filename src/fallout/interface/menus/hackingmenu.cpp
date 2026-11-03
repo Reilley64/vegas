@@ -1630,7 +1630,7 @@ FUN_007658e0::~FUN_007658e0()
         obj2 = head4;
         obj2 ? obj2->Call0(1) : 0;
     }
-    reinterpret_cast<::NiTPointerListBase *>(&(m188))->FUN_004ed900();
+    reinterpret_cast<::NiTPointerListBaseRaw *>(&(m188))->FUN_004ed900();
     DAT_011d95c0 = ((unsigned int)(::FUN_00457fe0())) + ((::SettingValue *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingColl *>(&::g_011d0b90))))))->v;
     reinterpret_cast<::fnv_0076b2a0::FUN_0076b2a0_shell *>(&(m180))->FreeAll();
     void* ptrTmp = ptr1B0;

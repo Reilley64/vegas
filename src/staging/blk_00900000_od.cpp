@@ -6,6 +6,7 @@
 #include <cstddef>
 #include <new>
 #include <cstring>
+#include "fnv/symbols_0043b000.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FUN_0040fbf0_shell.h"
 #include "fnv/decl/FUN_00438af0_Class.h"
@@ -181,7 +182,6 @@ struct FUN_00905450_StandIn
     unsigned int GetNextIndex();
     unsigned int AppendNode(PathingAvoidanceNode* pSrc);
 };
-int __cdecl FUN_0043b460(long volatile*, long, long);
 struct Interface
 {
 };

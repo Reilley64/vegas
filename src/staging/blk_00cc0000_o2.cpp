@@ -8213,6 +8213,7 @@ struct HC1Base
     int unk10;
     TargetObj* m_pEntryObject;
     void FUN_00ccba30(NiStream* stream);
+    bool FUN_00aa0ad0(::NiStream *);
 public:
     void FUN_00ca4f40(::NiStream *);
 };
@@ -8221,7 +8222,7 @@ public:
 void HC1Base::FUN_00ccba30(NiStream* stream)
 {
     m_pEntryObject->v15(stream);
-    ::FUN_00aa0ad0();
+    FUN_00aa0ad0((::NiStream *)stream);
 }
 
 struct FUN_00ccba50_cls
@@ -10476,7 +10477,7 @@ void FUN_00cced20_cls::ForwardToNestedVtable(int aiValue)
             }
         }
     }
-    ::FUN_00aa0ad0();
+    reinterpret_cast<::HC1Base *>(this)->FUN_00aa0ad0((::NiStream *)(std::intptr_t)aiValue);
 }
 
 namespace fnv_00ccef50 {
@@ -11095,7 +11096,7 @@ void FNVNotificationOwner::NotifyAllReceivers(int context)
             }
         }
     }
-    ::FUN_00aa0ad0();
+    reinterpret_cast<::HC1Base *>(this)->FUN_00aa0ad0((::NiStream *)(std::intptr_t)context);
 }
 
 class CCFA00RefObject {

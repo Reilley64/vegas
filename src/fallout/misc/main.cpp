@@ -257,6 +257,7 @@
 #include "fnv/decl/NiObjectNET.h"
 #include "fnv/decl/NiParallelUpdateTaskManager.h"
 #include "fnv/decl/NiScreenElementsDataShell.h"
+#include "fnv/decl/NiTPointerListBase.h"
 #include "fnv/decl/NiTransform.h"
 #include "fnv/decl/NiUpdateData.h"
 #include "fnv/decl/NonActorMagicTarget.h"
@@ -12239,8 +12240,8 @@ void MainView::FUN_00873200(ViewNode* listener, int unused, bool hide, bool draw
         reinterpret_cast<::FUN_00874460_cls *>(&(localProcess))->set((int)(0));
         ::FUN_00b6bfc0(cameraX, (*(::PointerList6b *)(&commonList3)), (::Accumulator6b *)(::fnv_00873200::LocalCull *)(&localProcess));
         ::RenderStageWait::FUN_00ba3130((::RenderStageWait::ThreadStages *)(((::fnv_00873200::RenderSystem *)(::TaskThreadManager::GetSingleton()))), (void *)(1), 21, {});
-        reinterpret_cast<VisibleList_004ed900 *>(&(leftList2))->FUN_004ed900();
-        reinterpret_cast<VisibleList_004ed900 *>(&(rightList4))->FUN_004ed900();
+        reinterpret_cast<::NiTPointerListBaseRaw *>(&(leftList2))->FUN_004ed900();
+        reinterpret_cast<::NiTPointerListBaseRaw *>(&(rightList4))->FUN_004ed900();
     }
     else
     {

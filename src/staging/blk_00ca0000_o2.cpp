@@ -1,5 +1,6 @@
 
 // SSE_DECLARATIONS_DEFER_TO_SDK
+#include "fnv/symbols_00a81000.h"
 #include "fnv/symbols_00c85000.h"
 #include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c90000.h"
@@ -103,7 +104,6 @@
 #include "fnv/symbols_00a5b000.h"
 #include "fnv/symbols_00a75000.h"
 #include "fnv/symbols_00a7d000.h"
-#include "fnv/symbols_00a81000.h"
 #include "fnv/symbols_00a89000.h"
 #include "fnv/symbols_00aa0000.h"
 #include "fnv/symbols_00aa1000.h"
@@ -3217,7 +3217,7 @@ void S_00ca6810_Class::FUN_00ca6810(int aiValue)
             callable->slot54(aiValue);
     }
 
-    ::FUN_00aa0ad0();
+    reinterpret_cast<::HC1Base *>(this)->FUN_00aa0ad0((::NiStream *)(std::intptr_t)aiValue);
 }
 
 struct S_00ca6880_Node
@@ -11201,7 +11201,7 @@ void FUN_00cac070_Stub::FUN_00cac070(NiStream& stream)
                 obj->vtable->Link(obj, stream);
         }
     }
-    ::FUN_00a81fe0((intptr_t)this);
+    reinterpret_cast<::FUN_00a81fe0_shell *>(this)->FUN_00a81fe0(*(::NiStream *)&stream);
 }
 // @fnv 0x00cac0b0
 void S_00cac0b0_cls::FUN_00cac0b0(S_00cac0b0_Arg* a)

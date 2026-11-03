@@ -57,13 +57,15 @@
 
 struct FUN_005a3740_cls
 {
+    char pad[0x14c];
+    unsigned char unk14c;
     unsigned char GetByteAt14C();
 };
 
 // @fnv 0x005a3740
 unsigned char FUN_005a3740_cls::GetByteAt14C()
 {
-    return *(unsigned char*)((char*)this + 0x14c);
+    return unk14c;
 }
 
 struct FUN_005a3790Class
@@ -83,6 +85,8 @@ bool __cdecl FUN_005a3760(void* reference, void* b, void* c, double& result)
 
 struct FUN_005a7840_Class
 {
+    char pad[0x24];
+    unsigned char unk24;
     void ClearFlag(unsigned char bFlag);
 };
 
@@ -90,29 +94,33 @@ struct FUN_005a7840_Class
 // @fnv 0x005a7840
 void FUN_005a7840_Class::ClearFlag(unsigned char bFlag)
 {
-    *(unsigned char*)((char*)this + 0x24) &= ~bFlag;
+    unk24 &= ~bFlag;
 }
 
 struct FUN_005a8040_class
 {
+    char pad[0x54];
+    int unk54;
     void SetField54(int param_2);
 };
 
 // @fnv 0x005a8040
 void FUN_005a8040_class::SetField54(int aiValue)
 {
-    *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x54) = aiValue;
+    unk54 = aiValue;
 }
 
 struct FUN_005a8080
 {
+    char pad[0x3c];
+    char unk3c;
     void* GetField();
 };
 
 // @fnv 0x005a8080
 void* FUN_005a8080::GetField()
 {
-    return (void*)((char*)this + 0x3c);
+    return (void*)&unk3c;
 }
 
 
@@ -150,13 +158,15 @@ char __cdecl FUN_005b9240()
 
 struct FUN_005b92e0_class
 {
+    char pad[0x59c];
+    int unk59c;
     int GetField59C();
 };
 
 // @fnv 0x005b92e0
 int FUN_005b92e0_class::GetField59C()
 {
-    return *(int*)((char*)this + 0x59c);
+    return unk59c;
 }
 
 struct FUN_005a7220_class
@@ -164,6 +174,13 @@ struct FUN_005a7220_class
 };
 struct FUN_005a71d0_class
 {
+    int unk00;
+    FUN_005a7220_class unk04;
+    char pad05[0x27];
+    FUN_005a7220_class unk2c;
+    char pad2d[0x23];
+    int unk50;
+    int unk54;
     void* FUN_005a71d0();
 };
 struct FUN_005a7220_cls
@@ -174,11 +191,11 @@ struct FUN_005a7220_cls
 // @fnv 0x005a71d0
 void* FUN_005a71d0_class::FUN_005a71d0()
 {
-    reinterpret_cast<::FUN_005a7220_cls *>((((FUN_005a7220_class*)((char*)this + 4))))->Initialize();
-    reinterpret_cast<::FUN_005a7220_cls *>((((FUN_005a7220_class*)((char*)this + 0x2c))))->Initialize();
-    *(int*)this = 0;
-    *(int*)((char*)this + 0x50) = 4;
-    *(int*)((char*)this + 0x54) = 3;
+    reinterpret_cast<::FUN_005a7220_cls *>((&unk04))->Initialize();
+    reinterpret_cast<::FUN_005a7220_cls *>((&unk2c))->Initialize();
+    unk00 = 0;
+    unk50 = 4;
+    unk54 = 3;
     return this;
 }
 // @fnv 0x005a7220
@@ -661,7 +678,6 @@ class FUN_005a7b60_cls
   public:
     int unk00, unk04, unk08, unk0C, unk10, unk14, unk18, unk1C, unk20;
     unsigned char m_data;
-
     bool FUN_005a7b60(TESForm* pkForm);
 };
 

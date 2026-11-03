@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nimain/nialphaproperty.cpp: NiAlphaProperty (12 functions)
 
+#include "fnv/symbols_00a99000.h"
 #include <windows.h>
 #include "fnv/symbols_00aa1000.h"
 #include <new>
@@ -379,7 +380,7 @@ class A5D020Property : public A5D020Base
 // @fnv 0x00a5d020
 void A5D020Property::SaveToStream(A5D020Stream& kStream)
 {
-    ::FUN_00a5d7b0();
+    reinterpret_cast<::FUN_00a5d7b0_shell *>(this)->FUN_00a5d7b0((::NiStream &)kStream);
     A5D020SaveBinary(kStream, m_usFlags);
     A5D020SaveBinary(kStream, m_ucMode);
 }
@@ -474,9 +475,9 @@ void A5D080Property::AppendPropertyStrings(StrArr* pkStrings)
 
 
 // @fnv 0x00a99e40
-void __cdecl FUN_00a99e40()
+bool FUN_00a99e40_shell::FUN_00a99e40(::NiStream& kStream)
 {
-    ::FUN_00a62130({}, {}, {});
+    return ::FUN_00a62130((void *)this, 0, &kStream);
 }
 
 
@@ -514,7 +515,7 @@ S00a5ce30_cls* S00a5ce30_cls::FUN_00a5ce30(int a0)
     {
         n = 0;
     }
-    ::FUN_00a5d7a0();
+    reinterpret_cast<::FUN_00a5d7a0_shell *>(this)->FUN_00a5d7a0((::NiObjectNET *)n, (::fnv_00a5c290::CloningProcess *)(std::intptr_t)a0);
     n->unk18 = unk18;
     n->unk1a = unk1a;
     return n;

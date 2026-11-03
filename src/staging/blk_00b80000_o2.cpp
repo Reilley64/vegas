@@ -188,13 +188,17 @@ struct ImageSpaceEffectShader
 struct FUN_00b8d5b0 : ImageSpaceEffectShader
 {
     FUN_00b8d5b0();
+    char pad00[0x6c];
+    int * unk6c;
+    char pad70[0x24];
+    NiTPrimitiveArray_ImageSpaceTexture___ unk94;
 };
 // @fnv 0x00b8d5b0
 FUN_00b8d5b0::FUN_00b8d5b0()
 {
     *(int**)this = &DAT_010b06c0;
-    *(int**)((char*)this + 0x6c) = &DAT_010b06a0;
-    reinterpret_cast<::FUN_00a41520_cls *>((((NiTPrimitiveArray_ImageSpaceTexture___*)((char*)this + 0x94))))->FUN_00a90180(2);
+    this->unk6c = &DAT_010b06a0;
+    reinterpret_cast<::FUN_00a41520_cls *>(((&this->unk94)))->FUN_00a90180(2);
 }
 
 extern int DAT_010b06a0;
@@ -202,6 +206,8 @@ extern int DAT_010b06c0;
 
 struct FUN_00b8d6c0_class
 {
+    char pad00[0x6c];
+    void * unk6c;
     FUN_00b8d6c0_class* FUN_00b8d6c0(int flag);
 };
 
@@ -209,7 +215,7 @@ struct FUN_00b8d6c0_class
 FUN_00b8d6c0_class* FUN_00b8d6c0_class::FUN_00b8d6c0(int aiFlags)
 {
     *(void**)this = (void*)&DAT_010b06c0;
-    *(void**)((char*)this + 0x6c) = (void*)&DAT_010b06a0;
+    this->unk6c = (void*)&DAT_010b06a0;
     FUN_00c03a20();
     if (aiFlags & 1)
         ::FUN_00aa1460(this, 0xd0);
@@ -231,13 +237,17 @@ struct FUN_00b8d700
 {
     ImageSpaceEffectShader shader;
     FUN_00b8d700();
+    char pad01[0x6b];
+    void * unk6c;
+    char pad70[0x24];
+    NiTPrimitiveArray_ImageSpaceTexture___ unk94;
 };
 // @fnv 0x00b8d700
 FUN_00b8d700::FUN_00b8d700()
 {
     *(void**)this = (void*)&::DAT_010b0860;
-    *(void**)((char*)this + 0x6c) = (void*)&::DAT_010b083c;
-    reinterpret_cast<::FUN_00a41520_cls *>((((NiTPrimitiveArray_ImageSpaceTexture___*)((char*)this + 0x94))))->FUN_00a90180(3);
+    this->unk6c = (void*)&::DAT_010b083c;
+    reinterpret_cast<::FUN_00a41520_cls *>(((&this->unk94)))->FUN_00a90180(3);
 }
 }  // namespace fnv_00b8d700
 
@@ -245,13 +255,15 @@ extern int DAT_010b0a00;
 extern int DAT_010b09dc;
 struct FUN_00b8d950_class
 {
+    char pad00[0x6c];
+    void * unk6c;
     FUN_00b8d950_class* FUN_00b8d950(bool flag);
 };
 // @fnv 0x00b8d950
 FUN_00b8d950_class* FUN_00b8d950_class::FUN_00b8d950(bool abFree)
 {
     *(void**)this = (void*)&DAT_010b0a00;
-    *(void**)((char*)this + 0x6c) = (void*)&DAT_010b09dc;
+    this->unk6c = (void*)&DAT_010b09dc;
     FUN_00c03a20();
     if ((int)abFree & 1)
         ::FUN_00aa1460(this, 0xd0);
@@ -271,13 +283,17 @@ struct NiTPrimitiveArray_ImageSpaceTexture___
 struct FUN_00b8d990 : public ImageSpaceEffectShader
 {
     FUN_00b8d990();
+    char pad00[0x6c];
+    int * unk6c;
+    char pad70[0x24];
+    NiTPrimitiveArray_ImageSpaceTexture___ unk94;
 };
 // @fnv 0x00b8d990
 FUN_00b8d990::FUN_00b8d990()
 {
     *(int**)((char*)this + 0x00) = &::DAT_010b0b98;
-    *(int**)((char*)this + 0x6c) = &::DAT_010b0b78;
-    reinterpret_cast<::FUN_00a41520_cls *>((((NiTPrimitiveArray_ImageSpaceTexture___*)((char*)this + 0x94))))->FUN_00a90180(2);
+    this->unk6c = &::DAT_010b0b78;
+    reinterpret_cast<::FUN_00a41520_cls *>(((&this->unk94)))->FUN_00a90180(2);
 }
 }  // namespace fnv_00b8d990
 
@@ -288,13 +304,15 @@ struct FUN_00b8daa0_class
     int* vtbl;
     int m_6c;
     void* FUN_00b8daa0(bool flag);
+    char pad08[0x64];
+    void * unk6c;
 };
 
 // @fnv 0x00b8daa0
 void* FUN_00b8daa0_class::FUN_00b8daa0(bool abFree)
 {
     vtbl = (int*)&DAT_010b0b98;
-    *(void**)((char*)this + 0x6c) = (void*)&DAT_010b0b78;
+    this->unk6c = (void*)&DAT_010b0b78;
     FUN_00c03a20();
     if (abFree & 1)
         operator delete(this, 0xd0);
@@ -305,13 +323,15 @@ extern int DAT_010b0d40;
 extern int DAT_010b0d1c;
 struct FUN_00b8dbf0_Class
 {
+    char pad00[0x6c];
+    void * unk6c;
     FUN_00b8dbf0_Class* FUN_00b8dbf0(bool);
 };
 // @fnv 0x00b8dbf0
 FUN_00b8dbf0_Class* FUN_00b8dbf0_Class::FUN_00b8dbf0(bool abFree)
 {
     *(void**)this = &DAT_010b0d40;
-    *(void**)((char*)this + 0x6c) = &DAT_010b0d1c;
+    this->unk6c = &DAT_010b0d1c;
     FUN_00c03a20();
     if (abFree & 1)
         ::FUN_00aa1460(this, 0xd0);
@@ -323,13 +343,15 @@ extern int DAT_010b0ec0;
 void FUN_00c03a20();
 struct FUN_00b8dd40_class
 {
+    char pad00[0x6c];
+    int * unk6c;
     FUN_00b8dd40_class* FUN_00b8dd40(bool flag);
 };
 // @fnv 0x00b8dd40
 FUN_00b8dd40_class* FUN_00b8dd40_class::FUN_00b8dd40(bool abFree)
 {
     *reinterpret_cast<int**>(this) = &DAT_010b0ec0;
-    *reinterpret_cast<int**>(reinterpret_cast<char*>(this) + 0x6c) = &DAT_010b0e9c;
+    this->unk6c = &DAT_010b0e9c;
     FUN_00c03a20();
     if (abFree & 1)
         ::FUN_00aa1460(this, 0xd0);
@@ -341,6 +363,8 @@ extern int DAT_010b101c;
 
 struct FUN_00b8de90_Class
 {
+    char pad00[0x6c];
+    void * unk6c;
     FUN_00b8de90_Class* FUN_00b8de90(bool);
 };
 
@@ -348,7 +372,7 @@ struct FUN_00b8de90_Class
 FUN_00b8de90_Class* FUN_00b8de90_Class::FUN_00b8de90(bool abFree)
 {
     *(void**)this = (void*)&DAT_010b1040;
-    *(void**)((char*)this + 0x6c) = (void*)&DAT_010b101c;
+    this->unk6c = (void*)&DAT_010b101c;
     FUN_00c03a20();
     if (abFree & 1)
         ::FUN_00aa1460(this, 0xd0);
@@ -361,6 +385,8 @@ extern "C" int DAT_010b11c0;
 
 struct FUN_00b8dfe0_class
 {
+    char pad00[0x6c];
+    int * unk6c;
     int* FUN_00b8dfe0(bool b);
 };
 
@@ -368,7 +394,7 @@ struct FUN_00b8dfe0_class
 int* FUN_00b8dfe0_class::FUN_00b8dfe0(bool abFree)
 {
     *(int**)(this) = &DAT_010b11c0;
-    *(int**)((char*)this + 0x6c) = &DAT_010b119c;
+    this->unk6c = &DAT_010b119c;
     FUN_00c03a20();
     if (abFree & 1)
         ::FUN_00aa1460(this, 0xd0);
@@ -405,13 +431,15 @@ extern int DAT_010b1320;
 void FUN_00c03a20();
 struct FUN_00b8e130_class
 {
+    char pad00[0x6c];
+    void * unk6c;
     FUN_00b8e130_class* FUN_00b8e130(bool flag);
 };
 // @fnv 0x00b8e130
 FUN_00b8e130_class* FUN_00b8e130_class::FUN_00b8e130(bool abFree)
 {
     *(void**)this = (void*)&DAT_010b1340;
-    *(void**)((char*)this + 0x6c) = (void*)&DAT_010b1320;
+    this->unk6c = (void*)&DAT_010b1320;
     FUN_00c03a20();
     if (abFree & 1)
         operator delete(this, 0xd0);
@@ -452,13 +480,17 @@ struct FUN_00b8e2c0 : public ImageSpaceEffectShader
 {
     ImageSpaceTextureArray textures;
     FUN_00b8e2c0();
+    char pad01[0x6b];
+    void * unk6c;
+    char pad70[0x24];
+    ImageSpaceTextureArray unk94;
 };
 // @fnv 0x00b8e2c0
 FUN_00b8e2c0::FUN_00b8e2c0()
 {
     *(void**)this = (void*)&::DAT_010b1640;
-    *(void**)((char*)this + 0x6c) = (void*)&::DAT_010b1620;
-    reinterpret_cast<::FUN_00a41520_cls *>((((ImageSpaceTextureArray*)((char*)this + 0x94))))->FUN_00a90180(3);
+    this->unk6c = (void*)&::DAT_010b1620;
+    reinterpret_cast<::FUN_00a41520_cls *>(((&this->unk94)))->FUN_00a90180(3);
 }
 }  // namespace fnv_00b8e2c0
 
@@ -498,12 +530,14 @@ struct FUN_00b8ef60_class
 {
     intptr_t m_vtbl;
     FUN_00b8ef60_class* FUN_00b8ef60(bool del);
+    char pad04[0x68];
+    void * unk6c;
 };
 // @fnv 0x00b8ef60
 FUN_00b8ef60_class* FUN_00b8ef60_class::FUN_00b8ef60(bool abFree)
 {
     m_vtbl = (intptr_t)&DAT_010b2140;
-    *(void**)((char*)this + 0x6c) = (void*)&DAT_010b211c;
+    this->unk6c = (void*)&DAT_010b211c;
     FUN_00c03a20();
     if (abFree & 1)
         ::FUN_00aa1460(this, 0xd0);
@@ -516,6 +550,8 @@ void FUN_00c03a20();
 
 struct FUN_00b8f120_class
 {
+    char pad00[0x6c];
+    int * unk6c;
     void* FUN_00b8f120(unsigned char b);
 };
 
@@ -523,7 +559,7 @@ struct FUN_00b8f120_class
 void* FUN_00b8f120_class::FUN_00b8f120(unsigned char abFree)
 {
     *(int**)this = &DAT_010b2308;
-    *(int**)((char*)this + 0x6c) = &DAT_010b22e8;
+    this->unk6c = &DAT_010b22e8;
     FUN_00c03a20();
     if (abFree & 1)
         ::FUN_00aa1460(this, 0xd0);
@@ -535,13 +571,15 @@ extern "C" int DAT_010b2490;
 void FUN_00c03a20();
 struct FUN_00b8f2b0_class
 {
+    char pad00[0x6c];
+    void * unk6c;
     void* FUN_00b8f2b0(bool flag);
 };
 // @fnv 0x00b8f2b0
 void* FUN_00b8f2b0_class::FUN_00b8f2b0(bool abFree)
 {
     *(void**)this = (void*)&DAT_010b2490;
-    *(void**)((char*)this + 0x6c) = (void*)&DAT_010b2470;
+    this->unk6c = (void*)&DAT_010b2470;
     FUN_00c03a20();
     if (abFree & 1)
         ::FUN_00aa1460(this, 0xd0);
@@ -552,13 +590,15 @@ extern int DAT_010b25f0;
 extern int DAT_010b2610;
 struct FUN_00b8f470_class
 {
+    char pad00[0x6c];
+    int * unk6c;
     int* FUN_00b8f470(bool);
 };
 // @fnv 0x00b8f470
 int* FUN_00b8f470_class::FUN_00b8f470(bool abFree)
 {
     *reinterpret_cast<int**>(this) = &DAT_010b2610;
-    *reinterpret_cast<int**>(reinterpret_cast<char*>(this) + 0x6c) = &DAT_010b25f0;
+    this->unk6c = &DAT_010b25f0;
     FUN_00c03a20();
     if (abFree & 1)
         operator delete(this, 0xd0);
@@ -572,13 +612,15 @@ struct FUN_00b8f620_class
     void* vtbl;
     void* m_06c;
     void* FUN_00b8f620(bool flag);
+    char pad08[0x64];
+    void * unk6c;
 };
 // Sets the vtbl and the pointer at offset 0x6c, calls FUN_00c03a20, and deletes this with size 208 when flag bit 0 is set.
 // @fnv 0x00b8f620
 void* FUN_00b8f620_class::FUN_00b8f620(bool abDelete)
 {
     vtbl = &DAT_010b27a8;
-    *reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x6c) = &DAT_010b2784;
+    this->unk6c = &DAT_010b2784;
     FUN_00c03a20();
     if (abDelete & 1)
         ::FUN_00aa1460(this, 208);
@@ -599,13 +641,17 @@ struct FUN_00b8f660 : public ImageSpaceEffectShader
 {
     NiTPrimitiveArray_ImageSpaceTexture___ arr;
     FUN_00b8f660();
+    char pad01[0x6b];
+    void * unk6c;
+    char pad70[0x24];
+    NiTPrimitiveArray_ImageSpaceTexture___ unk94;
 };
 // @fnv 0x00b8f660
 FUN_00b8f660::FUN_00b8f660()
 {
     *(void**)this = (void*)&::DAT_010b2920;
-    *(void**)((char*)this + 0x6c) = (void*)&::DAT_010b28fc;
-    reinterpret_cast<::FUN_00a41520_cls *>((((NiTPrimitiveArray_ImageSpaceTexture___*)((char*)this + 0x94))))->FUN_00a90180(3);
+    this->unk6c = (void*)&::DAT_010b28fc;
+    reinterpret_cast<::FUN_00a41520_cls *>(((&this->unk94)))->FUN_00a90180(3);
 }
 }  // namespace fnv_00b8f660
 
@@ -613,13 +659,15 @@ void FUN_00c03a20();
 
 struct FUN_00b8f6d0_class
 {
+    char pad00[0x6c];
+    void * unk6c;
     void* FUN_00b8f6d0(bool flag);
 };
 // @fnv 0x00b8f6d0
 void* FUN_00b8f6d0_class::FUN_00b8f6d0(bool abFree)
 {
     *(void**)this = &DAT_010b2920;
-    *(void**)((char*)this + 0x6c) = &DAT_010b28fc;
+    this->unk6c = &DAT_010b28fc;
     FUN_00c03a20();
     if (abFree & 1)
         ::FUN_00aa1460(this, 0xd0);
@@ -631,6 +679,8 @@ extern int DAT_010b2a98;
 
 struct FUN_00b8f7a0_class
 {
+    char pad00[0x6c];
+    int * unk6c;
     int* FUN_00b8f7a0(int arg);
 };
 
@@ -638,7 +688,7 @@ struct FUN_00b8f7a0_class
 int* FUN_00b8f7a0_class::FUN_00b8f7a0(int aiFlags)
 {
     *(int**)((char*)this + 0) = &DAT_010b2a98;
-    *(int**)((char*)this + 0x6c) = &DAT_010b2a74;
+    this->unk6c = &DAT_010b2a74;
     FUN_00c03a20();
     if (aiFlags & 1)
         ::FUN_00aa1460(this, 0xd0);
@@ -650,13 +700,15 @@ extern "C" int DAT_010b2c10;
 void FUN_00c03a20();
 struct FUN_00b8f8f0_class
 {
+    char pad00[0x6c];
+    void * unk6c;
     FUN_00b8f8f0_class* FUN_00b8f8f0(bool flag);
 };
 // @fnv 0x00b8f8f0
 FUN_00b8f8f0_class* FUN_00b8f8f0_class::FUN_00b8f8f0(bool abFree)
 {
     *(void**)this = (void*)&DAT_010b2c10;
-    *(void**)((char*)this + 0x6c) = (void*)&DAT_010b2bec;
+    this->unk6c = (void*)&DAT_010b2bec;
     FUN_00c03a20();
     if (abFree & 1)
         ::FUN_00aa1460(this, 0xd0);
@@ -697,13 +749,15 @@ struct FUN_00b8fa40_class
     void FUN_00c03a20();
     FUN_00b8fa40_class(bool flag);
     ~FUN_00b8fa40_class();
+    char pad0c[0x60];
+    void * unk6c;
 };
 
 // @fnv 0x00b8fa40
 FUN_00b8fa40_class::FUN_00b8fa40_class(bool abDelete)
 {
     vtbl = (intptr_t)&DAT_010b2db0;
-    *(void**)((char*)this + 0x6c) = (void*)&DAT_010b2d8c;
+    this->unk6c = (void*)&DAT_010b2d8c;
     reinterpret_cast<::FUN_00c03a20_cls *>(this)->FUN_00c03a20_cls::~FUN_00c03a20_cls();
     if (abDelete & 1)
         operator delete(this, 0xd0);
@@ -722,25 +776,31 @@ struct ImageSpaceEffectShader
 struct FUN_00b8fa80_class : public ImageSpaceEffectShader
 {
     FUN_00b8fa80_class();
+    char pad00[0x6c];
+    void * unk6c;
+    char pad70[0x24];
+    NiTPrimitiveArray_ImageSpaceTexture___ unk94;
 };
 // @fnv 0x00b8fa80
 FUN_00b8fa80_class::FUN_00b8fa80_class()
 {
     *(void**)this = (void*)&::DAT_010b2f50;
-    *(void**)((char*)this + 0x6c) = (void*)&::DAT_010b2f30;
-    reinterpret_cast<::FUN_00a41520_cls *>((((NiTPrimitiveArray_ImageSpaceTexture___*)((char*)this + 0x94))))->FUN_00a90180(2);
+    this->unk6c = (void*)&::DAT_010b2f30;
+    reinterpret_cast<::FUN_00a41520_cls *>(((&this->unk94)))->FUN_00a90180(2);
 }
 }  // namespace fnv_00b8fa80
 
 struct FUN_00b8fba0_class
 {
+    char pad00[0x6c];
+    void * unk6c;
     void* FUN_00b8fba0(int flag);
 };
 // @fnv 0x00b8fba0
 void* FUN_00b8fba0_class::FUN_00b8fba0(int aiFlags)
 {
     *(void**)this = (void*)&DAT_010b2f50;
-    *(void**)((char*)this + 0x6c) = (void*)&DAT_010b2f30;
+    this->unk6c = (void*)&DAT_010b2f30;
     FUN_00c03a20();
     if (aiFlags & 1)
         ::FUN_00aa1460(this, 0xd0);
@@ -757,12 +817,14 @@ struct FUN_00b8fbe0 : public ImageSpaceEffectShader
 {
     void SetSize(unsigned int size);
     FUN_00b8fbe0();
+    char pad00[0x6c];
+    void * unk6c;
 };
 // @fnv 0x00b8fbe0
 FUN_00b8fbe0::FUN_00b8fbe0()
 {
     *(void**)this = (void*)&::DAT_010b30e0;
-    *(void**)((char*)this + 0x6c) = (void*)&::DAT_010b30c0;
+    this->unk6c = (void*)&::DAT_010b30c0;
     reinterpret_cast<::FUN_00a41520_cls *>((((FUN_00b8fbe0*)((char*)this + 0x94))))->FUN_00a90180(2);
 }
 }  // namespace fnv_00b8fbe0
@@ -770,13 +832,15 @@ FUN_00b8fbe0::FUN_00b8fbe0()
 void FUN_00c03a20();
 struct FUN_00b8fd00_Class
 {
+    char pad00[0x6c];
+    void * unk6c;
     FUN_00b8fd00_Class* FUN_00b8fd00(bool flag);
 };
 // @fnv 0x00b8fd00
 FUN_00b8fd00_Class* FUN_00b8fd00_Class::FUN_00b8fd00(bool abFree)
 {
     *(void**)this = (void*)&DAT_010b30e0;
-    *(void**)((char*)this + 0x6c) = (void*)&DAT_010b30c0;
+    this->unk6c = (void*)&DAT_010b30c0;
     FUN_00c03a20();
     if (abFree & 1)
         operator delete(this, 0xd0);
@@ -796,25 +860,31 @@ struct NiTPrimitiveArray_ImageSpaceTexture___
 struct FUN_00b8fd40 : public ImageSpaceEffectShader
 {
     FUN_00b8fd40();
+    char pad00[0x6c];
+    void * unk6c;
+    char pad70[0x24];
+    NiTPrimitiveArray_ImageSpaceTexture___ unk94;
 };
 // @fnv 0x00b8fd40
 FUN_00b8fd40::FUN_00b8fd40()
 {
     *(void**)this = (void*)&::DAT_010b3268;
-    *(void**)((char*)this + 0x6c) = (void*)&::DAT_010b3244;
-    reinterpret_cast<::FUN_00a41520_cls *>((((NiTPrimitiveArray_ImageSpaceTexture___*)((char*)this + 0x94))))->FUN_00a90180(5);
+    this->unk6c = (void*)&::DAT_010b3244;
+    reinterpret_cast<::FUN_00a41520_cls *>(((&this->unk94)))->FUN_00a90180(5);
 }
 }  // namespace fnv_00b8fd40
 
 struct FUN_00b8fe60_class
 {
+    char pad00[0x6c];
+    void * unk6c;
     FUN_00b8fe60_class* FUN_00b8fe60(bool b);
 };
 // @fnv 0x00b8fe60
 FUN_00b8fe60_class* FUN_00b8fe60_class::FUN_00b8fe60(bool abFree)
 {
     *(void**)this = (void*)&DAT_010b3268;
-    *(void**)((char*)this + 0x6c) = (void*)&DAT_010b3244;
+    this->unk6c = (void*)&DAT_010b3244;
     FUN_00c03a20();
     if (abFree & 1)
         operator delete(this, 0xd0);
@@ -834,19 +904,25 @@ struct NiTPrimitiveArray_ImageSpaceTexture___
 struct FUN_00b8fea0 : ImageSpaceEffectShader
 {
     FUN_00b8fea0();
+    char pad00[0x6c];
+    void * unk6c;
+    char pad70[0x24];
+    NiTPrimitiveArray_ImageSpaceTexture___ unk94;
 };
 // @fnv 0x00b8fea0
 FUN_00b8fea0::FUN_00b8fea0()
 {
     *(void**)this = (void*)&::DAT_010b33f0;
-    *(void**)((char*)this + 0x6c) = (void*)&::DAT_010b33cc;
-    reinterpret_cast<::FUN_00a41520_cls *>((((NiTPrimitiveArray_ImageSpaceTexture___*)((char*)this + 0x94))))->FUN_00a90180(3);
+    this->unk6c = (void*)&::DAT_010b33cc;
+    reinterpret_cast<::FUN_00a41520_cls *>(((&this->unk94)))->FUN_00a90180(3);
 }
 }  // namespace fnv_00b8fea0
 
 
 struct FUN_00b8ffb0_class
 {
+    char pad00[0x6c];
+    void * unk6c;
     FUN_00b8ffb0_class* FUN_00b8ffb0(bool b);
 };
 
@@ -854,7 +930,7 @@ struct FUN_00b8ffb0_class
 FUN_00b8ffb0_class* FUN_00b8ffb0_class::FUN_00b8ffb0(bool abFree)
 {
     *(void**)this = (void*)&DAT_010b33f0;
-    *(void**)((char*)this + 0x6c) = (void*)&DAT_010b33cc;
+    this->unk6c = (void*)&DAT_010b33cc;
     FUN_00c03a20();
     if ((unsigned char)abFree & 1)
         ::FUN_00aa1460(this, 0xd0);
@@ -874,13 +950,17 @@ struct NiTPrimitiveArray_ImageSpaceTexture___
 struct FUN_00b8fff0 : public ImageSpaceEffectShader
 {
     FUN_00b8fff0();
+    char pad00[0x6c];
+    int * unk6c;
+    char pad70[0x24];
+    NiTPrimitiveArray_ImageSpaceTexture___ unk94;
 };
 // @fnv 0x00b8fff0
 FUN_00b8fff0::FUN_00b8fff0()
 {
     *(int**)((char*)this + 0x00) = (int*)&::DAT_010b3598;
-    *(int**)((char*)this + 0x6c) = (int*)&::DAT_010b3574;
-    reinterpret_cast<::FUN_00a41520_cls *>((((NiTPrimitiveArray_ImageSpaceTexture___*)((char*)this + 0x94))))->FUN_00a90180(4);
+    this->unk6c = (int*)&::DAT_010b3574;
+    reinterpret_cast<::FUN_00a41520_cls *>(((&this->unk94)))->FUN_00a90180(4);
 }
 }  // namespace fnv_00b8fff0
 
@@ -897,13 +977,17 @@ struct ImageSpaceEffectShader
 struct FUN_00b91680 : ImageSpaceEffectShader
 {
     FUN_00b91680();
+    char pad00[0x6c];
+    void * unk6c;
+    char pad70[0x24];
+    NiTPrimitiveArray_ImageSpaceTexture___ unk94;
 };
 // @fnv 0x00b91680
 FUN_00b91680::FUN_00b91680()
 {
     *(void**)((char*)this + 0x0) = (void*)0x010b4c68;
-    *(void**)((char*)this + 0x6c) = (void*)0x010b4c48;
-    reinterpret_cast<::FUN_00a41520_cls *>((((NiTPrimitiveArray_ImageSpaceTexture___*)((char*)this + 0x94))))->FUN_00a90180(5);
+    this->unk6c = (void*)0x010b4c48;
+    reinterpret_cast<::FUN_00a41520_cls *>(((&this->unk94)))->FUN_00a90180(5);
 }
 }  // namespace fnv_00b91680
 
@@ -915,13 +999,15 @@ struct FUN_00b91780_shell
     int* vtbl;
     void FUN_00c03a20();
     FUN_00b91780_shell* FUN_00b91780(bool flag);
+    char pad04[0x68];
+    int * unk6c;
 };
 
 // @fnv 0x00b91780
 FUN_00b91780_shell* FUN_00b91780_shell::FUN_00b91780(bool abFree)
 {
     vtbl = &DAT_010b4c68;
-    *(int**)((char*)this + 0x6c) = &DAT_010b4c48;
+    this->unk6c = &DAT_010b4c48;
     reinterpret_cast<::FUN_00c03a20_cls *>(this)->FUN_00c03a20_cls::~FUN_00c03a20_cls();
     if (abFree & 1)
         ::FUN_00aa1460(this, 0xd0);
@@ -956,13 +1042,15 @@ FUN_00b917c0::FUN_00b917c0()
 void FUN_00c03a20();
 struct FUN_00b918c0_Class
 {
+    char pad00[0x6c];
+    void * unk6c;
     void* FUN_00b918c0(bool flag);
 };
 // @fnv 0x00b918c0
 void* FUN_00b918c0_Class::FUN_00b918c0(bool abFree)
 {
     *(void**)this = (void*)&DAT_010b4de8;
-    *(void**)((char*)this + 0x6c) = (void*)&DAT_010b4dc8;
+    this->unk6c = (void*)&DAT_010b4dc8;
     FUN_00c03a20();
     if (abFree & 1)
         ::FUN_00aa1460(this, 0xd0);
@@ -982,25 +1070,31 @@ struct NiTPrimitiveArray_ImageSpaceTexture___
 struct FUN_00b91900 : ImageSpaceEffectShader
 {
     FUN_00b91900();
+    char pad00[0x6c];
+    void * unk6c;
+    char pad70[0x24];
+    NiTPrimitiveArray_ImageSpaceTexture___ unk94;
 };
 // @fnv 0x00b91900
 FUN_00b91900::FUN_00b91900()
 {
     *(void**)this = (void*)&::DAT_010b4f80;
-    *(void**)((char*)this + 0x6c) = (void*)&::DAT_010b4f60;
-    reinterpret_cast<::FUN_00a41520_cls *>((((NiTPrimitiveArray_ImageSpaceTexture___*)((char*)this + 0x94))))->FUN_00a90180(3);
+    this->unk6c = (void*)&::DAT_010b4f60;
+    reinterpret_cast<::FUN_00a41520_cls *>(((&this->unk94)))->FUN_00a90180(3);
 }
 }  // namespace fnv_00b91900
 
 struct FUN_00b91a00_Class
 {
+    char pad00[0x6c];
+    void * unk6c;
     void* FUN_00b91a00(bool flag);
 };
 // @fnv 0x00b91a00
 void* FUN_00b91a00_Class::FUN_00b91a00(bool abFree)
 {
     *(void**)this = &DAT_010b4f80;
-    *(void**)((char*)this + 0x6c) = &DAT_010b4f60;
+    this->unk6c = &DAT_010b4f60;
     FUN_00c03a20();
     if (abFree & 1)
         operator delete(this, 0xd0);
@@ -1125,12 +1219,14 @@ struct FUN_00b91f50_class
 {
     void* vtbl;
     FUN_00b91f50_class* FUN_00b91f50(bool flag);
+    char pad04[0x68];
+    void * unk6c;
 };
 // @fnv 0x00b91f50
 FUN_00b91f50_class* FUN_00b91f50_class::FUN_00b91f50(bool abFree)
 {
     vtbl = &DAT_010b5640;
-    *(void**)((char*)this + 0x6c) = &DAT_010b5620;
+    this->unk6c = &DAT_010b5620;
     FUN_00c03a20();
     if (abFree & 1)
         operator delete(this, 0xd0);
@@ -1150,26 +1246,32 @@ struct ImageSpaceEffectShader
 struct FUN_00b92180 : ImageSpaceEffectShader
 {
     FUN_00b92180();
+    char pad00[0x6c];
+    void * unk6c;
+    char pad70[0x24];
+    NiTPrimitiveArray_ImageSpaceTexture___ unk94;
 };
 // @fnv 0x00b92180
 FUN_00b92180::FUN_00b92180()
 {
     *(void**)((char*)this + 0) = (void*)&::DAT_010b57d0;
-    *(void**)((char*)this + 0x6c) = (void*)&::DAT_010b57b0;
-    reinterpret_cast<::FUN_00a41520_cls *>((((NiTPrimitiveArray_ImageSpaceTexture___*)((char*)this + 0x94))))->FUN_00a90180(3);
+    this->unk6c = (void*)&::DAT_010b57b0;
+    reinterpret_cast<::FUN_00a41520_cls *>(((&this->unk94)))->FUN_00a90180(3);
 }
 }  // namespace fnv_00b92180
 
 void FUN_00c03a20();
 struct FUN_00b92290_shell
 {
+    char pad00[0x6c];
+    void * unk6c;
     FUN_00b92290_shell* FUN_00b92290(bool flag);
 };
 // @fnv 0x00b92290
 FUN_00b92290_shell* FUN_00b92290_shell::FUN_00b92290(bool abFree)
 {
     *(void**)this = (void*)&DAT_010b57d0;
-    *(void**)((char*)this + 0x6c) = (void*)&DAT_010b57b0;
+    this->unk6c = (void*)&DAT_010b57b0;
     FUN_00c03a20();
     if (abFree & 1)
         operator delete(this, 0xd0);
@@ -1183,12 +1285,14 @@ struct FUN_00b92570_class
 {
     intptr_t vtbl;
     FUN_00b92570_class* FUN_00b92570(bool del);
+    char pad04[0x68];
+    void * unk6c;
 };
 // @fnv 0x00b92570
 FUN_00b92570_class* FUN_00b92570_class::FUN_00b92570(bool abDelete)
 {
     vtbl = (intptr_t)&DAT_010b5b10;
-    *(void**)((char*)this + 0x6c) = (void*)&DAT_010b5af0;
+    this->unk6c = (void*)&DAT_010b5af0;
     FUN_00c03a20();
     if (abDelete & 1)
         ::FUN_00aa1460(this, 0xd0);
@@ -1209,26 +1313,32 @@ struct FUN_00b92690 : public ImageSpaceEffectShader
 {
     void* m_vtbl;
     FUN_00b92690();
+    char pad04[0x68];
+    void * unk6c;
+    char pad70[0x24];
+    NiTPrimitiveArray_ImageSpaceTexture___ unk94;
 };
 // @fnv 0x00b92690
 FUN_00b92690::FUN_00b92690()
 {
     m_vtbl = &DAT_010b5cb8;
-    *(void**)((char*)this + 0x6c) = &DAT_010b5c94;
-    reinterpret_cast<::FUN_00a41520_cls *>((((NiTPrimitiveArray_ImageSpaceTexture___*)((char*)this + 0x94))))->FUN_00a90180(2);
+    this->unk6c = &DAT_010b5c94;
+    reinterpret_cast<::FUN_00a41520_cls *>(((&this->unk94)))->FUN_00a90180(2);
 }
 }  // namespace fnv_00b92690
 
 void FUN_00c03a20();
 struct FUN_00b927a0_class
 {
+    char pad00[0x6c];
+    void * unk6c;
     void* FUN_00b927a0(bool b);
 };
 // @fnv 0x00b927a0
 void* FUN_00b927a0_class::FUN_00b927a0(bool abFree)
 {
     *(void***)this = &(*reinterpret_cast<void * *>(&::fnv_00b92690::DAT_010b5cb8));
-    *(void**)((char*)this + 0x6c) = &(*reinterpret_cast<void * *>(&::fnv_00b92690::DAT_010b5c94));
+    this->unk6c = &(*reinterpret_cast<void * *>(&::fnv_00b92690::DAT_010b5c94));
     FUN_00c03a20();
     if (abFree & 1)
         ::FUN_00aa1460(this, 0xd0);
@@ -1249,13 +1359,17 @@ struct FUN_00b927e0 : ImageSpaceEffectShader
 {
     FUN_00b927e0();
     ImageSpaceTexture* mTextures;
+    char pad04[0x68];
+    void * unk6c;
+    char pad70[0x24];
+    ImageSpaceTexture unk94;
 };
 // @fnv 0x00b927e0
 FUN_00b927e0::FUN_00b927e0()
 {
     *(void**)this = (void*)&DAT_010b5ea8;
-    *(void**)((char*)this + 0x6c) = (void*)&DAT_010b5e84;
-    reinterpret_cast<::FUN_00a41520_cls *>((((ImageSpaceTexture*)((char*)this + 0x94))))->FUN_00a90180(2);
+    this->unk6c = (void*)&DAT_010b5e84;
+    reinterpret_cast<::FUN_00a41520_cls *>(((&this->unk94)))->FUN_00a90180(2);
 }
 }  // namespace fnv_00b927e0
 
@@ -1293,13 +1407,17 @@ struct ImageSpaceEffectShader
 struct FUN_00b92930 : ImageSpaceEffectShader
 {
     FUN_00b92930();
+    char pad00[0x6c];
+    void * unk6c;
+    char pad70[0x24];
+    NiTPrimitiveArray_ImageSpaceTexture___ unk94;
 };
 // @fnv 0x00b92930
 FUN_00b92930::FUN_00b92930()
 {
     *(void**)((char*)this + 0) = &(*reinterpret_cast<void * *>(&::DAT_010b6048));
-    *(void**)((char*)this + 0x6c) = &(*reinterpret_cast<void * *>(&::DAT_010b6028));
-    reinterpret_cast<::FUN_00a41520_cls *>((((NiTPrimitiveArray_ImageSpaceTexture___*)((char*)this + 0x94))))->FUN_00a90180(2);
+    this->unk6c = &(*reinterpret_cast<void * *>(&::DAT_010b6028));
+    reinterpret_cast<::FUN_00a41520_cls *>(((&this->unk94)))->FUN_00a90180(2);
 }
 }  // namespace fnv_00b92930
 
@@ -1329,13 +1447,15 @@ extern int DAT_010b61f0;
 void FUN_00c03a20();
 struct FUN_00b92b90
 {
+    char pad00[0x6c];
+    void * unk6c;
     FUN_00b92b90(bool b);
 };
 // @fnv 0x00b92b90
 FUN_00b92b90::FUN_00b92b90(bool abDelete)
 {
     *(void**)this = (void*)&DAT_010b61f0;
-    *(void**)((char*)this + 0x6c) = (void*)&DAT_010b61d0;
+    this->unk6c = (void*)&DAT_010b61d0;
     FUN_00c03a20();
     if (abDelete & 1)
         ::FUN_00aa1460(this, 0xd0);
@@ -1369,6 +1489,8 @@ extern int DAT_010b6548;
 
 struct FUN_00b92ea0_shell
 {
+    char pad00[0x6c];
+    int * unk6c;
     void* FUN_00b92ea0(bool flag);
 };
 
@@ -1377,7 +1499,7 @@ struct FUN_00b92ea0_shell
 void* FUN_00b92ea0_shell::FUN_00b92ea0(bool abFree)
 {
     *reinterpret_cast<int**>(this) = &DAT_010b6548;
-    *reinterpret_cast<int**>(reinterpret_cast<char*>(this) + 0x6c) = &DAT_010b6524;
+    this->unk6c = &DAT_010b6524;
     FUN_00c03a20();
     if (abFree & 1)
         operator delete(this, 0xd0);
@@ -1398,13 +1520,17 @@ struct FUN_00b92ee0_class : public ImageSpaceEffectShader
 {
     FUN_00b92ee0_class();
     ~FUN_00b92ee0_class();
+    char pad00[0x6c];
+    void * unk6c;
+    char pad70[0x24];
+    NiTPrimitiveArray_ImageSpaceTexture___ unk94;
 };
 // @fnv 0x00b92ee0
 FUN_00b92ee0_class::FUN_00b92ee0_class()
 {
     *(void**)((char*)this + 0) = &(*reinterpret_cast<int *>(&::DAT_010b66f0));
-    *(void**)((char*)this + 0x6c) = &(*reinterpret_cast<int *>(&::DAT_010b66cc));
-    reinterpret_cast<::FUN_00a41520_cls *>((((NiTPrimitiveArray_ImageSpaceTexture___*)((char*)this + 0x94))))->FUN_00a90180(3);
+    this->unk6c = &(*reinterpret_cast<int *>(&::DAT_010b66cc));
+    reinterpret_cast<::FUN_00a41520_cls *>(((&this->unk94)))->FUN_00a90180(3);
 }
 }  // namespace fnv_00b92ee0
 
@@ -1460,13 +1586,15 @@ extern int DAT_010b68a0;
 void FUN_00c03a20();
 struct FUN_00b93140_class
 {
+    char pad00[0x6c];
+    void * unk6c;
     void* FUN_00b93140(bool);
 };
 // @fnv 0x00b93140
 void* FUN_00b93140_class::FUN_00b93140(bool abFree)
 {
     *(void**)this = &DAT_010b68a0;
-    *(void**)((char*)this + 0x6c) = &DAT_010b687c;
+    this->unk6c = &DAT_010b687c;
     FUN_00c03a20();
     if (abFree & 1)
         ::FUN_00aa1460(this, 0xd0);
@@ -1488,13 +1616,17 @@ struct FUN_00b93180 : public ImageSpaceEffectShader
     void* vtbl;
     void* p6c;
     FUN_00b93180();
+    char pad08[0x64];
+    void * unk6c;
+    char pad70[0x24];
+    NiTPrimitiveArray_ImageSpaceTexture___ unk94;
 };
 // @fnv 0x00b93180
 FUN_00b93180::FUN_00b93180()
 {
     vtbl = (void*)0x010b6a40;
-    ((void**)((char*)this + 0x6c))[0] = (void*)0x010b6a20;
-    reinterpret_cast<::FUN_00a41520_cls *>((((NiTPrimitiveArray_ImageSpaceTexture___*)((char*)this + 0x94))))->FUN_00a90180(2);
+    (&this->unk6c)[0] = (void*)0x010b6a20;
+    reinterpret_cast<::FUN_00a41520_cls *>(((&this->unk94)))->FUN_00a90180(2);
 }
 }  // namespace fnv_00b93180
 
@@ -1528,12 +1660,14 @@ struct FUN_00b933e0_class
 {
     int vtbl;
     FUN_00b933e0_class* FUN_00b933e0(bool flag);
+    char pad04[0x68];
+    int * unk6c;
 };
 // @fnv 0x00b933e0
 FUN_00b933e0_class* FUN_00b933e0_class::FUN_00b933e0(bool abFree)
 {
     *(int**)this = &DAT_010b6bd8;
-    *(int**)((char*)this + 0x6c) = &DAT_010b6bb8;
+    this->unk6c = &DAT_010b6bb8;
     FUN_00c03a20();
     if (abFree & 1)
         ::FUN_00aa1460(this, 0xd0);
@@ -1545,13 +1679,15 @@ extern int DAT_010b6d70;
 void FUN_00c03a20();
 struct FUN_00b93710_class
 {
+    char pad00[0x6c];
+    void * unk6c;
     void* FUN_00b93710(bool flag);
 };
 // @fnv 0x00b93710
 void* FUN_00b93710_class::FUN_00b93710(bool abFree)
 {
     *(void**)this = (void*)&DAT_010b6d90;
-    *(void**)((char*)this + 0x6c) = (void*)&DAT_010b6d70;
+    this->unk6c = (void*)&DAT_010b6d70;
     FUN_00c03a20();
     if (abFree & 1)
         ::FUN_00aa1460(this, 0xd0);
@@ -1563,13 +1699,15 @@ extern int DAT_010b6f14;
 void FUN_00c03a20();
 struct FUN_00b93a60_shell
 {
+    char pad00[0x6c];
+    int * unk6c;
     FUN_00b93a60_shell* FUN_00b93a60(bool flag);
 };
 // @fnv 0x00b93a60
 FUN_00b93a60_shell* FUN_00b93a60_shell::FUN_00b93a60(bool abFree)
 {
     *(int**)this = &DAT_010b6f38;
-    *(int**)((char*)this + 0x6c) = &DAT_010b6f14;
+    this->unk6c = &DAT_010b6f14;
     FUN_00c03a20();
     if (abFree & 1)
         ::FUN_00aa1460(this, 0xd0);
@@ -1581,13 +1719,15 @@ extern int DAT_010b70d8;
 void FUN_00c03a20();
 struct FUN_00b93bb0_class
 {
+    char pad00[0x6c];
+    void * unk6c;
     void* FUN_00b93bb0(bool flag);
 };
 // @fnv 0x00b93bb0
 void* FUN_00b93bb0_class::FUN_00b93bb0(bool abFree)
 {
     *(void**)this = (void*)&DAT_010b70d8;
-    *(void**)((char*)this + 0x6c) = (void*)&DAT_010b70b8;
+    this->unk6c = (void*)&DAT_010b70b8;
     FUN_00c03a20();
     if (abFree & 1)
         ::FUN_00aa1460(this, 0xd0);
@@ -1626,12 +1766,14 @@ struct FUN_00b93d00_Class
     int* m_6c;
     void FUN_00c03a20();
     FUN_00b93d00_Class* FUN_00b93d00(bool flag);
+    char pad08[0x64];
+    int * unk6c;
 };
 // @fnv 0x00b93d00
 FUN_00b93d00_Class* FUN_00b93d00_Class::FUN_00b93d00(bool abFree)
 {
     m_vtbl = &DAT_010b7278;
-    *(int**)((char*)this + 0x6c) = &DAT_010b7258;
+    this->unk6c = &DAT_010b7258;
     reinterpret_cast<::FUN_00c03a20_cls *>(this)->FUN_00c03a20_cls::~FUN_00c03a20_cls();
     if (abFree & 1)
         operator delete(this, 0xd0);
@@ -1651,25 +1793,31 @@ struct NiTPrimitiveArray_ImageSpaceTexture___
 struct FUN_00b93d40_class : public ImageSpaceEffectShader
 {
     FUN_00b93d40_class();
+    char pad00[0x6c];
+    void * unk6c;
+    char pad70[0x24];
+    NiTPrimitiveArray_ImageSpaceTexture___ unk94;
 };
 // @fnv 0x00b93d40
 FUN_00b93d40_class::FUN_00b93d40_class()
 {
     *(void**)((char*)this) = &::DAT_010b7418;
-    *(void**)((char*)this + 0x6c) = &::DAT_010b73f4;
-    reinterpret_cast<::FUN_00a41520_cls *>((((NiTPrimitiveArray_ImageSpaceTexture___*)((char*)this + 0x94))))->FUN_00a90180(2);
+    this->unk6c = &::DAT_010b73f4;
+    reinterpret_cast<::FUN_00a41520_cls *>(((&this->unk94)))->FUN_00a90180(2);
 }
 }  // namespace fnv_00b93d40
 
 struct FUN_00b93e50_class
 {
+    char pad00[0x6c];
+    int * unk6c;
     FUN_00b93e50_class* FUN_00b93e50(bool b);
 };
 // @fnv 0x00b93e50
 FUN_00b93e50_class* FUN_00b93e50_class::FUN_00b93e50(bool abFree)
 {
     *(int**)this = &DAT_010b7418;
-    *(int**)((char*)this + 0x6c) = &DAT_010b73f4;
+    this->unk6c = &DAT_010b73f4;
     FUN_00c03a20();
     if (abFree & 1)
         ::FUN_00aa1460(this, 0xd0);
@@ -1730,6 +1878,8 @@ extern int DAT_010b7720;
 
 struct FUN_00b940f0_class
 {
+    char pad00[0x6c];
+    int * unk6c;
     FUN_00b940f0_class* FUN_00b940f0(bool flag);
 };
 
@@ -1737,7 +1887,7 @@ struct FUN_00b940f0_class
 FUN_00b940f0_class* FUN_00b940f0_class::FUN_00b940f0(bool abFree)
 {
     *(int**)this = &DAT_010b7720;
-    *(int**)((char*)this + 0x6c) = &DAT_010b7700;
+    this->unk6c = &DAT_010b7700;
     FUN_00c03a20();
     if (abFree & 1)
         ::FUN_00aa1460(this, 0xd0);
@@ -1748,13 +1898,15 @@ extern int DAT_010b78b8;
 extern int DAT_010b7898;
 struct FUN_00b94240_Class
 {
+    char pad00[0x6c];
+    int * unk6c;
     int* FUN_00b94240(bool b);
 };
 // @fnv 0x00b94240
 int* FUN_00b94240_Class::FUN_00b94240(bool abFree)
 {
     *(int**)this = &DAT_010b78b8;
-    *(int**)((char*)this + 0x6c) = &DAT_010b7898;
+    this->unk6c = &DAT_010b7898;
     FUN_00c03a20();
     if ((char)abFree & 1)
         operator delete(this, 0xd0);
@@ -1774,13 +1926,17 @@ struct NiTPrimitiveArray_ImageSpaceTexture___
 struct FUN_00b94280_class : public ImageSpaceEffectShader
 {
     FUN_00b94280_class();
+    char pad00[0x6c];
+    void * unk6c;
+    char pad70[0x24];
+    NiTPrimitiveArray_ImageSpaceTexture___ unk94;
 };
 // @fnv 0x00b94280
 FUN_00b94280_class::FUN_00b94280_class()
 {
     *(void**)((char*)this + 0x00) = (void*)&::DAT_010b7a50;
-    *(void**)((char*)this + 0x6c) = (void*)&::DAT_010b7a2c;
-    reinterpret_cast<::FUN_00a41520_cls *>((((NiTPrimitiveArray_ImageSpaceTexture___*)((char*)this + 0x94))))->FUN_00a90180(2);
+    this->unk6c = (void*)&::DAT_010b7a2c;
+    reinterpret_cast<::FUN_00a41520_cls *>(((&this->unk94)))->FUN_00a90180(2);
 }
 }  // namespace fnv_00b94280
 
@@ -1788,6 +1944,8 @@ void FUN_00c03a20();
 
 struct FUN_00b94390_class
 {
+    char pad00[0x6c];
+    int * unk6c;
     FUN_00b94390_class* FUN_00b94390(bool b);
 };
 
@@ -1795,7 +1953,7 @@ struct FUN_00b94390_class
 FUN_00b94390_class* FUN_00b94390_class::FUN_00b94390(bool abFree)
 {
     *reinterpret_cast<int**>(this) = &DAT_010b7a50;
-    *reinterpret_cast<int**>(reinterpret_cast<char*>(this) + 0x6c) = &DAT_010b7a2c;
+    this->unk6c = &DAT_010b7a2c;
     FUN_00c03a20();
     if (abFree & 1)
         ::FUN_00aa1460(this, 0xd0);
@@ -1807,13 +1965,15 @@ extern int DAT_010b7bcc;
 void FUN_00c03a20();
 struct FUN_00b944e0_class
 {
+    char pad00[0x6c];
+    void * unk6c;
     FUN_00b944e0_class* FUN_00b944e0(bool flag);
 };
 // @fnv 0x00b944e0
 FUN_00b944e0_class* FUN_00b944e0_class::FUN_00b944e0(bool abFree)
 {
     *(void**)this = (void*)&DAT_010b7bf0;
-    *(void**)((char*)this + 0x6c) = (void*)&DAT_010b7bcc;
+    this->unk6c = (void*)&DAT_010b7bcc;
     FUN_00c03a20();
     if (abFree & 1)
         ::FUN_00aa1460(this, 0xd0);
@@ -1822,13 +1982,15 @@ FUN_00b944e0_class* FUN_00b944e0_class::FUN_00b944e0(bool abFree)
 
 struct FUN_00b9cfd0_class
 {
+    char pad00[0x1a0];
+    void * unk1a0;
     void AssignRefCounted(void* p);
 };
 // Replaces the ref-counted pointer at offset 0x1a0, releasing the old object and incrementing the new one's reference count.
 // @fnv 0x00b9cfd0
 void FUN_00b9cfd0_class::AssignRefCounted(void* apObject)
 {
-    void* old = *(void**)((char*)this + 0x1a0);
+    void* old = this->unk1a0;
     if (old != apObject)
     {
         if (old)
@@ -1836,7 +1998,7 @@ void FUN_00b9cfd0_class::AssignRefCounted(void* apObject)
             if (InterlockedDecrement((volatile long*)((char*)old + 4)) == 0)
                 ((void(**)(void*)) * (void**)((char*)old + 0))[1](old);
         }
-        *(void**)((char*)this + 0x1a0) = apObject;
+        this->unk1a0 = apObject;
         if (apObject)
             InterlockedIncrement((volatile long*)((char*)apObject + 4));
     }
@@ -1880,14 +2042,18 @@ struct FUN_00b8d330 : public ImageSpaceEffectShader
     int* m_06c;
     NiTPrimitiveArray_ImageSpaceTexture___ m_94;
     FUN_00b8d330();
+    char pad08[0x64];
+    int * unk6c;
+    char pad70[0x24];
+    NiTPrimitiveArray_ImageSpaceTexture___ unk94;
 };
 
 // @fnv 0x00b8d330
 FUN_00b8d330::FUN_00b8d330()
 {
     *(int**)(char*)this = (int*)&DAT_010b0518;
-    *(int**)((char*)this + 0x6c) = (int*)&DAT_010b04f4;
-    reinterpret_cast<::FUN_00a41520_cls *>((((NiTPrimitiveArray_ImageSpaceTexture___*)((char*)this + 0x94))))->FUN_00a90180(3);
+    this->unk6c = (int*)&DAT_010b04f4;
+    reinterpret_cast<::FUN_00a41520_cls *>(((&this->unk94)))->FUN_00a90180(3);
 }
 
 struct FUN_00b8d850 : ImageSpaceEffectShader
@@ -1912,27 +2078,35 @@ struct FUN_00b8dae0_class : public ImageSpaceEffectShader
 {
     FUN_00b8dae0_class();
     ~FUN_00b8dae0_class();
+    char pad00[0x6c];
+    void * unk6c;
+    char pad70[0x24];
+    NiTPrimitiveArray_ImageSpaceTexture___ unk94;
 };
 // Initialises the object's vtable pointers and sets the embedded texture array at offset 0x94 to size 2.
 // @fnv 0x00b8dae0
 FUN_00b8dae0_class::FUN_00b8dae0_class()
 {
     *(void**)this = (void*)&DAT_010b0d40;
-    *(void**)((char*)this + 0x6c) = (void*)&DAT_010b0d1c;
-    reinterpret_cast<::FUN_00a41520_cls *>((((NiTPrimitiveArray_ImageSpaceTexture___*)((char*)this + 0x94))))->FUN_00a90180(2);
+    this->unk6c = (void*)&DAT_010b0d1c;
+    reinterpret_cast<::FUN_00a41520_cls *>(((&this->unk94)))->FUN_00a90180(2);
 }
 
 struct FUN_00b8dc30_class : public ImageSpaceEffectShader
 {
     FUN_00b8dc30_class();
+    char pad00[0x6c];
+    void * unk6c;
+    char pad70[0x24];
+    NiTPrimitiveArray_ImageSpaceTexture___ unk94;
 };
 // Initializes the object's vtable pointers and sets the size of the texture array at offset 0x94 to 2.
 // @fnv 0x00b8dc30
 FUN_00b8dc30_class::FUN_00b8dc30_class()
 {
     *(void**)this = (void*)&DAT_010b0ec0;
-    *(void**)((char*)this + 0x6c) = (void*)&DAT_010b0e9c;
-    reinterpret_cast<::FUN_00a41520_cls *>((((NiTPrimitiveArray_ImageSpaceTexture___*)((char*)this + 0x94))))->FUN_00a90180(2);
+    this->unk6c = (void*)&DAT_010b0e9c;
+    reinterpret_cast<::FUN_00a41520_cls *>(((&this->unk94)))->FUN_00a90180(2);
 }
 
 struct FUN_00b8ded0 : ImageSpaceEffectShader
@@ -1942,14 +2116,18 @@ struct FUN_00b8ded0 : ImageSpaceEffectShader
     void FUN_00c03a20();
     FUN_00b8ded0();
     ~FUN_00b8ded0();
+    char pad08[0x64];
+    void * unk6c;
+    char pad70[0x24];
+    NiTPrimitiveArray_ImageSpaceTexture___ unk94;
 };
 // Sets two vtable pointers and initialises the texture array at offset 0x94 with a size of 2.
 // @fnv 0x00b8ded0
 FUN_00b8ded0::FUN_00b8ded0()
 {
     *(void**)this = (void*)&DAT_010b11c0;
-    *(void**)((char*)this + 0x6c) = (void*)&DAT_010b119c;
-    reinterpret_cast<::FUN_00a41520_cls *>((((NiTPrimitiveArray_ImageSpaceTexture___*)((char*)this + 0x94))))->FUN_00a90180(2);
+    this->unk6c = (void*)&DAT_010b119c;
+    reinterpret_cast<::FUN_00a41520_cls *>(((&this->unk94)))->FUN_00a90180(2);
 }
 
 struct FUN_00b8e170 : ImageSpaceEffectShader
@@ -1971,14 +2149,18 @@ struct FUN_00b8efa0 : public ImageSpaceEffectShader
 {
     NiTPrimitiveArray_ImageSpaceTexture___ arr;
     FUN_00b8efa0();
+    char pad01[0x6b];
+    void * unk6c;
+    char pad70[0x24];
+    NiTPrimitiveArray_ImageSpaceTexture___ unk94;
 };
 // Initialises the vtable pointers and sets the embedded texture array at offset 0x94 to size 2.
 // @fnv 0x00b8efa0
 FUN_00b8efa0::FUN_00b8efa0()
 {
     *(void**)this = (void*)&DAT_010b2a98;
-    *(void**)((char*)this + 0x6c) = (void*)&DAT_010b2a74;
-    reinterpret_cast<::FUN_00a41520_cls *>((((NiTPrimitiveArray_ImageSpaceTexture___*)((char*)this + 0x94))))->FUN_00a90180(2);
+    this->unk6c = (void*)&DAT_010b2a74;
+    reinterpret_cast<::FUN_00a41520_cls *>(((&this->unk94)))->FUN_00a90180(2);
 }
 
 struct FUN_00b8f010_class : ImageSpaceEffectShader
@@ -2001,6 +2183,10 @@ struct FUN_00b8f1b0 : ImageSpaceEffectShader
     int m_00b2470;
     int m_00b2490;
     FUN_00b8f1b0();
+    char pad08[0x64];
+    void * unk6c;
+    char pad70[0x24];
+    NiTPrimitiveArray_ImageSpaceTexture___ unk94;
 };
 
 // Initialises the object's vtable pointers and sets the embedded primitive array at offset 0x94 to size 2.
@@ -2008,8 +2194,8 @@ struct FUN_00b8f1b0 : ImageSpaceEffectShader
 FUN_00b8f1b0::FUN_00b8f1b0()
 {
     *(void**)this = (void*)&DAT_010b2490;
-    *(void**)((char*)this + 0x6c) = (void*)&DAT_010b2470;
-    reinterpret_cast<::FUN_00a41520_cls *>((((NiTPrimitiveArray_ImageSpaceTexture___*)((char*)this + 0x94))))->FUN_00a90180(2);
+    this->unk6c = (void*)&DAT_010b2470;
+    reinterpret_cast<::FUN_00a41520_cls *>(((&this->unk94)))->FUN_00a90180(2);
 }
 
 struct FUN_00b8f360_class : public ImageSpaceEffectShader
@@ -2017,28 +2203,36 @@ struct FUN_00b8f360_class : public ImageSpaceEffectShader
     void* m_000;
     void* m_06c;
     FUN_00b8f360_class();
+    char pad08[0x64];
+    void * unk6c;
+    char pad70[0x24];
+    NiTPrimitiveArray_ImageSpaceTexture___ unk94;
 };
 // Initialises two vtable pointers and sets the size of the texture array at offset 0x94 to 1.
 // @fnv 0x00b8f360
 FUN_00b8f360_class::FUN_00b8f360_class()
 {
     m_000 = &DAT_010b2610;
-    *(void**)((char*)this + 0x6c) = &DAT_010b25f0;
-    reinterpret_cast<::FUN_00a41520_cls *>((((NiTPrimitiveArray_ImageSpaceTexture___*)((char*)this + 0x94))))->FUN_00a90180(1);
+    this->unk6c = &DAT_010b25f0;
+    reinterpret_cast<::FUN_00a41520_cls *>(((&this->unk94)))->FUN_00a90180(1);
 }
 
 struct FUN_00b8f520_class : ImageSpaceEffectShader
 {
     int m_06c;
     FUN_00b8f520_class();
+    char pad04[0x68];
+    void * unk6c;
+    char pad70[0x24];
+    NiTPrimitiveArray_ImageSpaceTexture___ unk94;
 };
 // Initialises the object's vtable pointers and sets the embedded texture array at offset 0x94 to size 1.
 // @fnv 0x00b8f520
 FUN_00b8f520_class::FUN_00b8f520_class()
 {
     *(void**)((char*)this + 0x0) = (void*)&DAT_010b27a8;
-    *(void**)((char*)this + 0x6c) = (void*)&DAT_010b2784;
-    reinterpret_cast<::FUN_00a41520_cls *>((((NiTPrimitiveArray_ImageSpaceTexture___*)((char*)this + 0x94))))->FUN_00a90180(1);
+    this->unk6c = (void*)&DAT_010b2784;
+    reinterpret_cast<::FUN_00a41520_cls *>(((&this->unk94)))->FUN_00a90180(1);
 }
 
 extern int DAT_010b2bec;
@@ -2050,6 +2244,8 @@ struct FUN_00b8f7e0 : ImageSpaceEffectShader
     void* arr;
     void arrSetSize(unsigned int);
     FUN_00b8f7e0();
+    char pad70[0x24];
+    NiTPrimitiveArray_ImageSpaceTexture___ unk94;
 };
 // Initializes two vtable pointers and sets the embedded primitive array at offset 0x94 to size 4.
 // @fnv 0x00b8f7e0
@@ -2057,7 +2253,7 @@ FUN_00b8f7e0::FUN_00b8f7e0()
 {
     *reinterpret_cast<int**>(this) = &DAT_010b2c10;
     *reinterpret_cast<int**>(&this->arr) = &DAT_010b2bec;
-    reinterpret_cast<::FUN_00a41520_cls *>((reinterpret_cast<NiTPrimitiveArray_ImageSpaceTexture___*>(reinterpret_cast<char*>(this) + 0x94)))->FUN_00a90180(4);
+    reinterpret_cast<::FUN_00a41520_cls *>((&this->unk94))->FUN_00a90180(4);
 }
 
 extern void* DAT_010b52a0;
@@ -2066,13 +2262,17 @@ struct FUN_00b91b80 : ImageSpaceEffectShader
 {
     NiTPrimitiveArray_ImageSpaceTexture___ m_94;
     FUN_00b91b80();
+    char pad01[0x6b];
+    void * unk6c;
+    char pad70[0x24];
+    NiTPrimitiveArray_ImageSpaceTexture___ unk94;
 };
 // @fnv 0x00b91b80
 FUN_00b91b80::FUN_00b91b80()
 {
     *reinterpret_cast<void**>(this) = &DAT_010b52c0;
-    *reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(this) + 0x6c) = &DAT_010b52a0;
-    reinterpret_cast<::FUN_00a41520_cls *>((reinterpret_cast<NiTPrimitiveArray_ImageSpaceTexture___*>(reinterpret_cast<unsigned char*>(this) + 0x94)))->FUN_00a90180(3);
+    this->unk6c = &DAT_010b52a0;
+    reinterpret_cast<::FUN_00a41520_cls *>((&this->unk94))->FUN_00a90180(3);
 }
 
 extern int DAT_010b5460;
@@ -2083,14 +2283,18 @@ struct FUN_00b91cf0_class : ImageSpaceEffectShader
     FUN_00b91cf0_class();
     int* m_6c;
     NiTPrimitiveArray_ImageSpaceTexture___ m_94;
+    char pad08[0x64];
+    int * unk6c;
+    char pad70[0x24];
+    NiTPrimitiveArray_ImageSpaceTexture___ unk94;
 };
 
 // @fnv 0x00b91cf0
 FUN_00b91cf0_class::FUN_00b91cf0_class()
 {
     *reinterpret_cast<int**>(this) = &DAT_010b5480;
-    *reinterpret_cast<int**>(reinterpret_cast<char*>(this) + 0x6c) = &DAT_010b5460;
-    reinterpret_cast<::FUN_00a41520_cls *>((reinterpret_cast<NiTPrimitiveArray_ImageSpaceTexture___*>(reinterpret_cast<char*>(this) + 0x94)))->FUN_00a90180(2);
+    this->unk6c = &DAT_010b5460;
+    reinterpret_cast<::FUN_00a41520_cls *>((&this->unk94))->FUN_00a90180(2);
 }
 
 struct FUN_00b92a80_class : public ImageSpaceEffectShader
@@ -2148,13 +2352,17 @@ struct FUN_00b92d90 : ImageSpaceEffectShader
     int m_00b6548;
     int m_00b6524;
     FUN_00b92d90();
+    char pad08[0x64];
+    void * unk6c;
+    char pad70[0x24];
+    NiTPrimitiveArray_ImageSpaceTexture___ unk94;
 };
 // @fnv 0x00b92d90
 FUN_00b92d90::FUN_00b92d90()
 {
     *(void**)this = (void*)&DAT_010b6548;
-    *(void**)((char*)this + 0x6c) = (void*)&DAT_010b6524;
-    reinterpret_cast<::FUN_00a41520_cls *>((((NiTPrimitiveArray_ImageSpaceTexture___*)((char*)this + 0x94))))->FUN_00a90180(2);
+    this->unk6c = (void*)&DAT_010b6524;
+    reinterpret_cast<::FUN_00a41520_cls *>(((&this->unk94)))->FUN_00a90180(2);
 }
 
 extern int DAT_010b687c;
@@ -2166,13 +2374,17 @@ struct FUN_00b93030 : ImageSpaceEffectShader
     void FUN_00c03a20();
     FUN_00b93030();
     ~FUN_00b93030();
+    char pad08[0x64];
+    int * unk6c;
+    char pad70[0x24];
+    NiTPrimitiveArray_ImageSpaceTexture___ unk94;
 };
 // @fnv 0x00b93030
 FUN_00b93030::FUN_00b93030()
 {
     *reinterpret_cast<int**>(this) = &DAT_010b68a0;
-    *reinterpret_cast<int**>(reinterpret_cast<char*>(this) + 0x6c) = &DAT_010b687c;
-    reinterpret_cast<::FUN_00a41520_cls *>((reinterpret_cast<NiTPrimitiveArray_ImageSpaceTexture___*>(reinterpret_cast<char*>(this) + 0x94)))->FUN_00a90180(2);
+    this->unk6c = &DAT_010b687c;
+    reinterpret_cast<::FUN_00a41520_cls *>((&this->unk94))->FUN_00a90180(2);
 }
 
 extern int DAT_010b7578;
@@ -2237,13 +2449,17 @@ struct FUN_00b93fe0 : ImageSpaceEffectShader
     void FUN_00c03a20();
     FUN_00b93fe0();
     ~FUN_00b93fe0();
+    char pad08[0x64];
+    int * unk6c;
+    char pad70[0x24];
+    NiTPrimitiveArray_ImageSpaceTexture___ unk94;
 };
 // @fnv 0x00b93fe0
 FUN_00b93fe0::FUN_00b93fe0()
 {
     *reinterpret_cast<int**>(this) = &DAT_010b7720;
-    *reinterpret_cast<int**>((char*)this + 0x6c) = &DAT_010b7700;
-    reinterpret_cast<::FUN_00a41520_cls *>((((NiTPrimitiveArray_ImageSpaceTexture___*)((char*)this + 0x94))))->FUN_00a90180(2);
+    this->unk6c = &DAT_010b7700;
+    reinterpret_cast<::FUN_00a41520_cls *>(((&this->unk94)))->FUN_00a90180(2);
 }
 
 extern int DAT_010b7bf0;
@@ -2308,6 +2524,8 @@ struct GlobalObjectO2_00b8a9e0
 };
 struct FUN_00b8cad0_class
 {
+    char pad00[0xac];
+    int unkac;
     void SetValue(int value);
 };
 // Stores value at offset 0xac of this object, saving and restoring the thread's memory context around the write.
@@ -2315,7 +2533,7 @@ struct FUN_00b8cad0_class
 void FUN_00b8cad0_class::SetValue(int value)
 {
     int old = ::g_tlsBlock.memoryContext;
-    *(int*)((char*)this + 0xac) = value;
+    this->unkac = value;
     ::g_tlsBlock.memoryContext = old;
 }
 
@@ -2342,13 +2560,15 @@ struct FUN_00b8d810_class
     int m_00b083c;
     void FUN_00c03a20();
     FUN_00b8d810_class(unsigned char flag);
+    char pad08[0x64];
+    void * unk6c;
 };
 // Sets the vtable and a pointer at offset 0x6c, calls FUN_00c03a20, and frees this with size 0xd0 when flag bit 0 is set.
 // @fnv 0x00b8d810
 FUN_00b8d810_class::FUN_00b8d810_class(unsigned char flag)
 {
     vtbl = &DAT_010b0860;
-    *(void**)((char*)this + 0x6c) = (void*)&DAT_010b083c;
+    this->unk6c = (void*)&DAT_010b083c;
     reinterpret_cast<::FUN_00c03a20_cls *>(this)->FUN_00c03a20_cls::~FUN_00c03a20_cls();
     if (flag & 1)
         ::FUN_00aa1460(this, 0xd0);
@@ -2359,14 +2579,18 @@ extern int _data_011c16bc;
 struct FUN_00b8dd80_Class : public ImageSpaceEffectShader
 {
     FUN_00b8dd80_Class();
+    char pad00[0x6c];
+    int * unk6c;
+    char pad70[0x24];
+    NiTPrimitiveArray_ImageSpaceTexture___ unk94;
 };
 
 // @fnv 0x00b8dd80
 FUN_00b8dd80_Class::FUN_00b8dd80_Class()
 {
     *(int**)this = &DAT_010b1040;
-    *(int**)((char*)this + 0x6c) = &DAT_010b101c;
-    reinterpret_cast<::FUN_00a41520_cls *>((((NiTPrimitiveArray_ImageSpaceTexture___*)((char*)this + 0x94))))->FUN_00a90180(2);
+    this->unk6c = &DAT_010b101c;
+    reinterpret_cast<::FUN_00a41520_cls *>(((&this->unk94)))->FUN_00a90180(2);
 }
 
 extern int DAT_010b5460;
@@ -2440,14 +2664,18 @@ extern int _data_011c16bc;
 struct FUN_00b92bd0_class : ImageSpaceEffectShader
 {
     FUN_00b92bd0_class();
+    char pad00[0x6c];
+    void * unk6c;
+    char pad70[0x24];
+    NiTPrimitiveArray_ImageSpaceTexture___ unk94;
 };
 
 // @fnv 0x00b92bd0
 FUN_00b92bd0_class::FUN_00b92bd0_class()
 {
     *(void**)this = (void*)&DAT_010b6398;
-    *(void**)((char*)this + 0x6c) = (void*)&DAT_010b6374;
-    reinterpret_cast<::FUN_00a41520_cls *>((((NiTPrimitiveArray_ImageSpaceTexture___*)((char*)this + 0x94))))->FUN_00a90180(2);
+    this->unk6c = (void*)&DAT_010b6374;
+    reinterpret_cast<::FUN_00a41520_cls *>(((&this->unk94)))->FUN_00a90180(2);
 }
 
 extern int _data_011c16bc;
@@ -2508,6 +2736,10 @@ struct FUN_00b93aa0_class : ImageSpaceEffectShader
 {
     void* vtbl_6c;
     FUN_00b93aa0_class();
+    char pad04[0x68];
+    void * unk6c;
+    char pad70[0x24];
+    NiTPrimitiveArray_ImageSpaceTexture___ unk94;
 };
 
 // Sets the two vtables and sizes the NiTPrimitiveArray_ImageSpaceTexture___ at offset 0x94 to 4.
@@ -2515,8 +2747,8 @@ struct FUN_00b93aa0_class : ImageSpaceEffectShader
 FUN_00b93aa0_class::FUN_00b93aa0_class()
 {
     *(void**)this = (void*)&DAT_010b70d8;
-    *(void**)((char*)this + 0x6c) = (void*)&DAT_010b70b8;
-    reinterpret_cast<::FUN_00a41520_cls *>((((NiTPrimitiveArray_ImageSpaceTexture___*)((char*)this + 0x94))))->FUN_00a90180(4);
+    this->unk6c = (void*)&DAT_010b70b8;
+    reinterpret_cast<::FUN_00a41520_cls *>(((&this->unk94)))->FUN_00a90180(4);
 }
 
 extern int DAT_010b7898;

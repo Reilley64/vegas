@@ -502,7 +502,7 @@ class A97E20RangeLODData : public A97E20LODData
 // @fnv 0x00a97e20
 void A97E20RangeLODData::FUN_00a97e20(A97E20Stream& kStream)
 {
-    ::FUN_00a88a40();
+    reinterpret_cast<::FUN_00a88a40_shell *>(this)->FUN_00a88a40((::NiStream &)kStream);
     reinterpret_cast<::NiColor *>(&(m_kWorldCenter))->LoadBinary((::NiStream &)(kStream));
     unsigned int uiNumRanges;
     A97E20LoadBinary(kStream, uiNumRanges);

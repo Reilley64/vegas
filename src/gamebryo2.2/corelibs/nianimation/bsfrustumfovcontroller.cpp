@@ -302,7 +302,7 @@ struct Base840
 // @fnv 0x00a44ce0
 void Base840::FUN_00a44ce0(NiStream& kStream)
 {
-    ::FUN_00a57c00();
+    reinterpret_cast<::FUN_00a57c00_shell *>(this)->FUN_00a57c00(kStream);
 }
 
 

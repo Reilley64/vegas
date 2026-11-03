@@ -801,7 +801,7 @@ extern "C" void fnv_fn_00a6d830() __asm__("?FUN_00a6d830@TCController@@QEAAXPEAV
 extern "C" void fnv_fn_00a7fdb0() __asm__("?FUN_00a7fdb0@FUN_00a59dc0_shell@@QEAAXPEAX@Z");
 extern "C" void fnv_fn_00a89af0() __asm__("?FUN_00a89af0@@YAX_J@Z");
 extern "C" void fnv_fn_00a93ea0() __asm__("?SetChildAt@fnv_00a93ea0@@YAXPEAVNiNode@@HIPEAVNiAVObject@@@Z");
-extern "C" void fnv_fn_00aa0ad0() __asm__("?FUN_00aa0ad0@@YAXXZ");
+extern "C" void fnv_fn_00aa0ad0() __asm__("?FUN_00aa0ad0@HC1Base@@QEAA_NPEAVNiStream@@@Z");
 extern "C" void fnv_fn_00aa1a90() __asm__("?FUN_00aa1a90@RelativeSeekFile@RelativeFileSeekDetail@@QEAAXH@Z");
 extern "C" void fnv_fn_00aa1d50() __asm__("?FUN_00aa1d50@C00aa1d50@@QEAAHXZ");
 extern "C" void fnv_fn_00acb7e0() __asm__("?FUN_00acb7e0@FUN_00acb7e0_shell@@QEAAHXZ");

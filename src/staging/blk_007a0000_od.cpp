@@ -44,14 +44,16 @@
 
 struct FUN_007a1400_class
 {
+    char pad00[0x30];
+    int unk30;
     void FUN_007a1400(int flags);
 };
 
 // @fnv 0x007a1400
 void FUN_007a1400_class::FUN_007a1400(int flags)
 {
-    if (*(int*)((char*)this + 0x30) & flags)
-        *(int*)((char*)this + 0x30) ^= flags;
+    if (this->unk30 & flags)
+        this->unk30 ^= flags;
 }
 
 struct FUN_007a1430_Class
@@ -141,24 +143,28 @@ void GlobalObject_00869f00::FUN_007ab670()
 
 struct FUN_007adcc0_class
 {
+    char pad00[0x75d];
+    unsigned char unk75d;
     void SetAllow(bool abAllow);
 };
 
 // @fnv 0x007adcc0
 void FUN_007adcc0_class::SetAllow(bool abAllow)
 {
-    ((unsigned char*)this)[0x75d] = abAllow;
+    this->unk75d = abAllow;
 }
 
 struct FUN_007b8f10_Class
 {
+    char pad00[0x630];
+    unsigned int unk630;
     unsigned int GetField630();
 };
 
 // @fnv 0x007b8f10
 unsigned int FUN_007b8f10_Class::GetField630()
 {
-    return *(unsigned int*)((char*)this + 0x630);
+    return this->unk630;
 }
 
 struct GlobalObject_007ab590

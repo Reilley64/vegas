@@ -2,6 +2,8 @@
 // src/staging/blk_00c80000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
+#include "fnv/symbols_00a81000.h"
+#include "fnv/decl/HC1Base.h"
 #include "fnv/symbols_00c85000.h"
 #include "havok/hkMemoryRouter.h"
 #include <cstdint>
@@ -84,7 +86,6 @@
 #include "fnv/symbols_00a5b000.h"
 #include "fnv/symbols_00a6c000.h"
 #include "fnv/symbols_00a7d000.h"
-#include "fnv/symbols_00a81000.h"
 #include "fnv/symbols_00a89000.h"
 #include "fnv/symbols_00aa0000.h"
 #include "fnv/symbols_00c43000.h"
@@ -2435,7 +2436,7 @@ void FUN_00c85ac0_cls::FUN_00c85ac0(NiStream* pStream)
             }
         }
     }
-    ::FUN_00a81fe0((intptr_t)(this));
+    reinterpret_cast<::FUN_00a81fe0_shell *>(this)->FUN_00a81fe0(*(::NiStream *)pStream);
 }
 
 struct TlsGuard_t
@@ -3945,7 +3946,7 @@ void FUN_00c898e0_Holder::DispatchToInnerSlot(int arg)
             p->Slot21(arg);
         }
     }
-    ::FUN_00a81fe0((intptr_t)this);
+    reinterpret_cast<::FUN_00a81fe0_shell *>(this)->FUN_00a81fe0(*(::NiStream *)(std::intptr_t)arg);
 }
 
 struct RefTargetVirtuals
@@ -5454,7 +5455,7 @@ void Owner00::HandleAllEntries(void* param)
         }
     }
 
-    ::FUN_00aa0ad0();
+    reinterpret_cast<::HC1Base *>(this)->FUN_00aa0ad0((::NiStream *)param);
 }
 
 struct DecCountProvider
@@ -12464,7 +12465,7 @@ void FUN_00c8aa80_cls::FUN_00c8aa80(NiStream* apStream)
         if (t)
             t->v15(apStream);
     }
-    ::FUN_00a81fe0((intptr_t)this);
+    reinterpret_cast<::FUN_00a81fe0_shell *>(this)->FUN_00a81fe0(*(::NiStream *)apStream);
 }
 
 

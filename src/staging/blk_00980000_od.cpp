@@ -2248,6 +2248,7 @@ struct TESObjectREFR
     ExtraRadioData* GetExtraRadioData(void);
 public:
     ::BGSEncounterZone *FindEncounterZone();
+    static ::BGSEncounterZone *GetDefaultEncounterZone();
 };
 
 struct EdgeRecord
@@ -9202,11 +9203,10 @@ bool Self99::FUN_0099ebe0(void* arg, Out99* output, int mode)
                     {
                         void* world0 = ((void *)(reinterpret_cast<::TESObjectREFR *>((linked0))->FindEncounterZone()));
                         void* actorWorld5 = ((void *)(reinterpret_cast<::TESObjectREFR *>((actor15))->FindEncounterZone()));
-                        // TESObjectREFR::FindEncounterZone (0x00546a90, the static one) returns DAT_011c9520.
                         if (!world0)
-                            world0 = ((void *)(::DAT_011c9520));
+                            world0 = ((void *)(::TESObjectREFR::GetDefaultEncounterZone()));
                         if (!actorWorld5)
-                            actorWorld5 = ((void *)(::DAT_011c9520));
+                            actorWorld5 = ((void *)(::TESObjectREFR::GetDefaultEncounterZone()));
                         if (world0 != actorWorld5)
                             continue;
                     }

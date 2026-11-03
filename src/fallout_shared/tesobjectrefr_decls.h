@@ -62,7 +62,7 @@ class TESObjectREFR
     float unk2c;
     unsigned char pad30[0xc];
     float m_fObjectScale;  // +0x3C
-    static BGSEncounterZone* FindEncounterZone();
+    static BGSEncounterZone* GetDefaultEncounterZone();
     float GetScale();
 public:
     ::BSExtraData *GetExtraData(unsigned char) const;

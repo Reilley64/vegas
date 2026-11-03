@@ -2,6 +2,8 @@
 // src/staging/blk_00b60000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
+#include "fnv/symbols_00ba8000.h"
+#include "fnv/symbols_00bc3000.h"
 #include "fnv/tls.h"
 #include <cstdint>
 #include <new>
@@ -87,9 +89,7 @@
 #include "fnv/symbols_00b97000.h"
 #include "fnv/symbols_00b98000.h"
 #include "fnv/symbols_00b99000.h"
-#include "fnv/symbols_00ba8000.h"
 #include "fnv/symbols_00ba9000.h"
-#include "fnv/symbols_00bc3000.h"
 #include "fnv/symbols_00c02000.h"
 #include "fnv/symbols_00c03000.h"
 #include "fnv/symbols_00e6e000.h"
@@ -122,11 +122,7 @@
 #include "fnv/symbols_01272000.h"
 #include "../../include/layout_support.h"
 
-// fnv/decl/NiTPointerListBase.h declares a plain struct with the name of the NiTPointerListBase template in layout_support.h,
-// so the two cannot be in one unit; this unit calls 0x004ed900 (RemoveAll) through this declaration.
-struct NiTPointerListBase_004ed900 {
-    void FUN_004ed900();
-};
+#include "fnv/decl/NiTPointerListBase.h"
 
 struct FUN_00b6f4a0_class
 {
@@ -340,12 +336,14 @@ struct NiRenderer
 };
 struct FUN_00b66570_class
 {
+    char pad00[0x19c];
+    int unk19c;
     void FUN_00b66570();
 };
 // @fnv 0x00b66570
 void FUN_00b66570_class::FUN_00b66570()
 {
-    if (!*(int*)((char*)this + 0x19c))
+    if (!this->unk19c)
         ::fnv_00b65c60::FUN_00b65c60((::AccumWIP *)(void *)(this));
     *(int*)((char*)NiRenderer::ms_pRenderer + 0xc) = 0;
     ((NiAccumulator*)this)->ClearCamera();
@@ -491,14 +489,17 @@ struct FUN_00b6f4f0_class
     int m_0x64;
     NiTexture* m_tex;
     void SetTextureByName(intptr_t a);
+    char pad08[0x58];
+    NiTexture * unk60;
+    int unk64;
 };
 // Calls FUN_00a5c6a0 with a, then if the name at offset 0x64 is set, looks up that texture via BSShaderManager::GetTexture into the pointer at 0x60.
 // @fnv 0x00b6f4f0
 void FUN_00b6f4f0_class::SetTextureByName(intptr_t a)
 {
     reinterpret_cast<::LinkObjectA5 *>((((NiObjectNET_stub*)this)))->FUN_00a5c6a0((*(::NiStream *)(a)));
-    if (*(int*)((char*)this + 0x64))
-        ::BSShaderManager::GetTexture((const char*)*(uintptr_t*)((char*)this + 0x64), true, (::NiPointer< ::NiTexture> &)(*(NiTexture**)((char*)this + 0x60)),
+    if (this->unk64)
+        ::BSShaderManager::GetTexture((const char*)*(uintptr_t*)&this->unk64, true, (::NiPointer< ::NiTexture> &)(this->unk60),
                                     false, false);
 }
 
@@ -606,20 +607,22 @@ struct BSShaderManagerRenderMode
 };
 struct FUN_00b66520_class
 {
+    char pad00[0x19c];
+    unsigned int unk19c;
     void ApplyRenderMode();
 };
 // @fnv 0x00b66520
 void FUN_00b66520_class::ApplyRenderMode()
 {
-    ::BSShaderManager::SetRenderMode(*(unsigned int*)((char*)this + 0x19c));
-    if (!*(int*)((char*)this + 0x19c))
+    ::BSShaderManager::SetRenderMode(this->unk19c);
+    if (!*(int*)&this->unk19c)
     {
         ::fnv_00b65ae0::FUN_00b65ae0((::AccumWIP *)(void *)(this));
         return;
     }
-    if ((*reinterpret_cast<void (*(*)[])(void *)>(&::DAT_011f9f40))[*(unsigned int*)((char*)this + 0x19c)])
+    if ((*reinterpret_cast<void (*(*)[])(void *)>(&::DAT_011f9f40))[this->unk19c])
     {
-        (*reinterpret_cast<void (*(*)[])(void *)>(&::DAT_011f9f40))[*(unsigned int*)((char*)this + 0x19c)](this);
+        (*reinterpret_cast<void (*(*)[])(void *)>(&::DAT_011f9f40))[this->unk19c](this);
         return;
     }
     (*reinterpret_cast<void (*(*)[])(void *)>(&::DAT_011f9f40))[0](this);
@@ -642,11 +645,14 @@ struct NiObject
 {
     virtual ~NiObject();
     virtual void v1();
+    long m_iRefCount;
 public:
     ::NiObject *DynamicCast(const ::NiRTTI *);
 };
 struct FUN_00b6f460_class
 {
+    char pad00[0xa4];
+    NiObject * unka4;
     void LoadAndSetAdditional(NiStream* kStream);
 };
 struct FUN_00b71ad0_class
@@ -952,7 +958,7 @@ struct FUN_00b66850_class
     void FUN_00b66850();
 };
 
-struct StrArr
+struct StrArr : ::NiTArray<char*, ::NiTMallocInterface<char*>>
 {
 };
 
@@ -2117,7 +2123,7 @@ struct DecompTarget
     virtual void v18();
     virtual void v19();
     virtual void v20();
-    virtual void v21(int a);
+    virtual void v21(::NiStream& kStream);
 };
 
 struct DecompOwner
@@ -2164,20 +2170,18 @@ struct DecompOwner
     int unk9C;
     int unkA0;
     DecompTarget* m_pFlagTarget;
-    bool CheckAndNotify(int a);
+    bool CheckAndNotify(::NiStream& kStream);
 };
-
-bool FUN_00bc3770(int a);
 
 // Calls FUN_00bc3770(a); if it succeeds, invokes v21(a) on the stored target pointer when non-null and returns true, otherwise false.
 // @fnv 0x00b667e0
-bool DecompOwner::CheckAndNotify(int aiValue)
+bool DecompOwner::CheckAndNotify(::NiStream& kStream)
 {
-    if (!FUN_00bc3770(aiValue))
+    if (!reinterpret_cast<::FUN_00bc3770_shell *>(this)->FUN_00bc3770(kStream))
         return false;
     DecompTarget* pTarget = this->m_pFlagTarget;
     if (pTarget != 0)
-        pTarget->v21(aiValue);
+        pTarget->v21(kStream);
     return true;
 }
 
@@ -2840,7 +2844,7 @@ struct B6List
     unsigned count;
     ~B6List() throw()
     {
-        reinterpret_cast<::NiTPointerListBase_004ed900 *>(this)->FUN_004ed900();
+        reinterpret_cast<::NiTPointerListBaseRaw *>(this)->FUN_004ed900();
     }
 };
 struct FUN_00b6a520 : B6Base
@@ -2853,7 +2857,7 @@ struct FUN_00b6a520 : B6Base
 // @fnv 0x00b6a520
 FUN_00b6a520::~FUN_00b6a520()
 {
-    reinterpret_cast<::NiTPointerListBase_004ed900 *>(&(list))->FUN_004ed900();
+    reinterpret_cast<::NiTPointerListBaseRaw *>(&(list))->FUN_004ed900();
     B6Ref* p = p148;
     if (p && !InterlockedDecrement(&p->refs))
         p->DeleteThis();
@@ -8089,7 +8093,7 @@ void CopyObject::FUN_00b6a6c0(CopyObject* dst, std::intptr_t arg)
     dst->f084 = f084;
     dst->f083 = f083;
     CopyList* dest = &dst->list;
-    reinterpret_cast<::NiTPointerListBase_004ed900 *>((dest))->FUN_004ed900();
+    reinterpret_cast<::NiTPointerListBaseRaw *>((dest))->FUN_004ed900();
     CopyNode* pos = list.head;
     while (pos)
     {
@@ -8398,12 +8402,15 @@ struct FnvB60150Thunk : FUN_00b6f460_class
     void FUN_00b60150(NiStream* stream);
 };
 
-void __cdecl FUN_00bc3770();
+struct FUN_00b60160_shell
+{
+    bool FUN_00b60160(::NiStream& kStream);
+};
 
 // @fnv 0x00b60160
-void __cdecl FUN_00b60160()
+bool FUN_00b60160_shell::FUN_00b60160(::NiStream& kStream)
 {
-    FUN_00bc3770();
+    return reinterpret_cast<::FUN_00bc3770_shell *>(this)->FUN_00bc3770(kStream);
 }
 
 struct ZeroPtr08
@@ -8439,10 +8446,15 @@ FUN_00b60b10::FUN_00b60b10()
 }
 
 
-// @fnv 0x00b6a510
-void FUN_00b6a510()
+struct FUN_00b6a510_shell
 {
-    static_cast<::NiTPointerListBase_004ed900 *>(nullptr)->FUN_004ed900();
+    void FUN_00b6a510();
+};
+
+// @fnv 0x00b6a510
+void FUN_00b6a510_shell::FUN_00b6a510()
+{
+    reinterpret_cast<::NiTPointerListBaseRaw *>(this)->FUN_004ed900();
 }
 
 void* __cdecl FUN_00aa13e0(unsigned int size);
@@ -11982,36 +11994,36 @@ struct TailTarget
 
 struct C_00b6f460
 {
-    void FUN_00b6f460();
+    void FUN_00b6f460(::NiStream& kStream);
 };
 // @fnv 0x00b66780
 void FUN_00b6f460_class::LoadAndSetAdditional(NiStream* kStream)
 {
-    reinterpret_cast<::C_00b6f460 *>(this)->FUN_00b6f460();
+    reinterpret_cast<::C_00b6f460 *>(this)->FUN_00b6f460(*(::NiStream *)kStream);
     NiObject* pkAdditional = (NiObject*)kStream->GetLoadedObject();
-    NiObject* old = *(NiObject**)((char*)this + 0xa4);
+    NiObject* old = this->unka4;
     if (old != pkAdditional)
     {
         if (old)
         {
-            if (InterlockedDecrement((volatile long*)((char*)old + 4)) == 0)
+            if (InterlockedDecrement(&old->m_iRefCount) == 0)
                 old->v1();
         }
-        *(NiObject**)((char*)this + 0xa4) = pkAdditional;
+        this->unka4 = pkAdditional;
         if (pkAdditional)
-            InterlockedIncrement((volatile long*)((char*)pkAdditional + 4));
+            InterlockedIncrement(&pkAdditional->m_iRefCount);
     }
 }
 // @fnv 0x00b60150
 void FnvB60150Thunk::FUN_00b60150(NiStream* stream)
 {
-    reinterpret_cast<::C_00b6f460 *>(this)->FUN_00b6f460();
+    reinterpret_cast<::C_00b6f460 *>(this)->FUN_00b6f460(*(::NiStream *)stream);
 }
 
 // @fnv 0x00b6f460
-void C_00b6f460::FUN_00b6f460()
+void C_00b6f460::FUN_00b6f460(::NiStream& kStream)
 {
-    ::FUN_00ba8a70();
+    reinterpret_cast<::FUN_00ba8a70_shell *>(this)->FUN_00ba8a70(kStream);
 }
 
 namespace fnv_00b6b6c0 {

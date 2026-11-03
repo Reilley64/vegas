@@ -103,13 +103,15 @@ struct FUN_006010d0_Class
 
 struct FUN_006053f0_class
 {
+    char pad[0x1f8];
+    float unk1f8;
     void FUN_006053f0(float value);
 };
 
 // @fnv 0x006053f0
 void FUN_006053f0_class::FUN_006053f0(float value)
 {
-    *(float*)((char*)this + 0x1f8) = value;
+    unk1f8 = value;
 }
 
 struct GlobalObject_0045cf30
@@ -140,13 +142,15 @@ void GlobalObject_00869f00::Reset()
 
 struct FUN_0060bb40_class
 {
+    char pad[0x8];
+    char unk08;
     void FUN_0060bb40(void* a, void* b, void* c);
 };
 
 // @fnv 0x0060bb40
 void FUN_0060bb40_class::FUN_0060bb40(void* apArg1, void* apArg2, void* apArg3)
 {
-    ::FUN_0060be00((::C60BE00Element *)(apArg1), (::C60BE00Element *)(apArg2), (::C60BE00Element *)(apArg3), (::C60BE00Allocator *)(void *)((char*)this + 8));
+    ::FUN_0060be00((::C60BE00Element *)(apArg1), (::C60BE00Element *)(apArg2), (::C60BE00Element *)(apArg3), (::C60BE00Allocator *)(void *)&unk08);
 }
 
 namespace fnv_0060bdd0 {
@@ -188,6 +192,10 @@ void __cdecl FUN_0060c270(intptr_t aiArg1, intptr_t aiArg2, intptr_t aiArg3, int
 
 struct FUN_0060c5c0_class
 {
+    char unk00;
+    char unk01;
+    char pad02[0x2];
+    float unk04;
     FUN_0060c5c0_class* FUN_0060c5c0();
 };
 
@@ -195,9 +203,9 @@ struct FUN_0060c5c0_class
 // @fnv 0x0060c5c0
 FUN_0060c5c0_class* FUN_0060c5c0_class::FUN_0060c5c0()
 {
-    *(char*)this = 0;
-    *((char*)this + 1) = 0;
-    *(float*)((char*)this + 4) = 0.0f;
+    unk00 = 0;
+    unk01 = 0;
+    unk04 = 0.0f;
     return this;
 }
 
@@ -237,24 +245,28 @@ void* FUN_006130c0_Class::FUN_006130c0(int index)
 
 struct FUN_00613870_Class
 {
+    char pad[0x94];
+    int unk94[1];
     int FUN_00613870(int index);
 };
 
 // @fnv 0x00613870
 int FUN_00613870_Class::FUN_00613870(int index)
 {
-    return *(int*)((char*)this + 0x94 + index * 4);
+    return unk94[index];
 }
 
 struct FUN_00613890_Class
 {
+    char pad[0x94];
+    int unk94[1];
     void SetIndexedInt(int index, int value);
 };
 
 // @fnv 0x00613890
 void FUN_00613890_Class::SetIndexedInt(int index, int value)
 {
-    *(int*)((char*)this + 0x94 + index * 4) = value;
+    unk94[index] = value;
 }
 
 void FUN_00618940(void*);
@@ -1231,7 +1243,6 @@ class B616A20Meter
     int unk3C;
     float m_fMaximum;
     float m_fCurrent;
-
     float FUN_00616a20();
 };
 
@@ -1555,7 +1566,6 @@ class F4D0Base
 struct F4D0List
 {
     F4D0List();
-
     int unk00;
     int unk04;
 };
@@ -1881,7 +1891,6 @@ struct VFForm
     int unk28;
     int unk2C;
     VFBaseData kBaseData;
-
     int GetFormType();
 };
 
@@ -1917,12 +1926,13 @@ struct CopyMap
 struct FUN_0061f870_shell
 {
     char _0[0x18];
+    CopyMap unk18;
     void SetCopyMapEntry(unsigned int a);
 };
 // @fnv 0x0061f870
 void FUN_0061f870_shell::SetCopyMapEntry(unsigned int uiKey)
 {
-    reinterpret_cast<::FUN_00844700_Class *>((((CopyMap*)((char*)this + 0x18))))->FUN_00844700(uiKey, 5);
+    reinterpret_cast<::FUN_00844700_Class *>((&unk18))->FUN_00844700(uiKey, 5);
 }
 
 struct AHPtrMapBase
@@ -1958,7 +1968,6 @@ class StringHashTable
   public:
     int unk00;
     unsigned int m_uiBuckets;
-
     unsigned int HashKey(const char* pcKey);
 };
 

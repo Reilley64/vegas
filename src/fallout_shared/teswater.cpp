@@ -4461,8 +4461,8 @@ void FUN_004e21b0_cls::UpdateWaterGroups(WActor* actor, bool force)
                 {
                     reinterpret_cast<::FUN_00438af0_Class *>(&(l4c))->FUN_00438af0();
                     reinterpret_cast<::FUN_00438af0_Class *>(&(l5c))->FUN_00438af0();
-                    reinterpret_cast<::NiTPointerListBase *>(&(g4->a7c))->FUN_004ed900();
-                    reinterpret_cast<::NiTPointerListBase *>(&(g4->a88))->FUN_004ed900();
+                    reinterpret_cast<::NiTPointerListBaseRaw *>(&(g4->a7c))->FUN_004ed900();
+                    reinterpret_cast<::NiTPointerListBaseRaw *>(&(g4->a88))->FUN_004ed900();
                     if (m_uiItemCount + 1 < 16)
                     {
                         if (*(*reinterpret_cast<::fnv_004e21b0::WSetting *>(&::g_011c7b6c)).Get() && g4->b5f)
@@ -8635,8 +8635,8 @@ void Target::FUN_004e9d40(void* input, State* state, bool special)
                     c = false;
                     e = false;
                     b = false;
-                    reinterpret_cast<::NiTPointerListBase *>(&(state->nodes))->FUN_004ed900();
-                    reinterpret_cast<::NiTPointerListBase *>(&(state->more))->FUN_004ed900();
+                    reinterpret_cast<::NiTPointerListBaseRaw *>(&(state->nodes))->FUN_004ed900();
+                    reinterpret_cast<::NiTPointerListBaseRaw *>(&(state->more))->FUN_004ed900();
                     iter = ((void *)(::FUN_00559450((int *)&(state->refs))));
                     while (iter)
                     {
@@ -9302,8 +9302,8 @@ void Main60::FUN_004eaa00(void* target)
         Color60 color(ambientColor.r * tint.r, ambientColor.g * tint.g, ambientColor.b * tint.b, 1.0f);
         reinterpret_cast<::FUN_004ea880_shell *>((((::fnv_004eaa00::Accumulator60 *)(::FUN_00559450((int *)&((*reinterpret_cast<::fnv_004eaa00::Smart60< ::fnv_004eaa00::Accumulator60> *>(&::g_011c7cb8))))))))->FUN_004ea880((const ::FUN_004ea880_Data *)&(color));
     }
-    reinterpret_cast<::NiTPointerListBase *>(&((*reinterpret_cast<::fnv_004eaa00::List60 *>(&::g_011c7ce4))))->FUN_004ed900();
-    reinterpret_cast<::NiTPointerListBase *>(&((*reinterpret_cast<::fnv_004eaa00::List60 *>(&::g_011c7b80))))->FUN_004ed900();
+    reinterpret_cast<::NiTPointerListBaseRaw *>(&((*reinterpret_cast<::fnv_004eaa00::List60 *>(&::g_011c7ce4))))->FUN_004ed900();
+    reinterpret_cast<::NiTPointerListBaseRaw *>(&((*reinterpret_cast<::fnv_004eaa00::List60 *>(&::g_011c7b80))))->FUN_004ed900();
     if (*(*reinterpret_cast<::fnv_004eaa00::Toggle60 *>(&::g_011c7c00)).FUN_00408d60())
     {
         if (!reinterpret_cast<::FUN_004eaf60_shell *>(((*reinterpret_cast<::fnv_004eaa00::Player60 * *>(&::_g_thePlayer))))->FUN_004eaf60())
@@ -9707,8 +9707,8 @@ void WRWaterManager::UpdateWaterReflection(WRCamera* apCamera)
     (*reinterpret_cast<::WRAccumPtr *>(&::g_011c7be8))->SetCullingNode((*reinterpret_cast<::WRNodePtr *>(&::g_011c7cbc)));
     reinterpret_cast<::_Dummy_004bc4a0 *>((((*reinterpret_cast<::WRAccumPtr *>(&::g_011c7be8))).operator->()))->SetAccumulate(true);
 
-    reinterpret_cast<::NiTPointerListBase *>(&((*reinterpret_cast<::WRList *>(&::g_011c7bcc))))->FUN_004ed900();
-    reinterpret_cast<::NiTPointerListBase *>(&((*reinterpret_cast<::WRList *>(&::g_011c7c30))))->FUN_004ed900();
+    reinterpret_cast<::NiTPointerListBaseRaw *>(&((*reinterpret_cast<::WRList *>(&::g_011c7bcc))))->FUN_004ed900();
+    reinterpret_cast<::NiTPointerListBaseRaw *>(&((*reinterpret_cast<::WRList *>(&::g_011c7c30))))->FUN_004ed900();
     reinterpret_cast<::ScriptList *>(&((*reinterpret_cast<::WRList *>(&::g_011c7bcc))))->FUN_0076b660((unsigned int *)&(const unsigned int &)(((unsigned int)(reinterpret_cast<::StrOwner *>((((::WRProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::WRTES * *>(&::g_TES))))->GetBaseTexture()))))->FUN_007fa950()))));
 
     ::AccumTaskDetail::FUN_00ba3390((::AccumTaskDetail::AccumTaskReceiver *)(((::WRRenderer *)(::TaskThreadManager::GetSingleton()))), (*reinterpret_cast<::WRNodePtr *>(&::g_011c7cbc)), (::AccumTaskDetail::NiRefObject *)(0), (::AccumTaskDetail::TaskArg1 *)(0), (::AccumTaskDetail::NiRefObject *)(::WRList *)(&(*reinterpret_cast<::WRList *>(&::g_011c7bcc))), &(*reinterpret_cast<::WRList *>(&::g_011c7c30)), (*reinterpret_cast<::WRAccumPtr *>(&::g_011c7be8)),

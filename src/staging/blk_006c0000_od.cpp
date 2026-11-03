@@ -250,6 +250,9 @@ struct FUN_006c72f0_Class
 };
 struct FUN_006c63e0_Class
 {
+    char pad00[0xc];
+    FUN_006c72f0_Class unk0c;
+    char pad0d[0x3];
     void FUN_006c63e0();
 };
 struct GlobalObject_00869f00
@@ -278,13 +281,15 @@ struct FUN_006c7370_Class
 
 struct FUN_006c75f0_Class
 {
+    char pad00[0xc];
+    int unk0c;
     void FUN_006c75f0();
 };
 
 // @fnv 0x006c75f0
 void FUN_006c75f0_Class::FUN_006c75f0()
 {
-    while (*(int*)((char*)this + 0xc))
+    while (this->unk0c)
         reinterpret_cast<::LFFreeList *>(this)->PruneFreeList();
 }
 
@@ -320,13 +325,15 @@ void FUN_006c78f0_Class::FUN_006c78f0()
 
 struct FUN_006caa20_Class
 {
+    char pad00[0xa1];
+    unsigned char unka1;
     unsigned char GetByteAtOffsetA1();
 };
 
 // @fnv 0x006caa20
 unsigned char FUN_006caa20_Class::GetByteAtOffsetA1()
 {
-    return ((unsigned char*)this)[0xa1];
+    return this->unka1;
 }
 
 struct EdgeArr
@@ -356,34 +363,40 @@ Dummy_0061bf20* Dummy_0061bf20::FUN_006d03a0()
 
 struct FUN_006d1be0_Class
 {
+    char pad00[0x2090];
+    int* unk2090;
     int* GetField2090();
 };
 
 // @fnv 0x006d1be0
 int* FUN_006d1be0_Class::GetField2090()
 {
-    return *(int**)((char*)this + 0x2090);
+    return this->unk2090;
 }
 
 struct FUN_006d1c00_Class
 {
+    char pad00[0x2094];
+    unsigned int unk2094;
     unsigned int GetField2094();
 };
 // @fnv 0x006d1c00
 unsigned int FUN_006d1c00_Class::GetField2094()
 {
-    return *(unsigned int*)((char*)this + 0x2094);
+    return this->unk2094;
 }
 
 struct FUN_006d1c20_Class
 {
+    char pad00[0x2098];
+    int unk2098;
     int GetField2098();
 };
 
 // @fnv 0x006d1c20
 int FUN_006d1c20_Class::GetField2098()
 {
-    return *(int*)((char*)this + 0x2098);
+    return this->unk2098;
 }
 
 struct Flt
@@ -393,49 +406,61 @@ struct Flt
 
 struct FUN_006d1c40_Class
 {
+    char pad00[0x2070];
+    Flt unk2070;
+    char pad2071[0x3];
     unsigned int FUN_006d1c40() const;
 };
 
 // @fnv 0x006d1c40
 unsigned int FUN_006d1c40_Class::FUN_006d1c40() const
 {
-    return ((const Flt*)((const char*)this + 0x2070))->operator unsigned int();
+    return this->unk2070.operator unsigned int();
 }
 
 struct FUN_006d2c20_Class
 {
+    char pad00[0xb0];
+    float unkb0;
     float GetFloatAtOffsetB0() const;
 };
 // @fnv 0x006d2c20
 float FUN_006d2c20_Class::GetFloatAtOffsetB0() const
 {
-    return *reinterpret_cast<const float*>(reinterpret_cast<const char*>(this) + 0xb0);
+    return *reinterpret_cast<const float*>((void *)&this->unkb0);
 }
 
 struct FUN_006d2c60_Class
 {
+    char pad00[0x20a4];
+    float unk20a4;
     void FUN_006d2c60(float value);
 };
 
 // @fnv 0x006d2c60
 void FUN_006d2c60_Class::FUN_006d2c60(float value)
 {
-    *(float*)((char*)this + 0x20a4) = value;
+    this->unk20a4 = value;
 }
 
 struct FUN_006d30e0_Class
 {
+    char pad00[0x108];
+    intptr_t unk108;
     void FUN_006d30e0(intptr_t value);
 };
 
 // @fnv 0x006d30e0
 void FUN_006d30e0_Class::FUN_006d30e0(intptr_t value)
 {
-    *(int*)((char*)this + 0x108) = value;
+    this->unk108 = value;
 }
 
 struct FUN_006d3120_Class
 {
+    char pad00[0x104];
+    int unk104;
+    int unk108;
     void FUN_006d3120();
 };
 
@@ -443,8 +468,8 @@ struct FUN_006d3120_Class
 // @fnv 0x006d3120
 void FUN_006d3120_Class::FUN_006d3120()
 {
-    *(int*)((char*)this + 0x104) = 0;
-    *(int*)((char*)this + 0x108) = 0;
+    this->unk104 = 0;
+    this->unk108 = 0;
 }
 
 struct FUN_006d33a0_Class
@@ -494,12 +519,15 @@ public:
 };
 struct FUN_006d3ac0_Class
 {
+    char pad00[0xc];
+    PathingLocation unk0c;
+    char pad0d[0x3];
     void AssignPathingLocation(const PathingLocation& src);
 };
 // @fnv 0x006d3ac0
 void FUN_006d3ac0_Class::AssignPathingLocation(const PathingLocation& aLocation)
 {
-    *(PathingLocation*)((char*)this + 0xc) = aLocation;
+    this->unk0c = aLocation;
 }
 
 
@@ -518,6 +546,8 @@ public:
 
 struct FUN_006dad40_Class
 {
+    char pad00[0xb0];
+    NiPoint3 unkb0;
     void FUN_006dad40(const NiPoint3& src);
 };
 
@@ -525,7 +555,7 @@ struct FUN_006dad40_Class
 // @fnv 0x006dad40
 void FUN_006dad40_Class::FUN_006dad40(const NiPoint3& src)
 {
-    *reinterpret_cast<NiPoint3*>(reinterpret_cast<char*>(this) + 0xb0) = src;
+    this->unkb0 = src;
 }
 
 struct FUN_006db060_Class
@@ -1226,13 +1256,15 @@ void FUN_006d30b0_Class2::FUN_006d30b0(const NiPoint3& aPoint)
 
 struct S_006d3ff0
 {
+    char pad00[0x20cc];
+    NiPoint3 unk20cc;
     void FUN_006d3ff0(NiPoint3& a);
 };
 // Copies the NiPoint3 stored at offset 0x20cc of this object into the given NiPoint3.
 // @fnv 0x006d3ff0
 void S_006d3ff0::FUN_006d3ff0(NiPoint3& a)
 {
-    a = *reinterpret_cast<NiPoint3*>(reinterpret_cast<char*>(this) + 0x20cc);
+    a = this->unk20cc;
 }
 
 struct FUN_006d4ca0_Class
@@ -1565,6 +1597,8 @@ struct FUN_006dbd90_Class
 {
     int m_unk0;
     char* m_unk4;
+    int m_unk8;
+    int m_unkC;
     int FUN_006dc500();
     void ConstructInPlace(void* dst, unsigned int n);
     int AllocateSlot(void* src);
@@ -1636,6 +1670,9 @@ struct SetupHelper
 };
 struct FUN_006dcea0_Class
 {
+    char pad00[0x4];
+    Inner04 unk04;
+    char pad05[0x3];
     void* ConstructWithSetup(void*, void*);
 };
 struct FUN_006dfd70_Class
@@ -1792,7 +1829,7 @@ struct FUN_006dc890_Class
     char m_auiShapeKeys[0x18];
     int m_f18;
     int m_f1c;
-    unsigned char m_flag;
+    int m_flag;
     void FUN_006dc890(BGSSaveFormBuffer* buffer);
 };
 // Saves m_flag, m_f18, m_f1c and the first 0xc bytes to the buffer, then saves bytes at offset 0xc if the int at offset 0x20 equals 1.
@@ -1804,7 +1841,7 @@ void FUN_006dc890_Class::FUN_006dc890(BGSSaveFormBuffer* buffer)
     reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&m_f18, 4, 0);
     reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&m_f1c, 4, 0);
     reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(this, 0xc, 0);
-    if (*(int*)((char*)this + 0x20) == 1)
+    if (m_flag == 1)
         reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50((char*)&this->m_auiShapeKeys[12], 0xc, 0);
 }
 
@@ -2162,8 +2199,8 @@ struct FUN_006dc070_Class : public FUN_006dbd90_Class
 void FUN_006dc070_Class::FUN_006dc070(unsigned int requested, unsigned int savedSize)
 {
     this->m_unk4 = 0;
-    *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 8) = 0;
-    *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 12) = 0;
+    this->m_unk8 = 0;
+    this->m_unkC = 0;
 
     if (savedSize > requested)
     {
@@ -2174,14 +2211,14 @@ void FUN_006dc070_Class::FUN_006dc070(unsigned int requested, unsigned int saved
     {
         this->m_unk4 =
             (char*)reinterpret_cast<FUN_006dc1d0_Class*>(this)->Write(requested);
-        *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 12) = requested;
+        this->m_unkC = requested;
     }
 
     if (savedSize > 0)
     {
         ConstructInPlace(reinterpret_cast<void*>(this->m_unk4),
                          savedSize);
-        *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 8) = savedSize;
+        this->m_unk8 = savedSize;
     }
 }
 
@@ -4267,8 +4304,17 @@ struct FUN_00527990_shell
 struct FUN_006dd280_shell
 {
 };
+struct Vec3
+{
+    float x, y, z;
+public:
+    Vec3();
+};
+
 struct FUN_006dd220_Class
 {
+    void* vtbl;
+    Vec3 unk04;
     FUN_006dd220_Class* ConstructFromSource(void* source);
 };
 struct TriList6df2
@@ -4594,7 +4640,7 @@ class Fac
 // @fnv 0x006c63e0
 void FUN_006c63e0_Class::FUN_006c63e0()
 {
-    reinterpret_cast<::Fac *>((((FUN_006c72f0_Class*)((char*)this + 0xc))))->CreateObj();
+    reinterpret_cast<::Fac *>(((&this->unk0c)))->CreateObj();
 }
 // Allocates and returns a new FUN_006c7370 object.
 // @fnv 0x006c72f0
@@ -5259,18 +5305,13 @@ struct FUN_006cfd70 : public BSSimpleArray<NavMeshEdgeData, 1024>
 FUN_006cfd70::~FUN_006cfd70()
 {}
 
-struct Vec3
-{
-    float x, y, z;
-public:
-    Vec3();
-};
+
 // Sets the vtable pointer, calls the base constructor at offset 4, then runs the setup helper with a and b, and returns this.
 // @fnv 0x006dcea0
 void* FUN_006dcea0_Class::ConstructWithSetup(void* apArg, void* apOther)
 {
     *(void**)this = &DAT_0102583c;
-    new ((void *)(((Inner04*)((char*)this + 4)))) ::Vec3();
+    new ((void *)((&this->unk04))) ::Vec3();
     reinterpret_cast<::SetupPathingLocation *>((((SetupHelper*)this)))->FUN_006dd280((*(const ::NiPoint3 *)(apArg)), (::TESObjectCELL *)(0), (::TESWorldSpace *)(apOther));
     return this;
 }
@@ -5278,7 +5319,7 @@ void* FUN_006dcea0_Class::ConstructWithSetup(void* apArg, void* apOther)
 FUN_006dd220_Class* FUN_006dd220_Class::ConstructFromSource(void* source)
 {
     *reinterpret_cast<int**>(this) = &DAT_0102583c;
-    new ((void *)(reinterpret_cast<BSSimpleList<BGSPerk*>*>(reinterpret_cast<char*>(this) + 4))) ::Vec3();
+    new ((void *)&this->unk04) ::Vec3();
     intptr_t b = 0;
     intptr_t a = 0;
     reinterpret_cast<FUN_00527990_shell*>(source)->FUN_00527990(&b, &a);
@@ -5317,6 +5358,12 @@ FUN_006d32e0::FUN_006d32e0()
     : translation((*reinterpret_cast<::Vec3 *>((void *)&::NiPoint3::ZERO))), rotation((*reinterpret_cast<::Vec3 *>((void *)&::NiPoint3::ZERO))), progress(0.0f), time(-DAT_0106cb30), state(), count(0),
       flags(0), enabled(0)
 {}
+
+struct FindPath_Node
+{
+    char pad00[0x10];
+    char unk10;
+};
 
 // Finds a navmesh path between two points, building a pathing solution with intermediate nodes and a final node or item.
 // @fnv 0x006ce8b0
@@ -5371,7 +5418,7 @@ bool PathHandler::FindPath(const NiPoint3& pt1, const NiPoint3& pt2, PathingCont
     }
     else
     {
-        reinterpret_cast<::fnv_006c99c0::FUN_006c99c0_shell *>((m_pPathingSolution))->AddPathingItem((char*)(*((void **)(reinterpret_cast<::FUN_006f2270 *>(&(var5))->GetLast()))) + 0x10, (::TESObjectREFR *)(*((void **)(reinterpret_cast<::FUN_006f2270 *>(&(var5))->GetLast()))));
+        reinterpret_cast<::fnv_006c99c0::FUN_006c99c0_shell *>((m_pPathingSolution))->AddPathingItem(&((FindPath_Node*)(*((void **)(reinterpret_cast<::FUN_006f2270 *>(&(var5))->GetLast()))))->unk10, (::TESObjectREFR *)(*((void **)(reinterpret_cast<::FUN_006f2270 *>(&(var5))->GetLast()))));
     }
 
     return retVal;

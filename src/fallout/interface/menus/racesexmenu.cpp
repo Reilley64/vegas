@@ -2971,7 +2971,7 @@ void FUN_007b45b0_shell::FUN_007b45b0()
         delete node->m_item;
         delete node;
     }
-    reinterpret_cast<::NiTPointerListBase *>(this)->FUN_004ed900();
+    reinterpret_cast<::NiTPointerListBaseRaw *>(this)->FUN_004ed900();
     m_20 = 0;
 }
 

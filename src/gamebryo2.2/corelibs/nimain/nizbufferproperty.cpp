@@ -1,5 +1,7 @@
 // gamebryo2.2/corelibs/nimain/nizbufferproperty.cpp: NiAlphaProperty, AlphaPropInit_cls (11 functions)
 
+#include "fnv/symbols_00a47000.h"
+#include "fnv/symbols_00a95000.h"
 #include <cstdint>
 #include <new>
 #include "fnv/decl/EqBase.h"
@@ -9,7 +11,6 @@
 #include "fnv/decl/NiProperty.h"
 #include "fnv/decl/ViewerStrings.h"
 #include "fnv/decl/fnv_00b5c7d0__StrArr.h"
-#include "fnv/symbols_00a47000.h"
 #include "fnv/symbols_00a5d000.h"
 #include "fnv/symbols_00a5f000.h"
 #include "fnv/symbols_00a7d000.h"
@@ -134,7 +135,7 @@ A5F510Property* A5F510FlagProperty::FUN_00a5f510(CloningProcess& kCloning)
     if (m_pkClonedTarget)
     {
         A5F510FlagProperty* pkClone = new A5F510FlagProperty;
-        ::FUN_00a5d7a0();
+        reinterpret_cast<::FUN_00a5d7a0_shell *>(this)->FUN_00a5d7a0((::NiObjectNET *)pkClone, (::fnv_00a5c290::CloningProcess *)&kCloning);
         pkClone->m_usFlags = m_usFlags;
         return pkClone;
     }
@@ -324,7 +325,7 @@ char* FnvCpu_FUN_00a5fc90_CpuObject::FUN_00a5fc90()
 
 
 // @fnv 0x00a950c0
-void FUN_00a950c0()
+void FUN_00a950c0_shell::FUN_00a950c0(::NiStream& kStream)
 {
-    ::FUN_00a47360();
+    reinterpret_cast<::FUN_00a47360_shell *>(this)->FUN_00a47360(kStream);
 }

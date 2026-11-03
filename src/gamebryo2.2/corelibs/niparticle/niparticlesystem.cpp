@@ -2034,7 +2034,7 @@ class FUN_00c1b400_cls : public BaseC1B400
 // @fnv 0x00c1b400
 void FUN_00c1b400_cls::FUN_00c1b400(NiStreamC1B& kStream)
 {
-    ::FUN_00a9b1a0();
+    reinterpret_cast<::FUN_00a9b1a0_shell *>(this)->FUN_00a9b1a0((::NiStream &)kStream);
     unsigned char ucFlag = m_bFlag;
     C1B400SaveBinary(kStream, ucFlag);
     unsigned int uiValue = m_eValue;

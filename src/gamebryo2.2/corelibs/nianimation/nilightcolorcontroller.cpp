@@ -260,7 +260,7 @@ struct Stand840 : Base840
 // @fnv 0x00a4b840
 void Stand840::WriteToStream(NiStream& stream)
 {
-    ::FUN_00a57c00();
+    reinterpret_cast<::FUN_00a57c00_shell *>(this)->FUN_00a57c00((::NiStream &)stream);
     NiBinaryStream* __restrict out = stream._250;
     unsigned int size = 2;
     out->_4 += out->_c(out, &_38, 2, &size, 1);

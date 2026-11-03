@@ -2,6 +2,8 @@
 // src/staging/blk_00bc0000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
+#include "fnv/symbols_00ba8000.h"
+#include "fnv/symbols_00bc3000.h"
 #include "fnv/tls.h"
 #include <cstdint>
 #include <new>
@@ -101,7 +103,6 @@
 #include "fnv/symbols_00b70000.h"
 #include "fnv/symbols_00b7c000.h"
 #include "fnv/symbols_00b8b000.h"
-#include "fnv/symbols_00ba8000.h"
 #include "fnv/symbols_00bc0000.h"
 #include "fnv/symbols_00bd9000.h"
 #include "fnv/symbols_00be0000.h"
@@ -226,14 +227,16 @@ FUN_00bc3350_Class* FUN_00bc3350_Class::FUN_00bc3350(int aiFlags)
 
 struct FUN_00bc34a0_class
 {
+    char pad00[0x2c];
+    void * unk2c;
     void* FUN_00bc34a0(float* out);
 };
 
 // @fnv 0x00bc34a0
 void* FUN_00bc34a0_class::FUN_00bc34a0(float* out)
 {
-    *out = *(float*)((char*)*(void**)((char*)this + 0x2c) + 0xe0);
-    return *(void**)((char*)this + 0x2c);
+    *out = *(float*)((char*)this->unk2c + 0xe0);
+    return this->unk2c;
 }
 
 struct NiStream;
@@ -277,6 +280,9 @@ void* FUN_00bc3800_Class::FUN_00bc3800(int flags)
 
 struct FUN_00bc4980_class
 {
+    char pad[0x64];
+    char unk64;
+    char pad65[0xb];
     void FUN_00bc4980(void* p, char c);
 };
 
@@ -284,7 +290,7 @@ struct FUN_00bc4980_class
 void FUN_00bc4980_class::FUN_00bc4980(void* p, char c)
 {
     *(void**)((char*)this + 0x6c) = p;
-    *(char*)((char*)this + 0x64) = c;
+    this->unk64 = c;
 }
 
 void __cdecl FUN_00bc5320();
@@ -352,12 +358,14 @@ struct FUN_00bd6ab0_Class
 {
     float m_f;
     int FUN_00bd6ab0();
+    char pad04[0x6c];
+    float unk70;
 };
 // Returns 1 if the float at offset 0x70 is positive, DAT_012023d4 is set, and GetImageSpaceTexture returns non-null; otherwise 0.
 // @fnv 0x00bd6ab0
 int FUN_00bd6ab0_Class::FUN_00bd6ab0()
 {
-    if (*(float*)((char*)this + 0x70) > 0.0f && DAT_012023d4)
+    if (this->unk70 > 0.0f && DAT_012023d4)
     {
         void* p = ((void *)(::GetImageSpaceTexture()));
         if (p)
@@ -389,16 +397,21 @@ struct LodShaderBase
 struct FUN_00bc0970_class : LodShaderBase
 {
     void FUN_00bc0970();
+    char pad00[0x28];
+    int unk28;
+    char pad2c[0x160];
+    void* unk18c;
+    void* unk190;
 };
 // @fnv 0x00bc0970
 void FUN_00bc0970_class::FUN_00bc0970()
 {
-    if (*(int*)((char*)this + 0x28))
+    if (this->unk28)
     {
         void(* f1)(void*) = (void(*)(void*))(*(uintptr_t**)(*(uintptr_t*)((char*)this + 0x18c)))[0x28];
-        f1(*(void**)((char*)this + 0x18c));
+        f1(this->unk18c);
         void(* f2)(void*) = (void(*)(void*))(*(uintptr_t**)(*(uintptr_t*)((char*)this + 0x190)))[0x22];
-        f2(*(void**)((char*)this + 0x190));
+        f2(this->unk190);
     }
     reinterpret_cast<::fnv_00e814b0::UnkShader *>(this)->FUN_00e814b0();
 }
@@ -408,6 +421,8 @@ extern int DAT_010ba730;
 
 struct FUN_00bc2bd0_class
 {
+    char pad[0xbc];
+    char unkbc;
     int* FUN_00bc2bd0();
 };
 
@@ -417,7 +432,7 @@ void FUN_00bc3040(void* self, int, float* out)
     *out = *(float*)((char*)*(int**)((char*)self + 0x2c) + 0x40);
 }
 
-struct StrArr
+struct StrArr : ::NiTArray<char*, ::NiTMallocInterface<char*>>
 {
 };
 struct GlobalObjectO2_00a7b610
@@ -429,10 +444,10 @@ void FUN_00bc31f0(StrArr* pStrArr)
 {
     ::FUN_00a576c0((::NiTPrimitiveArray<char *, ::NiTMallocInterface<char *>> *)(pStrArr));
     char* p = ::FUN_00a7d330(::g_01201f90.pData);
-    unsigned int i = *(unsigned short*)((char*)pStrArr + 0xa);
-    unsigned int j = *(unsigned short*)((char*)pStrArr + 0x8);
+    unsigned int i = pStrArr->m_usSize;
+    unsigned int j = pStrArr->m_usMaxSize;
     if (i >= j)
-        reinterpret_cast<::ViewerStrings *>((pStrArr))->SetSize(*(unsigned short*)((char*)pStrArr + 0xe) + i);
+        reinterpret_cast<::ViewerStrings *>((pStrArr))->SetSize(pStrArr->m_usGrowBy + i);
     reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pStrArr))->SetAt(i, p);
 }
 
@@ -562,16 +577,20 @@ extern float DAT_011ae618;
 extern float DAT_01201f2c;
 struct FUN_00bc0550_class
 {
+    char pad00[0x1c];
+    char * unk1c;
+    char pad20[0xc];
+    char * unk2c;
     char ApplyImageSpaceTextures(int);
 };
 // @fnv 0x00bc0550
 char FUN_00bc0550_class::ApplyImageSpaceTextures(int)
 {
-    char* pTileTexture = (char*)*(char**)((char*)this + 0x2c);
+    char* pTileTexture = (char*)this->unk2c;
     reinterpret_cast<::Holder00ba37f0 *>((((ImageSpaceTexture*)(*(char**)(pTileTexture + 0xc)))))->FUN_00ba37f0((::Tex00ba37f0 *)((*reinterpret_cast<::NiTexture * *>(&::DAT_01201f40))));
-    reinterpret_cast<::Holder00ba37f0 *>((((ImageSpaceTexture*)(*(char**)(*(char**)((char*)this + 0x2c) + 0x10)))))->FUN_00ba37f0((::Tex00ba37f0 *)((*reinterpret_cast<::NiTexture * *>(&::DAT_01201f48))));
-    reinterpret_cast<::Holder00ba37f0 *>((((ImageSpaceTexture*)(*(char**)(*(char**)((char*)this + 0x2c) + 8)))))->FUN_00ba37f0((::Tex00ba37f0 *)((*reinterpret_cast<::NiTexture * *>(&::g_spBC0500Shared))));
-    ImageSpaceShaderParam* p = (ImageSpaceShaderParam*)*(char**)*(char**)((char*)this + 0x1c);
+    reinterpret_cast<::Holder00ba37f0 *>((((ImageSpaceTexture*)(*(char**)(this->unk2c + 0x10)))))->FUN_00ba37f0((::Tex00ba37f0 *)((*reinterpret_cast<::NiTexture * *>(&::DAT_01201f48))));
+    reinterpret_cast<::Holder00ba37f0 *>((((ImageSpaceTexture*)(*(char**)(this->unk2c + 8)))))->FUN_00ba37f0((::Tex00ba37f0 *)((*reinterpret_cast<::NiTexture * *>(&::g_spBC0500Shared))));
+    ImageSpaceShaderParam* p = (ImageSpaceShaderParam*)*(char**)this->unk1c;
     p->SetShaderConstantVector4(1, DAT_011ae614, DAT_01201f2c, DAT_011ae618, 0.0f);
     p->SetShaderConstantVector4(2, DAT_01201f30, DAT_01201f34, DAT_01201f38, DAT_01201f3c);
     return 0;
@@ -581,7 +600,7 @@ struct GlobalObjectO2_00a7b610_2
 {
     char* pData;
 };
-struct StrArr_00bc3450
+struct StrArr_00bc3450 : ::NiTArray<char*, ::NiTMallocInterface<char*>>
 {
 };
 // @fnv 0x00bc3450
@@ -589,9 +608,9 @@ void FUN_00bc3450(StrArr_00bc3450* pArray)
 {
     ::FUN_00a576c0((::NiTPrimitiveArray<char *, ::NiTMallocInterface<char *>> *)(::StrArr *)((StrArr*)pArray));
     char* s = ::FUN_00a7d330((*reinterpret_cast<::GlobalObjectO2_00a7b610_2 *>(&::g_01201f9c)).pData);
-    unsigned int i = *(unsigned short*)((char*)pArray + 0xa);
-    if (i >= *(unsigned short*)((char*)pArray + 8))
-        reinterpret_cast<::ViewerStrings *>((pArray))->SetSize(i + *(unsigned short*)((char*)pArray + 0xe));
+    unsigned int i = pArray->m_usSize;
+    if (i >= pArray->m_usMaxSize)
+        reinterpret_cast<::ViewerStrings *>((pArray))->SetSize(i + pArray->m_usGrowBy);
     reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pArray))->SetAt(i, s);
 }
 
@@ -1035,12 +1054,14 @@ void FUN_00bc1cc0_class::FUN_00bc1cc0(float f1, float f2)
 
 struct FUN_00bc3240_class
 {
+    char pad00[0x2c];
+    int unk2c;
     void FUN_00bc3240(float* out);
 };
 // @fnv 0x00bc3240
 void FUN_00bc3240_class::FUN_00bc3240(float* out)
 {
-    *out = *reinterpret_cast<long*>(*reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x2c) + 0xe4);
+    *out = *reinterpret_cast<long*>(this->unk2c + 0xe4);
 }
 
 // @fnv 0x00bc3340
@@ -1059,10 +1080,10 @@ void FUN_00bc3700(StrArr* pStrArr)
 {
     ::FUN_00a576c0((::NiTPrimitiveArray<char *, ::NiTMallocInterface<char *>> *)(pStrArr));
     char* p = ::FUN_00a7d330((*reinterpret_cast<::GlobalObjectO2_00a7b610_3 *>(&::g_01201fa8)).pData);
-    unsigned int idx = *(unsigned short*)((char*)pStrArr + 0xa);
-    unsigned int size = *(unsigned short*)((char*)pStrArr + 8);
+    unsigned int idx = pStrArr->m_usSize;
+    unsigned int size = pStrArr->m_usMaxSize;
     if (idx >= size)
-        reinterpret_cast<::ViewerStrings *>((pStrArr))->SetSize(*(unsigned short*)((char*)pStrArr + 0xe) + idx);
+        reinterpret_cast<::ViewerStrings *>((pStrArr))->SetSize(pStrArr->m_usGrowBy + idx);
     reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pStrArr))->SetAt(idx, p);
 }
 
@@ -1075,12 +1096,14 @@ struct FUN_00ba92c0_class
 struct FUN_00bc3750_class : FUN_00ba92c0_class
 {
     void LoadFromStream(NiStream& stream);
+    char pad00[0x60];
+    NiColorA_LoadHelper unk60;
 };
 // @fnv 0x00bc3750
 void FUN_00bc3750_class::LoadFromStream(NiStream& stream)
 {
     reinterpret_cast<::S_00ba92c0_Prop *>(this)->FUN_00ba92c0((::S_00ba92c0_Stream &)(stream));
-    reinterpret_cast<::RgbaColor *>((((NiColorA_LoadHelper*)((char*)this + 0x60))))->LoadBinary(stream);
+    reinterpret_cast<::RgbaColor *>(((&this->unk60)))->LoadBinary(stream);
 }
 
 void __cdecl FUN_00bc39f0();
@@ -1102,12 +1125,14 @@ struct FUN_00bc4810_class
 {
     uintptr_t* vtbl;
     void CallVtblSlot74WithFieldB4();
+    char pad04[0xb0];
+    int unkb4;
 };
 
 // @fnv 0x00bc4810
 void FUN_00bc4810_class::CallVtblSlot74WithFieldB4()
 {
-    ((void(*)(void*, int))(vtbl[74]))(this, *(int*)((char*)this + 0xb4));
+    ((void(*)(void*, int))(vtbl[74]))(this, this->unkb4);
 }
 
 void __cdecl FUN_00bcd4a0();
@@ -3131,7 +3156,7 @@ int* FUN_00bc2bd0_class::FUN_00bc2bd0()
     *(int*)((char*)this + 0xb0) = _DAT_011f4270;
     *(int*)((char*)this + 0xb4) = _DAT_011f4274;
     *(float*)((char*)this + 0xb8) = 0.0f;
-    *(char*)((char*)this + 0xbc) = 0;
+    this->unkbc = 0;
     return (int*)this;
 }
 struct RefObj
@@ -7595,6 +7620,8 @@ struct FUN_00bd92b0_class
     intptr_t* m_p2c;
 
     void FUN_00bd92b0(int a1, int a2, int a3, int a4);
+    char pad30[0x28];
+    FUN_00bd92b0_sub unk58;
 };
 
 // @fnv 0x00bd92b0
@@ -7614,7 +7641,7 @@ void FUN_00bd92b0_class::FUN_00bd92b0(int a1, int a2, int a3, int a4)
 
     reinterpret_cast<::HolderForAccum *>((pMgr))->SetAccumulatorAt(0, (::NiAccumulator *)(iField2c0), (const ::NiCamera *)(0));
     reinterpret_cast<::HolderForAccum *>((pMgr))->SetAccumulatorAt(1, (::NiAccumulator *)(m_p2c[1]), (const ::NiCamera *)(0));
-    FUN_00bd92b0_sub* sub = (FUN_00bd92b0_sub*)((char*)this + 0x58);
+    FUN_00bd92b0_sub* sub = &this->unk58;
     reinterpret_cast<::HolderForAccum *>((pMgr))->SetAccumulatorAt(2, (::NiAccumulator *)((intptr_t)sub), (const ::NiCamera *)(0));
 
     pMgr->v1(a1, a2, b, 1);
@@ -15279,39 +15306,48 @@ void* GetOrCreateTable()
     return DAT_01201f4c;
 }
 
-void __cdecl FUN_00ba8a80();
 // @fnv 0x00bc3770
-void __cdecl FUN_00bc3770()
+bool FUN_00bc3770_shell::FUN_00bc3770(::NiStream& kStream)
 {
-    FUN_00ba8a80();
+    return reinterpret_cast<::FUN_00ba8a80_shell *>(this)->FUN_00ba8a80(kStream);
 }
 
-// @fnv 0x00bc4600
-void __cdecl FUN_00bc4600()
+struct FUN_00bc4600_shell
 {
-    static_cast<::BSShader *>(nullptr)->Initialize();
+    bool FUN_00bc4600();
+};
+
+// @fnv 0x00bc4600
+bool FUN_00bc4600_shell::FUN_00bc4600()
+{
+    return reinterpret_cast<::BSShader *>(this)->Initialize();
 }
 
 struct FUN_00bcd380_class
 {
+    char pad00[0x6c];
+    int unk6c;
     int FUN_00bcd380(int, int);
 };
 // @fnv 0x00bcd380
 int FUN_00bcd380_class::FUN_00bcd380(int, int)
 {
-    return *(int*)((char*)this + 0x6c);
+    return this->unk6c;
 }
 
 struct FUN_00bd0420_StandIn
 {
+    char pad00[0x6c];
+    int unk6c;
+    int unk70;
     int FUN_00bd0420(int edx, void* a, void* b);
 };
 // @fnv 0x00bd0420
 int FUN_00bd0420_StandIn::FUN_00bd0420(int edx, void* a, void* apUnused)
 {
     if (*(int*)((char*)a + 0xbc))
-        return *(int*)((char*)this + 0x70);
-    return *(int*)((char*)this + 0x6c);
+        return this->unk70;
+    return this->unk6c;
 }
 
 struct FUN_00e81880_shell
@@ -22042,8 +22078,8 @@ struct ShaderEngine
     unsigned int unk180;
     unsigned int unk184;
     unsigned int unk188;
-    unsigned int unk18c;
-    unsigned int unk190;
+    void* unk18c;
+    void* unk190;
     DefaultRenderer* renderer;
 };
 static DrawLight* GetDefaultLight()

@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nimain/nialphaaccumulator.cpp: NiAlphaAccumulator, CloneAccumulator (17 functions)
 
+#include "fnv/decl/HC1Base.h"
 #include <cstdint>
 #include <new>
 #include "fnv/decl/FUN_0043a010_shell.h"
@@ -402,10 +403,15 @@ void __cdecl FUN_00a9b4f0()
     FUN_00aa0ac0();
 }
 
-// @fnv 0x00a9b500
-void __cdecl FUN_00a9b500()
+struct FUN_00a9b500_shell
 {
-    FUN_00aa0ad0();
+    bool FUN_00a9b500(::NiStream* pkStream);
+};
+
+// @fnv 0x00a9b500
+bool FUN_00a9b500_shell::FUN_00a9b500(::NiStream* pkStream)
+{
+    return reinterpret_cast<::HC1Base *>(this)->FUN_00aa0ad0(pkStream);
 }
 
 struct S00a9b570_Pt

@@ -2,6 +2,8 @@
 // src/staging/blk_00a80000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
+#include "fnv/symbols_00a71000.h"
+#include "fnv/symbols_00a88000.h"
 #include <cstdint>
 #include <windows.h>
 #include <new>
@@ -41,7 +43,6 @@
 #include "fnv/symbols_00714000.h"
 #include "fnv/symbols_00a47000.h"
 #include "fnv/symbols_00a5d000.h"
-#include "fnv/symbols_00a71000.h"
 #include "fnv/symbols_00a7e000.h"
 #include "fnv/symbols_00a89000.h"
 #include "fnv/symbols_00a8d000.h"
@@ -767,7 +768,7 @@ struct NiCullingProperty {
 // @fnv 0x00a81430
 void NiCullingProperty::FUN_00a81430(void* dst, CloningProcess& proc)
 {
-    ::FUN_00a5d7a0();
+    reinterpret_cast<::FUN_00a5d7a0_shell *>(this)->FUN_00a5d7a0((::NiObjectNET *)dst, (::fnv_00a5c290::CloningProcess *)&proc);
     *(unsigned short*)((char*)dst + 0x18) = *(unsigned short*)((char*)this + 0x18);
 }
 
@@ -873,7 +874,7 @@ void NiCullingProperty::FUN_00a99e00(
 {
     NiCullingProperty* dest = static_cast<NiCullingProperty*>(destination);
 
-    ::FUN_00a5d7a0();
+    reinterpret_cast<::FUN_00a5d7a0_shell *>(this)->FUN_00a5d7a0((::NiObjectNET *)dest, (::fnv_00a5c290::CloningProcess *)&cloningProcess);
     dest->m_18 = m_18;
     dest->m_1c = m_1c;
     dest->m_20 = m_20;
@@ -2941,16 +2942,21 @@ void __cdecl FUN_00a877d0() {
 }
 
 
-// @fnv 0x00a877e0
-void __cdecl FUN_00a877e0()
+struct FUN_00a877e0_shell
 {
-    ::FUN_00a71d10();
+    void FUN_00a877e0(::NiStream& kStream);
+};
+
+// @fnv 0x00a877e0
+void FUN_00a877e0_shell::FUN_00a877e0(::NiStream& kStream)
+{
+    reinterpret_cast<::FUN_00a71d10_shell *>(this)->FUN_00a71d10(kStream);
 }
 
 // @fnv 0x00a88a40
-void __cdecl FUN_00a88a40()
+void FUN_00a88a40_shell::FUN_00a88a40(::NiStream& kStream)
 {
-    static_cast<::FUN_00a5d610_Object *>(nullptr)->ReadGroup({});
+    reinterpret_cast<::FUN_00a5d610_Object *>(this)->ReadGroup(&kStream);
 }
 
 // 0x00a89af0  ret 4
@@ -3328,7 +3334,6 @@ void ByteDecoder::DecodeBytes(unsigned char* src, unsigned char* dst)
 #include "fnv/symbols_00aa1000.h"
 #include "fnv/symbols_010a2000.h"
 #include "fnv/symbols_00a85000.h"
-#include "fnv/symbols_00a88000.h"
 #include "fnv/symbols_00a8a000.h"
 // Returns 1 if a is null, -1 if b is null, otherwise returns the result of comparing the two strings pointed to by a and b.
 // @fnv 0x00a86280
@@ -4736,7 +4741,6 @@ void __cdecl _memmove(void*,const void*,unsigned int);
 
 void __cdecl FUN_00a877d0();
 
-void __cdecl FUN_00a877e0();
 
 struct P03MM {  };
 

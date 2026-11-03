@@ -18997,10 +18997,10 @@ void S00cbfaa0_Obj::FUN_00cbfaa0(S00cbfaa0_Base* a0, S00cbfaa0_Src* a1, int a2, 
 }
 
 namespace fnv_00ca1410 {
-extern const float DAT_0104da4c = 1.1920928955078125e-7f;
+extern const float DAT_0104da4c;
 extern float DAT_0126829c;
 extern float DAT_012682a8;
-extern const float DAT_01011d78 = 0.0f;
+extern const float DAT_01011d78;
 extern const float DAT_01012068 = 1.0f;
 extern void __cdecl FUN_00c908c0(FNVTaskAllocator&, void*, int, int);
 template <class T> struct ArrayBase

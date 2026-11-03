@@ -24652,7 +24652,7 @@ void ControllerLocal::FUN_00c751f0(void* arg)
 #include <math.h>
 namespace fnv_00c77460 {
 extern const float DAT_01013ea4 = 0.01f;
-extern const float DAT_01012054 = -1.0f;
+extern const float DAT_01012054;
 struct Transform;
 
 struct __declspec(align(16)) Vec

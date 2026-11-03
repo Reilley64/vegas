@@ -67,9 +67,6 @@ int __cdecl FUN_00cbb930(void* value)
     return 0;
 }
 
-int __cdecl FUN_00c85760();
-void __cdecl SetThreadLocalValue(int);
-
 namespace impl {
 // @fnv 0x00cbb990
 extern "C" int __cdecl FUN_00cbb990()
@@ -77,8 +74,8 @@ extern "C" int __cdecl FUN_00cbb990()
     void* p = TlsGetValue(DAT_0126835c);
     if (p)
         ::fnv_00cb0df0::FUN_00cb0df0((::fnv_00cb0df0::GrowBuffer *)(p));
-    if (FUN_00c85760())
-        SetThreadLocalValue(0);
+    if (::fnv_00c85760::FUN_00c85760())
+        SetThreadLocalValue(nullptr);
     return 0;
 }
 }

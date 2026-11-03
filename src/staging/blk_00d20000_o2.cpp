@@ -116,16 +116,28 @@ void __cdecl FUN_00d367b0(intptr_t pObject)
     ((void**)pObject)[11] = (void*)&::FUN_00d365d0;
 }
 
+// hkpCollisionDispatcher::AgentFuncs: create, getPenetrations, getClosestPoints and linearCast,
+// then the isFlipped and isPredictive flags.
+struct CollisionAgentFunctionTable {
+    void* a;
+    void* b;
+    void* c;
+    void* d;
+    char e;
+    char f;
+};
+
 // Fills the four function pointers at p[0..3] and sets the bytes at offsets 0x10 and 0x11 to 0 and 1.
 // @fnv 0x00d36bb0
-void __cdecl FUN_00d36bb0(void** p)
+void __cdecl FUN_00d36bb0(void** pp)
 {
-    p[0] = (void*)&::FUN_00d36b70;
-    p[1] = (void*)&((void (&)())::FUN_00d34790);
-    p[2] = (void*)&((void (&)())::QueryClosestPoints);
-    p[3] = (void*)&((void (&)())::fnv_00d34810::FUN_00d34810);
-    ((char*)p)[0x10] = 0;
-    ((char*)p)[0x11] = 1;
+    CollisionAgentFunctionTable* p = reinterpret_cast<CollisionAgentFunctionTable*>(pp);
+    p->a = (void*)&::FUN_00d36b70;
+    p->b = (void*)&((void (&)())::FUN_00d34790);
+    p->c = (void*)&((void (&)())::QueryClosestPoints);
+    p->d = (void*)&((void (&)())::fnv_00d34810::FUN_00d34810);
+    p->e = 0;
+    p->f = 1;
 }
 
 extern "C" void __cdecl FUN_00d36be0();
@@ -134,12 +146,13 @@ extern "C" void __cdecl FUN_00d36be0();
 // @fnv 0x00d36c30
 void __cdecl FUN_00d36c30(void* apObject)
 {
-    *(void**)apObject = &FUN_00d36be0;
-    *(void**)((char*)apObject + 4) = &((void (&)())::FUN_00d43dc0);
-    *(void**)((char*)apObject + 8) = &((void (&)())::GetClosestPointsShapeCollection);
-    *(void**)((char*)apObject + 12) = &((void (&)())::FUN_00d43b90);
-    *(unsigned char*)((char*)apObject + 16) = 1;
-    *(unsigned char*)((char*)apObject + 17) = 1;
+    CollisionAgentFunctionTable* p = static_cast<CollisionAgentFunctionTable*>(apObject);
+    p->a = (void*)&FUN_00d36be0;
+    p->b = (void*)&((void (&)())::FUN_00d43dc0);
+    p->c = (void*)&((void (&)())::GetClosestPointsShapeCollection);
+    p->d = (void*)&((void (&)())::FUN_00d43b90);
+    p->e = 1;
+    p->f = 1;
 }
 
 void CreateRetObj();
@@ -150,12 +163,13 @@ void FUN_00d3d8c0();
 // @fnv 0x00d3dbe0
 void __cdecl FUN_00d3dbe0(void* apObject)
 {
-    ((void**)apObject)[0] = (void*)&CreateRetObj;
-    ((void**)apObject)[1] = (void*)&FUN_00d3d3e0;
-    ((void**)apObject)[2] = (void*)&FUN_00d3d8c0;
-    ((void**)apObject)[3] = (void*)&((void (&)())::FUN_00daf8e0);
-    ((unsigned char*)apObject)[0x10] = 0;
-    ((unsigned char*)apObject)[0x11] = 0;
+    CollisionAgentFunctionTable* p = static_cast<CollisionAgentFunctionTable*>(apObject);
+    p->a = (void*)&CreateRetObj;
+    p->b = (void*)&FUN_00d3d3e0;
+    p->c = (void*)&FUN_00d3d8c0;
+    p->d = (void*)&((void (&)())::FUN_00daf8e0);
+    p->e = 0;
+    p->f = 0;
 }
 
 void __cdecl CreateTargetAgent(void);
@@ -165,12 +179,13 @@ void __cdecl QueryD3DCollector(void);
 // @fnv 0x00d3dc10
 void FUN_00d3dc10(void* apObject)
 {
-    ((void**)apObject)[0] = (void*)CreateTargetAgent;
-    ((void**)apObject)[1] = (void*)QueryD3DCollector;
-    ((void**)apObject)[2] = (void*)((void (&)())::FUN_00d3e110);
-    ((void**)apObject)[3] = (void*)((void (&)())::FUN_00d3ac80);
-    ((unsigned char*)apObject)[0x10] = 1;
-    ((unsigned char*)apObject)[0x11] = 0;
+    CollisionAgentFunctionTable* p = static_cast<CollisionAgentFunctionTable*>(apObject);
+    p->a = (void*)CreateTargetAgent;
+    p->b = (void*)QueryD3DCollector;
+    p->c = (void*)((void (&)())::FUN_00d3e110);
+    p->d = (void*)((void (&)())::FUN_00d3ac80);
+    p->e = 1;
+    p->f = 0;
 }
 
 namespace fnv_00d3fce0 {
@@ -201,14 +216,6 @@ void* __cdecl InitAndGetOffset(void* apUnused1, void* apUnused2, void* apObject)
     return (char*)apObject + 0x40;
 }
 
-struct CollisionAgentFunctionTable {
-    void* a;
-    void* b;
-    void* c;
-    void* d;
-    char e;
-    char f;
-};
 struct Arg3;
 struct Arg4;
 struct Shape;
@@ -1980,6 +1987,7 @@ void CreateTargetAgent();
 void QueryD3DCollector();
 struct FUN_00d390a0_Leaf {
     char unk00[0x20];
+    __m128 m_v20;
 };
 struct FUN_00d390a0_Mid {
     FUN_00d390a0_Leaf* m_pLeafNode;
@@ -2012,8 +2020,8 @@ char* __cdecl InitOutputDefaults(FUN_00d390a0_Owner* owner, FUN_00d390a0_Flags* 
     out->unk00 = 0xffff;
     out->unk02 = 0xffff;
     out->unk04 = 0xffff;
-    ::ComputeInverseLengths((__m128 *)(void *)((char*)leaf + 0x20), (float *)(void *)(&out->unk08));
-    return (char*)out + 0x20;
+    ::ComputeInverseLengths(&leaf->m_v20, (float *)(void *)(&out->unk08));
+    return (char*)(out + 1);
 }
 
 struct D390Callback {

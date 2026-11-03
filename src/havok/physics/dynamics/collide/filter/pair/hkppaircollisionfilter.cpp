@@ -16,6 +16,7 @@
 #include "fnv/decl/MapCB1C.h"
 #include "fnv/decl/ProbeMap64.h"
 #include "fnv/decl/hkReferencedObjectC905.h"
+#include "havok/hkpPairCollisionFilterPairMap.h"
 #include "fnv/symbols_00a29000.h"
 #include "fnv/symbols_00c98000.h"
 #include "fnv/symbols_0102e000.h"
@@ -25,31 +26,23 @@ extern void* ::FUN_00c85750();
 
 struct HashCls
 {
-
-    int InsertPair(intptr_t p1, intptr_t p2);
+    int InsertPair(const void* p1, const void* p2);
 };
 
-// The thread's memory router: the stack allocator words, then the heap allocator.
-struct PairFilterRouter
+struct PairFilterDisabledPairs
 {
-    void* m_stack[4];
-    ::CB1BC0Allocator* m_pHeap;
+    char unk00[0x30];
+    hkpPairFilterMap m_disabledPairs;
 };
 
-// Orders the two ints into a 64-bit key, inserts it into the hash at this+0x30 with a counter value, and returns that counter.
+// Raises the disabled count of the pair (first, second) by one and returns the new count.
 // @fnv 0x00def2b0
-int HashCls::InsertPair(intptr_t aiFirst, intptr_t aiSecond)
+int HashCls::InsertPair(const void* pFirst, const void* pSecond)
 {
-    __int64 m;
-    if ((unsigned __int64)(__int64)aiFirst < (unsigned __int64)(__int64)aiSecond)
-        m = (__int64)aiFirst * 4294967296LL + (__int64)aiSecond;
-    else
-        m = (__int64)aiSecond * 4294967296LL + (__int64)aiFirst;
-
-    HashCls* pHash = (HashCls*)((char*)this + 0x30);
-    __int64 n = ((long long)(reinterpret_cast<::MapCB1C *>((pHash))->FUN_00cb1cb0(m, 0))) + 1;
-    ::CB1BC0Allocator* f0 = static_cast<PairFilterRouter*>(::FUN_00c85750())->m_pHeap;
-    reinterpret_cast<::CB1BC0Map *>((pHash))->InsertKeyValue(*f0, m, n);
+    hkpPairFilterKey key(pFirst, pSecond);
+    hkpPairFilterMap& map = reinterpret_cast<PairFilterDisabledPairs*>(this)->m_disabledPairs;
+    unsigned long long n = map.getWithDefault(key, 0) + 1;
+    map.insert(hkMemoryRouter::getInstance().heap(), key, n);
     return (int)n;
 }
 
@@ -79,17 +72,12 @@ struct DEF350ReferencedObject
 {
 };
 
-struct DEF350PointerMap
+struct DEF350PointerMap : hkpPairFilterMap
 {
-    void* m_kPrimitiveElement;
-    int m_iCapacityFlags;
-    int m_iPairCount;
-
-    DEF350PointerMap() : m_kPrimitiveElement(0), m_iCapacityFlags(0), m_iPairCount(-1)
+    DEF350PointerMap()
     {
-        reinterpret_cast<::CB1BC0Map *>(this)->ResizeToFit((::CB1BC0Allocator &)((*static_cast<DEF350MemoryRouter*>(::FUN_00c85750())).heap()), 0);
+        reserve(hkMemoryRouter::getInstance().heap(), 0);
     }
-
 };
 
 struct DEF350Base
@@ -153,22 +141,16 @@ FUN_00def350::FUN_00def350(DEF350ReferencedObject* object) : m_object(object)
 
 struct Owner;
 
-struct Inner
-{
-    unsigned char unk00[8];
-    int threshold;
-};
-
 struct Owner
 {
     unsigned char unk00[0x30];
-    Inner inner;
-    volatile unsigned char* CheckPairAgainstThreshold(volatile unsigned char* result, intptr_t first, intptr_t second);
+    hkpPairFilterMap m_disabledPairs;
+    volatile unsigned char* CheckPairAgainstThreshold(volatile unsigned char* result, const void* first, const void* second);
 };
 
-// Writes 1 to result if either argument is zero or the combined value exceeds inner.threshold, otherwise writes 0.
+// Writes 1 to result if either argument is null or the pair is not in the disabled-pair map, otherwise writes 0.
 // @fnv 0x00def3d0
-volatile unsigned char* Owner::CheckPairAgainstThreshold(volatile unsigned char* result, intptr_t first, intptr_t second)
+volatile unsigned char* Owner::CheckPairAgainstThreshold(volatile unsigned char* result, const void* first, const void* second)
 {
     if (first == 0 || second == 0)
     {
@@ -176,17 +158,7 @@ volatile unsigned char* Owner::CheckPairAgainstThreshold(volatile unsigned char*
         return result;
     }
 
-    unsigned __int64 ullFirst = (unsigned __int64)(__int64)first;
-    unsigned __int64 ullSecond = (unsigned __int64)(__int64)second;
-    unsigned __int64 value;
-    if (ullFirst < ullSecond)
-        value = ullFirst * 0x100000000LL + ullSecond;
-    else
-        value = ullSecond * 0x100000000LL + ullFirst;
-
-    Inner* pInner = &inner;
-    int actual = reinterpret_cast<::ProbeMap64 *>((pInner))->FUN_00cb1c60(value);
-    if (actual > pInner->threshold)
+    if (m_disabledPairs.findKey(hkpPairFilterKey(first, second)) > m_disabledPairs.m_hashMod)
     {
         *result = 1;
         return result;
@@ -274,7 +246,7 @@ char* FUN_00def450_cls::CheckAndWriteResult(char* apResult, Operand* apFirst, Op
     Converted* pSecond = (apSecond->m_cType == 1) ? (Converted*)((char*)apSecond + apSecond->m_cByteAtOffset10) : 0;
 
     ResultWriter* pWriter = (ResultWriter*)((char*)this - 8);
-    reinterpret_cast<::Owner *>((pWriter))->CheckPairAgainstThreshold((volatile unsigned char *)(apResult), (intptr_t)(pFirst), (intptr_t)(pSecond));
+    reinterpret_cast<::Owner *>((pWriter))->CheckPairAgainstThreshold((volatile unsigned char *)(apResult), pFirst, pSecond);
     return apResult;
 }
 
@@ -448,13 +420,6 @@ namespace fnvc_adapt {
 
 typedef unsigned __int64 DEF1E0Uint64;
 
-struct DEF1E0PairMap
-{
-    void* m_kPrimitiveElement;
-    int m_iCapacityFlags;
-    int m_iPairCount;
-
-};
 
 struct DEF1E0PairCounter
 {
@@ -470,27 +435,25 @@ struct DEF1E0PairCounter
     int unk24;
     int unk28;
     int unk2C;
-    DEF1E0PairMap m_pairCounts;
+    hkpPairFilterMap m_pairCounts;
 
-    int DecrementPairCount(intptr_t idA, intptr_t idB);
+    int DecrementPairCount(const void* pA, const void* pB);
 };
 
-// Looks up the count for the ordered pair of idA and idB, decrements it, updates or removes the map entry, and returns the new count.
+// Looks up the count for the pair of pA and pB, decrements it, updates or removes the map entry, and returns the new count.
 // @fnv 0x00def1e0
-int DEF1E0PairCounter::DecrementPairCount(intptr_t idA, intptr_t idB)
+int DEF1E0PairCounter::DecrementPairCount(const void* pA, const void* pB)
 {
-    DEF1E0Uint64 a = idA;
-    DEF1E0Uint64 b = idB;
-    DEF1E0Uint64 key = (a < b) ? a * 0x100000000ULL + b : b * 0x100000000ULL + a;
-    DEF1E0PairMap& map = m_pairCounts;
-    DEF1E0Uint64 count = reinterpret_cast<::MapCB1C *>((void *)&(map))->FUN_00cb1cb0(key, 0);
+    hkpPairFilterKey key(pA, pB);
+    hkpPairFilterMap& map = m_pairCounts;
+    DEF1E0Uint64 count = map.getWithDefault(key, 0);
     if (count == 0)
         return 0;
     count--;
     if (count > 0)
-        reinterpret_cast<::CB1BC0Map *>(&(map))->InsertKeyValue(*static_cast<PairFilterRouter*>(::FUN_00c85750())->m_pHeap, key, count);
+        map.insert(hkMemoryRouter::getInstance().heap(), key, count);
     else
-        reinterpret_cast<::FUN_00cb2000_cls *>(&(map))->FUN_00cb2000(key, {});
+        map.remove(key);
     return (int)count;
 }
 
@@ -654,34 +617,8 @@ extern int DAT_010da0a8;
 extern int DAT_010da09c;
 extern int DAT_010da090;
 
-struct AudioAllocator
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void Free(void* apMemory, unsigned int auiSize) throw();
-};
-
-struct AudioHolder
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    AudioAllocator* m_pAllocator;
-};
-
-
-
 struct FUN_00def160_Ref
 {
-};
-
-struct FUN_00def160_Sub
-{
-    int unk00;
-    int unk04;
-    int unk08;
-
 };
 
 class FUN_00def160_cls
@@ -699,7 +636,7 @@ class FUN_00def160_cls
     int unk24;
     int unk28;
     int unk2C;
-    FUN_00def160_Sub m_sub;
+    hkpPairFilterMap m_disabledPairs;
     FUN_00def160_Ref* m_pReference;
 
     void FUN_00def160();
@@ -708,9 +645,6 @@ class FUN_00def160_cls
 // @fnv 0x00def160
 void FUN_00def160_cls::FUN_00def160()
 {
-    AudioHolder* pHolder;
-    FUN_00def160_Sub* pSub;
-
     m_vp00 = (void*)&DAT_010da0c8;
     m_vp08 = (void*)&DAT_010da0bc;
     m_vp0C = (void*)&DAT_010da0a8;
@@ -722,9 +656,7 @@ void FUN_00def160_cls::FUN_00def160()
         reinterpret_cast<::hkReferencedObjectC905 *>((m_pReference))->FUN_00c905b0();
     }
 
-    pSub = &m_sub;
-    pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
-    reinterpret_cast<::FUN_00cb1e40_t *>((pSub))->FUN_00cb1e40((::FUN_00cb1e40_arg_t *)(pHolder->m_pAllocator));
+    m_disabledPairs.clearAndDeallocate(hkMemoryRouter::getInstance().heap());
     ::FUN_00a29680();
 
     m_vp14 = (void*)&::DAT_010c3b8c;
@@ -866,19 +798,6 @@ const ::vc_attributes::YesNoMaybe SA_Yes = ::vc_attributes::Yes;
 const ::vc_attributes::YesNoMaybe SA_No = ::vc_attributes::No;
 const ::vc_attributes::AccessType SA_Read = ::vc_attributes::Read;
 typedef ::vc_attributes::PreAttribute SA_Pre;
-class hkMemoryAllocator
-{
-  public:
-    virtual void* AllocateMemoryBlock(int numBytes) = 0;
-    virtual void ReleaseBlock(void* p, int numBytes) = 0;
-
-  public:
-    enum MemoryState
-    {
-        MEMORY_STATE_OK,
-        MEMORY_STATE_OUT_OF_MEMORY
-    };
-};
 struct StringPointerTriple
 {
   public:
@@ -940,7 +859,7 @@ class hkVector4
     __forceinline void* __cdecl operator new(std::size_t nbytes)
     {
         ;
-        void* obj = NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));
+        void* obj = NineIntegerRecord::GetMonitorStream().heap().blockAlloc(static_cast<int>(nbytes));
         ;
         return obj;
     }
@@ -969,7 +888,7 @@ class hkMatrix3
     __forceinline void* __cdecl operator new(std::size_t nbytes)
     {
         ;
-        void* obj = NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));
+        void* obj = NineIntegerRecord::GetMonitorStream().heap().blockAlloc(static_cast<int>(nbytes));
         ;
         return obj;
     }
@@ -989,7 +908,7 @@ class __declspec(align(16)) hkRotation : public hkMatrix3
     __forceinline void* __cdecl operator new(std::size_t nbytes)
     {
         ;
-        void* obj = NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));
+        void* obj = NineIntegerRecord::GetMonitorStream().heap().blockAlloc(static_cast<int>(nbytes));
         ;
         return obj;
     }
@@ -1039,7 +958,7 @@ class QuantizedBoundsData
     __forceinline void* __cdecl operator new(std::size_t nbytes)
     {
         ;
-        void* obj = NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));
+        void* obj = NineIntegerRecord::GetMonitorStream().heap().blockAlloc(static_cast<int>(nbytes));
         ;
         return obj;
     }
@@ -1125,7 +1044,7 @@ struct ConstraintSolverInfo
         __forceinline void* __cdecl operator new(std::size_t nbytes)
         {
             ;
-            void* obj = NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));
+            void* obj = NineIntegerRecord::GetMonitorStream().heap().blockAlloc(static_cast<int>(nbytes));
             ;
             return obj;
         }
@@ -1134,7 +1053,7 @@ struct ConstraintSolverInfo
             if (p)
             {
                 ;
-                NineIntegerRecord::GetMonitorStream().heap().ReleaseBlock(
+                NineIntegerRecord::GetMonitorStream().heap().blockFree(
                     p, sizeof(ConstraintSolverInfo::FloatAndHalfRecord));
             }
         }
@@ -1205,7 +1124,7 @@ struct ConstraintInstanceBuffer
     __forceinline void* __cdecl operator new(std::size_t nbytes)
     {
         ;
-        void* obj = NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));
+        void* obj = NineIntegerRecord::GetMonitorStream().heap().blockAlloc(static_cast<int>(nbytes));
         ;
         return obj;
     }
@@ -1228,7 +1147,7 @@ class ContactImpulseInfo
     __forceinline void* __cdecl operator new(std::size_t nbytes)
     {
         ;
-        void* obj = NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));
+        void* obj = NineIntegerRecord::GetMonitorStream().heap().blockAlloc(static_cast<int>(nbytes));
         ;
         return obj;
     }

@@ -10,6 +10,7 @@
 #include "fnv/decl/FUN_00c9c390_Class.h"
 #include "fnv/decl/FUN_00d87bf0.h"
 #include "fnv/decl/HashCls.h"
+#include "havok/hkpPairCollisionFilterPairMap.h"
 #include "fnv/decl/WorldWithPending.h"
 #include "fnv/decl/hkMapCB1E.h"
 #include "fnv/symbols_00c9c000.h"
@@ -263,7 +264,7 @@ void S_00d87e30::ProcessCollisionEvent(S_00d87e30_Event* pEvent)
         return;
     hkpEntity* a = pEvent->m_pEntityA;
     hkpEntity* b = pEvent->m_pEntityB;
-    if (reinterpret_cast<::DEF1E0PairCounter *>(this)->DecrementPairCount((intptr_t)(a), (intptr_t)(b)) > 0)
+    if (reinterpret_cast<::DEF1E0PairCounter *>(this)->DecrementPairCount(a, b) > 0)
         return;
     if (m_pCollisionFilter &&
         !m_pCollisionFilter->IsCollisionEnabled(a->m_kCollidable, b->m_kCollidable).m_cBooleanValue)
@@ -406,7 +407,7 @@ void FUN_00d87d70_cls::FUN_00d87d70(A* p)
     {
         return;
     }
-    if (reinterpret_cast<::HashCls *>((((Cls40*)((char*)this - 0x40))))->InsertPair((intptr_t)(b), (intptr_t)(p->m_iThirdValue)) != 1)
+    if (reinterpret_cast<::HashCls *>((((Cls40*)((char*)this - 0x40))))->InsertPair(b, p->m_iThirdValue) != 1)
     {
         return;
     }
@@ -544,10 +545,6 @@ typedef void(* SlotFn)(void* self, void* arg);
 struct Sub_b1297
 {
 };
-struct Thing_b1297
-{
-    int unk00;
-};
 struct Proxy_b1297
 {
     int unk00;
@@ -617,9 +614,7 @@ struct WorldOpTask
     int unk24;
     int unk28;
     int unk2C;
-    Thing_b1297 m_30;
-    int unk34;
-    int unk38;
+    hkpPairFilterMap m_30;
     int unk3C;
     Sec_b1297 m_40;
     void FUN_00d87ca0(Arg_b1297* a1);
@@ -629,7 +624,7 @@ struct WorldOpTask
 // @fnv 0x00d87ca0
 void WorldOpTask::FUN_00d87ca0(Arg_b1297* a1)
 {
-    reinterpret_cast<::hkMapCB1E *>(&(this->m_30))->FUN_00cb1e00();
+    m_30.clear();
     ListE_b1297* pList = &a1->m_28;
     for (int pass = 0; pass < 2; ++pass)
     {

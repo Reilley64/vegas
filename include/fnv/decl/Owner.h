@@ -87,7 +87,7 @@ public:
     // 0x00db1990
     void FUN_00db1990(::ContactList *, ::Input *, float);
     // 0x00def3d0
-    volatile unsigned char *CheckPairAgainstThreshold(volatile unsigned char *, intptr_t, intptr_t);
+    volatile unsigned char *CheckPairAgainstThreshold(volatile unsigned char *, const void *, const void *);
     // 0x00e7b190
     ::Entry *FUN_00e7b190(unsigned int, unsigned int, unsigned int, unsigned int *);
 };

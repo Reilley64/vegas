@@ -2,5 +2,4 @@
 
 // Definitions of the globals this unit refers to that no unit defines.
 
-char str_0109a388[12] = "m_uiNumLODs";
-char str_0109a394[7] = "m_iLOD";
+int *(*volatile DAT_011f3cd8)(int, int, int, int *);

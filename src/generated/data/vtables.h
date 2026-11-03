@@ -1080,6 +1080,7 @@ extern void* fnv_vftable_NiDynamicEffect[] __asm__("?vftable_NiDynamicEffect@@3P
 extern void* fnv_vftable_FUN_00a69400[] __asm__("?DAT_0109c28c@@3HA");
 extern void* fnv_vftable_StrArr[] __asm__("?DAT_0109c394@@3HA");
 extern void* fnv_vftable_A6A990Base[] __asm__("?DAT_0109c39c@@3HA");
+extern void* fnv_vftable_FUN_00a69e00[] __asm__("?DAT_0109c4c4@@3PAPEBXA");
 extern void* fnv_vftable_FUN_00a6aa40[] __asm__("?DAT_0109c514@@3HA");
 extern void* fnv_vftable_DAT_0109ca08[] __asm__("?DAT_0109ca08@@3HA");
 extern void* fnv_vftable_DAT_0109ca18[] __asm__("?DAT_0109ca18@@3HA");
@@ -2058,7 +2059,6 @@ extern void* fnv_vftable_UNK_010f1b44[] __asm__("?UNK_010f1b44@@3DA");
 extern void* fnv_vftable_fnv_00ec15e0_BSTCaseInsensitiveStringMap_char[] __asm__("?DAT_010f1c20@@3HA");
 extern void* fnv_vftable_BaseE40[] __asm__("?DAT_010f1ca4@@3HA");
 extern void* fnv_vftable_type_info[];
-extern void* fnv_vftable_DAT_010f20a8[] __asm__("?DAT_010f20a8@@3HA");
 extern void* fnv_vftable_DAT_0110102c[] __asm__("?DAT_0110102c@@3HA");
 extern void* fnv_vftable_FUN_00ee8560[] __asm__("?DAT_011010ec@@3HA");
 extern void* fnv_vftable_FUN_00ee88d0_cls[] __asm__("?DAT_011011ec@@3HA");

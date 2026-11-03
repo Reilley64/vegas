@@ -11,6 +11,7 @@
 #include "fnv/symbols_00464000.h"
 #include "fnv/symbols_00845000.h"
 #include "nitmapbase.inl"
+#include "fnv/decl/Twin_008d0360.h"
 
 // 1 Nov: the included file leaves optimization off (#pragma optimize("", off) never closed); functions added below build
 // with the unit's own flags (/O2). Nothing of this unit's own follows the include, so no accepted function is affected.
@@ -159,4 +160,19 @@ bool SharedAccumulatorState::FUN_00b63b10(NiObject* object)
         sharedObjects.SetAt(object, true);
     LeaveCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&sharedLock));
     return !bFound;
+}
+
+
+struct FUN_00404cd0_Class
+{
+    void* FUN_00404cd0(unsigned int flags);
+};
+
+// @fnv 0x00404cd0
+void* FUN_00404cd0_Class::FUN_00404cd0(unsigned int flags)
+{
+    reinterpret_cast<::Twin_008d0360 *>(this)->FUN_00404c80();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
 }

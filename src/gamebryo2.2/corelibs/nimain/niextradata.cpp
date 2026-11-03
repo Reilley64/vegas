@@ -21,6 +21,9 @@
 #include "fnv/symbols_0109d000.h"
 #include "fnv/symbols_011f4000.h"
 #include "niextradata_packet.h"
+#include "fnv/decl/FUN_0053a070_Class.h"
+#include "fnv/symbols_00c6b000.h"
+#include "fnv/symbols_01030000.h"
 // @fnv 0x00aa0fe0
 void NiAccumulator::ClearCamera()
 {
@@ -308,4 +311,41 @@ void ExtraDataStrings::FUN_00a7b580(StrArr* strings)
     strings->Add(::fnv_00a7d5e0::FUN_00a7d5e0(DAT_01097790, GetName()));
 }
 
+
+
+struct FUN_0066b640
+{
+    void* m_vft;
+    FUN_0066b640();
+};
+
+// @fnv 0x0066b640
+FUN_0066b640::FUN_0066b640()
+{
+    ::FUN_00c6b910(this);
+    m_vft = &(*reinterpret_cast<void * *>(&::DAT_0103046c));
+}
+
+class B539F50Base
+{
+  public:
+    B539F50Base();
+    virtual ~B539F50Base();
+
+    int unk04;
+};
+
+class FUN_00539f50 : public B539F50Base
+{
+  public:
+
+    FUN_00539f50(int iA, int iB);
+    virtual ~FUN_00539f50();
+};
+
+// @fnv 0x00539f50
+FUN_00539f50::FUN_00539f50(int iA, int iB)
+{
+    reinterpret_cast<::FUN_0053a070_Class *>(this)->FUN_0053a070(iA, iB);
+}
 #include "generated/data/gamebryo2.2/corelibs/nimain/niextradata.inc"

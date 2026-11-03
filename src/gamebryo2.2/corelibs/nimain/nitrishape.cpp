@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nimain/nitrishape.cpp: NiTriShape (16 functions)
 
+#include "fnv/decl/FUN_00a98eb0_shell.h"
 #include <new>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
@@ -338,9 +339,9 @@ class NiStream;
 
 
 // @fnv 0x00a98eb0
-void FUN_00a98eb0(NiStream& stream)
+void FUN_00a98eb0_shell::FUN_00a98eb0(NiStream& stream)
 {
-    reinterpret_cast<::ParticleLinkEndpoint *>((stream))->FUN_00a74780(*(::NiStream *)nullptr);
+    reinterpret_cast<::ParticleLinkEndpoint *>(this)->FUN_00a74780(stream);
 }
 
 
@@ -348,4 +349,25 @@ void FUN_00a98eb0(NiStream& stream)
 void __cdecl FUN_00a71d10()
 {
     FUN_00a9b1a0();
+}
+
+
+class NiTriGeom2
+{
+  public:
+    void FUN_0051d000(unsigned short a);
+    void FUN_0051d020(unsigned short a, unsigned short b, unsigned short c);
+};
+
+// @fnv 0x0051d000
+void NiTriGeom2::FUN_0051d000(unsigned short a)
+{
+    reinterpret_cast<::NiTriBasedGeom *>((this))->SetBitfield(a, 7, 0);
+}
+
+void NiTriGeom2::FUN_0051d020(unsigned short a, unsigned short b, unsigned short c)
+{
+    (void)a;
+    (void)b;
+    (void)c;
 }

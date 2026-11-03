@@ -3,5 +3,3 @@
 // Definitions of the globals this unit refers to that no unit defines.
 
 float DAT_01097170 = 3.4028235e+38f;
-void *DAT_011f3ca8[2];
-float (*DAT_011f3d38[2])(MyPosKey *, unsigned int);

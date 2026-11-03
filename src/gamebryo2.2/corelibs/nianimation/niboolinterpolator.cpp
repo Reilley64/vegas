@@ -17,6 +17,9 @@
 #include "fnv/symbols_00aa1000.h"
 #include "fnv/symbols_0109a000.h"
 #include "fnv/symbols_011f4000.h"
+#include "fnv/decl/FUN_00a53910_shell.h"
+#include "fnv/symbols_00a57000.h"
+#include "fnv/symbols_00c85000.h"
 int FUN_00a53070(unsigned short usChannel)
 {
     return 5;
@@ -869,4 +872,86 @@ void BInterp::FinalizeBoolValue()
             }
         }
     }
+}
+
+int FUN_00a53070(unsigned short usChannel);
+
+
+class NiRefObject3300
+{
+  public:
+    virtual ~NiRefObject3300();
+    virtual void DeleteThis();
+    void IncRefCount()
+    {
+        InterlockedIncrement(&m_uiRefCount);
+    }
+    void DecRefCount()
+    {
+        if (InterlockedDecrement(&m_uiRefCount) == 0)
+            DeleteThis();
+    }
+    long m_uiRefCount;
+};
+
+template <class T> class NiPointer3300
+{
+  public:
+    NiPointer3300(T* pObject = 0)
+    {
+        m_pObject = pObject;
+        if (m_pObject)
+            m_pObject->IncRefCount();
+    }
+    ~NiPointer3300()
+    {
+        if (m_pObject)
+            m_pObject->DecRefCount();
+    }
+    NiPointer3300& operator=(const NiPointer3300& ptr)
+    {
+        T* pObject = ptr.m_pObject;
+        if (m_pObject != pObject)
+        {
+            if (m_pObject)
+                m_pObject->DecRefCount();
+            m_pObject = pObject;
+            if (m_pObject)
+                m_pObject->IncRefCount();
+        }
+        return *this;
+    }
+    T* m_pObject;
+};
+
+class Interpolator3300 : public NiRefObject3300
+{
+  public:
+};
+
+class Controller3300
+{
+  public:
+    Controller3300* FUN_00a53300(float fA, float fB);
+
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    NiPointer3300<Interpolator3300> m_spInterp;
+    int m_iFadeIndex;
+};
+
+// @fnv 0x00a53300
+Controller3300* Controller3300::FUN_00a53300(float fA, float fB)
+{
+    Controller3300* pkCopy = ((::Controller3300 *)(::FUN_00a57050((intptr_t)this, fA)));
+    if (m_spInterp.m_pObject)
+    {
+        NiPointer3300<Interpolator3300> spInterp;
+        reinterpret_cast<::FUN_00a53910_shell *>((m_spInterp.m_pObject))->FUN_00a53910(fA, fB, (::NiPointer< ::NiBoolData> &)(spInterp));
+        pkCopy->m_spInterp = spInterp;
+        pkCopy->m_iFadeIndex = 0;
+    }
+    return pkCopy;
 }

@@ -205,32 +205,34 @@ struct Holder_e8bff0 {
     virtual void slot20() = 0;
     virtual void slot24() = 0;
     virtual void slot28() = 0;
-    virtual int read(unsigned int type, unsigned int length, unsigned int* out, unsigned int flags) = 0;
+    virtual int Lock(unsigned int offset, unsigned int length, void** out, unsigned int flags) = 0;
 };
 struct Owner_e8bff0 {
-    void*& Data() { return *reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x40); }
-    unsigned int& Capacity() { return *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x44); }
-    unsigned int& Offset() { return *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x48); }
-    unsigned int& Size() { return *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x4c); }
-    void* CriticalSection() { return reinterpret_cast<char*>(this) + 0x80; }
+    char unk00[0x40];
+    void* m_pvScratch;
+    unsigned int m_uiScratchSize;
+    void* m_pvLocked;
+    unsigned int m_uiLockedSize;
+    char unk50[0x80 - 0x50];
+    CRITICAL_SECTION m_kCriticalSection;
     void* FUN_00e8bff0(Holder_e8bff0* source, unsigned int type, unsigned int length, unsigned int flags);
 };
 // @fnv 0x00e8bff0
 void* Owner_e8bff0::FUN_00e8bff0(Holder_e8bff0* source, unsigned int type, unsigned int length, unsigned int flags) {
-    uintptr_t out = 0;
-    if (source->read(type, length, &out, flags) < 0)
+    void* out = 0;
+    if (source->Lock(type, length, &out, flags) < 0)
         return 0;
-    EnterCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(CriticalSection()));
-    Offset() = out;
-    Size() = length;
-    if (Capacity() < length) {
-        FUN_00aa10f0(Data());
-        Data() = FUN_00aa1070(length);
-        Capacity() = length;
+    EnterCriticalSection(&m_kCriticalSection);
+    m_pvLocked = out;
+    m_uiLockedSize = length;
+    if (m_uiScratchSize < length) {
+        FUN_00aa10f0(m_pvScratch);
+        m_pvScratch = FUN_00aa1070(length);
+        m_uiScratchSize = length;
     }
     if ((flags & 0x3000) == 0)
-        std::memmove(Data(), (const void *)(out), length);
-    return Data();
+        std::memmove(m_pvScratch, out, length);
+    return m_pvScratch;
 }
 
 #include "fnv_asm_helpers.h"   // project x87 helpers (fnv_SinCos, fnv_FloatToInt), kept last so earlier code is unchanged
@@ -349,13 +351,8 @@ struct Renderer {
     unsigned int unk78;
     unsigned int unk7c;
     CriticalSection criticalSection;
-    void FUN_00e8c120(NiGeometryData*, void*, unsigned int*, unsigned int*, unsigned int*, unsigned int*, unsigned int*, unsigned int*, unsigned int*);
     VertexRecord* FUN_00e8c1e0(NiGeometryData*, Class87d40*, unsigned int, VertexRecord*, char*);
 };
-__declspec(noinline) void Renderer::FUN_00e8c120(NiGeometryData* d, void* p, unsigned int* a, unsigned int* b, unsigned int* c, unsigned int* e, unsigned int* f, unsigned int* g, unsigned int* h)
-{
-    *a = unk00; *b = unk04; *c = unk08; *e = unk0c; *f = unk10; *g = unk14; *h = unk18;
-}
 // @fnv 0x00e8c1e0
 VertexRecord* Renderer::FUN_00e8c1e0(NiGeometryData* data, Class87d40* transform, unsigned int dirty, VertexRecord* existing, char* destination)
 {
@@ -370,7 +367,7 @@ VertexRecord* Renderer::FUN_00e8c1e0(NiGeometryData* data, Class87d40* transform
     if (textureCount > maxTextures) textureCount = maxTextures;
     unsigned int fvf = 0, stride = 0;
     unsigned int positionOffset, normalOffset, colorOffset, textureOffset, unusedOffset;
-    ::FUN_00e8c120((::Outer *)this, (::Outer *)(data), (unsigned int *)(void *)(0), &fvf, (int *)(unsigned int *)(&stride), &positionOffset, &unusedOffset, &normalOffset, &colorOffset);
+    ::FUN_00e8c120((::Outer *)(data), (::Outer *)(0), &fvf, &stride, (int *)(&positionOffset), &unusedOffset, &normalOffset, &colorOffset, &textureOffset);
     C_00e8f010* bufferData = data->bufferData;
     bufferData->FUN_00e8f010(fvf);
     if (bufferData->count > 0) bufferData->strides[0] = stride;
@@ -385,7 +382,7 @@ VertexRecord* Renderer::FUN_00e8c1e0(NiGeometryData* data, Class87d40* transform
             (buf->GetDesc(&desc), desc.type == 100 && desc.fvf == fvf && desc.size >= (unsigned short)count * stride)) {
             record = existing;
         } else {
-            if (!::FUN_00e8bfa0((::Outer *)this, (uintptr_t)(bufferData))) return 0;
+            if (!::FUN_00e8bfa0((::Outer *)(bufferData), 0)) return 0;
             record = bufferData->count > 0 ? bufferData->records[0] : 0;
             dirty = 0xfff;
         }
@@ -402,8 +399,8 @@ VertexRecord* Renderer::FUN_00e8c1e0(NiGeometryData* data, Class87d40* transform
             transform->ForwardActorBaseData(data, (intptr_t)positionDest, (intptr_t)normalDest, 0, 0, stride);
         }
     } else {
-        if (positions && (dirty & 1)) ::CopyStridedElements((char *)this, destination + positionOffset, (uintptr_t)((char*)positions), stride, 12);
-        if (normals && (dirty & 2)) ::CopyStridedElements((char *)this, destination + normalOffset, (uintptr_t)((char*)normals), stride, 12);
+        if (positions && (dirty & 1)) ::CopyStridedElements(destination + positionOffset, (char*)positions, stride, 12, (unsigned short)count);
+        if (normals && (dirty & 2)) ::CopyStridedElements(destination + normalOffset, (char*)normals, stride, 12, (unsigned short)count);
     }
     if (colors && (dirty & 4)) {
         char* output = destination + colorOffset;

@@ -155,7 +155,7 @@ extern "C" void* DAT_0109b220;
 
 struct FUN_00a742c0_cls
 {
-    int unk00;
+    const void* m_vtbl;
     int unk04;
     int unk08;
     char* m_pData;
@@ -168,11 +168,11 @@ struct FUN_00a742c0_cls
 // @fnv 0x00a742c0
 FUN_00a742c0_cls* FUN_00a742c0_cls::Destroy(unsigned int acFlags)
 {
-    *(volatile intptr_t*)&unk00 = (intptr_t)&DAT_0109d39c;
+    *(const void* volatile*)&m_vtbl = &DAT_0109d39c;
     char* pData = *(char* volatile*)&m_pData;
     if (pData != (char*)DAT_0109b220)
     {
-        InterlockedDecrement(pData - 8);
+        InterlockedDecrement((volatile long*)(pData - 8));
     }
     reinterpret_cast<::FUN_00a7b300_shell *>(this)->FUN_00a7b300();
     if (acFlags & 1)
@@ -184,7 +184,6 @@ FUN_00a742c0_cls* FUN_00a742c0_cls::Destroy(unsigned int acFlags)
 
 namespace fnv_00a74300 {
 
-extern "C" char* DAT_0109b220;
 extern "C" void* DAT_0109d39c;
 extern "C" void(* DAT_00fdf1c0)(void*);
 extern "C" void(* DAT_00fdf1c4)(void*);
@@ -207,7 +206,7 @@ void* FUN_00a74300_cls::CreateCopy(intptr_t arg)
     {
         reinterpret_cast<::ExtraDataObject *>((reinterpret_cast<NiExtraDataHelper*>(esi)))->FUN_00a7b2e0();
         esi->vptr = (void*)&DAT_0109d39c;
-        esi->m_0c = DAT_0109b220;
+        esi->m_0c = (char*)DAT_0109b220;
     }
     else
     {

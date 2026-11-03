@@ -123,7 +123,7 @@ Script* NiTPointerListBase<NiTPointerAllocator<unsigned int>,Script*>::Remove(Sc
 
 // Explicit instantiation selects the original optimized NiPointer consumer.
 // @fnv 0x00e74d40
-template void NiTPointerListBase<NiTPointerAllocator<unsigned int>,NiPointer<NiProperty> >::RemoveAll();
+template void NiTPointerListBase<NiTPointerAllocator<unsigned int>, NiPointer<NiProperty> >::RemoveAll();
 
 // char* explicit-specialization members (declared in the .inl above).
 // RemoveTail is defined in its own original TU and linked externally.
@@ -134,7 +134,7 @@ void NiTPointerListBase<NiTPointerAllocator<unsigned int>, char*>::RemoveAll()
     {
         NiTListItem<char*>* removed = item;
         item = item->m_pkNext;
-        ::FUN_00e6e8a0((::LinkedListEntry *)this);
+        DeleteItem(removed);
     }
     this->m_kItemCount.m_uiCount = 0;
     this->m_pkHead = 0;
@@ -152,7 +152,7 @@ char* NiTPointerListBase<NiTPointerAllocator<unsigned int>, char*>::RemoveHead()
     else
         this->m_pkTail = 0;
     char* element = item->m_element;
-    ::FUN_00e6e8a0((::LinkedListEntry *)this);
+    DeleteItem(item);
     --this->m_kItemCount.m_uiCount;
     return element;
 }
@@ -179,7 +179,7 @@ char* NiTPointerListBase<NiTPointerAllocator<unsigned int>, char*>::RemovePos(vo
     if (next)
         next->m_pkPrev = previous;
     char* element = item->m_element;
-    ::FUN_00e6e8a0((::LinkedListEntry *)this);
+    DeleteItem(item);
     --this->m_kItemCount.m_uiCount;
     return element;
 }

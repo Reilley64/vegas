@@ -535,3 +535,5 @@ void FUN_00a3cf10_cls::FUN_00a3cf10(NiStream& stream)
         reinterpret_cast<KeyOwnerStand_cf*>(this)->SetKeyData(keys, numKeys, keyType);
     }
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nianimation/nifloatdata.inc"

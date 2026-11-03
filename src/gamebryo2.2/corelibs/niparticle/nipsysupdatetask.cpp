@@ -15,6 +15,7 @@
 #include "fnv/symbols_011ae000.h"
 #include "fnv/symbols_011f6000.h"
 #include "fnv/symbols_01202000.h"
+#include <cstddef>
 void* __cdecl FUN_00c25870()
 {
     return &(*reinterpret_cast<void * *>(&::g_01202580));
@@ -383,4 +384,33 @@ void* Elem_c25::DestroyElements(unsigned int uiFlags)
     return this;
 }
 
+void* __cdecl FUN_00c25870();
+NiPSysUpdateTask* PopNiPSysUpdateTask();
+void __cdecl DestroyManager();
+void __cdecl FUN_00aa1490(void* pv, unsigned int uiSize);
+
+
+struct C25990Elem
+{
+    void* m_vf;
+    int m_iWordAt04;
+    int m_8;
+    int m_iThirdValue;
+    int m_10;
+    C25990Elem();
+    ~C25990Elem()
+    {}
+    static void* operator new[](std::size_t size, unsigned int count)
+    {
+        if (count == 0)
+            return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::PoolAlloc_00c25b30 *>(&::g_memoryManager))))->FUN_00aa3e40(4);
+        return FUN_00aa1420(size);
+    }
+    static void operator delete[](void* p);
+};
+// @fnv 0x00c25990
+void* __cdecl FUN_00c25990(unsigned int count)
+{
+    return new (count) C25990Elem[count];
+}
 #include "generated/data/gamebryo2.2/corelibs/niparticle/nipsysupdatetask.inc"

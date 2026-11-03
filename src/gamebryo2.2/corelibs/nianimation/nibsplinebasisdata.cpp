@@ -168,14 +168,14 @@ struct SplineOwner
     unsigned int unk00;
     unsigned int unk04;
     SplineBlock m_08;
-    SplineObj* CreateSplineObj(unsigned char flags);
+    SplineObj* CreateSplineObj(void* kCloning);
 };
 
 // @fnv 0x00a52b00
-SplineObj* SplineOwner::CreateSplineObj(unsigned char flags)
+SplineObj* SplineOwner::CreateSplineObj(void* kCloning)
 {
     SplineObj* pResult = new SplineObj;
-    reinterpret_cast<::FUN_00a5d450_class *>(this)->CreateVertexBufferSet((uintptr_t)(pResult), (void *)(flags));
+    reinterpret_cast<::FUN_00a5d450_class *>(this)->CreateVertexBufferSet((uintptr_t)(pResult), kCloning);
     pResult->m_08 = m_08;
     return pResult;
 }

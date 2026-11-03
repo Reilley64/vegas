@@ -971,7 +971,7 @@ ShaderPass* ShaderPassBuilder::CreatePass(ShaderMaterial* material, unsigned int
         }
         else
         {
-            ::FUN_00e7c610((float *)this, (::S_00e7c610_Object *)(((uintptr_t)(::FUN_00bc5c20((char *)(configuration))))));
+            ::FUN_00e7c610((float *)(::FUN_00bc5c20((char *)(configuration))), (::S_00e7c610_Object *)(result));
         }
         --remainingTextures;
     }

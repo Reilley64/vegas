@@ -19,6 +19,8 @@
 #include "niblendtransforminterpolator_types_NiBlendTransformInterpolator.h"
 #include "niblendtransforminterpolator_types_NiQuatTransform.h"
 #include "niblendtransforminterpolator_NiObjectNET.h"
+#include "fnv/symbols_01024000.h"
+#include "niblendtransforminterpolator_types_NiBlendTransformInterpolator_decl_niblendtransforminterpolator.h"
 
 struct FUN_00a40a40_shell : public NiBlendTransformInterpolator
 {
@@ -465,4 +467,34 @@ bool BlendTransformInterpolator::FUN_00a40c10(float time, NiObjectNET* object, B
     return true;
 }
 
+void FUN_00a40ab0(FUN_00a40ab0_obj* a1);
+void FUN_00a41170(AGViewerStrings* pkStrings);
+
+__forceinline void Invalidate850(NiQuatTransform& value)
+{
+    value.m_fScale = value.m_kRotate.m_fVectorY = value.m_kTranslate.x = -3.402823466e+38F;
+}
+// @fnv 0x00a40b30
+bool NiBlendTransformInterpolator::FUN_00a40b30(float time, NiObjectNET* object, NiQuatTransform& value)
+{
+    if (m_uiObjectFlags & 1)
+        time = m_fSingleInterpolatorTime;
+    if (time == ::DAT_0109696c)
+    {
+        Invalidate850(value);
+        return false;
+    }
+    if (m_pSingleInterpolator->Update(time, object, value))
+    {
+        if (value.m_kRotate.m_fVectorY != ::DAT_010241b0)
+        {
+            NiQuaternion rotation = value.m_kRotate;
+            reinterpret_cast<::NiQuaternion *>(&(rotation))->MakeUnitLength();
+            value.m_kRotate = rotation;
+        }
+        return true;
+    }
+    Invalidate850(value);
+    return false;
+}
 #include "generated/data/gamebryo2.2/corelibs/nianimation/niblendtransforminterpolator.inc"

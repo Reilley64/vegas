@@ -20,6 +20,7 @@
 #include "fnv/symbols_011aa000.h"
 #include "fnv/symbols_011f6000.h"
 #include "niddsreader_decls.h"
+#include "niddsreader_decls_decl_niddsreader.h"
 // Initializes the NiBMPReader fields: zeroes height, width, unknown, x, y, sets format to DAT_011aa2e8 and clears b1 and b2.
 // @fnv 0x00a8e410
 NiBMPReader::NiBMPReader()
@@ -690,7 +691,7 @@ bool NiDDSReader::FUN_00a8c1e0(NiBinaryStream& kIst, unsigned int& uiWidth, unsi
         }
         kFormat = CreateFromMasks(uiRGBBitCount, uiRBitMask, uiGBitMask, uiBBitMask, uiABitMask);
         m_eFormat = kFormat;
-        kFormat = ::NormalizePixelFormat((::NiPixelFormat)this);
+        kFormat = ::NormalizePixelFormat(kFormat);
     }
     else
     {
@@ -1400,4 +1401,80 @@ void __cdecl FUN_00a8cc40(NiBinaryStream* stream, NiPixelData* apPixelData, NiPi
 }
 }  // namespace fnv_00a8cc40
 
+
+struct ReadCtx
+{
+    int unk00;
+    int m04;
+    int(__cdecl* m08)(ReadCtx* ctx, void* dst, unsigned int n, int* flag, int one);
+};
+
+struct ImgObj
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4c;
+    unsigned char* m50;
+    unsigned int* m54;
+    unsigned int* m58;
+    unsigned int* m5c;
+    unsigned int m60;
+};
+
+class FUN_00a779b0_info
+{
+  public:
+    unsigned int mask0, mask1, mask2, mask3;
+    unsigned char bits0, bits1, bits2, bits3, unk14, unk15, unk16, unk17;
+};
+
+// @fnv 0x00a8c6e0
+void __cdecl FUN_00a8c6e0(ReadCtx* ctx, ImgObj* self, NiPixelFormat fmtA, NiPixelFormat fmtB, unsigned int idx,
+                          unsigned int scale)
+{
+    unsigned char* base = self->m50 + self->m5c[self->m60] * scale + self->m5c[idx];
+    {
+        unsigned int n = self->m5c[idx + 1] - self->m5c[idx];
+        volatile int flag = 1;
+        ctx->m04 += ctx->m08(ctx, base, n, (int*)&flag, 1);
+    }
+    FUN_00a779b0_info info;
+    new ((void *)&(info)) ::FUN_00a779b0(&fmtA);
+    unsigned int w = self->m54[idx];
+    unsigned int h = self->m58[idx];
+    if (fmtA != fmtB && info.mask0 == 0xff0000u)
+    {
+        unsigned char* src = base;
+        for (unsigned int y = 0; y < h; y++)
+        {
+            for (unsigned int x = 0; x < w; x++)
+            {
+                unsigned char b2 = src[2];
+                unsigned char b1 = src[1];
+                unsigned char b0 = src[0];
+                *base++ = b2;
+                *base++ = b1;
+                *base++ = b0;
+                src += 3;
+            }
+        }
+    }
+}
 #include "generated/data/gamebryo2.2/corelibs/nimain/niddsreader.inc"

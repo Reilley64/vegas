@@ -15,6 +15,7 @@ char DAT_01044c90 = 69;
 char DAT_01044c94 = 66;
 char DAT_0105ac84 = 87;
 const unsigned short NiInterpController::INVALID_INDEX = 65535;
+float DAT_01096548 = 3.4028235e+38f;
 const char str_0109655c[8] = "%s = %s";
 const char DAT_01096564 = 66;
 char DAT_01096624 = 37;

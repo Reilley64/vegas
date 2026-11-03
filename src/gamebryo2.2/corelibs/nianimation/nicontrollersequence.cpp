@@ -41,7 +41,6 @@
 #include "fnv/decl/NiGPUProgramOwner.h"
 #include "fnv/decl/NiInterpController.h"
 #include "fnv/decl/ViewerStrings.h"
-#include "fnv/decl/fnv_00a32330__SequenceArrays.h"
 #include "fnv/decl/fnv_00a64df0__FUN_00a64df0_Stream.h"
 #include "fnv/decl/fnv_00b5c7d0__StrArr.h"
 #include "fnv/symbols_00a30000.h"
@@ -62,6 +61,16 @@
 #include "fnv/symbols_011f3000.h"
 #include "fnv/symbols_011f4000.h"
 #include "fnv/symbols_011f6000.h"
+#include "fnv/decl/FUN_00a5d2f0_class.h"
+#include "fnv/symbols_00a32000.h"
+#include "fnv/symbols_01096000.h"
+#include <cstddef>
+#include "fnv/decl/FUN_00a5d450_class.h"
+#include "fnv/decl/FUN_00a5d610_Object.h"
+#include "fnv/decl/FUN_00a645b0_cls.h"
+#include "fnv/decl/NiControllerSequence__IDTag.h"
+#include "fnv/symbols_00a35000.h"
+#include "fnv/symbols_01023000.h"
 const char* const* __cdecl FUN_00a31730()
 {
     return &(*reinterpret_cast<const char *const *>(&::g_011f36dc));
@@ -1808,6 +1817,23 @@ class A1400StringGroup
 
     A1400StringGroup& FUN_00a31400(const A1400StringGroup& kOther);
 };
+namespace fnv_00a32330
+{
+struct InterpArrayItem;
+struct IDTag;
+struct SequenceArrays
+{
+    void* m_ppVirtualMethodTable;
+    unsigned int m_uiRefCount;
+    char* m_kName;
+    unsigned int m_uiNumControlledBlocks;
+    unsigned int m_uiNumIDTags;
+    InterpArrayItem* m_pInterpArray;
+    IDTag* m_pkIDTags;
+
+    bool FUN_00a32330();
+};
+}
 // @fnv 0x00a32bc0
 int FUN_00a32bc0_cls::AssignSlot(RefObj* apRef, uintptr_t auiValue, unsigned char aucFlag)
 {
@@ -3188,7 +3214,7 @@ bool Sequence31910::FUN_00a31910(Node31910* target, Node31910* root, int unused)
             {
                 MorphItem31910* item = &interp->items[j];
                 Node31910* spTransformController = root->FindObject(&item->name);
-                unsigned short usMorphSlot = reinterpret_cast<::FUN_00a35910_shell *>((pMorphCtrl))->FindIndexByValue((unsigned short)(spTransformController));
+                unsigned short usMorphSlot = reinterpret_cast<::FUN_00a35910_shell *>((pMorphCtrl))->FindIndexByValue((::NiAVObject *)(spTransformController));
                 if (usMorphSlot == ::NiInterpController::INVALID_INDEX)
                     s = reinterpret_cast<::FUN_00a35fe0_shell *>((pMorphCtrl))->FUN_00a35fe0((::Target_00a35fe0 *)(spTransformController), idx, item);
                 else
@@ -3480,7 +3506,7 @@ void CloneSequence::FUN_00a32470(CloneContext& context)
 {
     reinterpret_cast<::FUN_00a5d430_Class *>(this)->FUN_00a5d430((uintptr_t)&(context));
     CloneObject* clone = 0;
-    reinterpret_cast<::A54440Hash *>((void *)(context.map))->FUN_00a53c30((*(::A54440Manager * *)&(const ::CloneObject * &)((CloneObject*)this)), (::A54440Manager **)&(clone));
+    reinterpret_cast<::A54440Hash *>((void *)(context.map))->FUN_00a53c30(reinterpret_cast<::A54440Manager *>(((CloneObject*)this)), (::A54440Manager **)&(clone));
     CloneSequence* copy = (CloneSequence*)clone;
     for (unsigned int i = 0; i < count; ++i)
     {
@@ -3508,7 +3534,7 @@ void CloneSequence::FUN_00a32470(CloneContext& context)
                 else
                     reinterpret_cast<::FUN_00c663d0 *>(&(dest))->operator=((const ::FUN_00c663d0 &)(items[i]));
             }
-            if (reinterpret_cast<::A54440Hash *>((void *)(context.map))->FUN_00a53c30((*(::A54440Manager * *)&(const ::CloneObject * &)(items[i].controller)), (::A54440Manager **)&(clone)))
+            if (reinterpret_cast<::A54440Hash *>((void *)(context.map))->FUN_00a53c30(reinterpret_cast<::A54440Manager *>((CloneObject*)(items[i].controller)), (::A54440Manager **)&(clone)))
             {
                 CloneObject* old = copy->items[i].controller;
                 ClonePointer* volatile dest = &copy->items[i].controller;
@@ -3528,21 +3554,21 @@ void CloneSequence::FUN_00a32470(CloneContext& context)
             }
             else
                 copy->items[i].controller.Assign(items[i].controller);
-            if (reinterpret_cast<::A54440Hash *>((void *)(context.map))->FUN_00a53c30((*(::A54440Manager * *)&(const ::CloneObject * &)((CloneObject*)items[i].blend)), (::A54440Manager **)&(clone)))
+            if (reinterpret_cast<::A54440Hash *>((void *)(context.map))->FUN_00a53c30(reinterpret_cast<::A54440Manager *>(((CloneObject*)items[i].blend)), (::A54440Manager **)&(clone)))
                 copy->items[i].blend = clone;
             else
                 copy->items[i].blend = items[i].blend;
         }
     }
-    if (reinterpret_cast<::A54440Hash *>((void *)(context.map))->FUN_00a53c30((*(::A54440Manager * *)&(const ::CloneObject * &)((CloneObject*)owner)), (::A54440Manager **)&(clone)))
+    if (reinterpret_cast<::A54440Hash *>((void *)(context.map))->FUN_00a53c30(reinterpret_cast<::A54440Manager *>(((CloneObject*)owner)), (::A54440Manager **)&(clone)))
         copy->owner = clone;
     else
         copy->owner = owner;
-    if (reinterpret_cast<::A54440Hash *>((void *)(context.map))->FUN_00a53c30((*(::A54440Manager * *)&(const ::CloneObject * &)((CloneObject*)partner)), (::A54440Manager **)&(clone)))
+    if (reinterpret_cast<::A54440Hash *>((void *)(context.map))->FUN_00a53c30(reinterpret_cast<::A54440Manager *>(((CloneObject*)partner)), (::A54440Manager **)&(clone)))
         copy->partner = clone;
     else
         copy->partner = partner;
-    if (reinterpret_cast<::A54440Hash *>((void *)(context.map))->FUN_00a53c30((*(::A54440Manager * *)&(const ::CloneObject * &)((CloneObject*)object60)), (::A54440Manager **)&(clone)))
+    if (reinterpret_cast<::A54440Hash *>((void *)(context.map))->FUN_00a53c30(reinterpret_cast<::A54440Manager *>(((CloneObject*)object60)), (::A54440Manager **)&(clone)))
         copy->object60 = clone;
     else
         copy->object60 = object60;
@@ -4605,6 +4631,8 @@ struct SeqFixedString
 
     char* m_kHandle;
 
+    SeqFixedString() : m_kHandle(::DAT_0109b220)
+    {}
     SeqFixedString(const char* pcString)
 
     {
@@ -5148,4 +5176,1031 @@ S00a31880_FUN_00a31880_cls* S00a31880_FUN_00a31880_cls::FUN_00a31880(S00a31880_F
     return this;
 }
 
+const char* const* __cdecl FUN_00a31730();
+void __cdecl FUN_00ec65a6(char* c, unsigned int b, const char* a);
+extern "C" void __cdecl FUN_00ec623a(void*, const char*, const char*, const char*);
+void* __cdecl FormatStringWithType(const char* arg1, void* arg2);
+
+
+struct MemoryManager
+{
+};
+
+
+
+struct SeqFixedHandle
+{
+    char* m_kHandle;
+};
+
+struct SeqNiObject
+{
+    SeqNiObject();
+    virtual ~SeqNiObject();
+    unsigned int m_uiRefCount;
+};
+
+struct SeqInterpItem
+{
+    void* m_spControllerInterpolator;
+    void* m_pkController;
+    void* m_pkBlendInterpolator;
+    unsigned char m_ucBlendIndex;
+    unsigned char m_ucArrayItemID;
+    unsigned short m_usFlags;
+
+    SeqInterpItem();
+    ~SeqInterpItem();
+};
+
+struct SeqTag
+{
+    SeqFixedString m_kAVObjectName;
+    SeqFixedString m_kPropertyType;
+    SeqFixedString m_kCtlrType;
+    SeqFixedString m_kCtlrID;
+    SeqFixedString m_kInterpolatorID;
+
+    SeqTag();
+    ~SeqTag();
+};
+
+struct SeqRefObj
+{
+    void* vt;
+    unsigned int m_uiRefCount;
+};
+struct SeqPtr_fpfast_noehsc
+{
+    SeqRefObj* m_pObject;
+    SeqPtr_fpfast_noehsc(SeqRefObj* p = 0) : m_pObject(p)
+    {
+        if (m_pObject)
+            InterlockedIncrement((long volatile*)&m_pObject->m_uiRefCount);
+    }
+};
+struct ControllerSequence : SeqNiObject
+{
+    SeqFixedString m_kName;
+    unsigned int m_uiNumControlledBlocks;
+    unsigned int m_uiNumIDTags;
+    SeqInterpItem* m_pInterpArray;
+    SeqTag* m_pkSeqTagArray;
+    float m_fWeight;
+    SeqPtr_fpfast_noehsc m_spTextKeyData;
+    int m_eAnimationCycleType;
+    float m_fFrequency;
+    float m_fFirstKeyTime;
+    float m_fLastKeyTime;
+    float m_fLastTime;
+    float m_fWeightAdjustedLastTime;
+    float m_fScaledLastTime;
+    void* m_pkOwnerManager;
+    int m_eAnimationState;
+    float m_fSequenceOffset;
+    float m_fStartTime;
+    float m_fEndTime;
+    float m_fDestinationFrame;
+    void* m_pkTimeSyncSequence;
+    SeqFixedHandle m_kAccumulationRootName;
+    void* m_pkAccumulationRoot;
+    void* m_spStringPalette;
+    short m_sCurAnimNIdx;
+    void* m_spAnimNotes;
+    unsigned short m_usNumNotes;
+    bool m_bRemoveActivatorsOnDeactivate;
+
+    ControllerSequence(const SeqFixedString& kName, unsigned int uiArraySize, unsigned int uiArrayGrowBy);
+    virtual ~ControllerSequence();
+};
+
+// @fnv 0x00a32a10
+ControllerSequence::ControllerSequence(const SeqFixedString& kName, unsigned int uiArraySize,
+                                       unsigned int uiArrayGrowBy)
+    : m_uiNumControlledBlocks(uiArraySize), m_uiNumIDTags(uiArrayGrowBy), m_pInterpArray(0), m_pkSeqTagArray(0),
+      m_fWeight(1.0f), m_fFrequency(1.0f), m_fFirstKeyTime(DAT_01096548)
+{
+    m_eAnimationCycleType = 0;
+    m_pkOwnerManager = 0;
+    float fInvalid = DAT_01015f5c;
+    m_eAnimationState = 0;
+    m_fLastKeyTime = fInvalid;
+    m_fLastTime = fInvalid;
+    m_fWeightAdjustedLastTime = fInvalid;
+    m_fScaledLastTime = fInvalid;
+    m_fSequenceOffset = fInvalid;
+    m_fStartTime = fInvalid;
+    m_fEndTime = fInvalid;
+    m_fDestinationFrame = fInvalid;
+    m_pkTimeSyncSequence = 0;
+    m_kAccumulationRootName.m_kHandle = (char*)(*reinterpret_cast<intptr_t *>(&::DAT_0109b220));
+    m_pkAccumulationRoot = 0;
+    m_spStringPalette = 0;
+    m_sCurAnimNIdx = -1;
+    m_spAnimNotes = 0;
+    m_usNumNotes = 0;
+    m_bRemoveActivatorsOnDeactivate = false;
+    m_kName = kName;
+    if (m_uiNumControlledBlocks > 0)
+    {
+        m_pInterpArray = new SeqInterpItem[m_uiNumControlledBlocks];
+        m_pkSeqTagArray = new SeqTag[m_uiNumControlledBlocks];
+    }
+}
+
+struct CloneObject_noehsc : RefObj
+{
+    virtual void V02();
+    virtual void V03();
+    virtual void V04();
+    virtual void V05();
+    virtual void V06();
+    virtual void V07();
+    virtual void V08();
+    virtual void V09();
+    virtual void V10();
+    virtual void V11();
+    virtual void V12();
+    virtual void V13();
+    virtual void V14();
+    virtual void V15();
+    virtual void V16();
+    virtual void V17();
+    virtual CloneObject_noehsc* Clone(void*);
+};
+template <class T> struct ClonePtr
+{
+    T* ptr;
+    bool operator!=(T* value) const
+    {
+        return ptr != value;
+    }
+    operator T*() const
+    {
+        return ptr;
+    }
+    T* operator->() const
+    {
+        return ptr;
+    }
+    ClonePtr& operator=(T* value)
+    {
+        if (ptr != value)
+        {
+            T* old = ptr;
+            if (old && !InterlockedDecrement(&old->m_iObjectReferenceCount))
+                old->Release();
+            ptr = value;
+            if (value)
+                InterlockedIncrement(&value->m_iObjectReferenceCount);
+        }
+        return *this;
+    }
+    ClonePtr& operator=(const ClonePtr& other)
+    {
+        if (ptr != other.ptr)
+        {
+            T* old = ptr;
+            if (old && !InterlockedDecrement(&old->m_iObjectReferenceCount))
+                old->Release();
+            ptr = other.ptr;
+            if (ptr)
+                InterlockedIncrement(&ptr->m_iObjectReferenceCount);
+        }
+        return *this;
+    }
+    static void* operator new[](std::size_t size, MemoryManager& memory = ::g_memoryManager) throw()
+    {
+        return reinterpret_cast<::MemoryManagerStandIn *>(&(memory))->FUN_00aa3e40(size);
+    }
+    ClonePtr() : ptr(0)
+    {}
+    ~ClonePtr()
+    {
+        if (ptr && !InterlockedDecrement(&ptr->m_iObjectReferenceCount))
+            ptr->Release();
+    }
+};
+struct FUN_00a31240
+{
+    ClonePtr<CloneObject_noehsc> interpolator;
+    ClonePtr<CloneObject_noehsc> controller;
+    void* blend;
+    unsigned char blendIndex, priority, unk0e, unk0f;
+    FUN_00a31240() throw();
+    static void* operator new[](std::size_t size, MemoryManager& memory = ::g_memoryManager) throw()
+    {
+        return reinterpret_cast<::MemoryManagerStandIn *>(&(memory))->FUN_00aa3e40(size);
+    }
+};
+struct FUN_00a31680
+{
+    FixedStr object, property, type, controller, interpolator;
+    FUN_00a31680() throw();
+    ~FUN_00a31680();
+    static void* operator new[](std::size_t size, MemoryManager& memory = ::g_memoryManager) throw()
+    {
+        return reinterpret_cast<::MemoryManagerStandIn *>(&(memory))->FUN_00aa3e40(size);
+    }
+};
+struct CloneString
+{
+    char* handle;
+    CloneString& operator=(const CloneString& other)
+    {
+        char* value = other.handle;
+        if (handle != value)
+        {
+            if (value != (char*)(*reinterpret_cast<intptr_t *>(&::DAT_0109b220)))
+                InterlockedIncrement((long*)(value - 8));
+            if (handle != (char*)(*reinterpret_cast<intptr_t *>(&::DAT_0109b220)))
+                InterlockedDecrement((long*)(handle - 8));
+            handle = value;
+        }
+        return *this;
+    }
+};
+struct CloneSequence_noehsc
+{
+    void* vtable;
+    unsigned int refs;
+    CloneString name;
+    unsigned int count, growth;
+    FUN_00a31240* controls;
+    FUN_00a31680* tags;
+    float weight;
+    ClonePtr<RefObj> textKeys;
+    int cycle;
+    float frequency, begin, end, lastTime, weightedTime, scaledTime;
+    void* owner;
+    int state;
+    float offset, start, stop, destination;
+    CloneSequence_noehsc* partner;
+    CloneString rootName;
+    unsigned int unk60, unk64;
+    unsigned short unk68, unk6a;
+    ClonePtr<RefObj>* notes;
+    unsigned short noteCount;
+    void FUN_00a33570(CloneSequence_noehsc*, void*);
+};
+// @fnv 0x00a33570
+void CloneSequence_noehsc::FUN_00a33570(CloneSequence_noehsc* dest, void* context)
+{
+    reinterpret_cast<::FUN_00a5d450_class *>(this)->CreateVertexBufferSet((uintptr_t)(dest), context);
+    dest->name = name;
+    dest->count = count;
+    dest->growth = growth;
+    dest->controls = new FUN_00a31240[count];
+    dest->tags = new FUN_00a31680[count];
+    for (unsigned int i = 0; i < count; ++i)
+    {
+        if (controls[i].interpolator != 0)
+        {
+            if (!owner)
+            {
+                dest->controls[i].interpolator = controls[i].interpolator->Clone(context);
+                if (controls[i].controller != 0)
+                    dest->controls[i].controller = controls[i].controller->Clone(context);
+            }
+            else
+            {
+                dest->controls[i].interpolator = ((::CloneObject_noehsc *)&(reinterpret_cast<::NiControllerSequence__IDTag *>(((controls[i].interpolator).operator->()))->operator=((*(const ::NiControllerSequence__IDTag *)(context)))));
+                dest->controls[i].blendIndex = controls[i].blendIndex;
+            }
+        }
+        dest->controls[i].priority = controls[i].priority;
+        reinterpret_cast<::A1400StringGroup *>(&(dest->tags[i]))->FUN_00a31400((const ::A1400StringGroup &)(tags[i]));
+    }
+    dest->weight = weight;
+    dest->textKeys = textKeys;
+    dest->cycle = cycle;
+    dest->frequency = frequency;
+    dest->begin = begin;
+    dest->end = end;
+    dest->rootName = rootName;
+    dest->unk68 = unk68;
+    dest->noteCount = noteCount;
+    if (noteCount > 0)
+        dest->notes = new ClonePtr<RefObj>[noteCount];
+    for (unsigned short j = 0; j < noteCount; ++j)
+        dest->notes[j] = notes[j];
+}
+
+namespace fnv_00a32330 {
+struct MemoryManager
+{
+    void Deallocate(void* pvMem);
+};
+
+struct NiRefObj
+{
+    virtual ~NiRefObj();
+    virtual void DeleteThis();
+    long m_uiRefCount;
+    void DecRefCount()
+    {
+        if (InterlockedDecrement(&m_uiRefCount) == 0)
+            DeleteThis();
+    }
+};
+
+struct InterpArrayItem
+{
+    NiRefObj* m_spControllerInterpolator;
+    NiRefObj* m_pkInterpCtlr;
+    void* m_pkBlendInterpolator;
+    unsigned char m_ucBlendIndex;
+    unsigned char m_ucArrayItemID;
+    unsigned short m_usFlags;
+
+    InterpArrayItem();
+    ~InterpArrayItem()
+    {
+        if (m_pkInterpCtlr)
+            m_pkInterpCtlr->DecRefCount();
+        if (m_spControllerInterpolator)
+            m_spControllerInterpolator->DecRefCount();
+    }
+    InterpArrayItem& operator=(const InterpArrayItem& kItem);
+};
+
+struct IDTag
+{
+    char* m_kAVObjectName;
+    char* m_kPropertyType;
+    char* m_kCtlrType;
+    char* m_kCtlrID;
+    char* m_kInterpolatorID;
+
+    IDTag();
+    ~IDTag()
+    {
+        ReleaseStr(m_kInterpolatorID);
+        ReleaseStr(m_kCtlrID);
+        ReleaseStr(m_kCtlrType);
+        ReleaseStr(m_kPropertyType);
+        ReleaseStr(m_kAVObjectName);
+    }
+    static void ReleaseStr(char* pc)
+    {
+        if (pc)
+            InterlockedDecrement((long volatile*)(pc - 8));
+    }
+    IDTag& operator=(const IDTag& kTag);
+};
+
+
+// @fnv 0x00a32330
+bool SequenceArrays::FUN_00a32330()
+{
+    if (m_uiNumIDTags == 0)
+        return false;
+
+    unsigned int uiNewArraySize = m_uiNumControlledBlocks + m_uiNumIDTags;
+    InterpArrayItem* pkNewInterpArray = new InterpArrayItem[uiNewArraySize];
+    IDTag* pkNewIDTagArray = new IDTag[uiNewArraySize];
+    for (unsigned int ui = 0; ui < uiNewArraySize; ui++)
+    {
+        if (ui < m_uiNumControlledBlocks)
+        {
+            reinterpret_cast<::S00a31880_FUN_00a31880_cls *>((void *)&(const ::fnv_00a32330::InterpArrayItem &)(pkNewInterpArray[ui]))->FUN_00a31880((::S00a31880_FUN_00a31880_cls *)&(m_pInterpArray[ui]));
+            reinterpret_cast<::A1400StringGroup *>((void *)&(const ::fnv_00a32330::IDTag &)(pkNewIDTagArray[ui]))->FUN_00a31400((const ::A1400StringGroup &)(m_pkIDTags[ui]));
+        }
+    }
+    delete[] m_pInterpArray;
+    delete[] m_pkIDTags;
+
+    m_uiNumControlledBlocks = uiNewArraySize;
+    m_pInterpArray = pkNewInterpArray;
+    m_pkIDTags = pkNewIDTagArray;
+
+    return true;
+}
+}  // namespace fnv_00a32330
+
+struct Stream71;
+struct Memory71
+{
+};
+struct Array71
+{
+};
+struct Interp71 : Array71
+{
+    void* interpolator;
+    void* controller;
+    void* blend;
+    unsigned char index, priority;
+    short unk0e;
+    Interp71() throw();
+    ~Interp71()
+    {}
+};
+struct String71
+{
+    char* ptr;
+    String71() : ptr((char*)(*reinterpret_cast<intptr_t *>(&::DAT_0109b220)))
+    {}
+    void Release()
+    {
+        if (ptr != (char*)(*reinterpret_cast<intptr_t *>(&::DAT_0109b220)))
+            DAT_00fdf1c4(ptr - 8);
+    }
+    String71& operator=(const String71& other)
+    {
+        if (ptr != other.ptr)
+        {
+            char* replacement = other.ptr;
+            if (replacement != (char*)(*reinterpret_cast<intptr_t *>(&::DAT_0109b220)))
+                DAT_00fdf1c0(replacement - 8);
+            if (ptr != (char*)(*reinterpret_cast<intptr_t *>(&::DAT_0109b220)))
+                DAT_00fdf1c4(ptr - 8);
+            ptr = replacement;
+        }
+        return *this;
+    }
+};
+struct Tag71 : Array71
+{
+    String71 object, property, controller, controllerID, interpolatorID;
+    Tag71() throw();
+    ~Tag71()
+    {}
+};
+struct Ref71
+{
+    virtual void v0();
+    virtual void Destroy();
+    int count;
+};
+struct Smart71 : Array71
+{
+    Ref71* ptr;
+    Smart71() throw();
+    ~Smart71()
+    {}
+    Smart71& operator=(Ref71* other)
+    {
+        if (ptr != other)
+        {
+            Ref71* old = ptr;
+            if (old && !DAT_00fdf1c4(&old->count))
+                old->Destroy();
+            ptr = other;
+            if (other)
+                DAT_00fdf1c0(&other->count);
+        }
+        return *this;
+    }
+};
+struct Binary71
+{
+    void* vtbl;
+    unsigned int pos;
+    unsigned int(__cdecl* read)(Binary71*, void*, unsigned int, unsigned int*, unsigned int);
+    void Read(void* dest, unsigned int bytes)
+    {
+        unsigned int component = bytes;
+        pos += read(this, dest, bytes, &component, 1);
+    }
+};
+struct Stream71
+{
+    unsigned int unk00;
+    unsigned int unk04;
+    unsigned int unk08;
+    unsigned int unk0c;
+    unsigned int unk10;
+    unsigned int unk14;
+    unsigned int unk18;
+    unsigned int unk1c;
+    unsigned int unk20;
+    unsigned int unk24;
+    unsigned int unk28;
+    unsigned int unk2c;
+    unsigned int unk30;
+    unsigned int unk34;
+    unsigned int unk38;
+    unsigned int unk3c;
+    unsigned int unk40;
+    unsigned int unk44;
+    unsigned int unk48;
+    unsigned int unk4c;
+    unsigned int unk50;
+    unsigned int unk54;
+    unsigned int unk58;
+    unsigned int unk5c;
+    unsigned int unk60;
+    unsigned int unk64;
+    unsigned int unk68;
+    unsigned int unk6c;
+    unsigned int unk70;
+    unsigned int unk74;
+    unsigned int unk78;
+    unsigned int unk7c;
+    unsigned int unk80;
+    unsigned int unk84;
+    unsigned int unk88;
+    unsigned int unk8c;
+    unsigned int unk90;
+    unsigned int unk94;
+    unsigned int unk98;
+    unsigned int unk9c;
+    unsigned int unka0;
+    unsigned int unka4;
+    unsigned int unka8;
+    unsigned int unkac;
+    unsigned int unkb0;
+    unsigned int unkb4;
+    unsigned int unkb8;
+    unsigned int unkbc;
+    unsigned int unkc0;
+    unsigned int unkc4;
+    unsigned int unkc8;
+    unsigned int unkcc;
+    unsigned int unkd0;
+    unsigned int unkd4;
+    unsigned int version;
+    unsigned int unkdc;
+    unsigned int unke0;
+    unsigned int unke4;
+    unsigned int unke8;
+    unsigned int unkec;
+    unsigned int unkf0;
+    unsigned int unkf4;
+    unsigned int unkf8;
+    unsigned int unkfc;
+    unsigned int unk100;
+    unsigned int unk104;
+    unsigned int unk108;
+    unsigned int unk10c;
+    unsigned int unk110;
+    unsigned int unk114;
+    unsigned int unk118;
+    unsigned int unk11c;
+    unsigned int unk120;
+    unsigned int unk124;
+    unsigned int unk128;
+    unsigned int unk12c;
+    unsigned int unk130;
+    unsigned int unk134;
+    unsigned int unk138;
+    unsigned int unk13c;
+    unsigned int unk140;
+    unsigned int unk144;
+    unsigned int unk148;
+    unsigned int unk14c;
+    unsigned int unk150;
+    unsigned int unk154;
+    unsigned int unk158;
+    unsigned int unk15c;
+    unsigned int unk160;
+    unsigned int unk164;
+    unsigned int unk168;
+    unsigned int unk16c;
+    unsigned int unk170;
+    unsigned int unk174;
+    unsigned int unk178;
+    unsigned int unk17c;
+    unsigned int unk180;
+    unsigned int unk184;
+    unsigned int unk188;
+    unsigned int unk18c;
+    unsigned int unk190;
+    unsigned int unk194;
+    unsigned int unk198;
+    unsigned int unk19c;
+    unsigned int unk1a0;
+    unsigned int unk1a4;
+    unsigned int unk1a8;
+    unsigned int unk1ac;
+    unsigned int unk1b0;
+    unsigned int unk1b4;
+    unsigned int unk1b8;
+    unsigned int unk1bc;
+    unsigned int unk1c0;
+    unsigned int unk1c4;
+    unsigned int unk1c8;
+    unsigned int unk1cc;
+    unsigned int unk1d0;
+    unsigned int unk1d4;
+    unsigned int unk1d8;
+    unsigned int unk1dc;
+    unsigned int unk1e0;
+    unsigned int unk1e4;
+    unsigned int unk1e8;
+    unsigned int unk1ec;
+    unsigned int unk1f0;
+    unsigned int unk1f4;
+    unsigned int unk1f8;
+    unsigned int unk1fc;
+    unsigned int unk200;
+    unsigned int unk204;
+    unsigned int unk208;
+    unsigned int unk20c;
+    unsigned int unk210;
+    unsigned int unk214;
+    unsigned int unk218;
+    unsigned int unk21c;
+    unsigned int unk220;
+    unsigned int unk224;
+    unsigned int unk228;
+    unsigned int unk22c;
+    unsigned int unk230;
+    unsigned int unk234;
+    unsigned int unk238;
+    unsigned int unk23c;
+    unsigned int unk240;
+    unsigned int unk244;
+    unsigned int unk248;
+    Binary71* input;
+};
+struct Sequence71
+{
+    void* vtbl;
+    unsigned int refs;
+    String71 name;
+    unsigned int count, grow;
+    Interp71* interpolators;
+    Tag71* tags;
+    float weight;
+    Smart71 text;
+    int cycle;
+    float frequency, begin, end;
+    int unk34, unk38, unk3c;
+    void* owner;
+    int unk44, unk48, unk4c, unk50, unk54, unk58;
+    String71 root;
+    int unk60;
+    Smart71 oldNotes;
+    int unk68;
+    Smart71* notes;
+    unsigned short noteCount;
+    void FUN_00a33e40(Stream71&);
+};
+// @fnv 0x00a33e40
+void Sequence71::FUN_00a33e40(Stream71& stream)
+{
+    reinterpret_cast<::FUN_00a5d610_Object *>(this)->ReadGroup((::NiStream *)&(stream));
+    if (stream.version < 0x0a010068)
+    {
+        reinterpret_cast<::Cls_a64ea0 *>(&(stream))->FUN_00a64ea0((char **)&(name));
+        reinterpret_cast<::Cls_a64ea0 *>(&(stream))->FUN_00a64ea0((char **)&(root));
+        reinterpret_cast<::FUN_00a645b0_cls *>(&(stream))->FUN_00a645b0();
+        stream.input->Read(&count, 4);
+        grow = 12;
+        interpolators = new Interp71[count];
+        tags = new Tag71[count];
+        for (unsigned int index = 0; index < count; ++index)
+        {
+            String71 objectName;
+            reinterpret_cast<::Cls_a64ea0 *>(&(stream))->FUN_00a64ea0((char **)&(objectName));
+            tags[index].object = objectName;
+            reinterpret_cast<::FUN_00a645b0_cls *>(&(stream))->FUN_00a645b0();
+            objectName.Release();
+        }
+        return;
+    }
+    if (stream.version < 0x14010001)
+        reinterpret_cast<::Cls_a64ea0 *>(&(stream))->FUN_00a64ea0((char **)&(name));
+    else
+        reinterpret_cast<::fnv_00a64df0::FUN_00a64df0_Stream *>(&(stream))->FUN_00a64df0((::fnv_00a64df0::NiFixedString &)(name));
+    stream.input->Read(&count, 4);
+    stream.input->Read(&grow, 4);
+    interpolators = new Interp71[count];
+    tags = new Tag71[count];
+    {
+        unsigned int needsConversion = 0;
+        for (unsigned int index = 0; index < count; ++index)
+        {
+            reinterpret_cast<::A33950Object *>(&(interpolators[index]))->LoadFromStream((::A33950Stream *)&(stream));
+            reinterpret_cast<::IDTagA33a50 *>(&(tags[index]))->ReadFromStream((::StreamA33a50 &)(stream), needsConversion);
+        }
+    }
+    stream.input->Read(&weight, 4);
+    reinterpret_cast<::FUN_00a645b0_cls *>(&(stream))->FUN_00a645b0();
+    {
+        int cycleValue;
+        stream.input->Read(&cycleValue, 4);
+        cycle = cycleValue;
+    }
+    stream.input->Read(&frequency, 4);
+    if (stream.version < 0x0a030001)
+    {
+        float phase;
+        stream.input->Read(&phase, 4);
+    }
+    stream.input->Read(&begin, 4);
+    stream.input->Read(&end, 4);
+    if (stream.version < 0x0a01006b)
+    {
+        bool backward;
+        stream.input->Read(&backward, 1);
+    }
+    reinterpret_cast<::FUN_00a645b0_cls *>(&(stream))->FUN_00a645b0();
+    if (stream.version < 0x14010001)
+        reinterpret_cast<::Cls_a64ea0 *>(&(stream))->FUN_00a64ea0((char **)&(root));
+    else
+        reinterpret_cast<::fnv_00a64df0::FUN_00a64df0_Stream *>(&(stream))->FUN_00a64df0((::fnv_00a64df0::NiFixedString &)(root));
+    if (stream.version >= 0x0a010071 && stream.version < 0x14010001)
+        oldNotes = ((::Ref71 *)(reinterpret_cast<::NiStream *>(&(stream))->DeserializeObject()));
+    else
+        oldNotes = 0;
+    if (stream.unk04 > 21 && stream.unk04 < 29)
+        reinterpret_cast<::FUN_00a645b0_cls *>(&(stream))->FUN_00a645b0();
+    if (stream.unk04 > 28)
+    {
+        stream.input->Read(&noteCount, 2);
+        if (noteCount > 0)
+            notes = new Smart71[noteCount];
+        for (unsigned short index = 0; index < noteCount; ++index)
+            reinterpret_cast<::FUN_00a645b0_cls *>(&(stream))->FUN_00a645b0();
+    }
+}
+
+void* __cdecl FormatStringWithType(const char* pcText, void* arg2);
+
+extern unsigned char DAT_01096968;
+extern unsigned int DAT_01096688;
+struct LegacyStream
+{
+    unsigned int unk00;
+    unsigned int unk04;
+    unsigned int unk08;
+    unsigned int unk0c;
+    unsigned int unk10;
+    unsigned int unk14;
+    unsigned int unk18;
+    unsigned int unk1c;
+    unsigned int unk20;
+    unsigned int unk24;
+    unsigned int unk28;
+    unsigned int unk2c;
+    unsigned int unk30;
+    unsigned int unk34;
+    unsigned int unk38;
+    unsigned int unk3c;
+    unsigned int unk40;
+    unsigned int unk44;
+    unsigned int unk48;
+    unsigned int unk4c;
+    unsigned int unk50;
+    unsigned int unk54;
+    unsigned int unk58;
+    unsigned int unk5c;
+    unsigned int unk60;
+    unsigned int unk64;
+    unsigned int unk68;
+    unsigned int unk6c;
+    unsigned int unk70;
+    unsigned int unk74;
+    unsigned int unk78;
+    unsigned int unk7c;
+    unsigned int unk80;
+    unsigned int unk84;
+    unsigned int unk88;
+    unsigned int unk8c;
+    unsigned int unk90;
+    unsigned int unk94;
+    unsigned int unk98;
+    unsigned int unk9c;
+    unsigned int unka0;
+    unsigned int unka4;
+    unsigned int unka8;
+    unsigned int unkac;
+    unsigned int unkb0;
+    unsigned int unkb4;
+    unsigned int unkb8;
+    unsigned int unkbc;
+    unsigned int unkc0;
+    unsigned int unkc4;
+    unsigned int unkc8;
+    unsigned int unkcc;
+    unsigned int unkd0;
+    unsigned int unkd4;
+    unsigned int version;
+};
+struct LegacyTag
+{
+    char* name;
+    char* property;
+    char* type;
+    char* controller;
+    char* interpolator;
+};
+struct LegacyController : RefObj
+{
+    unsigned short flags;
+    unsigned short unk0a;
+    float frequency;
+    float phase;
+    volatile float begin;
+    volatile float end;
+};
+struct LegacyItem
+{
+    RefObj* interpolator;
+    LegacyController* controller;
+    void* blend;
+    unsigned char index;
+    unsigned char priority;
+    unsigned short unk0e;
+    void Clear()
+    {
+        if (interpolator)
+        {
+            RefObj* saved = interpolator;
+            if (!InterlockedDecrement(&saved->m_iObjectReferenceCount))
+                saved->Release();
+            interpolator = 0;
+        }
+        if (controller)
+        {
+            LegacyController* saved = controller;
+            if (!InterlockedDecrement(&saved->m_iObjectReferenceCount))
+                saved->Release();
+            controller = 0;
+        }
+        blend = 0;
+        index = DAT_01096968;
+        priority = 255;
+    }
+};
+struct ReferenceAllocation;
+struct LegacyRef
+{
+    LegacyController* pointer;
+    ~LegacyRef() throw()
+    {}
+    static void* operator new[](std::size_t bytes, ReferenceAllocation*& allocation) throw();
+};
+struct ReferenceAllocation
+{
+    unsigned int count;
+    LegacyRef elements[1];
+};
+__forceinline void* LegacyRef::operator new[](std::size_t bytes, ReferenceAllocation*& allocation) throw()
+{
+    allocation = (ReferenceAllocation*)reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(bytes);
+    return allocation;
+}
+static __forceinline void MakeRefs(unsigned int n, LegacyRef*& result)
+{
+    ReferenceAllocation* allocation;
+    new (allocation) LegacyRef[n];
+    if (allocation)
+    {
+        LegacyRef* data = allocation->elements;
+        LegacyRef* current = data;
+        for (int remaining = (int)n - 1; remaining >= 0; --remaining, ++current)
+            current->pointer = 0;
+        result = data;
+    }
+    else
+        result = 0;
+}
+struct S00a352f0_Hold
+{
+    LegacyController* p;
+    S00a352f0_Hold(LegacyController* c) : p(c)
+    {
+        if (p)
+            InterlockedIncrement(&p->m_iObjectReferenceCount);
+    }
+};
+struct LegacyArray
+{
+    unsigned int* vtable;
+    LegacyRef* data;
+    unsigned short capacity;
+    unsigned short length;
+    unsigned short populated;
+    unsigned short grow;
+};
+struct NamesArray
+{
+    unsigned int* vtable;
+    char** data;
+    unsigned short capacity, length, populated, grow;
+};
+struct LegacySequence : ::NiObject
+{
+    char* name;
+    unsigned int count;
+    unsigned int grow;
+    LegacyItem* items;
+    LegacyTag* tags;
+    float weight;
+    RefObj* textKeys;
+    int cycle;
+    float frequency;
+    float begin;
+    float end;
+    float last;
+    float weightedLast;
+    float scaledLast;
+    void* owner;
+    int state;
+    float offset;
+    float start;
+    float finish;
+    float dest;
+    void* partner;
+    char* rootName;
+    unsigned int unk60;
+    RefObj* stringPalette;
+    void FUN_00a352f0(NiStream& stream);
+};
+// @fnv 0x00a352f0
+void LegacySequence::FUN_00a352f0(NiStream& stream)
+{
+    ::FUN_00a89af0((intptr_t)this);
+    if (stringPalette)
+    {
+        for (unsigned int i = 0; i < count; ++i)
+            reinterpret_cast<::SeqIDTagOffsets *>(&(tags[i]))->LoadFromPalette((::NiStringPalette *)(stringPalette), (intptr_t)&(stream));
+        if (stringPalette)
+        {
+            RefObj* palette = stringPalette;
+            if (!InterlockedDecrement(&palette->m_iObjectReferenceCount))
+                palette->Release();
+            stringPalette = 0;
+        }
+    }
+    if (((LegacyStream*)&stream)->version < 0x0a010068)
+    {
+        begin = DAT_01096548;
+        unsigned int n = count;
+        end = DAT_01015f5c;
+        unsigned int rangeIndex = 0;
+        if (rangeIndex < n)
+        {
+            LegacyController** sourceControllers = &items[0].controller;
+            do
+            {
+                LegacyController* controller = *sourceControllers;
+                if (controller->begin < begin)
+                    begin = controller->begin;
+                if (controller->end > end)
+                    end = controller->end;
+                sourceControllers += sizeof(LegacyItem) / sizeof(*sourceControllers);
+                ++rangeIndex;
+            } while (rangeIndex < n);
+        }
+        if (begin == ::_DAT_010231b0 && end == ::DAT_010241b0)
+            begin = end = 0.0f;
+        NamesArray names;
+        names.capacity = (unsigned short)n;
+        names.length = 0;
+        if (names.capacity > 0)
+            names.data = (char**)FUN_00aa1070(names.capacity * 4);
+        else
+            names.data = 0;
+        LegacyArray controllers;
+        controllers.capacity = (unsigned short)count;
+        controllers.grow = 1;
+        controllers.length = 0;
+        controllers.populated = 0;
+        if (controllers.capacity > 0)
+            MakeRefs(controllers.capacity, controllers.data);
+        else
+            controllers.data = 0;
+        controllers.vtable = &DAT_01096688;
+        for (unsigned int i = 0; i < count; ++i)
+        {
+            {
+                const char* name = tags[i].name;
+                unsigned int bytes = strlen(name) + 1;
+                char* copy = (char*)FUN_00aa1070(bytes);
+                fnv::crt::strcpy_s(copy, bytes, name);
+                if (i >= names.length)
+                    names.length = (unsigned short)(i + 1);
+                names.data[i] = copy;
+            }
+            reinterpret_cast<::fnv_00a30640::NiControllerSequence *>(&(tags[i]))->ResetStrings();
+            LegacyController* retained = items[i].controller;
+            reinterpret_cast<::FUN_00a32940_cls *>(&(controllers))->SetEntry(i, (::NiRefStubB5652 **)&(const ::S00a352f0_Hold &)(S00a352f0_Hold(retained)));
+            if (retained && !InterlockedDecrement(&retained->m_iObjectReferenceCount))
+                retained->Release();
+            items[i].Clear();
+        }
+        unsigned int controllerCount = controllers.length;
+        for (unsigned int i = 0; i < controllerCount; ++i)
+        {
+            LegacyController* controller = controllers.data[i].pointer;
+            if (i == 0)
+            {
+                cycle = (controller->flags >> 1) & 3;
+                if (cycle != 2 && cycle != 0)
+                    cycle = 0;
+                frequency = controller->frequency;
+            }
+            reinterpret_cast<::FUN_00a34480_cls *>(this)->FUN_00a34480(names.data[i], (::FUN_00a34480_obj *)(controller));
+        }
+        for (unsigned int i = 0; i < names.length; ++i)
+            FUN_00aa10f0(names.data[i]);
+        ::ReleaseObjectArray((::Obj00a47600 **)(controllers.data));
+        FUN_00aa10f0(names.data);
+    }
+}
 #include "generated/data/gamebryo2.2/corelibs/nianimation/nicontrollersequence.inc"

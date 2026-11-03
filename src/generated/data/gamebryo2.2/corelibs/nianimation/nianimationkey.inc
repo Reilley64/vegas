@@ -3,3 +3,6 @@
 // Definitions of the globals this unit refers to that no unit defines.
 
 unsigned char DAT_011f3758[1];
+bool (*g_fnv_cb_011f3810[1])(float, int *, int *);
+void *(*DAT_011f3930[1])(unsigned int);
+void (*DAT_011f39c0[1])(void *, const void *);

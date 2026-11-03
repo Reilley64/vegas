@@ -41,6 +41,8 @@ struct TESRegion;
 
 struct BGSAcousticSpace
 {
+    unsigned char unk00[0x48];
+    TESRegion* m_pRegion;
 };
 
 struct NiTLargeArray_TESTopicInfo
@@ -70,7 +72,7 @@ void FUN_005ff560_shell::RemoveChildAndRelinkNeighbors(unsigned int index)
         TESTopicInfo* pNext = ((::TESTopicInfo *)(reinterpret_cast<::FUN_005ff4d0_shell *>((this))->GetIdleFormByIndex(index + 1)));
         TESTopicInfo* pPrevVal = ((::TESTopicInfo *)(reinterpret_cast<::FUN_005ff4d0_shell *>((this))->GetIdleFormByIndex(index - 1)));
         if (pNext)
-            reinterpret_cast<::ValueModifierEffect *>((((BGSAcousticSpace*)pNext)))->SetActorValue((::ActorValue::Index)((TESRegion*)pPrevVal));
+            ((BGSAcousticSpace*)pNext)->m_pRegion = (TESRegion*)pPrevVal;
         ((NiTLargeArray_TESTopicInfo*)*(void**)(this + 0x40))->RemoveAt(index);
         ((NiTLargeArray_TESTopicInfo*)*(void**)(this + 0x40))->Compact();
     }

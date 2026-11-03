@@ -9,7 +9,7 @@ extern "C" void fnv_fn_0062d640() __asm__("?NotifyEntityIfFlagged@hkpEntityListe
 extern "C" void fnv_fn_00a29680() __asm__("?FUN_00a29680@@YAXXZ");
 extern "C" void fnv_fn_00a38de0() __asm__("?FUN_00a38de0@@YAHH@Z");
 extern "C" void fnv_fn_00a6a000() __asm__("?FUN_00a6a000@@YAHXZ");
-extern "C" void fnv_fn_00a89af0() __asm__("?FUN_00a89af0@@YAXH@Z");
+extern "C" void fnv_fn_00a89af0() __asm__("?FUN_00a89af0@@YAX_J@Z");
 extern "C" void fnv_fn_00a950e0() __asm__("?FUN_00a950e0@@YAHXZ");
 extern "C" void fnv_fn_00acbb70() __asm__("?FUN_00acbb70@FUN_00acbb70_shell@@QEAAHXZ");
 extern "C" void fnv_fn_00b57fc0() __asm__("?FUN_00b57fc0@@YAHHHH@Z");

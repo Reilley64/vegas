@@ -14,6 +14,12 @@
 #include "fnv/decl/fnv_00b5c7d0__StrArr.h"
 #include "fnv/symbols_00a7d000.h"
 #include "fnv/symbols_01202000.h"
+#include "fnv/symbols_00aa1000.h"
+#include <new>
+#include "fnv/decl/NiPSysParticle.h"
+#include <cmath>
+#include "fnv/decl/TESCombatStyle.h"
+#include "fnv/symbols_00404000.h"
 void* __cdecl FUN_00c285c0()
 {
     return &(*reinterpret_cast<void * *>(&::g_012026b0));
@@ -180,6 +186,15 @@ struct NiPoint3
         z += pt.z;
         return *this;
     }
+public:
+    float SqrLength() const
+    {
+        return x * x + y * y + z * z;
+    }
+    void AddZTo(float& dst) const
+    {
+        dst = z + dst;
+    }
 };
 struct ThreeByThreeMatrix
 {
@@ -304,6 +319,150 @@ void FieldMod::Update(float fTime, NiPSysDataStandIn* pkData)
                 kWorldPosition = kWorldPosition * fS;
                 reinterpret_cast<::FUN_0063c8a0_shell *>((void *)&(const ::NiPoint3 &)(pkInfo->m_kValue))->FUN_0063c8a0((void *)&(kWorldPosition));
             }
+        }
+    }
+}
+
+void* __cdecl FUN_00c285c0();
+unsigned char FUN_00c285a0(void* p);
+
+extern int DAT_010be99c;
+
+
+struct RadialFieldObject_00c285d0 : FUN_00c31ff0
+{
+    float m30;
+    RadialFieldObject_00c285d0()
+    {
+        m30 = 0.0f;
+        *((intptr_t*)this) = (intptr_t)&DAT_010be99c;
+    }
+};
+
+struct FUN_00c285d0_cls
+{
+    int unk0;
+    void* FUN_00c285d0(uintptr_t a1);
+};
+
+// @fnv 0x00c285d0
+void* FUN_00c285d0_cls::FUN_00c285d0(uintptr_t a1)
+{
+    RadialFieldObject_00c285d0* p = new (FUN_00aa13e0(0x34)) RadialFieldObject_00c285d0;
+    reinterpret_cast<::NiPSysParticle *>(this)->FUN_00c32020((::NiPSysParticle *)(p), (::CloningProcess *)(a1));
+    return p;
+}
+
+
+
+inline NiPoint3 ScalePoint(float s, float x, const NiPoint3& d)
+{
+    return NiPoint3(s * x, d.y * s, s * d.z);
+}
+struct NiTransform_od_o2_gs_nood_nogs
+{
+    float rotation[3][3];
+    NiPoint3 translation;
+    float scale;
+    NiTransform_od_o2_gs_nood_nogs operator*(const NiTransform_od_o2_gs_nood_nogs& rhs) const;
+public:
+    void CalculateInverse(::NiTransform_od_o2_gs_nood_nogs &);
+};
+
+struct SceneObject
+{
+    int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
+    int unk20, unk24, unk28, unk2c, unk30, unk34, unk38, unk3c;
+    int unk40, unk44, unk48, unk4c, unk50, unk54, unk58, unk5c;
+    int unk60, unk64;
+    NiTransform_od_o2_gs_nood_nogs world;
+    NiTransform_od_o2_gs_nood_nogs GetWorldTransform() const
+    {
+        return world;
+    }
+};
+
+struct Particle
+{
+    NiPoint3 velocity;
+    float unk0c, unk10, birthTime, unk18;
+};
+
+struct ParticleSystem
+{
+    int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
+    NiPoint3* positions;
+    int unk24, unk28, unk2c, unk30, unk34, unk38, unk3c;
+    int unk40, unk44, unk48, unk4c;
+    unsigned short count, unk52;
+    int unk54, unk58, unk5c, unk60, unk64, unk68, unk6c;
+    Particle* particles;
+};
+
+inline float NiPow(float fBase, float fExponent)
+{
+    return (float)pow(fBase, fExponent);
+}
+
+class RadialField
+{
+  public:
+    int unk00, unk04, unk08, unk0c;
+    SceneObject* target;
+    int unk14;
+    SceneObject* source;
+    float strength;
+    float exponent;
+    bool useRadius;
+    float unk28;
+    float radiusSquared;
+    float attenuation;
+    void FUN_00c287a0(float time, ParticleSystem* system);
+};
+
+// @fnv 0x00c287a0
+void RadialField::FUN_00c287a0(float time, ParticleSystem* system)
+{
+    if (strength == 0.0f || system->count == 0 || source == 0)
+        return;
+    if (!useRadius && (exponent == 0.0f || attenuation == 0.0f))
+    {
+        reinterpret_cast<::FieldMod *>(this)->Update(time, (::NiPSysDataStandIn *)(system));
+        return;
+    }
+    NiTransform_od_o2_gs_nood_nogs sourceTransform = source->world;
+    NiTransform_od_o2_gs_nood_nogs inverse;
+    {
+        NiTransform_od_o2_gs_nood_nogs targetTransform = target->world;
+        reinterpret_cast<::NiTransform_od_o2_gs_nood_nogs *>((void *)&(targetTransform))->CalculateInverse(inverse);
+    }
+    {
+        NiTransform_od_o2_gs_nood_nogs fieldToSystem = inverse * sourceTransform;
+        float halfExponent = exponent * 0.5;
+        for (unsigned short i = 0; i < system->count; ++i)
+        {
+            Particle& particle = system->particles[i];
+            float deltaTime = time - particle.birthTime;
+            if (deltaTime == 0.0f)
+                continue;
+            NiPoint3 position = system->positions[i];
+            NiPoint3 difference = position - fieldToSystem.translation;
+            float distanceSquared = reinterpret_cast<::TESCombatStyle *>((void *)&(difference))->UpdateCombatStyle();
+            if (useRadius && !(radiusSquared >= distanceSquared))
+                continue;
+            NiPoint3 change;
+            if (exponent != 0.0f && distanceSquared != 0.0f)
+            {
+                change = ScalePoint((deltaTime * strength) /
+                                        FUN_00404010(1.0f, NiPow(distanceSquared, halfExponent) * attenuation),
+                                    difference.x, difference);
+            }
+            else
+            {
+                float scale = deltaTime * strength;
+                change = difference * scale;
+            }
+            reinterpret_cast<::FUN_0063c8a0_shell *>((void *)&(const ::NiPoint3 &)(particle.velocity))->FUN_0063c8a0((void *)&(change));
         }
     }
 }

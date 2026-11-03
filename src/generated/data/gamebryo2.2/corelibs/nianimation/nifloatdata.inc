@@ -2,4 +2,7 @@
 
 // Definitions of the globals this unit refers to that no unit defines.
 
-bool DAT_011f81e0;
+int DAT_011f3780;
+void (*g_apfnA29FE0Load[1])(A29FE0Context *, void *, unsigned int);
+int DAT_011f3ae0;
+void *(*DAT_011f3db0[1])(A29F00Stream &, unsigned int);

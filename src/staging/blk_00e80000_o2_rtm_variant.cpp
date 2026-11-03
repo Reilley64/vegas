@@ -8012,7 +8012,7 @@ struct C_00e8f010 {
     void FUN_00e8f010(int fvf);
 };
 struct FUN_00e69b40_shell {
-    unsigned int GetEntry(unsigned int index);
+    uintptr_t GetEntry(unsigned int index);
 };
 struct Outer;
 struct SixIntegerRecord {

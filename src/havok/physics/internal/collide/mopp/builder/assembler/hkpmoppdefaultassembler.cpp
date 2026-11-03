@@ -2,6 +2,7 @@
 // src/havok/physics/internal/collide/mopp/builder/assembler/hkpmoppdefaultassembler.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/physics/internal/collide/mopp/builder/assembler/hkpmoppdefaultassembler.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include <new>
@@ -479,8 +480,8 @@ struct E07510Solver
 void E07510Solver::FUN_00e07510(E07510Input* pInput, void* b, void* c, void* d)
 {
     if (pInput->m_type == 1)
-        ::FUN_00e07070((::S_00e07070_Object *)this, (::S_00e07070_Object *)(b), (::S_00e07070_Result *)(c));
-    ::AdjustLimits((::Limits *)this, (::Limits *)(pInput), (::Limits *)(b));
+        ::FUN_00e07070((::S_00e07070_Object *)(b), (::S_00e07070_Object *)(c), (::S_00e07070_Result *)(d));
+    ::AdjustLimits((::Limits *)(pInput), (::Limits *)(b), (::Limits *)(c));
 }
 
 struct S_e07c50_Buf
@@ -664,21 +665,6 @@ int TreeOptimizer::OptimizeTree(Node* node, void* context, State* state)
 }
 }  // namespace fnv_00e08040
 
-struct Allocator
-{
-    virtual void* unk00(void* p);
-    virtual void* unk04(void* p);
-    virtual void ReleaseBlock(void* p, unsigned short size);
-};
-struct Router
-{
-    void* unk00;
-    void* unk04;
-    void* unk08;
-    void* unk0c;
-    Allocator* allocator;
-};
-static inline Router* getMemoryRouter() { return static_cast<Router*>(::FUN_00c85750()); }
 struct FUN_00e09640_class
 {
     virtual void unknownVirtual();
@@ -1295,7 +1281,7 @@ struct Entry
     int unk54;
     int unk58;
     int unk5c;
-    int unk60;
+    void* unk60;
     int unk64;
     int unk68;
     int unk6c;
@@ -1413,23 +1399,7 @@ struct S_00e07da0_Tree
     void BuildRegion(S_00e07da0_Node* node, S_00e07da0_Region* parent, S_00e07da0_Region* region);
 };
 
-struct AudioAllocator
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual void v0C();
-    virtual void FreeArray(void* apMemory, unsigned int auiSize) throw();
-};
 
-struct AudioHolder
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    AudioAllocator* m_pAllocator;
-};
 
 struct BSAudio;
 
@@ -1465,8 +1435,8 @@ FUN_00e09640_class* FUN_00e09640_class::FUN_00e09640(int flags)
     reinterpret_cast<::FUN_00e09450_cls *>(this)->DestroyAudioBuffer();
     if (flags & 1)
     {
-        Router* router = getMemoryRouter();
-        router->allocator->ReleaseBlock(this, unk04);
+        hkMemoryRouter* router = &hkMemoryRouter::getInstance();
+        router->m_heap->blockFree(this, unk04);
     }
     return this;
 }
@@ -1475,13 +1445,13 @@ FUN_00e09640_class* FUN_00e09640_class::FUN_00e09640(int flags)
 void FUN_00e09450_cls::DestroyAudioBuffer()
 {
     m_vptr00 = &::DAT_010ea5dc;
-    AudioHolder* pAudioHolder = (AudioHolder*)getMemoryRouter();
-    AudioAllocator* pAudioAllocator = pAudioHolder->m_pAllocator;
+    hkMemoryRouter* pAudioHolder = &hkMemoryRouter::getInstance();
+    hkMemoryAllocator* pAudioAllocator = pAudioHolder->m_heap;
     m_iArrayLength = 0;
     unsigned int uCapacityBits = m_uCapBits;
     if ((uCapacityBits & 0x80000000u) == 0)
     {
-        pAudioAllocator->FreeArray(m_pData, (uCapacityBits & 0x3fffffffu) * 32);
+        pAudioAllocator->bufFree(m_pData, (uCapacityBits & 0x3fffffffu) * 32);
     }
     m_pData = 0;
     m_uCapBits = 0x80000000u;
@@ -1858,9 +1828,9 @@ void S_00e07da0_Tree::BuildRegion(S_00e07da0_Node* node, S_00e07da0_Region* pare
 
     S_00e07da0_Result out;
     if (info->b2 == 1)
-        ::FUN_00e07070((::S_00e07070_Object *)this, (::S_00e07070_Object *)(parent), (::S_00e07070_Result *)(region));
+        ::FUN_00e07070((::S_00e07070_Object *)(parent), (::S_00e07070_Object *)(region), (::S_00e07070_Result *)(&out));
     reinterpret_cast<::FUN_00e06730_cls *>((region))->AlignRanges();
-    int axis = ::ClassifyVec3Region((const ::Vec3 *)this);
+    int axis = ::ClassifyVec3Region((const ::Vec3 *)(node->unk60));
     {
         int lo, hi;
         reinterpret_cast<::KdQuantizer *>(this)->FUN_00e07880((const ::QuantNode *)(node), (const ::KdRegion *)(region), &lo, &hi);
@@ -2024,7 +1994,7 @@ struct FUN_00e07550_cls
 // @fnv 0x00e07c50
 int S_e07c50::FUN_00e07c50(S_e07c50_Item* item, int b, int c)
 {
-    ::FUN_00e06b20((::Node *)this);
+    ::FUN_00e06b20((::Node *)(item));
     m_uiItemCount++;
     int start = m_buf->m_iElementCount;
     reinterpret_cast<::S_00e06e00_Cls *>(this)->FUN_00e06e00((::S_00e06e00_A0 *)(item), (::S_00e06e00_A1 *)(b), (::S_00e06e00_A2 *)(c));
@@ -2038,9 +2008,9 @@ int S_e07c50::FUN_00e07c50(S_e07c50_Item* item, int b, int c)
 int Handler::FUN_00e07ca0(Entry* first, Entry* second, Entry* third, char* flag)
 {
     Entry* originalFirst = first;
-    ::FUN_00e06b20((::Node *)this);
+    ::FUN_00e06b20((::Node *)(originalFirst));
     int previous = unk10->unk0c;
-    int value = ::ClassifyVec3Region((const ::Vec3 *)this);
+    int value = ::ClassifyVec3Region((const ::Vec3 *)(originalFirst->unk60));
     Entry* originalThird = third;
     reinterpret_cast<::KdQuantizer *>(this)->FUN_00e07880((const ::QuantNode *)(originalFirst), (const ::KdRegion *)(originalThird), (int *)(::Entry **)(&first), (int *)(::Entry **)(&third));
     reinterpret_cast<::S_00e07680 *>(this)->FUN_00e07680((int)(third), (int)(first), value, originalFirst->unk70->unk5c, originalFirst->unk74->unk5c);
@@ -2228,14 +2198,14 @@ int MyTree::Recurse(KdNode* apNode, KdCtx* a, KdCtx* c)
         int v = k + 6;
         return v > lo ? v : lo;
     }
-    if (!apNode->a && c->level < lim && ::FUN_00e07040((::S_00e07040_A *)this, (::S_00e07040_B *)(a)) > 2)
+    if (!apNode->a && c->level < lim && ::FUN_00e07040((::S_00e07040_A *)(a), (::S_00e07040_B *)(c)) > 2)
     {
         apNode->bb = 1;
     }
     S_00e07070_Result buf;
     if (apNode->bb == 1)
     {
-        ::FUN_00e07070((::S_00e07070_Object *)this, (::S_00e07070_Object *)(a), (::S_00e07070_Result *)(c));
+        ::FUN_00e07070((::S_00e07070_Object *)(a), (::S_00e07070_Object *)(c), (::S_00e07070_Result *)(&buf));
     }
     long r[2] = {-1, -1};
     long t = 0x7fffffff;
@@ -2375,14 +2345,6 @@ void S_00e07d60::FUN_00e07d60(const S_00e07d60_Info& info)
 
 namespace e083 {
 struct Alloc;
-struct Router
-{
-    int unk0;
-    int unk4;
-    int unk8;
-    int unkc;
-    Alloc* unk10;
-};
 struct Pair
 {
     int a;
@@ -2409,9 +2371,9 @@ static __declspec(noinline) void FUN_00e08320(e083::PairArray* srcp, e083::PairA
     e083::PairArray* src = *pp;
     for (int i = 0; i < src->m_iElementCount; i++)
     {
-        e083::Router* h = (e083::Router*)getMemoryRouter();
+        hkMemoryRouter* h = (&hkMemoryRouter::getInstance());
         if (dst->m_iElementCount == (dst->m_iCapacityState & 0x3fffffff))
-            ::ResizeAudioStream((::AudioAllocator *)(h->unk10), (::AudioStream *)(dst), 8);
+            ::ResizeAudioStream((::AudioAllocator *)(h->m_heap), (::AudioStream *)(dst), 8);
         int n = dst->m_iElementCount;
         e083::Pair* out = dst->m_data + n;
         dst->m_iElementCount = n + 1;
@@ -2425,29 +2387,13 @@ void e08320_caller(e083::SrcW sw, e083::PairArray* dst, int delta)
     FUN_00e08320(sw.p, dst, delta);
 }
 
-struct BvAllocator
+inline hkMemoryAllocator& GetHeap()
 {
-    virtual void v0();
-    virtual void* AllocateMemoryBlock(unsigned int);
-    virtual void v8();
-    virtual void vc();
-    virtual void ReleaseBlock(void*, int);
-};
-inline BvAllocator& GetHeap()
-{
-    return *(BvAllocator*)getMemoryRouter()->allocator;
+    return *(hkMemoryAllocator*)hkMemoryRouter::getInstance().m_heap;
 }
-struct BvHeapRouter
+inline hkMemoryRouter* GetBvRouter()
 {
-    void* unk00;
-    void* unk04;
-    void* unk08;
-    void* unk0c;
-    BvAllocator* allocator;
-};
-inline BvHeapRouter* GetBvRouter()
-{
-    return (BvHeapRouter*)getMemoryRouter();
+    return &hkMemoryRouter::getInstance();
 }
 template <class T> struct BvArray
 {
@@ -2465,18 +2411,18 @@ template <class T> struct BvArray
             m_data[i].~T();
         m_iElementCount = 0;
     }
-    void ClearAndRelease(BvAllocator& alloc)
+    void ClearAndRelease(hkMemoryAllocator& alloc)
     {
         clear();
         if ((m_iCapacityState & 0x80000000u) == 0)
-            alloc.ReleaseBlock(m_data, getCapacity() * sizeof(T));
+            alloc.bufFree(m_data, getCapacity() * sizeof(T));
         m_data = 0;
         m_iCapacityState = 0x80000000;
     }
-    void AddBack(Router& router, const T& t)
+    void AddBack(hkMemoryRouter& router, const T& t)
     {
         if (m_iElementCount == getCapacity())
-            ::ResizeAudioStream((::AudioAllocator *)(router.allocator), (::AudioStream *)(void *)(this), sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(router.m_heap), (::AudioStream *)(void *)(this), sizeof(T));
         T* p = m_data + m_iElementCount;
         for (int i = 0; i < 1; i++)
             p[i] = t;
@@ -2502,7 +2448,7 @@ struct FUN_00e065f0
     FUN_00e065f0(unsigned int id) throw();
     void* operator new(size_t n)
     {
-        FUN_00e065f0* p = static_cast<FUN_00e065f0*>(GetBvRouter()->allocator->AllocateMemoryBlock(n));
+        FUN_00e065f0* p = static_cast<FUN_00e065f0*>(GetBvRouter()->m_heap->blockAlloc(n));
         p->m_usMemSizeAndFlags = (unsigned short)n;
         return p;
     }
@@ -2592,7 +2538,7 @@ static void FUN_00e08320(BvArray<BvFixup>* destination, BvArray<BvFixup>* source
 {
     for (int i = 0; i < source->m_iElementCount; ++i)
     {
-        BvAllocator& heap = GetHeap();
+        hkMemoryAllocator& heap = GetHeap();
         if (destination->m_iElementCount == destination->getCapacity())
             ::ResizeAudioStream((::AudioAllocator *)(void *)(&heap), (::AudioStream *)(destination), sizeof(BvFixup));
         BvFixup* out = destination->m_data + destination->m_iElementCount;
@@ -2610,12 +2556,11 @@ static int FUN_00e08380(BvTree* tree, FUN_00e065f0* source, BvArray<int>* refs, 
     {
         int bytes = tree->m_converter->ConvertReferences(refs->m_data, refs->m_iElementCount);
         reinterpret_cast<::FUN_00e06a60_cls *>((destination))->FillWithPattern(bytes);
-        Router* router = getMemoryRouter();
-        unsigned char* temporary = static_cast<unsigned char*>(router->unk00);
-        router->unk00 = temporary + ((bytes + 127) & ~127);
+        hkMemoryRouter* router = &hkMemoryRouter::getInstance();
+        unsigned char* temporary = static_cast<unsigned char*>(router->allocateStack((bytes + 127) & ~127));
         tree->m_converter->writeBuffer(refs->m_data, refs->m_iElementCount, temporary);
         ::FUN_00cb1260(destination->m_data + destination->m_pRayCursor - destination->m_offset, temporary, bytes);
-        getMemoryRouter()->unk00 = temporary;
+        hkMemoryRouter::getInstance().deallocateStack(temporary);
     }
     int before = destination->m_offset;
     reinterpret_cast<::FUN_00e06a60_cls *>((destination))->FillWithPattern(source->m_offset + padding);
@@ -2686,7 +2631,7 @@ void BvBuilder::FUN_00e08a60(BvNode* node, FUN_00e095d0_cls* parent, FUN_00e095d
     {
         reinterpret_cast<::S_e07c50 *>((node))->FUN_00e07c50((::S_e07c50_Item *)(parent), (int)(stack), {});
         const int& index = node->m_info->m_uiEdgeIndex;
-        refs->AddBack(*getMemoryRouter(), index);
+        refs->AddBack(hkMemoryRouter::getInstance(), index);
         return;
     }
 
@@ -2711,22 +2656,8 @@ template <class T> __forceinline void constructCopy(T* p, int n, const T& value)
     for (int i = 0; i < n; ++i)
         p[i] = value;
 }
-struct P154Allocator
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual void v0c();
-    virtual void Free(void*, unsigned);
-};
-struct P154System
-{
-    int unk00, unk04, unk08, unk0c;
-    P154Allocator* allocator;
-};
 struct P154Memory
 {
-    static inline P154System* getMemoryRouter() { return static_cast<P154System*>(::FUN_00c85750()); }
 };
 
 struct P154Array
@@ -2738,34 +2669,34 @@ struct P154Array
     {}
     void append(const int& v)
     {
-        P154System* s = P154Memory::getMemoryRouter();
+        hkMemoryRouter* s = &hkMemoryRouter::getInstance();
         if (count == int(capacity & 0x3fffffff))
-            ::ResizeAudioStream((::AudioAllocator *)(s->allocator), (::AudioStream *)(void *)(this), 4);
+            ::ResizeAudioStream((::AudioAllocator *)(s->m_heap), (::AudioStream *)(void *)(this), 4);
         constructCopy(data + count, 1, v);
         ++count;
     }
     void insert(int* src, int pos, int n)
     {
-        P154System* r = P154Memory::getMemoryRouter();
-        P154Allocator* a = r->allocator;
-        reinterpret_cast<::SearchObject *>(this)->Search((unsigned int)(a), pos, (unsigned int)(src), n);
+        hkMemoryRouter* r = &hkMemoryRouter::getInstance();
+        hkMemoryAllocator* a = r->m_heap;
+        reinterpret_cast<::SearchObject *>(this)->Search(reinterpret_cast<uintptr_t>(a), pos, reinterpret_cast<uintptr_t>(src), n);
     }
     void clear()
     {
-        P154System* r = P154Memory::getMemoryRouter();
-        P154Allocator* a = r->allocator;
+        hkMemoryRouter* r = &hkMemoryRouter::getInstance();
+        hkMemoryAllocator* a = r->m_heap;
         count = 0;
         if (!(capacity & 0x80000000))
-            a->Free(data, (capacity & 0x3fffffff) * 4);
+            a->bufFree(data, (capacity & 0x3fffffff) * 4);
         data = 0;
         capacity = 0x80000000;
     }
 public:
     void append(const int& v)
     {
-        P154System* s = P154Memory::getMemoryRouter();
+        hkMemoryRouter* s = &hkMemoryRouter::getInstance();
         if (count == int(capacity & 0x3fffffff))
-            ResizeAudioStream(s->allocator, this, 4);
+            ResizeAudioStream(s->m_heap, this, 4);
         constructCopy(data + count, 1, v);
         ++count;
     }
@@ -2781,9 +2712,9 @@ struct P154PairArray
     unsigned capacity;
     P154Pair& grow()
     {
-        P154System* s = P154Memory::getMemoryRouter();
+        hkMemoryRouter* s = &hkMemoryRouter::getInstance();
         if (count == int(capacity & 0x3fffffff))
-            ::ResizeAudioStream((::AudioAllocator *)(s->allocator), (::AudioStream *)(void *)(this), 8);
+            ::ResizeAudioStream((::AudioAllocator *)(s->m_heap), (::AudioStream *)(void *)(this), 8);
         for (int i = 0; i < 1; ++i)
             new (data + count + i) P154Pair;
         return data[count++];
@@ -2791,9 +2722,9 @@ struct P154PairArray
 public:
     P154Pair& grow()
     {
-        P154System* s = P154Memory::getMemoryRouter();
+        hkMemoryRouter* s = &hkMemoryRouter::getInstance();
         if (count == int(capacity & 0x3fffffff))
-            ResizeAudioStream(s->allocator, this, 8);
+            ResizeAudioStream(s->m_heap, this, 8);
         for (int i = 0; i < 1; ++i)
             new (data + count + i) P154Pair;
         return data[count++];
@@ -2987,16 +2918,7 @@ struct PairList
     unsigned int m_capBits;
 };
 
-struct AllocHolder
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    void* m_pAllocator;
-};
 
-static inline AllocHolder* getMemoryRouter() { return static_cast<AllocHolder*>(::FUN_00c85750()); }
 
 struct SlotPair
 {
@@ -3095,10 +3017,10 @@ int FUN_00e08240_cls::FUN_00e08240(Node* apNode, int a2, int aiIndex)
             SlotPair* slot = apNode->m_60;
             slot->m_10 = slot->m_00;
             PairList* list = &this->m_14->m_kNode;
-            AllocHolder* holder = getMemoryRouter();
+            hkMemoryRouter* holder = &hkMemoryRouter::getInstance();
             if (list->m_uiItemCount == (int)(list->m_capBits & 0x3fffffff))
             {
-                ::ResizeAudioStream((::AudioAllocator *)(holder->m_pAllocator), (::AudioStream *)(list), 8);
+                ::ResizeAudioStream((::AudioAllocator *)(holder->m_heap), (::AudioStream *)(list), 8);
             }
             PairEntry* e = &list->m_data[list->m_uiItemCount];
             list->m_uiItemCount++;
@@ -3171,14 +3093,6 @@ struct S_00e08470_Vector
     int unk08;
 };
 
-struct S_00e08470_Holder
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    void* unk10;
-};
 
 struct S_00e08470_Data
 {
@@ -3186,12 +3100,11 @@ struct S_00e08470_Data
     int unk04;
     int unk08;
     void* unk0c;
-    S_00e08470_Holder* unk10;
+    hkMemoryRouter* unk10;
     S_00e08470_Vector unk14;
 
 };
 
-static inline S_00e08470_Holder* getMemoryRouter() { return static_cast<S_00e08470_Holder*>(::FUN_00c85750()); }
 
 struct S_00e08470_Class
 {
@@ -3219,11 +3132,11 @@ int S_00e08470_Class::FUN_00e08470(S_00e08470_Context* context)
 
     S_00e08470_Vector* vector = &this->unk10->unk14;
 
-    S_00e08470_Holder* holder = getMemoryRouter();
+    hkMemoryRouter* holder = &hkMemoryRouter::getInstance();
 
     if (vector->unk04 == (vector->unk08 & 0x3fffffff))
     {
-        ::ResizeAudioStream((::AudioAllocator *)(holder->unk10), (::AudioStream *)(vector), 8);
+        ::ResizeAudioStream((::AudioAllocator *)(holder->m_heap), (::AudioStream *)(vector), 8);
     }
 
     S_00e08470_Entry* entry = vector->unk00 + vector->unk04;
@@ -3256,12 +3169,11 @@ static __declspec(noinline) int FUN_00e08380(BvTree* tree, CodeCopySource* sourc
         int count = refs->m_iElementCount;
         int bytes = tree->m_converter->ConvertReferences(data, count);
         reinterpret_cast<::FUN_00e06a60_cls *>((destination))->FillWithPattern(bytes);
-        Router* router = getMemoryRouter();
-        unsigned char* temporary = static_cast<unsigned char*>(router->unk00);
-        router->unk00 = temporary + ((bytes + 127) & ~127);
+        hkMemoryRouter* router = &hkMemoryRouter::getInstance();
+        unsigned char* temporary = static_cast<unsigned char*>(router->allocateStack((bytes + 127) & ~127));
         tree->m_converter->writeBuffer(refs->m_data, refs->m_iElementCount, temporary);
         ::FUN_00cb1260(destination->m_data + destination->m_pRayCursor - destination->m_offset, temporary, bytes);
-        getMemoryRouter()->unk00 = temporary;
+        hkMemoryRouter::getInstance().deallocateStack(temporary);
     }
     int before = destination->m_offset;
     reinterpret_cast<::FUN_00e06a60_cls *>((destination))->FillWithPattern(source->m_offset + padding);
@@ -3336,21 +3248,21 @@ template <typename T> struct MyArray
     }
     __forceinline ~MyArray() throw()
     {
-        AudioHolder* holder = (AudioHolder*)getMemoryRouter();
-        AudioAllocator* alloc = holder->m_pAllocator;
+        hkMemoryRouter* holder = &hkMemoryRouter::getInstance();
+        hkMemoryAllocator* alloc = holder->m_heap;
         m_iElementCount = 0;
         if (!(m_iCapacityState & 0x80000000))
-            alloc->FreeArray(m_data, (m_iCapacityState & 0x3fffffff) * 4);
+            alloc->bufFree(m_data, (m_iCapacityState & 0x3fffffff) * 4);
     }
     __forceinline void ClearAndRelease() throw()
     {
-        AudioAllocator* alloc = ((AudioHolder*)getMemoryRouter())->m_pAllocator;
+        hkMemoryAllocator* alloc = hkMemoryRouter::getInstance().m_heap;
         int cap = m_iCapacityState;
         m_iElementCount = 0;
         if (!(cap & 0x80000000))
         {
             int bytes = (cap & 0x3fffffff) * 4;
-            alloc->FreeArray(m_data, bytes);
+            alloc->bufFree(m_data, bytes);
         }
         m_data = 0;
         m_iElementCount = 0;
@@ -3519,9 +3431,9 @@ void Tree::FUN_00e08cc0(S_00e07da0_Node* node, int arg2, int arg3)
     node->info.unk8 = 0;
     {
         EntryArray& entries = this->m_pAssemblerHelper->m_entries;
-        Router* router = getMemoryRouter();
+        hkMemoryRouter* router = &hkMemoryRouter::getInstance();
         if (entries.m_iElementCount == (entries.m_iCapacityState & 0x3fffffff))
-            ::ResizeAudioStream((::AudioAllocator *)(router->allocator), (::AudioStream *)(void *)(&entries), 8);
+            ::ResizeAudioStream((::AudioAllocator *)(router->m_heap), (::AudioStream *)(void *)(&entries), 8);
         entries.m_iElementCount++;
     }
 
@@ -3579,18 +3491,18 @@ template <class T> struct BvArray
             m_data[i].~T();
         m_iElementCount = 0;
     }
-    void ClearAndRelease(BvAllocator& alloc)
+    void ClearAndRelease(hkMemoryAllocator& alloc)
     {
         clear();
         if ((m_iCapacityState & 0x80000000u) == 0)
-            alloc.ReleaseBlock(m_data, getCapacity() * sizeof(T));
+            alloc.bufFree(m_data, getCapacity() * sizeof(T));
         m_data = 0;
         m_iCapacityState = 0x80000000;
     }
-    void AddBack(Router& router, const T& t)
+    void AddBack(hkMemoryRouter& router, const T& t)
     {
         if (m_iElementCount == getCapacity())
-            ResizeAudioStream(router.allocator, this, sizeof(T));
+            ResizeAudioStream(router.m_heap, this, sizeof(T));
         T* p = m_data + m_iElementCount;
         for (int i = 0; i < 1; i++)
             p[i] = t;
@@ -3601,7 +3513,7 @@ static void FUN_00e08320(BvArray<BvFixup>* destination, BvArray<BvFixup>* source
 {
     for (int i = 0; i < source->m_iElementCount; ++i)
     {
-        BvAllocator& heap = GetHeap();
+        hkMemoryAllocator& heap = GetHeap();
         if (destination->m_iElementCount == destination->getCapacity())
             ResizeAudioStream(&heap, destination, sizeof(BvFixup));
         BvFixup* out = destination->m_data + destination->m_iElementCount;
@@ -3611,7 +3523,7 @@ static void FUN_00e08320(BvArray<BvFixup>* destination, BvArray<BvFixup>* source
     }
 }
 static int FUN_00e08380(BvTree* tree, FUN_00e065f0* source, BvArray<int>* refs, FUN_00e065f0* destination);
-void __cdecl ResizeAudioStream(P154Allocator*, void*, int);
+void __cdecl ResizeAudioStream(hkMemoryAllocator*, void*, int);
 
 typedef signed char hkInt8;
 typedef signed short hkInt16;
@@ -3668,55 +3580,6 @@ template <typename T> struct TypeSizeConstant
         val = sizeof(T)
     };
 };
-class hkMemoryAllocator
-{
-  public:
-    virtual ~hkMemoryAllocator();
-    virtual void* AllocateMemoryBlock(int numBytes) = 0;
-    virtual void ReleaseBlock(void* p, int numBytes) = 0;
-    virtual void* AllocateBufferWithSize(int& reqNumBytesInOut);
-    template <typename TYPE> inline TYPE* _bufAlloc(int& reqNumInOut)
-    {
-        const int SIZE_ELEM = TypeSizeConstant<TYPE>::val;
-        int n = reqNumInOut * SIZE_ELEM;
-        void* p = AllocateBufferWithSize(n);
-        reqNumInOut = n / SIZE_ELEM;
-        return static_cast<TYPE*>(p);
-    }
-
-  public:
-    enum MemoryState
-    {
-        MEMORY_STATE_OK,
-        MEMORY_STATE_OUT_OF_MEMORY
-    };
-};
-struct StringPointerTriple
-{
-  public:
-    __forceinline StringPointerTriple();
-
-  protected:
-    ValueWrapper<void*> m_next;
-    ValueWrapper<void*> m_kRayStart;
-    ValueWrapper<void*> m_kRayEnd;
-};
-class NineIntegerRecord
-{
-  public:
-    typedef hkMemoryAllocator Allocator;
-    static NineIntegerRecord& __cdecl GetMonitorStream();
-    inline Allocator& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-
-  protected:
-    StringPointerTriple m_aiEntries;
-    Allocator* m_pTemp;
-    Allocator* m_pStreamAllocator;
-    Allocator* m_pDebugAllocator;
-};
 class hkBaseObject
 {
   public:
@@ -3733,7 +3596,7 @@ class hkReferencedObject : public hkBaseObject
     {
         ;
         hkReferencedObject* b = static_cast<hkReferencedObject*>(
-            NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes)));
+            hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes)));
         b->m_usMemSizeAndFlags = static_cast<hkUint16>(nbytes);
         ;
         return b;
@@ -3769,7 +3632,7 @@ struct RouterHeapAllocatorProvider
 {
     hkMemoryAllocator& get(const void*)
     {
-        return NineIntegerRecord::GetMonitorStream().heap();
+        return hkMemoryRouter::getInstance().heap();
     }
 };
 template <typename T> class HavokElementArray
@@ -3873,7 +3736,7 @@ class hkVector4
     __forceinline void* __cdecl operator new(std::size_t nbytes)
     {
         ;
-        void* obj = NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));
+        void* obj = hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));
         ;
         return obj;
     }
@@ -3926,7 +3789,7 @@ class hkpMoppCode : public hkReferencedObject
     {
         ;
         hkReferencedObject* b = static_cast<hkReferencedObject*>(
-            NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes)));
+            hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes)));
         b->m_usMemSizeAndFlags = static_cast<hkUint16>(nbytes);
         ;
         return b;
@@ -3942,7 +3805,7 @@ class hkpMoppCode : public hkReferencedObject
         __forceinline void* __cdecl operator new(std::size_t nbytes)
         {
             ;
-            void* obj = NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));
+            void* obj = hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));
             ;
             return obj;
         }
@@ -3951,7 +3814,7 @@ class hkpMoppCode : public hkReferencedObject
             if (p)
             {
                 ;
-                NineIntegerRecord::GetMonitorStream().heap().ReleaseBlock(p, sizeof(hkpMoppCode::CodeInfo));
+                hkMemoryRouter::getInstance().heap().blockFree(p, sizeof(hkpMoppCode::CodeInfo));
             }
         }
         __forceinline void* __cdecl operator new(std::size_t n, void* p)
@@ -4005,7 +3868,7 @@ class hkpMoppAssembler : public hkReferencedObject
     {
         ;
         hkReferencedObject* b = static_cast<hkReferencedObject*>(
-            NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes)));
+            hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes)));
         b->m_usMemSizeAndFlags = static_cast<hkUint16>(nbytes);
         ;
         return b;
@@ -4015,7 +3878,7 @@ class hkpMoppAssembler : public hkReferencedObject
         __forceinline void* __cdecl operator new(std::size_t nbytes)
         {
             ;
-            void* obj = NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));
+            void* obj = hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));
             ;
             return obj;
         }
@@ -4024,7 +3887,7 @@ class hkpMoppAssembler : public hkReferencedObject
             if (p)
             {
                 ;
-                NineIntegerRecord::GetMonitorStream().heap().ReleaseBlock(
+                hkMemoryRouter::getInstance().heap().blockFree(
                     p, sizeof(hkpMoppAssembler::MoppAssemblerSettings));
             }
         }

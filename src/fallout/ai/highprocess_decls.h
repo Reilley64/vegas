@@ -912,6 +912,7 @@ class EffectSetting
   public:
 public:
     ::TESSound *GetHitSound();
+    ::TESSound *GetCastSound();
 };
 class HighProcessCellView
 {

@@ -1,5 +1,6 @@
 // fallout/ai/highprocess.cpp: HighProcess, HighProcessStandIn, Process, HighProcessHack and more (352 functions)
 
+#include "fnv/result_slot.h"
 #include "fnv/simple_array_item.h"
 #include <new>
 #include <cmath>
@@ -2314,10 +2315,6 @@ struct FUN_00904160_shell : public HighProcess
 };
 
 
-template <> class BSSimpleList<int>
-{
-  public:
-};
 
 // If the list pointer at offset 0x44c is set, deletes each node's payload, removes all entries, deletes the list, and nulls the pointer.
 // @fnv 0x00904160
@@ -17814,6 +17811,8 @@ class PathingRequest
   public:
     PathingRequest();
     virtual ~PathingRequest();
+    void IncRefCount();
+    void DecRefCount();
     void SetSmoothingRandomness(float afRandomness);
     int unk04;
     int unk08;
@@ -20985,12 +20984,12 @@ void HighProcessSave::SaveToStream(unsigned int flags, void* buffer)
         if (record)
         {
             SavedFormLogView* form = ((::fnv_008faa50::SavedFormLogView *)(::FUN_004839c0(record->formID)));
-            ::FUN_0040fbe0(::DAT_010153a0, end - start, record->formID, form->Describe(), *(unsigned int*)record->flags,
-                         0x3200, DAT_01088358);
+            form->Describe();
+            ::FUN_0040fbe0();
         }
         else
         {
-            ::FUN_0040fbe0(::DAT_0101536c, end - start, 0x3200, DAT_01088358);
+            ::FUN_0040fbe0();
         }
     }
     if (reinterpret_cast<::FUN_00862110_cls *>(((*reinterpret_cast<::fnv_008faa50::ProcessSaveBuffer * *>(&::g_TESSaveLoadGame))))->FUN_00862110())
@@ -20998,7 +20997,7 @@ void HighProcessSave::SaveToStream(unsigned int flags, void* buffer)
         unsigned char* blockEnd_ = ((unsigned char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::fnv_008faa50::ProcessSaveBuffer * *>(&::g_TESSaveLoadGame))))->FUN_00825c00()));
         unsigned char* begin = blockStart9;
         if (blockEnd_ > begin + 65535)
-            ::FUN_005b5e40(::DAT_01015318, DAT_01088358, 0x3200);
+            ::FUN_005b5e40();
         *(unsigned short*)blockStart9 = (unsigned short)(blockEnd_ - begin);
     }
 }
@@ -61218,7 +61217,7 @@ BSSimpleList<BSSimpleList<MenuTopic*>*>* MenuTopicOwner::BuildTopicLists(Actor* 
         {
             while (pNode && !FUN_008256d0(pNode))
             {
-                TopicSource* pSource = *(TopicSource**)&((::Vec3 *)(void *)(((B006815c0*)pNode)));
+                TopicSource* pSource = *(TopicSource**)(void *)(((B006815c0*)pNode));
                 if (pSource)
                 {
                     BSSimpleList<Actor*>* pList = ((::BSSimpleList< ::Actor *> *)(reinterpret_cast<::fnv_0050c1d0::FUN_0050c1d0_shell *>((pSource))->CollectHeadParts((::fnv_0050c1d0::SpellOwner *)(apActor))));
@@ -61226,7 +61225,7 @@ BSSimpleList<BSSimpleList<MenuTopic*>*>* MenuTopicOwner::BuildTopicLists(Actor* 
                     while (pEntry && !FUN_008256d0(pEntry))
                     {
                         BSSimpleList<MenuTopic*>* pTopic =
-                            *(BSSimpleList<MenuTopic*>**)&((::Vec3 *)(void *)(((B006815c0*)pEntry)));
+                            *(BSSimpleList<MenuTopic*>**)(void *)(((B006815c0*)pEntry));
                         if (pTopic && ((TopicEntry*)pTopic)->kKind.GetKind() != 4)
                         {
                             bool bAdd = true;
@@ -63350,8 +63349,8 @@ void PackageHandler::FUN_008ee3e0(PackageActor* apActor)
 
 }
 
-struct Pt3;
 namespace fnv_008eeec0 {
+struct Pt3;
 bool FUN_008f21c0();
 
 struct Arg8ee;
@@ -69316,7 +69315,7 @@ struct Self
     void FUN_00902290(Ref* actor);
 };
 }
-using namespace pkg902;
+namespace pkg902 {
 
 // Resolves the move target and mount, then starts a path and dispatches to FUN_00902640, SelectMoveTarget, or FUN_00902c80 based on pProcB state.
 // @fnv 0x00902290
@@ -69403,6 +69402,7 @@ void Self::FUN_00902290(Ref* actor)
         break;
     }
 }
+}  // namespace pkg902
 
 
 struct FUN_008fe9e0_data
@@ -69988,9 +69988,9 @@ struct VisibilityNode : NiAVObject
 // @fnv 0x008e5730
 void HighProcess::FUN_008e5730(Actor* actor)
 {
-    NiPoint3 delta = static_cast<const PointOps&>(*actor->vfn_1f4() - FUN_0045c670()->FUN_00558310()->FUN_0043c490())
+    NiPoint3 delta = reinterpret_cast<const PointOps&>(ResultSlot(*actor->vfn_1f4() - FUN_0045c670()->FUN_00558310()->FUN_0043c490()))
                          .FUN_0053d280(static_cast<ActorScale*>(actor)->FUN_00567400());
-    int lod = (int)(12.0 * std::abs(reinterpret_cast<::NiPoint3 *>((void *)&(static_cast<const PointOps&>(delta)))->ComputeMagnitude()) *
+    int lod = (int)(12.0 * std::abs(reinterpret_cast<::NiPoint3 *>((void *)&delta)->ComputeMagnitude()) *
                     reinterpret_cast<::FUN_00508070_class *>((((::CameraData *)(reinterpret_cast<::BSFaceGenNiNode *>((FUN_0045c670()))->GetAnimationData()))))->FUN_00508070() / (*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::IntegerSetting *>(&::g_011ccf88)))))) * ((double)(::FUN_007d1d00(3)))));
     if (lod >= ::GetField38((char *)(m_pBoneLODController)))
         lod = -1;
@@ -71322,31 +71322,7 @@ class TESEffectShader;
 class ArrowProjectile;
 class ActorCombatGroup;
 class ActorPackageContext;
-template <> class SettingT<GameSettingCollection>
-{
-  public:
-};
 extern SettingT<GameSettingCollection> originalRuntimeFloatSetting175;
-template <> class BSSimpleList<TESForm*>
-{
-  public:
-    TESForm* m_item;
-    BSSimpleList* m_pkNext;
-    bool IsInList(TESForm*&);
-};
-template <> class BSSimpleList<TESTopicInfo*>
-{
-  public:
-    TESTopicInfo* m_item;
-    BSSimpleList* m_pkNext;
-    BSSimpleList();
-    ~BSSimpleList();
-    bool IsEmpty();
-    void AddHead(TESTopicInfo*&);
-    void RemoveAll();
-    void RemoveHead();
-    void SetItem(TESTopicInfo* const&);
-};
 class FleePackage;
 class TESSound;
 extern GlobalObject_0045d260 g_011e0244;
@@ -71376,33 +71352,6 @@ extern SettingT<GameSettingCollection> originalRuntimeFloatSetting347;
 extern PlayerDetectionCounter DAT_011a3780[];
 struct TESObjectREFR;
 class NiTexture;
-template <> class NiPointer<NiTexture>
-{
-  public:
-    NiTexture* m_pObject;
-    NiPointer();
-    NiPointer(NiTexture*);
-    ~NiPointer();
-    NiPointer& operator=(NiTexture*);
-};
-template <> class NiPointer<KFModel>
-{
-  public:
-    KFModel* m_pObject;
-    NiPointer();
-    NiPointer(KFModel*);
-    ~NiPointer();
-    NiPointer& operator=(KFModel*);
-};
-template <> class NiPointer<ActorPathingMessageQueue>
-{
-  public:
-    ActorPathingMessageQueue* m_pObject;
-    NiPointer();
-    NiPointer(ActorPathingMessageQueue*);
-    ~NiPointer();
-    NiPointer& operator=(ActorPathingMessageQueue*);
-};
 
 class NiNode;
 class Biped;
@@ -71940,7 +71889,7 @@ void Actor::FUN_008db810(Actor* actor)
         {
             reinterpret_cast<::fnv_00881680::FUN_00881680_shell *>((actor))->FUN_00881680(0);
             actor->Start(*(SimpleArrayItem<void **>(&(targetsSlot0), 0)), 1, 1, 1, 0, 0, ::DAT_01012054, ::DAT_01012054);
-            ::FleePackage* following = dynamic_cast< ::FleePackage*>(reinterpret_cast<::FUN_009344a0_shell *>((actor))->FUN_009344a0());
+            ::FleePackage* following = dynamic_cast< ::FleePackage*>(reinterpret_cast< ::TESForm*>(reinterpret_cast<::FUN_009344a0_shell *>((actor))->FUN_009344a0()));
             if (following)
             {
                 for (int index = 0; index < count; index++)
@@ -71982,7 +71931,7 @@ void Actor::FUN_008db810(Actor* actor)
         reinterpret_cast<::FUN_009f7f20_class *>((package))->FUN_009f7f20((::MobileObject *)(actor), 1);
         reinterpret_cast<::FUN_009f7d70_cls *>((package))->FUN_009f7d70((::Actor9f7d *)(actor), 1);
         unsigned int time = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::PackagePathing::Timer *>(&::g_timeGlobal))))->FUN_00825c00();
-        if (time > ((unsigned int)(reinterpret_cast<::EffectSetting *>((package))->GetCastSound())) + 1500)
+        if (time > ((unsigned int)(std::uintptr_t)(reinterpret_cast<::EffectSetting *>((package))->GetCastSound())) + 1500)
         {
             reinterpret_cast<::FUN_008ac890_shell *>((package))->SetWaterForm((::TESWaterForm *)(time));
             Vec oldSlot17Slot17 = actor->Position();

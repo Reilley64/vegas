@@ -211,6 +211,7 @@ set(VEGAS18_FALLOUT_SHARED_SOURCES
   src/fallout_shared/tesimagespacemodifiableform.cpp
   src/fallout_shared/tesimagespacemodifier.cpp
   src/fallout_shared/teskey.cpp
+  src/fallout_shared/tesland.cpp
   src/fallout_shared/teslevcharacter.cpp
   src/fallout_shared/teslevcreature.cpp
   src/fallout_shared/tesleveledlist.cpp
@@ -341,7 +342,6 @@ set(VEGAS18_FALLOUT_SHARED_NARROWING_SOURCES
   src/fallout_shared/tesfile.cpp
   src/fallout_shared/tesform.cpp
   src/fallout_shared/tesgrass.cpp
-  src/fallout_shared/tesland.cpp
   src/fallout_shared/teslevspell.cpp
   src/fallout_shared/teslight.cpp
   src/fallout_shared/tesmodel.cpp

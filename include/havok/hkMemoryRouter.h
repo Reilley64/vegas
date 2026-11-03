@@ -4,13 +4,23 @@
 
 #include "fnv/symbols_00c85000.h"
 
-// Allocator interface the router points to; the slots units call are blockAlloc (+0x4) and blockFree (+0x8).
+// Allocator interface the router points to, in Havok's virtual slot order (32-bit vtable offsets).
 class hkMemoryAllocator
 {
   public:
-    virtual ~hkMemoryAllocator();
-    virtual void* blockAlloc(int numBytes);
-    virtual void blockFree(void* p, int numBytes);
+    struct MemoryStatistics;
+
+    virtual ~hkMemoryAllocator();                                                     // +0x0
+    virtual void* blockAlloc(int numBytes);                                           // +0x4
+    virtual void blockFree(void* p, int numBytes);                                    // +0x8
+    virtual void* bufAlloc(int& reqNumBytesInOut);                                    // +0xc
+    virtual void bufFree(void* p, int numBytes);                                      // +0x10
+    virtual void* bufRealloc(void* pOld, int oldNumBytes, int& reqNumBytesInOut);     // +0x14
+    virtual void blockAllocBatch(void** ptrsOut, int numPtrs, int blockSize);         // +0x18
+    virtual void blockFreeBatch(void** ptrsIn, int numPtrs, int blockSize);           // +0x1c
+    virtual void getMemoryStatistics(MemoryStatistics& u);                            // +0x20
+    virtual int getAllocatedSize(const void* obj, int numBytes);                      // +0x24
+    virtual void resetPeakMemoryStatistics();                                         // +0x28
 };
 
 // Offsets are the 32-bit release's.

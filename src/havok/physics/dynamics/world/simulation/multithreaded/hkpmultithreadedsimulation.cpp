@@ -2019,23 +2019,21 @@ void FUN_00d02e70_cls::AddToiEvent(char* input, EventMeta* meta, CRITICAL_SECTIO
     count34 = eax;
     eax = eax - ecx;
     edx = &edx[ecx];
-    ecx *= sizeof(Event);
     if (eax > 0)
     {
-        float* p = &edx->u;
+        Event* e = edx;
         do
         {
-            Event* e = (Event*)((char*)p - offsetof(Event, u));
             if (e)
             {
-                p[0] = 0.0f;
-                p[1] = 0.0f;
+                e->u = 0.0f;
+                e->v = 0.0f;
             }
-            p = (float*)((char*)p + sizeof(Event));
+            ++e;
             eax--;
         } while (eax);
     }
-    Event* dest = (Event*)((char*)items30 + ecx);
+    Event* dest = &items30[ecx];
     LeaveCriticalSection(cs);
     WriteTrace("Et");
     const ToiEventInput* toiIn = reinterpret_cast<const ToiEventInput*>(input);

@@ -3,6 +3,7 @@
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
 #include "fnv/symbols_00c85000.h"
+#include "havok/hkMemoryRouter.h"
 #include "../../include/layout_support.h"
 #include <cstddef>
 #include <new>
@@ -1031,25 +1032,6 @@ struct F7_Scope
     }
 };
 
-struct F7_Alloc
-{
-    virtual void slot0();
-    virtual void* alloc(int bytes);
-};
-
-struct F7_Router
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    F7_Alloc* m_pStreamAllocator;
-    F7_Alloc& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
-
 
 struct F7_Vec
 {
@@ -1068,7 +1050,7 @@ struct F7_Shape
     F7_Shape();
     static void* operator new(std::size_t amount)
     {
-        void* r = static_cast<F7_Router*>(::FUN_00c85750())->heap().alloc(amount);
+        void* r = hkMemoryRouter::getInstance().heap().blockAlloc(int(amount));
         ((F7_Shape*)r)->size = (unsigned short)amount;
         return r;
     }
@@ -1217,24 +1199,6 @@ struct NiStream
         reader->ReadScalar(&value, sizeof(T));
     }
 };
-struct Allocator
-{
-    virtual void unk00() = 0;
-    virtual void unk04() = 0;
-    virtual void unk08() = 0;
-    virtual void unk0c() = 0;
-    virtual void Free(void*, unsigned) = 0;
-    template <class T> void FreeArray(T* data, unsigned capacity)
-    {
-        if (!(capacity & 0x80000000u))
-            Free(data, (capacity & 0x3fffffffu) * sizeof(T));
-    }
-};
-struct MemoryRouter
-{
-    unsigned unk00, unk04, unk08, unk0c;
-    Allocator* heap;
-};
 template <class T> struct LegacyArray
 {
     T* data;
@@ -1246,17 +1210,17 @@ template <class T> struct LegacyArray
             data[i].~T();
         size = 0;
     }
-    void ClearAndDeallocate(Allocator& allocator)
+    void ClearAndDeallocate(hkMemoryAllocator& allocator)
     {
         Clear();
-        allocator.FreeArray(data, capacity);
+        if (!(capacity & 0x80000000u))
+            allocator.bufFree(data, int((capacity & 0x3fffffffu) * sizeof(T)));
         data = 0;
         capacity = 0x80000000u;
     }
     void ClearAndDeallocate()
     {
-        MemoryRouter* router = static_cast<MemoryRouter*>(::FUN_00c85750());
-        ClearAndDeallocate(*router->heap);
+        ClearAndDeallocate(hkMemoryRouter::getInstance().heap());
     }
 };
 struct __declspec(align(16)) FUN_00ca7310

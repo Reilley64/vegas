@@ -7,17 +7,6 @@ set(VEGAS_ROOT_SOURCES
   "src/bgsterrainnode.cpp"
   "src/effectsetting.cpp"
   "src/falloutcharacterprogression_copies_033.cpp"
-  "src/gamebryo2.2/corelibs/nianimation/nianimationkey_registration.cpp"
-  "src/generated/aggregate_initializers_o2.cpp"
-  "src/generated/crt_callback_float_ratio.cpp"
-  "src/generated/crt_callback_float_reciprocal.cpp"
-  "src/generated/crt_callback_float_scale.cpp"
-  "src/generated/float_call_initializers.cpp"
-  "src/generated/global_object_initializers.cpp"
-  "src/generated/global_object_initializers2.cpp"
-  "src/generated/global_object_initializers_o2.cpp"
-  "src/generated/setting_eh_initializers.cpp"
-  "src/generated/setting_float_initializers.cpp"
   "src/imagespaceshaderblur_h_unit.cpp"
   "src/nid3dpass_h_unit.cpp"
   "src/nid3dvertexshader_h_unit.cpp"
@@ -171,4 +160,25 @@ set_source_files_properties(${VEGAS_ROOT_SOURCES} PROPERTIES
   INCLUDE_DIRECTORIES "${PROJECT_SOURCE_DIR}/include"
   COMPILE_DEFINITIONS "WIN32_LEAN_AND_MEAN;NOMINMAX"
   COMPILE_OPTIONS "-Werror=pointer-to-int-cast;-Werror=void-pointer-to-int-cast;-Werror=int-to-pointer-cast;-Werror=int-to-void-pointer-cast"
+)
+
+# The generated initializer units and the key-type registration still pass pointers through 32-bit integers to
+# staging callees, so they build without the narrowing errors.
+set(VEGAS_ROOT_GENERATED_SOURCES
+  "src/gamebryo2.2/corelibs/nianimation/nianimationkey_registration.cpp"
+  "src/generated/aggregate_initializers_o2.cpp"
+  "src/generated/crt_callback_float_ratio.cpp"
+  "src/generated/crt_callback_float_reciprocal.cpp"
+  "src/generated/crt_callback_float_scale.cpp"
+  "src/generated/float_call_initializers.cpp"
+  "src/generated/global_object_initializers.cpp"
+  "src/generated/global_object_initializers2.cpp"
+  "src/generated/global_object_initializers_o2.cpp"
+  "src/generated/setting_eh_initializers.cpp"
+  "src/generated/setting_float_initializers.cpp"
+)
+target_sources(game PRIVATE ${VEGAS_ROOT_GENERATED_SOURCES})
+set_source_files_properties(${VEGAS_ROOT_GENERATED_SOURCES} PROPERTIES
+  INCLUDE_DIRECTORIES "${PROJECT_SOURCE_DIR}/include"
+  COMPILE_DEFINITIONS "WIN32_LEAN_AND_MEAN;NOMINMAX"
 )

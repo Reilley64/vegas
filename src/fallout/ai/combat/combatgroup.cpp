@@ -901,10 +901,10 @@ void* FUN_0098a410_shell::FindByValue(unsigned int value)
     return 0;
 }
 
-extern int DAT_011f18b4[];
+extern void* DAT_011f18b4[];
 
 // @fnv 0x0098e980
-int __cdecl FUN_0098e980(int index)
+void* __cdecl FUN_0098e980(int index)
 {
     return DAT_011f18b4[index];
 }
@@ -9127,7 +9127,7 @@ struct GroupLoad
     int unk004;
     ArrNodes nodes;
     ArrMembers members;
-    int strategy;
+    void* strategy;
     char flag;
     char unk02d;
     char unk02e;

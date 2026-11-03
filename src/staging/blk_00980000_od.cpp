@@ -1306,14 +1306,14 @@ struct FUN_0098f7b0_Class
     int m_0c;
     unsigned int FUN_0098f7b0();
 };
-extern int DAT_011f18b4[4];
+extern void* DAT_011f18b4[4];
 // Calls CreateCombatGroupStrategy for each index 0..3 and stores the results into DAT_011f18b4.
 // @fnv 0x00990070
 void __cdecl FUN_00990070()
 {
     for (unsigned int i = 0; i < 4; ++i)
     {
-        int v = ::CreateCombatGroupStrategy(i);
+        void* v = ::CreateCombatGroupStrategy(i);
         DAT_011f18b4[i] = v;
     }
 }
@@ -2497,7 +2497,7 @@ FUN_00990040::FUN_00990040(int arg) : FUN_0098ffb0(arg)
     mVtbl = &DAT_0108d97c;
 }
 
-extern int DAT_011f18b4[4];
+extern void* DAT_011f18b4[4];
 
 // Iterates over the four entries of DAT_011f18b4 and calls Deallocate on each one.
 // @fnv 0x009900b0
@@ -2505,7 +2505,7 @@ void DeallocateAll()
 {
     for (unsigned int i = 0; i < 4; i++)
     {
-        void* p = (void*)(std::uintptr_t)DAT_011f18b4[i];
+        void* p = DAT_011f18b4[i];
         ::FUN_00401030(p);
     }
 }
@@ -4877,18 +4877,18 @@ struct CombatGroupStrategy1 : CombatGroupStrategy
 
 // Creates and returns a combat group strategy object for the given type, warning and returning 0 for unknown types.
 // @fnv 0x0098fdf0
-int __cdecl CreateCombatGroupStrategy(unsigned int type)
+void* __cdecl CreateCombatGroupStrategy(unsigned int type)
 {
     switch (type)
     {
     case 0:
-        return (int)(std::uintptr_t)new CombatGroupStrategy0(type);
+        return new CombatGroupStrategy0(type);
     case 2:
-        return (int)(std::uintptr_t)new CombatGroupStrategy2(type);
+        return new CombatGroupStrategy2(type);
     case 3:
-        return (int)(std::uintptr_t)new CombatGroupStrategy3(type);
+        return new CombatGroupStrategy3(type);
     case 1:
-        return (int)(std::uintptr_t)new CombatGroupStrategy1(type);
+        return new CombatGroupStrategy1(type);
     default:
         ::FUN_005b5e40();
         return 0;
@@ -4944,7 +4944,7 @@ CombatStyleHandler* __cdecl SelectCombatStyleHandler(CombatActor* actor)
         return 0;
     for (unsigned int uiIndex = 0; uiIndex < 4; uiIndex++)
     {
-        CombatStyleHandler* pHandler = ((::CombatStyleHandler *)(std::uintptr_t)(::FUN_0098e980(uiIndex)));
+        CombatStyleHandler* pHandler = ((::CombatStyleHandler *)(::FUN_0098e980(uiIndex)));
         if (pHandler)
         {
             if (pHandler == pCurrentHandler)

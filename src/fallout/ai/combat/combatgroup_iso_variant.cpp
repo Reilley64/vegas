@@ -449,7 +449,7 @@ struct FUN_0098a410_shell
 {
     void* FindByValue(unsigned int value);
 };
-extern int DAT_011f18b4[];
+extern void* DAT_011f18b4[];
 struct CombatClusterMember
 {
     void* pActor;

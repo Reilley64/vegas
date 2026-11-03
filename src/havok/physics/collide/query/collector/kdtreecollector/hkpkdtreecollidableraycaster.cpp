@@ -2,6 +2,7 @@
 // src/havok/physics/collide/query/collector/kdtreecollector/hkpkdtreecollidableraycaster.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/query/collector/kdtreecollector/hkpkdtreecollidableraycaster.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <xmmintrin.h>
 #include "havok/hkMemoryRouter.h"
 #include <new>
 #include "fnv/symbols_00c85000.h"
@@ -221,25 +222,35 @@ struct S00d97bf0_Pool
 
 struct S00d97bf0_Obj;
 
-void __cdecl FUN_00d98ca0(int* p, int a, int b, int c, S00d97bf0_Obj* d);
+// The ray's start and end, the head of the cast input.
+struct S00d97bf0_RayInput
+{
+    __m128 m_from;
+    __m128 m_to;  // +0x10
+};
+struct S00d97bf0_Bool
+{
+    char m_bool;
+};
+S00d97bf0_Bool __cdecl FUN_00d98ca0(const void* tree, const __m128& from, const __m128& to, S00d97bf0_Obj* collector);
 
 struct S00d97bf0_Obj
 {
     virtual void v0();
     virtual void v1();
-    virtual void v2(int a);
+    virtual void v2(void* a);
 
-    int m04;
+    const S00d97bf0_RayInput* m04;
     int m08;
     int m0C;
-    int m10;
+    void* m10;
 
-    int FUN_00d97bf0(int a0, int a1, int a2, int a3);
+    void* FUN_00d97bf0(void* a0, const void* a1, const S00d97bf0_RayInput* a2, void* a3);
 };
 
 // Records TtKdTreeCastRayIter and Et timing markers, stores a2 and a3, calls FUN_00d98ca0 and v2, then returns a0.
 // @fnv 0x00d97bf0
-int S00d97bf0_Obj::FUN_00d97bf0(int a0, int a1, int a2, int a3)
+void* S00d97bf0_Obj::FUN_00d97bf0(void* a0, const void* a1, const S00d97bf0_RayInput* a2, void* a3)
 {
     extern void* DAT_00fdf044;
     extern const char str_010d406c[];
@@ -265,7 +276,7 @@ int S00d97bf0_Obj::FUN_00d97bf0(int a0, int a1, int a2, int a3)
     m04 = a2;
     m10 = a3;
 
-    FUN_00d98ca0(&a2, a1, a2, a2 + 0x10, this);
+    FUN_00d98ca0(a1, a2->m_from, a2->m_to, this);
 
     v2(a0);
 
@@ -277,9 +288,8 @@ int S00d97bf0_Obj::FUN_00d97bf0(int a0, int a1, int a2, int a3)
         rec->name = "Et";
         _ReadWriteBarrier();
 
-        volatile unsigned int* ts = (volatile unsigned int*)&a2;
-        *ts = (unsigned int)__rdtsc();
-        rec->tsc = *ts;
+        volatile unsigned int ts = (unsigned int)__rdtsc();
+        rec->tsc = ts;
 
         rec++;
         pool->cur = rec;

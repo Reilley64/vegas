@@ -1705,7 +1705,7 @@ struct AudioHolder
 
 struct FUN_00de10e0_cls
 {
-    int m_vptr;
+    void* m_vptr;
     unsigned short m_uSize;
     unsigned short m_u06;
     void* m_p08;
@@ -1728,7 +1728,7 @@ FUN_00de10e0_cls* FUN_00de10e0_cls::FUN_00de10e0(unsigned char acFlags)
     }
     m_p08 = 0;
     m_10 = 0x80000000;
-    m_vptr = (int)&(*reinterpret_cast<int *>(&::DAT_0102e388));
+    m_vptr = &(*reinterpret_cast<int *>(&::DAT_0102e388));
     if (acFlags & 1)
     {
         AudioHolder* pHolder2 = static_cast<AudioHolder*>(::FUN_00c85750());
@@ -4759,7 +4759,7 @@ struct AudioHolder
 
 struct FUN_00dfd130_cls
 {
-    int m_vptr;
+    void* m_vptr;
     unsigned short m_uSize;
     unsigned short m_u06;
     int m_08;
@@ -4785,7 +4785,7 @@ FUN_00dfd130_cls* FUN_00dfd130_cls::FUN_00dfd130(unsigned char acFlags)
     }
     m_pData = 0;
     m_uiItemCount = 0x80000000;
-    m_vptr = (int)&(*reinterpret_cast<int *>(&::DAT_0102e388));
+    m_vptr = &(*reinterpret_cast<int *>(&::DAT_0102e388));
     if (acFlags & 1)
     {
         AudioHolder* pHolder2 = static_cast<AudioHolder*>(::FUN_00c85750());

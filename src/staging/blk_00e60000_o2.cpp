@@ -221,7 +221,7 @@ extern int DAT_010eec74;
 struct FUN_00e7b200_Class
 {
     int vtbl;
-    int m_p;
+    void* m_p;
     FUN_00e7b200_Class* FUN_00e7b200(int);
 };
 // Sets the vtable, frees m_p with NiFree, and if bit 0 of a is set deallocates this via the memory manager; returns this.
@@ -3943,7 +3943,7 @@ void __cdecl FUN_00aa10f0(void* p);
 struct FUN_00e7bcd0_cls
 {
     int unk00;
-    int unk04;
+    void* unk04;
     FUN_00e7bcd0_Item** m_items;
     unsigned short unk0C;
     unsigned short m_uiItemCount;
@@ -3962,7 +3962,7 @@ void FUN_00e7bcd0_cls::DestroyItems()
             FUN_00aa1460(item, 0x468);
         }
     }
-    unk04 = (int)&DAT_010eec4c;
+    unk04 = &DAT_010eec4c;
     FUN_00aa10f0(m_items);
 }
 
@@ -4516,7 +4516,7 @@ struct FUN_00e7d4e0_pool
 
 struct FUN_00e7d4e0_cls
 {
-    int m_vptr;
+    void* m_vptr;
     int unk04;
     int unk08;
     void* m_0c;
@@ -4547,13 +4547,13 @@ struct FUN_00e7d4e0_cls
 // @fnv 0x00e7d4e0
 void FUN_00e7d4e0_cls::FUN_00e7d4e0()
 {
-    m_vptr = (int)&DAT_010ef06c;
+    m_vptr = &DAT_010ef06c;
     if (m_58 != 0)
     {
         m_58->Release();
         m_58 = 0;
     }
-    m_vptr = (int)&::DAT_010eeed4;
+    m_vptr = &::DAT_010eeed4;
     if (m_14 != 0)
     {
         m_14->Release();
@@ -4561,7 +4561,7 @@ void FUN_00e7d4e0_cls::FUN_00e7d4e0()
     }
     reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00e7d4e0::FUN_00e7d4e0_pool *>(&::g_memoryManager))))->FUN_00aa4060(m_0c);
     m_0c = 0;
-    m_vptr = (int)&::DAT_0101dce4;
+    m_vptr = &::DAT_0101dce4;
     InterlockedDecrement(&(*reinterpret_cast<volatile long *>(&::NiRefObject::ms_lObjectCount)));
 }
 }  // namespace fnv_00e7d4e0
@@ -4591,7 +4591,7 @@ struct FUN_00e7d620_pool
 
 struct FUN_00e7d620_cls
 {
-    int m_vptr;
+    void* m_vptr;
     int unk04;
     int unk08;
     void* m_0c;
@@ -4605,7 +4605,7 @@ struct FUN_00e7d620_cls
 // @fnv 0x00e7d620
 FUN_00e7d620_cls* FUN_00e7d620_cls::FUN_00e7d620(unsigned char acFlags)
 {
-    m_vptr = (int)&::DAT_010eeed4;
+    m_vptr = &::DAT_010eeed4;
     if (m_14 != 0)
     {
         m_14->Release();
@@ -4613,7 +4613,7 @@ FUN_00e7d620_cls* FUN_00e7d620_cls::FUN_00e7d620(unsigned char acFlags)
     }
     reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00e7d620::FUN_00e7d620_pool *>(&::g_memoryManager))))->FUN_00aa4060(m_0c);
     m_0c = 0;
-    m_vptr = (int)&::DAT_0101dce4;
+    m_vptr = &::DAT_0101dce4;
     InterlockedDecrement(&(*reinterpret_cast<volatile long *>(&::NiRefObject::ms_lObjectCount)));
     if (acFlags & 1)
     {

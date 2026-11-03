@@ -1906,7 +1906,7 @@ struct AudioHolder
 
 struct FUN_00e3b0a0_cls
 {
-    int m_vptr00;
+    void* m_vptr00;
     unsigned int unk04;
     unsigned int unk08;
     unsigned int unk0c;
@@ -1923,7 +1923,7 @@ struct FUN_00e3b0a0_cls
 // @fnv 0x00e3b0a0
 void FUN_00e3b0a0_cls::FUN_00e3b0a0()
 {
-    m_vptr00 = (int)&(*reinterpret_cast<int *>(&::DAT_010eb98c));
+    m_vptr00 = &(*reinterpret_cast<int *>(&::DAT_010eb98c));
     AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
     AudioAllocator* pAllocator = pHolder->m_pAllocator;
     unsigned int uCapBits = m_uCapBits;
@@ -1934,7 +1934,7 @@ void FUN_00e3b0a0_cls::FUN_00e3b0a0()
     }
     m_pData = 0;
     m_uCapBits = 0x80000000u;
-    m_vptr00 = (int)&(*reinterpret_cast<int *>(&::DAT_0102e388));
+    m_vptr00 = &(*reinterpret_cast<int *>(&::DAT_0102e388));
 }
 }  // namespace fnv_00e3b0a0
 

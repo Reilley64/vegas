@@ -1051,7 +1051,7 @@ int* __cdecl FUN_00e01460()
 extern int DAT_010e929c;
 struct FUN_00e01470_s
 {
-    int m_iWordAt00;
+    void* m_iWordAt00;
     int m_iWordAt04;
     int m_8;
     int m_iThirdValue;
@@ -1069,7 +1069,7 @@ void __cdecl FUN_00e01470(FUN_00e01470_s* pObject, int iValue)
 {
     if (pObject)
     {
-        pObject->m_iWordAt00 = (int)&DAT_010e929c;
+        pObject->m_iWordAt00 = &DAT_010e929c;
         reinterpret_cast<::FUN_00cb0a70_Class *>((((FUN_00cb0a70*)&pObject->m_2c)))->FUN_00cb0a70(iValue);
     }
 }
@@ -1227,15 +1227,15 @@ int __cdecl FUN_00e02610(FUN_00e026c0_vtbl* p)
 
 struct FUN_00e027b0_cls
 {
-    int m_iWordAt00;
+    char* m_iWordAt00;
     int m_iWordAt04;
     int m_8;
-    int m_iThirdValue;
+    char* m_iThirdValue;
     int m_10;
     void ApplyRelocations(intptr_t base);
 };
 
-// Applies two relocation tables to a base address: adds base to each first-table entry's offset, and writes second-table values directly.
+// Applies two relocation tables to a base address: stores base plus each first-table entry's target offset as a pointer, and writes second-table values directly.
 // @fnv 0x00e027b0
 void FUN_00e027b0_cls::ApplyRelocations(intptr_t base)
 {
@@ -1243,8 +1243,7 @@ void FUN_00e027b0_cls::ApplyRelocations(intptr_t base)
     while (i < m_iWordAt04)
     {
         int* entry = (int*)(m_iWordAt00 + i * 8);
-        int off = entry[1] + base;
-        *(int*)(base + entry[0]) = off;
+        *(char**)(base + entry[0]) = (char*)base + entry[1];
         ++i;
     }
     i = 0;
@@ -3228,7 +3227,7 @@ struct FUN_00e021d0_class
     int unk10;
     int unk14;
     int unk18;
-    int unk1C;
+    void* unk1C;
     int unk20;
     int unk24;
 
@@ -3491,7 +3490,7 @@ struct AudioHolder
 
 struct FUN_00e025a0_cls
 {
-    int m_vptr;
+    void* m_vptr;
     unsigned short m_uSize;
     unsigned short m_u06;
     void* m_p08;
@@ -3515,7 +3514,7 @@ FUN_00e025a0_cls* FUN_00e025a0_cls::FUN_00e025a0(unsigned char acFlags)
     }
     m_p08 = 0;
     m_10 = 0x80000000;
-    m_vptr = (int)&DAT_0102e388;
+    m_vptr = &DAT_0102e388;
     if (acFlags & 1)
     {
         AudioHolder* pHolder2 = static_cast<AudioHolder*>(::FUN_00c85750());
@@ -3669,7 +3668,7 @@ struct FUN_00e05d10_sub
 
 struct FUN_00e05d10_cls
 {
-    int m_vptr00;
+    void* m_vptr00;
     int unk04;
     void* m_p08;
     void* m_p0c;
@@ -3746,7 +3745,7 @@ struct FUN_00e05d10_cls
 // @fnv 0x00e05d10
 void FUN_00e05d10_cls::FUN_00e05d10()
 {
-    m_vptr00 = (int)&(*reinterpret_cast<int *>(&::DAT_010d77d8));
+    m_vptr00 = &(*reinterpret_cast<int *>(&::DAT_010d77d8));
     if (m_p08 != 0)
     {
         reinterpret_cast<::hkReferencedObjectC905 *>((m_p08))->FUN_00c905b0();

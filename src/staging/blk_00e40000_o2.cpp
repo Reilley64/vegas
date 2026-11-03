@@ -3832,7 +3832,7 @@ struct FUN_00e48db0_class {
     int m_04;
     int m_08;
     int m_0c;
-    int m_10;
+    void* m_10;
     FUN_00e48db0_class* InitFromFloatAndPointer(float f, void* p);
 };
 // Calls FUN_00dcd310 with f and p, then stores pointers to DAT_010e8ab0 and DAT_010e8a90 in m_00 and m_10, returning this.
@@ -3841,7 +3841,7 @@ FUN_00e48db0_class* FUN_00e48db0_class::InitFromFloatAndPointer(float f, void* p
 {
     new ((void *)(((FUN_00e48db0_holder*)this))) ::fnv_00dcd310::FUN_00dcd310(f, (int)(p));
     m_00 = &DAT_010e8ab0;
-    m_10 = (int)&DAT_010e8a90;
+    m_10 = &DAT_010e8a90;
     return this;
 }
 

@@ -8158,7 +8158,7 @@ struct FUN_00e8a9e0_owner {
 };
 
 struct FUN_00e8a9e0_cls {
-    int m_vptr;
+    void* m_vptr;
     int unk04;
     int unk08;
     int unk0c;
@@ -8193,14 +8193,14 @@ struct FUN_00e8a9e0_cls {
 FUN_00e8a9e0_cls* FUN_00e8a9e0_cls::FUN_00e8a9e0(unsigned char acFlags)
 {
     FUN_00e8a9e0_child* pChild = m_pChildObject;
-    m_vptr = (int)&DAT_010efb7c;
+    m_vptr = &DAT_010efb7c;
     if (pChild != 0) {
         FUN_00e8a9e0_mgr* pMgr = *(FUN_00e8a9e0_mgr**)((char*)m_pSharedOwner + 0x8b8);
         pMgr->Call57(pChild);
         m_pChildObject->Release();
         m_pChildObject = 0;
     }
-    m_vptr = (int)&DAT_010a080c;
+    m_vptr = &DAT_010a080c;
     reinterpret_cast<class ::FUN_00a5d3d0 *>(this)->FUN_00a5d3d0::~FUN_00a5d3d0();
     if (acFlags & 1) {
         FUN_00aa1460(this, 0x6c);
@@ -9224,7 +9224,7 @@ struct FUN_00e94810_pool {
 };
 
 struct FUN_00e94810_cls {
-    int m_vptr;
+    void* m_vptr;
     int m_04;
     int m_08;
 
@@ -9235,7 +9235,7 @@ struct FUN_00e94810_cls {
 // @fnv 0x00e94810
 FUN_00e94810_cls* FUN_00e94810_cls::FUN_00e94810(unsigned int acFlags)
 {
-    m_vptr = (int)&::DAT_010f0f94;
+    m_vptr = &::DAT_010f0f94;
     reinterpret_cast<::S_00b601a0_Map *>(this)->FUN_00b601a0();
     FUN_00aa10f0(m_08);
     if (acFlags & 1) {

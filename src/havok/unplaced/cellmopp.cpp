@@ -85,7 +85,7 @@ void FUN_00621e40Class::FUN_00621e40()
 
 struct FUN_00622290_cls
 {
-    intptr_t FUN_00622290(int a, int b, int c);
+    intptr_t FUN_00622290(int a, intptr_t b, int c);
 };
 
 struct FUN_006222c0_class
@@ -94,7 +94,7 @@ struct FUN_006222c0_class
 };
 // Calls SetPackedValue with the three arguments, then returns this.
 // @fnv 0x00622290
-intptr_t FUN_00622290_cls::FUN_00622290(int a, int b, int c)
+intptr_t FUN_00622290_cls::FUN_00622290(int a, intptr_t b, int c)
 {
     reinterpret_cast<::FUN_006222c0_class *>(this)->SetPackedValue(a, b, c);
     return (intptr_t)this;

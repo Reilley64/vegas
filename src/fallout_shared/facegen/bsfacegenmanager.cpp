@@ -1866,7 +1866,7 @@ struct FGEntry
 struct GO
 {
     void* p;
-    GO(int);
+    GO(intptr_t);
     ~GO();
     operator FGEntry*() const;
 };
@@ -4019,7 +4019,7 @@ FUN_0065e000_class* FUN_0065fd40_class::FUN_0065fd40(FUN_0065e000_class* a)
 }
 }  // namespace fnv_0065fd40
 
-float __cdecl FUN_00652440(int, int, int);
+float __cdecl FUN_00652440(std::intptr_t, int, int);
 void __cdecl FUN_006524e0(std::intptr_t, int, std::intptr_t);
 
 // Reads both fan attribute values for a coordinate and fan type, overrides the selected attribute with afValue, then applies the pair.

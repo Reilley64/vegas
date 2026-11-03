@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 class TESActorBase;
 class TESObjectREFR;
@@ -33,5 +34,5 @@ public:
     // 0x00920fb0
     void SetCurrentSitSleepState(::SIT_SLEEP_STATE);
     // 0x0095e6f0
-    void FUN_0095e6f0(int);
+    void FUN_0095e6f0(intptr_t);
 };

@@ -5042,7 +5042,7 @@ void CombatGroup532::FUN_00993600(void* stream)
     Child532* child2;
     while (position)
     {
-        reinterpret_cast<::CPMap00993a80 *>((oldMapX))->GetNextEntry((::CPMapItem00993a80 *&)(position), (unsigned int *)&(actor_), (unsigned long long *)&(valueTmp));
+        reinterpret_cast<::CPMap00993a80 *>((oldMapX))->GetNextEntry((::CPMapItem00993a80 *&)(position), (uintptr_t *)&(actor_), (unsigned long long *)&(valueTmp));
         // Persisted pointer-map keys hold a 32-bit form identifier until fixup.
         actor_ = actor_ ? dynamic_cast<Actor*>(FUN_004839c0((unsigned int)(std::uintptr_t)actor_)) : 0;
         if (actor_)

@@ -382,7 +382,7 @@ struct Flt
 
 
 // @fnv 0x004bc3f0
-unsigned int FUN_004bc3f0()
+uintptr_t FUN_004bc3f0()
 {
     return (*reinterpret_cast<::Flt *>(&::g_011c73b4)).operator unsigned int();
 }
@@ -839,7 +839,7 @@ struct GO
 {
     unsigned int value;
 
-    GO(int arg);
+    GO(intptr_t arg);
     ~GO();
     operator unsigned int(void) const;
 };
@@ -849,12 +849,12 @@ struct FUN_004bc320_shell
     unsigned char _pad_0[0x30];
     GO m_textures[1];
 
-    unsigned int FUN_004bc320(int aiIndex);
+    uintptr_t FUN_004bc320(int aiIndex);
 };
 
 // Returns the unsigned int value of the texture at aiIndex, or 0 when this is null.
 // @fnv 0x004bc320
-unsigned int FUN_004bc320_shell::FUN_004bc320(int aiIndex)
+uintptr_t FUN_004bc320_shell::FUN_004bc320(int aiIndex)
 {
     return (this ? m_textures[aiIndex] : GO(0)).operator unsigned int();
 }

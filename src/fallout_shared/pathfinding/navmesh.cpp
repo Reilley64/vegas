@@ -1,5 +1,6 @@
 // fallout_shared/pathfinding/navmesh.cpp: NavMesh, ActorMover, BGSCameraPath, TESEffectShader and more (97 functions)
 
+#include <cstdint>
 #include "generated/data/vtables.h"
 #include <new>
 #include <cmath>
@@ -1324,7 +1325,7 @@ struct FUN_00844160_shell
 {
     FUN_00844160_shell* FUN_00844160(int);
 public:
-    unsigned int FUN_00844160(unsigned int);
+    uintptr_t FUN_00844160(unsigned int);
 };
 
 FUN_00844160_shell* FUN_00844160_shell::FUN_00844160(int index)

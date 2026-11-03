@@ -2,6 +2,8 @@
 // src/fallout/misc/saveload/bgssavegamebuffer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/misc/saveload/bgssavegamebuffer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/dialogue_response_fields.h"
+#include <cstdint>
 #include <new>
 #include <cstring>
 #include "fnv/decl/FUN_0084e3a0_Class.h"
@@ -20,7 +22,7 @@ struct BGSSaveFormBuffer
 
 struct FUN_0043aa40_shell
 {
-    int m_00;
+    intptr_t m_00;
     int m_04;
     int m_08;
     int m_0c;
@@ -51,7 +53,7 @@ public:
 struct FUN_00865c80_shell
 {
     int m_auiShapeKeys;
-    int m_ptr;
+    intptr_t m_ptr;
     void FUN_00865c80(FUN_00846330_shell* a1, int a2);
 };
 
@@ -187,7 +189,7 @@ void BGSSaveGameBuffer::WriteAtOffset(void* data, unsigned int size, unsigned in
 extern int DAT_01082324;
 struct FUN_00865c10_shell
 {
-    int m_00;
+    intptr_t m_00;
     void* m_04;
     void FUN_00865c10();
 };
@@ -195,7 +197,7 @@ struct FUN_00865c10_shell
 // @fnv 0x00865c10
 void FUN_00865c10_shell::FUN_00865c10()
 {
-    m_00 = (int)&DAT_01082324;
+    m_00 = (intptr_t)&DAT_01082324;
     void* p = m_04;
     ::FUN_00401030(p);
 }
@@ -207,7 +209,7 @@ struct FUN_00865c40_shell : FUN_00865c80_shell
 // @fnv 0x00865c40
 void FUN_00865c40_shell::FUN_00865c40(FUN_00846330_shell* a1)
 {
-    ::ForwardToShell(a1, (int)((char*)this + 0xc), 4);
+    ::ForwardToShell(a1, (intptr_t)((char*)this + 0xc), 4);
     this->FUN_00865c80(a1, *(int*)((char*)this + 0xc));
 }
 
@@ -217,10 +219,10 @@ struct Dummy84eaf0
 };
 struct FUN_00865db0_shell
 {
-    void FUN_00865db0(unsigned int a, unsigned int b);
+    void FUN_00865db0(uintptr_t a, unsigned int b);
 };
 // @fnv 0x00865db0
-void FUN_00865db0_shell::FUN_00865db0(unsigned int a, unsigned int uiUnused)
+void FUN_00865db0_shell::FUN_00865db0(uintptr_t a, unsigned int uiUnused)
 {
     Dummy84eaf0 p;
     ::ClearNumericIDIndex((::BGSNumericIDIndex3 *)&(p));
@@ -340,7 +342,6 @@ void FUN_00865ee0_shell::SaveQuaternion(ThreeByThreeMatrix const& aMatrix, int a
 {
     NiQuaternion quat;
     BGSSaveFormBuffer* pkBuffer;
-    new ((void *)&(quat)) ::Vec3();
     quat.FromRotationMatrix(aMatrix);
     pkBuffer = (BGSSaveFormBuffer*)this;
     reinterpret_cast<::FUN_00865e50_shell *>((pkBuffer))->FUN_00865e50(&quat, 16, 0);
@@ -378,19 +379,20 @@ struct FUN_00865e70_shell : BGSSaveGameBuffer
 // @fnv 0x0083d690
 void FUN_0083d690_shell::FUN_0083d690(BGSSaveFormBuffer* apBuffer)
 {
-    reinterpret_cast<::FUN_00865e70_shell *>((((BGSSaveGameBufferSaveStringHelper*)apBuffer)))->FUN_00865e70((const char*)((Flt*)this)->operator unsigned int(), 0);
-    reinterpret_cast<::FUN_00865e70_shell *>((((BGSSaveGameBufferSaveStringHelper*)apBuffer)))->FUN_00865e70((const char*)((Flt*)((char*)this + 0x10))->operator unsigned int(), 0);
-    reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50((char*)this + 8, 4, 0);
-    reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50((char*)this + 0xc, 4, 0);
-    reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50((char*)this + 0x24, 1, 0);
-    apBuffer->SerializeFormData(*(void**)((char*)this + 0x18), 0);
-    apBuffer->SerializeFormData(*(void**)((char*)this + 0x1c), 0);
-    apBuffer->SerializeFormData(*(void**)((char*)this + 0x20), 0);
+    DialogueResponseFields* pResponse = reinterpret_cast<DialogueResponseFields*>(this);
+    reinterpret_cast<::FUN_00865e70_shell *>((((BGSSaveGameBufferSaveStringHelper*)apBuffer)))->FUN_00865e70(pResponse->text, 0);
+    reinterpret_cast<::FUN_00865e70_shell *>((((BGSSaveGameBufferSaveStringHelper*)apBuffer)))->FUN_00865e70(pResponse->voiceFile, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50(&pResponse->emotionType, 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50(&pResponse->emotionValue, 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50(&pResponse->useEmotionAnimation, 1, 0);
+    apBuffer->SerializeFormData(pResponse->speakerIdle, 0);
+    apBuffer->SerializeFormData(pResponse->listenerIdle, 0);
+    apBuffer->SerializeFormData(pResponse->sound, 0);
 }
 // @fnv 0x0083fb10
 void FUN_0083fb10_shell::FUN_0083fb10(BGSSaveFormBuffer* apBuffer)
 {
-    reinterpret_cast<::FUN_00865e70_shell *>((((BGSSaveGameBufferSaveStringHelper*)apBuffer)))->FUN_00865e70((const char*)(unsigned int)*(Flt*)this, 0);
+    reinterpret_cast<::FUN_00865e70_shell *>((((BGSSaveGameBufferSaveStringHelper*)apBuffer)))->FUN_00865e70((const char*)(uintptr_t)*(Flt*)this, 0);
     reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50((char*)this + 8, 1, 0);
     reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50((char*)this + 0x24, 1, 0);
     reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50((char*)this + 0x25, 1, 0);

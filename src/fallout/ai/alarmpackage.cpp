@@ -1,5 +1,7 @@
 // fallout/ai/alarmpackage.cpp: Crime, TESSpellList, Candidate, Cls and more (27 functions)
 
+#include "fnv/save_load_game_view.h"
+#include <cstdint>
 #include <new>
 #include "fnv/decl/BSShaderNoLightingProperty.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -62,11 +64,20 @@
 #include "fnv/symbols_011e0000.h"
 #include "alarmpackage_decls.h"
 
+
+// The leading members of Crime as the crime save code reads them. The 4-byte getter folded into 0x00726070 reads
+// the crime type at +0x4.
+struct CrimeTypeView
+{
+    unsigned int uiUnknown00;
+    unsigned int uiCrimeType;
+};
+
 // If the buffer's change flags include 0x10, clears both spell lists and re-adds each SpellItem and TESLevSpell read from the buffer.
 // @fnv 0x0048e140
 void TESSpellList::LoadGame(BGSLoadFormBuffer* buffer)
 {
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetChangeFlags(0x10)))->FUN_004280f0())
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetChangeFlags(0x10)))->FUN_004280f0(0x10))
     {
         reinterpret_cast<::FileMatchList *>(&(spellList))->RemoveAll();
         reinterpret_cast<::FileMatchList *>(&(leveledSpellList))->RemoveAll();
@@ -213,10 +224,10 @@ struct FUN_009ec850_shell
 {
     char _pad[0x80];
     MyList _list;
-    void FUN_009ec850(unsigned int, Actor*);
+    void FUN_009ec850(uintptr_t, Actor*);
 };
 // @fnv 0x009ec850
-void FUN_009ec850_shell::FUN_009ec850(unsigned int a, Actor* pActor)
+void FUN_009ec850_shell::FUN_009ec850(uintptr_t a, Actor* pActor)
 {
     reinterpret_cast<::ItemChangeListNode *>(&(_list))->FUN_00905330((::InventoryStackRecord *const &)(a));
     if (_list._ref_008256d0())
@@ -311,9 +322,9 @@ struct FUN_009eba30_t
 void FUN_009eba30_t::FUN_009eba30()
 {
     FUN_009eba30_node* pnode = &list;
-    while (pnode && *((::XActor **)(new ((void *)(pnode)) ::Vec3())))
+    while (pnode && *((::XActor **)(((::Vec3 *)(void *)(pnode)))))
     {
-        XActor* pActor = *((::XActor **)(new ((void *)(pnode)) ::Vec3()));
+        XActor* pActor = *((::XActor **)(((::Vec3 *)(void *)(pnode))));
         FUN_009eba30_xl* pList = ((::FUN_0041cf00_shell *)(reinterpret_cast<::FUN_005d43c0_ *>((void *)(pActor))->FUN_005d43c0()))->FUN_0041cf00();
         if (pList)
             reinterpret_cast<::ItemChangeListNode *>((pList))->FUN_00905330((::InventoryStackRecord *const &)((const ::FUN_009eba30_t *const &)(this)));
@@ -449,9 +460,9 @@ void FUN_009ec780_shell::FUN_009ec780(TESForm* apCopy)
     if (pAlarmSource)
     {
         pCurrentElementNext = ((::CrimeNode *)(reinterpret_cast<::TESDataHandler *>((pAlarmSource))->GetTESClassList()));
-        while (pCurrentElementNext && *((int **)(new ((void *)(pCurrentElementNext)) ::Vec3())))
+        while (pCurrentElementNext && *((int **)(((::Vec3 *)(void *)(pCurrentElementNext)))))
         {
-            ((G2*)((char*)this + 0x80))->AddHead(*((int **)(new ((void *)(pCurrentElementNext)) ::Vec3())));
+            ((G2*)((char*)this + 0x80))->AddHead(*((int **)(((::Vec3 *)(void *)(pCurrentElementNext)))));
             pCurrentElementNext = ((::CrimeNode *)(reinterpret_cast<::Callees *>((pCurrentElementNext))->FUN_00726070()));
         }
     }
@@ -578,8 +589,7 @@ unsigned short FUN_009ec890_shell::FUN_009ec890()
         if (header)
         {
             TESForm* form = ::FUN_004839c0(*(unsigned int*)header);
-            ::FUN_0040fbe0(
-                );
+            ::FUN_0040fbe0();
         }
         else
         {
@@ -616,10 +626,10 @@ void FUN_009ecec0_shell::SaveCrimeList(BGSSaveFormBuffer* apSaveGameBuffer)
     CrimeNode* pCurrentElementNext = reinterpret_cast<CrimeNode*>((char*)this + 0x80);
     while (pCurrentElementNext)
     {
-        Crime* pcrime = *((::Crime **)(new ((void *)(pCurrentElementNext)) ::Vec3()));
+        Crime* pcrime = *((::Crime **)(((::Vec3 *)(void *)(pCurrentElementNext))));
         if (pcrime)
         {
-            char ccrimeType = (char)((::BSSimpleList< ::Crime *> *)(reinterpret_cast<::Callees *>((((BSSimpleList<Crime*>*)pcrime)))->FUN_00726070()));
+            char ccrimeType = (char)reinterpret_cast<::CrimeTypeView*>(pcrime)->uiCrimeType;
             unsigned short icrimeIndex = reinterpret_cast<::FUN_00972740_shell *>(&((*reinterpret_cast<::fnv_009ecec0::ProcessLists *>(&::g_011e0e80))))->FUN_00972740(ccrimeType, (::BGSPerk *)(pcrime));
             reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(&ccrimeType, 1, 0);
             reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(&icrimeIndex, 2, 0);
@@ -873,8 +883,7 @@ unsigned short FUN_009ebb80_shell::FUN_009ebb80()
             {
                 FUN_009ebb80_form* pForm = reinterpret_cast<FUN_009ebb80_form*>(::FUN_004839c0(SoundAssetTmp->formID));
 
-                ::FUN_0040fbe0(
-                    );
+                ::FUN_0040fbe0();
             }
             else
             {
@@ -936,7 +945,7 @@ void Candidate::SaveToStream(SaveLocal* buffer)
     NodeLocal* node9 = &list1c;
     while (node9)
     {
-        TESForm* item1 = *((::TESForm **)(new ((void *)(node9)) ::Vec3()));
+        TESForm* item1 = *((::TESForm **)(((::Vec3 *)(void *)(node9))));
         if (item1)
         {
             reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((buffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(item1), 0);
@@ -951,7 +960,7 @@ void Candidate::SaveToStream(SaveLocal* buffer)
         NodeLocal* nodeTmp = list38;
         while (nodeTmp)
         {
-            TESForm* item6 = *((::TESForm **)(new ((void *)(nodeTmp)) ::Vec3()));
+            TESForm* item6 = *((::TESForm **)(((::Vec3 *)(void *)(nodeTmp))));
             if (item6)
             {
                 reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((buffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(item6), 0);
@@ -1429,16 +1438,16 @@ void MyCand::WriteToSave()
 {
     unsigned short a7 = 0;
     char* aa = 0;
-    char* a9 = ((char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::SaveMgr * *>(&::g_TESSaveLoadGame))))->FUN_00825c00()));
+    char* a9 = ((char *)(reinterpret_cast<SaveLoadGameView*>(((*reinterpret_cast<::SaveMgr * *>(&::g_TESSaveLoadGame))))->pBufferCursor));
 
     if (*::g_011de4e8.Bool())
-        a9 = ((char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::SaveMgr * *>(&::g_TESSaveLoadGame))))->FUN_00825c00()));
+        a9 = ((char *)(reinterpret_cast<SaveLoadGameView*>(((*reinterpret_cast<::SaveMgr * *>(&::g_TESSaveLoadGame))))->pBufferCursor));
 
     if (reinterpret_cast<::FUN_00862110_cls *>(((*reinterpret_cast<::SaveMgr * *>(&::g_TESSaveLoadGame))))->FUN_00862110())
     {
         int a5 = 0x424c4f4b;
         reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::SaveMgr * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&a5, 4);
-        aa = ((char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::SaveMgr * *>(&::g_TESSaveLoadGame))))->FUN_00825c00()));
+        aa = ((char *)(reinterpret_cast<SaveLoadGameView*>(((*reinterpret_cast<::SaveMgr * *>(&::g_TESSaveLoadGame))))->pBufferCursor));
         reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::SaveMgr * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&a7, 2);
     }
 
@@ -1469,13 +1478,13 @@ void MyCand::WriteToSave()
     reinterpret_cast<::C857A10Buffer *>(((*reinterpret_cast<::SaveMgr * *>(&::g_TESSaveLoadGame))))->FUN_00857a10((const unsigned int *)(void *)(&ang4), 4);
 
     unsigned short a38 = 0;
-    unsigned short* a8 = (unsigned short*)((char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::SaveMgr * *>(&::g_TESSaveLoadGame))))->FUN_00825c00()));
+    unsigned short* a8 = (unsigned short*)((char *)(reinterpret_cast<SaveLoadGameView*>(((*reinterpret_cast<::SaveMgr * *>(&::g_TESSaveLoadGame))))->pBufferCursor));
     reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::SaveMgr * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&a38, 2);
 
     MyNode* action9 = &list1c;
     while (action9 && !action9->FUN_008256d0())
     {
-        TESForm* active = *((::TESForm **)(new ((void *)(action9)) ::Vec3()));
+        TESForm* active = *((::TESForm **)(((::Vec3 *)(void *)(action9))));
         int ac = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((active))->FUN_0084e3a0()));
         reinterpret_cast<::C857A10Buffer *>(((*reinterpret_cast<::SaveMgr * *>(&::g_TESSaveLoadGame))))->FUN_00857a10((const unsigned int *)(void *)(&ac), 4);
         a38++;
@@ -1485,7 +1494,7 @@ void MyCand::WriteToSave()
 
     if (*::g_011de4e8.Bool())
     {
-        char* a4 = ((char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::SaveMgr * *>(&::g_TESSaveLoadGame))))->FUN_00825c00()));
+        char* a4 = ((char *)(reinterpret_cast<SaveLoadGameView*>(((*reinterpret_cast<::SaveMgr * *>(&::g_TESSaveLoadGame))))->pBufferCursor));
         FormRec* ang8 = ((::FormRec *)(reinterpret_cast<::EffectSetting *>(((*reinterpret_cast<::SaveMgr * *>(&::g_TESSaveLoadGame))))->GetHitSound()));
         if (ang8)
         {
@@ -1500,7 +1509,7 @@ void MyCand::WriteToSave()
 
     if (reinterpret_cast<::FUN_00862110_cls *>(((*reinterpret_cast<::SaveMgr * *>(&::g_TESSaveLoadGame))))->FUN_00862110())
     {
-        char* agg = ((char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::SaveMgr * *>(&::g_TESSaveLoadGame))))->FUN_00825c00()));
+        char* agg = ((char *)(reinterpret_cast<SaveLoadGameView*>(((*reinterpret_cast<::SaveMgr * *>(&::g_TESSaveLoadGame))))->pBufferCursor));
         char* agg4 = aa;
         if (agg > agg4 + 0xffff)
             ::FUN_005b5e40();
@@ -1562,7 +1571,7 @@ void Host009::ReadFromStream(Reader009* apReader)
     reinterpret_cast<::CombatTargetTimestamp *>(&(field))->LoadGame((::BGSLoadGameBuffer *)(apReader));
     reinterpret_cast<::fnv_008648e0::FUN_008648e0_shell *>((apReader))->FUN_008648e0((unsigned int *)(void *)(&c));
     reinterpret_cast<::fnv_008648e0::FUN_008648e0_shell *>((apReader))->FUN_008648e0((unsigned int *)(void *)(&d));
-    f = dynamic_cast<TESBoundObject*>(::FUN_004839c0((unsigned int)(((void *)(reinterpret_cast<::fnv_008648a0::FUN_008648a0_t *>((apReader))->FUN_008648a0())))));
+    f = dynamic_cast<TESBoundObject*>(::FUN_004839c0((unsigned int)(uintptr_t)(((void *)(reinterpret_cast<::fnv_008648a0::FUN_008648a0_t *>((apReader))->FUN_008648a0())))));
     reinterpret_cast<::fnv_008648e0::FUN_008648e0_shell *>((apReader))->FUN_008648e0((unsigned int *)(void *)(&h));
     {
         unsigned count = ((unsigned int)(reinterpret_cast<::fnv_00864a60::FUN_00864a60_cls *>((apReader))->FUN_00864a60()));
@@ -1579,12 +1588,12 @@ void Host009::ReadFromStream(Reader009* apReader)
         for (unsigned uiFactionIndex = 0; uiFactionIndex < uiFactionCount; uiFactionIndex++)
         {
             void* pFaction = 0;
-            pFaction = dynamic_cast<TESFaction*>(::FUN_004839c0((unsigned int)(((void *)(reinterpret_cast<::fnv_008648a0::FUN_008648a0_t *>((apReader))->FUN_008648a0())))));
+            pFaction = dynamic_cast<TESFaction*>(::FUN_004839c0((unsigned int)(uintptr_t)(((void *)(reinterpret_cast<::fnv_008648a0::FUN_008648a0_t *>((apReader))->FUN_008648a0())))));
             if (pFaction)
                 strings->FUN_005ae3d0(&pFaction);
         }
     }
-    if (!*((void **)(new ((void *)(strings)) ::Vec3())))
+    if (!*((void **)(((::Vec3 *)(void *)(strings)))))
     {
         delete strings;
         strings = 0;
@@ -1619,27 +1628,27 @@ void FUN_009ec990_host::FUN_009ec990()
 
     unsigned short usVersion7 = 0;
     unsigned short* pSizeTmp = 0;
-    unsigned int uiStart3 = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((TimeGlobal*)g_TESSaveLoadGame)))->FUN_00825c00();
+    char* uiStart3 = reinterpret_cast<SaveLoadGameView*>((((TimeGlobal*)g_TESSaveLoadGame)))->pBufferCursor;
     if (*::g_011de4e8.Bool())
-        uiStart3 = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((TimeGlobal*)g_TESSaveLoadGame)))->FUN_00825c00();
+        uiStart3 = reinterpret_cast<SaveLoadGameView*>((((TimeGlobal*)g_TESSaveLoadGame)))->pBufferCursor;
 
     if (reinterpret_cast<::FUN_00862110_cls *>((g_TESSaveLoadGame))->FUN_00862110())
     {
         unsigned int uiMagic_2 = 0x424c4f4b;
         reinterpret_cast<::FUN_008579b0_shell *>((((TESSaveLoadGameHelper*)g_TESSaveLoadGame)))->FUN_008579b0(&uiMagic_2, 4);
-        pSizeTmp = (unsigned short*)reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((TimeGlobal*)g_TESSaveLoadGame)))->FUN_00825c00();
+        pSizeTmp = (unsigned short*)reinterpret_cast<SaveLoadGameView*>((((TimeGlobal*)g_TESSaveLoadGame)))->pBufferCursor;
         reinterpret_cast<::FUN_008579b0_shell *>((((TESSaveLoadGameHelper*)g_TESSaveLoadGame)))->FUN_008579b0(&usVersion7, 2);
     }
 
     unsigned short m_usPassCountLocal = 0;
-    unsigned short* aPCount = (unsigned short*)reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((TimeGlobal*)g_TESSaveLoadGame)))->FUN_00825c00();
+    unsigned short* aPCount = (unsigned short*)reinterpret_cast<SaveLoadGameView*>((((TimeGlobal*)g_TESSaveLoadGame)))->pBufferCursor;
     reinterpret_cast<::FUN_008579b0_shell *>((((TESSaveLoadGameHelper*)g_TESSaveLoadGame)))->FUN_008579b0(&m_usPassCountLocal, 2);
 
     BSSimpleList<void*>* pNodeX = 0;
     while (pNodeX != 0 && !pNodeX->IsEmpty())
     {
-        void* pv = ((void *)(new ((void *)(pNodeX)) ::Vec3()));
-        char cIndex2 = (char)((::CrimeList *)(reinterpret_cast<::Callees *>((((CrimeList*)pv)))->FUN_00726070()));
+        void* pv = ((void *)(((::Vec3 *)(void *)(pNodeX))));
+        char cIndex2 = (char)reinterpret_cast<::CrimeTypeView*>(pv)->uiCrimeType;
         reinterpret_cast<::FUN_008579b0_shell *>((((TESSaveLoadGameHelper*)g_TESSaveLoadGame)))->FUN_008579b0(&cIndex2, 1);
         unsigned short usResult6 = reinterpret_cast<::FUN_00972740_shell *>((((ProcessLists9EC990*)&(*reinterpret_cast<::ProcessLists *>(&::g_011e0e80)))))->FUN_00972740((int)cIndex2, (::BGSPerk *)(pv));
         reinterpret_cast<::FUN_008579b0_shell *>((((TESSaveLoadGameHelper*)g_TESSaveLoadGame)))->FUN_008579b0(&usResult6, 2);
@@ -1650,7 +1659,7 @@ void FUN_009ec990_host::FUN_009ec990()
 
     if (*::g_011de4e8.Bool())
     {
-        unsigned int uiEnd = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((TimeGlobal*)g_TESSaveLoadGame)))->FUN_00825c00();
+        char* uiEnd = reinterpret_cast<SaveLoadGameView*>((((TimeGlobal*)g_TESSaveLoadGame)))->pBufferCursor;
         unsigned char* pRec9 = (unsigned char*)((void *)(reinterpret_cast<::EffectSetting *>((g_TESSaveLoadGame))->GetHitSound()));
         if (pRec9 != 0)
         {
@@ -1665,8 +1674,8 @@ void FUN_009ec990_host::FUN_009ec990()
 
     if (reinterpret_cast<::FUN_00862110_cls *>((g_TESSaveLoadGame))->FUN_00862110())
     {
-        unsigned int uiEnd9 = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((TimeGlobal*)g_TESSaveLoadGame)))->FUN_00825c00();
-        unsigned int uiStart2 = (unsigned int)pSizeTmp;
+        uintptr_t uiEnd9 = reinterpret_cast<uintptr_t>(reinterpret_cast<SaveLoadGameView*>((((TimeGlobal*)g_TESSaveLoadGame)))->pBufferCursor);
+        uintptr_t uiStart2 = (uintptr_t)pSizeTmp;
         if (uiEnd9 > uiStart2 + 0xffff)
             ::FUN_005b5e40();
         *(unsigned short*)pSizeTmp = (unsigned short)(uiEnd9 - uiStart2);
@@ -1709,18 +1718,18 @@ struct AlarmPackageData
 // @fnv 0x009ec400
 void AlarmPackageData::FUN_009ec400(void* unused)
 {
-    ref = ref ? dynamic_cast<TESObjectREFR*>(::FUN_004839c0((unsigned int)ref)) : 0;
-    actor = actor ? dynamic_cast<Actor*>(::FUN_004839c0((unsigned int)actor)) : 0;
-    other = other ? ::FUN_004839c0((unsigned int)other) : 0;
+    ref = ref ? dynamic_cast<TESObjectREFR*>(::FUN_004839c0((unsigned int)(uintptr_t)ref)) : 0;
+    actor = actor ? dynamic_cast<Actor*>(::FUN_004839c0((unsigned int)(uintptr_t)actor)) : 0;
+    other = other ? ::FUN_004839c0((unsigned int)(uintptr_t)other) : 0;
     AlarmActorList* current = &actors;
     AlarmActorList* previous = 0;
     while (current && !current->FUN_008256d0())
     {
-        Actor* entry = *((::Actor **)(new ((void *)(current)) ::Vec3()));
+        Actor* entry = *((::Actor **)(((::Vec3 *)(void *)(current))));
         bool erase = false;
         if (entry)
         {
-            entry = entry ? dynamic_cast<Actor*>(::FUN_004839c0((unsigned int)entry)) : 0;
+            entry = entry ? dynamic_cast<Actor*>(::FUN_004839c0((unsigned int)(uintptr_t)entry)) : 0;
             if (entry)
             {
                 current->FUN_00726c60(entry);
@@ -1738,7 +1747,7 @@ void AlarmPackageData::FUN_009ec400(void* unused)
         {
             if (previous)
             {
-                reinterpret_cast<::ItemChangeListNode *>((previous))->FUN_00905330((*(::InventoryStackRecord *const *)(((::Actor **)(new ((void *)(current)) ::Vec3())))));
+                reinterpret_cast<::ItemChangeListNode *>((previous))->FUN_00905330((*(::InventoryStackRecord *const *)(((::Actor **)(((::Vec3 *)(void *)(current)))))));
                 current = ((::AlarmActorList *)(reinterpret_cast<::Callees *>((previous))->FUN_00726070()));
             }
             else

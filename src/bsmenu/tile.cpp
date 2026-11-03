@@ -193,7 +193,7 @@ struct GO {
 
 struct Member0C {
     char pad[0x28];
-    int member_28;
+    intptr_t member_28;
     GO member_2c;
 };
 
@@ -3479,7 +3479,7 @@ template<class K, class V> struct BSMapBase {
 extern BSMapBase<unsigned long, ScrapHeapBuffer*> DAT_011f32f4;
 
 // @fnv 0x00a01860
-int FUN_00a01860(const char* apText)
+intptr_t FUN_00a01860(const char* apText)
 {
     AutoTileLock_Local __my_auto_tile_lock;
     int iret = 0x80000000;
@@ -5250,8 +5250,8 @@ public:
     virtual ~ExtraObject();
     virtual void DeleteThis();
     unsigned int m_uiRefCount;
-    int unk08;
-    int m_iValue;
+    void* unk08;
+    intptr_t m_iValue;
     void IncRefCount() { InterlockedIncrement((volatile long*)&m_uiRefCount); }
     void DecRefCount() { if (!InterlockedDecrement((volatile long*)&m_uiRefCount)) DeleteThis(); }
 };
@@ -5280,10 +5280,10 @@ struct ExtraNode {
 };
 
 // @fnv 0x00a01630
-int FUN_00a01630(ExtraNode* pkNode)
+intptr_t FUN_00a01630(ExtraNode* pkNode)
 {
     TileListLock kLock;
-    int iValue = 0;
+    intptr_t iValue = 0;
     if (pkNode)
     {
         NiPointer<ExtraObject> spExtra = ((::tileext::ExtraObject *)(reinterpret_cast<::NiAVObject *>((pkNode))->GetExtraData((*(const ::NiFixedString *)(ExtraNode::GetKey())))));
@@ -6063,7 +6063,7 @@ struct MenuArray {
 extern MenuArray DAT_011f3508;
 
 // @fnv 0x00a09030
-int __cdecl FUN_00a09030(int id)
+intptr_t __cdecl FUN_00a09030(int id)
 {
     int result;
     if (id >= 0x3e9 && id <= 0x43c && DAT_011f3508.GetSize() > (unsigned int)(id - 0x3e9)) {
@@ -6091,7 +6091,7 @@ struct ListMap_a0a130 {
 extern ListMap_a0a130 DAT_011f3358;
 
 // @fnv 0x00a0a130
-void __cdecl FUN_00a0a130(int iKey, int iItem)
+void __cdecl FUN_00a0a130(intptr_t iKey, intptr_t iItem)
 {
     ListNode_a0a130* pkNew = new ListNode_a0a130;
     ListNode_a0a130* pkCur = 0;
@@ -6160,7 +6160,7 @@ void TileB35::FUN_00a0b350(int iValue, float fDefault)
 
 unsigned int __cdecl FUN_0044a670(const char* text);
 
-unsigned int __cdecl FUN_00403940(unsigned int a, unsigned int b);
+uintptr_t __cdecl FUN_00403940(unsigned int a, unsigned int b);
 
 void* __cdecl FUN_00401000(unsigned int size);
 
@@ -7166,7 +7166,7 @@ struct FadePtr { FadeTile* ptr; inline FadeTile* operator->() const { return ptr
 
 extern FadeList DAT_011f3348;
 
-int __cdecl FUN_00a01860(const char*);
+intptr_t __cdecl FUN_00a01860(const char*);
 
 struct FUN_00ae83e0 {
     FadeRecord* item; FUN_00ae83e0* next;

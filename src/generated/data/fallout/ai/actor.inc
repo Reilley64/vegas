@@ -317,7 +317,7 @@ NiFixedString *DAT_011c625c;
 NiFixedString *DAT_011c6260;
 B5474B0Form *g_pkB5474B0LastImageSpace;
 ::TESBoundObject *DAT_011ca248;
-unsigned int DAT_011ca278;
+std::uintptr_t DAT_011ca278;
 BSSimpleList<S_005f64f0_Obj *> DAT_011cb3e0[13];
 BSSimpleList<S_005f64f0_Obj *> DAT_011cb450[14];
 ::IdleAnimationManager *DAT_011cb6a0;

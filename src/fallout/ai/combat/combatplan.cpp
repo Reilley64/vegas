@@ -2,6 +2,7 @@
 // src/fallout/ai/combat/combatplan.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/combat/combatplan.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/decl/FUN_00993fd0_class.h"
 #include "fnv/decl/SearchList.h"
 #include "fnv/decl/fnv_00864980__FUN_00864980_shell.h"
@@ -44,7 +45,7 @@ class FUN_009949a0_cls
     Entry** m_entries;
     unsigned int m_uiItemCount;
     unsigned int unk08;
-    int unk0C;
+    intptr_t unk0C;
 
     void ReadFromStream(StreamReader* reader);
 };
@@ -70,5 +71,5 @@ void FUN_009949a0_cls::ReadFromStream(StreamReader* reader)
     reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((reader))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&unk08), 4);
     bool last = false;
     reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((reader))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&last), 1);
-    unk0C = ((int)(::FUN_00994a80(last)));
+    unk0C = ((intptr_t)(::FUN_00994a80(last)));
 }

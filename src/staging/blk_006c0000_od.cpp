@@ -2,6 +2,7 @@
 // src/staging/blk_006c0000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstdint>
 #include <new>
 #include <cstring>
 #include "fnv/decl/Array6d0.h"
@@ -4298,7 +4299,7 @@ float Falloff6dc::EvaluateFalloff(const Pt6dc& kPt)
 
 struct FUN_00527990_shell
 {
-    bool FUN_00527990(int* first, int* second);
+    bool FUN_00527990(intptr_t* first, intptr_t* second);
 };
 struct FUN_006dd280_shell
 {
@@ -5197,7 +5198,7 @@ struct FUN_0044ddc0_shell
 };
 struct FUN_00865db0_shell
 {
-    void FUN_00865db0(unsigned int value, unsigned int flags);
+    void FUN_00865db0(uintptr_t value, unsigned int flags);
 };
 struct FUN_00865f60_shell
 {
@@ -5319,8 +5320,8 @@ FUN_006dd220_Class* FUN_006dd220_Class::ConstructFromSource(void* source)
 {
     *reinterpret_cast<int**>(this) = &DAT_0102583c;
     new ((void *)&this->unk04) ::Vec3();
-    int b = 0;
-    int a = 0;
+    intptr_t b = 0;
+    intptr_t a = 0;
     reinterpret_cast<FUN_00527990_shell*>(source)->FUN_00527990(&b, &a);
     reinterpret_cast<::SetupPathingLocation *>((reinterpret_cast<FUN_006dd280_shell*>(this)))->FUN_006dd280(
         (*(const ::NiPoint3 *)(new ((void *)(reinterpret_cast<BSSimpleList<BGSPerk*>*>(source))) ::Vec3())), (::TESObjectCELL *)(intptr_t)(b), (::TESWorldSpace *)(intptr_t)(a));

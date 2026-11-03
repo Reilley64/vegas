@@ -2,6 +2,7 @@
 // src/fallout/magic/darknesseffect.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/darknesseffect.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/Cls.h"
 #include "fnv/decl/FUN_004534f0_shell.h"
@@ -52,9 +53,9 @@ struct DarknessEffect : TESForm
 // @fnv 0x0080c850
 void DarknessEffect::FUN_0080c850(Actor* apActor)
 {
-    reinterpret_cast<::FUN_004534f0_shell *>(this)->FUN_004534f0((unsigned int)apActor);
-    if (((int)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((apActor))->FUN_0043fcd0())))
-        ::FUN_00b55b00((::PropHelper *)(((int)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((apActor))->FUN_0043fcd0()))), 1.0F);
+    reinterpret_cast<::FUN_004534f0_shell *>(this)->FUN_004534f0((uintptr_t)apActor);
+    if (((intptr_t)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((apActor))->FUN_0043fcd0())))
+        ::FUN_00b55b00((::PropHelper *)(((reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((apActor))->FUN_0043fcd0()))), 1.0F);
 }
 
 struct FUN_0080c730_shell : public FUN_0080c460_shell
@@ -268,7 +269,7 @@ struct FUN_0080c570_ActorVirtuals
     virtual void F113() = 0;
     virtual void F114() = 0;
     virtual void F115() = 0;
-    virtual int GetValue() = 0;
+    virtual intptr_t GetValue() = 0;
 };
 
 struct FUN_0080c570_InnerBase
@@ -572,7 +573,7 @@ struct FUN_0080c650_ActorVTableBase
 
 struct FUN_0080c650_ActorVTable : public FUN_0080c650_ActorVTableBase
 {
-    virtual int v116()
+    virtual intptr_t v116()
     {
         return 1;
     }
@@ -669,6 +670,6 @@ void FUN_0080c7b0_shell::FUN_0080c7b0(Actor* apActor)
     if (fnewDarkness > 1.0)
         fnewDarkness = 1.0f;
 
-    if (((int)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((reinterpret_cast<P09H*>(apActor)))->FUN_0043fcd0())) != 0)
-        ::FUN_00b55b00((::PropHelper *)(((int)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((reinterpret_cast<P09H*>(apActor)))->FUN_0043fcd0()))), fnewDarkness);
+    if (((intptr_t)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((reinterpret_cast<P09H*>(apActor)))->FUN_0043fcd0())) != 0)
+        ::FUN_00b55b00((::PropHelper *)(((reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((reinterpret_cast<P09H*>(apActor)))->FUN_0043fcd0()))), fnewDarkness);
 }

@@ -2530,7 +2530,7 @@ std::intptr_t FUN_0053a700_Holder::FUN_0053a700(unsigned char a1, unsigned short
 }
 
 struct FUN_0053a630_Class : public FUN_0053ae30_class {
-    int FUN_0053a630(unsigned char type, unsigned short id);
+    intptr_t FUN_0053a630(unsigned char type, unsigned short id);
 };
 
 struct A51BF0Base {
@@ -3208,7 +3208,7 @@ float FUN_0053ae30_class::FUN_0053ae30(unsigned char type, unsigned short id)
 }
 
 // @fnv 0x0053a630
-int FUN_0053a630_Class::FUN_0053a630(unsigned char type, unsigned short id)
+intptr_t FUN_0053a630_Class::FUN_0053a630(unsigned char type, unsigned short id)
 {
     std::intptr_t result = 0;
     if (type < 4 && id < 0x121) {

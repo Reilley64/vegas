@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 class NiObject;
 class ProbeObj;
@@ -40,6 +41,6 @@ void CollectTreeResultValues(::TreeNode_cls *, ::SpawnedPtrArray *);
 // 0x00c809e0
 void AppendSpawnedPtr(void *, ::SpawnedPtrArray *);
 // 0x00c80c00
-::NiObject *FUN_00c80c00(::WorkNode_cls *, ::WorkStack_cls *, unsigned int, unsigned int);
+::NiObject *FUN_00c80c00(::WorkNode_cls *, ::WorkStack_cls *, uintptr_t, unsigned int);
 // 0x00c80ce0
 void FUN_00c80ce0(::SceneObjectLocal *, int);

@@ -695,7 +695,7 @@ int TESDataHandler::GetDLCIndex(const char* name)
 }
 
 // @fnv 0x0046f280
-void TESDataHandler::GetReferencesInArea(TESObjectCELL* cell, const NiPoint3& point, float radius, const NiPoint3& direction, float angle, bool(__cdecl* callback)(TESObjectREFR*, long), std::intptr_t data)
+void TESDataHandler::GetReferencesInArea(TESObjectCELL* cell, const NiPoint3& point, float radius, const NiPoint3& direction, float angle, bool(__cdecl* callback)(TESObjectREFR*, intptr_t), std::intptr_t data)
 {
     if (!cell || !callback)
         return;

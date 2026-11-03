@@ -1,5 +1,6 @@
 // bsshader/bsrenderedtexture.cpp: BSRenderedTexture (3 functions)
 
+#include <cstdint>
 #include "fnv/decl/NiRenderer.h"
 #include "fnv/symbols_01270000.h"
 #include "bsrenderedtexture_decls.h"
@@ -217,7 +218,7 @@ namespace gfxB6B8 {
 
 // Sets m_iFadeIndex to 2 when it is 0 and vfn_17C() returns true, then forwards to FUN_00b6b7d0.
 // @fnv 0x00b6b8d0
-bool __cdecl FUN_00b6b8d0(int iArg, NiRenderTargetGroup* pkGroup)
+bool __cdecl FUN_00b6b8d0(intptr_t iArg, NiRenderTargetGroup* pkGroup)
 {
     int& iState = (*reinterpret_cast<::RendererB6B8 * *>(&::NiRenderer::ms_pRenderer))->m_iFadeIndex;
     if (iState == 0 && (*reinterpret_cast<::RendererB6B8 * *>(&::NiRenderer::ms_pRenderer))->vfn_17C())

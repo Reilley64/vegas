@@ -1,5 +1,6 @@
 // fallout/misc/saveload/bgssaveloadchangesmap.cpp: BGSSaveLoadChangesMap, CombatTargetMap, FormChangeRecord, DelStandIn (17 functions)
 
+#include <cstdint>
 #include "generated/data/vtables.h"
 #include <cstring>
 #include "fnv/decl/ActorStandIn008a.h"
@@ -68,10 +69,15 @@
 #include "bgssaveloadchangesmap_decls.h"
 #include <new>
 
+struct FUN_00845b30_arg
+{
+    unsigned int val;
+};
+
 // @fnv 0x00845550
 BGSSaveLoadChangesMap::BGSSaveLoadChangesMap()
 {
-    ::FUN_00845b30((int *)this, (::FUN_00845b30_arg)(0x13AF));
+    ::FUN_00845b30((int *)this, ::FUN_00845b30_arg{0x13AF});
     *(void**)this = (void*)fnv_vftable_BGSSaveLoadChangesMap;
 }
 
@@ -80,7 +86,7 @@ BGSSaveLoadChangesMap::BGSSaveLoadChangesMap()
 BSSimpleArray<Actor*, 1024>* CombatTargetMap::GetTargetsForActor(Actor* actor)
 {
     BSSimpleArray<Actor*, 1024>* array = 0;
-    if (reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)(((NiTPointerMap<unsigned int, BSSimpleArray<Actor*, 1024>*>*)this)))->FUN_00853130((unsigned int)actor, (::fnv_00853130::CombatThreatRecord *&)(array)))
+    if (reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)(((NiTPointerMap<unsigned int, BSSimpleArray<Actor*, 1024>*>*)this)))->FUN_00853130((uintptr_t)actor, (::fnv_00853130::CombatThreatRecord *&)(array)))
         return array;
     return 0;
 }
@@ -101,14 +107,14 @@ void BGSSaveLoadChangesMap::AddFormChangeFlags(unsigned int formID, FormChangeMa
     if (!changes)
     {
         changes = new FormChangeRecord();
-        reinterpret_cast<::FUN_00844700_Class *>(this)->FUN_00844700(formID, (unsigned int)(changes));
+        reinterpret_cast<::FUN_00844700_Class *>(this)->FUN_00844700(formID, (uintptr_t)(changes));
     }
     else if (::FUN_00559450((int *)((&changes->flags))))
     {
         return;
     }
 
-    reinterpret_cast<::FUN_00841100_shell *>((changes))->FUN_00841100((int)((char*)::FUN_00559450((int *)&(flags))));
+    reinterpret_cast<::FUN_00841100_shell *>((changes))->FUN_00841100((intptr_t)((char*)::FUN_00559450((int *)&(flags))));
 }
 
 // @fnv 0x00845880
@@ -123,14 +129,14 @@ void BGSSaveLoadChangesMap::ApplyFormQuantityChange(unsigned int formID, FormCha
     if (!changes)
     {
         changes = new FormChangeRecord();
-        reinterpret_cast<::FUN_00844700_Class *>(this)->FUN_00844700(formID, (unsigned int)(changes));
+        reinterpret_cast<::FUN_00844700_Class *>(this)->FUN_00844700(formID, (uintptr_t)(changes));
     }
     reinterpret_cast<::FUN_00537e90 *>((((QuantityData*)changes)))->SetQuantity(::FUN_00559450((int *)&(flags)));
 }
 
 // Looks up the change record for formID; if found, deletes it, removes it from the map, and returns true, otherwise returns false.
 // @fnv 0x00845a20
-bool BGSSaveLoadChangesMap::HasFormChanges(unsigned int formID)
+bool BGSSaveLoadChangesMap::HasFormChanges(uintptr_t formID)
 {
     FormChangeRecord* changes = FUN_009a4250(formID);
     if (changes)
@@ -184,11 +190,6 @@ CF845 Ctm845::GetFirstEntry(void* actor)
 
 extern int DAT_01031fac;
 
-struct FUN_00845b30_arg
-{
-    unsigned int val;
-};
-
 void FUN_005890c0(int* self, FUN_00845b30_arg a);
 
 // Calls FUN_005890c0 on self, then stores the address of DAT_01031fac into *self and returns self.
@@ -196,7 +197,7 @@ void FUN_005890c0(int* self, FUN_00845b30_arg a);
 int* FUN_00845b30(int* self, FUN_00845b30_arg aArg)
 {
     FUN_005890c0(self, aArg);
-    *self = (int)&DAT_01031fac;
+    *(void**)self = (void*)&DAT_01031fac;
     return self;
 }
 
@@ -281,10 +282,10 @@ struct Fake845
 };
 struct S845
 {
-    CF845 FUN_00845760(unsigned int aiFormID);
+    CF845 FUN_00845760(uintptr_t aiFormID);
 };
 // @fnv 0x00845760
-CF845 S845::FUN_00845760(unsigned int aiFormID)
+CF845 S845::FUN_00845760(uintptr_t aiFormID)
 {
     FormChangeRecord* pEntry;
     pEntry = (FormChangeRecord*)((CombatTargetMap*)this)->GetTargetsForActor((Actor*)aiFormID);
@@ -297,18 +298,18 @@ CF845 S845::FUN_00845760(unsigned int aiFormID)
 
 struct FUN_00845960_shell : CombatTargetMap
 {
-    void SetCombatTargetQuantity(unsigned int formID, unsigned int quantity, unsigned int extra);
+    void SetCombatTargetQuantity(uintptr_t formID, unsigned int quantity, unsigned int extra);
 };
 
 // Looks up or creates a per-form entry in the map, sets its quantity from FUN_00559450(quantity) and stores extra at offset 4.
 // @fnv 0x00845960
-void FUN_00845960_shell::SetCombatTargetQuantity(unsigned int formID, unsigned int quantity, unsigned int extra)
+void FUN_00845960_shell::SetCombatTargetQuantity(uintptr_t formID, unsigned int quantity, unsigned int extra)
 {
     BSSimpleArray<Actor*, 1024>* array = GetTargetsForActor((Actor*)formID);
     if (!array)
     {
         array = (BSSimpleArray<Actor*, 1024>*)new FormChangeRecord;
-        reinterpret_cast<::FUN_00844700_Class *>((((BGSSaveLoadChangesMap*)this)))->FUN_00844700(formID, (unsigned int)((FormChangeRecord*)array));
+        reinterpret_cast<::FUN_00844700_Class *>((((BGSSaveLoadChangesMap*)this)))->FUN_00844700(formID, (uintptr_t)((FormChangeRecord*)array));
     }
     reinterpret_cast<::FUN_00537e90 *>((((QuantityData*)array)))->SetQuantity(FUN_00559450((int*)&quantity));
     ((unsigned int*)((char*)array + 4))[0] = extra;

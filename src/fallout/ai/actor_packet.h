@@ -17,6 +17,7 @@
 #include "fnv/symbols_011e0000.h"
 #include "fnv/symbols_011f2000.h"
 #include "layout_support.h"
+#include "TESForm.h"
 #define FNV_NIPOINT3_H
 class NiPoint3
 {
@@ -824,7 +825,7 @@ template <> class NiPointer<NiNode>
     NiNode* operator->() const;
 };
 class ParentSpaceNode;
-class TESBoundObject
+class TESBoundObject : public TESForm
 {
   public:
     int GetFormType() const;
@@ -870,5 +871,4 @@ class SettingT_GameSettingCollection_
     SETTING_VALUE* Float();
 };
 extern GlobalObject_0045d260 g_011df69c;
-extern TimeGlobal g_timeGlobal;
 #endif

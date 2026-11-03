@@ -52,4 +52,5 @@
 #include "fnv/symbols_01020000.h"
 #include "fnv/symbols_01024000.h"
 #include "fnv/symbols_01197000.h"
+#define FNV_PLAYERCHARACTER_H_UNIT
 #include "playercharacter.h"

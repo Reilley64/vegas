@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 class Actor;
 template <class> class BSSimpleList;
@@ -6,5 +7,5 @@ template <class> class BSSimpleList;
 struct ZOwner {
 public:
     // 0x00971c30
-    ::BSSimpleList< ::Actor *> *CollectActorsByPackage(int, int, bool);
+    ::BSSimpleList< ::Actor *> *CollectActorsByPackage(intptr_t, int, bool);
 };

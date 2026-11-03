@@ -932,7 +932,7 @@ struct FUN_00458440_cls
 
 struct FUN_00458420_cls : FUN_00458440_cls
 {
-    void FUN_00458420(int a);
+    void FUN_00458420(intptr_t a);
 };
 
 extern float runtimeInitializationFloat654;
@@ -2213,13 +2213,13 @@ NiNode* FUN_00450570_Class::FUN_00450570()
 }
 
 // @fnv 0x004505d0
-void FUN_004505d0(int param_1)
+void FUN_004505d0(intptr_t param_1)
 {
     DAT_01267b68 = param_1;
 }
 
 // @fnv 0x004505e0
-void __cdecl FUN_004505e0(int value)
+void __cdecl FUN_004505e0(intptr_t value)
 {
     (*reinterpret_cast<int *>(&::g_pfnC11F0EmissiveChanged)) = value;
 }
@@ -2267,7 +2267,7 @@ void FUN_00450690(float value)
 
 
 // @fnv 0x004506a0
-void __cdecl FUN_004506a0(int a)
+void __cdecl FUN_004506a0(intptr_t a)
 {
     (*reinterpret_cast<int *>(&::DAT_01202e08)) = a;
 }
@@ -2898,7 +2898,7 @@ unsigned long long FUN_0044e0d0_Class::GetValue64()
 
 
 // @fnv 0x0044e360
-void FUN_0044e360(unsigned long param_1)
+void FUN_0044e360(uintptr_t param_1)
 {
     TlsFree(param_1);
 }
@@ -4766,7 +4766,7 @@ struct Obj_00458440
     intptr_t ApplyOrNotify(intptr_t a, bool b);
 };
 // @fnv 0x00458420
-void FUN_00458420_cls::FUN_00458420(int aiValue)
+void FUN_00458420_cls::FUN_00458420(intptr_t aiValue)
 {
     reinterpret_cast<::Obj_00458440 *>(this)->ApplyOrNotify(aiValue, 1);
 }

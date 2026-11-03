@@ -852,7 +852,6 @@ enum Index
     ActorValue__Index_ATTRIBUTE_NONE = -1,
 };
 }
-typedef ActorValue::Index ActorValue__Index;
 enum BSSaveDataSystemUtility__OPERATION
 {
     BSSaveDataSystemUtility__OPERATION_OPERATION_NONE = 0,

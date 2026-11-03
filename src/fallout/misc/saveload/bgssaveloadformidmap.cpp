@@ -1,5 +1,6 @@
 // fallout/misc/saveload/bgssaveloadformidmap.cpp: FormIDConverter (10 functions)
 
+#include <cstdint>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FUN_00438af0_Class.h"
 #include "fnv/decl/FUN_0044f3b0_Class.h"
@@ -177,13 +178,13 @@ void FUN_0044ee40_cls::ClearSlots()
     {
         void* pItem = m_pSlots[u].m_pInventoryEntryData;
         void* RunFourthVirtual = pItem;
-        RunFourthVirtual != 0 ? ((unsigned int)(reinterpret_cast<::FUN_0044f3b0_Class *>((((CleanupItem*)RunFourthVirtual)))->FUN_0044f3b0(1))) : 0;
+        RunFourthVirtual != 0 ? ((uintptr_t)(reinterpret_cast<::FUN_0044f3b0_Class *>((((CleanupItem*)RunFourthVirtual)))->FUN_0044f3b0(1))) : 0;
     }
     {
         SlotItem* a = m_pSlots;
         ::FUN_00401030(a);
     }
-    ::FUN_0044e360((unsigned long)(m_pTailObj));
+    ::FUN_0044e360((uintptr_t)(m_pTailObj));
 }
 
 namespace fnv_00846e00 {
@@ -224,11 +225,11 @@ struct FUN_00846e00_cls : public FormIDConverter
 void FUN_00846e00_cls::FUN_00846e00(SaveLoadFile* file)
 {
     unsigned int count = this->m_uiFormIDCount - 1;
-    ::ForwardToShell((::FUN_00846330_shell *)(file), (int)(&count), 4);
+    ::ForwardToShell((::FUN_00846330_shell *)(file), (intptr_t)(&count), 4);
     for (unsigned int i = 1; i < this->m_uiFormIDCount; i++)
     {
         unsigned int id = reinterpret_cast<::FUN_00846d20_shell *>((((FUN_00846d20_shell*)this)))->FUN_00846d20(i);
-        ::ForwardToShell((::FUN_00846330_shell *)(file), (int)(&id), 4);
+        ::ForwardToShell((::FUN_00846330_shell *)(file), (intptr_t)(&id), 4);
     }
 }
 }  // namespace fnv_00846e00

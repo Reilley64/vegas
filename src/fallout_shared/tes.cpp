@@ -492,10 +492,10 @@ struct TESDataHandler
     void GetReferenceCounts();
     void GetRegions();
     void InitializeMagicSystem();
-    void GetReferencesInArea(TESObjectCELL*, void*, float, void*, float, int*, long);
+    void GetReferencesInArea(TESObjectCELL*, void*, float, void*, float, int*, intptr_t);
     void GetReferencesInArea(void*, float, void*, float, int*, long);
     void EnumReferencesCloseToRef(TESObjectREFR*, float, void*, float, int*, long);
-    static bool ReferenceBaseSearchEnumFunc(TESObjectREFR*, long);
+    static bool ReferenceBaseSearchEnumFunc(TESObjectREFR*, intptr_t);
     bool FindTeleportPathBetweenSmallSpaces(TESForm*, TESForm*, void*);
     bool FindTeleportPathBetweenWorlds(TESWorldSpace*, TESWorldSpace*, void*);
     bool FindTeleportPathFromSmallSpaceToWorld(TESForm*, TESWorldSpace*, void*, bool);
@@ -1152,7 +1152,7 @@ struct TESDataHandler
     void GetReferencesInArea(TESObjectCELL*, void*, float, void*, float, int*, long);
     void GetReferencesInArea(void*, float, void*, float, int*, long);
     void EnumReferencesCloseToRef(TESObjectREFR*, float, void*, float, int*, long);
-    static bool ReferenceBaseSearchEnumFunc(TESObjectREFR*, long);
+    static bool ReferenceBaseSearchEnumFunc(TESObjectREFR*, intptr_t);
     bool FindTeleportPathBetweenSmallSpaces(TESForm*, TESForm*, void*);
     bool FindTeleportPathBetweenWorlds(TESWorldSpace*, TESWorldSpace*, void*);
     bool FindTeleportPathFromSmallSpaceToWorld(TESForm*, TESWorldSpace*, void*, bool);
@@ -2221,7 +2221,7 @@ void* FUN_00458f30_shell::DestroyIfFlagged(unsigned int flags)
 
 struct FUN_00459840_shell
 {
-    void FUN_00459840(unsigned int a);
+    void FUN_00459840(uintptr_t a);
 };
 
 struct FUN_0045a730_shell
@@ -4550,7 +4550,7 @@ struct GO
     int mObject;
     int mObject2;
     int mObject3;
-    GO(int);
+    GO(intptr_t);
     ~GO();
     void operator=(void*);
 };
@@ -5713,12 +5713,12 @@ struct FUN_004570d0_node
 
 struct FUN_004570d0_cls
 {
-    bool FUN_004570d0(void* a1, std::intptr_t a2, int a3, float f);
+    bool FUN_004570d0(void* a1, intptr_t a2, intptr_t a3, float f);
 };
 
 // If a1 is non-null, forwards it to the manager's node or, failing that, to every node in the grid, returning whether any call succeeded.
 // @fnv 0x004570d0
-bool FUN_004570d0_cls::FUN_004570d0(void* a1, std::intptr_t aiArg2, int aiArg3, float afValue)
+bool FUN_004570d0_cls::FUN_004570d0(void* a1, intptr_t aiArg2, intptr_t aiArg3, float afValue)
 {
     bool result = false;
     if (a1 != 0)
@@ -5764,11 +5764,11 @@ struct FUN_00457620_cellhost
 
 struct FUN_00457620_cls
 {
-    int FUN_00457620(const float* pos);
+    intptr_t FUN_00457620(const float* pos);
 };
 
 // @fnv 0x00457620
-int FUN_00457620_cls::FUN_00457620(const float* pos)
+intptr_t FUN_00457620_cls::FUN_00457620(const float* pos)
 {
     int cellX = ::FUN_00406d90(pos[0]);
     int cellY2 = ::FUN_00406d90(pos[1]);
@@ -5894,7 +5894,7 @@ struct FUN_00458f90_shell : ::ItemList9cView
     void FUN_00458f90();
 };
 // @fnv 0x00459840
-void FUN_00459840_shell::FUN_00459840(unsigned int a)
+void FUN_00459840_shell::FUN_00459840(uintptr_t a)
 {
     reinterpret_cast<::FUN_00458f90_shell *>((this))->FUN_00458f90();
     *reinterpret_cast<unsigned int*>(this + 0x48) = 0x7fffffff;
@@ -6122,11 +6122,11 @@ struct FUN_00459750_cls
     int unkB8;
     int unkBC;
     SubX m_C0;
-    void ProcessItems(unsigned int unused);
+    void ProcessItems(uintptr_t unused);
 };
 // Iterates m_38 and m_3C, calling FUN_0054ba00 on non-null entries accepted by FUN_004511e0, then calls FUN_00628da0 on the result of m_C0.FUN_00559450().
 // @fnv 0x00459750
-void FUN_00459750_cls::ProcessItems(unsigned int unused)
+void FUN_00459750_cls::ProcessItems(uintptr_t unused)
 {
     for (int i = 0; i < ((::fnv_00459750::ArrHead *)&(::FUN_0043d4d0((int *)(reinterpret_cast<ArrAccessor*>(&(*reinterpret_cast<char *>(&::g_011c3e38)))))))->count; i++)
     {
@@ -9308,12 +9308,12 @@ struct FUN_004571c0_cell : FUN_004570d0_node
 
 struct FUN_004571c0_cls : FUN_004570d0_cls
 {
-    bool ApplyToObject(FUN_004571c0_obj* obj, int a2, int a3, float f, char b);
+    bool ApplyToObject(FUN_004571c0_obj* obj, intptr_t a2, intptr_t a3, float f, char b);
 };
 
 // If obj and b are set, resets obj's flag and transforms, then applies the current cell or every grid cell to obj, returning whether any applied.
 // @fnv 0x004571c0
-bool FUN_004571c0_cls::ApplyToObject(FUN_004571c0_obj* pObject, int a2, int a3, float f, char b)
+bool FUN_004571c0_cls::ApplyToObject(FUN_004571c0_obj* pObject, intptr_t a2, intptr_t a3, float f, char b)
 {
     bool result = false;
     if (pObject && b)
@@ -12332,7 +12332,7 @@ struct TESDataHandler_o2
     void GetReferencesInArea(TESObjectCELL_o2*, void*, float, void*, float, int*, long);
     void GetReferencesInArea(void*, float, void*, float, int*, long);
     void EnumReferencesCloseToRef(TESObjectREFR*, float, void*, float, int*, long);
-    static bool ReferenceBaseSearchEnumFunc(TESObjectREFR*, long);
+    static bool ReferenceBaseSearchEnumFunc(TESObjectREFR*, intptr_t);
     bool FindTeleportPathBetweenSmallSpaces(TESForm*, TESForm*, void*);
     bool FindTeleportPathBetweenWorlds(TESWorldSpace*, TESWorldSpace*, void*);
     bool FindTeleportPathFromSmallSpaceToWorld(TESForm*, TESWorldSpace*, void*, bool);
@@ -13424,7 +13424,7 @@ struct TESDataHandler_ob1
     void GetReferencesInArea(TESObjectCELL_ob1*, void*, float, void*, float, int*, long);
     void GetReferencesInArea(void*, float, void*, float, int*, long);
     void EnumReferencesCloseToRef(TESObjectREFR*, float, void*, float, int*, long);
-    static bool ReferenceBaseSearchEnumFunc(TESObjectREFR*, long);
+    static bool ReferenceBaseSearchEnumFunc(TESObjectREFR*, intptr_t);
     bool FindTeleportPathBetweenSmallSpaces(TESForm*, TESForm*, void*);
     bool FindTeleportPathBetweenWorlds(TESWorldSpace*, TESWorldSpace*, void*);
     bool FindTeleportPathFromSmallSpaceToWorld(TESForm*, TESWorldSpace*, void*, bool);

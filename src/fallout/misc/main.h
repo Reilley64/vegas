@@ -17,6 +17,7 @@
 #undef NiPointer
 
 class NiCamera;
+class NiCullingProcess;
 class SceneGraph;
 
 template <class T> class NiPointer
@@ -40,7 +41,9 @@ class NiMemObject
 class SceneGraph : public NiMemObject
 {
   public:
-    char pad[0xC0];
+    char pad[0xB4];
+    NiCullingProcess* cullingProcess;
+    char padB8[0x8];
     SceneGraph(const char* name, bool menuSceneGraph, NiCamera* camera);
 };
 

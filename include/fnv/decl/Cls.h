@@ -25,7 +25,7 @@ public:
     // 0x00858af0
     void FUN_00858af0(::EntryListNode *, ::Entry *, bool);
     // 0x009670f0
-    bool FUN_009670f0(int);
+    bool FUN_009670f0(intptr_t);
     // 0x00b306d0
     void FUN_00b306d0(unsigned short);
     // 0x00c7ba50

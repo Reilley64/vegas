@@ -48,11 +48,11 @@ struct bhkCharacterListener
 {
     const void* pVtable;
     unsigned int uiFlags;
-    unsigned int FUN_00621270(unsigned int aiFlags);
+    unsigned int FUN_00621270(uintptr_t aiFlags);
 };
 
 // @fnv 0x00621270
-unsigned int bhkCharacterListener::FUN_00621270(unsigned int aiFlags)
+unsigned int bhkCharacterListener::FUN_00621270(uintptr_t aiFlags)
 {
     return uiFlags & aiFlags;
 }

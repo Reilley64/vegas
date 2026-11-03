@@ -3,6 +3,7 @@
 #define PROJECTILE_DECLS_H
 
 
+#include <cstdint>
 #include "fnv/decl/RefLoad.h"
 #include "fnv/decl/fnv_00ae5a50__Mgr_00ae5a50.h"
 #include "fnv/symbols_00ad9000.h"
@@ -65,7 +66,7 @@ class MobileObject : public TESForm, public TESChildCell
     MobileObject();
     ~MobileObject();
     char mobilePad[0x4c];
-    unsigned int word68;
+    uintptr_t word68;
     char mobileTail[0x1c];
 public:
     float GetLooking() const;
@@ -130,7 +131,7 @@ class Projectile : public MobileObject
     unsigned int wordC8;
     float floatCC, floatD0, floatD4, floatD8, floatDC, floatE0;
     float floatE4, floatE8, floatEC, floatF0, floatF4;
-    unsigned int wordF8, wordFC, word100;
+    uintptr_t wordF8, wordFC, word100;
     NiPoint2 position;
     float positionZ;
     float float110;
@@ -141,7 +142,7 @@ class Projectile : public MobileObject
     NiPointer<ActorCause> cause;
     float float124;
     SoundPlaybackHandle soundA, soundB;
-    unsigned int word140, word144;
+    uintptr_t word140, word144;
     unsigned char byte148;
     char pad149[3];
     float float14C;

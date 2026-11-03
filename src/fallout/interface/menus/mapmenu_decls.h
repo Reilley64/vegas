@@ -575,6 +575,10 @@ template <class T> class ListBox
     ~ListBox();
     virtual void vfn_00();
     virtual Tile* GetSelectedTile();
+    virtual void vfn_08();
+    virtual void vfn_0c();
+    virtual void ScrollToHighlight();
+    virtual Tile* GetTileAt(int index, bool a);
     char fields[44];
     T GetSelectedData();
     T GetSelectedData(Tile*);

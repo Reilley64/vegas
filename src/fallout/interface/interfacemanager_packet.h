@@ -118,7 +118,7 @@ public:
     void AddDeferredHideLimb(::TargetDoorController *);
 };
 class TESIdleForm;
-template <class T, int N> class BSSimpleArray
+template <class T, unsigned int N> class BSSimpleArray
 {
   public:
     unsigned int Add(T&);

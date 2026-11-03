@@ -1,11 +1,12 @@
 #pragma once
+#include <cstdint>
 
 class ShadowSceneNode;
 
 // 0x00b4f2f0
 void FUN_00b4f2f0(int, ::ShadowSceneNode *);
 // 0x00b4f430
-void FUN_00b4f430(int);
+void FUN_00b4f430(intptr_t);
 // 0x00b4f510
 void FUN_00b4f510();
 // 0x00b4f540

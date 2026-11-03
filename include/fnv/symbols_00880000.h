@@ -3,6 +3,6 @@
 class TESObjectREFR;
 
 // 0x00880890
-float FUN_00880890(void *, float, float, float);
+float FUN_00880890(void *, int, float, void *);
 // 0x00880910
 bool FUN_00880910(::TESObjectREFR *);

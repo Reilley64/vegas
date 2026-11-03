@@ -2,6 +2,7 @@
 // src/fallout/interface/animatingtext.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/interface/animatingtext.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/decl/FUN_004048e0_cls.h"
 #include "fnv/decl/FUN_006ffda0_cls.h"
 #include "fnv/decl/FUN_00700270_class.h"
@@ -63,7 +64,7 @@ void TwTypewriter::FUN_006ffea0()
             m_pkCursor->FUN_00a0a270(1.0f, 1);
         if (m_pkCursor && m_pkText && !((const char *)(::FUN_00559450((int *)this))))
             m_pkCursor->FUN_00a0a270(0.0f, 1);
-        if (m_pkText && m_pString && reinterpret_cast<::FUN_00700270_class *>(this)->operator==((int)(m_pString)))
+        if (m_pkText && m_pString && reinterpret_cast<::FUN_00700270_class *>(this)->operator==((intptr_t)(m_pString)))
         {
             int iStartTmp = ((int)(::FUN_0044a670(m_pString)));
             unsigned int uiCountZ = m_uiNextTime ? (((unsigned int)(::FUN_00457fe0())) - m_uiNextTime) / m_uiInterval + 1 : 1;
@@ -117,7 +118,7 @@ struct FUN_00700110_cls
     int unk18;
     int unk1C;
     int unk20;
-    int m_24;
+    char* m_24;
     unsigned char unk28;
     unsigned char m_29;
 

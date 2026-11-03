@@ -2,6 +2,9 @@
 // src/fallout/magic/shieldeffect.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/shieldeffect.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
+#include "fnv/effect_item_fields.h"
+#include "fnv/active_effect_fields.h"
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/Cls.h"
 #include "fnv/decl/EffectItem.h"
@@ -37,7 +40,7 @@ struct ShieldEffect : ValueModifierEffect
 {
     unsigned int pad0;
     unsigned int pad1;
-    unsigned int pad2;
+    uintptr_t pad2;
     unsigned int pad3;
     unsigned int pad4;
     unsigned int pad5;
@@ -539,10 +542,10 @@ class ActiveEffect828
 void ShieldEffectUpdate::UpdateShieldEffect(float dt)
 {
     reinterpret_cast<::ValueModifierEffect *>((((ValueModifierEffectUpdate*)this)))->Update(dt);
-    if (!reinterpret_cast<::S3e60 *>((((EffectSetting*)reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((void *)(((GameTimerRecord*)(*(unsigned int*)((char*)this + 0xc)))))->FUN_00825c00())))->FUN_00403e60(2))
+    if (!reinterpret_cast<::S3e60 *>(reinterpret_cast<::EffectItemFields *>(reinterpret_cast<::ActiveEffectFields *>(this)->effect)->setting)->FUN_00403e60(2))
     {
         Actor* actor =
-            reinterpret_cast<::ActorMover *>((((BSThread*)this)))->GetCurrentMoveModeType() ? ((MagicTarget*)reinterpret_cast<::ActorMover *>((((BSThread*)this)))->GetCurrentMoveModeType())->GetOwnerActor() : 0;
+            reinterpret_cast<::ActiveEffectFields *>(this)->target ? ((MagicTarget*)reinterpret_cast<::ActiveEffectFields *>(this)->target)->GetOwnerActor() : 0;
         if (*(float*)((char*)this + 0x20) > ::_DAT_01012060 || *(unsigned int*)((char*)this + 0x2c) == 4)
             reinterpret_cast<::ActiveEffect828 *>((((ShieldEffectMod*)this)))->FUN_008282e0((::Actor828 *)(actor), *(float*)((char*)this + 0x1c) * dt);
     }
@@ -553,10 +556,10 @@ void FUN_00828120_cls::FUN_00828120()
 {
     Actor* actor;
     reinterpret_cast<::FUN_0082c000_shell *>((((FUN_00828120_a*)this)))->FUN_0082c000();
-    if (((unsigned char)(reinterpret_cast<::S3e60 *>((((::FUN_00828120_x *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((FUN_00828120_y*)this->pad2)))->FUN_00825c00()))))->FUN_00403e60({}))) || *(float*)&this->pad7 == ::_DAT_01012060)
+    if (((unsigned char)(reinterpret_cast<::S3e60 *>(reinterpret_cast<::EffectItemFields *>(reinterpret_cast<::ActiveEffectFields *>(this)->effect)->setting)->FUN_00403e60(2))) || *(float*)&this->pad7 == ::_DAT_01012060)
     {
-        actor = (reinterpret_cast<::ActorMover *>((((FUN_00828120_a*)this)))->GetCurrentMoveModeType() != 0)
-                    ? ((FUN_00828120_z*)reinterpret_cast<::ActorMover *>((((FUN_00828120_a*)this)))->GetCurrentMoveModeType())->FUN_00822b40()
+        actor = (reinterpret_cast<::ActiveEffectFields *>(this)->target != 0)
+                    ? ((FUN_00828120_z*)reinterpret_cast<::ActiveEffectFields *>(this)->target)->FUN_00822b40()
                     : 0;
         reinterpret_cast<::ActiveEffect828 *>((((ShieldEffectMod*)this)))->FUN_008282e0((::Actor828 *)(actor), *(float*)&this->pad6);
     }
@@ -570,7 +573,7 @@ void ActiveEffect828::FUN_008282e0(Actor828* pkTarget, float m_fElapsedTime)
 
     if (m_iCastingType == 4)
         pkTarget->SetActorValue(reinterpret_cast<::FUN_0068a810_class *>(this)->GetField4C(), m_fElapsedTime);
-    else if (reinterpret_cast<::S3e60 *>((((::EffectSetting828 *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((m_pkEffectItem))->FUN_00825c00()))))->FUN_00403e60(2))
+    else if (reinterpret_cast<::S3e60 *>((((::EffectSetting828 *)(reinterpret_cast<::EffectItemFields *>(m_pkEffectItem)->setting))))->FUN_00403e60(2))
         pkTarget->DamageActorValue(reinterpret_cast<::FUN_0068a810_class *>(this)->GetField4C(), m_fElapsedTime, 0);
     else
         pkTarget->ModActorValue(reinterpret_cast<::FUN_0068a810_class *>(this)->GetField4C(), m_fElapsedTime, 0);
@@ -592,9 +595,9 @@ struct FUN_00828260_cls : ValueModifierEffect
 void FUN_00828260_cls::FUN_00828260()
 {
     reinterpret_cast<::Cls *>(this)->ApplyEffect();
-    if (((unsigned char)(reinterpret_cast<::S3e60 *>((((::FUN_00828120_x *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((unk0c))->FUN_00825c00()))))->FUN_00403e60({}))))
+    if (((unsigned char)(reinterpret_cast<::S3e60 *>((((::FUN_00828120_x *)(reinterpret_cast<::EffectItemFields *>(unk0c)->setting))))->FUN_00403e60({}))))
     {
-        Actor* actor = ((::FUN_00828120_z *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType())) ? ((::FUN_00828120_z *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType()))->FUN_00822b40() : 0;
+        Actor* actor = ((::FUN_00828120_z *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) ? ((::FUN_00828120_z *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))->FUN_00822b40() : 0;
         reinterpret_cast<::ActiveEffect828 *>(this)->FUN_008282e0((::Actor828 *)(actor), -unk1c);
     }
 }

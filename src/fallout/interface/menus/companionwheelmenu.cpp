@@ -1,5 +1,10 @@
 // fallout/interface/menus/companionwheelmenu.cpp: CompanionWheelMenu, Foo, WheelHost, InteractionMenu and more (30 functions)
 
+#include <cstdint>
+#include "fnv/simple_list_node_view.h"
+#include "fnv/inventory_entry_fields.h"
+#include "fnv/dialogue_response_fields.h"
+#include "fnv/form_fields.h"
 #include <new>
 #include <cstdio>
 #include <cstdlib>
@@ -62,7 +67,6 @@
 #include "fnv/decl/Twin_0044ddc0.h"
 #include "fnv/decl/VATS.h"
 #include "fnv/decl/Vec3.h"
-#include "fnv/decl/WheelMenuV.h"
 #include "fnv/decl/fnv_0042ce10__FUN_0042ce10_shell.h"
 #include "fnv/decl/fnv_00576260__FUN_00576260_shell.h"
 #include "fnv/decl/fnv_0057ace0__FUN_0057ace0_shell.h"
@@ -123,6 +127,8 @@
 #include "fnv/symbols_011e0000.h"
 #include "fnv/symbols_011f2000.h"
 #include "companionwheelmenu_decls.h"
+#include "fnv/decl/ValueModifierEffect.h"
+#include "fnv/decl/fnv_008bb520__TES.h"
 // Constructor: sets the menu state of FUN_004b7210() to 255 and initializes state to 0.
 // @fnv 0x007a8a10
 CompanionWheelMenu::CompanionWheelMenu()
@@ -182,7 +188,7 @@ float FUN_00755660(float value)
 
 
 // @fnv 0x00756960
-void FUN_00756960(int thisPtr)
+void FUN_00756960(intptr_t thisPtr)
 {
     *(char*)(thisPtr + 0x74) = 1;
     ::CloseMenuAndRefresh(1);
@@ -214,6 +220,8 @@ public:
     void Set(int, int);
 public:
     static float GetInterfaceScale();
+public:
+    virtual ~Tile();
 };
 struct Unk00755d90
 {
@@ -439,6 +447,21 @@ struct FUN_00755480_shell
 
     void UpdateTileTimerAndInputAngle();
 };
+struct WheelMenuV
+{
+    virtual ~WheelMenuV();
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    Tile* tiles[16];
+    void FUN_00755c50(float angle);
+};
 
 // @fnv 0x00755480
 void FUN_00755480_shell::UpdateTileTimerAndInputAngle()
@@ -517,13 +540,13 @@ struct MenuFactory
 
 // Looks up the menu factory for id 0x433, deletes its CompanionWheelMenu if present, then returns the result of OpenCompanionMenu(value).
 // @fnv 0x00754cf0
-bool __cdecl DestroyCompanionWheelMenu(int value)
+bool __cdecl DestroyCompanionWheelMenu(intptr_t value)
 {
     MenuFactory* factory = ((::MenuFactory *)(::FUN_00a09030(0x433)));
     CompanionWheelMenu* menu = factory ? dynamic_cast<CompanionWheelMenu*>(reinterpret_cast<::FUN_00a03c90_shell *>((factory))->FUN_00a03c90()) : 0;
     if (menu)
         delete menu;
-    if (((int)(::fnv_00754de0::OpenCompanionMenu((::fnv_00754de0::ActorOps *)(value)))))
+    if (((std::intptr_t)(::fnv_00754de0::OpenCompanionMenu((::fnv_00754de0::ActorOps *)(value)))))
         return true;
     return false;
 }
@@ -612,10 +635,10 @@ TileOps* OpenCompanionMenu(ActorOps* actor)
         (*reinterpret_cast<::fnv_00754de0::MenuView * *>(&::g_pkMenu755))->companion = actor;
         if ((*reinterpret_cast<::fnv_00754de0::MenuView * *>(&::g_pkMenu755))->companion)
         {
-            (*reinterpret_cast<::fnv_00754de0::MenuView * *>(&::g_pkMenu755))->aggressive = ((float)(reinterpret_cast<::FUN_008c1740_cls *>(((*reinterpret_cast<::fnv_00754de0::MenuView * *>(&::g_pkMenu755))->companion))->ComputeFromNode((int)(DAT_01071de0)))) == 1.0;
-            (*reinterpret_cast<::fnv_00754de0::MenuView * *>(&::g_pkMenu755))->following = ((float)(reinterpret_cast<::FUN_008c1740_cls *>(((*reinterpret_cast<::fnv_00754de0::MenuView * *>(&::g_pkMenu755))->companion))->ComputeFromNode((int)(DAT_01071dd0)))) == 1.0;
-            (*reinterpret_cast<::fnv_00754de0::MenuView * *>(&::g_pkMenu755))->ranged = ((float)(reinterpret_cast<::FUN_008c1740_cls *>(((*reinterpret_cast<::fnv_00754de0::MenuView * *>(&::g_pkMenu755))->companion))->ComputeFromNode((int)(DAT_01071dbc)))) == 1.0;
-            (*reinterpret_cast<::fnv_00754de0::MenuView * *>(&::g_pkMenu755))->waiting = ((float)(reinterpret_cast<::FUN_008c1740_cls *>(((*reinterpret_cast<::fnv_00754de0::MenuView * *>(&::g_pkMenu755))->companion))->ComputeFromNode((int)(DAT_01071db4)))) == 0.0;
+            (*reinterpret_cast<::fnv_00754de0::MenuView * *>(&::g_pkMenu755))->aggressive = ((float)(reinterpret_cast<::FUN_008c1740_cls *>(((*reinterpret_cast<::fnv_00754de0::MenuView * *>(&::g_pkMenu755))->companion))->ComputeFromNode((intptr_t)(DAT_01071de0)))) == 1.0;
+            (*reinterpret_cast<::fnv_00754de0::MenuView * *>(&::g_pkMenu755))->following = ((float)(reinterpret_cast<::FUN_008c1740_cls *>(((*reinterpret_cast<::fnv_00754de0::MenuView * *>(&::g_pkMenu755))->companion))->ComputeFromNode((intptr_t)(DAT_01071dd0)))) == 1.0;
+            (*reinterpret_cast<::fnv_00754de0::MenuView * *>(&::g_pkMenu755))->ranged = ((float)(reinterpret_cast<::FUN_008c1740_cls *>(((*reinterpret_cast<::fnv_00754de0::MenuView * *>(&::g_pkMenu755))->companion))->ComputeFromNode((intptr_t)(DAT_01071dbc)))) == 1.0;
+            (*reinterpret_cast<::fnv_00754de0::MenuView * *>(&::g_pkMenu755))->waiting = ((float)(reinterpret_cast<::FUN_008c1740_cls *>(((*reinterpret_cast<::fnv_00754de0::MenuView * *>(&::g_pkMenu755))->companion))->ComputeFromNode((intptr_t)(DAT_01071db4)))) == 0.0;
         }
         if ((*reinterpret_cast<::fnv_00754de0::MenuView * *>(&::g_pkMenu755))->tile28)
             reinterpret_cast<::Tile *>(((*reinterpret_cast<::fnv_00754de0::MenuView * *>(&::g_pkMenu755))->tile28))->Set(0x100f, (int)(*reinterpret_cast<::fnv_00754de0::MenuView * *>(&::g_pkMenu755))->aggressive);
@@ -647,7 +670,7 @@ TileOps* OpenCompanionMenu(ActorOps* actor)
         reinterpret_cast<::Menu *>(((*reinterpret_cast<::fnv_00754de0::MenuView * *>(&::g_pkMenu755))))->SetMenuVisibility(false);
         return h;
     }
-    else if ((*reinterpret_cast<::fnv_00754de0::MenuView * *>(&::g_pkMenu755)) && ((int)(reinterpret_cast<::Callees *>(((*reinterpret_cast<::fnv_00754de0::MenuView * *>(&::g_pkMenu755))))->FUN_00726070())))
+    else if ((*reinterpret_cast<::fnv_00754de0::MenuView * *>(&::g_pkMenu755)) && ((std::intptr_t)((*reinterpret_cast<::fnv_00754de0::MenuView * *>(&::g_pkMenu755))->unk04)))
         delete (*reinterpret_cast<::fnv_00754de0::MenuView * *>(&::g_pkMenu755));
     return 0;
 }
@@ -769,7 +792,7 @@ struct DialogueItem
 {
     ~DialogueItem();
 public:
-    ::TESObjectREFR *SelectDefaultResponseList();
+    ::TESObjectREFR *FUN_005e3fa0();
 public:
     bool SelectDefaultResponseList();
 public:
@@ -1461,8 +1484,8 @@ struct CompActor
     virtual void v158();
     virtual void v159();
     virtual void v160();
-    virtual float Speak(const char* voicePath, unsigned int flags, unsigned int soundID, unsigned int textLen,
-                        int emotionType, int emotionValue, CompActor* target, bool a8, bool a9, bool a10, bool a11,
+    virtual float Speak(const char* voicePath, unsigned int emotionType, unsigned int emotionValue, unsigned int textLen,
+                        TESIdleForm* speakerIdle, TESIdleForm* listenerIdle, CompActor* target, bool a8, bool a9, bool a10, bool a11,
                         bool a12);
 
 };
@@ -1606,12 +1629,12 @@ void CompanionWheelStandin::PlayTopicResponse(TopicInfoStandin* topic)
             }
             else
             {
-                float duration = speaker->Speak(((const char *)(::FUN_00559450((int *)(((::SoundPath *)(::FUN_00460140((int)(response2)))))))), ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((response2))->GetName())),
-                                                ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((response2))->FUN_0084e3a0())), ((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>(&((*(::BSStringT *)(new ((void *)(response2)) ::Vec3()))))->FUN_004048e0())),
-                                                reinterpret_cast<::FUN_009611e0_shell *>((response2))->FUN_009611e0(), ((int)(reinterpret_cast<::BGSTerrainManager *>((response2))->GetMinLevel())),
+                float duration = speaker->Speak(((const char *)(::FUN_00559450((int *)(((::SoundPath *)(::FUN_00460140((intptr_t)(response2)))))))), ((unsigned int)(reinterpret_cast<::DialogueResponseFields *>((response2))->emotionType)),
+                                                ((unsigned int)(reinterpret_cast<::DialogueResponseFields *>((response2))->emotionValue)), ((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>(&((*(::BSStringT *)(&reinterpret_cast<::SimpleListNodeView*>(response2)->m_item))))->FUN_004048e0())),
+                                                reinterpret_cast<::DialogueResponseFields *>((response2))->speakerIdle, reinterpret_cast<::DialogueResponseFields *>((response2))->listenerIdle,
                                                 (CompActor*)(*reinterpret_cast<::Actor * *>(&::_g_thePlayer)), 1, 1, 0, 0, 1);
             }
-            reinterpret_cast<::CWheelMenu_757690 *>(this)->SetItemTextAndValue((*(::CStringArg_757690 *)&(const ::BSStringT &)((*(::BSStringT *)(new ((void *)(response2)) ::Vec3())))), (*(::CValueArg_757690 *)&(const ::SoundPlaybackHandle &)(sound)));
+            reinterpret_cast<::CWheelMenu_757690 *>(this)->SetItemTextAndValue((*(::CStringArg_757690 *)&(const ::BSStringT &)((*(::BSStringT *)(&reinterpret_cast<::SimpleListNodeView*>(response2)->m_item)))), (*(::CValueArg_757690 *)&(const ::SoundPlaybackHandle &)(sound)));
         }
     }
 }
@@ -1622,7 +1645,7 @@ void CWheelMenu_757690::SetItemTextAndValue(CStringArg_757690 text, CValueArg_75
     if (((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>(&(text))->FUN_004048e0())) > 0)
     {
         if (*(*reinterpret_cast<::CInterface_757690 *>(&::g_011d8928)).FUN_00408d60() || (*(CRelatedActor_757690**)((char*)this + 0x68) != 0 &&
-                                             ::FUN_008c1bc0((int)((*(CRelatedActor_757690**)((char*)this + 0x68))))))
+                                             ::FUN_008c1bc0((intptr_t)((*(CRelatedActor_757690**)((char*)this + 0x68))))))
         {
             if (*(CWheelItem_757690**)((char*)this + 0x58))
             {
@@ -2421,22 +2444,22 @@ bool FUN_005c8a50(void* paramInfo, void* scriptData, Reference* source, void* co
                     reinterpret_cast<::fnv_0057ad20::FUN_0057ad20_shell *>((actor))->FUN_0057ad20((::fnv_0057ad20::TESTopic *)(idleVal));
                     Sequence* chosen = ((::ScriptAnimation::Sequence *)(reinterpret_cast<::FUN_0061b320_shell *>((idleVal))->FUN_0061b320((::TESObjectREFR *)(actor), (::TESObjectREFR *)(0), (::TESTopic *)(0), (void *)(0), 0)));
                     if (chosen)
-                        reinterpret_cast<::fnv_0057ace0::FUN_0057ace0_shell *>((source))->FUN_0057ace0((::fnv_0057ace0::TESTopicInfo *)(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((chosen))->FUN_0084e3a0()))));
+                        reinterpret_cast<::fnv_0057ace0::FUN_0057ace0_shell *>((source))->FUN_0057ace0((::fnv_0057ace0::TESTopicInfo *)(std::uintptr_t)(reinterpret_cast<::FormFields *>(chosen)->iFormID));
                     ResultList events = actor->PlayActor(idleVal, actor, immediateFlag4, priorityFlag, 0, 0);
-                    reinterpret_cast<::SoundPlaybackHandle *>(&(events))->SetCompletionCallback((void (*)(void *, bool))(::fnv_005790f0::FUN_005790f0), (void *)(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((source))->FUN_0084e3a0()))));
+                    reinterpret_cast<::SoundPlaybackHandle *>(&(events))->SetCompletionCallback((void (*)(void *, bool))(::fnv_005790f0::FUN_005790f0), (void *)(std::uintptr_t)(reinterpret_cast<::FormFields *>(source)->iFormID));
                     return true;
                 }
-                if (reinterpret_cast<::PlayerCharacter *>(((*reinterpret_cast<::ScriptAnimation::Actor * *>(&::_g_thePlayer))))->IsSleepingOrResting() || ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((::ScriptAnimation::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))))->FUN_0045cd60())) != 0 ||
+                if (reinterpret_cast<::PlayerCharacter *>(((*reinterpret_cast<::ScriptAnimation::Actor * *>(&::_g_thePlayer))))->IsSleepingOrResting() || ((std::intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((((::ScriptAnimation::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))))->FUN_0045cd60())) != 0 ||
                     (reinterpret_cast<::FUN_0087f3d0_shell *>((actor))->FUN_0087f3d0() && reinterpret_cast<::FUN_004f8960_shell *>((actor))->FUN_004f8960() == 6))
                 {
                     Sequence* selected = ((::ScriptAnimation::Sequence *)(reinterpret_cast<::FUN_0061b320_shell *>((idleVal))->FUN_0061b320((::TESObjectREFR *)(actor), (::TESObjectREFR *)(0), (::TESTopic *)(0), (void *)(0), 1)));
                     if (selected)
                     {
                         reinterpret_cast<::DialogueItem *>((selected))->SelectDefaultResponseList();
-                        int unused = ((int)(reinterpret_cast<::DialogueItem *>((selected))->GetActiveResponse()));
+                        intptr_t unused = ((intptr_t)(reinterpret_cast<::DialogueItem *>((selected))->GetActiveResponse()));
                         reinterpret_cast<::FUN_0083c850 *>((selected))->AppendTopicInfo(0);
                         reinterpret_cast<::FUN_0083c850 *>((selected))->AppendTopicInfo(1);
-                        ::FUN_005ac750((::TESForm *)(idleVal), (::ExtraDataList *)(((unsigned int)(reinterpret_cast<::FUN_005d43c0_ *>((actor))->FUN_005d43c0()))), 0x40000);
+                        ::FUN_005ac750((::TESForm *)(idleVal), (::ExtraDataList *)(((std::uintptr_t)(reinterpret_cast<::FUN_005d43c0_ *>((actor))->FUN_005d43c0()))), 0x40000);
                         delete selected;
                     }
                 }
@@ -2445,7 +2468,7 @@ bool FUN_005c8a50(void* paramInfo, void* scriptData, Reference* source, void* co
             }
             else if (((::ScriptAnimation::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture())))
             {
-                ::FUN_005ac750((::TESForm *)(idleVal), (::ExtraDataList *)(((unsigned int)(reinterpret_cast<::FUN_005d43c0_ *>((actor))->FUN_005d43c0()))), 0x40000);
+                ::FUN_005ac750((::TESForm *)(idleVal), (::ExtraDataList *)(((std::uintptr_t)(reinterpret_cast<::FUN_005d43c0_ *>((actor))->FUN_005d43c0()))), 0x40000);
                 ((::ScriptAnimation::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))->Clear(0);
             }
         }
@@ -2458,19 +2481,19 @@ bool FUN_005c8a50(void* paramInfo, void* scriptData, Reference* source, void* co
             reinterpret_cast<::fnv_0057ad20::FUN_0057ad20_shell *>((source))->FUN_0057ad20((::fnv_0057ad20::TESTopic *)(idleVal));
             Sequence* chosen2 = ((::ScriptAnimation::Sequence *)(reinterpret_cast<::FUN_0061b320_shell *>((idleVal))->FUN_0061b320((::TESObjectREFR *)(created), (::TESObjectREFR *)(0), (::TESTopic *)(0), (void *)(0), 0)));
             if (chosen2)
-                reinterpret_cast<::fnv_0057ace0::FUN_0057ace0_shell *>((source))->FUN_0057ace0((::fnv_0057ace0::TESTopicInfo *)(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((chosen2))->FUN_0084e3a0()))));
+                reinterpret_cast<::fnv_0057ace0::FUN_0057ace0_shell *>((source))->FUN_0057ace0((::fnv_0057ace0::TESTopicInfo *)(std::uintptr_t)(reinterpret_cast<::FormFields *>(chosen2)->iFormID));
             ResultList events7 = created->Play(idleVal, created, immediateFlag4, priorityFlag, 0, 0, forceFlag4);
-            reinterpret_cast<::SoundPlaybackHandle *>(&(events7))->SetCompletionCallback((void (*)(void *, bool))(::fnv_005790f0::FUN_005790f0), (void *)(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((source))->FUN_0084e3a0()))));
+            reinterpret_cast<::SoundPlaybackHandle *>(&(events7))->SetCompletionCallback((void (*)(void *, bool))(::fnv_005790f0::FUN_005790f0), (void *)(std::uintptr_t)(reinterpret_cast<::FormFields *>(source)->iFormID));
             delete created;
         }
-        else if (source->GetNode() || (source->IsSpecial() && ((::ScriptAnimation::Reference *)(reinterpret_cast<::DialogueItem *>((source))->SelectDefaultResponseList()))->GetNode()))
+        else if (source->GetNode() || (source->IsSpecial() && ((::ScriptAnimation::Reference *)(reinterpret_cast<::DialogueItem *>((source))->FUN_005e3fa0()))->GetNode()))
         {
             reinterpret_cast<::fnv_0057ad20::FUN_0057ad20_shell *>((source))->FUN_0057ad20((::fnv_0057ad20::TESTopic *)(idleVal));
             Sequence* chosen3 = ((::ScriptAnimation::Sequence *)(reinterpret_cast<::FUN_0061b320_shell *>((idleVal))->FUN_0061b320((::TESObjectREFR *)(source), (::TESObjectREFR *)(0), (::TESTopic *)(0), (void *)(0), 0)));
             if (chosen3)
-                reinterpret_cast<::fnv_0057ace0::FUN_0057ace0_shell *>((source))->FUN_0057ace0((::fnv_0057ace0::TESTopicInfo *)(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((chosen3))->FUN_0084e3a0()))));
+                reinterpret_cast<::fnv_0057ace0::FUN_0057ace0_shell *>((source))->FUN_0057ace0((::fnv_0057ace0::TESTopicInfo *)(std::uintptr_t)(reinterpret_cast<::FormFields *>(chosen3)->iFormID));
             ResultList events3 = source->Play(idleVal, 0, immediateFlag4, priorityFlag, 0, 0, forceFlag4);
-            reinterpret_cast<::SoundPlaybackHandle *>(&(events3))->SetCompletionCallback((void (*)(void *, bool))(::fnv_005790f0::FUN_005790f0), (void *)(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((source))->FUN_0084e3a0()))));
+            reinterpret_cast<::SoundPlaybackHandle *>(&(events3))->SetCompletionCallback((void (*)(void *, bool))(::fnv_005790f0::FUN_005790f0), (void *)(std::uintptr_t)(reinterpret_cast<::FormFields *>(source)->iFormID));
         }
     }
     reinterpret_cast<::S0042fa20 *>(&((*reinterpret_cast<::ScriptAnimation::Setting *>(&::g_011cd378))))->FUN_0045ce80(previous);
@@ -2493,7 +2516,7 @@ class Menu755
   public:
 
     int unk00;
-    int unk04;
+    void* unk04;
     int unk08;
     int unk0C;
     int unk10;
@@ -2547,7 +2570,7 @@ void __cdecl CloseMenuAndRefresh(bool bFade)
             reinterpret_cast<::SoundPlaybackHandle *>(&(g_pkMenu755->m_kFader))->StopWithFade(0x64);
         if (!reinterpret_cast<::fnv_0042ce10::FUN_0042ce10_shell *>(((*reinterpret_cast<::SaveLoad755 * *>(&::g_BGSSaveLoadGame))))->FUN_0042ce10())
             reinterpret_cast<::ProcessListsSub *>(&((*reinterpret_cast<::Manager755 *>(&::g_011e0e80))))->UpdateActor3D();
-        reinterpret_cast<::Tile *>((((::Tile755 *)(reinterpret_cast<::Callees *>((g_pkMenu755))->FUN_00726070()))))->Set(0x1772, 1);
+        reinterpret_cast<::Tile *>((((::Tile755 *)(g_pkMenu755->unk04))))->Set(0x1772, 1);
         reinterpret_cast<::FUN_00a1d910_shell *>((g_pkMenu755))->FUN_00a1d910();
     }
 }
@@ -2640,7 +2663,7 @@ void Wheel256::ToggleAggressive()
         reinterpret_cast<::CompanionWheelStandin *>(this)->PlayTopicResponse((::TopicInfoStandin *)(pPassiveTopic));
         reinterpret_cast<::fnv_007575b0::FUN_007575b0_shell *>(this)->RunTopicResultScripts((::fnv_007575b0::TESTopic *)(pPassiveTopic));
     }
-    reinterpret_cast<::FUN_008c16c0_cls *>((reinterpret_cast<MenuGlobal256*>((*reinterpret_cast<int *>(&::g_pkMenu755)))->script))->ApplyValueToFoundObject((int)("FollowerSwitchAggressive"), aggressive ? 1.0f : 0.0f);
+    reinterpret_cast<::FUN_008c16c0_cls *>((reinterpret_cast<MenuGlobal256*>((*reinterpret_cast<intptr_t *>(&::g_pkMenu755)))->script))->ApplyValueToFoundObject((intptr_t)("FollowerSwitchAggressive"), aggressive ? 1.0f : 0.0f);
     if (tile)
         reinterpret_cast<::Tile *>((tile))->Set(0x100f, aggressive);
 }
@@ -2876,10 +2899,10 @@ void CompanionHealingMenu::HealCompanion()
                 {
                     if (healthX < ::g_01012070)
                         reinterpret_cast<::FUN_008c1f80_shell *>((companion))->EquipItemWithCaster(
-                            (::FUN_008c1de0_item *)(void *)(dynamic_cast<AlchemyItem*>(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((entry))->GetName())))),
-                            (int)(((::HealingExtraList *)(::FUN_00559450((int *)(entry)))) ? ((::HealingExtra *)(new ((void *)(((::HealingExtraList *)(::FUN_00559450((int *)(entry)))))) ::Vec3())) : 0), 1);
-                    (*reinterpret_cast<::HealingActor * *>(&::_g_thePlayer))->RemoveItem(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((entry))->GetName())),
-                                             ((::HealingExtraList *)(::FUN_00559450((int *)(entry)))) ? ((::HealingExtra *)(new ((void *)(((::HealingExtraList *)(::FUN_00559450((int *)(entry)))))) ::Vec3())) : 0, 1, 0, 0,
+                            (::FUN_008c1de0_item *)(void *)(dynamic_cast<AlchemyItem*>(((::TESBoundObject *)(reinterpret_cast<::InventoryEntryFields *>((entry))->pObject)))),
+                            (intptr_t)(((::HealingExtraList *)(::FUN_00559450((int *)(entry)))) ? ((::HealingExtra *)(reinterpret_cast<::SimpleListNodeView*>(((::HealingExtraList *)(::FUN_00559450((int *)(entry)))))->m_item)) : 0), 1);
+                    (*reinterpret_cast<::HealingActor * *>(&::_g_thePlayer))->RemoveItem(((::TESBoundObject *)(reinterpret_cast<::InventoryEntryFields *>((entry))->pObject)),
+                                             ((::HealingExtraList *)(::FUN_00559450((int *)(entry)))) ? ((::HealingExtra *)(reinterpret_cast<::SimpleListNodeView*>(((::HealingExtraList *)(::FUN_00559450((int *)(entry)))))->m_item)) : 0, 1, 0, 0,
                                              0, 0, 0, 1, 0);
                     reinterpret_cast<::Actor *>((companion))->ConfigureActorState(0, 1);
                     reinterpret_cast<::FUN_0088b740_shell *>((companion))->FUN_0088b740(31, DAT_01013974);
@@ -3282,7 +3305,7 @@ void Wheel755d::FUN_00755dc0(int mode)
                     _rlQ1 = (InvEntry755d*)((::HealingInventoryEntry *)(reinterpret_cast<::fnv_00576260::FUN_00576260_shell *>(((*reinterpret_cast<::HealingActor * *>(&::_g_thePlayer))))->FUN_00576260((::fnv_00576260::TESBoundObject *)(rlObj), 0)));
                     if (_rlQ1)
                     {
-                        rlV = ((int)(reinterpret_cast<::Callees *>((_rlQ1))->FUN_00726070()));
+                        rlV = ((int)(reinterpret_cast<::InventoryEntryFields *>((_rlQ1))->iCountDelta));
                         rlP1 = _rlQ1;
                         rlQ2 = rlP1;
                         rlQ2 ? rlQ2->FUN_004459e0(1) : 0;
@@ -3331,6 +3354,21 @@ struct BSAudio
     BSSoundHandleEx GetSoundHandleByEditorID(const char*, unsigned int);
 public:
     void SetAudioState(unsigned int);
+public:
+    static void DeactivateAudio();
+    void DisableAudioPlayback();
+    void Update(bool);
+    void FUN_00ad77f0(float, unsigned int);
+    void SetListenerPosition(::NiPoint3);
+    void FUN_00ad7990(bool);
+    float GetMasterVolume();
+    float FUN_00ad7a50();
+    float FUN_00ad7a80();
+    float FUN_00ad7ab0();
+    float GetMusicVolume();
+    bool FUN_00ad7c50();
+    float FUN_00ad7c80();
+    void SetAudioProperty(unsigned int, unsigned int, unsigned int);
 };
 // @fnv 0x00754c60
 FUN_00754c60::~FUN_00754c60()
@@ -3365,7 +3403,7 @@ void InteractionMenu::UpdateCompanionInteraction()
         if (((bool)(reinterpret_cast<::FUN_00493bb0_Class *>((aTarget))->FUN_00493bb0())) && player2 == (*reinterpret_cast<::InteractionActor * *>(&::_g_thePlayer)) && reinterpret_cast<::MiddleHighProcess *>((aTarget))->IsActorInCombat())
         {
             reinterpret_cast<::VATS *>(&((*reinterpret_cast<::DialogueDisplay *>(&::g_011f2250))))->FUN_009c8950(0, 0);
-            ::FUN_00709470(4, (int)(aTarget), 0, 0, 1);
+            ::FUN_00709470(4, (intptr_t)(aTarget), 0, 0, 1);
             return;
         }
         if (aTarget && (!((bool)(reinterpret_cast<::FUN_00493bb0_Class *>((aTarget))->FUN_00493bb0())) || aTarget->CanInteract()) &&
@@ -3457,7 +3495,7 @@ void InteractionMenu::UpdateCompanionInteraction()
                                     if (speaker == (*reinterpret_cast<::InteractionActor * *>(&::_g_thePlayer)))
                                         speaker = aTarget;
                                     reinterpret_cast<::VATS *>(&((*reinterpret_cast<::DialogueDisplay *>(&::g_011f2250))))->FUN_009c8950(0, 0);
-                                    ::FUN_00709470(4, (int)(speaker), topic, 0, 1);
+                                    ::FUN_00709470(4, (intptr_t)(speaker), topic, 0, 1);
                                 }
                                 else
                                 {
@@ -3496,7 +3534,7 @@ void InteractionMenu::UpdateCompanionInteraction()
                                 InteractionActor* speaker = player2;
                                 if (speaker == (*reinterpret_cast<::InteractionActor * *>(&::_g_thePlayer)))
                                     speaker = aTarget;
-                                ::FUN_00709470(4, (int)(speaker), topic, 0, 1);
+                                ::FUN_00709470(4, (intptr_t)(speaker), topic, 0, 1);
                             }
                         }
                         delete item3;
@@ -3674,7 +3712,7 @@ void FUN_007552e0_shell::FUN_007552e0(int aiID, Tile* apTarget)
         break;
 
     case 3:
-        FUN_00756960(reinterpret_cast<int>(this));
+        FUN_00756960(reinterpret_cast<intptr_t>(this));
         ::s717280::FUN_00717280(1);
         break;
 
@@ -3743,4 +3781,46 @@ void FUN_007563a0_shell::ToggleFollowerWait()
         reinterpret_cast<::Tile *>(((*(Tile_Set_Helper**)((char*)this + 0x30))))->Set(0x100f, !m_bTopicResponsePlayed);
 }
 
+int __cdecl FUN_00755260();
+float FUN_00755660(float value);
+void FUN_00756960(intptr_t thisPtr);
+int __cdecl _FUN_00ec7d40(int value);
+unsigned __cdecl FUN_00ec6130(int);
+
+class RadialTile : public Tile
+{
+  public:
+};
+
+// @fnv 0x00755c50
+void WheelMenuV::FUN_00755c50(float angle)
+{
+    if (angle >= 0.0 && angle < 0.5235980153083801)
+        angle = 0.55f;
+    else if (angle >= 2.617990016937256 && angle < 3.141590118408203)
+        angle = 2.6f;
+    else if (angle >= 3.14159 && angle < 3.665186)
+        angle = 3.7f;
+    else if (angle >= 5.759578)
+        angle = 5.7f;
+
+    int k;
+    RadialTile* radialTile;
+    float a;
+    float high;
+    for (k = 0; k < 16; k++)
+    {
+        radialTile = dynamic_cast<RadialTile*>(tiles[k]);
+        if (radialTile)
+        {
+            a = reinterpret_cast<::TileListBoxCalls *>((radialTile))->GetFloat(0x1006);
+            high = reinterpret_cast<::TileListBoxCalls *>((radialTile))->GetFloat(0x1007);
+            if (angle >= a && angle < high)
+            {
+                reinterpret_cast<::WheelSelection *>(this)->SelectTile(k, false);
+                break;
+            }
+        }
+    }
+}
 #include "generated/data/fallout/interface/menus/companionwheelmenu.inc"

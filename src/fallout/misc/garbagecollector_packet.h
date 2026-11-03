@@ -49,6 +49,10 @@ class NavMesh
 class GlobalObject_00869f00
 {
   public:
+    void** m_ppVirtualMethodTable;
+    NavMesh** pBuffer;
+    unsigned int iSize;
+    unsigned int SimpleArrayStorage;
     unsigned int Add(NavMesh*&);
     unsigned int GetSize();
     NavMesh*& GetAt(unsigned int);

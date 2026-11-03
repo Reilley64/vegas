@@ -7,6 +7,7 @@
 // level size, subdivides while above the manager minimum, then derives the
 // split/morph distances from the [TerrainManager] INI mults.
 
+#include <cstdint>
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/Block.h"
@@ -272,7 +273,7 @@ struct NiObj;
 struct GO
 {
     NiObj* p;
-    GO(int p);
+    GO(intptr_t p);
     ~GO();
     operator NiObj*() const;
 };

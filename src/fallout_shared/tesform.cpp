@@ -1,5 +1,6 @@
 // fallout_shared/tesform.cpp: TESForm, TESValueForm, TESFile, BGSSaveLoadChangesMap and more (128 functions)
 
+#include <cstdint>
 #include <new>
 #include <cstring>
 #include "fileformat/compression.h"
@@ -490,7 +491,7 @@ extern int DAT_011c54f0;
 extern unsigned int DAT_011c54f4;
 
 // @fnv 0x00486890
-int __cdecl FindFormEnumIndex(unsigned int aiFormString)
+intptr_t __cdecl FindFormEnumIndex(unsigned int aiFormString)
 {
     if (aiFormString == DAT_011c54f4)
     {
@@ -3713,7 +3714,7 @@ bool TESFileRecordLoader::LoadRecord(void* src, int unused, TESFile* file)
 }
 }  // namespace fnv_0069da40
 
-int __cdecl FindFormEnumIndex(unsigned int);
+intptr_t __cdecl FindFormEnumIndex(unsigned int);
 
 struct FUN_00484150_shell : public TESForm
 {

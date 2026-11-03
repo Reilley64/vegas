@@ -10,7 +10,7 @@ struct S_008356e0_Ref;
 struct TESObjectREFR_Stub;
 
 // 0x008356e0
-::S_008356e0_Item *FUN_008356e0(int, ::S_008356e0_Ref *);
+::S_008356e0_Item *FUN_008356e0(void *, ::S_008356e0_Ref *);
 // 0x008357e0
 void FUN_008357e0(int *, bool);
 // 0x00835810

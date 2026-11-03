@@ -2,6 +2,9 @@
 // src/fallout/magic/absorbeffect.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/absorbeffect.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
+#include "fnv/effect_item_fields.h"
+#include "fnv/active_effect_fields.h"
 #include <cstddef>
 #include "fnv/decl/ActiveEffectLoader.h"
 #include "fnv/decl/ActorMover.h"
@@ -611,7 +614,7 @@ struct FUN_00803070_cls
 void FUN_00803070_cls::FUN_00803070()
 {
     reinterpret_cast<::FUN_0082c000_shell *>(this)->FUN_0082c000();
-    if (((unsigned char)(reinterpret_cast<::S3e60 *>((((::FUN_00803070_Probe *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((m_0c))->FUN_00825c00()))))->FUN_00403e60({}))) != 0 || (double)m_20 == ::_DAT_01012060)
+    if (((unsigned char)(reinterpret_cast<::S3e60 *>((((::FUN_00803070_Probe *)(reinterpret_cast<::EffectItemFields *>(m_0c)->setting))))->FUN_00403e60({}))) != 0 || (double)m_20 == ::_DAT_01012060)
     {
         void* result = ((void *)(reinterpret_cast<::FUN_0045cd60_shell *>((((FUN_00803070_Owner*)this)))->FUN_0045cd60())) != 0
                            ? ((void *)(reinterpret_cast<::MagicCaster *>((((FUN_00803070_Node*)((void *)(reinterpret_cast<::FUN_0045cd60_shell *>((((FUN_00803070_Owner*)this)))->FUN_0045cd60())))))->GetCasterActor()))
@@ -1315,7 +1318,7 @@ struct S_008033b0_Fx
 void S_008033b0_Fx::Update()
 {
     reinterpret_cast<::Cls *>(this)->ApplyEffect();
-    if (reinterpret_cast<::S3e60 *>((((::S_008033b0_Q *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((unk0c))->FUN_00825c00()))))->FUN_00403e60({}))
+    if (reinterpret_cast<::S3e60 *>((((::S_008033b0_Q *)(reinterpret_cast<::EffectItemFields *>(unk0c)->setting))))->FUN_00403e60({}))
     {
         void* t = ((::S_008033b0_Tgt *)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60())) ? ((void *)(reinterpret_cast<::MagicCaster *>((((::S_008033b0_Tgt *)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60()))))->GetCasterActor())) : 0;
         float f = reinterpret_cast<::ValueModifierEffect *>(this)->GetModifiedMagnitude(::GetFloatAtOffset1C((char *)this));
@@ -1686,7 +1689,7 @@ void BoltEffectImpl::InitBoltEffect()
     }
     reinterpret_cast<::BSXFlags_shell *>((pkDataZ))->FUN_00519230(1, 1);
 
-    BoltActor* pkAY = ((::fnv_008034c0::BoltCasterSource *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType())) ? ((::fnv_008034c0::BoltCasterSource *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType()))->GetActor() : 0;
+    BoltActor* pkAY = ((::fnv_008034c0::BoltCasterSource *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) ? ((::fnv_008034c0::BoltCasterSource *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))->GetActor() : 0;
     BoltActor* pkBOut = ((::fnv_008034c0::BoltTargetSource *)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60())) ? ((::fnv_008034c0::BoltTargetSource *)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60()))->GetActor() : 0;
     BoltAttachTarget* pkAttachTmp;
     BoltRoot* pkRootRes;
@@ -1824,8 +1827,8 @@ void BoltEffectUpd::UpdateEffect(float fTimeOffset)
 {
     reinterpret_cast<::ValueModifierEffect *>(this)->Update(fTimeOffset);
     BoltActorStandIn* pkCaster = ((::BoltCasterSrc *)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60())) ? ((::BoltActorStandIn *)(reinterpret_cast<::MagicCaster *>((((::BoltCasterSrc *)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60()))))->GetCasterActor())) : 0;
-    BoltActorStandIn* pkTarget = ((::BoltTargetSrc *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType())) ? ((::BoltActorStandIn *)(reinterpret_cast<::MagicTarget *>((((::BoltTargetSrc *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType()))))->GetOwnerActor())) : 0;
-    if (!reinterpret_cast<::S3e60 *>((((::BoltFlags *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((unk0c))->FUN_00825c00()))))->FUN_00403e60({}) && unk20 > 0.0)
+    BoltActorStandIn* pkTarget = ((::BoltTargetSrc *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) ? ((::BoltActorStandIn *)(reinterpret_cast<::MagicTarget *>((((::BoltTargetSrc *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))))->GetOwnerActor())) : 0;
+    if (!reinterpret_cast<::S3e60 *>((((::BoltFlags *)(reinterpret_cast<::EffectItemFields *>(unk0c)->setting))))->FUN_00403e60({}) && unk20 > 0.0)
     {
         int iAV = GetActorValue();
         if (pkTarget && pkTarget->kAVOwner.GetActorValueInt(GetActorValue()) <= 0.0)
@@ -1860,9 +1863,9 @@ void S_00803b70_Main::FUN_00803b70(float value)
     if (((::S_00803b70_O50 *)(::FUN_00559450((int *)&(m_50)))) && ((::S_00803b70_O54 *)(::FUN_00559450((int *)&(m_54)))) && ((::S_00803b70_O4c *)(::FUN_00559450((int *)&(m_4c)))) && ((::S_00803b70_O58 *)(::FUN_00559450((int *)&(m_58)))) && !DAT_011db9f4)
     {
         S_00803b70_Pt v7 = (*reinterpret_cast<::S_00803b70_Pt *>((void *)&::NiPoint3::ZERO));
-        v7 = *((::S_00803b70_Pt *)(::FUN_0045bb80((int)(((::S_00803b70_O50 *)(::FUN_00559450((int *)&(m_50))))))));
+        v7 = *((::S_00803b70_Pt *)(::FUN_0045bb80((intptr_t)(((::S_00803b70_O50 *)(::FUN_00559450((int *)&(m_50))))))));
         reinterpret_cast<::FUN_00440460_S *>((((::S_00803b70_O4c *)(::FUN_00559450((int *)&(m_4c))))))->FUN_00440460((const ::V3 *)(::S_00803b70_Pt *)(&v7));
-        S_00803b70_Pt r = (*(::S_00803b70_Pt *)(reinterpret_cast<::FUN_00439ef0_class *>((((::S_00803b70_Pt *)(::FUN_0045bb80((int)(((::S_00803b70_O54 *)(::FUN_00559450((int *)&(m_54))))))))))->FUN_00439ef0((::NiPoint3 *)&(v7), *(const ::NiPoint3 *)nullptr)));
+        S_00803b70_Pt r = ([&] { ::S_00803b70_Pt difference; reinterpret_cast<::FUN_00439ef0_class *>((((::S_00803b70_Pt *)(::FUN_0045bb80((intptr_t)(((::S_00803b70_O54 *)(::FUN_00559450((int *)&(m_54))))))))))->FUN_00439ef0((::NiPoint3 *)&difference, *(const ::NiPoint3 *)((::NiPoint3 *)&(v7))); return difference; }());
         FUN_006815c0 mat;
         float t = r.z;
         r.z = 0.0f;

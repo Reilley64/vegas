@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 class GlobalObject2_0096a2d0;
 class GlobalObject_0041a250;
@@ -99,9 +100,9 @@ extern ::GlobalObject_0044fae0 g_011dd3d8;
 // 0x011dd428
 extern unsigned int DAT_011dd428;
 // 0x011dd42c
-extern "C" extern unsigned int DAT_011dd42c;
+extern "C" extern std::uintptr_t DAT_011dd42c;
 // 0x011dd430
-extern unsigned int DAT_011dd430;
+extern std::uintptr_t DAT_011dd430;
 // 0x011dd448
 extern bool DAT_011dd448;
 // 0x011dd554

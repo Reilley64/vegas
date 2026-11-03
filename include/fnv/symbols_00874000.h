@@ -1,9 +1,10 @@
 #pragma once
+#include <cstdint>
 
 struct ScaleSource;
 
 // 0x00874480
-int FUN_00874480(char *);
+intptr_t FUN_00874480(char *);
 // 0x008744a0
 void FUN_008744a0(::ScaleSource *);
 // 0x00874670

@@ -2,6 +2,8 @@
 // src/fallout/magic/turnundeadeffect.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/turnundeadeffect.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
+#include "fnv/active_effect_fields.h"
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/BSShaderNoLightingProperty.h"
 #include "fnv/decl/FUN_0045cd60_shell.h"
@@ -345,13 +347,13 @@ struct V
 // @fnv 0x0082b530
 void C::FUN_0082b530()
 {
-    int b;
-    int a;
-    b = ((int)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType())) ? ((int)(reinterpret_cast<::MagicTarget *>((((O*)((int)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType())))))->GetOwnerActor())) : 0;
-    a = ((int)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60())) ? ((int)(reinterpret_cast<::MagicCaster *>((((O*)((int)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60())))))->GetCasterActor())) : 0;
-    if (b != 0 && a != 0 && (*(int(**)(int))(*(int**)b + 266))(b) != 0)
+    intptr_t b;
+    intptr_t a;
+    b = ((intptr_t)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) ? ((intptr_t)(reinterpret_cast<::MagicTarget *>((((O*)((reinterpret_cast<::ActiveEffectFields *>(this)->target)))))->GetOwnerActor())) : 0;
+    a = (reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60()) ? ((intptr_t)(reinterpret_cast<::MagicCaster *>((((O*)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60()))))->GetCasterActor())) : 0;
+    if (b != 0 && a != 0 && (*(void*(**)(intptr_t))(*(void***)b + 266))(b) != 0)
     {
-        reinterpret_cast<::FUN_008d0600_s *>((((O*)(*(int(**)(int, int, int))(*(int**)b + 266))(b, a, 0))))->FUN_008d0600({}, {});
+        reinterpret_cast<::FUN_008d0600_s *>((*(void*(**)(intptr_t))(*(void***)b + 266))(b))->FUN_008d0600(a, 0);
         *(char*)((char*)this + 72) = 1;
     }
 }
@@ -891,7 +893,7 @@ void B82B5E0Request::ApplyPackageToActor()
 {
     if (!m_bModifierActive)
         return;
-    B82B5E0Actor* pkActor = ((::B82B5E0ActorHandle *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType())) ? ((::B82B5E0Actor *)(reinterpret_cast<::MagicTarget *>((((::B82B5E0ActorHandle *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType()))))->GetOwnerActor())) : 0;
+    B82B5E0Actor* pkActor = ((::B82B5E0ActorHandle *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) ? ((::B82B5E0Actor *)(reinterpret_cast<::MagicTarget *>((((::B82B5E0ActorHandle *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))))->GetOwnerActor())) : 0;
     B82B5E0Package* pkPackage3 = ((::B82B5E0PackageHandle *)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60())) ? ((::B82B5E0Package *)(reinterpret_cast<::MagicCaster *>((((::B82B5E0PackageHandle *)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60()))))->GetCasterActor())) : 0;
     if (pkActor && ((bool)(reinterpret_cast<::FUN_00493bb0_Class *>((pkActor))->FUN_00493bb0())))
     {

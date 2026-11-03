@@ -92,9 +92,6 @@ class TESActorBaseData
 {
   public:
 };
-namespace std {
-float abs(float);
-}
 class PlayerMoverProcess
 {
   public:

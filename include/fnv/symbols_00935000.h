@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 // 0x00935cc0
 namespace fnv_00935cc0 { void FUN_00935cc0(int); }

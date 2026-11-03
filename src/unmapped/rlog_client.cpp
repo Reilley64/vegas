@@ -13,6 +13,7 @@
 
 
 // one byte flag holder (the helper's "bDoSwap" argument)
+#include <cstdint>
 #include <cstdlib>
 #include "fnv/decl/TESObjectCELL.h"
 #include "fnv/symbols_00401000.h"
@@ -55,12 +56,12 @@ struct LodGrid
     char pad00[0x24];
     int m_iCenterX;
     int m_iCenterY;
-    int FUN_00458be0(LodCell* pkCell, LodPoint* pkPos);
+    intptr_t FUN_00458be0(LodCell* pkCell, LodPoint* pkPos);
 };
 
 // Computes a LOD level from the cell's grid offset relative to the grid center or a position, caches it with the cell, and returns it.
 // @fnv 0x00458be0
-int LodGrid::FUN_00458be0(LodCell* pkCell, LodPoint* pkPos)
+intptr_t LodGrid::FUN_00458be0(LodCell* pkCell, LodPoint* pkPos)
 {
     if (g_pkLastCell_011c3f04 == pkCell)
         return g_iLastLod_011c3f00;

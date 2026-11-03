@@ -1,10 +1,24 @@
 // fallout/ai/actor.cpp: ActorValue, ActorX, Holder, ActorStub and more (806 functions)
 
+#include "fnv/simple_list_node_view.h"
+#include "fnv/combat_controller_fields.h"
+#include "fnv/effect_item_fields.h"
+#include "fnv/av_object_fields.h"
+#include "fnv/form_fields.h"
+#include "fnv/inventory_entry_fields.h"
+#include "fnv/save_load_game_view.h"
+#include "fnv/package_fields.h"
+#include "fnv/vats_camera_data_view.h"
+#include "fnv/tls.h"
+#include "fnv/simple_array_item.h"
+#include "fnv/result_slot.h"
+#include <intrin.h>
 #include <cstddef>
 #include <windows.h>
 #include <new>
 #include <cmath>
 #include <cstdint>
+#include <bit>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
@@ -83,7 +97,6 @@
 #include "fnv/decl/CombatProcedure.h"
 #include "fnv/decl/CombatTargetTimestamp.h"
 #include "fnv/decl/CombatUpdater.h"
-#include "fnv/decl/Controller.h"
 #include "fnv/decl/CreatureEquipment.h"
 #include "fnv/decl/Crime005fda50.h"
 #include "fnv/decl/D470Owner.h"
@@ -541,7 +554,6 @@
 #include "fnv/decl/FUN_00c75ad0_Class.h"
 #include "fnv/decl/FUN_00c762f0_Owner.h"
 #include "fnv/decl/FUN_00c76320_class.h"
-#include "fnv/decl/FUN_00c7d630_t.h"
 #include "fnv/decl/FUN_00ca20e0_Class.h"
 #include "fnv/decl/FaderManager.h"
 #include "fnv/decl/FakeFaction.h"
@@ -607,7 +619,6 @@
 #include "fnv/decl/NiPlane.h"
 #include "fnv/decl/NiQuaternion.h"
 #include "fnv/decl/NiTMapBase.h"
-#include "fnv/decl/NiUpdateData.h"
 #include "fnv/decl/Obj5e5300.h"
 #include "fnv/decl/Outer9819.h"
 #include "fnv/decl/Owner274.h"
@@ -623,7 +634,6 @@
 #include "fnv/decl/PackageEx.h"
 #include "fnv/decl/PackageTargetRecord.h"
 #include "fnv/decl/PackedByteIntRecord.h"
-#include "fnv/decl/ParticleTable.h"
 #include "fnv/decl/Pathing.h"
 #include "fnv/decl/PathingLocation.h"
 #include "fnv/decl/PathingRequest.h"
@@ -636,15 +646,12 @@
 #include "fnv/decl/ProcessListsEx.h"
 #include "fnv/decl/Q52Obj.h"
 #include "fnv/decl/RagController.h"
-#include "fnv/decl/RagdollAnimControllerView.h"
-#include "fnv/decl/RagdollCtl.h"
 #include "fnv/decl/Rebuild004d0650__Inventory.h"
 #include "fnv/decl/RecursiveSpinLock.h"
 #include "fnv/decl/Ref.h"
 #include "fnv/decl/RefList.h"
 #include "fnv/decl/Reference.h"
 #include "fnv/decl/RefrStub.h"
-#include "fnv/decl/RenderNode.h"
 #include "fnv/decl/ResetAnimation.h"
 #include "fnv/decl/RockItAmmoCountDetail__PlayerView.h"
 #include "fnv/decl/RotationMatrix.h"
@@ -677,6 +684,7 @@
 #include "fnv/decl/ScreenSplatter.h"
 #include "fnv/decl/Script.h"
 #include "fnv/decl/ScriptLocals.h"
+#undef SearchPath
 #include "fnv/decl/SearchOwner.h"
 #include "fnv/decl/SetLoc_S.h"
 #include "fnv/decl/ShapeCaster.h"
@@ -700,16 +708,24 @@
 #include "fnv/decl/TESFurniture.h"
 #include "fnv/decl/TESHealthForm.h"
 #include "fnv/decl/TESLeveledList.h"
-#include "fnv/decl/TESNPC.h"
 #include "fnv/decl/TESObjectARMO.h"
-#include "fnv/decl/TESObjectWEAP.h"
+// fnv/decl/TESObjectWEAP.h is not included: its `enum ActorValue__Index` clashes with the
+// typedef in layout_support.h. These are the TESObjectWEAP methods this unit calls.
+class Actor;
+class TESObjectWEAP
+{
+  public:
+    float GetWeightForForm(bool);
+    int GetReloadAnim(bool);
+    unsigned char GetDamageForActor(bool, bool, ::Actor *);
+    float FUN_00709430(bool);
+};
 #include "fnv/decl/TESPackageShell.h"
 #include "fnv/decl/TESRecipe.h"
 #include "fnv/decl/TESRegionDataMap.h"
 #include "fnv/decl/TESRegionGrassObject.h"
 #include "fnv/decl/TESTopicInfoData.h"
 #include "fnv/decl/TESWeightForm.h"
-#include "fnv/decl/Target.h"
 #include "fnv/decl/Target96.h"
 #include "fnv/decl/TaskQueueInterface.h"
 #include "fnv/decl/TeleportableReference.h"
@@ -1159,6 +1175,183 @@
 #include "fnv/symbols_01267000.h"
 #include "fnv/symbols_01268000.h"
 #include "Actor.h"
+#include <xmmintrin.h>
+#include "fnv/symbols_simd.h"
+#include "fnv/decl/Cls79340.h"
+#include "fnv/decl/FNV_MemoryManager.h"
+#include "fnv/decl/FUN_00448e30_this.h"
+#include "fnv/decl/FUN_005609f0_shell.h"
+#include "fnv/decl/FUN_005611c0_t.h"
+#include "fnv/decl/FUN_00ba3a00.h"
+#include "fnv/decl/FUN_00c75460_S.h"
+#include "fnv/decl/FUN_00c7a230_cls.h"
+#include "fnv/decl/FUN_00ca8420_Class.h"
+#include "fnv/decl/FUN_00cb0a60.h"
+#include "fnv/decl/FUN_00cd9fe0_cls.h"
+#include "fnv/decl/FUN_00cda8d0_class.h"
+#include "fnv/decl/FUN_00cdb290.h"
+#include "fnv/decl/MapperInitialization.h"
+#include "fnv/decl/NiGlobalStringTable.h"
+#include "fnv/decl/PointerMap.h"
+#include "fnv/decl/RagdollMapperC18.h"
+#include "fnv/decl/RotationRows.h"
+#include "fnv/decl/S00c79e20_Ctrl.h"
+#include "fnv/decl/S00cd8920_Obj.h"
+#include "fnv/decl/SStringPtr.h"
+#include "fnv/decl/S_00b601a0_Map.h"
+#include "fnv/decl/S_00ca8630_Class.h"
+#include "fnv/decl/SceneEffect.h"
+#include "fnv/decl/fnv_00cdb7c0__Obj.h"
+#include "fnv/decl/fnv_00ce1ad0__RagInstance.h"
+#include "fnv/decl/fnv_00ce5370__FUN_00ce5370_cls.h"
+#include "fnv/decl/hkReferencedObjectC905.h"
+#include "fnv/decl/hkpEntityC9C.h"
+#include "fnv/symbols_00624000.h"
+#include "fnv/symbols_00aa4000.h"
+#include "fnv/symbols_00c4b000.h"
+#include "fnv/symbols_00c74000.h"
+#include "fnv/symbols_00c75000.h"
+#include "fnv/symbols_00c7a000.h"
+#include "fnv/symbols_00c7b000.h"
+#include "fnv/symbols_00c7d000.h"
+#include "fnv/symbols_00c8c000.h"
+#include "fnv/symbols_00c90000.h"
+#include "fnv/symbols_00cb0000.h"
+#include "fnv/symbols_00cb1000.h"
+#include "fnv/symbols_00cda000.h"
+#include "fnv/symbols_00cdd000.h"
+#include "fnv/symbols_00cde000.h"
+#include "fnv/symbols_00ce6000.h"
+#include "fnv/symbols_00cea000.h"
+#include "fnv/symbols_00ceb000.h"
+#include "fnv/symbols_01050000.h"
+#include "fnv/symbols_0109b000.h"
+#include "fnv/symbols_010c4000.h"
+#include "fnv/symbols_010c7000.h"
+#include "fnv/symbols_011ac000.h"
+#include "fnv/symbols_011af000.h"
+#include "fnv/symbols_011b0000.h"
+#include "fnv/symbols_011f4000.h"
+#include "fnv/decl/C68D50World.h"
+#include "fnv/decl/ControllerLocal.h"
+#include "fnv/decl/ControllerOwner.h"
+#include "fnv/decl/Dispatch_00c89dd0.h"
+#include "fnv/decl/FUN_004f0180_Class.h"
+#include "fnv/decl/FUN_00a305e0_cls.h"
+#include "fnv/decl/FUN_00c6b320_Class.h"
+#include "fnv/decl/FUN_00c6e0b0_Class.h"
+#include "fnv/decl/FUN_00cb7550_cls.h"
+#include "fnv/decl/FootIKDetail__Controller.h"
+#include "fnv/decl/Holder_cffa0.h"
+#include "fnv/decl/P103Controller.h"
+#include "fnv/decl/PoseMatcher.h"
+#include "fnv/decl/PropertyOwner.h"
+#include "fnv/decl/Q1420Helper.h"
+#include "fnv/decl/QueryOwner.h"
+#include "fnv/decl/S00560c20_Object.h"
+#include "fnv/decl/S_c7a730.h"
+#include "fnv/decl/fnv_005617c0__FUN_005617c0_.h"
+#include "fnv/decl/fnv_00c79a50__PoseControllerLocal.h"
+#include "fnv/decl/fnv_00cdb6f0__FUN_00cdb6f0_cls.h"
+#include "fnv/symbols_00aa1000.h"
+#include "fnv/symbols_00c43000.h"
+#include "fnv/symbols_00c68000.h"
+#include "fnv/symbols_00c76000.h"
+#include "fnv/symbols_00c81000.h"
+#include "fnv/symbols_00cb9000.h"
+#include "fnv/symbols_00ce4000.h"
+#include "fnv/symbols_00d6b000.h"
+#include "fnv/symbols_0108f000.h"
+#include "fnv/symbols_010c5000.h"
+#include "fnv/symbols_011f6000.h"
+#include "fnv/symbols_01204000.h"
+#include "fnv/symbols_01272000.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/symbols_01203000.h"
+#include "fnv/decl/C8DAC0Owner.h"
+#include "fnv/decl/FUN_00644a50_shell.h"
+#include "fnv/decl/FUN_006d2c20_Class.h"
+#include "fnv/decl/FUN_009a1260_Class.h"
+#include "fnv/decl/NonActorMagicTarget.h"
+#include "fnv/decl/RefVolAccum.h"
+#include "fnv/decl/S0087ab50.h"
+#include "fnv/decl/bhkRigidBody_shell.h"
+#include "fnv/decl/fnv_00561580__FUN_00561580_Class.h"
+#include "fnv/decl/fnv_00810610__FUN_00810610_Class.h"
+#include "fnv/decl/fnv_008648e0__FUN_008648e0_shell.h"
+#include "fnv/decl/fnv_00932a00__FUN_00932a00_t.h"
+#include "fnv/symbols_00533000.h"
+#include "fnv/symbols_005b9000.h"
+#include "fnv/symbols_00621000.h"
+#include "fnv/symbols_007d1000.h"
+#include "fnv/symbols_00887000.h"
+#include "fnv/symbols_00c6c000.h"
+#include "fnv/symbols_011de000.h"
+#include <string.h>
+#include "fnv/decl/FUN_009acce0_shell.h"
+#include "fnv/decl/FUN_00761540_cls.h"
+#include "fnv/decl/FUN_00c74990_cls.h"
+#include "fnv/decl/FUN_00c76220_Class.h"
+#include "fnv/decl/MapTable.h"
+#include "fnv/decl/SkeletonPoseData.h"
+#include "fnv/symbols_00b5c000.h"
+#include "fnv/decl/FUN_0062d4b0.h"
+#include "fnv/decl/FUN_00cc58c0.h"
+#include "fnv/decl/FUN_00418830_shell.h"
+#include "fnv/decl/FUN_00421e40_shell.h"
+#include "fnv/decl/FUN_004523c0_shell.h"
+#include "fnv/decl/FUN_004893c0_class.h"
+#include "fnv/decl/FUN_004ae700_S.h"
+#include "fnv/decl/FUN_005475b0_shell.h"
+#include "fnv/decl/FUN_00549580_shell.h"
+#include "fnv/decl/FUN_005610f0_cls.h"
+#include "fnv/decl/FUN_00586260_shell.h"
+#include "fnv/decl/FUN_005f90c0_shell.h"
+#include "fnv/decl/FUN_005f90e0_shell.h"
+#include "fnv/decl/FUN_00810510_Class.h"
+#include "fnv/decl/FUN_00810550_class.h"
+#include "fnv/decl/FUN_00810640_class.h"
+#include "fnv/decl/FUN_00857230_shell.h"
+#include "fnv/decl/FUN_00891130_class.h"
+#include "fnv/decl/FUN_00891150_Class.h"
+#include "fnv/decl/FUN_008ae480_Class.h"
+#include "fnv/decl/FUN_008ae4a0_Class.h"
+#include "fnv/decl/FUN_008e5700_cls.h"
+#include "fnv/decl/FUN_0093a7a0_Class.h"
+#include "fnv/decl/FUN_00947d80_cls.h"
+#include "fnv/decl/FUN_009480c0_shell.h"
+#include "fnv/decl/FUN_0094db80_shell.h"
+#include "fnv/decl/GList.h"
+#include "fnv/decl/Holder00807080.h"
+#include "fnv/decl/Polygon.h"
+#include "fnv/decl/S008910c0_Vector.h"
+#include "fnv/decl/S_0060ba10.h"
+#include "fnv/decl/Sky.h"
+#include "fnv/decl/SoundPlaybackManager.h"
+#include "fnv/decl/TESRegionList.h"
+#include "fnv/decl/V.h"
+#include "fnv/decl/_FUN_00822510_Class.h"
+#include "fnv/decl/cell547__C5Cell.h"
+#include "fnv/decl/fnv_00451530__FUN_00451530_shell.h"
+#include "fnv/decl/fnv_0056f110__FUN_0056f110_class.h"
+#include "fnv/decl/fnv_00571530__FUN_00571530_shell.h"
+#include "fnv/symbols_0048d000.h"
+#include "fnv/symbols_004ba000.h"
+#include "fnv/symbols_004f2000.h"
+#include "fnv/symbols_00560000.h"
+#include "fnv/symbols_0056e000.h"
+#include "fnv/symbols_005a1000.h"
+#include "fnv/symbols_005e0000.h"
+#include "fnv/symbols_00622000.h"
+#include "fnv/symbols_0062f000.h"
+#include "fnv/symbols_008a5000.h"
+#include "fnv/symbols_0094d000.h"
+#include "fnv/symbols_00c85000.h"
+#include "fnv/symbols_01022000.h"
+#include "fnv/decl/FUN_005224e0_class.h"
+#include "fnv/decl/FUN_00867c60_shell.h"
+#include "fnv/decl/Me.h"
+#include "fnv/decl/OwnershipReferenceView.h"
 
 // @fnv 0x004181e0
 TESActorBase* Actor::GetActorBase()
@@ -1384,7 +1577,7 @@ struct Node48
 struct FUN_0048bf50_cls
 {
     Node48* GetPosition();
-    int FindValueByKey(int key);
+    int FindValueByKey(intptr_t key);
 };
 struct BSAnimGroupSequence;
 struct FUN_00491040_shell : public Animation
@@ -1427,11 +1620,11 @@ float FUN_004e3d00_shell::FUN_004e3d00()
 
 struct FUN_004f8960_shell : public Actor
 {
-    int FUN_004f8960();
+    intptr_t FUN_004f8960();
 };
 
 // @fnv 0x004f8960
-int FUN_004f8960_shell::FUN_004f8960()
+intptr_t FUN_004f8960_shell::FUN_004f8960()
 {
     return *(int*)&this->m_eLifeState;
 }
@@ -1453,17 +1646,17 @@ struct FUN_005f8bd0_Helper
 {
     char pad[0x158];
     int field_158;
-    void Set(int val);
+    void Set(intptr_t val);
 };
 
 // @fnv 0x005f8bd0
-void FUN_005f8bd0_Helper::Set(int val)
+void FUN_005f8bd0_Helper::Set(intptr_t val)
 {
     field_158 = val;
 }
 
 // @fnv 0x005f9b50
-int GetField158(int param_1)
+intptr_t GetField158(intptr_t param_1)
 {
     return *(int*)(param_1 + 0x158);
 }
@@ -1491,7 +1684,7 @@ void FUN_00762130_dummy::SetIAmInDialogue(bool abIAmInDialogue)
 }
 
 // @fnv 0x00778970
-int GetField18C(char* pThis)
+intptr_t GetField18C(char* pThis)
 {
     return *(int*)(pThis + 0x18c);
 }
@@ -1530,7 +1723,7 @@ class GameSettingCollection
 // @fnv 0x0087d6a0
 bool FUN_0087d6a0_shell::FUN_0087d6a0()
 {
-    return reinterpret_cast<int>(((::TESFile *)(reinterpret_cast<::FUN_004f8960_shell *>((reinterpret_cast<GameSettingCollection*>(this)))->FUN_004f8960()))) == 1;
+    return reinterpret_cast<intptr_t>(((::TESFile *)(reinterpret_cast<::FUN_004f8960_shell *>((reinterpret_cast<GameSettingCollection*>(this)))->FUN_004f8960()))) == 1;
 }
 
 
@@ -1769,7 +1962,7 @@ struct FUN_0087f620_shell : public Actor
 // @fnv 0x0087f620
 bool FUN_0087f620_shell::FUN_0087f620()
 {
-    if (!(*(bool(**)(Actor*))(*(int*)this + 0x218))(this) && reinterpret_cast<::FUN_0087f570_shell *>((this))->FUN_0087f570())
+    if (!(*(bool(**)(Actor*))(*(intptr_t*)this + 0x218))(this) && reinterpret_cast<::FUN_0087f570_shell *>((this))->FUN_0087f570())
         return false;
     return true;
 }
@@ -1802,7 +1995,7 @@ struct TESObjectCELL_Ext : public TESObjectCELL
 
 // Returns the object at offset 0x170 if its form type is 0x39 and it is an interior cell, otherwise null.
 // @fnv 0x0087f7a0
-int FUN_0087f7a0(void* thisPtr)
+intptr_t FUN_0087f7a0(void* thisPtr)
 {
     TESObjectCELL_Ext* cell = 0;
     if (*(void**)((char*)thisPtr + 0x170) != 0)
@@ -1819,7 +2012,7 @@ int FUN_0087f7a0(void* thisPtr)
             cell = 0;
         }
     }
-    return (int)cell;
+    return (intptr_t)cell;
 }
 
 
@@ -2029,7 +2222,7 @@ bool FUN_0087f900(void* thisPtr)
 
 struct FUN_0087f990_shell : public Actor
 {
-    int FUN_0087f990();
+    intptr_t FUN_0087f990();
 };
 
 class BSAudio
@@ -2038,7 +2231,7 @@ class BSAudio
 };
 
 // @fnv 0x0087f990
-int FUN_0087f990_shell::FUN_0087f990()
+intptr_t FUN_0087f990_shell::FUN_0087f990()
 {
     return reinterpret_cast<::FUN_005bb4d0_shell *>((reinterpret_cast<BSAudio*>(reinterpret_cast<char*>(GetActorBase()) + 0x90)))->FUN_005bb4d0();
 }
@@ -2580,9 +2773,9 @@ struct FUN_0087fad0_Actor : public Actor
 void FUN_0087fad0_Actor::FUN_0087fad0(void* pTarget)
 {
     FUN_0087fad0_Node* pNode = reinterpret_cast<FUN_0087fad0_Node*>(reinterpret_cast<char*>(this) + 0xfc);
-    while (pNode != 0 && *((::FUN_0087fad0_Item **)(new ((void *)(pNode)) ::Vec3())) != 0)
+    while (pNode != 0 && *((::FUN_0087fad0_Item **)(((::Vec3 *)(void *)(pNode)))) != 0)
     {
-        FUN_0087fad0_Item* pEntry = *((::FUN_0087fad0_Item **)(new ((void *)(pNode)) ::Vec3()));
+        FUN_0087fad0_Item* pEntry = *((::FUN_0087fad0_Item **)(((::Vec3 *)(void *)(pNode))));
         if (pEntry->pTarget == pTarget)
         {
             reinterpret_cast<::ItemChangeListNode *>((reinterpret_cast<FUN_0087fad0_Node*>(reinterpret_cast<char*>(this) + 0xfc)))->FUN_00905330((*(::InventoryStackRecord *const *)(&pEntry)));
@@ -2590,7 +2783,7 @@ void FUN_0087fad0_Actor::FUN_0087fad0(void* pTarget)
         }
         else
         {
-            pNode = ((::FUN_0087fad0_Node *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070()));
+            pNode = ((::FUN_0087fad0_Node *)(reinterpret_cast<::SimpleListNodeView *>((pNode))->m_pkNext));
         }
     }
 }
@@ -2615,13 +2808,13 @@ float FUN_0087fcb0_cls::GetAmountForActor(void* apActor)
 {
     float result = 0.0f;
     Node87* node = &list;
-    while (node && *((::Item87 **)(new ((void *)(node)) ::Vec3())))
+    while (node && *((::Item87 **)(((::Vec3 *)(void *)(node)))))
     {
-        Item87* it = *((::Item87 **)(new ((void *)(node)) ::Vec3()));
+        Item87* it = *((::Item87 **)(((::Vec3 *)(void *)(node))));
         if (it->actor == apActor)
             return (float)it->amount;
         else
-            node = ((::Node87 *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
+            node = ((::Node87 *)(reinterpret_cast<::SimpleListNodeView *>((node))->m_pkNext));
     }
     return result;
 }
@@ -2680,30 +2873,30 @@ void FUN_00880690_stand::FUN_00880690(bool a, float afValue)
 int __cdecl __ftol2_sse(float);
 struct FUN_00880850_stand
 {
-    int FUN_00880850(int a, int b, int c);
+    int FUN_00880850(int a, int b, intptr_t c);
 };
 // @fnv 0x00880850
-int FUN_00880850_stand::FUN_00880850(int aiArg1, int aiArg2, int aiArg3)
+int FUN_00880850_stand::FUN_00880850(int aiArg1, int aiArg2, intptr_t aiArg3)
 {
-    return (int)FUN_00404040(::FUN_00880890((void *)this, aiArg1, (float)aiArg2, aiArg3));
+    return (int)FUN_00404040(::FUN_00880890((void *)this, aiArg1, (float)aiArg2, (void *)(std::intptr_t)aiArg3));
 }
 
 // @fnv 0x00880890
-float FUN_00880890(void* pThis, float a1, float afValue, float a3)
+float FUN_00880890(void* pThis, int aiValue, float afValue, void* apSource)
 {
     return afValue;
 }
 
 struct FUN_008808f0_shell : public Actor
 {
-    void FUN_008808f0(int, bool);
+    void FUN_008808f0(intptr_t, bool);
 };
 
 namespace ActorValue {
 }
 
 // @fnv 0x008808f0
-void FUN_008808f0_shell::FUN_008808f0(int aiWhich, bool abBaseValueModified)
+void FUN_008808f0_shell::FUN_008808f0(intptr_t aiWhich, bool abBaseValueModified)
 {
     ::FUN_0047f060((*(int *)&(const ::ActorValue::Index &)((ActorValue::Index)aiWhich)));
 }
@@ -3130,7 +3323,7 @@ TESObjectREFR* FUN_00881650_shell::FUN_00881650()
 {
     if (*(int*)((char*)this + 0x68))
     {
-        ActorPackageContext* actorPack = (ActorPackageContext*)(*(int*)((char*)this + 0x68) + 4);
+        ActorPackageContext* actorPack = (ActorPackageContext*)(*(intptr_t*)((char*)this + 0x68) + 4);
         return ((::TESObjectREFR *)(reinterpret_cast<::Twin_0044ddc0 *>((actorPack))->GetName()));
     }
     return 0;
@@ -3167,7 +3360,7 @@ bool IsFlagBitSet(char* pThis)
 }
 
 // @fnv 0x008840f0
-bool FUN_008840f0(int pObject)
+bool FUN_008840f0(intptr_t pObject)
 {
     return (*(unsigned int*)(pObject + 0x1c) & 0x200) ? true : false;
 }
@@ -3443,7 +3636,7 @@ struct FUN_00884480_shell : public Actor
 // @fnv 0x00884480
 bool FUN_00884480_shell::FUN_00884480()
 {
-    if (Unk_8D() || (*(bool(**)(Actor*, bool))(*(int*)this + 0x22c))(this, false))
+    if (Unk_8D() || (*(bool(**)(Actor*, bool))(*(intptr_t*)this + 0x22c))(this, false))
         return false;
     if (Unk_8C())
         return false;
@@ -4280,6 +4473,25 @@ struct LipSyncAnimation;
 struct MagicItem;
 struct MuzzleFlash;
 struct NiControllerManager;
+struct NiUpdateData
+{
+    float m_fTime;
+    bool b0;
+    bool b1;
+    bool b2;
+    bool b3;
+    bool b4;
+public:
+    NiUpdateData() = default;
+    NiUpdateData(float, bool, bool);
+};
+struct NiNode : NiAVObject
+{
+    void Update(NiUpdateData const&);
+public:
+    unsigned int GetNumChildren();
+    NiAVObject* GetAt(unsigned int);
+};
 struct NiNode;
 struct TargetDoorController;
 struct PathingAvoidNodeArray;
@@ -4507,8 +4719,21 @@ float FUN_00884eb0_shell::FUN_00884eb0()
 }
 }  // namespace fnv_00884eb0
 
-struct Owner
+struct CVals
 {
+    char pad[0x3c];
+    float val;
+    bool FUN_00884e90(int);
+};
+struct SourceBuffer;
+struct __declspec(align(16)) Vec4 { __m128 value; __forceinline Vec4& operator=(const Vec4& rhs) { value=rhs.value; return *this; } };
+struct Root {
+    SourceBuffer* src; __forceinline void SetSource(SourceBuffer* p) { src=p; } int unk04,unk08,unk0c;
+    Vec4 a,b;
+    static __forceinline void* operator new(std::size_t n) { return FUN_00c74ea0(n); }
+    __forceinline Root():src(0) {}
+};
+struct Owner { int unk00,unk04,unk08,unk0c,unk10,unk14,unk18; Root* root; __forceinline void SetRoot(Root* p) { root=p; } public:
     virtual void v0();
     virtual void v1();
     virtual void v2();
@@ -4525,12 +4750,6 @@ struct Owner
     virtual void v13();
     virtual void v14();
     virtual float GetValue();
-};
-struct CVals
-{
-    char pad[0x3c];
-    float val;
-    bool FUN_00884e90(int);
 };
 struct BP
 {
@@ -4559,8 +4778,8 @@ void FUN_00884f80_shell::FUN_00884f80()
 {
     if (*reinterpret_cast<_Dummy_00884f80**>(&this->m_pBaseProcess))
     {
-        ::FUN_00884940((int *)((*reinterpret_cast<_Dummy_00884f80**>(&this->m_pBaseProcess))), (::blob4)(0x2000));
-        ::FUN_00884940((int *)((*reinterpret_cast<_Dummy_00884f80**>(&this->m_pBaseProcess))), (::blob4)(0x1000));
+        ::FUN_00884940((int *)((*reinterpret_cast<_Dummy_00884f80**>(&this->m_pBaseProcess))), std::bit_cast<::blob4>(0x2000u));
+        ::FUN_00884940((int *)((*reinterpret_cast<_Dummy_00884f80**>(&this->m_pBaseProcess))), std::bit_cast<::blob4>(0x1000u));
     }
 }
 
@@ -5722,7 +5941,7 @@ void FUN_0088c650_shell::FUN_0088c650(TESBoundObject* apObject, int aiNumber, Ex
     case 0x28:
     case 0x29:
     case 0x33:
-        if (!*(void**)&this->m_pBaseProcess || ((int)(reinterpret_cast<::FUN_0045cd60_shell *>(((*(TESResponse**)&this->m_pBaseProcess)))->FUN_0045cd60())) > 1 ||
+        if (!*(void**)&this->m_pBaseProcess || ((intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>(((*(TESResponse**)&this->m_pBaseProcess)))->FUN_0045cd60())) > 1 ||
             ((PlayerCharacter*)this == pPlayer && ::FUN_00702360()) || reinterpret_cast<::fnv_0042ce10::FUN_0042ce10_shell *>((::g_BGSSaveLoadGame))->FUN_0042ce10())
         {
             ((FakeEquipRef*)this)->EquipObject(apObject, aiNumber, apExtra, abNow, abForceEquip, abPlayPickUpSounds);
@@ -5748,6 +5967,25 @@ struct NiNode;
 struct QueuedFile;
 struct TESAmmo;
 struct TESModel;
+class TESHair;
+template <class> class FaceGenMatrix;
+class TESNPC : public TESBoundObject
+{
+public:
+    void ResetFaceGen();
+    TESNPC();
+    void ResetFormData();
+    void CopyActorBaseData(::TESNPC *);
+    void GetFaceGenCoords(FaceGenMatrix<float> (&)[2][2]);
+    ::TESHair *GetHair();
+    void UpdateActorBaseData(bool);
+    float GetDefaultHeight();
+    void FUN_006047c0(::TESObjectREFR *, bool, bool, bool, bool);
+    void AttachHeadParts(::TESObjectREFR *, ::NiNode *);
+    void RebuildHeadModel(::TESObjectREFR *, ::BipedAnim *, bool);
+    void GetFaceGenNodes(::BSFaceGenNiNode *&, ::BSFaceGenNiNode *&);
+    void Revert(::BGSLoadFormBuffer *);
+};
 struct TESNPC;
 struct TESObjectARMO;
 struct TESObjectCLOT;
@@ -6440,7 +6678,7 @@ void* FUN_0089d600(char* pThis)
 }
 
 // @fnv 0x0089d620
-int FUN_0089d620(char* this_ptr)
+intptr_t FUN_0089d620(char* this_ptr)
 {
     return *(int*)(this_ptr + 0x2e4);
 }
@@ -6913,7 +7151,7 @@ TESObjectWEAP* FUN_008a1710_shell::FUN_008a1710()
     if (*(DummyVtable_008a1710**)&this->m_pBaseProcess &&
         (*(DummyVtable_008a1710**)&this->m_pBaseProcess)->GetCurrentWeaponData())
     {
-        return (TESObjectWEAP*)((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(((*(DummyVtable_008a1710**)&this->m_pBaseProcess)->GetCurrentWeaponData()))->GetName()));
+        return (TESObjectWEAP*)((uintptr_t)(reinterpret_cast<::InventoryEntryFields *>(((*(DummyVtable_008a1710**)&this->m_pBaseProcess)->GetCurrentWeaponData()))->pObject));
     }
     return 0;
 }
@@ -7248,7 +7486,7 @@ int FUN_008a1760_shell::FUN_008a1760()
     }
     else if (((::fnv_008a1760::Sky *)(reinterpret_cast<::BSShaderNoLightingProperty *>((reinterpret_cast<TES*>(this)))->GetBaseTexture())))
     {
-        switch (reinterpret_cast<int>(
+        switch (reinterpret_cast<intptr_t>(
             ((::fnv_008a1760::TESResponse *)(reinterpret_cast<::FUN_0045cd60_shell *>((reinterpret_cast<TESResponse*>(((::fnv_008a1760::Sky *)(reinterpret_cast<::BSShaderNoLightingProperty *>((reinterpret_cast<TES*>(this)))->GetBaseTexture())))))->FUN_0045cd60()))))
         {
         case 0:
@@ -8816,7 +9054,7 @@ bool FUN_008a6970_shell::FUN_008a6970()
 {
     if (reinterpret_cast<::FUN_008846e0_shell *>((((ActMM*)this)))->GetVtbl20Result() & 0x800)
     {
-        if (this == pPlayer && ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((DatT*)&(*reinterpret_cast<::VATS *>(&::g_011f2250)))))->GetName())) == 4)
+        if (this == pPlayer && ((unsigned int)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)) == 4)
             reinterpret_cast<::VATS *>((((DatT*)&(*reinterpret_cast<::VATS *>(&::g_011f2250)))))->FUN_009c8950(false, false);
         return false;
     }
@@ -9627,6 +9865,18 @@ bool FUN_008a78f0_shell::FUN_008a78f0(int aeFalloutType)
     return bHasResultObj;
 }
 }  // namespace fnv_008a78f0
+struct ThreeByThreeMatrix
+{
+    float m[9];
+    ThreeByThreeMatrix operator*(const ThreeByThreeMatrix&) const;
+    NiPoint3 operator*(const NiPoint3&) const;
+public:
+    ::ThreeByThreeMatrix operator+(const ::ThreeByThreeMatrix &) const;
+public:
+    bool Inverse(ThreeByThreeMatrix&);
+    void SetYRotation(float);
+    ::ThreeByThreeMatrix *FUN_004b45b0(::ThreeByThreeMatrix *);
+};
 
 namespace fnv_008a8150 {
 struct SaveLoadFile;
@@ -10133,9 +10383,9 @@ void FUN_008a8f60_shell::FUN_008a8f60()
     if (pfollow != 0)
     {
         void* pFollowerEntry = pfollow->pFollowers;
-        while (pFollowerEntry != 0 && *((::Actor **)(new ((void *)(pFollowerEntry)) ::Vec3())) != 0)
+        while (pFollowerEntry != 0 && *((::Actor **)(((::Vec3 *)(void *)(pFollowerEntry)))) != 0)
         {
-            Actor* pactor = *((::Actor **)(new ((void *)(pFollowerEntry)) ::Vec3()));
+            Actor* pactor = *((::Actor **)(((::Vec3 *)(void *)(pFollowerEntry))));
             if (((::fnv_008a8f60::Sky *)(reinterpret_cast<::BSShaderNoLightingProperty *>((reinterpret_cast<TES*>(pactor)))->GetBaseTexture())) != 0)
             {
                 TESPackage* ppack =
@@ -10270,7 +10520,7 @@ void FUN_008acba0_holder::FUN_008acba0()
 {
     if (los && ::FUN_00884920((int *)(los)))
     {
-        ::FUN_00884940((int *)(los), (::blob4)(8));
+        ::FUN_00884940((int *)(los), std::bit_cast<::blob4>(8u));
     }
 }
 }  // namespace fnv_008acba0
@@ -10638,6 +10888,7 @@ void FUN_008a5530_shell::FUN_008a5530()
 }
 
 class ActorPackageContext;
+struct CrimeStatus;
 class BaseProcess
 {
   public:
@@ -10725,20 +10976,344 @@ class BaseProcess
     virtual BSFaceGenAnimationData* GetActorFaceGenData(Actor*);
 public:
     ::ActorPackageContext *GetCurrentProcessData();
+public:
+    virtual void slot_000();
+    virtual void slot_001();
+    virtual void slot_002();
+    virtual void slot_003();
+    virtual void slot_004();
+    virtual void slot_005();
+    virtual void slot_006();
+    virtual void slot_007();
+    virtual void slot_008();
+    virtual void slot_009();
+    virtual void slot_010();
+    virtual void slot_011();
+    virtual void slot_012();
+    virtual void slot_013();
+    virtual void slot_014();
+    virtual void slot_015();
+    virtual void slot_016();
+    virtual void slot_017();
+    virtual void slot_018();
+    virtual void slot_019();
+    virtual void slot_020();
+    virtual void slot_021();
+    virtual void slot_022();
+    virtual void slot_023();
+    virtual void slot_024();
+    virtual void slot_025();
+    virtual void slot_026();
+    virtual void slot_027();
+    virtual void slot_028();
+    virtual void slot_029();
+    virtual void slot_030();
+    virtual void slot_031();
+    virtual void slot_032();
+    virtual void slot_033();
+    virtual void slot_034();
+    virtual void slot_035();
+    virtual void slot_036();
+    virtual void slot_037();
+    virtual void slot_038();
+    virtual void slot_039();
+    virtual void slot_040();
+    virtual void slot_041();
+    virtual void slot_042();
+    virtual void slot_043();
+    virtual void slot_044();
+    virtual void slot_045();
+    virtual void slot_046();
+    virtual void slot_047();
+    virtual void slot_048();
+    virtual void slot_049();
+    virtual void slot_050();
+    virtual void slot_051();
+    virtual void slot_052();
+    virtual void slot_053();
+    virtual void slot_054();
+    virtual void slot_055();
+    virtual void slot_056();
+    virtual void slot_057();
+    virtual void slot_058();
+    virtual void slot_059();
+    virtual void slot_060();
+    virtual void slot_061();
+    virtual void slot_062();
+    virtual void slot_063();
+    virtual void slot_064();
+    virtual void slot_065();
+    virtual void slot_066();
+    virtual void slot_067();
+    virtual void slot_068();
+    virtual void ClearCrime(bool);
+    virtual void slot_070();
+    virtual void slot_071();
+    virtual void slot_072();
+    virtual void slot_073();
+    virtual void slot_074();
+    virtual void slot_075();
+    virtual void slot_076();
+    virtual void slot_077();
+    virtual void slot_078();
+    virtual void slot_079();
+    virtual void slot_080();
+    virtual void slot_081();
+    virtual void slot_082();
+    virtual void slot_083();
+    virtual void slot_084();
+    virtual void slot_085();
+    virtual void slot_086();
+    virtual void slot_087();
+    virtual void slot_088();
+    virtual void slot_089();
+    virtual void slot_090();
+    virtual void slot_091();
+    virtual void slot_092();
+    virtual void slot_093();
+    virtual void slot_094();
+    virtual void slot_095();
+    virtual void slot_096();
+    virtual void slot_097();
+    virtual void slot_098();
+    virtual void slot_099();
+    virtual void slot_100();
+    virtual void slot_101();
+    virtual void slot_102();
+    virtual void slot_103();
+    virtual void slot_104();
+    virtual void slot_105();
+    virtual void slot_106();
+    virtual void slot_107();
+    virtual void slot_108();
+    virtual void slot_109();
+    virtual void slot_110();
+    virtual void slot_111();
+    virtual void slot_112();
+    virtual void slot_113();
+    virtual void slot_114();
+    virtual void slot_115();
+    virtual void slot_116();
+    virtual void slot_117();
+    virtual void slot_118();
+    virtual void slot_119();
+    virtual void slot_120();
+    virtual void slot_121();
+    virtual void slot_122();
+    virtual void slot_123();
+    virtual void slot_124();
+    virtual void slot_125();
+    virtual void slot_126();
+    virtual void slot_127();
+    virtual void slot_128();
+    virtual void slot_129();
+    virtual void slot_130();
+    virtual void slot_131();
+    virtual void slot_132();
+    virtual void slot_133();
+    virtual void slot_134();
+    virtual void slot_135();
+    virtual void slot_136();
+    virtual void slot_137();
+    virtual void slot_138();
+    virtual void slot_139();
+    virtual void slot_140();
+    virtual void slot_141();
+    virtual void slot_142();
+    virtual void slot_143();
+    virtual void slot_144();
+    virtual void slot_145();
+    virtual void slot_146();
+    virtual void slot_147();
+    virtual void slot_148();
+    virtual void slot_149();
+    virtual void slot_150();
+    virtual void slot_151();
+    virtual void slot_152();
+    virtual void slot_153();
+    virtual void slot_154();
+    virtual void slot_155();
+    virtual void slot_156();
+    virtual void slot_157();
+    virtual void slot_158();
+    virtual void slot_159();
+    virtual void slot_160();
+    virtual void slot_161();
+    virtual void slot_162();
+    virtual void slot_163();
+    virtual void slot_164();
+    virtual void slot_165();
+    virtual void slot_166();
+    virtual void slot_167();
+    virtual void slot_168();
+    virtual void slot_169();
+    virtual void slot_170();
+    virtual void slot_171();
+    virtual void slot_172();
+    virtual void slot_173();
+    virtual void slot_174();
+    virtual void slot_175();
+    virtual void slot_176();
+    virtual void slot_177();
+    virtual void slot_178();
+    virtual void slot_179();
+    virtual void slot_180();
+    virtual void slot_181();
+    virtual void slot_182();
+    virtual void slot_183();
+    virtual void slot_184();
+    virtual void slot_185();
+    virtual void slot_186();
+    virtual void slot_187();
+    virtual void slot_188();
+    virtual void slot_189();
+    virtual void slot_190();
+    virtual void slot_191();
+    virtual void slot_192();
+    virtual void slot_193();
+    virtual void slot_194();
+    virtual void slot_195();
+    virtual void slot_196();
+    virtual void slot_197();
+    virtual void slot_198();
+    virtual void slot_199();
+    virtual void slot_200();
+    virtual void slot_201();
+    virtual void slot_202();
+    virtual void slot_203();
+    virtual void slot_204();
+    virtual void slot_205();
+    virtual void slot_206();
+    virtual void slot_207();
+    virtual void slot_208();
+    virtual void slot_209();
+    virtual void slot_210();
+    virtual void slot_211();
+    virtual void slot_212();
+    virtual void slot_213();
+    virtual void slot_214();
+    virtual void slot_215();
+    virtual void slot_216();
+    virtual void slot_217();
+    virtual void slot_218();
+    virtual void slot_219();
+    virtual void slot_220();
+    virtual void slot_221();
+    virtual void slot_222();
+    virtual void slot_223();
+    virtual void slot_224();
+    virtual void slot_225();
+    virtual void slot_226();
+    virtual void slot_227();
+    virtual void slot_228();
+    virtual void slot_229();
+    virtual void slot_230();
+    virtual void slot_231();
+    virtual void slot_232();
+    virtual void slot_233();
+    virtual void slot_234();
+    virtual void slot_235();
+    virtual void slot_236();
+    virtual void slot_237();
+    virtual void slot_238();
+    virtual void slot_239();
+    virtual void slot_240();
+    virtual void slot_241();
+    virtual void slot_242();
+    virtual void slot_243();
+    virtual void slot_244();
+    virtual void slot_245();
+    virtual void slot_246();
+    virtual void slot_247();
+    virtual void slot_248();
+    virtual void slot_249();
+    virtual void slot_250();
+    virtual void slot_251();
+    virtual void slot_252();
+    virtual void slot_253();
+    virtual void slot_254();
+    virtual void slot_255();
+    virtual void slot_256();
+    virtual void slot_257();
+    virtual void slot_258();
+    virtual void slot_259();
+    virtual void slot_260();
+    virtual void slot_261();
+    virtual void slot_262();
+    virtual void slot_263();
+    virtual void slot_264();
+    virtual void slot_265();
+    virtual void slot_266();
+    virtual void slot_267();
+    virtual void slot_268();
+    virtual void slot_269();
+    virtual void slot_270();
+    virtual void slot_271();
+    virtual void slot_272();
+    virtual void slot_273();
+    virtual void slot_274();
+    virtual void slot_275();
+    virtual void slot_276();
+    virtual void slot_277();
+    virtual void slot_278();
+    virtual void slot_279();
+    virtual void slot_280();
+    virtual void slot_281();
+    virtual void slot_282();
+    virtual void slot_283();
+    virtual void slot_284();
+    virtual void slot_285();
+    virtual void slot_286();
+    virtual void slot_287();
+    virtual void slot_288();
+    virtual void slot_289();
+    virtual void slot_290();
+    virtual void slot_291();
+    virtual void slot_292();
+    virtual void slot_293();
+    virtual void slot_294();
+    virtual void slot_295();
+    virtual void slot_296();
+    virtual void slot_297();
+    virtual void slot_298();
+    virtual void slot_299();
+    virtual void slot_300();
+    virtual void slot_301();
+    virtual void slot_302();
+    virtual void slot_303();
+    virtual void slot_304();
+    virtual void slot_305();
+    virtual void slot_306();
+    virtual void slot_307();
+    virtual void slot_308();
+    virtual void slot_309();
+    virtual void slot_310();
+    virtual void slot_311();
+    virtual void slot_312();
+    virtual void slot_313();
+    virtual void slot_314();
+    virtual void slot_315();
+    virtual void slot_316();
+    virtual void slot_317();
+    virtual void slot_318();
+    virtual void slot_319();
+    virtual void slot_320();
+    virtual CrimeStatus* FindCrime(Actor*, int);
+    virtual void SetCrimeStatus(Actor*, int);
 };
 // Walks the node chain from GetPosition and returns the value of the first item whose key matches the given key, or 0 if none is found.
 // @fnv 0x0048bf50
-int FUN_0048bf50_cls::FindValueByKey(int key)
+int FUN_0048bf50_cls::FindValueByKey(intptr_t key)
 {
     if (key)
     {
         Node48* node = ((::Node48 *)(reinterpret_cast<::BaseProcess *>(this)->GetCurrentProcessData()));
-        while (node && *((::Item48 **)(new ((void *)(node)) ::Vec3())))
+        while (node && *((::Item48 **)(((::Vec3 *)(void *)(node)))))
         {
-            Item48* it = *((::Item48 **)(new ((void *)(node)) ::Vec3()));
+            Item48* it = *((::Item48 **)(((::Vec3 *)(void *)(node))));
             if (it->key == key)
                 return it->val;
-            node = ((::Node48 *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
+            node = ((::Node48 *)(reinterpret_cast<::SimpleListNodeView *>((node))->m_pkNext));
         }
     }
     return 0;
@@ -10803,11 +11378,11 @@ struct FUN_008b3200_stand
 {
     char pad[0x190];
     Inner* p;
-    void FUN_008b3200(int x);
+    void FUN_008b3200(intptr_t x);
 };
 // If the stored Inner pointer is non-null, forwards x to its ForwardValueToVtbl method.
 // @fnv 0x008b3200
-void FUN_008b3200_stand::FUN_008b3200(int aiValue)
+void FUN_008b3200_stand::FUN_008b3200(intptr_t aiValue)
 {
     if (p)
         p->ForwardValueToVtbl(aiValue);
@@ -10976,7 +11551,7 @@ struct TES_b
 struct Tgt_b
 {
 public:
-    bool FUN_009dba50(int, int, int, float, int);
+    bool FUN_009dba50(intptr_t, intptr_t, intptr_t, float, intptr_t);
 };
 struct B_008b3630 : public Actor
 {
@@ -11163,7 +11738,7 @@ void TES::FUN_008b3690(void* apArg1, void* apArg2, void* apArg3, float afValue, 
     {
         f = ((::fnv_008b3690::Sky *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))->vcall(this);
     }
-    reinterpret_cast<::Tgt_b *>(((*(PathMgrX**)((char*)this + 0x190))))->FUN_009dba50((int)(apArg1), (int)(apArg2), (int)(apArg3), afValue, (int)(f));
+    reinterpret_cast<::Tgt_b *>(((*(PathMgrX**)((char*)this + 0x190))))->FUN_009dba50((intptr_t)(apArg1), (intptr_t)(apArg2), (intptr_t)(apArg3), afValue, (intptr_t)(f));
 }
 }  // namespace fnv_008b3690
 
@@ -11337,7 +11912,7 @@ void TES::CallPathMgr(void* apArg1, void* apArg2, void* apArg3, float afArg4, fl
     {
         apArg6 = ((::fnv_008b3750::Sky *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))->vcall(this);
     }
-    reinterpret_cast<::fnv_009dbb60::Tgt_b *>(((*(PathMgrX**)((char*)this + 0x190))))->FUN_009dbb60((int)(apArg1), (int)(apArg2), (int)(apArg3), afArg4, afArg5, (int)(apArg6));
+    reinterpret_cast<::fnv_009dbb60::Tgt_b *>(((*(PathMgrX**)((char*)this + 0x190))))->FUN_009dbb60((intptr_t)(apArg1), (intptr_t)(apArg2), (intptr_t)(apArg3), afArg4, afArg5, (intptr_t)(apArg6));
 }
 }  // namespace fnv_008b3750
 
@@ -11862,7 +12437,7 @@ struct NiTransform
     bool IsIdentity();
     void LoadBinary(NiStream*);
     void SaveBinary(NiStream*);
-    char m_kOrientation[48];
+    char m_kOrientation[36];
     NiPoint3 m_kTranslation;
     float m_fScale;
 public:
@@ -11888,17 +12463,6 @@ struct FUN_008b42e0_shell : public NiTransform
     void InvertTransform(NiTransform*);
 };
 
-struct ThreeByThreeMatrix
-{
-    bool Inverse(ThreeByThreeMatrix&);
-    NiPoint3 operator*(const NiPoint3&) const;
-public:
-    void SetYRotation(float);
-public:
-    ::ThreeByThreeMatrix operator+(const ::ThreeByThreeMatrix &) const;
-public:
-    ::ThreeByThreeMatrix *FUN_004b45b0(::ThreeByThreeMatrix *);
-};
 
 struct NiPosData
 {
@@ -11913,12 +12477,11 @@ struct NiPoint3_ext : public NiPoint3
 void FUN_008b42e0_shell::InvertTransform(NiTransform* kDest)
 {
     reinterpret_cast<ThreeByThreeMatrix*>(this)->Inverse(*reinterpret_cast<ThreeByThreeMatrix*>(kDest));
-    kDest->m_kTranslation.x =
-        1.0f / this->m_kTranslation.x;
-    *reinterpret_cast<NiPoint3*>(reinterpret_cast<char*>(kDest) + 0x24) = NiPosData::ComputePositionAtTime(
-        kDest->m_kTranslation.x,
-        *reinterpret_cast<ThreeByThreeMatrix*>(kDest) *
-            (*(::NiPoint3 *)(reinterpret_cast<::P3 *>((void *)(reinterpret_cast<NiPoint3_ext*>(reinterpret_cast<char*>(this) + 0x24)))->FUN_004a0bd0({}))));
+    kDest->m_fScale = 1.0f / this->m_fScale;
+    NiPoint3 kNegTranslation;
+    reinterpret_cast<::P3*>(&this->m_kTranslation)->FUN_004a0bd0(reinterpret_cast<::P3*>(&kNegTranslation));
+    kDest->m_kTranslation = NiPosData::ComputePositionAtTime(
+        kDest->m_fScale, *reinterpret_cast<ThreeByThreeMatrix*>(kDest) * kNegTranslation);
 }
 
 struct TESObjectREFR_GetFlags_Helper : public TESObjectREFR
@@ -11926,9 +12489,9 @@ struct TESObjectREFR_GetFlags_Helper : public TESObjectREFR
 };
 
 // @fnv 0x008b6800
-unsigned int GetObjectFlags(char* pThis)
+uintptr_t GetObjectFlags(char* pThis)
 {
-    return ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((TESObjectREFR_GetFlags_Helper*)(pThis + 0x20))))->GetName()));
+    return *reinterpret_cast<std::uintptr_t *>(pThis + 0x28);
 }
 
 struct FUN_008b70d0_shell : public Actor
@@ -12299,24 +12862,23 @@ unsigned int FUN_008b8ca0_shell::FUN_008b8ca0(TESFaction** apFactionArray, unsig
     unsigned int icount = 0;
     while (apList1)
     {
-        FactionReaction* pfactionRank = *((::fnv_008b8ca0::FactionReaction **)(new ((void *)(apList1)) ::Vec3()));
+        FactionReaction* pfactionRank = *((::fnv_008b8ca0::FactionReaction **)(((::Vec3 *)(void *)(apList1))));
         if (pfactionRank && pfactionRank->m_ucRank > -1)
         {
             apFactionArray[icount] = pfactionRank->pFaction;
             icount = icount + 1;
             if (icount >= aiArraySize)
             {
-                ::FUN_005b5e40(
-                    );
+                ::FUN_005b5e40();
                 return aiArraySize;
             }
         }
-        apList1 = reinterpret_cast<::Callees *>((apList1))->FUN_00726070();
+        apList1 = reinterpret_cast<::SimpleListNodeView *>((apList1))->m_pkNext;
     }
 
     while (apList2)
     {
-        FactionReaction* pfactionRank2 = *((::fnv_008b8ca0::FactionReaction **)(new ((void *)(apList2)) ::Vec3()));
+        FactionReaction* pfactionRank2 = *((::fnv_008b8ca0::FactionReaction **)(((::Vec3 *)(void *)(apList2))));
         if (pfactionRank2)
         {
             int iExistingIndex = -1;
@@ -12333,8 +12895,7 @@ unsigned int FUN_008b8ca0_shell::FUN_008b8ca0(TESFaction** apFactionArray, unsig
                     icount = icount + 1;
                     if (icount >= aiArraySize)
                     {
-                        ::FUN_005b5e40(
-                            );
+                        ::FUN_005b5e40();
                         return aiArraySize;
                     }
                 }
@@ -12344,7 +12905,7 @@ unsigned int FUN_008b8ca0_shell::FUN_008b8ca0(TESFaction** apFactionArray, unsig
                 apFactionArray[iExistingIndex] = 0;
             }
         }
-        apList2 = reinterpret_cast<::Callees *>((apList2))->FUN_00726070();
+        apList2 = reinterpret_cast<::SimpleListNodeView *>((apList2))->m_pkNext;
     }
 
     return icount;
@@ -12462,7 +13023,7 @@ void FUN_008b9ab0(ActorValueOwner* apOwner)
         return;
     Actor* pActor = static_cast<Actor*>(apOwner);
     if (pActor->m_pBaseProcess && ::FUN_00884920((int *)(((P_008b9ab0*)pActor->m_pBaseProcess))))
-        ::FUN_00884940((int *)(((P_008b9ab0*)pActor->m_pBaseProcess)), (::blob4)(0x10));
+        ::FUN_00884940((int *)(((P_008b9ab0*)pActor->m_pBaseProcess)), std::bit_cast<::blob4>(0x10u));
 }
 
 namespace fnv_008b9d20 {
@@ -15043,11 +15604,11 @@ struct FUN_008bc7f0_holder
     char pad[0x68];
     FUN_008bc7f0_obj* los;
     TESPackage* GetCurrentPackage();
-    bool FUN_008bc7f0(int a);
+    bool FUN_008bc7f0(intptr_t a);
 };
 // Returns true if the current package's type is 1 or 7 and los->v74() equals a; otherwise false.
 // @fnv 0x008bc7f0
-bool FUN_008bc7f0_holder::FUN_008bc7f0(int aiValue)
+bool FUN_008bc7f0_holder::FUN_008bc7f0(intptr_t aiValue)
 {
     if (los)
     {
@@ -15190,17 +15751,17 @@ struct TESFaction
 void FUN_008bcb40_shell::FUN_008bcb40()
 {
     void* pcrimelist = reinterpret_cast<::FUN_0041cf00_shell *>((((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()))))->FUN_0041cf00();
-    while (pcrimelist && *((void **)(new ((void *)(pcrimelist)) ::Vec3())))
+    while (pcrimelist && *((void **)(((::Vec3 *)(void *)(pcrimelist)))))
     {
-        TESTopicInfo* pcrime = (TESTopicInfo*)*((void **)(new ((void *)(pcrimelist)) ::Vec3()));
+        TESTopicInfo* pcrime = (TESTopicInfo*)*((void **)(((::Vec3 *)(void *)(pcrimelist))));
         void* pCurrentElementNext = ((::TESTopicInfoData *)(::GetField38((char *)(pcrime))));
         while (pCurrentElementNext && !_ref_008256d0(pCurrentElementNext))
         {
-            TESFaction* pfac = (TESFaction*)*((void **)(new ((void *)(pCurrentElementNext)) ::Vec3()));
+            TESFaction* pfac = (TESFaction*)*((void **)(((::Vec3 *)(void *)(pCurrentElementNext))));
             reinterpret_cast<::FUN_0047eb90_Class *>((pfac))->FUN_0047eb90(false);
-            pCurrentElementNext = reinterpret_cast<::Callees *>((pCurrentElementNext))->FUN_00726070();
+            pCurrentElementNext = reinterpret_cast<::SimpleListNodeView *>((pCurrentElementNext))->m_pkNext;
         }
-        pcrimelist = reinterpret_cast<::Callees *>((pcrimelist))->FUN_00726070();
+        pcrimelist = reinterpret_cast<::SimpleListNodeView *>((pcrimelist))->m_pkNext;
     }
 }
 }  // namespace fnv_008bcb40
@@ -15321,7 +15882,7 @@ void FUN_008bcd20_shell::FUN_008bcd20()
     if (((MobileObject_helper*)this)->GetCurrentProcessLevel() == 0)
     {
         HighProcess* phighProcess = (HighProcess*)((::fnv_008bcd20::Sky *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((TES*)this)))->GetBaseTexture()));
-        reinterpret_cast<::C *>((phighProcess))->SetContentCount((int)(this), false);
+        reinterpret_cast<::C *>((phighProcess))->SetContentCount((intptr_t)(this), false);
     }
 }
 }  // namespace fnv_008bcd20
@@ -15734,6 +16295,27 @@ float BP::FUN_008be810(Owner* apOwner)
 }
 }  // namespace fnv_008be810
 
+struct DummyOwner
+{
+    virtual void v00();
+    virtual void v04();
+    virtual void v08();
+    virtual void v0c();
+    virtual void v10();
+    virtual void v14();
+    virtual void v18();
+    virtual void v1c();
+    virtual void v20();
+    virtual void v24();
+    virtual void v28();
+    virtual float v2c();
+};
+
+struct OwnerArg
+{
+    DummyOwner* p;
+};
+
 namespace fnv_008be940 {
 struct SecX
 {
@@ -15763,7 +16345,7 @@ float FloatValueProvider::FUN_008be940()
 {
     if (*(CombatLOS**)((char*)this + 0x68) && ::FUN_00884920((int *)((*(CombatLOS**)((char*)this + 0x68)))))
     {
-        return ::FUN_008be9b0((::DummyProcess *)((*(CombatLOS**)((char*)this + 0x68))), (::OwnerArg)(this ? (SecX*)((char*)this + 0xa8) : 0));
+        return ::FUN_008be9b0((::DummyProcess *)((*(CombatLOS**)((char*)this + 0x68))), ::OwnerArg{(::DummyOwner*)(this ? (SecX*)((char*)this + 0xa8) : 0)});
     }
     return ((SecX*)((char*)this + 0xa8))->vs();
 }
@@ -15774,27 +16356,6 @@ struct DummyCachedValues
     char pad[0x2c];
     float fEyeLevel;
     bool FUN_00884e90(unsigned int auiFlag);
-};
-
-struct DummyOwner
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual void v0c();
-    virtual void v10();
-    virtual void v14();
-    virtual void v18();
-    virtual void v1c();
-    virtual void v20();
-    virtual void v24();
-    virtual void v28();
-    virtual float v2c();
-};
-
-struct OwnerArg
-{
-    DummyOwner* p;
 };
 
 struct DummyProcess
@@ -16457,7 +17018,7 @@ void UpdateAlchemyCastSound(TargetThis* pThis)
             {
                 if (!pThis->field_12c)
                     pThis->field_12c = new FUN_008c1c00();
-                reinterpret_cast<::FUN_00986760_cls *>((((SoundHelper*)reinterpret_cast<::EffectSetting *>((((EffectSetting*)pItem)))->GetCastSound())))->FUN_00986760((int)(pThis->field_12c));
+                reinterpret_cast<::FUN_00986760_cls *>((((SoundHelper*)reinterpret_cast<::EffectSetting *>((((EffectSetting*)pItem)))->GetCastSound())))->FUN_00986760((intptr_t)(pThis->field_12c));
                 if (!pThis->field_130)
                     pThis->field_130 = new FUN_008c1c00();
                 reinterpret_cast<::FUN_00986b00_shell *>((((SoundHelper*)reinterpret_cast<::EffectSetting *>((((EffectSetting*)pItem)))->GetCastSound())))->CopyArrayTo((::XArr *)(pThis->field_130));
@@ -16536,7 +17097,7 @@ void SetFlag40000000(char* pThis, BoolWrap abSet)
 }  // namespace fnv_008c1b50
 
 // @fnv 0x008c1bc0
-bool FUN_008c1bc0(int pObject)
+bool FUN_008c1bc0(intptr_t pObject)
 {
     return (*(unsigned int*)(pObject + 0x140) & 0x40000000) != 0;
 }
@@ -17401,11 +17962,17 @@ class TESObject
   public:
 };
 
+struct NextObjectView
+{
+    char pad[0x110];
+    float fValue;
+};
 
 // @fnv 0x008d1e50
 float FUN_008d1e50_shell::GetNextObjectFloat()
 {
-    return ((float)(reinterpret_cast<::Callees *>(((char*)((::fnv_008d1e50::TESObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((TESObject*)this)))->FUN_007af430())) + 0x10c))->FUN_00726070()));
+    // 0x00726070 is a folded 4-byte getter; here it reads the next object's float at +0x110.
+    return reinterpret_cast<NextObjectView *>(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((TESObject*)this)))->FUN_007af430())->fValue;
 }
 }  // namespace fnv_008d1e50
 
@@ -17471,13 +18038,20 @@ void FUN_008d2a40(Actor* apActor)
 
 struct Big;
 struct Item;
+struct VObj
+{
+    virtual void f0();
+    virtual void f1();
+    virtual void f2(void*, unsigned int);
+};
 struct Holder
 {
+    char pad[16];
+    VObj* p;
+public:
     void FUN_008805f0(int);
     void FUN_008d4870(int a1);
-public:
     ::Big *CopyBig(::Big *);
-public:
     ::Item *FUN_00970a20(void *, int);
 };
 
@@ -17885,7 +18459,7 @@ TESPackage* FUN_009344a0_shell::FUN_009344a0()
 }
 
 // @fnv 0x00939710
-int FUN_00939710(int param_1)
+int FUN_00939710(intptr_t param_1)
 {
     return *(int*)(param_1 + 0x17c);
 }
@@ -18168,11 +18742,11 @@ struct FUN_00994ef0_Class
 {
     char pad[0xa4];
     int m_a4;
-    void Set(int val);
+    void Set(intptr_t val);
 };
 
 // @fnv 0x00994ef0
-void FUN_00994ef0_Class::Set(int val)
+void FUN_00994ef0_Class::Set(intptr_t val)
 {
     m_a4 = val;
 }
@@ -18199,9 +18773,6 @@ struct FUN_0088c570_shell : public Actor
     bool IsPointInConeFOV(void*, float);
 };
 
-namespace std {
-float __cdecl abs(float);
-}
 struct TopicH
 {
 };
@@ -18215,7 +18786,7 @@ bool FUN_0088c570_shell::IsPointInConeFOV(void* arPoint, float afConeFOV)
     float ftargetangle;
     float fignore;
     float ftargetangledelta;
-    NiPoint3 vec = (*(::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(((PtOp*)arPoint)))->FUN_00439ef0-((::NiPoint3 *)&(*((::NiPoint3 *)(reinterpret_cast<::TESTopicInfo *>((((TopicH*)this)))->GetAddTopicList()))), *(const ::NiPoint3 *)nullptr)));
+    NiPoint3 vec = (*(::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(((PtOp*)arPoint)))->FUN_00439ef0(&ResultSlot(::NiPoint3()), *(const ::NiPoint3 *)&(*((::NiPoint3 *)(reinterpret_cast<::TESTopicInfo *>((((TopicH*)this)))->GetAddTopicList()))))));
     ftargetangle = ::GetDirectionAngle((const ::NiPoint3 *)&(vec));
     ftargetangledelta =
         FUN_004b15e0(((float(*)(void*, int))(*(void***)this)[0x2bc / 4])(this, 0), ftargetangle, &fignore);
@@ -19441,7 +20012,7 @@ bool FUN_008b8e90_shell::FUN_008b8e90(TESFaction* apFaction)
     }
     else
     {
-        if ((binfaction && !reinterpret_cast<::PredicateOwner *>((pextra))->HasMatchingValue((unsigned int)(apFaction))) || reinterpret_cast<::FUN_00437010_stub *>((pextra))->ContainsKey((int *)(apFaction)))
+        if ((binfaction && !reinterpret_cast<::PredicateOwner *>((pextra))->HasMatchingValue((uintptr_t)(apFaction))) || reinterpret_cast<::FUN_00437010_stub *>((pextra))->ContainsKey((int *)(apFaction)))
             binfaction = true;
         else
             binfaction = false;
@@ -19781,12 +20352,12 @@ struct NiTMap_S
     unsigned int m_uiHashSize;
     MapItem_S** m_ppkHashTable;
     unsigned int m_uiCount;
-    bool RemoveKey(unsigned int key);
+    bool RemoveKey(uintptr_t key);
 };
 
 // Hashes the key, finds the matching item in the bucket chain, unlinks it, clears and deletes it, decrements the count, and returns whether it was removed.
 // @fnv 0x00405430
-bool NiTMap_S::RemoveKey(unsigned int key)
+bool NiTMap_S::RemoveKey(uintptr_t key)
 {
     unsigned int uiIndex = KeyToHashIndex(key);
     MapItem_S* pkItem = m_ppkHashTable[uiIndex];
@@ -21177,7 +21748,7 @@ void FUN_00880ad0_shell::FUN_00880ad0(int aiWhich, float afValue, Actor* apAttac
         return;
     if (::FUN_00406d70(aiWhich, 0x100))
         return;
-    afValue = ::FUN_00880890((void *)(((P09ActorH*)this)), aiWhich, afValue, (float)(apAttacker));
+    afValue = ::FUN_00880890((void *)(((P09ActorH*)this)), aiWhich, afValue, apAttacker);
     float foldValue =
         ::ActorValue::HasActorValueChangedCallback((::ActorValue::Index)(aiWhich)) ? GetCurrentActorValue((ActorValue::Index)aiWhich) : 0.0f;
     if (m_pBaseProcess)
@@ -22672,8 +23243,8 @@ float fnv_00885a50::ActorX::GetMovementSpeed()
                                     parmor = (*(ProcVT**)&this->m_pBaseProcess)->V148();
                                 }
                                 pweapon = ((fnv_00885a50::Actor*)this)->FUN_00891b90(2);
-                                uiArmorFlags = parmor ? (void*)((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((parmor))->GetName())) : 0;
-                                pWeap = pweapon ? (void*)((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((pweapon))->GetName())) : 0;
+                                uiArmorFlags = parmor ? (void*)((uintptr_t)(reinterpret_cast<::InventoryEntryFields *>((parmor))->pObject)) : 0;
+                                pWeap = pweapon ? (void*)((uintptr_t)(reinterpret_cast<::InventoryEntryFields *>((pweapon))->pObject)) : 0;
                                 if (pweapon)
                                     delete pweapon;
                                 fspeed =
@@ -23199,12 +23770,11 @@ bool A_00886b30::PlaceAtPosition(Pt3_00886b30* apPos)
                         if ((v140() && ((VX_00886b30*)((void *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((TES*)this)))->GetBaseTexture())))->v259() != 6) || v139(0) ||
                             ((VX_00886b30*)((void *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((TES*)this)))->GetBaseTexture())))->v447())
                         {
-                            ::FUN_00c821b0((::KObject *)(((int)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((((GRA_00886b30*)this)))->FUN_0043fcd0()))), (::KPoint3 *)(apPos), !v139(0));
+                            ::FUN_00c821b0((::KObject *)(((intptr_t)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((((GRA_00886b30*)this)))->FUN_0043fcd0()))), (::KPoint3 *)(apPos), !v139(0));
                             pController = (CC_00886c80*)((::fnv_00886b30::CC_00931f80 *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>((((S_00931f80*)this)))->FUN_009306d0()));
                             if (pController)
                                 pController->FUN_00886c80(1);
                             angle = *((::fnv_00886b30::Pt3_00886b30 *)(reinterpret_cast<::TESRecipe *>((((TESRecipe*)this)))->GetData()));
-                            new ((void *)(((Node48*)&mat))) ::Vec3();
                             reinterpret_cast<::FUN_004a0c90_shell *>((((FUN_004a0c90_shell*)&mat)))->FUN_004a0c90(angle.z);
                             *apPos = *((::fnv_00886b30::Pt3_00886b30 *)(::FUN_004b3ae0((::NiPoint3 *)(::fnv_00886b30::Pt3_00886b30 *)(&tmp), (const ::NiPoint3 &)(*apPos), mat.m)));
                             bResult = true;
@@ -23826,7 +24396,7 @@ void fnv_00887b90::ActorX::FUN_00887b90(float afTime, int)
     float fTime = afTime;
     if (reinterpret_cast<::FUN_00576d30_shell *>((void *)(((fnv_00887b90::TESForm*)this)))->FUN_00576d30())
         return;
-    if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)&(*reinterpret_cast<::VATS *>(&::g_011f2250)))))->GetName())) == 4 && this == DAT_011f21cc)
+    if (((unsigned int)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)) == 4 && this == DAT_011f21cc)
         fTime *= reinterpret_cast<::FUN_009c8d60_t *>((((VATS*)&(*reinterpret_cast<::VATS *>(&::g_011f2250)))))->FUN_009c8d60();
     if (*(Proc**)&this->m_pBaseProcess && !Interface::IsMenuActive(0x3f0, 0))
     {
@@ -23842,7 +24412,7 @@ void fnv_00887b90::ActorX::FUN_00887b90(float afTime, int)
         if (m_pOwningCell && !reinterpret_cast<::TESObjectCELL *>((m_pOwningCell))->IsCellInterior() && !reinterpret_cast<::fnv_00550200::FUN_00550200 *>((m_pOwningCell))->IsPointInCell((*(const ::fnv_00550200::NiPoint3 *)(&kPosition))))
             ::fnv_00573800::FUN_00573800((::fnv_00573800::MoveRef *)(void *)(this), (::fnv_00573800::MoveCell *)(void *)(0), (::fnv_00573800::MoveWorld *)(void *)(((void *)(reinterpret_cast<::TESObjectCELL *>((((DoorH*)m_pOwningCell)))->GetParentWorldSpace()))));
     }
-    if (*(Proc**)&this->m_pBaseProcess && !((int)(reinterpret_cast<::FUN_0045cd60_shell *>(((*(Proc**)&this->m_pBaseProcess)))->FUN_0045cd60())))
+    if (*(Proc**)&this->m_pBaseProcess && !((intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>(((*(Proc**)&this->m_pBaseProcess)))->FUN_0045cd60())))
         reinterpret_cast<::HighProcess *>(((*(Proc**)&this->m_pBaseProcess)))->ClearProcessState(this);
 }
 
@@ -24919,7 +25489,7 @@ void FUN_00893340_shell::FUN_00893340(bool abUseInitialPackage)
                 pintcell = ((::fnv_00893340::TESObjectCELL *)(reinterpret_cast<::fnv_00675c20::PHost *>((ppack))->FUN_00675c20((::fnv_00675c20::Ref *)(::Actor *)(this))));
                 pworld = ((::fnv_00893340::TESWorldSpace *)(reinterpret_cast<::fnv_00675a50::FUN_00675a50_shell *>((ppack))->FUN_00675a50((::MobileObject *)(::Actor *)(this))));
                 reinterpret_cast<::FUN_00575770_shell *>((((ST_00893340*)this)))->FUN_00575770(3.402823466e+38F);
-                if ((!((::fnv_00893340::BH_00893340 *)(reinterpret_cast<::BGSMessageInitAccess *>((ppack))->GetIconFormID())) || reinterpret_cast<::DurationData *>((((::fnv_00893340::BH_00893340 *)(reinterpret_cast<::BGSMessageInitAccess *>((ppack))->GetIconFormID()))))->FUN_00678ca0() != 1) && reinterpret_cast<struct ::FUN_0041ca90 *>((ppack))->get() != 0xd)
+                if ((!((::fnv_00893340::BH_00893340 *)(reinterpret_cast<::PackageFields *>((ppack))->pLocation)) || reinterpret_cast<::DurationData *>((((::fnv_00893340::BH_00893340 *)(reinterpret_cast<::PackageFields *>((ppack))->pLocation))))->FUN_00678ca0() != 1) && reinterpret_cast<struct ::FUN_0041ca90 *>((ppack))->get() != 0xd)
                 {
                     ((VA_00893340*)this)->v170(ppack->GetPackageLocationPosition(this));
                     ::fnv_00573800::FUN_00573800((::fnv_00573800::MoveRef *)(void *)(this), (::fnv_00573800::MoveCell *)(pintcell), (::fnv_00573800::MoveWorld *)(pworld));
@@ -25375,7 +25945,6 @@ struct ActorX : public ::Actor
     void ResetActorEquipment(bool);
 };
 }
-extern fnv_0089fb80::TESSaveLoadGame* g_TESSaveLoadGame;
 // @fnv 0x0089fb80
 void fnv_0089fb80::ActorX::ResetActorEquipment(bool abReset)
 {
@@ -25383,14 +25952,14 @@ void fnv_0089fb80::ActorX::ResetActorEquipment(bool abReset)
     {
         void* pprocess = 0;
         if (((void *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((fnv_0089fb80::TES*)this)))->GetBaseTexture())) &&
-            ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((fnv_0089fb80::TESResponse*)((void *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((fnv_0089fb80::TES*)this)))->GetBaseTexture())))))->FUN_0045cd60())) <= 1)
+            ((intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((((fnv_0089fb80::TESResponse*)((void *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((fnv_0089fb80::TES*)this)))->GetBaseTexture())))))->FUN_0045cd60())) <= 1)
             pprocess = ((void *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((fnv_0089fb80::TES*)this)))->GetBaseTexture()));
         if (pprocess)
             ((ProcVT*)pprocess)->V468(1);
         else
             ((ActorVT*)this)->V1cc(0, 1);
     }
-    reinterpret_cast<::S006ebd10 *>((((::fnv_0089fb80::S006ebd10 *)(::GetPathManager()))))->FUN_006ebd10((int)((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()))->GetContainerChangeData());
+    reinterpret_cast<::S006ebd10 *>((((::fnv_0089fb80::S006ebd10 *)(::GetPathManager()))))->FUN_006ebd10((intptr_t)((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()))->GetContainerChangeData());
     reinterpret_cast<::fnv_00574920::FUN_00574920_t *>((((fnv_0089fb80::Actor*)this)))->FUN_00574920(abReset);
     if (((ActorVT*)this)->V1d0())
     {
@@ -26167,9 +26736,9 @@ void fnv_008a06c0::ActorX::FUN_008a06c0(::Actor* apTarget)
         ((bool)(reinterpret_cast<::FUN_00493bb0_Class *>((((PCH*)this)))->FUN_00493bb0())) && ((::fnv_008a06c0::Proc *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((TES*)this)))->GetBaseTexture()))->V128() == g_thePlayer)
         ((::fnv_008a06c0::Proc *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((TES*)g_thePlayer)))->GetBaseTexture()))->V5c4(-1);
     if (!apTarget || apTarget == g_thePlayer)
-        reinterpret_cast<::FUN_0093a660_class *>((((fnv_008a06c0::Actor*)g_thePlayer)))->FUN_0093a660((int)(this));
+        reinterpret_cast<::FUN_0093a660_class *>((((fnv_008a06c0::Actor*)g_thePlayer)))->FUN_0093a660((intptr_t)(this));
     if (apTarget == g_thePlayer)
-        reinterpret_cast<::FUN_00967220_cls *>((((fnv_008a06c0::Actor*)g_thePlayer)))->FUN_00967220((unsigned int)(this), 0);
+        reinterpret_cast<::FUN_00967220_cls *>((((fnv_008a06c0::Actor*)g_thePlayer)))->FUN_00967220((uintptr_t)(this), 0);
     reinterpret_cast<::FUN_00894cc0_shell *>((((fnv_008a06c0::Actor*)this)))->FUN_00894cc0(false);
     ((ActorVT*)this)->V474(0);
     if (((ActorVT*)this)->V428())
@@ -26504,7 +27073,7 @@ void FUN_008a1a70_shell::FUN_008a1a70()
         return;
     if (::FUN_008c7aa0())
     {
-        reinterpret_cast<::FUN_0087b810_Host *>((((::fnv_005672c0::TQI *)(::TaskQueueInterface::GetSingleton()))))->QueueTaskWithId((int)(this));
+        reinterpret_cast<::FUN_0087b810_Host *>((((::fnv_005672c0::TQI *)(::TaskQueueInterface::GetSingleton()))))->QueueTaskWithId((intptr_t)(this));
         return;
     }
     if (!((ActorVT_8a1a70*)this)->V22c(false) && *(int*)&this->m_eCriticalStage)
@@ -29238,6 +29807,526 @@ void ActorP_S::FUN_008a8e50()
     m_pBaseProcess->SetState(-1, 0);
 }
 }  // namespace fnv_008a8e50
+struct RagMotion
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    bool unk14;
+};
+struct RagRigid
+{
+    virtual void v00();
+    virtual void v01();
+    virtual void v02();
+    virtual void v03();
+    virtual void v04();
+    virtual void v05();
+    virtual void v06();
+    virtual void v07();
+    virtual void v08();
+    virtual void v09();
+    virtual void v0a();
+    virtual void v0b();
+    virtual void v0c();
+    virtual void v0d();
+    virtual void v0e();
+    virtual RagMotion* GetMotion();
+};
+struct RagBone
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    RagRigid* rigid;
+};
+struct RagSkelInfo
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int boneCount;
+};
+struct RagSkel
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    RagSkelInfo* info;
+};
+struct RagEntry
+{
+    int unk00;
+    int unk04;
+    void* owner;
+};
+struct RagSystem
+{
+};
+struct RagWorld
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk010;
+    int unk014;
+    int unk018;
+    int unk01c;
+    int unk020;
+    int unk024;
+    int unk028;
+    int unk02c;
+    int unk030;
+    int unk034;
+    int unk038;
+    int unk03c;
+    int unk040;
+    int unk044;
+    int unk048;
+    int unk04c;
+    int unk050;
+    int unk054;
+    int unk058;
+    int unk05c;
+    int unk060;
+    int unk064;
+    int unk068;
+    int unk06c;
+    int unk070;
+    int unk074;
+    int unk078;
+    int unk07c;
+    int unk080;
+    int unk084;
+    int unk088;
+    int unk08c;
+    int unk090;
+    int unk094;
+    int unk098;
+    int unk09c;
+    int unk0a0;
+    int unk0a4;
+    int unk0a8;
+    int unk0ac;
+    int unk0b0;
+    int unk0b4;
+    int unk0b8;
+    int unk0bc;
+    int unk0c0;
+    int unk0c4;
+    int unk0c8;
+    int unk0cc;
+    int unk0d0;
+    int unk0d4;
+    int unk0d8;
+    int unk0dc;
+    int unk0e0;
+    int unk0e4;
+    int unk0e8;
+    int unk0ec;
+    int unk0f0;
+    int unk0f4;
+    int unk0f8;
+    int unk0fc;
+    int unk100;
+    int unk104;
+    int unk108;
+    int unk10c;
+    int unk110;
+    int unk114;
+    int unk118;
+    int unk11c;
+    int unk120;
+    int unk124;
+    int unk128;
+    int unk12c;
+    int unk130;
+    int unk134;
+    int unk138;
+    int unk13c;
+    int unk140;
+    int unk144;
+    int unk148;
+    int unk14c;
+    int unk150;
+    int unk154;
+    int unk158;
+    int unk15c;
+    int unk160;
+    int unk164;
+    int unk168;
+    int unk16c;
+    int unk170;
+    int unk174;
+    int unk178;
+    int unk17c;
+    int unk180;
+    int unk184;
+    int unk188;
+    int unk18c;
+    int unk190;
+    int unk194;
+    int unk198;
+    int unk19c;
+    int unk1a0;
+    int unk1a4;
+    int unk1a8;
+    int unk1ac;
+    int unk1b0;
+    int unk1b4;
+    int unk1b8;
+    int unk1bc;
+    int unk1c0;
+    int unk1c4;
+    int unk1c8;
+    int unk1cc;
+    int unk1d0;
+    int unk1d4;
+    int unk1d8;
+    int unk1dc;
+    int unk1e0;
+    int unk1e4;
+    int unk1e8;
+    int unk1ec;
+    int unk1f0;
+    int unk1f4;
+    int unk1f8;
+    int unk1fc;
+    int unk200;
+    int unk204;
+    int unk208;
+    int unk20c;
+    int unk210;
+    int unk214;
+    int unk218;
+    int unk21c;
+    int unk220;
+    int unk224;
+    int unk228;
+    int unk22c;
+    int unk230;
+    int unk234;
+    int unk238;
+    int unk23c;
+    int unk240;
+    int unk244;
+    int unk248;
+    int unk24c;
+    int unk250;
+    int unk254;
+    int unk258;
+    int unk25c;
+    int unk260;
+    int unk264;
+    int unk268;
+    int unk26c;
+    int unk270;
+    int unk274;
+    int unk278;
+    int unk27c;
+    int unk280;
+    int unk284;
+    int unk288;
+    int unk28c;
+    int unk290;
+    int unk294;
+    int unk298;
+    int unk29c;
+    int unk2a0;
+    int unk2a4;
+    int unk2a8;
+    int unk2ac;
+    int unk2b0;
+    int unk2b4;
+    int unk2b8;
+    int unk2bc;
+    int unk2c0;
+    int unk2c4;
+    int unk2c8;
+    int unk2cc;
+    int unk2d0;
+    int unk2d4;
+    int unk2d8;
+    int unk2dc;
+    int unk2e0;
+    int unk2e4;
+    int unk2e8;
+    int unk2ec;
+    int unk2f0;
+    int unk2f4;
+    int unk2f8;
+    int unk2fc;
+    int unk300;
+    int unk304;
+    int unk308;
+    int unk30c;
+    int unk310;
+    int unk314;
+    int unk318;
+    int unk31c;
+    int unk320;
+    int unk324;
+    int unk328;
+    int unk32c;
+    int unk330;
+    int unk334;
+    int unk338;
+    int unk33c;
+    int unk340;
+    int unk344;
+    int unk348;
+    int unk34c;
+    RagSystem* system;
+};
+struct RagWorldRef
+{
+    int unk00;
+    int unk04;
+    RagWorld* world;
+};
+struct RagCtrl48
+{
+    int unk00;
+    int unk04;
+    RagWorldRef** worldRef;
+    int unk0c;
+    int unk10;
+    RagEntry** entries;
+    int entryCount;
+    void* GetOwner()
+    {
+        return entries[0] ? entries[0]->owner : 0;
+    }
+    RagWorld* GetWorld()
+    {
+        RagWorldRef* wr = *worldRef;
+        return wr ? wr->world : 0;
+    }
+    __forceinline void Reattach()
+    {
+        void* owner = GetOwner();
+        RagWorld* w = GetWorld();
+        if (!w)
+            return;
+        if (owner)
+            return;
+        RagSystem* sys = w->system;
+        for (int i = 0; i < entryCount; i++)
+        {
+            RagEntry* e = entries[i];
+            if (!e->owner)
+                reinterpret_cast<::FUN_00c6b320_Class *>((sys))->FUN_00c6b320((::hkReferencedObject *)(e));
+        }
+    }
+};
+struct RagdollCtl
+{
+    int unk000;
+    int unk004;
+    int unk008;
+    int unk00c;
+    int unk010;
+    int unk014;
+    int unk018;
+    int unk01c;
+    int unk020;
+    int unk024;
+    int unk028;
+    int unk02c;
+    int unk030;
+    int unk034;
+    int unk038;
+    int unk03c;
+    char unk040;
+    bool unk41;
+    bool active;
+    bool unk43;
+    int unk044;
+    RagCtrl48* ctrl48;
+    int unk04c;
+    int unk050;
+    int unk054;
+    int unk058;
+    int unk05c;
+    int unk060;
+    int unk064;
+    int unk068;
+    int unk06c;
+    int unk070;
+    int unk074;
+    int unk078;
+    int unk07c;
+    int unk080;
+    int unk084;
+    int unk088;
+    int unk08c;
+    int unk090;
+    int unk094;
+    int unk098;
+    int unk09c;
+    int unk0a0;
+    RagBone** bones;
+    int unk0a8;
+    int unk0ac;
+    char unk0b0;
+    char unk0b1;
+    bool unkb2;
+    bool unkb3;
+    int unk0b4;
+    int unk0b8;
+    int unk0bc;
+    int unk0c0;
+    int unk0c4;
+    int unk0c8;
+    int unk0cc;
+    int unk0d0;
+    int unk0d4;
+    int unk0d8;
+    int unk0dc;
+    int unk0e0;
+    int unk0e4;
+    int unk0e8;
+    int unk0ec;
+    int unk0f0;
+    int unk0f4;
+    int unk0f8;
+    int unk0fc;
+    int unk100;
+    int unk104;
+    int unk108;
+    int unk10c;
+    int unk110;
+    int unk114;
+    int unk118;
+    int unk11c;
+    __m128 vec120;
+    bool unk130;
+    char unk131;
+    char unk132;
+    char unk133;
+    int unk134;
+    int unk138;
+    int unk13c;
+    int unk140;
+    int unk144;
+    int unk148;
+    int unk14c;
+    int unk150;
+    int unk154;
+    int unk158;
+    int unk15c;
+    int unk160;
+    int unk164;
+    int unk168;
+    int unk16c;
+    __m128 vec170;
+    bool unk180;
+    char unk181;
+    char unk182;
+    char unk183;
+    int unk184;
+    int unk188;
+    int unk18c;
+    int unk190;
+    int unk194;
+    int unk198;
+    int unk19c;
+    int unk1a0;
+    int unk1a4;
+    int unk1a8;
+    int unk1ac;
+    int unk1b0;
+    int unk1b4;
+    float unk1b8;
+    bool unk1bc;
+    char unk1bd;
+    char unk1be;
+    char unk1bf;
+    int unk1c0;
+    int unk1c4;
+    int unk1c8;
+    int unk1cc;
+    int unk1d0;
+    int unk1d4;
+    int unk1d8;
+    int unk1dc;
+    int unk1e0;
+    int unk1e4;
+    float unk1e8;
+    bool unk1ec;
+    char unk1ed;
+    char unk1ee;
+    char unk1ef;
+    int unk1f0;
+    int unk1f4;
+    int unk1f8;
+    int unk1fc;
+    int unk200;
+    int unk204;
+    int unk208;
+    int unk20c;
+    int unk210;
+    int unk214;
+    int unk218;
+    char unk21c;
+    char unk21d;
+    bool unk21e;
+    char unk21f;
+    char unk220;
+    bool unk221;
+    bool unk222;
+    bool unk223;
+    int unk224;
+    int unk228;
+    int unk22c;
+    int unk230;
+    int unk234;
+    int unk238;
+    int unk23c;
+    int unk240;
+    int unk244;
+    int unk248;
+    int unk24c;
+    int unk250;
+    int unk254;
+    int unk258;
+    int unk25c;
+    int unk260;
+    int unk264;
+    int unk268;
+    int unk26c;
+    int unk270;
+    int unk274;
+    int unk278;
+    int unk27c;
+    int unk280;
+    int unk284;
+    int unk288;
+    char unk28c;
+    bool unk28d;
+    char unk28e;
+    bool unk28f;
+    float unk290;
+    int unk294;
+    int unk298;
+    int unk29c;
+    int unk2a0;
+    RagSkel* skel;
+    int unk2a8;
+    int unk2ac;
+    void FUN_00c7c150(bool);
+};
 
 namespace fnv_008abfe0 {
 struct SaveLoadFile;
@@ -29686,7 +30775,7 @@ void FUN_008abfe0_shell::FUN_008abfe0(BGSLoadFormBuffer* apLoadGameBuffer)
             pobj3D = ((VA_008abfe0*)this)->v116();
             if (pobj3D)
             {
-                if (!reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::fnv_008abfe0::FormChangeMask &)(((LFB_008abfe0*)apLoadGameBuffer)->GetChangeFlags(4)))->FUN_004280f0() &&
+                if (!reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::fnv_008abfe0::FormChangeMask &)(((LFB_008abfe0*)apLoadGameBuffer)->GetChangeFlags(4)))->FUN_004280f0(4) &&
                     (((VA_008abfe0*)this)->v139(0) || ((VA_008abfe0*)this)->v186()))
                 {
                     if (*(RC_008abfe0**)&this->m_pRagdollController)
@@ -29715,6 +30804,118 @@ void FUN_008abfe0_shell::FUN_008abfe0(BGSLoadFormBuffer* apLoadGameBuffer)
     }
 }
 }  // namespace fnv_008abfe0
+struct MyRef
+{
+    virtual ~MyRef();
+    virtual void DeleteThis();
+    long m_uiRefCount;
+    void IncRefCount()
+    {
+        InterlockedIncrement((long*)&m_uiRefCount);
+    }
+    void DecRefCount()
+    {
+        if (InterlockedDecrement((long*)&m_uiRefCount) == 0)
+        {
+            DeleteThis();
+        }
+    }
+};
+struct Target18
+{
+    virtual void v00();
+    virtual void v01();
+    virtual void v02();
+    virtual void v03();
+    virtual void v04();
+    virtual void v05();
+    virtual void v06();
+    virtual void v07();
+    virtual void v08();
+    virtual void v09();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual void v20();
+    virtual void v21();
+    virtual void v22();
+    virtual void v23();
+    virtual void v24();
+    virtual void v25();
+    virtual void v26();
+    virtual void v27();
+    virtual void v28();
+    virtual void v29();
+    virtual void v30();
+    virtual void v31();
+    virtual void v32();
+    virtual void v33();
+    virtual void v34();
+    virtual void v35();
+    virtual void v36();
+    virtual void v37();
+    virtual void v38();
+    virtual void v39();
+    virtual void v40();
+    virtual void v41();
+    virtual void v42();
+    virtual void v43();
+    virtual void v44();
+    virtual void v45();
+    virtual void v46();
+    virtual void v47();
+    virtual void v48();
+    virtual void v49();
+    virtual void v50();
+    virtual void v51();
+    virtual void v52();
+    virtual void v53();
+    virtual void v54();
+    virtual void v55();
+    virtual void v56();
+    virtual void MethodE4(Target* p, NiPointer<MyRef>& sp);
+};
+struct ActorStand;
+struct Context;
+struct FileNames;
+struct StrArr;
+struct Task;
+struct Target
+{
+    char pad[0x18];
+    Target18* field_18;
+public:
+    void FUN_0044f3e0();
+    void FUN_0045ac80();
+    void RemoveItemFromMap(::Ref *);
+    ::FUN_0076b630 *SelectBestWeapon(::ActorStand *, float *, int, bool);
+    ::FUN_0076b630 *FUN_004c8c10(int, int);
+    bool FUN_00604310(const char *, char *, unsigned int);
+    bool FUN_00650480(::FileNames *);
+    bool FindTriangleZ(const ::NiPoint3 &, float, float, float *);
+    void SetPage(int);
+    bool FUN_007b1970(float, bool);
+    void FUN_00800ac0(::TargetActor *, int, bool);
+    intptr_t GetIntAt(unsigned int);
+    bool AdvanceActions(::Context *);
+    void DisableEntry(unsigned int);
+    void FUN_00b2fdc0(unsigned short, unsigned short *, unsigned short);
+    void FUN_00b690d0(::StrArr *);
+    ::Target *FUN_00b90670(unsigned int);
+    bool FUN_00c3fb50(::Task *);
+    void CompactEntries();
+    void FUN_00c8f080();
+    int ComputeWeightedSum();
+    void FUN_00e8b630();
+    void FUN_00ead1e0();
+};
 
 namespace fnv_008ac9d0 {
 struct P09VT
@@ -29856,7 +31057,7 @@ float P09X::FUN_008ac9d0()
                     pweapon = 0;
                     fcondition = 1.0f;
                     pcurrentWeapon = 0;
-                    if (((void *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((P09H*)this)))->GetBaseTexture())) && ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((P09Resp*)((void *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((P09H*)this)))->GetBaseTexture())))))->FUN_0045cd60())) <= 1)
+                    if (((void *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((P09H*)this)))->GetBaseTexture())) && ((intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((((P09Resp*)((void *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((P09H*)this)))->GetBaseTexture())))))->FUN_0045cd60())) <= 1)
                     {
                         pcurrentWeapon = (InventoryStackRecord*)((P09VT*)((void *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((P09H*)this)))->GetBaseTexture())))->s82();
                         if (pcurrentWeapon)
@@ -30370,7 +31571,6 @@ struct FUN_008b0bd0_shell : public Actor
     void FUN_008b0bd0(NiAVObject*);
 };
 
-int __cdecl _strnicmp(const char*, const char*, unsigned int);
 namespace fnv_008b0bd0 {
 struct NiNode;
 struct NiFixedString
@@ -32037,7 +33237,7 @@ bool FUN_008c48d0::AddEffectToTarget(MagicCaster* apCaster, MagicItem* apSpell, 
                             if (((MI_008c48d0*)apSpell)->v6() == 6)
                             {
                                 pench = dynamic_cast<EnchantmentItem*>(apSpell);
-                                if (pench && ((int)(reinterpret_cast<::BGSCameraPath *>((((CP_008c48d0*)pench)))->GetPrevPath())) == 2)
+                                if (pench && ((intptr_t)(reinterpret_cast<::BGSCameraPath *>((((CP_008c48d0*)pench)))->GetPrevPath())) == 2)
                                 {
                                     pform = ((void *)(reinterpret_cast<::Twin_00639b40 *>((((EP_008c48d0*)apEffect)))->GetEntryPoint()));
                                     if (!pform || _FNV_GetFormType(pform) != 0x29 ||
@@ -32848,7 +34048,7 @@ float FUN_008853a0_shell::GetActorHeight()
 {
     TESResponse* phighProcess;
     float fheight;
-    if (*(TESResponse**)&this->m_pBaseProcess && !((int)(reinterpret_cast<::FUN_0045cd60_shell *>(((*(TESResponse**)&this->m_pBaseProcess)))->FUN_0045cd60())))
+    if (*(TESResponse**)&this->m_pBaseProcess && !((intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>(((*(TESResponse**)&this->m_pBaseProcess)))->FUN_0045cd60())))
     {
         phighProcess = *(TESResponse**)&this->m_pBaseProcess;
         fheight = ::GetField42C((char*)phighProcess);
@@ -33366,13 +34566,13 @@ struct TESObject
 
 struct FUN_004a4220Class
 {
-    unsigned int GetNextFromSubobject();
+    uintptr_t GetNextFromSubobject();
 };
 
 // @fnv 0x004a4220
-unsigned int FUN_004a4220Class::GetNextFromSubobject()
+uintptr_t FUN_004a4220Class::GetNextFromSubobject()
 {
-    return ((unsigned int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((TESObject*)((char*)this + 0x54))))->FUN_007af430()));
+    return ((uintptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((TESObject*)((char*)this + 0x54))))->FUN_007af430()));
 }
 }  // namespace fnv_004a4220
 
@@ -33427,7 +34627,7 @@ struct FUN_0087d6d0_Class
 // @fnv 0x0087d6d0
 int FUN_0087d6d0_Class::FUN_0087d6d0()
 {
-    return (int)this - 0xa4;
+    return (intptr_t)this - 0xa4;
 }
 
 extern NiFixedString* DAT_011c625c;
@@ -33585,6 +34785,9 @@ void FUN_00887b70_Class::SetByteAt5C(unsigned char ucParam)
 struct bhkRagdollController
 {
     unsigned char FUN_00888a50();
+public:
+    void FUN_00c7d900();
+    void* FUN_00c7de30(unsigned int);
 };
 
 // @fnv 0x00888a50
@@ -34001,10 +35204,10 @@ char FUN_008bbbd0_Class::GetByteAt650()
     return ((char*)this)[0x650];
 }
 
-int __declspec(thread) DAT_008bff30_tls;
+thread_local int DAT_008bff30_tls;
 
 // @fnv 0x008bff30
-void __cdecl SetTlsInt(int arg)
+void __cdecl SetTlsInt(intptr_t arg)
 {
     DAT_008bff30_tls = arg;
 }
@@ -34277,7 +35480,7 @@ class TESCreature
     signed char GetCreatureType(void) const;
     char FUN_005fbf20() const;
 public:
-    int FUN_005f92d0(int);
+    intptr_t FUN_005f92d0(int);
 };
 
 // Returns 1 if GetCreatureType() is 3, 4, 5 or 7, otherwise 0.
@@ -34334,11 +35537,11 @@ void FUN_00815340_Class::FUN_00815340()
 
 struct FUN_0087d5e0_class
 {
-    void FUN_0087d5e0(int f);
+    void FUN_0087d5e0(intptr_t f);
 };
 
 // @fnv 0x0087d5e0
-void FUN_0087d5e0_class::FUN_0087d5e0(int aiValue)
+void FUN_0087d5e0_class::FUN_0087d5e0(intptr_t aiValue)
 {
     reinterpret_cast<::FUN_00931cc0_obj *>(this)->FUN_00931cc0((::FUN_00931cc0_obj *)(aiValue));
 }
@@ -34409,6 +35612,8 @@ bool FUN_0087f3b0_shell::FUN_0087f3b0()
     return reinterpret_cast<FUN_005f0ba0_shell*>(GetActorBase())->FUN_005f0ba0();
 }
 
+enum CALENDAR_MONTH;
+enum DAYS_OF_THE_WEEK;
 struct Calendar
 {
     unsigned int GetGameHoursPassed(void);
@@ -34418,6 +35623,13 @@ public:
     int GetDayOfMonth();
 public:
     float GetGameTime();
+public:
+    void ResetCachedValues();
+    void Update(float);
+    ::CALENDAR_MONTH GetCurrentMonth();
+    unsigned int GetGameDaysPassed();
+    ::DAYS_OF_THE_WEEK GetGameDayOfWeek();
+    char GetGameHour();
 };
 
 extern Calendar g_calendar;
@@ -34505,7 +35717,7 @@ struct FUN_00887af0_class
 // @fnv 0x00887af0
 int FUN_00887af0_class::FUN_00887af0(void* apArg)
 {
-    int v = ::FUN_004ae750((void *)(((ScriptLocalsX*)this)));
+    intptr_t v = ::FUN_004ae750((void *)(((ScriptLocalsX*)this)));
     return ((T_*)v)->ForwardToMember(apArg);
 }
 }  // namespace fnv_00887af0
@@ -34572,7 +35784,7 @@ struct FUN_008924e0 : public Actor
 void FUN_008924e0::SetRelationshipRank(Actor* target, int amount)
 {
     InventoryChanges* changes = ((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()))->GetContainerChangeData();
-    reinterpret_cast<::Inv4cb4b0 *>((reinterpret_cast<FUN_004cb4b0*>(changes)))->FUN_004cb4b0((int)(this), amount, (int)(target));
+    reinterpret_cast<::Inv4cb4b0 *>((reinterpret_cast<FUN_004cb4b0*>(changes)))->FUN_004cb4b0((intptr_t)(this), amount, (intptr_t)(target));
 }
 
 struct FUN_00898280
@@ -34682,11 +35894,11 @@ float FUN_008a3c30()
 struct FUN_008a50f0_class
 {
     void FUN_008a5110(int);
-    void FUN_008a50f0(int a);
+    void FUN_008a50f0(intptr_t a);
 };
 
 // @fnv 0x008a50f0
-void FUN_008a50f0_class::FUN_008a50f0(int a)
+void FUN_008a50f0_class::FUN_008a50f0(intptr_t a)
 {
     FUN_008a5110(a);
 }
@@ -34722,8 +35934,6 @@ void FUN_008abfa0_Class::FUN_008abfa0(int* arg)
     ++(*reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0xd68));
     reinterpret_cast<G2*>(reinterpret_cast<char*>(this) + 0x5fc)->AddHead(reinterpret_cast<int*>(&arg));
 }
-
-extern "C" void __cdecl FUN_0062d350(void*);
 
 struct FUN_008aff30_Class
 {
@@ -34796,11 +36006,11 @@ public:
 
 struct FUN_008b3860_cls
 {
-    void FUN_008b3860(int a);
+    void FUN_008b3860(intptr_t a);
 };
 
 // @fnv 0x008b3860
-void FUN_008b3860_cls::FUN_008b3860(int a)
+void FUN_008b3860_cls::FUN_008b3860(intptr_t a)
 {
     ((FUN_009de330_cls**)(this + 0x190))[0]->ApplyNodeLookup((::Fx_Arg *)(a));
 }
@@ -34939,11 +36149,11 @@ char FUN_008b3c90_class::GetByteAtOffset114()
 
 struct FUN_008b3cb0_class
 {
-    void FUN_008b3cb0(int);
+    void FUN_008b3cb0(intptr_t);
 };
 
 // @fnv 0x008b3cb0
-void FUN_008b3cb0_class::FUN_008b3cb0(int a)
+void FUN_008b3cb0_class::FUN_008b3cb0(intptr_t a)
 {
     reinterpret_cast<::Unk009DE3A0 *>((((FUN_008b3cb0_class*)*(int**)((char*)this + 0x190))))->SetFormID((::TESForm *)(a));
 }
@@ -35073,7 +36283,7 @@ void FUN_008ba2b0(int aiValue)
 {
     if (aiValue)
     {
-        int b = aiValue ? aiValue - 0xa4 : 0;
+        intptr_t b = aiValue ? aiValue - 0xa4 : 0;
         reinterpret_cast<::FUN_008c4400_shell *>((((FUN_008c4400_shell*)b)))->FUN_008c4400();
     }
 }
@@ -35090,7 +36300,7 @@ struct Tgt_b
 // @fnv 0x008bb630
 void Tgt_b::FUN_008bb630(PathingRequest_b* pRequest)
 {
-    reinterpret_cast<::FUN_009dba30_fix *>((((Tgt_b*)*(int*)((char*)this + 0x190))))->FUN_009dba30((const ::PathingRequest *)(pRequest));
+    reinterpret_cast<::FUN_009dba30_fix *>((((Tgt_b*)*(intptr_t*)((char*)this + 0x190))))->FUN_009dba30((const ::PathingRequest *)(pRequest));
 }
 }  // namespace fnv_008bb630
 
@@ -35109,7 +36319,7 @@ struct FUN_008bc7d0
 // @fnv 0x008bc7d0
 void FUN_008bc7d0::CallFUN_008bc7d0(void* arg)
 {
-    reinterpret_cast<::FUN_00422550_cls *>((((FUN_00422550_*)((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((((TESObjectREFR*)this)))->FUN_005d43c0())))))->FUN_00422550((int)(arg));
+    reinterpret_cast<::FUN_00422550_cls *>((((FUN_00422550_*)((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((((TESObjectREFR*)this)))->FUN_005d43c0())))))->FUN_00422550((intptr_t)(arg));
 }
 
 namespace fnv_008bcd60 {
@@ -35131,7 +36341,7 @@ void FUN_008bcd60_Class::FUN_008bcd60()
     if (GetCurrentProcessLevel() == 0)
     {
         BaseProcess* process = ((::fnv_008bcd60::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()));
-        reinterpret_cast<::FUN_008fe960_cls *>((process))->FUN_008fe960((int)(this), 0, 0);
+        reinterpret_cast<::FUN_008fe960_cls *>((process))->FUN_008fe960((intptr_t)(this), 0, 0);
     }
 }
 }  // namespace fnv_008bcd60
@@ -35188,12 +36398,12 @@ void FUN_008c1920Class::FUN_008c1920(float value)
 
 struct FUN_008c45e0_class
 {
-    bool FUN_008c45e0(int a1, int* apFloat, int* apInt, int a2);
+    bool FUN_008c45e0(intptr_t a1, int* apFloat, int* apInt, int a2);
 };
 
 // Sets the int output to 0 and the float output to 1.0 when the pointers are non-null, then returns true.
 // @fnv 0x008c45e0
-bool FUN_008c45e0_class::FUN_008c45e0(int aUnused, int* apFloat, int* apInt, int aUnused2)
+bool FUN_008c45e0_class::FUN_008c45e0(intptr_t aUnused, int* apFloat, int* apInt, int aUnused2)
 {
     if (apInt)
         *apInt = 0;
@@ -35289,14 +36499,15 @@ void Dummy629670::FUN_00931530(bool param)
 
 struct Flt
 {
+    unsigned int v;
     operator unsigned int();
 };
 struct FUN_00931580_Class
 {
-    unsigned int FUN_00931580();
+    uintptr_t FUN_00931580();
 };
 // @fnv 0x00931580
-unsigned int FUN_00931580_Class::FUN_00931580()
+uintptr_t FUN_00931580_Class::FUN_00931580()
 {
     return ((Flt*)((char*)this + 0x434))->operator unsigned int();
 }
@@ -35363,13 +36574,13 @@ struct FUN_00996de0_Class
 {
     int m_uiX;
     TESAmmoInitCalls* m_p;
-    unsigned int FUN_00996de0();
+    uintptr_t FUN_00996de0();
 };
 
 // @fnv 0x00996de0
-unsigned int FUN_00996de0_Class::FUN_00996de0()
+uintptr_t FUN_00996de0_Class::FUN_00996de0()
 {
-    return ((unsigned int)(::GetFieldBC((::FUN_0097ae90_Class *)(m_p))));
+    return ((uintptr_t)(reinterpret_cast<::CombatControllerFields *>((m_p))->pActor));
 }
 
 struct FUN_005de0a0_shell
@@ -35378,11 +36589,11 @@ struct FUN_005de0a0_shell
 
 struct FUN_009ab9a0_shell
 {
-    void FUN_009ab9a0(int a);
+    void FUN_009ab9a0(intptr_t a);
 };
 
 // @fnv 0x009ab9a0
-void FUN_009ab9a0_shell::FUN_009ab9a0(int a)
+void FUN_009ab9a0_shell::FUN_009ab9a0(intptr_t a)
 {
     reinterpret_cast<::fnv_005de0a0::FUN_005de0a0_shell *>((((FUN_005de0a0_shell*)this)))->FUN_005de0a0(0x20, 1);
 }
@@ -35439,6 +36650,8 @@ class InventoryChanges
 {
   public:
     static InventoryChanges* __cdecl CreateForReference(class TESObjectREFR*);
+public:
+    ::InventoryChanges *CreateForReference();
 };
 struct TargetCls
 {
@@ -35480,9 +36693,9 @@ void Host::FUN_00623090(void* a1, Vir* pVir)
 {
     if (f.operator unsigned int())
     {
-        reinterpret_cast<::S006230f0_Object *>((((Callee*)f.operator unsigned int())))->FUN_006230f0((const ::S006230f0_Source *)(a1));
+        reinterpret_cast<::S006230f0_Object *>((((Callee*)*reinterpret_cast<void **>(&f))))->FUN_006230f0((const ::S006230f0_Source *)(a1));
         pVir->c();
-        reinterpret_cast<::fnv_00623150::FUN_00623150_Class *>((((Callee*)f.operator unsigned int())))->FUN_00623150(pVir);
+        reinterpret_cast<::fnv_00623150::FUN_00623150_Class *>((((Callee*)*reinterpret_cast<void **>(&f))))->FUN_00623150(pVir);
     }
 }
 }  // namespace fnv_00623090
@@ -35493,6 +36706,8 @@ struct NiObject
     virtual NiRTTI const* GetStreamableRTTI();
 public:
     void *FUN_00621a40();
+public:
+    ::NiObject *DynamicCast(const ::NiRTTI *);
 };
 struct ProxyHolder
 {
@@ -35506,7 +36721,7 @@ struct HolderFUN
 void HolderFUN::FUN_0066ca00(void* a1)
 {
     TESPackage* ppack;
-    ppack = (TESPackage*)((int)(reinterpret_cast<::FUN_00620b80_shell *>((this))->GetReferenceFlags()));
+    ppack = (TESPackage*)((intptr_t)(reinterpret_cast<::FUN_00620b80_shell *>((this))->GetReferenceFlags()));
     if (ppack)
     {
         reinterpret_cast<::FnvCpu_FUN_00c89720_CpuInterface *>((((NiObject*)this)))->FUN_00c89720();
@@ -36688,11 +37903,11 @@ struct Host00881620
 {
     char _pad[0x68];
     Inner00881620* p68;
-    void FUN_00881620(int);
+    void FUN_00881620(intptr_t);
 };
 // If p68 is non-null, forwards a to the virtual f75 of the object pointed to by p68.
 // @fnv 0x00881620
-void Host00881620::FUN_00881620(int a)
+void Host00881620::FUN_00881620(intptr_t a)
 {
     if (p68 != 0)
         p68->f75(a);
@@ -36711,7 +37926,7 @@ struct Outer008848e0
 void Outer008848e0::FUN_008848e0()
 {
     if (p && ::FUN_00884920((int *)(p)))
-        ::FUN_00884940((int *)(p), (::blob4)(0x4000));
+        ::FUN_00884940((int *)(p), std::bit_cast<::blob4>(0x4000u));
 }
 
 namespace fnv_00884ff0 {
@@ -37969,7 +39184,7 @@ void Outer008a0330::CallInnerVFunc139()
 
 struct AlchemyItem
 {
-    int FUN_004030b0();
+    intptr_t FUN_004030b0();
 };
 template <int N> struct VBase : VBase<N - 1>
 {
@@ -38569,6 +39784,9 @@ int FUN_008a0ad0(void* p)
 struct bhkCharacterController
 {
     float& GetVectorElement(int);
+public:
+    void FUN_00561630(const ::NiPoint3 &);
+    bool FUN_00c6fa20();
 };
 struct Holder008a3b70
 {
@@ -38672,11 +39890,11 @@ struct Proc_008a51f0 : Hold_008a51f0<60>
 };
 struct S_008a51f0
 {
-    void DispatchProcessTarget(int);
+    void DispatchProcessTarget(intptr_t);
 };
 // If the actor has a process, forwards the given value to that process's Target method.
 // @fnv 0x008a51f0
-void S_008a51f0::DispatchProcessTarget(int aiTarget)
+void S_008a51f0::DispatchProcessTarget(intptr_t aiTarget)
 {
     if (((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((Actor*)this)))->GetBaseTexture())))
         ((Proc_008a51f0*)((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((Actor*)this)))->GetBaseTexture())))->Target(aiTarget);
@@ -39604,10 +40822,10 @@ struct Virt428
 };
 struct MyTarget
 {
-    void FUN_008a8010(int);
+    void FUN_008a8010(intptr_t);
 };
 // @fnv 0x008a8010
-void MyTarget::FUN_008a8010(int aiValue)
+void MyTarget::FUN_008a8010(intptr_t aiValue)
 {
     reinterpret_cast<::FUN_0042ea50_cls *>((((Holder42*)((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((((TESObjectREFR*)this)))->FUN_005d43c0())))))->FUN_0042ea50((void *)(aiValue));
     Holder97* p = ((Virt428*)this)->f266();
@@ -39640,11 +40858,11 @@ struct MyOuter88230
 {
     char _0[0x68];
     MyInner88230* _68;
-    int FUN_008a8230(int);
+    int FUN_008a8230(intptr_t);
 };
 // Returns -100 if the inner pointer or its Get result is null, otherwise returns the result's _8 field.
 // @fnv 0x008a8230
-int MyOuter88230::FUN_008a8230(int a1)
+int MyOuter88230::FUN_008a8230(intptr_t a1)
 {
     if (!this->_68)
         return -100;
@@ -40283,7 +41501,7 @@ struct MyActor
 void MyActor::FUN_008aaee0(BGSSaveFormBuffer* apSaveGameBuffer)
 {
     reinterpret_cast<::fnv_00562140::FUN_00562140_cls *>(this)->FUN_00562140((::fnv_00562140::BGSSaveFormBuffer *)(apSaveGameBuffer));
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::fnv_008aaee0::FormChangeMask &)(apSaveGameBuffer->GetChangeFlags(0x10000000)))->FUN_004280f0())
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::fnv_008aaee0::FormChangeMask &)(apSaveGameBuffer->GetChangeFlags(0x10000000)))->FUN_004280f0(0x10000000))
     {
         if (!v121())
         {
@@ -40704,17 +41922,17 @@ struct FakeProcess
 };
 struct This_008b37c0
 {
-    void FUN_008b37c0(int, float, void*);
+    void FUN_008b37c0(intptr_t, float, void*);
 };
 // If a3 is null, obtains it via the actor's process Get149, then forwards a1, a2 and a3 to the Holder at offset 0x190.
 // @fnv 0x008b37c0
-void This_008b37c0::FUN_008b37c0(int aiValue, float afValue, void* apArg)
+void This_008b37c0::FUN_008b37c0(intptr_t aiValue, float afValue, void* apArg)
 {
     if (apArg == 0)
     {
         apArg = ((FakeProcess*)((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((Actor*)this)))->GetBaseTexture())))->Get149((Actor*)this);
     }
-    reinterpret_cast<::H009dbc30 *>(((*(Holder**)((char*)this + 0x190))))->FUN_009dbc30((::TESObjectREFR *)(aiValue), afValue, (int)(apArg));
+    reinterpret_cast<::H009dbc30 *>(((*(Holder**)((char*)this + 0x190))))->FUN_009dbc30((::TESObjectREFR *)(aiValue), afValue, (intptr_t)(apArg));
 }
 }  // namespace fnv_008b37c0
 
@@ -40725,11 +41943,11 @@ struct S008b39a0
 {
     char _pad[0x190];
     S009de110* p190;
-    unsigned int ForwardToP190(unsigned int, unsigned int);
+    unsigned int ForwardToP190(unsigned int, uintptr_t);
 };
 // Calls FUN_009de110 on p190 with the two arguments and returns its result.
 // @fnv 0x008b39a0
-unsigned int S008b39a0::ForwardToP190(unsigned int auiArg1, unsigned int auiArg2)
+unsigned int S008b39a0::ForwardToP190(unsigned int auiArg1, uintptr_t auiArg2)
 {
     return ((unsigned int)(reinterpret_cast<::fnv_009de110::Unk *>((p190))->FUN_009de110(auiArg1, auiArg2)));
 }
@@ -41192,17 +42410,22 @@ struct FUN_008bbd60_Class
 {
     unsigned int pad[3];
     BSSimpleArray<unsigned int, 0> arr;
-    unsigned int GetElementAsUInt(int idx);
+    uintptr_t GetElementAsUInt(int idx);
 };
 // @fnv 0x008bbd60
-unsigned int FUN_008bbd60_Class::GetElementAsUInt(int idx)
+uintptr_t FUN_008bbd60_Class::GetElementAsUInt(int idx)
 {
-    return (Flt&)((unsigned int)(reinterpret_cast<::S3e60 *>(&(arr))->FUN_006a7ad0(idx)));
+    return (Flt&)(SimpleArrayItem<unsigned int>(&(arr), idx));
 }
 }  // namespace fnv_008bbd60
 
 struct ArrSI
 {
+    void* vtable;
+    void* data;
+    unsigned int size;
+    unsigned int capacity;
+
     unsigned int GetFlags();
 };
 
@@ -41221,7 +42444,7 @@ struct FUN_008bbd90Class
 // @fnv 0x008bbd90
 unsigned int FUN_008bbd90Class::GetArrFlags()
 {
-    return ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_arrsi))->GetName()));
+    return ((unsigned int)((&(m_arrsi))->size));
 }
 
 bool FUN_00884920(int*);
@@ -41342,10 +42565,10 @@ struct Outer8BCB00
     Inner905330 _s5fc;
     char _pad1[0xD68 - 0x5FC - 1];
     int _d68;
-    void FUN_008bcb00(int);
+    void FUN_008bcb00(intptr_t);
 };
 // @fnv 0x008bcb00
-void Outer8BCB00::FUN_008bcb00(int aiValue)
+void Outer8BCB00::FUN_008bcb00(intptr_t aiValue)
 {
     _d68 = _d68 - 1;
     reinterpret_cast<::ItemChangeListNode *>(&(_s5fc))->FUN_00905330((*(::InventoryStackRecord *const *)(&aiValue)));
@@ -41779,10 +43002,6 @@ float S953f20::GetWrappedAngle(int apTargetObject)
     return result;
 }
 
-struct Holder8512f0
-{
-};
-extern Holder8512f0* DAT_011de134;
 // Clears DAT_011e07c0, then calls ConsumeByteAtE4 and dispatches to FUN_008512f0 on result 1 or FUN_007d0a70 on result 2.
 // @fnv 0x00961d50
 void FUN_00961d50()
@@ -41808,11 +43027,11 @@ struct CombatState
     float ProcessCoverLOSResult();
 };
 // @fnv 0x009a93a0
-void __cdecl FUN_009a93a0(TESAmmoInitCalls* pAmmoInitCalls, int a, int b, int c, int d)
+void __cdecl FUN_009a93a0(TESAmmoInitCalls* pAmmoInitCalls, intptr_t a, intptr_t b, intptr_t c, intptr_t d)
 {
-    unsigned int tmp;
+    uintptr_t tmp;
     float f;
-    tmp = ((unsigned int)(::GetFieldBC((::FUN_0097ae90_Class *)(pAmmoInitCalls))));
+    tmp = ((uintptr_t)(reinterpret_cast<::CombatControllerFields *>((pAmmoInitCalls))->pActor));
     f = ((CombatState*)tmp)->ProcessCoverLOSResult();
     ::FUN_009a93e0(f, (::TargetActor *)(a), (::TargetSettings *)(b), (::TargetVector *)(c), (::TargetVector *)(d));
 }
@@ -41855,23 +43074,23 @@ bool ActorS_008ac6f0::FUN_008ac6f0()
         pExtraFactionList = pextra->m_pFactionChanges;
     while (pList && !bHasResultObj)
     {
-        FactionReaction* prank = *((::fnv_008ac6f0::FactionReaction **)(new ((void *)(pList)) ::Vec3()));
+        FactionReaction* prank = *((::fnv_008ac6f0::FactionReaction **)(((::Vec3 *)(void *)(pList))));
         if (prank)
         {
-            if ((!pextra || !reinterpret_cast<::PredicateOwner *>((pextra))->HasMatchingValue((unsigned int)(prank->pFaction))) && reinterpret_cast<::FUN_0047d7e0_Class *>((void *)(prank->pFaction))->FUN_0047d7e0())
+            if ((!pextra || !reinterpret_cast<::PredicateOwner *>((pextra))->HasMatchingValue((uintptr_t)(prank->pFaction))) && reinterpret_cast<::FUN_0047d7e0_Class *>((void *)(prank->pFaction))->FUN_0047d7e0())
                 bHasResultObj = true;
         }
-        pList = ((::fnv_008ac6f0::FRList *)(reinterpret_cast<::Callees *>((pList))->FUN_00726070()));
+        pList = ((::fnv_008ac6f0::FRList *)(reinterpret_cast<::SimpleListNodeView *>((pList))->m_pkNext));
     }
-    while (pExtraFactionList && *((::fnv_008ac6f0::FactionReaction **)(new ((void *)(pExtraFactionList)) ::Vec3())) && !bHasResultObj)
+    while (pExtraFactionList && *((::fnv_008ac6f0::FactionReaction **)(((::Vec3 *)(void *)(pExtraFactionList)))) && !bHasResultObj)
     {
-        FactionReaction* prank = *((::fnv_008ac6f0::FactionReaction **)(new ((void *)(pExtraFactionList)) ::Vec3()));
+        FactionReaction* prank = *((::fnv_008ac6f0::FactionReaction **)(((::Vec3 *)(void *)(pExtraFactionList))));
         if (prank)
         {
-            if ((!pextra || !reinterpret_cast<::PredicateOwner *>((pextra))->HasMatchingValue((unsigned int)(prank->pFaction))) && reinterpret_cast<::FUN_0047d7e0_Class *>((void *)(prank->pFaction))->FUN_0047d7e0())
+            if ((!pextra || !reinterpret_cast<::PredicateOwner *>((pextra))->HasMatchingValue((uintptr_t)(prank->pFaction))) && reinterpret_cast<::FUN_0047d7e0_Class *>((void *)(prank->pFaction))->FUN_0047d7e0())
                 bHasResultObj = true;
         }
-        pExtraFactionList = ((::fnv_008ac6f0::FRList *)(reinterpret_cast<::Callees *>((pExtraFactionList))->FUN_00726070()));
+        pExtraFactionList = ((::fnv_008ac6f0::FRList *)(reinterpret_cast<::SimpleListNodeView *>((pExtraFactionList))->m_pkNext));
     }
     return bHasResultObj;
 }
@@ -41991,7 +43210,7 @@ void FUN_00567050_shell::FUN_00567050()
         Unk_5E();
     default: {
         bNoAnim = false;
-        Model* m_kModelObjectsItem = (Model*)((int)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((((FUN_00577330_cls*)this)))->FUN_0043fcd0()));
+        Model* m_kModelObjectsItem = (Model*)((intptr_t)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((((FUN_00577330_cls*)this)))->FUN_0043fcd0()));
         if (m_kModelObjectsItem)
         {
             NiNode* pNode = ((::NiNode *)(::fnv_0043b230::FUN_0043b230((const char *)(m_kModelObjectsItem))));
@@ -42010,7 +43229,7 @@ void FUN_00567050_shell::FUN_00567050()
                             {
                                 reinterpret_cast<::fnv_005672c0::Fn5672c0 *>(this)->FUN_005672c0((::fnv_005672c0::NiAVObject *)(pForwardSequence));
                                 reinterpret_cast<::NiControllerManager *>((pManager))->StopSequence((::NiControllerSequence *)(pForwardSequence), 0.0f);
-                                reinterpret_cast<::fnv_00578a30::Thing *>((((FUN_00577330_cls*)this)))->FUN_00578a30((int)((*(const ::fnv_00567050::NiFixedStr *)(reinterpret_cast<::TESTopicInfoData *>((void *)(((NiCtrlSeqName*)pForwardSequence)))->GetLinkToList()))));
+                                reinterpret_cast<::fnv_00578a30::Thing *>((((FUN_00577330_cls*)this)))->FUN_00578a30((intptr_t)(const char *)((*(const ::fnv_00567050::NiFixedStr *)(reinterpret_cast<::TESTopicInfoData *>((void *)(((NiCtrlSeqName*)pForwardSequence)))->GetLinkToList()))));
                                 ::ProcessOpenCloseEvent((::Ref *)(::Actor *)(this), (::SequenceEvent *)(pForwardSequence));
                             }
                             else
@@ -42031,7 +43250,7 @@ void FUN_00567050_shell::FUN_00567050()
     if (bNoAnim)
     {
         Animation2* pAnim = (Animation2*)GetAnimData();
-        int iRandom = ((int)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((((FUN_00577330_cls*)this)))->FUN_0043fcd0()));
+        intptr_t iRandom = ((intptr_t)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((((FUN_00577330_cls*)this)))->FUN_0043fcd0()));
         if (!pAnim)
         {
             if (iRandom)
@@ -42039,7 +43258,7 @@ void FUN_00567050_shell::FUN_00567050()
         }
         else if (iRandom && ((Calendar*)iRandom)->GetDaysPassed())
         {
-            if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)&(*reinterpret_cast<::VATS *>(&::g_011f2250)))))->GetName())) == 4 && this == DAT_011f21cc)
+            if (((unsigned int)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)) == 4 && this == DAT_011f21cc)
                 reinterpret_cast<::FUN_00491180_shell *>((pAnim))->FUN_00491180((::TESObjectREFR *)(::Actor *)(this), reinterpret_cast<::Twin_0084d030 *>((((Twin_0084d030*)&g_timeGlobal)))->GetStoredFloatValue() *
                                         reinterpret_cast<::FUN_009c8d60_t *>(&((*reinterpret_cast<::VATS *>(&::g_011f2250))))->FUN_009c8d60(), {});
             else
@@ -42080,12 +43299,12 @@ struct FUN_006729d0_StandIn
     int m20;
     int m24;
     FUN_0067b170* m28;
-    void FUN_006729d0(int param_2);
+    void FUN_006729d0(intptr_t param_2);
 };
 
 // For package types 15 and 28, allocates the helper object at m28 if absent and stores param_2 in its m8 field.
 // @fnv 0x006729d0
-void FUN_006729d0_StandIn::FUN_006729d0(int aiValue)
+void FUN_006729d0_StandIn::FUN_006729d0(intptr_t aiValue)
 {
     if (reinterpret_cast<struct ::FUN_0041ca90 *>((((TESPackage*)this)))->get() == 15 || reinterpret_cast<struct ::FUN_0041ca90 *>((((TESPackage*)this)))->get() == 28)
     {
@@ -42120,7 +43339,7 @@ struct StartMenu
 int __cdecl FindSettingIndex(const char* pcName)
 {
     int i = 0;
-    int setting = (int)((::fnv_00707330::Setting *)(reinterpret_cast<::FUN_004f8a30_shell2 *>((((::fnv_00707330::GameSettingCollection *)(::GetGameSettingCollection()))))->FUN_004f8a30((int)(pcName))));
+    intptr_t setting = (intptr_t)((::fnv_00707330::Setting *)(reinterpret_cast<::FUN_004f8a30_shell2 *>((((::fnv_00707330::GameSettingCollection *)(::GetGameSettingCollection()))))->FUN_004f8a30((intptr_t)(pcName))));
     i = 0;
     for (; i < 28; ++i)
     {
@@ -42132,7 +43351,7 @@ int __cdecl FindSettingIndex(const char* pcName)
         i = 0;
         for (; i < 28; ++i)
         {
-            if (!::FUN_00469880((void *)((const unsigned char*)((const char *)(reinterpret_cast<::StartMenu *>((void *)(((const StartMenu*)(void*)DAT_011d51d0[i])))->GetMenuTitle()))),
+            if (!::FUN_00469880((void *)((const unsigned char*)((const char *)(reinterpret_cast<::StartMenu *>((void *)(((const StartMenu*)(void*)(std::intptr_t)DAT_011d51d0[i])))->GetMenuTitle()))),
                          (void *)((const unsigned char*)pcName)))
                 break;
         }
@@ -42447,13 +43666,13 @@ float P09Actor::GetPerkModifiedValue()
     {
         float fResult;
         {
-            unsigned int uiFlagsA;
+            uintptr_t uiFlagsA;
             {
                 void* pObjA;
                 {
                     void* pObjB;
                     {
-                        unsigned int uiFlagsB;
+                        uintptr_t uiFlagsB;
                         {
                             bool bNotX;
                             bNotX = true;
@@ -42464,8 +43683,8 @@ float P09Actor::GetPerkModifiedValue()
                                 pObjA = ((P09VT*)m_pBaseProcess)->s82();
                             }
                             pItem = FUN_00891b90(2);
-                            uiFlagsA = pObjA ? ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)pObjA)))->GetName())) : 0;
-                            uiFlagsB = pItem ? ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)pItem)))->GetName())) : 0;
+                            uiFlagsA = pObjA ? ((uintptr_t)(reinterpret_cast<::InventoryEntryFields *>((((ArrSI*)pObjA)))->pObject)) : 0;
+                            uiFlagsB = pItem ? ((uintptr_t)(reinterpret_cast<::InventoryEntryFields *>((((ArrSI*)pItem)))->pObject)) : 0;
                             if (pItem)
                                 delete pItem;
                             fResult = ::FUN_00647f00(this, (void *)(uiFlagsA), (void *)(uiFlagsB), bNotX, IsCharacter(), reinterpret_cast<::Actor *>(this)->IsSneaking(),
@@ -43480,7 +44699,7 @@ bool FUN_008a8420_t::PlayReloadAnimation(TESObjectWEAP* apWeapon, int aiReloadAn
                     {
                         TESForm* pAmmoForm;
                         {
-                            int iCount;
+                            intptr_t iCount;
                             if (!apWeapon)
                                 return true;
                             pAmmoForm = (TESForm*)((::fnv_008a8420::TESAmmo *)(reinterpret_cast<::AmmoOwner *>((apWeapon))->FUN_00525980((::AmmoActor *)(::Actor *)(this))));
@@ -43492,19 +44711,19 @@ bool FUN_008a8420_t::PlayReloadAnimation(TESObjectWEAP* apWeapon, int aiReloadAn
                             pAnim = (Animation*)GetAnimData();
                             pInventoryChanges = ((::fnv_008a8420::InventoryChanges *)(::InventoryChanges::CreateForReference(this)));
                             pItem = ((::fnv_008a8420::InventoryStackRecord *)(reinterpret_cast<::Rebuild004d0650::Inventory *>((pInventoryChanges))->FUN_004d0650((::Rebuild004d0650::Object *)(pAmmoForm), 0)));
-                            iCount = pItem ? ((int)(reinterpret_cast<::Callees *>((((StandInCount*)pItem)))->FUN_00726070())) : 0;
+                            iCount = pItem ? ((int)(reinterpret_cast<::InventoryEntryFields *>((((StandInCount*)pItem)))->iCountDelta)) : 0;
                             pAmmoInfo = (*(StandInProc**)&this->m_pBaseProcess)->GetAmmoInfo();
                             pWeaponItem = (*(StandInProc**)&this->m_pBaseProcess)->GetActiveWeapon();
                             if (!pAmmoInfo && pItem)
                             {
-                                pAmmoInfo = new FUN_004bc550((TESBoundObject*)((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)pItem)))->GetName())), iCount);
+                                pAmmoInfo = new FUN_004bc550((TESBoundObject*)((uintptr_t)(reinterpret_cast<::InventoryEntryFields *>((((ArrSI*)pItem)))->pObject)), iCount);
                                 (*(StandInProc**)&this->m_pBaseProcess)->SetAmmoInfo(pAmmoInfo);
                             }
                             if (aiReloadAnim == 2 && pAmmoInfo)
                             {
                                 if (reinterpret_cast<::FUN_004fe160_cls *>((apWeapon))->GetFlaggedValue(pWeaponItem ? reinterpret_cast<::fnv_004bda70::FUN_004bda70_shell *>((pWeaponItem))->HasEffect(2) : false) !=
-                                        ((int)(reinterpret_cast<::Callees *>((((StandInCount*)pAmmoInfo)))->FUN_00726070())) &&
-                                    iCount != ((int)(reinterpret_cast<::Callees *>((((StandInCount*)pAmmoInfo)))->FUN_00726070())))
+                                        ((int)(reinterpret_cast<::InventoryEntryFields *>((((StandInCount*)pAmmoInfo)))->iCountDelta)) &&
+                                    iCount != ((int)(reinterpret_cast<::InventoryEntryFields *>((((StandInCount*)pAmmoInfo)))->iCountDelta)))
                                 {
                                     unsigned short usAnimGroup;
                                     {
@@ -43513,7 +44732,7 @@ bool FUN_008a8420_t::PlayReloadAnimation(TESObjectWEAP* apWeapon, int aiReloadAn
                                         if (GetType(usAnimGroup) == iReloadAnim)
                                         {
                                             reinterpret_cast<::fnv_00494740::FUN_00494740_t *>((((StandInAnim*)pAnim)))->FUN_00494740(usAnimGroup, 1, -1, -1);
-                                            reinterpret_cast<::fnv_008a73e0::FUN_008a73e0_shell *>((((HA*)this)))->FUN_008a73e0(9, (::fnv_008a73e0::BSAnimGroupSequence *)((int)((::NiControllerSequence *)(reinterpret_cast<::FUN_00491040_shell *>((pAnim))->FUN_00491040(4)))));
+                                            reinterpret_cast<::fnv_008a73e0::FUN_008a73e0_shell *>((((HA*)this)))->FUN_008a73e0(9, (::fnv_008a73e0::BSAnimGroupSequence *)((intptr_t)((::NiControllerSequence *)(reinterpret_cast<::FUN_00491040_shell *>((pAnim))->FUN_00491040(4)))));
                                         }
                                     }
                                 }
@@ -43533,7 +44752,7 @@ bool FUN_008a8420_t::PlayReloadAnimation(TESObjectWEAP* apWeapon, int aiReloadAn
                                 if (aiReloadAnim == 1)
                                 {
                                     int iReloadAnim2 = reinterpret_cast<::TESObjectWEAP *>((apWeapon))->GetReloadAnim(bUseModValue);
-                                    if (((bool)(reinterpret_cast<::FUN_004938c0_class *>(((int)apWeapon))->GetByteAt384())))
+                                    if (((bool)(reinterpret_cast<::FUN_004938c0_class *>(((intptr_t)apWeapon))->GetByteAt384())))
                                         iReloadAnim2 -= 0x17;
                                     unsigned short usAnimGroup2 = GetAnimGroup(iReloadAnim2, 0, 0, 0);
                                     if (GetType(usAnimGroup2) == iReloadAnim2)
@@ -43543,7 +44762,7 @@ bool FUN_008a8420_t::PlayReloadAnimation(TESObjectWEAP* apWeapon, int aiReloadAn
                                             reinterpret_cast<::fnv_004994f0::FUN_004994f0_shell *>((((StandInAnim*)pAnim)))->FUN_004994f0(5, false);
                                             reinterpret_cast<::fnv_004994f0::FUN_004994f0_shell *>((((StandInAnim*)pAnim)))->FUN_004994f0(6, false);
                                             reinterpret_cast<::fnv_00494740::FUN_00494740_t *>((((StandInAnim*)pAnim)))->FUN_00494740(usAnimGroup2, 1, -1, -1);
-                                            reinterpret_cast<::fnv_008a73e0::FUN_008a73e0_shell *>((((HA*)this)))->FUN_008a73e0(9, (::fnv_008a73e0::BSAnimGroupSequence *)((int)((::NiControllerSequence *)(reinterpret_cast<::FUN_00491040_shell *>((pAnim))->FUN_00491040(4)))));
+                                            reinterpret_cast<::fnv_008a73e0::FUN_008a73e0_shell *>((((HA*)this)))->FUN_008a73e0(9, (::fnv_008a73e0::BSAnimGroupSequence *)((intptr_t)((::NiControllerSequence *)(reinterpret_cast<::FUN_00491040_shell *>((pAnim))->FUN_00491040(4)))));
                                         }
                                         else
                                         {
@@ -43867,7 +45086,7 @@ bool P09A::FUN_008aad40(unsigned int aiFlags)
     P09Node* pnode;
     {
         ReanimateEffect* peffect;
-        if (!((int)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((((P09H*)this)))->FUN_0043fcd0())))
+        if (!((intptr_t)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((((P09H*)this)))->FUN_0043fcd0())))
             return false;
         if (aiFlags & 0x400)
         {
@@ -43878,10 +45097,10 @@ bool P09A::FUN_008aad40(unsigned int aiFlags)
                 pnode = ((Aad40ProcVT*)static_cast<MagicTarget *>(this))->s2();
                 while (pnode && !_ref_008256d0(pnode))
                 {
-                    peffect = dynamic_cast<ReanimateEffect*>(*((::ActiveEffect **)(new ((void *)(pnode)) ::Vec3())));
+                    peffect = dynamic_cast<ReanimateEffect*>(*((::ActiveEffect **)(((::Vec3 *)(void *)(pnode)))));
                     if (peffect && reinterpret_cast<::FUN_0068a810_class *>((((P09AS*)peffect)))->GetField4C() < 0x1e)
                         return true;
-                    pnode = ((::P09Node *)(reinterpret_cast<::Callees *>((pnode))->FUN_00726070()));
+                    pnode = ((::P09Node *)(reinterpret_cast<::SimpleListNodeView *>((pnode))->m_pkNext));
                 }
             }
         }
@@ -44468,6 +45687,11 @@ void FUN_008c1940_shell::FUN_008c1940()
 namespace fnv_004387b0 {
 struct ArrSI
 {
+    void* vtable;
+    void* data;
+    unsigned int size;
+    unsigned int capacity;
+
     unsigned int GetFlags();
 };
 struct FUN_004387b0_shell : ArrSI
@@ -44478,11 +45702,11 @@ struct FUN_004387b0_shell : ArrSI
 // @fnv 0x004387b0
 bool FUN_004387b0_shell::FUN_004387b0(ArrSI* other)
 {
-    if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((other))->GetName())) != ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(this)->GetName())))
+    if (((unsigned int)(((other))->size)) != ((unsigned int)((reinterpret_cast<::fnv_004387b0::ArrSI *>(this)->size))))
         return false;
     for (unsigned int i = 0; i < *(unsigned int*)((char*)this + 8); ++i)
     {
-        if (*(unsigned int*)&((unsigned int)(reinterpret_cast<::S3e60 *>((other))->FUN_006a7ad0(i))) != *(unsigned int*)&((unsigned int)(reinterpret_cast<::S3e60 *>(this)->FUN_006a7ad0(i))))
+        if (*(unsigned int*)&(SimpleArrayItem<unsigned int>((void *)other, i)) != *(unsigned int*)&(SimpleArrayItem<unsigned int>((void *)this, i)))
             return false;
     }
     return true;
@@ -44493,6 +45717,11 @@ namespace fnv_004985f0 {
 struct BSAnimGroupSequence;
 struct ArrSI
 {
+    void* vtable;
+    void* data;
+    unsigned int size;
+    unsigned int capacity;
+
     unsigned int GetFlags();
 };
 struct AnimIdle
@@ -44515,9 +45744,9 @@ bool FUN_004985f0_s::FUN_004985f0()
         return false;
     if (!*(Flt*)((char*)this + 0x124))
         return true;
-    if (!((::fnv_004985f0::BSAnimGroupSequence *)(reinterpret_cast<::fnv_00490e40::FUN_00490e40_shell *>((((AnimIdle*)(unsigned int)*(Flt*)((char*)this + 0x124))))->FUN_00490e40())))
+    if (!((::fnv_004985f0::BSAnimGroupSequence *)(reinterpret_cast<::fnv_00490e40::FUN_00490e40_shell *>((((AnimIdle*)(uintptr_t)*(Flt*)((char*)this + 0x124))))->FUN_00490e40())))
         return false;
-    if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)(unsigned int)*(Flt*)((char*)this + 0x124))))->GetName())) == 3)
+    if (((unsigned int)(((((ArrSI*)(uintptr_t)*(Flt*)((char*)this + 0x124))))->size)) == 3)
         return true;
     return false;
 }
@@ -44626,7 +45855,7 @@ struct FUN_008abfa0_Class
 struct Outer8BCB00
 {
 };
-extern int _g_thePlayer;
+extern intptr_t _g_thePlayer;
 
 struct FUN_008bca90_Class
 {
@@ -44641,11 +45870,51 @@ void FUN_008bca90_Class::FUN_008bca90(bool b)
         if (b && !*(unsigned char*)((char*)this + 0x18d))
             reinterpret_cast<::FUN_008abfa0_Class *>((((FUN_008abfa0_Class*)_g_thePlayer)))->FUN_008abfa0((int*)this);
         else if (!b && *(unsigned char*)((char*)this + 0x18d))
-            reinterpret_cast<::Outer8BCB00 *>((((Outer8BCB00*)_g_thePlayer)))->FUN_008bcb00((int)this);
+            reinterpret_cast<::Outer8BCB00 *>((((Outer8BCB00*)_g_thePlayer)))->FUN_008bcb00((intptr_t)this);
         *(unsigned char*)((char*)this + 0x18d) = b;
     }
 }
 }  // namespace fnv_008bca90
+struct RagNode
+{
+    char pad0[0x18];
+    RagNode* m_pParentNode;
+    char pad1c[0x34 - 0x1c];
+    NiTransform m_kLocalTransform;
+    NiTransform m_kWorldSpaceTransform;
+    RagNode* GetParent() const
+    {
+        return m_pParentNode;
+    }
+};
+struct RagInner
+{
+    char pad[0x1c];
+    unsigned int count;
+    unsigned int GetCount() const
+    {
+        return count;
+    }
+};
+struct RagMid
+{
+    char pad[0x2c];
+    RagInner* inner;
+    RagInner* GetInner() const
+    {
+        return inner;
+    }
+};
+struct FUN_00c7d630_t
+{
+    char pad0[0x48];
+    RagMid* m_48;
+    char pad4c[0x58 - 0x4c];
+    RagNode* m_pkNode;
+    char pad5c[4];
+    ThreeByThreeMatrix m_kRot;
+    void FUN_00c7d630(float);
+};
 
 namespace fnv_00888970 {
 struct FUN_00c7d630_t
@@ -45304,11 +46573,11 @@ void FUN_008a05f0_StandIn::ProcessResponse()
     }
 
     state = 4;
-    if (((int)(reinterpret_cast<::FUN_0045cd60_shell *>((pResponse))->FUN_0045cd60())) == 1)
+    if (((intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((pResponse))->FUN_0045cd60())) == 1)
     {
         state = 1;
     }
-    else if (((int)(reinterpret_cast<::FUN_0045cd60_shell *>((pResponse))->FUN_0045cd60())) == 2)
+    else if (((intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((pResponse))->FUN_0045cd60())) == 2)
     {
         state = 2;
     }
@@ -45850,12 +47119,6 @@ bool FUN_008bc860_StandIn::FUN_008bc860(Actor* apLeader)
 }  // namespace fnv_008bc860
 
 struct NiAVObject;
-class NiNode
-{
-  public:
-    unsigned int GetNumChildren();
-    NiAVObject* GetAt(unsigned int);
-};
 // Finds a SkinAttachment or suitable child node under apObject's parent, resolves its property via FindPPLightingProperty, and passes it to the virtual at this+0x68.
 // @fnv 0x008b0bd0
 void FUN_008b0bd0_shell::FUN_008b0bd0(NiAVObject* apObject)
@@ -46685,6 +47948,435 @@ int FUN_0094ca50_StandIn::FUN_0094ca50()
     return iResult;
 }
 }  // namespace fnv_0094ca50
+typedef unsigned char u8;
+struct RagdollAnimationResetView
+{
+};
+struct RagdollAnimBodyView
+{
+};
+struct RagdollAnimEntry
+{
+    int unk00;
+    int unk04;
+    void* p08;
+};
+struct RagdollAnimOwner
+{
+    int unk000;
+    int unk004;
+    int unk008;
+    int unk00C;
+    int unk010;
+    int unk014;
+    int unk018;
+    int unk01C;
+    int unk020;
+    int unk024;
+    int unk028;
+    int unk02C;
+    int unk030;
+    int unk034;
+    int unk038;
+    int unk03C;
+    int unk040;
+    int unk044;
+    int unk048;
+    int unk04C;
+    int unk050;
+    int unk054;
+    int unk058;
+    int unk05C;
+    int unk060;
+    int unk064;
+    int unk068;
+    int unk06C;
+    int unk070;
+    int unk074;
+    int unk078;
+    int unk07C;
+    int unk080;
+    int unk084;
+    int unk088;
+    int unk08C;
+    int unk090;
+    int unk094;
+    int unk098;
+    int unk09C;
+    int unk0A0;
+    int unk0A4;
+    int unk0A8;
+    int unk0AC;
+    int unk0B0;
+    int unk0B4;
+    int unk0B8;
+    int unk0BC;
+    int unk0C0;
+    int unk0C4;
+    int unk0C8;
+    int unk0CC;
+    int unk0D0;
+    int unk0D4;
+    int unk0D8;
+    int unk0DC;
+    int unk0E0;
+    int unk0E4;
+    int unk0E8;
+    int unk0EC;
+    int unk0F0;
+    int unk0F4;
+    int unk0F8;
+    int unk0FC;
+    int unk100;
+    int unk104;
+    int unk108;
+    int unk10C;
+    int unk110;
+    int unk114;
+    int unk118;
+    int unk11C;
+    int unk120;
+    int unk124;
+    int unk128;
+    int unk12C;
+    int unk130;
+    int unk134;
+    int unk138;
+    int unk13C;
+    int unk140;
+    int unk144;
+    int unk148;
+    int unk14C;
+    int unk150;
+    int unk154;
+    int unk158;
+    int unk15C;
+    int unk160;
+    int unk164;
+    int unk168;
+    int unk16C;
+    int unk170;
+    int unk174;
+    int unk178;
+    int unk17C;
+    int unk180;
+    int unk184;
+    int unk188;
+    int unk18C;
+    int unk190;
+    int unk194;
+    int unk198;
+    int unk19C;
+    int unk1A0;
+    int unk1A4;
+    int unk1A8;
+    int unk1AC;
+    int unk1B0;
+    int unk1B4;
+    int unk1B8;
+    int unk1BC;
+    int unk1C0;
+    int unk1C4;
+    int unk1C8;
+    int unk1CC;
+    int unk1D0;
+    int unk1D4;
+    int unk1D8;
+    int unk1DC;
+    int unk1E0;
+    int unk1E4;
+    int unk1E8;
+    int unk1EC;
+    int unk1F0;
+    int unk1F4;
+    int unk1F8;
+    int unk1FC;
+    int unk200;
+    int unk204;
+    int unk208;
+    int unk20C;
+    int unk210;
+    int unk214;
+    int unk218;
+    int unk21C;
+    int unk220;
+    int unk224;
+    int unk228;
+    int unk22C;
+    int unk230;
+    int unk234;
+    int unk238;
+    int unk23C;
+    int unk240;
+    int unk244;
+    int unk248;
+    int unk24C;
+    int unk250;
+    int unk254;
+    int unk258;
+    int unk25C;
+    int unk260;
+    int unk264;
+    int unk268;
+    int unk26C;
+    int unk270;
+    int unk274;
+    int unk278;
+    int unk27C;
+    int unk280;
+    int unk284;
+    int unk288;
+    int unk28C;
+    int unk290;
+    int unk294;
+    int unk298;
+    int unk29C;
+    int unk2A0;
+    int unk2A4;
+    int unk2A8;
+    int unk2AC;
+    int unk2B0;
+    int unk2B4;
+    int unk2B8;
+    int unk2BC;
+    int unk2C0;
+    int unk2C4;
+    int unk2C8;
+    int unk2CC;
+    int unk2D0;
+    int unk2D4;
+    int unk2D8;
+    int unk2DC;
+    int unk2E0;
+    int unk2E4;
+    int unk2E8;
+    int unk2EC;
+    int unk2F0;
+    int unk2F4;
+    int unk2F8;
+    int unk2FC;
+    int unk300;
+    int unk304;
+    int unk308;
+    int unk30C;
+    int unk310;
+    int unk314;
+    int unk318;
+    int unk31C;
+    int unk320;
+    int unk324;
+    int unk328;
+    int unk32C;
+    int unk330;
+    int unk334;
+    int unk338;
+    int unk33C;
+    int unk340;
+    int unk344;
+    int unk348;
+    int unk34C;
+    RagdollAnimBodyView* p350;
+};
+struct RagdollAnimReference
+{
+    int unk00;
+    int unk04;
+    RagdollAnimOwner* p08;
+};
+struct RagdollAnimHandle
+{
+    RagdollAnimReference* p00;
+};
+struct RagdollAnimData
+{
+    int unk00;
+    int unk04;
+    RagdollAnimHandle* p08;
+    int unk0C;
+    int unk10;
+    RagdollAnimEntry** arr14;
+    int count18;
+};
+struct RagdollAnimControllerView
+{
+    int unk000;
+    int unk004;
+    int unk008;
+    int unk00C;
+    int unk010;
+    int unk014;
+    int unk018;
+    int unk01C;
+    int unk020;
+    int unk024;
+    int unk028;
+    int unk02C;
+    int unk030;
+    int unk034;
+    int unk038;
+    int unk03C;
+    u8 unk40;
+    u8 b41;
+    u8 b42;
+    u8 b43;
+    int unk44;
+    RagdollAnimData* p48;
+    RagdollAnimationResetView* p4C;
+    int unk050;
+    int unk054;
+    int unk058;
+    int unk05C;
+    int unk060;
+    int unk064;
+    int unk068;
+    int unk06C;
+    int unk070;
+    int unk074;
+    int unk078;
+    int unk07C;
+    int unk080;
+    int unk084;
+    int unk088;
+    int unk08C;
+    int unk090;
+    int unk094;
+    int unk098;
+    int unk09C;
+    int unk0A0;
+    int unk0A4;
+    int unk0A8;
+    int unk0AC;
+    int unk0B0;
+    int unk0B4;
+    int unk0B8;
+    int unk0BC;
+    int unk0C0;
+    int unk0C4;
+    int unk0C8;
+    int unk0CC;
+    int unk0D0;
+    int unk0D4;
+    int unk0D8;
+    int unk0DC;
+    int unk0E0;
+    int unk0E4;
+    int unk0E8;
+    int unk0EC;
+    int unk0F0;
+    int unk0F4;
+    int unk0F8;
+    int unk0FC;
+    int unk100;
+    int unk104;
+    int unk108;
+    int unk10C;
+    int unk110;
+    int unk114;
+    int unk118;
+    int unk11C;
+    int unk120;
+    int unk124;
+    int unk128;
+    int unk12C;
+    int unk130;
+    int unk134;
+    int unk138;
+    int unk13C;
+    int unk140;
+    int unk144;
+    int unk148;
+    int unk14C;
+    int unk150;
+    int unk154;
+    int unk158;
+    int unk15C;
+    int unk160;
+    int unk164;
+    int unk168;
+    int unk16C;
+    int unk170;
+    int unk174;
+    int unk178;
+    int unk17C;
+    int unk180;
+    int unk184;
+    int unk188;
+    int unk18C;
+    int unk190;
+    int unk194;
+    int unk198;
+    int unk19C;
+    int unk1A0;
+    int unk1A4;
+    int unk1A8;
+    int unk1AC;
+    int unk1B0;
+    int unk1B4;
+    int unk1B8;
+    int unk1BC;
+    int unk1C0;
+    int unk1C4;
+    int unk1C8;
+    int unk1CC;
+    int unk1D0;
+    int unk1D4;
+    int unk1D8;
+    int unk1DC;
+    int unk1E0;
+    int unk1E4;
+    int unk1E8;
+    int unk1EC;
+    int unk1F0;
+    int unk1F4;
+    int unk1F8;
+    int unk1FC;
+    int unk200;
+    int unk204;
+    int unk208;
+    int unk20C;
+    int unk210;
+    int unk214;
+    int unk218;
+    u8 unk21C;
+    u8 b21D;
+    u8 b21E;
+    u8 unk21F;
+    u8 b220;
+    u8 unk221;
+    u8 b222;
+    u8 b223;
+    int unk224;
+    int unk228;
+    int unk22C;
+    int unk230;
+    int unk234;
+    int unk238;
+    int unk23C;
+    int unk240;
+    int unk244;
+    int unk248;
+    int unk24C;
+    int unk250;
+    int unk254;
+    int unk258;
+    int unk25C;
+    int unk260;
+    int unk264;
+    int unk268;
+    int unk26C;
+    int unk270;
+    int unk274;
+    int unk278;
+    int unk27C;
+    int unk280;
+    int unk284;
+    int unk288;
+    u8 unk28C;
+    u8 unk28D;
+    u8 b28E;
+    u8 unk28F;
+    int FUN_00c7a8d0();
+};
 
 namespace fnv_008acc80 {
 struct LodObject
@@ -46862,7 +48554,7 @@ void Actor_008acc80::FUN_008acc80()
     Animation* panim;
     bhkCharacterController* pcon;
 
-    pobjTmp = reinterpret_cast<NiAVObject*>(((int)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((reinterpret_cast<P09H*>(this)))->FUN_0043fcd0())));
+    pobjTmp = reinterpret_cast<NiAVObject*>(((intptr_t)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((reinterpret_cast<P09H*>(this)))->FUN_0043fcd0())));
     if (pobjTmp != 0)
     {
         ::FUN_00c9bdf0((::Obj_c9b *)(pobjTmp), 1.0f);
@@ -46878,7 +48570,7 @@ void Actor_008acc80::FUN_008acc80()
         pcon = ((::fnv_008acc80::bhkCharacterController *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>((reinterpret_cast<MobileObjectGetCharControllerStub*>(this)))->FUN_009306d0()));
         if (pcon != 0 && ((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>(this)->GetTarget())) != 0)
         {
-            reinterpret_cast<::C70CharacterController *>((pcon))->FUN_00c70c90((::WorldProxy *)(((unsigned int)(reinterpret_cast<::FUN_004543c0_cls *>((reinterpret_cast<ExtraDataListRoomStub*>(((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>(this)->GetTarget())))))->FUN_004543c0()))));
+            reinterpret_cast<::C70CharacterController *>((pcon))->FUN_00c70c90((::WorldProxy *)(((uintptr_t)(reinterpret_cast<::FUN_004543c0_cls *>((reinterpret_cast<ExtraDataListRoomStub*>(((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>(this)->GetTarget())))))->FUN_004543c0()))));
         }
 
         if (*reinterpret_cast<void**>(&this->m_pRagdollController) != 0)
@@ -46939,11 +48631,11 @@ struct StateTracker
     NiPoint3 kPos;
     int iValue;
     BSSimpleList<StateChangeEntry*> kChanges;
-    bool FUN_00437e50(int aiState, NiPoint3 akPos, int aiValue);
+    bool FUN_00437e50(int aiState, NiPoint3 akPos, intptr_t aiValue);
 };
 
 // @fnv 0x00437e50
-bool StateTracker::FUN_00437e50(int aiState, NiPoint3 akPos, int aiValue)
+bool StateTracker::FUN_00437e50(int aiState, NiPoint3 akPos, intptr_t aiValue)
 {
     if (!aiState)
         return false;
@@ -47115,11 +48807,11 @@ extern GlobalMgr* DAT_011de45c;
 
 struct FUN_00575380_cls
 {
-    bool FUN_00575380(int a1, int a2, int a3);
+    bool FUN_00575380(int a1, int a2, intptr_t a3);
 };
 
 // @fnv 0x00575380
-bool FUN_00575380_cls::FUN_00575380(int a1, int a2, int a3)
+bool FUN_00575380_cls::FUN_00575380(int a1, int a2, intptr_t a3)
 {
     void* node7 = ((void *)(reinterpret_cast<::s55d310::Owner *>(this)->FUN_0055d310()));
     bool result2 = true;
@@ -47144,7 +48836,7 @@ bool FUN_005f64f0(S_005f64f0_Obj* obj)
 {
     if (obj)
     {
-        int type = ((int)(reinterpret_cast<::FUN_006a1b60_Class *>((obj))->GetField54()));
+        intptr_t type = ((intptr_t)(reinterpret_cast<::FUN_006a1b60_Class *>((obj))->GetField54()));
         reinterpret_cast<::FUN_005f6570 *>((obj))->SetFlag(true);
         BSSimpleList<S_005f64f0_Obj*>* a = &DAT_011cb3e0[type];
         if (!reinterpret_cast<::RefList *>((a))->FUN_005f65d0((void **)&(obj)))
@@ -47325,6 +49017,469 @@ unsigned int stub_TESSaveLoadGame::ComputeFormTableChecksum(stub_LoadBuffer* buf
     }
     return sum;
 }
+struct Heap { virtual void Unused(); virtual void* Allocate(unsigned); };
+struct Context { int unk00, unk04, unk08, unk0c; Heap* heap; };
+static __forceinline void* AllocateBuffer(unsigned n) { Context* context=(Context*)(void*)FUN_00c85750(); Heap* heap=context->heap; return (heap->Allocate)(n); }
+struct SmallMember { unsigned data; __forceinline SmallMember() { new ((void *)this) struct ::FUN_00cb0a60(); } __forceinline ~SmallMember() { ::FUN_00cb0c00((intptr_t)this); }   };
+struct Entry { SmallMember member; unsigned char enabled; __forceinline Entry():enabled(0) {} };
+struct __declspec(align(16)) Transform { __m128 x,y,z; };
+struct S7de60_IsPod {};
+struct S7de60_IsClass {};
+template<class T> struct S7de60_PodTrait { typedef S7de60_IsPod type; };
+struct S7de60_ArrayUtil {
+    template<class T> static __forceinline void construct(T* t, int n, S7de60_IsPod) {}
+    template<class T> static __forceinline void construct(T* t, int n, S7de60_IsClass) { for(int i=0;i<n;++i) new (t+i) T; }
+    template<class T> static __forceinline void constructWithCopy(T* t, int n, const T& c, S7de60_IsPod) { for(int i=0;i<n;++i) t[i]=c; }
+    template<class T> static __forceinline void destruct(T* t, int n, S7de60_IsPod) {}
+    template<class T> static __forceinline void destruct(T* t, int n, S7de60_IsClass) { for(int i=0;i<n;++i) reinterpret_cast<::FUN_00ba3a00 *>(&(t[i]))->FUN_00ba3a00::~FUN_00ba3a00(); }
+};
+struct S7de60_Router { __forceinline Heap& heap() { return *((Context*)this)->heap; } };
+struct S7de60_HeapAlloc { __forceinline Heap& get(const void*) { return ((S7de60_Router*)(void*)FUN_00c85750())->heap(); } };
+template<class T> struct ArrayBase {
+    T* data; int count; int capacity;
+    __forceinline ArrayBase():data(0),count(0),capacity(0x80000000) {}
+    __forceinline int GetLogicalSize() const { return count; }
+    __forceinline int getCapacity() const { return capacity & 0x3fffffff; }
+    __forceinline void _reserveExactly(Heap& alloc, int n) { if(getCapacity()<n) { ::FUN_00c908c0((::SpawnedObject *)&(alloc),(::SpawnedArray *)(void *)(this),n,sizeof(T)); } }
+    __forceinline void GrowArrayCapacity(Heap& alloc, int n) {
+        const int cap=getCapacity();
+        if(cap<n) { int cap2=2*cap; int newSize=(n<cap2)?cap2:n; ::FUN_00c908c0((::SpawnedObject *)&(alloc),(::SpawnedArray *)(void *)(this),newSize,sizeof(T)); }
+    }
+    __forceinline void _setSize(Heap& alloc, int n) {
+        GrowArrayCapacity(alloc,n);
+        S7de60_ArrayUtil::destruct(data+n,count-n,typename S7de60_PodTrait<T>::type());
+        S7de60_ArrayUtil::construct(data+count,n-count,typename S7de60_PodTrait<T>::type());
+        count=n;
+    }
+    __forceinline void _setSize(Heap& alloc, int n, const T& fill) {
+        GrowArrayCapacity(alloc,n);
+        S7de60_ArrayUtil::destruct(data+n,count-n,typename S7de60_PodTrait<T>::type());
+        S7de60_ArrayUtil::constructWithCopy(data+count,n-count,fill,typename S7de60_PodTrait<T>::type());
+        count=n;
+    }
+};
+template<class T> struct DynamicArray : ArrayBase<T> {
+    ~DynamicArray();
+    __forceinline void Reserve(int n) { ArrayBase<T>::_reserveExactly(S7de60_HeapAlloc().get(this),n); }
+    __forceinline void Resize(int n) { ArrayBase<T>::_setSize(S7de60_HeapAlloc().get(this),n); }
+    __forceinline void ResizeEntries(int n) { Resize(n); }
+    __forceinline void ResizeInts(int n, const T& value) { ArrayBase<T>::_setSize(S7de60_HeapAlloc().get(this),n,value); }
+};
+struct SourceBase {
+    unsigned short size,version;
+    __forceinline SourceBase():version(1) {}
+    virtual ~SourceBase();
+};
+struct LocalFrameRecord { void* frame; int bone; };
+struct SourceBuffer : SourceBase {
+    SmallMember member;
+    DynamicArray<short> points; DynamicArray<Entry> indices; DynamicArray<Transform> vertices; DynamicArray<SmallMember> transforms; DynamicArray<LocalFrameRecord> extra;
+    static __forceinline void* operator new(std::size_t n) { SourceBuffer* p=(SourceBuffer*)AllocateBuffer(n); p->size=(unsigned short)n; return p; }
+    static void operator delete(void*);
+    __forceinline SourceBuffer() {}
+};
+struct PoseSync91 {
+    unsigned char value;
+    __forceinline PoseSync91(bool v):value((unsigned char)v) {}
+    __forceinline operator bool() const { return value!=0; }
+};
+struct CloneBuffer {
+    SourceBuffer* original;
+    DynamicArray<Transform> positions,normals; DynamicArray<int> triangles;
+    PoseSync91 enabled,modified; unsigned short flags;
+    DynamicArray<float> remap;
+    static __forceinline void* operator new(std::size_t n) { return AllocateBuffer(n); }
+    static void operator delete(void*);
+    __forceinline CloneBuffer(SourceBuffer* p):original(p),enabled(0),modified(0) {
+        int count=original->indices.count;
+        normals.Resize(count);
+        positions.Resize(count);
+        triangles.Resize(count);
+        const int sizeRoundedUp=(original->transforms.GetLogicalSize()+3)&~3;
+        remap.Reserve(sizeRoundedUp);
+        remap.ResizeInts(original->transforms.count,0.0f);
+    }
+     
+};
+struct __declspec(align(16)) LookBoneParams91 {
+    CloneBuffer* pose;
+    short bone,parent;
+    float maxAngle;
+    Vec4 forwardLocal,forwardParent,previousRotation;
+    bool limitRotation,active;
+    float deadHeading,deadPitch;
+};
+template<class T> struct SharedObject91 {
+    T* object;
+    __forceinline T* operator->() const { T* result=object; return result; }
+};
+struct RenderNode {
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+    unsigned short unk40; bool active; unsigned char unk43;
+    int unk44;
+    int unk48;
+    int unk4c;
+    int unk50;
+    CloneBuffer* buffer;
+    int unk58;
+    int unk5c;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6c;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7c;
+    int unk80;
+    int unk84;
+    CloneBuffer* input;
+    int unk8c;
+    int unk90;
+    int unk94;
+    int unk98;
+    int unk9c;
+    int unka0;
+    int unka4;
+    int unka8;
+    int unkac;
+    bool success; unsigned char unkb1; unsigned short unkb2;
+    int unkb4;
+    int unkb8;
+    int unkbc;
+    int unkc0;
+    int unkc4;
+    int unkc8;
+    int unkcc;
+    int unkd0;
+    int unkd4;
+    int unkd8;
+    int unkdc;
+    int unke0;
+    int unke4;
+    int unke8;
+    int unkec;
+    LookBoneParams91 boneParams[2];
+    bool create; unsigned char unk191; unsigned short unk192;
+    int state;
+    int unk198;
+    int unk19c;
+    int unk1a0;
+    int unk1a4;
+    int unk1a8;
+    int unk1ac;
+    int unk1b0;
+    int unk1b4;
+    int unk1b8;
+    int unk1bc;
+    int unk1c0;
+    int unk1c4;
+    int unk1c8;
+    int unk1cc;
+    int unk1d0;
+    int unk1d4;
+    int unk1d8;
+    int unk1dc;
+    int unk1e0;
+    int unk1e4;
+    int unk1e8;
+    int unk1ec;
+    int unk1f0;
+    int unk1f4;
+    int unk1f8;
+    int unk1fc;
+    int unk200;
+    int unk204;
+    int unk208;
+    int unk20c;
+    int unk210;
+    int unk214;
+    int unk218;
+    int unk21c;
+    int unk220;
+    int unk224;
+    int unk228;
+    int unk22c;
+    int unk230;
+    int unk234;
+    int unk238;
+    int unk23c;
+    int unk240;
+    int unk244;
+    int unk248;
+    int unk24c;
+    int unk250;
+    int unk254;
+    int unk258;
+    int unk25c;
+    int unk260;
+    int unk264;
+    int unk268;
+    int unk26c;
+    int unk270;
+    int unk274;
+    int unk278;
+    int unk27c;
+    int unk280;
+    int unk284;
+    int unk288;
+    int unk28c;
+    int unk290;
+    int unk294;
+    int unk298;
+    int unk29c;
+    int unk2a0;
+    SharedObject91<Owner> owner;
+    __forceinline Owner* GetOwner() { Owner* result=owner.operator->(); return result; }
+    bool FUN_00c7de60(const char* item);
+};
+struct InputName { char* key; };
+struct FNVInput { int unk00; InputName* objects; unsigned count; InputName& at(unsigned i) { return objects[i]; } };
+struct IndexedRecord {  };
+struct RagdollEntry {
+    IndexedRecord* record;
+    float value;
+    int unk008;
+    int unk00c;
+    int unk010;
+    int unk014;
+    int unk018;
+    int unk01c;
+    int unk020;
+    int unk024;
+    int unk028;
+    int unk02c;
+    int unk030;
+    int unk034;
+    int unk038;
+    int unk03c;
+    int unk040;
+    int unk044;
+    int unk048;
+    int unk04c;
+    int unk050;
+    int unk054;
+    int unk058;
+    int unk05c;
+    int unk060;
+    int unk064;
+    int unk068;
+    int unk06c;
+    int unk070;
+    int unk074;
+    int unk078;
+    int unk07c;
+    int unk080;
+    int unk084;
+    int unk088;
+    int unk08c;
+    int unk090;
+    int unk094;
+    int unk098;
+    int unk09c;
+    int unk0a0;
+    int unk0a4;
+    int unk0a8;
+    int unk0ac;
+    int unk0b0;
+    int unk0b4;
+    int unk0b8;
+    int unk0bc;
+    short mapped,unkc2;
+    int unkc4,unkc8,unkcc;
+    RagdollEntry() : record(0), value(0.0f), mapped(-1) {}
+};
+struct EntryArray { RagdollEntry* data; int count,capacity; void resize(int); RagdollEntry& operator[](unsigned i) { return data[i]; } };
+struct MappingEntry { short source,target; int unk04,unk08,unk0c,unk10,unk14,unk18,unk1c,unk20,unk24,unk28,unk2c,unk30,unk34,unk38,unk3c; };
+struct Mapping { int unk00,unk04,unk08,unk0c,unk10,unk14; MappingEntry* data; int count; };
+struct Table { int unk00,unk04,unk08; int owner; Mapping* mapping; };
+struct ParticleTable {
+    int unk000;
+    int unk004;
+    int unk008;
+    int unk00c;
+    int unk010;
+    int unk014;
+    int unk018;
+    int unk01c;
+    int unk020;
+    int unk024;
+    int unk028;
+    int unk02c;
+    int unk030;
+    int unk034;
+    int unk038;
+    int unk03c;
+    short unk40; unsigned char enabled,unk43;
+    int unk044;
+    int unk048;
+    int unk04c;
+    int unk050;
+    int unk054;
+    void* context;
+    int unk05c;
+    int unk060;
+    int unk064;
+    int unk068;
+    int unk06c;
+    int unk070;
+    int unk074;
+    int unk078;
+    int unk07c;
+    int unk080;
+    int unk084;
+    int unk088;
+    int unk08c;
+    int unk090;
+    int unk094;
+    int unk098;
+    int unk09c;
+    int unk0a0;
+    int unk0a4;
+    int unk0a8;
+    int unk0ac;
+    int unk0b0;
+    int unk0b4;
+    int unk0b8;
+    int unk0bc;
+    int unk0c0;
+    int unk0c4;
+    int unk0c8;
+    int unk0cc;
+    int unk0d0;
+    int unk0d4;
+    int unk0d8;
+    int unk0dc;
+    int unk0e0;
+    int unk0e4;
+    int unk0e8;
+    int unk0ec;
+    int unk0f0;
+    int unk0f4;
+    int unk0f8;
+    int unk0fc;
+    int unk100;
+    int unk104;
+    int unk108;
+    int unk10c;
+    int unk110;
+    int unk114;
+    int unk118;
+    int unk11c;
+    int unk120;
+    int unk124;
+    int unk128;
+    int unk12c;
+    int unk130;
+    int unk134;
+    int unk138;
+    int unk13c;
+    int unk140;
+    int unk144;
+    int unk148;
+    int unk14c;
+    int unk150;
+    int unk154;
+    int unk158;
+    int unk15c;
+    int unk160;
+    int unk164;
+    int unk168;
+    int unk16c;
+    int unk170;
+    int unk174;
+    int unk178;
+    int unk17c;
+    int unk180;
+    int unk184;
+    int unk188;
+    int unk18c;
+    int unk190;
+    int unk194;
+    int unk198;
+    int unk19c;
+    int unk1a0;
+    int unk1a4;
+    int unk1a8;
+    int unk1ac;
+    int unk1b0;
+    int unk1b4;
+    int unk1b8;
+    int unk1bc;
+    int unk1c0;
+    int unk1c4;
+    int unk1c8;
+    int unk1cc;
+    int unk1d0;
+    int unk1d4;
+    int unk1d8;
+    int unk1dc;
+    int unk1e0;
+    int unk1e4;
+    int unk1e8;
+    int unk1ec;
+    int unk1f0;
+    int unk1f4;
+    int unk1f8;
+    int unk1fc;
+    int unk200;
+    int unk204;
+    int unk208;
+    int unk20c;
+    int unk210;
+    int unk214;
+    int unk218;
+    unsigned char unk21c,unk21d,unk21e,complete;
+    int unk220;
+    int unk224;
+    int unk228;
+    EntryArray entries;
+    int unk238;
+    int unk23c;
+    int unk240;
+    float radius;
+    int unk248;
+    int unk24c;
+    int unk250;
+    int unk254;
+    int unk258;
+    int unk25c;
+    int unk260;
+    int unk264;
+    int unk268;
+    int unk26c;
+    int unk270;
+    int unk274;
+    int unk278;
+    int unk27c;
+    int unk280;
+    int unk284;
+    int unk288;
+    int unk28c;
+    int unk290;
+    int unk294;
+    int unk298;
+    int unk29c;
+    int unk2a0;
+    Table* table;
+    void* getContext() { return context; }
+    void FUN_00c7c3a0(FNVInput* incoming);
+};
 
 namespace fnv_0087e130 {
 struct AcObj;
@@ -47531,7 +49686,7 @@ class EffectSettingShell
     virtual void f73();
     virtual void f74();
     virtual void f75();
-    virtual int V130();
+    virtual intptr_t V130();
     int unk04, unk08, unk0c, unk10, unk14;
     Sub18 m_18;
 };
@@ -47785,7 +49940,7 @@ struct G294
 
 struct ItemObj
 {
-    int FUN_0063d040();
+    intptr_t FUN_0063d040();
 };
 
 struct Projectile : public TESObjectREFR
@@ -47805,7 +49960,7 @@ extern Projectile* DAT_011dea3c;
 extern const double DAT_01023128;
 
 void* FUN_00553300(unsigned int n);
-int FUN_004ade00(int aActionDetail, int b);
+int FUN_004ade00(intptr_t aActionDetail, intptr_t b);
 
 int strcat_s(char* buf, unsigned int n, const char* s);
 
@@ -47827,7 +49982,7 @@ void Projectile::InitRagdollController(void* p0, unsigned char bDeleteExisting, 
             {
                 delete m_ac;
             }
-            pObj3D6 = FUN_004ade00((int)p0, (int)((void *)(::FUN_0087e9a0())));
+            pObj3D6 = FUN_004ade00((intptr_t)p0, (intptr_t)((void *)(::FUN_0087e9a0())));
             if (0 != pObj3D6)
             {
                 if (reinterpret_cast<::FUN_005f0c80_shell *>((((::fnv_0087e130::BGSProjectile *)(reinterpret_cast<::Actor *>((void *)this)->GetActorBase()))))->FUN_005f0c80())
@@ -47858,10 +50013,9 @@ void Projectile::InitRagdollController(void* p0, unsigned char bDeleteExisting, 
                 return;
             }
             S150 y8;
-            new ((void *)&(y8)) ::Vec3();
             y8 = (*reinterpret_cast<::fnv_0087e130::S150 *>(&::DAT_011a9448));
             FUN_0056fac0(y8);
-            y8.FUN_004b46a0(::FUN_004ea950((int)(m_ac)));
+            y8.FUN_004b46a0(::FUN_004ea950((intptr_t)(m_ac)));
             if (0 != bInitIK)
             {
                 StrList node;
@@ -47871,7 +50025,7 @@ void Projectile::InitRagdollController(void* p0, unsigned char bDeleteExisting, 
                 while (!node.FUN_008256d0())
                 {
                     ItemObj* j;
-                    j = *(ItemObj**)((void *)(new ((void *)&(node)) ::Vec3()));
+                    j = *(ItemObj**)((void *)(((::Vec3 *)(void *)&(node))));
                     node.FUN_0063f7b0();
                     if (reinterpret_cast<::FUN_0087e920_class *>((j))->FUN_0087e920())
                     {
@@ -47906,7 +50060,7 @@ void Projectile::InitRagdollController(void* p0, unsigned char bDeleteExisting, 
                 reinterpret_cast<::FUN_005ba310_t *>((m_ac))->FUN_005ba310(1);
                 if (!reinterpret_cast<::FUN_005ba180_Class *>((m_ac))->FUN_005ba180())
                 {
-                    if (0 != ((int)(reinterpret_cast<::Twin_0044ddc0 *>(&(eff))->GetName())))
+                    if (0 != ((int)((&(eff))->unk08)))
                     {
                         ::FUN_005b5e40();
                     }
@@ -47936,7 +50090,7 @@ void Projectile::InitRagdollController(void* p0, unsigned char bDeleteExisting, 
             {
                 if (this != DAT_011dea3c)
                 {
-                    reinterpret_cast<::FUN_00c75ad0_Class *>((m_ac))->FUN_00c75ad0((::FUN_00c75ad0_T *)(((int)(reinterpret_cast<::PackedByteIntRecord *>((idx2))->Endian()))));
+                    reinterpret_cast<::FUN_00c75ad0_Class *>((m_ac))->FUN_00c75ad0((::FUN_00c75ad0_T *)(((intptr_t)(reinterpret_cast<::PackedByteIntRecord *>((idx2))->Endian()))));
                 }
             }
         }
@@ -48168,12 +50322,12 @@ void FUN_0087eef0_cls::ProcessEntries()
         Eef0_Iter it2;
         reinterpret_cast<::TESLeveledList *>((((Eef0_Sub*)(p + 0x30))))->PopulateContainerWithLeveledItems(reinterpret_cast<::fnv_0087f9f0::FUN_0087f9f0_shell *>(this)->FUN_0087f9f0(), {}, {}, {});
         Eef0_Node* cur = ((::Eef0_Node *)(reinterpret_cast<::BaseProcess *>(&(it2))->GetCurrentProcessData()));
-        while (cur != 0 && *((::Eef0_Entry **)(new ((void *)(cur)) ::Vec3())) != 0)
+        while (cur != 0 && *((::Eef0_Entry **)(((::Vec3 *)(void *)(cur)))) != 0)
         {
-            Eef0_Entry* A3 = *((::Eef0_Entry **)(new ((void *)(cur)) ::Vec3()));
+            Eef0_Entry* A3 = *((::Eef0_Entry **)(((::Vec3 *)(void *)(cur))));
             Eef0_Inner* Y = 0;
-            if ((*((::Eef0_Entry **)(new ((void *)(cur)) ::Vec3())))->m04 != 0 && (*((::Eef0_Entry **)(new ((void *)(cur)) ::Vec3())))->m04->v57())
-                Y = (*((::Eef0_Entry **)(new ((void *)(cur)) ::Vec3())))->m04;
+            if ((*((::Eef0_Entry **)(((::Vec3 *)(void *)(cur)))))->m04 != 0 && (*((::Eef0_Entry **)(((::Vec3 *)(void *)(cur)))))->m04->v57())
+                Y = (*((::Eef0_Entry **)(((::Vec3 *)(void *)(cur)))))->m04;
             if (Y != 0)
             {
                 void* T = ((void *)(::fnv_004826d0::FUN_004826d0((::fnv_004826d0::TESForm *)(A3->m04))));
@@ -48185,10 +50339,10 @@ void FUN_0087eef0_cls::ProcessEntries()
                     {
                         X5 = new Eef0_Obj();
                         reinterpret_cast<::FUN_00419ad0_shell *>((X5))->FUN_00419ad0(1);
-                        if (X5 != 0 && ((int)(reinterpret_cast<::FUN_00418800_shell *>((X5))->FUN_00418800())) == 0)
+                        if (X5 != 0 && ((intptr_t)(reinterpret_cast<::FUN_00418800_shell *>((X5))->FUN_00418800())) == 0)
                         {
                             reinterpret_cast<::FUN_00419ed0_shell *>((X5))->FUN_00419ed0((::Script *)(T));
-                            reinterpret_cast<::FUN_00419f80_shell *>((X5))->FUN_00419f80((::ScriptLocals *)(((unsigned int)(reinterpret_cast<::FUN_005abf60_shell *>((((int)(reinterpret_cast<::FUN_00418800_shell *>((X5))->FUN_00418800()))))->FUN_005abf60()))));
+                            reinterpret_cast<::FUN_00419f80_shell *>((X5))->FUN_00419f80((::ScriptLocals *)(((uintptr_t)(reinterpret_cast<::FUN_005abf60_shell *>((((intptr_t)(reinterpret_cast<::FUN_00418800_shell *>((X5))->FUN_00418800()))))->FUN_005abf60()))));
                         }
                         if (A3->m08 != 0)
                         {
@@ -48212,7 +50366,7 @@ void FUN_0087eef0_cls::ProcessEntries()
                     }
                 }
             }
-            cur = ((::Eef0_Node *)(reinterpret_cast<::Callees *>((cur))->FUN_00726070()));
+            cur = ((::Eef0_Node *)(reinterpret_cast<::SimpleListNodeView *>((cur))->m_pkNext));
         }
     }
     Eef0_R2* R2 = (Eef0_R2*)((void *)(reinterpret_cast<::ExtraDataList *>((reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()))->GetContainerChangeData()));
@@ -48512,7 +50666,7 @@ bool FUN_0087f660_cls::IsWithinProcThreshold()
 {
     bool result2 = true;
     reinterpret_cast<::fnv_008be7a0::FloatValueProvider *>((this))->FUN_008be7a0();
-    float f = ::FUN_00648a10((int)(FUN_00ec62c0()));
+    float f = ::FUN_00648a10((intptr_t)(FUN_00ec62c0()));
     if (m_pProc != 0)
     {
         if (f > m_pProc->v300())
@@ -48621,7 +50775,7 @@ struct CellPlaceStub
     int unk15c;
     CellPlaceVec m160;
     float m16c;
-    int m170;
+    intptr_t m170;
     void SetPlacement(int a8, TESObjectCELL* cell, CellPlaceVec* src, float f14);
 };
 
@@ -48635,7 +50789,7 @@ void CellPlaceStub::SetPlacement(int aiFallback, TESObjectCELL* cell, CellPlaceV
     {
         if (reinterpret_cast<::TESObjectCELL *>((cell))->IsCellInterior())
         {
-            m170 = (int)cell;
+            m170 = (intptr_t)cell;
             return;
         }
     }
@@ -49464,7 +51618,7 @@ void AVModShell::FUN_00880c70(int av, int value, Actor* attacker)
         return;
     if (::FUN_00406d70(av, 0x100))
         return;
-    value = ((FUN_00880850_stand*)this)->FUN_00880850(av, value, (int)attacker);
+    value = ((FUN_00880850_stand*)this)->FUN_00880850(av, value, (intptr_t)attacker);
     oldValue = ::ActorValue::HasActorValueChangedCallback((::ActorValue::Index)(av)) ? GetCurrentActorValue((ActorValue::Index)av) : 0.0f;
     ((AVModList*)&m_kFirstActorData)->InsertModifier(av, (float)value, 2);
     if (av == 0x10 && value < 0)
@@ -50037,7 +52191,7 @@ void FUN_00880e00_shell::FUN_00880e00(int aiAV, float afDelta, Actor* apAttacker
         return;
     if (FUN_00406d70(aiAV, 0x100))
         return;
-    afDelta = ::FUN_00880890((void *)this, aiAV, afDelta, (float)(apAttacker));
+    afDelta = ::FUN_00880890((void *)this, aiAV, afDelta, apAttacker);
     float fOldValue = ::ActorValue::HasActorValueChangedCallback((::ActorValue::Index)(aiAV)) ? GetCurrentActorValue((ActorValue::Index)aiAV) : 0.0f;
     ((FUN_00880e00_ModList*)&m_kFirstActorData)->FUN_00937480(aiAV, afDelta, 2);
     if (aiAV == 0x10 && afDelta < 0.0)
@@ -50661,7 +52815,7 @@ void ActorStand::FUN_00880fb0(int av, int amount, ActorStand* attacker)
     {
         return;
     }
-    amount = reinterpret_cast<::FUN_00880850_stand *>(this)->FUN_00880850(av, amount, (int)(attacker));
+    amount = reinterpret_cast<::FUN_00880850_stand *>(this)->FUN_00880850(av, amount, (intptr_t)(attacker));
     float oldValue = ::ActorValue::HasActorValueChangedCallback((::ActorValue::Index)(av)) ? GetCurrentActorValue(av) : 0.0f;
     if (unk68)
     {
@@ -51282,7 +53436,7 @@ void FUN_00881130_Class::ApplyActorValueDelta(int index, float delta, FUN_008811
         return;
     if (FUN_00406d70(index, 0x100))
         return;
-    delta = ::FUN_00880890((void *)this, index, delta, (float)(source));
+    delta = ::FUN_00880890((void *)this, index, delta, source);
     float current = ::ActorValue::HasActorValueChangedCallback((::ActorValue::Index)(index)) ? Current(index) : 0.0f;
     if (index == 22 && delta < 0.0)
     {
@@ -51968,16 +54122,16 @@ bool MoveActor::TryMove(bool alternate)
         if (control5 && control5->Ready(this, 0, ::DAT_01012054, 0))
         {
             if (reinterpret_cast<struct ::FUN_0041ca90 *>((control5))->get() == 6 && ((::TargetMove *)(reinterpret_cast<::fnv_00676140::FUN_00676140_shell *>((control5))->FUN_00676140((::MobileObject *)(::MoveActor *)(this)))) &&
-                ((int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((::TargetMove *)(reinterpret_cast<::fnv_00676140::FUN_00676140_shell *>((control5))->FUN_00676140((::MobileObject *)(::MoveActor *)(this))))))->FUN_007af430())) == (*reinterpret_cast<int *>(&::DAT_011ca248)))
+                ((intptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((::TargetMove *)(reinterpret_cast<::fnv_00676140::FUN_00676140_shell *>((control5))->FUN_00676140((::MobileObject *)(::MoveActor *)(this))))))->FUN_007af430())) == (*reinterpret_cast<int *>(&::DAT_011ca248)))
                 mayMove3 = false;
-            else if (((::CreatureMove *)(reinterpret_cast<::BGSMessageInitAccess *>((control5))->GetIconFormID())) && reinterpret_cast<::DurationData *>((((::CreatureMove *)(reinterpret_cast<::BGSMessageInitAccess *>((control5))->GetIconFormID()))))->FUN_00678ca0() == 3 &&
+            else if (((::CreatureMove *)(reinterpret_cast<::PackageFields *>((control5))->pLocation)) && reinterpret_cast<::DurationData *>((((::CreatureMove *)(reinterpret_cast<::PackageFields *>((control5))->pLocation))))->FUN_00678ca0() == 3 &&
                      !((int)(reinterpret_cast<::HighProcess *>((control5))->UpdateHighProcessState((::Actor *)(::MoveActor *)(this)))))
                 mayMove3 = false;
         }
         if (mayMove3)
         {
             VecMove position2 = Position();
-            if (::Pathing::FindClosestPathingPoint((::TESWorldSpace *)(((int)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>(this)->FUN_00575d70()))), (::TESObjectCELL *)(((int)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))), (const ::NiPoint3 &)(Position()), (::NiPoint3 *)&(position2)))
+            if (::Pathing::FindClosestPathingPoint((::TESWorldSpace *)(((intptr_t)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>(this)->FUN_00575d70()))), (::TESObjectCELL *)(((intptr_t)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))), (const ::NiPoint3 &)(Position()), (::NiPoint3 *)&(position2)))
             {
                 LocationMove location6(position2, this);
                 SensorMove sensor;
@@ -52902,9 +55056,9 @@ bool AgentActor::ResetAIProcess()
 {
     reinterpret_cast<::FUN_0096e6f0_shell *>(&((*reinterpret_cast<::fnv_00883240::Queue *>(&::g_011e0e80))))->RemoveActor((::Actor *)(::fnv_00883240::AgentActor *)(this));
     unk1ac = 0;
-    if (process && ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((process))->FUN_0045cd60())) == 2)
+    if (process && ((intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((process))->FUN_0045cd60())) == 2)
         return true;
-    else if (process && ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((process))->FUN_0045cd60())) == 0)
+    else if (process && ((intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((process))->FUN_0045cd60())) == 0)
     {
         reinterpret_cast<::FUN_00881d10 *>(this)->SetHoursPassed();
         reinterpret_cast<::FUN_008e56b0_cls *>((process))->ClearNode();
@@ -52918,7 +55072,7 @@ bool AgentActor::ResetAIProcess()
         if (package && reinterpret_cast<struct ::FUN_0041ca90 *>((package))->get() == 28 && ((::fnv_00883240::Proc *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))->Test())
             reinterpret_cast<::fnv_00881680::FUN_00881680_shell *>(this)->FUN_00881680(0);
     }
-    int level = ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((process))->FUN_0045cd60()));
+    intptr_t level = ((intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((process))->FUN_0045cd60()));
     reinterpret_cast<::FUN_008c2b60_shell *>(this)->ApplyActorSpells();
     if (level == 1 || level == 0)
         reinterpret_cast<::Actor8c30 *>(this)->FUN_008c30a0();
@@ -52929,7 +55083,7 @@ bool AgentActor::ResetAIProcess()
         process->Clear(this);
         reinterpret_cast<::fnv_00565870::FUN_00565870_shell *>(this)->FUN_00565870();
     }
-    else if (Moving(0) && ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((process))->FUN_0045cd60())) == 0)
+    else if (Moving(0) && ((intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((process))->FUN_0045cd60())) == 0)
         SetFlag(1);
     reinterpret_cast<::FUN_0040fbf0_shell *>(&((*reinterpret_cast<::fnv_00883240::LockObject *>(&::DAT_011f11a0))))->FUN_0040fbf0((char *)(0));
     reinterpret_cast<::ActorDeletionQueue *>(&((*reinterpret_cast<::fnv_00883240::Queue *>(&::g_011e0e80))))->FUN_0096d470((::MobileObject *)(::fnv_00883240::AgentActor *)(this), level);
@@ -54180,11 +56334,11 @@ struct TransitionActor
 bool TransitionActor::UpdateTransition()
 {
     reinterpret_cast<::FUN_0096e6f0_shell *>(&((*reinterpret_cast<::fnv_00883800::TransitionManager *>(&::g_011e0e80))))->RemoveActor((::Actor *)(::fnv_00883800::TransitionActor *)(this));
-    if (process && ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((process))->FUN_0045cd60())) == 1)
+    if (process && ((intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((process))->FUN_0045cd60())) == 1)
     {
         return true;
     }
-    else if (process && ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((process))->FUN_0045cd60())) == 0)
+    else if (process && ((intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((process))->FUN_0045cd60())) == 0)
     {
         reinterpret_cast<::FUN_00881d10 *>(this)->SetHoursPassed();
         TransitionAudio* audio3 = ((::fnv_00883800::TransitionAudio *)(::FUN_00b4f5c0()));
@@ -54203,21 +56357,21 @@ bool TransitionActor::UpdateTransition()
         TransitionPackage* _other = process->OtherPackage();
         if (_other)
         {
-            if (!FUN_008a61b0() && ::FUN_008840f0((int)(_other)) && ::IsFlagBitSet((char *)(_other)) && ((::fnv_00883800::TransitionCell *)(reinterpret_cast<::LowProcess *>(this)->GetTarget())) &&
+            if (!FUN_008a61b0() && ::FUN_008840f0((intptr_t)(_other)) && ::IsFlagBitSet((char *)(_other)) && ((::fnv_00883800::TransitionCell *)(reinterpret_cast<::LowProcess *>(this)->GetTarget())) &&
                 reinterpret_cast<::CellOwnerCheck *>((((::fnv_00883800::TransitionCell *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))))->FUN_00546ca0((::Actor *)(::fnv_00883800::TransitionActor *)(this)))
                 reinterpret_cast<::fnv_00881680::FUN_00881680_shell *>(this)->FUN_00881680(0);
         }
         else if (FUN_008a61b0() && !OtherFlag() && !reinterpret_cast<::TESObjectCELL *>((((::fnv_00883800::TransitionCell *)(reinterpret_cast<::LowProcess *>((_g_thePlayer))->GetTarget()))))->IsCellInterior())
             reinterpret_cast<::fnv_00881680::FUN_00881680_shell *>(this)->FUN_00881680(0);
     }
-    int level3 = ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((process))->FUN_0045cd60()));
+    intptr_t level3 = ((intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((process))->FUN_0045cd60()));
     if (IsSpecial())
     {
         reinterpret_cast<::FUN_008b01c0_shell *>(this)->FUN_008b01c0();
         process->Update(this);
         reinterpret_cast<::fnv_00565870::FUN_00565870_shell *>(this)->FUN_00565870();
     }
-    else if (IsMoving(true) && ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((process))->FUN_0045cd60())) == 0)
+    else if (IsMoving(true) && ((intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((process))->FUN_0045cd60())) == 0)
         SetEnabled(1);
     else if (reinterpret_cast<::FUN_004f8960_shell *>(this)->FUN_004f8960() == 6)
     {
@@ -54293,8 +56447,9 @@ bool TransitionActor::UpdateTransition()
             if (actor4 && !actor4->IsValid())
             {
                 reinterpret_cast<::fnv_00881680::FUN_00881680_shell *>(this)->FUN_00881680(0);
-                reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::fnv_00883800::TransitionData * *>(&::g_dataHandler))))->GetReferencesInArea((::TESObjectCELL *)(::fnv_00883800::TransitionCell *)(((::fnv_00883800::TransitionCell *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))), (*(const ::NiPoint3 *)(GetPosition(5000.0f))), GetPosition(5000.0f), (*(const ::NiPoint3 *)(((void (&)())::LowProcess::HandlePackageLocationLoaded))),
-                                            (float)(this), {}, {});
+                reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::fnv_00883800::TransitionData * *>(&::g_dataHandler))))->GetReferencesInArea((::TESObjectCELL *)(::fnv_00883800::TransitionCell *)(((::fnv_00883800::TransitionCell *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))), *(const ::NiPoint3 *)(std::intptr_t)GetPosition(5000.0f),
+                                            5000.0f, *(const ::NiPoint3 *)(std::intptr_t)GetPosition(5000.0f), 0.0f,
+                                            (bool (*)(::TESObjectREFR *, intptr_t))::LowProcess::HandlePackageLocationLoaded, (long)(std::intptr_t)this);
             }
         }
     }
@@ -56070,8 +58225,8 @@ float FUN_Actor::FUN_00885ed0()
         pProcItem = process->V148();
     }
     InventoryStackRecord* pItem = FUN_00891b90(2);
-    unsigned int procFlags = pProcItem ? ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((pProcItem))->GetName())) : 0;
-    unsigned int itemFlags2 = pItem ? ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((pItem))->GetName())) : 0;
+    uintptr_t procFlags = pProcItem ? ((uintptr_t)(reinterpret_cast<::InventoryEntryFields *>((pProcItem))->pObject)) : 0;
+    uintptr_t itemFlags2 = pItem ? ((uintptr_t)(reinterpret_cast<::InventoryEntryFields *>((pItem))->pObject)) : 0;
     if (pItem)
         delete pItem;
     float result6 =
@@ -56378,6 +58533,490 @@ struct Scene88
 };
 struct Controller88
 {
+};
+struct ReferenceView {
+    virtual ~ReferenceView();
+    unsigned short allocationFlags;
+    unsigned short references;
+};
+template<class T> class PointerView {
+    T* value;
+public:
+    T* get() const { return value; }
+};
+struct Clock {
+    __int64 start;
+    __int64 duration;
+    void begin(float f) { start=((long long)(::FUN_00aa4d80())); duration=(__int64)(DAT_011ac39c*f); }
+};
+struct IndexArray {
+    unsigned int unk000;
+    unsigned short* data;
+    unsigned int count;
+    int find(unsigned short v) { for(unsigned int i=0;i<count;++i) if(data && data[i]==v) return i; return -1; }
+};
+struct Selection {
+    unsigned int unk000;
+    unsigned int unk004;
+    unsigned int unk008;
+    unsigned int unk00c;
+    unsigned int unk010;
+    unsigned int unk014;
+    unsigned int unk018;
+    unsigned int unk01c;
+    unsigned int unk020;
+    unsigned int unk024;
+    unsigned int unk028;
+    unsigned int unk02c;
+    unsigned int unk030;
+    unsigned int unk034;
+    unsigned int unk038;
+    unsigned int unk03c;
+    IndexArray indices;
+    int find(unsigned short v) { return indices.find(v); }
+};
+struct SelectionHolder {
+    unsigned int unk000;
+    unsigned int unk004;
+    unsigned int unk008;
+    unsigned int unk00c;
+    unsigned int unk010;
+    unsigned int unk014;
+    Selection* selection;
+};
+struct BroadHandle { unsigned int id; };
+struct TypedHandle : BroadHandle {
+    unsigned char type,ownerOffset;
+    unsigned short objectGroup;
+    unsigned short flags;
+    char m_ucObjectQualityType;
+    unsigned char unused0b;
+};
+struct CollisionBodyView {
+    void* shape;
+    unsigned int shapeKey;
+    void* motionState;
+    CollisionBodyView* parent;
+};
+struct ColliderView : CollisionBodyView {
+    TypedHandle handle;
+    unsigned int unk1c;
+    unsigned int unk20;
+    unsigned int unk24;
+    unsigned int unk28;
+    unsigned int unk2c;
+    unsigned int unk30;
+    unsigned int unk34;
+    unsigned int unk38;
+    unsigned int unk3c;
+    unsigned int unk40;
+    unsigned int unk44;
+    unsigned int unk48;
+    unsigned int unk4c;
+    const TypedHandle* getBroadPhaseHandle() const { return &handle; }
+    TypedHandle* getBroadPhaseHandle() { return &handle; }
+};
+struct LinkedColliderView : ColliderView {
+    void* collisionEntries;
+    int collisionCount,collisionCapacity;
+};
+struct WorldView : ReferenceView {
+    void* world;
+    unsigned int userData;
+    LinkedColliderView collidable;
+    unsigned int unk06c;
+    unsigned int unk070;
+    unsigned int unk074;
+    unsigned int unk078;
+    unsigned int unk07c;
+    unsigned int unk080;
+    unsigned int unk084;
+    unsigned int unk088;
+    const LinkedColliderView* getCollidable() const { return &collidable; }
+    LinkedColliderView* getCollidableRw() { return &collidable; }
+};
+typedef __m128 VectorBits;
+class ComparisonValue {
+    VectorBits lanes;
+    friend class VectorValue;
+public:
+    enum Required { All=15 };
+    __forceinline int all(Required required) const { return (_mm_movemask_ps(lanes)&required)==required; }
+};
+class VectorValue {
+    VectorBits q;
+public:
+    __forceinline VectorValue() {}
+    __forceinline VectorValue(const VectorValue& other) { q=other.q; }
+    __forceinline VectorValue(const VectorBits& v) { q=v; }
+    operator VectorBits() const { return q; }
+    __forceinline void operator=(const VectorBits& v) { q=v; }
+
+    __forceinline void operator=(const VectorValue& other) { q=other.q; }
+    __forceinline void difference(const VectorValue& left,const VectorValue& right) { q=_mm_sub_ps(left.q,right.q); }
+    __forceinline void absolute(const VectorValue& value) { q=_mm_and_ps(value.q,(*reinterpret_cast<const __m128 *>((void *)&::DAT_01017d10))); }
+    __forceinline void splat(float value) { q=_mm_set_ps1(value); }
+    __forceinline ComparisonValue lessEqual(const VectorValue& value) const { ComparisonValue result; result.lanes=_mm_cmple_ps(q,value.q); return result; }
+    __forceinline int equal(const VectorValue& value,float epsilon=0.001f) const {
+        VectorValue delta; delta.difference(*this,value); delta.absolute(delta);
+        VectorValue tolerance; tolerance.splat(epsilon);
+        return delta.lessEqual(tolerance).all(ComparisonValue::All);
+    }
+};
+enum MotionKind { KindInvalid=0,KindDynamic=1,KindSphere=2,KindBox=3,KindKeyframed=4,KindFixed=5,KindThin=6,KindCharacter=7,KindMax=8 };
+enum QualityKind { QualityInvalid=-1,QualityFixed=0,QualityKeyframed=1,QualityDebris=2,QualityMoving=4 };
+template<class E,class S> class EnumCell {
+    S stored;
+public:
+    EnumCell() {}
+    EnumCell(E value) : stored((S)value) {}
+    operator E() const { return (E)stored; }
+    void operator=(E value) { stored=(S)value; }
+};
+struct MotionView : ReferenceView {
+    virtual void unused04();
+    virtual void unused08();
+    virtual void unused0c();
+    virtual void unused10();
+    virtual void unused14();
+    virtual void unused18();
+    virtual void unused1c();
+    virtual void unused20();
+    virtual void unused24();
+    virtual void unused28();
+    virtual void unused2c();
+    virtual void unused30();
+    virtual void unused34();
+    virtual void unused38();
+    virtual void unused3c();
+    virtual void SetTranslationalVelocity(const VectorValue&);
+    virtual void SetRotationalVelocity(const VectorValue&);
+    EnumCell<MotionKind,unsigned char> kind;
+    unsigned char flags0,flags1,flags2;
+    unsigned int unk00c;
+    unsigned int unk010;
+    unsigned int unk014;
+    unsigned int unk018;
+    unsigned int unk01c;
+    unsigned int unk020;
+    unsigned int unk024;
+    unsigned int unk028;
+    unsigned int unk02c;
+    unsigned int unk030;
+    unsigned int unk034;
+    unsigned int unk038;
+    unsigned int unk03c;
+    unsigned int unk040;
+    unsigned int unk044;
+    unsigned int unk048;
+    unsigned int unk04c;
+    unsigned int unk050;
+    unsigned int unk054;
+    unsigned int unk058;
+    unsigned int unk05c;
+    unsigned int unk060;
+    unsigned int unk064;
+    unsigned int unk068;
+    unsigned int unk06c;
+    unsigned int unk070;
+    unsigned int unk074;
+    unsigned int unk078;
+    unsigned int unk07c;
+    unsigned int unk080;
+    unsigned int unk084;
+    unsigned int unk088;
+    unsigned int unk08c;
+    unsigned int unk090;
+    unsigned int unk094;
+    unsigned int unk098;
+    unsigned int unk09c;
+    unsigned int unk0a0;
+    unsigned int unk0a4;
+    unsigned int unk0a8;
+    unsigned int unk0ac;
+    unsigned int unk0b0;
+    unsigned int unk0b4;
+    unsigned int unk0b8;
+    unsigned int unk0bc;
+    unsigned int unk0c0;
+    unsigned int unk0c4;
+    unsigned int unk0c8;
+    unsigned int unk0cc;
+    VectorValue linearVelocity;
+    VectorValue angularVelocity;
+    unsigned int unk0f0;
+    unsigned int unk0f4;
+    unsigned int unk0f8;
+    unsigned int unk0fc;
+    unsigned int unk100;
+    unsigned int unk104;
+    unsigned int unk108;
+    unsigned int unk10c;
+    unsigned int unk110;
+    unsigned int unk114;
+    unsigned int unk118;
+    unsigned int unk11c;
+
+    MotionView();
+    MotionKind getType() const { return kind; }
+    const VectorValue& getLinearVelocity() const { return linearVelocity; }
+    const VectorValue& getAngularVelocity() const { return angularVelocity; }
+};
+struct KeyframedMotionView : MotionView { KeyframedMotionView(); };
+struct MaximumMotionView : KeyframedMotionView {
+    MaximumMotionView() : KeyframedMotionView() {}
+private:
+    MaximumMotionView(const MaximumMotionView&);
+    void operator=(const MaximumMotionView&);
+};
+struct EntityView : WorldView {
+    unsigned int unk08c;
+    unsigned int unk090;
+    unsigned int unk094;
+    unsigned int unk098;
+    unsigned int unk09c;
+    unsigned int unk0a0;
+    unsigned int unk0a4;
+    unsigned int unk0a8;
+    unsigned int unk0ac;
+    unsigned int unk0b0;
+    unsigned int unk0b4;
+    unsigned int unk0b8;
+    unsigned int unk0bc;
+    unsigned int unk0c0;
+    unsigned int unk0c4;
+    unsigned int unk0c8;
+    unsigned int unk0cc;
+    unsigned int unk0d0;
+    unsigned int unk0d4;
+    unsigned int unk0d8;
+    unsigned int unk0dc;
+    MaximumMotionView m_pMotionState;
+    unsigned int unk200;
+    unsigned int unk204;
+    unsigned int unk208;
+    unsigned int unk20c;
+    unsigned int unk210;
+    unsigned int unk214;
+    unsigned int unk218;
+    unsigned int unk21c;
+    MotionView* getMotion() { return &m_pMotionState; }
+};
+struct BodyView : EntityView {
+    MotionKind getMotionType() const { return m_pMotionState.getType(); }
+    QualityKind getQualityType() const { return (QualityKind)getCollidable()->getBroadPhaseHandle()->m_ucObjectQualityType; }
+    void setQualityType(QualityKind value) { getCollidableRw()->getBroadPhaseHandle()->m_ucObjectQualityType=(char)value; }
+    const VectorValue& getLinearVelocity() const { return m_pMotionState.getLinearVelocity(); }
+    const VectorValue& getAngularVelocity() const { return m_pMotionState.getAngularVelocity(); }
+};
+template<class T> struct BoneArrayView {
+    T* data; int length,capacity;
+    const T& operator[](int i) const { return data[i]; }
+    int GetLogicalSize() const { return length; }
+};
+struct SkeletonView {
+    unsigned int unk00,unk04,unk08,unk0c,unk10,unk14;
+    BoneArrayView<void*> m_kBones;
+};
+template<class T> struct SavedReference {
+    T* pointer;
+    T* operator->() const { return pointer; }
+};
+struct RagdollView {
+    unsigned int unk00,unk04;
+    BoneArrayView<BodyView*> bodyArray;
+    BoneArrayView<void*> constraints;
+    BoneArrayView<int> indices;
+    SavedReference<const SkeletonView> skeleton;
+    int getNumBones() const { return skeleton->m_kBones.GetLogicalSize(); }
+    BodyView* getRigidBodyOfBone(int i) const { int index=indices[i]; return index<0 ? 0 : bodyArray[index]; }
+};
+struct OwnerB;
+struct TargetList;
+struct Controller {
+    unsigned int unk000;
+    unsigned int unk004;
+    unsigned int unk008;
+    unsigned int unk00c;
+    unsigned int unk010;
+    unsigned int unk014;
+    unsigned int unk018;
+    unsigned int unk01c;
+    unsigned int unk020;
+    unsigned int unk024;
+    unsigned int unk028;
+    unsigned int unk02c;
+    unsigned int unk030;
+    unsigned int unk034;
+    unsigned int unk038;
+    unsigned int unk03c;
+    unsigned int unk040;
+    unsigned int unk044;
+    RagdollView* bodies;
+    unsigned int unk04c;
+    unsigned int unk050;
+    unsigned int unk054;
+    unsigned int unk058;
+    unsigned int unk05c;
+    unsigned int unk060;
+    unsigned int unk064;
+    unsigned int unk068;
+    unsigned int unk06c;
+    unsigned int unk070;
+    unsigned int unk074;
+    unsigned int unk078;
+    unsigned int unk07c;
+    unsigned int unk080;
+    unsigned int unk084;
+    unsigned int unk088;
+    unsigned int unk08c;
+    unsigned int unk090;
+    unsigned int unk094;
+    unsigned int unk098;
+    unsigned int unk09c;
+    unsigned int unk0a0;
+    unsigned int unk0a4;
+    unsigned int unk0a8;
+    unsigned int unk0ac;
+    unsigned int unk0b0;
+    unsigned int unk0b4;
+    unsigned int unk0b8;
+    unsigned int unk0bc;
+    unsigned int unk0c0;
+    unsigned int unk0c4;
+    unsigned int unk0c8;
+    unsigned int unk0cc;
+    unsigned int unk0d0;
+    unsigned int unk0d4;
+    unsigned int unk0d8;
+    unsigned int unk0dc;
+    unsigned int unk0e0;
+    unsigned int unk0e4;
+    unsigned int unk0e8;
+    unsigned int unk0ec;
+    unsigned int unk0f0;
+    unsigned int unk0f4;
+    unsigned int unk0f8;
+    unsigned int unk0fc;
+    unsigned int unk100;
+    unsigned int unk104;
+    unsigned int unk108;
+    unsigned int unk10c;
+    unsigned int unk110;
+    unsigned int unk114;
+    unsigned int unk118;
+    unsigned int unk11c;
+    unsigned int unk120;
+    unsigned int unk124;
+    unsigned int unk128;
+    unsigned int unk12c;
+    unsigned int unk130;
+    unsigned int unk134;
+    unsigned int unk138;
+    unsigned int unk13c;
+    unsigned int unk140;
+    unsigned int unk144;
+    unsigned int unk148;
+    unsigned int unk14c;
+    unsigned int unk150;
+    unsigned int unk154;
+    unsigned int unk158;
+    unsigned int unk15c;
+    unsigned int unk160;
+    unsigned int unk164;
+    unsigned int unk168;
+    unsigned int unk16c;
+    unsigned int unk170;
+    unsigned int unk174;
+    unsigned int unk178;
+    unsigned int unk17c;
+    unsigned int unk180;
+    unsigned int unk184;
+    unsigned int unk188;
+    unsigned int unk18c;
+    unsigned int unk190;
+    unsigned int unk194;
+    unsigned int unk198;
+    unsigned int unk19c;
+    unsigned int unk1a0;
+    unsigned int unk1a4;
+    unsigned int unk1a8;
+    unsigned int unk1ac;
+    unsigned int unk1b0;
+    unsigned int unk1b4;
+    unsigned int unk1b8;
+    unsigned int unk1bc;
+    unsigned int unk1c0;
+    unsigned int unk1c4;
+    unsigned int unk1c8;
+    unsigned int unk1cc;
+    unsigned int unk1d0;
+    unsigned int unk1d4;
+    unsigned int unk1d8;
+    unsigned int unk1dc;
+    unsigned int unk1e0;
+    unsigned int unk1e4;
+    unsigned int unk1e8;
+    unsigned int unk1ec;
+    unsigned int unk1f0;
+    unsigned int unk1f4;
+    unsigned int unk1f8;
+    unsigned int unk1fc;
+    unsigned int unk200;
+    unsigned int unk204;
+    unsigned int unk208;
+    unsigned int unk20c;
+    unsigned int unk210;
+    unsigned int unk214;
+    unsigned int unk218;
+    unsigned int unk21c;
+    unsigned int unk220;
+    unsigned int unk224;
+    unsigned int unk228;
+    unsigned int unk22c;
+    unsigned int unk230;
+    unsigned int unk234;
+    unsigned int unk238;
+    unsigned int unk23c;
+    unsigned int unk240;
+    unsigned int unk244;
+    unsigned int unk248;
+    unsigned int unk24c;
+    unsigned int unk250;
+    unsigned int unk254;
+    unsigned int unk258;
+    unsigned int unk25c;
+    unsigned int unk260;
+    unsigned int unk264;
+    unsigned int unk268;
+    unsigned int unk26c;
+    unsigned int unk270;
+    unsigned int unk274;
+    unsigned int unk278;
+    unsigned int unk27c;
+    unsigned int unk280;
+    unsigned int unk284;
+    unsigned int unk288;
+    unsigned char unk28c;
+    bool enabled;
+    bool active;
+    unsigned char unk28f;
+    unsigned int unk290;
+    unsigned int unk294;
+    unsigned int unk298;
+    unsigned int unk29c;
+    unsigned int unk2a0;
+    PointerView<SelectionHolder> selection;
+    Clock timer;
+    void FUN_00c7b6a0(bool active);
+public:
+    ::TargetList *CopyTargetList(::TargetList *);
+    void ProcessQueries();
+    bool IsPlayerTargeted(::Ref *, bool);
+    void FUN_00a255b0(float, float, int, int, int, unsigned char, bool);
+    void FUN_00a2feb0(unsigned short);
+    void FUN_00c5c790(float, float, float, float, float, float);
+    void CreateChildAndNotifySim(::OwnerB *);
 };
 struct Actor88
 {
@@ -56701,15 +59340,15 @@ void Actor88::UpdateNodeTransform()
         if (::FUN_00567730((const ::bhkCharacterController_00567730 *)(controller8)) != 0.0)
         {
             reinterpret_cast<::FUN_00524ac0_shell *>(&(tilt2))->FUN_00524ac0(::FUN_00567730((const ::bhkCharacterController_00567730 *)(controller8)));
-            rotationB = reinterpret_cast<::ThreeByThreeMatrix *>((void *)&(const ::Mat88 &)(rotationB))->operator+((const ::ThreeByThreeMatrix &)(tilt2));
+            *reinterpret_cast<::ThreeByThreeMatrix *>(&(rotationB)) = reinterpret_cast<::ThreeByThreeMatrix *>((void *)&(const ::Mat88 &)(rotationB))->operator+((const ::ThreeByThreeMatrix &)(tilt2));
         }
         if (::FUN_00567750((const char *)(controller8)) != 0.0)
         {
             reinterpret_cast<::ThreeByThreeMatrix *>(&(tilt2))->SetYRotation(::FUN_00567750((const char *)(controller8)));
-            rotationB = reinterpret_cast<::ThreeByThreeMatrix *>((void *)&(const ::Mat88 &)(rotationB))->operator+((const ::ThreeByThreeMatrix &)(tilt2));
+            *reinterpret_cast<::ThreeByThreeMatrix *>(&(rotationB)) = reinterpret_cast<::ThreeByThreeMatrix *>((void *)&(const ::Mat88 &)(rotationB))->operator+((const ::ThreeByThreeMatrix &)(tilt2));
         }
     }
-    reinterpret_cast<::FUN_0043fa80_s *>((node7))->FUN_0043fa80((*(const ::ThreeByThreeMatrix *)(&Transform(rotationB))));
+    reinterpret_cast<::FUN_0043fa80_s *>((node7))->FUN_0043fa80((*(const ::ThreeByThreeMatrix *)(&ResultSlot(Transform(rotationB)))));
     if (this != player88 && !reinterpret_cast<::PlayerCharacter *>((player88))->IsSleepingOrResting() && Node())
     {
         reinterpret_cast<::Cell *>((((::State88 *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))))->UpdateRefPlacement((::Ref *)(void *)(this), 1, ((void *)(reinterpret_cast<::ExtraDataList *>((((::Extra88 *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()))))->GetDismemberedLimbs())) != 0);
@@ -56741,7 +59380,7 @@ void Actor88::UpdateNodeTransform()
     }
 }
 
-extern int DAT_011dea3c;
+extern intptr_t DAT_011dea3c;
 class FUN_0088b510_cls
 {
   public:
@@ -57884,7 +60523,7 @@ struct ThisC
 void ThisC::FUN_0088c830(FormC* p0, int aiCount, void* apExtraData, bool p3, bool p4, bool p5)
 {
     float accuracy4 = 0.0f;
-    int action40 = 0;
+    intptr_t action40 = 0;
     unsigned char action10 = 0;
     unsigned char aabb6 = 1;
     reinterpret_cast<::FUN_00884f80_shell *>((this))->FUN_00884f80();
@@ -57930,7 +60569,7 @@ void ThisC::FUN_0088c830(FormC* p0, int aiCount, void* apExtraData, bool p3, boo
         }
     }
     InvC* accepted2 = ((::fnv_0088c830::InvC *)(::InventoryChanges::CreateForReference((::TESObjectREFR *)(void *)(this))));
-    int aabb2 = reinterpret_cast<::FUN_004c8f30_shell *>((accepted2))->FUN_004c8f30((int)(p0));
+    int aabb2 = reinterpret_cast<::FUN_004c8f30_shell *>((accepted2))->FUN_004c8f30((intptr_t)(p0));
     if (_FNV_GetFormType((TESBoundObject*)p0) != 0x29)
     {
         if (_FNV_GetFormType((TESBoundObject*)p0) != 0x28)
@@ -57958,7 +60597,7 @@ void ThisC::FUN_0088c830(FormC* p0, int aiCount, void* apExtraData, bool p3, boo
     }
     if (apExtraData != 0)
     {
-        action40 = (int)((void *)(reinterpret_cast<::fnv_00410220::FUN_00410220_shell *>((((P2C*)apExtraData)))->FUN_00410220(0x25)));
+        action40 = (intptr_t)((void *)(reinterpret_cast<::fnv_00410220::FUN_00410220_shell *>((((P2C*)apExtraData)))->FUN_00410220(0x25)));
     }
     if (action40 != 0)
     {
@@ -58034,7 +60673,7 @@ void ThisC::FUN_0088c830(FormC* p0, int aiCount, void* apExtraData, bool p3, boo
             }
         }
     case 0x1a:
-        if (reinterpret_cast<::Twin_0080f7d0 *>((this))->IsPointInside((float)(p0), (float)(apExtraData)))
+        if (reinterpret_cast<::Twin_0080f7d0 *>((this))->IsPointInside(0.0f, 0.0f))
         {
             if (aiCount > 1)
             {
@@ -58045,7 +60684,7 @@ void ThisC::FUN_0088c830(FormC* p0, int aiCount, void* apExtraData, bool p3, boo
             {
                 if (this != (ThisC*)DAT_011dea3c || p3)
                 {
-                    reinterpret_cast<::FUN_008c2630_Owner *>((this))->FUN_008c2630((::TESBoundObject *)(p0), (int)(apExtraData));
+                    reinterpret_cast<::FUN_008c2630_Owner *>((this))->FUN_008c2630((::TESBoundObject *)(p0), (intptr_t)(apExtraData));
                 }
                 else if (this == (ThisC*)DAT_011dea3c)
                 {
@@ -58087,7 +60726,7 @@ void ThisC::FUN_0088c830(FormC* p0, int aiCount, void* apExtraData, bool p3, boo
         }
         if (::FUN_00570f60() > 0)
         {
-            ::FUN_008ce180(p0, aiCount, (int)(this), 1, 1);
+            ::FUN_008ce180(p0, aiCount, (intptr_t)(this), 1, 1);
         }
         FUN_004bc550* accepted4 = new FUN_004bc550(p0, aiCount);
         this->m_68->vcall168(accepted4);
@@ -58099,7 +60738,7 @@ void ThisC::FUN_0088c830(FormC* p0, int aiCount, void* apExtraData, bool p3, boo
         {
             reinterpret_cast<::FUN_008c1de0_shell *>((this))->FUN_008c1de0((::TESForm *)(p0), (::ExtraDataList *)(apExtraData), (unsigned char)(this != (ThisC*)DAT_011dea3c));
             accuracy3 = 1;
-            reinterpret_cast<::ActorSoundStub *>((this))->PlayActorSound((int)(p0), 1, accuracy3);
+            reinterpret_cast<::ActorSoundStub *>((this))->PlayActorSound((intptr_t)(p0), 1, accuracy3);
         }
         else if (this == (ThisC*)DAT_011dea3c)
         {
@@ -58143,7 +60782,7 @@ void ThisC::FUN_0088c830(FormC* p0, int aiCount, void* apExtraData, bool p3, boo
             {
                 if (this == (ThisC*)DAT_011dea3c)
                 {
-                    reinterpret_cast<::Actor *>((((PlayerC*)DAT_011dea3c)))->FUN_0095e6f0((int)(t58));
+                    reinterpret_cast<::Actor *>((((PlayerC*)DAT_011dea3c)))->FUN_0095e6f0((intptr_t)(t58));
                     action13 = 0;
                     return;
                 }
@@ -58153,9 +60792,9 @@ void ThisC::FUN_0088c830(FormC* p0, int aiCount, void* apExtraData, bool p3, boo
                 ::ChallengeManager::UpdateChallengeProgress((::CHALLENGE_TYPE)(5), 1, (::TESForm *)(t58), (::TESForm *)(0), 0, 0, 0);
                 ::ChallengeManager::UpdateChallengeProgress((::CHALLENGE_TYPE)(9), 1, (::TESForm *)(t58), (::TESForm *)(0), 0, 0, 0);
                 ::FUN_005ac750((::TESForm *)(::fnv_0088c830::TESForm *)((TESForm*)this), (::ExtraDataList *)(::fnv_0088c830::ExtraDataList *)((ExtraDataList*)apExtraData), 2);
-                if (reinterpret_cast<::FUN_008c1f80_shell *>((this))->EquipItemWithCaster((::FUN_008c1de0_item *)(t58), (int)(apExtraData), (unsigned char)(this != (ThisC*)DAT_011dea3c)))
+                if (reinterpret_cast<::FUN_008c1f80_shell *>((this))->EquipItemWithCaster((::FUN_008c1de0_item *)(t58), (intptr_t)(apExtraData), (unsigned char)(this != (ThisC*)DAT_011dea3c)))
                 {
-                    reinterpret_cast<::ActorSoundStub *>((this))->PlayActorSound((int)(p0), 1, accuracy3);
+                    reinterpret_cast<::ActorSoundStub *>((this))->PlayActorSound((intptr_t)(p0), 1, accuracy3);
                 }
                 return;
             }
@@ -58171,7 +60810,7 @@ void ThisC::FUN_0088c830(FormC* p0, int aiCount, void* apExtraData, bool p3, boo
                 if (reinterpret_cast<::SkillBookEffect552 *>((t5c))->FUN_00515040((::TESObjectREFR *)(void *)(this)))
                 {
                     this->vcall17c(t5c, apExtraData, 1, 0, 0, 0, 0, 0, 1, 0);
-                    reinterpret_cast<::ActorSoundStub *>((this))->PlayActorSound((int)(p0), 1, 1);
+                    reinterpret_cast<::ActorSoundStub *>((this))->PlayActorSound((intptr_t)(p0), 1, 1);
                     return;
                 }
             }
@@ -58193,7 +60832,7 @@ void ThisC::FUN_0088c830(FormC* p0, int aiCount, void* apExtraData, bool p3, boo
     {
         if (p5)
         {
-            reinterpret_cast<::ActorSoundStub *>((this))->PlayActorSound((int)(p0), 1, accuracy3);
+            reinterpret_cast<::ActorSoundStub *>((this))->PlayActorSound((intptr_t)(p0), 1, accuracy3);
         }
     }
     if (!reinterpret_cast<::FUN_0047c850 *>((DAT_011de45c))->EvaluateCondition() && aabb6)
@@ -58809,10 +61448,10 @@ bool FUN_0088d7d0_shell::FUN_0088d7d0(TESBoundObject* apObject, int aiCount, Ext
             {
                 reinterpret_cast<::MagicTarget *>((((UEMagicTarget*)static_cast<MagicTarget *>(g_thePlayer))))->UpdateActiveEffects(0.0f);
             }
-            reinterpret_cast<::PlayerEnchantStub *>((((UEPlayer*)g_thePlayer)))->RemoveEnchantment(apObject, (int)(apExtraList));
+            reinterpret_cast<::PlayerEnchantStub *>((((UEPlayer*)g_thePlayer)))->RemoveEnchantment(apObject, (intptr_t)(apExtraList));
             if (abLocked)
             {
-                reinterpret_cast<::ActorSoundStub *>(this)->PlayActorSound((int)(apObject), 0, 0);
+                reinterpret_cast<::ActorSoundStub *>(this)->PlayActorSound((intptr_t)(apObject), 0, 0);
             }
         }
         bResult = FUN_0088e110(apObject, aiCount, apExtraList, bWorn, abApplyEnchantment);
@@ -58857,7 +61496,7 @@ bool FUN_0088d7d0_shell::FUN_0088d7d0(TESBoundObject* apObject, int aiCount, Ext
         reinterpret_cast<::FUN_008c17c0_t *>(this)->FUN_008c17c0();
         if (this == g_thePlayer && abLocked)
         {
-            reinterpret_cast<::ActorSoundStub *>(this)->PlayActorSound((int)(apObject), 0, 0);
+            reinterpret_cast<::ActorSoundStub *>(this)->PlayActorSound((intptr_t)(apObject), 0, 0);
         }
     }
     break;
@@ -59343,11 +61982,11 @@ void SActor::ProcessFormInteraction(SForm* form, SExtra* extra, int arg)
             ref->v48(0x400);
             SList* id = ((::fnv_00892520::SList *)(reinterpret_cast<::Target96 *>(&((*reinterpret_cast<::fnv_00892520::SManager *>(&::g_011e0e80))))->FUN_0096f450(iter, (::Actor96 *)(::fnv_00892520::SActor *)(this))));
             SList* head = id;
-            while (id && *((::fnv_00892520::SItem **)(new ((void *)(id)) ::Vec3())))
+            while (id && *((::fnv_00892520::SItem **)(((::Vec3 *)(void *)(id)))))
             {
-                SItem* item = *((::fnv_00892520::SItem **)(new ((void *)(id)) ::Vec3()));
+                SItem* item = *((::fnv_00892520::SItem **)(((::Vec3 *)(void *)(id))));
                 if (item && ((::fnv_00892520::SActor *)(reinterpret_cast<::FUN_00881650_shell *>((item))->FUN_00881650())))
-                    reinterpret_cast<::Host00881620 *>((item))->FUN_00881620((int)(this));
+                    reinterpret_cast<::Host00881620 *>((item))->FUN_00881620((intptr_t)(this));
                 else
                     reinterpret_cast<::Host00881620 *>((item))->FUN_00881620((int)(0));
                 id = ((::fnv_00892520::SList *)(reinterpret_cast<::Callees *>((id))->FUN_00726070()));
@@ -59394,9 +62033,6 @@ void SActor::ProcessFormInteraction(SForm* form, SExtra* extra, int arg)
 }
 }  // namespace fnv_00892520
 
-namespace std {
-float abs(float);
-}
 struct Pos8931
 {
     float x, y, z;
@@ -60349,7 +62985,6 @@ struct Setting
 {
     bool* Bool();
 };
-extern Pawn* _g_thePlayer;
 struct Pawn
 {
     virtual void slot0();
@@ -60559,7 +63194,6 @@ struct GroupInfo
     int unk1c;
     int unk20;
 };
-extern GroupInfo DAT_011977d8[];
 int GetType(unsigned short);
 struct TESAnimGroup8
 {
@@ -61070,7 +63704,7 @@ void Actor8::UpdateAnimGroupState()
 {
     Animation8* anim = ComputePositionAtTime();
     BSAnimGroupSequence8* seq3 = ((::BSAnimGroupSequence8 *)(reinterpret_cast<::FUN_00491040_shell *>((anim))->FUN_00491040(2)));
-    if (seq3 && ((int)(reinterpret_cast<::LowProcess *>((seq3))->GetActiveCombatTarget())) != 1)
+    if (seq3 && ((intptr_t)(reinterpret_cast<::LowProcess *>((seq3))->GetActiveCombatTarget())) != 1)
     {
         if (IsInHighProcess())
         {
@@ -62808,7 +65442,7 @@ struct Package
     unsigned int unk98;
     unsigned int unk9c;
     unsigned int unka0;
-    unsigned int unka4;
+    void* unka4;
     unsigned int unka8;
     Package(void*, int, int);
     void FUN_00898280(bool);
@@ -63102,7 +65736,7 @@ void Actor::SetTravelPackage(void* destination, bool immediate, bool run, bool s
     }
     reinterpret_cast<::PackageTargetRecord *>((data))->SetTargetObjectReference((::TESObjectREFR *)(destination));
     if (distance >= ::_DAT_01012060)
-        reinterpret_cast<::TESRegionGrassObject *>((data))->AssignLandTexture((::TESLandTexture *)((int)distance));
+        reinterpret_cast<::TESRegionGrassObject *>((data))->AssignLandTexture((::TESLandTexture *)((intptr_t)distance));
     ((::ActorPackageUpdate::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))->Reset();
     Target* target = new Target();
     if (count >= ::_DAT_01012060)
@@ -63112,7 +65746,7 @@ void Actor::SetTravelPackage(void* destination, bool immediate, bool run, bool s
         reinterpret_cast<::LocationDescriptor *>((target))->FUN_0067f3c0((::TESObjectREFR *)(reference));
         reinterpret_cast<::FUN_005d0b80_Class *>((package))->FUN_005d0b80(0);
         reinterpret_cast<::fnv_00671d30::FUN_00671d30_shell *>((package))->FUN_00671d30((::fnv_00671d30::LocationDescriptor *)(target));
-        reinterpret_cast<::FUN_00994ef0_Class *>((package))->Set((int)(reference));
+        reinterpret_cast<::FUN_00994ef0_Class *>((package))->Set((intptr_t)(reference));
     }
     else if (location)
     {
@@ -63125,7 +65759,7 @@ void Actor::SetTravelPackage(void* destination, bool immediate, bool run, bool s
         bool interiorSlot0 = false;
         if (((::ActorPackageUpdate::World *)(reinterpret_cast<::LowProcess *>(this)->GetTarget())) && reinterpret_cast<::TESObjectCELL *>((((::ActorPackageUpdate::World *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))))->IsCellInterior())
             interiorSlot0 = true;
-        void* oldSlot0 = ((void *)(reinterpret_cast<::FUN_005e3fc0_shell *>((package))->Get()));
+        void* oldSlot0 = ((void *)(((package))->unka4));
         if (!oldSlot0)
         {
             bool reset = false;
@@ -63452,9 +66086,9 @@ void HealthActor::FUN_00898650(Actor* attacker, float damage)
     if (reinterpret_cast<::MiddleHighProcess *>(this)->IsActorInCombat())
     {
         if (fraction < 0.25)
-            ::AddTimedEntry((unsigned int)(this), 5);
+            ::AddTimedEntry((uintptr_t)(this), 5);
         else if (fraction < 0.5)
-            ::AddTimedEntry((unsigned int)(this), 4);
+            ::AddTimedEntry((uintptr_t)(this), 4);
     }
     HealthCombatController* controller8 = reinterpret_cast<HealthControllerView*>(this)->GetController();
     bool crime9 = false;
@@ -64171,6 +66805,9 @@ struct FUN_008987f0_shell : public ActorShell10
 };
 struct Value8990
 {
+    char pad00[0x8];
+    void* unk08;
+
     int FUN_0044ddc0();
 };
 struct Process8990
@@ -64486,23 +67123,23 @@ struct Target8990
     virtual void slot_378();
     virtual void slot_37c();
     virtual float slot_380();
-    int FUN_008990f0();
+    intptr_t FUN_008990f0();
 };
 
 struct Setting8990
 {
 };
 // @fnv 0x008990f0
-int Target8990::FUN_008990f0()
+intptr_t Target8990::FUN_008990f0()
 {
-    int result3 = 0;
+    intptr_t result3 = 0;
     Value8990* d = ((::Process8990 *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture())) ? ((::Process8990 *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))->slot_148() : 0;
-    Value8990* a = d ? (Value8990*)((int)(reinterpret_cast<::Twin_0044ddc0 *>((d))->GetName())) : 0;
+    Value8990* a = d ? (Value8990*)((intptr_t)(((d))->unk08)) : 0;
     float speed = a ? FUN_006463e0(reinterpret_cast<::NiCamera *>((a))->GetMaxFarNearRatio()) : slot_380();
     speed *= reinterpret_cast<::fnv_00567400::FUN_00567400_shell *>(this)->FUN_00567400();
-    if (slot_360() && ((int)(reinterpret_cast<::Twin_0044ddc0 *>((((Value8990*)&(*reinterpret_cast<::VATS *>(&::g_011f2250)))))->GetName())) == 4)
+    if (slot_360() && ((int)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)) == 4)
         speed *= ((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting8990 *>(&::originalRuntimeFloatSetting547))))))[0];
-    result3 = ((int)(::FUN_009a60e0((::Actor *)(::Target8990 *)(this), speed)));
+    result3 = ((intptr_t)(::FUN_009a60e0((::Actor *)(::Target8990 *)(this), speed)));
     return result3;
 }
 
@@ -65564,7 +68201,7 @@ void ActorStub::TryMakeTargetThing()
     RefObj* target7 = ((::fnv_0089f580::ProcObj *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))->GetTarget();
     BaseObj* curBaseVal = ((::fnv_0089f580::ProcObj *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))->GetCurBase();
     if (target7 && !reinterpret_cast<::FUN_00891b70_class *>((((::fnv_0089f580::BaseObj *)(reinterpret_cast<::Twin_0044ddc0 *>((target7))->GetName()))))->FUN_00891b70() && !reinterpret_cast<::FUN_0046e8c0_class *>((((::fnv_0089f580::BaseObj *)(reinterpret_cast<::Twin_0044ddc0 *>((target7))->GetName()))))->FUN_0046e8c0() && reinterpret_cast<::FUN_008a16d0_shell *>(this)->FUN_008a16d0() &&
-        !reinterpret_cast<::FUN_00418b10_shell *>((((::fnv_0089f580::HolderInner *)(new ((void *)(((::fnv_0089f580::HolderOuter *)(::FUN_00559450((int *)(target7)))))) ::Vec3()))->obj))->FUN_00418b10() && ((::fnv_0089f580::BaseObj *)(reinterpret_cast<::Twin_0044ddc0 *>((target7))->GetName())) != curBaseVal)
+        !reinterpret_cast<::FUN_00418b10_shell *>((((::fnv_0089f580::HolderInner *)(((::Vec3 *)(void *)(((::fnv_0089f580::HolderOuter *)(::FUN_00559450((int *)(target7))))))))->obj))->FUN_00418b10() && ((::fnv_0089f580::BaseObj *)(reinterpret_cast<::Twin_0044ddc0 *>((target7))->GetName())) != curBaseVal)
     {
         bool bFound2 = false;
         void* found3 = ((void *)(::TESEnchantableForm::FindFormEnchantment((::TESForm *)(::fnv_0089f580::BaseObj *)(((::fnv_0089f580::BaseObj *)(reinterpret_cast<::Twin_0044ddc0 *>((target7))->GetName()))))));
@@ -65573,10 +68210,10 @@ void ActorStub::TryMakeTargetThing()
         Node3D* node9 = unk68->GetNode(GetKey());
         if (node9)
         {
-            PtVec pos4 = *((::fnv_0089f580::PtVec *)(::FUN_0045bb80((int)(node9))));
+            PtVec pos4 = *((::fnv_0089f580::PtVec *)(::FUN_0045bb80((intptr_t)(node9))));
             PtRot rot2;
-            reinterpret_cast<::S_00a592c0_Matrix3 *>((((::fnv_0089f580::RotHolder *)(::FUN_00461130((int)(node9))))))->DecomposeToEulerAngles((*(float *)(&rot2.x)), (*(float *)(&rot2.y)), (*(float *)(&rot2.z)));
-            void* res5 = MakeThing(((::fnv_0089f580::BaseObj *)(reinterpret_cast<::Twin_0044ddc0 *>((target7))->GetName())), ((::fnv_0089f580::HolderInner *)(new ((void *)(((::fnv_0089f580::HolderOuter *)(::FUN_00559450((int *)(target7)))))) ::Vec3()))->obj, 1, &pos4, &rot2);
+            reinterpret_cast<::S_00a592c0_Matrix3 *>((((::fnv_0089f580::RotHolder *)(::FUN_00461130((intptr_t)(node9))))))->DecomposeToEulerAngles((*(float *)(&rot2.x)), (*(float *)(&rot2.y)), (*(float *)(&rot2.z)));
+            void* res5 = MakeThing(((::fnv_0089f580::BaseObj *)(reinterpret_cast<::Twin_0044ddc0 *>((target7))->GetName())), ((::fnv_0089f580::HolderInner *)(((::Vec3 *)(void *)(((::fnv_0089f580::HolderOuter *)(::FUN_00559450((int *)(target7))))))))->obj, 1, &pos4, &rot2);
             ::FUN_0056acb0((::B56ACB0Ref *)(::fnv_0089f580::ActorStub *)(this), (::B56ACB0Ref *)(res5));
             if (bFound2)
                 unk68->Signal(1, 0, 0);
@@ -66297,7 +68934,7 @@ void ResetActor::FUN_0089f780(bool abUpdate, bool abLoadCell, bool abResetNode)
         reinterpret_cast<::FUN_008a1a40_shell *>(this)->FUN_008a1a40((::Actor *)(void *)(0));
     onDeath = false;
     reinterpret_cast<::FUN_00884f80_shell *>(this)->FUN_00884f80();
-    reinterpret_cast<::fnv_00972aa0::S_972aa0_Owner *>(&((*reinterpret_cast<::ResetGlobal *>(&::g_011e0e80))))->RemoveCrimeById((unsigned int)(this));
+    reinterpret_cast<::fnv_00972aa0::S_972aa0_Owner *>(&((*reinterpret_cast<::ResetGlobal *>(&::g_011e0e80))))->RemoveCrimeById((uintptr_t)(this));
     reinterpret_cast<::fnv_0041cf30::FUN_0041cf30_shell *>((((::ResetExtra *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()))))->FUN_0041cf30((::fnv_0041cf30::Actor *)(::ResetActor *)(this));
     if (abResetNode && GetNode())
     {
@@ -66323,7 +68960,7 @@ void ResetActor::FUN_0089f780(bool abUpdate, bool abLoadCell, bool abResetNode)
         if (this != resetPlayer)
         {
             if (process)
-                reinterpret_cast<::ActorDeletionQueue *>(&((*reinterpret_cast<::ResetGlobal *>(&::g_011e0e80))))->FUN_0096d470((::MobileObject *)(::ResetActor *)(this), ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((process))->FUN_0045cd60())));
+                reinterpret_cast<::ActorDeletionQueue *>(&((*reinterpret_cast<::ResetGlobal *>(&::g_011e0e80))))->FUN_0096d470((::MobileObject *)(::ResetActor *)(this), ((intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((process))->FUN_0045cd60())));
             delete process;
             process = new ResetNewProcess;
         }
@@ -66335,7 +68972,7 @@ void ResetActor::FUN_0089f780(bool abUpdate, bool abLoadCell, bool abResetNode)
             ResetCell* cell = ((::ResetCell *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()));
             if (cell && reinterpret_cast<::TESCallHelper *>((resetWorld))->IsCellBuffered((::TESObjectCELL *)(cell), 0) && abLoadCell)
             {
-                reinterpret_cast<::ML *>(((*reinterpret_cast<::ResetLoader * *>(&::g_modelLoader))))->FUN_00444850((::Ref *)(::ResetActor *)(this), (int)(((void *)(reinterpret_cast<::LodGrid *>((resetWorld))->FUN_00458be0((::LodCell *)(cell), (::LodPoint *)(0))))), {});
+                reinterpret_cast<::ML *>(((*reinterpret_cast<::ResetLoader * *>(&::g_modelLoader))))->FUN_00444850((::Ref *)(::ResetActor *)(this), (intptr_t)(((void *)(reinterpret_cast<::LodGrid *>((resetWorld))->FUN_00458be0((::LodCell *)(cell), (::LodPoint *)(0))))), {});
                 if (::FUN_00450ff0((void *)(cell)))
                     State0();
                 else
@@ -66644,7 +69281,7 @@ struct FUN_008a0a90_obj
 // @fnv 0x008a0a90
 int __cdecl FUN_008a0a90(int a1)
 {
-    int base;
+    intptr_t base;
     if (a1 != 0)
         base = a1 - 0xa4;
     else
@@ -66962,13 +69599,13 @@ void* Actor467::FUN_008a2d40()
                 break;
             case 2:
                 if (((::Extra467 *)(reinterpret_cast<::ExtraDataList *>((((::ExtraList467 *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()))))->GetContainerChangeData())))
-                    task = ((::Ref467 *)(reinterpret_cast<::Inv4c6a10 *>((((::Extra467 *)(reinterpret_cast<::ExtraDataList *>((((::ExtraList467 *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()))))->GetContainerChangeData()))))->FindInventoryItemByType((int)(value->FUN_00680080()), &source)));
+                    task = ((::Ref467 *)(reinterpret_cast<::Inv4c6a10 *>((((::Extra467 *)(reinterpret_cast<::ExtraDataList *>((((::ExtraList467 *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()))))->GetContainerChangeData()))))->FindInventoryItemByType((intptr_t)(value->FUN_00680080()), &source)));
                 break;
             }
         }
     }
     if (ref)
-        result = ((void *)(reinterpret_cast<::fnv_00576260::FUN_00576260_shell *>(this)->FUN_00576260((::fnv_00576260::TESBoundObject *)(void *)(((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((ref))->FUN_007af430()))), (unsigned int)(((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>((ref))->FUN_0084e3a0()))))));
+        result = ((void *)(reinterpret_cast<::fnv_00576260::FUN_00576260_shell *>(this)->FUN_00576260((::fnv_00576260::TESBoundObject *)(void *)(((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((ref))->FUN_007af430()))), (reinterpret_cast<::FormFields *>((ref))->iFormID))));
     else if (task)
         result = ((void *)(reinterpret_cast<::fnv_00576260::FUN_00576260_shell *>(this)->FUN_00576260((::fnv_00576260::TESBoundObject *)(task), (unsigned int)(0))));
     return result;
@@ -67982,14 +70619,14 @@ TargetRef* SelectingActor::SelectTarget()
     CandidateList* node9 = &candidates3;
     while (node9 && !node9->Empty())
     {
-        TargetRef* targetVal = ((::TargetRef *)(new ((void *)(node9)) ::Vec3()));
+        TargetRef* targetVal = ((::TargetRef *)(((::Vec3 *)(void *)(node9))));
         float range7 = reinterpret_cast<::ActorX_S *>(this)->GetDetectionFactor((::Ref_S *)(targetVal));
         if (range7 > _bestScore)
         {
             _bestScore = range7;
             best = targetVal;
         }
-        node9 = ((::CandidateList *)(reinterpret_cast<::Callees *>((node9))->FUN_00726070()));
+        node9 = ((::CandidateList *)(reinterpret_cast<::SimpleListNodeView *>((node9))->m_pkNext));
     }
     reinterpret_cast<::FileMatchList *>(&(candidates3))->RemoveAll();
     return best;
@@ -68956,12 +71593,12 @@ Pt3 ActorStub::GetNodePosition(bool world)
     AVObj* node7 = unk68 ? unk68->GetNode(GetIndex()) : ((::fnv_008a5340::AVObj *)(::FUN_004aae30((::NiAVObject *)(root2), (::NiFixedString *)((*reinterpret_cast<::fnv_008a5340::FixStr * *>((void *)&::fnv_0091e830::DAT_01188b78))))));
     if (!node7)
         return (*reinterpret_cast<::fnv_008a5340::Pt3 *>((void *)&::NiPoint3::ZERO));
-    Xf52 xform5 = *((::fnv_008a5340::Xf52 *)(::FUN_00461130((int)(node7))));
+    Xf52 xform5 = *((::fnv_008a5340::Xf52 *)(::FUN_00461130((intptr_t)(node7))));
     if (!world)
     {
         Xf52 inv;
-        reinterpret_cast<::NiTransform *>((((::fnv_008a5340::Xf52 *)(::FUN_00461130((int)(root2))))))->CalculateInverse((*(::NiTransform *)(&inv)));
-        xform5 = reinterpret_cast<::NiTransform *>((void *)&(const ::fnv_008a5340::Xf52 &)(inv))->operator*((const ::NiTransform &)(xform5));
+        reinterpret_cast<::NiTransform *>((((::fnv_008a5340::Xf52 *)(::FUN_00461130((intptr_t)(root2))))))->CalculateInverse((*(::NiTransform *)(&inv)));
+        *reinterpret_cast<::NiTransform *>(&(xform5)) = reinterpret_cast<::NiTransform *>((void *)&(const ::fnv_008a5340::Xf52 &)(inv))->operator*((const ::NiTransform &)(xform5));
     }
     Pt3 pos4 = xform5 * Pt3(0.0f, height, 0.0f);
     return pos4;
@@ -69240,7 +71877,7 @@ struct ActorX
     virtual void v3a8();
     virtual void Vt3ac(int, float, int);
     void FUN_008a7d50(bool, bool);
-    BooleanFloatQuery* ApplyFallDamage(float a1, int a2, int a3);
+    BooleanFloatQuery* ApplyFallDamage(float a1, intptr_t a2, int a3);
     int unk04;
     int unk08;
     int unk0c;
@@ -69271,14 +71908,14 @@ struct ActorX
 
 // Checks dialogue state and unk64, resolves a hit via FUN_0092f260, and applies fall damage and sounds when the hit's speed exceeds gs841.
 // @fnv 0x008a62b0
-BooleanFloatQuery* ActorX::ApplyFallDamage(float a1, int a2, int a3)
+BooleanFloatQuery* ActorX::ApplyFallDamage(float a1, intptr_t a2, int a3)
 {
     if (reinterpret_cast<::MobileObject *>(this)->IsInDialogueWithPlayer() && !(a3 & 0x3f))
         return 0;
-    int aUnused10 = 0;
+    intptr_t aUnused10 = 0;
     float unused14 = 0.0f;
     if (unk68)
-        aUnused10 = ((int)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>(this)->FUN_009306d0()));
+        aUnused10 = ((intptr_t)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>(this)->FUN_009306d0()));
     if (!unk64)
         return 0;
     BooleanFloatQuery* hit = ((::fnv_008a62b0::BooleanFloatQuery *)(reinterpret_cast<::fnv_0092f260::FUN_0092f260_shell *>(this)->FUN_0092f260(a1, (::NiPoint3 *)(a2), a3)));
@@ -70085,13 +72722,13 @@ void Shell::FUN_008a6ce0(bool immediate, bool reset)
             {
                 current = ((::p076::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))->GetAssignedPackage();
                 if (reinterpret_cast<::TESPackage *>((current))->IsFlag80Set())
-                    reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::p076::Handler * *>(&::g_dataHandler))))->GetReferencesInArea((::TESObjectCELL *)(void *)(((void *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))), (*(const ::NiPoint3 *)(((ActorVT*)this)->Get3D(::runtimeFloatSettingDefault247))),
-                                                (float)(((ActorVT*)this)->Get3D(::runtimeFloatSettingDefault247)), (*(const ::NiPoint3 *)(((void (&)(void *))::LowProcess::HandlePackageTargetLoaded))),
-                                                (float)(this), {}, {});
+                    reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::p076::Handler * *>(&::g_dataHandler))))->GetReferencesInArea((::TESObjectCELL *)(void *)(((void *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))), *(const ::NiPoint3 *)(std::intptr_t)((ActorVT*)this)->Get3D(::runtimeFloatSettingDefault247),
+                                                ::runtimeFloatSettingDefault247, *(const ::NiPoint3 *)(std::intptr_t)((ActorVT*)this)->Get3D(::runtimeFloatSettingDefault247), 0.0f,
+                                                (bool (*)(::TESObjectREFR *, intptr_t))::LowProcess::HandlePackageTargetLoaded, (long)(std::intptr_t)this);
                 if (reinterpret_cast<::TESPackage *>((current))->IsFlag10Set())
-                    reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::p076::Handler * *>(&::g_dataHandler))))->GetReferencesInArea((::TESObjectCELL *)(void *)(((void *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))), (*(const ::NiPoint3 *)(((ActorVT*)this)->Get3D(::runtimeFloatSettingDefault247))),
-                                                (float)(((ActorVT*)this)->Get3D(::runtimeFloatSettingDefault247)), (*(const ::NiPoint3 *)(((void (&)(void *))::LowProcess::HandlePackageLocationLoaded))),
-                                                (float)(this), {}, {});
+                    reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::p076::Handler * *>(&::g_dataHandler))))->GetReferencesInArea((::TESObjectCELL *)(void *)(((void *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))), *(const ::NiPoint3 *)(std::intptr_t)((ActorVT*)this)->Get3D(::runtimeFloatSettingDefault247),
+                                                ::runtimeFloatSettingDefault247, *(const ::NiPoint3 *)(std::intptr_t)((ActorVT*)this)->Get3D(::runtimeFloatSettingDefault247), 0.0f,
+                                                (bool (*)(::TESObjectREFR *, intptr_t))::LowProcess::HandlePackageLocationLoaded, (long)(std::intptr_t)this);
             }
             if (((::p076::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))->HasActor())
             {
@@ -70156,7 +72793,7 @@ void Shell::FUN_008a6ce0(bool immediate, bool reset)
                 break;
             }
         }
-        if (m_pBaseProcess && ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((Process*)m_pBaseProcess)))->FUN_0045cd60())))
+        if (m_pBaseProcess && ((intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((((Process*)m_pBaseProcess)))->FUN_0045cd60())))
             reinterpret_cast<::FUN_00693d50_shell *>((((Process*)m_pBaseProcess)))->FUN_00693d50(reinterpret_cast<::Calendar *>(&(DAT_011de7b8))->GetGameTime() - 1.0);
         Package* package = m_pBaseProcess ? ((Process*)m_pBaseProcess)->GetAssignedPackage() : 0;
         if (package)
@@ -70182,7 +72819,7 @@ void Shell::FUN_008a6ce0(bool immediate, bool reset)
             ((Process*)m_pBaseProcess)->Reset(this);
             ((Process*)m_pBaseProcess)->SetEnabled(true);
             ((Process*)m_pBaseProcess)->Update(this, true);
-            if (((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((Process*)m_pBaseProcess)))->FUN_0045cd60())))
+            if (((intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((((Process*)m_pBaseProcess)))->FUN_0045cd60())))
                 reinterpret_cast<::FUN_00693d50_shell *>((((Process*)m_pBaseProcess)))->FUN_00693d50(reinterpret_cast<::Calendar *>(&(DAT_011de7b8))->GetGameTime() - 1.0);
         }
         ActorBaseConfiguration = false;
@@ -70707,7 +73344,7 @@ struct ActorData
 // @fnv 0x008a8060
 void ActorData::EnableActionResourceIfLowState()
 {
-    if (((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((::ProcessState *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))))->FUN_0045cd60())) < 2)
+    if (((intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((((::ProcessState *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))))->FUN_0045cd60())) < 2)
     {
         ActionResource* resource = ((::ActionResource *)(::CreatePackageByType(0x1b)));
         reinterpret_cast<::TESPackage *>((resource))->SetMustComplete(1);
@@ -71478,7 +74115,7 @@ unsigned int ActorView::ConsumeAmmo(unsigned int shots)
 {
     if (!process || !process->Weapon() || !process->Ammo())
         return 0;
-    unsigned int remaining7 = ((unsigned int)(reinterpret_cast<::Callees *>((process->Ammo()))->FUN_00726070()));
+    uintptr_t remaining7 = ((unsigned int)(reinterpret_cast<::InventoryEntryFields *>((process->Ammo()))->iCountDelta));
     AmmoWeapon* weaponA = ((::fnv_008a89a0::AmmoWeapon *)(reinterpret_cast<::Twin_0044ddc0 *>((process->Weapon()))->GetName()));
     AmmoWeapon* ammo_2 = ((::fnv_008a89a0::AmmoWeapon *)(reinterpret_cast<::Twin_0044ddc0 *>((process->Ammo()))->GetName()));
     unsigned int used2 = shots != -1 ? shots : process->Shots();
@@ -71498,7 +74135,7 @@ unsigned int ActorView::ConsumeAmmo(unsigned int shots)
         if (process->Weapon() && reinterpret_cast<::TESObjectWEAP *>((((::fnv_008a89a0::AmmoWeapon *)(reinterpret_cast<::Twin_0044ddc0 *>((process->Weapon()))->GetName()))))->FUN_00709430(((unsigned char)(reinterpret_cast<::fnv_004bda70::FUN_004bda70_shell *>((process->Weapon()))->HasEffect(6)))) <= ::_DAT_01012060 &&
             Reload(((::fnv_008a89a0::AmmoWeapon *)(reinterpret_cast<::Twin_0044ddc0 *>((process->Weapon()))->GetName())), reinterpret_cast<::FUN_008a16d0_shell *>(this)->FUN_008a16d0(), ((unsigned char)(reinterpret_cast<::fnv_004bda70::FUN_004bda70_shell *>((process->Weapon()))->HasEffect(2))), 0))
         {
-            remaining7 = ((unsigned int)(reinterpret_cast<::Callees *>((process->Ammo()))->FUN_00726070()));
+            remaining7 = ((unsigned int)(reinterpret_cast<::InventoryEntryFields *>((process->Ammo()))->iCountDelta));
         }
         else if (process->Weapon() && process->Ammo() && ((::fnv_008a89a0::AmmoWeapon *)(reinterpret_cast<::Twin_0044ddc0 *>((process->Weapon()))->GetName())) == ((::fnv_008a89a0::AmmoWeapon *)(reinterpret_cast<::Twin_0044ddc0 *>((process->Ammo()))->GetName())))
         {
@@ -71520,7 +74157,7 @@ unsigned int ActorView::ConsumeAmmo(unsigned int shots)
         if (combat)
             reinterpret_cast<::Host0097f6d0 *>((combat))->FUN_0097f6d0(0);
         if (reinterpret_cast<::MiddleHighProcess *>(this)->IsActorInCombat())
-            ::AddTimedEntry((unsigned int)(this), 7);
+            ::AddTimedEntry((uintptr_t)(this), 7);
     }
     return remaining7;
 }
@@ -71703,7 +74340,7 @@ unsigned short FUN_008d32b0_shell::FUN_008a9020(unsigned int flags)
         DispNode* node = &m_fc;
         while (node && !node->FUN_008256d0())
         {
-            SaveEntryStandIn* item = *((::fnv_008a9020::SaveEntryStandIn **)(new ((void *)(((SaveEntryNode*)node))) ::Vec3()));
+            SaveEntryStandIn* item = *((::fnv_008a9020::SaveEntryStandIn **)(((::Vec3 *)(void *)(((SaveEntryNode*)node)))));
             if (item->m_04)
                 size += 8;
             node = (DispNode*)((::fnv_008a9020::CrimeList *)(reinterpret_cast<::Callees *>((((CrimeList*)node)))->FUN_00726070()));
@@ -71768,7 +74405,7 @@ struct SaveForm
 struct SavePair
 {
     SaveForm* form;
-    unsigned int value;
+    uintptr_t value;
 };
 struct SaveList
 {
@@ -71993,14 +74630,14 @@ void ActorSave::SaveActorData(unsigned int flags)
     reinterpret_cast<::FUN_00932070_MobileObject *>(this)->SaveProcess(flags);
     unsigned short a = 0;
     char* p = 0;
-    char* i = ((char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((g_TESSaveLoadGame))->FUN_00825c00()));
+    char* i = ((char *)(reinterpret_cast<::SaveLoadGameView *>((g_TESSaveLoadGame))->pBufferCursor));
     if (*g_011de4e8.Bool())
-        i = ((char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((g_TESSaveLoadGame))->FUN_00825c00()));
+        i = ((char *)(reinterpret_cast<::SaveLoadGameView *>((g_TESSaveLoadGame))->pBufferCursor));
     if (reinterpret_cast<::FUN_00862110_cls *>((g_TESSaveLoadGame))->FUN_00862110())
     {
         unsigned int tag = 0x424c4f4b;
         reinterpret_cast<::FUN_008579b0_shell *>((g_TESSaveLoadGame))->FUN_008579b0(&tag, 4);
-        p = ((char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((g_TESSaveLoadGame))->FUN_00825c00()));
+        p = ((char *)(reinterpret_cast<::SaveLoadGameView *>((g_TESSaveLoadGame))->pBufferCursor));
         reinterpret_cast<::FUN_008579b0_shell *>((g_TESSaveLoadGame))->FUN_008579b0(&a, 2);
     }
     reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>(this)->FUN_00484ce0(&field114, 4);
@@ -72015,16 +74652,16 @@ void ActorSave::SaveActorData(unsigned int flags)
     if (flags & 0x80000)
     {
         unsigned short a = 0;
-        unsigned short* h = (unsigned short*)((char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((g_TESSaveLoadGame))->FUN_00825c00()));
+        unsigned short* h = (unsigned short*)((char *)(reinterpret_cast<::SaveLoadGameView *>((g_TESSaveLoadGame))->pBufferCursor));
         reinterpret_cast<::FUN_008579b0_shell *>((g_TESSaveLoadGame))->FUN_008579b0(&a, 2);
         SaveList* p = &listFC;
         while (p && !p->Empty())
         {
-            SavePair* pairExtra = *((::fnv_008a9380::SavePair **)(new ((void *)(p)) ::Vec3()));
+            SavePair* pairExtra = *((::fnv_008a9380::SavePair **)(((::Vec3 *)(void *)(p))));
             if (pairExtra->value)
             {
                 unsigned int idExtra = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((SaveForm*)pairExtra->value)))->FUN_0084e3a0()));
-                reinterpret_cast<::FUN_00484d20_Class *>(this)->ForwardToSaveLoadGame((int)(&idExtra), 4);
+                reinterpret_cast<::FUN_00484d20_Class *>(this)->ForwardToSaveLoadGame((intptr_t)(&idExtra), 4);
                 reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>(this)->FUN_00484ce0(pairExtra, 4);
                 ++a;
             }
@@ -72038,16 +74675,16 @@ void ActorSave::SaveActorData(unsigned int flags)
         reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>(this)->FUN_00484ce0(&index, 4);
     }
     unsigned short f = 0;
-    unsigned short* h = (unsigned short*)((char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((g_TESSaveLoadGame))->FUN_00825c00()));
+    unsigned short* h = (unsigned short*)((char *)(reinterpret_cast<::SaveLoadGameView *>((g_TESSaveLoadGame))->pBufferCursor));
     reinterpret_cast<::FUN_008579b0_shell *>((g_TESSaveLoadGame))->FUN_008579b0(&f, 2);
     SaveList* s = &listF4;
     while (s && !s->Empty())
     {
-        SavePair* eb = *((::fnv_008a9380::SavePair **)(new ((void *)(s)) ::Vec3()));
+        SavePair* eb = *((::fnv_008a9380::SavePair **)(((::Vec3 *)(void *)(s))));
         unsigned int k = 0;
         if (eb->form)
             k = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((eb->form))->FUN_0084e3a0()));
-        reinterpret_cast<::FUN_00484d20_Class *>(this)->ForwardToSaveLoadGame((int)(&k), 4);
+        reinterpret_cast<::FUN_00484d20_Class *>(this)->ForwardToSaveLoadGame((intptr_t)(&k), 4);
         reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>(this)->FUN_00484ce0(&eb->value, 4);
         ++f;
         s = ((::fnv_008a9380::SaveList *)(reinterpret_cast<::Callees *>((s))->FUN_00726070()));
@@ -72058,14 +74695,14 @@ void ActorSave::SaveActorData(unsigned int flags)
         unsigned int idVersion1 = 0;
         if (formC0)
             idVersion1 = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((formC0))->FUN_0084e3a0()));
-        reinterpret_cast<::FUN_00484d20_Class *>(this)->ForwardToSaveLoadGame((int)(&idVersion1), 4);
+        reinterpret_cast<::FUN_00484d20_Class *>(this)->ForwardToSaveLoadGame((intptr_t)(&idVersion1), 4);
     }
     if (reinterpret_cast<::FUN_008df040_shell *>((g_TESSaveLoadGame))->FUN_008df040() >= 60)
     {
         unsigned int idVersion2 = 0;
         if (form148)
             idVersion2 = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((form148))->FUN_0084e3a0()));
-        reinterpret_cast<::FUN_00484d20_Class *>(this)->ForwardToSaveLoadGame((int)(&idVersion2), 4);
+        reinterpret_cast<::FUN_00484d20_Class *>(this)->ForwardToSaveLoadGame((intptr_t)(&idVersion2), 4);
     }
     if (reinterpret_cast<::FUN_008df040_shell *>((g_TESSaveLoadGame))->FUN_008df040() >= 68)
     {
@@ -72102,7 +74739,7 @@ void ActorSave::SaveActorData(unsigned int flags)
         reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>(this)->FUN_00484ce0(&field118, 1);
     if (*g_011de4e8.Bool())
     {
-        char* end = ((char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((g_TESSaveLoadGame))->FUN_00825c00()));
+        char* end = ((char *)(reinterpret_cast<::SaveLoadGameView *>((g_TESSaveLoadGame))->pBufferCursor));
         SaveRecord* record = ((::fnv_008a9380::SaveRecord *)(reinterpret_cast<::EffectSetting *>((g_TESSaveLoadGame))->GetHitSound()));
         if (record)
         {
@@ -72114,7 +74751,7 @@ void ActorSave::SaveActorData(unsigned int flags)
     }
     if (reinterpret_cast<::FUN_00862110_cls *>((g_TESSaveLoadGame))->FUN_00862110())
     {
-        char* l = ((char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((g_TESSaveLoadGame))->FUN_00825c00()));
+        char* l = ((char *)(reinterpret_cast<::SaveLoadGameView *>((g_TESSaveLoadGame))->pBufferCursor));
         char* c = p;
         if (l > c + 0xffff)
             ::FUN_005b5e40();
@@ -72359,14 +74996,14 @@ void SaveActor::FUN_008aaf40(SaveBuffer* buffer)
         SaveNode* node = &modifiers;
         while (node)
         {
-            ValueReferencePair* entry = *((::ValueReferencePair **)(new ((void *)(node)) ::Vec3()));
+            ValueReferencePair* entry = *((::ValueReferencePair **)(((::Vec3 *)(void *)(node))));
             if (entry)
             {
                 reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((buffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(entry->reference), 0);
                 reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(entry, 4, 0);
                 count++;
             }
-            node = ((::SaveNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
+            node = ((::SaveNode *)(reinterpret_cast<::SimpleListNodeView *>((node))->m_pkNext));
         }
         reinterpret_cast<::FUN_00865ff0_shell *>((buffer))->FUN_00865ff0(count, position);
     }
@@ -72842,11 +75479,11 @@ struct ImpactData
 };
 struct ImpactActor
 {
-    void ApplyImpact(int, int, int, Ref*, bhkWorldObject*, int);
+    void ApplyImpact(int, intptr_t, intptr_t, Ref*, bhkWorldObject*, int);
 };
 // Builds an ImpactData from position, target and body, resolving collision material, then dispatches an impact on the target or applies it locally.
 // @fnv 0x008acff0
-void ImpactActor::ApplyImpact(int x, int y, int z, Ref* target, bhkWorldObject* body, int material)
+void ImpactActor::ApplyImpact(int x, intptr_t y, intptr_t z, Ref* target, bhkWorldObject* body, int material)
 {
     if (!body && target && target->GetCollision())
     {
@@ -72867,7 +75504,7 @@ void ImpactActor::ApplyImpact(int x, int y, int z, Ref* target, bhkWorldObject* 
     impactData.bound.y = y;
     impactData.bound.z = z;
     impactData.bound.radius = 100.0f;
-    impactData.owner = (char*)this + (unsigned int)body;
+    impactData.owner = (char*)this + (uintptr_t)body;
     WeaponEntry* entry = ((::fnv_008acff0::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture())) ? ((::fnv_008acff0::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))->GetEquippedWeapon() : 0;
     TESObjectWEAP* weaponA = entry ? ((::fnv_008acff0::TESObjectWEAP *)(reinterpret_cast<::Twin_0044ddc0 *>((entry))->GetName())) : 0;
     if (target && target->IsImpactActor())
@@ -73392,7 +76029,7 @@ void ActorPackage_008ad970::FUN_008ad970(TESForm* target, NiPoint3 position, boo
     reinterpret_cast<::TESPackage *>((p))->SetProcedureType((::PACKAGE_PROCEDURE_TYPE)(33));
     reinterpret_cast<::PackageTargetRecord *>((((::PackageTargetObj *)(reinterpret_cast<::Script *>((p))->GetData()))))->SetTargetKind((::PACK_TARG_TYPE)(0));
     reinterpret_cast<::PackageTargetRecord *>((((::PackageTargetObj *)(reinterpret_cast<::Script *>((p))->GetData()))))->SetTargetObjectReference((::TESObjectREFR *)(target));
-    reinterpret_cast<::TESRegionGrassObject *>((((::PackageTargetObj *)(reinterpret_cast<::Script *>((p))->GetData()))))->AssignLandTexture((::TESLandTexture *)((int)*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingFloat_008ad970 *>(&::originalRuntimeFloatSetting125))))))));
+    reinterpret_cast<::TESRegionGrassObject *>((((::PackageTargetObj *)(reinterpret_cast<::Script *>((p))->GetData()))))->AssignLandTexture((::TESLandTexture *)((intptr_t)*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingFloat_008ad970 *>(&::originalRuntimeFloatSetting125))))))));
     ((PackageProcess_008ad970*)((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture())))->v0ec();
     ((PackageProcess_008ad970*)((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture())))->v028();
     ((PackageProcess_008ad970*)((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture())))->v0dc();
@@ -73627,7 +76264,7 @@ void ActorStub::GetCameraPosAndDir(Vec3* pos, Vec3* dir, bool bAddOffset)
     {
         Mat3 pitchMat;
         reinterpret_cast<::FUN_00524ac0_shell *>(&(pitchMat))->FUN_00524ac0(reinterpret_cast<::MobileObject *>((void *)this)->GetLooking());
-        rot = reinterpret_cast<::ThreeByThreeMatrix *>((void *)&(const ::fnv_008aff80::Mat3 &)(rot))->operator+((const ::ThreeByThreeMatrix &)(pitchMat));
+        *reinterpret_cast<::ThreeByThreeMatrix *>(&(rot)) = reinterpret_cast<::ThreeByThreeMatrix *>((void *)&(const ::fnv_008aff80::Mat3 &)(rot))->operator+((const ::ThreeByThreeMatrix &)(pitchMat));
     }
     reinterpret_cast<::FUN_00439f50_class *>((void *)&(rot))->FUN_00439f50(1, (::NiPoint3 *)&(*dir));
     reinterpret_cast<::FUN_004a0c10_s *>((dir))->FUN_004a0c10();
@@ -74183,12 +76820,12 @@ struct FUN_008b0ba0_Owner
     int unk64;
     FUN_008b0ba0_Target* unk68;
 
-    unsigned int FUN_008b0ba0();
+    uintptr_t FUN_008b0ba0();
 };
 
 // Returns the value from the target object at unk68 via GetValue, or 0 if unk68 is null.
 // @fnv 0x008b0ba0
-unsigned int FUN_008b0ba0_Owner::FUN_008b0ba0()
+uintptr_t FUN_008b0ba0_Owner::FUN_008b0ba0()
 {
     if (unk68 != 0)
         return unk68->GetValue();
@@ -74585,7 +77222,7 @@ struct FUN_008b0d30_shell
 // @fnv 0x008b0d30
 float FUN_008b0d30_shell::FUN_008b0d30(int param)
 {
-    return *(int*)((char*)this - 0x3c) ? ((V_008b0d30*)(*(int*)((char*)this - 0x3c)))->v5e4(param) : 0.0f;
+    return *(int*)((char*)this - 0x3c) ? ((V_008b0d30*)(*(intptr_t*)((char*)this - 0x3c)))->v5e4(param) : 0.0f;
 }
 
 // placeholder vtable up to slot 0x5ec (index 379)
@@ -74990,6 +77627,8 @@ float FUN_008b0d70_cls::GetTargetValue(int a)
 
 struct ValueInfo
 {
+    char pad00[0x8];
+    unsigned int unk08;
 };
 struct CalcProcess
 {
@@ -75494,7 +78133,7 @@ float CalcActor::GetCachedSpeed(int mode)
 {
     if (!process || !process->GetInfo())
         return 0.0f;
-    unsigned int info2 = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((process->GetInfo()))->GetName()));
+    unsigned int info2 = ((unsigned int)(((process->GetInfo()))->unk08));
     float resultB = 0.0f;
     if (mode == 1)
     {
@@ -75523,7 +78162,7 @@ float CalcActor::GetCachedSpeed(int mode)
         moving = (flags2 & 15) ? reinterpret_cast<::FUN_00884730_shell *>(this)->FUN_00884730() : false;
     }
     void* animation5 = GetAnimation();
-    if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::ValueInfo *>(&::g_011f2250))))->GetName())) == 2 || ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::ValueInfo *>(&::g_011f2250))))->GetName())) == 3)
+    if (((unsigned int)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)) == 2 || ((unsigned int)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)) == 3)
         resultB = CalculateSpeed(this, info2, base5, true, false, s, moving);
     else
         resultB = CalculateSpeed(this, info2, base5, reinterpret_cast<::FUN_008bbc10_shell *>(this)->FUN_008bbc10(), reinterpret_cast<::Actor *>(this)->IsSneaking(), s, moving);
@@ -77202,7 +79841,7 @@ bool Act2170::FUN_008b2170(Act2170* other, void* loc1, void* loc2, bool link, bo
 {
     if (!((::fnv_008b2170::Proc2170 *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture())))
         return false;
-    unsigned j = ((::fnv_008b2170::Proc2170 *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))->State();
+    uintptr_t j = ((::fnv_008b2170::Proc2170 *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))->State();
     Conversation* h = 0;
     Act2170* p = 0;
     if (other && other->IsActor())
@@ -77235,7 +79874,7 @@ bool Act2170::FUN_008b2170(Act2170* other, void* loc1, void* loc2, bool link, bo
         reinterpret_cast<::PackageEx *>((p))->SetPackageType(28);
         reinterpret_cast<::TESPackage *>((p))->SetMustReachLocation(true);
         reinterpret_cast<::TESPackage *>((p))->SetMustComplete(true);
-        reinterpret_cast<::fnv_006729d0::FUN_006729d0_StandIn *>((p))->FUN_006729d0((int)(topic));
+        reinterpret_cast<::fnv_006729d0::FUN_006729d0_StandIn *>((p))->FUN_006729d0((intptr_t)(topic));
         reinterpret_cast<::FUN_008b2860_Class *>((p))->SetByteAtOffsetBE(force);
         reinterpret_cast<::FUN_008b2880Class *>((p))->SetByteAtOffset(noInterrupt);
         reinterpret_cast<::TESPackage *>((p))->FUN_00672aa0(noInterrupt);
@@ -77304,6 +79943,9 @@ struct Player8b
 extern Actor* g_thePlayer;
 struct RefObj
 {
+    char pad00[0x8];
+    unsigned int unk08;
+
     unsigned int GetFlags();
 };
 struct Obj68
@@ -77631,7 +80273,7 @@ void This8b::PlayAnimationSequence(int aiAnimGroup, Anim8b* pAnim)
     {
         cur3 = aiAnimGroup;
         w2 = 0xff;
-        saved3 = m_68->GetObj82() ? ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((m_68->GetObj82()))->GetName())) : 0;
+        saved3 = m_68->GetObj82() ? ((unsigned int)(((m_68->GetObj82()))->unk08)) : 0;
         if (cur3 != 0xff)
         {
             if (flag8 && reinterpret_cast<::FUN_008bbc10_shell *>(this)->FUN_008bbc10())
@@ -77908,7 +80550,7 @@ class TESObjectREFR8B3
 void TESObjectREFR8B3::FUN_008b3180()
 {
     if (((::ExtraDataList8B3 *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0())))
-        reinterpret_cast<::S006ebd10 *>((((::Manager8B3 *)(::GetPathManager()))))->FUN_006ebd10(((int)(reinterpret_cast<::ExtraDataList *>((((::ExtraDataList8B3 *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()))))->GetContainerChangeData())));
+        reinterpret_cast<::S006ebd10 *>((((::Manager8B3 *)(::GetPathManager()))))->FUN_006ebd10(((intptr_t)(reinterpret_cast<::ExtraDataList *>((((::ExtraDataList8B3 *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()))))->GetContainerChangeData())));
 
     if (m_pPointer)
     {
@@ -78252,7 +80894,7 @@ void ActorSoundView::FUN_008b3230(float elapsed)
             float delta = elapsed;
             if (delta == 0.0 && !Paused())
             {
-                if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::VatsView *>(&::g_011f2250))))->GetName())) == 4 && this == (*reinterpret_cast<::ActorSoundView * *>(&::DAT_011f21cc)))
+                if (((unsigned int)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)) == 4 && this == (*reinterpret_cast<::ActorSoundView * *>(&::DAT_011f21cc)))
                     delta = reinterpret_cast<::Twin_0084d030 *>(&(actorClock))->GetStoredFloatValue() * reinterpret_cast<::FUN_009c8d60_t *>(&((*reinterpret_cast<::VatsView *>(&::g_011f2250))))->FUN_009c8d60();
                 else
                     delta = reinterpret_cast<::Twin_0084d030 *>(&(actorClock))->GetStoredFloatValue();
@@ -78461,7 +81103,7 @@ struct Slot95Obj
     virtual void vfn_248();
     virtual void vfn_24c();
     virtual void vfn_250();
-    virtual int Slot95(int self);
+    virtual int Slot95(intptr_t self);
 };
 struct FUN_008b36f0_cls
 {
@@ -78566,15 +81208,15 @@ struct FUN_008b36f0_cls
     int unk188;
     int unk18C;
     Dispatcher* m_190;
-    int DispatchWithObj(int a1, float a2, int a3);
+    int DispatchWithObj(intptr_t a1, float a2, int a3);
 };
 // Resolves a3 via GetObj()->Slot95(this) when a3 is 0, then forwards a1, a2 and a3 to m_190->Dispatch.
 // @fnv 0x008b36f0
-int FUN_008b36f0_cls::DispatchWithObj(int a1, float a2, int a3)
+int FUN_008b36f0_cls::DispatchWithObj(intptr_t a1, float a2, int a3)
 {
     if (a3 == 0)
     {
-        a3 = ((::Slot95Obj *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))->Slot95((int)this);
+        a3 = ((::Slot95Obj *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))->Slot95((intptr_t)this);
     }
     return ((int)(reinterpret_cast<::fnv_009dbb10::Tgt_b *>((m_190))->FUN_009dbb10((::TESObjectREFR *)(a1), a2, a3)));
 }
@@ -78600,11 +81242,11 @@ struct ActorMover_008b3840
 
 struct FUN_008b3840_Actor : public Actor
 {
-    void FUN_008b3840(unsigned int moveMode);
+    void FUN_008b3840(uintptr_t moveMode);
 };
 
 // @fnv 0x008b3840
-void FUN_008b3840_Actor::FUN_008b3840(unsigned int moveMode)
+void FUN_008b3840_Actor::FUN_008b3840(uintptr_t moveMode)
 {
     reinterpret_cast<::FUN_009de2b0_shell *>((reinterpret_cast<ActorMover_008b3840*>(m_pActorMover)))->GetPathCoordinate((::NiPoint3 *)(moveMode));
 }
@@ -79133,11 +81775,11 @@ class FUN_008b51b0_cls
     int unk9C;
     int unkA0;
     FnSub unkA4;
-    void FUN_008b51b0(int a1, int a2, int a3);
+    void FUN_008b51b0(intptr_t a1, int a2, intptr_t a3);
 };
 
 // @fnv 0x008b51b0
-void FUN_008b51b0_cls::FUN_008b51b0(int a1, int a2, int a3)
+void FUN_008b51b0_cls::FUN_008b51b0(intptr_t a1, int a2, intptr_t a3)
 {
     if (vfn_1d0() == 0)
     {
@@ -79361,7 +82003,7 @@ void Cls::ProcessObjects(void* a1, void* a2, Src* apSource, bool a4)
     List* list6 = ((::fnv_008b6290::List *)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>(this)->FUN_0043fcd0()));
     Bnode* b9 = apSource ? apSource->FUN_009611e0() : 0;
     Dnode* d9 = ((::fnv_008b6290::Cnode *)(reinterpret_cast<::Actor *>(this)->GetActorBase()))->v60();
-    void* e6 = d9 ? ((void *)(reinterpret_cast<::FUN_005e50f0_Obj *>((d9))->GetValueByIndex((int)(a1)))) : 0;
+    void* e6 = d9 ? ((void *)(reinterpret_cast<::FUN_005e50f0_Obj *>((d9))->GetValueByIndex((intptr_t)(a1)))) : 0;
     if (e6 == 0 || a2 == 0)
         return;
     for (unsigned int i5 = 0; i5 < list6->FUN_0043b480(); i5++)
@@ -79371,11 +82013,11 @@ void Cls::ProcessObjects(void* a1, void* a2, Src* apSource, bool a4)
         {
             if (a4)
             {
-                ::AddNodeEntries((unsigned int)(a1), (::PartNode *)(o4));
+                ::AddNodeEntries((uintptr_t)(a1), (::PartNode *)(o4));
                 if (a1 == 0)
                     reinterpret_cast<::TaskQueueInterface *>((o4))->QueueActorDisarm(1);
                 else
-                    reinterpret_cast<::Body55 *>((d9))->HidePartitionsUnderAncestor((::Object55 *)(a2), (::Object55 *)(list6), (int)(a1), (::Object55 *)(o4));
+                    reinterpret_cast<::Body55 *>((d9))->HidePartitionsUnderAncestor((::Object55 *)(a2), (::Object55 *)(list6), (intptr_t)(a1), (::Object55 *)(o4));
             }
             else
             {
@@ -79384,10 +82026,10 @@ void Cls::ProcessObjects(void* a1, void* a2, Src* apSource, bool a4)
                 {
                     Tmp tB(1.0f);
                     H* h3 = ((::fnv_008b6290::H *)(reinterpret_cast<::A5D2C0Object *>((o4))->FUN_00a5d2c0((*(::A5D2C0CloningProcess *)(&tB)))));
-                    ::AddNodeEntries((unsigned int)(a1), (::PartNode *)(o4));
-                    reinterpret_cast<::Body55 *>((d9))->HidePartitionsUnderAncestor((::Object55 *)(a2), (::Object55 *)(list6), (int)(a1), (::Object55 *)(o4));
-                    ::SetPartitionVisibility((int)(a1), (::AVObj_S *)(h3));
-                    reinterpret_cast<::fnv_005e5750::PartitionOwner *>((d9))->ApplyPartitionState((::fnv_005e5750::SceneObject *)(a2), (::fnv_005e5750::SceneObject *)(list6), (int)(a1), (::fnv_005e5750::SceneObject *)(h3));
+                    ::AddNodeEntries((uintptr_t)(a1), (::PartNode *)(o4));
+                    reinterpret_cast<::Body55 *>((d9))->HidePartitionsUnderAncestor((::Object55 *)(a2), (::Object55 *)(list6), (intptr_t)(a1), (::Object55 *)(o4));
+                    ::SetPartitionVisibility((intptr_t)(a1), (::AVObj_S *)(h3));
+                    reinterpret_cast<::fnv_005e5750::PartitionOwner *>((d9))->ApplyPartitionState((::fnv_005e5750::SceneObject *)(a2), (::fnv_005e5750::SceneObject *)(list6), (intptr_t)(a1), (::fnv_005e5750::SceneObject *)(h3));
                     b9->v37(h3, 1);
                     FUN_004ade40(apSource->v0c(), h3, 0, 0);
                 }
@@ -79588,9 +82230,9 @@ void ThisC1::FUN_008ac1e0(Arg* aArg)
     if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((aArg->FUN_0042ce30(&w6, 0x80000)))->FUN_004280f0({}))
         ::FUN_0087fd20((::FUN_0087fd20_Class *)this);
     if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((aArg->FUN_0042ce30(&x1, 0x800000)))->FUN_004280f0({}))
-        reinterpret_cast<::ActorValueModifierList *>(&(subD0))->FUN_00937d50((int)(aArg));
+        reinterpret_cast<::ActorValueModifierList *>(&(subD0))->FUN_00937d50((intptr_t)(aArg));
     if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((aArg->FUN_0042ce30(&x6, 0x400000)))->FUN_004280f0({}))
-        reinterpret_cast<::ActorValueModifierList *>(&(subE0))->FUN_00937d50((int)(aArg));
+        reinterpret_cast<::ActorValueModifierList *>(&(subE0))->FUN_00937d50((intptr_t)(aArg));
     p190->vfn_038(aArg);
     if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((aArg->FUN_0042ce30(&v8, 0x400)))->FUN_004280f0({}))
     {
@@ -79614,6 +82256,8 @@ struct NiSkinData
 };
 struct NiSkinInstance
 {
+    char pad00[0x14];
+    void* ppBones;
 };
 struct NiTriBasedGeom
 {
@@ -79634,11 +82278,11 @@ struct ObjectView
 };
 struct WorkerView
 {
-    bool HasSkinBoneInList(NiAVObject*, int);
+    bool HasSkinBoneInList(NiAVObject*, intptr_t);
 };
 // Recursively checks the object and its children; for skinned geometry, returns true if any skin bone appears in DAT_011df270.
 // @fnv 0x008b6e80
-bool WorkerView::HasSkinBoneInList(NiAVObject* object, int flag)
+bool WorkerView::HasSkinBoneInList(NiAVObject* object, intptr_t flag)
 {
     if (!object)
         return false;
@@ -79661,8 +82305,8 @@ bool WorkerView::HasSkinBoneInList(NiAVObject* object, int flag)
     NiSkinInstance* geometry = ((::NiSkinInstance *)(::fnv_0043fad0::FUN_0043fad0((const char *)(tri))));
     if (geometry)
     {
-        unsigned int count = ((unsigned int)(reinterpret_cast<::LowProcess *>((((::NiSkinData *)(reinterpret_cast<::TESRegionDataMap *>((geometry))->GetRegionMapName()))))->GetActiveCombatTarget()));
-        NiAVObject** bones = ((::NiAVObject **)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((geometry))->FUN_00825c00()));
+        uintptr_t count = ((uintptr_t)(reinterpret_cast<::LowProcess *>((((::NiSkinData *)(reinterpret_cast<::TESRegionDataMap *>((geometry))->GetRegionMapName()))))->GetActiveCombatTarget()));
+        NiAVObject** bones = ((::NiAVObject **)(((geometry))->ppBones));
         for (unsigned int j = 0; j < count; j++)
         {
             for (unsigned int k = 0; k < DAT_011df268; k++)
@@ -79718,8 +82362,7 @@ void B6FF0Actor::CollectLimbBones(B6FF0Node* pkNode, bool bRecursing)
     if (pkNode->IsSceneNode())
     {
         if (::DAT_011df268 >= 256)
-            ::FUN_005b5e40(
-                );
+            ::FUN_005b5e40();
         else
             g_apkB6FF0LimbBones[::DAT_011df268++] = pkNode;
 
@@ -80396,7 +83039,7 @@ struct FUN_008b7360_Class
 
     void FUN_008b73f0(unsigned char value, Animation* animation);
 
-    void FUN_008b7360(unsigned char value, int state);
+    void FUN_008b7360(unsigned char value, intptr_t state);
 };
 
 extern FUN_008b7360_Class* DAT_011dea3c;
@@ -80408,7 +83051,7 @@ struct FUN_008b7360_Setting
 
 
 // @fnv 0x008b7360
-void FUN_008b7360_Class::FUN_008b7360(unsigned char value, int state)
+void FUN_008b7360_Class::FUN_008b7360(unsigned char value, intptr_t state)
 {
     if (this == DAT_011dea3c)
     {
@@ -80478,10 +83121,10 @@ void FUN_008b78c0_shell::UpdateHurtReaction(bool force)
                             : reinterpret_cast<::PlayerCharacter *>((((PCShell_00950a60*)g_thePlayer)))->GetAnimation(false);
         else
             anim = ((FUN_008b70d0_shell*)this)->FUN_008b70d0();
-        if (!anim || !((::NiTPointerMap<unsigned short, ::fnv_008b78c0::AnimSequenceBase *> *)(reinterpret_cast<::FUN_00497280_shell *>((((AnimShell_00497280*)anim)))->GetFieldAt124())))
+        if (!anim || !((::NiTPointerMap<unsigned short, ::fnv_008b78c0::AnimSequenceBase *> *)(*reinterpret_cast<void **>((char *)anim + 0x124))))
             return;
         AnimSequenceBase* animSeq = 0;
-        if (!reinterpret_cast<::NiTMapBase *>((void *)(((::NiTPointerMap<unsigned short, ::fnv_008b78c0::AnimSequenceBase *> *)(reinterpret_cast<::FUN_00497280_shell *>((((AnimShell_00497280*)anim)))->GetFieldAt124()))))->Lookup(3, (::AnimSequenceBase *&)(animSeq)))
+        if (!reinterpret_cast<::NiTMapBase *>((void *)(((::NiTPointerMap<unsigned short, ::fnv_008b78c0::AnimSequenceBase *> *)(*reinterpret_cast<void **>((char *)anim + 0x124)))))->Lookup(3, (::AnimSequenceBase *&)(animSeq)))
             return;
         if (!animSeq)
             return;
@@ -80513,7 +83156,7 @@ void FUN_008b78c0_shell::UpdateHurtReaction(bool force)
     {
         FUN_008b73f0(isHurt, reinterpret_cast<::PlayerCharacter *>((((PCShell_00950a60*)g_thePlayer)))->GetAnimation(false), 0, 0);
         FUN_008b73f0(isHurt, reinterpret_cast<::PlayerCharacter *>((((PCShell_00950a60*)g_thePlayer)))->GetAnimation(true),
-                     ((const char *)(::FUN_00464f30((int)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_008b78c0::GlobalObject_0040c150 *>(&::g_011cdd78))))->GetMenuTitle())))))), 0);
+                     ((const char *)(::FUN_00464f30((intptr_t)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_008b78c0::GlobalObject_0040c150 *>(&::g_011cdd78))))->GetMenuTitle())))))), 0);
     }
     else
     {
@@ -80636,7 +83279,7 @@ class FUN_008b7e20_cls
 int FUN_008b7e20_cls::GetFactionRankSum()
 {
     int acc = 0;
-    int fkey = ((int)(reinterpret_cast<::TESRegion *>(&(((::fnv_008b7e20::ScanHolderA *)(reinterpret_cast<::Actor *>(this)->GetActorBase()))->sub))->GetDiffuseColor()));
+    intptr_t fkey = ((intptr_t)(reinterpret_cast<::TESRegion *>(&(((::fnv_008b7e20::ScanHolderA *)(reinterpret_cast<::Actor *>(this)->GetActorBase()))->sub))->GetDiffuseColor()));
     ExtraFactionChanges_fake* n = ((::ExtraFactionChanges_fake *)(reinterpret_cast<::FUN_0042e800_shell *>((((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()))))->FUN_0042e800()));
     TESFaction* faction[0x80];
     unsigned int fc = reinterpret_cast<::fnv_008b8ca0::FUN_008b8ca0_shell *>(this)->FUN_008b8ca0((::fnv_008b8ca0::TESFaction **)(faction), 0x80, (void *)(fkey), n ? n->list : 0);
@@ -80669,7 +83312,7 @@ struct FUN_008b7f00_cls
 // @fnv 0x008b7f00
 unsigned int FUN_008b7f00_cls::FUN_008b7f00()
 {
-    unsigned int kTotal = 0;
+    uintptr_t kTotal = 0;
     void* a = ((void *)(reinterpret_cast<::TESRegion *>((reinterpret_cast<SubObj30*>((char*)((void *)(reinterpret_cast<::Actor *>(this)->GetActorBase())) + 0x30)))->GetDiffuseColor()));
     ExtraFactionChanges_fake* ef = ((::ExtraFactionChanges_fake *)(reinterpret_cast<::FUN_0042e800_shell *>((((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()))))->FUN_0042e800()));
     unsigned int arr[128];
@@ -80679,7 +83322,7 @@ unsigned int FUN_008b7f00_cls::FUN_008b7f00()
     {
         if (arr[i2] == 0)
             continue;
-        kTotal += ((unsigned int)(reinterpret_cast<::LowProcess *>((reinterpret_cast<ItemObj*>(arr[i2])))->GetActiveCombatTarget()));
+        kTotal += ((uintptr_t)(reinterpret_cast<::LowProcess *>((reinterpret_cast<ItemObj*>(arr[i2])))->GetActiveCombatTarget()));
     }
     return kTotal;
 }
@@ -80845,7 +83488,7 @@ void WorkerActor::FUN_008b8580(TESFaction* faction, signed char rank)
             if (rank == -1)
                 reinterpret_cast<::ExtraFactionChanges *>((h))->RemoveFaction(faction);
             else
-                reinterpret_cast<::FUN_00436f20_cls *>((h))->SetValueByKey((unsigned int)(faction), rank);
+                reinterpret_cast<::FUN_00436f20_cls *>((h))->SetValueByKey((uintptr_t)(faction), rank);
             return;
         }
     }
@@ -81158,7 +83801,7 @@ void TaskOwner::ProcessTargets()
         List* node7 = ((::fnv_008b8f90::List *)(::FUN_008b9220((char *)(void *)(((void *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>(this)->FUN_009306d0()))))));
         while (node7 && !node7->FUN_008256d0())
         {
-            Entry* entry7 = *((::fnv_008b8f90::Entry **)(new ((void *)(node7)) ::Vec3()));
+            Entry* entry7 = *((::fnv_008b8f90::Entry **)(((::Vec3 *)(void *)(node7))));
             RefHandle* reference7 =
                 ((void *)(::FUN_00559450((int *)(entry7)))) ? ((::fnv_008b8f90::RefHandle *)(::bhkCollisionObject::GetFromRigidBody((const ::hkpRigidBody *)(void *)(((void *)(::FUN_004ae750((void *)(((Rigid*)((void *)(::FUN_00559450((int *)(entry7))))))))))))) : 0;
             void* aFlags = reference7 ? ((void *)(reinterpret_cast<::Twin_0044ddc0 *>((reference7))->GetName())) : 0;
@@ -81181,12 +83824,12 @@ void TaskOwner::ProcessTargets()
                     if (magnitude5 > 0.0)
                     {
                         TaskPtr task2(new Task);
-                        ::FUN_009b58d0((::Thing9b58d0 *)(::fnv_008b8f90::Task *)(((::fnv_008b8f90::Task *)(::FUN_00559450((int *)&(task2))))), (int)(target7), (::Actor9b58d0 *)(::fnv_008b8f90::TaskOwner *)(this), magnitude5, (::Struct9b58d0 *)(entry7));
+                        ::FUN_009b58d0((::Thing9b58d0 *)(::fnv_008b8f90::Task *)(((::fnv_008b8f90::Task *)(::FUN_00559450((int *)&(task2))))), (intptr_t)(target7), (::Actor9b58d0 *)(::fnv_008b8f90::TaskOwner *)(this), magnitude5, (::Struct9b58d0 *)(entry7));
                         Queue(((::fnv_008b8f90::Task *)(::FUN_00559450((int *)&(task2)))), 0);
                     }
                 }
             }
-            node7 = ((::fnv_008b8f90::List *)(reinterpret_cast<::Callees *>((node7))->FUN_00726070()));
+            node7 = ((::fnv_008b8f90::List *)(reinterpret_cast<::SimpleListNodeView *>((node7))->m_pkNext));
         }
     }
 }
@@ -81347,7 +83990,7 @@ void FUN_008b9b10(char* apData)
     {
         if (::FUN_00884920((int *)(owner->m_pInner)))
         {
-            ::FUN_00884940((int *)(owner->m_pInner), (::blob4)(0x80000000));
+            ::FUN_00884940((int *)(owner->m_pInner), std::bit_cast<::blob4>(0x80000000u));
         }
     }
 }
@@ -81475,7 +84118,7 @@ struct S_008b9cc0_Helper
 
 // If param is non-zero, gets the object at param-0xa4 and, when its unk68 helper passes FUN_00884920, calls Apply(0x20) on it.
 // @fnv 0x008b9cc0
-void __cdecl FUN_008b9cc0(int aiObjectPtr)
+void __cdecl FUN_008b9cc0(intptr_t aiObjectPtr)
 {
     if (aiObjectPtr == 0)
     {
@@ -81488,7 +84131,7 @@ void __cdecl FUN_008b9cc0(int aiObjectPtr)
     {
         if (FUN_00884920(object->unk68))
         {
-            ::FUN_00884940((int *)(((S_008b9cc0_Helper*)object->unk68)), (::blob4)(0x20));
+            ::FUN_00884940((int *)(((S_008b9cc0_Helper*)object->unk68)), std::bit_cast<::blob4>(0x20u));
         }
     }
 }
@@ -81505,7 +84148,7 @@ void __cdecl FUN_008b9db0(ActorValueOwner* owner)
     if (actor->m_pBaseProcess)
     {
         if (::FUN_00884920((int *)(reinterpret_cast<S_008b9db0_Proc*>(actor->m_pBaseProcess))))
-            ::FUN_00884940((int *)(reinterpret_cast<S_008b9db0_Proc*>(actor->m_pBaseProcess)), (::blob4)(0x40));
+            ::FUN_00884940((int *)(reinterpret_cast<S_008b9db0_Proc*>(actor->m_pBaseProcess)), std::bit_cast<::blob4>(0x40u));
     }
 }
 
@@ -81579,7 +84222,7 @@ void FUN_008b9ea0(StatOwner* owner, int unused, float amount, float delta)
         return;
     StatActor* actor = static_cast<StatActor*>(owner);
     if (actor->effect && ::FUN_00884920((int *)(actor->effect)))
-        ::FUN_00884940((int *)(actor->effect), (::blob4)(0x80));
+        ::FUN_00884940((int *)(actor->effect), std::bit_cast<::blob4>(0x80u));
     if (delta < 0.0)
     {
         float current = actor->Current(16);
@@ -81982,7 +84625,7 @@ void FUN_008ba140(char* param)
         {
             if (::FUN_00884920((int *)(obj->m68)))
             {
-                ::FUN_00884940((int *)(obj->m68), (::blob4)(0x400));
+                ::FUN_00884940((int *)(obj->m68), std::bit_cast<::blob4>(0x400u));
             }
         }
     }
@@ -82059,7 +84702,7 @@ void SetProcessFlagIfActive(C8BA210Listener* pkListener)
     {
         C8BA210Actor* pkActor = static_cast<C8BA210Actor*>(pkListener);
         if (pkActor->m_pkProcess && ::FUN_00884920((int *)(pkActor->m_pkProcess)))
-            ::FUN_00884940((int *)(pkActor->m_pkProcess), (::blob4)(0x800));
+            ::FUN_00884940((int *)(pkActor->m_pkProcess), std::bit_cast<::blob4>(0x800u));
     }
 }
 
@@ -83237,7 +85880,7 @@ struct EventList
 };
 struct EventExtra
 {
-    int value;
+    intptr_t value;
     EventExtra* Self();
 };
 struct EventExtraPtr
@@ -84693,7 +87336,7 @@ void PlayerView::SetActiveState(unsigned char selected, unsigned char bypass, un
         if (selected)
         {
             if (*(*reinterpret_cast<::fnv_008bb650::Preferences *>(&::g_011d898c)).FUN_00408d60())
-                reinterpret_cast<::FUN_008bbbf0_shell *>((DAT_011dea3c))->SetSightingNode((::NiAVObject *)(((int)(::FUN_004aae30((::NiAVObject *)(reinterpret_cast<::FUN_00950bb0_shell *>((DAT_011dea3c))->FUN_00950bb0(1)), (::NiFixedString *)(str_01084fa0))))));
+                reinterpret_cast<::FUN_008bbbf0_shell *>((DAT_011dea3c))->SetSightingNode((::NiAVObject *)(((intptr_t)(::FUN_004aae30((::NiAVObject *)(reinterpret_cast<::FUN_00950bb0_shell *>((DAT_011dea3c))->FUN_00950bb0(1)), (::NiFixedString *)(str_01084fa0))))));
         }
         else
         {
@@ -84703,12 +87346,12 @@ void PlayerView::SetActiveState(unsigned char selected, unsigned char bypass, un
     Inventory* equipment = ((::fnv_008bb650::Inventory *)(reinterpret_cast<::FUN_008b70d0_shell *>(this)->FUN_008b70d0()));
     Selection* equipment2 = equipment ? ((::fnv_008bb650::Selection *)(reinterpret_cast<::FUN_00491040_shell *>((equipment))->FUN_00491040(4))) : 0;
     int type = 11;
-    if (equipment2 && ((int)(reinterpret_cast<::LowProcess *>((equipment2))->GetActiveCombatTarget())) != 3)
+    if (equipment2 && ((intptr_t)(reinterpret_cast<::LowProcess *>((equipment2))->GetActiveCombatTarget())) != 3)
         type = DAT_011977e4[((::fnv_008bb650::ItemRoot *)(reinterpret_cast<::BSAnimGroupSequence *>((equipment2))->GetAnimGroup()))->FUN_005f2420()].value;
     if (prevent && type == 1)
         return;
     m_68->SetActive(selected);
-    if (this == DAT_011dea3c && ((int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<CurrentMode*>(&(*reinterpret_cast<::VATS *>(&::g_011f2250)))))->GetName())) != 4)
+    if (this == DAT_011dea3c && ((int)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)) != 4)
     {
         ::fnv_00771700::FUN_00771700(1);
         float unity = 1.0f;
@@ -86443,7 +89086,7 @@ bool ActionOwner::FUN_008bc9d0(TargetObject* target, bool allowOverride)
     else
     {
         LookupProvider* pLookupProvider = ((::LookupProvider *)(reinterpret_cast<::Actor *>((this))->GetActorBase()));
-        LookupTable* pLookupTable = ((::LookupTable *)(::GetField158((int)(pLookupProvider))));
+        LookupTable* pLookupTable = ((::LookupTable *)(::GetField158((intptr_t)(pLookupProvider))));
         TargetObject* entry;
         if (!pLookupTable || !reinterpret_cast<::RefList *>((((::LookupResult *)(reinterpret_cast<::BGSCameraPath *>((pLookupTable))->GetConditions()))))->FUN_005f65d0({}))
             return false;
@@ -86501,9 +89144,9 @@ void Ref8BC::CopyScaleAndResetItems(Ref8BC* pkSource)
     ListNode8BC* pkNode = ((::ListNode8BC *)(::GetField38((char *)(pkSource))));
     while (pkNode && !pkNode->IsEmpty())
     {
-        Item8BC* pkItem = *((::Item8BC **)(new ((void *)(pkNode)) ::Vec3()));
+        Item8BC* pkItem = *((::Item8BC **)(((::Vec3 *)(void *)(pkNode))));
         reinterpret_cast<::FUN_0047eb90_Class *>((pkItem))->FUN_0047eb90(true);
-        pkNode = ((::ListNode8BC *)(reinterpret_cast<::Callees *>((pkNode))->FUN_00726070()));
+        pkNode = ((::ListNode8BC *)(reinterpret_cast<::SimpleListNodeView *>((pkNode))->m_pkNext));
     }
     reinterpret_cast<::fnv_009721f0::FUN_009721f0_shell *>(&((*reinterpret_cast<::Manager8BC *>(&::g_011e0e80))))->AddObjectToList((::fnv_009721f0::TESFormList *)(pkSource));
 }
@@ -87129,7 +89772,7 @@ struct ProcBase
     virtual int vfn_27c();
 };
 
-int __cdecl FUN_00ec43fb(int a0, int a1, int a2, int a3, int a4);
+int __cdecl FUN_00ec43fb(int a0, int a1, intptr_t a2, intptr_t a3, int a4);
 extern char DAT_011846a0;
 extern char DAT_011a3328;
 
@@ -87141,7 +89784,7 @@ struct FUN_008c0050_cls : public Actor
 // @fnv 0x008c0050
 bool FUN_008c0050_cls::FUN_008c0050()
 {
-    int r = FUN_00ec43fb(((::ProcBase *)(reinterpret_cast<::BSShaderNoLightingProperty *>((this))->GetBaseTexture()))->vfn_27c(), 0, (int)&DAT_011846a0, (int)&DAT_011a3328, 0);
+    int r = FUN_00ec43fb(((::ProcBase *)(reinterpret_cast<::BSShaderNoLightingProperty *>((this))->GetBaseTexture()))->vfn_27c(), 0, (intptr_t)&DAT_011846a0, (intptr_t)&DAT_011a3328, 0);
     if (r != 0 || (FUN_00881570(this) && reinterpret_cast<struct ::FUN_0041ca90 *>((((::ProcBase *)(reinterpret_cast<::BSShaderNoLightingProperty *>((this))->GetBaseTexture()))->vfn_27c()))->get() == 1))
     {
         return true;
@@ -87578,22 +90221,22 @@ struct ManagerView
 extern Unit* DAT_011dea3c;
 struct Target
 {
-    int UpdateTargetUnits(int, int, int);
+    int UpdateTargetUnits(intptr_t, intptr_t, int);
 };
 // Locks the view, iterates changed units, updates those alive and accepted by FUN_008c1010, marks the first with FUN_008b7c00, then unlocks and returns -1.
 // @fnv 0x008c0ec0
-int Target::UpdateTargetUnits(int aiArg1, int aiArg2, int unused)
+int Target::UpdateTargetUnits(intptr_t aiArg1, intptr_t aiArg2, int unused)
 {
     reinterpret_cast<::FUN_0040fbf0_shell *>(&((*reinterpret_cast<::fnv_008c0ec0::LockView *>(&::DAT_011f1180))))->FUN_0040fbf0(0);
     bool count = false;
-    Unit** changed = ((::fnv_008c0ec0::Unit **)(::FUN_00871a30((int)&((*reinterpret_cast<::fnv_008c0ec0::ManagerView *>(&::g_011e0e80))))));
-    int units = ::FUN_00472380((int)&((*reinterpret_cast<::fnv_008c0ec0::ManagerView *>(&::g_011e0e80))));
+    Unit** changed = ((::fnv_008c0ec0::Unit **)(::FUN_00871a30((intptr_t)&((*reinterpret_cast<::fnv_008c0ec0::ManagerView *>(&::g_011e0e80))))));
+    int units = ::FUN_00472380((intptr_t)&((*reinterpret_cast<::fnv_008c0ec0::ManagerView *>(&::g_011e0e80))));
     for (int i = 0; i < units; i++)
     {
         Unit* unit = changed[i];
-        int value = reinterpret_cast<::MyOuter88230 *>((unit))->FUN_008a8230((int)(DAT_011dea3c));
+        int value = reinterpret_cast<::MyOuter88230 *>((unit))->FUN_008a8230((intptr_t)(DAT_011dea3c));
         bool accepted = ::fnv_008c1010::FUN_008c1010((::TESObjectREFR *)(aiArg1), (::TESForm *)(aiArg2), (::fnv_008c1010::FactionCheck1010 *)(unit));
-        if (!unit->IsDead() && reinterpret_cast<::MyOuter88230 *>((unit))->FUN_008a8230((int)(DAT_011dea3c)) > 0 && ::fnv_008c1010::FUN_008c1010((::TESObjectREFR *)(aiArg1), (::TESForm *)(aiArg2), (::fnv_008c1010::FactionCheck1010 *)(unit)))
+        if (!unit->IsDead() && reinterpret_cast<::MyOuter88230 *>((unit))->FUN_008a8230((intptr_t)(DAT_011dea3c)) > 0 && ::fnv_008c1010::FUN_008c1010((::TESObjectREFR *)(aiArg1), (::TESForm *)(aiArg2), (::fnv_008c1010::FactionCheck1010 *)(unit)))
         {
             ((::fnv_008c0ec0::ProcessView *)(reinterpret_cast<::BSShaderNoLightingProperty *>((unit))->GetBaseTexture()))->Update(unit, DAT_011dea3c, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0);
             if (!count)
@@ -87632,9 +90275,9 @@ class ListWalkNode
 // @fnv 0x008c1210
 bool WalkListForTarget(ListWalkNode* node, ListWalkTarget* target)
 {
-    while (node != 0 && *((::ListWalkItem **)(new ((void *)(node)) ::Vec3())) != 0)
+    while (node != 0 && *((::ListWalkItem **)(((::Vec3 *)(void *)(node)))) != 0)
     {
-        ListWalkItem* item = *((::ListWalkItem **)(new ((void *)(node)) ::Vec3()));
+        ListWalkItem* item = *((::ListWalkItem **)(((::Vec3 *)(void *)(node))));
         if (item != 0)
         {
             if (reinterpret_cast<::fnv_008b8e90::FUN_008b8e90_shell *>((target))->FUN_008b8e90((::fnv_008b8e90::TESFaction *)(item->unk00)))
@@ -87642,7 +90285,7 @@ bool WalkListForTarget(ListWalkNode* node, ListWalkTarget* target)
                 return true;
             }
         }
-        node = ((::ListWalkNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
+        node = ((::ListWalkNode *)(reinterpret_cast<::SimpleListNodeView *>((node))->m_pkNext));
     }
 }
 
@@ -88115,7 +90758,7 @@ void FUN_008c1270_cls::FUN_008c1270()
         }
         for (unsigned int j = 3; j < 0x10; j++)
         {
-            ((NvBig*)((int)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture())))->v258(j);
+            ((NvBig*)((intptr_t)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture())))->v258(j);
         }
     }
 }
@@ -88145,12 +90788,12 @@ class FnvSubD
 class FUN_008c16c0_cls
 {
   public:
-    bool ApplyValueToFoundObject(int a1, double value);
+    bool ApplyValueToFoundObject(intptr_t a1, double value);
 };
 
 // Looks up an object via FnvLookupB and Find, then applies value to it through GetD's Apply; returns true on success.
 // @fnv 0x008c16c0
-bool FUN_008c16c0_cls::ApplyValueToFoundObject(int a1, double value)
+bool FUN_008c16c0_cls::ApplyValueToFoundObject(intptr_t a1, double value)
 {
     FnvSubA* a = reinterpret_cast<FnvSubA*>(this);
     if (a != 0)
@@ -88165,7 +90808,7 @@ bool FUN_008c16c0_cls::ApplyValueToFoundObject(int a1, double value)
                 reinterpret_cast<::fnv_005ac6a0::FUN_005ac6a0 *>((m1))->Method_005ac6a0((const char *)(a1), (unsigned int *)(void **)(&out));
                 if (out != 0)
                 {
-                    reinterpret_cast<::FUN_005a9290_shell *>((m2))->SetScriptVariable((unsigned int)(out), value);
+                    reinterpret_cast<::FUN_005a9290_shell *>((m2))->SetScriptVariable((uintptr_t)(out), value);
                     return true;
                 }
             }
@@ -88193,7 +90836,7 @@ struct FUN_008c1740_Other
 struct FUN_008c1740_cls
 {
     FUN_008c1740_Node* GetNode();
-    double ComputeFromNode(int a1);
+    double ComputeFromNode(intptr_t a1);
 };
 // @fnv 0x008b06d0
 bool HostActor::IsHostileTo(HostActor* apTarget, bool abForce, int* apiRelation, bool abNoForce)
@@ -88214,7 +90857,7 @@ bool HostActor::IsHostileTo(HostActor* apTarget, bool abForce, int* apiRelation,
         {
             if (apTarget->CanReceiveMagicEffects(0))
                 return false;
-            if (((float)(reinterpret_cast<::FUN_008c1740_cls *>(this)->ComputeFromNode((int)("FollowerSwitchAggressive")))) == ::_DAT_01012060)
+            if (((float)(reinterpret_cast<::FUN_008c1740_cls *>(this)->ComputeFromNode((intptr_t)("FollowerSwitchAggressive")))) == ::_DAT_01012060)
             {
                 if (((bool)(reinterpret_cast<::FUN_00493bb0_Class *>((apTarget))->FUN_00493bb0())) && (reinterpret_cast<::FUN_008bc700_shell *>((apTarget))->FUN_008bc700((::Actor *)(g_pHostPlayer)) || reinterpret_cast<::FUN_008bc700_shell *>((apTarget))->FUN_008bc700((::Actor *)(::HostActor *)(this))))
                     return true;
@@ -88265,7 +90908,7 @@ bool HostActor::IsHostileTo(HostActor* apTarget, bool abForce, int* apiRelation,
             {
                 if (bTeammate4)
                 {
-                    if (((bool)(reinterpret_cast<::FNV_93dee0_Host *>((g_pHostPlayer))->FUN_0093dee0((unsigned int)(apTarget)))))
+                    if (((bool)(reinterpret_cast<::FNV_93dee0_Host *>((g_pHostPlayer))->FUN_0093dee0((uintptr_t)(apTarget)))))
                         bHostile4 = true;
                 }
                 else
@@ -88287,7 +90930,7 @@ bool HostActor::IsHostileTo(HostActor* apTarget, bool abForce, int* apiRelation,
 
 // Looks up a helper from the node and an other object, applies the helper to a1, then computes from the resulting out object or returns DAT_0101a6b0.
 // @fnv 0x008c1740
-double FUN_008c1740_cls::ComputeFromNode(int aiValue)
+double FUN_008c1740_cls::ComputeFromNode(intptr_t aiValue)
 {
     FUN_008c1740_cls* p = this;
     if (p != 0)
@@ -88300,7 +90943,7 @@ double FUN_008c1740_cls::ComputeFromNode(int aiValue)
             reinterpret_cast<::fnv_005ac6a0::FUN_005ac6a0 *>((a))->Method_005ac6a0((const char *)(aiValue), (unsigned int *)(::FUN_008c1740_Out **)(&out));
             if (out != 0)
             {
-                return reinterpret_cast<::FUN_005a9140_shell *>((b))->FUN_005a9140((unsigned int)(out), (::Script *)(0));
+                return reinterpret_cast<::FUN_005a9140_shell *>((b))->FUN_005a9140((uintptr_t)(out), (::Script *)(0));
             }
         }
     }
@@ -88375,7 +91018,7 @@ bool FUN_008c3400_Actor::FUN_008c3400(SpellItem* spell)
     bool removed = false;
     if (reinterpret_cast<::Holder_0048d830 *>(&(((::fnv_008c3400::TESActorBase *)(reinterpret_cast<::Actor *>(this)->GetActorBase()))->spellList))->ContainsPackage((::ActorPackageContext *)(spell)))
     {
-        reinterpret_cast<::Host0048d8d0 *>(&(((::fnv_008c3400::TESActorBase *)(reinterpret_cast<::Actor *>(this)->GetActorBase()))->spellList))->ForwardToHelper((int)(spell));
+        reinterpret_cast<::Host0048d8d0 *>(&(((::fnv_008c3400::TESActorBase *)(reinterpret_cast<::Actor *>(this)->GetActorBase()))->spellList))->ForwardToHelper((intptr_t)(spell));
         ((::fnv_008c3400::TESActorBase *)(reinterpret_cast<::Actor *>(this)->GetActorBase()))->MarkAsModified(0x10);
         removed = true;
     }
@@ -88389,9 +91032,9 @@ bool FUN_008c3400_Actor::FUN_008c3400(SpellItem* spell)
     }
     if (spell->GetType() == 2)
     {
-        if (((bool)(reinterpret_cast<::FUN_008c5000_shell *>(this)->IsNonZero((int)(spell)))))
+        if (((bool)(reinterpret_cast<::FUN_008c5000_shell *>(this)->IsNonZero((intptr_t)(spell)))))
         {
-            reinterpret_cast<::FUN_008c4f90_Class *>(this)->FUN_008c4f90((int)(spell));
+            reinterpret_cast<::FUN_008c4f90_Class *>(this)->FUN_008c4f90((intptr_t)(spell));
             removed = true;
         }
     }
@@ -89284,13 +91927,13 @@ void MatchActor::FUN_008b1070()
             matchPlayer->playerPackage = 0;
         MatchPackage* linked = package2;
         MatchActor* first = ((::MatchActor *)(::FUN_009ee040((char *)(linked))));
-        MatchActor* second6 = ((::MatchActor *)(reinterpret_cast<::MiddleLowProcess *>((linked))->GetProcessInteger()));
+        MatchActor* second6 = ((::MatchActor *)(*reinterpret_cast<void **>((char *)(linked) + 0xb4)));
         MatchActor* third = ((::MatchActor *)(reinterpret_cast<::FUN_004036b0_Class *>((linked))->FUN_004036b0()));
         if (third)
         {
-            MatchActor* owner = ((::MatchActor *)(reinterpret_cast<::DialogueItem *>((((MatchPackage*)third)))->SelectDefaultResponseList()));
+            MatchActor* owner = ((::MatchActor *)(reinterpret_cast<::DialogueItem *>((((MatchPackage*)third)))->FUN_005e3fa0()));
             reinterpret_cast<::FUN_0042e130_shell *>((((::MatchExtra *)(reinterpret_cast<::FUN_005d43c0_ *>((owner))->FUN_005d43c0()))))->FUN_0042e130();
-            reinterpret_cast<::FUN_0042e130_shell *>((((::MatchExtra *)(reinterpret_cast<::FUN_005d43c0_ *>((((::MatchActor *)(reinterpret_cast<::DialogueItem *>((((MatchPackage*)third)))->SelectDefaultResponseList()))))->FUN_005d43c0()))))->FUN_0042e130();
+            reinterpret_cast<::FUN_0042e130_shell *>((((::MatchExtra *)(reinterpret_cast<::FUN_005d43c0_ *>((((::MatchActor *)(reinterpret_cast<::DialogueItem *>((((MatchPackage*)third)))->FUN_005e3fa0()))))->FUN_005d43c0()))))->FUN_0042e130();
             reinterpret_cast<::ActorDeletionQueue *>(&((*reinterpret_cast<::MatchQueue *>(&::g_011e0e80))))->FUN_0096d470((::MobileObject *)(third), 0);
             reinterpret_cast<::ProcessLists *>(&((*reinterpret_cast<::MatchQueue *>(&::g_011e0e80))))->AddMobileObjectToList((::MobileObject *)(third));
         }
@@ -89315,12 +91958,12 @@ void MatchActor::FUN_008b1070()
             reinterpret_cast<::fnv_009ef530::FUN_009ef530_cls *>((linked))->FUN_009ef530();
         if (first && first->Active())
         {
-            reinterpret_cast<::FUN_00906050_Class *>(&((*reinterpret_cast<::MatchManager *>(&::fnv_008a20d0::g_011f11e0))))->FUN_00906050((int)(first));
+            reinterpret_cast<::FUN_00906050_Class *>(&((*reinterpret_cast<::MatchManager *>(&::fnv_008a20d0::g_011f11e0))))->FUN_00906050((intptr_t)(first));
             *((bool*)&first->unk080) = true;
         }
         if (second6 && second6->Active())
         {
-            reinterpret_cast<::FUN_00906050_Class *>(&((*reinterpret_cast<::MatchManager *>(&::fnv_008a20d0::g_011f11e0))))->FUN_00906050((int)(second6));
+            reinterpret_cast<::FUN_00906050_Class *>(&((*reinterpret_cast<::MatchManager *>(&::fnv_008a20d0::g_011f11e0))))->FUN_00906050((intptr_t)(second6));
             *((bool*)&second6->unk080) = true;
         }
         bool specialVal = reinterpret_cast<::FUN_006727b0_shell *>((package2))->FUN_006727b0();
@@ -92284,7 +94927,7 @@ struct FUN_008d6000_Class
     unsigned int key2;
     unsigned int time1;
     unsigned int time2;
-    void InitTiming(unsigned int a, unsigned int b);
+    void InitTiming(uintptr_t a, uintptr_t b);
     void Refresh();
 };
 
@@ -92292,7 +94935,7 @@ struct FUN_008d6000_Class
 
 // Scans g_timedEntryList for entries matching a and b, removes duplicates, allocates a new entry, adds it to the head, initializes it and refreshes it if needed.
 // @fnv 0x008d5cb0
-void AddTimedEntry(unsigned int auiKey1, unsigned int auiKey2)
+void AddTimedEntry(uintptr_t auiKey1, unsigned int auiKey2)
 {
     unsigned int now = ((unsigned int)(::FUN_00457fe0()));
     bool bRefresh = true;
@@ -92300,8 +94943,8 @@ void AddTimedEntry(unsigned int auiKey1, unsigned int auiKey2)
     BSSimpleList<FUN_008d6000_Class*>* iter2;
     for (iter2 = &(*reinterpret_cast<::BSSimpleList< ::FUN_008d6000_Class *> *>(&::g_011e0098)); iter2;)
     {
-        FUN_008d6000_Class* entry8 = ((::FUN_008d6000_Class *)(new ((void *)(iter2)) ::Vec3()));
-        iter2 = ((::BSSimpleList< ::FUN_008d6000_Class *> *)(reinterpret_cast<::Callees *>((iter2))->FUN_00726070()));
+        FUN_008d6000_Class* entry8 = (((iter2))->m_item);
+        iter2 = ((::BSSimpleList< ::FUN_008d6000_Class *> *)(reinterpret_cast<::SimpleListNodeView *>((iter2))->m_pkNext));
         if (entry8 && auiKey1 == entry8->key1)
         {
             if (::GetLevelValue(entry8->key2) >= ::GetLevelValue(auiKey2) && entry8->time2 > now)
@@ -92317,14 +94960,14 @@ void AddTimedEntry(unsigned int auiKey1, unsigned int auiKey2)
     {
         for (iter2 = &(*reinterpret_cast<::BSSimpleList< ::FUN_008d6000_Class *> *>(&::g_011e0098)); iter2;)
         {
-            FUN_008d6000_Class* itemB = ((::FUN_008d6000_Class *)(new ((void *)(iter2)) ::Vec3()));
+            FUN_008d6000_Class* itemB = (((iter2))->m_item);
             bool bMatch = false;
             if (itemB && auiKey1 == itemB->key1 && itemB->key2 == auiKey2)
                 bMatch = true;
             if (bMatch)
                 iter2->RemoveHead();
             else
-                iter2 = ((::BSSimpleList< ::FUN_008d6000_Class *> *)(reinterpret_cast<::Callees *>((iter2))->FUN_00726070()));
+                iter2 = ((::BSSimpleList< ::FUN_008d6000_Class *> *)(reinterpret_cast<::SimpleListNodeView *>((iter2))->m_pkNext));
         }
         FUN_008d6000_Class* pNewX;
         {
@@ -93471,7 +96114,7 @@ void Subject::UpdateControllerWorld(int unused)
         Scene* previous8 = ((::fnv_009308f0::Scene *)(reinterpret_cast<::FUN_00810660_Class *>((ctl2))->FUN_00810660()));
         Scene* sceneTmp = ((::fnv_009308f0::Scene *)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>(this)->FUN_0043fcd0()));
         if (previous8 != sceneTmp)
-            reinterpret_cast<::S_00c6d7a0_Obj *>((ctl2))->FUN_00c6d7a0((int)(sceneTmp));
+            reinterpret_cast<::S_00c6d7a0_Obj *>((ctl2))->FUN_00c6d7a0((intptr_t)(sceneTmp));
         if (old_2 != world_)
         {
             if (old_2)
@@ -94157,7 +96800,7 @@ struct MagicCasterShell
 bool MagicCasterShell::ApplyEffect(void* effect, void* context, int* piErrorOut, bool immediate)
 {
     int failureCode = 0;
-    bool succeeded = reinterpret_cast<::FUN_008c45e0_class *>(this)->FUN_008c45e0((int)(effect), (int *)(context), &failureCode, immediate);
+    bool succeeded = reinterpret_cast<::FUN_008c45e0_class *>(this)->FUN_008c45e0((intptr_t)(effect), (int *)(context), &failureCode, immediate);
     if (piErrorOut != 0)
     {
         *piErrorOut = failureCode;
@@ -94644,7 +97287,7 @@ class FUN_009815f0_cls
     unsigned char unkC5;
     unsigned char unkC6;
     unsigned char flagC7;
-    unsigned int unkC8;
+    uintptr_t unkC8;
 
     void FUN_009815f0(unsigned int flags);
 };
@@ -94832,7 +97475,7 @@ void UAMActor::FUN_008885e0(UAMAnim* apAnimation, float afDelta)
         bool bIdle = (!bBusyX && !::FUN_00579670((char *)this) && !bPlayerNotReadyTmp);
         bool bSaved;
         float fTime2 = reinterpret_cast<::Twin_0084d030 *>(&(g_kUAMTimer))->GetStoredFloatValue();
-        if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::UAMVATS *>(&::g_011f2250))))->GetName())) == 4 && this == (*reinterpret_cast<::UAMActor * *>(&::DAT_011f21cc)))
+        if (((unsigned int)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)) == 4 && this == (*reinterpret_cast<::UAMActor * *>(&::DAT_011f21cc)))
             fTime2 *= reinterpret_cast<::FUN_009c8d60_t *>(&((*reinterpret_cast<::UAMVATS *>(&::g_011f2250))))->FUN_009c8d60();
         if (bIdle)
         {
@@ -94938,6 +97581,9 @@ struct PickIdle
 };
 struct PickSmart
 {
+    char pad00[0x24];
+    int unk24;
+
     void* FUN_00559450();
 };
 struct PickAnimation
@@ -96202,14 +98848,14 @@ void PickActor::FUN_00895110(float movementMult, float turnMult)
         reinterpret_cast<::TESForm *>((process))->ClearData();
     sequence12 = ((::fnv_00895110::PickSequence *)(reinterpret_cast<::FUN_00491040_shell *>((animation10))->FUN_00491040(4)));
     if (sequence12 && (((::fnv_00895110::PickGroup *)(reinterpret_cast<::BSAnimGroupSequence *>((sequence12))->GetAnimGroup()))->GetMoveAnimGroup() == 1) != reinterpret_cast<::Actor *>(this)->IsSneaking() &&
-        ((int)(reinterpret_cast<::LowProcess *>((sequence12))->GetActiveCombatTarget())) == 1 && reinterpret_cast<::fnv_004937c0::TESAnimGroup *>((((::fnv_00895110::PickGroup *)(reinterpret_cast<::BSAnimGroupSequence *>((sequence12))->GetAnimGroup()))))->FUN_004937c0())
+        ((intptr_t)(reinterpret_cast<::LowProcess *>((sequence12))->GetActiveCombatTarget())) == 1 && reinterpret_cast<::fnv_004937c0::TESAnimGroup *>((((::fnv_00895110::PickGroup *)(reinterpret_cast<::BSAnimGroupSequence *>((sequence12))->GetAnimGroup()))))->FUN_004937c0())
     {
         if (reinterpret_cast<::FUN_004301b0_shell *>((animation10))->FUN_004301b0(4) != FUN_00897910(((::fnv_00895110::PickGroup *)(reinterpret_cast<::BSAnimGroupSequence *>((sequence12))->GetAnimGroup()))->FUN_005f2420(), 0, 0, 0))
             reinterpret_cast<::fnv_004994f0::FUN_004994f0_shell *>((animation10))->FUN_004994f0(4, false);
     }
     else if ((PickGroupType(reinterpret_cast<::FUN_004301b0_shell *>((animation10))->FUN_004301b0(4)) == 0x4a ||
               PickGroupType(reinterpret_cast<::FUN_004301b0_shell *>((animation10))->FUN_004301b0(4)) == 0x4d) &&
-             process->GetTime() == 0.0 && ((int)(reinterpret_cast<::LowProcess *>((sequence12))->GetActiveCombatTarget())) == 1)
+             process->GetTime() == 0.0 && ((intptr_t)(reinterpret_cast<::LowProcess *>((sequence12))->GetActiveCombatTarget())) == 1)
     {
         reinterpret_cast<::fnv_004994f0::FUN_004994f0_shell *>((animation10))->FUN_004994f0(4, false);
     }
@@ -96218,7 +98864,7 @@ void PickActor::FUN_00895110(float movementMult, float turnMult)
         PickAnimation* firstPerson = ((::fnv_00895110::PickAnimation *)(reinterpret_cast<::PlayerCharacter *>((_g_thePlayer))->GetAnimation(true)));
         sequence12 = ((::fnv_00895110::PickSequence *)(reinterpret_cast<::FUN_00491040_shell *>((firstPerson))->FUN_00491040(4)));
         if (sequence12 && (((::fnv_00895110::PickGroup *)(reinterpret_cast<::BSAnimGroupSequence *>((sequence12))->GetAnimGroup()))->GetMoveAnimGroup() == 1) != reinterpret_cast<::Actor *>(this)->IsSneaking() &&
-            ((int)(reinterpret_cast<::LowProcess *>((sequence12))->GetActiveCombatTarget())) == 1 && reinterpret_cast<::fnv_004937c0::TESAnimGroup *>((((::fnv_00895110::PickGroup *)(reinterpret_cast<::BSAnimGroupSequence *>((sequence12))->GetAnimGroup()))))->FUN_004937c0())
+            ((intptr_t)(reinterpret_cast<::LowProcess *>((sequence12))->GetActiveCombatTarget())) == 1 && reinterpret_cast<::fnv_004937c0::TESAnimGroup *>((((::fnv_00895110::PickGroup *)(reinterpret_cast<::BSAnimGroupSequence *>((sequence12))->GetAnimGroup()))))->FUN_004937c0())
         {
             if (reinterpret_cast<::FUN_004301b0_shell *>((firstPerson))->FUN_004301b0(4) !=
                 FUN_00897910(((::fnv_00895110::PickGroup *)(reinterpret_cast<::BSAnimGroupSequence *>((sequence12))->GetAnimGroup()))->FUN_005f2420(), 0, 0, firstPerson))
@@ -96226,7 +98872,7 @@ void PickActor::FUN_00895110(float movementMult, float turnMult)
         }
         else if ((PickGroupType(reinterpret_cast<::FUN_004301b0_shell *>((firstPerson))->FUN_004301b0(4)) == 0x4a ||
                   PickGroupType(reinterpret_cast<::FUN_004301b0_shell *>((firstPerson))->FUN_004301b0(4)) == 0x4d) &&
-                 process->GetTime() == 0.0 && ((int)(reinterpret_cast<::LowProcess *>((sequence12))->GetActiveCombatTarget())) == 1)
+                 process->GetTime() == 0.0 && ((intptr_t)(reinterpret_cast<::LowProcess *>((sequence12))->GetActiveCombatTarget())) == 1)
         {
             reinterpret_cast<::fnv_004994f0::FUN_004994f0_shell *>((firstPerson))->FUN_004994f0(4, false);
         }
@@ -96248,7 +98894,7 @@ void PickActor::FUN_00895110(float movementMult, float turnMult)
     idle30 = process->GetIdle();
     if (action40 != -1)
     {
-        if (process->GetActionSequence() && ((int)(reinterpret_cast<::LowProcess *>((process->GetActionSequence()))->GetActiveCombatTarget())))
+        if (process->GetActionSequence() && ((intptr_t)(reinterpret_cast<::LowProcess *>((process->GetActionSequence()))->GetActiveCombatTarget())))
         {
             switch (action40)
             {
@@ -96472,8 +99118,8 @@ void PickActor::FUN_00895110(float movementMult, float turnMult)
                                     rightNode = weaponNode3->Find(((const void *)(::FUN_008978c0())));
                                 }
                             }
-                            reinterpret_cast<::FUN_00c74890_Class *>((ragdoll))->FUN_00c74890(0, (int)(leftNode7));
-                            reinterpret_cast<::FUN_00c74890_Class *>((ragdoll))->FUN_00c74890(1, (int)(rightNode));
+                            reinterpret_cast<::FUN_00c74890_Class *>((ragdoll))->FUN_00c74890(0, (intptr_t)(leftNode7));
+                            reinterpret_cast<::FUN_00c74890_Class *>((ragdoll))->FUN_00c74890(1, (intptr_t)(rightNode));
                         }
                         else
                         {
@@ -96536,7 +99182,7 @@ void PickActor::FUN_00895110(float movementMult, float turnMult)
                 ::IsValidCharCode(((::fnv_00895110::PickGroup *)(reinterpret_cast<::BSAnimGroupSequence *>((process->GetActionSequence()))->GetAnimGroup()))->FUN_005f2420()))
             {
                 void* ammo = process->GetAmmo(this);
-                if (::FUN_006477e0((int)(ammo)) > 0.0 && ::RandomBoolean(::FUN_006477e0((int)(ammo))))
+                if (::FUN_006477e0((intptr_t)(ammo)) > 0.0 && ::RandomBoolean(::FUN_006477e0((intptr_t)(ammo))))
                 {
                     int lateReloadAnim = reinterpret_cast<::TESObjectWEAP *>((weapon50))->GetReloadAnim(false) + 0x17;
                     unsigned short lateReloadID2 = FUN_00897910(lateReloadAnim, 0, 0, 0);
@@ -96590,7 +99236,7 @@ void PickActor::FUN_00895110(float movementMult, float turnMult)
                         else
                             group10 = 0xe5;
                         reinterpret_cast<::FUN_004974a0_shell *>((animation10))->FUN_004974a0();
-                        ::PlayFootstepImpact((::FootstepActor *)(::fnv_00895110::PickActor *)(this), (int)(((void *)(reinterpret_cast<::ActorMover *>(&(controller8->controllerInfo))->GetCurrentMoveModeType()))));
+                        ::PlayFootstepImpact((::FootstepActor *)(::fnv_00895110::PickActor *)(this), ((&(controller8->controllerInfo))->unk24));
                     }
                     break;
                 }
@@ -96828,7 +99474,7 @@ void PickActor::FUN_00895110(float movementMult, float turnMult)
     }
     section19 = DAT_011977e0[group10].section;
     if (reinterpret_cast<::FUN_004301b0_shell *>((animation10))->FUN_004301b0(section19) != groupID3 || !((::fnv_00895110::PickSequence *)(reinterpret_cast<::FUN_00491040_shell *>((animation10))->FUN_00491040(section19))) ||
-        !((int)(reinterpret_cast<::LowProcess *>((((::fnv_00895110::PickSequence *)(reinterpret_cast<::FUN_00491040_shell *>((animation10))->FUN_00491040(section19)))))->GetActiveCombatTarget())))
+        !((intptr_t)(reinterpret_cast<::LowProcess *>((((::fnv_00895110::PickSequence *)(reinterpret_cast<::FUN_00491040_shell *>((animation10))->FUN_00491040(section19)))))->GetActiveCombatTarget())))
     {
         if (reinterpret_cast<::FUN_00494710_shell *>((animation10))->FUN_00494710(groupID3))
         {
@@ -96908,7 +99554,7 @@ void PickActor::FUN_00895110(float movementMult, float turnMult)
             blendOut = false;
         if (((::fnv_00895110::PickSequence *)(reinterpret_cast<::fnv_00498cf0::FUN_00498cf0_shell *>((animation10))->FUN_00498cf0())) == ((::fnv_00895110::PickSequence *)(reinterpret_cast<::FUN_00491040_shell *>((animation10))->FUN_00491040(1))))
             blendOut = false;
-        if (((int)(reinterpret_cast<::LowProcess *>((((::fnv_00895110::PickSequence *)(reinterpret_cast<::FUN_00491040_shell *>((animation10))->FUN_00491040(1)))))->GetActiveCombatTarget())) != 1)
+        if (((intptr_t)(reinterpret_cast<::LowProcess *>((((::fnv_00895110::PickSequence *)(reinterpret_cast<::FUN_00491040_shell *>((animation10))->FUN_00491040(1)))))->GetActiveCombatTarget())) != 1)
             blendOut = false;
         if (blendOut)
         {
@@ -97889,7 +100535,7 @@ void UpdateActor::FUN_008a5580(float delta, UpdateActor* reference, bool attach)
                 unsigned int id11v16 = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::fnv_008a5580::UpdateActor *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((reference))->FUN_007af430()))))->FUN_0084e3a0()));
                 UpdateHandle sourcev54 = PlaySoundByFormID(id11v16, 0, 0x102, true);
                 UpdateManager* sourceManager11v5 = ((::fnv_008a5580::UpdateManager *)(::FUN_00ad9060()));
-                reinterpret_cast<::fnv_00adbfd0::FUN_00adbfd0_cls *>((sourceManager11v5))->FUN_00adbfd0((int)(((void *)(::FUN_00559450((int *)&(sourcev54))))), (int)(((void (&)())::fnv_00935cc0::FUN_00935cc0)), ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0())));
+                reinterpret_cast<::fnv_00adbfd0::FUN_00adbfd0_cls *>((sourceManager11v5))->FUN_00adbfd0((intptr_t)(((void *)(::FUN_00559450((int *)&(sourcev54))))), (intptr_t)(((void (&)())::fnv_00935cc0::FUN_00935cc0)), ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0())));
                 rebuild = false;
                 needsBuild = false;
                 pending = false;
@@ -97898,8 +100544,8 @@ void UpdateActor::FUN_008a5580(float delta, UpdateActor* reference, bool attach)
             if (needsBuild && rebuild)
             {
                 float duration6 =
-                    Build(((void *)(::FUN_00559450((int *)&(reference->FUN_00460140())))), handle, ((int)(reinterpret_cast<::Twin_0044ddc0 *>((reference))->GetName())),
-                          ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reference))->FUN_0084e3a0())), ((const char *)(reinterpret_cast<::FUN_004048e0_cls *>((((::fnv_008a5580::UpdateName *)(new ((void *)(reference)) ::Vec3()))))->FUN_004048e0())),
+                    Build(((void *)(::FUN_00559450((int *)&(reference->FUN_00460140())))), handle, ((int)(((reference))->unk08)),
+                          ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reference))->FUN_0084e3a0())), ((const char *)(reinterpret_cast<::FUN_004048e0_cls *>((((::fnv_008a5580::UpdateName *)(((::Vec3 *)(void *)(reference))))))->FUN_004048e0())),
                           reference->FUN_009611e0(), ((int)(reinterpret_cast<::BGSTerrainManager *>((reference))->GetMinLevel())), DAT_011dea3c, 1, 1, 0, 1, 1);
                 UpdateManager* buildManager5 = ((::fnv_008a5580::UpdateManager *)(::FUN_00ad9060()));
                 UpdateActor* target20 = 0;
@@ -97907,8 +100553,8 @@ void UpdateActor::FUN_008a5580(float delta, UpdateActor* reference, bool attach)
                     target20 = this;
                 if (target20)
                 {
-                    reinterpret_cast<::fnv_00adc050::FUN_00adc050_cls *>((buildManager5))->FUN_00adc050((int)(((void *)(::FUN_00559450((int *)&(handle))))), (int)(((void (&)())::SetFormAccumulate)), ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((target20))->FUN_0084e3a0())));
-                    reinterpret_cast<::fnv_00adbfd0::FUN_00adbfd0_cls *>((buildManager5))->FUN_00adbfd0((int)(((void *)(::FUN_00559450((int *)&(handle))))), (int)(((void (&)())::ResetActorState)), ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((target20))->FUN_0084e3a0())));
+                    reinterpret_cast<::fnv_00adc050::FUN_00adc050_cls *>((buildManager5))->FUN_00adc050((intptr_t)(((void *)(::FUN_00559450((int *)&(handle))))), (intptr_t)(((void (&)())::SetFormAccumulate)), ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((target20))->FUN_0084e3a0())));
+                    reinterpret_cast<::fnv_00adbfd0::FUN_00adbfd0_cls *>((buildManager5))->FUN_00adbfd0((intptr_t)(((void *)(::FUN_00559450((int *)&(handle))))), (intptr_t)(((void (&)())::ResetActorState)), ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((target20))->FUN_0084e3a0())));
                 }
                 unk80 = false;
                 ((::fnv_008a5580::UpdateProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))->SetDuration(duration6);
@@ -97932,10 +100578,10 @@ void UpdateActor::FUN_008a5580(float delta, UpdateActor* reference, bool attach)
             reinterpret_cast<::FUN_009c9900_shell *>((mover))->SetByteAt76(false);
         }
         Refresh();
-        if (((::fnv_008a5580::UpdateProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture())) && !((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((::fnv_008a5580::UpdateProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))))->FUN_0045cd60())))
+        if (((::fnv_008a5580::UpdateProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture())) && !((intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((((::fnv_008a5580::UpdateProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))))->FUN_0045cd60())))
         {
             UpdateAnimation* animation = ((::fnv_008a5580::UpdateAnimation *)(::FUN_0089d620((char *)(((::fnv_008a5580::UpdateProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))))));
-            if (animation && ((int)(reinterpret_cast<::BGSCameraPath *>((animation))->GetPrevPath())))
+            if (animation && ((intptr_t)(reinterpret_cast<::BGSCameraPath *>((animation))->GetPrevPath())))
                 reinterpret_cast<::Q52Obj *>((animation))->FUN_00c52960(0);
         }
         if (((::fnv_008a5580::UpdateProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture())))
@@ -98401,7 +101047,7 @@ void ActorHelper::FUN_008b2c30()
                             float kFAngleY;
                             reinterpret_cast<::S_00a592c0_Matrix3 *>(&(mat4))->DecomposeToEulerAngles((*(float *)(&fAngleX4)), (*(float *)(&kFAngleY)), (*(float *)(&fAngleZ)));
                             reinterpret_cast<::Matrix161 *>(&(mat4))->FUN_00a59540(fAngleX4 * fMult, kFAngleY * fMult, fAngleZ * fMult);
-                            mat6 = reinterpret_cast<::ThreeByThreeMatrix *>((void *)&(const ::fnv_008b2c30::ThreeByThreeMatrix &)(mat6))->operator+((const ::ThreeByThreeMatrix &)(mat4));
+                            *reinterpret_cast<::ThreeByThreeMatrix *>(&(mat6)) = reinterpret_cast<::ThreeByThreeMatrix *>((void *)&(const ::fnv_008b2c30::ThreeByThreeMatrix &)(mat6))->operator+((const ::ThreeByThreeMatrix &)(mat4));
                             reinterpret_cast<::FUN_004f0110_Holder *>((pCastNode7))->FUN_004f0110((::FUN_004f0110_Data *)(::fnv_008b2c30::ThreeByThreeMatrix *)(&mat6));
                         }
                     }
@@ -100037,6 +102683,8 @@ struct ImpactGroup
 };
 struct ImpactEvent
 {
+    char pad00[0x4c];
+    void* pEmitter;
 };
 struct ImpactSource
 {
@@ -100130,7 +102778,7 @@ void ImpactHost::FUN_0088e1e0(ImpactData* data)
     float distanceD = 0.0f;
     if (data->target != DAT_011dea3c)
     {
-        deltaA = (*(::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((((ImpactVector*)&position)))->FUN_00439ef0((::NiPoint3 *)(((::NiPoint3 *)(::FUN_0045bb80((int)(((::fnv_0088e1e0::ImpactNode *)(::FUN_00524c90()))))))), *(const ::NiPoint3 *)nullptr)));
+        deltaA = (*(::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((((ImpactVector*)&position)))->FUN_00439ef0((::NiPoint3 *)(((::NiPoint3 *)(::FUN_0045bb80((intptr_t)(((::fnv_0088e1e0::ImpactNode *)(::FUN_00524c90()))))))), *(const ::NiPoint3 *)nullptr)));
         distanceD = reinterpret_cast<::NiPoint3 *>((((ImpactVector*)&deltaA)))->ComputeMagnitude();
     }
     else
@@ -100169,7 +102817,7 @@ void ImpactHost::FUN_0088e1e0(ImpactData* data)
     }
     if (event6)
     {
-        firstJ = ((::fnv_0088e1e0::ImpactEmitter *)(reinterpret_cast<::FUN_0068a810_class *>((event6))->GetField4C()));
+        firstJ = ((::fnv_0088e1e0::ImpactEmitter *)(((event6))->pEmitter));
         second = ((::fnv_0088e1e0::ImpactEmitter *)(reinterpret_cast<::FUN_0068a830_shell *>((event6))->GetGrass()));
     }
     if (firstJ && distanceD < (int)((*(::fnv_0088e1e0::ImpactSettings *)(reinterpret_cast<::Holder *>((firstJ))->CopyBig({}))).chance * 100))
@@ -100195,7 +102843,7 @@ void ImpactHost::FUN_0088e1e0(ImpactData* data)
         event6 = group ? ((::fnv_0088e1e0::ImpactEvent *)(reinterpret_cast<::BGSImpactDataSet *>((group))->GetImpactDataForMaterial(4))) : 0;
         if (event6)
         {
-            firstJ = ((::fnv_0088e1e0::ImpactEmitter *)(reinterpret_cast<::FUN_0068a810_class *>((event6))->GetField4C()));
+            firstJ = ((::fnv_0088e1e0::ImpactEmitter *)(((event6))->pEmitter));
             if (firstJ && distanceD < (int)((*(::fnv_0088e1e0::ImpactSettings *)(reinterpret_cast<::Holder *>((firstJ))->CopyBig({}))).chance * 100))
             {
                 reinterpret_cast<::SoundPlaybackHandle *>(&(binding4))->operator=((const ::SoundPlaybackHandle &)((const ::fnv_0088e1e0::ImpactBinding &)(GetImpactManager()->Make(((::fnv_0088e1e0::ImpactEmitter *)(::FUN_00511840((char *)(firstJ))))))));
@@ -100944,7 +103592,7 @@ bool W20Actor::FUN_00891360(W20Item* item, float amount, int unused)
     float c = reinterpret_cast<::FUN_004bcdb0_shell *>((item))->FUN_004bcdb0(true);
     if (e == 0 || (e != 0 && ::FUN_004c0bf0((::TESObjectWEAP *)(e)) == 0))
     {
-        reinterpret_cast<::HealthItem *>((item))->FUN_004bd030(j, (::HealthInventory *)(((int)(reinterpret_cast<::ExtraDataList *>((((::fnv_00891360::W20Extra *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()))))->GetContainerChangeData()))), {}, {});
+        reinterpret_cast<::HealthItem *>((item))->FUN_004bd030(j, (::HealthInventory *)(((intptr_t)(reinterpret_cast<::ExtraDataList *>((((::fnv_00891360::W20Extra *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()))))->GetContainerChangeData()))), {}, {});
         if (c >= 25.0 && reinterpret_cast<::FUN_004bcdb0_shell *>((item))->FUN_004bcdb0(true) < 25.0)
         {
             if (e && v360())
@@ -100969,21 +103617,20 @@ bool W20Actor::FUN_00891360(W20Item* item, float amount, int unused)
             W20Matrix f = s ? s->FUN_00461130() : (*reinterpret_cast<::fnv_00891360::W20Matrix *>(&::DAT_011a9448));
             if (::FUN_004c0bf0((::TESObjectWEAP *)(e)) && e->GetOrFallback(this) && reinterpret_cast<::BGSProjectile *>((e->GetOrFallback(this)))->FUN_004fd360())
             {
-                v17c(((::fnv_00891360::W20Form *)(reinterpret_cast<::Twin_0044ddc0 *>((item))->GetName())), *((void **)(new ((void *)(((::fnv_00891360::W20Item *)(::FUN_00559450((int *)(item)))))) ::Vec3())), 1, 0, 0, 0, 0, 0, 1, false);
+                v17c(((::fnv_00891360::W20Form *)(reinterpret_cast<::Twin_0044ddc0 *>((item))->GetName())), *((void **)(((::Vec3 *)(void *)(((::fnv_00891360::W20Item *)(::FUN_00559450((int *)(item)))))))), 1, 0, 0, 0, 0, 0, 1, false);
                 CreateProjectileRef(((void *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(e->GetOrFallback(this))))), 0, 0, ((void *)(reinterpret_cast<::LowProcess *>(this)->GetTarget())), i, f);
             }
             else if (reinterpret_cast<::FUN_008a16d0_shell *>(this)->FUN_008a16d0())
             {
                 W20Point angles;
-                new ((void *)&(angles)) ::Vec3();
                 reinterpret_cast<::RotationMatrix *>(&(f))->FUN_00a59400((*(float *)(&angles.z)), (*(float *)(&angles.x)), (*(float *)(&angles.y)));
-                int dropped = v3cc(((::fnv_00891360::W20Form *)(reinterpret_cast<::Twin_0044ddc0 *>((item))->GetName())), *((void **)(new ((void *)(((::fnv_00891360::W20Item *)(::FUN_00559450((int *)(item)))))) ::Vec3())), 1, &i, &angles);
+                intptr_t dropped = v3cc(((::fnv_00891360::W20Form *)(reinterpret_cast<::Twin_0044ddc0 *>((item))->GetName())), *((void **)(((::Vec3 *)(void *)(((::fnv_00891360::W20Item *)(::FUN_00559450((int *)(item)))))))), 1, &i, &angles);
                 ::FUN_0056acb0((::B56ACB0Ref *)(::fnv_00891360::W20Actor *)(this), (::B56ACB0Ref *)(dropped));
                 W20Combat* combat = v428();
                 if (combat)
                     reinterpret_cast<::Host0097f6d0 *>((combat))->FUN_0097f6d0(0);
                 if (reinterpret_cast<::MiddleHighProcess *>(this)->IsActorInCombat())
-                    ::AddTimedEntry((unsigned int)(this), 8);
+                    ::AddTimedEntry((uintptr_t)(this), 8);
             }
             if (reinterpret_cast<::FUN_008a16d0_shell *>(this)->FUN_008a16d0())
             {
@@ -101000,14 +103647,14 @@ bool W20Actor::FUN_00891360(W20Item* item, float amount, int unused)
         {
             if (this == (W20Actor*)g_thePlayer)
             {
-                reinterpret_cast<::FUN_00ad8570_S *>((FUN_00453a70()))->FUN_00ad8570((int)(((::fnv_00891360::W20Node *)(reinterpret_cast<::FUN_00950bb0_shell *>((((W20Player*)g_thePlayer)))->FUN_00950bb0(true)))), 0.0f, false);
+                reinterpret_cast<::FUN_00ad8570_S *>((FUN_00453a70()))->FUN_00ad8570((intptr_t)(((::fnv_00891360::W20Node *)(reinterpret_cast<::FUN_00950bb0_shell *>((((W20Player*)g_thePlayer)))->FUN_00950bb0(true)))), 0.0f, false);
                 ::DispatchMessageToSink((const char *)(((char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_00891360::W20Settings *>(&::g_011d291c))))->GetMenuTitle()))), 2, (const char *)(0), (const char *)(str_010849c0), 4.0f, false);
             }
-            reinterpret_cast<::FUN_00ad8570_S *>((FUN_00453a70()))->FUN_00ad8570((int)(((::fnv_00891360::W20Node *)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>(this)->FUN_0043fcd0()))), 0.0f, false);
-            if (v360() && e && ((int)(reinterpret_cast<::Twin_0044ddc0 *>((((W20Vats*)&(*reinterpret_cast<::VATS *>(&::g_011f2250)))))->GetName())) == 4)
-                reinterpret_cast<::InventoryStackRecord *>((((W20Vats*)&(*reinterpret_cast<::VATS *>(&::g_011f2250)))))->SetPointers(((::fnv_00891360::W20Form *)(reinterpret_cast<::Twin_0044ddc0 *>((item))->GetName())), *((void **)(new ((void *)(((::fnv_00891360::W20Item *)(::FUN_00559450((int *)(item)))))) ::Vec3())));
+            reinterpret_cast<::FUN_00ad8570_S *>((FUN_00453a70()))->FUN_00ad8570((intptr_t)(((::fnv_00891360::W20Node *)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>(this)->FUN_0043fcd0()))), 0.0f, false);
+            if (v360() && e && ((int)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)) == 4)
+                reinterpret_cast<::InventoryStackRecord *>((((W20Vats*)&(*reinterpret_cast<::VATS *>(&::g_011f2250)))))->SetPointers(((::fnv_00891360::W20Form *)(reinterpret_cast<::Twin_0044ddc0 *>((item))->GetName())), *((void **)(((::Vec3 *)(void *)(((::fnv_00891360::W20Item *)(::FUN_00559450((int *)(item)))))))));
             else
-                reinterpret_cast<::FUN_0088d7d0_shell *>(this)->FUN_0088d7d0((::TESBoundObject *)(::fnv_00891360::W20Form *)(((::fnv_00891360::W20Form *)(reinterpret_cast<::Twin_0044ddc0 *>((item))->GetName()))), 1, (::ExtraDataList *)(*((void **)(new ((void *)(((::fnv_00891360::W20Item *)(::FUN_00559450((int *)(item)))))) ::Vec3()))), false, true, true);
+                reinterpret_cast<::FUN_0088d7d0_shell *>(this)->FUN_0088d7d0((::TESBoundObject *)(::fnv_00891360::W20Form *)(((::fnv_00891360::W20Form *)(reinterpret_cast<::Twin_0044ddc0 *>((item))->GetName()))), 1, (::ExtraDataList *)(*((void **)(((::Vec3 *)(void *)(((::fnv_00891360::W20Item *)(::FUN_00559450((int *)(item))))))))), false, true, true);
         }
     }
     return true;
@@ -101017,6 +103664,9 @@ bool W20Actor::FUN_00891360(W20Item* item, float amount, int unused)
 namespace fnv_008929a0 {
 struct FNVObject
 {
+    char pad04[0x4];
+    void* unk08;
+
     virtual void vf_0();
     virtual void vf_4();
     virtual void vf_8();
@@ -101133,7 +103783,7 @@ struct FNVObject
     virtual void vf_1c4();
     virtual void vf_1c8();
     virtual void vf_1cc();
-    virtual int GetNode();
+    virtual intptr_t GetNode();
     virtual void vf_1d4();
     virtual void vf_1d8();
     virtual void vf_1dc();
@@ -101267,7 +103917,7 @@ struct FNVObject
     int FUN_004459e0(int);
     int FUN_007af430();
     int FUN_007af430(int, int);
-    int FUN_008929a0(FNVObject*, FNVObject*, int, int, int);
+    intptr_t FUN_008929a0(FNVObject*, FNVObject*, int, int, int);
 };
 extern FNVObject* DAT_011dea3c;
 extern float DAT_01084100;
@@ -101371,14 +104021,14 @@ struct RemovalProcess
     virtual void Notify(FNVObject*, FNVObject*);
 };
 // @fnv 0x008929a0
-int FNVObject::FUN_008929a0(FNVObject* subject, FNVObject* target, int action, int argument4, int argument5)
+intptr_t FNVObject::FUN_008929a0(FNVObject* subject, FNVObject* target, int action, int argument4, int argument5)
 {
     FNVObject* result2 = 0;
     bool targetUsable2 = target ? reinterpret_cast<::FUN_00418ab0_shell *>((target))->FUN_00418ab0(0) : false;
     if (this == DAT_011dea3c && reinterpret_cast<::FUN_008a7570_shell *>(this)->FUN_008a7570() != -1 && targetUsable2)
     {
         ::DispatchMessageToSink((const char *)(((const char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::fnv_008929a0::FNVObject *>(&::g_011d3264))))->IsDLCAvailable()))), 0, (const char *)(::g_011cba18_arg1), (const char *)(0), ::DAT_010162c0, 0);
-        return (int)result2;
+        return (intptr_t)result2;
     }
     if (((::fnv_008929a0::FNVObject *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture())))
     {
@@ -101416,7 +104066,7 @@ int FNVObject::FUN_008929a0(FNVObject* subject, FNVObject* target, int action, i
         {
             if (::FUN_0048e8a0((::TESForm *)(subject)) <= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_008929a0::FNVObject *>(&::originalRuntimeFloatSetting825)))))) || IsDead(0))
             {
-                reinterpret_cast<::fnv_00419700::FUN_00419700_shell *>((target))->FUN_00419700((::fnv_00419700::TESForm *)(((int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((DAT_011dea3c))->FUN_007af430()))));
+                reinterpret_cast<::fnv_00419700::FUN_00419700_shell *>((target))->FUN_00419700((::fnv_00419700::TESForm *)(((intptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((DAT_011dea3c))->FUN_007af430()))));
             }
         }
     }
@@ -101451,10 +104101,10 @@ int FNVObject::FUN_008929a0(FNVObject* subject, FNVObject* target, int action, i
     }
     if (event8)
     {
-        int kMarker = 0;
+        intptr_t kMarker = 0;
         if (((::fnv_008929a0::FNVObject *)(::FUN_00559450((int *)(event8)))))
-            kMarker = *((int *)(new ((void *)(((::fnv_008929a0::FNVObject *)(::FUN_00559450((int *)(event8)))))) ::Vec3()));
-        reinterpret_cast<::FUN_0088c650_shell *>(this)->FUN_0088c650((::TESBoundObject *)(((int)(reinterpret_cast<::Twin_0044ddc0 *>((event8))->GetName()))), 1, (::ExtraDataList *)(kMarker), 1, 0, 1);
+            kMarker = *((int *)(((::Vec3 *)(void *)(((::fnv_008929a0::FNVObject *)(::FUN_00559450((int *)(event8))))))));
+        reinterpret_cast<::FUN_0088c650_shell *>(this)->FUN_0088c650((::TESBoundObject *)(((intptr_t)(((event8))->unk08))), 1, (::ExtraDataList *)(kMarker), 1, 0, 1);
         FNVObject* eventRef3 = event8;
         FNVObject* releaseRef3 = eventRef3;
         releaseRef3 ? releaseRef3->FUN_004459e0(1) : 0;
@@ -101464,10 +104114,10 @@ int FNVObject::FUN_008929a0(FNVObject* subject, FNVObject* target, int action, i
         ::FUN_00c6bd00((::TreeNode_cls *)(result2->GetNode()), 1);
         if (!IsDead(0))
         {
-            reinterpret_cast<::ActorSoundStub *>(this)->PlayActorSound(((int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((FNVObject*)result2)))->FUN_007af430())), {}, {});
+            reinterpret_cast<::ActorSoundStub *>(this)->PlayActorSound(((intptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((FNVObject*)result2)))->FUN_007af430())), {}, {});
         }
     }
-    return (int)result2;
+    return (intptr_t)result2;
 }
 }  // namespace fnv_008929a0
 
@@ -102666,7 +105316,7 @@ void This899::SpawnProjectile(Actor* apActor, unsigned char arg2, void* apSource
 
     S_008c1c60 obj1(new Node9b());
 
-    ptrTable = (((ThisV*)this)->V216() && ((void *)(reinterpret_cast<::Twin_0044ddc0 *>((((Ref44*)&(*reinterpret_cast<::fnv_00899cb0::VATS *>(&::g_011f2250)))))->GetName())) == (void*)4)
+    ptrTable = (((ThisV*)this)->V216() && (reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode == 4))
                    ? reinterpret_cast<::ListHolder *>((((ListHolder*)&(*reinterpret_cast<::fnv_00899cb0::VATS *>(&::g_011f2250)))))->FUN_009c71c0()
                    : 0;
 
@@ -102713,7 +105363,7 @@ void This899::SpawnProjectile(Actor* apActor, unsigned char arg2, void* apSource
                     if (reinterpret_cast<::fnv_004bda70::FUN_004bda70_shell *>((((ProcXObj*)proc3)))->HasEffect(0xc))
                         flag14 = 1;
                 }
-                int cnt2 = (int)reinterpret_cast<::TESObjectWEAP *>((((Sky2Obj*)((void *)(reinterpret_cast<::FUN_00476c90_Class *>((((SkyObj*)apSource)))->FUN_00476c90())))))->GetDamageForActor({}, {}, {});
+                int cnt2 = (int)reinterpret_cast<::TESObjectWEAP *>((((Sky2Obj*)((void *)(reinterpret_cast<::FUN_00476c90_Class *>((((SkyObj*)apSource)))->FUN_00476c90())))))->GetDamageForActor(flag14, false, (::Actor *)this);
                 if (cnt2 > 1)
                 {
                     obj1->m_14 /= (float)cnt2;
@@ -102734,7 +105384,7 @@ void This899::SpawnProjectile(Actor* apActor, unsigned char arg2, void* apSource
     }
     else
     {
-        ::FUN_009b5120((std::intptr_t)(obj1), (std::intptr_t)(this), (std::intptr_t)(apActor), (std::intptr_t)(proc3), arg2, (std::intptr_t)(apSource), {});
+        ::FUN_009b5120((std::intptr_t)(Node9b *)(obj1), (std::intptr_t)(this), (std::intptr_t)(apActor), (std::intptr_t)(proc3), arg2, (std::intptr_t)(apSource), {});
     }
 
     ((ThisV*)this)->V202(((ThisV*)this)->V203() + 1);
@@ -102822,11 +105472,6 @@ void This899::SpawnProjectile(Actor* apActor, unsigned char arg2, void* apSource
 }  // namespace fnv_00899cb0
 
 namespace fnv_0089d6f0 {
-template <> class SettingT<GameSettingCollection>
-{
-  public:
-};
-
 class MagicTargetStandIn
 {
   public:
@@ -103613,7 +106258,7 @@ bool ActorStandIn::FUN_0089d6f0(float afDamage, float afSecondaryDamage, ActorSt
     {
         if (a4 && a4->IsInCombat())
         {
-            reinterpret_cast<::FUN_008d0600_s *>((a4->IsInCombat()))->FUN_008d0600((int)(this), f);
+            reinterpret_cast<::FUN_008d0600_s *>((a4->IsInCombat()))->FUN_008d0600((intptr_t)(this), f);
         }
         if (this->IsInCombat())
         {
@@ -104279,8 +106924,6 @@ struct VP89
     virtual void v178(float);
 };
 
-extern "C" void* g_thePlayer;
-extern "C" double DAT_01012060;
 
 struct PKG
 {
@@ -104413,8 +107056,8 @@ void S89::FUN_0089fcf0(void* apTarget, void* apLocation, bool a3, void* apUnused
     if (!((VT89*)this)->v266())
     {
         ((VP89*)((AM89*)this)->m68)->v178(0.0);
-        if (apTarget == g_thePlayer)
-            reinterpret_cast<::FUN_00967220_cls *>((((HPL*)g_thePlayer)))->FUN_00967220((unsigned int)(this), 1);
+        if ((void *)apTarget == (void *)::_g_thePlayer)
+            reinterpret_cast<::FUN_00967220_cls *>((((HPL*)::_g_thePlayer)))->FUN_00967220((uintptr_t)(this), 1);
         ref = ((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((HRef*)this)))->FUN_007af430()));
         r1 = 0;
         r6 = 0;
@@ -104456,7 +107099,7 @@ void S89::FUN_0089fcf0(void* apTarget, void* apLocation, bool a3, void* apUnused
         else if (apRef)
             sky = ((void *)(reinterpret_cast<::fnv_009923d0::FUN_009923d0_shell *>((((HGS*)(*reinterpret_cast<void * *>(&::BGSSaveLoadGlobalDataWorldspacePtr)))))->CreateCombatController(this, apRef)));
         if (a5 && sky)
-            reinterpret_cast<::FUN_008d0600_s *>((((HSky*)sky)))->FUN_008d0600((int)(apTarget), 0);
+            reinterpret_cast<::FUN_008d0600_s *>((((HSky*)sky)))->FUN_008d0600((intptr_t)(apTarget), 0);
         if (a3 && sky)
             reinterpret_cast<::FUN_008a0250_class *>((((HSky*)sky)))->FUN_008a0250();
         ((::fnv_0089fcf0::VT89 *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((HA*)this)))->GetBaseTexture()))->v10();
@@ -105567,7 +108210,7 @@ void ActorUpdateShell::FUN_008a3100(float elapsed)
         {
             ObjectView* follow = 0;
             if (((RootQuery*)this)->GetRoot())
-                follow = ((::fnv_008a3100::ObjectView *)(reinterpret_cast<::BipedAnim *>((((NodeView*)this)->GetRoot(0)))->GetBoneNode({})));
+                follow = ((::fnv_008a3100::ObjectView *)(reinterpret_cast<::BipedAnim *>((((NodeView*)this)->GetRoot(0)))->GetBoneNode((::BIPED_BONE)0)));
             else if (((NodeView*)this)->HasNode())
                 follow = FUN_004ade00(((NodeView*)this)->GetNode(), ((void *)(::FUN_008a30f0())));
             if (follow)
@@ -106282,6 +108925,10 @@ class MoverView
 class TopicView
 {
   public:
+    char pad00[0x8];
+    int unk08;
+
+  public:
     int FUN_0044ddc0();
 };
 class ProcHelper
@@ -106379,8 +109026,8 @@ bool MatchActor::FUN_008a40e0(RefView* target)
             RefView* ref = 0;
             if (((ProcessView*)((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture())))->Has(5))
                 return true;
-            if (((::fnv_008a40e0::PackageData *)(reinterpret_cast<::BGSMessageInitAccess *>((package))->GetIconFormID())))
-                ref = ((::fnv_008a40e0::RefView *)(reinterpret_cast<::LocationDescriptor *>((((::fnv_008a40e0::PackageData *)(reinterpret_cast<::BGSMessageInitAccess *>((package))->GetIconFormID()))))->GetLocationReference()));
+            if (((::fnv_008a40e0::PackageData *)(reinterpret_cast<::PackageFields *>((package))->pLocation)))
+                ref = ((::fnv_008a40e0::RefView *)(reinterpret_cast<::LocationDescriptor *>((((::fnv_008a40e0::PackageData *)(reinterpret_cast<::PackageFields *>((package))->pLocation))))->GetLocationReference()));
             if (!ref && ((::fnv_008a40e0::PackageData *)(reinterpret_cast<::FUN_00672dd0_shell *>((package))->FUN_00672dd0())))
                 ref = ((::fnv_008a40e0::RefView *)(reinterpret_cast<::LocationDescriptor *>((((::fnv_008a40e0::PackageData *)(reinterpret_cast<::FUN_00672dd0_shell *>((package))->FUN_00672dd0()))))->GetLocationReference()));
             if (ref)
@@ -106394,7 +109041,7 @@ bool MatchActor::FUN_008a40e0(RefView* target)
                     if (active && !reinterpret_cast<::fnv_004985f0::FUN_004985f0_s *>((((AnimView*)active)))->FUN_004985f0())
                         return false;
                 }
-                if (((::fnv_008a40e0::PackageData *)(reinterpret_cast<::BGSMessageInitAccess *>((package))->GetIconFormID())) && reinterpret_cast<::DurationData *>((((::fnv_008a40e0::PackageData *)(reinterpret_cast<::BGSMessageInitAccess *>((package))->GetIconFormID()))))->FUN_00678ca0() == 3)
+                if (((::fnv_008a40e0::PackageData *)(reinterpret_cast<::PackageFields *>((package))->pLocation)) && reinterpret_cast<::DurationData *>((((::fnv_008a40e0::PackageData *)(reinterpret_cast<::PackageFields *>((package))->pLocation))))->FUN_00678ca0() == 3)
                     return false;
                 if (reinterpret_cast<::FUN_00568680_shell *>((target))->FUN_00568680())
                     return false;
@@ -106438,7 +109085,7 @@ bool MatchActor::FUN_008a40e0(RefView* target)
                 }
             }
             Animation* active = ((RefVirtual*)this)->Anim();
-            if (active && !reinterpret_cast<::fnv_004985f0::FUN_004985f0_s *>((((AnimView*)active)))->FUN_004985f0() && ((int)(reinterpret_cast<::Twin_0044ddc0 *>((sequence))->GetName())) == 3)
+            if (active && !reinterpret_cast<::fnv_004985f0::FUN_004985f0_s *>((((AnimView*)active)))->FUN_004985f0() && ((int)(((sequence))->unk08)) == 3)
                 return false;
             break;
         }
@@ -107247,7 +109894,7 @@ bool MatchActor::FUN_008b19c0(MatchPackage* package)
     else if (((::fnv_008b19c0::MatchForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((target7))->FUN_007af430()))->FUN_00401170() == 0x16)
     {
         MatchForm* form = ((::fnv_008b19c0::MatchForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((target7))->FUN_007af430()));
-        reinterpret_cast<::FUN_0042e060_class *>((((::fnv_008b19c0::MatchExtra *)(reinterpret_cast<::FUN_005d43c0_ *>((target7))->FUN_005d43c0()))))->FUN_0042e060((unsigned int)(form), (unsigned int)(target7));
+        reinterpret_cast<::FUN_0042e060_class *>((((::fnv_008b19c0::MatchExtra *)(reinterpret_cast<::FUN_005d43c0_ *>((target7))->FUN_005d43c0()))))->FUN_0042e060((uintptr_t)(form), (uintptr_t)(target7));
         partner3 = ((::fnv_008b19c0::MatchLinked *)(reinterpret_cast<::fnv_0042e110::FUN_0042e110 *>((((::fnv_008b19c0::MatchExtra *)(reinterpret_cast<::FUN_005d43c0_ *>((target7))->FUN_005d43c0()))))->GetExtraData()))->actor;
         linked6 = partner3;
     }
@@ -107266,26 +109913,26 @@ bool MatchActor::FUN_008b19c0(MatchPackage* package)
         ((::fnv_008b19c0::MatchProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))->Enable(true);
         ((::fnv_008b19c0::MatchProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))->SetActor(partner3);
     }
-    FUN_009edd80* created2 = new FUN_009edd80(0, this, partner3, linked6, false, !((int)(reinterpret_cast<::BGSCameraPath *>((package))->GetPrevPath())));
+    FUN_009edd80* created2 = new FUN_009edd80(0, this, partner3, linked6, false, !((intptr_t)(reinterpret_cast<::BGSCameraPath *>((package))->GetPrevPath())));
     if (package)
         reinterpret_cast<::fnv_0067a1b0::FUN_0067a1b0_shell *>((created2))->FUN_0067a1b0((::TESPackage *)(package));
     reinterpret_cast<::PackageEx *>((created2))->SetPackageType(0x1c);
     reinterpret_cast<::TESPackage *>((created2))->SetMustReachLocation(::FUN_008b1ff0((const char *)(package)));
     reinterpret_cast<::TESPackage *>((created2))->SetMustComplete(reinterpret_cast<::FUN_0067efd0_shell *>((package))->FUN_0067efd0());
     reinterpret_cast<::TESPackage *>((created2))->SetProcedureType((::PACKAGE_PROCEDURE_TYPE)(10));
-    reinterpret_cast<::fnv_00671d30::FUN_00671d30_shell *>((created2))->FUN_00671d30((::fnv_00671d30::LocationDescriptor *)(((int)(reinterpret_cast<::BGSMessageInitAccess *>((package))->GetIconFormID()))));
+    reinterpret_cast<::fnv_00671d30::FUN_00671d30_shell *>((created2))->FUN_00671d30((::fnv_00671d30::LocationDescriptor *)(reinterpret_cast<::PackageFields *>((package))->pLocation));
     created2->source = source9;
     if (((void *)(reinterpret_cast<::FUN_00672dd0_shell *>((package))->FUN_00672dd0())))
         reinterpret_cast<::fnv_00671e10::FUN_00671e10_shell *>((created2))->FUN_00671e10((::fnv_00671e10::LocationDescriptor *)(void *)(((void *)(reinterpret_cast<::FUN_00672dd0_shell *>((package))->FUN_00672dd0()))));
     PackageTargetObj* objTmp = new PackageTargetObj;
     reinterpret_cast<::PackageTargetRecord *>((objTmp))->SetTargetObjectReference((::TESObjectREFR *)(partner3));
     reinterpret_cast<::PackageTargetRecord *>((objTmp))->SetTargetKind((::PACK_TARG_TYPE)(0));
-    reinterpret_cast<::TESRegionGrassObject *>((objTmp))->AssignLandTexture((::TESLandTexture *)(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((::fnv_008b19c0::MatchFlags *)(reinterpret_cast<::Script *>((package))->GetData()))))->GetName()))));
+    reinterpret_cast<::TESRegionGrassObject *>((objTmp))->AssignLandTexture((::TESLandTexture *)(std::intptr_t)(reinterpret_cast<::PackageTargetFields *>((((::fnv_008b19c0::MatchFlags *)(reinterpret_cast<::Script *>((package))->GetData()))))->iValue));
     reinterpret_cast<::FUN_00672fc0_shell *>((created2))->FUN_00672fc0((::PackageTargetRecord *)(objTmp));
     delete objTmp;
     reinterpret_cast<::TESPackage *>((created2))->FUN_00672aa0(reinterpret_cast<::FUN_006727b0_shell *>((package))->FUN_006727b0());
     reinterpret_cast<::FUN_00672c40_Class *>((created2))->SetExtraValue(reinterpret_cast<::FUN_00672850_shell *>((package))->GetPackageFloatValue());
-    reinterpret_cast<::fnv_006729d0::FUN_006729d0_StandIn *>((created2))->FUN_006729d0((int)(((void *)(reinterpret_cast<::StandIn_00672760 *>((package))->FUN_00672760()))));
+    reinterpret_cast<::fnv_006729d0::FUN_006729d0_StandIn *>((created2))->FUN_006729d0((intptr_t)(((void *)(reinterpret_cast<::StandIn_00672760 *>((package))->FUN_00672760()))));
     reinterpret_cast<::TESPackage *>((created2))->SetPackageFlag(reinterpret_cast<::fnv_00672800::Proxy72800 *>((package))->FUN_00672800());
     ((::fnv_008b19c0::MatchProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))->Reset();
     reinterpret_cast<::MiddleHighProcess *>((_g_thePlayer))->SetBoundingBox((::BSBound *)(created2));
@@ -107697,7 +110344,7 @@ void ActorAnimationView::FUN_008b73f0(bool alternate, Animation* animation, cons
         }
         else if (((::fnv_008b73f0::FNVActorProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture())))
         {
-            switch (((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((::fnv_008b73f0::FNVActorProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))))->FUN_0045cd60())))
+            switch (((intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((((::fnv_008b73f0::FNVActorProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))))->FUN_0045cd60())))
             {
             case 0:
             case 1: {
@@ -107717,7 +110364,7 @@ void ActorAnimationView::FUN_008b73f0(bool alternate, Animation* animation, cons
         {
             if (!link)
             {
-                reinterpret_cast<::FUN_00445430_cls *>(((*reinterpret_cast<::fnv_008b73f0::FNVResourceManager * *>(&::g_modelLoader))))->FUN_00445430((unsigned int)(pAnim));
+                reinterpret_cast<::FUN_00445430_cls *>(((*reinterpret_cast<::fnv_008b73f0::FNVResourceManager * *>(&::g_modelLoader))))->FUN_00445430((uintptr_t)(pAnim));
                 reinterpret_cast<::P516::Loader *>(((*reinterpret_cast<::fnv_008b73f0::FNVResourceManager * *>(&::g_modelLoader))))->LoadFiles((::P516::Paths *)(loaded), (::P516::Owner *)(pAnim), 5, (::P516::Task *)(0), (const char *)(0));
             }
             else
@@ -108033,7 +110680,6 @@ struct Actor419
     NiAVObject* FUN_00950be0();
     NiAVObject* FUN_008be0a0();
 };
-extern "C" Actor419* g_thePlayer;
 // Returns the cached projectile node from process, or finds it under the root node, caches it via SetProjectileNode and returns it.
 // @fnv 0x008be0a0
 NiAVObject* Actor419::FUN_008be0a0()
@@ -108046,7 +110692,7 @@ NiAVObject* Actor419::FUN_008be0a0()
         cached = process->GetProjectileNode();
         if (cached)
             return cached;
-        root5 = this == g_thePlayer ? g_thePlayer->FUN_00950be0() : GetRootNode();
+        root5 = (void *)this == (void *)::_g_thePlayer ? reinterpret_cast<Actor419 *>(::_g_thePlayer)->FUN_00950be0() : GetRootNode();
         if (!root5)
             return 0;
         weaponA = ((::fnv_008be0a0::Weapon419 *)(reinterpret_cast<::FUN_008a1710_shell *>(this)->FUN_008a1710()));
@@ -108635,17 +111281,17 @@ void AlarmActorView::FUN_008c09e0(TESObjectREFR* pkTarget)
     BSSimpleList<Actor*>* pkCurrentObject = pkList;
     if (pkList)
     {
-        while (pkList && ((::Actor *)(new ((void *)(pkList)) ::Vec3())))
+        while (pkList && (((pkList))->m_item))
         {
-            AlarmActorView* pkWitness = (AlarmActorView*)((::Actor *)(new ((void *)(pkList)) ::Vec3()));
+            AlarmActorView* pkWitness = (AlarmActorView*)(((pkList))->m_item);
             if (!pkWitness->IsDisabled(false) && !pkWitness->IsUnconscious())
             {
                 reinterpret_cast<::fnv_009eb9c0::Crime *>((pkAlarm))->AddActor((::Actor *)(::fnv_008c09e0::AlarmActorView *)(this));
                 if (reinterpret_cast<::FUN_008b8360_shell *>((pkWitness))->CollectFilteredFactions((::Filter_8b8360 *)(::fnv_008c09e0::AlarmActorView *)(this), (::Output_8b8360 *)(pkAlarm)))
                 {
-                    ::SetTlsInt(((int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430())));
+                    ::SetTlsInt(((intptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430())));
                     reinterpret_cast<::fnv_0057bd60::fnv_anon_tesobjectrefr::Dummy *>((pkWitness))->FUN_0057bd60((::fnv_0057bd60::MobileObject *)(reinterpret_cast<::FUN_0084e3a0_Class *>((pkAlarm))->FUN_0084e3a0()));
-                    int iTopic = ((int)(::fnv_0061a2d0::GetTopicSubTypeName(2, 0xe)));
+                    intptr_t iTopic = ((intptr_t)(::fnv_0061a2d0::GetTopicSubTypeName(2, 0xe)));
                     ((::fnv_008c09e0::AlarmProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pkWitness))->GetBaseTexture()))->StartConversation(pkWitness, iTopic, 0, 0, true, 0);
                     reinterpret_cast<::fnv_009eb9c0::Crime *>((pkAlarm))->AddActor((::Actor *)(pkWitness));
                     if (pkWitness->FUN_008b0970(this) && !((bool)(reinterpret_cast<::FUN_00493bb0_Class *>((pkWitness))->FUN_00493bb0())))
@@ -108654,9 +111300,9 @@ void AlarmActorView::FUN_008c09e0(TESObjectREFR* pkTarget)
                 }
                 else
                 {
-                    ::SetTlsInt(((int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430())));
+                    ::SetTlsInt(((intptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430())));
                     reinterpret_cast<::fnv_0057bd60::fnv_anon_tesobjectrefr::Dummy *>((pkWitness))->FUN_0057bd60((::fnv_0057bd60::MobileObject *)(reinterpret_cast<::FUN_0084e3a0_Class *>((pkAlarm))->FUN_0084e3a0()));
-                    int iGreet = ((int)(::fnv_0061a2d0::GetTopicSubTypeName(2, 0x10)));
+                    intptr_t iGreet = ((intptr_t)(::fnv_0061a2d0::GetTopicSubTypeName(2, 0x10)));
                     int iResult = 0;
                     if (reinterpret_cast<::FUN_0084e3a0_Class *>((pkAlarm))->FUN_0084e3a0() && reinterpret_cast<::HostActor *>((pkWitness))->IsHostileTo((::HostActor *)(reinterpret_cast<::FUN_0084e3a0_Class *>((pkAlarm))->FUN_0084e3a0()), 0, &iResult, 0))
                         pkWitness->ReactToCrime(reinterpret_cast<::FUN_0084e3a0_Class *>((pkAlarm))->FUN_0084e3a0(), 0, 0, 0, 0, 0, true, 0);
@@ -108667,7 +111313,7 @@ void AlarmActorView::FUN_008c09e0(TESObjectREFR* pkTarget)
                     ::SetTlsInt(0);
                 }
             }
-            pkList = ((::BSSimpleList< ::Actor *> *)(reinterpret_cast<::Callees *>((pkList))->FUN_00726070()));
+            pkList = ((::BSSimpleList< ::Actor *> *)(reinterpret_cast<::SimpleListNodeView *>((pkList))->m_pkNext));
         }
         if (pkCurrentObject)
         {
@@ -108862,9 +111508,6 @@ class FUN_0099b8b0_shell
   public:
 };
 
-namespace std {
-float abs(float);
-}
 
 PathingLocation FUN_006d7a40(const PathingLocation& kFrom, const PathingLocation& kTo, float fRadius);
 
@@ -108882,7 +111525,7 @@ class FUN_0099e840_cls
 bool FUN_0099e840_cls::FUN_0099e840(float m_fMinimumRange, float m_fMaximumRange, float afMinRange, float afMaxRange,
                                     FUN_0099b8b0_shell* pOut, bool bCheckLOS)
 {
-    Actor* pTarget3 = ((::Actor *)(::GetFieldBC((::FUN_0097ae90_Class *)(m_pSharedOwner))));
+    Actor* pTarget3 = ((::Actor *)(reinterpret_cast<::CombatControllerFields *>((m_pSharedOwner))->pActor));
     RefView* pSelf2 = (RefView*)((AlchemyItem*)m_pSharedOwner)->FUN_004030b0();
     float fMidA = (m_fMinimumRange + m_fMaximumRange) / 2.0;
     NiPoint3 kTargetPos = *((RefView*)pTarget3)->GetPos();
@@ -108893,7 +111536,7 @@ bool FUN_0099e840_cls::FUN_0099e840(float m_fMinimumRange, float m_fMaximumRange
     float fError7 = std::abs(fMidA - fLength4);
     PathingLocation kStart((TESObjectREFR*)pTarget3);
     NiPoint3 kFound2;
-    if (!::Pathing::FindClosestPathingPoint((::TESWorldSpace *)(void *)(((void *)(reinterpret_cast<::BGSTerrainManager *>((((PathingLocationProxy*)&kStart)))->GetMinLevel()))), (::TESObjectCELL *)(((unsigned int)(reinterpret_cast<::PathingLocation *>((void *)&(kStart))->GetContainingCell()))), (*(const ::NiPoint3 *)(&kIdeal4)), &kFound2))
+    if (!::Pathing::FindClosestPathingPoint((::TESWorldSpace *)(void *)(((void *)(reinterpret_cast<::BGSTerrainManager *>((((PathingLocationProxy*)&kStart)))->GetMinLevel()))), (::TESObjectCELL *)(((uintptr_t)(reinterpret_cast<::PathingLocation *>((void *)&(kStart))->GetContainingCell()))), (*(const ::NiPoint3 *)(&kIdeal4)), &kFound2))
         return false;
     NiPoint3 kDelta6 = ((NiPoint3_ext&)kFound2) - kIdeal4;
     if (reinterpret_cast<::TESCombatStyle *>((void *)&(((NiPoint3_ext&)kDelta6)))->UpdateCombatStyle() > fError7 * fError7)
@@ -108907,7 +111550,7 @@ bool FUN_0099e840_cls::FUN_0099e840(float m_fMinimumRange, float m_fMaximumRange
         return false;
     if (bCheckLOS && !::FUN_009a7940((::SightReference *)(pTarget3), (::SightReference *)(pSelf2), (*(const ::NiPoint3 *)(&kResultPos)), (*(const ::NiPoint3 *)(&kSelfPos7)), 0, -1))
         return false;
-    reinterpret_cast<::FUN_0099b8b0_shell *>((pOut))->FUN_0099b8b0((int)&kResultPos, 0);
+    reinterpret_cast<::FUN_0099b8b0_shell *>((pOut))->FUN_0099b8b0((intptr_t)&kResultPos, 0);
     return true;
 }
 }  // namespace fnv_0099e840
@@ -109346,7 +111989,7 @@ int Obj::FUN_0087fd90(Obj* arg, Info* info)
                 if (arg->v218())
                 {
                     Obj* unused = slot9;
-                    slot29 = reinterpret_cast<::FUN_0048bf50_cls *>(&(slot22->off040))->FindValueByKey((int)(slot14));
+                    slot29 = reinterpret_cast<::FUN_0048bf50_cls *>(&(slot22->off040))->FindValueByKey((intptr_t)(slot14));
                 }
                 int slot17 = -1;
                 int slot33 = 0;
@@ -109389,7 +112032,7 @@ int Obj::FUN_0087fd90(Obj* arg, Info* info)
         {
             int slot76 = 0;
             if (slot22 && slot14)
-                slot76 = reinterpret_cast<::FUN_0048bf50_cls *>(&(slot22->off040))->FindValueByKey((int)(slot14));
+                slot76 = reinterpret_cast<::FUN_0048bf50_cls *>(&(slot22->off040))->FindValueByKey((intptr_t)(slot14));
             int slot126 = 0;
             int slot50 = -1;
             int slot71 = 0;
@@ -110251,15 +112894,15 @@ extern AHActor* DAT_011dea3c;
 // @fnv 0x00882b90
 bool AHActor::FUN_00882b90()
 {
-    if (m_pkProcess && ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((m_pkProcess))->FUN_0045cd60())) == 3)
+    if (m_pkProcess && ((intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((m_pkProcess))->FUN_0045cd60())) == 3)
         return true;
-    else if (m_pkProcess && !((int)(reinterpret_cast<::FUN_0045cd60_shell *>((m_pkProcess))->FUN_0045cd60())))
+    else if (m_pkProcess && !((intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((m_pkProcess))->FUN_0045cd60())))
     {
         reinterpret_cast<::FUN_00881d10 *>(this)->SetHoursPassed();
         reinterpret_cast<::FUN_008e56b0_cls *>((m_pkProcess))->ClearNode();
         AHAnimNode* pkAnim = ((::fnv_00882b90::AHAnimNode *)(::FUN_00b4f5c0()));
         if (pkAnim)
-            reinterpret_cast<::S00b66050_cls *>((pkAnim))->RemoveEntry((unsigned int)(((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0()))));
+            reinterpret_cast<::S00b66050_cls *>((pkAnim))->RemoveEntry((reinterpret_cast<::FormFields *>(this)->iFormID));
     }
     m_iUnk1ac = 0;
     if (((::fnv_00882b90::AHProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture())))
@@ -110286,7 +112929,7 @@ bool AHActor::FUN_00882b90()
     if (FUN_008a61b0() && !IsCommandedActor() &&
         (!((::fnv_00882b90::AHCombatGroup *)(reinterpret_cast<::LowProcess *>((((AHActor*)DAT_011dea3c)))->GetTarget())) || !reinterpret_cast<::TESObjectCELL *>((((::fnv_00882b90::AHCombatGroup *)(reinterpret_cast<::LowProcess *>((((AHActor*)DAT_011dea3c)))->GetTarget()))))->IsCellInterior()))
         reinterpret_cast<::fnv_00881680::FUN_00881680_shell *>(this)->FUN_00881680(0);
-    int iOldLevel = ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((m_pkProcess))->FUN_0045cd60()));
+    intptr_t iOldLevel = ((intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((m_pkProcess))->FUN_0045cd60()));
     reinterpret_cast<::FUN_008c2b60_shell *>(this)->ApplyActorSpells();
     if (iOldLevel == 1 || iOldLevel == 0)
         reinterpret_cast<::Actor8c30 *>(this)->FUN_008c30a0();
@@ -110299,7 +112942,7 @@ bool AHActor::FUN_00882b90()
         m_pkProcess->StartCombat(this);
         reinterpret_cast<::fnv_00565870::FUN_00565870_shell *>(this)->FUN_00565870();
     }
-    else if (IsDead(0) && !((int)(reinterpret_cast<::FUN_0045cd60_shell *>((m_pkProcess))->FUN_0045cd60())))
+    else if (IsDead(0) && !((intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((m_pkProcess))->FUN_0045cd60())))
         Disable(1);
     reinterpret_cast<::ActorDeletionQueue *>(&((*reinterpret_cast<::fnv_00882b90::AHProcessManager *>(&::g_011e0e80))))->FUN_0096d470((::MobileObject *)(::fnv_00882b90::AHActor *)(this), iOldLevel);
     bool bWasHighNum = false;
@@ -110371,7 +113014,7 @@ struct FUN_00887a10_cls
     int unk04;
     int unk08;
     FUN_00887a10_BaseB* m_pkEntry;
-    int FUN_00887a10();
+    intptr_t FUN_00887a10();
 };
 // @fnv 0x00887ac0
 void FUN_00887ac0_class::FUN_00887ac0(float afValue)
@@ -110383,7 +113026,7 @@ void FUN_00887ac0_class::FUN_00887ac0(float afValue)
 
 // Returns the value from the inner object if present, otherwise the m_iValue of the derived entry, or 0.
 // @fnv 0x00887a10
-int FUN_00887a10_cls::FUN_00887a10()
+intptr_t FUN_00887a10_cls::FUN_00887a10()
 {
     FUN_00887a10_Inner* inner = ((::FUN_00887a10_Inner *)(::FUN_004ae750((void *)this)));
     if (inner)
@@ -110897,11 +113540,11 @@ struct FUN_008a52c0_Process
 };
 struct FUN_008a52c0_Class
 {
-    void FUN_008a52c0(int arg);
+    void FUN_008a52c0(intptr_t arg);
 };
 // Forwards the given argument to the process object returned by FUN_008d8520, if that object exists.
 // @fnv 0x008a52c0
-void FUN_008a52c0_Class::FUN_008a52c0(int arg)
+void FUN_008a52c0_Class::FUN_008a52c0(intptr_t arg)
 {
     if (((::FUN_008a52c0_Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture())))
     {
@@ -111529,6 +114172,9 @@ struct xP3
     xP3();
     float x, y, z;
     xP3 operator-(const xP3&) const;
+public:
+    xP3 operator+(const xP3&) const;
+    void FUN_004a0c10();
 };
 struct xFltSetting
 {
@@ -111550,6 +114196,8 @@ struct __declspec(align(16)) xPick
 {
     xPick();
     char m_buf[0xb0];
+public:
+    void FUN_004a3f70(xFilter);
 };
 struct xTES
 {
@@ -112106,6 +114754,184 @@ struct xActor
     xMid* m_68;
     xFilter FUN_00931ed0();
     bool FUN_0088c240(const xP3& akTarget, bool abFlag, bool abSkip);
+public:
+    virtual void v0();
+    virtual void v1();
+    virtual void v2();
+    virtual void v3();
+    virtual void v4();
+    virtual void v5();
+    virtual void v6();
+    virtual void v7();
+    virtual void v8();
+    virtual void v9();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual void v20();
+    virtual void v21();
+    virtual void v22();
+    virtual void v23();
+    virtual void v24();
+    virtual void v25();
+    virtual void v26();
+    virtual void v27();
+    virtual void v28();
+    virtual void v29();
+    virtual void v30();
+    virtual void v31();
+    virtual void v32();
+    virtual void v33();
+    virtual void v34();
+    virtual void v35();
+    virtual void v36();
+    virtual void v37();
+    virtual void v38();
+    virtual void v39();
+    virtual void v40();
+    virtual void v41();
+    virtual void v42();
+    virtual void v43();
+    virtual void v44();
+    virtual void v45();
+    virtual void v46();
+    virtual void v47();
+    virtual void v48();
+    virtual void v49();
+    virtual void v50();
+    virtual void v51();
+    virtual void v52();
+    virtual void v53();
+    virtual void v54();
+    virtual void v55();
+    virtual void v56();
+    virtual void v57();
+    virtual void v58();
+    virtual void v59();
+    virtual void v60();
+    virtual void v61();
+    virtual void v62();
+    virtual void v63();
+    virtual void v64();
+    virtual void v65();
+    virtual void v66();
+    virtual void v67();
+    virtual void v68();
+    virtual void v69();
+    virtual void v70();
+    virtual void v71();
+    virtual void v72();
+    virtual void v73();
+    virtual void v74();
+    virtual void v75();
+    virtual void v76();
+    virtual void v77();
+    virtual void v78();
+    virtual void v79();
+    virtual void v80();
+    virtual void v81();
+    virtual void v82();
+    virtual void v83();
+    virtual void v84();
+    virtual void v85();
+    virtual void v86();
+    virtual void v87();
+    virtual void v88();
+    virtual void v89();
+    virtual void v90();
+    virtual void v91();
+    virtual void v92();
+    virtual void v93();
+    virtual void v94();
+    virtual void v95();
+    virtual void v96();
+    virtual void v97();
+    virtual void v98();
+    virtual void v99();
+    virtual void v100();
+    virtual void v101();
+    virtual void v102();
+    virtual void v103();
+    virtual void v104();
+    virtual void v105();
+    virtual void v106();
+    virtual void v107();
+    virtual void v108();
+    virtual void v109();
+    virtual void v110();
+    virtual void v111();
+    virtual void v112();
+    virtual void v113();
+    virtual void v114();
+    virtual void v115();
+    virtual void v116();
+    virtual void v117();
+    virtual void v118();
+    virtual void v119();
+    virtual void v120();
+    virtual void v121();
+    virtual void v122();
+    virtual void v123();
+    virtual void v124();
+    virtual xP3* FUN_1f4();
+    virtual void v126();
+    virtual void v127();
+    virtual void v128();
+    virtual void v129();
+    virtual void v130();
+    virtual void v131();
+    virtual void v132();
+    virtual void v133();
+    virtual void v134();
+    virtual void v135();
+    virtual void v136();
+    virtual void v137();
+    virtual void v138();
+    virtual void v139();
+    virtual void v140();
+    virtual void v141();
+    virtual void v142();
+    virtual void v143();
+    virtual void v144();
+    virtual void v145();
+    virtual void v146();
+    virtual void v147();
+    virtual void v148();
+    virtual void v149();
+    virtual void v150();
+    virtual void v151();
+    virtual void v152();
+    virtual void v153();
+    virtual void v154();
+    virtual void v155();
+    virtual void v156();
+    virtual void v157();
+    virtual void v158();
+    virtual void v159();
+    virtual void v160();
+    virtual void v161();
+    virtual void v162();
+    virtual void v163();
+    virtual void v164();
+    virtual void v165();
+    virtual void v166();
+    virtual void v167();
+    virtual void v168();
+    virtual void v169();
+    virtual void v170();
+    virtual void v171();
+    virtual void v172();
+    virtual void v173();
+    virtual void v174();
+    virtual float FUN_2bc(int);
+    float FUN_008bd830(intptr_t aiUnused, float afHeight);
 };
 // Checks if the actor can see akTarget within its FOV cone and via a raycast, returning true if the target is visible or within 25 units of the hit point.
 // @fnv 0x0088c240
@@ -112126,7 +114952,7 @@ bool xActor::FUN_0088c240(const xP3& akTarget, bool abFlag, bool abSkip)
     if (RACE && this != xg_player_11dea3c)
         NODE = m_68->FUN_6d4();
     if (NODE)
-        vPos = *((::xP3 *)(::FUN_0045bb80((int)(NODE))));
+        vPos = *((::xP3 *)(::FUN_0045bb80((intptr_t)(NODE))));
     else
         vPos = *((::xP3 *)(reinterpret_cast<::TESTopicInfo *>(this)->GetAddTopicList()));
     float OFFS = 0.0f;
@@ -112300,14 +115126,14 @@ class Actor
     int unk064;
     Controller* m_pkController;
 
-    void FUN_0088c790(int iArg0, int iArg1, int iArg2, bool bArg3, bool bArg4, bool bArg5);
+    void FUN_0088c790(intptr_t iArg0, intptr_t iArg1, intptr_t iArg2, bool bArg3, bool bArg4, bool bArg5);
 };
 
 // Calls m_pkController->Start, or FUN_0088d7d0 if there is no controller, FUN_0045cd60() > 1, or this is DAT_011dea3c and FUN_00702360() is true.
 // @fnv 0x0088c790
-void Actor::FUN_0088c790(int iArg0, int iArg1, int iArg2, bool bArg3, bool bArg4, bool bArg5)
+void Actor::FUN_0088c790(intptr_t iArg0, intptr_t iArg1, intptr_t iArg2, bool bArg3, bool bArg4, bool bArg5)
 {
-    if (!m_pkController || ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((m_pkController))->FUN_0045cd60())) > 1 || (this == DAT_011dea3c && ::FUN_00702360()))
+    if (!m_pkController || ((intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((m_pkController))->FUN_0045cd60())) > 1 || (this == DAT_011dea3c && ::FUN_00702360()))
         reinterpret_cast<::FUN_0088d7d0_shell *>(this)->FUN_0088d7d0((::TESBoundObject *)(iArg0), iArg1, (::ExtraDataList *)(iArg2), bArg3, bArg4, bArg5);
     else
         m_pkController->Start(this, 0, iArg0, iArg1, iArg2, 0, 0, 0, bArg3, bArg4, bArg5);
@@ -112327,17 +115153,17 @@ struct Entry
 
 struct Owner
 {
-    int FUN_00891b90(int iArg);
+    intptr_t FUN_00891b90(int iArg);
 };
 
 // Gets an Item via FUN_005d43c0()->FUN_00418520() and returns its FUN_004c8c10(iArg, 1), or 0 if there is none.
 // @fnv 0x00891b90
-int Owner::FUN_00891b90(int iArg)
+intptr_t Owner::FUN_00891b90(int iArg)
 {
-    int iResult = 0;
+    intptr_t iResult = 0;
     Item* pkItem = ((::s891b90::Item *)(reinterpret_cast<::ExtraDataList *>((((::s891b90::Entry *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()))))->GetContainerChangeData()));
     if (pkItem)
-        iResult = ((int)(reinterpret_cast<::Target *>((pkItem))->FUN_004c8c10(iArg, 1)));
+        iResult = ((intptr_t)(reinterpret_cast<::Target *>((pkItem))->FUN_004c8c10(iArg, 1)));
     return iResult;
 }
 
@@ -112520,7 +115346,7 @@ int Actor::FUN_00891be0(Target* pkTarget)
     }
     else if (pkTarget)
     {
-        iResult = (int)::TESWeightForm::GetWeightForForm((::TESForm *)(((int)(reinterpret_cast<::Twin_0044ddc0 *>((pkTarget))->GetName()))), ::FUN_004d1360((char *)(DAT_011dea3c)));
+        iResult = (int)::TESWeightForm::GetWeightForForm((::TESForm *)(((intptr_t)(reinterpret_cast<::InventoryEntryFields *>((pkTarget))->pObject))), ::FUN_004d1360((char *)(DAT_011dea3c)));
     }
     return iResult;
 }
@@ -112535,17 +115361,17 @@ struct Obj_418520
 };
 struct Ref_891d30
 {
-    int FUN_00891d30();
+    intptr_t FUN_00891d30();
 };
 // Returns the result of FUN_004cafe0 on the object obtained via FUN_005d43c0 and FUN_00418520, or 0 if that object is null.
 // @fnv 0x00891d30
 intptr_t Ref_891d30::FUN_00891d30()
 {
     Obj_4cafe0* obj;
-    int result = 0;
+    intptr_t result = 0;
     obj = ((::Obj_4cafe0 *)(reinterpret_cast<::ExtraDataList *>((((::Obj_418520 *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()))))->GetContainerChangeData()));
     if (obj)
-        result = ((int)(reinterpret_cast<::CTargetC5 *>((obj))->FUN_004cafe0()));
+        result = ((intptr_t)(reinterpret_cast<::CTargetC5 *>((obj))->FUN_004cafe0()));
     return result;
 }
 
@@ -112580,7 +115406,7 @@ struct Thing
     int unk60;
     int unk64;
     Obj* m_obj;
-    int FUN_008a02d0();
+    intptr_t FUN_008a02d0();
 };
 struct Obj
 {
@@ -112728,13 +115554,13 @@ struct Obj
 
 // Returns m_obj->get() if m_obj is valid, FUN_00493bb0() is true, and the result's FUN_0041ca90() equals 0x12, otherwise returns 0.
 // @fnv 0x008a02d0
-int Thing::FUN_008a02d0()
+intptr_t Thing::FUN_008a02d0()
 {
     if (m_obj != 0 && ((bool)(reinterpret_cast<::FUN_00493bb0_Class *>(this)->FUN_00493bb0())))
     {
         Obj* result = m_obj->get();
         if (result != 0 && reinterpret_cast<struct ::FUN_0041ca90 *>((result))->get() == 0x12)
-            return (int)result;
+            return (intptr_t)result;
         else
             return 0;
     }
@@ -112969,7 +115795,7 @@ bool A8Actor::FUN_008a8300(float limit)
             A8Object* pBip2 = ((::accum8a8::A8Object *)(::FUN_004aae30((::NiAVObject *)(pRoot4), (::NiFixedString *)("Bip01 NonAccum"))));
             if (pBip2)
             {
-                A8Point kBipPos4 = *((::accum8a8::A8Point *)(::FUN_0045bb80((int)(pBip2))));
+                A8Point kBipPos4 = *((::accum8a8::A8Point *)(::FUN_0045bb80((intptr_t)(pBip2))));
                 A8Point kPos;
                 reinterpret_cast<::VectorSourceB00 *>((pController2))->FUN_00812b00(&kPos);
                 float fDelta3 = kBipPos4.z - kPos.z;
@@ -113516,9 +116342,9 @@ void Owner933::SetFlagAndCullNodes(bool abFlag)
     Node933* _pNodeA = pChar->GetNodeA();
     Node933* pNodeB = pChar->GetNodeB();
     Holder933* pHolder = pChar->GetHolder();
-    if (pHolder && ((::Node933 *)(reinterpret_cast<::FUN_009611e0_shell *>((pHolder))->FUN_009611e0())) && _pNodeA && pNodeB)
+    if (pHolder && ((::Node933 *)(reinterpret_cast<::NiAVObjectFields *>((pHolder))->m_pkParent)) && _pNodeA && pNodeB)
     {
-        reinterpret_cast<::TaskQueueInterface *>((((::Node933 *)(reinterpret_cast<::FUN_009611e0_shell *>((pHolder))->FUN_009611e0()))))->FUN_004902f0(true);
+        reinterpret_cast<::TaskQueueInterface *>((((::Node933 *)(reinterpret_cast<::NiAVObjectFields *>((pHolder))->m_pkParent))))->FUN_004902f0(true);
         reinterpret_cast<::TaskQueueInterface *>((_pNodeA))->FUN_004902f0(true);
         reinterpret_cast<::TaskQueueInterface *>((pNodeB))->FUN_004902f0(true);
     }
@@ -113644,7 +116470,7 @@ void Actor_Target::FUN_0087eac0(TESPackage* package, bool bArg2, bool bArg3)
         }
 
         ((BaseProcessView*)this->m_pBaseProcess)->vfunc_230(package, this);
-        reinterpret_cast<::FUN_004534f0_shell *>((this))->FUN_004534f0((unsigned int)(package));
+        reinterpret_cast<::FUN_004534f0_shell *>((this))->FUN_004534f0((uintptr_t)(package));
 
         if (!((bool)(reinterpret_cast<::FUN_00493bb0_Class *>((this))->FUN_00493bb0())) && ((FUN_008b70d0_shell*)this)->FUN_008b70d0())
         {
@@ -113926,9 +116752,9 @@ void ActorTarget::FUN_0087fb40(Actor* target, float amount)
         ActorListEntry* newItem;
         BSSimpleList<ActorListEntry*>* node = &m_kSecondPointerList;
         MarkAsModified(0x80000);
-        while (node && ((::ActorListEntry *)(new ((void *)(node)) ::Vec3())))
+        while (node && (((node))->m_item))
         {
-            ActorListEntry* item = ((::ActorListEntry *)(new ((void *)(node)) ::Vec3()));
+            ActorListEntry* item = (((node))->m_item);
             if (item->pTarget == target)
             {
                 int val = ((DispVtbl*)this)->GetDisposition(target, 0);
@@ -113955,7 +116781,7 @@ void ActorTarget::FUN_0087fb40(Actor* target, float amount)
             }
             else
             {
-                node = ((::BSSimpleList< ::ActorListEntry *> *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
+                node = ((::BSSimpleList< ::ActorListEntry *> *)(reinterpret_cast<::SimpleListNodeView *>((node))->m_pkNext));
             }
         }
         newItem = new ActorListEntry;
@@ -114677,7 +117503,7 @@ void FUN_00880950_shell::FUN_00880950(int value, int amount, Actor* source)
         return;
     if (::FUN_00406d70(value, 0x100))
         return;
-    amount = reinterpret_cast<FUN_00880850_stand*>(this)->FUN_00880850(value, amount, reinterpret_cast<int>(source));
+    amount = reinterpret_cast<FUN_00880850_stand*>(this)->FUN_00880850(value, amount, reinterpret_cast<intptr_t>(source));
     float previous = ::ActorValue::HasActorValueChangedCallback((::ActorValue::Index)(value))
                          ? this->GetCurrentActorValue(static_cast<ActorValue::Index>(value))
                          : 0.0f;
@@ -115185,7 +118011,7 @@ bool TargetActor::FUN_008860d0()
     if (!m_pBaseProcess)
         return false;
     // Current process level.
-    int p = ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((TargetProcess*)m_pBaseProcess)))->FUN_0045cd60()));
+    intptr_t p = ((intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((((TargetProcess*)m_pBaseProcess)))->FUN_0045cd60()));
     // Requested process level.
     int h = reinterpret_cast<::fnv_009334b0::FUN_009334b0_shell *>(this)->GetCellLoadState();
     if (p == h)
@@ -115605,7 +118431,7 @@ void InitActor::FUN_00887d00()
     {
         if (::FUN_008c7aa0())
         {
-            reinterpret_cast<::fnv_0087b850::Holder *>((((::fnv_00887d00::InitQueue *)(::TaskQueueInterface::GetSingleton()))))->FUN_0087b850((int)(this));
+            reinterpret_cast<::fnv_0087b850::Holder *>((((::fnv_00887d00::InitQueue *)(::TaskQueueInterface::GetSingleton()))))->FUN_0087b850((intptr_t)(this));
         }
         else
         {
@@ -115619,7 +118445,7 @@ void InitActor::FUN_00887d00()
             int group = 0;
             if (((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture())))
             {
-                switch (((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((InitProcess*)((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture())))))->FUN_0045cd60())))
+                switch (((intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((((InitProcess*)((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture())))))->FUN_0045cd60())))
                 {
                 case 0:
                 case 1: {
@@ -116112,13 +118938,12 @@ bool SitTarget::FUN_0088d2f0(SitReference* furnitureRef, SitReference* marker, i
     SetFurnitureHeading(reinterpret_cast<::FUN_00568650_shell *>((marker))->FUN_00568650());
     NiPoint3 wasEnabled = reinterpret_cast<::TESFurniture *>((furniture))->GetMarkerOffset(reinterpret_cast<::FUN_005094b0_shell *>((marker))->FUN_005094b0(), reinterpret_cast<::fnv_00567400::FUN_00567400_shell *>(this)->FUN_00567400());
     SitRotation rotation;
-    new ((void *)&(rotation)) ::Vec3();
     reinterpret_cast<::FUN_004a0c90_shell *>(&(rotation))->FUN_004a0c90(reinterpret_cast<::FUN_00568650_shell *>((marker))->FUN_00568650());
     wasEnabled = rotation.FUN_004b4500(&wasEnabled);
     process->SetState(2);
     reinterpret_cast<::fnv_00568020::FUN_00568020_shell *>((furnitureRef))->FUN_00568020(index, true);
-    SetPosition(*reinterpret_cast<SitPoint*>(((::NiPoint3 *)(new ((void *)(marker)) ::Vec3()))) + wasEnabled);
-    reinterpret_cast<::S005620e0_Object *>((((::SitController *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>(this)->FUN_009306d0()))))->FUN_005620e0((const ::S005620e0_Source *)(void *)(((::NiPoint3 *)(new ((void *)(marker)) ::Vec3()))));
+    SetPosition(*reinterpret_cast<SitPoint*>(((::NiPoint3 *)(((::Vec3 *)(void *)(marker))))) + wasEnabled);
+    reinterpret_cast<::S005620e0_Object *>((((::SitController *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>(this)->FUN_009306d0()))))->FUN_005620e0((const ::S005620e0_Source *)(void *)(((::NiPoint3 *)(((::Vec3 *)(void *)(marker))))));
     reinterpret_cast<::fnv_00496080::FUN_00496080_shell *>((reinterpret_cast<SitAnimation*>(GetAnimData())))->FUN_00496080(20, 0.0f);
     if (this == reinterpret_cast<SitTarget*>(pPlayer))
         reinterpret_cast<::fnv_00496080::FUN_00496080_shell *>((((::SitAnimation *)(reinterpret_cast<::PlayerCharacter *>((reinterpret_cast<SitPlayer*>(pPlayer)))->GetAnimation(true)))))->FUN_00496080(20, 0.0f);
@@ -116904,12 +119729,12 @@ struct TransferActorView
 };
 struct FUN_00892e90_shell : Actor
 {
-    bool FUN_00892e90(TESForm*, int, TESObjectREFR*, unsigned int, int);
+    bool FUN_00892e90(TESForm*, intptr_t, TESObjectREFR*, uintptr_t, intptr_t);
 };
 // Moves count (at least 1) of item to destination via RemoveItem and transfer extras; calls FUN_00704af0 for the player, else equipment and update steps.
 // @fnv 0x00892e90
-bool FUN_00892e90_shell::FUN_00892e90(TESForm* item, int unused, TESObjectREFR* destination, unsigned int count,
-                                      int option)
+bool FUN_00892e90_shell::FUN_00892e90(TESForm* item, intptr_t unused, TESObjectREFR* destination, uintptr_t count,
+                                      intptr_t option)
 {
     InventoryChanges* h = ((::fnv_00892e90::InventoryChanges *)(reinterpret_cast<::ExtraDataList *>((((TransferExtra*)((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0())))))->GetContainerChangeData()));
     unsigned int p = count;
@@ -116925,7 +119750,7 @@ bool FUN_00892e90_shell::FUN_00892e90(TESForm* item, int unused, TESObjectREFR* 
             {
                 ExtraDataList* i = 0;
                 if (((::fnv_00892e90::InventoryEntryNode *)(::FUN_00559450((int *)(a)))))
-                    i = *((::ExtraDataList **)(new ((void *)(((::fnv_00892e90::InventoryEntryNode *)(::FUN_00559450((int *)(a)))))) ::Vec3()));
+                    i = *((::ExtraDataList **)(((::Vec3 *)(void *)(((::fnv_00892e90::InventoryEntryNode *)(::FUN_00559450((int *)(a))))))));
                 if (i)
                 {
                     TESObjectREFR* s = reinterpret_cast<::FUN_0041c8d0_shell *>((((TransferItemExtra*)i)))->FUN_0041c8d0();
@@ -116958,14 +119783,14 @@ bool FUN_00892e90_shell::FUN_00892e90(TESForm* item, int unused, TESObjectREFR* 
         {
             ExtraDataList* eb = 0;
             if (((::fnv_00892e90::InventoryEntryNode *)(::FUN_00559450((int *)(f)))))
-                eb = *((::ExtraDataList **)(new ((void *)(((::fnv_00892e90::InventoryEntryNode *)(::FUN_00559450((int *)(f)))))) ::Vec3()));
+                eb = *((::ExtraDataList **)(((::Vec3 *)(void *)(((::fnv_00892e90::InventoryEntryNode *)(::FUN_00559450((int *)(f))))))));
             reinterpret_cast<::FUN_0088c650_shell *>(this)->FUN_0088c650(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((f))->GetName())), 1, eb, true, false, true);
             delete f;
         }
     }
     if (this != (Actor*)pPlayer)
     {
-        ::FUN_00600900((int)(((::TESBoundObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((destination))->FUN_007af430()))));
+        ::FUN_00600900((intptr_t)(((::TESBoundObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((destination))->FUN_007af430()))));
         ::FUN_00600940(1);
         float q = reinterpret_cast<::fnv_008be940::FloatValueProvider *>(this)->FUN_008be940() + GetPos()->z;
         float b = destination->GetPos()->z;
@@ -117739,7 +120564,7 @@ void ActorWorker::FUN_008a03a0()
             }
             if (var_8 == g_thePlayer)
             {
-                if (((MyOuter88230*)g_thePlayer)->FUN_008a8230((int)this) > 0)
+                if (((MyOuter88230*)g_thePlayer)->FUN_008a8230((intptr_t)this) > 0)
                 {
                     reinterpret_cast<::FUN_0093a690_shell *>((((ActorWorker*)g_thePlayer)))->FUN_0093a690(this);
                 }
@@ -118686,7 +121511,7 @@ int ActorMethods::FUN_008a0d10(bool calculate, ActorMethods* target, bool* detec
             current = true;
             result5 = reinterpret_cast<::SightActor *>(this)->FUN_0088b880(1, (::SightActor *)(target), 1, &state5, current);
             if (((ActorVirtual*)this)->Combat() && CallInnerVFunc139()->FUN_004030b0() == target)
-                reinterpret_cast<::FUN_0097fd60_shell *>((CallInnerVFunc139()))->FUN_0097fd60((::TESEffectShader *)(state5));
+                reinterpret_cast<::FUN_0097fd60_shell *>((CallInnerVFunc139()))->FUN_0097fd60((::TESEffectShader *)(intptr_t)(state5));
             if (!current)
                 *detected = result5;
             else
@@ -118718,7 +121543,7 @@ int ActorMethods::FUN_008a0d10(bool calculate, ActorMethods* target, bool* detec
                     result6 += *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::detection_008a0d10::Setting *>(&::g_011d0538))))));
             }
             state8 = ((bool)(reinterpret_cast<::FUN_00493bb0_Class *>(this)->FUN_00493bb0()));
-            value7 = ::FUN_00472380((int)(target));
+            value7 = ::FUN_00472380((intptr_t)(target));
             indexX = 0;
             if (*detected)
                 indexX = 1;
@@ -119185,24 +122010,28 @@ void TargetActor::FUN_008a6a40()
             if (reinterpret_cast<::TESPackage *>((package))->IsPackageBlockingGreeting())
                 return;
             if (reinterpret_cast<::TESPackage *>((package))->FUN_005394a0())
-                reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::fnv_008a6a40::DataHandlerView * *>(&::g_dataHandler))))->GetReferencesInArea(((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>(this)->GetTarget())), (*(const ::NiPoint3 *)(((PositionView*)this)->GetPosition(5000.0f))),
-                                            (float)(((PositionView*)this)->GetPosition(5000.0f)), (*(const ::NiPoint3 *)(((void (&)(Actor *))::LowProcess::HandlePackageLocationLoaded))), (float)(this), {}, {});
+                reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::fnv_008a6a40::DataHandlerView * *>(&::g_dataHandler))))->GetReferencesInArea(((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>(this)->GetTarget())), *(const ::NiPoint3 *)(std::intptr_t)((PositionView*)this)->GetPosition(5000.0f),
+                                            5000.0f, *(const ::NiPoint3 *)(std::intptr_t)((PositionView*)this)->GetPosition(5000.0f), 0.0f,
+                                            (bool (*)(::TESObjectREFR *, intptr_t))::LowProcess::HandlePackageLocationLoaded, (long)(std::intptr_t)this);
             else if (reinterpret_cast<::TESPackage *>((package))->FUN_00670ed0())
-                reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::fnv_008a6a40::DataHandlerView * *>(&::g_dataHandler))))->GetReferencesInArea(((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>(this)->GetTarget())), (*(const ::NiPoint3 *)(((PositionView*)this)->GetPosition(5000.0f))),
-                                            (float)(((PositionView*)this)->GetPosition(5000.0f)), (*(const ::NiPoint3 *)(((void (&)(Actor *))::LowProcess::HandlePackageTargetLoaded))), (float)(this), {}, {});
+                reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::fnv_008a6a40::DataHandlerView * *>(&::g_dataHandler))))->GetReferencesInArea(((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>(this)->GetTarget())), *(const ::NiPoint3 *)(std::intptr_t)((PositionView*)this)->GetPosition(5000.0f),
+                                            5000.0f, *(const ::NiPoint3 *)(std::intptr_t)((PositionView*)this)->GetPosition(5000.0f), 0.0f,
+                                            (bool (*)(::TESObjectREFR *, intptr_t))::LowProcess::HandlePackageTargetLoaded, (long)(std::intptr_t)this);
             if (package->Apply(this, 0, -1.0f, 0))
             {
                 if (!((ProcessView*)((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture())))->GetFlag())
                 {
                     if (reinterpret_cast<::TESPackage *>((package))->FUN_00670f40())
                     {
-                        reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::fnv_008a6a40::DataHandlerView * *>(&::g_dataHandler))))->GetReferencesInArea(((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>(this)->GetTarget())), (*(const ::NiPoint3 *)(((PositionView*)this)->GetPosition(5000.0f))),
-                                                    (float)(((PositionView*)this)->GetPosition(5000.0f)), (*(const ::NiPoint3 *)(((void (&)(Actor *))::LowProcess::HandlePackageLocationLoaded))), (float)(this), {}, {});
+                        reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::fnv_008a6a40::DataHandlerView * *>(&::g_dataHandler))))->GetReferencesInArea(((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>(this)->GetTarget())), *(const ::NiPoint3 *)(std::intptr_t)((PositionView*)this)->GetPosition(5000.0f),
+                                                    5000.0f, *(const ::NiPoint3 *)(std::intptr_t)((PositionView*)this)->GetPosition(5000.0f), 0.0f,
+                                                    (bool (*)(::TESObjectREFR *, intptr_t))::LowProcess::HandlePackageLocationLoaded, (long)(std::intptr_t)this);
                         ((ProcessView*)((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture())))->SetFlag(true);
                     }
                     else if (reinterpret_cast<::TESPackage *>((package))->FUN_00670f60())
-                        reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::fnv_008a6a40::DataHandlerView * *>(&::g_dataHandler))))->GetReferencesInArea(((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>(this)->GetTarget())), (*(const ::NiPoint3 *)(((PositionView*)this)->GetPosition(5000.0f))),
-                                                    (float)(((PositionView*)this)->GetPosition(5000.0f)), (*(const ::NiPoint3 *)(((void (&)(Actor *))::LowProcess::HandlePackageTargetLoaded))), (float)(this), {}, {});
+                        reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::fnv_008a6a40::DataHandlerView * *>(&::g_dataHandler))))->GetReferencesInArea(((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>(this)->GetTarget())), *(const ::NiPoint3 *)(std::intptr_t)((PositionView*)this)->GetPosition(5000.0f),
+                                                    5000.0f, *(const ::NiPoint3 *)(std::intptr_t)((PositionView*)this)->GetPosition(5000.0f), 0.0f,
+                                                    (bool (*)(::TESObjectREFR *, intptr_t))::LowProcess::HandlePackageTargetLoaded, (long)(std::intptr_t)this);
                 }
             }
         }
@@ -119609,7 +122438,7 @@ void ActorHitOwner::FUN_008a7d50(bool abQueue, bool abPlayerFX)
     reinterpret_cast<::FUN_008a7f40_Class *>((pProcess))->FUN_008a7f40(fHitCooldown + *(float*)((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting1004)))))));
     if ((void*)this == (void*)g_thePlayer)
     {
-        if (abPlayerFX && !((int)(reinterpret_cast<::Twin_0044ddc0 *>((((VatsQuery*)&(*reinterpret_cast<::VATS *>(&::g_011f2250)))))->GetName())))
+        if (abPlayerFX && !((int)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)))
             ::ImageSpaceModifierInstanceForm::Trigger((::TESImageSpaceModifier *)(::fnv_008a7d50::HitMod *)(((::fnv_008a7d50::HitMod *)(::FUN_005d2860()))), *(float*)((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting731)))))), (::NiAVObject *)(0));
         if (!::FUN_00702360())
         {
@@ -121022,18 +123851,18 @@ struct FUN_008abc40_shell : Actor
 void FUN_008abc40_shell::FUN_008abc40(BGSLoadFormBuffer* buffer)
 {
     reinterpret_cast<::fnv_00932b70::FUN_00932b70_shell *>(this)->FUN_00932b70((::fnv_00932b70::BGSLoadFormBuffer *)(buffer));
-    m_pActorReference = m_pActorReference ? dynamic_cast<Actor*>(::FUN_004839c0((unsigned int)m_pActorReference)) : 0;
-    m_pMobileObject = m_pMobileObject ? dynamic_cast<MobileObject*>(::FUN_004839c0((unsigned int)m_pMobileObject)) : 0;
+    m_pActorReference = m_pActorReference ? dynamic_cast<Actor*>(::FUN_004839c0((unsigned int)(uintptr_t)m_pActorReference)) : 0;
+    m_pMobileObject = m_pMobileObject ? dynamic_cast<MobileObject*>(::FUN_004839c0((unsigned int)(uintptr_t)m_pMobileObject)) : 0;
     if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::fnv_008abc40::SavedChangeFlags &)(((LoadBufferFinish*)buffer)->FUN_00428110(0x80000)))->FUN_004280f0({}))
     {
         DispositionNode* node = (DispositionNode*)&m_kSecondPointerList;
         while (node)
         {
-            ActorListEntry* modifier = *((::fnv_008abc40::ActorListEntry **)(new ((void *)(node)) ::Vec3()));
+            ActorListEntry* modifier = *((::fnv_008abc40::ActorListEntry **)(((::Vec3 *)(void *)(node))));
             if (modifier)
                 modifier->pActor =
-                    modifier->pActor ? dynamic_cast<Actor*>(::FUN_004839c0((unsigned int)modifier->pActor)) : 0;
-            node = ((::fnv_008abc40::DispositionNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
+                    modifier->pActor ? dynamic_cast<Actor*>(::FUN_004839c0((unsigned int)(uintptr_t)modifier->pActor)) : 0;
+            node = ((::fnv_008abc40::DispositionNode *)(reinterpret_cast<::SimpleListNodeView *>((node))->m_pkNext));
         }
     }
     TESPackage* package = m_pBaseProcess ? ((ProcessFinish*)m_pBaseProcess)->GetCurrentPackage() : 0;
@@ -121209,7 +124038,7 @@ int Actor87::FUN_008b87a0(Actor87* other, bool* apbEnemy)
     {
         while (list8)
         {
-            FactionItem87* item1 = *((::FactionItem87 **)(new ((void *)(list8)) ::Vec3()));
+            FactionItem87* item1 = *((::FactionItem87 **)(((::Vec3 *)(void *)(list8))));
             if (item1 && item1->rank > -1)
             {
                 FactionNode87* inner = list6;
@@ -121221,7 +124050,7 @@ int Actor87::FUN_008b87a0(Actor87* other, bool* apbEnemy)
                 else
                     while (inner)
                     {
-                        FactionItem87* item2 = *((::FactionItem87 **)(new ((void *)(inner)) ::Vec3()));
+                        FactionItem87* item2 = *((::FactionItem87 **)(((::Vec3 *)(void *)(inner))));
                         if (item2 && item2->rank > -1)
                         {
                             reaction2 = CombineFightReaction(reaction2, item1->faction, item2->faction);
@@ -121231,7 +124060,7 @@ int Actor87::FUN_008b87a0(Actor87* other, bool* apbEnemy)
                         inner = ((::FactionNode87 *)(reinterpret_cast<::Callees *>((inner))->FUN_00726070()));
                     }
             }
-            list8 = ((::FactionNode87 *)(reinterpret_cast<::Callees *>((list8))->FUN_00726070()));
+            list8 = ((::FactionNode87 *)(reinterpret_cast<::SimpleListNodeView *>((list8))->m_pkNext));
         }
     }
     else if (extraB && !extra9)
@@ -121253,7 +124082,7 @@ int Actor87::FUN_008b87a0(Actor87* other, bool* apbEnemy)
                 FactionNode87* inner = list6;
                 while (inner)
                 {
-                    FactionItem87* item2 = *((::FactionItem87 **)(new ((void *)(inner)) ::Vec3()));
+                    FactionItem87* item2 = *((::FactionItem87 **)(((::Vec3 *)(void *)(inner))));
                     if (item2 && item2->rank > -1)
                     {
                         reaction2 = CombineFightReaction(reaction2, faction, item2->faction);
@@ -121271,7 +124100,7 @@ int Actor87::FUN_008b87a0(Actor87* other, bool* apbEnemy)
         unsigned count = reinterpret_cast<::fnv_008b8ca0::FUN_008b8ca0_shell *>((((ExtraFactionChanges_fake*)this)))->FUN_008b8ca0((::fnv_008b8ca0::TESFaction **)(factions), 128, list6, extra9->list);
         while (list8)
         {
-            FactionItem87* item1 = *((::FactionItem87 **)(new ((void *)(list8)) ::Vec3()));
+            FactionItem87* item1 = *((::FactionItem87 **)(((::Vec3 *)(void *)(list8))));
             if (item1 && item1->rank > -1)
             {
                 if ((void*)other == (void*)pPlayer && reinterpret_cast<::TESFaction *>((void *)(((Faction87*)item1->faction)))->GetPCAnEnemy())
@@ -121290,7 +124119,7 @@ int Actor87::FUN_008b87a0(Actor87* other, bool* apbEnemy)
                             return reaction2;
                     }
             }
-            list8 = ((::FactionNode87 *)(reinterpret_cast<::Callees *>((list8))->FUN_00726070()));
+            list8 = ((::FactionNode87 *)(reinterpret_cast<::SimpleListNodeView *>((list8))->m_pkNext));
         }
     }
     else
@@ -121354,7 +124183,7 @@ int FactionActor::FUN_008b7fe0(Actor* other, int* found, TESFaction** first, TES
                 continue;
             if (ba[index] == eb[inner])
             {
-                int value = reinterpret_cast<::FUN_0048bf50_cls *>(&(ba[index]->reaction))->FindValueByKey((int)(ba[index]));
+                int value = reinterpret_cast<::FUN_0048bf50_cls *>(&(ba[index]->reaction))->FindValueByKey((intptr_t)(ba[index]));
                 if (value > f)
                 {
                     f = value;
@@ -121366,7 +124195,7 @@ int FactionActor::FUN_008b7fe0(Actor* other, int* found, TESFaction** first, TES
             }
             else if (f == -100000)
             {
-                int reaction = reinterpret_cast<::FUN_0048bf50_cls *>(&(ba[index]->reaction))->FindValueByKey((int)(eb[inner]));
+                int reaction = reinterpret_cast<::FUN_0048bf50_cls *>(&(ba[index]->reaction))->FindValueByKey((intptr_t)(eb[inner]));
                 if (reaction < p)
                 {
                     p = reaction;
@@ -121832,7 +124661,7 @@ void __cdecl FUN_008b9240(ActorValueOwner* owner, int value, float oldValue, flo
                     if (value == 25 && delta != 0.0 && actor->m_pBaseProcess &&
                         ::FUN_00884920((int *)(((P_008b9ab0*)actor->m_pBaseProcess))))
                     {
-                        ::FUN_00884940((int *)(((P_008b9ab0*)actor->m_pBaseProcess)), (::blob4)(256));
+                        ::FUN_00884940((int *)(((P_008b9ab0*)actor->m_pBaseProcess)), std::bit_cast<::blob4>(256u));
                     }
                     if (value == 29 || value == 30 || value == 72)
                         reinterpret_cast<::Outer008848e0 *>((((CallbackOps*)actor)))->FUN_008848e0();
@@ -122327,14 +125156,14 @@ void AlarmHost::FUN_008c0460(TESObjectREFR* target, bool selfOnly, int unused)
     reinterpret_cast<::fnv_009721f0::FUN_009721f0_shell *>(&((*reinterpret_cast<::fnv_008c0460::AlarmManager *>(&::g_011e0e80))))->AddObjectToList((::fnv_009721f0::TESFormList *)(extra));
     if (kSound)
     {
-        while (kSound && *((::fnv_008c0460::AlarmHost **)(new ((void *)(kSound)) ::Vec3())))
+        while (kSound && *((::fnv_008c0460::AlarmHost **)(((::Vec3 *)(void *)(kSound)))))
         {
-            AlarmHost* witness = *((::fnv_008c0460::AlarmHost **)(new ((void *)(kSound)) ::Vec3()));
+            AlarmHost* witness = *((::fnv_008c0460::AlarmHost **)(((::Vec3 *)(void *)(kSound))));
             if (!witness->IsDead(false) && !witness->IsExcluded())
             {
                 if ((selfOnly && witness == this) || (!selfOnly && reinterpret_cast<::FUN_008b8360_shell *>((witness))->CollectFilteredFactions((::Filter_8b8360 *)(::fnv_008c0460::AlarmHost *)(this), (::Output_8b8360 *)(extra))))
                 {
-                    ::SetTlsInt((int)(((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430()))));
+                    ::SetTlsInt((intptr_t)(((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430()))));
                     reinterpret_cast<::fnv_0057bd60::fnv_anon_tesobjectrefr::Dummy *>((witness))->FUN_0057bd60((::fnv_0057bd60::MobileObject *)(void *)(((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>((extra))->FUN_0084e3a0()))));
                     void* topic = ((void *)(::fnv_0061a2d0::GetTopicSubTypeName(2, 13)));
                     ((::fnv_008c0460::AlarmProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((witness))->GetBaseTexture()))->Respond(witness, topic, 0, 0, 1, 0);
@@ -122343,7 +125172,7 @@ void AlarmHost::FUN_008c0460(TESObjectREFR* target, bool selfOnly, int unused)
                 }
                 else
                 {
-                    ::SetTlsInt((int)(((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430()))));
+                    ::SetTlsInt((intptr_t)(((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430()))));
                     reinterpret_cast<::fnv_0057bd60::fnv_anon_tesobjectrefr::Dummy *>((witness))->FUN_0057bd60((::fnv_0057bd60::MobileObject *)(void *)(((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>((extra))->FUN_0084e3a0()))));
                     void* topic2 = ((void *)(::fnv_0061a2d0::GetTopicSubTypeName(2, 15)));
                     int detected = 0;
@@ -122937,10 +125766,10 @@ bool ThisC::FUN_008c2190(A0* a0, void* a1, A2* a2, char* a3)
                         void* hdr = 0;
                         if (a0)
                         {
-                            if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((TESObjectREFR_GetFlags_Helper*)a0)))->GetName())))
+                            if (((uintptr_t)(reinterpret_cast<::InventoryEntryFields *>((((TESObjectREFR_GetFlags_Helper*)a0)))->pObject)))
                             {
-                                if (((FT*)((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((TESObjectREFR_GetFlags_Helper*)a0)))->GetName())))->FUN_00401170() == 0x28)
-                                    hdr = (void*)((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((TESObjectREFR_GetFlags_Helper*)a0)))->GetName()));
+                                if (((FT*)((uintptr_t)(reinterpret_cast<::InventoryEntryFields *>((((TESObjectREFR_GetFlags_Helper*)a0)))->pObject)))->FUN_00401170() == 0x28)
+                                    hdr = (void*)((uintptr_t)(reinterpret_cast<::InventoryEntryFields *>((((TESObjectREFR_GetFlags_Helper*)a0)))->pObject));
                             }
                         }
                         if (!hdr && a2)
@@ -122965,7 +125794,7 @@ bool ThisC::FUN_008c2190(A0* a0, void* a1, A2* a2, char* a3)
                         return false;
                     result = pAnimPayload ? (void*)((::fnv_008c2190::TESActorBase *)(reinterpret_cast<::Actor *>(this)->GetActorBase()))
                                           : (a2 ? (void*)reinterpret_cast<::FUN_00476c90_Class *>((((FUN_00476c90_Class*)a2)))->FUN_00476c90()
-                                                : (void*)((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((TESObjectREFR_GetFlags_Helper*)a0)))->GetName())));
+                                                : (void*)((uintptr_t)(reinterpret_cast<::InventoryEntryFields *>((((TESObjectREFR_GetFlags_Helper*)a0)))->pObject)));
                     if (pAnimPayload)
                     {
                         bool flag = false;
@@ -122994,20 +125823,20 @@ bool ThisC::FUN_008c2190(A0* a0, void* a1, A2* a2, char* a3)
                         {
                             ((FUN_00815380_shell*)((char*)this + 0x88))->V16(pAnimPayload);
                             ((FUN_00815380_shell*)((char*)this + 0x88))->V18(a1 ? (void*)((char*)a1 + 0x94) : 0);
-                            reinterpret_cast<::CastingCheck *>((((FUN_00815380_shell*)((char*)this + 0x88))))->TryCast((::TESBoundObject *)((int)result));
+                            reinterpret_cast<::CastingCheck *>((((FUN_00815380_shell*)((char*)this + 0x88))))->TryCast((::TESBoundObject *)((intptr_t)result));
                         }
                     }
                     if (pB)
                     {
                         ((FUN_00815380_shell*)((char*)this + 0x88))->V16(pB ? (void*)((char*)pB + 0x18) : 0);
                         ((FUN_00815380_shell*)((char*)this + 0x88))->V18(a1 ? (void*)((char*)a1 + 0x94) : 0);
-                        reinterpret_cast<::CastingCheck *>((((FUN_00815380_shell*)((char*)this + 0x88))))->TryCast((::TESBoundObject *)((int)result));
+                        reinterpret_cast<::CastingCheck *>((((FUN_00815380_shell*)((char*)this + 0x88))))->TryCast((::TESBoundObject *)((intptr_t)result));
                     }
                     if (pC)
                     {
                         ((FUN_00815380_shell*)((char*)this + 0x88))->V16(pC ? (void*)((char*)pC + 0x30) : 0);
                         ((FUN_00815380_shell*)((char*)this + 0x88))->V18(a1 ? (void*)((char*)a1 + 0x94) : 0);
-                        reinterpret_cast<::CastingCheck *>((((FUN_00815380_shell*)((char*)this + 0x88))))->TryCast((::TESBoundObject *)((int)result));
+                        reinterpret_cast<::CastingCheck *>((((FUN_00815380_shell*)((char*)this + 0x88))))->TryCast((::TESBoundObject *)((intptr_t)result));
                         if (a0)
                             reinterpret_cast<::fnv_004bdd80::FUN_004bdd80_stand *>((a0))->FUN_004bdd80();
                     }
@@ -123015,7 +125844,7 @@ bool ThisC::FUN_008c2190(A0* a0, void* a1, A2* a2, char* a3)
                     {
                         ((FUN_00815380_shell*)((char*)this + 0x88))->V16(resTemp ? (void*)((char*)resTemp + 0x18) : 0);
                         ((FUN_00815380_shell*)((char*)this + 0x88))->V18(a1 ? (void*)((char*)a1 + 0x94) : 0);
-                        reinterpret_cast<::CastingCheck *>((((FUN_00815380_shell*)((char*)this + 0x88))))->TryCast((::TESBoundObject *)((int)result));
+                        reinterpret_cast<::CastingCheck *>((((FUN_00815380_shell*)((char*)this + 0x88))))->TryCast((::TESBoundObject *)((intptr_t)result));
                     }
                     return true;
                 }
@@ -123130,7 +125959,8 @@ void ActorStub::FUN_008c3530()
     {
         if ((void*)this == g_thePlayer)
         {
-            reinterpret_cast<::OwnerS *>((((PlayerStub*)g_thePlayer)))->PlaySound(::GetSix(::FUN_004065e0(&GetQueuedItem()->list)));
+            ::FUN_004065e0((::EffectItemList_shell *)&GetQueuedItem()->list);
+            reinterpret_cast<::OwnerS *>((((PlayerStub*)g_thePlayer)))->PlaySound(::GetSix());
             ::DispatchMessageToSink((const char *)(GetQueuedItem()->GetMessageText(effect)), 0, (const char *)(0), (const char *)(0), 2.0f, false);
         }
     }
@@ -123945,6 +126775,9 @@ struct MCdPoint
 };
 struct MCdArray
 {
+    char pad00[0x4];
+    int count;
+
     int FUN_00726070();
 };
 struct MColl
@@ -124657,6 +127490,9 @@ struct EHit
 };
 struct EHitArray
 {
+    char pad00[0x4];
+    int count;
+
     int FUN_00726070();
 };
 struct EHits
@@ -124987,7 +127823,7 @@ void EActor::FUN_0088e8d0(float elapsed, ERequest* event)
                     reinterpret_cast<::Owner623 *>((splatter))->FUN_006231a0((::NiNode623 *)(world));
                     MColl contacts;
                     reinterpret_cast<::fnv_00623090::Host *>((splatter))->FUN_00623090(&position, (::fnv_00623090::Vir *)(::fnv_0088e8d0::MColl *)(&contacts));
-                    int count = ((int)(reinterpret_cast<::Callees *>((((::fnv_0088e8d0::MCdArray *)(reinterpret_cast<::TESTopicInfoData *>(&(contacts))->GetLinkToList()))))->FUN_00726070()));
+                    int count = ((int)(((((::fnv_0088e8d0::MCdArray *)(reinterpret_cast<::TESTopicInfoData *>(&(contacts))->GetLinkToList()))))->count));
                     if (count)
                     {
                         MDecalData decal;
@@ -125032,9 +127868,9 @@ void EActor::FUN_0088e8d0(float elapsed, ERequest* event)
                     EActor* projectile = event->projectile;
                     EItem* item = ((::fnv_0088e8d0::EItem *)(reinterpret_cast<::FUN_009c3ee0_shell *>((projectile))->FindItemByKey(this)));
                     if (item && item->data)
-                        attached = ((::fnv_0088e8d0::MColObj *)(::FUN_004b5820((::FormLike *)(void *)(((void *)(::FUN_00460140((int)(item->data))))))));
+                        attached = ((::fnv_0088e8d0::MColObj *)(::FUN_004b5820((::FormLike *)(void *)(((void *)(::FUN_00460140((intptr_t)(item->data))))))));
                 }
-                FUN_006890b0(((::fnv_0088e8d0::MDecalMgr *)(reinterpret_cast<::LowProcess *>(this)->GetTarget())), 1.0f, impact->model.GetPath(), (*(::fnv_0088e8d0::MPt *)(reinterpret_cast<::P3 *>((void *)&(normal))->FUN_004a0bd0({}))), position, 1.0f, 7,
+                FUN_006890b0(((::fnv_0088e8d0::MDecalMgr *)(reinterpret_cast<::LowProcess *>(this)->GetTarget())), 1.0f, impact->model.GetPath(), (*(::fnv_0088e8d0::MPt *)(reinterpret_cast<::P3 *>((void *)&(normal))->FUN_004a0bd0((::P3 *)&ResultSlot(::fnv_0088e8d0::MPt())))), position, 1.0f, 7,
                              attached);
             }
             if (madeModel || madeDecals)
@@ -125065,32 +127901,32 @@ void EActor::FUN_0088e8d0(float elapsed, ERequest* event)
                         ECollector collector;
                         reinterpret_cast<::FUN_004a3fb0_shell *>(&(ray))->FUN_004a3fb0((::hkpAllRayHitCollector *)(::fnv_0088e8d0::ECollector *)(&collector));
                         bool hit = world2->CastRay(&ray);
-                        int count2 = ((int)(reinterpret_cast<::Callees *>((((::fnv_0088e8d0::EHitArray *)(::FUN_00460140((int)(((::fnv_0088e8d0::EHits *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(ray))->FUN_008cdd90()))))))))->FUN_00726070()));
+                        int count2 = ((int)(((((::fnv_0088e8d0::EHitArray *)(::FUN_00460140((intptr_t)(((::fnv_0088e8d0::EHits *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(ray))->FUN_008cdd90()))))))))->count));
                         bool found = false;
                         for (int j = 0; !found && j < count2; j++)
                         {
-                            MCdBody* hitBody = ((::fnv_0088e8d0::EHit *)(reinterpret_cast<::FUN_004a46b0_class *>((((::fnv_0088e8d0::EHitArray *)(::FUN_00460140((int)(((::fnv_0088e8d0::EHits *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(ray))->FUN_008cdd90()))))))))->GetEntryAt(j)))->body;
+                            MCdBody* hitBody = ((::fnv_0088e8d0::EHit *)(reinterpret_cast<::FUN_004a46b0_class *>((((::fnv_0088e8d0::EHitArray *)(::FUN_00460140((intptr_t)(((::fnv_0088e8d0::EHits *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(ray))->FUN_008cdd90()))))))))->GetEntryAt(j)))->body;
                             if (hitBody)
                             {
                                 MPt hitPosition =
                                     position +
-                                    ((::fnv_0088e8d0::EHit *)(reinterpret_cast<::FUN_004a46b0_class *>((((::fnv_0088e8d0::EHitArray *)(::FUN_00460140((int)(((::fnv_0088e8d0::EHits *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(ray))->FUN_008cdd90()))))))))->GetEntryAt(j)))->fraction * (end - position);
+                                    ((::fnv_0088e8d0::EHit *)(reinterpret_cast<::FUN_004a46b0_class *>((((::fnv_0088e8d0::EHitArray *)(::FUN_00460140((intptr_t)(((::fnv_0088e8d0::EHits *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(ray))->FUN_008cdd90()))))))))->GetEntryAt(j)))->fraction * (end - position);
                                 MPt hitNormal;
-                                ::FUN_004a3970((::NiPoint3_local &)(hitNormal), (const ::hkVector4 &)(*((::fnv_0088e8d0::EHit *)(reinterpret_cast<::FUN_004a46b0_class *>((((::fnv_0088e8d0::EHitArray *)(::FUN_00460140((int)(((::fnv_0088e8d0::EHits *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(ray))->FUN_008cdd90()))))))))->GetEntryAt(j)))));
+                                ::FUN_004a3970((::NiPoint3_local &)(hitNormal), (const ::hkVector4 &)(*((::fnv_0088e8d0::EHit *)(reinterpret_cast<::FUN_004a46b0_class *>((((::fnv_0088e8d0::EHitArray *)(::FUN_00460140((intptr_t)(((::fnv_0088e8d0::EHits *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(ray))->FUN_008cdd90()))))))))->GetEntryAt(j)))));
                                 bool terrain = ((int)(reinterpret_cast<::fnv_004a3a20::FUN_004a3a20_shell *>((void *)&(const ::fnv_0088e8d0::MFilter &)(MFilter(((int)(::FUN_0043b540((char *)(hitBody)))))))->FUN_004a3a20())) == 1;
                                 MColObj* object = 0;
                                 if (terrain)
                                 {
                                     object = ((::fnv_0088e8d0::MColObj *)(reinterpret_cast<::fnv_00457620::FUN_00457620_cls *>((g_TES))->FUN_00457620((const float *)(::fnv_0088e8d0::MPt *)(&hitPosition))));
-                                    if (object && ((::fnv_0088e8d0::MColObj *)(reinterpret_cast<::FUN_009611e0_shell *>((object))->FUN_009611e0())))
-                                        object = ((::fnv_0088e8d0::MColObj *)(reinterpret_cast<::FUN_009611e0_shell *>((object))->FUN_009611e0()));
+                                    if (object && ((::fnv_0088e8d0::MColObj *)(reinterpret_cast<::NiAVObjectFields *>((object))->m_pkParent)))
+                                        object = ((::fnv_0088e8d0::MColObj *)(reinterpret_cast<::NiAVObjectFields *>((object))->m_pkParent));
                                 }
                                 else
                                     object = ((::fnv_0088e8d0::MColObj *)(::FUN_00c7fa90((::S_Obj *)(hitBody))));
                                 EActor* reference = ((::fnv_0088e8d0::EActor *)(::FUN_0056f930((::NiAVObject *)(object))));
                                 if (!terrain && (!reference || !::IsAcousticSpaceFormTypeAllowed((::Refr_C *)(reference), true)))
                                     continue;
-                                MDecalMgr* manager = ((::fnv_0088e8d0::MDecalMgr *)(reinterpret_cast<::FnCls *>((g_TES))->FUN_004519d0((*(float *)&(const ::fnv_0088e8d0::MPt &)(hitPosition)), {}, {})));
+                                MDecalMgr* manager = ((::fnv_0088e8d0::MDecalMgr *)(reinterpret_cast<::FnCls *>((g_TES))->FUN_004519d0(hitPosition.x, hitPosition.y, std::bit_cast<int>(hitPosition.z))));
                                 float size2 = ::RandomFloat(reinterpret_cast<::FUN_004a40a0_Class *>((impact))->FUN_004a40a0(), reinterpret_cast<::FUN_004a40c0_Class *>((impact))->GetModifierValue());
                                 MDecalData hitDecal;
                                 hitDecal.pos = hitPosition;
@@ -125128,7 +127964,7 @@ void EActor::FUN_0088e8d0(float elapsed, ERequest* event)
                         if (false)
                         {
                             EColor color = found ? EColor(0, 0, 1, 1) : EColor(1, 1, 0, 1);
-                            void* debug = ((void *)(::fnv_004b3890::FUN_004b3890((*(const class class ::FUN_006815c0 *)(&position)), (*(const ::fnv_004b3890::FUN_004a7800 *)(&color)), (*(const class class ::FUN_006815c0 *)(&end)), (*(const ::fnv_004b3890::FUN_004a7800 *)(&color)), true)));
+                            void* debug = ((void *)(::fnv_004b3890::FUN_004b3890((*(const class ::FUN_006815c0 *)(&position)), (*(const ::fnv_004b3890::FUN_004a7800 *)(&color)), (*(const class ::FUN_006815c0 *)(&end)), (*(const ::fnv_004b3890::FUN_004a7800 *)(&color)), true)));
                             reinterpret_cast<::FUN_00458e20_shell *>((g_TES))->FUN_00458e20((::NiAVObject *)(debug), ::DAT_01017b78);
                         }
                     }
@@ -125924,9 +128760,9 @@ void ZActor::FUN_00899200(bool arg1, bool abFindTarget)
         reinterpret_cast<::FUN_0087b040_shell *>((((::fnv_00899200::ZQueue *)(::TaskQueueInterface::GetSingleton()))))->QueuePowerAttackTask((::Actor *)(::fnv_00899200::ZActor *)(this), arg1, abFindTarget);
         return;
     }
-    if (((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::fnv_00899200::ZVats *>(&::g_011f2250))))->GetName())) == 4 && this == (*reinterpret_cast<::fnv_00899200::ZActor * *>(&::DAT_011f21f0)))
+    if (((int)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)) == 4 && this == (*reinterpret_cast<::fnv_00899200::ZActor * *>(&::DAT_011f21f0)))
     {
-        ZForm* vatsWeapon6 = process->equipped() ? (ZForm*)((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((process->equipped()))->GetName())) : 0;
+        ZForm* vatsWeapon6 = process->equipped() ? (ZForm*)((uintptr_t)(reinterpret_cast<::InventoryEntryFields *>((process->equipped()))->pObject)) : 0;
         ZVatsEntry* vatsEntry = ((::fnv_00899200::ZVatsEntry *)(reinterpret_cast<::ListHolder *>(&((*reinterpret_cast<::fnv_00899200::ZVats *>(&::g_011f2250))))->FUN_009c71c0()));
         if (vatsEntry)
         {
@@ -125973,7 +128809,7 @@ void ZActor::FUN_00899200(bool arg1, bool abFindTarget)
     if (hasWeapon())
     {
         ZForm* weaponRef = ((::fnv_00899200::ZForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430()));
-        reinterpret_cast<::FUN_008bc240_h *>(this)->FUN_008bc240(((unsigned int)(reinterpret_cast<::FUN_005fbeb0_shell *>((weaponRef))->FUN_005fbeb0())));
+        reinterpret_cast<::FUN_008bc240_h *>(this)->FUN_008bc240(((uintptr_t)(reinterpret_cast<::FUN_005fbeb0_shell *>((weaponRef))->FUN_005fbeb0())));
     }
     else
         reinterpret_cast<::FUN_008bc240_h *>(this)->FUN_008bc240(*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_00899200::ZIntGlobal *>(&::g_011cd3b4)))))));
@@ -125992,7 +128828,7 @@ void ZActor::FUN_00899200(bool arg1, bool abFindTarget)
             {
                 ZProcess* activeProcess = ((::fnv_00899200::ZProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()));
                 ZList* list2 = targets;
-                ZActor* candidate6 = ((::fnv_00899200::ZActor *)(reinterpret_cast<::Callees *>((list2))->FUN_00726070()));
+                ZActor* candidate6 = ((::fnv_00899200::ZActor *)(reinterpret_cast<::SimpleListNodeView *>((list2))->m_pkNext));
                 if (candidate6 && candidate6->isActor())
                 {
                     target = candidate6;
@@ -126015,7 +128851,7 @@ void ZActor::FUN_00899200(bool arg1, bool abFindTarget)
     if (target && reinterpret_cast<::FUN_008ace90_shell *>((target))->FUN_008ace90())
         target = 0;
     ZForm* l = ((::fnv_00899200::ZProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture())) ? ((::fnv_00899200::ZProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))->equipped() : 0;
-    ZForm* attackWeapon7 = l ? (ZForm*)((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((l))->GetName())) : 0;
+    ZForm* attackWeapon7 = l ? (ZForm*)((uintptr_t)(reinterpret_cast<::InventoryEntryFields *>((l))->pObject)) : 0;
     if (target)
     {
         unsigned char attackType = 0;
@@ -126065,7 +128901,7 @@ void ZActor::FUN_00899200(bool arg1, bool abFindTarget)
     }
     ZNotify* notification6 = notify();
     if (notification6)
-        reinterpret_cast<::FUN_0097f7d0_shell *>((notification6))->ForwardToMember((int)(target));
+        reinterpret_cast<::FUN_0097f7d0_shell *>((notification6))->ForwardToMember((intptr_t)(target));
 }
 }  // namespace fnv_00899200
 
@@ -126700,7 +129536,7 @@ struct HHit
     HActor* attacker;
     void* unk04;
     HActor* source;
-    int unk0c;
+    intptr_t unk0c;
     int part;
     float damage, fatigue, limbDamage, partDamage, feedback, equipmentDamage;
     int unk2c;
@@ -126744,7 +129580,7 @@ void HActor::FUN_0089a760(HHit* hit, signed char mode)
         return;
     if (::FUN_008c7aa0())
     {
-        reinterpret_cast<::fnv_0087ae10::FUN_0087ae10_shell *>((((::fnv_0089a760::HQueue *)(::TaskQueueInterface::GetSingleton()))))->FUN_0087ae10((int)(this), (::fnv_0087ae10::FUN_0087adf0_shell *)(hit));
+        reinterpret_cast<::fnv_0087ae10::FUN_0087ae10_shell *>((((::fnv_0089a760::HQueue *)(::TaskQueueInterface::GetSingleton()))))->FUN_0087ae10((intptr_t)(this), (::fnv_0087ae10::FUN_0087adf0_shell *)(hit));
         return;
     }
     if (vf360() && hit->part == 14)
@@ -126778,9 +129614,9 @@ void HActor::FUN_0089a760(HHit* hit, signed char mode)
     if (hit->attacker)
     {
         reinterpret_cast<::fnv_008a5230::Holder *>((hit->attacker))->CallProcessTarget();
-        reinterpret_cast<::S_008a51f0 *>((hit->attacker))->DispatchProcessTarget((int)(hit));
+        reinterpret_cast<::S_008a51f0 *>((hit->attacker))->DispatchProcessTarget((intptr_t)(hit));
     }
-    reinterpret_cast<::FUN_008a52c0_Class *>(this)->FUN_008a52c0((int)(hit));
+    reinterpret_cast<::FUN_008a52c0_Class *>(this)->FUN_008a52c0((intptr_t)(hit));
     unsigned short weaponType = 1;
     if (hit->weapon)
     {
@@ -126805,8 +129641,8 @@ void HActor::FUN_0089a760(HHit* hit, signed char mode)
         if (hit->attacker && ((::fnv_0089a760::HProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((hit->attacker))->GetBaseTexture())) && ((::fnv_0089a760::HMagicItem *)(reinterpret_cast<::Callees *>(&(hit->weapon->effects))->FUN_00726070())))
         {
             HEquip* equipped = ((::fnv_0089a760::HProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((hit->attacker))->GetBaseTexture()))->vf148();
-            if (equipped && ((::fnv_0089a760::HExtraList *)(::FUN_00559450((int *)(equipped)))) && *((::fnv_0089a760::HExtra **)(new ((void *)(((::fnv_0089a760::HExtraList *)(::FUN_00559450((int *)(equipped)))))) ::Vec3())))
-                ::FUN_005ac750((::TESForm *)(hit->unk04), (::ExtraDataList *)(*((::fnv_0089a760::HExtra **)(new ((void *)(((::fnv_0089a760::HExtraList *)(::FUN_00559450((int *)(equipped)))))) ::Vec3()))), 0x80);
+            if (equipped && ((::fnv_0089a760::HExtraList *)(::FUN_00559450((int *)(equipped)))) && *((::fnv_0089a760::HExtra **)(((::Vec3 *)(void *)(((::fnv_0089a760::HExtraList *)(::FUN_00559450((int *)(equipped)))))))))
+                ::FUN_005ac750((::TESForm *)(hit->unk04), (::ExtraDataList *)(*((::fnv_0089a760::HExtra **)(((::Vec3 *)(void *)(((::fnv_0089a760::HExtraList *)(::FUN_00559450((int *)(equipped))))))))), 0x80);
         }
         if (((::fnv_0089a760::HAmmo *)(reinterpret_cast<::AmmoOwner *>((hit->weapon))->FUN_00525980((::AmmoActor *)(hit->attacker)))) &&
             ((::fnv_0089a760::HMagicItem *)(reinterpret_cast<::Callees *>(&(((::fnv_0089a760::HAmmo *)(reinterpret_cast<::AmmoOwner *>((hit->weapon))->FUN_00525980((::AmmoActor *)(hit->attacker))))->effects))->FUN_00726070())))
@@ -126901,7 +129737,7 @@ void HActor::FUN_0089a760(HHit* hit, signed char mode)
                             reinterpret_cast<::MagicCaster *>(&(caster))->RemoveCastingArt();
                             caster.vf40(spell ? &spell->magic : 0);
                             reinterpret_cast<::CastTargets::Caster *>(&(caster))->FUN_00815d00(1.0f, (::CastTargets::Source *)(0), 0, 1.0f, 0);
-                            reinterpret_cast<::MagicTargetUpd *>(&(target))->UpdateEffectsByFlags((unsigned int)(spell ? &spell->magic : 0));
+                            reinterpret_cast<::MagicTargetUpd *>(&(target))->UpdateEffectsByFlags((uintptr_t)(spell ? &spell->magic : 0));
                         }
                     }
                 }
@@ -126932,7 +129768,7 @@ void HActor::FUN_0089a760(HHit* hit, signed char mode)
                     caster.vf40(item ? &item->magic : 0);
                     reinterpret_cast<::CastTargets::Caster *>(&(caster))->FUN_00815d00(1.0f, (::CastTargets::Source *)(0), 0, 1.0f, 0);
                     HSpell* dispel = hit->spell;
-                    reinterpret_cast<::MagicTargetUpd *>(&(target))->UpdateEffectsByFlags((unsigned int)(dispel ? &dispel->magic : 0));
+                    reinterpret_cast<::MagicTargetUpd *>(&(target))->UpdateEffectsByFlags((uintptr_t)(dispel ? &dispel->magic : 0));
                 }
             }
             if (hit->attacker)
@@ -126951,7 +129787,7 @@ void HActor::FUN_0089a760(HHit* hit, signed char mode)
                         {
                             HSpell* projectileSpell = effect;
                             HProjectile* projectile = CreateProjectileRef(projectileSpell, hit->attacker, 0, ((::fnv_0089a760::HCell *)(reinterpret_cast<::LowProcess *>(this)->GetTarget())),
-                                                                   *((::fnv_0089a760::MPt *)(::FUN_0045bb80((int)(vf1d0())))), *((::fnv_0089a760::HMatrix *)(::FUN_00461130((int)(vf1d0())))));
+                                                                   *((::fnv_0089a760::MPt *)(::FUN_0045bb80((intptr_t)(vf1d0())))), *((::fnv_0089a760::HMatrix *)(::FUN_00461130((intptr_t)(vf1d0())))));
                             if (projectile)
                             {
                                 HProcData* procData = ((::fnv_0089a760::HProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))->vf28c();
@@ -126959,7 +129795,7 @@ void HActor::FUN_0089a760(HHit* hit, signed char mode)
                                 new ((void *)&(transform)) ::FUN_004a3c90((*(const ::FUN_004a3c90 *)(::FUN_0089d600((char *)(procData)))));
                                 reinterpret_cast<::fnv_0089d640::Holder *>((projectile))->FUN_0089d640((*(::fnv_0089d640::Param12 *)&(const ::fnv_0089a760::MPt &)(MPt(0.0f, 0.0f, 1.0f))));
                                 if (((::fnv_0089a760::HProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((hit->attacker))->GetBaseTexture()))->vf148())
-                                    reinterpret_cast<::FUN_00476c70_Class *>((projectile))->FUN_00476c70((int)(((::fnv_0089a760::HWeapon *)(reinterpret_cast<::Twin_0044ddc0 *>((((::fnv_0089a760::HProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((hit->attacker))->GetBaseTexture()))->vf148()))->GetName()))));
+                                    reinterpret_cast<::FUN_00476c70_Class *>((projectile))->FUN_00476c70((intptr_t)(((::fnv_0089a760::HWeapon *)(reinterpret_cast<::InventoryEntryFields *>((((::fnv_0089a760::HProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((hit->attacker))->GetBaseTexture()))->vf148()))->pObject))));
                             }
                         }
                     }
@@ -126974,7 +129810,7 @@ void HActor::FUN_0089a760(HHit* hit, signed char mode)
             caster.vf40(item ? &item->magic : 0);
             reinterpret_cast<::CastTargets::Caster *>(&(caster))->FUN_00815d00(1.0f, (::CastTargets::Source *)(0), 0, 1.0f, 0);
             HSpell* dispel = ((::fnv_0089a760::HSpell *)(reinterpret_cast<::HighProcess *>((hit->weapon))->GetMobileObject()));
-            reinterpret_cast<::MagicTargetUpd *>(&(target))->UpdateEffectsByFlags((unsigned int)(dispel ? &dispel->magic : 0));
+            reinterpret_cast<::MagicTargetUpd *>(&(target))->UpdateEffectsByFlags((uintptr_t)(dispel ? &dispel->magic : 0));
         }
         if (hit->attacker)
         {
@@ -127004,10 +129840,10 @@ void HActor::FUN_0089a760(HHit* hit, signed char mode)
             if (table)
             {
                 HExplosion* explosion = (HExplosion*)hit->source;
-                HPartList* parts = ((::fnv_0089a760::HPartList *)(reinterpret_cast<::SearchOwner *>((explosion))->FindEntryResultByCategory((int)(this))));
+                HPartList* parts = ((::fnv_0089a760::HPartList *)(reinterpret_cast<::SearchOwner *>((explosion))->FindEntryResultByCategory((intptr_t)(this))));
                 while (parts && !parts->FUN_008256d0())
                 {
-                    HPartKey* key = *((::fnv_0089a760::HPartKey **)(new ((void *)(parts)) ::Vec3()));
+                    HPartKey* key = *((::fnv_0089a760::HPartKey **)(((::Vec3 *)(void *)(parts))));
                     parts = ((::fnv_0089a760::HPartList *)(reinterpret_cast<::Callees *>((parts))->FUN_00726070()));
                     int part = key->key;
                     HPart* limb = ((::fnv_0089a760::HPart *)(reinterpret_cast<::FUN_005e50f0_Obj *>((table))->GetValueByIndex(part)));
@@ -127219,7 +130055,7 @@ void HActor::FUN_0089a760(HHit* hit, signed char mode)
             }
             if (this == DAT_011dea3c)
             {
-                if (!((int)(reinterpret_cast<::Twin_0044ddc0 *>((((HVats*)&(*reinterpret_cast<::VATS *>(&::g_011f2250)))))->GetName())))
+                if (!((int)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)))
                     ::ImageSpaceModifierInstanceForm::Trigger((::TESImageSpaceModifier *)(void *)(((void *)(::FUN_005d2860()))), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0089a760::MSetting *>(&::originalRuntimeFloatSetting731)))))), (::NiAVObject *)(::fnv_0089a760::HNode *)(0));
                 if (!::FUN_00702360())
                 {
@@ -127242,7 +130078,7 @@ void HActor::FUN_0089a760(HHit* hit, signed char mode)
                 if (((::fnv_0089a760::HProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((hit->attacker))->GetBaseTexture())))
                 {
                     HProcess* process = ((::fnv_0089a760::HProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((hit->attacker))->GetBaseTexture()));
-                    vf478(hit->attacker, damage, feedback, process->vf460(), &hit->attacker->GetNodePosition(false));
+                    vf478(hit->attacker, damage, feedback, process->vf460(), &ResultSlot(hit->attacker->GetNodePosition(false)));
                 }
                 if (reinterpret_cast<::Holder0087 *>(this)->FUN_0087f9c0() > 0.0 && !reinterpret_cast<::fnv_0089d5e0::FUN_0089d5e0_shell *>(&(((::fnv_0089a760::HBase *)(reinterpret_cast<::Actor *>(this)->GetActorBase()))->flags))->FUN_0089d5e0() &&
                     (!hit->source || !hit->source->vf224()))
@@ -127266,7 +130102,7 @@ void HActor::FUN_0089a760(HHit* hit, signed char mode)
             {
                 HProcess* modeProcess = process;
                 HProcMode* processMode = ((::fnv_0089a760::HProcMode *)(::FUN_0089d620((char *)(modeProcess))));
-                lowProcess = processMode && ((int)(reinterpret_cast<::BGSCameraPath *>((processMode))->GetPrevPath())) <= 1;
+                lowProcess = processMode && ((intptr_t)(reinterpret_cast<::BGSCameraPath *>((processMode))->GetPrevPath())) <= 1;
             }
             if (!vf22c(0) && lowProcess && !((bool)(reinterpret_cast<::FUN_00437bd0_stub *>(this)->FUN_00437bd0())) && ragdoll && ::FUN_00552490((bool *)(ragdoll)) &&
                 ((unsigned char)(reinterpret_cast<::FUN_0089d670_Class *>((ragdoll))->GetByteAt28D())) && !((::fnv_0089a760::HProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))->vf4bc())
@@ -127290,9 +130126,9 @@ void HActor::FUN_0089a760(HHit* hit, signed char mode)
                         HFilter filter(0);
                         reinterpret_cast<::FUN_0059ce80_shell *>(&(filter))->FUN_0059ce80(0);
                         reinterpret_cast<::FUN_004a39f0_shell *>(&(filter))->FUN_004a39f0(8);
-                        ::FUN_004a3f70((char *)&(query), (::Flt)(filter.value));
+                        ::FUN_004a3f70((char *)&(query), ::Flt{filter.value});
                         reinterpret_cast<::S00458a10_Vector *>(&(position))->FUN_00458a10((const ::S00458a10_Vector *)(::fnv_0089a760::MVec4 *)(&position), (const ::S00458a10_Vector *)(::fnv_0089a760::MVec4 *)(&direction));
-                        reinterpret_cast<::S3e60 *>(&(query))->FUN_0056d340((unsigned int)(&position));
+                        reinterpret_cast<::S3e60 *>(&(query))->FUN_0056d340((uintptr_t)(&position));
                         reinterpret_cast<::PD_ *>(&(query))->FUN_004a3f40(&end);
                         if (world && world->vfc8(&query))
                             body = ((::fnv_0089a760::HBody *)(::FUN_00c66fd0((::BhkPickData *)&(query))));
@@ -127324,10 +130160,10 @@ void HActor::FUN_0089a760(HHit* hit, signed char mode)
                     reinterpret_cast<::SpellActor *>((hit->attacker))->FUN_0088fb00(damage, (::HitSource *)(hit), (::SpellActor *)(::fnv_0089a760::HActor *)(this));
             }
             else
-                reinterpret_cast<::fnv_0087ada0::FUN_0087ada0_shell *>((((::fnv_0089a760::HQueue *)(::TaskQueueInterface::GetSingleton()))))->FUN_0087ada0((int)(this), (::fnv_0087ada0::FUN_0087adf0_shell *)(hit));
+                reinterpret_cast<::fnv_0087ada0::FUN_0087ada0_shell *>((((::fnv_0089a760::HQueue *)(::TaskQueueInterface::GetSingleton()))))->FUN_0087ada0((intptr_t)(this), (::fnv_0087ada0::FUN_0087adf0_shell *)(hit));
             if (this == DAT_011dea3c)
             {
-                if (hit->attacker && !((int)(reinterpret_cast<::Twin_0044ddc0 *>((((HVats*)&(*reinterpret_cast<::VATS *>(&::g_011f2250)))))->GetName())))
+                if (hit->attacker && !((int)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)))
                     ::ImageSpaceModifierInstanceForm::Trigger((::TESImageSpaceModifier *)(void *)(((void *)(::FUN_005d2860()))), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0089a760::MSetting *>(&::originalRuntimeFloatSetting731)))))), (::NiAVObject *)(::fnv_0089a760::HNode *)(hit->attacker->vf1d0()));
                 if (!::FUN_00702360() && !reinterpret_cast<::FUN_00525430_Class *>((((HVats*)&(*reinterpret_cast<::VATS *>(&::g_011f2250)))))->FUN_00525430())
                 {
@@ -127357,7 +130193,7 @@ void HActor::FUN_0089a760(HHit* hit, signed char mode)
         {
             HProcess* process = ((::fnv_0089a760::HProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()));
             if (process->vf5c8(target.vf08(8)))
-                reinterpret_cast<::ProcessListsEx *>(&((*reinterpret_cast<::fnv_0089a760::HProcessLists *>(&::g_011e0e80))))->FUN_00974e90((int)(this), 8);
+                reinterpret_cast<::ProcessListsEx *>(&((*reinterpret_cast<::fnv_0089a760::HProcessLists *>(&::g_011e0e80))))->FUN_00974e90((intptr_t)(this), 8);
         }
     }
     if (!vf22c(0))
@@ -127365,11 +130201,11 @@ void HActor::FUN_0089a760(HHit* hit, signed char mode)
         if (reinterpret_cast<::MiddleHighProcess *>(this)->IsActorInCombat())
         {
             if (reacted)
-                ::AddTimedEntry((unsigned int)(this), 1);
+                ::AddTimedEntry((uintptr_t)(this), 1);
             else if (crippled)
             {
-                ::AddTimedEntry((unsigned int)(this), 2);
-                ::AddTimedEntry((unsigned int)(this), 6);
+                ::AddTimedEntry((uintptr_t)(this), 2);
+                ::AddTimedEntry((uintptr_t)(this), 6);
             }
         }
         HBase* base = ((::fnv_0089a760::HBase *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430()));
@@ -127384,7 +130220,7 @@ void HActor::FUN_0089a760(HHit* hit, signed char mode)
         }
     }
     else if (alive && reinterpret_cast<::MiddleHighProcess *>(this)->IsActorInCombat() && !reinterpret_cast<::FUN_0087f3d0_shell *>(this)->FUN_0087f3d0())
-        ::AddTimedEntry((unsigned int)(this), 3);
+        ::AddTimedEntry((uintptr_t)(this), 3);
     if (!vf22c(0) && hit->equipmentDamage > 0.0 && vf360())
     {
         HEquip* equipped = ((::fnv_0089a760::HEquip *)(reinterpret_cast<::FakeActor *>(this)->FUN_0089d8b0(hit->part == 1 || hit->part == 2)));
@@ -127415,7 +130251,7 @@ void HActor::FUN_0089a760(HHit* hit, signed char mode)
     {
         reaction = vf428();
         if (reaction)
-            reinterpret_cast<::Holder0097 *>((reaction))->ForwardToInner((int)(attacker), damage);
+            reinterpret_cast<::Holder0097 *>((reaction))->ForwardToInner((intptr_t)(attacker), damage);
     }
     if (stagger)
         reinterpret_cast<::P029Manager *>(((*reinterpret_cast<::fnv_0089a760::HEventMgr * *>(&::CombatAssessment::DAT_011f1708))))->TryStartDialogue((::P029Actor *)(::fnv_0089a760::HActor *)(this), hit->attacker, 2, 2, 1, (::P029Input *)(reaction));
@@ -127962,12 +130798,12 @@ struct LimbActor
     unsigned int unka0;
     LimbActorValues kValues;
 
-    void FUN_008b43a0(LimbHit* apHit, int a2, int a3);
+    void FUN_008b43a0(LimbHit* apHit, intptr_t a2, intptr_t a3);
 };
 
 // Processes a limb hit on the actor, determining affected body parts and severance, then applies damage via FUN_008b4d10.
 // @fnv 0x008b43a0
-void LimbActor::FUN_008b43a0(LimbHit* apHit, int a2, int a3)
+void LimbActor::FUN_008b43a0(LimbHit* apHit, intptr_t a2, intptr_t a3)
 {
     TESCreature* pCreatureVal = dynamic_cast<TESCreature*>(reinterpret_cast<::Actor *>(this)->GetActorBase());
     if (((pCreatureVal && ((bool)(reinterpret_cast<::TESCreature *>((((LimbCreatureQuery*)pCreatureVal)))->FUN_005fbf20()))) || FUN_vt218()) &&
@@ -128062,11 +130898,11 @@ void LimbActor::FUN_008b43a0(LimbHit* apHit, int a2, int a3)
     else if (apHit->pSource && apHit->pSource->FUN_vt220())
     {
         LimbSource* pSource = apHit->pSource;
-        LimbEntryList* pNode = ((::LimbEntryList *)(reinterpret_cast<::SearchOwner *>((pSource))->FindEntryResultByCategory((int)(this))));
+        LimbEntryList* pNode = ((::LimbEntryList *)(reinterpret_cast<::SearchOwner *>((pSource))->FindEntryResultByCategory((intptr_t)(this))));
         while (pNode && !pNode->FUN_008256d0() && iCount < 7)
         {
-            LimbEntry* pEntryRef = *((::LimbEntry **)(new ((void *)(pNode)) ::Vec3()));
-            pNode = ((::LimbEntryList *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070()));
+            LimbEntry* pEntryRef = *((::LimbEntry **)(((::Vec3 *)(void *)(pNode))));
+            pNode = ((::LimbEntryList *)(reinterpret_cast<::SimpleListNodeView *>((pNode))->m_pkNext));
             LimbBodyPart* pEntryPart = ((::LimbBodyPart *)(reinterpret_cast<::FUN_005e50f0_Obj *>((pBodyDataLoc))->GetValueByIndex(pEntryRef->iPart)));
             if (pEntryPart && pEntryRef->iPart)
             {
@@ -129568,7 +132404,7 @@ void SelActor::FUN_00964260()
         reinterpret_cast<::FUN_0059ceb0_shell *>(&(ray))->FUN_0059ceb0((::hkpClosestRayHitCollector *)(void *)(&collector));
     SelPoint origin = GetPosition();
     SelPoint end(0.0f, *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00964260::SelSetting *>(&::originalRuntimeFloatSetting515)))))), 0.0f);
-    if (((void *)(reinterpret_cast<::Twin_0044ddc0 *>((((SelEntry*)&(*reinterpret_cast<::VATS *>(&::g_011f2250)))))->GetName())) == (void*)4 || ::DAT_011e07b8)
+    if ((reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode == 4) || ::DAT_011e07b8)
     {
         origin.z += ::FUN_0070c3b0((::FUN_0070c3b0_Dummy *)this);
         SelMatrix rotation, looking;
@@ -129597,7 +132433,7 @@ void SelActor::FUN_00964260()
     SelFilter filter(0);
     reinterpret_cast<::FUN_004a39f0_shell *>(&(filter))->FUN_004a39f0(0x25);
     reinterpret_cast<::FUN_0059ce80_shell *>(&(filter))->FUN_0059ce80(((int)(reinterpret_cast<::fnv_004a3a20::FUN_004a3a20_shell *>(&(sourceFilter))->FUN_004a3a20())));
-    ::FUN_004a3f70((char *)&(ray), (::Flt)(filter.bits));
+    ::FUN_004a3f70((char *)&(ray), ::Flt{filter.bits});
     bool previousOverride = ::bhkWorld::QPickCountOverride();
     ::FUN_00c66230(true);
     SelNode* hit = DAT_011dea10->FUN_00458420(&ray);
@@ -129610,7 +132446,7 @@ void SelActor::FUN_00964260()
     SelProcess* process = ((::fnv_00964260::SelProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()));
     SelEntry* entry = process->GetWeaponEntry();
     SelWeapon* weapon = entry ? (SelWeapon*)((void *)(reinterpret_cast<::Twin_0044ddc0 *>((entry))->GetName())) : 0;
-    if (((void *)(reinterpret_cast<::Twin_0044ddc0 *>((((SelEntry*)&(*reinterpret_cast<::VATS *>(&::g_011f2250)))))->GetName())) != (void*)2 && hitRef && hitRef == selectedTarget)
+    if ((reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode != 2) && hitRef && hitRef == selectedTarget)
     {
         SelNode* root = selectedTarget->GetSceneNode();
         float distance = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00964260::SelSetting *>(&::originalRuntimeFloatSetting515))))));
@@ -129629,7 +132465,7 @@ void SelActor::FUN_00964260()
             }
         }
     }
-    else if (((void *)(reinterpret_cast<::Twin_0044ddc0 *>((((SelEntry*)&(*reinterpret_cast<::VATS *>(&::g_011f2250)))))->GetName())) == (void*)2 && DAT_011f21cc && weapon &&
+    else if ((reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode == 2) && DAT_011f21cc && weapon &&
              !::FUN_006450c0((::TESObjectWEAP *)(weapon)) && !::FUN_004b71d0())
     {
         SelNode* root = ((SelActor*)DAT_011f21cc)->GetSceneNode();
@@ -129651,7 +132487,7 @@ void SelActor::FUN_00964260()
                 if (node->AsNode())
                     partIndex = reinterpret_cast<::FUN_008b3ef0_cls *>((actor))->FUN_008b3ef0((::TESObjectREFR *)(::fnv_00964260::SelNode *)(node->AsNode()));
                 else
-                    partIndex = reinterpret_cast<::FUN_008b3ef0_cls *>((actor))->FUN_008b3ef0((::TESObjectREFR *)(::fnv_00964260::SelNode *)(((::fnv_00964260::SelNode *)(reinterpret_cast<::FUN_009611e0_shell *>((node))->FUN_009611e0()))));
+                    partIndex = reinterpret_cast<::FUN_008b3ef0_cls *>((actor))->FUN_008b3ef0((::TESObjectREFR *)(::fnv_00964260::SelNode *)(((::fnv_00964260::SelNode *)(reinterpret_cast<::NiAVObjectFields *>((node))->m_pkParent))));
                 ::FUN_007f3b40(partIndex);
                 SelBase* base = ((::fnv_00964260::SelBase *)(reinterpret_cast<::Actor *>((actor))->GetActorBase()));
                 SelBody* body = base->GetBody();
@@ -131246,7 +134082,7 @@ void ActorUpdateActor::FUN_00888b50(float afTime)
                 {
                     reinterpret_cast<::Actor *>(this)->SetActorLifeState((::ACTOR_LIFE_STATE)(0));
                     reinterpret_cast<::ActorAVResetShell *>(this)->FUN_008a0960();
-                    ::AddTimedEntry((unsigned int)(this), 0xb);
+                    ::AddTimedEntry((uintptr_t)(this), 0xb);
                 }
             }
             else
@@ -131270,7 +134106,7 @@ void ActorUpdateActor::FUN_00888b50(float afTime)
             {
                 reinterpret_cast<::fnv_00ad88f0::FUN_00ad88f0_h *>(&(qvyWyw))->FUN_00ad88f0();
                 if (reinterpret_cast<::FUN_00524b40_class *>((qbGYp))->FUN_00524b40() && ((::ActorUpdateSeq *)(reinterpret_cast<::FUN_00491040_shell *>((qrEZrs))->FUN_00491040(4))) && reinterpret_cast<::fnv_004937e0::TESAnimGroup *>((((::ActorUpdateAnimGroup *)(reinterpret_cast<::BSAnimGroupSequence *>((void *)(((::ActorUpdateSeq *)(reinterpret_cast<::FUN_00491040_shell *>((qrEZrs))->FUN_00491040(4)))))->GetAnimGroup()))))->FUN_004937e0() &&
-                    ((int)(reinterpret_cast<::LowProcess *>((((::ActorUpdateSeq *)(reinterpret_cast<::FUN_00491040_shell *>((qrEZrs))->FUN_00491040(4)))))->GetActiveCombatTarget())) == 1)
+                    ((intptr_t)(reinterpret_cast<::LowProcess *>((((::ActorUpdateSeq *)(reinterpret_cast<::FUN_00491040_shell *>((qrEZrs))->FUN_00491040(4)))))->GetActiveCombatTarget())) == 1)
                 {
                     if (this == xpPlayer)
                     {
@@ -131286,7 +134122,7 @@ void ActorUpdateActor::FUN_00888b50(float afTime)
             reinterpret_cast<::fnv_0041a540::FUN_0041a540_shell *>((((::ActorUpdateExtraList *)(reinterpret_cast<::FUN_005d43c0_ *>((void *)this)->FUN_005d43c0()))))->FUN_0041a540(&qvyWyw);
         }
         else if (reinterpret_cast<::FUN_00894900_shell *>(this)->FUN_00894900() && ((::ActorUpdateSeq *)(reinterpret_cast<::FUN_00491040_shell *>((qrEZrs))->FUN_00491040(4))) && ::TESAnimGroup::IsActionTypeValid(reinterpret_cast<::FUN_004301b0_shell *>((qrEZrs))->FUN_004301b0(4)) &&
-                 ((int)(reinterpret_cast<::LowProcess *>((((::ActorUpdateSeq *)(reinterpret_cast<::FUN_00491040_shell *>((qrEZrs))->FUN_00491040(4)))))->GetActiveCombatTarget())) == 1 && reinterpret_cast<::FUN_0070f490_Class *>((qrEZrs))->GetSlotValue(4) < 1)
+                 ((intptr_t)(reinterpret_cast<::LowProcess *>((((::ActorUpdateSeq *)(reinterpret_cast<::FUN_00491040_shell *>((qrEZrs))->FUN_00491040(4)))))->GetActiveCombatTarget())) == 1 && reinterpret_cast<::FUN_0070f490_Class *>((qrEZrs))->GetSlotValue(4) < 1)
         {
             reinterpret_cast<::fnv_00418a00::FUN_00418a00_shell *>((((::ActorUpdateExtraList *)(reinterpret_cast<::FUN_005d43c0_ *>((void *)this)->FUN_005d43c0()))))->FUN_00418a00((::fnv_00418a00::SoundPlaybackHandle *)(::ActorUpdateSnd *)(&qvyWyw));
             if (!reinterpret_cast<::SoundPlaybackHandle *>(&(qvyWyw))->IsValid())
@@ -131327,7 +134163,7 @@ void ActorUpdateActor::FUN_00888b50(float afTime)
                     reinterpret_cast<::FUN_00884f80_shell *>(this)->FUN_00884f80();
                 if (pMagic && !(pMagic->GetFlags() & 0x400) && ::DAT_011e07e8 <= 0.0)
                 {
-                    ::AddTimedEntry((unsigned int)(this), 0xc);
+                    ::AddTimedEntry((uintptr_t)(this), 0xc);
                     ::DAT_011e07e8 = 300.0f;
                 }
                 reinterpret_cast<::FUN_008b39f0_shell *>(this)->FUN_008b39f0(pMagic->GetFlags() | 0x400);
@@ -131355,7 +134191,7 @@ void ActorUpdateActor::FUN_00888b50(float afTime)
     }
     qdqWL = ((::ActorUpdateLightPtr *)(reinterpret_cast<::FUN_005725f0_shell *>(this)->FUN_005725f0()));
     if (qdqWL && ((void *)(::FUN_00559450((int *)(qdqWL)))))
-        reinterpret_cast<::FnvLookupOwner *>((((::ActorUpdateShadow *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0)))))->FUN_00b5f080((int)(((void *)(::FUN_00559450((int *)(qdqWL))))));
+        reinterpret_cast<::FnvLookupOwner *>((((::ActorUpdateShadow *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0)))))->FUN_00b5f080((intptr_t)(((void *)(::FUN_00559450((int *)(qdqWL))))));
     ::FUN_0088b020(0);
     if (!qpTd)
     {
@@ -131459,8 +134295,8 @@ void ActorUpdateActor::FUN_00888b50(float afTime)
                     reinterpret_cast<::FUN_008b39f0_shell *>(this)->FUN_008b39f0(pMagic->GetFlags() | 0x800);
                     if (pProcess && ::FUN_00884920((int *)(pProcess)))
                     {
-                        ::FUN_00884940((int *)(pProcess), (::blob4)(0x1000));
-                        ::FUN_00884940((int *)(pProcess), (::blob4)(0x2000));
+                        ::FUN_00884940((int *)(pProcess), std::bit_cast<::blob4>(0x1000u));
+                        ::FUN_00884940((int *)(pProcess), std::bit_cast<::blob4>(0x2000u));
                     }
                 }
                 else
@@ -131468,8 +134304,8 @@ void ActorUpdateActor::FUN_00888b50(float afTime)
                     reinterpret_cast<::FUN_008b3a80_Class *>(this)->ForwardToVtSlot((void *)(0x800));
                     if (pProcess && ::FUN_00884920((int *)(pProcess)))
                     {
-                        ::FUN_00884940((int *)(pProcess), (::blob4)(0x1000));
-                        ::FUN_00884940((int *)(pProcess), (::blob4)(0x2000));
+                        ::FUN_00884940((int *)(pProcess), std::bit_cast<::blob4>(0x1000u));
+                        ::FUN_00884940((int *)(pProcess), std::bit_cast<::blob4>(0x2000u));
                     }
                 }
                 if (::FUN_005c0880((char *)(qfTOqo)) == 5 && !qrKBG)
@@ -131505,8 +134341,8 @@ void ActorUpdateActor::FUN_00888b50(float afTime)
                 reinterpret_cast<::fnv_008a6840::FUN_008a6840_shell *>(this)->FUN_008a6840(false);
                 if (pProcess && ::FUN_00884920((int *)(pProcess)))
                 {
-                    ::FUN_00884940((int *)(pProcess), (::blob4)(0x1000));
-                    ::FUN_00884940((int *)(pProcess), (::blob4)(0x2000));
+                    ::FUN_00884940((int *)(pProcess), std::bit_cast<::blob4>(0x1000u));
+                    ::FUN_00884940((int *)(pProcess), std::bit_cast<::blob4>(0x2000u));
                 }
             }
             else if (reinterpret_cast<::FUN_005a2030_shell *>((void *)this)->FUN_005a2030() || (reinterpret_cast<::FUN_008846e0_shell *>(this)->GetVtbl20Result() & 0x800) || ::FUN_005c0880((char *)(qfTOqo)) == 5)
@@ -131517,8 +134353,8 @@ void ActorUpdateActor::FUN_00888b50(float afTime)
                     reinterpret_cast<::FUN_0088b0a0_c *>((qfTOqo))->set(0);
                     if (pProcess && ::FUN_00884920((int *)(pProcess)))
                     {
-                        ::FUN_00884940((int *)(pProcess), (::blob4)(0x1000));
-                        ::FUN_00884940((int *)(pProcess), (::blob4)(0x2000));
+                        ::FUN_00884940((int *)(pProcess), std::bit_cast<::blob4>(0x1000u));
+                        ::FUN_00884940((int *)(pProcess), std::bit_cast<::blob4>(0x2000u));
                     }
                 }
             }
@@ -131882,13 +134718,13 @@ WeaponObject* ActH2::FUN_008a5f20(bool immediate)
 {
     if (::FUN_008c7aa0())
     {
-        reinterpret_cast<::FUN_0087b6b0_shell *>((((::fnv_008a5f20::QueueWeaponTask *)(::TaskQueueInterface::GetSingleton()))))->FUN_0087b6b0((int)(this), immediate);
+        reinterpret_cast<::FUN_0087b6b0_shell *>((((::fnv_008a5f20::QueueWeaponTask *)(::TaskQueueInterface::GetSingleton()))))->FUN_0087b6b0((intptr_t)(this), immediate);
         return 0;
     }
     WeaponObject* result = 0;
     NiAVObject* root = (void*)this == (void*)g_thePlayer ? ((::NiAVObject *)(reinterpret_cast<::FUN_00950bb0_shell *>((((PlayerWeaponNode*)g_thePlayer)))->FUN_00950bb0(false)))
                                                          : ((::NiAVObject *)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((((Actor*)this)))->FUN_0043fcd0()));
-    if (root && ((int)(reinterpret_cast<::FUN_008a1710_shell *>((((FUN_008a1710_shell*)this)))->FUN_008a1710())))
+    if (root && ((intptr_t)(reinterpret_cast<::FUN_008a1710_shell *>((((FUN_008a1710_shell*)this)))->FUN_008a1710())))
     {
         NiAVObject* node = FUN_004ade00(root, ::FUN_00891350());
         if (node)
@@ -132585,7 +135421,7 @@ bool MatchActor::FUN_008bcdf0(bool update, int unused)
                     (*(::fnv_008bcdf0::B006815c0 *)(reinterpret_cast<::Point3Offset *>((void *)(((::fnv_008bcdf0::B006815c0 *)(reinterpret_cast<::TESTopicInfo *>((((PlayerView*)_g_thePlayer)))->GetAddTopicList()))))->ProjectileLaunched((::NiPoint3 *)&(const ::fnv_008bcdf0::B006815c0 &)(FUN_004a3760(reinterpret_cast<::fnv_008be940::FloatValueProvider *>((((PlayerView*)_g_thePlayer)))->FUN_008be940(), (*reinterpret_cast<const ::fnv_008bcdf0::B006815c0 *>((void *)&::DAT_011a9484)))), {})));
             BoundView bound = (*(const ::fnv_008bcdf0::BoundView *)(reinterpret_cast<::FUN_0043d450_Owner *>((void *)(node))->FUN_0043d450()));
             float distance4 =
-                reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::fnv_008bcdf0::B006815c0 &)((*(::fnv_008bcdf0::B006815c0 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(currentPosition))->FUN_00439ef0((::NiPoint3 *)&((*(::fnv_008bcdf0::B006815c0 *)(new ((void *)&(bound)) ::Vec3()))), *(const ::NiPoint3 *)nullptr)))))->ComputeMagnitude() - reinterpret_cast<::Twin_0084d030 *>((void *)&(bound))->GetStoredFloatValue() * 1.25;
+                reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::fnv_008bcdf0::B006815c0 &)((*(::fnv_008bcdf0::B006815c0 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(currentPosition))->FUN_00439ef0((::NiPoint3 *)&((*(::fnv_008bcdf0::B006815c0 *)(((::Vec3 *)(void *)&(bound))))), *(const ::NiPoint3 *)nullptr)))))->ComputeMagnitude() - reinterpret_cast<::Twin_0084d030 *>((void *)&(bound))->GetStoredFloatValue() * 1.25;
             FloatTripleBooleanFlagRecord = distance4 < ::fnv_008bd550::GetOriginalRuntimeFloatSetting37();
         }
         if (!result || !FloatTripleBooleanFlagRecord)
@@ -132640,8 +135476,8 @@ bool MatchActor::FUN_008bcdf0(bool update, int unused)
             bool _enabled = !(!restricted5 && moving6);
             reinterpret_cast<::S1a130 *>((((RagdollControllerView*)m_pRagdollController)))->FUN_005ba130(aAllowed);
             reinterpret_cast<::FUN_00c747d0_Class *>((((RagdollControllerView*)m_pRagdollController)))->FUN_00c747d0(aAllowed && FloatTripleBooleanFlagRecord && _enabled ? true : false);
-            ::SetCastDown((char *)(((RagdollControllerView*)m_pRagdollController)), (::blob1)(!moving6));
-            if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((StateView*)&(*reinterpret_cast<::VATS *>(&::g_011f2250)))))->GetName())) == 4)
+            ::SetCastDown((char *)(((RagdollControllerView*)m_pRagdollController)), std::bit_cast<::blob1>(!moving6));
+            if (((unsigned int)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)) == 4)
                 reinterpret_cast<::C75910Water *>((((RagdollControllerView*)m_pRagdollController)))->UpdateShaderParams();
             else
                 reinterpret_cast<::FUN_00c759f0_Class *>((((RagdollControllerView*)m_pRagdollController)))->FUN_00c759f0();
@@ -132649,7 +135485,6 @@ bool MatchActor::FUN_008bcdf0(bool update, int unused)
             if (face12)
             {
                 QuaternionView rotation;
-                new ((void *)&(rotation)) ::Vec3();
                 face12->GetRotation(&rotation);
                 reinterpret_cast<::FUN_008bd5e0_shell *>((((RagdollControllerView*)m_pRagdollController)))->FUN_008bd5e0((const ::NiQuaternion *)(const ::fnv_008bcdf0::QuaternionView *)(&rotation));
             }
@@ -132663,7 +135498,7 @@ bool MatchActor::FUN_008bcdf0(bool update, int unused)
             {
                 RagdollAnimProcessView* high2 = process2;
                 ItemView* item9 = ((::fnv_008bcdf0::ItemView *)(::FUN_0089d620((char *)(high2))));
-                if (item9 && ((int)(reinterpret_cast<::BGSCameraPath *>((item9))->GetPrevPath())) > 1)
+                if (item9 && ((intptr_t)(reinterpret_cast<::BGSCameraPath *>((item9))->GetPrevPath())) > 1)
                 {
                     if (reinterpret_cast<::FUN_0089d690_class *>((((RagdollControllerView*)m_pRagdollController)))->GetByteAt28E())
                         reinterpret_cast<::Controller *>((((RagdollControllerView*)m_pRagdollController)))->FUN_00c7b6a0(0);
@@ -133182,7 +136017,7 @@ void UpdateActor::FUN_00886360(float delta)
     ((ActorPacketView*)this)->vfn_140();
     *(unsigned char*)&m_bSecondOfTwoFlags = ((unsigned char)(reinterpret_cast<::fnv_008a40e0::MatchActor *>(this)->FUN_008a40e0((::fnv_008a40e0::RefView *)(0))));
     float elapsed = reinterpret_cast<::Twin_0084d030 *>(&(g_timeGlobal))->GetStoredFloatValue();
-    if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((BSSimpleArray<ParentSpaceNode, 1024>*)&(*reinterpret_cast<::VATS *>(&::g_011f2250)))))->GetName())) == 4 && this == DAT_011f21cc)
+    if (((unsigned int)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)) == 4 && this == DAT_011f21cc)
         elapsed *= reinterpret_cast<::FUN_009c8d60_t *>(&((*reinterpret_cast<::VATS *>(&::g_011f2250))))->FUN_009c8d60();
     if (BooleanIntegerTwoFloatData > ::_DAT_01012060)
         BooleanIntegerTwoFloatData -= elapsed;
@@ -133211,7 +136046,7 @@ void UpdateActor::FUN_00886360(float delta)
         }
     }
 
-    if (((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((ActorUpdateProcessView*)((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture())))))->FUN_0045cd60())) || reinterpret_cast<::PlayerCharacter *>((((CombatObjectAccess*)DAT_011dea3c)))->IsSleepingOrResting())
+    if (((intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((((ActorUpdateProcessView*)((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture())))))->FUN_0045cd60())) || reinterpret_cast<::PlayerCharacter *>((((CombatObjectAccess*)DAT_011dea3c)))->IsSleepingOrResting())
     {
         float current = delta;
         if (reinterpret_cast<::PlayerCharacter *>((((CombatObjectAccess*)DAT_011dea3c)))->IsSleepingOrResting())
@@ -133305,16 +136140,16 @@ void UpdateActor::FUN_00886360(float delta)
 
     if (*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_00886360::IntValue *>(&::g_011c3ea4)))))) == 1)
     {
-        if (!((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((ActorUpdateProcessView*)((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture())))))->FUN_0045cd60())) && !reinterpret_cast<::FUN_0047c850 *>((DAT_011de45c))->EvaluateCondition())
+        if (!((intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((((ActorUpdateProcessView*)((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture())))))->FUN_0045cd60())) && !reinterpret_cast<::FUN_0047c850 *>((DAT_011de45c))->EvaluateCondition())
             reinterpret_cast<::Actor *>(this)->ConfigureActorState(0, 0);
     }
 
-    if (this != DAT_011dea3c && ((int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430())) && ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((ActorUpdateProcessView*)((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture())))))->FUN_0045cd60())))
+    if (this != DAT_011dea3c && ((intptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430())) && ((intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((((ActorUpdateProcessView*)((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture())))))->FUN_0045cd60())))
     {
         TESObjectCELL* cell = ((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()));
         NiPoint3 pos = *GetPos();
         if (cell && !reinterpret_cast<::TESObjectCELL *>((((CellAccess*)cell)))->IsCellInterior() && !reinterpret_cast<::fnv_00550200::FUN_00550200 *>((((CellAccess*)cell)))->IsPointInCell((*(const ::fnv_00550200::NiPoint3 *)(&pos))))
-            ::fnv_00573800::FUN_00573800((::fnv_00573800::MoveRef *)(::Actor *)(this), (::fnv_00573800::MoveCell *)(0), (::fnv_00573800::MoveWorld *)(((int)(reinterpret_cast<::TESObjectCELL *>((((CellAccess*)cell)))->GetParentWorldSpace()))));
+            ::fnv_00573800::FUN_00573800((::fnv_00573800::MoveRef *)(::Actor *)(this), (::fnv_00573800::MoveCell *)(0), (::fnv_00573800::MoveWorld *)(((intptr_t)(reinterpret_cast<::TESObjectCELL *>((((CellAccess*)cell)))->GetParentWorldSpace()))));
     }
     reinterpret_cast<::TESForm *>(&((*reinterpret_cast<::fnv_00886360::CombatLock *>(&::g_011df69f))))->ClearData();
 }
@@ -134373,7 +137208,7 @@ float ActorStub::FUN_008a20d0(const char* soundPath, SH_00418890* pSoundHandle, 
             {
                 Actor* aTargetAngle = targetActorVal;
                 TESPackage* a1c3_2 = ((::fnv_008a20d0::TESPackage *)(reinterpret_cast<::FUN_009344a0_shell *>((((ActorStub*)aTargetAngle)))->FUN_009344a0()));
-                if (a1c3_2 && ((int)(reinterpret_cast<::BGSCameraPath *>((a1c3_2))->GetPrevPath())) != 0)
+                if (a1c3_2 && ((intptr_t)(reinterpret_cast<::BGSCameraPath *>((a1c3_2))->GetPrevPath())) != 0)
                 {
                     bVar255 = false;
                 }
@@ -134411,7 +137246,7 @@ float ActorStub::FUN_008a20d0(const char* soundPath, SH_00418890* pSoundHandle, 
         soundFlags4 |= 1;
     }
 
-    reinterpret_cast<::SoundPlaybackHandle *>((pSoundHandle))->operator=((*(const ::SoundPlaybackHandle *)(&((DialogueAudioView*)FUN_00453a70())->FUN_00ad7480(Diff6, soundFlags4, 0))));
+    reinterpret_cast<::SoundPlaybackHandle *>((pSoundHandle))->operator=((*(const ::SoundPlaybackHandle *)(&ResultSlot(((DialogueAudioView*)FUN_00453a70())->FUN_00ad7480(Diff6, soundFlags4, 0)))));
 
     reinterpret_cast<::FUN_00ad9030_shell *>((pSoundHandle))->FUN_00ad9030(0x40);
 
@@ -134427,9 +137262,9 @@ float ActorStub::FUN_008a20d0(const char* soundPath, SH_00418890* pSoundHandle, 
         reinterpret_cast<::FUN_00ad89b0_shell *>((pSoundHandle))->SetStaticAttenuation((unsigned short)(int)(*(float*)((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011e060c)))))) * 100.0));
     }
 
-    int soundIdTmp = ((int)(::FUN_00ad9060()));
+    intptr_t soundIdTmp = ((intptr_t)(::FUN_00ad9060()));
     float Left2;
-    reinterpret_cast<::fnv_00adc050::FUN_00adc050_cls *>((((BSAudioManagerX*)soundIdTmp)))->FUN_00adc050((int)((const char*)*pSoundHandle), (int)(((void (&)(int, int))::SetFormAccumulate)), reinterpret_cast<::FUN_0084e3a0_Class *>((this))->FUN_0084e3a0());
+    reinterpret_cast<::fnv_00adc050::FUN_00adc050_cls *>((((BSAudioManagerX*)soundIdTmp)))->FUN_00adc050((intptr_t)((const char*)*pSoundHandle), (intptr_t)(((void (&)(int, int))::SetFormAccumulate)), reinterpret_cast<::FUN_0084e3a0_Class *>((this))->FUN_0084e3a0());
 
     if (Dir2)
     {
@@ -134595,12 +137430,12 @@ struct FUN_008d3310_shell : public Actor
 
 
 
-    void FUN_008a9940(unsigned int arg0, unsigned int arg1);
+    void FUN_008a9940(uintptr_t arg0, uintptr_t arg1);
 };
 
 // Loads actor state from a save stream, restoring life state, flags, and references while validating the stream position.
 // @fnv 0x008a9940
-void FUN_008d3310_shell::FUN_008a9940(unsigned int arg0, unsigned int arg1)
+void FUN_008d3310_shell::FUN_008a9940(uintptr_t arg0, uintptr_t arg1)
 
 {
 
@@ -134840,7 +137675,7 @@ void FUN_008d3310_shell::FUN_008a9940(unsigned int arg0, unsigned int arg1)
             if ((unsigned char)reinterpret_cast<::FUN_008df040_shell *>((DAT_011de45c))->FUN_008df040() >= 0x32)
             {
 
-                int iKillerID;
+                intptr_t iKillerID;
 
                 reinterpret_cast<::FUN_00484d40_Host *>((this))->FUN_00484d40((unsigned int *)(void *)(&iKillerID), 4);
 
@@ -134893,7 +137728,7 @@ void FUN_008d3310_shell::FUN_008a9940(unsigned int arg0, unsigned int arg1)
             if ((unsigned char)reinterpret_cast<::FUN_008df040_shell *>((DAT_011de45c))->FUN_008df040() >= 0x61)
             {
 
-                unsigned int uiTargetID;
+                uintptr_t uiTargetID;
 
                 reinterpret_cast<::FUN_00857aa0 *>((DAT_011de45c))->ValidateFormIDArray((unsigned int *)(void *)(&uiTargetID), 4);
 
@@ -135095,7 +137930,7 @@ struct Node
     unsigned int unk00c;
     unsigned int unk010;
     unsigned int unk014;
-    unsigned int unk018;
+    void* unk018;
     unsigned int unk01c;
     unsigned int unk020;
     unsigned int unk024;
@@ -135309,6 +138144,12 @@ struct IntegerTriple
 };
 struct Part
 {
+    char pad00[0x4];
+    void* unk04;
+    char pad08[0x1c];
+    void* unk24;
+    char pad28[0x7c];
+    void* unka4;
 };
 struct EquipInfo
 {
@@ -135390,6 +138231,8 @@ struct PackageView
 };
 struct EquipHolder
 {
+    char pad00[0x4];
+    void* unk04;
 };
 struct Bound
 {
@@ -136185,7 +139028,7 @@ struct ActorView
     int critical;
 
     Filter Call_00931ed0();
-    void FUN_008b52a0(void*, unsigned int, bool, bool, bool, bool);
+    void FUN_008b52a0(void*, uintptr_t, bool, bool, bool, bool);
 };
 extern const Fixed& Call_00891350();
 extern Node* Call_004ade00(Node*, const Fixed&);
@@ -136194,7 +139037,7 @@ extern Spawned* Call_00689210(void*, float, const char*, Matrix, Vec, float, int
 
 // Detaches a limb part from the actor, optionally spawning impact effects and updating the process with the new part state.
 // @fnv 0x008b52a0
-void ActorView::FUN_008b52a0(void* reference, unsigned int partIndex, bool explode, bool spawnImpact, bool effects,
+void ActorView::FUN_008b52a0(void* reference, uintptr_t partIndex, bool explode, bool spawnImpact, bool effects,
                              bool skipProcess)
 {
     LimbCreatureView* creature7 = (LimbCreatureView*)dynamic_cast<LimbCastCreature*>(reinterpret_cast<::Actor *>(this)->GetActorBase());
@@ -136222,11 +139065,11 @@ void ActorView::FUN_008b52a0(void* reference, unsigned int partIndex, bool explo
         Part* part9 = body3 ? ((::fnv_008b52a0::Part *)(reinterpret_cast<::FUN_005e50f0_Obj *>((body3))->GetValueByIndex(partIndex))) : 0;
         reinterpret_cast<::B6FF0Actor *>(this)->CollectLimbBones((::B6FF0Node *)(original6), false);
         Node* container10 = new Node(0);
-        ::AssignFixedString((char *)(container10), (int)&(name5), {});
+        ::AssignFixedString((char *)(container10), (intptr_t)&(name5), {});
         root5->Attach(container10, true);
         UpdateData updateX(0.0f, false, false);
         container10->UpdateVirtual(updateX);
-        Node* aLoc5 = root5->Find(Fixed(((const char *)(reinterpret_cast<::fnv_008b6200::FUN_008b6200 *>((part9))->GetFlt()))));
+        Node* aLoc5 = root5->Find(Fixed(((const char *)(((part9))->unk24))));
         if (!aLoc5)
             aLoc5 = original6;
         Transform transform_;
@@ -136236,7 +139079,7 @@ void ActorView::FUN_008b52a0(void* reference, unsigned int partIndex, bool explo
                    (*(::fnv_008b52a0::Vec *)&(reinterpret_cast<::fnv_009f8300::FUN_009f8300_class *>((part9))->FUN_009f8300(*(::fnv_009f8300::NiPoint3 *)nullptr))).z * ::DAT_01023128);
         reinterpret_cast<::Matrix161 *>(&(offset.rotation))->FUN_00a59540(angles.x, angles.y, angles.z);
         offset.scale = 1.0f;
-        transform_ = reinterpret_cast<::NiTransform *>((void *)&(const ::fnv_008b52a0::Transform &)(aLoc5->Call_00461130()))->operator*((const ::NiTransform &)(offset));
+        *reinterpret_cast<::NiTransform *>(&(transform_)) = reinterpret_cast<::NiTransform *>((void *)&(const ::fnv_008b52a0::Transform &)(aLoc5->Call_00461130()))->operator*((const ::NiTransform &)(offset));
         Node* result3 = 0;
         if (!explode)
         {
@@ -136246,27 +139089,27 @@ void ActorView::FUN_008b52a0(void* reference, unsigned int partIndex, bool explo
             result3 = cloned8;
             Node* special4 = Call_004ade00(result3, Call_00891350());
             bool aLoc6 = false;
-            if (special4 && special4 != result3 && ((::fnv_008b52a0::Node *)(reinterpret_cast<::FUN_009611e0_shell *>((special4))->FUN_009611e0())))
+            if (special4 && special4 != result3 && ((::fnv_008b52a0::Node *)(((special4))->unk018)))
             {
-                PackageView* package15 = GetEquip() ? ((::fnv_008b52a0::PackageView *)(reinterpret_cast<::TESPackage *>((GetEquip()))->GetRefCount())) : 0;
+                PackageView* package15 = GetEquip() ? ((::fnv_008b52a0::PackageView *)(((GetEquip()))->unk04)) : 0;
                 EquipList* list6 = package15 ? ((::fnv_008b52a0::EquipList *)(reinterpret_cast<::Callees *>(&(package15->list))->FUN_00726070())) : 0;
                 FormList* entry15 = list6 ? ((::fnv_008b52a0::FormList *)(reinterpret_cast<::BGSCameraPath *>((list6))->GetConditions())) : 0;
-                while (entry15 && *((::fnv_008b52a0::Equipment **)(new ((void *)(entry15)) ::Vec3())) && !aLoc6)
+                while (entry15 && *((::fnv_008b52a0::Equipment **)(((::Vec3 *)(void *)(entry15)))) && !aLoc6)
                 {
-                    EquipInfo* info = ((::fnv_008b52a0::EquipInfo *)(reinterpret_cast<::FUN_004aaf30_Holder *>((GetEquip()))->FindEntry(*((::fnv_008b52a0::Equipment **)(new ((void *)(entry15)) ::Vec3())))));
+                    EquipInfo* info = ((::fnv_008b52a0::EquipInfo *)(reinterpret_cast<::FUN_004aaf30_Holder *>((GetEquip()))->FindEntry(*((::fnv_008b52a0::Equipment **)(((::Vec3 *)(void *)(entry15)))))));
                     aLoc6 = info ? info->keep : false;
                     entry15 = ((::fnv_008b52a0::FormList *)(reinterpret_cast<::Callees *>((entry15))->FUN_00726070()));
                 }
                 if (!aLoc6)
                 {
-                    ((::fnv_008b52a0::Node *)(reinterpret_cast<::FUN_009611e0_shell *>((special4))->FUN_009611e0()))->Detach(special4);
+                    ((::fnv_008b52a0::Node *)(((special4))->unk018))->Detach(special4);
                     special4 = 0;
                 }
             }
             Transform inverse2;
             Transform localA;
             reinterpret_cast<::FUN_008b42e0_shell *>((void *)&(root5->Call_00461130()))->InvertTransform((::NiTransform *)&(inverse2));
-            localA = reinterpret_cast<::NiTransform *>((void *)&(const ::fnv_008b52a0::Transform &)(inverse2))->operator*((const ::NiTransform &)(original6->Call_00461130()));
+            *reinterpret_cast<::NiTransform *>(&(localA)) = reinterpret_cast<::NiTransform *>((void *)&(const ::fnv_008b52a0::Transform &)(inverse2))->operator*((const ::NiTransform &)(original6->Call_00461130()));
             reinterpret_cast<::FUN_00440460_S *>((result3))->FUN_00440460((const ::V3 *)&(localA.translation));
             reinterpret_cast<::FUN_0043fa80_s *>((result3))->FUN_0043fa80((const ::ThreeByThreeMatrix &)(localA.rotation));
             reinterpret_cast<::FUN_00440490_shell *>((result3))->FUN_00440490(localA.scale);
@@ -136275,8 +139118,8 @@ void ActorView::FUN_008b52a0(void* reference, unsigned int partIndex, bool explo
                 if (((void *)(reinterpret_cast<::EffectSetting *>((part9))->GetCastSound())))
                     Call_009ac9c0(((void *)(reinterpret_cast<::EffectSetting *>((part9))->GetCastSound())), 0, 0, ((void *)(reinterpret_cast<::LowProcess *>(this)->GetTarget())), transform_.translation,
                                   transform_.rotation);
-                if (((::fnv_008b52a0::Effect *)(reinterpret_cast<::TESPackage *>((part9))->GetRefCount())) && ((unsigned char)(reinterpret_cast<::FUN_008b6220_StandIn *>((part9))->GetByteAt78())) > 0)
-                    reinterpret_cast<::BGSDebris_shell2 *>((((::fnv_008b52a0::Effect *)(reinterpret_cast<::TESPackage *>((part9))->GetRefCount()))))->FUN_004fa6f0(((void *)(reinterpret_cast<::LowProcess *>(this)->GetTarget())), (::Vec3 *)(::fnv_008b52a0::Vec *)(&transform_.translation),
+                if (((::fnv_008b52a0::Effect *)(((part9))->unk04)) && ((unsigned char)(reinterpret_cast<::FUN_008b6220_StandIn *>((part9))->GetByteAt78())) > 0)
+                    reinterpret_cast<::BGSDebris_shell2 *>((((::fnv_008b52a0::Effect *)(((part9))->unk04))))->FUN_004fa6f0(((void *)(reinterpret_cast<::LowProcess *>(this)->GetTarget())), (::Vec3 *)(::fnv_008b52a0::Vec *)(&transform_.translation),
                                                           ((unsigned char)(reinterpret_cast<::FUN_008b6220_StandIn *>((part9))->GetByteAt78())),
                                                           reinterpret_cast<::fnv_00567400::FUN_00567400_shell *>(this)->FUN_00567400() * reinterpret_cast<::FUN_006447b0_shell *>((part9))->GetField84Float());
             }
@@ -136287,7 +139130,7 @@ void ActorView::FUN_008b52a0(void* reference, unsigned int partIndex, bool explo
             result3 = new Node(0);
         if (!explode)
             process->SetPart(partIndex, result3->AsNode());
-        if (((unsigned int)(reinterpret_cast<::fnv_006838b0::FUN_006838b0_shell *>((original6))->FUN_006838b0())) && ((unsigned int)(reinterpret_cast<::FUN_00453470_shell *>((original6))->FUN_00453470())))
+        if (((uintptr_t)(reinterpret_cast<::fnv_006838b0::FUN_006838b0_shell *>((original6))->FUN_006838b0())) && ((unsigned int)(reinterpret_cast<::FUN_00453470_shell *>((original6))->FUN_00453470())))
         {
             for (unsigned int i = 0; i < original6->Call_0043b480(); i++)
             {
@@ -136315,7 +139158,7 @@ void ActorView::FUN_008b52a0(void* reference, unsigned int partIndex, bool explo
             ::FUN_00c6a350((::NiAVObject *)(result3), 1, true, true, true);
             world14->Add(result3, true, false, false, true);
             Bound boundary = (*(const ::fnv_008b52a0::Bound *)(reinterpret_cast<::FUN_0043d450_Owner *>((GetNode()))->FUN_0043d450()));
-            Vec center = (*(::fnv_008b52a0::Vec *)(new ((void *)&(boundary)) ::Vec3()));
+            Vec center = (*(::fnv_008b52a0::Vec *)(((::Vec3 *)(void *)&(boundary))));
             Vec impulse3 = result3->Call_0045bb80() - center;
             reinterpret_cast<::FUN_004a0c10_s *>(&(impulse3))->FUN_004a0c10();
             Vec aLoc4 = impulse3 * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_008b52a0::SettingView *>(&::originalRuntimeFloatSetting751))))));
@@ -136323,7 +139166,7 @@ void ActorView::FUN_008b52a0(void* reference, unsigned int partIndex, bool explo
         }
         if (effects)
         {
-            ImpactSet* setVel6 = explode ? ((::fnv_008b52a0::ImpactSet *)(reinterpret_cast<::FUN_005e3fc0_shell *>((part9))->Get())) : ((::fnv_008b52a0::ImpactSet *)(reinterpret_cast<::MagicProjectile *>((part9))->FUN_004fd400()));
+            ImpactSet* setVel6 = explode ? ((::fnv_008b52a0::ImpactSet *)(((part9))->unka4)) : ((::fnv_008b52a0::ImpactSet *)(reinterpret_cast<::MagicProjectile *>((part9))->FUN_004fd400()));
             Impact* impact23 =
                 setVel6 ? ((::fnv_008b52a0::Impact *)(reinterpret_cast<::BGSImpactDataSet *>((setVel6))->GetImpactDataForMaterial(((LimbBaseView*)reinterpret_cast<::Actor *>(this)->GetActorBase())->raceData.GetRace()))) : 0;
             Model* model_2 = impact23 ? &impact23->model : 0;
@@ -136359,7 +139202,7 @@ void ActorView::FUN_008b52a0(void* reference, unsigned int partIndex, bool explo
             process->UpdatePart(partIndex, original6, result3, explode);
         else
             reinterpret_cast<::fnv_008b6290::Cls *>(this)->ProcessObjects((void *)(partIndex), original6, (::fnv_008b6290::Src *)(result3), explode);
-        if (!explode && ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((VatsView*)&(*reinterpret_cast<::VATS *>(&::g_011f2250)))))->GetName())) == 4 && result3)
+        if (!explode && ((unsigned int)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)) == 4 && result3)
         {
             Target* target = ((::fnv_008b52a0::Target *)(reinterpret_cast<::ListHolder *>((((VatsView*)&(*reinterpret_cast<::VATS *>(&::g_011f2250)))))->FUN_009c71c0()));
             if (target && target->ref == reference)
@@ -136367,9 +139210,9 @@ void ActorView::FUN_008b52a0(void* reference, unsigned int partIndex, bool explo
                 Weapon* weapon = ((::fnv_008b52a0::Weapon *)(reinterpret_cast<::MagicCaster_shell *>((((VatsView*)&(*reinterpret_cast<::VATS *>(&::g_011f2250)))))->FUN_0044edb0()));
                 if (weapon)
                 {
-                    if (((unsigned int)(reinterpret_cast<::Twin_00639b40 *>((weapon))->GetEntryPoint())) == 2)
+                    if (((uintptr_t)(reinterpret_cast<::Twin_00639b40 *>((weapon))->GetEntryPoint())) == 2)
                         reinterpret_cast<::Owner_58cbc0 *>((weapon))->SetNode((::Node_58cbc0 *)(result3));
-                    if (((unsigned int)(reinterpret_cast<::LowProcess *>((weapon))->GetTarget())) == 2)
+                    if (((uintptr_t)(reinterpret_cast<::LowProcess *>((weapon))->GetTarget())) == 2)
                         reinterpret_cast<::FUN_0058ccf0_Class *>((weapon))->SetSceneNode((::SceneNode *)(result3));
                 }
             }
@@ -136580,7 +139423,7 @@ void ActorResetView::FUN_008aa210(unsigned int flags)
         b = (DispositionListView*)&m_kSecondPointerList;
         while (b && !b->FUN_008256d0())
         {
-            k = *((::ActorListEntry **)(new ((void *)(b)) ::Vec3()));
+            k = *((::ActorListEntry **)(((::Vec3 *)(void *)(b))));
             j = k;
             ::FUN_00401030(j);
             b->FUN_0063f7b0();
@@ -136888,6 +139731,9 @@ struct MAvo
 };
 struct MWeap
 {
+    char pad00[0x15c];
+    void* unk15c;
+
     int FUN_00446390();
 };
 struct MEquip
@@ -137221,6 +140067,9 @@ struct MCdPoint
 };
 struct MCdArray
 {
+    char pad00[0x4];
+    int count;
+
     int FUN_00726070();
 };
 struct MColl
@@ -137721,7 +140570,7 @@ void __cdecl FUN_006890b0(MCell*, float, const char*, MPt, MPt, float, int, int)
 MAudio* __cdecl FUN_00453a70();
 
 
-extern MTES* g_TES;
+
 __if_not_exists(g_thePlayer)
 {
     extern MActor* g_thePlayer;
@@ -137767,10 +140616,10 @@ bool MActor::FUN_008ae660(bool abUseAnim)
             reinterpret_cast<::FUN_00626c50_cls *>((query))->FUN_00626c50(filter);
         if (reinterpret_cast<::ShapeCaster *>((query))->FUN_00626b30((*(const ::NiPoint3 *)(&start)), (*(const ::NiPoint3 *)(&end)), reach))
         {
-            MHits* hits = ((::MHits *)(new ((void *)(query)) ::Vec3()));
-            MColObj* hitObj = ((::MColObj *)(::FUN_004b5820((::FormLike *)(((::MHit *)(reinterpret_cast<::FUN_00807770_Class *>((((::MHitList *)(::FUN_00460140((int)(hits))))))->FUN_00807770(0)))->unk48))));
+            MHits* hits = ((::MHits *)(((::Vec3 *)(void *)(query))));
+            MColObj* hitObj = ((::MColObj *)(::FUN_004b5820((::FormLike *)(((::MHit *)(reinterpret_cast<::FUN_00807770_Class *>((((::MHitList *)(::FUN_00460140((intptr_t)(hits))))))->FUN_00807770(0)))->unk48))));
             MRef* hitRef = hitObj ? ((::MRef *)(::FUN_0056f930((::NiAVObject *)(hitObj)))) : 0;
-            MRigid* rigidBody = ((::MRigid *)(::FUN_004b59f0(((::MHit *)(reinterpret_cast<::FUN_00807770_Class *>((((::MHitList *)(::FUN_00460140((int)(hits))))))->FUN_00807770(0)))->unk48)));
+            MRigid* rigidBody = ((::MRigid *)(::FUN_004b59f0(((::MHit *)(reinterpret_cast<::FUN_00807770_Class *>((((::MHitList *)(::FUN_00460140((intptr_t)(hits))))))->FUN_00807770(0)))->unk48)));
             MActor* hitActor = (hitRef && hitRef->IsActor()) ? (MActor*)hitRef : 0;
             int weaponType = weapon ? weapon->FUN_00446390() : -1;
             float damage = 0.0f;
@@ -137781,8 +140630,9 @@ bool MActor::FUN_008ae660(bool abUseAnim)
                 float mult = 1.0f;
                 if (!vf21c() && !reinterpret_cast<::Actor *>(this)->IsSneaking() && abUseAnim)
                 {
-                    void* skill = ((void *)(reinterpret_cast<::FUN_008d85e0_Class *>((weapon))->GetUnk15C()));
-                    mult = ::fnv_00644520::FUN_00644520(reinterpret_cast<::ActorValueOwner *>(this)->GetActorValueAsInteger(skill), groupType);
+                    void* skill = ((void *)(((weapon))->unk15c));
+                    reinterpret_cast<::ActorValueOwner *>(this)->GetActorValueAsInteger((::ActorValue::Index)(std::intptr_t)skill);
+                    mult = ::fnv_00644520::FUN_00644520();
                 }
                 damage = reinterpret_cast<::B4BDF00Data *>((equipped))->GetScaledValue(this, mult, 0);
             }
@@ -137819,7 +140669,7 @@ bool MActor::FUN_008ae660(bool abUseAnim)
                 MPt dir = to - from;
                 reinterpret_cast<::FUN_004a0c10_s *>(&(dir))->FUN_004a0c10();
                 MPt pos;
-                ::SetNiPoint3FromHkVector4((*(::NiPoint3 *)(&pos)), (*(const ::hkVector4 *)(((::MHkPos *)(new ((void *)(((::MHit *)(reinterpret_cast<::FUN_00807770_Class *>((((::MHitList *)(::FUN_00460140((int)(hits))))))->FUN_00807770(0))))) ::Vec3())))));
+                ::SetNiPoint3FromHkVector4((*(::NiPoint3 *)(&pos)), (*(const ::hkVector4 *)(((::MHkPos *)(((::Vec3 *)(void *)(((::MHit *)(reinterpret_cast<::FUN_00807770_Class *>((((::MHitList *)(::FUN_00460140((intptr_t)(hits))))))->FUN_00807770(0))))))))));
                 float force;
                 if (weapon)
                 {
@@ -137856,11 +140706,11 @@ bool MActor::FUN_008ae660(bool abUseAnim)
                     }
                 }
                 force += 3.0;
-                int shapeKey = ((::MHit *)(reinterpret_cast<::FUN_00807770_Class *>((((::MHitList *)(::FUN_00460140((int)(hits))))))->FUN_00807770(0)))->unk4c;
-                int material = 0;
+                int shapeKey = ((::MHit *)(reinterpret_cast<::FUN_00807770_Class *>((((::MHitList *)(::FUN_00460140((intptr_t)(hits))))))->FUN_00807770(0)))->unk4c;
+                intptr_t material = 0;
                 if (reinterpret_cast<::FUN_0043b4d0_shell *>((void *)&(const ::MFilter &)(worldObj->FUN_0043b4f0()))->FUN_0043b4d0() == 0x11)
                 {
-                    material = ((int)(reinterpret_cast<::FUN_00457880_Class *>((g_TES))->FUN_00457880((int)(&pos))));
+                    material = ((int)(reinterpret_cast<::FUN_00457880_Class *>((*reinterpret_cast<::MTES * *>(&::g_TES)))->FUN_00457880((intptr_t)(&pos))));
                 }
                 else
                 {
@@ -137888,9 +140738,9 @@ bool MActor::FUN_008ae660(bool abUseAnim)
                 MVec4 hkImpulse;
                 ::fnv_004a3e00::FUN_004a3e00((::fnv_004a3e00::bhkCharacterController &)(hkImpulse), (const ::fnv_004a3e00::NiPoint3 &)(impulse));
                 reinterpret_cast<::Script *>((world))->GetLocalData();
-                reinterpret_cast<::FUN_0081f1e0_Class *>((rigidBody))->ApplyVirtualCall((int)(&hkImpulse), (int)(((::MHkPos *)(new ((void *)(((::MHit *)(reinterpret_cast<::FUN_00807770_Class *>((((::MHitList *)(::FUN_00460140((int)(hits))))))->FUN_00807770(0))))) ::Vec3()))));
+                reinterpret_cast<::FUN_0081f1e0_Class *>((rigidBody))->ApplyVirtualCall((intptr_t)(&hkImpulse), (intptr_t)(((::MHkPos *)(((::Vec3 *)(void *)(((::MHit *)(reinterpret_cast<::FUN_00807770_Class *>((((::MHitList *)(::FUN_00460140((intptr_t)(hits))))))->FUN_00807770(0)))))))));
                 reinterpret_cast<::Script *>((world))->GetLocalData();
-                reinterpret_cast<::fnv_008acff0::ImpactActor *>(this)->ApplyImpact((*(int *)&(const ::MPt &)(pos)), (int)(hitRef), (int)(worldObj), (::fnv_008acff0::Ref *)(material), {}, {});
+                reinterpret_cast<::fnv_008acff0::ImpactActor *>(this)->ApplyImpact((*(int *)&(const ::MPt &)(pos)), (intptr_t)(hitRef), (intptr_t)(worldObj), (::fnv_008acff0::Ref *)(material), {}, {});
                 if (hitRef)
                 {
                     if (hitActor)
@@ -137906,7 +140756,7 @@ bool MActor::FUN_008ae660(bool abUseAnim)
                 if (decalTex)
                 {
                     MPt hitNormal;
-                    ::SetNiPoint3FromHkVector4((*(::NiPoint3 *)(&hitNormal)), (*(const ::hkVector4 *)(((::MHkPos *)(::FUN_00460140((int)(((::MHit *)(reinterpret_cast<::FUN_00807770_Class *>((((::MHitList *)(::FUN_00460140((int)(hits))))))->FUN_00807770(0))))))))));
+                    ::SetNiPoint3FromHkVector4((*(::NiPoint3 *)(&hitNormal)), (*(const ::hkVector4 *)(((::MHkPos *)(::FUN_00460140((intptr_t)(((::MHit *)(reinterpret_cast<::FUN_00807770_Class *>((((::MHitList *)(::FUN_00460140((intptr_t)(hits))))))->FUN_00807770(0))))))))));
                     MPt normal = hitNormal;
                     reinterpret_cast<::FUN_004a0c10_s *>(&(normal))->FUN_004a0c10();
                     MPt decalPos = pos;
@@ -137922,7 +140772,7 @@ bool MActor::FUN_008ae660(bool abUseAnim)
                         reinterpret_cast<::Owner623 *>((decal))->FUN_006231a0((::NiNode623 *)(decalWorld));
                         MColl coll;
                         reinterpret_cast<::fnv_00623090::Host *>((decal))->FUN_00623090(&pos, (::fnv_00623090::Vir *)(::MColl *)(&coll));
-                        int count = ((int)(reinterpret_cast<::Callees *>((((::MCdArray *)(reinterpret_cast<::TESTopicInfoData *>(&(coll))->GetLinkToList()))))->FUN_00726070()));
+                        int count = ((int)(((((::MCdArray *)(reinterpret_cast<::TESTopicInfoData *>(&(coll))->GetLinkToList()))))->count));
                         float time = ((float)(::FUN_004a4240()));
                         char index = (char)floor(RandomFloat(0.0f, DAT_0101e570));
                         for (int i = 0; i < count; i++)
@@ -137954,9 +140804,9 @@ bool MActor::FUN_008ae660(bool abUseAnim)
                                     MColObj* target = 0;
                                     if (isTerrain)
                                     {
-                                        target = ((::MColObj *)(reinterpret_cast<::fnv_00457620::FUN_00457620_cls *>((g_TES))->FUN_00457620((const float *)(::MPt *)(&pos))));
-                                        if (target && ((::MColObj *)(reinterpret_cast<::FUN_009611e0_shell *>((target))->FUN_009611e0())))
-                                            target = ((::MColObj *)(reinterpret_cast<::FUN_009611e0_shell *>((target))->FUN_009611e0()));
+                                        target = ((::MColObj *)(reinterpret_cast<::fnv_00457620::FUN_00457620_cls *>((*reinterpret_cast<::MTES * *>(&::g_TES)))->FUN_00457620((const float *)(::MPt *)(&pos))));
+                                        if (target && ((::MColObj *)(reinterpret_cast<::NiAVObjectFields *>((target))->m_pkParent)))
+                                            target = ((::MColObj *)(reinterpret_cast<::NiAVObjectFields *>((target))->m_pkParent));
                                     }
                                     else
                                     {
@@ -137965,7 +140815,7 @@ bool MActor::FUN_008ae660(bool abUseAnim)
                                     MRef* targetRef = ((::MRef *)(::FUN_0056f930((::NiAVObject *)(target))));
                                     if (!isTerrain && (!targetRef || !::IsAcousticSpaceFormTypeAllowed((::Refr_C *)(targetRef), true)))
                                         continue;
-                                    MDecalMgr* mgr = ((::MDecalMgr *)(reinterpret_cast<::FnCls *>((g_TES))->FUN_004519d0((*(float *)&(const ::MPt &)(pos)), {}, {})));
+                                    MDecalMgr* mgr = ((::MDecalMgr *)(reinterpret_cast<::FnCls *>((*reinterpret_cast<::MTES * *>(&::g_TES)))->FUN_004519d0(pos.x, pos.y, std::bit_cast<int>(pos.z))));
                                     MDecalData data;
                                     data.pos = decalPos;
                                     data.normal = normal;
@@ -138011,10 +140861,10 @@ bool MActor::FUN_008ae660(bool abUseAnim)
                                  0);
                 }
                 MSnd sound;
-                if (impact && ((::MSoundForm *)(reinterpret_cast<::FUN_0068a810_class *>((impact))->GetField4C())))
+                if (impact && ((::MSoundForm *)(*reinterpret_cast<void **>((char *)(impact) + 0x4c))))
                 {
-                    reinterpret_cast<::SoundPlaybackHandle *>((void *)&(const ::MSnd &)(sound))->operator=((const ::SoundPlaybackHandle &)((const ::MSnd &)(FUN_00453a70()->FUN_00ad7480(::FUN_00511840((char *)(((::MSoundForm *)(reinterpret_cast<::FUN_0068a810_class *>((impact))->GetField4C())))), 0x4102,
-                                                         ((::MSoundForm *)(reinterpret_cast<::FUN_0068a810_class *>((impact))->GetField4C()))))));
+                    reinterpret_cast<::SoundPlaybackHandle *>((void *)&(const ::MSnd &)(sound))->operator=((const ::SoundPlaybackHandle &)((const ::MSnd &)(FUN_00453a70()->FUN_00ad7480(::FUN_00511840((char *)(((::MSoundForm *)(*reinterpret_cast<void **>((char *)(impact) + 0x4c))))), 0x4102,
+                                                         ((::MSoundForm *)(*reinterpret_cast<void **>((char *)(impact) + 0x4c)))))));
                     reinterpret_cast<::FUN_00ad8b60_h *>(&(sound))->FUN_00ad8b60(pos.x, pos.y, pos.z);
                     reinterpret_cast<::FUN_00ad8830_shell *>(&(sound))->FUN_00ad8830(false);
                 }
@@ -138037,7 +140887,7 @@ bool MActor::FUN_008ae660(bool abUseAnim)
             }
             else if (this != (MActor*)g_thePlayer)
             {
-                void* phantom = ::FUN_004b5950(((::MHit *)(reinterpret_cast<::FUN_00807770_Class *>((((::MHitList *)(::FUN_00460140((int)(hits))))))->FUN_00807770(0)))->unk48);
+                void* phantom = ::FUN_004b5950(((::MHit *)(reinterpret_cast<::FUN_00807770_Class *>((((::MHitList *)(::FUN_00460140((intptr_t)(hits))))))->FUN_00807770(0)))->unk48);
                 MWorldObj* phantomObj = phantom ? ((::MWorldObj *)(::FUN_004b5a80(phantom))) : 0;
                 if (hitActor && !hitRef->vf22c(0) && phantomObj && reinterpret_cast<::FUN_0043b4d0_shell *>((void *)&(const ::MFilter &)(phantomObj->FUN_0043b4f0()))->FUN_0043b4d0() == 0x1e)
                 {
@@ -138068,7 +140918,7 @@ bool MActor::FUN_008ae660(bool abUseAnim)
                 MCell* refCell = hitRef ? ((::MCell *)(reinterpret_cast<::LowProcess *>((hitRef))->GetTarget())) : 0;
                 MWorld* refWorld = refCell ? ((::MWorld *)(reinterpret_cast<::FUN_004543c0_cls *>((refCell))->FUN_004543c0())) : 0;
                 MDoor* door = refWorld ? static_cast<MDoor*>(((::MB8 *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((refWorld))->FUN_007af430()))) : 0;
-                if (door && hitRef == ((::MRef *)(::FlaggedData::GetPlayerValue())) && reinterpret_cast<::FUN_0062dee0_shell *>((door))->FUN_0062dee0((int)(hitRef)))
+                if (door && hitRef == ((::MRef *)(::FlaggedData::GetPlayerValue())) && reinterpret_cast<::FUN_0062dee0_shell *>((door))->FUN_0062dee0((intptr_t)(hitRef)))
                 {
                     MExtra* extra = ((::MExtra *)(reinterpret_cast<::FUN_005d43c0_ *>((hitRef))->FUN_005d43c0()));
                     if (extra)
@@ -138254,7 +141104,7 @@ void ActorD::UpdateDismemberedLimbs()
                 reinterpret_cast<::B6FF0Actor *>(this)->CollectLimbBones((::B6FF0Node *)(pLimb2), 0);
                 reinterpret_cast<::TaskQueueInterface *>((pLimb2))->QueueActorDisarm(false);
                 reinterpret_cast<::Actor_008b64e0 *>(this)->FUN_008b64e0(uiPart7, pLimb2);
-                if (((int)(reinterpret_cast<::fnv_006838b0::FUN_006838b0_shell *>((pLimb2))->FUN_006838b0())) && reinterpret_cast<::FUN_00453470_shell *>((pLimb2))->FUN_00453470())
+                if (((intptr_t)(reinterpret_cast<::fnv_006838b0::FUN_006838b0_shell *>((pLimb2))->FUN_006838b0())) && reinterpret_cast<::FUN_00453470_shell *>((pLimb2))->FUN_00453470())
                 {
                     for (unsigned int k = 0; k < pLimb2->FUN_0043b480(); k++)
                     {
@@ -138287,7 +141137,7 @@ void Actor_008b64e0::FUN_008b64e0(int aiPartIndex, void* a2)
     for (unsigned int i = 0; i < _pRoot->GetArrayCount(); ++i)
     {
         NiAVObject* pChild = reinterpret_cast<::NiNode *>((_pRoot))->GetAt(i);
-        if (pChild && FUN_004910d0(pChild) && reinterpret_cast<::WorkerView *>(this)->HasSkinBoneInList(pChild, (int)(a2)))
+        if (pChild && FUN_004910d0(pChild) && reinterpret_cast<::WorkerView *>(this)->HasSkinBoneInList(pChild, (intptr_t)(a2)))
         {
             if (aiPartIndex == 0)
             {
@@ -138524,8 +141374,8 @@ void LimbForceActor::FUN_008b65f0()
                 if (pFound)
                 {
                     LimbForceBound kTmpBound = *((::LimbForceBound *)(reinterpret_cast<::FUN_0043d450_Owner *>((((LimbForceBoundView*)pRoot)))->FUN_0043d450()));
-                    NiPoint3 kTargetCenter = *((::NiPoint3 *)(new ((void *)&(kTmpBound)) ::Vec3()));
-                    NiPoint3 kWorldPosition = *(NiPoint3_sub*)((::NiPoint3 *)(::FUN_0045bb80((int)(pFound)))) - kTargetCenter;
+                    NiPoint3 kTargetCenter = *((::NiPoint3 *)(((::Vec3 *)(void *)&(kTmpBound))));
+                    NiPoint3 kWorldPosition = *(NiPoint3_sub*)((::NiPoint3 *)(::FUN_0045bb80((intptr_t)(pFound)))) - kTargetCenter;
                     reinterpret_cast<::FUN_004a0c10_s *>((((FUN_004a0c10_pt*)&kWorldPosition)))->FUN_004a0c10();
                     NiPoint3 _kForce = *(NiPoint3_helper*)&kWorldPosition * FUN_00403e20((float*)&(*reinterpret_cast<int *>(&::originalRuntimeFloatSetting751)));
                     ::FUN_0062b8d0(pFound, &_kForce, 0);
@@ -138848,7 +141698,7 @@ float ResistanceTarget::FUN_008c40e0(MagicCaster* caster, MagicItem* item, Activ
     if (isAlchemy)
     {
         ActorValue::Index index =
-            (*(::ActorValue::Index *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((::EffectSettingResistance *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((::EffectItem *)(reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<ResistanceEffectView*>(effect)))->FUN_0084e3a0()))))->FUN_00825c00()))))->GetBaseTexture()));
+            (*(::ActorValue::Index *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((::EffectSettingResistance *)(reinterpret_cast<::EffectItemFields *>((((::EffectItem *)(reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<ResistanceEffectView*>(effect)))->FUN_0084e3a0()))))->setting))))->GetBaseTexture()));
         if (index != -1 && target == 0.0)
             magicResistance = isAlchemy->GetCurrentActorValue(index);
         if (reinterpret_cast<ActorResistanceView*>(
@@ -138981,17 +141831,14 @@ bool __cdecl FUN_008c1010(TESObjectREFR* ref, TESForm* form, FactionCheck1010* c
 }
 }  // namespace fnv_008c1010
 
-namespace ActorLinkDetail {
-using ::SpellItem;
-__if_not_exists(SpellItem::SpellItem)
+class SpellItem : public TESForm
 {
-    class SpellItem : public TESForm
-    {
-    };
-}
+};
+
+namespace ActorLinkDetail {
 struct LinkPowerItem
 {
-    unsigned int key;
+    uintptr_t key;
 };
 struct LinkDispositionItem
 {
@@ -139111,10 +141958,10 @@ void FUN_008d3380_shell::FUN_008aa4c0(unsigned int aiFlags, unsigned int p2)
         while (ix && !ix->_ref_008256d0())
         {
             LinkDispositionItem* cell2;
-            cell2 = *((::ActorLinkDetail::LinkDispositionItem **)(new ((void *)(ix)) ::Vec3()));
+            cell2 = *((::ActorLinkDetail::LinkDispositionItem **)(((::Vec3 *)(void *)(ix))));
             void* tmp;
             tmp = cell2->actor;
-            cell2->actor = dynamic_cast<Actor*>(::FUN_004839c0((unsigned int)tmp));
+            cell2->actor = dynamic_cast<Actor*>(::FUN_004839c0((unsigned int)(uintptr_t)tmp));
             if (cell2->actor == 0)
             {
                 if (kIter == 0)
@@ -139124,7 +141971,7 @@ void FUN_008d3380_shell::FUN_008aa4c0(unsigned int aiFlags, unsigned int p2)
                 else
                 {
                     reinterpret_cast<::ItemChangeListNode *>((kIter))->FUN_00905330((*(::InventoryStackRecord *const *)(&cell2)));
-                    ix = ((::ActorLinkDetail::Node87X *)(reinterpret_cast<::Callees *>((kIter))->FUN_00726070()));
+                    ix = ((::ActorLinkDetail::Node87X *)(reinterpret_cast<::SimpleListNodeView *>((kIter))->m_pkNext));
                 }
                 delete cell2;
             }
@@ -139144,12 +141991,12 @@ void FUN_008d3380_shell::FUN_008aa4c0(unsigned int aiFlags, unsigned int p2)
         while (ix && !ix->_ref_008256d0())
         {
             LinkPowerItem* cell2;
-            cell2 = *((::ActorLinkDetail::LinkPowerItem **)(new ((void *)(ix)) ::Vec3()));
+            cell2 = *((::ActorLinkDetail::LinkPowerItem **)(((::Vec3 *)(void *)(ix))));
             unsigned int c;
             c = cell2->key;
             if (0 != c)
             {
-                cell2->key = (int)dynamic_cast<SpellItem*>(FormFromID8aa4b(c));
+                cell2->key = (intptr_t)dynamic_cast<SpellItem*>(FormFromID8aa4b(c));
             }
             if (cell2->key == 0)
             {
@@ -139160,7 +142007,7 @@ void FUN_008d3380_shell::FUN_008aa4c0(unsigned int aiFlags, unsigned int p2)
                 else
                 {
                     reinterpret_cast<::ItemChangeListNode *>((kIter))->FUN_00905330((*(::InventoryStackRecord *const *)(&cell2)));
-                    ix = ((::ActorLinkDetail::Node48X *)(reinterpret_cast<::Callees *>((kIter))->FUN_00726070()));
+                    ix = ((::ActorLinkDetail::Node48X *)(reinterpret_cast<::SimpleListNodeView *>((kIter))->m_pkNext));
                 }
                 delete cell2;
             }
@@ -139173,8 +142020,8 @@ void FUN_008d3380_shell::FUN_008aa4c0(unsigned int aiFlags, unsigned int p2)
     }
     if (reinterpret_cast<::FUN_008df040_shell *>((((FUN_008df040_shell*)::g_TESSaveLoadGame)))->FUN_008df040() >= 0x32)
     {
-        long v;
-        v = (long)m_pActorReference;
+        intptr_t v;
+        v = (intptr_t)m_pActorReference;
         if (v != 0)
         {
             m_pActorReference = (Actor*)dynamic_cast<Actor*>(::FUN_004839c0(v));
@@ -139189,8 +142036,8 @@ void FUN_008d3380_shell::FUN_008aa4c0(unsigned int aiFlags, unsigned int p2)
     }
     if (reinterpret_cast<::FUN_008df040_shell *>((((FUN_008df040_shell*)::g_TESSaveLoadGame)))->FUN_008df040() >= 0x61)
     {
-        unsigned int f0;
-        f0 = (unsigned int)m_pMobileObject;
+        uintptr_t f0;
+        f0 = (uintptr_t)m_pMobileObject;
         if (f0 != 0)
         {
             m_pMobileObject = (MobileObject*)dynamic_cast<MobileObject*>(::FUN_004839c0(f0));
@@ -139202,7 +142049,7 @@ void FUN_008d3380_shell::FUN_008aa4c0(unsigned int aiFlags, unsigned int p2)
     }
     if (!!m_pBaseProcess)
     {
-        if (((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((HighProcess*)m_pBaseProcess)))->FUN_0045cd60())) != 0)
+        if (((intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((((HighProcess*)m_pBaseProcess)))->FUN_0045cd60())) != 0)
         {
             if (((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>((((TESObjectREFR*)this)))->GetTarget())) != 0)
             {
@@ -139216,7 +142063,7 @@ void FUN_008d3380_shell::FUN_008aa4c0(unsigned int aiFlags, unsigned int p2)
                 if (reinterpret_cast<::fnv_005653d0::FUN_005653d0_shell *>(this)->FUN_005653d0())
                 {
                     TESWorldSpace* ws;
-                    ws = ((::TESWorldSpace *)((reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>(((TESObjectREFR*)this))->FUN_00575d70()));
+                    ws = ((::TESWorldSpace *)((reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>(((TESObjectREFR*)this))->FUN_00575d70())));
                     if (0 != ws)
                     {
                         struct Position
@@ -139494,7 +142341,7 @@ bool R8Ref::FUN_0087f260()
             return false;
         }
     }
-    if (((int)(reinterpret_cast<::TESEffectShader *>(this)->GetAddonModels())))
+    if (((intptr_t)(reinterpret_cast<::TESEffectShader *>(this)->GetAddonModels())))
     {
         return false;
     }
@@ -139640,7 +142487,7 @@ void BipedWeaponRemoval::FUN_004ab5b0()
         BipedSceneObject* process = (BipedSceneObject*)FUN_004aae30((::NiAVObject*)root, (NiFixedString*)"Backpack");
         if (process)
         {
-            ((::BipedSceneNode *)(reinterpret_cast<::FUN_009611e0_shell *>((process))->FUN_009611e0()))->RemoveObject(process);
+            ((::BipedSceneNode *)(reinterpret_cast<::NiAVObjectFields *>((process))->m_pkParent))->RemoveObject(process);
         }
     }
 }
@@ -139665,13 +142512,15 @@ struct MoveNode454
     MoveNode454* FUN_00726070();
     MoveActor454** FUN_006815c0();
 };
-template <> class BSSimpleList<MoveActor454*> : public MoveNode454
+}  // namespace fnv_008ad1c0
+template <> class BSSimpleList<fnv_008ad1c0::MoveActor454*> : public fnv_008ad1c0::MoveNode454
 {
   public:
     BSSimpleList();
     ~BSSimpleList();
-    void FUN_005ae3d0(MoveActor454* const&);
+    void FUN_005ae3d0(fnv_008ad1c0::MoveActor454* const&);
 };
+namespace fnv_008ad1c0 {
 struct MoveObject454
 {
     MoveObject454* FUN_007af430();
@@ -140526,13 +143375,13 @@ struct MovePoint454 : NiPoint3
 };
 struct MoveSelf454 : MoveActor454
 {
-    void FUN_008ad1c0(int destination, float angle, TESObjectCELL* cell, TESWorldSpace* world,
+    void FUN_008ad1c0(intptr_t destination, float angle, TESObjectCELL* cell, TESWorldSpace* world,
                                  unsigned char offset, unsigned char allow);
 };
 
 // Moves the calling actor and its followers to a destination cell, optionally pathing around obstacles and resetting movement state.
 // @fnv 0x008ad1c0
-void MoveSelf454::FUN_008ad1c0(int destination, float angle, TESObjectCELL* cell, TESWorldSpace* world,
+void MoveSelf454::FUN_008ad1c0(intptr_t destination, float angle, TESObjectCELL* cell, TESWorldSpace* world,
                                           unsigned char abUseOffset, unsigned char allow)
 {
     float extra;
@@ -140551,15 +143400,15 @@ void MoveSelf454::FUN_008ad1c0(int destination, float angle, TESObjectCELL* cell
                 {
                     actors.FUN_005ae3d0((MoveActor454*)this);
                     count = 0;
-                    for (node = &actors; node; node = ((::fnv_008ad1c0::MoveNode454 *)(reinterpret_cast<::Callees *>((node))->FUN_00726070())), ++count)
+                    for (node = &actors; node; node = ((::fnv_008ad1c0::MoveNode454 *)(reinterpret_cast<::SimpleListNodeView *>((node))->m_pkNext)), ++count)
                     {
                         MoveFollowers454* followers =
-                            (MoveFollowers454*)((::fnv_008ad1c0::MoveNode454 *)(reinterpret_cast<::FUN_00422700_shell *>((((::fnv_008ad1c0::MoveExtra454 *)(reinterpret_cast<::FUN_005d43c0_ *>(((*((::fnv_008ad1c0::MoveActor454 **)(new ((void *)(node)) ::Vec3())))))->FUN_005d43c0()))))->FUN_00422700()));
+                            (MoveFollowers454*)((::fnv_008ad1c0::MoveNode454 *)(reinterpret_cast<::FUN_00422700_shell *>((((::fnv_008ad1c0::MoveExtra454 *)(reinterpret_cast<::FUN_005d43c0_ *>(((*((::fnv_008ad1c0::MoveActor454 **)(((::Vec3 *)(void *)(node)))))))->FUN_005d43c0()))))->FUN_00422700()));
                         if (followers)
                         {
                             for (MoveNode454* follower = followers->head; follower; follower = ((::fnv_008ad1c0::MoveNode454 *)(reinterpret_cast<::Callees *>((follower))->FUN_00726070())))
                             {
-                                MoveActor454* actor = *((::fnv_008ad1c0::MoveActor454 **)(new ((void *)(follower)) ::Vec3()));
+                                MoveActor454* actor = *((::fnv_008ad1c0::MoveActor454 **)(((::Vec3 *)(void *)(follower))));
                                 if (actor && ((::fnv_008ad1c0::MoveProcess454 *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture())) && !reinterpret_cast<::RefList *>(&(actors))->FUN_005f65d0((void **)(::fnv_008ad1c0::MoveActor454 **)(&actor)))
                                     reinterpret_cast<::Callees *>((node))->FUN_00905820(&actor);
                             }
@@ -140567,9 +143416,9 @@ void MoveSelf454::FUN_008ad1c0(int destination, float angle, TESObjectCELL* cell
                     }
                     bool allowed = allow || reinterpret_cast<::PlayerCharacter *>((((MovePlayer454*)::_g_thePlayer)))->IsSleepingOrResting();
                     extra = abUseOffset ? *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_008ad1c0::MoveSetting454 *>(&::originalRuntimeFloatSetting291)))))) : 0.0f;
-                    for (node = &actors; node; node = ((::fnv_008ad1c0::MoveNode454 *)(reinterpret_cast<::Callees *>((node))->FUN_00726070())))
+                    for (node = &actors; node; node = ((::fnv_008ad1c0::MoveNode454 *)(reinterpret_cast<::SimpleListNodeView *>((node))->m_pkNext)))
                     {
-                        currentActor = *((::fnv_008ad1c0::MoveActor454 **)(new ((void *)(node)) ::Vec3()));
+                        currentActor = *((::fnv_008ad1c0::MoveActor454 **)(((::Vec3 *)(void *)(node))));
                         if (!currentActor->V22c(0) && !reinterpret_cast<::TESForm *>((currentActor))->GetDisabled() && !reinterpret_cast<::fnv_008a6210::FUN_008a6210_shell *>((currentActor))->FUN_008a6210() &&
                             !((MovePlayer454*)::_g_thePlayer)->disabled &&
                             (allowed || currentActor == (MoveActor454*)this ||
@@ -140581,7 +143430,7 @@ void MoveSelf454::FUN_008ad1c0(int destination, float angle, TESObjectCELL* cell
                             MoveProcess454* process = ((::fnv_008ad1c0::MoveProcess454 *)(reinterpret_cast<::BSShaderNoLightingProperty *>((currentActor))->GetBaseTexture()));
                             if (!process)
                                 continue;
-                            if (reinterpret_cast<::MiddleHighProcess *>((currentActor))->IsActorInCombat() && ((float)(reinterpret_cast<::FUN_008c1740_cls *>((currentActor))->ComputeFromNode((int)(::fnv_00754de0::DAT_01071db4)))) == 1.0)
+                            if (reinterpret_cast<::MiddleHighProcess *>((currentActor))->IsActorInCombat() && ((float)(reinterpret_cast<::FUN_008c1740_cls *>((currentActor))->ComputeFromNode((intptr_t)(::fnv_00754de0::DAT_01071db4)))) == 1.0)
                                 continue;
                             if (process->V4bc())
                             {
@@ -140611,7 +143460,7 @@ void MoveSelf454::FUN_008ad1c0(int destination, float angle, TESObjectCELL* cell
                                         PathingRequest pathDataB;   // Navigation request.
                                         reinterpret_cast<::fnv_006e29f0::FUN_006e29f0_shell *>(&(pathDataB))->InitFromActor((::Actor *)(::fnv_008ad1c0::MoveActor454 *)((MoveActor454*)this));
                                         reinterpret_cast<::FUN_006e2b50_shell *>(&(pathDataB))->SetCantOpenDoors(true);
-                                        reinterpret_cast<::PathingRequest *>(&(pathDataB))->SetDestination((::PathingLocation *)(::fnv_008ad1c0::PathingLocation *)(&PathingLocation(pathDataD, (MoveActor454*)this)));
+                                        reinterpret_cast<::PathingRequest *>(&(pathDataB))->SetDestination((::PathingLocation *)(::fnv_008ad1c0::PathingLocation *)(&ResultSlot(PathingLocation(pathDataD, (MoveActor454*)this))));
                                         reinterpret_cast<::FUN_008ad8f0Class *>(&(pathDataB))->SetByteAtOffset9B(true);
                                         NiPoint3 pathDataA;  // Resolved destination.
                                         {
@@ -140808,7 +143657,7 @@ class CharacterPackageProcess
     virtual void vfn_220();
     virtual void vfn_224();
     virtual void vfn_228();
-    virtual int vfn_22c();
+    virtual intptr_t vfn_22c();
     virtual void vfn_230();
     virtual void vfn_234();
     virtual void vfn_238();
@@ -141380,6 +144229,9 @@ struct RestoreActionPointsEntry : public Actor
 
 struct ItemView
 {
+    char pad00[0x8];
+    unsigned int unk08;
+
     unsigned int FUN_0044ddc0();
 };
 struct RestoreRate
@@ -141400,10 +144252,7 @@ struct ActorLayout
     MagicTarget target;
     ValueOwnerView values;
 };
-enum
-{
-    ValueOwnerOffsetCheck = 1 / (offsetof(ActorLayout, values) == 0xa4)
-};
+static_assert(sizeof(void *) != 4 || offsetof(ActorLayout, values) == 0xa4);
 struct ProcessView
 {
     virtual void v0();
@@ -141715,13 +144564,13 @@ void RestoreActionPointsEntry::FUN_0088b660(float afTime)
 {
     if (reinterpret_cast<ActorVirtualView*>(this)->Query216())
     {
-        if (!((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ItemView*>(&(*reinterpret_cast<::VATS *>(&::g_011f2250)))))->GetName())))
+        if (!((unsigned int)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)))
         {
             float fAmount = ::ActionPoints::GetActionPoints() * afTime;
             unsigned int uiFlags = 0;
             if (reinterpret_cast<ProcessView*>(m_pBaseProcess) &&
                 reinterpret_cast<ProcessView*>(m_pBaseProcess)->Query82())
-                uiFlags = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ProcessView*>(m_pBaseProcess)->Query82()))->GetName()));
+                uiFlags = ((unsigned int)(((reinterpret_cast<ProcessView*>(m_pBaseProcess)->Query82()))->unk08));
             ::ApplyPerkModifiers(0x27, reinterpret_cast< ::Actor*>(this), uiFlags, &fAmount);
             float fMod = reinterpret_cast<ActorLayout*>(this)->values.GetValue(0xc);
             fAmount = fAmount * fMod;
@@ -141778,7 +144627,7 @@ bool ActorEntry::FUN_0088e110(TESBoundObject* object, int count, ExtraDataList* 
             ::FUN_005ac750((::TESForm *)(void *)(this), extra, 8);
             ::FUN_005ac750((::TESForm *)(object), ((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((reinterpret_cast<TESObjectREFR*>(this)))->FUN_005d43c0())), 8);
         }
-        bRet = reinterpret_cast<::XHost17 *>((reinterpret_cast<Inventory*>(inventory)))->FUN_004c0cf0(&bUnequip, (unsigned int)(object), count, (::XActor17 *)(void *)(this), extra, left, force,
+        bRet = reinterpret_cast<::XHost17 *>((reinterpret_cast<Inventory*>(inventory)))->FUN_004c0cf0(&bUnequip, (uintptr_t)(object), count, (::XActor17 *)(void *)(this), extra, left, force,
                                                                      (::InventoryStackRecord *)(0), (bool *)(0));
     }
     Enchantment* enchantment = ((::ActorRemoveWornViews::Enchantment *)(::TESEnchantableForm::FindFormEnchantment((::TESForm *)(object))));
@@ -141818,11 +144667,11 @@ struct InventoryAccess
 };
 struct ActorQuery : TESObjectREFR
 {
-    bool FUN_00891db0(TESBoundObject* apObj, int aeFormID, int ainumber, unsigned int aId, int& aeMatchId);
+    bool FUN_00891db0(TESBoundObject* apObj, intptr_t aeFormID, int ainumber, uintptr_t aId, int& aeMatchId);
 };
 // Gets the container change data via GetExtraData(); if present, returns InventoryAccess::FUN_004cffe0 for it with the arguments, otherwise returns false.
 // @fnv 0x00891db0
-bool ActorQuery::FUN_00891db0(TESBoundObject* apObj, int aeFormID, int ainumber, unsigned int aId, int& aeMatchId)
+bool ActorQuery::FUN_00891db0(TESBoundObject* apObj, intptr_t aeFormID, int ainumber, uintptr_t aId, int& aeMatchId)
 {
     InventoryChanges* pinventory;
     pinventory = ((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()))->GetContainerChangeData();
@@ -142586,7 +145435,7 @@ bool Actor8d2800::TryStartFurnitureUse(Eff8d2800* apItem)
 // @fnv 0x00881d30
 bool Actor89::FUN_00881d30()
 {
-    if (!process || !((int)(reinterpret_cast<::FUN_0045cd60_shell *>((process))->FUN_0045cd60())))
+    if (!process || !((intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((process))->FUN_0045cd60())))
     {
         if (process && v1d0())
         {
@@ -142616,11 +145465,11 @@ bool Actor89::FUN_00881d30()
     reinterpret_cast<::FUN_0040fbf0_shell *>(&((*reinterpret_cast<::Lock89 *>(&::DAT_011f11a0))))->FUN_0040fbf0((char *)(0));
     if (!v22c(0))
         reinterpret_cast<::ProcessLists *>(&((*reinterpret_cast<::Manager89 *>(&::g_011e0e80))))->AddActorToAliveList((::Actor *)(::Actor89 *)(this));
-    int oldLevel3 = 3;
+    intptr_t oldLevel3 = 3;
     Package89* package25 = 0;
     if (process)
     {
-        oldLevel3 = ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((process))->FUN_0045cd60()));
+        oldLevel3 = ((intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((process))->FUN_0045cd60()));
         package25 = process->v22c();
         reinterpret_cast<::ActorDeletionQueue *>(&((*reinterpret_cast<::Manager89 *>(&::g_011e0e80))))->FUN_0096d470((::MobileObject *)(::Actor89 *)(this), oldLevel3);
     }
@@ -142695,7 +145544,7 @@ bool Actor89::FUN_00881d30()
         if (physicsA)
             reinterpret_cast<::RagdollCtl *>((physicsA))->FUN_00c7c150(1);
         if (physicsB)
-            reinterpret_cast<::Manager *>((physicsB))->FUN_00ca2ad0(node16, (unsigned int)(((void *)(reinterpret_cast<::fnv_004a3a20::FUN_004a3a20_shell *>((void *)&(const ::Handle89 &)(FUN_00931ed0()))->FUN_004a3a20()))));
+            reinterpret_cast<::Manager *>((physicsB))->FUN_00ca2ad0(node16, (uintptr_t)(((void *)(reinterpret_cast<::fnv_004a3a20::FUN_004a3a20_shell *>((void *)&(const ::Handle89 &)(FUN_00931ed0()))->FUN_004a3a20()))));
         if (anim && reinterpret_cast<::FUN_00494710_shell *>((anim))->FUN_00494710(224))
         {
             reinterpret_cast<::fnv_004955c0::FUN_004955c0_t *>((anim))->FUN_004955c0(20, 224, -1, 0.0f, -1);
@@ -142992,18 +145841,12 @@ bool ServicesActorView::FUN_008ac680()
         return true;
 }
 
-__if_not_exists(TESAmmo::TESAmmo)
+class TESAmmo : public TESForm
 {
-    struct TESAmmo : public TESForm
-    {
-    };
-}
-__if_not_exists(TESIdleForm::TESIdleForm)
+};
+class TESIdleForm : public TESForm
 {
-    struct TESIdleForm : public TESForm
-    {
-    };
-}
+};
 struct AttackActor;
 struct AttackWeapon;
 struct AttackSequence;
@@ -143019,7 +145862,7 @@ struct AttackSound
 };
 struct AttackAudioManager
 {
-    AttackSound FUN_00ad7480(unsigned, int, void*);
+    AttackSound FUN_00ad7480(uintptr_t, int, void*);
 };
 __if_not_exists(FUN_00453a70)
 {
@@ -143097,11 +145940,6 @@ struct AttackTable
     int unk1C;
     int unk20;
 };
-struct AnimGroupInfo_011977d8;
-__if_not_exists(DAT_011977d8)
-{
-    extern AnimGroupInfo_011977d8 DAT_011977d8[];
-}
 extern AttackControl* DAT_011dea0c;
 extern const char DAT_011840c4[], DAT_01186a18[], DAT_01084af0[], DAT_01084a74[], DAT_01084a64[],
     DAT_01084a88[];
@@ -144480,7 +147318,7 @@ struct AttackActor
 // @fnv 0x008935f0
 bool Pawn::TryAttack(int action)
 {
-    if (this != _g_thePlayer && *(*reinterpret_cast<::Setting *>(&::g_011df6c4)).Bool())
+    if ((void *)this != (void *)_g_thePlayer && *(*reinterpret_cast<::Setting *>(&::g_011df6c4)).Bool())
         return false;
     Weapon* weapon3 = process->weapon() ? ((::Weapon *)(reinterpret_cast<::Twin_0044ddc0 *>((process->weapon()))->GetName())) : 0;
     List* ammoA = process->ammo();
@@ -144526,7 +147364,7 @@ bool Pawn::TryAttack(int action)
         }
     }
     unsigned short played_ = play(action, 0, 0, 0);
-    if (this == _g_thePlayer)
+    if ((void *)this == (void *)_g_thePlayer)
     {
         reinterpret_cast<::AttackActor *>(this)->FUN_00893a40(action);
         return true;
@@ -144539,10 +147377,9 @@ bool Pawn::TryAttack(int action)
     else
     {
         int actual = GetType(played_);
-        const char* actualName = actual == 255 ? "ANIM_GROUP_NONE" : DAT_011977d8[actual].name;
-        const char* requestedName2 = action == 255 ? "ANIM_GROUP_NONE" : DAT_011977d8[action].name;
-        ::FUN_005b5e40(
-            );
+        const char* actualName = actual == 255 ? "ANIM_GROUP_NONE" : reinterpret_cast<GroupInfo *>(&::DAT_011977d8)[actual].name;
+        const char* requestedName2 = action == 255 ? "ANIM_GROUP_NONE" : reinterpret_cast<GroupInfo *>(&::DAT_011977d8)[action].name;
+        ::FUN_005b5e40();
     }
     return false;
 }
@@ -144643,9 +147480,9 @@ void EventActor::ProcessEvents()
         EventInventory* inventory27 = ((::EventInventory *)(::InventoryChanges::CreateForReference((::TESObjectREFR *)(::EventActor *)(this))));
         int count1 = 0;
         if (inventory27 && ammoItem5)
-            count1 = reinterpret_cast<::FUN_004c8f30_shell *>((inventory27))->FUN_004c8f30((int)(((::EventWeapon *)(reinterpret_cast<::Twin_0044ddc0 *>((ammoItem5))->GetName()))));
+            count1 = reinterpret_cast<::FUN_004c8f30_shell *>((inventory27))->FUN_004c8f30((intptr_t)(((::EventWeapon *)(reinterpret_cast<::InventoryEntryFields *>((ammoItem5))->pObject))));
         if (ammoItem5)
-            loaded10 = ((int)(reinterpret_cast<::Callees *>((ammoItem5))->FUN_00726070())) + 1;
+            loaded10 = ((int)(reinterpret_cast<::InventoryEntryFields *>((ammoItem5))->iCountDelta)) + 1;
         if (ammoItem5 && loaded10 <= count1)
             reinterpret_cast<::FUN_0088c650_shell *>(this)->FUN_0088c650((::TESBoundObject *)(::EventWeapon *)(((::EventWeapon *)(reinterpret_cast<::Twin_0044ddc0 *>((ammoItem5))->GetName()))), loaded10, (::ExtraDataList *)(0), true, false, false);
         if (loaded10 >= capacity18 || count1 - loaded10 == 0 || count1 == 0)
@@ -144716,14 +147553,14 @@ void EventActor::ProcessEvents()
                     AttackMelee(0, true);
             }
             if (reinterpret_cast<::Callees *>(&(firingWeapon->effects))->FUN_00726070() && process->Weapon() && ((::EventExtra *)(::FUN_00559450((int *)(process->Weapon())))))
-                ::FUN_005ac750((::TESForm *)(::EventWeapon *)(((::EventWeapon *)(reinterpret_cast<::Twin_0044ddc0 *>((process->Weapon()))->GetName()))), (::ExtraDataList *)(((::EventExtra *)(new ((void *)(((::EventExtra *)(::FUN_00559450((int *)(process->Weapon())))))) ::Vec3()))->value), 0x400000);
+                ::FUN_005ac750((::TESForm *)(::EventWeapon *)(((::EventWeapon *)(reinterpret_cast<::Twin_0044ddc0 *>((process->Weapon()))->GetName()))), (::ExtraDataList *)(((::EventExtra *)(((::Vec3 *)(void *)(((::EventExtra *)(::FUN_00559450((int *)(process->Weapon()))))))))->value), 0x400000);
         }
     }
     if ((flags0 & 2) && weapon3 && weaponItem13)
     {
-        if ((!((::EventSequence *)(reinterpret_cast<::FUN_00491040_shell *>((animation10))->FUN_00491040(0))) || ((int)(reinterpret_cast<::LowProcess *>((((::EventSequence *)(reinterpret_cast<::FUN_00491040_shell *>((animation10))->FUN_00491040(0)))))->GetActiveCombatTarget())) == 1) &&
-            (!((::EventSequence *)(reinterpret_cast<::FUN_00491040_shell *>((animation10))->FUN_00491040(1))) || ((int)(reinterpret_cast<::LowProcess *>((((::EventSequence *)(reinterpret_cast<::FUN_00491040_shell *>((animation10))->FUN_00491040(1)))))->GetActiveCombatTarget())) == 1) &&
-            (!((::EventSequence *)(reinterpret_cast<::FUN_00491040_shell *>((animation10))->FUN_00491040(4))) || ((int)(reinterpret_cast<::LowProcess *>((((::EventSequence *)(reinterpret_cast<::FUN_00491040_shell *>((animation10))->FUN_00491040(4)))))->GetActiveCombatTarget())) == 1))
+        if ((!((::EventSequence *)(reinterpret_cast<::FUN_00491040_shell *>((animation10))->FUN_00491040(0))) || ((intptr_t)(reinterpret_cast<::LowProcess *>((((::EventSequence *)(reinterpret_cast<::FUN_00491040_shell *>((animation10))->FUN_00491040(0)))))->GetActiveCombatTarget())) == 1) &&
+            (!((::EventSequence *)(reinterpret_cast<::FUN_00491040_shell *>((animation10))->FUN_00491040(1))) || ((intptr_t)(reinterpret_cast<::LowProcess *>((((::EventSequence *)(reinterpret_cast<::FUN_00491040_shell *>((animation10))->FUN_00491040(1)))))->GetActiveCombatTarget())) == 1) &&
+            (!((::EventSequence *)(reinterpret_cast<::FUN_00491040_shell *>((animation10))->FUN_00491040(4))) || ((intptr_t)(reinterpret_cast<::LowProcess *>((((::EventSequence *)(reinterpret_cast<::FUN_00491040_shell *>((animation10))->FUN_00491040(4)))))->GetActiveCombatTarget())) == 1))
             UseWeapon(weapon3, 2, reinterpret_cast<::fnv_004bda70::FUN_004bda70_shell *>((weaponItem13))->HasEffect(2), false);
         else
             ((::EventProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))->SetFlags(2);
@@ -144806,9 +147643,9 @@ bool AttackActor::FUN_00893a40(int action)
             else
                 ::FUN_00709470(1, 0, 0, 0, 4);
         }
-        else if (((int)(reinterpret_cast<::AmmoOwner *>((weapon51))->FUN_00525980((::AmmoActor *)(::AttackActor *)(this)))))
+        else if (((intptr_t)(reinterpret_cast<::AmmoOwner *>((weapon51))->FUN_00525980((::AmmoActor *)(::AttackActor *)(this)))))
         {
-            if (!ammo8 || ((int)(reinterpret_cast<::Callees *>((ammo8))->FUN_00726070())) < requiredAmmo28)
+            if (!ammo8 || ((int)(reinterpret_cast<::InventoryEntryFields *>((ammo8))->iCountDelta)) < requiredAmmo28)
                 needsAmmo = true;
         }
         else if (((::AttackNested *)(reinterpret_cast<::fnv_00474a40::FUN_00474a40_shell *>(&(weapon51->equip))->FUN_00474a40())))
@@ -144817,16 +147654,16 @@ bool AttackActor::FUN_00893a40(int action)
             if (ammoForm)
             {
                 ammo8 = ((::AttackAmmo *)(reinterpret_cast<::fnv_00576260::FUN_00576260_shell *>(this)->FUN_00576260((::fnv_00576260::TESBoundObject *)(ammoForm), 0)));
-                if (!ammo8 || ((int)(reinterpret_cast<::Callees *>((ammo8))->FUN_00726070())) < requiredAmmo28)
+                if (!ammo8 || ((int)(reinterpret_cast<::InventoryEntryFields *>((ammo8))->iCountDelta)) < requiredAmmo28)
                     needsAmmo = true;
             }
         }
-        if (needsAmmo && ammo8 && ((int)(reinterpret_cast<::Callees *>((ammo8))->FUN_00726070())))
+        if (needsAmmo && ammo8 && ((int)(reinterpret_cast<::InventoryEntryFields *>((ammo8))->iCountDelta)))
             needsAmmo = false;
         if (needsAmmo)
         {
             AttackInput* input = ((::AttackInput *)(reinterpret_cast<::FUN_00877720_shell *>((DAT_011dea0c))->FUN_00877720()));
-            if (((::AttackSoundForm *)(reinterpret_cast<::FUN_005224c0_Class *>((weapon51))->GetField22C())))
+            if (((::AttackSoundForm *)(*reinterpret_cast<void **>((char *)(weapon51) + 0x22c))))
             {
                 bool isPlayer = this == ((AttackActor*)pPlayer);
                 if (isPlayer && !reinterpret_cast<::HotkeyWheelDisplay *>((input))->SetHotkeyItem(4, 1))
@@ -144842,15 +147679,15 @@ bool AttackActor::FUN_00893a40(int action)
                         if (::FUN_00524d10((bool *)(((AttackActor*)pPlayer))))
                         {
                             reinterpret_cast<::SoundPlaybackHandle *>(&(sound))->operator=((const ::SoundPlaybackHandle &)((const ::AttackSound &)(((AttackAudioManager*)FUN_00453a70())
-                                                   ->FUN_00ad7480(((unsigned int)(::FUN_00511840((char *)(((::AttackSoundForm *)(reinterpret_cast<::FUN_005224c0_Class *>((weapon51))->GetField22C())))))), 0x102,
-                                                                  ((::AttackSoundForm *)(reinterpret_cast<::FUN_005224c0_Class *>((weapon51))->GetField22C()))))));
+                                                   ->FUN_00ad7480(((uintptr_t)(::FUN_00511840((char *)(((::AttackSoundForm *)(*reinterpret_cast<void **>((char *)(weapon51) + 0x22c))))))), 0x102,
+                                                                  ((::AttackSoundForm *)(*reinterpret_cast<void **>((char *)(weapon51) + 0x22c)))))));
                             reinterpret_cast<::SoundPlaybackHandle *>(&(sound))->SetPositionFromArray((float *)(GetPosition()));
                         }
                         else
                         {
                             reinterpret_cast<::SoundPlaybackHandle *>(&(sound))->operator=((const ::SoundPlaybackHandle &)((const ::AttackSound &)(((AttackAudioManager*)FUN_00453a70())
-                                                   ->FUN_00ad7480(((unsigned int)(::FUN_00511840((char *)(((::AttackSoundForm *)(reinterpret_cast<::FUN_005224c0_Class *>((weapon51))->GetField22C())))))), 0x200101,
-                                                                  ((::AttackSoundForm *)(reinterpret_cast<::FUN_005224c0_Class *>((weapon51))->GetField22C()))))));
+                                                   ->FUN_00ad7480(((uintptr_t)(::FUN_00511840((char *)(((::AttackSoundForm *)(*reinterpret_cast<void **>((char *)(weapon51) + 0x22c))))))), 0x200101,
+                                                                  ((::AttackSoundForm *)(*reinterpret_cast<void **>((char *)(weapon51) + 0x22c)))))));
                         }
                         reinterpret_cast<::FUN_00ad8830_shell *>(&(sound))->FUN_00ad8830(0);
                         reinterpret_cast<::fnv_0041a800::FUN_0041a800_shell *>((((::AttackSound *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()))))->FUN_0041a800((void *)&(sound));
@@ -144874,7 +147711,7 @@ bool AttackActor::FUN_00893a40(int action)
     AttackType* package35 = ((::AttackMover *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))->GetAssignedPackage();
     if (package35)
         canReload31 = reinterpret_cast<struct ::FUN_0041ca90 *>((package35))->get() != 8 && reinterpret_cast<struct ::FUN_0041ca90 *>((package35))->get() != 16;
-    if (canReload31 && weapon51 && ((int)(reinterpret_cast<::AmmoOwner *>((weapon51))->FUN_00525980((::AmmoActor *)(::AttackActor *)(this)))))
+    if (canReload31 && weapon51 && ((intptr_t)(reinterpret_cast<::AmmoOwner *>((weapon51))->FUN_00525980((::AmmoActor *)(::AttackActor *)(this)))))
     {
         int count33 = process->GetAmmoCount(this);
         bool isReloadAction22 = false;
@@ -144894,7 +147731,7 @@ bool AttackActor::FUN_00893a40(int action)
             return false;
         }
     }
-    bool isVats22 = ((int)(reinterpret_cast<::Twin_0044ddc0 *>((((AttackMode*)&(*reinterpret_cast<::VATS *>(&::g_011f2250)))))->GetName())) == 4;
+    bool isVats22 = ((int)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)) == 4;
     if ((!reinterpret_cast<::Actor *>(this)->IsSneaking() || isVats22) && (IsCreature() || this == ((AttackActor*)pPlayer)) &&
         (!weapon51 || (weapon51 && !weapon51->FUN_00446390())))
     {
@@ -144951,11 +147788,11 @@ bool AttackActor::FUN_00893a40(int action)
         }
         else if (reinterpret_cast<::fnv_004937c0::TESAnimGroup *>((((::AttackGroup *)(reinterpret_cast<::BSAnimGroupSequence *>((sequence1))->GetAnimGroup()))))->FUN_004937c0())
         {
-            if (((int)(reinterpret_cast<::LowProcess *>((sequence1))->GetActiveCombatTarget())) != 1)
+            if (((intptr_t)(reinterpret_cast<::LowProcess *>((sequence1))->GetActiveCombatTarget())) != 1)
                 return false;
-            if (((::AttackSequence *)(reinterpret_cast<::FUN_00491040_shell *>((animData1))->FUN_00491040(5))) && ((int)(reinterpret_cast<::LowProcess *>((((::AttackSequence *)(reinterpret_cast<::FUN_00491040_shell *>((animData1))->FUN_00491040(5)))))->GetActiveCombatTarget())) != 1)
+            if (((::AttackSequence *)(reinterpret_cast<::FUN_00491040_shell *>((animData1))->FUN_00491040(5))) && ((intptr_t)(reinterpret_cast<::LowProcess *>((((::AttackSequence *)(reinterpret_cast<::FUN_00491040_shell *>((animData1))->FUN_00491040(5)))))->GetActiveCombatTarget())) != 1)
                 return false;
-            if (((::AttackSequence *)(reinterpret_cast<::FUN_00491040_shell *>((animData1))->FUN_00491040(6))) && ((int)(reinterpret_cast<::LowProcess *>((((::AttackSequence *)(reinterpret_cast<::FUN_00491040_shell *>((animData1))->FUN_00491040(6)))))->GetActiveCombatTarget())) != 1)
+            if (((::AttackSequence *)(reinterpret_cast<::FUN_00491040_shell *>((animData1))->FUN_00491040(6))) && ((intptr_t)(reinterpret_cast<::LowProcess *>((((::AttackSequence *)(reinterpret_cast<::FUN_00491040_shell *>((animData1))->FUN_00491040(6)))))->GetActiveCombatTarget())) != 1)
                 return false;
             if (this != ((AttackActor*)pPlayer) && IsCreature())
             {
@@ -144974,7 +147811,7 @@ bool AttackActor::FUN_00893a40(int action)
         }
         else if (reinterpret_cast<::fnv_004937e0::TESAnimGroup *>((((::AttackGroup *)(reinterpret_cast<::BSAnimGroupSequence *>((sequence1))->GetAnimGroup()))))->FUN_004937e0())
         {
-            switch (((AttackTable*)DAT_011977d8)[((::AttackGroup *)(reinterpret_cast<::BSAnimGroupSequence *>((sequence1))->GetAnimGroup()))->FUN_005f2420()].kind)
+            switch (reinterpret_cast<AttackTable *>(&::DAT_011977d8)[((::AttackGroup *)(reinterpret_cast<::BSAnimGroupSequence *>((sequence1))->GetAnimGroup()))->FUN_005f2420()].kind)
             {
             case 5:
                 if (::TESAnimGroup::IsValidAnimationGroup(group24) && reinterpret_cast<::TESObjectREFR *>((sequence1))->GetScale() == 0.0)
@@ -145021,7 +147858,7 @@ bool AttackActor::FUN_00893a40(int action)
         if (weapon51 && reinterpret_cast<::FUN_00524b40_class *>((weapon51))->FUN_00524b40())
         {
             unsigned short actionGroup = (unsigned short)FUN_005f2440(reinterpret_cast<::FUN_004301b0_shell *>((animData1))->FUN_004301b0(4));
-            if (actionGroup >= 24 && actionGroup <= 168 && ((int)(reinterpret_cast<::LowProcess *>((((::AttackSequence *)(reinterpret_cast<::FUN_00491040_shell *>((animData1))->FUN_00491040(4)))))->GetActiveCombatTarget())) == 1)
+            if (actionGroup >= 24 && actionGroup <= 168 && ((intptr_t)(reinterpret_cast<::LowProcess *>((((::AttackSequence *)(reinterpret_cast<::FUN_00491040_shell *>((animData1))->FUN_00491040(4)))))->GetActiveCombatTarget())) == 1)
             {
                 process->SetBurst(1);
                 process->SetAttacking(0);
@@ -145032,8 +147869,8 @@ bool AttackActor::FUN_00893a40(int action)
     else
     {
         int actual5 = FUN_005f2440(group24);
-        const char* actualName9 = actual5 == 255 ? DAT_01084a74 : ((AttackTable*)DAT_011977d8)[actual5].name;
-        const char* requestedName6 = action == 255 ? DAT_01084a74 : ((AttackTable*)DAT_011977d8)[action].name;
+        const char* actualName9 = actual5 == 255 ? DAT_01084a74 : reinterpret_cast<AttackTable *>(&::DAT_011977d8)[actual5].name;
+        const char* requestedName6 = action == 255 ? DAT_01084a74 : reinterpret_cast<AttackTable *>(&::DAT_011977d8)[action].name;
         ::FUN_005b5e40();
     }
     return false;
@@ -145160,7 +147997,7 @@ extern int DAT_011846e8, DAT_01183a00;
 typedef void* VP;
 typedef bool BL;
 typedef void* VV;
-typedef int VI;
+typedef intptr_t VI;
 typedef float VF;
 typedef bool VB;
 typedef double VD;
@@ -145306,6 +148143,9 @@ struct ArgMethods
 };
 struct XObj
 {
+    char pad00[0x8];
+    int unk08;
+
     void* FUN_0044ddc0();
 };
 struct GlobObj
@@ -145947,7 +148787,7 @@ void KillActor::FUN_0089d900(::Actor* arg1, float arg2)
             form = (KillSupport::KillWeaponView*)(xv != 0 ? ((void *)(reinterpret_cast<::Twin_0044ddc0 *>((((KillSupport::XObj*)xv)))->GetName())) : (void*)0);
             yv = ((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((KillSupport::ThisMethods*)this)))->FUN_007af430()));
             if (reinterpret_cast<::fnv_0056af40::FUN_0056af40_shell *>((((KillSupport::ThisMethods*)this)))->FUN_0056af40())
-                yv = (void*)((int)(reinterpret_cast<::FUN_00421720 *>((((::KillSupport::ExtraList2 *)(reinterpret_cast<::FUN_005d43c0_ *>((((KillSupport::KillView2*)this)))->FUN_005d43c0()))))->GetFirstExtraData()));
+                yv = (void*)((intptr_t)(reinterpret_cast<::FUN_00421720 *>((((::KillSupport::ExtraList2 *)(reinterpret_cast<::FUN_005d43c0_ *>((((KillSupport::KillView2*)this)))->FUN_005d43c0()))))->GetFirstExtraData()));
             flag = 0;
             if (((KillSupport::V218View*)this)->target())
                 flag = 0;
@@ -145966,7 +148806,7 @@ void KillActor::FUN_0089d900(::Actor* arg1, float arg2)
                 ::ChallengeManager::UpdateChallengeProgress((::CHALLENGE_TYPE)(2), 1, (::TESForm *)(void *)((void*)0), (::TESForm *)(form), 0, (unsigned short)(short)(signed char)flag,
                                           (unsigned short)(form != 0 ? form->FUN_00446390() + 1 : 1));
             }
-            if (((int)(reinterpret_cast<::Twin_0044ddc0 *>((((KillSupport::GlobObj*)&(*reinterpret_cast<::VATS *>(&::g_011f2250)))))->GetName())) == 4)
+            if (((int)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)) == 4)
                 reinterpret_cast<::FUN_0089f560_Class *>((((KillSupport::GlobObj*)&(*reinterpret_cast<::VATS *>(&::g_011f2250)))))->IncrementCount();
         }
     }
@@ -146009,7 +148849,7 @@ void KillActor::FUN_0089d900(::Actor* arg1, float arg2)
                 ((KillSupport::V3acView*)this)->target(0x10, f90, 0);
                 return;
             }
-            res98 = ((int)(reinterpret_cast<::fnv_008814b0::FUN_008814b0_shell *>((((KillSupport::ThisProc2*)this)))->FUN_008814b0()));
+            res98 = ((intptr_t)(reinterpret_cast<::fnv_008814b0::FUN_008814b0_shell *>((((KillSupport::ThisProc2*)this)))->FUN_008814b0()));
             reinterpret_cast<::fnv_0041cf30::FUN_0041cf30_shell *>((((::KillSupport::ExtraList2 *)(reinterpret_cast<::FUN_005d43c0_ *>((((KillSupport::KillView2*)this)))->FUN_005d43c0()))))->FUN_0041cf30((::fnv_0041cf30::Actor *)(void *)(this));
             ((KillSupport::V68e8View*)m_pBaseProcess)->target(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::KillSupport::Glob700 *>(&::originalRuntimeFloatSetting1014)))))));
             ((KillSupport::V682fcView*)m_pBaseProcess)->target(::DAT_01017868);
@@ -146028,7 +148868,7 @@ void KillActor::FUN_0089d900(::Actor* arg1, float arg2)
                 {
                     pa0 = ((void *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((KillSupport::ThisProc2*)this)))->GetBaseTexture()));
                     pa4 = ((void *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((KillSupport::ThisProc2*)this)))->GetBaseTexture()));
-                    reinterpret_cast<::fnv_00568020::FUN_00568020_shell *>((((KillSupport::M568020*)((KillSupport::V4c8View*)pa4)->target())))->FUN_00568020((unsigned int)(((KillSupport::V4d0View*)pa0)->target(0)), {});
+                    reinterpret_cast<::fnv_00568020::FUN_00568020_shell *>((((KillSupport::M568020*)((KillSupport::V4c8View*)pa4)->target())))->FUN_00568020((uintptr_t)(((KillSupport::V4d0View*)pa0)->target(0)), {});
                 }
             }
             reinterpret_cast<::MagicCaster *>(&(magic))->RemoveCastingArt();
@@ -146151,7 +148991,7 @@ void KillActor::FUN_0089d900(::Actor* arg1, float arg2)
                     if (((KillSupport::V148View*)pp19c)->target() != 0)
                     {
                         pp1a0 = ((void *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((KillSupport::Player2*)KillSupport::DAT_011dea3c)))->GetBaseTexture()));
-                        z5 = (int)((void *)(reinterpret_cast<::Twin_0044ddc0 *>((((KillSupport::XObj*)((KillSupport::V148View*)pp1a0)->target())))->GetName()));
+                        z5 = (intptr_t)(((((KillSupport::XObj*)((KillSupport::V148View*)pp1a0)->target())))->unk08);
                     }
                 }
                 if (z5 == 0 || ::FUN_006450c0((::TESObjectWEAP *)(((KillSupport::Form2*)z5))) ||
@@ -146212,7 +149052,7 @@ void KillActor::FUN_0089d900(::Actor* arg1, float arg2)
         {
             pq1cc = ((void *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((KillSupport::ThisProc*)this)))->GetBaseTexture()));
             pq1d0 = ((void *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((KillSupport::ThisProc*)this)))->GetBaseTexture()));
-            reinterpret_cast<::fnv_00568020::FUN_00568020_shell *>((((KillSupport::M568020*)((KillSupport::V4c8View*)pq1d0)->target())))->FUN_00568020((unsigned int)(((KillSupport::V4d0View*)pq1cc)->target(0)), {});
+            reinterpret_cast<::fnv_00568020::FUN_00568020_shell *>((((KillSupport::M568020*)((KillSupport::V4c8View*)pq1d0)->target())))->FUN_00568020((uintptr_t)(((KillSupport::V4d0View*)pq1cc)->target(0)), {});
         }
     }
     if ((::Actor*)this != KillSupport::DAT_011dea3c)
@@ -146230,7 +149070,7 @@ void KillActor::FUN_0089d900(::Actor* arg1, float arg2)
     {
         pr1d8 = ((void *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((KillSupport::ThisProc*)this)))->GetBaseTexture()));
         ((KillSupport::V660View*)pr1d8)->target();
-        if (((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((KillSupport::Proc45*)((void *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((KillSupport::ThisProc*)this)))->GetBaseTexture())))))->FUN_0045cd60())) == 0)
+        if (((intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((((KillSupport::Proc45*)((void *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((KillSupport::ThisProc*)this)))->GetBaseTexture())))))->FUN_0045cd60())) == 0)
         {
             z4 = !((KillSupport::V360View*)this)->target() && ((bool)(::FUN_00525420()));
             if (z4)
@@ -146273,8 +149113,8 @@ void KillActor::FUN_0089d900(::Actor* arg1, float arg2)
         ::FalloutRadio::SetRadioEnabled(0);
         ::FalloutAudioMedia::FadeOutMedia(0x3e8, (::MEDIATYPE)(0));
         {
-            reinterpret_cast<::FUN_00ad8830_shell *>(&(((KillSupport::DeathAudio*)::FUN_00453a70())
-                ->FUN_00ad7550(KillSupport::DAT_01084d00, 0x901, 0)))->FUN_00ad8830({});
+            reinterpret_cast<::FUN_00ad8830_shell *>(&ResultSlot((((KillSupport::DeathAudio*)::FUN_00453a70())
+                ->FUN_00ad7550(KillSupport::DAT_01084d00, 0x901, 0))))->FUN_00ad8830({});
         }
         reinterpret_cast<::VATS *>((((KillSupport::GlobV*)&(*reinterpret_cast<::VATS *>(&::g_011f2250)))))->FUN_009c8950(0, 0);
         if (((void *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((KillSupport::ThisProc*)this)))->GetBaseTexture())) != 0)
@@ -146292,7 +149132,7 @@ void KillActor::FUN_0089d900(::Actor* arg1, float arg2)
     }
     if ((::Actor*)this == KillSupport::DAT_011dea3c)
     {
-        if (((int)(reinterpret_cast<::Twin_0044ddc0 *>((((KillSupport::GlobObj*)&(*reinterpret_cast<::VATS *>(&::g_011f2250)))))->GetName())) != 4 ||
+        if (((int)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)) != 4 ||
             !((int *)(reinterpret_cast<::ListHolder *>((((KillSupport::GlobV*)&(*reinterpret_cast<::VATS *>(&::g_011f2250)))))->FUN_009c71c0())) ||
             *((int *)(reinterpret_cast<::ListHolder *>((((KillSupport::GlobV*)&(*reinterpret_cast<::VATS *>(&::g_011f2250)))))->FUN_009c71c0())) != 0xf)
             reinterpret_cast<::VATS_COMMAND_LIST *>((((KillSupport::GlobV*)&(*reinterpret_cast<::VATS *>(&::g_011f2250)))))->CreateCommandAndUpdateHUD();
@@ -146300,7 +149140,7 @@ void KillActor::FUN_0089d900(::Actor* arg1, float arg2)
     z6 = ((void *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((KillSupport::ThisProc*)this)))->GetBaseTexture()));
     if (z6 != 0)
     {
-        if (((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((KillSupport::Proc45*)z6)))->FUN_0045cd60())) == 0)
+        if (((intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((((KillSupport::Proc45*)z6)))->FUN_0045cd60())) == 0)
         {
             b225 = ((bool)(reinterpret_cast<::FUN_0089f540_S *>((((KillSupport::P540*)z6)))->GetByteAt18A()));
             if (b225)
@@ -146320,7 +149160,7 @@ void KillActor::FUN_0089d900(::Actor* arg1, float arg2)
     }
     r23c = ::FUN_004216f0((::BaseExtraList *)(((::KillSupport::Extra216 *)(reinterpret_cast<::FUN_005d43c0_ *>((((KillSupport::KillView3*)this)))->FUN_005d43c0()))));
     if (r23c == 0)
-        r23c = (int)((::KillSupport::KillBaseView *)(reinterpret_cast<::Actor *>((((KillSupport::This181*)this)))->GetActorBase()));
+        r23c = (intptr_t)((::KillSupport::KillBaseView *)(reinterpret_cast<::Actor *>((((KillSupport::This181*)this)))->GetActorBase()));
     reinterpret_cast<::FUN_00459060_shell *>((((KillSupport::Obj459*)KillSupport::DAT_011dea10)))->AddOrAccumulateItem(r23c, 1);
     if (((KillSupport::V448View*)this)->target())
     {
@@ -146331,7 +149171,6 @@ void KillActor::FUN_0089d900(::Actor* arg1, float arg2)
     reinterpret_cast<::FUN_005532a0_cls *>(&(v250))->FUN_005532a0(0.0f, 0.0f, 0.0f, 0.0f);
     if (((void *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>((((KillSupport::This930*)this)))->FUN_009306d0())) != 0)
     {
-        new ((void *)&(it25c)) ::Vec3();
         reinterpret_cast<::HolderFUN *>((((KillSupport::Obj66*)((void *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>((((KillSupport::This930*)this)))->FUN_009306d0())))))->FUN_0066ca00(&it25c);
         ::fnv_004a3e00::FUN_004a3e00((*(::fnv_004a3e00::bhkCharacterController *)(&v250)), (*(const ::fnv_004a3e00::NiPoint3 *)(&it25c)));
     }
@@ -146344,7 +149183,7 @@ void KillActor::FUN_0089d900(::Actor* arg1, float arg2)
         ((KillSupport::V2a0View*)this)->target();
     }
     if (((void *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((KillSupport::ThisProc*)this)))->GetBaseTexture())) &&
-        !((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((KillSupport::Proc45*)((void *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((KillSupport::ThisProc*)this)))->GetBaseTexture())))))->FUN_0045cd60())) && r240)
+        !((intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((((KillSupport::Proc45*)((void *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((KillSupport::ThisProc*)this)))->GetBaseTexture())))))->FUN_0045cd60())) && r240)
     {
         pq260 = ((void *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((KillSupport::ThisProc*)this)))->GetBaseTexture()));
         ((KillSupport::V4b4View*)pq260)->target(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::KillSupport::GlobF *>(&::originalRuntimeFloatSetting238)))))));
@@ -146357,7 +149196,6 @@ void KillActor::FUN_0089d900(::Actor* arg1, float arg2)
                 v274 = (*reinterpret_cast<::KillSupport::Vec3 *>((void *)&::NiPoint3::ZERO));
                 if (((double)(reinterpret_cast<::S004586d0_Obj *>((((KillSupport::Obj586*)v250.FUN_00630b40(&buf290))))->FUN_004586d0())) == 0.0)
                 {
-                    new ((void *)&(it2b4)) ::Vec3();
                     reinterpret_cast<::FUN_004a0c90_shell *>(&(it2b4))->FUN_004a0c90(((KillSupport::V2bcView*)this)->target(0));
                     v274 = *((KillSupport::Vec3*)it2b4.FUN_004b4500(&tmp2c0, &(*reinterpret_cast<::KillSupport::Vec3 *>(&::DAT_011a9478))));
                 }
@@ -146387,11 +149225,9 @@ void KillActor::FUN_0089d900(::Actor* arg1, float arg2)
         else if (((KillSupport::V234View*)this)->target())
         {
             ::ApplyHavokOperation((::HavokObject *)(r240), 0, (void *)(1));
-            new ((void *)&(it314)) ::Vec3();
             reinterpret_cast<::FUN_004a0c90_shell *>(&(it314))->FUN_004a0c90(((KillSupport::V2bcView*)this)->target(0));
             reinterpret_cast<::FUN_00416870_t *>(&(za))->FUN_00416870(0.0f, ::DAT_0101712c, 0.0f);
             za = *((KillSupport::Obj320*)it314.FUN_004b4500(&tmp32c, &za));
-            new ((void *)&(it340)) ::Vec3();
             ::fnv_004a3e00::FUN_004a3e00((*(::fnv_004a3e00::bhkCharacterController *)(&it340)), (*(const ::fnv_004a3e00::NiPoint3 *)(&za)));
             ::FUN_0062b930((::NiAVObject *)(r240), (::Vec3Arg *)(void *)(&it340), 0);
         }
@@ -146428,8 +149264,8 @@ cleanup:
     {
         reinterpret_cast<::FUN_00ca20e0_Class *>((((KillSupport::ObjB0*)m_pRagdollPenetrationUtil)))->ClearAndFreeEntries();
         reinterpret_cast<::Manager *>((((KillSupport::ObjB0*)m_pRagdollPenetrationUtil)))->FUN_00ca2ad0(
-                (void *)((int)((KillSupport::V1d0bView*)this)->target()),
-                (int)((void *)(reinterpret_cast<::fnv_004a3a20::FUN_004a3a20_shell *>((((KillSupport::Obj3a20*)((KillSupport::ThisEd0*)this)->FUN_00931ed0(&buf348))))->FUN_004a3a20())));
+                (void *)((intptr_t)((KillSupport::V1d0bView*)this)->target()),
+                (intptr_t)((void *)(reinterpret_cast<::fnv_004a3a20::FUN_004a3a20_shell *>((((KillSupport::Obj3a20*)((KillSupport::ThisEd0*)this)->FUN_00931ed0(&buf348))))->FUN_004a3a20())));
     }
     if (*(unsigned char*)(*reinterpret_cast<::KillSupport::Glob88 *>(&::g_011df690)).FUN_00408d60() != 0)
     {
@@ -146455,25 +149291,25 @@ cleanup:
     s350 = 0;
     if (arg1 == (void*)KillSupport::DAT_011dea3c || (arg1 != 0 && reinterpret_cast<::MiddleHighProcess *>((((KillSupport::ThisMethods*)arg1)))->IsActorInCombat()))
     {
-        s350 = ((int)(reinterpret_cast<::fnv_009931c0::FUN_009931c0_shell *>(((*reinterpret_cast<::KillSupport::Obj993 * *>(&::BGSSaveLoadGlobalDataWorldspacePtr))))->CountCombatGroupMembers((::Actor *)((int)(void*)KillSupport::DAT_011dea3c), (unsigned int *)((int)&s34c))));
+        s350 = ((int)(reinterpret_cast<::fnv_009931c0::FUN_009931c0_shell *>(((*reinterpret_cast<::KillSupport::Obj993 * *>(&::BGSSaveLoadGlobalDataWorldspacePtr))))->CountCombatGroupMembers((::Actor *)((intptr_t)(void*)KillSupport::DAT_011dea3c), (unsigned int *)((intptr_t)&s34c))));
         if ((unsigned int)s350 > 0)
         {
-            if (reinterpret_cast<::fnv_00967160::FUN_00967160_cls *>((((KillSupport::Player2*)KillSupport::DAT_011dea3c)))->FUN_00967160((::fnv_00967160::FUN_00967160_target *)((int)this)))
+            if (reinterpret_cast<::fnv_00967160::FUN_00967160_cls *>((((KillSupport::Player2*)KillSupport::DAT_011dea3c)))->FUN_00967160((::fnv_00967160::FUN_00967160_target *)((intptr_t)this)))
             {
                 reinterpret_cast<::FUN_008b7c00_cls *>((((KillSupport::ThisB7*)this)))->FUN_008b7c00(1, 1);
             }
         }
-        if (((int)(reinterpret_cast<::Twin_0044ddc0 *>((((KillSupport::GlobObj*)&(*reinterpret_cast<::VATS *>(&::g_011f2250)))))->GetName())) == 0)
+        if (((int)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)) == 0)
         {
             if ((unsigned int)s350 <= 0)
             {
-                reinterpret_cast<::fnv_0093e530::PlayerCharacterEx *>((((KillSupport::Player93*)KillSupport::DAT_011dea3c)))->FUN_0093e530((int)(this), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::KillSupport::GlobF *>(&::originalRuntimeFloatSetting1074)))))), 1, -1);
+                reinterpret_cast<::fnv_0093e530::PlayerCharacterEx *>((((KillSupport::Player93*)KillSupport::DAT_011dea3c)))->FUN_0093e530((intptr_t)(this), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::KillSupport::GlobF *>(&::originalRuntimeFloatSetting1074)))))), 1, -1);
             }
         }
     }
     if (((bool)(reinterpret_cast<::ActorStub *>((((KillSupport::ObjF500*)KillSupport::DAT_011dea3c)))->FUN_0089f500())))
     {
-        s354 = ((int)(reinterpret_cast<::FUN_0089f4e0_shell *>(((*reinterpret_cast<::KillSupport::ObjF4e0 * *>(&::g_dataHandler))))->FUN_0089f4e0()));
+        s354 = ((intptr_t)(reinterpret_cast<::FUN_0089f4e0_shell *>(((*reinterpret_cast<::KillSupport::ObjF4e0 * *>(&::g_dataHandler))))->FUN_0089f4e0()));
         if (s354 != 0)
         {
             reinterpret_cast<::fnv_00974a50::FUN_00974a50_shell *>((((KillSupport::Obj974*)&(*reinterpret_cast<::KillSupport::ObjE80 *>(&::g_011e0e80)))))->FUN_00974a50((::TESObjectREFR *)(void *)(this), (void *)(s354));
@@ -146481,7 +149317,7 @@ cleanup:
     }
     if (m_pContinuousBeamProjectile != 0)
     {
-        reinterpret_cast<::FUN_009ab9a0_shell *>((((KillSupport::Obj9ab*)m_pContinuousBeamProjectile)))->FUN_009ab9a0((int)(this));
+        reinterpret_cast<::FUN_009ab9a0_shell *>((((KillSupport::Obj9ab*)m_pContinuousBeamProjectile)))->FUN_009ab9a0((intptr_t)(this));
     }
 }
 
@@ -147137,8 +149973,8 @@ void Actor_8b6ae0::FUN_008b6ae0()
                     NiNode* pLimbNode = ((LimbRestoreProcessView*)((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture())))->V436(limbID);
                     if (pLimbNode)
                     {
-                        NiNode* pParent = ((::NiNode *)(reinterpret_cast<::FUN_009611e0_shell *>((((::NiAVObject*)pLimbNode)))->FUN_009611e0()));
-                        if ((const int *)&(::FUN_009a3830((*(const ::NiFixedString *)(reinterpret_cast<::TESTopicInfoData *>((((LimbRestoreNodeNameView*)pParent)))->GetLinkToList()))), (const int *)&(const ::NiFixedString &)(NiFixedString((*reinterpret_cast<const char *const (*)[]>((void *)&::DAT_01196d6c))[limbID]))))
+                        NiNode* pParent = ((::NiNode *)(reinterpret_cast<::NiAVObjectFields *>((((::NiAVObject*)pLimbNode)))->m_pkParent));
+                        if (::FUN_009a3830((const int *)&(*(const ::NiFixedString *)(reinterpret_cast<::TESTopicInfoData *>((((LimbRestoreNodeNameView*)pParent)))->GetLinkToList())), (const int *)&ResultSlot(NiFixedString((*reinterpret_cast<const char *const (*)[]>((void *)&::DAT_01196d6c))[limbID]))))
                             continue;
                     }
 
@@ -147148,7 +149984,7 @@ void Actor_8b6ae0::FUN_008b6ae0()
                         if (!bObjectsChecked)
                         {
                             BoundObjectArray boundObjects;
-                            reinterpret_cast<::FUN_00605fc0_cls *>((pBase))->ProcessSlots((int)(this), (::FUN_00605fc0_owner *)(::ValidBip01Names *)(pRef->GetValidBip01Names()), (::FUN_00605fc0_disp *)(::BoundObjectArray *)(&boundObjects));
+                            reinterpret_cast<::FUN_00605fc0_cls *>((pBase))->ProcessSlots((intptr_t)(this), (::FUN_00605fc0_owner *)(::ValidBip01Names *)(pRef->GetValidBip01Names()), (::FUN_00605fc0_disp *)(::BoundObjectArray *)(&boundObjects));
                             bEqual = reinterpret_cast<::fnv_004387b0::FUN_004387b0_shell *>(&(boundObjects))->FUN_004387b0((::fnv_004387b0::ArrSI *)(::BoundObjectArray *)(&pkPart->objects));
                             bObjectsChecked = true;
                         }
@@ -147162,7 +149998,7 @@ void Actor_8b6ae0::FUN_008b6ae0()
 
                     reinterpret_cast<::B6FF0Actor *>(this)->CollectLimbBones((::B6FF0Node *)(pLimbNode), false);
                     reinterpret_cast<::Actor_008b64e0 *>(this)->FUN_008b64e0(limbID, pLimbNode);
-                    reinterpret_cast<::fnv_008b52a0::ActorView *>(this)->FUN_008b52a0((void *)(((char)(reinterpret_cast<::FUN_005e5190_Class *>((pBody))->GetByte63()))), limbID, pkPart->byte01, false, false, true);
+                    reinterpret_cast<::fnv_008b52a0::ActorView *>(this)->FUN_008b52a0((void *)(std::intptr_t)((char)(reinterpret_cast<::FUN_005e5190_Class *>((pBody))->GetByte63())), limbID, pkPart->byte01, false, false, true);
 
                     if (pkPart->byte03)
                         RemoveLimb(limbID);
@@ -147624,14 +150460,11 @@ struct EffectAddedItemVirtualView
     virtual void s0();
     virtual bool v1();
 };
-__if_not_exists(::IngredientItem::IngredientItem)
+class IngredientItem : public EffectAddedItemBaseView, public EffectAddedItemVirtualView
 {
-    class IngredientItem : public EffectAddedItemBaseView, public EffectAddedItemVirtualView
-    {
-    };
-}
+};
 typedef IngredientItem EffectAddedIngredientType;
-class ::AlchemyItem;
+class AlchemyItem;
 typedef ::AlchemyItem EffectAddedAlchemyType;
 struct EffectAddedConsumableView : EffectAddedItemBaseView, EffectAddedItemVirtualView
 {
@@ -147677,7 +150510,7 @@ void EffectAddedActorView::FUN_008c4ab0(::ActiveEffect* apEffect)
                         pProcess->v371();
                     pAV = ((void *)(::FUN_0040df90()));
                     if (pAV && pProcess->v370(v2(), pAV) &&
-                        reinterpret_cast<::ProcessListsEx *>((((EffectAddedListsView*)&(*reinterpret_cast<::Manager89 *>(&::g_011e0e80)))))->FUN_00974e90((int)((void*)this), (int)(pAV)))
+                        reinterpret_cast<::ProcessListsEx *>((((EffectAddedListsView*)&(*reinterpret_cast<::Manager89 *>(&::g_011e0e80)))))->FUN_00974e90((intptr_t)((void*)this), (intptr_t)(pAV)))
                         reinterpret_cast<::FUN_00805650_shell *>((((EffectAddedActiveView*)apEffect)))->FUN_00805650();
                     bresistant = false;
                     if (((int)(reinterpret_cast<::BGSMessageInitAccess *>((((EffectAddedActiveView*)apEffect)))->GetIconFormID())) != 7 ||
@@ -147710,4 +150543,14724 @@ void EffectAddedActorView::FUN_008c4ab0(::ActiveEffect* apEffect)
     }
 }
 
+extern const __m128 DAT_010c71e0;
+
+class hkQuaternionDAD;
+
+class __declspec(align(16)) hkVector4DAD
+{
+  public:
+    __forceinline void SetRotatedDirection(const hkQuaternionDAD& quat, const hkVector4DAD& direction);
+    inline hkVector4DAD& operator=(const hkVector4DAD& v)
+    {
+        m_vComponents = v.m_vComponents;
+        return *this;
+    }
+    __forceinline void setAdd4(const hkVector4DAD& a, const hkVector4DAD& b)
+    {
+        m_vComponents = _mm_add_ps(a.m_vComponents, b.m_vComponents);
+    }
+    __forceinline void setMul4(const hkVector4DAD& a, const hkVector4DAD& b)
+    {
+        m_vComponents = _mm_mul_ps(a.m_vComponents, b.m_vComponents);
+    }
+    __forceinline void addMul4(const hkVector4DAD& a, const hkVector4DAD& b)
+    {
+        m_vComponents = _mm_add_ps(m_vComponents, _mm_mul_ps(a.m_vComponents, b.m_vComponents));
+    }
+    __forceinline void setCross(const hkVector4DAD& v1, const hkVector4DAD& v2)
+    {
+        const __m128 cross0 = _mm_mul_ps(_mm_shuffle_ps(v1.m_vComponents, v1.m_vComponents, 0xc9),
+                                         _mm_shuffle_ps(v2.m_vComponents, v2.m_vComponents, 0xd2));
+        const __m128 cross1 = _mm_mul_ps(_mm_shuffle_ps(v1.m_vComponents, v1.m_vComponents, 0xd2),
+                                         _mm_shuffle_ps(v2.m_vComponents, v2.m_vComponents, 0xc9));
+        m_vComponents = _mm_sub_ps(cross0, cross1);
+    }
+    __forceinline void setBroadcast3(const hkVector4DAD& v)
+    {
+        m_vComponents = _mm_shuffle_ps(v.m_vComponents, v.m_vComponents, 0xff);
+    }
+    __forceinline __m128 dot3(const hkVector4DAD& v) const
+    {
+        const __m128 x2 = _mm_mul_ps(m_vComponents, v.m_vComponents);
+        const __m128 sum = _mm_add_ss(_mm_shuffle_ps(x2, x2, 0x55), x2);
+        return _mm_add_ss(_mm_shuffle_ps(x2, x2, 0xaa), sum);
+    }
+
+    __m128 m_vComponents;
+};
+
+class hkQuaternionDAD
+{
+  public:
+      // SetProduct
+    const hkVector4DAD& getImag() const
+    {
+        return m_vec;
+    }
+
+    hkVector4DAD m_vec;
+};
+
+__forceinline void hkVector4DAD::SetRotatedDirection(const hkQuaternionDAD& quat, const hkVector4DAD& direction)
+{
+    hkVector4DAD qreal;
+    qreal.setBroadcast3(quat.m_vec);
+    hkVector4DAD q2minus1;
+    q2minus1.m_vComponents = _mm_add_ps(_mm_mul_ps(qreal.m_vComponents, qreal.m_vComponents), DAT_010c71e0);
+    hkVector4DAD ret;
+    ret.setMul4(q2minus1, direction);
+    hkVector4DAD imagDotDir;
+    imagDotDir.m_vComponents = quat.getImag().dot3(direction);
+    imagDotDir.m_vComponents = _mm_shuffle_ps(imagDotDir.m_vComponents, imagDotDir.m_vComponents, 0);
+    hkVector4DAD imagCrossDir;
+    imagCrossDir.setCross(quat.getImag(), direction);
+    ret.addMul4(imagDotDir, quat.getImag());
+    ret.addMul4(qreal, imagCrossDir);
+    setAdd4(ret, ret);
+}
+
+class hkQsTransformDAD
+{
+  public:
+    __forceinline void SetProduct(const hkQsTransformDAD& t1, const hkQsTransformDAD& t2)
+    {
+        hkVector4DAD temp;
+        temp.SetRotatedDirection(t1.m_rotation, t2.m_vTranslation);
+        m_vTranslation.setAdd4(temp, t1.m_vTranslation);
+        ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(m_rotation), (void *)&(t1.m_rotation), (const ::fnv_00c66320::__m128 *)&(t2.m_rotation), {});
+        m_vScale.setMul4(t1.m_vScale, t2.m_vScale);
+    }
+
+    hkVector4DAD m_vTranslation;
+    hkQuaternionDAD m_rotation;
+    hkVector4DAD m_vScale;
+};
+
+class TransformedPosDAD : public hkVector4DAD
+{
+  public:
+    void FUN_00c7f7a0(const hkQsTransformDAD& a, const hkVector4DAD& b);
+};
+
+// @fnv 0x00c7f7a0
+void TransformedPosDAD::FUN_00c7f7a0(const hkQsTransformDAD& a, const hkVector4DAD& b)
+{
+    hkVector4DAD scaled;
+    scaled.setMul4(a.m_vScale, b);
+    SetRotatedDirection(a.m_rotation, scaled);
+    setAdd4(a.m_vTranslation, *this);
+}
+
+namespace fnv_00cda340 {
+
+struct VectorComponentValue
+{
+    __m128 m_vValue;
+};
+
+struct hkVector4
+{
+    __m128 m_vComponents;
+
+    __forceinline VectorComponentValue dot3(const hkVector4& v) const
+    {
+        __m128 p = _mm_mul_ps(m_vComponents, v.m_vComponents);
+        __m128 y = _mm_shuffle_ps(p, p, 0x55);
+        __m128 z = _mm_shuffle_ps(p, p, 0xaa);
+        VectorComponentValue r;
+        r.m_vValue = _mm_add_ss(z, _mm_add_ss(y, p));
+        return r;
+    }
+};
+
+extern hkVector4 DAT_010c71e0;
+
+struct hkQuaternion
+{
+    hkVector4 m_vec;
+    void SetProduct(const hkQuaternion& q0, const hkQuaternion& q1);
+};
+
+struct hkQsTransform
+{
+    hkVector4 m_vTranslation;
+    hkQuaternion m_rotation;
+    hkVector4 m_vScale;
+};
+
+__forceinline void SetRotatedDirection(hkVector4& out, const hkQuaternion& quat, const hkVector4& direction)
+{
+    const __m128 q = quat.m_vec.m_vComponents;
+    const __m128 d = direction.m_vComponents;
+    __m128 qreal = _mm_shuffle_ps(q, q, 0xff);
+    __m128 ret = _mm_mul_ps(_mm_add_ps(_mm_mul_ps(qreal, qreal), DAT_010c71e0.m_vComponents), d);
+    VectorComponentValue imagDotDir = quat.m_vec.dot3(direction);
+    ret = _mm_add_ps(ret, _mm_mul_ps(_mm_shuffle_ps(imagDotDir.m_vValue, imagDotDir.m_vValue, 0), q));
+    __m128 cross = _mm_sub_ps(_mm_mul_ps(_mm_shuffle_ps(d, d, 0xd2), _mm_shuffle_ps(q, q, 0xc9)),
+                              _mm_mul_ps(_mm_shuffle_ps(d, d, 0xc9), _mm_shuffle_ps(q, q, 0xd2)));
+    ret = _mm_add_ps(ret, _mm_mul_ps(qreal, cross));
+    out.m_vComponents = _mm_add_ps(ret, ret);
+}
+
+struct hkaSkeleton
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    short* m_kParentIndices;
+    int unk10;
+    int unk14;
+    int unk18;
+    int m_iBoneCount;
+};
+
+struct SkeletonPoseData
+{
+    hkaSkeleton* m_pSkeleton;
+    hkQsTransform* m_pLocalPose;
+    int m_localPoseSize;
+    int m_localPoseCapacity;
+    hkQsTransform* m_pModelPose;
+    int m_modelPoseSize;
+    int m_modelPoseCapacity;
+    unsigned int* m_pBoneFlags;
+    int m_boneFlagsSize;
+    int m_boneFlagsCapacity;
+    bool m_bPoseFlag;
+
+    void FUN_00cda340();
+};
+
+// @fnv 0x00cda340
+void SkeletonPoseData::FUN_00cda340()
+{
+    if (m_bPoseFlag)
+        return;
+
+    const int numBones = m_pSkeleton->m_iBoneCount;
+    for (int b = 0; b < numBones; b++)
+    {
+        if (m_pBoneFlags[b] & 2)
+        {
+            const short parentId = m_pSkeleton->m_kParentIndices[b];
+            const hkQsTransform& local = m_pLocalPose[b];
+            if (parentId != -1)
+            {
+                const hkQsTransform& parent = m_pModelPose[parentId];
+                hkQsTransform& out = m_pModelPose[b];
+                hkVector4 t;
+                SetRotatedDirection(t, parent.m_rotation, local.m_vTranslation);
+                out.m_vTranslation.m_vComponents = _mm_add_ps(t.m_vComponents, parent.m_vTranslation.m_vComponents);
+                ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(out.m_rotation), (void *)&(parent.m_rotation), (const ::fnv_00c66320::__m128 *)&(local.m_rotation), {});
+                out.m_vScale.m_vComponents = _mm_mul_ps(parent.m_vScale.m_vComponents, local.m_vScale.m_vComponents);
+            }
+            else
+            {
+                hkQsTransform& out = m_pModelPose[b];
+                out.m_vTranslation.m_vComponents = local.m_vTranslation.m_vComponents;
+                out.m_rotation.m_vec.m_vComponents = local.m_rotation.m_vec.m_vComponents;
+                out.m_vScale.m_vComponents = local.m_vScale.m_vComponents;
+            }
+            m_pBoneFlags[b] &= ~2u;
+        }
+    }
+    m_bPoseFlag = true;
+}
+}  // namespace fnv_00cda340
+
+struct __declspec(align(16)) BlendQuat {
+    float x, y, z, w;
+    BlendQuat& operator=(const BlendQuat& other) { *(__m128*)&x=*(const __m128*)&other.x; return *this; }
+    void FUN_00cb2850(const BlendQuat&, const BlendQuat&, float);
+};
+struct BlendTransform { BlendQuat rotation; BlendQuat translation; BlendQuat scale; };
+struct BlendSkeleton {
+    int unk000;
+    int unk004;
+    int unk008;
+    BlendTransform* transforms;
+    BlendTransform* getTransforms() { return transforms; }
+    int unk010;
+    int unk014;
+    int unk018;
+    int count;
+    int unk020;
+    void* mapping;
+    void* getMapping() { return mapping; }
+};
+struct BlendPose {
+    int unk000;
+    int unk004;
+    int unk008;
+    int count;
+    int unk010;
+    int unk014;
+    int unk018;
+    int unk01c;
+    int unk020;
+    int unk024;
+    int unk028;
+    BlendSkeleton* skeleton;
+};
+struct BlendArray {
+    int unk00; unsigned short* data; unsigned int size;
+    int find(unsigned short value) const {
+        for (unsigned int i=0; i<size; ++i) {
+            if (data && data[i]==value) return i;
+        }
+        return -1;
+    }
+};
+struct BlendRagdoll {
+    int unk000;
+    int unk004;
+    int unk008;
+    int unk00c;
+    int unk010;
+    int unk014;
+    int unk018;
+    int unk01c;
+    int unk020;
+    int unk024;
+    int unk028;
+    int unk02c;
+    int unk030;
+    int unk034;
+    int unk038;
+    int unk03c;
+    BlendArray bones;
+};
+struct BlendState { int unk00,unk04,unk08,unk0c; intptr_t source,dest; BlendRagdoll* ragdoll; };
+struct BlendAccess {
+    int* FUN_00cda4b0();
+    intptr_t sourceValue() {return *((int *)(reinterpret_cast<::FUN_00cda8d0_class *>(this)->FUN_00cda8d0()));}
+    int valueA() {return *FUN_00cda4b0();}
+    int valueB() {return *((int *)(reinterpret_cast<::FUN_00cdb290 *>(this)->GetPlus4()));}
+};
+struct BlendAllocator { char* top; };
+struct BlendBuffer {
+    BlendTransform* data; int size;
+    static BlendTransform* allocate(int n) {
+        BlendAllocator* a=static_cast<BlendAllocator *>(FUN_00c85750());
+        BlendTransform* result=(BlendTransform*)a->top;
+        int bytes=(n*(int)sizeof(BlendTransform)+127)&~127;
+        a->top = a->top + bytes;
+        return result;
+    }
+    BlendBuffer(int n) { data=allocate(n); }
+    ~BlendBuffer() { static_cast<BlendAllocator *>(FUN_00c85750())->top=(char*)data; }
+};
+struct BlendController {
+    int unk000;
+    int unk004;
+    int unk008;
+    int unk00c;
+    int unk010;
+    int unk014;
+    int unk018;
+    int unk01c;
+    int unk020;
+    int unk024;
+    int unk028;
+    int unk02c;
+    int unk030;
+    int unk034;
+    int unk038;
+    int unk03c;
+    int unk040;
+    int unk044;
+    BlendPose* pose;
+    int unk04c;
+    int unk050;
+    int unk054;
+    int unk058;
+    int unk05c;
+    int unk060;
+    int unk064;
+    int unk068;
+    int unk06c;
+    int unk070;
+    int unk074;
+    int unk078;
+    int unk07c;
+    int unk080;
+    int unk084;
+    BlendAccess* access;
+    int unk08c;
+    int unk090;
+    int unk094;
+    int unk098;
+    int unk09c;
+    int unk0a0;
+    int unk0a4;
+    int unk0a8;
+    int unk0ac;
+    int unk0b0;
+    int unk0b4;
+    int unk0b8;
+    int unk0bc;
+    int unk0c0;
+    int unk0c4;
+    int unk0c8;
+    int unk0cc;
+    int unk0d0;
+    int unk0d4;
+    int unk0d8;
+    int unk0dc;
+    int unk0e0;
+    int unk0e4;
+    int unk0e8;
+    int unk0ec;
+    int unk0f0;
+    int unk0f4;
+    int unk0f8;
+    int unk0fc;
+    int unk100;
+    int unk104;
+    int unk108;
+    int unk10c;
+    int unk110;
+    int unk114;
+    int unk118;
+    int unk11c;
+    int unk120;
+    int unk124;
+    int unk128;
+    int unk12c;
+    int unk130;
+    int unk134;
+    int unk138;
+    int unk13c;
+    int unk140;
+    int unk144;
+    int unk148;
+    int unk14c;
+    int unk150;
+    int unk154;
+    int unk158;
+    int unk15c;
+    int unk160;
+    int unk164;
+    int unk168;
+    int unk16c;
+    int unk170;
+    int unk174;
+    int unk178;
+    int unk17c;
+    int unk180;
+    int unk184;
+    int unk188;
+    int unk18c;
+    int unk190;
+    int unk194;
+    int unk198;
+    int unk19c;
+    int unk1a0;
+    int unk1a4;
+    int unk1a8;
+    int unk1ac;
+    int unk1b0;
+    int unk1b4;
+    int unk1b8;
+    int unk1bc;
+    int unk1c0;
+    int unk1c4;
+    int unk1c8;
+    int unk1cc;
+    int unk1d0;
+    int unk1d4;
+    int unk1d8;
+    int unk1dc;
+    int unk1e0;
+    int unk1e4;
+    int unk1e8;
+    int unk1ec;
+    int unk1f0;
+    int unk1f4;
+    int unk1f8;
+    int unk1fc;
+    int unk200;
+    int unk204;
+    int unk208;
+    int unk20c;
+    int unk210;
+    int unk214;
+    int unk218;
+    int unk21c;
+    int unk220;
+    int unk224;
+    int unk228;
+    int unk22c;
+    int unk230;
+    int unk234;
+    int unk238;
+    int unk23c;
+    int unk240;
+    int unk244;
+    int unk248;
+    int unk24c;
+    int unk250;
+    int unk254;
+    int unk258;
+    int unk25c;
+    int unk260;
+    int unk264;
+    int unk268;
+    int unk26c;
+    int unk270;
+    int unk274;
+    int unk278;
+    int unk27c;
+    int unk280;
+    int unk284;
+    int unk288;
+    int unk28c;
+    float blend;
+    int unk294;
+    int unk298;
+    int unk29c;
+    int unk2a0;
+    BlendState* state;
+    BlendState* GetReferenceTimeStep() {return state;}
+    __int64 start;
+
+    __int64 duration;
+
+    void FUN_00c7c870();
+};
+union __declspec(align(16)) PackedVector { __m128 vector; unsigned char lanes[16]; };
+struct InternedHeader { long references; unsigned int length; };
+
+
+// Interned names and intrusive scene-object references.
+void* __cdecl FUN_00aa13e0(unsigned int);
+
+__forceinline void RetainString(char* text) {
+    if (text != DAT_0109b220) { InternedHeader& header = *((InternedHeader*)text - 1); InterlockedIncrement(&header.references); }
+}
+__forceinline void ReleaseString(char* text) {
+    if (text != DAT_0109b220) InterlockedDecrement(&((InternedHeader*)text - 1)->references);
+}
+struct MatrixTransform;
+struct BoneTransformData;
+struct FUN_00a5d3a0 {
+    virtual void Reserved();
+    virtual void Destroy();
+    long references;
+    FUN_00a5d3a0();
+};
+typedef FUN_00a5d3a0 RefBase;
+struct CachedScene : RefBase {
+    __forceinline BoneTransformData* GetSkeleton() { return skeleton; }
+    __forceinline void ApplyTransform(const MatrixTransform&);
+    __forceinline void ApplyFinalTransform(const MatrixTransform&);
+    __forceinline void ApplyTransformPointer(const MatrixTransform*);
+    BoneTransformData* skeleton;
+    BoneTransformData* animation;
+    void* sourceAnimation;
+    void* sourceSkeleton;
+    int reserved18;
+    int flags;
+    CachedScene() {
+        skeleton = 0; animation = 0; sourceAnimation = 0; sourceSkeleton = 0; flags = 0;
+    }
+    virtual void Reserved();
+    virtual void Destroy();
+};
+// The reference-counted value type of the 0x00b582b0 map (defined the same way in the staging unit that owns the map).
+struct MapRefObject
+{
+    virtual void RefVirtual();
+    virtual void DeleteThis();
+    unsigned int refs;
+    void IncRefCount()
+    {
+        InterlockedIncrement((volatile long*)&refs);
+    }
+    void DecRefCount()
+    {
+        if (InterlockedDecrement((volatile long*)&refs) == 0)
+            DeleteThis();
+    }
+};
+struct SceneRef {
+    CachedScene* p;
+    SceneRef(CachedScene* v) : p(v) { if (p) InterlockedIncrement(&p->references); }
+    SceneRef(const SceneRef& r) : p(r.p) { if(p) InterlockedIncrement(&p->references); }
+    ~SceneRef() { if(p && !InterlockedDecrement(&p->references)) p->Destroy(); }
+};
+__forceinline void AssignScene(CachedScene*& slot, CachedScene* created) {
+    CachedScene* previous = slot;
+    if (previous != created) {
+        if (previous && !InterlockedDecrement(&previous->references)) previous->Destroy();
+        slot = created;
+        if (created) InterlockedIncrement(&created->references);
+    }
+}
+struct CacheManager {
+    void FUN_00e92760(char*, CachedScene**);
+};
+
+struct Allocator {
+    virtual void Reserved();
+    virtual void* Allocate(unsigned int);
+    virtual void Reserved8();
+    virtual void ReservedC();
+    virtual void* Resize(void*, unsigned int);
+};
+struct MemoryRouter {
+    char* top;
+    int FunctionAtSlot4, VirtualFunction8, reservedC;
+    Allocator* allocator;
+    __forceinline Allocator& AllocatorInstance() { return *allocator; }
+};
+__forceinline MemoryRouter* GetRouter() { return (MemoryRouter*)FUN_00c85750(); }
+struct ArrayStorage {
+    void* data;
+    int size;
+    int capacity;
+    __forceinline ArrayStorage() : data(0), size(0), capacity(0x80000000) {}
+    __forceinline ~ArrayStorage() {
+        Allocator& a = GetRouter()->AllocatorInstance();
+        size = 0;
+        if ((capacity & 0x80000000) == 0) a.Resize(data, (capacity & 0x3fffffff) * 4);
+        data = 0; capacity = 0x80000000;
+    }
+};
+struct ScratchArray : ArrayStorage {
+    char* saved;
+    __forceinline ScratchArray() {
+        MemoryRouter* m = GetRouter();
+        char* p = m->top;
+        m->top = p + 0x100;
+        data = p; capacity = 0x80000040; saved = p;
+    }
+    __forceinline ~ScratchArray() {
+        char* original = saved;
+        bool owned = original != data;
+        if (!owned) size = 0;
+        GetRouter()->top = original;
+    }
+};
+struct MatrixTransform {
+    float rotation[3][3];
+    float x, y, z;
+    float scale;
+    void FUN_00cb2d90(void*);
+    MatrixTransform FUN_0062c250(const MatrixTransform&) const;
+};
+struct C7C2B0_Heap
+{
+    virtual void v00();
+    virtual void v04();
+    virtual void v08();
+    virtual void v0C();
+    virtual void ReturnMemory(void* p, int numBytes);
+};
+struct C7C2B0_Pair
+{
+    int a;
+    int b;
+};
+struct C7C2B0_Array
+{
+    C7C2B0_Pair* m_data;
+    int m_iElementCount;
+    int m_iCapacityState;
+    __forceinline ~C7C2B0_Array()
+    {
+        Holder* holder = static_cast<::Holder *>(::FUN_00c85750());
+        C7C2B0_Heap* heap = (C7C2B0_Heap*)holder->p;
+        m_iElementCount = 0;
+        if ((m_iCapacityState & 0x80000000) == 0)
+        {
+            int cap = m_iCapacityState & 0x3fffffff;
+            C7C2B0_Pair* data = m_data;
+            heap->ReturnMemory(data, cap * sizeof(C7C2B0_Pair));
+        }
+        m_data = 0;
+        m_iCapacityState = 0x80000000;
+    }
+};
+struct ShapeArrays
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    C7C2B0_Array m_iThirdValue;
+    C7C2B0_Array m_kPointB;
+    C7C2B0_Array m_kPointA;
+    ~ShapeArrays();
+};
+class hkBool {
+public:
+    __forceinline hkBool() {}
+    __forceinline hkBool(bool b) { m_cBooleanValue = (char)b; }
+    __forceinline operator bool() const { return m_cBooleanValue != 0; }
+    char m_cBooleanValue;
+};
+struct Head
+{
+    hkBool a, b;
+    int c;
+    Head() : a(true), b(true), c(0)
+    {}
+};
+struct hkArrayStandIn
+{
+    void* m_data;
+    int m_iElementCount;
+    int m_iCapacityState;
+    hkArrayStandIn() : m_data(0), m_iElementCount(0), m_iCapacityState(0x80000000)
+    {}
+};
+struct FUN_00c7bfd0
+{
+    int m_00, m_04, m_08;
+    float m_0c;
+    float m_10;
+    hkArrayStandIn m_14, m_20, m_2c;
+    Head m_38;
+    int m_40, m_44, m_48;
+    float m_4c, m_50;
+    FUN_00c7bfd0();
+};
+struct __declspec(align(16)) PoseState {
+    BoneTransformData* animation;
+    BoneTransformData* skeleton;
+    int reserved08;
+    float blend, weight;
+    void* transforms; int transformCount, transformCapacity;
+    void* positions; int positionCount, positionCapacity;
+    void* rotations; int rotationCount, rotationCapacity;
+    unsigned char localValid, active, reserved3a, reserved3b;
+    int reserved3c, reserved40, reserved44, reserved48;
+    float scale, inverseScale;
+    __forceinline PoseState() throw() { new ((void *)this) ::FUN_00c7bfd0(); }
+    __forceinline ~PoseState() { reinterpret_cast<::ShapeArrays *>(this)->ShapeArrays::~ShapeArrays(); }
+};
+struct PoseBuffer {
+    int reserved00, reserved04, reserved08, reserved0c;
+    int VirtualFunction10, reserved14, reserved18, reserved1c;
+    int reserved20, VirtualFunction24, VirtualFunction28, reserved2c;
+    PackedVector translation, rotation, scale;
+    unsigned char valid;
+    unsigned char reserved61, reserved62, reserved63;
+    int reserved64, reserved68, reserved6c;
+    PoseBuffer() { reinterpret_cast<::MapperInitialization *>(this)->FUN_00ce5310(); }
+    ~PoseBuffer() { reinterpret_cast<::fnv_00ce5370::FUN_00ce5370_cls *>(this)->FUN_00ce5370(); }
+};
+struct FUN_00ce4a20 {
+    int reserved0;
+    unsigned short allocationSize;
+    unsigned short FunctionAtSlot6;
+    int VirtualFunction8, reservedC, VirtualFunction10, reserved14, reserved18, reserved1c;
+    int reserved20, VirtualFunction24, VirtualFunction28, reserved2c;
+    int reserved30, reserved34, reserved38, reserved3c;
+    int reserved40, reserved44, reserved48, reserved4c;
+    int reserved50, reserved54, reserved58, reserved5c;
+    int reserved60, reserved64, reserved68, reserved6c;
+    int reserved70, reserved74, reserved78, reserved7c;
+    FUN_00ce4a20(PoseBuffer* p);
+    __forceinline static void* operator new(std::size_t n) { FUN_00ce4a20* p = (FUN_00ce4a20*)GetRouter()->AllocatorInstance().Allocate(n); p->allocationSize = (unsigned short)n; return p; }
+    static void operator delete(void*);
+};
+typedef FUN_00ce4a20 PoseSource;
+struct BoneLock { unsigned char value;
+    __forceinline BoneLock& operator=(bool b) { value = b; return *this; }
+};
+struct BoneName { const char* taggedName; BoneLock locked; unsigned char FunctionAtSlot5, FunctionAtSlot6, VirtualFunction7;
+    __forceinline const char* Name() const { return (const char*)((uintptr_t)taggedName & ~1u); }
+};
+struct BoneTransformData {
+    int reserved0, FunctionAtSlot4, VirtualFunction8, reservedC, VirtualFunction10, reserved14;
+    BoneName* bones;
+    int boneCount;
+    int reserved20;
+    void* transform;
+    int VirtualFunction28, reserved2c, reserved30;
+    MatrixTransform localTransform;
+    __forceinline void* GetTransform() { return transform; }
+    __forceinline BoneName* GetBones() { return bones; }
+    __forceinline BoneName& GetBone(int i) { BoneName* p = &bones[i]; return *p; }
+    __forceinline MatrixTransform& GetLocalTransform() { return localTransform; }
+};
+__forceinline void CachedScene::ApplyTransform(const MatrixTransform& value) { ::FUN_00c74dd0((::C74QsTransform *)(skeleton->transform), (const ::C74Transform *)(const ::MatrixTransform *)(&value)); }
+__forceinline void CachedScene::ApplyTransformPointer(const MatrixTransform* value) { ::FUN_00c74dd0((::C74QsTransform *)(skeleton->transform), (const ::C74Transform *)(value)); }
+__forceinline void CachedScene::ApplyFinalTransform(const MatrixTransform& value) { ::FUN_00c74dd0((::C74QsTransform *)(void *)(GetSkeleton()->GetTransform()), (const ::C74Transform *)(const ::MatrixTransform *)(&value)); }
+struct InputScene {
+    int reserved0, FunctionAtSlot4;
+    BoneTransformData* skeleton;
+    int reservedC;
+    void* extra;
+    __forceinline BoneTransformData* GetSkeleton() { return skeleton; }
+};
+struct Argument { int reserved0, FunctionAtSlot4; char* name; };
+struct TransformSource {
+    int reserved0, FunctionAtSlot4, VirtualFunction8, reservedC;
+    int VirtualFunction10, reserved14, reserved18, reserved1c;
+    PackedVector basis;
+    PackedVector quaternion;
+};
+struct __declspec(align(16)) Conversion {
+    PackedVector rotation;
+    PackedVector translation;
+    PackedVector scale;
+    PackedVector quaternion;
+    void FUN_00cb2d90(void*);
+};
+union TemporaryPoseWork {
+    Conversion converted;
+    MatrixTransform result;
+};
+struct ExtraView {  };
+struct FUN_00cdb400 {
+    float* values;
+    int reserved04, reserved08, reserved0c, VirtualFunction10, reserved14, reserved18, reserved1c;
+    int reserved20, VirtualFunction24, VirtualFunction28, reserved2c, reserved30, reserved34, reserved38, reserved3c;
+    int reserved40, reserved44;
+    FUN_00cdb400(void* p);
+    __forceinline static void* operator new(std::size_t n) { return GetRouter()->AllocatorInstance().Allocate(n); }
+    static void operator delete(void*);
+};
+typedef FUN_00cdb400 SkinState;
+extern float DAT_01267c7c, DAT_01267c88, DAT_01267c94, DAT_01267ca0;
+extern float DAT_01267cac, DAT_01267cb8, DAT_01267cc4, DAT_01267cd0;
+extern float DAT_01267cdc, DAT_01267ce8, DAT_01267cf4, DAT_01267d00;
+
+struct SceneOwner {
+    float rotation[3][3];
+    float x, y, z;
+    void* unk30;
+    void* unk34;
+    void* unk38;
+    void* unk3C;
+    unsigned char unk40;
+    unsigned char unk41;
+    unsigned char initialized;
+    unsigned char unk43;
+    void* unk44;
+    void* skin;
+    SkinState* state;
+    int reserved50, reserved54;
+    void* skeletonHandle;
+    void* unk54;
+    void* unk58;
+    void* unk5C;
+    void* unk60;
+    void* unk64;
+    void* unk68;
+    void* unk6C;
+    void* unk70;
+    void* unk74;
+    void* unk78;
+    void* unk7C;
+    void* unk80;
+    void* unk84;
+    void* unk88;
+    void* unk8C;
+    void* unk90;
+    void* unk94;
+    void* unk98;
+    void* unk9C;
+    void* unkA0;
+    void* unkA4;
+    void* unkA8;
+    void* unkAC;
+    void* unkB0;
+    void* unkB4;
+    void* unkB8;
+    void* unkBC;
+    void* unkC0;
+    void* unkC4;
+    void* unkC8;
+    void* unkCC;
+    void* unkD0;
+    void* unkD4;
+    void* unkD8;
+    void* unkDC;
+    void* unkE0;
+    void* unkE4;
+    void* unkE8;
+    void* unkEC;
+    void* unkF0;
+    void* unkF4;
+    void* unkF8;
+    void* unkFC;
+    void* unk100;
+    void* unk104;
+    void* unk108;
+    void* unk10C;
+    void* unk110;
+    void* unk114;
+    void* unk118;
+    void* unk11C;
+    void* unk120;
+    void* unk124;
+    void* unk128;
+    void* unk12C;
+    void* unk130;
+    void* unk134;
+    void* unk138;
+    void* unk13C;
+    void* unk140;
+    void* unk144;
+    void* unk148;
+    void* unk14C;
+    void* unk150;
+    void* unk154;
+    void* unk158;
+    void* unk15C;
+    void* unk160;
+    void* unk164;
+    void* unk168;
+    void* unk16C;
+    void* unk170;
+    void* unk174;
+    void* unk178;
+    void* unk17C;
+    void* unk180;
+    void* unk184;
+    void* unk188;
+    void* unk18C;
+    void* unk190;
+    void* unk194;
+    void* unk198;
+    void* unk19C;
+    void* unk1A0;
+    void* unk1A4;
+    void* unk1A8;
+    void* unk1AC;
+    void* unk1B0;
+    void* unk1B4;
+    void* unk1B8;
+    void* unk1BC;
+    void* unk1C0;
+    void* unk1C4;
+    void* unk1C8;
+    void* unk1CC;
+    void* unk1D0;
+    void* unk1D4;
+    void* unk1D8;
+    void* unk1DC;
+    void* unk1E0;
+    void* unk1E4;
+    void* unk1E8;
+    void* unk1EC;
+    void* unk1F0;
+    void* unk1F4;
+    void* unk1F8;
+    void* unk1FC;
+    void* unk200;
+    void* unk204;
+    void* unk208;
+    void* unk20C;
+    void* unk210;
+    unsigned char mode;
+    unsigned char unk215;
+    unsigned char unk216;
+    unsigned char unk217;
+    void* unk218;
+    void* unk21C;
+    void* unk220;
+    void* unk224;
+    void* unk228;
+    void* unk22C;
+    void* unk230;
+    void* unk234;
+    void* unk238;
+    void* unk23C;
+    void* unk240;
+    void* unk244;
+    void* unk248;
+    void* unk24C;
+    void* unk250;
+    void* unk254;
+    void* unk258;
+    void* unk25C;
+    void* unk260;
+    void* unk264;
+    void* unk268;
+    void* unk26C;
+    void* unk270;
+    void* unk274;
+    void* unk278;
+    void* unk27C;
+    void* unk280;
+    void* unk284;
+    void* unk288;
+    void* unk28C;
+    void* unk290;
+    void* unk294;
+    char* name;
+    CachedScene* cached;
+    int reserved2a8, reserved2ac, reserved2b0, reserved2b4;
+    int headBone;
+    __forceinline CachedScene* GetCached() { return cached; }
+    __forceinline char* GetName() { return name; }
+    void FUN_00c7e9a0(Argument*, const char*);
+    void FUN_00c7e3b0();
+};
+
+// @fnv 0x00c7e9a0
+void SceneOwner::FUN_00c7e9a0(Argument* sourceInput, const char* requestedName) {
+    char* old = name;
+    if (old != requestedName) {
+        name = ::NiGlobalStringTable::AddString(requestedName);
+        ReleaseString(old);
+    }
+    if (!requestedName) {
+        char* inherited = sourceInput->name;
+        if (name != inherited) {
+            RetainString(inherited);
+            char* previous = name;
+            ReleaseString(previous);
+            name = inherited;
+        }
+    }
+    CachedScene** cacheSlot = &cached;
+    DAT_011b0300.FUN_00e92760(GetName(), cacheSlot);
+    CachedScene* found = *cacheSlot;
+    if (!found) {
+        AssignScene(*cacheSlot, new CachedScene);
+        reinterpret_cast<::PointerMap *>(&(DAT_011b0300))->InsertOrAssign((uintptr_t)(GetName()), (*(::NiPointer< ::MapRefObject> *)&(const ::SceneRef &)(SceneRef(*cacheSlot))));
+    }
+    if (((::InputScene *)(::FUN_00c802d0((::MyNode *)(sourceInput))))) {
+        InputScene* scene = ((::InputScene *)(::FUN_00c802d0((::MyNode *)(sourceInput))));
+        skeletonHandle = scene->GetSkeleton()->GetBones();
+        ScratchArray first;
+        ScratchArray second;
+        ::ApplyToCollisionBodies((::C7B140AVObject *)(::BoneTransformData *)(scene->GetSkeleton()), &first, &second);
+        if (::FUN_00cea030(&first, &second) != 1) {
+            CachedScene* entry = *cacheSlot;
+            if (!entry->skeleton) {
+                entry->skeleton = ((::BoneTransformData *)(::FUN_00ceb2c0((::BodyList *)(::ArrayStorage *)(&first), (::ConstraintList *)(::ArrayStorage *)(&second))));
+                (*cacheSlot)->ApplyTransform(scene->GetSkeleton()->GetLocalTransform());
+                TransformSource* source;
+                if (!scene->extra) source = 0;
+                else source = ((::TransformSource *)(reinterpret_cast<::NiObject *>((((ExtraView*)scene->extra)))->DynamicCast((const ::NiRTTI *)(void *)(&(*reinterpret_cast<int *>(&::g_012683c8))))));
+                MatrixTransform transform;
+                reinterpret_cast<::NiTransform *>(&(transform))->ResetToIdentity();
+                if (source) {
+                    Conversion converted;
+                    converted.quaternion.vector = source->quaternion.vector;
+                    reinterpret_cast<::RotationRows *>(&(converted))->FUN_00cb2d90(&source->basis);
+                    ::FUN_00624ad0((::NiTransform *)(::MatrixTransform *)(&transform), (::TopicH *)(&converted));
+                }
+                MatrixTransform copied;
+                copied = scene->GetSkeleton()->GetLocalTransform().FUN_0062c250(transform);
+                (*cacheSlot)->ApplyTransformPointer(&copied);
+            }
+            if (cached->skeleton) {
+                skin = ((void *)(::FUN_00cea810((::Skeleton *)(GetCached()->skeleton), (*(const ::Array< ::RigidBody *> *)(&first)), (*(const ::Array< ::Constraint *> *)(&second)))));
+                BoneTransformData* skeleton = GetCached()->skeleton;
+                for (int bone = 0; bone < skeleton->boneCount; ++bone) {
+                    const char* boneName = skeleton->GetBone(bone).Name();
+                    if (((int)(std::uintptr_t)(std::strstr((char *)(boneName), "Head")))) headBone = bone;
+                }
+                if (skin) {
+                    state = new SkinState(skin);
+                    float* values = state->values;
+                    values[0] = DAT_01267c7c; values[1] = DAT_01267c88;
+                    values[2] = DAT_01267c94; values[3] = DAT_01267ca0;
+                    values[4] = DAT_01267cac; values[5] = DAT_01267cb8;
+                    values[6] = DAT_01267cc4; values[7] = DAT_01267cd0;
+                    values[8] = DAT_01267cdc; values[9] = DAT_01267ce8;
+                    values[10] = DAT_01267cf4; values[11] = DAT_01267d00;
+                    initialized = 1;
+                    mode = ((unsigned char)(reinterpret_cast<::FUN_00c75460_S *>(this)->FUN_00c75460()));
+                }
+            }
+            FUN_00c7e3b0();
+            if (!(*cacheSlot)->sourceAnimation && !(*cacheSlot)->sourceSkeleton) {
+                (*cacheSlot)->animation->bones->locked = false;
+                GetCached()->skeleton->bones->locked = false;
+                PoseBuffer animationPose;
+                PoseBuffer skeletonPose;
+                {
+                    PoseState pose;
+                    pose.animation = (*cacheSlot)->animation;
+                    pose.skeleton = (*cacheSlot)->skeleton;
+                    pose.active = 0;
+                    ::FUN_00ce61c0((*(const ::HkMapperParams *)(&pose)), (*(::HkMapperData *)(&animationPose)), (*(::HkMapperData *)(&skeletonPose)));
+                }
+                reinterpret_cast<::S00c79e20_Ctrl *>(this)->FUN_00c79e20();
+                GetCached()->sourceAnimation = new PoseSource(&animationPose);
+                GetCached()->sourceSkeleton = new PoseSource(&skeletonPose);
+            }
+        }
+    }
+}
+
+template<class T> class OwnedCell {
+    T stored;
+public:
+    __forceinline OwnedCell() {}
+    __forceinline OwnedCell(T value) : stored(value) {}
+    __forceinline void operator=(T value) { stored=value; }
+    __forceinline T val() const { return stored; }
+    __forceinline T operator->() const { return stored; }
+    __forceinline operator T() const { return val(); }
+};
+extern float DAT_011b02e8;
+
+struct ScratchAllocator {
+    char* current;
+    char* allocate(int n) { int numBytes=(n+127)&~127; char* p=current; char* next=p+numBytes; current=next; return p; }
+};
+
+enum ActivationMode { LeaveInactive=0,ActivateNow=1 };
+enum FilterMode { UpdateFull=0,UpdatePartial=1 };
+template<class T> __forceinline T* AddBytes(T* p,int bytes) { return (T*)((char*)p+bytes); }
+__forceinline int ByteDistance(const void* from,const void* to) { return (int)((const char*)to-(const char*)from); }
+struct StackView {
+    OwnedCell<char*> next;
+    OwnedCell<void*> start;
+    OwnedCell<void*> end;
+    StackView();
+    __forceinline int freeBytes() const { return ByteDistance(next,end); }
+    __forceinline ~StackView() {}
+    __forceinline void* allocate(int bytes,const char* label=0) {
+        if(bytes>freeBytes()) {}
+        char* saved=next;
+        next=AddBytes(saved,bytes);
+        return saved;
+    }
+    __forceinline void release(void* saved) { next=(char*)saved; }
+};
+struct RouterView {
+    StackView area;
+    static RouterView& FUN_00c85750();
+    __forceinline StackView& stack() { return area; }
+};
+template<class T> __forceinline T* AllocateView(int n,const char* label=0) {
+    RouterView& memory=RouterView::FUN_00c85750();
+    return (T*)memory.stack().allocate((n*(int)sizeof(T)+127)&~127,label);
+}
+template<class T> __forceinline void ReleaseView(T* p) { RouterView::FUN_00c85750().stack().release(p); }
+struct FixedBuffer {
+protected:
+    OwnedCell<VectorValue*> data;
+    int debugSize;
+    __forceinline FixedBuffer() {}
+public:
+    __forceinline VectorValue* begin() { return data; }
+    __forceinline VectorValue& operator[](int i) { return data[i]; }
+};
+struct BufferView : FixedBuffer {
+    __forceinline BufferView(int n) { data=AllocateView<VectorValue>(n); }
+    __forceinline ~BufferView() { ReleaseView(data.val()); }
+};
+__forceinline void UpdateLinear(BodyView* body,const VectorValue& value) {
+    if(!value.equal(body->getLinearVelocity())) {
+        reinterpret_cast<::hkpEntityC9C *>((body))->FUN_00c9c1d0();
+        body->getMotion()->SetTranslationalVelocity(value);
+    }
+}
+__forceinline void UpdateAngular(BodyView* body,const VectorValue& value) {
+    if(!value.equal(body->getAngularVelocity())) {
+        reinterpret_cast<::hkpEntityC9C *>((body))->FUN_00c9c1d0();
+        body->getMotion()->SetRotationalVelocity(value);
+    }
+}
+
+// @fnv 0x00c7b6a0
+void Controller::FUN_00c7b6a0(bool enable) {
+    if (!enabled) return;
+    if (!enable && !active) return;
+    if (active && enable) { reinterpret_cast<::FUN_00448e30_this *>(&(timer))->init(DAT_011b02e8); return; }
+    reinterpret_cast<::FUN_00c7a230_cls *>(this)->FUN_00c7a230(enable);
+    if (enable) timer.begin(DAT_011b02e8); else timer.duration=0;
+    int count=bodies->getNumBones();
+    BufferView positions(count);
+    BufferView rotations(count);
+    ::FUN_00cb1280(positions.begin(),0,count*16);
+    ::FUN_00cb1280(rotations.begin(),0,count*16);
+    for(int i=0;i<count;++i) {
+        BodyView* body=(BodyView*)bodies->getRigidBodyOfBone(i);
+        {
+            if(body) {
+                int kind=body->getMotionType();
+                if(FUN_00c8cce0(&kind)) { positions[i]=body->getLinearVelocity(); rotations[i]=body->getAngularVelocity(); }
+            }
+        }
+    }
+    for(int i=0;i<count;++i) {
+        BodyView* body=(BodyView*)bodies->getRigidBodyOfBone(i);
+        {
+            if(body) {
+                if(selection.get()->selection->find((unsigned short)i)!=-1) {
+                    if(enable) {
+                        if(body->getMotionType()==4 || body->getQualityType()!=4) {
+                            reinterpret_cast<::FUN_00ca8420_Class *>((body))->FUN_00ca8420((*(int *)&(const ::MotionKind &)(KindDynamic)),(*(int *)&(const ::ActivationMode &)(ActivateNow)),(*(int *)&(const ::FilterMode &)(UpdateFull))); body->setQualityType((QualityKind)4); reinterpret_cast<::S_00ca8630_Class *>((body))->FUN_00ca8630(false);
+                        }
+                    } else {
+                        if(body->getMotionType()!=4 || body->getQualityType()!=1) {
+                            reinterpret_cast<::FUN_00ca8420_Class *>((body))->FUN_00ca8420((*(int *)&(const ::MotionKind &)(KindKeyframed)),(*(int *)&(const ::ActivationMode &)(ActivateNow)),(*(int *)&(const ::FilterMode &)(UpdateFull))); body->setQualityType((QualityKind)1); reinterpret_cast<::S_00ca8630_Class *>((body))->FUN_00ca8630(true);
+                        }
+                    }
+                }
+                UpdateLinear(body,positions[i]);
+                UpdateAngular(body,rotations[i]);
+            }
+        }
+    }
+    active=enable;
+}
+
+extern void* UNK_010c4dec;
+static __forceinline int Maximum(int first,int second) { return first >= second ? first : second; }
+ template<> struct S7de60_PodTrait<Entry> { typedef S7de60_IsClass type; };
+union Vec128 { __m128 value; char bytes[16]; };
+struct FramePoint { float x,y,z; };
+struct FrameState { FramePoint rotation[3]; FramePoint point; float scale;  };
+// @fnv 0x00c7de60
+bool RenderNode::FUN_00c7de60(const char* item) {
+    bool ok=active;
+    if(ok) {
+    ok=reinterpret_cast<::Cls79340 *>(this)->FUN_00c79340((::Param1 *)(input),item,1);
+    if(ok) {
+        state=1;
+        if(create) {
+            if(!owner->root) {
+                owner->SetRoot(new Root);
+                owner->root->src=new SourceBuffer;
+                owner->root->src->indices.ResizeEntries(2);
+                owner->root->src->points.Resize(2);
+                owner->root->src->vertices.Resize(2);
+                ((short*)owner->root->src->points.data)[0]=-1;
+                ((short*)owner->root->src->points.data)[1]=0;
+                FrameState frame;
+                reinterpret_cast<::NiTransform *>(&(frame))->ResetToIdentity();
+                ::FUN_00c74dd0((::C74QsTransform *)(owner->root->src->vertices.data),(const ::C74Transform *)(void *)(&frame));
+                frame.point.x=DAT_01050c98; frame.point.y=DAT_01050c48; frame.point.z=0;
+                ::FUN_00c74dd0((::C74QsTransform *)(void *)(owner->root->src->vertices.data+1),(const ::C74Transform *)(void *)(&frame));
+                owner->root->a=boneParams[1].forwardParent;
+                owner->root->b=boneParams[1].forwardLocal;
+            }
+            CloneBuffer* clone=new CloneBuffer(owner->root->src);
+            buffer=clone;
+            ::fnv_00cda110::FUN_00cda110((::fnv_00cda110::S *)(clone));
+            reinterpret_cast<::fnv_00cda340::SkeletonPoseData *>((buffer))->FUN_00cda340();
+            Vec128 unit; unit.value=_mm_setr_ps(::DAT_01011d78,DAT_01012068,::DAT_01011d78,::DAT_01011d78);
+            boneParams[0].bone=1;
+            boneParams[0].forwardLocal.value=unit.value;
+            boneParams[0].forwardParent.value=boneParams[0].forwardLocal.value;
+            boneParams[0].parent=0;
+            boneParams[0].pose=buffer;
+            state=0;
+        }
+    }
+    success=ok;
+    }
+    return ok;
+}
+
+struct C74Matrix3 {
+    float m_afEntries[3][3];
+};
+
+struct C74Transform {
+    C74Matrix3 m_kOrientation;
+    float m_TranslateX;
+    float m_TranslateY;
+    float m_TranslateZ;
+    float m_fScale;
+};
+
+struct C74NiQuaternion {
+    float m_fVectorX;
+    float m_fVectorY;
+    float m_fVectorZ;
+    float m_fScalarPart;
+};
+
+struct C74Vector4 {
+    VectorBits m_vComponents;
+    float& operator()(int i) { return reinterpret_cast<float*>(&m_vComponents)[i]; }
+};
+
+struct C74Quaternion {
+    float m_vec[4];
+    void set(float x, float y, float z, float w) { m_vec[0] = x; m_vec[1] = y; m_vec[2] = z; m_vec[3] = w; }
+};
+
+struct C74QsTransform {
+    C74Vector4 m_vTranslation;
+    C74Quaternion m_rotation;
+    C74Vector4 m_vScale;
+};
+
+extern float DAT_01267c20;
+
+// @fnv 0x00c74dd0
+C74QsTransform* FUN_00c74dd0(C74QsTransform* out, const C74Transform* in)
+{
+    C74NiQuaternion q;
+    reinterpret_cast<::NiQuaternion *>(&(q))->FromRotationMatrix((const ::ThreeByThreeMatrix &)(in->m_kOrientation));
+    out->m_rotation.set(q.m_fVectorY, q.m_fVectorZ, q.m_fScalarPart, q.m_fVectorX);
+    reinterpret_cast<::FUN_005611c0_t *>(&(out->m_rotation))->FUN_005611c0();
+    C74Vector4 t;
+    t(0) = in->m_TranslateX * DAT_01267c20;
+    t(1) = in->m_TranslateY * DAT_01267c20;
+    t(2) = in->m_TranslateZ * DAT_01267c20;
+    t(3) = 0.0f;
+    out->m_vTranslation.m_vComponents = t.m_vComponents;
+    out->m_vScale.m_vComponents = _mm_set_ps1(in->m_fScale);
+    return out;
+}
+
+
+extern double DAT_010c4dd0;
+extern double DAT_010c4dc8;
+extern float DAT_01267d90;
+
+struct StringHeader { long references; unsigned length; void release() { InterlockedDecrement(&references); } };
+struct ResourceName {
+    char* key;
+    ResourceName(InputName const& raw) { if (!raw.key) key=DAT_0109b220; else key=::NiGlobalStringTable::AddString(raw.key); }
+    ~ResourceName() { if (key != DAT_0109b220) { StringHeader* header=reinterpret_cast<StringHeader*>(key)-1; header->release(); } }
+};
+struct __declspec(align(16)) Scratch {
+    int owner;
+    short first, second, third, unk0a;
+    int unk0c;
+    __m128 axisA, axisB, axisC, axisD;
+    float strength, f54, f58, f5c, f60, f64, f68, threshold, radius;
+    bool flag;
+};
+struct GameForm {
+    GameForm* getLinked();
+    GameForm* getChildNamed();
+    struct VTable;
+    typedef int (*TypeQuery)(GameForm*,VTable*);
+    struct VTable { void* f0; void* f1; void* f2; TypeQuery canUse; };
+    struct NativeQuery { virtual void f0(); virtual void f1(); virtual void f2(); virtual int queryType(VTable*)=0; };
+    VTable* vtable;
+    int unk004;
+    int unk008;
+    int unk00c;
+    int unk010;
+    int unk014;
+    int unk018;
+    int unk01c;
+    int unk020;
+    int unk024;
+    int unk028;
+    int unk02c;
+    int unk030;
+    int unk034;
+    int unk038;
+    int unk03c;
+    int unk040;
+    int unk044;
+    int unk048;
+    int unk04c;
+    int unk050;
+    int unk054;
+    int unk058;
+    int unk05c;
+    int unk060;
+    int unk064;
+    int unk068;
+    int unk06c;
+    int unk070;
+    int unk074;
+    int unk078;
+    int unk07c;
+    int unk080;
+    int unk084;
+    int unk088;
+    int unk08c;
+    int unk090;
+    int unk094;
+    int unk098;
+    int unk09c;
+    struct Children { GameForm** data; unsigned short capacity,count; GameForm* get() const { return data[0]; } } children;
+};
+struct Material { int unk00,unk04; int name; };
+struct Resource { int unk00,unk04; Material* material; };
+struct Runtime { int unk00,unk04,unk08,unk0c; Allocator* allocator; Allocator& heap() { return *allocator; } };
+struct FUN_00cd8820 : IndexedRecord {
+    int vtable;
+    unsigned short size, references;
+    int unk008;
+    int unk00c;
+    int unk010;
+    int unk014;
+    int unk018;
+    int unk01c;
+    int unk020;
+    int unk024;
+    int unk028;
+    int unk02c;
+    int unk030;
+    int unk034;
+    int unk038;
+    int unk03c;
+    int unk040;
+    int unk044;
+    int unk048;
+    int unk04c;
+    int unk050;
+    int unk054;
+    int unk058;
+    int unk05c;
+    int unk060;
+    int unk064;
+    int unk068;
+    int unk06c;
+    int unk070;
+    int unk074;
+    int unk078;
+    int unk07c;
+    int unk080;
+    int unk084;
+    int unk088;
+    int unk08c;
+    int unk090;
+    int unk094;
+    int unk098;
+    int unk09c;
+    int unk0a0;
+    int unk0a4;
+    int unk0a8;
+    int unk0ac;
+    int unk0b0;
+    int unk0b4;
+    int unk0b8;
+    int unk0bc;
+    int unk0c0;
+    int unk0c4;
+    int unk0c8;
+    int unk0cc;
+    int unk0d0;
+    int unk0d4;
+    int unk0d8;
+    int unk0dc;
+    int unk0e0;
+    int unk0e4;
+    int unk0e8;
+    int unk0ec;
+    FUN_00cd8820(Scratch const&);
+    static __forceinline void* operator new(size_t);
+    static void operator delete(void*);
+};
+struct Geo { float unk00, expansion; };
+
+static __forceinline Runtime* GetEntryRuntime() { return reinterpret_cast<Runtime*>(FUN_00c85750()); }
+__forceinline void* FUN_00cd8820::operator new(size_t bytes) {
+    void* ptr=GetEntryRuntime()->heap().Allocate(bytes);
+    static_cast<FUN_00cd8820*>(ptr)->size=(unsigned short)bytes;
+    return ptr;
+}
+__forceinline GameForm* GameForm::getLinked() {
+    if (vtable->canUse(this,vtable) && children.count>0) return children.get(); return 0;
+}
+__forceinline GameForm* GameForm::getChildNamed() { NativeQuery* query=reinterpret_cast<NativeQuery*>(this); if(query->queryType(vtable) && children.count>0) return children.get(); return 0; }
+static __forceinline int const& materialName(Resource* resource) {
+    return resource ? resource->material->name : (*reinterpret_cast<int *>(&::DAT_011f49e0));
+}
+__forceinline void EntryArray::resize(int size) {
+    Allocator& allocator=GetEntryRuntime()->heap();
+    int cap=capacity & 0x3fffffff;
+    if (cap<size) {
+        cap*=2;
+        if (size>=cap) cap=size;
+        ::FUN_00c908c0((::SpawnedObject *)(::Allocator *)(&allocator),(::SpawnedArray *)(::EntryArray *)(this),cap,sizeof(RagdollEntry));
+    }
+    int extra=size-count;
+    RagdollEntry* dest=data+count;
+    for (int k=0;k<extra;++k) new (dest+k) RagdollEntry;
+    count=size;
+}
+// @fnv 0x00c7c3a0
+void ParticleTable::FUN_00c7c3a0(FNVInput* incoming) {
+    FNVInput* input=incoming;
+    unsigned count=incoming->count;
+    if (!count || !enabled) return;
+    Scratch scratch;
+    reinterpret_cast<::S00cd8920_Obj *>(&(scratch))->FUN_00cd8920();
+    bool ready=reinterpret_cast<::SceneEffect *>(this)->FUN_00c77ac0((::EffectOutput *)(::Scratch *)(&scratch),(::EffectRequest *)(incoming));
+    Table* ownerTable=table;
+    intptr_t owner=ownerTable->owner;
+    if (!ready) return;
+    scratch.owner=owner;
+    scratch.axisC=_mm_setr_ps(::DAT_01011d78,::DAT_01011d78,DAT_01012068,::DAT_01011d78);
+    scratch.axisD=scratch.axisC;
+    scratch.strength=DAT_01267d90;
+    entries.resize(count);
+    for (unsigned i=0;i<count;++i) {
+        GameForm* actor;
+        {
+            ResourceName name(input->at(i));
+            actor=((::GameForm *)(::FUN_00c4b470((::FUN_00c4b470_owner *)(void *)(getContext()),(void **)&(name),1)));
+        }
+        GameForm* linked=actor ? actor->getChildNamed():0;
+        GameForm* nested=linked ? linked->getLinked():0;
+        Resource* pActorResource=actor ? ((::Resource *)(::FUN_00c802d0((::MyNode *)(actor)))):0;
+        Resource* secondResource=linked ? ((::Resource *)(::FUN_00c802d0((::MyNode *)(linked)))):0;
+        Resource* thirdResource=nested ? ((::Resource *)(::FUN_00c802d0((::MyNode *)(nested)))):0;
+        Geo* geo=((::Geo *)(::FUN_00c75180((::Input134 *)this)));
+        float expansion=geo ? geo->expansion:0.0f;
+        scratch.threshold=(float)(expansion+DAT_010c4dd0);
+        scratch.radius=(float)(expansion+DAT_010c4dc8);
+        radius=scratch.radius;
+        intptr_t first=materialName(pActorResource);
+        intptr_t second=materialName(secondResource);
+        intptr_t third=materialName(thirdResource);
+        if (second && third && pActorResource!=secondResource && pActorResource!=thirdResource && thirdResource!=secondResource) {
+            scratch.first=::FindIndexByKey((::S_00cdd390_Table *)(owner),(const void *)(first),(int (*)(const void *, const void *))(0));
+            scratch.second=::FindIndexByKey((::S_00cdd390_Table *)(owner),(const void *)(second),(int (*)(const void *, const void *))(0));
+            scratch.third=::FindIndexByKey((::S_00cdd390_Table *)(owner),(const void *)(third),(int (*)(const void *, const void *))(0));
+            if (scratch.first!=-1 && scratch.second!=-1 && scratch.third!=-1)
+                entries[i].record=new FUN_00cd8820(scratch);
+        }
+        if (table->mapping) {
+            for (int j=0;j<table->mapping->count;++j) {
+                MappingEntry* mapped=&table->mapping->data[j];
+                if (mapped->source==scratch.third) entries[i].mapped=mapped->target;
+            }
+        }
+    }
+    bool success=true;
+    for (unsigned j=0;j<count && success;++j) {
+        if (!entries[j].record) success=false;
+    }
+    if (!success) {
+        for (unsigned j=0;j<count;++j) {
+            IndexedRecord* record=entries[j].record;
+            if (record) reinterpret_cast<::hkReferencedObjectC905 *>((record))->FUN_00c905b0();
+        }
+        entries.count=0;
+    }
+    complete=success;
+}
+
+struct VectorStorage {protected:__m128 value; __forceinline VectorStorage(){} __forceinline VectorStorage(const __m128& v):value(v){} };
+struct VecLane:private VectorStorage {
+private:
+public:
+ __forceinline VecLane() {}
+ __forceinline VecLane(const VecLane& rhs):VectorStorage(rhs.value) {}
+ __forceinline void operator=(const VecLane& rhs) { setRaw(rhs.getRaw()); }
+ __forceinline void operator=(const __m128& rhs) { value=rhs; }
+ __forceinline __m128 getRaw() const{return value;}
+ __forceinline void setRaw(__m128 v){value=v;}
+ __forceinline operator __m128() const { return getRaw(); }
+};
+struct QuatLane {VecLane value; __forceinline void operator=(const QuatLane& rhs) {value=rhs.value;} };
+struct Transform48 {VecLane translation; QuatLane rotation; VecLane scale;};
+template<class T> struct FieldStorage {protected:T value; __forceinline FieldStorage(){} __forceinline FieldStorage(T v):value(v){} };
+template<class T> class MemberValue:private FieldStorage<T> {
+public:
+ __forceinline MemberValue() {}
+ __forceinline MemberValue(T p):FieldStorage<T>(p) {}
+ __forceinline void operator=(T p) {value=p;}
+ __forceinline T val() const {return value;}
+ __forceinline operator T() const {return val();}
+ __forceinline T operator->() const {return val();}
+};
+struct TempAllocator {
+ virtual void v0();virtual void v4();virtual void v8();
+ virtual void* Allocate(int&);
+ virtual void Free(void*,int);
+ template<class T> __forceinline T* allocateItems(int& n) {int bytes=n*(int)sizeof(T);void* p=Allocate(bytes);n=bytes/(int)sizeof(T);return (T*)p;}
+ template<class T> __forceinline void freeItems(T* p,int n) {Free(p,n*sizeof(T));}
+};
+struct ArenaStack {
+ MemberValue<void*> next;
+ MemberValue<void*> start;
+ MemberValue<void*> end;
+ __forceinline int freeBytes() const {return (int)((char*)end.val()-(char*)next.val());}
+ __forceinline void* allocate(int bytes,const char* tag) {
+  if(bytes>freeBytes()) {}
+  void* old=next;
+  next=(char*)old+bytes;
+  return old;
+ }
+ __forceinline void release(void* p) {next=p;}
+};
+struct ScratchState {ArenaStack arena;int unk0c;TempAllocator* allocator;
+ __forceinline TempAllocator& heap() {return *allocator;}
+ __forceinline ArenaStack& stack() {return arena;}
+};
+__forceinline ScratchState& getRouter() {return *(ScratchState*)FUN_00c85750();}
+template<class T> __forceinline T* allocateScratch(int n,const char* tag=0) {
+ ScratchState& a=getRouter();
+ return (T*)a.stack().allocate((n*(int)sizeof(T)+127)&~127,tag);
+}
+template<class T> __forceinline void freeScratch(T* p) {getRouter().stack().release((void*)p);}
+template<class T> struct RagdollUpdateFixedBuffer {
+ MemberValue<T*> data;int debugSize;
+ __forceinline RagdollUpdateFixedBuffer() {}
+ __forceinline T& operator[](int i) {return data[i];}
+ __forceinline T* begin() {return data;}
+ __forceinline const T* begin() const {return data;}
+};
+template<class T> struct LocalBuffer:RagdollUpdateFixedBuffer<T> {
+ __forceinline LocalBuffer(int n,const char* tag=0) {data=allocateScratch<T>(n,tag);}
+ __forceinline ~LocalBuffer() {freeScratch(data.val());}
+};
+typedef LocalBuffer<Transform48> ScratchTransforms;
+template<class T> struct OwnedBase {
+ T* data;int size,capacity;
+ __forceinline OwnedBase():data(0),size(0),capacity(0x80000000) {}
+ __forceinline void setOwned(T* p,int n,int cap) {data=p;size=n;capacity=cap;}
+ __forceinline T* begin() {return data;}
+ __forceinline void clearFree(TempAllocator& a) {size=0;if(!(capacity&0x80000000)) a.freeItems(data,capacity&0x3fffffff);data=0;capacity=0x80000000;}
+};
+struct HeapPolicy {template<class T> __forceinline TempAllocator& get(T*) {return getRouter().heap();}};
+template<class T,class P=HeapPolicy> struct OwnedBuffer:OwnedBase<T> {
+ __forceinline OwnedBuffer(int n) {TempAllocator& a=P().get(this);T* p=n?a.allocateItems<T>(n):0;int cap=n?n:0x80000000;setOwned(p,n,cap);}
+ __forceinline ~OwnedBuffer() {clearFree(P().get(this));}
+};
+typedef OwnedBuffer<int> IntBuffer;
+struct LaneScalar {
+ PackedVector storage;
+ __forceinline LaneScalar(const __m128& v){storage.vector=v;}
+ __forceinline operator float() const {float v;_mm_store_ss(&v,storage.vector);return v;}
+};
+struct VelocityVector {
+ __m128 value;
+ __forceinline LaneScalar dot(const VelocityVector& r) const {
+  __m128 m=_mm_mul_ps(value,r.value);
+  __m128 t=_mm_shuffle_ps(m,m,0x55);
+  t=_mm_add_ss(t,m);
+  m=_mm_shuffle_ps(m,m,0xaa);
+  return LaneScalar(_mm_add_ss(m,t));
+ }
+ __forceinline LaneScalar lengthSquared() const {return dot(*this);}
+};
+struct SmallFloat {
+ unsigned char index;
+ __forceinline operator float() const {return DAT_010c7948[index];}
+};
+template<class T> struct ArrayBaseView {
+ T* data;int size,capacity;
+ __forceinline T* begin() {return data;}
+ __forceinline const T* begin() const {return data;}
+ __forceinline int GetLogicalSize() const {return size;}
+ __forceinline T& operator[](int i) {return data[i];}
+ __forceinline const T& operator[](int i) const {return data[i];}
+};
+template<class T> struct ArrayView:ArrayBaseView<T> {};
+struct SkeletonData {
+ int unk00,unk04,unk08;ArrayView<short> parents;ArrayView<void*> boneList;ArrayView<Transform48> poseList;
+ __forceinline int getCount() const {return boneList.GetLogicalSize();}
+ __forceinline const short* getParents() const {return parents.begin();}
+ __forceinline const Transform48* getPoses() const {return poseList.begin();}
+};
+struct BoneState {
+    int unk000;
+    int unk004;
+    int unk008;
+    int unk00c;
+    int unk010;
+    int unk014;
+    int unk018;
+    int unk01c;
+    int unk020;
+    int unk024;
+    int unk028;
+    int unk02c;
+    int unk030;
+    int unk034;
+    int unk038;
+    int unk03c;
+    int unk040;
+    int unk044;
+    int unk048;
+    int unk04c;
+    int unk050;
+    int unk054;
+    int unk058;
+    int unk05c;
+    int unk060;
+    int unk064;
+    int unk068;
+    int unk06c;
+    int unk070;
+    int unk074;
+    int unk078;
+    int unk07c;
+    int unk080;
+    int unk084;
+    int unk088;
+    int unk08c;
+    int unk090;
+    int unk094;
+    int unk098;
+    int unk09c;
+    int unk0a0;
+    int unk0a4;
+    int unk0a8;
+    int unk0ac;
+    int unk0b0;
+    int unk0b4;
+    int unk0b8;
+    int unk0bc;
+    int unk0c0;
+    int unk0c4;
+    int unk0c8;
+    int unk0cc;
+    int unk0d0;
+    int unk0d4;
+    int unk0d8;
+    int unk0dc;
+    int unk0e0;
+    int unk0e4;
+    int unk0e8;
+    int unk0ec;
+    int unk0f0;
+    int unk0f4;
+    int unk0f8;
+    int unk0fc;
+    int unk100;
+    int unk104;
+    int unk108;
+    int unk10c;
+    int unk110;
+    int unk114;
+    int unk118;
+    int unk11c;
+    int unk120;
+    int unk124;
+    int unk128;
+    int unk12c;
+    int unk130;
+    int unk134;
+    int unk138;
+    int unk13c;
+    int unk140;
+    int unk144;
+    int unk148;
+    int unk14c;
+    int unk150;
+    int unk154;
+    int unk158;
+    int unk15c;
+    int unk160;
+    int unk164;
+    int unk168;
+    int unk16c;
+    int unk170;
+    int unk174;
+    int unk178;
+    int unk17c;
+    int unk180;
+    int unk184;
+    int unk188;
+    int unk18c;
+    int unk190;
+    int unk194;
+    int unk198;
+ SmallFloat scaleIndex; unsigned char unk19d; unsigned short unk19e;
+ int unk1a0, unk1a4, unk1a8, unk1ac;
+ VelocityVector velocity;
+};
+struct Skeleton {
+ int unk00,unk04;ArrayView<BoneState*> stateList;ArrayView<void*> constraints;ArrayView<int> indexList;SkeletonData* data;
+ __forceinline SkeletonData* getData() const {return data;}
+ __forceinline int getNumBones() const {return getData()->getCount();}
+ __forceinline BoneState* getBody(int i) const {int k=indexList[i];return k>=0?stateList[k]:0;}
+};
+struct Processor {
+};
+struct PoseLookup {  };
+struct BlendData { int unk00,unk04,unk08,unk0c; void* data; };
+struct RagdollUpdateController {
+ int unk00; bool needsInit; unsigned char unk05; unsigned short unk06; int unk08; int mode;
+ int settings10, settings14, settings18, settings1c, settings20, settings24, settings28, settings2c, settings30, settings34, settings38, settings3c, settings40;
+ bool forceMode; unsigned char unk45; unsigned short unk46;
+ Skeleton* skeleton; Processor* processor; bool active; unsigned char unk51; unsigned short unk52;
+    int unk054;
+    int unk058;
+    int unk05c;
+    int unk060;
+    int unk064;
+    int unk068;
+    int unk06c;
+    int unk070;
+    int unk074;
+    int unk078;
+    int unk07c;
+    int unk080;
+    int unk084;
+ PoseLookup* lookup;
+    int unk08c;
+    int unk090;
+    int unk094;
+    int unk098;
+    int unk09c;
+    int unk0a0;
+    int unk0a4;
+    int unk0a8;
+    int unk0ac;
+    int unk0b0;
+    int unk0b4;
+    int unk0b8;
+    int unk0bc;
+    int unk0c0;
+    int unk0c4;
+    int unk0c8;
+    int unk0cc;
+    int unk0d0;
+    int unk0d4;
+    int unk0d8;
+    int unk0dc;
+    int unk0e0;
+    int unk0e4;
+    int unk0e8;
+    int unk0ec;
+    int unk0f0;
+    int unk0f4;
+    int unk0f8;
+    int unk0fc;
+    int unk100;
+    int unk104;
+    int unk108;
+    int unk10c;
+    int unk110;
+    int unk114;
+    int unk118;
+    int unk11c;
+    int unk120;
+    int unk124;
+    int unk128;
+    int unk12c;
+    int unk130;
+    int unk134;
+    int unk138;
+    int unk13c;
+    int unk140;
+    int unk144;
+    int unk148;
+    int unk14c;
+    int unk150;
+    int unk154;
+    int unk158;
+    int unk15c;
+    int unk160;
+    int unk164;
+    int unk168;
+    int unk16c;
+    int unk170;
+    int unk174;
+    int unk178;
+    int unk17c;
+    int unk180;
+    int unk184;
+    int unk188;
+    int unk18c;
+    int unk190;
+    int unk194;
+    int unk198;
+    int unk19c;
+    int unk1a0;
+    int unk1a4;
+    int unk1a8;
+    int unk1ac;
+    int unk1b0;
+    int unk1b4;
+    int unk1b8;
+    int unk1bc;
+    int unk1c0;
+    int unk1c4;
+    int unk1c8;
+    int unk1cc;
+    int unk1d0;
+    int unk1d4;
+    int unk1d8;
+    int unk1dc;
+    int unk1e0;
+    int unk1e4;
+    int unk1e8;
+    int unk1ec;
+    int unk1f0;
+    int unk1f4;
+    int unk1f8;
+    int unk1fc;
+    int unk200;
+    int unk204;
+    int unk208;
+    int unk20c;
+    int unk210;
+    int unk214;
+    int unk218;
+    int unk21c;
+    int unk220;
+    int unk224;
+    int unk228;
+    int unk22c;
+    int unk230;
+    int unk234;
+    int unk238;
+    int unk23c;
+    int unk240;
+    int unk244;
+    int unk248;
+    int unk24c;
+    int unk250;
+    int unk254;
+    int unk258;
+    int unk25c;
+    int unk260;
+    int unk264;
+    int unk268;
+    int unk26c;
+    int unk270;
+    int unk274;
+    int unk278;
+    int unk27c;
+    int unk280;
+    int unk284;
+    int unk288;
+    int unk28c;
+    int unk290;
+    int unk294;
+    int unk298;
+    int unk29c;
+    int unk2a0;
+ BlendData* blend;
+ void FUN_00c7d030(const Transform48* input);
+};
+extern void* DAT_010c4ddc;
+extern const float DAT_010c4df8;
+struct RefTarget {
+    virtual void unused();
+    virtual void destroy();
+    volatile long refs;
+};
+struct RefSlot {
+    RefTarget* object;
+    RefSlot():object(0){}
+    ~RefSlot();
+    void clear() { RefTarget* old=object; if(old) { if(!InterlockedDecrement(&old->refs)) old->destroy(); object=0; } }
+};
+struct RefSlotArray {
+    unsigned int data, size, capacity;
+    RefSlotArray():data(0),size(0),capacity(0x80000000){}
+    ~RefSlotArray();
+};
+struct SmallArray {
+    void* vtable; unsigned int data,size,capacity;
+    SmallArray():vtable(&DAT_01071aec),data(0),size(0),capacity(0){}
+    ~SmallArray();
+};
+struct NameSlot {
+    char* name;
+    NameSlot():name(DAT_0109b220){}
+    ~NameSlot();
+};
+struct NamePair { NameSlot name; unsigned int value; NamePair():value(0){} };
+struct PlainArray {
+    unsigned int data,size,capacity,extra;
+    PlainArray():data(0),size(0),capacity(0),extra(0){}
+    ~PlainArray();
+};
+struct __declspec(align(16)) StateRecord {
+    unsigned int unk00;
+    short first,second;
+    float weight;
+    unsigned int unk0c;
+    __m128 position,velocity,rotation;
+    bool active,valid;
+    unsigned short unk42;
+    float time,blend;
+    unsigned int unk4c;
+};
+struct NodeArg {
+    virtual void slot0(); virtual void slot1(); virtual void slot2(); virtual NiNode* get();
+};
+struct TempArray {
+    void* vtable; unsigned int data,size,capacity;
+    TempArray():vtable(&DAT_010c4db8),data(0),size(0),capacity(0){}
+    ~TempArray();
+};
+typedef void (*FreeTemp)(TempArray*,unsigned int);
+TempArray::~TempArray() { vtable=&DAT_010c4db8; if(data) DAT_010c4dc0(this,data); }
+struct ConstructorBase { virtual ~ConstructorBase(); };
+struct LastArray { unsigned int data,size,capacity,extra; LastArray():data(0),size(0),capacity(0),extra(0){} };
+struct ThirdArg { unsigned int value; };
+union NodeOrFlag { NodeArg* node; bool flag; };
+struct VecStore { __m128 value; VecStore& operator=(__m128 other) { value=other; return *this; } };
+union SimdVector { __m128 value; signed char lanes[16]; };
+class FUN_00c7f060 : public ConstructorBase {
+public:
+    bool unk04;
+    unsigned char unk05;
+    unsigned char unk06;
+    unsigned char unk07;
+    float unk08;
+    int unk0c;
+    VecStore unk10;
+    VecStore unk20;
+    VecStore unk30;
+    bool unk40;
+    bool unk41;
+    bool unk42;
+    bool unk43;
+    bool unk44;
+    unsigned char unk45;
+    unsigned char unk46;
+    unsigned char unk47;
+    unsigned int unk48;
+    unsigned int unk4c;
+    bool unk50;
+    unsigned char unk51;
+    unsigned char unk52;
+    unsigned char unk53;
+    unsigned int unk54;
+    unsigned int unk58;
+    unsigned int unk5c;
+    unsigned int unk60;
+    unsigned int unk64;
+    unsigned int unk68;
+    unsigned int unk6c;
+    unsigned int unk70;
+    unsigned int unk74;
+    unsigned int unk78;
+    unsigned int unk7c;
+    unsigned int unk80;
+    RefSlot ref84;
+    unsigned int unk88;
+    bool unk8c;
+    unsigned char unk8d;
+    unsigned char unk8e;
+    unsigned char unk8f;
+    unsigned int unk90;
+    RefSlotArray array94;
+    SmallArray arraya0;
+    bool unkb0;
+    bool unkb1;
+    bool unkb2;
+    bool unkb3;
+    bool unkb4;
+    unsigned char unkb5;
+    unsigned char unkb6;
+    unsigned char unkb7;
+    unsigned int unkb8;
+    unsigned int unkbc;
+    __m128 unkc0;
+    __m128 unkd0;
+    __m128 unke0;
+    StateRecord records[2];
+    bool unk190;
+    unsigned char unk191;
+    unsigned char unk192;
+    unsigned char unk193;
+    unsigned int unk194;
+    bool unk198;
+    unsigned char unk199;
+    unsigned char unk19a;
+    unsigned char unk19b;
+    float unk19c;
+    float unk1a0;
+    bool unk1a4;
+    bool unk1a5;
+    unsigned char unk1a6;
+    unsigned char unk1a7;
+    float unk1a8;
+    unsigned int unk1ac;
+    unsigned int unk1b0;
+    unsigned int unk1b4;
+    unsigned int unk1b8;
+    unsigned char unk1bc;
+    bool unk1bd;
+    unsigned char unk1be;
+    unsigned char unk1bf;
+    unsigned int unk1c0;
+    unsigned int unk1c4;
+    unsigned int unk1c8;
+    unsigned int unk1cc;
+    unsigned int unk1d0;
+    unsigned int unk1d4;
+    unsigned int unk1d8;
+    unsigned int unk1dc;
+    unsigned int unk1e0;
+    unsigned int unk1e4;
+    unsigned int unk1e8;
+    unsigned char unk1ec;
+    bool unk1ed;
+    unsigned char unk1ee;
+    unsigned char unk1ef;
+    unsigned int unk1f0;
+    unsigned int unk1f4;
+    unsigned int unk1f8;
+    unsigned int unk1fc;
+    unsigned int unk200;
+    unsigned int unk204;
+    unsigned int unk208;
+    unsigned int unk20c;
+    unsigned int unk210;
+    unsigned int unk214;
+    unsigned int unk218;
+    bool unk21c;
+    bool unk21d;
+    bool unk21e;
+    bool unk21f;
+    bool unk220;
+    bool unk221;
+    bool unk222;
+    bool unk223;
+    bool unk224;
+    unsigned char unk225;
+    unsigned char unk226;
+    unsigned char unk227;
+    unsigned int unk228;
+    RefSlotArray array22c;
+    unsigned short unk238;
+    unsigned short unk23a;
+    float unk23c;
+    bool unk240;
+    bool unk241;
+    bool unk242;
+    bool unk243;
+    float unk244;
+    unsigned int unk248;
+    NamePair name24c;
+    bool unk254;
+    bool unk255;
+    bool unk256;
+    unsigned char unk257;
+    unsigned int unk258;
+    unsigned int unk25c;
+    PlainArray array260;
+    unsigned int unk270;
+    unsigned int unk274;
+    unsigned int unk278;
+    float unk27c;
+    float unk280;
+    bool unk284;
+    unsigned char unk285;
+    unsigned char unk286;
+    unsigned char unk287;
+    unsigned int unk288;
+    bool unk28c;
+    bool unk28d;
+    bool unk28e;
+    bool unk28f;
+    float unk290;
+    unsigned int unk294;
+    unsigned int unk298;
+    unsigned int unk29c;
+    NameSlot name2a0;
+    RefSlot ref2a4;
+    LastArray array2a8;
+    unsigned int unk2b8;
+    virtual ~FUN_00c7f060();
+    FUN_00c7f060(NodeArg*,NodeOrFlag,void*);
+};
+// @fnv 0x00c7f060
+FUN_00c7f060::FUN_00c7f060(NodeArg* a,NodeOrFlag b,void* c) {
+    unk23c=0.0f;
+    unk48=0; unk4c=0; unk50=0; unk54=0; unk58=0; unk5c=0;
+    unk240=false; unk241=true; unk242=true;
+    SimdVector zero; zero.value=_mm_setzero_ps();
+    for(int i=0;i<2;++i) {
+        records[i].first=-1; records[i].second=-1;
+        records[i].weight=1.04719758f;
+        records[i].position=zero.value; records[i].velocity=zero.value;
+        records[i].valid=false; records[i].active=true;
+        records[i].rotation=DAT_010c71b0;
+        records[i].time=0.0f; records[i].blend=0.0f;
+    }
+    unkd0=zero.value; unke0=zero.value; unkb4=false; unkc0=DAT_010c71b0;
+    unk1a0=0.0f; unk19c=0.0f; unk1a8=0.0f;
+    unk1a4=false; unk1a5=false;
+    unk42=0; unkb0=0; unk21f=0; unk21c=0;
+    unk41=0; unkb1=0; unk220=0; unk21d=0; unk255=0;
+    unk43=0; unkb2=0; unk221=0; unkb3=0; unk222=0; unk21e=0;
+    unk256=0; unk1bd=0; unk1ed=0; unk228=0; unk254=0;
+    unk190=0; unk194=0;
+    ref84.clear();
+    unk248=0; unk258=-1;
+    ref2a4.clear();
+    unk88=0; unk290=1.0f; unk8c=0; unk28c=0; unk28d=0; unk244=0.0f;
+    unk28e=0; unk28f=0; unk294=0; unk243=0; unk223=0; unk90=0;
+    unk0c=2; unk10=zero.value; unk20=DAT_010c71b0; unk30=_mm_set_ps1(1.0f);
+    unk280=10000.0f; unk27c=20.0f; unk23a=0; unk08=0.0f;
+    unk40=0; unk284=1; unk288=-1; unk44=0; unk04=0; unk198=0; unk224=1; unk238=0;
+    NiNode* first=a?a->get():0;
+    NiNode* second=b.node?b.node->get():0;
+    b.flag=false;
+    unsigned int count;
+    if(first && second) count=0; else count=0;
+    TempArray temp;
+    if(first && second) ::FUN_00c7d3b0(first,second,&temp,(char *)(bool *)(&b.flag),&count);
+    reinterpret_cast<::SceneOwner *>(this)->FUN_00c7e9a0((::Argument *)(a),(const char *)(c));
+    ::RestoreNodeTransforms(first,(::SavedNodeArray *)(::TempArray *)(&temp),b.flag,count);
+    unk2b8=0;
+}
+
+
+struct InversePositionVector : Vec4 {
+    void FUN_00c7f840(const Vec4* t, const Vec4* p);
+};
+
+// @fnv 0x00c7f840
+void InversePositionVector::FUN_00c7f840(const Vec4* t, const Vec4* p)
+{
+    const __m128 d = _mm_sub_ps(p->value, t[0].value);
+    const __m128 q = t[1].value;
+    const __m128 w4 = _mm_shuffle_ps(q, q, 0xff);
+    const __m128 qd = _mm_mul_ps(q, d);
+    __m128 dot = _mm_add_ss(_mm_shuffle_ps(qd, qd, 0x55), qd);
+    dot = _mm_add_ss(_mm_shuffle_ps(qd, qd, 0xaa), dot);
+    const __m128 c1 = _mm_mul_ps(_mm_shuffle_ps(q, q, 0xc9), _mm_shuffle_ps(d, d, 0xd2));
+    const __m128 c2 = _mm_mul_ps(_mm_shuffle_ps(q, q, 0xd2), _mm_shuffle_ps(d, d, 0xc9));
+    const __m128 cr = _mm_sub_ps(c2, c1);
+    __m128 r = _mm_mul_ps(_mm_add_ps(_mm_mul_ps(w4, w4), ::DAT_010c71e0), d);
+    r = _mm_add_ps(r, _mm_mul_ps(_mm_shuffle_ps(dot, dot, 0), q));
+    r = _mm_add_ps(_mm_mul_ps(cr, w4), r);
+    const __m128 v = _mm_add_ps(r, r);
+    value = v;
+    const __m128 s = t[2].value;
+    const __m128 rc = _mm_rcp_ps(s);
+    const __m128 e = _mm_mul_ps(_mm_mul_ps(rc, s), rc);
+    value = _mm_mul_ps(_mm_sub_ps(_mm_add_ps(rc, rc), e), v);
+}
+
+
+typedef ::__m128 hkQuadReal;
+typedef float hkReal;
+
+class VectorComponentValue {
+public:
+    __forceinline VectorComponentValue(const hkQuadReal& x) : m_vValue(x) {}
+    __forceinline VectorComponentValue() {}
+    __forceinline hkQuadReal broadcast() const { return _mm_shuffle_ps(m_vValue, m_vValue, 0); }
+    __forceinline const hkQuadReal& getQuad() const { return m_vValue; }
+    hkQuadReal m_vValue;
+};
+typedef const VectorComponentValue& hkSimdRealParameter;
+
+class hkQuaternion;
+class hkQsTransform;
+
+class __declspec(align(16)) hkVector4 {
+public:
+    __forceinline hkVector4() {}
+    __forceinline hkQuadReal& getQuad() { return m_vComponents; }
+    __forceinline void operator=(const hkVector4& v) { m_vComponents = v.m_vComponents; }
+    __forceinline void SetAllComponents(hkSimdRealParameter a) { m_vComponents = _mm_shuffle_ps(a.getQuad(), a.getQuad(), 0); }
+    __forceinline void add4(const hkVector4& v) { m_vComponents = (_mm_add_ps)(m_vComponents, v.m_vComponents); }
+    __forceinline void setAdd4(const hkVector4& v0, const hkVector4& v1) { m_vComponents = (_mm_add_ps)(v0.m_vComponents, v1.m_vComponents); }
+    __forceinline void setSub4(const hkVector4& v0, const hkVector4& v1) { m_vComponents = (_mm_sub_ps)(v0.m_vComponents, v1.m_vComponents); }
+    __forceinline void sub4(const hkVector4& v) { m_vComponents = (_mm_sub_ps)(m_vComponents, v.m_vComponents); }
+    __forceinline void mul4(const hkVector4& v) { m_vComponents = (_mm_mul_ps)(m_vComponents, v.m_vComponents); }
+    __forceinline void setMul4(const hkVector4& a, const hkVector4& b) { m_vComponents = (_mm_mul_ps)(a.m_vComponents, b.m_vComponents); }
+    __forceinline void mul4(hkSimdRealParameter s) { m_vComponents = (_mm_mul_ps)(s.broadcast(), m_vComponents); }
+    __forceinline void addMul4(const hkVector4& x, const hkVector4& y) { m_vComponents = (_mm_add_ps)(m_vComponents, (_mm_mul_ps)(x.m_vComponents, y.m_vComponents)); }
+    __forceinline void setAddMul4(const hkVector4& a, const hkVector4& x, const hkVector4& y) { m_vComponents = (_mm_add_ps)(a.m_vComponents, (_mm_mul_ps)(x.m_vComponents, y.m_vComponents)); }
+    __forceinline void addMul4(hkSimdRealParameter r, const hkVector4& v1) { m_vComponents = (_mm_add_ps)(m_vComponents, (_mm_mul_ps)(r.broadcast(), v1.m_vComponents)); }
+    __forceinline void setCross(const hkVector4& v0, const hkVector4& v1) {
+        hkQuadReal cross0;
+        cross0 = (_mm_mul_ps)(_mm_shuffle_ps(v0.m_vComponents, v0.m_vComponents, 0xc9), _mm_shuffle_ps(v1.m_vComponents, v1.m_vComponents, 0xd2));
+        hkQuadReal cross1;
+        cross1 = (_mm_mul_ps)(_mm_shuffle_ps(v0.m_vComponents, v0.m_vComponents, 0xd2), _mm_shuffle_ps(v1.m_vComponents, v1.m_vComponents, 0xc9));
+        m_vComponents = (_mm_sub_ps)(cross0, cross1);
+    }
+    __forceinline VectorComponentValue dot3(const hkVector4& a) const {
+        hkQuadReal x2 = (_mm_mul_ps)(m_vComponents, a.m_vComponents);
+        hkQuadReal xySum = (_mm_add_ss)(_mm_shuffle_ps(x2, x2, 0x55), x2);
+        return (_mm_add_ss)(_mm_shuffle_ps(x2, x2, 0xaa), xySum);
+    }
+    __forceinline VectorComponentValue lengthSquared3() const { return this->dot3(*this); }
+    __forceinline void setXYZW(const hkVector4& xyz, const hkVector4& w) {
+        m_vComponents = _mm_shuffle_ps(xyz.m_vComponents, (_mm_unpackhi_ps)(xyz.m_vComponents, w.m_vComponents), 0xc4);
+    }
+    __forceinline void setSqrtInverse4(const hkVector4& vec) {
+        hkQuadReal r = vec.m_vComponents;
+        hkQuadReal e = (_mm_rsqrt_ps)(r);
+        hkQuadReal he = (_mm_mul_ps)(::DAT_010c71d0, e);
+        hkQuadReal ree = (_mm_mul_ps)((_mm_mul_ps)(r, e), e);
+        m_vComponents = (_mm_mul_ps)(he, (_mm_sub_ps)(::DAT_010c71c0, ree));
+    }
+    __forceinline VectorComponentValue getSimdAt(int i) const {
+        switch (i) {
+        case 0: return m_vComponents;
+        case 1: return _mm_shuffle_ps(m_vComponents, m_vComponents, 0x55);
+        case 2: return _mm_shuffle_ps(m_vComponents, m_vComponents, 0xaa);
+        default: return _mm_shuffle_ps(m_vComponents, m_vComponents, 0xff);
+        }
+    }
+    __forceinline void broadcast(int i) {
+        if (i == 0) m_vComponents = _mm_shuffle_ps(m_vComponents, m_vComponents, 0);
+        else if (i == 1) m_vComponents = _mm_shuffle_ps(m_vComponents, m_vComponents, 0x55);
+        else if (i == 2) m_vComponents = _mm_shuffle_ps(m_vComponents, m_vComponents, 0xaa);
+        else if (i == 3) m_vComponents = _mm_shuffle_ps(m_vComponents, m_vComponents, 0xff);
+    }
+    __forceinline void setBroadcast(const hkVector4& v, int i) {
+        if (i == 0) m_vComponents = _mm_shuffle_ps(v.m_vComponents, v.m_vComponents, 0);
+        else if (i == 1) m_vComponents = _mm_shuffle_ps(v.m_vComponents, v.m_vComponents, 0x55);
+        else if (i == 2) m_vComponents = _mm_shuffle_ps(v.m_vComponents, v.m_vComponents, 0xaa);
+        else if (i == 3) m_vComponents = _mm_shuffle_ps(v.m_vComponents, v.m_vComponents, 0xff);
+    }
+    __forceinline void SetRotatedDirection(const hkQuaternion& quat, const hkVector4& direction);
+    __forceinline void _setTransformedPos(const hkQsTransform& a, const hkVector4& b);
+    hkQuadReal m_vComponents;
+};
+
+class __declspec(align(16)) hkQuaternion {
+public:
+    __forceinline hkQuaternion() {}
+    __forceinline const hkVector4& getImag() const { return m_vec; }
+    __forceinline void operator=(const hkQuaternion& q) { m_vec = q.m_vec; }
+    void FUN_00c66320(const hkQuaternion& q0, const hkQuaternion& q1);
+    void FUN_00cd9d10(const hkVector4& from, const hkVector4& to);
+    hkVector4 m_vec;
+};
+
+inline __declspec(noinline) void hkQuaternion::FUN_00c66320(const hkQuaternion& q0, const hkQuaternion& q1) {
+    hkVector4 vec;
+    vec.setCross(q0.getImag(), q1.getImag());
+    vec.addMul4(q0.m_vec.getSimdAt(3), q1.getImag());
+    vec.addMul4(q1.m_vec.getSimdAt(3), q0.getImag());
+    hkVector4 dot;
+    dot.SetAllComponents(q0.m_vec.dot3(q1.m_vec));
+    hkVector4 w;
+    w.setMul4(q0.m_vec, q1.m_vec);
+    w.sub4(dot);
+    m_vec.setXYZW(vec, w);
+}
+
+class __declspec(align(16)) hkQsTransform {
+public:
+    __forceinline hkQsTransform() {}
+    __forceinline const hkVector4& getTranslation() const { return m_vTranslation; }
+    __forceinline const hkQuaternion& getRotation() const { return m_rotation; }
+    __forceinline void SetBodyOrientation(const hkQuaternion& rotation) { m_rotation = rotation; }
+    __forceinline void operator=(const hkQsTransform& t) {
+        m_vTranslation = t.m_vTranslation;
+        m_rotation = t.m_rotation;
+        m_vScale = t.m_vScale;
+    }
+    __forceinline void SetProduct(const hkQsTransform& aTb, const hkQsTransform& bTc) {
+        hkVector4 extraTrans;
+        extraTrans.SetRotatedDirection(aTb.m_rotation, bTc.m_vTranslation);
+        m_vTranslation.setAdd4(aTb.m_vTranslation, extraTrans);
+        ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(m_rotation), (void *)&(aTb.m_rotation), (const ::fnv_00c66320::__m128 *)&(bTc.m_rotation), {});
+        m_vScale.setMul4(aTb.m_vScale, bTc.m_vScale);
+    }
+    hkVector4 m_vTranslation;
+    hkQuaternion m_rotation;
+    hkVector4 m_vScale;
+};
+
+__forceinline void hkVector4::SetRotatedDirection(const hkQuaternion& quat, const hkVector4& direction) {
+    hkVector4 minusHalf; minusHalf.getQuad() = ::DAT_010c71e0;
+    hkVector4 qreal;
+    qreal.setBroadcast(quat.m_vec, 3);
+    hkVector4 q2minus1;
+    q2minus1.setAddMul4(minusHalf, qreal, qreal);
+
+    hkVector4 ret;
+    ret.setMul4(direction, q2minus1);
+
+    hkVector4 imagDotDir;
+    imagDotDir.getQuad() = quat.getImag().dot3(direction).getQuad();
+    imagDotDir.broadcast(0);
+    ret.addMul4(imagDotDir, quat.getImag());
+
+    hkVector4 imagCrossDir;
+    imagCrossDir.setCross(quat.getImag(), direction);
+    ret.addMul4(qreal, imagCrossDir);
+
+    this->setAdd4(ret, ret);
+}
+
+__forceinline void hkVector4::_setTransformedPos(const hkQsTransform& a, const hkVector4& b) {
+    hkVector4 temp(b);
+    temp.mul4(a.m_vScale);
+    SetRotatedDirection(a.m_rotation, temp);
+    add4(a.m_vTranslation);
+}
+
+namespace MathUtilities {
+
+    __forceinline void prefetch128(const void* p) { (_mm_prefetch)((const char*)p, 0); }
+}
+template <class T> __forceinline const T* hkAddByteOffsetConst(const T* base, long offset) {
+    return reinterpret_cast<const T*>(reinterpret_cast<const char*>(base) + offset);
+}
+
+class hkMemoryAllocator {
+public:
+    virtual void v00();
+    virtual void v04();
+    virtual void v08();
+    virtual void v0c();
+    virtual void ReturnMemory(void* p, int numBytes);
+    template <class T> __forceinline void _bufFree(void* p, int numElem) { ReturnMemory(p, numElem * sizeof(T)); }
+};
+
+template <class T> class ValueWrapper {
+public:
+    __forceinline void operator=(T e) { m_kStorage = e; }
+    __forceinline T val() const { return m_kStorage; }
+    __forceinline operator T() const { return m_kStorage; }
+    T m_kStorage;
+};
+
+template <class T> __forceinline T* hkAddByteOffset(T* base, long offset) {
+    return reinterpret_cast<T*>(reinterpret_cast<char*>(base) + offset);
+}
+
+struct StringPointerTriple {
+    ValueWrapper<void*> m_next;
+    __forceinline void* allocateStack(int numBytes, const char* what) {
+        void* current = m_next;
+        m_next = hkAddByteOffset(current, numBytes);
+        return current;
+    }
+    __forceinline void deallocateStack(void* p) { m_next = p; }
+};
+
+class NineIntegerRecord {
+public:
+    static __forceinline NineIntegerRecord& GetMonitorStream() { return *(NineIntegerRecord*)FUN_00c85750(); }
+    __forceinline StringPointerTriple& stack() { return m_aiEntries; }
+    __forceinline hkMemoryAllocator& heap() { return *m_pStreamAllocator; }
+    StringPointerTriple m_aiEntries;
+    int unk04, unk08, unk0c;
+    hkMemoryAllocator* m_pStreamAllocator;
+};
+
+template <class T> __forceinline T* hkAllocateStack(int n, const char* what = 0) {
+    NineIntegerRecord& mem = NineIntegerRecord::GetMonitorStream();
+    return static_cast<T*>(mem.stack().allocateStack(((n * (int)sizeof(T)) + 127) & ~127, what));
+}
+template <class T> __forceinline void hkDeallocateStack(T* ptr) {
+    NineIntegerRecord::GetMonitorStream().stack().deallocateStack(static_cast<void*>(ptr));
+}
+
+struct RouterHeapAllocatorProvider {
+    __forceinline hkMemoryAllocator& get(const void*) { return NineIntegerRecord::GetMonitorStream().heap(); }
+};
+
+struct hkTypeIsPod {};
+namespace HavokArrayUtilities {
+
+    template <class T> __forceinline void destruct(T*, int, hkTypeIsPod) {}
+}
+
+template <class T> class HavokElementArray {
+public:
+    __forceinline const T& operator[](int i) const { return m_data[i]; }
+    __forceinline T& operator[](int i) { return m_data[i]; }
+    __forceinline int GetLogicalSize() const { return m_iElementCount; }
+    __forceinline int getCapacity() const { return m_iCapacityState & 0x3fffffff; }
+    __forceinline void clear() { HavokArrayUtilities::destruct(m_data, m_iElementCount, hkTypeIsPod()); m_iElementCount = 0; }
+    __forceinline void _clearAndDeallocate(hkMemoryAllocator& alloc) {
+        clear();
+        if ((m_iCapacityState & 0x80000000) == 0) alloc._bufFree<T>(m_data, getCapacity());
+        m_data = 0;
+        m_iCapacityState = 0x80000000;
+    }
+    T* m_data;
+    int m_iElementCount;
+    int m_iCapacityState;
+};
+template <class T> class hkArray : public HavokElementArray<T> {
+public:
+    __forceinline void ClearAndRelease() { HavokElementArray<T>::_clearAndDeallocate(RouterHeapAllocatorProvider().get(this)); }
+};
+template <class T> class StackAllocatedArray : public hkArray<T> {
+public:
+    __forceinline void init(int capacity) {
+        this->m_data = 0;
+        this->m_iElementCount = 0;
+        this->m_iCapacityState = 0x80000000;
+        this->m_data = hkAllocateStack<T>(capacity);
+        this->m_iCapacityState = capacity | 0x80000000;
+        m_pStackAllocation = this->m_data;
+    }
+    __forceinline hkBool wasReallocated() const { return m_pStackAllocation != this->m_data; }
+    __forceinline void destroy() {
+        if (!reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(wasReallocated()))->FUN_005609f0()) hkArray<T>::clear();
+        hkDeallocateStack<T>(m_pStackAllocation);
+        hkArray<T>::ClearAndRelease();
+    }
+    T* m_pStackAllocation;
+};
+
+class hkaSkeleton {
+public:
+    int unk00, unk04, unk08;
+    hkArray<short> m_kParentIndices;
+};
+
+
+template <class T> class ReferenceCountedPointer {
+public:
+    __forceinline T* val() const { return m_pRetainedObject; }
+    __forceinline T* operator->() const { return val(); }
+    __forceinline operator T*() const { return val(); }
+    T* m_pRetainedObject;
+};
+
+class __declspec(align(16)) hkaSkeletonMapperData {
+public:
+    struct __declspec(align(16)) SimpleMapping {
+        short m_sBoneA;
+        short m_sBoneB;
+        hkQsTransform m_kAFromBTransform;
+    };
+    struct __declspec(align(16)) ChainMapping {
+        short m_sStartBoneA;
+        short m_sEndBoneA;
+        short m_sStartBoneB;
+        short m_sEndBoneB;
+        hkQsTransform m_kStartAFromBTransform;
+        hkQsTransform m_kEndAFromBTransform;
+    };
+    ReferenceCountedPointer<const hkaSkeleton> m_pSkeletonA;
+    ReferenceCountedPointer<const hkaSkeleton> m_pSkeletonB;
+    hkArray<SimpleMapping> m_kSimpleMappings;
+    hkArray<ChainMapping> m_kChainMappings;
+    hkArray<short> m_kUnmappedBones;
+    hkQsTransform m_kExtractedMotionMapping;
+    hkBool m_bKeepUnmappedLocal;
+};
+
+struct hkThreadLocalData {
+    unsigned long m_slotID;
+    __forceinline void* getData() const { return TlsGetValue(m_slotID); }
+};
+
+class StringCursor {
+public:
+    static __forceinline StringCursor& GetMonitorStream() { return *(StringCursor*)(*reinterpret_cast<::hkThreadLocalData *>(&::DAT_0126835c)).getData(); }
+    __forceinline char* GetStreamEnd() { return m_kRayEnd.val(); }
+    __forceinline char* getCapacityMinus16() { return m_pCurrentCommand.val(); }
+    __forceinline hkBool memoryAvailable() { return GetStreamEnd() < getCapacityMinus16(); }
+    __forceinline void setEnd(char* ptr) { m_kRayEnd = ptr; }
+    struct Command { const char* m_pCommandName; };
+    struct CommandTimingEntry : public Command {
+        unsigned int m_uiStartTicks;
+        unsigned int m_uiEndTicks;
+        __forceinline void setTime();
+    };
+    struct TimedNameRecord : public CommandTimingEntry {
+        const char* m_pFirst;
+    };
+    ValueWrapper<char*> m_kRayStart;
+    ValueWrapper<char*> m_kRayEnd;
+    ValueWrapper<char*> m_pRayCursor;
+    ValueWrapper<char*> m_pCurrentCommand;
+};
+__forceinline void StringCursor::CommandTimingEntry::setTime() {
+    unsigned int ticks;
+    ticks = (unsigned int)__rdtsc();
+    m_uiStartTicks = ticks;
+}
+
+static __declspec(noinline) void FUN_00ce2a50(hkVector4& a, hkVector4& b) {
+    hkVector4 aLen; aLen.SetAllComponents(a.lengthSquared3());
+    hkVector4 bLen; bLen.SetAllComponents(b.lengthSquared3());
+    hkVector4 lens; lens.setXYZW(aLen, bLen);
+    hkVector4 inv; inv.setSqrtInverse4(lens);
+    a.mul4(inv.getSimdAt(0));
+    b.mul4(inv.getSimdAt(3));
+}
+
+class hkReferencedObject {
+public:
+    virtual ~hkReferencedObject();
+    unsigned short m_usMemSizeAndFlags;
+    short m_sReferenceCount;
+};
+
+class hkaSkeletonMapper : public hkReferencedObject {
+public:
+    void __cdecl FUN_00ce3a00(const hkQsTransform* poseAModelSpace, const hkQsTransform* originalPoseBLocalSpace, hkQsTransform* poseBModelSpace, int source) const;
+    hkaSkeletonMapperData m_kMappingData;
+};
+// @fnv 0x00c7c870
+void BlendController::FUN_00c7c870() {
+    BlendController* self=this;
+    if (((long long)(::FUN_00aa4d80()))-self->start > self->duration) {
+        reinterpret_cast<::Controller *>((self))->FUN_00c7b6a0(0);
+    } else {
+    BlendSkeleton* skeleton=self->pose->skeleton;
+    intptr_t count=skeleton->count;
+    BlendBuffer a(count);
+    BlendTransform* aData=a.data;
+    {
+        BlendBuffer b(count);
+        BlendTransform* bData=b.data;
+        reinterpret_cast<::RagdollMapperC18 *>((self->pose))->FUN_00ce18f0((::hkQsTransformC18 *)(bData),(*(const ::hkQsTransformC18 *)(&self->unk010)));
+        ::FUN_00cddef0((void *)(count),skeleton->getTransforms(),bData,aData);
+    }
+    BlendBuffer c(count);
+    BlendTransform* cData=c.data;
+    BlendBuffer d(count);
+    BlendTransform* dData=d.data;
+    ::CallWithGlobal(count,(intptr_t)(skeleton->getTransforms()),(intptr_t)(skeleton->getMapping()),(intptr_t)(dData));
+    intptr_t mappedCount=(intptr_t)skeleton->getMapping();
+    reinterpret_cast<::hkaSkeletonMapper *>((self->GetReferenceTimeStep()->source))->FUN_00ce3a00((const ::hkQsTransform *)(self->access->sourceValue()),(const ::hkQsTransform *)(mappedCount),(::hkQsTransform *)(dData),2);
+    ::FUN_00cddef0((void *)(count),skeleton->getTransforms(),dData,cData);
+    int poseCount=self->pose->count;
+    for(int i=0;i<poseCount;++i) {
+        int index=self->GetReferenceTimeStep()->ragdoll->bones.find((unsigned short)i);
+        if(index!=-1) {
+            __declspec(align(16)) char components[sizeof(BlendQuat)];
+            BlendQuat& q=*(BlendQuat*)components;
+            q.FUN_00cb2850(aData[i].translation,cData[i].translation,self->blend);
+            cData[i].translation=q;
+        }
+    }
+    ::CallWithGlobal(count,(intptr_t)(skeleton->getTransforms()),(intptr_t)(cData),(intptr_t)(dData));
+    intptr_t v=self->access->valueA();
+    intptr_t w=self->access->valueB();
+    reinterpret_cast<::hkaSkeletonMapper *>((self->GetReferenceTimeStep()->dest))->FUN_00ce3a00((const ::hkQsTransform *)((intptr_t)dData),(const ::hkQsTransform *)(w),(::hkQsTransform *)(::BlendTransform *)((BlendTransform*)v),2);
+    reinterpret_cast<::FUN_00cd9fe0_cls *>((self->access))->FUN_00cd9fe0();
+    }
+}
+struct FUN_00cdb3e0_cls
+{
+    char pad[0x2c];
+    void FUN_00cdb3e0();
+};
+// @fnv 0x00c7d030
+void RagdollUpdateController::FUN_00c7d030(const Transform48* input) {
+ SkeletonData* data=skeleton->getData();
+ intptr_t count=data->getCount();
+ ScratchTransforms outputStorage(count);
+ Transform48* output=outputStorage.begin();
+ ScratchTransforms poseStorage(count);
+ Transform48* pose=poseStorage.begin();
+ int oldMode=mode;
+ if(forceMode) mode=1;
+ if(needsInit) { ::UpdateEntriesByKind((::ObjectContext *)(skeleton)); needsInit=false; }
+ if(!input) {
+  ::CallWithGlobal(count,(intptr_t)((void*)data->getParents()),(intptr_t)((void*)data->getPoses()),(intptr_t)(pose));
+  void* referencePoses=(void*)data->getPoses();
+  void* poseTrack=*((void **)(reinterpret_cast<::FUN_00cda8d0_class *>((lookup))->FUN_00cda8d0()));
+  BlendData* currentBlend=blend;
+  reinterpret_cast<::hkaSkeletonMapper *>((currentBlend->data))->FUN_00ce3a00((const ::hkQsTransform *)(poseTrack),(const ::hkQsTransform *)(referencePoses),(::hkQsTransform *)(pose),2);
+  if(mode!=1) { void* bones=(void*)data->getParents(); ::FUN_00cddef0((void *)(count),bones,pose,output); }
+ } else {
+  for(int i=0;i<count;++i) outputStorage[i]=input[i];
+ }
+ switch(mode) {
+ case 3: ::EnableBehaviorsByKind((::InputMap *)(skeleton)); ::FUN_00c7a410((::S_c7a410_Obj *)(skeleton),(char *)(output)); mode=0; break;
+ case 2:
+  if(active) { reinterpret_cast<::FUN_00cdb3e0_cls *>((processor))->FUN_00cdb3e0(); active=false; }
+  if(DAT_011afe64>0.0f) {
+   IntBuffer results(count);
+   reinterpret_cast<::fnv_00cdb7c0::Obj *>((processor))->FUN_00cdb7c0(DAT_011afe64,(::fnv_00cdb7c0::Mat *)(output),(*(const ::fnv_00cdb7c0::Mat *)(&settings10)),(intptr_t)(results.begin()));
+   bool fast=false;
+   for(int index=0;index<skeleton->getNumBones();++index) {
+    if(fast) break;
+    {
+     BoneState* state=skeleton->getBody(index);
+     if(state) {
+      float magnitude=state->velocity.lengthSquared();
+      float limit=state->scaleIndex;
+      limit=limit*limit;
+      fast=magnitude>limit;
+     }
+    }
+   }
+   if(fast) { reinterpret_cast<::fnv_00ce1ad0::RagInstance *>((skeleton))->FUN_00ce1ad0((const ::fnv_00ce1ad0::RagQsTransform *)(pose),(*(const ::fnv_00ce1ad0::RagQsTransform *)(&settings10))); active=true; }
+  }
+  break;
+ case 1: { Skeleton* current=skeleton; reinterpret_cast<::fnv_00ce1ad0::RagInstance *>((current))->FUN_00ce1ad0((const ::fnv_00ce1ad0::RagQsTransform *)(pose),(*(const ::fnv_00ce1ad0::RagQsTransform *)(&settings10))); break; }
+ }
+ if(forceMode) { mode=oldMode; forceMode=false; }
+}
+
+// @fnv 0x00ce3a00
+void __cdecl hkaSkeletonMapper::FUN_00ce3a00(const hkQsTransform* poseAModelSpace, const hkQsTransform* originalPoseBLocalSpace, hkQsTransform* poseBModelSpace, int source) const {
+    {
+        StringCursor& mStream = StringCursor::GetMonitorStream();
+        if (reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(mStream.memoryAvailable()))->FUN_005609f0()) {
+            StringCursor::TimedNameRecord* h = reinterpret_cast<StringCursor::TimedNameRecord*>(mStream.GetStreamEnd());
+            h->m_pCommandName = "LtMapPoseModelSpace";
+            h->m_pFirst = "Stinit";
+            h->setTime();
+            mStream.setEnd((char*)(h + 1));
+        }
+    }
+    {
+        StringCursor& mStream = StringCursor::GetMonitorStream();
+        if (reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(mStream.memoryAvailable()))->FUN_005609f0()) {
+            StringCursor::CommandTimingEntry* h = reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());
+            h->m_pCommandName = "StsimpleMappings";
+            h->setTime();
+            mStream.setEnd((char*)(h + 1));
+        }
+    }
+    {
+        const int numSimpleMappings = m_kMappingData.m_kSimpleMappings.GetLogicalSize();
+        for (int i = 0; i < numSimpleMappings; i++) {
+            const int prefetchDistance = 128;
+            MathUtilities::prefetch128(hkAddByteOffsetConst(&m_kMappingData.m_kSimpleMappings[i], prefetchDistance));
+            const hkaSkeletonMapperData::SimpleMapping& simpleMapping = m_kMappingData.m_kSimpleMappings[i];
+            poseBModelSpace[simpleMapping.m_sBoneB].SetProduct(poseAModelSpace[simpleMapping.m_sBoneA], simpleMapping.m_kAFromBTransform);
+            MathUtilities::prefetch128(hkAddByteOffsetConst(&poseAModelSpace[simpleMapping.m_sBoneA], prefetchDistance));
+            MathUtilities::prefetch128(hkAddByteOffsetConst(&poseBModelSpace[simpleMapping.m_sBoneB], prefetchDistance));
+        }
+    }
+    {
+        StringCursor& mStream = StringCursor::GetMonitorStream();
+        if (reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(mStream.memoryAvailable()))->FUN_005609f0()) {
+            StringCursor::CommandTimingEntry* h = reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());
+            h->m_pCommandName = "StchainMappings";
+            h->setTime();
+            mStream.setEnd((char*)(h + 1));
+        }
+    }
+    {
+        const int numChainMappings = m_kMappingData.m_kChainMappings.GetLogicalSize();
+        for (int i = 0; i < numChainMappings; i++) {
+            const hkaSkeletonMapperData::ChainMapping& chainMapping = m_kMappingData.m_kChainMappings[i];
+            const short startBoneA = chainMapping.m_sStartBoneA;
+            const short endBoneA = chainMapping.m_sEndBoneA;
+            const short startBoneB = chainMapping.m_sStartBoneB;
+            const short endBoneB = chainMapping.m_sEndBoneB;
+
+            poseBModelSpace[startBoneB].SetProduct(poseAModelSpace[startBoneA], chainMapping.m_kStartAFromBTransform);
+
+            StackAllocatedArray<short> chainBones;
+            chainBones.init(endBoneB - startBoneB + 1);
+            ::WalkChainUntilLimit((unsigned char *)&(*m_kMappingData.m_pSkeletonB), (::ScanRec *)(std::intptr_t)(startBoneB), endBoneB, (short)(std::intptr_t)&(chainBones), {});
+
+            hkVector4 currentEndModelSpacePos;
+            currentEndModelSpacePos = originalPoseBLocalSpace[endBoneB].getTranslation();
+            for (int b = chainBones.GetLogicalSize() - 2; b >= 1; b--) {
+                const short bone = chainBones[b];
+                currentEndModelSpacePos._setTransformedPos(originalPoseBLocalSpace[bone], currentEndModelSpacePos);
+            }
+            currentEndModelSpacePos._setTransformedPos(poseBModelSpace[startBoneB], currentEndModelSpacePos);
+
+            {
+                const hkVector4& startModelSpacePos = poseBModelSpace[startBoneB].getTranslation();
+                hkQsTransform desiredEndModelSpace;
+                desiredEndModelSpace.SetProduct(poseAModelSpace[endBoneA], chainMapping.m_kEndAFromBTransform);
+                const hkVector4& desiredEndModelSpacePos = desiredEndModelSpace.getTranslation();
+
+                hkVector4 currentDirection; currentDirection.setSub4(currentEndModelSpacePos, startModelSpacePos);
+                hkVector4 desiredDirection; desiredDirection.setSub4(desiredEndModelSpacePos, startModelSpacePos);
+                FUN_00ce2a50(currentDirection, desiredDirection);
+
+                hkQuaternion rotationQuaternion;
+                rotationQuaternion.FUN_00cd9d10(currentDirection, desiredDirection);
+
+                hkQuaternion currentRot = poseBModelSpace[startBoneB].getRotation();
+                hkQuaternion temp;
+                ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(temp), (void *)&(rotationQuaternion), (const ::fnv_00c66320::__m128 *)&(currentRot), {});
+                poseBModelSpace[startBoneB].SetBodyOrientation(temp);
+            }
+
+            for (int b = 1; b < chainBones.GetLogicalSize() - 1; b++) {
+                const short childIdx = chainBones[b];
+                const short parentIdx = chainBones[b - 1];
+                const hkQsTransform& parentFromChild = originalPoseBLocalSpace[childIdx];
+                const hkQsTransform& modelFromParent = poseBModelSpace[parentIdx];
+                poseBModelSpace[childIdx].SetProduct(modelFromParent, parentFromChild);
+            }
+            chainBones.destroy();
+        }
+    }
+    {
+        StringCursor& mStream = StringCursor::GetMonitorStream();
+        if (reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(mStream.memoryAvailable()))->FUN_005609f0()) {
+            StringCursor::CommandTimingEntry* h = reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());
+            h->m_pCommandName = "StunmappedBones";
+            h->setTime();
+            mStream.setEnd((char*)(h + 1));
+        }
+    }
+    {
+        const int numUnmapped = m_kMappingData.m_kUnmappedBones.GetLogicalSize();
+        if (reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(m_kMappingData.m_bKeepUnmappedLocal))->FUN_005609f0()) {
+            for (int i = 0; i < numUnmapped; i++) {
+                const short boneIdx = m_kMappingData.m_kUnmappedBones[i];
+                const short parentIdx = m_kMappingData.m_pSkeletonB->m_kParentIndices[boneIdx];
+                if (parentIdx != -1) {
+                    const hkQsTransform& parentFromChild = originalPoseBLocalSpace[boneIdx];
+                    const hkQsTransform& modelFromParent = poseBModelSpace[parentIdx];
+                    poseBModelSpace[boneIdx].SetProduct(modelFromParent, parentFromChild);
+                } else {
+                    poseBModelSpace[boneIdx] = originalPoseBLocalSpace[boneIdx];
+                }
+            }
+        }
+    }
+    {
+        StringCursor& mStream = StringCursor::GetMonitorStream();
+        if (reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(mStream.memoryAvailable()))->FUN_005609f0()) {
+            StringCursor::CommandTimingEntry* h = reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());
+            h->m_pCommandName = "StenforceConstraints";
+            h->setTime();
+            mStream.setEnd((char*)(h + 1));
+        }
+    }
+    switch (source) {
+    case 1:
+        ::FUN_00cde1d0((const ::hkaSkeleton *)&(*m_kMappingData.m_pSkeletonB), poseBModelSpace);
+        break;
+    case 2:
+        ::FUN_00cde2d0((::SkinXformSet *)&(*m_kMappingData.m_pSkeletonB), (const ::SkinXformEntry *)(originalPoseBLocalSpace), (::SkinXformEntry *)(poseBModelSpace));
+        break;
+    }
+    {
+        StringCursor& mStream = StringCursor::GetMonitorStream();
+        if (reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(mStream.memoryAvailable()))->FUN_005609f0()) {
+            StringCursor::CommandTimingEntry* h = reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());
+            h->m_pCommandName = "lt";
+            h->setTime();
+            mStream.setEnd((char*)(h + 1));
+        }
+    }
+}
+
+// ---- Gamebryo / game helpers ----
+void* __cdecl NiMalloc(unsigned int size);
+void __cdecl NiFree(void* p);
+
+struct MM {
+};
+typedef __m128 ReviewedVector;
+struct ReviewedRTTI { const char* name; ReviewedRTTI* parent; };
+struct ReviewedNode {
+    virtual void slot00();
+    virtual void slot04();
+    virtual ReviewedRTTI* GetRTTI();
+    virtual ReviewedNode* GetChildrenNode();
+    virtual void slot10();
+    virtual void slot14();
+    virtual void slot18();
+    virtual void slot1C();
+    virtual void slot20();
+    virtual void slot24();
+    virtual void slot28();
+    virtual void slot2C();
+    virtual void slot30();
+    virtual void slot34();
+    virtual void slot38();
+    virtual ReviewedNode* GetObject();
+    bool IsKindOfType(const ReviewedRTTI* target) {
+        for (ReviewedRTTI* type = GetRTTI(); type; type = type->parent)
+            if (type == target) return true;
+        return false;
+    }
+    unsigned int unk04;
+    unsigned int value;
+    unsigned int unk0C;
+    unsigned int unk10;
+    unsigned int unk14;
+    unsigned int key;
+    unsigned int unk1C;
+    unsigned int unk20;
+    unsigned int unk24;
+    unsigned int unk28;
+    unsigned int unk2C;
+    unsigned int unk30;
+    float transform00; float transform04; float transform08; float transform0C;
+    float transform10; float transform14; float transform18; float transform1C;
+    float transform20; float transform24; float transform28; float transform2C;
+    unsigned int unk64;
+    unsigned int unk68;
+    unsigned int unk6C;
+    unsigned int unk70;
+    unsigned int unk74;
+    unsigned int unk78;
+    unsigned int unk7C;
+    unsigned int unk80;
+    unsigned int unk84;
+    unsigned int unk88;
+    unsigned int unk8C;
+    unsigned int unk90;
+    unsigned int unk94;
+    unsigned int unk98;
+    unsigned int unk9C;
+    ReviewedNode** children;
+    unsigned short capacity;
+    unsigned short count;
+};
+struct ReviewedRecord {
+    unsigned int value;
+    unsigned int unk04; unsigned int unk08; unsigned int unk0C;
+    ReviewedVector transform0;
+    ReviewedVector transform1;
+    ReviewedVector transform2;
+    unsigned short index;
+    static void* operator new(std::size_t size) {
+        unsigned char* allocation = (unsigned char*)reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(size + 16);
+        unsigned char adjustment = 16 - ((uintptr_t)allocation & 15);
+        allocation += adjustment;
+        allocation[-1] = adjustment;
+        return allocation;
+    }
+};
+struct ReviewedArray {
+    unsigned int unk00;
+    ReviewedRecord** data;
+    unsigned short count;
+    unsigned short capacity;
+};
+struct ReviewedNodeArray {
+    unsigned int unk00;
+    ReviewedNode** data;
+    void Add(ReviewedNode* node) { data[reinterpret_cast<::FUN_00761540_cls *>(this)->FUN_00761540()] = node; }
+};
+struct ReviewedSettings {
+    unsigned int unk00;
+    unsigned int unk04;
+    unsigned int unk08;
+    unsigned int unk0C;
+    unsigned int unk10;
+    unsigned int unk14;
+    unsigned int unk18;
+    unsigned int unk1C;
+    unsigned int unk20;
+    unsigned int unk24;
+    unsigned int unk28;
+    unsigned int unk2C;
+    unsigned int unk30;
+    unsigned int unk34;
+    unsigned int unk38;
+    unsigned int unk3C;
+    unsigned int unk40;
+    unsigned int unk44;
+    unsigned int unk48;
+    unsigned int unk4C;
+    unsigned int unk50;
+    unsigned int unk54;
+    unsigned int unk58;
+    unsigned int unk5C;
+    unsigned int unk60;
+    unsigned int unk64;
+    unsigned int unk68;
+    unsigned int unk6C;
+    unsigned int unk70;
+    unsigned int unk74;
+    unsigned int unk78;
+    unsigned int unk7C;
+    unsigned int unk80;
+    unsigned int unk84;
+    unsigned int unk88;
+    unsigned int unk8C;
+    unsigned int unk90;
+    unsigned int unk94;
+    float scale;
+};
+struct ReviewedContext {
+    unsigned int unk00;
+    unsigned int unk04;
+    unsigned int unk08;
+    unsigned int unk0C;
+    unsigned int unk10;
+    unsigned int unk14;
+    unsigned int unk18;
+    unsigned int unk1C;
+    unsigned int unk20;
+    unsigned int unk24;
+    unsigned int unk28;
+    unsigned int unk2C;
+    unsigned int unk30;
+    unsigned int unk34;
+    unsigned int unk38;
+    unsigned int unk3C;
+    unsigned int unk40;
+    unsigned int unk44;
+    unsigned int unk48;
+    unsigned int unk4C;
+    unsigned int unk50;
+    unsigned int unk54;
+    ReviewedSettings* settings;
+    unsigned int unk5C;
+    unsigned int unk60;
+    unsigned int unk64;
+    unsigned int unk68;
+    unsigned int unk6C;
+    unsigned int unk70;
+    unsigned int unk74;
+    unsigned int unk78;
+    unsigned int unk7C;
+    unsigned int unk80;
+    unsigned int unk84;
+    unsigned int unk88;
+    unsigned int unk8C;
+    unsigned int unk90;
+    unsigned int unk94;
+    unsigned int unk98;
+    unsigned int unk9C;
+    ReviewedNodeArray nodes;
+    void FUN_00c7b4f0(ReviewedNode*, ReviewedArray*, ReviewedContext*);
+};
+
+namespace SkeletonBuild {
+
+
+// ---- Havok memory ----
+struct hkMemoryAllocator {
+    virtual ~hkMemoryAllocator();
+    virtual void* AllocateMemoryBlock(int numBytes);
+    virtual void ReleaseBlock(void* p, int numBytes);
+};
+struct NineIntegerRecord {
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    hkMemoryAllocator* heap;
+};
+const char* __cdecl FUN_00cb1410(int name);
+
+inline hkMemoryAllocator* HeapAllocator()
+{
+    NineIntegerRecord* r = reinterpret_cast<NineIntegerRecord*>(FUN_00c85750());
+    return r->heap;
+}
+
+template<class T> struct HkArray {
+    T* m_data;
+    int m_iElementCount;
+    int m_iCapacityState;
+
+    HkArray() : m_data(0), m_iElementCount(0), m_iCapacityState(0x80000000) {}
+    ~HkArray()
+    {
+        destruct(m_data, m_iElementCount);
+        m_iElementCount = 0;
+        if (m_iCapacityState >= 0)
+            HeapAllocator()->ReleaseBlock(m_data, getCapacity() * sizeof(T));
+    }
+    int getCapacity() const { return m_iCapacityState & 0x3fffffff; }
+    __forceinline void reserve(int n)
+    {
+        hkMemoryAllocator* alloc = HeapAllocator();
+        if (getCapacity() < n) {
+            int cap2 = getCapacity() * 2;
+            ::FUN_00c908c0((::SpawnedObject *)(alloc), (::SpawnedArray *)(void *)(this), n < cap2 ? cap2 : n, sizeof(T));
+        }
+    }
+    __forceinline void reserveExactly(int n)
+    {
+        hkMemoryAllocator* alloc = HeapAllocator();
+        if (getCapacity() < n)
+            ::FUN_00c908c0((::SpawnedObject *)(alloc), (::SpawnedArray *)(void *)(this), n, sizeof(T));
+    }
+    __forceinline void setSizePod(int n)
+    {
+        reserve(n);
+        m_iElementCount = n;
+    }
+    __forceinline void setSizeFill(int n, int fill)
+    {
+        reserve(n);
+        int count = n - m_iElementCount;
+        int* p = reinterpret_cast<int*>(m_data + m_iElementCount);
+        for (int i = 0; i < count; ++i)
+            p[i] = fill;
+        m_iElementCount = n;
+    }
+    static __forceinline void destruct(T* t, int n)
+    {
+        for (int i = 0; i < n; ++i)
+            t[i].~T();
+    }
+    static __forceinline void construct(T* t, int n)
+    {
+        for (int i = 0; i < n; ++i)
+            new (t + i) T;
+    }
+    __forceinline void setSizeObj(int n)
+    {
+        reserve(n);
+        destruct(m_data + n, m_iElementCount - n);
+        construct(m_data + m_iElementCount, n - m_iElementCount);
+        m_iElementCount = n;
+    }
+    __forceinline int GetLogicalSize() const { return m_iElementCount; }
+    T& operator[](int i) { return m_data[i]; }
+};
+
+
+struct hkVector4 {
+    __m128 m_vComponents;
+    void operator=(const hkVector4& v) { m_vComponents = v.m_vComponents; }
+};
+struct hkBool {
+    char m_cBooleanValue;
+    hkBool() {}
+    hkBool(bool b) : m_cBooleanValue(b) {}
+    hkBool& operator=(bool b) { m_cBooleanValue = b; return *this; }
+};
+struct hkQsTransform {
+    hkVector4 m_vTranslation;
+    hkVector4 m_rotation;
+    hkVector4 m_vScale;
+    void operator=(const hkQsTransform& t) {
+        m_vTranslation = t.m_vTranslation;
+        m_rotation = t.m_rotation;
+        m_vScale = t.m_vScale;
+    }
+};
+
+struct hkStringPtr {
+    const char* m_pcText;
+    hkStringPtr() { new ((void *)this) struct ::FUN_00cb0a60(); }
+    ~hkStringPtr() { ::FUN_00cb0c00((intptr_t)this); }
+};
+
+struct hkaBone {
+    hkStringPtr m_name;
+    hkBool m_bLockTranslation;
+    hkaBone() { m_bLockTranslation = false; }
+};
+
+struct hkReferencedObject {
+    short m_usMemSizeAndFlags;
+    short m_sReferenceCount;
+    __forceinline hkReferencedObject() { m_sReferenceCount = 1; }
+    virtual ~hkReferencedObject() {}
+    void* operator new(std::size_t n)
+    {
+        hkReferencedObject* b = static_cast<hkReferencedObject*>(HeapAllocator()->AllocateMemoryBlock(n));
+        b->m_usMemSizeAndFlags = static_cast<short>(n);
+        return b;
+    }
+    void operator delete(void* p, std::size_t n) { HeapAllocator()->ReleaseBlock(p, n); }
+};
+
+struct hkaSkeleton : hkReferencedObject {
+    hkStringPtr m_name;
+    HkArray<short> m_kParentIndices;
+    HkArray<hkaBone> m_kBones;
+    HkArray<hkQsTransform> m_kReferencePose;
+    HkArray<float> m_referenceFloats;
+    HkArray<hkStringPtr> m_kBoneNames;
+    __forceinline hkaSkeleton() {}
+    virtual ~hkaSkeleton();
+};
+
+struct SkeletonPoseData {
+    const hkaSkeleton* m_pSkeleton;
+    HkArray<hkQsTransform> m_pLocalPose;
+    HkArray<hkQsTransform> m_pModelPose;
+    HkArray<unsigned int> m_pBoneFlags;
+    hkBool m_bPoseFlag;
+    hkBool m_bPoseInitialized;
+    HkArray<float> m_kPoseData;
+
+    void* operator new(std::size_t n) { return HeapAllocator()->AllocateMemoryBlock(n); }
+    void operator delete(void* p, std::size_t n) { HeapAllocator()->ReleaseBlock(p, n); }
+
+    __forceinline SkeletonPoseData(const hkaSkeleton* skeleton) : m_pSkeleton(skeleton), m_bPoseFlag(false), m_bPoseInitialized(false)
+    {
+        const int numBones = m_pSkeleton->m_kBones.GetLogicalSize();
+        m_pModelPose.setSizePod(numBones);
+        m_pLocalPose.setSizePod(numBones);
+        m_pBoneFlags.setSizePod(numBones);
+        m_kPoseData.reserveExactly((m_pSkeleton->m_referenceFloats.GetLogicalSize() + 3) & ~3);
+        m_kPoseData.setSizeFill(m_pSkeleton->m_referenceFloats.GetLogicalSize(), 0);
+    }
+};
+
+// ---- gathered bone records ----
+struct BoneRecord {
+    int name;
+    int unk04;
+    int unk08;
+    int unk0c;
+    hkQsTransform transform;
+    short parent;
+};
+
+struct BoneRecordArray {
+    BoneRecord** m_pBase;
+    unsigned int m_uiSize;
+    unsigned int m_uiMaxSize;
+    BoneRecordArray() : m_pBase(0), m_uiSize(0), m_uiMaxSize(0) {}
+    virtual ~BoneRecordArray()
+    {
+        if (m_pBase)
+            Free(m_pBase);
+    }
+    virtual void* Alloc(unsigned int n);
+    __declspec(dllimport) virtual void Free(void* p);
+    void RemoveAll()
+    {
+        if (m_pBase) {
+            Free(m_pBase);
+            m_pBase = 0;
+            m_uiMaxSize = 0;
+            m_uiSize = 0;
+        }
+    }
+};
+
+struct NiTMapItemStub {
+    NiTMapItemStub* m_pkNext;
+    int m_key;
+    int m_val;
+};
+
+struct NiTMapBaseStub {
+    unsigned int m_uiHashSize;
+    NiTMapItemStub** m_ppkHashTable;
+    unsigned int m_uiCount;
+    NiTMapBaseStub(unsigned int uiHashSize = 37)
+    {
+        m_uiHashSize = uiHashSize;
+        m_uiCount = 0;
+        unsigned int uiSize = sizeof(NiTMapItemStub*) * m_uiHashSize;
+        m_ppkHashTable = static_cast<NiTMapItemStub**>(NiMalloc(uiSize));
+        unsigned int bytes = m_uiHashSize * sizeof(NiTMapItemStub*);
+        std::memset(m_ppkHashTable, 0, bytes);
+    }
+    virtual ~NiTMapBaseStub()
+    {
+        reinterpret_cast<::S_00b601a0_Map *>(this)->FUN_00b601a0();
+        NiFree(m_ppkHashTable);
+    }
+    virtual unsigned int KeyToHashIndex(int key) const;
+    void RemoveAll();
+};
+
+struct BoneRecordMap : NiTMapBaseStub {
+    BoneRecordMap() {}
+    virtual ~BoneRecordMap() { reinterpret_cast<::S_00b601a0_Map *>(this)->FUN_00b601a0(); }
+};
+
+template<class T> struct PlainPtr {
+    T* ptr;
+    T* operator->() const { return ptr; }
+    operator T*() const { return ptr; }
+    T* operator=(T* p) { ptr = p; return p; }
+};
+struct SkeletonHolder {
+    int unk00;
+    int unk04;
+    int unk08;
+    hkaSkeleton* m_pSkeleton;
+};
+
+struct BuildNode {
+    int key;
+    int unk04;
+    void* payload;
+};
+
+struct AnimationOwner {
+    int unk000;
+    int unk004;
+    int unk008;
+    int unk00c;
+    int unk010;
+    int unk014;
+    int unk018;
+    int unk01c;
+    int unk020;
+    int unk024;
+    int unk028;
+    int unk02c;
+    int unk030;
+    int unk034;
+    int unk038;
+    int unk03c;
+    int unk040;
+    int unk044;
+    int unk048;
+    int unk04c;
+    int unk050;
+    int unk054;
+    void* root;
+    int unk05c;
+    int unk060;
+    int unk064;
+    int unk068;
+    int unk06c;
+    int unk070;
+    int unk074;
+    int unk078;
+    int unk07c;
+    int unk080;
+    int unk084;
+    SkeletonPoseData* pose;
+    int unk08c;
+    int unk090;
+    HkArray<hkQsTransform> transforms;
+    int unk0a0;
+    int unk0a4;
+    int unk0a8;
+    int unk0ac;
+    int unk0b0;
+    int unk0b4;
+    int unk0b8;
+    int unk0bc;
+    int unk0c0;
+    int unk0c4;
+    int unk0c8;
+    int unk0cc;
+    int unk0d0;
+    int unk0d4;
+    int unk0d8;
+    int unk0dc;
+    int unk0e0;
+    int unk0e4;
+    int unk0e8;
+    int unk0ec;
+    int unk0f0;
+    int unk0f4;
+    int unk0f8;
+    int unk0fc;
+    int unk100;
+    int unk104;
+    int unk108;
+    int unk10c;
+    int unk110;
+    int unk114;
+    int unk118;
+    int unk11c;
+    int unk120;
+    int unk124;
+    int unk128;
+    int unk12c;
+    int unk130;
+    int unk134;
+    int unk138;
+    int unk13c;
+    int unk140;
+    int unk144;
+    int unk148;
+    int unk14c;
+    int unk150;
+    int unk154;
+    int unk158;
+    int unk15c;
+    int unk160;
+    int unk164;
+    int unk168;
+    int unk16c;
+    int unk170;
+    int unk174;
+    int unk178;
+    int unk17c;
+    int unk180;
+    int unk184;
+    int unk188;
+    int unk18c;
+    int unk190;
+    int unk194;
+    int unk198;
+    int unk19c;
+    int unk1a0;
+    int unk1a4;
+    int unk1a8;
+    int unk1ac;
+    int unk1b0;
+    int unk1b4;
+    int unk1b8;
+    int unk1bc;
+    int unk1c0;
+    int unk1c4;
+    int unk1c8;
+    int unk1cc;
+    int unk1d0;
+    int unk1d4;
+    int unk1d8;
+    int unk1dc;
+    int unk1e0;
+    int unk1e4;
+    int unk1e8;
+    int unk1ec;
+    int unk1f0;
+    int unk1f4;
+    int unk1f8;
+    int unk1fc;
+    int unk200;
+    int unk204;
+    int unk208;
+    int unk20c;
+    int unk210;
+    int unk214;
+    int unk218;
+    int unk21c;
+    int unk220;
+    int unk224;
+    int unk228;
+    int unk22c;
+    int unk230;
+    int unk234;
+    int unk238;
+    int unk23c;
+    int unk240;
+    int unk244;
+    int unk248;
+    int unk24c;
+    int unk250;
+    int unk254;
+    int unk258;
+    int unk25c;
+    int unk260;
+    int unk264;
+    int unk268;
+    int unk26c;
+    int unk270;
+    int unk274;
+    int unk278;
+    int unk27c;
+    int unk280;
+    int unk284;
+    int unk288;
+    int unk28c;
+    int unk290;
+    int unk294;
+    int unk298;
+    int unk29c;
+    int unk2a0;
+    PlainPtr<SkeletonHolder> skeletonHolder;
+
+    void FUN_00c7e3b0();
+public:
+    void FUN_00c7b4f0(void* node, BoneRecordArray* records, BoneRecordMap* map);
+};
+
+// @fnv 0x00c7e3b0
+void AnimationOwner::FUN_00c7e3b0()
+{
+    if (!root)
+        return;
+
+    void* node = ((::SkeletonBuild::BuildNode *)(::FUN_00c802d0((::MyNode *)(root))))->payload;
+    BoneRecordArray records;
+    BoneRecordMap map;
+    reinterpret_cast<::ReviewedContext *>(this)->FUN_00c7b4f0((::ReviewedNode *)(node), (::ReviewedArray *)(::SkeletonBuild::BoneRecordArray *)(&records), (::ReviewedContext *)(::SkeletonBuild::BoneRecordMap *)(&map));
+
+    SkeletonHolder* holder = skeletonHolder;
+    if (!holder->m_pSkeleton) {
+        skeletonHolder->m_pSkeleton = new hkaSkeleton;
+        int numBones = records.m_uiSize;
+        skeletonHolder->m_pSkeleton->m_kBones.setSizeObj(numBones);
+        skeletonHolder->m_pSkeleton->m_kParentIndices.setSizePod(numBones);
+        skeletonHolder->m_pSkeleton->m_kReferencePose.setSizePod(numBones);
+        for (unsigned int i = 0; i < records.m_uiSize; ++i) {
+            hkaBone& bone = skeletonHolder->m_pSkeleton->m_kBones[i];
+            reinterpret_cast<::SStringPtr *>(&(bone.m_name))->FUN_00cb0c10(FUN_00cb1410(records.m_pBase[i]->name));
+            skeletonHolder->m_pSkeleton->m_kBones[i].m_bLockTranslation = true;
+            skeletonHolder->m_pSkeleton->m_kReferencePose[i] = records.m_pBase[i]->transform;
+            skeletonHolder->m_pSkeleton->m_kParentIndices[i] = records.m_pBase[i]->parent;
+        }
+    }
+
+    for (unsigned int i = 0; i < records.m_uiSize; ++i) {
+        BoneRecord* r = records.m_pBase[i];
+        if (r)
+            reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(reinterpret_cast<char*>(r) - reinterpret_cast<unsigned char*>(r)[-1]);
+    }
+    records.RemoveAll();
+
+    pose = new SkeletonPoseData(skeletonHolder->m_pSkeleton);
+    ::fnv_00cda110::FUN_00cda110((::fnv_00cda110::S *)(pose));
+    transforms.setSizePod(skeletonHolder->m_pSkeleton->m_kBones.GetLogicalSize());
+}
+} // namespace SkeletonBuild
+
+
+struct MemoryManager
+{
+    void* Deallocate(void*);
+};
+extern MemoryManager g_memoryManager;
+
+// @fnv 0x00c7fa60
+void* __cdecl FUN_00c7fa60()
+{
+    return &(*reinterpret_cast<void * *>(&::g_012685f8));
+}
+
+void __cdecl FUN_00cc58c0();
+
+struct FUN_00c7fa70_Class
+{
+    void* FUN_00c7fa70(int);
+};
+
+// @fnv 0x00c7fa70
+void* FUN_00c7fa70_Class::FUN_00c7fa70(int flags)
+{
+    FUN_00cc58c0();
+    if (flags & 1)
+        ::FUN_00aa1460(this, 0x10);
+    return this;
+}
+
+extern "C" void __cdecl FUN_0062d4b0();
+
+// @fnv 0x00cb9900
+void FUN_00cb9900_cls::FUN_00cb9900()
+{
+    *(intptr_t*)this = (intptr_t)&DAT_01084e54;
+    FUN_0062d4b0();
+}
+
+void __cdecl FUN_00cd9fe0();
+
+struct FUN_00cda4b0_cls
+{
+    void FUN_00cda4b0();
+};
+
+// @fnv 0x00cda4b0
+void FUN_00cda4b0_cls::FUN_00cda4b0()
+{
+    static_cast<::fnv_00cda340::SkeletonPoseData *>(nullptr)->FUN_00cda340();
+    ((void(*)(void*))FUN_00cd9fe0)(this);
+}
+
+
+// @fnv 0x00cda8d0
+void* FUN_00cda8d0_class::FUN_00cda8d0()
+{
+    reinterpret_cast<::fnv_00cda340::SkeletonPoseData *>(this)->FUN_00cda340();
+    return (char*)this + 0x10;
+}
+
+struct StateResetPart;
+class hkQuaternionCDA;
+class hkVector4CDA
+{
+  public:
+    union
+    {
+        __m128 m_vComponents;
+        struct
+        {
+            float x, y, z, w;
+        };
+    };
+
+    __forceinline hkVector4CDA& operator=(const hkVector4CDA& v)
+    {
+        m_vComponents = v.m_vComponents;
+        return *this;
+    }
+
+    __forceinline void setAdd4(const hkVector4CDA& a, const hkVector4CDA& b)
+    {
+        m_vComponents = _mm_add_ps(a.m_vComponents, b.m_vComponents);
+    }
+    __forceinline void add4(const hkVector4CDA& a)
+    {
+        m_vComponents = _mm_add_ps(m_vComponents, a.m_vComponents);
+    }
+    __forceinline void setMul4(const hkVector4CDA& a, const hkVector4CDA& b)
+    {
+        m_vComponents = _mm_mul_ps(a.m_vComponents, b.m_vComponents);
+    }
+    __forceinline void addMul4(const hkVector4CDA& a, const hkVector4CDA& b)
+    {
+        m_vComponents = _mm_add_ps(m_vComponents, _mm_mul_ps(a.m_vComponents, b.m_vComponents));
+    }
+    __forceinline void addMul4(__m128 s, const hkVector4CDA& b)
+    {
+        m_vComponents = _mm_add_ps(m_vComponents, _mm_mul_ps(_mm_shuffle_ps(s, s, 0), b.m_vComponents));
+    }
+    __forceinline void setNeg4(const hkVector4CDA& a)
+    {
+        m_vComponents = _mm_xor_ps(a.m_vComponents, ::DAT_010c44d0);
+    }
+    static __forceinline __m128 crossValue(__m128 a, __m128 b)
+    {
+        return _mm_sub_ps(_mm_mul_ps(_mm_shuffle_ps(a, a, 0xc9), _mm_shuffle_ps(b, b, 0xd2)),
+                          _mm_mul_ps(_mm_shuffle_ps(a, a, 0xd2), _mm_shuffle_ps(b, b, 0xc9)));
+    }
+    __forceinline void setCross(const hkVector4CDA& v1, const hkVector4CDA& v2)
+    {
+        m_vComponents = crossValue(v1.m_vComponents, v2.m_vComponents);
+    }
+    __forceinline __m128 dot3(const hkVector4CDA& v) const
+    {
+        __m128 x2 = _mm_mul_ps(m_vComponents, v.m_vComponents);
+        __m128 sum = _mm_add_ss(_mm_shuffle_ps(x2, x2, _MM_SHUFFLE(1, 1, 1, 1)), x2);
+        return _mm_add_ss(_mm_shuffle_ps(x2, x2, _MM_SHUFFLE(2, 2, 2, 2)), sum);
+    }
+    __forceinline void setReciprocal4(const hkVector4CDA& v)
+    {
+        __m128 r = _mm_rcp_ps(v.m_vComponents);
+        __m128 rr = _mm_mul_ps(_mm_mul_ps(r, v.m_vComponents), r);
+        m_vComponents = _mm_sub_ps(_mm_add_ps(r, r), rr);
+    }
+    void SetRotatedDirection(const hkQuaternionCDA& q, const hkVector4CDA& dir);
+    void setRotatedInverseDir(const hkQuaternionCDA& q, const hkVector4CDA& dir);
+};
+class hkQuaternionCDA
+{
+  public:
+    hkVector4CDA m_vec;
+
+    __forceinline void SetConjugate(const hkQuaternionCDA& q)
+    {
+        m_vec.m_vComponents = _mm_xor_ps(q.m_vec.m_vComponents, DAT_010c4c00);
+    }
+    __declspec(noinline) void SetProduct(const hkQuaternionCDA& q0, const hkQuaternionCDA& q1)
+    {
+        __m128 a = q0.m_vec.m_vComponents;
+        __m128 b = q1.m_vec.m_vComponents;
+        __m128 cross = _mm_sub_ps(
+            _mm_mul_ps(_mm_shuffle_ps(b, b, _MM_SHUFFLE(3, 1, 0, 2)), _mm_shuffle_ps(a, a, _MM_SHUFFLE(3, 0, 2, 1))),
+            _mm_mul_ps(_mm_shuffle_ps(b, b, _MM_SHUFFLE(3, 0, 2, 1)), _mm_shuffle_ps(a, a, _MM_SHUFFLE(3, 1, 0, 2))));
+        __m128 aw = _mm_shuffle_ps(a, a, _MM_SHUFFLE(3, 3, 3, 3));
+        __m128 bw = _mm_shuffle_ps(b, b, _MM_SHUFFLE(3, 3, 3, 3));
+        __m128 imag = _mm_add_ps(_mm_mul_ps(bw, a), _mm_add_ps(_mm_mul_ps(aw, b), cross));
+        __m128 prod = _mm_mul_ps(b, a);
+        __m128 dot = _mm_add_ss(_mm_shuffle_ps(prod, prod, _MM_SHUFFLE(2, 2, 2, 2)),
+                                _mm_add_ss(_mm_shuffle_ps(prod, prod, _MM_SHUFFLE(1, 1, 1, 1)), prod));
+        __m128 real = _mm_sub_ps(prod, _mm_shuffle_ps(dot, dot, 0));
+        m_vec.m_vComponents = _mm_shuffle_ps(imag, _mm_unpackhi_ps(imag, real), _MM_SHUFFLE(3, 0, 1, 0));
+    }
+};
+class hkQsTransformCDA
+{
+  public:
+    hkVector4CDA m_vTranslation;
+    hkQuaternionCDA m_rotation;
+    hkVector4CDA m_vScale;
+
+    __forceinline void SetConjugate(const hkQsTransformCDA& t)
+    {
+        m_vTranslation.setRotatedInverseDir(t.m_rotation, t.m_vTranslation);
+        m_vTranslation.setNeg4(m_vTranslation);
+        m_rotation.SetConjugate(t.m_rotation);
+        hkVector4CDA s;
+        s.m_vComponents = _mm_shuffle_ps(
+            t.m_vScale.m_vComponents, _mm_unpackhi_ps(t.m_vScale.m_vComponents, DAT_010c7170), _MM_SHUFFLE(3, 0, 1, 0));
+        m_vScale.setReciprocal4(s);
+        m_vScale.m_vComponents = _mm_and_ps(m_vScale.m_vComponents, DAT_010c4c10);
+    }
+    __forceinline void SetProduct(const hkQsTransformCDA& t1, const hkQsTransformCDA& t2)
+    {
+        hkVector4CDA temp;
+        temp.SetRotatedDirection(t1.m_rotation, t2.m_vTranslation);
+        m_vTranslation.setAdd4(temp, t1.m_vTranslation);
+        ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(m_rotation), (void *)&(t1.m_rotation), (const ::fnv_00c66320::__m128 *)&(t2.m_rotation), {});
+        m_vScale.setMul4(t1.m_vScale, t2.m_vScale);
+    }
+    __forceinline void SetMulInverse(const hkQsTransformCDA& a, const hkQsTransformCDA& b)
+    {
+        hkQsTransformCDA h;
+        h.SetConjugate(a);
+        SetProduct(h, b);
+    }
+};
+struct hkaSkeletonCDA
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    short* m_kParentIndices;
+    int m_parentIndicesSize;
+    int m_parentIndicesCap;
+    int unk18;
+    int m_iBoneCount;
+};
+class hkaPoseCDA
+{
+  public:
+    enum
+    {
+        F_DIRTY_LOCAL = 0x1,
+        F_DIRTY_MODEL = 0x2
+    };
+    hkaSkeletonCDA* m_pSkeleton;
+    hkQsTransformCDA* m_pLocalPose;
+    int m_localPoseSize;
+    int m_localPoseCap;
+    hkQsTransformCDA* m_pModelPose;
+    int m_modelPoseSize;
+    int m_modelPoseCap;
+    unsigned int* m_pBoneFlags;
+    int m_boneFlagsSize;
+    int m_boneFlagsCap;
+    bool m_bPoseFlag;
+    bool m_bPoseInitialized;
+
+    void FUN_00cda690();
+public:
+    ::hkQsTransformCDA &FUN_00cdad80(int, int);
+};
+// @fnv 0x00cdb290
+void* FUN_00cdb290::GetPlus4()
+{
+    reinterpret_cast<::hkaPoseCDA *>(this)->FUN_00cda690();
+    return (char*)this + 4;
+}
+
+struct Outer
+{
+    int _0;
+    unsigned short _4;
+    void FUN_00c7dc40();
+    Outer* FUN_00c7e970(unsigned int);
+};
+struct MyNode
+{
+    virtual void f0();
+    virtual void f1();
+    virtual void f2();
+    virtual int Pred();
+    char _pad0[0x8];
+    unsigned short unk0c;
+    char pad0e[0x2];
+    char* unk10;
+    char pad14[0x8];
+    MyNode* field_1c;
+    char _pad1[0x80];
+    MyNode** children;
+    char _pad2[2];
+    unsigned short count;
+};
+// @fnv 0x00c802d0
+MyNode* __cdecl FUN_00c802d0(MyNode* p)
+{
+    MyNode* r = p->field_1c;
+    if (!r && p->Pred())
+    {
+        for (unsigned i = 0; i < p->count; ++i)
+        {
+            if (r)
+                break;
+            MyNode* child = p->children[i];
+            if (child)
+                r = FUN_00c802d0(child);
+        }
+    }
+    return r;
+}
+
+
+struct Target;
+
+
+
+
+// @fnv 0x00c6ffc0
+void FUN_00c6ffc0_Class::FUN_00c6ffc0()
+{
+    Target* p = ((::Target *)(reinterpret_cast<::FUN_00c6e0b0_Class *>(this)->FUN_00c6e0b0()));
+    NiPointer<MyRef> sp;
+    Target18* t;
+    if (p && (t = p->field_18))
+    {
+        t->MethodE4(p, sp);
+    }
+    *(unsigned int*)((char*)this + 0x414) &= 0xffff7fff;
+}
+
+struct FixedStr
+{
+    char* h;
+    FixedStr(const FixedStr& o)
+    {
+        if (o.h != ::DAT_0109b220)
+            InterlockedIncrement((long volatile*)(o.h - 8));
+        h = o.h;
+    }
+    ~FixedStr()
+    {
+        if (h != ::DAT_0109b220)
+            InterlockedDecrement((long volatile*)(h - 8));
+    }
+};
+struct Mat3
+{
+    float m[9];
+};
+struct Xform
+{
+    Mat3 rot;
+    Pt3 trans;
+    float scale;
+};
+struct RNode;
+struct RObj
+{
+    virtual void f0();
+    virtual void f1();
+    virtual void f2();
+    virtual RNode* GetAsNode();
+    int _4;
+    FixedStr name;
+    char _c[0xc];
+    RObj* parent;
+    char _1c[0x18];
+    Xform local;
+};
+struct RNode
+{
+    char _0[0xa0];
+    RObj** children;
+    unsigned short _a4;
+    unsigned short count;
+};
+struct RKey
+{
+    FixedStr name;
+    RObj* obj;
+    RKey(const FixedStr& n) : name(n)
+    {}
+};
+struct RElem
+{
+    RObj* obj;
+    Xform x;
+};
+struct RArr
+{
+    int _0;
+    RElem* data;
+};
+struct RCtx;
+
+// @fnv 0x00c7bcb0
+void __cdecl FUN_00c7bcb0(RCtx* ctx, RObj* obj, RArr* arr)
+{
+    RKey key(obj->name);
+    key.obj = obj;
+    if (reinterpret_cast<::FUN_00a305e0_cls *>((void *)&(key.name))->Equals("Bip01 NonAccum"))
+        key.obj = obj->parent;
+    RObj* bone = ((::RObj *)(::FUN_00c4b470((::FUN_00c4b470_owner *)(ctx), (void **)(::RKey *)(&key), 1)));
+    if (bone)
+    {
+        RElem e;
+        e.obj = bone;
+        e.x = bone->local;
+        int idx = reinterpret_cast<::S_c7a730 *>((arr))->AppendSlot();
+        ::ConstructElementArray((::ElementC76 *)(arr), (uintptr_t)(&arr->data[idx]));
+        const Xform& src = key.obj->local;
+        arr->data[idx] = e;
+        bone->local.rot = src.rot;
+        bone->local.trans = src.trans;
+    }
+    RNode* node = obj->GetAsNode();
+    if (node)
+    {
+        for (unsigned int i = 0; i < node->count; i++)
+        {
+            RObj* child = node->children[i];
+            if (child)
+                FUN_00c7bcb0(ctx, child, arr);
+        }
+    }
+}
+
+
+
+
+
+inline unsigned char GetFlag6(unsigned short w)
+{
+    return (unsigned char)(w >> 6) & 1;
+}
+
+// @fnv 0x00c7d3b0
+void __cdecl FUN_00c7d3b0(NiNode* param_1, void* param_2, void* param_3, char* param_4, unsigned int* param_5)
+{
+    MyNode* node = FUN_00c802d0((MyNode*)param_1);
+    char flag;
+    if (!node || !(node->unk0c & 0x20) || GetFlag6(node->unk0c))
+    {
+        flag = 0;
+    }
+    else
+    {
+        flag = 1;
+    }
+    *param_4 = flag;
+    if (flag)
+    {
+        ::SetFlagRecursive(0, (::WalkNode_cls *)(param_1));
+    }
+    if (node)
+    {
+        unsigned int val;
+        char* n10 = node->unk10;
+        if (n10 && *(char**)(n10 + 8))
+        {
+            val = *(unsigned char*)(*(char**)(n10 + 8) + 0xe8);
+        }
+        else
+        {
+            val = 5;
+        }
+        *param_5 = val;
+    }
+    if (*param_5 != 4)
+    {
+        ::FUN_00c6a350(param_1, 4, true, false, true);
+    }
+    if (param_1 && param_2)
+    {
+        ::FUN_00c7bcb0((::RCtx *)(param_1), (::RObj *)(param_2), (::RArr *)(param_3));
+        NiUpdateData updateData;
+        updateData.m_fTime = 0.0f;
+        updateData.b0 = false;
+        updateData.b1 = false;
+        updateData.b2 = false;
+        updateData.b3 = false;
+        updateData.b4 = false;
+        reinterpret_cast<::FUN_00a59c60_cls *>((param_1))->FUN_00a59c60((std::intptr_t)&(updateData));
+    }
+}
+
+struct NiTransform_o2
+{
+    ThreeByThreeMatrix m_kOrientation;
+    float m_kTranslation[3];
+    float m_fScale;
+    NiTransform_o2 operator*(const NiTransform_o2&) const;
+};
+extern bool DAT_01267c28;
+extern bool DAT_01267c34;
+extern bool DAT_01267c40;
+extern bool DAT_01267c4c;
+extern bool DAT_01267c58;
+extern bool DAT_01267c64;
+
+struct RagScrapMarker
+{
+    char* p;
+    unsigned int size;
+    RagScrapMarker(unsigned int count)
+    {
+        char** top = (char**)static_cast<::Holder *>(::FUN_00c85750());
+        unsigned int size = (count * 48 + 0x7f) & ~0x7fu;
+        char* old = *top;
+        *top = old + size;
+        p = old;
+    }
+    ~RagScrapMarker()
+    {
+        *(char**)static_cast<::Holder *>(::FUN_00c85750()) = p;
+    }
+};
+union __declspec(align(16)) VecStorage_c79680 { ::__m128 quad; ::PackedVector storage; };
+struct V4 {
+    VecStorage_c79680 bits;
+    __forceinline V4() {}
+    __forceinline V4(const V4& v) { bits.quad = v.bits.quad; }
+    __forceinline void operator=(const V4& v) { bits.quad = v.bits.quad; }
+    __forceinline void setMul4(const V4& a, const V4& b) { bits.quad = _mm_mul_ps(a.bits.quad, b.bits.quad); }
+    __forceinline void setAdd4(const V4& a, const V4& b) { bits.quad = _mm_add_ps(a.bits.quad, b.bits.quad); }
+    __forceinline void add4(const V4& a) { bits.quad = _mm_add_ps(bits.quad, a.bits.quad); }
+    __forceinline void setCross(const V4& a, const V4& b) {
+        ::__m128 cross0 = _mm_mul_ps(_mm_shuffle_ps(a.bits.quad, a.bits.quad, 0xc9), _mm_shuffle_ps(b.bits.quad, b.bits.quad, 0xd2));
+        ::__m128 cross1 = _mm_mul_ps(_mm_shuffle_ps(a.bits.quad, a.bits.quad, 0xd2), _mm_shuffle_ps(b.bits.quad, b.bits.quad, 0xc9));
+        bits.quad = _mm_sub_ps(cross0, cross1);
+    }
+    __forceinline void setNeg4(const V4& a) { bits.quad = _mm_xor_ps(a.bits.quad, ::DAT_010c44d0); }
+    __forceinline void setReciprocal4(const V4& a) {
+        ::__m128 v = _mm_shuffle_ps(a.bits.quad, _mm_unpackhi_ps(a.bits.quad, ::DAT_010c7170), 0xc4);
+        ::__m128 r = _mm_rcp_ps(v);
+        bits.quad = _mm_and_ps(_mm_sub_ps(_mm_add_ps(r, r), _mm_mul_ps(_mm_mul_ps(r, v), r)), ::DAT_010c4c10);
+    }
+};
+struct Quat {
+    V4 m_vec;
+    __forceinline void SetConjugate(const Quat& q) { m_vec.bits.quad = _mm_xor_ps(q.m_vec.bits.quad, ::DAT_010c4c00); }
+    void FUN_00c66320(const Quat* a, const Quat* b);
+};
+static __forceinline ::__m128 LoadScalar(const float* f) { ::__m128 t=_mm_load_ss(f); return _mm_shuffle_ps(t,t,0); }
+__forceinline ::__m128 Dot3(const V4& a, const V4& b) {
+    ::__m128 p = _mm_mul_ps(a.bits.quad, b.bits.quad);
+    return _mm_add_ss(_mm_shuffle_ps(p, p, 0xaa), _mm_add_ss(_mm_shuffle_ps(p, p, 0x55), p));
+}
+__forceinline void RotateDir(V4& out, const Quat& quat, const V4& dir, bool inverse) {
+    V4 qreal; qreal.bits.quad = _mm_shuffle_ps(quat.m_vec.bits.quad, quat.m_vec.bits.quad, 0xff);
+    V4 q2minus1; q2minus1.bits.quad = _mm_add_ps(_mm_mul_ps(qreal.bits.quad, qreal.bits.quad), ::DAT_010c71e0);
+    V4 ret; ret.setMul4(dir, q2minus1);
+    ::__m128 d = Dot3(dir, quat.m_vec);
+    V4 dd; dd.bits.quad = _mm_mul_ps(_mm_shuffle_ps(d, d, 0), quat.m_vec.bits.quad);
+    ret.add4(dd);
+    V4 cr;
+    if (inverse) cr.setCross(dir, quat.m_vec); else cr.setCross(quat.m_vec, dir);
+    V4 crw; crw.setMul4(cr, qreal);
+    ret.add4(crw);
+    out.setAdd4(ret, ret);
+}
+struct PoseTransform { V4 translation; Quat rotation; V4 scale;
+ __forceinline PoseTransform& operator=(const PoseTransform& rhs) { translation=rhs.translation; rotation.m_vec=rhs.rotation.m_vec; scale=rhs.scale; return *this; }
+ __forceinline void SetConjugate(const PoseTransform& t) {
+    RotateDir(translation, t.rotation, t.translation, true);
+    translation.setNeg4(translation);
+    rotation.SetConjugate(t.rotation);
+    scale.setReciprocal4(t.scale);
+ }
+ __forceinline void SetProduct(const PoseTransform& t1, const PoseTransform& t2) {
+    V4 tr; RotateDir(tr, t1.rotation, t2.translation, false);
+    translation.setAdd4(tr, t1.translation);
+    ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(rotation), (void *)(&t1.rotation), (const ::fnv_00c66320::__m128 *)(const ::Quat *)(&t2.rotation), {});
+    scale.setMul4(t2.scale, t1.scale);
+ }
+ __forceinline void SetMulInverse(const PoseTransform& a, const PoseTransform& b) {
+    PoseTransform inv; inv.SetConjugate(a);
+    SetProduct(inv, b);
+ }
+};
+template<class T> struct PoseArray {
+ T* data; int size; int capacity;
+ __forceinline T& operator[](int index) { return data[index]; }
+ __forceinline const T& operator[](int index) const { return data[index]; }
+};
+struct PoseSkeleton { int unk00,unk04,unk08; PoseArray<short> parents; int unk18; int count; };
+struct LocalPoseState {
+ PoseSkeleton* skeleton; PoseArray<PoseTransform> local; PoseArray<PoseTransform> world;
+ PoseArray<int> flags; bool dirty;
+ __forceinline void EnsureLocal(int child) {
+   if(flags[child]&1) {
+     const PoseTransform& childWorld=world[child];
+     short parent=skeleton->parents[child];
+     if(parent!=-1) {
+       const PoseTransform* base=!(flags[parent]&2)?&world[parent]:((::PoseTransform *)&(reinterpret_cast<::SkeletonPoseData *>(this)->FUN_00cda180(parent)));
+       local[child].SetMulInverse(*base, childWorld);
+     } else local[child]=childWorld;
+     flags[child]&=~1;
+   }
+ }
+ __forceinline void SetLocal(int index,const PoseTransform& transform) {
+    int end=skeleton->count;
+    flags[index]|=4;
+    for(int child=index+1;child<end;++child) {
+      short parent=skeleton->parents[child];
+      if(parent!=-1 && (flags[parent]&4)) {
+        EnsureLocal(child);
+        flags[child]|=4;
+        dirty=false;
+      }
+    }
+    for(int child=index+1;child<end;++child) {
+      int value=flags[child];
+      if(value&4) flags[child]=(value&~4)|2;
+    }
+    local[index]=transform;
+    flags[index]=2;
+    dirty=false;
+ }
+};
+struct PoseNode {
+    int unk000;
+    int unk004;
+    int unk008;
+    int unk00c;
+    int unk010;
+    int unk014;
+    int unk018;
+    int unk01c;
+    int unk020;
+    int unk024;
+    int unk028;
+    int unk02c;
+    int unk030;
+    int transform;
+};
+struct PoseScale {
+    int unk000;
+    int unk004;
+    int unk008;
+    int unk00c;
+    int unk010;
+    int unk014;
+    int unk018;
+    int unk01c;
+    int unk020;
+    int unk024;
+    int unk028;
+    int unk02c;
+    int unk030;
+    int unk034;
+    int unk038;
+    int unk03c;
+    int unk040;
+    int unk044;
+    int unk048;
+    int unk04c;
+    int unk050;
+    int unk054;
+    int unk058;
+    int unk05c;
+    int unk060;
+    int unk064;
+    int unk068;
+    int unk06c;
+    int unk070;
+    int unk074;
+    int unk078;
+    int unk07c;
+    int unk080;
+    int unk084;
+    int unk088;
+    int unk08c;
+    int unk090;
+    int unk094;
+    float scale;
+};
+struct PoseCount { int unk00, unk04, unk08; PoseSkeleton* skeleton; };
+struct PoseOwner {
+    int unk000;
+    int unk004;
+    int unk008;
+    int unk00c;
+    int unk010;
+    int unk014;
+    int unk018;
+    int unk01c;
+    int unk020;
+    int unk024;
+    int unk028;
+    int unk02c;
+    int unk030;
+    int unk034;
+    int unk038;
+    int unk03c;
+    int unk040;
+    int unk044;
+    int unk048;
+    int unk04c;
+    int unk050;
+    int unk054;
+    PoseScale* scaleSource;
+    int unk05c;
+    int unk060;
+    int unk064;
+    int unk068;
+    int unk06c;
+    int unk070;
+    int unk074;
+    int unk078;
+    int unk07c;
+    int unk080;
+    int unk084;
+    LocalPoseState* state;
+    int unk08c;
+    int unk090;
+    void* output;
+    int unk098;
+    int unk09c;
+    int unk0a0;
+    PoseNode** nodes;
+    int unk0a8;
+    int unk0ac;
+    int unk0b0;
+    int unk0b4;
+    int unk0b8;
+    int unk0bc;
+    int unk0c0;
+    int unk0c4;
+    int unk0c8;
+    int unk0cc;
+    int unk0d0;
+    int unk0d4;
+    int unk0d8;
+    int unk0dc;
+    int unk0e0;
+    int unk0e4;
+    int unk0e8;
+    int unk0ec;
+    int unk0f0;
+    int unk0f4;
+    int unk0f8;
+    int unk0fc;
+    int unk100;
+    int unk104;
+    int unk108;
+    int unk10c;
+    int unk110;
+    int unk114;
+    int unk118;
+    int unk11c;
+    int unk120;
+    int unk124;
+    int unk128;
+    int unk12c;
+    int unk130;
+    int unk134;
+    int unk138;
+    int unk13c;
+    int unk140;
+    int unk144;
+    int unk148;
+    int unk14c;
+    int unk150;
+    int unk154;
+    int unk158;
+    int unk15c;
+    int unk160;
+    int unk164;
+    int unk168;
+    int unk16c;
+    int unk170;
+    int unk174;
+    int unk178;
+    int unk17c;
+    int unk180;
+    int unk184;
+    int unk188;
+    int unk18c;
+    int unk190;
+    int unk194;
+    int unk198;
+    int unk19c;
+    int unk1a0;
+    int unk1a4;
+    int unk1a8;
+    int unk1ac;
+    int unk1b0;
+    int unk1b4;
+    int unk1b8;
+    int unk1bc;
+    int unk1c0;
+    int unk1c4;
+    int unk1c8;
+    int unk1cc;
+    int unk1d0;
+    int unk1d4;
+    int unk1d8;
+    int unk1dc;
+    int unk1e0;
+    int unk1e4;
+    int unk1e8;
+    int unk1ec;
+    int unk1f0;
+    int unk1f4;
+    int unk1f8;
+    int unk1fc;
+    int unk200;
+    int unk204;
+    int unk208;
+    int unk20c;
+    int unk210;
+    int unk214;
+    int unk218;
+    int unk21c;
+    int unk220;
+    int unk224;
+    int unk228;
+    int unk22c;
+    int unk230;
+    int unk234;
+    int unk238;
+    int unk23c;
+    int unk240;
+    int unk244;
+    int unk248;
+    int unk24c;
+    int unk250;
+    int unk254;
+    int unk258;
+    int unk25c;
+    int unk260;
+    int unk264;
+    int unk268;
+    int unk26c;
+    int unk270;
+    int unk274;
+    int unk278;
+    int unk27c;
+    int unk280;
+    int unk284;
+    int unk288;
+    int unk28c;
+    int unk290;
+    int unk294;
+    int unk298;
+    int unk29c;
+    int unk2a0;
+    PoseCount* counts;
+    void FUN_00c79680();
+};
+
+
+namespace fnv_00c7d810 {
+
+struct ThreeByThreeMatrix
+{
+    float m[3][3];
+    ThreeByThreeMatrix operator*(ThreeByThreeMatrix const&) const;
+};
+struct Xform
+{
+    ThreeByThreeMatrix rot;
+    float x, y, z, s;
+};
+
+
+struct XObj
+{
+    void FUN_00cdb3e0();
+};
+
+
+// @fnv 0x00c7d810
+void FUN_00c7d810_Cls::FUN_00c7d810()
+{
+    Xform nitrans = *(Xform*)((char*)(*(void**)((char*)this + 0x58)) + 0x68);
+    *reinterpret_cast<::ThreeByThreeMatrix *>(&(nitrans.rot)) = reinterpret_cast<::ThreeByThreeMatrix *>((void *)&(const ::fnv_00c7d810::ThreeByThreeMatrix &)(*(ThreeByThreeMatrix*)((char*)this + 0x60)))->operator+((const ::ThreeByThreeMatrix &)(nitrans.rot));
+    nitrans.s = 1.0f;
+    ::FUN_00c74dd0((::C74QsTransform *)(void *)((char*)this + 0x10), (const ::C74Transform *)(void *)(&nitrans));
+    reinterpret_cast<::PoseOwner *>(this)->FUN_00c79680();
+    int etype = *(int*)((char*)this + 0xc);
+    *(int*)((char*)this + 0xc) = 1;
+    reinterpret_cast<::RagdollUpdateController *>(this)->FUN_00c7d030((const ::Transform48 *)(0));
+    *(int*)((char*)this + 0xc) = etype;
+    XObj* p = *(XObj**)((char*)this + 0x4c);
+    if (p)
+        p->FUN_00cdb3e0();
+}
+}  // namespace fnv_00c7d810
+
+struct FUN_00cb0c00_class
+{
+};
+
+struct VObjExt : VObj
+{
+    virtual void v3();
+    virtual void v4(void*, unsigned int);
+};
+
+struct FUN_00c7d890_cls
+{
+    void* _0;
+    int _4;
+    unsigned int _8;
+    void FUN_00c7d890();
+};
+
+// @fnv 0x00c7d890
+void FUN_00c7d890_cls::FUN_00c7d890()
+{
+    VObjExt* p = (VObjExt*)static_cast<::Holder *>(::FUN_00c85750())->p;
+    int count = _4;
+    char* base = (char*)_0;
+    for (int i = 0; i < count; i++)
+        ::FUN_00cb0c00((intptr_t)(((FUN_00cb0c00_class*)(base + i * 8))));
+    unsigned int flags = _8;
+    _4 = 0;
+    if (!(flags & 0x80000000))
+        p->v4(_0, (flags & 0x3fffffff) * 8);
+    _8 = 0x80000000;
+    _0 = 0;
+}
+
+
+// @fnv 0x00c7f900
+void FUN_00c7f900(char* dst, char* src, unsigned int count)
+{
+    if (count <= 0)
+        return;
+
+    if (dst < src)
+    {
+        for (unsigned int i = 0; i < count; ++i)
+            std::memmove(dst + i * 8, src + i * 8, 8);
+    }
+    else if (dst > src)
+    {
+        for (int i = (int)count - 1; i >= 0; --i)
+            std::memmove(dst + i * 8, src + i * 8, 8);
+    }
+}
+
+
+
+// @fnv 0x00cdb3e0
+void FUN_00cdb3e0_cls::FUN_00cdb3e0()
+{
+    ::FUN_00d6b4b0((::BodyList *)(void *)((char*)this + 0x18), (::BodyOut *)(*(uintptr_t*)((char*)this + 0x2c)));
+}
+
+struct S_c6a200_Info
+{
+    int unk00, unk04, unk08, unk0c;
+};
+struct S_c6a200_Ev
+{
+    int unk00;
+    unsigned char unk04;
+    int unk08;
+    int unk0c;
+    int unk10, unk14, unk18;
+};
+extern void* DAT_011afecc;
+// @fnv 0x00c6a200
+bool __cdecl FUN_00c6a200(void* obj, unsigned char a1, unsigned char a2, unsigned char a3)
+{
+    bool r = false;
+    if (obj)
+    {
+        S_c6a200_Info* info;
+        if (a3 || ((info = ((::S_c6a200_Info *)(::GetExtraDataChecked((::NiAVObjectX *)(obj))))) ? (info->unk0c & 2) : 0))
+        {
+            S_c6a200_Ev ev;
+            ev.unk04 = a2;
+            r = true;
+            ev.unk00 = 0;
+            ev.unk08 = 0x11;
+            ev.unk0c = a1;
+            if (DAT_011afecc)
+                ::FUN_00c68900((::S_00c68900_Node *)(obj), (::S_00c68900_Context *)(::S_c6a200_Ev *)(&ev), (void (*)(void *, S_00c68900_Context *))(DAT_011afecc));
+        }
+    }
+    return r;
+}
+
+struct FlagController
+{
+    void FUN_00c7ba10(bool);
+};
+// @fnv 0x00c7ba10
+void FlagController::FUN_00c7ba10(bool enabled)
+{
+    unsigned char* state = (unsigned char*)this;
+    bool target = state[0x28c] && enabled;
+    if (!target && state[0x28e])
+        reinterpret_cast<::Controller *>(this)->FUN_00c7b6a0(0);
+    state[0x28d] = target;
+}
+
+struct HkAllocator
+{
+    virtual void f0();
+    virtual void f1();
+    virtual void f2();
+    virtual void f3();
+    virtual void Deallocate(void*, int);
+};
+struct HkMemHolder
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    HkAllocator* allocator;
+    HkAllocator* GetAllocator()
+    {
+        return allocator;
+    }
+};
+HkMemHolder* GetHkMemHolder();
+template <class T> inline void HkDeallocT(HkAllocator* a, T* p, int n)
+{
+    a->Deallocate(p, n * (int)sizeof(T));
+}
+
+struct HkElem30
+{
+    float x;
+    float y;
+    float z;
+    float w;
+    float x1;
+    float y1;
+    float z1;
+    float w1;
+    float x2;
+    float y2;
+    float z2;
+    float w2;
+};
+
+template <class T> struct HkArray
+{
+    T* m_data;
+    int m_iElementCount;
+    int m_iCapacityState;
+    ~HkArray()
+    {
+        HkAllocator* alloc = GetHkMemHolder()->GetAllocator();
+        m_iElementCount = 0;
+        if (!(m_iCapacityState & 0x80000000))
+            HkDeallocT<T>(alloc, m_data, m_iCapacityState & 0x3fffffff);
+        m_data = 0;
+        m_iCapacityState = 0x80000000;
+    }
+};
+
+struct FUN_00c7c030
+{
+    int unk00;
+    HkArray<HkElem30> arr04;
+    HkArray<HkElem30> arr10;
+    HkArray<int> arr1C;
+    int unk28;
+    HkArray<int> arr2C;
+    ~FUN_00c7c030();
+};
+
+// @fnv 0x00c7c030
+FUN_00c7c030::~FUN_00c7c030()
+{}
+
+struct FreeIface
+{
+    virtual void vfn_0();
+    virtual void vfn_4();
+    virtual void vfn_8();
+    virtual void vfn_c();
+    virtual void Free(void* p, unsigned int size);
+};
+
+struct FUN_00c7d480_cls
+{
+    void* m_00;
+    unsigned int m_04;
+    unsigned int m_08;
+    unsigned int m_0c;
+    void FUN_00c7d480();
+};
+
+struct ScopeGuard
+{
+    FUN_00c7d480_cls* owner;
+// @fnv 0x00c7d480
+    ScopeGuard(void* p) : owner((FUN_00c7d480_cls*)p)
+    {}
+    __forceinline ~ScopeGuard()
+    {
+        Holder* h = static_cast<::Holder *>(::FUN_00c85750());
+        FreeIface* a = (FreeIface*)h->p;
+        unsigned int flags = owner->m_08;
+        owner->m_04 = 0;
+        if (!(flags & 0x80000000))
+        {
+            a->Free(owner->m_00, (flags & 0x3fffffff) * 4);
+        }
+        owner->m_08 = 0x80000000;
+        owner->m_00 = 0;
+    }
+};
+
+void FUN_00c7d480_cls::FUN_00c7d480()
+{
+    ScopeGuard guard(this);
+    unsigned int count = m_0c;
+    bool differs = count != (uintptr_t)m_00;
+    if (!differs)
+    {
+        m_04 = 0;
+    }
+    *(unsigned int*)static_cast<::Holder *>(::FUN_00c85750()) = count;
+}
+
+namespace fnv_00c7d520 {
+
+struct FreeIface
+{
+    virtual void vfn_0();
+    virtual void vfn_4();
+    virtual void vfn_8();
+    virtual void vfn_c();
+    virtual void Free(void* p, unsigned int size);
+};
+
+struct FUN_00c7d520_cls
+{
+    void* m_00;
+    unsigned int m_04;
+    unsigned int m_08;
+    unsigned int m_0c;
+    void FUN_00c7d520();
+};
+
+struct ScopeGuard
+{
+    FUN_00c7d520_cls* owner;
+// @fnv 0x00c7d520
+    ScopeGuard(void* p) : owner((FUN_00c7d520_cls*)p)
+    {}
+    __forceinline ~ScopeGuard()
+    {
+        Holder* h = static_cast<::Holder *>(::FUN_00c85750());
+        FreeIface* a = (FreeIface*)h->p;
+        unsigned int flags = owner->m_08;
+        owner->m_04 = 0;
+        if (!(flags & 0x80000000))
+        {
+            a->Free(owner->m_00, (flags & 0x3fffffff) * 4);
+        }
+        owner->m_08 = 0x80000000;
+        owner->m_00 = 0;
+    }
+};
+
+void FUN_00c7d520_cls::FUN_00c7d520()
+{
+    ScopeGuard guard(this);
+    unsigned int count = m_0c;
+    bool differs = count != (uintptr_t)m_00;
+    if (!differs)
+    {
+        m_04 = 0;
+    }
+    *(unsigned int*)static_cast<::Holder *>(::FUN_00c85750()) = count;
+}
+}  // namespace fnv_00c7d520
+
+struct AudioAllocator
+{
+    virtual void v00();
+    virtual void v04();
+    virtual void v08();
+    virtual void v0c();
+    virtual void FreeArray(void* apMemory, unsigned int auiSize) throw();
+};
+
+struct AudioHolder
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    AudioAllocator* m_pAllocator;
+};
+
+
+struct FUN_00c7d5c0_elem
+{
+    int unk00;
+};
+
+struct FUN_00c7d5c0_cls
+{
+    FUN_00c7d5c0_elem* m_pData;
+    int m_iArrayLength;
+    unsigned int m_uCap;
+
+    void FUN_00c7d5c0();
+};
+
+// @fnv 0x00c7d5c0
+void FUN_00c7d5c0_cls::FUN_00c7d5c0()
+{
+    AudioHolder* pHolder = static_cast<AudioHolder *>(FUN_00c85750());
+    AudioAllocator* pAllocator = pHolder->m_pAllocator;
+    FUN_00c7d5c0_elem* pElem = m_pData;
+    if (m_iArrayLength > 0)
+    {
+        int n = m_iArrayLength;
+        do
+        {
+            ::FUN_00cb0c00((intptr_t)(pElem));
+            ++pElem;
+        } while (--n != 0);
+    }
+    unsigned int uCap = m_uCap;
+    m_iArrayLength = 0;
+    if ((uCap & 0x80000000u) == 0)
+    {
+        pAllocator->FreeArray(m_pData, (uCap & 0x3fffffffu) * 4u);
+    }
+    m_pData = 0;
+    m_uCap = 0x80000000u;
+}
+
+
+struct BaseObject
+{
+    const char* classTable;
+    unsigned int unknown04;
+    unsigned int unknown08;
+    BaseObject();
+};
+
+struct MiddleObject : BaseObject
+{
+    unsigned int initialized0c;
+    MiddleObject() : initialized0c(0)
+    {
+        classTable = (*reinterpret_cast<const char (*)[]>(&::DAT_0108febc));
+        ++(*reinterpret_cast<unsigned int *>(&::DAT_01268188));
+    }
+    ~MiddleObject();
+};
+
+struct FUN_00c7f9e0 : MiddleObject
+{
+    FUN_00c7f9e0(void* context);
+};
+
+// @fnv 0x00c7f9e0
+FUN_00c7f9e0::FUN_00c7f9e0(void* context) : MiddleObject()
+{
+    classTable = (*reinterpret_cast<const char (*)[]>(&::DAT_010c52bc));
+    reinterpret_cast<::Dispatch_00c89dd0 *>(this)->SpawnAndAttach((intptr_t)(context ? (char*)context + 4 : 0));
+    ++(*reinterpret_cast<unsigned int *>(&::DAT_012685f4));
+}
+
+
+struct BCB9810AllocTagScope
+{
+    int m_iSaved;
+
+    BCB9810AllocTagScope(int aiAllocationTag)
+    {
+        m_iSaved = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = aiAllocationTag;
+    }
+    ~BCB9810AllocTagScope()
+    {
+        ::g_tlsBlock.memoryContext = m_iSaved;
+    }
+};
+
+struct BCB9810Node
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    BCB9810Node* m_pParentNode;
+};
+
+struct BCB9810Entry
+{
+    int unk00;
+    int unk04;
+    BCB9810Node* m_pkTreeNode;
+    int unk0C;
+};
+
+class BCB9810Registry
+{
+  public:
+    void FUN_00cb9810(void* pvOwner, BCB9810Node* pkNode);
+
+    int unk00;
+    int unk04;
+    BCB9810Entry* m_pkEntryArray;
+    int m_iArrayLength;
+};
+
+// @fnv 0x00cb9810
+void BCB9810Registry::FUN_00cb9810(void* pvOwner, BCB9810Node* pkNode)
+{
+    BCB9810AllocTagScope kScope(0x10);
+    bool bFound = false;
+    for (int i = 0; i < m_iArrayLength; i++)
+    {
+        if (bFound)
+            break;
+        BCB9810Node* pkRoot = pkNode;
+        while (pkRoot->m_pParentNode)
+            pkRoot = pkRoot->m_pParentNode;
+        if (pkRoot == m_pkEntryArray[i].m_pkTreeNode)
+            bFound = true;
+    }
+    if (!bFound)
+        reinterpret_cast<::FUN_00cb7550_cls *>(this)->AppendTailPair((::ListNode *)(pvOwner), (::ListNode *)(pkNode));
+}
+
+struct CE4360Iter
+{
+    int* GetThird();
+};
+
+struct CE4360Context
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3C;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4C;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5C;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6C;
+    int unk70;
+    int m_iMode;
+};
+
+
+// @fnv 0x00ce4360
+void __cdecl FUN_00ce4360(CE4360Context* pkContext, CE4360Iter* pkFrom, CE4360Iter* pkTo, int iValue)
+{
+    if (pkContext->m_iMode == 0)
+    {
+        intptr_t a = *((intptr_t *)(reinterpret_cast<::FUN_00cda8d0_class *>((pkFrom))->FUN_00cda8d0()));
+        intptr_t b = *((intptr_t *)(reinterpret_cast<::FUN_00cdb290 *>((pkTo))->GetPlus4()));
+        reinterpret_cast<::hkaSkeletonMapper *>((pkContext))->FUN_00ce3a00((const ::hkQsTransform *)(a), (const ::hkQsTransform *)(b), (::hkQsTransform *)(*(intptr_t *)pkTo->GetThird()), iValue);
+    }
+    else if (pkContext->m_iMode == 1)
+    {
+        int a = *((int *)(reinterpret_cast<::FUN_00cdb290 *>((pkFrom))->GetPlus4()));
+        int b = *((int *)(reinterpret_cast<::FUN_00cdb290 *>((pkTo))->FUN_00cdb0a0()));
+        ::FUN_00ce4330((intptr_t)(pkContext), a, b, 0);
+    }
+}
+
+struct RTTI_c9b
+{
+    const char* m_pcName;
+    RTTI_c9b* m_pBaseRTTI;
+};
+
+class GlobalObjectO2_00a7b610;
+
+struct S
+{
+    virtual void v00();
+    virtual void v01();
+    virtual void v02();
+    virtual void v03();
+    virtual void v04();
+    virtual void v05();
+    virtual void v06();
+    virtual void v07();
+    virtual void v08();
+    virtual void v09();
+    virtual void v0a();
+    virtual void v0b();
+    virtual void v0c();
+    virtual void v0d();
+    virtual void v0e();
+    virtual void v0f();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual void v1a();
+    virtual void v1b();
+    virtual void v1c();
+    virtual void v1d();
+    virtual void v1e();
+    virtual void v1f();
+    virtual void v20();
+    virtual void v21();
+    virtual void v22();
+    virtual void v23();
+    virtual void v24();
+    virtual void v25();
+    virtual void v26();
+    virtual void v27();
+    virtual void v28();
+    virtual void v29();
+    virtual void v2a();
+    virtual void v2b();
+    virtual void v2c();
+    virtual void v2d();
+    virtual void v2e();
+    virtual void v2f();
+    virtual void v30();
+    virtual void v31();
+    virtual void v32();
+    virtual void v33();
+    virtual void v34();
+    virtual void v35();
+    virtual void v36();
+    virtual void v37();
+    virtual void v38();
+    virtual void SetMode(int iMode);
+    void FUN_00561690(std::intptr_t);
+};
+
+struct Cast_c9b
+{
+    char pad[0x10];
+    S* m_10;
+};
+
+struct Ctrl_c9b
+{
+};
+
+class Obj_c9b
+{
+  public:
+    virtual void v00();
+    virtual void v01();
+    virtual RTTI_c9b* GetRTTI();
+    char padCur[0x1c - 4];
+    Ctrl_c9b* m_1c;
+    char kad[0xa0 - 0x20];
+    Obj_c9b** m_ppChildren;
+    unsigned short m_usMax;
+    unsigned short m_usElementCount;
+};
+
+
+__forceinline bool IsNode_c9b(Obj_c9b* pkObj)
+{
+    RTTI_c9b* pkRTTI = pkObj->GetRTTI();
+    while (pkRTTI)
+    {
+        if (pkRTTI == (RTTI_c9b*)&(*reinterpret_cast<unsigned char *>(&::g_011f4428)))
+            return true;
+        pkRTTI = pkRTTI->m_pBaseRTTI;
+    }
+    return false;
+}
+
+// @fnv 0x00c9bdf0
+void __cdecl FUN_00c9bdf0(Obj_c9b* pkObj, float f)
+{
+    if (pkObj && IsNode_c9b(pkObj) && pkObj->m_usElementCount > 0)
+    {
+        Obj_c9b* pkChild = pkObj->m_ppChildren[0];
+        if (pkChild && IsNode_c9b(pkChild) && pkChild->m_usElementCount > 0)
+        {
+            Obj_c9b* pkGrand = pkChild->m_ppChildren[0];
+            if (pkGrand && pkGrand->m_1c)
+            {
+                Cast_c9b* pkCast = ((::Cast_c9b *)(reinterpret_cast<::NiObject *>((pkGrand->m_1c))->DynamicCast((const ::NiRTTI *)(::GlobalObjectO2_00a7b610 *)(&g_012043f8))));
+                if (pkCast)
+                {
+                    S* pkS = pkCast->m_10;
+                    if (pkS)
+                    {
+                        pkS->SetMode(4);
+                        pkS->FUN_00561690((std::intptr_t)&DAT_01267e30);
+                        reinterpret_cast<::fnv_005617c0::FUN_005617c0_ *>((pkS))->FUN_005617c0((std::intptr_t)(&DAT_01267e30));
+                    }
+                }
+            }
+        }
+    }
+    ::fnv_00c9b470::ApplyCollisionEffect((::fnv_00c9b470::Scene *)(pkObj), f);
+}
+
+void FUN_00c7f900(char* dst, char* src, unsigned int count);
+class FUN_00c7f970_cls
+{
+  public:
+    virtual void vfn_0();
+    virtual char* Alloc(unsigned int n);
+    virtual void Free(char* p);
+    virtual char* Realloc(char* p, unsigned int n);
+
+    char* m_pData;
+    void* unk;
+    unsigned int m_uiSize;
+    void FUN_00c7f970(unsigned int uiNew, unsigned int uiOld);
+};
+
+// @fnv 0x00c7f970
+void FUN_00c7f970_cls::FUN_00c7f970(unsigned int uiNew, unsigned int uiOld)
+{
+    if (m_pData)
+    {
+        if (uiOld == m_uiSize)
+        {
+            m_pData = Realloc(m_pData, uiNew);
+        }
+        else
+        {
+            char* pNew = Alloc(uiNew);
+            ((void(*)(void*, char*, char*, unsigned int))FUN_00c7f900)(this, pNew, m_pData, uiOld);
+            Free(m_pData);
+            m_pData = pNew;
+        }
+    }
+    else
+    {
+        m_pData = Alloc(uiNew);
+        m_uiSize = uiNew;
+    }
+}
+
+// @fnv 0x00c7bfd0
+FUN_00c7bfd0::FUN_00c7bfd0()
+    : m_00(0), m_04(0), m_08(0), m_0c(0.0f), m_10(0.5235988f), m_40(0), m_44(0), m_48(0), m_4c(1.0f), m_50(1.0f)
+{}
+
+// FUN_00cb9650 @ 0x00cb9650, 97 bytes, __cdecl caller-pops
+// flags: /MT /O2 /GS /EHsc /Gy
+// Recursive child-visitor: controller fetch/set via members, virtual node
+// fetch (vtable slot 3), loop over children (ptr @0xA0, count u16 @0xA6).
+
+struct FUN_00cb9650_Node
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3C;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4C;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5C;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6C;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7C;
+    int unk80;
+    int unk84;
+    int unk88;
+    int unk8C;
+    int unk90;
+    int unk94;
+    int unk98;
+    int unk9C;
+    void** children;       // 0xA0
+    unsigned short unkA4;  // 0xA4
+    unsigned short count;  // 0xA6
+};
+
+struct FUN_00cb9650_Object
+{
+    virtual void vf00();
+    virtual void vf04();
+    virtual void vf08();
+    virtual FUN_00cb9650_Node* vf0C();
+
+};
+
+
+// @fnv 0x00cb9650
+void __cdecl FUN_00cb9650(FUN_00cb9650_Object* object)
+{
+    if (object != 0)
+    {
+        void* controller = ((void *)(reinterpret_cast<::MyHost *>((object))->FUN_00a5c570((const ::MyRTTI *)((*reinterpret_cast<const char (*)[]>(&::g_012683f4))))));
+        if (controller != 0)
+        {
+            reinterpret_cast<::ControllerOwner *>((object))->FUN_00a5c480((::NiTimeController *)((intptr_t)controller));
+        }
+
+        FUN_00cb9650_Node* node = object->vf0C();
+        if (node != 0)
+        {
+            for (unsigned int index = 0; index < node->count; ++index)
+            {
+                FUN_00cb9650((FUN_00cb9650_Object*)node->children[index]);
+            }
+        }
+    }
+}
+struct RagControllerState
+{
+    char pad000[0x43];
+    unsigned char controlFlag;
+    char pad044[0xb1 - 0x44];
+    unsigned char activeFlag;
+    char pad0b2[0xb3 - 0xb2];
+    unsigned char stateFlag;
+    char pad0b4[0x120 - 0xb4];
+    __m128 poseA;
+    unsigned char dirtyA;
+    char pad131[0x170 - 0x131];
+    __m128 poseB;
+    unsigned char dirtyB;
+};
+// @fnv 0x00c75580
+void RagController::FUN_00c75580(unsigned char enabled)
+{
+    RagControllerState* self = reinterpret_cast<RagControllerState*>(this);
+    int state;
+    if (self->controlFlag == 0)
+    {
+        if (self->activeFlag != 0 && enabled != 0)
+        {
+            state = 1;
+        }
+        else
+        {
+            state = 0;
+        }
+    }
+    else
+    {
+        state = self->stateFlag;
+    }
+    self->stateFlag = (unsigned char)state;
+    if (enabled == 0)
+    {
+        self->poseA = ::DAT_010c71b0;
+        self->poseB = ::DAT_010c71b0;
+        self->dirtyB = 1;
+        self->dirtyA = 1;
+    }
+}
+
+extern float DAT_011b02e4;
+struct NodeC
+{
+    int n000;
+    int n004;
+    int n008;
+    int n00c;
+    int n010;
+    int n014;
+    NodeC* parent;
+    int n01c;
+    int n020;
+    int n024;
+    int n028;
+    int n02c;
+    int n030;
+    Xform local;
+    Xform world;
+};
+struct InnerC
+{
+    int i000;
+    int i004;
+    int i008;
+    int i00c;
+    int i010;
+    int i014;
+    int i018;
+    unsigned int count;
+};
+struct MidC
+{
+    int m000;
+    int m004;
+    int m008;
+    int m00c;
+    int m010;
+    int m014;
+    int m018;
+    int m01c;
+    int m020;
+    int m024;
+    int m028;
+    InnerC* inner;
+};
+struct Obj248
+{
+};
+struct Obj250
+{
+};
+struct ScrapMarker
+{
+    char* p;
+    unsigned int size;
+    ScrapMarker(unsigned int count)
+    {
+        char** top = (char**)FUN_00c85750();
+        unsigned int size = (count * 48 + 0x7f) & ~0x7fu;
+        char* old = *top;
+        *top = old + size;
+        p = old;
+    }
+    ~ScrapMarker()
+    {
+        *(char**)FUN_00c85750() = p;
+    }
+};
+
+struct Elem;
+struct EntryListNode;
+struct F8;
+struct Flag;
+struct ModelRef;
+struct P1;
+struct Renderer;
+struct Cls
+{
+    int u000;
+    bool m_004;
+    float m_008;
+    int m_00c;
+    int u010;
+    int u014;
+    int u018;
+    int u01c;
+    int u020;
+    int u024;
+    int u028;
+    int u02c;
+    int u030;
+    int u034;
+    int u038;
+    int u03c;
+    int u040;
+    int u044;
+    MidC* m_048;
+    int u04c;
+    int u050;
+    int u054;
+    NodeC* m_058;
+    int u05c;
+    int u060;
+    int u064;
+    int u068;
+    int u06c;
+    int u070;
+    int u074;
+    int u078;
+    int u07c;
+    int u080;
+    int u084;
+    int u088;
+    int u08c;
+    int u090;
+    int u094;
+    int u098;
+    int u09c;
+    int u0a0;
+    int u0a4;
+    int u0a8;
+    int u0ac;
+    int u0b0;
+    int u0b4;
+    int u0b8;
+    int u0bc;
+    int u0c0;
+    int u0c4;
+    int u0c8;
+    int u0cc;
+    int u0d0;
+    int u0d4;
+    int u0d8;
+    int u0dc;
+    int u0e0;
+    int u0e4;
+    int u0e8;
+    int u0ec;
+    int u0f0;
+    int u0f4;
+    int u0f8;
+    int u0fc;
+    int u100;
+    int u104;
+    int u108;
+    int u10c;
+    int u110;
+    int u114;
+    int u118;
+    int u11c;
+    int u120;
+    int u124;
+    int u128;
+    int u12c;
+    int u130;
+    int u134;
+    int u138;
+    int u13c;
+    int u140;
+    int u144;
+    int u148;
+    int u14c;
+    int u150;
+    int u154;
+    int u158;
+    int u15c;
+    int u160;
+    int u164;
+    int u168;
+    int u16c;
+    int u170;
+    int u174;
+    int u178;
+    int u17c;
+    int u180;
+    int u184;
+    int u188;
+    int u18c;
+    int u190;
+    int u194;
+    int u198;
+    int u19c;
+    int u1a0;
+    int u1a4;
+    int u1a8;
+    int u1ac;
+    int u1b0;
+    int u1b4;
+    int u1b8;
+    int u1bc;
+    int u1c0;
+    int u1c4;
+    int u1c8;
+    int u1cc;
+    int u1d0;
+    int u1d4;
+    int u1d8;
+    int u1dc;
+    int u1e0;
+    int u1e4;
+    int u1e8;
+    int u1ec;
+    int u1f0;
+    int u1f4;
+    int u1f8;
+    int u1fc;
+    int u200;
+    int u204;
+    int u208;
+    int u20c;
+    int u210;
+    int u214;
+    int u218;
+    int u21c;
+    int u220;
+    int u224;
+    int u228;
+    int u22c;
+    int u230;
+    int u234;
+    int u238;
+    int u23c;
+    int u240;
+    int u244;
+    Obj248* m_248;
+    int u24c;
+    Obj250* m_250;
+    int u254;
+    int m_258;
+    int u25c;
+    __int64 m_260;
+    __int64 m_268;
+    Pt3 m_pos;
+    float m_27c;
+    float m_280;
+    bool m_284;
+    int m_288;
+
+    void FUN_00c7ba50(void* a1, void* a2, bool* a3);
+public:
+    void LoadTextureArchiveEntries(::Elem *, unsigned int, ::ModelRef *, const char *);
+    void FUN_00529330();
+    void FUN_00626420(intptr_t);
+    void ApplyEffect();
+    void FUN_00858af0(::EntryListNode *, ::Entry *, bool);
+    bool FUN_009670f0(intptr_t);
+    void FUN_00b306d0(unsigned short);
+    void FUN_00dbda50(void *, void *, void *);
+    void FUN_00de6730(::Input *, ::Renderer *, int, int);
+    void FUN_00e5f070(::P1 *, unsigned char *, ::F8 *);
+    void FUN_00e65040(::Flag, int);
+};
+struct FNVVec3 { float x,y,z; };
+struct FNVColor { float r,g,b,a; };
+struct FNVBound {
+    FNVVec3 center;
+    float radius;
+    __forceinline void Initialize(const FNVVec3& p,float r) {center=p;radius=r;}
+};
+struct FNVExtra {
+    unsigned int unk00;
+    unsigned int unk04;
+    unsigned int unk08;
+    unsigned int unk0C;
+    unsigned int unk10;
+    unsigned int unk14;
+    unsigned int unk18;
+    unsigned int unk1C;
+    FNVVec3* positions;
+    unsigned int unk24;
+    FNVColor* colors;
+};
+struct FNVAnimObject {
+    void** vtbl;
+    unsigned int unk04;
+    unsigned int unk08;
+    unsigned int unk0C;
+    unsigned int unk10;
+    unsigned int unk14;
+    unsigned int unk18;
+    unsigned int unk1C;
+    FNVBound* bound;
+    unsigned int unk24;
+    unsigned int unk28;
+    unsigned int unk2C;
+    unsigned int flags;
+    unsigned int unk34;
+    unsigned int unk38;
+    unsigned int unk3C;
+    unsigned int unk40;
+    unsigned int unk44;
+    unsigned int unk48;
+    unsigned int unk4C;
+    unsigned int unk50;
+    unsigned int unk54;
+    unsigned int unk58;
+    unsigned int unk5C;
+    unsigned int unk60;
+    unsigned int unk64;
+    unsigned int unk68;
+    unsigned int unk6C;
+    unsigned int unk70;
+    unsigned int unk74;
+    unsigned int unk78;
+    unsigned int unk7C;
+    unsigned int unk80;
+    unsigned int unk84;
+    unsigned int unk88;
+    unsigned int unk8C;
+    unsigned int unk90;
+    unsigned int unk94;
+    float scale;
+    unsigned int unk9C;
+    FNVAnimObject** children;
+    unsigned int unkA4;
+    unsigned int unkA8;
+    unsigned int unkAC;
+    unsigned int unkB0;
+    unsigned int unkB4;
+    FNVExtra* extra;
+    FNVBound* EnsureBound();
+    FNVBound*& EnsureBoundRef();
+    void* GetCellChildAt(int) { typedef void* (*Getter)(void*); return ((Getter)vtbl[3])(this); }
+    void AdoptBound(void* bound) { typedef void (*Setter)(void*,void*); ((Setter)vtbl[30])(this,bound); }
+};
+struct FNVString { char* FUN_00c761f0(); };
+struct FNVSource {
+    unsigned int unk00;
+    unsigned int unk04;
+    int* entries;
+    unsigned int unk0C;
+    unsigned int unk10;
+    unsigned int unk14;
+    unsigned int unk18;
+    unsigned int unk1C;
+    int* indices;
+    FNVString* FUN_00c76220(unsigned int,char*);
+    int* FUN_00cda4b0();
+};
+struct FNVDescriptor {
+    unsigned int unk00;
+    unsigned int unk04;
+    unsigned int unk08;
+    short* mapping;
+    unsigned int unk10;
+    unsigned int unk14;
+    unsigned int unk18;
+    unsigned int count;
+};
+struct FNVFrames {
+    unsigned int unk00;
+    unsigned int unk04;
+    FNVDescriptor* first;
+    FNVDescriptor* second;
+};
+struct FNVAnimationController {
+    unsigned int unk00;
+    unsigned int unk04;
+    unsigned int unk08;
+    unsigned int unk0C;
+    unsigned int unk10;
+    unsigned int unk14;
+    unsigned int unk18;
+    unsigned int unk1C;
+    unsigned int unk20;
+    unsigned int unk24;
+    unsigned int unk28;
+    unsigned int unk2C;
+    unsigned int unk30;
+    unsigned int unk34;
+    unsigned int unk38;
+    unsigned int unk3C;
+    unsigned int unk40;
+    unsigned int unk44;
+    FNVSource* source;
+    unsigned int unk4C;
+    unsigned int unk50;
+    unsigned int unk54;
+    FNVAnimObject* primary;
+    unsigned int unk5C;
+    unsigned int unk60;
+    unsigned int unk64;
+    unsigned int unk68;
+    unsigned int unk6C;
+    unsigned int unk70;
+    unsigned int unk74;
+    unsigned int unk78;
+    unsigned int unk7C;
+    unsigned int unk80;
+    FNVAnimObject* root;
+    FNVSource* alternate;
+    unsigned int unk8C;
+    unsigned int unk90;
+    unsigned int unk94;
+    unsigned int unk98;
+    unsigned int unk9C;
+    unsigned int unkA0;
+    unsigned int unkA4;
+    unsigned int unkA8;
+    unsigned int unkAC;
+    unsigned int unkB0;
+    unsigned int unkB4;
+    unsigned int unkB8;
+    unsigned int unkBC;
+    unsigned int unkC0;
+    unsigned int unkC4;
+    unsigned int unkC8;
+    unsigned int unkCC;
+    unsigned int unkD0;
+    unsigned int unkD4;
+    unsigned int unkD8;
+    unsigned int unkDC;
+    unsigned int unkE0;
+    unsigned int unkE4;
+    unsigned int unkE8;
+    unsigned int unkEC;
+    unsigned int unkF0;
+    unsigned int unkF4;
+    unsigned int unkF8;
+    unsigned int unkFC;
+    unsigned int unk100;
+    unsigned int unk104;
+    unsigned int unk108;
+    unsigned int unk10C;
+    unsigned int unk110;
+    unsigned int unk114;
+    unsigned int unk118;
+    unsigned int unk11C;
+    unsigned int unk120;
+    unsigned int unk124;
+    unsigned int unk128;
+    unsigned int unk12C;
+    unsigned int unk130;
+    unsigned int unk134;
+    unsigned int unk138;
+    unsigned int unk13C;
+    unsigned int unk140;
+    unsigned int unk144;
+    unsigned int unk148;
+    unsigned int unk14C;
+    unsigned int unk150;
+    unsigned int unk154;
+    unsigned int unk158;
+    unsigned int unk15C;
+    unsigned int unk160;
+    unsigned int unk164;
+    unsigned int unk168;
+    unsigned int unk16C;
+    unsigned int unk170;
+    unsigned int unk174;
+    unsigned int unk178;
+    unsigned int unk17C;
+    unsigned int unk180;
+    unsigned int unk184;
+    unsigned int unk188;
+    unsigned int unk18C;
+    unsigned int unk190;
+    unsigned int unk194;
+    unsigned int unk198;
+    unsigned int unk19C;
+    unsigned int unk1A0;
+    unsigned int unk1A4;
+    unsigned int unk1A8;
+    unsigned int unk1AC;
+    unsigned int unk1B0;
+    unsigned int unk1B4;
+    unsigned int unk1B8;
+    unsigned int unk1BC;
+    unsigned int unk1C0;
+    unsigned int unk1C4;
+    unsigned int unk1C8;
+    unsigned int unk1CC;
+    unsigned int unk1D0;
+    unsigned int unk1D4;
+    unsigned int unk1D8;
+    unsigned int unk1DC;
+    unsigned int unk1E0;
+    unsigned int unk1E4;
+    unsigned int unk1E8;
+    unsigned int unk1EC;
+    unsigned int unk1F0;
+    unsigned int unk1F4;
+    unsigned int unk1F8;
+    unsigned int unk1FC;
+    unsigned int unk200;
+    unsigned int unk204;
+    unsigned int unk208;
+    unsigned int unk20C;
+    unsigned int unk210;
+    unsigned int unk214;
+    unsigned int unk218;
+    unsigned int unk21C;
+    unsigned int unk220;
+    unsigned int unk224;
+    unsigned int unk228;
+    unsigned int unk22C;
+    unsigned int unk230;
+    unsigned int unk234;
+    unsigned int unk238;
+    unsigned int unk23C;
+    unsigned int unk240;
+    unsigned int unk244;
+    unsigned int unk248;
+    unsigned int unk24C;
+    unsigned int unk250;
+    unsigned int unk254;
+    unsigned int unk258;
+    unsigned int unk25C;
+    unsigned int unk260;
+    unsigned int unk264;
+    unsigned int unk268;
+    unsigned int unk26C;
+    unsigned int unk270;
+    unsigned int unk274;
+    unsigned int unk278;
+    unsigned int unk27C;
+    unsigned int unk280;
+    unsigned int unk284;
+    unsigned int unk288;
+    unsigned int unk28C;
+    unsigned int unk290;
+    unsigned int unk294;
+    unsigned int unk298;
+    unsigned int unk29C;
+    unsigned int unk2A0;
+    FNVFrames* frames;
+    void FUN_00c7cb50(int side);
+};
+// @fnv 0x00c7d630
+void FUN_00c7d630_t::FUN_00c7d630(float)
+{
+    char* self = (char*)this;
+    if (*(bool*)(self + 0x43) && !*(bool*)(self + 0xb3) && !*(bool*)(self + 0x222) && !*(bool*)(self + 0x21e) &&
+        !*(bool*)(self + 0x28e))
+    {
+        *(bool*)(self + 0x43) = false;
+        *(bool*)(self + 0x41) = false;
+    }
+    if (DAT_01267c28 && *(bool*)(self + 0x41))
+    {
+        NiTransform_o2 kWorld = std::bit_cast<NiTransform_o2>(m_pkNode->GetParent()->m_kWorldSpaceTransform * m_pkNode->m_kLocalTransform);
+        kWorld.m_kOrientation = reinterpret_cast<::ThreeByThreeMatrix *>((void *)&(const ::ThreeByThreeMatrix &)(m_kRot))->operator+(kWorld.m_kOrientation);
+        kWorld.m_fScale = 1.0f;
+        ::FUN_00c74dd0((::C74QsTransform *)(void *)(self + 0x10), (const ::C74Transform *)(::NiTransform_o2 *)(&kWorld));
+        if (!*(bool*)(self + 0x40))
+        {
+            reinterpret_cast<::PoseOwner *>(this)->FUN_00c79680();
+            reinterpret_cast<::FNVAnimationController *>(this)->FUN_00c7cb50(0);
+            if (DAT_01267c34 && (*(bool*)(self + 0x222) || *(bool*)(self + 0x223)))
+                reinterpret_cast<::FootIKDetail::Controller *>(this)->FUN_00c76350((*(const ::FootIKDetail::Transform *)(self + 0x10)));
+            if (DAT_01267c40 && *(bool*)(self + 0x21e))
+                reinterpret_cast<::ControllerLocal *>(this)->FUN_00c751f0(self + 0x10);
+            if (DAT_01267c4c && *(bool*)(self + 0xb3))
+                reinterpret_cast<::P103Controller *>(this)->FUN_00c7aa60((::P103Transform *)(void *)(self + 0x10));
+        }
+        unsigned int count = m_48->GetInner()->GetCount();
+        bool bOk = false;
+        RagScrapMarker kScrap(count);
+        reinterpret_cast<::RagdollUpdateController *>(this)->FUN_00c7d030((const ::Transform48 *)(void *)((DAT_01267c64 && *(bool*)(self + 0x256) && (reinterpret_cast<::Cls *>(this)->FUN_00c7ba50(self + 0x10, kScrap.p, &bOk), bOk))
+                         ? kScrap.p
+                         : 0));
+        reinterpret_cast<::FNVAnimationController *>(this)->FUN_00c7cb50(1);
+        if (!*(bool*)(self + 0x40))
+        {
+            if (DAT_01267c58 && *(bool*)(self + 0x28e))
+                reinterpret_cast<::BlendController *>(this)->FUN_00c7c870();
+            reinterpret_cast<::FNVAnimationController *>(this)->FUN_00c7cb50(2);
+            reinterpret_cast<::fnv_00c79a50::PoseControllerLocal *>(this)->FUN_00c79a50();
+        }
+    }
+}
+
+// @fnv 0x00c7ba50
+void Cls::FUN_00c7ba50(void* a1, void* a2, bool* a3)
+{
+    Pt3* wp = &m_058->world.trans;
+    float dx = m_pos.x - wp->x;
+    float dy = m_pos.y - wp->y;
+    float dz = m_pos.z - wp->z;
+    float lenSq = dx * dx + dy * dy + dz * dz;
+    double d = (float)sqrt((double)lenSq);
+    float dist = (float)d;
+    if (((long long)(::FUN_00aa4d80())) - m_260 > m_268 || (m_284 && dist > m_27c) || m_288 != -1)
+    {
+        if (m_288 != -1)
+        {
+            reinterpret_cast<::Q1420Helper *>((m_250))->FUN_00cc1420((::Q1420Xf *)(a2), (::Q1420Source *)(m_048->inner), m_288);
+            m_00c = 3;
+            *a3 = true;
+            m_258 = m_288;
+            m_288 = -1;
+        }
+        else
+        {
+            m_pos = m_058->world.trans;
+            InnerC* inner = m_048->inner;
+            ScrapMarker marker(inner->count);
+            reinterpret_cast<::RagdollMapperC18 *>((m_048))->FUN_00ce18f0((::hkQsTransformC18 *)(marker.p), (*(const ::hkQsTransformC18 *)(a1)));
+            int id = reinterpret_cast<::PoseMatcher *>((m_248))->FUN_00ce11f0((const ::hkQsTransform *)(marker.p), (*(float *)(&m_008)));
+            if (m_008 < DAT_011b02e4 && id != m_258)
+            {
+                m_258 = id;
+                if (id != -1)
+                {
+                    Obj250* o250 = m_250;
+                    reinterpret_cast<::Q1420Helper *>((o250))->FUN_00cc1420((::Q1420Xf *)(a2), (::Q1420Source *)(inner), id);
+                    m_00c = 3;
+                    *a3 = true;
+                }
+                else if (!*a3)
+                {
+                    m_00c = 0;
+                    *a3 = false;
+                    m_004 = true;
+                }
+            }
+            else if (!*a3)
+            {
+                m_00c = 0;
+                *a3 = false;
+                m_004 = true;
+            }
+        }
+        volatile float f = m_280;
+        m_260 = ((long long)(::FUN_00aa4d80()));
+        m_268 = (__int64)(f * DAT_011ac39c);
+    }
+}
+
+
+
+// @fnv 0x00c7c150
+void RagdollCtl::FUN_00c7c150(bool b)
+{
+    if (active)
+    {
+        bool old = unk222;
+        unk41 = false;
+        unk43 = false;
+        unk222 = false;
+        if (old)
+            unk223 = true;
+        unk21e = false;
+        unkb3 = false;
+        vec120 = ::DAT_010c71b0;
+        vec170 = ::DAT_010c71b0;
+        unk180 = true;
+        unk130 = true;
+        if (unk28d)
+            reinterpret_cast<::Controller *>(this)->FUN_00c7b6a0(false);
+        if (skel)
+        {
+            int n = skel->info->boneCount;
+            for (int i = 0; i < n; i++)
+            {
+                RagRigid* r = bones[i]->rigid;
+                if (r)
+                {
+                    RagMotion* m = r->GetMotion();
+                    if (m)
+                        m->unk14 = false;
+                }
+            }
+        }
+        unkb2 = false;
+        unk1b8 = unk1e8 = 0.0f;
+        unk1ec = false;
+        unk1bc = false;
+        unk221 = false;
+        unk290 = 1.0f;
+        unk228 = 0;
+        unk28f = false;
+        unk294 = 0;
+        if (b)
+            ctrl48->Reattach();
+        for (int j = 0; j < 0; ++j)
+        {
+        }
+    }
+}
+
+// @fnv 0x00c7f4a0
+static __declspec(noinline) unsigned char* FUN_00c7f4a0(unsigned char* out, const float* src, int count)
+{
+    int i = 0;
+    if (count > 0)
+    {
+        do
+        {
+            float value = src[i];
+            unsigned int bits = *(const unsigned int*)&value;
+            if ((bits & 0x7f800000u) == 0x7f800000u)
+            {
+                *out = 0;
+                return out;
+            }
+            ++i;
+        } while (i < count);
+    }
+    *out = 1;
+    return out;
+}
+unsigned char* S00c7f4a0_Call(unsigned char* out, const float* src, int count)
+{
+    return FUN_00c7f4a0(out, src, count);
+}
+
+struct HkFloatCheck
+{
+    void FUN_00c7f500(bool* pOut);
+};
+static inline bool IsFiniteFloat(float r)
+{
+    return ((*(unsigned int*)&r) & 0x7f800000) != 0x7f800000;
+}
+
+static __declspec(noinline) bool* CheckFloatsValid(const float* pData, int iCount, bool* pOut)
+{
+    for (int i = 0; i < iCount; i++)
+        if (!IsFiniteFloat(pData[i]))
+        {
+            *pOut = false;
+            return pOut;
+        }
+    *pOut = true;
+    return pOut;
+}
+// @fnv 0x00c7f500
+void HkFloatCheck::FUN_00c7f500(bool* pOut)
+{
+    CheckFloatsValid((const float*)this, 4, pOut);
+}
+
+struct S_Out
+{
+    int unk00;
+    int unk04;
+};
+struct S_Inner
+{
+};
+struct S_Val
+{
+    int unk00;
+    int unk04;
+    std::intptr_t unk08;
+};
+struct S_Obj
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    signed char unk10;
+    char unk11;
+    char unk12;
+    char unk13;
+    char unk14;
+    char unk15;
+    char unk16;
+    char unk17;
+    unsigned char unk18;
+};
+struct S_Elem
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    S_Inner* unk0c;
+};
+int* __cdecl FUN_00c85ef0(S_Out* out, void* ptr, void* tag);
+inline void* GetOwner(S_Obj* c)
+{
+    return (char*)c + c->unk10;
+}
+inline S_Elem* GetEntity(S_Obj* c)
+{
+    return c->unk18 == 1 ? (S_Elem*)GetOwner(c) : 0;
+}
+inline S_Elem* GetPhantom(S_Obj* c)
+{
+    return c->unk18 == 2 ? (S_Elem*)GetOwner(c) : 0;
+}
+// @fnv 0x00c7fa90
+std::intptr_t __cdecl FUN_00c7fa90(S_Obj* p)
+{
+    std::intptr_t result = 0;
+    if (S_Elem* e = GetEntity(p))
+    {
+        S_Out out;
+        S_Val* v = *(S_Val**)FUN_00c85ef0(&out, e, &(*reinterpret_cast<int *>(&::g_01267b70)));
+        if (v)
+            result = v->unk08;
+    }
+    else if (S_Elem* ph = GetPhantom(p))
+    {
+        S_Out out;
+        S_Val* v = *(S_Val**)FUN_00c85ef0(&out, ph, &(*reinterpret_cast<int *>(&::g_01267b70)));
+        if (v)
+            result = v->unk08;
+        else if (ph->unk0c)
+            result = reinterpret_cast<::PropertyOwner *>((ph->unk0c))->FUN_00c85c80((void *)(0));
+    }
+    return result;
+}
+
+struct __declspec(align(16)) MVec4_o2
+{
+    __m128 q;
+    __forceinline void Rotate(const MVec4_o2& rotation, const MVec4_o2& position)
+    {
+        __m128 scalar = _mm_shuffle_ps(rotation.q, rotation.q, 255);
+        __m128 factor = _mm_add_ps(DAT_010c71e0, _mm_mul_ps(scalar, scalar));
+        __m128 sum = _mm_mul_ps(position.q, factor);
+        __m128 product = _mm_mul_ps(rotation.q, position.q);
+        __m128 dot = _mm_add_ss(_mm_shuffle_ps(product, product, 85), product);
+        dot = _mm_add_ss(_mm_shuffle_ps(product, product, 170), dot);
+        dot = _mm_shuffle_ps(dot, dot, 0);
+        sum = _mm_add_ps(sum, _mm_mul_ps(dot, rotation.q));
+        __m128 cross = _mm_sub_ps(
+            _mm_mul_ps(_mm_shuffle_ps(rotation.q, rotation.q, 201), _mm_shuffle_ps(position.q, position.q, 210)),
+            _mm_mul_ps(_mm_shuffle_ps(rotation.q, rotation.q, 210), _mm_shuffle_ps(position.q, position.q, 201)));
+        sum = _mm_add_ps(sum, _mm_mul_ps(scalar, cross));
+        q = _mm_add_ps(sum, sum);
+    }
+    __forceinline void Add(const MVec4_o2& a)
+    {
+        q = _mm_add_ps(q, a.q);
+    }
+};
+struct BoneTransform
+{
+    MVec4_o2 position;
+    MVec4_o2 rotation;
+    MVec4_o2 scale;
+};
+struct BoneDesc
+{
+    int unk00;
+    unsigned char locked;
+};
+struct BoneFlags
+{
+    unsigned int bits;
+    __forceinline BoneFlags& Set(unsigned int mask)
+    {
+        bits |= mask;
+        return *this;
+    }
+    __forceinline BoneFlags& Clear(unsigned int mask)
+    {
+        bits &= ~mask;
+        return *this;
+    }
+};
+struct SkeletonModel
+{
+    int unk00, unk04, unk08;
+    short* parents;
+    int unk10, unk14;
+    BoneDesc* bones;
+    int count;
+    int unk20;
+    BoneTransform* reference;
+};
+struct PoseState_o2
+{
+    SkeletonModel* model;
+    BoneTransform* local;
+    int unk08, unk0c;
+    BoneTransform* world;
+    int unk14, unk18;
+    unsigned int* flags;
+    int count;
+    int unk24;
+    bool ready;
+    void FUN_00cda4c0();
+};
+// @fnv 0x00cda4c0
+void PoseState_o2::FUN_00cda4c0()
+{
+    int n = model->count;
+    reinterpret_cast<::fnv_00cda340::SkeletonPoseData *>(this)->FUN_00cda340();
+    for (int i = 0; i < n; ++i)
+    {
+        bool locked = model->bones[i].locked != 0;
+        short parent = model->parents[i];
+        if (locked)
+        {
+            const BoneTransform& ref = model->reference[i];
+            if (parent != -1)
+            {
+                const BoneTransform& p = world[parent];
+                world[i].position.Rotate(p.rotation, ref.position);
+                world[i].position.Add(p.position);
+            }
+            else
+            {
+                world[i].position.q = ref.position.q;
+            }
+            flags[i] |= 1;
+            flags[i] |= 4;
+        }
+        else if (parent != -1)
+        {
+            unsigned int* f = flags;
+            if (f[parent] & 4)
+                f[i] |= 1;
+        }
+    }
+    int m = count;
+    for (int j = 0; j < m; ++j)
+        flags[j] &= ~28;
+}
+
+// @fnv 0x00c7c2b0
+ShapeArrays::~ShapeArrays()
+{}
+
+extern "C" void _ReadWriteBarrier(void);
+struct AllocHolderX
+{
+    int unk00, unk04, unk08, unk0C;
+    HkAllocator* m_pAllocator;
+    HkAllocator* GetAllocator()
+    {
+        return m_pAllocator;
+    }
+};
+__forceinline void FreeObjX(void* p, unsigned int n)
+{
+    Holder* h = static_cast<::Holder *>(::FUN_00c85750());
+    h->p->f2(p, n);
+}
+template <class T> struct HkArrX
+{
+    T* m_data;
+    int m_iElementCount;
+    int m_capFlags;
+    ~HkArrX()
+    {
+        AllocHolderX* h = (AllocHolderX*)static_cast<::Holder *>(::FUN_00c85750());
+        HkAllocator* alloc = h->GetAllocator();
+        m_iElementCount = 0;
+        if (!(m_capFlags & 0x80000000))
+            HkDeallocT<T>(alloc, m_data, m_capFlags & 0x3fffffff);
+        m_data = 0;
+        m_capFlags = 0x80000000;
+    }
+};
+struct HkRef
+{
+};
+struct RefObj
+{
+    virtual void vf0();
+    virtual void vf1();
+    long m_iObjectReferenceCount;
+};
+struct RefPtr
+{
+    RefObj* m_p;
+    void Reset()
+    {
+        RefObj* p = m_p;
+        if (p)
+        {
+            if (InterlockedDecrement(&p->m_iObjectReferenceCount) == 0)
+                p->vf1();
+            m_p = 0;
+        }
+    }
+    ~RefPtr()
+    {
+        RefObj* p = m_p;
+        if (p)
+        {
+            if (InterlockedDecrement(&p->m_iObjectReferenceCount) == 0)
+                p->vf1();
+        }
+    }
+};
+struct FixedStr9
+{
+    char* m_h;
+    char* GetChars()
+    {
+        return m_h;
+    }
+    ~FixedStr9()
+    {
+        if (m_h != (char*)(*reinterpret_cast<intptr_t *>(&::DAT_0109b220)))
+            InterlockedDecrement((long volatile*)(m_h - 8));
+    }
+};
+struct PolyBase
+{
+    virtual void vf0(void* p);
+    virtual void vf1(void* p);
+    virtual void vf2(void* p);
+    virtual void vf3(void* p);
+};
+struct PolyArr : PolyBase
+{
+    void* m_data;
+    int m_iElementCount;
+    int m_cap;
+    ~PolyArr()
+    {
+        PolyBase* b = this;
+        if (m_data)
+        {
+            b->vf2(m_data);
+            m_data = 0;
+            m_cap = 0;
+            m_iElementCount = 0;
+        }
+    }
+};
+struct T48
+{
+    int m_00, m_04, m_08, m_0c, m_10, m_14, m_18, m_1c, m_20, m_24, m_28, m_2c;
+};
+struct T32
+{
+    int m_00, m_04, m_08, m_0c, m_10, m_14, m_18, m_1c;
+};
+struct T208
+{
+    HkRef* m_p0;
+    int m_004;
+    int m_008;
+    int m_00c;
+    int m_010;
+    int m_014;
+    int m_018;
+    int m_01c;
+    int m_020;
+    int m_024;
+    int m_028;
+    int m_02c;
+    int m_030;
+    int m_034;
+    int m_038;
+    int m_03c;
+    int m_040;
+    int m_044;
+    int m_048;
+    int m_04c;
+    int m_050;
+    int m_054;
+    int m_058;
+    int m_05c;
+    int m_060;
+    int m_064;
+    int m_068;
+    int m_06c;
+    int m_070;
+    int m_074;
+    int m_078;
+    int m_07c;
+    int m_080;
+    int m_084;
+    int m_088;
+    int m_08c;
+    int m_090;
+    int m_094;
+    int m_098;
+    int m_09c;
+    int m_0a0;
+    int m_0a4;
+    int m_0a8;
+    int m_0ac;
+    int m_0b0;
+    int m_0b4;
+    int m_0b8;
+    int m_0bc;
+    int m_0c0;
+    int m_0c4;
+    int m_0c8;
+    int m_0cc;
+};
+struct Arr32
+{
+    HkArrX<T32> m_aiIndexedValues;
+    int m_0c, m_10, m_14, m_18, m_1c, m_20, m_24, m_28, m_2c;
+};
+struct X48
+{
+};
+struct MapStd
+{
+    void FUN_00e92760(char* key, void** out);
+    void FUN_00e91fd0(char* key);
+};
+struct BaseC7
+{
+    virtual void vf0();
+    virtual void vf1();
+    virtual void vf2();
+    virtual ~BaseC7()
+    {}
+};
+
+struct FUN_00c7d900 : BaseC7
+{
+    int m_004;
+    int m_008;
+    int m_00c;
+    int m_010;
+    int m_014;
+    int m_018;
+    int m_01c;
+    int m_020;
+    int m_024;
+    int m_028;
+    int m_02c;
+    int m_030;
+    int m_034;
+    int m_038;
+    int m_03c;
+    int m_040;
+    int m_044;
+    HkRef* m_p48;
+    X48* m_p4c;
+    int m_050;
+    FUN_00c7c030* m_p54;
+    int m_058;
+    int m_05c;
+    int m_060;
+    int m_064;
+    int m_068;
+    int m_06c;
+    int m_070;
+    int m_074;
+    int m_078;
+    int m_07c;
+    int m_080;
+    RefPtr m_84;
+    FUN_00c7c030* m_p88;
+    int m_08c;
+    int m_090;
+    HkArrX<T48> m_94;
+    PolyArr m_a0;
+    int m_0b0;
+    int m_0b4;
+    int m_0b8;
+    int m_0bc;
+    int m_0c0;
+    int m_0c4;
+    int m_0c8;
+    int m_0cc;
+    int m_0d0;
+    int m_0d4;
+    int m_0d8;
+    int m_0dc;
+    int m_0e0;
+    int m_0e4;
+    int m_0e8;
+    int m_0ec;
+    int m_0f0;
+    int m_0f4;
+    int m_0f8;
+    int m_0fc;
+    int m_100;
+    int m_104;
+    int m_108;
+    int m_10c;
+    int m_110;
+    int m_114;
+    int m_118;
+    int m_11c;
+    int m_120;
+    int m_124;
+    int m_128;
+    int m_12c;
+    int m_130;
+    int m_134;
+    int m_138;
+    int m_13c;
+    int m_140;
+    int m_144;
+    int m_148;
+    int m_14c;
+    int m_150;
+    int m_154;
+    int m_158;
+    int m_15c;
+    int m_160;
+    int m_164;
+    int m_168;
+    int m_16c;
+    int m_170;
+    int m_174;
+    int m_178;
+    int m_17c;
+    int m_180;
+    int m_184;
+    int m_188;
+    int m_18c;
+    int m_190;
+    int m_194;
+    int m_198;
+    int m_19c;
+    int m_1a0;
+    int m_1a4;
+    int m_1a8;
+    int m_1ac;
+    int m_1b0;
+    int m_1b4;
+    int m_1b8;
+    int m_1bc;
+    int m_1c0;
+    int m_1c4;
+    int m_1c8;
+    int m_1cc;
+    int m_1d0;
+    int m_1d4;
+    int m_1d8;
+    int m_1dc;
+    int m_1e0;
+    int m_1e4;
+    int m_1e8;
+    int m_1ec;
+    int m_1f0;
+    int m_1f4;
+    int m_1f8;
+    int m_1fc;
+    int m_200;
+    int m_204;
+    int m_208;
+    int m_20c;
+    int m_210;
+    int m_214;
+    int m_218;
+    int m_21c;
+    int m_220;
+    int m_224;
+    int m_228;
+    HkArrX<T208> m_22c;
+    int m_238;
+    int m_23c;
+    int m_240;
+    int m_244;
+    Arr32* m_p248;
+    FixedStr9 m_24c;
+    RefPtr m_250;
+    int m_254;
+    int m_258;
+    int m_25c;
+    int m_260;
+    int m_264;
+    int m_268;
+    int m_26c;
+    int m_270;
+    int m_274;
+    int m_278;
+    int m_27c;
+    int m_280;
+    int m_284;
+    int m_288;
+    int m_28c;
+    int m_290;
+    int m_294;
+    int m_298;
+    int m_29c;
+    FixedStr9 m_2a0;
+    RefPtr m_2a4;
+    ~FUN_00c7d900();
+};
+// @fnv 0x00c7de30
+void* bhkRagdollController::FUN_00c7de30(unsigned int flag)
+{
+    reinterpret_cast<::FUN_00c7d900 *>(this)->FUN_00c7d900::~FUN_00c7d900();
+    if ((flag & 1) && this)
+    {
+        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060((char*)this - *(unsigned char*)((char*)this - 1));
+    }
+    return this;
+}
+
+// @fnv 0x00c7d900
+FUN_00c7d900::~FUN_00c7d900()
+{
+    int n = m_22c.m_iElementCount;
+    for (int i = 0; i < n; ++i)
+        reinterpret_cast<::hkReferencedObjectC905 *>((m_22c.m_data[i].m_p0))->FUN_00c905b0();
+    m_22c.m_iElementCount = 0;
+    _ReadWriteBarrier();
+    X48* pk4c = m_p4c;
+    if (pk4c)
+    {
+        reinterpret_cast<::fnv_00cdb6f0::FUN_00cdb6f0_cls *>((pk4c))->ClearArrays();
+        FreeObjX(pk4c, 0x48);
+    }
+    HkRef* pk48 = m_p48;
+    if (pk48)
+        reinterpret_cast<::hkReferencedObjectC905 *>((pk48))->FUN_00c905b0();
+    FUN_00c7c030* pk54 = m_p54;
+    if (pk54)
+    {
+        pk54->~FUN_00c7c030();
+        FreeObjX(pk54, 0x38);
+    }
+    FUN_00c7c030* pk88 = m_p88;
+    if (pk88)
+    {
+        pk88->~FUN_00c7c030();
+        FreeObjX(pk88, 0x38);
+    }
+    DAT_011b02f0.FUN_00e92760(m_24c.GetChars(), (void**)&m_250);
+    if (m_250.m_p && (*(int*)&m_250.m_p->m_iObjectReferenceCount) == 2)
+        DAT_011b02f0.FUN_00e91fd0(m_24c.GetChars());
+    if (m_2a4.m_p && (*(int*)&m_2a4.m_p->m_iObjectReferenceCount) == 2)
+        (*reinterpret_cast<::MapStd *>(&::DAT_011b0300)).FUN_00e91fd0(m_2a0.GetChars());
+    m_2a4.Reset();
+    m_250.Reset();
+    Arr32* pk248 = m_p248;
+    if (pk248)
+    {
+        pk248->~Arr32();
+        FreeObjX(pk248, 0x30);
+    }
+}
+
+namespace fnv_00cda110 {
+
+
+struct A
+{
+    char pad0[0x1c];
+    int count;  // 0x1c
+    char pad20[4];
+    void* p24;  // 0x24
+    char pad28[0xc];
+    int n34;  // 0x34
+};
+struct S
+{
+    A* a;       // 0x00
+    void* p04;  // 0x04
+    char pad08[0x14];
+    int* arr1c;  // 0x1c
+    char pad20[8];
+    char b28;  // 0x28
+    char b29;  // 0x29
+    char pad2a[2];
+    float* arr2c;  // 0x2c
+};
+// @fnv 0x00cda110
+void FUN_00cda110(S* s)
+{
+    int i;
+    ::FUN_00cb1260(s->p04, s->a->p24, s->a->count * 0x30);
+    for (i = 0; i < s->a->count; i++)
+        s->arr1c[i] = 2;
+    s->b28 = 0;
+    s->b29 = 1;
+    _ReadWriteBarrier();
+    A* d = s->a;
+    i = 0;
+    if (d->n34 > 0)
+    {
+        float* f = s->arr2c;
+        do
+        {
+            *f++ = 0.0f;
+            i++;
+        } while (i < d->n34);
+    }
+}
+}  // namespace fnv_00cda110
+
+struct KPoint3
+{
+    float x, y, z;
+};
+
+struct KMatrix3
+{
+    float m00, m01, m02;
+    float m10, m11, m12;
+    float m20, m21, m22;
+};
+
+struct KTransform
+{
+    KMatrix3 rot;
+    KPoint3 trans;
+    float scale;
+};
+
+struct KQuat
+{
+    float w, x, y, z;
+};
+
+struct KUpdateData
+{
+    float fTime;
+    bool b0;
+    bool b1;
+    bool b2;
+    bool b3;
+    bool b4;
+};
+
+struct KRigidBody
+{
+};
+
+struct KRagInfo
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    KRigidBody* body;
+    int unk14;
+    float weight;
+    bool IsKeyframed() const
+    {
+        return weight == 0.0f;
+    }
+};
+
+struct KNode;
+
+struct KObject
+{
+    __declspec(noalias) virtual void v00();
+    __declspec(noalias) virtual void v01();
+    __declspec(noalias) virtual void v02();
+    __declspec(noalias) virtual KNode* GetAsNode();
+    __declspec(noalias) virtual void v04();
+    __declspec(noalias) virtual void v05();
+    __declspec(noalias) virtual void v06();
+    __declspec(noalias) virtual void v07();
+    __declspec(noalias) virtual void v08();
+    __declspec(noalias) virtual void v09();
+    __declspec(noalias) virtual void v10();
+    __declspec(noalias) virtual void v11();
+    __declspec(noalias) virtual void v12();
+    __declspec(noalias) virtual void v13();
+    __declspec(noalias) virtual void v14();
+    __declspec(noalias) virtual void v15();
+    __declspec(noalias) virtual void v16();
+    __declspec(noalias) virtual void v17();
+    __declspec(noalias) virtual void v18();
+    __declspec(noalias) virtual void v19();
+    __declspec(noalias) virtual void v20();
+    __declspec(noalias) virtual void v21();
+    __declspec(noalias) virtual void v22();
+    __declspec(noalias) virtual void v23();
+    __declspec(noalias) virtual void v24();
+    __declspec(noalias) virtual void v25();
+    __declspec(noalias) virtual void v26();
+    __declspec(noalias) virtual void v27();
+    __declspec(noalias) virtual void v28();
+    __declspec(noalias) virtual void v29();
+    __declspec(noalias) virtual void v30();
+    __declspec(noalias) virtual void v31();
+    __declspec(noalias) virtual void v32();
+    __declspec(noalias) virtual void v33();
+    __declspec(noalias) virtual void v34();
+    __declspec(noalias) virtual void v35();
+    __declspec(noalias) virtual void v36();
+    __declspec(noalias) virtual void v37();
+    __declspec(noalias) virtual void v38();
+    __declspec(noalias) virtual void v39();
+    __declspec(noalias) virtual void v40();
+    __declspec(noalias) virtual void v41();
+    __declspec(noalias) virtual void v42();
+    __declspec(noalias) virtual void v43();
+    __declspec(noalias) virtual void v44();
+    __declspec(noalias) virtual void v45();
+    __declspec(noalias) virtual void UpdateDownward(KUpdateData& data);
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    KTransform local;
+    KTransform world;
+};
+
+struct KNode : KObject
+{
+    int unk9c;
+    KObject** children;
+    unsigned short unka4;
+    unsigned short childCount;
+    KObject* GetAt(unsigned int i)
+    {
+        return i < childCount ? children[i] : 0;
+    }
+};
+
+
+// @fnv 0x00c821b0
+void FUN_00c821b0(KObject* root, KPoint3* outDelta, bool update)
+{
+    bool weightless;
+    bool fromNode;
+    if (!root)
+        return;
+    KNode* node = root->GetAsNode();
+    if (!node)
+        return;
+    KObject* c0 = node->childCount > 0 ? node->children[0] : 0;
+    if (!c0)
+        return;
+    KNode* child = c0->GetAsNode();
+    if (!child)
+        return;
+    KObject* c1 = child->childCount > 0 ? child->children[0] : 0;
+    if (!c1)
+        return;
+    KNode* grand = c1->GetAsNode();
+    if (!grand)
+        return;
+    KRagInfo* info = (KRagInfo*)::FUN_00c81c50((::S00c81c50_Obj *)(child));
+    if (!info)
+        return;
+    weightless = true;
+    if (info->weight != 0.0f)
+        weightless = false;
+    if (grand->unk1c || weightless)
+    {
+        KTransform t;
+        KRigidBody* body = info->body;
+        fromNode = false;
+        if (body && reinterpret_cast<::Holder_cffa0 *>((body))->FUN_008cffa0())
+        {
+            KQuat q;
+            fromNode = false;
+            reinterpret_cast<::QueryOwner *>((body))->FUN_00560bc0((std::intptr_t)&(t.trans));
+            reinterpret_cast<::S00560c20_Object *>((body))->FUN_00560c20((::S00560c20_Target *)&(q));
+            reinterpret_cast<::FUN_004f0180_Class *>((void *)&(q))->FUN_004f0180((::M3_ *)&(t.rot));
+        }
+        else if (weightless)
+        {
+            KQuat q;
+            fromNode = true;
+            t.trans = node->local.trans;
+            reinterpret_cast<::NiQuaternion *>(&(q))->FromRotationMatrix((const ::ThreeByThreeMatrix &)(node->local.rot));
+            reinterpret_cast<::FUN_004f0180_Class *>((void *)&(q))->FUN_004f0180((::M3_ *)&(t.rot));
+        }
+        else
+        {
+            t = grand->world;
+        }
+
+        KTransform old = node->local;
+        if (update || !weightless)
+            t.trans.z = old.trans.z;
+
+        KPoint3 pos = t.trans;
+        if (!fromNode)
+        {
+            *outDelta = pos;
+            reinterpret_cast<::NiPoint3 *>((outDelta))->Subtract((const ::NiPoint3 &)(node->local.trans));
+        }
+        node->local.trans = pos;
+        if (weightless)
+            node->local.rot = t.rot;
+        if (update)
+        {
+            reinterpret_cast<::NiAVObject *>((node))->UpdateWorldLoc();
+            KUpdateData data;
+            data.fTime = 0.0f;
+            data.b0 = false;
+            data.b1 = false;
+            data.b2 = false;
+            data.b3 = false;
+            data.b4 = false;
+            node->UpdateDownward(data);
+        }
+    }
+}
+
+template <class T> __forceinline void ShortFree(AudioAllocator& a, void* p, const int& cnt)
+{
+    a.FreeArray(p, cnt * (unsigned int)sizeof(T));
+}
+template <class T> __forceinline void FreeArr(AudioAllocator& a, void* p, int cnt)
+{
+    a.FreeArray(p, cnt * (unsigned int)sizeof(T));
+}
+struct StringPtr
+{
+    void* m_data;
+    __forceinline ~StringPtr()
+    {
+        ::FUN_00cb0c00((intptr_t)this);
+    }
+};
+struct Bone
+{
+    StringPtr m_name;
+    bool m_bLockTranslation;
+};
+struct QsTransform
+{
+    float v[12];
+};
+struct RefObject
+{
+    virtual ~RefObject();
+};
+struct LocalFrameOnBone
+{
+    RefObject* m_pLocalFrame;
+    int m_iBoneIndex;
+};
+template <class T> __forceinline void GenericFree(AudioAllocator& a, T* const& p, const int& cnt)
+{
+    a.FreeArray(p, cnt * (unsigned int)sizeof(T));
+}
+template <class T> __forceinline void AlternateFree(AudioAllocator& a, void* p, const int& cnt)
+{
+    a.FreeArray(p, cnt * (unsigned int)sizeof(T));
+}
+template <class T> struct Array
+{
+    T* m_data;
+    int m_iElementCount;
+    int m_iCapacityState;
+    __forceinline ~Array()
+    {
+        AudioAllocator& alloc = *static_cast<AudioHolder *>(FUN_00c85750())->m_pAllocator;
+        int sz = m_iElementCount;
+        T* p = m_data;
+        for (int i = 0; i < sz; ++i, ++p)
+        {
+            p->~T();
+        }
+        unsigned int flag = 0x80000000;
+        unsigned int cap = m_iCapacityState;
+        m_iElementCount = 0;
+        if (!(cap & flag))
+        {
+            GenericFree<T>(alloc, m_data, cap & 0x3fffffff);
+        }
+        m_data = 0;
+        m_iCapacityState = flag;
+    }
+};
+template <> struct Array<LocalFrameOnBone>
+{
+    LocalFrameOnBone* m_data;
+    int m_iElementCount;
+    int m_iCapacityState;
+    __forceinline ~Array()
+    {
+        AudioHolder* holder = static_cast<AudioHolder *>(FUN_00c85750());
+        AudioAllocator& alloc = *holder->m_pAllocator;
+        int sz = m_iElementCount;
+        LocalFrameOnBone* const p = m_data;
+        for (int i = 0; i < sz; ++i)
+        {
+            RefObject* obj = p[i].m_pLocalFrame;
+            if (obj)
+            {
+                reinterpret_cast<::hkReferencedObjectC905 *>((obj))->FUN_00c905b0();
+            }
+            p[i].m_pLocalFrame = 0;
+        }
+        unsigned int flag = 0x80000000;
+        unsigned int cap = m_iCapacityState;
+        m_iElementCount = 0;
+        if (!(cap & flag))
+        {
+            AlternateFree<LocalFrameOnBone>(alloc, m_data, cap & 0x3fffffff);
+        }
+        m_data = 0;
+        m_iCapacityState = flag;
+    }
+};
+template <> struct Array<short>
+{
+    short* m_data;
+    int m_iElementCount;
+    int m_iCapacityState;
+    __forceinline ~Array()
+    {
+        AudioHolder* holder = static_cast<AudioHolder *>(FUN_00c85750());
+        AudioAllocator& alloc = *holder->m_pAllocator;
+        unsigned int flag = 0x80000000;
+        unsigned int cap = m_iCapacityState;
+        m_iElementCount = 0;
+        if (!(cap & flag))
+        {
+            ShortFree<short>(alloc, m_data, cap & 0x3fffffff);
+        }
+        m_data = 0;
+        m_iCapacityState = flag;
+    }
+};
+template <> struct Array<QsTransform>
+{
+    QsTransform* m_data;
+    int m_iElementCount;
+    int m_iCapacityState;
+    __forceinline ~Array()
+    {
+        AudioHolder* holder = static_cast<AudioHolder *>(FUN_00c85750());
+        AudioAllocator& alloc = *holder->m_pAllocator;
+        unsigned int flag = 0x80000000;
+        unsigned int cap = m_iCapacityState;
+        m_iElementCount = 0;
+        if (!(cap & flag))
+        {
+            FreeArr<QsTransform>(alloc, m_data, cap & 0x3fffffff);
+        }
+        m_data = 0;
+        m_iCapacityState = flag;
+    }
+};
+struct Base
+{
+    virtual ~Base()
+    {}
+    unsigned short m_usMemSizeAndFlags;
+    short m_sReferenceCount;
+};
+class __declspec(novtable) FUN_00c7dc40 : public Base
+{
+  public:
+    StringPtr m_name;
+    Array<short> m_kParentIndices;
+    Array<Bone> m_kBones;
+    Array<QsTransform> m_kReferencePose;
+    Array<StringPtr> m_kBoneNames;
+    Array<LocalFrameOnBone> m_kLocalFrames;
+    virtual ~FUN_00c7dc40();
+};
+// @fnv 0x00c7e970
+Outer* Outer::FUN_00c7e970(unsigned int a)
+{
+    reinterpret_cast<::FUN_00c7dc40 *>(this)->FUN_00c7dc40::~FUN_00c7dc40();
+    if (a & 1)
+    {
+        Holder* h = static_cast<::Holder *>(::FUN_00c85750());
+        h->p->f2(this, _4);
+    }
+    return this;
+}
+// @fnv 0x00c7dc40
+FUN_00c7dc40::~FUN_00c7dc40()
+{}
+
+
+
+
+
+
+
+
+
+
+// @fnv 0x00c7a8d0
+int RagdollAnimControllerView::FUN_00c7a8d0()
+{
+    if (b41 == 0 && p4C != 0)
+    {
+        reinterpret_cast<::FUN_00cdb3e0_cls *>((p4C))->FUN_00cdb3e0();
+    }
+    u8 old = b222;
+    u8 flag = b42;
+    int now = b220 != 0;
+    b41 = flag;
+    b43 = 0;
+    b222 = (u8)now;
+    if (old != 0 && (u8)now == 0)
+    {
+        b223 = 1;
+    }
+    int now2 = b21D != 0;
+    b21E = (u8)now2;
+    if (b28E != 0 || flag == 0)
+        return now2;
+    {
+        RagdollAnimData* z = p48;
+        void* u = z->arr14[0] ? z->arr14[0]->p08 : 0;
+        RagdollAnimReference* s = z->p08->p00;
+        if (s != 0 && s->p08 != 0 && u != 0)
+        {
+            RagdollAnimBodyView* obj = s->p08->p350;
+            for (int i = 0; i < z->count18; ++i)
+            {
+                RagdollAnimEntry* b = z->arr14[i];
+                if (!!b->p08)
+                {
+                    reinterpret_cast<::C68D50World *>((obj))->FUN_00c68d50((::C68D50Entity *)((intptr_t)b));
+                }
+            }
+        }
+    }
+}
+
+
+struct ArrowScale
+{
+    float value;
+};
+struct ArrowMemory
+{
+};
+struct ArrowPoint
+{
+    float x, y, z;
+    ArrowPoint* FUN_00c5a800(ArrowPoint* result) const;
+};
+struct ArrowColor
+{
+    float r, g, b, a;
+};
+struct ArrowMatrix
+{
+    float m00, m01, m02, m10, m11, m12, m20, m21, m22;
+};
+struct ArrowString
+{
+    char* value;
+    __forceinline ArrowString(const char* text)
+    {
+        if (!text)
+            value = DAT_0109b220;
+        else
+            value = ::NiGlobalStringTable::AddString(text);
+    }
+    __forceinline ~ArrowString()
+    {
+        if (value == DAT_0109b220)
+            return;
+        long* count = ((long*)value) - 2;
+        InterlockedDecrement(count);
+    }
+};
+struct ArrowGeometry
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    ArrowMatrix rotation;
+    ArrowPoint translation;
+    int unk64;
+    int unk68;
+    int unk6c;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7c;
+    int unk80;
+    int unk84;
+    int unk88;
+    int unk8c;
+    int unk90;
+    int unk94;
+    int unk98;
+    int unk9c;
+    int unka0;
+    int unka4;
+    int unka8;
+    int unkac;
+    int unkb0;
+    int unkb4;
+    int unkb8;
+    int unkbc;
+    int unkc0;
+    ArrowGeometry(unsigned short, ArrowPoint*, ArrowColor*, void*, void*, void*, unsigned char*);
+};
+__forceinline void ReserveMathWork()
+{
+    int mathState;
+}
+__forceinline void ScaleDirection(ArrowPoint& out, const ArrowPoint& n, float factor)
+{
+    ArrowPoint v = {n.x * factor, n.y * factor, n.z * factor};
+    out.x = v.x;
+    out.y = v.y;
+    out.z = v.z;
+}
+__forceinline void ConstructPointsBody(ArrowPoint* const& memory)
+{
+    long side = 5;
+    ArrowPoint* green0 = memory;
+    while (--side >= 0)
+        green0 += 1;
+}
+__forceinline void ConstructPoints(ArrowPoint* const& memory)
+{
+    ReserveMathWork();
+    ConstructPointsBody(memory);
+}
+__forceinline void PerpendicularScale(ArrowPoint& out, const ArrowPoint& n, ArrowPoint& temp, float factor)
+{
+    ArrowMatrix coordinateFrame;
+    {
+        const ArrowPoint* point = n.FUN_00c5a800(&temp);
+        ArrowPoint v6 = {point->x * factor, point->y * factor, point->z * factor};
+        out.x = v6.x;
+        out.y = v6.y;
+        out.z = v6.z;
+    }
+}
+__forceinline void ScaleHead(ArrowPoint& out, const ArrowPoint& n)
+{
+    ArrowPoint v = {n.x * ::DAT_01016264, n.y * ::DAT_01016264, n.z * ::DAT_01016264};
+    out.x = v.x;
+    out.y = v.y;
+    out.z = v.z;
+}
+__forceinline void SetComponents(ArrowPoint& out, float x, float y, float z)
+{
+    out.x = x;
+    out.y = y;
+    out.z = z;
+}
+__forceinline void SubtractPoint(ArrowPoint& out, const ArrowPoint& head, const ArrowPoint& side)
+{
+    SetComponents(out, head.x - side.x, head.y - side.y, head.z - side.z);
+}
+__forceinline void AddPoint(ArrowPoint& out, const ArrowPoint& head, const ArrowPoint& side)
+{
+    ArrowPoint v = {side.x + head.x, side.y + head.y, side.z + head.z};
+    out.x = v.x;
+    out.y = v.y;
+    out.z = v.z;
+}
+__forceinline void ConstructColors(ArrowColor* const& memory)
+{
+    int side = 6;
+    ArrowColor* green0 = memory;
+    while (--side >= 0)
+    {
+        green0->r = 0;
+        green0->g = 0;
+        green0->b = 0;
+        green0->a = 0;
+        green0 += 1;
+    }
+}
+// @fnv 0x00c59a50
+ArrowGeometry* __cdecl FUN_00c59a50(const ArrowPoint& direction, const ArrowColor* color)
+{
+    ArrowPoint n3;
+    float q;
+    ArrowPoint* connections;
+    ArrowPoint left5;
+    ArrowPoint _geometry;
+    ArrowColor* normalizedC;
+    ArrowPoint head;
+    ArrowGeometry* vertices5;
+    unsigned char* vertexResult;
+    {
+        ArrowPoint* pForm2;
+        ArrowPoint differenceD;
+        ArrowPoint* vertexAllocation2;
+        ArrowPoint originJ;
+        ArrowPoint X8;
+        ArrowPoint z3;
+        ArrowPoint colors;
+        ArrowPoint s;
+        ArrowColor* constructionResult;
+        ArrowColor* aColorResult;
+        ArrowColor aX;
+        ArrowColor green8;
+        ArrowColor c;
+        unsigned char* connectionResult4;
+        n3 = direction;
+        q = reinterpret_cast<::NiPoint3 *>((void *)&(n3))->ComputeMagnitude();
+        if (q < 8.0)
+        {
+            ReserveMathWork();
+            ScaleDirection(differenceD, n3, 8.0 / q);
+            n3 = differenceD;
+            q = reinterpret_cast<::NiPoint3 *>((void *)&(n3))->ComputeMagnitude();
+        }
+        vertexAllocation2 = (ArrowPoint*)reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(60);
+        pForm2 = vertexAllocation2 ? (ConstructPoints(vertexAllocation2), vertexAllocation2) : 0;
+        connections = pForm2;
+        originJ.x = 0;
+        originJ.y = 0;
+        originJ.z = 0;
+        connections[0] = originJ;
+        PerpendicularScale(_geometry, n3, X8, q * 0.15000000596046448);
+        ScaleHead(s, n3);
+        head = s;
+        SubtractPoint(colors, head, _geometry);
+        left5 = colors;
+        AddPoint(z3, head, _geometry);
+        head = z3;
+        connections[1] = n3;
+        connections[2] = head;
+        connections[3] = n3;
+        connections[4] = left5;
+        if (!color)
+            color = &(*reinterpret_cast<::ArrowColor *>(&::DAT_012032f8));
+        constructionResult = (ArrowColor*)reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(96);
+        aColorResult = constructionResult ? (ConstructColors(constructionResult), constructionResult) : 0;
+        normalizedC = aColorResult;
+        normalizedC[0] = *color;
+        normalizedC[1] = *color;
+        aX.r = 0;
+        aX.g = 1;
+        aX.b = 0;
+        aX.a = 1;
+        normalizedC[2] = aX;
+        green8.r = 0;
+        green8.g = 1;
+        green8.b = 0;
+        green8.a = 1;
+        normalizedC[3] = green8;
+        c.r = 0;
+        c.g = 1;
+        c.b = 0;
+        c.a = 1;
+        normalizedC[4] = c;
+        connectionResult4 = (unsigned char*)reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(6);
+        vertexResult = connectionResult4;
+        vertexResult[0] = 1;
+        vertexResult[1] = 0;
+        vertexResult[2] = 1;
+        vertexResult[3] = 1;
+        vertexResult[4] = 0;
+        vertices5 = new ArrowGeometry(5, connections, normalizedC, 0, 0, 0, vertexResult);
+        vertices5->translation = (*reinterpret_cast<::ArrowPoint *>((void *)&::NiPoint3::ZERO));
+        vertices5->rotation = (*reinterpret_cast<::ArrowMatrix *>(&::DAT_011a9448));
+        ::AssignFixedString((char *)(vertices5), (intptr_t)&(const ::ArrowString &)(ArrowString("BSTestObjects DirArrow")), {});
+        return vertices5;
+    }
+}
+
+namespace ActorUpdate3D {
+
+
+struct NiPoint3
+{
+    float x, y, z;
+    NiPoint3();
+    NiPoint3(float afX, float afY, float afZ);
+};
+
+struct ThreeByThreeMatrix
+{
+    float m[9];
+    ThreeByThreeMatrix();
+    NiPoint3 FUN_004b4500(const NiPoint3& arPoint) const;
+};
+
+struct NiBound
+{
+    float fData[4];
+};
+
+struct AlignedRotation
+{
+    __m128 vec;
+    AlignedRotation(float afA, float afB, float afC, float afD);
+};
+
+struct FormType
+{
+    int iData;
+    FormType();
+};
+
+struct HandleRef
+{
+    int iData;
+    HandleRef();
+};
+
+struct NiObject
+{
+};
+
+struct NiNode
+{
+    virtual void vn000();
+    virtual void vn001();
+    virtual void vn002();
+    virtual void vn003();
+    virtual NiObject* FUN_vt10();
+};
+
+struct NiAVObject
+{
+};
+
+struct ProfileMarker
+{
+};
+
+struct Clock
+{
+};
+
+struct ActorList
+{
+};
+
+struct CombatController
+{
+};
+
+struct Process
+{
+    virtual void vp000();
+    virtual void vp001();
+    virtual void vp002();
+    virtual void vp003();
+    virtual void vp004();
+    virtual void vp005();
+    virtual void vp006();
+    virtual void vp007();
+    virtual void vp008();
+    virtual void vp009();
+    virtual void FUN_vt28();
+    virtual void vp00b();
+    virtual void vp00c();
+    virtual void vp00d();
+    virtual void vp00e();
+    virtual void vp00f();
+    virtual void vp010();
+    virtual void vp011();
+    virtual void vp012();
+    virtual void vp013();
+    virtual void vp014();
+    virtual void vp015();
+    virtual void vp016();
+    virtual void vp017();
+    virtual void vp018();
+    virtual void vp019();
+    virtual void vp01a();
+    virtual void vp01b();
+    virtual void vp01c();
+    virtual void vp01d();
+    virtual void vp01e();
+    virtual void vp01f();
+    virtual void vp020();
+    virtual void vp021();
+    virtual void vp022();
+    virtual void vp023();
+    virtual void vp024();
+    virtual void vp025();
+    virtual void vp026();
+    virtual void vp027();
+    virtual void vp028();
+    virtual void vp029();
+    virtual void vp02a();
+    virtual void vp02b();
+    virtual void vp02c();
+    virtual void vp02d();
+    virtual void vp02e();
+    virtual void vp02f();
+    virtual void vp030();
+    virtual void vp031();
+    virtual void vp032();
+    virtual void vp033();
+    virtual void vp034();
+    virtual void vp035();
+    virtual void vp036();
+    virtual void vp037();
+    virtual void vp038();
+    virtual void vp039();
+    virtual void vp03a();
+    virtual void vp03b();
+    virtual void vp03c();
+    virtual void vp03d();
+    virtual void vp03e();
+    virtual void vp03f();
+    virtual void vp040();
+    virtual void vp041();
+    virtual void vp042();
+    virtual void vp043();
+    virtual void vp044();
+    virtual void vp045();
+    virtual void vp046();
+    virtual void vp047();
+    virtual void vp048();
+    virtual void vp049();
+    virtual void vp04a();
+    virtual void vp04b();
+    virtual void vp04c();
+    virtual void vp04d();
+    virtual void vp04e();
+    virtual void vp04f();
+    virtual void vp050();
+    virtual void vp051();
+    virtual void vp052();
+    virtual void vp053();
+    virtual void vp054();
+    virtual void vp055();
+    virtual void vp056();
+    virtual void vp057();
+    virtual void vp058();
+    virtual void vp059();
+    virtual void vp05a();
+    virtual void vp05b();
+    virtual void vp05c();
+    virtual void vp05d();
+    virtual void vp05e();
+    virtual void vp05f();
+    virtual void vp060();
+    virtual void vp061();
+    virtual void vp062();
+    virtual void vp063();
+    virtual void vp064();
+    virtual void vp065();
+    virtual void vp066();
+    virtual void vp067();
+    virtual void vp068();
+    virtual void vp069();
+    virtual void vp06a();
+    virtual void vp06b();
+    virtual void vp06c();
+    virtual void vp06d();
+    virtual void vp06e();
+    virtual void vp06f();
+    virtual void vp070();
+    virtual void vp071();
+    virtual void vp072();
+    virtual void vp073();
+    virtual void vp074();
+    virtual void vp075();
+    virtual void vp076();
+    virtual void vp077();
+    virtual void vp078();
+    virtual void vp079();
+    virtual void vp07a();
+    virtual void vp07b();
+    virtual void vp07c();
+    virtual void vp07d();
+    virtual void vp07e();
+    virtual void vp07f();
+    virtual void vp080();
+    virtual void vp081();
+    virtual void vp082();
+    virtual void vp083();
+    virtual void vp084();
+    virtual void vp085();
+    virtual void vp086();
+    virtual void vp087();
+    virtual void vp088();
+    virtual void vp089();
+    virtual void vp08a();
+    virtual void vp08b();
+    virtual void vp08c();
+    virtual void vp08d();
+    virtual void vp08e();
+    virtual void vp08f();
+    virtual void vp090();
+    virtual void vp091();
+    virtual void vp092();
+    virtual void vp093();
+    virtual void vp094();
+    virtual void vp095();
+    virtual void vp096();
+    virtual void vp097();
+    virtual void vp098();
+    virtual void vp099();
+    virtual void vp09a();
+    virtual void vp09b();
+    virtual void vp09c();
+    virtual void vp09d();
+    virtual void vp09e();
+    virtual void vp09f();
+    virtual void vp0a0();
+    virtual void vp0a1();
+    virtual void vp0a2();
+    virtual CombatController* FUN_vt28c();
+};
+
+struct Holder
+{
+    virtual void vh000();
+    virtual void vh001();
+    virtual void vh002();
+    virtual void vh003();
+    virtual void vh004();
+    virtual void vh005();
+    virtual void vh006();
+    virtual void vh007();
+    virtual int FUN_vt20();
+    virtual bool FUN_vt24(NiPoint3* apPos);
+};
+
+struct PathMover
+{
+};
+
+struct LookTarget
+{
+};
+
+struct CameraNode
+{
+};
+
+struct LodManager
+{
+};
+
+struct BaseForm
+{
+    int FUN_00401170();
+};
+
+struct Havok
+{
+};
+
+struct Ragdoll
+{
+};
+
+struct AnimSequence
+{
+};
+
+struct AnimController
+{
+};
+
+struct ListNode;
+
+struct ChildPtr
+{
+};
+
+struct ListNode
+{
+};
+
+struct ShaderProp
+{
+};
+
+struct ShaderData
+{
+};
+
+struct PropertyHolder
+{
+    virtual void vr000();
+    virtual void vr001();
+    virtual void vr002();
+    virtual void vr003();
+    virtual void vr004();
+    virtual void vr005();
+    virtual void vr006();
+    virtual void vr007();
+    virtual void vr008();
+    virtual void vr009();
+    virtual void vr00a();
+    virtual void vr00b();
+    virtual void vr00c();
+    virtual void vr00d();
+    virtual void vr00e();
+    virtual void vr00f();
+    virtual void vr010();
+    virtual ShaderProp* FUN_vt44();
+};
+
+struct FaceProp
+{
+};
+
+struct GeomData
+{
+    virtual void vz000();
+    virtual void vz001();
+    virtual void vz002();
+    virtual void vz003();
+    virtual void vz004();
+    virtual void vz005();
+    virtual void vz006();
+    virtual void vz007();
+    virtual void vz008();
+    virtual void vz009();
+    virtual void vz00a();
+    virtual void vz00b();
+    virtual void vz00c();
+    virtual void vz00d();
+    virtual void vz00e();
+    virtual void vz00f();
+    virtual void vz010();
+    virtual void vz011();
+    virtual void vz012();
+    virtual void vz013();
+    virtual void vz014();
+    virtual void vz015();
+    virtual void vz016();
+    virtual void vz017();
+    virtual void vz018();
+    virtual void vz019();
+    virtual void vz01a();
+    virtual void vz01b();
+    virtual void vz01c();
+    virtual void vz01d();
+    virtual void vz01e();
+    virtual void vz01f();
+    virtual void vz020();
+    virtual void vz021();
+    virtual void vz022();
+    virtual void vz023();
+    virtual void vz024();
+    virtual intptr_t FUN_vt94();
+    FormType FUN_0043b4f0();
+};
+
+struct Geometry
+{
+};
+
+struct FaceAnim
+{
+};
+
+struct Actor;
+
+extern Clock DAT_011f6394;
+
+NiAVObject* __cdecl FUN_004ade00(NiNode* apRoot, const char* apName);
+NiPoint3 __cdecl FUN_004a3760(float afScale, const NiPoint3& arPoint);
+
+struct Actor
+{
+    virtual void va000();
+    virtual void va001();
+    virtual void va002();
+    virtual void va003();
+    virtual void va004();
+    virtual void va005();
+    virtual void va006();
+    virtual void va007();
+    virtual void va008();
+    virtual void va009();
+    virtual void va00a();
+    virtual void va00b();
+    virtual void va00c();
+    virtual void va00d();
+    virtual void va00e();
+    virtual void va00f();
+    virtual void va010();
+    virtual void va011();
+    virtual void FUN_vt48(int aiFlags);
+    virtual void va013();
+    virtual void va014();
+    virtual void va015();
+    virtual void va016();
+    virtual void va017();
+    virtual void va018();
+    virtual void va019();
+    virtual void va01a();
+    virtual void va01b();
+    virtual void va01c();
+    virtual void va01d();
+    virtual void va01e();
+    virtual void va01f();
+    virtual void va020();
+    virtual void va021();
+    virtual void va022();
+    virtual void va023();
+    virtual void va024();
+    virtual void va025();
+    virtual void va026();
+    virtual void va027();
+    virtual void va028();
+    virtual void va029();
+    virtual void va02a();
+    virtual void va02b();
+    virtual void va02c();
+    virtual void va02d();
+    virtual void va02e();
+    virtual void va02f();
+    virtual void va030();
+    virtual void va031();
+    virtual void va032();
+    virtual void va033();
+    virtual void va034();
+    virtual void va035();
+    virtual void va036();
+    virtual void va037();
+    virtual void va038();
+    virtual void va039();
+    virtual void va03a();
+    virtual void va03b();
+    virtual void va03c();
+    virtual void va03d();
+    virtual void va03e();
+    virtual void va03f();
+    virtual void va040();
+    virtual void va041();
+    virtual void va042();
+    virtual void va043();
+    virtual void va044();
+    virtual void va045();
+    virtual void va046();
+    virtual void va047();
+    virtual void va048();
+    virtual void va049();
+    virtual void va04a();
+    virtual void va04b();
+    virtual void va04c();
+    virtual void va04d();
+    virtual void va04e();
+    virtual void va04f();
+    virtual void va050();
+    virtual void va051();
+    virtual void va052();
+    virtual void va053();
+    virtual void va054();
+    virtual void va055();
+    virtual void va056();
+    virtual void va057();
+    virtual void va058();
+    virtual void va059();
+    virtual void va05a();
+    virtual void va05b();
+    virtual void va05c();
+    virtual void va05d();
+    virtual void va05e();
+    virtual void va05f();
+    virtual void va060();
+    virtual void va061();
+    virtual void va062();
+    virtual void va063();
+    virtual void va064();
+    virtual void va065();
+    virtual void va066();
+    virtual void va067();
+    virtual void va068();
+    virtual void va069();
+    virtual void va06a();
+    virtual void va06b();
+    virtual void va06c();
+    virtual void va06d();
+    virtual void va06e();
+    virtual void va06f();
+    virtual void va070();
+    virtual void va071();
+    virtual void va072();
+    virtual void va073();
+    virtual NiNode* FUN_vt1d0();
+    virtual void va075();
+    virtual void va076();
+    virtual void va077();
+    virtual void va078();
+    virtual AnimController* FUN_vt1e4();
+    virtual void va07a();
+    virtual void va07b();
+    virtual void va07c();
+    virtual NiPoint3* FUN_vt1f4();
+    virtual void va07e();
+    virtual void va07f();
+    virtual void va080();
+    virtual void va081();
+    virtual void va082();
+    virtual void va083();
+    virtual void va084();
+    virtual void va085();
+    virtual void va086();
+    virtual void va087();
+    virtual void va088();
+    virtual void va089();
+    virtual void va08a();
+    virtual bool FUN_vt22c(int aiValue);
+    virtual void va08c();
+    virtual void va08d();
+    virtual void va08e();
+    virtual void va08f();
+    virtual void va090();
+    virtual void va091();
+    virtual void va092();
+    virtual void va093();
+    virtual void FUN_vt250(float afDelta, NiPoint3* apPos, int aiValue);
+    virtual void va095();
+    virtual void va096();
+    virtual void va097();
+    virtual void va098();
+    virtual void va099();
+    virtual void va09a();
+    virtual void va09b();
+    virtual void va09c();
+    virtual void va09d();
+    virtual void va09e();
+    virtual void va09f();
+    virtual void va0a0();
+    virtual void va0a1();
+    virtual void va0a2();
+    virtual void va0a3();
+    virtual void va0a4();
+    virtual void va0a5();
+    virtual void va0a6();
+    virtual void va0a7();
+    virtual void FUN_vt2a0();
+    virtual void va0a9();
+    virtual void va0aa();
+    virtual void va0ab();
+    virtual void va0ac();
+    virtual void va0ad();
+    virtual void va0ae();
+    virtual float FUN_vt2bc(int aiValue);
+    virtual void va0b0();
+    virtual void va0b1();
+    virtual void va0b2();
+    virtual void va0b3();
+    virtual void va0b4();
+    virtual void va0b5();
+    virtual void va0b6();
+    virtual void va0b7();
+    virtual void va0b8();
+    virtual void va0b9();
+    virtual void va0ba();
+    virtual void va0bb();
+    virtual void va0bc();
+    virtual void va0bd();
+    virtual void va0be();
+    virtual void va0bf();
+    virtual void va0c0();
+    virtual void va0c1();
+    virtual void va0c2();
+    virtual void va0c3();
+    virtual void va0c4();
+    virtual void va0c5();
+    virtual void va0c6();
+    virtual void va0c7();
+    virtual void va0c8();
+    virtual void va0c9();
+    virtual void va0ca();
+    virtual void va0cb();
+    virtual void va0cc();
+    virtual void va0cd();
+    virtual void va0ce();
+    virtual void va0cf();
+    virtual void va0d0();
+    virtual void va0d1();
+    virtual void va0d2();
+    virtual void va0d3();
+    virtual void va0d4();
+    virtual void va0d5();
+    virtual void va0d6();
+    virtual void va0d7();
+    virtual void va0d8();
+    virtual void va0d9();
+    virtual void va0da();
+    virtual void va0db();
+    virtual void va0dc();
+    virtual void va0dd();
+    virtual void va0de();
+    virtual void va0df();
+    virtual void va0e0();
+    virtual void va0e1();
+    virtual void va0e2();
+    virtual bool FUN_vt38c();
+    virtual void va0e4();
+    virtual void va0e5();
+    virtual void va0e6();
+    virtual void va0e7();
+    virtual void va0e8();
+    virtual void va0e9();
+    virtual void va0ea();
+    virtual void va0eb();
+    virtual void va0ec();
+    virtual void va0ed();
+    virtual void va0ee();
+    virtual void va0ef();
+    virtual void va0f0();
+    virtual void va0f1();
+    virtual void va0f2();
+    virtual void va0f3();
+    virtual void va0f4();
+    virtual void va0f5();
+    virtual void va0f6();
+    virtual void va0f7();
+    virtual void va0f8();
+    virtual void va0f9();
+    virtual void va0fa();
+    virtual void va0fb();
+    virtual void va0fc();
+    virtual void va0fd();
+    virtual void va0fe();
+    virtual void va0ff();
+    virtual void va100();
+    virtual void va101();
+    virtual void va102();
+    virtual void va103();
+    virtual void va104();
+    virtual void va105();
+    virtual void va106();
+    virtual void va107();
+    virtual void va108();
+    virtual void va109();
+    virtual void va10a();
+    virtual void va10b();
+    virtual void va10c();
+    virtual void va10d();
+    virtual void va10e();
+    virtual void va10f();
+    virtual void va110();
+    virtual void va111();
+    virtual void va112();
+    virtual void va113();
+    virtual void va114();
+    virtual void va115();
+    virtual void va116();
+    virtual void va117();
+    virtual void va118();
+    virtual void va119();
+    virtual void va11a();
+    virtual void va11b();
+    virtual void va11c();
+    virtual void va11d();
+    virtual void va11e();
+    virtual void va11f();
+    virtual void va120();
+    virtual void va121();
+    virtual void va122();
+    virtual void va123();
+    virtual void va124();
+    virtual void va125();
+    virtual void va126();
+    virtual void va127();
+    virtual void va128();
+    virtual void va129();
+    virtual void va12a();
+    virtual void va12b();
+    virtual void va12c();
+    virtual bool FUN_vt4b4();
+    char pad04[0x20];
+    float fScale24;
+    char pad28[0x40];
+    Process* pProcess;
+    char pad6C[0x40];
+    Havok* pHavok;
+    Ragdoll* pRagdoll;
+    char padB4[0x64];
+    bool bResetPose;
+    char pad119[0x77];
+    Holder* pHolder;
+    char pad194[4];
+
+    int FUN_00931850();
+    HandleRef FUN_00931ed0();
+    void FUN_00886cb0(float afDelta, int aiUnused);
+};
+
+// @fnv 0x00886cb0
+void Actor::FUN_00886cb0(float afDelta, int aiUnused)
+{
+    reinterpret_cast<::TESForm *>(&((*reinterpret_cast<::ActorUpdate3D::ProfileMarker *>(&::g_011df69e))))->ClearData();
+    float fTimeSinceScaleStart = afDelta;
+    if (fTimeSinceScaleStart == ::_DAT_01012060 && !FUN_00931850())
+    {
+        if (((unsigned int)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)) == 4 && this == (*reinterpret_cast<::ActorUpdate3D::Actor * *>(&::DAT_011f21cc)))
+            fTimeSinceScaleStart = reinterpret_cast<::Twin_0084d030 *>(&(DAT_011f6394))->GetStoredFloatValue() * reinterpret_cast<::FUN_009c8d60_t *>(&((*reinterpret_cast<::ActorUpdate3D::ActorList *>(&::g_011f2250))))->FUN_009c8d60();
+        else
+            fTimeSinceScaleStart = reinterpret_cast<::Twin_0084d030 *>(&(DAT_011f6394))->GetStoredFloatValue();
+    }
+    ::UpdateFlag800State((::Actor *)this);
+    if (this != (*reinterpret_cast<::ActorUpdate3D::Actor * *>(&::_g_thePlayer)))
+    {
+        NiPoint3 kTarget = (*reinterpret_cast<::ActorUpdate3D::NiPoint3 *>((void *)&::NiPoint3::ZERO));
+        int iTargetFlags = 0;
+        if (!FUN_vt4b4() && !reinterpret_cast<::fnv_00886b30::A_00886b30 *>(this)->PlaceAtPosition((::fnv_00886b30::Pt3_00886b30 *)(::ActorUpdate3D::NiPoint3 *)(&kTarget)))
+        {
+            iTargetFlags = pHolder->FUN_vt20();
+            if (!pHolder->FUN_vt24(&kTarget))
+            {
+                PathMover* pMover = ((::ActorUpdate3D::PathMover *)(reinterpret_cast<::FUN_008b70d0_shell *>(this)->FUN_008b70d0()));
+                if (pMover)
+                    reinterpret_cast<::fnv_00494390::MovementAnimation *>((pMover))->GetMovement((::fnv_00494390::MotionPoint *)(::ActorUpdate3D::NiPoint3 *)(&kTarget), (::fnv_00494390::MotionActor *)(void *)(this), 0, 1);
+            }
+        }
+        LookTarget* pLook = ((::ActorUpdate3D::LookTarget *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()));
+        if (pLook && ::FUN_00450ff0((void *)(pLook)) && !reinterpret_cast<::PlayerCharacter *>(((*reinterpret_cast<::ActorUpdate3D::Actor * *>(&::_g_thePlayer))))->IsSleepingOrResting())
+        {
+            FUN_vt250(fTimeSinceScaleStart, &kTarget, iTargetFlags);
+        }
+        else
+        {
+            ThreeByThreeMatrix kRotate;
+            reinterpret_cast<::FUN_004a0c90_shell *>(&(kRotate))->FUN_004a0c90(((::ActorUpdate3D::NiPoint3 *)(reinterpret_cast<::TESRecipe *>(this)->GetData()))->z);
+            reinterpret_cast<::Reference *>(this)->FUN_00575830((::Position *)&(const ::ActorUpdate3D::NiPoint3 &)((*(::ActorUpdate3D::NiPoint3 *)(reinterpret_cast<::Point3Offset *>((void *)(FUN_vt1f4()))->ProjectileLaunched((::NiPoint3 *)&(const ::ActorUpdate3D::NiPoint3 &)(kRotate.FUN_004b4500(kTarget)), {})))));
+        }
+    }
+    if (((bool)(reinterpret_cast<::FUN_00493bb0_Class *>(this)->FUN_00493bb0())))
+        reinterpret_cast<::fnv_008b00c0::MobileObjectStandIn *>(this)->UpdateControllerFlag();
+    CombatController* pCombat = pProcess ? pProcess->FUN_vt28c() : 0;
+    if (this != (*reinterpret_cast<::ActorUpdate3D::Actor * *>(&::_g_thePlayer)))
+    {
+        NiNode* p3D = FUN_vt1d0();
+        if (this != (*reinterpret_cast<::ActorUpdate3D::Actor * *>(&::_g_thePlayer)) && p3D)
+        {
+            NiPoint3 kCameraPos;
+            if (reinterpret_cast<::FUN_004eaf60_shell *>(((*reinterpret_cast<::ActorUpdate3D::Actor * *>(&::_g_thePlayer))))->FUN_004eaf60() && (*reinterpret_cast<::ActorUpdate3D::CameraNode * *>(&::DAT_011e07d4)))
+                kCameraPos = *((::ActorUpdate3D::NiPoint3 *)(::FUN_0045bb80((intptr_t)((*reinterpret_cast<::ActorUpdate3D::CameraNode * *>(&::DAT_011e07d4))))));
+            else if ((*reinterpret_cast<::ActorUpdate3D::CameraNode * *>(&::DAT_011e07d0)))
+                kCameraPos = *((::ActorUpdate3D::NiPoint3 *)(::FUN_0045bb80((intptr_t)((*reinterpret_cast<::ActorUpdate3D::CameraNode * *>(&::DAT_011e07d0))))));
+            else
+                kCameraPos = (*(::ActorUpdate3D::NiPoint3 *)(reinterpret_cast<::Point3Offset *>((void *)(((::ActorUpdate3D::NiPoint3 *)(reinterpret_cast<::TESTopicInfo *>(((*reinterpret_cast<::ActorUpdate3D::Actor * *>(&::_g_thePlayer))))->GetAddTopicList()))))->ProjectileLaunched(
+                    (::NiPoint3 *)&(const ::ActorUpdate3D::NiPoint3 &)(FUN_004a3760(reinterpret_cast<::fnv_008be940::FloatValueProvider *>(((*reinterpret_cast<::ActorUpdate3D::Actor * *>(&::_g_thePlayer))))->FUN_008be940(), (*reinterpret_cast<::ActorUpdate3D::NiPoint3 *>((void *)&::DAT_011a9484)))), {})));
+            NiBound kBound = *((::ActorUpdate3D::NiBound *)(reinterpret_cast<::FUN_0043d450_Owner *>((p3D))->FUN_0043d450()));
+            float fDistance =
+                reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::ActorUpdate3D::NiPoint3 &)((*(::ActorUpdate3D::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(kCameraPos))->FUN_00439ef0((::NiPoint3 *)&(*((::ActorUpdate3D::NiPoint3 *)(((::Vec3 *)(void *)&(kBound))))), *(const ::NiPoint3 *)nullptr)))))->ComputeMagnitude() - reinterpret_cast<::Twin_0084d030 *>(&(kBound))->GetStoredFloatValue() * ::DAT_01021798;
+            bool bFar = false;
+            NiObject* pFade = p3D->FUN_vt10();
+            if (pFade)
+            {
+                float fRatio = fDistance / ::FUN_007d1d00(3);
+                bFar = fRatio > reinterpret_cast<::FUN_006d2c20_Class *>((pFade))->GetFloatAtOffsetB0();
+            }
+            LodManager* pLod = ((::ActorUpdate3D::LodManager *)(::FUN_00b4f5c0()));
+            if (pLod && ((intptr_t)(::GetStringAtOffset13C((const char *)(pLod)))))
+            {
+                bool bVisible = bFar ? false : fDistance > ::_DAT_01012060;
+                reinterpret_cast<::RefVolAccum *>((pLod))->UpdateOrAddItem(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0(), (const ::RefVolSrc *)(::ActorUpdate3D::NiBound *)(&kBound), bVisible);
+            }
+            if (pCombat)
+                reinterpret_cast<::Dummy8879d0 *>((pCombat))->FUN_008879d0(bFar);
+        }
+    }
+    if (pCombat)
+        reinterpret_cast<::fnv_00810610::FUN_00810610_Class *>((pCombat))->FUN_00810610(((bool)(::FUN_00525420())));
+    if (bResetPose && ((intptr_t)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture())))
+    {
+        NiNode* pRoot = ((::ActorUpdate3D::NiNode *)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>(this)->FUN_0043fcd0()));
+        if (pRoot)
+        {
+            bool bUpright = true;
+            Actor* pCreature = 0;
+            if (((::ActorUpdate3D::BaseForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430()))->FUN_00401170() == 0x2b)
+                pCreature = this;
+            if (pCreature && !pCreature->FUN_vt38c())
+                bUpright = false;
+            if (pHavok && ::FUN_00552490((bool *)(pHavok)))
+                reinterpret_cast<::RagdollCtl *>((pHavok))->FUN_00c7c150(1);
+            if (pRagdoll)
+                reinterpret_cast<::Manager *>((pRagdoll))->FUN_00ca2ad0(pRoot, ((int)(reinterpret_cast<::fnv_004a3a20::FUN_004a3a20_shell *>((void *)&(const ::ActorUpdate3D::HandleRef &)(FUN_00931ed0()))->FUN_004a3a20())));
+            reinterpret_cast<::Actor *>(this)->SetActorLifeState((::ACTOR_LIFE_STATE)(1));
+            FUN_vt2a0();
+            if (bUpright)
+            {
+                ThreeByThreeMatrix kHeading;
+                reinterpret_cast<::FUN_004a0c90_shell *>(&(kHeading))->FUN_004a0c90(FUN_vt2bc(0));
+                NiPoint3 kForward(0.0f, 1.0f, 0.0f);
+                kForward = kHeading.FUN_004b4500(kForward);
+                ::FUN_00c9b670((::NiAVObject *)(pRoot), (*(const ::NiPoint3 *)(&kForward)), 1, 0.0f, 0);
+                FUN_vt48(4);
+                pProcess->FUN_vt28();
+            }
+            else
+            {
+                AnimController* pAnim = FUN_vt1e4();
+                if (pAnim && reinterpret_cast<::FUN_00494710_shell *>((pAnim))->FUN_00494710(0xe0))
+                {
+                    reinterpret_cast<::fnv_004955c0::FUN_004955c0_t *>((pAnim))->FUN_004955c0(0x14, 0xe0, -1, 0.0f, -1);
+                    AnimSequence* pSequence = ((::ActorUpdate3D::AnimSequence *)(reinterpret_cast<::FUN_00491040_shell *>((pAnim))->FUN_00491040(1)));
+                    if (pSequence)
+                    {
+                        reinterpret_cast<::FUN_0098adb0_shell *>((pSequence))->FUN_0098adb0(reinterpret_cast<::FUN_00508100_shell *>((pSequence))->FUN_00508100());
+                        reinterpret_cast<::FUN_00491180_shell *>((pAnim))->FUN_00491180((::TESObjectREFR *)(void *)(this), 0.0f, reinterpret_cast<::FUN_00508100_shell *>((pSequence))->FUN_00508100());
+                        reinterpret_cast<::ThisStub *>((pAnim))->FUN_00493900(this);
+                    }
+                    reinterpret_cast<::fnv_0089f580::ActorStub *>(this)->TryMakeTargetThing();
+                }
+            }
+            bResetPose = false;
+        }
+    }
+    if (reinterpret_cast<::FUN_0087eeb0_shell *>(this)->FUN_0087eeb0() && !FUN_vt22c(0) && !((bool)(reinterpret_cast<::FUN_00437bd0_stub *>(this)->FUN_00437bd0())))
+    {
+        NiNode* pFaceRoot = FUN_vt1d0();
+        NiAVObject* pObject = FUN_004ade00(pFaceRoot, ((const char *)(::FUN_0087e9a0())));
+        bool bChanged = false;
+        if (pObject)
+        {
+            intptr_t iObject = ((intptr_t)(reinterpret_cast<::fnv_006838b0::FUN_006838b0_shell *>((pObject))->FUN_006838b0()));
+            Geometry* m_pShaderGeometry = (Geometry*)((void *)(::FUN_00653270((const ::NiRTTI *)(int *)(&(*reinterpret_cast<int *>(&::g_01267e64))), (::NiObject *)(((intptr_t)(reinterpret_cast<::fnv_006838b0::FUN_006838b0_shell *>((pObject))->FUN_006838b0()))))));
+            if (m_pShaderGeometry)
+            {
+                GeomData* pData = ((::ActorUpdate3D::GeomData *)(::fnv_006fa820::FUN_006fa820((const char *)(m_pShaderGeometry))));
+                ListNode* pIter = ((::ActorUpdate3D::ListNode *)(reinterpret_cast<::NonActorMagicTarget *>((pData))->GetActiveEffectList()));
+                int iSkin = reinterpret_cast<::bhkRigidBody_shell *>((pData))->FUN_00517630();
+                if (!((bool)(::FUN_00c8cce0(&iSkin))))
+                {
+                    ::FUN_00c6a350((::NiAVObject *)(pObject), 1, 1, 1, 1);
+                    intptr_t iNewSkin = ((intptr_t)(::FUN_00621480((::HighProcess *)(pData->FUN_vt94()))));
+                    reinterpret_cast<::C8DAC0Owner *>((pData))->UpdateMatchingNodes((void *)(iNewSkin));
+                    bChanged = true;
+                }
+                FormType kType = pData->FUN_0043b4f0();
+                if (reinterpret_cast<::FUN_0043b4d0_shell *>(&(kType))->FUN_0043b4d0() == 0x1d)
+                    ::FUN_00c804d0((::WalkNode_c804 *)(pFaceRoot), 8);
+                reinterpret_cast<::fnv_00561580::FUN_00561580_Class *>((pData))->FUN_00561580(1);
+                while (pIter && ((::ActorUpdate3D::NiAVObject *)(::FUN_00559450((int *)(((::ActorUpdate3D::ChildPtr *)(((::Vec3 *)(void *)(pIter)))))))))
+                {
+                    FaceProp* pFace =
+                        (FaceProp*)((void *)(::FUN_00653270((const ::NiRTTI *)(int *)(&(*reinterpret_cast<int *>(&::g_012683ec))), (::NiObject *)((intptr_t)((::ActorUpdate3D::NiAVObject *)(::FUN_00559450((int *)(((::ActorUpdate3D::ChildPtr *)(((::Vec3 *)(void *)(pIter))))))))))));
+                    if (pFace)
+                    {
+                        float fDesiredHeadingAngle = FUN_vt2bc(0);
+                        AlignedRotation kRotationBasis(::FUN_005c53d0(fDesiredHeadingAngle), ::FUN_005b9e80(fDesiredHeadingAngle), 0.0f, 0.0f);
+                        reinterpret_cast<::fnv_00887b40::FUN_00887b40_Class *>((pFace))->ForwardToScriptLocals(1);
+                        reinterpret_cast<::fnv_00887af0::FUN_00887af0_class *>((pFace))->FUN_00887af0(&kRotationBasis);
+                        break;
+                    }
+                    pIter = ((::ActorUpdate3D::ListNode *)(reinterpret_cast<::SimpleListNodeView *>((pIter))->m_pkNext));
+                }
+                if (::FUN_008c7aa0())
+                    reinterpret_cast<::S0087ab50 *>((((::ActorUpdate3D::FaceAnim *)(::TaskQueueInterface::GetSingleton()))))->SetPairIfEnabled({}, {});
+                else
+                    ::SetTlsValueAndReset((intptr_t)(pObject), 2);
+            }
+        }
+        pObject = FUN_004ade00(pFaceRoot, ((const char *)(::FUN_00887a00())));
+        if (pObject)
+        {
+            intptr_t iObject = ((intptr_t)(reinterpret_cast<::fnv_006838b0::FUN_006838b0_shell *>((pObject))->FUN_006838b0()));
+            Geometry* m_pShaderGeometry = (Geometry*)((void *)(::FUN_00653270((const ::NiRTTI *)(int *)(&(*reinterpret_cast<int *>(&::g_01267e64))), (::NiObject *)(((intptr_t)(reinterpret_cast<::fnv_006838b0::FUN_006838b0_shell *>((pObject))->FUN_006838b0()))))));
+            if (m_pShaderGeometry)
+            {
+                GeomData* pData = ((::ActorUpdate3D::GeomData *)(::fnv_006fa820::FUN_006fa820((const char *)(m_pShaderGeometry))));
+                ListNode* pIter = ((::ActorUpdate3D::ListNode *)(reinterpret_cast<::NonActorMagicTarget *>((pData))->GetActiveEffectList()));
+                int iSkin = reinterpret_cast<::bhkRigidBody_shell *>((pData))->FUN_00517630();
+                if (!((bool)(::FUN_00c8cce0(&iSkin))))
+                {
+                    ::FUN_00c6a350((::NiAVObject *)(pObject), 1, 1, 1, 1);
+                    intptr_t iNewSkin = ((intptr_t)(::FUN_00621480((::HighProcess *)(pData->FUN_vt94()))));
+                    reinterpret_cast<::C8DAC0Owner *>((pData))->UpdateMatchingNodes((void *)(iNewSkin));
+                    bChanged = true;
+                }
+                FormType kType = pData->FUN_0043b4f0();
+                if (reinterpret_cast<::FUN_0043b4d0_shell *>(&(kType))->FUN_0043b4d0() == 0x1d)
+                    ::FUN_00c804d0((::WalkNode_c804 *)(pFaceRoot), 8);
+                reinterpret_cast<::fnv_00561580::FUN_00561580_Class *>((pData))->FUN_00561580(1);
+                while (pIter && ((::ActorUpdate3D::NiAVObject *)(::FUN_00559450((int *)(((::ActorUpdate3D::ChildPtr *)(((::Vec3 *)(void *)(pIter)))))))))
+                {
+                    PropertyHolder* pProps = (PropertyHolder*)((::ActorUpdate3D::NiAVObject *)(::FUN_00559450((int *)(((::ActorUpdate3D::ChildPtr *)(((::Vec3 *)(void *)(pIter))))))));
+                    ShaderProp* pShader = pProps->FUN_vt44();
+                    if (pShader)
+                    {
+                        ShaderData* m_pSPData = ((::ActorUpdate3D::ShaderData *)(reinterpret_cast<::FUN_00887a10_cls *>((pShader))->FUN_00887a10()));
+                        float fScale = fScale24;
+                        ::FUN_005330e0(&fScale, reinterpret_cast<::FUN_00644a50_shell *>((m_pSPData))->FUN_00644a50(), reinterpret_cast<::FUN_009a1260_Class *>((m_pSPData))->GetFloatAt0xC8());
+                        reinterpret_cast<::FUN_00887a80_Class *>((pShader))->FUN_00887a80(1);
+                        reinterpret_cast<::FUN_00887ac0_class *>((pShader))->FUN_00887ac0(fScale);
+                        break;
+                    }
+                    pIter = ((::ActorUpdate3D::ListNode *)(reinterpret_cast<::SimpleListNodeView *>((pIter))->m_pkNext));
+                }
+                if (::FUN_008c7aa0())
+                    reinterpret_cast<::S0087ab50 *>((((::ActorUpdate3D::FaceAnim *)(::TaskQueueInterface::GetSingleton()))))->SetPairIfEnabled({}, {});
+                else
+                    ::SetTlsValueAndReset((intptr_t)(pObject), 2);
+            }
+        }
+        if (bChanged)
+            FUN_vt48(4);
+    }
+    reinterpret_cast<::TESForm *>(&((*reinterpret_cast<::ActorUpdate3D::ProfileMarker *>(&::g_011df69e))))->ClearData();
+}
+}
+struct P164FormType
+{
+    int FUN_00401170();
+};
+
+extern const char DAT_0102fdc8[];
+__if_not_exists(TESActorBase::TESActorBase)
+{
+    struct TESActorBase : TESForm
+    {
+    };
+}
+struct P164Flags
+{
+    unsigned int value;
+};
+struct P164Buffer
+{
+    virtual unsigned char GetVersion();
+    unsigned int FUN_008648a0();
+    P164Flags FUN_00428110();
+};
+struct P164Item
+{
+    ~P164Item();
+};
+struct P164Inventory
+{
+};
+TESForm* __cdecl FUN_004839c0(unsigned int);
+struct P164Modifier
+{
+};
+struct ActorListEntry_rtm
+{
+    float value;
+    TESForm* form;
+};
+struct P164List
+{
+    void FUN_005ae3d0(ActorListEntry_rtm*&);
+};
+struct P164Clock
+{
+};
+struct P164Biped
+{
+};
+struct P164State
+{
+};
+struct P164Actor : Actor
+{
+    void FUN_008ab3a0(P164Buffer*);
+    void FUN_008c1ac0(bool);
+    void SetFlag40000000(bool);
+};
+struct P164ActorVirtual
+{
+    virtual void v0();
+    virtual void v1();
+    virtual void v2();
+    virtual void v3();
+    virtual void v4();
+    virtual void v5();
+    virtual void v6();
+    virtual void v7();
+    virtual void v8();
+    virtual void v9();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual void v20();
+    virtual void v21();
+    virtual void v22();
+    virtual void v23();
+    virtual void v24();
+    virtual void v25();
+    virtual void v26();
+    virtual void v27();
+    virtual void v28();
+    virtual void v29();
+    virtual void v30();
+    virtual void v31();
+    virtual void v32();
+    virtual void v33();
+    virtual void v34();
+    virtual void v35();
+    virtual void v36();
+    virtual void v37();
+    virtual void v38();
+    virtual void v39();
+    virtual void v40();
+    virtual void v41();
+    virtual void v42();
+    virtual void v43();
+    virtual void v44();
+    virtual void v45();
+    virtual void v46();
+    virtual void v47();
+    virtual void v48();
+    virtual void v49();
+    virtual void v50();
+    virtual void v51();
+    virtual void v52();
+    virtual void v53();
+    virtual void v54();
+    virtual void v55();
+    virtual void v56();
+    virtual void v57();
+    virtual void v58();
+    virtual void v59();
+    virtual void v60();
+    virtual void v61();
+    virtual void v62();
+    virtual void v63();
+    virtual void v64();
+    virtual void v65();
+    virtual void v66();
+    virtual void v67();
+    virtual void v68();
+    virtual void v69();
+    virtual void v70();
+    virtual void v71();
+    virtual void v72();
+    virtual void v73();
+    virtual void v74();
+    virtual void v75();
+    virtual void v76();
+    virtual void v77();
+    virtual void v78();
+    virtual void v79();
+    virtual void v80();
+    virtual void v81();
+    virtual void v82();
+    virtual void v83();
+    virtual void v84();
+    virtual void v85();
+    virtual void v86();
+    virtual void v87();
+    virtual void v88();
+    virtual void v89();
+    virtual void v90();
+    virtual void v91();
+    virtual void v92();
+    virtual void v93();
+    virtual void v94();
+    virtual void v95();
+    virtual void v96();
+    virtual void v97();
+    virtual void v98();
+    virtual void v99();
+    virtual void v100();
+    virtual void v101();
+    virtual void v102();
+    virtual void v103();
+    virtual void v104();
+    virtual void v105();
+    virtual void v106();
+    virtual void v107();
+    virtual void v108();
+    virtual void v109();
+    virtual void v110();
+    virtual void v111();
+    virtual void v112();
+    virtual void v113();
+    virtual void v114();
+    virtual void v115();
+    virtual void v116();
+    virtual void v117();
+    virtual void v118();
+    virtual void v119();
+    virtual void v120();
+    virtual void v121();
+    virtual P164Biped* GetBipedAnimation();
+    virtual void v123();
+    virtual void v124();
+    virtual void v125();
+    virtual void v126();
+    virtual void v127();
+    virtual void v128();
+    virtual void v129();
+    virtual void v130();
+    virtual void v131();
+    virtual void v132();
+    virtual void v133();
+    virtual void v134();
+    virtual bool IsCharacter();
+    virtual void v136();
+    virtual void v137();
+    virtual void v138();
+    virtual bool IsDead(int);
+};
+struct P164Mover
+{
+    virtual void v0();
+    virtual void v1();
+    virtual void v2();
+    virtual void v3();
+    virtual void v4();
+    virtual void v5();
+    virtual void v6();
+    virtual void v7();
+    virtual void v8();
+    virtual void v9();
+    virtual void v10();
+    virtual void Load(P164Buffer*);
+};
+struct P164Process
+{
+    virtual void v0();
+    virtual void v1();
+    virtual void v2();
+    virtual void v3();
+    virtual void v4();
+    virtual void v5();
+    virtual void v6();
+    virtual void v7();
+    virtual void v8();
+    virtual void v9();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual void v20();
+    virtual void v21();
+    virtual void v22();
+    virtual void v23();
+    virtual void v24();
+    virtual void v25();
+    virtual void v26();
+    virtual void v27();
+    virtual void v28();
+    virtual void v29();
+    virtual void v30();
+    virtual void v31();
+    virtual void v32();
+    virtual void v33();
+    virtual void v34();
+    virtual void v35();
+    virtual void v36();
+    virtual void v37();
+    virtual void v38();
+    virtual void v39();
+    virtual void v40();
+    virtual void v41();
+    virtual void v42();
+    virtual void v43();
+    virtual void v44();
+    virtual void v45();
+    virtual void v46();
+    virtual void v47();
+    virtual void v48();
+    virtual void v49();
+    virtual void v50();
+    virtual void v51();
+    virtual void v52();
+    virtual void v53();
+    virtual void v54();
+    virtual void v55();
+    virtual void v56();
+    virtual void v57();
+    virtual void v58();
+    virtual void v59();
+    virtual void v60();
+    virtual void v61();
+    virtual void v62();
+    virtual void v63();
+    virtual void v64();
+    virtual void v65();
+    virtual void v66();
+    virtual void v67();
+    virtual void v68();
+    virtual void v69();
+    virtual void v70();
+    virtual void v71();
+    virtual void v72();
+    virtual void v73();
+    virtual void v74();
+    virtual void v75();
+    virtual void v76();
+    virtual void v77();
+    virtual void v78();
+    virtual void v79();
+    virtual void v80();
+    virtual void v81();
+    virtual P164Item* GetLoadedForm();
+    virtual void v83();
+    virtual void v84();
+    virtual void v85();
+    virtual void v86();
+    virtual void v87();
+    virtual void v88();
+    virtual void v89();
+    virtual void v90();
+    virtual void v91();
+    virtual void v92();
+    virtual void v93();
+    virtual void v94();
+    virtual void v95();
+    virtual void v96();
+    virtual void v97();
+    virtual void v98();
+    virtual void v99();
+    virtual void v100();
+    virtual void v101();
+    virtual void v102();
+    virtual void v103();
+    virtual void v104();
+    virtual void v105();
+    virtual void v106();
+    virtual void v107();
+    virtual void v108();
+    virtual void v109();
+    virtual void v110();
+    virtual void v111();
+    virtual void v112();
+    virtual void v113();
+    virtual void v114();
+    virtual void v115();
+    virtual void v116();
+    virtual void v117();
+    virtual void v118();
+    virtual void v119();
+    virtual void v120();
+    virtual void v121();
+    virtual void v122();
+    virtual void v123();
+    virtual void v124();
+    virtual void v125();
+    virtual void v126();
+    virtual void v127();
+    virtual void v128();
+    virtual void v129();
+    virtual void v130();
+    virtual void v131();
+    virtual void v132();
+    virtual void v133();
+    virtual void v134();
+    virtual void v135();
+    virtual void v136();
+    virtual void v137();
+    virtual void v138();
+    virtual void v139();
+    virtual void v140();
+    virtual void v141();
+    virtual void v142();
+    virtual void v143();
+    virtual void v144();
+    virtual void v145();
+    virtual void v146();
+    virtual void v147();
+    virtual void v148();
+    virtual void v149();
+    virtual void v150();
+    virtual void v151();
+    virtual void v152();
+    virtual void v153();
+    virtual void v154();
+    virtual void v155();
+    virtual void v156();
+    virtual void v157();
+    virtual void v158();
+    virtual void v159();
+    virtual void v160();
+    virtual void v161();
+    virtual void v162();
+    virtual void v163();
+    virtual void v164();
+    virtual void v165();
+    virtual void v166();
+    virtual void v167();
+    virtual void v168();
+    virtual void v169();
+    virtual void v170();
+    virtual void v171();
+    virtual void v172();
+    virtual void v173();
+    virtual void v174();
+    virtual void v175();
+    virtual void v176();
+    virtual void v177();
+    virtual void v178();
+    virtual void v179();
+    virtual void v180();
+    virtual void v181();
+    virtual void v182();
+    virtual void v183();
+    virtual void v184();
+    virtual void v185();
+    virtual void v186();
+    virtual void v187();
+    virtual void v188();
+    virtual void v189();
+    virtual void v190();
+    virtual void v191();
+    virtual void v192();
+    virtual void v193();
+    virtual void v194();
+    virtual void v195();
+    virtual void v196();
+    virtual void v197();
+    virtual void v198();
+    virtual void v199();
+    virtual void v200();
+    virtual void v201();
+    virtual void v202();
+    virtual void v203();
+    virtual void v204();
+    virtual void v205();
+    virtual void v206();
+    virtual void v207();
+    virtual void v208();
+    virtual void v209();
+    virtual void v210();
+    virtual void v211();
+    virtual void v212();
+    virtual void v213();
+    virtual void v214();
+    virtual void v215();
+    virtual void v216();
+    virtual void v217();
+    virtual void v218();
+    virtual void v219();
+    virtual void v220();
+    virtual void v221();
+    virtual void v222();
+    virtual void v223();
+    virtual void v224();
+    virtual void v225();
+    virtual void v226();
+    virtual void v227();
+    virtual void v228();
+    virtual void v229();
+    virtual void v230();
+    virtual void v231();
+    virtual void v232();
+    virtual void v233();
+    virtual void v234();
+    virtual void v235();
+    virtual void v236();
+    virtual void v237();
+    virtual void v238();
+    virtual void v239();
+    virtual void v240();
+    virtual void v241();
+    virtual void v242();
+    virtual void v243();
+    virtual void v244();
+    virtual void v245();
+    virtual void v246();
+    virtual void v247();
+    virtual void v248();
+    virtual void v249();
+    virtual void v250();
+    virtual void v251();
+    virtual void v252();
+    virtual void v253();
+    virtual void v254();
+    virtual void v255();
+    virtual void v256();
+    virtual void v257();
+    virtual void v258();
+    virtual void v259();
+    virtual void v260();
+    virtual void v261();
+    virtual void v262();
+    virtual void v263();
+    virtual void v264();
+    virtual void v265();
+    virtual void v266();
+    virtual void v267();
+    virtual void v268();
+    virtual void v269();
+    virtual void v270();
+    virtual void v271();
+    virtual void v272();
+    virtual void v273();
+    virtual void v274();
+    virtual void v275();
+    virtual void v276();
+    virtual void v277();
+    virtual void v278();
+    virtual void v279();
+    virtual void v280();
+    virtual void v281();
+    virtual void Update(bool);
+};
+// @fnv 0x008ab3a0
+void P164Actor::FUN_008ab3a0(P164Buffer* buffer)
+{
+    int oldState = reinterpret_cast<::FUN_004f8960_shell *>((((P164State*)this)))->FUN_004f8960();
+    reinterpret_cast<::fnv_00932a00::FUN_00932a00_t *>(this)->FUN_00932a00((::fnv_00932a00::BGSLoadFormBuffer *)(buffer));
+    m_eLifeState = (ACTOR_LIFE_STATE)oldState;
+    reinterpret_cast<::FUN_00884f80_shell *>(this)->FUN_00884f80();
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&ActorConditionAndAnimationState), 4);
+    ActorConditionAndAnimationState = reinterpret_cast<::FUN_0096d490_shell *>(&((*reinterpret_cast<::P164Clock *>(&::g_011e0e80))))->FUN_0096d490() - ActorConditionAndAnimationState;
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&ActorStateFlags), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&ActorReferenceData), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_bFirstActorFlag), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_bActorFlag), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_fFirstValueAfterFlag), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_bSecondBooleanValue), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_eAnimationGroup), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_bHasUpdated), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&ActorReferenceListData), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&ActorBaseConfiguration), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_bFlagBeforeActorBase), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&ActorBaseReference), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_bSecondActorFlag), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_iIntegerBeforeTwoFloatValues), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&BooleanIntegerTwoFloatData), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&IntegerFloatFlagSettings), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_bFirstFlagAfterForm), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_bFormFlag), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_bMiddleFlagBeforeActorMover), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_iPackageState), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&ActorProjectileState), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_bFlagBeforeTwoBooleans), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_bMiddleFlag), 1);
+    if (buffer->GetVersion() >= 8)
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_eCriticalStage), 4);
+    if (buffer->GetVersion() >= 9)
+    {
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_bActorListValid), 1);
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_iIntegerAfterActorListValid), 4);
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&ActorStatusData), 1);
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_uiFirstValueAfterInteger), 4);
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_uiActorFlags), 4);
+        FUN_008c1ac0(false);
+        SetFlag40000000(false);
+    }
+    if (buffer->GetVersion() >= 13)
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_uiValueBeforeBooleanFields), 4);
+    reinterpret_cast<::fnv_008648e0::FUN_008648e0_shell *>((buffer))->FUN_008648e0((unsigned int *)(void *)(&m_pActorReference));
+    m_pActorBase = dynamic_cast<TESActorBase*>(FUN_004839c0(buffer->FUN_008648a0()));
+    reinterpret_cast<::fnv_008648e0::FUN_008648e0_shell *>((buffer))->FUN_008648e0((unsigned int *)(void *)(&m_pMobileObject));
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::P164Flags &)(buffer->FUN_00428110()))->FUN_004280f0(0x400))
+    {
+        unsigned char lifeState = 0;
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&lifeState), 1);
+        m_eLifeState = (ACTOR_LIFE_STATE)lifeState;
+    }
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::P164Flags &)(buffer->FUN_00428110()))->FUN_004280f0(0x80000))
+    {
+        unsigned int count = ((unsigned int)(reinterpret_cast<::fnv_00864a60::FUN_00864a60_cls *>((buffer))->FUN_00864a60()));
+        for (unsigned int i = 0; i < count; ++i)
+        {
+            ActorListEntry_rtm* modifier = new ActorListEntry_rtm;
+            reinterpret_cast<::fnv_008648e0::FUN_008648e0_shell *>((buffer))->FUN_008648e0((unsigned int *)(void *)(&modifier->form));
+            reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(modifier), 4);
+            ((P164List*)&m_kSecondPointerList)->FUN_005ae3d0(modifier);
+        }
+    }
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::P164Flags &)(buffer->FUN_00428110()))->FUN_004280f0(0x800000))
+        reinterpret_cast<::fnv_00937c60::ModifierList_h *>((((P164Modifier*)&m_kFirstActorData)))->LoadModifiers((::fnv_00937c60::BGSLoadFormBuffer *)(buffer));
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::P164Flags &)(buffer->FUN_00428110()))->FUN_004280f0(0x400000))
+        reinterpret_cast<::fnv_00937c60::ModifierList_h *>((((P164Modifier*)&m_kSecondActorData)))->LoadModifiers((::fnv_00937c60::BGSLoadFormBuffer *)(buffer));
+    ((P164Mover*)m_pActorMover)->Load(buffer);
+    if (((::NiAVObject *)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>(this)->FUN_0043fcd0())) && m_pBaseProcess)
+    {
+        P164Biped* inventory = ((P164ActorVirtual*)this)->GetBipedAnimation();
+        P164Inventory* biped = ((::P164Inventory *)(::InventoryChanges::CreateForReference(this)));
+        if (inventory && biped)
+        {
+            unsigned int slots[] = {0, 1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19};
+            unsigned int slotCount = 19;
+            for (unsigned int slot = 0; slot < slotCount; ++slot)
+            {
+                TESForm* current = reinterpret_cast<::FUN_0088e0f0_shell *>((inventory))->FUN_0088e0f0(slot);
+                P164Item* item = ((::P164Item *)(reinterpret_cast<::Target *>((biped))->FUN_004c8c10(slot, 0)));
+                TESForm* equipped = item ? ((::TESForm *)(reinterpret_cast<::Twin_0044ddc0 *>((item))->GetName())) : 0;
+                if (current)
+                {
+                    if (((P164FormType*)current)->FUN_00401170() == 12)
+                        current = 0;
+                    else if (current->Unk_3D())
+                        current = 0;
+                }
+                if (current != equipped)
+                {
+                    ((P164Process*)m_pBaseProcess)->Update(true);
+                    break;
+                }
+                delete item;
+            }
+        }
+        else if (biped && ((P164ActorVirtual*)this)->IsCharacter() && reinterpret_cast<::MiddleHighProcess *>(this)->IsActorInCombat() &&
+                 strstr(reinterpret_cast<::FUN_0055d520_shell *>(this)->FUN_0055d520(), DAT_0102fdc8))
+        {
+            P164Item* weapon = ((::P164Item *)(reinterpret_cast<::Target *>((biped))->FUN_004c8c10(5, 0)));
+            TESForm* weaponForm = weapon ? ((::TESForm *)(reinterpret_cast<::Twin_0044ddc0 *>((weapon))->GetName())) : 0;
+            if (((P164Process*)m_pBaseProcess)->GetLoadedForm() &&
+                ((::TESForm *)(reinterpret_cast<::Twin_0044ddc0 *>((((P164Process*)m_pBaseProcess)->GetLoadedForm()))->GetName())) != weaponForm)
+                ((P164Process*)m_pBaseProcess)->Update(true);
+        }
+    }
+    if (!((P164ActorVirtual*)this)->IsDead(0) && m_eCriticalStage != 0)
+        m_eCriticalStage = (ACTOR_CRITICAL_STAGE)0;
+}
+
+#define FNV_NIPOINT3_H
+class ActiveEffect;
+template <class T> class BSSimpleList;
+class Animation;
+class ParentSpaceNode;
+class GameSettingCollection;
+extern GlobalObject_0045d260 g_011df69c;
+enum ACTOR_LIFE_STATE;
+
+class BGSPickupPutdownSounds : public BaseFormComponent
+{
+  public:
+    TESSound* m_pPickupSound;
+    TESSound* m_pPutdownSound;
+};
+class BGSEquipType : public BaseFormComponent
+{
+  public:
+    static int GetEquipType(TESForm*);
+    int m_eEquipType;
+};
+
+struct PickupSoundActorView : public Actor
+{
+    char* FUN_008adcf0(::TESBoundObject*, bool, bool);
+};
+
+struct PickupSoundVirtualView
+{
+    virtual void s0();
+    virtual void s1();
+    virtual void s2();
+    virtual void s3();
+    virtual void s4();
+    virtual void s5();
+    virtual void s6();
+    virtual void s7();
+    virtual void s8();
+    virtual void s9();
+    virtual void s10();
+    virtual void s11();
+    virtual void s12();
+    virtual void s13();
+    virtual void s14();
+    virtual void s15();
+    virtual void s16();
+    virtual void s17();
+    virtual void s18();
+    virtual void s19();
+    virtual void s20();
+    virtual void s21();
+    virtual void s22();
+    virtual void s23();
+    virtual void s24();
+    virtual void s25();
+    virtual void s26();
+    virtual void s27();
+    virtual void s28();
+    virtual void s29();
+    virtual void s30();
+    virtual void s31();
+    virtual void s32();
+    virtual void s33();
+    virtual void s34();
+    virtual void s35();
+    virtual void s36();
+    virtual void s37();
+    virtual void s38();
+    virtual void s39();
+    virtual void s40();
+    virtual void s41();
+    virtual void s42();
+    virtual void s43();
+    virtual void s44();
+    virtual void s45();
+    virtual void s46();
+    virtual void s47();
+    virtual void s48();
+    virtual void s49();
+    virtual void s50();
+    virtual void s51();
+    virtual void s52();
+    virtual void s53();
+    virtual void s54();
+    virtual void s55();
+    virtual void s56();
+    virtual void s57();
+    virtual void s58();
+    virtual void s59();
+    virtual void s60();
+    virtual void s61();
+    virtual void s62();
+    virtual void s63();
+    virtual void s64();
+    virtual void s65();
+    virtual void s66();
+    virtual void s67();
+    virtual void s68();
+    virtual void s69();
+    virtual void s70();
+    virtual void s71();
+    virtual void s72();
+    virtual void s73();
+    virtual void s74();
+    virtual void s75();
+    virtual char* s76();
+};
+struct PickupPutdownSoundView
+{
+};
+struct PickupAlchemySoundView
+{
+    char pad00[0xc8];
+    void* unkc8;
+};
+// @fnv 0x008adcf0
+char* PickupSoundActorView::FUN_008adcf0(::TESBoundObject* apobjREFR, bool abPickUp, bool abUse)
+{
+    const char* soundname;
+    {
+        BGSPickupPutdownSounds* ppickupPutdownSound;
+        {
+            int eformType;
+            {
+                AlchemyItem* ping;
+                if (!apobjREFR)
+                    return 0;
+                ppickupPutdownSound = dynamic_cast<BGSPickupPutdownSounds*>(apobjREFR);
+                soundname = 0;
+                if (!abUse && abPickUp && ppickupPutdownSound &&
+                    reinterpret_cast<::Callees *>((((PickupPutdownSoundView*)ppickupPutdownSound)))->FUN_00726070())
+                {
+                    return ((PickupSoundVirtualView*)reinterpret_cast<::Callees *>((((PickupPutdownSoundView*)ppickupPutdownSound)))->FUN_00726070())
+                        ->s76();
+                }
+                else if (!abUse && !abPickUp && ppickupPutdownSound &&
+                         ((void *)(reinterpret_cast<::Twin_0044ddc0 *>((((PickupPutdownSoundView*)ppickupPutdownSound)))->GetName())))
+                {
+                    return ((PickupSoundVirtualView*)((void *)(reinterpret_cast<::Twin_0044ddc0 *>((((PickupPutdownSoundView*)ppickupPutdownSound)))->GetName())))
+                        ->s76();
+                }
+                eformType = apobjREFR ? _FNV_GetFormType(apobjREFR) : 0;
+                switch (eformType)
+                {
+                case 0x2f:
+                    if (!abUse)
+                    {
+                    }
+                    else
+                    {
+                        ping = (AlchemyItem*)apobjREFR;
+                        return ((void *)(((((PickupAlchemySoundView*)ping)))->unkc8))
+                                   ? ((PickupSoundVirtualView*)((void *)(((((PickupAlchemySoundView*)ping)))->unkc8)))->s76()
+                                   : 0;
+                    }
+                    break;
+                case 0x28:
+                    switch (BGSEquipType::GetEquipType((TESForm*)apobjREFR))
+                    {
+                    case 0:
+                        return (char *)(abPickUp ? "UIItemGunsBigUp" : "UIItemGunsBigDown");
+                    case 2:
+                        return (char *)(abPickUp ? "UIItemGunsSmallUp" : "UIItemGunsSmallDown");
+                    case 3:
+                        return (char *)(abPickUp ? "UIItemMeleeUp" : "UIItemMeleeDown");
+                    }
+                    break;
+                }
+                return (char *)(abPickUp == true ? "UIItemGenericUp" : "UIItemGenericDown");
+            }
+        }
+    }
+}
+
+void __cdecl FUN_00c74dd0(void*, const MatrixTransform*);
+int __cdecl FUN_00ec7750(const char*, const char*);
+extern "C" void* __cdecl FUN_00cb1280(void*,int,unsigned int);
+extern void* __cdecl FUN_00c74ea0(unsigned);
+extern void __cdecl FUN_00c74dd0(void*, void*);
+C74QsTransform* FUN_00c74dd0(C74QsTransform* out, const C74Transform* in);
+void* __cdecl _fnv_zlib_memset(void* dst, int val, unsigned int n);
+// namespace SkeletonBuild
+
+extern "C" {
+}
+struct MatrixNine { float xx,xy,xz,yx,yy,yz,zx,zy,zz; };
+struct NiTransform_o2_nood_rtm { MatrixNine rotation; float x,y,z,scale; public:
+    ::NiTransform_o2_nood_rtm operator*(const ::NiTransform_o2_nood_rtm &) const;
+public:
+    void ResetToIdentity();
+};
+struct MatrixQuaternion { float w,x,y,z; void FUN_00a6df40(const MatrixNine*); };
+struct NormalizeView { void FUN_005611c0(); };
+__declspec(noinline) PoseTransform* FUN_00c74dd0(void* ptr,NiTransform_o2_nood_rtm* source) {
+ PoseTransform* output=static_cast<PoseTransform*>(ptr);
+ MatrixQuaternion matrixQ; matrixQ.FUN_00a6df40(&source->rotation);
+ Quat q;
+ q.m_vec.bits.quad[0]=matrixQ.x;
+ q.m_vec.bits.quad[1]=matrixQ.y;
+ q.m_vec.bits.quad[2]=matrixQ.z;
+ q.m_vec.bits.quad[3]=matrixQ.w;
+ ((NormalizeView*)&q)->FUN_005611c0();
+ output->rotation=q;
+ V4 translation;
+ translation.bits.quad[0]=source->x*DAT_01267c20;
+ translation.bits.quad[1]=source->y*DAT_01267c20;
+ translation.bits.quad[2]=source->z*DAT_01267c20;
+ translation.bits.quad[3]=0.0f;
+ output->translation=translation;
+ output->scale.bits.quad=LoadScalar(&source->scale);
+ return output;
+}
+__declspec(noinline) void FUN_00cb1260(void* to,const void* from,unsigned n) {
+ unsigned char* dest=static_cast<unsigned char*>(to);
+ const unsigned char* src=static_cast<const unsigned char*>(from);
+ while(n--) *dest++=*src++;
+}
+// @fnv 0x00c79680
+void PoseOwner::FUN_00c79680() {
+    float scale = scaleSource->scale;
+    int count = counts->skeleton->count;
+    for (int index=0;index<count;++index) {
+        PoseTransform transform;
+        FUN_00c74dd0(&transform,(NiTransform_o2_nood_rtm*)&nodes[index]->transform);
+        transform.translation.bits.quad=_mm_mul_ps(LoadScalar(&scale),transform.translation.bits.quad);
+        state->SetLocal(index,transform);
+    }
+    reinterpret_cast<::fnv_00cda340::SkeletonPoseData *>((state))->FUN_00cda340();
+    PoseTransform** data=((::PoseTransform **)(reinterpret_cast<::FUN_00cdb290 *>((state))->GetPlus4()));
+    FUN_00cb1260(output,*data,count*sizeof(PoseTransform));
+}
+
+__declspec(noinline) void Quat::FUN_00c66320(const Quat* a,const Quat* b) {
+    ::__m128 av=a->m_vec.bits.quad, bv=b->m_vec.bits.quad;
+    ::__m128 product=_mm_mul_ps(av,bv);
+    ::__m128 sum=_mm_add_ss(_mm_shuffle_ps(product,product,85),product);
+    sum=_mm_add_ss(_mm_shuffle_ps(product,product,170),sum);
+    ::__m128 w=_mm_sub_ps(product,_mm_shuffle_ps(sum,sum,0));
+    ::__m128 c0=_mm_mul_ps(_mm_shuffle_ps(av,av,0xc9),_mm_shuffle_ps(bv,bv,0xd2));
+    ::__m128 c1=_mm_mul_ps(_mm_shuffle_ps(av,av,0xd2),_mm_shuffle_ps(bv,bv,0xc9));
+    ::__m128 cross=_mm_sub_ps(c0,c1);
+    ::__m128 aw=_mm_shuffle_ps(av,av,255); aw=_mm_shuffle_ps(aw,aw,0);
+    ::__m128 bw=_mm_shuffle_ps(bv,bv,255); bw=_mm_shuffle_ps(bw,bw,0);
+    ::__m128 xyz=_mm_add_ps(_mm_mul_ps(bw,av),_mm_add_ps(_mm_mul_ps(aw,bv),cross));
+    V4 result; result.bits.quad=_mm_shuffle_ps(xyz,_mm_unpackhi_ps(xyz,w),196);
+    FUN_00cb1260(this,&result,sizeof(result));
+}
+
+inline bool IsKindOfType(const ReviewedRTTI* target, ReviewedNode* object) {
+    return object && object->IsKindOfType(target);
+}
+void __cdecl FUN_00c74dd0(void*, const void*);
+// @fnv 0x00c7b4f0
+void ReviewedContext::FUN_00c7b4f0(ReviewedNode* node, ReviewedArray* output, ReviewedContext* lookup) {
+    ReviewedRecord* record = new ReviewedRecord;
+    record->value = node->value;
+    FUN_00c74dd0(&record->transform0, &node->transform00);
+    {
+        unsigned int index = -1;
+        reinterpret_cast<::FUN_00c74990_cls *>((lookup))->LookupValue(node->key, (unsigned short *)(unsigned int *)(&index));
+        unsigned int value = index;
+        record->index = (unsigned short)value;
+        if ((short)value != -1) {
+            ReviewedVector single = _mm_load_ss(&settings->scale);
+            ReviewedVector scale = _mm_shuffle_ps(single, single, 0);
+            record->transform0 = _mm_mul_ps(scale, record->transform0);
+        }
+    }
+    reinterpret_cast<::MapTable *>((lookup))->InsertOrUpdate((uintptr_t)(node), output->count);
+    output->data[::FUN_00b5c360((::ArrayLike *)(output))] = record;
+    nodes.Add(node);
+    ReviewedNode* parent = node->GetChildrenNode();
+    if (parent) {
+        for (unsigned int i = 0; i < parent->count; ++i) {
+            ReviewedNode* child = parent->children[i];
+            ReviewedNode* resolved = child ? ((::ReviewedNode *)(::FUN_00c802d0((::MyNode *)(child)))) : 0;
+            ReviewedNode* object = resolved ? resolved->GetObject() : 0;
+            ReviewedNode* excluded = object ? (object->IsKindOfType(&(*reinterpret_cast<::ReviewedRTTI *>(&::g_0126817c))) ? object : 0) : 0;
+            if (child && object && !excluded) FUN_00c7b4f0(child, output, lookup);
+        }
+    }
+}
+
+extern "C" void _ReadWriteBarrier();
+__forceinline __m128 ScalePrimaryLine(const float* v, float f) {
+    __m128 low = _mm_load_ss(&f);
+    return _mm_mul_ps(_mm_shuffle_ps(low, low, 0), _mm_load_ps(v));
+}
+__forceinline __m128 ScaleSecondaryLine(const float* v, float f) {
+    __m128 low = _mm_load_ss(&f);
+    return _mm_mul_ps(_mm_load_ps(v), _mm_shuffle_ps(low, low, 0));
+}
+struct FNVAllocator {
+    virtual void Slot0()=0;
+    virtual void Slot1()=0;
+    virtual void Slot2()=0;
+    virtual void* Allocate(int*)=0;
+    virtual void Release(void*,unsigned int)=0;
+};
+struct FNVManager {
+    unsigned int unk00;
+    unsigned int unk04;
+    unsigned int unk08;
+    unsigned int unk0C;
+    FNVAllocator* heap;
+};
+struct FNVHeap {  };
+extern FNVHeap g_011f6238;
+extern unsigned int DAT_011a9c10, DAT_011a9c14, DAT_011a9c18, DAT_011a9c1c;
+extern char* FUN_00c76220(unsigned int,char*);
+struct FNVFrameArray {
+    unsigned char* data;
+    unsigned int count, capacity;
+    static __forceinline unsigned char* Allocate(unsigned int& count) {
+        FNVManager* manager = (FNVManager*)FUN_00c85750();
+        FNVAllocator* heap = manager->heap;
+        if (count) {
+            int bytes = count * 48;
+            typedef void* (*Alloc)(void*,int*);
+            unsigned char* result = (unsigned char*)heap->Allocate(&bytes);
+            count = bytes / 48;
+            return result;
+        }
+        return 0;
+    }
+    __forceinline FNVFrameArray(unsigned int n) {
+        unsigned int actual = n;
+        unsigned char* allocated = Allocate(actual);
+        unsigned int flags = actual ? actual : 0x80000000;
+        data = allocated;
+        count = actual;
+        capacity = flags;
+    }
+    ~FNVFrameArray() {
+        FNVManager* manager = (FNVManager*)FUN_00c85750();
+        FNVAllocator* heap = manager->heap;
+        if (!(capacity & 0x80000000)) {
+            typedef void (*Release)(void*,void*,unsigned int);
+            heap->Release(data,(capacity & 0x3fffffff)*48);
+        }
+    }
+};
+__forceinline FNVBound* FNVAnimObject::EnsureBound() {
+    flags |= 0x800;
+    if (!bound) {
+        AdoptBound(reinterpret_cast<::MemoryManagerStandIn *>(&(g_011f6238))->FUN_00aa3e40(16));
+        bound->Initialize((*reinterpret_cast<const ::FNVVec3 *>((void *)&::NiPoint3::ZERO)),0.0f);
+    }
+    return bound;
+}
+__forceinline FNVBound*& FNVAnimObject::EnsureBoundRef() {
+    flags |= 0x800;
+    if (!bound) {
+        AdoptBound(reinterpret_cast<::MemoryManagerStandIn *>(&(g_011f6238))->FUN_00aa3e40(16));
+        bound->Initialize((*reinterpret_cast<const ::FNVVec3 *>((void *)&::NiPoint3::ZERO)),0.0f);
+    }
+    return bound;
+}
+// @fnv 0x00c7cb50
+void FNVAnimationController::FUN_00c7cb50(int side) {
+    FNVAnimationController* owner = this;
+    float ratio = 1.0f / owner->primary->scale;
+    if (!owner->root) return;
+    FNVAnimObject* limb = owner->root->children[side];
+    FNVAnimObject* animation = (FNVAnimObject*)limb->GetCellChildAt(side);
+    if (limb->flags & 1) return;
+    FNVAnimObject* primary = owner->primary;
+    primary->EnsureBound()->radius = 1.0f;
+    FNVAnimObject* root = owner->root;
+    root->EnsureBound()->radius = 1.0f;
+    animation->EnsureBound()->radius = 1.0f;
+    FNVFrames* frames = owner->frames;
+    FNVDescriptor* descriptors = side == 1 ? frames->first : frames->second;
+    unsigned int frameCount = descriptors->count;
+    FNVFrameArray array(frameCount);
+    reinterpret_cast<::RagdollMapperC18 *>((owner->source))->FUN_00ce18f0((::hkQsTransformC18 *)(array.data), (*(const ::hkQsTransformC18 *)(&owner->unk10)));
+    FNVFrameArray* transform = side == 1 ? &array : (FNVFrameArray*) owner->alternate->FUN_00cda4b0();
+    _ReadWriteBarrier();
+    unsigned int nodeIndex = 0;
+    for (unsigned int i = 0; i < frameCount; ++i) {
+        if (descriptors->mapping[i] == -1) continue;
+        FNVAnimObject* node = animation->children[nodeIndex];
+        if (!node) continue;
+        node->EnsureBound()->radius = 1.0f;
+        if (side == 1) {
+            float tints[4] = {0.0f, DAT_01016264, 1.0f, 1.0f};
+            FNVSource* controller = owner->source;
+            int descriptor = controller->indices[i];
+            if (descriptor >= 0 && controller->entries[descriptor]) {
+                char buf;
+                FNVString* stringValue = ((::FNVString *)(reinterpret_cast<::FUN_00c76220_Class *>((controller))->FUN_00c76220(i)));
+                if (*stringValue->FUN_00c761f0()) {
+                    *(unsigned int*)&tints[0] = DAT_011a9c10;
+                    *(unsigned int*)&tints[1] = DAT_011a9c14;
+                    *(unsigned int*)&tints[2] = DAT_011a9c18;
+                    *(unsigned int*)&tints[3] = DAT_011a9c1c;
+                }
+            }
+            FNVAnimObject* coloredNode = animation->children[nodeIndex];
+            coloredNode->extra->colors[0] = *(FNVColor*)tints;
+            FNVExtra* colorExtra = coloredNode->extra;
+            FNVColor* secondColor = colorExtra->colors;
+            *(FNVColor*)&secondColor[1].r = *(FNVColor*)tints;
+        }
+        float* from = (float*)(transform->data + 48 * descriptors->mapping[i]);
+        float* to = (float*)(transform->data + 48 * i);
+        __declspec(align(16)) unsigned char scaledA[16], scaledB[16];
+        _mm_store_ps((float*)scaledA,ScalePrimaryLine(from,ratio));
+        _mm_store_ps((float*)scaledB,ScaleSecondaryLine(to,ratio));
+        FNVVec3 resultA, resultB;
+        ::SetNiPoint3FromHkVector4((*(::NiPoint3 *)(&resultA)), (*(const ::hkVector4 *)(scaledA)));
+        ::SetNiPoint3FromHkVector4((*(::NiPoint3 *)(&resultB)), (*(const ::hkVector4 *)(scaledB)));
+        FNVExtra* extra = node->extra;
+        FNVVec3* output = extra->positions;
+        output[0] = resultA;
+        output[1] = resultB;
+        ++nodeIndex;
+    }
+}
+
+void* __cdecl FUN_00c7fa60();
+struct MyNode_o2_gs_nogs
+{
+    virtual void f0();
+    virtual void f1();
+    virtual void f2();
+    virtual int Pred();
+    char _pad0[0x18];
+    MyNode_o2_gs_nogs* field_1c;
+    char _pad1[0x80];
+    MyNode_o2_gs_nogs** children;
+    char _pad2[2];
+    unsigned short count;
+};
+struct NiTransform_o2_gs_nogs
+{
+    ThreeByThreeMatrix m_kOrientation;
+    float m_kTranslation[3];
+    float m_fScale;
+    NiTransform_o2_gs_nogs operator*(const NiTransform_o2_gs_nogs&) const;
+};
+void* __cdecl FUN_00ec7230(char*, char const*, unsigned int);
+void __cdecl FUN_00ce4360(CE4360Context* pkContext, CE4360Iter* pkFrom, CE4360Iter* pkTo, int iValue);
+static unsigned char* FUN_00c7f4a0(unsigned char* out, const float* src, int count);
+unsigned char* S00c7f4a0_Call(unsigned char* out, const float* src, int count);
+struct __declspec(align(16)) MVec4_o2_gs_nogs
+{
+    __m128 q;
+    __forceinline void Rotate(const MVec4_o2_gs_nogs& rotation, const MVec4_o2_gs_nogs& position)
+    {
+        __m128 scalar = _mm_shuffle_ps(rotation.q, rotation.q, 255);
+        __m128 factor = _mm_add_ps(DAT_010c71e0, _mm_mul_ps(scalar, scalar));
+        __m128 sum = _mm_mul_ps(position.q, factor);
+        __m128 product = _mm_mul_ps(rotation.q, position.q);
+        __m128 dot = _mm_add_ss(_mm_shuffle_ps(product, product, 85), product);
+        dot = _mm_add_ss(_mm_shuffle_ps(product, product, 170), dot);
+        dot = _mm_shuffle_ps(dot, dot, 0);
+        sum = _mm_add_ps(sum, _mm_mul_ps(dot, rotation.q));
+        __m128 cross = _mm_sub_ps(
+            _mm_mul_ps(_mm_shuffle_ps(rotation.q, rotation.q, 201), _mm_shuffle_ps(position.q, position.q, 210)),
+            _mm_mul_ps(_mm_shuffle_ps(rotation.q, rotation.q, 210), _mm_shuffle_ps(position.q, position.q, 201)));
+        sum = _mm_add_ps(sum, _mm_mul_ps(scalar, cross));
+        q = _mm_add_ps(sum, sum);
+    }
+    __forceinline void Add(const MVec4_o2_gs_nogs& a)
+    {
+        q = _mm_add_ps(q, a.q);
+    }
+};
+struct BoneTransform_o2_gs_nogs
+{
+    MVec4_o2_gs_nogs position;
+    MVec4_o2_gs_nogs rotation;
+    MVec4_o2_gs_nogs scale;
+};
+struct SkeletonModel_o2_gs_nogs
+{
+    int unk00, unk04, unk08;
+    short* parents;
+    int unk10, unk14;
+    BoneDesc* bones;
+    int count;
+    int unk20;
+    BoneTransform_o2_gs_nogs* reference;
+};
+struct PoseState_o2_gs_nogs
+{
+    SkeletonModel_o2_gs_nogs* model;
+    BoneTransform_o2_gs_nogs* local;
+    int unk08, unk0c;
+    BoneTransform_o2_gs_nogs* world;
+    int unk14, unk18;
+    unsigned int* flags;
+    int count;
+    int unk24;
+    bool ready;
+    void FUN_00cda4c0();
+};
+
+
+__forceinline void hkVector4CDA::SetRotatedDirection(const hkQuaternionCDA& quat, const hkVector4CDA& direction)
+{
+    hkVector4CDA qreal;
+    qreal.m_vComponents = _mm_shuffle_ps(quat.m_vec.m_vComponents, quat.m_vec.m_vComponents, _MM_SHUFFLE(3, 3, 3, 3));
+    hkVector4CDA q2minus1;
+    q2minus1.setMul4(qreal, qreal);
+    q2minus1.m_vComponents = _mm_add_ps(q2minus1.m_vComponents, DAT_010c71e0);
+    hkVector4CDA ret;
+    ret.setMul4(direction, q2minus1);
+    __m128 imagDotDir = quat.m_vec.dot3(direction);
+    ret.addMul4(imagDotDir, quat.m_vec);
+    hkVector4CDA imagCrossDir;
+    imagCrossDir.setCross(quat.m_vec, direction);
+    ret.addMul4(imagCrossDir, qreal);
+    setAdd4(ret, ret);
+}
+
+__forceinline void hkVector4CDA::setRotatedInverseDir(const hkQuaternionCDA& quat, const hkVector4CDA& direction)
+{
+
+    const hkVector4CDA& d = direction;
+    hkVector4CDA qreal;
+    qreal.m_vComponents = _mm_shuffle_ps(quat.m_vec.m_vComponents, quat.m_vec.m_vComponents, _MM_SHUFFLE(3, 3, 3, 3));
+    hkVector4CDA q2minus1;
+    q2minus1.setMul4(qreal, qreal);
+    q2minus1.m_vComponents = _mm_add_ps(q2minus1.m_vComponents, DAT_010c71e0);
+    hkVector4CDA ret;
+    ret.setMul4(d, q2minus1);
+    __m128 imagDotDir = quat.m_vec.dot3(d);
+    ret.addMul4(imagDotDir, quat.m_vec);
+    hkVector4CDA imagCrossDir;
+    imagCrossDir.setCross(d, quat.m_vec);
+    ret.addMul4(imagCrossDir, qreal);
+    setAdd4(ret, ret);
+}
+
+
+
+
+// @fnv 0x00cda690
+void hkaPoseCDA::FUN_00cda690()
+{
+    if (m_bPoseInitialized)
+        return;
+    const int numBones = m_pSkeleton->m_iBoneCount;
+    for (int boneIdx = 0; boneIdx < numBones; boneIdx++)
+    {
+        if (m_pBoneFlags[boneIdx] & F_DIRTY_LOCAL)
+        {
+            const short parentIdx = m_pSkeleton->m_kParentIndices[boneIdx];
+            const hkQsTransformCDA& modelFromBone = m_pModelPose[boneIdx];
+            if (parentIdx != -1)
+            {
+                const hkQsTransformCDA& modelFromParent = (m_pBoneFlags[parentIdx] & F_DIRTY_MODEL) == 0
+                                                              ? m_pModelPose[parentIdx]
+                                                              : (*(const ::hkQsTransformCDA *)&(reinterpret_cast<::SkeletonPoseData *>(this)->FUN_00cda180(parentIdx)));
+                m_pLocalPose[boneIdx].SetMulInverse(modelFromParent, modelFromBone);
+            }
+            else
+            {
+                m_pLocalPose[boneIdx] = modelFromBone;
+            }
+            m_pBoneFlags[boneIdx] &= ~F_DIRTY_LOCAL;
+        }
+    }
+    m_bPoseInitialized = true;
+}
+
+struct MyNode_o2_od_oy_noo2
+{
+    virtual void f0();
+    virtual void f1();
+    virtual void f2();
+    virtual int Pred();
+    char _pad0[0x18];
+    MyNode_o2_od_oy_noo2* field_1c;
+    char _pad1[0x80];
+    MyNode_o2_od_oy_noo2** children;
+    char _pad2[2];
+    unsigned short count;
+};
+class NiAVObject;
+struct NiTransform_o2_od_oy_noo2
+{
+    ThreeByThreeMatrix m_kOrientation;
+    float m_kTranslation[3];
+    float m_fScale;
+    NiTransform_o2_od_oy_noo2 operator*(const NiTransform_o2_od_oy_noo2&) const;
+};
+
+struct __declspec(align(16)) ScratchVec
+{
+    __m128 m_vComponents;
+    ScratchVec();
+};
+
+
+struct QueryOwnerView
+{
+    virtual void vfn_00();
+    virtual void vfn_04();
+    virtual void vfn_08();
+    virtual void vfn_0c();
+    virtual void vfn_10();
+    virtual void vfn_14();
+    virtual void vfn_18();
+    virtual void vfn_1c();
+    virtual void vfn_20();
+    virtual void vfn_24();
+    virtual void vfn_28();
+    virtual void vfn_2c();
+    virtual void vfn_30();
+    virtual void vfn_34();
+    virtual void vfn_38();
+    virtual void vfn_3c();
+    virtual void vfn_40();
+    virtual void vfn_44();
+    virtual void vfn_48();
+    virtual void vfn_4c();
+    virtual void vfn_50();
+    virtual void vfn_54();
+    virtual void vfn_58();
+    virtual void vfn_5c();
+    virtual void vfn_60();
+    virtual void vfn_64();
+    virtual void vfn_68();
+    virtual void vfn_6c();
+    virtual void vfn_70();
+    virtual void vfn_74();
+    virtual void vfn_78();
+    virtual void vfn_7c();
+    virtual void vfn_80();
+    virtual void vfn_84();
+    virtual void vfn_88();
+    virtual void vfn_8c();
+    virtual void vfn_90();
+    virtual void vfn_94();
+    virtual void vfn_98();
+    virtual void vfn_9c();
+    virtual void vfn_a0();
+    virtual void vfn_a4();
+    virtual void vfn_a8();
+    virtual void vfn_ac();
+    virtual void vfn_b0();
+    virtual void vfn_b4();
+    virtual void vfn_b8();
+    virtual void vfn_bc();
+    virtual void vfn_c0();
+    virtual void vfn_c4();
+    virtual void vfn_c8();
+    virtual void vfn_cc();
+    virtual void vfn_d0();
+    virtual ScratchVec* vfn_d4(ScratchVec* out);
+};
+
+// @fnv 0x00560bc0
+intptr_t QueryOwner::FUN_00560bc0(std::intptr_t param)
+{
+    ScratchVec v;
+    return ((intptr_t)&(::SetNiPoint3FromHkVector4((*(::NiPoint3 *)(param)), (*(const ::hkVector4 *)(reinterpret_cast<QueryOwnerView *>(this)->vfn_d4(&v))))));
+}
+
+class NiPoint3T8
+{
+  public:
+    NiPoint3T8();
+    NiPoint3T8 operator+(const NiPoint3T8& kPt) const;
+    NiPoint3T8 operator-(const NiPoint3T8& kPt) const;
+    NiPoint3T8 operator*(float fScale) const;
+    NiPoint3T8& operator*=(float fScale);
+    float x;
+    float y;
+    float z;
+};
+
+class hkSimdRealT8
+{
+  public:
+    hkSimdRealT8(float fValue);
+    __m128 m_vValue;
+};
+
+class hkVector4T8
+{
+  public:
+    hkVector4T8();
+    hkVector4T8 Copy() const;
+    float& operator()(int i);
+    __m128 m_vComponents;
+};
+
+class ScriptVarsT8
+{
+  public:
+};
+
+class LocalsT8
+{
+  public:
+};
+
+class ScriptHostT8
+{
+  public:
+};
+
+class GlobalT8
+{
+  public:
+};
+extern GlobalT8 g_kTrapMultT8;
+
+class ShapeT8;
+class ObjT8
+{
+  public:
+    const void* GetPos();
+};
+
+class HitSubT8
+{
+  public:
+};
+
+class HitT8
+{
+  public:
+    int m_iUnused;
+    HitSubT8 m_kSub;
+};
+
+class TrapFlagsT8
+{
+  public:
+    TrapFlagsT8(int iValue);
+    int m_iValue;
+};
+
+class BodyT8
+{
+  public:
+    const void* GetNavMeshData();
+};
+
+class WeapT8
+{
+  public:
+    const void* GetPos();
+};
+
+class ProjT8
+{
+  public:
+};
+
+class NodeT8
+{
+  public:
+    const NiPoint3T8& GetWorldTranslate();
+};
+
+class ImpulseT8
+{
+  public:
+    ImpulseT8();
+    int m_i00;
+    int m_i04;
+    int m_i08;
+    int m_i0c;
+    int m_i10;
+    int m_aiPad[9];
+    NiPoint3T8 m_kFrom;
+    NiPoint3T8 m_kTo;
+    __m128 m_kPad;
+};
+
+class EventT8
+{
+  public:
+    EventT8();
+    NiPoint3T8 m_kPos;
+    float m_fAngleZ;
+    float m_fScale;
+    unsigned char m_ucType;
+    unsigned char m_ucForm;
+    void* m_pvTarget;
+    int m_i1c;
+    int m_iFirstValue;
+};
+
+class AVOwnerT8
+{
+  public:
+    virtual void v0();
+    virtual void v1();
+    virtual void v2();
+    virtual float GetActorValue(int iAV);
+};
+
+class RefT8
+{
+  public:
+    virtual void r000();
+    virtual void r001();
+    virtual void r002();
+    virtual void r003();
+    virtual void r004();
+    virtual void r005();
+    virtual void r006();
+    virtual void r007();
+    virtual void r008();
+    virtual void r009();
+    virtual void r00a();
+    virtual void r00b();
+    virtual void r00c();
+    virtual void r00d();
+    virtual void r00e();
+    virtual void r00f();
+    virtual void r010();
+    virtual void r011();
+    virtual void r012();
+    virtual void r013();
+    virtual void r014();
+    virtual void r015();
+    virtual void r016();
+    virtual void r017();
+    virtual void r018();
+    virtual void r019();
+    virtual void r01a();
+    virtual void r01b();
+    virtual void r01c();
+    virtual void r01d();
+    virtual void r01e();
+    virtual void r01f();
+    virtual void r020();
+    virtual void r021();
+    virtual void r022();
+    virtual void r023();
+    virtual void r024();
+    virtual void r025();
+    virtual void r026();
+    virtual void r027();
+    virtual void r028();
+    virtual void r029();
+    virtual void r02a();
+    virtual void r02b();
+    virtual void r02c();
+    virtual void r02d();
+    virtual void r02e();
+    virtual void r02f();
+    virtual void r030();
+    virtual void r031();
+    virtual void r032();
+    virtual void r033();
+    virtual void r034();
+    virtual void r035();
+    virtual void r036();
+    virtual void r037();
+    virtual void r038();
+    virtual void r039();
+    virtual void r03a();
+    virtual void r03b();
+    virtual void r03c();
+    virtual void r03d();
+    virtual void r03e();
+    virtual void r03f();
+    virtual void r040();
+    virtual void r041();
+    virtual void r042();
+    virtual void r043();
+    virtual void r044();
+    virtual void r045();
+    virtual void r046();
+    virtual void r047();
+    virtual void r048();
+    virtual void r049();
+    virtual void r04a();
+    virtual void r04b();
+    virtual void r04c();
+    virtual void r04d();
+    virtual void r04e();
+    virtual void r04f();
+    virtual void r050();
+    virtual void r051();
+    virtual void r052();
+    virtual void r053();
+    virtual void r054();
+    virtual void r055();
+    virtual void r056();
+    virtual void r057();
+    virtual void r058();
+    virtual void r059();
+    virtual void r05a();
+    virtual void r05b();
+    virtual void r05c();
+    virtual void r05d();
+    virtual void r05e();
+    virtual void r05f();
+    virtual void r060();
+    virtual void r061();
+    virtual void r062();
+    virtual void r063();
+    virtual void r064();
+    virtual void r065();
+    virtual void r066();
+    virtual void r067();
+    virtual void r068();
+    virtual void r069();
+    virtual void r06a();
+    virtual void r06b();
+    virtual void r06c();
+    virtual void r06d();
+    virtual void r06e();
+    virtual void r06f();
+    virtual void r070();
+    virtual void r071();
+    virtual void r072();
+    virtual void r073();
+    virtual NodeT8* Get3D();
+    virtual void r075();
+    virtual void r076();
+    virtual void r077();
+    virtual void r078();
+    virtual void r079();
+    virtual void r07a();
+    virtual void r07b();
+    virtual void r07c();
+    virtual const NiPoint3T8* GetPos();
+    virtual void r07e();
+    virtual void r07f();
+    virtual void r080();
+    virtual void r081();
+    virtual void r082();
+    virtual void r083();
+    virtual void r084();
+    virtual void r085();
+    virtual void r086();
+    virtual void r087();
+    virtual void r088();
+    virtual void r089();
+    virtual void r08a();
+    virtual bool IsDead(int iValue);
+    virtual void r08c();
+    virtual void r08d();
+    virtual void r08e();
+    virtual void r08f();
+    virtual void r090();
+    virtual void r091();
+    virtual void r092();
+    virtual void r093();
+    virtual void r094();
+    virtual void r095();
+    virtual void r096();
+    virtual void r097();
+    virtual void r098();
+    virtual void r099();
+    virtual void r09a();
+    virtual void r09b();
+    virtual void r09c();
+    virtual void r09d();
+    virtual void r09e();
+    virtual void r09f();
+    virtual void r0a0();
+    virtual void r0a1();
+    virtual void r0a2();
+    virtual void r0a3();
+    virtual void r0a4();
+    virtual void r0a5();
+    virtual void r0a6();
+    virtual void r0a7();
+    virtual void r0a8();
+    virtual void r0a9();
+    virtual void r0aa();
+    virtual void r0ab();
+    virtual void r0ac();
+    virtual void r0ad();
+    virtual void r0ae();
+    virtual void r0af();
+    virtual void r0b0();
+    virtual void r0b1();
+    virtual void r0b2();
+    virtual void r0b3();
+    virtual void r0b4();
+    virtual void r0b5();
+    virtual void r0b6();
+    virtual void r0b7();
+    virtual void r0b8();
+    virtual void r0b9();
+    virtual void r0ba();
+    virtual void r0bb();
+    virtual void r0bc();
+    virtual void r0bd();
+    virtual void r0be();
+    virtual void r0bf();
+    virtual void r0c0();
+    virtual void r0c1();
+    virtual void r0c2();
+    virtual void r0c3();
+    virtual void r0c4();
+    virtual void r0c5();
+    virtual void r0c6();
+    virtual void r0c7();
+    virtual void r0c8();
+    virtual void r0c9();
+    virtual void r0ca();
+    virtual void r0cb();
+    virtual void r0cc();
+    virtual void r0cd();
+    virtual void DamageHealth(float afDamageAmount, float fUnused, int iFlags);
+    char m_acPad[0xa4 - 4];
+    AVOwnerT8 m_kAVOwner;
+    void FUN_00890610(HitT8* pkHit, WeapT8* pkWeap);
+};
+
+// @fnv 0x00890610
+void RefT8::FUN_00890610(HitT8* pkHit, WeapT8* pkWeap)
+{
+    float afDamageAmount = 0.0f;
+    float fPushBack = 0.0f;
+    float fDeathPushBack = 0.0f;
+    float fMinVelocity = 0.0f;
+    bool bContinuous = false;
+    float fVelocityMult = 1.0f;
+    RefT8* pkAttacker = ((::RefT8 *)(reinterpret_cast<::FUN_0084e3a0_Class *>(&(pkHit->m_kSub))->FUN_0084e3a0()));
+    ScriptHostT8* pkHost = ((::ScriptHostT8 *)(reinterpret_cast<::FUN_005d43c0_ *>((pkAttacker))->FUN_005d43c0()));
+    ScriptVarsT8* pkVars = ((::ScriptVarsT8 *)(reinterpret_cast<::FUN_00418800_shell *>((pkHost))->FUN_00418800()));
+    if (this == (*reinterpret_cast<::RefT8 * *>(&::_g_thePlayer)) && pkAttacker && pkAttacker == ((::RefT8 *)(reinterpret_cast<::FUN_0089f4e0_shell *>(((*reinterpret_cast<::RefT8 * *>(&::_g_thePlayer))))->FUN_0089f4e0())))
+        return;
+    if (pkVars)
+    {
+        LocalsT8* pkLocals = ((::LocalsT8 *)(reinterpret_cast<::FUN_00418830_shell *>((pkHost))->FUN_00418830()));
+        if (pkLocals)
+        {
+            unsigned int uiDamage;
+            if (reinterpret_cast<::fnv_005ac6a0::FUN_005ac6a0 *>((pkVars))->Method_005ac6a0("fTrapDamage", &uiDamage))
+                afDamageAmount = reinterpret_cast<::FUN_005a9140_shell *>((pkLocals))->FUN_005a9140(uiDamage, (::Script *)(0));
+            unsigned int uiLevelled;
+            if (reinterpret_cast<::fnv_005ac6a0::FUN_005ac6a0 *>((pkVars))->Method_005ac6a0("fLevelledDamage", &uiLevelled))
+                afDamageAmount += reinterpret_cast<::fnv_0087f9f0::FUN_0087f9f0_shell *>(this)->FUN_0087f9f0() * (float)reinterpret_cast<::FUN_005a9140_shell *>((pkLocals))->FUN_005a9140(uiLevelled, (::Script *)(0));
+            unsigned int uiPushBack;
+            if (reinterpret_cast<::fnv_005ac6a0::FUN_005ac6a0 *>((pkVars))->Method_005ac6a0("fTrapPushBack", &uiPushBack))
+                fPushBack = reinterpret_cast<::FUN_005a9140_shell *>((pkLocals))->FUN_005a9140(uiPushBack, (::Script *)(0));
+            unsigned int uiMinVelocity;
+            if (reinterpret_cast<::fnv_005ac6a0::FUN_005ac6a0 *>((pkVars))->Method_005ac6a0("fTrapMinVelocity", &uiMinVelocity))
+            {
+                fMinVelocity = reinterpret_cast<::FUN_005a9140_shell *>((pkLocals))->FUN_005a9140(uiMinVelocity, (::Script *)(0));
+                if (fMinVelocity < 0.0)
+                    fMinVelocity = 0.0f;
+                else
+                    fMinVelocity = FUN_004a3e90(fMinVelocity);
+            }
+            unsigned int uiContinuous;
+            if (reinterpret_cast<::fnv_005ac6a0::FUN_005ac6a0 *>((pkVars))->Method_005ac6a0("bTrapContinuous", &uiContinuous))
+                bContinuous = reinterpret_cast<::FUN_005a9140_shell *>((pkLocals))->FUN_005a9140(uiContinuous, (::Script *)(0)) != 0.0;
+            unsigned int uiDeathPushBack;
+            if (reinterpret_cast<::fnv_005ac6a0::FUN_005ac6a0 *>((pkVars))->Method_005ac6a0("fTrapDeathPushBack", &uiDeathPushBack))
+                fDeathPushBack = reinterpret_cast<::FUN_005a9140_shell *>((pkLocals))->FUN_005a9140(uiDeathPushBack, (::Script *)(0));
+            else
+                fDeathPushBack = fPushBack / 10.0;
+        }
+    }
+    if (bContinuous || !reinterpret_cast<::FUN_00891150_Class *>((pkWeap))->FUN_00891150())
+    {
+        ProjT8* pkProj = ((::ProjT8 *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>(this)->FUN_009306d0()));
+        BodyT8* pkBody = ((::BodyT8 *)(::FUN_004b59f0(((::ObjT8 *)(reinterpret_cast<::Twin_0044ddc0 *>(&(pkHit->m_kSub))->GetName())))));
+        hkVector4T8 kMotionVelocity;
+        hkVector4T8 kSource;
+        if (pkBody)
+        {
+            if (!reinterpret_cast<::FUN_00891150_Class *>((pkWeap))->FUN_00891150())
+            {
+                reinterpret_cast<::AlignedVector *>(&(kMotionVelocity))->FUN_004a3f10((*(const ::AlignedVector *)(((const void *)(reinterpret_cast<::TESTopicInfo *>((pkWeap))->GetAddTopicList())))));
+                reinterpret_cast<::AlignedVector *>(&(kSource))->FUN_004a3f10((*(const ::AlignedVector *)(((const void *)(reinterpret_cast<::BGSCameraPath *>((pkWeap))->GetShotList())))));
+            }
+            else
+            {
+                reinterpret_cast<::AlignedVector *>(&(kMotionVelocity))->FUN_004a3f10((*(const ::AlignedVector *)(((const void *)(::FUN_00560dc0((::TESDataHandler *)(pkBody)))))));
+                reinterpret_cast<::AlignedVector *>(&(kSource))->FUN_004a3f10((*(const ::AlignedVector *)(pkBody->GetNavMeshData())));
+            }
+            hkVector4T8 kProjVel;
+            if (fMinVelocity == 0.0 || reinterpret_cast<::S004586d0_Obj *>((void *)(void *)&(const ::hkVector4T8 &)(kMotionVelocity.Copy()))->FUN_004586d0() >= fMinVelocity)
+            {
+                if (pkProj)
+                {
+                    reinterpret_cast<::AlignedVector *>(&(kProjVel))->FUN_004a3f10((*(const ::AlignedVector *)(((const void *)(reinterpret_cast<::Holder00807080 *>((pkProj))->FUN_00807080())))));
+                    reinterpret_cast<::V *>(&(kProjVel))->FUN_00961190((const ::V &)(kMotionVelocity));
+                    float fMin = fMinVelocity != 0.0 ? fMinVelocity : 10.0f;
+                    fVelocityMult = reinterpret_cast<::S004586d0_Obj *>((void *)(void *)&(const ::hkVector4T8 &)(kProjVel.Copy()))->FUN_004586d0() / fMin;
+                    if (fVelocityMult > 2.0)
+                        fVelocityMult = 2.0f;
+                }
+            }
+            else
+            {
+                afDamageAmount = 0.0f;
+            }
+        }
+        else
+        {
+            if (!reinterpret_cast<::FUN_00891150_Class *>((pkWeap))->FUN_00891150())
+            {
+                reinterpret_cast<::AlignedVector *>(&(kSource))->FUN_004a3f10((*(const ::AlignedVector *)(((const void *)(reinterpret_cast<::BGSCameraPath *>((pkWeap))->GetShotList())))));
+            }
+            else
+            {
+                ObjT8* pkObj = ((::ObjT8 *)(reinterpret_cast<::Twin_0044ddc0 *>((((::ObjT8 *)(reinterpret_cast<::Twin_0044ddc0 *>(&(pkHit->m_kSub))->GetName()))))->GetName()));
+                reinterpret_cast<::AlignedVector *>(&(kSource))->FUN_004a3f10((*(const ::AlignedVector *)(((const void *)(reinterpret_cast<::TESTopicInfo *>((pkObj))->GetAddTopicList())))));
+            }
+            ::fnv_004a3e00::FUN_004a3e00((::fnv_004a3e00::bhkCharacterController &)(kMotionVelocity), (const ::fnv_004a3e00::NiPoint3 &)(*GetPos()));
+            reinterpret_cast<::V *>(&(kMotionVelocity))->FUN_00961190((const ::V &)(kSource));
+            float& rfZ = reinterpret_cast<::bhkCharacterController *>((void *)&(const ::hkVector4T8 &)(kMotionVelocity))->GetVectorElement(2);
+            rfZ += FUN_004a3e90(reinterpret_cast<::fnv_008853a0::FUN_008853a0_shell *>(this)->GetActorHeight() / 2.0);
+        }
+        bool bWasAlive = !IsDead(0);
+        TrapFlagsT8 kFlags(((int)(::FUN_0043b540((char *)(((::ObjT8 *)(reinterpret_cast<::Twin_0044ddc0 *>(&(pkHit->m_kSub))->GetName())))))));
+        if (reinterpret_cast<::FUN_0043b4d0_shell *>(&(kFlags))->FUN_0043b4d0() == 0x10)
+        {
+            float fResist = m_kAVOwner.GetActorValue(0x13) / 100.0;
+            fResist = 1.0f - FUN_0040ebd0(fResist, 1.0f);
+            afDamageAmount *= fResist;
+        }
+        else
+        {
+            float fResist = 0.0f;
+            fResist = 1.0f - FUN_0040ebd0(fResist, 1.0f);
+            afDamageAmount *= fResist;
+        }
+        if (afDamageAmount > 0.0)
+        {
+            if (bContinuous)
+                afDamageAmount *= reinterpret_cast<::Twin_0084d030 *>(&(g_kTrapMultT8))->GetStoredFloatValue() * fVelocityMult;
+            DamageHealth(afDamageAmount, 0.0f, 0);
+            NiPoint3T8 kTargetCenter = Get3D()->GetWorldTranslate() + (*reinterpret_cast<::NiPoint3T8 *>((void *)&::DAT_011a9484)) * (reinterpret_cast<::fnv_008853a0::FUN_008853a0_shell *>(this)->GetActorHeight() * 0.5);
+            NiPoint3T8 kWorldPosition;
+            ::SetNiPoint3FromHkVector4((::NiPoint3 &)(kWorldPosition), (const ::hkVector4 &)(kSource));
+            if (reinterpret_cast<::FUN_0043b4d0_shell *>(&(kFlags))->FUN_0043b4d0() != 0x10)
+            {
+                ImpulseT8 kImpulse;
+                kImpulse.m_i08 = 0;
+                kImpulse.m_kFrom = kTargetCenter;
+                kImpulse.m_kTo = kTargetCenter - kWorldPosition;
+                kImpulse.m_i00 = 0;
+                kImpulse.m_i10 = -1;
+                reinterpret_cast<::fnv_0088e8d0::EActor *>(this)->FUN_0088e8d0(afDamageAmount * 2.0, (::fnv_0088e8d0::ERequest *)(::ImpulseT8 *)(&kImpulse));
+                if (!bContinuous && pkBody && ((intptr_t)(reinterpret_cast<::LowProcess *>((pkWeap))->GetTarget())) != 0x24)
+                {
+                    NiPoint3T8 kPos = (*(::NiPoint3T8 *)&(::SetNiPoint3FromHkVector4((::NiPoint3 &)(kPos), (const ::hkVector4 &)(kSource))));
+                    intptr_t iOffset = ((intptr_t)(::FUN_004b5a80(pkBody)));
+                    EventT8 kEvent;
+                    kEvent.m_fScale = 0.5f;
+                    kEvent.m_i1c = 0;
+                    kEvent.m_iFirstValue = iOffset;
+                    kEvent.m_ucType = 0x24;
+                    kEvent.m_ucForm = ((intptr_t)(reinterpret_cast<::LowProcess *>((pkWeap))->GetTarget()));
+                    kEvent.m_kPos = kPos;
+                    kEvent.m_fAngleZ = reinterpret_cast<::S004586d0_Obj *>((void *)(void *)&(const ::hkVector4T8 &)((*(::hkVector4T8 *)(::FUN_00891060((::Vec4Dst *)&(const ::hkVector4T8 &)(kMotionVelocity.Copy()), (::Vec4Src *)&(const ::hkSimdRealT8 &)(hkSimdRealT8(3.0f)), {})))))->FUN_004586d0();
+                    kEvent.m_pvTarget = (char*)this + iOffset;
+                    ::ImpactSound::FUN_00837550((::ImpactSound::ImpactData *)(::EventT8 *)(&kEvent));
+                }
+            }
+            reinterpret_cast<::fnv_008a7d50::ActorHitOwner *>(this)->FUN_008a7d50(1, 1);
+            bool bKilled = bWasAlive && IsDead(0);
+            if (fPushBack > 0.0)
+            {
+                if (fDeathPushBack > ::DAT_010179e0)
+                    fDeathPushBack = 200.0f;
+                if (bKilled && this != (*reinterpret_cast<::RefT8 * *>(&::_g_thePlayer)))
+                {
+                    ::FUN_00c6a350((::NiAVObject *)(void *)(Get3D()), 1, 1, 0, 1);
+                    ::FUN_00cb9650((::FUN_00cb9650_Object *)(void *)(Get3D()));
+                    reinterpret_cast<::S0062aea0_Vector *>(&(kMotionVelocity))->FUN_0062aea0();
+                    hkSimdRealT8 kScale(1024.0f);
+                    reinterpret_cast<::S008910c0_Vector *>(&(kSource))->FUN_008910c0((const ::S008910c0_Vector *)&(kScale), (const ::S008910c0_Vector *)&(kMotionVelocity));
+                    ::SetCollisionScale((::SceneNode *)(void *)(Get3D()), (uintptr_t)(&kSource), fDeathPushBack, (::MaterialSelector *)(0));
+                }
+                else if (pkProj)
+                {
+                    if (fPushBack > 1000.0)
+                        fPushBack = 1000.0f;
+                    if (bContinuous)
+                        fPushBack *= reinterpret_cast<::Twin_0084d030 *>(&(g_kTrapMultT8))->GetStoredFloatValue() * fVelocityMult;
+                    ObjT8* pkObj = ((::ObjT8 *)(reinterpret_cast<::Twin_0044ddc0 *>(&(pkHit->m_kSub))->GetName()));
+                    if (pkObj)
+                    {
+                        NiPoint3T8 kImpulse;
+                        ::SetNiPoint3FromHkVector4((::NiPoint3 &)(kImpulse), (const ::hkVector4 &)(kMotionVelocity));
+                        reinterpret_cast<::FUN_004a0c10_s *>(&(kImpulse))->FUN_004a0c10();
+                        reinterpret_cast<::MyPoint439180 *>((void *)&(const ::NiPoint3T8 &)(kImpulse))->FUN_00439180(fPushBack);
+                        reinterpret_cast<::Owner274 *>((pkProj))->UpdateMaxVelocity((const float *)&(kImpulse), 0.5f);
+                    }
+                }
+            }
+            if (pkVars)
+            {
+                LocalsT8* pkLocals = ((::LocalsT8 *)(reinterpret_cast<::FUN_00418830_shell *>((pkHost))->FUN_00418830()));
+                if (pkLocals)
+                {
+                    unsigned int uiHasHit;
+                    if (reinterpret_cast<::fnv_005ac6a0::FUN_005ac6a0 *>((pkVars))->Method_005ac6a0("bTrapHasHit", &uiHasHit))
+                        reinterpret_cast<::FUN_005a9290_shell *>((pkLocals))->SetScriptVariable(uiHasHit, 1.0);
+                }
+            }
+        }
+        reinterpret_cast<::FUN_00891130_class *>((pkWeap))->FUN_00891130(1);
+    }
+}
+
+struct ImpactPoint
+{
+    float x, y, z;
+    ImpactPoint();
+    ImpactPoint operator-(const ImpactPoint&) const;
+    ImpactPoint operator*(float) const;
+};
+struct SettingString
+{
+};
+struct GetterObj
+{
+};
+struct NormObj
+{
+    void FUN_004a0c10();
+};
+struct NodeObj
+{
+    struct Pair;
+    Pair FUN_00461130(int arg);
+};
+struct NodeObj::Pair
+{
+    float x, y, z;
+    ImpactPoint* FUN_00524c40();
+};
+struct ParamObj
+{
+    virtual void z000();
+    virtual void z001();
+    virtual void z002();
+    virtual void z003();
+    virtual void z004();
+    virtual void z005();
+    virtual void z006();
+    virtual void z007();
+    virtual void z008();
+    virtual void z009();
+    virtual void z010();
+    virtual void z011();
+    virtual void z012();
+    virtual void z013();
+    virtual void z014();
+    virtual void z015();
+    virtual void z016();
+    virtual void z017();
+    virtual void z018();
+    virtual void z019();
+    virtual void z020();
+    virtual void z021();
+    virtual void z022();
+    virtual void z023();
+    virtual void z024();
+    virtual void z025();
+    virtual void z026();
+    virtual void z027();
+    virtual void z028();
+    virtual void z029();
+    virtual void z030();
+    virtual void z031();
+    virtual void z032();
+    virtual void z033();
+    virtual void z034();
+    virtual void z035();
+    virtual void z036();
+    virtual void z037();
+    virtual void z038();
+    virtual void z039();
+    virtual void z040();
+    virtual void z041();
+    virtual void z042();
+    virtual void z043();
+    virtual void z044();
+    virtual void z045();
+    virtual void z046();
+    virtual void z047();
+    virtual void z048();
+    virtual void z049();
+    virtual void z050();
+    virtual void z051();
+    virtual void z052();
+    virtual void z053();
+    virtual void z054();
+    virtual void z055();
+    virtual void z056();
+    virtual void z057();
+    virtual void z058();
+    virtual void z059();
+    virtual void z060();
+    virtual void z061();
+    virtual void z062();
+    virtual void z063();
+    virtual void z064();
+    virtual void z065();
+    virtual void z066();
+    virtual void z067();
+    virtual void z068();
+    virtual void z069();
+    virtual void z070();
+    virtual void z071();
+    virtual void z072();
+    virtual void z073();
+    virtual void z074();
+    virtual void z075();
+    virtual void z076();
+    virtual void z077();
+    virtual void z078();
+    virtual void z079();
+    virtual void z080();
+    virtual void z081();
+    virtual void z082();
+    virtual void z083();
+    virtual void z084();
+    virtual void z085();
+    virtual void z086();
+    virtual void z087();
+    virtual void z088();
+    virtual void z089();
+    virtual void z090();
+    virtual void z091();
+    virtual void z092();
+    virtual void z093();
+    virtual void z094();
+    virtual void z095();
+    virtual void z096();
+    virtual void z097();
+    virtual void z098();
+    virtual void z099();
+    virtual void z100();
+    virtual void z101();
+    virtual void z102();
+    virtual void z103();
+    virtual void z104();
+    virtual void z105();
+    virtual void z106();
+    virtual void z107();
+    virtual void z108();
+    virtual void z109();
+    virtual void z110();
+    virtual void z111();
+    virtual void z112();
+    virtual void z113();
+    virtual void z114();
+    virtual void z115();
+    virtual void* GetNode116();
+    virtual void q117();
+    virtual void q118();
+    virtual void q119();
+    virtual void q120();
+    virtual void q121();
+    virtual void q122();
+    virtual void q123();
+    virtual void q124();
+    virtual void q125();
+    virtual void q126();
+    virtual void q127();
+    virtual void q128();
+    virtual void q129();
+    virtual void q130();
+    virtual void q131();
+    virtual void q132();
+    virtual void q133();
+    virtual void q134();
+    virtual void q135();
+    virtual void q136();
+    virtual void q137();
+    virtual void q138();
+    virtual void q139();
+    virtual void q140();
+    virtual void q141();
+    virtual void q142();
+    virtual void q143();
+    virtual void q144();
+    virtual void q145();
+    virtual void q146();
+    virtual void q147();
+    virtual void q148();
+    virtual void q149();
+    virtual void q150();
+    virtual void q151();
+    virtual void q152();
+    virtual void q153();
+    virtual void q154();
+    virtual void q155();
+    virtual void q156();
+    virtual void q157();
+    virtual void q158();
+    virtual void q159();
+    virtual void q160();
+    virtual void q161();
+    virtual void q162();
+    virtual void q163();
+    virtual void q164();
+    virtual void q165();
+    virtual void q166();
+    virtual void q167();
+    virtual void q168();
+    virtual void q169();
+    virtual void q170();
+    virtual void q171();
+    virtual void q172();
+    virtual void q173();
+    virtual void q174();
+    virtual void q175();
+    virtual void q176();
+    virtual void q177();
+    virtual void q178();
+    virtual void q179();
+    virtual void q180();
+    virtual void q181();
+    virtual void q182();
+    virtual void q183();
+    virtual void q184();
+    virtual void q185();
+    virtual void q186();
+    virtual void q187();
+    virtual void q188();
+    virtual void q189();
+    virtual void q190();
+    virtual void q191();
+    virtual void q192();
+    virtual void q193();
+    virtual void q194();
+    virtual void q195();
+    virtual void q196();
+    virtual void q197();
+    virtual void q198();
+    virtual void q199();
+    virtual void q200();
+    virtual void q201();
+    virtual void q202();
+    virtual void q203();
+    virtual void q204();
+    virtual void q205();
+    virtual void q206();
+    virtual void q207();
+    virtual void q208();
+    virtual void q209();
+    virtual void q210();
+    virtual void q211();
+    virtual void q212();
+    virtual void q213();
+    virtual void q214();
+    virtual void q215();
+    virtual bool IsSpecial();
+};
+struct SubObjSrc
+{
+};
+struct Sub410
+{
+};
+struct GlobalCount
+{
+};
+
+struct __declspec(align(16)) ImpactVector
+{
+    __m128 value;
+    ImpactVector();
+};
+struct ImpactQuery
+{
+    float x, y, z, radius;
+    ImpactQuery();
+};
+struct ImpactColor
+{
+    float r, g, b, a;
+    ImpactColor(float, float, float, float);
+};
+struct ImpactEffect
+{
+};
+struct ImpactEffectManager
+{
+    void Add(ImpactEffect*, float);
+};
+struct HitObject
+{
+    void* GetIdentity();
+};
+struct HitIdentity
+{
+    char pad00[0x8];
+    int unk08;
+};
+struct HitQueryResult
+{
+    void* GetIdentity();
+};
+struct HitName
+{
+    char const* GetName();
+};
+struct HitPart
+{
+};
+struct ImpactNode
+{
+};
+struct HostShell : Actor
+{
+    void FUN_008a4af0(ParamObj* source, float strength, float secondary, int start, int end);
+};
+// @fnv 0x008a4af0
+void HostShell::FUN_008a4af0(ParamObj* source, float strength, float secondary, int start, int end)
+{
+    void* scene = ((void *)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((((ImpactNode*)this)))->FUN_0043fcd0()));
+    if (reinterpret_cast<::FUN_008ace90_shell *>((((ImpactNode*)this)))->FUN_008ace90())
+        return;
+    void* manager = FUN_004aae30((NiAVObject*)scene, (NiFixedString*)((const char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::SettingString *>(&::g_011cc83c))))->IsDLCAvailable())));
+    ImpactPoint origin;
+    ImpactPoint target;
+    NodeObj* node = (NodeObj*)source->GetNode116();
+    if (node)
+    {
+        origin = *node->FUN_00461130(start).FUN_00524c40();
+        target = *node->FUN_00461130(end).FUN_00524c40();
+    }
+    ImpactPoint direction;
+    direction = target - origin;
+    reinterpret_cast<::FUN_004a0c10_s *>(&(direction))->FUN_004a0c10();
+    intptr_t part = 0;
+    if (manager)
+    {
+        if (strength > 100.0)
+            strength = 100.0f;
+        float difference = reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::GetterObj *>(&::g_011cc77c))))->FUN_00450410() - reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::GetterObj *>(&::g_011cc86c))))->FUN_00450410();
+        float primary = difference * strength * 0.009999999776482582 + reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::GetterObj *>(&::g_011cc86c))))->FUN_00450410();
+        difference = reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::GetterObj *>(&::g_011cc860))))->FUN_00450410() - reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::GetterObj *>(&::g_011cc7dc))))->FUN_00450410();
+        float amount = difference * secondary + reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::GetterObj *>(&::g_011cc7dc))))->FUN_00450410();
+        if (secondary > 75.0)
+            primary = 0.0f;
+        if (primary != 0.0 || amount != 0.0)
+        {
+            bool enabled = true;
+            if (this == (*reinterpret_cast<::Actor * *>(&::_g_thePlayer)))
+                enabled = reinterpret_cast<::FUN_004eaf60_shell *>((((ImpactNode*)this)))->FUN_004eaf60();
+            if (!Unk_8C() && enabled)
+            {
+                bool special = false;
+                void* sub = ((void *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>((((SubObjSrc*)this)))->FUN_009306d0()));
+                if (sub)
+                    special = ::FUN_008a5170((const ::_Dummy_008a5170 *)(((Sub410*)((char*)sub + 0x410))));
+                ::FUN_00c9b250((::SceneObject *)(manager), 0.0f, special);
+            }
+            if (primary != 0.0)
+            {
+                ImpactPoint impulse = direction * primary;
+                if (reinterpret_cast<::TESObjectCELL *>(&((*reinterpret_cast<::GlobalCount *>(&::g_011df838))))->GetCellStandValue() > 0)
+                {
+                    ImpactColor color(0.0f, 0.0f, 0.0f, 0.0f);
+                    if (source->IsSpecial())
+                        color = ImpactColor(0.0f, 0.0f, 1.0f, 1.0f);
+                    else
+                        color = ImpactColor(1.0f, 0.0f, 0.0f, 1.0f);
+                    ImpactEffect* effect = ((::ImpactEffect *)(::FUN_00c59a50((const ::ArrowPoint &)((const ::ImpactPoint &)(impulse * 0.1f)), (const ::ArrowColor *)&(color))));
+                    reinterpret_cast<::FUN_00440460_S *>((effect))->FUN_00440460((const ::V3 *)&(target));
+                    reinterpret_cast<::FUN_00458e20_shell *>(((*reinterpret_cast<::ImpactEffectManager * *>(&::g_TES))))->FUN_00458e20((::NiAVObject *)(effect), reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::GetterObj *>(&::g_011df754))))->FUN_00450410());
+                }
+                if (enabled)
+                {
+                    ImpactVector worldImpulse;
+                    ::CopyCharacterControllerVector((::bhkCharacterController *)(::ImpactVector *)(&worldImpulse), (*(const ::NiPoint3 *)(&impulse)));
+                    ImpactQuery query;
+                    __declspec(align(16)) ImpactPoint position;
+                    ::fnv_004a3e00::FUN_004a3e00((*(::fnv_004a3e00::bhkCharacterController *)(&position)), (*(const ::fnv_004a3e00::NiPoint3 *)(&target)));
+                    reinterpret_cast<::FUN_008a50f0_class *>(&(query))->FUN_008a50f0((intptr_t)&(position));
+                    reinterpret_cast<::fnv_008a50d0::bhkCharacterController *>(&(query))->FUN_008a50d0(30.0f);
+                    HitQueryResult* result = ((::HitQueryResult *)(::FUN_00c806b0(scene, &query, 0)));
+                    if (result)
+                    {
+                        HitIdentity* identity = ((::HitIdentity *)(::bhkCollisionObject::GetFromRigidBody((const ::hkpRigidBody *)(void *)(((void *)(::FUN_004ae750((void *)(result))))))));
+                        if (identity)
+                            part = ((int)(((identity))->unk08));
+                    }
+                    if (!part)
+                        part = (intptr_t)FUN_004aae30((NiAVObject*)scene,
+                                                 (NiFixedString*)((const char *)(reinterpret_cast<::DownloadableContentManager *>((((SettingString*)&(*reinterpret_cast<::SettingString *>(&::g_011cc8cc)))))->IsDLCAvailable())));
+                    if (part)
+                    {
+                        const char* name = ((::HitName *)(reinterpret_cast<::TESTopicInfoData *>((((HitPart*)part)))->GetLinkToList()))->GetName();
+                        ::FUN_0040fbe0();
+                    }
+                    ::FUN_00cb9320((::NiAVObject *)(manager), &worldImpulse, (::NiAVObject *)(part));
+                }
+            }
+            if (amount != 0.0 && enabled)
+            {
+                direction.x = (float)(direction.x + 1.0);
+                direction.y = (float)(direction.y + 1.0);
+                reinterpret_cast<::FUN_004a0c10_s *>(&(direction))->FUN_004a0c10();
+                ImpactPoint impulse = direction * primary;
+                ImpactVector worldImpulse;
+                ::CopyCharacterControllerVector((::bhkCharacterController *)(::ImpactVector *)(&worldImpulse), (*(const ::NiPoint3 *)(&impulse)));
+                part = ((intptr_t)(reinterpret_cast<::fnv_00571530::FUN_00571530_shell *>((((ImpactNode*)this)))->FUN_00571530((::fnv_00571530::NiAVObject *)(scene), (::fnv_00571530::NiFixedString *)(((intptr_t)(::FUN_008a5190()))))));
+                ::FUN_00cb9320((::NiAVObject *)(manager), &worldImpulse, (::NiAVObject *)(part));
+            }
+        }
+    }
+}
+
+struct VectorXYZ
+{
+    __m128 vector;
+    void FUN_008a5110(const __m128*);
+};
+// @fnv 0x008a5110
+void VectorXYZ::FUN_008a5110(const __m128* source)
+{
+
+    vector = _mm_shuffle_ps(*source, _mm_unpackhi_ps(*source, vector), 0xc4);
+}
+
+class NiPoint3H
+{
+  public:
+    float x, y, z;
+    NiPoint3H operator-(const NiPoint3H& kPt) const;
+    NiPoint3H& operator*=(float fScalar);
+    NiPoint3H& operator+=(const NiPoint3H& kPt);
+};
+
+class NiMatrix3H
+{
+  public:
+};
+
+class hkVector4H
+{
+  public:
+    hkVector4H();
+    __m128 m_vComponents;
+};
+
+class TargetInfoH
+{
+  public:
+    TargetInfoH(float fValue, int a, int b);
+    float m_f00;
+    int m_i04;
+    int m_i08;
+};
+
+class BSFixedStringH
+{
+  public:
+    const char* m_pcString;
+    int m_iReferenceCount;
+    int m_iHash;
+};
+
+class NiNodeRefH
+{
+  public:
+    NiPoint3H& GetWorldTranslate();
+    void* m_pkNode;
+    int m_iIndex;
+    int m_iFlags;
+};
+
+class NiNodeH
+{
+  public:
+    NiNodeRefH GetObjectByName(const BSFixedStringH& kName);
+};
+
+class ProcessH
+{
+  public:
+    virtual void vp000();
+    virtual void vp004();
+    virtual void vp008();
+    virtual void vp00c();
+    virtual void vp010();
+    virtual void vp014();
+    virtual void vp018();
+    virtual void vp01c();
+    virtual void vp020();
+    virtual void vp024();
+    virtual void vp028();
+    virtual void vp02c();
+    virtual void vp030();
+    virtual void vp034();
+    virtual void vp038();
+    virtual void vp03c();
+    virtual void vp040();
+    virtual void vp044();
+    virtual void vp048();
+    virtual void vp04c();
+    virtual void vp050();
+    virtual void vp054();
+    virtual void vp058();
+    virtual void vp05c();
+    virtual void vp060();
+    virtual void vp064();
+    virtual void vp068();
+    virtual void vp06c();
+    virtual void vp070();
+    virtual void vp074();
+    virtual void vp078();
+    virtual void vp07c();
+    virtual void vp080();
+    virtual void vp084();
+    virtual void vp088();
+    virtual void vp08c();
+    virtual void vp090();
+    virtual void vp094();
+    virtual void vp098();
+    virtual void vp09c();
+    virtual void vp0a0();
+    virtual void vp0a4();
+    virtual void vp0a8();
+    virtual void vp0ac();
+    virtual void vp0b0();
+    virtual void vp0b4();
+    virtual void vp0b8();
+    virtual void vp0bc();
+    virtual void vp0c0();
+    virtual void vp0c4();
+    virtual void vp0c8();
+    virtual void vp0cc();
+    virtual void vp0d0();
+    virtual void vp0d4();
+    virtual void vp0d8();
+    virtual void vp0dc();
+    virtual void vp0e0();
+    virtual void vp0e4();
+    virtual void vp0e8();
+    virtual void vp0ec();
+    virtual void vp0f0();
+    virtual void vp0f4();
+    virtual void vp0f8();
+    virtual void vp0fc();
+    virtual void vp100();
+    virtual void vp104();
+    virtual void vp108();
+    virtual void vp10c();
+    virtual void vp110();
+    virtual void vp114();
+    virtual void vp118();
+    virtual void vp11c();
+    virtual void vp120();
+    virtual void vp124();
+    virtual void vp128();
+    virtual void vp12c();
+    virtual void vp130();
+    virtual void vp134();
+    virtual void vp138();
+    virtual void vp13c();
+    virtual void vp140();
+    virtual void vp144();
+    virtual void vp148();
+    virtual void vp14c();
+    virtual void vp150();
+    virtual void vp154();
+    virtual void vp158();
+    virtual void vp15c();
+    virtual void vp160();
+    virtual void vp164();
+    virtual void vp168();
+    virtual void vp16c();
+    virtual void vp170();
+    virtual void vp174();
+    virtual void vp178();
+    virtual void vp17c();
+    virtual void vp180();
+    virtual void vp184();
+    virtual void vp188();
+    virtual void vp18c();
+    virtual void vp190();
+    virtual void vp194();
+    virtual void vp198();
+    virtual void vp19c();
+    virtual void vp1a0();
+    virtual void vp1a4();
+    virtual void vp1a8();
+    virtual void vp1ac();
+    virtual void vp1b0();
+    virtual void vp1b4();
+    virtual void vp1b8();
+    virtual void vp1bc();
+    virtual void vp1c0();
+    virtual void vp1c4();
+    virtual void vp1c8();
+    virtual void vp1cc();
+    virtual void vp1d0();
+    virtual void vp1d4();
+    virtual void vp1d8();
+    virtual void vp1dc();
+    virtual void vp1e0();
+    virtual void vp1e4();
+    virtual void vp1e8();
+    virtual void vp1ec();
+    virtual void vp1f0();
+    virtual void vp1f4();
+    virtual void vp1f8();
+    virtual void vp1fc();
+    virtual void vp200();
+    virtual void vp204();
+    virtual void vp208();
+    virtual void vp20c();
+    virtual void vp210();
+    virtual void vp214();
+    virtual void vp218();
+    virtual void vp21c();
+    virtual void vp220();
+    virtual void vp224();
+    virtual void vp228();
+    virtual void vp22c();
+    virtual void vp230();
+    virtual void vp234();
+    virtual void vp238();
+    virtual void vp23c();
+    virtual void vp240();
+    virtual void vp244();
+    virtual void vp248();
+    virtual void vp24c();
+    virtual void vp250();
+    virtual void vp254();
+    virtual void vp258();
+    virtual void vp25c();
+    virtual void vp260();
+    virtual void vp264();
+    virtual void vp268();
+    virtual void vp26c();
+    virtual void vp270();
+    virtual void vp274();
+    virtual void vp278();
+    virtual void vp27c();
+    virtual void vp280();
+    virtual void vp284();
+    virtual void vp288();
+    virtual void vp28c();
+    virtual void vp290();
+    virtual void vp294();
+    virtual void vp298();
+    virtual void vp29c();
+    virtual void vp2a0();
+    virtual void vp2a4();
+    virtual void vp2a8();
+    virtual void vp2ac();
+    virtual void vp2b0();
+    virtual void vp2b4();
+    virtual void vp2b8();
+    virtual void vp2bc();
+    virtual void vp2c0();
+    virtual void vp2c4();
+    virtual void vp2c8();
+    virtual void vp2cc();
+    virtual void vp2d0();
+    virtual void vp2d4();
+    virtual void vp2d8();
+    virtual void vp2dc();
+    virtual void vp2e0();
+    virtual void vp2e4();
+    virtual void vp2e8();
+    virtual void vp2ec();
+    virtual void vp2f0();
+    virtual void vp2f4();
+    virtual void vp2f8();
+    virtual void vp2fc();
+    virtual void vp300();
+    virtual void vp304();
+    virtual void vp308();
+    virtual void vp30c();
+    virtual void vp310();
+    virtual void vp314();
+    virtual void vp318();
+    virtual void vp31c();
+    virtual void vp320();
+    virtual void vp324();
+    virtual void vp328();
+    virtual void vp32c();
+    virtual void vp330();
+    virtual void vp334();
+    virtual void vp338();
+    virtual void vp33c();
+    virtual void vp340();
+    virtual void vp344();
+    virtual void vp348();
+    virtual void vp34c();
+    virtual void vp350();
+    virtual void vp354();
+    virtual void vp358();
+    virtual void vp35c();
+    virtual void vp360();
+    virtual void vp364();
+    virtual void vp368();
+    virtual void vp36c();
+    virtual void vp370();
+    virtual void vp374();
+    virtual void vp378();
+    virtual void vp37c();
+    virtual void vp380();
+    virtual void vp384();
+    virtual void vp388();
+    virtual void vp38c();
+    virtual void vp390();
+    virtual void vp394();
+    virtual void vp398();
+    virtual void vp39c();
+    virtual void vp3a0();
+    virtual void vp3a4();
+    virtual void vp3a8();
+    virtual void vp3ac();
+    virtual void vp3b0();
+    virtual void vp3b4();
+    virtual void vp3b8();
+    virtual void vp3bc();
+    virtual void vp3c0();
+    virtual void vp3c4();
+    virtual void vp3c8();
+    virtual void vp3cc();
+    virtual void vp3d0();
+    virtual void vp3d4();
+    virtual void vp3d8();
+    virtual void vp3dc();
+    virtual void vp3e0();
+    virtual void vp3e4();
+    virtual void vp3e8();
+    virtual void vp3ec();
+    virtual void vp3f0();
+    virtual void vp3f4();
+    virtual void vp3f8();
+    virtual void vp3fc();
+    virtual void vp400();
+    virtual void vp404();
+    virtual void vp408();
+    virtual void vp40c();
+    virtual void vp410();
+    virtual void vp414();
+    virtual void vp418();
+    virtual void vp41c();
+    virtual void vp420();
+    virtual void vp424();
+    virtual void vp428();
+    virtual void vp42c();
+    virtual void vp430();
+    virtual void vp434();
+    virtual void vp438();
+    virtual void vp43c();
+    virtual void vp440();
+    virtual void vp444();
+    virtual void vp448();
+    virtual void vp44c();
+    virtual void vp450();
+    virtual void vp454();
+    virtual void vp458();
+    virtual void vp45c();
+    virtual const BSFixedStringH& GetWeaponNodeName();
+};
+
+class WeaponH
+{
+  public:
+};
+
+class HavokObjectH
+{
+  public:
+    const NiPoint3H& GetPosition();
+};
+
+class TESObjectREFRH
+{
+  public:
+    virtual void vr000();
+    virtual void vr004();
+    virtual void vr008();
+    virtual void vr00c();
+    virtual void vr010();
+    virtual void vr014();
+    virtual void vr018();
+    virtual void vr01c();
+    virtual void vr020();
+    virtual void vr024();
+    virtual void vr028();
+    virtual void vr02c();
+    virtual void vr030();
+    virtual void vr034();
+    virtual void vr038();
+    virtual void vr03c();
+    virtual void vr040();
+    virtual void vr044();
+    virtual void vr048();
+    virtual void vr04c();
+    virtual void vr050();
+    virtual void vr054();
+    virtual void vr058();
+    virtual void vr05c();
+    virtual void vr060();
+    virtual void vr064();
+    virtual void vr068();
+    virtual void vr06c();
+    virtual void vr070();
+    virtual void vr074();
+    virtual void vr078();
+    virtual void vr07c();
+    virtual void vr080();
+    virtual void vr084();
+    virtual void vr088();
+    virtual void vr08c();
+    virtual void vr090();
+    virtual void vr094();
+    virtual void vr098();
+    virtual void vr09c();
+    virtual void vr0a0();
+    virtual void vr0a4();
+    virtual void vr0a8();
+    virtual void vr0ac();
+    virtual void vr0b0();
+    virtual void vr0b4();
+    virtual void vr0b8();
+    virtual void vr0bc();
+    virtual void vr0c0();
+    virtual void vr0c4();
+    virtual void vr0c8();
+    virtual void vr0cc();
+    virtual void vr0d0();
+    virtual void vr0d4();
+    virtual void vr0d8();
+    virtual void vr0dc();
+    virtual void vr0e0();
+    virtual void vr0e4();
+    virtual void vr0e8();
+    virtual void vr0ec();
+    virtual void vr0f0();
+    virtual void vr0f4();
+    virtual void vr0f8();
+    virtual void vr0fc();
+    virtual void vr100();
+    virtual void vr104();
+    virtual void vr108();
+    virtual void vr10c();
+    virtual void vr110();
+    virtual void vr114();
+    virtual void vr118();
+    virtual void vr11c();
+    virtual void vr120();
+    virtual void vr124();
+    virtual void vr128();
+    virtual void vr12c();
+    virtual void vr130();
+    virtual void vr134();
+    virtual void vr138();
+    virtual void vr13c();
+    virtual void vr140();
+    virtual void vr144();
+    virtual void vr148();
+    virtual void vr14c();
+    virtual void vr150();
+    virtual void vr154();
+    virtual void vr158();
+    virtual void vr15c();
+    virtual void vr160();
+    virtual void vr164();
+    virtual void vr168();
+    virtual void vr16c();
+    virtual void vr170();
+    virtual void vr174();
+    virtual void vr178();
+    virtual void vr17c();
+    virtual void vr180();
+    virtual void vr184();
+    virtual void vr188();
+    virtual void vr18c();
+    virtual void vr190();
+    virtual void vr194();
+    virtual void vr198();
+    virtual void vr19c();
+    virtual void vr1a0();
+    virtual void vr1a4();
+    virtual void vr1a8();
+    virtual void vr1ac();
+    virtual void vr1b0();
+    virtual void vr1b4();
+    virtual void vr1b8();
+    virtual void vr1bc();
+    virtual void vr1c0();
+    virtual void vr1c4();
+    virtual void vr1c8();
+    virtual void vr1cc();
+    virtual void vr1d0();
+    virtual void vr1d4();
+    virtual void vr1d8();
+    virtual void vr1dc();
+    virtual void vr1e0();
+    virtual void vr1e4();
+    virtual void vr1e8();
+    virtual void vr1ec();
+    virtual void vr1f0();
+    virtual void vr1f4();
+    virtual void vr1f8();
+    virtual void vr1fc();
+    virtual void vr200();
+    virtual void vr204();
+    virtual void vr208();
+    virtual void vr20c();
+    virtual void vr210();
+    virtual void vr214();
+    virtual void vr218();
+    virtual bool IsDead();
+    virtual void vr220();
+    virtual bool IsActor();
+    virtual void vs228();
+    virtual void vs22c();
+    virtual void vs230();
+    virtual void vs234();
+    virtual void vs238();
+    virtual void vs23c();
+    virtual void vs240();
+    virtual void vs244();
+    virtual void vs248();
+    virtual void vs24c();
+    virtual void vs250();
+    virtual void vs254();
+    virtual void vs258();
+    virtual void vs25c();
+    virtual void vs260();
+    virtual void vs264();
+    virtual void vs268();
+    virtual void vs26c();
+    virtual void vs270();
+    virtual void vs274();
+    virtual void vs278();
+    virtual void vs27c();
+    virtual void vs280();
+    virtual void vs284();
+    virtual void vs288();
+    virtual void vs28c();
+    virtual void vs290();
+    virtual void vs294();
+    virtual void vs298();
+    virtual void vs29c();
+    virtual void vs2a0();
+    virtual void vs2a4();
+    virtual void vs2a8();
+    virtual void vs2ac();
+    virtual void vs2b0();
+    virtual void vs2b4();
+    virtual void vs2b8();
+    virtual void vs2bc();
+    virtual void vs2c0();
+    virtual void vs2c4();
+    virtual void vs2c8();
+    virtual void vs2cc();
+    virtual void vs2d0();
+    virtual void vs2d4();
+    virtual void vs2d8();
+    virtual void vs2dc();
+    virtual void vs2e0();
+    virtual void vs2e4();
+    virtual void vs2e8();
+    virtual void vs2ec();
+    virtual void vs2f0();
+    virtual void vs2f4();
+    virtual void vs2f8();
+    virtual void vs2fc();
+    virtual void vs300();
+    virtual void vs304();
+    virtual void vs308();
+    virtual void vs30c();
+    virtual void vs310();
+    virtual void vs314();
+    virtual void vs318();
+    virtual void vs31c();
+    virtual void vs320();
+    virtual void vs324();
+    virtual void vs328();
+    virtual void vs32c();
+    virtual void vs330();
+    virtual void vs334();
+    virtual void vs338();
+    virtual void vs33c();
+    virtual void vs340();
+    virtual void vs344();
+    virtual void vs348();
+    virtual void vs34c();
+    virtual void vs350();
+    virtual void vs354();
+    virtual void vs358();
+    virtual void vs35c();
+    virtual void vs360();
+    virtual void vs364();
+    virtual void vs368();
+    virtual void vs36c();
+    virtual void vs370();
+    virtual void vs374();
+    virtual void vs378();
+    virtual void vs37c();
+    virtual void vs380();
+    virtual void vs384();
+    virtual void vs388();
+    virtual bool IsRagdollable();
+};
+
+class HitDataH
+{
+  public:
+    int unk00;
+    TESObjectREFRH* m_pkTarget;
+    TESObjectREFRH* m_pkSource;
+    int unk0c;
+    int unk10;
+    float m_fForce;
+    unsigned int unk18;
+    unsigned int unk1c;
+    unsigned int unk20;
+    unsigned int unk24;
+    unsigned int unk28;
+    unsigned int unk2c;
+    WeaponH* m_pkWeapon;
+    int unk34;
+    NiPoint3H m_kHitPos;
+    NiMatrix3H m_kRotationMatrix;
+};
+
+
+
+struct ActorHView
+{
+    virtual void va000();
+    virtual void va004();
+    virtual void va008();
+    virtual void va00c();
+    virtual void va010();
+    virtual void va014();
+    virtual void va018();
+    virtual void va01c();
+    virtual void va020();
+    virtual void va024();
+    virtual void va028();
+    virtual void va02c();
+    virtual void va030();
+    virtual void va034();
+    virtual void va038();
+    virtual void va03c();
+    virtual void va040();
+    virtual void va044();
+    virtual void va048();
+    virtual void va04c();
+    virtual void va050();
+    virtual void va054();
+    virtual void va058();
+    virtual void va05c();
+    virtual void va060();
+    virtual void va064();
+    virtual void va068();
+    virtual void va06c();
+    virtual void va070();
+    virtual void va074();
+    virtual void va078();
+    virtual void va07c();
+    virtual void va080();
+    virtual void va084();
+    virtual void va088();
+    virtual void va08c();
+    virtual void va090();
+    virtual void va094();
+    virtual void va098();
+    virtual void va09c();
+    virtual void va0a0();
+    virtual void va0a4();
+    virtual void va0a8();
+    virtual void va0ac();
+    virtual void va0b0();
+    virtual void va0b4();
+    virtual void va0b8();
+    virtual void va0bc();
+    virtual void va0c0();
+    virtual void va0c4();
+    virtual void va0c8();
+    virtual void va0cc();
+    virtual void va0d0();
+    virtual void va0d4();
+    virtual void va0d8();
+    virtual void va0dc();
+    virtual void va0e0();
+    virtual void va0e4();
+    virtual void va0e8();
+    virtual void va0ec();
+    virtual void va0f0();
+    virtual void va0f4();
+    virtual void va0f8();
+    virtual void va0fc();
+    virtual void va100();
+    virtual void va104();
+    virtual void va108();
+    virtual void va10c();
+    virtual void va110();
+    virtual void va114();
+    virtual void va118();
+    virtual void va11c();
+    virtual void va120();
+    virtual void va124();
+    virtual void va128();
+    virtual void va12c();
+    virtual void va130();
+    virtual void va134();
+    virtual void va138();
+    virtual void va13c();
+    virtual void va140();
+    virtual void va144();
+    virtual void va148();
+    virtual void va14c();
+    virtual void va150();
+    virtual void va154();
+    virtual void va158();
+    virtual void va15c();
+    virtual void va160();
+    virtual void va164();
+    virtual void va168();
+    virtual void va16c();
+    virtual void va170();
+    virtual void va174();
+    virtual void va178();
+    virtual void va17c();
+    virtual void va180();
+    virtual void va184();
+    virtual void va188();
+    virtual void va18c();
+    virtual void va190();
+    virtual void va194();
+    virtual void va198();
+    virtual void va19c();
+    virtual void va1a0();
+    virtual void va1a4();
+    virtual void va1a8();
+    virtual void va1ac();
+    virtual void va1b0();
+    virtual void va1b4();
+    virtual void va1b8();
+    virtual void va1bc();
+    virtual void va1c0();
+    virtual void va1c4();
+    virtual void va1c8();
+    virtual void va1cc();
+    virtual NiNodeH* Get3D();
+    BSFixedStringH GetTorsoNodeName(int iFlag);
+};
+
+// @fnv 0x008ae000
+void ActorH::FUN_008ae000(HitDataH* pkHit)
+{
+    TESObjectREFRH* pkTarget = pkHit->m_pkTarget;
+    float fForce = pkHit->m_fForce;
+    bool bActorSource = pkHit->m_pkSource && pkHit->m_pkSource->IsActor();
+    NiNodeH* pk3D = reinterpret_cast<ActorHView*>(this)->Get3D();
+    NiPoint3H kFrom = (*reinterpret_cast<const ::NiPoint3H *>((void *)&::NiPoint3::ZERO));
+    NiPoint3H kTo = (*reinterpret_cast<const ::NiPoint3H *>((void *)&::NiPoint3::ZERO));
+    if (pk3D)
+    {
+        ProcessH* pkProcess = ((::ProcessH *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()));
+        kFrom = pk3D->GetObjectByName(pkProcess->GetWeaponNodeName()).GetWorldTranslate();
+    }
+    if (pkTarget)
+    {
+        if (!pkTarget->IsDead() || pkTarget->IsRagdollable())
+        {
+            HavokObjectH* pkObject = ((::HavokObjectH *)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((pkTarget))->FUN_0043fcd0()));
+            if (pkObject)
+            {
+                NiPoint3H kWorldPosition = (*reinterpret_cast<const ::NiPoint3H *>((void *)&::NiPoint3::ZERO));
+                if (bActorSource)
+                {
+                    kWorldPosition = (*(::NiPoint3H *)(reinterpret_cast<::P3 *>((void *)&(pkHit->m_kRotationMatrix))->FUN_004a0bd0((::P3 *)&ResultSlot(::NiPoint3H()))));
+                    reinterpret_cast<::FUN_004a0c10_s *>(&(kWorldPosition))->FUN_004a0c10();
+                    reinterpret_cast<::MyPoint439180 *>((void *)&(const ::NiPoint3H &)(kWorldPosition))->FUN_00439180(2048.0f);
+                    reinterpret_cast<::FUN_0063c8a0_shell *>((void *)&(const ::NiPoint3H &)(kWorldPosition))->FUN_0063c8a0((void *)&(pkHit->m_kHitPos));
+                }
+                else
+                {
+                    if (pk3D)
+                        kTo = pk3D->GetObjectByName(reinterpret_cast<ActorHView*>(this)->GetTorsoNodeName(0)).GetWorldTranslate();
+                    kWorldPosition = kFrom - kTo;
+                    reinterpret_cast<::FUN_004a0c10_s *>(&(kWorldPosition))->FUN_004a0c10();
+                    reinterpret_cast<::FUN_0063c8a0_shell *>((void *)&(const ::NiPoint3H &)(kWorldPosition))->FUN_0063c8a0((void *)&(const ::NiPoint3H &)((*(::NiPoint3H *)(reinterpret_cast<::P3 *>((void *)&(pkHit->m_kRotationMatrix))->FUN_004a0bd0((::P3 *)&ResultSlot(::NiPoint3H()))))));
+                    reinterpret_cast<::MyPoint439180 *>((void *)&(const ::NiPoint3H &)(kWorldPosition))->FUN_00439180(1024.0f);
+                    reinterpret_cast<::FUN_0063c8a0_shell *>((void *)&(const ::NiPoint3H &)(kWorldPosition))->FUN_0063c8a0((void *)&(kFrom));
+                }
+                float fImpulse = RemapValueBySettings(fForce, bActorSource);
+                if (pkHit->m_pkWeapon)
+                {
+                    fImpulse = reinterpret_cast<::FUN_008ae480_Class *>((pkHit->m_pkWeapon))->GetField1A8() * 2.5;
+                    if (bActorSource && reinterpret_cast<::FUN_008ae4a0_Class *>((pkHit->m_pkWeapon))->GetField1B8() > 0.0)
+                    {
+                        NiPoint3H kPos = pkObject->GetPosition();
+                        NiPoint3H kDelta = kPos - kFrom;
+                        float fImpulseRadiusSquared = reinterpret_cast<::FUN_008ae4a0_Class *>((pkHit->m_pkWeapon))->GetField1B8();
+                        fImpulseRadiusSquared = fImpulseRadiusSquared * fImpulseRadiusSquared;
+                        float fDistSq = kDelta.x * kDelta.x + kDelta.y * kDelta.y;
+                        if (fDistSq > fImpulseRadiusSquared)
+                        {
+                            if (2.0 * reinterpret_cast<::FUN_008ae4a0_Class *>((pkHit->m_pkWeapon))->GetField1B8() < fDistSq)
+                            {
+                                fImpulse = fImpulse * (double)0.1f;
+                            }
+                            else
+                            {
+                                float fScale = (2.0 * fImpulseRadiusSquared - fDistSq) / fImpulseRadiusSquared * (double)0.9f + (double)0.1f;
+                                fScale = FUN_00404010(fScale, 0.1f);
+                                fImpulse = fImpulse * fScale;
+                            }
+                        }
+                    }
+                }
+                ::FUN_00cb9650((::FUN_00cb9650_Object *)(pkObject));
+                ::FUN_00c6a350((::NiAVObject *)(pkObject), 1, 1, 0, 1);
+                TargetInfoH kInfo(0.0f, 0, 0);
+                reinterpret_cast<::FUN_00a59c60_cls *>((pkObject))->FUN_00a59c60((std::intptr_t)(&kInfo));
+                hkVector4H kImpulse;
+                ::fnv_004a3e00::FUN_004a3e00((*(::fnv_004a3e00::bhkCharacterController *)(&kImpulse)), (*(const ::fnv_004a3e00::NiPoint3 *)(&kWorldPosition)));
+                ::SetCollisionScale((::SceneNode *)(pkObject), (uintptr_t)(&kImpulse), fImpulse, (::MaterialSelector *)(pkHit));
+            }
+        }
+    }
+}
+
+struct xMat
+{
+    xMat();
+    float m[9];
+};
+xP3 xFUN_004a3760(float, const xP3&);
+struct xBoolSetting
+{
+    unsigned char* FUN_00408d60();
+};
+struct xAllHits
+{
+    xAllHits();
+    virtual ~xAllHits();
+    int m_q[0xc9];
+};
+struct xHitInfo
+{
+    xHitInfo(const xHitInfo*);
+    int m_iWordAt00[4];
+    float m_10;
+    int m_14[15];
+    void* m_50;
+    int m_54[5];
+};
+struct xHitList
+{
+    char pad00[0x4];
+    int count;
+};
+struct xHitOwner
+{
+};
+struct xWorld
+{
+    virtual void v0();
+    virtual void v1();
+    virtual void v2();
+    virtual void v3();
+    virtual void v4();
+    virtual void v5();
+    virtual void v6();
+    virtual void v7();
+    virtual void v8();
+    virtual void v9();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual void v20();
+    virtual void v21();
+    virtual void v22();
+    virtual void v23();
+    virtual void v24();
+    virtual void v25();
+    virtual void v26();
+    virtual void v27();
+    virtual void v28();
+    virtual void v29();
+    virtual void v30();
+    virtual void v31();
+    virtual void v32();
+    virtual void v33();
+    virtual void v34();
+    virtual void v35();
+    virtual void v36();
+    virtual void v37();
+    virtual void v38();
+    virtual void v39();
+    virtual void v40();
+    virtual void v41();
+    virtual void v42();
+    virtual void v43();
+    virtual void v44();
+    virtual void v45();
+    virtual void v46();
+    virtual void v47();
+    virtual void v48();
+    virtual void v49();
+    virtual void FUN_c8(xPick*);
+};
+struct xPlayer
+{
+};
+struct xISParam
+{
+    xISParam(float, float, float, float);
+    float m[4];
+};
+
+// @fnv 0x008bd830
+float xActor::FUN_008bd830(intptr_t aiUnused, float afHeight)
+{
+    xP3 POS = *FUN_1f4();
+    POS.z = POS.z + *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::xFltSetting *>(&::originalRuntimeFloatSetting1072))))));
+    xP3 DIR;
+    xMat MAT;
+    reinterpret_cast<::FUN_004a0c90_shell *>(&(MAT))->FUN_004a0c90(FUN_2bc(0) + afHeight);
+    reinterpret_cast<::FUN_00439f50_class *>(&(MAT))->FUN_00439f50(1, (::NiPoint3 *)&(DIR));
+    reinterpret_cast<::FUN_004a0c10_s *>(&(DIR))->FUN_004a0c10();
+    float DIST = ::DAT_01022958;
+    xP3 END = POS + xFUN_004a3760(DIST, DIR);
+    bool HIT = false;
+    float BEST = 3.402823466e+38F;
+    xPick PICK;
+    reinterpret_cast<::fnv_004a3da0::FUN_004a3da0_shell *>(&(PICK))->FUN_004a3da0(&POS);
+    reinterpret_cast<::FUN_004a3eb0_shell *>(&(PICK))->FUN_004a3eb0((void *)&(END));
+    xFilter FILTER(0);
+    reinterpret_cast<::FUN_004a39f0_shell *>(&(FILTER))->FUN_004a39f0(0x23);
+    reinterpret_cast<::FUN_0059ce80_shell *>(&(FILTER))->FUN_0059ce80(((int)(reinterpret_cast<::fnv_004a3a20::FUN_004a3a20_shell *>((void *)&(const ::xFilter &)(FUN_00931ed0()))->FUN_004a3a20())));
+    PICK.FUN_004a3f70(FILTER);
+    xAllHits HITS;
+    reinterpret_cast<::FUN_004a3fb0_shell *>(&(PICK))->FUN_004a3fb0((::hkpAllRayHitCollector *)(::xAllHits *)(&HITS));
+    xWorld* WORLD = ((::xWorld *)(reinterpret_cast<::FUN_004543c0_cls *>((((::xCell *)(reinterpret_cast<::LowProcess *>(((*reinterpret_cast<::xPlayer * *>(&::_g_thePlayer))))->GetTarget()))))->FUN_004543c0()));
+    WORLD->FUN_c8(&PICK);
+    for (int I = 0; !HIT && I < ((int)(((((::xHitList *)(::FUN_00460140((intptr_t)(((::xHitOwner *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(PICK))->FUN_008cdd90()))))))))->count)); I++)
+    {
+        xHitInfo INFO(((::xHitInfo *)(reinterpret_cast<::FUN_004a46b0_class *>((((::xHitList *)(::FUN_00460140((intptr_t)(((::xHitOwner *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(PICK))->FUN_008cdd90()))))))))->GetEntryAt(I))));
+        void* OBJ = ((void *)(::FUN_004b5820((::FormLike *)(INFO.m_50))));
+        xActor* ACTOR = ((::xActor *)(::FUN_0056f930((::NiAVObject *)(OBJ))));
+        void* OTHER = ::FUN_004b59f0(INFO.m_50);
+        if (OBJ && OTHER && ACTOR != this)
+        {
+            HIT = true;
+            BEST = INFO.m_10 * DIST;
+        }
+    }
+    if (*(*reinterpret_cast<::xBoolSetting *>(&::g_011df868)).FUN_00408d60())
+    {
+        xISParam COLOR(1.0f, 1.0f, 0.0f, 1.0f);
+        void* LINE = ((void *)(::fnv_004b3890::FUN_004b3890((const class ::FUN_006815c0 &)(POS), (const ::fnv_004b3890::FUN_004a7800 &)(COLOR), (const class ::FUN_006815c0 &)((const ::xP3 &)(POS + xFUN_004a3760(BEST, DIR))), (const ::fnv_004b3890::FUN_004a7800 &)(COLOR), 1)));
+        reinterpret_cast<::FUN_00458e20_shell *>(((*reinterpret_cast<::xTES * *>(&::g_TES))))->FUN_00458e20((::NiAVObject *)(LINE), 10.0f);
+    }
+    return BEST;
+}
+
+namespace fnv_008bdbd0 {
+
+struct xP3
+{
+    xP3();
+    float x, y, z;
+    xP3 operator+(const xP3&) const;
+    xP3 operator-(const xP3&) const;
+    xP3* FUN_006815c0();
+    void FUN_004a0c10();
+};
+struct xMat
+{
+    xMat();
+    float m[9];
+};
+xP3 xFUN_004a3760(float, const xP3&);
+struct xFltSetting
+{
+};
+struct xBoolSetting
+{
+    unsigned char* FUN_00408d60();
+};
+struct xBound
+{
+    xP3* FUN_006815c0();
+};
+struct xAVObj
+{
+};
+struct xFilter
+{
+    xFilter(int);
+    unsigned int m_uiFilterValue;
+};
+struct __declspec(align(16)) xAllHits
+{
+    xAllHits();
+    virtual ~xAllHits();
+    int m_q[0xc7];
+};
+struct __declspec(align(16)) xHitInfo
+{
+    xHitInfo(const xHitInfo*);
+    int m_iWordAt00[4];
+    float m_10;
+    int m_14[15];
+    void* m_50;
+    int m_54[3];
+};
+struct xHitList
+{
+    char pad00[0x4];
+    int count;
+};
+struct xHitOwner
+{
+};
+struct __declspec(align(16)) xPick
+{
+    xPick();
+    void FUN_004a3f70(xFilter);
+    char m_buf[0xb0];
+};
+struct xWorld
+{
+    virtual void v0();
+    virtual void v1();
+    virtual void v2();
+    virtual void v3();
+    virtual void v4();
+    virtual void v5();
+    virtual void v6();
+    virtual void v7();
+    virtual void v8();
+    virtual void v9();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual void v20();
+    virtual void v21();
+    virtual void v22();
+    virtual void v23();
+    virtual void v24();
+    virtual void v25();
+    virtual void v26();
+    virtual void v27();
+    virtual void v28();
+    virtual void v29();
+    virtual void v30();
+    virtual void v31();
+    virtual void v32();
+    virtual void v33();
+    virtual void v34();
+    virtual void v35();
+    virtual void v36();
+    virtual void v37();
+    virtual void v38();
+    virtual void v39();
+    virtual void v40();
+    virtual void v41();
+    virtual void v42();
+    virtual void v43();
+    virtual void v44();
+    virtual void v45();
+    virtual void v46();
+    virtual void v47();
+    virtual void v48();
+    virtual void v49();
+    virtual void FUN_c8(xPick*);
+};
+
+struct xCell;
+struct xPlayer
+{
+};
+struct xActor;
+struct xISParam
+{
+    xISParam(float, float, float, float);
+    float m[4];
+};
+struct xTES
+{
+};
+struct xActor
+{
+    virtual void v0();
+    virtual void v1();
+    virtual void v2();
+    virtual void v3();
+    virtual void v4();
+    virtual void v5();
+    virtual void v6();
+    virtual void v7();
+    virtual void v8();
+    virtual void v9();
+    virtual void v10();
+    virtual void v11();
+    virtual void v12();
+    virtual void v13();
+    virtual void v14();
+    virtual void v15();
+    virtual void v16();
+    virtual void v17();
+    virtual void v18();
+    virtual void v19();
+    virtual void v20();
+    virtual void v21();
+    virtual void v22();
+    virtual void v23();
+    virtual void v24();
+    virtual void v25();
+    virtual void v26();
+    virtual void v27();
+    virtual void v28();
+    virtual void v29();
+    virtual void v30();
+    virtual void v31();
+    virtual void v32();
+    virtual void v33();
+    virtual void v34();
+    virtual void v35();
+    virtual void v36();
+    virtual void v37();
+    virtual void v38();
+    virtual void v39();
+    virtual void v40();
+    virtual void v41();
+    virtual void v42();
+    virtual void v43();
+    virtual void v44();
+    virtual void v45();
+    virtual void v46();
+    virtual void v47();
+    virtual void v48();
+    virtual void v49();
+    virtual void v50();
+    virtual void v51();
+    virtual void v52();
+    virtual void v53();
+    virtual void v54();
+    virtual void v55();
+    virtual void v56();
+    virtual void v57();
+    virtual void v58();
+    virtual void v59();
+    virtual void v60();
+    virtual void v61();
+    virtual void v62();
+    virtual void v63();
+    virtual bool FUN_100();
+    virtual void v65();
+    virtual void v66();
+    virtual void v67();
+    virtual void v68();
+    virtual void v69();
+    virtual void v70();
+    virtual void v71();
+    virtual void v72();
+    virtual void v73();
+    virtual void v74();
+    virtual void v75();
+    virtual void v76();
+    virtual void v77();
+    virtual void v78();
+    virtual void v79();
+    virtual void v80();
+    virtual void v81();
+    virtual void v82();
+    virtual void v83();
+    virtual void v84();
+    virtual void v85();
+    virtual void v86();
+    virtual void v87();
+    virtual void v88();
+    virtual void v89();
+    virtual void v90();
+    virtual void v91();
+    virtual void v92();
+    virtual void v93();
+    virtual void v94();
+    virtual void v95();
+    virtual void v96();
+    virtual void v97();
+    virtual void v98();
+    virtual void v99();
+    virtual void v100();
+    virtual void v101();
+    virtual void v102();
+    virtual void v103();
+    virtual void v104();
+    virtual void v105();
+    virtual void v106();
+    virtual void v107();
+    virtual void v108();
+    virtual void v109();
+    virtual void v110();
+    virtual void v111();
+    virtual void v112();
+    virtual void v113();
+    virtual void v114();
+    virtual void v115();
+    virtual xAVObj* FUN_1d0();
+    virtual void v117();
+    virtual void v118();
+    virtual void v119();
+    virtual void v120();
+    virtual void v121();
+    virtual void v122();
+    virtual void v123();
+    virtual void v124();
+    virtual xP3* FUN_1f4();
+    virtual void v126();
+    virtual void v127();
+    virtual void v128();
+    virtual void v129();
+    virtual void v130();
+    virtual void v131();
+    virtual void v132();
+    virtual void v133();
+    virtual void v134();
+    virtual void v135();
+    virtual void v136();
+    virtual void v137();
+    virtual void v138();
+    virtual void v139();
+    virtual void v140();
+    virtual void v141();
+    virtual void v142();
+    virtual void v143();
+    virtual void v144();
+    virtual void v145();
+    virtual void v146();
+    virtual void v147();
+    virtual void v148();
+    virtual void v149();
+    virtual void v150();
+    virtual void v151();
+    virtual void v152();
+    virtual void v153();
+    virtual void v154();
+    virtual void v155();
+    virtual void v156();
+    virtual void v157();
+    virtual void v158();
+    virtual void v159();
+    virtual void v160();
+    virtual void v161();
+    virtual void v162();
+    virtual void v163();
+    virtual void v164();
+    virtual void v165();
+    virtual void v166();
+    virtual void v167();
+    virtual void v168();
+    virtual void v169();
+    virtual void v170();
+    virtual void v171();
+    virtual void v172();
+    virtual void v173();
+    virtual void v174();
+    virtual float FUN_2bc(int);
+    xFilter FUN_00931ed0();
+    float FUN_008bdbd0(xActor* apTarget, float afHeight);
+};
+
+// @fnv 0x008bdbd0
+float xActor::FUN_008bdbd0(xActor* apTarget, float afHeight)
+{
+    if (!apTarget || !apTarget->FUN_1d0())
+        return 0.0f;
+    xP3 POS = *FUN_1f4();
+    POS.z = POS.z + *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_008bdbd0::xFltSetting *>(&::originalRuntimeFloatSetting1072))))));
+    xP3 DIR;
+    xMat MAT;
+    reinterpret_cast<::FUN_004a0c90_shell *>(&(MAT))->FUN_004a0c90(FUN_2bc(0) + afHeight);
+    reinterpret_cast<::FUN_00439f50_class *>(&(MAT))->FUN_00439f50(1, (::NiPoint3 *)&(DIR));
+    reinterpret_cast<::FUN_004a0c10_s *>(&(DIR))->FUN_004a0c10();
+    xP3 TPOS = *((::fnv_008bdbd0::xP3 *)(((::Vec3 *)(void *)(((::fnv_008bdbd0::xBound *)(reinterpret_cast<::FUN_0043d450_Owner *>((apTarget->FUN_1d0()))->FUN_0043d450()))))));
+    bool DONE = false;
+    float RESULT = 0.0f;
+    for (int I = 0; !DONE && I < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_008bdbd0::xFltSetting *>(&::originalRuntimeFloatSetting1071)))))); I++)
+    {
+        float DIST = (I + 1) * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_008bdbd0::xFltSetting *>(&::originalRuntimeFloatSetting1070))))));
+        xP3 START = POS + xFUN_004a3760(DIST, DIR);
+        xPick PICK;
+        reinterpret_cast<::fnv_004a3da0::FUN_004a3da0_shell *>(&(PICK))->FUN_004a3da0(&START);
+        reinterpret_cast<::FUN_004a3eb0_shell *>(&(PICK))->FUN_004a3eb0((void *)&(TPOS));
+        xFilter FILTER(0);
+        reinterpret_cast<::FUN_004a39f0_shell *>(&(FILTER))->FUN_004a39f0(0x23);
+        reinterpret_cast<::FUN_0059ce80_shell *>(&(FILTER))->FUN_0059ce80(((int)(reinterpret_cast<::fnv_004a3a20::FUN_004a3a20_shell *>((void *)&(const ::fnv_008bdbd0::xFilter &)(FUN_00931ed0()))->FUN_004a3a20())));
+        PICK.FUN_004a3f70(FILTER);
+        xAllHits HITS;
+        reinterpret_cast<::FUN_004a3fb0_shell *>(&(PICK))->FUN_004a3fb0((::hkpAllRayHitCollector *)(::fnv_008bdbd0::xAllHits *)(&HITS));
+        if (*(*reinterpret_cast<::fnv_008bdbd0::xBoolSetting *>(&::g_011df868)).FUN_00408d60())
+        {
+            xISParam COLOR(1.0f, 1.0f, 0.0f, 1.0f);
+            void* LINE = ((void *)(::fnv_004b3890::FUN_004b3890((const class ::FUN_006815c0 &)(TPOS), (const ::fnv_004b3890::FUN_004a7800 &)(COLOR), (const class ::FUN_006815c0 &)(START), (const ::fnv_004b3890::FUN_004a7800 &)(COLOR), 1)));
+            reinterpret_cast<::FUN_00458e20_shell *>(((*reinterpret_cast<::fnv_008bdbd0::xTES * *>(&::g_TES))))->FUN_00458e20((::NiAVObject *)(LINE), 10.0f);
+        }
+        xWorld* WORLD = ((::fnv_008bdbd0::xWorld *)(reinterpret_cast<::FUN_004543c0_cls *>((((::fnv_008bdbd0::xCell *)(reinterpret_cast<::LowProcess *>(((*reinterpret_cast<::fnv_008bdbd0::xPlayer * *>(&::_g_thePlayer))))->GetTarget()))))->FUN_004543c0()));
+        WORLD->FUN_c8(&PICK);
+        for (int J = 0; !DONE && J < ((int)(((((::fnv_008bdbd0::xHitList *)(::FUN_00460140((intptr_t)(((::fnv_008bdbd0::xHitOwner *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(PICK))->FUN_008cdd90()))))))))->count)); J++)
+        {
+            xHitInfo INFO(((::fnv_008bdbd0::xHitInfo *)(reinterpret_cast<::FUN_004a46b0_class *>((((::fnv_008bdbd0::xHitList *)(::FUN_00460140((intptr_t)(((::fnv_008bdbd0::xHitOwner *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(PICK))->FUN_008cdd90()))))))))->GetEntryAt(J))));
+            void* OBJ = ((void *)(::FUN_004b5820((::FormLike *)(INFO.m_50))));
+            xActor* ACTOR = ((::fnv_008bdbd0::xActor *)(::FUN_0056f930((::NiAVObject *)(OBJ))));
+            void* OTHER = ::FUN_004b59f0(INFO.m_50);
+            if (OBJ && OTHER && ACTOR != apTarget)
+            {
+                DONE = true;
+                if (INFO.m_10 > 0.8500000238418579)
+                    DONE = false;
+                if (ACTOR && ACTOR->FUN_100())
+                {
+                    float D = reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::fnv_008bdbd0::xP3 &)((TPOS - START)))->ComputeMagnitude() * INFO.m_10;
+                    if (D > ::DAT_010231d8)
+                        DONE = false;
+                }
+            }
+        }
+        if (!DONE)
+            RESULT = (I + 1) * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_008bdbd0::xFltSetting *>(&::originalRuntimeFloatSetting1070))))));
+    }
+    return RESULT;
+}
+}  // namespace fnv_008bdbd0
+
+class NiPoint3C7
+{
+  public:
+    NiPoint3C7(float fX, float fY, float fZ);
+    float x;
+    float y;
+    float z;
+};
+
+class NiQuaternionC7
+{
+  public:
+    NiQuaternionC7(float fW, float fX, float fY, float fZ);
+    float m_fVectorX;
+    float m_fVectorY;
+    float m_fVectorZ;
+    float m_fScalarPart;
+};
+
+class NameC7
+{
+  public:
+    NameC7(const char* pcName);
+    ~NameC7();
+    const char* m_pcName;
+};
+
+class ModelC7
+{
+  public:
+};
+
+class ClipC7
+{
+  public:
+    char pad00[0x18];
+    void* unk18;
+
+  public:
+    unsigned int GetCount();
+    void* GetAt(unsigned int uiIndex);
+};
+
+struct SlotC7
+{
+    unsigned char m_ucValue;
+};
+
+class AnimDataC7
+{
+  public:
+    unsigned int GetCount();
+    SlotC7* GetAt(unsigned int uiIndex);
+};
+
+class LinkC7
+{
+  public:
+    AnimDataC7* GetAnimData();
+};
+
+class HandleC7
+{
+  public:
+    unsigned int m_uiHandle;
+};
+
+class FlagsC7
+{
+  public:
+    FlagsC7();
+    int m_iValue;
+};
+
+class ListenerC7
+{
+  public:
+    FlagsC7 GetFlags();
+    void SetFlags(FlagsC7 kFlags);
+};
+
+class BitsC7
+{
+  public:
+};
+
+class ProjC7;
+template <class T> class NiPointerC7
+{
+  public:
+    NiPointerC7(T* pkObject);
+    ~NiPointerC7();
+    T* m_pPointer;
+};
+
+class ProcessC7
+{
+  public:
+    virtual void p000();
+    virtual void p001();
+    virtual void p002();
+    virtual void p003();
+    virtual void p004();
+    virtual void p005();
+    virtual void p006();
+    virtual void p007();
+    virtual void p008();
+    virtual void p009();
+    virtual void p00a();
+    virtual void p00b();
+    virtual void p00c();
+    virtual void p00d();
+    virtual void p00e();
+    virtual void p00f();
+    virtual void p010();
+    virtual void p011();
+    virtual void p012();
+    virtual void p013();
+    virtual void p014();
+    virtual void p015();
+    virtual void p016();
+    virtual void p017();
+    virtual void p018();
+    virtual void p019();
+    virtual void p01a();
+    virtual void p01b();
+    virtual void p01c();
+    virtual void p01d();
+    virtual void p01e();
+    virtual void p01f();
+    virtual void p020();
+    virtual void p021();
+    virtual void p022();
+    virtual void p023();
+    virtual void p024();
+    virtual void p025();
+    virtual void p026();
+    virtual void p027();
+    virtual void p028();
+    virtual void p029();
+    virtual void p02a();
+    virtual void p02b();
+    virtual void p02c();
+    virtual void p02d();
+    virtual void p02e();
+    virtual void p02f();
+    virtual void p030();
+    virtual void p031();
+    virtual void p032();
+    virtual void p033();
+    virtual void p034();
+    virtual void p035();
+    virtual void p036();
+    virtual void p037();
+    virtual void p038();
+    virtual void p039();
+    virtual void p03a();
+    virtual void p03b();
+    virtual void p03c();
+    virtual void p03d();
+    virtual void p03e();
+    virtual void p03f();
+    virtual void p040();
+    virtual void p041();
+    virtual void p042();
+    virtual void p043();
+    virtual void p044();
+    virtual void p045();
+    virtual void p046();
+    virtual void p047();
+    virtual void p048();
+    virtual void p049();
+    virtual void p04a();
+    virtual void p04b();
+    virtual void p04c();
+    virtual void p04d();
+    virtual void p04e();
+    virtual void p04f();
+    virtual void p050();
+    virtual void p051();
+    virtual void p052();
+    virtual void p053();
+    virtual void p054();
+    virtual void p055();
+    virtual void p056();
+    virtual void p057();
+    virtual void p058();
+    virtual void p059();
+    virtual void p05a();
+    virtual void p05b();
+    virtual void p05c();
+    virtual void p05d();
+    virtual void p05e();
+    virtual void p05f();
+    virtual void p060();
+    virtual void p061();
+    virtual void p062();
+    virtual void p063();
+    virtual void p064();
+    virtual void p065();
+    virtual void p066();
+    virtual void p067();
+    virtual void p068();
+    virtual void p069();
+    virtual void p06a();
+    virtual void p06b();
+    virtual void p06c();
+    virtual void p06d();
+    virtual void p06e();
+    virtual void p06f();
+    virtual void p070();
+    virtual void p071();
+    virtual void p072();
+    virtual void p073();
+    virtual void p074();
+    virtual void p075();
+    virtual void p076();
+    virtual void p077();
+    virtual void p078();
+    virtual void p079();
+    virtual void p07a();
+    virtual void p07b();
+    virtual void p07c();
+    virtual void p07d();
+    virtual void p07e();
+    virtual void p07f();
+    virtual void p080();
+    virtual void p081();
+    virtual void p082();
+    virtual void p083();
+    virtual void p084();
+    virtual void p085();
+    virtual void p086();
+    virtual void p087();
+    virtual void p088();
+    virtual void p089();
+    virtual void p08a();
+    virtual void p08b();
+    virtual void p08c();
+    virtual void p08d();
+    virtual void p08e();
+    virtual void p08f();
+    virtual void p090();
+    virtual void p091();
+    virtual void p092();
+    virtual void p093();
+    virtual void p094();
+    virtual void p095();
+    virtual void p096();
+    virtual void p097();
+    virtual void p098();
+    virtual void p099();
+    virtual void p09a();
+    virtual void p09b();
+    virtual void p09c();
+    virtual void p09d();
+    virtual void p09e();
+    virtual void p09f();
+    virtual void p0a0();
+    virtual void p0a1();
+    virtual void p0a2();
+    virtual void p0a3();
+    virtual void SetProjectile(NiPointerC7<ProjC7> spProj);
+    virtual void p0a5();
+    virtual void p0a6();
+    virtual void p0a7();
+    virtual void p0a8();
+    virtual void p0a9();
+    virtual void p0aa();
+    virtual void p0ab();
+    virtual void p0ac();
+    virtual void p0ad();
+    virtual void p0ae();
+    virtual void p0af();
+    virtual void p0b0();
+    virtual void p0b1();
+    virtual void p0b2();
+    virtual void p0b3();
+    virtual void p0b4();
+    virtual void p0b5();
+    virtual void p0b6();
+    virtual void p0b7();
+    virtual void p0b8();
+    virtual void p0b9();
+    virtual void p0ba();
+    virtual void p0bb();
+    virtual void p0bc();
+    virtual void p0bd();
+    virtual void p0be();
+    virtual void p0bf();
+    virtual void p0c0();
+    virtual void p0c1();
+    virtual void p0c2();
+    virtual void p0c3();
+    virtual void p0c4();
+    virtual void p0c5();
+    virtual void p0c6();
+    virtual void p0c7();
+    virtual void p0c8();
+    virtual void p0c9();
+    virtual void p0ca();
+    virtual void p0cb();
+    virtual void p0cc();
+    virtual void p0cd();
+    virtual void p0ce();
+    virtual void p0cf();
+    virtual void p0d0();
+    virtual void p0d1();
+    virtual void p0d2();
+    virtual void p0d3();
+    virtual void p0d4();
+    virtual void p0d5();
+    virtual void p0d6();
+    virtual void p0d7();
+    virtual void p0d8();
+    virtual void p0d9();
+    virtual void p0da();
+    virtual void p0db();
+    virtual void p0dc();
+    virtual void p0dd();
+    virtual void p0de();
+    virtual void p0df();
+    virtual void p0e0();
+    virtual void p0e1();
+    virtual void p0e2();
+    virtual void p0e3();
+    virtual void p0e4();
+    virtual void p0e5();
+    virtual void p0e6();
+    virtual void p0e7();
+    virtual void p0e8();
+    virtual void p0e9();
+    virtual void p0ea();
+    virtual void p0eb();
+    virtual void p0ec();
+    virtual void p0ed();
+    virtual void p0ee();
+    virtual void p0ef();
+    virtual void p0f0();
+    virtual void p0f1();
+    virtual void p0f2();
+    virtual void p0f3();
+    virtual void p0f4();
+    virtual void p0f5();
+    virtual void p0f6();
+    virtual void p0f7();
+    virtual void p0f8();
+    virtual void p0f9();
+    virtual void p0fa();
+    virtual void p0fb();
+    virtual void p0fc();
+    virtual void p0fd();
+    virtual void p0fe();
+    virtual void p0ff();
+    virtual void p100();
+    virtual void p101();
+    virtual void p102();
+    virtual void p103();
+    virtual void p104();
+    virtual void p105();
+    virtual void p106();
+    virtual void p107();
+    virtual void p108();
+    virtual void p109();
+    virtual void p10a();
+    virtual void p10b();
+    virtual void p10c();
+    virtual void p10d();
+    virtual void p10e();
+    virtual void p10f();
+    virtual void p110();
+    virtual void p111();
+    virtual void p112();
+    virtual void p113();
+    virtual void p114();
+    virtual void p115();
+    virtual void p116();
+    virtual void p117();
+    virtual void p118();
+    virtual void p119();
+    virtual void p11a();
+    virtual void p11b();
+    virtual void p11c();
+    virtual void p11d();
+    virtual void p11e();
+    virtual void p11f();
+    virtual void p120();
+    virtual void p121();
+    virtual void p122();
+    virtual void p123();
+    virtual void p124();
+    virtual void p125();
+    virtual void p126();
+    virtual void p127();
+    virtual void p128();
+    virtual void p129();
+    virtual void p12a();
+    virtual void p12b();
+    virtual void p12c();
+    virtual void p12d();
+    virtual void p12e();
+    virtual void p12f();
+    virtual void p130();
+    virtual void p131();
+    virtual void p132();
+    virtual void p133();
+    virtual void p134();
+    virtual void p135();
+    virtual void p136();
+    virtual void p137();
+    virtual void p138();
+    virtual void p139();
+    virtual void p13a();
+    virtual void p13b();
+    virtual void p13c();
+    virtual void p13d();
+    virtual void p13e();
+    virtual void p13f();
+    virtual void p140();
+    virtual void p141();
+    virtual void p142();
+    virtual void p143();
+    virtual void p144();
+    virtual void p145();
+    virtual void p146();
+    virtual void p147();
+    virtual void p148();
+    virtual void p149();
+    virtual void p14a();
+    virtual void p14b();
+    virtual void p14c();
+    virtual void p14d();
+    virtual void p14e();
+    virtual void p14f();
+    virtual void p150();
+    virtual void p151();
+    virtual void p152();
+    virtual void p153();
+    virtual void p154();
+    virtual void p155();
+    virtual void p156();
+    virtual void p157();
+    virtual void p158();
+    virtual void p159();
+    virtual void p15a();
+    virtual void p15b();
+    virtual void p15c();
+    virtual void p15d();
+    virtual void p15e();
+    virtual void p15f();
+    virtual void p160();
+    virtual void p161();
+    virtual void p162();
+    virtual void p163();
+    virtual void p164();
+    virtual void p165();
+    virtual void p166();
+    virtual void p167();
+    virtual void p168();
+    virtual void p169();
+    virtual void p16a();
+    virtual void p16b();
+    virtual void p16c();
+    virtual void p16d();
+    virtual void p16e();
+    virtual void p16f();
+    virtual void p170();
+    virtual void p171();
+    virtual void p172();
+    virtual void p173();
+    virtual void p174();
+    virtual void p175();
+    virtual void p176();
+    virtual void p177();
+    virtual void p178();
+    virtual void p179();
+    virtual void p17a();
+    virtual void p17b();
+    virtual void p17c();
+    virtual void p17d();
+    virtual void p17e();
+    virtual void p17f();
+    virtual void p180();
+    virtual void p181();
+    virtual void p182();
+    virtual void p183();
+    virtual void p184();
+    virtual void p185();
+    virtual void p186();
+    virtual void p187();
+    virtual void p188();
+    virtual void p189();
+    virtual void p18a();
+    virtual void p18b();
+    virtual void p18c();
+    virtual void p18d();
+    virtual void p18e();
+    virtual void p18f();
+    virtual void p190();
+    virtual void p191();
+    virtual void p192();
+    virtual void p193();
+    virtual void p194();
+    virtual void p195();
+    virtual void p196();
+    virtual void p197();
+    virtual void p198();
+    virtual void p199();
+    virtual void p19a();
+    virtual void p19b();
+    virtual void p19c();
+    virtual void p19d();
+    virtual void p19e();
+    virtual void p19f();
+    virtual void p1a0();
+    virtual void p1a1();
+    virtual void p1a2();
+    virtual void p1a3();
+    virtual void p1a4();
+    virtual void p1a5();
+    virtual void p1a6();
+    virtual void p1a7();
+    virtual void p1a8();
+    virtual void p1a9();
+    virtual void p1aa();
+    virtual void p1ab();
+    virtual void p1ac();
+    virtual void p1ad();
+    virtual void p1ae();
+    virtual void p1af();
+    virtual void p1b0();
+    virtual void p1b1();
+    virtual void p1b2();
+    virtual void p1b3();
+    virtual ClipC7* GetClip(unsigned char m_ucClipIdentifier);
+};
+
+class InitC7
+{
+  public:
+    InitC7(int iType);
+    ~InitC7();
+    __m128 m_akData[12];
+};
+
+class ProjC7
+{
+  public:
+    static void* operator new(std::size_t uiSize);
+    static void operator delete(void* pv);
+    ProjC7(const InitC7& kInit);
+    virtual void j000();
+    virtual void j001();
+    virtual void j002();
+    virtual void j003();
+    virtual void j004();
+    virtual void j005();
+    virtual void j006();
+    virtual void j007();
+    virtual void j008();
+    virtual void j009();
+    virtual void j00a();
+    virtual void j00b();
+    virtual void j00c();
+    virtual void j00d();
+    virtual void j00e();
+    virtual void j00f();
+    virtual void j010();
+    virtual void j011();
+    virtual void j012();
+    virtual void j013();
+    virtual void j014();
+    virtual void j015();
+    virtual void j016();
+    virtual void j017();
+    virtual void j018();
+    virtual void j019();
+    virtual void j01a();
+    virtual void j01b();
+    virtual void j01c();
+    virtual void j01d();
+    virtual void j01e();
+    virtual void j01f();
+    virtual void j020();
+    virtual void j021();
+    virtual void j022();
+    virtual void j023();
+    virtual void j024();
+    virtual void j025();
+    virtual void j026();
+    virtual void j027();
+    virtual void j028();
+    virtual void j029();
+    virtual void j02a();
+    virtual void j02b();
+    virtual void j02c();
+    virtual void j02d();
+    virtual void j02e();
+    virtual void j02f();
+    virtual void j030();
+    virtual void j031();
+    virtual void j032();
+    virtual void j033();
+    virtual void Reset(int iValue);
+    HandleC7 GetHandle();
+    char m_acPad[0x410 - 4];
+    BitsC7 m_kBits;
+    char m_acPad2[0x650 - 0x411];
+};
+
+class WorldC7
+{
+  public:
+};
+
+class CellC7
+{
+  public:
+};
+
+class SubC7
+{
+  public:
+};
+
+class OwnerC7
+{
+  public:
+    char m_acPad[0x30];
+    SubC7 m_kSub;
+};
+
+class ControllerC7
+{
+  public:
+};
+
+class MiddleC7
+{
+  public:
+    void SetMode(int iMode);
+};
+
+class RagdollC7
+{
+  public:
+};
+
+class RefC7
+{
+  public:
+    virtual void r000();
+    virtual void r001();
+    virtual void r002();
+    virtual void r003();
+    virtual void r004();
+    virtual void r005();
+    virtual void r006();
+    virtual void r007();
+    virtual void r008();
+    virtual void r009();
+    virtual void r00a();
+    virtual void r00b();
+    virtual void r00c();
+    virtual void r00d();
+    virtual void r00e();
+    virtual void r00f();
+    virtual void r010();
+    virtual void r011();
+    virtual void r012();
+    virtual void r013();
+    virtual void r014();
+    virtual void r015();
+    virtual void r016();
+    virtual void r017();
+    virtual void r018();
+    virtual void r019();
+    virtual void r01a();
+    virtual void r01b();
+    virtual void r01c();
+    virtual void r01d();
+    virtual void r01e();
+    virtual void r01f();
+    virtual void r020();
+    virtual void r021();
+    virtual void r022();
+    virtual void r023();
+    virtual void r024();
+    virtual void r025();
+    virtual void r026();
+    virtual void r027();
+    virtual void r028();
+    virtual void r029();
+    virtual void r02a();
+    virtual void r02b();
+    virtual void r02c();
+    virtual void r02d();
+    virtual void r02e();
+    virtual void r02f();
+    virtual void r030();
+    virtual void r031();
+    virtual void r032();
+    virtual void r033();
+    virtual void r034();
+    virtual void r035();
+    virtual void r036();
+    virtual void r037();
+    virtual void r038();
+    virtual void r039();
+    virtual void r03a();
+    virtual void r03b();
+    virtual void r03c();
+    virtual void r03d();
+    virtual void r03e();
+    virtual void r03f();
+    virtual bool IsActor();
+    virtual void r041();
+    virtual void r042();
+    virtual void r043();
+    virtual void r044();
+    virtual void r045();
+    virtual void r046();
+    virtual void r047();
+    virtual void r048();
+    virtual void r049();
+    virtual void r04a();
+    virtual void r04b();
+    virtual void r04c();
+    virtual void r04d();
+    virtual void r04e();
+    virtual void r04f();
+    virtual void r050();
+    virtual void r051();
+    virtual void r052();
+    virtual void r053();
+    virtual void r054();
+    virtual void r055();
+    virtual void r056();
+    virtual void r057();
+    virtual void r058();
+    virtual void r059();
+    virtual void r05a();
+    virtual void r05b();
+    virtual void r05c();
+    virtual void r05d();
+    virtual void r05e();
+    virtual void r05f();
+    virtual void r060();
+    virtual void r061();
+    virtual void r062();
+    virtual void r063();
+    virtual void r064();
+    virtual void r065();
+    virtual void r066();
+    virtual void r067();
+    virtual void r068();
+    virtual void r069();
+    virtual void r06a();
+    virtual void r06b();
+    virtual void r06c();
+    virtual void r06d();
+    virtual void r06e();
+    virtual void r06f();
+    virtual void r070();
+    virtual void r071();
+    virtual void r072();
+    virtual void r073();
+    virtual void* Get3D();
+    virtual void r075();
+    virtual void r076();
+    virtual void r077();
+    virtual void r078();
+    virtual void r079();
+    virtual void r07a();
+    virtual void r07b();
+    virtual void r07c();
+    virtual void r07d();
+    virtual void r07e();
+    virtual void SetUpdate(int iValue);
+    virtual void r080();
+    virtual void r081();
+    virtual void r082();
+    virtual void r083();
+    virtual void r084();
+    virtual void r085();
+    virtual void r086();
+    virtual bool IsMoving();
+    virtual void r088();
+    virtual void r089();
+    virtual void r08a();
+    virtual bool IsDead(int iValue);
+    virtual void r08c();
+    virtual void r08d();
+    virtual void r08e();
+    virtual void r08f();
+    virtual void r090();
+    virtual void r091();
+    virtual void r092();
+    virtual void r093();
+    virtual void r094();
+    virtual void r095();
+    virtual void r096();
+    virtual void r097();
+    virtual void r098();
+    virtual void r099();
+    virtual void r09a();
+    virtual void r09b();
+    virtual void r09c();
+    virtual void r09d();
+    virtual void r09e();
+    virtual void r09f();
+    virtual void r0a0();
+    virtual void r0a1();
+    virtual void r0a2();
+    virtual void r0a3();
+    virtual void r0a4();
+    virtual void r0a5();
+    virtual void r0a6();
+    virtual void r0a7();
+    virtual void r0a8();
+    virtual void r0a9();
+    virtual void r0aa();
+    virtual void r0ab();
+    virtual void r0ac();
+    virtual void r0ad();
+    virtual void r0ae();
+    virtual void r0af();
+    virtual void r0b0();
+    virtual void r0b1();
+    virtual void r0b2();
+    virtual void r0b3();
+    virtual void r0b4();
+    virtual void r0b5();
+    virtual void r0b6();
+    virtual void r0b7();
+    virtual void r0b8();
+    virtual float GetScaleV();
+    void* GetParent();
+    char m_acPad[0x68 - 4];
+    ProcessC7* m_pkProcess;
+    void FUN_00930c70();
+};
+
+class ActorC7 : public RefC7
+{
+  public:
+    HandleC7 GetHandle();
+    char m_acPad2[0xac - 0x6c];
+    MiddleC7* m_pkMiddle;
+    RagdollC7* m_pkRagdoll;
+};
+
+// @fnv 0x00930c70
+void RefC7::FUN_00930c70()
+{
+    reinterpret_cast<::fnv_0057b520::FUN_0057b520_shell *>(this)->FUN_0057b520(0);
+    if (!m_pkProcess || (((intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((m_pkProcess))->FUN_0045cd60())) && ((intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((m_pkProcess))->FUN_0045cd60())) != 1))
+        return;
+    CellC7* pkCell = ((::CellC7 *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()));
+    ProcessC7* pkProcess = !((intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((m_pkProcess))->FUN_0045cd60())) ? m_pkProcess : 0;
+    if (pkCell && !::FUN_00450ff0((void *)(pkCell)) && !reinterpret_cast<::FUN_004523c0_shell *>((pkCell))->FUN_004523c0())
+        return;
+    WorldC7* pkWorld = pkCell ? ((::WorldC7 *)(reinterpret_cast<::FUN_004543c0_cls *>((pkCell))->FUN_004543c0())) : 0;
+    ActorC7* pkActor = IsActor() ? (ActorC7*)this : 0;
+    bool bCombat;
+    if (pkActor)
+    {
+        switch (((intptr_t)(reinterpret_cast<::TESEffectShader *>((pkActor))->GetAddonModels())))
+        {
+        case 2:
+        case 4:
+            return;
+        }
+        bCombat = reinterpret_cast<::FUN_004f8960_shell *>((pkActor))->FUN_004f8960() == 2 || reinterpret_cast<::P09A *>((pkActor))->FUN_008aad40(-1);
+        ::PropagateNameToHavokEntity((::C6C210AVObject *)(void *)(((void *)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>(this)->FUN_0043fcd0()))));
+    }
+    else
+    {
+        bCombat = false;
+    }
+    AnimDataC7* pkAnim = ((::AnimDataC7 *)(reinterpret_cast<::ExtraDataList *>((((::LinkC7 *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()))))->GetDismemberedLimbs()));
+    if (pkAnim && m_pkProcess && Get3D())
+    {
+        unsigned int ItemUpdateArray = ::GetObjectFlags((char *)(pkAnim));
+        for (unsigned int i = 0; i < ItemUpdateArray; i++)
+        {
+            SlotC7* pkSlot = ((::SlotC7 *)(reinterpret_cast<::B441420Owner *>((pkAnim))->GetInfoAt(i)));
+            ClipC7* pkClip = m_pkProcess->GetClip(pkSlot->m_ucValue);
+            ModelC7* pkModel = ((::ModelC7 *)(((pkClip))->unk18));
+            NameC7 kName(::DAT_01196d6c[pkSlot->m_ucValue]);
+            if (pkModel && ::FUN_009a3830((const int *)(const char *)(((const char *)(reinterpret_cast<::TESTopicInfoData *>((pkModel))->GetLinkToList()))), (const int *)&(kName)))
+                continue;
+            for (unsigned int j = 0; j < pkClip->GetCount(); j++)
+            {
+                void* pvItem = ((void *)(reinterpret_cast<::NiNode *>((pkClip))->GetAt(j)));
+                if (pvItem)
+                    ::FUN_00c6a200(pvItem, 1, 1, 1);
+            }
+        }
+    }
+    ProjC7* pkProj = ((::ProjC7 *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>(this)->FUN_009306d0()));
+    if (!pkProj)
+    {
+        InitC7 kInit(1);
+        reinterpret_cast<::FUN_008ac890_shell *>(&(kInit))->SetWaterForm((::TESWaterForm *)(void *)(((void *)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>(this)->FUN_0043fcd0()))));
+        reinterpret_cast<::FUN_00810510_Class *>(&(kInit))->FUN_00810510((*(const ::NiPoint3 *)(((void *)(reinterpret_cast<::TESTopicInfo *>(this)->GetAddTopicList())))));
+        reinterpret_cast<::FUN_00857230_shell *>(&(kInit))->SetSound((::TESSound *)(0));
+        reinterpret_cast<::FUN_00810550_class *>(&(kInit))->FUN_00810550(GetScaleV());
+        if (pkActor && ((::ControllerC7 *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430())) && pkActor->IsMoving())
+        {
+            reinterpret_cast<::FUN_009314f0 *>(&(kInit))->SetField(reinterpret_cast<::FUN_005f90c0_shell *>((((::ControllerC7 *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((pkActor))->FUN_007af430()))))->FUN_005f90c0());
+            reinterpret_cast<::FUN_006e2b50_shell *>(&(kInit))->SetCantOpenDoors(reinterpret_cast<::FUN_005f90e0_shell *>((((::ControllerC7 *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((pkActor))->FUN_007af430()))))->FUN_005f90e0());
+            reinterpret_cast<::fnv_009314d0::FUN_009314d0_class *>(&(kInit))->FUN_009314d0(reinterpret_cast<::fnv_00567400::FUN_00567400_shell *>(this)->FUN_00567400());
+        }
+        else
+        {
+            reinterpret_cast<::FUN_00931510_Class *>(&(kInit))->SetByteAtOffset96(1);
+        }
+        pkProj = new ProjC7(kInit);
+        if (pkActor && ((::ControllerC7 *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430())))
+            reinterpret_cast<::FUN_00629670_Class *>(&(pkProj->m_kBits))->FUN_00629670(0x10004000, reinterpret_cast<::fnv_0089d5e0::FUN_0089d5e0_shell *>(&(((::OwnerC7 *)(reinterpret_cast<::Actor *>(this)->GetActorBase()))->m_kSub))->FUN_0089d5e0());
+        m_pkProcess->SetProjectile(pkProj);
+        reinterpret_cast<::FUN_00810640_class *>((pkProj))->FUN_00810640((intptr_t)(this));
+        reinterpret_cast<::FUN_00931560_cls *>((pkProj))->FUN_00931560(reinterpret_cast<::fnv_00567400::FUN_00567400_shell *>(this)->FUN_00567400());
+        reinterpret_cast<::fnv_00810610::FUN_00810610_Class *>((pkProj))->FUN_00810610(((bool)(::FUN_00525420())));
+        reinterpret_cast<::FUN_00629670_Class *>(&(pkProj->m_kBits))->FUN_00629670(0x200000, true);
+        if (pkProcess)
+        {
+            ListenerC7* pkListener = ((::ListenerC7 *)(reinterpret_cast<::FUN_00931580_Class *>((pkProcess))->FUN_00931580()));
+            if (pkListener)
+            {
+                FlagsC7 kFlags = pkListener->GetFlags();
+                reinterpret_cast<::FUN_0059ce80_shell *>(&(kFlags))->FUN_0059ce80((uintptr_t)(((void *)(reinterpret_cast<::fnv_004a3a20::FUN_004a3a20_shell *>((void *)&(const ::HandleC7 &)(pkProj->GetHandle()))->FUN_004a3a20()))));
+                pkListener->SetFlags(kFlags);
+            }
+        }
+    }
+    if (pkWorld && reinterpret_cast<::Obj_930 *>((pkWorld))->HasEntries())
+        reinterpret_cast<::fnv_00931530::Dummy629670 *>((pkProj))->FUN_00931530(1);
+    if (pkActor && bCombat)
+        reinterpret_cast<::Manager *>((pkActor->m_pkRagdoll))->FUN_00ca2ad0(pkActor->Get3D(), (uintptr_t)(((void *)(reinterpret_cast<::fnv_004a3a20::FUN_004a3a20_shell *>((void *)&(const ::HandleC7 &)(pkActor->GetHandle()))->FUN_004a3a20()))));
+    void* pvOld = ((void *)(reinterpret_cast<::FUN_00810660_Class *>((pkProj))->FUN_00810660()));
+    void* pvTarget = ((void *)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>(this)->FUN_0043fcd0()));
+    if (pvOld != pvTarget)
+    {
+        reinterpret_cast<::S_00c6d7a0_Obj *>((pkProj))->FUN_00c6d7a0((intptr_t)(pvTarget));
+        NiQuaternionC7 kRot(0.0f, 0.0f, 0.0f, 0.0f);
+        kRot.m_fVectorX = 1.0f;
+        kRot.m_fVectorY = 0.0f;
+        kRot.m_fVectorZ = 0.0f;
+        kRot.m_fScalarPart = 0.25f;
+        CellC7* pkCell2 = ((::CellC7 *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()));
+        WorldC7* pkWorld2 = pkCell2 ? ((::WorldC7 *)(reinterpret_cast<::FUN_004543c0_cls *>((pkCell2))->FUN_004543c0())) : 0;
+        if (pkWorld2 && ::FUN_004bae00((const char *)(pkWorld2)))
+        {
+            pkProj->Reset(0);
+            ::CopyBlock48(((void *)(reinterpret_cast<::FUN_00810660_Class *>((pkProj))->FUN_00810660())), (const void *)(1));
+        }
+        ::FUN_00c6a350((::NiAVObject *)(pvTarget), bCombat ? 1 : 4, 1, 0, 0);
+        if (pkActor && !pkActor->IsDead(0))
+        {
+            reinterpret_cast<::fnv_0087e130::Projectile *>((pkActor))->InitRagdollController(pvTarget, 1, 1, 0);
+            if (this == (*reinterpret_cast<::RefC7 * *>(&::_g_thePlayer)) && pkActor->m_pkMiddle)
+            {
+                reinterpret_cast<::FUN_0087ea60_Class *>((pkActor->m_pkMiddle))->FUN_0087ea60(0);
+                reinterpret_cast<::FUN_009315a0Class *>((pkActor->m_pkMiddle))->SetByteAt241(1);
+            }
+        }
+    }
+    if (m_pkProcess && !((intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((m_pkProcess))->FUN_0045cd60())) && this != (*reinterpret_cast<::RefC7 * *>(&::_g_thePlayer)) && pkActor && ((::OwnerC7 *)(reinterpret_cast<::Actor *>((pkActor))->GetActorBase())) &&
+        !reinterpret_cast<::FUN_0087eeb0_shell *>((pkActor))->FUN_0087eeb0())
+    {
+        ProcessC7* pkHigh = m_pkProcess;
+        if (!reinterpret_cast<::FUN_008e5700_cls *>((pkHigh))->HasString())
+            reinterpret_cast<::xController *>((pkHigh))->FUN_008e4e50((::xActor *)(pkActor));
+    }
+    SetUpdate(0);
+    if (bCombat && !((void *)(reinterpret_cast<::S_00422b90 *>((((::LinkC7 *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()))))->FUN_00422b90())) && !((void *)(reinterpret_cast<::FUN_0041d6d0_shell *>((((::LinkC7 *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()))))->FUN_0041d6d0())))
+    {
+        NiPoint3C7 kWorldPosition(0.0f, 0.0f, -1.0f);
+        ::FUN_0062b8d0(pvTarget, (const void *)&(kWorldPosition), 1);
+    }
+}
+
+namespace fnv_0094cae0 {
+
+struct kRef;
+struct kShape;
+struct kActor;
+
+template <class T> struct kNodeT
+{
+    T** Get();
+    kNodeT* Next();
+    void FUN_00470470();
+    bool FUN_008256d0();
+};
+
+struct kP3
+{
+    float x, y, z;
+    kP3();
+};
+
+struct kP4
+{
+    __m128 v;
+    kP4();
+};
+
+struct kP2
+{
+    float x, y;
+    kP2(float a, float b);
+    kP2(kP3* p);
+};
+
+struct kE
+{
+    virtual void v000();
+    virtual void v004();
+    virtual void v008();
+    virtual void v00c();
+    virtual void v010();
+    virtual void v014();
+    virtual void v018();
+    virtual void v01c();
+    virtual void v020();
+    virtual void v024();
+    virtual void v028();
+    virtual int v2c();
+    virtual int v30();
+};
+
+struct kExt
+{
+};
+
+struct kRef
+{
+    char pad00[0x18];
+    void* unk18;
+};
+
+struct kShape
+{
+    bool FUN_008256d0();
+};
+
+struct kRefList
+{
+    int unk0;
+    kNodeT<kRef> head;
+};
+
+struct kPA2
+{
+};
+struct kPA
+{
+};
+struct kU2
+{
+};
+struct kU
+{
+    kU2* FUN_00547680();
+};
+struct kCell
+{
+};
+struct kProc
+{
+};
+
+struct kActor
+{
+    kU2* FUN_00547680();
+};
+
+struct kQ2
+{
+};
+
+struct kZ
+{
+    int unk0, unk4, unk8, unkC, unk10;
+    kZ();
+};
+
+struct __declspec(align(16)) kH
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4c;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5c;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6c;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7c;
+    int unk80;
+    int unk84;
+    int unk88;
+    int unk8c;
+    int unk90;
+    int unk94;
+    int unk98;
+    int unk9c;
+    int unka0;
+    int unka4;
+    int unka8;
+    int unkac;
+    int unkb0;
+    int unkb4;
+    int unkb8;
+    int unkbc;
+    int unkc0;
+    int unkc4;
+    int unkc8;
+    int unkcc;
+    int unkd0;
+    int unkd4;
+    int unkd8;
+    int unkdc;
+    kH();
+    ~kH();
+    void FUN_0056f0f0(int f);
+};
+
+struct kW
+{
+    int unk0, unk4, unk8, unkC, unk10, unk14, unk18;
+    kW(kH* h);
+};
+
+struct kVV
+{
+    virtual void v000();
+    virtual void v004();
+    virtual void v008();
+    virtual void v00c();
+    virtual void v010();
+    virtual void v014();
+    virtual void v018();
+    virtual void v01c();
+    virtual void v020();
+    virtual void v024();
+    virtual void v028();
+    virtual void v02c();
+    virtual void v030();
+    virtual void v034();
+    virtual void v038();
+    virtual void v03c();
+    virtual void v040();
+    virtual void v044();
+    virtual void v048();
+    virtual void v04c();
+    virtual void v050();
+    virtual void v054();
+    virtual void v058();
+    virtual void v05c();
+    virtual void v060();
+    virtual void v064();
+    virtual void v068();
+    virtual void v06c();
+    virtual void v070();
+    virtual void v074();
+    virtual void v078();
+    virtual void v07c();
+    virtual void v080();
+    virtual void v084();
+    virtual void v088();
+    virtual void v08c();
+    virtual void v090();
+    virtual void v094();
+    virtual void v098();
+    virtual void v9c(kPA* a);
+    virtual void v0a0();
+    virtual void v0a4();
+    virtual void v0a8();
+    virtual void v0ac();
+    virtual void v0b0();
+    virtual void v0b4();
+    virtual void v0b8();
+    virtual void v0bc();
+    virtual void v0c0();
+    virtual void v0c4();
+    virtual void v0c8();
+    virtual void v0cc();
+    virtual void v0d0();
+    virtual void v0d4();
+    virtual void v0d8();
+    virtual void v0dc();
+    virtual void v0e0();
+    virtual void ve4(int a);
+};
+struct kVV3
+{
+};
+
+struct kDec
+{
+    void FUN_0066b0d0(kW* w);
+};
+
+struct kG1
+{
+};
+struct kG2
+{
+    unsigned char* FUN_00408d60();
+};
+struct kG3
+{
+};
+
+struct kO
+{
+    virtual ~kO();
+    int unk4, unk8, unkC;
+    kO(int a, int b);
+};
+
+struct kTyped
+{
+    int FUN_00401170();
+};
+
+struct kRList
+{
+    bool FUN_008256d0();
+    void FUN_005ae3d0(kRef** r);
+};
+
+struct kRList2
+{
+    kNodeT<kRef> head;
+    int unk4;
+    kRList2();
+    ~kRList2();
+    void FUN_005ae3d0(kRef** r);
+    bool FUN_008256d0();
+};
+
+struct kContainer
+{
+    int unk0;
+    kNodeT<kRef> head;
+};
+
+struct kS8
+{
+    int a, b;
+    kS8(int v);
+    kS8(const kS8& o);
+    ~kS8();
+};
+void __cdecl FUN_00705420(kRef* r, kS8 s, int a);
+
+struct kArea
+{
+    int unk00, unk04, unk08, unk0c;
+    kP3 pos;
+};
+
+struct kSelf
+{
+    virtual void v000();
+    virtual void v004();
+    virtual void v008();
+    virtual void v00c();
+    virtual void v010();
+    virtual void v014();
+    virtual void v018();
+    virtual void v01c();
+    virtual void v020();
+    virtual void v024();
+    virtual void v028();
+    virtual void v02c();
+    virtual void v030();
+    virtual void v034();
+    virtual void v038();
+    virtual void v03c();
+    virtual void v040();
+    virtual void v044();
+    virtual void v048();
+    virtual void v04c();
+    virtual void v050();
+    virtual void v054();
+    virtual void v058();
+    virtual void v05c();
+    virtual void v060();
+    virtual void v064();
+    virtual void v068();
+    virtual void v06c();
+    virtual void v070();
+    virtual void v074();
+    virtual void v078();
+    virtual void v07c();
+    virtual void v080();
+    virtual void v084();
+    virtual void v088();
+    virtual void v08c();
+    virtual void v090();
+    virtual void v094();
+    virtual void v098();
+    virtual void v09c();
+    virtual void v0a0();
+    virtual void v0a4();
+    virtual void v0a8();
+    virtual void v0ac();
+    virtual void v0b0();
+    virtual void v0b4();
+    virtual void v0b8();
+    virtual void v0bc();
+    virtual void v0c0();
+    virtual void v0c4();
+    virtual void v0c8();
+    virtual void v0cc();
+    virtual void v0d0();
+    virtual void v0d4();
+    virtual void v0d8();
+    virtual void v0dc();
+    virtual void v0e0();
+    virtual void v0e4();
+    virtual void v0e8();
+    virtual void v0ec();
+    virtual void v0f0();
+    virtual void v0f4();
+    virtual void v0f8();
+    virtual void v0fc();
+    virtual void v100();
+    virtual void v104();
+    virtual void v108();
+    virtual void v10c();
+    virtual void v110();
+    virtual void v114();
+    virtual void v118();
+    virtual void v11c();
+    virtual void v120();
+    virtual void v124();
+    virtual void v128();
+    virtual void v12c();
+    virtual void v130();
+    virtual void v134();
+    virtual void v138();
+    virtual void v13c();
+    virtual void v140();
+    virtual void v144();
+    virtual void v148();
+    virtual void v14c();
+    virtual void v150();
+    virtual void v154();
+    virtual void v158();
+    virtual void v15c();
+    virtual void v160();
+    virtual void v164();
+    virtual void v168();
+    virtual void v16c();
+    virtual void v170();
+    virtual void v174();
+    virtual void v178();
+    virtual void v17c();
+    virtual void v180();
+    virtual void v184();
+    virtual void v188();
+    virtual void v18c();
+    virtual void v190();
+    virtual void v194();
+    virtual void v198();
+    virtual void v19c();
+    virtual void v1a0();
+    virtual void v1a4();
+    virtual void v1a8();
+    virtual void v1ac();
+    virtual void v1b0();
+    virtual void v1b4();
+    virtual void v1b8();
+    virtual void v1bc();
+    virtual void v1c0();
+    virtual void v1c4();
+    virtual void v1c8();
+    virtual void v1cc();
+    virtual void v1d0();
+    virtual void v1d4();
+    virtual void v1d8();
+    virtual void v1dc();
+    virtual void v1e0();
+    virtual void v1e4();
+    virtual void v1e8();
+    virtual void v1ec();
+    virtual void v1f0();
+    virtual kP3* v1f4();
+    virtual void v1f8();
+    virtual void v1fc(int a);
+    virtual void v200();
+    virtual void v204();
+    virtual void v208();
+    virtual void v20c();
+    virtual void v210();
+    virtual void v214();
+    virtual void v218();
+    virtual void v21c();
+    virtual void v220();
+    virtual void v224();
+    virtual void v228();
+    virtual bool v22c(int a);
+    virtual bool v230();
+    virtual void v234();
+    virtual void v238();
+    virtual void v23c();
+    virtual void v240();
+    virtual void v244();
+    virtual void v248();
+    virtual void v24c();
+    virtual void v250();
+    virtual void v254();
+    virtual void v258();
+    virtual void v25c();
+    virtual void v260();
+    virtual void v264();
+    virtual void v268();
+    virtual void v26c();
+    virtual void v270();
+    virtual void v274();
+    virtual void v278();
+    virtual void v27c();
+    virtual void v280();
+    virtual void v284();
+    virtual void v288();
+    virtual void v28c();
+    virtual void v290();
+    virtual void v294();
+    virtual void v298();
+    virtual void v29c();
+    virtual void v2a0();
+    virtual void v2a4();
+    virtual void v2a8();
+    virtual void v2ac();
+    virtual void v2b0();
+    virtual void v2b4();
+    virtual void v2b8();
+    virtual void v2bc();
+    virtual void v2c0();
+    virtual void v2c4();
+    virtual void v2c8();
+    virtual void v2cc();
+    virtual void v2d0();
+    virtual void v2d4();
+    virtual void v2d8();
+    virtual void v2dc();
+    virtual void v2e0();
+    virtual void v2e4();
+    virtual bool v2e8();
+    virtual void v2ec();
+    virtual void v2f0();
+    virtual void v2f4();
+    virtual void v2f8();
+    virtual void v2fc();
+    virtual void v300();
+    virtual void v304();
+    virtual void v308();
+    virtual void v30c();
+    virtual void v310();
+    virtual void v314();
+    virtual void v318();
+    virtual void v31c();
+    virtual void v320();
+    virtual void v324();
+    virtual void v328();
+    virtual void v32c();
+    virtual void v330();
+    virtual void v334();
+    virtual void v338();
+    virtual void v33c();
+    virtual void v340();
+    virtual void v344();
+    virtual void v348();
+    virtual void v34c();
+    virtual void v350();
+    virtual void v354();
+    virtual void v358();
+    virtual void v35c();
+    virtual void v360();
+    virtual void v364();
+    virtual void v368();
+    virtual void v36c();
+    virtual void v370();
+    virtual void v374();
+    virtual void v378();
+    virtual void v37c();
+    virtual void v380();
+    virtual void v384();
+    virtual void v388();
+    virtual void v38c();
+    virtual void v390();
+    virtual void v394();
+    virtual void v398();
+    virtual void v39c();
+    virtual void v3a0();
+    virtual void v3a4();
+    virtual void v3a8();
+    virtual void v3ac();
+    virtual void v3b0();
+    virtual void v3b4();
+    virtual void v3b8();
+    virtual void v3bc();
+    virtual void v3c0();
+    virtual void v3c4();
+    virtual void v3c8();
+    virtual void v3cc();
+    virtual void v3d0();
+    virtual void v3d4();
+    virtual void v3d8();
+    virtual void v3dc();
+    virtual void v3e0();
+    virtual void v3e4();
+    virtual void v3e8();
+    virtual void v3ec();
+    virtual void v3f0();
+    virtual void v3f4();
+    virtual void v3f8();
+    virtual void v3fc();
+    virtual void v400();
+    virtual void v404();
+    virtual void v408();
+    virtual void v40c();
+    virtual void v410();
+    virtual void v414();
+    virtual void v418();
+    virtual void v41c();
+    virtual void v420();
+    virtual void v424();
+    virtual void v428();
+    virtual void v42c();
+    virtual void v430();
+    virtual void v434();
+    virtual void v438();
+    virtual void v43c();
+    virtual void v440();
+    virtual void v444();
+    virtual void v448();
+    virtual void v44c();
+    virtual void v450();
+    virtual void v454();
+    virtual void v458();
+    virtual void v45c();
+    virtual void v460();
+    virtual void v464();
+    virtual void v468();
+    virtual void v46c();
+    virtual void v470();
+    virtual void v474();
+    virtual void v478();
+    virtual void v47c();
+    virtual void v480();
+    virtual void v484();
+    virtual void v488();
+    virtual void v48c();
+    virtual void v490();
+    virtual void v494();
+    int unk004;
+    int unk008;
+    int unk00C;
+    int unk010;
+    int unk014;
+    int unk018;
+    int unk01C;
+    int unk020;
+    int unk024;
+    int unk028;
+    int unk02C;
+    int unk030;
+    int unk034;
+    int unk038;
+    int unk03C;
+    int unk040;
+    int unk044;
+    int unk048;
+    int unk04C;
+    int unk050;
+    int unk054;
+    int unk058;
+    int unk05C;
+    int unk060;
+    int unk064;
+    int unk068;
+    int unk06C;
+    int unk070;
+    int unk074;
+    int unk078;
+    int unk07C;
+    int unk080;
+    int unk084;
+    int unk088;
+    int unk08C;
+    int unk090;
+    int unk094;
+    int unk098;
+    int unk09C;
+    int unk0A0;
+    int unk0A4;
+    int unk0A8;
+    int unk0AC;
+    int unk0B0;
+    int unk0B4;
+    int unk0B8;
+    int unk0BC;
+    int unk0C0;
+    int unk0C4;
+    int unk0C8;
+    int unk0CC;
+    int unk0D0;
+    int unk0D4;
+    int unk0D8;
+    int unk0DC;
+    int unk0E0;
+    int unk0E4;
+    int unk0E8;
+    int unk0EC;
+    int unk0F0;
+    int unk0F4;
+    int unk0F8;
+    int unk0FC;
+    int unk100;
+    int unk104;
+    int unk108;
+    int unk10C;
+    int unk110;
+    int unk114;
+    int unk118;
+    int unk11C;
+    int unk120;
+    int unk124;
+    int unk128;
+    int unk12C;
+    int unk130;
+    int unk134;
+    int unk138;
+    int unk13C;
+    int unk140;
+    int unk144;
+    int unk148;
+    int unk14C;
+    int unk150;
+    int unk154;
+    int unk158;
+    int unk15C;
+    int unk160;
+    int unk164;
+    int unk168;
+    int unk16C;
+    int unk170;
+    int unk174;
+    int unk178;
+    int unk17C;
+    int unk180;
+    int unk184;
+    int unk188;
+    int unk18C;
+    int unk190;
+    int unk194;
+    int unk198;
+    int unk19C;
+    int unk1A0;
+    int unk1A4;
+    int unk1A8;
+    int unk1AC;
+    int unk1B0;
+    int unk1B4;
+    int unk1B8;
+    int unk1BC;
+    int unk1C0;
+    int unk1C4;
+    int unk1C8;
+    int unk1CC;
+    int unk1D0;
+    int unk1D4;
+    int unk1D8;
+    int unk1DC;
+    int unk1E0;
+    int unk1E4;
+    int unk1E8;
+    int unk1EC;
+    int unk1F0;
+    int unk1F4;
+    int unk1F8;
+    int unk1FC;
+    int unk200;
+    int unk204;
+    int unk208;
+    int unk20C;
+    int unk210;
+    int unk214;
+    int unk218;
+    int unk21C;
+    int unk220;
+    int unk224;
+    int unk228;
+    int unk22C;
+    int unk230;
+    int unk234;
+    int unk238;
+    int unk23C;
+    int unk240;
+    int unk244;
+    int unk248;
+    int unk24C;
+    int unk250;
+    int unk254;
+    int unk258;
+    int unk25C;
+    int unk260;
+    int unk264;
+    int unk268;
+    int unk26C;
+    int unk270;
+    int unk274;
+    int unk278;
+    int unk27C;
+    int unk280;
+    int unk284;
+    int unk288;
+    int unk28C;
+    int unk290;
+    int unk294;
+    int unk298;
+    int unk29C;
+    int unk2A0;
+    int unk2A4;
+    int unk2A8;
+    int unk2AC;
+    int unk2B0;
+    int unk2B4;
+    int unk2B8;
+    int unk2BC;
+    int unk2C0;
+    int unk2C4;
+    int unk2C8;
+    int unk2CC;
+    int unk2D0;
+    int unk2D4;
+    int unk2D8;
+    int unk2DC;
+    int unk2E0;
+    int unk2E4;
+    int unk2E8;
+    int unk2EC;
+    int unk2F0;
+    int unk2F4;
+    int unk2F8;
+    int unk2FC;
+    int unk300;
+    int unk304;
+    int unk308;
+    int unk30C;
+    int unk310;
+    int unk314;
+    int unk318;
+    int unk31C;
+    int unk320;
+    int unk324;
+    int unk328;
+    int unk32C;
+    int unk330;
+    int unk334;
+    int unk338;
+    int unk33C;
+    int unk340;
+    int unk344;
+    int unk348;
+    int unk34C;
+    int unk350;
+    int unk354;
+    int unk358;
+    int unk35C;
+    int unk360;
+    int unk364;
+    int unk368;
+    int unk36C;
+    int unk370;
+    int unk374;
+    int unk378;
+    int unk37C;
+    int unk380;
+    int unk384;
+    int unk388;
+    int unk38C;
+    int unk390;
+    int unk394;
+    int unk398;
+    int unk39C;
+    int unk3A0;
+    int unk3A4;
+    int unk3A8;
+    int unk3AC;
+    int unk3B0;
+    int unk3B4;
+    int unk3B8;
+    int unk3BC;
+    int unk3C0;
+    int unk3C4;
+    int unk3C8;
+    int unk3CC;
+    int unk3D0;
+    int unk3D4;
+    int unk3D8;
+    int unk3DC;
+    int unk3E0;
+    int unk3E4;
+    int unk3E8;
+    int unk3EC;
+    int unk3F0;
+    int unk3F4;
+    int unk3F8;
+    int unk3FC;
+    int unk400;
+    int unk404;
+    int unk408;
+    int unk40C;
+    int unk410;
+    int unk414;
+    int unk418;
+    int unk41C;
+    int unk420;
+    int unk424;
+    int unk428;
+    int unk42C;
+    int unk430;
+    int unk434;
+    int unk438;
+    int unk43C;
+    int unk440;
+    int unk444;
+    int unk448;
+    int unk44C;
+    int unk450;
+    int unk454;
+    int unk458;
+    int unk45C;
+    int unk460;
+    int unk464;
+    int unk468;
+    int unk46C;
+    int unk470;
+    int unk474;
+    int unk478;
+    int unk47C;
+    int unk480;
+    int unk484;
+    int unk488;
+    int unk48C;
+    int unk490;
+    int unk494;
+    int unk498;
+    int unk49C;
+    int unk4A0;
+    int unk4A4;
+    int unk4A8;
+    int unk4AC;
+    int unk4B0;
+    int unk4B4;
+    int unk4B8;
+    int unk4BC;
+    int unk4C0;
+    int unk4C4;
+    int unk4C8;
+    int unk4CC;
+    int unk4D0;
+    int unk4D4;
+    int unk4D8;
+    int unk4DC;
+    int unk4E0;
+    int unk4E4;
+    int unk4E8;
+    int unk4EC;
+    int unk4F0;
+    int unk4F4;
+    int unk4F8;
+    int unk4FC;
+    int unk500;
+    int unk504;
+    int unk508;
+    int unk50C;
+    int unk510;
+    int unk514;
+    int unk518;
+    int unk51C;
+    int unk520;
+    int unk524;
+    int unk528;
+    int unk52C;
+    int unk530;
+    int unk534;
+    int unk538;
+    int unk53C;
+    int unk540;
+    int unk544;
+    int unk548;
+    int unk54C;
+    int unk550;
+    int unk554;
+    int unk558;
+    int unk55C;
+    int unk560;
+    int unk564;
+    int unk568;
+    int unk56C;
+    int unk570;
+    int unk574;
+    int unk578;
+    int unk57C;
+    int unk580;
+    int unk584;
+    int unk588;
+    int unk58C;
+    int unk590;
+    int unk594;
+    int unk598;
+    int unk59C;
+    int unk5A0;
+    int unk5A4;
+    int unk5A8;
+    int unk5AC;
+    int unk5B0;
+    int unk5B4;
+    int unk5B8;
+    int unk5BC;
+    int unk5C0;
+    int unk5C4;
+    int unk5C8;
+    int unk5CC;
+    int unk5D0;
+    int unk5D4;
+    int unk5D8;
+    int unk5DC;
+    int unk5E0;
+    int unk5E4;
+    int unk5E8;
+    int unk5EC;
+    int unk5F0;
+    int unk5F4;
+    int unk5F8;
+    int unk5FC;
+    int unk600;
+    int unk604;
+    int unk608;
+    int unk60C;
+    int unk610;
+    int unk614;
+    int unk618;
+    int unk61C;
+    int unk620;
+    int unk624;
+    int unk628;
+    int unk62C;
+    int unk630;
+    int unk634;
+    int unk638;
+    int unk63C;
+    int unk640;
+    int unk644;
+    int unk648;
+    int unk64C;
+    int unk650;
+    int unk654;
+    int unk658;
+    int unk65C;
+    int unk660;
+    int unk664;
+    int unk668;
+    int unk66C;
+    int unk670;
+    int unk674;
+    int unk678;
+    int unk67C;
+    int unk680;
+    int unk684;
+    int unk688;
+    int unk68C;
+    int unk690;
+    int unk694;
+    int unk698;
+    int unk69C;
+    int unk6A0;
+    int unk6A4;
+    int unk6A8;
+    int unk6AC;
+    int unk6B0;
+    int unk6B4;
+    int unk6B8;
+    int unk6BC;
+    int unk6C0;
+    int unk6C4;
+    int unk6C8;
+    int unk6CC;
+    int unk6D0;
+    int unk6D4;
+    int unk6D8;
+    int unk6DC;
+    int unk6E0;
+    int unk6E4;
+    int unk6E8;
+    int unk6EC;
+    int unk6F0;
+    int unk6F4;
+    int unk6F8;
+    int unk6FC;
+    int unk700;
+    int unk704;
+    int unk708;
+    int unk70C;
+    int unk710;
+    int unk714;
+    int unk718;
+    int unk71C;
+    int unk720;
+    int unk724;
+    int unk728;
+    int unk72C;
+    int unk730;
+    int unk734;
+    int unk738;
+    int unk73C;
+    int unk740;
+    int unk744;
+    int unk748;
+    int unk74C;
+    int unk750;
+    int unk754;
+    int unk758;
+    int unk75C;
+    kRef* m760;
+    kContainer m764;
+    int unk76C;
+    int unk770;
+    kRList m774;
+    int unk778;
+    int unk77C;
+    int unk780;
+    int unk784;
+    int unk788;
+    int unk78C;
+    int unk790;
+    int unk794;
+    int unk798;
+    char m79c;
+    char m79d;
+    short unk79e;
+    kP3 m7a0;
+    kTyped* m7ac;
+    kO* m7b0;
+    intptr_t m7b4;
+    int unk7B8;
+    int unk7BC;
+    int unk7C0;
+    int unk7C4;
+    int unk7C8;
+    int unk7CC;
+    int unk7D0;
+    int unk7D4;
+    int unk7D8;
+    int unk7DC;
+    int unk7E0;
+    int unk7E4;
+    int unk7E8;
+    int unk7EC;
+    int unk7F0;
+    int unk7F4;
+    int unk7F8;
+    int unk7FC;
+    int unk800;
+    int unk804;
+    int unk808;
+    int unk80C;
+    int unk810;
+    int unk814;
+    int unk818;
+    int unk81C;
+    int unk820;
+    int unk824;
+    int unk828;
+    int unk82C;
+    int unk830;
+    int unk834;
+    int unk838;
+    int unk83C;
+    int unk840;
+    int unk844;
+    int unk848;
+    int unk84C;
+    int unk850;
+    int unk854;
+    int unk858;
+    int unk85C;
+    int unk860;
+    int unk864;
+    int unk868;
+    int unk86C;
+    int unk870;
+    int unk874;
+    int unk878;
+    int unk87C;
+    int unk880;
+    int unk884;
+    int unk888;
+    int unk88C;
+    int unk890;
+    int unk894;
+    int unk898;
+    int unk89C;
+    int unk8A0;
+    int unk8A4;
+    int unk8A8;
+    int unk8AC;
+    int unk8B0;
+    int unk8B4;
+    int unk8B8;
+    int unk8BC;
+    int unk8C0;
+    int unk8C4;
+    int unk8C8;
+    int unk8CC;
+    int unk8D0;
+    int unk8D4;
+    int unk8D8;
+    int unk8DC;
+    int unk8E0;
+    int unk8E4;
+    int unk8E8;
+    int unk8EC;
+    int unk8F0;
+    int unk8F4;
+    int unk8F8;
+    int unk8FC;
+    int unk900;
+    int unk904;
+    int unk908;
+    int unk90C;
+    int unk910;
+    int unk914;
+    int unk918;
+    int unk91C;
+    int unk920;
+    int unk924;
+    int unk928;
+    int unk92C;
+    int unk930;
+    int unk934;
+    int unk938;
+    int unk93C;
+    int unk940;
+    int unk944;
+    int unk948;
+    int unk94C;
+    int unk950;
+    int unk954;
+    int unk958;
+    int unk95C;
+    int unk960;
+    int unk964;
+    int unk968;
+    int unk96C;
+    int unk970;
+    int unk974;
+    int unk978;
+    int unk97C;
+    int unk980;
+    int unk984;
+    int unk988;
+    int unk98C;
+    int unk990;
+    int unk994;
+    int unk998;
+    int unk99C;
+    int unk9A0;
+    int unk9A4;
+    int unk9A8;
+    int unk9AC;
+    int unk9B0;
+    int unk9B4;
+    int unk9B8;
+    int unk9BC;
+    int unk9C0;
+    int unk9C4;
+    int unk9C8;
+    int unk9CC;
+    int unk9D0;
+    int unk9D4;
+    int unk9D8;
+    int unk9DC;
+    int unk9E0;
+    int unk9E4;
+    int unk9E8;
+    int unk9EC;
+    int unk9F0;
+    int unk9F4;
+    int unk9F8;
+    int unk9FC;
+    int unkA00;
+    int unkA04;
+    int unkA08;
+    int unkA0C;
+    int unkA10;
+    int unkA14;
+    int unkA18;
+    int unkA1C;
+    int unkA20;
+    int unkA24;
+    int unkA28;
+    int unkA2C;
+    int unkA30;
+    int unkA34;
+    int unkA38;
+    int unkA3C;
+    int unkA40;
+    int unkA44;
+    int unkA48;
+    int unkA4C;
+    int unkA50;
+    int unkA54;
+    int unkA58;
+    int unkA5C;
+    int unkA60;
+    int unkA64;
+    int unkA68;
+    int unkA6C;
+    int unkA70;
+    int unkA74;
+    int unkA78;
+    int unkA7C;
+    int unkA80;
+    int unkA84;
+    int unkA88;
+    int unkA8C;
+    int unkA90;
+    int unkA94;
+    int unkA98;
+    int unkA9C;
+    int unkAA0;
+    int unkAA4;
+    int unkAA8;
+    int unkAAC;
+    int unkAB0;
+    int unkAB4;
+    int unkAB8;
+    int unkABC;
+    int unkAC0;
+    int unkAC4;
+    int unkAC8;
+    int unkACC;
+    int unkAD0;
+    int unkAD4;
+    int unkAD8;
+    int unkADC;
+    int unkAE0;
+    int unkAE4;
+    int unkAE8;
+    int unkAEC;
+    int unkAF0;
+    int unkAF4;
+    int unkAF8;
+    int unkAFC;
+    int unkB00;
+    int unkB04;
+    int unkB08;
+    int unkB0C;
+    int unkB10;
+    int unkB14;
+    int unkB18;
+    int unkB1C;
+    int unkB20;
+    int unkB24;
+    int unkB28;
+    int unkB2C;
+    int unkB30;
+    int unkB34;
+    int unkB38;
+    int unkB3C;
+    int unkB40;
+    int unkB44;
+    int unkB48;
+    int unkB4C;
+    int unkB50;
+    int unkB54;
+    int unkB58;
+    int unkB5C;
+    int unkB60;
+    int unkB64;
+    int unkB68;
+    int unkB6C;
+    int unkB70;
+    int unkB74;
+    int unkB78;
+    int unkB7C;
+    int unkB80;
+    int unkB84;
+    int unkB88;
+    int unkB8C;
+    int unkB90;
+    int unkB94;
+    int unkB98;
+    int unkB9C;
+    int unkBA0;
+    int unkBA4;
+    int unkBA8;
+    int unkBAC;
+    int unkBB0;
+    int unkBB4;
+    int unkBB8;
+    int unkBBC;
+    int unkBC0;
+    int unkBC4;
+    int unkBC8;
+    int unkBCC;
+    int unkBD0;
+    int unkBD4;
+    int unkBD8;
+    int unkBDC;
+    int unkBE0;
+    int unkBE4;
+    int unkBE8;
+    int unkBEC;
+    int unkBF0;
+    int unkBF4;
+    int unkBF8;
+    int unkBFC;
+    int unkC00;
+    int unkC04;
+    int unkC08;
+    int unkC0C;
+    int unkC10;
+    int unkC14;
+    int unkC18;
+    int unkC1C;
+    int unkC20;
+    int unkC24;
+    int unkC28;
+    int unkC2C;
+    int unkC30;
+    int unkC34;
+    int unkC38;
+    int unkC3C;
+    int unkC40;
+    int unkC44;
+    int unkC48;
+    int unkC4C;
+    int unkC50;
+    int unkC54;
+    int unkC58;
+    int unkC5C;
+    int unkC60;
+    int unkC64;
+    int unkC68;
+    int unkC6C;
+    int unkC70;
+    int unkC74;
+    int unkC78;
+    int unkC7C;
+    int unkC80;
+    int unkC84;
+    int unkC88;
+    int unkC8C;
+    int unkC90;
+    int unkC94;
+    int unkC98;
+    int unkC9C;
+    int unkCA0;
+    int unkCA4;
+    int unkCA8;
+    int unkCAC;
+    int unkCB0;
+    int unkCB4;
+    int unkCB8;
+    int unkCBC;
+    int unkCC0;
+    int unkCC4;
+    int unkCC8;
+    int unkCCC;
+    int unkCD0;
+    int unkCD4;
+    int unkCD8;
+    int unkCDC;
+    int unkCE0;
+    int unkCE4;
+    int unkCE8;
+    int unkCEC;
+    int unkCF0;
+    int unkCF4;
+    int unkCF8;
+    int unkCFC;
+    int unkD00;
+    int unkD04;
+    int unkD08;
+    int unkD0C;
+    int unkD10;
+    int unkD14;
+    int unkD18;
+    int unkD1C;
+    int unkD20;
+    int unkD24;
+    int unkD28;
+    int unkD2C;
+    int unkD30;
+    int unkD34;
+    int unkD38;
+    int unkD3C;
+    int unkD40;
+    int unkD44;
+    int unkD48;
+    int unkD4C;
+    int unkD50;
+    int unkD54;
+    int unkD58;
+    int unkD5C;
+    int unkD60;
+    int unkD64;
+    int unkD68;
+    int unkD6C;
+    int unkD70;
+    int unkD74;
+    int unkD78;
+    int unkD7C;
+    int unkD80;
+    int unkD84;
+    int unkD88;
+    int unkD8C;
+    int unkD90;
+    int unkD94;
+    int unkD98;
+    int unkD9C;
+    int unkDA0;
+    int unkDA4;
+    int unkDA8;
+    int unkDAC;
+    int unkDB0;
+    int unkDB4;
+    int unkDB8;
+    int unkDBC;
+    int unkDC0;
+    int unkDC4;
+    int unkDC8;
+    int unkDCC;
+    int unkDD0;
+    int unkDD4;
+    int unkDD8;
+    int unkDDC;
+    int unkDE0;
+    int unkDE4;
+    int unkDE8;
+    kDec mdec;
+
+    struct X5
+    {
+    };
+    void FUN_0094cae0(kActor* p);
+};
+
+// @fnv 0x0094cae0
+void kSelf::FUN_0094cae0(kActor* p)
+{
+    if (p == ((::fnv_0094cae0::kActor *)(reinterpret_cast<::LowProcess *>(this)->GetTarget())))
+        return;
+    if (!((bool)(::FUN_0094dba0())))
+        ::FUN_0062f8f0((p && reinterpret_cast<::fnv_004518e0::TESObjectCELL *>((p))->FUN_004518e0()) ? reinterpret_cast<::FUN_005471e0_shell *>((p))->FUN_005471e0() : ::DAT_01015f5c);
+    reinterpret_cast<::FUN_00421e40_shell *>((((::fnv_0094cae0::kSelf::X5 *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()))))->FUN_00421e40({});
+    reinterpret_cast<::B930700Actor *>(this)->SetParentCellAndUpdateController((::B930700Cell *)(p));
+    if (p)
+    {
+        if (!reinterpret_cast<::TESObjectCELL *>((p))->IsCellInterior())
+            reinterpret_cast<::FUN_0093a7a0_Class *>(this)->FUN_0093a7a0((int)(0));
+        ::FUN_005743f0();
+        m7b4 = ((intptr_t)(reinterpret_cast<::B5474B0Cell *>((p))->FUN_005474b0(0)));
+        kPA* pa = ((::fnv_0094cae0::kPA *)(reinterpret_cast<::FUN_004543c0_cls *>((p))->FUN_004543c0()));
+        if (pa)
+        {
+            kPA2* pa2 = ((::fnv_0094cae0::kPA2 *)(reinterpret_cast<::FUN_0045cd60_shell *>((pa))->FUN_0045cd60()));
+            reinterpret_cast<::FUN_004893c0_class *>((pa2))->FUN_004893c0(1);
+        }
+        v1fc(0);
+        if (((::fnv_0094cae0::kActor *)(reinterpret_cast<::LowProcess *>(this)->GetTarget())) && ((::fnv_0094cae0::kPA *)(reinterpret_cast<::FUN_004543c0_cls *>((((::fnv_0094cae0::kActor *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))))->FUN_004543c0())) && ((::fnv_0094cae0::kQ2 *)(::ScreenSplatter::Activate(::FUN_00622bb0(), 0))))
+            reinterpret_cast<::Owner623 *>((((::fnv_0094cae0::kQ2 *)(::ScreenSplatter::Activate(::FUN_00622bb0(), 1)))))->FUN_006231a0((::NiNode623 *)(::fnv_0094cae0::kPA *)(((::fnv_0094cae0::kPA *)(reinterpret_cast<::FUN_004543c0_cls *>((((::fnv_0094cae0::kActor *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))))->FUN_004543c0()))));
+        if (((::fnv_0094cae0::kActor *)(reinterpret_cast<::LowProcess *>(this)->GetTarget())) && ((::fnv_0094cae0::kPA *)(reinterpret_cast<::FUN_004543c0_cls *>((((::fnv_0094cae0::kActor *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))))->FUN_004543c0())) && ((::fnv_0094cae0::kQ2 *)(::ScreenSplatter::Activate(::FUN_00622ba0(), 0))))
+            reinterpret_cast<::Owner623 *>((((::fnv_0094cae0::kQ2 *)(::ScreenSplatter::Activate(::FUN_00622ba0(), 1)))))->FUN_006231a0((::NiNode623 *)(::fnv_0094cae0::kPA *)(((::fnv_0094cae0::kPA *)(reinterpret_cast<::FUN_004543c0_cls *>((((::fnv_0094cae0::kActor *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))))->FUN_004543c0()))));
+        if (reinterpret_cast<::_FUN_00822510_Class *>(&(mdec))->operator==(0))
+        {
+            kZ* z = new kZ;
+            ::FUN_0056ea00((::_bhkSphereShape_vtbl_helper *)(z), ::AngularDashpotApplyD4DCB0::DAT_01017d00);
+            kH h;
+            reinterpret_cast<::fnv_0056f110::FUN_0056f110_class *>(&(h))->FUN_0056f110((::fnv_0056f110::ScriptLocalsX *)(z));
+            int flags = 0x30000;
+            flags |= 0x21;
+            h.FUN_0056f0f0(flags);
+            mdec.FUN_0066b0d0(new kW(&h));
+            reinterpret_cast<::fnv_00561580::FUN_00561580_Class *>((((::fnv_0094cae0::kVV *)(::FUN_00559450((int *)&(mdec))))))->FUN_00561580(1);
+            ((::fnv_0094cae0::kVV *)(::FUN_00559450((int *)&(mdec))))->ve4(4);
+            reinterpret_cast<::FUN_0094db80_shell *>((((::fnv_0094cae0::kVV3 *)(reinterpret_cast<::FUN_004ae700_S *>((((::fnv_0094cae0::kVV *)(::FUN_00559450((int *)&(mdec))))))->FUN_004ae700()))))->FUN_0094db80(9);
+            kP4 q;
+            kP3 r = *v1f4();
+            ::fnv_004a3e00::FUN_004a3e00((*(::fnv_004a3e00::bhkCharacterController *)(&q)), (*(const ::fnv_004a3e00::NiPoint3 *)(&r)));
+            reinterpret_cast<::FUN_005610f0_cls *>((((::fnv_0094cae0::kVV *)(::FUN_00559450((int *)&(mdec))))))->FUN_005610f0((intptr_t)(&r));
+        }
+        ((::fnv_0094cae0::kVV *)(::FUN_00559450((int *)&(mdec))))->v9c(((::fnv_0094cae0::kPA *)(reinterpret_cast<::FUN_004543c0_cls *>((((::fnv_0094cae0::kActor *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))))->FUN_004543c0())));
+        bool busy = ((bool)(reinterpret_cast<::FUN_00437bd0_stub *>(this)->FUN_00437bd0())) || v22c(0) || v2e8() || v230();
+        bool idle = !busy && !::FUN_005a1e50((const bool *)this);
+        if (idle)
+            v494();
+        reinterpret_cast<::RelationUpdater *>(((*reinterpret_cast<::fnv_0094cae0::kG1 * *>(&::g_modelLoader))))->UpdateRelationStates((::RelationTarget *)(0));
+        reinterpret_cast<::Sky *>((((::fnv_0094cae0::kProc *)(::Sky::GetInstance()))))->SetCurrentClimate({}, {});
+        ::FUN_00b4f430(((intptr_t)(reinterpret_cast<::BGSCameraPath *>((((::fnv_0094cae0::kU2 *)(reinterpret_cast<::cell547::C5Cell *>((p))->FUN_00547680()))))->GetConditions())));
+        kCell* cell = ((::fnv_0094cae0::kCell *)(reinterpret_cast<::TESObjectCELL *>((p))->GetParentWorldSpace()));
+        bool found = false;
+        m79c = 0;
+        if (m7b0)
+        {
+            ::FUN_005e03d0((::NiTArray_Layout *)(m7b0));
+            delete m7b0;
+            m7b0 = 0;
+        }
+        int ix = reinterpret_cast<::TESObjectCELL *>((p))->GetCellGridX();
+        int iy = reinterpret_cast<::TESObjectCELL *>((p))->GetCellGridY();
+        float x0 = ix << 12;
+        float x1 = x0 + ::DAT_01017a10;
+        float y0 = iy << 12;
+        float y1 = y0 + ::DAT_01017a10;
+        kP2 c0(x0, y0);
+        kP2 c1(x0, y1);
+        kP2 c2(x1, y0);
+        kP2 c3(x1, y1);
+        reinterpret_cast<::FileMatchList *>(&(m774))->RemoveAll();
+        (*reinterpret_cast<::fnv_0094cae0::kE * *>(&::DAT_011dd380)) = 0;
+        kRList2 list;
+        kNodeT<kRef>* n = &m764 ? &m764.head : 0;
+        while (n && *((::fnv_0094cae0::kRef **)(((::Vec3 *)(void *)(n)))))
+        {
+            kRef* x = *((::fnv_0094cae0::kRef **)(((::Vec3 *)(void *)(n))));
+            if (x)
+                list.FUN_005ae3d0(&x);
+            n = ((::fnv_0094cae0::kNodeT< ::fnv_0094cae0::kRef> *)(reinterpret_cast<::Callees *>((n))->FUN_00726070()));
+        }
+        reinterpret_cast<::FileMatchList *>(&(m764.head))->RemoveAll();
+        kE* best = 0;
+        kRefList* rl = ((::fnv_0094cae0::kRefList *)(reinterpret_cast<::TESObjectCELL *>((p))->GetRegionList(1)));
+        kRef* ref;
+        for (kNodeT<kRef>* it = rl ? &rl->head : 0; it && (ref = *((::fnv_0094cae0::kRef **)(((::Vec3 *)(void *)(it))))) != 0; it = ((::fnv_0094cae0::kNodeT< ::fnv_0094cae0::kRef> *)(reinterpret_cast<::Callees *>((it))->FUN_00726070())))
+        {
+            kP2 pos(&((::fnv_0094cae0::kArea *)(reinterpret_cast<::BGSCameraPath *>(this)->GetShotList()))->pos);
+            kNodeT<kRef>* sub = 0;
+            if (reinterpret_cast<::FUN_00440d80_shell *>((ref))->FUN_00440d80() || (((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((ref))->FUN_007af430())) && ((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((ref))->FUN_007af430())) != ((void *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>(this)->FUN_00575d70()))) ||
+                !((::fnv_0094cae0::kNodeT< ::fnv_0094cae0::kShape> *)(reinterpret_cast<::BGSTerrainManager *>((ref))->GetMinLevel())) || ((::fnv_0094cae0::kNodeT< ::fnv_0094cae0::kShape> *)(reinterpret_cast<::BGSTerrainManager *>((ref))->GetMinLevel()))->FUN_008256d0())
+                continue;
+            bool done = false;
+            kShape* sh;
+            for (kNodeT<kShape>* m = ((::fnv_0094cae0::kNodeT< ::fnv_0094cae0::kShape> *)(reinterpret_cast<::BGSTerrainManager *>((ref))->GetMinLevel())); !done && m && (sh = *((::fnv_0094cae0::kShape **)(((::Vec3 *)(void *)(m))))) != 0; m = ((::fnv_0094cae0::kNodeT< ::fnv_0094cae0::kShape> *)(reinterpret_cast<::Callees *>((m))->FUN_00726070())))
+            {
+                if (reinterpret_cast<struct ::Polygon *>((sh))->FUN_004f8360((::PolygonPoint *)(::fnv_0094cae0::kP2 *)(&pos)))
+                {
+                    reinterpret_cast<::TESRegionList *>(&(m764))->AddRegion((::TESRegion *)(ref));
+                    if (reinterpret_cast<::RefList *>(&(list))->FUN_005f65d0((void **)(::fnv_0094cae0::kRef **)(&ref)))
+                        reinterpret_cast<::ItemChangeListNode *>(&(list))->FUN_00905330((*(::InventoryStackRecord *const *)(&ref)));
+                    kE* e = ((::fnv_0094cae0::kE *)(reinterpret_cast<::GList *>((((::fnv_0094cae0::kExt *)(((ref))->unk18))))->FUN_004f35b0({})));
+                    if (e)
+                    {
+                        if (reinterpret_cast<::PatrolActorPackageData *>((e))->IsPatrolling() && (!best || (best != e && ((unsigned char)(reinterpret_cast<::FUN_005bb4d0_shell *>((best))->FUN_005bb4d0())) < ((unsigned char)(reinterpret_cast<::FUN_005bb4d0_shell *>((e))->FUN_005bb4d0())))))
+                        {
+                            reinterpret_cast<::FileMatchList *>(&(m774))->RemoveAll();
+                            best = e;
+                        }
+                        if (!best || best == e)
+                        {
+                            sub = ((::fnv_0094cae0::kNodeT< ::fnv_0094cae0::kRef> *)(::GetOffsetC((intptr_t)(e))));
+                            while (sub && *((::fnv_0094cae0::kRef **)(((::Vec3 *)(void *)(sub)))))
+                            {
+                                m774.FUN_005ae3d0(((::fnv_0094cae0::kRef **)(((::Vec3 *)(void *)(sub)))));
+                                sub = ((::fnv_0094cae0::kNodeT< ::fnv_0094cae0::kRef> *)(reinterpret_cast<::Callees *>((sub))->FUN_00726070()));
+                            }
+                            if (e->v30())
+                                (*reinterpret_cast<::fnv_0094cae0::kE * *>(&::DAT_011dd380)) = e;
+                        }
+                    }
+                    if (reinterpret_cast<::FUN_00549580_shell *>((ref))->FUN_00549580())
+                    {
+                        found = true;
+                        if (reinterpret_cast<struct ::Polygon *>((sh))->FUN_004f8360((::PolygonPoint *)(::fnv_0094cae0::kP2 *)(&c0)) && reinterpret_cast<struct ::Polygon *>((sh))->FUN_004f8360((::PolygonPoint *)(::fnv_0094cae0::kP2 *)(&c1)) && reinterpret_cast<struct ::Polygon *>((sh))->FUN_004f8360((::PolygonPoint *)(::fnv_0094cae0::kP2 *)(&c2)) &&
+                            reinterpret_cast<struct ::Polygon *>((sh))->FUN_004f8360((::PolygonPoint *)(::fnv_0094cae0::kP2 *)(&c3)))
+                            m79c = 1;
+                    }
+                    if (m760)
+                    {
+                        kE* a = ((::fnv_0094cae0::kE *)(reinterpret_cast<::GList *>((((::fnv_0094cae0::kExt *)(((m760))->unk18))))->FUN_004f35b0({})));
+                        kE* b = ((::fnv_0094cae0::kE *)(reinterpret_cast<::GList *>((((::fnv_0094cae0::kExt *)(((ref))->unk18))))->FUN_004f35b0({})));
+                        if (b && (!a || (reinterpret_cast<::PatrolActorPackageData *>((b))->IsPatrolling() && !reinterpret_cast<::PatrolActorPackageData *>((a))->IsPatrolling()) ||
+                                  (reinterpret_cast<::PatrolActorPackageData *>((b))->IsPatrolling() == reinterpret_cast<::PatrolActorPackageData *>((a))->IsPatrolling() && ((unsigned char)(reinterpret_cast<::FUN_005bb4d0_shell *>((b))->FUN_005bb4d0())) > ((unsigned char)(reinterpret_cast<::FUN_005bb4d0_shell *>((a))->FUN_005bb4d0())))))
+                            reinterpret_cast<::FUN_0093a7a0_Class *>(this)->FUN_0093a7a0((intptr_t)(ref));
+                    }
+                    else
+                    {
+                        reinterpret_cast<::FUN_0093a7a0_Class *>(this)->FUN_0093a7a0((intptr_t)(ref));
+                    }
+                    done = true;
+                }
+            }
+            if (reinterpret_cast<::FUN_00549580_shell *>((ref))->FUN_00549580())
+            {
+                if (!m7b0)
+                    m7b0 = new kO(1, 1);
+                reinterpret_cast<::S_0060ba10 *>((m7b0))->FUN_0096a610((intptr_t)(&ref));
+            }
+        }
+        if (*(*reinterpret_cast<::fnv_0094cae0::kG2 *>(&::g_011e08e0)).FUN_00408d60() && cell && reinterpret_cast<::FUN_00586260_shell *>((cell))->IsFlag8Set() && !reinterpret_cast<::fnv_00451530::FUN_00451530_shell *>(((*reinterpret_cast<::fnv_0094cae0::kG3 * *>(&::g_TES))))->FUN_00451530() && !found)
+        {
+            kTyped* t39 = 0;
+            kTyped* t41 = 0;
+            if (m7ac)
+            {
+                switch (m7ac->FUN_00401170())
+                {
+                case 0x39:
+                    t39 = m7ac;
+                    break;
+                case 0x41:
+                    t41 = m7ac;
+                    break;
+                }
+            }
+            if (t39 && t39 != (kTyped*)p)
+                m79d = 1;
+            else if (t41 && t41 != (kTyped*)((::fnv_0094cae0::kCell *)(reinterpret_cast<::TESObjectCELL *>((p))->GetParentWorldSpace())))
+                m79d = 1;
+            else
+            {
+                kP3 d = *v1f4();
+                reinterpret_cast<::NiPoint3 *>(&(d))->Subtract((*(const ::NiPoint3 *)(&m7a0)));
+                if (reinterpret_cast<::NiPoint3 *>(&(d))->ComputeMagnitude() > ::DAT_01016968)
+                    m79d = 1;
+            }
+        }
+        kE* e4 = m760 ? ((::fnv_0094cae0::kE *)(reinterpret_cast<::GList *>((((::fnv_0094cae0::kExt *)(((m760))->unk18))))->FUN_004f35b0({}))) : 0;
+        FUN_00705420(m760, e4 ? e4->v2c() : 0, 1);
+        reinterpret_cast<::FUN_00947d80_cls *>(this)->FUN_00947d80();
+        reinterpret_cast<::FUN_009480c0_shell *>(this)->FUN_009480c0();
+        kNodeT<kRef>* n2 = &list.head;
+        while (n2 && *((::fnv_0094cae0::kRef **)(((::Vec3 *)(void *)(n2)))))
+        {
+            kRef* x = *((::fnv_0094cae0::kRef **)(((::Vec3 *)(void *)(n2))));
+            if (x)
+            {
+                kE* e = ((::fnv_0094cae0::kE *)(reinterpret_cast<::GList *>((((::fnv_0094cae0::kExt *)(((x))->unk18))))->FUN_004f35b0({})));
+                if (e)
+                {
+                    kE* e2 = e;
+                    reinterpret_cast<::Dummy *>((e2))->FUN_004f2480(0, 0);
+                }
+            }
+            n2 = ((::fnv_0094cae0::kNodeT< ::fnv_0094cae0::kRef> *)(reinterpret_cast<::Callees *>((n2))->FUN_00726070()));
+        }
+        n2 = &m764 ? &m764.head : 0;
+        while (n2 && *((::fnv_0094cae0::kRef **)(((::Vec3 *)(void *)(n2)))))
+        {
+            kRef* x = *((::fnv_0094cae0::kRef **)(((::Vec3 *)(void *)(n2))));
+            if (x)
+            {
+                kE* e = ((::fnv_0094cae0::kE *)(reinterpret_cast<::GList *>((((::fnv_0094cae0::kExt *)(((x))->unk18))))->FUN_004f35b0({})));
+                if (e)
+                {
+                    kE* e2 = e;
+                    kNodeT<kRef>* k = ((::fnv_0094cae0::kNodeT< ::fnv_0094cae0::kRef> *)(reinterpret_cast<::TESTopicInfoData *>((e2))->GetLinkToList()));
+                    while (k)
+                    {
+                        if (*((::fnv_0094cae0::kRef **)(((::Vec3 *)(void *)(k)))))
+                        {
+                            reinterpret_cast<::CellView *>((((::fnv_0094cae0::kActor *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))))->FUN_00548230((::RefView *)(*((::fnv_0094cae0::kRef **)(((::Vec3 *)(void *)(k))))), 0);
+                            ::FUN_004f24e0((::TESSound *)(*((::fnv_0094cae0::kRef **)(((::Vec3 *)(void *)(k))))), 1, 0);
+                        }
+                        k = ((::fnv_0094cae0::kNodeT< ::fnv_0094cae0::kRef> *)(reinterpret_cast<::Callees *>((k))->FUN_00726070()));
+                    }
+                }
+            }
+            n2 = ((::fnv_0094cae0::kNodeT< ::fnv_0094cae0::kRef> *)(reinterpret_cast<::Callees *>((n2))->FUN_00726070()));
+        }
+        reinterpret_cast<::FileMatchList *>(&(list))->RemoveAll();
+    }
+    else
+    {
+        reinterpret_cast<::FileMatchList *>(&(m774))->RemoveAll();
+        ::SoundPlaybackManager::ProcessPendingSounds();
+    }
+}
+}  // namespace fnv_0094cae0
+
+
+struct FUN_009eb500;
+struct CrimeStatus
+{
+    int unknown;
+    int status;
+};
+struct FUN_009eb500
+{
+    int type, unknown04, unknown08, unknown0C, unknown10;
+    int unknown14, unknown18, unknown1C, unknown20, unknown24;
+    int unknown28, unknown2C, unknown30, unknown34, unknown38;
+    FUN_009eb500(int, TESObjectREFR*, Actor*, int, int, int);
+};
+
+struct CrimeLimit
+{
+};
+struct CrimeCalendar
+{
+    int FUN_00867d20();
+};
+struct CrimeQueue
+{
+};
+
+// The Actor virtuals this function calls, at the vtable slots its original source declared.
+struct CrimeActorView
+{
+    virtual void Unk_0();
+    virtual void Unk_1();
+    virtual void Unk_2();
+    virtual void Unk_3();
+    virtual void Unk_4();
+    virtual void Unk_5();
+    virtual void Unk_6();
+    virtual void Unk_7();
+    virtual void Unk_8();
+    virtual void Unk_9();
+    virtual void Unk_A();
+    virtual void Unk_B();
+    virtual void Unk_C();
+    virtual void Unk_D();
+    virtual void Unk_E();
+    virtual void Unk_F();
+    virtual void Unk_10();
+    virtual void Unk_11();
+    virtual void Unk_12();
+    virtual void Unk_13();
+    virtual void Unk_14();
+    virtual void Unk_15();
+    virtual void Unk_16();
+    virtual void Unk_17();
+    virtual void Unk_18();
+    virtual void Unk_19();
+    virtual void Unk_1A();
+    virtual void Unk_1B();
+    virtual void Unk_1C();
+    virtual void Unk_1D();
+    virtual void Unk_1E();
+    virtual void Unk_1F();
+    virtual void Unk_20();
+    virtual void Unk_21();
+    virtual void Unk_22();
+    virtual void Unk_23();
+    virtual void Unk_24();
+    virtual void Unk_25();
+    virtual void Unk_26();
+    virtual void Unk_27();
+    virtual void Unk_28();
+    virtual void Unk_29();
+    virtual void Unk_2A();
+    virtual void Unk_2B();
+    virtual void Unk_2C();
+    virtual void Unk_2D();
+    virtual void Unk_2E();
+    virtual void Unk_2F();
+    virtual void Unk_30();
+    virtual void Unk_31();
+    virtual void Unk_32();
+    virtual void Unk_33();
+    virtual void Unk_34();
+    virtual void Unk_35();
+    virtual void Unk_36();
+    virtual void Unk_37();
+    virtual void Unk_38();
+    virtual void Unk_39();
+    virtual void Unk_3A();
+    virtual void Unk_3B();
+    virtual void Unk_3C();
+    virtual void Unk_3D();
+    virtual void Unk_3E();
+    virtual void Unk_3F();
+    virtual void Unk_40();
+    virtual void Unk_41();
+    virtual void Unk_42();
+    virtual void Unk_43();
+    virtual void Unk_44();
+    virtual void Unk_45();
+    virtual void Unk_46();
+    virtual void Unk_47();
+    virtual void Unk_48();
+    virtual void Unk_49();
+    virtual void Unk_4A();
+    virtual void Unk_4B();
+    virtual void Unk_4C();
+    virtual void Unk_4D();
+    virtual void Unk_4E();
+    virtual void Unk_4F();
+    virtual void Unk_50();
+    virtual void Unk_51();
+    virtual void Unk_52();
+    virtual void Unk_53();
+    virtual void Unk_54();
+    virtual void Unk_55();
+    virtual void Unk_56();
+    virtual void Unk_57();
+    virtual void Unk_58();
+    virtual void Unk_59();
+    virtual void Unk_5A();
+    virtual void Unk_5B();
+    virtual void Unk_5C();
+    virtual void Unk_5D();
+    virtual void Unk_5E();
+    virtual void Unk_5F();
+    virtual void Unk_60();
+    virtual void Unk_61();
+    virtual void Unk_62();
+    virtual void Unk_63();
+    virtual void Unk_64();
+    virtual void Unk_65();
+    virtual void Unk_66();
+    virtual void Unk_67();
+    virtual void Unk_68();
+    virtual void Unk_69();
+    virtual void Unk_6A();
+    virtual void Unk_6B();
+    virtual void Unk_6C();
+    virtual void Unk_6D();
+    virtual void Unk_6E();
+    virtual void Unk_6F();
+    virtual void Unk_70();
+    virtual void Unk_71();
+    virtual void Unk_72();
+    virtual void Unk_73();
+    virtual void Unk_74();
+    virtual void Unk_75();
+    virtual void Unk_76();
+    virtual void Unk_77();
+    virtual void Unk_78();
+    virtual void Unk_79();
+    virtual void Unk_7A();
+    virtual void Unk_7B();
+    virtual void Unk_7C();
+    virtual void Unk_7D();
+    virtual void Unk_7E();
+    virtual void Unk_7F();
+    virtual void Unk_80();
+    virtual void Unk_81();
+    virtual void Unk_82();
+    virtual void Unk_83();
+    virtual void Unk_84();
+    virtual void Unk_85();
+    virtual void Unk_86();
+    virtual void Unk_87();
+    virtual void Unk_88();
+    virtual void Unk_89();
+    virtual void Unk_8A();
+    virtual void Unk_8B();
+    virtual void Unk_8C();
+    virtual void Unk_8D();
+    virtual void Unk_8E();
+    virtual void Unk_8F();
+    virtual void Unk_90();
+    virtual void Unk_91();
+    virtual void Unk_92();
+    virtual void Unk_93();
+    virtual void Unk_94();
+    virtual void Unk_95();
+    virtual void Unk_96();
+    virtual void Unk_97();
+    virtual void Unk_98();
+    virtual void Unk_99();
+    virtual void Unk_9A();
+    virtual void Unk_9B();
+    virtual void Unk_9C();
+    virtual void Unk_9D();
+    virtual void Unk_9E();
+    virtual void Unk_9F();
+    virtual void Unk_A0();
+    virtual void Unk_A1();
+    virtual void Unk_A2();
+    virtual void Unk_A3();
+    virtual void Unk_A4();
+    virtual void Unk_A5();
+    virtual void Unk_A6();
+    virtual void Unk_A7();
+    virtual void Unk_A8();
+    virtual void Unk_A9();
+    virtual void Unk_AA();
+    virtual void Unk_AB();
+    virtual void Unk_AC();
+    virtual void Unk_AD();
+    virtual void Unk_AE();
+    virtual void Unk_AF();
+    virtual void Unk_B0();
+    virtual void Unk_B1();
+    virtual void Unk_B2();
+    virtual void Unk_B3();
+    virtual void Unk_B4();
+    virtual void Unk_B5();
+    virtual void Unk_B6();
+    virtual void Unk_B7();
+    virtual void Unk_B8();
+    virtual void Unk_B9();
+    virtual void Unk_BA();
+    virtual void Unk_BB();
+    virtual void Unk_BC();
+    virtual void Unk_BD();
+    virtual void Unk_BE();
+    virtual void Unk_BF();
+    virtual void Unk_C0();
+    virtual void Unk_C1();
+    virtual void Unk_C2();
+    virtual void Unk_C3();
+    virtual void Unk_C4();
+    virtual void Unk_C5();
+    virtual void Unk_C6();
+    virtual void Unk_C7();
+    virtual bool IsDead();
+    virtual void Unk_C9();
+    virtual void Unk_CA();
+    virtual void Unk_CB();
+    virtual void Unk_CC();
+    virtual void Unk_CD();
+    virtual void Unk_CE();
+    virtual void Unk_CF();
+    virtual void Unk_D0();
+    virtual void Unk_D1();
+    virtual void Unk_D2();
+    virtual void Unk_D3();
+    virtual void Unk_D4();
+    virtual void Unk_D5();
+    virtual void Unk_D6();
+    virtual void Unk_D7();
+    virtual void Unk_D8();
+    virtual void Unk_D9();
+    virtual void Unk_DA();
+    virtual void Unk_DB();
+    virtual void Unk_DC();
+    virtual void Unk_DD();
+    virtual void Unk_DE();
+    virtual void Unk_DF();
+    virtual void Unk_E0();
+    virtual void Unk_E1();
+    virtual void Unk_E2();
+    virtual void Unk_E3();
+    virtual void Unk_E4();
+    virtual void Unk_E5();
+    virtual void Unk_E6();
+    virtual void Unk_E7();
+    virtual void Unk_E8();
+    virtual void Unk_E9();
+    virtual void Unk_EA();
+    virtual void Unk_EB();
+    virtual void Unk_EC();
+    virtual void Unk_ED();
+    virtual void Unk_EE();
+    virtual void Unk_EF();
+    virtual void Unk_F0();
+    virtual void Unk_F1();
+    virtual void Unk_F2();
+    virtual void Unk_F3();
+    virtual void Unk_F4();
+    virtual void Unk_F5();
+    virtual void Unk_F6();
+    virtual void Unk_F7();
+    virtual void Unk_F8();
+    virtual void Unk_F9();
+    virtual void Unk_FA();
+    virtual void Unk_FB();
+    virtual void Unk_FC();
+    virtual void Unk_FD();
+    virtual void Unk_FE();
+    virtual void Unk_FF();
+    virtual void Unk_100();
+    virtual void Unk_101();
+    virtual void Unk_102();
+    virtual void Unk_103();
+    virtual void Unk_104();
+    virtual void Unk_105();
+    virtual void Unk_106();
+    virtual void Unk_107();
+    virtual void Unk_108();
+    virtual void Alert(::PlayerCharacter* target, int a, int b, int c, int d, int e, int f, int g);
+    virtual void Unk_10A();
+    virtual void Unk_10B();
+    virtual void Unk_10C();
+    virtual void Unk_10D();
+    virtual void Unk_10E();
+    virtual void Unk_10F();
+    virtual void Unk_110();
+    virtual void Unk_111();
+    virtual bool IsDisabled();
+};
+struct FUN_008c00e0_shell : public Actor
+{
+    void FUN_008c00e0(TESObjectREFR* victimRef, int amount, int crimeValue);
+};
+
+// @fnv 0x008c00e0
+void FUN_008c00e0_shell::FUN_008c00e0(TESObjectREFR* victimRef, int amount, int crimeValue)
+{
+    bool status = false;
+    if ((void*)this != (void*)::_g_thePlayer)
+        return;
+    if (((int)(reinterpret_cast<::FUN_005224e0_class *>((::_g_thePlayer))->GetField230())) < *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::CrimeLimit *>(&::g_011cd9f4)))))) && (void*)this == (void*)::_g_thePlayer)
+        status = true;
+    Actor* entry = dynamic_cast<Actor*>(victimRef);
+    if (reinterpret_cast<CrimeActorView*>(entry)->IsDead() || reinterpret_cast<CrimeActorView*>(entry)->IsDisabled())
+    {
+        ((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((entry))->GetBaseTexture()))->ClearCrime(true);
+        return;
+    }
+    if ((void*)this != (void*)::_g_thePlayer && reinterpret_cast<::ActorValueOwner *>(this)->GetActorValueAsInteger((::ActorValue::Index)(42)) == 100 && IsSneaking())
+        return;
+    FUN_009eb500* isLowLevel = 0;
+    isLowLevel = new FUN_009eb500(1, victimRef, (Actor*)this, amount, crimeValue, 0);
+    Actor* target = (Actor*)victimRef;
+    bool crime = false;
+    if ((isLowLevel && target == ((::Actor *)(reinterpret_cast<::Twin_0044ddc0 *>((isLowLevel))->GetName()))) || reinterpret_cast<::OwnershipReferenceView *>((((::Actor *)(reinterpret_cast<::Twin_0044ddc0 *>((isLowLevel))->GetName()))))->FUN_005785e0(target, true))
+        crime = true;
+    CrimeStatus* base = ((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((target))->GetBaseTexture()))->FindCrime(((::Actor *)(reinterpret_cast<::FUN_0084e3a0_Class *>((isLowLevel))->FUN_0084e3a0())), 0);
+    int victim = 3;
+    if (!base)
+        ((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((target))->GetBaseTexture()))->SetCrimeStatus(target, victim);
+    else
+        base->status = victim;
+    TESNPC* form = dynamic_cast<TESNPC*>(((::TESBoundObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((target))->FUN_007af430())));
+    ((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((entry))->GetBaseTexture()))->ClearCrime(true);
+    reinterpret_cast<::BaseExtraList_shell *>((((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((target))->FUN_005d43c0()))))->AddOrCreateExtraItem(isLowLevel, reinterpret_cast<::Calendar *>(&((*reinterpret_cast<::CrimeCalendar *>(&::g_011de7b8))))->GetGameTime());
+    reinterpret_cast<::fnv_009eb9c0::Crime *>((isLowLevel))->AddActor((Actor*)this);
+    reinterpret_cast<::fnv_009721f0::FUN_009721f0_shell *>(&((*reinterpret_cast<::CrimeQueue *>(&::g_011e0e80))))->AddObjectToList((::fnv_009721f0::TESFormList *)(isLowLevel));
+    reinterpret_cast<::FUN_008bff50_Standin *>((target))->FUN_008bff50();
+    reinterpret_cast<::FUN_008b7c00_cls *>((target))->FUN_008b7c00(true, true);
+    if (m_bActorListValid)
+    {
+        bool alert = true;
+        if (m_iIntegerAfterActorListValid > 0)
+        {
+            int day = m_iIntegerAfterActorListValid & 0x1ff;
+            if (day != ((char)(reinterpret_cast<::Calendar *>(&((*reinterpret_cast<::CrimeCalendar *>(&::g_011de7b8))))->GetDayOfMonth())))
+            {
+                alert = false;
+                m_bActorListValid = false;
+            }
+        }
+        if (alert)
+        {
+            reinterpret_cast<CrimeActorView*>(this)->Alert(::_g_thePlayer, 0, 1, 0, 0, 0, 1, 0);
+            return;
+        }
+    }
+    else
+    {
+        m_bActorListValid = true;
+        m_iIntegerAfterActorListValid =
+            ((*reinterpret_cast<::CrimeCalendar *>(&::g_011de7b8)).FUN_00867d20() << 9) | ((char)(reinterpret_cast<::Calendar *>(&((*reinterpret_cast<::CrimeCalendar *>(&::g_011de7b8))))->GetDayOfMonth())) | (((int)(reinterpret_cast<::FUN_00867c60_shell *>(&((*reinterpret_cast<::CrimeCalendar *>(&::g_011de7b8))))->FUN_00867c60())) << 13);
+    }
+    reinterpret_cast<::Me *>((target))->FUN_008bf500((Actor*)this);
+}
 #include "generated/data/fallout/ai/actor.inc"
+#include "generated/data/fallout/ai/actor_o2_gs_nood_nogs_variant.inc"
+#include "generated/data/fallout/ai/actor_o2_nood_variant.inc"
+#include "generated/data/fallout/ai/actor_o2_variant.inc"
+#include "generated/data/fallout/ai/actor_ob1_variant.inc"
+#include "generated/data/fallout/ai/actor_rtm_variant.inc"
+#include "generated/data/fallout/ai/actor_o2_nood_variant_rtm_variant.inc"
+#include "generated/data/fallout/ai/actor_o2_variant_gs_nogs_variant.inc"
+#include "generated/data/fallout/ai/actor_o2_variant_od_oy_noo2_variant.inc"

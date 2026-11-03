@@ -532,7 +532,7 @@ class StrList
 class GlobalObject_00633c90
 {
   public:
-    GlobalObject_00633c90(int iValue);
+    GlobalObject_00633c90(intptr_t iValue);
     ~GlobalObject_00633c90();
     void* m_pPointer;
 };
@@ -1101,7 +1101,7 @@ FUN_006c6ce0::FUN_006c6c60::~FUN_006c6c60()
 struct GO
 {
     int v;
-    GO(int);
+    GO(intptr_t);
     ~GO();
 };
 

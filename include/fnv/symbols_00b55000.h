@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 class B55480AVObject;
 class BSFogProperty;

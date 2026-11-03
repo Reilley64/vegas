@@ -1,5 +1,6 @@
 // fallout_shared/magic/magicformulas.cpp: FlaggedData (10 functions)
 
+#include <cstdint>
 #include "fnv/decl/FUN_009373f0_shell.h"
 #include "fnv/symbols_00403000.h"
 #include "fnv/symbols_00404000.h"
@@ -17,7 +18,7 @@ int FlaggedData::ContainsAnyFlag(unsigned int mask)
 }
 // Returns the result of FUN_00874480 on the object from FUN_004b7210 when it exists and its GetIndex is nonzero, otherwise 0.
 // @fnv 0x00703350
-int FlaggedData::GetPlayerValue()
+intptr_t FlaggedData::GetPlayerValue()
 {
     if (((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())) && ((unsigned char)(reinterpret_cast<::FUN_009373f0_shell *>((reinterpret_cast<QuestStage*>(((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))))->FUN_009373f0())))
         return ::FUN_00874480((char *)(((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210()))));

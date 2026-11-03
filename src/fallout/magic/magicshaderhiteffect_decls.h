@@ -97,10 +97,13 @@ template <class T> class NiPointer
     NiPointer& operator=(T*);
     bool operator==(T*) const;
 };
-template <class T, int N = 1024> class BSSimpleArray
+template <class T, unsigned int N = 1024> class BSSimpleArray
 {
   public:
-    unsigned int data[4];
+    void** m_ppVirtualMethodTable;
+    T* pBuffer;
+    unsigned int iSize;
+    unsigned int SimpleArrayStorage;
     unsigned int GetSize();
     T& GetAt(int);
     void FUN_006c61b0(const T&);

@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 struct A6830Actor;
 struct A69C0Actor;
@@ -20,7 +21,7 @@ float FUN_009a64d0(::S_9a64d0_Ref *, ::S_9a64d0_Ref *, bool);
 // 0x009a6770
 float FUN_009a6770(::S_009a6770_Ref *, ::S_009a6770_Ref *);
 // 0x009a6830
-float FUN_009a6830(::A6830Actor *, int, float);
+float FUN_009a6830(::A6830Actor *, intptr_t, float);
 // 0x009a68b0
 ::S_009a68b0_Pt FUN_009a68b0(::S_009a68b0_Ref *, ::S_009a68b0_Obj *, ::S_009a68b0_Pt *, float);
 // 0x009a69c0
@@ -30,4 +31,4 @@ bool IsTargetInCone(::ConeRef *, ::ConeRef *, float *);
 // 0x009a6d70
 bool IsWithinAimLimits(::S_009a6d70_Actor *, ::NiPoint3 *, float, float);
 // 0x009a6e90
-bool FUN_009a6e90(void *, void *, float, float, float, float, float, float, float, ::NiPoint3 *, int *, float *);
+bool FUN_009a6e90(void *, void *, float, ::NiPoint3, ::NiPoint3, ::NiPoint3 *, void **, float *);

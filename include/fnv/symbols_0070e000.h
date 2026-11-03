@@ -1,11 +1,12 @@
 #pragma once
+#include <cstdint>
 
 // 0x0070ec00
 bool FUN_0070ec00();
 // 0x0070ec50
 char FUN_0070ec50(char *);
 // 0x0070ec90
-unsigned int FUN_0070ec90(char *);
+uintptr_t FUN_0070ec90(char *);
 // 0x0070ecb0
 namespace fnv_0070ecb0 { float GetRatio(); }
 // 0x0070ecd0

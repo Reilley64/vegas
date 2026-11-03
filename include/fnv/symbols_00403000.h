@@ -1,7 +1,8 @@
 #pragma once
+#include <cstdint>
 
 // 0x00403940
-unsigned int FUN_00403940(unsigned int, unsigned int);
+uintptr_t FUN_00403940(unsigned int, unsigned int);
 // 0x00403ba0
 int *FUN_00403ba0(int *);
 // 0x00403c80

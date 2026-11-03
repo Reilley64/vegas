@@ -32,6 +32,9 @@ class SaveLoadHeader
 class BGSSaveLoadManager
 {
   public:
+    void* m_pSaveLoadFileEntryList;
+    unsigned int SaveLoadManagerState;
+    unsigned int m_uiSaveLoadSubstate;
 };
 
 class BGSLoadGameBuffer

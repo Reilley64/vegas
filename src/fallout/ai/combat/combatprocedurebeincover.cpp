@@ -2,6 +2,8 @@
 // src/fallout/ai/combat/combatprocedurebeincover.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/combat/combatprocedurebeincover.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/combat_controller_fields.h"
+#include <cstdint>
 #include "fnv/decl/ActorCombatGroup.h"
 #include "fnv/decl/CombatProcedureEx.h"
 #include "fnv/decl/CombatTargetTimestamp.h"
@@ -221,7 +223,7 @@ struct FUN_009d2570_shell : public CombatProcedure
 // @fnv 0x009d2570
 void FUN_009d2570_shell::StopAttackerAndEngageTarget()
 {
-    Actor* actor = ((::Actor *)(::GetFieldBC((::FUN_0097ae90_Class *)(m_pattacker))));
+    Actor* actor = ((::Actor *)(reinterpret_cast<CombatControllerFields*>(m_pattacker)->pActor));
     reinterpret_cast<::FUN_008b3ab0_shell *>((actor))->FUN_008b3ab0();
     reinterpret_cast<::fnv_00996e40::FUN_00996e40_shell *>((((CombatProcedureEngageTarget*)this)))->FUN_00996e40();
     reinterpret_cast<::fnv_00996ea0::MyProc *>(this)->FUN_00996ea0();
@@ -251,7 +253,7 @@ void FUN_009d33e0_shell::UpdateCombatProcedure(Projectile* apProjectile)
     {
     case 1:
         ((FUN_008d7f40_shell*)((char*)this + 0x3c))
-            ->FUN_008d7f40(((FUN_009d32e0_shell*)((FUN_00980070_shell*)*(int*)((char*)this + 4))->FUN_00980070())
+            ->FUN_008d7f40(((FUN_009d32e0_shell*)reinterpret_cast<CombatControllerFields*>(*(void**)((char*)this + 4))->pCombatStyle)
                                ->GetRandomFloatInRange());
         break;
     case 2:
@@ -260,7 +262,7 @@ void FUN_009d33e0_shell::UpdateCombatProcedure(Projectile* apProjectile)
         *(int*)((char*)this + 0x10) = 4;
         ((FUN_008d7f40_shell*)((char*)this + 0x4c))
             ->FUN_008d7f40(
-                ((TESCombatStyle*)((FUN_00980070_shell*)*(int*)((char*)this + 4))->FUN_00980070())->GetRandomValue());
+                ((TESCombatStyle*)reinterpret_cast<CombatControllerFields*>(*(void**)((char*)this + 4))->pCombatStyle)->GetRandomValue());
         break;
     }
 }
@@ -829,7 +831,7 @@ void CoverProcedure::UpdateCoverState()
 {
     if (!reinterpret_cast<::FUN_009a0600_shell *>((((::CoverState *)(reinterpret_cast<::InterfaceManager *>((manager))->FUN_00586150()))))->FUN_009a0600((::CombatCoverPointData *)(location)))
     {
-        reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((int)("Cover Location no longer exists"));
+        reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((intptr_t)("Cover Location no longer exists"));
         return;
     }
     CoverActor* actor_ = FUN_00996de0();
@@ -865,7 +867,7 @@ void CoverProcedure::UpdateCoverState()
                 CoverPoint coverPos9 = targetTmp->GetPosition();
                 CoverPoint targetPos = location->position;
                 CoverPoint delta = coverPos9 - targetPos;
-                if (reinterpret_cast<::TESCombatStyle *>((void *)&(delta))->UpdateCombatStyle() > 589824.0 && ((bool)(reinterpret_cast<::ActorCombatGroup *>((group7))->GetByteAtOffset100((int)(targetTmp)))))
+                if (reinterpret_cast<::TESCombatStyle *>((void *)&(delta))->UpdateCombatStyle() > 589824.0 && ((bool)(reinterpret_cast<::ActorCombatGroup *>((group7))->GetByteAtOffset100((intptr_t)(targetTmp)))))
                     reinterpret_cast<::FUN_005407b0_Class *>((location))->FUN_005407b0(1);
             }
         }
@@ -882,7 +884,7 @@ void CoverProcedure::UpdateCoverState()
         reinterpret_cast<::fnv_008b3880::FUN_008b3880_target *>((actor_))->PathToLocation((::fnv_008b3880::PathingRequest *)&(request), (void *)&(coverPosition), ((void *)(reinterpret_cast<::LowProcess *>((actor_))->GetTarget())), ((void *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((actor_))->FUN_00575d70())), 0.0f, (::fnv_008b3880::PathingAvoidNodeArray *)(0));
         if (!actor_->RequestPath(&request))
         {
-            reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((int)("Cannot setup path to Cover position"));
+            reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((intptr_t)("Cannot setup path to Cover position"));
             return;
         }
         state = 6;
@@ -905,7 +907,7 @@ void CoverProcedure::UpdateCoverState()
                 reinterpret_cast<::fnv_008b3880::FUN_008b3880_target *>((actor_))->PathToLocation((::fnv_008b3880::PathingRequest *)&(request), (void *)&(firePosition), ((void *)(reinterpret_cast<::LowProcess *>((actor_))->GetTarget())), ((void *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((actor_))->FUN_00575d70())), 0.0f, (::fnv_008b3880::PathingAvoidNodeArray *)(0));
                 if (!actor_->RequestPath(&request))
                 {
-                    reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((int)("Cannot setup path to Fire position"));
+                    reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((intptr_t)("Cannot setup path to Fire position"));
                     return;
                 }
                 if (((bool)(reinterpret_cast<::FUN_009d3390_cls *>((location))->FUN_009d3390())))
@@ -920,14 +922,14 @@ void CoverProcedure::UpdateCoverState()
     case 2: {
         if (reinterpret_cast<::FUN_008b3b90_shell *>((actor_))->FUN_008b3b90())
         {
-            reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((int)(reinterpret_cast<::FUN_008b3960_Class *>((actor_))->FUN_008b3960() ? "Pathing failed while moving out" : "Path Building failed to move out"));
+            reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((intptr_t)(reinterpret_cast<::FUN_008b3960_Class *>((actor_))->FUN_008b3960() ? "Pathing failed while moving out" : "Path Building failed to move out"));
             return;
         }
         if (((bool)(reinterpret_cast<::TeleportableReference *>((actor_))->GetTeleportDestinationForm())))
         {
             state = 3;
             reinterpret_cast<::fnv_00996ea0::MyProc *>(this)->FUN_00996ea0();
-            reinterpret_cast<::FUN_008d7f40_shell *>(&(outWait))->FUN_008d7f40(reinterpret_cast<::FUN_009d3310_shell *>((((::CoverStyle *)(reinterpret_cast<::FUN_00980070_shell *>((manager))->FUN_00980070()))))->GetRandomFloat());
+            reinterpret_cast<::FUN_008d7f40_shell *>(&(outWait))->FUN_008d7f40(reinterpret_cast<::FUN_009d3310_shell *>((((::CoverStyle *)(reinterpret_cast<CombatControllerFields*>((manager))->pCombatStyle))))->GetRandomFloat());
         }
         break;
     }
@@ -936,19 +938,19 @@ void CoverProcedure::UpdateCoverState()
         if (reinterpret_cast<::CombatTargetTimestamp *>(&(stamp))->FUN_006a7f50() > reinterpret_cast<::CombatTargetTimestamp *>(&(wait))->FUN_006a7f50())
         {
             state = 4;
-            reinterpret_cast<::FUN_008d7f40_shell *>(&(firing))->FUN_008d7f40(reinterpret_cast<::TESCombatStyle *>((((::CoverStyle *)(reinterpret_cast<::FUN_00980070_shell *>((manager))->FUN_00980070()))))->GetRandomValue());
+            reinterpret_cast<::FUN_008d7f40_shell *>(&(firing))->FUN_008d7f40(reinterpret_cast<::TESCombatStyle *>((((::CoverStyle *)(reinterpret_cast<CombatControllerFields*>((manager))->pCombatStyle))))->GetRandomValue());
             reinterpret_cast<::TimeoutTimer *>(&(blocked))->FUN_00910b10();
         }
         else if (reinterpret_cast<::TimeoutTimer *>(&(outWait))->CheckTimer())
         {
             reinterpret_cast<::FUN_009a03d0_cls *>((combat7))->FUN_009a03d0(0);
-            reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((int)("Waited out of cover without firing"));
+            reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((intptr_t)("Waited out of cover without firing"));
             return;
         }
-        else if (reinterpret_cast<::FUN_00435e00_t *>(&(outWait))->FUN_00435e00() > 2.0 && !::FUN_0097fb20((::CombatState *)(combat7)) && ((bool)(reinterpret_cast<::ActorCombatGroup *>((group7))->GetByteAtOffset100((int)(targetTmp)))))
+        else if (reinterpret_cast<::FUN_00435e00_t *>(&(outWait))->FUN_00435e00() > 2.0 && !::FUN_0097fb20((::CombatState *)(combat7)) && ((bool)(reinterpret_cast<::ActorCombatGroup *>((group7))->GetByteAtOffset100((intptr_t)(targetTmp)))))
         {
             reinterpret_cast<::FUN_009a03d0_cls *>((combat7))->FUN_009a03d0(0);
-            reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((int)("Waited out of cover and group member has LOS on target"));
+            reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((intptr_t)("Waited out of cover and group member has LOS on target"));
             return;
         }
         if (((bool)(reinterpret_cast<::FUN_008b3c90_class *>((combat7))->GetByteAtOffset114())))
@@ -958,7 +960,7 @@ void CoverProcedure::UpdateCoverState()
             else if (reinterpret_cast<::TimeoutTimer *>(&(blocked))->CheckTimer())
             {
                 reinterpret_cast<::FUN_009a03d0_cls *>((combat7))->FUN_009a03d0(1);
-                reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((int)("Waited out of cover but was blocked"));
+                reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((intptr_t)("Waited out of cover but was blocked"));
                 return;
             }
         }
@@ -972,7 +974,7 @@ void CoverProcedure::UpdateCoverState()
             reinterpret_cast<::fnv_008b3880::FUN_008b3880_target *>((actor_))->PathToLocation((::fnv_008b3880::PathingRequest *)&(request), (void *)&(coverPosition), ((void *)(reinterpret_cast<::LowProcess *>((actor_))->GetTarget())), ((void *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((actor_))->FUN_00575d70())), 0.0f, (::fnv_008b3880::PathingAvoidNodeArray *)(0));
             if (!actor_->RequestPath(&request))
             {
-                reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((int)("Cannot setup path to move back to Cover position"));
+                reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((intptr_t)("Cannot setup path to move back to Cover position"));
                 return;
             }
             reinterpret_cast<::fnv_00996e20::FUN_00996e20_shell *>(this)->FUN_00996e20(canFire4 && active8 ? 2 : 1);
@@ -983,7 +985,7 @@ void CoverProcedure::UpdateCoverState()
     case 5: {
         if (reinterpret_cast<::FUN_008b3b90_shell *>((actor_))->FUN_008b3b90())
         {
-            reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((int)(reinterpret_cast<::FUN_008b3960_Class *>((actor_))->FUN_008b3960() ? "Pathing failed while moving in" : "Path Building failed to move in"));
+            reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((intptr_t)(reinterpret_cast<::FUN_008b3960_Class *>((actor_))->FUN_008b3960() ? "Pathing failed while moving in" : "Path Building failed to move in"));
             return;
         }
         if (((bool)(reinterpret_cast<::TeleportableReference *>((actor_))->GetTeleportDestinationForm())))
@@ -991,7 +993,7 @@ void CoverProcedure::UpdateCoverState()
             state = 1;
             reinterpret_cast<::fnv_00996ea0::MyProc *>(this)->FUN_00996ea0();
             reinterpret_cast<::fnv_00996e20::FUN_00996e20_shell *>(this)->FUN_00996e20(2);
-            reinterpret_cast<::FUN_008d7f40_shell *>(&(wait))->FUN_008d7f40(reinterpret_cast<::FUN_009d32e0_shell *>((((::CoverStyle *)(reinterpret_cast<::FUN_00980070_shell *>((manager))->FUN_00980070()))))->GetRandomFloatInRange());
+            reinterpret_cast<::FUN_008d7f40_shell *>(&(wait))->FUN_008d7f40(reinterpret_cast<::FUN_009d32e0_shell *>((((::CoverStyle *)(reinterpret_cast<CombatControllerFields*>((manager))->pCombatStyle))))->GetRandomFloatInRange());
         }
         else
         {
@@ -1009,7 +1011,7 @@ void CoverProcedure::UpdateCoverState()
     case 6: {
         if (reinterpret_cast<::FUN_008b3b90_shell *>((actor_))->FUN_008b3b90())
         {
-            reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((int)(reinterpret_cast<::FUN_008b3960_Class *>((actor_))->FUN_008b3960() ? "Pathing failed while moving in and rotating"
+            reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((intptr_t)(reinterpret_cast<::FUN_008b3960_Class *>((actor_))->FUN_008b3960() ? "Pathing failed while moving in and rotating"
                                            : "Path Building failed to move in and rotate"));
             return;
         }
@@ -1017,7 +1019,7 @@ void CoverProcedure::UpdateCoverState()
         {
             state = 1;
             reinterpret_cast<::fnv_00996e20::FUN_00996e20_shell *>(this)->FUN_00996e20(2);
-            reinterpret_cast<::FUN_008d7f40_shell *>(&(wait))->FUN_008d7f40(reinterpret_cast<::FUN_009d32e0_shell *>((((::CoverStyle *)(reinterpret_cast<::FUN_00980070_shell *>((manager))->FUN_00980070()))))->GetRandomFloatInRange());
+            reinterpret_cast<::FUN_008d7f40_shell *>(&(wait))->FUN_008d7f40(reinterpret_cast<::FUN_009d32e0_shell *>((((::CoverStyle *)(reinterpret_cast<CombatControllerFields*>((manager))->pCombatStyle))))->GetRandomFloatInRange());
         }
         break;
     }
@@ -1028,7 +1030,7 @@ void CoverProcedure::UpdateCoverState()
             reinterpret_cast<::fnv_008b3880::FUN_008b3880_target *>((actor_))->PathToLocation((::fnv_008b3880::PathingRequest *)&(request), (void *)&(coverPosition), ((void *)(reinterpret_cast<::LowProcess *>((actor_))->GetTarget())), ((void *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((actor_))->FUN_00575d70())), 0.0f, (::fnv_008b3880::PathingAvoidNodeArray *)(0));
             if (!actor_->RequestPath(&request))
             {
-                reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((int)("Cannot setup path to move back to Cover position"));
+                reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((intptr_t)("Cannot setup path to move back to Cover position"));
                 return;
             }
             reinterpret_cast<::fnv_00996e20::FUN_00996e20_shell *>(this)->FUN_00996e20(canFire4 && active8 ? 2 : 1);
@@ -1037,7 +1039,7 @@ void CoverProcedure::UpdateCoverState()
         else if (reinterpret_cast<::TimeoutTimer *>(&(holding))->CheckTimer())
         {
             reinterpret_cast<::FUN_009a03d0_cls *>((combat7))->FUN_009a03d0(0);
-            reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((int)(kCoverLOS));
+            reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((intptr_t)(kCoverLOS));
             return;
         }
         else if (reinterpret_cast<::FUN_00435e00_t *>(&(holding))->FUN_00435e00() > reinterpret_cast<::TimeoutTimer *>(&(holding))->FUN_006b9130() / 4.0)
@@ -1048,7 +1050,7 @@ void CoverProcedure::UpdateCoverState()
             if (reinterpret_cast<::TESCombatStyle *>((void *)&(actorPos6))->UpdateCombatStyle() < 262144.0)
             {
                 reinterpret_cast<::FUN_009a03d0_cls *>((combat7))->FUN_009a03d0(0);
-                reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((int)(kCoverLOS));
+                reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((intptr_t)(kCoverLOS));
             }
         }
         break;

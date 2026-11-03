@@ -2,6 +2,8 @@
 // src/fallout/magic/commandeffect.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/commandeffect.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
+#include "fnv/active_effect_fields.h"
 #include <new>
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/BSShaderNoLightingProperty.h"
@@ -28,7 +30,7 @@ struct FUN_0080b640_shell : ActorValueInfo
 // @fnv 0x0080b640
 void FUN_0080b640_shell::FUN_0080b640(const char* apName)
 {
-    reinterpret_cast<::FUN_00401290_Class *>((void *)this)->FUN_00401290((int)(apName));
+    reinterpret_cast<::FUN_00401290_Class *>((void *)this)->FUN_00401290((intptr_t)(apName));
 }
 
 extern int DAT_010799fc;
@@ -39,7 +41,7 @@ struct FUN_0080b560_shell
 struct FUN_0080b370_shell : FUN_0080b560_shell
 {
     void* m_vt;
-    void* FUN_0080b370(int, int, int);
+    void* FUN_0080b370(intptr_t, intptr_t, intptr_t);
 };
 class MagicCaster;
 class MagicItem;
@@ -55,7 +57,7 @@ struct FUN_0080b560 : ActiveEffect
 };
 // Calls the base constructor with the three arguments, sets m_vt to the address of DAT_010799fc, and returns this.
 // @fnv 0x0080b370
-void* FUN_0080b370_shell::FUN_0080b370(int aiArg1, int aiArg2, int aiArg3)
+void* FUN_0080b370_shell::FUN_0080b370(intptr_t aiArg1, intptr_t aiArg2, intptr_t aiArg3)
 {
     new ((void *)this) ::FUN_0080b560((::MagicCaster *)(aiArg1), (::MagicItem *)(aiArg2), (::EffectItem *)(aiArg3));
     m_vt = (void*)&DAT_010799fc;
@@ -65,7 +67,7 @@ void* FUN_0080b370_shell::FUN_0080b370(int aiArg1, int aiArg2, int aiArg3)
 FUN_0080b560::FUN_0080b560(MagicCaster* a, MagicItem* pItem, EffectItem* pEffectItem)
     : ActiveEffect(a, pItem, pEffectItem)
 {
-    *(int*)this = (int)&DAT_01079a9c;
+    *(void**)this = (void*)&DAT_01079a9c;
 }
 
 namespace fnv_0080b7c0 {
@@ -91,10 +93,10 @@ struct FUN_0080b7c0_shell : Proc_S
 void FUN_0080b7c0_shell::FUN_0080b7c0()
 {
     Actor* ptarget =
-        reinterpret_cast<::ActorMover *>((((BSThread*)this)))->GetCurrentMoveModeType() ? ((::fnv_0080b7c0::Actor *)(reinterpret_cast<::MagicTarget *>((void *)(((MagicTarget*)reinterpret_cast<::ActorMover *>((((BSThread*)this)))->GetCurrentMoveModeType())))->GetOwnerActor())) : 0;
+        reinterpret_cast<::ActiveEffectFields *>(this)->target ? ((::fnv_0080b7c0::Actor *)(reinterpret_cast<::MagicTarget *>((void *)(((MagicTarget*)reinterpret_cast<::ActiveEffectFields *>(this)->target)))->GetOwnerActor())) : 0;
     Actor* pcaster = ((::fnv_0080b7c0::MagicCaster *)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60())) ? ((::fnv_0080b7c0::Actor *)(reinterpret_cast<::MagicCaster *>((((::fnv_0080b7c0::MagicCaster *)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60()))))->GetCasterActor())) : 0;
     if (ptarget && pcaster)
-        ::FUN_0080b9e0(ptarget, (int)(pcaster), 1);
+        ::FUN_0080b9e0(ptarget, pcaster, 1);
 }
 }  // namespace fnv_0080b7c0
 
@@ -146,15 +148,15 @@ struct FUN_0080b590_object
 {
     FUN_0080b590_vtable* vtable;
     int unk04;
-    int unk08;
-    int unk0c;
+    intptr_t unk08;
+    intptr_t unk0c;
     int unk10;
     int unk14;
     int unk18;
     int unk1c;
     int unk20;
     int unk24;
-    int unk28;
+    intptr_t unk28;
     FUN_0080b560* CreateAndApplyEffect();
 };
 // Allocates an EffectStorage from the object's caster, item and effect item, applies it via the vtable, and returns it.
@@ -185,7 +187,7 @@ struct FUN_0080b660_class : FUN_0045cd60_shell
 // @fnv 0x0080b660
 void FUN_0080b660_class::FUN_0080b660()
 {
-    Actor* pSourceActor = ((::fnv_0080b660::SourceA *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType())) ? ((::fnv_0080b660::Actor *)(reinterpret_cast<::MagicTarget *>((((::fnv_0080b660::SourceA *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType()))))->GetOwnerActor())) : (Actor*)0;
+    Actor* pSourceActor = ((::fnv_0080b660::SourceA *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) ? ((::fnv_0080b660::Actor *)(reinterpret_cast<::MagicTarget *>((((::fnv_0080b660::SourceA *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))))->GetOwnerActor())) : (Actor*)0;
     Actor* pCasterActor = ((::fnv_0080b660::MagicCaster *)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60())) ? ((::fnv_0080b660::Actor *)(reinterpret_cast<::MagicCaster *>((((::fnv_0080b660::MagicCaster *)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60()))))->GetCasterActor())) : (Actor*)0;
     if (pSourceActor && pCasterActor)
         ::StartHostilityAndCombat((::B850Actor *)(pSourceActor), (::B850Actor *)(pCasterActor));
@@ -402,7 +404,7 @@ void FUN_0080b6f0_cls::FUN_0080b6f0(int)
 {
     EffectHost* a;
     void* b;
-    a = ((::EffectSource *)(reinterpret_cast<::ActorMover *>((((FUN_0080b6f0_owner*)this)))->GetCurrentMoveModeType())) != 0 ? ((::EffectHost *)(reinterpret_cast<::MagicTarget *>((((::EffectSource *)(reinterpret_cast<::ActorMover *>((((FUN_0080b6f0_owner*)this)))->GetCurrentMoveModeType()))))->GetOwnerActor()))
+    a = ((::EffectSource *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) != 0 ? ((::EffectHost *)(reinterpret_cast<::MagicTarget *>((((::EffectSource *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))))->GetOwnerActor()))
                                                          : 0;
     b = ((::EffectSource *)(reinterpret_cast<::FUN_0045cd60_shell *>((((FUN_0080b6f0_owner*)this)))->FUN_0045cd60())) != 0 ? ((void *)(reinterpret_cast<::MagicCaster *>((((::EffectSource *)(reinterpret_cast<::FUN_0045cd60_shell *>((((FUN_0080b6f0_owner*)this)))->FUN_0045cd60()))))->GetCasterActor()))
                                                          : 0;
@@ -1426,7 +1428,7 @@ void FUN_0080b8f0(void* pActor, void* pOther)
     if (((unsigned char)(reinterpret_cast<::FUN_00493bb0_Class *>((reinterpret_cast<ActorRef*>(pActor)))->FUN_00493bb0())) == 0)
     {
         w3 = 0;
-        if ((int)pOther != (*reinterpret_cast<int *>(&::_g_thePlayer)))
+        if ((intptr_t)pOther != (*reinterpret_cast<int *>(&::_g_thePlayer)))
         {
             w5 = ((::VirtOwner *)(reinterpret_cast<::BSShaderNoLightingProperty *>((reinterpret_cast<ActorRef*>(pOther)))->GetBaseTexture()));
             w3 = w5->v27c();
@@ -1436,7 +1438,7 @@ void FUN_0080b8f0(void* pActor, void* pOther)
         if (w3 == 0 || reinterpret_cast<struct ::FUN_0041ca90 *>((reinterpret_cast<ResultRef*>(w3)))->get() == 0x12)
         {
             if (w1 == 0 || reinterpret_cast<ActorRef*>(pActor)->FUN_00881570() == 0)
-                reinterpret_cast<::FUN_004534f0_shell *>((reinterpret_cast<ActorRef*>(pActor)))->FUN_004534f0((unsigned int)(pOther));
+                reinterpret_cast<::FUN_004534f0_shell *>((reinterpret_cast<ActorRef*>(pActor)))->FUN_004534f0((uintptr_t)(pOther));
         }
     }
 }
@@ -1446,13 +1448,13 @@ struct FUN_008d8520_class
 };
 
 typedef void(* SlotNoFloat)(void* self, int aArg);
-typedef void(* SlotWithFloat)(void* self, int aArg, float aValue);
+typedef void(* SlotWithFloat)(void* self, void* aArg, float aValue);
 typedef void(* SlotThreeInts)(void* self, int aA, int aB, int aC);
 
 
 // If the owner's FUN_008d8520 result is non-null and abFlag is set, calls slot 330 on it with 0, then calls slots 280 and 232 on apOwner.
 // @fnv 0x0080b9e0
-void FUN_0080b9e0(void* apOwner, int aValue, bool abFlag)
+void FUN_0080b9e0(void* apOwner, void* aValue, bool abFlag)
 {
     if (((void *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((FUN_008d8520_class*)apOwner)))->GetBaseTexture())) != 0 && abFlag)
     {

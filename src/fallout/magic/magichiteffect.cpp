@@ -1,5 +1,8 @@
 // fallout/magic/magichiteffect.cpp: MagicHitEffect (17 functions)
 
+#include <cstdint>
+#include "fnv/magic_hit_effect_fields.h"
+#include "fnv/active_effect_fields.h"
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/BGSTerrainManager.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -51,7 +54,7 @@ MagicHitEffect::MagicHitEffect(TESObjectREFR* target, ActiveEffect* effect) : BS
 
 struct Arg_0081b830
 {
-    int value;
+    void* value;
 };
 
 struct Sub_00905330
@@ -70,7 +73,7 @@ void ForwardArgToSubobject(Owner_0081b830* pThis, Arg_0081b830 arg)
 {
     if (pThis->unk40 != 0)
     {
-        reinterpret_cast<::ItemChangeListNode *>((pThis->unk40))->FUN_00905330((*(::InventoryStackRecord *const *)(&arg)));
+        reinterpret_cast<::ItemChangeListNode *>((pThis->unk40))->FUN_00905330((::InventoryStackRecord *)(arg.value));
     }
 }
 
@@ -127,7 +130,7 @@ FUN_0081b7b0::~FUN_0081b7b0()
 {
     pTarget = 0;
     if (pEffect)
-        ::ForwardArgToSubobject((::Owner_0081b830 *)(((Owner_0081b830*)pEffect)), (::Arg_0081b830)(this));
+        ::ForwardArgToSubobject((::Owner_0081b830 *)(((Owner_0081b830*)pEffect)), ::Arg_0081b830{this});
     pEffect = 0;
 }
 }  // namespace fnv_0081b7b0
@@ -138,7 +141,6 @@ struct FUN_008df040_shell
 {
     unsigned char FUN_008df040();
 };
-typedef FUN_008df040_shell TESSaveLoadGame;
 
 
 struct FUN_0081bd30_s
@@ -496,16 +498,16 @@ struct FUN_0081bc70_s
 // @fnv 0x0081bc70
 void FUN_0081bc70_s::FUN_0081bc70(Node* apArg)
 {
-    if (((::Node *)(reinterpret_cast<::BGSTerrainManager *>(this)->GetMinLevel())))
+    if (((::Node *)(reinterpret_cast<::MagicHitEffectFields *>(this)->pTarget)))
     {
-        reinterpret_cast<::FUN_0041fd00_shell *>(this)->FUN_0041fd00((int)(((void *)(reinterpret_cast<::LowProcess *>((((::Node *)(reinterpret_cast<::BGSTerrainManager *>(this)->GetMinLevel()))))->GetTarget()))));
+        reinterpret_cast<::FUN_0041fd00_shell *>(this)->FUN_0041fd00((std::intptr_t)(((void *)(reinterpret_cast<::LowProcess *>((((::Node *)(reinterpret_cast<::MagicHitEffectFields *>(this)->pTarget))))->GetTarget()))));
         if (apArg)
         {
-            if (((::Node *)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0())) && ((::Node *)(reinterpret_cast<::FUN_00545cb0_shell *>((((::Node *)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0()))))->FUN_00545cb0())))
+            if (((::Node *)(reinterpret_cast<::MagicHitEffectFields *>(this)->pCell)) && ((::Node *)(reinterpret_cast<::FUN_00545cb0_shell *>((((::Node *)(reinterpret_cast<::MagicHitEffectFields *>(this)->pCell))))->FUN_00545cb0())))
             {
-                if (!((::Node *)(reinterpret_cast<::FUN_009611e0_shell *>((apArg))->FUN_009611e0())) || ((::Node *)(reinterpret_cast<::FUN_00545cb0_shell *>((((::Node *)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0()))))->FUN_00545cb0())) != ((::Node *)(reinterpret_cast<::FUN_009611e0_shell *>((((::Node *)(reinterpret_cast<::FUN_009611e0_shell *>((apArg))->FUN_009611e0()))))->FUN_009611e0())))
+                if (!((::Node *)(reinterpret_cast<::FUN_009611e0_shell *>((apArg))->FUN_009611e0())) || ((::Node *)(reinterpret_cast<::FUN_00545cb0_shell *>((((::Node *)(reinterpret_cast<::MagicHitEffectFields *>(this)->pCell))))->FUN_00545cb0())) != ((::Node *)(reinterpret_cast<::FUN_009611e0_shell *>((((::Node *)(reinterpret_cast<::FUN_009611e0_shell *>((apArg))->FUN_009611e0()))))->FUN_009611e0())))
                 {
-                    VObj* m = ((::VObj *)(reinterpret_cast<::TESObjectCELL *>((((::Node *)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0()))))->GetDynamicNode()));
+                    VObj* m = ((::VObj *)(reinterpret_cast<::TESObjectCELL *>((((::Node *)(reinterpret_cast<::MagicHitEffectFields *>(this)->pCell))))->GetDynamicNode()));
                     m->v55(apArg, 1);
                 }
             }
@@ -540,15 +542,15 @@ class BF20RefFormCall : public BF20FormCall
   public:
     TESObjectREFR* m_pkTarget;
 
-    void FUN_0081bf20(unsigned int uiFlags);
+    void FUN_0081bf20(uintptr_t uiFlags);
 };
 
 // Reverts the base form call with uiFlags, then re-resolves m_pkTarget through BF20ResolveForm or clears it if null.
 // @fnv 0x0081bf20
-void BF20RefFormCall::FUN_0081bf20(unsigned int uiFlags)
+void BF20RefFormCall::FUN_0081bf20(uintptr_t uiFlags)
 {
     reinterpret_cast<::FUN_004534f0_shell *>(this)->FUN_004534f0(uiFlags);
-    m_pkTarget = m_pkTarget ? dynamic_cast<TESObjectREFR*>(::FUN_004839c0((unsigned int)(m_pkTarget))) : 0;
+    m_pkTarget = m_pkTarget ? dynamic_cast<TESObjectREFR*>(::FUN_004839c0((unsigned int)(std::uintptr_t)(m_pkTarget))) : 0;
 }
 
 class TESActorBase
@@ -649,10 +651,10 @@ class MgrX
 // @fnv 0x0081b8e0
 FUN_00470440* __cdecl CreateEffectEntries(ActiveEffect* pEffect)
 {
-    if (reinterpret_cast<::MagicTarget *>((((::CasterX *)(reinterpret_cast<::ActorMover *>((pEffect))->GetCurrentMoveModeType()))))->GetOwnerActor())
+    if (reinterpret_cast<::MagicTarget *>((((::CasterX *)(reinterpret_cast<::ActiveEffectFields *>(pEffect)->target))))->GetOwnerActor())
     {
-        TESCreature* pCreature = dynamic_cast<TESCreature*>(reinterpret_cast<::MagicTarget *>((((::CasterX *)(reinterpret_cast<::ActorMover *>((pEffect))->GetCurrentMoveModeType()))))->GetOwnerActor()->GetActorBase());
-        Character* pCharacter = dynamic_cast<Character*>(reinterpret_cast<::MagicTarget *>((((::CasterX *)(reinterpret_cast<::ActorMover *>((pEffect))->GetCurrentMoveModeType()))))->GetOwnerActor());
+        TESCreature* pCreature = dynamic_cast<TESCreature*>(reinterpret_cast<::MagicTarget *>((((::CasterX *)(reinterpret_cast<::ActiveEffectFields *>(pEffect)->target))))->GetOwnerActor()->GetActorBase());
+        Character* pCharacter = dynamic_cast<Character*>(reinterpret_cast<::MagicTarget *>((((::CasterX *)(reinterpret_cast<::ActiveEffectFields *>(pEffect)->target))))->GetOwnerActor());
         if ((!pCreature || !pCreature->FUN_005fbf20()) && pCharacter)
             pCharacter->V218();
     }
@@ -666,7 +668,7 @@ FUN_00470440* __cdecl CreateEffectEntries(ActiveEffect* pEffect)
         return c;
     if (!pEffect->HasFlag(4) && !FUN_00525420())
     {
-        a = new FUN_0081c630(((::CasterX *)(reinterpret_cast<::ActorMover *>((pEffect))->GetCurrentMoveModeType()))->V04(pEffect));
+        a = new FUN_0081c630(((::CasterX *)(reinterpret_cast<::ActiveEffectFields *>(pEffect)->target))->V04(pEffect));
         if (a->VC4())
         {
             reinterpret_cast<::FUN_00973fd0_cls *>(&((*reinterpret_cast<::MgrX *>(&::g_011e0e80))))->FUN_00973fd0((::FnvArgObj *)(a));
@@ -679,7 +681,7 @@ FUN_00470440* __cdecl CreateEffectEntries(ActiveEffect* pEffect)
     }
     if (!pEffect->HasFlag(2))
     {
-        a = new FUN_0081f350(((::CasterX *)(reinterpret_cast<::ActorMover *>((pEffect))->GetCurrentMoveModeType()))->V04(pEffect));
+        a = new FUN_0081f350(((::CasterX *)(reinterpret_cast<::ActiveEffectFields *>(pEffect)->target))->V04(pEffect));
         if (a->VC4())
         {
             reinterpret_cast<::FUN_00973fd0_cls *>(&((*reinterpret_cast<::MgrX *>(&::g_011e0e80))))->FUN_00973fd0((::FnvArgObj *)(a));

@@ -2,6 +2,7 @@
 // src/fallout/magic/frenzyeffect.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/frenzyeffect.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/active_effect_fields.h"
 #include <new>
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/BaseProcess.h"
@@ -139,7 +140,7 @@ struct FUN_0080dd30_shell : ValueModifierEffect
 void FUN_0080dd30_shell::FUN_0080dd30()
 {
     reinterpret_cast<::FUN_0082c000_shell *>(this)->FUN_0082c000();
-    Actor* target = reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType() ? ((MagicTarget*)(void*)reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType())->GetOwnerActor() : 0;
+    Actor* target = reinterpret_cast<::ActiveEffectFields *>(this)->target ? ((MagicTarget*)(void*)reinterpret_cast<::ActiveEffectFields *>(this)->target)->GetOwnerActor() : 0;
     Actor* caster = ((void *)(reinterpret_cast<::FUN_0045cd60_shell *>((((Proc_S*)this)))->FUN_0045cd60())) ? ((MagicCaster*)((void *)(reinterpret_cast<::FUN_0045cd60_shell *>((((Proc_S*)this)))->FUN_0045cd60())))->GetCasterActor() : 0;
     if (target && caster && ((bool)(reinterpret_cast<::FUN_00493bb0_Class *>((((PCH*)target)))->FUN_00493bb0())))
         ((char*)this)[0x4c] = 1;
@@ -296,7 +297,7 @@ void FrenzyEffectCore::FUN_0080ddd0()
     if (exhausted)
         return;
     {
-        Actor* actor = ((::Ref *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType())) ? ((::Ref *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType()))->FUN_00822b40() : 0;
+        Actor* actor = ((::Ref *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) ? ((::Ref *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))->FUN_00822b40() : 0;
         if (actor != 0 && ((unsigned char)(reinterpret_cast<::FUN_00493bb0_Class *>((actor))->FUN_00493bb0())))
         {
             ((ActorAction)actor->vtbl[269])(actor, 0);

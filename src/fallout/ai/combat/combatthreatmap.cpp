@@ -1,5 +1,6 @@
 // fallout/ai/combat/combatthreatmap.cpp: CombatThreatMap, DelStandIn, ThreatMap (8 functions)
 
+#include <cstdint>
 #include "fnv/decl/Anim490.h"
 #include "fnv/decl/BGSReconstructFormsInAllFilesMap.h"
 #include "fnv/decl/C6b7f20_Map.h"
@@ -38,7 +39,7 @@ void CombatThreatMap::ApplyLoadBuffer(BGSLoadGameBuffer* buffer)
         reinterpret_cast<::C6b7f20_Map *>(this)->FUN_006b7f20((::C6b7f20_Node **)&(cursor.position), (unsigned int *)&(cursor.key), (void **)&(threat));
         if (threat)
         {
-            reinterpret_cast<::Fn9a4f40 *>((threat))->FUN_009a4f40((int)(buffer));
+            reinterpret_cast<::Fn9a4f40 *>((threat))->FUN_009a4f40((intptr_t)(buffer));
             if (!static_cast<TESForm*>(*threat))
             {
                 delete threat;
@@ -83,11 +84,11 @@ template <class K, class V> struct NiTPointerMap
 };
 struct FUN_009a5cd0_cls
 {
-    void ProcessAllProjectiles(int dt);
+    void ProcessAllProjectiles(intptr_t dt);
 };
 // Iterates the map and calls Process(dt) on each non-null MagicProjectile value.
 // @fnv 0x009a5cd0
-void FUN_009a5cd0_cls::ProcessAllProjectiles(int aiDeltaTime)
+void FUN_009a5cd0_cls::ProcessAllProjectiles(intptr_t aiDeltaTime)
 {
     MagicProjectile* p;
     unsigned int id;
@@ -173,7 +174,7 @@ void FUN_00497c10_struct::LoadAnimationData(BGSLoadFormBuffer* buffer, Animation
     }
     if (field_08 == 2 && (unsigned int)field_10)
     {
-        reinterpret_cast<::Anim490 *>((anim))->AddModel((::Model490 *)(::KFModel *)((KFModel*)(unsigned int)field_10), false);
+        reinterpret_cast<::Anim490 *>((anim))->AddModel((::Model490 *)(::KFModel *)((KFModel*)(uintptr_t)field_10), false);
     }
 }
 
@@ -201,12 +202,12 @@ struct ThreatMap
     void* m_ppkHashTable;
     unsigned int m_uiCount;
     ThreatLock lock;
-    float EvaluateThreats(Pt3 pos, int arg, float delay, float a, Stamp since, float b);
+    float EvaluateThreats(Pt3 pos, intptr_t arg, float delay, float a, Stamp since, float b);
 };
 
 // Locks the map, sums each threat's Evaluate result for threats newer than since, clamps the total to 1.0, unlocks and returns it.
 // @fnv 0x009a5670
-float ThreatMap::EvaluateThreats(Pt3 pos, int arg, float delay, float a, Stamp since, float b)
+float ThreatMap::EvaluateThreats(Pt3 pos, intptr_t arg, float delay, float a, Stamp since, float b)
 {
     reinterpret_cast<::FUN_00aa5ff0_Class *>(&(lock))->FUN_00aa5ff0();
     float fTotal = 0;
@@ -221,7 +222,7 @@ float ThreatMap::EvaluateThreats(Pt3 pos, int arg, float delay, float a, Stamp s
         unsigned int key = 0;
         Threat* threat3 = 0;
         reinterpret_cast<::C6b7f20_Map *>(this)->FUN_006b7f20((::C6b7f20_Node **)&(iter), (unsigned int *)&(key), (void **)&(threat3));
-        if (reinterpret_cast<::CombatTargetTimestamp *>((void *)&(const struct ::Stamp &)((*(struct struct ::Stamp *)(reinterpret_cast<::FUN_009a5780_cls *>((threat3))->FUN_009a5780({})))))->FUN_006a7f50() <= reinterpret_cast<::CombatTargetTimestamp *>(&(since))->FUN_006a7f50())
+        if (reinterpret_cast<::CombatTargetTimestamp *>((void *)&(const struct ::Stamp &)((*(struct ::Stamp *)(reinterpret_cast<::FUN_009a5780_cls *>((threat3))->FUN_009a5780({})))))->FUN_006a7f50() <= reinterpret_cast<::CombatTargetTimestamp *>(&(since))->FUN_006a7f50())
             continue;
         float fValue = reinterpret_cast<::Target_009a4710 *>((threat3))->ComputeFalloff((const ::Pt_009a4710 &)(pos), (::Ctx_009a4710 *)(arg), fTime, a, b);
         fTotal += fValue;

@@ -2,6 +2,8 @@
 // src/fallout/magic/paralysiseffect.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/paralysiseffect.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
+#include "fnv/active_effect_fields.h"
 #include <new>
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/Cls.h"
@@ -231,7 +233,7 @@ struct ParalysisEffectStandIn : ParalysisValueModifierEffect
 void ParalysisEffectStandIn::UpdateParalysisEffect(float afElapsed)
 {
     reinterpret_cast<::ValueModifierEffect *>(this)->Update(afElapsed);
-    ParalysisActor* pActor = ((::ParalysisMagicTarget *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType())) ? ((::ParalysisActor *)(reinterpret_cast<::MagicTarget *>((((::ParalysisMagicTarget *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType()))))->GetOwnerActor())) : 0;
+    ParalysisActor* pActor = ((::ParalysisMagicTarget *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) ? ((::ParalysisActor *)(reinterpret_cast<::MagicTarget *>((((::ParalysisMagicTarget *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))))->GetOwnerActor())) : 0;
     if (pActor && pActor->IsParalysisImmune(false))
         reinterpret_cast<::fnv_00804210::ActiveEffectUpdateShell *>(this)->FUN_00804210(true);
 }
@@ -489,7 +491,7 @@ void FUN_008263c0_cls::FUN_008263c0()
 {
     bool active;
     {
-        ParalysisEffectSubject* subject = (((::ParalysisSourceHolder *)(reinterpret_cast<::ActorMover *>((this))->GetCurrentMoveModeType())) != 0) ? ((::ParalysisEffectSubject *)(reinterpret_cast<::MagicTarget *>((((::ParalysisSourceHolder *)(reinterpret_cast<::ActorMover *>((this))->GetCurrentMoveModeType()))))->GetOwnerActor())) : 0;
+        ParalysisEffectSubject* subject = (((::ParalysisSourceHolder *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) != 0) ? ((::ParalysisEffectSubject *)(reinterpret_cast<::MagicTarget *>((((::ParalysisSourceHolder *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))))->GetOwnerActor())) : 0;
         if (subject == 0)
         {
         }
@@ -519,7 +521,7 @@ struct ParalysisRevertEffect : ParalysisEffect
 void ParalysisRevertEffect::FUN_00826570(TESObjectREFR* actor)
 {
     NiAVObject* object;
-    reinterpret_cast<::FUN_004534f0_shell *>(this)->FUN_004534f0((unsigned int)(actor));
+    reinterpret_cast<::FUN_004534f0_shell *>(this)->FUN_004534f0((uintptr_t)(actor));
     object = ((::NiAVObject *)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((actor))->FUN_0043fcd0()));
     if (object)
         ::ApplyHavokOperation((::HavokObject *)(object), 0, (void *)(1));

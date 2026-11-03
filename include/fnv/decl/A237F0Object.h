@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 class A237F0Object {
 public:

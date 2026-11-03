@@ -23,6 +23,6 @@ public:
 public:
     void DispelAllEffects();
 public:
-    static ::MagicTarget *GetMagicTargetByID(unsigned int);
+    static ::MagicTarget *GetMagicTargetByID(uintptr_t);
 };
 #endif

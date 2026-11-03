@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 class TESObjectREFR;
 struct DbgRef;
@@ -15,7 +16,7 @@ namespace fnv_00703150 { extern "C" unsigned char FUN_00703150(); }
 // 0x00703180
 namespace fnv_00703180 { ::TESObjectREFR *FUN_00703180(); }
 // 0x007031c0
-int FUN_007031c0(int);
+intptr_t FUN_007031c0(intptr_t);
 // 0x007031e0
 void FUN_007031e0(::DbgRef *);
 // 0x00703390

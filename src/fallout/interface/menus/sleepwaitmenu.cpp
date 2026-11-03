@@ -2,6 +2,8 @@
 // src/fallout/interface/menus/sleepwaitmenu.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/interface/menus/sleepwaitmenu.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fallout/interface/menu_fields.h"
+#include <cstdint>
 #include <cctype>
 #include "fnv/decl/Calendar.h"
 #include "fnv/decl/CalendarProxy.h"
@@ -147,8 +149,9 @@ void Menu::UpdateClockText()
                 hour = 12;
             else if (time >= 13.0)
                 hour -= 12;
-            ::FUN_00406d00(szClockText, 260, "%s, %s, %d:%02d %s", reinterpret_cast<::CalendarProxy *>(&((*reinterpret_cast<::Time *>(&::g_011de7b8))))->GetDayName(),
-                      ((const char *)(::FUN_00559450((int *)&((*reinterpret_cast<::Time *>(&::g_011de7b8)).FormatDate())))), hour, minute,
+            BSStringTChar date = (*reinterpret_cast<::Time *>(&::g_011de7b8)).FormatDate();
+        ::FUN_00406d00(szClockText, 260, "%s, %s, %d:%02d %s", reinterpret_cast<::CalendarProxy *>(&((*reinterpret_cast<::Time *>(&::g_011de7b8))))->GetDayName(),
+                      ((const char *)(::FUN_00559450((int *)&(date)))), hour, minute,
                       time < 12.0 ? ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Setting *>(&::g_011d24fc))))->GetMenuTitle())) : ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Setting *>(&::g_011d27f0))))->GetMenuTitle())));
         }
     }
@@ -170,7 +173,9 @@ struct Tile
 };
 struct MenuState
 {
-    int unk00, unk04, unk08, unk0C, unk10, unk14, unk18, unk1C;
+    int unk00;
+    void* unk04;
+    int unk08, unk0C, unk10, unk14, unk18, unk1C;
     int unk20, unk24, unk28, unk2C, unk30, unk34, unk38, unk3C;
     int unk40;
     char unk44;
@@ -186,7 +191,7 @@ void FUN_007c01b0()
             reinterpret_cast<::ProcessListsSub *>(&((*reinterpret_cast<::fnv_007c01b0::ProcessLists *>(&::g_011e0e80))))->UpdateActor3D();
         if ((*reinterpret_cast<::fnv_007c01b0::MenuState * *>(&::DAT_011da920))->active)
             reinterpret_cast<::FaderManager *>(((*reinterpret_cast<::fnv_007c01b0::Interface * *>(&::DAT_011d8804))))->StopFader((::FADER_ENUM)(0), 0);
-        reinterpret_cast<::Tile *>((((::fnv_007c01b0::Tile *)(reinterpret_cast<::Callees *>(((*reinterpret_cast<::fnv_007c01b0::MenuState * *>(&::DAT_011da920))))->FUN_00726070()))))->Set(0x1772, 1);
+        reinterpret_cast<::Tile *>((((::fnv_007c01b0::Tile *)((*reinterpret_cast<::fnv_007c01b0::MenuState * *>(&::DAT_011da920))->unk04))))->Set(0x1772, 1);
         reinterpret_cast<::FUN_00a1d910_shell *>(((*reinterpret_cast<::fnv_007c01b0::MenuState * *>(&::DAT_011da920))))->FUN_00a1d910();
     }
 }
@@ -509,8 +514,8 @@ bool MenuClass::FUN_007c0580()
         reinterpret_cast<::fnv_00969c30::HardcorePlayer *>(((*reinterpret_cast<::PlayerStub * *>(&::_g_thePlayer))))->FUN_00969c30();
     }
     reinterpret_cast<::fnv_0094df80::PlayerCharacter_Cand *>(((*reinterpret_cast<::PlayerStub * *>(&::_g_thePlayer))))->FUN_0094df80();
-    reinterpret_cast<::Tile *>((m_tile))->Set((int)((void *)(::FUN_00a01860("_current_value"))), ((int)(reinterpret_cast<::FUN_005cde20Class *>(((*reinterpret_cast<::PlayerStub * *>(&::_g_thePlayer))))->FUN_005cde20())) - 1);
-    reinterpret_cast<::FUN_00a01290_shell *>((m_tile))->SetTraitAndReset((int)((void *)(::FUN_00a01860("_SetInCode"))), 1.0f);
+    reinterpret_cast<::Tile *>((m_tile))->Set((int)((::FUN_00a01860("_current_value"))), ((int)(reinterpret_cast<::FUN_005cde20Class *>(((*reinterpret_cast<::PlayerStub * *>(&::_g_thePlayer))))->FUN_005cde20())) - 1);
+    reinterpret_cast<::FUN_00a01290_shell *>((m_tile))->SetTraitAndReset((int)((::FUN_00a01860("_SetInCode"))), 1.0f);
     reinterpret_cast<::Menu *>(this)->UpdateClockText();
     return true;
 }

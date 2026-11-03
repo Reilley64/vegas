@@ -29,6 +29,7 @@ include(src/havok/unplaced/sources.cmake)
 include(src/root_sources.cmake)
 include(src/fallout_shared/sources.cmake)
 include(src/staging/sources.cmake)
+include(src/fallout/sources.cmake)
 
 add_executable(FalloutNV EXCLUDE_FROM_ALL src/main.cpp src/runtime/new.cpp)
 target_include_directories(FalloutNV PRIVATE include)

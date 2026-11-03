@@ -3,7 +3,6 @@
 
 #include "fnv/decl/FUN_00825b60.h"
 #include "fnv/symbols_00401000.h"
-void FUN_00825b60();
 
 struct FUN_00825aa0_shell
 {

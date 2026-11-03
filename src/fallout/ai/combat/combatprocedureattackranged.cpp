@@ -2,6 +2,8 @@
 // src/fallout/ai/combat/combatprocedureattackranged.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/combat/combatprocedureattackranged.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/combat_controller_fields.h"
+#include <cstdint>
 #include "fnv/decl/AngleView.h"
 #include "fnv/decl/AnimSequenceStub.h"
 #include "fnv/decl/BSAnimGroupSequence.h"
@@ -131,7 +133,7 @@ class CombatProcedureAttackRanged
 // @fnv 0x009d1dc0
 void CombatProcedureAttackRanged::FUN_009d1dc0(Actor* apOpponent)
 {
-    reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((int)("Disarmed"));
+    reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((intptr_t)("Disarmed"));
 }
 
 
@@ -718,7 +720,7 @@ void FUN_009d09a0_shell::FUN_009d09a0()
 // @fnv 0x009d1c30
 void D1C30Task::ResetTask()
 {
-    D1C30Actor* pkActor = ((::D1C30Actor *)(::GetFieldBC((::FUN_0097ae90_Class *)(m_pkOwnerManager))));
+    D1C30Actor* pkActor = ((::D1C30Actor *)(reinterpret_cast<CombatControllerFields*>(m_pkOwnerManager)->pActor));
     ((::D1C30Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pkActor))->GetBaseTexture()))->SetFlagB(0);
     ((::D1C30Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pkActor))->GetBaseTexture()))->SetFlagA(0);
     reinterpret_cast<::TimeoutTimer *>(&(m_kHelper))->FUN_00910b10();
@@ -802,7 +804,7 @@ bool FUN_009d1de0_cls::FUN_009d1de0()
         return false;
     }
     Actor* actor = ((::Actor *)(reinterpret_cast<::FUN_00996de0_Class *>(this)->FUN_00996de0()));
-    Target* target = ((::Target *)(::FUN_007031c0((int)(m_04))));
+    Target* target = ((::Target *)(::FUN_007031c0((intptr_t)(m_04))));
     float f2 = FUN_00404010(reinterpret_cast<::FUN_009d1b10_shell *>((target))->GetTarget(), DAT_0101e580) * ::DAT_01023128;
     float fX = f2;
     bool r9 = ::IsWithinAimLimits((::S_009a6d70_Actor *)(actor), (::NiPoint3 *)(void *)(&m_14), f2, fX);
@@ -1797,7 +1799,7 @@ class Controller9D1
 // @fnv 0x009d1bc0
 void Controller9D1::FUN_009d1bc0(bool bActive)
 {
-    Actor9D1* pkActor = ((::Actor9D1 *)(::GetFieldBC((::FUN_0097ae90_Class *)(m_pkMobile))));
+    Actor9D1* pkActor = ((::Actor9D1 *)(reinterpret_cast<CombatControllerFields*>(m_pkMobile)->pActor));
     ((::Process9D1 *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pkActor))->GetBaseTexture()))->SetActive(bActive);
     ((::Process9D1 *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pkActor))->GetBaseTexture()))->SetUpdateFlag(1);
     reinterpret_cast<::TimeoutTimer *>(&(m_kTimer))->FUN_00910b10();
@@ -1918,7 +1920,7 @@ void RangedDebug::PrintDebugInfo(RangedDisplay* display, int iX, int iY)
     if (reinterpret_cast<::FUN_0097fa50_Class *>(&(blocked))->FUN_0097fa50())
         display->Print(iX, iY, "Explosive Projectile Blocked Timer: %.02f/%.02f", reinterpret_cast<::FUN_00435e00_t *>(&(blocked))->FUN_00435e00(),
                        reinterpret_cast<::TimeoutTimer *>(&(blocked))->FUN_006b9130());
-    Target* target = ((::Target *)(::FUN_007031c0((int)(owner))));
+    Target* target = ((::Target *)(::FUN_007031c0((intptr_t)(owner))));
     if (reinterpret_cast<::NiPlane *>(&(location))->operator==((*(const ::NiPlane *)(&(*reinterpret_cast<char *>((void *)&::NiPoint3::ZERO))))) && target && reinterpret_cast<::FUN_009d1b10_shell *>((target))->GetTarget() > 0.0)
     {
         RangedVec unused;
@@ -1954,7 +1956,7 @@ struct CombatThing
 {
     int unk00;
     Holder2* m_04;
-    FUN_009d1d30_Vec3 GetTrajectory(unsigned int auiArg);
+    FUN_009d1d30_Vec3 GetTrajectory(uintptr_t auiArg);
 };
 // @fnv 0x009d0a30
 void RAttack::UpdateAttack()
@@ -1964,26 +1966,26 @@ void RAttack::UpdateAttack()
     RState* combat2 = ((::RState *)(reinterpret_cast<::InterfaceManager *>((context))->FUN_00586150()));
     RContext* allies8 = ((::RContext *)(reinterpret_cast<::EffectSetting *>((context))->GetCastSound()));
     unsigned int attack20 = 255;
-    RWeapon* weapon0 = ((::RWeapon *)(::FUN_007031c0((int)(context))));
+    RWeapon* weapon0 = ((::RWeapon *)(::FUN_007031c0((intptr_t)(context))));
     RAnimation* animation0 = actor->GetAnimation();
-    if (!weapon0 || !animation0 || !((::RWeaponInfo *)(reinterpret_cast<::Thing *>((weapon0))->GetOrFallback((int)(actor)))))
+    if (!weapon0 || !animation0 || !((::RWeaponInfo *)(reinterpret_cast<::Thing *>((weapon0))->GetOrFallback((intptr_t)(actor)))))
     {
-        reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((int)("Missing either weapon, animation, or weapon projectile"));
+        reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((intptr_t)("Missing either weapon, animation, or weapon projectile"));
         return;
     }
-    float fov16 = reinterpret_cast<::FUN_00639aa0_shell *>((((::RTuning *)(reinterpret_cast<::FUN_00980070_shell *>((context))->FUN_00980070()))))->FUN_00639aa0();
+    float fov16 = reinterpret_cast<::FUN_00639aa0_shell *>((((::RTuning *)(reinterpret_cast<CombatControllerFields*>((context))->pCombatStyle))))->FUN_00639aa0();
     if (fov16 > 0.0 && target &&
         !::IsWithinAimLimits((::S_009a6d70_Actor *)(actor), (::NiPoint3 *)(::RPoint *)(target->GetPosition()), float(fov16 * 0.01745329238474369), 6.2831854820251465f))
     {
-        reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((int)("Target outside targeting FOV"));
+        reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((intptr_t)("Target outside targeting FOV"));
         return;
     }
-    RWeaponInfo* info1 = ((::RWeaponInfo *)(reinterpret_cast<::Thing *>((weapon0))->GetOrFallback((int)(actor))));
+    RWeaponInfo* info1 = ((::RWeaponInfo *)(reinterpret_cast<::Thing *>((weapon0))->GetOrFallback((intptr_t)(actor))));
     bool automatic77 = reinterpret_cast<::FUN_00524b40_class *>((weapon0))->FUN_00524b40();
     bool burstWeapon = automatic77 || reinterpret_cast<::FUN_00645c80_Class *>((weapon0))->IsFlagSet();
     bool tooClose34 = false;
     RPoint destination;
-    reinterpret_cast<::CombatThing *>(this)->GetTrajectory((unsigned int)(&destination));
+    reinterpret_cast<::CombatThing *>(this)->GetTrajectory((uintptr_t)(&destination));
     bool ready = ((::RProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))->IsReady() || reinterpret_cast<::FUN_00894900_shell *>((actor))->FUN_00894900();
     if (((unsigned char)(reinterpret_cast<::FUN_00981970_shell *>((context))->FUN_00981970())))
         ready = false;
@@ -2025,7 +2027,7 @@ void RAttack::UpdateAttack()
                     if (GetType(group) == 80 || GetType(group) == 86)
                     {
                         RSequenceBase* sequence;
-                        if (reinterpret_cast<::NiTMapBase *>((((::RMap *)(reinterpret_cast<::FUN_00497280_shell *>((animation0))->GetFieldAt124()))))->Lookup(group, (::AnimSequenceBase *&)(sequence)))
+                        if (reinterpret_cast<::NiTMapBase *>((*reinterpret_cast<::RMap **>(reinterpret_cast<char *>(animation0) + 0xdc)))->Lookup(group, (::AnimSequenceBase *&)(sequence)))
                         {
                             RGroup* animGroup0 = ((::RGroup *)(reinterpret_cast<::BSAnimGroupSequence *>((sequence->GetControllerSequence(-1)))->GetAnimGroup()));
                             float start = reinterpret_cast<::FUN_005f3780_shell *>((animGroup0))->FUN_005f3780(0);
@@ -2172,7 +2174,7 @@ void RAttack::UpdateAttack()
     float fraction41 = 0.0f;
     RPoint muzzle23;
     MuzzlePosition(&muzzle23, actor);
-    bool collision25 = ::FUN_009a6e90(actor, info1, 0.0f, (*(float *)&(const ::RPoint &)(muzzle23)), (*(float *)&(const ::RPoint &)(destination)), (float)(&hitPoint2), (float)(&hit16), (float)(&fraction41), {}, {}, {}, {});
+    bool collision25 = ::FUN_009a6e90(actor, info1, 0.0f, *(const ::NiPoint3 *)&(muzzle23), *(const ::NiPoint3 *)&(destination), (::NiPoint3 *)&hitPoint2, (void **)&hit16, &fraction41);
     if (collision25)
     {
         bool blockedShot = false;
@@ -2182,7 +2184,7 @@ void RAttack::UpdateAttack()
             if (hit16 && hit16->IsActor())
             {
                 hitActor9 = hit16;
-                if (hitActor9 == ((::RActor *)(reinterpret_cast<::FUN_00996e00_shell *>(this)->FUN_00996e00())) || reinterpret_cast<::FUN_009865b0_shell *>((allies8))->FUN_009865b0((int)(hitActor9)))
+                if (hitActor9 == ((::RActor *)(reinterpret_cast<::FUN_00996e00_shell *>(this)->FUN_00996e00())) || reinterpret_cast<::FUN_009865b0_shell *>((allies8))->FUN_009865b0((intptr_t)(hitActor9)))
                     blockedShot = true;
             }
             if (!blockedShot)
@@ -2203,7 +2205,7 @@ void RAttack::UpdateAttack()
                 if (fraction41 > 0.5)
                     blockedShot = true;
             }
-            else if (hit16 && hit16->IsActor() && !hit16->IsDead(0) && reinterpret_cast<::FUN_009865b0_shell *>((allies8))->FUN_009865b0((int)(hit16)))
+            else if (hit16 && hit16->IsActor() && !hit16->IsDead(0) && reinterpret_cast<::FUN_009865b0_shell *>((allies8))->FUN_009865b0((intptr_t)(hit16)))
                 blockedShot = true;
             if (!blockedShot)
             {
@@ -2280,8 +2282,8 @@ void RAttack::UpdateAttack()
         bool attacked = reinterpret_cast<::Pawn *>((actor))->TryAttack(attack20);
         if (attacked && !automatic77)
         {
-            float minDelay = reinterpret_cast<::FUN_00645c40_Class *>((weapon0))->GetField174Float() * reinterpret_cast<::FUN_009d1b30_class *>((void *)(((::RTuning *)(reinterpret_cast<::FUN_00980070_shell *>((context))->FUN_00980070()))))->GetFloatAtOffset50();
-            float maxDelay = reinterpret_cast<::FUN_00645c60_shell *>((weapon0))->GetField178Float() * reinterpret_cast<::FUN_009d1b50_shell *>((((::RTuning *)(reinterpret_cast<::FUN_00980070_shell *>((context))->FUN_00980070()))))->GetField54Float();
+            float minDelay = reinterpret_cast<::FUN_00645c40_Class *>((weapon0))->GetField174Float() * reinterpret_cast<::FUN_009d1b30_class *>((void *)(((::RTuning *)(reinterpret_cast<CombatControllerFields*>((context))->pCombatStyle))))->GetFloatAtOffset50();
+            float maxDelay = reinterpret_cast<::FUN_00645c60_shell *>((weapon0))->GetField178Float() * reinterpret_cast<::FUN_009d1b50_shell *>((((::RTuning *)(reinterpret_cast<CombatControllerFields*>((context))->pCombatStyle))))->GetField54Float();
             reinterpret_cast<::FUN_008d7f40_shell *>(&(shot))->FUN_008d7f40(RandomFloat(minDelay, maxDelay));
         }
         if (projectile && ::IsExplosionRadiusValid((::PathingRequest *)(projectile)))
@@ -2290,7 +2292,7 @@ void RAttack::UpdateAttack()
 }
 // Computes and returns a vector using ComputeTrajectory, or returns the vector at DAT_011f426c if FUN_00996e00 returns null.
 // @fnv 0x009d1c90
-FUN_009d1d30_Vec3 CombatThing::GetTrajectory(unsigned int auiArg)
+FUN_009d1d30_Vec3 CombatThing::GetTrajectory(uintptr_t auiArg)
 {
     Actor* pActor2;
     FUN_009d1d30_Vec3 kResult3;
@@ -2299,8 +2301,8 @@ FUN_009d1d30_Vec3 CombatThing::GetTrajectory(unsigned int auiArg)
     pActor2 = ((::Actor *)(reinterpret_cast<::FUN_00996e00_shell *>(this)->FUN_00996e00()));
     if (!pActor2)
         return *(FUN_009d1d30_Vec3*)&(*reinterpret_cast<char *>((void *)&::NiPoint3::ZERO));
-    pTarget = ((::Target2 *)(::FUN_007031c0((int)(m_04))));
-    ComputeTrajectory(&kResult3, ((::Actor *)(reinterpret_cast<::FUN_00996de0_Class *>(this)->FUN_00996de0())), pActor2, auiArg, reinterpret_cast<::Thing *>((pTarget))->GetOrFallback((int)(((::Actor *)(reinterpret_cast<::FUN_00996de0_Class *>(this)->FUN_00996de0())))), 0.0f, 0);
+    pTarget = ((::Target2 *)(::FUN_007031c0((intptr_t)(m_04))));
+    ComputeTrajectory(&kResult3, ((::Actor *)(reinterpret_cast<::FUN_00996de0_Class *>(this)->FUN_00996de0())), pActor2, auiArg, reinterpret_cast<::Thing *>((pTarget))->GetOrFallback((intptr_t)(((::Actor *)(reinterpret_cast<::FUN_00996de0_Class *>(this)->FUN_00996de0())))), 0.0f, 0);
     return kResult3;
 }
 

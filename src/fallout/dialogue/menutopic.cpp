@@ -1,5 +1,8 @@
 // fallout/dialogue/menutopic.cpp: TopicMenuController, MenuTopic, TESTopicInfo, TopicHolder and more (33 functions)
 
+#include <cstdint>
+#include "fnv/save_load_game_view.h"
+#include "fnv/simple_list_node_view.h"
 #include <new>
 #include "fnv/decl/ActorValueOwner.h"
 #include "fnv/decl/B61F2B0Object.h"
@@ -95,7 +98,7 @@ DialogueResponse* MenuTopic::GetActiveResponse()
 {
     if (m_pCurrentResponseList)
     {
-        return ((::DialogueResponse *)(new ((void *)(m_pCurrentResponseList)) ::Vec3()));
+        return (*((::DialogueResponse * *)(&reinterpret_cast<::SimpleListNodeView*>(m_pCurrentResponseList)->m_item)));
     }
     else
     {
@@ -108,7 +111,7 @@ MenuTopic* TopicMenuController::GetSelectedTopic()
 {
     if (m_pCurrentTopicList)
     {
-        return ((::MenuTopic *)(new ((void *)(m_pCurrentTopicList)) ::Vec3()));
+        return (*((::MenuTopic * *)(&reinterpret_cast<::SimpleListNodeView*>(m_pCurrentTopicList)->m_item)));
     }
     else
     {
@@ -119,7 +122,7 @@ MenuTopic* TopicMenuController::GetSelectedTopic()
 // @fnv 0x0083e4f0
 MenuTopic* TopicMenuController::GetFirstTopic()
 {
-    return ((::MenuTopic *)(new ((void *)(FUN_0083f260())) ::Vec3()));
+    return (*((::MenuTopic * *)(&reinterpret_cast<::SimpleListNodeView*>(FUN_0083f260())->m_item)));
 }
 
 // Advances the stored iterator to its next entry and returns whether it exists and has an item.
@@ -128,7 +131,7 @@ bool TopicMenuController::AdvanceTopic()
 {
     if (m_pCurrentTopicList)
         m_pCurrentTopicList = ((::BSSimpleList< ::MenuTopic *> *)(reinterpret_cast<::Callees *>((m_pCurrentTopicList))->FUN_00726070()));
-    return m_pCurrentTopicList && ((::MenuTopic *)(new ((void *)(m_pCurrentTopicList)) ::Vec3()));
+    return m_pCurrentTopicList && (*((::MenuTopic * *)(&reinterpret_cast<::SimpleListNodeView*>(m_pCurrentTopicList)->m_item)));
 }
 
 // Advances the stored iterator when advance is set and it is non-null, then returns whether the iterator exists and has an item.
@@ -138,7 +141,7 @@ bool TopicMenuController::SelectTopic(bool advance)
     m_pCurrentTopicList = FUN_0083f260();
     if (advance && m_pCurrentTopicList)
         m_pCurrentTopicList = ((::BSSimpleList< ::MenuTopic *> *)(reinterpret_cast<::Callees *>((m_pCurrentTopicList))->FUN_00726070()));
-    return m_pCurrentTopicList && ((::MenuTopic *)(new ((void *)(m_pCurrentTopicList)) ::Vec3()));
+    return m_pCurrentTopicList && (*((::MenuTopic * *)(&reinterpret_cast<::SimpleListNodeView*>(m_pCurrentTopicList)->m_item)));
 }
 
 // @fnv 0x004d5c60
@@ -235,7 +238,7 @@ void FUN_0083e230_shell::FUN_0083e230()
     *(int*)((char*)this + 0xc) = 0;
     while (!_ref_008256d0((char*)&this->m_kTopicListStack))
     {
-        pCurrentElementNext = *((::BSSimpleList<const char *> **)(new ((void *)((char*)&this->m_kTopicListStack)) ::Vec3()));
+        pCurrentElementNext = *((::BSSimpleList<const char *> **)(&reinterpret_cast<::SimpleListNodeView*>((char*)&this->m_kTopicListStack)->m_item));
         _ref_0063f7b0((char*)&this->m_kTopicListStack);
         bdeletegreeting = _ref_008256d0((char*)&this->m_kTopicListStack);
         ((FUN_0083e2d0_helper*)this)->FUN_0083e2d0(pCurrentElementNext, bdeletegreeting);
@@ -267,7 +270,7 @@ bool FUN_0083e430_shell::FUN_0083e430(int aiIndex)
     {
         m_pCurrentTopicList = pMenuTopicEntry;
     }
-    return pMenuTopicEntry && ((::MenuTopic *)(new ((void *)(m_pCurrentTopicList)) ::Vec3()));
+    return pMenuTopicEntry && (*((::MenuTopic * *)(&reinterpret_cast<::SimpleListNodeView*>(m_pCurrentTopicList)->m_item)));
 }
 
 namespace fnv_0083f260 {
@@ -280,7 +283,7 @@ struct FUN_0083f260_shell : public TopicMenuController
 // @fnv 0x0083f260
 void* FUN_0083f260_shell::FUN_0083f260()
 {
-    return *((void **)(new ((void *)((char*)&this->m_kTopicListStack)) ::Vec3()));
+    return *((void **)(&reinterpret_cast<::SimpleListNodeView*>((char*)&this->m_kTopicListStack)->m_item));
 }
 }  // namespace fnv_0083f260
 
@@ -318,9 +321,9 @@ void TopicHolder::FUN_0083e2d0(void* list, bool flag)
         node = reinterpret_cast<::Callees *>((node))->FUN_00726070();
     while (node && !_ref_008256d0(node))
     {
-        TopicItem* item = (TopicItem*)*((void **)(new ((void *)(node)) ::Vec3()));
+        TopicItem* item = (TopicItem*)*((void **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item));
         if (!item->bKeep)
-            delete (TopicItem*)*((void **)(new ((void *)(node)) ::Vec3()));
+            delete (TopicItem*)*((void **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item));
         _ref_0063f7b0(node);
     }
 }
@@ -366,7 +369,7 @@ BSSimpleList<MenuTopic*>* FUN_0083f1d0_t::PopTopicList()
 {
     if (((::BSSimpleList< ::BSSimpleList< ::MenuTopic *> *> *)(reinterpret_cast<::Callees *>(&(m_kTopicListStack))->FUN_00726070())))
     {
-        BSSimpleList<MenuTopic*>* pCurrentElementNext = ((::BSSimpleList< ::MenuTopic *> *)(new ((void *)&(m_kTopicListStack)) ::Vec3()));
+        BSSimpleList<MenuTopic*>* pCurrentElementNext = m_kTopicListStack.m_item;
         if (pCurrentElementNext)
         {
             m_kTopicListStack.RemoveHead();
@@ -375,7 +378,7 @@ BSSimpleList<MenuTopic*>* FUN_0083f1d0_t::PopTopicList()
             delete pCurrentElementNext;
         }
     }
-    return ((::BSSimpleList< ::MenuTopic *> *)(new ((void *)&(m_kTopicListStack)) ::Vec3()));
+    return m_kTopicListStack.m_item;
 }
 
 struct FormIDEntry
@@ -583,7 +586,7 @@ struct ExtraLock;
 struct FUN_0042df90_shell
 {
 public:
-    ::ExtraLock *FUN_0042df90(int);
+    ::ExtraLock *FUN_0042df90(intptr_t);
 };
 
 struct FUN_0083e0c0_shell
@@ -670,9 +673,9 @@ void FUN_0083ed50_shell::BuildMenuTopics(BSSimpleList<TESTopic*>* apList, bool a
 {
     bool bStateChanged = false;
     Actor* pActorCur = dynamic_cast<Actor*>(m_pDialogueSpeaker);
-    while (apList && ((::TESTopic *)(new ((void *)(apList)) ::Vec3())))
+    while (apList && (*((::TESTopic * *)(&reinterpret_cast<::SimpleListNodeView*>(apList)->m_item))))
     {
-        TESTopic* pTopic = ((::TESTopic *)(new ((void *)(apList)) ::Vec3()));
+        TESTopic* pTopic = (*((::TESTopic * *)(&reinterpret_cast<::SimpleListNodeView*>(apList)->m_item)));
         apList = ((::BSSimpleList< ::TESTopic *> *)(reinterpret_cast<::Callees *>((apList))->FUN_00726070()));
         if (abFlag && !((FUN_0083de60_shell*)pTopic)->FUN_0083de60())
             continue;
@@ -694,7 +697,7 @@ void FUN_0083ed50_shell::BuildMenuTopics(BSSimpleList<TESTopic*>* apList, bool a
         if (((FUN_00619df0_shell*)pTopic)->FUN_00619df0() && !((ActorProxy*)pActorCur)->HasNoRumors())
         {
             MenuTopic* pExisting = 0;
-            pExisting = ((::MenuTopic *)(((::FUN_0042df90_shell *)(reinterpret_cast<::FUN_005d43c0_ *>((m_pDialogueSpeaker))->FUN_005d43c0()))->FUN_0042df90((int)(m_pDialogueSpeaker))));
+            pExisting = ((::MenuTopic *)(((::FUN_0042df90_shell *)(reinterpret_cast<::FUN_005d43c0_ *>((m_pDialogueSpeaker))->FUN_005d43c0()))->FUN_0042df90((intptr_t)(m_pDialogueSpeaker))));
             if (pExisting && !bStateChanged)
             {
                 if (reinterpret_cast<::TopicS *>((((FUN_0083e0c0_shell*)pExisting)))->HasCur() && !bStateChanged &&
@@ -734,7 +737,7 @@ void FUN_0083ed50_shell::BuildMenuTopics(BSSimpleList<TESTopic*>* apList, bool a
             }
             if (bSave && pMenuTopic && !((FUN_009611e0_shell*)pMenuTopic)->FUN_009611e0()->FUN_00619b20())
             {
-                reinterpret_cast<::FUN_0042dee0_shell *>((((::FUN_0042df90_shell *)(reinterpret_cast<::FUN_005d43c0_ *>((m_pDialogueSpeaker))->FUN_005d43c0()))))->FUN_0042dee0((int)(pMenuTopic));
+                reinterpret_cast<::FUN_0042dee0_shell *>((((::FUN_0042df90_shell *)(reinterpret_cast<::FUN_005d43c0_ *>((m_pDialogueSpeaker))->FUN_005d43c0()))))->FUN_0042dee0((intptr_t)(pMenuTopic));
                 ((FUN_0083ed50_ref*)m_pDialogueSpeaker)->v12(0x80000000);
             }
         }
@@ -767,7 +770,7 @@ void TopicLoad::LoadFromSave(void*)
     unsigned int uiChunkType, infoID, topicID;
     {
         unsigned short start = 0;
-        unsigned int chunkSize = 0;
+        char* chunkSize = 0;
         if (reinterpret_cast<::FUN_00862110_cls *>((((TopicLoader*)g_TESSaveLoadGame)))->FUN_00862110())
         {
             unsigned int tag;
@@ -785,7 +788,7 @@ void TopicLoad::LoadFromSave(void*)
                     ::FUN_005b5e40(
                         );
             }
-            chunkSize = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((TopicLoader*)g_TESSaveLoadGame)))->FUN_00825c00();
+            chunkSize = reinterpret_cast<::SaveLoadGameView *>(g_TESSaveLoadGame)->pBufferCursor;
             reinterpret_cast<::FUN_008579e0_shell *>((((TopicLoader*)g_TESSaveLoadGame)))->FUN_008579e0(&start, 2);
         }
         char text[260];
@@ -808,7 +811,7 @@ void TopicLoad::LoadFromSave(void*)
         pInfo = dynamic_cast<TESTopicInfo*>(::FUN_004839c0(topicID));
         if (reinterpret_cast<::FUN_00862110_cls *>((((TopicLoader*)g_TESSaveLoadGame)))->FUN_00862110())
         {
-            unsigned int end = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((TopicLoader*)g_TESSaveLoadGame)))->FUN_00825c00();
+            char* end = reinterpret_cast<::SaveLoadGameView *>(g_TESSaveLoadGame)->pBufferCursor;
             LoadHeader* current = ((::LoadHeader *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(((TopicLoader*)g_TESSaveLoadGame)))));
             if (current)
             {
@@ -1198,7 +1201,7 @@ bool Mgr::CheckTopicInfoChance(MenuTopic* pTopic)
             char _flag;
             TESTopic* pT2 = ((::TESTopic *)(::fnv_0061a2d0::GetTopicSubTypeName(0, 0xb)));
             TESTopicInfo* pInfo = reinterpret_cast<::TESTopic *>((((TopicShell*)pT2)))->FindMatchingTopicInfo((*(bool *)(&_flag)), (::TESObjectREFR *)(m_pDialogueSpeaker), (::TESObjectREFR *)(::_g_thePlayer), 0,
-                                                     (::TESTopic *)(((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((ProcShell*)pTopic)))->FUN_0045cd60()))), (::BSSimpleList< ::DialogueItem *> *)(0));
+                                                     (::TESTopic *)((reinterpret_cast<::FUN_0045cd60_shell *>((((ProcShell*)pTopic)))->FUN_0045cd60())), (::BSSimpleList< ::DialogueItem *> *)(0));
             if (!pInfo)
             {
                 ::FUN_005b5e40();
@@ -1230,7 +1233,7 @@ bool Mgr::CheckTopicInfoChance(MenuTopic* pTopic)
         }
         else
         {
-            m_iTopicIndex = FUN_006705b0(4, ((int)(reinterpret_cast<::LowProcess *>((((InfoShell*)pTopic->GetTopicInfo())))->GetActiveCombatTarget())) - 1);
+            m_iTopicIndex = FUN_006705b0(4, ((intptr_t)(reinterpret_cast<::LowProcess *>((((InfoShell*)pTopic->GetTopicInfo())))->GetActiveCombatTarget())) - 1);
         }
     }
     return m_bControllerFlag;
@@ -1272,14 +1275,14 @@ void MenuTopic83f3::SaveTopic()
 {
     unsigned short usLen = 0;
     char* pcSizeLoc = 0;
-    char* pcStart = ((char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::fnv_0083f3e0::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_00825c00()));
+    char* pcStart = ((char *)(reinterpret_cast<::SaveLoadGameView *>(::g_TESSaveLoadGame)->pBufferCursor));
     if (*(*reinterpret_cast<::fnv_0083f3e0::GlobalObject_0045cf30 *>(&::g_011de4e8)).FUN_00408d60())
-        pcStart = ((char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::fnv_0083f3e0::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_00825c00()));
+        pcStart = ((char *)(reinterpret_cast<::SaveLoadGameView *>(::g_TESSaveLoadGame)->pBufferCursor));
     if (reinterpret_cast<::FUN_00862110_cls *>(((*reinterpret_cast<::fnv_0083f3e0::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_00862110())
     {
         unsigned int uiTag = 'BLOK';
         reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_0083f3e0::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&uiTag, 4);
-        pcSizeLoc = ((char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::fnv_0083f3e0::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_00825c00()));
+        pcSizeLoc = ((char *)(reinterpret_cast<::SaveLoadGameView *>(::g_TESSaveLoadGame)->pBufferCursor));
         reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_0083f3e0::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&usLen, 2);
     }
     const char* pcTopic = ((const char *)(::FUN_00559450((int *)&(m_kPrompt))));
@@ -1304,7 +1307,7 @@ void MenuTopic83f3::SaveTopic()
     reinterpret_cast<::C857A10Buffer *>(((*reinterpret_cast<::fnv_0083f3e0::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_00857a10((const unsigned int *)(void *)(&uiResp), 4);
     if (*(*reinterpret_cast<::fnv_0083f3e0::GlobalObject_0045cf30 *>(&::g_011de4e8)).FUN_00408d60())
     {
-        char* pcEnd = ((char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::fnv_0083f3e0::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_00825c00()));
+        char* pcEnd = ((char *)(reinterpret_cast<::SaveLoadGameView *>(::g_TESSaveLoadGame)->pBufferCursor));
         SaveFormHeader83f3* pkHeader = ((::fnv_0083f3e0::SaveFormHeader83f3 *)(reinterpret_cast<::EffectSetting *>(((*reinterpret_cast<::fnv_0083f3e0::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->GetHitSound()));
         if (pkHeader)
         {
@@ -1316,7 +1319,7 @@ void MenuTopic83f3::SaveTopic()
     }
     if (reinterpret_cast<::FUN_00862110_cls *>(((*reinterpret_cast<::fnv_0083f3e0::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_00862110())
     {
-        char* pcNow = ((char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::fnv_0083f3e0::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_00825c00()));
+        char* pcNow = ((char *)(reinterpret_cast<::SaveLoadGameView *>(::g_TESSaveLoadGame)->pBufferCursor));
         char* pcMark = pcSizeLoc;
         if (pcNow > pcMark + 0xffff)
             ::FUN_005b5e40();

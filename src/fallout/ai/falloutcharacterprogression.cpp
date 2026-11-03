@@ -1,5 +1,6 @@
 // fallout/ai/falloutcharacterprogression.cpp: Flt, NiNodeBooleanState (11 functions)
 
+#include <cstdint>
 #include "fnv/decl/BGSSaveLoadUI.h"
 #include "fnv/decl/FUN_00464e10_shell.h"
 #include "fnv/decl/FUN_0094ed40_cls.h"
@@ -168,7 +169,7 @@ struct TESActorBaseData
 // @fnv 0x008d5210
 void Flt::LevelUpPlayer()
 {
-    if (!*(unsigned char*)(unsigned int)(*this))
+    if (!*(unsigned char*)(uintptr_t)(*this))
         return;
     reinterpret_cast<::fnv_00ad7fa0::AudioUpdateStand *>((((::fnv_008d5210::BSAudio *)(::FUN_00453a70()))))->FUN_00ad7fa0((char *)("UILevelUp"), 0x121);
     reinterpret_cast<::fnv_0047dfe0::TABStub *>((((TESActorBaseData*)((char*)((void *)(reinterpret_cast<::Actor *>(((*reinterpret_cast<::fnv_008d5210::PC7d * *>(&::_g_thePlayer))))->GetActorBase())) + 0x30))))->FUN_0047dfe0(reinterpret_cast<::fnv_0087f9f0::FUN_0087f9f0_shell *>(((*reinterpret_cast<::fnv_008d5210::PC7d * *>(&::_g_thePlayer))))->FUN_0087f9f0() + 1);
@@ -187,8 +188,8 @@ struct PC7d
 // @fnv 0x008d5510
 void Flt::FUN_008d5510(int aiUnused)
 {
-    reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>(((*reinterpret_cast<::PC7d * *>(&::_g_thePlayer))))->FUN_00484ce0((void *)((unsigned int)*this), 1);
-    reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>(((*reinterpret_cast<::PC7d * *>(&::_g_thePlayer))))->FUN_00484ce0((void *)((unsigned int)*this + 4), 4);
+    reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>(((*reinterpret_cast<::PC7d * *>(&::_g_thePlayer))))->FUN_00484ce0((void *)((uintptr_t)*this), 1);
+    reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>(((*reinterpret_cast<::PC7d * *>(&::_g_thePlayer))))->FUN_00484ce0((void *)((uintptr_t)*this + 4), 4);
 }
 
 namespace fnv_008d5550 {
@@ -204,8 +205,8 @@ struct PC7d
 // @fnv 0x008d5550
 void Flt::FUN_008d5550(int, int)
 {
-    reinterpret_cast<::fnv_00484d00::FUN_00484d00_shell *>(((*reinterpret_cast<::fnv_008d5550::PC7d * *>(&::_g_thePlayer))))->FUN_00484d00((void *)((unsigned int)*this), 1);
-    reinterpret_cast<::fnv_00484d00::FUN_00484d00_shell *>(((*reinterpret_cast<::fnv_008d5550::PC7d * *>(&::_g_thePlayer))))->FUN_00484d00((void *)((unsigned int)*this + 4), 4);
+    reinterpret_cast<::fnv_00484d00::FUN_00484d00_shell *>(((*reinterpret_cast<::fnv_008d5550::PC7d * *>(&::_g_thePlayer))))->FUN_00484d00((void *)((uintptr_t)*this), 1);
+    reinterpret_cast<::fnv_00484d00::FUN_00484d00_shell *>(((*reinterpret_cast<::fnv_008d5550::PC7d * *>(&::_g_thePlayer))))->FUN_00484d00((void *)((uintptr_t)*this + 4), 4);
 }
 }  // namespace fnv_008d5550
 
@@ -263,9 +264,9 @@ struct FUN_008d5270_shell : public Flt
 // @fnv 0x008d5270
 void FUN_008d5270_shell::FUN_008d5270()
 {
-    if (!reinterpret_cast<::FUN_008d55e0_shell *>((((FUN_008d55e0_shell*)(unsigned int)*this)))->FUN_008d55e0(reinterpret_cast<::fnv_0087f9f0::FUN_0087f9f0_shell *>(((*reinterpret_cast<::fnv_008d5270::PlayerCharacter * *>(&::_g_thePlayer))))->FUN_0087f9f0() + 1))
+    if (!reinterpret_cast<::FUN_008d55e0_shell *>((((FUN_008d55e0_shell*)(uintptr_t)*this)))->FUN_008d55e0(reinterpret_cast<::fnv_0087f9f0::FUN_0087f9f0_shell *>(((*reinterpret_cast<::fnv_008d5270::PlayerCharacter * *>(&::_g_thePlayer))))->FUN_0087f9f0() + 1))
     {
-        *(char*)(unsigned int)*this = 0;
+        *(char*)(uintptr_t)*this = 0;
         reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::fnv_008d5270::TESDataHandler * *>(&::g_dataHandler))))->GetRegions();
         reinterpret_cast<::FUN_00975ea0_shell *>(&((*reinterpret_cast<::fnv_008d5270::DAT_011e0e80_class *>(&::g_011e0e80))))->FUN_00975ea0();
         if (((::fnv_008d5270::BGSSaveLoadUI *)(::FUN_00a25920())))
@@ -577,7 +578,7 @@ void FUN_008d5300_shell::SetPlayerLevel(int aLevel)
 
     {
         NiNodeBooleanState* prog = ((::fnv_008d5300::NiNodeBooleanState *)(reinterpret_cast<::FUN_00464e10_shell *>((((FUN_00464e10_shell*)(void*)(*reinterpret_cast<::fnv_008d5300::PlayerCharacter * *>(&::_g_thePlayer)))))->FUN_00464e10()));
-        data = (char*)((Flt*)prog)->operator unsigned int();
+        data = *reinterpret_cast<char **>(prog);
     }
 
     currentXP = ((SubA4*)((char*)(*reinterpret_cast<::fnv_008d5300::PlayerCharacter * *>(&::_g_thePlayer)) + 0xa4))->vfunc_8(0x18);
@@ -853,14 +854,14 @@ void FUN_008d53f0(void* apTarget, int a2, int aiUnused, float afValue)
     if (pActor && pActor->vfn_360())
     {
         NiNodeBooleanState* prog = reinterpret_cast<::FUN_00464e10_shell *>((((FUN_00464e10_shell*)(*reinterpret_cast<::fnv_008d53f0::PlayerCharacter * *>(&::_g_thePlayer)))))->FUN_00464e10();
-        if (*(bool*)(((Flt*)prog)->operator unsigned int() + 8))
+        if (*(bool*)(*reinterpret_cast<char **>(prog) + 8))
             return;
         if (a2 == 0x18 && afValue > ::_DAT_01012060)
         {
             if ((int)afValue > 0)
                 ::QueueLevelUpNotification((int)afValue);
             if (reinterpret_cast<::fnv_0087f9f0::FUN_0087f9f0_shell *>(((*reinterpret_cast<::fnv_008d53f0::PlayerCharacter * *>(&::_g_thePlayer))))->FUN_0087f9f0() < *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_008d53f0::GlobalObject2_0040c150 *>(&::g_011d0c60)))))))
-                reinterpret_cast<::FUN_008d55e0_shell *>((((FUN_008d55e0_shell*)((Flt*)prog)->operator unsigned int())))->FUN_008d55e0(reinterpret_cast<::fnv_0087f9f0::FUN_0087f9f0_shell *>(((*reinterpret_cast<::fnv_008d53f0::PlayerCharacter * *>(&::_g_thePlayer))))->FUN_0087f9f0() + 1);
+                reinterpret_cast<::FUN_008d55e0_shell *>((((FUN_008d55e0_shell*)*reinterpret_cast<void **>(prog))))->FUN_008d55e0(reinterpret_cast<::fnv_0087f9f0::FUN_0087f9f0_shell *>(((*reinterpret_cast<::fnv_008d53f0::PlayerCharacter * *>(&::_g_thePlayer))))->FUN_0087f9f0() + 1);
         }
     }
 }

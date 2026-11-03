@@ -1,6 +1,7 @@
 // fallout/ai/mobileobject_topicinfo.h: declares TESTopicInfo
 #ifndef FNV_MOBILEOBJECT_TESCONDITION_H
 #define FNV_MOBILEOBJECT_TESCONDITION_H
+#include <cstdint>
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/FUN_00409480_shell.h"
 #include "fnv/decl/FUN_00508d70_shell.h"
@@ -60,7 +61,7 @@ class TESTopicInfo : public TESForm
     SPEECH_CHALLENGE_LEVEL m_eDifficultyLevel;  // +0x44
     TESQuest* m_pOwnerQuest;                    // +0x48
     unsigned long m_ulTopicFlags;               // +0x4C
-    Script* GetResultScript(unsigned int onEnd);
+    Script* GetResultScript(uintptr_t onEnd);
     TESTopicInfo(DIALOGUE_TYPE type);
     void SetTopicInfoData(TESTopicInfoData* data);
     virtual void InitializeComponent();

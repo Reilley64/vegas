@@ -1,5 +1,7 @@
 // fallout/audio/falloutaudio.cpp: SoundPlaybackManager, PlayerCharacter, std, Interface and more (14 functions)
 
+#include <cstdint>
+#include "fnv/simple_list_node_view.h"
 #include <new>
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/BGSReconstructFormsInAllFilesMap.h"
@@ -109,7 +111,7 @@ void SoundPlaybackManager::ProcessPendingSounds()
         source.region = (*reinterpret_cast<::BGSAcousticSpace * *>(&::DAT_011dcfb4))->GetDecalTextureSet();
         source.data = ((::TESRegionData *)(reinterpret_cast<::GList *>((((::RegionDataList *)(reinterpret_cast<::FUN_009611e0_shell *>((source.region))->FUN_009611e0()))))->FUN_004f35b0(7)));
         if (source.data)
-            sounds = ((::BSSimpleList< ::RegionSound *> *)(::GetOffsetC((int)(source.data))));
+            sounds = ((::BSSimpleList< ::RegionSound *> *)(::GetOffsetC((intptr_t)(source.data))));
     }
     if ((*reinterpret_cast<::BGSAcousticSpace * *>(&::DAT_011dcfb4)))
         reinterpret_cast<::FUN_00ad79b0_shell *>((::FUN_00453a70()))->FUN_00ad79b0(reinterpret_cast<::FUN_0068a810_class *>(((*reinterpret_cast<::BGSAcousticSpace * *>(&::DAT_011dcfb4))))->GetField4C());
@@ -272,7 +274,7 @@ void SoundPlaybackManager::ProcessPendingSounds()
             while (pRegionCursor && !pRegionCursor->IsEmpty())
             {
                 isSoundAllowed = true;
-                soundEntry = ((::RegionSound *)(new ((void *)(pRegionCursor)) ::Vec3()));
+                soundEntry = (*((::RegionSound * *)(&reinterpret_cast<::SimpleListNodeView*>(pRegionCursor)->m_item)));
                 pActiveSound = soundEntry->sound;
                 if (!soundEntry || !pActiveSound)
                 {
@@ -297,14 +299,14 @@ void SoundPlaybackManager::ProcessPendingSounds()
                             isSoundAllowed = false;
                     }
                 }
-                soundFound = reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)&((*reinterpret_cast<::NiTPointerMap<unsigned int, ::SoundPlaybackHandle *> *>(&::g_011dd014))))->FUN_00853130(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pActiveSound))->FUN_0084e3a0())), (::fnv_00853130::CombatThreatRecord *&)(existingHandle));
+                soundFound = reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)&((*reinterpret_cast<::NiTPointerMap<unsigned int, ::SoundPlaybackHandle *> *>(&::g_011dd014))))->FUN_00853130(reinterpret_cast<::TESForm *>(pActiveSound)->iFormID, (::fnv_00853130::CombatThreatRecord *&)(existingHandle));
                 if (looping && !soundFound && isSoundAllowed)
                 {
                     loopSoundHandle = new SoundPlaybackHandle;
                     *loopSoundHandle = ::FUN_00453a70()->GetSoundHandleByFilePath(
                         ::FUN_00511840((char *)(pActiveSound)), 0x11011, pActiveSound);
                     reinterpret_cast<::FUN_004f15a0_shell *>((loopSoundHandle))->FUN_004f15a0(1);
-                    reinterpret_cast<::FUN_00844700_Class *>(&((*reinterpret_cast<::NiTPointerMap<unsigned int, ::SoundPlaybackHandle *> *>(&::g_011dd014))))->FUN_00844700(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pActiveSound))->FUN_0084e3a0())), (unsigned int)(loopSoundHandle));
+                    reinterpret_cast<::FUN_00844700_Class *>(&((*reinterpret_cast<::NiTPointerMap<unsigned int, ::SoundPlaybackHandle *> *>(&::g_011dd014))))->FUN_00844700(reinterpret_cast<::TESForm *>(pActiveSound)->iFormID, reinterpret_cast<std::uintptr_t>(loopSoundHandle));
                     reinterpret_cast<::FUN_00ad8d60_shell *>((loopSoundHandle))->FUN_00ad8d60((unsigned int)(((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011dd06c))))))->f * 1000.0));
                 }
                 else if (looping && soundFound)
@@ -312,7 +314,7 @@ void SoundPlaybackManager::ProcessPendingSounds()
                     if (existingHandle->IsPlaying() && !isSoundAllowed)
                     {
                         existingHandle->StopWithFade((unsigned int)(((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011dcfe4))))))->f * 1000.0));
-                        reinterpret_cast<::NiTMap_S *>(&((*reinterpret_cast<::NiTPointerMap<unsigned int, ::SoundPlaybackHandle *> *>(&::g_011dd014))))->RemoveKey(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pActiveSound))->FUN_0084e3a0())));
+                        reinterpret_cast<::NiTMap_S *>(&((*reinterpret_cast<::NiTPointerMap<unsigned int, ::SoundPlaybackHandle *> *>(&::g_011dd014))))->RemoveKey(reinterpret_cast<::TESForm *>(pActiveSound)->iFormID);
                         delete existingHandle;
                     }
                     else if (existingHandle->IsValid() && !existingHandle->IsPlaying() && isSoundAllowed)
@@ -358,9 +360,9 @@ void SoundPlaybackManager::ProcessPendingSounds()
                 reinterpret_cast<::C6b7f20_Map *>(&((*reinterpret_cast<::NiTPointerMap<unsigned int, ::SoundPlaybackHandle *> *>(&::g_011dd014))))->FUN_006b7f20((::C6b7f20_Node **)&(soundIterator), (unsigned int *)&(key), (void **)&(existingHandle));
                 while (pRegionCursor && !pRegionCursor->IsEmpty())
                 {
-                    soundEntry = ((::RegionSound *)(new ((void *)(pRegionCursor)) ::Vec3()));
+                    soundEntry = (*((::RegionSound * *)(&reinterpret_cast<::SimpleListNodeView*>(pRegionCursor)->m_item)));
                     pActiveSound = soundEntry->sound;
-                    if (key == ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pActiveSound))->FUN_0084e3a0())))
+                    if (key == reinterpret_cast<::TESForm *>(pActiveSound)->iFormID)
                     {
                         bKeepSound = true;
                         break;
@@ -423,10 +425,10 @@ void Sky::SetMode(Sky__SKY_MODE mode)
             reinterpret_cast<::TaskQueueInterface *>((((::NiNode *)(::fnv_0043b230::FUN_0043b230((const char *)(m_pSun))))))->QueueActorDisarm(true);
         while (!m_pSkySounds->IsEmpty())
         {
-            if (((::SkySound *)(new ((void *)(m_pSkySounds)) ::Vec3()))->IsPlaying())
-                reinterpret_cast<::fnv_00ad88f0::FUN_00ad88f0_h *>((((::SkySound *)(new ((void *)(m_pSkySounds)) ::Vec3()))))->FUN_00ad88f0();
-            ((::SkySound *)(new ((void *)(m_pSkySounds)) ::Vec3()))->Release();
-            delete ((::SkySound *)(new ((void *)(m_pSkySounds)) ::Vec3()));
+            if ((*((::SkySound * *)(&reinterpret_cast<::SimpleListNodeView*>(m_pSkySounds)->m_item)))->IsPlaying())
+                reinterpret_cast<::fnv_00ad88f0::FUN_00ad88f0_h *>(((*((::SkySound * *)(&reinterpret_cast<::SimpleListNodeView*>(m_pSkySounds)->m_item)))))->FUN_00ad88f0();
+            (*((::SkySound * *)(&reinterpret_cast<::SimpleListNodeView*>(m_pSkySounds)->m_item)))->Release();
+            delete (*((::SkySound * *)(&reinterpret_cast<::SimpleListNodeView*>(m_pSkySounds)->m_item)));
             m_pSkySounds->RemoveHead();
         }
         DAT_011ccb74 = false;
@@ -451,7 +453,7 @@ bool SoundPlaybackManager::ResolveSoundFile(const char* name, char* path, unsign
     }
     else
     {
-        if ((*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler)) && !reinterpret_cast<::FUN_004516b0_shell *>(((*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler))))->FUN_004516b0() && ((void *)((*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler))->GetCompiledFileCount())))
+        if ((*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler)) && !reinterpret_cast<::FUN_004516b0_shell *>(((*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler))))->FUN_004516b0() && (*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler))->GetCompiledFileCount() != 0)
             ::FUN_005b5e40();
         return false;
     }

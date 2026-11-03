@@ -2,6 +2,9 @@
 // src/fallout/interface/menus/creditsmenu.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/interface/menus/creditsmenu.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fallout/interface/tile_fields.h"
+#include "fnv/simple_list_node_view.h"
+#include "fallout/interface/menu_fields.h"
 #include <cstdint>
 #include <new>
 #include <cstdlib>
@@ -542,12 +545,12 @@ void CreditsMenuX::FUN_0075f910()
         CheckSaveNameConflict();
     if (!m_pController)
         return;
-    if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(kLines))->GetName())))
+    if (((std::uintptr_t)(kLines.unk08)))
     {
         m_fPackageValue -= reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::TimeGlobal *>(&::g_timeGlobal))))->GetStoredFloatValue();
-        if (m_fPackageValue < 0.0 && uiLineIndex < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(kLines))->GetName())))
+        if (m_fPackageValue < 0.0 && uiLineIndex < ((std::uintptr_t)(kLines.unk08)))
         {
-            reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((m_pCurrentLineTile))->FUN_00a01350(0xfcc, (char *)(kLines.GetAt(uiLineIndex++)), true);
+            reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((m_pCurrentLineTile))->FUN_00a01350(0xfcc, (char *)(const char *)(kLines.GetAt(uiLineIndex++)), true);
             m_fPackageValue = fLineDelay;
         }
     }
@@ -694,12 +697,12 @@ void __cdecl CheckSaveNameConflict()
         if ((*reinterpret_cast<::n75f750::SaveMgr * *>(&::DAT_011de134)) && ((::n75f750::SaveNode *)(::FUN_00559450((int *)((*reinterpret_cast<::n75f750::SaveMgr * *>(&::DAT_011de134)))))))
         {
             SaveNode* pkNode = ((::n75f750::SaveNode *)(::FUN_00559450((int *)((*reinterpret_cast<::n75f750::SaveMgr * *>(&::DAT_011de134))))));
-            while (pkNode && *((::n75f750::ValueReferencePair **)(new ((void *)(pkNode)) ::Vec3())))
+            while (pkNode && *((::n75f750::ValueReferencePair **)(&reinterpret_cast<::SimpleListNodeView*>(pkNode)->m_item)))
             {
-                DAT_011d9474 = (int)*((::n75f750::ValueReferencePair **)(new ((void *)(pkNode)) ::Vec3()));
+                DAT_011d9474 = (intptr_t)*((::n75f750::ValueReferencePair **)(&reinterpret_cast<::SimpleListNodeView*>(pkNode)->m_item));
                 if (reinterpret_cast<::BGSSaveLoadFileEntry *>((((ValueReferencePair*)DAT_011d9474)))->IsAutoSave() &&
                     reinterpret_cast<::FUN_0075f8c0_shell *>((((ValueReferencePair*)DAT_011d9474)))->FUN_0075f8c0() &&
-                    ((int)(::FUN_004b75a0(((const char *)(::FUN_00559450((int *)&((*reinterpret_cast<::n75f750::SaveMgr * *>(&::DAT_011de134))->kName)))),
+                    ((std::intptr_t)(::FUN_004b75a0(((const char *)(::FUN_00559450((int *)&((*reinterpret_cast<::n75f750::SaveMgr * *>(&::DAT_011de134))->kName)))),
                                  ((const char *)(::FUN_00559450((int *)(((ValueReferencePair*)DAT_011d9474)))))))))
                 {
                     ::fnv_00703e80::FUN_00703e80(((const char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::n75f750::SettingStr *>(&::g_011d39b4))))->IsDLCAvailable())), (const char *)(0), (const char *)(0), FUN_00761410, 0, 0x12, 0.0f, 0.0f,
@@ -894,7 +897,7 @@ CreditNode* CreditsQuadRenderer::FUN_00760cf0(CreditTextureSource* apSource, int
     CreditFixedString kNameNew;
     char acPathCur[260];
     ::FUN_00406d00(acPathCur, 260, "Textures\\Interface\\Credits\\%s", ((const char *)(::FUN_00559450((int *)(apSource)))));
-    ::AssignFixedString((char *)(pShapeCur), (int)&(const ::CreditFixedString &)(CreditFixedString(acPathCur)), {});
+    ::AssignFixedString((char *)(pShapeCur), (std::intptr_t)&(const ::CreditFixedString &)(CreditFixedString(acPathCur)), {});
     CreditTexture* pTextureOld = ((::CreditTexture *)(::NiSourceTexture::Create((const ::NiFixedString &)((const ::CreditFixedString &)(CreditFixedString(acPathCur))), (*(::NiTexture__FormatPrefs *)(&(*reinterpret_cast<char *>(&::DAT_011a9598)))), true, 0)));
 
     CreditTextureEffect* pEffectInfo = new CreditTextureEffect(0);
@@ -904,7 +907,7 @@ CreditNode* CreditsQuadRenderer::FUN_00760cf0(CreditTextureSource* apSource, int
 
     CreditAlphaProperty* pAlpha = new CreditAlphaProperty();
     reinterpret_cast<::fnv_004bc450::FUN_004bc450_S *>((pAlpha))->FUN_004bc450((const ::fnv_004bc450::C3 *)(void *)(&(*reinterpret_cast<char *>(&::DAT_011a9b7c))));
-    reinterpret_cast<::FUN_004534f0_shell *>((pAlpha))->FUN_004534f0((unsigned int)(&(*reinterpret_cast<char *>(&::DAT_011a9b7c))));
+    reinterpret_cast<::FUN_004534f0_shell *>((pAlpha))->FUN_004534f0((uintptr_t)(&(*reinterpret_cast<char *>(&::DAT_011a9b7c))));
     reinterpret_cast<::FUN_00439410_cls *>((pShapeCur))->FUN_00439410((::ArgObject *)(pAlpha));
 
     reinterpret_cast<::Bound88 *>((((::CreditGeometryData *)(::GetSourceFilesFromForm((char *)(pShapeCur))))))->ComputeBoundingSphere({}, {});
@@ -1576,7 +1579,7 @@ void CreditMenu::FUN_0075fb90()
     root.FUN_0066b0d0(new CreditSceneNode(0));
     reinterpret_cast<::FUN_00440460_S *>((((::CreditSceneNode *)(::FUN_00559450((int *)&(root))))))->FUN_00440460((const ::V3 *)&(const ::CreditPoint &)(CreditPoint(0.0f, 0.0f, -1020.0f)));
     ::FUN_004a0370((char *)(((::GlobalView *)(::FUN_004bc3f0()))));
-    ((::CreditSceneNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((tile))->FUN_0056c7f0()))->Attach(((::CreditSceneNode *)(::FUN_00559450((int *)&(root)))), true);
+    ((::CreditSceneNode *)(reinterpret_cast<::TileFields *>((tile))->renderedNode))->Attach(((::CreditSceneNode *)(::FUN_00559450((int *)&(root)))), true);
     CreditMaterial* material6 = new CreditMaterial;
     reinterpret_cast<::FUN_0049ed90_shell *>((material6))->FUN_0049ed90(true);
     reinterpret_cast<::FUN_00439410_cls *>((((::CreditSceneNode *)(::FUN_00559450((int *)&(root))))))->FUN_00439410((::ArgObject *)(material6));
@@ -1650,8 +1653,8 @@ void CreditMenu::FUN_0075fb90()
                     cursor += 2;
                     reinterpret_cast<::HostA *>(this)->WriteTextUntilDelimiter((::OutputA *)&(token_10));
                     CreditString texture;
-                    ::FUN_00406f60((::FUN_00406f90_this *)(::CreditString *)(&texture), DAT_01072420, token_10);
-                    reinterpret_cast<::FUN_007614c0_shell *>(&(backgrounds))->FUN_007614c0((unsigned int)&(const ::CreditTextureName &)(CreditTextureName(((const char *)(::FUN_00559450((int *)&(texture)))))));
+                    ::FUN_00406f60((::FUN_00406f90_this *)(::CreditString *)(&texture), DAT_01072420, token_10.data);
+                    reinterpret_cast<::FUN_007614c0_shell *>(&(backgrounds))->FUN_007614c0((uintptr_t)&(const ::CreditTextureName &)(CreditTextureName(((const char *)(::FUN_00559450((int *)&(texture)))))));
                     break;
                 }
                 }
@@ -1681,7 +1684,7 @@ void CreditMenu::FUN_0075fb90()
     delete[] buffer;
     buffer = 0;
     ::BSShaderManager::UpdateObjectTypeRecurse((::NiAVObject *)(::CreditSceneNode *)(((::CreditSceneNode *)(::FUN_00559450((int *)&(root))))), 0, 0);
-    ((::CreditSceneNode *)(::FUN_00559450((int *)&(::FUN_00a29680();
+    ::FUN_00a29680();
     CreditUpdate update(0.0f, 0, 0);
     reinterpret_cast<::FUN_00a59c60_cls *>((((::CreditSceneNode *)(::FUN_00559450((int *)&(root))))))->FUN_00a59c60((std::intptr_t)&(update));
     reinterpret_cast<::fnv_004a03c0::DD *>((((::GlobalView *)(::FUN_004bc3f0()))))->FUN_004a03c0();
@@ -1801,21 +1804,21 @@ bool __cdecl FUN_0075f2a0()
         }
         reinterpret_cast<::Tile *>((pTileX))->Set(0x1004, reinterpret_cast<::FUN_007023a0_shell *>((pIM))->FUN_007023a0());
         reinterpret_cast<::CreditMenu *>((pCreditsMenu))->FUN_0075fb90();
-        if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(pCreditsMenu->kLines))->GetName())))
+        if (((std::uintptr_t)((pCreditsMenu->kLines).unk08)))
         {
             pCreditsMenu->fLineDelay =
                 ((double)pCreditsMenu->m_uiPlaybackFlags - reinterpret_cast<::NiAVObject *>(((pCreditsMenu->m_pController).operator->()))->FUN_0043c490().z) /
-                *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingF *>(&::g_011d94e4)))))) / (double)((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(pCreditsMenu->kLines))->GetName()));
+                *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingF *>(&::g_011d94e4)))))) / (double)((std::uintptr_t)((pCreditsMenu->kLines).unk08));
             pCreditsMenu->m_fPackageValue = pCreditsMenu->fLineDelay;
-            reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((pCreditsMenu->m_pCurrentLineTile))->FUN_00a01350(0xfcc, (char *)(pCreditsMenu->kLines.GetAt(pCreditsMenu->uiLineIndex++)), true);
+            reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((pCreditsMenu->m_pCurrentLineTile))->FUN_00a01350(0xfcc, (char *)(const char *)(pCreditsMenu->kLines.GetAt(pCreditsMenu->uiLineIndex++)), true);
         }
-        else if ((DAT_011d947c || !((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(pCreditsMenu->kLines))->GetName()))) && pCreditsMenu->m_pCurrentLineTile)
+        else if ((DAT_011d947c || !((std::uintptr_t)((pCreditsMenu->kLines).unk08))) && pCreditsMenu->m_pCurrentLineTile)
         {
             reinterpret_cast<::Tile *>((pCreditsMenu->m_pCurrentLineTile))->Set(0xfa9, 0);
         }
         if ((double)::FUN_004dc200() / (double)((int)(::FUN_004dc1f0())) != 0.75)
         {
-            NiNode* pNode = ((::NiNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((pCreditsMenu->m_pFirstTile))->FUN_0056c7f0()));
+            NiNode* pNode = ((::NiNode *)(reinterpret_cast<::TileFields *>((pCreditsMenu->m_pFirstTile))->renderedNode));
             NiPoint3 kPos = reinterpret_cast<::NiAVObject *>((pNode))->FUN_0043c490();
             kPos.x = (float)((double)kPos.x + 214.0);
             reinterpret_cast<::FUN_00440460_S *>((pNode))->FUN_00440460((const ::V3 *)&(kPos));
@@ -1824,7 +1827,7 @@ bool __cdecl FUN_0075f2a0()
         }
         return true;
     }
-    else if (pMenu6 && ((int)(reinterpret_cast<::Callees *>((pMenu6))->FUN_00726070())))
+    else if (pMenu6 && ((std::intptr_t)(reinterpret_cast<::MenuFields *>((pMenu6))->tile)))
     {
         delete pMenu6;
     }

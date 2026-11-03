@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 // 0x00450440
 void FUN_00450440(unsigned char);
@@ -13,11 +14,11 @@ void SetFloatAt(int, float);
 // 0x00450560
 void FUN_00450560(unsigned char);
 // 0x004505d0
-void FUN_004505d0(int);
+void FUN_004505d0(intptr_t);
 // 0x004505e0
-void FUN_004505e0(int);
+void FUN_004505e0(intptr_t);
 // 0x004506a0
-void FUN_004506a0(int);
+void FUN_004506a0(intptr_t);
 // 0x00450fb0
 bool FUN_00450fb0(void *);
 // 0x00450ff0

@@ -604,11 +604,11 @@ struct ScriptX
     void* unk00;
     void* unk04;
     FUN_00c9eba0_IFace* m_pIFace;
-    void InvokeInterfaceCall(intptr_t a, intptr_t b, intptr_t c, int d);
+    void InvokeInterfaceCall(intptr_t a, intptr_t b, intptr_t c, intptr_t d);
 };
 extern CRITICAL_SECTION DAT_0126820c;
 // @fnv 0x00c9eba0
-void ScriptX::InvokeInterfaceCall(intptr_t aiArg1, intptr_t aiArg2, intptr_t aiArg3, int aiArg4)
+void ScriptX::InvokeInterfaceCall(intptr_t aiArg1, intptr_t aiArg2, intptr_t aiArg3, intptr_t aiArg4)
 {
     if (this)
     {
@@ -13103,7 +13103,7 @@ struct WorkStack_cls
 
 // Recursively searches a work stack for a node matching a dynamic cast, pushing children with increased depth when no match is found.
 // @fnv 0x00c80c00
-NiObject* __cdecl FUN_00c80c00(WorkNode_cls* apNode, WorkStack_cls* apStack, unsigned int uiMaxDepth,
+NiObject* __cdecl FUN_00c80c00(WorkNode_cls* apNode, WorkStack_cls* apStack, uintptr_t uiMaxDepth,
                                unsigned int uiDepth)
 {
     NiObject* result;

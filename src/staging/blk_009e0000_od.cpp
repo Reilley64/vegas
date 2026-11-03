@@ -2,6 +2,7 @@
 // src/staging/blk_009e0000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstdint>
 #include <new>
 #include <cstring>
 #include "fnv/decl/ActorQueryOwner.h"
@@ -274,7 +275,7 @@ struct Host9f6340
     int iDataLength;
     virtual void v0();
     virtual int Write(unsigned int);
-    void FUN_009f6460(int, int);
+    void FUN_009f6460(intptr_t, int);
     void ResetAndWrite(unsigned int requested, unsigned int savedSize);
 };
 // Sets the vtable pointer to DAT_01093614 and calls ResetAndWrite with 0, 0.

@@ -3426,7 +3426,7 @@ struct FUN_00b6b930_Object
 };
 
 // @fnv 0x00b6b930
-void __cdecl FUN_00b6b930(unsigned int unused, FUN_00b6b930_Object* obj)
+void __cdecl FUN_00b6b930(uintptr_t unused, FUN_00b6b930_Object* obj)
 {
     obj->vfAC();
 }

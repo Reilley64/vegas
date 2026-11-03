@@ -2,6 +2,7 @@
 #ifndef FNV_TESTOPICINFO_H
 #define FNV_TESTOPICINFO_H
 
+#include <cstdint>
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/FUN_00409480_shell.h"
 #include "fnv/decl/FUN_004610d0_shell.h"
@@ -42,7 +43,7 @@ class TESTopicInfo : public TESForm
     void AddTopicList();
     bool IsNew();
     bool FUN_0083ec10();
-    Script* GetResultScript(unsigned int onEnd);
+    Script* GetResultScript(uintptr_t onEnd);
     TESTopicInfo(DIALOGUE_TYPE type);
     void SetTopicInfoData(TESTopicInfoData* data);
     virtual void InitializeComponent();

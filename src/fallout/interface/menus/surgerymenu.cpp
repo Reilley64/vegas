@@ -1,5 +1,9 @@
 // fallout/interface/menus/surgerymenu.cpp: SurgeryMenu, AnimOwner, MenuX, PainMenu and more (31 functions)
 
+#include "fnv/result_slot.h"
+#include "fnv/simple_list_node_view.h"
+#include "fallout/interface/menu_fields.h"
+#include "fnv/inventory_entry_fields.h"
 #include <cstdint>
 #include <new>
 #include <cstdio>
@@ -118,11 +122,11 @@
 #include "surgerymenu_decls.h"
 struct FUN_007e4fc0_shell
 {
-    int FUN_007e4fc0(int arg);
+    intptr_t FUN_007e4fc0(int arg);
 };
 
 // @fnv 0x007e4fc0
-int FUN_007e4fc0_shell::FUN_007e4fc0(int aiIndex)
+intptr_t FUN_007e4fc0_shell::FUN_007e4fc0(int aiIndex)
 {
     return *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x18) + aiIndex * 0x14;
 }
@@ -180,7 +184,7 @@ int FUN_007e5540_shell::GetTierFromPercent(int aiPercent)
 
 struct WoundFake
 {
-    int _00;
+    intptr_t _00;
     int _04;
 };
 struct MenuFake
@@ -203,8 +207,8 @@ WoundFake* FUN_007e5720_struct::FUN_007e5720()
     FakeList* pWoundList = (FakeList*)&g_011dae48;
     while (pWoundList != 0 && !pWoundList->_ref_008256d0())
     {
-        if ((*((::WoundFake **)(new ((void *)(pWoundList)) ::Vec3())))->_04 == ((MenuFake*)DAT_011dada4)->_C0)
-            return *((::WoundFake **)(new ((void *)(pWoundList)) ::Vec3()));
+        if ((*((::WoundFake **)(&reinterpret_cast<::SimpleListNodeView*>(pWoundList)->m_item)))->_04 == ((MenuFake*)DAT_011dada4)->_C0)
+            return *((::WoundFake **)(&reinterpret_cast<::SimpleListNodeView*>(pWoundList)->m_item));
         pWoundList = ((::FakeList *)(reinterpret_cast<::Callees *>((pWoundList))->FUN_00726070()));
     }
     return 0;
@@ -401,31 +405,28 @@ struct FUN_00950c20_self
 };
 
 
-NiPointer<NiNode> g_011dadb4;
-NiPointer<NiNode> g_011dade8;
-NiPointer<NiNode> g_011dae5c;
 FUN_00950c20_self* _g_thePlayer;
 
 // @fnv 0x007e5170
 void FUN_007e5170()
 {
     NiGeometry* pSourceGeometry = static_cast<NiGeometry*>(NiAdditionalGeometryData::GetShadowSceneNodeForIndex(1));
-    pSourceGeometry->v58(g_011dade8.operator unsigned int());
+    pSourceGeometry->v58((*reinterpret_cast<NiPointer<NiNode>*>(&::g_011dade8)).operator unsigned int());
 
     NiGeometry* pScar2 = static_cast<NiGeometry*>(NiAdditionalGeometryData::GetShadowSceneNodeForIndex(3));
-    pScar2->v58(g_011dae5c.operator unsigned int());
+    pScar2->v58((*reinterpret_cast<NiPointer<NiNode>*>(&::g_011dae5c)).operator unsigned int());
 
     reinterpret_cast<::MultiBoundManagerB5D *>((static_cast<NiGeometry*>(NiAdditionalGeometryData::GetShadowSceneNodeForIndex(1))))->FUN_00b5d180();
     reinterpret_cast<::MultiBoundManagerB5D *>((static_cast<NiGeometry*>(NiAdditionalGeometryData::GetShadowSceneNodeForIndex(3))))->FUN_00b5d180();
 
     reinterpret_cast<::fnv_00950c20::FUN_00950c20_cls *>((_g_thePlayer))->FUN_00950c20(0);
 
-    reinterpret_cast<::ExtraOwnerB *>((reinterpret_cast<NiAVObject*>(g_011dae5c.operator unsigned int())))->FUN_00a5b230(FUN_005d9660());
-    reinterpret_cast<::FUN_00a5a040_Class *>((reinterpret_cast<NiAVObject*>(g_011dae5c.operator unsigned int())))->FUN_00a5a040();
+    reinterpret_cast<::ExtraOwnerB *>((reinterpret_cast<NiAVObject*>((*reinterpret_cast<NiPointer<NiNode>*>(&::g_011dae5c)).operator unsigned int())))->FUN_00a5b230(FUN_005d9660());
+    reinterpret_cast<::FUN_00a5a040_Class *>((reinterpret_cast<NiAVObject*>((*reinterpret_cast<NiPointer<NiNode>*>(&::g_011dae5c)).operator unsigned int())))->FUN_00a5a040();
 
-    g_011dadb4.operator=(static_cast<void*>(0));
-    g_011dade8.operator=(static_cast<void*>(0));
-    g_011dae5c.operator=(static_cast<void*>(0));
+    (*reinterpret_cast<NiPointer<NiNode>*>(&::g_011dadb4)).operator=(static_cast<void*>(0));
+    (*reinterpret_cast<NiPointer<NiNode>*>(&::g_011dade8)).operator=(static_cast<void*>(0));
+    (*reinterpret_cast<NiPointer<NiNode>*>(&::g_011dae5c)).operator=(static_cast<void*>(0));
 }
 
 
@@ -447,6 +448,8 @@ struct SurgeryContext
 };
 struct SurgeryObject
 {
+    char pad[0xb4];
+    struct SurgeryContext* unkB4;
 };
 NiNode* __cdecl FUN_00450b80(int);
 struct SurgeryInterface
@@ -465,20 +468,20 @@ struct SurgeryCull
 // @fnv 0x007e47a0
 void __cdecl UpdateSurgeryScene()
 {
-    if (!(unsigned)g_011dade8 || !(unsigned)g_011dae5c)
+    if (!(unsigned)(*reinterpret_cast<NiPointer<NiNode>*>(&::g_011dade8)) || !(unsigned)(*reinterpret_cast<NiPointer<NiNode>*>(&::g_011dae5c)))
         return;
     reinterpret_cast<::S148c0 *>((((::SurgeryRenderer *)(::FUN_0043c4b0()))))->FUN_007148c0(0, 4);
     SurgeryObject* b = ((::SurgeryObject *)(::FUN_0045c670()));
-    SurgeryContext* d = ((::SurgeryContext *)(reinterpret_cast<::MiddleLowProcess *>((b))->GetProcessInteger()));
+    SurgeryContext* d = ((::SurgeryContext *)(b->unkB4));
     reinterpret_cast<::FUN_00c4f270_Class *>((d))->FUN_00c4f270(true);
-    NiNode* c = (NiNode*)(unsigned)g_011dadb4;
+    NiNode* c = (NiNode*)(uintptr_t)(*reinterpret_cast<NiPointer<NiNode>*>(&::g_011dadb4));
     ::UpdateCameraFrustum((::NiCamera *)(c), 0.15f);
     NiNode* a = FUN_00450b80(1);
     SurgeryHolder e(((::NiNode *)(reinterpret_cast<::fnv_007fd640::FUN_007fd640Class *>((((::SurgeryInterface *)(::fnv_004b7210::FUN_004b7210()))))->FUN_007fd640())));
     reinterpret_cast<::FUN_004a0fd0_shell *>((d))->FUN_004a0fd0(((::NiNode *)(::FUN_00559450((int *)&(e)))));
     ::FUN_00b6bee0(c, a, (::BSShaderAccumulator *)(d));
     ::BSShaderRenderUtility::SetRenderCamera((::NiCamera *)(c), (::BSShaderAccumulator *)(::NiNode *)(((::NiNode *)(::FUN_00559450((int *)&(e))))), 0);
-    reinterpret_cast<::TaskQueueInterface *>((((SurgeryCull*)(unsigned)g_011dae5c)))->QueueActorDisarm(false);
+    reinterpret_cast<::TaskQueueInterface *>((((SurgeryCull*)(uintptr_t)(*reinterpret_cast<NiPointer<NiNode>*>(&::g_011dae5c)))))->QueueActorDisarm(false);
     ::FUN_00b6bee0(c, FUN_00450b80(3), (::BSShaderAccumulator *)(d));
     ::BSShaderRenderUtility::SetRenderCamera((::NiCamera *)(c), (::BSShaderAccumulator *)(::NiNode *)(((::NiNode *)(::FUN_00559450((int *)&(e))))), 0);
     reinterpret_cast<::FUN_004a0fd0_shell *>((d))->FUN_004a0fd0(0);
@@ -535,7 +538,7 @@ void SurgeryMenu::UpdatePerkEntries()
         BSSimpleList<BGSPerkEntry*>* limb = (BSSimpleList<BGSPerkEntry*>*)&g_011dae48;
         while (limb && !((BSSimpleList<const char*>*)limb)->IsEmpty())
         {
-            reinterpret_cast<::FUN_007e5780_shell *>((((PerkEntryHandler*)((::BGSPerkEntry *)(new ((void *)(limb)) ::Vec3())))))->ProcessNodeChain();
+            reinterpret_cast<::FUN_007e5780_shell *>((((PerkEntryHandler*)((::BGSPerkEntry *)(reinterpret_cast<::SimpleListNodeView*>(limb)->m_item)))))->ProcessNodeChain();
             limb = ((::BSSimpleList< ::BGSPerkEntry *> *)(reinterpret_cast<::Callees *>((limb))->FUN_00726070()));
         }
     }
@@ -548,7 +551,7 @@ void FUN_007e5780_shell::ProcessNodeChain()
     FUN_007e5780_node* p = pNode;
     while (p && !p->FUN_008256d0())
     {
-        reinterpret_cast<::FileMatchList *>(((*((::Item_006815c0 **)(new ((void *)(p)) ::Vec3())))->pTarget))->RemoveAll();
+        reinterpret_cast<::FileMatchList *>(((*((::Item_006815c0 **)(&reinterpret_cast<::SimpleListNodeView*>(p)->m_item)))->pTarget))->RemoveAll();
         p = ((::FUN_007e5780_node *)(reinterpret_cast<::Callees *>((p))->FUN_00726070()));
     }
     reinterpret_cast<::FileMatchList *>((pNode))->RemoveAll();
@@ -831,14 +834,14 @@ void CloseSurgeryMenu()
     if (DAT_011dada4)
     {
         BSSoundHandleEx sound7;
-        reinterpret_cast<::SoundPlaybackHandle *>(&(sound7))->operator=((*(const ::SoundPlaybackHandle *)(&::FUN_00453a70()->GetSoundHandleByEditorID("UISurgeryExit", 0x121))));
+        reinterpret_cast<::SoundPlaybackHandle *>(&(sound7))->operator=((*(const ::SoundPlaybackHandle *)(&ResultSlot(::FUN_00453a70()->GetSoundHandleByEditorID("UISurgeryExit", 0x121)))));
         reinterpret_cast<::FUN_00ad8830_shell *>(&(sound7))->FUN_00ad8830(false);
         pTile->Set(0x1772, 1);
         reinterpret_cast<::FUN_00a1d910_shell *>((((SurgeryMenuType*)DAT_011dada4)))->FUN_00a1d910();
         FakeList* iter = (FakeList*)&g_011dae48;
         while (iter && !iter->_ref_008256d0())
         {
-            RefreshEntryByID((*((::WoundFake **)(new ((void *)(iter)) ::Vec3())))->_04);
+            RefreshEntryByID((*((::WoundFake **)(&reinterpret_cast<::SimpleListNodeView*>(iter)->m_item)))->_04);
             iter = ((::FakeList *)(reinterpret_cast<::Callees *>((iter))->FUN_00726070()));
         }
         ((::Tile *)(reinterpret_cast<::FUN_0045cd60_shell *>((((InterfaceManager*)((::SurgeryInterface *)(::fnv_004b7210::FUN_004b7210())))))->FUN_0045cd60()))->Set(0xfa9, 0xff);
@@ -938,7 +941,7 @@ extern PlayerX* playerX;
 struct MenuX
 {
     int unk00;
-    int unk04;
+    void* unk04;
     int unk08;
     int unk0c;
     int unk10;
@@ -1477,7 +1480,7 @@ extern int g_011dad9c;
 struct SurgeryView
 {
     int unk00;
-    int unk04;
+    void* unk04;
     int unk08;
     int unk0c;
     int unk10;
@@ -1755,17 +1758,17 @@ struct FaceOwnerS
     float fAC;
     void UpdateFaceGenNode();
 };
-// If g_011dae5c is set, sets face controller value 13 from fAC and updates the node with the current time.
+// If (*reinterpret_cast<NiPointer<NiNode>*>(&::g_011dae5c)) is set, sets face controller value 13 from fAC and updates the node with the current time.
 // @fnv 0x007e3750
 void FaceOwnerS::UpdateFaceGenNode()
 {
-    if (!g_011dae5c)
+    if (!(*reinterpret_cast<NiPointer<NiNode>*>(&::g_011dae5c)))
         return;
     FaceCtrlS* ctrl =
-        ((FaceRootS*)(unsigned int)g_011dae5c)->GetObjectByName(NiFixedStringS("BSFaceGenNiNodeSkinned"))->GetCtrl();
+        ((FaceRootS*)(uintptr_t)(*reinterpret_cast<NiPointer<NiNode>*>(&::g_011dae5c)))->GetObjectByName(NiFixedStringS("BSFaceGenNiNodeSkinned"))->GetCtrl();
     ctrl->SetValue(13, LinearInterpolate(0.0f, 1.0f, 0.0f, 100.0f, fAC));
     NiUpdateDataS data(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((TimeStubS*)&(*reinterpret_cast<::TimeGlobalS *>(&::g_timeGlobal)))))->FUN_00825c00() / 1000.0, true, false);
-    reinterpret_cast<::FUN_00a59c60_cls *>((((NiNodeS*)(unsigned int)g_011dae5c)))->FUN_00a59c60((std::intptr_t)&(data));
+    reinterpret_cast<::FUN_00a59c60_cls *>((((NiNodeS*)(uintptr_t)(*reinterpret_cast<NiPointer<NiNode>*>(&::g_011dae5c)))))->FUN_00a59c60((std::intptr_t)&(data));
 }
 
 class NiFixedString
@@ -1851,12 +1854,12 @@ void MenuX::FUN_007e23c0()
     char text[256];
     if (!IsMenu(0x41e))
     {
-        reinterpret_cast<::Tile *>((((::UiTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->Set(FUN_00a01860("_IsTopMenu"), 0);
+        reinterpret_cast<::Tile *>((((::UiTile *)(this->unk04))))->Set(FUN_00a01860("_IsTopMenu"), 0);
         return;
     }
     else
     {
-        reinterpret_cast<::Tile *>((((::UiTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->Set(FUN_00a01860("_IsTopMenu"), 1);
+        reinterpret_cast<::Tile *>((((::UiTile *)(this->unk04))))->Set(FUN_00a01860("_IsTopMenu"), 1);
     }
     reinterpret_cast<::AnimOwner *>(this)->UpdateAnimation();
     bool idle3 = false;
@@ -1913,8 +1916,8 @@ void MenuX::FUN_007e23c0()
     {
         float rate = ScaleByConstant(1.0f);
         valueac -= ((reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::ClockX *>(&::g_timeGlobal))))->FUN_00825c00() - lastTime) / 1000.0) * rate;
-        if (ScaleLimbWoundPercent(reinterpret_cast<::TileListBoxCalls *>((((::UiTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->GetFloat(DAT_011dad9c) / 100.0) * 100.0 > valueac)
-            valueac = ScaleLimbWoundPercent(reinterpret_cast<::TileListBoxCalls *>((((::UiTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->GetFloat(DAT_011dad9c) / 100.0) * 100.0;
+        if (ScaleLimbWoundPercent(reinterpret_cast<::TileListBoxCalls *>((((::UiTile *)(this->unk04))))->GetFloat(DAT_011dad9c) / 100.0) * 100.0 > valueac)
+            valueac = ScaleLimbWoundPercent(reinterpret_cast<::TileListBoxCalls *>((((::UiTile *)(this->unk04))))->GetFloat(DAT_011dad9c) / 100.0) * 100.0;
         lastTime = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::ClockX *>(&::g_timeGlobal))))->FUN_00825c00();
         unk8c = lastTime;
         Active(false);
@@ -1945,15 +1948,15 @@ bool FUN_007e4540_shell::FUN_007e4540()
     {
         FUN_006815c0 kIntersectionOffset;
         FUN_006815c0 kTmpEdge;
-        reinterpret_cast<::ScreenCamera *>((((FUN_00a6fc50_cam*)((::NiNode *)(::FUN_00559450((int *)(((SurgeryHolder*)&g_011dadb4))))))))->ProjectToScreen((*(const ::NiPoint3 *)(((void *)(::FUN_0045bb80((int)(pNewObj)))))), (*(float *)(&kIntersectionOffset.x)), (*(float *)(&kIntersectionOffset.y)), 1e-5f);
-        reinterpret_cast<::ScreenCamera *>((((FUN_00a6fc50_cam*)((::NiNode *)(::FUN_00559450((int *)(((SurgeryHolder*)&g_011dadb4))))))))->ProjectToScreen((*(const ::NiPoint3 *)(((void *)(::FUN_0045bb80((int)(pEdge8)))))), (*(float *)(&kTmpEdge.x)), (*(float *)(&kTmpEdge.y)), 1e-5f);
+        reinterpret_cast<::ScreenCamera *>((((FUN_00a6fc50_cam*)((::NiNode *)(::FUN_00559450((int *)(((SurgeryHolder*)&(*reinterpret_cast<NiPointer<NiNode>*>(&::g_011dadb4))))))))))->ProjectToScreen((*(const ::NiPoint3 *)(((void *)(::FUN_0045bb80((intptr_t)(pNewObj)))))), (*(float *)(&kIntersectionOffset.x)), (*(float *)(&kIntersectionOffset.y)), 1e-5f);
+        reinterpret_cast<::ScreenCamera *>((((FUN_00a6fc50_cam*)((::NiNode *)(::FUN_00559450((int *)(((SurgeryHolder*)&(*reinterpret_cast<NiPointer<NiNode>*>(&::g_011dadb4))))))))))->ProjectToScreen((*(const ::NiPoint3 *)(((void *)(::FUN_0045bb80((intptr_t)(pEdge8)))))), (*(float *)(&kTmpEdge.x)), (*(float *)(&kTmpEdge.y)), 1e-5f);
         kIntersectionOffset.x *= ::InterfaceManager::UpdateInterfaceState();
         kIntersectionOffset.y = (1.0 - kIntersectionOffset.y) * FUN_00715da0();
         kTmpEdge.x *= ::InterfaceManager::UpdateInterfaceState();
         kTmpEdge.y = (1.0 - kTmpEdge.y) * FUN_00715da0();
         iX = kIntersectionOffset.x;
         iY = kIntersectionOffset.y;
-        iRadiusTmp = reinterpret_cast<::FUN_00589850_Class *>((void *)&(const class ::FUN_006815c0 &)((*(class class ::FUN_006815c0 *)(reinterpret_cast<::fnv_anon_tile::NiPoint2_Sub *>((void *)&(kIntersectionOffset))->Subtract((::NiPoint2 *)&(kTmpEdge), *(const ::NiPoint2 *)nullptr)))))->FUN_00589850();
+        iRadiusTmp = reinterpret_cast<::FUN_00589850_Class *>((void *)&(const class ::FUN_006815c0 &)((*(class ::FUN_006815c0 *)(reinterpret_cast<::fnv_anon_tile::NiPoint2_Sub *>((void *)&(kIntersectionOffset))->Subtract((::NiPoint2 *)&(kTmpEdge), *(const ::NiPoint2 *)nullptr)))))->FUN_00589850();
     }
     else
     {
@@ -2042,18 +2045,18 @@ int __cdecl CompareProjectedListsToCursor(ProjOwnerS* a, ProjOwnerS* pOwnerB)
     cursor.x = cursor.x / ::InterfaceManager::UpdateInterfaceState();
     cursor.y = cursor.y / ::FUN_00715da0();
     ProjListS* pNode = a->list;
-    while (g_011dadb4 && pNode && !pNode->IsEmpty())
+    while ((*reinterpret_cast<NiPointer<NiNode>*>(&::g_011dadb4)) && pNode && !pNode->IsEmpty())
     {
-        reinterpret_cast<::ScreenCamera *>((((CameraS*)(unsigned int)g_011dadb4)))->ProjectToScreen((*(const ::NiPoint3 *)(((::NiPoint3S *)(::FUN_0045bb80((int)(((::ProjNodeS *)(new ((void *)(pNode)) ::Vec3()))->item)))))), (*(float *)(&screenPos.x)), (*(float *)(&screenPos.y)), 1e-5f);
+        reinterpret_cast<::ScreenCamera *>((((CameraS*)(uintptr_t)(*reinterpret_cast<NiPointer<NiNode>*>(&::g_011dadb4)))))->ProjectToScreen((*(const ::NiPoint3 *)(((::NiPoint3S *)(::FUN_0045bb80((intptr_t)(((::ProjNodeS *)(reinterpret_cast<::SimpleListNodeView*>(pNode)->m_item))->item)))))), (*(float *)(&screenPos.x)), (*(float *)(&screenPos.y)), 1e-5f);
         screenPos.y = 1.0f - screenPos.y;
         if (reinterpret_cast<::FUN_00589850_Class *>((void *)&(const ::NiPoint2S &)((screenPos - cursor)))->FUN_00589850() < fBestDist)
             fBestDist = reinterpret_cast<::FUN_00589850_Class *>((void *)&(const ::NiPoint2S &)((screenPos - cursor)))->FUN_00589850();
         pNode = ((::ProjListS *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070()));
     }
     pNode = pOwnerB->list;
-    while (g_011dadb4 && pNode && !pNode->IsEmpty())
+    while ((*reinterpret_cast<NiPointer<NiNode>*>(&::g_011dadb4)) && pNode && !pNode->IsEmpty())
     {
-        reinterpret_cast<::ScreenCamera *>((((CameraS*)(unsigned int)g_011dadb4)))->ProjectToScreen((*(const ::NiPoint3 *)(((::NiPoint3S *)(::FUN_0045bb80((int)(((::ProjNodeS *)(new ((void *)(pNode)) ::Vec3()))->item)))))), (*(float *)(&screenPos.x)), (*(float *)(&screenPos.y)), 1e-5f);
+        reinterpret_cast<::ScreenCamera *>((((CameraS*)(uintptr_t)(*reinterpret_cast<NiPointer<NiNode>*>(&::g_011dadb4)))))->ProjectToScreen((*(const ::NiPoint3 *)(((::NiPoint3S *)(::FUN_0045bb80((intptr_t)(((::ProjNodeS *)(reinterpret_cast<::SimpleListNodeView*>(pNode)->m_item))->item)))))), (*(float *)(&screenPos.x)), (*(float *)(&screenPos.y)), 1e-5f);
         screenPos.y = 1.0f - screenPos.y;
         if (reinterpret_cast<::FUN_00589850_Class *>((void *)&(const ::NiPoint2S &)((screenPos - cursor)))->FUN_00589850() < fBestDist)
             return 1;
@@ -2092,9 +2095,9 @@ void RefreshEntryByID(int aiEntryID)
         E5810Node* pkNode = &g_kE5810Queue;
         while (pkNode && !pkNode->IsEmpty())
         {
-            if ((*((::E5810Entry **)(new ((void *)(pkNode)) ::Vec3())))->m_iID == aiEntryID)
+            if ((*((::E5810Entry **)(&reinterpret_cast<::SimpleListNodeView*>(pkNode)->m_item)))->m_iID == aiEntryID)
             {
-                reinterpret_cast<::FUN_007e5780_shell *>(((*((::E5810Entry **)(new ((void *)(pkNode)) ::Vec3())))))->ProcessNodeChain();
+                reinterpret_cast<::FUN_007e5780_shell *>(((*((::E5810Entry **)(&reinterpret_cast<::SimpleListNodeView*>(pkNode)->m_item)))))->ProcessNodeChain();
                 break;
             }
             pkNode = ((::E5810Node *)(reinterpret_cast<::Callees *>((pkNode))->FUN_00726070()));
@@ -2197,7 +2200,7 @@ float SurgeryLimbMenu::FUN_007e58e0()
     LimbListNode* node3 = wound_->list;
     while (node3 && !node3->IsEmpty())
     {
-        LimbValueSource* src = ((::LimbEntry *)(new ((void *)(node3)) ::Vec3()))->source;
+        LimbValueSource* src = ((::LimbEntry *)(reinterpret_cast<::SimpleListNodeView*>(node3)->m_item))->source;
         total += reinterpret_cast<::FUN_00493770_shell *>((src))->FUN_00493770();
         range8 += reinterpret_cast<::FUN_00508100_shell *>((src))->FUN_00508100() - reinterpret_cast<::FUN_00759450_shell *>((src))->FUN_00759450();
         node3 = ((::LimbListNode *)(reinterpret_cast<::Callees *>((node3))->FUN_00726070()));
@@ -2295,11 +2298,11 @@ struct HostF
 // @fnv 0x007e5ee0
 void HostF::FUN_007e5ee0(int a1, int a2)
 {
-    ((::fnv_007e5ee0::NodeV *)(::FUN_00559450((int *)(((PtrBox*)&g_011dade8)))))
+    ((::fnv_007e5ee0::NodeV *)(::FUN_00559450((int *)(((PtrBox*)&(*reinterpret_cast<NiPointer<NiNode>*>(&::g_011dade8)))))))
         ->virt58(((::fnv_007e5ee0::NodeV *)(::FUN_00559450((int *)&(((DataF*)DAT_011dada4)->m_aiIndexedValues[GetIndex(a1)])))));
-    ((::fnv_007e5ee0::NodeV *)(::FUN_00559450((int *)(((PtrBox*)&g_011dade8)))))
+    ((::fnv_007e5ee0::NodeV *)(::FUN_00559450((int *)(((PtrBox*)&(*reinterpret_cast<NiPointer<NiNode>*>(&::g_011dade8)))))))
         ->virt55(((::fnv_007e5ee0::NodeV *)(::FUN_00559450((int *)&(((DataF*)DAT_011dada4)->m_aiIndexedValues[GetIndex(a2)])))), 1);
-    ((DataF*)DAT_011dada4)->m_e8 = ((::fnv_007e5ee0::NodeV *)(::FUN_00559450((int *)(((PtrBox*)&g_011dade8)))))->virt39(&NiFixedString("ScarMesh"));
+    ((DataF*)DAT_011dada4)->m_e8 = ((::fnv_007e5ee0::NodeV *)(::FUN_00559450((int *)(((PtrBox*)&(*reinterpret_cast<NiPointer<NiNode>*>(&::g_011dade8)))))))->virt39(&ResultSlot(NiFixedString("ScarMesh")));
 }
 }  // namespace fnv_007e5ee0
 
@@ -2623,8 +2626,8 @@ void CursorMenu::UpdateTilePositions(int x, int y)
     {
         NiPoint2 centerPos;
         NiPoint2 edgePos;
-        reinterpret_cast<::ScreenCamera *>((((::CursorCamera *)(::FUN_00559450((int *)(::GO *)(&g_011dadb4))))))->ProjectToScreen((const ::NiPoint3 &)(radius->FUN_0045bb80()), (*(float *)(&centerPos.x)), (*(float *)(&centerPos.y)), 0.00001f);
-        reinterpret_cast<::ScreenCamera *>((((::CursorCamera *)(::FUN_00559450((int *)(::GO *)(&g_011dadb4))))))->ProjectToScreen((const ::NiPoint3 &)(center->FUN_0045bb80()), (*(float *)(&edgePos.x)), (*(float *)(&edgePos.y)), 0.00001f);
+        reinterpret_cast<::ScreenCamera *>((((::CursorCamera *)(::FUN_00559450((int *)(::GO *)(&(*reinterpret_cast<NiPointer<NiNode>*>(&::g_011dadb4))))))))->ProjectToScreen((const ::NiPoint3 &)(radius->FUN_0045bb80()), (*(float *)(&centerPos.x)), (*(float *)(&centerPos.y)), 0.00001f);
+        reinterpret_cast<::ScreenCamera *>((((::CursorCamera *)(::FUN_00559450((int *)(::GO *)(&(*reinterpret_cast<NiPointer<NiNode>*>(&::g_011dadb4))))))))->ProjectToScreen((const ::NiPoint3 &)(center->FUN_0045bb80()), (*(float *)(&edgePos.x)), (*(float *)(&edgePos.y)), 0.00001f);
         centerPos.x *= ::InterfaceManager::UpdateInterfaceState();
         centerPos.y = (1.0 - centerPos.y) * FUN_00715da0();
         edgePos.x *= ::InterfaceManager::UpdateInterfaceState();
@@ -2667,11 +2670,11 @@ void WoundUpdater::UpdateWounds(float delta)
     FakeList* node2 = (FakeList*)pHead->_00;
     while (node2 != 0 && !node2->_ref_008256d0())
     {
-        reinterpret_cast<::fnv_00a328b0::SeqExt *>((((SeqHolder*)(*((::WoundFake **)(new ((void *)(node2)) ::Vec3())))->_00)))->FUN_00a328b0(reinterpret_cast<::FUN_00508100_shell *>((((SeqHolder*)(*((::WoundFake **)(new ((void *)(node2)) ::Vec3())))->_00)))->FUN_00508100() * delta, true);
+        reinterpret_cast<::fnv_00a328b0::SeqExt *>((((SeqHolder*)(*((::WoundFake **)(&reinterpret_cast<::SimpleListNodeView*>(node2)->m_item)))->_00)))->FUN_00a328b0(reinterpret_cast<::FUN_00508100_shell *>((((SeqHolder*)(*((::WoundFake **)(&reinterpret_cast<::SimpleListNodeView*>(node2)->m_item)))->_00)))->FUN_00508100() * delta, true);
         node2 = ((::FakeList *)(reinterpret_cast<::Callees *>((node2))->FUN_00726070()));
     }
     NiUpdateDataS data3(0.0f, true, false);
-    reinterpret_cast<::FUN_00a59c60_cls *>((((NiNodeS*)((::NiNode *)(::FUN_00559450((int *)&(((SurgeryHolder&)g_011dade8))))))))->FUN_00a59c60((std::intptr_t)&(data3));
+    reinterpret_cast<::FUN_00a59c60_cls *>((((NiNodeS*)((::NiNode *)(::FUN_00559450((int *)&(((SurgeryHolder&)(*reinterpret_cast<NiPointer<NiNode>*>(&::g_011dade8))))))))))->FUN_00a59c60((std::intptr_t)&(data3));
 }
 
 
@@ -2838,14 +2841,14 @@ void PickMenu::UpdateLockpick(bool abForcing)
     static int iMaxXBoxMag = ::FUN_00a00940(s_szMaxXBoxMag, -1);
     static int iMouseMinPercent = ::FUN_00a00940(s_szMouseMinPercent, -1);
     static int iMouseMaxPercent = ::FUN_00a00940(s_szMouseMaxPercent, -1);
-    float fMinResistance = reinterpret_cast<::TileListBoxCalls *>((((::LockpickResistance::PickTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->GetFloat(iMinResistanceTime);
-    float fMaxResistance = reinterpret_cast<::TileListBoxCalls *>((((::LockpickResistance::PickTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->GetFloat(iMaxResistanceTime);
-    float fMinMagnitude = reinterpret_cast<::TileListBoxCalls *>((((::LockpickResistance::PickTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->GetFloat(iMinMagnitude);
-    float fMaxMagnitude = reinterpret_cast<::TileListBoxCalls *>((((::LockpickResistance::PickTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->GetFloat(iMaxMagnitude);
-    float fSampleMinXBoxMag = reinterpret_cast<::TileListBoxCalls *>((((::LockpickResistance::PickTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->GetFloat(iMinXBoxMag);
-    float fMaxXBoxMagCount = reinterpret_cast<::TileListBoxCalls *>((((::LockpickResistance::PickTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->GetFloat(iMaxXBoxMag);
-    float fMouseMinLocal = reinterpret_cast<::TileListBoxCalls *>((((::LockpickResistance::PickTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->GetFloat(iMouseMinPercent) / 100.0;
-    float fMouseMax = reinterpret_cast<::TileListBoxCalls *>((((::LockpickResistance::PickTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->GetFloat(iMouseMaxPercent) / 100.0;
+    float fMinResistance = reinterpret_cast<::TileListBoxCalls *>((((::LockpickResistance::PickTile *)(reinterpret_cast<::MenuFields *>(this)->tile))))->GetFloat(iMinResistanceTime);
+    float fMaxResistance = reinterpret_cast<::TileListBoxCalls *>((((::LockpickResistance::PickTile *)(reinterpret_cast<::MenuFields *>(this)->tile))))->GetFloat(iMaxResistanceTime);
+    float fMinMagnitude = reinterpret_cast<::TileListBoxCalls *>((((::LockpickResistance::PickTile *)(reinterpret_cast<::MenuFields *>(this)->tile))))->GetFloat(iMinMagnitude);
+    float fMaxMagnitude = reinterpret_cast<::TileListBoxCalls *>((((::LockpickResistance::PickTile *)(reinterpret_cast<::MenuFields *>(this)->tile))))->GetFloat(iMaxMagnitude);
+    float fSampleMinXBoxMag = reinterpret_cast<::TileListBoxCalls *>((((::LockpickResistance::PickTile *)(reinterpret_cast<::MenuFields *>(this)->tile))))->GetFloat(iMinXBoxMag);
+    float fMaxXBoxMagCount = reinterpret_cast<::TileListBoxCalls *>((((::LockpickResistance::PickTile *)(reinterpret_cast<::MenuFields *>(this)->tile))))->GetFloat(iMaxXBoxMag);
+    float fMouseMinLocal = reinterpret_cast<::TileListBoxCalls *>((((::LockpickResistance::PickTile *)(reinterpret_cast<::MenuFields *>(this)->tile))))->GetFloat(iMouseMinPercent) / 100.0;
+    float fMouseMax = reinterpret_cast<::TileListBoxCalls *>((((::LockpickResistance::PickTile *)(reinterpret_cast<::MenuFields *>(this)->tile))))->GetFloat(iMouseMaxPercent) / 100.0;
     if (abForcing)
     {
         bForcing = true;
@@ -2854,7 +2857,7 @@ void PickMenu::UpdateLockpick(bool abForcing)
         float fMagnitudeVal;
         float fMouseNew;
         ::ComputeInjuryEffectScalars(&fResistanceTimeLocal, &fMagnitudeVal, &fMouseNew,
-                                   reinterpret_cast<::TileListBoxCalls *>((((::LockpickResistance::PickTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->GetFloat(DAT_011dad9c) / 100.0, fLockLevel / 100.0,
+                                   reinterpret_cast<::TileListBoxCalls *>((((::LockpickResistance::PickTile *)(reinterpret_cast<::MenuFields *>(this)->tile))))->GetFloat(DAT_011dad9c) / 100.0, fLockLevel / 100.0,
                                    DAT_011dea3c->kValues.GetActorValue(0x25));
         fResistanceTimeLocal = ::LinearInterpolate(fMinResistance, fMaxResistance, 0.0f, 1.0f, fResistanceTimeLocal);
         float fShakeXVal = ApplyNoise(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::LockpickResistance::PickTimer *>(&::g_timeGlobal))))->FUN_00825c00() * 0.00025f);
@@ -2875,19 +2878,19 @@ void PickMenu::UpdateLockpick(bool abForcing)
         reinterpret_cast<::S004e88d0 *>(&(kCursorPos))->Add((::S004e88d0 *)(&kIntersectionOffset));
         PickInput* pInputIn = ((::LockpickResistance::PickInput *)(reinterpret_cast<::FUN_00877720_shell *>((DAT_011dea0c))->FUN_00877720()));
         PickPoint kInput;
-        if (((::LockpickResistance::PickInterface *)(::fnv_004b7210::FUN_004b7210()))->FUN_004b71d0())
+        if (::FUN_004b71d0())
         {
             int iStickX = reinterpret_cast<::FUN_00a23390_t *>((pInputIn))->GetAxisState(0, 7);
             int iStickYTmp = reinterpret_cast<::FUN_00a23390_t *>((pInputIn))->GetAxisState(0, 8);
             kInput.x = (int)(iStickX * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::LockpickResistance::PickSetting *>(&::g_011d8c5c)))))));
             kInput.y = (int)(-iStickYTmp * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::LockpickResistance::PickSetting *>(&::g_011d8c5c)))))));
-            reinterpret_cast<::S004e88d0 *>(&(kCursorPos))->Add((::S004e88d0 *)(&kInput.FUN_004a4f40(::LinearInterpolate(0.25f, 0.5f, 0.0f, 1.0f, fMouseNew))));
+            reinterpret_cast<::S004e88d0 *>(&(kCursorPos))->Add((::S004e88d0 *)(&ResultSlot(kInput.FUN_004a4f40(::LinearInterpolate(0.25f, 0.5f, 0.0f, 1.0f, fMouseNew)))));
         }
         else
         {
             kInput.x = reinterpret_cast<::Dummy_00a239e0 *>((pInputIn))->FUN_00a239e0(1);
             kInput.y = reinterpret_cast<::Dummy_00a239e0 *>((pInputIn))->FUN_00a239e0(2);
-            reinterpret_cast<::S004e88d0 *>(&(kCursorPos))->Add((::S004e88d0 *)(&FUN_00532fd0(fMouseNew, kInput)));
+            reinterpret_cast<::S004e88d0 *>(&(kCursorPos))->Add((::S004e88d0 *)(&ResultSlot(FUN_00532fd0(fMouseNew, kInput))));
         }
         fResistance = fMagnitudeVal * fMouseNew * reinterpret_cast<::FUN_00589850_Class *>(&(kInput))->FUN_00589850();
         if (fResistance > 10.0)
@@ -2904,7 +2907,7 @@ void PickMenu::UpdateLockpick(bool abForcing)
         bForcing = false;
         fResistance = 0.0f;
         reinterpret_cast<::Tile *>((kArgumentPosition))->Set(0xfa3, 0);
-        if (((::LockpickResistance::PickInterface *)(::fnv_004b7210::FUN_004b7210()))->FUN_004b71d0())
+        if (::FUN_004b71d0())
         {
             PickInput* pPadIn = ((::LockpickResistance::PickInput *)(reinterpret_cast<::FUN_00877720_shell *>((DAT_011dea0c))->FUN_00877720()));
             int iPadX = reinterpret_cast<::FUN_00a23390_t *>((pPadIn))->GetAxisState(0, 7);
@@ -3507,14 +3510,14 @@ void __cdecl UpdateBoneWounds(BoneHost* host)
             for (unsigned j = 0; j < ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((sequence5))->FUN_0084e3a0())); j++)
             {
                 BoneBlock* block = ((::BoneBlock *)(reinterpret_cast<::FUN_007e4fc0_shell *>((sequence5))->FUN_007e4fc0(j)));
-                if (((int)(reinterpret_cast<::fnv_004937a0::FUN_004937a0_shell *>((sequence5))->FUN_004937a0(j))))
+                if (((std::intptr_t)(reinterpret_cast<::fnv_004937a0::FUN_004937a0_shell *>((sequence5))->FUN_004937a0(j))))
                 {
-                    if (fnv::crt::strnicmp(nameSize5, (*(::BoneText *)(new ((void *)(block)) ::Vec3())).FUN_0043b1b0(), 6))
+                    if (fnv::crt::strnicmp(nameSize5, (*(::BoneText *)(&reinterpret_cast<::SimpleListNodeView*>(block)->m_item)).FUN_0043b1b0(), 6))
                         reinterpret_cast<::Holder *>((sequence5))->FUN_00a32b80(j);
                     else if (!previous_2 || previous_2->dirty == 1)
                     {
                         entry24->objects->FUN_005ae3d0(
-                            ((::FUN_007e4540_root *)(reinterpret_cast<::fnv_005f5f80::FUN_005f5f80_shell *>((sequence5))->FUN_005f5f80()))->v039((const NiFixedString&)(*(::BoneText *)(new ((void *)(block)) ::Vec3()))));
+                            ((::FUN_007e4540_root *)(reinterpret_cast<::fnv_005f5f80::FUN_005f5f80_shell *>((sequence5))->FUN_005f5f80()))->v039((const NiFixedString&)(*(::BoneText *)(&reinterpret_cast<::SimpleListNodeView*>(block)->m_item))));
                     }
                 }
             }
@@ -3550,19 +3553,19 @@ void __cdecl UpdateBoneWounds(BoneHost* host)
         BoneNode* node = wound9->list;
         while (node && !node->FUN_008256d0())
         {
-            if (((void *)(reinterpret_cast<::LowProcess *>(((*((::BoneEntry **)(new ((void *)(node)) ::Vec3())))->anim))->GetTarget())) == ((BoneMenu*)DAT_011dada4)->manager)
+            if (((void *)(reinterpret_cast<::LowProcess *>(((*((::BoneEntry **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))->anim))->GetTarget())) == ((BoneMenu*)DAT_011dada4)->manager)
             {
-                reinterpret_cast<::NiControllerManager *>((((BoneMenu*)DAT_011dada4)->manager))->ActivateControllerSequence((::NiControllerSequence *)((*((::BoneEntry **)(new ((void *)(node)) ::Vec3())))->anim), 0, true, 1.0f, 0.0f, (::NiControllerSequence *)(void *)(0));
+                reinterpret_cast<::NiControllerManager *>((((BoneMenu*)DAT_011dada4)->manager))->ActivateControllerSequence((::NiControllerSequence *)((*((::BoneEntry **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))->anim), 0, true, 1.0f, 0.0f, (::NiControllerSequence *)(void *)(0));
             }
-            reinterpret_cast<::AnimationSequence *>(((*((::BoneEntry **)(new ((void *)(node)) ::Vec3())))->anim))->FUN_00a34ba0(0.0f, true);
+            reinterpret_cast<::AnimationSequence *>(((*((::BoneEntry **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))->anim))->FUN_00a34ba0(0.0f, true);
             if (!cachedX || wound9->dirty)
             {
-                reinterpret_cast<::fnv_00a328b0::SeqExt *>(((*((::BoneEntry **)(new ((void *)(node)) ::Vec3())))
-                    ->anim))->FUN_00a328b0(reinterpret_cast<::FUN_00508100_shell *>(((*((::BoneEntry **)(new ((void *)(node)) ::Vec3())))->anim))->FUN_00508100() * blendA, true);
-                (*((::BoneEntry **)(new ((void *)(node)) ::Vec3())))->radius = reinterpret_cast<::FUN_00508100_shell *>(((*((::BoneEntry **)(new ((void *)(node)) ::Vec3())))->anim))->FUN_00508100() * blendA;
+                reinterpret_cast<::fnv_00a328b0::SeqExt *>(((*((::BoneEntry **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))
+                    ->anim))->FUN_00a328b0(reinterpret_cast<::FUN_00508100_shell *>(((*((::BoneEntry **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))->anim))->FUN_00508100() * blendA, true);
+                (*((::BoneEntry **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))->radius = reinterpret_cast<::FUN_00508100_shell *>(((*((::BoneEntry **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))->anim))->FUN_00508100() * blendA;
             }
             else
-                reinterpret_cast<::fnv_00a328b0::SeqExt *>(((*((::BoneEntry **)(new ((void *)(node)) ::Vec3())))->anim))->FUN_00a328b0((*((::BoneEntry **)(new ((void *)(node)) ::Vec3())))->radius, true);
+                reinterpret_cast<::fnv_00a328b0::SeqExt *>(((*((::BoneEntry **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))->anim))->FUN_00a328b0((*((::BoneEntry **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))->radius, true);
             node = ((::BoneNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
         }
         wound9->dirty = 0;
@@ -3737,7 +3740,7 @@ struct Thing
 float SurgeryView::UpdateWoundInteraction()
 {
     WoundData* p = ((::WoundData *)(reinterpret_cast<::FUN_007e5720_struct *>(this)->FUN_007e5720()));
-    if (!((ProjectionPtr&)g_011dadb4) || !p)
+    if (!((ProjectionPtr&)(*reinterpret_cast<NiPointer<NiNode>*>(&::g_011dadb4))) || !p)
         return 0.0f;
     reinterpret_cast<::ItemChangeList *>((p->list))->SortItems((int (*)(InventoryStackRecord *, InventoryStackRecord *))(((int (&)(WoundEntry *, WoundEntry *))::CompareProjectedListsToCursor)));
     bool h = false;
@@ -3754,10 +3757,10 @@ float SurgeryView::UpdateWoundInteraction()
         {
             ScreenPoint q;
             ScreenPoint ba;
-            reinterpret_cast<::ScreenCamera *>((((Projection*)((ProjectionPtr&)g_011dadb4))))->ProjectToScreen((*(const ::NiPoint3 *)(((void *)(::FUN_0045bb80((int)(((HitValue*)*((void **)(new ((void *)((*((::WoundEntry **)(new ((void *)(i)) ::Vec3())))->bHitDetected)) ::Vec3()))))))))),
+            reinterpret_cast<::ScreenCamera *>((((Projection*)((ProjectionPtr&)(*reinterpret_cast<NiPointer<NiNode>*>(&::g_011dadb4))))))->ProjectToScreen((*(const ::NiPoint3 *)(((void *)(::FUN_0045bb80((intptr_t)(((HitValue*)*((void **)(&reinterpret_cast<::SimpleListNodeView*>((*((::WoundEntry **)(&reinterpret_cast<::SimpleListNodeView*>(i)->m_item)))->bHitDetected)->m_item))))))))),
                                   (*(float *)(&q.x)), (*(float *)(&q.y)), 0.00001f);
-            reinterpret_cast<::ScreenCamera *>((((Projection*)((ProjectionPtr&)g_011dadb4))))->ProjectToScreen(
-                    (*(const ::NiPoint3 *)(((void *)(::FUN_0045bb80((int)(((HitValue*)*((void **)(new ((void *)(((::HitRef *)(reinterpret_cast<::Callees *>(((*((::WoundEntry **)(new ((void *)(i)) ::Vec3())))->bHitDetected))->FUN_00726070())))) ::Vec3()))))))))),
+            reinterpret_cast<::ScreenCamera *>((((Projection*)((ProjectionPtr&)(*reinterpret_cast<NiPointer<NiNode>*>(&::g_011dadb4))))))->ProjectToScreen(
+                    (*(const ::NiPoint3 *)(((void *)(::FUN_0045bb80((intptr_t)(((HitValue*)*((void **)(&reinterpret_cast<::SimpleListNodeView*>(((::HitRef *)(reinterpret_cast<::Callees *>(((*((::WoundEntry **)(&reinterpret_cast<::SimpleListNodeView*>(i)->m_item)))->bHitDetected))->FUN_00726070())))->m_item))))))))),
                     (*(float *)(&ba.x)), (*(float *)(&ba.y)), 0.00001f);
             q.y = 1.0f - q.y;
             ba.y = 1.0f - ba.y;
@@ -3772,10 +3775,10 @@ float SurgeryView::UpdateWoundInteraction()
             {
                 ScreenPoint k;
                 ScreenPoint l;
-                reinterpret_cast<::ScreenCamera *>((((Projection*)((ProjectionPtr&)g_011dadb4))))->ProjectToScreen((*(const ::NiPoint3 *)(((void *)(::FUN_0045bb80((int)(((HitValue*)*((void **)(new ((void *)((*((::WoundEntry **)(new ((void *)(((::WoundNode *)(reinterpret_cast<::Callees *>((i))->FUN_00726070())))) ::Vec3())))->bHitDetected)) ::Vec3()))))))))),
+                reinterpret_cast<::ScreenCamera *>((((Projection*)((ProjectionPtr&)(*reinterpret_cast<NiPointer<NiNode>*>(&::g_011dadb4))))))->ProjectToScreen((*(const ::NiPoint3 *)(((void *)(::FUN_0045bb80((intptr_t)(((HitValue*)*((void **)(&reinterpret_cast<::SimpleListNodeView*>((*((::WoundEntry **)(&reinterpret_cast<::SimpleListNodeView*>(((::WoundNode *)(reinterpret_cast<::Callees *>((i))->FUN_00726070())))->m_item)))->bHitDetected)->m_item))))))))),
                                       (*(float *)(&k.x)), (*(float *)(&k.y)), 0.00001f);
-                reinterpret_cast<::ScreenCamera *>((((Projection*)((ProjectionPtr&)g_011dadb4))))->ProjectToScreen(
-                        (*(const ::NiPoint3 *)(((void *)(::FUN_0045bb80((int)(((HitValue*)*((void **)(new ((void *)(((::HitRef *)(reinterpret_cast<::Callees *>(((*((::WoundEntry **)(new ((void *)(((::WoundNode *)(reinterpret_cast<::Callees *>((i))->FUN_00726070())))) ::Vec3())))->bHitDetected))->FUN_00726070())))) ::Vec3()))))))))),
+                reinterpret_cast<::ScreenCamera *>((((Projection*)((ProjectionPtr&)(*reinterpret_cast<NiPointer<NiNode>*>(&::g_011dadb4))))))->ProjectToScreen(
+                        (*(const ::NiPoint3 *)(((void *)(::FUN_0045bb80((intptr_t)(((HitValue*)*((void **)(&reinterpret_cast<::SimpleListNodeView*>(((::HitRef *)(reinterpret_cast<::Callees *>(((*((::WoundEntry **)(&reinterpret_cast<::SimpleListNodeView*>(((::WoundNode *)(reinterpret_cast<::Callees *>((i))->FUN_00726070())))->m_item)))->bHitDetected))->FUN_00726070())))->m_item))))))))),
                         (*(float *)(&l.x)), (*(float *)(&l.y)), 0.00001f);
                 k.y = 1.0f - k.y;
                 l.y = 1.0f - l.y;
@@ -3801,11 +3804,11 @@ float SurgeryView::UpdateWoundInteraction()
                                                 (float)((PlayerView*)_g_thePlayer)->values.Get(37)))
                 {
                     WoundAnim* cf[2];
-                    cf[0] = (*((::WoundEntry **)(new ((void *)(p->list)) ::Vec3())))->anim;
-                    cf[1] = (*((::WoundEntry **)(new ((void *)(((::WoundNode *)(reinterpret_cast<::Callees *>((p->list))->FUN_00726070())))) ::Vec3())))->anim;
+                    cf[0] = (*((::WoundEntry **)(&reinterpret_cast<::SimpleListNodeView*>(p->list)->m_item)))->anim;
+                    cf[1] = (*((::WoundEntry **)(&reinterpret_cast<::SimpleListNodeView*>(((::WoundNode *)(reinterpret_cast<::Callees *>((p->list))->FUN_00726070())))->m_item)))->anim;
                     WoundEntry* j[2];
-                    j[0] = *((::WoundEntry **)(new ((void *)(p->list)) ::Vec3()));
-                    j[1] = *((::WoundEntry **)(new ((void *)(((::WoundNode *)(reinterpret_cast<::Callees *>((p->list))->FUN_00726070())))) ::Vec3()));
+                    j[0] = *((::WoundEntry **)(&reinterpret_cast<::SimpleListNodeView*>(p->list)->m_item));
+                    j[1] = *((::WoundEntry **)(&reinterpret_cast<::SimpleListNodeView*>(((::WoundNode *)(reinterpret_cast<::Callees *>((p->list))->FUN_00726070())))->m_item));
                     float eb[2];
                     eb[0] = reinterpret_cast<::BSFaceGenMorphData *>((cf[0]))->FUN_00508120();
                     eb[1] = reinterpret_cast<::BSFaceGenMorphData *>((cf[1]))->FUN_00508120();
@@ -3844,7 +3847,7 @@ float SurgeryView::UpdateWoundInteraction()
     if (true)
     {
         float l, e, j;
-        ComputeInjuryEffectScalars(&l, &e, &j, reinterpret_cast<::TileListBoxCalls *>((((::SurgeryView::ValueOwner *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->GetFloat(g_011dad9c) / 100.0f, amount / 100.0f,
+        ComputeInjuryEffectScalars(&l, &e, &j, reinterpret_cast<::TileListBoxCalls *>((((::SurgeryView::ValueOwner *)(this->unk04))))->GetFloat(g_011dad9c) / 100.0f, amount / 100.0f,
                                    ((PlayerView*)_g_thePlayer)->values.Get(37));
         ScreenPoint c;
         c.x = ApplyNoise((float)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&(((ClockValue&)(*reinterpret_cast<::TimeGlobalS *>(&::g_timeGlobal)))))->FUN_00825c00() * 0.0002500000118743628));
@@ -3880,36 +3883,36 @@ void EventMenu::OnButtonClick(int button, int arg)
                             break;
                         case 4:
                             if (((EventMenu*)DAT_011dada4)->entry &&
-                                ((int)(reinterpret_cast<::Callees *>((((EventMenu*)DAT_011dada4)->entry))->FUN_00726070())) > 0)
+                                ((std::intptr_t)(reinterpret_cast<::InventoryEntryFields *>((((EventMenu*)DAT_011dada4)->entry))->iCountDelta)) > 0)
                             {
-                                reinterpret_cast<::FUN_00a012d0_t *>((((::EventTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->FUN_00a012d0(stimpak, reinterpret_cast<::TileListBoxCalls *>((((::EventTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->GetFloat(stimpak) - 1.0,
+                                reinterpret_cast<::FUN_00a012d0_t *>((((::EventTile *)(reinterpret_cast<::MenuFields *>(this)->tile))))->FUN_00a012d0(stimpak, reinterpret_cast<::TileListBoxCalls *>((((::EventTile *)(reinterpret_cast<::MenuFields *>(this)->tile))))->GetFloat(stimpak) - 1.0,
                                                              true);
                                 reinterpret_cast<::FUN_0088c650_shell *>((((EventPlayer*)_g_thePlayer)))->FUN_0088c650(
-                                        (::TESBoundObject *)(void *)(((void *)(reinterpret_cast<::Twin_0044ddc0 *>((((EventMenu*)DAT_011dada4)->entry))->GetName()))),
-                                        ((int)(reinterpret_cast<::Callees *>((((EventMenu*)DAT_011dada4)->entry))->FUN_00726070())),
+                                        (::TESBoundObject *)(void *)(((void *)(reinterpret_cast<::InventoryEntryFields *>((((EventMenu*)DAT_011dada4)->entry))->pObject))),
+                                        ((int)(reinterpret_cast<::InventoryEntryFields *>((((EventMenu*)DAT_011dada4)->entry))->iCountDelta)),
                                         (::ExtraDataList *)(void *)(((::EventExtraNode *)(::FUN_00559450((int *)(((EventMenu*)DAT_011dada4)->entry))))
-                                            ? *(((void **)(new ((void *)(((::EventExtraNode *)(::FUN_00559450((int *)(((EventMenu*)DAT_011dada4)->entry)))))) ::Vec3())))
+                                            ? *(((void **)(&reinterpret_cast<::SimpleListNodeView*>(((::EventExtraNode *)(::FUN_00559450((int *)(((EventMenu*)DAT_011dada4)->entry)))))->m_item)))
                                             : 0),
                                         false, false, true);
                             }
                             reinterpret_cast<::DirectionAnimator *>(this)->SetDirection(3);
                             break;
                         case 5:
-                            if (reinterpret_cast<::TileListBoxCalls *>((((::EventTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->GetFloat(morphine) > 0.0)
+                            if (reinterpret_cast<::TileListBoxCalls *>((((::EventTile *)(reinterpret_cast<::MenuFields *>(this)->tile))))->GetFloat(morphine) > 0.0)
                             {
                                 EventEntry* item = ((::EventEntry *)(reinterpret_cast<::fnv_00576260::FUN_00576260_shell *>((((EventPlayer*)_g_thePlayer)))->FUN_00576260((::fnv_00576260::TESBoundObject *)(::EventForm *)(((::EventForm *)(::BGSDefaultObjectManager::GetDefaultObjectByIndex((::DEFAULT_OBJECT)(4))))), 0)));
-                                reinterpret_cast<::FUN_00a012d0_t *>((((::EventTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->FUN_00a012d0(morphine, reinterpret_cast<::TileListBoxCalls *>((((::EventTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->GetFloat(morphine) - 1.0,
+                                reinterpret_cast<::FUN_00a012d0_t *>((((::EventTile *)(reinterpret_cast<::MenuFields *>(this)->tile))))->FUN_00a012d0(morphine, reinterpret_cast<::TileListBoxCalls *>((((::EventTile *)(reinterpret_cast<::MenuFields *>(this)->tile))))->GetFloat(morphine) - 1.0,
                                                              true);
-                                reinterpret_cast<::FUN_0088c650_shell *>((((EventPlayer*)_g_thePlayer)))->FUN_0088c650((::TESBoundObject *)(void *)(((::EventForm *)(::BGSDefaultObjectManager::GetDefaultObjectByIndex((::DEFAULT_OBJECT)(4))))), ((int)(reinterpret_cast<::Callees *>((item))->FUN_00726070())),
-                                                   (::ExtraDataList *)(void *)(((::EventExtraNode *)(::FUN_00559450((int *)(item)))) ? *(((void **)(new ((void *)(((::EventExtraNode *)(::FUN_00559450((int *)(item)))))) ::Vec3()))) : 0),
+                                reinterpret_cast<::FUN_0088c650_shell *>((((EventPlayer*)_g_thePlayer)))->FUN_0088c650((::TESBoundObject *)(void *)(((::EventForm *)(::BGSDefaultObjectManager::GetDefaultObjectByIndex((::DEFAULT_OBJECT)(4))))), ((int)(reinterpret_cast<::InventoryEntryFields *>((item))->iCountDelta)),
+                                                   (::ExtraDataList *)(void *)(((::EventExtraNode *)(::FUN_00559450((int *)(item)))) ? *(((void **)(&reinterpret_cast<::SimpleListNodeView*>(((::EventExtraNode *)(::FUN_00559450((int *)(item)))))->m_item))) : 0),
                                                    false, false, true);
                                 delete item;
                                 amount -= 25.0;
-                                if (reinterpret_cast<::TileListBoxCalls *>((((::EventTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->GetFloat(DAT_011dad9c) >= 25.0)
-                                    reinterpret_cast<::FUN_00a012d0_t *>((((::EventTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->FUN_00a012d0(
-                                        DAT_011dad9c, reinterpret_cast<::TileListBoxCalls *>((((::EventTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->GetFloat(DAT_011dad9c) - 25.0, true);
+                                if (reinterpret_cast<::TileListBoxCalls *>((((::EventTile *)(reinterpret_cast<::MenuFields *>(this)->tile))))->GetFloat(DAT_011dad9c) >= 25.0)
+                                    reinterpret_cast<::FUN_00a012d0_t *>((((::EventTile *)(reinterpret_cast<::MenuFields *>(this)->tile))))->FUN_00a012d0(
+                                        DAT_011dad9c, reinterpret_cast<::TileListBoxCalls *>((((::EventTile *)(reinterpret_cast<::MenuFields *>(this)->tile))))->GetFloat(DAT_011dad9c) - 25.0, true);
                                 else
-                                    reinterpret_cast<::Tile *>((((::EventTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->Set(DAT_011dad9c, 0);
+                                    reinterpret_cast<::Tile *>((((::EventTile *)(reinterpret_cast<::MenuFields *>(this)->tile))))->Set(DAT_011dad9c, 0);
                             }
                             reinterpret_cast<::DirectionAnimator *>(this)->SetDirection(2);
                             break;

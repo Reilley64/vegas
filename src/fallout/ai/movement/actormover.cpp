@@ -1,5 +1,9 @@
 // fallout/ai/movement/actormover.cpp: ActorMover, Mover, Tgt_b, MobileObject and more (79 functions)
 
+#include "fnv/pathing_location_fields.h"
+#include "fnv/simple_array_item.h"
+#include <cstdint>
+#include "fnv/result_slot.h"
 #include <new>
 #include "fnv/decl/ActorStandIn008a.h"
 #include "fnv/decl/BGSTerrainManager.h"
@@ -536,11 +540,13 @@ struct Helper_PathHandler_70
     virtual void v70();
 };
 
+}  // namespace fnv_009dd1c0
 template <> class NiPointer<NiNode*>
 {
   public:
     NiPointer<NiNode>& operator=(NiNode*);
 };
+namespace fnv_009dd1c0 {
 
 // @fnv 0x009dd1c0
 void FUN_009dd1c0_shell::FUN_009dd1c0(bool abClearHandler)
@@ -723,33 +729,35 @@ class PathManager
     bool BuildPath(NiPointer<PathingRequest>, NiPointer<ActorPathingMessageQueue>, bool);
 };
 
-template <> class NiPointer<PathingRequest>
+}  // namespace fnv_009dfa00
+template <> class NiPointer<fnv_009dfa00::PathingRequest>
 {
   public:
-    PathingRequest* p;
-    NiPointer(const NiPointer<PathingRequest>&);
+    fnv_009dfa00::PathingRequest* p;
+    NiPointer(const NiPointer<fnv_009dfa00::PathingRequest>&);
     ~NiPointer();
-    operator PathingRequest*() const;
-    PathingRequest* operator->() const;
+    operator fnv_009dfa00::PathingRequest*() const;
+    fnv_009dfa00::PathingRequest* operator->() const;
 };
 
-template <> class NiPointer<ActorPathingMessageQueue>
+template <> class NiPointer<fnv_009dfa00::ActorPathingMessageQueue>
 {
   public:
-    ActorPathingMessageQueue* p;
-    NiPointer(const NiPointer<ActorPathingMessageQueue>&);
+    fnv_009dfa00::ActorPathingMessageQueue* p;
+    NiPointer(const NiPointer<fnv_009dfa00::ActorPathingMessageQueue>&);
     ~NiPointer();
-    operator ActorPathingMessageQueue*() const;
-    NiPointer<ActorPathingMessageQueue>& operator=(ActorPathingMessageQueue*);
+    operator fnv_009dfa00::ActorPathingMessageQueue*() const;
+    NiPointer<fnv_009dfa00::ActorPathingMessageQueue>& operator=(fnv_009dfa00::ActorPathingMessageQueue*);
 };
 
-template <> class NiPointer<Actor>
+template <> class NiPointer<fnv_009dfa00::Actor>
 {
   public:
-    Actor* p;
-    operator Actor*() const;
+    fnv_009dfa00::Actor* p;
+    operator fnv_009dfa00::Actor*() const;
 };
 
+namespace fnv_009dfa00 {
 struct PathingRequestLOS
 {
 };
@@ -972,7 +980,7 @@ struct PathingSolution
 bool FUN_009de420_shell::HasPathingSolution()
 {
     if (*(const Flt*)((char*)this + 0x20) &&
-        reinterpret_cast<::FUN_006b05d0_shell *>((((PathingSolution*)(unsigned int)*(const Flt*)((char*)this + 0x20))))->FUN_006b05d0())
+        reinterpret_cast<::FUN_006b05d0_shell *>((((PathingSolution*)(uintptr_t)*(const Flt*)((char*)this + 0x20))))->FUN_006b05d0())
         return true;
     return false;
 }
@@ -1074,11 +1082,11 @@ struct Tgt_b
 {
     char pad[0x28];
     void* pActor;
-    bool FUN_009dba50(int a, int b, int c, float d, int e);
+    bool FUN_009dba50(intptr_t a, intptr_t b, intptr_t c, float d, intptr_t e);
 };
 // Builds a PathingRequestHelper via SetupPathingRequest from pActor and the given arguments, then returns the result of FUN_009dba30 on it.
 // @fnv 0x009dba50
-bool Tgt_b::FUN_009dba50(int aiArg1, int aiArg2, int aiArg3, float afArg4, int aiArg5)
+bool Tgt_b::FUN_009dba50(intptr_t aiArg1, intptr_t aiArg2, intptr_t aiArg3, float afArg4, intptr_t aiArg5)
 {
     PathingRequestHelper request;
     ::fnv_009dbc90::SetupPathingRequest((::Actor *)(pActor), (::fnv_009dbc90::PathingRequest *)(::PathingRequestHelper *)(&request), (*(const ::NiPoint3 *)(aiArg1)), (::TESObjectCELL *)(aiArg2), (::TESWorldSpace *)(aiArg3), afArg4, (void *)(aiArg5));
@@ -1096,10 +1104,10 @@ struct Tgt_b
 {
     char pad[0x28];
     void* pActor;
-    bool FUN_009dbb60(int a, int b, int c, float d, float e, int f);
+    bool FUN_009dbb60(intptr_t a, intptr_t b, intptr_t c, float d, float e, intptr_t f);
 };
 // @fnv 0x009dbb60
-bool Tgt_b::FUN_009dbb60(int aiArg1, int aiArg2, int aiArg3, float afValue, float afArg4, int aiArg5)
+bool Tgt_b::FUN_009dbb60(intptr_t aiArg1, intptr_t aiArg2, intptr_t aiArg3, float afValue, float afArg4, intptr_t aiArg5)
 {
     PathingRequestHelper request;
     ::fnv_009dbc90::SetupPathingRequest((::Actor *)(pActor), (::fnv_009dbc90::PathingRequest *)(::fnv_009dbb60::PathingRequestHelper *)(&request), (*(const ::NiPoint3 *)(aiArg1)), (::TESObjectCELL *)(aiArg2), (::TESWorldSpace *)(aiArg3), afArg4, (void *)(aiArg5));
@@ -1124,7 +1132,7 @@ struct FUN_00564db0_cls
 // @fnv 0x00564db0
 void FUN_00564db0_cls::FUN_00564db0(bool abVal)
 {
-    int iflags = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)this)))->GetName()));
+    intptr_t iflags = SimpleArraySize((((ArrSI*)this)));
     if (abVal)
         iflags |= 0x40000;
     else
@@ -1369,7 +1377,7 @@ struct Tgt_b
 // @fnv 0x009dbb10
 bool Tgt_b::FUN_009dbb10(TESObjectREFR* apRef, float afValue, int aiValue)
 {
-    return reinterpret_cast<::Tgt_b *>(this)->FUN_009dba50((int)apRef->GetPos(), (int)((LowProcess*)apRef)->GetTarget(), (int)((::TESWorldSpace *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((void *)(apRef))->FUN_00575d70())),
+    return reinterpret_cast<::Tgt_b *>(this)->FUN_009dba50((intptr_t)apRef->GetPos(), (intptr_t)((LowProcess*)apRef)->GetTarget(), (intptr_t)((::TESWorldSpace *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((void *)(apRef))->FUN_00575d70())),
                         afValue, aiValue);
 }
 }  // namespace fnv_009dbb10
@@ -1384,13 +1392,13 @@ public:
 };
 struct H009dbc30
 {
-    void FUN_009dbc30(TESObjectREFR*, float, int);
+    void FUN_009dbc30(TESObjectREFR*, float, intptr_t);
 };
 // Calls FUN_009dbb60 with the reference's position, target sound, world space, Z angle, and the two given values.
 // @fnv 0x009dbc30
-void H009dbc30::FUN_009dbc30(TESObjectREFR* apReference, float afValue, int aiValue)
+void H009dbc30::FUN_009dbc30(TESObjectREFR* apReference, float afValue, intptr_t aiValue)
 {
-    reinterpret_cast<::fnv_009dbb60::Tgt_b *>(this)->FUN_009dbb60((int)(apReference->GetPos()), (int)(((LowProcess*)apReference)->GetTarget()), (int)(((::TESWorldSpace *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((void *)(apReference))->FUN_00575d70()))),
+    reinterpret_cast<::fnv_009dbb60::Tgt_b *>(this)->FUN_009dbb60((intptr_t)(apReference->GetPos()), (intptr_t)(((LowProcess*)apReference)->GetTarget()), (intptr_t)(((::TESWorldSpace *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((void *)(apReference))->FUN_00575d70()))),
                  (*(const ::NiPoint3 *)(reinterpret_cast<::TESRecipe *>((void *)(apReference))->GetData())).z, afValue, aiValue);
 }
 
@@ -1461,7 +1469,7 @@ struct Holder009dcb30
 // @fnv 0x009dcb30
 bool Holder009dcb30::FUN_009dcb30()
 {
-    if (_o && (unsigned int)_f && reinterpret_cast<::Mover *>((((NiNode*)(unsigned int)_f)))->FUN_009dc530())
+    if (_o && (unsigned int)_f && reinterpret_cast<::Mover *>((((NiNode*)(uintptr_t)_f)))->FUN_009dc530())
         return _o->f15();
     return true;
 }
@@ -1503,7 +1511,7 @@ struct MyHolder
 // @fnv 0x009dcb90
 bool MyHolder::FUN_009dcb90()
 {
-    if (_p && (unsigned int)_f && reinterpret_cast<::Mover *>((((NiNode*)(unsigned int)_f)))->FUN_009dc530())
+    if (_p && (unsigned int)_f && reinterpret_cast<::Mover *>((((NiNode*)(uintptr_t)_f)))->FUN_009dc530())
         return _p->vf16();
     return 0;
 }
@@ -1683,7 +1691,7 @@ struct S009dccf0
 // @fnv 0x009dccf0
 bool S009dccf0::FUN_009dccf0()
 {
-    if (!(unsigned int)m_kHandle || !reinterpret_cast<::Mover *>((((NiNode*)(unsigned int)m_kHandle)))->FUN_009dc530())
+    if (!(unsigned int)m_kHandle || !reinterpret_cast<::Mover *>((((NiNode*)(uintptr_t)m_kHandle)))->FUN_009dc530())
         return false;
     return _h->v17();
 }
@@ -1761,7 +1769,7 @@ struct StandIn009DE3E0
 // @fnv 0x009de3e0
 bool StandIn009DE3E0::FUN_009de3e0()
 {
-    if ((unsigned int)m_kHandle && reinterpret_cast<::Mover *>((((NiNode*)(unsigned int)m_kHandle)))->FUN_009dc530())
+    if ((unsigned int)m_kHandle && reinterpret_cast<::Mover *>((((NiNode*)(uintptr_t)m_kHandle)))->FUN_009dc530())
         return true;
     return false;
 }
@@ -2019,7 +2027,7 @@ void DoorTeleportSpaceReceiver::UpdateTeleportPathState()
     {
         if (!kPath)
             return;
-        if (usNode == usLastNode && usNode < ::FUN_005a4320((char *)(((PathingSolution*)(unsigned int)kPath))) - 1)
+        if (usNode == usLastNode && usNode < ::FUN_005a4320((char *)(((PathingSolution*)(uintptr_t)kPath))) - 1)
             return;
         bFlag = false;
     }
@@ -2163,7 +2171,7 @@ struct HighActorCullerCell
 };
 struct GO
 {
-    GO(int);
+    GO(intptr_t);
     ~GO();
     void* p;
 };
@@ -2513,18 +2521,18 @@ void FUN_009df8c0_shell::FUN_009df8c0(BGSLoadFormBuffer* apLoadGameBuffer)
         ((MoverView*)this)->m_pPathHandler->LoadGame(apLoadGameBuffer);
     if (((MoverView*)this)->m_kFirstNP)
     {
-        if (((SPathReq*)(unsigned int)((MoverView*)this)->m_kFirstNP)->GetType() == 5)
+        if (((SPathReq*)(uintptr_t)((MoverView*)this)->m_kFirstNP)->GetType() == 5)
         {
-            FUN_009d9ec0_shell* plosRequest = (FUN_009d9ec0_shell*)(unsigned int)((MoverView*)this)->m_kFirstNP;
+            FUN_009d9ec0_shell* plosRequest = (FUN_009d9ec0_shell*)(uintptr_t)((MoverView*)this)->m_kFirstNP;
             CombatController* pcombatController = ((MoverView*)this)->pActor->GetCombatController();
             if (pcombatController && ((::fnv_009df8c0::ActorCombatGroup *)(reinterpret_cast<::EffectSetting *>((pcombatController))->GetCastSound())))
             {
-                GO kGraph((int)((::fnv_009df8c0::BSPortalGraph *)(reinterpret_cast<::fnv_009d9f20::FUN_009d9f20_shell *>((((HighActorCullerCell*)((::fnv_009df8c0::ActorCombatGroup *)(reinterpret_cast<::EffectSetting *>((pcombatController))->GetCastSound())))))->FUN_009d9f20())));
+                GO kGraph((intptr_t)((::fnv_009df8c0::BSPortalGraph *)(reinterpret_cast<::fnv_009d9f20::FUN_009d9f20_shell *>((((HighActorCullerCell*)((::fnv_009df8c0::ActorCombatGroup *)(reinterpret_cast<::EffectSetting *>((pcombatController))->GetCastSound())))))->FUN_009d9f20())));
                 reinterpret_cast<::FUN_009d9ec0_shell *>((plosRequest))->AssignAtOffsetB0(&kGraph);
             }
         }
-        ((SPathReq*)(unsigned int)((MoverView*)this)->m_kFirstNP)->LoadGame(apLoadGameBuffer);
-        reinterpret_cast<::PathingActorData *>((void *)&(const ::fnv_009df8c0::PathingActorData &)(*(PathingActorData*)(unsigned int)((MoverView*)this)->m_kFirstNP))->operator=((const ::PathingActorData &)(*(PathingActorData*)((MoverView*)this)->pActor));
+        ((SPathReq*)(uintptr_t)((MoverView*)this)->m_kFirstNP)->LoadGame(apLoadGameBuffer);
+        reinterpret_cast<::PathingActorData *>((void *)&(const ::fnv_009df8c0::PathingActorData &)(*(PathingActorData*)(uintptr_t)((MoverView*)this)->m_kFirstNP))->operator=((const ::PathingActorData &)(*(PathingActorData*)((MoverView*)this)->pActor));
     }
 }
 }  // namespace fnv_009df8c0
@@ -3773,7 +3781,7 @@ struct Fx_Arg
 
 struct Fx_Obj
 {
-    int Lookup();
+    intptr_t Lookup();
 };
 
 struct Fx_Node
@@ -4910,21 +4918,21 @@ void Mover::SetEnabled(bool abEnabled)
             int xSlot14 = int(actor->Position()->x) >> 12;
             int y = int(actor->Position()->y) >> 12;
             if (!xSlot14 && !y &&
-                !((int)(reinterpret_cast<::fnv_006b7850::FUN_006b7850_shell *>((((::ActorMovement::Area *)(reinterpret_cast<::Owner45A *>(((*reinterpret_cast<::ActorMovement::Map * *>(&::g_TES))))->FUN_0045af00()))))->FUN_006b7850({}, {}))))
-                reinterpret_cast<::fnv_008ad1c0::MoveSelf454 *>((actor))->FUN_008ad1c0((int)&(const ::ActorMovement::Vec &)(((::ActorMovement::Reference *)(::FUN_006a9540((char *)(((::ActorMovement::Request *)(::FUN_00559450((int *)&(request))))))))->FUN_005c3420()), 0.0f,
+                !((intptr_t)(reinterpret_cast<::fnv_006b7850::FUN_006b7850_shell *>((((::ActorMovement::Area *)(reinterpret_cast<::Owner45A *>(((*reinterpret_cast<::ActorMovement::Map * *>(&::g_TES))))->FUN_0045af00()))))->FUN_006b7850({}, {}))))
+                reinterpret_cast<::fnv_008ad1c0::MoveSelf454 *>((actor))->FUN_008ad1c0((intptr_t)&(const ::ActorMovement::Vec &)(((::ActorMovement::Reference *)(::FUN_006a9540((char *)(((::ActorMovement::Request *)(::FUN_00559450((int *)&(request))))))))->FUN_005c3420()), 0.0f,
                                     (::TESObjectCELL *)(reinterpret_cast<::FUN_009611e0_shell *>((((::ActorMovement::Reference *)(::FUN_006a9540((char *)(((::ActorMovement::Request *)(::FUN_00559450((int *)&(request))))))))))->FUN_009611e0()),
-                                    (::TESWorldSpace *)(((int)(reinterpret_cast<::BGSTerrainManager *>((((::ActorMovement::Reference *)(::FUN_006a9540((char *)(((::ActorMovement::Request *)(::FUN_00559450((int *)&(request))))))))))->GetMinLevel()))), 0, 1);
+                                    (::TESWorldSpace *)(reinterpret_cast<PathingLocationFields*>(::FUN_006a9540((char *)(((::ActorMovement::Request *)(::FUN_00559450((int *)&(request)))))))->m_pContainingWorldspace), 0, 1);
         }
         float intervalSlot1 = reinterpret_cast<::Actor *>((actor))->IsVisible(7) ? DAT_0109222c : DAT_01092230;
         if (((::ActorMovement::Request *)(::FUN_00559450((int *)&(request)))))
         {
-            Cell* fromSlot12 = ((::ActorMovement::Cell *)(reinterpret_cast<::PathingLocation *>((((::ActorMovement::Reference *)(::GetOffsetC((int)(((::ActorMovement::Request *)(::FUN_00559450((int *)&(request))))))))))->GetContainingCell()));
+            Cell* fromSlot12 = ((::ActorMovement::Cell *)(reinterpret_cast<::PathingLocation *>((((::ActorMovement::Reference *)(::GetOffsetC((intptr_t)(((::ActorMovement::Request *)(::FUN_00559450((int *)&(request))))))))))->GetContainingCell()));
             Cell* to = ((::ActorMovement::Cell *)(reinterpret_cast<::PathingLocation *>((((::ActorMovement::Reference *)(::FUN_006a9540((char *)(((::ActorMovement::Request *)(::FUN_00559450((int *)&(request))))))))))->GetContainingCell()));
             if (fromSlot12 && to)
             {
                 bool fromAboveSlot13 = ((double)(reinterpret_cast<::FUN_0045cbc0_shell *>(((*reinterpret_cast<::ActorMovement::Map * *>(&::g_TES))))->GetCellHeightAtPosition(
-                                           (const ::NiPoint3 *)&(const ::ActorMovement::Vec &)(((::ActorMovement::Reference *)(::GetOffsetC((int)(((::ActorMovement::Request *)(::FUN_00559450((int *)&(request))))))))->FUN_005c3420()), (::CellView *)(fromSlot12)))) >
-                                       ((::ActorMovement::Reference *)(::GetOffsetC((int)(((::ActorMovement::Request *)(::FUN_00559450((int *)&(request))))))))->FUN_005c3420().z;
+                                           (const ::NiPoint3 *)&(const ::ActorMovement::Vec &)(((::ActorMovement::Reference *)(::GetOffsetC((intptr_t)(((::ActorMovement::Request *)(::FUN_00559450((int *)&(request))))))))->FUN_005c3420()), (::CellView *)(fromSlot12)))) >
+                                       ((::ActorMovement::Reference *)(::GetOffsetC((intptr_t)(((::ActorMovement::Request *)(::FUN_00559450((int *)&(request))))))))->FUN_005c3420().z;
                 bool toAboveSlot1 =
                     ((double)(reinterpret_cast<::FUN_0045cbc0_shell *>(((*reinterpret_cast<::ActorMovement::Map * *>(&::g_TES))))->GetCellHeightAtPosition((const ::NiPoint3 *)&(const ::ActorMovement::Vec &)(((::ActorMovement::Reference *)(::FUN_006a9540((char *)(((::ActorMovement::Request *)(::FUN_00559450((int *)&(request))))))))->FUN_005c3420()), (::CellView *)(to)))) >
                     ((::ActorMovement::Reference *)(::FUN_006a9540((char *)(((::ActorMovement::Request *)(::FUN_00559450((int *)&(request))))))))->FUN_005c3420().z;
@@ -5335,13 +5343,13 @@ void Tgt13::UpdateTargeting()
             }
         }
     }
-    unsigned long bA4;
-    unsigned int zX;
+    uintptr_t bA4;
+    uintptr_t zX;
     bool iAB;
     iAB = false;
     if (((void *)(::FUN_00559450((int *)&(spReq)))) == 0)
         return;
-    if (reinterpret_cast<::fnv_008bc7f0::FUN_008bc7f0_holder *>((actor))->FUN_008bc7f0((int)((*reinterpret_cast<::fnv_009de8b0::Player13 * *>(&::_g_thePlayer)))))
+    if (reinterpret_cast<::fnv_008bc7f0::FUN_008bc7f0_holder *>((actor))->FUN_008bc7f0((intptr_t)((*reinterpret_cast<::fnv_009de8b0::Player13 * *>(&::_g_thePlayer)))))
     {
         if (handler != 0)
         {
@@ -5363,15 +5371,15 @@ void Tgt13::UpdateTargeting()
     }
     if (actor->FUN_00931850() == 0)
     {
-        bA4 = ((unsigned int)(reinterpret_cast<::PathingLocation *>((void *)(((::fnv_009de8b0::PLoc *)(::GetOffsetC((int)(((Req*)((void *)(::FUN_00559450((int *)&(spReq)))))))))))->GetContainingCell()));
-        zX = ((unsigned int)(reinterpret_cast<::PathingLocation *>((void *)(((::fnv_009de8b0::PLoc *)(::FUN_006a9540((char *)(((Req*)((void *)(::FUN_00559450((int *)&(spReq)))))))))))->GetContainingCell()));
+        bA4 = ((uintptr_t)(reinterpret_cast<::PathingLocation *>((void *)(((::fnv_009de8b0::PLoc *)(::GetOffsetC((intptr_t)(((Req*)((void *)(::FUN_00559450((int *)&(spReq)))))))))))->GetContainingCell()));
+        zX = ((uintptr_t)(reinterpret_cast<::PathingLocation *>((void *)(((::fnv_009de8b0::PLoc *)(::FUN_006a9540((char *)(((Req*)((void *)(::FUN_00559450((int *)&(spReq)))))))))))->GetContainingCell()));
         if (0 != bA4 && 0 != zX)
         {
             bool resultB;
-            resultB = reinterpret_cast<::FUN_0045cbc0_shell *>(((*reinterpret_cast<::fnv_009de8b0::TES * *>(&::g_TES))))->GetCellHeightAtPosition((const ::NiPoint3 *)(::fnv_009de8b0::Vec3 *)(&((::fnv_009de8b0::PLoc *)(::GetOffsetC((int)(((Req*)((void *)(::FUN_00559450((int *)&(spReq)))))))))->FUN_005c3420()), (::CellView *)(bA4)) >
-                      ((::fnv_009de8b0::PLoc *)(::GetOffsetC((int)(((Req*)((void *)(::FUN_00559450((int *)&(spReq)))))))))->FUN_005c3420().z;
+            resultB = reinterpret_cast<::FUN_0045cbc0_shell *>(((*reinterpret_cast<::fnv_009de8b0::TES * *>(&::g_TES))))->GetCellHeightAtPosition((const ::NiPoint3 *)(::fnv_009de8b0::Vec3 *)(&ResultSlot(((::fnv_009de8b0::PLoc *)(::GetOffsetC((intptr_t)(((Req*)((void *)(::FUN_00559450((int *)&(spReq)))))))))->FUN_005c3420())), (::CellView *)(bA4)) >
+                      ((::fnv_009de8b0::PLoc *)(::GetOffsetC((intptr_t)(((Req*)((void *)(::FUN_00559450((int *)&(spReq)))))))))->FUN_005c3420().z;
             bool y6;
-            y6 = reinterpret_cast<::FUN_0045cbc0_shell *>(((*reinterpret_cast<::fnv_009de8b0::TES * *>(&::g_TES))))->GetCellHeightAtPosition((const ::NiPoint3 *)(::fnv_009de8b0::Vec3 *)(&((::fnv_009de8b0::PLoc *)(::FUN_006a9540((char *)(((Req*)((void *)(::FUN_00559450((int *)&(spReq)))))))))->FUN_005c3420()), (::CellView *)(zX)) >
+            y6 = reinterpret_cast<::FUN_0045cbc0_shell *>(((*reinterpret_cast<::fnv_009de8b0::TES * *>(&::g_TES))))->GetCellHeightAtPosition((const ::NiPoint3 *)(::fnv_009de8b0::Vec3 *)(&ResultSlot(((::fnv_009de8b0::PLoc *)(::FUN_006a9540((char *)(((Req*)((void *)(::FUN_00559450((int *)&(spReq)))))))))->FUN_005c3420())), (::CellView *)(zX)) >
                  ((::fnv_009de8b0::PLoc *)(::FUN_006a9540((char *)(((Req*)((void *)(::FUN_00559450((int *)&(spReq)))))))))->FUN_005c3420().z;
             if (resultB != y6)
                 iAB = true;
@@ -5396,7 +5404,6 @@ void Tgt13::UpdateTargeting()
         reinterpret_cast<::FUN_006e2b90 *>(&(solution4))->SetFlag(reinterpret_cast<::Dummy *>((((::fnv_009de8b0::ProjBase *)(reinterpret_cast<::Actor *>((actor))->GetActorBase()))))->FUN_005f0c40());
         reinterpret_cast<::FUN_008df1c0_Class *>(&(solution4))->SetByteAtA1(1);
         Pt3 idx;
-        new ((void *)&(idx)) ::Vec3();
         void* _limitA;
         _limitA = (*reinterpret_cast<::fnv_009de8b0::Player13 * *>(&::_g_thePlayer))->FUN_008d6f30();
         {
@@ -5434,7 +5441,7 @@ void Tgt13::UpdateTargeting()
                 }
             }
             reinterpret_cast<::TESForm *>(this)->ClearData();
-            if (reinterpret_cast<::fnv_008bc7f0::FUN_008bc7f0_holder *>((actor))->FUN_008bc7f0((int)((*reinterpret_cast<::fnv_009de8b0::Player13 * *>(&::_g_thePlayer)))) &&
+            if (reinterpret_cast<::fnv_008bc7f0::FUN_008bc7f0_holder *>((actor))->FUN_008bc7f0((intptr_t)((*reinterpret_cast<::fnv_009de8b0::Player13 * *>(&::_g_thePlayer)))) &&
                 ((::fnv_009de8b0::TESWorldSpace *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>(((TESObjectREFR*)actor))->FUN_00575d70())) != ((::fnv_009de8b0::TESWorldSpace *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>(((TESObjectREFR*)(*reinterpret_cast<::fnv_009de8b0::Player13 * *>(&::_g_thePlayer))))->FUN_00575d70())))
             {
                 ::fnv_00573800::FUN_00573800((::fnv_00573800::MoveRef *)(actor), (::fnv_00573800::MoveCell *)(void *)((*reinterpret_cast<::fnv_009de8b0::Player13 * *>(&::_g_thePlayer))->FUN_008d6f30()), (::fnv_00573800::MoveWorld *)(void *)(((::fnv_009de8b0::TESWorldSpace *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>(((TESObjectREFR*)(*reinterpret_cast<::fnv_009de8b0::Player13 * *>(&::_g_thePlayer))))->FUN_00575d70()))));
@@ -6400,7 +6407,7 @@ void Mover11::FUN_009dc120(float f)
             goto END;
         if (proc->v610() == 4)
             goto END;
-        if (((int)(reinterpret_cast<::FUN_0045cd60_shell *>((proc))->FUN_0045cd60())) != reinterpret_cast<::fnv_009334b0::FUN_009334b0_shell *>((m_actor))->GetCellLoadState())
+        if (((intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((proc))->FUN_0045cd60())) != reinterpret_cast<::fnv_009334b0::FUN_009334b0_shell *>((m_actor))->GetCellLoadState())
             goto END;
         if (proc->v4bc() != 0)
             goto END;
@@ -6583,9 +6590,9 @@ void ActorMover_Standin::FUN_009ddc00()
     if ((mode & 0x400) != (this->m_uiMovementMode & 0x400))
     {
         AnimData* anim = this->pActor->GetAnimData();
-        if (!anim || (anim->FUN_00491040(0) && ((int)(reinterpret_cast<::LowProcess *>((anim->FUN_00491040(0)))->GetActiveCombatTarget())) != 1) ||
-            (anim->FUN_00491040(1) && ((int)(reinterpret_cast<::LowProcess *>((anim->FUN_00491040(1)))->GetActiveCombatTarget())) != 1) ||
-            (anim->FUN_00491040(4) && ((int)(reinterpret_cast<::LowProcess *>((anim->FUN_00491040(4)))->GetActiveCombatTarget())) != 1) ||
+        if (!anim || (anim->FUN_00491040(0) && ((intptr_t)(reinterpret_cast<::LowProcess *>((anim->FUN_00491040(0)))->GetActiveCombatTarget())) != 1) ||
+            (anim->FUN_00491040(1) && ((intptr_t)(reinterpret_cast<::LowProcess *>((anim->FUN_00491040(1)))->GetActiveCombatTarget())) != 1) ||
+            (anim->FUN_00491040(4) && ((intptr_t)(reinterpret_cast<::LowProcess *>((anim->FUN_00491040(4)))->GetActiveCombatTarget())) != 1) ||
             ((FUN_008a7570_shell*)this->pActor)->FUN_008a7570() != -1)
         {
             mode &= ~0x400;
@@ -6617,9 +6624,6 @@ struct NiPoint3_sub
 {
 };
 
-namespace std {
-float abs(float);
-}
 
 class NiMemObject
 {
@@ -7131,7 +7135,7 @@ class ActorMoverBuildPath14
     int m_78;
     int m_7c;
     int m_80;
-    int m_84;
+    intptr_t m_84;
 
 
     bool FUN_009db090(const PathingRequest* apRequest);
@@ -7226,10 +7230,10 @@ bool ActorMoverBuildPath14::FUN_009db090(const PathingRequest* apRequest)
     {
         BackgroundPathLocation14* locA5 = &((PathingRequest*)apRequest)->GetOffsetC();
         BackgroundPathLocation14* locB2 = ((::BackgroundPathLocation14 *)(::FUN_006a9540((char *)(((PathingRequest*)apRequest)))));
-        unsigned int cell2 = ((unsigned int)(reinterpret_cast<::PathingLocation *>((void *)(locA5))->GetContainingCell()));
+        uintptr_t cell2 = ((uintptr_t)(reinterpret_cast<::PathingLocation *>((void *)(locA5))->GetContainingCell()));
         bool bNotInterior2 = !(cell2 != 0 && reinterpret_cast<::TESObjectCELL *>((((Cell14*)cell2)))->IsCellInterior());
         bool same3 =
-            bNotInterior2 ? (((void *)(reinterpret_cast<::BGSTerrainManager *>((locA5))->GetMinLevel())) == ((void *)(reinterpret_cast<::BGSTerrainManager *>((locB2))->GetMinLevel()))) : (cell2 == ((unsigned int)(reinterpret_cast<::PathingLocation *>((void *)(locB2))->GetContainingCell())));
+            bNotInterior2 ? (((void *)(reinterpret_cast<::BGSTerrainManager *>((locA5))->GetMinLevel())) == ((void *)(reinterpret_cast<::BGSTerrainManager *>((locB2))->GetMinLevel()))) : (cell2 == ((uintptr_t)(reinterpret_cast<::PathingLocation *>((void *)(locB2))->GetContainingCell())));
         bool zA3 = (reinterpret_cast<::TaskQueueInterface *>((void *)(locA5))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr).z < reinterpret_cast<::FUN_0057b0a0_shell *>((void *)(m_actor))->FUN_0057b0a0() + 50.0f);
         bool zB9 = (reinterpret_cast<::TaskQueueInterface *>((void *)(locB2))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr).z < reinterpret_cast<::FUN_0057b0a0_shell *>((void *)(m_actor))->FUN_0057b0a0() + 50.0f);
         if (same3 && !zA3 && !zB9)
@@ -7413,7 +7417,7 @@ void FUN_009dd2d0_cls::UpdatePathMovement()
 {
     unsigned current;
     float progress;
-    unsigned next;
+    uintptr_t next;
     int result6;
     float fraction;
     if (!((::PathSolution *)(::FUN_00559450((int *)&(path)))) || !((::PathRequest *)(::FUN_00559450((int *)&(request)))))

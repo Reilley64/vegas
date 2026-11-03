@@ -2,6 +2,8 @@
 // src/fallout/magic/telekinesiseffect.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/telekinesiseffect.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
+#include "fnv/form_fields.h"
 #include "fnv/decl/C857A10Buffer.h"
 #include "fnv/decl/Cls.h"
 #include "fnv/decl/FUN_00407820_shell.h"
@@ -26,7 +28,6 @@
 #include "fnv/decl/LoadedValueEffect.h"
 #include "fnv/decl/LowProcess.h"
 #include "fnv/decl/MyPoint439180.h"
-#include "fnv/decl/TelekinesisEffectT.h"
 #include "fnv/decl/TurnUndeadEffect.h"
 #include "fnv/decl/ValueModifierEffect_LoadGame_Helper.h"
 #include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
@@ -51,6 +52,14 @@
 #include "fnv/symbols_011de000.h"
 #include "fnv/symbols_011e0000.h"
 #include "fnv/symbols_011f9000.h"
+#include "fnv/decl/B8182D0Object.h"
+#include "fnv/decl/FUN_00439f50_class.h"
+#include "fnv/decl/FUN_00a59660_cls.h"
+#include "fnv/decl/Owner5615.h"
+#include "fnv/decl/S_00627920.h"
+#include "fnv/decl/TESRecipe.h"
+#include "fnv/symbols_004a3000.h"
+#include <xmmintrin.h>
 struct FUN_0082a510_shell
 {
     void FUN_0082a540();
@@ -162,11 +171,11 @@ struct Flt
 
 struct FUN_0082aa90_shell
 {
-    unsigned int GetFloatAsUInt();
+    uintptr_t GetFloatAsUInt();
 };
 
 // @fnv 0x0082aa90
-unsigned int FUN_0082aa90_shell::GetFloatAsUInt()
+uintptr_t FUN_0082aa90_shell::GetFloatAsUInt()
 {
     return ((Flt*)((char*)this + 0x634))->operator unsigned int();
 }
@@ -213,7 +222,7 @@ struct Calendar
 };
 struct FUN_0082aee0_shell
 {
-    unsigned int FUN_0082aee0();
+    uintptr_t FUN_0082aee0();
 };
 // Calls FUN_0082aee0 and passes its result to FUN_004b5a80, returning that value.
 // @fnv 0x0082aeb0
@@ -223,7 +232,7 @@ void* FUN_0082aeb0_shell::FUN_0082aeb0()
     return FUN_004b5a80(result);
 }
 // @fnv 0x0082aee0
-unsigned int FUN_0082aee0_shell::FUN_0082aee0()
+uintptr_t FUN_0082aee0_shell::FUN_0082aee0()
 {
     Calendar* calendar = reinterpret_cast<Calendar*>(((void *)(::FUN_004ae750((void *)((reinterpret_cast<ScriptLocalsX*>(this)))))));
     return calendar ? ((unsigned int)(reinterpret_cast<::FUN_009611e0_shell *>((calendar))->FUN_009611e0())) : 0;
@@ -260,6 +269,36 @@ struct FUN_00974a50_shell
 struct FUN_0082af60_shell
 {
     void FUN_0082af60();
+};
+class TelekinesisEffectT
+{
+  public:
+    unsigned int unk00;
+    unsigned int unk04;
+    unsigned int unk08;
+    unsigned int unk0c;
+    unsigned int unk10;
+    unsigned int unk14;
+    unsigned int unk18;
+    unsigned int unk1c;
+    unsigned int unk20;
+    unsigned int unk24;
+    unsigned int unk28;
+    unsigned int unk2c;
+    unsigned int unk30;
+    unsigned int unk34;
+    unsigned int unk38;
+    unsigned int unk3c;
+    unsigned int unk40;
+    unsigned int unk44;
+    unsigned int unk48;
+    unsigned int unk4c;
+    unsigned int unk50;
+    float m_fHitDistance;
+    unsigned int unk58;
+    bool m_bHolding;
+
+    void FUN_0082afa0();
 };
 // @fnv 0x0082af60
 void FUN_0082af60_shell::FUN_0082af60()
@@ -300,9 +339,9 @@ void FUN_0082b200_shell::SaveLoad(Actor* apActor)
     unsigned int irefID;
     reinterpret_cast<::ValueModifierEffect *>(this)->FUN_00802db0(apActor);
     irefID = 0;
-    if (*(unsigned int*)((char*)this + 0x58))
-        irefID = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((ref_0084e3a0_shell*)*(unsigned int*)((char*)this + 0x58))))->FUN_0084e3a0()));
-    reinterpret_cast<::C857A10Buffer *>((((TESSaveLoadGame*)(*reinterpret_cast<::FUN_008df040_shell * *>(&::g_TESSaveLoadGame)))))->FUN_00857a10((const unsigned int *)((int)&irefID), 4);
+    if (*(void**)((char*)this + 0x58))
+        irefID = reinterpret_cast<::FormFields *>(*(void**)((char*)this + 0x58))->iFormID;
+    reinterpret_cast<::C857A10Buffer *>((((TESSaveLoadGame*)(*reinterpret_cast<::FUN_008df040_shell * *>(&::g_TESSaveLoadGame)))))->FUN_00857a10(&irefID, 4);
     if (reinterpret_cast<::FUN_008df040_shell *>((((TESSaveLoadGame*)(*reinterpret_cast<::FUN_008df040_shell * *>(&::g_TESSaveLoadGame)))))->FUN_008df040() >= 0x40)
     {
         reinterpret_cast<::FUN_008579b0_shell *>((((TESSaveLoadGame*)(*reinterpret_cast<::FUN_008df040_shell * *>(&::g_TESSaveLoadGame)))))->FUN_008579b0((char*)this + 0x50, 4);
@@ -379,12 +418,25 @@ ActiveEffect* FUN_0082a5a0_shell::CreateCopy()
     return copy;
 }
 
+struct FUN_00438fc0_file;
 struct NiPoint3
 {
     float x, y, z;
     NiPoint3();
     NiPoint3 operator-(const NiPoint3&) const;
     NiPoint3& operator*=(float);
+public:
+    unsigned char ReadFromFile(::FUN_00438fc0_file *);
+    bool FUN_004390c0(const ::NiPoint3 &);
+    ::NiPoint3 &Subtract(const ::NiPoint3 &);
+    float GetLengthSquared();
+    float ComputeMagnitude() const;
+    ::NiPoint3 Cross(const ::NiPoint3 &) const;
+    ::NiPoint3 CrossProduct(const ::NiPoint3 &) const;
+    ::NiPoint3 *ScaleTo(::NiPoint3 *, float);
+    char *FUN_00a59af0(const char *);
+    ::NiPoint3 &FUN_00b2a1c0(const ::NiPoint3 &);
+    static const ::NiPoint3 ZERO;
 };
 struct bhkFilter
 {
@@ -576,7 +628,7 @@ void FUN_0082b300_shell::FUN_0082b300(Actor* apActor)
     TESObjectREFR* pRef = *reinterpret_cast<TESObjectREFR**>(reinterpret_cast<unsigned char*>(this) + 0x58);
     if (pRef)
         *reinterpret_cast<TESObjectREFR**>(reinterpret_cast<unsigned char*>(this) + 0x58) =
-            dynamic_cast<TESObjectREFR*>(::FUN_004839c0(reinterpret_cast<unsigned int>(pRef)));
+            dynamic_cast<TESObjectREFR*>(::FUN_004839c0((unsigned int)reinterpret_cast<std::uintptr_t>(pRef)));
     if (*reinterpret_cast<TESObjectREFR**>(reinterpret_cast<unsigned char*>(this) + 0x58))
         reinterpret_cast<::TelekinesisStartEffect *>(this)->StartTelekinesisEffect();
     *reinterpret_cast<unsigned char*>(reinterpret_cast<unsigned char*>(this) + 0x5d) = 1;
@@ -938,4 +990,86 @@ fnv_b4214::FUN_0082a460::FUN_0082a460(int aiParam1, int aiParam2, int aiParam3)
     m_5d = 0;
 }
 
+class NiPoint3T
+{
+  public:
+    float x, y, z;
+    NiPoint3T();
+    NiPoint3T operator*(float fScalar) const;
+};
+
+class NiMatrix3T
+{
+  public:
+    float m_afEntries[3][3];
+    NiMatrix3T();
+};
+
+class hkVector4T
+{
+  public:
+    __m128 m_vComponents;
+    hkVector4T();
+};
+
+class hkSimdRealT
+{
+  public:
+    __m128 m_vValue;
+    hkSimdRealT(float fValue);
+};
+
+
+class TelekinesisTargetController
+{
+  public:
+};
+
+class TelekinesisTarget
+{
+  public:
+};
+
+class PlayerCameraT
+{
+  public:
+};
+
+class GameSettingTableT
+{
+  public:
+};
+
+
+// @fnv 0x0082afa0
+void TelekinesisEffectT::FUN_0082afa0()
+{
+    if (((::FUN_0082aeb0_shell *)(reinterpret_cast<::FUN_0082aa90_shell *>(((*reinterpret_cast<::PlayerCameraT * *>(&::_g_thePlayer))))->GetFloatAsUInt())))
+    {
+        void* pvGrabbed = ((void *)(reinterpret_cast<::FUN_0082aee0_shell *>((((::FUN_0082aeb0_shell *)(reinterpret_cast<::FUN_0082aa90_shell *>(((*reinterpret_cast<::PlayerCameraT * *>(&::_g_thePlayer))))->GetFloatAsUInt()))))->FUN_0082aee0()));
+        reinterpret_cast<::fnv_00961280::FUN_00961280_shell *>(((*reinterpret_cast<::PlayerCameraT * *>(&::_g_thePlayer))))->FUN_00961280();
+        if (pvGrabbed)
+        {
+            TelekinesisTarget* pkTarget = (TelekinesisTarget*)FUN_004b5a80(pvGrabbed);
+            if (m_bHolding)
+            {
+                NiPoint3T kForward;
+                NiMatrix3T kRotationBasis;
+                NiPoint3T kAngles = (*(const ::NiPoint3T *)(reinterpret_cast<::TESRecipe *>(((*reinterpret_cast<::PlayerCameraT * *>(&::_g_thePlayer))))->GetData()));
+                reinterpret_cast<::FUN_00a59660_cls *>(&(kRotationBasis))->FUN_00a59660(kAngles.z, kAngles.x, kAngles.y);
+                reinterpret_cast<::FUN_00439f50_class *>((void *)&(kRotationBasis))->FUN_00439f50(1, (::NiPoint3 *)&(kForward));
+                NiPoint3T kIntersectionOffset = kForward * (::FUN_00403e20((float *)&((*reinterpret_cast<::GameSettingTableT *>(&::originalRuntimeFloatSetting1172)))) + m_fHitDistance);
+                hkVector4T kMotionVelocity;
+                ::fnv_004a3e00::FUN_004a3e00((*(::fnv_004a3e00::bhkCharacterController *)(&kMotionVelocity)), (*(const ::fnv_004a3e00::NiPoint3 *)(&kIntersectionOffset)));
+                hkSimdRealT kMass(::FUN_004b5400((void *)(pkTarget)));
+                reinterpret_cast<::S_00627920 *>(&(kMotionVelocity))->FUN_00627920((::S_00561240 *)&(kMass));
+                reinterpret_cast<::B8182D0Object *>((((::TelekinesisTargetController *)(::FUN_004ae750((void *)(pkTarget))))))->ApplyToTarget({});
+            }
+            else
+            {
+                reinterpret_cast<::Owner5615 *>((pkTarget))->FUN_005615d0((intptr_t)&((*reinterpret_cast<const ::NiPoint3T *>((void *)&::NiPoint3::ZERO))));
+            }
+        }
+    }
+}
 #include "generated/data/fallout/magic/telekinesiseffect.inc"

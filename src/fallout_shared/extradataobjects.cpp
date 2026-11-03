@@ -1,5 +1,6 @@
 // fallout_shared/extradataobjects.cpp: DelStandIn, ExtraFactionChanges, BSExtraData, ExtraLeveledItem and more (293 functions)
 
+#include <cstdint>
 #include <new>
 #include <cstring>
 #include "fnv/decl/AX.h"
@@ -1599,7 +1600,7 @@ FUN_004351d0_holder::FUN_004351d0_holder(const char* apName) : BE(0x41)
 
 struct GO
 {
-    GO(int);
+    GO(intptr_t);
     ~GO();
 };
 struct NP_0081c630
@@ -4772,12 +4773,12 @@ struct FUN_004048e0_cls
 {
     void* m_00;
     unsigned short m_04;
-    int FUN_004048e0();
+    intptr_t FUN_004048e0();
 };
 
 // Returns m_04 unless it is 0xffff, in which case it returns the result of FUN_0044a670(m_00).
 // @fnv 0x004048e0
-int FUN_004048e0_cls::FUN_004048e0()
+intptr_t FUN_004048e0_cls::FUN_004048e0()
 {
     return (m_04 == 0xffff) ? ((int)(::FUN_0044a670((const char *)(m_00)))) : m_04;
 }
@@ -5642,11 +5643,11 @@ struct PredicateOwner
 {
     unsigned int unk00, unk04, unk08;
     PredicateNode* unk0c;
-    bool HasMatchingValue(unsigned int key);
+    bool HasMatchingValue(uintptr_t key);
 };
 // Walks the node chain from unk0c and returns true if a value with the given key and flag -1 is found.
 // @fnv 0x00437080
-bool PredicateOwner::HasMatchingValue(unsigned int key)
+bool PredicateOwner::HasMatchingValue(uintptr_t key)
 {
     PredicateNode* node = unk0c;
     while (node && *((::PredicateValue **)((void *)(node))))
@@ -6491,12 +6492,12 @@ struct FUN_00436f20_cls
     unsigned int unk08;
     ContNode* m_0c;
 
-    void SetValueByKey(unsigned int aKey, unsigned char aVal);
+    void SetValueByKey(uintptr_t aKey, unsigned char aVal);
 };
 
 // Walks the node chain from m_0c and, when a node's item key equals aKey, writes aVal into byte 4 of that item.
 // @fnv 0x00436f20
-void FUN_00436f20_cls::SetValueByKey(unsigned int aKey, unsigned char aVal)
+void FUN_00436f20_cls::SetValueByKey(uintptr_t aKey, unsigned char aVal)
 {
     ContNode* cur = m_0c;
     while (cur != 0 && *(void**)((void *)((void *)(cur))) != 0)

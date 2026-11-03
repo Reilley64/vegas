@@ -1,5 +1,10 @@
 // fallout/magic/activeeffect.cpp: Interface, EffectSetting, Self, EffectSaveShell (47 functions)
 
+#include <cstdint>
+#include "fnv/save_load_game_view.h"
+#include "fnv/effect_item_fields.h"
+#include "fnv/active_effect_fields.h"
+#include "fnv/simple_list_node_view.h"
 #include <new>
 #include "fnv/decl/BGSDebris.h"
 #include "fnv/decl/BGSSaveGameBuffer.h"
@@ -71,6 +76,8 @@
 #include "fnv/symbols_011de000.h"
 #include "fnv/symbols_011e0000.h"
 #include "activeeffect_local.h"
+#include "fnv/decl/FUN_00857bd0.h"
+#include <cmath>
 
 // @fnv 0x00804090
 void ActiveEffect::CopyData(ActiveEffect* pOther)
@@ -122,7 +129,7 @@ void ActiveEffect::WriteActiveEffectList(BGSLoadFormBuffer* pBuffer, BSSimpleLis
     BSSimpleList<BGSPerkEntry*>* pNode = reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(apEffectList);
     while (pNode)
     {
-        ActiveEffect* pEffect = reinterpret_cast<ActiveEffect*>(((::BGSPerkEntry *)(new ((void *)(pNode)) ::Vec3())));
+        ActiveEffect* pEffect = reinterpret_cast<ActiveEffect*>((*((::BGSPerkEntry * *)(&reinterpret_cast<::SimpleListNodeView*>(pNode)->m_item))));
         if (pEffect)
         {
             reinterpret_cast<ActiveEffectLoadDispatch*>(pEffect)->ApplyLoadBuffer(pBuffer);
@@ -134,7 +141,7 @@ void ActiveEffect::WriteActiveEffectList(BGSLoadFormBuffer* pBuffer, BSSimpleLis
 class MagicCaster
 {
   public:
-    static MagicCaster* GetCasterByHandle(unsigned int id);
+    static MagicCaster* GetCasterByHandle(uintptr_t id);
 };
 class Actor;
 class MagicTarget
@@ -146,7 +153,7 @@ class MagicTarget
     virtual bool IsActor();
     char data[12];
     static int CompareActiveEffects(ActiveEffect*, ActiveEffect*);
-    static MagicTarget* GetMagicTargetByID(unsigned int id);
+    static MagicTarget* GetMagicTargetByID(uintptr_t id);
 public:
     ::Actor *GetOwnerActor() const;
 };
@@ -235,13 +242,13 @@ class MagicHitEffectLoadDispatch
 void ActiveEffect::InitLoadGame(BGSLoadFormBuffer* pBuffer)
 {
     BSSimpleList<BGSPerkEntry*>* pNode;
-    m_pEffectInstance = m_pEffectInstance ? MagicCaster::GetCasterByHandle(reinterpret_cast<unsigned int>(m_pEffectInstance)) : 0;
-    pTarget = pTarget ? MagicTarget::GetMagicTargetByID(reinterpret_cast<unsigned int>(pTarget)) : 0;
-    pMagicItem = pMagicItem ? MagicItem::GetMagicItemByID(reinterpret_cast<unsigned int>(pMagicItem)) : 0;
+    m_pEffectInstance = m_pEffectInstance ? MagicCaster::GetCasterByHandle(reinterpret_cast<uintptr_t>(m_pEffectInstance)) : 0;
+    pTarget = pTarget ? MagicTarget::GetMagicTargetByID(reinterpret_cast<uintptr_t>(pTarget)) : 0;
+    pMagicItem = pMagicItem ? MagicItem::GetMagicItemByID((unsigned int)reinterpret_cast<std::uintptr_t>(pMagicItem)) : 0;
     pNode = reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(pHitEffectList);
     while (pNode)
     {
-        MagicHitEffect* pEffect = reinterpret_cast<MagicHitEffect*>(((::BGSPerkEntry *)(new ((void *)(pNode)) ::Vec3())));
+        MagicHitEffect* pEffect = reinterpret_cast<MagicHitEffect*>((*((::BGSPerkEntry * *)(&reinterpret_cast<::SimpleListNodeView*>(pNode)->m_item))));
         if (pEffect)
         {
             reinterpret_cast<MagicHitEffectLoadDispatch*>(pEffect)->InitLoadGame(pBuffer);
@@ -266,11 +273,11 @@ void ActiveEffect::Finalize()
 // @fnv 0x00804bc0
 void ActiveEffect::SetEffectiveness(float effectiveness)
 {
-    if (reinterpret_cast<::FUN_00408680_shell *>((((::EffectSetting *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((reinterpret_cast<EffectItem*>(((::MagicItem *)(reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<MagicCaster*>(this)))->FUN_0084e3a0())))))->FUN_00825c00()))))->HasAllFlags(0x180))
+    if (reinterpret_cast<::FUN_00408680_shell *>((((::EffectSetting *)(reinterpret_cast<::EffectItemFields *>(pEffect)->setting))))->HasAllFlags(0x180))
         return;
     if (effectiveness == 1.0)
         return;
-    if (reinterpret_cast<::S3e60 *>((((::EffectSetting *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((reinterpret_cast<EffectItem*>(((::MagicItem *)(reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<MagicCaster*>(this)))->FUN_0084e3a0())))))->FUN_00825c00()))))->FUN_00403e60(0x100))
+    if (reinterpret_cast<::S3e60 *>((((::EffectSetting *)(reinterpret_cast<::EffectItemFields *>(pEffect)->setting))))->FUN_00403e60(0x100))
     {
         reinterpret_cast<::FUN_00693d50_shell *>(this)->FUN_00693d50(reinterpret_cast<::ActiveEffect *>(this)->GetDuration() * effectiveness);
     }
@@ -299,20 +306,20 @@ class ActiveEffectLoadGameDispatch
 ActiveEffect* ActiveEffect::ReadActiveEffect(BGSLoadFormBuffer* buffer)
 {
     // These local names preserve the original MSVC9 stack allocation.
-    unsigned int archetype;  // saved spell form ID
+    uintptr_t archetype;  // saved spell form ID
     unsigned char index;
     MagicItem* spell = 0;
     int formID;  // serialized effect archetype
     reinterpret_cast<::fnv_008648e0::FUN_008648e0_shell *>((buffer))->FUN_008648e0((unsigned int *)(void *)(&spell));
-    archetype = reinterpret_cast<unsigned int>(spell);
-    spell = spell ? MagicItem::GetMagicItemByID(reinterpret_cast<unsigned int>(spell)) : 0;
+    archetype = reinterpret_cast<uintptr_t>(spell);
+    spell = spell ? MagicItem::GetMagicItemByID((unsigned int)reinterpret_cast<std::uintptr_t>(spell)) : 0;
     index = 0;
     reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&index), 1);
     formID = reinterpret_cast<::fnv_00864a60::FUN_00864a60_cls *>((buffer))->FUN_00864a60();
     if (spell)
     {
         EffectItem* effect = ((::EffectItem *)(reinterpret_cast<::HX *>(&(spell->effects))->FUN_00406ee0(index)));
-        if (effect && ((::EffectSetting *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((effect))->FUN_00825c00()))->GetArchetype() == formID)
+        if (effect && ((::EffectSetting *)(reinterpret_cast<::EffectItemFields *>(effect)->setting))->GetArchetype() == formID)
         {
             reinterpret_cast<::fnv_00864a60::FUN_00864a60_cls *>((buffer))->FUN_00864a60();
             ActiveEffect* active = MagicEffectSystem::Activate(0, spell, effect, 0);
@@ -345,7 +352,7 @@ ActiveEffect::ActiveEffect(MagicCaster* caster, MagicItem* spell, EffectItem* ef
     iFlags = 0;
     pMagicItem = 0;
     BSSimpleList<const char*>* conditions = reinterpret_cast<BSSimpleList<const char*>*>(
-        &((::BGSPerkEntry *)(new ((void *)(reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(((::PerkEntryConditionSet *)(reinterpret_cast<::BGSDebris *>((effect))->GetDataList()))))) ::Vec3())));
+        &(*((::BGSPerkEntry * *)(&reinterpret_cast<::SimpleListNodeView*>(reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(((::PerkEntryConditionSet *)(reinterpret_cast<::BGSDebris *>((effect))->GetDataList()))))->m_item))));
     if (effect && conditions && !conditions->IsEmpty())
         AddFlags(0x80);
 }
@@ -390,7 +397,7 @@ void InitLoadGameForEffects(Actor* pActor, BSSimpleList<ActiveEffect*>* pEffectL
     BSSimpleList<BGSPerkEntry*>* node = reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(pEffectList);
     while (node)
     {
-        ActiveEffect* item = reinterpret_cast<ActiveEffect*>(((::BGSPerkEntry *)(new ((void *)(node)) ::Vec3())));
+        ActiveEffect* item = reinterpret_cast<ActiveEffect*>((*((::BGSPerkEntry * *)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item))));
         if (item)
         {
             reinterpret_cast<ActiveEffectInitLoadGameDispatch*>(item)->InitLoadGame(pActor);
@@ -512,12 +519,12 @@ bool FUN_00804250_shell::HasMatchingActiveEffect()
         }
     }
     SpellItem* pspell = dynamic_cast<SpellItem*>(pSpell);
-    if (pMagicItem && ((ActorMover*)this)->GetCurrentMoveModeType())
+    if (pMagicItem && reinterpret_cast<::ActiveEffectFields *>(this)->target)
     {
-        ListNodeFns* node = (ListNodeFns*)((ListNodeStub*)((ActorMover*)this)->GetCurrentMoveModeType())->s2();
+        ListNodeFns* node = (ListNodeFns*)((ListNodeStub*)reinterpret_cast<::ActiveEffectFields *>(this)->target)->s2();
         while (node && !bresult)
         {
-            ActiveEffect* pitem = *((::ActiveEffect **)(new ((void *)(node)) ::Vec3()));
+            ActiveEffect* pitem = *((::ActiveEffect **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item));
             if (pitem && ((bool)(reinterpret_cast<::FUN_00833c20_shell *>((pitem))->FUN_00833c20())))
             {
                 if (pitem->pSpell == pMagicItem)
@@ -813,7 +820,7 @@ class TESObjectREFR;
 struct GO
 {
     void* m_pObject;
-    GO(int);
+    GO(intptr_t);
     ~GO();
     GO& operator=(void*);
 };
@@ -1039,7 +1046,7 @@ void FUN_008060e0(BSSimpleList<ActiveEffect*>* apActiveEffectList, BGSLoadFormBu
     ActiveEffect* pEffect;
     while (apActiveEffectList && !((ListProxy008060e0*)apActiveEffectList)->_ref_008256d0())
     {
-        pEffect = ((::ActiveEffect *)(new ((void *)(((ListProxy008060e0*)apActiveEffectList))) ::Vec3()));
+        pEffect = (*((::ActiveEffect * *)(&reinterpret_cast<::SimpleListNodeView*>(((ListProxy008060e0*)apActiveEffectList))->m_item)));
         ((VProxy008060e0*)pEffect)->f10(apLoadGameBuffer);
         apActiveEffectList = ((::BSSimpleList< ::ActiveEffect *> *)(reinterpret_cast<::Callees *>((((ListProxy008060e0*)apActiveEffectList)))->FUN_00726070()));
     }
@@ -1072,7 +1079,7 @@ void FUN_008061b0(Node008061b0* pNode, void* b)
 {
     while (pNode && !pNode->_ref_008256d0())
     {
-        Item008061b0* item = *((::Item008061b0 **)(new ((void *)(pNode)) ::Vec3()));
+        Item008061b0* item = *((::Item008061b0 **)(&reinterpret_cast<::SimpleListNodeView*>(pNode)->m_item));
         item->s13(b);
         pNode = ((::Node008061b0 *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070()));
     }
@@ -1109,7 +1116,7 @@ void FUN_00806a10(BGSSaveFormBuffer* pBuffer, BSSimpleList<BGSPerkEntry*>* pPerk
     BSSimpleList<BGSPerkEntry*>* pCurrent = pPerkList;
     while (pCurrent)
     {
-        BGSPerkEntry* pEntry = ((::BGSPerkEntry *)(new ((void *)(pCurrent)) ::Vec3()));
+        BGSPerkEntry* pEntry = (*((::BGSPerkEntry * *)(&reinterpret_cast<::SimpleListNodeView*>(pCurrent)->m_item)));
         if (pEntry)
         {
             ::FUN_00806840((::B806840SaveBuffer *)(pBuffer), (::B806840ActiveEffect *)(pEntry));
@@ -1264,7 +1271,7 @@ unsigned short FUN_00805a00(SaveSizeListNode* pNodeList, void* pArg)
     uiSize += 2;
     while (pNodeList && !pNodeList->_ref_008256d0())
     {
-        uiSize += FUN_00805810(*((void **)(new ((void *)(pNodeList)) ::Vec3())), pArg);
+        uiSize += FUN_00805810(*((void **)(&reinterpret_cast<::SimpleListNodeView*>(pNodeList)->m_item)), pArg);
         pNodeList = ((::SaveSizeListNode *)(reinterpret_cast<::Callees *>((pNodeList))->FUN_00726070()));
     }
     if (*::g_011de4e8.Bool())
@@ -1310,7 +1317,7 @@ void __cdecl FUN_00806130(ActiveEffectListBridge* pEffectList, ActorBridge* pAct
 {
     while (pEffectList != 0 && !pEffectList->FUN_008256d0())
     {
-        ActiveEffect* effect = *((::ActiveEffect **)(new ((void *)(pEffectList)) ::Vec3()));
+        ActiveEffect* effect = *((::ActiveEffect **)(&reinterpret_cast<::SimpleListNodeView*>(pEffectList)->m_item));
         effect->FinishLoadGameTES(reinterpret_cast<Actor*>(pActorBridge));
         pEffectList = ((::ActiveEffectListBridge *)(reinterpret_cast<::Callees *>((pEffectList))->FUN_00726070()));
     }
@@ -1553,6 +1560,7 @@ struct AudioSys
 {
     AudioPlaybackHandle FUN_00ad73b0(int a, int b);
 };
+struct ParamObj;
 struct Self
 {
     int f000;
@@ -1569,6 +1577,10 @@ struct Self
     int f02c;
     AudioPlaybackHandle sound30;
     void PlaySoundForEffect();
+public:
+    void DestroyAllStreams();
+    void FUN_004e3d60(::ParamObj *);
+    void FUN_00936f50(bool);
 };
 // @fnv 0x008067b0
 void ActiveEffect::ApplyLoadBuffer(BGSLoadFormBuffer* buffer)
@@ -1579,7 +1591,7 @@ void ActiveEffect::ApplyLoadBuffer(BGSLoadFormBuffer* buffer)
     node = reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(pHitEffectList);
     while (node)
     {
-        MagicHitEffect* effect = reinterpret_cast<MagicHitEffect*>(((::BGSPerkEntry *)(new ((void *)(node)) ::Vec3())));
+        MagicHitEffect* effect = reinterpret_cast<MagicHitEffect*>((*((::BGSPerkEntry * *)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item))));
         if (effect)
         {
             reinterpret_cast<MagicHitEffectLoadDispatch*>(effect)->ApplyLoadBuffer(buffer);
@@ -1595,8 +1607,8 @@ void ActiveEffectUpdateShell::FUN_00804560(float afSecondsElapsed)
         AdvanceEffect(afSecondsElapsed, false);
     if (afSecondsElapsed > 0.0 && !bPickResultFound)
     {
-        MagicItem* pspell = (MagicItem*)((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)this)))->GetName()));
-        MagicTarget* ptarget = (MagicTarget*)((ActorMover*)this)->GetCurrentMoveModeType();
+        MagicItem* pspell = (MagicItem*)((reinterpret_cast<::ActiveEffectFields *>(this)->spell));
+        MagicTarget* ptarget = (MagicTarget*)reinterpret_cast<::ActiveEffectFields *>(this)->target;
         TESObjectREFR* ptargetStatsObject = ((MagicTargetStatsDispatch*)ptarget)->GetMagicTargetReference();
         bool bpermanent = ::FUN_00804b30(m_eSpellType);
         if (!bEffectFlag && !bWasPlaying && bActive)
@@ -1611,7 +1623,7 @@ void ActiveEffectUpdateShell::FUN_00804560(float afSecondsElapsed)
                 if (!HasFlag(1) && !reinterpret_cast<::S3e60 *>((reinterpret_cast<::ActiveEffect *>(this)->GetEffectSetting()))->FUN_00403e60(0x8000000))
                 {
                     if (m_eSpellType != MagicSystem__SpellType_ABILITY ||
-                        (::FUN_0040df90(reinterpret_cast<::ActiveEffect *>(this)->GetEffectSetting()) && ::GetFloatAtOffset1C((char *)this) < 100.0))
+                        (::FUN_0040df90() && ::GetFloatAtOffset1C((char *)this) < 100.0))
                     {
                         if (m_eSpellType == MagicSystem__SpellType_ABILITY)
                             AddFlags(4);
@@ -1690,7 +1702,7 @@ void ActiveEffectUpdateShell::FUN_00804560(float afSecondsElapsed)
             }
             if (!bpermanent && !IsFlagged())
             {
-                if (reinterpret_cast<::S3e60 *>((((::EffectSetting *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((pEffect))->FUN_00825c00()))))->FUN_00403e60(0x80))
+                if (reinterpret_cast<::S3e60 *>((((::EffectSetting *)(reinterpret_cast<::EffectItemFields *>(pEffect)->setting))))->FUN_00403e60(0x80))
                     bPickResultFound = true;
                 else if (m_fEffectMagnitude >= reinterpret_cast<::ActiveEffect *>(this)->GetDuration())
                     bPickResultFound = true;
@@ -1720,7 +1732,7 @@ void FUN_00805760_shell::FUN_00805760(Actor* apActor)
         BSSimpleList<MagicHitEffect*>* pCurrentElementNext = pHitEffectList;
         while (pCurrentElementNext && !pCurrentElementNext->IsEmpty())
         {
-            MagicHitEffect* phitEffect = ((::MagicHitEffect *)(new ((void *)(pCurrentElementNext)) ::Vec3()));
+            MagicHitEffect* phitEffect = (*((::MagicHitEffect * *)(&reinterpret_cast<::SimpleListNodeView*>(pCurrentElementNext)->m_item)));
             phitEffect->FinishLoadGameTES(this, reinterpret_cast<TESObjectREFR*>(apActor), 0);
             reinterpret_cast<::FUN_00973fd0_cls *>(&(g_011e0e80))->FUN_00973fd0((::FnvArgObj *)(phitEffect));
             pCurrentElementNext = ((::BSSimpleList< ::MagicHitEffect *> *)(reinterpret_cast<::Callees *>((pCurrentElementNext))->FUN_00726070()));
@@ -1739,27 +1751,28 @@ void Self::PlaySoundForEffect()
     var10_2 = ((::MidObj *)(reinterpret_cast<::EffectSetting *>((((::EffSetting *)(reinterpret_cast<::ActiveEffect *>(this)->GetEffectSetting()))))->GetHitSound())) ? reinterpret_cast<::FUN_0084e3a0_Class *>((((::MidObj *)(reinterpret_cast<::EffectSetting *>((((::EffSetting *)(reinterpret_cast<::ActiveEffect *>(this)->GetEffectSetting()))))->GetHitSound()))))->FUN_0084e3a0() : 0;
     if (var10_2 != 0)
     {
-        if (((::ObjB *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType())))
+        if (((::ObjB *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)))
         {
-            if (((::Obj80 *)(reinterpret_cast<::Twin_0044ddc0 *>(this)->GetName()))->GetVal18() != 4)
+            if (((::Obj80 *)(reinterpret_cast<::ActiveEffectFields *>(this)->spell))->GetVal18() != 4)
             {
                 AudioPlaybackHandle sound8;
-                var4 = ((::ObjB *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType())) ? ((::Obj14 *)(reinterpret_cast<::MagicTarget *>((((::ObjB *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType()))))->GetOwnerActor())) : 0;
+                var4 = ((::ObjB *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) ? ((::Obj14 *)(reinterpret_cast<::MagicTarget *>((((::ObjB *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))))->GetOwnerActor())) : 0;
                 flag_ = reinterpret_cast<::S3e60 *>((((::EffSetting *)(reinterpret_cast<::ActiveEffect *>(this)->GetEffectSetting()))))->FUN_00403e60(0x400);
                 if (((::MidObj *)(reinterpret_cast<::EffectSetting *>((((::EffSetting *)(reinterpret_cast<::ActiveEffect *>(this)->GetEffectSetting()))))->GetHitSound())))
                 {
-                    flag_ = ((void *)(::GetFlagMask((*(::SoundData36 *)(reinterpret_cast<::Holder *>((((::MidObj *)(reinterpret_cast<::EffectSetting *>((((::EffSetting *)(reinterpret_cast<::ActiveEffect *>(this)->GetEffectSetting()))))->GetHitSound()))))->CopyBig({}))).f4))) ? true : false;
+                    flag_ = ((::GetFlagMask((*(::SoundData36 *)(reinterpret_cast<::Holder *>((((::MidObj *)(reinterpret_cast<::EffectSetting *>((((::EffSetting *)(reinterpret_cast<::ActiveEffect *>(this)->GetEffectSetting()))))->GetHitSound()))))->CopyBig({}))).f4))) ? true : false;
                 }
                 if (var4)
                 {
                     int mode8;
                     mode8 = flag_ ? 0x112 : 0x102;
-                    reinterpret_cast<::SoundPlaybackHandle *>(&(sound8))->operator=((*(const ::SoundPlaybackHandle *)(&var4->PlaySoundByFormID(var10_2, flag_, mode8, 0))));
+                    AudioPlaybackHandle played = var4->PlaySoundByFormID(var10_2, flag_, mode8, 0);
+                    reinterpret_cast<::SoundPlaybackHandle *>(&(sound8))->operator=((*(const ::SoundPlaybackHandle *)(&played)));
                 }
                 else
                 {
                     ObjC* objC2;
-                    objC2 = ((::ObjB *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType()))->GetObjC();
+                    objC2 = ((::ObjB *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))->GetObjC();
                     if (objC2)
                     {
                         NiPoint3 pt5;
@@ -1866,7 +1879,7 @@ unsigned short FUN_00804f80_shell::FUN_00804f80(Actor* apActor)
         BSSimpleList<MagicHitEffect*>* pIter = pHitEffectList;
         while (pIter && !pIter->IsEmpty())
         {
-            MagicHitEffect* pHit = ((::MagicHitEffect *)(new ((void *)(pIter)) ::Vec3()));
+            MagicHitEffect* pHit = (*((::MagicHitEffect * *)(&reinterpret_cast<::SimpleListNodeView*>(pIter)->m_item)));
             usSize += 1;
             usSize += ((MagicHitEffectSaveDispatch*)pHit)->GetSaveSize(this, apActor);
             pIter = ((::BSSimpleList< ::MagicHitEffect *> *)(reinterpret_cast<::Callees *>((pIter))->FUN_00726070()));
@@ -1957,12 +1970,12 @@ void EffectSaveShell::FUN_008050d0(Actor* actor)
         if (reinterpret_cast<::FUN_008df040_shell *>(((*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame))))->FUN_008df040() >= 42)
         {
             a = 0;
-            f = ((unsigned char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((EffectSaveStream*)(*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00()));
+            f = ((unsigned char *)(reinterpret_cast<::SaveLoadGameView *>((((EffectSaveStream*)(*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame)))))->pBufferCursor));
             reinterpret_cast<::FUN_008579b0_shell *>((((EffectSaveStream*)(*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame)))))->FUN_008579b0(&a, 1);
             b = (HitEffectSaveNode*)pHitEffectList;
             while (b && !b->FUN_008256d0())
             {
-                d = *((::HitEffectSaveDispatch **)(new ((void *)(b)) ::Vec3()));
+                d = *((::HitEffectSaveDispatch **)(&reinterpret_cast<::SimpleListNodeView*>(b)->m_item));
                 c = d->GetType();
                 reinterpret_cast<::FUN_008579b0_shell *>((((EffectSaveStream*)(*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame)))))->FUN_008579b0(&c, 1);
                 d->SaveGame(this, actor);
@@ -2043,11 +2056,11 @@ void ActiveEffectLoader::FUN_00805330(Actor* actor)
     reinterpret_cast<::FUN_008579e0_shell *>((((EffectSaveReader*)(*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame)))))->FUN_008579e0(&m_fElapsedTime, 4);
     reinterpret_cast<::FUN_008579e0_shell *>((((EffectSaveReader*)(*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame)))))->FUN_008579e0(&fDuration, 4);
     reinterpret_cast<::FUN_00857aa0 *>((((EffectSaveReader*)(*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame)))))->ValidateFormIDArray(&a, 4);
-    m_pEffectInstance = (MagicCaster*)a;
+    m_pEffectInstance = (MagicCaster*)(uintptr_t)a;
     reinterpret_cast<::FUN_00857aa0 *>((((EffectSaveReader*)(*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame)))))->ValidateFormIDArray(&h, 4);
-    pTarget = (MagicTarget*)h;
+    pTarget = (MagicTarget*)(uintptr_t)h;
     reinterpret_cast<::FUN_00857aa0 *>((((EffectSaveReader*)(*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame)))))->ValidateFormIDArray(&f, 4);
-    pSource = (TESBoundObject*)f;
+    pSource = (TESBoundObject*)(uintptr_t)f;
     if (reinterpret_cast<::FUN_008df040_shell *>((((EffectSaveReader*)(*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame)))))->FUN_008df040() >= 42)
     {
         reinterpret_cast<::FUN_008579e0_shell *>((((EffectSaveReader*)(*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame)))))->FUN_008579e0(&g, 1);
@@ -2120,7 +2133,7 @@ class SaveEffectObj
 
 // Writes the effect's save word (version >= 0x2a), owner key, a checked flag byte, then calls SaveData.
 // @fnv 0x00805880
-void SaveEffectData(SaveEffectObj* pEffect, unsigned int arg)
+void SaveEffectData(SaveEffectObj* pEffect, uintptr_t arg)
 {
     if (reinterpret_cast<::FUN_008df040_shell *>((::g_TESSaveLoadGame))->FUN_008df040() >= 0x2a)
     {
@@ -2242,29 +2255,29 @@ void FUN_00805b40(AENode* apList, Actor* apActor)
 {
     unsigned short usZero6 = 0;
     char* pSizePos8 = 0;
-    char* pStart4 = ((char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::fnv_00805b40::SaveLoadMgr * *>(&::g_TESSaveLoadGame))))->FUN_00825c00()));
+    char* pStart4 = ((char *)(reinterpret_cast<::SaveLoadGameView *>(::g_TESSaveLoadGame)->pBufferCursor));
     if (*(*reinterpret_cast<::fnv_00805b40::GlobalObject_0045cf30 *>(&::g_011de4e8)).Bool())
-        pStart4 = ((char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::fnv_00805b40::SaveLoadMgr * *>(&::g_TESSaveLoadGame))))->FUN_00825c00()));
+        pStart4 = ((char *)(reinterpret_cast<::SaveLoadGameView *>(::g_TESSaveLoadGame)->pBufferCursor));
     if (reinterpret_cast<::FUN_00862110_cls *>(((*reinterpret_cast<::fnv_00805b40::SaveLoadMgr * *>(&::g_TESSaveLoadGame))))->FUN_00862110())
     {
         unsigned int uiMarker = 0x424c4f4b;
         reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_00805b40::SaveLoadMgr * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&uiMarker, 4);
-        pSizePos8 = ((char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::fnv_00805b40::SaveLoadMgr * *>(&::g_TESSaveLoadGame))))->FUN_00825c00()));
+        pSizePos8 = ((char *)(reinterpret_cast<::SaveLoadGameView *>(::g_TESSaveLoadGame)->pBufferCursor));
         reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_00805b40::SaveLoadMgr * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&usZero6, 2);
     }
     unsigned short usCount2 = 0;
-    char* pCountPos3 = ((char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::fnv_00805b40::SaveLoadMgr * *>(&::g_TESSaveLoadGame))))->FUN_00825c00()));
+    char* pCountPos3 = ((char *)(reinterpret_cast<::SaveLoadGameView *>(::g_TESSaveLoadGame)->pBufferCursor));
     reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_00805b40::SaveLoadMgr * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&usCount2, 2);
     while (apList && !apList->IsEmpty())
     {
-        ::SaveEffectData((::SaveEffectObj *)(((::ActiveEffect *)(new ((void *)(apList)) ::Vec3()))), (unsigned int)(apActor));
+        ::SaveEffectData((::SaveEffectObj *)((*((::ActiveEffect * *)(&reinterpret_cast<::SimpleListNodeView*>(apList)->m_item)))), (uintptr_t)(apActor));
         usCount2++;
         apList = ((::fnv_00805b40::AENode *)(reinterpret_cast<::Callees *>((apList))->FUN_00726070()));
     }
     *(unsigned short*)pCountPos3 = usCount2;
     if (*(*reinterpret_cast<::fnv_00805b40::GlobalObject_0045cf30 *>(&::g_011de4e8)).Bool())
     {
-        char* pEnd6 = ((char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::fnv_00805b40::SaveLoadMgr * *>(&::g_TESSaveLoadGame))))->FUN_00825c00()));
+        char* pEnd6 = ((char *)(reinterpret_cast<::SaveLoadGameView *>(::g_TESSaveLoadGame)->pBufferCursor));
         FormIDEntry* pHeader2 = ((::fnv_00805b40::FormIDEntry *)(reinterpret_cast<::EffectSetting *>(((*reinterpret_cast<::fnv_00805b40::SaveLoadMgr * *>(&::g_TESSaveLoadGame))))->GetHitSound()));
         if (pHeader2)
         {
@@ -2278,7 +2291,7 @@ void FUN_00805b40(AENode* apList, Actor* apActor)
     }
     if (reinterpret_cast<::FUN_00862110_cls *>(((*reinterpret_cast<::fnv_00805b40::SaveLoadMgr * *>(&::g_TESSaveLoadGame))))->FUN_00862110())
     {
-        char* pCur = ((char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::fnv_00805b40::SaveLoadMgr * *>(&::g_TESSaveLoadGame))))->FUN_00825c00()));
+        char* pCur = ((char *)(reinterpret_cast<::SaveLoadGameView *>(::g_TESSaveLoadGame)->pBufferCursor));
         {
             char* pBlockStart = pSizePos8;
             if (pCur > pBlockStart + 0xffff)
@@ -2384,7 +2397,7 @@ void ActiveEffectSaveShell::FUN_00806230(SaveFormBuf* apBuffer)
     SaveHitNode* pNode = (SaveHitNode*)pHitEffectList;
     while (pNode)
     {
-        SaveHitEffect* pHit2 = ((::SaveHitEffect *)(new ((void *)(pNode)) ::Vec3()));
+        SaveHitEffect* pHit2 = (*((::SaveHitEffect * *)(&reinterpret_cast<::SimpleListNodeView*>(pNode)->m_item)));
         if (pHit2)
         {
             char cType = (char)pHit2->GetType();
@@ -2449,9 +2462,9 @@ class B806840ActiveEffect
 void __cdecl FUN_00806840(B806840SaveBuffer* pkBuffer, B806840ActiveEffect* pkEffect)
 {
     reinterpret_cast<::FUN_00865db0_shell *>((pkBuffer))->FUN_00865db0(pkEffect->m_pkMagicItem ? ((unsigned int)(reinterpret_cast<::FUN_0040a1e0_shell *>((pkEffect->m_pkMagicItem))->FUN_0040a1e0())) : 0, 0);
-    bool bInList2 = ((bool)(reinterpret_cast<::EffectItemListFind *>(&(pkEffect->m_pkMagicItem->m_kEffects))->FindEffectItemIndex((int)(pkEffect->m_pkEffectItem))));
+    bool bInList2 = ((bool)(reinterpret_cast<::EffectItemListFind *>(&(pkEffect->m_pkMagicItem->m_kEffects))->FindEffectItemIndex((intptr_t)(pkEffect->m_pkEffectItem))));
     reinterpret_cast<::FUN_00865e50_shell *>((pkBuffer))->FUN_00865e50(&bInList2, 1, 0);
-    int eArchetype2 = reinterpret_cast<::EffectSetting *>((((::B806840EffectSetting *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((pkEffect->m_pkEffectItem))->FUN_00825c00()))))->GetArchetype();
+    int eArchetype2 = reinterpret_cast<::EffectSetting *>((((::B806840EffectSetting *)(reinterpret_cast<::EffectItemFields *>(pkEffect->m_pkEffectItem)->setting))))->GetArchetype();
     reinterpret_cast<::BGSSaveGameBuffer *>((pkBuffer))->FUN_00865f60(eArchetype2);
     unsigned int uiChunk = reinterpret_cast<::FUN_00865f20_shell *>((pkBuffer))->FUN_00865f20();
     int iStart2 = reinterpret_cast<::FUN_0084e3a0_Class *>((pkBuffer))->FUN_0084e3a0();
@@ -2489,19 +2502,19 @@ void ActiveEffect805670::FUN_00805670(Actor* apActor)
     TESBoundObject* source;
     pkCaster = m_pEffectInstance;
     if (pkCaster)
-        m_pEffectInstance = ::MagicCaster::GetCasterByHandle((unsigned int)(pkCaster));
+        m_pEffectInstance = ::MagicCaster::GetCasterByHandle((uintptr_t)(pkCaster));
     pkTarget = pTarget;
     if (pkTarget)
-        pTarget = ::MagicTarget::GetMagicTargetByID((unsigned int)(pkTarget));
+        pTarget = ::MagicTarget::GetMagicTargetByID((uintptr_t)(pkTarget));
     source = pSource;
     if (pkTarget)
-        pSource = dynamic_cast<TESBoundObject*>(FUN_004839c0((unsigned int)source));
+        pSource = dynamic_cast<TESBoundObject*>(FUN_004839c0((unsigned int)(std::uintptr_t)source));
     if (reinterpret_cast<::FUN_008df040_shell *>(((*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame))))->FUN_008df040() >= 0x2a)
     {
         BSSimpleList<MagicHitEffect*>* it = pHitEffectList;
         while (it && !it->IsEmpty())
         {
-            MagicHitEffect* hit = ((::MagicHitEffect *)(new ((void *)(it)) ::Vec3()));
+            MagicHitEffect* hit = (*((::MagicHitEffect * *)(&reinterpret_cast<::SimpleListNodeView*>(it)->m_item)));
             hit->InitLoadGame(this, (TESObjectREFR*)apActor);
             it = ((::BSSimpleList< ::MagicHitEffect *> *)(reinterpret_cast<::Callees *>((it))->FUN_00726070()));
         }
@@ -2602,7 +2615,7 @@ void FUN_00806420_shell::FUN_00806420(BGSLoadFormBuffer* apBuffer)
             ::FUN_005b5e40();
             break;
         }
-        reinterpret_cast<::TESPackage *>((((HitFxShell806420*)pHitEffect)))->SetProcedureType((::PACKAGE_PROCEDURE_TYPE)(this));
+        pHitEffect->pEffect = this;
         ((BSTempEffect*)pHitEffect)->LoadGame(apBuffer);
         if (pHitEffectList == 0)
         {
@@ -2749,7 +2762,7 @@ void FUN_00805d40(ActiveEffectList_5d40* apList, ActorStandin_5d40* apActor)
     float p;
     int h;
     unsigned short a = 0;
-    unsigned int i = 0;
+    char* i = 0;
     unsigned short s;
     ActiveEffectList_5d40* f;
     unsigned int eb;
@@ -2760,7 +2773,7 @@ void FUN_00805d40(ActiveEffectList_5d40* apList, ActorStandin_5d40* apActor)
     VampirismEffect* k;
     ActiveEffect* l;
     SaveLoadRecord_5d40* c;
-    unsigned int e;
+    char* e;
     TESFormStandin_5d40* j;
 
     if (reinterpret_cast<::FUN_00862110_cls *>((((TESSaveLoadGame_5d40*)::g_TESSaveLoadGame)))->FUN_00862110())
@@ -2781,7 +2794,7 @@ void FUN_00805d40(ActiveEffectList_5d40* apList, ActorStandin_5d40* apActor)
                     );
             }
         }
-        i = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((TESSaveLoadGame_5d40*)::g_TESSaveLoadGame)))->FUN_00825c00();
+        i = reinterpret_cast<::SaveLoadGameView *>(::g_TESSaveLoadGame)->pBufferCursor;
         reinterpret_cast<::FUN_008579e0_shell *>((((TESSaveLoadGame_5d40*)::g_TESSaveLoadGame)))->FUN_008579e0(&a, 2);
     }
 
@@ -2789,7 +2802,7 @@ void FUN_00805d40(ActiveEffectList_5d40* apList, ActorStandin_5d40* apActor)
     f = apList;
     while (f && !f->IsEmpty())
     {
-        ba = ((::ActiveEffect *)(new ((void *)(f)) ::Vec3()));
+        ba = (*((::ActiveEffect * *)(&reinterpret_cast<::SimpleListNodeView*>(f)->m_item)));
         b = dynamic_cast<VampirismEffect*>(ba);
         if (b)
         {
@@ -2817,17 +2830,17 @@ void FUN_00805d40(ActiveEffectList_5d40* apList, ActorStandin_5d40* apActor)
 
     if (reinterpret_cast<::FUN_00862110_cls *>((((TESSaveLoadGame_5d40*)::g_TESSaveLoadGame)))->FUN_00862110())
     {
-        e = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((TESSaveLoadGame_5d40*)::g_TESSaveLoadGame)))->FUN_00825c00();
+        e = reinterpret_cast<::SaveLoadGameView *>(::g_TESSaveLoadGame)->pBufferCursor;
         c = (SaveLoadRecord_5d40*)((void *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(((TESSaveLoadGame_5d40*)::g_TESSaveLoadGame)))));
         if (c)
         {
             j = (TESFormStandin_5d40*)FUN_004839c0(c->formID);
-            if (e > (unsigned int)a + i)
+            if (e > i + a)
             {
                 ::FUN_005b5e40(
                     );
             }
-            else if (e < (unsigned int)a + i)
+            else if (e < i + a)
             {
                 ::FUN_005b5e40(
                     );
@@ -2835,12 +2848,12 @@ void FUN_00805d40(ActiveEffectList_5d40* apList, ActorStandin_5d40* apActor)
         }
         else
         {
-            if (e > (unsigned int)a + i)
+            if (e > i + a)
             {
                 ::FUN_005b5e40(
                     );
             }
-            else if (e < (unsigned int)a + i)
+            else if (e < i + a)
             {
                 ::FUN_005b5e40(
                     );
@@ -2887,7 +2900,7 @@ FUN_00803ed0::~FUN_00803ed0()
     HitEffectNode* pIter = (HitEffectNode*)pHitEffectList;
     while (pIter && !pIter->_ref_008256d0())
     {
-        ActiveEffectHitAccess* pHitEffect = (ActiveEffectHitAccess*)*((::MagicHitEffect **)(new ((void *)(pIter)) ::Vec3()));
+        ActiveEffectHitAccess* pHitEffect = (ActiveEffectHitAccess*)*((::MagicHitEffect **)(&reinterpret_cast<::SimpleListNodeView*>(pIter)->m_item));
         reinterpret_cast<::FUN_00461310_shell *>((pHitEffect))->SetByteAt24(1);
         reinterpret_cast<::TESPackage *>((pHitEffect))->SetProcedureType((::PACKAGE_PROCEDURE_TYPE)(0));
         pIter = ((::HitEffectNode *)(reinterpret_cast<::Callees *>((pIter))->FUN_00726070()));
@@ -2902,4 +2915,46 @@ FUN_00803ed0::~FUN_00803ed0()
     }
 }
 
+class EffectSetting;
+class EffectItem;
+class MagicHitEffect;
+class MagicCaster;
+class MagicTarget;
+class MagicItem;
+class TESBoundObject;
+class BGSLoadFormBuffer;
+class BGSSaveFormBuffer;
+template <typename T> class BSSimpleList;
+class BSTempEffect;
+class PerkEntryConditionSet;
+extern const char DAT_010794a8[];
+extern GlobalObject_0040e0b0 g_011d17dc;
+extern const char DAT_010793e0[];
+// @fnv 0x00805920
+ActiveEffect* FUN_00805920(BGSLoadFormBuffer* buffer)
+{
+    unsigned short effectSize = 28;
+    unsigned int magicItemID;
+    unsigned char recordIndex;
+    MagicItem* magicItem;
+    if (reinterpret_cast<::FUN_008df040_shell *>((::g_TESSaveLoadGame))->FUN_008df040() >= 42)
+        reinterpret_cast<::FUN_008579e0_shell *>((::g_TESSaveLoadGame))->FUN_008579e0(&effectSize, 2);
+    reinterpret_cast<::FUN_00857aa0 *>((::g_TESSaveLoadGame))->ValidateFormIDArray(&magicItemID, 4);
+    reinterpret_cast<::FUN_008579e0_shell *>((::g_TESSaveLoadGame))->FUN_008579e0(&recordIndex, 1);
+    magicItem = MagicItem::GetMagicItemByID(magicItemID);
+    if (magicItem)
+    {
+        EffectItem* effect = ((::EffectItem *)(reinterpret_cast<::HX *>(&(magicItem->effects))->FUN_00406ee0(recordIndex)));
+        if (effect)
+        {
+            ActiveEffect* active = MagicEffectSystem::Activate(0, magicItem, effect, 0);
+            active->LoadGame(buffer);
+            return active;
+        }
+    }
+    reinterpret_cast<::FUN_00857bd0 *>((::g_TESSaveLoadGame))->Init(effectSize);
+    ::FUN_005b5e40();
+    return 0;
+}
 #include "generated/data/fallout/magic/activeeffect.inc"
+#include "generated/data/fallout/magic/activeeffect_decl_variant.inc"

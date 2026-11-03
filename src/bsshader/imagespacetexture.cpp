@@ -110,11 +110,11 @@ struct TESEnchantableForm : public BaseFormComponent
 };
 struct FUN_0041fd00_shell : public TESEnchantableForm
 {
-    void FUN_0041fd00(int);
+    void FUN_0041fd00(intptr_t);
 };
 
 // @fnv 0x0041fd00
-void FUN_0041fd00_shell::FUN_0041fd00(int aeCastingType)
+void FUN_0041fd00_shell::FUN_0041fd00(intptr_t aeCastingType)
 {
     m_eCastingType = aeCastingType;
 }

@@ -1,4 +1,5 @@
 // fallout/ai/lowprocess_base.h: declares BaseProcess
+#include <cstdint>
 #include "fnv/decl/FUN_0045cd60_shell.h"
 class PackageTargetHolder;
 // Source layout: BaseProcess. PC corrections are in generate_headers.py.
@@ -223,7 +224,7 @@ class BaseProcess
     virtual void vfn_330();
     virtual void vfn_334();
     virtual void vfn_338();
-    virtual void vfn_33c(Actor*, TESObjectREFR*, int, int, int, int, bool, int, bool, int, int, bool, int);
+    virtual void vfn_33c(Actor*, TESObjectREFR*, int, int, int, int, bool, int, bool, int, int, bool, intptr_t);
     virtual void vfn_340();
     virtual void vfn_344();
     virtual void vfn_348();

@@ -1427,7 +1427,7 @@ struct PathingSolutionBase
 struct GlobalObject_00633c90
 {
     void* p;
-    GlobalObject_00633c90(int);
+    GlobalObject_00633c90(intptr_t);
     ~GlobalObject_00633c90();
     GlobalObject_00633c90& operator=(void*);
 };

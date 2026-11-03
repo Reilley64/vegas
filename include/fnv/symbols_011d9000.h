@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 class ContainerMenu;
 class F57EA0Menu;
@@ -43,7 +44,7 @@ extern ::GlobalObject_00633c90 g_011d91a8;
 // 0x011d91e4
 extern ::GlobalObject_00633c90 g_011d91e4;
 // 0x011d920c
-extern int DAT_011d920c;
+extern intptr_t DAT_011d920c;
 // 0x011d9210
 extern int DAT_011d9210;
 // 0x011d9224
@@ -57,9 +58,9 @@ extern int DAT_011d934c;
 // 0x011d93f8
 extern ::ContainerMenu *DAT_011d93f8;
 // 0x011d93fc
-extern int DAT_011d93fc;
+extern void* DAT_011d93fc;
 // 0x011d9474
-extern int DAT_011d9474;
+extern intptr_t DAT_011d9474;
 // 0x011d94e4
 extern ::GlobalObject_0044f440 g_011d94e4;
 // 0x011d9510
@@ -127,7 +128,7 @@ namespace fnv_007846a0 { extern "C" extern int DAT_011d9f58; }
 // 0x011d9fd8
 extern int DAT_011d9fd8;
 // 0x011d9fdc
-extern int DAT_011d9fdc;
+extern intptr_t DAT_011d9fdc;
 // 0x011d9fe0
 extern int DAT_011d9fe0;
 // 0x011d9fe4

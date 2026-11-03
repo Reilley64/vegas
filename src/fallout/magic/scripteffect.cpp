@@ -1,5 +1,8 @@
 // fallout/magic/scripteffect.cpp: ScriptEffect, ScriptEffectShell (14 functions)
 
+#include <cstdint>
+#include "fnv/active_effect_fields.h"
+#include "fnv/simple_list_node_view.h"
 #include <new>
 #include "fnv/decl/ActiveEffectLoader.h"
 #include "fnv/decl/ActiveEffectSaveShell.h"
@@ -32,7 +35,7 @@ void ScriptEffect::Update(float elapsed)
 {
     if (pScript)
     {
-        pScript->AdvanceScript(((MagicTarget*)((ActorMover*)this)->GetCurrentMoveModeType())->GetActor(),
+        pScript->AdvanceScript(((MagicTarget*)reinterpret_cast<::ActiveEffectFields *>(this)->target)->GetActor(),
                                m_pScriptLocals, elapsed);
     }
 }
@@ -59,7 +62,7 @@ struct FUN_00827de0_shell : TESForm
 // @fnv 0x00827de0
 void FUN_00827de0_shell::FUN_00827de0(Actor* apActor)
 {
-    reinterpret_cast<::FUN_004534f0_shell *>(this)->FUN_004534f0((unsigned int)apActor);
+    reinterpret_cast<::FUN_004534f0_shell *>(this)->FUN_004534f0((uintptr_t)apActor);
     if (m_pScriptLocals)
         reinterpret_cast<::FUN_005a9d00_shell *>((m_pScriptLocals))->FUN_005a9d00();
 }
@@ -310,7 +313,7 @@ void FUN_00827930_shell::CopyScriptEffectData(ActiveEffect* apDestination)
             SCRIPT_LOCAL_LIST* pLocalEntry = ((::SCRIPT_LOCAL_LIST *)(reinterpret_cast<::FUN_0084e3a0_Class *>((((ScriptLocals_0084e3a0*)m_pScriptLocals)))->FUN_0084e3a0()));
             while (pLocalEntry && !pLocalEntry->FUN_008256d0())
             {
-                reinterpret_cast<::FUN_005a9290_shell *>((((ScriptLocals_SetVariable*)pse->m_pScriptLocals)))->SetScriptVariable(((::ScriptLocalVariable *)(new ((void *)(pLocalEntry)) ::Vec3()))->uiID, ((::ScriptLocalVariable *)(new ((void *)(pLocalEntry)) ::Vec3()))->fValue);
+                reinterpret_cast<::FUN_005a9290_shell *>((((ScriptLocals_SetVariable*)pse->m_pScriptLocals)))->SetScriptVariable((*((::ScriptLocalVariable * *)(&reinterpret_cast<::SimpleListNodeView*>(pLocalEntry)->m_item)))->uiID, (*((::ScriptLocalVariable * *)(&reinterpret_cast<::SimpleListNodeView*>(pLocalEntry)->m_item)))->fValue);
                 pLocalEntry = ((::SCRIPT_LOCAL_LIST *)(reinterpret_cast<::Callees *>((pLocalEntry))->FUN_00726070()));
             }
             if (m_pScriptLocals->effect)
@@ -325,7 +328,7 @@ void ScriptEffectShell::FUN_00827ac0()
     if (pScript != 0)
     {
         m_pScriptLocals = reinterpret_cast<::FUN_005abf60_shell *>((pScript))->FUN_005abf60();
-        reinterpret_cast<::FUN_005ac340_t *>((((ScriptExtended*)pScript)))->RunScriptOnTarget(((::TargetContext *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType()))->GetActor(m_pScriptLocals), {});
+        reinterpret_cast<::FUN_005ac340_t *>((((ScriptExtended*)pScript)))->RunScriptOnTarget(((::TargetContext *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))->GetActor(m_pScriptLocals), {});
     }
 }
 
@@ -449,7 +452,7 @@ void FUN_00827b20_t::ReleaseLocals()
     if (m_48 && (!reinterpret_cast<::FUN_0047c850 *>((((TESBipedModelForm*)g_TESSaveLoadGame)))->EvaluateCondition() ||
                  reinterpret_cast<::FUN_0047c850 *>((((TESBipedModelForm*)g_TESSaveLoadGame)))->EvaluateCondition()))
     {
-        reinterpret_cast<::FUN_005ac380 *>((m_48))->ExecuteEffectOnTarget((::TESObjectREFR *)(void *)(((Cell827b*)((::TESObjectCELL *)(reinterpret_cast<::ActorMover *>((((NavMesh*)this)))->GetCurrentMoveModeType())))->v01(m_pLocals)), {});
+        reinterpret_cast<::FUN_005ac380 *>((m_48))->ExecuteEffectOnTarget((::TESObjectREFR *)(void *)(((Cell827b*)((::TESObjectCELL *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)))->v01(m_pLocals)), {});
     }
     if (m_pLocals)
     {

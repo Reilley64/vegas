@@ -1,5 +1,6 @@
 // fallout_shared/pathfinding/pathfind.cpp: Pathing, ActorDeletionQueue, PathBuilder, ArrHelper and more (87 functions)
 
+#include <cstdint>
 #include "fnv_result_slot.h"
 #include <cstddef>
 #include <new>
@@ -204,7 +205,7 @@
 #include "fnv/decl/FUN_005582d0_shell.h"
 #include "fnv/decl/FUN_0068f0a0_shell.h"
 // @fnv 0x0096d470
-void ActorDeletionQueue::FUN_0096d470(MobileObject* object, int value)
+void ActorDeletionQueue::FUN_0096d470(MobileObject* object, intptr_t value)
 {
     reinterpret_cast<::FUN_0096aaf0_shell *>(&(storage))->FUN_0096aaf0((std::intptr_t)(object), value);
 }

@@ -67,6 +67,7 @@ template <class T> class ListBox : public ListBoxBase, public BSSimpleList<ListB
     void SetFlag(int aeFlag, bool abSet);  // ListBox<T>::Flag
     bool GetFlag(int aeFlag);
     bool FUN_007d7580();               // 0x007d7580 (ListBox<BGSSaveLoadFileEntry*>, unnamed)
+    bool FUN_007d8d80(Tile* apTile);
     Tile* m_pListTile;                 // +0x0C
     Tile* m_pSelectedTile;             // +0x10
     Tile* m_pHighlightedTile;          // +0x14

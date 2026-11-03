@@ -1,5 +1,6 @@
 // fallout_shared/bgsbodypart.cpp: BGSBodyPart, BodyPartInfo, BGSTextureModel, SomeClass (15 functions)
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/BSShaderNoLightingProperty.h"
 #include "fnv/decl/FUN_00401660_Class.h"
@@ -374,7 +375,7 @@ class PartSink
 
 // Recursively walks a PartNode tree; for leaf nodes with a target, looks up a PartSink and adds two entries keyed by a1 and a1+0xc8.
 // @fnv 0x005e4730
-void AddNodeEntries(unsigned int a1, PartNode* pNode)
+void AddNodeEntries(uintptr_t a1, PartNode* pNode)
 {
     if (pNode == 0)
     {

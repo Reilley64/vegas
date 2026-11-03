@@ -1,5 +1,6 @@
 // fallout/misc/saveload/bgssaveloadfile.cpp: BGSSaveLoadFileEntry, SaveLoadFile, BGSSaveLoadManager (23 functions)
 
+#include <cstdint>
 #include <windows.h>
 #include <new>
 #include <cstdio>
@@ -272,25 +273,6 @@ bool FUN_008467b0_shell::LoadSaveEntry()
 }
 
 namespace fnv_00846a20 {
-struct _FILETIME_
-{
-    unsigned int dwLowDateTime;
-    unsigned int dwHighDateTime;
-};
-
-struct _WIN32_FIND_DATAA_
-{
-    unsigned int dwFileAttributes;
-    _FILETIME_ ftCreationTime;
-    _FILETIME_ ftLastAccessTime;
-    _FILETIME_ ftLastWriteTime;
-    unsigned int nFileSizeHigh;
-    unsigned int nFileSizeLow;
-    unsigned int dwReserved0;
-    unsigned int dwReserved1;
-    char cFileName[260];
-    char cAlternateFileName[14];
-};
 
 
 struct BGSSaveLoadManager_ext : public BGSSaveLoadManager
@@ -303,12 +285,12 @@ void UpdateFileWriteTime(char* pThis)
     if (*(unsigned int*)(pThis + 0x30) == 0 && *(unsigned int*)(pThis + 0x2c) == 0)
     {
         char path[260];
-        _WIN32_FIND_DATAA_ findData;
+        WIN32_FIND_DATAA findData;
         reinterpret_cast<::FUN_0084ff90_shell *>((((BGSSaveLoadManager_ext*)::DAT_011de134)))->BuildWeaponPath(*(char**)pThis, path, false);
-        void* hFind = FindFirstFileA(path, &findData);
-        if (hFind != (void*)-1)
+        HANDLE hFind = FindFirstFileA(path, &findData);
+        if (hFind != INVALID_HANDLE_VALUE)
         {
-            *(_FILETIME_*)(pThis + 0x2c) = findData.ftLastWriteTime;
+            *(FILETIME*)(pThis + 0x2c) = findData.ftLastWriteTime;
         }
         FindClose(hFind);
     }
@@ -419,7 +401,7 @@ class C8467E0Manager
 class C8467E0Event
 {
   public:
-    unsigned int m_uiType;
+    uintptr_t m_uiType;
     int unk04;
     int unk08;
     int unk0C;
@@ -473,7 +455,6 @@ struct FUN_00850330_class
 struct GlobalObject_0045cfe0
 {
 };
-int __cdecl strcat_s(char*, unsigned int, const char*);
 struct MgrShell
 {
 };
@@ -496,7 +477,7 @@ void BGSSaveLoadManager::FUN_00850100(SaveLoadHeader* header, int abRotate)
     char bufA3[260];
     char* filename9;
 
-    filename9 = (char*)((void *)(new ((void *)(((FUN_006815c0_Class*)header))) ::Vec3()));
+    filename9 = (char*)((void *)(static_cast<void *>(((FUN_006815c0_Class*)header))));
     ::TaskQueueInterface::CopyStringToBuffer(bufA3, 260, filename9);
     p1 = (FUN_00850330_class*)header;
     p2 = p1;

@@ -1,12 +1,13 @@
 // fallout/misc/saveload/bgschangeflags_decls.h: declares FormChangeMask, FormChangeRecord, BGSChangeFlagsState
 
+#include <cstdint>
 #include "fnv/decl/BSFlags.h"
 #include "fnv/symbols_00559000.h"
 class GlobalObject_008c71b0
 {
   public:
     int value;
-    GlobalObject_008c71b0(int value);
+    GlobalObject_008c71b0(intptr_t value);
 };
 class FormChangeMask
 {

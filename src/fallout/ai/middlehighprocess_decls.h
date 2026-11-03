@@ -91,6 +91,7 @@ class MiddleHighProcess : public MiddleLowProcess
 {
   public:
     FurnitureMark* GetFurnitureMarkerData();
+    void FUN_0091db40(Actor* actor);
     bool IsFirstActorFlagSet();
     bool IsAdditionalActorFlagSet();
     void CastSpellOnCaster(MagicCaster*, SpellItem*, bool);

@@ -121,7 +121,7 @@ template BSStringT<char>& BSStringT<char>::operator=(const char* text);
 
 // Returns the larger of the two unsigned integers a and b.
 // @fnv 0x00403940
-unsigned int __cdecl FUN_00403940(unsigned int auiFirst, unsigned int auiSecond)
+uintptr_t __cdecl FUN_00403940(unsigned int auiFirst, unsigned int auiSecond)
 {
     unsigned int result;
     if (auiFirst > auiSecond)

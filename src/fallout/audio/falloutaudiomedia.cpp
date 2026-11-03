@@ -1,5 +1,6 @@
 // fallout/audio/falloutaudiomedia.cpp: FalloutAudioMedia, FAMThread (30 functions)
 
+#include <cstdint>
 #include <windows.h>
 #include <cmath>
 #include "fnv/decl/BSFile.h"
@@ -928,7 +929,7 @@ void __cdecl PlayAudioMedia(int aeMediaType, char const* apFileName, unsigned in
         (*reinterpret_cast<unsigned long *>(&::DAT_011dd314)) = static_cast<unsigned long>(aeMediaType);
         ::DAT_011dd318 = static_cast<int>(auiSynchTime);
         (*reinterpret_cast<unsigned long *>(&::DAT_011dd328)) = auiFadeTime;
-        (*reinterpret_cast<unsigned long *>(&::DAT_011dd32c)) = reinterpret_cast<unsigned int>(pTask) + (*reinterpret_cast<unsigned long *>(&::DAT_011dd328));
+        (*reinterpret_cast<unsigned long *>(&::DAT_011dd32c)) = reinterpret_cast<uintptr_t>(pTask) + (*reinterpret_cast<unsigned long *>(&::DAT_011dd328));
         (*reinterpret_cast<int *>(&::DAT_011dd330)) = 0;
         (*reinterpret_cast<unsigned long *>(&::DAT_011dd334)) = DAT_011a163c;
         (*reinterpret_cast<::fnv_008300c0::GlobalObject_0096a2d0 *>(&::g_011dd3c4)).value = DAT_011a163c;
@@ -955,7 +956,7 @@ void __cdecl PlayAudioMedia(int aeMediaType, char const* apFileName, unsigned in
         (*reinterpret_cast<unsigned long *>(&::DAT_011dd348)) = static_cast<unsigned long>(aeMediaType);
         ::DAT_011dd34c = static_cast<int>(auiSynchTime);
         (*reinterpret_cast<unsigned long *>(&::DAT_011dd35c)) = auiFadeTime;
-        (*reinterpret_cast<unsigned long *>(&::DAT_011dd360)) = reinterpret_cast<unsigned int>(pTask) + (*reinterpret_cast<unsigned long *>(&::DAT_011dd35c));
+        (*reinterpret_cast<unsigned long *>(&::DAT_011dd360)) = reinterpret_cast<uintptr_t>(pTask) + (*reinterpret_cast<unsigned long *>(&::DAT_011dd35c));
         (*reinterpret_cast<int *>(&::DAT_011dd364)) = 0;
         (*reinterpret_cast<unsigned long *>(&::DAT_011dd368)) = DAT_011a163c;
         (*reinterpret_cast<::fnv_008300c0::GlobalObject_0096a2d0 *>(&::g_011dd3c4)).value = DAT_011a163c;

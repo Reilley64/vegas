@@ -1,5 +1,7 @@
 // fallout/ai/combat/combataction.cpp: CombatAction (12 functions)
 
+#include "fnv/combat_world_state_fields.h"
+#include <cstdint>
 #include <new>
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/BaseProcess.h"
@@ -191,10 +193,10 @@ bool FUN_00979e90_shell::FUN_00979e90(CombatController* apCombatController, Comb
     pList = reinterpret_cast<CombatWorldStateListNode*>(((void *)(reinterpret_cast<::BaseProcess *>((reinterpret_cast<TgtOps*>(this)))->GetCurrentProcessData())));
     while (pList)
     {
-        pWorldState4 = *((::UnsignedIdHandle **)(new ((void *)(reinterpret_cast<B006815c0*>(pList))) ::Vec3()));
+        pWorldState4 = *((::UnsignedIdHandle **)(((::Vec3 *)(void *)(reinterpret_cast<B006815c0*>(pList)))));
         if (pWorldState4)
         {
-            iValue3 = ((int)(reinterpret_cast<::Callees *>((pWorldState4))->FUN_00726070())) == -1 ? aiActionValue : ((int)(reinterpret_cast<::Callees *>((pWorldState4))->FUN_00726070()));
+            iValue3 = reinterpret_cast<CombatWorldStateCondFields*>(pWorldState4)->iValue == -1 ? aiActionValue : reinterpret_cast<CombatWorldStateCondFields*>(pWorldState4)->iValue;
             if (!((bool)(reinterpret_cast<::FUN_009aadc0_cls *>((apWorldStateArray))->FUN_009aadc0(*pWorldState4, iValue3))))
                 return false;
         }
@@ -213,12 +215,12 @@ struct FUN_009aa410_shell
 
 struct FUN_00979f50_shell
 {
-    void FUN_00979f50(int a, int b);
+    void FUN_00979f50(int a, intptr_t b);
 };
 
 // Calls FindStateByType on the object at offset 0xc of this, passing a and b through.
 // @fnv 0x00979f50
-void FUN_00979f50_shell::FUN_00979f50(int aiArg1, int aiArg2)
+void FUN_00979f50_shell::FUN_00979f50(int aiArg1, intptr_t aiArg2)
 {
     reinterpret_cast<::WorldStateNode *>((reinterpret_cast<FUN_009aa410_shell*>(reinterpret_cast<char*>(this) + 0xc)))->FindStateByType(aiArg1, (unsigned int *)(aiArg2));
 }

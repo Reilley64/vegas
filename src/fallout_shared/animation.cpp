@@ -381,7 +381,7 @@ struct SequenceListHead48
 };
 struct FUN_006317a0_struct
 {
-    int AddEight(int);
+    intptr_t AddEight(intptr_t);
 };
 template <class T> struct NiTPointerList_SV
 {
@@ -7362,11 +7362,11 @@ struct ReplayDelayNode
 struct FUN_0049bb70_shell : public FUN_00496280_shell
 {
     void RemoveItemFromMap(NiPointer<AnimIdle>*);
-    void FUN_0049bb70(int);
+    void FUN_0049bb70(intptr_t);
 };
 
 // @fnv 0x0049bb70
-void FUN_0049bb70_shell::FUN_0049bb70(int aiUnused)
+void FUN_0049bb70_shell::FUN_0049bb70(intptr_t aiUnused)
 {
     m_cSkipNextBlend = 0;
     reinterpret_cast<::fnv_00496080::FUN_00496080_shell *>(this)->FUN_00496080(20, 0.0f);

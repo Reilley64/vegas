@@ -643,11 +643,11 @@ void FUN_00c74870_Class::FUN_00c74870(int aiSlotIndex, float afValue)
 
 struct FUN_00c74890_Class
 {
-    void FUN_00c74890(int a, int b);
+    void FUN_00c74890(int a, intptr_t b);
 };
 
 // @fnv 0x00c74890
-void FUN_00c74890_Class::FUN_00c74890(int aiSlot, int aiValue)
+void FUN_00c74890_Class::FUN_00c74890(int aiSlot, intptr_t aiValue)
 {
     reinterpret_cast<FUN_00c74870_Class*>(this)->m_akSlots[aiSlot].m_iValue = aiValue;
 }
@@ -759,11 +759,11 @@ struct FUN_00c76220_Class
     int* m_piValues;
     char pad0c[0x20 - 0x0c];
     int* m_piIndices;
-    int FUN_00c76220(int idx);
+    intptr_t FUN_00c76220(int idx);
 };
 
 // @fnv 0x00c76220
-int FUN_00c76220_Class::FUN_00c76220(int aiIndex)
+intptr_t FUN_00c76220_Class::FUN_00c76220(int aiIndex)
 {
     int v = m_piIndices[aiIndex];
     if (v < 0)
@@ -798,12 +798,12 @@ struct FUN_00c76320_class
 {
     char pad[0x48];
     FUN_00c76320_head* m_pHead;
-    int GetNestedValue();
+    intptr_t GetNestedValue();
 };
 
 // Follows m_pHead->m_pLink->m_pNode->m_pLeaf and returns the leaf's m_iValue, or 0 if any link is null.
 // @fnv 0x00c76320
-int FUN_00c76320_class::GetNestedValue()
+intptr_t FUN_00c76320_class::GetNestedValue()
 {
     FUN_00c76320_head* p = m_pHead;
     if (p)
@@ -9787,12 +9787,12 @@ struct MapTable
     MapEntry** buckets;
     unsigned int count;
 
-    void InsertOrUpdate(unsigned int key, unsigned int value);
+    void InsertOrUpdate(uintptr_t key, unsigned int value);
 };
 
 // Looks up key in the hash bucket, updates the entry's value if found, otherwise allocates, initializes and prepends a new entry and increments count.
 // @fnv 0x00c74910
-void MapTable::InsertOrUpdate(unsigned int key, unsigned int value)
+void MapTable::InsertOrUpdate(uintptr_t key, unsigned int value)
 {
     unsigned int bucket = Hash(key);
     MapEntry* entry = buckets[bucket];
@@ -10656,12 +10656,12 @@ struct FUN_00c762f0_Owner : public FUN_00c762f0_Prefix00
     FUN_00c762f0_Prefix4C unk4C;
     int unk2B8;
 
-    int FUN_00c762f0();
+    intptr_t FUN_00c762f0();
 };
 
 // Looks up data->unk20[unk2B8]; if non-negative, returns data->unk08 at that index, otherwise 0.
 // @fnv 0x00c762f0
-int FUN_00c762f0_Owner::FUN_00c762f0()
+intptr_t FUN_00c762f0_Owner::FUN_00c762f0()
 {
     FUN_00c762f0_Data* data = unk48;
     if (data != 0)
@@ -14101,7 +14101,7 @@ class ElementC76
 };
 
 // @fnv 0x00c760f0
-void ConstructElementArray(ElementC76* pkArray, unsigned int ItemUpdateArray)
+void ConstructElementArray(ElementC76* pkArray, uintptr_t ItemUpdateArray)
 {
     for (unsigned int i = 0; i < ItemUpdateArray; i++)
         new (&pkArray[i]) ElementC76;

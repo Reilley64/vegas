@@ -9,7 +9,7 @@ extern thread_local ::TlsBlock_t g_tlsBlock;
 // 0x01272004
 namespace fnv_00c9bef0 { extern __declspec(thread) ::fnv_00c9bef0::TlsBlock_t g_tlsBlock; }
 // 0x01272264
-extern int DAT_tls_0264;
+extern __declspec(thread) int DAT_tls_0264;
 // 0x01272298
 extern __declspec(thread) bool g_tls_0298;
 // 0x012722b4

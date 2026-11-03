@@ -1,5 +1,8 @@
 // fallout/ai/combat/combatworldstate.cpp: CombatWorldStateListNode, CombatStateArray, WorldStateManager (8 functions)
 
+#include "fnv/combat_state_fields.h"
+#include "fnv/combat_controller_fields.h"
+#include <cstdint>
 #include <new>
 #include "fnv/decl/Actor.h"
 #include "fnv/decl/AlchemyItem.h"
@@ -93,10 +96,10 @@ BSSimpleList<CombatAction*>* FUN_009957f0(int index)
 
 struct FUN_009aad00Class
 {
-    void FUN_009aad00(int index, int value);
+    void FUN_009aad00(int index, intptr_t value);
 };
 // @fnv 0x009aad00
-void FUN_009aad00Class::FUN_009aad00(int index, int value)
+void FUN_009aad00Class::FUN_009aad00(int index, intptr_t value)
 {
     ((int*)this)[index] = value;
 }
@@ -156,7 +159,7 @@ struct RefType
 };
 struct Entry
 {
-    int value;
+    intptr_t value;
     unsigned int bit;
 };
 struct Weapon
@@ -507,8 +510,8 @@ void WorldStateManager::UpdateWorldState(Context* context)
 {
     reinterpret_cast<::FUN_009aa470_Class *>(this)->FUN_009aa4b0();
     reinterpret_cast<::CombatControllerStub *>((context))->ValidateCurrentWeapon();
-    State* stateB = ((::fnv_009aa4e0::State *)(reinterpret_cast<::InterfaceManager *>((context))->FUN_00586150()));
-    Actor* actor15 = ((::fnv_009aa4e0::Actor *)(::GetFieldBC((::FUN_0097ae90_Class *)(context))));
+    State* stateB = ((::fnv_009aa4e0::State *)(reinterpret_cast<CombatControllerFields*>((context))->pCombatState));
+    Actor* actor15 = ((::fnv_009aa4e0::Actor *)(reinterpret_cast<CombatControllerFields*>(context)->pActor));
     Actor* target9 = ((::fnv_009aa4e0::Actor *)(reinterpret_cast<::AlchemyItem *>((context))->FUN_004030b0()));
     Pos position6 = (*(::fnv_009aa4e0::Pos *)(reinterpret_cast<::FUN_00575650_Class *>((actor15))->FUN_00575650({})));
     Pos targetPositions5;
@@ -518,7 +521,7 @@ void WorldStateManager::UpdateWorldState(Context* context)
     unsigned int q = 0;
     Form* bolt9 = ((::fnv_009aa4e0::Form *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(context))));
     Form* localX = ((::fnv_009aa4e0::Form *)(reinterpret_cast<::EffectSetting *>((context))->GetHitSound()));
-    Entry* entry7 = ((::fnv_009aa4e0::Entry *)(::GetFieldValue((unsigned int *)(stateB))));
+    Entry* entry7 = ((::fnv_009aa4e0::Entry *)(reinterpret_cast<CombatStateFields*>(stateB)->pUnknownE4));
     if (entry7 && !reinterpret_cast<::FUN_009373f0_shell *>((entry7))->FUN_009373f0())
     {
         if (localX && localX->Type() == 7)
@@ -530,7 +533,7 @@ void WorldStateManager::UpdateWorldState(Context* context)
         {
             Vec point4;
             ::fnv_009a9370::FUN_009a9370((::fnv_009a9370::CombatController *)(context), (::fnv_009a9370::CombatCoverPointData *)(entry7), (::fnv_009a9370::NiPoint3 *)(::fnv_009aa4e0::Vec *)(&point4), (::fnv_009a9370::NiPoint3 *)(0));
-            Vec delta = point4 - *((::fnv_009aa4e0::Vec *)(new ((void *)&(position6)) ::Vec3()));
+            Vec delta = point4 - *((::fnv_009aa4e0::Vec *)(((::Vec3 *)(void *)&(position6))));
             delta.z *= 0.10000000149011612;
             if (reinterpret_cast<::TESCombatStyle *>((void *)&(delta))->UpdateCombatStyle() < 1024.0)
                 q |= 1 << entry7->bit;
@@ -598,14 +601,14 @@ void WorldStateManager::UpdateWorldState(Context* context)
     else
         reinterpret_cast<::FUN_009aad00Class *>(this)->FUN_009aad00(3, 1);
     Weapon* weapon0 = ((::fnv_009aa4e0::Weapon *)(reinterpret_cast<::FUN_008a1710_shell *>((actor15))->FUN_008a1710()));
-    int weapon4 = weapon0 ? reinterpret_cast<::CombatWeapon *>((weapon0))->FUN_00522c80() : 6;
+    intptr_t weapon4 = weapon0 ? reinterpret_cast<::CombatWeapon *>((weapon0))->FUN_00522c80() : 6;
     if (weapon0 && weapon0 != ((::fnv_009aa4e0::Weapon *)(reinterpret_cast<::fnv_0097c150::CombatActionStandIn *>((stateB))->FUN_0097c150(weapon4))))
         weapon4 = 7;
     reinterpret_cast<::FUN_009aad00Class *>(this)->FUN_009aad00(11, weapon4);
     reinterpret_cast<::FUN_009aad20_shell *>(this)->SetItem(-65512, (::CombatWorldStateListNode *)(weapon4));
     reinterpret_cast<::FUN_009aad00Class *>(this)->FUN_009aad00(10, ((::fnv_009aa4e0::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor15))->GetBaseTexture()))->Ready() ? weapon4 : 7);
     reinterpret_cast<::FUN_009aad00Class *>(this)->FUN_009aad00(12, ::GetField38((char *)(stateB)));
-    for (unsigned int first = 0; first < 5; ++first)
+    for (uintptr_t first = 0; first < 5; ++first)
     {
         if (((::fnv_009aa4e0::Entry *)(reinterpret_cast<::fnv_0097cfc0::CombatActionStandIn *>((stateB))->GetActionAtIndex(first))))
         {
@@ -613,8 +616,8 @@ void WorldStateManager::UpdateWorldState(Context* context)
             break;
         }
     }
-    reinterpret_cast<::FUN_009aad00Class *>(this)->FUN_009aad00(13, ((int)(reinterpret_cast<::FUN_008d8160_Class *>((stateB))->GetField1BC())));
-    for (unsigned int second = 0; second < 2; ++second)
+    reinterpret_cast<::FUN_009aad00Class *>(this)->FUN_009aad00(13, ((intptr_t)(reinterpret_cast<::FUN_008d8160_Class *>((stateB))->GetField1BC())));
+    for (uintptr_t second = 0; second < 2; ++second)
     {
         if (reinterpret_cast<::FUN_0097d110_shell *>((stateB))->GetAt(second) && reinterpret_cast<::TimeoutTimer *>((((::fnv_009aa4e0::State *)(reinterpret_cast<::FUN_009aad60_shell *>((stateB))->FUN_009aad60(second)))))->CheckTimer())
         {
@@ -639,8 +642,8 @@ void WorldStateManager::UpdateWorldState(Context* context)
     reinterpret_cast<::FUN_009aad00Class *>(this)->FUN_009aad00(15, ((bool)(reinterpret_cast<::FUN_009a1380_cls *>((stateB))->FUN_009a1380())));
     void* magicTarget3 = ((void *)(reinterpret_cast<::FUN_0045cd60_shell *>((local4))->FUN_0045cd60()));
     if (magicTarget3)
-        reinterpret_cast<::FUN_009aad00Class *>(this)->FUN_009aad00(19, reinterpret_cast<::FUN_0098a310_shell *>((local4))->GetFieldOrZero((int)(actor15)));
-    int flags28 = ((int)(reinterpret_cast<::FUN_00516bf0_shell *>((stateB))->FUN_00516bf0()));
+        reinterpret_cast<::FUN_009aad00Class *>(this)->FUN_009aad00(19, reinterpret_cast<::FUN_0098a310_shell *>((local4))->GetFieldOrZero((intptr_t)(actor15)));
+    intptr_t flags28 = ((intptr_t)(reinterpret_cast<::FUN_00516bf0_shell *>((stateB))->FUN_00516bf0()));
     if (reinterpret_cast<::FUN_0097ef30_shell *>((local4))->FUN_0097ef30())
         flags28 |= 65536;
     if (((bool)(reinterpret_cast<::FUN_009a0240_shell *>((context))->GetFixedNormals())))

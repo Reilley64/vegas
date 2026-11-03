@@ -1,5 +1,9 @@
 // fallout/ai/movement/detailedactorpathhandler.cpp: std, DetailedActorPathHandler, DetailedActorPathHandlerEx, DelStandIn and more (73 functions)
 
+#include "fnv/pathing_location_fields.h"
+#include "fnv/simple_array_item.h"
+#include <cstdint>
+#include "fnv/result_slot.h"
 #include <new>
 #include "fnv/decl/ActorMoverBuildPath14.h"
 #include "fnv/decl/ActorMoverLocation14.h"
@@ -208,6 +212,11 @@
 #include "fnv/symbols_011f2000.h"
 #include "fnv/symbols_011f6000.h"
 #include "detailedactorpathhandler_decls.h"
+#include "fnv/symbols_010c6000.h"
+#include "fnv/decl/Point3_0053d280.h"
+#include "fnv/decl/_Dummy_0069e390.h"
+#include "fnv/symbols_011a9000.h"
+#include <xmmintrin.h>
 
 // @fnv 0x009e39c0
 void DetailedActorPathHandler::SetInitialPathState()
@@ -250,9 +259,9 @@ void DetailedActorPathHandler::TransitionFrom(ActorPathHandler* previous)
         m_iPathParameter2 = 4;
         m_fPathValue4 = oldPath->m_fPathValue4;
         m_fPathValue12 = 0.0f;
-        while (((::TESTopicInfo *)(new ((void *)&(oldPath->ActorAvoidEntryList)) ::Vec3())))
+        while (((::TESTopicInfo *)(((::Vec3 *)(void *)&(oldPath->ActorAvoidEntryList)))))
         {
-            ActorAvoidEntryList.AddHead(((::TESTopicInfo *)(new ((void *)&(oldPath->ActorAvoidEntryList)) ::Vec3())));
+            ActorAvoidEntryList.AddHead(*(::TESTopicInfo **)(void *)&(oldPath->ActorAvoidEntryList));
             oldPath->ActorAvoidEntryList.RemoveHead();
         }
     }
@@ -353,7 +362,7 @@ bool FUN_009e27e0_shell::FUN_009e27e0()
 }  // namespace fnv_009e27e0
 
 // @fnv 0x009e32d0
-int GetField38(char* this_ptr)
+intptr_t GetField38(char* this_ptr)
 {
     return *(int*)(this_ptr + 0x38);
 }
@@ -840,9 +849,6 @@ bool DetailedActorPathHandler::TurnToAngle(float angle, bool keepActorHeading)
 
 void __cdecl WrapValueToRange(float&, float, float);
 
-namespace std {
-float __cdecl abs(float);
-}
 
 class Date
 {
@@ -1352,9 +1358,6 @@ void* DelStandIn::FUN_009e0160(unsigned int flags)
 namespace fnv_009e0470 {
 extern float DAT_01092470;
 
-namespace std {
-float __cdecl abs(float);
-}
 
 class PathingGraphNode
 {
@@ -1974,9 +1977,6 @@ struct ActorStub
     virtual void v212();
     virtual float GetTurnSpeed();
 };
-namespace std {
-float __cdecl abs(float);
-}
 struct FUN_005f0c80_shell
 {
 };
@@ -2048,7 +2048,7 @@ int FUN_009e16e0_shell::FUN_009e16e0(float afDeltaT)
             {
                 float fCurrentAngle = ::WrapAngle((*(ActorStub**)&this->pActor)->GetCurrentTargetDistance(0));
                 p07::NiPoint3 firingLocation = FUN_009a8050(*(ActorStub**)&this->pActor);
-                if (reinterpret_cast<::FUN_00595c80_shell *>((void *)(((FUN_00595c80_shell*)&(firingLocation - lookatPoint))))->GetSquaredXYLength() <
+                if (reinterpret_cast<::FUN_00595c80_shell *>((void *)(((FUN_00595c80_shell*)&ResultSlot((firingLocation - lookatPoint)))))->GetSquaredXYLength() <
                     ((CombatState*)*(ActorStub**)&this->pActor)->ProcessCoverLOSResult() *
                         ((CombatState*)*(ActorStub**)&this->pActor)->ProcessCoverLOSResult() * 0.25)
                     eresult = 0;
@@ -3285,9 +3285,6 @@ void DetailedActorPathHandlerEx::UpdatePathing(float afDeltaT)
 }
 }  // namespace fnv_009e3d50
 
-namespace std {
-float __cdecl abs(float);
-}
 
 void __cdecl WrapValueToRange(float&, float, float);
 void __cdecl FUN_005330e0(float&, float, float);
@@ -3580,7 +3577,7 @@ float DetailedActorPathHandlerRot::FUN_009e4800(float afDeltaT, float* pfRotateM
             if (fDist < fLookAheadDist)
             {
                 int iNode;
-                reinterpret_cast<::fnv_006e7e70::FUN_006e7e70_shell *>((((PathingSolution*)(unsigned int)*(Flt*)&pCurrentPathingSolution)))->FUN_006e7e70(m_fSplineParameter, fLookAheadDist - fDist, 1, (float *)(int *)(&iNode), &kGoal);
+                reinterpret_cast<::fnv_006e7e70::FUN_006e7e70_shell *>((((PathingSolution*)(uintptr_t)*(Flt*)&pCurrentPathingSolution)))->FUN_006e7e70(m_fSplineParameter, fLookAheadDist - fDist, 1, (float *)(int *)(&iNode), &kGoal);
             }
             fFacingAngle = (*(Actor**)&this->pActor)->GetCurrentTargetDistance(0);
             NiPoint3_sub toTarget = ((const NiPoint3_sub&)kGoal) - *(*(Actor**)&this->pActor)->GetPos();
@@ -3602,7 +3599,7 @@ float DetailedActorPathHandlerRot::FUN_009e4800(float afDeltaT, float* pfRotateM
             else if ((unsigned int)*(Flt*)&pCurrentPathingSolution && (unsigned int)*(Flt*)&m_pPathingRequest)
             {
                 if (reinterpret_cast<::FUN_00595c80_shell *>((void *)(void *)&(const ::fnv_009e4800::NiPoint3_sub &)((*(*(Actor**)&this->pActor)->GetPos() -
-                     reinterpret_cast<::TaskQueueInterface *>((void *)&((*(::fnv_009e4800::PathingGraphNode *)(reinterpret_cast<::S_FUN_006b05a0 *>((((PathingSolution*)(unsigned int)*(Flt*)&pCurrentPathingSolution)))->FUN_006b05a0()))
+                     reinterpret_cast<::TaskQueueInterface *>((void *)&((*(::fnv_009e4800::PathingGraphNode *)(reinterpret_cast<::S_FUN_006b05a0 *>((((PathingSolution*)(uintptr_t)*(Flt*)&pCurrentPathingSolution)))->FUN_006b05a0()))
                          .FUN_00717e50()))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr))))->GetSquaredXYLength() <
                     (*(Actor**)&this->pActor)->FUN_008be1b0() * (*(Actor**)&this->pActor)->FUN_008be1b0())
                     *pfRotateMult = 0.5f;
@@ -3942,14 +3939,14 @@ void EvaluateAvoidance(Actor* apActor, PathingRequest* apRequest, unsigned int a
                     fAvoidDist = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009e5690::GlobalObject_0044f440 *>(&::g_011f2b8c))))));
                 if (::fnv_009e6900::FUN_009e6900((::fnv_009e6900::Ref *)(apActor), (::fnv_009e6900::Group *)(apData), (::fnv_009e6900::Ref *)(pAvoidActor), (*(const ::fnv_009e6900::Pt3 *)(&akStart)), (*(const ::fnv_009e6900::Pt3 *)(&kRelOffset)), fAvoidDist, fCosThreshold,
                                  &fDistance, false))
-                    reinterpret_cast<::FUN_009e99a0_cls *>((apList))->FUN_009e99a0((unsigned int)&(const ::fnv_009e5690::ActorAvoidEntry &)(ActorAvoidEntry(pAvoidActor, fDistance)));
+                    reinterpret_cast<::FUN_009e99a0_cls *>((apList))->FUN_009e99a0((uintptr_t)&(const ::fnv_009e5690::ActorAvoidEntry &)(ActorAvoidEntry(pAvoidActor, fDistance)));
             }
         }
     }
 
     if (::fnv_009e6900::FUN_009e6900((::fnv_009e6900::Ref *)(apActor), (::fnv_009e6900::Group *)(apData), (::fnv_009e6900::Ref *)(g_thePlayer), (*(const ::fnv_009e6900::Pt3 *)(&akStart)), (*(const ::fnv_009e6900::Pt3 *)(&kIntersectionOffset)), fAheadDist, fCosThreshold,
                      &fDistance, false))
-        reinterpret_cast<::FUN_009e99a0_cls *>((apList))->FUN_009e99a0((unsigned int)&(const ::fnv_009e5690::ActorAvoidEntry &)(ActorAvoidEntry(g_thePlayer, fDistance)));
+        reinterpret_cast<::FUN_009e99a0_cls *>((apList))->FUN_009e99a0((uintptr_t)&(const ::fnv_009e5690::ActorAvoidEntry &)(ActorAvoidEntry(g_thePlayer, fDistance)));
 }
 }  // namespace fnv_009e5690
 
@@ -4266,7 +4263,7 @@ void FUN_009e77d0_cls::UpdatePathTether(float afPercentTraveled)
             NiPoint3 snapLocation = m_kPathVector3;
             ::GetNavMeshHeight((::PathingLocation *)(::fnv_009e77d0::PathingLocationEx *)(&tetherNavMeshLoc), &snapLocation.z);
             float fheading = (*(TESObjectREFR**)&this->pActor)->GetCurrentTargetDistance(0);
-            reinterpret_cast<::fnv_008ad1c0::MoveSelf454 *>(((*(TESObjectREFR**)&this->pActor)))->FUN_008ad1c0((int)&(snapLocation), fheading, ((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>(((*(TESObjectREFR**)&this->pActor)))->GetTarget())),
+            reinterpret_cast<::fnv_008ad1c0::MoveSelf454 *>(((*(TESObjectREFR**)&this->pActor)))->FUN_008ad1c0((intptr_t)&(snapLocation), fheading, ((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>(((*(TESObjectREFR**)&this->pActor)))->GetTarget())),
                                ((::TESWorldSpace *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>(((*(TESObjectREFR**)&this->pActor)))->FUN_00575d70())), 1, 1);
         }
         ((FUN_009e3c00_cls*)this)->AdvanceAlongPath(0.0f);
@@ -4284,9 +4281,6 @@ struct Flt
 {
     operator unsigned int() const;
 };
-namespace std {
-float abs(float);
-}
 bool FUN_009e8670(unsigned int);
 extern double DAT_01092508;
 extern float DAT_011a5d00;
@@ -4476,34 +4470,34 @@ int FUN_009e8000_shell::UpdatePathingGoal()
 {
     if (this->m_bPathFlag4)
     {
-        if (this->m_uiPathPointIndex + 2 >= ::GetObjectFlags((char*)(unsigned int)*(Flt*)((char*)this + 0xc)))
+        if (this->m_uiPathPointIndex + 2 >= ::GetObjectFlags((char*)(uintptr_t)*(Flt*)((char*)this + 0xc)))
         {
             BaseS diff;
             bool bPast = false;
             if (this->m_uiPathPointIndex + 2 ==
-                ::GetObjectFlags((char*)(unsigned int)*(Flt*)((char*)this + 0xc)))
+                ::GetObjectFlags((char*)(uintptr_t)*(Flt*)((char*)this + 0xc)))
                 (NiPoint3&)diff =
-                    (*(::fnv_009e8000::NP3S *)&(reinterpret_cast<::TaskQueueInterface *>((((LocS*)&((TeleportableReference*)reinterpret_cast<::FUN_006e7970_shell *>((((FUN_006e7970_shell*)(unsigned int)*(Flt*)((char*)this + 0xc))))->FUN_006e7970(this->m_uiPathPointIndex))
+                    (*(::fnv_009e8000::NP3S *)&(reinterpret_cast<::TaskQueueInterface *>((((LocS*)&((TeleportableReference*)reinterpret_cast<::FUN_006e7970_shell *>((((FUN_006e7970_shell*)(uintptr_t)*(Flt*)((char*)this + 0xc))))->FUN_006e7970(this->m_uiPathPointIndex))
                          ->GetPosition())))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr))) -
                     (*(MobileObject**)&this->pActor)->GetPos();
             else
                 bPast = true;
             if (bPast || reinterpret_cast<::FUN_00595c80_shell *>(&(diff))->GetSquaredXYLength() <= DAT_01092508)
             {
-                unsigned int icurrentSize = ::GetObjectFlags((char*)(unsigned int)*(Flt*)((char*)this + 0xc));
+                unsigned int icurrentSize = ::GetObjectFlags((char*)(uintptr_t)*(Flt*)((char*)this + 0xc));
                 unsigned int iupdateNode = *(unsigned short*)(*(char**)&this->m_pActorMover + 0x42) > 0
                                                ? *(unsigned short*)(*(char**)&this->m_pActorMover + 0x42) - 1
                                                : *(unsigned short*)(*(char**)&this->m_pActorMover + 0x42);
                 switch (::ConstructAndCallMethod((unsigned int)*(Flt*)((char*)this + 0x10),
                                                (unsigned int)*(Flt*)((char*)this + 0xc), iupdateNode,
-                                               (int)&((*(MobileObject**)&this->pActor)->GetPos())))
+                                               (intptr_t)&((*(MobileObject**)&this->pActor)->GetPos())))
                 {
                 case 2:
                 case 3:
                     this->m_bPathFlag4 =
-                        (*(::fnv_009e8000::PathingGraphNode *)(reinterpret_cast<::S_FUN_006b05a0 *>((((PathingSolution*)(unsigned int)*(Flt*)((char*)this + 0xc))))->FUN_006b05a0())).IsTransitionNode();
+                        (*(::fnv_009e8000::PathingGraphNode *)(reinterpret_cast<::S_FUN_006b05a0 *>((((PathingSolution*)(uintptr_t)*(Flt*)((char*)this + 0xc))))->FUN_006b05a0())).IsTransitionNode();
                     *(unsigned short*)(*(char**)&this->m_pActorMover + 0x42) =
-                        reinterpret_cast<::BGSTerrainManager *>((((BGSTerrainManager*)(unsigned int)*(Flt*)((char*)this + 0xc))))->GetMinLevel();
+                        reinterpret_cast<::BGSTerrainManager *>((((BGSTerrainManager*)(uintptr_t)*(Flt*)((char*)this + 0xc))))->GetMinLevel();
                     return 0;
                     break;
                 case 0:
@@ -4524,17 +4518,17 @@ int FUN_009e8000_shell::UpdatePathingGoal()
         BaseS diff;
         float fdistanceSqr = 3.402823466e+38f;
         float fgoalRadiusTestSqr;
-        if (!reinterpret_cast<::FUN_006b05d0_shell *>((((PathingSolution*)(unsigned int)*(Flt*)((char*)this + 0xc))))->FUN_006b05d0() &&
-            reinterpret_cast<::BGSTerrainManager *>((((BGSTerrainManager*)(unsigned int)*(Flt*)((char*)this + 0xc))))->GetMinLevel() ==
-                ::FUN_005a4320((char *)(((PathingSolution*)(unsigned int)*(Flt*)((char*)this + 0xc)))) - 1)
+        if (!reinterpret_cast<::FUN_006b05d0_shell *>((((PathingSolution*)(uintptr_t)*(Flt*)((char*)this + 0xc))))->FUN_006b05d0() &&
+            reinterpret_cast<::BGSTerrainManager *>((((BGSTerrainManager*)(uintptr_t)*(Flt*)((char*)this + 0xc))))->GetMinLevel() ==
+                ::FUN_005a4320((char *)(((PathingSolution*)(uintptr_t)*(Flt*)((char*)this + 0xc)))) - 1)
             (NiPoint3&)goal =
-                (*(::fnv_009e8000::NP3S *)&(reinterpret_cast<::TaskQueueInterface *>((((LocS*)&((TeleportableReference*)((::fnv_009e8000::PacketNodeRecord *)(reinterpret_cast<::FUN_006e78b0_shell *>((((PathingSolution*)(unsigned int)*(Flt*)((char*)this + 0xc))))->FUN_006e78b0(
-                                  reinterpret_cast<::BGSTerrainManager *>((((BGSTerrainManager*)(unsigned int)*(Flt*)((char*)this + 0xc))))->GetMinLevel()))))
+                (*(::fnv_009e8000::NP3S *)&(reinterpret_cast<::TaskQueueInterface *>((((LocS*)&((TeleportableReference*)((::fnv_009e8000::PacketNodeRecord *)(reinterpret_cast<::FUN_006e78b0_shell *>((((PathingSolution*)(uintptr_t)*(Flt*)((char*)this + 0xc))))->FUN_006e78b0(
+                                  reinterpret_cast<::BGSTerrainManager *>((((BGSTerrainManager*)(uintptr_t)*(Flt*)((char*)this + 0xc))))->GetMinLevel()))))
                      ->GetPosition())))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)));
         else
             (NiPoint3&)goal =
                 (*(::fnv_009e8000::NP3S *)&(reinterpret_cast<::TaskQueueInterface *>((((LocS*)&(
-                     (TeleportableReference*)&(*(::fnv_009e8000::PathingGraphNode *)(reinterpret_cast<::S_FUN_006b05a0 *>((((PathingSolution*)(unsigned int)*(Flt*)((char*)this + 0xc))))->FUN_006b05a0())))
+                     (TeleportableReference*)&(*(::fnv_009e8000::PathingGraphNode *)(reinterpret_cast<::S_FUN_006b05a0 *>((((PathingSolution*)(uintptr_t)*(Flt*)((char*)this + 0xc))))->FUN_006b05a0())))
                      ->GetPosition())))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)));
         (NiPoint3&)diff = goal - (*(MobileObject**)&this->pActor)->GetPos();
         fdistanceSqr = reinterpret_cast<::FUN_00595c80_shell *>(&(diff))->GetSquaredXYLength();
@@ -4561,12 +4555,12 @@ int FUN_009e8000_shell::UpdatePathingGoal()
                 if (!reinterpret_cast<::FUN_005a2030_shell *>((void *)((*(MobileObject**)&this->pActor)))->FUN_005a2030())
                 {
                     if (std::abs(diff.z) <=
-                        reinterpret_cast<::PathingRequest *>((((PathingRequest_S*)(unsigned int)*(Flt*)((char*)this + 0x10))))->GetSmoothingRandomness())
+                        reinterpret_cast<::PathingRequest *>((((PathingRequest_S*)(uintptr_t)*(Flt*)((char*)this + 0x10))))->GetSmoothingRandomness())
                     {
                         return 5;
                     }
                     else if (this->m_uiPathPointIndex + 1 >=
-                                 ::GetObjectFlags((char*)(unsigned int)*(Flt*)((char*)this + 0xc)) &&
+                                 ::GetObjectFlags((char*)(uintptr_t)*(Flt*)((char*)this + 0xc)) &&
                              !reinterpret_cast<::FUN_005a2030_shell *>((void *)((*(MobileObject**)&this->pActor)))->FUN_005a2030())
                     {
                         ::FUN_005b5e40();
@@ -4576,7 +4570,7 @@ int FUN_009e8000_shell::UpdatePathingGoal()
                 else
                 {
                     float fzdeltaThresold = ::FUN_0040ebd0(
-                        reinterpret_cast<::PathingRequest *>((((PathingRequest_S*)(unsigned int)*(Flt*)((char*)this + 0x10))))->GetSmoothingRandomness(),
+                        reinterpret_cast<::PathingRequest *>((((PathingRequest_S*)(uintptr_t)*(Flt*)((char*)this + 0x10))))->GetSmoothingRandomness(),
                         reinterpret_cast<::fnv_008853a0::FUN_008853a0_shell *>((void *)(((ActorV_S*)*(MobileObject**)&this->pActor)))->GetActorHeight());
                     if (std::abs(diff.z) <= fzdeltaThresold)
                         return 5;
@@ -4775,10 +4769,10 @@ bool FUN_009e3110_t::IsPathReachableToPlayer() const
     TESObjectCELL* pplayerCell;
 
     if (!(unsigned int)*(const Flt*)&pCurrentPathingSolution ||
-        !reinterpret_cast<::Mover *>((((PathingSolution*)(unsigned int)*(const Flt*)&pCurrentPathingSolution)))->FUN_009dc530())
+        !reinterpret_cast<::Mover *>((((PathingSolution*)(uintptr_t)*(const Flt*)&pCurrentPathingSolution)))->FUN_009dc530())
         return false;
 
-    inumNodes = ::GetObjectFlags((char *)(((PathingSolution*)(unsigned int)*(const Flt*)&pCurrentPathingSolution)));
+    inumNodes = ::GetObjectFlags((char *)(((PathingSolution*)(uintptr_t)*(const Flt*)&pCurrentPathingSolution)));
     iscanNodes = m_uiPathPointIndex + 1;
     bcompareCells = true;
     pplayerCell = ((::fnv_009e3110::TESObjectCELL *)(reinterpret_cast<::LowProcess *>((g_thePlayer))->GetTarget()));
@@ -4801,7 +4795,7 @@ bool FUN_009e3110_t::IsPathReachableToPlayer() const
         const PathingGraphNode* pnode;
         const PathingLocation* ploc;
 
-        pnode = ((const ::fnv_009e3110::PathingGraphNode *)(reinterpret_cast<::FUN_006e7970_shell *>((((PathingSolution*)(unsigned int)*(const Flt*)&pCurrentPathingSolution)))->FUN_006e7970(iscanNodes)));
+        pnode = ((const ::fnv_009e3110::PathingGraphNode *)(reinterpret_cast<::FUN_006e7970_shell *>((((PathingSolution*)(uintptr_t)*(const Flt*)&pCurrentPathingSolution)))->FUN_006e7970(iscanNodes)));
         if (!pnode)
             continue;
         ploc = &pnode->FUN_00717e50();
@@ -4895,9 +4889,6 @@ NiPoint3 FUN_009e3a70_shell::GetNextPathPoint()
     }
 }
 
-namespace std {
-float __cdecl abs(float);
-}
 
 extern double DAT_010924a0;
 
@@ -5128,6 +5119,8 @@ struct NiObject
 {
     virtual NiRTTI const* GetStreamableRTTI();
     void* FUN_00621a40();
+public:
+    ::NiObject *DynamicCast(const ::NiRTTI *);
 };
 struct FUN_00cac910_shell
 {
@@ -5136,7 +5129,7 @@ struct FUN_00cac910_shell
 // @fnv 0x00621a40
 void* NiObject::FUN_00621a40()
 {
-    int code;
+    intptr_t code;
     void* result;
     code = ((int)(reinterpret_cast<::FUN_00620b80_shell *>((this))->GetReferenceFlags()));
     result = FUN_00458b20();
@@ -5159,7 +5152,7 @@ struct FUN_008b3d50_This
 // @fnv 0x008b3d50
 BSSimpleList<TESFile*>* FUN_008b3d50_This::FUN_008b3d50()
 {
-    return ((::BSSimpleList< ::TESFile *> *)(::FUN_00460140((int)(form))));
+    return ((::BSSimpleList< ::TESFile *> *)(::FUN_00460140((intptr_t)(form))));
 }
 
 extern int DAT_01092484;
@@ -5389,7 +5382,7 @@ NiPoint3 FUN_009e2900_t::GetPathingPosition(float afDeltaT) const
     if (!(unsigned char)::GetByteAtOffset70(pRef))
     {
         SpObst pPathingSolution((unsigned int*)&pCurrentPathingSolution);
-        if (pPathingSolution && ::GetObjectFlags((char *)(((PathingSolution*)(unsigned int)pPathingSolution))))
+        if (pPathingSolution && ::GetObjectFlags((char *)(((PathingSolution*)(uintptr_t)pPathingSolution))))
         {
             float fdistance;
             float fspeed;
@@ -5398,7 +5391,7 @@ NiPoint3 FUN_009e2900_t::GetPathingPosition(float afDeltaT) const
             else
                 fspeed = reinterpret_cast<::fnv_00884dc0::FUN_00884dc0_shell *>((((Actor_009e2900*)pActor)))->FUN_00884dc0();
             fdistance = fspeed * afDeltaT;
-            return ((PathingSolution*)(unsigned int)pPathingSolution)
+            return ((PathingSolution*)(uintptr_t)pPathingSolution)
                 ->GetPointAtDistance(m_fSplineParameter, fdistance);
         }
         else
@@ -5461,22 +5454,22 @@ struct DAPHView_009e3c00
 // @fnv 0x009e3c00
 void FUN_009e3c00_shell::AdvanceAlongPath(float afDist)
 {
-    if (!::GetObjectFlags((char *)(((PathingSolution*)(unsigned int)((DAPHView_009e3c00*)this)->m_pPathingSolution))))
+    if (!::GetObjectFlags((char *)(((PathingSolution*)(uintptr_t)((DAPHView_009e3c00*)this)->m_pPathingSolution))))
         return;
     if (((DAPHView_009e3c00*)this)->m_uiPathPointIndex + 1 >=
-        ::GetObjectFlags((char *)(((PathingSolution*)(unsigned int)((DAPHView_009e3c00*)this)->m_pPathingSolution))))
+        ::GetObjectFlags((char *)(((PathingSolution*)(uintptr_t)((DAPHView_009e3c00*)this)->m_pPathingSolution))))
         return;
     ((DAPHView_009e3c00*)this)->m_fPathValue16 =
-        reinterpret_cast<::fnv_006e84b0::FUN_006e84b0_shell *>((((FUN_006e84b0_shell*)(unsigned int)((DAPHView_009e3c00*)this)->m_pPathingSolution)))->GetSplineLengthAtParameter(((DAPHView_009e3c00*)this)->m_fSplineParameter);
+        reinterpret_cast<::fnv_006e84b0::FUN_006e84b0_shell *>((((FUN_006e84b0_shell*)(uintptr_t)((DAPHView_009e3c00*)this)->m_pPathingSolution)))->GetSplineLengthAtParameter(((DAPHView_009e3c00*)this)->m_fSplineParameter);
     ((DAPHView_009e3c00*)this)->m_kPathVector4 = ((DAPHView_009e3c00*)this)->m_kPathVector3;
     reinterpret_cast<::FUN_009e5480_shell *>((((FUN_009e5480_shell*)this)))->ResetPathState();
     B006815c0 newPoint;
     float fnewSplineT;
     if (afDist >= ::_DAT_01012060)
-        reinterpret_cast<::fnv_006e7e70::FUN_006e7e70_shell *>((((PathingSolution*)(unsigned int)((DAPHView_009e3c00*)this)->m_pPathingSolution)))->FUN_006e7e70(((DAPHView_009e3c00*)this)->m_fSplineParameter, afDist, 1, (float *)(int *)((int*)&fnewSplineT),
+        reinterpret_cast<::fnv_006e7e70::FUN_006e7e70_shell *>((((PathingSolution*)(uintptr_t)((DAPHView_009e3c00*)this)->m_pPathingSolution)))->FUN_006e7e70(((DAPHView_009e3c00*)this)->m_fSplineParameter, afDist, 1, (float *)(int *)((int*)&fnewSplineT),
                            (NiPoint3*)&newPoint);
     else
-        reinterpret_cast<::fnv_006e7e70::FUN_006e7e70_shell *>((((PathingSolution*)(unsigned int)((DAPHView_009e3c00*)this)->m_pPathingSolution)))->FUN_006e7e70(((DAPHView_009e3c00*)this)->m_fSplineParameter, -afDist, 0, (float *)(int *)((int*)&fnewSplineT),
+        reinterpret_cast<::fnv_006e7e70::FUN_006e7e70_shell *>((((PathingSolution*)(uintptr_t)((DAPHView_009e3c00*)this)->m_pPathingSolution)))->FUN_006e7e70(((DAPHView_009e3c00*)this)->m_fSplineParameter, -afDist, 0, (float *)(int *)((int*)&fnewSplineT),
                            (NiPoint3*)&newPoint);
     ((DAPHView_009e3c00*)this)->m_fSplineParameter = fnewSplineT;
     ((DAPHView_009e3c00*)this)->m_kPathVector3 = newPoint;
@@ -5542,7 +5535,7 @@ bool UpdateAliveActorList()
         ::DAT_011f2aa0 = 0;
         for (; pActorList; pActorList = ((::BSSimpleList< ::Actor *> *)(reinterpret_cast<::Callees *>((pActorList))->FUN_00726070())))
         {
-            Actor* actor = *((::Actor **)(new ((void *)(((FUN_009e54a0_ref*)pActorList))) ::Vec3()));
+            Actor* actor = *((::Actor **)(((::Vec3 *)(void *)(((FUN_009e54a0_ref*)pActorList)))));
             if (!actor)
                 continue;
             NiNode* node = actor->GetNiNode();
@@ -5555,7 +5548,7 @@ bool UpdateAliveActorList()
                     *((float *)&(::FUN_00403e20((float *)(((Setting_S*)&(*reinterpret_cast<::fnv_009e54a0::GlobalObject_0044f440 *>(&::g_011f2bd0))))))))
                 continue;
             ::DAT_011f2aa0++;
-            reinterpret_cast<::S_0060ba10 *>((((NiTPrimitiveArray_unsigned_int_*)&(*reinterpret_cast<::fnv_009e54a0::GlobalObject_009e9bb0 *>(&::g_011f2bf8)))))->FUN_0096a610((int)&(*(unsigned int*)&actor));
+            reinterpret_cast<::S_0060ba10 *>((((NiTPrimitiveArray_unsigned_int_*)&(*reinterpret_cast<::fnv_009e54a0::GlobalObject_009e9bb0 *>(&::g_011f2bf8)))))->FUN_0096a610((intptr_t)&(*(unsigned int*)&actor));
         }
         return true;
     }
@@ -6004,7 +5997,7 @@ void FUN_009e6ba0_shell::UpdatePathingOrigin(PathingRequest* apRequest)
     }
     else
     {
-        float fnewLen = reinterpret_cast<::FUN_00589850_Class *>((void *)(void *)&(const ::fnv_009e6ba0::NiPoint3Ops &)(((*(::fnv_009e6ba0::NiPoint3Ops *)&(reinterpret_cast<::TaskQueueInterface *>((void *)(((::fnv_009e6ba0::PathingLocation *)(::GetOffsetC((int)(((PathingRequestOps*)apRequest)))))))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr))) -
+        float fnewLen = reinterpret_cast<::FUN_00589850_Class *>((void *)(void *)&(const ::fnv_009e6ba0::NiPoint3Ops &)(((*(::fnv_009e6ba0::NiPoint3Ops *)&(reinterpret_cast<::TaskQueueInterface *>((void *)(((::fnv_009e6ba0::PathingLocation *)(::GetOffsetC((intptr_t)(((PathingRequestOps*)apRequest)))))))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr))) -
                          (*(::fnv_009e6ba0::NiPoint3Ops *)&(reinterpret_cast<::TaskQueueInterface *>((void *)(((::fnv_009e6ba0::PathingLocation *)(::FUN_006a9540((char *)(((PathingRequestOps*)apRequest)))))))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr))))))->FUN_00589850();
         float fwaitDist = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009e6ba0::Setting_S *>(&::g_011f2b68))))));
         if (((DetailedActorPathHandler*)this)->ByteAndFlagState & 0x200)
@@ -6058,7 +6051,7 @@ void FUN_009e6ba0_shell::UpdatePathingOrigin(PathingRequest* apRequest)
                 (BSSimpleListOps<ActorOps_9e6ba0*>*)&((DetailedActorPathHandler*)this)->ActorAvoidEntryList;
             while (pCurrentElementNext)
             {
-                ActorOps_9e6ba0* pavoidActor = ((::fnv_009e6ba0::ActorOps_9e6ba0 *)(new ((void *)(pCurrentElementNext)) ::Vec3()));
+                ActorOps_9e6ba0* pavoidActor = ((::fnv_009e6ba0::ActorOps_9e6ba0 *)(((::Vec3 *)(void *)(pCurrentElementNext))));
                 pCurrentElementNext = ((::fnv_009e6ba0::BSSimpleListOps< ::fnv_009e6ba0::ActorOps_9e6ba0 *> *)(reinterpret_cast<::Callees *>((pCurrentElementNext))->FUN_00726070()));
                 if (::FUN_006ba9e0((*(const ::Pt3 *)((*(RefrOps_9e6ba0**)&this->pActor)->GetPos())),
                                  (*(const ::Pt3 *)(&((DetailedActorPathHandler*)this)->m_kPathVector3)), (*(const ::Pt3 *)(pavoidActor->GetPos())),
@@ -6250,7 +6243,7 @@ void FUN_009e9760_shell::FUN_009e9760(BGSLoadFormBuffer* apLoadGameBuffer)
     AvoidActorListNode* plastList;
 
     m_pPathTargetReference = m_pPathTargetReference
-                                 ? dynamic_cast< ::TESObjectREFR*>(::FUN_004839c0((unsigned int)m_pPathTargetReference))
+                                 ? dynamic_cast< ::TESObjectREFR*>(::FUN_004839c0((unsigned int)(uintptr_t)m_pPathTargetReference))
                                  : 0;
     pCurrentElementNext = (AvoidActorListNode*)&ActorAvoidEntryList;
     plastList = 0;
@@ -6259,11 +6252,11 @@ void FUN_009e9760_shell::FUN_009e9760(BGSLoadFormBuffer* apLoadGameBuffer)
         ::Actor* pForm;
         bool bremove;
 
-        pForm = *((::Actor **)(new ((void *)(pCurrentElementNext)) ::Vec3()));
+        pForm = *((::Actor **)(((::Vec3 *)(void *)(pCurrentElementNext))));
         bremove = false;
         if (pForm)
         {
-            pForm = pForm ? dynamic_cast< ::Actor*>(::FUN_004839c0((unsigned int)pForm)) : 0;
+            pForm = pForm ? dynamic_cast< ::Actor*>(::FUN_004839c0((unsigned int)(uintptr_t)pForm)) : 0;
             if (pForm)
                 pCurrentElementNext->_ref_00726c60(pForm);
             else
@@ -6277,7 +6270,7 @@ void FUN_009e9760_shell::FUN_009e9760(BGSLoadFormBuffer* apLoadGameBuffer)
         {
             if (plastList)
             {
-                reinterpret_cast<::ItemChangeListNode *>((plastList))->FUN_00905330((::InventoryStackRecord *const &)(*((::Actor **)(new ((void *)(pCurrentElementNext)) ::Vec3()))));
+                reinterpret_cast<::ItemChangeListNode *>((plastList))->FUN_00905330((::InventoryStackRecord *const &)(*((::Actor **)(((::Vec3 *)(void *)(pCurrentElementNext))))));
                 pCurrentElementNext = ((::fnv_009e9760::AvoidActorListNode *)(reinterpret_cast<::Callees *>((plastList))->FUN_00726070()));
             }
             else
@@ -6465,7 +6458,7 @@ void PathSerializationData::Serialize(PathArchive* archive)
     ActorAvoidNode* node = &ActorAvoidEntryList;
     while (node != 0)
     {
-        void* item = *((void **)(new ((void *)(node)) ::Vec3()));
+        void* item = *((void **)(((::Vec3 *)(void *)(node))));
         if (item != 0)
         {
             reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((archive))->FUN_00865df0((::fnv_00865df0::TESForm *)(item), 0);
@@ -7765,10 +7758,10 @@ bool MotionTarget::UpdateMotion(float afDeltaTime)
                     bool eb = true;
                     if (!reinterpret_cast<::FUN_0076b610_Class *>(&(f))->FUN_0076b610())
                     {
-                        for (unsigned a = 0; a < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(f))->GetName())); ++a)
+                        for (unsigned a = 0; a < SimpleArraySize(&(f)); ++a)
                         {
                             AvoidSphereView* i = f.FUN_00877a30(a);
-                            if (reinterpret_cast<::TESCombatStyle *>((void *)&(const ::MotionVec &)(((*(::MotionVec *)(new ((void *)(i)) ::Vec3())) - target)))->UpdateCombatStyle() < reinterpret_cast<::BSMultiBoundSphere *>((i))->GetRadius() * reinterpret_cast<::BSMultiBoundSphere *>((i))->GetRadius())
+                            if (reinterpret_cast<::TESCombatStyle *>((void *)&(const ::MotionVec &)(((*(::MotionVec *)(((::Vec3 *)(void *)(i)))) - target)))->UpdateCombatStyle() < reinterpret_cast<::BSMultiBoundSphere *>((i))->GetRadius() * reinterpret_cast<::BSMultiBoundSphere *>((i))->GetRadius())
                             {
                                 if (reinterpret_cast<::BSMultiBoundSphere *>((i))->GetRadius() < 128.0)
                                     reinterpret_cast<::FUN_00819a50_shell *>((i))->FUN_00819a50(reinterpret_cast<::BSMultiBoundSphere *>((i))->GetRadius() * 2.0f);
@@ -8399,7 +8392,7 @@ int AvoidHandler::UpdateAvoidance(float deltaTime)
     AvoidActors nearbyActors;
     bool blocked = false;
     bool includesPlayer = false;
-    for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(contacts))->GetName())); ++i)
+    for (unsigned int i = 0; i < SimpleArraySize(&(contacts)); ++i)
     {
         AvoidActor* obstacle = ((::fnv_009e5ae0::AvoidEntry *)(reinterpret_cast<::S006950d0 *>(&(contacts))->GetElement(i)))->actor;
         float weight = ((::fnv_009e5ae0::AvoidEntry *)(reinterpret_cast<::S006950d0 *>(&(contacts))->GetElement(i)))->weight;
@@ -8410,7 +8403,7 @@ int AvoidHandler::UpdateAvoidance(float deltaTime)
                 if ((AvoidPath*)path)
                 {
                     AvoidLocation end(*((::fnv_009e5ae0::AvoidanceVectorData *)(reinterpret_cast<::S_FUN_006b05a0 *>((((AvoidPath*)path)))->FUN_006b05a0()))->FUN_00717e50());
-                    if (reinterpret_cast<::FUN_006deeb0_cls *>(&(end))->IsWithinDistanceOfSameLocation((const ::PathingLocation *)(const ::fnv_009e5ae0::AvoidLocation *)(&AvoidLocation(g_thePlayer, g_thePlayer->FUN_008be1b0())), {}))
+                    if (reinterpret_cast<::FUN_006deeb0_cls *>(&(end))->IsWithinDistanceOfSameLocation((const ::PathingLocation *)(const ::fnv_009e5ae0::AvoidLocation *)(&ResultSlot(AvoidLocation(g_thePlayer, g_thePlayer->FUN_008be1b0()))), {}))
                     {
                         if (((bool)(reinterpret_cast<::FUN_00632ce0_Class *>((((AvoidRequest*)request)))->FUN_00632ce0())))
                             return 3;
@@ -8432,7 +8425,7 @@ int AvoidHandler::UpdateAvoidance(float deltaTime)
             if (obstacle->FUN_008b3860(&location))
             {
                 if (reinterpret_cast<::FUN_006deeb0_cls *>(&(location))->IsWithinDistanceOfSameLocation(
-                        (const ::PathingLocation *)(const ::fnv_009e5ae0::AvoidLocation *)(&AvoidLocation(actor, ::GetFloatAtOffset68((const char *)(((AvoidRequest*)request))))), {}))
+                        (const ::PathingLocation *)(const ::fnv_009e5ae0::AvoidLocation *)(&ResultSlot(AvoidLocation(actor, ::GetFloatAtOffset68((const char *)(((AvoidRequest*)request)))))), {}))
                     moving = false;
             }
             if (moving)
@@ -8464,7 +8457,7 @@ int AvoidHandler::UpdateAvoidance(float deltaTime)
                 if ((AvoidPath*)path)
                 {
                     AvoidLocation end(*((::fnv_009e5ae0::AvoidanceVectorData *)(reinterpret_cast<::S_FUN_006b05a0 *>((((AvoidPath*)path)))->FUN_006b05a0()))->FUN_00717e50());
-                    if (reinterpret_cast<::FUN_006deeb0_cls *>(&(end))->IsWithinDistanceOfSameLocation((const ::PathingLocation *)(const ::fnv_009e5ae0::AvoidLocation *)(&AvoidLocation(obstacle, obstacle->FUN_008be1b0())), {}))
+                    if (reinterpret_cast<::FUN_006deeb0_cls *>(&(end))->IsWithinDistanceOfSameLocation((const ::PathingLocation *)(const ::fnv_009e5ae0::AvoidLocation *)(&ResultSlot(AvoidLocation(obstacle, obstacle->FUN_008be1b0()))), {}))
                     {
                         if (((bool)(reinterpret_cast<::FUN_00632ce0_Class *>((((AvoidRequest*)request)))->FUN_00632ce0())))
                             return 3;
@@ -8496,7 +8489,7 @@ int AvoidHandler::UpdateAvoidance(float deltaTime)
             else
                 avoidTimer = FUN_00404010(avoidTimer, *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009e5ae0::AvoidSetting *>(&::g_011f2bc4)))))));
             AvoidArray* avoidNodes = new AvoidArray;
-            unsigned int count = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(nearbyActors))->GetName()));
+            unsigned int count = SimpleArraySize(&(nearbyActors));
             for (unsigned int j = 0; j < count; ++j)
                 actors.FUN_005ae3d0(nearbyActors.FUN_00877a30(j));
             float factor = (moveMode & 0x200) ? 1.75f : 1.5f;
@@ -8505,7 +8498,7 @@ int AvoidHandler::UpdateAvoidance(float deltaTime)
             float radius = ::GetFloatAtOffset68((const char *)(((AvoidRequest*)request)));
             while (list)
             {
-                current = *((::fnv_009e5ae0::AvoidActor **)(new ((void *)(list)) ::Vec3()));
+                current = *((::fnv_009e5ae0::AvoidActor **)(((::Vec3 *)(void *)(list))));
                 list = ((::fnv_009e5ae0::AvoidList *)(reinterpret_cast<::Callees *>((list))->FUN_00726070()));
                 float distanceFactor = 1.0f;
                 float distance = reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::fnv_009e5ae0::AvoidPoint &)((current->v125() - actor->v125())))->ComputeMagnitude();
@@ -8528,7 +8521,7 @@ int AvoidHandler::UpdateAvoidance(float deltaTime)
                 AvoidPoint velocity = rotation.FUN_004b4500(((const ::fnv_009e5ae0::AvoidPoint *)(reinterpret_cast<::FUN_008b3d50_This *>((current))->FUN_008b3d50())));
                 AvoidPoint delta = velocity.FUN_0053d280(reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::fnv_009e5ae0::AvoidTime *>(&::g_timeGlobal))))->GetStoredFloatValue());
                 if (reinterpret_cast<::TESCombatStyle *>((void *)&(delta))->UpdateCombatStyle() > current->FUN_008be1b0())
-                    reinterpret_cast<::FUN_00905450_StandIn *>((avoidNodes))->AppendNode((::PathingAvoidanceNode *)(&AvoidElement(current->v125() + delta, avoidRadius, 2.0f, mode)));
+                    reinterpret_cast<::FUN_00905450_StandIn *>((avoidNodes))->AppendNode((::PathingAvoidanceNode *)(&ResultSlot(AvoidElement(current->v125() + delta, avoidRadius, 2.0f, mode))));
                 AvoidPoint position = current->v125();
                 AvoidController* controller = ((::fnv_009e5ae0::AvoidController *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>((current))->FUN_009306d0()));
                 if (controller && !reinterpret_cast<::bhkCharacterListener *>(&(controller->flags))->FUN_00621270(0x8000000))
@@ -8540,9 +8533,9 @@ int AvoidHandler::UpdateAvoidance(float deltaTime)
                     position.x = offset.x;
                     position.y = offset.y;
                 }
-                reinterpret_cast<::FUN_00905450_StandIn *>((avoidNodes))->AppendNode((::PathingAvoidanceNode *)(&AvoidElement(position, avoidRadius, *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009e5ae0::AvoidSetting *>(&::g_011f2b5c)))))), mode)));
+                reinterpret_cast<::FUN_00905450_StandIn *>((avoidNodes))->AppendNode((::PathingAvoidanceNode *)(&ResultSlot(AvoidElement(position, avoidRadius, *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009e5ae0::AvoidSetting *>(&::g_011f2b5c)))))), mode))));
             }
-            reinterpret_cast<::FUN_006d3ac0_Class *>((((AvoidRequest*)request)))->AssignPathingLocation((*(const ::PathingLocation *)(&AvoidLocation(actor))));
+            reinterpret_cast<::FUN_006d3ac0_Class *>((((AvoidRequest*)request)))->AssignPathingLocation((*(const ::PathingLocation *)(&ResultSlot(AvoidLocation(actor)))));
             reinterpret_cast<::PathingRequest *>((((AvoidRequest*)request)))->SetAvoidNodeArray((::BSSimpleArray<void *, 1024> *)(avoidNodes));
             reinterpret_cast<::TESForm *>((mover))->ClearData();
             return 2;
@@ -9220,9 +9213,6 @@ struct Pt3
     float Dot(const Pt3& point) const;
 };
 
-namespace std {
-float __cdecl abs(float);
-}
 
 void __cdecl FUN_005330e0(float&, float, float);
 
@@ -10137,14 +10127,14 @@ class PackageProcW_1d50
 int PackageProcW_1d50::FUN_009e1d50(int iUnused)
 {
     bool bAtEnd;
-    unsigned int uiCell6;
+    uintptr_t uiCell6;
     ContNode_1d50* pvRef4;
     int iResultY2;
     float fHeading9;
     float fRateVal;
     PathingLocation_1d50* pkLocation8;
     float fSpeedB;
-    unsigned int uiWorld3;
+    uintptr_t uiWorld3;
     float fElapsed9;
 
     reinterpret_cast<::FUN_009e5480_shell *>(this)->ResetPathState();
@@ -10163,8 +10153,8 @@ int PackageProcW_1d50::FUN_009e1d50(int iUnused)
     pkLocation8 = pvRef4->FUN_00717e50();
     NiPoint3 kPos2 = reinterpret_cast<::TaskQueueInterface *>((void *)(pkLocation8))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr);
     fHeading9 = (::GetDirectionAngle)((const ::NiPoint3 *)&(*((::NiPoint3 *)(reinterpret_cast<::TESRegion *>((pvRef4))->GetDiffuseColor()))));
-    uiCell6 = (unsigned int)reinterpret_cast<::PathingLocation *>((void *)(pkLocation8))->GetContainingCell();
-    uiWorld3 = (unsigned int)((::TESWorldSpace *)(reinterpret_cast<::BGSTerrainManager *>((void *)(pkLocation8))->GetMinLevel()));
+    uiCell6 = (uintptr_t)reinterpret_cast<::PathingLocation *>((void *)(pkLocation8))->GetContainingCell();
+    uiWorld3 = reinterpret_cast<uintptr_t>(reinterpret_cast<PathingLocationFields*>(pkLocation8)->m_pContainingWorldspace);
     fRateVal = ::DAT_01012640 / reinterpret_cast<::Calendar *>(&(g_calendar))->GetGameTimeScale();
     fSpeedB = reinterpret_cast<::fnv_008a0b10::FUN_008a0b10_shell *>((m_pkActor))->FUN_008a0b10() * fRateVal;
     bAtEnd = (m_pkMover->m_usPathCount + 1) == ::FUN_005a4320((char *)(((PathingSolution_1d50*)pCurrentPathingSolution)));
@@ -10202,7 +10192,7 @@ int PackageProcW_1d50::FUN_009e1d50(int iUnused)
             }
         }
     }
-    reinterpret_cast<::fnv_008ad1c0::MoveSelf454 *>((m_pkActor))->FUN_008ad1c0((int)&(kPos2), fHeading9, (TESObjectCELL*)uiCell6, (TESWorldSpace*)uiWorld3, 1, 0);
+    reinterpret_cast<::fnv_008ad1c0::MoveSelf454 *>((m_pkActor))->FUN_008ad1c0((intptr_t)&(kPos2), fHeading9, (TESObjectCELL*)uiCell6, (TESWorldSpace*)uiWorld3, 1, 0);
     iResultY2 = 5;
     reinterpret_cast<::FUN_009e8790_shell *>(this)->ResetMoveState();
     m_iFadeIndex = 5;
@@ -10529,4 +10519,645 @@ bool EndRotateHandler::FUN_009e7550()
     return false;
 }
 
+
+extern char DAT_01048858[], DAT_010c6078[], DAT_01029400[], DAT_010925bc[], DAT_010c606c[],
+    DAT_010c6064[], DAT_010c605c[];
+struct S
+{
+    const char* FUN_00c8d4a0();
+};
+// @fnv 0x00c8d4a0
+const char* S::FUN_00c8d4a0()
+{
+    const char* r = 0;
+    switch (*((signed char*)this + 0xd7))
+    {
+    case -1:
+        r = DAT_01048858;
+        break;
+    case 0:
+        r = (*reinterpret_cast<char (*)[]>(&::str_010c6084));
+        break;
+    case 1:
+        r = DAT_010c6078;
+        break;
+    case 2:
+        r = DAT_01029400;
+        break;
+    case 4:
+        r = DAT_010925bc;
+        break;
+    case 5:
+        r = DAT_010c606c;
+        break;
+    case 6:
+        r = DAT_010c6064;
+        break;
+    case 7:
+        r = DAT_010c605c;
+        break;
+    }
+    return r;
+}
+
+namespace fnv_009e71b0 {
+
+struct Point75
+{
+    float x, y, z;
+    Point75();
+    Point75 operator*(float) const;
+    float Length() const;
+};
+struct Position75
+{
+    Point75 operator+(const Point75&) const;
+};
+struct Matrix75
+{
+    float xx, xy, xz, yx, yy, yz, zx, zy, zz;
+    Matrix75();
+    Point75 Transform(const Point75*);
+};
+struct __declspec(align(16)) AlignedPoint75
+{
+    __m128 value;
+    AlignedPoint75(const void*);
+};
+struct Area75
+{
+    Point75 position;
+    float radius, height;
+    int kind;
+    int unk18, unk1c, unk20;
+    Area75(const Point75&, float, float, int);
+};
+struct AvoidArray75
+{
+    int unk00, unk04, unk08, unk0c, unk10, unk14;
+    AvoidArray75();
+    void Add(const Area75&);
+};
+struct Request75
+{
+};
+struct Flags75
+{
+};
+struct Controller75
+{
+    int unk000;
+    int unk004;
+    int unk008;
+    int unk00c;
+    int unk010;
+    int unk014;
+    int unk018;
+    int unk01c;
+    int unk020;
+    int unk024;
+    int unk028;
+    int unk02c;
+    int unk030;
+    int unk034;
+    int unk038;
+    int unk03c;
+    int unk040;
+    int unk044;
+    int unk048;
+    int unk04c;
+    int unk050;
+    int unk054;
+    int unk058;
+    int unk05c;
+    int unk060;
+    int unk064;
+    int unk068;
+    int unk06c;
+    int unk070;
+    int unk074;
+    int unk078;
+    int unk07c;
+    int unk080;
+    int unk084;
+    int unk088;
+    int unk08c;
+    int unk090;
+    int unk094;
+    int unk098;
+    int unk09c;
+    int unk0a0;
+    int unk0a4;
+    int unk0a8;
+    int unk0ac;
+    int unk0b0;
+    int unk0b4;
+    int unk0b8;
+    int unk0bc;
+    int unk0c0;
+    int unk0c4;
+    int unk0c8;
+    int unk0cc;
+    int unk0d0;
+    int unk0d4;
+    int unk0d8;
+    int unk0dc;
+    int unk0e0;
+    int unk0e4;
+    int unk0e8;
+    int unk0ec;
+    int unk0f0;
+    int unk0f4;
+    int unk0f8;
+    int unk0fc;
+    int unk100;
+    int unk104;
+    int unk108;
+    int unk10c;
+    int unk110;
+    int unk114;
+    int unk118;
+    int unk11c;
+    int unk120;
+    int unk124;
+    int unk128;
+    int unk12c;
+    int unk130;
+    int unk134;
+    int unk138;
+    int unk13c;
+    int unk140;
+    int unk144;
+    int unk148;
+    int unk14c;
+    int unk150;
+    int unk154;
+    int unk158;
+    int unk15c;
+    int unk160;
+    int unk164;
+    int unk168;
+    int unk16c;
+    int unk170;
+    int unk174;
+    int unk178;
+    int unk17c;
+    int unk180;
+    int unk184;
+    int unk188;
+    int unk18c;
+    int unk190;
+    int unk194;
+    int unk198;
+    int unk19c;
+    int unk1a0;
+    int unk1a4;
+    int unk1a8;
+    int unk1ac;
+    int unk1b0;
+    int unk1b4;
+    int unk1b8;
+    int unk1bc;
+    int unk1c0;
+    int unk1c4;
+    int unk1c8;
+    int unk1cc;
+    int unk1d0;
+    int unk1d4;
+    int unk1d8;
+    int unk1dc;
+    int unk1e0;
+    int unk1e4;
+    int unk1e8;
+    int unk1ec;
+    int unk1f0;
+    int unk1f4;
+    int unk1f8;
+    int unk1fc;
+    int unk200;
+    int unk204;
+    int unk208;
+    int unk20c;
+    int unk210;
+    int unk214;
+    int unk218;
+    int unk21c;
+    int unk220;
+    int unk224;
+    int unk228;
+    int unk22c;
+    int unk230;
+    int unk234;
+    int unk238;
+    int unk23c;
+    int unk240;
+    int unk244;
+    int unk248;
+    int unk24c;
+    int unk250;
+    int unk254;
+    int unk258;
+    int unk25c;
+    int unk260;
+    int unk264;
+    int unk268;
+    int unk26c;
+    int unk270;
+    int unk274;
+    int unk278;
+    int unk27c;
+    int unk280;
+    int unk284;
+    int unk288;
+    int unk28c;
+    int unk290;
+    int unk294;
+    int unk298;
+    int unk29c;
+    int unk2a0;
+    int unk2a4;
+    int unk2a8;
+    int unk2ac;
+    int unk2b0;
+    int unk2b4;
+    int unk2b8;
+    int unk2bc;
+    int unk2c0;
+    int unk2c4;
+    int unk2c8;
+    int unk2cc;
+    int unk2d0;
+    int unk2d4;
+    int unk2d8;
+    int unk2dc;
+    int unk2e0;
+    int unk2e4;
+    int unk2e8;
+    int unk2ec;
+    int unk2f0;
+    int unk2f4;
+    int unk2f8;
+    int unk2fc;
+    int unk300;
+    int unk304;
+    int unk308;
+    int unk30c;
+    int unk310;
+    int unk314;
+    int unk318;
+    int unk31c;
+    int unk320;
+    int unk324;
+    int unk328;
+    int unk32c;
+    int unk330;
+    int unk334;
+    int unk338;
+    int unk33c;
+    int unk340;
+    int unk344;
+    int unk348;
+    int unk34c;
+    int unk350;
+    int unk354;
+    int unk358;
+    int unk35c;
+    int unk360;
+    int unk364;
+    int unk368;
+    int unk36c;
+    int unk370;
+    int unk374;
+    int unk378;
+    int unk37c;
+    int unk380;
+    int unk384;
+    int unk388;
+    int unk38c;
+    int unk390;
+    int unk394;
+    int unk398;
+    int unk39c;
+    int unk3a0;
+    int unk3a4;
+    int unk3a8;
+    int unk3ac;
+    int unk3b0;
+    int unk3b4;
+    int unk3b8;
+    int unk3bc;
+    int unk3c0;
+    int unk3c4;
+    int unk3c8;
+    int unk3cc;
+    int unk3d0;
+    int unk3d4;
+    int unk3d8;
+    int unk3dc;
+    int unk3e0;
+    int unk3e4;
+    int unk3e8;
+    int unk3ec;
+    int unk3f0;
+    int unk3f4;
+    int unk3f8;
+    int unk3fc;
+    int unk400;
+    int unk404;
+    int unk408;
+    int unk40c;
+    Flags75 flags;
+};
+struct Actor75
+{
+    virtual void slot000();
+    virtual void slot001();
+    virtual void slot002();
+    virtual void slot003();
+    virtual void slot004();
+    virtual void slot005();
+    virtual void slot006();
+    virtual void slot007();
+    virtual void slot008();
+    virtual void slot009();
+    virtual void slot010();
+    virtual void slot011();
+    virtual void slot012();
+    virtual void slot013();
+    virtual void slot014();
+    virtual void slot015();
+    virtual void slot016();
+    virtual void slot017();
+    virtual void slot018();
+    virtual void slot019();
+    virtual void slot020();
+    virtual void slot021();
+    virtual void slot022();
+    virtual void slot023();
+    virtual void slot024();
+    virtual void slot025();
+    virtual void slot026();
+    virtual void slot027();
+    virtual void slot028();
+    virtual void slot029();
+    virtual void slot030();
+    virtual void slot031();
+    virtual void slot032();
+    virtual void slot033();
+    virtual void slot034();
+    virtual void slot035();
+    virtual void slot036();
+    virtual void slot037();
+    virtual void slot038();
+    virtual void slot039();
+    virtual void slot040();
+    virtual void slot041();
+    virtual void slot042();
+    virtual void slot043();
+    virtual void slot044();
+    virtual void slot045();
+    virtual void slot046();
+    virtual void slot047();
+    virtual void slot048();
+    virtual void slot049();
+    virtual void slot050();
+    virtual void slot051();
+    virtual void slot052();
+    virtual void slot053();
+    virtual void slot054();
+    virtual void slot055();
+    virtual void slot056();
+    virtual void slot057();
+    virtual void slot058();
+    virtual void slot059();
+    virtual void slot060();
+    virtual void slot061();
+    virtual void slot062();
+    virtual void slot063();
+    virtual void slot064();
+    virtual void slot065();
+    virtual void slot066();
+    virtual void slot067();
+    virtual void slot068();
+    virtual void slot069();
+    virtual void slot070();
+    virtual void slot071();
+    virtual void slot072();
+    virtual void slot073();
+    virtual void slot074();
+    virtual void slot075();
+    virtual void slot076();
+    virtual void slot077();
+    virtual void slot078();
+    virtual void slot079();
+    virtual void slot080();
+    virtual void slot081();
+    virtual void slot082();
+    virtual void slot083();
+    virtual void slot084();
+    virtual void slot085();
+    virtual void slot086();
+    virtual void slot087();
+    virtual void slot088();
+    virtual void slot089();
+    virtual void slot090();
+    virtual void slot091();
+    virtual void slot092();
+    virtual void slot093();
+    virtual void slot094();
+    virtual void slot095();
+    virtual void slot096();
+    virtual void slot097();
+    virtual void slot098();
+    virtual void slot099();
+    virtual void slot100();
+    virtual void slot101();
+    virtual void slot102();
+    virtual void slot103();
+    virtual void slot104();
+    virtual void slot105();
+    virtual void slot106();
+    virtual void slot107();
+    virtual void slot108();
+    virtual void slot109();
+    virtual void slot110();
+    virtual void slot111();
+    virtual void slot112();
+    virtual void slot113();
+    virtual void slot114();
+    virtual void slot115();
+    virtual void slot116();
+    virtual void slot117();
+    virtual void slot118();
+    virtual void slot119();
+    virtual void slot120();
+    virtual void slot121();
+    virtual void slot122();
+    virtual void slot123();
+    virtual void slot124();
+    virtual const Point75& Position();
+    virtual void slot126();
+    virtual void slot127();
+    virtual void slot128();
+    virtual void slot129();
+    virtual void slot130();
+    virtual void slot131();
+    virtual void slot132();
+    virtual int Kind();
+    virtual void slot134();
+    virtual void slot135();
+    virtual void slot136();
+    virtual void slot137();
+    virtual void slot138();
+    virtual void slot139();
+    virtual void slot140();
+    virtual void slot141();
+    virtual void slot142();
+    virtual void slot143();
+    virtual void slot144();
+    virtual void slot145();
+    virtual void slot146();
+    virtual void slot147();
+    virtual void slot148();
+    virtual void slot149();
+    virtual void slot150();
+    virtual void slot151();
+    virtual void slot152();
+    virtual void slot153();
+    virtual void slot154();
+    virtual void slot155();
+    virtual void slot156();
+    virtual void slot157();
+    virtual void slot158();
+    virtual void slot159();
+    virtual void slot160();
+    virtual void slot161();
+    virtual void slot162();
+    virtual void slot163();
+    virtual void slot164();
+    virtual void slot165();
+    virtual void slot166();
+    virtual void slot167();
+    virtual void slot168();
+    virtual void slot169();
+    virtual void slot170();
+    virtual void slot171();
+    virtual void slot172();
+    virtual void slot173();
+    virtual void slot174();
+    virtual float Heading(int);
+    float Radius();
+};
+struct List75
+{
+    int unk00, unk04, unk08, unk0c;
+    List75();
+    ~List75();
+};
+struct Refine75
+{
+    int value;
+    void Refine(Actor75**);
+};
+struct Handler75
+{
+    int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20, unk24, unk28, unk2c, unk30, unk34, unk38, unk3c,
+        unk40, unk44, unk48, unk4c, unk50, unk54;
+    Refine75 filter;
+    int unk5c;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6c;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7c;
+    int unk80;
+    int unk84;
+    int unk88;
+    int unk8c;
+    int unk90;
+    int unk94;
+    int unk98;
+    int unk9c;
+    int unka0;
+    int unka4;
+    int unka8;
+    int unkac;
+    int unkb0;
+    int unkb4;
+    int unkb8;
+    int unkbc;
+    int unkc0;
+    int unkc4;
+    int unkc8;
+    int unkcc;
+    int state;
+};
+struct Time75
+{
+};
+
+// @fnv 0x009e71b0
+void __cdecl FUN_009e71b0(void* context, Request75* request, Handler75* handler)
+{
+    if (handler && handler->state == 3)
+        return;
+    float factor = ::DAT_01016088;
+    unsigned int scanCount = 0;
+    List75 actors;
+    ::fnv_009e5690::EvaluateAvoidance((::fnv_009e5690::Actor *)(context), (::fnv_009e5690::PathingRequest *)(request), 0x101, (const ::fnv_009e5690::NiPoint3_ext *)(const ::fnv_009e71b0::Point75 *)(&(*reinterpret_cast<const ::fnv_009e71b0::Point75 *>(&::DAT_011a9478))), handler, (::fnv_009e5690::ActorAvoidEntryList *)(::fnv_009e71b0::List75 *)(&actors));
+    if (!reinterpret_cast<::FUN_0076b610_Class *>(&(actors))->FUN_0076b610())
+    {
+        float radius = ::GetFloatAtOffset68((const char *)(request));
+        AvoidArray75* avoid = ((::fnv_009e71b0::AvoidArray75 *)(reinterpret_cast<::_Dummy_0069e390 *>((void *)(request))->GetString()));
+        if (!avoid)
+        {
+            avoid = new AvoidArray75;
+            reinterpret_cast<::PathingRequest *>((request))->SetAvoidNodeArray((::BSSimpleArray<void *, 1024> *)(avoid));
+        }
+        for (unsigned int i = 0; i < SimpleArraySize(&(actors)); ++i)
+        {
+            Actor75* actor = *((::fnv_009e71b0::Actor75 **)(reinterpret_cast<::S006950d0 *>(&(actors))->GetElement(i)));
+            if (handler)
+                handler->filter.Refine(&actor);
+            float weight;
+            int kind;
+            if (actor->Kind() == 4 || actor->Kind() == 9)
+            {
+                weight = (actor->Radius() * 0.5) * factor;
+                kind = 0;
+            }
+            else
+            {
+                weight = actor->Radius() * factor;
+                kind = 2;
+            }
+            Matrix75 rotation;
+            reinterpret_cast<::FUN_009e1640_shell *>(&(rotation))->SetRotationMatrix(actor->Heading(0));
+            Point75 velocity = rotation.Transform(((const ::fnv_009e71b0::Point75 *)(reinterpret_cast<::FUN_008b3d50_This *>((actor))->FUN_008b3d50())));
+            Point75 delta = *(const Point75 *)&ResultSlot(reinterpret_cast<::Point3_0053d280 *>((void *)&(const ::fnv_009e71b0::Point75 &)(velocity))->FUN_0053d280(reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::fnv_009e71b0::Time75 *>(&::g_timeGlobal))))->GetStoredFloatValue()));
+            if (reinterpret_cast<::TESCombatStyle *>((void *)&(delta))->UpdateCombatStyle() > actor->Radius())
+            {
+                reinterpret_cast<::FUN_00905450_StandIn *>((avoid))->AppendNode((::PathingAvoidanceNode *)&(const ::fnv_009e71b0::Area75 &)(Area75(reinterpret_cast<const Position75&>(actor->Position()) + delta, weight, 2.0f, kind)));
+            }
+            Point75 position = actor->Position();
+            Controller75* controller = ((::fnv_009e71b0::Controller75 *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>((actor))->FUN_009306d0()));
+            if (controller && !reinterpret_cast<::bhkCharacterListener *>(&(controller->flags))->FUN_00621270(0x08000000))
+            {
+                AlignedPoint75 p(reinterpret_cast<::NiObject *>((controller))->FUN_00621a40());
+                Point75 converted;
+                ::SetNiPoint3FromHkVector4((*(::NiPoint3 *)(&converted)), (*(const ::hkVector4 *)(&p)));
+                position.x = converted.x;
+                position.y = converted.y;
+            }
+            reinterpret_cast<::FUN_00905450_StandIn *>((avoid))->AppendNode((::PathingAvoidanceNode *)&(const ::fnv_009e71b0::Area75 &)(Area75(position, weight, 2.0f, kind)));
+            if (handler)
+                handler->state = 3;
+        }
+    }
+}
+}  // namespace fnv_009e71b0
 #include "generated/data/fallout/ai/movement/detailedactorpathhandler.inc"
+#include "generated/data/fallout/ai/movement/detailedactorpathhandler_o2_variant.inc"

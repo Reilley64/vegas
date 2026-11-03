@@ -1,5 +1,6 @@
 // fallout_shared/aiformulas.cpp: AIFormulas (22 functions)
 
+#include <cstdint>
 #include <new>
 #include <cmath>
 #include <cstdlib>
@@ -67,7 +68,7 @@ extern SettingT_GameSettingCollection_* DAT_0119b194[];
 extern SettingT_GameSettingCollection_* DAT_0119b1ac[];
 // Computes a base duration from settings scaled by energy level and proc index, then returns a random duration within a jittered min/max range.
 // @fnv 0x006435c0
-float FUN_006435c0(int aiEngergyLevel, int aiProcIndex)
+float FUN_006435c0(intptr_t aiEngergyLevel, int aiProcIndex)
 {
     float fenergyMult;
     float fdurationMax;
@@ -211,7 +212,7 @@ struct Setting_S
 };
 // Computes a value from two float settings scaled by a, subtracts it from another setting, and halves the result.
 // @fnv 0x006434f0
-float FUN_006434f0(int aiValue)
+float FUN_006434f0(intptr_t aiValue)
 {
     float fResult = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::g_011cd550)))))) + *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::g_011cd7f0)))))) * aiValue;
     fResult = (*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting155)))))) - fResult) / 2.0;

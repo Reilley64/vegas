@@ -1,5 +1,7 @@
 // fallout/audio/falloutradio.cpp: FalloutRadio, RadioConvTask, FalloutAudioMedia, Interface and more (61 functions)
 
+#include "fnv/dialogue_response_fields.h"
+#include "fnv/simple_list_node_view.h"
 #include <new>
 #include <cstdint>
 #include <cstring>
@@ -8,7 +10,6 @@
 #include "fnv/decl/BGSTerrainManager.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/Callees.h"
-#include "fnv/decl/DialogueItem.h"
 #include "fnv/decl/DownloadableContentManager.h"
 #include "fnv/decl/FUN_00458b30_class.h"
 #include "fnv/decl/FUN_004f15a0_shell.h"
@@ -220,9 +221,9 @@ FalloutRadio::RadioReceiver* __cdecl FUN_00832930(int param_1)
         bool found = false;
         while (node && !_ref_008256d0(node) && !found)
         {
-            if (param_1 == *(int*)*((::FalloutRadio::RadioReceiver **)(new ((void *)(node)) ::Vec3())))
+            if (param_1 == *(int*)*((::FalloutRadio::RadioReceiver **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))
             {
-                result = *((::FalloutRadio::RadioReceiver **)(new ((void *)(node)) ::Vec3()));
+                result = *((::FalloutRadio::RadioReceiver **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item));
                 found = true;
             }
             node = ((::BSSimpleList< ::FalloutRadio::RadioReceiver *> *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
@@ -384,6 +385,8 @@ class BSAudio
     BSSoundHandleEx GetSoundHandleByEditorID(const char* apEditorID, unsigned int auiFlags);
 public:
     float GetMusicVolume();
+public:
+    uintptr_t GetSynchTime();
 };
 
 class RadioStationRef : public TESObjectREFR
@@ -393,12 +396,6 @@ class RadioStationRef : public TESObjectREFR
 
 class TESObjectREFR;
 template <class> class BSSimpleList;
-class BGSTalkingActivator
-{
-  public:
-public:
-    static void FindRadioStations(::TESObjectREFR *, ::BSSimpleList< ::TESObjectREFR *> *, ::BSSimpleList<float> *);
-};
 
 class RadioSignal
 {
@@ -418,6 +415,12 @@ class SettingFloat
 
 void __cdecl FUN_00834260(FalloutRadio::RadioStationState* apStation);
 extern unsigned char DAT_011a179c;
+class BGSTalkingActivator;
+class BGSTalkingActivator : public TESForm
+{
+public:
+    static void FindRadioStations(::TESObjectREFR *, ::BSSimpleList< ::TESObjectREFR *> *, ::BSSimpleList<float> *);
+};
 
 // Updates radio station signal strength and static from player distances, queues a UI alert for newly found stations, and clears the temporary station lists.
 // @fnv 0x00833d00
@@ -441,12 +444,12 @@ void UpdateRadioSignals(bool abUpdateSignals)
     if (abUpdateSignals)
     {
         ::BGSTalkingActivator::FindRadioStations((TESObjectREFR*)::_g_thePlayer, (::BSSimpleList< ::TESObjectREFR *> *)(::BSSimpleList< ::RadioStationRef *> *)(&stationlist), &stationDistances);
-        for (BSSimpleList<RadioStationRef*>* pstationObj = &stationlist; pstationObj && ((::RadioStationRef *)(new ((void *)(pstationObj)) ::Vec3()));
+        for (BSSimpleList<RadioStationRef*>* pstationObj = &stationlist; pstationObj && (*((::RadioStationRef * *)(&reinterpret_cast<::SimpleListNodeView*>(pstationObj)->m_item)));
              pstationObj = ((::BSSimpleList< ::RadioStationRef *> *)(reinterpret_cast<::Callees *>((pstationObj))->FUN_00726070())))
         {
-            if (!reinterpret_cast<::TESForm *>((((::RadioStationRef *)(new ((void *)(pstationObj)) ::Vec3()))))->GetDisabled() || ::fnv_005aa680::FUN_005aa680((::Actor *)(((::RadioStationRef *)(new ((void *)(pstationObj)) ::Vec3())))))
+            if (!reinterpret_cast<::TESForm *>(((*((::RadioStationRef * *)(&reinterpret_cast<::SimpleListNodeView*>(pstationObj)->m_item)))))->GetDisabled() || ::fnv_005aa680::FUN_005aa680((::Actor *)((*((::RadioStationRef * *)(&reinterpret_cast<::SimpleListNodeView*>(pstationObj)->m_item))))))
             {
-                if (!reinterpret_cast<::RefList *>(&((*reinterpret_cast<::BSSimpleList<unsigned int> *>(&::g_011dd59c))))->FUN_005f65d0((void **)&((unsigned int&)((::RadioStationRef *)(new ((void *)(pstationObj)) ::Vec3())))))
+                if (!reinterpret_cast<::RefList *>(&((*reinterpret_cast<::BSSimpleList<unsigned int> *>(&::g_011dd59c))))->FUN_005f65d0((void **)&((unsigned int&)(*((::RadioStationRef * *)(&reinterpret_cast<::SimpleListNodeView*>(pstationObj)->m_item))))))
                 {
                     if (!DAT_011a179c)
                     {
@@ -454,12 +457,12 @@ void UpdateRadioSignals(bool abUpdateSignals)
                         BSSoundHandleEx alertSound =
                             ::FUN_00453a70()->GetSoundHandleByEditorID("UIRadioSignalFound", 0x100121);
                         reinterpret_cast<::FUN_00ad8830_shell *>(&(alertSound))->FUN_00ad8830(false);
-                        ::FUN_00406f60((::FUN_00406f90_this *)&(strtemp), ((const char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::SettingString *>(&::g_011d4348))))->IsDLCAvailable())), reinterpret_cast<::FUN_0055d520_shell *>((((::RadioStationRef *)(new ((void *)(pstationObj)) ::Vec3()))))->FUN_0055d520());
-                        ::DispatchMessageToSink((const char *)(strtemp), 0, (const char *)("Interface\\Icons\\Message Icons\\glow_message_radio_tower.dds"), (const char *)(0),
+                        ::FUN_00406f60((::FUN_00406f90_this *)&(strtemp), ((const char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::SettingString *>(&::g_011d4348))))->IsDLCAvailable())), reinterpret_cast<::FUN_0055d520_shell *>(((*((::RadioStationRef * *)(&reinterpret_cast<::SimpleListNodeView*>(pstationObj)->m_item)))))->FUN_0055d520());
+                        ::DispatchMessageToSink((const char *)(strtemp.m_data), 0, (const char *)("Interface\\Icons\\Message Icons\\glow_message_radio_tower.dds"), (const char *)(0),
                                        2.0f, false);
                     }
                     static_cast<BSSimpleListEx<unsigned int>&>((*reinterpret_cast<::BSSimpleList<unsigned int> *>(&::g_011dd59c)))
-                        .AddHead((unsigned int&)((::RadioStationRef *)(new ((void *)(pstationObj)) ::Vec3())));
+                        .AddHead((unsigned int&)(*((::RadioStationRef * *)(&reinterpret_cast<::SimpleListNodeView*>(pstationObj)->m_item))));
                 }
             }
         }
@@ -481,17 +484,17 @@ void UpdateRadioSignals(bool abUpdateSignals)
         pdistances = &stationDistances;
         bmatch = false;
         fdistance = 3.402823466e+38f;
-        FalloutRadio::RadioStationState* pstation = ((::FalloutRadio::RadioStationState *)(new ((void *)(pactStations)) ::Vec3()));
+        FalloutRadio::RadioStationState* pstation = (*((::FalloutRadio::RadioStationState * *)(&reinterpret_cast<::SimpleListNodeView*>(pactStations)->m_item)));
         if (pstation)
         {
             while (abUpdateSignals && stations && pdistances)
             {
-                if (((::RadioStationRef *)(new ((void *)(stations)) ::Vec3())) == pstation->form)
+                if ((*((::RadioStationRef * *)(&reinterpret_cast<::SimpleListNodeView*>(stations)->m_item))) == pstation->form)
                 {
                     bmatch = true;
                     isignalPower = 100;
                     ((RadioSignal*)((char*)pstation + 4))->FUN_00834210(false);
-                    fdistance = ((float)(new ((void *)(pdistances)) ::Vec3()));
+                    fdistance = (*((float *)(&reinterpret_cast<::SimpleListNodeView*>(pdistances)->m_item)));
                     fradioRadius = reinterpret_cast<::fnv_0056b190::FUN_0056b190_shell *>((((RadioStationRef*)pstation->form)))->FUN_0056b190();
                     if (reinterpret_cast<::fnv_0056b1d0::XActor *>((((RadioStationRef*)pstation->form)))->FUN_0056b1d0() != 0.0)
                         fstaticDistance =
@@ -519,14 +522,14 @@ void UpdateRadioSignals(bool abUpdateSignals)
                 ((RadioSignal*)((char*)pstation + 4))->FUN_00834210(true);
                 reinterpret_cast<::FUN_00458b30_class *>((((RadioSignal*)((char*)pstation + 4))))->SetByteAtOffset17(0);
             }
-            if (bmatch && DAT_011dd430 == (unsigned int)pstation)
+            if (bmatch && DAT_011dd430 == (std::uintptr_t)pstation)
             {
                 BSStringT<char> strtemp;
                 BSSoundHandleEx alertSound =
                     ::FUN_00453a70()->GetSoundHandleByEditorID("UIRadioSignalFound", 0x100121);
                 reinterpret_cast<::FUN_00ad8830_shell *>(&(alertSound))->FUN_00ad8830(false);
                 ::FUN_00406f60((::FUN_00406f90_this *)&(strtemp), ((const char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::SettingString *>(&::g_011d4348))))->IsDLCAvailable())), reinterpret_cast<::FUN_0055d520_shell *>((((RadioStationRef*)pstation->form)))->FUN_0055d520());
-                ::DispatchMessageToSink((const char *)(strtemp), 0, (const char *)("Interface\\Icons\\Message Icons\\glow_message_radio_tower.dds"), (const char *)(0), 2.0f,
+                ::DispatchMessageToSink((const char *)(strtemp.m_data), 0, (const char *)("Interface\\Icons\\Message Icons\\glow_message_radio_tower.dds"), (const char *)(0), 2.0f,
                                false);
                 FalloutRadio::SetRadioEnabled(true);
                 ::fnv_00832240::FUN_00832240((::fnv_00832240::RefView *)(pstation->form), false);
@@ -817,15 +820,15 @@ void FalloutRadio::RefreshRadioReceivers(bool force)
     locals.receiver = 0;
     while (locals.node && !locals.node->IsEmpty())
     {
-        if (!((::FalloutRadio::RadioReceiver *)(new ((void *)(locals.node)) ::Vec3()))->active || force)
+        if (!(*((::FalloutRadio::RadioReceiver * *)(&reinterpret_cast<::SimpleListNodeView*>(locals.node)->m_item)))->active || force)
         {
-            locals.receiver = ((::FalloutRadio::RadioReceiver *)(new ((void *)(locals.node)) ::Vec3()));
-            reinterpret_cast<::ItemChangeListNode *>(&((*reinterpret_cast<::BSSimpleList< ::FalloutRadio::RadioReceiver *> *>(&::g_011dd58c))))->FUN_00905330((::InventoryStackRecord *const &)(((::FalloutRadio::RadioReceiver *)(new ((void *)(locals.node)) ::Vec3()))));
+            locals.receiver = (*((::FalloutRadio::RadioReceiver * *)(&reinterpret_cast<::SimpleListNodeView*>(locals.node)->m_item)));
+            reinterpret_cast<::ItemChangeListNode *>(&((*reinterpret_cast<::BSSimpleList< ::FalloutRadio::RadioReceiver *> *>(&::g_011dd58c))))->FUN_00905330((::InventoryStackRecord *const &)((*((::FalloutRadio::RadioReceiver * *)(&reinterpret_cast<::SimpleListNodeView*>(locals.node)->m_item)))));
             locals.node = &(*reinterpret_cast<::BSSimpleList< ::FalloutRadio::RadioReceiver *> *>(&::g_011dd58c));
             locals.stationNode = &(*reinterpret_cast<::BSSimpleList< ::FalloutRadio::RadioStationState *> *>(&::g_011dd554));
             while (locals.stationNode && !locals.stationNode->IsEmpty())
             {
-                locals.station = ((::FalloutRadio::RadioStationState *)(new ((void *)(locals.stationNode)) ::Vec3()));
+                locals.station = (*((::FalloutRadio::RadioStationState * *)(&reinterpret_cast<::SimpleListNodeView*>(locals.stationNode)->m_item)));
                 if (locals.station)
                 {
                     while (reinterpret_cast<::RefList *>(&(locals.station->receivers))->FUN_005f65d0((void **)&(locals.receiver)))
@@ -972,7 +975,7 @@ void FalloutRadio::InitLoadGame(BGSLoadGameBuffer* buffer)
         RadioReceiver* receiverCopy;
         RadioStationState* stationDeletion;
         RadioStationState* stationCopy;
-        unsigned int id;
+        uintptr_t id;
         unsigned char padID1, padID2, padID3;
         bool removeID;
         BSSimpleList<unsigned int>* idNode;
@@ -994,7 +997,7 @@ void FalloutRadio::InitLoadGame(BGSLoadGameBuffer* buffer)
     locals.firstNode = &(*reinterpret_cast<::BSSimpleList< ::FalloutRadio::RadioReceiver *> *>(&::g_011dd58c));
     while (locals.firstNode)
     {
-        locals.firstReceiver = ((::FalloutRadio::RadioReceiver *)(new ((void *)(locals.firstNode)) ::Vec3()));
+        locals.firstReceiver = (*((::FalloutRadio::RadioReceiver * *)(&reinterpret_cast<::SimpleListNodeView*>(locals.firstNode)->m_item)));
         if (locals.firstReceiver)
             reinterpret_cast<::s835fe0::RefHandle *>((reinterpret_cast<TeleportableReference*>(locals.firstReceiver)))->ResolveRef(buffer);
         locals.firstNode = ((::BSSimpleList< ::FalloutRadio::RadioReceiver *> *)(reinterpret_cast<::Callees *>((locals.firstNode))->FUN_00726070()));
@@ -1003,7 +1006,7 @@ void FalloutRadio::InitLoadGame(BGSLoadGameBuffer* buffer)
     locals.stationPrevious = 0;
     while (locals.stationNode && !locals.stationNode->IsEmpty())
     {
-        locals.station = ((::FalloutRadio::RadioStationState *)(new ((void *)(locals.stationNode)) ::Vec3()));
+        locals.station = (*((::FalloutRadio::RadioStationState * *)(&reinterpret_cast<::SimpleListNodeView*>(locals.stationNode)->m_item)));
         locals.removeStation = false;
         if (locals.station)
         {
@@ -1026,7 +1029,7 @@ void FalloutRadio::InitLoadGame(BGSLoadGameBuffer* buffer)
         {
             if (locals.stationPrevious)
             {
-                reinterpret_cast<::ItemChangeListNode *>((locals.stationPrevious))->FUN_00905330((::InventoryStackRecord *const &)(((::FalloutRadio::RadioStationState *)(new ((void *)(locals.stationNode)) ::Vec3()))));
+                reinterpret_cast<::ItemChangeListNode *>((locals.stationPrevious))->FUN_00905330((::InventoryStackRecord *const &)((*((::FalloutRadio::RadioStationState * *)(&reinterpret_cast<::SimpleListNodeView*>(locals.stationNode)->m_item)))));
                 locals.stationNode = ((::BSSimpleList< ::FalloutRadio::RadioStationState *> *)(reinterpret_cast<::Callees *>((locals.stationPrevious))->FUN_00726070()));
             }
             else
@@ -1042,7 +1045,7 @@ void FalloutRadio::InitLoadGame(BGSLoadGameBuffer* buffer)
     locals.receiverPrevious = 0;
     while (locals.receiverNode && !locals.receiverNode->IsEmpty())
     {
-        locals.receiver = ((::FalloutRadio::RadioReceiver *)(new ((void *)(locals.receiverNode)) ::Vec3()));
+        locals.receiver = (*((::FalloutRadio::RadioReceiver * *)(&reinterpret_cast<::SimpleListNodeView*>(locals.receiverNode)->m_item)));
         locals.removeReceiver = false;
         if (locals.receiver)
         {
@@ -1064,7 +1067,7 @@ void FalloutRadio::InitLoadGame(BGSLoadGameBuffer* buffer)
         {
             if (locals.receiverPrevious)
             {
-                reinterpret_cast<::ItemChangeListNode *>((locals.receiverPrevious))->FUN_00905330((::InventoryStackRecord *const &)(((::FalloutRadio::RadioReceiver *)(new ((void *)(locals.receiverNode)) ::Vec3()))));
+                reinterpret_cast<::ItemChangeListNode *>((locals.receiverPrevious))->FUN_00905330((::InventoryStackRecord *const &)((*((::FalloutRadio::RadioReceiver * *)(&reinterpret_cast<::SimpleListNodeView*>(locals.receiverNode)->m_item)))));
                 locals.receiverNode = ((::BSSimpleList< ::FalloutRadio::RadioReceiver *> *)(reinterpret_cast<::Callees *>((locals.receiverPrevious))->FUN_00726070()));
             }
             else
@@ -1078,17 +1081,17 @@ void FalloutRadio::InitLoadGame(BGSLoadGameBuffer* buffer)
     }
     if (::DAT_011dd42c)
         ::DAT_011dd42c =
-            reinterpret_cast<unsigned int>(GetRadioConversation(reinterpret_cast<BGSTalkingActivator*>(::DAT_011dd42c)));
+            reinterpret_cast<std::uintptr_t>(GetRadioConversation(reinterpret_cast<BGSTalkingActivator*>(::DAT_011dd42c)));
     if (DAT_011dd430)
         DAT_011dd430 =
-            reinterpret_cast<unsigned int>(GetRadioConversation(reinterpret_cast<BGSTalkingActivator*>(DAT_011dd430)));
+            reinterpret_cast<std::uintptr_t>(GetRadioConversation(reinterpret_cast<BGSTalkingActivator*>(DAT_011dd430)));
     if (buffer->vfn_0() >= 10)
     {
         locals.idNode = &(*reinterpret_cast<::BSSimpleList<unsigned int> *>(&::g_011dd59c));
         locals.idPrevious = 0;
         while (locals.idNode && !locals.idNode->IsEmpty())
         {
-            locals.id = ((unsigned int)(new ((void *)(locals.idNode)) ::Vec3()));
+            locals.id = (*((unsigned int *)(&reinterpret_cast<::SimpleListNodeView*>(locals.idNode)->m_item)));
             locals.removeID = false;
             if (locals.id)
             {
@@ -1096,7 +1099,7 @@ void FalloutRadio::InitLoadGame(BGSLoadGameBuffer* buffer)
                     pRefr = dynamic_cast<TESObjectREFR*>(::FUN_004839c0(locals.id));
                 else
                     pRefr = 0;
-                locals.id = reinterpret_cast<unsigned int>(pRefr);
+                locals.id = reinterpret_cast<uintptr_t>(pRefr);
                 if (locals.id)
                     locals.idNode->SetItem(locals.id);
                 else
@@ -1108,7 +1111,7 @@ void FalloutRadio::InitLoadGame(BGSLoadGameBuffer* buffer)
             {
                 if (locals.idPrevious)
                 {
-                    reinterpret_cast<::ItemChangeListNode *>((locals.idPrevious))->FUN_00905330((::InventoryStackRecord *const &)(((unsigned int)(new ((void *)(locals.idNode)) ::Vec3()))));
+                    reinterpret_cast<::ItemChangeListNode *>((locals.idPrevious))->FUN_00905330((::InventoryStackRecord *const &)((*((unsigned int *)(&reinterpret_cast<::SimpleListNodeView*>(locals.idNode)->m_item)))));
                     locals.idNode = ((::BSSimpleList<unsigned int> *)(reinterpret_cast<::Callees *>((locals.idPrevious))->FUN_00726070()));
                 }
                 else
@@ -1125,7 +1128,7 @@ void FalloutRadio::InitLoadGame(BGSLoadGameBuffer* buffer)
 // @fnv 0x00836660
 void StateStandIn::FUN_00836660(void* apLoadGameBuffer)
 {
-    f0 = f0 ? dynamic_cast<TESObjectREFR*>(::FUN_004839c0((unsigned int)f0)) : 0;
+    f0 = f0 ? dynamic_cast<TESObjectREFR*>(::FUN_004839c0((unsigned int)(std::uintptr_t)f0)) : 0;
     reinterpret_cast<::FUN_008363a0_shell *>(&(f4))->FUN_008363a0((::BGSLoadFormBuffer *)(apLoadGameBuffer));
 }
 
@@ -1162,7 +1165,7 @@ bool FUN_0083b9f0_shell::FUN_0083b9f0()
 {
     if (_f8)
         _f8 = ((::FUN_0083b9f0_node *)(reinterpret_cast<::Callees *>((_f8))->FUN_00726070()));
-    return _f8 && *((int *)(new ((void *)(_f8)) ::Vec3()));
+    return _f8 && *((int *)(&reinterpret_cast<::SimpleListNodeView*>(_f8)->m_item));
 }
 
 namespace fnv_0083c470 {
@@ -1177,8 +1180,8 @@ void FUN_0083c470_holder::FUN_0083c470()
     void* pNode = this;
     while (pNode && !_ref_008256d0(pNode))
     {
-        if (pNode && *((void **)(new ((void *)(pNode)) ::Vec3())))
-            reinterpret_cast<::fnv_0083d130::S_0083d130_Class *>((*((void **)(new ((void *)(pNode)) ::Vec3()))))->ProcessNodeChain();
+        if (pNode && *((void **)(&reinterpret_cast<::SimpleListNodeView*>(pNode)->m_item)))
+            reinterpret_cast<::fnv_0083d130::S_0083d130_Class *>((*((void **)(&reinterpret_cast<::SimpleListNodeView*>(pNode)->m_item))))->ProcessNodeChain();
         pNode = reinterpret_cast<::Callees *>((pNode))->FUN_00726070();
     }
 }
@@ -1520,13 +1523,13 @@ FalloutRadio::RadioReceiver* __cdecl FUN_00832830(unsigned int aiFormID)
 
     while (pNode != 0 && !pNode->IsEmpty())
     {
-        if (aiFormID == ((unsigned int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((::FalloutRadio::RadioReceiver *)(new ((void *)(pNode)) ::Vec3()))->form))->FUN_007af430())))
+        if (aiFormID == ((uintptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(((*((::FalloutRadio::RadioReceiver * *)(&reinterpret_cast<::SimpleListNodeView*>(pNode)->m_item)))->form))->FUN_007af430())))
         {
-            if (pFound2 == 0 || (reinterpret_cast<::TESForm *>((pFound2->form))->GetDisabled() && !reinterpret_cast<::TESForm *>((((::FalloutRadio::RadioReceiver *)(new ((void *)(pNode)) ::Vec3()))->form))->GetDisabled()) ||
-                (iFoundState == 0 && ((unsigned int)(reinterpret_cast<::fnv_0056b210::FUN_0056b210_shell *>((((::FalloutRadio::RadioReceiver *)(new ((void *)(pNode)) ::Vec3()))->form))->FUN_0056b210()))) ||
-                (iFoundState != 1 && ((unsigned int)(reinterpret_cast<::fnv_0056b210::FUN_0056b210_shell *>((((::FalloutRadio::RadioReceiver *)(new ((void *)(pNode)) ::Vec3()))->form))->FUN_0056b210())) == 1))
+            if (pFound2 == 0 || (reinterpret_cast<::TESForm *>((pFound2->form))->GetDisabled() && !reinterpret_cast<::TESForm *>(((*((::FalloutRadio::RadioReceiver * *)(&reinterpret_cast<::SimpleListNodeView*>(pNode)->m_item)))->form))->GetDisabled()) ||
+                (iFoundState == 0 && ((unsigned int)(reinterpret_cast<::fnv_0056b210::FUN_0056b210_shell *>(((*((::FalloutRadio::RadioReceiver * *)(&reinterpret_cast<::SimpleListNodeView*>(pNode)->m_item)))->form))->FUN_0056b210()))) ||
+                (iFoundState != 1 && ((unsigned int)(reinterpret_cast<::fnv_0056b210::FUN_0056b210_shell *>(((*((::FalloutRadio::RadioReceiver * *)(&reinterpret_cast<::SimpleListNodeView*>(pNode)->m_item)))->form))->FUN_0056b210())) == 1))
             {
-                pFound2 = ((::FalloutRadio::RadioReceiver *)(new ((void *)(pNode)) ::Vec3()));
+                pFound2 = (*((::FalloutRadio::RadioReceiver * *)(&reinterpret_cast<::SimpleListNodeView*>(pNode)->m_item)));
                 iFoundState = ((unsigned int)(reinterpret_cast<::fnv_0056b210::FUN_0056b210_shell *>((pFound2->form))->FUN_0056b210()));
             }
         }
@@ -1680,8 +1683,8 @@ bool FUN_00832240(RefView* form, bool flag)
         BSSimpleListEx<RadioStationRef*> item;
         ::BGSTalkingActivator::FindRadioStations((TESObjectREFR*)::_g_thePlayer, (::BSSimpleList< ::TESObjectREFR *> *)(::BSSimpleList< ::RadioStationRef *> *)(&item), 0);
         BSSimpleList<RadioStationRef*>* list = &item;
-        if (list && ((::RadioStationRef *)(new ((void *)(list)) ::Vec3())) && ((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((RefView*)((::RadioStationRef *)(new ((void *)(list)) ::Vec3())))))->FUN_007af430())))
-            form = (RefView*)((::RadioStationRef *)(new ((void *)(list)) ::Vec3()));
+        if (list && (*((::RadioStationRef * *)(&reinterpret_cast<::SimpleListNodeView*>(list)->m_item))) && ((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((RefView*)(*((::RadioStationRef * *)(&reinterpret_cast<::SimpleListNodeView*>(list)->m_item))))))->FUN_007af430())))
+            form = (RefView*)(*((::RadioStationRef * *)(&reinterpret_cast<::SimpleListNodeView*>(list)->m_item)));
     }
     else if (flag)
     {
@@ -1711,6 +1714,23 @@ bool FUN_00832240(RefView* form, bool flag)
     return true;
 }
 }  // namespace fnv_00832240
+class DialogueResponse;
+class TESTopicInfo;
+class TESQuest;
+class DialogueItem
+{
+  public:
+    BSSimpleList<DialogueResponse*> responses;
+    BSSimpleList<DialogueResponse*>* current;
+    TESTopicInfo* info;
+    TESTopic* topic;
+    TESQuest* quest;
+    TESObjectREFR* speaker;
+public:
+    bool SelectDefaultResponseList();
+public:
+    ::DialogueResponse *GetActiveResponse();
+};
 
 namespace RadioUpdate {
 extern const char DAT_0107ce80[], DAT_0107ce44[], DAT_0107ce34[], DAT_0107ce2c[], DAT_0107ce20[];
@@ -1968,10 +1988,10 @@ void UpdateRadio(bool force)
             if ((*reinterpret_cast<::RadioUpdate::Station * *>(&::DAT_011dd42c)))
                 reinterpret_cast<::FUN_00833c40_shell *>(&((*reinterpret_cast<::RadioUpdate::Station * *>(&::DAT_011dd42c))->state))->FUN_00833c40(false);
         }
-        if (((::RadioUpdate::Entry *)(reinterpret_cast<::DialogueItem *>((track))->GetActiveResponse())) && ((const char *)(::FUN_00559450((int *)(((::RadioUpdate::String *)(new ((void *)(((::RadioUpdate::Entry *)(reinterpret_cast<::DialogueItem *>((track))->GetActiveResponse())))) ::Vec3())))))))
+        if (((::RadioUpdate::Entry *)(reinterpret_cast<::DialogueItem *>((track))->GetActiveResponse())) && ((const char *)(::FUN_00559450((int *)(((::RadioUpdate::String *)(static_cast<void *>(((::RadioUpdate::Entry *)(reinterpret_cast<::DialogueItem *>((track))->GetActiveResponse()))))))))))
         {
-            kindB = ::FUN_0044a670(((const char *)(::FUN_00559450((int *)(((::RadioUpdate::String *)(new ((void *)(((::RadioUpdate::Entry *)(reinterpret_cast<::DialogueItem *>((track))->GetActiveResponse())))) ::Vec3())))))));
-            hasSound3 = kindB > 2 && reinterpret_cast<::FUN_00700270_class *>((((::RadioUpdate::Info *)(::FUN_00460140((int)(((::RadioUpdate::Entry *)(reinterpret_cast<::DialogueItem *>((track))->GetActiveResponse()))))))))->operator==(0);
+            kindB = ::FUN_0044a670(((const char *)(::FUN_00559450((int *)(((::RadioUpdate::String *)(static_cast<void *>(((::RadioUpdate::Entry *)(reinterpret_cast<::DialogueItem *>((track))->GetActiveResponse()))))))))));
+            hasSound3 = kindB > 2 && reinterpret_cast<::FUN_00700270_class *>((((::RadioUpdate::Info *)(::FUN_00460140((std::intptr_t)(((::RadioUpdate::Entry *)(reinterpret_cast<::DialogueItem *>((track))->GetActiveResponse()))))))))->operator==(0);
             if (!hasSound3 && ((::RadioUpdate::SoundForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((::RadioUpdate::Entry *)(reinterpret_cast<::DialogueItem *>((track))->GetActiveResponse()))))->FUN_007af430())) &&
                 ((int)(std::uintptr_t)(std::strstr((char *)(::FUN_00511840((char *)(((::RadioUpdate::SoundForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((::RadioUpdate::Entry *)(reinterpret_cast<::DialogueItem *>((track))->GetActiveResponse()))))->FUN_007af430()))))), DAT_0107ce2c))))
                 hasSound3 = true;
@@ -1986,7 +2006,7 @@ void UpdateRadio(bool force)
                 reinterpret_cast<::SoundPlaybackHandle *>((void *)&(const ::RadioUpdate::Sound &)((*reinterpret_cast<::RadioUpdate::Sound *>(&::g_011dd5bc))))->operator=((const ::SoundPlaybackHandle &)((const ::RadioUpdate::Sound &)(((::RadioUpdate::Manager *)(::FUN_00453a70()))->FUN_00ad7480(::FUN_00511840((char *)(((::RadioUpdate::SoundForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((::RadioUpdate::Entry *)(reinterpret_cast<::DialogueItem *>((track))->GetActiveResponse()))))->FUN_007af430())))),
                                                             0x100101, ((::RadioUpdate::SoundForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((::RadioUpdate::Entry *)(reinterpret_cast<::DialogueItem *>((track))->GetActiveResponse()))))->FUN_007af430()))))));
             else
-                reinterpret_cast<::SoundPlaybackHandle *>((void *)&(const ::RadioUpdate::Sound &)((*reinterpret_cast<::RadioUpdate::Sound *>(&::g_011dd5bc))))->operator=((const ::SoundPlaybackHandle &)((const ::RadioUpdate::Sound &)(((::RadioUpdate::Manager *)(::FUN_00453a70()))->FUN_00ad7480(((const char *)(::FUN_00559450((int *)(((::RadioUpdate::Info *)(::FUN_00460140((int)(((::RadioUpdate::Entry *)(reinterpret_cast<::DialogueItem *>((track))->GetActiveResponse())))))))))), 0x100101, 0))));
+                reinterpret_cast<::SoundPlaybackHandle *>((void *)&(const ::RadioUpdate::Sound &)((*reinterpret_cast<::RadioUpdate::Sound *>(&::g_011dd5bc))))->operator=((const ::SoundPlaybackHandle &)((const ::RadioUpdate::Sound &)(((::RadioUpdate::Manager *)(::FUN_00453a70()))->FUN_00ad7480(((const char *)(::FUN_00559450((int *)(((::RadioUpdate::Info *)(::FUN_00460140((std::intptr_t)(((::RadioUpdate::Entry *)(reinterpret_cast<::DialogueItem *>((track))->GetActiveResponse())))))))))), 0x100101, 0))));
             reinterpret_cast<::SoundPlaybackHandle *>(&((*reinterpret_cast<::RadioUpdate::Sound *>(&::g_011dd5bc))))->SetCompletionCallback((void (*)(void *, bool))(((void (&)(RadioUpdate::Station *))::FUN_008357e0)), (*reinterpret_cast<::RadioUpdate::Station * *>(&::DAT_011dd42c)));
             reinterpret_cast<::fnv_00ad8fd0::FUN_00ad8fd0_h *>(&((*reinterpret_cast<::RadioUpdate::Sound *>(&::g_011dd5bc))))->FUN_00ad8fd0((*reinterpret_cast<::RadioUpdate::Station * *>(&::DAT_011dd42c))->state.elapsed);
             if (((bool)(::FUN_00833cf0())))
@@ -1996,7 +2016,7 @@ void UpdateRadio(bool force)
             volumeSet = true;
             reinterpret_cast<::FUN_00ad8830_shell *>(&((*reinterpret_cast<::RadioUpdate::Sound *>(&::g_011dd5bc))))->FUN_00ad8830(0);
             if (!reinterpret_cast<::SoundPlaybackHandle *>(&((*reinterpret_cast<::RadioUpdate::Sound *>(&::g_011dd5bc))))->IsValid())
-                FUN_00705210(((const char *)(::FUN_00559450((int *)(((::RadioUpdate::String *)(new ((void *)(((::RadioUpdate::Entry *)(reinterpret_cast<::DialogueItem *>((track))->GetActiveResponse())))) ::Vec3())))))), (*reinterpret_cast<::RadioUpdate::Sound *>(&::g_011dd5bc)),
+                FUN_00705210(((const char *)(::FUN_00559450((int *)(((::RadioUpdate::String *)(static_cast<void *>(((::RadioUpdate::Entry *)(reinterpret_cast<::DialogueItem *>((track))->GetActiveResponse()))))))))), (*reinterpret_cast<::RadioUpdate::Sound *>(&::g_011dd5bc)),
                              (*reinterpret_cast<::RadioUpdate::Player * *>(&::_g_thePlayer))->Position(), (*reinterpret_cast<::RadioUpdate::Player * *>(&::_g_thePlayer)), false);
         }
         if (hasVoice_ && !((bool)(::FUN_00833ce0())))
@@ -2046,7 +2066,7 @@ struct S_008356e0_Ref;
 
 // Builds a list via FUN_004ff1a0 from b or DAT_011dea3c, walks it, and returns the first item whose FUN_007af430 equals a.
 // @fnv 0x008356e0
-S_008356e0_Item* __cdecl FUN_008356e0(int a, S_008356e0_Ref* apRef)
+S_008356e0_Item* __cdecl FUN_008356e0(void* a, S_008356e0_Ref* apRef)
 {
     S_008356e0_Item* result = 0;
     BSSimpleListEx<S_008356e0_Item*> _list;
@@ -2060,11 +2080,11 @@ S_008356e0_Item* __cdecl FUN_008356e0(int a, S_008356e0_Ref* apRef)
     }
     S_008356e0_Node* node = (S_008356e0_Node*)&_list;
     bool foundTmp = false;
-    while (!foundTmp && node && *((::S_008356e0_Item **)(new ((void *)(node)) ::Vec3())) && ((int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(((*((::S_008356e0_Item **)(new ((void *)(node)) ::Vec3())))))->FUN_007af430())))
+    while (!foundTmp && node && *((::S_008356e0_Item **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)) && ((reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(((*((::S_008356e0_Item **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))))->FUN_007af430())))
     {
-        if (a == ((int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(((*((::S_008356e0_Item **)(new ((void *)(node)) ::Vec3())))))->FUN_007af430())))
+        if (a == static_cast<void *>(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(((*((::S_008356e0_Item **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))))->FUN_007af430()))
         {
-            result = *((::S_008356e0_Item **)(new ((void *)(node)) ::Vec3()));
+            result = *((::S_008356e0_Item **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item));
             foundTmp = true;
         }
         node = ((::S_008356e0_Node *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
@@ -2179,7 +2199,7 @@ void FUN_008359e0(RadioSource* source, bool enabled)
     if (DAT_011dd436)
         return;
     RadioStation* station = FUN_00832830(((::fnv_008359e0::RadioRef *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((source))->FUN_007af430())));
-    reinterpret_cast<::GlobalObject_0044fae0 *>(&((*reinterpret_cast<::fnv_008359e0::GlobalObject_0044fae0 *>(&::g_011dd5e8))))->FUN_004538a0((int)("FalloutRadio::SetBroadcastState"));
+    reinterpret_cast<::GlobalObject_0044fae0 *>(&((*reinterpret_cast<::fnv_008359e0::GlobalObject_0044fae0 *>(&::g_011dd5e8))))->FUN_004538a0((std::intptr_t)("FalloutRadio::SetBroadcastState"));
     reinterpret_cast<::TESObjectREFR_Flags *>((((::fnv_008359e0::RadioRef *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((source))->FUN_007af430()))))->SetRefFlag40000000(enabled);
     if (station)
     {
@@ -2188,14 +2208,14 @@ void FUN_008359e0(RadioSource* source, bool enabled)
             BSSimpleList<FalloutRadio::RadioReceiver*>* node = &station->receivers;
             while (node && !_ref_008256d0(node))
             {
-                if (reinterpret_cast<::SoundPlaybackHandle *>((((SoundHandleHelper*)&(*((::FalloutRadio::RadioReceiver **)(new ((void *)(node)) ::Vec3())))->sound)))->IsValid())
+                if (reinterpret_cast<::SoundPlaybackHandle *>((((SoundHandleHelper*)&(*((::FalloutRadio::RadioReceiver **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))->sound)))->IsValid())
                 {
-                    reinterpret_cast<::fnv_00ad88f0::FUN_00ad88f0_h *>(&((*((::FalloutRadio::RadioReceiver **)(new ((void *)(node)) ::Vec3())))->sound))->FUN_00ad88f0();
-                    (*((::FalloutRadio::RadioReceiver **)(new ((void *)(node)) ::Vec3())))->sound.Release();
+                    reinterpret_cast<::fnv_00ad88f0::FUN_00ad88f0_h *>(&((*((::FalloutRadio::RadioReceiver **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))->sound))->FUN_00ad88f0();
+                    (*((::FalloutRadio::RadioReceiver **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))->sound.Release();
                 }
                 node = ((::BSSimpleList< ::FalloutRadio::RadioReceiver *> *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
             }
-            if (::DAT_011dd42c == (unsigned int)station && DAT_011dd434)
+            if (::DAT_011dd42c == (std::uintptr_t)station && DAT_011dd434)
             {
                 reinterpret_cast<::fnv_00ad88f0::FUN_00ad88f0_h *>(&((*reinterpret_cast<::SoundPlaybackHandle *>(&::g_011dd5bc))))->FUN_00ad88f0();
                 (*reinterpret_cast<::SoundPlaybackHandle *>(&::g_011dd5bc)).Release();
@@ -2219,13 +2239,13 @@ void FUN_008359e0(RadioSource* source, bool enabled)
 
 // Iterates the radio receiver list, calls FUN_008366c0 on each receiver, removes null entries, then calls FUN_008324e0 and UpdateRadio.
 // @fnv 0x00836e20
-void __cdecl UpdateRadioReceivers(int updateMode)
+void __cdecl UpdateRadioReceivers(intptr_t updateMode)
 {
     BSSimpleList<FalloutRadio::RadioStationState*>* current = &(*reinterpret_cast<::BSSimpleList< ::FalloutRadio::RadioStationState *> *>(&::g_011dd554));
     BSSimpleList<FalloutRadio::RadioStationState*>* previous = 0;
     while (current != 0 && !current->IsEmpty())
     {
-        FalloutRadio::RadioStationState* receiver = ((::FalloutRadio::RadioStationState *)(new ((void *)(current)) ::Vec3()));
+        FalloutRadio::RadioStationState* receiver = (*((::FalloutRadio::RadioStationState * *)(&reinterpret_cast<::SimpleListNodeView*>(current)->m_item)));
         bool remove = false;
         if (receiver != 0)
             reinterpret_cast<FUN_008366c0_shell*>(receiver)->FUN_008366c0(updateMode);
@@ -2235,7 +2255,7 @@ void __cdecl UpdateRadioReceivers(int updateMode)
         {
             if (previous != 0)
             {
-                reinterpret_cast<::ItemChangeListNode *>((previous))->FUN_00905330((::InventoryStackRecord *const &)(((::FalloutRadio::RadioStationState *)(new ((void *)(current)) ::Vec3()))));
+                reinterpret_cast<::ItemChangeListNode *>((previous))->FUN_00905330((::InventoryStackRecord *const &)((*((::FalloutRadio::RadioStationState * *)(&reinterpret_cast<::SimpleListNodeView*>(current)->m_item)))));
                 current = ((::BSSimpleList< ::FalloutRadio::RadioStationState *> *)(reinterpret_cast<::Callees *>((previous))->FUN_00726070()));
             }
             else
@@ -2281,12 +2301,12 @@ void ResetRadioGlobals()
     DAT_011dd448 = false;
     while (!(*reinterpret_cast<::BSSimpleList< ::FalloutRadio::RadioStationState *> *>(&::g_011dd554)).IsEmpty())
     {
-        delete reinterpret_cast<FUN_00832160*>(((::FalloutRadio::RadioStationState *)(new ((void *)&((*reinterpret_cast<::BSSimpleList< ::FalloutRadio::RadioStationState *> *>(&::g_011dd554)))) ::Vec3())));
+        delete reinterpret_cast<FUN_00832160*>(((*reinterpret_cast<::BSSimpleList< ::FalloutRadio::RadioStationState *> *>(&::g_011dd554)).m_item));
         (*reinterpret_cast<::BSSimpleList< ::FalloutRadio::RadioStationState *> *>(&::g_011dd554)).RemoveHead();
     }
     while (!(*reinterpret_cast<::BSSimpleList< ::FalloutRadio::RadioReceiver *> *>(&::g_011dd58c)).IsEmpty())
     {
-        FUN_00832190* receiver = reinterpret_cast<FUN_00832190*>(((::FalloutRadio::RadioReceiver *)(new ((void *)&((*reinterpret_cast<::BSSimpleList< ::FalloutRadio::RadioReceiver *> *>(&::g_011dd58c)))) ::Vec3())));
+        FUN_00832190* receiver = reinterpret_cast<FUN_00832190*>(((*reinterpret_cast<::BSSimpleList< ::FalloutRadio::RadioReceiver *> *>(&::g_011dd58c)).m_item));
         if (reinterpret_cast<::SoundPlaybackHandle *>(&(receiver->sound))->IsValid())
         {
             reinterpret_cast<::fnv_00ad88f0::FUN_00ad88f0_h *>(&(receiver->sound))->FUN_00ad88f0();
@@ -2683,7 +2703,7 @@ FalloutRadio::RadioStationState* CreateRadioStationState(TESObjectREFR* a1, TESO
             delete ((FUN_00832160*)state3);
             return 0;
         }
-        stationForm3 = ((void *)(::FUN_008356e0((int)(sound), (::S_008356e0_Ref *)(a1))));
+        stationForm3 = ((void *)(::FUN_008356e0(sound, (::S_008356e0_Ref *)(a1))));
         if (!stationForm3)
         {
             delete ((FUN_00832160*)state3);
@@ -2698,7 +2718,7 @@ FalloutRadio::RadioStationState* CreateRadioStationState(TESObjectREFR* a1, TESO
             delete ((FUN_00832160*)state3);
             return 0;
         }
-        stationForm3 = ((void *)(::FUN_008356e0((int)(space5), (::S_008356e0_Ref *)(a1))));
+        stationForm3 = ((void *)(::FUN_008356e0(space5, (::S_008356e0_Ref *)(a1))));
         if (!stationForm3)
         {
             delete ((FUN_00832160*)state3);
@@ -2763,9 +2783,9 @@ void __cdecl FUN_008366e0(LoadBuffer* buffer)
 
 {
 
-    unsigned int secondID5;
+    void* secondID5;
 
-    unsigned int receiverNode4;
+    void* receiverNode4;
 
     FalloutRadio::RadioReceiver* formID;
 
@@ -2789,7 +2809,7 @@ void __cdecl FUN_008366e0(LoadBuffer* buffer)
 
     BSSimpleList<unsigned int>* stationNode;
 
-    unsigned int receiver5;
+    uintptr_t receiver5;
 
     reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&::DAT_011dd428, 4, 0);
 
@@ -2806,7 +2826,7 @@ void __cdecl FUN_008366e0(LoadBuffer* buffer)
     while (stationPosition4)
     {
 
-        formID = ((::FalloutRadio::RadioReceiver *)(new ((void *)(stationPosition4)) ::Vec3()));
+        formID = (*((::FalloutRadio::RadioReceiver * *)(&reinterpret_cast<::SimpleListNodeView*>(stationPosition4)->m_item)));
 
         if (formID)
         {
@@ -2830,7 +2850,7 @@ void __cdecl FUN_008366e0(LoadBuffer* buffer)
     while (formNode2)
     {
 
-        receiverPosition = ((::FalloutRadio::RadioStationState *)(new ((void *)(formNode2)) ::Vec3()));
+        receiverPosition = (*((::FalloutRadio::RadioStationState * *)(&reinterpret_cast<::SimpleListNodeView*>(formNode2)->m_item)));
 
         if (receiverPosition)
         {
@@ -2849,7 +2869,7 @@ void __cdecl FUN_008366e0(LoadBuffer* buffer)
 
     if (::DAT_011dd42c)
 
-        secondID5 = ((unsigned int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(((*(RadioForm**)::DAT_011dd42c)))->FUN_007af430()));
+        secondID5 = reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(((*(RadioForm**)::DAT_011dd42c)))->FUN_007af430();
 
     reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((buffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(secondID5), 0);
 
@@ -2857,7 +2877,7 @@ void __cdecl FUN_008366e0(LoadBuffer* buffer)
 
     if (DAT_011dd430)
 
-        receiverNode4 = ((unsigned int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(((*(RadioForm**)DAT_011dd430)))->FUN_007af430()));
+        receiverNode4 = reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(((*(RadioForm**)DAT_011dd430)))->FUN_007af430();
 
     reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((buffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(receiverNode4), 0);
 
@@ -2870,7 +2890,7 @@ void __cdecl FUN_008366e0(LoadBuffer* buffer)
     while (stationNode)
     {
 
-        receiver5 = ((unsigned int)(new ((void *)(stationNode)) ::Vec3()));
+        receiver5 = (*((unsigned int *)(&reinterpret_cast<::SimpleListNodeView*>(stationNode)->m_item)));
 
         if (receiver5)
         {
@@ -2935,7 +2955,8 @@ class TESObjectACTI : public TESBoundObject
 class RadioUpdateActivator
 {
   public:
-    RadioUpdateSnd* FUN_00407840();
+    char pad00[0x7c];
+    RadioUpdateSnd* pRadioTemplate;
 };
 
 class RadioUpdateObj
@@ -3111,7 +3132,7 @@ class RadioUpdateRefObj
     virtual void vf158();
     virtual void vf159();
     virtual void vf160();
-    virtual float v284(char*, RadioUpdateSndHandle*, void*, RadioUpdateObj*, int, void*, void*, RadioUpdateRefObj*, int,
+    virtual float v284(char*, RadioUpdateSndHandle*, unsigned int, int, int, void*, void*, RadioUpdateRefObj*, int,
                        int, int, int, int);
     int FUN_004181e0();
 };
@@ -3205,7 +3226,7 @@ void __cdecl FUN_00834260(FalloutRadio::RadioStationState* apState)
     float aBound = 3000.0f;
     RadioUpdateVec3 aLight;
     ((RadioUpdateAudio*)((::AudioView *)(::FUN_00453a70())))->FUN_00ad78e0(&aLight);
-    reinterpret_cast<::GlobalObject_0044fae0 *>(&((*reinterpret_cast<::RadioUpdateProf *>(&::g_011dd5e8))))->FUN_004538a0((int)(radioUpdateProfile));
+    reinterpret_cast<::GlobalObject_0044fae0 *>(&((*reinterpret_cast<::RadioUpdateProf *>(&::g_011dd5e8))))->FUN_004538a0((std::intptr_t)(radioUpdateProfile));
     RadioUpdateObj* aActor =
         ((RadioUpdateState*)apState)->sub.ptr ? ((::RadioUpdateObj *)(reinterpret_cast<::DialogueItem *>((((RadioUpdateState*)apState)->sub.ptr))->GetActiveResponse())) : 0;
     RadioUpdateRList* aNext = &((RadioUpdateState*)apState)->list;
@@ -3223,8 +3244,8 @@ void __cdecl FUN_00834260(FalloutRadio::RadioStationState* apState)
     if (((RadioUpdateState*)apState) && ((RadioUpdateState*)apState)->form)
     {
         TESObjectACTI* act = dynamic_cast<TESObjectACTI*>(((::TESBoundObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((RadioUpdateState*)apState)->form))->FUN_007af430())));
-        if (act && ((::RadioUpdateSnd *)(reinterpret_cast<::TESPackage *>((((RadioUpdateActivator*)act)))->GetRefCount())))
-            aData = ((::RadioUpdateSnd *)(reinterpret_cast<::TESPackage *>((((RadioUpdateActivator*)act)))->GetRefCount()));
+        if (act && ((RadioUpdateActivator*)act)->pRadioTemplate)
+            aData = ((RadioUpdateActivator*)act)->pRadioTemplate;
     }
 
     if (aDone || aTag || bVal)
@@ -3232,24 +3253,24 @@ void __cdecl FUN_00834260(FalloutRadio::RadioStationState* apState)
         RadioUpdateRList* it = &((RadioUpdateState*)apState)->list;
         while (it && !it->FUN_008256d0())
         {
-            if (reinterpret_cast<::SoundPlaybackHandle *>(&((*((::RadioUpdateReceiver **)(new ((void *)(it)) ::Vec3())))->snd4))->IsValid())
+            if (reinterpret_cast<::SoundPlaybackHandle *>(&((*((::RadioUpdateReceiver **)(&reinterpret_cast<::SimpleListNodeView*>(it)->m_item)))->snd4))->IsValid())
             {
                 if (aDone)
                 {
-                    reinterpret_cast<::fnv_00ad88f0::FUN_00ad88f0_h *>(&((*((::RadioUpdateReceiver **)(new ((void *)(it)) ::Vec3())))->snd4))->FUN_00ad88f0();
-                    reinterpret_cast<::SoundPlaybackHandle *>(&((*((::RadioUpdateReceiver **)(new ((void *)(it)) ::Vec3())))->snd4))->Release();
-                    reinterpret_cast<::fnv_00ad88f0::FUN_00ad88f0_h *>(&((*((::RadioUpdateReceiver **)(new ((void *)(it)) ::Vec3())))->snd10))->FUN_00ad88f0();
-                    reinterpret_cast<::SoundPlaybackHandle *>(&((*((::RadioUpdateReceiver **)(new ((void *)(it)) ::Vec3())))->snd10))->Release();
+                    reinterpret_cast<::fnv_00ad88f0::FUN_00ad88f0_h *>(&((*((::RadioUpdateReceiver **)(&reinterpret_cast<::SimpleListNodeView*>(it)->m_item)))->snd4))->FUN_00ad88f0();
+                    reinterpret_cast<::SoundPlaybackHandle *>(&((*((::RadioUpdateReceiver **)(&reinterpret_cast<::SimpleListNodeView*>(it)->m_item)))->snd4))->Release();
+                    reinterpret_cast<::fnv_00ad88f0::FUN_00ad88f0_h *>(&((*((::RadioUpdateReceiver **)(&reinterpret_cast<::SimpleListNodeView*>(it)->m_item)))->snd10))->FUN_00ad88f0();
+                    reinterpret_cast<::SoundPlaybackHandle *>(&((*((::RadioUpdateReceiver **)(&reinterpret_cast<::SimpleListNodeView*>(it)->m_item)))->snd10))->Release();
                 }
                 else if (aTag)
                 {
-                    reinterpret_cast<::FUN_00ad88b0_h *>(&((*((::RadioUpdateReceiver **)(new ((void *)(it)) ::Vec3())))->snd4))->FUN_00ad88b0();
-                    reinterpret_cast<::FUN_00ad88b0_h *>(&((*((::RadioUpdateReceiver **)(new ((void *)(it)) ::Vec3())))->snd10))->FUN_00ad88b0();
+                    reinterpret_cast<::FUN_00ad88b0_h *>(&((*((::RadioUpdateReceiver **)(&reinterpret_cast<::SimpleListNodeView*>(it)->m_item)))->snd4))->FUN_00ad88b0();
+                    reinterpret_cast<::FUN_00ad88b0_h *>(&((*((::RadioUpdateReceiver **)(&reinterpret_cast<::SimpleListNodeView*>(it)->m_item)))->snd10))->FUN_00ad88b0();
                 }
-                else if (bVal && (*((::RadioUpdateReceiver **)(new ((void *)(it)) ::Vec3())))->active)
+                else if (bVal && (*((::RadioUpdateReceiver **)(&reinterpret_cast<::SimpleListNodeView*>(it)->m_item)))->active)
                 {
-                    reinterpret_cast<::FUN_00ad8830_shell *>(&((*((::RadioUpdateReceiver **)(new ((void *)(it)) ::Vec3())))->snd4))->FUN_00ad8830(0);
-                    reinterpret_cast<::FUN_00ad8830_shell *>(&((*((::RadioUpdateReceiver **)(new ((void *)(it)) ::Vec3())))->snd10))->FUN_00ad8830(0);
+                    reinterpret_cast<::FUN_00ad8830_shell *>(&((*((::RadioUpdateReceiver **)(&reinterpret_cast<::SimpleListNodeView*>(it)->m_item)))->snd4))->FUN_00ad8830(0);
+                    reinterpret_cast<::FUN_00ad8830_shell *>(&((*((::RadioUpdateReceiver **)(&reinterpret_cast<::SimpleListNodeView*>(it)->m_item)))->snd10))->FUN_00ad8830(0);
                 }
             }
             it = ((::RadioUpdateRList *)(reinterpret_cast<::Callees *>((it))->FUN_00726070()));
@@ -3330,8 +3351,8 @@ void __cdecl FUN_00834260(FalloutRadio::RadioStationState* apState)
             aNext = &((RadioUpdateState*)apState)->list;
             while (aNext && !aNext->FUN_008256d0())
             {
-                reinterpret_cast<::fnv_00ad88f0::FUN_00ad88f0_h *>(&((*((::RadioUpdateReceiver **)(new ((void *)(aNext)) ::Vec3())))->snd4))->FUN_00ad88f0();
-                reinterpret_cast<::SoundPlaybackHandle *>(&((*((::RadioUpdateReceiver **)(new ((void *)(aNext)) ::Vec3())))->snd4))->Release();
+                reinterpret_cast<::fnv_00ad88f0::FUN_00ad88f0_h *>(&((*((::RadioUpdateReceiver **)(&reinterpret_cast<::SimpleListNodeView*>(aNext)->m_item)))->snd4))->FUN_00ad88f0();
+                reinterpret_cast<::SoundPlaybackHandle *>(&((*((::RadioUpdateReceiver **)(&reinterpret_cast<::SimpleListNodeView*>(aNext)->m_item)))->snd4))->Release();
                 aNext = ((::RadioUpdateRList *)(reinterpret_cast<::Callees *>((aNext))->FUN_00726070()));
             }
             if (((RadioUpdateState*)apState) == ((RadioUpdateState*)::DAT_011dd42c))
@@ -3368,8 +3389,8 @@ void __cdecl FUN_00834260(FalloutRadio::RadioStationState* apState)
                     aNext = &((RadioUpdateState*)apState)->list;
                     while (aNext && !aNext->FUN_008256d0())
                     {
-                        reinterpret_cast<::fnv_00ad88f0::FUN_00ad88f0_h *>(&((*((::RadioUpdateReceiver **)(new ((void *)(aNext)) ::Vec3())))->snd4))->FUN_00ad88f0();
-                        reinterpret_cast<::SoundPlaybackHandle *>(&((*((::RadioUpdateReceiver **)(new ((void *)(aNext)) ::Vec3())))->snd4))->Release();
+                        reinterpret_cast<::fnv_00ad88f0::FUN_00ad88f0_h *>(&((*((::RadioUpdateReceiver **)(&reinterpret_cast<::SimpleListNodeView*>(aNext)->m_item)))->snd4))->FUN_00ad88f0();
+                        reinterpret_cast<::SoundPlaybackHandle *>(&((*((::RadioUpdateReceiver **)(&reinterpret_cast<::SimpleListNodeView*>(aNext)->m_item)))->snd4))->Release();
                         aNext = ((::RadioUpdateRList *)(reinterpret_cast<::Callees *>((aNext))->FUN_00726070()));
                     }
                     if (((RadioUpdateState*)apState) == ((RadioUpdateState*)::DAT_011dd42c))
@@ -3404,82 +3425,82 @@ void __cdecl FUN_00834260(FalloutRadio::RadioStationState* apState)
     aNext = &((RadioUpdateState*)apState)->list;
     while (aNext && !aNext->FUN_008256d0())
     {
-        if (!(*((::RadioUpdateReceiver **)(new ((void *)(aNext)) ::Vec3())))->active)
+        if (!(*((::RadioUpdateReceiver **)(&reinterpret_cast<::SimpleListNodeView*>(aNext)->m_item)))->active)
         {
             aNext = ((::RadioUpdateRList *)(reinterpret_cast<::Callees *>((aNext))->FUN_00726070()));
             continue;
         }
-        if (((RadioUpdateState*)apState)->f10 <= 0 && reinterpret_cast<::SoundPlaybackHandle *>(&((*((::RadioUpdateReceiver **)(new ((void *)(aNext)) ::Vec3())))->snd4))->IsValid() &&
-            ::FUN_00ad8b30((unsigned int *)&((*((::RadioUpdateReceiver **)(new ((void *)(aNext)) ::Vec3())))->snd4)))
-            ((RadioUpdateState*)apState)->f10 = ::FUN_00ad8b30((unsigned int *)&((*((::RadioUpdateReceiver **)(new ((void *)(aNext)) ::Vec3())))->snd4));
+        if (((RadioUpdateState*)apState)->f10 <= 0 && reinterpret_cast<::SoundPlaybackHandle *>(&((*((::RadioUpdateReceiver **)(&reinterpret_cast<::SimpleListNodeView*>(aNext)->m_item)))->snd4))->IsValid() &&
+            ::FUN_00ad8b30((unsigned int *)&((*((::RadioUpdateReceiver **)(&reinterpret_cast<::SimpleListNodeView*>(aNext)->m_item)))->snd4)))
+            ((RadioUpdateState*)apState)->f10 = ::FUN_00ad8b30((unsigned int *)&((*((::RadioUpdateReceiver **)(&reinterpret_cast<::SimpleListNodeView*>(aNext)->m_item)))->snd4));
 
         RadioUpdateVec3 pos = (*reinterpret_cast<::RadioUpdateVec3 *>((void *)&::NiPoint3::ZERO));
         pos.x = 3.402823466e+38F;
         pos.y = 3.402823466e+38F;
         pos.z = 3.402823466e+38F;
-        if (*((::RadioUpdateReceiver **)(new ((void *)(aNext)) ::Vec3())) && (*((::RadioUpdateReceiver **)(new ((void *)(aNext)) ::Vec3())))->ref)
+        if (*((::RadioUpdateReceiver **)(&reinterpret_cast<::SimpleListNodeView*>(aNext)->m_item)) && (*((::RadioUpdateReceiver **)(&reinterpret_cast<::SimpleListNodeView*>(aNext)->m_item)))->ref)
         {
-            pos = *(*((::RadioUpdateReceiver **)(new ((void *)(aNext)) ::Vec3())))->ref->v1f4();
+            pos = *(*((::RadioUpdateReceiver **)(&reinterpret_cast<::SimpleListNodeView*>(aNext)->m_item)))->ref->v1f4();
         }
-        else if (*((::RadioUpdateReceiver **)(new ((void *)(aNext)) ::Vec3())) && !(*((::RadioUpdateReceiver **)(new ((void *)(aNext)) ::Vec3())))->ref)
+        else if (*((::RadioUpdateReceiver **)(&reinterpret_cast<::SimpleListNodeView*>(aNext)->m_item)) && !(*((::RadioUpdateReceiver **)(&reinterpret_cast<::SimpleListNodeView*>(aNext)->m_item)))->ref)
         {
-            (*((::RadioUpdateReceiver **)(new ((void *)(aNext)) ::Vec3())))->active = 0;
+            (*((::RadioUpdateReceiver **)(&reinterpret_cast<::SimpleListNodeView*>(aNext)->m_item)))->active = 0;
             aNext = ((::RadioUpdateRList *)(reinterpret_cast<::Callees *>((aNext))->FUN_00726070()));
             continue;
         }
 
         if ((((void *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((((RadioUpdateObj*)(*reinterpret_cast<::S_008356e0_Ref * *>(&::_g_thePlayer)))))->FUN_00575d70())) &&
-             ((void *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((((RadioUpdateObj*)(*reinterpret_cast<::S_008356e0_Ref * *>(&::_g_thePlayer)))))->FUN_00575d70())) != ((void *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>(((*((::RadioUpdateReceiver **)(new ((void *)(aNext)) ::Vec3())))->ref))->FUN_00575d70()))) ||
+             ((void *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((((RadioUpdateObj*)(*reinterpret_cast<::S_008356e0_Ref * *>(&::_g_thePlayer)))))->FUN_00575d70())) != ((void *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>(((*((::RadioUpdateReceiver **)(&reinterpret_cast<::SimpleListNodeView*>(aNext)->m_item)))->ref))->FUN_00575d70()))) ||
             (reinterpret_cast<::TESObjectCELL *>((((::RadioUpdateCell *)(reinterpret_cast<::LowProcess *>((((RadioUpdateObj*)(*reinterpret_cast<::S_008356e0_Ref * *>(&::_g_thePlayer)))))->GetTarget()))))->IsCellInterior() &&
-             ((::RadioUpdateCell *)(reinterpret_cast<::LowProcess *>(((*((::RadioUpdateReceiver **)(new ((void *)(aNext)) ::Vec3())))->ref))->GetTarget())) != ((::RadioUpdateCell *)(reinterpret_cast<::LowProcess *>((((RadioUpdateObj*)(*reinterpret_cast<::S_008356e0_Ref * *>(&::_g_thePlayer)))))->GetTarget()))))
+             ((::RadioUpdateCell *)(reinterpret_cast<::LowProcess *>(((*((::RadioUpdateReceiver **)(&reinterpret_cast<::SimpleListNodeView*>(aNext)->m_item)))->ref))->GetTarget())) != ((::RadioUpdateCell *)(reinterpret_cast<::LowProcess *>((((RadioUpdateObj*)(*reinterpret_cast<::S_008356e0_Ref * *>(&::_g_thePlayer)))))->GetTarget()))))
         {
-            reinterpret_cast<::FUN_00ad89e0_shell *>(&((*((::RadioUpdateReceiver **)(new ((void *)(aNext)) ::Vec3())))->snd4))->FUN_00ad89e0(0.0f);
-            (*((::RadioUpdateReceiver **)(new ((void *)(aNext)) ::Vec3())))->active = 0;
+            reinterpret_cast<::FUN_00ad89e0_shell *>(&((*((::RadioUpdateReceiver **)(&reinterpret_cast<::SimpleListNodeView*>(aNext)->m_item)))->snd4))->FUN_00ad89e0(0.0f);
+            (*((::RadioUpdateReceiver **)(&reinterpret_cast<::SimpleListNodeView*>(aNext)->m_item)))->active = 0;
         }
 
-        if (*((::RadioUpdateReceiver **)(new ((void *)(aNext)) ::Vec3())) && reinterpret_cast<::SoundPlaybackHandle *>(&((*((::RadioUpdateReceiver **)(new ((void *)(aNext)) ::Vec3())))->snd4))->IsValid())
-            reinterpret_cast<::FUN_00ad8b60_h *>(&((*((::RadioUpdateReceiver **)(new ((void *)(aNext)) ::Vec3())))->snd4))->FUN_00ad8b60(pos.x, pos.y, pos.z);
+        if (*((::RadioUpdateReceiver **)(&reinterpret_cast<::SimpleListNodeView*>(aNext)->m_item)) && reinterpret_cast<::SoundPlaybackHandle *>(&((*((::RadioUpdateReceiver **)(&reinterpret_cast<::SimpleListNodeView*>(aNext)->m_item)))->snd4))->IsValid())
+            reinterpret_cast<::FUN_00ad8b60_h *>(&((*((::RadioUpdateReceiver **)(&reinterpret_cast<::SimpleListNodeView*>(aNext)->m_item)))->snd4))->FUN_00ad8b60(pos.x, pos.y, pos.z);
 
-        if (bFound && !reinterpret_cast<::SoundPlaybackHandle *>(&((*((::RadioUpdateReceiver **)(new ((void *)(aNext)) ::Vec3())))->snd10))->IsValid())
+        if (bFound && !reinterpret_cast<::SoundPlaybackHandle *>(&((*((::RadioUpdateReceiver **)(&reinterpret_cast<::SimpleListNodeView*>(aNext)->m_item)))->snd10))->IsValid())
         {
-            reinterpret_cast<::fnv_00ad88f0::FUN_00ad88f0_h *>(&((*((::RadioUpdateReceiver **)(new ((void *)(aNext)) ::Vec3())))->snd10))->FUN_00ad88f0();
-            reinterpret_cast<::SoundPlaybackHandle *>(&((*((::RadioUpdateReceiver **)(new ((void *)(aNext)) ::Vec3())))->snd10))->Release();
-            reinterpret_cast<::SoundPlaybackHandle *>((void *)&(const ::RadioUpdateSndHandle &)((*((::RadioUpdateReceiver **)(new ((void *)(aNext)) ::Vec3())))->snd10))->operator=((const ::SoundPlaybackHandle &)((const ::RadioUpdateSndHandle &)(((RadioUpdateAudio*)((::AudioView *)(::FUN_00453a70())))->FUN_00ad7550(radioUpdateStaticSound, 0x100012))));
-            reinterpret_cast<::FUN_004f15a0_shell *>(&((*((::RadioUpdateReceiver **)(new ((void *)(aNext)) ::Vec3())))->snd10))->FUN_004f15a0(1);
-            reinterpret_cast<::FUN_00ad8b60_h *>(&((*((::RadioUpdateReceiver **)(new ((void *)(aNext)) ::Vec3())))->snd10))->FUN_00ad8b60(pos.x, pos.y, pos.z);
-            reinterpret_cast<::FUN_00ad89e0_shell *>(&((*((::RadioUpdateReceiver **)(new ((void *)(aNext)) ::Vec3())))->snd10))->FUN_00ad89e0(FUN_004dd150((float)(100 - aTmp) / 100.0, 0.75f));
-            reinterpret_cast<::FUN_00ad8830_shell *>(&((*((::RadioUpdateReceiver **)(new ((void *)(aNext)) ::Vec3())))->snd10))->FUN_00ad8830(0);
+            reinterpret_cast<::fnv_00ad88f0::FUN_00ad88f0_h *>(&((*((::RadioUpdateReceiver **)(&reinterpret_cast<::SimpleListNodeView*>(aNext)->m_item)))->snd10))->FUN_00ad88f0();
+            reinterpret_cast<::SoundPlaybackHandle *>(&((*((::RadioUpdateReceiver **)(&reinterpret_cast<::SimpleListNodeView*>(aNext)->m_item)))->snd10))->Release();
+            reinterpret_cast<::SoundPlaybackHandle *>((void *)&(const ::RadioUpdateSndHandle &)((*((::RadioUpdateReceiver **)(&reinterpret_cast<::SimpleListNodeView*>(aNext)->m_item)))->snd10))->operator=((const ::SoundPlaybackHandle &)((const ::RadioUpdateSndHandle &)(((RadioUpdateAudio*)((::AudioView *)(::FUN_00453a70())))->FUN_00ad7550(radioUpdateStaticSound, 0x100012))));
+            reinterpret_cast<::FUN_004f15a0_shell *>(&((*((::RadioUpdateReceiver **)(&reinterpret_cast<::SimpleListNodeView*>(aNext)->m_item)))->snd10))->FUN_004f15a0(1);
+            reinterpret_cast<::FUN_00ad8b60_h *>(&((*((::RadioUpdateReceiver **)(&reinterpret_cast<::SimpleListNodeView*>(aNext)->m_item)))->snd10))->FUN_00ad8b60(pos.x, pos.y, pos.z);
+            reinterpret_cast<::FUN_00ad89e0_shell *>(&((*((::RadioUpdateReceiver **)(&reinterpret_cast<::SimpleListNodeView*>(aNext)->m_item)))->snd10))->FUN_00ad89e0(FUN_004dd150((float)(100 - aTmp) / 100.0, 0.75f));
+            reinterpret_cast<::FUN_00ad8830_shell *>(&((*((::RadioUpdateReceiver **)(&reinterpret_cast<::SimpleListNodeView*>(aNext)->m_item)))->snd10))->FUN_00ad8830(0);
         }
         else if (bFound)
         {
-            reinterpret_cast<::FUN_00ad89e0_shell *>(&((*((::RadioUpdateReceiver **)(new ((void *)(aNext)) ::Vec3())))->snd10))->FUN_00ad89e0(FUN_004dd150((float)(100 - aTmp) / 100.0, 0.75f));
-            reinterpret_cast<::FUN_00ad8b60_h *>(&((*((::RadioUpdateReceiver **)(new ((void *)(aNext)) ::Vec3())))->snd10))->FUN_00ad8b60(pos.x, pos.y, pos.z);
+            reinterpret_cast<::FUN_00ad89e0_shell *>(&((*((::RadioUpdateReceiver **)(&reinterpret_cast<::SimpleListNodeView*>(aNext)->m_item)))->snd10))->FUN_00ad89e0(FUN_004dd150((float)(100 - aTmp) / 100.0, 0.75f));
+            reinterpret_cast<::FUN_00ad8b60_h *>(&((*((::RadioUpdateReceiver **)(&reinterpret_cast<::SimpleListNodeView*>(aNext)->m_item)))->snd10))->FUN_00ad8b60(pos.x, pos.y, pos.z);
         }
-        else if (!bFound && reinterpret_cast<::SoundPlaybackHandle *>(&((*((::RadioUpdateReceiver **)(new ((void *)(aNext)) ::Vec3())))->snd10))->IsValid())
+        else if (!bFound && reinterpret_cast<::SoundPlaybackHandle *>(&((*((::RadioUpdateReceiver **)(&reinterpret_cast<::SimpleListNodeView*>(aNext)->m_item)))->snd10))->IsValid())
         {
-            reinterpret_cast<::fnv_00ad88f0::FUN_00ad88f0_h *>(&((*((::RadioUpdateReceiver **)(new ((void *)(aNext)) ::Vec3())))->snd10))->FUN_00ad88f0();
-            reinterpret_cast<::SoundPlaybackHandle *>(&((*((::RadioUpdateReceiver **)(new ((void *)(aNext)) ::Vec3())))->snd10))->Release();
+            reinterpret_cast<::fnv_00ad88f0::FUN_00ad88f0_h *>(&((*((::RadioUpdateReceiver **)(&reinterpret_cast<::SimpleListNodeView*>(aNext)->m_item)))->snd10))->FUN_00ad88f0();
+            reinterpret_cast<::SoundPlaybackHandle *>(&((*((::RadioUpdateReceiver **)(&reinterpret_cast<::SimpleListNodeView*>(aNext)->m_item)))->snd10))->Release();
         }
 
-        if (aActor && !reinterpret_cast<::SoundPlaybackHandle *>(&((*((::RadioUpdateReceiver **)(new ((void *)(aNext)) ::Vec3())))->snd4))->IsValid() &&
-            reinterpret_cast<::FUN_00835650_shell *>(&(((RadioUpdateState*)apState)->sub))->FUN_00835650() && (*((::RadioUpdateReceiver **)(new ((void *)(aNext)) ::Vec3())))->active &&
-            (*((::RadioUpdateReceiver **)(new ((void *)(aNext)) ::Vec3())))->ref)
+        if (aActor && !reinterpret_cast<::SoundPlaybackHandle *>(&((*((::RadioUpdateReceiver **)(&reinterpret_cast<::SimpleListNodeView*>(aNext)->m_item)))->snd4))->IsValid() &&
+            reinterpret_cast<::FUN_00835650_shell *>(&(((RadioUpdateState*)apState)->sub))->FUN_00835650() && (*((::RadioUpdateReceiver **)(&reinterpret_cast<::SimpleListNodeView*>(aNext)->m_item)))->active &&
+            (*((::RadioUpdateReceiver **)(&reinterpret_cast<::SimpleListNodeView*>(aNext)->m_item)))->ref)
         {
             if (aActor && ((::RadioUpdateObj *)(reinterpret_cast<::DialogueItem *>((aActor))->GetActiveResponse())))
             {
                 char buf[0x104];
                 if (((::TESBoundObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((::RadioUpdateObj *)(reinterpret_cast<::DialogueItem *>((aActor))->GetActiveResponse()))))->FUN_007af430())))
                     aEnabled = true;
-                if (((::RadioUpdateObj *)(reinterpret_cast<::DialogueItem *>((aActor))->GetActiveResponse())) && ((const char *)(::FUN_00559450((int *)(((::RadioUpdateObj *)(new ((void *)(((::RadioUpdateObj *)(reinterpret_cast<::DialogueItem *>((aActor))->GetActiveResponse())))) ::Vec3())))))))
+                if (((::RadioUpdateObj *)(reinterpret_cast<::DialogueItem *>((aActor))->GetActiveResponse())) && ((const char *)(::FUN_00559450((int *)(((::RadioUpdateObj *)(static_cast<void *>(((::RadioUpdateObj *)(reinterpret_cast<::DialogueItem *>((aActor))->GetActiveResponse()))))))))))
                 {
-                    aCont = ::FUN_0044a670((const char *)(::RadioUpdateObj *)((RadioUpdateObj*)((const char *)(::FUN_00559450((int *)(((::RadioUpdateObj *)(new ((void *)(((::RadioUpdateObj *)(reinterpret_cast<::DialogueItem *>((aActor))->GetActiveResponse())))) ::Vec3()))))))));
-                    aSame = aCont > 1 && ((const char *)(::FUN_00559450((int *)(((::RadioUpdateObj *)(::FUN_00460140((int)(((::RadioUpdateObj *)(reinterpret_cast<::DialogueItem *>((aActor))->GetActiveResponse()))))))))));
+                    aCont = ::FUN_0044a670((const char *)(::RadioUpdateObj *)((RadioUpdateObj*)((const char *)(::FUN_00559450((int *)(((::RadioUpdateObj *)(static_cast<void *>(((::RadioUpdateObj *)(reinterpret_cast<::DialogueItem *>((aActor))->GetActiveResponse())))))))))));
+                    aSame = aCont > 1 && ((const char *)(::FUN_00559450((int *)(((::RadioUpdateObj *)(::FUN_00460140((std::intptr_t)(((::RadioUpdateObj *)(reinterpret_cast<::DialogueItem *>((aActor))->GetActiveResponse()))))))))));
                 }
                 if (aEnabled)
                 {
                     ::TaskQueueInterface::CopyStringToBuffer(buf, 0x104,
                                  ::FUN_00511840((char *)(((RadioUpdateBoundName*)((::TESBoundObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((::RadioUpdateObj *)(reinterpret_cast<::DialogueItem *>((aActor))->GetActiveResponse()))))->FUN_007af430()))))));
-                    if (!((int)(::FUN_004812f0(buf, radioUpdateMonoSuffix))))
+                    if (!((::FUN_004812f0(buf, radioUpdateMonoSuffix))))
                     {
                         char* dot = FUN_0043b9d0(buf, '.');
                         if (dot)
@@ -3495,7 +3516,7 @@ void __cdecl FUN_00834260(FalloutRadio::RadioStationState* apState)
                 }
                 else if (aSame)
                 {
-                    ::TaskQueueInterface::CopyStringToBuffer(buf, 0x104, ((const char *)(::FUN_00559450((int *)(((::RadioUpdateObj *)(::FUN_00460140((int)(((::RadioUpdateObj *)(reinterpret_cast<::DialogueItem *>((aActor))->GetActiveResponse())))))))))));
+                    ::TaskQueueInterface::CopyStringToBuffer(buf, 0x104, ((const char *)(::FUN_00559450((int *)(((::RadioUpdateObj *)(::FUN_00460140((std::intptr_t)(((::RadioUpdateObj *)(reinterpret_cast<::DialogueItem *>((aActor))->GetActiveResponse())))))))))));
                     reinterpret_cast<::FUN_00833c40_shell *>(&(((RadioUpdateState*)apState)->sub))->FUN_00833c40(0);
                 }
                 else
@@ -3509,10 +3530,10 @@ void __cdecl FUN_00834260(FalloutRadio::RadioStationState* apState)
                 bool bSame = false;
                 bool bNpcVal = false;
                 RadioUpdateRefObj* aRec = 0;
-                if ((*((::RadioUpdateReceiver **)(new ((void *)(aNext)) ::Vec3())))->ref && (*((::RadioUpdateReceiver **)(new ((void *)(aNext)) ::Vec3())))->ref->v100())
+                if ((*((::RadioUpdateReceiver **)(&reinterpret_cast<::SimpleListNodeView*>(aNext)->m_item)))->ref && (*((::RadioUpdateReceiver **)(&reinterpret_cast<::SimpleListNodeView*>(aNext)->m_item)))->ref->v100())
                 {
-                    aRec = (*((::RadioUpdateReceiver **)(new ((void *)(aNext)) ::Vec3())))->ref;
-                    if (((::RadioUpdateObj *)(reinterpret_cast<::FUN_0084e3a0_Class *>((aActor))->FUN_0084e3a0())) && ((int)(reinterpret_cast<::Actor *>((aRec))->GetActorBase())) == ((int)(reinterpret_cast<::Twin_00639b40 *>((((::RadioUpdateObj *)(reinterpret_cast<::FUN_0084e3a0_Class *>((aActor))->FUN_0084e3a0()))))->GetEntryPoint())))
+                    aRec = (*((::RadioUpdateReceiver **)(&reinterpret_cast<::SimpleListNodeView*>(aNext)->m_item)))->ref;
+                    if (((::RadioUpdateObj *)(reinterpret_cast<::DialogueItem *>(aActor)->info)) && static_cast<const void *>(reinterpret_cast<::Actor *>((aRec))->GetActorBase()) == static_cast<const void *>(reinterpret_cast<::Twin_00639b40 *>((((::RadioUpdateObj *)(reinterpret_cast<::DialogueItem *>(aActor)->info))))->GetEntryPoint()))
                         bSame = true;
                     if (aRec->v21c())
                         bNpcVal = true;
@@ -3530,36 +3551,36 @@ void __cdecl FUN_00834260(FalloutRadio::RadioStationState* apState)
                 int elapsed = ((RadioUpdateAudio*)((::AudioView *)(::FUN_00453a70())))->FUN_0063d040() - ((RadioUpdateState*)apState)->fc;
                 if (aRec && bSame)
                 {
-                    aRec->v284(buf, &(*((::RadioUpdateReceiver **)(new ((void *)(aNext)) ::Vec3())))->snd4, ((void *)(reinterpret_cast<::Twin_0044ddc0 *>((((::RadioUpdateObj *)(reinterpret_cast<::DialogueItem *>((aActor))->GetActiveResponse()))))->GetName())),
-                               ((::RadioUpdateObj *)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::RadioUpdateObj *)(reinterpret_cast<::DialogueItem *>((aActor))->GetActiveResponse()))))->FUN_0084e3a0())), 0x96, ((void *)(reinterpret_cast<::FUN_009611e0_shell *>((((::RadioUpdateObj *)(reinterpret_cast<::DialogueItem *>((aActor))->GetActiveResponse()))))->FUN_009611e0())),
-                               ((void *)(reinterpret_cast<::BGSTerrainManager *>((((::RadioUpdateObj *)(reinterpret_cast<::DialogueItem *>((aActor))->GetActiveResponse()))))->GetMinLevel())), (*((::RadioUpdateReceiver **)(new ((void *)(aNext)) ::Vec3())))->ref, 0, 0, 0, 1, 1);
+                    aRec->v284(buf, &(*((::RadioUpdateReceiver **)(&reinterpret_cast<::SimpleListNodeView*>(aNext)->m_item)))->snd4, reinterpret_cast<::DialogueResponseFields *>(reinterpret_cast<::DialogueItem *>((aActor))->GetActiveResponse())->emotionType,
+                               reinterpret_cast<::DialogueResponseFields *>(reinterpret_cast<::DialogueItem *>((aActor))->GetActiveResponse())->emotionValue, 0x96, reinterpret_cast<::DialogueResponseFields *>(reinterpret_cast<::DialogueItem *>((aActor))->GetActiveResponse())->speakerIdle,
+                               reinterpret_cast<::DialogueResponseFields *>(reinterpret_cast<::DialogueItem *>((aActor))->GetActiveResponse())->listenerIdle, (*((::RadioUpdateReceiver **)(&reinterpret_cast<::SimpleListNodeView*>(aNext)->m_item)))->ref, 0, 0, 0, 1, 1);
                 }
                 else
                 {
                     unsigned int flags = 0;
                     if (bNpcVal)
                     {
-                        reinterpret_cast<::SoundPlaybackHandle *>((void *)&(const ::RadioUpdateSndHandle &)((*((::RadioUpdateReceiver **)(new ((void *)(aNext)) ::Vec3())))->snd4))->operator=((const ::SoundPlaybackHandle &)((const ::RadioUpdateSndHandle &)(((RadioUpdateAudio*)((::AudioView *)(::FUN_00453a70())))->FUN_00ad7480(buf, flags | 0x500102, 0))));
-                        reinterpret_cast<::FUN_00ad8be0_shell *>(&((*((::RadioUpdateReceiver **)(new ((void *)(aNext)) ::Vec3())))
+                        reinterpret_cast<::SoundPlaybackHandle *>((void *)&(const ::RadioUpdateSndHandle &)((*((::RadioUpdateReceiver **)(&reinterpret_cast<::SimpleListNodeView*>(aNext)->m_item)))->snd4))->operator=((const ::SoundPlaybackHandle &)((const ::RadioUpdateSndHandle &)(((RadioUpdateAudio*)((::AudioView *)(::FUN_00453a70())))->FUN_00ad7480(buf, flags | 0x500102, 0))));
+                        reinterpret_cast<::FUN_00ad8be0_shell *>(&((*((::RadioUpdateReceiver **)(&reinterpret_cast<::SimpleListNodeView*>(aNext)->m_item)))
                             ->snd4))->FUN_00ad8be0(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::RadioUpdateFSetting *>(&::g_011dd5b0)))))), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::RadioUpdateFSetting *>(&::g_011dd62c)))))));
                     }
                     else
                     {
-                        reinterpret_cast<::SoundPlaybackHandle *>((void *)&(const ::RadioUpdateSndHandle &)((*((::RadioUpdateReceiver **)(new ((void *)(aNext)) ::Vec3())))->snd4))->operator=((const ::SoundPlaybackHandle &)((const ::RadioUpdateSndHandle &)(((RadioUpdateAudio*)((::AudioView *)(::FUN_00453a70())))->FUN_00ad7480(buf, flags | 0x500102, aData))));
+                        reinterpret_cast<::SoundPlaybackHandle *>((void *)&(const ::RadioUpdateSndHandle &)((*((::RadioUpdateReceiver **)(&reinterpret_cast<::SimpleListNodeView*>(aNext)->m_item)))->snd4))->operator=((const ::SoundPlaybackHandle &)((const ::RadioUpdateSndHandle &)(((RadioUpdateAudio*)((::AudioView *)(::FUN_00453a70())))->FUN_00ad7480(buf, flags | 0x500102, aData))));
                     }
-                    reinterpret_cast<::SoundPlaybackHandle *>(&((*((::RadioUpdateReceiver **)(new ((void *)(aNext)) ::Vec3())))->snd4))->SetCompletionCallback((void (*)(void *, bool))(((void (&)(void *))::FUN_008357e0)), ((RadioUpdateState*)apState));
-                    reinterpret_cast<::fnv_00ad8fd0::FUN_00ad8fd0_h *>(&((*((::RadioUpdateReceiver **)(new ((void *)(aNext)) ::Vec3())))->snd4))->FUN_00ad8fd0(((RadioUpdateState*)apState)->fc);
-                    reinterpret_cast<::FUN_00ad8b60_h *>(&((*((::RadioUpdateReceiver **)(new ((void *)(aNext)) ::Vec3())))->snd4))->FUN_00ad8b60(pos.x, pos.y, pos.z);
-                    reinterpret_cast<::FUN_00ad89e0_shell *>(&((*((::RadioUpdateReceiver **)(new ((void *)(aNext)) ::Vec3())))->snd4))->FUN_00ad89e0((float)aTmp / 100.0);
-                    reinterpret_cast<::FUN_00ad8830_shell *>(&((*((::RadioUpdateReceiver **)(new ((void *)(aNext)) ::Vec3())))->snd4))->FUN_00ad8830(0);
+                    reinterpret_cast<::SoundPlaybackHandle *>(&((*((::RadioUpdateReceiver **)(&reinterpret_cast<::SimpleListNodeView*>(aNext)->m_item)))->snd4))->SetCompletionCallback((void (*)(void *, bool))(((void (&)(void *))::FUN_008357e0)), ((RadioUpdateState*)apState));
+                    reinterpret_cast<::fnv_00ad8fd0::FUN_00ad8fd0_h *>(&((*((::RadioUpdateReceiver **)(&reinterpret_cast<::SimpleListNodeView*>(aNext)->m_item)))->snd4))->FUN_00ad8fd0(((RadioUpdateState*)apState)->fc);
+                    reinterpret_cast<::FUN_00ad8b60_h *>(&((*((::RadioUpdateReceiver **)(&reinterpret_cast<::SimpleListNodeView*>(aNext)->m_item)))->snd4))->FUN_00ad8b60(pos.x, pos.y, pos.z);
+                    reinterpret_cast<::FUN_00ad89e0_shell *>(&((*((::RadioUpdateReceiver **)(&reinterpret_cast<::SimpleListNodeView*>(aNext)->m_item)))->snd4))->FUN_00ad89e0((float)aTmp / 100.0);
+                    reinterpret_cast<::FUN_00ad8830_shell *>(&((*((::RadioUpdateReceiver **)(&reinterpret_cast<::SimpleListNodeView*>(aNext)->m_item)))->snd4))->FUN_00ad8830(0);
                 }
-                if (bCurrentVal && !(*((::RadioUpdateReceiver **)(new ((void *)(aNext)) ::Vec3())))->b1d && !aState)
+                if (bCurrentVal && !(*((::RadioUpdateReceiver **)(&reinterpret_cast<::SimpleListNodeView*>(aNext)->m_item)))->b1d && !aState)
                 {
                     aState = true;
                     ::RadioUpdate::UpdateRadio(1);
                 }
-                if ((*((::RadioUpdateReceiver **)(new ((void *)(aNext)) ::Vec3())))->b1d)
-                    (*((::RadioUpdateReceiver **)(new ((void *)(aNext)) ::Vec3())))->b1d = 0;
+                if ((*((::RadioUpdateReceiver **)(&reinterpret_cast<::SimpleListNodeView*>(aNext)->m_item)))->b1d)
+                    (*((::RadioUpdateReceiver **)(&reinterpret_cast<::SimpleListNodeView*>(aNext)->m_item)))->b1d = 0;
             }
             else if (aActor && !reinterpret_cast<::FUN_0083c7e0_shell *>((aActor))->FUN_0083c7e0() && !reinterpret_cast<::DialogueItem *>((aActor))->SelectDefaultResponseList())
             {
@@ -3567,9 +3588,9 @@ void __cdecl FUN_00834260(FalloutRadio::RadioStationState* apState)
                 ((RadioUpdateState*)apState)->f10 = 1;
             }
         }
-        else if (!(*((::RadioUpdateReceiver **)(new ((void *)(aNext)) ::Vec3())))->ref)
+        else if (!(*((::RadioUpdateReceiver **)(&reinterpret_cast<::SimpleListNodeView*>(aNext)->m_item)))->ref)
         {
-            (*((::RadioUpdateReceiver **)(new ((void *)(aNext)) ::Vec3())))->active = 0;
+            (*((::RadioUpdateReceiver **)(&reinterpret_cast<::SimpleListNodeView*>(aNext)->m_item)))->active = 0;
         }
         aNext = ((::RadioUpdateRList *)(reinterpret_cast<::Callees *>((aNext))->FUN_00726070()));
     }
@@ -3647,11 +3668,11 @@ void FUN_008368b0(BGSLoadGameBuffer* apBuffer)
 
     f = 0;
     f = dynamic_cast< ::TESBoundObject*>(FUN_004839c0(reinterpret_cast<::fnv_008648a0::FUN_008648a0_t *>((((RadioLoadBufferView*)apBuffer)))->FUN_008648a0()));
-    ::DAT_011dd42c = (unsigned int)f;
+    ::DAT_011dd42c = (std::uintptr_t)f;
 
     eb = 0;
     eb = dynamic_cast< ::TESBoundObject*>(FUN_004839c0(reinterpret_cast<::fnv_008648a0::FUN_008648a0_t *>((((RadioLoadBufferView*)apBuffer)))->FUN_008648a0()));
-    DAT_011dd430 = (unsigned int)eb;
+    DAT_011dd430 = (std::uintptr_t)eb;
 
     if (apBuffer->vfn_0() >= 10)
     {
@@ -3665,4 +3686,122 @@ void FUN_008368b0(BGSLoadGameBuffer* apBuffer)
     }
 }
 
+class DialoguePackage;
+class DialogueItem;
+class Conversation_decl;
+class BGSPerkEntry;
+class TESGrass;
+class MediaSet;
+class PerkButtonEntry;
+class PlayerCharacter;
+class TESSound;
+
+extern bool DAT_011dd434;
+extern unsigned char DAT_011dd436;
+extern unsigned char DAT_011dd437;
+extern unsigned int DAT_011dd424;
+extern unsigned char DAT_011dd435;
+extern unsigned int DAT_011dd43c;
+extern TESSound* DAT_011dd440;
+extern const char DAT_0107ce14[];
+class Conversation_decl
+{
+  public:
+    BSSimpleList<DialogueItem*> items;
+    BSSimpleList<DialogueItem*>* current;
+    ~Conversation_decl();
+};
+FalloutRadio::RadioStationState* CreateRadioStationState(BGSTalkingActivator*, bool);
+void FUN_00834260(FalloutRadio::RadioStationState*);
+class ATM
+{
+  public:
+};
+// @fnv 0x00835be0
+void FUN_00835be0(BGSTalkingActivator* form, TESTopic* topic)
+{
+    TESTopic* a = 0;
+    FalloutRadio::RadioStationState* station = 0;
+    if (DAT_011dd436)
+        return;
+    BSSimpleList<FalloutRadio::RadioStationState*>* entries = &(*reinterpret_cast<::BSSimpleList< ::FalloutRadio::RadioStationState *> *>(&::g_011dd554));
+    while (entries && (*((::FalloutRadio::RadioStationState * *)(&reinterpret_cast<::SimpleListNodeView*>(entries)->m_item))))
+    {
+        if ((*((::FalloutRadio::RadioStationState * *)(&reinterpret_cast<::SimpleListNodeView*>(entries)->m_item)))->form == form)
+        {
+            station = (*((::FalloutRadio::RadioStationState * *)(&reinterpret_cast<::SimpleListNodeView*>(entries)->m_item)));
+            break;
+        }
+        entries = ((::BSSimpleList< ::FalloutRadio::RadioStationState *> *)(reinterpret_cast<::Callees *>((entries))->FUN_00726070()));
+    }
+    if (!station)
+        station = CreateRadioStationState(form, false);
+    a = topic ? topic : ((::TESTopic *)(::fnv_0061a2d0::GetTopicSubTypeName(7, 0)));
+    if (!station || reinterpret_cast<::TESForm *>(station->form)->GetDisabled())
+        return;
+    bool f = reinterpret_cast<::FUN_00833040_shell *>(&(station->station))->IsFlag20Set();
+    reinterpret_cast<::GlobalObject_0044fae0 *>(&((*reinterpret_cast<::ATM *>(&::g_011dd5e8))))->FUN_004538a0((std::intptr_t)("FalloutRadio::StartRadioConversation"));
+    if (station->station.conversation)
+        while (reinterpret_cast<::FUN_0083b9f0_shell *>((station->station.conversation))->FUN_0083b9f0())
+        {
+        }
+    if (((bool)(reinterpret_cast<::FUN_00833be0_shell *>(&(station->station))->FUN_00833be0())))
+    {
+        reinterpret_cast<::FUN_00833100_shell *>(&(station->station))->FUN_00833100(false);
+        station->station.state = 1;
+        FUN_00834260(station);
+    }
+    if ((*reinterpret_cast<::FalloutRadio::RadioStationState * *>(&::DAT_011dd42c)) == station && DAT_011dd434)
+    {
+        reinterpret_cast<::fnv_00ad88f0::FUN_00ad88f0_h *>(&((*reinterpret_cast<::SoundPlaybackHandle *>(&::g_011dd5bc))))->FUN_00ad88f0();
+        (*reinterpret_cast<::SoundPlaybackHandle *>(&::g_011dd5bc)).Release();
+        if (((bool)(::FUN_00833ce0())))
+        {
+            ::FalloutAudioMedia::BeginMediaUpdate();
+            ::FUN_008325a0(true);
+            ::fnv_008300c0::PlayAudioMedia((*(int *)&(const ::MEDIATYPE &)(MEDIATYPE_RADIO)), 0, 1000, false, false, 0.0f, 0);
+            ::FalloutAudioMedia::EndMediaUpdate();
+        }
+    }
+    BSSimpleList<FalloutRadio::RadioReceiver*>* b = &station->receivers;
+    while (b && (*((::FalloutRadio::RadioReceiver * *)(&reinterpret_cast<::SimpleListNodeView*>(b)->m_item))))
+    {
+        FalloutRadio::RadioReceiver* receiver = (*((::FalloutRadio::RadioReceiver * *)(&reinterpret_cast<::SimpleListNodeView*>(b)->m_item)));
+        reinterpret_cast<::fnv_00ad88f0::FUN_00ad88f0_h *>(&(receiver->sound))->FUN_00ad88f0();
+        receiver->sound.Release();
+        b = ((::BSSimpleList< ::FalloutRadio::RadioReceiver *> *)(reinterpret_cast<::Callees *>((b))->FUN_00726070()));
+    }
+    ::AdvanceConversation((::RadioState *)(station), a);
+    station->station.state = 0;
+    reinterpret_cast<::fnv_0083c470::FUN_0083c470_holder *>((station->station.conversation))->FUN_0083c470();
+    reinterpret_cast<::Mid83b9a0 *>((station->station.conversation))->FUN_0083b9a0();
+    if (!((::DialogueItem *)(reinterpret_cast<::DialogueItem *>((station->station.conversation))->GetActiveResponse())))
+    {
+        delete station->station.conversation;
+        station->station.conversation = 0;
+        station->station.state = 1;
+    }
+    else
+    {
+        if ((*reinterpret_cast<::FalloutRadio::RadioStationState * *>(&::DAT_011dd42c)) == station && DAT_011dd434)
+        {
+            reinterpret_cast<::fnv_00ad88f0::FUN_00ad88f0_h *>(&((*reinterpret_cast<::SoundPlaybackHandle *>(&::g_011dd5bc))))->FUN_00ad88f0();
+            (*reinterpret_cast<::SoundPlaybackHandle *>(&::g_011dd5bc)).Release();
+            if (((bool)(::FUN_00833ce0())))
+            {
+                ::FalloutAudioMedia::BeginMediaUpdate();
+                ::FUN_008325a0(true);
+                ::fnv_008300c0::PlayAudioMedia((*(int *)&(const ::MEDIATYPE &)(MEDIATYPE_RADIO)), 0, 1000, false, false, 0.0f, 0);
+                ::FalloutAudioMedia::EndMediaUpdate();
+            }
+        }
+        ((::DialogueItem *)(reinterpret_cast<::DialogueItem *>((station->station.conversation))->GetActiveResponse()))->SelectDefaultResponseList();
+    }
+    if (station->station.state > 1)
+        station->station.state = 0;
+    station->station.nextUpdate = ::FUN_00453a70()->GetSynchTime() + 50;
+    reinterpret_cast<::FUN_00835690_shell *>(&(station->station))->SetFlag80(true);
+    reinterpret_cast<::FUN_00833100_shell *>(&(station->station))->FUN_00833100(f);
+    reinterpret_cast<::ActorTaskManager *>(&((*reinterpret_cast<::ATM *>(&::g_011dd5e8))))->WaitForTasksDuringRendering();
+}
 #include "generated/data/fallout/audio/falloutradio.inc"

@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 class ScrapHeapBuffer;
 namespace fnv_00a01e20 { struct FUN_00a0ac80; }
@@ -7,9 +8,9 @@ namespace tileext { struct ExtraNode; }
 // 0x00a01160
 int FUN_00a01160(int **, int **);
 // 0x00a01630
-namespace tileext { int FUN_00a01630(::tileext::ExtraNode *); }
+namespace tileext { intptr_t FUN_00a01630(::tileext::ExtraNode *); }
 // 0x00a01860
-int FUN_00a01860(const char *);
+intptr_t FUN_00a01860(const char *);
 // 0x00a018d0
 int ParseTextAndParams(const char *, char *);
 // 0x00a01a20

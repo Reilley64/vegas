@@ -2,6 +2,9 @@
 // src/fallout/ai/combat/combatgroupstrategy.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/combat/combatgroupstrategy.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/combat_group_fields.h"
+#include "fnv/simple_array_item.h"
+#include <cstdint>
 #include <cctype>
 #include <malloc.h>
 #include "fnv/decl/AlchemyItem.h"
@@ -45,7 +48,7 @@ struct FUN_00990890_shell
 // @fnv 0x00990890
 unsigned int FUN_00990890_shell::FUN_00990890()
 {
-    return ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(this + 0x18)))->GetName()));
+    return SimpleArraySize((reinterpret_cast<ArrSI*>(this + 0x18)));
 }
 
 namespace fnv_00990a60 {
@@ -61,7 +64,7 @@ struct FUN_00990a60_shell
 // @fnv 0x00990a60
 unsigned int FUN_00990a60_shell::GetArrFlags()
 {
-    return ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)(this + 0x28))))->GetName()));
+    return SimpleArraySize((((ArrSI*)(this + 0x28))));
 }
 }  // namespace fnv_00990a60
 
@@ -78,7 +81,7 @@ struct FUN_00844160_shell
 {
     void FUN_00844160(int state);
 public:
-    unsigned int FUN_00844160(unsigned int);
+    uintptr_t FUN_00844160(unsigned int);
 };
 // @fnv 0x00990a80
 void FUN_00990a80_shell::ForwardToHolder(int arg)
@@ -205,7 +208,7 @@ struct DummyFallback
 // @fnv 0x00990b70
 bool DummyFallback::FUN_00990b70(ActorCombatGroup* apGroup, MarkerStruct* apGroupData)
 {
-    if (((int)(reinterpret_cast<::Callees *>((((DataOps*)apGroupData)))->FUN_00726070())) < 2)
+    if (((int)reinterpret_cast<CombatGroupFields*>((((DataOps*)apGroupData)))->unk04) < 2)
         return false;
     if (!reinterpret_cast<::fnv_0098a470::FUN_0098a470_shell *>((((GroupOps*)apGroup)))->FUN_0098a470(0, 30.0f))
         return false;
@@ -225,7 +228,7 @@ struct TargetClass
 // @fnv 0x00990c10
 bool TargetClass::FUN_00990c10(struct ActorCombatGroup* apGroup)
 {
-    if (!((int)(reinterpret_cast<::FUN_0098a410_shell *>((((HolderFor410*)apGroup)))->FindByValue(2))))
+    if (!((intptr_t)(reinterpret_cast<::FUN_0098a410_shell *>((((HolderFor410*)apGroup)))->FindByValue(2))))
         return false;
     return true;
 }
@@ -289,7 +292,7 @@ struct CombatGroupStrategyAdvance
 // @fnv 0x00990ec0
 bool CombatGroupStrategyAdvance::FUN_00990ec0(ActorCombatGroup* apGroup)
 {
-    if (((int)(reinterpret_cast<::FUN_0098a410_shell *>((((FUN_0098a410_cls*)apGroup)))->FindByValue(4))) == 0)
+    if (((intptr_t)(reinterpret_cast<::FUN_0098a410_shell *>((((FUN_0098a410_cls*)apGroup)))->FindByValue(4))) == 0)
         return false;
     return true;
 }
@@ -685,7 +688,7 @@ struct CombatGroupStrategyFlank
 // @fnv 0x009908b0
 bool CombatGroupStrategyFlank::CanFlank(MarkerStruct* apGroupData, ActorCombatGroup* apGroup)
 {
-    if ((int)((::ContNode *)(reinterpret_cast<::Callees *>(((ContNode*)apGroup))->FUN_00726070())) < 3)
+    if (((int)reinterpret_cast<CombatGroupFields*>(((ContNode*)apGroup))->unk04) < 3)
     {
         return false;
     }
@@ -733,7 +736,7 @@ bool CombatGroupStrategy::FUN_00990ac0(ActorCombatGroup* group)
         {
             CombatGroupMember* pData = ((::CombatGroupMember *)(reinterpret_cast<::Target *>((((CombatGroupMethods*)group)))->GetIntAt(index)));
             NiPoint4 position;
-            if (((int)(reinterpret_cast<::B989700List *>((((CombatGroupMethods*)group)))->FindRefInRadius((::B9897F0Point *)(((int)(reinterpret_cast<::FUN_00575650_Class *>((pData))->FUN_00575650((::FUN_00575650_Result *)(::NiPoint4 *)(&position))))), {}, {}))))
+            if (((intptr_t)(reinterpret_cast<::B989700List *>((((CombatGroupMethods*)group)))->FindRefInRadius((::B9897F0Point *)(((intptr_t)(reinterpret_cast<::FUN_00575650_Class *>((pData))->FUN_00575650((::FUN_00575650_Result *)(::NiPoint4 *)(&position))))), {}, {}))))
                 reinterpret_cast<::FUN_0098a390_shell *>((group))->SetElementValue(index, 0);
             else
                 bFound = true;
@@ -747,7 +750,7 @@ bool CombatGroupStrategy::FUN_00990ac0(ActorCombatGroup* group)
 
 struct FUN_00990c40_cls
 {
-    bool FUN_00990c40(int a1, int a2);
+    bool FUN_00990c40(intptr_t a1, intptr_t a2);
 };
 
 struct FUN_00990c40_arg2
@@ -759,9 +762,9 @@ struct FUN_00990c40_arg1
 };
 
 // @fnv 0x00990c40
-bool FUN_00990c40_cls::FUN_00990c40(int a1, int a2)
+bool FUN_00990c40_cls::FUN_00990c40(intptr_t a1, intptr_t a2)
 {
-    if (((int)(reinterpret_cast<::Callees *>((((FUN_00990c40_arg2*)a2)))->FUN_00726070())) < 2)
+    if (((int)reinterpret_cast<CombatGroupFields*>((((FUN_00990c40_arg2*)a2)))->unk04) < 2)
     {
         return false;
     }
@@ -1264,7 +1267,7 @@ void FUN_00990930_shell::FUN_00990930(ActorCombatGroup* apGroup, MarkerStruct* a
     }
 
     irangedMemberCount = reinterpret_cast<::FUN_00990890_shell *>((reinterpret_cast<ActorCombatGroup*>(apGroupData)))->FUN_00990890();
-    itotalMemberCount = ((int)(reinterpret_cast<::Callees *>((reinterpret_cast<DataOps*>(apGroupData)))->FUN_00726070()));
+    itotalMemberCount = ((int)reinterpret_cast<CombatGroupFields*>((reinterpret_cast<DataOps*>(apGroupData)))->unk04);
     frangedPercentage = static_cast<float>(irangedMemberCount) / static_cast<float>(itotalMemberCount);
     irangedFlankers = 0;
 

@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 // 0x00c3bb80
 int *FUN_00c3bb80();
@@ -13,6 +14,6 @@ void FUN_00c3bc30(const char *);
 // 0x00c3bc80
 namespace fnv_00c3bc80 { void FUN_00c3bc80(const char *); }
 // 0x00c3bd30
-void FUN_00c3bd30(unsigned char, unsigned char, unsigned char, unsigned char, unsigned int);
+void FUN_00c3bd30(unsigned char, unsigned char, unsigned char, unsigned char, uintptr_t);
 // 0x00c3be40
 int FUN_00c3be40();

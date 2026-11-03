@@ -2,6 +2,7 @@
 // src/fallout/misc/saveload/bgssaveformbuffer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/misc/saveload/bgssaveformbuffer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/decl/FUN_0084e3a0_Class.h"
 #include "fnv/decl/FUN_00853570_shell.h"
 #include "fnv/decl/FUN_00853670_shell.h"
@@ -301,13 +302,13 @@ struct BGSSaveFormBuffer
     unsigned int m_iChangeFlags;
     BGSFormInfo m_FormInfo;
     unsigned char m_cVersion;
-    void InitFormEntry(unsigned int aiFormID, unsigned int aiChangeFlags, unsigned int aeFormType,
+    void InitFormEntry(unsigned int aiFormID, unsigned int aiChangeFlags, uintptr_t aeFormType,
                                   unsigned char acVersion);
 };
 
 // Stores the form ID, change flags, form type and version into this save-form buffer's fields.
 // @fnv 0x00865ad0
-void BGSSaveFormBuffer::InitFormEntry(unsigned int aiFormID, unsigned int aiChangeFlags, unsigned int aeFormType,
+void BGSSaveFormBuffer::InitFormEntry(unsigned int aiFormID, unsigned int aiChangeFlags, uintptr_t aeFormType,
                                       unsigned char acVersion)
 {
     reinterpret_cast<::FUN_00853570_shell *>(((&this->m_FormIDIndex)))->WriteFormIDBytes(aiFormID);

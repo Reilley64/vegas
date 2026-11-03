@@ -1,6 +1,9 @@
 // fallout/ai/lowprocess.cpp: LowProcess, ActorX, DelStandIn, LowProcessProxy and more (123 functions)
 
 #include "fnv/simple_list_node_view.h"
+#include "fnv/package_schedule_fields.h"
+#include "fnv/inventory_entry_fields.h"
+#include "fnv/form_fields.h"
 #include "fnv/save_load_game_view.h"
 #include "fnv/package_fields.h"
 #include <cstdio>
@@ -568,7 +571,7 @@ void LowProcess::Update(MobileObject* mobile)
                     if (reinterpret_cast<struct ::FUN_0041ca90 *>((package))->get() == 1)
                     {
                         float distance = static_cast<float>(static_cast<int>(
-                            ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<BSSimpleArray<unsigned int, 1024>*>(((::PackageTargetRecord *)(reinterpret_cast<::Script *>((package))->GetData())))))->GetName()))));
+                            ((unsigned int)(reinterpret_cast<::PackageTargetFields *>((reinterpret_cast<BSSimpleArray<unsigned int, 1024>*>(((::PackageTargetRecord *)(reinterpret_cast<::Script *>((package))->GetData())))))->iValue))));
                         if (distance >= reinterpret_cast<::RefS *>((update.actor))->FUN_005723b0((::RefS *)(pTarget), false, false))
                             SetProcessTarget(update.actor, 1);
                     }
@@ -581,7 +584,7 @@ void LowProcess::Update(MobileObject* mobile)
                         } follow;
                         follow.distanceLimit = 0.0f;
                         follow.targetCount = static_cast<int>(
-                            ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<BSSimpleArray<unsigned int, 1024>*>(((::PackageTargetRecord *)(reinterpret_cast<::Script *>((package))->GetData())))))->GetName())));
+                            ((unsigned int)(reinterpret_cast<::PackageTargetFields *>((reinterpret_cast<BSSimpleArray<unsigned int, 1024>*>(((::PackageTargetRecord *)(reinterpret_cast<::Script *>((package))->GetData())))))->iValue)));
                         if (follow.targetCount <= 0)
                             follow.targetCount = 200;
                         if (follow.distanceLimit == 0.0 && ((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>((update.actor))->GetTarget())) &&
@@ -652,8 +655,7 @@ void LowProcess::Update(MobileObject* mobile)
                     reinterpret_cast<::ItemChangeListNode *>(&(reinterpret_cast<BSSimpleList<TESPackage*>&>(ReferenceListNode)))->FUN_00905330((::InventoryStackRecord *const &)(reinterpret_cast<TESPackage* const&>(item)));
                 }
                 if (GetCurrentPackage() &&
-                    !reinterpret_cast<int>(
-                        ((::BSSimpleList< ::TESPackage *> *)(reinterpret_cast<::Callees *>((reinterpret_cast<BSSimpleList<TESPackage*>*>(reinterpret_cast<::FUN_0041d8a0_shell *>((GetCurrentPackage()))->FUN_0041d8a0())))->FUN_00726070()))))
+                    !reinterpret_cast<::PackageScheduleFields *>(reinterpret_cast<::FUN_0041d8a0_shell *>((GetCurrentPackage()))->FUN_0041d8a0())->iDuration)
                 {
                     TESPackage* previous = GetCurrentPackage();
                     SelectNextPackage(update.actor);
@@ -708,8 +710,7 @@ bool LowProcess::CanProcessActor(Actor* actor, bool force)
         }
         else
         {
-            if (reinterpret_cast<int>(
-                    ((::BSSimpleList< ::TESPackage *> *)(reinterpret_cast<::Callees *>((reinterpret_cast<BSSimpleList<TESPackage*>*>(reinterpret_cast<::FUN_0041d8a0_shell *>((context.previous))->FUN_0041d8a0())))->FUN_00726070()))) &&
+            if (reinterpret_cast<::PackageScheduleFields *>(reinterpret_cast<::FUN_0041d8a0_shell *>((context.previous))->FUN_0041d8a0())->iDuration &&
                 reinterpret_cast<::FUN_0067efd0_shell *>((context.previous))->FUN_0067efd0())
             {
                 int ending = 0;
@@ -728,12 +729,10 @@ bool LowProcess::CanProcessActor(Actor* actor, bool force)
                 {
                     if (reinterpret_cast<::FUN_0041d8a0_shell *>((context.previous))->FUN_0041d8a0()->FUN_0086a460() == -1)
                         ending = static_cast<int>(reinterpret_cast<::FUN_00621b00_shell *>(&(m_kProcessData))->FUN_00621b00()) +
-                                 reinterpret_cast<int>(
-                                     ((::BSSimpleList< ::TESPackage *> *)(reinterpret_cast<::Callees *>((reinterpret_cast<BSSimpleList<TESPackage*>*>(reinterpret_cast<::FUN_0041d8a0_shell *>((context.previous))->FUN_0041d8a0())))->FUN_00726070())));
+                                 reinterpret_cast<::PackageScheduleFields *>(reinterpret_cast<::FUN_0041d8a0_shell *>((context.previous))->FUN_0041d8a0())->iDuration;
                     else
                         ending = reinterpret_cast<::FUN_0041d8a0_shell *>((context.previous))->FUN_0041d8a0()->FUN_0086a460() +
-                                 reinterpret_cast<int>(
-                                     ((::BSSimpleList< ::TESPackage *> *)(reinterpret_cast<::Callees *>((reinterpret_cast<BSSimpleList<TESPackage*>*>(reinterpret_cast<::FUN_0041d8a0_shell *>((context.previous))->FUN_0041d8a0())))->FUN_00726070())));
+                                 reinterpret_cast<::PackageScheduleFields *>(reinterpret_cast<::FUN_0041d8a0_shell *>((context.previous))->FUN_0041d8a0())->iDuration;
                     if (ending > 23)
                         ending -= 23;
                     else if (context.hour < reinterpret_cast<::FUN_0041d8a0_shell *>((context.previous))->FUN_0041d8a0()->FUN_0086a460())
@@ -1411,8 +1410,7 @@ void LowProcess::ProcessAcquire(Actor* actor)
                 reinterpret_cast<struct ::FUN_0041ca90 *>((GetCurrentPackage()))->get() == 3)
                 SetProcedureIndex(0);
             else if (reinterpret_cast<::FUN_009611e0_shell *>((GetCurrentPackage()))->FUN_009611e0() == 26 &&
-                     !reinterpret_cast<int>(
-                         ((::BSSimpleList< ::TESPackage *> *)(reinterpret_cast<::Callees *>((reinterpret_cast<BSSimpleList<TESPackage*>*>(reinterpret_cast<::FUN_0041d8a0_shell *>((GetCurrentPackage()))->FUN_0041d8a0())))->FUN_00726070()))))
+                     !reinterpret_cast<::PackageScheduleFields *>(reinterpret_cast<::FUN_0041d8a0_shell *>((GetCurrentPackage()))->FUN_0041d8a0())->iDuration)
                 SetProcessTarget(actor, 2);
             else
                 SetProcessTarget(actor, 1);
@@ -1572,7 +1570,7 @@ void LowProcess::ProcessGuard(Actor* actor)
             state.fRadius =
                 state.m_pTargetRecord
                     ? static_cast<float>(static_cast<int>(
-                          ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<BSSimpleArray<unsigned int, 1024>*>(state.m_pTargetRecord)))->GetName()))))
+                          ((unsigned int)(reinterpret_cast<::PackageTargetFields *>((reinterpret_cast<BSSimpleArray<unsigned int, 1024>*>(state.m_pTargetRecord)))->iValue))))
                     : ::DAT_01018f5c;
             bAtLocation = state.fRadius > reinterpret_cast<::RefS *>((actor))->FUN_005723b0((::RefS *)(state.pGuardTarget), false, false);
         }
@@ -1692,21 +1690,21 @@ void LowProcess::InitLoadGame(BGSLoadFormBuffer* buffer)
         TESObjectREFR* reference;
     } targetFixup;
     targetFixup.reference =
-        pTarget ? dynamic_cast<TESObjectREFR*>(::FUN_004839c0(reinterpret_cast<unsigned int>(pTarget))) : 0;
+        pTarget ? dynamic_cast<TESObjectREFR*>(::FUN_004839c0((unsigned int)(std::uintptr_t)(pTarget))) : 0;
     targetFixup.targetAddress = &pTarget;
     *targetFixup.targetAddress = 0;
     SetTarget(targetFixup.reference);
     m_pReference40 =
         m_pReference40
-            ? dynamic_cast<TESObjectREFR*>(::FUN_004839c0(reinterpret_cast<unsigned int>(m_pReference40)))
+            ? dynamic_cast<TESObjectREFR*>(::FUN_004839c0((unsigned int)(std::uintptr_t)(m_pReference40)))
             : 0;
     m_pReference44 =
         m_pReference44
-            ? dynamic_cast<TESObjectREFR*>(::FUN_004839c0(reinterpret_cast<unsigned int>(m_pReference44)))
+            ? dynamic_cast<TESObjectREFR*>(::FUN_004839c0((unsigned int)(std::uintptr_t)(m_pReference44)))
             : 0;
     m_pObjectReference =
         m_pObjectReference
-            ? dynamic_cast<TESObjectREFR*>(::FUN_004839c0(reinterpret_cast<unsigned int>(m_pObjectReference)))
+            ? dynamic_cast<TESObjectREFR*>(::FUN_004839c0((unsigned int)(std::uintptr_t)(m_pObjectReference)))
             : 0;
     BSSimpleList<TESObjectREFR*>* node = &m_kReferenceList68;
     BSSimpleList<TESObjectREFR*>* m_pPreviousBlock = 0;
@@ -1716,7 +1714,7 @@ void LowProcess::InitLoadGame(BGSLoadFormBuffer* buffer)
         bool remove = false;
         if (item)
         {
-            item = item ? dynamic_cast<TESObjectREFR*>(::FUN_004839c0(reinterpret_cast<unsigned int>(item))) : 0;
+            item = item ? dynamic_cast<TESObjectREFR*>(::FUN_004839c0((unsigned int)(std::uintptr_t)(item))) : 0;
             if (item)
                 node->SetItem(item);
             else
@@ -2164,7 +2162,7 @@ void LowProcess::ProcessDialogueTopic(Actor* actor, TESTopic* topic, bool abUnus
                         {
                             reinterpret_cast<::fnv_0057ad20::FUN_0057ad20_shell *>((actor))->FUN_0057ad20((::fnv_0057ad20::TESTopic *)(topic));
                             reinterpret_cast<::fnv_0057ace0::FUN_0057ace0_shell *>((actor))->FUN_0057ace0((::fnv_0057ace0::TESTopicInfo *)(void *)(((::TESTopicInfo *)(reinterpret_cast<::FUN_0084e3a0_Class *>((pDialogueItem))->FUN_0084e3a0()))));
-                            ::HandleMobileObjectResult((void *)(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((actor))->FUN_0084e3a0()))), true);
+                            ::HandleMobileObjectResult((void *)(std::uintptr_t)(reinterpret_cast<::FormFields *>((actor))->iFormID), true);
                             actor->vfn_140();
                         }
                     }
@@ -4041,6 +4039,8 @@ struct ActorShell
 };
 struct Crime
 {
+    char pad00[0x4];
+    int unk04;
 };
 struct CrimeList
 {
@@ -4282,7 +4282,7 @@ void FUN_0090d240_stand::FUN_0090d240(Actor* apActor)
                 int ereaction = 0;
                 if (!bcombatflag)
                 {
-                    if (((int)(reinterpret_cast<::Callees *>((pcrime))->FUN_00726070())) > 2)
+                    if (((int)(((pcrime))->unk04)) > 2)
                     {
                         if (pcrimeAct && reinterpret_cast<::HostActor *>((((ActorShell*)apActor)))->IsHostileTo((::HostActor *)(pactor), 0, &ereaction, false))
                             bcombatflag = true;
@@ -5038,7 +5038,7 @@ void FUN_00909d00_shell::UpdatePackageTarget(Actor* apActor)
     float fradius = 0.0f;
     if (((::PackageTargetRecord *)(reinterpret_cast<::Script *>((ppackage))->GetData())))
     {
-        fradius = (float)((int)(reinterpret_cast<::Twin_0044ddc0 *>((((TESObjectREFR_GetFlags_Helper*)((::PackageTargetRecord *)(reinterpret_cast<::Script *>((ppackage))->GetData())))))->GetName()));
+        fradius = (float)((int)(reinterpret_cast<::PackageTargetFields *>((((TESObjectREFR_GetFlags_Helper*)((::PackageTargetRecord *)(reinterpret_cast<::Script *>((ppackage))->GetData())))))->iValue));
     }
 
     if (pTarget)
@@ -5361,7 +5361,7 @@ void FUN_00912150_shell::UpdateActorIfStale(Actor* apActor)
     if (fElapsedTime >= (double)0.1f)
     {
         vfn_288(apActor, true);
-        ((FUN_00674d70_shell*)((Flt*)((char*)this + 4))->operator unsigned int())->SetFlag800(true);
+        ((FUN_00674d70_shell*)*(void **)((char*)this + 4))->SetFlag800(true);
     }
     else
     {
@@ -5926,6 +5926,9 @@ void FUN_00913250_shell::InitPackageFromExtraData(MobileObject* apMob)
 
 struct PkgData
 {
+    char pad00[0x8];
+    void* unk08;
+
     int GetVal();
     PkgData* GetSub();
 };
@@ -7029,13 +7032,13 @@ void OwnerBase::FUN_00908cd0(Actor* apActor, TESObjectREFR* apRef, int a3)
     reinterpret_cast<::PackageEx *>((pPackage))->SetPackageType(1);
     reinterpret_cast<::TESPackage *>((pPackage))->SetMustReachLocation(true);
     reinterpret_cast<::TESPackage *>((pPackage))->SetMustComplete(true);
-    reinterpret_cast<::fnv_00671d30::FUN_00671d30_shell *>((pPackage))->FUN_00671d30((::fnv_00671d30::LocationDescriptor *)(((int)(reinterpret_cast<::BGSMessageInitAccess *>((((PkgObj*)vfn_22c())))->GetIconFormID()))));
+    reinterpret_cast<::fnv_00671d30::FUN_00671d30_shell *>((pPackage))->FUN_00671d30((::fnv_00671d30::LocationDescriptor *)(((intptr_t)(reinterpret_cast<::PackageFields *>((((PkgObj*)vfn_22c())))->pLocation))));
     reinterpret_cast<::FUN_0067f1f0_shell *>((((::PkgData *)(reinterpret_cast<::PackageFields *>((pPackage))->pLocation))))->FUN_0067f1f0(reinterpret_cast<::FUN_006784c0_shell *>((((RefArg*)apRef)))->FUN_006784c0());
     reinterpret_cast<::FUN_00672fc0_shell *>((pPackage))->FUN_00672fc0((::PackageTargetRecord *)(::PkgData *)(((::PkgData *)(reinterpret_cast<::Script *>((((PkgObj*)vfn_22c())))->GetData()))));
     reinterpret_cast<::TESPackage *>((pPackage))->SetProcedureType((::PACKAGE_PROCEDURE_TYPE)(6));
     reinterpret_cast<::PackageTargetRecord *>((((::PkgData *)(reinterpret_cast<::Script *>((pPackage))->GetData()))))->SetTargetKind((::PACK_TARG_TYPE)(0));
     reinterpret_cast<::PackageTargetRecord *>((((::PkgData *)(reinterpret_cast<::Script *>((pPackage))->GetData()))))->SetTargetObjectReference((::TESObjectREFR *)(apActor));
-    reinterpret_cast<::TESRegionGrassObject *>((((::PkgData *)(reinterpret_cast<::Script *>((pPackage))->GetData()))))->AssignLandTexture((::TESLandTexture *)(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((::PkgData *)(reinterpret_cast<::Script *>((((RefArg*)apRef)))->GetData()))))->GetName()))));
+    reinterpret_cast<::TESRegionGrassObject *>((((::PkgData *)(reinterpret_cast<::Script *>((pPackage))->GetData()))))->AssignLandTexture((::TESLandTexture *)(((uintptr_t)(((((::PkgData *)(reinterpret_cast<::Script *>((((RefArg*)apRef)))->GetData()))))->unk08))));
     reinterpret_cast<::fnv_0067a1b0::FUN_0067a1b0_shell *>((pPackage))->FUN_0067a1b0((::TESPackage *)(apRef));
     ProcStub* pProcess = ((::ProcStub *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((ActorStub*)pTargetActor2)))->GetBaseTexture()));
     pProcess->vfn_28();
@@ -9371,9 +9374,9 @@ bool FUN_0090e660(TESObjectREFR* refr, intptr_t apActor)
                 {
                     bool bMatch = false;
                     if (pLowProcess->m_eReferenceTypeInfo &&
-                        ::MatchesObjectType((TESForm*)((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((item))->GetName())), pLowProcess->m_eReferenceTypeInfo))
+                        ::MatchesObjectType((TESForm*)((uintptr_t)(reinterpret_cast<::InventoryEntryFields *>((item))->pObject)), pLowProcess->m_eReferenceTypeInfo))
                         bMatch = true;
-                    else if ((TESObjectREFR*)pLowProcess->m_pBoundObject78 == (TESObjectREFR*)((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((item))->GetName())))
+                    else if ((TESObjectREFR*)pLowProcess->m_pBoundObject78 == (TESObjectREFR*)((uintptr_t)(reinterpret_cast<::InventoryEntryFields *>((item))->pObject)))
                         bMatch = true;
                     else if (!pLowProcess->m_eReferenceTypeInfo && !pLowProcess->m_pBoundObject74 &&
                              !pLowProcess->m_pBoundObject78)
@@ -9597,13 +9600,13 @@ Cell* Proc::GetProcedureCell(Ref* ref)
     {
     case 0:
     case 0x32:
-        if (((void *)(reinterpret_cast<::BGSMessageInitAccess *>((this->vfn_22c()))->GetIconFormID())))
+        if (((void *)(reinterpret_cast<::PackageFields *>((this->vfn_22c()))->pLocation)))
             pCell = ((::Cell *)(reinterpret_cast<::fnv_00675c20::PHost *>((this->vfn_22c()))->FUN_00675c20((::fnv_00675c20::Ref *)(ref))));
         else
             pCell = ((::Cell *)(reinterpret_cast<::LowProcess *>((ref))->GetTarget()));
         break;
     case 0x2f:
-        if (reinterpret_cast<::C901C50Object *>((this->vfn_22c()))->IsFlag4Clear() && ((void *)(reinterpret_cast<::BGSMessageInitAccess *>((this->vfn_22c()))->GetIconFormID())))
+        if (reinterpret_cast<::C901C50Object *>((this->vfn_22c()))->IsFlag4Clear() && ((void *)(reinterpret_cast<::PackageFields *>((this->vfn_22c()))->pLocation)))
             pCell = ((::Cell *)(reinterpret_cast<::fnv_00675c20::PHost *>((this->vfn_22c()))->FUN_00675c20((::fnv_00675c20::Ref *)(ref))));
         else if (this->vfn_128())
             pCell = ((::Cell *)(reinterpret_cast<::LowProcess *>((this->vfn_128()))->GetTarget()));
@@ -9626,7 +9629,7 @@ Cell* Proc::GetProcedureCell(Ref* ref)
         break;
     case 4:
     case 5:
-        if (((void *)(reinterpret_cast<::BGSMessageInitAccess *>((this->vfn_22c()))->GetIconFormID())))
+        if (((void *)(reinterpret_cast<::PackageFields *>((this->vfn_22c()))->pLocation)))
             pCell = ((::Cell *)(reinterpret_cast<::fnv_00675c20::PHost *>((this->vfn_22c()))->FUN_00675c20((::fnv_00675c20::Ref *)(ref))));
         else
             pCell = ((::Cell *)(reinterpret_cast<::LowProcess *>((ref))->GetTarget()));
@@ -9640,7 +9643,7 @@ Cell* Proc::GetProcedureCell(Ref* ref)
             pCell = ((::Cell *)(reinterpret_cast<::LowProcess *>((ref))->GetTarget()));
         break;
     case 7:
-        if (((void *)(reinterpret_cast<::BGSMessageInitAccess *>((this->vfn_22c()))->GetIconFormID())))
+        if (((void *)(reinterpret_cast<::PackageFields *>((this->vfn_22c()))->pLocation)))
             pCell = ((::Cell *)(reinterpret_cast<::fnv_00675c20::PHost *>((this->vfn_22c()))->FUN_00675c20((::fnv_00675c20::Ref *)(ref))));
         else
             pCell = ((::Cell *)(reinterpret_cast<::LowProcess *>((ref))->GetTarget()));
@@ -10921,7 +10924,7 @@ void SearchProcess::CollectSearchResults(SearchReference* actor, SearchReference
                     {
                         SearchResult* result0 = new SearchResult;
                         result0->object = ((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((entry0))->GetName()));
-                        result0->quantity = ((int)(reinterpret_cast<::Callees *>((entry0))->FUN_00726070()));
+                        result0->quantity = ((int)(reinterpret_cast<::InventoryEntryFields *>((entry0))->iCountDelta));
                         result0->owner = container;
                         result0->enabled = 1;
                         results.Append(&result0);
@@ -10948,7 +10951,7 @@ void SearchProcess::CollectSearchResults(SearchReference* actor, SearchReference
                     {
                         SearchResult* result1 = new SearchResult;
                         result1->object = ((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((entry5))->GetName()));
-                        result1->quantity = ((int)(reinterpret_cast<::Callees *>((entry5))->FUN_00726070()));
+                        result1->quantity = ((int)(reinterpret_cast<::InventoryEntryFields *>((entry5))->iCountDelta));
                         result1->owner = container;
                         result1->enabled = 1;
                         results.Append(&result1);
@@ -10972,7 +10975,7 @@ void SearchProcess::CollectSearchResults(SearchReference* actor, SearchReference
                     {
                         SearchResult* result2 = new SearchResult;
                         result2->object = ((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((entry7))->GetName()));
-                        result2->quantity = ((int)(reinterpret_cast<::Callees *>((entry7))->FUN_00726070()));
+                        result2->quantity = ((int)(reinterpret_cast<::InventoryEntryFields *>((entry7))->iCountDelta));
                         result2->owner = container;
                         result2->enabled = 1;
                         results.Append(&result2);
@@ -10996,7 +10999,7 @@ void SearchProcess::CollectSearchResults(SearchReference* actor, SearchReference
                     {
                         SearchResult* result3 = new SearchResult;
                         result3->object = ((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((entry3))->GetName()));
-                        result3->quantity = ((int)(reinterpret_cast<::Callees *>((entry3))->FUN_00726070()));
+                        result3->quantity = ((int)(reinterpret_cast<::InventoryEntryFields *>((entry3))->iCountDelta));
                         result3->owner = container;
                         result3->enabled = 1;
                         results.Append(&result3);
@@ -11020,7 +11023,7 @@ void SearchProcess::CollectSearchResults(SearchReference* actor, SearchReference
                     {
                         SearchResult* result4 = new SearchResult;
                         result4->object = ((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((entryB))->GetName()));
-                        result4->quantity = ((int)(reinterpret_cast<::Callees *>((entryB))->FUN_00726070()));
+                        result4->quantity = ((int)(reinterpret_cast<::InventoryEntryFields *>((entryB))->iCountDelta));
                         result4->owner = container;
                         result4->enabled = 1;
                         results.Append(&result4);
@@ -11569,7 +11572,7 @@ void Obj::StartPackagePathing(Refr* actor, SForm* form)
     uintptr_t i382 = 0;
     uintptr_t n1cObj = 0;
     Pkg* pScriptRef = vfn_27c();
-    IdleForm* pIdleA = ((::fnv_00912db0::IdleForm *)(reinterpret_cast<::BGSMessageInitAccess *>((pScriptRef))->GetIconFormID()));
+    IdleForm* pIdleA = ((::fnv_00912db0::IdleForm *)(reinterpret_cast<::PackageFields *>((pScriptRef))->pLocation));
     Flags* pX = (Flags*)((void *)(reinterpret_cast<::Script *>((pScriptRef))->GetData()));
     bool bFlag3 = true;
     if (pIdleA)
@@ -11598,7 +11601,7 @@ void Obj::StartPackagePathing(Refr* actor, SForm* form)
     }
     if (!pTgt9 && bFlag3)
         pTgt9 = vfn_128();
-    float f4 = pIdleA ? (float)reinterpret_cast<::HighProcess *>((pScriptRef))->UpdateHighProcessState((::Actor *)(actor)) : pX ? (float)((int)(reinterpret_cast<::Twin_0044ddc0 *>((pX))->GetName())) : 30.0f;
+    float f4 = pIdleA ? (float)reinterpret_cast<::HighProcess *>((pScriptRef))->UpdateHighProcessState((::Actor *)(actor)) : pX ? (float)((int)(((pX))->c)) : 30.0f;
     f4 = FUN_00404010(f4 * 0.5, 15.0f);
     if (pTgt9)
     {
@@ -11924,10 +11927,10 @@ void AcquireProcess::FUN_00909430(AcquireActor* actor)
     bool createdEntryIn = false;
 
     if (entry == 0 &&
-        (pTarget == 0 || (!pTarget->IsActor() && !reinterpret_cast<::RefInventoryQuery *>((actor))->FUN_00575450((unsigned int)(((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>((((Actor*)pTarget)))->FUN_0084e3a0())))))))
+        (pTarget == 0 || (!pTarget->IsActor() && !reinterpret_cast<::RefInventoryQuery *>((actor))->FUN_00575450((reinterpret_cast<::FormFields *>((((Actor*)pTarget)))->iFormID)))))
     {
         FindPackageTarget(actor);
-        if (pTarget == 0 || (!pTarget->IsActor() && !reinterpret_cast<::RefInventoryQuery *>((actor))->FUN_00575450((unsigned int)(((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>((((Actor*)pTarget)))->FUN_0084e3a0()))))))
+        if (pTarget == 0 || (!pTarget->IsActor() && !reinterpret_cast<::RefInventoryQuery *>((actor))->FUN_00575450((reinterpret_cast<::FormFields *>((((Actor*)pTarget)))->iFormID))))
         {
             SetProcessTarget(actor, 1);
             return;
@@ -11940,7 +11943,7 @@ void AcquireProcess::FUN_00909430(AcquireActor* actor)
     }
     if (((::PackageLocationData *)(reinterpret_cast<::Script *>((((AcquirePackage*)GetCurrentPackage())))->GetData())))
         locationIndex = reinterpret_cast<::FUN_00672930_cls *>((((AcquirePackage*)GetCurrentPackage())))->FUN_00672930();
-    if ((pTarget == 0 || (!pTarget->IsActor() && !reinterpret_cast<::RefInventoryQuery *>((actor))->FUN_00575450((unsigned int)(((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>((((Actor*)pTarget)))->FUN_0084e3a0())))))) &&
+    if ((pTarget == 0 || (!pTarget->IsActor() && !reinterpret_cast<::RefInventoryQuery *>((actor))->FUN_00575450((reinterpret_cast<::FormFields *>((((Actor*)pTarget)))->iFormID)))) &&
         !vfn_80c(actor, locationIndex))
     {
         SetProcessTarget(actor, 1);
@@ -12141,7 +12144,7 @@ float ActorX::FUN_0090f670(intptr_t iArg)
         CountX* pkCount = ((::CountX *)(reinterpret_cast<::Script *>((v22c()))->GetData()));
         float fUnused3 = (reinterpret_cast<::C901C50Object *>((v22c()))->IsFlag4Clear() && ((int)(reinterpret_cast<::BGSMessageInitAccess *>((v22c()))->GetIconFormID())))
                              ? (float)reinterpret_cast<::HighProcess *>((v22c()))->UpdateHighProcessState((::Actor *)(iArg))
-                             : (pkCount ? (float)((int)(reinterpret_cast<::Twin_0044ddc0 *>((pkCount))->GetName())) : 30.0f);
+                             : (pkCount ? (float)((int)(reinterpret_cast<::PackageTargetFields *>((pkCount))->iValue)) : 30.0f);
         break;
         break;
     }
@@ -13267,7 +13270,7 @@ void ActorX::DispatchToTarget(TargetX* pkTarget)
     case 0: {
         ProcX* pkProc8 = v27c();
         pkData->m4 = 2;
-        reinterpret_cast<::SandboxTargetData *>((pkData))->FUN_009f3af0((::SBActor *)(pkTarget), (::SBPackage *)(((int)(reinterpret_cast<::BGSMessageInitAccess *>((pkProc8))->GetIconFormID()))));
+        reinterpret_cast<::SandboxTargetData *>((pkData))->FUN_009f3af0((::SBActor *)(pkTarget), (::SBPackage *)(((intptr_t)(reinterpret_cast<::PackageFields *>((pkProc8))->pLocation))));
         break;
     }
     case 1:

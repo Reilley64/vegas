@@ -75,57 +75,53 @@ void FUN_00d66bf0_cls::DispatchToChild(const void* arg)
 struct Target {
 };
 
+// The TOI contact point viewer: hkReferencedObject, hkProcess at +0x08, its world listener part
+// (FUN_00d682a0_cls) at +0x20 and its contact listener part at +0x28.
+struct ToiViewerRefObject {
+    void* volatile m_vtbl;
+    int m_memSizeAndRefCount;
+};
+struct ToiViewerProcess {
+    void* volatile m_processVtbl;
+    int unk04[5];
+};
 struct FUN_00d682a0_cls {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
+    void* volatile m_worldListenerVtbl;
+    void* m_context;
 
     void InvokeTargetWithSelfOffset(Target* apTarget);
 };
-
-// Calls apTarget->FUN_00c91a20 with a pointer to this+8, or null if this-0x20 is null.
-// @fnv 0x00d682a0
-void FUN_00d682a0_cls::InvokeTargetWithSelfOffset(Target* apTarget)
-{
-    reinterpret_cast<::hkWorldXc91a20 *>((apTarget))->FUN_00c91a20(((char*)this - 0x20) != 0 ? (char*)&this->unk08 : 0);
-}
+struct ToiViewerContactListener {
+    void* m_vtbl28;
+};
 
 extern char DAT_010d1f0c[];
 extern char DAT_010d1eec[];
 extern char DAT_010d1edc[];
 extern char DAT_010d1ebc[];
 
-
-struct FUN_00d682d0_cls {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    void* m_vtbl28;
-
+struct FUN_00d682d0_cls : ToiViewerRefObject, ToiViewerProcess, FUN_00d682a0_cls, ToiViewerContactListener {
     void* FUN_00d682d0(void* a1);
 };
 
-// Calls FUN_00ddccb0 with a1, then stores five DAT_ pointers into this at offsets 0x28, 0x00, 0x08, 0x20 and 0x28, and returns this.
+// Calls apTarget->FUN_00c91a20 with the viewer's contact listener part.
+// @fnv 0x00d682a0
+void FUN_00d682a0_cls::InvokeTargetWithSelfOffset(Target* apTarget)
+{
+    ToiViewerContactListener* listener = static_cast<FUN_00d682d0_cls*>(this);
+    reinterpret_cast<::hkWorldXc91a20 *>((apTarget))->FUN_00c91a20(listener);
+}
+
+// Calls FUN_00ddccb0 with a1, then stores the vtables of the contact listener part, the object, the process part,
+// the world listener part and the contact listener part again, and returns this.
 // @fnv 0x00d682d0
 void* FUN_00d682d0_cls::FUN_00d682d0(void* aiArg)
 {
     new ((void *)this) ::FUN_00ddccb0_cls(*static_cast<const ::BDDCCB0Array< ::BDDCCB0ProcessContext *> *>(aiArg));
     this->m_vtbl28 = (void*)&DAT_0104dd7c;
-    *(void* volatile*)((char*)this + 0x00) = (void*)&DAT_010d1f0c;
-    *(void* volatile*)((char*)this + 0x08) = (void*)&DAT_010d1eec;
-    *(void* volatile*)((char*)this + 0x20) = (void*)&DAT_010d1edc;
+    this->m_vtbl = (void*)&DAT_010d1f0c;
+    this->m_processVtbl = (void*)&DAT_010d1eec;
+    this->m_worldListenerVtbl = (void*)&DAT_010d1edc;
     this->m_vtbl28 = (void*)&DAT_010d1ebc;
     return this;
 }

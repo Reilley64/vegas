@@ -1,6 +1,7 @@
 
 // src/havok/physics/dynamics/entity/hkprigidbody.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/entity/hkprigidbody.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <new>
 
 #include "fnv/symbols_00c85000.h"
 #include <cstddef>
@@ -1424,7 +1425,7 @@ struct CA92A0Array
             const CA92A0Element* src = a.m_data + copiedSize;
             CA92A0Element* dst = m_data + copiedSize;
             for (int i = 0; i < newSize - copiedSize; i++)
-                new (dst + i) CA92A0Element(src[i]);
+                ::new (dst + i) CA92A0Element(src[i]);
         }
         m_iElementCount = newSize;
         return *this;
@@ -2867,7 +2868,7 @@ S00ca8c90_Body* S00ca8c90_Body::FUN_00ca8c90(const CInfo181& info)
     }
     if (info.motionType == 5)
     {
-        FixedMotion181* fixed = new (&motion) FixedMotion181(&info.position, &info.rotation);
+        FixedMotion181* fixed = ::new ((void*)&motion) FixedMotion181(&info.position, &info.rotation);
         reinterpret_cast<::FUN_00ca9360_cls *>(&(fixed->maxLinear))->FUN_00ca9360(&info.maxLinear);
         reinterpret_cast<::FUN_00ca9360_cls *>(&(fixed->maxAngular))->FUN_00ca9360(&info.maxAngular);
         reinterpret_cast<::FUN_00c86420_Class *>((fixed))->FUN_00c86420(1);

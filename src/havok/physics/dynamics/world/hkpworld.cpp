@@ -1,6 +1,7 @@
 
 // src/havok/physics/dynamics/world/hkpworld.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/hkpworld.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <new>
 
 #include "fnv/symbols_00c85000.h"
 #include <cstddef>
@@ -2446,7 +2447,7 @@ hkpPhantom* FUN_00c936a0_World::FUN_00c936a0(hkpPhantom* phantom)
 
     void* p = phantoms.m_data + phantoms.m_iElementCount;
     __assume(p != 0);
-    new (p) hkpPhantom*(phantom);
+    ::new (p) hkpPhantom*(phantom);
     phantoms.m_iElementCount++;
 
     ::fnv_00cb5b10::QueryEntityIntoBuffer((::fnv_00cb5b10::WorldRec *)(::hkpWorld *)(this), (::fnv_00cb5b10::EntityRec *)(phantom));
@@ -9147,7 +9148,7 @@ pairs.size=0;
 if ((pairs.capacityAndFlags & 0x80000000)==0) heap->freeBlock(pairs.data,(pairs.capacityAndFlags & 0x3fffffff)*sizeof(OverlapPair));
 }
 
-__forceinline void constructPairs(OverlapPair* p,int n) { for(int j=0;j<n;++j) new(p+j) OverlapPair; }
+__forceinline void constructPairs(OverlapPair* p,int n) { for(int j=0;j<n;++j) ::new(p+j) OverlapPair; }
 __forceinline OverlapPair& expandOverlapPair(PairArray& pairs) {
 MemoryRouter* router = (MemoryRouter*)::FUN_00c85750();
 if (pairs.size == (pairs.capacityAndFlags & 0x3fffffff)) ResizeAudioStream(router->heap,&pairs,sizeof(OverlapPair));
@@ -16073,7 +16074,7 @@ WorldCtor* WorldCtor::FUN_00c95a80(WorldInfoCtor* info, int version) {
     broadphaseDispatcher->unk4c.raw=borderListener ? &borderListener->unk08 : 0;
     broadphaseDispatcher->unk68.raw=borderListener ? &borderListener->unk08 : 0;
     broadphaseDispatcher->unk6c.raw=borderListener ? &borderListener->unk08 : 0;
-    ObjectCtor* agent=((::ObjectCtor *)(new ((void *)(allocObject<ObjectCtor>(0xc))) ::FUN_00cfd450((::hkWorldCFD4 *)(::WorldCtor *)(this))));
+    ObjectCtor* agent=((::ObjectCtor *)(::new ((void *)(allocObject<ObjectCtor>(0xc))) ::FUN_00cfd450((::hkWorldCFD4 *)(::WorldCtor *)(this))));
     dispatcher=((::ObjectCtor *)(reinterpret_cast<::FUN_00cfc030_cls *>((allocObject<ObjectCtor>(0x1e50)))->FUN_00cfc030((unsigned int)((void*)&((void (&)())::FUN_00d10790)),(unsigned int)(agent))));
     release(agent);
     if(!info->filter) {

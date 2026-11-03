@@ -5,8 +5,8 @@
 #include "fallout/interface/tile_fields.h"
 #include "fnv/result_slot.h"
 #include "fnv/simple_list_node_view.h"
-#include "fnv/inventory_fields.h"
-#include "fallout/interface/av_object_fields.h"
+#include "fnv/inventory_entry_fields.h"
+#include "fnv/av_object_fields.h"
 #include <cstdint>
 #include <new>
 #include <cstring>
@@ -5414,19 +5414,19 @@ void AppearanceMenu::UpdateFaceGen(bool remove, bool shape, bool texture)
             SkinRoot* controller;
             void* skin = manager;
             controller = (*reinterpret_cast<::AppearancePlayer * *>(&::_g_thePlayer))->RootB(0);
-            if (controller && ((::SkinObject *)(reinterpret_cast<::AVObjectFields *>((controller))->m_pkParent)))
+            if (controller && ((::SkinObject *)(reinterpret_cast<::NiAVObjectFields *>((controller))->m_pkParent)))
             {
                 ::FUN_00a6e8e0((::S_00a6e8e0_Object *)(controller), (::S_00a6e8e0_Palette *)(skin));
                 ((::AppearanceProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::AppearancePlayer * *>(&::_g_thePlayer))))->GetBaseTexture()))->ResetB(0);
-                ((::SkinObject *)(reinterpret_cast<::AVObjectFields *>((controller))->m_pkParent))->Remove(controller);
+                ((::SkinObject *)(reinterpret_cast<::NiAVObjectFields *>((controller))->m_pkParent))->Remove(controller);
             }
             controller = (*reinterpret_cast<::AppearancePlayer * *>(&::_g_thePlayer))->RootA(0);
-            if (controller && ((::SkinObject *)(reinterpret_cast<::AVObjectFields *>((controller))->m_pkParent)))
+            if (controller && ((::SkinObject *)(reinterpret_cast<::NiAVObjectFields *>((controller))->m_pkParent)))
             {
                 ::FUN_00a6e8e0((::S_00a6e8e0_Object *)(controller), (::S_00a6e8e0_Palette *)(skin));
                 ((::AppearanceProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::AppearancePlayer * *>(&::_g_thePlayer))))->GetBaseTexture()))->ResetA(0);
                 ((::AppearanceProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::AppearancePlayer * *>(&::_g_thePlayer))))->GetBaseTexture()))->ResetC(0);
-                ((::SkinObject *)(reinterpret_cast<::AVObjectFields *>((controller))->m_pkParent))->Remove(controller);
+                ((::SkinObject *)(reinterpret_cast<::NiAVObjectFields *>((controller))->m_pkParent))->Remove(controller);
             }
         }
         if (((::AppearanceProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::AppearancePlayer * *>(&::_g_thePlayer))))->GetBaseTexture())))

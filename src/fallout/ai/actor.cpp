@@ -25484,7 +25484,7 @@ void FUN_00893340_shell::FUN_00893340(bool abUseInitialPackage)
                 pintcell = ((::fnv_00893340::TESObjectCELL *)(reinterpret_cast<::fnv_00675c20::PHost *>((ppack))->FUN_00675c20((::fnv_00675c20::Ref *)(::Actor *)(this))));
                 pworld = ((::fnv_00893340::TESWorldSpace *)(reinterpret_cast<::fnv_00675a50::FUN_00675a50_shell *>((ppack))->FUN_00675a50((::MobileObject *)(::Actor *)(this))));
                 reinterpret_cast<::FUN_00575770_shell *>((((ST_00893340*)this)))->FUN_00575770(3.402823466e+38F);
-                if ((!((::fnv_00893340::BH_00893340 *)(reinterpret_cast<::TESPackageFields *>((ppack))->location)) || reinterpret_cast<::DurationData *>((((::fnv_00893340::BH_00893340 *)(reinterpret_cast<::TESPackageFields *>((ppack))->location))))->FUN_00678ca0() != 1) && reinterpret_cast<struct ::FUN_0041ca90 *>((ppack))->get() != 0xd)
+                if ((!((::fnv_00893340::BH_00893340 *)(reinterpret_cast<::PackageFields *>((ppack))->pLocation)) || reinterpret_cast<::DurationData *>((((::fnv_00893340::BH_00893340 *)(reinterpret_cast<::PackageFields *>((ppack))->pLocation))))->FUN_00678ca0() != 1) && reinterpret_cast<struct ::FUN_0041ca90 *>((ppack))->get() != 0xd)
                 {
                     ((VA_00893340*)this)->v170(ppack->GetPackageLocationPosition(this));
                     ::fnv_00573800::FUN_00573800((::fnv_00573800::MoveRef *)(void *)(this), (::fnv_00573800::MoveCell *)(pintcell), (::fnv_00573800::MoveWorld *)(pworld));
@@ -108984,8 +108984,8 @@ bool MatchActor::FUN_008a40e0(RefView* target)
             RefView* ref = 0;
             if (((ProcessView*)((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture())))->Has(5))
                 return true;
-            if (((::fnv_008a40e0::PackageData *)(reinterpret_cast<::TESPackageFields *>((package))->location)))
-                ref = ((::fnv_008a40e0::RefView *)(reinterpret_cast<::LocationDescriptor *>((((::fnv_008a40e0::PackageData *)(reinterpret_cast<::TESPackageFields *>((package))->location))))->GetLocationReference()));
+            if (((::fnv_008a40e0::PackageData *)(reinterpret_cast<::PackageFields *>((package))->pLocation)))
+                ref = ((::fnv_008a40e0::RefView *)(reinterpret_cast<::LocationDescriptor *>((((::fnv_008a40e0::PackageData *)(reinterpret_cast<::PackageFields *>((package))->pLocation))))->GetLocationReference()));
             if (!ref && ((::fnv_008a40e0::PackageData *)(reinterpret_cast<::FUN_00672dd0_shell *>((package))->FUN_00672dd0())))
                 ref = ((::fnv_008a40e0::RefView *)(reinterpret_cast<::LocationDescriptor *>((((::fnv_008a40e0::PackageData *)(reinterpret_cast<::FUN_00672dd0_shell *>((package))->FUN_00672dd0()))))->GetLocationReference()));
             if (ref)
@@ -108999,7 +108999,7 @@ bool MatchActor::FUN_008a40e0(RefView* target)
                     if (active && !reinterpret_cast<::fnv_004985f0::FUN_004985f0_s *>((((AnimView*)active)))->FUN_004985f0())
                         return false;
                 }
-                if (((::fnv_008a40e0::PackageData *)(reinterpret_cast<::TESPackageFields *>((package))->location)) && reinterpret_cast<::DurationData *>((((::fnv_008a40e0::PackageData *)(reinterpret_cast<::TESPackageFields *>((package))->location))))->FUN_00678ca0() == 3)
+                if (((::fnv_008a40e0::PackageData *)(reinterpret_cast<::PackageFields *>((package))->pLocation)) && reinterpret_cast<::DurationData *>((((::fnv_008a40e0::PackageData *)(reinterpret_cast<::PackageFields *>((package))->pLocation))))->FUN_00678ca0() == 3)
                     return false;
                 if (reinterpret_cast<::FUN_00568680_shell *>((target))->FUN_00568680())
                     return false;
@@ -109878,7 +109878,7 @@ bool MatchActor::FUN_008b19c0(MatchPackage* package)
     reinterpret_cast<::TESPackage *>((created2))->SetMustReachLocation(::FUN_008b1ff0((const char *)(package)));
     reinterpret_cast<::TESPackage *>((created2))->SetMustComplete(reinterpret_cast<::FUN_0067efd0_shell *>((package))->FUN_0067efd0());
     reinterpret_cast<::TESPackage *>((created2))->SetProcedureType((::PACKAGE_PROCEDURE_TYPE)(10));
-    reinterpret_cast<::fnv_00671d30::FUN_00671d30_shell *>((created2))->FUN_00671d30((::fnv_00671d30::LocationDescriptor *)(((int)(reinterpret_cast<::TESPackageFields *>((package))->location))));
+    reinterpret_cast<::fnv_00671d30::FUN_00671d30_shell *>((created2))->FUN_00671d30((::fnv_00671d30::LocationDescriptor *)(((int)(reinterpret_cast<::PackageFields *>((package))->pLocation))));
     created2->source = source9;
     if (((void *)(reinterpret_cast<::FUN_00672dd0_shell *>((package))->FUN_00672dd0())))
         reinterpret_cast<::fnv_00671e10::FUN_00671e10_shell *>((created2))->FUN_00671e10((::fnv_00671e10::LocationDescriptor *)(void *)(((void *)(reinterpret_cast<::FUN_00672dd0_shell *>((package))->FUN_00672dd0()))));

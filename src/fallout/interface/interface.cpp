@@ -4,7 +4,7 @@
 #include "fnv/result_slot.h"
 #include "fnv/simple_list_node_view.h"
 #include "fallout/interface/menu_fields.h"
-#include "fnv/inventory_fields.h"
+#include "fnv/inventory_entry_fields.h"
 #include <cstdint>
 #include <windows.h>
 #include <new>
@@ -8115,7 +8115,7 @@ void FUN_00707e30(DisplayItem* item, DisplayTile* root)
 
         float _worth = reinterpret_cast<::ItemChangeValueShell *>((item))->FUN_004bd400();
         float weight =
-            ::TESWeightForm::GetWeightForForm((::TESForm *)(::DisplayForm *)(((::DisplayForm *)(reinterpret_cast<::InventoryEntryFields *>((item))->m_pItemObject))), ::FUN_004d1360((char *)(reinterpret_cast<DisplayPlayer*>(::_g_thePlayer))));
+            ::TESWeightForm::GetWeightForForm((::TESForm *)(::DisplayForm *)(((::DisplayForm *)(reinterpret_cast<::InventoryEntryFields *>((item))->pObject))), ::FUN_004d1360((char *)(reinterpret_cast<DisplayPlayer*>(::_g_thePlayer))));
 
         DisplayTile* tiles3[13];
         char worthBufTmp[16];
@@ -8152,13 +8152,13 @@ void FUN_00707e30(DisplayItem* item, DisplayTile* root)
             float perk;
             float width;
 
-            switch (((::DisplayForm *)(reinterpret_cast<::InventoryEntryFields *>((item))->m_pItemObject))->FUN_00401170())
+            switch (((::DisplayForm *)(reinterpret_cast<::InventoryEntryFields *>((item))->pObject))->FUN_00401170())
             {
 
             case 0x29: {
 
                 maskB = 12;
-                DisplayForm* book = ((::DisplayForm *)(reinterpret_cast<::InventoryEntryFields *>((item))->m_pItemObject));
+                DisplayForm* book = ((::DisplayForm *)(reinterpret_cast<::InventoryEntryFields *>((item))->pObject));
                 char desc[256];
                 reinterpret_cast<::fnv_00503a70::AmmoEffectList503 *>((book))->FUN_00503a70(desc, 256);
 
@@ -8175,7 +8175,7 @@ void FUN_00707e30(DisplayItem* item, DisplayTile* root)
 
             case 0x28: {
 
-                DisplayForm* weapon = ((::DisplayForm *)(reinterpret_cast<::InventoryEntryFields *>((item))->m_pItemObject));
+                DisplayForm* weapon = ((::DisplayForm *)(reinterpret_cast<::InventoryEntryFields *>((item))->pObject));
                 reinterpret_cast<::Tile *>((tiles3[4]))->Set(0x100a, true);
 
                 DisplayForm* ammoForm = 0;
@@ -8183,12 +8183,12 @@ void FUN_00707e30(DisplayItem* item, DisplayTile* root)
 
                 if (((::DisplayProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((reinterpret_cast<DisplayPlayer*>(::_g_thePlayer)))->GetBaseTexture())) &&
                     ((::DisplayProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((reinterpret_cast<DisplayPlayer*>(::_g_thePlayer)))->GetBaseTexture()))->Weapon() &&
-                    weapon == ((::DisplayForm *)(reinterpret_cast<::InventoryEntryFields *>((((::DisplayProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((reinterpret_cast<DisplayPlayer*>(::_g_thePlayer)))->GetBaseTexture()))->Weapon()))->m_pItemObject)))
+                    weapon == ((::DisplayForm *)(reinterpret_cast<::InventoryEntryFields *>((((::DisplayProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((reinterpret_cast<DisplayPlayer*>(::_g_thePlayer)))->GetBaseTexture()))->Weapon()))->pObject)))
                 {
 
                     ammoForm =
                         ((::DisplayProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((reinterpret_cast<DisplayPlayer*>(::_g_thePlayer)))->GetBaseTexture()))->Ammo()
-                            ? ((::DisplayForm *)(reinterpret_cast<::InventoryEntryFields *>((((::DisplayProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((reinterpret_cast<DisplayPlayer*>(::_g_thePlayer)))->GetBaseTexture()))->Ammo()))->m_pItemObject))
+                            ? ((::DisplayForm *)(reinterpret_cast<::InventoryEntryFields *>((((::DisplayProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((reinterpret_cast<DisplayPlayer*>(::_g_thePlayer)))->GetBaseTexture()))->Ammo()))->pObject))
                             : 0;
                     actor_11 = reinterpret_cast<DisplayPlayer*>(::_g_thePlayer);
                 }
@@ -8260,7 +8260,7 @@ void FUN_00707e30(DisplayItem* item, DisplayTile* root)
 
                     if (currentWeapon && ((::DisplayList *)(::FUN_00559450((int *)(currentWeapon)))) && ((::DisplayList *)(::FUN_00559450((int *)(item)))) &&
                         *((void **)(&reinterpret_cast<::SimpleListNodeView*>(((::DisplayList *)(::FUN_00559450((int *)(currentWeapon)))))->m_item)) == *((void **)(&reinterpret_cast<::SimpleListNodeView*>(((::DisplayList *)(::FUN_00559450((int *)(item)))))->m_item)))
-                        loaded = currentAmmo2 ? ((int)(reinterpret_cast<::InventoryEntryFields *>((currentAmmo2))->m_iCountChange)) : 0;
+                        loaded = currentAmmo2 ? ((int)(reinterpret_cast<::InventoryEntryFields *>((currentAmmo2))->iCountDelta)) : 0;
 
                     else
                         loaded = MinInt(reinterpret_cast<::FUN_004fe160_cls *>((weapon))->GetFlaggedValue(reinterpret_cast<::fnv_004bda70::FUN_004bda70_shell *>((item))->HasEffect(2)), total);
@@ -8291,7 +8291,7 @@ void FUN_00707e30(DisplayItem* item, DisplayTile* root)
                 ::TaskQueueInterface::CopyStringToBuffer(armorBuf_, 128, DAT_01047008);
 
                 TESObjectARMO* armor =
-                    dynamic_cast<TESObjectARMO*>(reinterpret_cast<TESBoundObject*>(((::DisplayForm *)(reinterpret_cast<::InventoryEntryFields *>((item))->m_pItemObject))));
+                    dynamic_cast<TESObjectARMO*>(reinterpret_cast<TESBoundObject*>(((::DisplayForm *)(reinterpret_cast<::InventoryEntryFields *>((item))->pObject))));
 
                 if (armor)
                 {
@@ -8305,8 +8305,8 @@ void FUN_00707e30(DisplayItem* item, DisplayTile* root)
 
                 reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((tiles3[5]))->FUN_00a01350(label3, (char *)(armorBuf_), true);
 
-                float dt3 = ::CombatDamageCalculator::CalculateArmorDamageThreshold((int)((float)(::FUN_004be060((void *)(((::DisplayForm *)(reinterpret_cast<::InventoryEntryFields *>((item))->m_pItemObject)))))), conditionArmor);
-                float dr2 = ::CombatDamageCalculator::CalculateArmorDamageThreshold((int)::FUN_004be180((char *)(((::DisplayForm *)(reinterpret_cast<::InventoryEntryFields *>((item))->m_pItemObject)))), conditionArmor);
+                float dt3 = ::CombatDamageCalculator::CalculateArmorDamageThreshold((int)((float)(::FUN_004be060((void *)(((::DisplayForm *)(reinterpret_cast<::InventoryEntryFields *>((item))->pObject)))))), conditionArmor);
+                float dr2 = ::CombatDamageCalculator::CalculateArmorDamageThreshold((int)::FUN_004be180((char *)(((::DisplayForm *)(reinterpret_cast<::InventoryEntryFields *>((item))->pObject)))), conditionArmor);
 
                 if (dt3 == 0.0 && dr2 == 0.0)
                 {
@@ -8335,7 +8335,7 @@ void FUN_00707e30(DisplayItem* item, DisplayTile* root)
                     value,
                     FUN_0040ebd0(1.0f,
                                  reinterpret_cast<::FUN_004bcdb0_shell *>((item))->FUN_004bcdb0(false) /
-                                     (::TESHealthForm::GetBaseHealth((::TESForm *)(::DisplayForm *)(((::DisplayForm *)(reinterpret_cast<::InventoryEntryFields *>((item))->m_pItemObject)))) ? ::TESHealthForm::GetBaseHealth((::TESForm *)(::DisplayForm *)(((::DisplayForm *)(reinterpret_cast<::InventoryEntryFields *>((item))->m_pItemObject)))) : 1)),
+                                     (::TESHealthForm::GetBaseHealth((::TESForm *)(::DisplayForm *)(((::DisplayForm *)(reinterpret_cast<::InventoryEntryFields *>((item))->pObject)))) ? ::TESHealthForm::GetBaseHealth((::TESForm *)(::DisplayForm *)(((::DisplayForm *)(reinterpret_cast<::InventoryEntryFields *>((item))->pObject)))) : 1)),
                     true);
                 break;
             }
@@ -8346,15 +8346,15 @@ void FUN_00707e30(DisplayItem* item, DisplayTile* root)
 
             DisplayEffects* effects5 = 0;
 
-            if (((::DisplayForm *)(reinterpret_cast<::InventoryEntryFields *>((item))->m_pItemObject))->FUN_00401170() == 0x1d)
+            if (((::DisplayForm *)(reinterpret_cast<::InventoryEntryFields *>((item))->pObject))->FUN_00401170() == 0x1d)
                 effects5 = static_cast<EffectForm*>(reinterpret_cast<EffectForm*>(((::DisplayForm *)(reinterpret_cast<::FUN_004bd740_stand *>((item))->GetExtraForm()))));
 
-            else if (((::DisplayForm *)(reinterpret_cast<::InventoryEntryFields *>((item))->m_pItemObject))->FUN_00401170() == 0x2f)
-                effects5 = static_cast<EffectForm*>(reinterpret_cast<EffectForm*>(((::DisplayForm *)(reinterpret_cast<::InventoryEntryFields *>((item))->m_pItemObject))));
+            else if (((::DisplayForm *)(reinterpret_cast<::InventoryEntryFields *>((item))->pObject))->FUN_00401170() == 0x2f)
+                effects5 = static_cast<EffectForm*>(reinterpret_cast<EffectForm*>(((::DisplayForm *)(reinterpret_cast<::InventoryEntryFields *>((item))->pObject))));
 
             else
             {
-                EnchantForm* enchant = ((::EnchantForm *)(::TESEnchantableForm::FindFormEnchantment((::TESForm *)(::DisplayForm *)(((::DisplayForm *)(reinterpret_cast<::InventoryEntryFields *>((item))->m_pItemObject))))));
+                EnchantForm* enchant = ((::EnchantForm *)(::TESEnchantableForm::FindFormEnchantment((::TESForm *)(::DisplayForm *)(((::DisplayForm *)(reinterpret_cast<::InventoryEntryFields *>((item))->pObject))))));
                 if (enchant && !((bool)(reinterpret_cast<::FlaggedData *>((enchant))->ContainsAnyFlag(4))))
                     effects5 = enchant;
             }
@@ -8372,12 +8372,12 @@ void FUN_00707e30(DisplayItem* item, DisplayTile* root)
                     maskB &= ~64;
             }
 
-            else if (((::DisplayForm *)(reinterpret_cast<::InventoryEntryFields *>((item))->m_pItemObject))->FUN_00401170() != 0x29)
+            else if (((::DisplayForm *)(reinterpret_cast<::InventoryEntryFields *>((item))->pObject))->FUN_00401170() != 0x29)
                 maskB &= ~64;
 
-            if (((::DisplayForm *)(reinterpret_cast<::InventoryEntryFields *>((item))->m_pItemObject))->FUN_00401170() == 0x67)
+            if (((::DisplayForm *)(reinterpret_cast<::InventoryEntryFields *>((item))->pObject))->FUN_00401170() == 0x67)
             {
-                DescriptionForm* note = reinterpret_cast<DescriptionForm*>(((::DisplayForm *)(reinterpret_cast<::InventoryEntryFields *>((item))->m_pItemObject)));
+                DescriptionForm* note = reinterpret_cast<DescriptionForm*>(((::DisplayForm *)(reinterpret_cast<::InventoryEntryFields *>((item))->pObject)));
                 reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((tiles3[6]))->FUN_00a01350(text3, (char *)(note->description.Text(0, 0x43534544)), true);
                 maskB |= 64;
             }
@@ -8385,7 +8385,7 @@ void FUN_00707e30(DisplayItem* item, DisplayTile* root)
             if (modified3)
             {
 
-                DisplayForm* modWeapon5 = ((::DisplayForm *)(reinterpret_cast<::InventoryEntryFields *>((item))->m_pItemObject));
+                DisplayForm* modWeapon5 = ((::DisplayForm *)(reinterpret_cast<::InventoryEntryFields *>((item))->pObject));
                 DisplayForm* mod_16 = 0;
                 unsigned char flags = reinterpret_cast<::FUN_004bd820_stand *>((item))->FUN_004bd820();
                 bool labeled = false;
@@ -8446,9 +8446,9 @@ void FUN_00707e30(DisplayItem* item, DisplayTile* root)
             if (_worth > 0.0)
             {
                 if (_worth >= 1.0)
-                    ::FUN_00406d00(worthBufTmp, 16, DAT_0106ecc8, _worth * ((std::intptr_t)(reinterpret_cast<::InventoryEntryFields *>((item))->m_iCountChange)));
+                    ::FUN_00406d00(worthBufTmp, 16, DAT_0106ecc8, _worth * ((std::intptr_t)(reinterpret_cast<::InventoryEntryFields *>((item))->iCountDelta)));
                 else
-                    ::FUN_00406d00(worthBufTmp, 16, DAT_01020768, _worth * ((std::intptr_t)(reinterpret_cast<::InventoryEntryFields *>((item))->m_iCountChange)));
+                    ::FUN_00406d00(worthBufTmp, 16, DAT_01020768, _worth * ((std::intptr_t)(reinterpret_cast<::InventoryEntryFields *>((item))->iCountDelta)));
             }
             else
                 ::TaskQueueInterface::CopyStringToBuffer(worthBufTmp, 16, DAT_01047008);
@@ -8461,7 +8461,7 @@ void FUN_00707e30(DisplayItem* item, DisplayTile* root)
                 weight *= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::DisplaySetting *>(&::originalRuntimeFloatSetting32))))));
 
             if (weight > 0.0)
-                ::FUN_00406d00(weightBuf, 32, DAT_01030018, weight * ((std::intptr_t)(reinterpret_cast<::InventoryEntryFields *>((item))->m_iCountChange)));
+                ::FUN_00406d00(weightBuf, 32, DAT_01030018, weight * ((std::intptr_t)(reinterpret_cast<::InventoryEntryFields *>((item))->iCountDelta)));
             else
                 ::TaskQueueInterface::CopyStringToBuffer(weightBuf, 32, DAT_01047008);
 

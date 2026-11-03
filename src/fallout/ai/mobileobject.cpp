@@ -12795,7 +12795,7 @@ bool xActorD::StartConversation(xInfo* pInfo)
         reinterpret_cast<::PackageEx *>((qxQHW))->SetPackageType(0x1c);
         reinterpret_cast<::TESPackage *>((qxQHW))->SetMustReachLocation(::FUN_008b1ff0((const char *)(pInfo)));
         reinterpret_cast<::TESPackage *>((qxQHW))->SetMustComplete(reinterpret_cast<::FUN_0067efd0_shell *>((pInfo))->FUN_0067efd0());
-        reinterpret_cast<::fnv_00671d30::FUN_00671d30_shell *>((qxQHW))->FUN_00671d30((::fnv_00671d30::LocationDescriptor *)(void *)(((void *)(reinterpret_cast<::TESPackageFields *>((pInfo))->location))));
+        reinterpret_cast<::fnv_00671d30::FUN_00671d30_shell *>((qxQHW))->FUN_00671d30((::fnv_00671d30::LocationDescriptor *)(void *)(((void *)(reinterpret_cast<::PackageFields *>((pInfo))->pLocation))));
         reinterpret_cast<::fnv_00671e10::FUN_00671e10_shell *>((qxQHW))->FUN_00671e10((::fnv_00671e10::LocationDescriptor *)(void *)(((void *)(reinterpret_cast<::FUN_00672dd0_shell *>((pInfo))->FUN_00672dd0()))));
         reinterpret_cast<::FUN_00672fc0_shell *>((qxQHW))->FUN_00672fc0((::PackageTargetRecord *)(void *)(((void *)(reinterpret_cast<::Script *>((pInfo))->GetData()))));
         reinterpret_cast<::TESPackage *>((qxQHW))->SetProcedureType((::PACKAGE_PROCEDURE_TYPE)(10));

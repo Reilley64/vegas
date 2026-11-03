@@ -384,7 +384,7 @@ struct FUN_009ca5f0 : CombatProcedure
 };
 struct FUN_009d6030 : CombatProcedure
 {
-    FUN_009d6030(int, float, int, int);
+    FUN_009d6030(void*, float, int, int);
     int f10;
     int f14;
     int f18;

@@ -5,7 +5,8 @@
 #include <cstring>
 #include "fnv/simple_array_item.h"
 #include "fnv/simple_list_node_view.h"
-#include "fnv/inventory_fields.h"
+#include "fnv/inventory_entry_fields.h"
+#include "fnv/data_handler_inventory_fields.h"
 #include <cstdint>
 #include <new>
 #include <cstdlib>
@@ -5109,12 +5110,12 @@ void CurrencyQuery::ComputePlayerAndTargetTotals()
     while (link5 && *((::CurrencyItem **)(&reinterpret_cast<::SimpleListNodeView*>(link5)->m_item)))
     {
         int count = 0;
-        form = ((::CurrencyForm *)(reinterpret_cast<::InventoryEntryFields *>(((*((::CurrencyItem **)(&reinterpret_cast<::SimpleListNodeView*>(link5)->m_item)))))->m_pItemObject));
+        form = ((::CurrencyForm *)(reinterpret_cast<::InventoryEntryFields *>(((*((::CurrencyItem **)(&reinterpret_cast<::SimpleListNodeView*>(link5)->m_item)))))->pObject));
         if (form && form->FUN_00401170() == 0x74)
         {
-            if (((std::intptr_t)(reinterpret_cast<::InventoryEntryFields *>(((*((::CurrencyItem **)(&reinterpret_cast<::SimpleListNodeView*>(link5)->m_item)))))->m_iCountChange)) > 0)
+            if (((std::intptr_t)(reinterpret_cast<::InventoryEntryFields *>(((*((::CurrencyItem **)(&reinterpret_cast<::SimpleListNodeView*>(link5)->m_item)))))->iCountDelta)) > 0)
             {
-                count = ((int)(reinterpret_cast<::InventoryEntryFields *>(((*((::CurrencyItem **)(&reinterpret_cast<::SimpleListNodeView*>(link5)->m_item)))))->m_iCountChange));
+                count = ((int)(reinterpret_cast<::InventoryEntryFields *>(((*((::CurrencyItem **)(&reinterpret_cast<::SimpleListNodeView*>(link5)->m_item)))))->iCountDelta));
                 playerTotal += ::FUN_0048e8a0((::TESForm *)(form)) * count;
             }
         }
@@ -5131,12 +5132,12 @@ void CurrencyQuery::ComputePlayerAndTargetTotals()
     while (link5 && *((::CurrencyItem **)(&reinterpret_cast<::SimpleListNodeView*>(link5)->m_item)))
     {
         int count = 0;
-        form = ((::CurrencyForm *)(reinterpret_cast<::InventoryEntryFields *>(((*((::CurrencyItem **)(&reinterpret_cast<::SimpleListNodeView*>(link5)->m_item)))))->m_pItemObject));
+        form = ((::CurrencyForm *)(reinterpret_cast<::InventoryEntryFields *>(((*((::CurrencyItem **)(&reinterpret_cast<::SimpleListNodeView*>(link5)->m_item)))))->pObject));
         if (form && form->FUN_00401170() == 0x74)
         {
-            if (((std::intptr_t)(reinterpret_cast<::InventoryEntryFields *>(((*((::CurrencyItem **)(&reinterpret_cast<::SimpleListNodeView*>(link5)->m_item)))))->m_iCountChange)) > 0)
+            if (((std::intptr_t)(reinterpret_cast<::InventoryEntryFields *>(((*((::CurrencyItem **)(&reinterpret_cast<::SimpleListNodeView*>(link5)->m_item)))))->iCountDelta)) > 0)
             {
-                count = ((int)(reinterpret_cast<::InventoryEntryFields *>(((*((::CurrencyItem **)(&reinterpret_cast<::SimpleListNodeView*>(link5)->m_item)))))->m_iCountChange));
+                count = ((int)(reinterpret_cast<::InventoryEntryFields *>(((*((::CurrencyItem **)(&reinterpret_cast<::SimpleListNodeView*>(link5)->m_item)))))->iCountDelta));
                 targetTotal += ::FUN_0048e8a0((::TESForm *)(form)) * count;
             }
         }
@@ -11956,13 +11957,13 @@ void Menu74::TransferBarterItems(bool abPlayerReceives)
         while (formA && *((::Entry74 **)(&reinterpret_cast<::SimpleListNodeView*>(formA)->m_item)))
         {
             int countA = 0;
-            listA = ((::Form74 *)(reinterpret_cast<::InventoryEntryFields *>(((*((::Entry74 **)(&reinterpret_cast<::SimpleListNodeView*>(formA)->m_item)))))->m_pItemObject));
+            listA = ((::Form74 *)(reinterpret_cast<::InventoryEntryFields *>(((*((::Entry74 **)(&reinterpret_cast<::SimpleListNodeView*>(formA)->m_item)))))->pObject));
             if (listA && listA->Type() == 0x74)
             {
-                if (((std::intptr_t)(reinterpret_cast<::InventoryEntryFields *>(((*((::Entry74 **)(&reinterpret_cast<::SimpleListNodeView*>(formA)->m_item)))))->m_iCountChange)) > 0)
+                if (((std::intptr_t)(reinterpret_cast<::InventoryEntryFields *>(((*((::Entry74 **)(&reinterpret_cast<::SimpleListNodeView*>(formA)->m_item)))))->iCountDelta)) > 0)
                 {
                     int valueA = ::FUN_0048e8a0((::TESForm *)(listA));
-                    countA = ((int)(reinterpret_cast<::InventoryEntryFields *>(((*((::Entry74 **)(&reinterpret_cast<::SimpleListNodeView*>(formA)->m_item)))))->m_iCountChange));
+                    countA = ((int)(reinterpret_cast<::InventoryEntryFields *>(((*((::Entry74 **)(&reinterpret_cast<::SimpleListNodeView*>(formA)->m_item)))))->iCountDelta));
                     if (valueA * countA > remaining)
                         countA = remaining / valueA;
                     if (countA > 0)
@@ -12003,13 +12004,13 @@ void Menu74::TransferBarterItems(bool abPlayerReceives)
         while (nodeB && *((::Entry74 **)(&reinterpret_cast<::SimpleListNodeView*>(nodeB)->m_item)))
         {
             int countB = 0;
-            listB = ((::Form74 *)(reinterpret_cast<::InventoryEntryFields *>(((*((::Entry74 **)(&reinterpret_cast<::SimpleListNodeView*>(nodeB)->m_item)))))->m_pItemObject));
+            listB = ((::Form74 *)(reinterpret_cast<::InventoryEntryFields *>(((*((::Entry74 **)(&reinterpret_cast<::SimpleListNodeView*>(nodeB)->m_item)))))->pObject));
             if (listB && listB->Type() == 0x74)
             {
-                if (((std::intptr_t)(reinterpret_cast<::InventoryEntryFields *>(((*((::Entry74 **)(&reinterpret_cast<::SimpleListNodeView*>(nodeB)->m_item)))))->m_iCountChange)) > 0)
+                if (((std::intptr_t)(reinterpret_cast<::InventoryEntryFields *>(((*((::Entry74 **)(&reinterpret_cast<::SimpleListNodeView*>(nodeB)->m_item)))))->iCountDelta)) > 0)
                 {
                     int valueB = ::FUN_0048e8a0((::TESForm *)(listB));
-                    countB = ((int)(reinterpret_cast<::InventoryEntryFields *>(((*((::Entry74 **)(&reinterpret_cast<::SimpleListNodeView*>(nodeB)->m_item)))))->m_iCountChange));
+                    countB = ((int)(reinterpret_cast<::InventoryEntryFields *>(((*((::Entry74 **)(&reinterpret_cast<::SimpleListNodeView*>(nodeB)->m_item)))))->iCountDelta));
                     if (valueB * countB > remaining)
                         countB = remaining / valueB;
                     if (countB > 0)

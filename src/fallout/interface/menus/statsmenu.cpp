@@ -3,7 +3,7 @@
 #include <cstdint>
 #include "fnv/simple_list_node_view.h"
 #include "fallout/interface/menu_fields.h"
-#include "fnv/inventory_fields.h"
+#include "fnv/inventory_entry_fields.h"
 #include "fallout/interface/list_box_fields.h"
 #include "fnv/effect_item_fields.h"
 #include <new>
@@ -4242,13 +4242,13 @@ void ClickMenu::FUN_007db380(int id, Tile* tile)
     {
         if (tile == m_kHealingOptions[i].pTile && m_kHealingOptions[i].m_pStatusEffect)
         {
-            reinterpret_cast<::FUN_0088c650_shell *>((((ClickPlayer*)::_g_thePlayer)))->FUN_0088c650(((::TESBoundObject *)(reinterpret_cast<::InventoryEntryFields *>((m_kHealingOptions[i].m_pStatusEffect))->m_pItemObject)),
-                               (int)(reinterpret_cast<::InventoryEntryFields *>((m_kHealingOptions[i].m_pStatusEffect))->m_iCountChange),
+            reinterpret_cast<::FUN_0088c650_shell *>((((ClickPlayer*)::_g_thePlayer)))->FUN_0088c650(((::TESBoundObject *)(reinterpret_cast<::InventoryEntryFields *>((m_kHealingOptions[i].m_pStatusEffect))->pObject)),
+                               (int)(reinterpret_cast<::InventoryEntryFields *>((m_kHealingOptions[i].m_pStatusEffect))->iCountDelta),
                                (::ExtraDataList *)(::AlchemyItem *)(((::ClickNode *)(::FUN_00559450((int *)(m_kHealingOptions[i].m_pStatusEffect))))
                                    ? ((::AlchemyItem *)(reinterpret_cast<::SimpleListNodeView*>(((::ClickNode *)(::FUN_00559450((int *)(m_kHealingOptions[i].m_pStatusEffect)))))->m_item))
                                    : 0),
                                false, false, true);
-            TESBoundObject* object = ((::TESBoundObject *)(reinterpret_cast<::InventoryEntryFields *>((m_kHealingOptions[i].m_pStatusEffect))->m_pItemObject));
+            TESBoundObject* object = ((::TESBoundObject *)(reinterpret_cast<::InventoryEntryFields *>((m_kHealingOptions[i].m_pStatusEffect))->pObject));
             for (ClickNode* node = (ClickNode*)dynamic_cast<BSSimpleList<EffectItem*>*>(object);
                  node && ((::AlchemyItem *)(reinterpret_cast<::SimpleListNodeView*>(node)->m_item)); node = ((::ClickNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070())))
             {
@@ -4283,7 +4283,7 @@ void HealMenu::UpdateOption(int aiOptionIndex)
             reinterpret_cast<::Tile *>((options[indexB].tile))->Set(0xfaf, options[indexB].condition(&options[indexB]));
             if (options[indexB].inventory)
             {
-                ::FUN_00406f60((::FUN_00406f90_this *)(::HealText *)(&text), "(%d) %s", ((std::intptr_t)(reinterpret_cast<::InventoryEntryFields *>((options[indexB].inventory))->m_iCountChange)),
+                ::FUN_00406f60((::FUN_00406f90_this *)(::HealText *)(&text), "(%d) %s", ((std::intptr_t)(reinterpret_cast<::InventoryEntryFields *>((options[indexB].inventory))->iCountDelta)),
                            reinterpret_cast<::FUN_00a011f0_shell *>((options[indexB].tile))->FUN_00a011f0(0x1004));
                 if ((indexB == 0 && !::FUN_004d1360((char *)((*reinterpret_cast<::HealPlayer * *>(&::_g_thePlayer))))) || indexB == 3)
                     reinterpret_cast<::Tile *>((button))->Set(0xfaf, 1);

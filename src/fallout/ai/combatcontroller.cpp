@@ -1,7 +1,7 @@
 // fallout/ai/combatcontroller.cpp: CombatController, CombatPlanner, Owner, OuterObj and more (89 functions)
 
 #include "fnv/combat_controller_fields.h"
-#include "fnv/inventory_fields.h"
+#include "fnv/inventory_entry_fields.h"
 #include "fnv/package_fields.h"
 #include <cstdint>
 #include "fnv/simple_array_item.h"
@@ -1063,7 +1063,7 @@ int FUN_004c8f30_shell::FUN_004c8f30(intptr_t apObject)
         if (icount == 0 && !reinterpret_cast<::Callees *>((reinterpret_cast<BSSimpleListRef*>(pchange)))->FUN_00726070())
             icount = 1;
         else
-            icount += ((int)(reinterpret_cast<::InventoryEntryFields *>((reinterpret_cast<BSSimpleListRef*>(pchange)))->m_iCountChange));
+            icount += ((int)(reinterpret_cast<::InventoryEntryFields *>((reinterpret_cast<BSSimpleListRef*>(pchange)))->iCountDelta));
     }
     return icount;
 }
@@ -6359,9 +6359,9 @@ void State::SetupPackageTarget(Package* package)
         reinterpret_cast<::FUN_0067a720_shell *>(this)->SetFlag4000000((flags & 0x4000000) != 0);
         Process* process4 = ((::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()));
         bool useRef = true;
-        if (((::TargetData *)(reinterpret_cast<::TESPackageFields *>((package))->location)))
+        if (((::TargetData *)(reinterpret_cast<::PackageFields *>((package))->pLocation)))
         {
-            switch (reinterpret_cast<::DurationData *>((((::TargetData *)(reinterpret_cast<::TESPackageFields *>((package))->location))))->FUN_00678ca0())
+            switch (reinterpret_cast<::DurationData *>((((::TargetData *)(reinterpret_cast<::PackageFields *>((package))->pLocation))))->FUN_00678ca0())
             {
             case 1:
             case 2:
@@ -6386,7 +6386,7 @@ void State::SetupPackageTarget(Package* package)
             if (reinterpret_cast<::FUN_00981320_shell *>((package))->IsFlag4Set())
                 useRef = true;
             Data* data = ((::Data *)(reinterpret_cast<::Script *>((package))->GetData()));
-            float radius = reinterpret_cast<::C901C50Object *>((package))->IsFlag4Clear() && ((::TargetData *)(reinterpret_cast<::TESPackageFields *>((package))->location)) ? (float)reinterpret_cast<::HighProcess *>((package))->UpdateHighProcessState((::Actor *)(actor))
+            float radius = reinterpret_cast<::C901C50Object *>((package))->IsFlag4Clear() && ((::TargetData *)(reinterpret_cast<::PackageFields *>((package))->pLocation)) ? (float)reinterpret_cast<::HighProcess *>((package))->UpdateHighProcessState((::Actor *)(actor))
                            : data                                        ? (float)((int)(((data))->iValue))
                                                                          : 30.0f;
             float nearDistance9 = radius * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting *>(&::originalRuntimeFloatSetting421))))));

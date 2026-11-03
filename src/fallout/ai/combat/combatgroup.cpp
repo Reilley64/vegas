@@ -2,6 +2,7 @@
 // src/fallout/ai/combat/combatgroup.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/combat/combatgroup.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/combat_controller_fields.h"
 #include "fnv/simple_array_item.h"
 #include "fnv/result_slot.h"
 #include <cstdint>
@@ -375,12 +376,12 @@ int FUN_0098a310_shell::GetFieldOrZero(intptr_t param)
 
 struct FUN_0098a360_shell
 {
-    void FUN_0098a360(int a1, int a2);
+    void FUN_0098a360(intptr_t a1, int a2);
 };
 
 // Calls FUN_009865f0 with a1; if it returns non-null, stores a2 at offset 4 of the result.
 // @fnv 0x0098a360
-void FUN_0098a360_shell::FUN_0098a360(int a1, int a2)
+void FUN_0098a360_shell::FUN_0098a360(intptr_t a1, int a2)
 {
     intptr_t v1 = ((FUN_009865f0_shell*)this)->FUN_009865f0(a1);
     if (v1 != 0)
@@ -854,8 +855,8 @@ void FUN_009891d0_class::FUN_009891d0(TESAmmoInitCalls* p1, Calendar* pCalendar)
     unsigned int v2;
     if (m28 != 0)
     {
-        unsigned int v1;
-        v1 = ((unsigned int)(::GetFieldBC((::FUN_0097ae90_Class *)(p1))));
+        intptr_t v1;
+        v1 = reinterpret_cast<intptr_t>(reinterpret_cast<CombatControllerFields*>(p1)->pActor);
         v2 = ((unsigned int)(reinterpret_cast<::FUN_009611e0_shell *>((pCalendar))->FUN_009611e0()));
         if (v2 != 0)
         {
@@ -10040,7 +10041,7 @@ ActorSelect* ActorPicker::SelectActor(ActorSelect* actor)
     }
     ActorSelect* firstB8 = (ActorSelect*)((intptr_t)(reinterpret_cast<::AlchemyItem *>((centerA))->FUN_004030b0()));
     OtherState* pkState3 = ((::OtherState *)(reinterpret_cast<::InterfaceManager *>((centerA))->FUN_00586150()));
-    float thresholdA = reinterpret_cast<::FUN_00639aa0_shell *>((((::MovementPose *)(reinterpret_cast<::FUN_00980070_shell *>((centerA))->FUN_00980070()))))->FUN_00639aa0();
+    float thresholdA = reinterpret_cast<::FUN_00639aa0_shell *>((((::MovementPose *)(reinterpret_cast<CombatControllerFields*>((centerA))->pCombatStyle))))->FUN_00639aa0();
     intptr_t factionNum = ((intptr_t)(reinterpret_cast<::ActorS *>((actor))->FUN_00567d90()));
     bool hactorTypeTmp = ::FUN_009a9630(actor);
     unsigned int count113 = ((int)(::FUN_005a4320((char *)this)));

@@ -1,5 +1,7 @@
 // fallout/ai/combat/combatworldstate.cpp: CombatWorldStateListNode, CombatStateArray, WorldStateManager (8 functions)
 
+#include "fnv/combat_state_fields.h"
+#include "fnv/combat_controller_fields.h"
 #include <cstdint>
 #include <new>
 #include "fnv/decl/Actor.h"
@@ -508,8 +510,8 @@ void WorldStateManager::UpdateWorldState(Context* context)
 {
     reinterpret_cast<::FUN_009aa470_Class *>(this)->FUN_009aa4b0();
     reinterpret_cast<::CombatControllerStub *>((context))->ValidateCurrentWeapon();
-    State* stateB = ((::fnv_009aa4e0::State *)(reinterpret_cast<::InterfaceManager *>((context))->FUN_00586150()));
-    Actor* actor15 = ((::fnv_009aa4e0::Actor *)(::GetFieldBC((::FUN_0097ae90_Class *)(context))));
+    State* stateB = ((::fnv_009aa4e0::State *)(reinterpret_cast<CombatControllerFields*>((context))->pCombatState));
+    Actor* actor15 = ((::fnv_009aa4e0::Actor *)(reinterpret_cast<CombatControllerFields*>(context)->pActor));
     Actor* target9 = ((::fnv_009aa4e0::Actor *)(reinterpret_cast<::AlchemyItem *>((context))->FUN_004030b0()));
     Pos position6 = (*(::fnv_009aa4e0::Pos *)(reinterpret_cast<::FUN_00575650_Class *>((actor15))->FUN_00575650({})));
     Pos targetPositions5;
@@ -519,7 +521,7 @@ void WorldStateManager::UpdateWorldState(Context* context)
     unsigned int q = 0;
     Form* bolt9 = ((::fnv_009aa4e0::Form *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(context))));
     Form* localX = ((::fnv_009aa4e0::Form *)(reinterpret_cast<::EffectSetting *>((context))->GetHitSound()));
-    Entry* entry7 = ((::fnv_009aa4e0::Entry *)(::GetFieldValue((unsigned int *)(stateB))));
+    Entry* entry7 = ((::fnv_009aa4e0::Entry *)(reinterpret_cast<CombatStateFields*>(stateB)->pUnknownE4));
     if (entry7 && !reinterpret_cast<::FUN_009373f0_shell *>((entry7))->FUN_009373f0())
     {
         if (localX && localX->Type() == 7)

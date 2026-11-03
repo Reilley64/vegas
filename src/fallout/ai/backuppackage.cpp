@@ -2,6 +2,7 @@
 // src/fallout/ai/backuppackage.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/backuppackage.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/save_load_game_view.h"
 #include <cstdint>
 #include "fnv/decl/A90Cls.h"
 #include "fnv/decl/Actor.h"
@@ -458,23 +459,23 @@ void OwnerProxy::SaveBackupPackage()
     reinterpret_cast<::Package679120 *>(this)->SavePackage();
     unsigned short a = 0;
     unsigned short* p = 0;
-    char* i = ((char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((SaveProxy*)DAT_011de45c)))->FUN_00825c00()));
+    char* i = ((char *)(reinterpret_cast<SaveLoadGameView*>((((SaveProxy*)DAT_011de45c)))->pBufferCursor));
     if (*g_011de4e8.Bool())
-        i = ((char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((SaveProxy*)DAT_011de45c)))->FUN_00825c00()));
+        i = ((char *)(reinterpret_cast<SaveLoadGameView*>((((SaveProxy*)DAT_011de45c)))->pBufferCursor));
     if (reinterpret_cast<::FUN_00862110_cls *>((((SaveProxy*)DAT_011de45c)))->FUN_00862110())
     {
         unsigned int tag = 0x424c4f4b;
         reinterpret_cast<::FUN_008579b0_shell *>((((SaveProxy*)DAT_011de45c)))->FUN_008579b0(&tag, 4);
-        p = (unsigned short*)((char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((SaveProxy*)DAT_011de45c)))->FUN_00825c00()));
+        p = (unsigned short*)((char *)(reinterpret_cast<SaveLoadGameView*>((((SaveProxy*)DAT_011de45c)))->pBufferCursor));
         reinterpret_cast<::FUN_008579b0_shell *>((((SaveProxy*)DAT_011de45c)))->FUN_008579b0(&a, 2);
     }
     unsigned short s = 0;
-    char* h = ((char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((SaveProxy*)DAT_011de45c)))->FUN_00825c00()));
+    char* h = ((char *)(reinterpret_cast<SaveLoadGameView*>((((SaveProxy*)DAT_011de45c)))->pBufferCursor));
     reinterpret_cast<::FUN_008579b0_shell *>((((SaveProxy*)DAT_011de45c)))->FUN_008579b0(&s, 2);
     reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>(this)->FUN_00484ce0(&unk80, 12);
     if (*g_011de4e8.Bool())
     {
-        char* header = ((char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((SaveProxy*)DAT_011de45c)))->FUN_00825c00()));
+        char* header = ((char *)(reinterpret_cast<SaveLoadGameView*>((((SaveProxy*)DAT_011de45c)))->pBufferCursor));
         HeaderProxy* end = ((::HeaderProxy *)(reinterpret_cast<::EffectSetting *>((((SaveProxy*)DAT_011de45c)))->GetHitSound()));
         if (end)
         {
@@ -488,7 +489,7 @@ void OwnerProxy::SaveBackupPackage()
     }
     if (reinterpret_cast<::FUN_00862110_cls *>((((SaveProxy*)DAT_011de45c)))->FUN_00862110())
     {
-        char* finalend = ((char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((SaveProxy*)DAT_011de45c)))->FUN_00825c00()));
+        char* finalend = ((char *)(reinterpret_cast<SaveLoadGameView*>((((SaveProxy*)DAT_011de45c)))->pBufferCursor));
         char* saved = (char*)p;
         if (finalend > saved + 65535)
             ::FUN_005b5e40();
@@ -850,13 +851,13 @@ void PackageReader::LoadPackageBlock()
                 ::FUN_005b5e40();
             }
         }
-        pBlockStart = ((char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((LoadManager*)DAT_011de45c)))->FUN_00825c00()));
+        pBlockStart = ((char *)(reinterpret_cast<SaveLoadGameView*>((((LoadManager*)DAT_011de45c)))->pBufferCursor));
         reinterpret_cast<::FUN_008579e0_shell *>((((LoadManager*)DAT_011de45c)))->FUN_008579e0(&usBlockSize, 2);
     }
     reinterpret_cast<::fnv_00484d00::FUN_00484d00_shell *>(this)->FUN_00484d00(&unk80, 12);
     if (reinterpret_cast<::FUN_00862110_cls *>((((LoadManager*)DAT_011de45c)))->FUN_00862110())
     {
-        char* header = ((char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((LoadManager*)DAT_011de45c)))->FUN_00825c00()));
+        char* header = ((char *)(reinterpret_cast<SaveLoadGameView*>((((LoadManager*)DAT_011de45c)))->pBufferCursor));
         LoadHeader* pBlockHeader = ((::LoadHeader *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(((LoadManager*)DAT_011de45c)))));
         if (pBlockHeader)
         {

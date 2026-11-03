@@ -2,6 +2,7 @@
 // src/fallout/ai/combat/hitdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/combat/hitdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/havok_array_view.h"
 #include <cstdint>
 #include "fnv/decl/Actor.h"
 #include "fnv/decl/BSShaderNoLightingProperty.h"
@@ -2126,7 +2127,7 @@ void Target9B6::FUN_009b6620(Event9B6* pkEvent)
             Results9B6* pkResults = ((::Results9B6 *)(((::Vec3 *)(void *)(pkQuery))));
             if (reinterpret_cast<::FUN_005609f0_shell *>((void *)(void *)&(const ::hkBool9B6 &)((*(::hkBool9B6 *)(reinterpret_cast<::Hld621210 *>((pkResults))->FUN_00621210({})))))->FUN_005609f0())
             {
-                for (int i = 0; i < ((int)(reinterpret_cast<::Callees *>((((::HitArray9B6 *)(::FUN_00460140((intptr_t)(pkResults))))))->FUN_00726070())); i++)
+                for (int i = 0; i < HavokArraySize((((::HitArray9B6 *)(::FUN_00460140((intptr_t)(pkResults)))))); i++)
                 {
                     Hit9B6 kHit(((::HitArray9B6 *)(::FUN_00460140((intptr_t)(pkResults))))->GetAt(i));
                     NiAVObject9B6* pkObject = ((::NiAVObject9B6 *)(::FUN_004b5820((::FormLike *)(kHit.m_pkCollidable))));

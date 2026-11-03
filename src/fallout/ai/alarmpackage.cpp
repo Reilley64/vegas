@@ -1,5 +1,6 @@
 // fallout/ai/alarmpackage.cpp: Crime, TESSpellList, Candidate, Cls and more (27 functions)
 
+#include "fnv/save_load_game_view.h"
 #include <cstdint>
 #include <new>
 #include "fnv/decl/BSShaderNoLightingProperty.h"
@@ -62,6 +63,15 @@
 #include "fnv/symbols_011de000.h"
 #include "fnv/symbols_011e0000.h"
 #include "alarmpackage_decls.h"
+
+
+// The leading members of Crime as the crime save code reads them. The 4-byte getter folded into 0x00726070 reads
+// the crime type at +0x4.
+struct CrimeTypeView
+{
+    unsigned int uiUnknown00;
+    unsigned int uiCrimeType;
+};
 
 // If the buffer's change flags include 0x10, clears both spell lists and re-adds each SpellItem and TESLevSpell read from the buffer.
 // @fnv 0x0048e140
@@ -619,7 +629,7 @@ void FUN_009ecec0_shell::SaveCrimeList(BGSSaveFormBuffer* apSaveGameBuffer)
         Crime* pcrime = *((::Crime **)(((::Vec3 *)(void *)(pCurrentElementNext))));
         if (pcrime)
         {
-            char ccrimeType = (char)((::BSSimpleList< ::Crime *> *)(reinterpret_cast<::Callees *>((((BSSimpleList<Crime*>*)pcrime)))->FUN_00726070()));
+            char ccrimeType = (char)reinterpret_cast<::CrimeTypeView*>(pcrime)->uiCrimeType;
             unsigned short icrimeIndex = reinterpret_cast<::FUN_00972740_shell *>(&((*reinterpret_cast<::fnv_009ecec0::ProcessLists *>(&::g_011e0e80))))->FUN_00972740(ccrimeType, (::BGSPerk *)(pcrime));
             reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(&ccrimeType, 1, 0);
             reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(&icrimeIndex, 2, 0);
@@ -1428,16 +1438,16 @@ void MyCand::WriteToSave()
 {
     unsigned short a7 = 0;
     char* aa = 0;
-    char* a9 = ((char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::SaveMgr * *>(&::g_TESSaveLoadGame))))->FUN_00825c00()));
+    char* a9 = ((char *)(reinterpret_cast<SaveLoadGameView*>(((*reinterpret_cast<::SaveMgr * *>(&::g_TESSaveLoadGame))))->pBufferCursor));
 
     if (*::g_011de4e8.Bool())
-        a9 = ((char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::SaveMgr * *>(&::g_TESSaveLoadGame))))->FUN_00825c00()));
+        a9 = ((char *)(reinterpret_cast<SaveLoadGameView*>(((*reinterpret_cast<::SaveMgr * *>(&::g_TESSaveLoadGame))))->pBufferCursor));
 
     if (reinterpret_cast<::FUN_00862110_cls *>(((*reinterpret_cast<::SaveMgr * *>(&::g_TESSaveLoadGame))))->FUN_00862110())
     {
         int a5 = 0x424c4f4b;
         reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::SaveMgr * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&a5, 4);
-        aa = ((char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::SaveMgr * *>(&::g_TESSaveLoadGame))))->FUN_00825c00()));
+        aa = ((char *)(reinterpret_cast<SaveLoadGameView*>(((*reinterpret_cast<::SaveMgr * *>(&::g_TESSaveLoadGame))))->pBufferCursor));
         reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::SaveMgr * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&a7, 2);
     }
 
@@ -1468,7 +1478,7 @@ void MyCand::WriteToSave()
     reinterpret_cast<::C857A10Buffer *>(((*reinterpret_cast<::SaveMgr * *>(&::g_TESSaveLoadGame))))->FUN_00857a10((const unsigned int *)(void *)(&ang4), 4);
 
     unsigned short a38 = 0;
-    unsigned short* a8 = (unsigned short*)((char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::SaveMgr * *>(&::g_TESSaveLoadGame))))->FUN_00825c00()));
+    unsigned short* a8 = (unsigned short*)((char *)(reinterpret_cast<SaveLoadGameView*>(((*reinterpret_cast<::SaveMgr * *>(&::g_TESSaveLoadGame))))->pBufferCursor));
     reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::SaveMgr * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&a38, 2);
 
     MyNode* action9 = &list1c;
@@ -1484,7 +1494,7 @@ void MyCand::WriteToSave()
 
     if (*::g_011de4e8.Bool())
     {
-        char* a4 = ((char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::SaveMgr * *>(&::g_TESSaveLoadGame))))->FUN_00825c00()));
+        char* a4 = ((char *)(reinterpret_cast<SaveLoadGameView*>(((*reinterpret_cast<::SaveMgr * *>(&::g_TESSaveLoadGame))))->pBufferCursor));
         FormRec* ang8 = ((::FormRec *)(reinterpret_cast<::EffectSetting *>(((*reinterpret_cast<::SaveMgr * *>(&::g_TESSaveLoadGame))))->GetHitSound()));
         if (ang8)
         {
@@ -1499,7 +1509,7 @@ void MyCand::WriteToSave()
 
     if (reinterpret_cast<::FUN_00862110_cls *>(((*reinterpret_cast<::SaveMgr * *>(&::g_TESSaveLoadGame))))->FUN_00862110())
     {
-        char* agg = ((char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::SaveMgr * *>(&::g_TESSaveLoadGame))))->FUN_00825c00()));
+        char* agg = ((char *)(reinterpret_cast<SaveLoadGameView*>(((*reinterpret_cast<::SaveMgr * *>(&::g_TESSaveLoadGame))))->pBufferCursor));
         char* agg4 = aa;
         if (agg > agg4 + 0xffff)
             ::FUN_005b5e40();
@@ -1618,27 +1628,27 @@ void FUN_009ec990_host::FUN_009ec990()
 
     unsigned short usVersion7 = 0;
     unsigned short* pSizeTmp = 0;
-    unsigned int uiStart3 = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((TimeGlobal*)g_TESSaveLoadGame)))->FUN_00825c00();
+    char* uiStart3 = reinterpret_cast<SaveLoadGameView*>((((TimeGlobal*)g_TESSaveLoadGame)))->pBufferCursor;
     if (*::g_011de4e8.Bool())
-        uiStart3 = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((TimeGlobal*)g_TESSaveLoadGame)))->FUN_00825c00();
+        uiStart3 = reinterpret_cast<SaveLoadGameView*>((((TimeGlobal*)g_TESSaveLoadGame)))->pBufferCursor;
 
     if (reinterpret_cast<::FUN_00862110_cls *>((g_TESSaveLoadGame))->FUN_00862110())
     {
         unsigned int uiMagic_2 = 0x424c4f4b;
         reinterpret_cast<::FUN_008579b0_shell *>((((TESSaveLoadGameHelper*)g_TESSaveLoadGame)))->FUN_008579b0(&uiMagic_2, 4);
-        pSizeTmp = (unsigned short*)reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((TimeGlobal*)g_TESSaveLoadGame)))->FUN_00825c00();
+        pSizeTmp = (unsigned short*)reinterpret_cast<SaveLoadGameView*>((((TimeGlobal*)g_TESSaveLoadGame)))->pBufferCursor;
         reinterpret_cast<::FUN_008579b0_shell *>((((TESSaveLoadGameHelper*)g_TESSaveLoadGame)))->FUN_008579b0(&usVersion7, 2);
     }
 
     unsigned short m_usPassCountLocal = 0;
-    unsigned short* aPCount = (unsigned short*)reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((TimeGlobal*)g_TESSaveLoadGame)))->FUN_00825c00();
+    unsigned short* aPCount = (unsigned short*)reinterpret_cast<SaveLoadGameView*>((((TimeGlobal*)g_TESSaveLoadGame)))->pBufferCursor;
     reinterpret_cast<::FUN_008579b0_shell *>((((TESSaveLoadGameHelper*)g_TESSaveLoadGame)))->FUN_008579b0(&m_usPassCountLocal, 2);
 
     BSSimpleList<void*>* pNodeX = 0;
     while (pNodeX != 0 && !pNodeX->IsEmpty())
     {
         void* pv = ((void *)(((::Vec3 *)(void *)(pNodeX))));
-        char cIndex2 = (char)((::CrimeList *)(reinterpret_cast<::Callees *>((((CrimeList*)pv)))->FUN_00726070()));
+        char cIndex2 = (char)reinterpret_cast<::CrimeTypeView*>(pv)->uiCrimeType;
         reinterpret_cast<::FUN_008579b0_shell *>((((TESSaveLoadGameHelper*)g_TESSaveLoadGame)))->FUN_008579b0(&cIndex2, 1);
         unsigned short usResult6 = reinterpret_cast<::FUN_00972740_shell *>((((ProcessLists9EC990*)&(*reinterpret_cast<::ProcessLists *>(&::g_011e0e80)))))->FUN_00972740((int)cIndex2, (::BGSPerk *)(pv));
         reinterpret_cast<::FUN_008579b0_shell *>((((TESSaveLoadGameHelper*)g_TESSaveLoadGame)))->FUN_008579b0(&usResult6, 2);
@@ -1649,7 +1659,7 @@ void FUN_009ec990_host::FUN_009ec990()
 
     if (*::g_011de4e8.Bool())
     {
-        unsigned int uiEnd = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((TimeGlobal*)g_TESSaveLoadGame)))->FUN_00825c00();
+        char* uiEnd = reinterpret_cast<SaveLoadGameView*>((((TimeGlobal*)g_TESSaveLoadGame)))->pBufferCursor;
         unsigned char* pRec9 = (unsigned char*)((void *)(reinterpret_cast<::EffectSetting *>((g_TESSaveLoadGame))->GetHitSound()));
         if (pRec9 != 0)
         {
@@ -1664,7 +1674,7 @@ void FUN_009ec990_host::FUN_009ec990()
 
     if (reinterpret_cast<::FUN_00862110_cls *>((g_TESSaveLoadGame))->FUN_00862110())
     {
-        unsigned int uiEnd9 = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((TimeGlobal*)g_TESSaveLoadGame)))->FUN_00825c00();
+        uintptr_t uiEnd9 = reinterpret_cast<uintptr_t>(reinterpret_cast<SaveLoadGameView*>((((TimeGlobal*)g_TESSaveLoadGame)))->pBufferCursor);
         uintptr_t uiStart2 = (uintptr_t)pSizeTmp;
         if (uiEnd9 > uiStart2 + 0xffff)
             ::FUN_005b5e40();

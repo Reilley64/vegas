@@ -5,7 +5,7 @@
 #include "fnv/simple_array_item.h"
 #include <cstdint>
 #include "fnv/simple_list_node_view.h"
-#include "fnv/inventory_fields.h"
+#include "fnv/inventory_entry_fields.h"
 #include "fallout/interface/menu_fields.h"
 #include <new>
 #include <cstdlib>
@@ -3665,7 +3665,7 @@ int __cdecl FUN_00727920(void* apChallenge)
             if (pObject)
             {
                 ItemEntry* pEntry = ((::ItemEntry *)(reinterpret_cast<::fnv_00576260::FUN_00576260_shell *>((pOwner))->FUN_00576260((::fnv_00576260::TESBoundObject *)(pObject), 0)));
-                unsigned int uiHave = pEntry ? ((unsigned int)(reinterpret_cast<::InventoryEntryFields *>((pEntry))->m_iCountChange)) : 0;
+                unsigned int uiHave = pEntry ? ((unsigned int)(reinterpret_cast<::InventoryEntryFields *>((pEntry))->iCountDelta)) : 0;
                 delete pEntry;
                 if (uiHave < ((unsigned int)(::FUN_00559450((int *)(pReq)))))
                 {
@@ -4014,7 +4014,7 @@ void RecipeEnterMenu::FUN_00727b10(int id, RecipeTiles* tile)
                         if (bound)
                         {
                             FUN_004459e0* have = ((::FUN_004459e0 *)(reinterpret_cast<::fnv_00576260::FUN_00576260_shell *>((owner))->FUN_00576260((::fnv_00576260::TESBoundObject *)(bound), 0)));
-                            unsigned inventory = have ? ((unsigned int)(reinterpret_cast<::InventoryEntryFields *>((((RecipeInventoryCount*)have)))->m_iCountChange)) : 0;
+                            unsigned inventory = have ? ((unsigned int)(reinterpret_cast<::InventoryEntryFields *>((((RecipeInventoryCount*)have)))->iCountDelta)) : 0;
                             delete have;
                             if (alternate)
                                 FUN_00406d00(label, 256, "%s (%d)", ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((((FNStub*)name)))->FUN_00408da0())),

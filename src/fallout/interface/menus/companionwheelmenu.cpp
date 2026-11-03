@@ -2,7 +2,7 @@
 
 #include <cstdint>
 #include "fnv/simple_list_node_view.h"
-#include "fnv/inventory_fields.h"
+#include "fnv/inventory_entry_fields.h"
 #include "fnv/dialogue_response_fields.h"
 #include "fnv/form_fields.h"
 #include <new>
@@ -2899,9 +2899,9 @@ void CompanionHealingMenu::HealCompanion()
                 {
                     if (healthX < ::g_01012070)
                         reinterpret_cast<::FUN_008c1f80_shell *>((companion))->EquipItemWithCaster(
-                            (::FUN_008c1de0_item *)(void *)(dynamic_cast<AlchemyItem*>(((::TESBoundObject *)(reinterpret_cast<::InventoryEntryFields *>((entry))->m_pItemObject)))),
+                            (::FUN_008c1de0_item *)(void *)(dynamic_cast<AlchemyItem*>(((::TESBoundObject *)(reinterpret_cast<::InventoryEntryFields *>((entry))->pObject)))),
                             (intptr_t)(((::HealingExtraList *)(::FUN_00559450((int *)(entry)))) ? ((::HealingExtra *)(reinterpret_cast<::SimpleListNodeView*>(((::HealingExtraList *)(::FUN_00559450((int *)(entry)))))->m_item)) : 0), 1);
-                    (*reinterpret_cast<::HealingActor * *>(&::_g_thePlayer))->RemoveItem(((::TESBoundObject *)(reinterpret_cast<::InventoryEntryFields *>((entry))->m_pItemObject)),
+                    (*reinterpret_cast<::HealingActor * *>(&::_g_thePlayer))->RemoveItem(((::TESBoundObject *)(reinterpret_cast<::InventoryEntryFields *>((entry))->pObject)),
                                              ((::HealingExtraList *)(::FUN_00559450((int *)(entry)))) ? ((::HealingExtra *)(reinterpret_cast<::SimpleListNodeView*>(((::HealingExtraList *)(::FUN_00559450((int *)(entry)))))->m_item)) : 0, 1, 0, 0,
                                              0, 0, 0, 1, 0);
                     reinterpret_cast<::Actor *>((companion))->ConfigureActorState(0, 1);
@@ -3305,7 +3305,7 @@ void Wheel755d::FUN_00755dc0(int mode)
                     _rlQ1 = (InvEntry755d*)((::HealingInventoryEntry *)(reinterpret_cast<::fnv_00576260::FUN_00576260_shell *>(((*reinterpret_cast<::HealingActor * *>(&::_g_thePlayer))))->FUN_00576260((::fnv_00576260::TESBoundObject *)(rlObj), 0)));
                     if (_rlQ1)
                     {
-                        rlV = ((int)(reinterpret_cast<::InventoryEntryFields *>((_rlQ1))->m_iCountChange));
+                        rlV = ((int)(reinterpret_cast<::InventoryEntryFields *>((_rlQ1))->iCountDelta));
                         rlP1 = _rlQ1;
                         rlQ2 = rlP1;
                         rlQ2 ? rlQ2->FUN_004459e0(1) : 0;

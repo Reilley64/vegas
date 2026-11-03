@@ -1,6 +1,6 @@
 // fallout/interface/fopipboymanager.cpp: FOPipboyManager, FOPipboyManagerPC, SystemColorManager, Interface and more (29 functions)
 
-#include "fallout/interface/av_object_fields.h"
+#include "fnv/av_object_fields.h"
 #include <cstdint>
 #include "fnv/decl/BSAnimGroupSequence.h"
 #include "fnv/decl/BSShaderNoLightingProperty.h"
@@ -164,8 +164,8 @@ void FOPipboyManager::UpdateScrollKnob()
     if (m_pGaugeObjects[0])
     {
         kLocalRotate = (*(const ::ThreeByThreeMatrix *)(::FUN_006a9540((char *)((m_pGaugeObjects[0]).operator->()))));
-        kParentRotate = (*(const ::ThreeByThreeMatrix *)(::FUN_006a9540((char *)(((::NiNode *)(reinterpret_cast<::AVObjectFields *>(((m_pGaugeObjects[0]).operator->()))->m_pkParent))))));
-        reinterpret_cast<::FUN_0043fa80_s *>((((::NiNode *)(reinterpret_cast<::AVObjectFields *>(((m_pGaugeObjects[0]).operator->()))->m_pkParent))))->FUN_0043fa80(reinterpret_cast<::ThreeByThreeMatrix *>((void *)&(const ::ThreeByThreeMatrix &)(kParentRotate))->operator+(kLocalRotate));
+        kParentRotate = (*(const ::ThreeByThreeMatrix *)(::FUN_006a9540((char *)(((::NiNode *)(reinterpret_cast<::NiAVObjectFields *>(((m_pGaugeObjects[0]).operator->()))->m_pkParent))))));
+        reinterpret_cast<::FUN_0043fa80_s *>((((::NiNode *)(reinterpret_cast<::NiAVObjectFields *>(((m_pGaugeObjects[0]).operator->()))->m_pkParent))))->FUN_0043fa80(reinterpret_cast<::ThreeByThreeMatrix *>((void *)&(const ::ThreeByThreeMatrix &)(kParentRotate))->operator+(kLocalRotate));
         m_pGaugeObjects[0]->SetLocalRotation(m_fChartFirstPoint[0], 1.0f, 0.0f, 0.0f);
     }
     if (m_pGaugeObjects[1])
@@ -321,26 +321,26 @@ void FOPipboyManager::OnMenuOpen()
             if (screenNode)
             {
                 screenObjects.firstPerson = ((::NiAVObject *)(reinterpret_cast<::S_FUN_0045bc00 *>((screenNode))->FUN_0045bc00(0)));
-                m_pPipBoyObject0 = ((::NiNode *)(reinterpret_cast<::AVObjectFields *>((screenNode))->m_pkParent));
+                m_pPipBoyObject0 = ((::NiNode *)(reinterpret_cast<::NiAVObjectFields *>((screenNode))->m_pkParent));
             }
             else
             {
                 screenObjects.firstPerson = ((::NiAVObject *)(::FUN_00653270(
                     &(*reinterpret_cast<::NiRTTI *>(&::g_011f4acc)), (::NiObject *)(::NiAVObject *)(((::NiNode *)(reinterpret_cast<::FUN_00950bb0_shell *>((::_g_thePlayer))->FUN_00950bb0(true)))->GetObjectByName(NiFixedString("pipboyscreen:0"))))));
                 if (screenObjects.firstPerson)
-                    m_pPipBoyObject0 = ((::NiNode *)(reinterpret_cast<::AVObjectFields *>((screenObjects.firstPerson))->m_pkParent));
+                    m_pPipBoyObject0 = ((::NiNode *)(reinterpret_cast<::NiAVObjectFields *>((screenObjects.firstPerson))->m_pkParent));
             }
             reinterpret_cast<::FUN_004dc540_shell *>(this)->FUN_004dc540((::NiAVObject *)(::NiNode *)(((::NiNode *)(reinterpret_cast<::FUN_00950bb0_shell *>((::_g_thePlayer))->FUN_00950bb0(true)))));
             if (screenNode)
             {
                 screenObjects.thirdPerson = ((::NiAVObject *)(::FUN_00653270(&(*reinterpret_cast<::NiRTTI *>(&::g_011f4acc)), (::NiObject *)(::NiAVObject *)(((::NiAVObject *)(reinterpret_cast<::S_FUN_0045bc00 *>((screenNode))->FUN_0045bc00(0)))))));
-                m_pPipBoyObject1 = ((::NiNode *)(reinterpret_cast<::AVObjectFields *>((screenNode))->m_pkParent));
+                m_pPipBoyObject1 = ((::NiNode *)(reinterpret_cast<::NiAVObjectFields *>((screenNode))->m_pkParent));
                 m_pPipBoyObject2 = screenObjects.thirdPerson;
             }
             else if (screenObjects.firstPerson)
             {
                 screenObjects.thirdPerson = screenObjects.firstPerson;
-                m_pPipBoyObject1 = ((::NiNode *)(reinterpret_cast<::AVObjectFields *>((screenObjects.firstPerson))->m_pkParent));
+                m_pPipBoyObject1 = ((::NiNode *)(reinterpret_cast<::NiAVObjectFields *>((screenObjects.firstPerson))->m_pkParent));
                 m_pPipBoyObject2 = screenObjects.thirdPerson;
             }
             if (screenObjects.firstPerson && screenObjects.thirdPerson)
@@ -868,7 +868,7 @@ void FUN_007ffd50_shell::FUN_007ffd50()
     VTab* parent;
     FUN_007ffe40();
     {
-        NiNode* obj = ((::NiNode *)(reinterpret_cast<::AVObjectFields *>((((NiAVObject*)this)))->m_pkParent));
+        NiNode* obj = ((::NiNode *)(reinterpret_cast<::NiAVObjectFields *>((((NiAVObject*)this)))->m_pkParent));
         parent = (VTab*)obj;
     }
     parent ? parent->VFn(1) : 0;

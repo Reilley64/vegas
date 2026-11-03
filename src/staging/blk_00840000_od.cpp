@@ -6735,7 +6735,7 @@ void Cls::FUN_00858af0(EntryListNode* list, Entry* ctx, bool reset)
         if (((::Node3d *)(std::uintptr_t)(::FUN_00451010())))
             reinterpret_cast<::C00c66300 *>((((::Node3d *)(std::uintptr_t)(::FUN_00451010()))))->FUN_00c66300();
         reinterpret_cast<::FUN_00459920_shell *>(((*reinterpret_cast<::Mgr10 * *>(&::g_TES))))->FUN_00459920();
-        if (!((int)(reinterpret_cast<::FUN_00950bb0_shell *>((((VObj*)(*reinterpret_cast<::PlayerSaveAccess * *>(&::_g_thePlayer)))))->FUN_00950bb0(0))))
+        if (!(reinterpret_cast<::FUN_00950bb0_shell *>((((VObj*)(*reinterpret_cast<::PlayerSaveAccess * *>(&::_g_thePlayer)))))->FUN_00950bb0(0)))
             reinterpret_cast<::ML *>(((*reinterpret_cast<::Mgr3c * *>(&::g_modelLoader))))->FUN_00444850((::Ref *)(::Actor *)((Actor*)(*reinterpret_cast<::PlayerSaveAccess * *>(&::_g_thePlayer))), 0, 0);
         reinterpret_cast<::FUN_00456520_Class *>(((*reinterpret_cast<::Mgr98 * *>(&::DAT_01202d98))))->FUN_00456520();
         ::FUN_008495b0((char *)((*reinterpret_cast<::Mgr98 * *>(&::DAT_01202d98))));

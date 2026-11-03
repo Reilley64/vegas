@@ -2,7 +2,7 @@
 
 #include <cstdint>
 #include "fnv/simple_list_node_view.h"
-#include "fnv/inventory_fields.h"
+#include "fnv/inventory_entry_fields.h"
 #include "fallout/interface/menu_fields.h"
 #include <new>
 #include "fnv/decl/ActiveEffectCollection.h"
@@ -399,10 +399,10 @@ void __cdecl UpdateTileFromObject(ModTile* tile, ModObject* object)
     reinterpret_cast<::Tile *>((tile))->Set(0xfaa, 15);
     reinterpret_cast<::Tile *>((tile))->Set(0xfa3, reinterpret_cast<::TileListBoxCalls *>((tile))->GetFloat(0xfac) >= ::_DAT_01012060 ? 1 : 0);
     reinterpret_cast<::FUN_00a012d0_t *>((tile))->FUN_00a012d0(0xfa3, 1.0f, true);
-    ModEntry* entry = ((::ModEntry *)(reinterpret_cast<::InventoryEntryFields *>(((*reinterpret_cast<::ModObject * *>(&::fnv_007846a0::DAT_011d9f58))))->m_pItemObject));
+    ModEntry* entry = ((::ModEntry *)(reinterpret_cast<::InventoryEntryFields *>(((*reinterpret_cast<::ModObject * *>(&::fnv_007846a0::DAT_011d9f58))))->pObject));
     if (reinterpret_cast<::FUN_004bd820_stand *>(((*reinterpret_cast<::ModObject * *>(&::fnv_007846a0::DAT_011d9f58))))->FUN_004bd820())
     {
-        ModEntry* other = ((::ModEntry *)(reinterpret_cast<::InventoryEntryFields *>((object))->m_pItemObject));
+        ModEntry* other = ((::ModEntry *)(reinterpret_cast<::InventoryEntryFields *>((object))->pObject));
         if (((reinterpret_cast<::FUN_004bd820_stand *>(((*reinterpret_cast<::ModObject * *>(&::fnv_007846a0::DAT_011d9f58))))->FUN_004bd820() & 1) && other == ((::ModEntry *)(reinterpret_cast<::FUN_004bd570_this *>((entry))->FUN_004bd570(1)))) ||
             ((reinterpret_cast<::FUN_004bd820_stand *>(((*reinterpret_cast<::ModObject * *>(&::fnv_007846a0::DAT_011d9f58))))->FUN_004bd820() & 2) && other == ((::ModEntry *)(reinterpret_cast<::FUN_004bd570_this *>((entry))->FUN_004bd570(2)))) ||
             ((reinterpret_cast<::FUN_004bd820_stand *>(((*reinterpret_cast<::ModObject * *>(&::fnv_007846a0::DAT_011d9f58))))->FUN_004bd820() & 4) && other == ((::ModEntry *)(reinterpret_cast<::FUN_004bd570_this *>((entry))->FUN_004bd570(4)))))
@@ -490,15 +490,15 @@ struct EqMenu
 bool EqMenu::FUN_00783af0(EqEntry* apTarget)
 {
     EqEntry* pPlayerEntry =
-        ((::EqEntry *)(reinterpret_cast<::FUN_004bfba0_shell *>((((::EqInventoryChanges *)(::InventoryChanges::CreateForReference((::TESObjectREFR *)((*reinterpret_cast<void * *>(&::_g_thePlayer))))))))->FUN_004bfba0((::TESBoundObject *)(::EqForm *)(((::EqForm *)(reinterpret_cast<::InventoryEntryFields *>(((*reinterpret_cast<::EqEntry * *>(&::fnv_007846a0::DAT_011d9f58))))->m_pItemObject))), 1, 0)));
+        ((::EqEntry *)(reinterpret_cast<::FUN_004bfba0_shell *>((((::EqInventoryChanges *)(::InventoryChanges::CreateForReference((::TESObjectREFR *)((*reinterpret_cast<void * *>(&::_g_thePlayer))))))))->FUN_004bfba0((::TESBoundObject *)(::EqForm *)(((::EqForm *)(reinterpret_cast<::InventoryEntryFields *>(((*reinterpret_cast<::EqEntry * *>(&::fnv_007846a0::DAT_011d9f58))))->pObject))), 1, 0)));
     EqExtraList* pExtra = (((::EqExtraListNode *)(::FUN_00559450((int *)((*reinterpret_cast<::EqEntry * *>(&::fnv_007846a0::DAT_011d9f58))))))) ? *((::EqExtraList **)(&reinterpret_cast<::SimpleListNodeView*>(((::EqExtraListNode *)(::FUN_00559450((int *)((*reinterpret_cast<::EqEntry * *>(&::fnv_007846a0::DAT_011d9f58)))))))->m_item)) : 0;
     EqExtraList* pNewExtra2 = new EqExtraList;
     int _iCount = -1;
     bool bMerged4 = false;
     bool bEquipped = false;
-    EqForm* pType3 = ((::EqForm *)(reinterpret_cast<::InventoryEntryFields *>(((*reinterpret_cast<::EqEntry * *>(&::fnv_007846a0::DAT_011d9f58))))->m_pItemObject));
+    EqForm* pType3 = ((::EqForm *)(reinterpret_cast<::InventoryEntryFields *>(((*reinterpret_cast<::EqEntry * *>(&::fnv_007846a0::DAT_011d9f58))))->pObject));
     bool bUnused3 = true;
-    EqForm* pTargetType = ((::EqForm *)(reinterpret_cast<::InventoryEntryFields *>((apTarget))->m_pItemObject));
+    EqForm* pTargetType = ((::EqForm *)(reinterpret_cast<::InventoryEntryFields *>((apTarget))->pObject));
     int iUnused2 = (*reinterpret_cast<int *>(&::InventoryMenu::ms_pActionPointSource));
 
     _iCount = reinterpret_cast<::FUN_00418770_shell *>((pExtra))->FUN_00418770();
@@ -963,7 +963,7 @@ void ItemModMenuW::HandleItemModMenuClick(int tileID, Tile* clickedTile)
                     (const char*)*pEntry ? *(TESForm**)&reinterpret_cast<::SimpleListNodeView*>(((B006815c0*)(const char*)*pEntry))->m_item : 0;
                 if (reinterpret_cast<::EqMenu *>(this)->FUN_00783af0((::EqEntry *)(pEntry)))
                 {
-                    (*reinterpret_cast<::fnv_007838a0::FUN_004f2770_Class * *>(&::_g_thePlayer))->SendItemModEvent((uintptr_t)(reinterpret_cast<::InventoryEntryFields *>((((TESObjectREFR_GetFlags_Helper*)pEntry)))->m_pItemObject), pForm,
+                    (*reinterpret_cast<::fnv_007838a0::FUN_004f2770_Class * *>(&::_g_thePlayer))->SendItemModEvent((uintptr_t)(reinterpret_cast<::InventoryEntryFields *>((((TESObjectREFR_GetFlags_Helper*)pEntry)))->pObject), pForm,
                                                    true, false, false, false, false, false, true, false);
                     reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::fnv_007838a0::BSSoundHandleEx &)(((::fnv_007838a0::BSAudio *)(::FUN_00453a70()))->GetSoundHandleByEditorID("UIItemGunsSmallUp ", 0x121)))->FUN_00ad8830(false);
                     reinterpret_cast<::RList71a5 *>((((ItemModListW*)&m_kItemList)))->RemoveTile((::LBTileObj *)(((ItemModListW*)&m_kItemList)->v1()));
@@ -982,7 +982,7 @@ void ItemModMenuW::HandleItemModMenuClick(int tileID, Tile* clickedTile)
         if (DAT_011d9f40 == 1)
         {
             reinterpret_cast<::FUN_0088c650_shell *>(((*reinterpret_cast<::fnv_007838a0::FUN_004f2770_Class * *>(&::_g_thePlayer))))->FUN_0088c650(
-                (::TESBoundObject *)(((uintptr_t)(reinterpret_cast<::InventoryEntryFields *>((((TESObjectREFR_GetFlags_Helper*)(*reinterpret_cast<::fnv_007838a0::ItemEntry * *>(&::fnv_007846a0::DAT_011d9f58)))))->m_pItemObject))), (int)((reinterpret_cast<::InventoryEntryFields *>(((ContNode*)(*reinterpret_cast<::fnv_007838a0::ItemEntry * *>(&::fnv_007846a0::DAT_011d9f58))))->m_iCountChange)),
+                (::TESBoundObject *)(((uintptr_t)(reinterpret_cast<::InventoryEntryFields *>((((TESObjectREFR_GetFlags_Helper*)(*reinterpret_cast<::fnv_007838a0::ItemEntry * *>(&::fnv_007846a0::DAT_011d9f58)))))->pObject))), (int)((reinterpret_cast<::InventoryEntryFields *>(((ContNode*)(*reinterpret_cast<::fnv_007838a0::ItemEntry * *>(&::fnv_007846a0::DAT_011d9f58))))->iCountDelta)),
                 (::ExtraDataList *)(*(TESForm**)&reinterpret_cast<::SimpleListNodeView*>(((B006815c0*)(const char*)*(*reinterpret_cast<::fnv_007838a0::ItemEntry * *>(&::fnv_007846a0::DAT_011d9f58))))->m_item), true, false, true);
             reinterpret_cast<::Holder_70 *>(((*reinterpret_cast<::fnv_007838a0::ItemEntry * *>(&::fnv_007846a0::DAT_011d9f58))))->FUN_004bdc70();
             DAT_011d9f40 = 0;
@@ -1389,29 +1389,29 @@ void FUN_00784710(Entry78* pEntry, bool b)
         if ((*reinterpret_cast<::Entry78 * *>(&::fnv_007846a0::DAT_011d9f58)) && b && reinterpret_cast<::FUN_004bddd0_shell *>(((*reinterpret_cast<::Entry78 * *>(&::fnv_007846a0::DAT_011d9f58))))->FUN_004bddd0(false))
         {
             reinterpret_cast<::InvEntry_bdb40 *>(((*reinterpret_cast<::Entry78 * *>(&::fnv_007846a0::DAT_011d9f58))))->FUN_004bdb40();
-            reinterpret_cast<::s88c790::Actor *>(((*reinterpret_cast<::Player78 * *>(&::_g_thePlayer))))->FUN_0088c790((intptr_t)(((::Form78 *)(reinterpret_cast<::InventoryEntryFields *>(((*reinterpret_cast<::Entry78 * *>(&::fnv_007846a0::DAT_011d9f58))))->m_pItemObject))), ((int)(reinterpret_cast<::InventoryEntryFields *>(((*reinterpret_cast<::Entry78 * *>(&::fnv_007846a0::DAT_011d9f58))))->m_iCountChange)),
+            reinterpret_cast<::s88c790::Actor *>(((*reinterpret_cast<::Player78 * *>(&::_g_thePlayer))))->FUN_0088c790((intptr_t)(((::Form78 *)(reinterpret_cast<::InventoryEntryFields *>(((*reinterpret_cast<::Entry78 * *>(&::fnv_007846a0::DAT_011d9f58))))->pObject))), ((int)(reinterpret_cast<::InventoryEntryFields *>(((*reinterpret_cast<::Entry78 * *>(&::fnv_007846a0::DAT_011d9f58))))->iCountDelta)),
                                        (intptr_t)(*((void **)(&reinterpret_cast<::SimpleListNodeView*>(((::Data78 *)(::FUN_00559450((int *)((*reinterpret_cast<::Entry78 * *>(&::fnv_007846a0::DAT_011d9f58)))))))->m_item))), 0, 0, 1);
             DAT_011d9f40 = 1;
         }
         float condition = reinterpret_cast<::FUN_004bcdb0_shell *>(((*reinterpret_cast<::Entry78 * *>(&::fnv_007846a0::DAT_011d9f58))))->FUN_004bcdb0(1) / 100.0;
         reinterpret_cast<::FUN_00a012d0_t *>((((Menu78*)DAT_011d9f54)->unk38))->FUN_00a012d0(0x1004, condition, true);
         reinterpret_cast<::Tile *>((((Menu78*)DAT_011d9f54)->unk38))->Set(0xfa3, 1);
-        if (((::Form78 *)(reinterpret_cast<::InventoryEntryFields *>(((*reinterpret_cast<::Entry78 * *>(&::fnv_007846a0::DAT_011d9f58))))->m_pItemObject))->FUN_00401170() == 40)
+        if (((::Form78 *)(reinterpret_cast<::InventoryEntryFields *>(((*reinterpret_cast<::Entry78 * *>(&::fnv_007846a0::DAT_011d9f58))))->pObject))->FUN_00401170() == 40)
         {
             reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((Menu78*)DAT_011d9f54)->unk3c))->FUN_00a01350(DAT_011d9f3c, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Setting78 *>(&::g_011d2c7c))))->GetMenuTitle()))), true);
             reinterpret_cast<::Tile *>((((Menu78*)DAT_011d9f54)
                 ->unk3c))->Set(
                     DAT_011d9f44,
-                    (int)::InventoryStackRecord::RoundToNearestStep(::GetWeaponDamage((::TESObjectWEAP *)(::Form78 *)(((::Form78 *)(reinterpret_cast<::InventoryEntryFields *>(((*reinterpret_cast<::Entry78 * *>(&::fnv_007846a0::DAT_011d9f58))))->m_pItemObject))), condition, (::DamageExtra *)(pEntry), (::TESAmmo *)(0)), 1.0f));
+                    (int)::InventoryStackRecord::RoundToNearestStep(::GetWeaponDamage((::TESObjectWEAP *)(::Form78 *)(((::Form78 *)(reinterpret_cast<::InventoryEntryFields *>(((*reinterpret_cast<::Entry78 * *>(&::fnv_007846a0::DAT_011d9f58))))->pObject))), condition, (::DamageExtra *)(pEntry), (::TESAmmo *)(0)), 1.0f));
             reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((Menu78*)DAT_011d9f54)
-                ->unk28))->FUN_00a01350(0xfc4, (char *)(((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((((Name78*)((char*)((::Form78 *)(reinterpret_cast<::InventoryEntryFields *>(((*reinterpret_cast<::Entry78 * *>(&::fnv_007846a0::DAT_011d9f58))))->m_pItemObject)) + 0x30))))->FUN_00408da0()))), true);
+                ->unk28))->FUN_00a01350(0xfc4, (char *)(((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((((Name78*)((char*)((::Form78 *)(reinterpret_cast<::InventoryEntryFields *>(((*reinterpret_cast<::Entry78 * *>(&::fnv_007846a0::DAT_011d9f58))))->pObject)) + 0x30))))->FUN_00408da0()))), true);
         }
         else
         {
             reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((Menu78*)DAT_011d9f54)->unk3c))->FUN_00a01350(DAT_011d9f3c, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Setting78 *>(&::g_011d20c4))))->GetMenuTitle()))), true);
             reinterpret_cast<::Tile *>((((Menu78*)DAT_011d9f54)
                 ->unk3c))->Set(DAT_011d9f44, (int)::InventoryStackRecord::GetConditionPercent(::CombatDamageCalculator::CalculateArmorDamageThreshold(
-                                               (int)((float)(::FUN_004be060((void *)(((::Form78 *)(reinterpret_cast<::InventoryEntryFields *>(((*reinterpret_cast<::Entry78 * *>(&::fnv_007846a0::DAT_011d9f58))))->m_pItemObject)))))), condition)));
+                                               (int)((float)(::FUN_004be060((void *)(((::Form78 *)(reinterpret_cast<::InventoryEntryFields *>(((*reinterpret_cast<::Entry78 * *>(&::fnv_007846a0::DAT_011d9f58))))->pObject)))))), condition)));
         }
         if (pEntry)
         {
@@ -1604,7 +1604,7 @@ void __cdecl PopulateModListScreen()
 {
     if (!(*reinterpret_cast<::ModObject * *>(&::fnv_007846a0::DAT_011d9f58)))
         return;
-    ModEntry* base3 = ((::ModEntry *)(reinterpret_cast<::InventoryEntryFields *>(((*reinterpret_cast<::ModObject * *>(&::fnv_007846a0::DAT_011d9f58))))->m_pItemObject));
+    ModEntry* base3 = ((::ModEntry *)(reinterpret_cast<::InventoryEntryFields *>(((*reinterpret_cast<::ModObject * *>(&::fnv_007846a0::DAT_011d9f58))))->pObject));
     ModEntry* mod4 = 0;
     ModEntry* kMod2_2 = 0;
     ModEntry* mod5 = 0;
@@ -1640,7 +1640,7 @@ void __cdecl PopulateModListScreen()
     }
     EntryNode listVal;
     Inventory* inv3 = ((::Inventory *)(::InventoryChanges::CreateForReference((::TESObjectREFR *)((*reinterpret_cast<::ModObject * *>(&::_g_thePlayer))))));
-    reinterpret_cast<::FUN_004d4ca0_shell *>((inv3))->CollectTopicEntries((::TESForm *)(::ModEntry *)(((::ModEntry *)(reinterpret_cast<::InventoryEntryFields *>(((*reinterpret_cast<::ModObject * *>(&::fnv_007846a0::DAT_011d9f58))))->m_pItemObject))), (::TopicList4d4 *)(::EntryNode *)(&listVal));
+    reinterpret_cast<::FUN_004d4ca0_shell *>((inv3))->CollectTopicEntries((::TESForm *)(::ModEntry *)(((::ModEntry *)(reinterpret_cast<::InventoryEntryFields *>(((*reinterpret_cast<::ModObject * *>(&::fnv_007846a0::DAT_011d9f58))))->pObject))), (::TopicList4d4 *)(::EntryNode *)(&listVal));
     for (EntryNode* node6 = &listVal; node6 && ((::Entry *)(reinterpret_cast<::SimpleListNodeView*>(node6)->m_item)); node6 = ((::EntryNode *)(reinterpret_cast<::Callees *>((node6))->FUN_00726070())))
     {
         Row* row = 0;

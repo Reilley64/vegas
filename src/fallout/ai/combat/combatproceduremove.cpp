@@ -2,6 +2,9 @@
 // src/fallout/ai/combat/combatproceduremove.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/combat/combatproceduremove.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/combat_state_fields.h"
+#include "fnv/combat_manager_fields.h"
+#include "fnv/combat_controller_fields.h"
 #include <cstdint>
 #include <new>
 #include "fnv/decl/AA10Menu.h"
@@ -194,7 +197,7 @@ void FUN_009d84b0_shell::FUN_009d84b0()
 {
     if (*(bool*)((char*)this + 0x54))
     {
-        ((::FUN_009d6c80_shell *)(reinterpret_cast<::InterfaceManager *>((((IMH*)*(IMH**)((char*)this + 4))))->FUN_00586150()))->FUN_009d6c80();
+        ((::FUN_009d6c80_shell *)(reinterpret_cast<CombatControllerFields*>((((IMH*)*(IMH**)((char*)this + 4))))->pCombatState))->FUN_009d6c80();
         *(bool*)((char*)this + 0x54) = 0;
     }
 }
@@ -216,7 +219,7 @@ void FUN_009d84e0_shell::FUN_009d84e0()
 {
     if (reinterpret_cast<int*>(this)[4] == 2 || reinterpret_cast<int*>(this)[4] == 3)
     {
-        reinterpret_cast<::FUN_009d7c20_shell *>((reinterpret_cast<FUN_009d7c20_shell*>(((::fnv_009d84e0::Tile *)(reinterpret_cast<::InterfaceManager *>((reinterpret_cast<IMH*>(reinterpret_cast<int*>(this)[1])))->FUN_00586150())))))->FUN_009d7c20();
+        reinterpret_cast<::FUN_009d7c20_shell *>((reinterpret_cast<FUN_009d7c20_shell*>(((::fnv_009d84e0::Tile *)(reinterpret_cast<CombatControllerFields*>((reinterpret_cast<IMH*>(reinterpret_cast<int*>(this)[1])))->pCombatState)))))->FUN_009d7c20();
         *reinterpret_cast<char*>(this + 0x54) = 1;
     }
 }
@@ -247,7 +250,7 @@ struct FUN_009d6c00_shell : CombatProcedureEngageTarget
 // @fnv 0x009d6c00
 void FUN_009d6c00_shell::UpdateCombatMovement()
 {
-    Actor* attacker = ((::Actor *)(::GetFieldBC((::FUN_0097ae90_Class *)(((TESAmmoInitCalls*)*(void**)((char*)this + 4))))));
+    Actor* attacker = ((::Actor *)(reinterpret_cast<CombatControllerFields*>(((TESAmmoInitCalls*)*(void**)((char*)this + 4)))->pActor));
     if (*(int*)((char*)this + 0x10) == 1 || *(int*)((char*)this + 0x10) == 2)
     {
         if (!reinterpret_cast<::FUN_00666f00_shell *>(this)->FUN_00666f00())
@@ -257,7 +260,7 @@ void FUN_009d6c00_shell::UpdateCombatMovement()
         reinterpret_cast<::fnv_00996ea0::MyProc *>((((CombatProcedure*)this)))->FUN_00996ea0();
     reinterpret_cast<::fnv_00996e40::FUN_00996e40_shell *>(this)->FUN_00996e40();
     if (*(bool*)((char*)this + 0x54))
-        ((::FUN_009d6c80_shell *)(reinterpret_cast<::InterfaceManager *>((((IMH*)*(void**)((char*)this + 4))))->FUN_00586150()))->FUN_009d6c80();
+        ((::FUN_009d6c80_shell *)(reinterpret_cast<CombatControllerFields*>((((IMH*)*(void**)((char*)this + 4))))->pCombatState))->FUN_009d6c80();
 }
 
 struct BGSSaveFormBuffer;
@@ -701,9 +704,9 @@ struct ProcedureValue
 void ProcedureValue::UpdateOutput(OutputValue* output)
 {
     TargetActor* holder = ((::TargetActor *)(reinterpret_cast<::FUN_00996de0_Class *>(this)->FUN_00996de0()));
-    Holder* target = ((::Holder *)(reinterpret_cast<::InterfaceManager *>((unk04))->FUN_00586150()));
+    Holder* target = ((::Holder *)(reinterpret_cast<CombatControllerFields*>((unk04))->pCombatState));
     reinterpret_cast<::NiPtr *>((output))->Assign(
-        (char *)(void *)(((void *)(reinterpret_cast<::AvoidanceMap *>((((::ResultValue *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::ManagerValue * *>(&::BGSSaveLoadGlobalDataWorldspacePtr))))->FUN_00825c00()))))->BuildAvoidanceNodes({}, {}, {})))));
+        (char *)(void *)(((void *)(reinterpret_cast<::AvoidanceMap *>((((::ResultValue *)(reinterpret_cast<CombatManagerFields*>(((*reinterpret_cast<::ManagerValue * *>(&::BGSSaveLoadGlobalDataWorldspacePtr))))->pThreatMap))))->BuildAvoidanceNodes({}, {}, {})))));
     target->SetValue(FUN_00435dd0());
     void* actor = 0;
     switch (unk3c)
@@ -1459,7 +1462,7 @@ bool Procedure052::UpdateMovementRequest(Output052* output)
     float g;
     Actor052* a = ((::Actor052 *)(reinterpret_cast<::FUN_00996de0_Class *>(this)->FUN_00996de0()));
     void* c = reinterpret_cast<::FUN_00996e00_shell *>(this)->FUN_00996e00();
-    Holder052* k = ((::Holder052 *)(reinterpret_cast<::InterfaceManager *>((manager))->FUN_00586150()));
+    Holder052* k = ((::Holder052 *)(reinterpret_cast<CombatControllerFields*>((manager))->pCombatState));
     int b = 3;
     Point052 h = (*reinterpret_cast<::Point052 *>((void *)&::NiPoint3::ZERO));
     g = 0.0f;
@@ -1726,7 +1729,7 @@ void MoveDebug::PrintDebugInfo(DebugDisplay* display, int x, int y)
     }
     DebugPoint position = (*(::DebugPoint *)(((::Vec3 *)(void *)&(destination))));
     DebugReference* cell = ((::DebugReference *)(reinterpret_cast<::FUN_0084e3a0_Class *>(&(destination))->FUN_0084e3a0()));
-    if (cell && cell != ((::DebugReference *)(reinterpret_cast<::s575ca0::Owner *>((((::DebugReference *)(::GetFieldBC((::FUN_0097ae90_Class *)(owner))))))->FUN_00575ca0())))
+    if (cell && cell != ((::DebugReference *)(reinterpret_cast<::s575ca0::Owner *>((((::DebugReference *)(reinterpret_cast<CombatControllerFields*>(owner)->pActor))))->FUN_00575ca0())))
         display->Print(x, y, "Destination: %s (%.02f,%.02f,%.02f)", cell->GetDebugName(), position.x, position.y,
                        position.z);
     else
@@ -1757,7 +1760,7 @@ void MoveProcedure::FUN_009d6ca0()
     MoveRef* actorsB = ((::MoveRef *)(reinterpret_cast<::FUN_00996de0_Class *>(this)->FUN_00996de0()));
     void* actorStatus5 = actorsB->Status();
     MoveRef* other7 = ((::MoveRef *)(reinterpret_cast<::FUN_00996e00_shell *>(this)->FUN_00996e00()));
-    MoveManager* manager2 = ((::MoveManager *)(reinterpret_cast<::InterfaceManager *>((owner))->FUN_00586150()));
+    MoveManager* manager2 = ((::MoveManager *)(reinterpret_cast<CombatControllerFields*>((owner))->pCombatState));
     switch (state)
     {
     case 0:
@@ -1790,7 +1793,7 @@ void MoveProcedure::FUN_009d6ca0()
                             state = 2;
                             active = true;
                             MoveVec pos;
-                            ::fnv_009a9370::FUN_009a9370((::fnv_009a9370::CombatController *)(owner), (::fnv_009a9370::CombatCoverPointData *)(::MovePath *)(((::MovePath *)(reinterpret_cast<::FUN_0097fb60_shell *>((manager2))->GetFieldAtE8()))), (::fnv_009a9370::NiPoint3 *)(::MoveVec *)(&pos), (::fnv_009a9370::NiPoint3 *)(::MoveVec *)(&position));
+                            ::fnv_009a9370::FUN_009a9370((::fnv_009a9370::CombatController *)(owner), (::fnv_009a9370::CombatCoverPointData *)(::MovePath *)(((::MovePath *)(reinterpret_cast<CombatStateFields*>((manager2))->pCoverPointData))), (::fnv_009a9370::NiPoint3 *)(::MoveVec *)(&pos), (::fnv_009a9370::NiPoint3 *)(::MoveVec *)(&position));
                             position.z += ::FUN_009a8460((::S_009a8460_Actor *)(actorsB), 2, 0);
                             reinterpret_cast<::FUN_008d7f40_shell *>(&(check))->FUN_008d7f40(0.5f);
                         }
@@ -1815,7 +1818,7 @@ void MoveProcedure::FUN_009d6ca0()
             {
                 if (state == 2)
                 {
-                    MovePath* path = ((::MovePath *)(reinterpret_cast<::FUN_0097fb60_shell *>((manager2))->GetFieldAtE8()));
+                    MovePath* path = ((::MovePath *)(reinterpret_cast<CombatStateFields*>((manager2))->pCoverPointData));
                     if (path)
                     {
                         reinterpret_cast<::fnv_009a0d00::FUN_009a0d00_shell *>((manager2))->StoreEntry((const void *)(path->handle));
@@ -1836,7 +1839,7 @@ void MoveProcedure::FUN_009d6ca0()
                         reinterpret_cast<::FUN_009d4f30_shell *>((manager2))->SetByteAtOffset188ToFF();
                         break;
                     }
-                    MovePath* path = ((::MovePath *)(::GetFieldValue((unsigned int *)(manager2))));
+                    MovePath* path = ((::MovePath *)(reinterpret_cast<CombatStateFields*>(manager2)->pUnknownE4));
                     if (path && path->mode == mode)
                     {
                         reinterpret_cast<::fnv_009a0d00::FUN_009a0d00_shell *>((manager2))->StoreEntry((const void *)(path->handle));
@@ -1890,7 +1893,7 @@ void MoveProcedure::FUN_009d6ca0()
         {
             if (!changed3 && other7 && reinterpret_cast<::fnv_0097ee90::DummyInner *>((manager2))->FUN_0097ee90())
             {
-                MovePath* path = ((::MovePath *)(reinterpret_cast<::FUN_0097fb60_shell *>((manager2))->GetFieldAtE8()));
+                MovePath* path = ((::MovePath *)(reinterpret_cast<CombatStateFields*>((manager2))->pCoverPointData));
                 if (!path)
                     changed3 = true;
                 else
@@ -1961,7 +1964,7 @@ void MoveProcedure::FUN_009d6ca0()
                         active = true;
                         reinterpret_cast<::FUN_009d7c20_shell *>((manager2))->FUN_009d7c20();
                         MoveVec pos;
-                        ::fnv_009a9370::FUN_009a9370((::fnv_009a9370::CombatController *)(owner), (::fnv_009a9370::CombatCoverPointData *)(::MovePath *)(((::MovePath *)(reinterpret_cast<::FUN_0097fb60_shell *>((manager2))->GetFieldAtE8()))), (::fnv_009a9370::NiPoint3 *)(::MoveVec *)(&pos), (::fnv_009a9370::NiPoint3 *)(::MoveVec *)(&position));
+                        ::fnv_009a9370::FUN_009a9370((::fnv_009a9370::CombatController *)(owner), (::fnv_009a9370::CombatCoverPointData *)(::MovePath *)(((::MovePath *)(reinterpret_cast<CombatStateFields*>((manager2))->pCoverPointData))), (::fnv_009a9370::NiPoint3 *)(::MoveVec *)(&pos), (::fnv_009a9370::NiPoint3 *)(::MoveVec *)(&position));
                         position.z += ::FUN_009a8460((::S_009a8460_Actor *)(actorsB), 2, 0);
                         state = 2;
                         reinterpret_cast<::StandIn_00989010 *>(&(current))->SetTripleAndValue((::ThreeInts_00989010 *)&(pos), ((intptr_t)(reinterpret_cast<::s575ca0::Owner *>((actorsB))->FUN_00575ca0())));
@@ -2008,7 +2011,7 @@ void MoveProcedure::FUN_009d6ca0()
         break;
     case 3: {
         bool finished6 = false;
-        MovePath* path2 = ((::MovePath *)(reinterpret_cast<::FUN_0097fb60_shell *>((manager2))->GetFieldAtE8()));
+        MovePath* path2 = ((::MovePath *)(reinterpret_cast<CombatStateFields*>((manager2))->pCoverPointData));
         if (reinterpret_cast<::TimeoutTimer *>(&(timer))->CheckTimer() || !path2)
             finished6 = true;
         else if (other7)

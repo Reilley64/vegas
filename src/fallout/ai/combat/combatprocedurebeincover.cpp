@@ -2,6 +2,7 @@
 // src/fallout/ai/combat/combatprocedurebeincover.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/combat/combatprocedurebeincover.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/combat_controller_fields.h"
 #include <cstdint>
 #include "fnv/decl/ActorCombatGroup.h"
 #include "fnv/decl/CombatProcedureEx.h"
@@ -222,7 +223,7 @@ struct FUN_009d2570_shell : public CombatProcedure
 // @fnv 0x009d2570
 void FUN_009d2570_shell::StopAttackerAndEngageTarget()
 {
-    Actor* actor = ((::Actor *)(::GetFieldBC((::FUN_0097ae90_Class *)(m_pattacker))));
+    Actor* actor = ((::Actor *)(reinterpret_cast<CombatControllerFields*>(m_pattacker)->pActor));
     reinterpret_cast<::FUN_008b3ab0_shell *>((actor))->FUN_008b3ab0();
     reinterpret_cast<::fnv_00996e40::FUN_00996e40_shell *>((((CombatProcedureEngageTarget*)this)))->FUN_00996e40();
     reinterpret_cast<::fnv_00996ea0::MyProc *>(this)->FUN_00996ea0();
@@ -252,7 +253,7 @@ void FUN_009d33e0_shell::UpdateCombatProcedure(Projectile* apProjectile)
     {
     case 1:
         ((FUN_008d7f40_shell*)((char*)this + 0x3c))
-            ->FUN_008d7f40(((FUN_009d32e0_shell*)((FUN_00980070_shell*)*(intptr_t*)((char*)this + 4))->FUN_00980070())
+            ->FUN_008d7f40(((FUN_009d32e0_shell*)reinterpret_cast<CombatControllerFields*>(*(void**)((char*)this + 4))->pCombatStyle)
                                ->GetRandomFloatInRange());
         break;
     case 2:
@@ -261,7 +262,7 @@ void FUN_009d33e0_shell::UpdateCombatProcedure(Projectile* apProjectile)
         *(int*)((char*)this + 0x10) = 4;
         ((FUN_008d7f40_shell*)((char*)this + 0x4c))
             ->FUN_008d7f40(
-                ((TESCombatStyle*)((FUN_00980070_shell*)*(intptr_t*)((char*)this + 4))->FUN_00980070())->GetRandomValue());
+                ((TESCombatStyle*)reinterpret_cast<CombatControllerFields*>(*(void**)((char*)this + 4))->pCombatStyle)->GetRandomValue());
         break;
     }
 }
@@ -928,7 +929,7 @@ void CoverProcedure::UpdateCoverState()
         {
             state = 3;
             reinterpret_cast<::fnv_00996ea0::MyProc *>(this)->FUN_00996ea0();
-            reinterpret_cast<::FUN_008d7f40_shell *>(&(outWait))->FUN_008d7f40(reinterpret_cast<::FUN_009d3310_shell *>((((::CoverStyle *)(reinterpret_cast<::FUN_00980070_shell *>((manager))->FUN_00980070()))))->GetRandomFloat());
+            reinterpret_cast<::FUN_008d7f40_shell *>(&(outWait))->FUN_008d7f40(reinterpret_cast<::FUN_009d3310_shell *>((((::CoverStyle *)(reinterpret_cast<CombatControllerFields*>((manager))->pCombatStyle))))->GetRandomFloat());
         }
         break;
     }
@@ -937,7 +938,7 @@ void CoverProcedure::UpdateCoverState()
         if (reinterpret_cast<::CombatTargetTimestamp *>(&(stamp))->FUN_006a7f50() > reinterpret_cast<::CombatTargetTimestamp *>(&(wait))->FUN_006a7f50())
         {
             state = 4;
-            reinterpret_cast<::FUN_008d7f40_shell *>(&(firing))->FUN_008d7f40(reinterpret_cast<::TESCombatStyle *>((((::CoverStyle *)(reinterpret_cast<::FUN_00980070_shell *>((manager))->FUN_00980070()))))->GetRandomValue());
+            reinterpret_cast<::FUN_008d7f40_shell *>(&(firing))->FUN_008d7f40(reinterpret_cast<::TESCombatStyle *>((((::CoverStyle *)(reinterpret_cast<CombatControllerFields*>((manager))->pCombatStyle))))->GetRandomValue());
             reinterpret_cast<::TimeoutTimer *>(&(blocked))->FUN_00910b10();
         }
         else if (reinterpret_cast<::TimeoutTimer *>(&(outWait))->CheckTimer())
@@ -992,7 +993,7 @@ void CoverProcedure::UpdateCoverState()
             state = 1;
             reinterpret_cast<::fnv_00996ea0::MyProc *>(this)->FUN_00996ea0();
             reinterpret_cast<::fnv_00996e20::FUN_00996e20_shell *>(this)->FUN_00996e20(2);
-            reinterpret_cast<::FUN_008d7f40_shell *>(&(wait))->FUN_008d7f40(reinterpret_cast<::FUN_009d32e0_shell *>((((::CoverStyle *)(reinterpret_cast<::FUN_00980070_shell *>((manager))->FUN_00980070()))))->GetRandomFloatInRange());
+            reinterpret_cast<::FUN_008d7f40_shell *>(&(wait))->FUN_008d7f40(reinterpret_cast<::FUN_009d32e0_shell *>((((::CoverStyle *)(reinterpret_cast<CombatControllerFields*>((manager))->pCombatStyle))))->GetRandomFloatInRange());
         }
         else
         {
@@ -1018,7 +1019,7 @@ void CoverProcedure::UpdateCoverState()
         {
             state = 1;
             reinterpret_cast<::fnv_00996e20::FUN_00996e20_shell *>(this)->FUN_00996e20(2);
-            reinterpret_cast<::FUN_008d7f40_shell *>(&(wait))->FUN_008d7f40(reinterpret_cast<::FUN_009d32e0_shell *>((((::CoverStyle *)(reinterpret_cast<::FUN_00980070_shell *>((manager))->FUN_00980070()))))->GetRandomFloatInRange());
+            reinterpret_cast<::FUN_008d7f40_shell *>(&(wait))->FUN_008d7f40(reinterpret_cast<::FUN_009d32e0_shell *>((((::CoverStyle *)(reinterpret_cast<CombatControllerFields*>((manager))->pCombatStyle))))->GetRandomFloatInRange());
         }
         break;
     }

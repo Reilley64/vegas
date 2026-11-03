@@ -2,7 +2,7 @@
 
 #include <cstdint>
 #include "fnv/simple_list_node_view.h"
-#include "fnv/inventory_fields.h"
+#include "fnv/inventory_entry_fields.h"
 #include <new>
 #include "fnv/decl/BGSDefaultObjectManager.h"
 #include "fnv/decl/BSShaderNoLightingProperty.h"
@@ -856,14 +856,14 @@ void Wheel::FUN_00701e80()
     Entry* entry5 = inv3 ? ((::Entry *)(reinterpret_cast<::InventoryChangesIter *>((inv3))->FindEntryWithExtraListType(*(int*)((char*)this + 0x28)))) : 0;
     void* extra = entry5 && ((::Data *)(::FUN_00559450((int *)(entry5)))) ? *((void **)(&reinterpret_cast<::SimpleListNodeView*>(((::Data *)(::FUN_00559450((int *)(entry5)))))->m_item)) : 0;
     bool ammo4 =
-        (entry5 && ((::Form *)(reinterpret_cast<::InventoryEntryFields *>((entry5))->m_pItemObject))->FUN_00401170() == 0x28 && ::FUN_004c0bf0((::TESObjectWEAP *)(((::Form *)(reinterpret_cast<::InventoryEntryFields *>((entry5))->m_pItemObject))))) ? 1 : 0;
+        (entry5 && ((::Form *)(reinterpret_cast<::InventoryEntryFields *>((entry5))->pObject))->FUN_00401170() == 0x28 && ::FUN_004c0bf0((::TESObjectWEAP *)(((::Form *)(reinterpret_cast<::InventoryEntryFields *>((entry5))->pObject))))) ? 1 : 0;
     if (!*((unsigned char*)this + 0x24) || !inv3 || !entry5)
         return;
-    if (reinterpret_cast<::FUN_008a7570_shell *>(((*reinterpret_cast<::Player * *>(&::_g_thePlayer))))->FUN_008a7570() != -1 && ((::Form *)(reinterpret_cast<::InventoryEntryFields *>((entry5))->m_pItemObject))->FUN_00401170() == 0x18)
+    if (reinterpret_cast<::FUN_008a7570_shell *>(((*reinterpret_cast<::Player * *>(&::_g_thePlayer))))->FUN_008a7570() != -1 && ((::Form *)(reinterpret_cast<::InventoryEntryFields *>((entry5))->pObject))->FUN_00401170() == 0x18)
         return;
-    if (reinterpret_cast<::FUN_008a7570_shell *>(((*reinterpret_cast<::Player * *>(&::_g_thePlayer))))->FUN_008a7570() != -1 && ((::Form *)(reinterpret_cast<::InventoryEntryFields *>((entry5))->m_pItemObject))->FUN_00401170() == 0x28)
+    if (reinterpret_cast<::FUN_008a7570_shell *>(((*reinterpret_cast<::Player * *>(&::_g_thePlayer))))->FUN_008a7570() != -1 && ((::Form *)(reinterpret_cast<::InventoryEntryFields *>((entry5))->pObject))->FUN_00401170() == 0x28)
         return;
-    if (((::Form *)(reinterpret_cast<::InventoryEntryFields *>((entry5))->m_pItemObject)) == ((::Form *)(::BGSDefaultObjectManager::GetDefaultObjectByIndex((::DEFAULT_OBJECT)(0)))) && ((ActorValues*)((char*)(*reinterpret_cast<::Player * *>(&::_g_thePlayer)) + 0xa4))->v08(0x10) ==
+    if (((::Form *)(reinterpret_cast<::InventoryEntryFields *>((entry5))->pObject)) == ((::Form *)(::BGSDefaultObjectManager::GetDefaultObjectByIndex((::DEFAULT_OBJECT)(0)))) && ((ActorValues*)((char*)(*reinterpret_cast<::Player * *>(&::_g_thePlayer)) + 0xa4))->v08(0x10) ==
                                                          ((ActorValues*)((char*)(*reinterpret_cast<::Player * *>(&::_g_thePlayer)) + 0xa4))->v1c(0x10))
     {
         ::DispatchMessageToSink((const char *)(((const char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Setting *>(&::g_011d2af0))))->IsDLCAvailable()))), 0, (int)(0), (int)(0), DAT_010162c0, false);
@@ -872,9 +872,9 @@ void Wheel::FUN_00701e80()
     else
     {
         if (!reinterpret_cast<::FUN_004bddd0_shell *>((entry5))->FUN_004bddd0(false))
-            reinterpret_cast<::FUN_0088c650_shell *>(((*reinterpret_cast<::Player * *>(&::_g_thePlayer))))->FUN_0088c650((::TESBoundObject *)(::Form *)(((::Form *)(reinterpret_cast<::InventoryEntryFields *>((entry5))->m_pItemObject))), ammo4 ? ((int)(reinterpret_cast<::InventoryEntryFields *>((entry5))->m_iCountChange)) : 1, (::ExtraDataList *)(extra), 0, 0, 1);
+            reinterpret_cast<::FUN_0088c650_shell *>(((*reinterpret_cast<::Player * *>(&::_g_thePlayer))))->FUN_0088c650((::TESBoundObject *)(::Form *)(((::Form *)(reinterpret_cast<::InventoryEntryFields *>((entry5))->pObject))), ammo4 ? ((int)(reinterpret_cast<::InventoryEntryFields *>((entry5))->iCountDelta)) : 1, (::ExtraDataList *)(extra), 0, 0, 1);
         else
-            reinterpret_cast<::s88c790::Actor *>(((*reinterpret_cast<::Player * *>(&::_g_thePlayer))))->FUN_0088c790((intptr_t)(((::Form *)(reinterpret_cast<::InventoryEntryFields *>((entry5))->m_pItemObject))), ammo4 ? ((int)(reinterpret_cast<::InventoryEntryFields *>((entry5))->m_iCountChange)) : 1, (intptr_t)(extra), 0, 0, 1);
+            reinterpret_cast<::s88c790::Actor *>(((*reinterpret_cast<::Player * *>(&::_g_thePlayer))))->FUN_0088c790((intptr_t)(((::Form *)(reinterpret_cast<::InventoryEntryFields *>((entry5))->pObject))), ammo4 ? ((int)(reinterpret_cast<::InventoryEntryFields *>((entry5))->iCountDelta)) : 1, (intptr_t)(extra), 0, 0, 1);
     }
     reinterpret_cast<::FUN_00950030_shell *>(((*reinterpret_cast<::Player * *>(&::_g_thePlayer))))->FUN_00950030();
     ((::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::Player * *>(&::_g_thePlayer))))->GetBaseTexture()))->v580(1, 0, 0);
@@ -931,12 +931,12 @@ void HotkeyWheelUpdate::FUN_007017b0()
             {
                 reinterpret_cast<HotkeyStringCalls&>(str3).FUN_00438390(str_InterfaceIcons);
                 reinterpret_cast<HotkeyStringCalls&>(str3).FUN_00404820(
-                    ::fnv_00479540::GetMenuIconName(BGSEquipType::GetEquipType(((::TESBoundObject *)(reinterpret_cast<::InventoryEntryFields *>((item3))->m_pItemObject)))));
+                    ::fnv_00479540::GetMenuIconName(BGSEquipType::GetEquipType(((::TESBoundObject *)(reinterpret_cast<::InventoryEntryFields *>((item3))->pObject)))));
                 reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((this->m_ppHotkeySlotTiles[i]))->FUN_00a01350(FUN_00a01860(str_HotKeyIcon), (char *)(((const char *)(::FUN_00559450((int *)&(str3))))), true);
                 this->m_ppHotkeySlotTiles[i]->Set(FUN_00a01860(str_HotKeyAssigned), 1);
-                if (((std::intptr_t)(reinterpret_cast<::InventoryEntryFields *>((item3))->m_iCountChange)) > 1)
+                if (((std::intptr_t)(reinterpret_cast<::InventoryEntryFields *>((item3))->iCountDelta)) > 1)
                 {
-                    ::FUN_00406f60((::FUN_00406f90_this *)(void *)(&str3), str_FormatCount, reinterpret_cast<::FUN_004be2d0_shell *>((item3))->GetTargetFullName(), ((std::intptr_t)(reinterpret_cast<::InventoryEntryFields *>((item3))->m_iCountChange)));
+                    ::FUN_00406f60((::FUN_00406f90_this *)(void *)(&str3), str_FormatCount, reinterpret_cast<::FUN_004be2d0_shell *>((item3))->GetTargetFullName(), ((std::intptr_t)(reinterpret_cast<::InventoryEntryFields *>((item3))->iCountDelta)));
                 }
                 else
                 {

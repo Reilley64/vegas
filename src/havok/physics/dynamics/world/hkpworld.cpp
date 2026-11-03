@@ -3806,24 +3806,7 @@ FUN_00c93d10::FUN_00c93d10(int iUnused) throw()
 }
 
 namespace fnv_00c976a0 {
-struct hkAllocatorC976 {
-    virtual void V0() throw();
-    virtual void V1() throw();
-    virtual void V2() throw();
-    virtual void V3() throw();
-    virtual void ReturnMemory(void* p, int iNumBytes) throw();
-    template <typename T>
-    void _bufFree(void* p, int aiNumElements)
-    {
-        ReturnMemory(p, aiNumElements * sizeof(T));
-    }
-};
 
-struct hkMemoryRouterC976 {
-    void* m_apvUnk00[4];
-    hkAllocatorC976* m_pkHeap;
-    hkAllocatorC976& heap() { return *m_pkHeap; }
-};
 
 
 template <typename T>
@@ -3834,7 +3817,7 @@ struct hkArrayC976 {
 
     int GetLogicalSize() const { return m_iElementCount; }
     T& operator[](int i) { return m_data[i]; }
-    void _clearAndDeallocate(hkAllocatorC976& kAlloc)
+    void _clearAndDeallocate(hkMemoryAllocator& kAlloc)
     {
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
@@ -3842,7 +3825,7 @@ struct hkArrayC976 {
         m_data = 0;
         m_iCapacityState = 0x80000000;
     }
-    ~hkArrayC976() throw() { _clearAndDeallocate(static_cast<hkMemoryRouterC976*>(::FUN_00c85750())->heap()); }
+    ~hkArrayC976() throw() { _clearAndDeallocate(hkMemoryRouter::getInstance().heap()); }
 };
 
 template <typename T, int N>
@@ -4031,21 +4014,7 @@ public:
 };
 
 namespace fnv_00c98260 {
-class hkMemoryAllocatorC982 {
-public:
-    virtual ~hkMemoryAllocatorC982() throw();
-    virtual void* AllocateMemoryBlock(int iNumBytes) throw();
-    virtual void ReleaseBlock(void* p, int iNumBytes) throw();
-};
 
-struct hkMemoryRouterC982 {
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
-    hkMemoryAllocatorC982* m_pStreamAllocator;
-    hkMemoryAllocatorC982& heap() { return *m_pStreamAllocator; }
-};
 
 
 class hkReferencedObjectC982 {
@@ -4056,7 +4025,7 @@ public:
 
     static void operator delete(void* p) throw()
     {
-        (*static_cast<hkMemoryRouterC982*>(::FUN_00c85750())).heap().ReleaseBlock(p, static_cast<hkReferencedObjectC982*>(p)->m_usMemSizeAndFlags);
+        hkMemoryRouter::getInstance().heap().blockFree(p, static_cast<hkReferencedObjectC982*>(p)->m_usMemSizeAndFlags);
     }
 };
 
@@ -4083,21 +4052,7 @@ hkListenerPairC982* hkListenerPairC982::DestroyAndMaybeFree(unsigned int uiFlags
 }  // namespace fnv_00c98260
 
 namespace fnv_00c982e0 {
-class hkMemoryAllocatorC982 {
-public:
-    virtual ~hkMemoryAllocatorC982() throw();
-    virtual void* AllocateMemoryBlock(int iNumBytes) throw();
-    virtual void ReleaseBlock(void* p, int iNumBytes) throw();
-};
 
-struct hkMemoryRouterC982 {
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
-    hkMemoryAllocatorC982* m_pStreamAllocator;
-    hkMemoryAllocatorC982& heap() { return *m_pStreamAllocator; }
-};
 
 
 class FUN_00cfa860 {
@@ -4109,7 +4064,7 @@ public:
 
     static void operator delete(void* p) throw()
     {
-        (*static_cast<hkMemoryRouterC982*>(::FUN_00c85750())).heap().ReleaseBlock(p, static_cast<FUN_00cfa860*>(p)->m_usMemSizeAndFlags);
+        hkMemoryRouter::getInstance().heap().blockFree(p, static_cast<FUN_00cfa860*>(p)->m_usMemSizeAndFlags);
     }
 
     FUN_00cfa860* FUN_00c982e0(unsigned int uiFlags) throw();
@@ -4127,21 +4082,7 @@ FUN_00cfa860* FUN_00cfa860::FUN_00c982e0(unsigned int uiFlags) throw()
 }  // namespace fnv_00c982e0
 
 namespace fnv_00c98370 {
-class hkMemoryAllocatorC983 {
-public:
-    virtual ~hkMemoryAllocatorC983() throw();
-    virtual void* AllocateMemoryBlock(int iNumBytes) throw();
-    virtual void ReleaseBlock(void* p, int iNumBytes) throw();
-};
 
-struct hkMemoryRouterC983 {
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
-    hkMemoryAllocatorC983* m_pStreamAllocator;
-    hkMemoryAllocatorC983& heap() { return *m_pStreamAllocator; }
-};
 
 
 class hkReferencedObjectC983 {
@@ -4152,7 +4093,7 @@ public:
 
     static void operator delete(void* p) throw()
     {
-        (*static_cast<hkMemoryRouterC983*>(::FUN_00c85750())).heap().ReleaseBlock(p, static_cast<hkReferencedObjectC983*>(p)->m_usMemSizeAndFlags);
+        hkMemoryRouter::getInstance().heap().blockFree(p, static_cast<hkReferencedObjectC983*>(p)->m_usMemSizeAndFlags);
     }
 };
 
@@ -7641,22 +7582,7 @@ hkpActionC97* hkpWorldC97::FUN_00c97370(hkpActionC97* pkAction) throw()
     return pkAction;
 }
 
-class hkMemoryAllocatorC97E {
-public:
-    virtual ~hkMemoryAllocatorC97E() throw();
-    virtual void* AllocateMemoryBlock(int iNumBytes) throw();
-    virtual void ReleaseBlock(void* p, int iNumBytes) throw();
-};
 
-struct hkMemoryRouterC97E {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    hkMemoryAllocatorC97E* m_pStreamAllocator;
-
-    hkMemoryAllocatorC97E& heap() { return *m_pStreamAllocator; }
-};
 
 namespace hkRouterC97E {
     
@@ -7670,7 +7596,7 @@ public:
 
     static void* operator new(size_t nbytes)
     {
-        hkRefObjC97E* b = static_cast<hkRefObjC97E*>((*static_cast<hkMemoryRouterC97E*>(::FUN_00c85750())).heap().AllocateMemoryBlock(nbytes));
+        hkRefObjC97E* b = static_cast<hkRefObjC97E*>(hkMemoryRouter::getInstance().heap().blockAlloc(nbytes));
         b->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return b;
     }
@@ -12397,20 +12323,7 @@ static __forceinline void doShift(Sbp_World* self,const __m128& rawShift, __m128
 void Sbp_World::FUN_00c96a20(const __m128& rawShift, __m128& rawEffective, int update) { doShift(this,rawShift,rawEffective,update); }
 
 namespace fnv_00c977c0 {
-class hkMemoryAllocatorC977 {
-public:
-    virtual ~hkMemoryAllocatorC977() throw();
-    virtual void* AllocateMemoryBlock(int iNumBytes) throw();
-};
 
-struct hkMemoryRouterC977 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    hkMemoryAllocatorC977* m_pStreamAllocator;
-    hkMemoryAllocatorC977& heap() { return *m_pStreamAllocator; }
-};
 
 
 
@@ -12448,7 +12361,7 @@ public:
 
     static void* operator new(size_t nbytes)
     {
-        hkReferencedObject* b = static_cast<hkReferencedObject*>((*static_cast<hkMemoryRouterC977*>(::FUN_00c85750())).heap().AllocateMemoryBlock(nbytes));
+        hkReferencedObject* b = static_cast<hkReferencedObject*>(hkMemoryRouter::getInstance().heap().blockAlloc(nbytes));
         b->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return b;
     }
@@ -13912,21 +13825,7 @@ public:
     unsigned int m_uiPrevious;
 };
 
-struct hkMemoryAllocatorCAA {
-    virtual void v00();
-    virtual void* AllocateMemoryBlock(int numBytes);
-    virtual void ReleaseBlock(void* p, int numBytes);
-};
 
-struct hkMemoryRouterCAA {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    hkMemoryAllocatorCAA* m_pStreamAllocator;
-
-    hkMemoryAllocatorCAA& heap() { return *m_pStreamAllocator; }
-};
 
 
 struct __declspec(align(16)) hkVector4CAA {
@@ -13940,14 +13839,14 @@ public:
 
     void* operator new(size_t nbytes)
     {
-        hkReferencedObjectCAA* b = static_cast<hkReferencedObjectCAA*>(((hkMemoryRouterCAA*)::FUN_00c85750())->heap().AllocateMemoryBlock(nbytes));
+        hkReferencedObjectCAA* b = static_cast<hkReferencedObjectCAA*>(hkMemoryRouter::getInstance().heap().blockAlloc(nbytes));
         b->m_usMemSizeAndFlags = static_cast<unsigned short>(nbytes);
         return b;
     }
 
     void operator delete(void* p, size_t nbytes)
     {
-        ((hkMemoryRouterCAA*)::FUN_00c85750())->heap().ReleaseBlock(p, nbytes);
+        hkMemoryRouter::getInstance().heap().blockFree(p, nbytes);
     }
 
      // removeReference

@@ -574,7 +574,7 @@ void FUN_00d2de20_cls::FUN_00d2de20(int a0, FUN_00d2de20_obj** a1, int a2, int a
     args.m_14 = m_08;
     args.m_0C = r;
     args.m_18 = a3;
-    ::FUN_00da48e0((int)(&m_30), (int)(&args));
+    ::FUN_00da48e0((&m_30), (&args));
 }
 
 extern int DAT_010ce838;

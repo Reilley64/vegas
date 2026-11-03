@@ -245,7 +245,7 @@ static __declspec(noinline) char* AllocatePoolChunk(CFE820Pool* pool)
     return block;
 }
 
-// Caller so the file-static helper is emitted with its register calling convention.
+// Caller so the file-static helper is emitted with its calling convention.
 char* CFE820Allocate(CFE820Pool* pool)
 {
     char* a = AllocatePoolChunk(pool);

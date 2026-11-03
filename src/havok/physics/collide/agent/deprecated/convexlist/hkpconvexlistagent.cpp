@@ -290,7 +290,7 @@ struct D338e0Owner
 inline void D338e0Dispatch(D338e0Local* local, int* ownerField, int result)
 {
     local->field0C = result;
-    ::FUN_00da48e0((int)(ownerField), (int)(local));
+    ::FUN_00da48e0((ownerField), (local));
 }
 
 // If unk84 is zero, fills a D338e0Local from the parameters and unk08, calls vf10 on the agent at param2, and dispatches the result with unk30.

@@ -478,7 +478,7 @@ FUN_00e607c0* PieceAgentE49::FUN_00e49120(unsigned int uiIndex, void* pvMemory)
         const int* j = &piData[iStart];
         pkPieces->m_iNumKeys = *j;
         pkPieces->m_piKeys = (int*)(j + 1);
-        hkVector4E49* pkOut = (hkVector4E49*)(((unsigned int)pvMemory + 0x3b) & ~15);
+        hkVector4E49* pkOut = (hkVector4E49*)(((uintptr_t)pvMemory + 0x3b) & ~(uintptr_t)15);
         pkPieces->m_pkVertices = pkOut;
         pkPieces->m_iNumVertices = 0;
         for (int i = 0; i < pkPieces->m_iNumKeys; i++)
@@ -503,7 +503,7 @@ FUN_00e607c0* PieceAgentE49::FUN_00e49120(unsigned int uiIndex, void* pvMemory)
         pkPieces->m_iNumKeys = 1;
         int* piKeys = &m_pkFaces->m_piTriangleKeys[uiIndex - m_pkFaces->m_uiNumFaces];
         pkPieces->m_piKeys = piKeys;
-        hkVector4E49* pkOut = (hkVector4E49*)(((unsigned int)pvMemory + 0x3b) & ~15);
+        hkVector4E49* pkOut = (hkVector4E49*)(((uintptr_t)pvMemory + 0x3b) & ~(uintptr_t)15);
         pkPieces->m_pkVertices = pkOut;
         pkPieces->m_iNumVertices = 3;
         int iKey = pkPieces->m_piKeys[0];

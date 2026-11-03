@@ -383,7 +383,7 @@ int __cdecl BuildKdTreeDistributed(ContextHandle ctx, ArgStruct* input, ...)
         reinterpret_cast<::CriticalSectionOwner *>(((ctx).operator->()))->FUN_00d04420((::Registry *)(h));
         (void)buf;
     }
-    zero = reinterpret_cast<::LunaOwner *>(((ctx).operator->()))->ProcessCallback((int)(arg), (int)(arg), result);
+    zero = reinterpret_cast<::LunaOwner *>(((ctx).operator->()))->ProcessCallback((intptr_t)(arg), (intptr_t)(arg), result);
     TraceBuffer* pTraceBuf2 = (TraceBuffer*)TlsGetValue(DAT_0126835c);
     if (pTraceBuf2->m_pCurrent < pTraceBuf2->m_pRecordEnd)
     {
@@ -630,7 +630,7 @@ void __cdecl FUN_00d947e0(S00d947e0_Obj** a1, S00d947e0_Queue* apQueue, S00d947e
         tls->unk04 = cur + 0xc;
     }
 
-    reinterpret_cast<::LunaOwner *>((apQueue))->ProcessCallback((int)(apData), (int)(apData), 0);
+    reinterpret_cast<::LunaOwner *>((apQueue))->ProcessCallback((intptr_t)(apData), (intptr_t)(apData), 0);
 }
 
 #include "generated/data/havok/physics/collide/query/multithreaded/raycastquery/cpu/hkpcpukdtreebuildjob.inc"

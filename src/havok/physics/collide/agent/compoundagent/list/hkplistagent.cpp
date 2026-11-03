@@ -148,7 +148,7 @@ void FUN_00d368c0_cls::FUN_00d368c0(void* a1, void* a2, void* a3, void* a4)
     s.unk14 = iStored;
     s.unk18 = (int)a4;
     s.unk0C = (*(VirtTarget**)a2)->v10();
-    ::FUN_00da48e0((int)((char*)&this->unk10), (int)(&s));
+    ::FUN_00da48e0(((char*)&this->unk10), (&s));
 }
 
 // Moved from hkplistagent_rtm_variant.cpp (VEGAS-15).

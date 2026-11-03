@@ -10,12 +10,13 @@
 #include "fnv/symbols_00d2c000.h"
 #include "fnv/symbols_00da3000.h"
 #include "fnv/symbols_01012000.h"
-void FUN_00da44d0(int, int, void*);
+struct BlockPoolArray;
+void FUN_00da44d0(BlockPoolArray*, const void*, void*);
 
 // @fnv 0x00da48e0
-void FUN_00da48e0(int b, int a)
+void FUN_00da48e0(void* b, const void* a)
 {
-    FUN_00da44d0(b, a, (void*)&((void (&)())::ProcessEntryPair));
+    FUN_00da44d0(static_cast<BlockPoolArray*>(b), a, (void*)&((void (&)())::ProcessEntryPair));
 }
 
 typedef unsigned int BlockPoolsize_t;
@@ -2276,9 +2277,8 @@ __forceinline static void streamCopy(void* dst, const void* src, int count)
 typedef unsigned char*(__cdecl* StreamTransform)(void*, unsigned char*, unsigned char*);
 // Walks records in the BlockPoolArray blocks, copies them into new 512-byte blocks, applies the callback to some record types, and replaces the array contents.
 // @fnv 0x00da44d0
-void FUN_00da44d0(int apBlocks, int apHeader, void* apTransform)
+void FUN_00da44d0(BlockPoolArray* blocks, const void* apHeader, void* apTransform)
 {
-    BlockPoolArray* blocks = (BlockPoolArray*)apBlocks;
     int outIndex = 0;
     BlockPoolBlock* input = blocks->m_data[0];
     BlockPoolBlock* previous = 0;
@@ -2297,7 +2297,7 @@ void FUN_00da44d0(int apBlocks, int apHeader, void* apTransform)
 process:
     streamCopy(out, cursor, cursor[3] >> 4);
     cursor += cursor[3];
-    memcpy(&header, (void*)apHeader, 32);
+    memcpy(&header, apHeader, 32);
     int offset = 16;
     switch (out[0] & 0xf7)
     {
@@ -2436,14 +2436,14 @@ static __declspec(noinline) int FUN_00da37d0(const TOIBody* b, const TOIBody* a,
         return 1;
     return 0;
 }
-volatile int g_toiA;
-volatile int g_toiB;
+const TOIBody* volatile g_toiA;
+const TOIBody* volatile g_toiB;
 volatile float g_toiF;
-volatile int g_toiP;
+const float* volatile g_toiP;
 volatile int g_toiOut;
 void CallTarget_da37d0()
 {
-    g_toiOut = FUN_00da37d0((const TOIBody*)g_toiB, (const TOIBody*)g_toiA, g_toiF, (const float*)g_toiP, g_toiF);
+    g_toiOut = FUN_00da37d0(g_toiB, g_toiA, g_toiF, g_toiP, g_toiF);
 }
 
 // Moved from hkpagent1nmachine_gs_nogs_variant.cpp (VEGAS-15).
@@ -2454,7 +2454,7 @@ void CallTarget_da37d0()
 #include "fnv/symbols_00da5000.h"
 #include "fnv/symbols_00dfa000.h"
 #include "fnv/symbols_01268000.h"
-void FUN_00da44d0(int array_arg, int header_arg, void* callback);
+void FUN_00da44d0(BlockPoolArray* array_arg, const void* header_arg, void* callback);
 
 typedef float hkReal;
 typedef unsigned char hkUchar;
@@ -3242,9 +3242,9 @@ namespace hkVector4Util_S
 __forceinline void __cdecl dot3_3vs3(const hkVector4_S&a0,const hkVector4_S&b0,const hkVector4_S&a1,const hkVector4_S&b1,const hkVector4_S&a2,const hkVector4_S&b2,hkVector4_S&dotsOut);}
 inline void __cdecl hkVector4Util_S::dot3_3vs3(const hkVector4_S&a0,const hkVector4_S&b0,const hkVector4_S&a1,const hkVector4_S&b1,const hkVector4_S&a2,const hkVector4_S&b2,hkVector4_S&dotsOut)
 {
-register hkQuadReal c0=_mm_mul_ps(a0.getQuad(),b0.getQuad());
-register hkQuadReal c1=_mm_mul_ps(a1.getQuad(),b1.getQuad());
-register hkQuadReal c2=_mm_mul_ps(a2.getQuad(),b2.getQuad());
+hkQuadReal c0=_mm_mul_ps(a0.getQuad(),b0.getQuad());
+hkQuadReal c1=_mm_mul_ps(a1.getQuad(),b1.getQuad());
+hkQuadReal c2=_mm_mul_ps(a2.getQuad(),b2.getQuad());
 {hkQuadReal _tmp,_ctmp;_tmp=_mm_unpacklo_ps(c0,c1);_ctmp=_mm_shuffle_ps(_mm_unpackhi_ps(c0,c1),c2,(((3)<<6)|((2)<<4)|((1)<<2)|((0))));c0=_mm_movelh_ps(_tmp,c2);c1=_mm_shuffle_ps(_mm_movehl_ps(c0,_tmp),c2,(((3)<<6)|((1)<<4)|((1)<<2)|((0))));c2=_ctmp;};
 dotsOut.getQuad()=_mm_add_ps(_mm_add_ps(c0,c1),c2);}
 struct hkpAgent1nTrack_S;

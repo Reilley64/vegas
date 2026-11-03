@@ -216,8 +216,8 @@ void __cdecl ExecuteMoppAabbQuery(S_00df7010_Output* out, const S_00df7010_Input
     S_00df7010_MonitorStream::GetMonitorStream().timer("TtCollQueryMoppAabbQuery");
 
     // aligned storage for a stand-in MOPP code object (non-char buffer: no GS cookie)
-    unsigned int buffer[16];
-    S_00df7010_MoppCode* code = (S_00df7010_MoppCode*)(((unsigned int)buffer + 15) & ~15);
+    unsigned int buffer[(sizeof(S_00df7010_MoppCode) + 15) / sizeof(unsigned int) + 1];
+    S_00df7010_MoppCode* code = (S_00df7010_MoppCode*)(((uintptr_t)buffer + 15) & ~(uintptr_t)15);
     code->m_offset = input->m_codeOffset;
     code->m_data.set(input->m_codeData, 0x200, 0x200);
     code->m_eBuildType = 2;
@@ -232,5 +232,5 @@ void __cdecl ExecuteMoppAabbQuery(S_00df7010_Output* out, const S_00df7010_Input
     }
 
     S_00df7010_MonitorStream::GetMonitorStream().timer("Et");
-    reinterpret_cast<::LunaOwner *>((out))->ProcessCallback((int)(input), (int)(input), 0);
+    reinterpret_cast<::LunaOwner *>((out))->ProcessCallback((intptr_t)(input), (intptr_t)(input), 0);
 }

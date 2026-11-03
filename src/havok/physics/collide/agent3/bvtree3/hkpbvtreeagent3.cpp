@@ -136,7 +136,7 @@ void __cdecl CallWithValueSource(void* apUnused, void* p2, int aiArg0, ValueSour
     callBuf.unk14 = aiArg2;
     callBuf.unk0c = r;
     callBuf.unk18 = aiArg3;
-    ::FUN_00da48e0((int)(p2), (int)(&callBuf));
+    ::FUN_00da48e0((p2), (&callBuf));
 }
 
 struct SpawnedObject

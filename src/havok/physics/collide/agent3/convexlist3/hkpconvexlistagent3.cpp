@@ -348,7 +348,7 @@ void __cdecl FUN_00d32c40(int aiUnused, Arg1* a1, int a2, Arg3* a3, int aiArg4, 
     j.m14 = aiArg5;
     j.m18 = aiArg6;
     j.m0c = iSlotResult;
-    ::FUN_00da48e0((int)(&a1->field_10), (int)(&j));
+    ::FUN_00da48e0((&a1->field_10), (&j));
 }
 
 struct hkpShapeD333
@@ -1175,7 +1175,7 @@ finished:
         entry->time = scratch.shapeEnd.stamp;
         monitor->current = (MonitorEntry*)((char*)entry + 12);
     }
-    return (void*)(((unsigned int)scratch.outcome.result + 15) & ~15);
+    return (void*)(((uintptr_t)scratch.outcome.result + 15) & ~(uintptr_t)15);
 }
 }  // namespace fnv_00d32cd0
 

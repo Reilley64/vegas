@@ -783,7 +783,7 @@ hkVector4ComparisonD546 hkpMoppBvTreeShapeD546::FUN_00d54610(const hkpShapeRayBu
     kResults.m_akRayOutputs[3].changeLevel(1);
 
     unsigned int auiCodeBuf[(sizeof(hkpMoppCodeD546) + 16) / 4];
-    hkpMoppCodeD546* pkCode = (hkpMoppCodeD546*)(((unsigned long)auiCodeBuf + 15) & ~15);
+    hkpMoppCodeD546* pkCode = (hkpMoppCodeD546*)(((uintptr_t)auiCodeBuf + 15) & ~(uintptr_t)15);
     int iMoppDataSize = m_uiMoppDataSize;
     pkCode->m_offset.getQuad() = m_kMoppCodeInfo.getQuad();
     pkCode->m_data = m_pMoppData;
@@ -1235,7 +1235,7 @@ int hkMoppBvTreeShapeBaseQ::FUN_00d54810(const hkAabbq& aabbIn, unsigned int* hi
 
     hkAabbq aabb;
     int buffer[16];
-    hkpMoppCodeQ* code = (hkpMoppCodeQ*)(((unsigned int)buffer + 15) & ~15u);
+    hkpMoppCodeQ* code = (hkpMoppCodeQ*)(((uintptr_t)buffer + 15) & ~(uintptr_t)15u);
     code->init(reinterpret_cast<const hkMoppCodeInfoQ&>(offset), m_pMoppData, m_uiMoppDataSize);
     float extent = (float)(::DAT_01091c00 / m_kMoppCodeInfo.w);
     aabb.m_kMinimumCorner.m_vComponents = _mm_max_ps(offset.m_vComponents, aabbIn.m_kMinimumCorner.m_vComponents);

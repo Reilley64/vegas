@@ -228,7 +228,7 @@ void hkpCollisionDispatcher::RegisterAgentType(signed char (*table)[32], signed 
                     unsigned int buf[256];
                     Vsnprintf(
                         (char*)buf, 1000,
-                        "Agent handling types <%s-%s> would override more specialized agent <%s-%s>\nMaybe the order of registering your collision agent is wrong, make sure you register your alternate type agents first",
+                        "Agent handling types <%s-%s> would override more specialized agent <%s-%s>\nMaybe the order of registering your collision agent is wrong, make sure you your alternate type agents first",
                         typeNameA, typeNameB, entryNameA, entryNameB);
                 }
                 e.m_iAgentTypeA = origTypeA;

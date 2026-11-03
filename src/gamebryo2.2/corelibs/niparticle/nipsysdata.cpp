@@ -784,4 +784,5 @@ PSysDataClone* PSysDataCloneSrc::FUN_00c252d0(void* kCloning)
     reinterpret_cast<::NiPSysData_View *>(this)->FUN_00c24f20((::NiPSysData_View *)(pkClone), kCloning);
     return pkClone;
 }
-#include "generated/data/gamebryo2.2/corelibs/niparticle/nipsysdata_o2_variant.inc"
+
+#include "generated/data/gamebryo2.2/corelibs/niparticle/nipsysdata.inc"

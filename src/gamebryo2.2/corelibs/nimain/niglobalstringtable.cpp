@@ -142,4 +142,3 @@ void FUN_00a5b630()
     }
     DAT_011f42c0 = 0;
 }
-#include "generated/data/gamebryo2.2/corelibs/nimain/niglobalstringtable.inc"

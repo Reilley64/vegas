@@ -909,4 +909,5 @@ NiTriBasedGeomData* FUN_00a75ec0(NiTriBasedGeomData*)
     }
     return 0;
 }
-#include "generated/data/gamebryo2.2/corelibs/nimain/nitristripsdata_o2_variant.inc"
+
+#include "generated/data/gamebryo2.2/corelibs/nimain/nitristripsdata.inc"

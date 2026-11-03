@@ -211,4 +211,5 @@ void KeyInterp::FUN_00a3cac0(float& fBeginKeyTime, float& fEndKeyTime) const
         fEndKeyTime = 0.0f;
     }
 }
-#include "generated/data/gamebryo2.2/corelibs/nianimation/nikeybasedinterpolator_o2_variant.inc"
+
+#include "generated/data/gamebryo2.2/corelibs/nianimation/nikeybasedinterpolator.inc"

@@ -269,5 +269,3 @@ FUN_00afdc60::FUN_00afdc60(int aiArg1, int aiArg2, bool abFlag) : FUN_00afe9f0(0
     DAT_011f81e0 = abFlag;
 }
 #include "generated/data/gamebryo2.2/corelibs/nisystem/nifile.inc"
-#include "generated/data/gamebryo2.2/corelibs/nisystem/nifile_iso_variant.inc"
-#include "generated/data/gamebryo2.2/corelibs/nisystem/nifile_od_variant.inc"

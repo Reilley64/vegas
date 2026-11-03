@@ -6204,4 +6204,3 @@ void LegacySequence::FUN_00a352f0(NiStream& stream)
     }
 }
 #include "generated/data/gamebryo2.2/corelibs/nianimation/nicontrollersequence.inc"
-#include "generated/data/gamebryo2.2/corelibs/nianimation/nicontrollersequence_fpfast_noehsc_variant.inc"

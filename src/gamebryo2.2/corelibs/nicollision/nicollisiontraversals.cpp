@@ -2589,4 +2589,3 @@ void Host::FUN_00c34ad0(Pt p0, Obj_od_ob1* pA, Obj_od_ob1* pB, Vec4 color, unsig
     }
 }
 #include "generated/data/gamebryo2.2/corelibs/nicollision/nicollisiontraversals.inc"
-#include "generated/data/gamebryo2.2/corelibs/nicollision/nicollisiontraversals_od_variant_ob1_variant.inc"

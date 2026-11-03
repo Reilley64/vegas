@@ -518,4 +518,5 @@ bool S_00a4dac0::FUN_00a4dac0(intptr_t a, const char* name, int b) throw()
         obj->DecRefCount();
     return true;
 }
-#include "generated/data/gamebryo2.2/corelibs/nianimation/nikeyframemanager_o2_variant.inc"
+
+#include "generated/data/gamebryo2.2/corelibs/nianimation/nikeyframemanager.inc"

@@ -608,3 +608,5 @@ void FUN_00c2bc90_shell::FUN_00c2bc90(NiStreamView& kStream)
         reinterpret_cast<::AnimationKeyTrack *>(this)->FUN_00c2bbd0(pkKeys, uiNumEmitterActiveKeys, eType);
     }
 }
+
+#include "generated/data/gamebryo2.2/corelibs/niparticle/nipsysemitterctlrdata.inc"

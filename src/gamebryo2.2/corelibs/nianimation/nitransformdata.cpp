@@ -1077,5 +1077,3 @@ void TransformDataLoader::FUN_00a4e5d0(NiStream& stream)
         SetScaleKeys(keys, numKeys, type);
     }
 }
-
-#include "generated/data/gamebryo2.2/corelibs/nianimation/nitransformdata.inc"

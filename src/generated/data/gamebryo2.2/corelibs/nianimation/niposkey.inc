@@ -4,4 +4,3 @@
 
 P3 DAT_011f365c;
 NiPosInterpFunction DAT_011f3b88[6];
-void (*DAT_011f3c18[6])(float, const AnimationKey *, const AnimationKey *, void *);

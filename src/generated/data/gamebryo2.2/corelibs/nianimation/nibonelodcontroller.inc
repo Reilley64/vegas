@@ -2,4 +2,7 @@
 
 // Definitions of the globals this unit refers to that no unit defines.
 
+char str_0109a388[12] = "m_uiNumLODs";
+char str_0109a394[7] = "m_iLOD";
+const char g_012031b8_arg0[22] = "NiBSBoneLODController";
 namespace fnv_00a55160 { int DAT_011a90c4 = -1; }

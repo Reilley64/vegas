@@ -1614,4 +1614,3 @@ void FUN_00a30160_cls::FUN_00a30160()
     std::memset(m_ppTargetObjects, 0, m_usNumTargets * 4);
 }
 #include "generated/data/gamebryo2.2/corelibs/nianimation/nimultitargettransformcontroller.inc"
-#include "generated/data/gamebryo2.2/corelibs/nianimation/nimultitargettransformcontroller_noehsc_variant.inc"

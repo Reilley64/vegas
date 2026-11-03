@@ -155,3 +155,5 @@ RgbaColor __cdecl InterpolateColor(float afTime, const char* table, unsigned int
     *pIdx = idx;
     return color;
 }
+
+#include "generated/data/gamebryo2.2/corelibs/nianimation/nicolorkey.inc"

@@ -2,8 +2,6 @@
 
 // Definitions of the globals this unit refers to that no unit defines.
 
-#pragma comment(linker, "/alternatename:?g_memoryManager@@3VMemoryManager@@A=?g_memoryManager@@3UMemoryManager@@A")
-
 namespace fnv_00a9fda0 { ::fnv_00a9fda0::FUN_00a9fda0_pair *DAT_011f6024; }
 unsigned int NiShaderConstantMap::ms_uiShaderConstantMapEntryCount;
 namespace fnv_00a9fda0 { ::fnv_00a9fda0::FUN_00a9fda0_pair *DAT_011f602c; }

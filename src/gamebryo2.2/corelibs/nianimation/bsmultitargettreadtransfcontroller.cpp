@@ -1006,4 +1006,3 @@ void TargetA35::FUN_00a35a80(unsigned short n, unsigned short m)
     }
 }
 #include "generated/data/gamebryo2.2/corelibs/nianimation/bsmultitargettreadtransfcontroller.inc"
-#include "generated/data/gamebryo2.2/corelibs/nianimation/bsmultitargettreadtransfcontroller_ehsc_noehsc_variant.inc"

@@ -36280,4 +36280,3 @@ bool DeclMap786::FUN_00e78c60(FUN_00e69660_shell* a, unsigned int b, unsigned in
     return true;
 }
 #include "generated/data/gamebryo2.2/corelibs/niconsolerenderer/niconsolerenderer.inc"
-#include "generated/data/gamebryo2.2/corelibs/niconsolerenderer/niconsolerenderer_rtm_variant.inc"

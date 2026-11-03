@@ -229,11 +229,8 @@ class hkObje3c210 : public FUN_00e3b9a0
 
     static void operator delete(void* p) throw()
     {
-        hkMemoryRouter::getInstance().heap().blockFree(p, static_cast<hkObje3c210*>(p)->GetAllocationSize());
-    }
-    int GetAllocationSize() const
-    {
-        return reinterpret_cast<const unsigned short*>(this)[2];
+        // The object is an hkReferencedObject; its memory size sits in the header.
+        hkMemoryRouter::getInstance().heap().blockFree(p, static_cast<::hkReferencedObject*>(p)->m_usMemSizeAndFlags);
     }
 };
 
@@ -478,6 +475,11 @@ hkpPoweredChainData::~hkpPoweredChainData()
 void FUN_00e3b7d0(FUN_00e3b7d0_object* object, int index, int bit);
 int __cdecl FUN_00e3b670();
 #include "fnv/symbols_simd.h"
+// The two angular rows FUN_00d6cd70 writes (hkpbuildjacobianfromatoms.cpp defines the same struct).
+struct Jacobian409
+{
+    __m128 first, second;
+};
 
 struct Vec4
 {
@@ -894,7 +896,8 @@ void PoweredChain::FUN_00e3ba40(const QueryInput& input, QueryOutput& output)
             MotorState* __restrict motorStates = static_cast<MotorState*>(motorStep(solverResults));
             motorInput.state.unk00 = 0.0f;
             motorInput.state.unk04 = 0.0f;
-            ::FUN_00d6cd70((*(const __m128 *)(&direction)), (*(const ::Pair409 *)(&query)), (*(::Jacobian409 *)(states)), (*(float *)(&motorInput.currentVelocity)));
+            ::Jacobian409& jacobianRow = *reinterpret_cast<::Jacobian409*>(states);
+            ::FUN_00d6cd70((*(const __m128 *)(&direction)), (*(const ::Pair409 *)(&query)), jacobianRow, (*(float *)(&motorInput.currentVelocity)));
             motorInput.positionError = reinterpret_cast<float*>(&error)[axis];
             motorInput.deltaTarget = reinterpret_cast<float*>(&oldError)[axis];
             motorInput.step = &query;
@@ -907,8 +910,8 @@ void PoweredChain::FUN_00e3ba40(const QueryInput& input, QueryOutput& output)
             dst[2] = motorOutput.b;
             dst[3] = motorOutput.e;
             dst[4] = motorOutput.f;
-            reinterpret_cast<float*>(states)[7] = motorOutput.a * query.unk08;
-            states += 0x20;
+            jacobianRow.second[3] = motorOutput.a * query.unk08;
+            states += sizeof(::Jacobian409);
         }
     }
     char* status = chain->runtime->solverResults + m_pConstraintInfo.m_iElementCount * 0x30;

@@ -3217,7 +3217,7 @@ static __declspec(noinline) void FUN_00d6ea30(const QueryIn* in, QueryOut* out, 
 {
     SchemaHeader* h = (SchemaHeader*)out->m_pQueryResultSchema;
     setHeader(h, in->unk60, in->unk6c, in->unk70, runtime, size);
-    out->m_pQueryResultSchema = (char*)(h + 1);
+    out->m_pQueryResultSchema = reinterpret_cast<char*>(h + 1);
 }
 static __forceinline void copyTransform(hkTrans& d, const hkTransF& s)
 {
@@ -3289,7 +3289,7 @@ static __forceinline void writeNop(QueryOut* out, unsigned char n)
     s->m_word0 = s->m_word0 + 1.192092896e-07f;
     s->m_uiItemCount = n;
     ((SolverSchemaType*)s)->m_type = 3;
-    out->m_pQueryResultSchema = (char*)(s + 1);
+    out->m_pQueryResultSchema = reinterpret_cast<char*>(s + 1);
 }
 static __forceinline void rotateToAngular(hkVec4& dst, __m128 axis, const Accum* body)
 {
@@ -3341,7 +3341,7 @@ static __forceinline void buildAngLimit(const AngLimitInfo& info, const QueryIn&
     double rhs = info.m_fThirdScalar * dt;
     s->m_angB.w = rhs;
     s = (SchemaAng*)out->m_pQueryResultSchema;
-    out->m_pQueryResultSchema = (char*)(s + 1);
+    out->m_pQueryResultSchema = reinterpret_cast<char*>(s + 1);
     initializeAngular(s, *s, minimum, maximum, tau);
 }
 static __forceinline void buildMotorSchema(const hkVec4& axis, const QueryIn& in, QueryOut* out, MotorInput& min)
@@ -4172,7 +4172,7 @@ static __forceinline void cablePrepare(const CableInput& setup, const QueryIn& i
     rows.rhs = in.m_fThirdQueryValue;
     cableRows(rows, *jac);
     SchemaPulley* final = (SchemaPulley*)out->m_pQueryResultSchema;
-    out->m_pQueryResultSchema = (char*)(final + 1);
+    out->m_pQueryResultSchema = reinterpret_cast<char*>(final + 1);
     final->m_linA.x = 1.192092896e-07f + final->m_linA.x;
     ((SolverSchemaType*) final)->m_type = 0xb;
 }
@@ -4450,7 +4450,7 @@ void __cdecl FUN_00d6f460(const Atom* atoms, int sizeOfAllAtoms, const QueryIn* 
     {
         SchemaHeader* h = (SchemaHeader*)out->m_pQueryResultSchema;
         setHeader(h, in.unk60, in.unk6c, in.unk70, in.m_pByteBuffer, 8);
-        out->m_pQueryResultSchema = (char*)(h + 1);
+        out->m_pQueryResultSchema = reinterpret_cast<char*>(h + 1);
     }
     while (atoms < atomsEnd)
     {

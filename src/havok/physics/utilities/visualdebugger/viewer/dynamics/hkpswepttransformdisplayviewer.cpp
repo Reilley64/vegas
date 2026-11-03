@@ -967,7 +967,7 @@ static inline void S_00d63e40_Timer(const char* name)
         unsigned int t;
         t = static_cast<unsigned int>(__rdtsc());
         h->m_uiStartTicks = t;
-        s->m_kRayEnd = (char*)(h + 1);
+        s->m_kRayEnd = reinterpret_cast<char*>(h + 1);
     }
 }
 

@@ -1271,7 +1271,7 @@ m_uiStartTicks=ticks;
 class ScopedTimer
 {
 public:
-__forceinline ~ScopedTimer(){{StringCursor&mStream=StringCursor::GetMonitorStream();if(reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(mStream.memoryAvailable()))->FUN_005609f0()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName="E" "t" "";h->setTime();mStream.setEnd((char*)(h+1));}};}
+__forceinline ~ScopedTimer(){{StringCursor&mStream=StringCursor::GetMonitorStream();if(reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(mStream.memoryAvailable()))->FUN_005609f0()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName="E" "t" "";h->setTime();mStream.setEnd(reinterpret_cast<char*>(h + 1));}};}
 };
 class hkpActionListener
 {
@@ -1785,7 +1785,7 @@ extern const double DAT_010d1640;
 // @fnv 0x00d62780
 void hkpWeldingViewer::FUN_00d62780(hkpWorld*world)
 {
-{StringCursor&mStream=StringCursor::GetMonitorStream();if(reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(mStream.memoryAvailable()))->FUN_005609f0()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName="T" "t" "hkpActiveContactPointViewer::postSimulationCallback";h->setTime();mStream.setEnd((char*)(h+1));}};ScopedTimer timeblock18;
+{StringCursor&mStream=StringCursor::GetMonitorStream();if(reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(mStream.memoryAvailable()))->FUN_005609f0()){StringCursor::CommandTimingEntry*h=reinterpret_cast<StringCursor::CommandTimingEntry*>(mStream.GetStreamEnd());h->m_pCommandName="T" "t" "hkpActiveContactPointViewer::postSimulationCallback";h->setTime();mStream.setEnd(reinterpret_cast<char*>(h + 1));}};ScopedTimer timeblock18;
 reinterpret_cast<::FUN_00c91180_Class *>((world))->IncrementCounter();
 hkpPhysicsSystem*system=((::hkpPhysicsSystem *)(reinterpret_cast<::FUN_00c929e0_ThisClass *>((void *)(world))->FUN_00c929e0()));
 const hkArray<hkpRigidBody*>&rigidBodies=system->getRigidBodies();

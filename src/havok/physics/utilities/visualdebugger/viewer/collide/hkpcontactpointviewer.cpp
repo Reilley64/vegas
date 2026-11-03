@@ -901,7 +901,7 @@ static inline void markContactArrowProfile67(const char* name)
         ticks = static_cast<unsigned int>(__rdtsc());
         p->tsc = ticks;
 
-        s->m_ptr = (char*)(p + 1);
+        s->m_ptr = reinterpret_cast<char*>(p + 1);
 
     }
 

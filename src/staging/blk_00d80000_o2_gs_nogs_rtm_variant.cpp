@@ -3170,21 +3170,21 @@ struct PathBuilder {
     int unk00;
     int unk04;
     Param3* m_p3;
-    int m_p4;
-    volatile int m_p7;
-    int m_p8;
+    void* m_p4;
+    void* volatile m_p7;
+    void* m_p8;
     Param2* m_p2;
     int unk1C;
     Embedded5 m_usTrailingValue;
     Vec4 m_diff;
     float m_f80;
     float m_f84;
-    int m_p6;
+    void* m_p6;
 
-    int FUN_00d9a2a0(int a1, Param2* a2, Param3* a3, int a4, Embedded5* a5, int a6, int a7, volatile int a8);
+    int FUN_00d9a2a0(void* a1, Param2* a2, Param3* a3, void* a4, Embedded5* a5, void* a6, void* a7, void* volatile a8);
 };
 // @fnv 0x00d9a2a0
-int PathBuilder::FUN_00d9a2a0(int a1, Param2* a2, Param3* a3, int a4, Embedded5* a5, int a6, int a7, volatile int a8) {
+int PathBuilder::FUN_00d9a2a0(void* a1, Param2* a2, Param3* a3, void* a4, Embedded5* a5, void* a6, void* a7, void* volatile a8) {
     m_p7 = a7;
     m_p8 = a8;
     m_p2 = a2;

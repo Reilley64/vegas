@@ -454,7 +454,6 @@ __forceinline int getNumSolverElemTemps(const SolverSchemaHeader* s)
     return numSolverElemTemps;
 }
 SchemaEnum __cdecl FUN_00d921c0(const SolverSchemaHeader* s);
-inline int __cdecl FUN_00d921d0(const SolverSchemaHeader* s) {return DAT_011b9434[(int)s->m_type];}
 class __declspec(align(16)) ConstraintHeaderSchema : public SolverSchemaHeader
 {
 public:
@@ -1312,7 +1311,7 @@ friction2d:
             {
                 const Friction2DSchema* schema = reinterpret_cast<const Friction2DSchema*>(com);
                 solve2dRollingFriction(info, *schema, *mA, *mB, sr, delayedResult);
-                sr += FUN_00d921d0(com);
+                sr += FUN_00d921d0(&com->m_type.m_kStorage);
                 const SolverSchemaType comtype = getType(reinterpret_cast<const SolverSchemaHeader*>(schema + 1));
                 com = reinterpret_cast<const SolverSchemaHeader*>(schema + 1);
                 if (comtype == SCHEMA_TYPE_3D_FRICTION) goto friction3d;
@@ -1324,7 +1323,7 @@ case_1D_ANGULAR_FRICTION:
             {
                 const FrictionImpulseLimitedJacobian* sc = reinterpret_cast<const FrictionImpulseLimitedJacobian*>(com);
                 solve1dAngFriction(info, temp, *sc, *mA, *mB, sr);
-                sr += FUN_00d921d0(com);
+                sr += FUN_00d921d0(&com->m_type.m_kStorage);
                 const SolverSchemaType comtype = getType(reinterpret_cast<const SolverSchemaHeader*>(sc + 1));
                 com = reinterpret_cast<const SolverSchemaHeader*>(sc + 1);
                 if (comtype == SCHEMA_TYPE_1D_ANGULAR_FRICTION) goto case_1D_ANGULAR_FRICTION;
@@ -1335,7 +1334,7 @@ case_1D_ANGULAR_LIMITS:
             {
                 const AngularLimitJacobian* sc = reinterpret_cast<const AngularLimitJacobian*>(com);
                 solve1dAngLimits(info, temp, *sc, *mA, *mB, sr, delayedResult);
-                sr += FUN_00d921d0(com);
+                sr += FUN_00d921d0(&com->m_type.m_kStorage);
                 const SolverSchemaType comtype = getType(reinterpret_cast<const SolverSchemaHeader*>(sc + 1));
                 com = reinterpret_cast<const SolverSchemaHeader*>(sc + 1);
                 if (comtype == SCHEMA_TYPE_1D_ANGULAR_LIMITS) goto case_1D_ANGULAR_LIMITS;
@@ -1346,7 +1345,7 @@ case_1D_ANGULAR_MOTOR:
             {
                 const MotorInfoRecord* sc = reinterpret_cast<const MotorInfoRecord*>(com);
                 solve1dAngularMotor(info, temp, *sc, *mA, *mB, sr, delayedResult);
-                sr += FUN_00d921d0(com);
+                sr += FUN_00d921d0(&com->m_type.m_kStorage);
                 const SolverSchemaType comtype = getType(reinterpret_cast<const SolverSchemaHeader*>(sc + 1));
                 com = reinterpret_cast<const SolverSchemaHeader*>(sc + 1);
                 if (comtype == SCHEMA_TYPE_1D_ANGULAR_MOTOR) goto case_1D_ANGULAR_MOTOR;
@@ -1357,7 +1356,7 @@ case_1D_ANGULAR:
             {
                 const JacobianHolder* sc = reinterpret_cast<const JacobianHolder*>(com);
                 solve1dAngular(info, temp, *sc, *mA, *mB, sr, delayedResult);
-                sr += FUN_00d921d0(com);
+                sr += FUN_00d921d0(&com->m_type.m_kStorage);
                 const SolverSchemaType comtype = getType(reinterpret_cast<const SolverSchemaHeader*>(sc + 1));
                 com = reinterpret_cast<const SolverSchemaHeader*>(sc + 1);
                 if (comtype == SCHEMA_TYPE_1D_ANGULAR) goto case_1D_ANGULAR;
@@ -1368,7 +1367,7 @@ case_1D_BILATERAL:
             {
                 const JacobianDataHolder* sc = reinterpret_cast<const JacobianDataHolder*>(com);
                 solve1dBilateral(info, temp, *sc, *mA, *mB, sr, delayedResult);
-                sr += FUN_00d921d0(com);
+                sr += FUN_00d921d0(&com->m_type.m_kStorage);
                 const SolverSchemaType comtype = FUN_00d921c0(reinterpret_cast<const SolverSchemaHeader*>(sc + 1));
                 com = reinterpret_cast<const SolverSchemaHeader*>(sc + 1);
                 if (comtype == SCHEMA_TYPE_1D_BILATERAL) goto case_1D_BILATERAL;
@@ -1379,7 +1378,7 @@ case_1D_BILATERAL_WITH_IMPULSE_LIMIT:
             {
                 const JacobianDataHolder* sc = reinterpret_cast<const JacobianDataHolder*>(com);
                 solve1dBilateralWithImpulseLimit(info, temp, *sc, *mA, *mB, sr, delayedResult);
-                sr += FUN_00d921d0(com);
+                sr += FUN_00d921d0(&com->m_type.m_kStorage);
                 const SolverSchemaType comtype = FUN_00d921c0(reinterpret_cast<const SolverSchemaHeader*>(sc + 1));
                 com = reinterpret_cast<const SolverSchemaHeader*>(sc + 1);
                 if (comtype == SCHEMA_TYPE_1D_BILATERAL_WITH_IMPULSE_LIMIT) goto case_1D_BILATERAL_WITH_IMPULSE_LIMIT;
@@ -1390,7 +1389,7 @@ case_1D_BILATERAL_USER_TAU:
             {
                 const LinearSoftConstraintAtom* sc = reinterpret_cast<const LinearSoftConstraintAtom*>(com);
                 solve1dBilateralUserTau(info, temp, *sc, *mA, *mB, sr, delayedResult);
-                sr += FUN_00d921d0(com);
+                sr += FUN_00d921d0(&com->m_type.m_kStorage);
                 const SolverSchemaType comtype = FUN_00d921c0(reinterpret_cast<const SolverSchemaHeader*>(sc + 1));
                 com = reinterpret_cast<const SolverSchemaHeader*>(sc + 1);
                 if (comtype == SCHEMA_TYPE_1D_BILATERAL_USER_TAU) goto case_1D_BILATERAL_USER_TAU;
@@ -1401,7 +1400,7 @@ case_1D_FRICTION:
             {
                 const FrictionImpulseLimitAtom* sc = reinterpret_cast<const FrictionImpulseLimitAtom*>(com);
                 solve1dFriction(info, temp, *sc, *mA, *mB, sr, delayedResult);
-                sr += FUN_00d921d0(com);
+                sr += FUN_00d921d0(&com->m_type.m_kStorage);
                 const SolverSchemaType comtype = FUN_00d921c0(reinterpret_cast<const SolverSchemaHeader*>(sc + 1));
                 com = reinterpret_cast<const SolverSchemaHeader*>(sc + 1);
                 if (comtype == SCHEMA_TYPE_1D_FRICTION) goto case_1D_FRICTION;
@@ -1412,7 +1411,7 @@ case_1D_LINEAR_LIMITS:
             {
                 const LinearDistanceLimitAtom* sc = reinterpret_cast<const LinearDistanceLimitAtom*>(com);
                 solve1dLinLimits(info, temp, *sc, *mA, *mB, sr, delayedResult);
-                sr += FUN_00d921d0(com);
+                sr += FUN_00d921d0(&com->m_type.m_kStorage);
                 const SolverSchemaType comtype = FUN_00d921c0(reinterpret_cast<const SolverSchemaHeader*>(sc + 1));
                 com = reinterpret_cast<const SolverSchemaHeader*>(sc + 1);
                 if (comtype == SCHEMA_TYPE_1D_LINEAR_LIMITS) goto case_1D_LINEAR_LIMITS;
@@ -1423,7 +1422,7 @@ case_1D_LINEAR_MOTOR:
             {
                 const MotorSolverSchema* sc = reinterpret_cast<const MotorSolverSchema*>(com);
                 solve1dLinearMotor(info, temp, *sc, *mA, *mB, sr, delayedResult);
-                sr += FUN_00d921d0(com);
+                sr += FUN_00d921d0(&com->m_type.m_kStorage);
                 const SolverSchemaType comtype = FUN_00d921c0(reinterpret_cast<const SolverSchemaHeader*>(sc + 1));
                 com = reinterpret_cast<const SolverSchemaHeader*>(sc + 1);
                 if (comtype == SCHEMA_TYPE_1D_LINEAR_MOTOR) goto case_1D_LINEAR_MOTOR;
@@ -2467,7 +2466,6 @@ __forceinline int getNumSolverElemTemps(const SolverSchemaHeader* s)
     return numSolverElemTemps;
 }
 SchemaEnum __cdecl FUN_00d921c0(const SolverSchemaHeader* s);
-inline int __cdecl FUN_00d921d0(const SolverSchemaHeader* s) { return DAT_011b9434[static_cast<SolverSchemaType>(s->m_type)]; }
 class __declspec(align(16)) ConstraintHeaderSchema : public SolverSchemaHeader
 {
 public:
@@ -3249,7 +3247,7 @@ friction2d:
             {
                 const Friction2DSchema* schema = reinterpret_cast<const Friction2DSchema*>(com);
                 solve2dRollingFriction( *schema, *mA, *mB, sr);
-                sr += FUN_00d921d0(com);
+                sr += FUN_00d921d0(&com->m_type.m_kStorage);
                 const SolverSchemaType comtype = getType(reinterpret_cast<const SolverSchemaHeader*>(schema + 1));
                 com = reinterpret_cast<const SolverSchemaHeader*>(schema + 1);
                 if (comtype == SCHEMA_TYPE_3D_FRICTION) goto friction3d;
@@ -3261,7 +3259,7 @@ case_1D_ANGULAR_FRICTION:
             {
                 const FrictionImpulseLimitedJacobian* sc = reinterpret_cast<const FrictionImpulseLimitedJacobian*>(com);
                 solve1dAngFriction(info, temp, *sc, *mA, *mB, sr);
-                sr += FUN_00d921d0(com);
+                sr += FUN_00d921d0(&com->m_type.m_kStorage);
                 const SolverSchemaType comtype = getType(reinterpret_cast<const SolverSchemaHeader*>(sc + 1));
                 com = reinterpret_cast<const SolverSchemaHeader*>(sc + 1);
                 if (comtype == SCHEMA_TYPE_1D_ANGULAR_FRICTION) goto case_1D_ANGULAR_FRICTION;
@@ -3272,7 +3270,7 @@ case_1D_ANGULAR_LIMITS:
             {
                 const AngularLimitJacobian* sc = reinterpret_cast<const AngularLimitJacobian*>(com);
                 solve1dAngLimits(info, temp, *sc, *mA, *mB, sr, delayedResult);
-                sr += FUN_00d921d0(com);
+                sr += FUN_00d921d0(&com->m_type.m_kStorage);
                 const SolverSchemaType comtype = getType(reinterpret_cast<const SolverSchemaHeader*>(sc + 1));
                 com = reinterpret_cast<const SolverSchemaHeader*>(sc + 1);
                 if (comtype == SCHEMA_TYPE_1D_ANGULAR_LIMITS) goto case_1D_ANGULAR_LIMITS;
@@ -3283,7 +3281,7 @@ case_1D_ANGULAR_MOTOR:
             {
                 const MotorInfoRecord* sc = reinterpret_cast<const MotorInfoRecord*>(com);
                 solve1dAngularMotor(info, temp, *sc, *mA, *mB, sr, delayedResult);
-                sr += FUN_00d921d0(com);
+                sr += FUN_00d921d0(&com->m_type.m_kStorage);
                 const SolverSchemaType comtype = getType(reinterpret_cast<const SolverSchemaHeader*>(sc + 1));
                 com = reinterpret_cast<const SolverSchemaHeader*>(sc + 1);
                 if (comtype == SCHEMA_TYPE_1D_ANGULAR_MOTOR) goto case_1D_ANGULAR_MOTOR;
@@ -3294,7 +3292,7 @@ case_1D_ANGULAR:
             {
                 const JacobianHolder* sc = reinterpret_cast<const JacobianHolder*>(com);
                 solve1dAngular(info, temp, *sc, *mA, *mB, sr, delayedResult);
-                sr += FUN_00d921d0(com);
+                sr += FUN_00d921d0(&com->m_type.m_kStorage);
                 const SolverSchemaType comtype = getType(reinterpret_cast<const SolverSchemaHeader*>(sc + 1));
                 com = reinterpret_cast<const SolverSchemaHeader*>(sc + 1);
                 if (comtype == SCHEMA_TYPE_1D_ANGULAR) goto case_1D_ANGULAR;
@@ -3305,7 +3303,7 @@ case_1D_BILATERAL:
             {
                 const JacobianDataHolder* sc = reinterpret_cast<const JacobianDataHolder*>(com);
                 solve1dBilateral(info, temp, *sc, *mA, *mB, sr, delayedResult);
-                sr += FUN_00d921d0(com);
+                sr += FUN_00d921d0(&com->m_type.m_kStorage);
                 const SolverSchemaType comtype = FUN_00d921c0(reinterpret_cast<const SolverSchemaHeader*>(sc + 1));
                 com = reinterpret_cast<const SolverSchemaHeader*>(sc + 1);
                 if (comtype == SCHEMA_TYPE_1D_BILATERAL) goto case_1D_BILATERAL;
@@ -3316,7 +3314,7 @@ case_1D_BILATERAL_WITH_IMPULSE_LIMIT:
             {
                 const JacobianDataHolder* sc = reinterpret_cast<const JacobianDataHolder*>(com);
                 solve1dBilateralWithImpulseLimit(info, temp, *sc, *mA, *mB, sr, delayedResult);
-                sr += FUN_00d921d0(com);
+                sr += FUN_00d921d0(&com->m_type.m_kStorage);
                 const SolverSchemaType comtype = FUN_00d921c0(reinterpret_cast<const SolverSchemaHeader*>(sc + 1));
                 com = reinterpret_cast<const SolverSchemaHeader*>(sc + 1);
                 if (comtype == SCHEMA_TYPE_1D_BILATERAL_WITH_IMPULSE_LIMIT) goto case_1D_BILATERAL_WITH_IMPULSE_LIMIT;
@@ -3327,7 +3325,7 @@ case_1D_BILATERAL_USER_TAU:
             {
                 const LinearSoftConstraintAtom* sc = reinterpret_cast<const LinearSoftConstraintAtom*>(com);
                 solve1dBilateralUserTau(info, temp, *sc, *mA, *mB, sr, delayedResult);
-                sr += FUN_00d921d0(com);
+                sr += FUN_00d921d0(&com->m_type.m_kStorage);
                 const SolverSchemaType comtype = FUN_00d921c0(reinterpret_cast<const SolverSchemaHeader*>(sc + 1));
                 com = reinterpret_cast<const SolverSchemaHeader*>(sc + 1);
                 if (comtype == SCHEMA_TYPE_1D_BILATERAL_USER_TAU) goto case_1D_BILATERAL_USER_TAU;
@@ -3338,7 +3336,7 @@ case_1D_FRICTION:
             {
                 const FrictionImpulseLimitAtom* sc = reinterpret_cast<const FrictionImpulseLimitAtom*>(com);
                 solve1dFriction(info, temp, *sc, *mA, *mB, sr, delayedResult);
-                sr += FUN_00d921d0(com);
+                sr += FUN_00d921d0(&com->m_type.m_kStorage);
                 const SolverSchemaType comtype = FUN_00d921c0(reinterpret_cast<const SolverSchemaHeader*>(sc + 1));
                 com = reinterpret_cast<const SolverSchemaHeader*>(sc + 1);
                 if (comtype == SCHEMA_TYPE_1D_FRICTION) goto case_1D_FRICTION;
@@ -3349,7 +3347,7 @@ case_1D_LINEAR_LIMITS:
             {
                 const LinearDistanceLimitAtom* sc = reinterpret_cast<const LinearDistanceLimitAtom*>(com);
                 solve1dLinLimits(info, temp, *sc, *mA, *mB, sr, delayedResult);
-                sr += FUN_00d921d0(com);
+                sr += FUN_00d921d0(&com->m_type.m_kStorage);
                 const SolverSchemaType comtype = FUN_00d921c0(reinterpret_cast<const SolverSchemaHeader*>(sc + 1));
                 com = reinterpret_cast<const SolverSchemaHeader*>(sc + 1);
                 if (comtype == SCHEMA_TYPE_1D_LINEAR_LIMITS) goto case_1D_LINEAR_LIMITS;
@@ -3360,7 +3358,7 @@ case_1D_LINEAR_MOTOR:
             {
                 const MotorSolverSchema* sc = reinterpret_cast<const MotorSolverSchema*>(com);
                 solve1dLinearMotor(info, temp, *sc, *mA, *mB, sr, delayedResult);
-                sr += FUN_00d921d0(com);
+                sr += FUN_00d921d0(&com->m_type.m_kStorage);
                 const SolverSchemaType comtype = FUN_00d921c0(reinterpret_cast<const SolverSchemaHeader*>(sc + 1));
                 com = reinterpret_cast<const SolverSchemaHeader*>(sc + 1);
                 if (comtype == SCHEMA_TYPE_1D_LINEAR_MOTOR) goto case_1D_LINEAR_MOTOR;

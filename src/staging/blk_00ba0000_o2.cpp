@@ -773,14 +773,19 @@ public:
 struct FUN_00bae740_Class : NiObjectNET_stub
 {
     void FUN_00bae740(intptr_t a);
+    char pad00[0x70];
+    NiPointer_NiTexture unk70;
+    const char * unk74;
+    char pad78[0x14];
+    int unk8c;
 };
 // @fnv 0x00bae740
 void FUN_00bae740_Class::FUN_00bae740(intptr_t aiArg)
 {
     reinterpret_cast<::LinkObjectA5 *>(this)->FUN_00a5c6a0((*(::NiStream *)(aiArg)));
-    const char* name = *(const char**)((char*)this + 0x74);
-    if (name && *(int*)((char*)this + 0x8c) != 3)
-        ::BSShaderManager::GetTexture(name, true, (::NiPointer< ::NiTexture> &)(*(NiPointer_NiTexture*)((char*)this + 0x70)), true, false);
+    const char* name = this->unk74;
+    if (name && this->unk8c != 3)
+        ::BSShaderManager::GetTexture(name, true, (::NiPointer< ::NiTexture> &)(this->unk70), true, false);
 }
 
 struct FUN_00b66700_Class
@@ -799,20 +804,29 @@ struct FUN_00baf520_Class
     float m70;
     float m74;
     void CopyTo(FUN_00b66700_Class* dest);
+    char pad18[0x40];
+    float unk58;
+    char pad5c[0x4];
+    int unk60;
+    int unk64;
+    int unk68;
+    char pad6c[0x4];
+    float unk70;
+    float unk74;
 };
 // @fnv 0x00baf520
 void FUN_00baf520_Class::CopyTo(FUN_00b66700_Class* dest)
 {
-    reinterpret_cast<::FUN_00b66700_class *>((dest))->SetClamped(*(float*)((char*)this + 0x58));
-    dest->unke4 = *(int*)((char*)this + 0x60);
-    dest->unke8 = *(float*)((char*)this + 0x74);
-    dest->unkec = *(float*)((char*)this + 0x70);
-    if (*(int*)((char*)this + 0x64))
-        ((void(*)(void*, FUN_00b66700_Class*))(*(void***)*(uintptr_t*)((char*)this + 0x64))[0x26])(
-            (void*)*(uintptr_t*)((char*)this + 0x64), dest);
-    if (*(int*)((char*)this + 0x68))
-        ((void(*)(void*, FUN_00b66700_Class*))(*(void***)*(uintptr_t*)((char*)this + 0x68))[0x26])(
-            (void*)*(uintptr_t*)((char*)this + 0x68), dest);
+    reinterpret_cast<::FUN_00b66700_class *>((dest))->SetClamped(this->unk58);
+    dest->unke4 = this->unk60;
+    dest->unke8 = this->unk74;
+    dest->unkec = this->unk70;
+    if (this->unk64)
+        ((void(*)(void*, FUN_00b66700_Class*))(*(void***)*(uintptr_t*)&this->unk64)[0x26])(
+            (void*)*(uintptr_t*)&this->unk64, dest);
+    if (this->unk68)
+        ((void(*)(void*, FUN_00b66700_Class*))(*(void***)*(uintptr_t*)&this->unk68)[0x26])(
+            (void*)*(uintptr_t*)&this->unk68, dest);
 }
 
 extern "C" void __cdecl operator_delete_sized(void*, unsigned int);
@@ -1083,12 +1097,14 @@ struct FUN_00bb1a70_Class
 {
     void* m_vft;
     void CallVirtualMethodWithField();
+    char pad04[0x380];
+    void * unk384;
 };
 // @fnv 0x00bb1a70
 void FUN_00bb1a70_Class::CallVirtualMethodWithField()
 {
     typedef void(* Fn)(void*, void*);
-    void* arg = *(void**)((char*)this + 0x384);
+    void* arg = this->unk384;
     Fn fn = (Fn)(*(void**)((char*)*(void**)((char*)this + 0) + 0x128));
     fn(this, arg);
 }
@@ -1303,12 +1319,14 @@ struct NewObj
 struct FUN_00bb4520_Class : NewObj
 {
     FUN_00bb4520_Class();
+    char pad00[0x100];
+    int unk100;
 };
 // @fnv 0x00bb4520
 FUN_00bb4520_Class::FUN_00bb4520_Class()
 {
     *(void**)this = (void*)&DAT_010b9910;
-    *(int*)((char*)this + 0x100) = 0;
+    this->unk100 = 0;
 }
 
 extern "C" void __cdecl _delete(void*, unsigned int);
@@ -1404,13 +1422,14 @@ struct FUN_00bb9660_Class : LodShaderBase
 {
     char m0[0x28];
     void FUN_00bb9660();
+    int unk28;
 };
 
 
 // @fnv 0x00bb9660
 void FUN_00bb9660_Class::FUN_00bb9660()
 {
-    if (*(int*)((char*)this + 0x28) != 0)
+    if (this->unk28 != 0)
     {
         for (unsigned int i = 0; i < 0xe4; i += 4)
         {

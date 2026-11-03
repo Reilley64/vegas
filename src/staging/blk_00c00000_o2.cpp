@@ -249,14 +249,17 @@ struct FUN_00c04d50_class
 {
     unsigned char b[0x58];
     void CopyByteAndStoreInt(int a);
+    unsigned char unk58;
+    char pad59[0x3];
+    int unk5c;
 };
 
 // Copies the byte at offset 0x58 into offset 5 and stores the int argument at offset 0x5c.
 // @fnv 0x00c04d50
 void FUN_00c04d50_class::CopyByteAndStoreInt(int aiValue)
 {
-    this->b[5] = *(unsigned char*)((char*)this + 0x58);
-    *(int*)((char*)this + 0x5c) = aiValue;
+    this->b[5] = this->unk58;
+    this->unk5c = aiValue;
 }
 
 extern "C" unsigned char _DAT_011F941E;

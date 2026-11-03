@@ -489,14 +489,17 @@ struct FUN_00b6f4f0_class
     int m_0x64;
     NiTexture* m_tex;
     void SetTextureByName(intptr_t a);
+    char pad08[0x58];
+    NiTexture * unk60;
+    int unk64;
 };
 // Calls FUN_00a5c6a0 with a, then if the name at offset 0x64 is set, looks up that texture via BSShaderManager::GetTexture into the pointer at 0x60.
 // @fnv 0x00b6f4f0
 void FUN_00b6f4f0_class::SetTextureByName(intptr_t a)
 {
     reinterpret_cast<::LinkObjectA5 *>((((NiObjectNET_stub*)this)))->FUN_00a5c6a0((*(::NiStream *)(a)));
-    if (*(int*)((char*)this + 0x64))
-        ::BSShaderManager::GetTexture((const char*)*(uintptr_t*)((char*)this + 0x64), true, (::NiPointer< ::NiTexture> &)(*(NiTexture**)((char*)this + 0x60)),
+    if (this->unk64)
+        ::BSShaderManager::GetTexture((const char*)*(uintptr_t*)&this->unk64, true, (::NiPointer< ::NiTexture> &)(this->unk60),
                                     false, false);
 }
 

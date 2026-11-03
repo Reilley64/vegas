@@ -613,6 +613,12 @@ struct FUN_00c416a0_Class
 struct FUN_00c3fe80_Class : FUN_00c416a0_Class
 {
     bool FUN_00c3fe80(int a, int b, int c, void** out);
+    char pad00[0x4];
+    int * unk04;
+    int * unk08;
+    int * unk0c;
+    char pad10[0x4];
+    uintptr_t unk14;
 };
 // @fnv 0x00c3fe80
 bool FUN_00c3fe80_Class::FUN_00c3fe80(int aiArg1, int aiArg2, int aiArg3, void** ppOut)
@@ -626,7 +632,7 @@ bool FUN_00c3fe80_Class::FUN_00c3fe80(int aiArg1, int aiArg2, int aiArg3, void**
             {
                 int padA3;
                 {
-                    uintptr_t* field = (uintptr_t*)((char*)this + 0x14);
+                    uintptr_t* field = &this->unk14;
                     {
                         int padB[3];
                         {
@@ -645,7 +651,7 @@ bool FUN_00c3fe80_Class::FUN_00c3fe80(int aiArg1, int aiArg2, int aiArg3, void**
                                     }
                                 }
                                 {
-                                    uintptr_t* field2 = (uintptr_t*)((char*)this + 0x14);
+                                    uintptr_t* field2 = &this->unk14;
                                     {
                                         uintptr_t node = *field2 & ~(uintptr_t)1;
                                         {
@@ -662,9 +668,9 @@ bool FUN_00c3fe80_Class::FUN_00c3fe80(int aiArg1, int aiArg2, int aiArg3, void**
             }
         }
     }
-    **(int**)((char*)this + 4) = 0;
-    **(int**)((char*)this + 8) = 0;
-    **(int**)((char*)this + 0xc) = 0;
+    *this->unk04 = 0;
+    *this->unk08 = 0;
+    *this->unk0c = 0;
     return result;
 }
 

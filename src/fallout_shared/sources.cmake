@@ -39,6 +39,7 @@ set(VEGAS18_FALLOUT_SHARED_SOURCES
   src/fallout_shared/containeritemextra.cpp
   src/fallout_shared/creaturesounds.cpp
   src/fallout_shared/decaldata.cpp
+  "src/fallout_shared/distant terrain system/bgsdistantobjectblock.cpp"
   "src/fallout_shared/distant terrain system/bgsterrainmanager.cpp"
   src/fallout_shared/doorlock.cpp
   src/fallout_shared/experiencepoints.cpp
@@ -51,14 +52,18 @@ set(VEGAS18_FALLOUT_SHARED_SOURCES
   src/fallout_shared/facegen/bsfacegenimage.cpp
   src/fallout_shared/facegen/bsfacegenkeyframe.cpp
   src/fallout_shared/facegen/bsfacegenmodel.cpp
+  src/fallout_shared/facegen/bsfacegenmorph.cpp
   src/fallout_shared/facegen/bsfacegenmorphdata.cpp
   src/fallout_shared/facegen/bsfacegenmorphdata_h_unit.cpp
   src/fallout_shared/formcomponentcollection.cpp
   src/fallout_shared/gameplayformulas.cpp
   src/fallout_shared/gridarray.cpp
+  src/fallout_shared/havok/bgsacousticspacelistener.cpp
+  src/fallout_shared/havok/bgszonetargetlistener.cpp
   src/fallout_shared/havok/cameracaster.cpp
   src/fallout_shared/havok/decalcaster.cpp
   src/fallout_shared/havok/foislandactivationlistener.cpp
+  src/fallout_shared/havok/tesarrowtargetlistener.cpp
   src/fallout_shared/havok/teshavokutilities.cpp
   src/fallout_shared/havok/xblendsettings.cpp
   src/fallout_shared/imagespacemodifierinstance.cpp
@@ -78,6 +83,7 @@ set(VEGAS18_FALLOUT_SHARED_SOURCES
   src/fallout_shared/niformarray.cpp
   src/fallout_shared/packagedataambush.cpp
   src/fallout_shared/packagedatadialogue.cpp
+  src/fallout_shared/packagedataeat.cpp
   src/fallout_shared/packagedataescort.cpp
   src/fallout_shared/packagedatafollow.cpp
   src/fallout_shared/packagedatapatrol.cpp
@@ -91,6 +97,7 @@ set(VEGAS18_FALLOUT_SHARED_SOURCES
   src/fallout_shared/pathfinding/astarsearch_h_unit.cpp
   src/fallout_shared/pathfinding/navmesh.cpp
   src/fallout_shared/pathfinding/navmesh_h_unit.cpp
+  src/fallout_shared/pathfinding/navmesh_loadsave.cpp
   src/fallout_shared/pathfinding/navmesh_util.cpp
   src/fallout_shared/pathfinding/navmesharray_h_unit.cpp
   src/fallout_shared/pathfinding/navmeshbounds.cpp
@@ -114,9 +121,11 @@ set(VEGAS18_FALLOUT_SHARED_SOURCES
   src/fallout_shared/pathfinding/navmeshsearchlos.cpp
   src/fallout_shared/pathfinding/navmeshsearchmaxcost.cpp
   src/fallout_shared/pathfinding/navmeshsearchslpoint.cpp
+  src/fallout_shared/pathfinding/pathfind.cpp
   src/fallout_shared/pathfinding/pathingavoidnode.cpp
   src/fallout_shared/pathfinding/pathingdebuggeometry.cpp
   src/fallout_shared/pathfinding/pathinginfo_h_unit.cpp
+  src/fallout_shared/pathfinding/pathinglocation.cpp
   src/fallout_shared/pathfinding/pathinglosgridmap.cpp
   src/fallout_shared/pathfinding/pathinglosmap.cpp
   src/fallout_shared/pathfinding/pathingnode.cpp
@@ -130,6 +139,7 @@ set(VEGAS18_FALLOUT_SHARED_SOURCES
   src/fallout_shared/pathfinding/pathingrequestsafestraightline.cpp
   src/fallout_shared/pathfinding/pathingsearchraycast.cpp
   src/fallout_shared/pathfinding/pathingsolution.cpp
+  src/fallout_shared/pathfinding/pathmanager.cpp
   src/fallout_shared/pathfinding/pathmanager_h_unit.cpp
   src/fallout_shared/pathfinding/pathsmoother.cpp
   src/fallout_shared/pathfinding/pathsmootherpov.cpp
@@ -150,6 +160,7 @@ set(VEGAS18_FALLOUT_SHARED_SOURCES
   src/fallout_shared/sky/skyobject.cpp
   src/fallout_shared/sky/skytexturemanager.cpp
   src/fallout_shared/sky/stars.cpp
+  src/fallout_shared/speedtree/bstreemodel.cpp
   src/fallout_shared/tempeffects/bstecreatetask.cpp
   src/fallout_shared/tempeffects/bstempeffect.cpp
   src/fallout_shared/tempeffects/bstempeffectdebris_copies_026.cpp
@@ -200,8 +211,10 @@ set(VEGAS18_FALLOUT_SHARED_SOURCES
   src/fallout_shared/tesrecipe.cpp
   src/fallout_shared/tesresponse.cpp
   src/fallout_shared/tesscriptableform.cpp
+  src/fallout_shared/tesscriptcompiler.cpp
   src/fallout_shared/tesscriptrunmanager.cpp
   src/fallout_shared/tesscriptshared.cpp
+  src/fallout_shared/tesscriptvariable.cpp
   src/fallout_shared/tessound.cpp
   src/fallout_shared/tessoundfile.cpp
   src/fallout_shared/tesweather.cpp
@@ -251,18 +264,13 @@ set(VEGAS18_FALLOUT_SHARED_NARROWING_SOURCES
   src/fallout_shared/bgsworldlocation.cpp
   src/fallout_shared/bipedanim.cpp
   src/fallout_shared/bsanimgroupsequence.cpp
-  "src/fallout_shared/distant terrain system/bgsdistantobjectblock.cpp"
   "src/fallout_shared/distant terrain system/bgsdistanttreeblock.cpp"
   "src/fallout_shared/distant terrain system/bgsterrainchunk.cpp"
   src/fallout_shared/extradatalist.cpp
   src/fallout_shared/facegen/bsfacegenmanager.cpp
-  src/fallout_shared/facegen/bsfacegenmorph.cpp
   src/fallout_shared/facegen/bsfacegenninode.cpp
   src/fallout_shared/globalfunc.cpp
   src/fallout_shared/gridcell.cpp
-  src/fallout_shared/havok/bgsacousticspacelistener.cpp
-  src/fallout_shared/havok/bgszonetargetlistener.cpp
-  src/fallout_shared/havok/tesarrowtargetlistener.cpp
   src/fallout_shared/havok/testraplistener.cpp
   src/fallout_shared/havok/teswaterlistener.cpp
   src/fallout_shared/inventorychanges.cpp
@@ -279,13 +287,8 @@ set(VEGAS18_FALLOUT_SHARED_NARROWING_SOURCES
   src/fallout_shared/miscstats.cpp
   src/fallout_shared/modelloader.cpp
   src/fallout_shared/package.cpp
-  src/fallout_shared/packagedataeat.cpp
-  src/fallout_shared/pathfinding/navmesh_loadsave.cpp
   src/fallout_shared/pathfinding/navmeshobstaclemanager.cpp
   src/fallout_shared/pathfinding/pathbuilder.cpp
-  src/fallout_shared/pathfinding/pathfind.cpp
-  src/fallout_shared/pathfinding/pathinglocation.cpp
-  src/fallout_shared/pathfinding/pathmanager.cpp
   "src/fallout_shared/region system/tesregion.cpp"
   "src/fallout_shared/region system/tesregiondatagrass.cpp"
   "src/fallout_shared/region system/tesregiondataimposter.cpp"
@@ -304,7 +307,6 @@ set(VEGAS18_FALLOUT_SHARED_NARROWING_SOURCES
   src/fallout_shared/sky/sky.cpp
   src/fallout_shared/sky/sun.cpp
   src/fallout_shared/speedtree/bstreemanager.cpp
-  src/fallout_shared/speedtree/bstreemodel.cpp
   src/fallout_shared/speedtree/bstreenode.cpp
   src/fallout_shared/teleportdata.cpp
   src/fallout_shared/tempeffects/bstempeffectdebris.cpp
@@ -355,9 +357,7 @@ set(VEGAS18_FALLOUT_SHARED_NARROWING_SOURCES
   src/fallout_shared/tesreactionform.cpp
   src/fallout_shared/tessaveloadgame.cpp
   src/fallout_shared/tesscript.cpp
-  src/fallout_shared/tesscriptcompiler.cpp
   src/fallout_shared/tesscriptfunctions.cpp
-  src/fallout_shared/tesscriptvariable.cpp
   src/fallout_shared/tesskill.cpp
   src/fallout_shared/tesspelllist.cpp
   src/fallout_shared/testerrainlodmanager.cpp

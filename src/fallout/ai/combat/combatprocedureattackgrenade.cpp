@@ -120,16 +120,20 @@ struct Helper_caae0
 struct FUN_009cb830_shell
 {
     void FUN_009cb830(Projectile* apProjectile);
+    char pad00[0x14];
+    bool unk14;
+    char pad15[0x1b];
+    bool unk30;
 };
 // @fnv 0x009cb830
 void FUN_009cb830_shell::FUN_009cb830(Projectile* apProjectile)
 {
-    if (*(bool*)((char*)this + 0x30))
+    if (this->unk30)
     {
         reinterpret_cast<::FUN_00966a00_Class *>((apProjectile))->FUN_00966a00(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting375)))))));
     }
-    *(bool*)((char*)this + 0x30) = 0;
-    if (*(bool*)((char*)this + 0x14))
+    this->unk30 = 0;
+    if (this->unk14)
     {
         ((::FUN_009cb440_shell *)(reinterpret_cast<::InterfaceManager *>(((*(IMH**)((char*)this + 4))))->FUN_00586150()))->FUN_009cb440(1);
         reinterpret_cast<::CPStandIn009caae0 *>((((Helper_caae0*)this)))->SetState();
@@ -1334,6 +1338,9 @@ struct Modifier
 struct FUN_009cb890_shell
 {
     void WriteDebugText(IDebugText* debugText, int location, int justify);
+    char pad00[0x30];
+    unsigned char unk30;
+    char pad31[0x4];
 };
 
 // Writes debug lines for the state, targeted point, high-arc flag and blocked-timer values via debugText->Write.
@@ -1355,7 +1362,7 @@ void FUN_009cb890_shell::WriteDebugText(IDebugText* debugText, int location, int
                      *reinterpret_cast<float*>(reinterpret_cast<unsigned char*>(this) + 0x28),
                      *reinterpret_cast<float*>(reinterpret_cast<unsigned char*>(this) + 0x2c));
 
-    if (*reinterpret_cast<unsigned char*>(reinterpret_cast<unsigned char*>(this) + 0x30))
+    if (this->unk30)
     {
         debugText->Write(location, justify, "HIGH ARC");
     }

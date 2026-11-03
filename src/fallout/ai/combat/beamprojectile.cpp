@@ -98,12 +98,14 @@ float Projectile::GetFirstLightParameter()
 struct FUN_009795c0_shell
 {
     void FUN_009795c0(float value);
+    unsigned int pad00[0x35];
+    float unkd4;
 };
 
 // @fnv 0x009795c0
 void FUN_009795c0_shell::FUN_009795c0(float value)
 {
-    *(float*)((char*)this + 0xd4) = value;
+    this->unkd4 = value;
 }
 
 namespace fnv_009abf10 {

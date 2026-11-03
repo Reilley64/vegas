@@ -134,6 +134,8 @@ struct BGSSaveFormBuffer
 struct SpectatorThreatInfo
 {
     void FUN_009f70b0(BGSSaveFormBuffer* buffer);
+    char pad00[0x2d];
+    bool unk2d;
 };
 // @fnv 0x009f70b0
 void SpectatorThreatInfo::FUN_009f70b0(BGSSaveFormBuffer* buffer)
@@ -159,6 +161,8 @@ struct BGSLoadFormBuffer
 struct SpectatorThreatInfo
 {
     void FUN_009f7170(BGSLoadFormBuffer* buffer);
+    unsigned int pad00[0x3];
+    unsigned int unk0c;
 };
 // @fnv 0x009f7170
 void SpectatorThreatInfo::FUN_009f7170(BGSLoadFormBuffer* buffer)
@@ -166,7 +170,7 @@ void SpectatorThreatInfo::FUN_009f7170(BGSLoadFormBuffer* buffer)
     reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(this + 8), 4);
     unsigned int imodifiedPerceivedTime = 0;
     reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&imodifiedPerceivedTime), 4);
-    *(unsigned int*)((char*)this + 0xc) = ((unsigned int)(::FUN_00457fe0())) - imodifiedPerceivedTime;
+    this->unk0c = ((unsigned int)(::FUN_00457fe0())) - imodifiedPerceivedTime;
     reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(this + 0x10), 4);
     reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(this + 0x14), 0xc);
     reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(this + 0x20), 0xc);
@@ -241,6 +245,8 @@ struct FUN_009f8aa0_class
 struct FUN_009f8ac0_class
 {
     int FUN_009f8ac0(int a);
+    unsigned int pad00[0x1];
+    int unk04;
 };
 // @fnv 0x009f8aa0
 intptr_t FUN_009f8aa0_class::FUN_009f8aa0()
@@ -250,7 +256,7 @@ intptr_t FUN_009f8aa0_class::FUN_009f8aa0()
 // @fnv 0x009f8ac0
 int FUN_009f8ac0_class::FUN_009f8ac0(int a)
 {
-    return a * 0x34 + *(int*)((char*)this + 4);
+    return a * 0x34 + this->unk04;
 }
 
 struct FUN_009f8ae0Class
@@ -1551,7 +1557,7 @@ void SpectatorPackageStandIn::FUN_009f8420(Actor& aActor)
                  reinterpret_cast<uintptr_t>(&aActor))
         {
             *reinterpret_cast<Actor**>(reinterpret_cast<char*>(scanInfo) + 4) = 0;
-            *reinterpret_cast<bool*>(reinterpret_cast<char*>(scanInfo) + 0x2D) = false;
+            scanInfo->unk2d = false;
         }
     }
 }

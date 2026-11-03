@@ -233,12 +233,14 @@ struct QuantityData
 struct FUN_00979f70_shell
 {
     void FUN_00979f70(unsigned int aiQuantity);
+    unsigned int pad00[0x1];
+    void* unk04;
 };
 
 // @fnv 0x00979f70
 void FUN_00979f70_shell::FUN_00979f70(unsigned int aiQuantity)
 {
-    reinterpret_cast<::FUN_00537e90 *>(((*reinterpret_cast<QuantityData**>(reinterpret_cast<char*>(this) + 4))))->SetQuantity(aiQuantity);
+    reinterpret_cast<::FUN_00537e90 *>(((*reinterpret_cast<QuantityData**>(&this->unk04))))->SetQuantity(aiQuantity);
 }
 }  // namespace fnv_00979f70
 
@@ -299,12 +301,14 @@ float GetWeaponDPSDeficit(CombatController* apCombatController, int aeWeaponType
 struct FUN_0097ac90_shell
 {
     float FUN_0097ac90(int aiIndex);
+    unsigned int pad00[0xf];
+    float unk3c;
 };
 
 // @fnv 0x0097ac90
 float FUN_0097ac90_shell::FUN_0097ac90(int aiIndex)
 {
-    return reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x3c)[aiIndex];
+    return (&this->unk3c)[aiIndex];
 }
 
 struct CombatController;

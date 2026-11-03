@@ -134,6 +134,9 @@ extern const char str_01090b50[];
 struct FUN_009cbf10_shell : CombatProcedureAttackLow
 {
     void DisplayAttackDebugText(IDebugText* apDebugText, DEBUGTEXT_LOCATION aeLocation, DEBUGTEXT_JUSTIFY aeJustify);
+    float unk14;
+    unsigned int pad18[0x1];
+    void* unk1c;
 };
 
 // Displays debug text for the combat procedure's state at offset 0x10, showing weapon full name and a float value when the state is 1.
@@ -152,12 +155,12 @@ void FUN_009cbf10_shell::DisplayAttackDebugText(IDebugText* apDebugText, DEBUGTE
 
         apDebugText->DisplayText(
             aeLocation, aeJustify, str_01090b50,
-            *reinterpret_cast<TESObjectWEAP**>(reinterpret_cast<char*>(this) + 0x1c)
+            *reinterpret_cast<TESObjectWEAP**>(&this->unk1c)
                 ? ((char *)(reinterpret_cast<::FUN_00408da0_Class *>((reinterpret_cast<FNStub*>(reinterpret_cast<char*>(*reinterpret_cast<TESObjectWEAP**>(
-                                                reinterpret_cast<char*>(this) + 0x1c)) +
+                                                &this->unk1c)) +
                                             0x30)))->FUN_00408da0()))
                 : str_010676a0,
-            *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x14));
+            this->unk14);
         break;
     }
 }

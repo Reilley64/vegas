@@ -7153,6 +7153,8 @@ struct Weap
     char CallMemberAtOffset54();
     char FUN_004a4100();
     char FUN_004a41e0();
+    unsigned int pad1c[0xc];
+    void* unk4c;
 };
 
 struct SndSrc
@@ -8046,7 +8048,7 @@ void ProjCls::FUN_009ae6e0()
                                     ::FUN_006890b0((::World *)(void *)(((::Proc2 *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))), reinterpret_cast<::FUN_00508100_shell *>((wt))->FUN_00508100(), (intptr_t)(name), dv, pos, 1.0f, 7, 0);
                                 }
                             }
-                            SndSrc* s1 = *reinterpret_cast<::SndSrc **>(reinterpret_cast<char *>(wt) + 0x4c);
+                            SndSrc* s1 = *reinterpret_cast<::SndSrc **>(&wt->unk4c);
                             if (s1)
                             {
                                 Snd snd = ((::AudioMgr *)(::FUN_00453a70()))->FUN_00ad7480(((void *)(::FUN_00511840((char *)(s1)))), s1);

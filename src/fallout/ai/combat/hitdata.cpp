@@ -70,37 +70,43 @@
 struct FUN_009b7040_shell
 {
     float GetField168();
+    unsigned int pad00[0x5a];
+    float unk168;
 };
 
 // @fnv 0x009b7040
 float FUN_009b7040_shell::GetField168()
 {
-    return *(float*)((char*)this + 0x168);
+    return this->unk168;
 }
 
 struct FUN_009b73b0_shell
 {
     char GetByteAtOffset() const;
+    char pad00[0x1c8];
+    char unk1c8;
 };
 
 // @fnv 0x009b73b0
 char FUN_009b73b0_shell::GetByteAtOffset() const
 {
-    return *(char*)((char*)this + 0x1c8);
+    return *(char*)&this->unk1c8;
 }
 
 struct FUN_009b7840_shell
 {
     void RaiseMaxValue(float a);
+    unsigned int pad00[0x17];
+    float unk5c;
 };
 
 // If a exceeds the float at offset 0x5c, stores a there, keeping the larger of the two.
 // @fnv 0x009b7840
 void FUN_009b7840_shell::RaiseMaxValue(float afValue)
 {
-    if (afValue > *((float*)((char*)this + 0x5c)))
+    if (afValue > this->unk5c)
     {
-        *((float*)((char*)this + 0x5c)) = afValue;
+        this->unk5c = afValue;
     }
 }
 
@@ -255,16 +261,18 @@ struct WeightedResultList
 struct FUN_009ca4c0_shell
 {
     void FreeStoredPointer();
+    unsigned int pad00[0x5];
+    void* unk14;
 };
 // If the pointer at offset 0x14 is set, deallocates it and clears that field.
 // @fnv 0x009ca4c0
 void FUN_009ca4c0_shell::FreeStoredPointer()
 {
-    if (*(void**)((char*)this + 0x14))
+    if (this->unk14)
     {
-        void* p = *(void**)((char*)this + 0x14);
+        void* p = this->unk14;
         ::FUN_00401030(p);
-        *(void**)((char*)this + 0x14) = 0;
+        this->unk14 = 0;
     }
 }
 

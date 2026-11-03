@@ -603,6 +603,10 @@ struct CombatController
     void FUN_0097f390();
     void FUN_0097d9d0();
     void FUN_0097d990();
+    unsigned int pad00[0x27];
+    void* unk9c;
+    unsigned int pada0[0x7];
+    void* unkbc;
 };
 struct Unk9c
 {
@@ -611,8 +615,8 @@ struct Unk9c
 void CombatController::FUN_0097d990()
 {
     FUN_0097f390();
-    reinterpret_cast<::fnv_00997c30::FUN_00997c30_shell *>((((Unk9c*)*(Unk9c**)((char*)this + 0x9c))))->InitAmmoState();
-    if (!((MobileObject*)*(MobileObject**)((char*)this + 0xbc))->GetCurrentProcessLevel())
+    reinterpret_cast<::fnv_00997c30::FUN_00997c30_shell *>((((Unk9c*)*(Unk9c**)&this->unk9c)))->InitAmmoState();
+    if (!((MobileObject*)*(MobileObject**)&this->unkbc)->GetCurrentProcessLevel())
         FUN_0097d9d0();
 }
 }  // namespace fnv_0097d990
@@ -704,12 +708,14 @@ struct FUN_0097fd60_shell
 {
     EffectSetting* m_pEffectSetting;  // +0x9c
     void FUN_0097fd60(TESEffectShader* a1);
+    unsigned int pad04[0x26];
+    void* unk9c;
 };
 
 // @fnv 0x0097fd60
 void FUN_0097fd60_shell::FUN_0097fd60(TESEffectShader* pShader)
 {
-    ((EffectSetting*)*(intptr_t*)((char*)this + 0x9c))->SetEnchantEffectShader(pShader);
+    ((EffectSetting*)this->unk9c)->SetEnchantEffectShader(pShader);
 }
 
 struct FUN_00980720_shell
@@ -744,36 +750,42 @@ struct Actor
 struct CombatController
 {
     void StopActorMoving();
+    unsigned int pad00[0x2f];
+    void* unkbc;
 };
 
 // @fnv 0x009807d0
 void CombatController::StopActorMoving()
 {
-    reinterpret_cast<::FUN_008b3ab0_shell *>((((Actor**)((char*)this + 0xbc))[0]))->FUN_008b3ab0();
+    reinterpret_cast<::FUN_008b3ab0_shell *>((((Actor**)&this->unkbc)[0]))->FUN_008b3ab0();
 }
 }  // namespace fnv_009807d0
 
 struct FUN_00981300_shell
 {
     bool FUN_00981300() const;
+    unsigned int pad00[0x7];
+    int unk1c;
 };
 
 // @fnv 0x00981300
 bool FUN_00981300_shell::FUN_00981300() const
 {
-    return (*reinterpret_cast<const int*>(reinterpret_cast<const char*>(this) + 0x1c) & 0x2000000) ? true : false;
+    return (*reinterpret_cast<const int*>((void *)&this->unk1c) & 0x2000000) ? true : false;
 }
 
 struct FUN_00981320_shell
 {
     unsigned short m_24;
     bool IsFlag4Set();
+    char pad02[0x22];
+    unsigned short unk24;
 };
 
 // @fnv 0x00981320
 bool FUN_00981320_shell::IsFlag4Set()
 {
-    return ((unsigned short*)((char*)this + 0x24))[0] & 0x4;
+    return (&this->unk24)[0] & 0x4;
 }
 
 struct InnerObj
@@ -803,12 +815,14 @@ struct CombatController
 {
     Modifier* m_pModifier;
     char GetModifierKey(void);
+    unsigned int pad04[0x26];
+    void* unk9c;
 };
 
 // @fnv 0x00981900
 char CombatController::GetModifierKey(void)
 {
-    return ((char)(reinterpret_cast<::FUN_009373f0_shell *>((((Modifier**)((char*)this + 0x9c))[0]))->FUN_009373f0()));
+    return ((char)(reinterpret_cast<::FUN_009373f0_shell *>((((Modifier**)&this->unk9c)[0]))->FUN_009373f0()));
 }
 }  // namespace fnv_00981900
 
@@ -1092,11 +1106,13 @@ struct CombatCoverPointData;
 struct FUN_009d7c20_shell
 {
     void FUN_00980770();
+    unsigned int pad00[0x39];
+    void* unke4;
 };
 // @fnv 0x00980770
 void FUN_009d7c20_shell::FUN_00980770()
 {
-    reinterpret_cast<::FUN_009a0510_shell *>(this)->FUN_009a0510((::StageHolder *)(::CombatCoverPointData *)((CombatCoverPointData*)*(CombatCoverPointData**)((char*)this + 0xe4)));
+    reinterpret_cast<::FUN_009a0510_shell *>(this)->FUN_009a0510((::StageHolder *)(::CombatCoverPointData *)((CombatCoverPointData*)*(CombatCoverPointData**)&this->unke4));
 }
 
 struct CombatCoverPointData;
@@ -1106,11 +1122,13 @@ struct FUN_009d6c80_shell
 struct FUN_009807b0_shell
 {
     void FUN_009807b0();
+    unsigned int pad00[0x39];
+    void* unke4;
 };
 // @fnv 0x009807b0
 void FUN_009807b0_shell::FUN_009807b0()
 {
-    reinterpret_cast<::fnv_009a05b0::FUN_009a05b0_shell *>((((FUN_009d6c80_shell*)this)))->FUN_009a05b0((::fnv_009a05b0::StageHolder *)(::CombatCoverPointData *)((CombatCoverPointData*)*(void**)((char*)this + 0xe4)));
+    reinterpret_cast<::fnv_009a05b0::FUN_009a05b0_shell *>((((FUN_009d6c80_shell*)this)))->FUN_009a05b0((::fnv_009a05b0::StageHolder *)(::CombatCoverPointData *)((CombatCoverPointData*)this->unke4));
 }
 
 struct FUN_00981970_shell
@@ -1662,6 +1680,8 @@ struct FUN_009a5eb0_shell
 struct CombatProcedure;
 struct GridArray
 {
+    unsigned int pad00[0x1];
+    unsigned int unk04;
 };
 struct CombatState
 {
@@ -1710,7 +1730,7 @@ void CombatController::FUN_009819f0(BGSSaveFormBuffer* apSaveGameBuffer)
     reinterpret_cast<::FUN_006797c0_shell *>((((FUN_006797c0_shell*)this)))->FUN_006797c0((::FUN_006797c0_arg *)(apSaveGameBuffer));
     reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apSaveGameBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(m_pkAttacker), 0);
     reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apSaveGameBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(pTarget), 0);
-    unsigned int icombatGroupID = reinterpret_cast<unsigned int *>(m_pCombatData)[1];
+    unsigned int icombatGroupID = m_pCombatData->unk04;
     reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(&icombatGroupID, 4, 0);
     reinterpret_cast<::Owner435 *>((m_pModifier))->SaveToStream((::Save435 *)(apSaveGameBuffer));
     FUN_00982350(&pProc84, apSaveGameBuffer);
@@ -3291,16 +3311,21 @@ struct Vtbl
 struct FUN_0097f8c0_shell
 {
     void FUN_0097f8c0();
+    unsigned int pad00[0x21];
+    void* unk84;
+    void* unk88;
+    unsigned int pad8c[0x4];
+    void* unk9c;
 };
 // Calls FUN_0099a8d0 on the object at offset 0x9c, then invokes v9 on the objects at offsets 0x84 and 0x88 if they are non-null.
 // @fnv 0x0097f8c0
 void FUN_0097f8c0_shell::FUN_0097f8c0()
 {
-    reinterpret_cast<::fnv_0099a8d0::FUN_0099a8d0_struct *>((((FUN_0099a8d0_shell*)*(void**)((char*)this + 0x9c))))->FUN_0099a8d0();
-    if (*(void**)((char*)this + 0x84))
-        ((Vtbl*)*(void**)((char*)this + 0x84))->v9();
-    if (*(void**)((char*)this + 0x88))
-        ((Vtbl*)*(void**)((char*)this + 0x88))->v9();
+    reinterpret_cast<::fnv_0099a8d0::FUN_0099a8d0_struct *>((((FUN_0099a8d0_shell*)this->unk9c)))->FUN_0099a8d0();
+    if (this->unk84)
+        ((Vtbl*)this->unk84)->v9();
+    if (this->unk88)
+        ((Vtbl*)this->unk88)->v9();
 }
 
 namespace fnv_009805b0 {
@@ -3342,45 +3367,49 @@ struct FUN_009a0650_shell
 struct FUN_009805b0_shell
 {
     void RemoveTopic(void);
+    unsigned int pad00[0x27];
+    void* unk9c;
+    void* unka0;
+    void* unka4;
 };
 
 // @fnv 0x009805b0
 void FUN_009805b0_shell::RemoveTopic(void)
 {
     int topic =
-        (*(BSAudio**)((char*)this + 0xa0) != 0) ? ((intptr_t)(reinterpret_cast<::MagicCaster_shell *>(((*(BSAudio**)((char*)this + 0xa0))))->FUN_0044edb0())) : -1;
+        (*(BSAudio**)&this->unka0 != 0) ? ((intptr_t)(reinterpret_cast<::MagicCaster_shell *>(((*(BSAudio**)&this->unka0)))->FUN_0044edb0())) : -1;
     bool found = false;
     bool removed = false;
 
     if (topic != -1)
     {
-        int scriptVar = reinterpret_cast<::FUN_00980700_shell *>(((*(FUN_00980700_shell**)((char*)this + 0xa4))))->FUN_00980700(topic);
+        int scriptVar = reinterpret_cast<::FUN_00980700_shell *>(((*(FUN_00980700_shell**)&this->unka4)))->FUN_00980700(topic);
 
         if (scriptVar != 0)
         {
             found = true;
-            reinterpret_cast<::fnv_009a0650::FUN_009a0650_shell *>(((*(FUN_009a0650_shell**)((char*)this + 0x9c))))->SetField18C(scriptVar);
+            reinterpret_cast<::fnv_009a0650::FUN_009a0650_shell *>(((*(FUN_009a0650_shell**)&this->unk9c)))->SetField18C(scriptVar);
 
-            void* data = reinterpret_cast<::FUN_00980720_shell *>(((*(FUN_00980700_shell**)((char*)this + 0xa4))))->GetEntryAt(topic);
+            void* data = reinterpret_cast<::FUN_00980720_shell *>(((*(FUN_00980700_shell**)&this->unka4)))->GetEntryAt(topic);
 
             if (data != 0)
             {
                 removed = true;
-                reinterpret_cast<::FUN_009a0370_shell *>(((*(FUN_009a0370_shell**)((char*)this + 0x9c))))->SetFieldE4((intptr_t)data);
+                reinterpret_cast<::FUN_009a0370_shell *>(((*(FUN_009a0370_shell**)&this->unk9c)))->SetFieldE4((intptr_t)data);
             }
 
-            reinterpret_cast<::FUN_00980740_shell *>(((*(FUN_00980700_shell**)((char*)this + 0xa4))))->FUN_00980740(topic);
+            reinterpret_cast<::FUN_00980740_shell *>(((*(FUN_00980700_shell**)&this->unka4)))->FUN_00980740(topic);
         }
         else
         {
-            intptr_t timer = ::GetField18C((char*)(*(void**)((char*)this + 0x9c)));
+            intptr_t timer = ::GetField18C((char*)(this->unk9c));
 
             if (timer != 0 && reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((void *)(((GameTimerRecord*)timer)))->FUN_00825c00() == topic)
             {
                 found = true;
             }
 
-            uintptr_t result = ::GetFieldValue((unsigned int*)(*(void**)((char*)this + 0x9c)));
+            uintptr_t result = ::GetFieldValue((unsigned int*)(this->unk9c));
 
             if (result != 0 && *(unsigned int*)(result + 4) == (unsigned int)topic)
             {
@@ -3391,16 +3420,16 @@ void FUN_009805b0_shell::RemoveTopic(void)
 
     if (!found)
     {
-        reinterpret_cast<::FUN_009a0680_shell *>(((*(FUN_009a0680_shell**)((char*)this + 0x9c))))->ClearAndDeletePointer();
+        reinterpret_cast<::FUN_009a0680_shell *>(((*(FUN_009a0680_shell**)&this->unk9c)))->ClearAndDeletePointer();
     }
 
     if (removed)
     {
-        reinterpret_cast<::FUN_009d7c20_shell *>(((*(FUN_009d7c20_shell**)((char*)this + 0x9c))))->FUN_00980770();
+        reinterpret_cast<::FUN_009d7c20_shell *>(((*(FUN_009d7c20_shell**)&this->unk9c)))->FUN_00980770();
     }
     else
     {
-        reinterpret_cast<::FUN_009a03d0_cls *>(((*(FUN_0099a9a0_shell**)((char*)this + 0x9c))))->FUN_009a03d0(0);
+        reinterpret_cast<::FUN_009a03d0_cls *>(((*(FUN_0099a9a0_shell**)&this->unk9c)))->FUN_009a03d0(0);
     }
 }
 }  // namespace fnv_009805b0

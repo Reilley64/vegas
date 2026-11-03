@@ -671,6 +671,8 @@ struct Setting_S
 struct FUN_0092cc90_shell
 {
     bool FUN_0092cc90(Actor* apActor, float afTimeDelta);
+    unsigned int pad00[0x10];
+    void* unk40;
 };
 
 // @fnv 0x0092cc90
@@ -686,7 +688,7 @@ bool FUN_0092cc90_shell::FUN_0092cc90(Actor* apActor, float afTimeDelta)
 
         apActor->Unk_10E();
 
-        ptarget = dynamic_cast<Actor*>(*(TESObjectREFR**)((char*)this + 0x40));
+        ptarget = dynamic_cast<Actor*>(*(TESObjectREFR**)&this->unk40);
         if (ptarget && !ptarget->Unk_8B(false))
             ptarget->Unk_10E();
 

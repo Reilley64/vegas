@@ -70,16 +70,19 @@ struct FUN_00679a90_shell
 struct FUN_009f98e0_shell : public TrespassPackage
 {
     void FUN_009f98e0(uintptr_t);
+    unsigned int pad00[0x22];
+    void* unk88;
+    void* unk8c;
 };
 
 // @fnv 0x009f98e0
 void FUN_009f98e0_shell::FUN_009f98e0(uintptr_t a)
 {
     reinterpret_cast<::A90Cls *>((((FUN_00679a90_shell*)this)))->DispatchToSubobjects((intptr_t)((void*)a));
-    *(TESForm**)((char*)this + 0x88) =
-        *(TESForm**)((char*)this + 0x88) ? ::FUN_004839c0((unsigned int)(uintptr_t)(*(TESForm**)((char*)this + 0x88))) : 0;
-    *(TESForm**)((char*)this + 0x8c) =
-        *(TESForm**)((char*)this + 0x8c) ? ::FUN_004839c0((unsigned int)(uintptr_t)(*(TESForm**)((char*)this + 0x8c))) : 0;
+    *(TESForm**)&this->unk88 =
+        *(TESForm**)&this->unk88 ? ::FUN_004839c0((unsigned int)(uintptr_t)(*(TESForm**)&this->unk88)) : 0;
+    *(TESForm**)&this->unk8c =
+        *(TESForm**)&this->unk8c ? ::FUN_004839c0((unsigned int)(uintptr_t)(*(TESForm**)&this->unk8c)) : 0;
 }
 
 struct STR00

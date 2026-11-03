@@ -104,23 +104,27 @@ void FUN_009d0980_shell::FUN_009d0980()
 struct FUN_009d09f0_shell
 {
     void SetByteAtOffsetC6(char c);
+    char pad00[0xc6];
+    char unkc6;
 };
 
 // @fnv 0x009d09f0
 void FUN_009d09f0_shell::SetByteAtOffsetC6(char acValue)
 {
-    ((char*)this)[0xc6] = acValue;
+    this->unkc6 = acValue;
 }
 
 struct FUN_009d0a10_shell
 {
     void SetByteAt142(unsigned char value);
+    char pad00[0x142];
+    unsigned char unk142;
 };
 
 // @fnv 0x009d0a10
 void FUN_009d0a10_shell::SetByteAt142(unsigned char value)
 {
-    *(unsigned char*)((char*)this + 0x142) = value;
+    this->unk142 = value;
 }
 
 struct Actor;
@@ -164,6 +168,8 @@ struct FUN_009d1c30_shell
 struct FUN_009d09a0_shell
 {
     void FUN_009d09a0();
+    unsigned int pad00[0x1];
+    void* unk04;
 };
 namespace fnv_009d2310 {
 struct BGSSaveFormBuffer
@@ -712,9 +718,9 @@ void FUN_009d09a0_shell::FUN_009d09a0()
     Actor* pattacker;
     pattacker = ((::Actor *)(reinterpret_cast<::FUN_00996de0_Class *>((((FUN_009cc4d0_shell*)this)))->FUN_00996de0()));
     reinterpret_cast<::fnv_00996ea0::MyProc *>((((CombatProcedure*)this)))->FUN_00996ea0();
-    ((FUN_009d0a10_shell*)*(void**)((char*)this + 4))->SetByteAt142(0);
+    ((FUN_009d0a10_shell*)this->unk04)->SetByteAt142(0);
     reinterpret_cast<::D1C30Task *>((((FUN_009d1c30_shell*)this)))->ResetTask();
-    ((FUN_009d09f0_shell*)*(void**)((char*)this + 4))->SetByteAtOffsetC6(-1);
+    ((FUN_009d09f0_shell*)this->unk04)->SetByteAtOffsetC6(-1);
 }
 
 // @fnv 0x009d1c30
@@ -1263,6 +1269,8 @@ struct RMap
 };
 struct RAnimation
 {
+    unsigned int pad00[0x37];
+    void* unkdc;
 };
 struct RProjectile
 {
@@ -2027,7 +2035,7 @@ void RAttack::UpdateAttack()
                     if (GetType(group) == 80 || GetType(group) == 86)
                     {
                         RSequenceBase* sequence;
-                        if (reinterpret_cast<::NiTMapBase *>((*reinterpret_cast<::RMap **>(reinterpret_cast<char *>(animation0) + 0xdc)))->Lookup(group, (::AnimSequenceBase *&)(sequence)))
+                        if (reinterpret_cast<::NiTMapBase *>((*reinterpret_cast<::RMap **>(&animation0->unkdc)))->Lookup(group, (::AnimSequenceBase *&)(sequence)))
                         {
                             RGroup* animGroup0 = ((::RGroup *)(reinterpret_cast<::BSAnimGroupSequence *>((sequence->GetControllerSequence(-1)))->GetAnimGroup()));
                             float start = reinterpret_cast<::FUN_005f3780_shell *>((animGroup0))->FUN_005f3780(0);

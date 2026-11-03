@@ -134,12 +134,14 @@ void* FUN_009d8c10_shell::Destroy(unsigned int flags)
 struct FUN_009d8d00_shell
 {
     void SetFieldEC(intptr_t param);
+    unsigned int pad00[0x3b];
+    int unkec;
 };
 
 // @fnv 0x009d8d00
 void FUN_009d8d00_shell::SetFieldEC(intptr_t aiValue)
 {
-    *(int*)((char*)this + 0xec) = aiValue;
+    this->unkec = aiValue;
 }
 
 struct TESObjectREFR;
@@ -214,6 +216,8 @@ struct CombatProcedureSaveGameShell
 struct CombatProcedureSearchSaveShell : CombatProcedureSearch
 {
     void FUN_009da5c0(BGSSaveFormBuffer*);
+    char pad04[0x38];
+    void* unk3c;
 };
 // Saves the combat procedure search state to the buffer: base data, a 4-byte field at 0x10, sub-objects at 0x2c/0x1c/0x14/0x24, and a pointer at 0x3c.
 // @fnv 0x009da5c0
@@ -225,7 +229,7 @@ void CombatProcedureSearchSaveShell::FUN_009da5c0(BGSSaveFormBuffer* buffer)
     ((FUN_009a5eb0_shell*)((char*)this + 0x1c))->FUN_009a5eb0(buffer);
     ((FUN_009a5eb0_shell*)((char*)this + 0x14))->FUN_009a5eb0(buffer);
     ((FUN_009a5eb0_shell*)((char*)this + 0x24))->FUN_009a5eb0(buffer);
-    reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((buffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(*(void**)((char*)this + 0x3c)), 0);
+    reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((buffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(this->unk3c), 0);
 }
 
 struct BGSLoadFormBuffer
@@ -306,6 +310,12 @@ struct CombatProcedureEngageTarget
 struct FUN_009d8c60_shell : CombatProcedureEngageTarget
 {
     void UpdateEngageTarget();
+    unsigned int pad00[0x1];
+    void* unk04;
+    unsigned int pad08[0x2];
+    int unk10;
+    unsigned int pad14[0xa];
+    void* unk3c;
 };
 struct FUN_0098c780_shell
 {
@@ -319,15 +329,15 @@ struct FUN_009d8d20_Class
 void FUN_009d8c60_shell::UpdateEngageTarget()
 {
     Actor* pattacker = ((::Actor *)(reinterpret_cast<::FUN_00996de0_Class *>(this)->FUN_00996de0()));
-    EffectSetting* pcombatGroup = ((::EffectSetting *)(reinterpret_cast<::EffectSetting *>((void *)(((EffectSetting**)((char*)this + 4))[0]))->GetCastSound()));
+    EffectSetting* pcombatGroup = ((::EffectSetting *)(reinterpret_cast<::EffectSetting *>((void *)(((EffectSetting**)&this->unk04)[0]))->GetCastSound()));
     if (pcombatGroup && ((FUN_009d8d20_Class*)pcombatGroup)->GetFieldEC() == (intptr_t)pattacker)
         ((FUN_009d8d00_shell*)pcombatGroup)->SetFieldEC(0);
     reinterpret_cast<::FUN_008b3ab0_shell *>((pattacker))->FUN_008b3ab0();
     reinterpret_cast<::fnv_00996e40::FUN_00996e40_shell *>(this)->FUN_00996e40();
-    if (*(int*)((char*)this + 0x10) == 5 || *(int*)((char*)this + 0x10) == 4)
+    if (this->unk10 == 5 || this->unk10 == 4)
         reinterpret_cast<::fnv_008bcd20::FUN_008bcd20_shell *>((pattacker))->FUN_008bcd20();
-    if (*(int*)((char*)this + 0x10) == 2 && pcombatGroup && *(void**)((char*)this + 0x3c))
-        ((FUN_0098c780_shell*)pcombatGroup)->ClearReservedFlag((intptr_t)*(void**)((char*)this + 0x3c));
+    if (this->unk10 == 2 && pcombatGroup && this->unk3c)
+        ((FUN_0098c780_shell*)pcombatGroup)->ClearReservedFlag((intptr_t)this->unk3c);
 }
 
 extern int DAT_01091db4;
@@ -754,6 +764,8 @@ struct RangeSub
 
 struct ContextSub
 {
+    unsigned int pad00[0x3b];
+    void* unkec;
 };
 
 struct OwnerSub
@@ -1179,7 +1191,7 @@ void SearchProcedure::UpdateSearchState()
                     }
                     else
                     {
-                        void* p360 = *reinterpret_cast<void **>(reinterpret_cast<char *>(pContext) + 0xec);
+                        void* p360 = pContext->unkec;
                         if (p360 && p360 != pActor2)
                         {
                             break;

@@ -604,6 +604,8 @@ bool FUN_008c4560_shell::FUN_008c4560()
 struct FUN_008c47d0_shell : public HighProcess
 {
     void FUN_008c47d0(float);
+    unsigned int pad00[0xac];
+    float unk2b0;
 };
 // If the actor's high process exists and is at process level 0, forwards fAlpha to its SetMaxAlpha.
 // @fnv 0x008c4790
@@ -616,7 +618,7 @@ void Actor::SetAlpha(float fAlpha)
 // @fnv 0x008c47d0
 void FUN_008c47d0_shell::FUN_008c47d0(float afAlpha)
 {
-    *(float*)((char*)this + 0x2b0) = afAlpha;
+    this->unk2b0 = afAlpha;
 }
 
 struct FUN_008c51c0_shell : public Actor
@@ -699,11 +701,13 @@ void FUN_0088b850_shell::SetRefractionProperty()
 struct FUN_008c5330_shell
 {
     void ClearField4C();
+    unsigned int pad00[0x13];
+    int unk4c;
 };
 // @fnv 0x008c5330
 void FUN_008c5330_shell::ClearField4C()
 {
-    *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x4c) = 0;
+    this->unk4c = 0;
 }
 
 struct FUN_008d4a80_shell

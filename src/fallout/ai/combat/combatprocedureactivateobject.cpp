@@ -322,13 +322,16 @@ class C_Ranged
 struct FUN_009caac0_shell
 {
     void FUN_009caac0(intptr_t arg1);
+    unsigned int pad00[0x2];
+    int unk08;
+    int unk0c;
 };
 
 // @fnv 0x009caac0
 void FUN_009caac0_shell::FUN_009caac0(intptr_t arg1)
 {
-    ((int*)this)[3] = arg1;
-    ((int*)this)[2] = 1;
+    this->unk0c = arg1;
+    this->unk08 = 1;
 }
 
 struct CPStandIn009caae0

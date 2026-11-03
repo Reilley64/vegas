@@ -65,6 +65,8 @@ void* FUN_00983250_shell::DestroyIfFlagged(unsigned int flags)
 
 struct StageHolder
 {
+    unsigned int pad00[0x1a];
+    unsigned int unk68;
 };
 struct Calendar
 {
@@ -104,6 +106,8 @@ struct TESWorldSpace;
 struct FUN_009a0560_shell
 {
     bool FUN_009a0560(StageHolder*);
+    unsigned int pad00[0x71];
+    int unk1c4;
 };
 // Returns true if the stage holder is null or done, otherwise delegates to GetOrCreateCoverItem with the days passed and the holder.
 // @fnv 0x009a0560
@@ -111,7 +115,7 @@ bool FUN_009a0560_shell::FUN_009a0560(StageHolder* pStageHolder)
 {
     if (pStageHolder && !reinterpret_cast<::FUN_005dc960_shell *>((pStageHolder))->FUN_005dc960())
         return ((FUN_00983420_shell*)((reinterpret_cast<CombatManagerFields*>((((Calendar*)(*reinterpret_cast<::fnv_009a0560::TESWorldSpace * *>(&::BGSSaveLoadGlobalDataWorldspacePtr)))))->pCoverMap)))
-            ->GetOrCreateCoverItem(*(int*)((char*)this + 0x1C4), pStageHolder);
+            ->GetOrCreateCoverItem(this->unk1c4, pStageHolder);
     return true;
 }
 }  // namespace fnv_009a0560
@@ -170,11 +174,11 @@ void FUN_00983280_holder::FUN_00983280(int value, StageHolder* pStageHolder)
 {
     ::fnv_00aa6060::AcquireLock((::ReadWriteLock *)(((MapMember*)((char*)this + 0x14))));
     void* pCreatedShell = 0;
-    if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>((((HolderLookup*)this)))->FUN_00853130(*(unsigned int*)((char*)pStageHolder + 0x68), (*(::fnv_00853130::CombatThreatRecord * *)(&pCreatedShell))))
+    if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>((((HolderLookup*)this)))->FUN_00853130(pStageHolder->unk68, (*(::fnv_00853130::CombatThreatRecord * *)(&pCreatedShell))))
     {
         pCreatedShell = new CreatedShell();
         reinterpret_cast<::FUN_00983400_shell *>((((CreatedShell*)pCreatedShell)))->SetByteAtOffset(((bool)(reinterpret_cast<::FUN_00678ce0_shell *>((((HolderStatus*)pStageHolder)))->FUN_00678ce0())));
-        reinterpret_cast<::FUN_00844700_Class *>((((HolderLookup*)this)))->FUN_00844700(*(unsigned int*)((char*)pStageHolder + 0x68), (uintptr_t)(pCreatedShell));
+        reinterpret_cast<::FUN_00844700_Class *>((((HolderLookup*)this)))->FUN_00844700(pStageHolder->unk68, (uintptr_t)(pCreatedShell));
     }
     reinterpret_cast<::FUN_00982e70_Class *>((((CreatedShell*)pCreatedShell)))->AddItem(value, pStageHolder);
     reinterpret_cast<::FUN_0067fdb0_shell *>((((HolderStatus*)pStageHolder)))->FUN_0067fdb0(1);

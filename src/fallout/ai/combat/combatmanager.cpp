@@ -1366,11 +1366,13 @@ namespace fnv_009928c0 {
 struct CombatFlagHolder
 {
     bool HasCombatFlag(unsigned int mask);
+    unsigned int pad00[0x2a];
+    unsigned int unka8;
 };
 // @fnv 0x009928c0
 bool CombatFlagHolder::HasCombatFlag(unsigned int mask)
 {
-    return (*(unsigned int*)((char*)this + 0xa8) & mask) ? true : false;
+    return (this->unka8 & mask) ? true : false;
 }
 }  // namespace fnv_009928c0
 
@@ -1410,6 +1412,8 @@ struct CombatTarget
 struct CombatOwner
 {
     void FUN_009929e0(uintptr_t key);
+    unsigned int pad00[0x4];
+    void* unk10;
 };
 struct MapH
 {
@@ -1481,11 +1485,13 @@ void CPStandIn00992b00::ClearFlagIfSet(Actor* apActor, Flt& flt)
 struct CombatObj
 {
     int FUN_009931a0();
+    char pad00[0x154];
+    char unk154;
 };
 // @fnv 0x009931a0
 int CombatObj::FUN_009931a0()
 {
-    return *(char*)((char*)this + 0x154) == 1;
+    return this->unk154 == 1;
 }
 
 typedef unsigned __int64 CPOut00993a00;
@@ -1508,8 +1514,8 @@ struct CPMap00993a00
 void CombatOwner::FUN_009929e0(uintptr_t key)
 {
     CombatPair pair = {0, 0};
-    if (!reinterpret_cast<::CPMap00993a00 *>(((*(CombatTarget**)((char*)this + 0x10))))->Lookup(key, (unsigned long long *)(::CombatPair *)(&pair)))
-        (*(CombatTarget**)((char*)this + 0x10))->SetValue(key, 0, 0);
+    if (!reinterpret_cast<::CPMap00993a00 *>(((*(CombatTarget**)&this->unk10)))->Lookup(key, (unsigned long long *)(::CombatPair *)(&pair)))
+        (*(CombatTarget**)&this->unk10)->SetValue(key, 0, 0);
 }
 // Reads a bit mask for pactor, sets the bit given by flt if clear, and writes the mask back.
 // @fnv 0x00992a50

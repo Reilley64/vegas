@@ -112,9 +112,12 @@ class SrcObj
     float m_08;
 };
 
-class SubStub
+// hkpBoxShape as far as FUN_00d401d0 reads it. havok/hkpBoxShape.h cannot be included here: its hkBool typedef clashes
+// with the hkBool that fnv/decl/BoxAgent.h declares.
+struct BoxShapeD401
 {
-  public:
+    unsigned char m_convexShape[0x20];
+    alignas(16) float m_halfExtents[4];  // +0x20
 };
 
 class SpawnedObject
@@ -124,6 +127,7 @@ class SpawnedObject
     unsigned short m_04;
     unsigned short m_06;
     void* m_08;
+    alignas(16) unsigned char m_manifold[0x40];  // +0x10, built by FUN_00db0920
 };
 
 // @fnv 0x00d401d0
@@ -131,22 +135,22 @@ void* FUN_00d401d0(void* apFirst, void* apSecond, void* a3, void* a4)
 {
     SrcObj* src = (SrcObj*)a3;
     float fSrcValue = src->m_08;
-    float fLimit = (float)(*(float*)((char*)*(void**)apFirst + 0x2c) * DAT_010cf200);
+    float fLimit = (float)((*(const BoxShapeD401* const*)apFirst)->m_halfExtents[3] * DAT_010cf200);
     if (fSrcValue >= fLimit)
     {
         goto callPath;
     }
-    fLimit = (float)(*(float*)((char*)*(void**)apSecond + 0x2c) * DAT_010cf200);
+    fLimit = (float)((*(const BoxShapeD401* const*)apSecond)->m_halfExtents[3] * DAT_010cf200);
     if (src->m_08 >= fLimit)
     {
         goto callPath;
     }
-    SpawnedObject* pSpawned = static_cast<SpawnedObject*>(hkMemoryRouter::getInstance().heap().blockAlloc(0x50));
-    pSpawned->m_04 = 0x50;
+    SpawnedObject* pSpawned = static_cast<SpawnedObject*>(hkMemoryRouter::getInstance().heap().blockAlloc(sizeof(SpawnedObject)));
+    pSpawned->m_04 = sizeof(SpawnedObject);
     pSpawned->m_06 = 1;
     pSpawned->m_08 = a4;
     pSpawned->vptr = &DAT_010cf1c4;
-    reinterpret_cast<::FUN_00db0920_cls *>((((SubStub*)((char*)pSpawned + 0x10))))->FUN_00db0920();
+    reinterpret_cast<::FUN_00db0920_cls *>(pSpawned->m_manifold)->FUN_00db0920();
     return pSpawned;
 callPath:
     return ((void *)(::FUN_00dacc00(static_cast<GskNode*>(apFirst), static_cast<GskNode*>(apSecond), a3, a4)));

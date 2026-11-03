@@ -265,24 +265,32 @@ void QuantityData::FUN_005e0b80(uintptr_t quantity)
 
 struct FUN_005e1140_Class
 {
+
+    char pad[0x34];
+
+    float unk34;
     void FUN_005e1140(float value);
 };
 
 // @fnv 0x005e1140
 void FUN_005e1140_Class::FUN_005e1140(float value)
 {
-    *(float*)((char*)this + 0x34) += value;
+    unk34 += value;
 }
 
 struct FUN_005e2850_class
 {
+
+    char pad[0x14];
+
+    int unk14;
     bool FUN_005e2850();
 };
 
 // @fnv 0x005e2850
 bool FUN_005e2850_class::FUN_005e2850()
 {
-    return *(int*)((char*)this + 0x14) != 0;
+    return unk14 != 0;
 }
 
 struct Stub
@@ -646,97 +654,137 @@ void TESAttributes::FUN_005f1570(unsigned char index)
 
 struct FUN_005f3710_Class
 {
+
+    char pad[0x34];
+
+    unsigned int unk34;
+
+    intptr_t unk38;
     intptr_t GetEntryAt(int index);
 };
 
 // @fnv 0x005f3710
 intptr_t FUN_005f3710_Class::GetEntryAt(int index)
 {
-    if ((unsigned int)index < *(unsigned int*)((char*)this + 0x34))
+    if ((unsigned int)index < unk34)
     {
-        return index * 16 + *(intptr_t*)((char*)this + 0x38);
+        return index * 16 + unk38;
     }
     return 0;
 }
 
 struct FUN_005f4b70_Class
 {
+
+    char pad[0x29];
+
+    unsigned char unk29;
     void FUN_005f4b70(unsigned char aucLevel);
 };
 
 // @fnv 0x005f4b70
 void FUN_005f4b70_Class::FUN_005f4b70(unsigned char aucLevel)
 {
-    *reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(this) + 0x29) = aucLevel;
+    unk29 = aucLevel;
 }
 
 struct FUN_005f4b90_Class
 {
+
+    char pad[0x2b];
+
+    unsigned char unk2b;
     void SetByteAtOffset2B(unsigned char v);
 };
 // @fnv 0x005f4b90
 void FUN_005f4b90_Class::SetByteAtOffset2B(unsigned char aucValue)
 {
-    *reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(this) + 0x2b) = aucValue;
+    unk2b = aucValue;
 }
 
 struct FUN_005f5f60_class
 {
+
+    char pad[0x5c];
+
+    unsigned short unk5c;
     int FUN_005f5f60();
 };
 
 // @fnv 0x005f5f60
 int FUN_005f5f60_class::FUN_005f5f60()
 {
-    return *reinterpret_cast<unsigned short*>(reinterpret_cast<char*>(this) + 0x5c) & 2;
+    return unk5c & 2;
 }
 
 struct FUN_005f5fa0_cls
 {
+
+    char pad[0x64];
+
+    unsigned short unk64;
     unsigned int GetShortAtOffset64();
 };
 
 // @fnv 0x005f5fa0
 unsigned int FUN_005f5fa0_cls::GetShortAtOffset64()
 {
-    return *(unsigned short*)((char*)this + 0x64);
+    return unk64;
 }
 
 struct FUN_005f5fc0_class
 {
+
+    char pad[0x66];
+
+    unsigned short unk66;
     unsigned int GetShortAtOffset66();
 };
 
 // @fnv 0x005f5fc0
 unsigned int FUN_005f5fc0_class::GetShortAtOffset66()
 {
-    return *(unsigned short*)((char*)this + 0x66);
+    return unk66;
 }
 
 struct FUN_005f5fe0_class
 {
+
+    char pad[0x68];
+
+    unsigned short unk68;
     unsigned int GetShortAtOffset68();
 };
 
 // @fnv 0x005f5fe0
 unsigned int FUN_005f5fe0_class::GetShortAtOffset68()
 {
-    return *(unsigned short*)((char*)this + 0x68);
+    return unk68;
 }
 
 struct FUN_005f60c0_Class
 {
+
+    char pad[0x70];
+
+    int unk70;
     int HasFlag8();
 };
 
 // @fnv 0x005f60c0
 int FUN_005f60c0_Class::HasFlag8()
 {
-    return ((int*)this)[0x1c] & 8;
+    return unk70 & 8;
 }
 
 struct TESChallenge
 {
+
+    char pad[0x6c];
+
+    int unk6c;
+
+    int unk70;
     void MarkForSave();
     void FUN_005f60e0(int amount);
 public:
@@ -747,7 +795,7 @@ public:
 // @fnv 0x005f60e0
 void TESChallenge::FUN_005f60e0(int amount)
 {
-    *(int*)((char*)this + 0x6c) += amount;
+    unk6c += amount;
     MarkForSave();
 }
 
@@ -1063,13 +1111,16 @@ template <int N> struct EndianSizeTag
 };
 struct T2870
 {
+    int unk00;
+    char pad04[0x4];
+    long long unk08;
     void FUN_005e2870();
 };
 // @fnv 0x005e2870
 void T2870::FUN_005e2870()
 {
-    ::FUN_00401080((int *)(unsigned char *)((unsigned char*)this));
-    ::FUN_004717f0((long long *)(void *)((char*)this + 8));
+    ::FUN_00401080(&unk00);
+    ::FUN_004717f0(&unk08);
 }
 
 struct FUN_005ec700_shell : TESFaction_RankDataView
@@ -1216,19 +1267,30 @@ FUN_005efa40_class* FUN_005efa40_class::FUN_005efa40()
     return this;
 }
 
+struct FUN_005f29f0_Entry
+{
+    float value;
+    char pad04[0xc];
+};
 struct FUN_005f29f0_Class
 {
+
+    char pad[0x34];
+
+    unsigned int unk34;
+
+    void* unk38;
     void SetValueAtIndex(unsigned int index, float value);
 };
 // If index is below the count at offset 0x34 and the pointer at 0x38 is non-null, writes value into the float slot at index*16 of that array.
 // @fnv 0x005f29f0
 void FUN_005f29f0_Class::SetValueAtIndex(unsigned int index, float value)
 {
-    if (index >= *(unsigned int*)((char*)this + 0x34))
+    if (index >= unk34)
         return;
-    if (!*(void**)((char*)this + 0x38))
+    if (!unk38)
         return;
-    *(float*)((char*)*(void**)((char*)this + 0x38) + index * 16) = value;
+    static_cast<FUN_005f29f0_Entry*>(unk38)[index].value = value;
 }
 
 struct FUN_005f2a30_Class
@@ -1281,14 +1343,13 @@ void FUN_005f2b20_Class::SetEntryFloat(unsigned int uiIndex, float fValue)
 
 struct FUN_005f6000_Class : TESChallenge
 {
-    int m_flags;
     void SetFlagAndMarkForSave(bool bFlag);
 };
 
 // @fnv 0x005f6000
 void FUN_005f6000_Class::SetFlagAndMarkForSave(bool abSet)
 {
-    !abSet ? *(int*)((char*)this + 0x70) &= ~2 : *(int*)((char*)this + 0x70) |= 2;
+    !abSet ? unk70 &= ~2 : unk70 |= 2;
     MarkForSave();
 }
 
@@ -1340,7 +1401,7 @@ struct FUN_005f6570 : public TESChallenge
 // @fnv 0x005f6570
 void FUN_005f6570::SetFlag(bool set)
 {
-    !set ? *(int*)((char*)this + 0x70) &= ~1 : *(int*)((char*)this + 0x70) |= 1;
+    !set ? unk70 &= ~1 : unk70 |= 1;
     MarkForSave();
 }
 
@@ -1583,6 +1644,8 @@ struct GlobalObject_0045cfe0
 };
 struct FUN_005fbeb0_shell
 {
+    char pad[0x154];
+    int unk154;
     int* FUN_005fbeb0();
 };
 // Returns the int pointed to by one of three global objects, chosen by the value at this+0x154 (2, 1 or 0); otherwise returns null.
@@ -1590,7 +1653,7 @@ struct FUN_005fbeb0_shell
 int* FUN_005fbeb0_shell::FUN_005fbeb0()
 {
     int* result = 0;
-    switch (*(int*)((char*)this + 0x154))
+    switch (unk154)
     {
     case 2:
         result = *((int **)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::GlobalObject_0045cfe0 *>(&::g_011cd3b4))))));
@@ -1615,13 +1678,15 @@ struct FUN_005ff560_shell
 };
 struct FUN_005ff5d0_class
 {
+    char pad[0x40];
+    unsigned int unk40;
     void FUN_005ff5d0(unsigned int a);
 };
 // If a is nonzero and the object's field at offset 0x40 is set, calls FUN_005ff520(a) and passes its result to RemoveChildAndRelinkNeighbors.
 // @fnv 0x005ff5d0
 void FUN_005ff5d0_class::FUN_005ff5d0(unsigned int uiValue)
 {
-    if (uiValue && *(unsigned int*)((char*)this + 0x40))
+    if (uiValue && unk40)
     {
         unsigned int r = ((FUN_005ff520_shell*)this)->FUN_005ff520(uiValue);
         ((FUN_005ff560_shell*)this)->RemoveChildAndRelinkNeighbors(r);
@@ -1777,6 +1842,18 @@ struct TESSaveLoadGame
 
 struct FUN_005f6f70_Class
 {
+
+    char pad[0x18];
+
+    FNStub unk18;
+
+    char pad19[0x13];
+
+    FNStub unk2c;
+
+    char pad2d[0x17];
+
+    char unk44[0x1c];
     void FUN_005f6f70();
 };
 
@@ -1853,20 +1930,26 @@ struct NiTMallocInterface_0096afc0
 };
 struct FUN_005e0a30_t
 {
+    void* vtbl;
+    void* unk04;
+    unsigned short unk08;
+    unsigned short unk0a;
+    unsigned short unk0c;
+    unsigned short unk0e;
     void* FUN_005e0a30(unsigned short a, unsigned short b);
 };
 // @fnv 0x005e0a30
 void* FUN_005e0a30_t::FUN_005e0a30(unsigned short ausCapacity, unsigned short b)
 {
-    *(void**)this = &::DAT_0103d418;
-    *(unsigned short*)((char*)this + 8) = ausCapacity;
-    *(unsigned short*)((char*)this + 14) = b;
-    *(unsigned short*)((char*)this + 10) = 0;
-    *(unsigned short*)((char*)this + 12) = 0;
-    if (*(unsigned short*)((char*)this + 8) > 0)
-        *(void**)((char*)this + 4) = (void*)NiTMallocInterface_0096afc0::Allocate(*(unsigned short*)((char*)this + 8));
+    vtbl = &::DAT_0103d418;
+    unk08 = ausCapacity;
+    unk0e = b;
+    unk0a = 0;
+    unk0c = 0;
+    if (unk08 > 0)
+        unk04 = (void*)NiTMallocInterface_0096afc0::Allocate(unk08);
     else
-        *(void**)((char*)this + 4) = 0;
+        unk04 = 0;
     return this;
 }
 }  // namespace fnv_005e0a30
@@ -2054,6 +2137,34 @@ void FUN_005e0b60(void* p)
 
 struct FUN_005e3fe0_class
 {
+
+    int unk00;
+
+    char pad04[0x10];
+
+    int unk14;
+
+    int unk18;
+
+    char pad1c[0xc];
+
+    int unk28;
+
+    int unk2c;
+
+    int unk30;
+
+    int unk34;
+
+    int unk38;
+
+    int unk3c;
+
+    int unk40;
+
+    char pad44[0xc];
+
+    int unk50;
     void SwapEndianFields();
 };
 
@@ -2061,17 +2172,17 @@ struct FUN_005e3fe0_class
 // @fnv 0x005e3fe0
 void FUN_005e3fe0_class::SwapEndianFields()
 {
-    ::FUN_00401080((int *)(unsigned char *)(reinterpret_cast<unsigned char*>(this)));
-    ::FUN_00401080((int *)(unsigned char *)(reinterpret_cast<unsigned char*>(this) + 0x14));
-    ::FUN_00401080((int *)(unsigned char *)(reinterpret_cast<unsigned char*>(this) + 0x18));
-    ::FUN_00401080((int *)(unsigned char *)(reinterpret_cast<unsigned char*>(this) + 0x28));
-    ::FUN_00401080((int *)(unsigned char *)(reinterpret_cast<unsigned char*>(this) + 0x2c));
-    ::FUN_00401080((int *)(unsigned char *)(reinterpret_cast<unsigned char*>(this) + 0x30));
-    ::FUN_00401080((int *)(unsigned char *)(reinterpret_cast<unsigned char*>(this) + 0x34));
-    ::FUN_00401080((int *)(unsigned char *)(reinterpret_cast<unsigned char*>(this) + 0x38));
-    ::FUN_00401080((int *)(unsigned char *)(reinterpret_cast<unsigned char*>(this) + 0x3c));
-    ::FUN_00401080((int *)(unsigned char *)(reinterpret_cast<unsigned char*>(this) + 0x40));
-    ::FUN_00401080((int *)(unsigned char *)(reinterpret_cast<unsigned char*>(this) + 0x50));
+    ::FUN_00401080(&unk00);
+    ::FUN_00401080(&unk14);
+    ::FUN_00401080(&unk18);
+    ::FUN_00401080(&unk28);
+    ::FUN_00401080(&unk2c);
+    ::FUN_00401080(&unk30);
+    ::FUN_00401080(&unk34);
+    ::FUN_00401080(&unk38);
+    ::FUN_00401080(&unk3c);
+    ::FUN_00401080(&unk40);
+    ::FUN_00401080(&unk50);
 }
 
 struct FUN_005eee10
@@ -3270,8 +3381,17 @@ bool B5FA120Checker::FUN_005fa120(B5FA120Form* pkForm)
     return false;
 }
 
+struct FUN_005fbdd0_Entry
+{
+    void* unk00;
+    void* unk04;
+};
 struct FUN_005fbdd0_cls
 {
+    char pad[0x64];
+    char unk64;
+    char pad65[0x150 - 0x65];
+    unsigned char unk150;
     void FUN_005fbdd0(::NiAVObject* apRoot);
     int FUN_00401170();
 };
@@ -3284,23 +3404,23 @@ void FUN_005fbdd0_cls::FUN_005fbdd0(::NiAVObject* apRoot)
     void* tmp;
     unsigned char flag_;
 
-    if (*(unsigned char*)((char*)this + 0x150) != 0 || apRoot == 0)
+    if (unk150 != 0 || apRoot == 0)
     {
         return;
     }
-    node2 = ((void *)(reinterpret_cast<::BaseProcess *>((((FUN_005fbdd0_cls*)((char*)this + 0x64))))->GetCurrentProcessData()));
+    node2 = ((void *)(reinterpret_cast<::BaseProcess *>((&unk64))->GetCurrentProcessData()));
     while (node2 != 0)
     {
         ptr = *(void**)((void *)(new ((void *)(((FUN_005fbdd0_cls*)node2))) ::Vec3()));
         flag_ = 0;
-        if (ptr != 0 && ((FUN_005fbdd0_cls*)((void**)ptr)[1])->FUN_00401170() == 0x28)
+        if (ptr != 0 && ((FUN_005fbdd0_cls*)static_cast<FUN_005fbdd0_Entry*>(ptr)->unk04)->FUN_00401170() == 0x28)
         {
-            tmp = ((void**)ptr)[1];
+            tmp = static_cast<FUN_005fbdd0_Entry*>(ptr)->unk04;
             if (((unsigned char)(reinterpret_cast<::FUN_0046e8c0_class *>((((FUN_005fbdd0_cls*)tmp)))->FUN_0046e8c0())) &&
                 ::FUN_004aae30(apRoot, (::NiFixedString *)(std::uintptr_t)(reinterpret_cast<::fnv_00522c00::FUN_00522c00_shell *>(tmp)->FUN_00522c00())) == 0)
             {
-                reinterpret_cast<::FUN_00481790_t *>((((FUN_005fbdd0_cls*)((char*)this + 0x64))))->FUN_00481790((::BGSPerkEntry *)(ptr));
-                node2 = ((void *)(reinterpret_cast<::BaseProcess *>((((FUN_005fbdd0_cls*)((char*)this + 0x64))))->GetCurrentProcessData()));
+                reinterpret_cast<::FUN_00481790_t *>((&unk64))->FUN_00481790((::BGSPerkEntry *)(ptr));
+                node2 = ((void *)(reinterpret_cast<::BaseProcess *>((&unk64))->GetCurrentProcessData()));
                 flag_ = 1;
             }
         }
@@ -3309,7 +3429,7 @@ void FUN_005fbdd0_cls::FUN_005fbdd0(::NiAVObject* apRoot)
             node2 = reinterpret_cast<::Callees *>((((FUN_005fbdd0_cls*)node2)))->FUN_00726070();
         }
     }
-    *(unsigned char*)((char*)this + 0x150) = 1;
+    unk150 = 1;
 }
 
 class B5FC120Form
@@ -4065,6 +4185,7 @@ struct BSStr
 };
 struct FUN_005e2c10_shell
 {
+    char pad[0x3c];
     BSStr m3c;
     bool SetString(const char* a);
 };
@@ -4072,7 +4193,7 @@ struct FUN_005e2c10_shell
 // @fnv 0x005e2c10
 bool FUN_005e2c10_shell::SetString(const char* apString)
 {
-    reinterpret_cast<::TextString *>((((BSStr*)((char*)this + 0x3c))))->FUN_004037f0(apString, 0);
+    reinterpret_cast<::TextString *>((&m3c))->FUN_004037f0(apString, 0);
     return true;
 }
 
@@ -4213,20 +4334,20 @@ struct FUN_00408da0_Class
 // @fnv 0x005f6f70
 void FUN_005f6f70_Class::FUN_005f6f70()
 {
-    reinterpret_cast<::FUN_008579b0_shell *>((g_TESSaveLoadGame))->FUN_008579b0((char*)this + 0x44, 0x1c);
+    reinterpret_cast<::FUN_008579b0_shell *>((g_TESSaveLoadGame))->FUN_008579b0(unk44, 0x1c);
     unsigned char a;
     a = 0;
-    if (((char *)(reinterpret_cast<::FUN_00408da0_Class *>((((FNStub*)((char*)this + 0x18))))->FUN_00408da0())))
-        a = ((int)(::FUN_0044a670(((char *)(reinterpret_cast<::FUN_00408da0_Class *>((((FNStub*)((char*)this + 0x18))))->FUN_00408da0())))));
+    if (((char *)(reinterpret_cast<::FUN_00408da0_Class *>((&unk18))->FUN_00408da0())))
+        a = ((int)(::FUN_0044a670(((char *)(reinterpret_cast<::FUN_00408da0_Class *>((&unk18))->FUN_00408da0())))));
     reinterpret_cast<::FUN_008579b0_shell *>((g_TESSaveLoadGame))->FUN_008579b0(&a, 1);
     if (a)
-        reinterpret_cast<::FUN_008579b0_shell *>((g_TESSaveLoadGame))->FUN_008579b0(((char *)(reinterpret_cast<::FUN_00408da0_Class *>((((FNStub*)((char*)this + 0x18))))->FUN_00408da0())), a);
+        reinterpret_cast<::FUN_008579b0_shell *>((g_TESSaveLoadGame))->FUN_008579b0(((char *)(reinterpret_cast<::FUN_00408da0_Class *>((&unk18))->FUN_00408da0())), a);
     a = 0;
-    if (((char *)(reinterpret_cast<::FUN_00408da0_Class *>((((FNStub*)((char*)this + 0x2c))))->FUN_00408da0())))
-        a = ((int)(::FUN_0044a670(((char *)(reinterpret_cast<::FUN_00408da0_Class *>((((FNStub*)((char*)this + 0x2c))))->FUN_00408da0())))));
+    if (((char *)(reinterpret_cast<::FUN_00408da0_Class *>((&unk2c))->FUN_00408da0())))
+        a = ((int)(::FUN_0044a670(((char *)(reinterpret_cast<::FUN_00408da0_Class *>((&unk2c))->FUN_00408da0())))));
     reinterpret_cast<::FUN_008579b0_shell *>((g_TESSaveLoadGame))->FUN_008579b0(&a, 1);
     if (a)
-        reinterpret_cast<::FUN_008579b0_shell *>((g_TESSaveLoadGame))->FUN_008579b0(((char *)(reinterpret_cast<::FUN_00408da0_Class *>((((FNStub*)((char*)this + 0x2c))))->FUN_00408da0())), a);
+        reinterpret_cast<::FUN_008579b0_shell *>((g_TESSaveLoadGame))->FUN_008579b0(((char *)(reinterpret_cast<::FUN_00408da0_Class *>((&unk2c))->FUN_00408da0())), a);
 }
 struct ListNodeHelper
 {
@@ -4407,13 +4528,17 @@ std::intptr_t FUN_005e50f0_Obj::GetValueByIndex(int index)
 
 struct FUN_005e5190_Class
 {
+
+    char pad[0x63];
+
+    unsigned char unk63;
     unsigned char GetByte63();
 };
 
 // @fnv 0x005e5190
 unsigned char FUN_005e5190_Class::GetByte63()
 {
-    return reinterpret_cast<unsigned char*>(this)[0x63];
+    return unk63;
 }
 
 struct Obj5e5300

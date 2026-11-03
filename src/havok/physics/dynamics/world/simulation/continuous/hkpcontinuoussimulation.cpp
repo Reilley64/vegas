@@ -265,7 +265,7 @@ void Controller::ProcessBodies(Body** bodies,int count,Context* context,int flag
  ::FUN_00d1a330((const ::CollisionContext *)(context->world()),(::EntityNode *const *)(bodies),count);
  }
  process(bodies,count,context,1);
- if(flags&2)::FUN_00d0d3f0((::Source **)this, (int)(bodies),(::RenderParams *)(count),context);
+ if(flags&2)::FUN_00d0d3f0((::Source **)(bodies), count, (::RenderParams *)(context), 0);
  if(flags&4)reinterpret_cast<::S_00d0f2e0 *>(this)->FUN_00d0f2e0(bodies,(void *)(count),context->world());
  else if(active)process(bodies,count,context,2);
  if(--context->depth()==0&&!context->locked()) {
@@ -2635,7 +2635,7 @@ void FUN_00d0ef40(ThisFull* th, void* edx_unused, StepArg arg)
     Arr28& arr = th->m_0c->m_aiIndexedValues;
     for (int i = 0; i < arr.m_uiItemCount; ++i) {
         BodyL* b = arr.m_data[i];
-        ::FUN_00d0d3f0((::Source **)(th), (int)(b->m_48), (::RenderParams *)(b->m_4c), th->m_0c);
+        ::FUN_00d0d3f0((::Source **)(b->m_48), b->m_4c, (::RenderParams *)(th->m_0c), 0);
         if (DAT_01269200 == 1) { ReleaseCtx(th->m_0c); TickWrite<1>(DAT_010c41f8, arg.tick); return; }
     }
     ReleaseCtx(th->m_0c);
@@ -5846,7 +5846,7 @@ __forceinline void Self::scan(const Island* island,const SolverFlagView& flags,A
 }
 __forceinline void Self::process(Arg0* world,Elem** data,int count,void* input) {
     if(count) {
-        ::FUN_00d0d3f0((::Source **)this, (int)(data),(::RenderParams *)(count),world);
+        ::FUN_00d0d3f0((::Source **)(data), count, (::RenderParams *)(world), 0);
         if(DAT_01269200!=1)notify(data,count,input,&m_arr30.unk0c);
     }
 }

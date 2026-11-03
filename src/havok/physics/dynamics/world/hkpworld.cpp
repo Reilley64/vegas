@@ -365,7 +365,7 @@ struct Data_00caa840 {
     unsigned int unkA4;
     unsigned int unkA8;
     unsigned int unkAC;
-    int m_b0;
+    ::C8A4B0Shape* m_b0;
     unsigned int unkB4;
     unsigned int unkB8;
     int m_bc;
@@ -390,7 +390,7 @@ void FUN_00caa840_shell::WriteToStream(Ctx_00caa840* ctx)
     SerializeValue(*ctx, d->m_c4);
     SerializeValue(*ctx, d->m_c8);
     SerializeValue(*ctx, d->m_bc);
-    ::SaveShape((::C8A4B0Shape *)this, (*(::C8A4B0Stream *)(d->m_b0)));
+    ::SaveShape(d->m_b0, (*(::C8A4B0Stream *)(ctx)));
     if (d->m_b0)
         SerializeValue(*ctx, d->m_a2);
 }

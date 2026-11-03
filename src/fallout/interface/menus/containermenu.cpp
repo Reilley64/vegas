@@ -5,7 +5,7 @@
 #include "fnv/simple_list_node_view.h"
 #include "fallout/interface/menu_fields.h"
 #include "fallout/interface/inventory_fields.h"
-#include "fallout/interface/dialogue_response_fields.h"
+#include "fnv/dialogue_response_fields.h"
 #include <new>
 #include <cstring>
 #include "fnv/decl/ActorSoundStub.h"
@@ -3479,7 +3479,7 @@ class PlaybackActor : public Actor
     virtual void slot278();
     virtual void slot27c();
     virtual void slot280();
-    virtual float PlayVoice(const char*, PlaybackHandle*, unsigned, unsigned, unsigned, unsigned, unsigned,
+    virtual float PlayVoice(const char*, PlaybackHandle*, unsigned, unsigned, unsigned, TESIdleForm*, TESIdleForm*,
                             ExpectedReference*, bool, bool, unsigned, unsigned, bool);
     PlaybackHandle GetActorSoundHandle(unsigned, unsigned, unsigned, bool);
 };
@@ -3637,8 +3637,8 @@ void PlaybackMenu::PlaySelectedTopicInfo(PlaybackTopic* topic)
             {
                 float duration = reinterpret_cast<PlaybackActor*>(_actor)->PlayVoice(
                     ((const char *)(::FUN_00559450((int *)(((::PlaybackString *)(::FUN_00460140((std::intptr_t)(_entry)))))))), reinterpret_cast<PlaybackHandle*>(&m_kFadeSequence),
-                    ((unsigned int)(reinterpret_cast<::DialogueResponseFields *>((_entry))->flags)), ((unsigned int)(reinterpret_cast<::DialogueResponseFields *>((_entry))->soundID)), ((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((void *)(((::PlaybackString *)(reinterpret_cast<::SimpleListNodeView*>(_entry)->m_item))))->FUN_004048e0())), ((unsigned int)(reinterpret_cast<::DialogueResponseFields *>((_entry))->emotion)),
-                    reinterpret_cast<::DialogueResponseFields *>((_entry))->emotionValue, (*reinterpret_cast<::ExpectedReference * *>(&::_g_thePlayer)), true, true, 0, 0, true);
+                    ((unsigned int)(reinterpret_cast<::DialogueResponseFields *>((_entry))->emotionType)), ((unsigned int)(reinterpret_cast<::DialogueResponseFields *>((_entry))->emotionValue)), ((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((void *)(((::PlaybackString *)(reinterpret_cast<::SimpleListNodeView*>(_entry)->m_item))))->FUN_004048e0())), reinterpret_cast<::DialogueResponseFields *>((_entry))->speakerIdle,
+                    reinterpret_cast<::DialogueResponseFields *>((_entry))->listenerIdle, (*reinterpret_cast<::ExpectedReference * *>(&::_g_thePlayer)), true, true, 0, 0, true);
             }
             reinterpret_cast<::MenuDeadline539 *>(this)->ShowMessageWithSound((*(::StrMem *)&(const ::PlaybackString &)(*((::PlaybackString *)(&reinterpret_cast<::SimpleListNodeView*>(_entry)->m_item)))), (*(::BSSoundHandleEx *)&(const ::PlaybackHandle &)(reinterpret_cast<PlaybackHandle&>(m_kFadeSequence))));
         }

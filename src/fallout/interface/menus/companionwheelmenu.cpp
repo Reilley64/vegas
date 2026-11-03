@@ -3,8 +3,8 @@
 #include <cstdint>
 #include "fnv/simple_list_node_view.h"
 #include "fallout/interface/inventory_fields.h"
-#include "fallout/interface/dialogue_response_fields.h"
-#include "fallout/interface/form_fields.h"
+#include "fnv/dialogue_response_fields.h"
+#include "fnv/form_fields.h"
 #include <new>
 #include <cstdio>
 #include <cstdlib>
@@ -1484,8 +1484,8 @@ struct CompActor
     virtual void v158();
     virtual void v159();
     virtual void v160();
-    virtual float Speak(const char* voicePath, unsigned int flags, unsigned int soundID, unsigned int textLen,
-                        int emotionType, int emotionValue, CompActor* target, bool a8, bool a9, bool a10, bool a11,
+    virtual float Speak(const char* voicePath, unsigned int emotionType, unsigned int emotionValue, unsigned int textLen,
+                        TESIdleForm* speakerIdle, TESIdleForm* listenerIdle, CompActor* target, bool a8, bool a9, bool a10, bool a11,
                         bool a12);
 
 };
@@ -1629,9 +1629,9 @@ void CompanionWheelStandin::PlayTopicResponse(TopicInfoStandin* topic)
             }
             else
             {
-                float duration = speaker->Speak(((const char *)(::FUN_00559450((int *)(((::SoundPath *)(::FUN_00460140((intptr_t)(response2)))))))), ((unsigned int)(reinterpret_cast<::DialogueResponseFields *>((response2))->flags)),
-                                                ((unsigned int)(reinterpret_cast<::DialogueResponseFields *>((response2))->soundID)), ((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>(&((*(::BSStringT *)(&reinterpret_cast<::SimpleListNodeView*>(response2)->m_item))))->FUN_004048e0())),
-                                                reinterpret_cast<::DialogueResponseFields *>((response2))->emotion, ((int)(reinterpret_cast<::DialogueResponseFields *>((response2))->emotionValue)),
+                float duration = speaker->Speak(((const char *)(::FUN_00559450((int *)(((::SoundPath *)(::FUN_00460140((intptr_t)(response2)))))))), ((unsigned int)(reinterpret_cast<::DialogueResponseFields *>((response2))->emotionType)),
+                                                ((unsigned int)(reinterpret_cast<::DialogueResponseFields *>((response2))->emotionValue)), ((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>(&((*(::BSStringT *)(&reinterpret_cast<::SimpleListNodeView*>(response2)->m_item))))->FUN_004048e0())),
+                                                reinterpret_cast<::DialogueResponseFields *>((response2))->speakerIdle, reinterpret_cast<::DialogueResponseFields *>((response2))->listenerIdle,
                                                 (CompActor*)(*reinterpret_cast<::Actor * *>(&::_g_thePlayer)), 1, 1, 0, 0, 1);
             }
             reinterpret_cast<::CWheelMenu_757690 *>(this)->SetItemTextAndValue((*(::CStringArg_757690 *)&(const ::BSStringT &)((*(::BSStringT *)(&reinterpret_cast<::SimpleListNodeView*>(response2)->m_item)))), (*(::CValueArg_757690 *)&(const ::SoundPlaybackHandle &)(sound)));

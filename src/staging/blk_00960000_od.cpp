@@ -499,12 +499,12 @@ void __cdecl FUN_0096afc0(int a)
 
 struct FUN_00977770_Class
 {
-    void FUN_00977770(float a, float b);
+    void FUN_00977770(void* a, void* b);
 };
 
 // Initializes three local variables to zero, zero and FLT_MAX; the values are unused.
 // @fnv 0x00977770
-void FUN_00977770_Class::FUN_00977770(float afValueA, float afValueB)
+void FUN_00977770_Class::FUN_00977770(void* apShooter, void* apProjectile)
 {
     int v3 = 0;
     int v1 = 0;

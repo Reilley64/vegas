@@ -7761,7 +7761,7 @@ bool ProjectileHit::ProcessHit(Obj* object, Vec const& point, Vec const& normal,
         hit->ref = object;
         hit->point = point;
         hit->normal = normal;
-        hit->collision = buffer ? ::FUN_004b59d0((const char *)(buffer)) : 0;
+        hit->collision = buffer ? const_cast<void *>(::FUN_004b59d0((const char *)(buffer))) : 0;
         if (hit->collision)
         {
             reinterpret_cast<::FUN_00c90510_class *>((((WorldObject*)hit->collision)))->FUN_00c90510();
@@ -12952,7 +12952,7 @@ void ProjPB::FUN_009becc0(float fUnused)
         RefPB* pkShooter = 0;
         if (((::RefPB *)(::FUN_00874480((char *)this))) && ((::RefPB *)(::FUN_00874480((char *)this)))->IsActor())
             pkShooter = ((::RefPB *)(::FUN_00874480((char *)this)));
-        reinterpret_cast<::FUN_00977770_Class *>(&((*reinterpret_cast<::TrackerPB *>(&::g_011e0e80))))->FUN_00977770((float)(pkShooter), (float)(this));
+        reinterpret_cast<::FUN_00977770_Class *>(&((*reinterpret_cast<::TrackerPB *>(&::g_011e0e80))))->FUN_00977770(pkShooter, this);
         m_bTracked = true;
     }
     if (!m_bNearPlayer && !reinterpret_cast<::FUN_00444d00_Class *>(this)->FUN_00444d00(1) && Get3D() && (*reinterpret_cast<::RefPB * *>(&::_g_thePlayer)))
@@ -13313,6 +13313,136 @@ struct S9c_Form
 };
 S9c_Pt __cdecl FUN_004a3760(float, const NiPoint3*);
 
+// The reference's vtable as far as FUN_009c0090 uses it: slot 0x7D is TESObjectREFR::GetPos.
+struct S9c_RefVtbl
+{
+    virtual void v000();
+    virtual void v001();
+    virtual void v002();
+    virtual void v003();
+    virtual void v004();
+    virtual void v005();
+    virtual void v006();
+    virtual void v007();
+    virtual void v008();
+    virtual void v009();
+    virtual void v00a();
+    virtual void v00b();
+    virtual void v00c();
+    virtual void v00d();
+    virtual void v00e();
+    virtual void v00f();
+    virtual void v010();
+    virtual void v011();
+    virtual void v012();
+    virtual void v013();
+    virtual void v014();
+    virtual void v015();
+    virtual void v016();
+    virtual void v017();
+    virtual void v018();
+    virtual void v019();
+    virtual void v01a();
+    virtual void v01b();
+    virtual void v01c();
+    virtual void v01d();
+    virtual void v01e();
+    virtual void v01f();
+    virtual void v020();
+    virtual void v021();
+    virtual void v022();
+    virtual void v023();
+    virtual void v024();
+    virtual void v025();
+    virtual void v026();
+    virtual void v027();
+    virtual void v028();
+    virtual void v029();
+    virtual void v02a();
+    virtual void v02b();
+    virtual void v02c();
+    virtual void v02d();
+    virtual void v02e();
+    virtual void v02f();
+    virtual void v030();
+    virtual void v031();
+    virtual void v032();
+    virtual void v033();
+    virtual void v034();
+    virtual void v035();
+    virtual void v036();
+    virtual void v037();
+    virtual void v038();
+    virtual void v039();
+    virtual void v03a();
+    virtual void v03b();
+    virtual void v03c();
+    virtual void v03d();
+    virtual void v03e();
+    virtual void v03f();
+    virtual void v040();
+    virtual void v041();
+    virtual void v042();
+    virtual void v043();
+    virtual void v044();
+    virtual void v045();
+    virtual void v046();
+    virtual void v047();
+    virtual void v048();
+    virtual void v049();
+    virtual void v04a();
+    virtual void v04b();
+    virtual void v04c();
+    virtual void v04d();
+    virtual void v04e();
+    virtual void v04f();
+    virtual void v050();
+    virtual void v051();
+    virtual void v052();
+    virtual void v053();
+    virtual void v054();
+    virtual void v055();
+    virtual void v056();
+    virtual void v057();
+    virtual void v058();
+    virtual void v059();
+    virtual void v05a();
+    virtual void v05b();
+    virtual void v05c();
+    virtual void v05d();
+    virtual void v05e();
+    virtual void v05f();
+    virtual void v060();
+    virtual void v061();
+    virtual void v062();
+    virtual void v063();
+    virtual void v064();
+    virtual void v065();
+    virtual void v066();
+    virtual void v067();
+    virtual void v068();
+    virtual void v069();
+    virtual void v06a();
+    virtual void v06b();
+    virtual void v06c();
+    virtual void v06d();
+    virtual void v06e();
+    virtual void v06f();
+    virtual void v070();
+    virtual void v071();
+    virtual void v072();
+    virtual void v073();
+    virtual void v074();
+    virtual void v075();
+    virtual void v076();
+    virtual void v077();
+    virtual void v078();
+    virtual void v079();
+    virtual void v07a();
+    virtual void v07b();
+    virtual void v07c();
+    virtual ::NiPoint3* GetPos() const;
+};
 // @fnv 0x009c0090
 bool S9c_Actor::FUN_009c0090()
 {
@@ -13324,8 +13454,8 @@ bool S9c_Actor::FUN_009c0090()
             return found;
         S9c_Obj* obj = ((::fnv_009c0090::S9c_Obj *)(reinterpret_cast<::ScriptLocals *>((target))->GetLocalData()));
         S9c_Geom* geom = obj ? ((::fnv_009c0090::S9c_Geom *)(reinterpret_cast<::LowProcess *>((obj))->GetPackageObjectType())) : 0;
-        NiPoint3 from = (*(::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(GetVirtualPosition()))->FUN_00439ef0((::NiPoint3 *)&(const ::NiPoint3 &)(FUN_004a3760(1.0f, &::DAT_011a9490)), *(const ::NiPoint3 *)nullptr)));
-        NiPoint3 to = (*(::NiPoint3 *)(reinterpret_cast<::Point3Offset *>((void *)(GetVirtualPosition()))->ProjectileLaunched((::NiPoint3 *)&(const ::NiPoint3 &)(FUN_004a3760(1.0f, &::DAT_011a9490)), {})));
+        NiPoint3 from = (*(::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(reinterpret_cast<S9c_RefVtbl *>(this)->GetPos()))->FUN_00439ef0(&ResultSlot(::NiPoint3()), (const ::NiPoint3 &)(FUN_004a3760(1.0f, &::DAT_011a9490)))));
+        NiPoint3 to = (*(::NiPoint3 *)(reinterpret_cast<::Point3Offset *>((void *)(reinterpret_cast<S9c_RefVtbl *>(this)->GetPos()))->ProjectileLaunched(&ResultSlot(::NiPoint3()), (::NiPoint3 *)&(const ::NiPoint3 &)(FUN_004a3760(1.0f, &::DAT_011a9490)))));
         S9c_Ray ray;
         ::fnv_004a3e00::FUN_004a3e00((*(::fnv_004a3e00::bhkCharacterController *)(&ray.from)), (*(const ::fnv_004a3e00::NiPoint3 *)(&from)));
         ::fnv_004a3e00::FUN_004a3e00((*(::fnv_004a3e00::bhkCharacterController *)(&ray.to)), (*(const ::fnv_004a3e00::NiPoint3 *)(&to)));

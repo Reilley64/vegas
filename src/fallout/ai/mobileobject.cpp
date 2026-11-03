@@ -1,5 +1,6 @@
 // fallout/ai/mobileobject.cpp: MobileObject, Actor, TESObjectREFR, VTableHelper and more (95 functions)
 
+#include "fnv/result_slot.h"
 #include <intrin.h>
 #include <new>
 #include <cmath>
@@ -6174,7 +6175,7 @@ bhkCharacterController* FUN_0092f260_shell::FUN_0092f260(float afDeltaTime, NiPo
     bool bsittingCheckSupport = uiSitState && pcon && ((int)(reinterpret_cast<::S00561730_Vector *>((((::fnv_0092f260::FUN_00561730_S *)(::FUN_0089d600((char *)(pcon))))))->FUN_00561730((const ::S00561730_Vector *)(void *)(::FUN_00458b20()), 0.001f)));
     bool bshouldSitStateUpdate = !uiSitState || bsittingCheckSupport;
     NiPoint3 diff = (const NiPoint3_ext&)*((MobileObject*)this)->GetPos() - FUN_0045bb80(((void *)(::FUN_00524c90())));
-    float flengthSqr = reinterpret_cast<::TESCombatStyle *>((void *)(diff))->UpdateCombatStyle();
+    float flengthSqr = reinterpret_cast<::TESCombatStyle *>((void *)&(diff))->UpdateCombatStyle();
     bool bisImmobile = pactor ? (((bool)(reinterpret_cast<::FUN_00437bd0_stub *>((pactor))->FUN_00437bd0())) || pactor->Unk_8B(false) ||
                                  ((MobileObjectVT*)pactor)->vfn_2E8() || pactor->Unk_8C())
                               : false;
@@ -6313,7 +6314,7 @@ bhkCharacterController* FUN_0092f260_shell::FUN_0092f260(float afDeltaTime, NiPo
                 reinterpret_cast<::VectorSourceB00 *>((((bhkCharControllerVT*)pcon)))->FUN_00812b00(&pos);
                 if (::FUN_008a5170((const ::_Dummy_008a5170 *)(::fnv_0092f260::CharFlags *)((CharFlags*)((char*)pcon + 0x410))) && !bdynamicMotionActor)
                     ((MobileObjectVT*)this)->vfn_2C4(kMoveData.Angle.z);
-                if (reinterpret_cast<::TESCombatStyle *>((void *)((const NiPoint3_ext&)pos - *((MobileObject*)this)->GetPos()))->UpdateCombatStyle() > DAT_0108a7a0)
+                if (reinterpret_cast<::TESCombatStyle *>((void *)&ResultSlot((const NiPoint3_ext&)pos - *((MobileObject*)this)->GetPos()))->UpdateCombatStyle() > DAT_0108a7a0)
                 {
                     pos = *((MobileObject*)this)->GetPos();
                     ((MobileObjectVT*)this)->vfn_2A8(&pos);
@@ -14381,6 +14382,14 @@ public:
     ::NiAVObject *GetAt(unsigned int);
 };
 
+// NiAVObject as far as FUN_0062b930 uses it: vtable slot 3 returns the object as a node, or null.
+struct SceneNodeQuery
+{
+    virtual void v0();
+    virtual void v4();
+    virtual void v8();
+    virtual NiNode* IsSceneNode();
+};
 // @fnv 0x0062b930
 void __cdecl FUN_0062b930(NiAVObject* apObject, Vec3Arg* apVec, bool abFlag)
 {
@@ -14405,7 +14414,7 @@ void __cdecl FUN_0062b930(NiAVObject* apObject, Vec3Arg* apVec, bool abFlag)
                 }
             }
         }
-        NiNode* k = apObject->IsSceneNode();
+        NiNode* k = reinterpret_cast<SceneNodeQuery*>(apObject)->IsSceneNode();
         if (k)
         {
             for (unsigned int ba = 0; ba < k->FUN_0043b480(); ba++)
@@ -14639,7 +14648,7 @@ void xRef::FUN_009ae280()
         xCinfo CINFO;
         xShape* SHAPE = new xShape(reinterpret_cast<::FUN_00644930_shell *>(this)->FUN_00644930(), true);
         CINFO.m_pCollisionShape = ::FUN_004ae750(SHAPE);
-        CINFO.m_uiFilterInfo = ((unsigned int)(::FUN_00559450((int *)&(xFilter(0x29, ::FUN_005dbe10(), 0)))));
+        CINFO.m_uiFilterInfo = ((unsigned int)(::FUN_00559450((int *)&ResultSlot(xFilter(0x29, ::FUN_005dbe10(), 0)))));
         if (FUN_1d0())
             reinterpret_cast<::FUN_009ae4a0_class *>(&(CINFO.m_20))->FUN_009ae4a0(((::xDH *)(::FUN_00461130((int)(FUN_1d0())))));
         else
@@ -16313,9 +16322,8 @@ struct Gravity {     unsigned int unk000;
     float acceleration;
 };
 struct AllocatorHolder { unsigned int unk00,unk04,unk08,unk0c; void* allocator; };
-AllocatorHolder* FUN_00c85750();
 __forceinline void HitArray::Append(const BooleanFloatQuery* src) {
-    AllocatorHolder* holder=FUN_00c85750();
+    AllocatorHolder* holder=(AllocatorHolder*)::FUN_00c85750();
     if(size==(capacity&0x3fffffff)) ::ResizeAudioStream((::AudioAllocator *)(holder->allocator),(::AudioStream *)(::HitArray *)(this),0x70);
     BooleanFloatQuery* dst=data+size;
     if(dst) {

@@ -1,5 +1,6 @@
 // fallout_shared/extradatalist.cpp: ExtraDataList, Owner, DelStandIn, ExtraPatrolRefData and more (578 functions)
 
+#include "fnv/save_load_game_view.h"
 #include "fnv_result_slot.h"
 #include "fnv/simple_array_item.h"
 #include <cstdint>
@@ -25717,37 +25718,37 @@ namespace extra_save {
 // @fnv 0x004235e0
 void SaveShell::FUN_004235e0(unsigned int flags, SForm* form)
 {
-    unsigned int blkA4;
+    char* blkA4;
     GenericExtra* extra;
-    unsigned int cnt;
+    char* cnt;
     short zero;
-    unsigned int kPosB;
+    char* kPosB;
     short count9;
     int tagA2;
 
     zero = 0;
     blkA4 = 0;
-    kPosB = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::extra_save::SSaveGame * *>(&::g_TESSaveLoadGame))))->FUN_00825c00();
+    kPosB = reinterpret_cast<SaveLoadGameView*>(((*reinterpret_cast<::extra_save::SSaveGame * *>(&::g_TESSaveLoadGame))))->pBufferCursor;
     if (*(*reinterpret_cast<::extra_save::DebugFlag *>(&::g_011de4e8)).FUN_00408d60())
     {
-        kPosB = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::extra_save::SSaveGame * *>(&::g_TESSaveLoadGame))))->FUN_00825c00();
+        kPosB = reinterpret_cast<SaveLoadGameView*>(((*reinterpret_cast<::extra_save::SSaveGame * *>(&::g_TESSaveLoadGame))))->pBufferCursor;
     }
     if (reinterpret_cast<::FUN_00862110_cls *>(((*reinterpret_cast<::extra_save::SSaveGame * *>(&::g_TESSaveLoadGame))))->FUN_00862110())
     {
         tagA2 = 0x424c4f4b;
         reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::extra_save::SSaveGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&tagA2, 4);
-        blkA4 = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::extra_save::SSaveGame * *>(&::g_TESSaveLoadGame))))->FUN_00825c00();
+        blkA4 = reinterpret_cast<SaveLoadGameView*>(((*reinterpret_cast<::extra_save::SSaveGame * *>(&::g_TESSaveLoadGame))))->pBufferCursor;
         reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::extra_save::SSaveGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&zero, 2);
     }
     reinterpret_cast<::FUN_0040fbf0_shell *>(&((*reinterpret_cast<::extra_save::SaveLock *>(&::g_011c3920))))->FUN_0040fbf0((char *)(0));
     count9 = 0;
-    cnt = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::extra_save::SSaveGame * *>(&::g_TESSaveLoadGame))))->FUN_00825c00();
+    cnt = reinterpret_cast<SaveLoadGameView*>(((*reinterpret_cast<::extra_save::SSaveGame * *>(&::g_TESSaveLoadGame))))->pBufferCursor;
     reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::extra_save::SSaveGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&count9, 2);
     extra = (GenericExtra*)pHead;
     while (extra)
     {
         unsigned char type = ((unsigned char)(reinterpret_cast<::PatrolActorPackageData *>((extra))->IsPatrolling()));
-        unsigned int before = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::extra_save::SSaveGame * *>(&::g_TESSaveLoadGame))))->FUN_00825c00();
+        char* before = reinterpret_cast<SaveLoadGameView*>(((*reinterpret_cast<::extra_save::SSaveGame * *>(&::g_TESSaveLoadGame))))->pBufferCursor;
         switch (((unsigned char)(reinterpret_cast<::PatrolActorPackageData *>((extra))->IsPatrolling())))
         {
         case 36:
@@ -25934,7 +25935,7 @@ void SaveShell::FUN_004235e0(unsigned int flags, SForm* form)
         case 27: {
             reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::extra_save::SSaveGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&type, 1);
             short n = 0;
-            std::uintptr_t pos2 = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::extra_save::SSaveGame * *>(&::g_TESSaveLoadGame))))->FUN_00825c00();
+            char* pos2 = reinterpret_cast<SaveLoadGameView*>(((*reinterpret_cast<::extra_save::SSaveGame * *>(&::g_TESSaveLoadGame))))->pBufferCursor;
             reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::extra_save::SSaveGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&n, 2);
             SExtraRunOncePacks* x = (SExtraRunOncePacks*)reinterpret_cast< ::ExtraRunOncePacks_rtti2*>((::BSExtraData*)extra);
             ListNode* kIter = x->list;
@@ -25974,7 +25975,7 @@ void SaveShell::FUN_004235e0(unsigned int flags, SForm* form)
             reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::extra_save::SSaveGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&type, 1);
             ::ExtraFollower_rtti2* x = reinterpret_cast< ::ExtraFollower_rtti2*>((::BSExtraData*)extra);
             short n = 0;
-            std::uintptr_t pos2 = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::extra_save::SSaveGame * *>(&::g_TESSaveLoadGame))))->FUN_00825c00();
+            char* pos2 = reinterpret_cast<SaveLoadGameView*>(((*reinterpret_cast<::extra_save::SSaveGame * *>(&::g_TESSaveLoadGame))))->pBufferCursor;
             reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::extra_save::SSaveGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&n, 2);
             FormNode* kIter = x->list;
             while (kIter && !kIter->FUN_008256d0())
@@ -26149,7 +26150,7 @@ void SaveShell::FUN_004235e0(unsigned int flags, SForm* form)
             reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::extra_save::SSaveGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&x->value, 1);
         }
         }
-        if (before != reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::extra_save::SSaveGame * *>(&::g_TESSaveLoadGame))))->FUN_00825c00())
+        if (before != reinterpret_cast<SaveLoadGameView*>(((*reinterpret_cast<::extra_save::SSaveGame * *>(&::g_TESSaveLoadGame))))->pBufferCursor)
         {
             count9++;
         }
@@ -26158,7 +26159,7 @@ void SaveShell::FUN_004235e0(unsigned int flags, SForm* form)
     *(short*)cnt = count9;
     if (*(*reinterpret_cast<::extra_save::DebugFlag *>(&::g_011de4e8)).FUN_00408d60())
     {
-        unsigned int endPos = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::extra_save::SSaveGame * *>(&::g_TESSaveLoadGame))))->FUN_00825c00();
+        char* endPos = reinterpret_cast<SaveLoadGameView*>(((*reinterpret_cast<::extra_save::SSaveGame * *>(&::g_TESSaveLoadGame))))->pBufferCursor;
         FormIDEntry* hdr = ((::extra_save::FormIDEntry *)(reinterpret_cast<::EffectSetting *>(((*reinterpret_cast<::extra_save::SSaveGame * *>(&::g_TESSaveLoadGame))))->GetHitSound()));
         if (hdr)
         {
@@ -26172,8 +26173,8 @@ void SaveShell::FUN_004235e0(unsigned int flags, SForm* form)
     }
     if (reinterpret_cast<::FUN_00862110_cls *>(((*reinterpret_cast<::extra_save::SSaveGame * *>(&::g_TESSaveLoadGame))))->FUN_00862110())
     {
-        unsigned int _end = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::extra_save::SSaveGame * *>(&::g_TESSaveLoadGame))))->FUN_00825c00();
-        unsigned int blk = blkA4;
+        char* _end = reinterpret_cast<SaveLoadGameView*>(((*reinterpret_cast<::extra_save::SSaveGame * *>(&::g_TESSaveLoadGame))))->pBufferCursor;
+        char* blk = blkA4;
         if (_end > blk + 0xffff)
         {
             ::FUN_005b5e40();

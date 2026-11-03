@@ -1,6 +1,7 @@
 // fallout_shared/teswater.cpp: BGSPlaceableWater, TESObjectCELL, WaterZoneManager, Owner and more (135 functions)
 
 #include "fnv_result_slot.h"
+#include "fnv/simple_array_item.h"
 #include <cstdint>
 #include <new>
 #include <cmath>
@@ -755,16 +756,10 @@ struct FUN_004ebbc0_shell : public ImageSpaceManager
     ImageSpaceEffect* FUN_004ebbc0(int);
 };
 
-template <class T, unsigned int N> class BSSimpleArray
-{
-  public:
-    T& GetAt(unsigned int);
-};
-
 // @fnv 0x004ebbc0
 ImageSpaceEffect* FUN_004ebbc0_shell::FUN_004ebbc0(int aiIndex)
 {
-    return *reinterpret_cast<ImageSpaceEffect**>(&((BSSimpleArray<unsigned int, 1024>*)pEffectList)->GetAt(aiIndex));
+    return SimpleArrayItem<ImageSpaceEffect*>(pEffectList, aiIndex);
 }
 
 extern double DAT_010231e8;

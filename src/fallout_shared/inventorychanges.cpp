@@ -1,5 +1,6 @@
 // fallout_shared/inventorychanges.cpp: Inventory, InventoryChanges, Target, TESBipedModelForm and more (144 functions)
 
+#include "fnv/save_load_game_view.h"
 #include <cstdint>
 #include <new>
 #include <cstdlib>
@@ -9110,33 +9111,33 @@ struct FUN_004d3ab0_cls
 void FUN_004d3ab0_cls::FUN_004d3ab0()
 {
     SForm* f1;
-    unsigned int endPos;
+    char* endPos;
     FormIDEntry* hdr;
     ItemChangeStub* item2;
     int kTag;
     short count_;
     ItemNode* aNode;
-    unsigned int kPosB;
+    char* kPosB;
     short zero;
-    unsigned int cnt;
-    unsigned int blk;
+    char* cnt;
+    char* blk;
 
     zero = 0;
     blk = 0;
-    kPosB = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::fnv_004d3ab0::SSaveGame * *>(&::g_TESSaveLoadGame))))->FUN_00825c00();
+    kPosB = reinterpret_cast<SaveLoadGameView*>(((*reinterpret_cast<::fnv_004d3ab0::SSaveGame * *>(&::g_TESSaveLoadGame))))->pBufferCursor;
     if (*(*reinterpret_cast<::fnv_004d3ab0::DebugFlag *>(&::g_011de4e8)).FUN_00408d60())
     {
-        kPosB = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::fnv_004d3ab0::SSaveGame * *>(&::g_TESSaveLoadGame))))->FUN_00825c00();
+        kPosB = reinterpret_cast<SaveLoadGameView*>(((*reinterpret_cast<::fnv_004d3ab0::SSaveGame * *>(&::g_TESSaveLoadGame))))->pBufferCursor;
     }
     if (reinterpret_cast<::FUN_00862110_cls *>(((*reinterpret_cast<::fnv_004d3ab0::SSaveGame * *>(&::g_TESSaveLoadGame))))->FUN_00862110())
     {
         kTag = 0x424c4f4b;
         reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_004d3ab0::SSaveGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&kTag, 4);
-        blk = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::fnv_004d3ab0::SSaveGame * *>(&::g_TESSaveLoadGame))))->FUN_00825c00();
+        blk = reinterpret_cast<SaveLoadGameView*>(((*reinterpret_cast<::fnv_004d3ab0::SSaveGame * *>(&::g_TESSaveLoadGame))))->pBufferCursor;
         reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_004d3ab0::SSaveGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&zero, 2);
     }
     count_ = 0;
-    cnt = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::fnv_004d3ab0::SSaveGame * *>(&::g_TESSaveLoadGame))))->FUN_00825c00();
+    cnt = reinterpret_cast<SaveLoadGameView*>(((*reinterpret_cast<::fnv_004d3ab0::SSaveGame * *>(&::g_TESSaveLoadGame))))->pBufferCursor;
     reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_004d3ab0::SSaveGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&count_, 2);
     aNode = (ItemNode*)m_pEntryList;
     while (aNode && !aNode->FUN_008256d0())
@@ -9152,7 +9153,7 @@ void FUN_004d3ab0_cls::FUN_004d3ab0()
     *(short*)cnt = count_;
     if (*(*reinterpret_cast<::fnv_004d3ab0::DebugFlag *>(&::g_011de4e8)).FUN_00408d60())
     {
-        endPos = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::fnv_004d3ab0::SSaveGame * *>(&::g_TESSaveLoadGame))))->FUN_00825c00();
+        endPos = reinterpret_cast<SaveLoadGameView*>(((*reinterpret_cast<::fnv_004d3ab0::SSaveGame * *>(&::g_TESSaveLoadGame))))->pBufferCursor;
         hdr = ((::fnv_004d3ab0::FormIDEntry *)(reinterpret_cast<::EffectSetting *>(((*reinterpret_cast<::fnv_004d3ab0::SSaveGame * *>(&::g_TESSaveLoadGame))))->GetHitSound()));
         if (hdr)
         {
@@ -9166,8 +9167,8 @@ void FUN_004d3ab0_cls::FUN_004d3ab0()
     }
     if (reinterpret_cast<::FUN_00862110_cls *>(((*reinterpret_cast<::fnv_004d3ab0::SSaveGame * *>(&::g_TESSaveLoadGame))))->FUN_00862110())
     {
-        unsigned int _end = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::fnv_004d3ab0::SSaveGame * *>(&::g_TESSaveLoadGame))))->FUN_00825c00();
-        unsigned int tmp = blk;
+        char* _end = reinterpret_cast<SaveLoadGameView*>(((*reinterpret_cast<::fnv_004d3ab0::SSaveGame * *>(&::g_TESSaveLoadGame))))->pBufferCursor;
+        char* tmp = blk;
         if (_end > tmp + 0xffff)
         {
             ::FUN_005b5e40();
@@ -16274,22 +16275,22 @@ struct SaveInventory
 void SaveInventory::FUN_004be6f0()
 {
     unsigned short blockSize_ = 0;
-    unsigned int blockStart6 = 0;
-    unsigned int start2 = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::fnv_004be6f0::SaveStream * *>(&::g_TESSaveLoadGame))))->FUN_00825c00();
+    char* blockStart6 = 0;
+    char* start2 = reinterpret_cast<SaveLoadGameView*>(((*reinterpret_cast<::fnv_004be6f0::SaveStream * *>(&::g_TESSaveLoadGame))))->pBufferCursor;
     if (*(*reinterpret_cast<::fnv_004be6f0::DebugSetting *>(&::g_011de4e8)).Bool())
-        start2 = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::fnv_004be6f0::SaveStream * *>(&::g_TESSaveLoadGame))))->FUN_00825c00();
+        start2 = reinterpret_cast<SaveLoadGameView*>(((*reinterpret_cast<::fnv_004be6f0::SaveStream * *>(&::g_TESSaveLoadGame))))->pBufferCursor;
     if (reinterpret_cast<::FUN_00862110_cls *>(((*reinterpret_cast<::fnv_004be6f0::SaveStream * *>(&::g_TESSaveLoadGame))))->FUN_00862110())
     {
         unsigned int tag5 = 0x424c4f4b;
         reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_004be6f0::SaveStream * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&tag5, 4);
-        blockStart6 = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::fnv_004be6f0::SaveStream * *>(&::g_TESSaveLoadGame))))->FUN_00825c00();
+        blockStart6 = reinterpret_cast<SaveLoadGameView*>(((*reinterpret_cast<::fnv_004be6f0::SaveStream * *>(&::g_TESSaveLoadGame))))->pBufferCursor;
         reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_004be6f0::SaveStream * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&blockSize_, 2);
     }
     unsigned int ownerID5 = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((container))->FUN_0084e3a0()));
     reinterpret_cast<::C857A10Buffer *>(((*reinterpret_cast<::fnv_004be6f0::SaveStream * *>(&::g_TESSaveLoadGame))))->FUN_00857a10((const unsigned int *)(void *)(&ownerID5), 4);
     reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_004be6f0::SaveStream * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&owner, 4);
     unsigned int count4 = 0;
-    unsigned int* countPos_ = (unsigned int*)reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::fnv_004be6f0::SaveStream * *>(&::g_TESSaveLoadGame))))->FUN_00825c00();
+    unsigned int* countPos_ = (unsigned int*)reinterpret_cast<SaveLoadGameView*>(((*reinterpret_cast<::fnv_004be6f0::SaveStream * *>(&::g_TESSaveLoadGame))))->pBufferCursor;
     reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_004be6f0::SaveStream * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&count4, 4);
     SavedNode* nodeB = changes;
     while (nodeB && !nodeB->Empty())
@@ -16302,7 +16303,7 @@ void SaveInventory::FUN_004be6f0()
     *countPos_ = count4;
     if (*(*reinterpret_cast<::fnv_004be6f0::DebugSetting *>(&::g_011de4e8)).Bool())
     {
-        unsigned int end_2 = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::fnv_004be6f0::SaveStream * *>(&::g_TESSaveLoadGame))))->FUN_00825c00();
+        char* end_2 = reinterpret_cast<SaveLoadGameView*>(((*reinterpret_cast<::fnv_004be6f0::SaveStream * *>(&::g_TESSaveLoadGame))))->pBufferCursor;
         SaveRecord* record_ = ((::fnv_004be6f0::SaveRecord *)(reinterpret_cast<::EffectSetting *>(((*reinterpret_cast<::fnv_004be6f0::SaveStream * *>(&::g_TESSaveLoadGame))))->GetHitSound()));
         if (record_)
         {
@@ -16316,8 +16317,8 @@ void SaveInventory::FUN_004be6f0()
     }
     if (reinterpret_cast<::FUN_00862110_cls *>(((*reinterpret_cast<::fnv_004be6f0::SaveStream * *>(&::g_TESSaveLoadGame))))->FUN_00862110())
     {
-        unsigned int endBlock5 = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::fnv_004be6f0::SaveStream * *>(&::g_TESSaveLoadGame))))->FUN_00825c00();
-        unsigned int beginBlock6 = blockStart6;
+        char* endBlock5 = reinterpret_cast<SaveLoadGameView*>(((*reinterpret_cast<::fnv_004be6f0::SaveStream * *>(&::g_TESSaveLoadGame))))->pBufferCursor;
+        char* beginBlock6 = blockStart6;
         if (endBlock5 > beginBlock6 + 0xffff)
             ::FUN_005b5e40();
         *(unsigned short*)blockStart6 = (unsigned short)(endBlock5 - beginBlock6);

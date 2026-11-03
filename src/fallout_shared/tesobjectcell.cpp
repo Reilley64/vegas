@@ -1,5 +1,6 @@
 // fallout_shared/tesobjectcell.cpp: TESObjectCELL, Owner, Cell, hkpEntityListener and more (325 functions)
 
+#include "fnv/save_load_game_view.h"
 #include "fnv_result_slot.h"
 #include <cstdint>
 #include <cstddef>
@@ -15232,11 +15233,11 @@ void CellSave::SaveCell(unsigned int changes)
     {
         unsigned int cellID;
         {
-            unsigned int blockStart;
+            char* blockStart;
             {
                 unsigned short blockSize;
                 {
-                    unsigned int start;
+                    char* start;
                     {
                         unsigned int marker;
                         {
@@ -15252,13 +15253,13 @@ void CellSave::SaveCell(unsigned int changes)
                                             {
                                                 LogRecord* record;
                                                 {
-                                                    unsigned int end;
+                                                    char* end;
                                                     {
                                                         FormVirtual* form;
                                                         {
-                                                            unsigned int finalPos;
+                                                            char* finalPos;
                                                             {
-                                                                unsigned int beginPos;
+                                                                char* beginPos;
                                                                 if (changes & 0x40000000)
                                                                 {
                                                                     cellID = reinterpret_cast<::FUN_00546af0_shell *>(this)->FUN_00546af0();
@@ -15267,14 +15268,14 @@ void CellSave::SaveCell(unsigned int changes)
                                                                 reinterpret_cast<::PC7d *>(this)->FUN_00484c20(changes);
                                                                 blockSize = 0;
                                                                 blockStart = 0;
-                                                                start = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((g_TESSaveLoadGame))->FUN_00825c00();
+                                                                start = reinterpret_cast<SaveLoadGameView*>((g_TESSaveLoadGame))->pBufferCursor;
                                                                 if (*reinterpret_cast<LogSetting&>(g_011de4e8).Bool())
-                                                                    start = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((g_TESSaveLoadGame))->FUN_00825c00();
+                                                                    start = reinterpret_cast<SaveLoadGameView*>((g_TESSaveLoadGame))->pBufferCursor;
                                                                 if (reinterpret_cast<::FUN_00862110_cls *>((g_TESSaveLoadGame))->FUN_00862110())
                                                                 {
                                                                     marker = 0x424c4f4b;
                                                                     reinterpret_cast<::FUN_008579b0_shell *>((g_TESSaveLoadGame))->FUN_008579b0(&marker, 4);
-                                                                    blockStart = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((g_TESSaveLoadGame))->FUN_00825c00();
+                                                                    blockStart = reinterpret_cast<SaveLoadGameView*>((g_TESSaveLoadGame))->pBufferCursor;
                                                                     reinterpret_cast<::FUN_008579b0_shell *>((g_TESSaveLoadGame))->FUN_008579b0(&blockSize, 2);
                                                                 }
                                                                 if (changes & 2)
@@ -15303,7 +15304,7 @@ void CellSave::SaveCell(unsigned int changes)
                                                                 }
                                                                 if (*reinterpret_cast<LogSetting&>(g_011de4e8).Bool())
                                                                 {
-                                                                    end = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((g_TESSaveLoadGame))->FUN_00825c00();
+                                                                    end = reinterpret_cast<SaveLoadGameView*>((g_TESSaveLoadGame))->pBufferCursor;
                                                                     record = ((::LogRecord *)(reinterpret_cast<::EffectSetting *>((g_TESSaveLoadGame))->GetHitSound()));
                                                                     if (record)
                                                                     {
@@ -15317,7 +15318,7 @@ void CellSave::SaveCell(unsigned int changes)
                                                                 }
                                                                 if (reinterpret_cast<::FUN_00862110_cls *>((g_TESSaveLoadGame))->FUN_00862110())
                                                                 {
-                                                                    finalPos = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((g_TESSaveLoadGame))->FUN_00825c00();
+                                                                    finalPos = reinterpret_cast<SaveLoadGameView*>((g_TESSaveLoadGame))->pBufferCursor;
                                                                     beginPos = blockStart;
                                                                     if (finalPos > beginPos + 0xffff)
                                                                         ::FUN_005b5e40(

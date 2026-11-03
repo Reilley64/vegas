@@ -126,14 +126,6 @@ struct RecordArray
     unsigned int count;
     unsigned int capacity;
 };
-struct MemoryManager
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    void* allocator;
-};
 struct FUN_00d9e450_class
 {
     int unk00;
@@ -150,15 +142,14 @@ struct FUN_00d9e450_class
     RecordArray records;
     void AppendRecord(void* first, void* second, void* third);
 };
-MemoryManager* __cdecl FUN_00885750();
 // Appends a record of three pointers to the records array, growing it via the allocator when count reaches capacity.
 // @fnv 0x00d9e450
 void FUN_00d9e450_class::AppendRecord(void* first, void* second, void* third)
 {
     RecordArray* array = &records;
-    MemoryManager* manager = FUN_00885750();
+    hkMemoryRouter* manager = &hkMemoryRouter::getInstance();
     if (array->count == (array->capacity & 0x3fffffff))
-        ::ResizeAudioStream((::AudioAllocator *)(manager->allocator), (::AudioStream *)(array), sizeof(Record));
+        ::ResizeAudioStream((::AudioAllocator *)(manager->m_heap), (::AudioStream *)(array), sizeof(Record));
     unsigned int index = array->count;
     Record* data = array->data;
     Record* slot = data + index;

@@ -3837,99 +3837,6 @@ static hkReal hk4dGskCollidePointWithPlaneFinal(const ConvexCollisionQueryData& 
     return out.m_Rt;
 }
 
-void __cdecl FUN_00db4e40(const ConvexCollisionQueryData& input, const ContactPointWeldingParameters& tol,
-                          ScalarVectorData& out)
-{
-    hkReal maxRt = 1.0f;
-    hkReal currentRt = input.m_fFinalQueryParameter;
-    hkReal previousRt = currentRt;
-    int numVertices = input.m_iStridedVertexCount;
-    while (numVertices)
-    {
-        CollisionSolverInput mat;
-        ::FUN_00db4b50(reinterpret_cast<S_00db4b50_A*>(const_cast<ConvexCollisionQueryData*>(&input)), currentRt, reinterpret_cast<S_00db4b50_Out*>(&mat));
-        hkVector4* vertex = input.m_akPackedVerticesA;
-        hkVector4* insert = vertex;
-        const hkReal restRt = 1.0f - currentRt;
-        const hkReal maxTravel = input.m_fStepTimeParameter * restRt;
-        hkReal nextRt = 1.0f;
-        int i = numVertices;
-        numVertices = 0;
-        for (i = i - 1; i >= 0; vertex += 1, i--)
-        {
-            hkVector4 toPlane;
-            toPlane.setSub4(*vertex, mat.m_pointOnPlaneA);
-            const hkReal distance = toPlane.dot4xyz1(mat.m_vPointOnPlaneB);
-            if (distance >= tol.m_fCreateContactThreshold + maxTravel)
-                continue;
-            hkVector4 relA;
-            relA.setSub4(*vertex, mat.m_massCenterA);
-            hkVector4 relB;
-            relB.setSub4(*vertex, mat.m_vMassCenterB);
-            hkVector4 crossA;
-            crossA.setCross(mat.m_deltaAnglesA[0], relA);
-            hkVector4 crossB;
-            crossB.setCross(mat.m_deltaAnglesA[1], relB);
-            hkVector4 velocity;
-            velocity.setSub4(crossA, mat.m_linearTimInfoA);
-            velocity.sub4(crossB);
-            const hkReal approach = velocity.dot3(mat.m_vPointOnPlaneB);
-            const hkReal gap = distance - tol.m_fCreateContactThreshold;
-            const hkReal atEnd = approach * restRt + gap;
-            const hkReal accelTerm = restRt * 0.5 * restRt * input.m_fSecondBasisScalar;
-            if (atEnd > accelTerm)
-                continue;
-            if (distance < tol.m_fCreateContactThreshold)
-            {
-                if (currentRt == input.m_fFinalQueryParameter)
-                {
-                    out.m_Rt = currentRt;
-                    out.m_collidePoint = *vertex;
-                    maxRt = currentRt;
-                }
-                else
-                {
-                    maxRt = hk4dGskCollidePointWithPlaneFinal(input, tol, *vertex, previousRt, currentRt, (*vertex)(3),
-                                                              distance, approach, out);
-                }
-                continue;
-            }
-            hkVector4 swapTemp = *vertex;
-            *vertex = *insert;
-            *insert = swapTemp;
-            (*insert)(3) = distance;
-            insert += 1;
-            numVertices++;
-            const hkReal safeDist = distance - tol.m_fMinimumTimeOfImpactDelta;
-            const hkReal minDist = tol.m_fCreateContactThreshold - tol.m_fMinimumTimeOfImpactDelta;
-            const hkReal d2 = safeDist * 2.0 * input.m_fThirdBasisScalar;
-            if (restRt * restRt <= d2)
-                continue;
-            const hkReal d3 = minDist * 2.0 * input.m_fThirdBasisScalar;
-            hkReal step = sqrtf(d2);
-            if (approach < 0.0f)
-            {
-                step += input.m_fThirdBasisScalar * approach + input.m_fThirdBasisScalar * approach;
-            }
-            else
-            {
-                step = ::FUN_00c98210(step, -approach * input.m_fThirdBasisScalar);
-            }
-            if (step >= restRt)
-                continue;
-            hkReal candidate = step + sqrtf(d3);
-            candidate = ::FUN_00c98210(candidate, tol.m_fMinimumSafeDeltaTime.val());
-            nextRt = MathUtilities::min2(nextRt, currentRt + candidate);
-        }
-        if (maxRt <= currentRt)
-            break;
-        if (nextRt == currentRt && maxRt > currentRt)
-            break;
-        previousRt = currentRt;
-        currentRt = nextRt;
-        nextRt = maxRt;
-    }
-}
 
 static __forceinline void hk4dGskCalcSeparatingNormal(const hkTransform& tA, const hkTransform& tB,
                                                       const hkpConvexShape* shapeA, const hkpConvexShape* shapeB,
@@ -4231,7 +4138,7 @@ static __forceinline void UpdateConvexShapePairCache(const AgentSubtypeMarker& i
                 if (collPInput.m_akPackedVerticesA.val())
                 {
                     ScalarVectorData collidePointsOut;
-                    FUN_00db4e40(collPInput, tol, collidePointsOut);
+                    ::FUN_00db4e40(reinterpret_cast<::SweepObj *>(&collPInput), reinterpret_cast<float *>(const_cast<ContactPointWeldingParameters*>(&tol)), reinterpret_cast<::SweepOut *>(&collidePointsOut));
                     hkDeallocateStack(collPInput.m_akPackedVerticesA.val());
                     if (collidePointsOut.m_Rt < 1.0f)
                     {
@@ -4359,7 +4266,7 @@ __declspec(noinline) void __cdecl FUN_00db60c0(const AgentSubtypeMarker& in3, co
                 collPInput.m_fFinalQueryParameter = Rt;
                 collPInput.m_fStepTimeParameter = worstCaseApproachingDelta;
                 ScalarVectorData collidePointsOut;
-                FUN_00db4e40(collPInput, tol, collidePointsOut);
+                ::FUN_00db4e40(reinterpret_cast<::SweepObj *>(&collPInput), reinterpret_cast<float *>(const_cast<ContactPointWeldingParameters*>(&tol)), reinterpret_cast<::SweepOut *>(&collidePointsOut));
                 const hkReal newSafeTimeStep = collidePointsOut.m_Rt - Rt;
                 if (newSafeTimeStep < safeTimeStep * 2.0)
                 {

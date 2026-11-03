@@ -8454,7 +8454,6 @@ static void MarkIndexedValues(int count, B10293_List* list, int** out, B10293_Ch
 int keep_alive_b10293(int count, B10293_List* list, int** out, B10293_Chain* chain, B10293_Ctx* ctx);
 static void FUN_00cb41e0(int*** indexMap, int** counts, ShapeList* list, int** flags);
 int keep_alive_b11420(ShapeList* list, int** flags, int*** indexMap, int** counts);
-void __cdecl FUN_00c908c0(void*, void*, int, int);
 static void RemapElements(const Cb4890_ElemArray& list, Cb4890_RemapTable* remap, Cb4890_Owner* owner,
                           Cb4890_IntArray* src, Cb4890_CharArray* out);
 void Cb4890_caller();
@@ -8468,8 +8467,6 @@ struct SplitIsland_Target;
 struct SplitIsland_Node2;
 extern "C" void _ReadWriteBarrier(void);
 // Partition physics island nodes into groups, relink owners, and redistribute stream records.
-void FUN_00c908c0(void* alloc, void* vec, int cap, int elemsz);
-void FUN_00c909d0(void* alloc, void* vec, int elemsz, void* p, int n);
 template <class T> __forceinline void SplitIsland_copyItems(T* destination, int n, const T& value)
 {
     for (int i = 0; i < n; ++i)
@@ -8487,7 +8484,7 @@ struct SplitIsland_Vec48
     __forceinline void SplitIsland_reserve(int n)
     {
         if ((cap & 0x3fffffff) < n)
-            FUN_00c908c0(hkMemoryRouter::getInstance().m_heap, this, n, int(sizeof(void*)));
+            ::FUN_00c908c0((::SpawnedObject *)(hkMemoryRouter::getInstance().m_heap), (::SpawnedArray *)(void *)(this), n, int(sizeof(void*)));
     }
     __forceinline void SplitIsland_append(void* value)
     {
@@ -8516,11 +8513,11 @@ struct SplitIsland_Vec48
             int wanted = (v | (v >> 1)) + 1;
             if (wanted < 1)
             {
-                FUN_00c909d0(hkMemoryRouter::getInstance().m_heap, this, int(sizeof(void*)), this + 1, 1);
+                ::fnv_00c909d0::FUN_00c909d0(*(::fnv_00c909d0::hkMemoryAllocator *)(hkMemoryRouter::getInstance().m_heap), this, int(sizeof(void*)), this + 1, 1);
             }
             else if (wanted < (capacity & 0x3fffffff))
             {
-                FUN_00c909d0(hkMemoryRouter::getInstance().m_heap, this, int(sizeof(void*)), 0, wanted);
+                ::fnv_00c909d0::FUN_00c909d0(*(::fnv_00c909d0::hkMemoryAllocator *)(hkMemoryRouter::getInstance().m_heap), this, int(sizeof(void*)), 0, wanted);
             }
         }
     }

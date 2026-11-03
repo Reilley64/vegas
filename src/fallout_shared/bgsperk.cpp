@@ -1,5 +1,6 @@
 // fallout_shared/bgsperk.cpp: BGSEntryPointPerkEntry, BGSPerk, BGSAbilityPerkEntry, BGSQuestPerkEntry and more (56 functions)
 
+#include <cstring>
 #include <new>
 #include "fnv/decl/Actor.h"
 #include "fnv/decl/Callees.h"

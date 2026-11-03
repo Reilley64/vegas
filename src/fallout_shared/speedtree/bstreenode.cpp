@@ -151,6 +151,13 @@
 #include "fnv/symbols_01011000.h"
 #include "fnv/symbols_01017000.h"
 #include <math.h>
+
+// The BSTreeNode field after its NiNode part that holds the tree geometry.
+struct TreeNodeGeometryView
+{
+    char niNode[0xf0];
+    void* spGeometry;
+};
 struct FUN_00622430_shell
 {
     unsigned int FUN_00622430();
@@ -281,7 +288,7 @@ struct PropHelper
 {
 };
 
-struct BSTreeNode
+struct BSTreeNode : ::TreeNodeGeometryView
 {
     BSTreeNode();
     ~BSTreeNode();
@@ -291,7 +298,7 @@ struct BSTreeNode
 // @fnv 0x0066be30
 bool BSTreeNode::FUN_0066be30(unsigned char acTest)
 {
-    if (!reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 0xf0)->operator void*())
+    if (!reinterpret_cast<Flt*>(&spGeometry)->operator void*())
     {
         return false;
     }
@@ -299,17 +306,17 @@ bool BSTreeNode::FUN_0066be30(unsigned char acTest)
     {
         reinterpret_cast<::TaskQueueInterface *>((reinterpret_cast<NiAVObject*>(
             reinterpret_cast<char*>(
-                reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 0xf0)->operator void*()))))->QueueActorDisarm(true);
+                reinterpret_cast<Flt*>(&spGeometry)->operator void*()))))->QueueActorDisarm(true);
     }
     else
     {
         reinterpret_cast<::TaskQueueInterface *>((reinterpret_cast<NiAVObject*>(
             reinterpret_cast<char*>(
-                reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 0xf0)->operator void*()))))->QueueActorDisarm(false);
+                reinterpret_cast<Flt*>(&spGeometry)->operator void*()))))->QueueActorDisarm(false);
         NiAlphaProperty* pprop = reinterpret_cast<NiAlphaProperty*>(
             ((void *)(reinterpret_cast<::FUN_00a59d30_C *>((reinterpret_cast<PropHelper*>(
                 reinterpret_cast<char*>(
-                    reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 0xf0)->operator void*()))))->FUN_00a59d30(0))));
+                    reinterpret_cast<Flt*>(&spGeometry)->operator void*()))))->FUN_00a59d30(0))));
         if (pprop)
         {
             pprop->FUN_0094db80(acTest);
@@ -470,7 +477,7 @@ struct Flt {
 
 struct NiTriBasedGeom;
 
-struct FUN_0066b620_shell
+struct FUN_0066b620_shell : ::TreeNodeGeometryView
 {
     NiTriBasedGeom* GetTriBasedGeom();
 };
@@ -478,7 +485,7 @@ struct FUN_0066b620_shell
 // @fnv 0x0066b620
 NiTriBasedGeom* FUN_0066b620_shell::GetTriBasedGeom()
 {
-    return (NiTriBasedGeom*)((Flt*)((char*)this + 0xf0))->operator void*();
+    return (NiTriBasedGeom*)reinterpret_cast<Flt*>(&spGeometry)->operator void*();
 }
 
 
@@ -647,15 +654,19 @@ struct FUN_0056e120_shell
 };
 struct FUN_0066d550_shell
 {
+    const void* pVtable;
+    unsigned int uiUnk04;
+    char pad08[0x10 - 0x08];
+    char kUnk10[4];
     void* Initialize();
 };
 // @fnv 0x0066d550
 void* FUN_0066d550_shell::Initialize()
 {
     ((void(*)(void*))FUN_004b5020)(this);
-    ((unsigned int*)this)[1] = 0;
-    ((void(*)(void*))FUN_0056e270)((char*)this + 0x10);
-    ((FUN_0056e120_shell*)((char*)this + 0x10))->FUN_0056e120();
+    uiUnk04 = 0;
+    ((void(*)(void*))FUN_0056e270)(kUnk10);
+    reinterpret_cast<FUN_0056e120_shell*>(kUnk10)->FUN_0056e120();
     return this;
 }
 
@@ -698,6 +709,8 @@ struct FUN_006299a0_shell
 };
 struct FUN_0066d770_shell
 {
+    const void* pVtable;
+    char kUnk04[4];
     void* FUN_0066d770();
 };
 // Calls StepAndReturnThis on this and FUN_006299a0 on the object at this+4, then returns this.
@@ -705,7 +718,7 @@ struct FUN_0066d770_shell
 void* FUN_0066d770_shell::FUN_0066d770()
 {
     reinterpret_cast<::FUN_0056e900_cls *>((((FUN_0056e900_shell*)this)))->StepAndReturnThis();
-    reinterpret_cast<::FUN_00629a80_Class *>((((FUN_006299a0_shell*)((char*)this + 4))))->FUN_006299a0();
+    reinterpret_cast<::FUN_00629a80_Class *>(reinterpret_cast<FUN_006299a0_shell*>(kUnk04))->FUN_006299a0();
     return this;
 }
 
@@ -812,7 +825,7 @@ struct PropHelper
 struct NiAVObjectProp
 {
 };
-struct FUN_0066bec0_shell
+struct FUN_0066bec0_shell : ::TreeNodeGeometryView
 {
     bool AttachTexturingProperty(NiTexturingProperty* apProp);
 };
@@ -821,16 +834,16 @@ struct FUN_0066bec0_shell
 bool FUN_0066bec0_shell::AttachTexturingProperty(NiTexturingProperty* apProp)
 {
     NiTexturingProperty* pprop = 0;
-    if (!(void*)(void*)(*(Flt*)((char*)this + 0xf0)) || !apProp)
+    if (!(void*)(void*)(*reinterpret_cast<Flt*>(&spGeometry)) || !apProp)
         return false;
-    pprop = (NiTexturingProperty*)((void *)(reinterpret_cast<::FUN_00a59d30_C *>((((PropHelper*)(void*)(*(Flt*)((char*)this + 0xf0)))))->FUN_00a59d30(5)));
+    pprop = (NiTexturingProperty*)((void *)(reinterpret_cast<::FUN_00a59d30_C *>((((PropHelper*)(void*)(*reinterpret_cast<Flt*>(&spGeometry)))))->FUN_00a59d30(5)));
     if (pprop)
     {
         if (pprop == apProp)
             return false;
-        reinterpret_cast<::ExtraOwnerB *>((((NiAVObjectProp*)(void*)(*(Flt*)((char*)this + 0xf0)))))->FUN_00a5b230(5);
+        reinterpret_cast<::ExtraOwnerB *>((((NiAVObjectProp*)(void*)(*reinterpret_cast<Flt*>(&spGeometry)))))->FUN_00a5b230(5);
     }
-    reinterpret_cast<::FUN_00439410_cls *>((((NiAVObjectProp*)(void*)(*(Flt*)((char*)this + 0xf0)))))->FUN_00439410((::ArgObject *)(apProp));
+    reinterpret_cast<::FUN_00439410_cls *>((((NiAVObjectProp*)(void*)(*reinterpret_cast<Flt*>(&spGeometry)))))->FUN_00439410((::ArgObject *)(apProp));
     return true;
 }
 
@@ -3120,12 +3133,19 @@ struct Obj
 
 
 
+// The size word operator new stores after the vtable pointer.
+struct AllocatedSizeView
+{
+    const void* pVtable;
+    short sAllocSize;
+};
+
 void* FUN_00d22dc0::operator new(std::size_t n)
 {
     Holder* h = ((Holder *)::FUN_00c85750());
     Alloc* allocator = h->unk10;
     void* p = allocator->Alloc_(n);
-    *(short*)((char*)p + 4) = (short)n;
+    static_cast<AllocatedSizeView*>(p)->sAllocSize = (short)n;
     return p;
 }
 
@@ -5509,6 +5529,8 @@ struct Pass
 {
     int unk000;
     char unk004;
+    char pad005[0x1e5 - 0x5];
+    char cUnk1e5;
 };
 
 // @fnv 0x00cb7b20
@@ -5517,7 +5539,7 @@ void Shader::FUN_00cb7b20(Pass* pass)
     Pass* p = pass;
     reinterpret_cast<::FUN_00c84d00_cls *>(this)->FUN_00c84d00((::FUN_00c84d00_obj *)(p));
     int* data = f45(&pass);
-    if (*((char*)p + 0x1e5) != 1)
+    if (p->cUnk1e5 != 1)
     {
         int r = f42();
         ::FUN_00cf0930(data, r, (::Vector3 *)(int *)(data + 1));

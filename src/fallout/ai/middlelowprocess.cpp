@@ -1,5 +1,6 @@
 // fallout/ai/middlelowprocess.cpp: MiddleLowProcess, StandIn, Holder, ProcStandIn (24 functions)
 
+#include "fnv/package_fields.h"
 #include <cstdint>
 #include <new>
 #include <cstdio>
@@ -2571,7 +2572,7 @@ void ProcStandIn::FUN_0092d050(Ref* apRef)
             if (GetAssignedPackage() != 0 && reinterpret_cast<::FUN_009611e0_shell *>((GetAssignedPackage()))->FUN_009611e0() != -1 && !::FUN_008a6290((const ::FUN_008a6290_S *)(pPkg)))
             {
                 reinterpret_cast<::LowProcess *>(this)->UpdateTargetFromPackage();
-                pInfoA = ((::fnv_0092d050::TargetInfo *)(reinterpret_cast<::BGSMessageInitAccess *>((GetAssignedPackage()))->GetIconFormID()));
+                pInfoA = ((::fnv_0092d050::TargetInfo *)(reinterpret_cast<::TESPackageFields *>((GetAssignedPackage()))->location));
                 pExt = 0;
                 char acBuffer[304];
                 switch (::DAT_011a3ff0[reinterpret_cast<::FUN_009611e0_shell *>((GetAssignedPackage()))->FUN_009611e0()][GetProcedureIndex()])
@@ -2623,7 +2624,7 @@ void ProcStandIn::FUN_0092d050(Ref* apRef)
                                                   (bool (*)(TESObjectREFR *, intptr_t))::LowProcess::HandlePackageTargetLoaded, (long)(std::intptr_t)pActor);
                         }
                         if ((pExt != 0 && ((intptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((pExt))->FUN_007af430())) == (*reinterpret_cast<int *>(&::DAT_011ca248))) ||
-                            (((::fnv_0092d050::TargetInfo *)(reinterpret_cast<::BGSMessageInitAccess *>((GetAssignedPackage()))->GetIconFormID())) != 0 && reinterpret_cast<::DurationData *>((((::fnv_0092d050::TargetInfo *)(reinterpret_cast<::BGSMessageInitAccess *>((GetAssignedPackage()))->GetIconFormID()))))->FUN_00678ca0() == 3))
+                            (((::fnv_0092d050::TargetInfo *)(reinterpret_cast<::TESPackageFields *>((GetAssignedPackage()))->location)) != 0 && reinterpret_cast<::DurationData *>((((::fnv_0092d050::TargetInfo *)(reinterpret_cast<::TESPackageFields *>((GetAssignedPackage()))->location))))->FUN_00678ca0() == 3))
                         {
                             float fAngleDifference = 0.0f;
                             if (pExt != 0)

@@ -1,5 +1,6 @@
 // fallout/ai/processlists.cpp: ProcessLists, ProcessListsEx, TESObjectREFR, BGSProjectile and more (133 functions)
 
+#include "fnv/package_fields.h"
 #include "fnv/simple_array_item.h"
 #include <windows.h>
 #include <new>
@@ -10961,22 +10962,22 @@ void FUN_0096f600_shell::FUN_0096f600(Actor* arg1, bool abClearPackageTargets)
                                 pkg = ((::fnv_0096f600::SandboxTargetInfo *)(reinterpret_cast<::FUN_009344a0_shell *>((((ActorTargetSource*)bed1)))->FUN_009344a0()));
                                 if (pkg != 0)
                                 {
-                                    if (((::fnv_0096f600::IdleForm67 *)(reinterpret_cast<::BGSMessageInitAccess *>((((ScriptGetText*)pkg)))->GetIconFormID())) != 0)
+                                    if (((::fnv_0096f600::IdleForm67 *)(reinterpret_cast<::TESPackageFields *>((((ScriptGetText*)pkg)))->location)) != 0)
                                     {
-                                        if (((::Actor *)(reinterpret_cast<::LocationDescriptor *>((((::fnv_0096f600::IdleForm67 *)(reinterpret_cast<::BGSMessageInitAccess *>((((ScriptGetText*)pkg)))->GetIconFormID()))))->GetLocationReference())) == arg1)
+                                        if (((::Actor *)(reinterpret_cast<::LocationDescriptor *>((((::fnv_0096f600::IdleForm67 *)(reinterpret_cast<::TESPackageFields *>((((ScriptGetText*)pkg)))->location))))->GetLocationReference())) == arg1)
                                         {
-                                            reinterpret_cast<::LocationDescriptor *>((((::fnv_0096f600::IdleForm67 *)(reinterpret_cast<::BGSMessageInitAccess *>((((ScriptGetText*)pkg)))->GetIconFormID()))))->FUN_0067f3c0((::TESObjectREFR *)(0));
+                                            reinterpret_cast<::LocationDescriptor *>((((::fnv_0096f600::IdleForm67 *)(reinterpret_cast<::TESPackageFields *>((((ScriptGetText*)pkg)))->location))))->FUN_0067f3c0((::TESObjectREFR *)(0));
                                         }
                                     }
                                 }
                                 TESPackage* pkg2 = mainProc->GetCurrentPackage();
                                 if (!!pkg2)
                                 {
-                                    if (((::fnv_0096f600::IdleForm67 *)(reinterpret_cast<::BGSMessageInitAccess *>((((ScriptGetText*)pkg2)))->GetIconFormID())) != 0)
+                                    if (((::fnv_0096f600::IdleForm67 *)(reinterpret_cast<::TESPackageFields *>((((ScriptGetText*)pkg2)))->location)) != 0)
                                     {
-                                        if (((::Actor *)(reinterpret_cast<::LocationDescriptor *>((((::fnv_0096f600::IdleForm67 *)(reinterpret_cast<::BGSMessageInitAccess *>((((ScriptGetText*)pkg2)))->GetIconFormID()))))->GetLocationReference())) == arg1)
+                                        if (((::Actor *)(reinterpret_cast<::LocationDescriptor *>((((::fnv_0096f600::IdleForm67 *)(reinterpret_cast<::TESPackageFields *>((((ScriptGetText*)pkg2)))->location))))->GetLocationReference())) == arg1)
                                         {
-                                            reinterpret_cast<::LocationDescriptor *>((((::fnv_0096f600::IdleForm67 *)(reinterpret_cast<::BGSMessageInitAccess *>((((ScriptGetText*)pkg2)))->GetIconFormID()))))->FUN_0067f3c0((::TESObjectREFR *)(0));
+                                            reinterpret_cast<::LocationDescriptor *>((((::fnv_0096f600::IdleForm67 *)(reinterpret_cast<::TESPackageFields *>((((ScriptGetText*)pkg2)))->location))))->FUN_0067f3c0((::TESObjectREFR *)(0));
                                         }
                                     }
                                 }

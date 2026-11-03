@@ -1,5 +1,6 @@
 // fallout/ai/highprocess.cpp: HighProcess, HighProcessStandIn, Process, HighProcessHack and more (352 functions)
 
+#include "fnv/package_fields.h"
 #include "fnv/vats_camera_data_view.h"
 #include <cstdint>
 #include "fnv/result_slot.h"
@@ -30478,7 +30479,7 @@ void Obj120::UpdatePackageExecution(Obj120* actor)
         {
             if (!((bool)(reinterpret_cast<::FUN_008df040_shell *>((package38))->FUN_008df040())))
             {
-                Obj120* location = ((::fnv_008dddf0::Obj120 *)(reinterpret_cast<::BGSMessageInitAccess *>((package38))->GetIconFormID()));
+                Obj120* location = ((::fnv_008dddf0::Obj120 *)(reinterpret_cast<::TESPackageFields *>((package38))->location));
                 if (reinterpret_cast<::DurationData *>((location))->FUN_00678ca0() == 1)
                     cell10 = ((::fnv_008dddf0::Obj120 *)(reinterpret_cast<::LocationDescriptor *>((location))->GetLocationCellReference()));
                 else if (reinterpret_cast<::DurationData *>((location))->FUN_00678ca0() == 0 || reinterpret_cast<::DurationData *>((location))->FUN_00678ca0() == 6)
@@ -32907,8 +32908,8 @@ void FollowProcess::FUN_008e0f80(FollowRef* actor, bool complete, int direction,
     float moveDistance7 = specialTarget8 ? nearDistance3 : ::FUN_00643f90(radius4);
     float minMove = moveDistance7 * 0.75;
     bool queued7 = false;
-    if (!targetRef4 || (reinterpret_cast<struct ::FUN_0041ca90 *>((packageTmp))->get() == 1 && ((::fnv_008e0f80::FollowPackageTarget *)(reinterpret_cast<::BGSMessageInitAccess *>((packageTmp))->GetIconFormID())) &&
-                        (reinterpret_cast<::DurationData *>((((::fnv_008e0f80::FollowPackageTarget *)(reinterpret_cast<::BGSMessageInitAccess *>((packageTmp))->GetIconFormID()))))->FUN_00678ca0() < 2 || reinterpret_cast<::DurationData *>((((::fnv_008e0f80::FollowPackageTarget *)(reinterpret_cast<::BGSMessageInitAccess *>((packageTmp))->GetIconFormID()))))->FUN_00678ca0() == 6) &&
+    if (!targetRef4 || (reinterpret_cast<struct ::FUN_0041ca90 *>((packageTmp))->get() == 1 && ((::fnv_008e0f80::FollowPackageTarget *)(reinterpret_cast<::TESPackageFields *>((packageTmp))->location)) &&
+                        (reinterpret_cast<::DurationData *>((((::fnv_008e0f80::FollowPackageTarget *)(reinterpret_cast<::TESPackageFields *>((packageTmp))->location))))->FUN_00678ca0() < 2 || reinterpret_cast<::DurationData *>((((::fnv_008e0f80::FollowPackageTarget *)(reinterpret_cast<::TESPackageFields *>((packageTmp))->location))))->FUN_00678ca0() == 6) &&
                         packageTmp->TestTarget(actor, 0, -1.0f, 0)))
     {
         if (complete)
@@ -35249,9 +35250,9 @@ void Process::ProcessActorMovement(Actor* actor)
     {
         float movementDistanceSlot0 = 0;
         Object* target = 0;
-        if (((::PackageMovement::Target *)(reinterpret_cast<::BGSMessageInitAccess *>((package))->GetIconFormID())))
+        if (((::PackageMovement::Target *)(reinterpret_cast<::TESPackageFields *>((package))->location)))
         {
-            Object* object = ((::PackageMovement::Object *)(reinterpret_cast<::LocationDescriptor *>((((::PackageMovement::Target *)(reinterpret_cast<::BGSMessageInitAccess *>((package))->GetIconFormID()))))->GetLocationReference()));
+            Object* object = ((::PackageMovement::Object *)(reinterpret_cast<::LocationDescriptor *>((((::PackageMovement::Target *)(reinterpret_cast<::TESPackageFields *>((package))->location))))->GetLocationReference()));
             if (!object)
                 object = Target();
             if (object && object->IsActor())
@@ -40579,7 +40580,7 @@ void Process63::FUN_008ed420(Actor63* actor, const Vec63* overridePosition, floa
     Actor63* target3 = 0;
     Vec63 destination16;
     package19->FUN_00675de0(destination16, actor);
-    Target63* packageTarget31 = ((::fnv_008ed420::Target63 *)(reinterpret_cast<::BGSMessageInitAccess *>((package19))->GetIconFormID()));
+    Target63* packageTarget31 = ((::fnv_008ed420::Target63 *)(reinterpret_cast<::TESPackageFields *>((package19))->location));
     if (packageTarget31)
     {
         target3 = ((::fnv_008ed420::Actor63 *)(reinterpret_cast<::LocationDescriptor *>((packageTarget31))->GetLocationReference()));
@@ -43006,7 +43007,7 @@ bool AIActor::CheckTargetAndCombat(AIActor* apTarget, int aiUnused, bool abEndPa
         return false;
     }
 
-    if (!m_pReference || (((::AIProcedure *)(reinterpret_cast<::BGSMessageInitAccess *>((pPackage2))->GetIconFormID())) && reinterpret_cast<::DurationData *>((((::AIProcedure *)(reinterpret_cast<::BGSMessageInitAccess *>((pPackage2))->GetIconFormID()))))->FUN_00678ca0() < 2 &&
+    if (!m_pReference || (((::AIProcedure *)(reinterpret_cast<::TESPackageFields *>((pPackage2))->location)) && reinterpret_cast<::DurationData *>((((::AIProcedure *)(reinterpret_cast<::TESPackageFields *>((pPackage2))->location))))->FUN_00678ca0() < 2 &&
                           pPackage2->CanReach(apTarget, 0, ::DAT_01012054, 0)))
     {
         if (abEndPackage)
@@ -44928,7 +44929,7 @@ void Obj124::FUN_008f4020(Obj124* ref, float time)
                         v288(actor18, 1);
                         again11 = false;
                         if ((target20 && ((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((target20))->FUN_007af430())) == (*reinterpret_cast<void * *>(&::DAT_011ca248))) ||
-                            (((::fnv_008f4020::Obj124 *)(reinterpret_cast<::BGSMessageInitAccess *>((package14))->GetIconFormID())) && reinterpret_cast<::DurationData *>((((::fnv_008f4020::Obj124 *)(reinterpret_cast<::BGSMessageInitAccess *>((package14))->GetIconFormID()))))->FUN_00678ca0() == 3 &&
+                            (((::fnv_008f4020::Obj124 *)(reinterpret_cast<::TESPackageFields *>((package14))->location)) && reinterpret_cast<::DurationData *>((((::fnv_008f4020::Obj124 *)(reinterpret_cast<::TESPackageFields *>((package14))->location))))->FUN_00678ca0() == 3 &&
                              !reinterpret_cast<::FUN_00915ef0_shell *>(this)->FUN_00915ef0((::Actor *)(actor18))))
                         {
                             float height = 0.f;
@@ -44942,8 +44943,8 @@ void Obj124::FUN_008f4020(Obj124* ref, float time)
                     else if (((bool)(reinterpret_cast<::TeleportableReference *>((actor18))->GetTeleportDestinationForm())))
                     {
                         Obj124* goal = 0;
-                        if (((::fnv_008f4020::Obj124 *)(reinterpret_cast<::BGSMessageInitAccess *>((package14))->GetIconFormID())))
-                            goal = ((::fnv_008f4020::Obj124 *)(reinterpret_cast<::LocationDescriptor *>((((::fnv_008f4020::Obj124 *)(reinterpret_cast<::BGSMessageInitAccess *>((package14))->GetIconFormID()))))->GetLocationReference()));
+                        if (((::fnv_008f4020::Obj124 *)(reinterpret_cast<::TESPackageFields *>((package14))->location)))
+                            goal = ((::fnv_008f4020::Obj124 *)(reinterpret_cast<::LocationDescriptor *>((((::fnv_008f4020::Obj124 *)(reinterpret_cast<::TESPackageFields *>((package14))->location))))->GetLocationReference()));
                         if (f44 && !v20c())
                             goal = f44;
                         if (actor18->v214() && !((::fnv_008f4020::Obj124 *)(reinterpret_cast<::FUN_009344a0_shell *>((actor18))->FUN_009344a0()))->v13c(actor18, 0, -1.f, 0))
@@ -44965,7 +44966,7 @@ void Obj124::FUN_008f4020(Obj124* ref, float time)
                                                            (const ::NiPoint3 &)(actor18->v1f4()), 5000.f, (bool (*)(TESObjectREFR *, intptr_t))(((void (&)(fnv_008f4020::Obj124 *))::LowProcess::HandlePackageTargetLoaded)), (intptr_t)(actor18));
                             v288(actor18, 1);
                             if (((goal && ((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((goal))->FUN_007af430())) == (*reinterpret_cast<void * *>(&::DAT_011ca248))) ||
-                                 (((::fnv_008f4020::Obj124 *)(reinterpret_cast<::BGSMessageInitAccess *>((package14))->GetIconFormID())) && reinterpret_cast<::DurationData *>((((::fnv_008f4020::Obj124 *)(reinterpret_cast<::BGSMessageInitAccess *>((package14))->GetIconFormID()))))->FUN_00678ca0() == 3)) &&
+                                 (((::fnv_008f4020::Obj124 *)(reinterpret_cast<::TESPackageFields *>((package14))->location)) && reinterpret_cast<::DurationData *>((((::fnv_008f4020::Obj124 *)(reinterpret_cast<::TESPackageFields *>((package14))->location))))->FUN_00678ca0() == 3)) &&
                                 !reinterpret_cast<::FUN_00915ef0_shell *>(this)->FUN_00915ef0((::Actor *)(actor18)))
                             {
                                 float height2 = 0.f;
@@ -46630,7 +46631,7 @@ bool Process::FUN_008f9320(Actor* actor)
     Form* formSlot25 = 0;
     Ref* reference = 0;
     int repetitionsSlot23 = 1;
-    PackageData* dataSlot11 = ((::BehaviorUpdate::PackageData *)(reinterpret_cast<::BGSMessageInitAccess *>((packageSlot2))->GetIconFormID()));
+    PackageData* dataSlot11 = ((::BehaviorUpdate::PackageData *)(reinterpret_cast<::TESPackageFields *>((packageSlot2))->location));
     void* extraSlot11 = ((void *)(::InventoryChanges::CreateForReference((::TESObjectREFR *)(actor))));
     TargetData* targetDataSlot10 = ((::BehaviorUpdate::TargetData *)(reinterpret_cast<::Script *>((packageSlot2))->GetData()));
     if (dataSlot11 && ((::BehaviorUpdate::Ref *)(reinterpret_cast<::LocationDescriptor *>((dataSlot11))->GetLocationReference())))
@@ -46814,7 +46815,7 @@ bool Process::FUN_008f9320(Actor* actor)
                 return true;
             }
             if (((reference && ((::BehaviorUpdate::Form *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((reference))->FUN_007af430())) == (*reinterpret_cast<::BehaviorUpdate::Form * *>(&::DAT_011ca248))) ||
-                 (((::BehaviorUpdate::PackageData *)(reinterpret_cast<::BGSMessageInitAccess *>((packageSlot2))->GetIconFormID())) && reinterpret_cast<::DurationData *>((((::BehaviorUpdate::PackageData *)(reinterpret_cast<::BGSMessageInitAccess *>((packageSlot2))->GetIconFormID()))))->FUN_00678ca0() == 3)) &&
+                 (((::BehaviorUpdate::PackageData *)(reinterpret_cast<::TESPackageFields *>((packageSlot2))->location)) && reinterpret_cast<::DurationData *>((((::BehaviorUpdate::PackageData *)(reinterpret_cast<::TESPackageFields *>((packageSlot2))->location))))->FUN_00678ca0() == 3)) &&
                 !reinterpret_cast<::FUN_00915ef0_shell *>(this)->FUN_00915ef0((::Actor *)(actor)) && actor->State() == 0 && !IsBusy())
             {
                 float headingSlot0 = 0.0f;
@@ -46884,7 +46885,7 @@ bool Process::FUN_008f9320(Actor* actor)
                 return true;
             }
             if ((reference && ((::BehaviorUpdate::Form *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((reference))->FUN_007af430())) == (*reinterpret_cast<::BehaviorUpdate::Form * *>(&::DAT_011ca248))) ||
-                (((::BehaviorUpdate::PackageData *)(reinterpret_cast<::BGSMessageInitAccess *>((packageSlot2))->GetIconFormID())) && reinterpret_cast<::DurationData *>((((::BehaviorUpdate::PackageData *)(reinterpret_cast<::BGSMessageInitAccess *>((packageSlot2))->GetIconFormID()))))->FUN_00678ca0() == 3))
+                (((::BehaviorUpdate::PackageData *)(reinterpret_cast<::TESPackageFields *>((packageSlot2))->location)) && reinterpret_cast<::DurationData *>((((::BehaviorUpdate::PackageData *)(reinterpret_cast<::TESPackageFields *>((packageSlot2))->location))))->FUN_00678ca0() == 3))
             {
                 float headingSlot0 = 0.0f;
                 if (reference)
@@ -60018,8 +60019,8 @@ void WalkProcess::ProcessPackageMovement(WalkActor* subject, bool force, bool up
     }
     else if (packageTypeLocal9 == 15 || packageTypeLocal9 == 28)
     {
-        if (!((::WalkTarget *)(reinterpret_cast<::BGSMessageInitAccess *>((package))->GetIconFormID())) ||
-            (((::WalkActor *)(reinterpret_cast<::fnv_00676140::FUN_00676140_shell *>((package))->FUN_00676140((::MobileObject *)(subject)))) == subject && reinterpret_cast<::DurationData *>((((::WalkTarget *)(reinterpret_cast<::BGSMessageInitAccess *>((package))->GetIconFormID()))))->FUN_00678ca0() != 3))
+        if (!((::WalkTarget *)(reinterpret_cast<::TESPackageFields *>((package))->location)) ||
+            (((::WalkActor *)(reinterpret_cast<::fnv_00676140::FUN_00676140_shell *>((package))->FUN_00676140((::MobileObject *)(subject)))) == subject && reinterpret_cast<::DurationData *>((((::WalkTarget *)(reinterpret_cast<::TESPackageFields *>((package))->location))))->FUN_00678ca0() != 3))
         {
             UpdatePackage(subject, true);
             return;
@@ -60033,8 +60034,8 @@ void WalkProcess::ProcessPackageMovement(WalkActor* subject, bool force, bool up
     WalkActor* reference2_2 = 0;
     if (location && ((::WalkTarget *)(reinterpret_cast<::FUN_00672dd0_shell *>((package))->FUN_00672dd0())))
         reference2_2 = ((::WalkActor *)(reinterpret_cast<::LocationDescriptor *>((((::WalkTarget *)(reinterpret_cast<::FUN_00672dd0_shell *>((package))->FUN_00672dd0()))))->GetLocationReference()));
-    else if (((::WalkTarget *)(reinterpret_cast<::BGSMessageInitAccess *>((package))->GetIconFormID())))
-        reference2_2 = ((::WalkActor *)(reinterpret_cast<::LocationDescriptor *>((((::WalkTarget *)(reinterpret_cast<::BGSMessageInitAccess *>((package))->GetIconFormID()))))->GetLocationReference()));
+    else if (((::WalkTarget *)(reinterpret_cast<::TESPackageFields *>((package))->location)))
+        reference2_2 = ((::WalkActor *)(reinterpret_cast<::LocationDescriptor *>((((::WalkTarget *)(reinterpret_cast<::TESPackageFields *>((package))->location))))->GetLocationReference()));
     if (!reference2_2 && fallback && !GetTargetState())
         reference2_2 = fallback;
     else
@@ -60242,7 +60243,7 @@ void WalkProcess::ProcessPackageMovement(WalkActor* subject, bool force, bool up
             ClearPath(subject);
             if (!stoppedPackage &&
                 ((reference2_2 && ((::WalkForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((reference2_2))->FUN_007af430())) == (*reinterpret_cast<::WalkForm * *>(&::DAT_011ca248))) ||
-                 (((::WalkTarget *)(reinterpret_cast<::BGSMessageInitAccess *>((package))->GetIconFormID())) && reinterpret_cast<::DurationData *>((((::WalkTarget *)(reinterpret_cast<::BGSMessageInitAccess *>((package))->GetIconFormID()))))->FUN_00678ca0() == 3)) &&
+                 (((::WalkTarget *)(reinterpret_cast<::TESPackageFields *>((package))->location)) && reinterpret_cast<::DurationData *>((((::WalkTarget *)(reinterpret_cast<::TESPackageFields *>((package))->location))))->FUN_00678ca0() == 3)) &&
                 !reinterpret_cast<::FUN_00915ef0_shell *>(this)->FUN_00915ef0((::Actor *)(subject)) && !subject->GetMovementState() && !IsTurning())
             {
                 float facing = 0.0f;
@@ -60373,9 +60374,9 @@ void WalkProcess::ProcessPackageMovement(WalkActor* subject, bool force, bool up
     {
         float targetDistance5 = 0.0f;
         WalkActor* movingTarget3 = 0;
-        if (((::WalkTarget *)(reinterpret_cast<::BGSMessageInitAccess *>((package))->GetIconFormID())))
+        if (((::WalkTarget *)(reinterpret_cast<::TESPackageFields *>((package))->location)))
         {
-            WalkActor* packageTarget = ((::WalkActor *)(reinterpret_cast<::LocationDescriptor *>((((::WalkTarget *)(reinterpret_cast<::BGSMessageInitAccess *>((package))->GetIconFormID()))))->GetLocationReference()));
+            WalkActor* packageTarget = ((::WalkActor *)(reinterpret_cast<::LocationDescriptor *>((((::WalkTarget *)(reinterpret_cast<::TESPackageFields *>((package))->location))))->GetLocationReference()));
             if (!packageTarget)
                 packageTarget = GetTarget();
             if (packageTarget && packageTarget->IsMobile())
@@ -67336,7 +67337,7 @@ bool UWProcess::FUN_008f7730(UWActor* actor)
     UWWeapon* weapon = 0;
     UWForm* useObject = 0;
     UWRef* locRef = 0;
-    UWPackageLocation* location3 = ((::UWPackageLocation *)(reinterpret_cast<::BGSMessageInitAccess *>((package))->GetIconFormID()));
+    UWPackageLocation* location3 = ((::UWPackageLocation *)(reinterpret_cast<::TESPackageFields *>((package))->location));
     UWInventoryChanges* pInventoryB = ((::UWInventoryChanges *)(::InventoryChanges::CreateForReference((::TESObjectREFR *)(actor))));
     UWPackageTarget* target = ((::UWPackageTarget *)(reinterpret_cast<::Script *>((package))->GetData()));
     UWUseWeaponData* kData = ((::UWUseWeaponData *)(reinterpret_cast<::TESPackageShell *>((package))->FUN_006758f0()));
@@ -69343,7 +69344,7 @@ void Self::FUN_00902290(Ref* actor)
     fDist5 = 0.0f;
     if (!actor->Is4b4())
     {
-        if (((int)(reinterpret_cast<::BGSMessageInitAccess *>((pPackage2))->GetIconFormID())))
+        if (((int)(reinterpret_cast<::TESPackageFields *>((pPackage2))->location)))
         {
             bOk4 = pPackage2->Try13c(actor, 0, -1.0f, 0);
             fDist5 = (float)reinterpret_cast<::HighProcess *>((pPackage2))->UpdateHighProcessState((::Actor *)(actor));

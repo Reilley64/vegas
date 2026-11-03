@@ -6,7 +6,7 @@ char *FUN_00d87220(char *, int, int);
 // 0x00d87290
 const void *FUN_00d87290(const void *, int, int);
 // 0x00d872c0
-int FUN_00d872c0(int *, int, int);
+short *FUN_00d872c0(short **, int, int);
 // 0x00d87350
 intptr_t FUN_00d87350(int *, int, int);
 // 0x00d87a40

@@ -51,10 +51,9 @@ void* FUN_00d872a0_t::FUN_00d872a0(int arg)
 }
 
 // @fnv 0x00d872c0
-int FUN_00d872c0(int* self, int edx, int offset)
+short* FUN_00d872c0(short** self, int edx, int offset)
 {
-    int base = *self;
-    return base + offset * 2;
+    return *self + offset;
 }
 
 struct FUN_00d87300_class
@@ -130,13 +129,13 @@ char* FUN_00d872d0_class::FUN_00d872d0(int index)
 
 struct CpuObject
 {
-    int value;
-    int FUN_00d872e0(int amount);
+    char* value;
+    signed char* FUN_00d872e0(int amount);
 };
 // @fnv 0x00d872e0
-int CpuObject::FUN_00d872e0(int amount)
+signed char* CpuObject::FUN_00d872e0(int amount)
 {
-    return value + amount;
+    return (signed char*)(value + amount);
 }
 
 struct FUN_00d87360_class
@@ -152,8 +151,8 @@ char* FUN_00d87360_class::FUN_00d87360(int index)
 
 struct Pair
 {
-    int first;
-    int second;
+    void* first;
+    void* second;
     Pair& FUN_00d873d0(const Pair& other);
 };
 
@@ -230,14 +229,14 @@ int& D87250Array::FUN_00d87250(int i)
 
 struct FUN_00d872f0_class
 {
-    int m_uiFilterValue;
-    int FUN_00d872f0(int offset);
+    char* m_uiFilterValue;
+    unsigned char* FUN_00d872f0(int offset);
 };
 
 // @fnv 0x00d872f0
-int FUN_00d872f0_class::FUN_00d872f0(int offset)
+unsigned char* FUN_00d872f0_class::FUN_00d872f0(int offset)
 {
-    return m_uiFilterValue + offset;
+    return (unsigned char*)(m_uiFilterValue + offset);
 }
 
 struct SearchObject

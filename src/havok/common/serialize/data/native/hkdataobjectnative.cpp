@@ -1462,11 +1462,11 @@ __int64 hkDataObjectNativeDBC3::GetMemberValueAsInt64(const hkClassMemberDBC3* p
         case hkClassMemberDBC3::TYPE_BOOL:
         case hkClassMemberDBC3::TYPE_CHAR:
         case hkClassMemberDBC3::TYPE_INT8:
-            return ((signed char)(reinterpret_cast<::CpuObject *>(&(kAccessor))->FUN_00d872e0(0)));
+            return *(reinterpret_cast<::CpuObject *>(&(kAccessor))->FUN_00d872e0(0));
         case hkClassMemberDBC3::TYPE_UINT8:
-            return ((unsigned char)(reinterpret_cast<::FUN_00d872f0_class *>(&(kAccessor))->FUN_00d872f0(0)));
+            return *(reinterpret_cast<::FUN_00d872f0_class *>(&(kAccessor))->FUN_00d872f0(0));
         case hkClassMemberDBC3::TYPE_INT16:
-            return ((short)(::FUN_00d872c0((int *)&(kAccessor), 0, {})));
+            return *::FUN_00d872c0((short **)&(kAccessor), 0, 0);
         case hkClassMemberDBC3::TYPE_UINT16:
             return *(unsigned short*)(reinterpret_cast<::FUN_00d872d0_class *>(&(kAccessor))->FUN_00d872d0(0));
         case hkClassMemberDBC3::TYPE_INT32:

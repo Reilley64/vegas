@@ -10,7 +10,7 @@ public:
     // 0x00cac910
     uintptr_t FUN_00cac910();
     // 0x00d872e0
-    int FUN_00d872e0(int);
+    signed char *FUN_00d872e0(int);
     // 0x00dba670
     bool FUN_00dba670();
     // 0x00ddcd70

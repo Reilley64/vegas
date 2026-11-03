@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include "havok/hkMemoryRouter.h"
+#include "havok/hkpTriangleShape.h"
 #include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
 #include <windows.h>
@@ -109,8 +110,8 @@ struct TargetAgent
         : m_usMemSizeAndFlags(0x20), m_sReferenceCount(1), m_pContactManager(mgr), m_padC(0xffff)
     {
         vtable = &(*reinterpret_cast<const void * *>(&::DAT_010cf060));
-        void* triangle = *(void**)bodyA;
-        FUN_00cd7160((char*)triangle + 0x20, m_pAccessManager);
+        const hkpTriangleShape* triangle = *(const hkpTriangleShape* const*)bodyA;
+        FUN_00cd7160(const_cast<hkVector4*>(&triangle->m_kVertexA), m_pAccessManager);
         vtable = &DAT_010cf09c;
     }
 };

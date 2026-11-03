@@ -4693,7 +4693,6 @@ void __cdecl FUN_00d01900(WorldD* world, RemovedEvent& event)
     FUN_00d00370(listen);
 }
 
-extern void*(* DAT_00fdf044)(unsigned long);
 struct ProfRecQ
 {
     const char* m_pName;
@@ -4751,7 +4750,7 @@ void __cdecl FUN_00d00b40(ListenerOwnerQ* pOwner, void* a2)
     int i = (int)state.arr->m_uiItemCount - 1;
     if (i >= 0)
     {
-        void*(* getBuf)(unsigned long) = DAT_00fdf044;
+        decltype(&TlsGetValue) getBuf = &TlsGetValue;
         do
         {
             ListenerObjQ* pItem = state.arr->m_ppItems[i];
@@ -4790,7 +4789,6 @@ void __cdecl FUN_00d00b40(ListenerOwnerQ* pOwner, void* a2)
 // Based on an unverified 2026-10-22 contribution.
 extern "C" void _ReadWriteBarrier(void);
 extern DWORD DAT_0126835c;
-extern LPVOID(WINAPI* DAT_00fdf044)(DWORD);
 unsigned __int64 __cdecl __rdtsc(void);
 struct S00d01850_Out
 {
@@ -4933,7 +4931,7 @@ void __cdecl FUN_00d01850(S00d01850_Owner* pOwner, S00d01850_Out* pOut)
     int i = pCallbacks->m_iElementCount - 1;
     if (i >= 0)
     {
-        LPVOID(WINAPI * pfnTls)(DWORD) = DAT_00fdf044;
+        decltype(&TlsGetValue) pfnTls = &TlsGetValue;
         for (; i >= 0; --i)
         {
             if (pCallbacks->m_data[i] != 0)

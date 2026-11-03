@@ -1274,7 +1274,7 @@ struct MainObj {
 };
 struct Stream { int unk0; char* pos; int unk8; char* cap; };
 struct TimerEvent { const char* tag; u32 stamp; u32 unk08; const char* subtag; };
-typedef void* (*TlsFn)(unsigned long);
+using TlsFn = decltype(&TlsGetValue);
 static __forceinline void record16(TlsFn get,volatile u32& t){
  Stream* s=(Stream*)get(::DAT_0126835c); TimerEvent* p=(TimerEvent*)s->pos;
  if((char*)p < s->cap){ p->tag=::DAT_010cc624; p->subtag=str_010cc618; _ReadWriteBarrier(); t=(u32)__rdtsc(); p->stamp=t; s->pos=reinterpret_cast<char*>(p+1); }

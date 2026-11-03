@@ -2992,7 +2992,7 @@ void CollectorState::FUN_00d984b0(void* arg1, Obj* arg2, Vertex* arg3, void* arg
 // Records a monitor event, calls FUN_00d09df0 on first update or FUN_00d099d0 otherwise, sets dirty, and records a closing monitor event.
 // @fnv 0x00d0a060
 void UpdateOwner::FUN_00d0a060(void* a, void* b) {
-    void* (*getTls)(unsigned long) = TlsGetValue;
+    decltype(&TlsGetValue) getTls = &TlsGetValue;
     MonitorStream* stream = (MonitorStream*)getTls((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
     MonitorEvent* event = stream->current;
     if (event < stream->end) {

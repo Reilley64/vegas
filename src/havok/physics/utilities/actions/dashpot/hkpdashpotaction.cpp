@@ -84,7 +84,7 @@ extern double DAT_010d09b8;
 namespace DashpotApplyDetail {
 
 
-typedef void* (*DashpotApplyTlsGetter)(unsigned long dwTlsIndex);
+using DashpotApplyTlsGetter = decltype(&TlsGetValue);
 
 static inline __m128 dashpotApplyBroadcast(float f) { __m128 t = _mm_load_ss(&f); return _mm_shuffle_ps(t,t,0); }
 

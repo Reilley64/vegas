@@ -5372,7 +5372,10 @@ __declspec(noinline) KnotVector KnotVector::ScaleCopy(float f) const {KnotVector
 __declspec(noinline) KnotVector KnotVector::EvalCopy(float f) const {KnotVector a=*this;return a.DivideByScalar(f);}
 __declspec(noinline) KnotVector FUN_00e533a0(float f,const KnotVector& v) {return v.ScaleCopy(f);}
 
-float __cdecl FUN_00e54ba0(const KnotVector&,const KnotVector&);
+inline float FUN_00e54ba0(const KnotVector& a, const KnotVector& b)
+{
+    return ::FUN_00e54ba0(reinterpret_cast<const FUN_00e54ad0_cls&>(a), reinterpret_cast<const FUN_00e54ad0_cls&>(b));
+}
 
 
 struct CurveArray { float* data; int size; int capacity; };
@@ -7954,7 +7957,10 @@ __declspec(noinline) RemovalVector RemovalVector::operator*(float f) const {Remo
 __declspec(noinline) RemovalVector RemovalVector::operator/(float f) const {RemovalVector a=*this;return a.divide(f);}
 __declspec(noinline) RemovalVector operator*(float f,const RemovalVector& v) {return v*f;}
 
-float FUN_00e54ba0(const RemovalVector&,const RemovalVector&);
+inline float FUN_00e54ba0(const RemovalVector& a, const RemovalVector& b)
+{
+    return ::FUN_00e54ba0(reinterpret_cast<const FUN_00e54ad0_cls&>(a), reinterpret_cast<const FUN_00e54ad0_cls&>(b));
+}
 
 
 template<class T> struct KnotArray {

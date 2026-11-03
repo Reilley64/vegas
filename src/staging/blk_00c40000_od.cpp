@@ -8572,7 +8572,7 @@ struct NodeQueue {
     TaggedNodePtr m_kSecond;
     TaggedNodePtr m_kFirst;
 
-    bool FUN_00c42560(intptr_t arg, NodeKey* pKey, RefPtr* pOut);
+    bool FUN_00c42560(int arg, NodeKey* pKey, RefPtr* pOut);
 };
 
 struct FUN_00c42560_pad {
@@ -13383,7 +13383,7 @@ bool QueueSearch::FUN_00c416a0(int index, NodeKey key)
 
 
 // @fnv 0x00c42560
-bool NodeQueue::FUN_00c42560(intptr_t arg, NodeKey* pKey, RefPtr* pOut)
+bool NodeQueue::FUN_00c42560(int arg, NodeKey* pKey, RefPtr* pOut)
 {
     FUN_00c42560_pad pad;
     bool it;
@@ -15076,7 +15076,7 @@ struct BucketMap
     virtual void v9();
     virtual void v10();
     virtual void v11();
-    virtual void Visit(unsigned __int64, int);
+    virtual void Visit(unsigned __int64, intptr_t);
     int unk04, unk08;
     TaggedPointer* buckets;
 };
@@ -15089,7 +15089,7 @@ struct Iterator
     MapEntry** hazard2;
     TaggedPointer* slot;
     TaggedPointer current;
-    bool FUN_00c42380(uintptr_t, int, ObjectRef&);
+    bool FUN_00c42380(unsigned int, intptr_t, ObjectRef&);
 };
 
 // @fnv 0x00c40e70
@@ -15107,12 +15107,12 @@ bool Map40::FUN_00c40e70(Iter40* it, __int64* out, intptr_t arg, bool b)
         {
             if (!it->GetFlag1())
             {
-                r = reinterpret_cast<::Iterator *>((((::Bucket40 *)(reinterpret_cast<::FUN_00c3f750_Class *>(this)->FUN_00c3f750()))))->FUN_00c42380((uintptr_t)(&it->key), arg, *(::ObjectRef *)nullptr);
+                r = reinterpret_cast<::Iterator *>((((::Bucket40 *)(reinterpret_cast<::FUN_00c3f750_Class *>(this)->FUN_00c3f750()))))->FUN_00c42380(it->idx, (intptr_t)(&it->key), *(::ObjectRef *)(arg));
                 it->SetFlag1(true);
             }
             else
             {
-                r = reinterpret_cast<::NodeQueue *>((((::Bucket40 *)(reinterpret_cast<::FUN_00c3f750_Class *>(this)->FUN_00c3f750()))))->FUN_00c42560((intptr_t)(&it->key), (::NodeKey *)(arg), {});
+                r = reinterpret_cast<::NodeQueue *>((((::Bucket40 *)(reinterpret_cast<::FUN_00c3f750_Class *>(this)->FUN_00c3f750()))))->FUN_00c42560(it->idx, (::NodeKey *)(&it->key), (::RefPtr *)(arg));
             }
             if (!r)
             {
@@ -15139,7 +15139,7 @@ bool Map40::FUN_00c40e70(Iter40* it, __int64* out, intptr_t arg, bool b)
 }
 
 // @fnv 0x00c42380
-bool Iterator::FUN_00c42380(uintptr_t index, int context, ObjectRef& output)
+bool Iterator::FUN_00c42380(unsigned int index, intptr_t context, ObjectRef& output)
 {
     bool success = false;
     while (true)

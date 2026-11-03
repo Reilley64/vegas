@@ -1034,14 +1034,14 @@ void FUN_00c90510_class::FUN_00c90510()
 
     if (state->m_multiThreaded == one)
     {
-        int(* getValue)(int) = DAT_00fdf044;
-        int value = getValue(DAT_012681d8);
+        void*(* getValue)(unsigned long) = reinterpret_cast<void*(*)(unsigned long)>(DAT_00fdf044);
+        uintptr_t value = (uintptr_t)getValue(DAT_012681d8);
 
         if (value != 0x23df4554)
         {
-            value = getValue(DAT_012681d8);
+            value = (uintptr_t)getValue(DAT_012681d8);
 
-            int(* setValue)(int, int) = DAT_00fdf04c;
+            int(* setValue)(unsigned long, void*) = reinterpret_cast<int(*)(unsigned long, void*)>(DAT_00fdf04c);
 
             if (value == 0x23df4554)
             {
@@ -1051,7 +1051,7 @@ void FUN_00c90510_class::FUN_00c90510()
             {
                 DAT_00fdf05c(&state->m_kCriticalSection);
                 state->m_lLockCount = one;
-                setValue(DAT_012681d8, 0x23df4554);
+                setValue(DAT_012681d8, (void*)(uintptr_t)0x23df4554);
             }
 
             m_uCount += one;
@@ -1059,7 +1059,7 @@ void FUN_00c90510_class::FUN_00c90510()
 
             if (state->m_lLockCount <= 0)
             {
-                setValue(DAT_012681d8, 0);
+                setValue(DAT_012681d8, nullptr);
                 DAT_00fdf100(&state->m_kCriticalSection);
             }
 

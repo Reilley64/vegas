@@ -985,14 +985,19 @@ struct VecP
         DB7F50Allocator& alloc = (*static_cast<DB7F50MemoryRouter*>(::FUN_00c85750())).heap();
         m_iArrayLength = 0;
         if ((m_iCapacity & 0x80000000) == 0)
-            alloc.ReturnMemory(m_pData, (m_iCapacity & 0x3fffffff) * 4);
+            alloc.ReturnMemory(m_pData, (m_iCapacity & 0x3fffffff) * sizeof(void*));
         m_pData = 0;
         m_iCapacity = (int)0x80000000;
     }
 };
+struct NameVersionPair
+{
+    intptr_t name;
+    int version;
+};
 struct VecPair
 {
-    int* m_pData;
+    NameVersionPair* m_pData;
     int m_iArrayLength;
     int m_iCapacity;
     void release(AllocObj& allocator, int elementBytes)
@@ -1007,7 +1012,7 @@ struct VecPair
         DB7F50Allocator& alloc = (*static_cast<DB7F50MemoryRouter*>(::FUN_00c85750())).heap();
         m_iArrayLength = 0;
         if ((m_iCapacity & 0x80000000) == 0)
-            alloc.ReturnMemory(m_pData, (m_iCapacity & 0x3fffffff) * 8);
+            alloc.ReturnMemory(m_pData, (m_iCapacity & 0x3fffffff) * sizeof(NameVersionPair));
         m_pData = 0;
         m_iCapacity = (int)0x80000000;
     }
@@ -1255,18 +1260,18 @@ int This::ProcessVersionPatches(ArgA* apSource, ArgA* argB, VecP* apOutput)
     int initialCount = pSource.m_iArrayLength;
     AudioHolder* initialHolder = ((AudioHolder*)&(*static_cast<DB7F50MemoryRouter*>(::FUN_00c85750())));
     if ((pairs.m_iCapacity & 0x3fffffff) < initialCount)
-        ::FUN_00c908c0((::SpawnedObject *)(::fnv_00db95c0::AllocObj *)(((AllocObj*)initialHolder->m_pAllocator)), (::SpawnedArray *)(void *)(&pairs), initialCount, 8);
+        ::FUN_00c908c0((::SpawnedObject *)(::fnv_00db95c0::AllocObj *)(((AllocObj*)initialHolder->m_pAllocator)), (::SpawnedArray *)(void *)(&pairs), initialCount, sizeof(NameVersionPair));
     int i;
     for (i = 0; i < pSource.m_iArrayLength; i++)
     {
         VObj* e = (VObj*)pSource.m_pData[i];
         intptr_t lo = ((VObj*)pSource.m_pData[i])->FUN_v2();
         int hi = ((VObj*)pSource.m_pData[i])->FUN_v3();
-        int* dest = pairs.m_pData + pairs.m_iArrayLength * 2;
+        NameVersionPair* dest = pairs.m_pData + pairs.m_iArrayLength;
         if (dest)
         {
-            dest[0] = lo;
-            dest[1] = hi;
+            dest->name = lo;
+            dest->version = hi;
         }
         pairs.m_iArrayLength++;
     }
@@ -1300,7 +1305,7 @@ int This::ProcessVersionPatches(ArgA* apSource, ArgA* argB, VecP* apOutput)
             int s;
             for (s = 0; s < pairs.m_iArrayLength; s++)
             {
-                ::FUN_00db94b0((::S00db94b0_Array_s *)(::fnv_00db95c0::Vec16 *)(&work), pairs.m_pData[s * 2], pairs.m_pData[s * 2 + 1], (::S00db94b0_Node_s *)(apSource), (::S00db94b0_Owner_s *)(void *)(this), (::S00db94b0_Sub_s *)(::fnv_00db95c0::ObjCB *)(&oPending), (::S00db94b0_Sub_s *)(::fnv_00db95c0::ObjCB *)(&oDone));
+                ::FUN_00db94b0((::S00db94b0_Array_s *)(::fnv_00db95c0::Vec16 *)(&work), pairs.m_pData[s].name, pairs.m_pData[s].version, (::S00db94b0_Node_s *)(apSource), (::S00db94b0_Owner_s *)(void *)(this), (::S00db94b0_Sub_s *)(::fnv_00db95c0::ObjCB *)(&oPending), (::S00db94b0_Sub_s *)(::fnv_00db95c0::ObjCB *)(&oDone));
             }
         }
         while (work.m_iArrayLength != 0)
@@ -1827,7 +1832,7 @@ void FUN_00db7ef0_cls::FUN_00db7ef0(uintptr_t auiValue)
 
 struct S00db94b0_Ref_s
 {
-    int unk00;
+    intptr_t unk00;
     int unk04;
 };
 
@@ -1875,7 +1880,7 @@ struct S00db94b0_Owner_s
     int unk14;
     S00db94b0_Sub_s sub;
 
-    unsigned __int64 FUN_00db7dd0(int a, int b);
+    unsigned __int64 FUN_00db7dd0(intptr_t a, int b);
 };
 
 struct S00db94b0_Array_s : DBA230Array
@@ -1884,7 +1889,7 @@ struct S00db94b0_Array_s : DBA230Array
 
 // Builds a key, calls two array methods when t is not 2, and recurses for entries whose type is 6.
 // @fnv 0x00db94b0
-extern "C" void __cdecl FUN_00db94b0(S00db94b0_Array_s* apArray, int a2, int a3, S00db94b0_Node_s* apNode,
+extern "C" void __cdecl FUN_00db94b0(S00db94b0_Array_s* apArray, intptr_t a2, int a3, S00db94b0_Node_s* apNode,
                                      S00db94b0_Owner_s* apOwner, S00db94b0_Sub_s* apSubA, S00db94b0_Sub_s* apSubB)
 {
     unsigned __int64 key = apOwner->FUN_00db7dd0(a2, a3);
@@ -1942,18 +1947,18 @@ struct VersionUidCache
     unsigned int unk0C;
     struct ItemVec
     {
-        unsigned int* m_data;
+        uintptr_t* m_data;
         unsigned int m_uiItemCount;
         unsigned int m_cap;
     } m_vec;
 
-    unsigned __int64 FUN_00db7d60(unsigned int a1, int a2);
+    unsigned __int64 FUN_00db7d60(uintptr_t a1, int a2);
 };
 
 extern "C" void _ReadWriteBarrier(void);
 // Finds item in m_vec via GetOrSetInt; if not found, grows capacity if needed, appends item, and returns index with a2 in high 32 bits.
 // @fnv 0x00db7d60
-unsigned __int64 VersionUidCache::FUN_00db7d60(unsigned int a1, int a2)
+unsigned __int64 VersionUidCache::FUN_00db7d60(uintptr_t a1, int a2)
 {
     uintptr_t item = reinterpret_cast<uintptr_t>(reinterpret_cast<::FUN_00db7d00_class *>((reinterpret_cast<DB7D00_Shell*>(this)))->FUN_00db7d00(a1));
     unsigned int uiSize = m_vec.m_uiItemCount;
@@ -1964,9 +1969,9 @@ unsigned __int64 VersionUidCache::FUN_00db7d60(unsigned int a1, int a2)
         AudioHolder* holder = static_cast<AudioHolder*>(::FUN_00c85750());
         if (v->m_uiItemCount == (v->m_cap & 0x3fffffffu))
         {
-            ::ResizeAudioStream((::AudioAllocator *)(holder->m_pAllocator), (::AudioStream *)(v), 4);
+            ::ResizeAudioStream((::AudioAllocator *)(holder->m_pAllocator), (::AudioStream *)(v), sizeof(uintptr_t));
         }
-        unsigned int* slot = v->m_data + v->m_uiItemCount;
+        uintptr_t* slot = v->m_data + v->m_uiItemCount;
         _ReadWriteBarrier();
         *slot = item;
         v->m_uiItemCount++;

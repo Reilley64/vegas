@@ -110,7 +110,9 @@ struct VUC_Filtered
     float m_kPointA;
     float m_kPointB;
     float m_iThirdValue;
-    float m_iFourthElementInteger;
+    unsigned char m_bHandbrakeOn;      // +0xc
+    unsigned char m_bTryingToReverse;  // +0xd
+    char pad0e[0x2];
 };
 struct VUC_Transmission
 {
@@ -137,6 +139,7 @@ struct FUN_00e39400
     ~FUN_00e39400() throw();
 };
 
+struct VUC_DriverInputStandIn;
 struct VUC_Instance
 {
     void* m_vtbl;
@@ -148,6 +151,11 @@ struct VUC_Instance
     const char* m_name;
     void* m_pEntity;
     VUC_Data* m_data;
+    VUC_DriverInputStandIn* m_pDriverInput;  // +0x20
+    char pad24[0x78];
+    void* m_pDriverInputStatus;              // +0x9c
+    char padA0[0x10];
+    unsigned char m_bIsReversing;            // +0xb0
     void FUN_00e37aa0(float dt, void* det) throw();
     void FUN_00e36f60(float dt, VUC_Filtered& f) throw();
     void FUN_00e36fa0(float dt, VUC_Transmission& t) throw();
@@ -2986,23 +2994,22 @@ struct VUC_DriverInputStandIn
     virtual void unk00();
     virtual void unk04();
     virtual void unk08();
-    virtual void UpdateDriverInput(float dt, VUC_Instance* instance, unsigned int deviceStatus, VUC_Filtered& f);
+    virtual void UpdateDriverInput(float dt, VUC_Instance* instance, void* deviceStatus, VUC_Filtered& f);
 };
 
 // Reads a byte from the instance, copies it into the filtered data, then calls the driver input update and writes the filtered byte back.
 // @fnv 0x00e36f60
 __declspec(noinline) void VUC_Instance::FUN_00e36f60(float dt, VUC_Filtered& f) throw()
 {
-    unsigned char* instanceByte = reinterpret_cast<unsigned char*>(this) + 0xb0;
-    unsigned char* filteredByte = reinterpret_cast<unsigned char*>(&f) + 0x0d;
+    unsigned char* instanceByte = &m_bIsReversing;
+    unsigned char* filteredByte = &f.m_bTryingToReverse;
 
     unsigned int value = *instanceByte;
     *filteredByte = static_cast<unsigned char>(value);
 
-    unsigned int deviceStatus = *reinterpret_cast<unsigned int*>(reinterpret_cast<unsigned char*>(this) + 0x9c);
+    void* deviceStatus = m_pDriverInputStatus;
 
-    VUC_DriverInputStandIn* driverInput =
-        *reinterpret_cast<VUC_DriverInputStandIn**>(reinterpret_cast<unsigned char*>(this) + 0x20);
+    VUC_DriverInputStandIn* driverInput = m_pDriverInput;
 
     driverInput->UpdateDriverInput(dt, this, deviceStatus, f);
 

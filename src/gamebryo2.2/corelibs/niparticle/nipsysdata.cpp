@@ -623,7 +623,7 @@ void NiPSysData_View::FUN_00c24f20(NiPSysData_View* pkDest, void* kCloning)
     {
         RgbaColor* pkSubTextureOffsets = (RgbaColor*)_NiMalloc(sizeof(RgbaColor) * m_ucSubTextureOffsetCount);
         std::memmove(pkSubTextureOffsets, m_pkSubTextureOffsets, sizeof(RgbaColor) * m_ucSubTextureOffsetCount);
-        ::FUN_00a968e0((char *)(pkDest), (intptr_t)(pkSubTextureOffsets), (void *)(m_ucSubTextureOffsetCount), {});
+        ::FUN_00a968e0((char *)(pkDest), pkSubTextureOffsets, m_ucSubTextureOffsetCount);
     }
 
     Point3ParameterData* pkParticleInfo = 0;

@@ -209,7 +209,7 @@ void* FUN_00aa2420(void* pvMem, unsigned int& uiSize, unsigned char& ucAlignment
 
 
 // @fnv 0x00aa4200
-void* FUN_00aa4200_Helper::FUN_00aa4200(void* old, unsigned int size, unsigned int a, unsigned int b, unsigned int c)
+void* FUN_00aa4200_Helper::FUN_00aa4200(void* old, unsigned int size, uintptr_t a, unsigned int b, uintptr_t c)
 {
     void* result2 = 0;
     unsigned int oldSize;

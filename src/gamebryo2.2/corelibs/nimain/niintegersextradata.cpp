@@ -284,6 +284,15 @@ void FUN_00c545d0_cls::FUN_00c545d0(NiStream& aStream)
         reinterpret_cast<::S_00c54550_Foo *>(this)->FUN_00c54550(fScaled);
     }
 }
+struct FUN_00c54cc0_cls
+{
+    float m_00;
+    float m_04;
+    float m_08;
+    unsigned short m_0c;
+    unsigned char m_0e;
+    bool FUN_00c54cc0(FUN_00c54cc0_cls* other);
+};
 struct ElemZ
 {
     int a, b, c;
@@ -311,7 +320,8 @@ struct FUN_00c54a30
 
 struct FUN_00c54b70_cls
 {
-    unsigned int unk00[2];
+    void* m_vtbl;
+    void* m_pBase;
     unsigned short m_08;
     unsigned short m_0a;
     unsigned short unk0c;
@@ -462,15 +472,6 @@ FUN_00c54c50_shell* FUN_00c54c50_shell::FUN_00c54c50(unsigned short param_1, uns
     return this;
 }
 
-struct FUN_00c54cc0_cls
-{
-    float m_00;
-    float m_04;
-    float m_08;
-    unsigned short m_0c;
-    unsigned char m_0e;
-    bool FUN_00c54cc0(FUN_00c54cc0_cls* other);
-};
 
 // Compares m_00, m_04, m_08, m_0e and m_0c against another instance and returns whether all match.
 // @fnv 0x00c54cc0
@@ -1207,7 +1208,7 @@ struct NiIntStreamEntryC
         m_ucFlag = 0;
     }
 
-    bool operator!=(NiIntStreamEntryC& kOther)
+    bool operator!=(const NiIntStreamEntryC& kOther)
     {
         return !((FUN_00c54cc0_cls*)this)->FUN_00c54cc0((FUN_00c54cc0_cls*)&kOther);
     }
@@ -1235,30 +1236,30 @@ void FUN_00c54b70_cls::FUN_00c54850(unsigned int uiMaxSize)
     {
         for (i = (unsigned short)uiMaxSize; i < m_0a; i++)
         {
-            if (((NiIntStreamEntryC*)unk00[1])[i] != NiIntStreamEntryC(0))
+            if (((NiIntStreamEntryC*)m_pBase)[i] != NiIntStreamEntryC(0))
             {
-                ((NiIntStreamEntryC*)unk00[1])[i] = NiIntStreamEntryC(0);
+                ((NiIntStreamEntryC*)m_pBase)[i] = NiIntStreamEntryC(0);
                 unk0c--;
             }
         }
         m_0a = (unsigned short)uiMaxSize;
     }
 
-    NiIntStreamEntryC* pSaveBase = (NiIntStreamEntryC*)unk00[1];
+    NiIntStreamEntryC* pSaveBase = (NiIntStreamEntryC*)m_pBase;
     m_08 = (unsigned short)uiMaxSize;
     if (uiMaxSize > 0)
     {
-        unk00[1] = (uintptr_t)((::NiIntStreamEntryC *)(::FUN_00c54bc0(m_08)));
+        m_pBase = ::FUN_00c54bc0(m_08);
 
         for (i = 0; i < m_0a; i++)
-            ((NiIntStreamEntryC*)unk00[1])[i] = pSaveBase[i];
+            ((NiIntStreamEntryC*)m_pBase)[i] = pSaveBase[i];
 
         for (i = m_0a; i < m_08; i++)
-            ((NiIntStreamEntryC*)unk00[1])[i] = NiIntStreamEntryC(0);
+            ((NiIntStreamEntryC*)m_pBase)[i] = NiIntStreamEntryC(0);
     }
     else
     {
-        unk00[1] = 0;
+        m_pBase = 0;
     }
 
     NiIntStreamAllocatorC::Deallocate(pSaveBase);

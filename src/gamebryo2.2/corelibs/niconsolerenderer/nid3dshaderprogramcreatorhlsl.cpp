@@ -78,7 +78,6 @@ struct VTableObj
     virtual void Call(int a, int b);
 };
 
-extern "C" void* __cdecl FUN_00c85750();
 
 struct FUN_00c7b0f0_shell
 {
@@ -91,7 +90,7 @@ struct FUN_00c7b0f0_shell
 // @fnv 0x00c7b0f0
 void FUN_00c7b0f0_shell::FUN_00c7b0f0()
 {
-    void* p = FUN_00c85750();
+    void* p = reinterpret_cast<void* (*)()>(&::FUN_00c85750)();
     VTableObj* pTarget = *(VTableObj**)((char*)p + 0x10);
     m_kPointB = 0;
     unsigned int uiFlags = m_iThirdValue;

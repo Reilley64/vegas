@@ -691,7 +691,7 @@ bool NiDDSReader::FUN_00a8c1e0(NiBinaryStream& kIst, unsigned int& uiWidth, unsi
         }
         kFormat = CreateFromMasks(uiRGBBitCount, uiRBitMask, uiGBitMask, uiBBitMask, uiABitMask);
         m_eFormat = kFormat;
-        kFormat = ::NormalizePixelFormat((::NiPixelFormat)this);
+        kFormat = ::NormalizePixelFormat(kFormat);
     }
     else
     {
@@ -1431,7 +1431,7 @@ struct ImgObj
     int unk44;
     int unk48;
     int unk4c;
-    unsigned int m50;
+    unsigned char* m50;
     unsigned int* m54;
     unsigned int* m58;
     unsigned int* m5c;
@@ -1449,7 +1449,7 @@ class FUN_00a779b0_info
 void __cdecl FUN_00a8c6e0(ReadCtx* ctx, ImgObj* self, NiPixelFormat fmtA, NiPixelFormat fmtB, unsigned int idx,
                           unsigned int scale)
 {
-    unsigned char* base = (unsigned char*)(self->m5c[self->m60] * scale + self->m50 + self->m5c[idx]);
+    unsigned char* base = self->m50 + self->m5c[self->m60] * scale + self->m5c[idx];
     {
         unsigned int n = self->m5c[idx + 1] - self->m5c[idx];
         volatile int flag = 1;

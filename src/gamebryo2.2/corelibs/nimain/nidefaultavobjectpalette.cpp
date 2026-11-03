@@ -68,16 +68,6 @@ void AddObjectToPalette(NiAVObject* object, NiDefaultAVObjectPalette* palette)
     }
 }
 
-// @fnv 0x00a6e960
-void NiDefaultAVObjectPalette::BuildPalette()
-{
-    if (m_pkScene)
-    {
-        m_kObjectMap.RemoveAll();
-        AddObjectToPalette(m_pkScene, this);
-    }
-}
-
 // Loads the scene object and a count-prefixed list of name/object pairs from the stream, registering each pair in the palette.
 // @fnv 0x00a6ea40
 void NiDefaultAVObjectPalette::LoadBinary(NiStream& stream)
@@ -182,76 +172,6 @@ void* FUN_00a6eb20_Holder::DestroyHolder(unsigned int auiFlags)
     if (auiFlags & 1)
         reinterpret_cast<::FNV_MemoryManager *>((((MemoryManager*)&(*reinterpret_cast<::P03MM *>(&::g_memoryManager)))))->FUN_00aa4060(this);
     return this;
-}
-
-struct NodeChildrenView_cls
-{
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0C;
-    unsigned int unk10;
-    unsigned int unk14;
-    unsigned int unk18;
-    unsigned int unk1C;
-    unsigned int unk20;
-    unsigned int unk24;
-    unsigned int unk28;
-    unsigned int unk2C;
-    unsigned int unk30;
-    unsigned int unk34;
-    unsigned int unk38;
-    unsigned int unk3C;
-    unsigned int unk40;
-    unsigned int unk44;
-    unsigned int unk48;
-    unsigned int unk4C;
-    unsigned int unk50;
-    unsigned int unk54;
-    unsigned int unk58;
-    unsigned int unk5C;
-    unsigned int unk60;
-    unsigned int unk64;
-    unsigned int unk68;
-    unsigned int unk6C;
-    unsigned int unk70;
-    unsigned int unk74;
-    unsigned int unk78;
-    unsigned int unk7C;
-    unsigned int unk80;
-    unsigned int unk84;
-    unsigned int unk88;
-    unsigned int unk8C;
-    unsigned int unk90;
-    unsigned int unk94;
-    unsigned int unk98;
-    unsigned int unk9C;
-    NiAVObject** m_children;
-    unsigned short m_usMaxSize;
-    unsigned short m_usArraySize;
-};
-
-// @fnv 0x00a6e870
-void __cdecl AddObjectToPaletteRecursive(NiAVObject* apObject, NiDefaultAVObjectPalette* apPalette)
-{
-    if (apObject == 0)
-        return;
-    if (apPalette == 0)
-        return;
-    if (apObject->m_kName.m_kHandle != 0)
-        apPalette->AddNamedAVObject(apObject->m_kName, apObject);
-    NodeChildrenView_cls* node = (NodeChildrenView_cls*)apObject->GetNiNode();
-    if (node == 0)
-        return;
-    unsigned int i = 0;
-    if ((unsigned short)i < node->m_usArraySize)
-    {
-        do
-        {
-            ::AddObjectToPalette(node->m_children[i], apPalette);
-            i++;
-        } while (i < node->m_usArraySize);
-    }
 }
 
 struct S_00a6e8e0_Object

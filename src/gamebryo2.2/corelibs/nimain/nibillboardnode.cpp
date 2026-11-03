@@ -1003,7 +1003,7 @@ void BoardObject::FUN_00a7de40(const BoardObject* camera)
         kTmp.x = camera->world.translate.x - world.translate.x;
         kTmp.y = camera->world.translate.y - world.translate.y;
         kTmp.z = camera->world.translate.z - world.translate.z;
-        reinterpret_cast<::Point3_0053d280 *>((void *)&((*((::BoardVector *)(::FUN_004b3ae0((::NiPoint3 *)(::BoardVector *)(&results.dir1), (const ::NiPoint3 &)(kTmp), (const float *)&(world.rotate)))))))->FUN_0053d280((float)&(kWorldPosition));
+        *reinterpret_cast<::NiPoint3 *>(&kWorldPosition) = reinterpret_cast<const ::Point3_0053d280 *>(::FUN_004b3ae0((::NiPoint3 *)(::BoardVector *)(&results.dir1), (const ::NiPoint3 &)(kTmp), (const float *)&(world.rotate)))->FUN_0053d280(world.scale);
         fScaleMultiplier = BoardRootFloat(kWorldPosition.x * kWorldPosition.x + kWorldPosition.z * kWorldPosition.z);
         if (!(fScaleMultiplier < DAT_0109deb8))
         {
@@ -1050,7 +1050,7 @@ void BoardObject::FUN_00a7de40(const BoardObject* camera)
         kTmp.x = camera->world.translate.x - world.translate.x;
         kTmp.y = camera->world.translate.y - world.translate.y;
         kTmp.z = camera->world.translate.z - world.translate.z;
-        reinterpret_cast<::Point3_0053d280 *>((void *)&((*((::BoardVector *)(::FUN_004b3ae0((::NiPoint3 *)(::BoardVector *)(&results.dir5), (const ::NiPoint3 &)(kTmp), (const float *)&(world.rotate)))))))->FUN_0053d280((float)&(kWorldPosition));
+        *reinterpret_cast<::NiPoint3 *>(&kWorldPosition) = reinterpret_cast<const ::Point3_0053d280 *>(::FUN_004b3ae0((::NiPoint3 *)(::BoardVector *)(&results.dir5), (const ::NiPoint3 &)(kTmp), (const float *)&(world.rotate)))->FUN_0053d280(world.scale);
         double vy = kWorldPosition.y;
         double vx = kWorldPosition.x;
         fScaleMultiplier = BoardRootFloat((float)(vx * vx + vy * vy));

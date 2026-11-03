@@ -396,6 +396,7 @@ template <class T> class NiTPrimitiveArray
 
 class CloningProcess;
 class NiStream;
+class NiObjectNET;
 class NiTimeController : public NiObjectA53
 {
   public:
@@ -2200,7 +2201,7 @@ struct NiStream
 // @fnv 0x00c53cd0
 int __cdecl FUN_00c53cd0()
 {
-    return ::NiStream::RegisterObjectLoader(::g_012031b8_arg0, (NiObject *(*)())(((fnv_00c53cd0::NiObject *(&)())::fnv_00c537f0::FUN_00c537f0)));
+    return ::NiStream::RegisterObjectLoader(::g_012031b8_arg0, (::NiObject *(*)())(((fnv_00c53cd0::NiObject *(&)())::fnv_00c537f0::FUN_00c537f0)));
 }
 }  // namespace fnv_00c53cd0
 

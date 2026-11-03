@@ -103,7 +103,6 @@ struct P03MM
 public:
     void* Allocate(unsigned int);
 };
-typedef P03MM MemoryManager;
 struct S
 {
     S* FUN_00e9ee60(void*);
@@ -186,7 +185,7 @@ void S00e9e860_Obj::FUN_00e9e860()
 }
 
 S* FUN_00e9efb0(void* self);
-int FUN_00e9ecc0();
+intptr_t FUN_00e9ecc0();
 
 struct E9EE20MemoryManager
 {

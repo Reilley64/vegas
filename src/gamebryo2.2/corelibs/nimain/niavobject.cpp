@@ -1270,7 +1270,7 @@ struct Child
 {
     virtual void v00();
     virtual void v01();
-    int m_04;
+    volatile long m_04;
 };
 
 struct Sub34
@@ -2988,10 +2988,6 @@ int __cdecl FUN_00438220()
     return 3;
 }
 
-struct Flt
-{
-    operator unsigned int() const;
-};
 struct TESActorBaseData
 {
     unsigned short GetFatigue() const;
@@ -3003,7 +2999,7 @@ struct FUN_00456650_shell
 // @fnv 0x00456650
 unsigned short FUN_00456650_shell::FUN_00456650() const
 {
-    return ((TESActorBaseData*)((const Flt*)((const char*)this + 0xb8))->operator unsigned int())->GetFatigue();
+    return (*(TESActorBaseData* const*)((const char*)this + 0xb8))->GetFatigue();
 }
 
 struct FUN_004a51b0_shell

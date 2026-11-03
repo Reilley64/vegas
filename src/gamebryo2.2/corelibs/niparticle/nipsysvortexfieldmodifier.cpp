@@ -120,6 +120,7 @@ struct StrArr
     unsigned short m_usGrowBy;  // +0x0e
 };
 
+struct FUN_00438fc0_file;
 struct NiPoint3
 {
     char* FUN_00a59af0(char const*);
@@ -543,7 +544,9 @@ struct ForceOwner
     Vec3 Force(const Vec3& origin, const Vec3& axis, Vec3 point)
     {
         const Vec3 kPoint = point;
-        return ::FUN_00c26820((const ::Pt_c268 &)this, origin, axis);
+        ::Pt_c268 kForce = ::FUN_00c26820(reinterpret_cast<const ::Pt_c268&>(origin), reinterpret_cast<const ::Pt_c268&>(axis),
+                                          reinterpret_cast<const ::Pt_c268&>(kPoint));
+        return reinterpret_cast<const Vec3&>(kForce);
     }
 };
 // Computes the force on each particle in list from node10's transform and m_dir, scaled by age, and adds it to each particle's velocity.

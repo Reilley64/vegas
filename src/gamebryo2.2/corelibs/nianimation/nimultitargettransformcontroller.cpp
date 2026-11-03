@@ -188,6 +188,9 @@ class BlendInterp
         InterlockedIncrement((long*)&m_uiRefCount);
     }
 };
+struct OwnerB;
+struct Ref;
+struct TargetList;
 class Controller
 {
   public:

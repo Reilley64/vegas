@@ -43,7 +43,7 @@ void __cdecl _NiFreeAlias(void* p);
 
 // Clamps param_3 to 0x10, frees the pointer at this_ptr+0x68, stores the clamped byte at +0x6c and param_2 at +0x68.
 // @fnv 0x00a968e0
-void FUN_00a968e0(char* this_ptr, int, void* param_2, unsigned char param_3)
+void FUN_00a968e0(char* this_ptr, void* param_2, unsigned char param_3)
 {
     if (param_3 >= 0x10)
     {

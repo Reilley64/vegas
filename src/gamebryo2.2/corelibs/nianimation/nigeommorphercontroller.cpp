@@ -693,6 +693,11 @@ void FUN_00a3aa10_shell::UpdateMorphWeights(float fTime)
 }
 }  // namespace fnv_00a3aa10
 
+class NiBinaryStream;
+class NiObject;
+class NiObjectGroup;
+class NiTexture;
+template <class> class NiPointer;
 struct NiStream
 {
     unsigned char m_aucPad[0xD8];

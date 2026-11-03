@@ -36,7 +36,6 @@
 #include "fnv/symbols_011f6000.h"
 #include "niblendaccumtransforminterpolator_decls.h"
 #include "fnv/decl/QXform2.h"
-#include "niblendaccumtransforminterpolator_decls_decl_niblendaccumtransforminterpolator.h"
 struct Q
 {
     float w, x, y, z;
@@ -1050,7 +1049,7 @@ void FUN_00a393c0_cls::FUN_00a393c0(unsigned char idx)
         item->accum.m_kTranslate.x = -3.4028234663852886e38f;
         item->accum.m_kRotate.x = -3.4028234663852886e38f;
         item->accum.m_fScale = -3.4028234663852886e38f;
-        item->rotation = (*reinterpret_cast<const ::AccumRotationMatrix *>(&::DAT_011a9448));
+        memcpy(item->rotation, (*reinterpret_cast<float (*)[9]>(&::DAT_011a9448)), sizeof(item->rotation));
     }
 }
 #include "generated/data/gamebryo2.2/corelibs/nianimation/niblendaccumtransforminterpolator.inc"

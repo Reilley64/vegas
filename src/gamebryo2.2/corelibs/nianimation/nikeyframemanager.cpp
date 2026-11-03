@@ -302,7 +302,7 @@ template <class T, int* VTBL> struct ArrD810
     int unk0c;
     ~ArrD810()
     {
-        vtbl = ::DAT_0101a3a4;
+        vtbl = VTBL;
         NiFree(data);
     }
 };

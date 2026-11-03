@@ -1076,18 +1076,16 @@ struct SkinBuilder
     int unk00;
     int unk04;
     unsigned int count;
-    bool BuildTriangleSetMapping(SkinGeom*, void*, uintptr_t, void*, SkinItems*, int**, int*) throw();
-public:
-    __declspec(nothrow) void FUN_00a839d0(SkinItems*) throw();
+    bool BuildTriangleSetMapping(SkinGeom*, void*, unsigned int, void*, SkinItems*, int**, int*) throw();
 };
 // Builds a per-triangle set index mapping from group IDs or weights, compacts unused sets, and returns false if a triangle's vertices span three distinct groups.
 // @fnv 0x00a84310
-bool SkinBuilder::BuildTriangleSetMapping(SkinGeom* geom, void* unused, uintptr_t input, void* weights,
+bool SkinBuilder::BuildTriangleSetMapping(SkinGeom* geom, void* unused, unsigned int input, void* weights,
                                           SkinItems* sets, int** mapping, int* groupIDs) throw()
 {
     unsigned int triangles = geom->triangleCount;
-    ::BuildBoneLODControllerSets((::ScriptProgram *)this, (::BoneWeights *)(geom), (::BoneArray< ::BoneLODControllerArray *> *)(weights), (unsigned int *)(sets));
-    ::FUN_00a839d0((unsigned char)this, (::MergeItems *)(input));
+    ::BuildBoneLODControllerSets((::ScriptProgram *)(geom), (::BoneWeights *)(weights), (::BoneArray< ::BoneLODControllerArray *> *)(sets), (unsigned int *)(groupIDs));
+    ::FUN_00a839d0((unsigned char)(input), (::MergeItems *)(sets));
     *mapping = (int*)::FUN_00aa1070(triangles * sizeof(int));
     unsigned int setCount = sets->count;
     unsigned char* pUsedFlags = (unsigned char*)::FUN_00aa1070(setCount);
@@ -1104,7 +1102,7 @@ bool SkinBuilder::BuildTriangleSetMapping(SkinGeom* geom, void* unused, uintptr_
             if (groupIDs[indices[0]] == groupIDs[indices[1]] && groupIDs[indices[1]] == groupIDs[indices[2]] &&
                 groupIDs[indices[0]] == groupIDs[indices[2]])
             {
-                reinterpret_cast<::A54440Hash *>(&(map))->FUN_00a53c30((::A54440Manager *)(groupIDs[indices[0]]), (::A54440Manager **)&(found));
+                found = map.Lookup(groupIDs[indices[0]]);
                 if (found != -1)
                     (*mapping)[tri] = found;
             }
@@ -2563,27 +2561,6 @@ extern "C" void* __cdecl FNV_search_821f0(const void* key, const void* base, uns
 int __cdecl FindMatchingItem(ItemSet* set, const unsigned short* a2, const void* a3, unsigned char* flags,
                              unsigned char key);
 extern "C" void* __cdecl fnv_zlib_memset(void*, int, unsigned int) throw();
-
-// Sorted skin-index sets; the limit is the first stack argument.
-
-bool Holder::ContainsSortedSubset(const Holder* other)
-
-{
-
-    unsigned int first = 0, second = 0;
-
-    for (; second < other->m_uiCount; ++second, ++first)
-    {
-
-        while (first < m_uiCount && m_pusData[first] < other->m_pusData[second])
-            ++first;
-
-        if (first == m_uiCount || m_pusData[first] != other->m_pusData[second])
-            return false;
-    }
-
-    return true;
-}
 
 struct MergeSet : Holder
 {

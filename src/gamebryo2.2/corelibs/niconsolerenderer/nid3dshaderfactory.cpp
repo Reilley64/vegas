@@ -1225,6 +1225,7 @@ struct ShaderFactory_e92a40 : NiD3DShaderFactory
 {
     void FUN_00e92a40(FUN_00d47a30_class* p);
 };
+class ShaderRefObject;
 struct ShaderMapItem
 {
     ShaderMapItem* m_pkNext;

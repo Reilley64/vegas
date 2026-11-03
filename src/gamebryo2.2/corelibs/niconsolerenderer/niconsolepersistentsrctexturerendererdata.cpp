@@ -8036,7 +8036,7 @@ extern int DAT_010f049c;
 // @fnv 0x00e901a0
 NiDX9RenderedCubeMapData* __cdecl FUN_00e901a0(NiRenderedCubeMap* pkTexture, NiDX9Renderer* pkRenderer)
 {
-    CubeMapBaseInit* pkShell = (CubeMapBaseInit*)::::operator new(0x70);
+    CubeMapBaseInit* pkShell = (CubeMapBaseInit*)::operator new(0x70);
     if (pkShell)
     {
         reinterpret_cast<::FUN_00e8fd60_shell *>((pkShell))->InitWithArgs((intptr_t)pkTexture, (intptr_t)pkRenderer, 0);
@@ -8200,12 +8200,12 @@ struct BSMultiBound
 };
 struct FUN_00c35f50_class
 {
-    void FUN_00c35fe0(BSMultiBound*, int);
-    BSMultiBound* FUN_00c35f50(int);
+    void FUN_00c35fe0(BSMultiBound*, intptr_t);
+    BSMultiBound* FUN_00c35f50(intptr_t);
 };
 
 // @fnv 0x00c35f50
-BSMultiBound* FUN_00c35f50_class::FUN_00c35f50(int a)
+BSMultiBound* FUN_00c35f50_class::FUN_00c35f50(intptr_t a)
 {
     BSMultiBound* t = new BSMultiBound;
     FUN_00c35fe0(t, a);

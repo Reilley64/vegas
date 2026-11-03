@@ -4,6 +4,7 @@
 
 #include <cstdint>
 #include <new>
+#include <windows.h>
 #include "fnv/decl/DataA38.h"
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_00a3ca30_shell.h"
@@ -664,6 +665,16 @@ class TreadTransfInterpolator : public NiKeyBasedInterpolator
     unsigned int m_uiSampleIndex;
     NiPointer<NiFloatData> m_spFloatData;
 };
+struct NiQuatTransform
+{
+    float x, y, z;
+    float qx, qy, qz, qw;
+    float scale;
+public:
+    NiQuatTransform();
+    void LoadBinary(::NiStream &);
+    bool IsInvalid() const;
+};
 struct FixedStringHeader
 {
     volatile long references;
@@ -734,7 +745,6 @@ TreadTransfInterpolator* TreadTransfInterpolator::FUN_00a439e0(void* kCloning)
     return pkClone;
 }
 
-#include <windows.h>
 
 struct a43840_Ref
 {
@@ -1083,16 +1093,6 @@ class A438D0Interpolator : public A438D0Base
     int unk18;
     int unk1C;
     NiPointerA438<A438D0Object> m_spReferencedObject;
-};
-struct NiQuatTransform
-{
-    float x, y, z;
-    float qx, qy, qz, qw;
-    float scale;
-public:
-    NiQuatTransform();
-    void LoadBinary(::NiStream &);
-    bool IsInvalid() const;
 };
 
 // @fnv 0x00a438d0

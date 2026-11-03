@@ -44,15 +44,39 @@
 #include "fnv/symbols_0069b000.h"
 #include "fnv/symbols_0104e000.h"
 #include "fnv/symbols_011dd000.h"
+
+// A node of the pointer lists the trap listener keeps.
+struct TrapListNodeView
+{
+    TrapListNodeView* pNext;
+    TrapListNodeView* pPrev;
+    void* pData;
+};
+// The trap listener's primary base (vtable and one field) followed by the base its thunks
+// receive as this.
+struct TrapListenerPrimaryView
+{
+    const void* pVtable;
+    void* unk04;
+};
+struct TrapListenerSecondaryView
+{
+    const void* pSecondaryVtable;
+};
+struct TrapListenerView : TrapListenerPrimaryView, TrapListenerSecondaryView
+{
+};
 struct FUN_0062d2f0_shell
 {
+    char pad[0x160];
+    char unk160[4];
     void* GetOffset160();
 };
 
 // @fnv 0x0062d2f0
 void* FUN_0062d2f0_shell::GetOffset160()
 {
-    return reinterpret_cast<char*>(this) + 0x160;
+    return unk160;
 }
 
 extern int DAT_0104e328;
@@ -107,7 +131,9 @@ struct CombatWorldStateListNode
 
 struct FUN_0062dee0_shell
 {
+    char pad[0x20];
     CombatWorldStateListNode* m_kNode;
+
     bool FUN_0062dee0(int arg);
 };
 
@@ -115,7 +141,7 @@ struct FUN_0062dee0_shell
 // @fnv 0x0062dee0
 bool FUN_0062dee0_shell::FUN_0062dee0(int arg)
 {
-    CombatWorldStateListNode* p = *(CombatWorldStateListNode**)((char*)this + 0x20);
+    CombatWorldStateListNode* p = m_kNode;
     while (p)
     {
         if (reinterpret_cast<::FUN_0084e3a0_Class *>((p))->FUN_0084e3a0() == arg)
@@ -543,10 +569,10 @@ void C62::SetC(int* piValue)
 // @fnv 0x0062e2f0
 void FUN_0062e2f0_shell::FUN_0062e2f0(void* block)
 {
-    ((int*)block)[0] = 0;
-    ((int*)block)[1] = (int)m_pTail;
+    static_cast<::TrapListNodeView*>(block)->pNext = 0;
+    static_cast<::TrapListNodeView*>(block)->pPrev = static_cast<::TrapListNodeView*>(m_pTail);
     if (m_pTail)
-        ((int*)m_pTail)[0] = (int)block;
+        static_cast<::TrapListNodeView*>(m_pTail)->pNext = static_cast<::TrapListNodeView*>(block);
     else
         m_pFirstNode = block;
     m_pTail = block;
@@ -746,7 +772,7 @@ struct FUN_0062c7a0_shell
 struct FUN_0062d9e0_shell
 {
     char pad[0x10];
-    FUN_0062c7a0_shell* p;
+    char kCache10[4];
     void CallMemberAtOffset();
 };
 
@@ -766,17 +792,21 @@ void FUN_0062db40_shell::FUN_0062db40(int aiValue)
 namespace fnv_0062dfa0 {
 struct FUN_0062dfa0_shell
 {
+    const void* pVtable;
+    int* pUnk04;
+    int* pUnk08;
+    int* pUnk0c;
     void* FUN_0062dfa0();
 };
 
-// Sets the vtable pointer and clears the three pointer fields at offsets 4, 8 and 12, then returns this.
+// Sets the vtable pointer and clears the three pointer fields, then returns this.
 // @fnv 0x0062dfa0
 void* FUN_0062dfa0_shell::FUN_0062dfa0()
 {
-    *(void**)this = &DAT_0104e3f4;
-    *(int**)((char*)this + 0xc) = 0;
-    *(int**)((char*)this + 4) = 0;
-    *(int**)((char*)this + 8) = 0;
+    pVtable = &DAT_0104e3f4;
+    pUnk0c = 0;
+    pUnk04 = 0;
+    pUnk08 = 0;
     return this;
 }
 }  // namespace fnv_0062dfa0
@@ -806,7 +836,7 @@ TESObject* __cdecl GetOcclusionPlaneObject(BSOcclusionPlane* pOcclusionPlane)
             if (pWorld)
             {
                 TESObject* pObj = ((::TESObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((TESObject*)pWorld)))->FUN_007af430()));
-                pResult = pObj ? (TESObject*)((char*)pObj - 8) : 0;
+                pResult = pObj ? reinterpret_cast<TESObject*>(static_cast<::TrapListenerView*>(reinterpret_cast<::TrapListenerSecondaryView*>(pObj))) : 0;
             }
         }
     }
@@ -815,6 +845,8 @@ TESObject* __cdecl GetOcclusionPlaneObject(BSOcclusionPlane* pOcclusionPlane)
 
 struct FUN_0062d510_shell
 {
+    char pad[0x10];
+    char kCache10[4];
     void FUN_0062d510();
 };
 struct FUN_0062de90_shell
@@ -884,7 +916,7 @@ struct RootContactPoint
 struct FUN_00620340_shell
 {
 };
-struct FUN_0062dc80_shell
+struct FUN_0062dc80_shell : ::TrapListenerSecondaryView
 {
     bool FUN_0062dc80(RootContactPoint* arPoint);
 };
@@ -899,7 +931,7 @@ bool FUN_0062dc80_shell::FUN_0062dc80(RootContactPoint* arPoint)
     if (ptrapRef && m_pReference && ((bool(*)(void*))(*(void***)m_pReference)[0x40])(m_pReference))
     {
         ZoneEntry* ptrap =
-            (ZoneEntry*)((void *)(reinterpret_cast<::ImpactManager620 *>((((FUN_00620340_shell*)((char*)this - 8))))->FUN_00620340((::CollisionInfo620 *)(arPoint), ptrapRef, m_pReference, (void *)(0), 1)));
+            (ZoneEntry*)((void *)(reinterpret_cast<::ImpactManager620 *>(reinterpret_cast<FUN_00620340_shell*>(static_cast<::TrapListenerView*>(static_cast<::TrapListenerSecondaryView*>(this))))->FUN_00620340((::CollisionInfo620 *)(arPoint), ptrapRef, m_pReference, (void *)(0), 1)));
         bres = ptrap != 0;
     }
     return bres;
@@ -934,12 +966,12 @@ void Target062c980::ClearMap()
 void* FUN_0062e0a0_shell::RemoveFirstNode()
 {
     void* node = m_pFirstNode;
-    m_pFirstNode = *(void**)m_pFirstNode;
+    m_pFirstNode = static_cast<::TrapListNodeView*>(m_pFirstNode)->pNext;
     if (m_pFirstNode)
-        ((void**)m_pFirstNode)[1] = 0;
+        static_cast<::TrapListNodeView*>(m_pFirstNode)->pPrev = 0;
     else
         m_pTail = 0;
-    void* pValue = ((void**)node)[2];
+    void* pValue = static_cast<::TrapListNodeView*>(node)->pData;
     v2(node);
     --m_uiItemCount;
     return pValue;
@@ -1005,13 +1037,14 @@ void FUN_0062cb90_shell::CompactEntries()
 
 struct FUN_0062d310_shell : MyCollector
 {
+    char kCollector08[4];
     void FUN_0062d310();
 };
 
 // @fnv 0x0062d310
 void FUN_0062d310_shell::FUN_0062d310()
 {
-    reinterpret_cast<::FUN_00621c90_Class *>(((char*)this + 8))->FUN_00626870();
+    reinterpret_cast<::FUN_00621c90_Class *>(kCollector08)->FUN_00626870();
     FUN_0062d330();
 }
 
@@ -1064,6 +1097,7 @@ struct FUN_0062dc50_shell
     void* m_iWordAt04;
     void* m_8;
     void* m_iThirdValue;
+    char kCache10[4];
     void* FUN_0062dc50(unsigned int a, unsigned int b);
 };
 struct AnimIdle;
@@ -1209,7 +1243,7 @@ struct FUN_0062dd20_vtable
     }
 };
 
-struct FUN_0062dd20_shell
+struct FUN_0062dd20_shell : ::TrapListenerSecondaryView
 {
     bool FUN_0062dd20(RootContactPoint& arPoint);
 };
@@ -1230,7 +1264,7 @@ bool FUN_0062dd20_shell::FUN_0062dd20(RootContactPoint& arPoint)
         {
             ZoneEntry* ptrap;
             ptrap = reinterpret_cast<ZoneEntry*>(
-                ((void *)(reinterpret_cast<FUN_00620680_Class*>(reinterpret_cast<char*>(this) - 8)->FUN_00620680((int)(arPoint.m_p48), (int)(m_pReference)))));
+                ((void *)(reinterpret_cast<FUN_00620680_Class*>(static_cast<::TrapListenerView*>(static_cast<::TrapListenerSecondaryView*>(this)))->FUN_00620680((int)(arPoint.m_p48), (int)(m_pReference)))));
         }
         bres = true;
     }
@@ -1251,12 +1285,12 @@ struct FUN_0062c640
     FX62c640_Member m_kMemberDescriptor;
     FUN_0062c640();
 };
-// Calls FUN_00620720 with a and b, then FUN_0062c640 on the object at offset 0x10, and returns this.
+// Calls FUN_00620720 with a and b, then constructs kCache10 with FUN_0062c640, and returns this.
 // @fnv 0x0062dc50
 void* FUN_0062dc50_shell::FUN_0062dc50(unsigned int auiArg1, unsigned int auiArg2)
 {
     ((FUN_00620720_shell*)this)->FUN_00620720((void *)(auiArg1), (void *)(auiArg2));
-    new ((void *)(((FUN_0062c640_shell*)((char*)this + 0x10)))) ::FUN_0062c640();
+    new ((void *)(kCache10)) ::FUN_0062c640();
     return this;
 }
 
@@ -1349,16 +1383,16 @@ struct Shell62C
     int count;
     void ApplyEntriesToRef(Ref62C*);
 };
-// If the save/load game check fails, calls ApplyEntriesToRef with _ref_0084e3a0(this) on the object at offset 0x10, then calls ClearMap on it.
+// If the save/load game check fails, calls ApplyEntriesToRef with _ref_0084e3a0(this) on kCache10, then calls ClearMap on it.
 // @fnv 0x0062d510
 void FUN_0062d510_shell::FUN_0062d510()
 {
     if (!reinterpret_cast<::fnv_0042ce10::FUN_0042ce10_shell *>((g_BGSSaveLoadGame))->FUN_0042ce10())
     {
-        reinterpret_cast<::Shell62C *>((reinterpret_cast<FUN_0062c860_shell*>(reinterpret_cast<char*>(this) + 0x10)))->ApplyEntriesToRef((::Ref62C *)(reinterpret_cast<::FUN_0084e3a0_Class *>((this))->FUN_0084e3a0()));
+        reinterpret_cast<::Shell62C *>(reinterpret_cast<FUN_0062c860_shell*>(kCache10))->ApplyEntriesToRef((::Ref62C *)(reinterpret_cast<::FUN_0084e3a0_Class *>((this))->FUN_0084e3a0()));
     }
 
-    reinterpret_cast<Target062c980*>(reinterpret_cast<char*>(this) + 0x10)->ClearMap();
+    reinterpret_cast<Target062c980*>(kCache10)->ClearMap();
 }
 // @fnv 0x0062c860
 void Shell62C::ApplyEntriesToRef(Ref62C* ref)
@@ -1562,7 +1596,7 @@ class FUN_0062c7a0_Cache
 // @fnv 0x0062d9e0
 void FUN_0062d9e0_shell::CallMemberAtOffset()
 {
-    reinterpret_cast<::FUN_0062c7a0_Cache *>((((FUN_0062c7a0_shell*)((char*)this + 0x10))))->FUN_0062c7a0_Cache::~FUN_0062c7a0_Cache();
+    reinterpret_cast<::FUN_0062c7a0_Cache *>(reinterpret_cast<FUN_0062c7a0_shell*>(kCache10))->FUN_0062c7a0_Cache::~FUN_0062c7a0_Cache();
 }
 
 // Resets the buffer size, deletes the stored entry, and removes and deletes every entry in the list until it is empty.
@@ -1856,7 +1890,7 @@ struct TrapEventHandler
 {
     void FUN_00620130(TESObjectREFR* reference);
 };
-struct FUN_0062da00_Class
+struct FUN_0062da00_Class : ::TrapListenerSecondaryView
 {
     void HandleTrapEvent(InputBody* source);
 };
@@ -1893,11 +1927,11 @@ void FUN_0062da00_Class::HandleTrapEvent(InputBody* pInputBody)
         {
             if (category == 14 || category == 16)
             {
-                reinterpret_cast<::FUN_00576830_shell *>((reinterpret_cast<TrapEventHandler*>(reinterpret_cast<char*>(this) - 8)))->FUN_00576800((::BSOcclusionPlane *)(reference));
+                reinterpret_cast<::FUN_00576830_shell *>((reinterpret_cast<TrapEventHandler*>(static_cast<::TrapListenerView*>(static_cast<::TrapListenerSecondaryView*>(this)))))->FUN_00576800((::BSOcclusionPlane *)(reference));
             }
             else
             {
-                reinterpret_cast<TrapEventHandler*>(reinterpret_cast<char*>(this) - 8)->FUN_00620130(reference);
+                reinterpret_cast<TrapEventHandler*>(static_cast<::TrapListenerView*>(static_cast<::TrapListenerSecondaryView*>(this)))->FUN_00620130(reference);
             }
         }
     }
@@ -2055,6 +2089,10 @@ struct Updater62DE
 
     void FUN_0062de20(float f);
 };
+// The object Updater62DE is the second base of.
+struct UpdaterOwner62DE : Owner62DE, Updater62DE
+{
+};
 
 // Iterates m_children calling ProcessCollisionPairs, then iterates the owner's m_items list calling vfn_04 on each.
 // @fnv 0x0062de20
@@ -2068,7 +2106,7 @@ void Updater62DE::FUN_0062de20(float f)
             child = child->FUN_0062d990();
         }
     }
-    Item62DE* item = ((Owner62DE*)((char*)this - 4))->m_items;
+    Item62DE* item = static_cast<UpdaterOwner62DE*>(this)->m_items;
     while (item)
     {
         item->vfn_04();

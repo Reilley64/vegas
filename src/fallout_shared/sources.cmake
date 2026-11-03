@@ -344,6 +344,7 @@ set(VEGAS18_FALLOUT_SHARED_SOURCES
   src/fallout_shared/testopic.cpp
   src/fallout_shared/testopicinfo.cpp
   src/fallout_shared/tesvalueform.cpp
+  src/fallout_shared/teswaterform.cpp
   src/fallout_shared/tesweather.cpp
   src/fallout_shared/tesweatherlist.cpp
   src/fallout_shared/tesweightform.cpp
@@ -367,7 +368,6 @@ set(VEGAS18_FALLOUT_SHARED_NARROWING_SOURCES
   src/fallout_shared/tesobjectcell.cpp
   src/fallout_shared/tesobjectrefr.cpp
   src/fallout_shared/teswater.cpp
-  src/fallout_shared/teswaterform.cpp
 )
 target_sources(game PRIVATE ${VEGAS18_FALLOUT_SHARED_NARROWING_SOURCES})
 set_source_files_properties(${VEGAS18_FALLOUT_SHARED_NARROWING_SOURCES} PROPERTIES

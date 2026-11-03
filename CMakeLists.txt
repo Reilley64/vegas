@@ -17,6 +17,7 @@ add_library(game STATIC
 )
 target_include_directories(game PUBLIC src)
 include(src/generated/data/sources.cmake)
+include(src/bs_speedtree_sources.cmake)
 
 add_executable(FalloutNV EXCLUDE_FROM_ALL src/main.cpp)
 target_link_libraries(FalloutNV PRIVATE game)

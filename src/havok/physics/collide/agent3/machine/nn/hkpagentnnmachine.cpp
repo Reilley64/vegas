@@ -77,7 +77,7 @@ void* __cdecl FindEntryValue(LinkNode* apFirst, LinkNode* apSecond)
 struct unk_00cfddc0
 {
     int unk00;
-    int* unk04;
+    unsigned char** unk04;
     int unk08;
 };
 
@@ -87,16 +87,16 @@ void FUN_00cfddc0(unk_00cfddc0* pArg)
     int i = 0;
     if (pArg->unk08 > i)
     {
-        int* aRecords = pArg->unk04;
+        unsigned char** aRecords = pArg->unk04;
         volatile int* pCount = &pArg->unk08;  // re-read the record count
         int iCount = *pCount;
         do
         {
-            unsigned char* pPos = (unsigned char*)*aRecords++;
+            unsigned char* pPos = *aRecords++;
             i++;
             unsigned char* pLimit;
             if (i == iCount)
-                pLimit = (unsigned char*)(pArg->unk00 + (int)pPos);
+                pLimit = pPos + pArg->unk00;
             else
                 pLimit = pPos + 0x200;
             while (pPos < pLimit)
@@ -213,15 +213,6 @@ struct CFE820BlockArray
         construct(m_data + m_iElementCount, 1, e);
         m_iElementCount++;
     }
-public:
-    void AddBack(char* const& e)
-    {
-        CFE820Allocator& alloc = static_cast<CFE820MemoryRouter*>(::FUN_00c85750())->heap();
-        if (m_iElementCount == getCapacity())
-            ::ResizeAudioStream((::AudioAllocator *)(void *)(&alloc), (::AudioStream *)(void *)(this), sizeof(char*));
-        construct(m_data + m_iElementCount, 1, e);
-        m_iElementCount++;
-    }
 };
 
 struct CFE820Pool
@@ -268,7 +259,7 @@ struct FUN_00cfeba0_Obj
     unsigned char m_type;         // +0x00 shape type
     unsigned char m_uiEdgeIndex;  // +0x01 handler index
     int unk04;
-    int unk08;  // +0x08
+    void* unk08;  // +0x08
     int unk0c;
     void* m_p10;  // +0x10
     void* m_p14;  // +0x14
@@ -375,7 +366,7 @@ void __cdecl FUN_00cfeba0(FUN_00cfeba0_Obj* self, void** apCallbackTable, void* 
             FUN_00cfeba0_Fn fn = *(FUN_00cfeba0_Fn*)((char*)(*apCallbackTable) + 0x16c8 + self->m_uiEdgeIndex * 80);
             if (fn)
             {
-                fn(self, p, h1, h2, apCallbackTable, (void*)self->unk08, a3);
+                fn(self, p, h1, h2, apCallbackTable, self->unk08, a3);
             }
         }
         return;
@@ -520,21 +511,21 @@ Record* CloneRecord(State* state, const Record* source)
 struct ItemStack
 {
     int m_base;
-    int* m_pItems;
+    char** m_pItems;
     int m_uiItemCount;
 };
 
 
 // @fnv 0x00cfed90
-void __cdecl FUN_00cfed90(ItemStack* s, int a, int b)
+void __cdecl FUN_00cfed90(ItemStack* s, ::hkpCollisionDispatcherCFEA* a, void* b)
 {
     if (s->m_uiItemCount != 0)
     {
         do
         {
             int iIndex = *(volatile int*)&s->m_uiItemCount;
-            int iItemValue = s->m_pItems[iIndex - 1];
-            ::FUN_00cfea30(s, (::hkpAgentNnEntryCFEA *)(iItemValue + s->m_base - 0x80), (::hkpCollisionDispatcherCFEA *)(a), (void *)(b));
+            char* pLastSector = s->m_pItems[iIndex - 1];
+            ::FUN_00cfea30(s, (::hkpAgentNnEntryCFEA *)(pLastSector + s->m_base - 0x80), a, b);
         } while (s->m_uiItemCount != 0);
     }
 }
@@ -872,15 +863,6 @@ struct hkCollisionEntryArrayCFEA
             FUN_00c909d0(&alloc, this, sizeof(hkpCollisionEntryCFEA), 0, totalSize);
         }
     }
-public:
-    void OptimizeCapacity(CFE820Allocator& alloc, int numFreeElemsLeft)
-    {
-        int totalSize = hkNextPowerOf2CFEA(m_iElementCount + numFreeElemsLeft);
-        if (totalSize < getCapacity())
-        {
-            ::fnv_00c909d0::FUN_00c909d0((*(::fnv_00c909d0::hkMemoryAllocator *)(&alloc)), this, sizeof(hkpCollisionEntryCFEA), 0, totalSize);
-        }
-    }
 };
 
 struct hkpLinkedCollidableCFEA
@@ -1199,33 +1181,11 @@ struct S_cfe020_Blocks
             int newCap = n + 1;
             if (newCap < 1)
             {
-                FUN_00c909d0((S_cfe020_Heap*)&(static_cast<CFE820MemoryRouter*>(::FUN_00c85750())->heap()), &data, 4, &local, 1);
+                FUN_00c909d0((S_cfe020_Heap*)&(static_cast<CFE820MemoryRouter*>(::FUN_00c85750())->heap()), &data, sizeof(char*), &local, 1);
             }
             else if (newCap < (cap & 0x3fffffff))
             {
-                FUN_00c909d0((S_cfe020_Heap*)&(static_cast<CFE820MemoryRouter*>(::FUN_00c85750())->heap()), &data, 4, 0, newCap);
-            }
-        }
-    }
-public:
-    __forceinline void optimize()
-    {
-        if ((cap & 0x80000000) == 0)
-        {
-            unsigned int n = size + 3;
-            n |= n >> 16;
-            n |= n >> 8;
-            n |= n >> 4;
-            n |= n >> 2;
-            n |= n >> 1;
-            int newCap = n + 1;
-            if (newCap < 1)
-            {
-                ::fnv_00c909d0::FUN_00c909d0((*(::fnv_00c909d0::hkMemoryAllocator *)((S_cfe020_Heap*)&(static_cast<CFE820MemoryRouter*>(::FUN_00c85750())->heap()))), &data, 4, &local, 1);
-            }
-            else if (newCap < (cap & 0x3fffffff))
-            {
-                ::fnv_00c909d0::FUN_00c909d0((*(::fnv_00c909d0::hkMemoryAllocator *)((S_cfe020_Heap*)&(static_cast<CFE820MemoryRouter*>(::FUN_00c85750())->heap()))), &data, 4, 0, newCap);
+                FUN_00c909d0((S_cfe020_Heap*)&(static_cast<CFE820MemoryRouter*>(::FUN_00c85750())->heap()), &data, sizeof(char*), 0, newCap);
             }
         }
     }
@@ -1276,16 +1236,6 @@ struct LinkArray
         CFE820Allocator& alloc = static_cast<CFE820MemoryRouter*>(::FUN_00c85750())->heap();
         if (m_iElementCount == getCapacity())
             ResizeAudioStream(&alloc, this, sizeof(LinkEntry));
-        LinkEntry* ret = &m_data[m_iElementCount];
-        m_iElementCount++;
-        return ret;
-    }
-public:
-    LinkEntry* AddBack()
-    {
-        CFE820Allocator& alloc = static_cast<CFE820MemoryRouter*>(::FUN_00c85750())->heap();
-        if (m_iElementCount == getCapacity())
-            ::ResizeAudioStream((::AudioAllocator *)(void *)(&alloc), (::AudioStream *)(void *)(this), sizeof(LinkEntry));
         LinkEntry* ret = &m_data[m_iElementCount];
         m_iElementCount++;
         return ret;
@@ -1602,7 +1552,7 @@ void pairCaller()
 void FUN_00cfddc0(unk_00cfddc0* pArg);
 static char* AllocatePoolChunk(CFE820Pool* pool);
 char* CFE820Allocate(CFE820Pool* pool);
-void __cdecl FUN_00cfed90(ItemStack* s, int a, int b);
+void __cdecl FUN_00cfed90(ItemStack* s, ::hkpCollisionDispatcherCFEA* a, void* b);
 #include "fnv/symbols_simd.h"
 struct Vector
 {
@@ -1705,14 +1655,14 @@ Entry* __cdecl FUN_00cfe1d0(Entry* h, Entry* out, Vector* b, unsigned int n, uns
             char* rows = (char*)&node->rows;
             int cnt = 3;
             char* src = rows + 3 * sizeof(Vector);
-            int delta = (int)b;
+            char* delta = (char*)b;
             do
             {
                 __m128 v = *(__m128*)src;
                 __m128 x = _mm_shuffle_ps(v, v, 0);
                 __m128 y = _mm_shuffle_ps(v, v, 0x55);
                 __m128 z = _mm_shuffle_ps(v, v, 0xaa);
-                *(__m128*)(src - (int)rows + delta) =
+                *(__m128*)(delta + (src - rows)) =
                     _mm_add_ps(_mm_add_ps(_mm_mul_ps(y, m1), _mm_mul_ps(x, m0)), _mm_mul_ps(z, m2));
                 --cnt;
                 src -= sizeof(Vector);

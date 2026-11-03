@@ -708,8 +708,9 @@ unsigned short FUN_004301b0_shell::FUN_004301b0(int aeSection)
 }
 
 extern int DAT_01015b58;
-struct FUN_004308f0_stub
+struct FUN_004308f0_stub : public BSExtraData
 {
+    void* pData;
     void* ConstructExtraDataWithPointer(void* p);
 };
 // Constructs a BSExtraData with type 0x29, installs the vtable at DAT_01015b58, stores p at offset 0xc and returns this.
@@ -718,7 +719,7 @@ void* FUN_004308f0_stub::ConstructExtraDataWithPointer(void* p)
 {
     reinterpret_cast<::FUN_0040ec80_cls *>((reinterpret_cast<BSExtraData*>(this)))->init(0x29);
     *reinterpret_cast<int**>(this) = &DAT_01015b58;
-    *reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0xc) = p;
+    pData = p;
     return this;
 }
 
@@ -752,8 +753,9 @@ int __cdecl GetLockLevelMax(int aiDifficulty)
 }
 
 extern int DAT_0101589c;
-struct FUN_00430c70_stub
+struct FUN_00430c70_stub : public BSExtraData
 {
+    void* pData;
     void* InitExtraDataWithPointer(void* p);
 };
 // Constructs a BSExtraData with type 0x2a, installs the vtable at DAT_0101589c and stores p at offset 0xc.
@@ -762,7 +764,7 @@ void* FUN_00430c70_stub::InitExtraDataWithPointer(void* p)
 {
     reinterpret_cast<::FUN_0040ec80_cls *>((reinterpret_cast<BSExtraData*>(this)))->init(0x2a);
     *reinterpret_cast<int**>(this) = &DAT_0101589c;
-    *reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0xc) = p;
+    pData = p;
     return this;
 }
 
@@ -924,8 +926,9 @@ FUN_00431830_shell* FUN_00431830_shell::InitExtraContainerChanges(void* apChange
 }
 }
 
-struct FUN_00431d10_stub
+struct FUN_00431d10_stub : public BSExtraData
 {
+    float fValue;
     void* FUN_00431d10(float p);
 };
 // Constructs a BSExtraData of type 0x25, sets its vtable to DAT_010158e4 and stores the float p at offset 0xc, returning this.
@@ -934,7 +937,7 @@ void* FUN_00431d10_stub::FUN_00431d10(float afValue)
 {
     reinterpret_cast<::FUN_0040ec80_cls *>((reinterpret_cast<BSExtraData*>(this)))->init(0x25);
     *reinterpret_cast<int**>(this) = &DAT_010158e4;
-    *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0xc) = afValue;
+    fValue = afValue;
     return this;
 }
 
@@ -965,7 +968,7 @@ BSExtraData* FUN_00432f00(BSExtraData* pThis)
 {
     reinterpret_cast<::FUN_0040ec80_cls *>((pThis))->init(0x12);
     *(int**)pThis = &DAT_01015c60;
-    *(int*)((char*)pThis + 0xc) = 0;
+    ((FUN_00432e60_helper*)pThis)->m_pEncounterZone = 0;
     return pThis;
 }
 
@@ -2911,16 +2914,17 @@ struct Str6a70
     Str6a70& operator=(char const*);
 };
 
-struct FUN_00438280_class
+struct FUN_00438280_class : public BSExtraData
 {
-    Str6a70 m_str;  // at offset 0x14
+    unsigned int auiUnk0C[2];
+    Str6a70 m_str;  // +0x14
     void FUN_00438280(char const* s);
 };
 
 // @fnv 0x00438280
 void FUN_00438280_class::FUN_00438280(char const* acString)
 {
-    *(Str6a70*)((char*)this + 0x14) = acString;
+    m_str = acString;
 }
 
 struct ExtraSpecialRenderFlags : public BSExtraData
@@ -3230,8 +3234,9 @@ bool ExtraPrimitive::FUN_00437370(BSExtraData* apCompare)
     return false;
 }
 
-struct FUN_004303e0_Class
+struct FUN_004303e0_Class : public BSExtraData
 {
+    unsigned short usFlags;
     bool IsBitSet(unsigned int);
 };
 
@@ -3239,7 +3244,7 @@ struct FUN_004303e0_Class
 // @fnv 0x004303e0
 bool FUN_004303e0_Class::IsBitSet(unsigned int uiBitIndex)
 {
-    if (reinterpret_cast<unsigned short*>(this)[6] & (1 << uiBitIndex))
+    if (usFlags & (1 << uiBitIndex))
         return true;
     return false;
 }
@@ -3325,15 +3330,15 @@ struct BE
 extern void* DAT_01015ea0;
 struct FUN_00435a60 : BE
 {
-    void* p;
-    char* m_pString;
+    unsigned char layoutPadding1[0xB];
+    char* m_pString;  // +0xC
     FUN_00435a60();
 };
 // @fnv 0x00435a60
 FUN_00435a60::FUN_00435a60() : BE(0x42)
 {
     *(void**)this = &DAT_01015ea0;
-    *(char**)((char*)this + 0xc) = 0;
+    m_pString = 0;
 }
 }  // namespace fnv_00435a60
 
@@ -3519,8 +3524,9 @@ struct G2
 {
     void AddHead(DoorTeleportLoadData**);
 };
-struct ExtraDecalRefsStandIn
+struct ExtraDecalRefsStandIn : public BSExtraData
 {
+    G2 kDecalRefs;
     void SetDecalRefData(TESObjectREFR* ref, const NiPoint3& intersect, const NiPoint3& normal);
 };
 // Looks up the load data for ref, creating and registering a new entry if missing, then stores the intersect point and normal.
@@ -3532,7 +3538,7 @@ void ExtraDecalRefsStandIn::SetDecalRefData(TESObjectREFR* ref, const NiPoint3& 
     {
         data = new DoorTeleportLoadData;
         data->m_pHitReference = ref;
-        ((G2*)((char*)this + 0xC))->AddHead(&data);
+        kDecalRefs.AddHead(&data);
     }
     data->Intersect = intersect;
     data->Normal = normal;
@@ -3576,17 +3582,15 @@ struct ContNode
     ContNode* GetNext();
     void FUN_0063f7b0();
 };
-struct FUN_00434800_shell
+struct FUN_00434800_shell : public BSExtraData
 {
-    void* p0;
-    void* p1;
-    void* p2;
+    ContNode kList;
     void FUN_00434800(void* target);
 };
 // @fnv 0x00434800
 void FUN_00434800_shell::FUN_00434800(void* target)
 {
-    ContNode* node = (ContNode*)((char*)this + 0xc);
+    ContNode* node = &kList;
     ContNode* prev = 0;
     while (node && !node->FUN_008256d0())
     {

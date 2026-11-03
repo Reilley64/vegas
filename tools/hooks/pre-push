@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+# Refuses pushes of anything but branches and tags, and checks every commit the
+# remote doesn't have yet.
+set -euo pipefail
+check="$(git rev-parse --show-toplevel)/tools/hooks/public-check"
+zero=0000000000000000000000000000000000000000
+status=0
+while read -r _ local_sha remote_ref remote_sha; do
+  [[ $local_sha == "$zero" ]] && continue
+  case $remote_ref in
+    refs/heads/* | refs/tags/*) ;;
+    *)
+      echo "pre-push: refusing to push $remote_ref; only branches and tags are pushed." >&2
+      status=1
+      continue
+      ;;
+  esac
+  if [[ $remote_sha == "$zero" ]]; then
+    "$check" range "$local_sha" --not --remotes="$1" || status=1
+  else
+    "$check" range "$remote_sha..$local_sha" || status=1
+  fi
+done
+exit $status

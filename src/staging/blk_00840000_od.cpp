@@ -875,7 +875,7 @@ struct FUN_00844a40
 {
     void* vtbl;
     int a;
-    int b;
+    void* b;
     void RemoveAll();
 };
 
@@ -884,7 +884,7 @@ void FUN_00844a40::RemoveAll()
 {
     *reinterpret_cast<int**>(this) = &DAT_0107ece8;
     reinterpret_cast<::FUN_00438af0_Class *>((reinterpret_cast<NiTPointerMap<int, int>*>(this)))->FUN_00438af0();
-    ::FUN_00aa10f0(reinterpret_cast<void**>(this)[2]);
+    ::FUN_00aa10f0(b);
 }
 
 namespace fnv_0084b720 {

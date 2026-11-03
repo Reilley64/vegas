@@ -1488,7 +1488,7 @@ FUN_009958b0_Class* FUN_009958b0_Class::FUN_009958b0()
 struct FUN_00995980_class
 {
     int m_00;
-    int m_04;
+    void** m_04;
     void SetEntry(int index, int value, float amount);
 };
 
@@ -1498,7 +1498,7 @@ void FUN_00995980_class::SetEntry(int index, int value, float amount)
 {
     *(int*)((char*)this + index * 4 + 8) = value;
     *(float*)((char*)this + index * 4 + 0xb8) = amount;
-    reinterpret_cast<::FUN_00537e90 *>((((QuantityData*)*(void***)((char*)this + 4))))->SetQuantity((unsigned int)index);
+    reinterpret_cast<::FUN_00537e90 *>((((QuantityData*)*m_04)))->SetQuantity((unsigned int)index);
 }
 
 struct FUN_00996320_Class

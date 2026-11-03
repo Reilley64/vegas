@@ -58,16 +58,38 @@
 #include "fnv/symbols_011f6000.h"
 #include "fnv/symbols_01267000.h"
 #include "fnv/symbols_01272000.h"
+// hkpSimulationIsland members read here (32-bit offsets).
+struct IslandFields
+{
+    char pad00[0x22];
+    unsigned short m_dirtyListIndex;          // +0x22
+    unsigned char m_splitCheckFrameCounter;   // +0x24
+    unsigned char m_flags25;                  // +0x25, split-check, sparse, action-cleanup and locking bits
+    char pad26[0x32];
+    char m_agentTrack[1];                     // +0x58, hkpAgentNnTrack
+};
+// hkpWorld::m_dirtySimulationIslands (+0x40).
+struct WorldDirtyIslandsFields
+{
+    char pad00[0x40];
+    int* m_dirtySimulationIslands;
+    int m_dirtySimulationIslandCount;
+    int m_dirtySimulationIslandCapacity;
+};
+// hkpAgentNnTrack: bytes used in the last sector, then the sector array.
 struct FUN_00cb7460_class
 {
+    int m_bytesUsedInLastSector;
+    void** m_sectors;
+    int m_sectorCount;
     int FUN_00cb7460(int value);
 };
 
 // @fnv 0x00cb7460
 int FUN_00cb7460_class::FUN_00cb7460(int value)
 {
-    if (value + 1 == *(int*)((char*)this + 8))
-        return *(int*)this;
+    if (value + 1 == m_sectorCount)
+        return m_bytesUsedInLastSector;
     return 0x200;
 }
 
@@ -75,10 +97,10 @@ int FUN_00cb7460_class::FUN_00cb7460(int value)
 // @fnv 0x00cb3fd0
 void ClearSlotReference(int* thisPtr, int* p)
 {
-    unsigned short* s = (unsigned short*)((char*)p + 0x22);
+    unsigned short* s = &reinterpret_cast<IslandFields*>(p)->m_dirtyListIndex;
     if (*s != 0xffff)
     {
-        int* base = *(int**)((char*)thisPtr + 0x40);
+        int* base = reinterpret_cast<WorldDirtyIslandsFields*>(thisPtr)->m_dirtySimulationIslands;
         base[*s] = 0;
         *s = 0xffff;
     }
@@ -881,7 +903,7 @@ void __cdecl FUN_00cb6f30(Object* object)
         for (; index >= 0; --index)
         {
             int* item = object->items[index];
-            if ((*(unsigned char*)((char*)item + 0x25) & 3) != 0)
+            if ((reinterpret_cast<IslandFields*>(item)->m_flags25 & 3) != 0)
                 PropagateStateToChildren(object, item);
         }
     }
@@ -3504,8 +3526,8 @@ void __cdecl AddEntryToList(void* owner, Entry* entry)
     entry->flags = (entry->flags & ~0x08) | 0x04;
     if (entry->index == 0xffff)
     {
-        entry->index = (unsigned short)*(unsigned int*)((unsigned char*)owner + 0x44);
-        EntryArray* list = (EntryArray*)((unsigned char*)owner + 0x40);
+        EntryArray* list = reinterpret_cast<EntryArray*>(&static_cast<WorldDirtyIslandsFields*>(owner)->m_dirtySimulationIslands);
+        entry->index = (unsigned short)list->count;
         hkMemoryRouter& router = hkMemoryRouter::getInstance();
         if (list->count == (list->capacity & 0x3fffffff))
         {
@@ -4557,11 +4579,11 @@ struct Actor
 {
     unsigned short& id()
     {
-        return *(unsigned short*)((char*)this + 0x22);
+        return reinterpret_cast<IslandFields*>(this)->m_dirtyListIndex;
     }
     unsigned char& flags()
     {
-        return *(unsigned char*)((char*)this + 0x25);
+        return reinterpret_cast<IslandFields*>(this)->m_flags25;
     }
 };
 struct Entry
@@ -8124,7 +8146,8 @@ struct S00cb3ee0_Entry
 
 struct S00cb3ee0_Body
 {
-    char unk00[0xcc];
+    char unk00[0x10];
+    char m_collidable[0xbc];  // +0x10, hkpWorldObject::m_collidable
     char* m_pIsland;
     char unkd0[0x18];
     unsigned char m_ucMotionType;
@@ -8146,7 +8169,7 @@ struct S00cb3ee0_Sub
 void FUN_00cb3ee0(void* m, MotionObj* motion, void* w, int mode)
 {
     S00cb3ee0_Body* a2 = (S00cb3ee0_Body*)motion;
-    S00cb3ee0_Holder* h = ((::S00cb3ee0_Holder *)(reinterpret_cast<::FUN_00d081e0_cls *>((((S00cb3ee0_Sub*)((char*)a2 + 0x10))))->FUN_00d081e0()));
+    S00cb3ee0_Holder* h = ((::S00cb3ee0_Holder *)(reinterpret_cast<::FUN_00d081e0_cls *>(((S00cb3ee0_Sub*)(a2->m_collidable)))->FUN_00d081e0()));
     int i = 0;
     if (h->count > 0)
     {
@@ -8166,7 +8189,7 @@ void FUN_00cb3ee0(void* m, MotionObj* motion, void* w, int mode)
                 if ((char*)::PickIslandByValue(e->item, (::Island *)(a2->m_pIsland), (::Island *)(esi->m_pIsland)) == a2->m_pIsland)
                 {
                     void* item = e->item;
-                    ::fnv_00cfeca0::CloneRecord((::fnv_00cfeca0::State *)(esi->m_pIsland + 0x58), (const ::fnv_00cfeca0::Record *)(item));
+                    ::fnv_00cfeca0::CloneRecord((::fnv_00cfeca0::State *)(reinterpret_cast<IslandFields*>(esi->m_pIsland)->m_agentTrack), (const ::fnv_00cfeca0::Record *)(item));
                     ::FUN_00cfe020((::S_cfe020_Pool *)(m), (::S_cfe020_Entry *)(item));
                 }
             }

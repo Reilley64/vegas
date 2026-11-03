@@ -12993,7 +12993,6 @@ struct S008a69d0
 };
 
 void __cdecl _DebugLog(const char* format, ...);
-thread_local bool bConditionFunctionDebug;
 
 // @fnv 0x005a1a40
 bool __cdecl FUN_005a1a40(TESObjectREFR* apRefObject, void*, void*, double& afReturnValue)

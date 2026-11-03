@@ -157,7 +157,6 @@ struct ShaderReference
 {
 };
 
-GO g_011c73b4;
 
 void __cdecl FUN_00461300();
 
@@ -169,11 +168,11 @@ void __cdecl FUN_004da4d0(bool abFinalKill)
 
     if (abFinalKill)
     {
-        if (g_011c73b4 && ((unsigned int)(reinterpret_cast<::Callees *>((reinterpret_cast<ShaderReference*>(g_011c73b4.operator unsigned int())))->FUN_00726070())) != 1)
+        if ((*reinterpret_cast<GO *>(&::g_011c73b4)) && ((unsigned int)(reinterpret_cast<::Callees *>((reinterpret_cast<ShaderReference*>((*reinterpret_cast<GO *>(&::g_011c73b4)).operator unsigned int())))->FUN_00726070())) != 1)
         {
             FUN_00461300();
 
-            if (((unsigned int)(reinterpret_cast<::Callees *>((reinterpret_cast<ShaderReference*>(g_011c73b4.operator unsigned int())))->FUN_00726070())) == 2)
+            if (((unsigned int)(reinterpret_cast<::Callees *>((reinterpret_cast<ShaderReference*>((*reinterpret_cast<GO *>(&::g_011c73b4)).operator unsigned int())))->FUN_00726070())) == 2)
             {
                 ::FUN_005b5e40(
                     );
@@ -186,7 +185,7 @@ void __cdecl FUN_004da4d0(bool abFinalKill)
         }
     }
 
-    g_011c73b4.operator=(0);
+    (*reinterpret_cast<GO *>(&::g_011c73b4)).operator=(0);
 }
 
 namespace fnv_004da570 {
@@ -423,8 +422,8 @@ struct G7790
 {
     SETTING_VALUE* Bool();
 };
-extern int DAT_011c6fc0;
-extern int DAT_011c6fc4;
+extern void* DAT_011c6fc0;
+extern void* DAT_011c6fc4;
 extern int DAT_011c70cc;
 extern SettingT_GameSettingCollection_ DAT_011c7628;
 extern SettingT_GameSettingCollection_ DAT_011c7418;
@@ -1567,11 +1566,11 @@ extern FloatSetting DAT_011c71ac;
 
 // Initializes the renderer device, queries GPU capabilities, writes RendererInfo.txt, and caches float/bool settings into globals.
 // @fnv 0x004da670
-int __cdecl FUN_004da670(int aiWidth, int aiHeight)
+int __cdecl FUN_004da670(void* ahWnd, void* ahInstance)
 {
     S4eb0 tracker10(4, true, "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\Renderer.cpp", 377);
-    DAT_011c6fc0 = aiWidth;
-    DAT_011c6fc4 = aiHeight;
+    DAT_011c6fc0 = ahWnd;
+    DAT_011c6fc4 = ahInstance;
     char buf21[260];
     ::FUN_00406d00(buf21, 260, "%sRendererInfo.txt", ((char *)(::FUN_004dc110())));
     void* file32 = std::fopen(buf21, (const char*)&DAT_0102156c);
@@ -1601,17 +1600,17 @@ int __cdecl FUN_004da670(int aiWidth, int aiHeight)
         }
         else
         {
-            ::DAT_011c6fbc = CreateWindowExA(0, (*reinterpret_cast<int *>(&::_DAT_011a2fe8)), 0, 0x50000000, 0, 0, ((int)(::FUN_004dc1f0())), ::FUN_004dc200(),
-                                      DAT_011c6fc0, 0, DAT_011c6fc4, 0);
+            ::DAT_011c6fbc = CreateWindowExA(0, (LPCSTR)::_DAT_011a2fe8, 0, 0x50000000, 0, 0, ((int)(::FUN_004dc1f0())), ::FUN_004dc200(),
+                                      (HWND)DAT_011c6fc0, 0, (HINSTANCE)DAT_011c6fc4, 0);
             Rect4 rect13;
             rect13.a = 0;
             rect13.b = 0;
             rect13.c = ((int)(::FUN_004dc1f0()));
             rect13.d = ::FUN_004dc200();
-            AdjustWindowRect(&rect13, GetWindowLongA(DAT_011c6fc0, -16, GetClassLongA(::DAT_011c6fbc, -8)));
+            AdjustWindowRect((LPRECT)&rect13, GetWindowLongA((HWND)DAT_011c6fc0, -16), GetClassLongA((HWND)::DAT_011c6fbc, -8));
             int w3 = rect13.c - rect13.a;
             int h11 = rect13.d - rect13.b;
-            SetWindowPos(DAT_011c6fc0, 0, reinterpret_cast<::TESObjectCELL *>(&(DAT_011c75d4))->GetCellStandValue(), reinterpret_cast<::TESObjectCELL *>(&(DAT_011c7654))->GetCellStandValue(), w3, h11, 0x40);
+            SetWindowPos((HWND)DAT_011c6fc0, 0, reinterpret_cast<::TESObjectCELL *>(&(DAT_011c75d4))->GetCellStandValue(), reinterpret_cast<::TESObjectCELL *>(&(DAT_011c7654))->GetCellStandValue(), w3, h11, 0x40);
         }
         DAT_011c70cc = 0;
         if (DAT_011c7418.Bool()->b)
@@ -1735,9 +1734,9 @@ int __cdecl FUN_004da670(int aiWidth, int aiHeight)
             wval40 = 0x60;
         }
     }
-    int hr62 = ((::fnv_004da670::DevObj *)(((::fnv_004da670::RendObj *)(::FUN_00559450((int *)&(::FUN_004dc040()))->vfn_28(0, 1, 0x16, 0x80000, 3, 0x71);
+    int hr62 = ((::fnv_004da670::DevObj *)(::FUN_004dc040()))->vfn_28(0, 1, 0x16, 0x80000, 3, 0x71);
     DAT_011c70ea = (int)(hr62 >= 0);
-    hr62 = ((::fnv_004da670::DevObj *)(((::fnv_004da670::RendObj *)(::FUN_00559450((int *)&(::FUN_004dc040()))->vfn_28(0, 1, 0x16, 0x20000, 3, 0x71);
+    hr62 = ((::fnv_004da670::DevObj *)(::FUN_004dc040()))->vfn_28(0, 1, 0x16, 0x20000, 3, 0x71);
     (*reinterpret_cast<unsigned char *>(&::DAT_011f941f)) = (int)(hr62 >= 0);
     DAT_011ad810 = ((::fnv_004da670::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&(DAT_011c7284))))->i;
     DAT_011ad814 = ((::fnv_004da670::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&(DAT_011c7784))))->i;
@@ -1770,7 +1769,7 @@ int __cdecl FUN_004da670(int aiWidth, int aiHeight)
     *(short*)&DAT_011ad830 = ((::fnv_004da670::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&(DAT_011c7520))))->sh;
     if (::FUN_004dc0b0() == 1)
     {
-        hr62 = ((::fnv_004da670::DevObj *)(((::fnv_004da670::RendObj *)(::FUN_00559450((int *)&(::FUN_004dc040()))->vfn_28(0, 1, 0x16, 0, 1, 0x434f5441);
+        hr62 = ((::fnv_004da670::DevObj *)(::FUN_004dc040()))->vfn_28(0, 1, 0x16, 0, 1, 0x434f5441);
     }
     else if (::FUN_004dc0b0() == 2)
     {
@@ -1792,7 +1791,7 @@ int __cdecl FUN_004da670(int aiWidth, int aiHeight)
         void* hmod = LoadLibraryA((const char*)&DAT_0102148c);
         if (hmod != 0)
         {
-            void* proc = GetProcAddress(hmod, (const char*)&DAT_01021478);
+            void* proc = (void*)GetProcAddress((HMODULE)hmod, (const char*)&DAT_01021478);
             if (proc != 0)
             {
                 int res = ((Fn0)proc)();
@@ -1802,7 +1801,7 @@ int __cdecl FUN_004da670(int aiWidth, int aiHeight)
                     (*reinterpret_cast<unsigned char *>(&::DAT_011f9181)) = 0;
                 }
             }
-            FreeLibrary(hmod);
+            FreeLibrary((HMODULE)hmod);
         }
     }
     else if (::FUN_004dc0b0() == 1)
@@ -1948,7 +1947,7 @@ int __cdecl FUN_004da670(int aiWidth, int aiHeight)
                 fmt33 = 0;
                 break;
             }
-            dev413 = ((::fnv_004da670::DevObj *)(((::fnv_004da670::RendObj *)(::FUN_00559450((int *)&(::FUN_004dc040()));
+            dev413 = ((::fnv_004da670::DevObj *)(::FUN_004dc040()));
             rr1 = dev413->vfn_28(0, 1, 0x16, 0, 3, fmt33);
             if (rr1 >= 0)
             {
@@ -1959,7 +1958,7 @@ int __cdecl FUN_004da670(int aiWidth, int aiHeight)
                 (*reinterpret_cast<char (*)[15]>(&::DAT_011f9194))[li10] = 0;
             }
         }
-        dev53 = ((::fnv_004da670::DevObj *)(((::fnv_004da670::RendObj *)(::FUN_00559450((int *)&(::FUN_004dc040()));
+        dev53 = ((::fnv_004da670::DevObj *)(::FUN_004dc040()));
         r510 = dev53->vfn_28(0, 1, 0x16, 0x80000, 3, 0x24);
         (*reinterpret_cast<unsigned char *>(&::fnv_004e8ec0::DAT_011ad832)) = (int)(r510 >= 0);
     }

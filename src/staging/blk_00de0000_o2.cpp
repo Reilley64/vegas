@@ -3,6 +3,7 @@
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
 #include <xmmintrin.h>
+#include <intrin.h>
 #include "fnv/symbols_00c90000.h"
 #include "fnv/symbols_00c85000.h"
 #include <emmintrin.h>
@@ -14175,10 +14176,7 @@ __forceinline void setTime();
 void StringCursor::TimerCommand_S::setTime()
 {
 hkUint32 ticks;
-__asm{
-rdtsc
-mov dword ptr[ticks],eax
-}
+ticks = (unsigned int)__rdtsc();
 m_uiStartTicks=ticks;
 }
 

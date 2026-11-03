@@ -3,6 +3,7 @@
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
 #include "fnv/symbols_00c85000.h"
+#include <intrin.h>
 #include "fnv/symbols_00c90000.h"
 #include "../../include/layout_support.h"
 #include <xmmintrin.h>
@@ -545,10 +546,7 @@ __forceinline void ProfMark(const char* pName)
         ProfRec* pRec = (ProfRec*)pBuf->m_pCur;
         pRec->m_pName = pName;
         { unsigned int ticks;
-__asm {
-    rdtsc
-    mov dword ptr[ticks], eax
-}
+ticks = (unsigned int)__rdtsc();
 pRec->m_iTick = ticks; }
         pBuf->m_pCur = (char*)(pRec + 1);
     }
@@ -563,10 +561,7 @@ __forceinline void ProfMark2(const char* pName, const char* pName2)
         pRec->m_pName = pName;
         pRec->m_pName2 = pName2;
         { unsigned int ticks;
-__asm {
-    rdtsc
-    mov dword ptr[ticks], eax
-}
+ticks = (unsigned int)__rdtsc();
 pRec->m_iTick = ticks; }
         pBuf->m_pCur = (char*)(pRec + 1);
     }

@@ -1097,7 +1097,7 @@ struct FUN_00c4f9b0_class : NiObject
 void FUN_00c4f9b0_class::CopyMembersStreamWithField(NiObject* pDest, void* pArg)
 {
     int tmp;
-    reinterpret_cast<::FUN_00a5d450_class *>(this)->CreateVertexBufferSet((unsigned int)pDest, pArg);
+    reinterpret_cast<::FUN_00a5d450_class *>(this)->CreateVertexBufferSet((std::uintptr_t)pDest, pArg);
     tmp = m08;
     pDest->m08 = tmp;
 }
@@ -1195,7 +1195,7 @@ void FUN_00c4fca0_This::SaveToStream(NiStream& s)
 {
     reinterpret_cast<::fnv_00c4fa60::FUN_00c4fa60_shell *>((((Holder60*)this)))->FUN_00c4fa60((::fnv_00c4fa60::NiStream &)(s));
     _c.SaveBinary(s);
-    ::CallAnimCallback((::FUN_00a3da50_Owner *)&(s), (int)(&_f18));
+    ::CallAnimCallback((::FUN_00a3da50_Owner *)&(s), (std::intptr_t)(&_f18));
 }
 }  // namespace fnv_00c4fca0
 
@@ -2710,12 +2710,12 @@ void FUN_00c4fe30_cls::InitNode(NodeArgB9733* pNode)
     unsigned int unk[4];
     void* g = DAT_01203108;
     void* root = ((void *)(::FUN_00a7d330((const char *)(g))));
-    reinterpret_cast<::S_0060ba10 *>((pNode))->FUN_0096a610((int)(&root));
+    reinterpret_cast<::S_0060ba10 *>((pNode))->FUN_0096a610((std::intptr_t)(&root));
     void* center7 = ((void *)(reinterpret_cast<::NiPoint3 *>(&(m_sub0c))->FUN_00a59af0("Center")));
-    reinterpret_cast<::S_0060ba10 *>((pNode))->FUN_0096a610((int)(&center7));
+    reinterpret_cast<::S_0060ba10 *>((pNode))->FUN_0096a610((std::intptr_t)(&center7));
     float r = m_f18;
     void* radius = ((void *)(::FUN_00a7d550("Radius", r)));
-    reinterpret_cast<::S_0060ba10 *>((pNode))->FUN_0096a610((int)(&radius));
+    reinterpret_cast<::S_0060ba10 *>((pNode))->FUN_0096a610((std::intptr_t)(&radius));
 }
 
 struct Point2_construct_shell

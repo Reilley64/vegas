@@ -312,7 +312,7 @@ void FUN_004de600()
             if (child)
             {
                 SplatterExtra* extra = ((::SplatterExtra *)(reinterpret_cast<::NiAVObject *>((child))->GetExtraData((*(const ::NiFixedString *)(FUN_004de890())))));
-                OpacityFadeState* data = ((::OpacityFadeState *)(::GetOffsetC((int)(extra))));
+                OpacityFadeState* data = ((::OpacityFadeState *)(::GetOffsetC((std::intptr_t)(extra))));
                 data->elapsed += elapsed;
                 if (data->elapsed >= data->duration)
                 {

@@ -477,7 +477,7 @@ void FUN_0057d0a0(Point3 position, Point3 direction, float scale)
         if (!(*reinterpret_cast<::TerrainLOD::TerrainNode * *>(&::DAT_011ca438)))
         {
             (*reinterpret_cast<::TerrainLOD::TerrainNode * *>(&::DAT_011ca438)) = new TerrainNode(0);
-            ::AssignFixedString((char *)((*reinterpret_cast<::TerrainLOD::TerrainNode * *>(&::DAT_011ca438))), (int)(((::TerrainLOD::FixedName *)(::FUN_0057d090()))), {});
+            ::AssignFixedString((char *)((*reinterpret_cast<::TerrainLOD::TerrainNode * *>(&::DAT_011ca438))), (std::intptr_t)(((::TerrainLOD::FixedName *)(::FUN_0057d090()))), {});
             rootSlot0->Attach((*reinterpret_cast<::TerrainLOD::TerrainNode * *>(&::DAT_011ca438)), true);
         }
     }

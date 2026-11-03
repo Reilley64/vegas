@@ -175,7 +175,7 @@ void PlayerQuestData::InitItem(TESForm* form, QuestStage* stage)
     iOldCount = ::FUN_0046e8a0();
     ::FUN_0043b2b0(true);
     ::FUN_004fffe0(0);
-    reinterpret_cast<::Scr *>((((::Script *)(::GetOffsetC((int)this)))))->FUN_005ab400(form);
+    reinterpret_cast<::Scr *>((((::Script *)(::GetOffsetC((std::intptr_t)this)))))->FUN_005ab400(form);
     ::FUN_0043b2b0(false);
     iErrorCount = ::FUN_0046e8a0();
     ::FUN_004fffe0(iOldCount);
@@ -244,7 +244,7 @@ void FUN_0060f320_shell::FUN_0060f320(TESForm* apOwner)
         if (pitem)
         {
             pitem->InitItem(apOwner, this);
-            reinterpret_cast<unsigned char*>(((::ScriptHeaderData *)(reinterpret_cast<::BGSCameraPath *>((((::Script *)(::GetOffsetC((int)(pitem))))))->GetConditions())))[0x10] = 0;
+            reinterpret_cast<unsigned char*>(((::ScriptHeaderData *)(reinterpret_cast<::BGSCameraPath *>((((::Script *)(::GetOffsetC((std::intptr_t)(pitem))))))->GetConditions())))[0x10] = 0;
             iCount = iCount + 1;
         }
         pNode = ((::StageItemNode *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070()));
@@ -357,7 +357,7 @@ void QuestStage::MarkDone(bool done)
         if (m_bCompleteObjective)
             reinterpret_cast<::FUN_009528c0_shell *>((::_g_thePlayer))->AddChallenge((::TESChallenge *)(::PlayerQuestData *)(reinterpret_cast<PlayerQuestData*>(this)));
 
-        Script* script = ((::Script *)(::GetOffsetC((int)this)));
+        Script* script = ((::Script *)(::GetOffsetC((std::intptr_t)this)));
         if (::Script::IsConsolePlatform() && script && ((::PackageList *)(reinterpret_cast<::BGSCameraPath *>((reinterpret_cast<TESAIForm*>(script)))->GetConditions()))->packages)
         {
             ((::PackageList *)(reinterpret_cast<::BGSCameraPath *>((reinterpret_cast<TESAIForm*>(script)))->GetConditions()))->m_ucPackageFlag = 0;

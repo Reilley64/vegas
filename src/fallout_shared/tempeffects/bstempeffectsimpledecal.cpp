@@ -1673,9 +1673,9 @@ bool DecalSetup::Initialize()
             ::BSShaderManager::UpdateObjectTypeRecurse((::NiAVObject *)(::Graph *)((Graph*)p028), 0, 0);
         }
         if (b02C)
-            ::AssignFixedString((char *)(((Graph*)p028)), (int)(FUN_0068c8d0()), {});
+            ::AssignFixedString((char *)(((Graph*)p028)), (std::intptr_t)(FUN_0068c8d0()), {});
         else
-            ::AssignFixedString((char *)(((Graph*)p028)), (int)(((void *)(::FUN_00688460()))), {});
+            ::AssignFixedString((char *)(((Graph*)p028)), (std::intptr_t)(((void *)(::FUN_00688460()))), {});
         ::FUN_0062bc10((::FUN_0062bc10_obj *)(::Graph *)((Graph*)p028));
         ::ProcessPropertyTree((::PropHelper *)(::Graph *)((Graph*)p028), 5);
         if (!b02C)
@@ -2351,7 +2351,7 @@ bool Host::FUN_0068b4c0(Param* apParam)
         }
         else
         {
-            eValue2 = (*(::P3 *)(reinterpret_cast<::FUN_00439ef0_class *>(&(c34Value43))->FUN_00439ef0((::NiPoint3 *)(::P3 *)(((::P3 *)(::FUN_0045bb80((int)(apParam))))), *(const ::NiPoint3 *)nullptr)));
+            eValue2 = (*(::P3 *)(reinterpret_cast<::FUN_00439ef0_class *>(&(c34Value43))->FUN_00439ef0((::NiPoint3 *)(::P3 *)(((::P3 *)(::FUN_0045bb80((std::intptr_t)(apParam))))), *(const ::NiPoint3 *)nullptr)));
             eValue2 = eValue2.ApplyScaled(1.0f / reinterpret_cast<::FUN_008d01e0_Class *>((apParam))->FUN_008d01e0());
         }
         ::FUN_00a582f0((const float *)(::M3 *)(&mecValue16), (const float *)(const char *)((const char*)&(*reinterpret_cast<int *>((void *)&::NiPoint3::ZERO))), 1, (const ::Point314 *)(::P3 *)(&eValue2), (::Point314 *)(::P3 *)(&gValue23));
@@ -2663,7 +2663,7 @@ void FUN_0068dea0_cls::UpdateDebugDecalBox(const xColorA* COLOR, bool FLAG)
     if (!(*reinterpret_cast<::xGO *>(&::g_011c58e0)))
     {
         xStream qfTOqo;
-        if (reinterpret_cast<::FUN_00c3a8a0_cls *>(&(qfTOqo))->FUN_00c3a8a0((unsigned int)("Data\\Meshes\\Decals\\DebugDecalBox.NIF"), false))
+        if (reinterpret_cast<::FUN_00c3a8a0_cls *>(&(qfTOqo))->FUN_00c3a8a0((std::uintptr_t)("Data\\Meshes\\Decals\\DebugDecalBox.NIF"), false))
         {
             if (::GetRefAt21C((const char *)(::xStream *)(&qfTOqo)) == 1)
                 (*reinterpret_cast<::xGO *>(&::g_011c58e0)) = ((::xAV *)(reinterpret_cast<::MLx *>(&(qfTOqo))->GetStringAt(0)));

@@ -749,7 +749,7 @@ void UnloadMagic::FUN_0040b800(bool immediate)
                                 {
                                     const char* path = (file->m_item);
                                     if (path)
-                                        reinterpret_cast<::fnv_00445370::FUN_00445370_cls *>(((*reinterpret_cast<::UnloadLoader * *>(&::g_modelLoader))))->FUN_00445370((unsigned int)(path), immediate);
+                                        reinterpret_cast<::fnv_00445370::FUN_00445370_cls *>(((*reinterpret_cast<::UnloadLoader * *>(&::g_modelLoader))))->FUN_00445370((std::uintptr_t)(path), immediate);
                                     delete[] path;
                                     file = ((::BSSimpleList<const char *> *)(reinterpret_cast<::Callees *>((void *)(file))->FUN_00726070()));
                                 }
@@ -770,7 +770,7 @@ void UnloadMagic::FUN_0040b800(bool immediate)
                                     if (path)
                                     {
                                         strcat_s(buffer4, 260, path);
-                                        reinterpret_cast<::fnv_00445370::FUN_00445370_cls *>(((*reinterpret_cast<::UnloadLoader * *>(&::g_modelLoader))))->FUN_00445370((unsigned int)(buffer4), immediate);
+                                        reinterpret_cast<::fnv_00445370::FUN_00445370_cls *>(((*reinterpret_cast<::UnloadLoader * *>(&::g_modelLoader))))->FUN_00445370((std::uintptr_t)(buffer4), immediate);
                                     }
                                     animation = ((::BSSimpleList<const char *> *)(reinterpret_cast<::Callees *>((void *)(animation))->FUN_00726070()));
                                 }

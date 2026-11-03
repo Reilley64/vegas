@@ -451,7 +451,7 @@ void FUN_00636020_shell::FUN_00636020(::Sky* apSky, float afSecondsPassed)
     ::AutoMemContext tempMemContext(MEM_CONTEXT_MEM_CONTEXT_SKY, true,
                                     "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\Sky\\Moon.cpp", 0x124);
 
-    reinterpret_cast<::FUN_008d0600_s *>(this)->FUN_008d0600((int)(apSky), afSecondsPassed);
+    reinterpret_cast<::FUN_008d0600_s *>(this)->FUN_008d0600((std::intptr_t)(apSky), afSecondsPassed);
 
     if (m_fValue == _DAT_010231b0)
     {

@@ -779,7 +779,7 @@ bool __cdecl PlaySequenceSounds(SeqSound* sequence, TESObjectREFR* reference)
                                 node9 = reference->GetNiNode_v();
                         }
                         if (node9)
-                            reinterpret_cast<::FUN_00ad8570_S *>((::FUN_00453a70()))->FUN_00ad8570((int)(node9), 1.0f, 0x40000000);
+                            reinterpret_cast<::FUN_00ad8570_S *>((::FUN_00453a70()))->FUN_00ad8570((std::intptr_t)(node9), 1.0f, 0x40000000);
                     }
                     else if (!fnv::crt::strnicmp("Enum: HitShader", text_2, 15))
                         reinterpret_cast<::ThisCls_cls *>((::_g_thePlayer))->FUN_00962290((::ArgCls_cls *)(reference));

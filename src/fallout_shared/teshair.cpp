@@ -139,7 +139,7 @@ bool FUN_005fdfa0_shell::IsHairValidForNPC(TESNPC* apNPC)
     if (apNPC && ((::TESHairRaceResult *)(reinterpret_cast<::FUN_004ac110_shell *>((((TESHairCanBeNPCData*)apNPC)))->FUN_004ac110())) != 0)
     {
         hair = (BGSQuestObjective*)this;
-        if (reinterpret_cast<::RefList *>((((::BSSimpleList< ::BGSQuestObjective *> *)(::FUN_0045bb80((int)(((::TESHairRaceResult *)(reinterpret_cast<::FUN_004ac110_shell *>((((TESHairCanBeNPCData*)apNPC)))->FUN_004ac110()))))))))->FUN_005f65d0((void **)&(hair)))
+        if (reinterpret_cast<::RefList *>((((::BSSimpleList< ::BGSQuestObjective *> *)(::FUN_0045bb80((std::intptr_t)(((::TESHairRaceResult *)(reinterpret_cast<::FUN_004ac110_shell *>((((TESHairCanBeNPCData*)apNPC)))->FUN_004ac110()))))))))->FUN_005f65d0((void **)&(hair)))
         {
             switch (((TESActorBase*)apNPC)->GetSex())
             {

@@ -5771,7 +5771,7 @@ bool FUN_0059d8e0(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, do
     {
         if (pobject)
         {
-            *afReturnValue = std::abs(reinterpret_cast<::FUN_004c8f30_shell *>((pchange))->FUN_004c8f30((int)pobject));
+            *afReturnValue = std::abs(reinterpret_cast<::FUN_004c8f30_shell *>((pchange))->FUN_004c8f30((std::intptr_t)pobject));
         }
         else if (pform && FNV_GetFormType(pform) == 0x55)
         {
@@ -5782,7 +5782,7 @@ bool FUN_0059d8e0(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, do
                 TESForm* pEntryForm = *((::TESForm **)((void *)(pCurrentElementNext)));
                 pCurrentElementNext = ((::fnv_0059d8e0::FUN_008256d0_list *)(reinterpret_cast<::Callees *>((pCurrentElementNext))->FUN_00726070()));
                 if (pEntryForm->IsActor_InEditor())
-                    *afReturnValue += std::abs(reinterpret_cast<::FUN_004c8f30_shell *>((pchange))->FUN_004c8f30((int)pEntryForm));
+                    *afReturnValue += std::abs(reinterpret_cast<::FUN_004c8f30_shell *>((pchange))->FUN_004c8f30((std::intptr_t)pEntryForm));
             }
         }
     }
@@ -8919,7 +8919,7 @@ bool FUN_0059dbe0(TESObjectREFR* reference, void* arg1, void* arg2, double& resu
             InventoryChanges* pchange = InventoryChanges::CreateForReference(ptarget);
             if (pchange)
             {
-                result = (double)reinterpret_cast<::FUN_004c8f30_shell *>((pchange))->FUN_004c8f30((int)(pobject));
+                result = (double)reinterpret_cast<::FUN_004c8f30_shell *>((pchange))->FUN_004c8f30((std::intptr_t)(pobject));
             }
         }
     }
@@ -19232,7 +19232,7 @@ bool FUN_005a25f0(void* reference, void* arg1, void* arg2, double& afHeight)
                             LimbH* pLimb = ((::fnv_005a25f0::LimbH *)(::FUN_004aae30((::NiAVObject *)(::fnv_005a25f0::NodeH *)(a->Get3D()), (::NiFixedString *)(((int)(::fnv_0043b230::FUN_0043b230((const char *)(pBodyPart))))))));
                             if (pLimb)
                             {
-                                kPos = *((::fnv_005a25f0::Pt *)(::FUN_0045bb80((int)(pLimb))));
+                                kPos = *((::fnv_005a25f0::Pt *)(::FUN_0045bb80((std::intptr_t)(pLimb))));
                                 f = true;
                             }
                         }

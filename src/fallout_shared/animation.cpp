@@ -4829,7 +4829,7 @@ bool Anim490::AddModel(Model490* model, bool queue)
         else
             seq = new Seq490(((::Group490 *)(reinterpret_cast<::TESRegionDataMap *>((model))->GetRegionMapName())), original4);
         base->Set(seq, true);
-        bool added = ::AttachSeqToOwner((::Owner *)(((Manager490*)manager)), (int)(seq), (::Seq *)(int *)(&(*reinterpret_cast<int *>(&::DAT_011f49e0))), (int *)(true), {});
+        bool added = ::AttachSeqToOwner((::Owner *)(((Manager490*)manager)), (std::intptr_t)(seq), (::Seq *)(int *)(&(*reinterpret_cast<int *>(&::DAT_011f49e0))), (int *)(true), {});
         if (!added)
         {
             bool removed = false;

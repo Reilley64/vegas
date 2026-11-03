@@ -342,7 +342,7 @@ void QuantityData::CopyFrom(void* apOther)
 {
     reinterpret_cast<::FUN_00537e90 *>(this)->SetQuantity(((Flt*)apOther)->operator unsigned int());
     reinterpret_cast<::fnv_006f4ed0::PathingLocation *>(this)->FUN_006f4ed0((const ::fnv_006f4ed0::NiPoint3 *)(::ActorPackageContext *)(((BaseProcess*)apOther)->GetCurrentProcessData()));
-    reinterpret_cast<::FUN_0043a280_shell *>(this)->SetVec((*(const ::NiPoint3 *)(((::BSSimpleList< ::TESFile *> *)(::FUN_00460140((int)(((TESForm*)apOther))))))));
+    reinterpret_cast<::FUN_0043a280_shell *>(this)->SetVec((*(const ::NiPoint3 *)(((::BSSimpleList< ::TESFile *> *)(::FUN_00460140((std::intptr_t)(((TESForm*)apOther))))))));
     byte1C = ((QuantityData*)apOther)->byte1C;
 }
 
@@ -371,7 +371,7 @@ bool FUN_0043a860_shell::FUN_0043a860(TeleportableReference* apCompare)
     if (reinterpret_cast<::NiPlane *>((reinterpret_cast<Call_439090*>(reinterpret_cast<BaseProcess*>(this)->GetCurrentProcessData())))->operator==((*(const ::NiPlane *)(reinterpret_cast<BaseProcess*>(apCompare)->GetCurrentProcessData()))))
         return true;
 
-    if (reinterpret_cast<::NiPlane *>((reinterpret_cast<Call_439090*>(((::BSSimpleList< ::TESFile *> *)(::FUN_00460140((int)(reinterpret_cast<TESForm*>(this))))))))->operator==((*(const ::NiPlane *)(((::BSSimpleList< ::TESFile *> *)(::FUN_00460140((int)(reinterpret_cast<TESForm*>(apCompare)))))))))
+    if (reinterpret_cast<::NiPlane *>((reinterpret_cast<Call_439090*>(((::BSSimpleList< ::TESFile *> *)(::FUN_00460140((std::intptr_t)(reinterpret_cast<TESForm*>(this))))))))->operator==((*(const ::NiPlane *)(((::BSSimpleList< ::TESFile *> *)(::FUN_00460140((std::intptr_t)(reinterpret_cast<TESForm*>(apCompare)))))))))
         return true;
 
     if (*(reinterpret_cast<unsigned char*>(this) + 0x1c) != apCompare->cFlags)

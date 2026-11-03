@@ -415,7 +415,7 @@ void FUN_00489db0_shell::CopyModelListFromComponent(BaseFormComponent* component
             ((S00489ce0*)this)->FUN_00489fa0(filename);
         list = ((::BSSimpleList<const char *> *)(reinterpret_cast<::Callees *>((void *)(list))->FUN_00726070()));
     }
-    reinterpret_cast<::List_48a2c0 *>((((FUN_0048a2c0_shell*)&this->m_kModelData.m_uiFileEntryCount)))->FUN_0048a2c0((::List_48a2c0 *)(::fnv_00489db0::PathingLocation *)(((::fnv_00489db0::PathingLocation *)(::GetOffsetC((int)(((PathingRequest*)source)))))));
+    reinterpret_cast<::List_48a2c0 *>((((FUN_0048a2c0_shell*)&this->m_kModelData.m_uiFileEntryCount)))->FUN_0048a2c0((::List_48a2c0 *)(::fnv_00489db0::PathingLocation *)(((::fnv_00489db0::PathingLocation *)(::GetOffsetC((std::intptr_t)(((PathingRequest*)source)))))));
 }
 }  // namespace fnv_00489db0
 

@@ -727,7 +727,7 @@ struct FUN_00613850_shell
 // @fnv 0x00613850
 void FUN_00613850_shell::FUN_00613850()
 {
-    reinterpret_cast<::FileMatchList *>((((::List_009e03e0 *)(::FUN_0045bb80((int)this)))))->RemoveAll();
+    reinterpret_cast<::FileMatchList *>((((::List_009e03e0 *)(::FUN_0045bb80((std::intptr_t)this)))))->RemoveAll();
 }
 
 namespace fnv_00613950 {
@@ -1327,7 +1327,7 @@ void SaveRace611e50::SaveRace()
         reinterpret_cast<::FUN_004891d0_cls *>((((SaveComponent611e50*)&m_kFaceGenTextureModels[sex3])))->WriteToBuffer((char *)(0x4c444f4d), (void *)(0x54444f4d));
     }
     {
-        SaveList611e50* hairlist7 = ((::SaveList611e50 *)(::FUN_0045bb80((int)this)));
+        SaveList611e50* hairlist7 = ((::SaveList611e50 *)(::FUN_0045bb80((std::intptr_t)this)));
         unsigned int hairposition7 = 0;
         unsigned int haircount2 = hairlist7->FUN_005ae380();
         unsigned int* hairdata1 = new unsigned int[haircount2];
@@ -1501,8 +1501,8 @@ bool RaceComparer::IsDifferentFrom(TESForm* form)
             return true;
     }
     {
-        RaceList* hair = ((::RaceList *)(::FUN_0045bb80((int)(pOtherRace))));
-        if (((::RaceList *)(::FUN_0045bb80((int)this)))->FUN_005ae380() != hair->FUN_005ae380())
+        RaceList* hair = ((::RaceList *)(::FUN_0045bb80((std::intptr_t)(pOtherRace))));
+        if (((::RaceList *)(::FUN_0045bb80((std::intptr_t)this)))->FUN_005ae380() != hair->FUN_005ae380())
             return true;
         while (hair && ((::RaceListItem *)((void *)(hair))))
         {
@@ -1833,11 +1833,11 @@ void FUN_00612c90_cls::CopyFromRace(TESForm* apSource)
         }
         reinterpret_cast<::S_00613ad0_Class *>(this)->DispatchToElement(uiSex4, (int)(pRace3->GetBodyTexModel(uiSex4)->GetModelFilePath()));
     }
-    _pHair = ((::BSSimpleList< ::TESHair *> *)(::FUN_0045bb80((int)(pRace3))));
+    _pHair = ((::BSSimpleList< ::TESHair *> *)(::FUN_0045bb80((std::intptr_t)(pRace3))));
     reinterpret_cast<::FUN_00613850_shell *>(this)->FUN_00613850();
     while (_pHair != 0 && (_pHair->m_item) != 0)
     {
-        reinterpret_cast<::Callees *>((((::BSSimpleList< ::TESHair *> *)(::FUN_0045bb80((int)this)))))->FUN_00905820((void *)&((_pHair->m_item)));
+        reinterpret_cast<::Callees *>((((::BSSimpleList< ::TESHair *> *)(::FUN_0045bb80((std::intptr_t)this)))))->FUN_00905820((void *)&((_pHair->m_item)));
         _pHair = ((::BSSimpleList< ::TESHair *> *)(reinterpret_cast<::Callees *>((_pHair))->FUN_00726070()));
     }
     pEyes = pRace3->GetEyeList();

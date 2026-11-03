@@ -664,7 +664,7 @@ struct FUN_004ff8a0_shell : public BGSTalkingActivator
 // @fnv 0x004ff8a0
 void FUN_004ff8a0_shell::FUN_004ff8a0(void* arg)
 {
-    ((FUN_004534f0_shell*)this)->FUN_004534f0((unsigned int)(arg));
+    ((FUN_004534f0_shell*)this)->FUN_004534f0((std::uintptr_t)(arg));
     unsigned int local;
     if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((((FUN_00428110_shell*)arg)->FUN_00428110(&local, 0x800000)))->FUN_004280f0({}))
     {

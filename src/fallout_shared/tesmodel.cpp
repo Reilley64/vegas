@@ -829,7 +829,7 @@ void FUN_004891d0_cls::WriteToBuffer(char* pcBuffer, void* pkOut)
         if (pcBuffer)
             ::FUN_004856f0(pcBuffer, (void *)(GetPath()), (void *)(FUN_0048cee0() + 1));
         if (pkOut)
-            reinterpret_cast<::FUN_008d0600_s *>(&(m_kObjectMap))->FUN_008d0600((int)(pkOut), (int)(GetPath()));
+            reinterpret_cast<::FUN_008d0600_s *>(&(m_kObjectMap))->FUN_008d0600((std::intptr_t)(pkOut), (int)(GetPath()));
     }
 }
 

@@ -1032,7 +1032,7 @@ FUN_004d61b0::FUN_004d61b0(int a1, int a2, int a3, const char* apName, int a5, i
     m28 = a3;
     char* pNameBuffer = ((char *)(::FUN_00401000(FUN_0044a670(apName) + 1)));
     m2c = pNameBuffer;
-    FUN_004046f0(m2c, ((const char *)(::FUN_00464f30((int)(apName)))));
+    FUN_004046f0(m2c, ((const char *)(::FUN_00464f30((std::intptr_t)(apName)))));
     reinterpret_cast<::TreeCtrl4d63 *>(this)->CreateTreeWindows(a5, a6, a7, a8);
     reinterpret_cast<::FUN_004d6490_Class *>(this)->FUN_004d6490();
     if (a3 != 0)

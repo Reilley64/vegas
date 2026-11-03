@@ -2427,7 +2427,7 @@ void DDecal::CreateDecalGeometry(DGeometry* geom, unsigned short ausVertexCount,
     int objD;
     objD = ((int)(reinterpret_cast<::LowProcess *>((((::SkinDataX *)(reinterpret_cast<::TESRegionDataMap *>((count))->GetRegionMapName()))))->GetActiveCombatTarget()));
     ObjC* textObj;
-    textObj = new ObjC(objD, bone, ::GetOffsetC((int)(((::SkinDataX *)(reinterpret_cast<::TESRegionDataMap *>((count))->GetRegionMapName())))));
+    textObj = new ObjC(objD, bone, ::GetOffsetC((std::intptr_t)(((::SkinDataX *)(reinterpret_cast<::TESRegionDataMap *>((count))->GetRegionMapName())))));
     int* s;
     s = ((int *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((count))->FUN_00825c00()));
     long objC;
@@ -2493,7 +2493,7 @@ void DDecal::CreateDecalGeometry(DGeometry* geom, unsigned short ausVertexCount,
     reinterpret_cast<::FUN_00440460_S *>((objA))->FUN_00440460((const ::V3 *)(&(reinterpret_cast<::NiAVObject *>((((GeomX*)((::DGeometry *)(::FUN_00559450((int *)&(geometry)))))))->FUN_0043c490())));
     reinterpret_cast<::FUN_0043fa80_s *>((objA))->FUN_0043fa80((*(const ::ThreeByThreeMatrix *)(((std::intptr_t)(::FUN_006a9540((char *)(((GeomX*)((::DGeometry *)(::FUN_00559450((int *)&(geometry))))))))))));
     reinterpret_cast<::FUN_00440490_shell *>((objA))->FUN_00440490(reinterpret_cast<::FUN_009cdae0_shell *>((((GeomX*)((::DGeometry *)(::FUN_00559450((int *)&(geometry)))))))->GetFloatAt64());
-    reinterpret_cast<::FUN_004f00e0_shell *>((objA))->FUN_004f00e0((void *)(::FUN_0045bb80((int)(((GeomX*)((::DGeometry *)(::FUN_00559450((int *)&(geometry)))))))));
+    reinterpret_cast<::FUN_004f00e0_shell *>((objA))->FUN_004f00e0((void *)(::FUN_0045bb80((std::intptr_t)(((GeomX*)((::DGeometry *)(::FUN_00559450((int *)&(geometry)))))))));
     reinterpret_cast<::FUN_00688430_shell *>((objA))->FUN_00688430((::NineDwords688430 *)(::NineDw *)(((::NineDw *)(::FUN_00461130((std::intptr_t)(((GeomX*)((::DGeometry *)(::FUN_00559450((int *)&(geometry)))))))))));
     reinterpret_cast<::FUN_006427a0_Class *>((objA))->SetValue(reinterpret_cast<::FUN_008d01e0_Class *>((((GeomX*)((::DGeometry *)(::FUN_00559450((int *)&(geometry)))))))->FUN_008d01e0());
     objA->v47();

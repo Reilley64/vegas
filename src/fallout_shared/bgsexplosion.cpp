@@ -596,13 +596,13 @@ class ExplosionFB6 : public TESFormFB6, public TESSoundFileFB6, public LoaderCli
 void ExplosionFB6::AttachSoundAndTarget(int iA, int iB)
 {
     if (GetSoundFileLength())
-        reinterpret_cast<::QueueModelHolder *>(((*reinterpret_cast<::ModelLoaderFB6 * *>(&::g_modelLoader))))->FUN_00443d30((int)(this), iA, iB, ::FUN_0045c6b0((::TESForm_0045c6b0 *)(::TESFormFB6 *)(this)), true, 0, 0);
+        reinterpret_cast<::QueueModelHolder *>(((*reinterpret_cast<::ModelLoaderFB6 * *>(&::g_modelLoader))))->FUN_00443d30((std::uintptr_t)(this), iA, iB, ::FUN_0045c6b0((::TESForm_0045c6b0 *)(::TESFormFB6 *)(this)), true, 0, 0);
 
     if (m_pkTarget)
         m_pkTarget->Attach(iA, iB);
 
     if ((*reinterpret_cast<::ExplosionFB6 * *>(&::DAT_011ca284)) && (*reinterpret_cast<::ExplosionFB6 * *>(&::DAT_011ca284))->GetSoundFileLength())
-        reinterpret_cast<::QueueModelHolder *>(((*reinterpret_cast<::ModelLoaderFB6 * *>(&::g_modelLoader))))->FUN_00443d30((int)((*reinterpret_cast<::ExplosionFB6 * *>(&::DAT_011ca284))), iA, iB, ::FUN_0045c6b0((::TESForm_0045c6b0 *)(::TESFormFB6 *)(this)), true, 0, 0);
+        reinterpret_cast<::QueueModelHolder *>(((*reinterpret_cast<::ModelLoaderFB6 * *>(&::g_modelLoader))))->FUN_00443d30((std::uintptr_t)((*reinterpret_cast<::ExplosionFB6 * *>(&::DAT_011ca284))), iA, iB, ::FUN_0045c6b0((::TESForm_0045c6b0 *)(::TESFormFB6 *)(this)), true, 0, 0);
 }
 
 class FNVArg

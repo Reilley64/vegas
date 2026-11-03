@@ -860,9 +860,9 @@ void SceneCounter::AccumulateSceneStats(SceneOwner* owner)
                     if (!reinterpret_cast<::FUN_0057c850_cls *>(&(k))->FUN_0057c850(i, &f) && ((::SceneOwner *)(reinterpret_cast<::LowProcess *>((i))->GetTarget())) == owner)
                     {
                         ++this->count;
-                        reinterpret_cast<::FUN_0084d310_class *>(&(k))->FUN_0084d310((int)(i), 1);
+                        reinterpret_cast<::FUN_0084d310_class *>(&(k))->FUN_0084d310((std::intptr_t)(i), 1);
                     }
-                    reinterpret_cast<::FUN_0084d310_class *>(&(e))->FUN_0084d310((int)(((::SceneOwner *)(reinterpret_cast<::LowProcess *>((i))->GetTarget()))), 1);
+                    reinterpret_cast<::FUN_0084d310_class *>(&(e))->FUN_0084d310((std::intptr_t)(((::SceneOwner *)(reinterpret_cast<::LowProcess *>((i))->GetTarget()))), 1);
                     s = cf;
                 }
                 if (reinterpret_cast<::FUN_0057c850_cls *>(&(e))->FUN_0057c850(owner, &f))
@@ -874,7 +874,7 @@ void SceneCounter::AccumulateSceneStats(SceneOwner* owner)
         reinterpret_cast<::FUN_00438af0_Class *>(&(e))->FUN_00438af0();
         ba = l;
     }
-    MeshNode* c = ((::MeshNode *)(::FUN_00545710((int)(owner))));
+    MeshNode* c = ((::MeshNode *)(::FUN_00545710((std::intptr_t)(owner))));
     while (c && *((::MeshObject **)((void *)(c))))
     {
         MeshObject* h = *((::MeshObject **)((void *)(c)));
@@ -1157,9 +1157,9 @@ void SceneStatistics::AccumulateSceneStatistics(StatObject* object, int* output,
                         while (texture1)
                         {
                             int uses = 0;
-                            reinterpret_cast<::fnv_00853130::NiTMapBase *>((((StatTextureSet*)&g_011c5ad0)))->FUN_00853130((unsigned int)(texture1), (*(::fnv_00853130::CombatThreatRecord * *)(&uses)));
+                            reinterpret_cast<::fnv_00853130::NiTMapBase *>((((StatTextureSet*)&g_011c5ad0)))->FUN_00853130((std::uintptr_t)(texture1), (*(::fnv_00853130::CombatThreatRecord * *)(&uses)));
                             uses++;
-                            reinterpret_cast<::FUN_00844700_Class *>((((StatTextureSet*)&g_011c5ad0)))->FUN_00844700((unsigned int)(texture1), uses);
+                            reinterpret_cast<::FUN_00844700_Class *>((((StatTextureSet*)&g_011c5ad0)))->FUN_00844700((std::uintptr_t)(texture1), uses);
                             if (uses == *((int *)&(::FUN_0043d4d0((int *)&(DAT_011c5a90)))))
                                 counts[13]++;
                             texture1 = ((void *)(::FUN_00b70680((::NiTListItem< ::ShadowSceneLight *> *&)(shader1))));

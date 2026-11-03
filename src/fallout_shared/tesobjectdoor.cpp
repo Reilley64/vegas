@@ -817,7 +817,7 @@ void DoorCopy::CopyFromDoor(TESForm* form)
         return;
     DoorCopyNode* destination = 0;
     reinterpret_cast<::TESObjectDOOR *>(this)->ClearRandomTeleportList();
-    DoorCopyNode* node2 = ((::DoorCopyNode *)(::FUN_00871a30((int)(source3))));
+    DoorCopyNode* node2 = ((::DoorCopyNode *)(::FUN_00871a30((std::intptr_t)(source3))));
     destination = ((::DoorCopyNode *)(::FUN_00871a30((std::intptr_t)this)));
     while (node2 && !node2->FUN_008256d0())
     {
@@ -2045,7 +2045,7 @@ bool DoorActivation::ActivateDoor(ActivateObject* reference, ActivateObject* act
             reinterpret_cast<::Reference *>((activator))->FUN_00575830((::Position *)(((int)(reinterpret_cast<::BaseProcess *>((teleport))->GetCurrentProcessData()))));
             if (cell && reinterpret_cast<::TESCallHelper *>((((ActivateDetection*)(*reinterpret_cast<::ActivateDetection * *>(&::g_TES)))))->IsCellBuffered((::TESObjectCELL *)(cell), 0))
             {
-                reinterpret_cast<::FUN_005757d0_shell *>((activator))->FUN_005757d0(((::ActivateVector *)(::FUN_00460140((int)(teleport))))->z);
+                reinterpret_cast<::FUN_005757d0_shell *>((activator))->FUN_005757d0(((::ActivateVector *)(::FUN_00460140((std::intptr_t)(teleport))))->z);
                 reinterpret_cast<::FUN_00575770_shell *>((activator))->FUN_00575770(0.0f);
             }
             else
@@ -2110,7 +2110,7 @@ void TESObjectDOOR::QueueDoorTeleport(TESObjectREFR* apRef)
             TESWorldSpace* pWorld8 = pTeleport2->GetTeleportWorldspace();
             FastTravelRequest* pRequest = new FastTravelRequest();
             pRequest->kPosition = *((::NiPoint3 *)(reinterpret_cast<::BaseProcess *>((pTeleport2))->GetCurrentProcessData()));
-            pRequest->kRotationBasis = *((::NiPoint3 *)(::FUN_00460140((int)(pTeleport2))));
+            pRequest->kRotationBasis = *((::NiPoint3 *)(::FUN_00460140((std::intptr_t)(pTeleport2))));
             pRequest->bFlag20 = false;
             pRequest->pCallback = ((void (&)(void *))::fnv_00518cf0::PlaySoundForRef);
             pRequest->pRef = apRef;

@@ -184,7 +184,7 @@ void BGSDestructibleObjectForm::QueueResourceLoad(TESBoundObject* object, IO_TAS
     for (unsigned int i = 0; i < data->count; i++)
     {
         if (data->stages[i]->model)
-            reinterpret_cast<::QueueModelHolder *>((g_modelLoader))->FUN_00443d30((int)(data->stages[i]->model), priority, (int)(file),
+            reinterpret_cast<::QueueModelHolder *>((g_modelLoader))->FUN_00443d30((std::uintptr_t)(data->stages[i]->model), priority, (std::uintptr_t)(file),
                                                ::FUN_0045c6b0((::TESForm_0045c6b0 *)(::TESObject *)((TESObject*)object)), true, false, false);
         if (data->stages[i]->explosion)
             data->stages[i]->explosion->model.QueueResourceLoad(priority, file);

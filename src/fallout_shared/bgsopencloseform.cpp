@@ -191,9 +191,9 @@ bool BGSOpenCloseForm::SetOpenState(TESObjectREFR* ref, bool open, bool immediat
         else
         {
             if (open)
-                reinterpret_cast<::fnv_00578a30::Thing *>((ref))->FUN_00578a30((int)(DAT_01011f30));
+                reinterpret_cast<::fnv_00578a30::Thing *>((ref))->FUN_00578a30((std::intptr_t)(DAT_01011f30));
             else
-                reinterpret_cast<::fnv_00578a30::Thing *>((ref))->FUN_00578a30((int)(g_011d22b0_arg1));
+                reinterpret_cast<::fnv_00578a30::Thing *>((ref))->FUN_00578a30((std::intptr_t)(g_011d22b0_arg1));
         }
         if (immediate && *((ProcessLists*)&g_011d7188)->GetLifeStateControlFlag() &&
             ((::TESBoundObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((ref))->FUN_007af430()))->GetFormType() == ENUM_FORM_ID_DOOR_ID && ref->GetNiNode_v() &&

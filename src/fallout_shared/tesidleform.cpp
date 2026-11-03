@@ -736,12 +736,12 @@ TESIdleForm* IdleCopy::CopyIdleForm(unsigned char flag, FormCopyMap* map)
     TESForm* k;
     i = dynamic_cast<TESIdleForm*>(((::TESForm *)(reinterpret_cast<::FUN_004867a0_cls *>(this)->FUN_004867a0((void *)(flag), map))));
     h = 0;
-    if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>((map))->FUN_00853130((unsigned int)(m_pParentIdleForm), (::fnv_00853130::CombatThreatRecord *&)(h)) || !h)
+    if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>((map))->FUN_00853130((std::uintptr_t)(m_pParentIdleForm), (::fnv_00853130::CombatThreatRecord *&)(h)) || !h)
         h = m_pParentIdleForm;
     s = static_cast<TESIdleForm*>(h);
     reinterpret_cast<::LowProcess *>((static_cast<IdleCopy*>(i)))->SetCurrentCombatTarget((::TESObjectREFR *)(s));
     h = 0;
-    if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>((map))->FUN_00853130((unsigned int)(m_pIdleForm), (::fnv_00853130::CombatThreatRecord *&)(h)) || !h)
+    if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>((map))->FUN_00853130((std::uintptr_t)(m_pIdleForm), (::fnv_00853130::CombatThreatRecord *&)(h)) || !h)
         h = m_pIdleForm;
     p = static_cast<TESIdleForm*>(h);
     reinterpret_cast<::TESIdleForm *>((static_cast<IdleCopy*>(i)))->m_pIdleForm = (::TESIdleForm *)(p);

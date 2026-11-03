@@ -766,7 +766,7 @@ struct S00525ae0
 BGSProjectile* S00525ae0::FUN_00525ae0(void* pActorOffset)
 {
     Actor* actor = pActorOffset ? (Actor*)((char*)pActorOffset - 0xA4) : 0;
-    return ((::BGSProjectile *)(reinterpret_cast<::Thing *>((((TESObjectWEAP*)this)))->GetOrFallback((int)(actor))));
+    return ((::BGSProjectile *)(reinterpret_cast<::Thing *>((((TESObjectWEAP*)this)))->GetOrFallback((std::intptr_t)(actor))));
 }
 
 struct FUN_00646020_shell : TESObjectWEAP

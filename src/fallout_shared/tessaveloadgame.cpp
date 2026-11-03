@@ -1808,7 +1808,7 @@ void TESSaveLoadGame::FUN_00858480(BSFile* apFile)
     unsigned short isize9;
     void* ptempBuffer2;
 
-    pglobals4 = ((::fnv_anon_00858480::GlobalListNode *)(::FUN_00461190((int)((*reinterpret_cast<::fnv_anon_00858480::TESDataHandler * *>(&::g_dataHandler))))));
+    pglobals4 = ((::fnv_anon_00858480::GlobalListNode *)(::FUN_00461190((std::intptr_t)((*reinterpret_cast<::fnv_anon_00858480::TESDataHandler * *>(&::g_dataHandler))))));
     icount3 = static_cast<unsigned short>(pglobals4->GetSize());
     isize9 = static_cast<unsigned short>(icount3 * 8 + 2);
 
@@ -2151,13 +2151,13 @@ void* FUN_00855010_cls::GetOrCreateNode(void* pForm, unsigned int uiValue)
     void* out = ((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<Form_00855010*>(pForm)))->FUN_0084e3a0()));
     Node_00855010* r1;
     {
-        bool found = reinterpret_cast<::fnv_00853130::NiTMapBase *>(this)->FUN_00853130((unsigned int)(out), (*(::fnv_00853130::CombatThreatRecord * *)(&r1)));
+        bool found = reinterpret_cast<::fnv_00853130::NiTMapBase *>(this)->FUN_00853130((std::uintptr_t)(out), (*(::fnv_00853130::CombatThreatRecord * *)(&r1)));
         if (!found)
         {
             Guard_00855010 g(0x11, 1, "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\TESSaveLoadGame.cpp",
                              0x104);
             r1 = new Node_00855010;
-            reinterpret_cast<::FUN_00844700_Class *>(this)->FUN_00844700((unsigned int)(out), (unsigned int)(r1));
+            reinterpret_cast<::FUN_00844700_Class *>(this)->FUN_00844700((std::uintptr_t)(out), (std::uintptr_t)(r1));
         }
     }
     reinterpret_cast<::FUN_00854e40_Class *>((r1))->FUN_00854e40(uiValue);
@@ -3798,13 +3798,13 @@ SaveFile* SaveOwner::OpenSaveFile(SaveFile* file, const char* name, unsigned int
             BuildSaveFilename(basename9);
         else
             ::TaskQueueInterface::CopyStringToBuffer(basename9, 260, name);
-        ::FUN_00406d00(pathX, 260, "%s%s%s.ess", ((char *)(::FUN_004dc110())), ((const char *)(::FUN_00464f30((int)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SaveSetting *>(&::g_011c3f74))))->GetMenuTitle())))))),
+        ::FUN_00406d00(pathX, 260, "%s%s%s.ess", ((char *)(::FUN_004dc110())), ((const char *)(::FUN_00464f30((std::intptr_t)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SaveSetting *>(&::g_011c3f74))))->GetMenuTitle())))))),
                   basename9);
         if (mode == 0)
         {
             char directory6[260];
             ::TaskQueueInterface::CopyStringToBuffer(directory6, 260, ((char *)(::FUN_004dc110())));
-            strcat_s(directory6, 260, ((const char *)(::FUN_00464f30((int)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SaveSetting *>(&::g_011c3f74))))->GetMenuTitle())))))));
+            strcat_s(directory6, 260, ((const char *)(::FUN_00464f30((std::intptr_t)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SaveSetting *>(&::g_011c3f74))))->GetMenuTitle())))))));
             CreateDirectoryA(directory6, 0);
             int kBackupCount = 1;
             if (kBackupCount > 10)
@@ -3814,7 +3814,7 @@ SaveFile* SaveOwner::OpenSaveFile(SaveFile* file, const char* name, unsigned int
                 char destination3[260];
                 char source_[260];
                 ::TaskQueueInterface::CopyStringToBuffer(source_, 260, ((char *)(::FUN_004dc110())));
-                strcat_s(source_, 260, ((const char *)(::FUN_00464f30((int)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SaveSetting *>(&::g_011c3f74))))->GetMenuTitle())))))));
+                strcat_s(source_, 260, ((const char *)(::FUN_00464f30((std::intptr_t)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SaveSetting *>(&::g_011c3f74))))->GetMenuTitle())))))));
                 strcat_s(source_, 260, basename9);
                 for (int suffix = 0; suffix < backup; ++suffix)
                     strcat_s(source_, 260, ".bak");
@@ -6099,7 +6099,7 @@ void SaveNamer::BuildSaveFilename(char* output)
                     *bad3 = ' ';
                 cursorA = bad3 + 1;
             }
-            ::FUN_00406d00(fullPath, 260, DAT_010806b8, ((const char *)(::FUN_004dc110())), ((const char *)(::FUN_00464f30((int)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_00860ae0::SaveSetting *>(&::g_011c3f74))))->GetMenuTitle())))))),
+            ::FUN_00406d00(fullPath, 260, DAT_010806b8, ((const char *)(::FUN_004dc110())), ((const char *)(::FUN_00464f30((std::intptr_t)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_00860ae0::SaveSetting *>(&::g_011c3f74))))->GetMenuTitle())))))),
                          filename);
             available9 = !FUN_00456a20(fullPath, 0, 0, -1);
             counter++;
@@ -6958,7 +6958,7 @@ void* Own61::RemoveCommand(const char* key, int a, int b)
     {
         bool found;
         Node61* it;
-        found = reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)(m_10))->FUN_00853130((unsigned int)(key), (::fnv_00853130::CombatThreatRecord *&)(list));
+        found = reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)(m_10))->FUN_00853130((std::uintptr_t)(key), (::fnv_00853130::CombatThreatRecord *&)(list));
         if (!found)
             return 0;
         it = list;
@@ -8158,7 +8158,7 @@ void ExpiredSaveLoadGame::PurgeExpiredCellChanges()
                     if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>(&(expired))->FUN_00853130(e, (::fnv_00853130::CombatThreatRecord *&)(cells)))
                     {
                         cells = new ExpiredCellList;
-                        reinterpret_cast<::FUN_00844700_Class *>(&(expired))->FUN_00844700(e, (unsigned int)(cells));
+                        reinterpret_cast<::FUN_00844700_Class *>(&(expired))->FUN_00844700(e, (std::uintptr_t)(cells));
                     }
                     cells->FUN_005ae3d0(storedCoordinates);
                 }

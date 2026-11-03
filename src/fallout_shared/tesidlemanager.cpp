@@ -102,7 +102,7 @@ BSSimpleList<const char*>* IdleAnimationManager::FindIdleArrayEntry(const char* 
                 char* match = FUN_0040ab30(buffer, '\\');
                 TaskQueueInterface::CopyStringToBuffer(match + 1, 128 - (match - buffer) - 1,
                                                        fnv_tesidlemanager_idle_anims);
-                if (reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)this)->FUN_00853130((unsigned int)(buffer), (::fnv_00853130::CombatThreatRecord *&)(pIdleEntry)) && pIdleEntry)
+                if (reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)this)->FUN_00853130((std::uintptr_t)(buffer), (::fnv_00853130::CombatThreatRecord *&)(pIdleEntry)) && pIdleEntry)
                     result = pIdleEntry->m_ppFileListsByWeapon[weapon];
             }
         }
@@ -326,7 +326,7 @@ NiFormArray* FUN_00600560_shell::GetFormArrayForIdleDir(TESForm* apIdleDir)
     if (apIdleDir && *(const char*)apIdleDir)
     {
         unsigned int proot = 0;
-        if (reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)(((NiTPointerMap<unsigned int, unsigned int>*)this)))->FUN_00853130((unsigned int)apIdleDir, (::fnv_00853130::CombatThreatRecord *&)(proot)) && proot)
+        if (reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)(((NiTPointerMap<unsigned int, unsigned int>*)this)))->FUN_00853130((std::uintptr_t)apIdleDir, (::fnv_00853130::CombatThreatRecord *&)(proot)) && proot)
         {
             pretarray = (NiFormArray*)proot;
         }
@@ -355,7 +355,7 @@ NiFormArray* FUN_00600630_shell::GetIdleFormArray(TESForm* apIdleDir)
     if (apIdleDir && *(const char*)apIdleDir != '\0')
     {
         unsigned int proot = 0;
-        if (reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)(((NiTPointerMap<unsigned int, unsigned int>*)this)))->FUN_00853130((unsigned int)apIdleDir, (::fnv_00853130::CombatThreatRecord *&)(proot)) && proot)
+        if (reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)(((NiTPointerMap<unsigned int, unsigned int>*)this)))->FUN_00853130((std::uintptr_t)apIdleDir, (::fnv_00853130::CombatThreatRecord *&)(proot)) && proot)
         {
             pretarray = (NiFormArray*)(proot + 0x18);
         }

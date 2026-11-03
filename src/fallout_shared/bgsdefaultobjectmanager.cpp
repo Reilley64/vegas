@@ -139,7 +139,7 @@ FUN_0058d760::FUN_0058d760() : TESForm()
 {
     reinterpret_cast<::FUN_004f15a0_shell *>(this)->FUN_004f15a0((*(int *)&(const ::ENUM_FORM_ID &)((ENUM_FORM_ID)100)));
     SetRefID(0x31, 1);
-    reinterpret_cast<::FUN_00401290_Class *>((((ActorValueInfo*)this)))->FUN_00401290((int)("DefaultObjectManager"));
+    reinterpret_cast<::FUN_00401290_Class *>((((ActorValueInfo*)this)))->FUN_00401290((std::intptr_t)("DefaultObjectManager"));
     ((BGSDefaultObjectManager*)this)->ResetFormData();
 }
 

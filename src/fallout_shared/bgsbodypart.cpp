@@ -60,7 +60,7 @@ void BodyPartInfo::Initialize()
 void BGSBodyPart::QueueResourceLoad(IO_TASK_PRIORITY priority, QueuedFile* queuedFile)
 {
     if (m_kModel.GetModelLength())
-        reinterpret_cast<::QueueModelHolder *>((g_modelLoader))->FUN_00443d30((int)(&m_kModel), priority, (int)(queuedFile), true, true, false, false);
+        reinterpret_cast<::QueueModelHolder *>((g_modelLoader))->FUN_00443d30((std::uintptr_t)(&m_kModel), priority, (std::uintptr_t)(queuedFile), true, true, false, false);
     if (Data.m_pExplosion)
         ((Queueable18*)((char*)Data.m_pExplosion + 0x18))->QueueResourceLoad(priority, queuedFile);
     if (Data.m_pDebrisObject)

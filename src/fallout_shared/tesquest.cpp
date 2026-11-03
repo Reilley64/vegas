@@ -1163,7 +1163,7 @@ struct FUN_004534f0_shell
 // @fnv 0x0060EE40
 void TESQuest::Revert(BGSLoadFormBuffer* buffer)
 {
-    reinterpret_cast<::FUN_004534f0_shell *>(this)->FUN_004534f0((unsigned int)(buffer));
+    reinterpret_cast<::FUN_004534f0_shell *>(this)->FUN_004534f0((std::uintptr_t)(buffer));
     if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetOldChangeFlags(0x80000000U)))->FUN_004280f0(0x80000000U))
     {
         BSSimpleList<QuestStage*>* stages = &m_kStageList;

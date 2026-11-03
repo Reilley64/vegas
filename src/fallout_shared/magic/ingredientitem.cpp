@@ -355,7 +355,7 @@ void FUN_0040a040_cls::FUN_0040a040(unsigned int aFlag)
     }
     else
     {
-        reinterpret_cast<::FUN_00810570_shell *>((((S_00810570_obj*)((char*)this - 0x30))))->SetAssociatedActorValue((int)(((void *)(reinterpret_cast<::InterfaceManager *>((obj))->FUN_00586150()))));
+        reinterpret_cast<::FUN_00810570_shell *>((((S_00810570_obj*)((char*)this - 0x30))))->SetAssociatedActorValue((std::intptr_t)(((void *)(reinterpret_cast<::InterfaceManager *>((obj))->FUN_00586150()))));
         m_70 = obj->m_a0;
     }
 }

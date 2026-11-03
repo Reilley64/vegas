@@ -163,7 +163,7 @@ struct FUN_004fcc20_shell : public ProjectileProperties
 // @fnv 0x004fd050
 void BGSProjectile::ResetFormData()
 {
-    reinterpret_cast<::FUN_004fcc20_shell *>((reinterpret_cast<ProjectileProperties*>(((::BSSimpleList< ::TESRace *> *)(::FUN_004ea950((int)(reinterpret_cast<TESDataHandler*>(this))))))))->InitializeDefaults();
+    reinterpret_cast<::FUN_004fcc20_shell *>((reinterpret_cast<ProjectileProperties*>(((::BSSimpleList< ::TESRace *> *)(::FUN_004ea950((std::intptr_t)(reinterpret_cast<TESDataHandler*>(this))))))))->InitializeDefaults();
     reinterpret_cast<TESModelVTable*>(&m_kProjectileModel)->Slot0();
     m_eSoundLevel = 1;
 }
@@ -212,7 +212,7 @@ bool BGSProjectile::FUN_004fd360()
 // @fnv 0x004fd420
 bool FUN_004fd420_shell::FUN_004fd420(int aeFlag)
 {
-    return (*(int*)((::BSSimpleList< ::TESRace *> *)(::FUN_004ea950((int)(((TESDataHandler*)this))))) & aeFlag) ? true : false;
+    return (*(int*)((::BSSimpleList< ::TESRace *> *)(::FUN_004ea950((std::intptr_t)(((TESDataHandler*)this))))) & aeFlag) ? true : false;
 }
 
 struct FUN_00821640_shell : public TESObjectWEAP
@@ -412,7 +412,7 @@ void FUN_004fdcf0_shell::CopyFromProjectile(TESForm* apCopy)
 
     *(unsigned int*)&this->m_eSoundLevel = *(unsigned int*)&pcopy->m_eSoundLevel;
 
-    __memcpy(((::BSSimpleList< ::TESRace *> *)(::FUN_004ea950((int)(((TESDataHandler*)this))))), ((::BSSimpleList< ::TESRace *> *)(::FUN_004ea950((int)(((TESDataHandler*)pcopy))))), 0x54);
+    __memcpy(((::BSSimpleList< ::TESRace *> *)(::FUN_004ea950((std::intptr_t)(((TESDataHandler*)this))))), ((::BSSimpleList< ::TESRace *> *)(::FUN_004ea950((std::intptr_t)(((TESDataHandler*)pcopy))))), 0x54);
 }
 
 struct FUN_005e79a0_t
@@ -455,7 +455,7 @@ bool FUN_004fdd80_shell::IsNotEqual(TESForm* apCompare)
         return true;
 
     if (std::memcmp(reinterpret_cast<const void*>(reinterpret_cast<char*>(this) + 0x60),
-                ((::BSSimpleList< ::TESRace *> *)(::FUN_004ea950((int)(reinterpret_cast<TESDataHandler*>(pcomp))))), 0x54) != 0)
+                ((::BSSimpleList< ::TESRace *> *)(::FUN_004ea950((std::intptr_t)(reinterpret_cast<TESDataHandler*>(pcomp))))), 0x54) != 0)
         return true;
 
     if (reinterpret_cast<FUN_004fdd80_field*>(&this->m_kProjectileModel)
@@ -849,11 +849,11 @@ void S_004fdfb0_Proj::PreloadModels(int a, int b)
 {
     if (FUN_0048cee0())
     {
-        reinterpret_cast<::QueueModelHolder *>(((*reinterpret_cast<::S_004fdfb0_Mgr * *>(&::g_modelLoader))))->FUN_00443d30((int)(this), a, b, ::FUN_0045c6b0((::TESForm_0045c6b0 *)(::S_004fdfb0_Proj *)(this)), 1, 0, 0);
+        reinterpret_cast<::QueueModelHolder *>(((*reinterpret_cast<::S_004fdfb0_Mgr * *>(&::g_modelLoader))))->FUN_00443d30((std::uintptr_t)(this), a, b, ::FUN_0045c6b0((::TESForm_0045c6b0 *)(::S_004fdfb0_Proj *)(this)), 1, 0, 0);
     }
     if (m_kProjectileModel.FUN_0048cee0())
     {
-        reinterpret_cast<::QueueModelHolder *>(((*reinterpret_cast<::S_004fdfb0_Mgr * *>(&::g_modelLoader))))->FUN_00443d30((int)(&m_kProjectileModel), a, b, 3, 1, 0, 0);
+        reinterpret_cast<::QueueModelHolder *>(((*reinterpret_cast<::S_004fdfb0_Mgr * *>(&::g_modelLoader))))->FUN_00443d30((std::uintptr_t)(&m_kProjectileModel), a, b, 3, 1, 0, 0);
     }
     if (((::S_004fdfb0_Obj *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)this))))
     {

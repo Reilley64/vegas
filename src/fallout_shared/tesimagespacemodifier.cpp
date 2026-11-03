@@ -1814,12 +1814,12 @@ void BlendImageSpaceModifiers(float blend, TESImageSpaceModifier* pPreviousModif
     if (pPreviousModifier->Data.m_bUseRadialBlur && previousTarget)
     {
         previousTarget->UpdateWorldBound();
-        ::FUN_00b8b1c0((int)(manager4), (int)&((*(const ::NiBound *)(reinterpret_cast<::FUN_0043d450_Owner *>((void *)(previousTarget))->FUN_0043d450()))));
+        ::FUN_00b8b1c0((std::intptr_t)(manager4), (int)&((*(const ::NiBound *)(reinterpret_cast<::FUN_0043d450_Owner *>((void *)(previousTarget))->FUN_0043d450()))));
     }
     if (pNextModifier->Data.m_bUseRadialBlur && nextTarget)
     {
         previousTarget->UpdateWorldBound();
-        ::FUN_00b8b1c0((int)(manager4), (int)&((*(const ::NiBound *)(reinterpret_cast<::FUN_0043d450_Owner *>((void *)(nextTarget))->FUN_0043d450()))));
+        ::FUN_00b8b1c0((std::intptr_t)(manager4), (int)&((*(const ::NiBound *)(reinterpret_cast<::FUN_0043d450_Owner *>((void *)(nextTarget))->FUN_0043d450()))));
     }
     if (!pPreviousModifier->Data.m_bUseRadialBlur)
         aFirstCenter = (const BlendPoint&)pPreviousModifier->Data.m_kRadialBlurCenter;

@@ -543,7 +543,7 @@ void __cdecl CreateDefaultTopics()
                 (*reinterpret_cast<TopicDefaultEntry * (*)[]>(&::fnv_0061a270::DAT_0119a43c))[i][j].topic->SetFormID((*reinterpret_cast<TopicDefaultEntry * (*)[]>(&::fnv_0061a270::DAT_0119a43c))[i][j].formID, true);
                 (*reinterpret_cast<TopicDefaultEntry * (*)[]>(&::fnv_0061a270::DAT_0119a43c))[i][j].topic->SetEditorID((*reinterpret_cast<TopicDefaultEntry * (*)[]>(&::fnv_0061a270::DAT_0119a43c))[i][j].editorID);
                 reinterpret_cast<::TESFullName *>(&((*reinterpret_cast<TopicDefaultEntry * (*)[]>(&::fnv_0061a270::DAT_0119a43c))[i][j].topic->fullName))->SetFullName(
-                    ((const char *)(::FUN_00464f30((int)((*reinterpret_cast<TopicDefaultEntry * (*)[]>(&::fnv_0061a270::DAT_0119a43c))[i][j].editorID)))));
+                    ((const char *)(::FUN_00464f30((std::intptr_t)((*reinterpret_cast<TopicDefaultEntry * (*)[]>(&::fnv_0061a270::DAT_0119a43c))[i][j].editorID)))));
                 reinterpret_cast<::FUN_00461780_cls *>(((*reinterpret_cast<::DataHandlerEx * *>(&::g_dataHandler))))->Method((int)((*reinterpret_cast<TopicDefaultEntry * (*)[]>(&::fnv_0061a270::DAT_0119a43c))[i][j].topic));
                 reinterpret_cast<::TMapStandIn *>((DAT_011c54c8))->InsertOrUpdate((unsigned int)((*reinterpret_cast<TopicDefaultEntry * (*)[]>(&::fnv_0061a270::DAT_0119a43c))[i][j].editorID), (TESGlobal*)(*reinterpret_cast<TopicDefaultEntry * (*)[]>(&::fnv_0061a270::DAT_0119a43c))[i][j].topic);
             }
@@ -1873,7 +1873,7 @@ void TESTopic_Shell::InitializeTopic()
 
     if (::FUN_00619410((const char *)this))
     {
-        reinterpret_cast<::fnv_00952830::FUN_00952830_Class *>((((PlayerCharacter_Helper*)::_g_thePlayer)))->FUN_00952830((int)(this), 0, 0);
+        reinterpret_cast<::fnv_00952830::FUN_00952830_Class *>((((PlayerCharacter_Helper*)::_g_thePlayer)))->FUN_00952830((std::intptr_t)(this), 0, 0);
     }
     SetInitializationState(true);
 }
@@ -2200,7 +2200,7 @@ TESTopicInfo* FUN_0061af30(TESTopicInfo* input, bool& deferredResult, TESObjectR
     bool h = false;
     BSSimpleList<TESTopicInfo*>* a = 0;
     if (((::TESTopicInfoData *)(::GetField38((char *)(b)))))
-        a = ((::BSSimpleList< ::TESTopicInfo *> *)(::FUN_00460140((int)(((::TESTopicInfoData *)(::GetField38((char *)(b))))))));
+        a = ((::BSSimpleList< ::TESTopicInfo *> *)(::FUN_00460140((std::intptr_t)(((::TESTopicInfoData *)(::GetField38((char *)(b))))))));
     TESTopicInfo* fallback = 0;
     while (a && (a->m_item) && !h)
     {

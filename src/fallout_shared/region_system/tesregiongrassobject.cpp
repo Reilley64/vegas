@@ -380,7 +380,7 @@ float PlcPlacer::GetPlacementChance(PlcPoint2* apPos, PlcWorldSpace* apWorld, bo
         {
             PlcPoint3 kA7;
             PlcPoint3 kB3;
-            if (reinterpret_cast<::Owner *>((((::PlcWater *)(reinterpret_cast<::S00546fb0_Cell *>((pCell8))->FUN_00546fb0()))))->FUN_0053d2e0((int)(apPos), (int)(&kA7), (int)(&kB3)))
+            if (reinterpret_cast<::Owner *>((((::PlcWater *)(reinterpret_cast<::S00546fb0_Cell *>((pCell8))->FUN_00546fb0()))))->FUN_0053d2e0((std::intptr_t)(apPos), (std::intptr_t)(&kA7), (std::intptr_t)(&kB3)))
             {
                 fSlope_ = ::FUN_004f6e00((*(int *)&(const ::PlcPoint3 &)(kA7)), {}, {});
                 if (fSlope_ > pObject->GetSecondFloat() || fSlope_ < pObject->GetFirstFloat())

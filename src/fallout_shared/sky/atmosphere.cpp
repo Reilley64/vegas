@@ -245,7 +245,7 @@ void AtmosphereImpl::SetAtmosphere(AtmoNode* pkRoot, AtmoProperty* pkFog)
     }
 
     AtmoStream kStream;
-    if (reinterpret_cast<::FUN_00c3a8a0_cls *>(&(kStream))->FUN_00c3a8a0((unsigned int)("Meshes\\Sky\\Atmosphere.nif"), 0))
+    if (reinterpret_cast<::FUN_00c3a8a0_cls *>(&(kStream))->FUN_00c3a8a0((std::uintptr_t)("Meshes\\Sky\\Atmosphere.nif"), 0))
     {
         AtmoLoadedModel kModel_("Meshes\\Sky\\Atmosphere.nif", &kStream, 0, 0);
         AtmoObject* pkFirstVal2 = ((::AtmoObject *)(::fnv_0043b230::FUN_0043b230((const char *)&(kModel_))));
@@ -461,13 +461,13 @@ void Atm::UpdateAtmosphere(Node* node, float f)
                                             return;
                                         if (((::fnv_006335d0::Fog *)(::FUN_00b55520(0))) != ((::fnv_006335d0::Fog *)(::FUN_00559450((int *)&(unk0c)))))
                                             ::BSShaderManager::SetFogPropertyForIndex(0, (::BSFogProperty *)(::fnv_006335d0::Fog *)(((::fnv_006335d0::Fog *)(::FUN_00559450((int *)&(unk0c))))));
-                                        reinterpret_cast<::FUN_008d0600_s *>(this)->FUN_008d0600((int)(node), f);
+                                        reinterpret_cast<::FUN_008d0600_s *>(this)->FUN_008d0600((std::intptr_t)(node), f);
                                         if (((int)(reinterpret_cast<::FUN_00476c90_Class *>((node))->FUN_00476c90())) == 3 || 2 == ((int)(reinterpret_cast<::FUN_00476c90_Class *>((node))->FUN_00476c90())))
                                         {
                                             if (!(((::fnv_006335d0::Fog *)(::FUN_00559450((int *)&(unk08))))))
                                                 return;
                                             if ((*reinterpret_cast<::fnv_006335d0::Probe * *>(&::_g_thePlayer)) != 0 && ((int)(reinterpret_cast<::LowProcess *>(((*reinterpret_cast<::fnv_006335d0::Probe * *>(&::_g_thePlayer))))->GetTarget())) &&
-                                                ((::fnv_006335d0::Info *)(::FUN_0045bb80((int)(((void *)(::FUN_00558310((::NiNode_00558310 *)(::fnv_006335d0::BSFaceGenNiNode *)(((::fnv_006335d0::BSFaceGenNiNode *)(::FUN_0045c670()))))))))))->unk08 <
+                                                ((::fnv_006335d0::Info *)(::FUN_0045bb80((std::intptr_t)(((void *)(::FUN_00558310((::NiNode_00558310 *)(::fnv_006335d0::BSFaceGenNiNode *)(((::fnv_006335d0::BSFaceGenNiNode *)(::FUN_0045c670()))))))))))->unk08 <
                                                     reinterpret_cast<::FUN_0057b0a0_shell *>(((*reinterpret_cast<::fnv_006335d0::Probe * *>(&::_g_thePlayer))))->FUN_0057b0a0())
                                             {
                                                 (*reinterpret_cast<::fnv_006335d0::Param *>(&::DAT_011ff8e0)) = *((::fnv_006335d0::Param *)(new ((void *)&(pData)) ::ImageSpaceEffectParam(((::fnv_006335d0::NiPoint3 *)(reinterpret_cast<::FUN_00624700_shell *>((node))->FUN_00624700()))->x,

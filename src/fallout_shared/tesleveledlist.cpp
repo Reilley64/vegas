@@ -877,7 +877,7 @@ void Host::FUN_00c60f10(class NiStream& s)
     reinterpret_cast<::fnv_00c4fa60::FUN_00c4fa60_shell *>(this)->FUN_00c4fa60((::fnv_00c4fa60::NiStream &)(s));
     reinterpret_cast<::NiColor *>(&(c1))->SaveBinary(s);
     reinterpret_cast<::NiColor *>(&(c2))->SaveBinary(s);
-    ::CallAnimCallback((::FUN_00a3da50_Owner *)&(s), (int)(&f24));
+    ::CallAnimCallback((::FUN_00a3da50_Owner *)&(s), (std::intptr_t)(&f24));
 }
 }  // namespace fnv_00c60f10
 

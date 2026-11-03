@@ -82,7 +82,7 @@ bool GameSettingCollection::ReadSetting(TESFile* file, const char* key)
     bool result = false;
     reinterpret_cast<::FUN_004f8a60_class *>(this)->SetField108((int)(file));
     {
-        Setting* setting = ((::Setting *)(reinterpret_cast<::FUN_004f8a30_shell2 *>(this)->FUN_004f8a30((int)(((const char *)(::FUN_00464f30((int)(key))))))));
+        Setting* setting = ((::Setting *)(reinterpret_cast<::FUN_004f8a30_shell2 *>(this)->FUN_004f8a30((std::intptr_t)(((const char *)(::FUN_00464f30((std::intptr_t)(key))))))));
         if (setting)
             result = ReadSetting(*setting);
     }

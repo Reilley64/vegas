@@ -82,14 +82,14 @@ void TESFaction::ResetFormData()
 // @fnv 0x005fd7d0
 void TESFaction::InitLoadGame(BGSLoadFormBuffer* buffer)
 {
-    reinterpret_cast<::FUN_004534f0_shell *>((reinterpret_cast<TESFormBufferAccess*>(static_cast<TESForm*>(this))))->FUN_004534f0((unsigned int)(buffer));
+    reinterpret_cast<::FUN_004534f0_shell *>((reinterpret_cast<TESFormBufferAccess*>(static_cast<TESForm*>(this))))->FUN_004534f0((std::uintptr_t)(buffer));
     reinterpret_cast<::TESReactionForm *>(&(reinterpret_cast<TESFactionReactionView&>(*this).reaction))->InitLoadGame(buffer);
 }
 
 // @fnv 0x005fd800
 void TESFaction::Revert(BGSLoadFormBuffer* buffer)
 {
-    reinterpret_cast<::FUN_004534f0_shell *>((reinterpret_cast<TESFormBufferAccess*>(static_cast<TESForm*>(this))))->FUN_004534f0((unsigned int)(buffer));
+    reinterpret_cast<::FUN_004534f0_shell *>((reinterpret_cast<TESFormBufferAccess*>(static_cast<TESForm*>(this))))->FUN_004534f0((std::uintptr_t)(buffer));
     if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetOldChangeFlags(0x80000000)))->FUN_004280f0(0x80000000))
     {
         m_iFirstFactionValue = 0;
@@ -339,7 +339,7 @@ struct FUN_005fd800_shell : public TESFaction
 // @fnv 0x005fd800
 void FUN_005fd800_shell::FUN_005fd800(BGSLoadFormBuffer* apLoadGameBuffer)
 {
-    reinterpret_cast<::FUN_004534f0_shell *>(this)->FUN_004534f0((unsigned int)apLoadGameBuffer);
+    reinterpret_cast<::FUN_004534f0_shell *>(this)->FUN_004534f0((std::uintptr_t)apLoadGameBuffer);
     if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(apLoadGameBuffer->GetOldChangeFlags(0x80000000)))->FUN_004280f0(0x80000000))
     {
         this->m_iFirstFactionValue = 0;
@@ -811,7 +811,7 @@ struct Reaction_5fd850
 // @fnv 0x005fd850
 void ValidateFactionReactions()
 {
-    BSSimpleList<TESFaction*>* pIter = (BSSimpleList<TESFaction*>*)::FUN_00871a30((int)(*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler)));
+    BSSimpleList<TESFaction*>* pIter = (BSSimpleList<TESFaction*>*)::FUN_00871a30((std::intptr_t)(*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler)));
     while (pIter)
     {
         TESFaction* pFaction = (TESFaction*)*((void **)((void *)(((Node_006815c0*)pIter))));

@@ -920,7 +920,7 @@ void FUN_00641830_shell::UpdateSun(Sky* apSky, float afSecondsPassed)
                                      300);
     NiPoint3 newLoc = (*reinterpret_cast<::fnv_00641830::NiPoint3 *>((void *)&::NiPoint3::ZERO));
     float fhour = ::GetFieldEC((const char*)apSky);
-    reinterpret_cast<::FUN_008d0600_s *>((((H::SkyObject*)this)))->FUN_008d0600((int)(apSky), afSecondsPassed);
+    reinterpret_cast<::FUN_008d0600_s *>((((H::SkyObject*)this)))->FUN_008d0600((std::intptr_t)(apSky), afSecondsPassed);
     if (((int)(reinterpret_cast<::FUN_00476c90_Class *>((apSky))->FUN_00476c90())) == 0)
     {
         H::ThreeByThreeMatrix lightDir = (*reinterpret_cast<::fnv_00641830::H::ThreeByThreeMatrix *>(&::DAT_011a9448));
@@ -939,10 +939,10 @@ void FUN_00641830_shell::UpdateSun(Sky* apSky, float afSecondsPassed)
             reinterpret_cast<::FUN_00642660_shell *>(&(lightDir))->SetMatrixElement(2, 0, DAT_0104f2a8);
         }
         reinterpret_cast<::FUN_0043fa80_s *>((((NiAVObject*)(unsigned int)*(Flt*)((char*)this + 0x1c))))->FUN_0043fa80((const ::ThreeByThreeMatrix &)(lightDir));
-        reinterpret_cast<::FUN_004bc280_S *>((((FUN_004bc280_S*)(unsigned int)*(Flt*)((char*)this + 0x1c))))->FUN_004bc280((const ::C3 *)(const ::fnv_00641830::C3 *)(((::fnv_00641830::C3 *)(::FUN_004ea950((int)(((TESDataHandler*)apSky)))))));
+        reinterpret_cast<::FUN_004bc280_S *>((((FUN_004bc280_S*)(unsigned int)*(Flt*)((char*)this + 0x1c))))->FUN_004bc280((const ::C3 *)(const ::fnv_00641830::C3 *)(((::fnv_00641830::C3 *)(::FUN_004ea950((std::intptr_t)(((TESDataHandler*)apSky)))))));
         reinterpret_cast<::fnv_004bc2e0::NiDynamicEffect *>((((NiPointLight*)(unsigned int)*(Flt*)((char*)this + 0x1c))))->SetEffectColor((const ::fnv_004bc2e0::NiColor &)(*((::fnv_00641830::NiPoint3 *)(reinterpret_cast<::TESObjectTREE *>((((TESObjectTREE*)apSky)))->GetData()))));
         ((NiPointLight*)(unsigned int)*(Flt*)((char*)this + 0x1c))
-            ->FUN_0050dd50(*((::fnv_00641830::NiPoint3 *)(::FUN_00514f30((int)(((TESDataHandler*)apSky))))));
+            ->FUN_0050dd50(*((::fnv_00641830::NiPoint3 *)(::FUN_00514f30((std::intptr_t)(((TESDataHandler*)apSky))))));
     }
     else if (((int)(reinterpret_cast<::FUN_00476c90_Class *>((apSky))->FUN_00476c90())) == 1)
     {
@@ -962,10 +962,10 @@ void FUN_00641830_shell::UpdateSun(Sky* apSky, float afSecondsPassed)
             reinterpret_cast<::FUN_00642660_shell *>(&(lightDir))->SetMatrixElement(2, 0, DAT_0104f2a8);
         }
         reinterpret_cast<::FUN_0043fa80_s *>((((NiAVObject*)(unsigned int)*(Flt*)((char*)this + 0x1c))))->FUN_0043fa80((const ::ThreeByThreeMatrix &)(lightDir));
-        reinterpret_cast<::FUN_004bc280_S *>((((FUN_004bc280_S*)(unsigned int)*(Flt*)((char*)this + 0x1c))))->FUN_004bc280((const ::C3 *)(const ::fnv_00641830::C3 *)(((::fnv_00641830::C3 *)(::FUN_004ea950((int)(((TESDataHandler*)apSky)))))));
+        reinterpret_cast<::FUN_004bc280_S *>((((FUN_004bc280_S*)(unsigned int)*(Flt*)((char*)this + 0x1c))))->FUN_004bc280((const ::C3 *)(const ::fnv_00641830::C3 *)(((::fnv_00641830::C3 *)(::FUN_004ea950((std::intptr_t)(((TESDataHandler*)apSky)))))));
         reinterpret_cast<::fnv_004bc2e0::NiDynamicEffect *>((((NiPointLight*)(unsigned int)*(Flt*)((char*)this + 0x1c))))->SetEffectColor((const ::fnv_004bc2e0::NiColor &)(*((::fnv_00641830::NiPoint3 *)(reinterpret_cast<::TESObjectTREE *>((((TESObjectTREE*)apSky)))->GetData()))));
         ((NiPointLight*)(unsigned int)*(Flt*)((char*)this + 0x1c))
-            ->FUN_0050dd50(*((::fnv_00641830::NiPoint3 *)(::FUN_00514f30((int)(((TESDataHandler*)apSky))))));
+            ->FUN_0050dd50(*((::fnv_00641830::NiPoint3 *)(::FUN_00514f30((std::intptr_t)(((TESDataHandler*)apSky))))));
     }
     else if (((int)(reinterpret_cast<::FUN_00476c90_Class *>((apSky))->FUN_00476c90())) == 3 || ((int)(reinterpret_cast<::FUN_00476c90_Class *>((apSky))->FUN_00476c90())) == 2)
     {
@@ -1052,10 +1052,10 @@ void FUN_00641830_shell::UpdateSun(Sky* apSky, float afSecondsPassed)
             reinterpret_cast<::FUN_004a0c10_s *>((((H::NiPoint3*)&ksundirection)))->FUN_004a0c10();
             reinterpret_cast<::FUN_004769c0_shell *>((((FUN_00476980_S*)&newSunRot)))->FUN_004769c0(0, (float *)((int)&ksundirection));
             reinterpret_cast<::FUN_0043fa80_s *>((((NiAVObject*)(unsigned int)*(Flt*)((char*)this + 0x1c))))->FUN_0043fa80((const ::ThreeByThreeMatrix &)(newSunRot));
-            reinterpret_cast<::FUN_004bc280_S *>((((FUN_004bc280_S*)(unsigned int)*(Flt*)((char*)this + 0x1c))))->FUN_004bc280((const ::C3 *)(const ::fnv_00641830::C3 *)(((::fnv_00641830::C3 *)(::FUN_004ea950((int)(((TESDataHandler*)apSky)))))));
+            reinterpret_cast<::FUN_004bc280_S *>((((FUN_004bc280_S*)(unsigned int)*(Flt*)((char*)this + 0x1c))))->FUN_004bc280((const ::C3 *)(const ::fnv_00641830::C3 *)(((::fnv_00641830::C3 *)(::FUN_004ea950((std::intptr_t)(((TESDataHandler*)apSky)))))));
             reinterpret_cast<::fnv_004bc2e0::NiDynamicEffect *>((((NiPointLight*)(unsigned int)*(Flt*)((char*)this + 0x1c))))->SetEffectColor((const ::fnv_004bc2e0::NiColor &)(*((::fnv_00641830::NiPoint3 *)(reinterpret_cast<::TESObjectTREE *>((((TESObjectTREE*)apSky)))->GetData()))));
             ((NiPointLight*)(unsigned int)*(Flt*)((char*)this + 0x1c))
-                ->FUN_0050dd50(*((::fnv_00641830::NiPoint3 *)(::FUN_00514f30((int)(((TESDataHandler*)apSky))))));
+                ->FUN_0050dd50(*((::fnv_00641830::NiPoint3 *)(::FUN_00514f30((std::intptr_t)(((TESDataHandler*)apSky))))));
         }
         if ((*reinterpret_cast<::fnv_00641830::TES * *>(&::g_TES)) && reinterpret_cast<::FUN_0084e3a0_Class *>(((*reinterpret_cast<::fnv_00641830::TES * *>(&::g_TES))))->FUN_0084e3a0())
         {

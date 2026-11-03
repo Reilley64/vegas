@@ -398,7 +398,7 @@ void FUN_004e0110()
             if (child4)
             {
                 ExtraShell* extra4 = ((::ExtraShell *)(reinterpret_cast<::NiAVObject *>((((ObjShell*)child4)))->GetExtraData((*(const ::NiFixedString *)(FUN_004e0320())))));
-                OpacityFadeState* data = ((::OpacityFadeState *)(::GetOffsetC((int)(extra4))));
+                OpacityFadeState* data = ((::OpacityFadeState *)(::GetOffsetC((std::intptr_t)(extra4))));
                 data->age += elapsed_2;
                 if (data->age >= data->life)
                 {

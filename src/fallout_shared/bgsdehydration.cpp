@@ -3533,7 +3533,7 @@ bool FUN_005113f0_shell::FUN_005113f0(ActivationRef* ref, ActivationRef* activat
         PositionOwner* a = 0;
         if (ref && ((NodeView*)ref)->Node())
             a = ((NodeView*)ref)->Node()->Find((*(const ::FixedName *)&(::FUN_004ef990())));
-        ActivationPosition h = a ? *((const ::ActivationPosition *)(::FUN_0045bb80((int)(a)))) : ref->Position();
+        ActivationPosition h = a ? *((const ::ActivationPosition *)(::FUN_0045bb80((std::intptr_t)(a)))) : ref->Position();
         int i = 0;
         if (p)
             i = ::GetFlagMask((*(::SoundRecord *)(reinterpret_cast<::Holder *>((((::SoundView *)(reinterpret_cast<::FUN_00407820_shell *>(this)->FUN_00407820()))))->CopyBig({}))).unk04);

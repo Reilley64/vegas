@@ -3027,7 +3027,7 @@ bool DWork::FUN_004a2070(DArg* arg)
                             if (!arg->skin)
                             {
                                 arg->skin = new DSkin(0);
-                                ::AssignFixedString((char *)(arg->skin), (int)(((::fnv_004a2070::CStringProvider *)(::FUN_004a2c60()))), {});
+                                ::AssignFixedString((char *)(arg->skin), (std::intptr_t)(((::fnv_004a2070::CStringProvider *)(::FUN_004a2c60()))), {});
                                 selected->Virtualdc((DObj*)arg->skin, true);
                                 ++::DAT_011c57f0;
                                 if (*(*reinterpret_cast<::ProcessLists *>(&::g_011c5904)).GetLifeStateControlFlag())

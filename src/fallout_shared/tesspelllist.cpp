@@ -45,7 +45,7 @@ void TESSpellList::ClearSpells()
     while (pFirstList && (pFirstList->m_item))
         pFirstList->RemoveHead();
 
-    pSecondList = ((::BSSimpleList< ::InventoryStackRecord *> *)(::GetOffsetC((int)this)));
+    pSecondList = ((::BSSimpleList< ::InventoryStackRecord *> *)(::GetOffsetC((std::intptr_t)this)));
     while (pSecondList && (pSecondList->m_item))
         pSecondList->RemoveHead();
 }
@@ -181,7 +181,7 @@ struct FUN_0048d880_shell : public BSSimpleList<void*>
 // @fnv 0x0048d880
 bool FUN_0048d880_shell::FUN_0048d880(void* item)
 {
-    BSSimpleList<void*>* node = ((::BSSimpleList<void *> *)(::GetOffsetC((int)this)));
+    BSSimpleList<void*>* node = ((::BSSimpleList<void *> *)(::GetOffsetC((std::intptr_t)this)));
     while (node)
     {
         void* entry = (node->m_item);
@@ -348,9 +348,9 @@ bool SpellListTask::FUN_0048d210(TESLevSpell* spell)
         return false;
     if (this == static_cast<SpellListTask*>(((::PlayerProcess *)(reinterpret_cast<::Actor *>((reinterpret_cast<PlayerProcessAccessor*>(::_g_thePlayer)))->GetActorBase()))))
         return false;
-    if (reinterpret_cast<::RefList *>((((::SpellListHandle *)(::GetOffsetC((int)this)))))->FUN_005f65d0({}))
+    if (reinterpret_cast<::RefList *>((((::SpellListHandle *)(::GetOffsetC((std::intptr_t)this)))))->FUN_005f65d0({}))
         return false;
-    ((::SpellListHandle *)(::GetOffsetC((int)this)))->FUN_005ae3d0();
+    ((::SpellListHandle *)(::GetOffsetC((std::intptr_t)this)))->FUN_005ae3d0();
     return true;
 }
 
@@ -388,7 +388,7 @@ bool SpellListView::DiffersFrom(BaseFormComponent* apOther)
         return true;
     {
         int iLevSpellCount = 0;
-        SpellNode* pLevSpellNode = ((::SpellNode *)(::GetOffsetC((int)this)));
+        SpellNode* pLevSpellNode = ((::SpellNode *)(::GetOffsetC((std::intptr_t)this)));
         while (pLevSpellNode)
         {
             void* pLevSpell = ((void *)((void *)(pLevSpellNode)));
@@ -400,7 +400,7 @@ bool SpellListView::DiffersFrom(BaseFormComponent* apOther)
             }
             pLevSpellNode = ((::SpellNode *)(reinterpret_cast<::Callees *>((pLevSpellNode))->FUN_00726070()));
         }
-        if (((::SpellNode *)(::GetOffsetC((int)(pOtherList))))->Count() != iLevSpellCount)
+        if (((::SpellNode *)(::GetOffsetC((std::intptr_t)(pOtherList))))->Count() != iLevSpellCount)
             return true;
     }
     return false;
@@ -546,7 +546,7 @@ void TESSpellListShell::FUN_0048d330()
         }
         currentLeveledSpell = ((::ListNode *)(reinterpret_cast<::Callees *>((currentLeveledSpell))->FUN_00726070()));
     }
-    ListNode* leveledSpell = (ListNode*)((::BSSimpleList< ::InventoryStackRecord *> *)(::GetOffsetC((int)this)));
+    ListNode* leveledSpell = (ListNode*)((::BSSimpleList< ::InventoryStackRecord *> *)(::GetOffsetC((std::intptr_t)this)));
     {
         ActorPackageContext* formId;
         while (leveledSpell != 0 && (formId = ((::ActorPackageContext *)((void *)(leveledSpell)))) != 0)
@@ -657,7 +657,7 @@ void TESSpellList_Target::SaveSpellList(unsigned int flags)
         }
 
         levNode2 =
-            reinterpret_cast<BSSimpleList<SpellItem*>*>(((::BSSimpleList<void *> *)(::GetOffsetC((int)(reinterpret_cast<FUN_0048d880_shell*>(this))))));
+            reinterpret_cast<BSSimpleList<SpellItem*>*>(((::BSSimpleList<void *> *)(::GetOffsetC((std::intptr_t)(reinterpret_cast<FUN_0048d880_shell*>(this))))));
         while (levNode2)
         {
             levSpell2 = (levNode2->m_item);
@@ -733,9 +733,9 @@ void SpellListAccess::FUN_0048d630(BaseFormComponent* source)
         f = ((::fnv_0048d630::SpellNode *)(reinterpret_cast<::Callees *>((f))->FUN_00726070()));
     }
 
-    SpellNode* e = reinterpret_cast<SpellNode*>(((::BSSimpleList< ::InventoryStackRecord *> *)(::GetOffsetC((int)(a)))));
+    SpellNode* e = reinterpret_cast<SpellNode*>(((::BSSimpleList< ::InventoryStackRecord *> *)(::GetOffsetC((std::intptr_t)(a)))));
     {
-        SpellNode* c = reinterpret_cast<SpellNode*>(((::BSSimpleList< ::InventoryStackRecord *> *)(::GetOffsetC((int)this))));
+        SpellNode* c = reinterpret_cast<SpellNode*>(((::BSSimpleList< ::InventoryStackRecord *> *)(::GetOffsetC((std::intptr_t)this))));
         while (e != 0)
         {
             void* g = ((void *)((void *)(e)));

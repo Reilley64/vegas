@@ -784,7 +784,7 @@ SrcList* FUN_004ae700_S::FUN_004ae700()
     if (f)
     {
         ::FUN_00a29680();
-        r = ((::SrcList *)(::FUN_00460140((int)(f))));
+        r = ((::SrcList *)(::FUN_00460140((std::intptr_t)(f))));
         ::FUN_00a29680();
     }
     return r;
@@ -2563,9 +2563,9 @@ void BipedAnim::FUN_004abd30(IO_TASK_PRIORITY priority, NiPointer<QueuedHelmet>&
                     {
                         TESModel* firstPersonModel = GetModelForSlot((BIPED_OBJECT)i, object[i].m_pModel);
                         if (firstPersonModel != object[i].m_pModel)
-                            reinterpret_cast<::QueueModelHolder *>((g_modelLoader))->FUN_00443d30((int)(firstPersonModel), (*(int *)&(priority)), (int)(file), 3, true, false, false);
+                            reinterpret_cast<::QueueModelHolder *>((g_modelLoader))->FUN_00443d30((std::uintptr_t)(firstPersonModel), (*(int *)&(priority)), (std::uintptr_t)(file), 3, true, false, false);
                     }
-                    reinterpret_cast<::QueueModelHolder *>((g_modelLoader))->FUN_00443d30((int)(object[i].m_pModel), (*(int *)&(priority)), (int)(file), 3, true, false, false);
+                    reinterpret_cast<::QueueModelHolder *>((g_modelLoader))->FUN_00443d30((std::uintptr_t)(object[i].m_pModel), (*(int *)&(priority)), (std::uintptr_t)(file), 3, true, false, false);
                     TESBipedModelForm* biped = ::TESBipedModelForm::GetFormAsBipedModel(object[i].pParent);
                     if (biped)
                     {

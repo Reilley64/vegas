@@ -76,7 +76,7 @@ void TESRecipe::InitItem()
         if (!category)
             ::FUN_005b5e40();
         else
-            reinterpret_cast<::FUN_005a8040_class *>(this)->SetField54((int)(category));
+            reinterpret_cast<::FUN_005a8040_class *>(this)->SetField54((std::intptr_t)(category));
     }
     category = 0;
     id = GetData()->SubCategoryID;

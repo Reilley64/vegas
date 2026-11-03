@@ -363,7 +363,7 @@ void FUN_005ec500_shell::AddMatchingTargetsToList(void* apListToFill)
         pMasterList = ((::ListOps *)(reinterpret_cast<::Callees *>((pMasterList))->FUN_00726070()));
         if (reinterpret_cast<::PerkEntryConditionSet *>((((CondOps*)((void *)(reinterpret_cast<::BaseProcess *>((((TgtOps*)pTarget)))->GetCurrentProcessData())))))->ContainsTrait((::TESObjectREFR *)(void *)(((void *)(reinterpret_cast<::RegionObjectEntry *>((((TgtOps*)pTarget)))->GetReference(0)))), (::TESObjectREFR *)(0)))
         {
-            reinterpret_cast<::FUN_00952d60_stand *>(((*reinterpret_cast<::PlayerOps * *>(&::_g_thePlayer))))->FUN_00952d60((::TESObjectREFR *)(void *)(((void *)(reinterpret_cast<::RegionObjectEntry *>((((TgtOps*)pTarget)))->GetReference(1)))), (::PathingPath *)(void *)(((void *)(::FUN_00460140((int)(((TgtOps*)pTarget)))))),
+            reinterpret_cast<::FUN_00952d60_stand *>(((*reinterpret_cast<::PlayerOps * *>(&::_g_thePlayer))))->FUN_00952d60((::TESObjectREFR *)(void *)(((void *)(reinterpret_cast<::RegionObjectEntry *>((((TgtOps*)pTarget)))->GetReference(1)))), (::PathingPath *)(void *)(((void *)(::FUN_00460140((std::intptr_t)(((TgtOps*)pTarget)))))),
                                       reinterpret_cast<::FUN_00610190_cls *>((((TgtOps*)pTarget)))->IsFlagSet());
             reinterpret_cast<::Callees *>((((OutList*)apListToFill)))->FUN_00905820(&pTarget);
         }

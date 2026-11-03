@@ -145,7 +145,7 @@ TESFile* TESFile::GetFileForThread(unsigned int threadID)
         {
             m_pThreadSafeFileMap = new NiTPointerMap<unsigned int, TESFile*>(kThreadSafeFileMapBuckets);
         }
-        reinterpret_cast<::FUN_00844700_Class *>((m_pThreadSafeFileMap))->FUN_00844700(threadID, (unsigned int)(file));
+        reinterpret_cast<::FUN_00844700_Class *>((m_pThreadSafeFileMap))->FUN_00844700(threadID, (std::uintptr_t)(file));
         file->InitializeComponent();
     }
     return file;
@@ -800,7 +800,7 @@ void __cdecl RegisterTempFileID(unsigned int aiID, TESFile* apFile)
     {
         (*reinterpret_cast<::NiTPointerMap<unsigned int, unsigned int> * *>(&::DAT_011c40b0)) = (NiTPointerMap<unsigned int, unsigned int>*)(new TempMap_00473f20(1001));
     }
-    reinterpret_cast<::FUN_00844700_Class *>(((*reinterpret_cast<::NiTPointerMap<unsigned int, unsigned int> * *>(&::DAT_011c40b0))))->FUN_00844700(aiID, (unsigned int)apFile);
+    reinterpret_cast<::FUN_00844700_Class *>(((*reinterpret_cast<::NiTPointerMap<unsigned int, unsigned int> * *>(&::DAT_011c40b0))))->FUN_00844700(aiID, (std::uintptr_t)apFile);
     if (!apFile->GetTempIDOwner())
     {
         apFile->SetTempIDOwner(true);
@@ -950,8 +950,8 @@ struct TgtOps
 // @fnv 0x00460110
 void TgtOps::ClearSourceFiles()
 {
-    if (((::List_009e03e0 *)(::FUN_00460140((int)(this)))))
-        reinterpret_cast<::FileMatchList *>((((::List_009e03e0 *)(::FUN_00460140((int)(this))))))->RemoveAll();
+    if (((::List_009e03e0 *)(::FUN_00460140((std::intptr_t)(this)))))
+        reinterpret_cast<::FileMatchList *>((((::List_009e03e0 *)(::FUN_00460140((std::intptr_t)(this))))))->RemoveAll();
 }
 
 
@@ -1597,10 +1597,10 @@ bool FUN_004721d0_shell::FUN_004721d0()
         return false;
     }
     currentoffset = ((TESFileView*)this)->m_uiRecordSize;
-    if (::FUN_00472380((int)((TESFileView*)this)->m_pFile) != currentoffset)
+    if (::FUN_00472380((std::intptr_t)((TESFileView*)this)->m_pFile) != currentoffset)
     {
         ((TESFileView*)this)->m_pFile->Seek(currentoffset, ::DAT_010a2480);
-        ((TESFileView*)this)->m_uiRecordSize = ::FUN_00472380((int)((TESFileView*)this)->m_pFile);
+        ((TESFileView*)this)->m_uiRecordSize = ::FUN_00472380((std::intptr_t)((TESFileView*)this)->m_pFile);
     }
     if (((TESFileView*)this)->m_uiRecordSize == -1)
     {
@@ -2835,7 +2835,7 @@ void GroupWriter::FUN_004736c0(LoadForm* form)
             form->BuildGroupHeader(&header, group);
             if (header.type == ::fnv_00543df0::kGroupFormType)
             {
-                reinterpret_cast<::FUN_00473310_cls *>(this)->SpawnObject((unsigned int)(&header));
+                reinterpret_cast<::FUN_00473310_cls *>(this)->SpawnObject((std::uintptr_t)(&header));
                 group = ((::GroupForm *)(reinterpret_cast<::FUN_004732d0 *>(this)->FUN_004732d0_impl()));
             }
             else

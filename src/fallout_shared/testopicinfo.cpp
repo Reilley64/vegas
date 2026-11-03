@@ -183,7 +183,7 @@ void TESTopicInfo::LoadGame(BGSLoadFormBuffer* buffer)
 // @fnv 0x0061db80
 void TESTopicInfo::Revert(BGSLoadFormBuffer* buffer)
 {
-    reinterpret_cast<::FUN_004534f0_shell *>(this)->FUN_004534f0((unsigned int)(buffer));
+    reinterpret_cast<::FUN_004534f0_shell *>(this)->FUN_004534f0((std::uintptr_t)(buffer));
     if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetOldChangeFlags()))->FUN_004280f0(0x80000000))
         m_bGoodbye = false;
 }
@@ -413,7 +413,7 @@ bool TESTopicInfo::LoadForm(TESFile* file)
                     SetTopicInfoData(0);
                 unsigned int infoID = 0;
                 file->GetChunkData(&infoID);
-                reinterpret_cast<::Callees *>((((::BSSimpleList< ::TESTopicInfo *> *)(::FUN_00460140((int)(((::TESTopicInfoData *)(::GetField38((char *)this)))))))))->FUN_00905820((void *)&(const ::TESTopicInfo *const &)(reinterpret_cast<TESTopicInfo*>(infoID)));
+                reinterpret_cast<::Callees *>((((::BSSimpleList< ::TESTopicInfo *> *)(::FUN_00460140((std::intptr_t)(((::TESTopicInfoData *)(::GetField38((char *)this)))))))))->FUN_00905820((void *)&(const ::TESTopicInfo *const &)(reinterpret_cast<TESTopicInfo*>(infoID)));
                 break;
             }
             case kTopicInfoPromptChunk: {
@@ -681,7 +681,7 @@ struct FUN_0061db00_shell : TESForm
 // @fnv 0x0061db00
 void FUN_0061db00_shell::Revert(unsigned int aiFlags)
 {
-    reinterpret_cast<::FUN_004534f0_shell *>(this)->FUN_004534f0((unsigned int)((BGSLoadFormBuffer*)aiFlags));
+    reinterpret_cast<::FUN_004534f0_shell *>(this)->FUN_004534f0((std::uintptr_t)((BGSLoadFormBuffer*)aiFlags));
     if (aiFlags & 0x80000000)
         ((char*)this)[0x22] = 0;
 }
@@ -1101,7 +1101,7 @@ void TESTopicInfoData::InitItem(TESForm* owner)
             }
         }
 
-        infoCursor.current = ((::BSSimpleList< ::TESTopicInfo *> *)(::FUN_00460140((int)this)));
+        infoCursor.current = ((::BSSimpleList< ::TESTopicInfo *> *)(::FUN_00460140((std::intptr_t)this)));
         infoCursor.previous = 0;
         while (infoCursor.current && (infoCursor.current->m_item))
         {
@@ -1520,12 +1520,12 @@ void TopicLinkLists::CopyLinksFrom(int unused, TopicLinkLists* source)
             reinterpret_cast<::Callees *>((((::BSSimpleList<int> *)((void *)this))))->FUN_00905820((void *)&(item9));
         }
     }
-    BSSimpleList<int>* follow2 = ((::BSSimpleList<int> *)(::FUN_00460140((int)(source))));
+    BSSimpleList<int>* follow2 = ((::BSSimpleList<int> *)(::FUN_00460140((std::intptr_t)(source))));
     int followItem4;
     while (follow2 && (followItem4 = (follow2->m_item)) != 0)
     {
         follow2 = ((::BSSimpleList<int> *)(reinterpret_cast<::Callees *>((follow2))->FUN_00726070()));
-        reinterpret_cast<::Callees *>((((::BSSimpleList<int> *)(::FUN_00460140((int)this)))))->FUN_00905820((void *)&(followItem4));
+        reinterpret_cast<::Callees *>((((::BSSimpleList<int> *)(::FUN_00460140((std::intptr_t)this)))))->FUN_00905820((void *)&(followItem4));
     }
 }
 

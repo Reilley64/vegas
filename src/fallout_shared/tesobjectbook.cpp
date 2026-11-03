@@ -612,7 +612,7 @@ void Book307::CopyBookData(TESForm* source)
     if (!book)
         return;
     reinterpret_cast<::FormCloneOperation *>(this)->FUN_004851b0(source);
-    Data = *((::BookData *)(::FUN_00514f30((int)(reinterpret_cast<BookDataAccessor307*>(book)))));
+    Data = *((::BookData *)(::FUN_00514f30((std::intptr_t)(reinterpret_cast<BookDataAccessor307*>(book)))));
 }
 
 #include <stdio.h>
@@ -1246,7 +1246,7 @@ bool BookComparison::FUN_00514f50(TESForm* other)
         return true;
     if (reinterpret_cast<::FUN_00509540_obj *>(this)->FUN_00485270(book))
         return true;
-    if (std::memcmp(&Data, ((::BookData *)(::FUN_00514f30((int)(static_cast<BookComparison*>(book))))), sizeof(BookData)))
+    if (std::memcmp(&Data, ((::BookData *)(::FUN_00514f30((std::intptr_t)(static_cast<BookComparison*>(book))))), sizeof(BookData)))
         return true;
     return false;
 }

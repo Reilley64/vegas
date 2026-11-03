@@ -742,12 +742,12 @@ TESForm* CameraPathClone::FUN_0058a870(bool abPersist, CameraPathMap* apMap)
     CameraPathClone* pClone_ =
         static_cast<CameraPathClone*>(dynamic_cast<BGSCameraPath*>(((::TESForm *)(reinterpret_cast<::FUN_004867a0_cls *>(this)->FUN_004867a0((void *)(abPersist), apMap)))));
     BGSCameraPath* pFound4 = 0;
-    if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>((apMap))->FUN_00853130((unsigned int)(m_pFirstCameraPath), (::fnv_00853130::CombatThreatRecord *&)(pFound4)) || !pFound4)
+    if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>((apMap))->FUN_00853130((std::uintptr_t)(m_pFirstCameraPath), (::fnv_00853130::CombatThreatRecord *&)(pFound4)) || !pFound4)
         pFound4 = m_pFirstCameraPath;
     BGSCameraPath* pParent3 = pFound4;
     reinterpret_cast<::BGSCameraPath *>((pClone_))->AssignParentPath(pParent3);
     pFound4 = 0;
-    if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>((apMap))->FUN_00853130((unsigned int)(m_pSecondCameraPath), (::fnv_00853130::CombatThreatRecord *&)(pFound4)) || !pFound4)
+    if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>((apMap))->FUN_00853130((std::uintptr_t)(m_pSecondCameraPath), (::fnv_00853130::CombatThreatRecord *&)(pFound4)) || !pFound4)
         pFound4 = m_pSecondCameraPath;
     BGSCameraPath* pPrev = pFound4;
     reinterpret_cast<::LowProcess *>((pClone_))->SetCurrentBoundObject((::TESBoundObject *)(pPrev));

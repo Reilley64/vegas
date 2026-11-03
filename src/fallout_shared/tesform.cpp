@@ -106,7 +106,7 @@ TESFile* TESForm::GetFile(int fileIndex)
     int index;
     BSSimpleList<TESFile*>* fileList;
     TESFile* selected;
-    fileList = ((::BSSimpleList< ::TESFile *> *)(::FUN_00460140((int)this)));
+    fileList = ((::BSSimpleList< ::TESFile *> *)(::FUN_00460140((std::intptr_t)this)));
     index = 0;
     sourceFile = 0;
     selected = 0;
@@ -292,7 +292,7 @@ template <> void BSSimpleList<TESFile*>::SetItem(TESFile* const& apFile)
 // @fnv 0x00484ee0
 TESFile* TESForm::GetOwnerMaster()
 {
-    BSSimpleList<TESFile*>* pFileNode = ((::BSSimpleList< ::TESFile *> *)(::FUN_00460140((int)this)));
+    BSSimpleList<TESFile*>* pFileNode = ((::BSSimpleList< ::TESFile *> *)(::FUN_00460140((std::intptr_t)this)));
     TESFile* pOwnerMaster = 0;
     while (pFileNode && !pFileNode->IsEmpty())
     {
@@ -309,7 +309,7 @@ TESFile* TESForm::GetOwnerMaster()
 TESForm* TESForm::LookupFormByEditorID(const char* editorID)
 {
     TESForm* form = 0;
-    if (editorID && *editorID && (*reinterpret_cast<::BSTCaseInsensitiveStringMap< ::TESForm *> * *>(&::DAT_011c54c8)) && reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)((*reinterpret_cast<::BSTCaseInsensitiveStringMap< ::TESForm *> * *>(&::DAT_011c54c8))))->FUN_00853130((unsigned int)(editorID), (::fnv_00853130::CombatThreatRecord *&)(form)))
+    if (editorID && *editorID && (*reinterpret_cast<::BSTCaseInsensitiveStringMap< ::TESForm *> * *>(&::DAT_011c54c8)) && reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)((*reinterpret_cast<::BSTCaseInsensitiveStringMap< ::TESForm *> * *>(&::DAT_011c54c8))))->FUN_00853130((std::uintptr_t)(editorID), (::fnv_00853130::CombatThreatRecord *&)(form)))
     {
         return form;
     }
@@ -347,7 +347,7 @@ void TESForm::SetFile(TESFile* file)
     }
     if (!file)
     {
-        BSSimpleList<TESFile*>* source = ((::BSSimpleList< ::TESFile *> *)(::FUN_00460140((int)this)));
+        BSSimpleList<TESFile*>* source = ((::BSSimpleList< ::TESFile *> *)(::FUN_00460140((std::intptr_t)this)));
         BSSimpleList<TESFile*>* lastSource = 0;
         while (source)
         {
@@ -363,12 +363,12 @@ void TESForm::SetFile(TESFile* file)
         }
         else
         {
-            ((::BSSimpleList< ::TESFile *> *)(::FUN_00460140((int)this)))->RemoveHead();
+            ((::BSSimpleList< ::TESFile *> *)(::FUN_00460140((std::intptr_t)this)))->RemoveHead();
         }
     }
     else if (file->IsMasterFile())
     {
-        BSSimpleList<TESFile*>* source = ((::BSSimpleList< ::TESFile *> *)(::FUN_00460140((int)this)));
+        BSSimpleList<TESFile*>* source = ((::BSSimpleList< ::TESFile *> *)(::FUN_00460140((std::intptr_t)this)));
         BSSimpleList<TESFile*>* lastMaster = 0;
         while (source && !source->IsEmpty())
         {
@@ -391,11 +391,11 @@ void TESForm::SetFile(TESFile* file)
                 }
             }
         }
-        reinterpret_cast<::Callees *>((((::BSSimpleList< ::TESFile *> *)(::FUN_00460140((int)this)))))->FUN_00905820((void *)&(file));
+        reinterpret_cast<::Callees *>((((::BSSimpleList< ::TESFile *> *)(::FUN_00460140((std::intptr_t)this)))))->FUN_00905820((void *)&(file));
     }
     else
     {
-        BSSimpleList<TESFile*>* source = ((::BSSimpleList< ::TESFile *> *)(::FUN_00460140((int)this)));
+        BSSimpleList<TESFile*>* source = ((::BSSimpleList< ::TESFile *> *)(::FUN_00460140((std::intptr_t)this)));
         BSSimpleList<TESFile*>* lastSource = 0;
         while (source)
         {
@@ -416,7 +416,7 @@ void TESForm::SetFile(TESFile* file)
         }
         else
         {
-            ((::BSSimpleList< ::TESFile *> *)(::FUN_00460140((int)this)))->AddHead(file);
+            ((::BSSimpleList< ::TESFile *> *)(::FUN_00460140((std::intptr_t)this)))->AddHead(file);
         }
     }
 }
@@ -3083,7 +3083,7 @@ void* FUN_004867a0_cls::FUN_004867a0(void* unused, void* arg)
     }
     if (obj != 0 && arg != 0)
     {
-        reinterpret_cast<::FUN_00844700_Class *>((((FUN_004867a0_arg*)arg)))->FUN_00844700((unsigned int)(this), (unsigned int)(obj));
+        reinterpret_cast<::FUN_00844700_Class *>((((FUN_004867a0_arg*)arg)))->FUN_00844700((std::uintptr_t)(this), (std::uintptr_t)(obj));
     }
     return obj;
 }
@@ -3377,7 +3377,7 @@ void FUN_00485c10_shell::FUN_00485c10(unsigned int id, bool notify)
         }
         if (id != 0)
         {
-            reinterpret_cast<::FUN_00844700_Class *>((reinterpret_cast<FormMap*>(::fnv_00483370::DAT_011c54c0)))->FUN_00844700(id, (unsigned int)(this));
+            reinterpret_cast<::FUN_00844700_Class *>((reinterpret_cast<FormMap*>(::fnv_00483370::DAT_011c54c0)))->FUN_00844700(id, (std::uintptr_t)(this));
         }
     }
     iFormID = id;
@@ -3581,7 +3581,7 @@ FUN_00483370::FUN_00483370()
             reinterpret_cast<::FUN_00485c10_shell *>((((TESForm*)this)))->FUN_00485c10(0x800, true);
     }
     if (iFormID)
-        reinterpret_cast<::FUN_00844700_Class *>((DAT_011c54c0))->FUN_00844700(iFormID, (unsigned int)((TESForm*)this));
+        reinterpret_cast<::FUN_00844700_Class *>((DAT_011c54c0))->FUN_00844700(iFormID, (std::uintptr_t)((TESForm*)this));
 }
 }  // namespace fnv_00483370
 

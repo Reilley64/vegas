@@ -289,7 +289,7 @@ void FUN_00640020_shell::UpdateStars(Sky* apSky, float afSecondsPassed)
     float fhour = ::GetFieldEC((const char *)(apSky));
     *(float*)((char*)this + 0xc) = 0.0f;
     static NiPoint3Ex lastColor(0.0f, 0.0f, 0.0f);
-    reinterpret_cast<::FUN_008d0600_s *>((((SkyObjectS*)this)))->FUN_008d0600((int)(apSky), afSecondsPassed);
+    reinterpret_cast<::FUN_008d0600_s *>((((SkyObjectS*)this)))->FUN_008d0600((std::intptr_t)(apSky), afSecondsPassed);
     if (((int)(reinterpret_cast<::FUN_00476c90_Class *>((apSky))->FUN_00476c90())) == 3 || ((int)(reinterpret_cast<::FUN_00476c90_Class *>((apSky))->FUN_00476c90())) == 2)
     {
         if (!reinterpret_cast<::FUN_006366b0_shell *>((((FUN_006366b0_shell*)(unsigned int)*(const Flt*)((char*)this + 4))))->FUN_006366b0())

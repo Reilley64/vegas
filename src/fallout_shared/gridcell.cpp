@@ -1466,8 +1466,8 @@ void Grid::FUN_004baf10()
     ::FUN_00a89af0((std::intptr_t)((spCameraVal).operator->()));
 
     pMat8 = new MatProp();
-    reinterpret_cast<::FUN_004534f0_shell *>((pMat8))->FUN_004534f0((unsigned int)(&(*reinterpret_cast<char *>(&::DAT_011a9b7c))));
-    reinterpret_cast<::FUN_004534f0_shell *>((pMat8))->FUN_004534f0((unsigned int)(&(*reinterpret_cast<char *>(&::DAT_011a9b7c))));
+    reinterpret_cast<::FUN_004534f0_shell *>((pMat8))->FUN_004534f0((std::uintptr_t)(&(*reinterpret_cast<char *>(&::DAT_011a9b7c))));
+    reinterpret_cast<::FUN_004534f0_shell *>((pMat8))->FUN_004534f0((std::uintptr_t)(&(*reinterpret_cast<char *>(&::DAT_011a9b7c))));
     reinterpret_cast<::fnv_004bc450::FUN_004bc450_S *>((pMat8))->FUN_004bc450((const ::fnv_004bc450::C3 *)(void *)(&(*reinterpret_cast<char *>(&::DAT_011a9b7c))));
     reinterpret_cast<::FUN_00439410_cls *>(((m_pMenuLightParameters).operator->()))->FUN_00439410((::ArgObject *)(pMat8));
 

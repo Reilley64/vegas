@@ -33,7 +33,7 @@ bool LoadedReferenceMap::AddReference(TESObjectREFR* pRef)
     if (reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)this)->FUN_00853130(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pRef))->FUN_0084e3a0())), (::fnv_00853130::CombatThreatRecord *&)(existing)))
         return false;
 
-    reinterpret_cast<::FUN_00844700_Class *>(this)->FUN_00844700(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pRef))->FUN_0084e3a0())), (unsigned int)(pRef));
+    reinterpret_cast<::FUN_00844700_Class *>(this)->FUN_00844700(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pRef))->FUN_0084e3a0())), (std::uintptr_t)(pRef));
     iCount++;
     m_uiLastUpdateTime = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::TimeGlobal *>(&::g_timeGlobal))))->FUN_00825c00();
     return true;

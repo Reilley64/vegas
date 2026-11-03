@@ -1146,7 +1146,7 @@ float __cdecl GetFollowerOffset(Actor* actor, Actor* leader)
                 }
                 followers = ((::fnv_00643ff0::FollowerNode *)(reinterpret_cast<::Callees *>((followers))->FUN_00726070()));
             }
-            reinterpret_cast<::FUN_006c8980_stand *>(&(followerList))->FUN_006c8980((int)(((int (&)(const void *, const void *))::CompareObjects)));
+            reinterpret_cast<::FUN_006c8980_stand *>(&(followerList))->FUN_006c8980((std::intptr_t)(((int (&)(const void *, const void *))::CompareObjects)));
             float distance = 0.0f;
             for (index = 0; index < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(followerList))->GetName())); ++index)
             {

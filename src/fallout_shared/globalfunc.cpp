@@ -917,7 +917,7 @@ float __cdecl FUN_004b5570(float _Y, float _X)
 // @fnv 0x004b5950
 void* __cdecl FUN_004b5950(const void* collidable)
 {
-    if (::FUN_004b5980((int)(collidable)) == 2)
+    if (::FUN_004b5980((std::intptr_t)(collidable)) == 2)
     {
         return (void *)::FUN_004b59c0((const char *)(collidable));
     }
@@ -935,7 +935,7 @@ const void* FUN_004b59d0(const char* apBase)
 // @fnv 0x004b59f0
 void* __cdecl FUN_004b59f0(const void* collidable)
 {
-    if (::FUN_004b5980((int)(collidable)) == 1)
+    if (::FUN_004b5980((std::intptr_t)(collidable)) == 1)
     {
         return (void *)::FUN_004b59c0((const char *)(collidable));
     }
@@ -2845,7 +2845,7 @@ void FUN_004b6ce0(FUN_004b6ce0_cls* p)
                 flag4 = false;
                 if (((int)(reinterpret_cast<::BGSTerrainManager *>((RunFourthVirtual))->GetMinLevel())) == 3)
                     flag4 = true;
-                reinterpret_cast<::FUN_004534f0_shell *>(&((*reinterpret_cast<::FUN_004b6ce0_gl *>(&::g_011e0e80))))->FUN_004534f0((unsigned int)(y));
+                reinterpret_cast<::FUN_004534f0_shell *>(&((*reinterpret_cast<::FUN_004b6ce0_gl *>(&::g_011e0e80))))->FUN_004534f0((std::uintptr_t)(y));
                 if (flag4)
                     return;
             }

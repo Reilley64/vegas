@@ -154,7 +154,7 @@ void PathSmootherPOVSearch::AddPathPoints(bool addGoal)
                 reinterpret_cast<::FUN_004a0c10_s *>(&(Dir))->FUN_004a0c10();
                 reinterpret_cast<::MyPoint439180 *>((void *)&(const ::NiPoint3 &)(Dir))->FUN_00439180(segmentLength);
             }
-            reinterpret_cast<::FUN_0069f920_cls *>((m_pOutputSolution))->FUN_0069f920((std::intptr_t)&(Location), (int)&(Dir));
+            reinterpret_cast<::FUN_0069f920_cls *>((m_pOutputSolution))->FUN_0069f920((std::intptr_t)&(Location), (std::intptr_t)&(Dir));
         }
         if (m_bUnderwaterPath && (i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((void *)&(Links))->GetName())) - 1 || m_pOutputSolution->FUN_006b05d0() || addGoal))
         {
@@ -186,7 +186,7 @@ void PathSmootherPOVSearch::AddPathPoints(bool addGoal)
             reinterpret_cast<::FUN_004a0c10_s *>(&(Dir))->FUN_004a0c10();
             reinterpret_cast<::MyPoint439180 *>((void *)&(const ::NiPoint3 &)(Dir))->FUN_00439180(segmentLength);
         }
-        reinterpret_cast<::FUN_0069f920_cls *>((m_pOutputSolution))->FUN_0069f920((std::intptr_t)&(Location), (int)&(Dir));
+        reinterpret_cast<::FUN_0069f920_cls *>((m_pOutputSolution))->FUN_0069f920((std::intptr_t)&(Location), (std::intptr_t)&(Dir));
     }
     if (pRequest->FUN_00505c00() && !reinterpret_cast<::FUN_0076b610_Class *>((void *)&(Links))->FUN_0076b610())
     {
@@ -533,7 +533,7 @@ void PathSmootherPOVSearch::AddNavMeshEdgeRecord(NavMesh* mesh, unsigned short t
                             PathingLocation location(Crossing, reinterpret_cast<::FUN_0068efb0_shell *>((exit.m_pLocationNavMesh))->FUN_0068efb0(),
                                                      exit.m_usTriangleID);
                             NiPoint3 Dir = pathDirection * ::GetFloatAtOffset68((const char *)(pRequest));
-                            reinterpret_cast<::FUN_0069f920_cls *>((m_pOutputSolution))->FUN_0069f920((std::intptr_t)&(location), (int)&(Dir));
+                            reinterpret_cast<::FUN_0069f920_cls *>((m_pOutputSolution))->FUN_0069f920((std::intptr_t)&(location), (std::intptr_t)&(Dir));
                         }
                     }
                 }
@@ -924,13 +924,13 @@ float FUN_00507e10_shell::FUN_00507e10()
 
 struct FUN_0069f900_shell : public PathSmootherPOVSearch
 {
-    unsigned int FUN_0069f900(PathSmootherPOVPoint*, int);
+    std::uintptr_t FUN_0069f900(PathSmootherPOVPoint*, int);
 };
 
 // @fnv 0x0069f900
-unsigned int FUN_0069f900_shell::FUN_0069f900(PathSmootherPOVPoint* apPOV, int aDirection)
+std::uintptr_t FUN_0069f900_shell::FUN_0069f900(PathSmootherPOVPoint* apPOV, int aDirection)
 {
-    return reinterpret_cast<unsigned int>(apPOV) + aDirection;
+    return reinterpret_cast<std::uintptr_t>(apPOV) + aDirection;
 }
 
 struct P3
@@ -998,10 +998,16 @@ class NiAVObject
 };
 
 // @fnv 0x006b1df0
+struct POVSearchNodeData
+{
+    PathSmootherPOVPoint* pPOV;
+    int iDirection;
+};
 void FUN_006b1df0_shell::SetPOVSearchNode(void* apNode, PathSmootherPOVPoint* apPOV, int aDirection)
 {
-    reinterpret_cast<int*>(&(*(::NiFixedString *)(reinterpret_cast<::TESTopicInfoData *>((reinterpret_cast<NiAVObject*>(apNode)))->GetLinkToList())))[0] = reinterpret_cast<int>(apPOV);
-    reinterpret_cast<int*>(&(*(::NiFixedString *)(reinterpret_cast<::TESTopicInfoData *>((reinterpret_cast<NiAVObject*>(apNode)))->GetLinkToList())))[1] = aDirection;
+    POVSearchNodeData* pData = reinterpret_cast<POVSearchNodeData*>(&(*(::NiFixedString *)(reinterpret_cast<::TESTopicInfoData *>((reinterpret_cast<NiAVObject*>(apNode)))->GetLinkToList())));
+    pData->pPOV = apPOV;
+    pData->iDirection = aDirection;
 
     *reinterpret_cast<float*>(reinterpret_cast<char*>(apNode) + 4) =
         reinterpret_cast<::NiPoint3 *>((void *)&(const ::NiPoint3 &)((apPOV->Center -
@@ -1018,13 +1024,13 @@ struct DummyArr
 {
     void* vtbl;
     Dummy64* pBuffer;
-    int GetBufferElementAddress(unsigned int aiIndex);
+    void* GetBufferElementAddress(unsigned int aiIndex);
 };
 
 // @fnv 0x006b30e0
-int DummyArr::GetBufferElementAddress(unsigned int aiIndex)
+void* DummyArr::GetBufferElementAddress(unsigned int aiIndex)
 {
-    return reinterpret_cast<int>(&pBuffer[aiIndex]);
+    return &pBuffer[aiIndex];
 }
 
 struct FUN_006b3160_shell
@@ -1191,11 +1197,11 @@ struct DummyArr
     void* m_ptr;
     unsigned int m_iElementCount;
     unsigned int m_pRayCursor;
-    int FUN_006b3100();
+    void* FUN_006b3100();
 };
 
 // @fnv 0x006b3100
-int DummyArr::FUN_006b3100()
+void* DummyArr::FUN_006b3100()
 {
     return reinterpret_cast<::DummyArr *>(this)->GetBufferElementAddress(m_iElementCount - 1);
 }
@@ -1499,7 +1505,7 @@ struct PSNode
 {
     float m_fPathingCostCur;
     char pad04[0x5c];
-    unsigned int uiKey;
+    std::uintptr_t uiKey;
     PSNode* pNext;
 };
 struct FUN_00996840_shell
@@ -1520,11 +1526,11 @@ struct FUN_006b3420_shell
     PSNodePool kPool;
     FUN_00996840_shell kMap;
     PSOpenList kOpen;
-    int InsertOrUpdateNode(unsigned int aiKey, float afCost, PSNode** aRetNode);
+    int InsertOrUpdateNode(std::uintptr_t aiKey, float afCost, PSNode** aRetNode);
 };
 
 // @fnv 0x006b3420
-int FUN_006b3420_shell::InsertOrUpdateNode(unsigned int aiKey, float afCost, PSNode** aRetNode)
+int FUN_006b3420_shell::InsertOrUpdateNode(std::uintptr_t aiKey, float afCost, PSNode** aRetNode)
 {
     PSNode** pBucketHead = &kMap.m_ppNodes[kMap.FUN_00996840(aiKey)];
     if (*pBucketHead)
@@ -4175,11 +4181,11 @@ struct PSSearchView
     PSNodeSlot m_1ff4;
     char unk1ff5[0x2050 - 0x1ff5];
     POVNode* m_2050;
-    POVNode* InsertNode(unsigned int aiKey, const PathSmootherPOVAvoidanceNode& aNode, float afCost);
+    POVNode* InsertNode(std::uintptr_t aiKey, const PathSmootherPOVAvoidanceNode& aNode, float afCost);
 };
 
 // @fnv 0x006b32f0
-POVNode* PSSearchView::InsertNode(unsigned int aiKey, const PathSmootherPOVAvoidanceNode& aNode, float afCost)
+POVNode* PSSearchView::InsertNode(std::uintptr_t aiKey, const PathSmootherPOVAvoidanceNode& aNode, float afCost)
 {
     POVNode* pNode;
     switch (reinterpret_cast<::FUN_006b3420_shell *>(this)->InsertOrUpdateNode(aiKey, 0.0f, (::PSNode **)&(pNode)))
@@ -6591,7 +6597,8 @@ void Smoother::BuildPOVLinks()
     for (int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((void *)(edges))->GetName())); ++i)
     {
         Handle c(edges->At(i).mesh, edges->At(i).tri, edges->At(i).edge);
-        Edge j = (*(::Edge *)(reinterpret_cast<::FUN_0068efd0_cls *>((edges->At(i).mesh))->FUN_0068efd0((::EdgeT *)(edges->At(i).tri), edges->At(i).edge, {})));
+        unsigned short ausEdgeVerts[2];
+        Edge j = (*(::Edge *)(reinterpret_cast<::FUN_0068efd0_cls *>((edges->At(i).mesh))->FUN_0068efd0((::EdgeT *)ausEdgeVerts, edges->At(i).tri, edges->At(i).edge)));
         Vertex l(edges->At(i).mesh, j.a);
         Vertex e(edges->At(i).mesh, j.b);
         if (i == 0)
@@ -6635,7 +6642,8 @@ void Smoother::BuildPOVLinks()
             {
             }
             Handle edge2(handle, edge5, edge);
-            Edge edge3 = (*(::Edge *)(reinterpret_cast<::FUN_0068efd0_cls *>((handle))->FUN_0068efd0((::EdgeT *)(edge5), edge, {})));
+            unsigned short ausEdgeVerts3[2];
+            Edge edge3 = (*(::Edge *)(reinterpret_cast<::FUN_0068efd0_cls *>((handle))->FUN_0068efd0((::EdgeT *)ausEdgeVerts3, edge5, edge)));
             Vertex edge9(edges->At(i).mesh, edge3.a);
             Vertex edge6(edges->At(i).mesh, edge3.b);
             if (((bool)(reinterpret_cast<::FUN_006d4ca0_Class *>((void *)&(l))->Equals((const ::FUN_006d4ca0_Class *)&(edge9)))))

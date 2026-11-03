@@ -240,7 +240,7 @@ void NavMeshInfo::LoadSerializedData(char* data, TESFile* file, int version)
         if (file->IsEndianConversionRequired())
             ::FUN_00401080((int *)(unsigned int *)(&doorID));
         ::ResolveFormID((unsigned int *)&(doorID), file);
-        ((BSSimpleArray<NavMeshInfo*, 1024>*)&m_kDoorReferences)->operator[](doorIndex) = (NavMeshInfo*)doorID;
+        ((BSSimpleArray<NavMeshInfo*, 1024>*)&m_kDoorReferences)->operator[](doorIndex) = (NavMeshInfo*)(std::uintptr_t)doorID;
         data += 4;
     }
 }
@@ -392,7 +392,7 @@ struct NavMeshInfoHelper
 };
 struct Arr
 {
-    unsigned int* GetAt(int index);
+    void** GetAt(int index);
 };
 
 struct NavMeshInfoSaveShell : NavMeshInfo
@@ -424,7 +424,7 @@ void NavMeshInfoSaveShell::SaveToBuffer(char* apData)
                     NavMeshPtr navMeshPtr;
                     if (reinterpret_cast<::NavMeshInfo *>((((NavMeshInfoHelper*)pInfo)))->AcquireNavMesh(navMeshPtr))
                     {
-                        uiTemp = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((FormIDStub*)(unsigned int)*(Flt*)&navMeshPtr)))->FUN_0084e3a0()));
+                        uiTemp = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((FormIDStub*)*(void**)&navMeshPtr)))->FUN_0084e3a0()));
                         if (((bool)(::FUN_00401500())))
                             ::FUN_00401080((int *)(unsigned int *)(&uiTemp));
                         *(unsigned int*)apData = uiTemp;
@@ -445,7 +445,7 @@ void NavMeshInfoSaveShell::SaveToBuffer(char* apData)
                     NavMeshPtr navMeshPtr;
                     if (reinterpret_cast<::NavMeshInfo *>((((NavMeshInfoHelper*)pInfo)))->AcquireNavMesh(navMeshPtr))
                     {
-                        uiTemp = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((FormIDStub*)(unsigned int)*(Flt*)&navMeshPtr)))->FUN_0084e3a0()));
+                        uiTemp = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((FormIDStub*)*(void**)&navMeshPtr)))->FUN_0084e3a0()));
                         if (((bool)(::FUN_00401500())))
                             ::FUN_00401080((int *)(unsigned int *)(&uiTemp));
                         *(unsigned int*)apData = uiTemp;

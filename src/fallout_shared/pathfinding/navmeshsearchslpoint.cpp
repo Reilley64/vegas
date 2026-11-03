@@ -2527,7 +2527,7 @@ bool Search::TestNode(Node* node)
         if (triangleRadius > step)
         {
             const Vec* vertices5[3];
-            reinterpret_cast<::fnv_0068f160::NH *>((mesh7))->GetTriangleVertexPositions(triangle, (unsigned int *)&(vertices5[0]), (unsigned int *)&(vertices5[1]), (unsigned int *)&(vertices5[2]));
+            reinterpret_cast<::fnv_0068f160::NH *>((mesh7))->GetTriangleVertexPositions(triangle, (const void **)&(vertices5[0]), (const void **)&(vertices5[1]), (const void **)&(vertices5[2]));
             Vec difference6 = *vertices5[0];
             reinterpret_cast<::NiPoint3 *>((void *)&(const ::Vec &)(difference6))->Subtract((const ::NiPoint3 &)(position3));
             float minProjection3 = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(difference6))->DotProduct((void *)&(direction));

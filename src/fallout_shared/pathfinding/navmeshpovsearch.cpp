@@ -468,7 +468,7 @@ struct NavMeshEdgeData
 };
 struct S12
 {
-    int a;
+    void* a;
     int b;
     int c;
 };
@@ -3358,7 +3358,7 @@ class B6A1330NodePtr
 
 
 // @fnv 0x006a1330
-void __cdecl FUN_006a1330(const char* pcPath, std::intptr_t iParamA, int iParamB)
+void __cdecl FUN_006a1330(const char* pcPath, std::intptr_t iParamA, std::intptr_t iParamB)
 {
     B6A1330NodePtr spNode7 = ((::B6A1330Node *)(::fnv_004b3890::FUN_004b3890((*(const class ::FUN_006815c0 *)(pcPath)), (*(const ::fnv_004b3890::FUN_004a7800 *)(iParamB)), (*(const class ::FUN_006815c0 *)(iParamA)), (*(const ::fnv_004b3890::FUN_004a7800 *)(iParamB)), true)));
     B6A1330UpdateData kData(0.0f, false, false);
@@ -5694,8 +5694,8 @@ bool Owner::BuildGroups(Input* input, Groups* output)
     }
     for (int remove = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(removalsTmp))->GetName())) - 1; remove >= 0; remove--)
     {
-        delete ((::Records *)(reinterpret_cast<::FUN_00558dd0_class *>(&(groups))->FUN_00558dd0(((::Pair *)(reinterpret_cast<::S006950d0 *>(&(removalsTmp))->GetElement(remove)))->group)))->At(((::Pair *)(reinterpret_cast<::S006950d0 *>(&(removalsTmp))->GetElement(remove)))->index);
-        reinterpret_cast<::FUN_006bf8f0_Class *>((((::Records *)(reinterpret_cast<::FUN_00558dd0_class *>(&(groups))->FUN_00558dd0(((::Pair *)(reinterpret_cast<::S006950d0 *>(&(removalsTmp))->GetElement(remove)))->group)))))->FUN_006bf8f0(((::Pair *)(reinterpret_cast<::S006950d0 *>(&(removalsTmp))->GetElement(remove)))->index, true);
+        delete ((::Records *)(std::uintptr_t)(reinterpret_cast<::FUN_00558dd0_class *>(&(groups))->FUN_00558dd0(((::Pair *)(reinterpret_cast<::S006950d0 *>(&(removalsTmp))->GetElement(remove)))->group)))->At(((::Pair *)(reinterpret_cast<::S006950d0 *>(&(removalsTmp))->GetElement(remove)))->index);
+        reinterpret_cast<::FUN_006bf8f0_Class *>((((::Records *)(std::uintptr_t)(reinterpret_cast<::FUN_00558dd0_class *>(&(groups))->FUN_00558dd0(((::Pair *)(reinterpret_cast<::S006950d0 *>(&(removalsTmp))->GetElement(remove)))->group)))))->FUN_006bf8f0(((::Pair *)(reinterpret_cast<::S006950d0 *>(&(removalsTmp))->GetElement(remove)))->index, true);
     }
     return true;
 }
@@ -7926,7 +7926,7 @@ struct Sphere6a08d0
 // @fnv 0x006a08d0
 void Ctx6a08d0::SetEdgeFromSphere(Edge6a08d0* a1, Sphere6a08d0* pSphere, int a3, int a4)
 {
-    (*(::S12 *)(reinterpret_cast<::TESTopicInfoData *>((a1))->GetLinkToList())).a = (int)pSphere;
+    (*(::S12 *)(reinterpret_cast<::TESTopicInfoData *>((a1))->GetLinkToList())).a = pSphere;
     (*(::S12 *)(reinterpret_cast<::TESTopicInfoData *>((a1))->GetLinkToList())).b = a3;
     (*(::S12 *)(reinterpret_cast<::TESTopicInfoData *>((a1))->GetLinkToList())).c = a4;
     a1->f04 = reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::P3 &)((pSphere->center04 - unk207c->pos04)))->ComputeMagnitude() * 0.75;
@@ -8082,7 +8082,7 @@ bool P072Search::FindNeighborNodes(P072Node* pInputNode, P072List* pOutputList)
                     {
                         if (DAT_011d6dcc)
                             ::FUN_006a1180((const ::ArcPoint3 &)(tangentCount.center), tangentCount.radius, (const ::ArcAngle *)&(node.start), (const ::ArcAngle *)&(node.end), node.direction,
-                                         (int)(&DAT_011a9c20));
+                                         (std::intptr_t)(&DAT_011a9c20));
                         continue;
                     }
                     if (FUN_00408840((*(::P072Point *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(cost.pos))->FUN_00439ef0((::NiPoint3 *)&(tangentCount.center), *(const ::NiPoint3 *)nullptr))).z) >= 180.0)
@@ -8092,7 +8092,7 @@ bool P072Search::FindNeighborNodes(P072Node* pInputNode, P072List* pOutputList)
                     {
                         if (DAT_011d6dcc)
                             ::FUN_006a1180((const ::ArcPoint3 &)(tangentCount.center), tangentCount.radius, (const ::ArcAngle *)&(node.start), (const ::ArcAngle *)&(node.end), node.direction,
-                                         (int)(&DAT_011a9bf0));
+                                         (std::intptr_t)(&DAT_011a9bf0));
                         continue;
                     }
                 }
@@ -8103,7 +8103,7 @@ bool P072Search::FindNeighborNodes(P072Node* pInputNode, P072List* pOutputList)
                 if (!FindPath(cost, initialPoint5, crossFirst))
                 {
                     if (DAT_011d6dcc)
-                        ::FUN_006a1330((const char *)&(cost.pos), (std::intptr_t)&(crossFirst.pos), (int)(&DAT_011a9c20));
+                        ::FUN_006a1330((const char *)&(cost.pos), (std::intptr_t)&(crossFirst.pos), (std::intptr_t)(&DAT_011a9c20));
                     continue;
                 }
                 if (FUN_00408840((*(::P072Point *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(crossFirst.pos))->FUN_00439ef0((::NiPoint3 *)&(delta.center), *(const ::NiPoint3 *)nullptr))).z) >= 180.0)
@@ -8112,15 +8112,15 @@ bool P072Search::FindNeighborNodes(P072Node* pInputNode, P072List* pOutputList)
                 if (crossSecond == 3.4028234663852886e38)
                 {
                     if (DAT_011d6dcc)
-                        ::FUN_006a1330((const char *)&(cost.pos), (std::intptr_t)&(crossFirst.pos), (int)(&DAT_011a9bf0));
+                        ::FUN_006a1330((const char *)&(cost.pos), (std::intptr_t)&(crossFirst.pos), (std::intptr_t)(&DAT_011a9bf0));
                     continue;
                 }
                 if (DAT_011d6dcc)
                 {
                     if (((::P072Node *)(reinterpret_cast<::FUN_006a1b60_Class *>((pInputNode))->GetField54())))
                         ::FUN_006a1180((const ::ArcPoint3 &)(tangentCount.center), tangentCount.radius, (const ::ArcAngle *)&(node.start), (const ::ArcAngle *)&(node.end), node.direction,
-                                     (int)(&DAT_011a9c00));
-                    ::FUN_006a1330((const char *)&(cost.pos), (std::intptr_t)&(crossFirst.pos), (int)(&DAT_011a9c00));
+                                     (std::intptr_t)(&DAT_011a9c00));
+                    ::FUN_006a1330((const char *)&(cost.pos), (std::intptr_t)&(crossFirst.pos), (std::intptr_t)(&DAT_011a9c00));
                 }
                 float direction = reinterpret_cast<::CombatTargetTimestamp *>((pInputNode))->FUN_006a7f50();
                 if (((::P072Node *)(reinterpret_cast<::FUN_006a1b60_Class *>((pInputNode))->GetField54())))

@@ -875,7 +875,7 @@ struct PtrWrap
 ExtraAudioMarker* FUN_004314c0(ExtraAudioMarker* pThis, PtrWrap aData)
 {
     reinterpret_cast<::FUN_0040ec80_cls *>((pThis))->init(0x90);
-    *(int*)pThis = (int)&DAT_01015b94;
+    *(void**)pThis = &DAT_01015b94;
     pThis->pAudioData = aData.p;
     return pThis;
 }
@@ -3291,7 +3291,7 @@ struct BE
 };
 struct FUN_00435920 : BE
 {
-    int m_00;
+    void* m_00;
     int m_04;
     int m_08;
     int m_0c;
@@ -3301,7 +3301,7 @@ struct FUN_00435920 : BE
 // @fnv 0x00435920
 FUN_00435920::FUN_00435920() : BE(0x39)
 {
-    m_00 = (int)&DAT_01015e88;
+    m_00 = &DAT_01015e88;
     m_0c = 0;
 }
 }  // namespace fnv_00435920
@@ -3451,11 +3451,11 @@ FUN_00433640::FUN_00433640() : BE(0x51)
 namespace fnv_00435c10 {
 struct FUN_00435b20_shell
 {
-    int _u;
+    void* _u;
 };
 struct CF845 : public FUN_00435b20_shell
 {
-    CF845(int);
+    CF845(char*);
 };
 struct ExtraSavedAnimation
 {
@@ -3467,7 +3467,7 @@ struct ExtraSavedAnimation
 // @fnv 0x00435c10
 void ExtraSavedAnimation::FUN_00435c10()
 {
-    reinterpret_cast<::FUN_00435b20_shell *>((void *)&(const ::fnv_00435c10::FUN_00435b20_shell &)(CF845((int)m_pString)))->FUN_00435b20();
+    reinterpret_cast<::FUN_00435b20_shell *>((void *)&(const ::fnv_00435c10::FUN_00435b20_shell &)(CF845(m_pString)))->FUN_00435b20();
 }
 }  // namespace fnv_00435c10
 
@@ -4290,7 +4290,7 @@ struct FUN_00431e20 : BE
 // @fnv 0x00431e20
 FUN_00431e20::FUN_00431e20(unsigned char c) : BE(0x26)
 {
-    *reinterpret_cast<int*>(this) = (int)&::fnv_0042c6d0::DAT_010158f0;
+    *reinterpret_cast<void**>(this) = &::fnv_0042c6d0::DAT_010158f0;
     field_0xc = c;
 }
 }  // namespace fnv_00431e20
@@ -5296,7 +5296,7 @@ bool FUN_00434620_cls::FUN_00434620(unsigned int uiKey)
     while (cur != 0 && !cur->FUN_008256d0())
     {
         void* x7 = *(void**)((void *)((void *)(cur)));
-        void* y4 = ((void *)(reinterpret_cast<::ExtraDecalRefs *>(this)->FindDecalReference((::TESObjectREFR *)(*(unsigned int*)x7))));
+        void* y4 = ((void *)(reinterpret_cast<::ExtraDecalRefs *>(this)->FindDecalReference(*(::TESObjectREFR **)x7)));
         if (y4 == 0)
         {
             return true;
@@ -5314,7 +5314,7 @@ bool FUN_00434620_cls::FUN_00434620(unsigned int uiKey)
 int __cdecl FUN_00ec4835(const void* a, const void* b, unsigned int n);
 struct S_00434bb0_Item
 {
-    unsigned int key;
+    ::TESObjectREFR* key;
     unsigned int val;
 };
 struct S_00434bb0_Node
@@ -5948,7 +5948,7 @@ void LimbsStandIn::FUN_00430410(LimbRefStub* apRef, unsigned int auiLimb, bool a
         {
             LimbRefStub* pActor4 = pActor;
             LimbBaseStub* pBase9 = ((::LimbBaseStub *)(reinterpret_cast<::Actor *>((pActor4))->GetActorBase()));
-            reinterpret_cast<::FUN_00605fc0_cls *>((pBase9))->ProcessSlots((int)(pActor4), (::FUN_00605fc0_owner *)(void *)(pActor4->GetLimbDataV()), (::FUN_00605fc0_disp *)(::LimbArrayStub *)(&pEntry->kData));
+            reinterpret_cast<::FUN_00605fc0_cls *>((pBase9))->ProcessSlots(0, (::FUN_00605fc0_owner *)(void *)(pActor4->GetLimbDataV()), (::FUN_00605fc0_disp *)(::LimbArrayStub *)(&pEntry->kData));
             if (uiEntryIndex > 0)
             {
                 for (int iIndex = uiEntryIndex - 1; iIndex >= 0; --iIndex)
@@ -6533,7 +6533,7 @@ void FUN_00437850_Class::UpdatePriorityEntry(FUN_00437850_Entry* pEntry, bool bA
     float fTop = DAT_01015f5c;
     if (bAdd)
     {
-        unsigned int ItemUpdateArray = 0;
+        std::uintptr_t ItemUpdateArray = 0;
         reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)&(kRefCounts))->FUN_00853130((std::uintptr_t)pEntry, (::fnv_00853130::CombatThreatRecord *&)(ItemUpdateArray));
         reinterpret_cast<::FUN_00844700_Class *>(&(kRefCounts))->FUN_00844700((std::uintptr_t)pEntry, 1);
         if (pEntry->fPriority > fTop)
@@ -6544,7 +6544,7 @@ void FUN_00437850_Class::UpdatePriorityEntry(FUN_00437850_Entry* pEntry, bool bA
     }
     else
     {
-        unsigned int ItemUpdateArray = 0;
+        std::uintptr_t ItemUpdateArray = 0;
         reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)&(kRefCounts))->FUN_00853130((std::uintptr_t)pEntry, (::fnv_00853130::CombatThreatRecord *&)(ItemUpdateArray));
         if ((int)ItemUpdateArray <= 1)
         {
@@ -6553,9 +6553,9 @@ void FUN_00437850_Class::UpdatePriorityEntry(FUN_00437850_Entry* pEntry, bool bA
             fTop = DAT_01015f5c;
             while (pPos)
             {
-                unsigned int uiKey;
-                unsigned int uiVal;
-                reinterpret_cast<::C6b7f20_Map *>(&(kRefCounts))->FUN_006b7f20((::C6b7f20_Node **)&(pPos), (unsigned int *)&(uiKey), (void **)&(uiVal));
+                std::uintptr_t uiKey = 0;
+                void* pVal;
+                reinterpret_cast<::C6b7f20_Map *>(&(kRefCounts))->FUN_006b7f20((::C6b7f20_Node **)&(pPos), (unsigned int *)&(uiKey), &pVal);
                 if (((FUN_00437850_Entry*)uiKey)->fPriority > fTop)
                 {
                     fTop = ((FUN_00437850_Entry*)uiKey)->fPriority;

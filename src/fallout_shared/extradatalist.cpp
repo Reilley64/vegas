@@ -5295,7 +5295,7 @@ S0042fa20* S0042fa20::FUN_0042fa20(std::intptr_t a)
 // @fnv 0x0042fa40
 void FUN_0042fa40(void* pThis)
 {
-    ::FUN_0042fda0((int *)(pThis));
+    ::FUN_0042fda0((char **)(pThis));
 }
 
 namespace fnv_00458b50 {

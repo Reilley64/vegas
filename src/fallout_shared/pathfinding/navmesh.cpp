@@ -293,7 +293,7 @@ class NiAVObject
 
 // If the stored object pointer is non-null, calls FUN_00401970 on the NiAVObject at offset 0x1c within it.
 // @fnv 0x0042fda0
-void FUN_0042fda0(int* pObjectPtr)
+void FUN_0042fda0(char** pObjectPtr)
 {
     if (*pObjectPtr != 0)
     {
@@ -469,7 +469,7 @@ struct FUN_006916f0_arg
 int* FUN_006916f0(int* self, FUN_006916f0_arg a)
 {
     new ((void *)(self)) ::FUN_006918c0_class((*(unsigned int *)&(const ::FUN_006916f0_arg &)(a)));
-    *self = (int)&DAT_01031fac;
+    *reinterpret_cast<void**>(self) = &DAT_01031fac;
     return self;
 }
 
@@ -488,7 +488,7 @@ void FUN_005890c0(int* self, FUN_00691720_arg a);
 int* FUN_00691720(int* self, FUN_00691720_arg a)
 {
     FUN_005890c0(self, a);
-    *self = (int)&DAT_01031fac;
+    *reinterpret_cast<void**>(self) = &DAT_01031fac;
     return self;
 }
 }  // namespace fnv_00691720
@@ -877,18 +877,18 @@ struct NavMeshWithGetTriangle
 class NH : public NavMesh
 {
   public:
-    void GetTriangleVertexPositions(unsigned short, unsigned int*, unsigned int*, unsigned int*);
+    void GetTriangleVertexPositions(unsigned short, const void**, const void**, const void**);
 };
 
 // Looks up the triangle for a1 and writes pointers to the positions of its three vertices into a2, a3 and a4.
 // @fnv 0x0068f160
-void NH::GetTriangleVertexPositions(unsigned short ausTriangleIndex, unsigned int* pVertex0, unsigned int* pVertex1,
-                                    unsigned int* pVertex2)
+void NH::GetTriangleVertexPositions(unsigned short ausTriangleIndex, const void** pVertex0, const void** pVertex1,
+                                    const void** pVertex2)
 {
     NavMeshTriangle* tri = ((::fnv_0068f160::NavMeshTriangle *)(reinterpret_cast<::NavMesh *>((reinterpret_cast<NavMeshWithGetTriangle*>(this)))->GetTriangle(ausTriangleIndex)));
-    *pVertex0 = reinterpret_cast<unsigned int>(&(*(const ::NiPoint3 *)(reinterpret_cast<::FUN_0068f0a0_shell *>((this))->FUN_0068f0a0(reinterpret_cast<::FUN_005582d0_shell *>((tri))->FUN_005582d0(0)))));
-    *pVertex1 = reinterpret_cast<unsigned int>(&(*(const ::NiPoint3 *)(reinterpret_cast<::FUN_0068f0a0_shell *>((this))->FUN_0068f0a0(reinterpret_cast<::FUN_005582d0_shell *>((tri))->FUN_005582d0(1)))));
-    *pVertex2 = reinterpret_cast<unsigned int>(&(*(const ::NiPoint3 *)(reinterpret_cast<::FUN_0068f0a0_shell *>((this))->FUN_0068f0a0(reinterpret_cast<::FUN_005582d0_shell *>((tri))->FUN_005582d0(2)))));
+    *pVertex0 = (&(*(const ::NiPoint3 *)(reinterpret_cast<::FUN_0068f0a0_shell *>((this))->FUN_0068f0a0(reinterpret_cast<::FUN_005582d0_shell *>((tri))->FUN_005582d0(0)))));
+    *pVertex1 = (&(*(const ::NiPoint3 *)(reinterpret_cast<::FUN_0068f0a0_shell *>((this))->FUN_0068f0a0(reinterpret_cast<::FUN_005582d0_shell *>((tri))->FUN_005582d0(1)))));
+    *pVertex2 = (&(*(const ::NiPoint3 *)(reinterpret_cast<::FUN_0068f0a0_shell *>((this))->FUN_0068f0a0(reinterpret_cast<::FUN_005582d0_shell *>((tri))->FUN_005582d0(2)))));
 }
 }  // namespace fnv_0068f160
 
@@ -991,15 +991,16 @@ struct FUN_0042fc00_shell
     void** vtable;
     void* m_pCurrent;
     unsigned int m_iKey;
+    unsigned int m_uiCapacity;
     void FUN_0042fc00(void* p, unsigned int key);
 };
 struct S2f850
 {
-    unsigned int a;
+    void* a;
     unsigned int b;
     unsigned int c;
     virtual void v0();
-    virtual unsigned int v1(unsigned int);
+    virtual void* v1(unsigned int);
     void FUN_0042fcb0(unsigned int requested, unsigned int savedSize);
 };
 // @fnv 0x0042fcb0
@@ -1559,7 +1560,7 @@ void FUN_0042fc00_shell::FUN_0042fc00(void* p, unsigned int key)
 {
     if (m_pCurrent)
     {
-        if (key == *(unsigned int*)((char*)this + 0xc))
+        if (key == m_uiCapacity)
         {
             m_pCurrent = ((void*(*)(void*, void*, void*))vtable[3])(this, m_pCurrent, p);
         }
@@ -1574,7 +1575,8 @@ void FUN_0042fc00_shell::FUN_0042fc00(void* p, unsigned int key)
     else
     {
         m_pCurrent = ((void*(*)(void*, void*))vtable[1])(this, p);
-        *(unsigned int*)((char*)this + 0xc) = (unsigned int)p;
+        // p carries the element count (callers pass the new size as a pointer).
+        m_uiCapacity = (unsigned int)reinterpret_cast<std::uintptr_t>(p);
     }
 }
 
@@ -1682,29 +1684,32 @@ void FUN_006910a0_shell::RebuildTriangleList()
 struct FUN_0069b030_S
 {
     virtual ~FUN_0069b030_S();
-    virtual int Write(unsigned int);
+    virtual void* Write(unsigned int);
+    void* m_pBuffer;
+    unsigned int m_uiSize;
+    unsigned int m_uiCapacity;
     void FUN_00692520(unsigned int requested, unsigned int savedSize);
 };
 
 // @fnv 0x00692520
 void FUN_0069b030_S::FUN_00692520(unsigned int requested, unsigned int savedSize)
 {
-    ((int*)this)[1] = 0;
-    ((int*)this)[2] = 0;
-    ((int*)this)[3] = 0;
+    m_pBuffer = 0;
+    m_uiSize = 0;
+    m_uiCapacity = 0;
     if (savedSize > requested)
     {
         requested = savedSize;
     }
     if (requested > 0)
     {
-        ((int*)this)[1] = Write(requested);
-        ((int*)this)[3] = requested;
+        m_pBuffer = Write(requested);
+        m_uiCapacity = requested;
     }
     if (savedSize > 0)
     {
-        reinterpret_cast<::FUN_006927d0_cls *>(this)->ConstructPairCells((::PairCell *)(((int*)this)[1]), savedSize);
-        ((int*)this)[2] = savedSize;
+        reinterpret_cast<::FUN_006927d0_cls *>(this)->ConstructPairCells((::PairCell *)(m_pBuffer), savedSize);
+        m_uiSize = savedSize;
     }
 }
 

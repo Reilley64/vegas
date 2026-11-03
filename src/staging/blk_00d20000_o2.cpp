@@ -2448,36 +2448,18 @@ struct hkVector4B110 {
     __m128 m_vComponents;
 };
 
-class hkMemoryAllocatorB110 {
-public:
-    virtual ~hkMemoryAllocatorB110();
-    virtual void* AllocateMemoryBlock(int numBytes);
-    virtual void ReleaseBlock(void* p, int numBytes);
-};
-
-struct hkMemoryRouterB110 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    hkMemoryAllocatorB110& heap() { return *m_pStreamAllocator; }
-    hkMemoryAllocatorB110* m_pStreamAllocator;
-};
-
-hkMemoryRouterB110* __cdecl GetMemoryRouterB110();
-
 class hkReferencedObjectB110 {
 public:
     static void* operator new(std::size_t nbytes)
     {
-        hkReferencedObjectB110* b = static_cast<hkReferencedObjectB110*>(GetMemoryRouterB110()->heap().AllocateMemoryBlock(static_cast<int>(nbytes)));
+        hkReferencedObjectB110* b = static_cast<hkReferencedObjectB110*>(hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes)));
         b->m_usMemSizeAndFlags = static_cast<unsigned short>(nbytes);
         return b;
     }
     static void operator delete(void* p, std::size_t nbytes)
     {
         hkReferencedObjectB110* b = static_cast<hkReferencedObjectB110*>(p);
-        GetMemoryRouterB110()->heap().ReleaseBlock(p, b->m_usMemSizeAndFlags);
+        hkMemoryRouter::getInstance().heap().blockFree(p, b->m_usMemSizeAndFlags);
     }
     virtual ~hkReferencedObjectB110();
     unsigned short m_usMemSizeAndFlags;

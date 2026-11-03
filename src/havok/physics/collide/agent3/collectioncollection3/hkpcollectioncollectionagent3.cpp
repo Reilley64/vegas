@@ -172,7 +172,7 @@ void __cdecl FUN_00d34db0(void* apUnused, void* a2, void* apFirstObj, void* apSe
     s.f2 = ((Obj*)pFirstObj)->m10();
     s.f3 = ((Obj*)pSecondObj)->m10();
 
-    ::FUN_00da4900((int)(a2), (int)(&s));
+    ::FUN_00da4900(a2, &s);
 }
 
 #include "fnv/symbols_simd.h"
@@ -208,7 +208,7 @@ struct hkVector4q
 
     __forceinline void setInterpolate4(const hkVector4q& a, const hkVector4q& b, const hkVector4q& t)
     {
-        m_vComponents = _mm_add_ps(_mm_mul_ps(_mm_sub_ps(_mm_load_ps(reinterpret_cast<float*>(&::DAT_010ec7f0)), t.m_vComponents), a.m_vComponents), _mm_mul_ps(t.m_vComponents, b.m_vComponents));
+        m_vComponents = _mm_add_ps(_mm_mul_ps(_mm_sub_ps(_mm_load_ps(reinterpret_cast<const float*>(&::DAT_010ec7f0)), t.m_vComponents), a.m_vComponents), _mm_mul_ps(t.m_vComponents, b.m_vComponents));
     }
 
     __forceinline void setAddMul4(const hkVector4q& a, const hkVector4q& b, const hkSimdRealq& r)
@@ -470,6 +470,44 @@ static __forceinline void copyCachedAabbs(const BoundingVolumeData& bvd, int use
             }
 }
 
+
+typedef unsigned int hkUint32;
+
+struct hkStringQ {
+    static __forceinline void memCpy16NonEmpty(void* dst, const void* src, int numQuads)
+    {
+        const hkUint32* src32 = reinterpret_cast<const hkUint32*>(src);
+        hkUint32* dst32 = reinterpret_cast<hkUint32*>(dst);
+        do
+        {
+            dst32[0] = src32[0];
+            dst32[1] = src32[1];
+            dst32[2] = src32[2];
+            dst32[3] = src32[3];
+            dst32 += 4;
+            src32 += 4;
+        } while (--numQuads > 0);
+    }
+};
+
+struct __declspec(align(16)) SortEntry {
+    hkUint32 m_key;
+    hkUint32 unk04;
+    hkUint32 unk08;
+    hkUint32 unk0C;
+    hkUint32 unk10;
+    hkUint32 unk14;
+    hkUint32 unk18;
+    hkUint32 unk1C;
+    SortEntry() {}
+    SortEntry(const SortEntry& o) { hkStringQ::memCpy16NonEmpty(this, &o, sizeof(SortEntry) / 16); }
+    void operator=(const SortEntry& o) { hkStringQ::memCpy16NonEmpty(this, &o, sizeof(SortEntry) / 16); }
+};
+
+struct SortEntryLess {
+    bool operator()(const SortEntry& a, const SortEntry& b) const { return a.m_key < b.m_key; }
+};
+
 // @fnv 0x00d351c0
 int __cdecl FUN_00d351c0(const hkpCdBodyq* body, int useCache, const hkpShapeContainerq* container,
                          const hkpProcessCollisionInputq* input, hkAabbUint32Key* aabbsOut)
@@ -633,43 +671,6 @@ done:
     return numAabbs;
 }
 
-typedef unsigned int hkUint32;
-
-struct hkStringQ {
-    static __forceinline void memCpy16NonEmpty(void* dst, const void* src, int numQuads)
-    {
-        const hkUint32* src32 = reinterpret_cast<const hkUint32*>(src);
-        hkUint32* dst32 = reinterpret_cast<hkUint32*>(dst);
-        do
-        {
-            dst32[0] = src32[0];
-            dst32[1] = src32[1];
-            dst32[2] = src32[2];
-            dst32[3] = src32[3];
-            dst32 += 4;
-            src32 += 4;
-        } while (--numQuads > 0);
-    }
-};
-
-struct __declspec(align(16)) SortEntry {
-    hkUint32 m_key;
-    hkUint32 unk04;
-    hkUint32 unk08;
-    hkUint32 unk0C;
-    hkUint32 unk10;
-    hkUint32 unk14;
-    hkUint32 unk18;
-    hkUint32 unk1C;
-    SortEntry() {}
-    SortEntry(const SortEntry& o) { hkStringQ::memCpy16NonEmpty(this, &o, sizeof(SortEntry) / 16); }
-    void operator=(const SortEntry& o) { hkStringQ::memCpy16NonEmpty(this, &o, sizeof(SortEntry) / 16); }
-};
-
-struct SortEntryLess {
-    bool operator()(const SortEntry& a, const SortEntry& b) const { return a.m_key < b.m_key; }
-};
-
 template <typename T>
 __forceinline void hkSwap(T& x, T& y)
 {
@@ -734,7 +735,7 @@ static __forceinline void convertUpperCurrent(const hkVector4q& in, const hkVect
                                                   const __m128& maxVal, const __m128& minVal, unsigned int* out)
 {
     hkVec4F x;
-    x.m_vComponents = _mm_add_ps(offset.m_vComponents, _mm_load_ps(reinterpret_cast<float*>(&in.m_vComponents)));
+    x.m_vComponents = _mm_add_ps(offset.m_vComponents, _mm_load_ps(reinterpret_cast<const float*>(&in.m_vComponents)));
     x.m_vComponents = _mm_mul_ps(x.m_vComponents, scale.m_vComponents);
     x.m_vComponents = _mm_min_ps(x.m_vComponents, maxVal);
     x.m_vComponents = _mm_max_ps(x.m_vComponents, minVal);
@@ -1089,17 +1090,7 @@ __forceinline int HavokElementArray<T>::GetLogicalSize()const
 return m_iElementCount;
 }
 
-typedef union __m128 hkQuadReal;
-namespace D35770Sse {
-using _mm_add_ss;
-using _mm_add_ps;
-using _mm_sub_ps;
-using _mm_mul_ps;
-using _mm_sqrt_ss;
-using _mm_min_ps;
-using _mm_max_ps;
-using _mm_shuffle_ps;
-}
+typedef __m128 hkQuadReal;
 class VectorComponentValue
 {
 public:
@@ -2099,8 +2090,8 @@ const bool bodyAHasCachedChildShapeAabbs=!input.m_pBodyA->m_parent&&static_cast<
 const bool bodyBHasCachedChildShapeAabbs=!input.m_pBodyB->m_parent&&static_cast<const hkpCollidable*>(input.m_pBodyB.val())->m_kBoundingVolumeData.m_pChildShapeAabbs;
 if(bodyAHasCachedChildShapeAabbs==bodyBHasCachedChildShapeAabbs)
 {
-hkpShapeBuffer tmpBufferA;const hkpShapeCollection*childCollectionA=((const ::hkpShapeCollection *)(::GetSpawnedObjectPointer((void **)(input.m_pBodyA))));
-hkpShapeBuffer tmpBufferB;const hkpShapeCollection*childCollectionB=((const ::hkpShapeCollection *)(::GetSpawnedObjectPointer((void **)(input.m_pBodyB))));
+hkpShapeBuffer tmpBufferA;const hkpShapeCollection*childCollectionA=((const ::hkpShapeCollection *)(::GetSpawnedObjectPointer((void **)(input.m_pBodyA.val()))));
+hkpShapeBuffer tmpBufferB;const hkpShapeCollection*childCollectionB=((const ::hkpShapeCollection *)(::GetSpawnedObjectPointer((void **)(input.m_pBodyB.val()))));
 const bool shapeAhasList=childCollectionA ? childCollectionA->getType()==HK_SHAPE_LIST:false;
 const bool shapeBhasList=childCollectionB ? childCollectionB->getType()==HK_SHAPE_LIST:false;
 if(shapeAhasList&&shapeBhasList)
@@ -2213,11 +2204,11 @@ for(int i=numHitsSecond;i<numHitsSecond+4;i++){aabbsSecond[i].m_kMinimumCorner[0
 ValueWrapper<int>numPairsSkipped(0);
 if(firstCdBody==input.m_pBodyA)
 {
-numShapeKeyPairs=::CollideSweepBounds((const ::SweepBounds *)(aabbsFirst),numHitsFirst,(const ::SweepBounds *)(aabbsSecond),numHitsSecond,(*(::SweepPair *__restrict *)&(const ::ShapeKeyPair * &)(reinterpret_cast<ShapeKeyPair*>(shapeKeyPairs))),HK_MAX_NUM_HITS_PER_AABB_QUERY-1,(int &)(numPairsSkipped));
+numShapeKeyPairs=::CollideSweepBounds((const ::SweepBounds *)(aabbsFirst),numHitsFirst,(const ::SweepBounds *)(aabbsSecond),numHitsSecond,reinterpret_cast<::SweepPair *>(shapeKeyPairs),HK_MAX_NUM_HITS_PER_AABB_QUERY-1,(int &)(numPairsSkipped));
 }
 else
 {
-numShapeKeyPairs=::CollideSweepBounds((const ::SweepBounds *)(aabbsSecond),numHitsSecond,(const ::SweepBounds *)(aabbsFirst),numHitsFirst,(*(::SweepPair *__restrict *)&(const ::ShapeKeyPair * &)(reinterpret_cast<ShapeKeyPair*>(shapeKeyPairs))),HK_MAX_NUM_HITS_PER_AABB_QUERY-1,(int &)(numPairsSkipped));
+numShapeKeyPairs=::CollideSweepBounds((const ::SweepBounds *)(aabbsSecond),numHitsSecond,(const ::SweepBounds *)(aabbsFirst),numHitsFirst,reinterpret_cast<::SweepPair *>(shapeKeyPairs),HK_MAX_NUM_HITS_PER_AABB_QUERY-1,(int &)(numPairsSkipped));
 }
 hkDeallocateStack(aabbsSecond);
 hkDeallocateStack(aabbsFirst);

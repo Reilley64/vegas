@@ -21,6 +21,6 @@ void InitBlockPool(::BlockPoolArray *);
 // 0x00da48e0
 void FUN_00da48e0(void *, const void *);
 // 0x00da4900
-void FUN_00da4900(int, int);
+void FUN_00da4900(void *, void *);
 // 0x00da4aa0
 namespace fnv_00da4aa0 { void FUN_00da4aa0(::fnv_00da4aa0::Q30 &, const ::fnv_00da4aa0::Q14 &, const ::fnv_00da4aa0::Q24 *, const unsigned int *, ::fnv_00da4aa0::Q6 &); }

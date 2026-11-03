@@ -241,7 +241,7 @@ void FUN_0084e250_shell::DeleteItemsFrom(unsigned int uiStartIndex)
         return;
     for (unsigned int i = uiStartIndex; i < (unsigned int)size; ++i)
     {
-        void* item = (void*)((uintptr_t)(reinterpret_cast<::S3e60 *>(this)->FUN_006a7ad0(i)));
+        void* item = *reinterpret_cast<::S3e60 *>(this)->FUN_006a7ad0(i);
         ::FUN_00401030(item);
     }
     reinterpret_cast<::fnv_009a4320::FUN_009a4320_arr *>(this)->FUN_009a4320(uiStartIndex, (unsigned int)size - uiStartIndex);
@@ -282,7 +282,7 @@ void NavMeshInfoArray84E::SaveTo(SaveTarget84E* pkTarget)
     reinterpret_cast<::FUN_00865e50_shell *>((pkBuffer6))->FUN_00865e50(&ItemUpdateArray, 4, 0);
     for (unsigned int uiIndex = 0; uiIndex < ItemUpdateArray; uiIndex++)
     {
-        NavMeshInfo84E* pkInfo = ((::NavMeshInfo84E *)(reinterpret_cast<::S3e60 *>(this)->FUN_006a7ad0(uiIndex)));
+        NavMeshInfo84E* pkInfo = *reinterpret_cast<::NavMeshInfo84E **>(reinterpret_cast<::S3e60 *>(this)->FUN_006a7ad0(uiIndex));
         reinterpret_cast<::FUN_00865e70_shell *>((pkBuffer6))->FUN_00865e70((const char *)(pkInfo), 0);
     }
 

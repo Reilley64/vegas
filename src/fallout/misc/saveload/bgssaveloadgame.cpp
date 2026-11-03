@@ -2764,7 +2764,7 @@ void FUN_008492b0_shell::ResetLoadBuffers(bool resetWorld)
         ::FUN_008495b0((char *)((*reinterpret_cast<::fnv_008492b0::IOManager * *>(&::DAT_01202d98))));
     for (unsigned int i = 0; i < buffers.iSize; ++i)
     {
-        BGSLoadGameBuffer* buffer = ((::fnv_008492b0::BGSLoadGameBuffer *)(reinterpret_cast<::S3e60 *>(&(buffers))->FUN_006a7ad0(i)));
+        BGSLoadGameBuffer* buffer = *reinterpret_cast<::fnv_008492b0::BGSLoadGameBuffer **>(reinterpret_cast<::S3e60 *>(&(buffers))->FUN_006a7ad0(i));
         if (buffer)
         {
             TESForm* form = buffer->GetForm();
@@ -2786,7 +2786,7 @@ void FUN_008492b0_shell::ResetLoadBuffers(bool resetWorld)
     reinterpret_cast<::LoadGameSubBufferQueue *>((changes))->QueueAnimationAndCharController();
     for (unsigned int j = 0; j < buffers.iSize; ++j)
     {
-        BGSLoadGameBuffer* buffer = ((::fnv_008492b0::BGSLoadGameBuffer *)(reinterpret_cast<::S3e60 *>(&(buffers))->FUN_006a7ad0(j)));
+        BGSLoadGameBuffer* buffer = *reinterpret_cast<::fnv_008492b0::BGSLoadGameBuffer **>(reinterpret_cast<::S3e60 *>(&(buffers))->FUN_006a7ad0(j));
         if (buffer)
         {
             TESForm* form = buffer->GetForm();
@@ -3793,7 +3793,7 @@ bool ReconstructSession::LoadSaveGame(SaveFile* pSaveFile, bool restoreMode)
                     reinterpret_cast<::SaveLoadFile *>((pSaveFile))->SetFilePosition(position);
                     for (unsigned int index2 = 0; index2 < header.formCount; index2++)
                     {
-                        BGSLoadFormBuffer* current = ((::BGSLoadFormBuffer *)(reinterpret_cast<::S3e60 *>(&(((StatePrefix*)this)->buffers))->FUN_006a7ad0(index2)));
+                        BGSLoadFormBuffer* current = *reinterpret_cast<::BGSLoadFormBuffer **>(reinterpret_cast<::S3e60 *>(&(((StatePrefix*)this)->buffers))->FUN_006a7ad0(index2));
                         if (reinterpret_cast<::fnv_00848dd0::FUN_00848dd0_shell *>((current))->FUN_00848dd0())
                         {
                             reinterpret_cast<::BGSSaveLoadChangesMap *>((((StatePrefix*)this)->changes))->HasFormChanges(((uintptr_t)(reinterpret_cast<::MagicCaster_shell *>((current))->FUN_0044edb0())));

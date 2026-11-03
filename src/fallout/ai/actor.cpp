@@ -8,6 +8,7 @@
 #include <new>
 #include <cmath>
 #include <cstdint>
+#include <bit>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
@@ -4714,7 +4715,7 @@ struct CVals
     bool FUN_00884e90(int);
 };
 struct SourceBuffer;
-struct Vec4;
+struct __declspec(align(16)) Vec4 { __m128 value; __forceinline Vec4& operator=(const Vec4& rhs) { value=rhs.value; return *this; } };
 struct Root {
     SourceBuffer* src; __forceinline void SetSource(SourceBuffer* p) { src=p; } int unk04,unk08,unk0c;
     Vec4 a,b;
@@ -4766,8 +4767,8 @@ void FUN_00884f80_shell::FUN_00884f80()
 {
     if (*reinterpret_cast<_Dummy_00884f80**>(&this->m_pBaseProcess))
     {
-        ::FUN_00884940((int *)((*reinterpret_cast<_Dummy_00884f80**>(&this->m_pBaseProcess))), (::blob4)(0x2000));
-        ::FUN_00884940((int *)((*reinterpret_cast<_Dummy_00884f80**>(&this->m_pBaseProcess))), (::blob4)(0x1000));
+        ::FUN_00884940((int *)((*reinterpret_cast<_Dummy_00884f80**>(&this->m_pBaseProcess))), std::bit_cast<::blob4>(0x2000u));
+        ::FUN_00884940((int *)((*reinterpret_cast<_Dummy_00884f80**>(&this->m_pBaseProcess))), std::bit_cast<::blob4>(0x1000u));
     }
 }
 
@@ -5956,6 +5957,7 @@ struct QueuedFile;
 struct TESAmmo;
 struct TESModel;
 class TESHair;
+template <class> class FaceGenMatrix;
 class TESNPC : public TESBoundObject
 {
 public:
@@ -9856,6 +9858,7 @@ struct ThreeByThreeMatrix
 {
     float m[9];
     ThreeByThreeMatrix operator*(const ThreeByThreeMatrix&) const;
+    NiPoint3 operator*(const NiPoint3&) const;
 public:
     ::ThreeByThreeMatrix operator+(const ::ThreeByThreeMatrix &) const;
 public:
@@ -10506,7 +10509,7 @@ void FUN_008acba0_holder::FUN_008acba0()
 {
     if (los && ::FUN_00884920((int *)(los)))
     {
-        ::FUN_00884940((int *)(los), (::blob4)(8));
+        ::FUN_00884940((int *)(los), std::bit_cast<::blob4>(8u));
     }
 }
 }  // namespace fnv_008acba0
@@ -12423,7 +12426,7 @@ struct NiTransform
     bool IsIdentity();
     void LoadBinary(NiStream*);
     void SaveBinary(NiStream*);
-    char m_kOrientation[48];
+    char m_kOrientation[36];
     NiPoint3 m_kTranslation;
     float m_fScale;
 public:
@@ -12463,12 +12466,11 @@ struct NiPoint3_ext : public NiPoint3
 void FUN_008b42e0_shell::InvertTransform(NiTransform* kDest)
 {
     reinterpret_cast<ThreeByThreeMatrix*>(this)->Inverse(*reinterpret_cast<ThreeByThreeMatrix*>(kDest));
-    kDest->m_kTranslation.x =
-        1.0f / this->m_kTranslation.x;
-    *reinterpret_cast<NiPoint3*>(reinterpret_cast<char*>(kDest) + 0x24) = NiPosData::ComputePositionAtTime(
-        kDest->m_kTranslation.x,
-        *reinterpret_cast<ThreeByThreeMatrix*>(kDest) *
-            (*(::NiPoint3 *)(reinterpret_cast<::P3 *>((void *)(reinterpret_cast<NiPoint3_ext*>(reinterpret_cast<char*>(this) + 0x24)))->FUN_004a0bd0({}))));
+    kDest->m_fScale = 1.0f / this->m_fScale;
+    NiPoint3 kNegTranslation;
+    reinterpret_cast<::P3*>(&this->m_kTranslation)->FUN_004a0bd0(reinterpret_cast<::P3*>(&kNegTranslation));
+    kDest->m_kTranslation = NiPosData::ComputePositionAtTime(
+        kDest->m_fScale, *reinterpret_cast<ThreeByThreeMatrix*>(kDest) * kNegTranslation);
 }
 
 struct TESObjectREFR_GetFlags_Helper : public TESObjectREFR
@@ -13010,7 +13012,7 @@ void FUN_008b9ab0(ActorValueOwner* apOwner)
         return;
     Actor* pActor = static_cast<Actor*>(apOwner);
     if (pActor->m_pBaseProcess && ::FUN_00884920((int *)(((P_008b9ab0*)pActor->m_pBaseProcess))))
-        ::FUN_00884940((int *)(((P_008b9ab0*)pActor->m_pBaseProcess)), (::blob4)(0x10));
+        ::FUN_00884940((int *)(((P_008b9ab0*)pActor->m_pBaseProcess)), std::bit_cast<::blob4>(0x10u));
 }
 
 namespace fnv_008b9d20 {
@@ -16282,6 +16284,27 @@ float BP::FUN_008be810(Owner* apOwner)
 }
 }  // namespace fnv_008be810
 
+struct DummyOwner
+{
+    virtual void v00();
+    virtual void v04();
+    virtual void v08();
+    virtual void v0c();
+    virtual void v10();
+    virtual void v14();
+    virtual void v18();
+    virtual void v1c();
+    virtual void v20();
+    virtual void v24();
+    virtual void v28();
+    virtual float v2c();
+};
+
+struct OwnerArg
+{
+    DummyOwner* p;
+};
+
 namespace fnv_008be940 {
 struct SecX
 {
@@ -16311,7 +16334,7 @@ float FloatValueProvider::FUN_008be940()
 {
     if (*(CombatLOS**)((char*)this + 0x68) && ::FUN_00884920((int *)((*(CombatLOS**)((char*)this + 0x68)))))
     {
-        return ::FUN_008be9b0((::DummyProcess *)((*(CombatLOS**)((char*)this + 0x68))), (::OwnerArg)(this ? (SecX*)((char*)this + 0xa8) : 0));
+        return ::FUN_008be9b0((::DummyProcess *)((*(CombatLOS**)((char*)this + 0x68))), ::OwnerArg{(::DummyOwner*)(this ? (SecX*)((char*)this + 0xa8) : 0)});
     }
     return ((SecX*)((char*)this + 0xa8))->vs();
 }
@@ -16322,27 +16345,6 @@ struct DummyCachedValues
     char pad[0x2c];
     float fEyeLevel;
     bool FUN_00884e90(unsigned int auiFlag);
-};
-
-struct DummyOwner
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual void v0c();
-    virtual void v10();
-    virtual void v14();
-    virtual void v18();
-    virtual void v1c();
-    virtual void v20();
-    virtual void v24();
-    virtual void v28();
-    virtual float v2c();
-};
-
-struct OwnerArg
-{
-    DummyOwner* p;
 };
 
 struct DummyProcess
@@ -17949,11 +17951,17 @@ class TESObject
   public:
 };
 
+struct NextObjectView
+{
+    char pad[0x110];
+    float fValue;
+};
 
 // @fnv 0x008d1e50
 float FUN_008d1e50_shell::GetNextObjectFloat()
 {
-    return ((float)(reinterpret_cast<::Callees *>(((char*)((::fnv_008d1e50::TESObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((TESObject*)this)))->FUN_007af430())) + 0x10c))->FUN_00726070()));
+    // 0x00726070 is a folded 4-byte getter; here it reads the next object's float at +0x110.
+    return reinterpret_cast<NextObjectView *>(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((TESObject*)this)))->FUN_007af430())->fValue;
 }
 }  // namespace fnv_008d1e50
 
@@ -25926,7 +25934,6 @@ struct ActorX : public ::Actor
     void ResetActorEquipment(bool);
 };
 }
-extern fnv_0089fb80::TESSaveLoadGame* g_TESSaveLoadGame;
 // @fnv 0x0089fb80
 void fnv_0089fb80::ActorX::ResetActorEquipment(bool abReset)
 {
@@ -30757,7 +30764,7 @@ void FUN_008abfe0_shell::FUN_008abfe0(BGSLoadFormBuffer* apLoadGameBuffer)
             pobj3D = ((VA_008abfe0*)this)->v116();
             if (pobj3D)
             {
-                if (!reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::fnv_008abfe0::FormChangeMask &)(((LFB_008abfe0*)apLoadGameBuffer)->GetChangeFlags(4)))->FUN_004280f0() &&
+                if (!reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::fnv_008abfe0::FormChangeMask &)(((LFB_008abfe0*)apLoadGameBuffer)->GetChangeFlags(4)))->FUN_004280f0(4) &&
                     (((VA_008abfe0*)this)->v139(0) || ((VA_008abfe0*)this)->v186()))
                 {
                     if (*(RC_008abfe0**)&this->m_pRagdollController)
@@ -31553,7 +31560,6 @@ struct FUN_008b0bd0_shell : public Actor
     void FUN_008b0bd0(NiAVObject*);
 };
 
-int __cdecl _strnicmp(const char*, const char*, unsigned int);
 namespace fnv_008b0bd0 {
 struct NiNode;
 struct NiFixedString
@@ -35918,8 +35924,6 @@ void FUN_008abfa0_Class::FUN_008abfa0(int* arg)
     reinterpret_cast<G2*>(reinterpret_cast<char*>(this) + 0x5fc)->AddHead(reinterpret_cast<int*>(&arg));
 }
 
-extern "C" void __cdecl FUN_0062d350(void*);
-
 struct FUN_008aff30_Class
 {
     void FUN_0062d350();
@@ -37910,7 +37914,7 @@ struct Outer008848e0
 void Outer008848e0::FUN_008848e0()
 {
     if (p && ::FUN_00884920((int *)(p)))
-        ::FUN_00884940((int *)(p), (::blob4)(0x4000));
+        ::FUN_00884940((int *)(p), std::bit_cast<::blob4>(0x4000u));
 }
 
 namespace fnv_00884ff0 {
@@ -42981,10 +42985,6 @@ float S953f20::GetWrappedAngle(int apTargetObject)
     return result;
 }
 
-struct Holder8512f0
-{
-};
-extern Holder8512f0* DAT_011de134;
 // Clears DAT_011e07c0, then calls ConsumeByteAtE4 and dispatches to FUN_008512f0 on result 1 or FUN_007d0a70 on result 2.
 // @fnv 0x00961d50
 void FUN_00961d50()
@@ -43212,7 +43212,7 @@ void FUN_00567050_shell::FUN_00567050()
                             {
                                 reinterpret_cast<::fnv_005672c0::Fn5672c0 *>(this)->FUN_005672c0((::fnv_005672c0::NiAVObject *)(pForwardSequence));
                                 reinterpret_cast<::NiControllerManager *>((pManager))->StopSequence((::NiControllerSequence *)(pForwardSequence), 0.0f);
-                                reinterpret_cast<::fnv_00578a30::Thing *>((((FUN_00577330_cls*)this)))->FUN_00578a30((int)((*(const ::fnv_00567050::NiFixedStr *)(reinterpret_cast<::TESTopicInfoData *>((void *)(((NiCtrlSeqName*)pForwardSequence)))->GetLinkToList()))));
+                                reinterpret_cast<::fnv_00578a30::Thing *>((((FUN_00577330_cls*)this)))->FUN_00578a30((int)(const char *)((*(const ::fnv_00567050::NiFixedStr *)(reinterpret_cast<::TESTopicInfoData *>((void *)(((NiCtrlSeqName*)pForwardSequence)))->GetLinkToList()))));
                                 ::ProcessOpenCloseEvent((::Ref *)(::Actor *)(this), (::SequenceEvent *)(pForwardSequence));
                             }
                             else
@@ -48990,9 +48990,9 @@ unsigned int stub_TESSaveLoadGame::ComputeFormTableChecksum(stub_LoadBuffer* buf
     }
     return sum;
 }
-union __declspec(intrin_type) __declspec(align(16)) __m128 { float m128_f32[4]; };
 struct Heap { virtual void Unused(); virtual void* Allocate(unsigned); };
 struct Context { int unk00, unk04, unk08, unk0c; Heap* heap; };
+static __forceinline void* AllocateBuffer(unsigned n) { Context* context=(Context*)(void*)FUN_00c85750(); Heap* heap=context->heap; return (heap->Allocate)(n); }
 struct SmallMember { unsigned data; __forceinline SmallMember() { new ((void *)this) struct ::FUN_00cb0a60(); } __forceinline ~SmallMember() { ::FUN_00cb0c00((int)this); }   };
 struct Entry { SmallMember member; unsigned char enabled; __forceinline Entry():enabled(0) {} };
 struct __declspec(align(16)) Transform { __m128 x,y,z; };
@@ -49074,7 +49074,6 @@ struct CloneBuffer {
     }
      
 };
-struct __declspec(align(16)) Vec4 { __m128 value; __forceinline Vec4& operator=(const Vec4& rhs) { value=rhs.value; return *this; } };
 struct __declspec(align(16)) LookBoneParams91 {
     CloneBuffer* pose;
     short bone,parent;
@@ -56421,8 +56420,9 @@ bool TransitionActor::UpdateTransition()
             if (actor4 && !actor4->IsValid())
             {
                 reinterpret_cast<::fnv_00881680::FUN_00881680_shell *>(this)->FUN_00881680(0);
-                reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::fnv_00883800::TransitionData * *>(&::g_dataHandler))))->GetReferencesInArea((::TESObjectCELL *)(::fnv_00883800::TransitionCell *)(((::fnv_00883800::TransitionCell *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))), (*(const ::NiPoint3 *)(GetPosition(5000.0f))), GetPosition(5000.0f), (*(const ::NiPoint3 *)(((void (&)())::LowProcess::HandlePackageLocationLoaded))),
-                                            (float)(this), {}, {});
+                reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::fnv_00883800::TransitionData * *>(&::g_dataHandler))))->GetReferencesInArea((::TESObjectCELL *)(::fnv_00883800::TransitionCell *)(((::fnv_00883800::TransitionCell *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))), *(const ::NiPoint3 *)(std::intptr_t)GetPosition(5000.0f),
+                                            5000.0f, *(const ::NiPoint3 *)(std::intptr_t)GetPosition(5000.0f), 0.0f,
+                                            (bool (*)(::TESObjectREFR *, long))::LowProcess::HandlePackageLocationLoaded, (long)(std::intptr_t)this);
             }
         }
     }
@@ -72667,13 +72667,13 @@ void Shell::FUN_008a6ce0(bool immediate, bool reset)
             {
                 current = ((::p076::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))->GetAssignedPackage();
                 if (reinterpret_cast<::TESPackage *>((current))->IsFlag80Set())
-                    reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::p076::Handler * *>(&::g_dataHandler))))->GetReferencesInArea((::TESObjectCELL *)(void *)(((void *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))), (*(const ::NiPoint3 *)(((ActorVT*)this)->Get3D(::runtimeFloatSettingDefault247))),
-                                                (float)(((ActorVT*)this)->Get3D(::runtimeFloatSettingDefault247)), (*(const ::NiPoint3 *)(((void (&)(void *))::LowProcess::HandlePackageTargetLoaded))),
-                                                (float)(this), {}, {});
+                    reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::p076::Handler * *>(&::g_dataHandler))))->GetReferencesInArea((::TESObjectCELL *)(void *)(((void *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))), *(const ::NiPoint3 *)(std::intptr_t)((ActorVT*)this)->Get3D(::runtimeFloatSettingDefault247),
+                                                ::runtimeFloatSettingDefault247, *(const ::NiPoint3 *)(std::intptr_t)((ActorVT*)this)->Get3D(::runtimeFloatSettingDefault247), 0.0f,
+                                                (bool (*)(::TESObjectREFR *, long))::LowProcess::HandlePackageTargetLoaded, (long)(std::intptr_t)this);
                 if (reinterpret_cast<::TESPackage *>((current))->IsFlag10Set())
-                    reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::p076::Handler * *>(&::g_dataHandler))))->GetReferencesInArea((::TESObjectCELL *)(void *)(((void *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))), (*(const ::NiPoint3 *)(((ActorVT*)this)->Get3D(::runtimeFloatSettingDefault247))),
-                                                (float)(((ActorVT*)this)->Get3D(::runtimeFloatSettingDefault247)), (*(const ::NiPoint3 *)(((void (&)(void *))::LowProcess::HandlePackageLocationLoaded))),
-                                                (float)(this), {}, {});
+                    reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::p076::Handler * *>(&::g_dataHandler))))->GetReferencesInArea((::TESObjectCELL *)(void *)(((void *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))), *(const ::NiPoint3 *)(std::intptr_t)((ActorVT*)this)->Get3D(::runtimeFloatSettingDefault247),
+                                                ::runtimeFloatSettingDefault247, *(const ::NiPoint3 *)(std::intptr_t)((ActorVT*)this)->Get3D(::runtimeFloatSettingDefault247), 0.0f,
+                                                (bool (*)(::TESObjectREFR *, long))::LowProcess::HandlePackageLocationLoaded, (long)(std::intptr_t)this);
             }
             if (((::p076::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))->HasActor())
             {
@@ -83928,7 +83928,7 @@ void FUN_008b9b10(char* apData)
     {
         if (::FUN_00884920((int *)(owner->m_pInner)))
         {
-            ::FUN_00884940((int *)(owner->m_pInner), (::blob4)(0x80000000));
+            ::FUN_00884940((int *)(owner->m_pInner), std::bit_cast<::blob4>(0x80000000u));
         }
     }
 }
@@ -84069,7 +84069,7 @@ void __cdecl FUN_008b9cc0(int aiObjectPtr)
     {
         if (FUN_00884920(object->unk68))
         {
-            ::FUN_00884940((int *)(((S_008b9cc0_Helper*)object->unk68)), (::blob4)(0x20));
+            ::FUN_00884940((int *)(((S_008b9cc0_Helper*)object->unk68)), std::bit_cast<::blob4>(0x20u));
         }
     }
 }
@@ -84086,7 +84086,7 @@ void __cdecl FUN_008b9db0(ActorValueOwner* owner)
     if (actor->m_pBaseProcess)
     {
         if (::FUN_00884920((int *)(reinterpret_cast<S_008b9db0_Proc*>(actor->m_pBaseProcess))))
-            ::FUN_00884940((int *)(reinterpret_cast<S_008b9db0_Proc*>(actor->m_pBaseProcess)), (::blob4)(0x40));
+            ::FUN_00884940((int *)(reinterpret_cast<S_008b9db0_Proc*>(actor->m_pBaseProcess)), std::bit_cast<::blob4>(0x40u));
     }
 }
 
@@ -84160,7 +84160,7 @@ void FUN_008b9ea0(StatOwner* owner, int unused, float amount, float delta)
         return;
     StatActor* actor = static_cast<StatActor*>(owner);
     if (actor->effect && ::FUN_00884920((int *)(actor->effect)))
-        ::FUN_00884940((int *)(actor->effect), (::blob4)(0x80));
+        ::FUN_00884940((int *)(actor->effect), std::bit_cast<::blob4>(0x80u));
     if (delta < 0.0)
     {
         float current = actor->Current(16);
@@ -84563,7 +84563,7 @@ void FUN_008ba140(char* param)
         {
             if (::FUN_00884920((int *)(obj->m68)))
             {
-                ::FUN_00884940((int *)(obj->m68), (::blob4)(0x400));
+                ::FUN_00884940((int *)(obj->m68), std::bit_cast<::blob4>(0x400u));
             }
         }
     }
@@ -84640,7 +84640,7 @@ void SetProcessFlagIfActive(C8BA210Listener* pkListener)
     {
         C8BA210Actor* pkActor = static_cast<C8BA210Actor*>(pkListener);
         if (pkActor->m_pkProcess && ::FUN_00884920((int *)(pkActor->m_pkProcess)))
-            ::FUN_00884940((int *)(pkActor->m_pkProcess), (::blob4)(0x800));
+            ::FUN_00884940((int *)(pkActor->m_pkProcess), std::bit_cast<::blob4>(0x800u));
     }
 }
 
@@ -121944,24 +121944,28 @@ void TargetActor::FUN_008a6a40()
             if (reinterpret_cast<::TESPackage *>((package))->IsPackageBlockingGreeting())
                 return;
             if (reinterpret_cast<::TESPackage *>((package))->FUN_005394a0())
-                reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::fnv_008a6a40::DataHandlerView * *>(&::g_dataHandler))))->GetReferencesInArea(((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>(this)->GetTarget())), (*(const ::NiPoint3 *)(((PositionView*)this)->GetPosition(5000.0f))),
-                                            (float)(((PositionView*)this)->GetPosition(5000.0f)), (*(const ::NiPoint3 *)(((void (&)(Actor *))::LowProcess::HandlePackageLocationLoaded))), (float)(this), {}, {});
+                reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::fnv_008a6a40::DataHandlerView * *>(&::g_dataHandler))))->GetReferencesInArea(((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>(this)->GetTarget())), *(const ::NiPoint3 *)(std::intptr_t)((PositionView*)this)->GetPosition(5000.0f),
+                                            5000.0f, *(const ::NiPoint3 *)(std::intptr_t)((PositionView*)this)->GetPosition(5000.0f), 0.0f,
+                                            (bool (*)(::TESObjectREFR *, long))::LowProcess::HandlePackageLocationLoaded, (long)(std::intptr_t)this);
             else if (reinterpret_cast<::TESPackage *>((package))->FUN_00670ed0())
-                reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::fnv_008a6a40::DataHandlerView * *>(&::g_dataHandler))))->GetReferencesInArea(((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>(this)->GetTarget())), (*(const ::NiPoint3 *)(((PositionView*)this)->GetPosition(5000.0f))),
-                                            (float)(((PositionView*)this)->GetPosition(5000.0f)), (*(const ::NiPoint3 *)(((void (&)(Actor *))::LowProcess::HandlePackageTargetLoaded))), (float)(this), {}, {});
+                reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::fnv_008a6a40::DataHandlerView * *>(&::g_dataHandler))))->GetReferencesInArea(((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>(this)->GetTarget())), *(const ::NiPoint3 *)(std::intptr_t)((PositionView*)this)->GetPosition(5000.0f),
+                                            5000.0f, *(const ::NiPoint3 *)(std::intptr_t)((PositionView*)this)->GetPosition(5000.0f), 0.0f,
+                                            (bool (*)(::TESObjectREFR *, long))::LowProcess::HandlePackageTargetLoaded, (long)(std::intptr_t)this);
             if (package->Apply(this, 0, -1.0f, 0))
             {
                 if (!((ProcessView*)((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture())))->GetFlag())
                 {
                     if (reinterpret_cast<::TESPackage *>((package))->FUN_00670f40())
                     {
-                        reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::fnv_008a6a40::DataHandlerView * *>(&::g_dataHandler))))->GetReferencesInArea(((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>(this)->GetTarget())), (*(const ::NiPoint3 *)(((PositionView*)this)->GetPosition(5000.0f))),
-                                                    (float)(((PositionView*)this)->GetPosition(5000.0f)), (*(const ::NiPoint3 *)(((void (&)(Actor *))::LowProcess::HandlePackageLocationLoaded))), (float)(this), {}, {});
+                        reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::fnv_008a6a40::DataHandlerView * *>(&::g_dataHandler))))->GetReferencesInArea(((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>(this)->GetTarget())), *(const ::NiPoint3 *)(std::intptr_t)((PositionView*)this)->GetPosition(5000.0f),
+                                                    5000.0f, *(const ::NiPoint3 *)(std::intptr_t)((PositionView*)this)->GetPosition(5000.0f), 0.0f,
+                                                    (bool (*)(::TESObjectREFR *, long))::LowProcess::HandlePackageLocationLoaded, (long)(std::intptr_t)this);
                         ((ProcessView*)((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture())))->SetFlag(true);
                     }
                     else if (reinterpret_cast<::TESPackage *>((package))->FUN_00670f60())
-                        reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::fnv_008a6a40::DataHandlerView * *>(&::g_dataHandler))))->GetReferencesInArea(((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>(this)->GetTarget())), (*(const ::NiPoint3 *)(((PositionView*)this)->GetPosition(5000.0f))),
-                                                    (float)(((PositionView*)this)->GetPosition(5000.0f)), (*(const ::NiPoint3 *)(((void (&)(Actor *))::LowProcess::HandlePackageTargetLoaded))), (float)(this), {}, {});
+                        reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::fnv_008a6a40::DataHandlerView * *>(&::g_dataHandler))))->GetReferencesInArea(((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>(this)->GetTarget())), *(const ::NiPoint3 *)(std::intptr_t)((PositionView*)this)->GetPosition(5000.0f),
+                                                    5000.0f, *(const ::NiPoint3 *)(std::intptr_t)((PositionView*)this)->GetPosition(5000.0f), 0.0f,
+                                                    (bool (*)(::TESObjectREFR *, long))::LowProcess::HandlePackageTargetLoaded, (long)(std::intptr_t)this);
                 }
             }
         }
@@ -124591,7 +124595,7 @@ void __cdecl FUN_008b9240(ActorValueOwner* owner, int value, float oldValue, flo
                     if (value == 25 && delta != 0.0 && actor->m_pBaseProcess &&
                         ::FUN_00884920((int *)(((P_008b9ab0*)actor->m_pBaseProcess))))
                     {
-                        ::FUN_00884940((int *)(((P_008b9ab0*)actor->m_pBaseProcess)), (::blob4)(256));
+                        ::FUN_00884940((int *)(((P_008b9ab0*)actor->m_pBaseProcess)), std::bit_cast<::blob4>(256u));
                     }
                     if (value == 29 || value == 30 || value == 72)
                         reinterpret_cast<::Outer008848e0 *>((((CallbackOps*)actor)))->FUN_008848e0();
@@ -134218,8 +134222,8 @@ void ActorUpdateActor::FUN_00888b50(float afTime)
                     reinterpret_cast<::FUN_008b39f0_shell *>(this)->FUN_008b39f0(pMagic->GetFlags() | 0x800);
                     if (pProcess && ::FUN_00884920((int *)(pProcess)))
                     {
-                        ::FUN_00884940((int *)(pProcess), (::blob4)(0x1000));
-                        ::FUN_00884940((int *)(pProcess), (::blob4)(0x2000));
+                        ::FUN_00884940((int *)(pProcess), std::bit_cast<::blob4>(0x1000u));
+                        ::FUN_00884940((int *)(pProcess), std::bit_cast<::blob4>(0x2000u));
                     }
                 }
                 else
@@ -134227,8 +134231,8 @@ void ActorUpdateActor::FUN_00888b50(float afTime)
                     reinterpret_cast<::FUN_008b3a80_Class *>(this)->ForwardToVtSlot((void *)(0x800));
                     if (pProcess && ::FUN_00884920((int *)(pProcess)))
                     {
-                        ::FUN_00884940((int *)(pProcess), (::blob4)(0x1000));
-                        ::FUN_00884940((int *)(pProcess), (::blob4)(0x2000));
+                        ::FUN_00884940((int *)(pProcess), std::bit_cast<::blob4>(0x1000u));
+                        ::FUN_00884940((int *)(pProcess), std::bit_cast<::blob4>(0x2000u));
                     }
                 }
                 if (::FUN_005c0880((char *)(qfTOqo)) == 5 && !qrKBG)
@@ -134264,8 +134268,8 @@ void ActorUpdateActor::FUN_00888b50(float afTime)
                 reinterpret_cast<::fnv_008a6840::FUN_008a6840_shell *>(this)->FUN_008a6840(false);
                 if (pProcess && ::FUN_00884920((int *)(pProcess)))
                 {
-                    ::FUN_00884940((int *)(pProcess), (::blob4)(0x1000));
-                    ::FUN_00884940((int *)(pProcess), (::blob4)(0x2000));
+                    ::FUN_00884940((int *)(pProcess), std::bit_cast<::blob4>(0x1000u));
+                    ::FUN_00884940((int *)(pProcess), std::bit_cast<::blob4>(0x2000u));
                 }
             }
             else if (reinterpret_cast<::FUN_005a2030_shell *>((void *)this)->FUN_005a2030() || (reinterpret_cast<::FUN_008846e0_shell *>(this)->GetVtbl20Result() & 0x800) || ::FUN_005c0880((char *)(qfTOqo)) == 5)
@@ -134276,8 +134280,8 @@ void ActorUpdateActor::FUN_00888b50(float afTime)
                     reinterpret_cast<::FUN_0088b0a0_c *>((qfTOqo))->set(0);
                     if (pProcess && ::FUN_00884920((int *)(pProcess)))
                     {
-                        ::FUN_00884940((int *)(pProcess), (::blob4)(0x1000));
-                        ::FUN_00884940((int *)(pProcess), (::blob4)(0x2000));
+                        ::FUN_00884940((int *)(pProcess), std::bit_cast<::blob4>(0x1000u));
+                        ::FUN_00884940((int *)(pProcess), std::bit_cast<::blob4>(0x2000u));
                     }
                 }
             }
@@ -135399,7 +135403,7 @@ bool MatchActor::FUN_008bcdf0(bool update, int unused)
             bool _enabled = !(!restricted5 && moving6);
             reinterpret_cast<::S1a130 *>((((RagdollControllerView*)m_pRagdollController)))->FUN_005ba130(aAllowed);
             reinterpret_cast<::FUN_00c747d0_Class *>((((RagdollControllerView*)m_pRagdollController)))->FUN_00c747d0(aAllowed && FloatTripleBooleanFlagRecord && _enabled ? true : false);
-            ::SetCastDown((char *)(((RagdollControllerView*)m_pRagdollController)), (::blob1)(!moving6));
+            ::SetCastDown((char *)(((RagdollControllerView*)m_pRagdollController)), std::bit_cast<::blob1>(!moving6));
             if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((StateView*)&(*reinterpret_cast<::VATS *>(&::g_011f2250)))))->GetName())) == 4)
                 reinterpret_cast<::C75910Water *>((((RagdollControllerView*)m_pRagdollController)))->UpdateShaderParams();
             else
@@ -151679,7 +151683,6 @@ void Controller::FUN_00c7b6a0(bool enable) {
 
 extern "C" __m128 _mm_setr_ps(float, float, float, float);
 extern void* UNK_010c4dec;
-static __forceinline void* AllocateBuffer(unsigned n) { Context* context=(Context*)(void*)FUN_00c85750(); Heap* heap=context->heap; return (heap->Allocate)(n); }
 static __forceinline int Maximum(int first,int second) { return first >= second ? first : second; }
  template<> struct S7de60_PodTrait<Entry> { typedef S7de60_IsClass type; };
 union Vec128 { __m128 value; char bytes[16]; };

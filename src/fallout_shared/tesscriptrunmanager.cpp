@@ -1,5 +1,6 @@
 // fallout_shared/tesscriptrunmanager.cpp: ScriptRunner, ScriptExecutor (11 functions)
 
+#include "fnv/tls.h"
 #include <cstdint>
 #include <cstring>
 #include "fnv/decl/BGSCameraPath.h"
@@ -174,18 +175,10 @@ void* FUN_005e0c60(char* pThis)
     return pThis;
 }
 
-struct TLSData_005e23f0
-{
-    char pad[0x268];
-    bool bVal;
-};
-
-static thread_local TLSData_005e23f0 s_tlsData_005e23f0;
-
 // @fnv 0x005e23f0
 bool __cdecl GetThreadLocalValue()
 {
-    return s_tlsData_005e23f0.bVal;
+    return g_tlsBlock.conditionFunctionDebug;
 }
 
 

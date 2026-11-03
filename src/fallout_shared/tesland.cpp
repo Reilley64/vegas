@@ -29,6 +29,7 @@
 #include "fnv/symbols_011f9000.h"
 #include "fnv/symbols_0126f000.h"
 #include "fnv/symbols_01272000.h"
+#include "fnv/tls.h"
 #include <xmmintrin.h>
 #include <cstdint>
 #include <cstddef>
@@ -1337,13 +1338,13 @@ namespace fnv_00b61370 {
 struct CacheAllocationScope
 {
     int savedTag;
-    CacheAllocationScope(int tag) : savedTag((*reinterpret_cast<int *>(&::currentAllocationContext)))
+    CacheAllocationScope(int tag) : savedTag(g_tlsBlock.memoryContext)
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = tag;
+        g_tlsBlock.memoryContext = tag;
     }
     ~CacheAllocationScope()
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = savedTag;
+        g_tlsBlock.memoryContext = savedTag;
     }
 };
 struct CacheItem

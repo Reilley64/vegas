@@ -286,6 +286,7 @@
 #include "fnv/symbols_011e0000.h"
 #include "fnv/symbols_01202000.h"
 #include "fnv/symbols_01272000.h"
+#include "fnv/tls.h"
 #include "tesdatahandler_decls.h"
 // Allocates and returns a new TESForm subclass instance matching the given type code, warning on unknown types.
 // @fnv 0x00465110
@@ -1134,25 +1135,18 @@ struct FUN_004623f0_shell : public BGSSaveLoadGame
 };
 
 
-struct TLS_004623f0
-{
-    char pad[0x294];
-    unsigned int val;
-};
-thread_local TLS_004623f0 g_tls_004623f0;
-
-// Calls FUN_00462480 on this, sets or clears bit 0 of g_tls_004623f0.val based on abValue, and returns the call's result.
+// Calls FUN_00462480 on this, sets or clears bit 0 of the thread flags based on abValue, and returns the call's result.
 // @fnv 0x004623f0
 bool FUN_004623f0_shell::FUN_004623f0(bool abValue)
 {
     bool bret = ((bool)(reinterpret_cast<::FUN_00462480_Class *>((this))->FUN_00462480()));
     if (!abValue)
     {
-        (*reinterpret_cast<::TLS_004623f0 *>(&::g_tlsBlock)).val |= 1;
+        g_tlsBlock.threadFlags |= 1;
     }
     else
     {
-        (*reinterpret_cast<::TLS_004623f0 *>(&::g_tlsBlock)).val &= ~1u;
+        g_tlsBlock.threadFlags &= ~1u;
     }
     return bret;
 }

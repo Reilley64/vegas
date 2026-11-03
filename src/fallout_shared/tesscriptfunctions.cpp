@@ -791,6 +791,7 @@
 #include "fnv/symbols_01268000.h"
 #include "fnv/symbols_0126f000.h"
 #include "fnv/symbols_01272000.h"
+#include "fnv/tls.h"
 #include "tesscriptfunctions_layout_support.h"
 #include "fnv/decl/s88c790__Actor.h"
 #include "fnv/symbols_0059e000.h"
@@ -2018,10 +2019,6 @@ S0042fa20* S0042fa20::FUN_0045ce80(int a)
 void __cdecl DebugLog(const char*, ...);
 
 namespace fnv_anon_tesscriptfunctions {} using namespace fnv_anon_tesscriptfunctions; namespace fnv_anon_tesscriptfunctions {
-struct TLSData {
-    char pad[0x268];
-    bool bConsoleEcho;
-};
 }
 
 // @fnv 0x005b5950
@@ -2035,7 +2032,7 @@ bool __cdecl FUN_005b5950(const ScriptParameter* apParameters, const char* apCom
     if (apRefObject && pTargRef && pTargRef == reinterpret_cast<::FUN_00572e30_shell *>((apRefObject))->FUN_00572e30())
         afReturnValue = 1.0;
 
-    if ((*reinterpret_cast<::fnv_anon_tesscriptfunctions::TLSData *>(&::g_tlsBlock)).bConsoleEcho)
+    if (g_tlsBlock.conditionFunctionDebug)
         DebugLog("IsActionRef >> %0.2f", afReturnValue);
 
     return true;
@@ -2043,8 +2040,6 @@ bool __cdecl FUN_005b5950(const ScriptParameter* apParameters, const char* apCom
 
 class PlayerCharacter;
 class TESBoundObject;
-thread_local char _tls_pad_005b59f0[0x28c];
-thread_local unsigned int _tls_uActivateDepth;
 
 struct TESForm_acc : public TESForm
 {
@@ -2075,12 +2070,12 @@ bool __cdecl FUN_005b59f0(const ScriptParameter* apParameters, const char* apCom
 
     if (apRefObject)
     {
-        if (_tls_uActivateDepth > 5)
+        if (g_tlsBlock.activateDepth > 5)
         {
             return true;
         }
 
-        _tls_uActivateDepth = _tls_uActivateDepth + 1;
+        g_tlsBlock.activateDepth = g_tlsBlock.activateDepth + 1;
 
         if (!pTargRef)
         {
@@ -2110,7 +2105,7 @@ bool __cdecl FUN_005b59f0(const ScriptParameter* apParameters, const char* apCom
             }
         }
 
-        _tls_uActivateDepth = _tls_uActivateDepth - 1;
+        g_tlsBlock.activateDepth = g_tlsBlock.activateDepth - 1;
     }
 
     return true;
@@ -2449,11 +2444,6 @@ struct Form_005c05f0 {
 bool FUN_00572c80(TESObjectREFR*);
 void __cdecl DebugLog(const char*, ...);
 
-struct TLSData_005c05f0 {
-    char pad[0x268];
-    bool bConsoleEcho;
-};
-
 
 // @fnv 0x005c05f0
 bool __cdecl FUN_005c05f0(const ScriptParameter* paramInfo, const char* scriptData, TESObjectREFR* thisObj, TESObjectREFR* containingObj, Script* scriptObj, ScriptLocals* locals, double& result, unsigned int& opcodeOffsetPtr)
@@ -2466,7 +2456,7 @@ bool __cdecl FUN_005c05f0(const ScriptParameter* paramInfo, const char* scriptDa
 
     if (thisObj && !reinterpret_cast<::fnv_00572c80::FUN_00572c80_shell *>((thisObj))->FUN_00572c80())
     {
-        if ((*reinterpret_cast<::TLSData_005c05f0 *>(&::g_tlsBlock)).bConsoleEcho)
+        if (g_tlsBlock.conditionFunctionDebug)
         {
             DebugLog("%s cannot be moved.", ((Form_005c05f0*)thisObj)->vtbl->GetEditorID(thisObj));
         }
@@ -2575,16 +2565,13 @@ bool __cdecl FUN_005c4320(const ScriptParameter* paramInfo, const char* scriptDa
 
 namespace fnv_005c7800 {
 struct PlayerCharacter005c7800 {  };
-void __cdecl DebugLog(const char*, ...);
-struct TlsBlock005c7800 { char pad[0x268]; unsigned char flag; };
-thread_local TlsBlock005c7800 g_tls005c7800;
-// @fnv 0x005c7800
+void __cdecl DebugLog(const char*, ...);// @fnv 0x005c7800
 bool __cdecl FUN_005c7800(const ScriptParameter* a, const char* b, TESObjectREFR* c, TESObjectREFR* d, Script* e, ScriptLocals* f, double& result, unsigned int& g)
 {
     result = 0.0;
     if ((*reinterpret_cast<::fnv_005c7800::PlayerCharacter005c7800 * *>(&::_g_thePlayer))) {
         result = (double)((unsigned char)(::FUN_005c7870((const char *)((*reinterpret_cast<::fnv_005c7800::PlayerCharacter005c7800 * *>(&::_g_thePlayer))))));
-        if ((*reinterpret_cast<::fnv_005c7800::TlsBlock005c7800 *>(&::g_tlsBlock)).flag)
+        if (g_tlsBlock.conditionFunctionDebug)
             DebugLog("GetChargenValue >> %i", (int)result);
     }
     return true;
@@ -2733,7 +2720,7 @@ bool __cdecl FUN_005cf490(const ScriptParameter* apParameters, const char* apCom
             while (rlist && *((::fnv_005cf490::TESSound **)((void *)(rlist + 4)))) {
                 if (((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(((*((::fnv_005cf490::TESSound **)((void *)(rlist + 4))))))->FUN_0084e3a0())) == ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((region))->FUN_0084e3a0()))) {
                     *afReturnValue = 1.0;
-                    if (::bConditionFunctionDebug)
+                    if (g_tlsBlock.conditionFunctionDebug)
                         DebugLog("IsPlayerInRegion >> %0.f", *afReturnValue);
                     return true;
                 }
@@ -2742,7 +2729,7 @@ bool __cdecl FUN_005cf490(const ScriptParameter* apParameters, const char* apCom
             }
         }
     }
-    if (::bConditionFunctionDebug)
+    if (g_tlsBlock.conditionFunctionDebug)
         DebugLog("IsPlayerInRegion >> %0.f", *afReturnValue);
     return true;
 }
@@ -3277,7 +3264,7 @@ bool __cdecl FUN_005ce360(const ScriptParameter* p, const char* s, TESObjectREFR
         iid = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((SoundH*)reinterpret_cast<::FUN_00572e30_shell *>((ref))->FUN_00572e30())))->FUN_0084e3a0()));
         ::Script::CopyIdentifierBitsToValue(iid, ret);
     }
-    if (::bConditionFunctionDebug)
+    if (g_tlsBlock.conditionFunctionDebug)
         DebugLog("GetActionRef >> (%08x)", iid);
     return true;
 }
@@ -3469,10 +3456,6 @@ struct TESObject {
 struct TESSound {
 };
 
-struct TLS_Data {
-    char pad[0x268];
-    bool bScriptDebugLog;
-};
 
 // @fnv 0x005ce3e0
 bool FUN_005ce3e0(const ScriptParameter* apParameters, const char* apCompiledParams, TESObjectREFR* apRefObject, TESObjectREFR* apContainer, Script* apScript, ScriptLocals* apScriptLocals, double& afReturnValue, unsigned int& auiOffset) {
@@ -3484,7 +3467,7 @@ bool FUN_005ce3e0(const ScriptParameter* apParameters, const char* apCompiledPar
             ::Script::CopyIdentifierBitsToValue(iid, afReturnValue);
         }
     }
-    if ((*reinterpret_cast<::fnv_005ce3e0::TLS_Data *>(&::g_tlsBlock)).bScriptDebugLog) {
+    if (g_tlsBlock.conditionFunctionDebug) {
         DebugLog("GetSelf >> (%08x)", iid);
     }
     return true;
@@ -3495,10 +3478,7 @@ void __cdecl DebugLog(const char*, ...);
 struct BGSQuestObjective { bool GetCompleted() const; public:
     bool GetDisplayed() const;
 };
-struct TESQuestObjectiveView {  };
-struct ThreadFlags { char pad[0x268]; unsigned char bLogScripts; };
-thread_local ThreadFlags g_threadFlags;
-// @fnv 0x005d7e30
+struct TESQuestObjectiveView {  };// @fnv 0x005d7e30
 bool __cdecl FUN_005d7e30(const ScriptParameter* apParameters, const char* apCompiledParams, TESObjectREFR* apRefObject, TESObjectREFR* apContainer, Script* apScript, ScriptLocals* apScriptLocals, double* afReturnValue, unsigned int* auiOffset)
 {
     BGSQuestObjective* pObjective;
@@ -3513,7 +3493,7 @@ bool __cdecl FUN_005d7e30(const ScriptParameter* apParameters, const char* apCom
         if (pObjective)
         {
             *afReturnValue = pObjective->GetCompleted() ? 1.0 : 0.0;
-            if ((*reinterpret_cast<::ThreadFlags *>(&::g_tlsBlock)).bLogScripts)
+            if (g_tlsBlock.conditionFunctionDebug)
                 DebugLog("GetObjectiveCompleted >> %0.2f", *afReturnValue);
         }
     }
@@ -3575,10 +3555,6 @@ struct BGSQuestObjective {
 struct StandIn_Quest {
 };
 
-struct TLS_Data {
-    char pad[0x268];
-    bool bScriptDebugLog;
-};
 
 // @fnv 0x005d7ef0
 bool FUN_005d7ef0(const ScriptParameter* apParameters, const char* apCompiledParams, TESObjectREFR* apRefObject, TESObjectREFR* apContainer, Script* apScript, ScriptLocals* apScriptLocals, double& afReturnValue, unsigned int& auiOffset) {
@@ -3592,7 +3568,7 @@ bool FUN_005d7ef0(const ScriptParameter* apParameters, const char* apCompiledPar
         BGSQuestObjective* pobjective = ((::fnv_005d7ef0::BGSQuestObjective *)(reinterpret_cast<::TESQuest *>((((StandIn_Quest*)pquest)))->GetObjective(iElementIndex)));
         if (pobjective) {
             afReturnValue = reinterpret_cast<::BGSQuestObjective *>((void *)(pobjective))->GetDisplayed() ? 1.0 : 0.0;
-            if ((*reinterpret_cast<::fnv_005d7ef0::TLS_Data *>(&::g_tlsBlock)).bScriptDebugLog) {
+            if (g_tlsBlock.conditionFunctionDebug) {
                 DebugLog("GetObjectiveDisplayed >> %0.2f", afReturnValue);
             }
         }
@@ -4960,7 +4936,6 @@ struct TES {
     int GetPrevPath(void);
 };
 
-thread_local unsigned char g_tls_flag;
 
 // @fnv 0x005b9370
 bool __cdecl FUN_005b9370(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*, ScriptLocals*, double&, unsigned int&)
@@ -4969,7 +4944,7 @@ bool __cdecl FUN_005b9370(const ScriptParameter*, const char*, TESObjectREFR*, T
     if (!reinterpret_cast<CP_008c48d0*>((*reinterpret_cast<int * *>(&::g_TES)))->GetPrevPath()) {
         reinterpret_cast<::fnv_00456cb0::TES *>((reinterpret_cast<TES*>((*reinterpret_cast<int * *>(&::g_TES)))))->FUN_00456cb0(DAT_011cae44);
     }
-    if ((*reinterpret_cast<unsigned char *>(&::bConditionFunctionDebug))) {
+    if (g_tlsBlock.conditionFunctionDebug) {
         DebugLog("Borders -> %s", DAT_011cae44 ? "On" : "Off");
     }
     return true;
@@ -5244,13 +5219,12 @@ bool __cdecl FUN_005d4600(const ScriptParameter* params, const char* name, TESOb
 
 namespace fnv_005d4af0 {
 extern "C" void __cdecl DebugLog(const char*, ...);
-thread_local unsigned char g_tlsDebugFlag;
 
 // @fnv 0x005d4af0
 bool __cdecl FUN_005d4af0(const ScriptParameter*, const char*, TESObjectREFR* apRefObject, TESObjectREFR*, Script*, ScriptLocals*, double& afReturnValue, unsigned int&)
 {
     ::IsPlayerEnteringSpaceConditionFunction(apRefObject, 0, 0, afReturnValue);
-    if ((*reinterpret_cast<unsigned char *>(&::bConditionFunctionDebug)))
+    if (g_tlsBlock.conditionFunctionDebug)
         DebugLog("Player is moving to new area >> %0.2f", afReturnValue);
     return true;
 }
@@ -5312,9 +5286,8 @@ bool __cdecl FUN_005d7940(const ScriptParameter* apParameters, const char* apCom
 {
     ::Script::GetActorSexConditionFunction(apRefObject, 0, 0, afReturnValue);
     
-    static thread_local bool bDebugLogFlag;
     
-    if (bDebugLogFlag)
+    if (g_tlsBlock.conditionFunctionDebug)
     {
         DebugLog("IsMoving >> %0.0f", afReturnValue);
     }
@@ -6059,18 +6032,12 @@ unsigned char* FUN_005d5120_StandIn::FUN_005d5120()
 bool __cdecl FUN_005a3d00(TESObjectREFR*, void*, void*, double&);
 void __cdecl DebugLog(const char*, ...);
 
-struct TLSDebugFlag {
-    unsigned char pad[0x268];
-    unsigned char flag;
-};
-
-thread_local TLSDebugFlag g_tlsDebug;
 
 // @fnv 0x005d56d0
 bool __cdecl FUN_005d56d0(const ScriptParameter* apParameters, const char* apCompiledParams, TESObjectREFR* apRefObject, TESObjectREFR* apContainer, Script* apScript, ScriptLocals* apScriptLocals, double& afReturnValue, unsigned int& auiOffset)
 {
     FUN_005a3d00(apRefObject, 0, 0, afReturnValue);
-    if ((*reinterpret_cast<::TLSDebugFlag *>(&::g_tlsBlock)).flag)
+    if (g_tlsBlock.conditionFunctionDebug)
     {
         DebugLog("IsPC1stPerson >> %0.2f", afReturnValue);
     }
@@ -6280,7 +6247,6 @@ int Str004b10a0::FUN_004b10a0()
 
 struct Ref_S {  };
 struct Script_0059bfa0 { static bool FUN_0059bfa0(TESObjectREFR*, void*, void*, double&); };
-thread_local bool g_bDebugLog;
 void __cdecl DebugLog(const char*, ...);
 namespace fnv_005b78a0 {
 struct ThreeByThreeMatrix { float m00, m01, m02, m10, m11, m12, m20, m21, m22; };
@@ -7190,22 +7156,22 @@ bool FUN_005bee90(const ScriptParameter* apParameters, const char* apCompiledPar
         {
         case 0:
             reinterpret_cast<::S0042fa20 *>((((S0042fa20*)pIS)))->FUN_0045ce80(::std::atoi(settingValue));
-            if (::bConditionFunctionDebug)
+            if (g_tlsBlock.conditionFunctionDebug)
                 _DebugLog("INISetting %s >> %i", settingName, *((GlobalObject_0045cf30*)pIS)->Bool() ? 1 : 0);
             break;
         case 3:
             reinterpret_cast<::S0042fa20 *>((((S0042fa20*)pIS)))->FUN_0045ce80(::std::atoi(settingValue));
-            if (::bConditionFunctionDebug)
+            if (g_tlsBlock.conditionFunctionDebug)
                 _DebugLog("INISetting %s >> %i", settingName, *((int *)&(::FUN_0043d4d0((int *)(((GlobalObject_0045cfe0*)pIS))))));
             break;
         case 5:
             reinterpret_cast<::S_004ed780 *>((((S_004ed780*)pIS)))->FUN_004ed780((float)::std::atof(settingValue));
-            if (::bConditionFunctionDebug)
+            if (g_tlsBlock.conditionFunctionDebug)
                 _DebugLog("INISetting %s >> %.2f", settingName, *((float *)&(::FUN_00403e20((float *)(((Setting_S*)pIS))))));
             break;
         case 6:
             reinterpret_cast<::Setting *>((pIS))->FUN_005e0190(settingValue);
-            if (::bConditionFunctionDebug)
+            if (g_tlsBlock.conditionFunctionDebug)
                 _DebugLog("INISetting %s >> '%s'", settingName, *((int *)&(::FUN_0043d4d0((int *)(((GlobalObject_0045cfe0*)pIS))))));
             break;
         default:
@@ -7697,7 +7663,7 @@ bool __cdecl FUN_005c65a0(const ScriptParameter* paramInfo, const char* scriptDa
             pNpc7->CopyActorBaseData((TESNPC*)*((Arr*)&list2)->GetAt(0));
         }
         ((Character*)pTarget3)->Reset3D();
-        if ((*reinterpret_cast<bool (*)[617]>(&::g_tlsBlock))[0x268])
+        if (g_tlsBlock.conditionFunctionDebug)
         {
             BSStringT<char> str;
             str.PrintfString("\"%s\" (%08x) is now %s", reinterpret_cast<::FUN_0055d520_shell *>((((MobileObject*)pTarget3)))->FUN_0055d520(), ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((TESSound*)pTarget3)))->FUN_0084e3a0())), (*reinterpret_cast<const char * (*)[]>((void *)&::DAT_01199e8c))[aBFemale]);
@@ -7730,7 +7696,7 @@ bool __cdecl FUN_005c7fd0(const ScriptParameter* parameters, const char* scriptD
         return false;
     if (faction && target)
         result = (double)((FactionReactionHelper*)faction)->GetFactionReaction(target);
-    if ((*reinterpret_cast<unsigned char (*)[]>(&::g_tlsBlock))[0x268])
+    if (g_tlsBlock.conditionFunctionDebug)
         _DebugLog("%.20s reaction to %.20s is %.1f",
                   ((void *)(reinterpret_cast<::FUN_00408da0_Class *>((((FNStub*)((char*)faction + 0x18))))->FUN_00408da0())),
                   ((void *)(reinterpret_cast<::FUN_00408da0_Class *>((((FNStub*)((char*)target + 0x18))))->FUN_00408da0())), result);
@@ -7803,7 +7769,7 @@ bool __cdecl FUN_005cb580(const ScriptParameter* parameters, const char* scriptD
         return false;
     TESForm* form4 = ::TESForm::LookupFormByEditorID(cameraPathFormName);
     DAT_011f21c0 = (int)(std::intptr_t)dynamic_cast<BGSCameraPath*>(form4);
-    if (::bConditionFunctionDebug) {
+    if (g_tlsBlock.conditionFunctionDebug) {
         if (DAT_011f21c0)
             _DebugLog("PlayVATSCameras '%s' queued for next VATS playback.", cameraPathFormName);
         else
@@ -7912,7 +7878,7 @@ bool FUN_005ccf50(const ScriptParameter* paramInfo, const char* scriptData, TESO
     if (!ExtractArgs(paramInfo, scriptData, &opcodeOffsetPtr, thisObj, containingObj, scriptObj, eventList, &pTeleportMarker, &fX, &fY, &fZ))
         return false;
     if (thisObj && !reinterpret_cast<::fnv_00572c80::FUN_00572c80_shell *>((thisObj))->FUN_00572c80()) {
-        if (::bConditionFunctionDebug)
+        if (g_tlsBlock.conditionFunctionDebug)
             DebugLog("%s cannot be moved.", ((RefVT*)thisObj)->GetEditorName());
         if (!reinterpret_cast<::BSShaderRenderUtility *>((((DataHandler5ccf50*)(*reinterpret_cast<::fnv_005ccf50::DH * *>(&::g_dataHandler)))))->IsRenderTargetId(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((FormIDView5ccf50*)scriptObj)))->FUN_0084e3a0()))))
             ::FUN_005b5e40();
@@ -8802,7 +8768,7 @@ bool FUN_005d41f0(const ScriptParameter* apParameters, const char* apCompiledPar
         pQuest->SetEnabled(true);
         pList = ((::fnv_005d41f0::TESQuestList *)(reinterpret_cast<::Callees *>((pList))->FUN_00726070()));
     }
-    if (::bConditionFunctionDebug)
+    if (g_tlsBlock.conditionFunctionDebug)
         _DebugLog("All Quests Enabled.", afReturnValue);
     return true;
 }
@@ -8817,7 +8783,7 @@ bool __cdecl FUN_005d4870(const ScriptParameter* apParameters, const char* apCom
     if (!ExtractArgs(apParameters, apCompiledParams, &auiOffset, apRefObject, apContainer, apScript, apScriptLocals, &iWhichType))
         return false;
     if (iWhichType < 0 || iWhichType > 6) {
-        if (::bConditionFunctionDebug)
+        if (g_tlsBlock.conditionFunctionDebug)
             _DebugLog("Shadow object type must be [0,6]");
         return true;
     }
@@ -8825,7 +8791,7 @@ bool __cdecl FUN_005d4870(const ScriptParameter* apParameters, const char* apCom
         (*reinterpret_cast<unsigned int *>(&::fnv_0086d590::DAT_011ad82c)) &= ~(1 << iWhichType);
     else
         (*reinterpret_cast<unsigned int *>(&::fnv_0086d590::DAT_011ad82c)) |= (1 << iWhichType);
-    if (::bConditionFunctionDebug) {
+    if (g_tlsBlock.conditionFunctionDebug) {
         char* ptypetotext[7] = { "Undetermined", "Architecture", "Furniture", "Actors", "Items", (char*)g_011d28a4_arg1, "Other" };
         char* ptypetext = ptypetotext[iWhichType];
         _DebugLog("Shadows %s: %s", ptypetext, ((1 << iWhichType) & (*reinterpret_cast<unsigned int *>(&::fnv_0086d590::DAT_011ad82c))) ? "On" : "Off");
@@ -8862,7 +8828,6 @@ namespace fnv_005d9170 {
 struct ConsoleManager { static ConsoleManager* __cdecl Instance(bool); };
 struct Holder {  };
 extern "C" void _DebugLog(const char*, ...);
-thread_local bool _gOutputDisabled;
 // @fnv 0x005d9170
 bool __cdecl FUN_005d9170(const ScriptParameter* parameters, const char* scriptData,
     TESObjectREFR* thisObject, TESObjectREFR* container, Script* script,
@@ -8874,12 +8839,12 @@ bool __cdecl FUN_005d9170(const ScriptParameter* parameters, const char* scriptD
         return false;
     bool disabled = false;
     if (filename[0] == 0 || filename[0] == '0') {
-        if (::bConditionFunctionDebug)
+        if (g_tlsBlock.conditionFunctionDebug)
             _DebugLog("SetConsoleOutputFilename >> OUTPUT_DISABLED");
         reinterpret_cast<::Holder *>((((Holder*)((::fnv_005d9170::ConsoleManager *)(::ConsoleManager::Instance(true))))))->FUN_0071dd50(0);
     } else {
         reinterpret_cast<::Holder *>((((Holder*)((::fnv_005d9170::ConsoleManager *)(::ConsoleManager::Instance(true))))))->FUN_0071dd50(filename);
-        if (::bConditionFunctionDebug)
+        if (g_tlsBlock.conditionFunctionDebug)
             _DebugLog("SetConsoleOutputFilename >> '%s'", filename);
     }
     return true;
@@ -8892,8 +8857,6 @@ struct TESClass {
 struct PC7d {
 };
 extern void __cdecl _DebugLog(const char*, ...);
-extern int __tls_index;
-thread_local unsigned char g_debugFlag;
 // @fnv 0x005d9670
 bool FUN_005d9670(const ScriptParameter* parameters, const char* scriptData,
                   TESObjectREFR* thisObject, TESObjectREFR* container,
@@ -8907,7 +8870,7 @@ bool FUN_005d9670(const ScriptParameter* parameters, const char* scriptData,
     result = 0.0;
     if (::FUN_0047f060((*(int *)&(skill))) && reinterpret_cast<::TESClass *>((((::fnv_005d9670::TESClass *)(reinterpret_cast<::fnv_00884350::FUN_00884350_shell *>(((*reinterpret_cast<::fnv_005d9670::PC7d * *>(&::_g_thePlayer))))->FUN_00884350()))))->IsTagSkill(skill))
         result = 1.0;
-    if ((*reinterpret_cast<unsigned char *>(&::bConditionFunctionDebug)))
+    if (g_tlsBlock.conditionFunctionDebug)
         _DebugLog("IsPlayerTagSkill >> %.0f", result);
     return true;
 }
@@ -9536,7 +9499,7 @@ void _DebugLog(const char*);
 bool FUN_005b9400()
 {
     ::FUN_005b9470();
-    if ((*reinterpret_cast<unsigned char *>(&::bConditionFunctionDebug)))
+    if (g_tlsBlock.conditionFunctionDebug)
     {
         _DebugLog("Debug lines/shapes now show for projectiles.");
         _DebugLog("    -Yellow line for targeting.");
@@ -9553,7 +9516,6 @@ struct NiAdditionalGeometryData {  };
 struct FUN_005b9870_This {  };
 extern "C" void __cdecl _DebugLog(const char*, ...);
 extern unsigned char DAT_011cae46;
-thread_local unsigned char g_bDebugLogEnabled;
 
 // @fnv 0x005b97f0
 bool FUN_005b97f0()
@@ -9562,7 +9524,7 @@ bool FUN_005b97f0()
     FUN_005b9870_This* pRoot = (FUN_005b9870_This*)::FUN_0045c670();
     FUN_005b9870_This* pScene = (FUN_005b9870_This*)((void *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0)));
     reinterpret_cast<::FUN_005b9870_This *>((pScene))->FUN_005b9870();
-    if ((*reinterpret_cast<unsigned char *>(&::bConditionFunctionDebug))) {
+    if (g_tlsBlock.conditionFunctionDebug) {
         _DebugLog("Wireframe -> %s", DAT_011cae46 ? "On" : "Off");
     }
     return true;
@@ -9599,14 +9561,13 @@ void FUN_005ba310_t::FUN_005ba310(bool b)
     *(unsigned char*)((char*)this + 0x21d) = ((*(unsigned char*)((char*)this + 0x21c) != 0) && (b != 0)) ? 1 : 0;
 }
 
-thread_local unsigned char gDebugLogEnabled;
 void _DebugLog(const char*, ...);
 
 // @fnv 0x005ba560
 bool FUN_005ba560()
 {
     ::fnv_00456c90::FUN_00456c90(1 ^ ((bool)(::fnv_005524d0::FUN_005524d0())));
-    if ((*reinterpret_cast<unsigned char *>(&::bConditionFunctionDebug)))
+    if (g_tlsBlock.conditionFunctionDebug)
     {
         _DebugLog("Ragdoll Animation %s", ((bool)(::fnv_005524d0::FUN_005524d0())) ? "On" : "Off");
     }
@@ -9615,17 +9576,12 @@ bool FUN_005ba560()
 
 namespace fnv_005ba6d0 {
 extern "C" void __cdecl _DebugLog(const char*, ...);
-struct FUN_005ba6d0_TLS
-{
-    unsigned char m_ucThreadLocalValue;
-};
-
 // @fnv 0x005ba6d0
 bool __cdecl FUN_005ba6d0()
 {
     unsigned char pProcessData = ::FUN_005ba740();
     ::FUN_005ba750(!pProcessData);
-    if ((*reinterpret_cast<::fnv_005ba6d0::FUN_005ba6d0_TLS *>(&::bConditionFunctionDebug)).m_ucThreadLocalValue)
+    if (g_tlsBlock.conditionFunctionDebug)
     {
         _DebugLog("Lite Brite -> %s", ::FUN_005ba740() ? "On" : "Off");
     }
@@ -9650,29 +9606,23 @@ bool FUN_005bb870(const ScriptParameter* parameters, const char* scriptData, TES
 
 extern bool DAT_011f1221;
 void __cdecl DebugLog(const char*, const char*);
-struct TLSStandIn
-{
-    bool m_bEnableAiDetection;
-};
-thread_local TLSStandIn g_tlsStandIn;
 
 // @fnv 0x005bbda0
 bool FUN_005bbda0()
 {
     DAT_011f1221 = !DAT_011f1221;
-    if ((*reinterpret_cast<::TLSStandIn *>(&::bConditionFunctionDebug)).m_bEnableAiDetection)
+    if (g_tlsBlock.conditionFunctionDebug)
         DebugLog("AI Detection is  %s", DAT_011f1221 ? "On" : "Off");
     return true;
 }
 
 namespace fnv_005bc0d0 {
 extern "C" void __cdecl _DebugLog(const char*, ...);
-struct TLSStandIn { unsigned char bCombatAILog; };
 // @fnv 0x005bc0d0
 unsigned char FUN_005bc0d0()
 {
     unsigned char bresult = ::FUN_005bc130();
-    if ((*reinterpret_cast<::fnv_005bc0d0::TLSStandIn *>(&::bConditionFunctionDebug)).bCombatAILog)
+    if (g_tlsBlock.conditionFunctionDebug)
         _DebugLog("All Combat AI processing is %s", bresult ? "On" : "Off");
     return 1;
 }
@@ -9704,12 +9654,11 @@ struct LowProcessState
 {
     unsigned char m_bLowProcessEnabled;
 };
-thread_local LowProcessState g_LowProcessState;
 // @fnv 0x005bc430
 bool __cdecl FUN_005bc430()
 {
     DAT_011f1229 = !DAT_011f1229;
-    if (((unsigned char*)&(*reinterpret_cast<::fnv_005bc430::LowProcessState *>(&::g_tlsBlock)))[0x268])
+    if (g_tlsBlock.conditionFunctionDebug)
         DebugLog("AI Processing for actors in Low is  %s", DAT_011f1229 ? "On" : "Off");
     return true;
 }
@@ -9723,7 +9672,7 @@ extern bool DAT_011f122b;
 bool FUN_005bc4a0()
 {
     DAT_011f122b = !DAT_011f122b;
-    if ((*reinterpret_cast<unsigned char (*)[617]>(&::g_tlsBlock))[0x268])
+    if (g_tlsBlock.conditionFunctionDebug)
         _DebugLog("AI Processing for actors in Middle Low is  %s", DAT_011f122b ? "On" : "Off");
     return true;
 }
@@ -10066,7 +10015,7 @@ bool __cdecl FUN_005ce5c0(const ScriptParameter* apParameters, const char* apCom
         iid = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((TESSound*)apContainer)))->FUN_0084e3a0()));
         ::Script::CopyIdentifierBitsToValue(iid, afReturnValue);
     }
-    if (::bConditionFunctionDebug) {
+    if (g_tlsBlock.conditionFunctionDebug) {
         _DebugLog("GetContainer >>(%08x)", iid);
     }
     return true;
@@ -10086,7 +10035,6 @@ struct FUN_005ce6b0_Script
 {
 };
 
-thread_local bool DAT_011c72c0_arg1;
 
 void _DebugLog(const char* apFormat, ...);
 
@@ -10103,7 +10051,7 @@ bool FUN_005ce6b0(const ScriptParameter* apParameters, const char* apCompiledPar
             ::Script::CopyIdentifierBitsToValue(iid, afReturnValue);
         }
     }
-    if (::bConditionFunctionDebug)
+    if (g_tlsBlock.conditionFunctionDebug)
         _DebugLog("GetLinkedRef >> (%08x)", iid);
     return 1;
 }
@@ -10111,13 +10059,12 @@ bool FUN_005ce6b0(const ScriptParameter* apParameters, const char* apCompiledPar
 
 namespace fnv_005cedf0 {
 extern TESObjectREFR* g_thePlayer;
-thread_local bool tls_0268;
 // @fnv 0x005cedf0
 bool FUN_005cedf0()
 {
     if ((*reinterpret_cast<::TESObjectREFR * *>(&::_g_thePlayer)))
     {
-        if (::bConditionFunctionDebug)
+        if (g_tlsBlock.conditionFunctionDebug)
             ::FUN_00705870(0);
         else
             ::FUN_00705870(1);
@@ -10137,12 +10084,6 @@ bool __cdecl FUN_005d24a0(const ScriptParameter* a, const char* b, TESObjectREFR
         reinterpret_cast<::fnv_00546b10::FUN_00546b10_class *>((((CellDetachTime*)cell)))->UpdateCellExtraData((::BSExtraData *)(-1), false);
     return true;
 }
-
-struct FUN_005d2650_tls
-{
-    unsigned char pad[0x268];
-    unsigned char bDebug;
-};
 void _DebugLog(const char* apFormat, ...);
 bool FUN_005a35f0(TESObjectREFR*, void*, void*, double&);
 
@@ -10150,7 +10091,7 @@ bool FUN_005a35f0(TESObjectREFR*, void*, void*, double&);
 bool FUN_005d2650(const ScriptParameter* apParameters, const char* apCompiledParams, TESObjectREFR* apRefObject, TESObjectREFR* apContainer, Script* apScript, ScriptLocals* apScriptLocals, double& afReturnValue, unsigned int& auiOffset)
 {
     bool bretval = FUN_005a35f0(apRefObject, 0, 0, afReturnValue);
-    if ((*reinterpret_cast<::FUN_005d2650_tls *>(&::g_tlsBlock)).bDebug)
+    if (g_tlsBlock.conditionFunctionDebug)
         _DebugLog("GetNoRumors >> %0.2f", afReturnValue);
     return bretval;
 }
@@ -10161,19 +10102,18 @@ void __cdecl _DebugLog(const char* apFormat, ...);
 bool __cdecl FUN_005d27a0(const ScriptParameter* apParameters, const char* apCompiledParams, TESObjectREFR* apRefObject, TESObjectREFR* apContainer, Script* apScript, ScriptLocals* apScriptLocals, double& afReturnValue, unsigned int& auiOffset)
 {
     bool bretval = FUN_005a3650(apRefObject, 0, 0, afReturnValue);
-    if (::bConditionFunctionDebug)
+    if (g_tlsBlock.conditionFunctionDebug)
         _DebugLog("GetWhichSerivce >> %0.2f", afReturnValue);
     return bretval;
 }
 
 bool __cdecl FUN_005a36b0(TESObjectREFR*, void*, void*, double&);
 void __cdecl _DebugLog(const char*, ...);
-thread_local bool g_bDebugLava;
 // @fnv 0x005d2970
 bool __cdecl FUN_005d2970(const ScriptParameter*, const char*, TESObjectREFR* apRefObject, TESObjectREFR*, Script*, ScriptLocals*, double& afReturnValue, unsigned int&)
 {
     bool bretval = FUN_005a36b0(apRefObject, 0, 0, afReturnValue);
-    if (::bConditionFunctionDebug)
+    if (g_tlsBlock.conditionFunctionDebug)
         _DebugLog("Actor is in lava >> %0.2f", afReturnValue);
     return bretval;
 }
@@ -10200,13 +10140,12 @@ bool FUN_005d3b20(const ScriptParameter* apParameters, const char* apCompiledPar
 }
 
 void __cdecl _DebugLog(const char*, const char*);
-thread_local unsigned char __tls_index[0x269];
 
 // @fnv 0x005d4510
 bool FUN_005d4510()
 {
     ::fnv_00704420::FUN_00704420(!::fnv_007043d0::FUN_007043d0());
-    if ((*reinterpret_cast<unsigned char (*)[617]>(&::g_tlsBlock))[0x268])
+    if (g_tlsBlock.conditionFunctionDebug)
     {
         _DebugLog("Fog of war - %s.", !::fnv_007043d0::FUN_007043d0() ? "DISABLED" : "ENABLED");
     }
@@ -10239,22 +10178,19 @@ bool FUN_005d49c0(const ScriptParameter* parameters, const char* scriptData, TES
 void __cdecl _DebugLog(const char* format, ...);
 bool __cdecl FUN_005a39d0(TESObjectREFR*, void*, void*, double&);
 
-thread_local bool g_bDebugIsActor;
 
 // @fnv 0x005d4aa0
 bool __cdecl FUN_005d4aa0(const ScriptParameter*, const char*, TESObjectREFR* apRefObject, TESObjectREFR*, Script*, ScriptLocals*, double& afReturnValue, unsigned int&)
 {
     FUN_005a39d0(apRefObject, 0, 0, afReturnValue);
-    if (::bConditionFunctionDebug)
+    if (g_tlsBlock.conditionFunctionDebug)
         _DebugLog("IsActor >> %0.2f", afReturnValue);
     return true;
 }
 
 namespace fnv_005d52a0 {
 struct FNStub {  };
-struct PlayerStub {  };
-struct DebugStub { bool bDebug; };
-extern bool __cdecl _DebugLog(const char*, ...);
+struct PlayerStub {  };extern bool __cdecl _DebugLog(const char*, ...);
 // @fnv 0x005d52a0
 bool __cdecl FUN_005d52a0(const ScriptParameter* apParameters, const char* apCompiledParams, TESObjectREFR* apRefObject, TESObjectREFR* apContainer, Script* apScript, ScriptLocals* apScriptLocals, unsigned int& afReturnValue, unsigned int& auiOffset)
 {
@@ -10263,7 +10199,7 @@ bool __cdecl FUN_005d52a0(const ScriptParameter* apParameters, const char* apCom
         return false;
     if (pNote)
         reinterpret_cast<::PlayerNoteRemoval *>(((*reinterpret_cast<::fnv_005d52a0::PlayerStub * *>(&::_g_thePlayer))))->FUN_00966b80(pNote);
-    if ((*reinterpret_cast<::fnv_005d52a0::DebugStub *>(&::bConditionFunctionDebug)).bDebug)
+    if (g_tlsBlock.conditionFunctionDebug)
         _DebugLog("Removed Note %s from Player ", ((char *)(reinterpret_cast<::FUN_00408da0_Class *>((((FNStub*)((char*)pNote + 0x48))))->FUN_00408da0())));
     return true;
 }
@@ -10273,16 +10209,11 @@ struct DebugLogStandIn {
     static void _DebugLog(const char*, ...);
 };
 struct GetLastHitLocationStandIn {
-};
-struct DebugFlagsStandIn {
-    bool bDebugScripts;
-};
-thread_local DebugFlagsStandIn g_DebugFlags;
-// @fnv 0x005d5630
+};// @fnv 0x005d5630
 bool __cdecl FUN_005d5630(const ScriptParameter*, const char*, TESObjectREFR* apRefObject, TESObjectREFR*, Script*, ScriptLocals*, double& afReturnValue, unsigned int&)
 {
     ::GetLastHitLocationConditionFunction(apRefObject, 0, 0, afReturnValue);
-    if ((*reinterpret_cast<::DebugFlagsStandIn *>(&::bConditionFunctionDebug)).bDebugScripts)
+    if (g_tlsBlock.conditionFunctionDebug)
         DebugLogStandIn::_DebugLog("GetHitLocation >> %0.2f", afReturnValue);
     return true;
 }
@@ -10329,17 +10260,12 @@ void __cdecl _DebugLog(const char*, ...);
 bool __cdecl FUN_005d7990(const ScriptParameter* apParameters, const char* apCompiledParams, TESObjectREFR* apRefObject, TESObjectREFR* apContainer, Script* apScript, ScriptLocals* apScriptLocals, double& afReturnValue, unsigned int& auiOffset)
 {
     FUN_005a4160::EvaluateReference(apRefObject, 0, 0, afReturnValue);
-    if (::bConditionFunctionDebug)
+    if (g_tlsBlock.conditionFunctionDebug)
         _DebugLog("IsTurning >> %0.0f", afReturnValue);
     return true;
 }
 
-namespace fnv_005d79e0 {
-struct FUN_005d79e0_TLS
-{
-    unsigned char bDebugLogging;
-};
-extern "C" void __cdecl _DebugLog(const char* format, ...);
+namespace fnv_005d79e0 {extern "C" void __cdecl _DebugLog(const char* format, ...);
 
 
 // @fnv 0x005d79e0
@@ -10349,7 +10275,7 @@ bool FUN_005d79e0(const ScriptParameter* apParameters, const char* apCompiledPar
                    double& afReturnValue, unsigned int& auiOffset)
 {
     FUN_005a41c0(apRefObject, 0, 0, afReturnValue);
-    if ((*reinterpret_cast<::fnv_005d79e0::FUN_005d79e0_TLS *>(&::bConditionFunctionDebug)).bDebugLogging)
+    if (g_tlsBlock.conditionFunctionDebug)
         _DebugLog("GetAnimAction >> %0.0f", afReturnValue);
     return true;
 }
@@ -10420,7 +10346,6 @@ struct FUN_0089f4e0_shell {  };
 struct TESSound {  };
 extern TESObjectREFR* g_thePlayer;
 extern void _DebugLog(const char*, ...);
-thread_local bool g_bDebugLogEnabled;
 // @fnv 0x005d9730
 bool FUN_005d9730(const ScriptParameter* apParameters, const char* apCompiledParams, TESObjectREFR* apRefObject, TESObjectREFR* apContainer, Script* apScript, ScriptLocals* apScriptLocals, double& afReturnValue, unsigned int& auiOffset)
 {
@@ -10432,7 +10357,7 @@ bool FUN_005d9730(const ScriptParameter* apParameters, const char* apCompiledPar
         iid = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((TESSound*)reinterpret_cast<::FUN_0089f4e0_shell *>((((FUN_0089f4e0_shell*)(*reinterpret_cast<::TESObjectREFR * *>(&::_g_thePlayer)))))->FUN_0089f4e0())))->FUN_0084e3a0()));
         ::Script::CopyIdentifierBitsToValue(iid, afReturnValue);
     }
-    if (::bConditionFunctionDebug)
+    if (g_tlsBlock.conditionFunctionDebug)
         _DebugLog("GetPlayerGrabbedRef >> (%08x)", iid);
     return true;
 }
@@ -10677,13 +10602,12 @@ bool FUN_005de600(const ScriptParameter* parameters, const char* scriptData, TES
     return true;
 }
 
-thread_local bool gNoHumanGore;
 void DebugLog(const char* fmt, ...);
 // @fnv 0x005dfde0
 bool __cdecl FUN_005dfde0(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*, ScriptLocals*, double& result, unsigned int&)
 {
     result = 0.0;
-    if (::bConditionFunctionDebug) DebugLog("IsNoHumanGoreExe >> %0.f", result);
+    if (g_tlsBlock.conditionFunctionDebug) DebugLog("IsNoHumanGoreExe >> %0.f", result);
     return true;
 }
 
@@ -10755,7 +10679,7 @@ bool FUN_005b9540()
         } else
             reinterpret_cast<::Sky *>((reinterpret_cast<Sky*>(((void *)(reinterpret_cast<::BSShaderNoLightingProperty *>((reinterpret_cast<TES*>((*reinterpret_cast<::fnv_005b9540::TES * *>(&::g_TES)))))->GetBaseTexture())))))->SetMode((*(::Sky__SKY_MODE *)&(const ::fnv_005b9540::Sky__SKY_MODE &)(SKY_DISABLED)));
     }
-    if ((*reinterpret_cast<unsigned char (*)[617]>(&::g_tlsBlock))[0x268])
+    if (g_tlsBlock.conditionFunctionDebug)
         _DebugLog("Sky -> %s", DAT_011cae45 ? "Off" : "On");
     return true;
 }
@@ -10841,7 +10765,6 @@ struct GameTimerRecord {  };
 struct BSAudioManager { static BSAudioManager& GetRandomGenerator(); };
 struct FUN_005d5610_Class {  };
 struct DebugLog { static void _DebugLog(const char* format, ...); };
-thread_local unsigned char g_tlsDebugFlag;
 
 // @fnv 0x005d5560
 bool FUN_005d5560(const ScriptParameter* apParameters, const char* apCompiledParams, TESObjectREFR* apRefObject, TESObjectREFR* apContainer, Script* apScript, ScriptLocals* apScriptLocals, double& afReturnValue, unsigned int& auiOffset)
@@ -10852,7 +10775,7 @@ bool FUN_005d5560(const ScriptParameter* apParameters, const char* apCompiledPar
         return false;
     reinterpret_cast<::FUN_00aa4db0_shell *>(&((*reinterpret_cast<::fnv_005d5560::GameTimerRecord *>(&::g_timeGlobal))))->FUN_00aa4db0(fmultiplier, true);
     reinterpret_cast<::FUN_005d5610_Class *>((((FUN_005d5610_Class*)&BSAudioManager::GetRandomGenerator())))->FUN_005d5610(bIgnoreAudio != 0);
-    if ((*reinterpret_cast<unsigned char *>(&::bConditionFunctionDebug)))
+    if (g_tlsBlock.conditionFunctionDebug)
         DebugLog::_DebugLog("Global Time Multiplier >> '%0.2f'", fmultiplier);
     return true;
 }
@@ -11429,16 +11352,10 @@ bool FUN_005b7820(const ScriptParameter* parameter, const char* name,
 }  // namespace fnv_005b7820
 
 namespace fnv_005b9ea0 {
-extern unsigned int __tls_index;
 
 void _DebugLog(const char*);
 
 // @fnv 0x005b9ea0
-thread_local struct FUN_005b9ea0_TLS_DATA
-{
-    unsigned char pad[0x268];
-    unsigned char flag;
-} FUN_005b9ea0_tlsData;
 
 bool FUN_005b9ea0(
     const ScriptParameter* apParameters,
@@ -11450,7 +11367,7 @@ bool FUN_005b9ea0(
     double& afReturnValue,
     unsigned int& auiOffset)
 {
-    if ((*reinterpret_cast<::fnv_005b9ea0::FUN_005b9ea0_TLS_DATA *>(&::g_tlsBlock)).flag)
+    if (g_tlsBlock.conditionFunctionDebug)
         _DebugLog("This function is no longer supported");
 
     return true;
@@ -11992,13 +11909,6 @@ struct GameSettingCollection
     static GameSettingCollection* __cdecl Instance();
 };
 
-struct FUN_005beb00_TLS
-{
-    unsigned char padding[268];
-    unsigned char debugLogEnabled;
-};
-
-static thread_local FUN_005beb00_TLS FUN_005beb00_tls;
 
 void __cdecl _DebugLog(char const*, ...);
 
@@ -12025,7 +11935,7 @@ bool FUN_005beb00(const ScriptParameter* apParameters, const char* apCompiledPar
         case 3:
             reinterpret_cast<::S0042fa20 *>((reinterpret_cast<S0042fa20*>(pGS)))->FUN_0045ce80(
                 ::std::atoi(settingValue));
-            if(FUN_005beb00_tls.debugLogEnabled)
+            if(g_tlsBlock.conditionFunctionDebug)
                 _DebugLog("GameSetting %s >> %i",
                     ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(pGS)))->GetName())),
                     *((int *)&(::FUN_0043d4d0((int *)(reinterpret_cast<GlobalObject_0045cfe0*>(pGS))))));
@@ -12034,7 +11944,7 @@ bool FUN_005beb00(const ScriptParameter* apParameters, const char* apCompiledPar
         case 5:
             reinterpret_cast<::S_004ed780 *>((reinterpret_cast<S_004ed780*>(pGS)))->FUN_004ed780(
                 static_cast<float>(::std::atof(settingValue)));
-            if(FUN_005beb00_tls.debugLogEnabled)
+            if(g_tlsBlock.conditionFunctionDebug)
                 _DebugLog("GameSetting %s >> %.2f",
                     ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(pGS)))->GetName())),
                     *((float *)&(::FUN_00403e20((float *)(reinterpret_cast<Setting_S*>(pGS))))));
@@ -12042,7 +11952,7 @@ bool FUN_005beb00(const ScriptParameter* apParameters, const char* apCompiledPar
 
         case 6:
             reinterpret_cast<::Setting *>((pGS))->FUN_005e0190(settingValue);
-            if(FUN_005beb00_tls.debugLogEnabled)
+            if(g_tlsBlock.conditionFunctionDebug)
                 _DebugLog("GameSetting %s >> '%s'",
                     ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(pGS)))->GetName())),
                     ((const char *)(reinterpret_cast<::StartMenu *>((reinterpret_cast<StartMenu*>(pGS)))->GetMenuTitle())));
@@ -12300,7 +12210,7 @@ bool __cdecl FUN_005c4940(
     }
 
 // @fnv 0x005c4940
-    if ((*reinterpret_cast<unsigned char (*)[617]>(&::g_tlsBlock))[0x268])
+    if (g_tlsBlock.conditionFunctionDebug)
     {
         _DebugLog("Get Is Form Type >> %0.2f", afReturnValue);
     }
@@ -12876,8 +12786,6 @@ FUN_00976030_ProcessLists DAT_011e0e80;
 
 void __cdecl _DebugLog(const char* message);
 
-thread_local unsigned char FUN_005d4400_tls_padding[0x268];
-thread_local unsigned char FUN_005d4400_tls_flag;
 
 bool FUN_005d4400(const ScriptParameter* apParameters,
                   const char* apCompiledParams,
@@ -12900,7 +12808,7 @@ bool FUN_005d4400(const ScriptParameter* apParameters,
     reinterpret_cast<::Lists976030 *>(&((*reinterpret_cast<::fnv_005d4400::FUN_00976030_ProcessLists *>(&::g_011e0e80))))->FUN_00976030(iCount);
 
 // @fnv 0x005d4400
-    if ((*reinterpret_cast<unsigned char *>(&::bConditionFunctionDebug)))
+    if (g_tlsBlock.conditionFunctionDebug)
     {
         _DebugLog("Deleted all non persistent actors in high process.");
     }
@@ -12910,7 +12818,6 @@ bool FUN_005d4400(const ScriptParameter* apParameters,
 }  // namespace fnv_005d4400
 
 namespace fnv_005d4480 {
-extern int __tls_index;
 
 class MobileObject
 {
@@ -12919,13 +12826,6 @@ public:
 
 void _DebugLog(char const* format, ...);
 
-struct FUN_TLSData
-{
-    unsigned char padding[0x268];
-    unsigned char enabled;
-};
-
-thread_local FUN_TLSData FUN_tlsData;
 
 class FUN_ReferenceDeleter
 {
@@ -12949,7 +12849,7 @@ bool FUN_005d4480(const ScriptParameter* apParameters, const char* apCompiledPar
 {
     TESObjectREFR* pref = apRefObject;
 
-    if ((*reinterpret_cast<::fnv_005d4480::FUN_TLSData *>(&::g_tlsBlock)).enabled)
+    if (g_tlsBlock.conditionFunctionDebug)
     {
         if (pref)
         {
@@ -16034,12 +15934,7 @@ public:
 
 extern ImageSpaceModifierInstanceDOF* g_pRadialBlurInstance;
 
-namespace fnv_anon_005bbc50 {
-struct TLSData_5bbc50 {
-    char pad[0x268];
-    bool bConsoleEcho;
-};
-}
+namespace fnv_anon_005bbc50 {}
 
 // @fnv 0x005bbc50
 bool FUN_005bbc50(const ScriptParameter* apParameters, const char* apCompiledParams, TESObjectREFR* apRefObject, TESObjectREFR* apContainer, Script* apScript, ScriptLocals* apScriptLocals, double& afReturnValue, unsigned int& auiOffset)
@@ -16057,7 +15952,7 @@ bool FUN_005bbc50(const ScriptParameter* apParameters, const char* apCompiledPar
     }
 
     if (!ExtractArgs(apParameters, apCompiledParams, &auiOffset, apRefObject, apContainer, apScript, apScriptLocals, &fStrength3, &fRampUpTmp, &fStart, &fRampDown, &m_fRampDownStart)) {
-        if ((*reinterpret_cast<::fnv_anon_005bbc50::TLSData_5bbc50 *>(&::g_tlsBlock)).bConsoleEcho)
+        if (g_tlsBlock.conditionFunctionDebug)
             DebugLog("SetGlobalRadialBlur strength rampup start rampdown downstart");
         bResult = false;
     } else {
@@ -16093,7 +15988,7 @@ bool __cdecl FUN_005bbe10(
     target = ((ToggleTarget *)(dynamic_cast<::Actor *>(reinterpret_cast<::TESObjectREFR *>(thisObject))));
     if (target != 0) {
         reinterpret_cast<bool*>(target)[0xbc] = !reinterpret_cast<bool*>(target)[0xbc];
-        if (::bConditionFunctionDebug) {
+        if (g_tlsBlock.conditionFunctionDebug) {
             const char* state;
             if (reinterpret_cast<bool*>(target)[0xbc]) {
                 state = DAT_010399bc;
@@ -16180,7 +16075,7 @@ void __cdecl DebugLog(char const* fmt, ...);
 bool __cdecl FUN_005bc510()
 {
     DAT_011f122a = !DAT_011f122a;
-    if (::bConditionFunctionDebug)
+    if (g_tlsBlock.conditionFunctionDebug)
     {
         const char* state;
         if (DAT_011f122a)
@@ -16305,166 +16200,7 @@ bool __cdecl FUN_005bd900(const ScriptParameter* parameters, const char* scriptD
 }
 }  // namespace fnv_005bd900
 
-namespace fnv_005bdcd0 {
-struct ScriptDebugTls_t
-{
-    int unk000;
-    int unk004;
-    int unk008;
-    int unk00C;
-    int unk010;
-    int unk014;
-    int unk018;
-    int unk01C;
-    int unk020;
-    int unk024;
-    int unk028;
-    int unk02C;
-    int unk030;
-    int unk034;
-    int unk038;
-    int unk03C;
-    int unk040;
-    int unk044;
-    int unk048;
-    int unk04C;
-    int unk050;
-    int unk054;
-    int unk058;
-    int unk05C;
-    int unk060;
-    int unk064;
-    int unk068;
-    int unk06C;
-    int unk070;
-    int unk074;
-    int unk078;
-    int unk07C;
-    int unk080;
-    int unk084;
-    int unk088;
-    int unk08C;
-    int unk090;
-    int unk094;
-    int unk098;
-    int unk09C;
-    int unk0A0;
-    int unk0A4;
-    int unk0A8;
-    int unk0AC;
-    int unk0B0;
-    int unk0B4;
-    int unk0B8;
-    int unk0BC;
-    int unk0C0;
-    int unk0C4;
-    int unk0C8;
-    int unk0CC;
-    int unk0D0;
-    int unk0D4;
-    int unk0D8;
-    int unk0DC;
-    int unk0E0;
-    int unk0E4;
-    int unk0E8;
-    int unk0EC;
-    int unk0F0;
-    int unk0F4;
-    int unk0F8;
-    int unk0FC;
-    int unk100;
-    int unk104;
-    int unk108;
-    int unk10C;
-    int unk110;
-    int unk114;
-    int unk118;
-    int unk11C;
-    int unk120;
-    int unk124;
-    int unk128;
-    int unk12C;
-    int unk130;
-    int unk134;
-    int unk138;
-    int unk13C;
-    int unk140;
-    int unk144;
-    int unk148;
-    int unk14C;
-    int unk150;
-    int unk154;
-    int unk158;
-    int unk15C;
-    int unk160;
-    int unk164;
-    int unk168;
-    int unk16C;
-    int unk170;
-    int unk174;
-    int unk178;
-    int unk17C;
-    int unk180;
-    int unk184;
-    int unk188;
-    int unk18C;
-    int unk190;
-    int unk194;
-    int unk198;
-    int unk19C;
-    int unk1A0;
-    int unk1A4;
-    int unk1A8;
-    int unk1AC;
-    int unk1B0;
-    int unk1B4;
-    int unk1B8;
-    int unk1BC;
-    int unk1C0;
-    int unk1C4;
-    int unk1C8;
-    int unk1CC;
-    int unk1D0;
-    int unk1D4;
-    int unk1D8;
-    int unk1DC;
-    int unk1E0;
-    int unk1E4;
-    int unk1E8;
-    int unk1EC;
-    int unk1F0;
-    int unk1F4;
-    int unk1F8;
-    int unk1FC;
-    int unk200;
-    int unk204;
-    int unk208;
-    int unk20C;
-    int unk210;
-    int unk214;
-    int unk218;
-    int unk21C;
-    int unk220;
-    int unk224;
-    int unk228;
-    int unk22C;
-    int unk230;
-    int unk234;
-    int unk238;
-    int unk23C;
-    int unk240;
-    int unk244;
-    int unk248;
-    int unk24C;
-    int unk250;
-    int unk254;
-    int unk258;
-    int unk25C;
-    int unk260;
-    int unk264;
-    bool bDebugIsActor;
-};
-extern char DAT_011841cc;
+namespace fnv_005bdcd0 {extern char DAT_011841cc;
 extern char DAT_011846d4;
 
 class ScriptEditTarget {
@@ -16719,7 +16455,7 @@ bool __cdecl FUN_005bdcd0(const ScriptParameter* apParameters, const char* apCom
         if (!FUN_00406d70(uiA, 0x4000)) {
             pTarget->Apply(uiA, uiB);
         } else {
-            if ((*reinterpret_cast<::fnv_005bdcd0::ScriptDebugTls_t *>(&::g_tlsBlock)).bDebugIsActor) {
+            if (g_tlsBlock.conditionFunctionDebug) {
                 FUN_00703c00("Actor Value '%s' cannot be modified in scripts or the console.", ::FUN_0066eac0((::ActorValue::Index)(uiA)));
             }
         }
@@ -18485,7 +18221,7 @@ bool __cdecl FUN_005cc970(B5CC970ParamInfo* pkParamInfo, B5CC970ScriptData* pkSc
             B5CC970UpdateData kUpdateData(0.0f, true, false);
             reinterpret_cast<::FUN_00a59c60_cls *>((pkNode))->FUN_00a59c60((std::intptr_t)&(kUpdateData));
         }
-        if (::bConditionFunctionDebug)
+        if (g_tlsBlock.conditionFunctionDebug)
             B5CC970DebugLog("AddFlames >> %0.2f", *pdResult);
     }
     return true;
@@ -18633,7 +18369,7 @@ bool __cdecl FUN_005cca50(const void* parameters, const char* scriptData,
         if (form != 0) {
             result = (double)((unsigned char)(::fnv_00578300::FUN_00578300((::NiNode *)(form->V3()))));
         }
-        if (::bConditionFunctionDebug) {
+        if (g_tlsBlock.conditionFunctionDebug) {
             _DebugLog(g_0103b654, result);
         }
     }
@@ -19087,165 +18823,6 @@ bool __cdecl FUN_005ce190(unsigned int arg1, unsigned int arg2, unsigned int arg
     return true;
 }
 
-struct TlsBlock_t
-{
-    int unk000;
-    int unk004;
-    int unk008;
-    int unk00C;
-    int unk010;
-    int unk014;
-    int unk018;
-    int unk01C;
-    int unk020;
-    int unk024;
-    int unk028;
-    int unk02C;
-    int unk030;
-    int unk034;
-    int unk038;
-    int unk03C;
-    int unk040;
-    int unk044;
-    int unk048;
-    int unk04C;
-    int unk050;
-    int unk054;
-    int unk058;
-    int unk05C;
-    int unk060;
-    int unk064;
-    int unk068;
-    int unk06C;
-    int unk070;
-    int unk074;
-    int unk078;
-    int unk07C;
-    int unk080;
-    int unk084;
-    int unk088;
-    int unk08C;
-    int unk090;
-    int unk094;
-    int unk098;
-    int unk09C;
-    int unk0A0;
-    int unk0A4;
-    int unk0A8;
-    int unk0AC;
-    int unk0B0;
-    int unk0B4;
-    int unk0B8;
-    int unk0BC;
-    int unk0C0;
-    int unk0C4;
-    int unk0C8;
-    int unk0CC;
-    int unk0D0;
-    int unk0D4;
-    int unk0D8;
-    int unk0DC;
-    int unk0E0;
-    int unk0E4;
-    int unk0E8;
-    int unk0EC;
-    int unk0F0;
-    int unk0F4;
-    int unk0F8;
-    int unk0FC;
-    int unk100;
-    int unk104;
-    int unk108;
-    int unk10C;
-    int unk110;
-    int unk114;
-    int unk118;
-    int unk11C;
-    int unk120;
-    int unk124;
-    int unk128;
-    int unk12C;
-    int unk130;
-    int unk134;
-    int unk138;
-    int unk13C;
-    int unk140;
-    int unk144;
-    int unk148;
-    int unk14C;
-    int unk150;
-    int unk154;
-    int unk158;
-    int unk15C;
-    int unk160;
-    int unk164;
-    int unk168;
-    int unk16C;
-    int unk170;
-    int unk174;
-    int unk178;
-    int unk17C;
-    int unk180;
-    int unk184;
-    int unk188;
-    int unk18C;
-    int unk190;
-    int unk194;
-    int unk198;
-    int unk19C;
-    int unk1A0;
-    int unk1A4;
-    int unk1A8;
-    int unk1AC;
-    int unk1B0;
-    int unk1B4;
-    int unk1B8;
-    int unk1BC;
-    int unk1C0;
-    int unk1C4;
-    int unk1C8;
-    int unk1CC;
-    int unk1D0;
-    int unk1D4;
-    int unk1D8;
-    int unk1DC;
-    int unk1E0;
-    int unk1E4;
-    int unk1E8;
-    int unk1EC;
-    int unk1F0;
-    int unk1F4;
-    int unk1F8;
-    int unk1FC;
-    int unk200;
-    int unk204;
-    int unk208;
-    int unk20C;
-    int unk210;
-    int unk214;
-    int unk218;
-    int unk21C;
-    int unk220;
-    int unk224;
-    int unk228;
-    int unk22C;
-    int unk230;
-    int unk234;
-    int unk238;
-    int unk23C;
-    int unk240;
-    int unk244;
-    int unk248;
-    int unk24C;
-    int unk250;
-    int unk254;
-    int unk258;
-    int unk25C;
-    int unk260;
-    int unk264;
-    unsigned char unk268;
-};
-thread_local TlsBlock_t g_tlsBlock;
 
 extern unsigned int _tls_index;
 unsigned int FUN_0084e3a0(void* ecx);
@@ -19264,7 +18841,7 @@ bool __cdecl FUN_005ce630(unsigned int a0, unsigned int a1, void* apRef, unsigne
             ::Script::CopyIdentifierBitsToValue((*(const unsigned int *)(&result)), (*(double *)(afOut)));
         }
     }
-    if (g_tlsBlock.unk268 != 0)
+    if (g_tlsBlock.conditionFunctionDebug)
     {
         FUN_00703c00("GetParentRef >> (%08x)", result);
     }
@@ -21232,18 +20809,13 @@ void __cdecl FUN_005d3c70(FUN_005d3c70_Owner* a1, FUN_005d3c70_Src* a2)
         }
     }
 }
-
-struct ThreadScriptFlags_005d3dc0 {
-    char pad[0x268];
-    bool bLogScripts;
-};
 void __cdecl FUN_00703c00(const char* apFmt, ...);
 
 // @fnv 0x005d3dc0
 bool __cdecl FUN_005d3dc0(const ScriptParameter* apParameters, const char* apCompiledParams, TESObjectREFR* apRefObject, TESObjectREFR* apContainer, Script* apScript, ScriptLocals* apScriptLocals, double& afReturnValue, unsigned int& auiOffset)
 {
     bool bResult = ::FUN_005a3760(apRefObject, (void *)(0), (void *)(0), (*(double *)(&afReturnValue)));
-    if ((*reinterpret_cast<::ThreadScriptFlags_005d3dc0 *>(&::g_tlsBlock)).bLogScripts) {
+    if (g_tlsBlock.conditionFunctionDebug) {
         const char* pMsg;
         if (afReturnValue != 0.0) {
             pMsg = "Actor ignores friendly hits";
@@ -22243,7 +21815,7 @@ bool __cdecl FUN_005d6a60(int a, int b, ScriptContextObject* context, int d, int
         if (scriptNode != 0) {
             if (didParse == 0) scriptNode->m_flag = 0;
             else scriptNode->m_flag = 1;
-            if ((*reinterpret_cast<unsigned char *>(&::bConditionFunctionDebug))) {
+            if (g_tlsBlock.conditionFunctionDebug) {
                 if (scriptNode->m_flag)
                     statusString = &(*reinterpret_cast<const char *>((void *)&::DAT_010399bc));
                 else
@@ -22710,7 +22282,7 @@ bool Script_0059bfa0::FUN_0059bfa0(TESObjectREFR* pSource, void* pTarget, void* 
     void* pTarget2 = pTarget;
     if (pSource && pTarget2)
         distance = reinterpret_cast<::RefS *>((((Ref_S*)pSource)))->FUN_005723b0((::RefS *)(pTarget2), true, false);
-    if (::bConditionFunctionDebug)
+    if (g_tlsBlock.conditionFunctionDebug)
         DebugLog("GetDistance >> %0.2f", distance);
     return true;
 }
@@ -24888,11 +24460,11 @@ bool __cdecl FUN_005dfc70(const ScriptParameter* apParameters, const char* apCom
         void* pRef2 = dynamic_cast<::Actor *>(reinterpret_cast<::TESObjectREFR *>(apRefObject));
         iResult = reinterpret_cast<::FUN_008c1b30_shell *>((pRef2))->FUN_008c1b30() ? 1 : 0;
         afReturnValue = (double)iResult;
-        if (::bConditionFunctionDebug) {
+        if (g_tlsBlock.conditionFunctionDebug) {
             FUN_00703c00("IsActorRefEssential >> %0.f", afReturnValue);
         }
     } else {
-        if (::bConditionFunctionDebug) {
+        if (g_tlsBlock.conditionFunctionDebug) {
             FUN_00703c00("IsActorRefEssential >> Invalid actor reference ");
         }
     }
@@ -25862,164 +25434,6 @@ class MarkerDataHandler {
 public:
 };
 
-struct ConsoleTLS {
-    int unk000;
-    int unk004;
-    int unk008;
-    int unk00C;
-    int unk010;
-    int unk014;
-    int unk018;
-    int unk01C;
-    int unk020;
-    int unk024;
-    int unk028;
-    int unk02C;
-    int unk030;
-    int unk034;
-    int unk038;
-    int unk03C;
-    int unk040;
-    int unk044;
-    int unk048;
-    int unk04C;
-    int unk050;
-    int unk054;
-    int unk058;
-    int unk05C;
-    int unk060;
-    int unk064;
-    int unk068;
-    int unk06C;
-    int unk070;
-    int unk074;
-    int unk078;
-    int unk07C;
-    int unk080;
-    int unk084;
-    int unk088;
-    int unk08C;
-    int unk090;
-    int unk094;
-    int unk098;
-    int unk09C;
-    int unk0A0;
-    int unk0A4;
-    int unk0A8;
-    int unk0AC;
-    int unk0B0;
-    int unk0B4;
-    int unk0B8;
-    int unk0BC;
-    int unk0C0;
-    int unk0C4;
-    int unk0C8;
-    int unk0CC;
-    int unk0D0;
-    int unk0D4;
-    int unk0D8;
-    int unk0DC;
-    int unk0E0;
-    int unk0E4;
-    int unk0E8;
-    int unk0EC;
-    int unk0F0;
-    int unk0F4;
-    int unk0F8;
-    int unk0FC;
-    int unk100;
-    int unk104;
-    int unk108;
-    int unk10C;
-    int unk110;
-    int unk114;
-    int unk118;
-    int unk11C;
-    int unk120;
-    int unk124;
-    int unk128;
-    int unk12C;
-    int unk130;
-    int unk134;
-    int unk138;
-    int unk13C;
-    int unk140;
-    int unk144;
-    int unk148;
-    int unk14C;
-    int unk150;
-    int unk154;
-    int unk158;
-    int unk15C;
-    int unk160;
-    int unk164;
-    int unk168;
-    int unk16C;
-    int unk170;
-    int unk174;
-    int unk178;
-    int unk17C;
-    int unk180;
-    int unk184;
-    int unk188;
-    int unk18C;
-    int unk190;
-    int unk194;
-    int unk198;
-    int unk19C;
-    int unk1A0;
-    int unk1A4;
-    int unk1A8;
-    int unk1AC;
-    int unk1B0;
-    int unk1B4;
-    int unk1B8;
-    int unk1BC;
-    int unk1C0;
-    int unk1C4;
-    int unk1C8;
-    int unk1CC;
-    int unk1D0;
-    int unk1D4;
-    int unk1D8;
-    int unk1DC;
-    int unk1E0;
-    int unk1E4;
-    int unk1E8;
-    int unk1EC;
-    int unk1F0;
-    int unk1F4;
-    int unk1F8;
-    int unk1FC;
-    int unk200;
-    int unk204;
-    int unk208;
-    int unk20C;
-    int unk210;
-    int unk214;
-    int unk218;
-    int unk21C;
-    int unk220;
-    int unk224;
-    int unk228;
-    int unk22C;
-    int unk230;
-    int unk234;
-    int unk238;
-    int unk23C;
-    int unk240;
-    int unk244;
-    int unk248;
-    int unk24C;
-    int unk250;
-    int unk254;
-    int unk258;
-    int unk25C;
-    int unk260;
-    int unk264;
-    bool bConsoleEcho;
-};
-
 // @fnv 0x005b6d40
 bool __cdecl FUN_005b6d40(const ScriptParameter* apParameters, const char* apCompiledParams, TESObjectREFR* apRefObject, TESObjectREFR* apContainer, Script* apScript, ScriptLocals* apScriptLocals, double& afReturnValue, unsigned int& auiOffset)
 {
@@ -26054,13 +25468,12 @@ bool __cdecl FUN_005b6d40(const ScriptParameter* apParameters, const char* apCom
             delete pMarkers4;
         }
     }
-    if ((*reinterpret_cast<::ConsoleTLS *>(&::g_tlsBlock)).bConsoleEcho)
+    if (g_tlsBlock.conditionFunctionDebug)
         DebugLog("All map markers %s", iShowA > 0 ? "shown." : "hidden.");
     return true;
 }
 
 namespace fnv_005b7590 {
-struct TlsData { char pad[0x268]; bool bDebug; char p2[3]; void* pTarget; };
 bool __cdecl FUN_005accb0(void* paramInfo, void* scriptData, unsigned int* opcodeOffsetPtr, void* thisObj, void* containingObj, void* scriptObj, void* eventList, ...);
 struct MgrQ {  };
 extern MgrQ* DAT_011dea3c;
@@ -26082,7 +25495,7 @@ bool FUN_005b7590(void* paramInfo, void* scriptData, void* thisObj, void* contai
       pWeatherSky->iVal18 = iValue;
       reinterpret_cast<::FUN_0093a7a0_Class *>(((*reinterpret_cast<::fnv_005b7590::MgrQ * *>(&::_g_thePlayer))))->FUN_0093a7a0(0);
     }
-    if (!(*reinterpret_cast<::fnv_005b7590::TlsData *>(&::g_tlsBlock)).bDebug) reinterpret_cast<::FUN_0063e860_stand *>((pWeatherSky))->FUN_0063e860(1);
+    if (!g_tlsBlock.conditionFunctionDebug) reinterpret_cast<::FUN_0063e860_stand *>((pWeatherSky))->FUN_0063e860(1);
   } else {
     reinterpret_cast<::fnv_0063d0e0::FUN_0063d0e0_shell *>((pWeatherSky))->FUN_0063d0e0((::TESWeather *)(iValue), iFlag_xafirk != 0);
   }
@@ -26501,7 +25914,7 @@ bool __cdecl FUN_005b9490(const ScriptParameter* apParameters, const char* apCom
 {
     DAT_0118c6f0 ^= 1;
     FUN_00703810(DAT_0118c6f0);
-    if ((*reinterpret_cast<::fnv_anon_tesscriptfunctions::TLSData *>(&::g_tlsBlock)).bConsoleEcho)
+    if (g_tlsBlock.conditionFunctionDebug)
         static_cast<void (__cdecl*)(const char*, ...)>(FUN_00703c00)("Menus -> %s", DAT_0118c6f0 ? "On" : "Off");
     return true;
 }
@@ -26516,7 +25929,7 @@ bool __cdecl FUN_005b9720(void)
     const char* puStack_8;
 
     ::fnv_005b97d0::FUN_005b97d0(FUN_005b9790() == 0);
-    if ((*reinterpret_cast<::fnv_anon_tesscriptfunctions::TLSData *>(&::g_tlsBlock)).bConsoleEcho) {
+    if (g_tlsBlock.conditionFunctionDebug) {
         if (FUN_005b9790()) {
             puStack_8 = ::DAT_010399bc;
         } else {
@@ -26893,7 +26306,7 @@ bool __cdecl FUN_005b9950(const ScriptParameter* parameters,const char* scriptDa
     ::FUN_00b68770((::NiAVObject_b68770 *)(node),alpha,enabled,false,0.0f,false);
    }
   }
-  if ((*reinterpret_cast<::fnv_anon_tesscriptfunctions::TLSData *>(&::g_tlsBlock)).bConsoleEcho) DebugLog("%s refraction has been set to %f",reinterpret_cast<::FUN_0055d520_shell *>((((MobileObject*)reference)))->FUN_0055d520(),enabled);
+  if (g_tlsBlock.conditionFunctionDebug) DebugLog("%s refraction has been set to %f",reinterpret_cast<::FUN_0055d520_shell *>((((MobileObject*)reference)))->FUN_0055d520(),enabled);
  }
  return true;
 }
@@ -26959,165 +26372,7 @@ struct TESObjectREFR_5b9b40 : public TESObjectREFR {
     virtual void v1c8();
     virtual void v1cc();
     virtual RefractionTarget* GetRefractionTarget();
-};
-struct TLSData_005b9b40 {
-    int unk000;
-    int unk004;
-    int unk008;
-    int unk00c;
-    int unk010;
-    int unk014;
-    int unk018;
-    int unk01c;
-    int unk020;
-    int unk024;
-    int unk028;
-    int unk02c;
-    int unk030;
-    int unk034;
-    int unk038;
-    int unk03c;
-    int unk040;
-    int unk044;
-    int unk048;
-    int unk04c;
-    int unk050;
-    int unk054;
-    int unk058;
-    int unk05c;
-    int unk060;
-    int unk064;
-    int unk068;
-    int unk06c;
-    int unk070;
-    int unk074;
-    int unk078;
-    int unk07c;
-    int unk080;
-    int unk084;
-    int unk088;
-    int unk08c;
-    int unk090;
-    int unk094;
-    int unk098;
-    int unk09c;
-    int unk0a0;
-    int unk0a4;
-    int unk0a8;
-    int unk0ac;
-    int unk0b0;
-    int unk0b4;
-    int unk0b8;
-    int unk0bc;
-    int unk0c0;
-    int unk0c4;
-    int unk0c8;
-    int unk0cc;
-    int unk0d0;
-    int unk0d4;
-    int unk0d8;
-    int unk0dc;
-    int unk0e0;
-    int unk0e4;
-    int unk0e8;
-    int unk0ec;
-    int unk0f0;
-    int unk0f4;
-    int unk0f8;
-    int unk0fc;
-    int unk100;
-    int unk104;
-    int unk108;
-    int unk10c;
-    int unk110;
-    int unk114;
-    int unk118;
-    int unk11c;
-    int unk120;
-    int unk124;
-    int unk128;
-    int unk12c;
-    int unk130;
-    int unk134;
-    int unk138;
-    int unk13c;
-    int unk140;
-    int unk144;
-    int unk148;
-    int unk14c;
-    int unk150;
-    int unk154;
-    int unk158;
-    int unk15c;
-    int unk160;
-    int unk164;
-    int unk168;
-    int unk16c;
-    int unk170;
-    int unk174;
-    int unk178;
-    int unk17c;
-    int unk180;
-    int unk184;
-    int unk188;
-    int unk18c;
-    int unk190;
-    int unk194;
-    int unk198;
-    int unk19c;
-    int unk1a0;
-    int unk1a4;
-    int unk1a8;
-    int unk1ac;
-    int unk1b0;
-    int unk1b4;
-    int unk1b8;
-    int unk1bc;
-    int unk1c0;
-    int unk1c4;
-    int unk1c8;
-    int unk1cc;
-    int unk1d0;
-    int unk1d4;
-    int unk1d8;
-    int unk1dc;
-    int unk1e0;
-    int unk1e4;
-    int unk1e8;
-    int unk1ec;
-    int unk1f0;
-    int unk1f4;
-    int unk1f8;
-    int unk1fc;
-    int unk200;
-    int unk204;
-    int unk208;
-    int unk20c;
-    int unk210;
-    int unk214;
-    int unk218;
-    int unk21c;
-    int unk220;
-    int unk224;
-    int unk228;
-    int unk22c;
-    int unk230;
-    int unk234;
-    int unk238;
-    int unk23c;
-    int unk240;
-    int unk244;
-    int unk248;
-    int unk24c;
-    int unk250;
-    int unk254;
-    int unk258;
-    int unk25c;
-    int unk260;
-    int unk264;
-    bool bConsoleEcho;
-};
-extern bool ExtractArgs(const ScriptParameter*, const char*, unsigned int*, TESObjectREFR*, TESObjectREFR*, Script*, ScriptLocals*, ...);
+};extern bool ExtractArgs(const ScriptParameter*, const char*, unsigned int*, TESObjectREFR*, TESObjectREFR*, Script*, ScriptLocals*, ...);
 bool __cdecl FUN_005b9b00();
 void __cdecl DebugLog(const char*, ...);
 
@@ -27135,7 +26390,7 @@ bool __cdecl FUN_005b9b40(const ScriptParameter* paramInfo, const char* scriptDa
             RefractionTarget* pTarget = static_cast<TESObjectREFR_5b9b40*>(thisObj)->GetRefractionTarget();
             if (pTarget) {
                 ::FUN_00b68770((::NiAVObject_b68770 *)(pTarget), bEnable, fValue, true, (float)iPeriod, false);
-                if ((*reinterpret_cast<::TLSData_005b9b40 *>(&::g_tlsBlock)).bConsoleEcho)
+                if (g_tlsBlock.conditionFunctionDebug)
                     DebugLog("%s refraction fire has been set to %f, period of %d", reinterpret_cast<::FUN_0055d520_shell *>((static_cast<TESObjectREFR_5b9b40*>(thisObj)))->FUN_0055d520(), fValue, iPeriod);
             }
         }
@@ -27221,7 +26476,7 @@ bool __cdecl FUN_005b9c90(const ScriptParameter* apParameters, const char* apCom
         Object3D_5b9c90* p3D = apRefObject->Get3D();
         if (p3D)
             ::FUN_00b6fa40((::S_00b6fa40_Obj *)(p3D), (const float *)(::NiColorA_5b9c90 *)(&color));
-    } else if (::bConditionFunctionDebug) {
+    } else if (g_tlsBlock.conditionFunctionDebug) {
         DebugLog("No Reference Selected");
     }
     return true;
@@ -27297,13 +26552,13 @@ struct ReferenceView : TESObjectREFR {
 bool __cdecl FUN_005b9fe0(const ScriptParameter* parameters, const char* compiled, TESObjectREFR* reference, TESObjectREFR* container, Script* script, ScriptLocals* locals, double& result, unsigned int& offset) {
     if (!reference) {
         FUN_005ba110(((bool)(::FUN_00495580())) ^ 1);
-        if ((*reinterpret_cast<::fnv_anon_tesscriptfunctions::TLSData *>(&::g_tlsBlock)).bConsoleEcho)
+        if (g_tlsBlock.conditionFunctionDebug)
             DebugLog("FootIK %s", ((bool)(::FUN_00495580())) ? "On" : "Off");
     } else {
         Actor* actor = dynamic_cast<Actor*>(reference);
         if (actor && reinterpret_cast<ReferenceView*>(actor)->process) {
             reinterpret_cast<::S1a130 *>((reinterpret_cast<ReferenceView*>(actor)->process))->FUN_005ba130(reinterpret_cast<::FUN_005ba180_Class *>((reinterpret_cast<ReferenceView*>(actor)->process))->FUN_005ba180() ^ 1);
-            if ((*reinterpret_cast<::fnv_anon_tesscriptfunctions::TLSData *>(&::g_tlsBlock)).bConsoleEcho)
+            if (g_tlsBlock.conditionFunctionDebug)
                 DebugLog("FootIK on REF %s %s", reinterpret_cast<ReferenceView*>(reference)->GetName(), reinterpret_cast<::FUN_005ba180_Class *>((reinterpret_cast<ReferenceView*>(actor)->process))->FUN_005ba180() ? "On" : "Off");
         }
     }
@@ -27447,13 +26702,13 @@ bool __cdecl FUN_005ba1a0(const ScriptParameter* paramInfo, const char* scriptDa
 {
     if (!thisObj) {
         ::fnv_005ba2f0::FUN_005ba2f0(((bool)(::fnv_005ba2d0::FUN_005ba2d0())) ^ true);
-        if ((*reinterpret_cast<::fnv_anon_tesscriptfunctions::TLSData *>(&::g_tlsBlock)).bConsoleEcho)
+        if (g_tlsBlock.conditionFunctionDebug)
             FUN_00703c00("GrabIK %s", ((bool)(::fnv_005ba2d0::FUN_005ba2d0())) ? "On" : "Off");
     } else {
         GrabIKActorView* pActor = (GrabIKActorView*)dynamic_cast<Actor*>(thisObj);
         if (pActor && pActor->pGrabIK) {
             reinterpret_cast<::FUN_005ba310_t *>((pActor->pGrabIK))->FUN_005ba310(((bool)(reinterpret_cast<::FUN_005ba360 *>((pActor->pGrabIK))->GetByte())) ^ true);
-            if ((*reinterpret_cast<::fnv_anon_tesscriptfunctions::TLSData *>(&::g_tlsBlock)).bConsoleEcho)
+            if (g_tlsBlock.conditionFunctionDebug)
                 FUN_00703c00("GrabIK on REF %s %s", ((GrabIKRefView*)thisObj)->GetName(),
                     ((bool)(reinterpret_cast<::FUN_005ba360 *>((pActor->pGrabIK))->GetByte())) ? "On" : "Off");
         }
@@ -27529,174 +26784,16 @@ struct LookReference : TESObjectREFR {
  virtual void Slot74();
  virtual void Slot75();
  virtual const char* Name();
-};
-struct LookTls {
- int unk000;
- int unk004;
- int unk008;
- int unk00c;
- int unk010;
- int unk014;
- int unk018;
- int unk01c;
- int unk020;
- int unk024;
- int unk028;
- int unk02c;
- int unk030;
- int unk034;
- int unk038;
- int unk03c;
- int unk040;
- int unk044;
- int unk048;
- int unk04c;
- int unk050;
- int unk054;
- int unk058;
- int unk05c;
- int unk060;
- int unk064;
- int unk068;
- int unk06c;
- int unk070;
- int unk074;
- int unk078;
- int unk07c;
- int unk080;
- int unk084;
- int unk088;
- int unk08c;
- int unk090;
- int unk094;
- int unk098;
- int unk09c;
- int unk0a0;
- int unk0a4;
- int unk0a8;
- int unk0ac;
- int unk0b0;
- int unk0b4;
- int unk0b8;
- int unk0bc;
- int unk0c0;
- int unk0c4;
- int unk0c8;
- int unk0cc;
- int unk0d0;
- int unk0d4;
- int unk0d8;
- int unk0dc;
- int unk0e0;
- int unk0e4;
- int unk0e8;
- int unk0ec;
- int unk0f0;
- int unk0f4;
- int unk0f8;
- int unk0fc;
- int unk100;
- int unk104;
- int unk108;
- int unk10c;
- int unk110;
- int unk114;
- int unk118;
- int unk11c;
- int unk120;
- int unk124;
- int unk128;
- int unk12c;
- int unk130;
- int unk134;
- int unk138;
- int unk13c;
- int unk140;
- int unk144;
- int unk148;
- int unk14c;
- int unk150;
- int unk154;
- int unk158;
- int unk15c;
- int unk160;
- int unk164;
- int unk168;
- int unk16c;
- int unk170;
- int unk174;
- int unk178;
- int unk17c;
- int unk180;
- int unk184;
- int unk188;
- int unk18c;
- int unk190;
- int unk194;
- int unk198;
- int unk19c;
- int unk1a0;
- int unk1a4;
- int unk1a8;
- int unk1ac;
- int unk1b0;
- int unk1b4;
- int unk1b8;
- int unk1bc;
- int unk1c0;
- int unk1c4;
- int unk1c8;
- int unk1cc;
- int unk1d0;
- int unk1d4;
- int unk1d8;
- int unk1dc;
- int unk1e0;
- int unk1e4;
- int unk1e8;
- int unk1ec;
- int unk1f0;
- int unk1f4;
- int unk1f8;
- int unk1fc;
- int unk200;
- int unk204;
- int unk208;
- int unk20c;
- int unk210;
- int unk214;
- int unk218;
- int unk21c;
- int unk220;
- int unk224;
- int unk228;
- int unk22c;
- int unk230;
- int unk234;
- int unk238;
- int unk23c;
- int unk240;
- int unk244;
- int unk248;
- int unk24c;
- int unk250;
- int unk254;
- int unk258;
- int unk25c;
- int unk260;
- int unk264;
- bool console;
-};
-// @fnv 0x005ba380
+};// @fnv 0x005ba380
 bool FUN_005ba380(const ScriptParameter*,const char*,TESObjectREFR* reference,TESObjectREFR*,Script*,ScriptLocals*,double&,unsigned int&) {
  if (!reference) {
   FUN_005ba4d0(((bool)(::fnv_005ba4b0::FUN_005ba4b0())) ^ 1);
-  if ((*reinterpret_cast<::LookTls *>(&::g_tlsBlock)).console) FUN_00703c00("LookIK %s",((bool)(::fnv_005ba4b0::FUN_005ba4b0()))?"On":"Off");
+  if (g_tlsBlock.conditionFunctionDebug) FUN_00703c00("LookIK %s",((bool)(::fnv_005ba4b0::FUN_005ba4b0()))?"On":"Off");
  } else {
   Actor* actor = dynamic_cast<Actor*>(reference);
   if (actor && ((ActorLookLayout*)actor)->state) {
    reinterpret_cast<::A4F0Menu *>((((ActorLookLayout*)actor)->state))->FUN_005ba4f0(((bool)(reinterpret_cast<::FUN_005ba540_Class *>((((ActorLookLayout*)actor)->state))->FUN_005ba540())) ^ 1);
-   if ((*reinterpret_cast<::LookTls *>(&::g_tlsBlock)).console) FUN_00703c00("LookIK on REF %s %s",((LookReference*)reference)->Name(),((bool)(reinterpret_cast<::FUN_005ba540_Class *>((((ActorLookLayout*)actor)->state))->FUN_005ba540()))?"On":"Off");
+   if (g_tlsBlock.conditionFunctionDebug) FUN_00703c00("LookIK on REF %s %s",((LookReference*)reference)->Name(),((bool)(reinterpret_cast<::FUN_005ba540_Class *>((((ActorLookLayout*)actor)->state))->FUN_005ba540()))?"On":"Off");
   }
  }
  return true;
@@ -28347,165 +27444,7 @@ struct ActorLayout {
     int unkB4;
     int unkB8;
     bool processingDisabled;
-};
-struct ScriptThreadState {
-    int unk000;
-    int unk004;
-    int unk008;
-    int unk00C;
-    int unk010;
-    int unk014;
-    int unk018;
-    int unk01C;
-    int unk020;
-    int unk024;
-    int unk028;
-    int unk02C;
-    int unk030;
-    int unk034;
-    int unk038;
-    int unk03C;
-    int unk040;
-    int unk044;
-    int unk048;
-    int unk04C;
-    int unk050;
-    int unk054;
-    int unk058;
-    int unk05C;
-    int unk060;
-    int unk064;
-    int unk068;
-    int unk06C;
-    int unk070;
-    int unk074;
-    int unk078;
-    int unk07C;
-    int unk080;
-    int unk084;
-    int unk088;
-    int unk08C;
-    int unk090;
-    int unk094;
-    int unk098;
-    int unk09C;
-    int unk0A0;
-    int unk0A4;
-    int unk0A8;
-    int unk0AC;
-    int unk0B0;
-    int unk0B4;
-    int unk0B8;
-    int unk0BC;
-    int unk0C0;
-    int unk0C4;
-    int unk0C8;
-    int unk0CC;
-    int unk0D0;
-    int unk0D4;
-    int unk0D8;
-    int unk0DC;
-    int unk0E0;
-    int unk0E4;
-    int unk0E8;
-    int unk0EC;
-    int unk0F0;
-    int unk0F4;
-    int unk0F8;
-    int unk0FC;
-    int unk100;
-    int unk104;
-    int unk108;
-    int unk10C;
-    int unk110;
-    int unk114;
-    int unk118;
-    int unk11C;
-    int unk120;
-    int unk124;
-    int unk128;
-    int unk12C;
-    int unk130;
-    int unk134;
-    int unk138;
-    int unk13C;
-    int unk140;
-    int unk144;
-    int unk148;
-    int unk14C;
-    int unk150;
-    int unk154;
-    int unk158;
-    int unk15C;
-    int unk160;
-    int unk164;
-    int unk168;
-    int unk16C;
-    int unk170;
-    int unk174;
-    int unk178;
-    int unk17C;
-    int unk180;
-    int unk184;
-    int unk188;
-    int unk18C;
-    int unk190;
-    int unk194;
-    int unk198;
-    int unk19C;
-    int unk1A0;
-    int unk1A4;
-    int unk1A8;
-    int unk1AC;
-    int unk1B0;
-    int unk1B4;
-    int unk1B8;
-    int unk1BC;
-    int unk1C0;
-    int unk1C4;
-    int unk1C8;
-    int unk1CC;
-    int unk1D0;
-    int unk1D4;
-    int unk1D8;
-    int unk1DC;
-    int unk1E0;
-    int unk1E4;
-    int unk1E8;
-    int unk1EC;
-    int unk1F0;
-    int unk1F4;
-    int unk1F8;
-    int unk1FC;
-    int unk200;
-    int unk204;
-    int unk208;
-    int unk20C;
-    int unk210;
-    int unk214;
-    int unk218;
-    int unk21C;
-    int unk220;
-    int unk224;
-    int unk228;
-    int unk22C;
-    int unk230;
-    int unk234;
-    int unk238;
-    int unk23C;
-    int unk240;
-    int unk244;
-    int unk248;
-    int unk24C;
-    int unk250;
-    int unk254;
-    int unk258;
-    int unk25C;
-    int unk260;
-    int unk264;
-    bool consoleEcho;
-};
-struct ActorName {  };
+};struct ActorName {  };
 void __cdecl DebugLog(const char*, ...);
 
 // @fnv 0x005bbec0
@@ -28518,7 +27457,7 @@ bool __cdecl FUN_005bbec0(void* parameters, const char* scriptData, TESObjectREF
             result = 1;
         else
             result = 0;
-        if ((*reinterpret_cast<::ScriptThreadState *>(&::g_tlsBlock)).consoleEcho)
+        if (g_tlsBlock.conditionFunctionDebug)
             DebugLog("%s processing is  %s", reinterpret_cast<::FUN_0055d520_shell *>((((ActorName*)actor)))->FUN_0055d520(), ((ActorLayout*)actor)->processingDisabled ? "On" : "Off");
     }
     return true;
@@ -28584,10 +27523,10 @@ bool FUN_005bbf70(const ScriptParameter* params, const char* scriptData, TESObje
  if (actor) {
   ((ActorProcessState*)actor)->enabled = !((ActorProcessState*)actor)->enabled;
   ((ActorProcessCalls*)actor)->FUN_0087faa0();
-  if ((*reinterpret_cast<::fnv_anon_tesscriptfunctions::TLSData *>(&::g_tlsBlock)).bConsoleEcho) DebugLog("%s processing is  %s",reinterpret_cast<::FUN_0055d520_shell *>((((ActorProcessCalls*)actor)))->FUN_0055d520(),((ActorProcessState*)actor)->enabled ? "On" : "Off");
+  if (g_tlsBlock.conditionFunctionDebug) DebugLog("%s processing is  %s",reinterpret_cast<::FUN_0055d520_shell *>((((ActorProcessCalls*)actor)))->FUN_0055d520(),((ActorProcessState*)actor)->enabled ? "On" : "Off");
  } else {
   DAT_011f1220 = !DAT_011f1220;
-  if ((*reinterpret_cast<::fnv_anon_tesscriptfunctions::TLSData *>(&::g_tlsBlock)).bConsoleEcho) DebugLog("All AI Processing is  %s",DAT_011f1220 ? "On" : "Off");
+  if (g_tlsBlock.conditionFunctionDebug) DebugLog("All AI Processing is  %s",DAT_011f1220 ? "On" : "Off");
   if (!DAT_011f1220) reinterpret_cast<::FUN_00971ba0_shell *>((((ProcessReset*)&(*reinterpret_cast<int *>(&::g_011e0e80)))))->FUN_00971ba0();
  }
  return true;
@@ -28613,7 +27552,7 @@ bool __cdecl FUN_005bc310(const ScriptParameter* paramInfo, const char* scriptDa
     pkActor = dynamic_cast<Actor*>(thisObj);
     if (pkActor) {
         TESObjectREFR* pkLinked = reinterpret_cast<::FUN_00419ea0_shell *>((((::ExtraListShell5BC *)(reinterpret_cast<::FUN_005d43c0_ *>((static_cast<RefShell5BC*>(static_cast<TESObjectREFR*>(pkActor))))->FUN_005d43c0()))))->FUN_00419ea0();
-        if ((*reinterpret_cast<::fnv_anon_tesscriptfunctions::TLSData *>(&::g_tlsBlock)).bConsoleEcho) {
+        if (g_tlsBlock.conditionFunctionDebug) {
             if (pkLinked)
                 DebugLog(g_pcLinkedRefFormat5BC, reinterpret_cast<::FUN_0055d520_shell *>((static_cast<RefShell5BC*>(static_cast<TESObjectREFR*>(pkActor))))->FUN_0055d520(),
                     reinterpret_cast<::FUN_0055d520_shell *>((static_cast<RefShell5BC*>(pkLinked)))->FUN_0055d520());
@@ -28625,7 +27564,6 @@ bool __cdecl FUN_005bc310(const ScriptParameter* paramInfo, const char* scriptDa
 }
 
 namespace fnv_005bc3b0 {
-struct TlsData { char pad[0x268]; bool bDebug; char p2[3]; void* pTarget; };
 void FUN_00703c00(const char*, ...);
 class ScriptParameter; class TESObjectREFR; class Script; class ScriptLocals;
 class ProcMgr { public:  };
@@ -28634,7 +27572,7 @@ extern bool DAT_011f1228;
 bool FUN_005bc3b0(const ScriptParameter* paramInfo, const char* scriptData, TESObjectREFR* thisObj, TESObjectREFR* containingObj, Script* scriptObj, ScriptLocals* eventList, double& result, unsigned int* opcodeOffsetPtr)
 {
     DAT_011f1228 = !DAT_011f1228;
-    if ((*reinterpret_cast<::fnv_005bc3b0::TlsData *>(&::g_tlsBlock)).bDebug)
+    if (g_tlsBlock.conditionFunctionDebug)
         FUN_00703c00("AI Processing for actors in high is  %s", DAT_011f1228 ? "On" : "Off");
     if (!DAT_011f1228)
         reinterpret_cast<::FUN_00971ba0_shell *>(&((*reinterpret_cast<::fnv_005bc3b0::ProcMgr *>(&::g_011e0e80))))->FUN_00971ba0();
@@ -28650,7 +27588,7 @@ bool __cdecl FUN_005bc580()
 {
     DAT_011f122c = !DAT_011f122c;
 
-    if ((*reinterpret_cast<::fnv_anon_tesscriptfunctions::TLSData *>(&::g_tlsBlock)).bConsoleEcho)
+    if (g_tlsBlock.conditionFunctionDebug)
     {
         FUN_00703c00(DAT_0103a094,
                       DAT_011f122c ? DAT_010399bc : DAT_010399b8);
@@ -29032,7 +27970,7 @@ bool __cdecl FUN_005bc5f0(const ScriptParameter* paramInfo, const char* scriptDa
     ((::SpeakProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))->SetSpeaking(true);
     ((::SpeakProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))->SetSpeechDuration(fScaleMultiplier);
 
-    if ((*reinterpret_cast<::FUN_005d2650_tls *>(&::g_tlsBlock)).bDebug)
+    if (g_tlsBlock.conditionFunctionDebug)
         _DebugLog("The NPC will speak the sound now.");
     return true;
 }
@@ -29652,7 +28590,7 @@ bool __cdecl FUN_005bd960(const ScriptParameter* paramInfo, const char* scriptDa
     int requestedValue2 = 0;
     if (!FUN_005accb0(paramInfo, scriptData, offset, actor, container, script, locals, &requestedValue2))
         return false;
-    if (::bConditionFunctionDebug && actor && actor->IsActor() &&
+    if (g_tlsBlock.conditionFunctionDebug && actor && actor->IsActor() &&
         requestedValue2 >= 0 && requestedValue2 < 0x4d) {
         Actor_005bd960* actorLocal = actor;
         int id4 = requestedValue2;
@@ -29788,7 +28726,7 @@ bool __cdecl FUN_005bdf20(const ScriptParameter* apParameters, const char* apCom
                 fAmount = -std::abs(fValue);
             pActor->ModActorValue(m_eAssociatedActorValue, fAmount, 0);
         }
-        else if (::bConditionFunctionDebug) {
+        else if (g_tlsBlock.conditionFunctionDebug) {
             DebugLog("Actor Value '%s' cannot be modified in scripts or the console.", ::FUN_0066eac0((::ActorValue::Index)(m_eAssociatedActorValue)));
         }
     }
@@ -29813,7 +28751,7 @@ bool __cdecl FUN_005be080(const ScriptParameter* paramInfo, const char* scriptDa
     if (pActor) {
         if (!ActorValue::GetFlag(eAV, 0x4000)) {
             ((FUN_0088b740_shell*)pActor)->FUN_0088b740(eAV, ActorValue::GetFlag(eAV, 0x200) ? -fValue : std::abs(fValue));
-        } else if ((*reinterpret_cast<::fnv_anon_tesscriptfunctions::TLSData *>(&::g_tlsBlock)).bConsoleEcho) {
+        } else if (g_tlsBlock.conditionFunctionDebug) {
             DebugLog("Actor Value '%s' cannot be modified in scripts or the console.", FUN_0066eac0(eAV));
         }
     }
@@ -29847,7 +28785,7 @@ bool __cdecl FUN_005be190(const ScriptParameter* parameters, const char* compile
         if (!FUN_00406d70(actorValue, 0x4000)) {
             float amount = (float)((double)newValue - (double)(reinterpret_cast<ActorValueOwner*>((char*)pActor + 0xa4))->GetValue(actorValue));
             ((ActorValueChange)(*(void***)pActor)[0x3a4 / 4])(pActor, actorValue, amount, 0);
-        } else if ((*reinterpret_cast<::FUN_005d2650_tls *>(&::g_tlsBlock)).bDebug) {
+        } else if (g_tlsBlock.conditionFunctionDebug) {
             FUN_00703c00(DAT_0103a310, ::FUN_0066eac0((::ActorValue::Index)(actorValue)));
         }
     }
@@ -30504,25 +29442,25 @@ bool FUN_005be900(const ScriptParameter* parameters, const char* scriptData,
         switch (pSetting->FUN_004f8940()) {
         case 3:
             result = *((int *)&(::FUN_0043d4d0((int *)(pSetting))));
-            if ((*reinterpret_cast<::fnv_anon_tesscriptfunctions::TLSData *>(&::g_tlsBlock)).bConsoleEcho)
+            if (g_tlsBlock.conditionFunctionDebug)
                 DebugLog("GameSetting %s >> %i",reinterpret_cast<::Twin_0044ddc0 *>((pSetting))->GetName(),*((int *)&(::FUN_0043d4d0((int *)(pSetting)))));
             break;
         case 5:
             result = *((float *)&(::FUN_00403e20((float *)(pSetting))));
-            if ((*reinterpret_cast<::fnv_anon_tesscriptfunctions::TLSData *>(&::g_tlsBlock)).bConsoleEcho)
+            if (g_tlsBlock.conditionFunctionDebug)
                 DebugLog("GameSetting %s >> %.2f",reinterpret_cast<::Twin_0044ddc0 *>((pSetting))->GetName(),*((float *)&(::FUN_00403e20((float *)(pSetting)))));
             break;
         case 6:
-            if ((*reinterpret_cast<::fnv_anon_tesscriptfunctions::TLSData *>(&::g_tlsBlock)).bConsoleEcho)
+            if (g_tlsBlock.conditionFunctionDebug)
                 DebugLog("GameSetting %s >> '%s'",reinterpret_cast<::Twin_0044ddc0 *>((pSetting))->GetName(),((const char *)(reinterpret_cast<::StartMenu *>((pSetting))->GetMenuTitle())));
             break;
         default:
-            if ((*reinterpret_cast<::fnv_anon_tesscriptfunctions::TLSData *>(&::g_tlsBlock)).bConsoleEcho)
+            if (g_tlsBlock.conditionFunctionDebug)
                 DebugLog("GameSetting %s >> UNKNOWN TYPE",reinterpret_cast<::Twin_0044ddc0 *>((pSetting))->GetName());
             break;
         }
     } else {
-        if ((*reinterpret_cast<::fnv_anon_tesscriptfunctions::TLSData *>(&::g_tlsBlock)).bConsoleEcho)
+        if (g_tlsBlock.conditionFunctionDebug)
             DebugLog("GameSetting %s >> NOT FOUND",name,((const char *)(reinterpret_cast<::StartMenu *>((pSetting))->GetMenuTitle())));
     }
     return true;
@@ -31437,7 +30375,7 @@ bool __cdecl FUN_005c14a0(int p0, int p1, C0B10Ref* ref, int p3, int p4, int p5,
                 }
             }
         }
-        if (::bConditionFunctionDebug)
+        if (g_tlsBlock.conditionFunctionDebug)
             DebugLog("IsAnimPlaying -> %1.0f", result);
     }
     return true;
@@ -37547,7 +36485,7 @@ bool __cdecl FUN_005cb0c0(const ScriptParameter* parameters, const char* scriptD
                     ((::AIProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((void *)(((ActorV*)actor)))->GetBaseTexture()))->SetIdle(idle);
                     ((::AIProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((void *)(((ActorV*)actor)))->GetBaseTexture()))->SetFlag(0x80);
                 }
-                if (::bConditionFunctionDebug) {
+                if (g_tlsBlock.conditionFunctionDebug) {
                     DebugLog("Picked Idle '%s' (%08X) file: %s", idle->GetEditorID(), ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((idle))->FUN_0084e3a0())), idle->model.GetModelFilePath());
                 }
             }
@@ -37975,7 +36913,7 @@ bool __cdecl FUN_005cb2d0(const ScriptParameter* parameters, const char* scriptD
                     ((::IdleProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((static_cast<IdleActor*>(actor)))->GetBaseTexture()))->PlayIdle(idle);
                     ((::IdleProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((static_cast<IdleActor*>(actor)))->GetBaseTexture()))->PerformAction(0x80);
                 }
-                if (::bConditionFunctionDebug)
+                if (g_tlsBlock.conditionFunctionDebug)
                     _DebugLog("PlayIdle found '%s' (%08X) file: %s", idle->GetEditorID(),
                               ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((idle))->FUN_0084e3a0())), idle->file.GetName());
             }
@@ -38193,7 +37131,7 @@ bool FUN_005cbf80(const ScriptParameter* parameters, const char* scriptData, Loc
         thisObject->SetAltered(true);
     }
 
-    if ((*reinterpret_cast<::fnv_anon_tesscriptfunctions::TLSData *>(&::g_tlsBlock)).bConsoleEcho)
+    if (g_tlsBlock.conditionFunctionDebug)
         DebugLog("Locked %s with lock level %d", reinterpret_cast<::FUN_0055d520_shell *>((thisObject))->FUN_0055d520(), iLockLevel);
 
     return true;
@@ -39271,8 +38209,6 @@ namespace fnv_005cd0e0 {
 extern "C" char DAT_0103a598;
 extern "C" char DAT_0103a538;
 extern char DAT_011c3f2c;
-extern "C" unsigned long __readfsdword(unsigned long);
-__pragma(intrinsic(__readfsdword))
 struct RefCD {
     virtual void v0(); virtual void v1(); virtual void v2(); virtual void v3();
     virtual void v4(); virtual void v5(); virtual void v6(); virtual void v7();
@@ -39300,9 +38236,7 @@ struct RefCD {
 struct ProcCD {  };
 struct ActorCD : RefCD {  void* FUN_00931850(); };
 struct ManagerCD { bool FUN_00469860(unsigned); };
-struct SettingCD {  };
-struct TLSCD { char pad[0x268]; bool logging; };
-extern bool FUN_005accb0(void*, void*, void*, RefCD*, RefCD*, RefCD*, void*, int*, float*, float*, float*);
+struct SettingCD {  };extern bool FUN_005accb0(void*, void*, void*, RefCD*, RefCD*, RefCD*, void*, int*, float*, float*, float*);
 extern void FUN_00703c00(const char*, ...);
 struct CmdCD { static bool FUN_005cd0e0(void*, void*, RefCD*, RefCD*, RefCD*, void*, void*, void*); };
 // @fnv 0x005cd0e0
@@ -39313,7 +38247,7 @@ bool CmdCD::FUN_005cd0e0(void* p1, void* p2, RefCD* p3, RefCD* p4, RefCD* p5, vo
     float i = 0.0f;
     if (!FUN_005accb0(p1,p2,p8,p3,p4,p5,p6,&p,&h,&a,&i)) return false;
     if (p3 && !reinterpret_cast<::fnv_00572c80::FUN_00572c80_shell *>((p3))->FUN_00572c80()) {
-        if ((*reinterpret_cast<::fnv_005cd0e0::TLSCD *>(&::g_tlsBlock)).logging)
+        if (g_tlsBlock.conditionFunctionDebug)
             FUN_00703c00(&DAT_0103a598,p3->v76());
         if (!reinterpret_cast<::BSShaderRenderUtility *>(((*(ManagerCD**)&(*reinterpret_cast<char *>(&::g_dataHandler)))))->IsRenderTargetId(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((p5))->FUN_0084e3a0()))))
             ::FUN_005b5e40();
@@ -39416,7 +38350,6 @@ struct PlayerSpellStub
 {
 };
 
-extern thread_local bool g_bDebugLog;
 void __cdecl DebugLog(const char*, ...);
 extern bool ExtractArgs(const ScriptParameter*, const char*, unsigned int*, TESObjectREFR*, TESObjectREFR*, Script*, ScriptLocals*, ...);
 
@@ -39433,7 +38366,7 @@ bool __cdecl FUN_005cd750(const ScriptParameter* apParameters, const char* apCom
             reinterpret_cast<::FUN_0094c8e0_shell *>(((*reinterpret_cast<::PlayerSpellStub * *>(&::_g_thePlayer))))->FUN_0094c8e0((::MagicItem *)(pSpell));
         else
             reinterpret_cast<::FUN_0094c950_shell *>(((*reinterpret_cast<::PlayerSpellStub * *>(&::_g_thePlayer))))->SetArg((::ArgObj *)(pBookForm));
-        if (::bConditionFunctionDebug)
+        if (g_tlsBlock.conditionFunctionDebug)
             DebugLog("Player Spell set to %s", !pSpell ? "NONE" : ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((pSpell))->FUN_00408da0())));
     }
     return true;
@@ -39653,7 +38586,7 @@ bool __cdecl FUN_005ce480(const ScriptParameter* parameters, const char* compile
             ::Script::CopyIdentifierBitsToValue((*(const unsigned int *)(&value)), (*(double *)(&result)));
         }
     }
-    if ((*reinterpret_cast<::fnv_anon_tesscriptfunctions::TLSData *>(&::g_tlsBlock)).bConsoleEcho)
+    if (g_tlsBlock.conditionFunctionDebug)
         FUN_00703c00(&DAT_0103b76c, value);
     return true;
 }
@@ -39684,7 +38617,7 @@ bool __cdecl FUN_005ce7b0(
         } else {
             action->FUN_005bf800(false);
         }
-        if ((*reinterpret_cast<::FUN_005d2650_tls *>(&::g_tlsBlock)).bDebug) {
+        if (g_tlsBlock.conditionFunctionDebug) {
             _DebugLog(str_0103b804, set);
         }
     }
@@ -39701,7 +38634,7 @@ bool __cdecl FUN_005ce870(const ScriptParameter* apParameters, const char* apCom
     if (pActor && FUN_005ce8f0(pActor)) {
         afReturnValue = 1.0;
     }
-    if ((*reinterpret_cast<::fnv_anon_tesscriptfunctions::TLSData *>(&::g_tlsBlock)).bConsoleEcho) {
+    if (g_tlsBlock.conditionFunctionDebug) {
         DebugLog("GetForceSneak >> %0.2f", afReturnValue);
     }
     return true;
@@ -39722,7 +38655,7 @@ bool __cdecl FUN_005ce910(const ScriptParameter* parameters, const char* scriptD
         } else {
             ((FUN_005ce9d0*)actor)->SetFlag(0);
         }
-        if ((*reinterpret_cast<::ThreadFlags *>(&::g_tlsBlock)).bLogScripts) {
+        if (g_tlsBlock.conditionFunctionDebug) {
             DebugLog("SetForceSneak >> %0.2f", value);
         }
     }
@@ -39777,7 +38710,6 @@ struct SDO_OpenCloseForm
 bool __cdecl SDO_ExtractArgs(void* apParams, void* apCompiled, unsigned int* apOffset, SDO_Ref* apRef,
                              SDO_Ref* apContainer, void* apScript, void* apLocals, int* apOut);
 
-extern thread_local bool g_bDebugLog;
 void __cdecl DebugLog(const char*, ...);
 
 // @fnv 0x005cebf0
@@ -39806,7 +38738,7 @@ bool __cdecl FUN_005cebf0(void* apParams, void* apCompiled, SDO_Ref* apRef, SDO_
         }
         ::BGSOpenCloseForm::SetOpenState((::TESObjectREFR *)(apRef), bIsOpen, true);
     }
-    if (::bConditionFunctionDebug)
+    if (g_tlsBlock.conditionFunctionDebug)
         DebugLog("SetDefaultOpen >> %0.2f", iOpen2);
     return true;
 }
@@ -40122,7 +39054,7 @@ bool __cdecl FUN_005d1b80(const ScriptParameter* parameters, const char* scriptD
     shader = new ShaderEffect(reference, effect, context);
     if (shader->Initialize()) {
         reinterpret_cast<::FUN_00973fd0_cls *>((((ShaderEffectQueue*)&(*reinterpret_cast<int *>(&::g_011e0e80)))))->FUN_00973fd0((::FnvArgObj *)(shader));
-        if ((*reinterpret_cast<::fnv_anon_tesscriptfunctions::TLSData *>(&::g_tlsBlock)).bConsoleEcho) {
+        if (g_tlsBlock.conditionFunctionDebug) {
             if (reinterpret_cast<::FUN_0055d520_shell *>((((MobileObject*)reference)))->FUN_0055d520())
                 DebugLog("Shader effect has been applied to %s", reinterpret_cast<::FUN_0055d520_shell *>((((MobileObject*)reference)))->FUN_0055d520());
             else
@@ -40130,7 +39062,7 @@ bool __cdecl FUN_005d1b80(const ScriptParameter* parameters, const char* scriptD
         }
     } else {
         delete shader;
-        if ((*reinterpret_cast<::fnv_anon_tesscriptfunctions::TLSData *>(&::g_tlsBlock)).bConsoleEcho) {
+        if (g_tlsBlock.conditionFunctionDebug) {
             if (reinterpret_cast<::FUN_0055d520_shell *>((((MobileObject*)reference)))->FUN_0055d520())
                 DebugLog("Shader effect initialization failed for %s", reinterpret_cast<::FUN_0055d520_shell *>((((MobileObject*)reference)))->FUN_0055d520());
             else
@@ -40369,7 +39301,7 @@ bool FUN_005d1dc0(const ScriptParameter* parameters, const char* scriptData, Eff
   reinterpret_cast<::FUN_00416870_t *>(&(direction))->FUN_00416870(-FUN_005c53d0(-instance.z),FUN_005b9e80(-instance.z),0.0f);
   EffectInstance* position = FUN_006890b0(((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>((reference))->GetTarget())),1.0f,applied->model.v5(),direction,angles,1.0f,7,0);
   reinterpret_cast<::FUN_00689920_shell *>((position))->FUN_00689920("SpecialIdle_HitEffect");
-  if ((*reinterpret_cast<::TLSDebugFlag *>(&::g_tlsBlock)).flag) {
+  if (g_tlsBlock.conditionFunctionDebug) {
    if (reinterpret_cast<::FUN_0055d520_shell *>((reference))->FUN_0055d520()) FUN_00703c00("Visual effect has been applied to %s",reinterpret_cast<::FUN_0055d520_shell *>((reference))->FUN_0055d520());
    else FUN_00703c00("Visual effect has been applied to reference");
   }
@@ -40379,13 +39311,13 @@ bool FUN_005d1dc0(const ScriptParameter* parameters, const char* scriptData, Eff
  if (applied && applied->model.FUN_0048cee0() > 0) effect = new FUN_0081c720(reference,applied->model.v5(),duration);
  if (effect && effect->v49()) {
   reinterpret_cast<::FUN_00973fd0_cls *>((((EffectManager*)&(*reinterpret_cast<int *>(&::g_011e0e80)))))->FUN_00973fd0((::FnvArgObj *)(effect));
-  if ((*reinterpret_cast<::TLSDebugFlag *>(&::g_tlsBlock)).flag) {
+  if (g_tlsBlock.conditionFunctionDebug) {
    if (reinterpret_cast<::FUN_0055d520_shell *>((reference))->FUN_0055d520()) FUN_00703c00("Visual effect has been applied to %s",reinterpret_cast<::FUN_0055d520_shell *>((reference))->FUN_0055d520());
    else FUN_00703c00("Visual effect has been applied to reference");
   }
  } else {
   delete effect;
-  if ((*reinterpret_cast<::TLSDebugFlag *>(&::g_tlsBlock)).flag) {
+  if (g_tlsBlock.conditionFunctionDebug) {
    if (reinterpret_cast<::FUN_0055d520_shell *>((reference))->FUN_0055d520()) FUN_00703c00("Visual effect initialization failed for %s",reinterpret_cast<::FUN_0055d520_shell *>((reference))->FUN_0055d520());
    else FUN_00703c00("Visual effect initialization failed for reference");
   }
@@ -40416,7 +39348,7 @@ bool __cdecl FUN_005d28b0(const ScriptParameter* apParameters, const char* apCom
                           unsigned int* apOffset)
 {
     bool bResult = ::FUN_005a3670(apThisObject, (void *)(0), (void *)(0), (*(double *)(apResult)));
-    if ((*reinterpret_cast<::fnv_anon_tesscriptfunctions::TLSData *>(&::g_tlsBlock)).bConsoleEcho)
+    if (g_tlsBlock.conditionFunctionDebug)
         static_cast<void (__cdecl*)(const char*, ...)>(FUN_00703c00)("Is actor riding horse >> %0.2f", *apResult);
     return bResult;
 }
@@ -40429,7 +39361,7 @@ extern const char DAT_0103bed4[];
 extern "C" bool __cdecl FUN_005d2910(void* first, void* second, void* condition, void* fourth, void* fifth, void* sixth, double* result)
 {
     bool success = ::FUN_005a2a50((::TESObjectREFR *)(condition), (void *)(0), (void *)(0), (*(double *)(result)));
-    if ((*reinterpret_cast<unsigned char *>(&::bConditionFunctionDebug))) {
+    if (g_tlsBlock.conditionFunctionDebug) {
         FUN_00703c00(DAT_0103bed4, *result);
     }
     return success;
@@ -40942,7 +39874,7 @@ bool FUN_005d4280(const ScriptParameter* paramInfo, const char* scriptData, TESO
         pQuestIter5 = ((::BSSimpleList< ::TESQuest *> *)(reinterpret_cast<::Callees *>((pQuestIter5))->FUN_00726070()));
     }
     FUN_005ac730(bProcess_);
-    if (::bConditionFunctionDebug) {
+    if (g_tlsBlock.conditionFunctionDebug) {
         DebugLog("All Quest Stages Completed.", *result);
     }
     return true;
@@ -40960,21 +39892,19 @@ bool FUN_005d4a50(void* pvParamInfo, void* pvScriptData, void* pvThisObj, void* 
                   void* pvScript, void* pvEventList, double* pdResult)
 {
     ::GetEssentialConditionFunction((::TESObjectREFR *)(pvThisObj), (void *)(0), (void *)(0), (*(double *)(pdResult)));
-    if (::bConditionFunctionDebug)
+    if (g_tlsBlock.conditionFunctionDebug)
         FUN_00703c00(s_szIsEssentialFormat, *pdResult);
     return true;
 }
 
 }
-
-struct ScriptDebugFlags { bool bDebugTimeDead; };
 void _DebugLog(const char* apFormat, ...);
 bool FUN_005a3a30(TESObjectREFR*, void*, void*, double&);
 // @fnv 0x005d4b40
 bool FUN_005d4b40(const ScriptParameter* apParameters, const char* apCompiledParams, TESObjectREFR* apRefObject, TESObjectREFR* apContainer, Script* apScript, ScriptLocals* apScriptLocals, double& afReturnValue, unsigned int& auiOffset)
 {
     FUN_005a3a30(apRefObject, 0, 0, afReturnValue);
-    if ((*reinterpret_cast<::ScriptDebugFlags *>(&::bConditionFunctionDebug)).bDebugTimeDead)
+    if (g_tlsBlock.conditionFunctionDebug)
         _DebugLog("time dead >> %0.2f", afReturnValue);
     return true;
 }
@@ -41312,7 +40242,7 @@ bool FUN_005d4d90(const ScriptParameter* apParameters, const char* apCompiledPar
         if ((unsigned char)pkPerk->FUN_005d4ee0() > ucRank)
         {
             pActor->AddPerk(pkPerk, ucRank + 1, bVal);
-            if (::bConditionFunctionDebug)
+            if (g_tlsBlock.conditionFunctionDebug)
                 DebugLog("Added Perk %s to %s with rank %i", ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&(pkPerk->fullName))->FUN_00408da0())), reinterpret_cast<::FUN_0055d520_shell *>((pActor))->FUN_0055d520(), ucRank + 1);
             afReturnValue = ucRank + 1;
         }
@@ -41353,7 +40283,7 @@ bool __cdecl FUN_005d5680(const ScriptParameter* paramInfo, const char* scriptDa
     TESObjectREFR* containingObj, Script* scriptObj, ScriptLocals* locals, double& result, unsigned int& opcodeOffsetPtr)
 {
     ::FUN_005a3c90(thisObj, (void *)(0), (void *)(0), result);
-    if ((*reinterpret_cast<::fnv_anon_tesscriptfunctions::TLSData *>(&::g_tlsBlock)).bConsoleEcho)
+    if (g_tlsBlock.conditionFunctionDebug)
         DebugLog("GetLastHitCritical >> %0.2f", result);
     return true;
 }
@@ -41483,8 +40413,6 @@ extern const char DAT_0103cad4[];
 
 
 
-struct TLSData_005d5850 { unsigned char state; };
-
 
 
 
@@ -41575,7 +40503,7 @@ bool __cdecl FUN_005d5850(const ScriptParameter* apParameters, const char* apCom
 
         reinterpret_cast<::FUN_004de2d0_StandIn *>(&((*reinterpret_cast<::ToggleSetting_005d5850 *>(&::g_011f15ec))))->FUN_004de2d0(!anyOn);
 
-        if (reinterpret_cast<const unsigned char*>(&(*reinterpret_cast<::TLSData_005d5850 *>(&::g_tlsBlock)))[0x268])
+        if (g_tlsBlock.conditionFunctionDebug)
 
             FUN_00703c00(DAT_0103cad4, anyOn ? DAT_010399b8 : DAT_010399bc);
 
@@ -41583,7 +40511,7 @@ bool __cdecl FUN_005d5850(const ScriptParameter* apParameters, const char* apCom
 
         reinterpret_cast<::FUN_004de2d0_StandIn *>(&((*reinterpret_cast<::ToggleSetting_005d5850 *>(&::g_011f1680))))->FUN_004de2d0(!*(*reinterpret_cast<::ToggleSetting_005d5850 *>(&::g_011f1680)).FUN_00408d60());
 
-        if (reinterpret_cast<const unsigned char*>(&(*reinterpret_cast<::TLSData_005d5850 *>(&::g_tlsBlock)))[0x268])
+        if (g_tlsBlock.conditionFunctionDebug)
 
             FUN_00703c00(DAT_0103ca9c, *(*reinterpret_cast<::ToggleSetting_005d5850 *>(&::g_011f1680)).FUN_00408d60() ? DAT_010399bc : DAT_010399b8);
 
@@ -41591,7 +40519,7 @@ bool __cdecl FUN_005d5850(const ScriptParameter* apParameters, const char* apCom
 
         reinterpret_cast<::FUN_004de2d0_StandIn *>(&((*reinterpret_cast<::ToggleSetting_005d5850 *>(&::g_011f16c0))))->FUN_004de2d0(!*(*reinterpret_cast<::ToggleSetting_005d5850 *>(&::g_011f16c0)).FUN_00408d60());
 
-        if (reinterpret_cast<const unsigned char*>(&(*reinterpret_cast<::TLSData_005d5850 *>(&::g_tlsBlock)))[0x268])
+        if (g_tlsBlock.conditionFunctionDebug)
 
             FUN_00703c00(DAT_0103ca60, *(*reinterpret_cast<::ToggleSetting_005d5850 *>(&::g_011f16c0)).FUN_00408d60() ? DAT_010399bc : DAT_010399b8);
 
@@ -41599,7 +40527,7 @@ bool __cdecl FUN_005d5850(const ScriptParameter* apParameters, const char* apCom
 
         reinterpret_cast<::FUN_004de2d0_StandIn *>(&((*reinterpret_cast<::ToggleSetting_005d5850 *>(&::g_011f1674))))->FUN_004de2d0(!*(*reinterpret_cast<::ToggleSetting_005d5850 *>(&::g_011f1674)).FUN_00408d60());
 
-        if (reinterpret_cast<const unsigned char*>(&(*reinterpret_cast<::TLSData_005d5850 *>(&::g_tlsBlock)))[0x268])
+        if (g_tlsBlock.conditionFunctionDebug)
 
             FUN_00703c00(DAT_0103ca24, *(*reinterpret_cast<::ToggleSetting_005d5850 *>(&::g_011f1674)).FUN_00408d60() ? DAT_010399bc : DAT_010399b8);
 
@@ -41607,7 +40535,7 @@ bool __cdecl FUN_005d5850(const ScriptParameter* apParameters, const char* apCom
 
         reinterpret_cast<::FUN_004de2d0_StandIn *>(&((*reinterpret_cast<::ToggleSetting_005d5850 *>(&::g_011f16e0))))->FUN_004de2d0(!*(*reinterpret_cast<::ToggleSetting_005d5850 *>(&::g_011f16e0)).FUN_00408d60());
 
-        if (reinterpret_cast<const unsigned char*>(&(*reinterpret_cast<::TLSData_005d5850 *>(&::g_tlsBlock)))[0x268])
+        if (g_tlsBlock.conditionFunctionDebug)
 
             FUN_00703c00(DAT_0103c9dc, *(*reinterpret_cast<::ToggleSetting_005d5850 *>(&::g_011f16e0)).FUN_00408d60() ? DAT_010399bc : DAT_010399b8);
 
@@ -41615,7 +40543,7 @@ bool __cdecl FUN_005d5850(const ScriptParameter* apParameters, const char* apCom
 
         reinterpret_cast<::FUN_004de2d0_StandIn *>(&((*reinterpret_cast<::ToggleSetting_005d5850 *>(&::g_011f168c))))->FUN_004de2d0(!*(*reinterpret_cast<::ToggleSetting_005d5850 *>(&::g_011f168c)).FUN_00408d60());
 
-        if (reinterpret_cast<const unsigned char*>(&(*reinterpret_cast<::TLSData_005d5850 *>(&::g_tlsBlock)))[0x268])
+        if (g_tlsBlock.conditionFunctionDebug)
 
             FUN_00703c00(DAT_0103c990, *(*reinterpret_cast<::ToggleSetting_005d5850 *>(&::g_011f168c)).FUN_00408d60() ? DAT_010399bc : DAT_010399b8);
 
@@ -41623,7 +40551,7 @@ bool __cdecl FUN_005d5850(const ScriptParameter* apParameters, const char* apCom
 
         reinterpret_cast<::FUN_004de2d0_StandIn *>(&((*reinterpret_cast<::ToggleSetting_005d5850 *>(&::g_011f1ba0))))->FUN_004de2d0(!*(*reinterpret_cast<::ToggleSetting_005d5850 *>(&::g_011f1ba0)).FUN_00408d60());
 
-        if (reinterpret_cast<const unsigned char*>(&(*reinterpret_cast<::TLSData_005d5850 *>(&::g_tlsBlock)))[0x268])
+        if (g_tlsBlock.conditionFunctionDebug)
 
             FUN_00703c00(DAT_0103c964, *(*reinterpret_cast<::ToggleSetting_005d5850 *>(&::g_011f1ba0)).FUN_00408d60() ? DAT_010399bc : DAT_010399b8);
 
@@ -41631,7 +40559,7 @@ bool __cdecl FUN_005d5850(const ScriptParameter* apParameters, const char* apCom
 
         reinterpret_cast<::FUN_004de2d0_StandIn *>(&((*reinterpret_cast<::ToggleSetting_005d5850 *>(&::g_011f1878))))->FUN_004de2d0(!*(*reinterpret_cast<::ToggleSetting_005d5850 *>(&::g_011f1878)).FUN_00408d60());
 
-        if (reinterpret_cast<const unsigned char*>(&(*reinterpret_cast<::TLSData_005d5850 *>(&::g_tlsBlock)))[0x268])
+        if (g_tlsBlock.conditionFunctionDebug)
 
             FUN_00703c00(DAT_0103c938, *(*reinterpret_cast<::ToggleSetting_005d5850 *>(&::g_011f1878)).FUN_00408d60() ? DAT_010399bc : DAT_010399b8);
 
@@ -41639,7 +40567,7 @@ bool __cdecl FUN_005d5850(const ScriptParameter* apParameters, const char* apCom
 
         reinterpret_cast<::FUN_004de2d0_StandIn *>(&((*reinterpret_cast<::ToggleSetting_005d5850 *>(&::g_011f1858))))->FUN_004de2d0(!*(*reinterpret_cast<::ToggleSetting_005d5850 *>(&::g_011f1858)).FUN_00408d60());
 
-        if (reinterpret_cast<const unsigned char*>(&(*reinterpret_cast<::TLSData_005d5850 *>(&::g_tlsBlock)))[0x268])
+        if (g_tlsBlock.conditionFunctionDebug)
 
             FUN_00703c00(DAT_0103c90c, *(*reinterpret_cast<::ToggleSetting_005d5850 *>(&::g_011f1858)).FUN_00408d60() ? DAT_010399bc : DAT_010399b8);
 
@@ -41647,7 +40575,7 @@ bool __cdecl FUN_005d5850(const ScriptParameter* apParameters, const char* apCom
 
         reinterpret_cast<::FUN_004de2d0_StandIn *>(&((*reinterpret_cast<::ToggleSetting_005d5850 *>(&::g_011f1b24))))->FUN_004de2d0(!*(*reinterpret_cast<::ToggleSetting_005d5850 *>(&::g_011f1b24)).FUN_00408d60());
 
-        if (reinterpret_cast<const unsigned char*>(&(*reinterpret_cast<::TLSData_005d5850 *>(&::g_tlsBlock)))[0x268])
+        if (g_tlsBlock.conditionFunctionDebug)
 
             FUN_00703c00(DAT_0103c8e0, *(*reinterpret_cast<::ToggleSetting_005d5850 *>(&::g_011f1b24)).FUN_00408d60() ? DAT_010399bc : DAT_010399b8);
 
@@ -41655,7 +40583,7 @@ bool __cdecl FUN_005d5850(const ScriptParameter* apParameters, const char* apCom
 
         reinterpret_cast<::FUN_004de2d0_StandIn *>(&((*reinterpret_cast<::ToggleSetting_005d5850 *>(&::g_011f1814))))->FUN_004de2d0(!*(*reinterpret_cast<::ToggleSetting_005d5850 *>(&::g_011f1814)).FUN_00408d60());
 
-        if (reinterpret_cast<const unsigned char*>(&(*reinterpret_cast<::TLSData_005d5850 *>(&::g_tlsBlock)))[0x268])
+        if (g_tlsBlock.conditionFunctionDebug)
 
             FUN_00703c00(DAT_0103c8b4, *(*reinterpret_cast<::ToggleSetting_005d5850 *>(&::g_011f1814)).FUN_00408d60() ? DAT_010399bc : DAT_010399b8);
 
@@ -41663,7 +40591,7 @@ bool __cdecl FUN_005d5850(const ScriptParameter* apParameters, const char* apCom
 
         reinterpret_cast<::FUN_004de2d0_StandIn *>(&((*reinterpret_cast<::ToggleSetting_005d5850 *>(&::g_011f15b0))))->FUN_004de2d0(!*(*reinterpret_cast<::ToggleSetting_005d5850 *>(&::g_011f15b0)).FUN_00408d60());
 
-        if (reinterpret_cast<const unsigned char*>(&(*reinterpret_cast<::TLSData_005d5850 *>(&::g_tlsBlock)))[0x268])
+        if (g_tlsBlock.conditionFunctionDebug)
 
             FUN_00703c00(DAT_0103c884, *(*reinterpret_cast<::ToggleSetting_005d5850 *>(&::g_011f15b0)).FUN_00408d60() ? DAT_010399bc : DAT_010399b8);
 
@@ -41671,7 +40599,7 @@ bool __cdecl FUN_005d5850(const ScriptParameter* apParameters, const char* apCom
 
         reinterpret_cast<::FUN_004de2d0_StandIn *>(&((*reinterpret_cast<::ToggleSetting_005d5850 *>(&::g_011f1824))))->FUN_004de2d0(!*(*reinterpret_cast<::ToggleSetting_005d5850 *>(&::g_011f1824)).FUN_00408d60());
 
-        if (reinterpret_cast<const unsigned char*>(&(*reinterpret_cast<::TLSData_005d5850 *>(&::g_tlsBlock)))[0x268])
+        if (g_tlsBlock.conditionFunctionDebug)
 
             FUN_00703c00(DAT_0103c844, *(*reinterpret_cast<::ToggleSetting_005d5850 *>(&::g_011f1824)).FUN_00408d60() ? DAT_010399bc : DAT_010399b8);
 
@@ -41679,7 +40607,7 @@ bool __cdecl FUN_005d5850(const ScriptParameter* apParameters, const char* apCom
 
         reinterpret_cast<::FUN_004de2d0_StandIn *>(&((*reinterpret_cast<::ToggleSetting_005d5850 *>(&::g_011f15a4))))->FUN_004de2d0(!*(*reinterpret_cast<::ToggleSetting_005d5850 *>(&::g_011f15a4)).FUN_00408d60());
 
-        if (reinterpret_cast<const unsigned char*>(&(*reinterpret_cast<::TLSData_005d5850 *>(&::g_tlsBlock)))[0x268])
+        if (g_tlsBlock.conditionFunctionDebug)
 
             FUN_00703c00(DAT_0103c810, *(*reinterpret_cast<::ToggleSetting_005d5850 *>(&::g_011f15a4)).FUN_00408d60() ? DAT_010399bc : DAT_010399b8);
 
@@ -41687,7 +40615,7 @@ bool __cdecl FUN_005d5850(const ScriptParameter* apParameters, const char* apCom
 
         reinterpret_cast<::FUN_004de2d0_StandIn *>(&((*reinterpret_cast<::ToggleSetting_005d5850 *>(&::g_011f1c30))))->FUN_004de2d0(!*(*reinterpret_cast<::ToggleSetting_005d5850 *>(&::g_011f1c30)).FUN_00408d60());
 
-        if (reinterpret_cast<const unsigned char*>(&(*reinterpret_cast<::TLSData_005d5850 *>(&::g_tlsBlock)))[0x268])
+        if (g_tlsBlock.conditionFunctionDebug)
 
             FUN_00703c00(DAT_0103c7d8, *(*reinterpret_cast<::ToggleSetting_005d5850 *>(&::g_011f1c30)).FUN_00408d60() ? DAT_0103c800 : ::g_011c9210_arg1);
 
@@ -41699,7 +40627,7 @@ bool __cdecl FUN_005d5850(const ScriptParameter* apParameters, const char* apCom
 
             reinterpret_cast<::S_004ed780 *>(&((*reinterpret_cast<::ToggleSetting_005d5850 *>(&::g_011f1c70))))->FUN_004ed780(1.0f);
 
-        if (reinterpret_cast<const unsigned char*>(&(*reinterpret_cast<::TLSData_005d5850 *>(&::g_tlsBlock)))[0x268])
+        if (g_tlsBlock.conditionFunctionDebug)
 
             FUN_00703c00(DAT_0103c7a0, *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::ToggleSetting_005d5850 *>(&::g_011f1c70)))))));
 
@@ -41707,7 +40635,7 @@ bool __cdecl FUN_005d5850(const ScriptParameter* apParameters, const char* apCom
 
         reinterpret_cast<::FUN_004de2d0_StandIn *>(&((*reinterpret_cast<::ToggleSetting_005d5850 *>(&::g_011f15d0))))->FUN_004de2d0(!*(*reinterpret_cast<::ToggleSetting_005d5850 *>(&::g_011f15d0)).FUN_00408d60());
 
-        if (reinterpret_cast<const unsigned char*>(&(*reinterpret_cast<::TLSData_005d5850 *>(&::g_tlsBlock)))[0x268])
+        if (g_tlsBlock.conditionFunctionDebug)
 
             FUN_00703c00(DAT_0103c758, *(*reinterpret_cast<::ToggleSetting_005d5850 *>(&::g_011f15d0)).FUN_00408d60() ? DAT_010399bc : DAT_010399b8);
 
@@ -41715,7 +40643,7 @@ bool __cdecl FUN_005d5850(const ScriptParameter* apParameters, const char* apCom
 
         reinterpret_cast<::FUN_004de2d0_StandIn *>(&((*reinterpret_cast<::ToggleSetting_005d5850 *>(&::g_011f197c))))->FUN_004de2d0(!*(*reinterpret_cast<::ToggleSetting_005d5850 *>(&::g_011f197c)).FUN_00408d60());
 
-        if (reinterpret_cast<const unsigned char*>(&(*reinterpret_cast<::TLSData_005d5850 *>(&::g_tlsBlock)))[0x268])
+        if (g_tlsBlock.conditionFunctionDebug)
 
             FUN_00703c00(DAT_0103c724, *(*reinterpret_cast<::ToggleSetting_005d5850 *>(&::g_011f197c)).FUN_00408d60() ? DAT_010399bc : DAT_010399b8);
 
@@ -41723,7 +40651,7 @@ bool __cdecl FUN_005d5850(const ScriptParameter* apParameters, const char* apCom
 
         reinterpret_cast<::FUN_004de2d0_StandIn *>(&((*reinterpret_cast<::ToggleSetting_005d5850 *>(&::g_011f1c4c))))->FUN_004de2d0(!*(*reinterpret_cast<::ToggleSetting_005d5850 *>(&::g_011f1c4c)).FUN_00408d60());
 
-        if (reinterpret_cast<const unsigned char*>(&(*reinterpret_cast<::TLSData_005d5850 *>(&::g_tlsBlock)))[0x268])
+        if (g_tlsBlock.conditionFunctionDebug)
 
             FUN_00703c00(DAT_0103c6f0, *(*reinterpret_cast<::ToggleSetting_005d5850 *>(&::g_011f1c4c)).FUN_00408d60() ? DAT_010399bc : DAT_010399b8);
 
@@ -41731,11 +40659,11 @@ bool __cdecl FUN_005d5850(const ScriptParameter* apParameters, const char* apCom
 
         reinterpret_cast<::FUN_004de2d0_StandIn *>(&((*reinterpret_cast<::ToggleSetting_005d5850 *>(&::g_011f15ec))))->FUN_004de2d0(!*(*reinterpret_cast<::ToggleSetting_005d5850 *>(&::g_011f15ec)).FUN_00408d60());
 
-        if (reinterpret_cast<const unsigned char*>(&(*reinterpret_cast<::TLSData_005d5850 *>(&::g_tlsBlock)))[0x268])
+        if (g_tlsBlock.conditionFunctionDebug)
 
             FUN_00703c00(DAT_0103c6c8, *(*reinterpret_cast<::ToggleSetting_005d5850 *>(&::g_011f15ec)).FUN_00408d60() ? DAT_010399bc : DAT_010399b8);
 
-    } else if (reinterpret_cast<const unsigned char*>(&(*reinterpret_cast<::TLSData_005d5850 *>(&::g_tlsBlock)))[0x268]) {
+    } else if (g_tlsBlock.conditionFunctionDebug) {
 
         FUN_00703c00(DAT_0103c6b4, name);
 
@@ -41992,15 +40920,15 @@ bool __cdecl FUN_005d67f0(const ScriptParameter* parameters, const char* compile
     }
     if (!strlen(strategyName)) {
         reinterpret_cast<::Owner_9862e0 *>((group))->FUN_009862e0((::Target_9862e0 *)(::fnv_005d67f0::CombatStrategy *)(0));
-        if ((*reinterpret_cast<::fnv_anon_tesscriptfunctions::TLSData *>(&::g_tlsBlock)).bConsoleEcho)
+        if (g_tlsBlock.conditionFunctionDebug)
             DebugLog("Group strategy cleared");
     } else {
         CombatStrategy* strategy = ((::fnv_005d67f0::CombatStrategy *)(::FUN_00990250(strategyName)));
         if (strategy) {
             reinterpret_cast<::Owner_9862e0 *>((group))->FUN_009862e0((::Target_9862e0 *)(strategy));
-            if ((*reinterpret_cast<::fnv_anon_tesscriptfunctions::TLSData *>(&::g_tlsBlock)).bConsoleEcho)
+            if (g_tlsBlock.conditionFunctionDebug)
                 DebugLog("Group strategy set to: %s", ((const char *)(reinterpret_cast<::FUN_0098fdd0_class *>((strategy))->FUN_0098fdd0())));
-        } else if ((*reinterpret_cast<::fnv_anon_tesscriptfunctions::TLSData *>(&::g_tlsBlock)).bConsoleEcho) {
+        } else if (g_tlsBlock.conditionFunctionDebug) {
             DebugLog("Unknown strategy '%s'", strategyName);
         }
     }
@@ -42423,7 +41351,7 @@ bool __cdecl FUN_005d81b0(const ScriptParameter* paramInfo, const char* scriptDa
         value = 0.0;
     }
     result = value;
-    if (::bConditionFunctionDebug) {
+    if (g_tlsBlock.conditionFunctionDebug) {
         DebugLog("GetBroadcastState >> %0.2f", result);
     }
     return true;
@@ -42825,32 +41753,6 @@ struct ActivateRef_5d8cf0
                       // 0x565870
 };
 
-struct ActivateTls_5d8cf0
-{
-    int unk000; int unk004; int unk008; int unk00c; int unk010; int unk014; int unk018; int unk01c;
-    int unk020; int unk024; int unk028; int unk02c; int unk030; int unk034; int unk038; int unk03c;
-    int unk040; int unk044; int unk048; int unk04c; int unk050; int unk054; int unk058; int unk05c;
-    int unk060; int unk064; int unk068; int unk06c; int unk070; int unk074; int unk078; int unk07c;
-    int unk080; int unk084; int unk088; int unk08c; int unk090; int unk094; int unk098; int unk09c;
-    int unk0a0; int unk0a4; int unk0a8; int unk0ac; int unk0b0; int unk0b4; int unk0b8; int unk0bc;
-    int unk0c0; int unk0c4; int unk0c8; int unk0cc; int unk0d0; int unk0d4; int unk0d8; int unk0dc;
-    int unk0e0; int unk0e4; int unk0e8; int unk0ec; int unk0f0; int unk0f4; int unk0f8; int unk0fc;
-    int unk100; int unk104; int unk108; int unk10c; int unk110; int unk114; int unk118; int unk11c;
-    int unk120; int unk124; int unk128; int unk12c; int unk130; int unk134; int unk138; int unk13c;
-    int unk140; int unk144; int unk148; int unk14c; int unk150; int unk154; int unk158; int unk15c;
-    int unk160; int unk164; int unk168; int unk16c; int unk170; int unk174; int unk178; int unk17c;
-    int unk180; int unk184; int unk188; int unk18c; int unk190; int unk194; int unk198; int unk19c;
-    int unk1a0; int unk1a4; int unk1a8; int unk1ac; int unk1b0; int unk1b4; int unk1b8; int unk1bc;
-    int unk1c0; int unk1c4; int unk1c8; int unk1cc; int unk1d0; int unk1d4; int unk1d8; int unk1dc;
-    int unk1e0; int unk1e4; int unk1e8; int unk1ec; int unk1f0; int unk1f4; int unk1f8; int unk1fc;
-    int unk200; int unk204; int unk208; int unk20c; int unk210; int unk214; int unk218; int unk21c;
-    int unk220; int unk224; int unk228; int unk22c; int unk230; int unk234; int unk238; int unk23c;
-    int unk240; int unk244; int unk248; int unk24c; int unk250; int unk254; int unk258; int unk25c;
-    int unk260; int unk264; int unk268; int unk26c; int unk270; int unk274; int unk278; int unk27c;
-    int unk280; int unk284; int unk288; int unk28c;
-    int iActivateDepth;  // 0x290
-};
-
 bool __cdecl FUN_005accb0(void* paramInfo, void* scriptData, unsigned int* opcodeOffset, TESObjectREFR* thisObj,
                           TESObjectREFR* containingObj, void* script, void* eventList, TESForm** form);
 void __cdecl FUN_005ac190(TESObjectREFR* ref, ExtraDataList* extraList);
@@ -42869,11 +41771,11 @@ bool __cdecl FUN_005d8cf0(void* paramInfo, void* scriptData, TESObjectREFR* this
         FUN_005ac750(form, (ExtraDataList*)reinterpret_cast<::FUN_005d43c0_ *>((thisObj))->FUN_005d43c0(), 0x20000000);
         FUN_005ac750(form, (ExtraDataList*)reinterpret_cast<::FUN_005d43c0_ *>((thisObj))->FUN_005d43c0(), 0x10000000);
         reinterpret_cast<::s572e10::Owner *>((((ActivateRef_5d8cf0*)thisObj)))->FUN_00572e10((std::intptr_t)(form));
-        if ((*reinterpret_cast<::ActivateTls_5d8cf0 *>(&::g_tlsBlock)).iActivateDepth < 5)
+        if (g_tlsBlock.scriptCommandDepth < 5)
         {
-            (*reinterpret_cast<::ActivateTls_5d8cf0 *>(&::g_tlsBlock)).iActivateDepth++;
+            g_tlsBlock.scriptCommandDepth++;
             reinterpret_cast<::fnv_00565870::FUN_00565870_shell *>((((ActivateRef_5d8cf0*)thisObj)))->FUN_00565870();
-            (*reinterpret_cast<::ActivateTls_5d8cf0 *>(&::g_tlsBlock)).iActivateDepth--;
+            g_tlsBlock.scriptCommandDepth--;
         }
     }
     return true;
@@ -44646,7 +43548,7 @@ bool __cdecl FUN_005dc730(int p0,int p1,int p2,int p3,int p4,int p5,int p6,int p
  if(!FUN_005accb0(p0,p1,p7,p2,p3,p4,p5,&found))return false;
  TreeStr line5;
  char buffer2[32];
- if((*reinterpret_cast<::ThreadFlags *>(&::g_tlsBlock)).bLogScripts) {
+ if(g_tlsBlock.conditionFunctionDebug) {
  DebugRecordNode* nodeB=((::fnv_005dc730::DebugRecordNode *)(reinterpret_cast<::FUN_005d43c0_ *>((((DebugReference*)found)))->FUN_005d43c0()));
  while(nodeB && *((::fnv_005dc730::DebugRecord **)((void *)(nodeB)))) {
  DebugRecord* record=*((::fnv_005dc730::DebugRecord **)((void *)(nodeB)));
@@ -45370,7 +44272,7 @@ void DebugLog(const char* fmt, ...);
 // @fnv 0x005dfc10
 bool FUN_005dfc10(const ScriptParameter* paramInfo, const char* scriptData, TESObjectREFR* thisObj, TESObjectREFR* containingObj, Script* script, ScriptLocals* locals, double& result, unsigned int& opcodeOffsetPtr) {
     result = (((unsigned char)(::Interface::IsInterfaceActive())) != 0);
-    if (::bConditionFunctionDebug) {
+    if (g_tlsBlock.conditionFunctionDebug) {
         DebugLog("IsLoadingMenuEnabled >> %0.f", result);
     }
     return true;
@@ -45415,7 +44317,7 @@ bool __cdecl FUN_005dfd30(
     if (form->Validate()) {
         ScriptResult* result = ((fnv_005dfd30::ScriptResult *)(dynamic_cast<::Actor *>(reinterpret_cast<::TESObjectREFR *>(form))));
         result->FUN_008c1ac0(outcome > 0);
-    } else if ((*reinterpret_cast<unsigned char (*)[617]>(&::g_tlsBlock))[0x268]) {
+    } else if (g_tlsBlock.conditionFunctionDebug) {
         FUN_00703c00(&DAT_0103d31c);
     }
 
@@ -45435,9 +44337,7 @@ struct Ref5df {
     virtual bool IsPersistent5df();
 };
 struct Map5df {
-};
-struct TLS5df { char pad[0x268]; unsigned char flag; };
-void __cdecl DebugLog(const char*, ...);
+};void __cdecl DebugLog(const char*, ...);
 
 // @fnv 0x005dfe90
 bool FUN_005dfe90(const ScriptParameter* paParams, const char* apData, TESObjectREFR* apRef, TESObjectREFR* apContainer, Script* apScript, ScriptLocals* apLocals, double& arResult, unsigned int& arOffset)
@@ -45455,7 +44355,7 @@ bool FUN_005dfe90(const ScriptParameter* paParams, const char* apData, TESObject
             count++;
     }
     arResult = count;
-    if ((*reinterpret_cast<::TLS5df *>(&::g_tlsBlock)).flag)
+    if (g_tlsBlock.conditionFunctionDebug)
         DebugLog("PersistentRefCount >> %u", count);
     return true;
 }
@@ -45490,7 +44390,7 @@ bool FUN_005dff70(const ScriptParameter* apParameters, const char* apCompiledPar
     if (static_cast<DFF70Reference*>(apRefObject)->IsActor()) {
         Actor* pkActor = dynamic_cast<Actor*>(apRefObject);
         static_cast<DFF70Actor*>(pkActor)->SetAlwaysShowSubtitles(iShow > 0);
-    } else if (::bConditionFunctionDebug) {
+    } else if (g_tlsBlock.conditionFunctionDebug) {
         DebugLog("AlwaysShowActorSubtitles >> Invalid actor reference ");
     }
     return true;
@@ -47064,12 +45964,6 @@ struct TESCollisionManager
 };
 
 
-struct TESThreadData
-{
-    unsigned char padding[0x268];
-    bool debug;
-};
-
 
 
 void _DebugLog(const char* format, ...);
@@ -47106,7 +46000,7 @@ bool __cdecl FUN_005b9640(
         bcol = !reinterpret_cast<::FUN_0050d4a0_shell *>((reinterpret_cast<PlayerCharacter*>(apRefObject)))->FUN_0050d4a0();
         reinterpret_cast<::TESForm *>((reinterpret_cast<TESFormCollisionHelper*>(apRefObject)))->SetCollisionDisabled(bcol);
 
-        if ((*reinterpret_cast<::fnv_005b9640::TESThreadData *>(&::g_tlsBlock)).debug)
+        if (g_tlsBlock.conditionFunctionDebug)
         {
             _DebugLog(
                 "Ref '%s' Collision -> %s",
@@ -47118,7 +46012,7 @@ bool __cdecl FUN_005b9640(
     {
         reinterpret_cast<::fnv_00456be0::FUN_00456be0_shell *>(((*reinterpret_cast<::fnv_005b9640::TESCollisionManager * *>(&::g_TES))))->FUN_00456be0();
 
-        if ((*reinterpret_cast<::fnv_005b9640::TESThreadData *>(&::g_tlsBlock)).debug)
+        if (g_tlsBlock.conditionFunctionDebug)
         {
             _DebugLog(
                 "Collision -> %s",
@@ -47135,13 +46029,6 @@ class Actor;
 extern bool DAT_011f1222;
 extern int DAT_011f1224;
 
-struct FUN_005b98a0_TLS
-{
-    unsigned char padding[268];
-    unsigned char enabled;
-};
-
-thread_local FUN_005b98a0_TLS tls_005b98a0;
 
 void _DebugLog(const char*, ...);
 
@@ -47171,7 +46058,7 @@ bool FUN_005b98a0(const ScriptParameter* apParameters,
 
     DAT_011f1224 = (int)pactor;
 
-    if (tls_005b98a0.enabled)
+    if (g_tlsBlock.conditionFunctionDebug)
         _DebugLog("AI Detection stats printing is  %s",
                   DAT_011f1222 ? "On" : "Off");
 
@@ -47452,11 +46339,6 @@ struct DH : public FUN_00450b40_Class
 };
 
 
-struct TLSData
-{
-    unsigned char padding[0x268];
-    unsigned char debugEnabled;
-};
 
 
 void __cdecl _DebugLog(char const*, ...);
@@ -47499,17 +46381,17 @@ bool FUN_005bfd50(
             reinterpret_cast<::FUN_00471130_shell *>((pfile))->FUN_00471130();
             reinterpret_cast<::FUN_00450b40_Class *>(((*reinterpret_cast<::fnv_005bfd50::DH * *>(&::g_dataHandler))))->FUN_00450b40(0);
 
-            if ((*reinterpret_cast<::fnv_005bfd50::TLSData *>(&::g_tlsBlock)).debugEnabled)
+            if (g_tlsBlock.conditionFunctionDebug)
             {
                 _DebugLog("Closed file '%s'.", pfilename);
             }
         }
-        else if ((*reinterpret_cast<::fnv_005bfd50::TLSData *>(&::g_tlsBlock)).debugEnabled)
+        else if (g_tlsBlock.conditionFunctionDebug)
         {
             _DebugLog("ERR: Could not find file '%s'.", pfilename);
         }
     }
-    else if ((*reinterpret_cast<::fnv_005bfd50::TLSData *>(&::g_tlsBlock)).debugEnabled)
+    else if (g_tlsBlock.conditionFunctionDebug)
     {
         _DebugLog("ERR: No Filename.");
     }
@@ -47736,12 +46618,6 @@ bool __cdecl FUN_005c2500(
 }  // namespace fnv_005c2500
 
 namespace fnv_005c40d0 {
-struct FUN_005c40d0_TLS
-{
-    unsigned char pad[0x268];
-    unsigned char debug;
-};
-
 
 class LodObject
 {
@@ -47767,7 +46643,6 @@ public:
     NiNode* GetNode(bool);
 };
 
-extern unsigned int __tls_index;
 void _DebugLog(const char*);
 
 // @fnv 0x005c40d0
@@ -47786,26 +46661,26 @@ bool FUN_005c40d0(
         if (reinterpret_cast<::FUN_00456630_helper *>((((::fnv_005c40d0::NiNode *)(reinterpret_cast<::FUN_00950bb0_shell *>(((*reinterpret_cast<::fnv_005c40d0::PC_00605d70 * *>(&::_g_thePlayer))))->FUN_00950bb0(false)))))->FUN_00456610())
         {
             reinterpret_cast<::FUN_005c4210Class *>(((*reinterpret_cast<::fnv_005c40d0::PC_00605d70 * *>(&::_g_thePlayer))))->FUN_005c4210(0);
-            if ((*reinterpret_cast<::fnv_005c40d0::FUN_005c40d0_TLS *>(&::g_tlsBlock)).debug)
+            if (g_tlsBlock.conditionFunctionDebug)
                 _DebugLog("Normal 1st person mode.");
         }
         else if (!reinterpret_cast<::FUN_00456630_helper *>((((::fnv_005c40d0::NiNode *)(reinterpret_cast<::FUN_00950bb0_shell *>(((*reinterpret_cast<::fnv_005c40d0::PC_00605d70 * *>(&::_g_thePlayer))))->FUN_00950bb0(true)))))->FUN_00456610())
         {
             reinterpret_cast<::TaskQueueInterface *>((((::fnv_005c40d0::NiNode *)(reinterpret_cast<::FUN_00950bb0_shell *>(((*reinterpret_cast<::fnv_005c40d0::PC_00605d70 * *>(&::_g_thePlayer))))->FUN_00950bb0(true)))))->QueueActorDisarm(true);
-            if ((*reinterpret_cast<::fnv_005c40d0::FUN_005c40d0_TLS *>(&::g_tlsBlock)).debug)
+            if (g_tlsBlock.conditionFunctionDebug)
                 _DebugLog("Normal 3rd person mode.");
         }
         else
         {
             reinterpret_cast<::TaskQueueInterface *>((((::fnv_005c40d0::NiNode *)(reinterpret_cast<::FUN_00950bb0_shell *>(((*reinterpret_cast<::fnv_005c40d0::PC_00605d70 * *>(&::_g_thePlayer))))->FUN_00950bb0(true)))))->QueueActorDisarm(false);
-            if ((*reinterpret_cast<::fnv_005c40d0::FUN_005c40d0_TLS *>(&::g_tlsBlock)).debug)
+            if (g_tlsBlock.conditionFunctionDebug)
                 _DebugLog("Showing 1st and 3rd person models.");
         }
     }
     else
     {
         reinterpret_cast<::FUN_005c4210Class *>(((*reinterpret_cast<::fnv_005c40d0::PC_00605d70 * *>(&::_g_thePlayer))))->FUN_005c4210(1);
-        if ((*reinterpret_cast<::fnv_005c40d0::FUN_005c40d0_TLS *>(&::g_tlsBlock)).debug)
+        if (g_tlsBlock.conditionFunctionDebug)
             _DebugLog("Showing 1st person model in 3rd person camera.");
     }
 
@@ -47996,7 +46871,6 @@ struct FUN_00973460_Standin
 };
 
 
-thread_local unsigned char FUN_005cda20_tls_data[0x269];
 
 void _DebugLog(const char* format, const char* value);
 
@@ -48016,7 +46890,7 @@ bool FUN_005cda20(const ScriptParameter* apParameters,
         *afReturnValue =
             reinterpret_cast<::ActorGroup9734 *>((reinterpret_cast<FUN_00973460_Standin*>(&(*reinterpret_cast<int *>(&::g_011e0e80)))))->FUN_00973460(pactor);
 
-        if ((*reinterpret_cast<unsigned char (*)[617]>(&::g_tlsBlock))[0x268])
+        if (g_tlsBlock.conditionFunctionDebug)
         {
             if (*afReturnValue)
                 _DebugLog(" %s is detected",
@@ -48950,7 +47824,7 @@ bool FUN_005d21e0(
             (unsigned int)(apRefObject),
             (char *)(peffectSetting->model.V5()));
 
-    if ((*reinterpret_cast<unsigned char (*)[617]>(&::g_tlsBlock))[0x268])
+    if (g_tlsBlock.conditionFunctionDebug)
     {
         if (reinterpret_cast<::FUN_0055d520_shell *>((reinterpret_cast<MobileObject*>(apRefObject)))->FUN_0055d520())
             _DebugLog("Visual effect has been removed from %s", reinterpret_cast<::FUN_0055d520_shell *>((reinterpret_cast<MobileObject*>(apRefObject)))->FUN_0055d520());
@@ -48965,7 +47839,6 @@ bool FUN_005d21e0(
 namespace fnv_005d4660 {
 extern int __cdecl __ftol2_sse(double);
 extern void __cdecl _DebugLog(const char*, ...);
-extern thread_local bool __tls_index;
 
 // @fnv 0x005d4660
 bool FUN_005d4660(const ScriptParameter* apParameters,
@@ -49002,7 +47875,7 @@ bool FUN_005d4660(const ScriptParameter* apParameters,
     else
         imaxaniso = 16;
 
-    if (::bConditionFunctionDebug)
+    if (g_tlsBlock.conditionFunctionDebug)
         _DebugLog("Maxaniso set to %d", imaxaniso);
 
     ::DAT_011a9608 = imaxaniso;
@@ -49048,7 +47921,7 @@ bool __cdecl FUN_005d5230(
         return false;
     }
     if (eventId != 0) {
-        reinterpret_cast<::PlayerNoteStub *>(((*reinterpret_cast<::fnv_005d5230::ScriptEventManager * *>(&::_g_thePlayer))))->FUN_00966a70((::NoteStub *)(eventId), ::bConditionFunctionDebug);
+        reinterpret_cast<::PlayerNoteStub *>(((*reinterpret_cast<::fnv_005d5230::ScriptEventManager * *>(&::_g_thePlayer))))->FUN_00966a70((::NoteStub *)(eventId), g_tlsBlock.conditionFunctionDebug);
     }
     return true;
 }
@@ -49204,7 +48077,7 @@ bool __cdecl FUN_005d5780(const ScriptParameter* apParameters,
 
     bsuccess = ::fnv_0097abd0::FUN_0097abd0((char *)(pactionName), fcost);
 
-    if ((*reinterpret_cast<unsigned char (*)[617]>(&::g_tlsBlock))[0x268])
+    if (g_tlsBlock.conditionFunctionDebug)
     {
         if (bsuccess)
             _DebugLog("%s >> %0.2f", pactionName, fcost);
@@ -49690,37 +48563,6 @@ struct ContainerCountStandIn
 {
 };
 
-struct ThreadFlags_005e0100
-{
-    unsigned int unk000, unk004, unk008, unk00c, unk010, unk014;
-    unsigned int unk018, unk01c, unk020, unk024, unk028, unk02c;
-    unsigned int unk030, unk034, unk038, unk03c, unk040, unk044;
-    unsigned int unk048, unk04c, unk050, unk054, unk058, unk05c;
-    unsigned int unk060, unk064, unk068, unk06c, unk070, unk074;
-    unsigned int unk078, unk07c, unk080, unk084, unk088, unk08c;
-    unsigned int unk090, unk094, unk098, unk09c, unk0a0, unk0a4;
-    unsigned int unk0a8, unk0ac, unk0b0, unk0b4, unk0b8, unk0bc;
-    unsigned int unk0c0, unk0c4, unk0c8, unk0cc, unk0d0, unk0d4;
-    unsigned int unk0d8, unk0dc, unk0e0, unk0e4, unk0e8, unk0ec;
-    unsigned int unk0f0, unk0f4, unk0f8, unk0fc, unk100, unk104;
-    unsigned int unk108, unk10c, unk110, unk114, unk118, unk11c;
-    unsigned int unk120, unk124, unk128, unk12c, unk130, unk134;
-    unsigned int unk138, unk13c, unk140, unk144, unk148, unk14c;
-    unsigned int unk150, unk154, unk158, unk15c, unk160, unk164;
-    unsigned int unk168, unk16c, unk170, unk174, unk178, unk17c;
-    unsigned int unk180, unk184, unk188, unk18c, unk190, unk194;
-    unsigned int unk198, unk19c, unk1a0, unk1a4, unk1a8, unk1ac;
-    unsigned int unk1b0, unk1b4, unk1b8, unk1bc, unk1c0, unk1c4;
-    unsigned int unk1c8, unk1cc, unk1d0, unk1d4, unk1d8, unk1dc;
-    unsigned int unk1e0, unk1e4, unk1e8, unk1ec, unk1f0, unk1f4;
-    unsigned int unk1f8, unk1fc, unk200, unk204, unk208, unk20c;
-    unsigned int unk210, unk214, unk218, unk21c, unk220, unk224;
-    unsigned int unk228, unk22c, unk230, unk234, unk238, unk23c;
-    unsigned int unk240, unk244, unk248, unk24c, unk250, unk254;
-    unsigned int unk258, unk25c, unk260, unk264;
-    unsigned char byte268;
-};
-
 void __cdecl DebugLog(const char* apFormat, ...);
 
 // @fnv 0x005e0100
@@ -49738,7 +48580,7 @@ bool __cdecl FUN_005e0100(
     {
         int iCount = reinterpret_cast<::fnv_00575590::Thing *>((apContainer))->FUN_00575590(0, 1);
         afReturnValue = iCount;
-        if ((*reinterpret_cast<::ThreadFlags_005e0100 *>(&::g_tlsBlock)).byte268 != 0)
+        if (g_tlsBlock.conditionFunctionDebug != 0)
         {
             DebugLog("GetContainerInventoryCount >> %i", (int)afReturnValue);
         }
@@ -49763,7 +48605,7 @@ bool __cdecl FUN_005ceb90(
     if (!FUN_005a27e0(thisObject, 0, 0, result))
         return false;
 
-    if ((*reinterpret_cast<::FUN_005d2650_tls *>(&::g_tlsBlock)).bDebug)
+    if (g_tlsBlock.conditionFunctionDebug)
         _DebugLog(&DAT_0103b84c, result);
 
     return true;
@@ -51156,7 +49998,7 @@ bool FUN_005c09c0(const ScriptParameter* p1, const char* p2, TESObjectREFR* a3, 
         return false;
 
     if (a3 != 0 && !(reinterpret_cast<::fnv_00572c80::FUN_00572c80_shell *>((a3))->FUN_00572c80())) {
-        if ((*reinterpret_cast<unsigned char *>(&::bConditionFunctionDebug)) != 0) {
+        if (g_tlsBlock.conditionFunctionDebug != 0) {
             FUN_00703c00("%s cannot be moved.",
                          ((int (*)(TESObjectREFR*))(*(void***)a3)[0x130 / 4])(a3));
         }
@@ -52322,7 +51164,7 @@ bool FUN_005d3f10(const ScriptParameter* paramInfo, const char* arg2, TESObjectR
             }
         }
 
-        if (::bConditionFunctionDebug) {
+        if (g_tlsBlock.conditionFunctionDebug) {
             DebugLog("%s refraction has been set to %f", reinterpret_cast<::FUN_0055d520_shell *>((((RefractionNameAccess*)thisObj)))->FUN_0055d520(), fRefraction);
         }
     }
@@ -52991,7 +51833,7 @@ bool FUN_005d0d30(int p0, int p1, int p2, int p3, int p4, int p5, int p6, int p7
             }
             reinterpret_cast<::S47 *>((((BarterSub_b10016*)((char*)obj2 + 0x30))))->SetValue((unsigned short)wordSlot);
         }
-        if (g_tlsBlock.unk268 != 0) {
+        if (g_tlsBlock.conditionFunctionDebug) {
             FUN_00703c00(" Actor's base barter gold is  %d ",
                 reinterpret_cast<::BSShaderPPLightingProperty *>((((BarterSub_b10016*)((char*)obj2 + 0x30))))->GetDiffuseTextureIndex());
         }
@@ -53226,7 +52068,7 @@ bool FUN_005cc120(const ScriptParameter* apParameters, const char* apCompiledPar
         reinterpret_cast<::FUN_00501b40_shell *>((pNextTerm))->FUN_00501b40((Script*)apRefObject);
         ::SetScriptLockState((Script*)apRefObject, false);
     }
-    if (::bConditionFunctionDebug)
+    if (g_tlsBlock.conditionFunctionDebug)
         DebugLog("Unlocked %s ", reinterpret_cast<::FUN_0055d520_shell *>((((UnlockNameAccess*)apRefObject)))->FUN_0055d520());
     return true;
 }
@@ -53241,7 +52083,7 @@ bool FUN_005ce730(const ScriptParameter* apParameters, const char* apCompiledPar
     Actor* pActor = dynamic_cast<Actor*>(apRefObject);
     if (pActor && ((MiddleHighProcess*)pActor)->ResetAlertState())
         afReturnValue = 1.0;
-    if ((*reinterpret_cast<unsigned char (*)[617]>(&::g_tlsBlock))[0x268])
+    if (g_tlsBlock.conditionFunctionDebug)
         _DebugLog("GetForceRun >> %0.2f", afReturnValue);
     return true;
 }
@@ -53256,166 +52098,6 @@ class GhostActorAccess
 public:
 };
 
-struct GhostCommandTLS
-{
-    unsigned int unk000;
-    unsigned int unk004;
-    unsigned int unk008;
-    unsigned int unk00c;
-    unsigned int unk010;
-    unsigned int unk014;
-    unsigned int unk018;
-    unsigned int unk01c;
-    unsigned int unk020;
-    unsigned int unk024;
-    unsigned int unk028;
-    unsigned int unk02c;
-    unsigned int unk030;
-    unsigned int unk034;
-    unsigned int unk038;
-    unsigned int unk03c;
-    unsigned int unk040;
-    unsigned int unk044;
-    unsigned int unk048;
-    unsigned int unk04c;
-    unsigned int unk050;
-    unsigned int unk054;
-    unsigned int unk058;
-    unsigned int unk05c;
-    unsigned int unk060;
-    unsigned int unk064;
-    unsigned int unk068;
-    unsigned int unk06c;
-    unsigned int unk070;
-    unsigned int unk074;
-    unsigned int unk078;
-    unsigned int unk07c;
-    unsigned int unk080;
-    unsigned int unk084;
-    unsigned int unk088;
-    unsigned int unk08c;
-    unsigned int unk090;
-    unsigned int unk094;
-    unsigned int unk098;
-    unsigned int unk09c;
-    unsigned int unk0a0;
-    unsigned int unk0a4;
-    unsigned int unk0a8;
-    unsigned int unk0ac;
-    unsigned int unk0b0;
-    unsigned int unk0b4;
-    unsigned int unk0b8;
-    unsigned int unk0bc;
-    unsigned int unk0c0;
-    unsigned int unk0c4;
-    unsigned int unk0c8;
-    unsigned int unk0cc;
-    unsigned int unk0d0;
-    unsigned int unk0d4;
-    unsigned int unk0d8;
-    unsigned int unk0dc;
-    unsigned int unk0e0;
-    unsigned int unk0e4;
-    unsigned int unk0e8;
-    unsigned int unk0ec;
-    unsigned int unk0f0;
-    unsigned int unk0f4;
-    unsigned int unk0f8;
-    unsigned int unk0fc;
-    unsigned int unk100;
-    unsigned int unk104;
-    unsigned int unk108;
-    unsigned int unk10c;
-    unsigned int unk110;
-    unsigned int unk114;
-    unsigned int unk118;
-    unsigned int unk11c;
-    unsigned int unk120;
-    unsigned int unk124;
-    unsigned int unk128;
-    unsigned int unk12c;
-    unsigned int unk130;
-    unsigned int unk134;
-    unsigned int unk138;
-    unsigned int unk13c;
-    unsigned int unk140;
-    unsigned int unk144;
-    unsigned int unk148;
-    unsigned int unk14c;
-    unsigned int unk150;
-    unsigned int unk154;
-    unsigned int unk158;
-    unsigned int unk15c;
-    unsigned int unk160;
-    unsigned int unk164;
-    unsigned int unk168;
-    unsigned int unk16c;
-    unsigned int unk170;
-    unsigned int unk174;
-    unsigned int unk178;
-    unsigned int unk17c;
-    unsigned int unk180;
-    unsigned int unk184;
-    unsigned int unk188;
-    unsigned int unk18c;
-    unsigned int unk190;
-    unsigned int unk194;
-    unsigned int unk198;
-    unsigned int unk19c;
-    unsigned int unk1a0;
-    unsigned int unk1a4;
-    unsigned int unk1a8;
-    unsigned int unk1ac;
-    unsigned int unk1b0;
-    unsigned int unk1b4;
-    unsigned int unk1b8;
-    unsigned int unk1bc;
-    unsigned int unk1c0;
-    unsigned int unk1c4;
-    unsigned int unk1c8;
-    unsigned int unk1cc;
-    unsigned int unk1d0;
-    unsigned int unk1d4;
-    unsigned int unk1d8;
-    unsigned int unk1dc;
-    unsigned int unk1e0;
-    unsigned int unk1e4;
-    unsigned int unk1e8;
-    unsigned int unk1ec;
-    unsigned int unk1f0;
-    unsigned int unk1f4;
-    unsigned int unk1f8;
-    unsigned int unk1fc;
-    unsigned int unk200;
-    unsigned int unk204;
-    unsigned int unk208;
-    unsigned int unk20c;
-    unsigned int unk210;
-    unsigned int unk214;
-    unsigned int unk218;
-    unsigned int unk21c;
-    unsigned int unk220;
-    unsigned int unk224;
-    unsigned int unk228;
-    unsigned int unk22c;
-    unsigned int unk230;
-    unsigned int unk234;
-    unsigned int unk238;
-    unsigned int unk23c;
-    unsigned int unk240;
-    unsigned int unk244;
-    unsigned int unk248;
-    unsigned int unk24c;
-    unsigned int unk250;
-    unsigned int unk254;
-    unsigned int unk258;
-    unsigned int unk25c;
-    unsigned int unk260;
-    unsigned int unk264;
-    unsigned char enabled;
-};
-
-thread_local GhostCommandTLS ghostCommandTLS;
 
 void __cdecl _DebugLog(const char* format, ...);
 
@@ -53448,7 +52130,7 @@ bool FUN_005cffb0(
     if (pactor)
         reinterpret_cast<::fnv_008acf10::GhostActor *>((((GhostActorAccess*)pactor)))->FUN_008acf10(ivalue > 0);
 
-    if ((*reinterpret_cast<::GhostCommandTLS *>(&::g_tlsBlock)).enabled)
+    if (g_tlsBlock.conditionFunctionDebug)
         _DebugLog("SetGhost >> %d", ivalue);
 
     return true;
@@ -53557,7 +52239,7 @@ bool FUN_005ce520(const ScriptParameter* apParameters, const char* apCompiledPar
             ::Script::CopyIdentifierBitsToValue(iid, afReturnValue);
         }
     }
-    if (::bConditionFunctionDebug)
+    if (g_tlsBlock.conditionFunctionDebug)
         _DebugLog("GetPackageTarget >> (%08x)", iid);
     return true;
 }
@@ -53908,164 +52590,6 @@ public:
     virtual void Slot534();
     virtual void SetDuration(float);
 };
-
-struct PackageDurationTLS {
-    unsigned int unk000;
-    unsigned int unk004;
-    unsigned int unk008;
-    unsigned int unk00C;
-    unsigned int unk010;
-    unsigned int unk014;
-    unsigned int unk018;
-    unsigned int unk01C;
-    unsigned int unk020;
-    unsigned int unk024;
-    unsigned int unk028;
-    unsigned int unk02C;
-    unsigned int unk030;
-    unsigned int unk034;
-    unsigned int unk038;
-    unsigned int unk03C;
-    unsigned int unk040;
-    unsigned int unk044;
-    unsigned int unk048;
-    unsigned int unk04C;
-    unsigned int unk050;
-    unsigned int unk054;
-    unsigned int unk058;
-    unsigned int unk05C;
-    unsigned int unk060;
-    unsigned int unk064;
-    unsigned int unk068;
-    unsigned int unk06C;
-    unsigned int unk070;
-    unsigned int unk074;
-    unsigned int unk078;
-    unsigned int unk07C;
-    unsigned int unk080;
-    unsigned int unk084;
-    unsigned int unk088;
-    unsigned int unk08C;
-    unsigned int unk090;
-    unsigned int unk094;
-    unsigned int unk098;
-    unsigned int unk09C;
-    unsigned int unk0A0;
-    unsigned int unk0A4;
-    unsigned int unk0A8;
-    unsigned int unk0AC;
-    unsigned int unk0B0;
-    unsigned int unk0B4;
-    unsigned int unk0B8;
-    unsigned int unk0BC;
-    unsigned int unk0C0;
-    unsigned int unk0C4;
-    unsigned int unk0C8;
-    unsigned int unk0CC;
-    unsigned int unk0D0;
-    unsigned int unk0D4;
-    unsigned int unk0D8;
-    unsigned int unk0DC;
-    unsigned int unk0E0;
-    unsigned int unk0E4;
-    unsigned int unk0E8;
-    unsigned int unk0EC;
-    unsigned int unk0F0;
-    unsigned int unk0F4;
-    unsigned int unk0F8;
-    unsigned int unk0FC;
-    unsigned int unk100;
-    unsigned int unk104;
-    unsigned int unk108;
-    unsigned int unk10C;
-    unsigned int unk110;
-    unsigned int unk114;
-    unsigned int unk118;
-    unsigned int unk11C;
-    unsigned int unk120;
-    unsigned int unk124;
-    unsigned int unk128;
-    unsigned int unk12C;
-    unsigned int unk130;
-    unsigned int unk134;
-    unsigned int unk138;
-    unsigned int unk13C;
-    unsigned int unk140;
-    unsigned int unk144;
-    unsigned int unk148;
-    unsigned int unk14C;
-    unsigned int unk150;
-    unsigned int unk154;
-    unsigned int unk158;
-    unsigned int unk15C;
-    unsigned int unk160;
-    unsigned int unk164;
-    unsigned int unk168;
-    unsigned int unk16C;
-    unsigned int unk170;
-    unsigned int unk174;
-    unsigned int unk178;
-    unsigned int unk17C;
-    unsigned int unk180;
-    unsigned int unk184;
-    unsigned int unk188;
-    unsigned int unk18C;
-    unsigned int unk190;
-    unsigned int unk194;
-    unsigned int unk198;
-    unsigned int unk19C;
-    unsigned int unk1A0;
-    unsigned int unk1A4;
-    unsigned int unk1A8;
-    unsigned int unk1AC;
-    unsigned int unk1B0;
-    unsigned int unk1B4;
-    unsigned int unk1B8;
-    unsigned int unk1BC;
-    unsigned int unk1C0;
-    unsigned int unk1C4;
-    unsigned int unk1C8;
-    unsigned int unk1CC;
-    unsigned int unk1D0;
-    unsigned int unk1D4;
-    unsigned int unk1D8;
-    unsigned int unk1DC;
-    unsigned int unk1E0;
-    unsigned int unk1E4;
-    unsigned int unk1E8;
-    unsigned int unk1EC;
-    unsigned int unk1F0;
-    unsigned int unk1F4;
-    unsigned int unk1F8;
-    unsigned int unk1FC;
-    unsigned int unk200;
-    unsigned int unk204;
-    unsigned int unk208;
-    unsigned int unk20C;
-    unsigned int unk210;
-    unsigned int unk214;
-    unsigned int unk218;
-    unsigned int unk21C;
-    unsigned int unk220;
-    unsigned int unk224;
-    unsigned int unk228;
-    unsigned int unk22C;
-    unsigned int unk230;
-    unsigned int unk234;
-    unsigned int unk238;
-    unsigned int unk23C;
-    unsigned int unk240;
-    unsigned int unk244;
-    unsigned int unk248;
-    unsigned int unk24C;
-    unsigned int unk250;
-    unsigned int unk254;
-    unsigned int unk258;
-    unsigned int unk25C;
-    unsigned int unk260;
-    unsigned int unk264;
-    bool bScriptDebugLog;
-};
 void __cdecl DebugLog(const char*, ...);
 
 // @fnv 0x005d1ab0
@@ -54080,7 +52604,7 @@ bool FUN_005d1ab0(const ScriptParameter* apParameters, const char* apCompiledPar
             BaseProcess* pProcess = ((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((void *)(((PackageDurationActorAccess*)pActor)))->GetBaseTexture()));
             ((PackageDurationProcessAccess*)pProcess)->SetDuration(fDuration);
         }
-        if ((*reinterpret_cast<::PackageDurationTLS *>(&::g_tlsBlock)).bScriptDebugLog) {
+        if (g_tlsBlock.conditionFunctionDebug) {
             DebugLog("Package duration is set to  %.02f ", fDuration);
         }
     }
@@ -54170,7 +52694,7 @@ bool __cdecl FUN_005d0c90(const ::ScriptParameter* apParameters, const char* apC
             return false;
     }
 
-    if ((*reinterpret_cast<::fnv_anon_tesscriptfunctions::TLSData *>(&::g_tlsBlock)).bConsoleEcho) {
+    if (g_tlsBlock.conditionFunctionDebug) {
         ::DebugLog("Actor Barter Gold is  %d ",
             reinterpret_cast<::ActorView *>((reinterpret_cast<BarterGoldActorView*>(pactor)))->FUN_00884320());
     }
@@ -54460,7 +52984,7 @@ bool FUN_005d3e30(const ::ScriptParameter* apParameters, const char* apCompiledP
             TESValueForm* pvalue = (TESValueForm*)::_FNV_DynamicCast(pItem, 0, &typeid(::TESObject), &typeid(TESValueForm), 0);
             if (pvalue) {
                 pvalue->SetFormValue(iCount);
-                if ((*reinterpret_cast<::fnv_anon_tesscriptfunctions::TLSData *>(&::g_tlsBlock)).bConsoleEcho)
+                if (g_tlsBlock.conditionFunctionDebug)
                     ::_DebugLog("%s has been set to a VALUE of %i", reinterpret_cast<::FUN_0055d520_shell *>((((::MobileObject*)apRefObject)))->FUN_0055d520(), iCount);
                 FUN_00730690(false);
             }
@@ -55232,7 +53756,7 @@ bool FUN_005bde40(
         {
             pActor->V234(actorValue, value, 0);
         }
-        else if ((*reinterpret_cast<unsigned char (*)[617]>(&::g_tlsBlock))[0x268])
+        else if (g_tlsBlock.conditionFunctionDebug)
         {
             ::DebugLog(
                 "Actor Value '%s' cannot be modified in scripts or the console.",

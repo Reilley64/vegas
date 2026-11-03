@@ -95,6 +95,7 @@
 #include "fnv/symbols_011f6000.h"
 #include "fnv/symbols_0126f000.h"
 #include "fnv/symbols_01272000.h"
+#include "fnv/tls.h"
 #include "tesscript_decls.h"
 #include "fnv/decl/TextString.h"
 // @fnv 0x005ac740
@@ -273,24 +274,14 @@ extern int DAT_011cae50;
 
 bool _ref_008256d0(unsigned int);
 
-struct TLS_Data_005a9140
-{
-    char pad[0x270];
-    ScriptLocalVariable* pLastLocal;
-    unsigned int uiLastID;
-    void* pLastLocals;
-};
-
-thread_local TLS_Data_005a9140 tls_005a9140;
-
 // Looks up a script local variable by ID (using a TLS cache), returns its double value, or warns and returns 0.0 if not found.
 // @fnv 0x005a9140
 double FUN_005a9140_shell::FUN_005a9140(unsigned int auiID, Script* apScript)
 {
     ScriptLocalVariable* plocalvar = 0;
-    if ((*reinterpret_cast<::TLS_Data_005a9140 *>(&::g_tlsBlock)).pLastLocals == this && (*reinterpret_cast<::TLS_Data_005a9140 *>(&::g_tlsBlock)).uiLastID == auiID)
+    if (g_tlsBlock.lastLocalVariableLocals == reinterpret_cast<ScriptLocals*>(this) && g_tlsBlock.lastLocalVariableId == auiID)
     {
-        plocalvar = (*reinterpret_cast<::TLS_Data_005a9140 *>(&::g_tlsBlock)).pLastLocal;
+        plocalvar = g_tlsBlock.lastLocalVariable;
     }
     if (plocalvar == 0)
     {
@@ -306,9 +297,9 @@ double FUN_005a9140_shell::FUN_005a9140(unsigned int auiID, Script* apScript)
             pCurrentElementNext = ((std::uintptr_t)(reinterpret_cast<::Callees *>((pCurrentElementNext))->FUN_00726070()));
         }
     }
-    (*reinterpret_cast<::TLS_Data_005a9140 *>(&::g_tlsBlock)).pLastLocals = this;
-    (*reinterpret_cast<::TLS_Data_005a9140 *>(&::g_tlsBlock)).uiLastID = auiID;
-    (*reinterpret_cast<::TLS_Data_005a9140 *>(&::g_tlsBlock)).pLastLocal = plocalvar;
+    g_tlsBlock.lastLocalVariableLocals = reinterpret_cast<ScriptLocals*>(this);
+    g_tlsBlock.lastLocalVariableId = auiID;
+    g_tlsBlock.lastLocalVariable = plocalvar;
     if (plocalvar != 0)
     {
         return plocalvar->fValue;
@@ -351,8 +342,6 @@ Script::Script()
     InitializeComponent();
 }
 
-extern thread_local char tls_pad[0x268];
-
 // Clears the script's data fields and TLS state, then sets the form type to 0x11.
 // @fnv 0x005aa220
 void FUN_005aa220_shell::ResetScriptData()
@@ -360,7 +349,7 @@ void FUN_005aa220_shell::ResetScriptData()
     memset(&m_kHeader, 0, sizeof(m_kHeader));
     m_data = 0;
     m_pText = 0;
-    ::bConditionFunctionDebug = false;
+    g_tlsBlock.conditionFunctionDebug = false;
     m_pOwnerQuest = 0;
     m_fValueAtOffset34 = 0.0f;
     fValueAtOffset38 = 0.0f;
@@ -689,17 +678,6 @@ struct ScriptLocals_shell : public ScriptLocals
 
 bool _ref_008256d0(void* pList);
 
-struct TLSData
-{
-    char padding[0x27c];
-    ScriptReferencedObject* lastRefObj;
-    unsigned int lastIndex;
-    ScriptLocals* lastLocals;
-    Script* lastScript;
-};
-
-thread_local TLSData g_tlsData;
-
 // Returns the reference at aiIndex in this object's extra-data list, resolving its form ID via the script locals and caching the last result in TLS.
 // @fnv 0x005ac4f0
 ScriptReferencedObject* FUN_005ac4f0_shell::GetNthRefByIndex(unsigned int aiIndex, ScriptLocals* apScriptLocals)
@@ -709,8 +687,8 @@ ScriptReferencedObject* FUN_005ac4f0_shell::GetNthRefByIndex(unsigned int aiInde
     if (aiIndex > this->m_kHeader.m_uiReferenceID)
         return 0;
 
-    if ((*reinterpret_cast<::fnv_005ac4f0::TLSData *>(&::g_tlsBlock)).lastScript == this && (*reinterpret_cast<::fnv_005ac4f0::TLSData *>(&::g_tlsBlock)).lastIndex == aiIndex && (*reinterpret_cast<::fnv_005ac4f0::TLSData *>(&::g_tlsBlock)).lastLocals == apScriptLocals)
-        return (*reinterpret_cast<::fnv_005ac4f0::TLSData *>(&::g_tlsBlock)).lastRefObj;
+    if (g_tlsBlock.lastRefObjectScript == this && g_tlsBlock.lastRefObjectIndex == aiIndex && g_tlsBlock.lastRefObjectLocals == apScriptLocals)
+        return g_tlsBlock.lastRefObject;
 
     void* pList;
     ScriptReferencedObject* pExtraDataEntry;
@@ -739,10 +717,10 @@ ScriptReferencedObject* FUN_005ac4f0_shell::GetNthRefByIndex(unsigned int aiInde
         }
     }
 
-    (*reinterpret_cast<::fnv_005ac4f0::TLSData *>(&::g_tlsBlock)).lastScript = this;
-    (*reinterpret_cast<::fnv_005ac4f0::TLSData *>(&::g_tlsBlock)).lastLocals = apScriptLocals;
-    (*reinterpret_cast<::fnv_005ac4f0::TLSData *>(&::g_tlsBlock)).lastIndex = aiIndex;
-    (*reinterpret_cast<::fnv_005ac4f0::TLSData *>(&::g_tlsBlock)).lastRefObj = pExtraDataEntry;
+    g_tlsBlock.lastRefObjectScript = this;
+    g_tlsBlock.lastRefObjectLocals = apScriptLocals;
+    g_tlsBlock.lastRefObjectIndex = aiIndex;
+    g_tlsBlock.lastRefObject = pExtraDataEntry;
     return pExtraDataEntry;
 }
 }  // namespace fnv_005ac4f0
@@ -891,7 +869,6 @@ bool FUN_005ac1e0_shell::FUN_005ac1e0(TESObjectREFR* ownerObject, ScriptLocals* 
 }
 
 bool _ref_008256d0(unsigned int);
-thread_local void* g_tlsSlot;
 struct RefObj
 {
     char pad[8];
@@ -902,8 +879,8 @@ struct RefObj
 // @fnv 0x005ae2e0
 void FUN_005ae2e0_shell::FUN_005ae2e0()
 {
-    if (g_tlsSlot == (void*)this)
-        g_tlsSlot = 0;
+    if (g_tlsBlock.lastRefObject == (void*)this)
+        g_tlsBlock.lastRefObject = 0;
     void* pCurrentElementNext = ((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((((TESObjectREFR*)this)))->FUN_005d43c0()));
     while (pCurrentElementNext && !_ref_008256d0((unsigned int)pCurrentElementNext))
     {
@@ -1016,15 +993,13 @@ void FUN_005ac730(bool abProcessScripts)
     DAT_0118c685 = abProcessScripts;
 }
 
-thread_local int DAT_tls;
-
 // @fnv 0x005ae270
 void FUN_005ae270()
 {
-    *(int*)((char*)&(*reinterpret_cast<int *>(&::g_tlsBlock)) + 0x288) = 0;
-    *(int*)((char*)&(*reinterpret_cast<int *>(&::g_tlsBlock)) + 0x284) = 0;
-    *(int*)((char*)&(*reinterpret_cast<int *>(&::g_tlsBlock)) + 0x280) = 0xffffffff;
-    *(int*)((char*)&(*reinterpret_cast<int *>(&::g_tlsBlock)) + 0x27c) = 0;
+    g_tlsBlock.lastRefObjectScript = 0;
+    g_tlsBlock.lastRefObjectLocals = 0;
+    g_tlsBlock.lastRefObjectIndex = 0xffffffff;
+    g_tlsBlock.lastRefObject = 0;
 }
 
 struct FUN_00857bd0
@@ -1044,17 +1019,13 @@ void FUN_00857bd0::Init(unsigned int value)
     m_0x14 += value;
 }
 
-thread_local int tlsVar1;
-thread_local int tlsVar2 = -1;
-thread_local int tlsVar3;
-
-// Resets the three thread-local variables to 0, -1 and 0.
+// Resets the script local variable lookup cache.
 // @fnv 0x005a9d60
 void FUN_005a9d60()
 {
-    tlsVar1 = 0;
-    tlsVar2 = -1;
-    tlsVar3 = 0;
+    g_tlsBlock.lastLocalVariable = 0;
+    g_tlsBlock.lastLocalVariableId = 0xffffffff;
+    g_tlsBlock.lastLocalVariableLocals = 0;
 }
 
 namespace fnv_005aa6d0 {
@@ -1744,7 +1715,6 @@ class AutoMemHelper
 };
 
 extern int __tls_index;
-thread_local unsigned char FUN_005ac400_tls[0x269];
 
 struct ScriptCompileAndRun
 {
@@ -1763,7 +1733,7 @@ void ScriptCompileAndRun::FUN_005ac400(ScriptCompiler* compiler, COMPILER_NAME c
         ((Script*)this)->m_kHeader.dataSize != 0)
     {
         if (compilerIndex == 1)
-            (*reinterpret_cast<unsigned char (*)[617]>(&::g_tlsBlock))[0x268] = 1;
+            g_tlsBlock.conditionFunctionDebug = true;
 
         ScriptLocals* ownerVars = 0;
         if (ownerObject != 0)
@@ -1771,7 +1741,7 @@ void ScriptCompileAndRun::FUN_005ac400(ScriptCompiler* compiler, COMPILER_NAME c
 
         reinterpret_cast<::FUN_005ac1e0_shell *>((((Script*)this)))->FUN_005ac1e0(ownerObject, ownerVars, 0, true);
 
-        (*reinterpret_cast<unsigned char (*)[617]>(&::g_tlsBlock))[0x268] = 0;
+        g_tlsBlock.conditionFunctionDebug = false;
     }
 }
 

@@ -290,7 +290,6 @@ class HavokArrayUtilities
   public:
     template <typename T> static __forceinline void construct(T* t, int n, hkTypeIsPod);
     template <typename T> static __forceinline void destruct(T* t, int n, hkTypeIsPod);
-    static void __cdecl FUN_00c908c0(hkMemoryAllocator& a, void*, int reqElem, int sizeElem);
 };
 template <typename T> __forceinline void HavokArrayUtilities::destruct(T* t, int n, hkTypeIsPod)
 {}
@@ -320,7 +319,7 @@ template <typename T> class HavokElementArray
     __forceinline int getCapacity() const;
     __forceinline void clear();
     __forceinline void _clearAndDeallocate(hkMemoryAllocator& alloc);
-    __forceinline void FUN_00c908c0(hkMemoryAllocator& alloc, int n);
+    __forceinline void reserve(hkMemoryAllocator& alloc, int n);
     __forceinline void _setSize(hkMemoryAllocator& alloc, int size);
 
   protected:
@@ -376,7 +375,7 @@ template <typename T> __forceinline int HavokElementArray<T>::getCapacity() cons
 {
     return (m_iCapacityState & static_cast<int>(CAPACITY_MASK));
 }
-template <typename T> __forceinline void HavokElementArray<T>::FUN_00c908c0(hkMemoryAllocator& alloc, int n)
+template <typename T> __forceinline void HavokElementArray<T>::reserve(hkMemoryAllocator& alloc, int n)
 {
     const int capacity = getCapacity();
     if (capacity < n)
@@ -411,7 +410,7 @@ template <typename T> __forceinline void HavokElementArray<T>::_clearAndDealloca
 }
 template <typename T> __forceinline void HavokElementArray<T>::_setSize(hkMemoryAllocator& alloc, int n)
 {
-    FUN_00c908c0(alloc, n);
+    reserve(alloc, n);
     m_iElementCount = n;
 }
 template <typename T, typename Allocator> __forceinline hkArray<T, Allocator>::~hkArray()

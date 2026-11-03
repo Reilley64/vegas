@@ -201,7 +201,7 @@ void RegionSaveShell::WriteRegionSaveChunk()
         pPairs = new SavePair[count];
         while (pNode)
         {
-            SaveObj* pObj = *((::SaveObj **)(new ((void *)(pNode)) ::Vec3()));
+            SaveObj* pObj = *((::SaveObj **)((void *)(pNode)));
             if (pObj)
             {
                 pPairs[uiIndex].form = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((NamedForm*)pObj->GetObj())))->FUN_0084e3a0()));

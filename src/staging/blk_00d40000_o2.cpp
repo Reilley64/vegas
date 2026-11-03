@@ -209,21 +209,32 @@ void __cdecl FUN_00d49580(FUN_00d49580_vtbl* p)
 extern int DAT_010ce31c;
 extern int DAT_010cfb34;
 
-// @fnv 0x00d495a0
-void __cdecl FUN_00d495a0(int* pObject, int b)
+struct D495A0Object
 {
+    void* m_pVtable;
+    int unk04;
+    int unk08;
+    int m_iType;
+    char pad10[0xd];
+    unsigned char m_1d;
+};
+
+// @fnv 0x00d495a0
+void __cdecl FUN_00d495a0(int* piObject, int b)
+{
+    D495A0Object* pObject = reinterpret_cast<D495A0Object*>(piObject);
     if (pObject)
     {
-        *(void**)pObject = (void*)&(*reinterpret_cast<int *>(&::DAT_010305a8));
+        pObject->m_pVtable = (void*)&(*reinterpret_cast<int *>(&::DAT_010305a8));
         if (b)
-            pObject[3] = 0;
-        pObject[3] = 0x19;
-        *(void**)pObject = (void*)&DAT_010ce31c;
+            pObject->m_iType = 0;
+        pObject->m_iType = 0x19;
+        pObject->m_pVtable = (void*)&DAT_010ce31c;
         if (b)
-            pObject[3] = 0xd;
-        *(void**)pObject = (void*)&DAT_010cfb34;
+            pObject->m_iType = 0xd;
+        pObject->m_pVtable = (void*)&DAT_010cfb34;
         if (b)
-            ((char*)pObject)[0x1d] = 0;
+            pObject->m_1d = 0;
     }
 }
 
@@ -348,6 +359,17 @@ const char* const* __cdecl FUN_00d4bf60()
     return &(*reinterpret_cast<const char *const *>(&::g_01268f2c));
 }
 
+struct D4FE40Mid
+{
+    char pad00[0x1c];
+    float* m_pfValues;
+};
+struct D4FE40Item
+{
+    char pad00[0x30];
+    D4FE40Mid* m_pMid;
+};
+
 struct FUN_00d4fe40_cls
 {
     char pad[0xa2];
@@ -362,12 +384,13 @@ void FUN_00d4fe40_cls::FUN_00d4fe40(void* apObject, bool abFlag)
 {
     b0 = abFlag;
     b1 = !abFlag;
-    if (apObject)
+    D4FE40Item* pItem = static_cast<D4FE40Item*>(apObject);
+    if (pItem)
     {
-        void* p = *(void**)((char*)apObject + 0x30);
+        D4FE40Mid* p = pItem->m_pMid;
         if (p)
         {
-            float* f = (float*)*(void**)((char*)p + 0x1c);
+            float* f = p->m_pfValues;
             if (f)
             {
                 float fZero = 0.0f;
@@ -3671,15 +3694,24 @@ struct Sh00cb0c00
 {
 };
 
+// hkRootLevelContainer::NamedVariant: two hkStringPtr names, then the variant object.
+struct D47FA0Variant
+{
+    Sh00cb0c00* m_name;
+    Sh00cb0c00* m_className;
+    void* m_object;
+};
+
 // @fnv 0x00d47fa0
 void __cdecl FUN_00d47fa0(void* obj)
 {
-    void** ref = (void**)((char*)obj + 8);
+    D47FA0Variant* variant = static_cast<D47FA0Variant*>(obj);
+    void** ref = &variant->m_object;
     if (*ref)
         reinterpret_cast<::hkReferencedObjectC905 *>((((Sh00c905b0*)*ref)))->FUN_00c905b0();
     *ref = 0;
-    ::FUN_00cb0c00((intptr_t)(((Sh00cb0c00*)((char*)obj + 4))));
-    ::FUN_00cb0c00((intptr_t)(((Sh00cb0c00*)obj)));
+    ::FUN_00cb0c00((intptr_t)(&variant->m_className));
+    ::FUN_00cb0c00((intptr_t)(&variant->m_name));
 }
 
 struct FUN_00d47fe0_cls
@@ -4835,11 +4867,15 @@ class hkpShapeContainerD53
     virtual void v00();
 };
 
-class hkpListShapeD53
+class hkpListShapeHeadD53
 {
   public:
-    unsigned int unk00;
-    hkpShapeContainerD53 m_kContainer;
+    virtual void v00();
+};
+
+class hkpListShapeD53 : public hkpListShapeHeadD53, public hkpShapeContainerD53
+{
+  public:
     unsigned int unk08;
     unsigned int unk0c;
     unsigned int unk10;
@@ -4854,7 +4890,7 @@ class bhkListShapeD53 : public NiObjectD53
 
 inline hkpListShapeD53* ToListShapeD53(hkpShapeContainerD53* pkContainer)
 {
-    return pkContainer ? reinterpret_cast<hkpListShapeD53*>(reinterpret_cast<char*>(pkContainer) - 4) : 0;
+    return static_cast<hkpListShapeD53*>(pkContainer);
 }
 
 // @fnv 0x00d53a80
@@ -5132,10 +5168,12 @@ struct D502D0_RefData
 {
     unsigned int m_uiFilterValue;
 };
-struct D502D0_RefObject
+struct D502D0_RefObjectHead
 {
     void* m_pVtable;
-    D502D0_RefData m_data;
+};
+struct D502D0_RefObject : D502D0_RefObjectHead, D502D0_RefData
+{
     unsigned int m_uiRefCount;
     unsigned int m_uiValue1;
     unsigned int m_uiReserved;
@@ -5145,7 +5183,7 @@ static __forceinline D502D0_RefData* D502D0_CreateReference()
     D502D0_RefObject* object = reinterpret_cast<D502D0_RefObject*>(reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::D502D0_Allocator *>(&::g_memoryManager))))->FUN_00aa3e40(sizeof(D502D0_RefObject)));
     if (object)
     {
-        D502D0_RefData* data = &object->m_data;
+        D502D0_RefData* data = object;
         object->m_uiRefCount = 1;
         object->m_uiValue1 = 0;
         object->m_uiReserved = 0;
@@ -5172,7 +5210,7 @@ D502D0_RefData* D502D0_Owner::EnsureReference(bool* created)
         D502D0_RefData* data = D502D0_CreateReference();
         m_pData = data;
         if (m_flag08)
-            reinterpret_cast<::FUN_00c89c80_obj *>(this)->CopyFromSource((uintptr_t)(data ? reinterpret_cast<D502D0_RefObject*>(reinterpret_cast<char*>(data) - 4) : 0));
+            reinterpret_cast<::FUN_00c89c80_obj *>(this)->CopyFromSource((uintptr_t)(static_cast<D502D0_RefObject*>(data)));
     }
     return m_pData;
 }
@@ -5444,13 +5482,20 @@ struct FUN_00dd0530
     }
     static void operator delete(void*);
 };
-struct Input
+struct InputHead
 {
     unsigned int unk00;
+};
+// The part of Input that FUN_00d533e0 receives a pointer to.
+struct InputPart
+{
     int value;
     unsigned int unk08, unk0c, unk10;
     ::hkReferencedObjectDD04** items;
     int count;
+};
+struct Input : InputHead, InputPart
+{
 };
 struct Target
 {
@@ -5510,7 +5555,7 @@ void Target::FUN_00d533e0(void* arg)
 {
     FUN_00dd0530* p;
     ScopedMemoryContextD53 context(16);
-    Input* input = arg ? (Input*)((char*)arg - 4) : 0;
+    Input* input = static_cast<Input*>(static_cast<InputPart*>(arg));
     int value = input->value;
     p = new FUN_00dd0530(value);
     for (int i = 0; i < input->count; ++i)

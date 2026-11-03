@@ -15,6 +15,7 @@ add_library(game STATIC
   src/fileformat/compression.cpp
   src/fileformat/plugin_header.cpp
   src/runtime/crt.cpp
+  src/runtime/tls.cpp
 )
 target_include_directories(game PUBLIC src)
 target_link_libraries(game PRIVATE ZLIB::ZLIBSTATIC)

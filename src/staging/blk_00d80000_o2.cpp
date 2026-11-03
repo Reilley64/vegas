@@ -110,25 +110,32 @@ struct FUN_00d85300_Stub {
 struct FUN_00d85a20_Stub : FUN_00d85300_Stub {
     int* CopyStateFrom(int* p);
 };
+// The state FUN_00d85a20 copies after the base part (FUN_00d85300 copies up to 0x90).
+struct D85A20State {
+    char pad00[0x90];
+    int m_ai90[15];
+};
 // @fnv 0x00d85a20
 int* FUN_00d85a20_Stub::CopyStateFrom(int* p)
 {
     reinterpret_cast<::StandinClass *>(this)->FUN_00d85300((const ::StandinClass *)(p));
-    *(int*)((char*)this + 0x90) = *(int*)((char*)p + 0x90);
-    *(int*)((char*)this + 0x94) = *(int*)((char*)p + 0x94);
-    *(int*)((char*)this + 0x98) = *(int*)((char*)p + 0x98);
-    *(int*)((char*)this + 0x9c) = *(int*)((char*)p + 0x9c);
-    *(int*)((char*)this + 0xa0) = *(int*)((char*)p + 0xa0);
-    *(int*)((char*)this + 0xa4) = *(int*)((char*)p + 0xa4);
-    *(int*)((char*)this + 0xa8) = *(int*)((char*)p + 0xa8);
-    *(int*)((char*)this + 0xac) = *(int*)((char*)p + 0xac);
-    *(int*)((char*)this + 0xb0) = *(int*)((char*)p + 0xb0);
-    *(int*)((char*)this + 0xb4) = *(int*)((char*)p + 0xb4);
-    *(int*)((char*)this + 0xb8) = *(int*)((char*)p + 0xb8);
-    *(int*)((char*)this + 0xbc) = *(int*)((char*)p + 0xbc);
-    *(int*)((char*)this + 0xc0) = *(int*)((char*)p + 0xc0);
-    *(int*)((char*)this + 0xc4) = *(int*)((char*)p + 0xc4);
-    *(int*)((char*)this + 0xc8) = *(int*)((char*)p + 0xc8);
+    D85A20State* dst = reinterpret_cast<D85A20State*>(this);
+    const D85A20State* src = reinterpret_cast<const D85A20State*>(p);
+    dst->m_ai90[0] = src->m_ai90[0];
+    dst->m_ai90[1] = src->m_ai90[1];
+    dst->m_ai90[2] = src->m_ai90[2];
+    dst->m_ai90[3] = src->m_ai90[3];
+    dst->m_ai90[4] = src->m_ai90[4];
+    dst->m_ai90[5] = src->m_ai90[5];
+    dst->m_ai90[6] = src->m_ai90[6];
+    dst->m_ai90[7] = src->m_ai90[7];
+    dst->m_ai90[8] = src->m_ai90[8];
+    dst->m_ai90[9] = src->m_ai90[9];
+    dst->m_ai90[10] = src->m_ai90[10];
+    dst->m_ai90[11] = src->m_ai90[11];
+    dst->m_ai90[12] = src->m_ai90[12];
+    dst->m_ai90[13] = src->m_ai90[13];
+    dst->m_ai90[14] = src->m_ai90[14];
     return (int*)this;
 }
 
@@ -152,6 +159,9 @@ public:
     unsigned int unk10;
     unsigned int unk14;
     FNVDispatchNode* m_18;
+    unsigned int unk1C;
+    char m_ac20[0x30];
+    char m_c50;
 };
 
 // @fnv 0x00d84ca0
@@ -161,11 +171,11 @@ char* GetDispatchTarget(FNVDispatchNode* pNode)
     while (idx <= 0xf) {
         switch (idx) {
         case 0:
-            return (char*)pNode + 0x20;
+            return pNode->m_ac20;
         case 1:
-            return (char*)pNode + 0x50;
+            return &pNode->m_c50;
         case 2:
-            return (char*)pNode + 0x50;
+            return &pNode->m_c50;
         case 3:
             return &(*reinterpret_cast<char *>(&::DAT_01267e30));
         case 4:
@@ -173,13 +183,13 @@ char* GetDispatchTarget(FNVDispatchNode* pNode)
         case 5:
             return &(*reinterpret_cast<char *>(&::DAT_01267e30));
         case 6:
-            return (char*)pNode + 0x50;
+            return &pNode->m_c50;
         case 7:
-            return (char*)pNode + 0x50;
+            return &pNode->m_c50;
         case 8:
-            return (char*)pNode + 0x20;
+            return pNode->m_ac20;
         case 9:
-            return (char*)pNode + 0x50;
+            return &pNode->m_c50;
         case 10:
             return &(*reinterpret_cast<char *>(&::DAT_01267e30));
         case 11:
@@ -191,9 +201,9 @@ char* GetDispatchTarget(FNVDispatchNode* pNode)
             pNode = ((::FNVDispatchNode *)(reinterpret_cast<::FUN_00cdf6d0_t *>((pNode))->FUN_00cdf6d0()));
             break;
         case 14:
-            return (char*)pNode + 0x50;
+            return &pNode->m_c50;
         case 15:
-            return (char*)pNode + 0x20;
+            return pNode->m_ac20;
         default:
             return &(*reinterpret_cast<char *>(&::DAT_01267e30));
         }
@@ -248,7 +258,7 @@ FUN_00d85360_cls* __cdecl FUN_00d85360(intptr_t pSource)
     FUN_00d85360_cls* obj = (FUN_00d85360_cls*)holder->m_pAllocator->Alloc(0x50);
     obj->m_w04 = 0x50;
     obj = ((::FUN_00d85360_cls *)(new ((void *)(obj)) ::FUN_00d54290()));
-    FUN_00cb1260((char*)&obj->m_i10, (char*)pSource + 0x10, 0x38);
+    FUN_00cb1260((char*)&obj->m_i10, (char*)&((FUN_00d85360_cls*)pSource)->m_i10, 0x38);
     return obj;
 }
 
@@ -324,7 +334,7 @@ FUN_00d853a0_cls* __cdecl FUN_00d853a0(intptr_t a1)
     FUN_00d853a0_cls* obj = (FUN_00d853a0_cls*)holder->m_pAllocator->Alloc(0xb0);
     obj->m_w04 = 0xb0;
     obj = ((::fnv_00d853a0::FUN_00d853a0_cls *)(reinterpret_cast<::S00cbe7b0_Obj *>((obj))->FUN_00cbe7b0()));
-    FUN_00cb1260((char*)&obj->m_i10, (char*)a1 + 0x10, 0x9c);
+    FUN_00cb1260((char*)&obj->m_i10, (char*)&((FUN_00d853a0_cls*)a1)->m_i10, 0x9c);
     return obj;
 }
 }  // namespace fnv_00d853a0
@@ -342,6 +352,7 @@ struct ObjD853 {
     void* m_vtbl;
     unsigned short m_usSize;
     char pad006[0x0a];
+    char m_ac10[0xcc];
 };
 
 // @fnv 0x00d853f0
@@ -352,7 +363,7 @@ ObjD853* __cdecl FUN_00d853f0(char* pSource)
     ObjD853* pObj = (ObjD853*)pAllocator->Alloc(0xe0);
     pObj->m_usSize = 0xe0;
     ObjD853* pResult = ((::fnv_00d853f0::ObjD853 *)(new ((void *)(pObj)) ::FUN_00cb9090()));
-    FUN_00cb1260((char*)pResult + 0x10, pSource + 0x10, 0xcc);
+    FUN_00cb1260(pResult->m_ac10, reinterpret_cast<ObjD853*>(pSource)->m_ac10, 0xcc);
     return pResult;
 }
 }  // namespace fnv_00d853f0
@@ -460,7 +471,7 @@ void* __cdecl CloneAllocatedObject(int* source)
 
     FUN_00cb1260(
         reinterpret_cast<unsigned char*>(&result->unk10),
-        reinterpret_cast<const unsigned char*>(source) + 0x10,
+        reinterpret_cast<const unsigned char*>(&reinterpret_cast<FUN_00d4fe80_Stub*>(source)->unk10),
         0xC0);
 
     return result;
@@ -707,7 +718,7 @@ FUN_00d85570_cls* __cdecl CloneWithInit(intptr_t apSource)
     FUN_00d85570_cls* obj = (FUN_00d85570_cls*)holder->m_pAllocator->Alloc(0x160);
     obj->m_w04 = 0x160;
     obj = ((::fnv_00d85570::FUN_00d85570_cls *)(new ((void *)(obj)) ::FUN_00d4edc0()));
-    FUN_00cb1260((char*)&obj->m_i10, (char*)apSource + 0x10, 0x124);
+    FUN_00cb1260((char*)&obj->m_i10, (char*)&((FUN_00d85570_cls*)apSource)->m_i10, 0x124);
     return obj;
 }
 }  // namespace fnv_00d85570
@@ -729,6 +740,8 @@ struct FUN_00d855c0_Manager {
 struct FUN_00d855c0_Data {
     int unk00;
     unsigned short unk04;
+    char pad06[0x0a];
+    unsigned char m_ac10[0x94];
 };
 
 extern "C" void* FUN_00d84bd0(void* object);
@@ -744,8 +757,8 @@ void* __cdecl CloneDataBlock(void* source)
 
     void* result = FUN_00d84bd0(data);
     FUN_00cb1260(
-        static_cast<unsigned char*>(result) + 0x10,
-        static_cast<unsigned char*>(source) + 0x10,
+        static_cast<FUN_00d855c0_Data*>(result)->m_ac10,
+        static_cast<FUN_00d855c0_Data*>(source)->m_ac10,
         0x94);
 
     return result;
@@ -812,7 +825,7 @@ FUN_00d85610_cls* __cdecl CloneWithCopiedPayload(intptr_t apSource)
     FUN_00d85610_cls* obj = (FUN_00d85610_cls*)holder->m_pAllocator->Alloc(0x80);
     obj->m_w04 = 0x80;
     obj = ((::fnv_00d85610::FUN_00d85610_cls *)(new ((void *)(obj)) ::FUN_00deefd0()));
-    FUN_00cb1260((char*)&obj->m_i10, (char*)apSource + 0x10, 0x70);
+    FUN_00cb1260((char*)&obj->m_i10, (char*)&((FUN_00d85610_cls*)apSource)->m_i10, 0x70);
     return obj;
 }
 }  // namespace fnv_00d85610
@@ -892,7 +905,7 @@ FUN_00d856b0_cls* __cdecl CloneWithAllocatedCopy(intptr_t apSource)
     FUN_00d856b0_cls* obj = (FUN_00d856b0_cls*)holder->m_pAllocator->Alloc(0xc0);
     obj->m_w04 = 0xc0;
     obj = ((::fnv_00d856b0::FUN_00d856b0_cls *)(new ((void *)(obj)) ::FUN_00d4f2a0()));
-    FUN_00cb1260((char*)&obj->m_i10, (char*)apSource + 0x10, 0xac);
+    FUN_00cb1260((char*)&obj->m_i10, (char*)&((FUN_00d856b0_cls*)apSource)->m_i10, 0xac);
     return obj;
 }
 }  // namespace fnv_00d856b0
@@ -2692,41 +2705,6 @@ int S00d881a0_Wrap(void* p)
     return FUN_00d881a0(p, 0, 0, 0, 0);
 }
 
-static unsigned char* S00d96870_outp;
-
-// Fills the block at out+0x10 from src and self fields, then sets *self from self+0x6c, clears *out, and sets out[0x12] to 1.
-// @fnv 0x00d96870
-static __declspec(noinline) void FUN_00d96870(unsigned char* self, int* src, unsigned char* out)
-{
-    unsigned char* dst = out + 0x10;
-    if (dst) {
-        int v68 = *(int*)(self + 0x68);
-        dst[0] = 4;
-        dst[1] = 0;
-        dst[2] = 1;
-        _ReadWriteBarrier();
-        short w = 0x30;
-        *(short*)(dst + 4) = w;
-        w = -1;
-        *(short*)(dst + 6) = w;
-        *(unsigned short*)(dst + 0x10) = *(unsigned short*)((unsigned char*)src + 0x10);
-        *(int*)(dst + 0x14) = *(int*)((unsigned char*)src + 0x14);
-        *(int*)(dst + 0x18) = *(int*)((unsigned char*)src + 0x18);
-        *(int*)(dst + 0x1c) = *(int*)((unsigned char*)src + 0x1c);
-        *(int*)(dst + 0x24) = *(int*)(self + 0x4c);
-        unsigned char flag = *(unsigned char*)(self + 0x58);
-        *(int*)(dst + 0x20) = v68;
-        *(unsigned char*)(dst + 0x28) = flag;
-    }
-    *(int*)self = *(int*)(self + 0x6c);
-    *(int*)out = 0;
-    *(unsigned char*)(out + 0x12) = 1;
-}
-
-void S00d96870_Entry(unsigned char* self, int* src)
-{
-    FUN_00d96870(self, src, S00d96870_outp);
-}
 
 
 struct D99FC0Quad { int a; int b; int c; int d; };
@@ -2953,7 +2931,9 @@ public:
     int unk10;
     int unk14;
     ShapeD84D* m_pkChild;
-
+    char pad1c[0x14];
+    char m_ac30[0x60];
+    char m_c90;
 };
 
 // Returns a pointer to shape data based on the shape type, following child shapes for types 12 and 13.
@@ -2963,11 +2943,11 @@ void* __cdecl GetShapeData(ShapeD84D* pkShape)
     for (unsigned int t = pkShape->getType(); t <= 15; t = pkShape->getType()) {
         switch (t) {
         case 0:
-            return (char*)pkShape + 0x30;
+            return pkShape->m_ac30;
         case 1:
-            return (char*)pkShape + 0x90;
+            return &pkShape->m_c90;
         case 2:
-            return (char*)pkShape + 0x90;
+            return &pkShape->m_c90;
         case 3:
             return &(*reinterpret_cast<char *>(&::DAT_01267e30));
         case 4:
@@ -2975,13 +2955,13 @@ void* __cdecl GetShapeData(ShapeD84D* pkShape)
         case 5:
             return &(*reinterpret_cast<char *>(&::DAT_01267e30));
         case 6:
-            return (char*)pkShape + 0x90;
+            return &pkShape->m_c90;
         case 7:
-            return (char*)pkShape + 0x90;
+            return &pkShape->m_c90;
         case 8:
-            return (char*)pkShape + 0x30;
+            return pkShape->m_ac30;
         case 9:
-            return (char*)pkShape + 0x90;
+            return &pkShape->m_c90;
         case 10:
             return &(*reinterpret_cast<char *>(&::DAT_01267e30));
         case 11:
@@ -2993,9 +2973,9 @@ void* __cdecl GetShapeData(ShapeD84D* pkShape)
             pkShape = ((::ShapeD84D *)(reinterpret_cast<::FUN_00cdf6d0_t *>((pkShape))->FUN_00cdf6d0()));
             break;
         case 14:
-            return (char*)pkShape + 0x90;
+            return &pkShape->m_c90;
         case 15:
-            return (char*)pkShape + 0x30;
+            return pkShape->m_ac30;
         }
     }
     return &(*reinterpret_cast<char *>(&::DAT_01267e30));
@@ -3635,7 +3615,10 @@ inline CreateFuncD923 hkpCollisionDispatcherD923::findCreateFunc(const hkpCdBody
     return m_agent2Funcs[agentType].m_pCreateFunc;
 }
 
-// Creates a collision agent via the dispatcher's create function, stores it in freeMemory, and returns a pointer to the agent data at offset 16.
+// The 16-byte agent data slot: the agent pointer, then the next slot.
+struct alignas(16) D923AgentSlot { hkpCollisionAgentD923* m_pAgent; };
+
+// Creates a collision agent via the dispatcher's create function, stores it in freeMemory, and returns a pointer to the agent data in the next slot.
 // @fnv 0x00d92300
 hkpAgentDataD923* __cdecl CreateAgent(const hkpAgent3InputD923& input,
                                        hkpAgentEntryD923* apAgentEntry,
@@ -3649,9 +3632,10 @@ hkpAgentDataD923* __cdecl CreateAgent(const hkpAgent3InputD923& input,
     hkpCollisionDispatcherD923* pDispatcher = in->m_pCollisionDispatcher;
     CreateFuncD923 f = pDispatcher->findCreateFunc(*bodyA, *bodyB, *in);
     hkpCollisionAgentD923* agent = f(*bodyA, *bodyB, *in, pContactMgr);
-    *reinterpret_cast<hkpCollisionAgentD923**>(freeMemory) = agent;
+    D923AgentSlot* pSlot = reinterpret_cast<D923AgentSlot*>(freeMemory);
+    pSlot->m_pAgent = agent;
     apAgentEntry->m_usNumContactPoints = 0xff;
-    return reinterpret_cast<hkpAgentDataD923*>(reinterpret_cast<char*>(freeMemory) + 16);
+    return reinterpret_cast<hkpAgentDataD923*>(pSlot + 1);
 }
 
 struct CleanupAllocator {
@@ -3808,6 +3792,8 @@ struct S00d944d0_Ent12 {
 
 struct S00d944d0_Sub {
     int unk00;
+    char pad004[0x1dc];
+    char m_kSolverInfo;
 };
 
 struct S00d944d0_Obj {
@@ -3853,7 +3839,7 @@ void __cdecl FUN_00d944d0(S00d944d0_Obj* apObj, S00d944d0_Arg1* a2,
         stream->m_cur = (char*)(entry + 1);
     }
 
-    FUN_00d89ed0((char*)apObj->m_sub + 0x1e0,
+    FUN_00d89ed0(&apObj->m_sub->m_kSolverInfo,
                  a3->m_20, a3->m_24);
 
     stream = (S00d944d0_Stream*)TlsGetValue(DAT_0126835c);
@@ -4154,12 +4140,12 @@ void __cdecl FUN_00d94570(Fnv94570_Obj** a1, void* a2, Fnv94570_Ctx* apCtx)
         _ReadWriteBarrier();
         count = (int)(blocks / 16u);
         if (count > 0) {
-            p = (int*)d10 + 2;
+            p = (int*)d10;
             do {
-                p[-2] = 0;
-                p[-1] = 0;
                 p[0] = 0;
                 p[1] = 0;
+                p[2] = 0;
+                p[3] = 0;
                 p += 4;
             } while (--count != 0);
         }
@@ -4491,7 +4477,7 @@ struct Ev30 {
     int m_1c;
     union { M20* m_20; unsigned short w20; intptr_t i20; };
     int m_24;
-    union { int m_28; M20* ptr28; };
+    union { int m_28; M20* ptr28; unsigned char b28; };
     union { Sub* m_2c; int i2c; unsigned char b2c; };
 };
 
@@ -4637,6 +4623,35 @@ struct Stage1 : Ev { __forceinline Stage1(Ev* ev, State* s){
                     this->m_24 = s->m_34;
                 
 } };
+// Fills the event at out->m_kEvent from src and self fields, then sets self->ref from self->m_6c, clears out->m_00, and sets out->m_kEvent.b02 to 1.
+// @fnv 0x00d96870
+static __declspec(noinline) void FUN_00d96870(State* self, Ev* src, Out* out)
+{
+    Ev* dst = &out->m_kEvent;
+    if (dst) {
+        int v68 = self->unk68;
+        dst->type = 4;
+        dst->b01 = 0;
+        dst->b02 = 1;
+        _ReadWriteBarrier();
+        short w = 0x30;
+        dst->w04 = w;
+        w = -1;
+        dst->w06 = w;
+        dst->w10 = src->w10;
+        dst->m_14 = src->m_14;
+        dst->m_18 = src->m_18;
+        dst->m_1c = src->m_1c;
+        dst->m_24 = self->unk4c;
+        unsigned char flag = self->m_58;
+        dst->i20 = v68;
+        dst->b28 = flag;
+    }
+    self->ref = self->m_6c;
+    out->m_00 = 0;
+    out->m_kEvent.b02 = 1;
+}
+
 // Dispatches on ev->type, decrements the State reference count, and constructs the next event in out->m_kEvent when the count reaches zero.
 // @fnv 0x00d969e0
 int __cdecl FUN_00d969e0(A0Cls* a0, ::PoolSet* a1, Ev* apEvent, Out* out)
@@ -4653,13 +4668,13 @@ int __cdecl FUN_00d969e0(A0Cls* a0, ::PoolSet* a1, Ev* apEvent, Out* out)
                 out->m_00 = 0;
                 return 0;
             } else {
-                FUN_00d96870((unsigned char*)s, (int*)apEvent, (unsigned char*)out);
+                FUN_00d96870(s, apEvent, out);
                 return 0;
             }
         }
         goto Fail;
     case 3: { EmptyScope scope;
-        FUN_00d96870((unsigned char*)s, (int*)apEvent, (unsigned char*)out);
+        FUN_00d96870(s, apEvent, out);
         return 0;
         goto Fail;
     }
@@ -4799,7 +4814,7 @@ ReturnZero:
     case 11: {
         if (apEvent->m_38 <= 5)
             s->m_08 = 0;
-        result = (int)(((unsigned int)(unsigned short)apEvent->m_34 - 1) >> 7) + 1;
+        result = (int)(((unsigned int)apEvent->w34 - 1) >> 7) + 1;
 ProcessAmount:
         _ReadWriteBarrier();
         int* count = &apEvent->m_18->m_04;
@@ -4859,6 +4874,13 @@ Finish:
     goto Finish;
 }
 }  // namespace fnv_00d969e0
+
+static unsigned char* S00d96870_outp;
+
+void S00d96870_Entry(unsigned char* self, int* src)
+{
+    fnv_00d969e0::FUN_00d96870(reinterpret_cast<fnv_00d969e0::State*>(self), reinterpret_cast<fnv_00d969e0::Ev*>(src), reinterpret_cast<fnv_00d969e0::Out*>(S00d96870_outp));
+}
 
 extern double DAT_01035718;
 
@@ -6317,8 +6339,6 @@ static int FUN_00d881a0(void* p, void* ecxv, char* eaxv, S00d881a0_Obj* esi, voi
 
 int S00d881a0_Wrap(void* p);
 
-static void FUN_00d96870(unsigned char* self, int* src, unsigned char* out);
-
 void S00d96870_Entry(unsigned char* self, int* src);
 
 void __cdecl ComputeAndDispatchDelta(D99FC0Object* obj, const ::TreeVector* a2, const ::TreeVector* a3, float a4, float a5, float a6, ::TreeCollector* a7);
@@ -7215,8 +7235,6 @@ extern "C" void __cdecl FUN_00d9a850(const PartitionBounds& bounds, const Partit
 }
 
 int FUN_00d881a0(void* p, void* ecxv, char* eaxv, S00d881a0_Obj* esi, void* edi);
-
-void FUN_00d96870(unsigned char* self, int* src, unsigned char* out);
 
 void FUN_00d93ab0(CleanupObject* self);
 

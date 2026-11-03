@@ -858,18 +858,18 @@ void __cdecl FUN_00d19fa0(unsigned int* auiValues, int lo, int hi, int auiUnused
     for (;;) {
         int i = lo;
         int j = hi;
-        __declspec(align(16)) struct PivotSlot { unsigned int v; } pivot;
+        __declspec(align(16)) union PivotSlot { unsigned int v; struct { unsigned short low, high; } halves; } pivot;
         pivot.v = auiValues[(i + j) >> 1];
 
         for (;;) {
             while ((unsigned short)auiValues[i] < (unsigned short)pivot.v
                 || ((unsigned short)auiValues[i] == (unsigned short)pivot.v
-                    && ((unsigned short*)&auiValues[i])[1] < (unsigned short)(pivot.v >> 16))) {
+                    && (unsigned short)(auiValues[i] >> 16) < (unsigned short)(pivot.v >> 16))) {
                 ++i;
             }
             while ((unsigned short)pivot.v < (unsigned short)auiValues[j]
                 || ((unsigned short)pivot.v == (unsigned short)auiValues[j]
-                    && *(volatile unsigned short*)((char*)&pivot.v + 2) < ((unsigned short*)&auiValues[j])[1])) {
+                    && *(volatile unsigned short*)&pivot.halves.high < (unsigned short)(auiValues[j] >> 16))) {
                 --j;
             }
             if (j < i) {
@@ -6500,7 +6500,7 @@ void SweepSpace::FUN_00d16300(const SweepScan& scan, SweepRayCast* rays, int ray
     __declspec(align(16)) float bias[4];
     SweepEndpointD16300* nextEndpoint[3];
     __declspec(align(16)) float inverse[4];
-    unsigned int inv[3];
+    int inv[3];
     RayDirection direction;
 
     unsigned int handle;
@@ -6646,12 +6646,12 @@ void SweepSpace::FUN_00d16300(const SweepScan& scan, SweepRayCast* rays, int ray
                     inverse[k] = 0.0f;
                     bias[k] = -2.0f;
                 } else {
-                    inv[k] = 4;
+                    inv[k] = 1;
                     float allocator;
                     allocator = 1.0f / zeroOut;
                     if (zeroOut < 0.0f) {
-                        inv[k] = -4;
-                        c[k] = (SweepEndpointD16300*)((char*)c[k] - 4);
+                        inv[k] = -1;
+                        c[k] = c[k] - 1;
                     }
                     inverse[k] = allocator;
                     bias[k] = allocator * sweepSub(scratch.cursorSteps, tolerance);
@@ -6707,7 +6707,7 @@ void SweepSpace::FUN_00d16300(const SweepScan& scan, SweepRayCast* rays, int ray
                     unsigned int pos = current->position;
                     _ReadWriteBarrier();
                     SweepEndpointD16300* p;
-                    p = c[node2] = (SweepEndpointD16300*)((char*)current + inv[node2]);
+                    p = c[node2] = current + inv[node2];
                     if ((unsigned short)pos != p->position) {
                         distances[node2] = (float)(int)(p->position) * inverse[node2] - bias[node2];
                         break;

@@ -151,7 +151,7 @@ bool BGSDistantTreeBlockLoadTask::FormatDescription(char* apDescription, unsigne
 struct GO
 {
     void* p;
-    GO(int);
+    GO(std::intptr_t);
     ~GO();
 };
 struct Helper8
@@ -921,7 +921,7 @@ void BuildNavMeshGeometry(void* pInParam)
     reinterpret_cast<::A72BB0_DataStreamOwner *>((obj304))->FUN_00a72bb0(0, arrFk, (int)(cntB * 4), 1);
     reinterpret_cast<::FUN_00a726a0_cls *>((obj304))->FUN_00a726a0(0, 0, 0, (void *)(1), (unsigned short)cntB, 4, 4);
     delete[] arrFk;
-    GO refObj((int)new Obj88((unsigned short)cntB, arrA3, arrCy, 0, arrB5, 1, 0, (unsigned short)cntA3, idx2));
+    GO refObj((std::intptr_t)new Obj88((unsigned short)cntB, arrA3, arrCy, 0, arrB5, 1, 0, (unsigned short)cntA3, idx2));
     ((NiGPUProgramOwner*)FUN_00559450((int*)&refObj))->SetProgram((NiGPUProgram*)obj304);
     ((InParam*)pInParam)->m1c = *(NavMeshPtr*)&refObj;
     ((PathingRef<PathingSolution>*)&refObj)->Reset(0);

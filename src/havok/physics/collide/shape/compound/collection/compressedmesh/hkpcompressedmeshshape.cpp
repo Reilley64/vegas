@@ -18,24 +18,30 @@
 #include "fnv/symbols_01269000.h"
 #include "havok/hkpCompressedMeshShape.h"
 
+// hkpCompressedMeshShape seen from its shape container interface (+0x10 in the 32-bit build); the offsets below are
+// the shape's.
 struct FUN_00e3cad0_Class
 {
-    unsigned int m_uiShapeIndex;
-    unsigned int m_pCollisionShape;
-    unsigned int m_pCollisionShape2;
-    unsigned int m_pCollisionShape3;
+    const void* m_vtable;                                        // +0x10
+    unsigned char m_collectionFlags[4];                          // +0x14
+    hkInt32 m_iBitsPerIndex;                                     // +0x18
+    hkInt32 m_iBitsPerWIndex;                                    // +0x1C
+    unsigned char m_pad20[0x4c];
+    hkArray<hkpCompressedMeshShapeBigTriangle> m_kBigTriangles;  // +0x6C
+    hkArray<hkpCompressedMeshShapeChunk> m_kChunks;              // +0x78
+    hkArray<hkpCompressedMeshShapeConvexPiece> m_kConvexPieces;  // +0x84
     unsigned int GetShapeIndexMask();
 };
 
 // @fnv 0x00e3cad0
 unsigned int FUN_00e3cad0_Class::GetShapeIndexMask()
 {
-    if (*(unsigned int*)((char*)this + 0x60))
+    if (m_kBigTriangles.m_iElementCount)
         return 0;
-    if (*(unsigned int*)((char*)this + 0x6c))
-        return 1 << this->m_pCollisionShape3;
-    if (*(unsigned int*)((char*)this + 0x78))
-        return ((1 << (32 - this->m_pCollisionShape3)) - 1) << this->m_pCollisionShape3;
+    if (m_kChunks.m_iElementCount)
+        return 1 << m_iBitsPerWIndex;
+    if (m_kConvexPieces.m_iElementCount)
+        return ((1 << (32 - m_iBitsPerWIndex)) - 1) << m_iBitsPerWIndex;
     return -1;
 }
 
@@ -89,15 +95,14 @@ __declspec(noinline) unsigned int FUN_00e3c9d0(unsigned int a1, unsigned int a2)
     return 0xF0;
 }
 
-struct FUN_00e3d0d0_Class
+struct FUN_00e3d0d0_Class : public ::hkpCompressedMeshShape
 {
     void SetWeldingType(unsigned char weldingType);
 };
-// Stores the given welding type byte at offset 0x2c of this object.
 // @fnv 0x00e3d0d0
 void FUN_00e3d0d0_Class::SetWeldingType(unsigned char weldingType)
 {
-    *((unsigned char*)this + 0x2c) = weldingType;
+    m_eWeldingType = weldingType;
 }
 
 int __cdecl FUN_00d213e0(int first, int* second);

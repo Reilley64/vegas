@@ -507,6 +507,9 @@ void FUN_0070a900_Helper::Set(bool abInterface)
 
 struct SSN
 {
+    char pad00[0x120];
+    unsigned char unk120;
+
     void FUN_0070b760(unsigned char);
 };
 // Stores a byte at offset 0x120 of this object, then passes it and this to FUN_00b4f2f0.
@@ -1454,6 +1457,11 @@ struct TimeGlobal
 };
 struct AI_
 {
+    char pad00[0x150];
+    int unk150;
+    int unk154;
+    int unk158;
+
     void FUN_007166f0(int);
 };
 // Stores the current time section at offset 0x154, clears offset 0x158, and stores the argument at offset 0x150.
@@ -6849,6 +6857,9 @@ int __cdecl FUN_0070ede0()
 
 struct FUN_00711d60Class
 {
+    char pad00[0x1b50];
+    char unk1b50;
+
     char GetByteAtOffset1B50();
 };
 
@@ -6873,6 +6884,10 @@ bool FUN_00711e00_StandIn::FUN_00711e00()
 
 struct FUN_00712420_Class
 {
+    char pad00[0x5c];
+    float unk5c;
+    unsigned char unk60;
+
     void FUN_00712420(float value);
 };
 // Forwards afValue to the object returned by FUN_004ebbc0(0xf) via FUN_00712420.
@@ -6949,6 +6964,8 @@ struct FUN_00714d70
 {
     int m_field_0xf0;
     void SetField(intptr_t value);
+    char pad04[0xec];
+    int unkf0;
 };
 // @fnv 0x00714d70
 void FUN_00714d70::SetField(intptr_t value)
@@ -7035,6 +7052,9 @@ extern GlobalObject_0045cfe0 g_011d8bf0;
 
 struct FUN_00715e00_t
 {
+    char pad00[0x9c];
+    Tile* unk9c;
+
     void SetTileValues(int aiWidth, int aiHeight);
 };
 
@@ -7092,6 +7112,9 @@ struct FUN_00716320_List
 };
 struct FUN_00716320_shell
 {
+    char pad00[0x164];
+    ::fnv_00716320::FUN_00716320_List* unk164;
+
     void UpdateNodeTimers();
 };
 
@@ -7449,6 +7472,8 @@ struct FUN_007e6620_t : public Menu
 {
     void FUN_007e6700();
     bool HandleTileClick(int aiTileID);
+    char pad04[0x28];
+    Tile* unk2c;
 };
 
 // @fnv 0x007e6620
@@ -7562,6 +7587,9 @@ float FUN_00711dc0::GetFloat()
 
 struct FUN_007123d0_class
 {
+    char pad00[0x60];
+    unsigned char unk60;
+
     void SetByteAtOffset60(unsigned char param_1);
 };
 // Calls FUN_004ebbc0 with 0xf and a, then calls SetByteAtOffset60 on the returned object.
@@ -7605,6 +7633,9 @@ char GetByteAtOffset33(char*);
 
 struct TextEditMenu
 {
+    char pad00[0x34];
+    char unk34;
+
     void FUN_007e65f0();
 };
 
@@ -7642,6 +7673,9 @@ extern "C" long __ftol2_sse(float);
 
 struct FUN_0070ec70_class
 {
+    char pad00[0x44];
+    float unk44;
+
     long FUN_0070ec70();
 };
 
@@ -8369,6 +8403,9 @@ struct TESDataHandler
 };
 struct FUN_00717600_shell
 {
+    char pad00[0xc];
+    void* unkc;
+
     void FUN_00717600();
 };
 // @fnv 0x00717600

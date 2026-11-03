@@ -1927,6 +1927,9 @@ void* FUN_007d0660_class::GetField418()
 
 struct FUN_007d0b90_cls
 {
+    char pad00[0x2];
+    unsigned char unk2;
+
     void FUN_007d0b90();
 };
 
@@ -2888,6 +2891,12 @@ struct IDirectInput8A
 };
 struct MouseInputStandIn
 {
+    char pad00[0x4];
+    unsigned int unk4;
+    IDirectInput8A* unk8;
+    char pad0c[0x24];
+    IDirectInputDevice8A* unk30;
+
     void RecreateDevice(bool abNonExclusive);
 };
 
@@ -3153,6 +3162,9 @@ void FUN_007ce690_cls::InitPointer()
 
 struct FUN_007d1240_Class
 {
+    char pad00[0x7b8];
+    int unk7b8;
+
     void FUN_007d1240(int value);
 };
 
@@ -3164,6 +3176,9 @@ void FUN_007d1240_Class::FUN_007d1240(int value)
 
 struct FUN_007d1320_Class
 {
+    char pad00[0x7c0];
+    int unk7c0;
+
     void FUN_007d1320(int value);
 };
 
@@ -3190,6 +3205,9 @@ void FUN_007d5120_Class::FUN_007d5120()
 
 struct FUN_007d6100_class
 {
+    char pad00[0x18f4];
+    unsigned int unk18f4;
+
     unsigned int GetField18F4();
 };
 
@@ -3870,6 +3888,9 @@ struct S7d8
 };
 struct SM7d6
 {
+    char pad00[0x48];
+    ::fnv_007d0440::Tile* unk48;
+
     Tile* GetTile();
     S7d8* GetS7d8();
 };
@@ -4058,6 +4079,9 @@ struct FUN_007d6030_shell
 };
 struct FUN_007d6160_shell
 {
+    char pad00[0x1c8];
+    int unk1c8;
+
     void FUN_007d6160();
 };
 // Loops up to four times calling AdvanceCounter on the object at offset 0x1c8, stopping early if IsKeyActive returns true.

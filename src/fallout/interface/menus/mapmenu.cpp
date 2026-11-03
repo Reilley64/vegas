@@ -688,6 +688,8 @@ struct FUN_00798420_shell
 {
     char bUnk7d;
     char GetUnk7d();
+    char pad01[0x7c];
+    char unk7d;
 };
 
 // @fnv 0x00798420
@@ -770,6 +772,9 @@ struct StrArray;
 struct V;
 struct S
 {
+    char pad00[0x4b0];
+    float unk4b0;
+
     float GetScaledValue();
 public:
     void FUN_0044e4f0(void *);
@@ -803,6 +808,12 @@ float S::GetScaledValue()
 
 struct FUN_00798480_This
 {
+    char pad00[0x38];
+    Tile* unk38;
+    char pad3c[0xe4];
+    float unk120;
+    float unk124;
+
     void FUN_00798480(int aiID, Tile* apTarget);
 };
 // For ID 4, reads floats 4001 and 4002 from the Tile at offset 0x38 and stores them at offsets 0x120 and 0x124.
@@ -924,6 +935,9 @@ void FUN_007312e0_shell::FUN_007312e0()
 
 struct FUN_0079b800_shell
 {
+    char pad00[0x5c];
+    unsigned short unk5c;
+
     bool IsFlagSet();
 };
 

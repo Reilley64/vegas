@@ -276,6 +276,13 @@ extern "C" unsigned char __cdecl FUN_00709d00();
 
 struct FOVATSEffectManager_00801a60
 {
+    char pad00[0x129];
+    unsigned char unk129;
+    char pad12a[0x18a];
+    unsigned char unk2b4;
+    char pad2b5[0x7];
+    float unk2bc;
+
     void FUN_00801ad0(int, intptr_t, int, unsigned char);
     void FUN_00801a60(intptr_t, intptr_t, int, unsigned char);
 };

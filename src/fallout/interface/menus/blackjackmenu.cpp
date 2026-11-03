@@ -116,6 +116,9 @@
 #include "fnv/symbols_011f6000.h"
 struct FUN_007316f0_shell
 {
+    char pad00[0xdb0];
+    int unkdb0;
+
     void ClearField();
 };
 
@@ -164,6 +167,10 @@ int __cdecl FUN_00733f80()
 
 struct FUN_007399d0_shell
 {
+    char pad00[0xd9c];
+    int unkd9c;
+    int unkda0;
+
     void FUN_007399d0();
 };
 
@@ -176,6 +183,9 @@ void FUN_007399d0_shell::FUN_007399d0()
 
 struct FUN_00734d30_shell
 {
+    char pad00[0xdb0];
+    int unkdb0;
+
     int HasFlag(int aFlag);
 };
 // @fnv 0x00734d30

@@ -1914,6 +1914,9 @@ int __cdecl GetHUDMainMenuValue()
 
 struct FUN_007735b0_class
 {
+    char pad00[0x5f8];
+    unsigned char unk5f8;
+
     unsigned char GetByteAt5F8();
 };
 
@@ -2238,6 +2241,13 @@ class Tile
 extern HUDMainMenu* g_pHudMainMenuInstance;
 struct HUDMainMenuS
 {
+    char pad00[0x4c];
+    ::fnv_0077f890::Tile* unk4c;
+    ::fnv_0077f890::Tile* unk50;
+    ::fnv_0077f890::Tile* unk54;
+    char pad58[0x128];
+    ::fnv_0077f890::Tile* unk180;
+
     void ShiftTileValues(int aishift);
 };
 
@@ -2504,6 +2514,15 @@ void __cdecl UpdateHealthInfoTiles(int aiHealth, int aiInfoLabel, int aiInfoValu
 namespace fnv_0077f420 {
 struct Tile
 {
+    char pad00[0x154];
+    ::fnv_0077f420::Tile* unk154;
+    char pad158[0x18];
+    ::fnv_0077f420::Tile* unk170;
+    char pad174[0x48];
+    unsigned int unk1bc;
+    char pad1c0[0x8c];
+    unsigned int unk24c;
+
     void Set(int, int);
 };
 struct GameTimerRecord

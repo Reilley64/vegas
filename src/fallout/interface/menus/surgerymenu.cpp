@@ -122,6 +122,9 @@
 #include "surgerymenu_decls.h"
 struct FUN_007e4fc0_shell
 {
+    char pad00[0x18];
+    int unk18;
+
     intptr_t FUN_007e4fc0(int arg);
 };
 

@@ -818,6 +818,11 @@ struct Setting
 
 struct Wheel
 {
+    char pad00[0x24];
+    unsigned char unk24;
+    char pad25[0x3];
+    int unk28;
+
     void FUN_00701e80();
 };
 class HotkeyStringCalls

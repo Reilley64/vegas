@@ -199,6 +199,10 @@ struct HackingMenu
     // ...
     bool m_bHackingInProgress;
     void* coordinate;
+    char pad08[0x1b8];
+    int unk1c0;
+    char pad1c4[0x14];
+    char unk1d8;
 };
 
 // @fnv 0x00767ff0
@@ -246,6 +250,9 @@ class FORenderedMenu;
 class Tile;
 struct InterfaceManager
 {
+    char pad00[0x2c];
+    float unk2c;
+
     static float __cdecl UpdateInterfaceState();
     int FUN_00747d00();
 public:
@@ -267,6 +274,13 @@ struct FUN_0076a510_shell : HackingMenu
 {
     void FUN_0076a510();
     void FUN_0076a540();
+    char pad00[0x4];
+    Tile* unk4;
+    char pad08[0x18c];
+    int unk194;
+    char* unk198;
+    char pad19c[0x34];
+    unsigned int unk1d0;
 };
 
 // Calls FUN_0076a540 when gm_GetTickCount() exceeds the tick value stored at this+0x1d0.
@@ -327,6 +341,9 @@ void* FUN_0076b560_shell::FUN_00765b50(unsigned int flags)
 void __cdecl UpdateD766AA0Menu();
 struct FUN_00767b80_shell
 {
+    char pad00[0x1c4];
+    int unk1c4;
+
     bool HandleButton10(int, float);
 };
 // If aiButton is 10, stores 4 at offset 0x1c4, calls UpdateD766AA0Menu and returns true; otherwise returns false.
@@ -389,6 +406,10 @@ unsigned int FUN_00768a10_shell::CountMatchingChars(const char* pcStringA, const
 
 struct FUN_007694f0_shell
 {
+    char pad00[0x2c];
+    int unk2c;
+    int unk30;
+
     void FUN_00726c90();
     intptr_t FUN_007694f0();
 };
@@ -745,6 +766,9 @@ struct EntryListNode
 };
 struct FUN_00767ef0_shell
 {
+    char pad00[0x118];
+    void* unk118;
+
     void AddValueRows(unsigned int count, const uintptr_t* values);
 };
 // Adds count to the 0xfac value of each existing row, then creates count new rows with descending 0xfac values and the given values at 0xfc4, appending each.
@@ -1028,6 +1052,12 @@ struct Widget
 struct HackingMenuDecomp : HackingMenu
 {
     void UpdateFade();
+    char pad00[0x11c];
+    Resources* unk11c;
+    char pad120[0xa4];
+    int unk1c4;
+    char pad1c8[0xc];
+    Fade* unk1d4;
 };
 // Toggles the fade at offset 0x1d4 between 0 and 1 on a timer, creating it from resource 0xfa3 when absent, unless menu state 4 with widget 0x1006 is active.
 // @fnv 0x0076a9d0
@@ -2124,6 +2154,12 @@ struct MatrixWrapper : FUN_007687d0
 struct FUN_00768070_shell : FUN_00768a10_shell
 {
     void SelectWordSet(unsigned int);
+    char pad00[0x19c];
+    char* unk19c;
+    char pad1a0[0x4];
+    void* unk1a4;
+    unsigned int unk1a8;
+    unsigned int unk1ac;
 };
 
 // @fnv 0x00768070

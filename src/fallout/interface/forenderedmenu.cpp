@@ -511,6 +511,14 @@ void S007fb100::FUN_007fb100()
 
 struct FUN_007fb250_owner
 {
+    char pad00[0x60];
+    bool unk60;
+    char pad61[0x3];
+    float unk64;
+    float unk68;
+    float unk6c;
+    float unk70;
+
     void FUN_007fb250(float afDuration, float afIntensity);
 };
 // @fnv 0x007fb250
@@ -526,6 +534,14 @@ void FUN_007fb250_owner::FUN_007fb250(float afDuration, float afIntensity)
 namespace fnv_007fb420 {
 struct MenuStub
 {
+    char pad00[0x4d];
+    bool unk4d;
+    char pad4e[0x2];
+    float unk50;
+    float unk54;
+    float unk58;
+    float unk5c;
+
     void FUN_007fb420(float afTime);
 };
 // @fnv 0x007fb420
@@ -708,6 +724,15 @@ void FUN_007fdf10_shell::SetGo(void* apValue)
 float __cdecl FUN_004e44d0(float);
 struct FUN_007fb3a0_shell
 {
+    char pad00[0x74];
+    unsigned char unk74;
+    char pad75[0x3];
+    float unk78;
+    float unk7c;
+    float unk80;
+    float unk84;
+    float unk88;
+
     void FUN_007fb3a0(float afTime);
 };
 // @fnv 0x007fb3a0
@@ -733,6 +758,10 @@ struct GlobalObject_0044f440 : SettingT_GameSettingCollection_
 
 struct FUN_007fb530_shell
 {
+    char pad00[0x8c];
+    float unk8c;
+    float unk90;
+
     void FUN_007fb530(float afDuration);
 };
 

@@ -947,6 +947,13 @@ struct BSSoundHandleEx
 
 struct FUN_00764200_shell
 {
+    char pad00[0x28];
+    int unk28;
+    char pad2c[0x105];
+    unsigned char unk131;
+    char pad132[0x2];
+    int unk134;
+
     void SetActive(bool b);
 };
 

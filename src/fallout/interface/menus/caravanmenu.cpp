@@ -162,6 +162,9 @@
 #include "fnv/symbols_011f6000.h"
 struct FUN_0073bb10_shell
 {
+    char pad00[0xe74];
+    int unke74;
+
     void ClearField();
 };
 
@@ -211,6 +214,9 @@ void CaravanMenu::SetTile(int aiIndex, Tile* tile)
 
 struct FUN_0073cba0_shell
 {
+    char pad00[0x614];
+    int unk614;
+
     int GetField614();
 };
 
@@ -222,6 +228,9 @@ int FUN_0073cba0_shell::GetField614()
 
 struct FUN_0073cbc0_shell
 {
+    char pad00[0x618];
+    unsigned int unk618;
+
     unsigned int GetField618();
 };
 
@@ -247,6 +256,9 @@ int __cdecl FUN_0073cbe0()
 
 struct FUN_00740900_shell
 {
+    char pad00[0x61c];
+    unsigned int unk61c;
+
     unsigned int GetFieldAtOffset61C();
 };
 
@@ -258,6 +270,9 @@ unsigned int FUN_00740900_shell::GetFieldAtOffset61C()
 
 struct FUN_00740920_struct
 {
+    char pad00[0x620];
+    unsigned int unk620;
+
     unsigned int GetField620();
 };
 
@@ -271,6 +286,8 @@ struct FUN_00740e50_class
 {
     unsigned int member_62c;
     unsigned int GetMember62C();
+    char pad04[0x628];
+    unsigned int unk62c;
 };
 
 // @fnv 0x00740e50
@@ -281,6 +298,9 @@ unsigned int FUN_00740e50_class::GetMember62C()
 
 struct FUN_00740e90_shell
 {
+    char pad00[0x620];
+    int unk620;
+
     void FUN_00740e90(int value);
 };
 
@@ -292,6 +312,9 @@ void FUN_00740e90_shell::FUN_00740e90(int value)
 
 struct FUN_00740eb0_shell
 {
+    char pad00[0x624];
+    int unk624;
+
     void SetField624(int a);
 };
 
@@ -303,6 +326,9 @@ void FUN_00740eb0_shell::SetField624(int aiValue)
 
 struct FUN_00740ed0_shell
 {
+    char pad00[0x628];
+    int unk628;
+
     void SetField628(int value);
 };
 
@@ -314,6 +340,9 @@ void FUN_00740ed0_shell::SetField628(int value)
 
 struct FUN_00740ef0_shell
 {
+    char pad00[0x62c];
+    int unk62c;
+
     void FUN_00740ef0(int value);
 };
 
@@ -328,6 +357,18 @@ struct FUN_00a253d0_shell
 };
 struct FUN_0073bab0_shell
 {
+    char pad00[0x40];
+    void* unk40;
+    void* unk44;
+    char pad48[0xc4];
+    float unk10c;
+    int unk110;
+    char pad114[0x9c8];
+    int unkadc;
+    int unkae0;
+    char padae4[0x390];
+    int unke74;
+
     void SetFlag(int a, int b);
 };
 struct OSGlobals
@@ -350,6 +391,9 @@ void __cdecl FUN_0074a270()
 
 struct FUN_00740e70_shell
 {
+    char pad00[0x61c];
+    unsigned int unk61c;
+
     void FUN_00740e70(int value);
 };
 
@@ -372,6 +416,9 @@ struct FUN_0073bb70_shell
 };
 struct FUN_007414c0_shell
 {
+    char pad00[0x30];
+    Tile* unk30;
+
     char HasAllTiles();
 };
 // Checks the 0x33 Tile pointers at offset 0x30 and returns 1 only if none of them is null.
@@ -459,6 +506,18 @@ public:
 extern InterfaceManager* DAT_011d9180;
 struct FUN_007492f0_shell
 {
+    char pad00[0x28];
+    int unk28;
+    int unk2c;
+    char pad30[0x3c];
+    int unk6c;
+    char pad70[0xa88];
+    int unkaf8;
+    char padafc[0x4];
+    int unkb00;
+    char padb04[0x381];
+    char unke85;
+
     void InitType15State(int aiType, int aiPad);
 };
 // @fnv 0x007492f0
@@ -859,6 +918,11 @@ public:
 
 struct FUN_0073ced0_shell
 {
+    char pad00[0xaec];
+    unsigned int unkaec;
+    unsigned int unkaf0;
+    int unkaf4;
+
     bool RebuildCardLists();
 };
 
@@ -1763,6 +1827,17 @@ struct UIOptions
 extern "C" int __cdecl FUN_00ec62c0();
 struct HudGlyphMenu
 {
+    char pad00[0x6c];
+    UIOptions* unk6c;
+    char pad70[0x8ac];
+    void* unk91c;
+    char pad920[0x5c];
+    void* unk97c;
+    char pad980[0x5c];
+    void* unk9dc;
+    char pad9e0[0x5c];
+    void* unka3c;
+
     void UpdateIconResources(int iconIndex);
 };
 // @fnv 0x0074af70
@@ -21661,6 +21736,8 @@ struct xGameState
     char m_auiShapeKeys[0x10c];
     float m_10c;
     int m_110;
+    char pad114[0x9c8];
+    int unkadc;
 };
 
 struct List_749a40

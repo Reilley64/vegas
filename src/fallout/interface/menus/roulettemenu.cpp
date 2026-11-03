@@ -208,6 +208,15 @@ void FUN_007bed00_shell::FUN_007bed00(int aiID, Tile* apTarget)
 
 struct FUN_007bf670_shell
 {
+    char pad00[0x3ff4];
+    int unk3ff4;
+    char pad3ff8[0xc];
+    unsigned int unk4004;
+    unsigned int unk4008;
+    char pad400c[0x1];
+    unsigned char unk400d;
+    unsigned char unk400e;
+
     void FUN_007bf670();
 };
 
@@ -272,6 +281,9 @@ void FUN_007b9000_shell::FUN_007b9000()
 
 struct FUN_007bc830_shell
 {
+    char pad00[0x2c];
+    Tile* unk2c;
+
     char HasAllTiles();
 };
 
@@ -491,6 +503,11 @@ struct FUN_004bc1f0_S
 
 struct FUN_007bf840_shell
 {
+    char pad00[0x3fe0];
+    int unk3fe0;
+    char pad3fe4[0x4];
+    int unk3fe8;
+
     void FUN_007bf840();
 };
 

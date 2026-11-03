@@ -168,6 +168,9 @@ FUN_0071af10::FUN_0071af10()
 
 struct FUN_0071d750_shell
 {
+    char pad00[0xf0];
+    int unkf0;
+
     void ClearField();
 };
 

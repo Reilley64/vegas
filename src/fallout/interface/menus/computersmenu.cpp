@@ -168,6 +168,9 @@ int FUN_00757e20()
 
 struct FUN_00757e80_shell
 {
+    char pad00[0xa5];
+    unsigned char unka5;
+
     unsigned char IsFlagBitSet();
 };
 
@@ -193,6 +196,8 @@ struct FUN_00758a60_shell
 {
     char m_74;
     bool FUN_00758a60();
+    char pad01[0x73];
+    char unk74;
 };
 
 // @fnv 0x00758a60
@@ -242,6 +247,10 @@ struct FUN_00758350_shell
 {
     char m_6c[4];
     bool FUN_00758350();
+    char pad04[0x68];
+    int unk6c;
+    char pad70[0x4];
+    signed char unk74;
 };
 // Returns true when the int at offset 0x6c is nonzero and bit 0 of the byte at offset 0x74 is set.
 // @fnv 0x00758350
@@ -260,6 +269,9 @@ struct DispHelper
 void __cdecl RefreshF57EA0TerminalMenu();
 struct FUN_00758a80_shell
 {
+    char pad00[0xa8];
+    int unka8;
+
     void FUN_00758a80();
 };
 struct StartMenu

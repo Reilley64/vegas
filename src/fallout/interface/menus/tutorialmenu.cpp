@@ -53,6 +53,8 @@ bool TutorialMenu::FUN_007e8e60(int aiButton, float afValue)
 struct FUN_007e8e40_shell : FUN_007e8e20_shell
 {
     void DecrementAndDispatch();
+    char pad00[0x48];
+    int unk48;
 };
 
 struct Tile

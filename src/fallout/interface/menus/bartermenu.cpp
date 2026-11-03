@@ -199,6 +199,10 @@ struct Tile
 };
 struct BarterMenu
 {
+    char pad00[0x78];
+    int* unk78;
+    int* unk7c;
+
     void FUN_0072e530(int, Tile*);
 };
 // Calls Set(0xfa3, 0) on the Tile objects at offsets 0x7c and 0x78 of this BarterMenu.

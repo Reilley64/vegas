@@ -249,6 +249,9 @@ int __cdecl FUN_007ac9c0()
 
 struct FUN_007b2550_shell
 {
+    char pad00[0xe4];
+    unsigned char unke4;
+
     void SetByteAtOffsetE4(unsigned char param);
 };
 
@@ -282,6 +285,9 @@ char FUN_007b2570_shell::FUN_007b2570()
 
 struct FUN_007b3720_shell
 {
+    char pad00[0x1d8];
+    int unk1d8;
+
     void FUN_007b3720(int value);
 };
 
@@ -645,6 +651,8 @@ public:
 struct FUN_007af180_shell : FUN_007adc30_shell
 {
     bool FUN_007af180(intptr_t aeList);
+    char padf0[0x30];
+    int unk120;
 };
 struct TESActorBase
 {

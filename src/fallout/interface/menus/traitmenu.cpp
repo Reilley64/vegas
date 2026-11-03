@@ -132,6 +132,8 @@ struct HUDMainMenu
 struct TraitMenu : Menu
 {
     void FUN_007e73c0();
+    char pad00[0x24];
+    int unk24;
 };
 
 
@@ -872,6 +874,9 @@ struct LBH
 };
 struct FUN_007e7030_shell
 {
+    char pad00[0x2c];
+    Tile* unk2c;
+
     void PopulatePerkList();
 };
 // Initializes the LUM_PerkTemplate list and adds a tile per perk with its name and rank, setting two tile values.

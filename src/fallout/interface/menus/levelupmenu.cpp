@@ -259,6 +259,9 @@ void FUN_00786550(const char* s)
 
 struct FUN_00784b90_shell
 {
+    char pad00[0x2c];
+    void* unk2c;
+
     void SetTileByID(int aiID, void* apTile);
 };
 
@@ -537,6 +540,9 @@ public:
 };
 struct FUN_007879f0
 {
+    char pad00[0xc];
+    char* unkc;
+
     int GetIntegerResult();
 };
 // @fnv 0x007879f0

@@ -197,6 +197,9 @@ void FUN_00756960(intptr_t thisPtr)
 
 struct FUN_00755680_shell
 {
+    char pad00[0x7d];
+    unsigned char unk7d;
+
     bool FUN_00755680();
 };
 
@@ -270,6 +273,11 @@ struct Tile2
 };
 struct FUN_007560c0_shell
 {
+    char pad00[0x3c];
+    Tile2* unk3c;
+    char pad40[0x2c];
+    bool unk6c;
+
     void PlayTopicResponse(TESTopic*);
     void RunTopicResultScripts(TESTopic*);
     void ToggleFollowersTacticsDistance();
@@ -1605,6 +1613,13 @@ struct CRandom_757690
 };
 struct CWheelMenu_757690
 {
+    char pad00[0x58];
+    CWheelItem_757690* unk58;
+    char pad5c[0xc];
+    CRelatedActor_757690* unk68;
+    char pad6c[0xc];
+    unsigned int unk78;
+
     void SetItemTextAndValue(CStringArg_757690 text, CValueArg_757690 value);
 };
 // @fnv 0x007573d0

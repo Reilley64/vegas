@@ -425,6 +425,9 @@ void* FUN_00724290_shell::FUN_00724290(unsigned int flags)
 
 struct FUN_007242c0_shell
 {
+    char pad00[0x2c];
+    unsigned short unk2c;
+
     bool FUN_007242c0(unsigned int flags);
 };
 
@@ -730,6 +733,11 @@ void FUN_007a63b0_holder::FUN_007a63b0(FUN_007a86b0_Item* apItems, unsigned int 
 
 struct FUN_007a63f0_shell
 {
+    char pad00[0x4];
+    int unk4;
+    int unk8;
+    int unkc;
+
     void FUN_007a63f0(unsigned int requested, unsigned int savedSize);
 };
 struct FUN_007d9000_shell
@@ -756,6 +764,9 @@ void FUN_007d8420_shell::SortList(int(__cdecl* cmp)(void*, void*))
 
 struct FUN_007a6fa0_shell
 {
+    char pad00[0x4];
+    int* unk4;
+
     int* FindNodeValue(int* a, unsigned char b);
 };
 struct FUN_007d86c0_shell
@@ -943,6 +954,9 @@ struct Tile_Set_Helper
 };
 struct FUN_007d74f0_shell
 {
+    char pad00[0xc];
+    char* unkc;
+
     void FUN_007d74f0(bool abVal);
 };
 // Sets the "_enabled" trait on the tile via the helper at this+0xc.

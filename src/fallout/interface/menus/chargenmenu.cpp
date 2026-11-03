@@ -69,6 +69,9 @@ struct Tile;
 
 struct CharGenMenu
 {
+    char pad00[0x2c];
+    ::fnv_00753350::Tile* unk2c;
+
     void SetTile(int id, Tile* tile);
 };
 

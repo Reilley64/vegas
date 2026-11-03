@@ -427,6 +427,9 @@ void __cdecl FUN_00780c00(Tile* pTile)
 
 struct FUN_00781b10_shell
 {
+    char pad00[0x3c];
+    void* unk3c;
+
     void ClearActionPointSource();
 };
 struct FUN_00781620_shell : public InventoryMenu

@@ -127,6 +127,12 @@ struct Tile
 
 struct RepairServicesMenu
 {
+    char pad00[0x34];
+    int unk34;
+    int unk38;
+    char pad3c[0x20];
+    int unk5c;
+
     void UpdateRepairServiceTiles(int aiID, Tile* apTarget);
 };
 

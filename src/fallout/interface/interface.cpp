@@ -1423,6 +1423,14 @@ void FUN_00705e30()
 class MapMenu
 {
   public:
+    char pad00[0x80];
+    int unk80;
+    char pad84[0xc];
+    void* unk90;
+    char pad94[0x98];
+    char unk12c;
+
+  public:
     void FUN_007069f0(unsigned char);
 public:
     static void StopMapMenuSounds();

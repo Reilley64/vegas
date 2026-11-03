@@ -236,6 +236,10 @@ struct BSFadeNode
 };
 struct FUN_007ffaf0_shell
 {
+    char pad00[0xe8];
+    float unke8;
+    char unkec;
+
     void FUN_007ffaf0();
 };
 
@@ -614,6 +618,9 @@ struct Colors
 };
 struct RenderNode
 {
+    char pad00[0xe8];
+    float unke8;
+
     Resource* GetRenderObject();
     void SetupPowerButtonScreen();
 };

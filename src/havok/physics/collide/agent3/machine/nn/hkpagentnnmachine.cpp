@@ -76,6 +76,120 @@ void* __cdecl FindEntryValue(LinkNode* apFirst, LinkNode* apSecond)
 //   +0x00  base address used for the last record
 //   +0x04  array of 4-byte record pointers
 //   +0x08  number of records
+struct S_cfe020_Entry;
+struct S_cfe020_Slot
+{
+    S_cfe020_Entry* entry;
+    int unk04;
+};
+struct S_cfe020_Owner
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4c;
+    S_cfe020_Slot* slots;
+};
+// An nn track entry: the hkpAgentNnEntry header and the agent's data, 0x80 bytes on 32-bit.
+struct S_cfe020_Entry
+{
+    int unk00;
+    union
+    {
+        int unk04;
+        struct
+        {
+            unsigned short idxA;
+            unsigned short idxB;
+        };
+    };
+    void* m_contactMgr;  // +0x08
+    int unk0c;
+    S_cfe020_Owner* ownerA;
+    S_cfe020_Owner* ownerB;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4c;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5c;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6c;
+    int unk70;
+    int unk74;
+    int unk78;
+    volatile int unk7c;
+    __forceinline S_cfe020_Entry& operator=(const S_cfe020_Entry& o)
+    {
+        unk00 = o.unk00;
+        unk04 = o.unk04;
+        m_contactMgr = o.m_contactMgr;
+        unk0c = o.unk0c;
+        ownerA = o.ownerA;
+        ownerB = o.ownerB;
+        unk18 = o.unk18;
+        unk1c = o.unk1c;
+        unk20 = o.unk20;
+        unk24 = o.unk24;
+        unk28 = o.unk28;
+        unk2c = o.unk2c;
+        unk30 = o.unk30;
+        unk34 = o.unk34;
+        unk38 = o.unk38;
+        unk3c = o.unk3c;
+        unk40 = o.unk40;
+        unk44 = o.unk44;
+        unk48 = o.unk48;
+        unk4c = o.unk4c;
+        unk50 = o.unk50;
+        unk54 = o.unk54;
+        unk58 = o.unk58;
+        unk5c = o.unk5c;
+        unk60 = o.unk60;
+        unk64 = o.unk64;
+        unk68 = o.unk68;
+        unk6c = o.unk6c;
+        unk70 = o.unk70;
+        unk74 = o.unk74;
+        unk78 = o.unk78;
+        unk7c = o.unk7c;
+        return *this;
+    }
+};
+
+// An nn sector holds four entries (0x200 bytes on 32-bit).
+static const int AGENTNN_SECTOR_SIZE = 4 * sizeof(S_cfe020_Entry);
+
 struct unk_00cfddc0
 {
     int unk00;
@@ -100,7 +214,7 @@ void FUN_00cfddc0(unk_00cfddc0* pArg)
             if (i == iCount)
                 pLimit = pPos + pArg->unk00;
             else
-                pLimit = pPos + 0x200;
+                pLimit = pPos + AGENTNN_SECTOR_SIZE;
             while (pPos < pLimit)
                 pPos += pPos[3];
         } while (i < iCount);
@@ -202,19 +316,19 @@ struct CFE820Pool
     CFE820BlockArray m_kBlocks;
 };
 
-// Returns a pointer into the pool's current block at the pool offset, advancing it by 0x80, or allocates a new 0x200-byte block when the offset reaches 0x200.
+// Returns a pointer into the pool's current block at the pool offset, advancing it by one entry, or allocates a new sector when the current one is full.
 // @fnv 0x00cfe820
 static __declspec(noinline) char* AllocatePoolChunk(CFE820Pool* pool)
 {
-    if (pool->m_uiBufferCapacity < 0x200)
+    if (pool->m_uiBufferCapacity < AGENTNN_SECTOR_SIZE)
     {
         char* p = pool->m_kBlocks.m_data[pool->m_kBlocks.m_iElementCount - 1] + pool->m_uiBufferCapacity;
-        pool->m_uiBufferCapacity += 0x80;
+        pool->m_uiBufferCapacity += sizeof(S_cfe020_Entry);
         return p;
     }
-    char* block = static_cast<char*>(hkMemoryRouter::getInstance().heap().blockAlloc(0x200));
+    char* block = static_cast<char*>(hkMemoryRouter::getInstance().heap().blockAlloc(AGENTNN_SECTOR_SIZE));
     pool->m_kBlocks.AddBack(block);
-    pool->m_uiBufferCapacity = 0x80;
+    pool->m_uiBufferCapacity = sizeof(S_cfe020_Entry);
     return block;
 }
 
@@ -492,7 +606,7 @@ void __cdecl FUN_00cfed90(ItemStack* s, ::hkpCollisionDispatcherCFEA* a, void* b
         {
             int iIndex = *(volatile int*)&s->m_uiItemCount;
             char* pLastSector = s->m_pItems[iIndex - 1];
-            ::FUN_00cfea30(s, (::hkpAgentNnEntryCFEA *)(pLastSector + s->m_base - 0x80), a, b);
+            ::FUN_00cfea30(s, (::hkpAgentNnEntryCFEA *)(pLastSector + s->m_base - sizeof(S_cfe020_Entry)), a, b);
         } while (s->m_uiItemCount != 0);
     }
 }
@@ -961,22 +1075,22 @@ struct hkpAgentNnTrackCFF2
 // @fnv 0x00cff290
 void __cdecl FUN_00cff290(hkpAgentNnTrackCFF2* track, hkpAgentNnTrackCFF2* appendee)
 {
-    while (track->m_iBytesUsedInLastSector != 0x200)
+    while (track->m_iBytesUsedInLastSector != AGENTNN_SECTOR_SIZE)
     {
         if (appendee->m_kSectors.GetLogicalSize() == 0)
         {
             break;
         }
         hkpAgentNnEntryCFF2* entry =
-            (hkpAgentNnEntryCFF2*)((char*)appendee->m_kSectors.back() + appendee->m_iBytesUsedInLastSector - 0x80);
+            (hkpAgentNnEntryCFF2*)((char*)appendee->m_kSectors.back() + appendee->m_iBytesUsedInLastSector - sizeof(S_cfe020_Entry));
         ::fnv_00cfeca0::CloneRecord((::fnv_00cfeca0::State *)(track), (const ::fnv_00cfeca0::Record *)(entry));
-        appendee->m_iBytesUsedInLastSector = appendee->m_iBytesUsedInLastSector - 0x80;
+        appendee->m_iBytesUsedInLastSector = appendee->m_iBytesUsedInLastSector - sizeof(S_cfe020_Entry);
         if (appendee->m_iBytesUsedInLastSector == 0)
         {
             hkpAgentNnSectorCFF2* sector = appendee->m_kSectors.back();
             appendee->m_kSectors.popBack();
-            hkMemoryRouter::getInstance().heap().blockFree(sector, 0x200);
-            appendee->m_iBytesUsedInLastSector = 0x200;
+            hkMemoryRouter::getInstance().heap().blockFree(sector, AGENTNN_SECTOR_SIZE);
+            appendee->m_iBytesUsedInLastSector = AGENTNN_SECTOR_SIZE;
         }
         appendee->m_kSectors.OptimizeCapacity(4);
     }
@@ -988,121 +1102,11 @@ void __cdecl FUN_00cff290(hkpAgentNnTrackCFF2* track, hkpAgentNnTrackCFF2* appen
                                  appendee->m_kSectors.GetLogicalSize());
         track->m_iBytesUsedInLastSector = appendee->m_iBytesUsedInLastSector;
         appendee->m_kSectors.m_iElementCount = 0;
-        appendee->m_iBytesUsedInLastSector = 0x200;
+        appendee->m_iBytesUsedInLastSector = AGENTNN_SECTOR_SIZE;
     }
 }
 
 extern "C" void _ReadWriteBarrier(void);
-struct S_cfe020_Entry;
-struct S_cfe020_Slot
-{
-    S_cfe020_Entry* entry;
-    int unk04;
-};
-struct S_cfe020_Owner
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3c;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4c;
-    S_cfe020_Slot* slots;
-};
-struct S_cfe020_Entry
-{
-    int unk00;
-    union
-    {
-        int unk04;
-        struct
-        {
-            unsigned short idxA;
-            unsigned short idxB;
-        };
-    };
-    int unk08;
-    int unk0c;
-    S_cfe020_Owner* ownerA;
-    S_cfe020_Owner* ownerB;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3c;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4c;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5c;
-    int unk60;
-    int unk64;
-    int unk68;
-    int unk6c;
-    int unk70;
-    int unk74;
-    int unk78;
-    volatile int unk7c;
-    __forceinline S_cfe020_Entry& operator=(const S_cfe020_Entry& o)
-    {
-        unk00 = o.unk00;
-        unk04 = o.unk04;
-        unk08 = o.unk08;
-        unk0c = o.unk0c;
-        ownerA = o.ownerA;
-        ownerB = o.ownerB;
-        unk18 = o.unk18;
-        unk1c = o.unk1c;
-        unk20 = o.unk20;
-        unk24 = o.unk24;
-        unk28 = o.unk28;
-        unk2c = o.unk2c;
-        unk30 = o.unk30;
-        unk34 = o.unk34;
-        unk38 = o.unk38;
-        unk3c = o.unk3c;
-        unk40 = o.unk40;
-        unk44 = o.unk44;
-        unk48 = o.unk48;
-        unk4c = o.unk4c;
-        unk50 = o.unk50;
-        unk54 = o.unk54;
-        unk58 = o.unk58;
-        unk5c = o.unk5c;
-        unk60 = o.unk60;
-        unk64 = o.unk64;
-        unk68 = o.unk68;
-        unk6c = o.unk6c;
-        unk70 = o.unk70;
-        unk74 = o.unk74;
-        unk78 = o.unk78;
-        unk7c = o.unk7c;
-        return *this;
-    }
-};
-
 void __cdecl FUN_00c909d0(void* heap, void* arr, int elemSize, void* mem, int n);
 
 struct S_cfe020_Blocks
@@ -1110,7 +1114,7 @@ struct S_cfe020_Blocks
     char** data;
     int size;
     int cap;
-    int local;
+    char* local;
     __forceinline char* back()
     {
         return data[size - 1];
@@ -1152,7 +1156,7 @@ struct S_cfe020_Pool
 // @fnv 0x00cfe020
 void FUN_00cfe020(S_cfe020_Pool* pool, S_cfe020_Entry* dest)
 {
-    S_cfe020_Entry* src = (S_cfe020_Entry*)(pool->blocks.back() + pool->used - 0x80);
+    S_cfe020_Entry* src = (S_cfe020_Entry*)(pool->blocks.back() + pool->used - sizeof(S_cfe020_Entry));
     if (dest != src)
     {
         *dest = *src;
@@ -1162,13 +1166,13 @@ void FUN_00cfe020(S_cfe020_Pool* pool, S_cfe020_Entry* dest)
         dest->ownerA->slots[a].entry = dest;
         dest->ownerB->slots[b].entry = dest;
     }
-    pool->used -= 0x80;
+    pool->used -= sizeof(S_cfe020_Entry);
     if (pool->used == 0)
     {
         char* block = pool->blocks.back();
         pool->blocks.popBack();
-        hkMemoryRouter::getInstance().heap().blockFree(block, 0x200);
-        pool->used = 0x200;
+        hkMemoryRouter::getInstance().heap().blockFree(block, AGENTNN_SECTOR_SIZE);
+        pool->used = AGENTNN_SECTOR_SIZE;
     }
     pool->blocks.optimize();
 }
@@ -1361,7 +1365,7 @@ CollisionAgentEntry* __cdecl FUN_00cfe8a0(CFE820Pool* pool, CollidableNode* node
         }
         reinterpret_cast<AgentCreateFunc>(initialDispatcher->m_agent3Func[(unsigned char)qualityType].m_createFunc)(&input, entry, subEntry);
     }
-    entry->m_iElementCount = 0x80;
+    entry->m_iElementCount = sizeof(S_cfe020_Entry);
     return entry;
 }
 

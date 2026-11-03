@@ -66,20 +66,8 @@ void FUN_00d2b2b0_class::FUN_00d2b2b0()
     *(void**)this = &::DAT_0102e388;
 }
 
-struct hkMemoryManager
-{
-    virtual void FUN_00d4d950_0() = 0;
-    virtual void FUN_00d4d950_1() = 0;
-    virtual void free(void* object, unsigned int size) = 0;
-};
 
-struct NineIntegerRecord
-{
-    unsigned char padding[0x10];
-    hkMemoryManager* memoryManager;
-};
 
-NineIntegerRecord* _D1A0E0GetMemoryRouter();
 
 struct Action
 {
@@ -89,7 +77,7 @@ struct Action
     Action* FUN_00d4d950(unsigned char flags);
 };
 
-// Calls FUN_00d2b2b0, then if flags bit 0 is set frees this via the memory router's memory manager, and returns this.
+// Calls FUN_00d2b2b0, then if flags bit 0 is set frees this to the heap allocator, and returns this.
 // @fnv 0x00d4d950
 Action* Action::FUN_00d4d950(unsigned char flags)
 {
@@ -97,8 +85,7 @@ Action* Action::FUN_00d4d950(unsigned char flags)
 
     if (flags & 1)
     {
-        NineIntegerRecord* router = _D1A0E0GetMemoryRouter();
-        router->memoryManager->free(this, size);
+        hkMemoryRouter::getInstance().heap().blockFree(this, size);
     }
 
     return this;

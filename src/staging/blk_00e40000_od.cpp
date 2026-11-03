@@ -3,6 +3,7 @@
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
 #include "fnv/symbols_00c85000.h"
+#include "fnv/decl/Registry_e5c5.h"
 #include "../../include/layout_support.h"
 #include <xmmintrin.h>
 #include <new>
@@ -1208,14 +1209,13 @@ struct VectorAttribute
 
 struct AttributeHolder
 {
-    VectorAttribute* FUN_00e5c650(const char* name);
     int FUN_00e5ca80(const char* name, unsigned char warn, hkVector4& out);
 };
 
 // @fnv 0x00e5ca80
 int AttributeHolder::FUN_00e5ca80(const char* name, unsigned char warn, hkVector4& out)
 {
-    VectorAttribute* attr = FUN_00e5c650(name);
+    VectorAttribute* attr = reinterpret_cast<VectorAttribute*>(reinterpret_cast<::Registry_e5c5*>(this)->FUN_00e5c650(name));
     if (attr)
     {
         out = *attr->m_uiFilterValue;

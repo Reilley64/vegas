@@ -2,27 +2,13 @@
 // src/havok/physics/utilities/serialize/hkpdisplaybindingdataclass.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/serialize/hkpdisplaybindingdataclass.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include "fnv/decl/FUN_00dff6a0.h"
 #include "fnv/decl/hkReferencedObjectC905.h"
 #include "fnv/symbols_0102e000.h"
-struct AudioAllocator
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void Free(void* apMemory, unsigned int auiSize) throw();
-};
 
-struct AudioHolder
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    AudioAllocator* m_pAllocator;
-};
 
-static inline AudioHolder* getMemoryRouter() { return static_cast<AudioHolder*>(::FUN_00c85750()); }
 
 struct RefElem_t
 {
@@ -65,34 +51,16 @@ FUN_00dff640_cls* FUN_00dff640_cls::FUN_00dff640(unsigned char acFlags)
     this->RefBase_cls::~RefBase_cls();
     if (bShouldFree)
     {
-        AudioHolder* pHolder = getMemoryRouter();
-        AudioAllocator* pAllocator = pHolder->m_pAllocator;
-        pAllocator->Free(this, m_uSize);
+        hkMemoryRouter* pHolder = &hkMemoryRouter::getInstance();
+        hkMemoryAllocator* pAllocator = pHolder->m_heap;
+        pAllocator->blockFree(this, m_uSize);
     }
     return this;
 }
 
 namespace fnv_00dff730 {
-struct AudioAllocator
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual void v0C();
-    virtual void FreeArray(void* apMemory, unsigned int auiSize) throw();
-};
 
-struct AudioHolder
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    AudioAllocator* m_pAllocator;
-};
 
-struct BSAudio;
-static inline BSAudio* getMemoryRouter() { return static_cast<BSAudio*>(::FUN_00c85750()); }
 
 struct PtrElem
 {
@@ -119,8 +87,8 @@ struct FUN_00dff730_cls
 // @fnv 0x00dff730
 void FUN_00dff730_cls::ClearArrays()
 {
-    AudioHolder* pHolder = (AudioHolder*)getMemoryRouter();
-    AudioAllocator* pAllocator = pHolder->m_pAllocator;
+    hkMemoryRouter* pHolder = (&hkMemoryRouter::getInstance());
+    hkMemoryAllocator* pAllocator = pHolder->m_heap;
     PtrElem** pData1 = m_pData1;
     int iCount1 = m_iCount1;
     for (int i = 0; i < iCount1; i++)
@@ -135,13 +103,13 @@ void FUN_00dff730_cls::ClearArrays()
     m_iCount1 = 0;
     if ((uCapBits1 & 0x80000000u) == 0)
     {
-        pAllocator->FreeArray(m_pData1, (uCapBits1 & 0x3fffffffu) * 4);
+        pAllocator->bufFree(m_pData1, (uCapBits1 & 0x3fffffffu) * 4);
     }
     m_pData1 = 0;
     m_uCapBits1 = 0x80000000u;
 
-    AudioHolder* pHolder2 = (AudioHolder*)getMemoryRouter();
-    AudioAllocator* pAllocator2 = pHolder2->m_pAllocator;
+    hkMemoryRouter* pHolder2 = (&hkMemoryRouter::getInstance());
+    hkMemoryAllocator* pAllocator2 = pHolder2->m_heap;
     PtrElem** pData2 = (PtrElem**)m_pData2;
     int iCount2 = m_iCount2;
     for (int j = 0; j < iCount2; j++)
@@ -156,7 +124,7 @@ void FUN_00dff730_cls::ClearArrays()
     m_iCount2 = 0;
     if ((m_uCapBits2 & 0x80000000u) == 0)
     {
-        pAllocator2->FreeArray(m_pData2, (uCapBits2 & 0x3fffffffu) * 4);
+        pAllocator2->bufFree(m_pData2, (uCapBits2 & 0x3fffffffu) * 4);
     }
     m_pData2 = 0;
     m_uCapBits2 = 0x80000000u;
@@ -165,55 +133,28 @@ void FUN_00dff730_cls::ClearArrays()
 }  // namespace fnv_00dff730
 
 namespace fnv_00dff810 {
-struct Allocator
-{
-    virtual void unknown00() = 0;
-    virtual void unknown04() = 0;
-    virtual void Release(void* object, unsigned int bytes) = 0;
-};
-struct BSAudio
-{
-    unsigned int unk00, unk04, unk08, unk0c;
-    Allocator* allocator;
-};
-static inline BSAudio* getMemoryRouter() { return static_cast<BSAudio*>(::FUN_00c85750()); }
 struct Owner
 {
     unsigned int unk00;
     unsigned short size4, unk06;
     Owner* FUN_00dff810(unsigned int flags);
 };
-// Calls FUN_00dff6a0, and if flags has bit 0 set, releases this via the BSAudio allocator with size4 bytes, then returns this.
+// Calls FUN_00dff6a0, and if flags has bit 0 set, releases this via the hkMemoryRouter allocator with size4 bytes, then returns this.
 // @fnv 0x00dff810
 Owner* Owner::FUN_00dff810(unsigned int flags)
 {
     reinterpret_cast<::FUN_00dff6a0 *>(this)->FUN_00dff6a0::~FUN_00dff6a0();
     if (flags & 1u)
     {
-        BSAudio* audio = getMemoryRouter();
+        hkMemoryRouter* audio = &hkMemoryRouter::getInstance();
         unsigned int bytes = size4;
-        audio->allocator->Release(this, bytes);
+        audio->m_heap->blockFree(this, bytes);
     }
     return this;
 }
 }  // namespace fnv_00dff810
 
 namespace fnv_00dff840 {
-struct CpuAllocator
-{
-    virtual void slot00();
-    virtual void slot04();
-    virtual void Invoke(void* block, unsigned int size);
-};
-struct CpuAllocatorHolder
-{
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0c;
-    CpuAllocator* allocator;
-};
-static inline CpuAllocatorHolder* getMemoryRouter() { return static_cast<CpuAllocatorHolder*>(::FUN_00c85750()); }
 struct CpuObject
 {
     unsigned int unk00;
@@ -226,8 +167,8 @@ CpuObject* CpuObject::FUN_00dff840(unsigned int flags)
     reinterpret_cast<::fnv_00dff730::FUN_00dff730_cls *>(this)->ClearArrays();
     if (flags & 1)
     {
-        CpuAllocatorHolder* holder = getMemoryRouter();
-        holder->allocator->Invoke(this, size);
+        hkMemoryRouter* holder = &hkMemoryRouter::getInstance();
+        holder->m_heap->blockFree(this, size);
     }
     return this;
 }

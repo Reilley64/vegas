@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/serialize/hkphavoksnapshot.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/serialize/hkphavoksnapshot.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include <new>
 #include "fnv/decl/FUN_005609f0_shell.h"
@@ -19,21 +20,6 @@
 #include "fnv/symbols_00d48000.h"
 #include "fnv/symbols_0102e000.h"
 #include "fnv/symbols_01268000.h"
-struct CallbackInterface
-{
-    virtual void reserved0();
-    virtual void reserved1();
-    virtual void notify(void*, unsigned short);
-};
-struct State
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    CallbackInterface* interface10;
-};
-static inline State* getMemoryRouter() { return static_cast<State*>(::FUN_00c85750()); }
 struct Object
 {
     void* unk00;
@@ -48,8 +34,8 @@ Object* Object::FUN_00cc0dd0(unsigned int flags)
     FUN_00cc0ae0();
     if (flags & 1)
     {
-        State* state = getMemoryRouter();
-        state->interface10->notify(this, unk04);
+        hkMemoryRouter* state = &hkMemoryRouter::getInstance();
+        state->m_heap->blockFree(this, unk04);
     }
     return this;
 }
@@ -257,15 +243,15 @@ void FUN_00cc08f0_cls::FUN_00cc08f0(void** a1, void** a2)
         if (*cur != (void*)&::g_01268eb4)
         {
             void* v = *a1;
-            State* h = getMemoryRouter();
-            Obj70* o = (Obj70*)((Allocator*)h->interface10)->allocate(0x70);
+            hkMemoryRouter* h = &hkMemoryRouter::getInstance();
+            Obj70* o = (Obj70*)((Allocator*)h->m_heap)->allocate(0x70);
             o->m_04 = 0x70;
             o = ((::Obj70 *)(new ((void *)(o)) ::FUN_00d4bab0((*(const ::FUN_00dcd310 *)(v)))));
             PtrList* list = &m_08;
-            State* h2 = getMemoryRouter();
+            hkMemoryRouter* h2 = &hkMemoryRouter::getInstance();
             if (list->m_04 == (list->m_08 & 0x3fffffff))
             {
-                ::ResizeAudioStream((::AudioAllocator *)(h2->interface10), (::AudioStream *)(list), sizeof(void*));
+                ::ResizeAudioStream((::AudioAllocator *)(h2->m_heap), (::AudioStream *)(list), sizeof(void*));
             }
             list->Add(o);
             *a1 = o;
@@ -278,15 +264,15 @@ void FUN_00cc08f0_cls::FUN_00cc08f0(void** a1, void** a2)
         if (*cur != (void*)&::g_01268d4c)
         {
             void* v = *a1;
-            State* h = getMemoryRouter();
-            Obj110* o = (Obj110*)((Allocator*)h->interface10)->allocate(0x110);
+            hkMemoryRouter* h = &hkMemoryRouter::getInstance();
+            Obj110* o = (Obj110*)((Allocator*)h->m_heap)->allocate(0x110);
             o->m_04 = 0x110;
             o = ((::Obj110 *)(new ((void *)(o)) ::fnv_00d4aa70::FUN_00d4aa70((const ::fnv_00d4aa70::FUN_00d569c0 *)(v))));
             PtrList* list = &m_08;
-            State* h2 = getMemoryRouter();
+            hkMemoryRouter* h2 = &hkMemoryRouter::getInstance();
             if (list->m_04 == (list->m_08 & 0x3fffffff))
             {
-                ::ResizeAudioStream((::AudioAllocator *)(h2->interface10), (::AudioStream *)(list), sizeof(void*));
+                ::ResizeAudioStream((::AudioAllocator *)(h2->m_heap), (::AudioStream *)(list), sizeof(void*));
             }
             list->Add(o);
             *a1 = o;
@@ -299,15 +285,15 @@ void FUN_00cc08f0_cls::FUN_00cc08f0(void** a1, void** a2)
         void* v = *a1;
         if (((unsigned char*)v)[0x1d] == 2)
         {
-            State* h = getMemoryRouter();
-            Obj80* o = (Obj80*)((Allocator*)h->interface10)->allocate(0x80);
+            hkMemoryRouter* h = &hkMemoryRouter::getInstance();
+            Obj80* o = (Obj80*)((Allocator*)h->m_heap)->allocate(0x80);
             o->m_04 = 0x80;
             o = ((::Obj80 *)(new ((void *)(o)) ::FUN_00d49750((::HeightFieldSource *)(v))));
             PtrList* list = &m_08;
-            State* h2 = getMemoryRouter();
+            hkMemoryRouter* h2 = &hkMemoryRouter::getInstance();
             if (list->m_04 == (list->m_08 & 0x3fffffff))
             {
-                ::ResizeAudioStream((::AudioAllocator *)(h2->interface10), (::AudioStream *)(list), sizeof(void*));
+                ::ResizeAudioStream((::AudioAllocator *)(h2->m_heap), (::AudioStream *)(list), sizeof(void*));
             }
             list->Add(o);
             *a1 = o;
@@ -333,25 +319,8 @@ struct PooledItem
     virtual void v00(int aiFlags);
 };
 
-struct FixedAllocator
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual void v0C();
-    virtual void FreeArray(void* apMemory, unsigned int auiSize) throw();
-};
 
-struct AllocHolder
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    FixedAllocator* m_pAllocator;
-};
 
-static inline AllocHolder* getMemoryRouter() { return static_cast<AllocHolder*>(::FUN_00c85750()); }
 extern int DAT_010c93e4;
 
 struct FUN_00cc0ae0_cls
@@ -378,13 +347,13 @@ void FUN_00cc0ae0_cls::FUN_00cc0ae0()
             item->v00(1);
         }
     }
-    AllocHolder* holder = getMemoryRouter();
-    FixedAllocator* alloc = holder->m_pAllocator;
+    hkMemoryRouter* holder = &hkMemoryRouter::getInstance();
+    hkMemoryAllocator* alloc = holder->m_heap;
     unsigned int cap = m_uCapBits;
     m_iArrayLength = 0;
     if ((cap & 0x80000000u) == 0)
     {
-        alloc->FreeArray(m_pItems, (cap & 0x3fffffffu) * 4);
+        alloc->bufFree(m_pItems, (cap & 0x3fffffffu) * 4);
     }
     m_pItems = 0;
     m_uCapBits = 0x80000000u;
@@ -455,14 +424,6 @@ unsigned char* FUN_00cc0b50(unsigned char* apResult, unsigned int a2, unsigned i
 #include "fnv/decl/hkReferencedObjectC905.h"
 #include "fnv/symbols_00cc0000.h"
 
-struct hkMemoryAllocator
-{
-    virtual void reserved0();
-    virtual void FunctionAtSlot4();
-    virtual void VirtualFunction8();
-    virtual void reservedC();
-    virtual void ReturnMemory(void* p, int numBytes);
-};
 struct hkMemoryRouterS
 {
     int unk00;
@@ -477,7 +438,7 @@ struct hkMemoryRouterS
 };
 inline hkMemoryRouterS* getRouter()
 {
-    return (hkMemoryRouterS*)getMemoryRouter();
+    return (hkMemoryRouterS*)&hkMemoryRouter::getInstance();
 }
 
 struct HavokElementArray;
@@ -545,7 +506,7 @@ struct NamedVariantArray
         destruct(m_data, m_iElementCount);
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
-            a.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(NamedVariantS));
+            a.bufFree(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(NamedVariantS));
     }
     __forceinline NamedVariantS& AllocatePair()
     {
@@ -591,32 +552,13 @@ hkResultS __cdecl FUN_00cc0bc0(const void* object, const hkClassS& pClassInfo, i
 #include "fnv/symbols_011b3000.h"
 
 #include <windows.h>
-struct DirAllocator
-{
-    virtual void reserved00();
-    virtual void reserved04();
-    virtual void reserved08();
-    virtual void reserved0c();
-    virtual void freeBuffer(void*, int);
-    template <class T> inline void freeElements(void* p, int count)
-    {
-        const int itemSize = sizeof(T);
-        freeBuffer(p, count * itemSize);
-    }
-};
-struct DirRouter
-{
-    int unk00, unk04, unk08;
-    DirAllocator* temporary;
-};
 namespace DirectoryMemory {
-static inline DirRouter& getMemoryRouter() { return *static_cast<DirRouter*>(::FUN_00c85750()); }
 }
-__forceinline DirAllocator& tempAllocator()
+__forceinline hkMemoryAllocator& tempAllocator()
 {
-    return *DirectoryMemory::getMemoryRouter().temporary;
+    return hkMemoryRouter::getInstance().temp();
 }
-void __cdecl reserveDirectoryBuffer(DirAllocator&, void*, int, int);
+void __cdecl reserveDirectoryBuffer(hkMemoryAllocator&, void*, int, int);
 
 template <class T> struct DirArrayBase
 {
@@ -631,7 +573,7 @@ template <class T> struct DirArrayBase
     {
         return capacityFlags & 0x3fffffff;
     }
-    __forceinline void reserve(DirAllocator& allocator, int n)
+    __forceinline void reserve(hkMemoryAllocator& allocator, int n)
     {
         int old = capacity();
         if (old < n)
@@ -640,16 +582,16 @@ template <class T> struct DirArrayBase
             reserveDirectoryBuffer(allocator, this, n < doubled ? doubled : n, sizeof(T));
         }
     }
-    __forceinline void resize(DirAllocator& allocator, int n)
+    __forceinline void resize(hkMemoryAllocator& allocator, int n)
     {
         reserve(allocator, n);
         count = n;
     }
-    __forceinline void release(DirAllocator& allocator)
+    __forceinline void release(hkMemoryAllocator& allocator)
     {
         count = 0;
         if ((capacityFlags & 0x80000000) == 0)
-            allocator.freeElements<T>(data, capacity());
+            allocator._bufFree<T>(data, capacity());
         data = 0;
         capacityFlags = 0x80000000;
     }
@@ -660,11 +602,11 @@ template <class T> struct DirTempArray : DirArrayBase<T>
     {}
     __forceinline ~DirTempArray()
     {
-        DirRouter* router = &DirectoryMemory::getMemoryRouter();
-        DirAllocator* allocator = router->temporary;
+        hkMemoryRouter* router = &hkMemoryRouter::getInstance();
+        hkMemoryAllocator* allocator = router->m_temp;
         this->count = 0;
         if ((this->capacityFlags & 0x80000000) == 0)
-            allocator->freeBuffer(this->data, this->capacityFlags & 0x3fffffff);
+            allocator->bufFree(this->data, this->capacityFlags & 0x3fffffff);
         this->data = 0;
         this->capacityFlags = 0x80000000;
     }
@@ -740,7 +682,7 @@ struct DirectoryArray
 {
     DirectoryItem* data;
     int count, capacityFlags;
-    __forceinline DirectoryItem& expand(DirAllocator& allocator)
+    __forceinline DirectoryItem& expand(hkMemoryAllocator& allocator)
     {
         if (count == (capacityFlags & 0x3fffffff))
             ::ResizeAudioStream((::AudioAllocator *)&(allocator), (::AudioStream *)(void *)(this), sizeof(DirectoryItem));
@@ -750,7 +692,7 @@ struct DirectoryArray
 struct DirectoryOutput
 {
     DirectoryArray entries;
-    DirAllocator* allocator;
+    hkMemoryAllocator* allocator;
     __forceinline void add(const char* name, DirectoryFlags flags, unsigned modified = 0)
     {
         DirectoryItem& item = entries.expand(*allocator);

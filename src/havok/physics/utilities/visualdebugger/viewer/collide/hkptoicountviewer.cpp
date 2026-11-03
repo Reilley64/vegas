@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 // @fnv 0x00d60b90
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include <new>
 #include "fnv/decl/CB1A90Owner.h"
@@ -127,12 +128,6 @@ struct CountArray
     CountArray() : data(0), size(0), capacity(-1)
     {}
 };
-struct BSAudio
-{
-    int unk00, unk04, unk08, unk0C;
-    void* allocator;
-};
-static inline BSAudio* getMemoryRouter() { return static_cast<BSAudio*>(::FUN_00c85750()); }
 class FUN_00d67ce0 : public FUN_00ddccb0,
                      public hkpContactListener,
                      public hkpWorldPostSimulationListener,
@@ -172,8 +167,8 @@ class FUN_00d67ce0 : public FUN_00ddccb0,
 // @fnv 0x00d67ce0
 FUN_00d67ce0::FUN_00d67ce0(int context) : FUN_00ddccb0(context)
 {
-    BSAudio* audio = getMemoryRouter();
-    reinterpret_cast<::FUN_00cb1fe0_t *>(&(counts))->EnsureCapacity(reinterpret_cast<intptr_t>(audio->allocator), 0);
+    hkMemoryRouter* audio = &hkMemoryRouter::getInstance();
+    reinterpret_cast<::FUN_00cb1fe0_t *>(&(counts))->EnsureCapacity(reinterpret_cast<intptr_t>(audio->m_heap), 0);
 }
 
 namespace fnv_00d67d60 {
@@ -190,7 +185,6 @@ struct Global
     int unk0c;
     Heap* heap10;
 };
-static inline void* getMemoryRouter() { return ::FUN_00c85750(); }
 struct hkpToiCountViewer
 {
     void* vtable;
@@ -202,7 +196,7 @@ struct hkpToiCountViewer
 // @fnv 0x00d67d60
 void* __cdecl AllocateToiCountViewer(unsigned int arg)
 {
-    Global* global = (Global*)getMemoryRouter();
+    Global* global = (Global*)&hkMemoryRouter::getInstance();
     hkpToiCountViewer* pViewer = (hkpToiCountViewer*)global->heap10->Allocate(0x40);
     pViewer->size = 0x40;
     pViewer = ((::fnv_00d67d60::hkpToiCountViewer *)(new ((void *)(pViewer)) ::FUN_00d67ce0(arg)));
@@ -224,7 +218,6 @@ void RegisterToiCounter()
     g_00d67e10_toiCounterId = reinterpret_cast<::S_00dd9380 *>(((*reinterpret_cast<::S_00d67e10_Registry * *>(&::DAT_01269cd0))))->FUN_00dd9380("TOI counter", reinterpret_cast<intptr_t>(((void *(&)())::fnv_00d67d60::AllocateToiCountViewer)));
 }
 
-struct BSAudio;
 
 struct AudioHeap
 {
@@ -289,7 +282,7 @@ struct Member : MemberBase
     __declspec(nothrow) void Release(void* heap);
     ~Member()
     {
-        reinterpret_cast<::CB1A90Owner *>(this)->ProcessArgument((::CB1A90Argument *)(((AudioHeap*)getMemoryRouter())->heap));
+        reinterpret_cast<::CB1A90Owner *>(this)->ProcessArgument((::CB1A90Argument *)(((AudioHeap*)&hkMemoryRouter::getInstance())->heap));
     }
 };
 
@@ -493,7 +486,6 @@ struct Alloc
     virtual void Grow(SpawnedObject** out, unsigned int size);
 };
 
-struct BSAudio;
 
 
 struct Map
@@ -539,8 +531,8 @@ struct Array
 
     void clear()
     {
-        BSAudio* h = getMemoryRouter();
-        Alloc* al = (Alloc*)h->allocator;
+        hkMemoryRouter* h = &hkMemoryRouter::getInstance();
+        Alloc* al = (Alloc*)h->m_heap;
         int cap = m_iCapacityState;
         m_iElementCount = 0;
         if ((cap & 0x80000000) == 0)
@@ -583,10 +575,10 @@ void FUN_00d67e30_cls::RemoveEntriesForObject(SpawnedObject* a1)
         SpawnedObject* obj = m_14.m_kPrimitiveElement[it].obj;
         if (obj->m_08 == a1)
         {
-            BSAudio* h = getMemoryRouter();
+            hkMemoryRouter* h = &hkMemoryRouter::getInstance();
             if (out.m_iElementCount == (int)(out.m_iCapacityState & 0x3fffffffu))
             {
-                ::ResizeAudioStream((::AudioAllocator *)(h->allocator), (::AudioStream *)(void *)(&out), 4);
+                ::ResizeAudioStream((::AudioAllocator *)(h->m_heap), (::AudioStream *)(void *)(&out), 4);
             }
             out.m_data[out.m_iElementCount] = obj;
             out.m_iElementCount++;
@@ -725,21 +717,13 @@ void FUN_00d67da0_cls::FUN_00d67da0()
     reinterpret_cast<::FUN_00cb1a60_t *>((st))->ResetEntries();
 }
 
-struct AudioAllocator
-{
-    virtual void v0();
-    virtual void v1();
-    virtual void v2();
-    virtual void v3();
-    virtual void Free(void* ptr, unsigned int count);
-};
 
 struct AudioCoreView
 {
     int unk00;
     int unk04;
     int unk08;
-    AudioAllocator* m_pThreadAllocator;
+    hkMemoryAllocator* m_pThreadAllocator;
 };
 
 struct BSAudioString
@@ -760,10 +744,10 @@ struct BSAudioString
 
     void Release()
     {
-        AudioAllocator* allocator = ((AudioCoreView*)getMemoryRouter())->m_pThreadAllocator;
+        hkMemoryAllocator* allocator = ((AudioCoreView*)&hkMemoryRouter::getInstance())->m_pThreadAllocator;
         m_fRestLength = 0;
         if ((m_pRayCursor & 0x80000000) == 0)
-            allocator->Free(m_data, m_pRayCursor & 0x3fffffff);
+            allocator->bufFree(m_data, m_pRayCursor & 0x3fffffff);
     }
 };
 
@@ -912,23 +896,8 @@ AdjDerived::AdjDerived()
 {}
 
 namespace fnv_00d68230 {
-struct AudioAllocator
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void Free(void* apMemory, unsigned int auiSize);
-};
 
-struct AudioHolder
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    AudioAllocator* m_pAllocator;
-};
 
-static inline AudioHolder* getMemoryRouter() { return static_cast<AudioHolder*>(::FUN_00c85750()); }
 
 struct FUN_00d68230
 {
@@ -938,10 +907,10 @@ struct FUN_00d68230
     virtual ~FUN_00d68230();
     static void operator delete(void* apMemory)
     {
-        AudioHolder* pHolder = getMemoryRouter();
+        hkMemoryRouter* pHolder = &hkMemoryRouter::getInstance();
         unsigned int uiSize = ((FUN_00d68230*)apMemory)->m_u04;
-        AudioAllocator* pAllocator = pHolder->m_pAllocator;
-        pAllocator->Free(apMemory, uiSize);
+        hkMemoryAllocator* pAllocator = pHolder->m_heap;
+        pAllocator->bufFree(apMemory, uiSize);
     }
 };
 
@@ -955,9 +924,7 @@ FUN_00d68230::FUN_00d68230()
 }  // namespace fnv_00d68230
 
 namespace fnv_00d67c30 {
-struct Holder;
 
-static inline Holder* getMemoryRouter() { return static_cast<Holder*>(::FUN_00c85750()); }
 extern "C" char DAT_01000001;
 
 struct Entry
@@ -983,15 +950,6 @@ struct ArgBlock
     int m_items[2];
     int unk0c;
     int unk10;
-};
-
-struct Holder
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int m_10;
 };
 
 struct FUN_00d67c30_cls
@@ -1038,8 +996,8 @@ void FUN_00d67c30_cls::FUN_00d67c30(ArgBlock* apBlock)
         }
         else
         {
-            Holder* h = getMemoryRouter();
-            reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>((t))->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(h->m_10)), reinterpret_cast<intptr_t>(item), reinterpret_cast<intptr_t>(&DAT_01000001));
+            hkMemoryRouter* h = &hkMemoryRouter::getInstance();
+            reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>((t))->FUN_00cb1870(*reinterpret_cast<::fnv_00cb1870::hkMemoryAllocatorCB18 *>(h->m_heap), reinterpret_cast<intptr_t>(item), reinterpret_cast<intptr_t>(&DAT_01000001));
             char* owner = ((char*)this - 0x28) != 0 ? (char*)&this->unk08 : 0;
             reinterpret_cast<::FNVOwner *>((item))->FUN_00c9c5b0((int)owner);
         }

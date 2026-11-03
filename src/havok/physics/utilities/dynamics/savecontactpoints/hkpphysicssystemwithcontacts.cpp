@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/dynamics/savecontactpoints/hkpphysicssystemwithcontacts.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/dynamics/savecontactpoints/hkpphysicssystemwithcontacts.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include "fnv/decl/FUN_00c90510_class.h"
 #include "fnv/decl/FUN_00d06640_class.h"
@@ -16,21 +17,7 @@ int FUN_00dceb80()
     return 0;
 }
 
-class hkMemoryAllocatorDCEC;
 
-struct hkMemoryRouterDCEC
-{
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
-    hkMemoryAllocatorDCEC* m_pStreamAllocator;
-    hkMemoryAllocatorDCEC& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
-static inline hkMemoryRouterDCEC& getMemoryRouter() { return *static_cast<hkMemoryRouterDCEC*>(::FUN_00c85750()); }
 
 
 template <class T> __forceinline void constructWithCopyDCEC(T* p, int n, const T& t)
@@ -52,7 +39,7 @@ template <class T> class hkArrayDCEC
     }
     void AddBack(const T& t)
     {
-        hkMemoryAllocatorDCEC& kAlloc = getMemoryRouter().heap();
+        hkMemoryAllocator& kAlloc = hkMemoryRouter::getInstance().heap();
         if (m_iElementCount == getCapacity())
             ::ResizeAudioStream((::AudioAllocator *)(void *)(&kAlloc), (::AudioStream *)(void *)(this), sizeof(T));
         constructWithCopyDCEC(m_data + m_iElementCount, 1, t);
@@ -104,23 +91,6 @@ namespace fnv_00dcecc0 {
 struct RefAgent
 {
 };
-struct Allocator
-{
-    virtual void slot00();
-    virtual void slot04();
-    virtual void slot08();
-    virtual void slot0C();
-    virtual void Deallocate(void* data, unsigned int size);
-};
-struct AllocatorManager
-{
-    void* unk00;
-    void* unk04;
-    void* unk08;
-    void* unk0C;
-    Allocator* allocator;
-};
-static inline AllocatorManager* getMemoryRouter() { return static_cast<AllocatorManager*>(::FUN_00c85750()); }
 struct FUN_00dcecc0
 {
     virtual ~FUN_00dcecc0();
@@ -143,13 +113,13 @@ FUN_00dcecc0::~FUN_00dcecc0()
     {
         reinterpret_cast<::hkReferencedObjectC905 *>((reinterpret_cast<RefAgent*>(m_kSerializedAgentEntries.m_data[i])))->FUN_00c905b0();
     }
-    AllocatorManager* pAllocatorManager = getMemoryRouter();
-    Allocator* allocator = pAllocatorManager->allocator;
+    hkMemoryRouter* pAllocatorManager = &hkMemoryRouter::getInstance();
+    hkMemoryAllocator* allocator = pAllocatorManager->m_heap;
     unsigned int uiArrayFlags = m_kSerializedAgentEntries.m_iCapacityState;
     m_kSerializedAgentEntries.m_iElementCount = 0;
     if (!(uiArrayFlags & 0x80000000u))
     {
-        allocator->Deallocate(m_kSerializedAgentEntries.m_data, 4 * (uiArrayFlags & 0x3fffffffu));
+        allocator->bufFree(m_kSerializedAgentEntries.m_data, 4 * (uiArrayFlags & 0x3fffffffu));
     }
     m_kSerializedAgentEntries.m_data = 0;
     m_kSerializedAgentEntries.m_iCapacityState = 0x80000000;

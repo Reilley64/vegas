@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/visualdebugger/viewer/collide/hkpbroadphaseviewer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/collide/hkpbroadphaseviewer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include <new>
 #include "fnv/decl/S_00dd9380.h"
@@ -232,25 +233,8 @@ FUN_00d6a940::FUN_00d6a940(void* a) : WorldViewerBase(a)
     }
 }
 
-struct AudioAllocator
-{
-    virtual void unk00();
-    virtual void unk04();
-    virtual void unk08();
-    virtual void unk0c();
-    virtual void FreeData(void* apMemory, unsigned int auiSize);
-};
 
-struct AudioHolder
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    AudioAllocator* m_pAllocator;
-};
 
-static inline AudioHolder* getMemoryRouter() { return static_cast<AudioHolder*>(::FUN_00c85750()); }
 
 struct SpawnedItem
 {
@@ -369,8 +353,8 @@ FUN_00d6ac40_cls::~FUN_00d6ac40_cls() throw()
             reinterpret_cast<::SearchArray *>((m_pSharedOwner->m_ppItems[i]))->ClearValue((static_cast<SubObject*>(this)));
         }
     }
-    AudioHolder* pAudioHolder = getMemoryRouter();
-    AudioAllocator* pAllocator = pAudioHolder->m_pAllocator;
+    hkMemoryRouter* pAudioHolder = &hkMemoryRouter::getInstance();
+    hkMemoryAllocator* pAllocator = pAudioHolder->m_heap;
     SpawnedItem* p = m_pData;
     if (m_iField30 > 0)
     {
@@ -386,27 +370,13 @@ FUN_00d6ac40_cls::~FUN_00d6ac40_cls() throw()
     unsigned int uiAllocFlags = m_uiObjectFlags;
     if ((uiAllocFlags & 0x80000000u) == 0)
     {
-        pAllocator->FreeData(m_pData, (uiAllocFlags & 0x3fffffffu) * 0x80);
+        pAllocator->bufFree(m_pData, (uiAllocFlags & 0x3fffffffu) * 0x80);
     }
     m_pData = 0;
     m_uiObjectFlags = 0x80000000u;
 }
 
 namespace fnv_00d6ad00 {
-struct AllocatorIface
-{
-    virtual void* release();
-    virtual void* allocate(int size);
-};
-struct AllocHolder
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    AllocatorIface* m_pAllocator;
-};
-static inline AllocHolder* getMemoryRouter() { return static_cast<AllocHolder*>(::FUN_00c85750()); }
 
 struct SpawnedObject
 {
@@ -431,9 +401,9 @@ struct SpawnedObject
 // @fnv 0x00d6ad00
 ::ProcBase* FUN_00d6ad00(void* arg)
 {
-    AllocHolder* pAllocHolder = getMemoryRouter();
-    AllocatorIface* pAllocator = pAllocHolder->m_pAllocator;
-    SpawnedObject* pObject = (SpawnedObject*)pAllocator->allocate(0x38);
+    hkMemoryRouter* pAllocHolder = &hkMemoryRouter::getInstance();
+    hkMemoryAllocator* pAllocator = pAllocHolder->m_heap;
+    SpawnedObject* pObject = (SpawnedObject*)pAllocator->blockAlloc(0x38);
     pObject->m_wSize = 0x38;
     ::FUN_00d6a940* pViewer = new ((void *)(pObject)) ::FUN_00d6a940(arg);
     return static_cast<::ProcBase*>(pViewer);
@@ -528,26 +498,7 @@ D6AD90Object::D6AD90Object()
 {}
 
 namespace fnv_00d6ada0 {
-struct S_00d6ada0_Allocator
-{
-    virtual void* AllocateMemoryBlock(int numBytes);
-    virtual void unk04();
-    virtual void ReleaseBlock(void* p, int numBytes);
-};
 
-struct S_00d6ada0_Router
-{
-    int unk0;
-    int unk4;
-    int unk8;
-    int unkC;
-    S_00d6ada0_Allocator* m_pStreamAllocator;
-    S_00d6ada0_Allocator& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
-static inline S_00d6ada0_Router* getMemoryRouter() { return static_cast<S_00d6ada0_Router*>(::FUN_00c85750()); }
 
 struct S_00d6ada0_ReferencedObject
 {
@@ -556,7 +507,7 @@ struct S_00d6ada0_ReferencedObject
     void operator delete(void* p, size_t)
     {
         S_00d6ada0_ReferencedObject* b = static_cast<S_00d6ada0_ReferencedObject*>(p);
-        getMemoryRouter()->heap().ReleaseBlock(p, b->m_usMemSizeAndFlags);
+        hkMemoryRouter::getInstance().heap().blockFree(p, b->m_usMemSizeAndFlags);
     }
     virtual ~S_00d6ada0_ReferencedObject()
     {}
@@ -620,28 +571,11 @@ static inline void S00d6a9b0_Mark(const char* name)
     }
 }
 
-struct S00d6a9b0_Alloc
-{
-    virtual void a00();
-    virtual void a04();
-    virtual void a08();
-    virtual void* GetStack(int& nBytes);
-    virtual void FreeData(void* p, unsigned int size);
-};
 
-struct S00d6a9b0_Holder
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    S00d6a9b0_Alloc* m_pAllocationContext;
-    S00d6a9b0_Alloc& heap() { return *m_pAllocationContext; }
-};
 
-static inline S00d6a9b0_Alloc& S00d6a9b0_heap()
+static inline hkMemoryAllocator& S00d6a9b0_heap()
 {
-    return reinterpret_cast<S00d6a9b0_Holder*>(getMemoryRouter())->heap();
+    return hkMemoryRouter::getInstance().heap();
 }
 
 template <typename T>
@@ -654,10 +588,10 @@ struct S00d6a9b0_Arr
     S00d6a9b0_Arr() : m_data(0), m_iElementCount(0), m_capFlags((int)0x80000000) {}
     ~S00d6a9b0_Arr()
     {
-        S00d6a9b0_Alloc& a = S00d6a9b0_heap();
+        hkMemoryAllocator& a = S00d6a9b0_heap();
         m_iElementCount = 0;
         if ((m_capFlags & 0x80000000) == 0)
-            a.FreeData(m_data, (m_capFlags & 0x3fffffff) * sizeof(T));
+            a.bufFree(m_data, (m_capFlags & 0x3fffffff) * sizeof(T));
         m_data = 0;
         m_capFlags = (int)0x80000000;
     }
@@ -669,13 +603,13 @@ struct S00d6a9b0_Arr
     }
     void reserve(int n)
     {
-        S00d6a9b0_Alloc& a = S00d6a9b0_heap();
+        hkMemoryAllocator& a = S00d6a9b0_heap();
         int cap = m_capFlags & 0x3fffffff;
         if (cap < n)
         {
             int cap2 = 2 * cap;
             int nc = (n < cap2) ? cap2 : n;
-            ::FUN_00c908c0((::SpawnedObject *)(::S00d6a9b0_Alloc *)(&a), (::SpawnedArray *)(void *)(this), nc, sizeof(T));
+            ::FUN_00c908c0((::SpawnedObject *)(::hkMemoryAllocator *)(&a), (::SpawnedArray *)(void *)(this), nc, sizeof(T));
         }
     }
 };
@@ -724,10 +658,10 @@ __forceinline void S00d6a9b0_Arr<T>::SetSizeAndGrow(int n)
 }
 
 template <typename T>
-static __forceinline T* S00d6a9b0_bufAlloc(S00d6a9b0_Alloc& a, int n, int& nbytes)
+static __forceinline T* S00d6a9b0_bufAlloc(hkMemoryAllocator& a, int n, int& nbytes)
 {
     int req = n * (int)sizeof(T);
-    T* p = (T*)a.GetStack(req);
+    T* p = (T*)a.bufAlloc(req);
     nbytes = req;
     return p;
 }

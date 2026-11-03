@@ -9,6 +9,7 @@
 // src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkphingelimitsdrawer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkphingelimitsdrawer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include <new>
 #include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
@@ -225,52 +226,6 @@ template <typename T> struct TypeSizeConstant
         val = sizeof(T)
     };
 };
-class hkMemoryAllocator
-{
-  public:
-    virtual ~hkMemoryAllocator();
-    virtual void* AllocateMemoryBlock(int numBytes) = 0;
-    virtual void ReleaseBlock(void* p, int numBytes) = 0;
-    virtual void* AllocateBufferWithSize(int& reqNumBytesInOut);
-    virtual void ReturnMemory(void* p, int numBytes);
-    template <typename TYPE> inline void _bufFree(void* p, int numElem)
-    {
-        const int SIZE_ELEM = TypeSizeConstant<TYPE>::val;
-        ReturnMemory(p, numElem * SIZE_ELEM);
-    }
-
-  public:
-    enum MemoryState
-    {
-        MEMORY_STATE_OK,
-        MEMORY_STATE_OUT_OF_MEMORY
-    };
-};
-struct StringPointerTriple
-{
-  public:
-    __forceinline StringPointerTriple();
-
-  protected:
-    ValueWrapper<void*> m_next;
-    ValueWrapper<void*> m_kRayStart;
-    ValueWrapper<void*> m_kRayEnd;
-};
-class NineIntegerRecord
-{
-  public:
-    typedef hkMemoryAllocator Allocator;
-    static inline NineIntegerRecord& getMemoryRouter() { return *static_cast<NineIntegerRecord*>(::FUN_00c85750()); }
-    inline Allocator& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-
-  protected:
-    StringPointerTriple m_aiEntries;
-    Allocator* m_pTemp;
-    Allocator* m_pStreamAllocator;
-};
 class hkBaseObject
 {
   public:
@@ -289,7 +244,7 @@ class hkReferencedObject : public hkBaseObject
     {
         ;
         hkReferencedObject* b = static_cast<hkReferencedObject*>(
-            NineIntegerRecord::getMemoryRouter().heap().AllocateMemoryBlock(static_cast<int>(nbytes)));
+            hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes)));
         b->m_usMemSizeAndFlags = static_cast<hkUint16>(nbytes);
         ;
         return b;
@@ -336,7 +291,7 @@ struct RouterHeapAllocatorProvider
 {
     hkMemoryAllocator& get(const void*)
     {
-        return NineIntegerRecord::getMemoryRouter().heap();
+        return hkMemoryRouter::getInstance().heap();
     }
 };
 template <typename T> class HavokElementArray
@@ -488,7 +443,7 @@ class hkVector4
     __forceinline void* __cdecl operator new(std::size_t nbytes)
     {
         ;
-        void* obj = NineIntegerRecord::getMemoryRouter().heap().AllocateMemoryBlock(static_cast<int>(nbytes));
+        void* obj = hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));
         ;
         return obj;
     }
@@ -518,7 +473,7 @@ class hkMatrix3
     __forceinline void* __cdecl operator new(std::size_t nbytes)
     {
         ;
-        void* obj = NineIntegerRecord::getMemoryRouter().heap().AllocateMemoryBlock(static_cast<int>(nbytes));
+        void* obj = hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));
         ;
         return obj;
     }
@@ -535,7 +490,7 @@ class __declspec(align(16)) hkRotation : public hkMatrix3
     __forceinline void* __cdecl operator new(std::size_t nbytes)
     {
         ;
-        void* obj = NineIntegerRecord::getMemoryRouter().heap().AllocateMemoryBlock(static_cast<int>(nbytes));
+        void* obj = hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));
         ;
         return obj;
     }
@@ -546,7 +501,7 @@ class hkTransform
     __forceinline void* __cdecl operator new(std::size_t nbytes)
     {
         ;
-        void* obj = NineIntegerRecord::getMemoryRouter().heap().AllocateMemoryBlock(static_cast<int>(nbytes));
+        void* obj = hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));
         ;
         return obj;
     }
@@ -616,7 +571,7 @@ class hkpConstraintData : public hkReferencedObject
     {
         ;
         hkReferencedObject* b = static_cast<hkReferencedObject*>(
-            NineIntegerRecord::getMemoryRouter().heap().AllocateMemoryBlock(static_cast<int>(nbytes)));
+            hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes)));
         b->m_usMemSizeAndFlags = static_cast<hkUint16>(nbytes);
         ;
         return b;
@@ -637,7 +592,7 @@ class hkpConstraintData : public hkReferencedObject
         __forceinline void* __cdecl operator new(std::size_t nbytes)
         {
             ;
-            void* obj = NineIntegerRecord::getMemoryRouter().heap().AllocateMemoryBlock(static_cast<int>(nbytes));
+            void* obj = hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));
             ;
             return obj;
         }
@@ -646,7 +601,7 @@ class hkpConstraintData : public hkReferencedObject
             if (p)
             {
                 ;
-                NineIntegerRecord::getMemoryRouter().heap().ReleaseBlock(p, sizeof(hkpConstraintData::ConstraintInfo));
+                hkMemoryRouter::getInstance().heap().blockFree(p, sizeof(hkpConstraintData::ConstraintInfo));
             }
         }
         __forceinline void* __cdecl operator new(std::size_t n, void* p)
@@ -708,7 +663,7 @@ class hkpConstraintInstance : public hkReferencedObject
         __forceinline void* __cdecl operator new(std::size_t nbytes)
         {
             ;
-            void* obj = NineIntegerRecord::getMemoryRouter().heap().AllocateMemoryBlock(static_cast<int>(nbytes));
+            void* obj = hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));
             ;
             return obj;
         }
@@ -717,7 +672,7 @@ class hkpConstraintInstance : public hkReferencedObject
             if (p)
             {
                 ;
-                NineIntegerRecord::getMemoryRouter().heap().ReleaseBlock(
+                hkMemoryRouter::getInstance().heap().blockFree(
                     p, sizeof(hkpConstraintInstance::SmallArraySerializeOverrideType));
             }
         }
@@ -771,7 +726,7 @@ class DebugDisplayHandlerHolder
     __forceinline void* __cdecl operator new(std::size_t nbytes)
     {
         ;
-        void* obj = NineIntegerRecord::getMemoryRouter().heap().AllocateMemoryBlock(static_cast<int>(nbytes));
+        void* obj = hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));
         ;
         return obj;
     }
@@ -788,7 +743,7 @@ class ConstraintDrawer
     __forceinline void* __cdecl operator new(std::size_t nbytes)
     {
         ;
-        void* obj = NineIntegerRecord::getMemoryRouter().heap().AllocateMemoryBlock(static_cast<int>(nbytes));
+        void* obj = hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));
         ;
         return obj;
     }
@@ -837,7 +792,7 @@ class hkDisplayGeometry : public hkReferencedObject
     {
         ;
         hkReferencedObject* b = static_cast<hkReferencedObject*>(
-            NineIntegerRecord::getMemoryRouter().heap().AllocateMemoryBlock(static_cast<int>(nbytes)));
+            hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes)));
         b->m_usMemSizeAndFlags = static_cast<hkUint16>(nbytes);
         ;
         return b;
@@ -861,7 +816,7 @@ class HingeConstraintDrawer : public ConstraintDrawer
     __forceinline void* __cdecl operator new(std::size_t nbytes)
     {
         ;
-        void* obj = NineIntegerRecord::getMemoryRouter().heap().AllocateMemoryBlock(static_cast<int>(nbytes));
+        void* obj = hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));
         ;
         return obj;
     }
@@ -870,7 +825,7 @@ class HingeConstraintDrawer : public ConstraintDrawer
         if (p)
         {
             ;
-            NineIntegerRecord::getMemoryRouter().heap().ReleaseBlock(p, sizeof(HingeConstraintDrawer));
+            hkMemoryRouter::getInstance().heap().blockFree(p, sizeof(HingeConstraintDrawer));
         }
     }
     __forceinline void* __cdecl operator new(std::size_t n, void* p)
@@ -989,7 +944,7 @@ class hkpHingeLimitsData : public hkpConstraintData
         __forceinline void* __cdecl operator new(std::size_t nbytes)
         {
             ;
-            void* obj = NineIntegerRecord::getMemoryRouter().heap().AllocateMemoryBlock(static_cast<int>(nbytes));
+            void* obj = hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes));
             ;
             return obj;
         }
@@ -998,7 +953,7 @@ class hkpHingeLimitsData : public hkpConstraintData
             if (p)
             {
                 ;
-                NineIntegerRecord::getMemoryRouter().heap().ReleaseBlock(p, sizeof(hkpHingeLimitsData::Atoms));
+                hkMemoryRouter::getInstance().heap().blockFree(p, sizeof(hkpHingeLimitsData::Atoms));
             }
         }
         __forceinline void* __cdecl operator new(std::size_t n, void* p)

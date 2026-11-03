@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/visualdebugger/viewer/utilities/hkpmousepickingviewer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/utilities/hkpmousepickingviewer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include <xmmintrin.h>
@@ -90,20 +91,6 @@ int __cdecl FUN_00d66ed0()
 }
 
 struct FnvCpu_FUN_00d66c50_CpuBlock;
-struct FnvCpu_FUN_00d66c50_CpuAllocator
-{
-    virtual void slot00();
-    virtual void* Invoke(unsigned int size);
-};
-struct FnvCpu_FUN_00d66c50_CpuHolder
-{
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0c;
-    FnvCpu_FUN_00d66c50_CpuAllocator* allocator;
-};
-static inline void* getMemoryRouter() { return ::FUN_00c85750(); }
 struct FnvCpu_FUN_00d66c50_CpuBlock
 {
     unsigned int unk00;
@@ -113,8 +100,8 @@ struct FnvCpu_FUN_00d66c50_CpuBlock
 // @fnv 0x00d66c50
 void* __cdecl FUN_00d66c50(void* value)
 {
-    FnvCpu_FUN_00d66c50_CpuHolder* holder = static_cast<FnvCpu_FUN_00d66c50_CpuHolder*>(getMemoryRouter());
-    FnvCpu_FUN_00d66c50_CpuBlock* block = static_cast<FnvCpu_FUN_00d66c50_CpuBlock*>(holder->allocator->Invoke(52));
+    hkMemoryRouter* holder = &hkMemoryRouter::getInstance();
+    FnvCpu_FUN_00d66c50_CpuBlock* block = static_cast<FnvCpu_FUN_00d66c50_CpuBlock*>(holder->m_heap->blockAlloc(52));
     block->size = 52;
     block = ((::FnvCpu_FUN_00d66c50_CpuBlock *)(new ((void *)(block)) ::FUN_00d66b90(value)));
     if (block)
@@ -139,22 +126,7 @@ __declspec(align(16)) struct hkVector4D66D
     float x, y, z, w;
 };
 
-struct hkAllocatorD66D
-{
-    virtual void V0();
-    virtual void* AllocateMemoryBlock(int iNumBytes);
-};
 
-struct hkMemoryRouterD66D
-{
-    char m_acUnk00[0x10];
-    hkAllocatorD66D* m_pkHeap;
-    hkAllocatorD66D& heap()
-    {
-        return *m_pkHeap;
-    }
-};
-static inline hkMemoryRouterD66D* getMemoryRouter() { return static_cast<hkMemoryRouterD66D*>(::FUN_00c85750()); }
 
 struct hkpEntityD66D;
 
@@ -163,7 +135,7 @@ struct FUN_00cbb560
     char m_acUnk00[0x60];
     static __forceinline void* operator new(size_t uiSize)
     {
-        void* p = getMemoryRouter()->heap().AllocateMemoryBlock(uiSize);
+        void* p = hkMemoryRouter::getInstance().heap().blockAlloc(uiSize);
         ((unsigned short*)p)[2] = (unsigned short)uiSize;
         return p;
     }
@@ -266,21 +238,6 @@ struct Buf4
 };
 
 namespace fnv_00d66f00 {
-struct FnvCpu_FUN_00d66f00_CpuAllocator
-{
-    virtual void slot00();
-    virtual void slot04();
-    virtual void Invoke(void* block, unsigned int size);
-};
-struct FnvCpu_FUN_00d66f00_CpuAllocatorHolder
-{
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0c;
-    FnvCpu_FUN_00d66f00_CpuAllocator* allocator;
-};
-static inline FnvCpu_FUN_00d66f00_CpuAllocatorHolder* getMemoryRouter() { return static_cast<FnvCpu_FUN_00d66f00_CpuAllocatorHolder*>(::FUN_00c85750()); }
 struct FnvCpu_FUN_00d66f00_CpuObject
 {
     unsigned int unk00;
@@ -295,8 +252,8 @@ FnvCpu_FUN_00d66f00_CpuObject* FnvCpu_FUN_00d66f00_CpuObject::FUN_00d66f00(unsig
     FUN_00d66cd0();
     if (flags & 1)
     {
-        FnvCpu_FUN_00d66f00_CpuAllocatorHolder* holder = getMemoryRouter();
-        holder->allocator->Invoke(this, size);
+        hkMemoryRouter* holder = &hkMemoryRouter::getInstance();
+        holder->m_heap->blockFree(this, size);
     }
     return this;
 }

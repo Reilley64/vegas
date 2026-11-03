@@ -996,7 +996,7 @@ extern "C" int __cdecl FUN_00cb0fa0(int a, unsigned int b);
 // @fnv 0x00e0c690
 static __declspec(noinline) unsigned char FUN_00e0c690(uintptr_t uiKey, int* piIndex, FUN_00e0c690_owner* apOwner)
 {
-    unsigned int* pa = &uiKey;
+    uintptr_t* pa = &uiKey;
     int idx = *piIndex;
     if (apOwner->m_34 > idx)
     {
@@ -1253,10 +1253,10 @@ int __cdecl FUN_00cb0fa0(int a, int b);
 
 // Searches owner->unk30 for an entry matching key, then returns the first subsequent entry whose unk4c fails FUN_00cb0fa0 against value.
 // @fnv 0x00e0cbe0
-static __declspec(noinline) intptr_t __cdecl FUN_00e0cbe0(S_00e0cbe0_Owner* owner, S_00e0cbe0_Entry* key, int value)
+static __declspec(noinline) intptr_t __cdecl FUN_00e0cbe0(S_00e0cbe0_Owner* owner, S_00e0cbe0_Entry* key, const char* value)
 {
     int index;
-    int* piValue = &value;
+    const char** piValue = &value;
 
     index = 0;
     while (index < owner->unk34)
@@ -1273,7 +1273,7 @@ static __declspec(noinline) intptr_t __cdecl FUN_00e0cbe0(S_00e0cbe0_Owner* owne
     do
     {
         S_00e0cbe0_Entry** slot = &owner->unk30[index];
-        if (!::fnv_00cb0fa0::FUN_00cb0fa0((const char *)(*piValue), (const char *)((*slot)->unk4c)))
+        if (!::fnv_00cb0fa0::FUN_00cb0fa0(*piValue, (const char *)((*slot)->unk4c)))
             return reinterpret_cast<intptr_t>(owner->unk30[index]);
         ++index;
     } while (index < owner->unk34);
@@ -1281,7 +1281,7 @@ static __declspec(noinline) intptr_t __cdecl FUN_00e0cbe0(S_00e0cbe0_Owner* owne
     return 0;
 }
 
-intptr_t __cdecl S00e0cbe0_Call(S_00e0cbe0_Owner* owner, S_00e0cbe0_Entry* key, int value)
+intptr_t __cdecl S00e0cbe0_Call(S_00e0cbe0_Owner* owner, S_00e0cbe0_Entry* key, const char* value)
 {
     return FUN_00e0cbe0(owner, key, value);
 }
@@ -1493,40 +1493,21 @@ void e0c1c0_caller(void)
     FUN_00e0c1c0(e0c1c0_tblidx(), g_e0c1c0_stride, g_e0c1c0_out);
 }
 
-struct S00e0c210_Obj
-{
-    int unk00;
-};
-
-static __declspec(noinline) void FUN_00e0c1c0(S00e0c210_Obj* self, int digit, int* out)
-{
-    int** pout = &out;
-    self->unk00 = digit;
-    self = (S00e0c210_Obj*)((intptr_t)self + digit);
-    (*pout)[0] = self->unk00;
-}
-
 // Computes four decimal digits from thousands through ones, passing each to FUN_00e0c1c0 and advancing out by seven integers.
 // @fnv 0x00e0c210
-static __declspec(noinline) void __cdecl FUN_00e0c210(int value, S00e0c210_Obj* self, int* out)
+static __declspec(noinline) void __cdecl FUN_00e0c210(int value, int stride, int* out)
 {
     int place = 1000;
     int* cur = out;
-    S00e0c210_Obj** ppSelf = &self;
     int ten = 10;
     do
     {
         int quotient = value / place;
         int digit = quotient % ten;
-        FUN_00e0c1c0(*ppSelf, digit, cur);
+        FUN_00e0c1c0(digit, stride, (unsigned int*)cur);
         place /= 10;
         cur += 7;
     } while (place >= 1);
-}
-
-void __cdecl S00e0c210_Entry(int value, S00e0c210_Obj* self)
-{
-    FUN_00e0c210(value, self, 0);
 }
 
 union CommandWord
@@ -3811,31 +3792,8 @@ static __forceinline void S00e0e4e0_push(S00e0e4e0_PArr* out, void* v)
 
 static void FUN_00e0cec0(float value, float step, int axis, S00e0e4e0_Node* node, int n, S00e0e4e0_PArr* out);
 
-static __declspec(noinline) intptr_t FUN_00e0da00(int row, int col, const S00e0e4e0_NodeArr& nodes, int height, float range,
-                                             float value, S00e0e4e0_Info* info)
-{
-    float step = range / height;
-    S00e0e4e0_PArr arr;
-    arr.m_data = 0;
-    arr.m_iElementCount = 0;
-    arr.m_iCapacityState = 0x80000000;
-    S_e0ce00_Alloc& a = static_cast<S_e0ce00_Router*>(::FUN_00c85750())->heap();
-    if ((arr.m_iCapacityState & 0x3fffffff) < height)
-        ::FUN_00c908c0((::SpawnedObject *)(::S_e0ce00_Alloc *)(&a), (::SpawnedArray *)(void *)(&arr), height, 4);
-    intptr_t res = 0;
-    if (nodes[row]->m_children.GetLogicalSize() > 0)
-    {
-        arr.m_iElementCount = 0;
-        FUN_00e0cec0(value, step, info->unk0c == 0 ? info->unk04 : info->unk08, nodes[row], height, &arr);
-        if (col < arr.m_iElementCount)
-            res = (intptr_t)arr.m_data[col];
-    }
-    S_e0ce00_Alloc& a2 = static_cast<S_e0ce00_Router*>(::FUN_00c85750())->heap();
-    arr.m_iElementCount = 0;
-    if ((arr.m_iCapacityState & 0x80000000) == 0)
-        a2.v10(arr.m_data, (arr.m_iCapacityState & 0x3fffffff) * sizeof(void*));
-    return res;
-}
+intptr_t __cdecl FUN_00e0da00(int row, int col, const S00e0e4e0_NodeArr& nodes, int height, float range, float value,
+                               S00e0e4e0_Info* info);
 
 // Resolves a slot id at pixel coordinates by mapping to a level and row, then querying the node tree via FUN_00e0da00.
 // @fnv 0x00e0e4e0
@@ -4818,7 +4776,8 @@ void __cdecl FUN_00e0e0c0(const Se0e0c0_ArrayBase<Se0e0c0_Node*>& nodes, const S
     }
     float maxFrameTime = -1.0f;
     Se0e0c0_Array<float> startTimes;
-    FUN_00e0dd30(nodes, input, frameInfos, maxFrameTime, startTimes);
+    FUN_00e0dd30((const MonNodeList&)nodes, (const AnimationTimingInfo&)input, (const FrameInfoArrays&)frameInfos, maxFrameTime,
+                 (FloatArray&)startTimes);
 
     int maxFrames = frameInfos[0].GetLogicalSize() - input.m_iValueAt00;
     int numFrames = input.m_iFrameCount > maxFrames ? maxFrames : input.m_iFrameCount;
@@ -4846,7 +4805,7 @@ void __cdecl FUN_00e0e0c0(const Se0e0c0_ArrayBase<Se0e0c0_Node*>& nodes, const S
         currentY -= input.m_iValueAt10;
         if (numFrames > 1)
         {
-            FUN_00e0c210(frame, currentY, input.m_iValueAt14,
+            FUN_00e0c210(frame, input.m_iValueAt14,
                          texture + (currentY - threadSpacing) * input.m_iValueAt14);
         }
         for (int thread = 0; thread < numThreads; thread++)
@@ -5077,7 +5036,8 @@ static __forceinline void renderTextureColumns(const TextureFrame& info, int fra
     {
         ticks.clear();
         int axis = info.m_uiTimer1 == 0 ? info.m_iColor : info.m_iTimer0;
-        FUN_00e0cec0(trees[frame], start, increment, samples, ticks, axis);
+        FUN_00e0cec0(start, increment, axis, reinterpret_cast<S00e0e4e0_Node*>(trees[frame]), samples,
+                     reinterpret_cast<S00e0e4e0_PArr*>(&ticks));
         int size = ticks.GetLogicalSize();
         for (int column = 0; column < size && column < samples; ++column)
         {

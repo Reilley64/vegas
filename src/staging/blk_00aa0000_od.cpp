@@ -418,11 +418,17 @@ struct FUN_00aa4b20_Class
     void ClearAndDeallocate(void* p);
 };
 
+struct FUN_00aa4b20_Block
+{
+    char pad00[0x8];
+    int unk08;
+};
+
 // Sets the third int of p to zero, then passes p to MemoryManager::Deallocate.
 // @fnv 0x00aa4b20
 void FUN_00aa4b20_Class::ClearAndDeallocate(void* p)
 {
-    ((int*)p)[2] = 0;
+    ((FUN_00aa4b20_Block*)p)->unk08 = 0;
     void* arg = p;
     reinterpret_cast<::FNV_MemoryManager *>((((MemoryManager*)&(*reinterpret_cast<::P03MM *>(&::g_memoryManager)))))->FUN_00aa4060(arg);
 }
@@ -519,14 +525,20 @@ struct FUN_00aa8b80_class
     int mC;
     void AppendBlock(void* block);
 };
+struct FUN_00aa8b80_Block
+{
+    void* next;
+    void* prev;
+};
+
 // Links block into the list after m8, sets its first two words, updates m4/m8 and increments mC.
 // @fnv 0x00aa8b80
 void FUN_00aa8b80_class::AppendBlock(void* block)
 {
-    *(void**)block = 0;
-    ((void**)block)[1] = m8;
+    ((FUN_00aa8b80_Block*)block)->next = 0;
+    ((FUN_00aa8b80_Block*)block)->prev = m8;
     if (m8)
-        *(void**)m8 = block;
+        ((FUN_00aa8b80_Block*)m8)->next = block;
     else
         m4 = block;
     m8 = block;
@@ -537,6 +549,7 @@ struct FUN_00aa8c40_N
 {
     FUN_00aa8c40_N* next;
     FUN_00aa8c40_N* prev;
+    int value;
 };
 struct FUN_00aa8c40_H
 {
@@ -676,13 +689,15 @@ char FUN_00abbf00_Class::Matches(FUN_00abbf00_Class* other)
 
 struct FUN_00aa4760_Class : public FUN_00aa4710_Class
 {
+    char pad00[0x2];
+    unsigned short unk02;
     char CallBaseWithOffset(int a, unsigned char b, int c);
 };
 // Calls the base-class method with the first argument offset by the 16-bit value at this+2, passing b and c through.
 // @fnv 0x00aa4760
 char FUN_00aa4760_Class::CallBaseWithOffset(int aiValue, unsigned char b, int c)
 {
-    return FUN_00aa4710(aiValue + *(unsigned short*)((char*)this + 2), b, c);
+    return FUN_00aa4710(aiValue + this->unk02, b, c);
 }
 
 // @fnv 0x00aa4be0
@@ -755,7 +770,7 @@ struct FUN_00aa8a40_Class
 void FUN_00aa8a40_Class::FUN_00aa8a40(FUN_00aa8a40_Node* node)
 {
     FUN_00aa8c40_N* n = (FUN_00aa8c40_N*)((FUN_00aa8a40_vt*)this)->v1();
-    *(int*)((char*)n + 8) = node->pad0;
+    n->value = node->pad0;
     m_kNode.PushFront(n);
 }
 
@@ -1232,7 +1247,7 @@ void FUN_00aa7290(int aiIndex)
     int* pool;
     if (DAT_011f67b8[aiIndex])
     {
-        reinterpret_cast<::FUN_0040fbf0_shell *>((((MemoryPool*)((char*)DAT_011f67b8[aiIndex] + 0x20))))->FUN_0040fbf0(&DAT_010a2850);
+        reinterpret_cast<::FUN_0040fbf0_shell *>(&DAT_011f67b8[aiIndex]->unk20)->FUN_0040fbf0(&DAT_010a2850);
         reinterpret_cast<::FUN_00aa7260_holder *>((DAT_011f67b8[aiIndex]))->FUN_00aa7260();
         pool = &DAT_011f67b8[aiIndex]->unk20;
         pool[1] = pool[1] - 1;
@@ -1377,6 +1392,11 @@ struct FUN_00aa8ca0_cls
     int m_38;
     int m_3c;
     int m_40;
+    char pad44[0x200c];
+    int m_2050;
+    int m_2054;
+    char pad2058[0x80];
+    CRITICAL_SECTION m_kCriticalSection;
 
     FUN_00aa8ca0_cls* FUN_00aa8ca0(int a1, int a2, int a3, int a4);
 };
@@ -1402,11 +1422,11 @@ FUN_00aa8ca0_cls* FUN_00aa8ca0_cls::FUN_00aa8ca0(int a1, int a2, int a3, int a4)
     m_38 = 0;
     m_3c = 0;
     m_40 = 0;
-    CRITICAL_SECTION* cs = (CRITICAL_SECTION*)((char*)this + 0x20d8);
+    CRITICAL_SECTION* cs = &this->m_kCriticalSection;
     InitializeCriticalSection(cs);
     m_0c = 8 + 8;
-    *(int*)((char*)this + 0x2050) = 0;
-    *(int*)((char*)this + 0x2054) = 0;
+    m_2050 = 0;
+    m_2054 = 0;
     return this;
 }
 
@@ -2413,10 +2433,10 @@ void* VectorOwnedItem::FUN_00aa8850(unsigned int flags)
 {
     if (flags & 2)
     {
-        fnv::crt::vector_destructor(this, 12, ((unsigned int*)this)[-1], FUN_0055a2d0);
+        fnv::crt::vector_destructor(this, 12, (unsigned int)((std::size_t*)this)[-1], FUN_0055a2d0);
         if (flags & 1)
-            reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060((char*)this - 4);
-        return (char*)this - 4;
+            reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060((char*)this - sizeof(std::size_t));
+        return (char*)this - sizeof(std::size_t);
     }
     CloseHandle(handle);
     if (flags & 1)
@@ -2733,6 +2753,8 @@ extern "C" char DAT_010a2bbc;
 struct Heap00aaa5b0
 {
     void* m_vtbl;
+    char pad04[0x20d4];
+    CRITICAL_SECTION m_kCriticalSection;
 
     void FUN_00aa8da0();
 };
@@ -2741,7 +2763,7 @@ struct Heap00aaa5b0
 void Heap00aaa5b0::FUN_00aa8da0()
 {
     m_vtbl = &DAT_010a2bbc;
-    DeleteCriticalSection((CRITICAL_SECTION*)((char*)this + 0x20d8));
+    DeleteCriticalSection(&this->m_kCriticalSection);
     m_vtbl = &DAT_010a28c8;
 }
 
@@ -16186,7 +16208,7 @@ void FUN_00ab9cd0_Vector::FUN_00ab9cd0()
     const ::fnv_00ab9cd0::_Vector_const_iteratorS< ::fnv_00ab9cd0::Elem9CD0> &first = begin();
     const ::fnv_00ab9cd0::_Vector_const_iteratorS< ::fnv_00ab9cd0::Elem9CD0> &last = end();
     FUN_00aba9a0_pair result;
-    reinterpret_cast<::FUN_00aba9a0_cls *>(this)->FUN_00aba9a0(&result, (unsigned int)(uintptr_t)(((void *const *)&(first))[0]), (unsigned int)(uintptr_t)(((void *const *)&(first))[1]), (unsigned int)(uintptr_t)(((void *const *)&(last))[0]), (unsigned int)(uintptr_t)(((void *const *)&(last))[1]));
+    reinterpret_cast<::FUN_00aba9a0_cls *>(this)->FUN_00aba9a0(&result, (unsigned int)(uintptr_t)first._Myaux, (unsigned int)(uintptr_t)first._Myptr, (unsigned int)(uintptr_t)last._Myaux, (unsigned int)(uintptr_t)last._Myptr);
 }
 }
 

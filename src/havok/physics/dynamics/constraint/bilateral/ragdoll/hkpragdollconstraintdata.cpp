@@ -14,30 +14,37 @@
 #include "havok/hkpRagdollConstraintData_decl_hkpragdollconstraintdata.h"
 
 // @fnv 0x00cde9d0
+// hkpConstraintData::RuntimeInfo as this function fills it.
+struct RagdollRuntimeInfo
+{
+    int m_sizeOfExternalRuntime;
+    int m_numSolverResults;
+};
 void FUN_00cde9d0(int* apUnused, int* apiOut)
 {
-    apiOut[1] = 0xc;
-    apiOut[0] = 0x80;
+    RagdollRuntimeInfo* info = reinterpret_cast<RagdollRuntimeInfo*>(apiOut);
+    info->m_numSolverResults = 0xc;
+    info->m_sizeOfExternalRuntime = 0x80;
 }
 
-struct FUN_00cde980_cls
+struct FUN_00cde980_cls : hkpRagdollConstraintData
 {
     void FUN_00cde980(int a);
 };
 // @fnv 0x00cde980
 void FUN_00cde980_cls::FUN_00cde980(int aiBitIndex)
 {
-    *(char*)((char*)this + 0x13a) = (char)(1 << aiBitIndex);
+    m_kBridgeAtoms.m_kBallSocket.m_ucBodiesToNotify = (hkUint8)(1 << aiBitIndex);
 }
 
-struct FUN_00cde960_cls
+struct FUN_00cde960_cls : hkpRagdollConstraintData
 {
     void FUN_00cde960(float a);
 };
 // @fnv 0x00cde960
 void FUN_00cde960_cls::FUN_00cde960(float a)
 {
-    *(float*)((char*)this + 0x13c) = a;
+    m_kBridgeAtoms.m_kBallSocket.m_usFlags = a;
 }
 
 struct FUN_00cde9b0_cls : public hkpRagdollConstraintData

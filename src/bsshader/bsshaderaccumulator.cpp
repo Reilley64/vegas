@@ -92,6 +92,8 @@ class AccumWIP : public BSShaderAccumulator
 
 #include "bsshaderaccumulator_batchrenderer.h"
 #include "MemoryManager.h"
+#include "fnv/decl/FUN_00b64a00_Pass.h"
+#include "fnv/decl/RenderAccumulator.h"
 
 
 typedef BSSimpleList<unsigned short> BSShaderAccumulatorPassIndexList;
@@ -4226,6 +4228,31 @@ FUN_00b660d0::FUN_00b660d0(int flags, unsigned count, unsigned pass)
     waterTarget.clear();
     depth = false;
     silhouette = LocalColor(0.3f, 0.3f, 0.3f, 1.0f);
+}
+
+class Handler
+{
+  public:
+    virtual void v00();
+    virtual void v01();
+    virtual void v02();
+};
+
+class FUN_00c4ed40_cls
+{
+  public:
+    Handler* m_00;
+
+    void FUN_00c4ed40();
+};
+
+// @fnv 0x00c4ed40
+void FUN_00c4ed40_cls::FUN_00c4ed40()
+{
+    if (m_00 != 0)
+    {
+        m_00->v02();
+    }
 }
 
 #include "generated/data/bsshader/bsshaderaccumulator.inc"

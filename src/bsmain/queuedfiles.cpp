@@ -205,6 +205,9 @@ FUN_00c3cea0::~FUN_00c3cea0()
 }  // namespace fnv_00c3cea0
 
 #include <windows.h>
+#include "fnv/decl/FUN_00c3c700_cls.h"
+#include "fnv/decl/FUN_00c3cee0_shell.h"
+#include "fnv/decl/fnv_00c3cf60__FUN_00c3cf60_shell.h"
 struct PoolHolder
 {
 };
@@ -548,6 +551,40 @@ void FUN_00c3d440_cls::FUN_00c3d440()
     {
         FUN_0043db70();
     }
+}
+
+struct _NiStreamCtorAlias
+{
+    _NiStreamCtorAlias();
+    virtual ~_NiStreamCtorAlias();
+};
+
+struct BSStream : _NiStreamCtorAlias
+{
+    char pad[0x5c0];
+    int m_5c4;
+    int m_5c8;
+    BSStream()
+    {
+        m_5c8 = 0;
+        m_5c4 = 0;
+    }
+    virtual ~BSStream();
+};
+
+struct FUN_00b60640 : QBase
+{
+    char pad[0x2c];
+    BSStream m_stream;
+    FUN_00b60640(char const* filename);
+    virtual ~FUN_00b60640();
+};
+
+// @fnv 0x00b60640
+FUN_00b60640::FUN_00b60640(char const* filename) : QBase(2)
+{
+    reinterpret_cast<::FUN_00c3cee0_shell *>(this)->FUN_00c3cee0((char *)(filename));
+    reinterpret_cast<::fnv_00c3cf60::FUN_00c3cf60_shell *>(this)->LookupFileEntryByArchive(0);
 }
 
 #include "generated/data/bsmain/queuedfiles.inc"

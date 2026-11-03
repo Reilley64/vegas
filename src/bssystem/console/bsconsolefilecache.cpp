@@ -9,6 +9,10 @@
 #include "fnv/symbols_00b00000.h"
 #include "fnv/symbols_011f6000.h"
 #include "bsconsolefilecache_decls.h"
+#include <cstddef>
+#include "fnv/decl/B02670Task.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/symbols_00b02000.h"
 
 // Initializes the object's fields to zero/default values and clears the three primitive arrays.
 // @fnv 0x005dd590
@@ -322,4 +326,200 @@ bool FUN_00b02220_Class::TryStartTask(void* pOwner, void* pTask, bool bClearPend
     }
     LeaveCriticalSection(&pkOwner->m_kLock);
     return bResult;
+}
+
+struct NiMemoryManager_b02010
+{
+};
+
+struct Spawned_b02010
+{
+    unsigned int unk00;
+    unsigned int unk04;
+    unsigned int unk08;
+    unsigned int unk0C;
+    unsigned int unk10;
+    unsigned int unk14;
+    unsigned int unk18;
+    unsigned int unk1C;
+    unsigned int unk20;
+    unsigned int unk24;
+    unsigned int unk28;
+    unsigned int unk2C;
+    unsigned int unk30;
+    unsigned int unk34;
+    unsigned int unk38;
+    Spawned_b02010();
+    static void* operator new(std::size_t size)
+    {
+        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::NiMemoryManager_b02010 *>(&::g_memoryManager))))->FUN_00aa3e40(size);
+    }
+    static void operator delete(void*)
+    {}
+};
+
+struct Owner_b02010
+{
+    unsigned int unk00;
+    bool FUN_00b02010(Spawned_b02010** out);
+};
+
+// @fnv 0x00b02010
+bool Owner_b02010::FUN_00b02010(Spawned_b02010** out)
+{
+    Spawned_b02010* v = new Spawned_b02010;
+    *out = v;
+    return v != 0;
+}
+
+struct CritSection
+{
+    void* DebugInfo;
+    long LockCount;
+    long RecursionCount;
+    void* OwningThread;
+    void* LockSemaphore;
+    unsigned long SpinCount;
+};
+
+struct JobSemaphore
+{
+    long cnt;
+    void* h;
+    void Wait()
+    {
+        WaitForSingleObject(h, -1);
+        InterlockedDecrement(&cnt);
+    }
+    void Signal()
+    {
+        ReleaseSemaphore(h, 1, 0);
+        InterlockedIncrement(&cnt);
+    }
+};
+
+struct JobOwner
+{
+    int unk00;
+    int unk04;
+    JobSemaphore completion;
+    int unk10;
+    CritSection kLock;
+    bool enabled;
+    bool pending;
+    bool bBusy;
+    char unk2F;
+    unsigned int priority;
+    unsigned int count;
+    unsigned int completed;
+    void CompleteTask()
+    {
+        EnterCriticalSection(&kLock);
+        ++completed;
+        bool done = !pending && completed == count;
+        LeaveCriticalSection(&kLock);
+        if (done)
+            completion.Signal();
+    }
+    bool IsBusy()
+    {
+        return bBusy;
+    }
+};
+
+struct Job
+{
+    virtual void Release();
+    virtual bool HasFinished();
+    virtual void Run();
+    virtual void Cancel();
+    bool bHasCallback;
+    JobOwner* pOwner;
+    bool bPending;
+    int unk10;
+    Job* pNext;
+};
+
+struct JobThread
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3C;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4C;
+    bool bStop;
+    CritSection kLock;
+    Job* m_pQueueHeads[64];
+    Job** pQueueTails[64];
+    JobSemaphore kSemaphore;
+    void FUN_00b02460();
+};
+
+// @fnv 0x00b02460
+void JobThread::FUN_00b02460()
+{
+    Job* pJobB;
+    JobOwner* pOwner;
+    unsigned int i;
+    Job** ppSlot;
+    bool bRun;
+    while (!bStop)
+    {
+        pJobB = 0;
+        pOwner = 0;
+        kSemaphore.Wait();
+        if (!bStop)
+        {
+            EnterCriticalSection(&kLock);
+            for (i = 0, ppSlot = m_pQueueHeads; i < 64; ++i, ++ppSlot)
+            {
+                pJobB = *ppSlot;
+                if (pJobB)
+                {
+                    *ppSlot = pJobB->pNext;
+                    pOwner = pJobB->pOwner;
+                    break;
+                }
+            }
+            LeaveCriticalSection(&kLock);
+            if (pJobB && pOwner && pJobB && !pOwner->IsBusy())
+            {
+                if ((bRun = pJobB->bPending ? pJobB->HasFinished() : true))
+                {
+                    pJobB->bPending = false;
+                    pJobB->Run();
+                }
+            }
+            if (pJobB && pOwner)
+            {
+                if (pJobB->bHasCallback && !pOwner->IsBusy())
+                {
+                    reinterpret_cast<::FUN_00b02130_shell *>(this)->QueueItem(pJobB);
+                }
+                else
+                {
+                    pJobB->Cancel();
+                    pJobB->pOwner = 0;
+                    pJobB->unk10 = 0;
+                    reinterpret_cast<::B02670Task *>((pOwner))->CompleteTask();
+                }
+            }
+        }
+        Sleep(0);
+    }
 }

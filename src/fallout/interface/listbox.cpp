@@ -2842,8 +2842,6 @@ void RecordList::FUN_00851540()
     }
     count = 0;
 }
-
-int __cdecl strcat_s(char*, unsigned int, const char*);
 class TESBoundObject
 {
   public:
@@ -7879,8 +7877,6 @@ struct FUN_00724200 : FUN_00723f80
 // @fnv 0x00724200
 FUN_00724200::~FUN_00724200()
 {}
-
-int __cdecl strcpy_s(char*, unsigned int, const char*);
 
 struct TileValue_00a0a270;
 struct TileValueOwner_00a01000

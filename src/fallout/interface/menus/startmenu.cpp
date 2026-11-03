@@ -7809,8 +7809,6 @@ struct FUN_0084ff30_shell
 {
     int CreateScriptMessageDirectory(char* lpPathName);
 };
-
-int __cdecl strcat_s(char* Destination, unsigned int SizeInBytes, const char* Source);
 struct GlobalObject2_0045cfe0;
 
 // Builds a path from FUN_004dc110 and a prepared script message, then calls CreateDirectoryA on it and returns the result.

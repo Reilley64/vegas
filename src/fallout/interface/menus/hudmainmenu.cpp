@@ -2475,7 +2475,6 @@ void __cdecl ShowRegionData(const RegionDisplayInfo* aRegionData)
 }  // namespace fnv_007728f0
 
 namespace fnv_00778a90 {
-extern "C" int __cdecl sprintf(char*, const char*, ...);
 struct Tile
 {
     void Set(int, const char*, bool);

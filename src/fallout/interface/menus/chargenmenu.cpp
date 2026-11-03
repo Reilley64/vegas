@@ -282,7 +282,6 @@ struct GlobalObject_0040c150 : StartMenu
 
 extern char const g_011d3d6c_arg1[];
 
-int __cdecl strcat_s(char*, unsigned int, char const*);
 
 struct Tile_00753d20
 {

@@ -15986,7 +15986,6 @@ void RouletteMenuX::FUN_007bd2a0()
 
 int __cdecl FUN_007bc820();
 void SetRouletteMenuTile();
-int __cdecl strcpy_s(char*, unsigned int, const char*);
 struct RouletteBetEntry
 {
     int amount;
